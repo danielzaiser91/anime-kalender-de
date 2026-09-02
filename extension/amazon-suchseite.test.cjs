@@ -44,11 +44,37 @@ function element() {
     kinder: [],
     hoerer: {},
     classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
+    /*
+      Die festen Zeilen des Kastens werden geleert statt gelöscht — sie bleiben
+      stehen, damit die Höhe steht (siehe `kastenSkelett()`).
+    */
+    replaceChildren(...neu) { this.kinder = neu; return undefined },
     appendChild(k) { this.kinder.push(k); return k },
     insertBefore(k) { this.kinder.push(k); return k },
     remove() {},
     addEventListener(art, fn) { this.hoerer[art] = fn },
-    querySelector: () => null,
+    /*
+      **Der Kasten sucht seine eigenen Zeilen — der Sandkasten muss sie finden.**
+
+      Seit 4.11.0 baut `kastenSkelett()` fünf feste Zeilen und füllt sie über
+      `kasten.querySelector('.ak-z-titel')`. Ein `querySelector`, der immer
+      `null` liefert, lässt jede dieser Zeilen leer — die Zusicherungen
+      meldeten daraufhin einen Kasten ohne Titel, obwohl im Browser einer stand.
+
+      Gesucht wird nur nach Klassen, weil der Code nur danach sucht. Ein
+      Selektor mit Nachfahre (`.a .b`) trifft hier auf das letzte Glied; das
+      genügt, solange keine zwei Zeilen dieselbe Klasse tragen, und sie tragen
+      alle verschiedene.
+    */
+    querySelector(sel) {
+      const klasse = String(sel).trim().split(/\s+/).pop().replace(/^\./, '')
+      for (const k of this.kinder) {
+        if (String(k?.className ?? '').split(/\s+/).includes(klasse)) return k
+        const tiefer = k?.querySelector?.(sel)
+        if (tiefer) return tiefer
+      }
+      return null
+    },
     querySelectorAll: () => [],
     focus() {},
   }
@@ -682,10 +708,12 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
     `/s`. Ein Klick auf den nächsten Listeneintrag ließ ihn stehen (Daniel,
     31.08.2026).
   */
+  const skelett = quelle.slice(quelle.indexOf('function kastenSkelett'), quelle.indexOf('function ladeRing'))
   pruefe(
     'der Kasten vergleicht Pfad und Query',
-    quelle.includes('dataset.fuerAdresse = location.pathname + location.search'),
-      quelle.includes('dataset.fuerAdresse = location.pathname + location.search'),
+    /const jetzt = location\.pathname \+ location\.search/.test(skelett) &&
+      /dataset\.fuerAdresse = jetzt/.test(skelett) &&
+      /dataset\.fuerAdresse !== jetzt/.test(skelett),
   )
 
   /*

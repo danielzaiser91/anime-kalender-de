@@ -1179,10 +1179,60 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
         Die erzeugende Stelle weiß immer, dass es nur einen geben darf — ein
         Vorsatz je Aufrufer wird vergessen.
       */
-      const bau = quelle.slice(quelle.indexOf('function hinweisKasten'), quelle.indexOf('function hinweisKasten') + 900)
+      /*
+        Seit 4.11.0 wird der Kasten nicht mehr gelöscht und neu gebaut, sondern
+        wiederverwendet: `kastenSkelett()` gibt den vorhandenen zurück und
+        ersetzt ihn nur, wenn die Adresse gewechselt hat. Damit gibt es
+        weiterhin genau einen — auf dem Weg, der auch das Flackern beendet.
+      */
+      const skelett = quelle.slice(quelle.indexOf('function kastenSkelett'), quelle.indexOf('function ladeRing'))
       pruefe(
-        'hinweisKasten räumt seinen Vorgänger ab',
-        bau.includes("querySelector('.ak-amazon-suchhinweis')?.remove()"),
+        'kastenSkelett gibt einen vorhandenen Kasten zurück statt einen zweiten zu bauen',
+        /if \(kasten\) return kasten/.test(skelett),
+      )
+      pruefe(
+        'und ersetzt ihn beim Adresswechsel',
+        /dataset\.fuerAdresse !== jetzt/.test(skelett) && /kasten\.remove\(\)/.test(skelett),
+      )
+      /*
+        **Der Kasten wird genau einmal abgerissen: wenn niemand ihn sehen soll.**
+
+        Das ist die Zusicherung, die den Fehler aus dem Video vom 02.09.2026
+        festhält. `zeigeAuftragshinweis()` läuft bei jedem Takt — zweimal je
+        Sekunde —, und solange irgendeine Stelle im Zeichenpfad den Kasten
+        entfernte, flogen Melde-Knopf, Prüflisten-Knopf und Debugleiste jedes
+        Mal mit heraus und mussten zurück. Sichtbar war das als Aufploppen in
+        Stufen (Frames 196, 239/240, 277/278) — Daniels Vorgabe danach: „es soll
+        ruhig sein, möglichst wenig ui changes, kein flackern."
+
+        Erlaubt bleibt die eine Stelle im Player: Wer fernsieht, soll nichts von
+        der Erweiterung sehen (30.08.2026). Kommt eine zweite dazu, ist das
+        Flackern zurück — deshalb zählt diese Prüfung, statt zu beschreiben.
+      */
+      const abrisse = (quelle.match(/\.ak-amazon-suchhinweis'\)\?\.remove\(\)/g) ?? []).length
+      pruefe(
+        'genau eine Stelle entfernt den Kasten (der Player)',
+        abrisse === 1,
+        abrisse + ' Stellen',
+      )
+      pruefe(
+        'und sie steht im Player-Zweig',
+        /imPlayer\(\)\)\s*\{[^}]*\.ak-amazon-suchhinweis'\)\?\.remove\(\)/s.test(quelle),
+      )
+      /*
+        Und der Inhalt wird nur bei echter Änderung ersetzt — sonst verlöre ein
+        Haken, den Daniel gerade gesetzt hat, im nächsten halben Takt seinen
+        Zustand.
+      */
+      pruefe(
+        'die Inhaltszeile vergleicht ihre Signatur, bevor sie neu füllt',
+        /inhalt\.dataset\.signatur === signatur/.test(quelle) && /inhalt\.dataset\.signatur = signatur/.test(quelle),
+      )
+      pruefe(
+        'hinweisKasten baut den Kasten nicht selbst',
+        !quelle
+          .slice(quelle.indexOf('function hinweisKasten'), quelle.indexOf('function hinweisKasten') + 900)
+          .includes("createElement('div')"),
       )
       /*
         **Die Suchadresse wird abgehakt, auch ohne `url` am Eintrag.**

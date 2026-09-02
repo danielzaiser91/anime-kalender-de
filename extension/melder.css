@@ -766,9 +766,21 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 7px;
   padding-top: 6px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/*
+  Beide Knöpfe der Fußzeile stehen auf derselben Zeile — der Prüflisten-Knopf
+  wurde vorher unter den aniSearch-Knopf umgebrochen, und mit ihm sprang die
+  Höhe des ganzen Kastens (Daniel, 02.09.2026, Frame 196: „melde button wird
+  nicht auf selber zeile wie anisearch button gerendert -> 2 zeilig -> führt zu
+  box-height change").
+*/
+.ak-such-fuss-rechts {
+  display: flex;
+  align-items: center;
+  flex: none;
 }
 
 .ak-such-fuss-links {
@@ -896,7 +908,8 @@
   z-index: auto;
   display: block;
   width: 100%;
-  margin: 8px 0 0;
+  /* Den Abstand macht der `gap` der Spalte — ein eigener margin doppelt ihn. */
+  margin: 0;
   box-shadow: none;
 }
 
@@ -905,6 +918,64 @@
   zusammen, statt sie frei über die Seite zu verteilen — das ist seine Aufgabe,
   seit er das Bedienelement ist.
 */
+/*
+  **Der Kasten ist eine Spalte aus fünf Zeilen, und jede hält ihren Platz.**
+
+  Bis 4.10.33 war er eine Folge von Absätzen, die nacheinander eintrafen: Im
+  Video vom 02.09.2026 wächst er dreimal über 1,4 Sekunden, dazwischen
+  verschwinden Elemente wieder (Frames 239/240) und kommen zurück (277/278).
+
+  Jetzt entstehen alle fünf Zeilen zusammen (`kastenSkelett()`), und eine leere
+  Zeile nimmt keinen Platz ein — der `gap` fällt mit ihr weg, weil er nur
+  zwischen sichtbaren Kindern liegt. Was in eine Zeile einzieht, verschiebt
+  damit nichts über sich.
+*/
+.ak-amazon-suchhinweis {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ak-z-titel:empty,
+.ak-z-inhalt:empty,
+.ak-z-melden:empty,
+.ak-z-debug:empty {
+  display: none;
+}
+
+.ak-z-titel {
+  font-weight: 600;
+}
+
+.ak-z-inhalt {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/*
+  Die Meldezeile trägt entweder den Knopf oder die Marke „gemeldet ✓" — beide
+  sind unterschiedlich hoch. Die Mindesthöhe des Knopfes verhindert, dass der
+  Kasten beim Wechsel springt.
+*/
+.ak-z-melden:not(:empty) {
+  min-height: 30px;
+}
+
+/*
+  **Die Debug-Zeile ist gebaut und aus.**
+
+  Daniel am 02.09.2026: „wir brauchen ihn vielleicht in zukunft wieder, jetzt
+  brauchen wir ihn nicht mehr, mach trotzdem so, wenn das style ok aussieht,
+  dann kann die zeile erstmal hidden werden, bis wir ihn brauchen."
+
+  Zum Wiedereinschalten diese eine Regel entfernen — die Zeile selbst, ihre
+  Beschriftung und die Schalter darin bleiben gebaut und getestet.
+*/
+.ak-z-debug {
+  display: none;
+}
+
 .ak-nur-huelle {
   padding: 6px 10px;
 }
@@ -920,26 +991,41 @@
   die Höhe, damit der Kasten nicht nachträglich wächst — genau das war am
   02.09.2026 der Vorwurf: „es soll kein nachträgliches aufploppen passieren."
 */
-.ak-such-laedt {
+/*
+  **Der Ladering.**
+
+  Vorher standen dort drei Punkte mit pulsierender Deckkraft. Daniels Urteil im
+  Video vom 02.09.2026: „das ist ein furchtbares load icon, auch weil du es mit
+  opacity kaum sichtbar gemacht hast." Ein drehender Ring ist als Ladeanzeige
+  bekannt, braucht keine Deckkraft-Spielerei und hält dieselbe Höhe wie der
+  Knopf, der ihn ablöst — der Kasten wächst beim Wechsel also nicht.
+*/
+.ak-laedt {
   display: inline-flex;
   align-items: center;
-  padding: 3px 9px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 6px;
-  color: #64748b;
+  gap: 7px;
+  min-height: 26px;
+  color: #94a3b8;
   font-size: 12px;
   line-height: 1.5;
-  letter-spacing: 2px;
-  animation: ak-puls 1.2s ease-in-out infinite;
 }
 
-@keyframes ak-puls {
-  0%, 100% { opacity: 0.35; }
-  50% { opacity: 0.85; }
+.ak-laedt-ring {
+  flex: none;
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(148, 163, 184, 0.3);
+  border-top-color: #94a3b8;
+  border-radius: 50%;
+  animation: ak-dreh 0.8s linear infinite;
+}
+
+@keyframes ak-dreh {
+  to { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ak-such-laedt { animation: none; opacity: 0.6; }
+  .ak-laedt-ring { animation-duration: 2.4s; }
 }
 
 /*
@@ -976,14 +1062,19 @@
 */
 .ak-amazon-suchhinweis { position: fixed; }
 
+/*
+  Sie klebte am linken Rand des Kastens, ein paar Pixel über dessen Unterkante
+  (Daniel, 02.09.2026, Frame 277: „er sitzt nicht ganz unten an der box"). Als
+  eigene Zeile im Kasten stellt sich die Frage nach der Ausrichtung nicht mehr.
+*/
 .ak-debugleiste {
-  position: absolute;
-  right: 100%;
-  bottom: 8px;
-  margin-right: 6px;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #64748b;
+  font-size: 11px;
   opacity: 0.8;
   transition: opacity .15s ease;
 }
@@ -1025,4 +1116,19 @@
   border-color: #6ee7a0;
   background: rgba(110, 231, 160, 0.14);
   color: #6ee7a0;
+}
+
+/*
+  **Der Melde-Knopf zeigt sich erst, wenn er im Kasten sitzt.**
+
+  Er entsteht außerhalb und zieht im Takt ein. In der Zwischenzeit stand er frei
+  unten rechts — also über dem Kasten, der dort sitzt: Im Video vom 02.09.2026
+  überlappt „Folgen werden geladen …" den Prüflisten-Knopf.
+
+  Solange er draußen ist, ist er unsichtbar. Er verliert dadurch nichts: Wo es
+  keinen Kasten gibt, entsteht einer als Hülle, sobald ein Knopf etwas zu sagen
+  hat.
+*/
+.ak-amazon-knopf:not(.ak-amazon-knopf-innen) {
+  visibility: hidden;
 }

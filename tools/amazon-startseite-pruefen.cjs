@@ -30,6 +30,11 @@ function baueDom() {
     kinder: [],
     hoerer: {},
     classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
+    /*
+      Die festen Zeilen des Kastens werden geleert statt gelöscht — sie bleiben
+      stehen, damit die Höhe steht (siehe `kastenSkelett()`).
+    */
+    replaceChildren(...neu) { this.kinder = neu; return undefined },
     appendChild(k) { this.kinder.push(k); return k },
     remove() {},
     addEventListener(art, fn) { this.hoerer[art] = fn },

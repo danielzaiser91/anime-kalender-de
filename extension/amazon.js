@@ -857,11 +857,22 @@ async function speicherSchreiben(werte) {
 
   function debugLeisteZeichnen() {
     try {
-      const kasten = document.querySelector('.ak-amazon-suchhinweis')
-      if (!kasten) return
-      if (kasten.querySelector('.ak-debugleiste')) return
+      const platz = document.querySelector('.ak-amazon-suchhinweis .ak-z-debug')
+      if (!platz) return
+      if (platz.querySelector('.ak-debugleiste')) return
       const leiste = document.createElement('div')
       leiste.className = 'ak-debugleiste'
+      /*
+        **Ein Schalter ohne Beschriftung ist ein Rätsel.**
+
+        Als schwebende Leiste am Kastenrand war ⏸ noch selbsterklärend genug —
+        in einer Zeile mit den übrigen steht er neben Knöpfen, die etwas ganz
+        anderes tun. Daniel am 02.09.2026: „neben dem button steht ein kurztext
+        was der button macht."
+      */
+      const beschriftung = document.createElement('span')
+      beschriftung.textContent = 'Ruhemodus für Aufnahmen'
+      leiste.appendChild(beschriftung)
       for (const sch of DEBUG_SCHALTER) {
         const k = document.createElement('button')
         k.type = 'button'
@@ -878,7 +889,7 @@ async function speicherSchreiben(werte) {
         zeigen()
         leiste.appendChild(k)
       }
-      kasten.appendChild(leiste)
+      platz.appendChild(leiste)
     } catch {
       /* Eine Diagnosehilfe darf den Ablauf nie aufhalten. */
     }
@@ -2608,177 +2619,206 @@ async function speicherSchreiben(werte) {
     }
   }
 
-  function hinweisKasten(titel, unterzeile, ...zusatz) {
+  /**
+   * **Der Kasten hat fünf feste Zeilen — sie entstehen zusammen und bleiben.**
+   *
+   * Bis 4.10.33 löschte `hinweisKasten()` den Kasten und baute ihn neu, und der
+   * Takt tat das zweimal je Sekunde. Was im Takt einzieht — Melde-Knopf,
+   * Prüflisten-Knopf, Debugleiste — flog dabei jedes Mal heraus und musste
+   * zurück. Im Video vom 02.09.2026 ist das an vier Stellen zu sehen: erst
+   * 2,3 Sekunden nichts, dann drei Stufen über 1,4 Sekunden, dazwischen ein
+   * Bild, in dem Elemente wieder verschwinden (Frames 239/240) und eins, in dem
+   * sie zurückkommen (277/278).
+   *
+   * Daniels Vorgabe dazu ist eine Bauanweisung, keine Bitte um weniger
+   * Flackern: „es soll ruhig sein, möglichst wenig ui changes, kein flackern …
+   * Es gibt elemente die je nach zustand sichtbar/nicht sichtbar sind, und
+   * elemente die immer sichtbar sind, und elemente die je nach zustand
+   * unterschiedliche label haben."
+   *
+   * Also von oben nach unten, und jede Zeile entsteht **einmal**:
+   *
+   * | Zeile | Inhalt | wechselt |
+   * |---|---|---|
+   * | `ak-z-titel` | Titel · erwartete Folgen | Text |
+   * | `ak-z-inhalt` | Checkliste, Hinweise, Warnungen | Inhalt |
+   * | `ak-z-melden` | der Melde-Knopf | Label |
+   * | `ak-such-fuss` | Prüflisten-Knopf, aniSearch | Label |
+   * | `ak-z-debug` | Diagnose-Schalter, standardmäßig aus | — |
+   *
+   * Gefüllt werden nur die ersten beiden; die unteren drei nehmen auf, was der
+   * Takt hineinschiebt, und behalten es. Die Höhe steht damit ab der ersten
+   * Zeichnung.
+   */
+  function kastenSkelett() {
+    const jetzt = location.pathname + location.search
+    let kasten = document.querySelector('.ak-amazon-suchhinweis')
     /*
-      **Der Vorgänger geht, bevor der Nachfolger kommt.**
+      **Ein Kasten gehört zu einer Adresse.** Prime Video wechselt ohne
+      Neuladen; ein stehengebliebener Kasten beschriebe eine Seite, die niemand
+      mehr ansieht (Daniel, 30.08.2026: „warum ändert sich das div nicht").
 
-      Daniel am 30.08.2026, mit Bild: „hab es als 1-12 gemeldet, jetzt ist das
-      div doppelt dort?" Der Knopf „Als Folgen 1–12 melden" ruft
-      `zeigeAuftragshinweis()` erneut auf, um den Bereich einzublenden — und
-      baute einen zweiten Kasten über den ersten.
+      Zwei Suchseiten unterscheiden sich dabei nur in der Query — der Vergleich
+      lief einmal über `location.pathname` allein, und bei jeder Prime-Suche ist
+      das `/s`. Der Kasten zeigte dann den Auftrag von vorhin (31.08.2026).
 
-      Der Takt räumte auf, dieser Aufrufer nicht. Ein Vorsatz, den jeder
-      Aufrufer einhalten muss, wird irgendwann vergessen; die Stelle, die den
-      Kasten **erzeugt**, weiß immer, dass es nur einen geben darf.
+      Nur bei einem echten Wechsel wird er ersetzt; sonst bleibt er stehen, und
+      genau das ist der Zweck dieser Funktion.
     */
-    document.querySelector('.ak-amazon-suchhinweis')?.remove()
-    const kasten = document.createElement('div')
+    if (kasten && kasten.dataset.fuerAdresse !== jetzt) {
+      kasten.remove()
+      kasten = null
+    }
+    if (kasten) return kasten
+
+    kasten = document.createElement('div')
     kasten.className = 'ak-amazon-suchhinweis'
+    kasten.dataset.fuerAdresse = jetzt
+    for (const klasse of ['ak-z-titel', 'ak-z-inhalt', 'ak-z-melden']) {
+      const zeile = document.createElement('div')
+      zeile.className = klasse
+      kasten.appendChild(zeile)
+    }
+    const fuss = document.createElement('div')
+    fuss.className = 'ak-such-fuss'
+    for (const klasse of ['ak-such-fuss-links', 'ak-such-fuss-mitte', 'ak-such-fuss-rechts']) {
+      const platz = document.createElement('span')
+      platz.className = klasse
+      fuss.appendChild(platz)
+    }
+    kasten.appendChild(fuss)
+    const debug = document.createElement('div')
+    debug.className = 'ak-z-debug'
+    kasten.appendChild(debug)
+    document.body.appendChild(kasten)
+    return kasten
+  }
+
+  /**
+   * **Der Ladepunkt für eine Zeile, deren Inhalt noch berechnet wird.**
+   *
+   * Er stand bis 4.10.33 als „···" da, halbdurchsichtig und pulsierend —
+   * Daniels Urteil im Video: „das ist ein furchtbares load icon, auch weil du
+   * es mit opacity kaum sichtbar gemacht hast". Ein drehender Ring sagt
+   * dasselbe und ist zu sehen.
+   */
+  function ladeRing(text) {
+    const huelle = document.createElement('span')
+    huelle.className = 'ak-laedt'
+    const ring = document.createElement('span')
+    ring.className = 'ak-laedt-ring'
+    huelle.appendChild(ring)
+    if (text) {
+      const wort = document.createElement('span')
+      wort.textContent = text
+      huelle.appendChild(wort)
+    }
+    return huelle
+  }
+
+  function hinweisKasten(titel, unterzeile, ...zusatz) {
+    const kasten = kastenSkelett()
     /*
-      **Der Kasten gehört zu einer Adresse — sonst überlebt er den Wechsel.**
-
-      Daniel am 30.08.2026: „warum ändert sich das div nicht, ich hab den
-      treffer in der suche angeklickt und will ihn melden, das tool lässt mich
-      nicht." Auf der Danmachi-Seite stand der Befund der **Suchseite**:
-      „Nicht dieser Titel — gefunden: … Familia Myth 3 OVA".
-
-      Beide Hinweise werden **einmal beim Seitenaufbau** gebaut, nicht im Takt.
-      Prime Video wechselt aber ohne Neuladen: Das Skript läuft weiter, der
-      Kasten bleibt hängen, und sein Inhalt beschreibt eine Seite, die niemand
-      mehr ansieht.
-
-      Dieselbe Lösung wie beim Mitleser (`fuerAdresse`, 25.08.2026): Jedes
-      Ergebnis trägt mit, wozu es gehört, und wer es liest, verwirft Fremdes.
-    */
-    /*
-      **Zwei Suchseiten unterscheiden sich nur in der Query.**
-
-      Der Vergleich lief über `location.pathname` — bei jeder Prime-Suche ist
-      das `/s`. Ein Klick auf den nächsten Listeneintrag führte damit auf eine
-      Seite, die für den Kasten „dieselbe" war: Er blieb stehen und zeigte den
-      Auftrag von vorhin (Daniel, 31.08.2026, mit Bild: Suche nach „One Piece
-      Abenteuer auf Nebulandia", Kasten zeigte „Tenjo Tenge OVA").
-
-      Auf Titelseiten trägt der Pfad die Kennung, dort fiel es nie auf.
-    */
-    kasten.dataset.fuerAdresse = location.pathname + location.search
-    /*
-      **Und er gehört zu einem Folgenstand, nicht nur zu einer Adresse.**
+      **Der Kasten gehört zu einem Folgenstand, nicht nur zu einer Adresse.**
 
       Der Auftragshinweis entscheidet über die Folgenzahl, ob die Seite ein
       Werk bündelt, es teilt oder ein anderes ist. Gebaut wird er beim
       Seitenaufbau — da steht die Zahl oft noch auf null, und der Kasten wählte
-      den Zweig „zeigt deutlich weniger, ist ein anderes Werk".
-
-      Bei „Danganronpa 3" stand genau das über einer Seite mit 24 Folgen für
-      einen Auftrag über 12: Prime bündelt dort Future und Despair Arc, und der
-      Knopf „Als Folgen 1–12 melden" wäre der richtige gewesen — er kam nie,
-      weil niemand den Kasten noch einmal ansah (Daniel, 30.08.2026).
+      den Zweig „zeigt deutlich weniger, ist ein anderes Werk" (Danganronpa 3,
+      Daniel, 30.08.2026).
     */
     try {
       kasten.dataset.beiFolgen = String(gesehen?.gesamt ?? 0)
     } catch {
       kasten.dataset.beiFolgen = '0'
     }
-    /*
-      **Titel und Folgenzahl in einer Zeile.**
+    kasten.classList.remove('ak-nur-huelle')
 
-      Zwei Zeilen für zwei Wörter kosten Höhe, die der Kasten für die Auswahl
-      braucht (Daniel, 02.09.2026: „Einzeilig statt mehrzeilig").
+    /*
+      **Titel und Folgenzahl in einer Zeile.** Zwei Zeilen für zwei Wörter
+      kosten Höhe, die der Kasten für die Auswahl braucht (Daniel, 02.09.2026).
     */
-    kasten.appendChild(kastenZeile('ak-such-titel', unterzeile ? `${titel} · ${unterzeile}` : titel))
-    for (const z of zusatz) if (z) kasten.appendChild(z)
+    const kopf = kasten.querySelector('.ak-z-titel')
+    const kopfText = unterzeile ? titel + ' · ' + unterzeile : titel
+    if (kopf && kopf.textContent !== kopfText) kopf.textContent = kopfText
+
     /*
-      **Der Verweis gehoert in jeden Kasten, nicht in einen.**
+      **Der aniSearch-Verweis sitzt in der Fußzeile, nicht im Inhalt.**
 
-      Er stand seit 3.80 nur im Auftragshinweis auf der Titelseite. Genau dort
-      braucht man ihn am wenigsten: Wer eine Seite offen hat, sieht den Titel.
-      Gebraucht wird er im Kein-Treffer-Kasten auf der Suchseite — dort steht
-      die Frage, ob der Suchbegriff ueberhaupt stimmt (Daniel, 28.08.2026:
-      „wo ist der anilist link? ich muss vergleichen koennen").
+      Er gehört zu den Dingen, die immer da sind (Daniel, 02.09.2026:
+      „Prüfliste Button und anisearch button | immer sichtbar"). Als Zusatzzeile
+      wäre er bei jedem Neuzeichnen mit verschwunden und wieder erschienen.
 
-      Deshalb haengt er hier und nicht an einer Aufrufstelle: Jeder Kasten
-      gehoert zu einem Auftrag, und der traegt die Kennung. Ein Kasten, der
-      kuenftig dazukommt, hat den Verweis damit von selbst.
-    */
-    /*
-      **Ein wackeliger Auftrag sagt es selbst, bevor jemand sucht.**
-
-      Der Vermerk kommt aus `vorschlaege-anbieter.ts`: Dort passte das Format
-      oder das Jahr des TMDB-Treffers nicht zu unserem Eintrag. Wer das vorher
-      weiß, hört nach zwei Blicken auf zu suchen statt nach zwei Minuten — und
-      genau das war Daniels Anliegen am 28.08.2026 („die prüfliste ist extrem
-      mühselig für mich abzuarbeiten").
-
-      Er steht hier und nicht an einer Aufrufstelle, aus demselben Grund wie
-      der Verweis darunter: Jeder Kasten gehört zu einem Auftrag.
+      aniSearch statt AniList, weil es deutsche Titel, deutsche Beschreibungen
+      und eine Episodenliste mit deutschen Folgentiteln führt — genau das
+      entscheidet bei Reihen, die Prime durchnummeriert (Daniel, 28.08.2026).
     */
     try {
+      const rechts = kasten.querySelector('.ak-such-fuss-rechts')
       const auftrag = suchauftrag()
-      if (auftrag?.unsicher) {
-        kasten.appendChild(kastenZeile('ak-such-warn', 'Wackeliger Vorschlag: ' + auftrag.unsicher))
-      }
-      if (auftrag?.asId) {
-        /*
-          **aniSearch vor AniList** (Daniel, 28.08.2026: „nimm fuer prueflist titel
-          anisearch statt anilist.co"). aniSearch fuehrt deutsche Titel, deutsche
-          Beschreibungen und die deutschen Anbieter — fuer die Frage „ist das
-          derselbe Titel, den Prime hier zeigt" die brauchbarere Seite. Es hat
-          ausserdem eine Episodenliste mit deutschen Folgentiteln, und die
-          entscheidet bei Reihen, die Prime durchnummeriert.
-        */
-        kasten.appendChild(
-          kastenFuss(kastenVerweis('aniSearch', 'https://www.anisearch.de/anime/' + auftrag.asId + '/episodes')),
-        )
-      } else if (auftrag?.titel) {
-        /*
-          **Ohne Kennung die aniSearch-Suche, nicht AniList.**
-
-          AniList führt romanisierte Titel ohne deutschen Bezug; bei einer Reihe
-          mit vier Teilen ist von dort aus nicht zu erkennen, welcher gemeint
-          ist (Daniel, 30.08.2026: „da kann ich nicht herausfinden wozu das
-          gehört"). Die aniSearch-Suche führt in zwei Klicks zur Episodenliste
-          mit deutschen Folgentiteln — genau dem, was den Vergleich entscheidet.
-
-          **Zwei Dinge daran sind gemessen, nicht geraten** (30.08.2026, nachdem
-          der erste Anlauf Daniel auf „Deine Suchanfrage ist ungültig" schickte):
-
-          - `/anime/index?text=…` ist der **Filter** des Anime-Index und
-            beantwortet einen Aufruf von außen mit genau dieser Fehlermeldung.
-            `/search?q=…` ist die Volltextsuche und liefert Treffer.
-          - Gesucht wird mit dem **Kern** des Titels. „Kizumonogatari III:
+      if (rechts && !rechts.firstChild) {
+        if (auftrag?.asId) {
+          rechts.appendChild(
+            kastenVerweis('aniSearch', 'https://www.anisearch.de/anime/' + auftrag.asId + '/episodes'),
+          )
+        } else if (auftrag?.titel) {
+          /*
+            Gesucht wird mit dem **Kern** des Titels: „Kizumonogatari III:
             Kaltes Blut — Teil 3" findet nichts, „Kizumonogatari" findet beide
-            Filme. Der Zusatz hinter Doppelpunkt oder Gedankenstrich ist die
-            deutsche Ausgabenbezeichnung; aniSearch führt sie nicht.
-        */
-        const suchBegriff = auftrag.titel.split(/[:—–-]/)[0].trim() || auftrag.titel
-        kasten.appendChild(
-          kastenVerweis(
-            'Bei aniSearch suchen',
-            'https://www.anisearch.de/search?q=' + encodeURIComponent(suchBegriff),
-          ),
-        )
+            Filme. Und über `/search?q=` — `/anime/index?text=` ist der Filter
+            des Index und antwortet von außen mit „Suchanfrage ist ungültig".
+          */
+          const suchBegriff = auftrag.titel.split(/[:—–-]/)[0].trim() || auftrag.titel
+          rechts.appendChild(
+            kastenVerweis('aniSearch', 'https://www.anisearch.de/search?q=' + encodeURIComponent(suchBegriff)),
+          )
+        }
       }
     } catch {
-      /* Ohne Auftrag kein Verweis — der Kasten steht trotzdem. */
+      /* Ohne Auftrag kein Verweis — die Fußzeile behält ihre beiden anderen Plätze. */
     }
-    document.body.appendChild(kasten)
     /*
-      **Der Kasten ist die Erweiterung — alles gehört hinein.**
+      **Derselbe Inhalt wird nicht noch einmal gebaut.**
 
-      Der Übersichts-Knopf („Prime: alles geprüft") stand daneben als zweite
-      schwebende Insel, und der Kasten schwebte 132 px darüber (Daniel,
-      02.09.2026, mit Pfeilen im Bild: „the box is the extension now. everything
-      must be inside … the box must be at bottom 0").
+      `zeigeAuftragshinweis()` läuft bei jedem Takt, also zweimal je Sekunde.
+      Würde die Zeile jedes Mal geleert und neu gefüllt, verlöre ein Haken, den
+      Daniel gerade gesetzt hat, im nächsten halben Takt seinen Zustand — und
+      der Kasten wäre wieder das, was er nicht mehr sein soll: eine Fläche, auf
+      der sich ohne Anlass etwas bewegt.
 
-      Er zieht deshalb hier ein, solange ein Kasten steht; ohne Kasten bleibt er,
-      wo er war — auf einer Seite ohne Auftrag ist er das Einzige, was die
-      Erweiterung zeigt.
+      Verglichen wird der **Text** der Zeilen. Er ändert sich, wenn sich der
+      Befund ändert; ein Haken ändert ihn nicht, und genau das ist gewollt.
     */
-    try {
-      const uebersicht = document.querySelector('.ak-uebersicht')
-      if (uebersicht) {
-        uebersicht.classList.add('ak-uebersicht-innen')
-        /*
-          Ans Kastenende — die Fußzeile holt ihn von dort in ihre Mitte, sobald
-          sie steht (siehe kastenFuss). Zwei Schritte, weil der Kasten seine
-          Zeilen der Reihe nach bekommt und die Fußzeile die letzte ist.
-        */
-        kasten.appendChild(uebersicht)
+    const inhalt = kasten.querySelector('.ak-z-inhalt')
+    if (inhalt) {
+      const teile = []
+      for (const z of zusatz) if (z) teile.push(String(z.textContent ?? ''))
+      const signatur = teile.join('\u0000')
+      if (inhalt.dataset.signatur === signatur && inhalt.firstChild) return kasten
+      inhalt.dataset.signatur = signatur
+      inhalt.replaceChildren()
+      /*
+        **Ein wackeliger Auftrag sagt es selbst, bevor jemand sucht.**
+
+        Der Vermerk kommt aus `vorschlaege-anbieter.ts`: Dort passte das Format
+        oder das Jahr des TMDB-Treffers nicht zu unserem Eintrag. Wer das vorher
+        weiß, hört nach zwei Blicken auf zu suchen statt nach zwei Minuten
+        (Daniel, 28.08.2026: „die prüfliste ist extrem mühselig").
+
+        Er steht hier und nicht an einer Aufrufstelle, aus demselben Grund wie
+        der aniSearch-Verweis: Jeder Kasten gehört zu einem Auftrag.
+      */
+      try {
+        const auftrag = suchauftrag()
+        if (auftrag?.unsicher) {
+          inhalt.appendChild(kastenZeile('ak-such-warn', 'Wackeliger Vorschlag: ' + auftrag.unsicher))
+        }
+      } catch {
+        /* Ohne Auftrag bleibt die Zeile leer — der Kasten steht trotzdem. */
       }
-    } catch {
-      /* Ohne Knopf steht der Kasten für sich — kein Grund, den Aufbau abzubrechen. */
+      for (const z of zusatz) if (z) inhalt.appendChild(z)
     }
+
     return kasten
   }
 
@@ -2886,59 +2926,6 @@ async function speicherSchreiben(werte) {
    * Die Marke wird eingesammelt, nicht neu gebaut: Wo sie im Kasten schon steht,
    * wandert sie hierher; sonst bleibt die linke Seite leer.
    */
-  function kastenFuss(rechts) {
-    const zeile = document.createElement('div')
-    zeile.className = 'ak-such-fuss'
-    const links = document.createElement('span')
-    links.className = 'ak-such-fuss-links'
-    /* Der mittlere Platz — dorthin zieht der Übersichts-Knopf (siehe unten). */
-    const mitte = document.createElement('span')
-    mitte.className = 'ak-such-fuss-mitte'
-    zeile.append(links, mitte, rechts)
-    /*
-      Nach dem Anhängen umziehen — der Kasten ist dann vollständig.
-
-      `setTimeout` statt `queueMicrotask`: Der Sandkasten der Zusicherungen kennt
-      nur die Zeitgeber, und ESLint hat es gemeldet, bevor es jemand im Browser
-      sah.
-    */
-    /*
-      **Solange etwas fehlt, sagt der Kasten das — statt es nachzuwerfen.**
-
-      Prüflisten-Knopf und Melde-Knopf entstehen außerhalb und ziehen im Takt
-      ein; der Briefkasten antwortet noch später. Im Video vom 02.09.2026 ist
-      der Kasten deshalb dreimal gewachsen, jedes Mal um eine Zeile — „mehrere
-      elemente ploppen nacheinander auf, es ist sehr unschön".
-
-      Die Fußzeile trägt ihre drei Plätze von Anfang an, und wo noch nichts
-      steht, steht ein Platzhalter mit Puls. Der Kasten hat damit von der ersten
-      Zeichnung an seine Höhe.
-    */
-    const laedt = document.createElement('span')
-    laedt.className = 'ak-such-laedt'
-    laedt.textContent = '···'
-    laedt.title = 'wird geladen'
-    mitte.appendChild(laedt)
-    setTimeout(() => {
-      const marke = zeile.parentElement?.querySelector('.ak-such-fertig')
-      if (marke && marke.parentElement !== links) links.appendChild(marke)
-      /*
-        **„Prime: alles geprüft" steht zwischen den beiden, nicht darunter.**
-
-        Er stand zuerst außerhalb des Kastens, dann als eigene Zeile darin — und
-        beides sah aus wie ein dritter Absatz. Er gehört in dieselbe Zeile wie
-        die Marke und der aniSearch-Knopf: alle drei sagen etwas über den Stand,
-        keiner verlangt eine Handlung (Daniel, 02.09.2026).
-      */
-      const uebersicht = zeile.parentElement?.querySelector('.ak-uebersicht')
-      if (uebersicht && uebersicht.parentElement !== mitte) {
-        laedt.remove()
-        mitte.appendChild(uebersicht)
-      }
-    }, 0)
-    return zeile
-  }
-
   function kastenAuswahl(beschriftung, kennung, angehakt, beimSprung = null) {
     const zeile = document.createElement('label')
     zeile.className = 'ak-such-auswahl'
@@ -3108,7 +3095,12 @@ async function speicherSchreiben(werte) {
       nachsehen genügt: einmal sofort, einmal nach anderthalb Sekunden.
     */
     const zeichnen = () => {
-      document.querySelector('.ak-amazon-suchhinweis')?.remove()
+      /*
+        Hier stand bis 4.11.0 ein `remove()`. Es ist überflüssig geworden und
+        war schädlich: `kastenSkelett()` verwaltet den Kasten selbst — es gibt
+        immer genau einen, und er wird nur beim Adresswechsel ersetzt. Wer ihn
+        vorher wegnahm, warf die Knöpfe mit heraus, die im Takt eingezogen sind.
+      */
       const gefunden = suchTreffer()
       const befund = beurteileTreffer(auftrag, gefunden)
       const folgen = auftrag.folgen ? `${auftrag.folgen} ${auftrag.folgen === 1 ? 'Folge' : 'Folgen'}` : ''
@@ -6693,8 +6685,15 @@ async function speicherSchreiben(werte) {
           Rot heisst in dieser Oberflaeche "hier ist nichts mehr" — genau das
           Gegenteil dessen, was gerade passiert ist.
         */
-        knopf.dataset.tot = 'false'
-        knopf.textContent = '✓ alles gemeldet'
+        /*
+          **„Alles gemeldet" braucht keinen Knopf — die Checkliste sagt es schon.**
+
+          Daniel am 02.09.2026: „alles gemeldet kann komplett entfernt werden,
+          weil es durch die checkbox box schon klar ist das alles gemeldet wurde."
+          Ein Knopf, der nichts auslöst, ist Fläche ohne Handlung; die Haken in
+          der Zeile darüber stehen ohnehin da und sagen dasselbe genauer.
+        */
+        knopf.style.display = 'none'
         knopf.disabled = true
         return
       }
@@ -7092,7 +7091,23 @@ async function speicherSchreiben(werte) {
      * erfolgreich gemeldet' und nicht anklickbar werden").
      */
     if (alleDurch) {
-      knopf.textContent = '✓ alles gemeldet'
+      /*
+        **Rot heißt „hier ist nichts mehr" — das Gegenteil dessen, was hier steht.**
+
+        `dataset.tot` blieb stehen, wie der Zustand davor ihn hinterlassen hatte,
+        und der Knopf zeigte ein rotes „✓ alles gemeldet" (02.09.2026, Video
+        19:09). Derselbe Fehler wie am 25.08.2026 an einer anderen Stelle — dort
+        wurde er behoben, hier nicht.
+      */
+      /*
+        **„Alles gemeldet" braucht keinen Knopf — die Checkliste sagt es schon.**
+
+        Daniel am 02.09.2026: „alles gemeldet kann komplett entfernt werden,
+        weil es durch die checkbox box schon klar ist das alles gemeldet wurde."
+        Ein Knopf, der nichts auslöst, ist Fläche ohne Handlung; die Haken in
+        der Zeile darüber stehen ohnehin da und sagen dasselbe genauer.
+      */
+      knopf.style.display = 'none'
       knopf.disabled = true
       knopf.dataset.deutsch = String(deutsch)
       return
@@ -7214,10 +7229,19 @@ async function speicherSchreiben(werte) {
         }
       }
       const weiterMit = offen > 0 ? naechsteOffene() : null
-      knopf.textContent =
-        offen > 0
-          ? `✓ Staffel ${staffelText(jetzigeStaffel)} gemeldet` + (weiterMit ? ` · weiter mit Staffel ${weiterMit}` : '')
-          : '✓ alles gemeldet'
+      /*
+        Bleibt eine Staffel offen, sagt der Knopf, welche als Nächstes dran ist
+        — das ist eine Wegweisung und gehört sichtbar. Ist keine mehr offen,
+        gilt der Grund von oben: Der Knopf verschwindet, die Haken bleiben.
+      */
+      if (offen > 0) {
+        knopf.style.display = ''
+        knopf.textContent =
+          `✓ Staffel ${staffelText(jetzigeStaffel)} gemeldet` +
+          (weiterMit ? ` · weiter mit Staffel ${weiterMit}` : '')
+      } else {
+        knopf.style.display = 'none'
+      }
       knopf.disabled = true
       knopf.dataset.deutsch = String(deutsch)
       return
@@ -8254,70 +8278,74 @@ async function speicherSchreiben(werte) {
     */
     try {
       /*
-        **Der Kasten ist die Hülle, nicht der Auftragshinweis.**
+        **Der Kasten steht immer, sobald die Erweiterung etwas zu sagen hat.**
 
-        Er entstand nur, wenn es einen Auftrag zu zeigen gab. Nach der Meldung
-        gibt es keinen mehr — und dann standen die beiden Knöpfe wieder frei
-        nebeneinander (Daniel, 02.09.2026: „warum das alte design? es sollte
-        alles im kasten sein").
+        Er entstand früher nur, wenn es einen Auftrag zu zeigen gab. Nach der
+        Meldung gibt es keinen mehr — und dann standen die beiden Knöpfe wieder
+        frei nebeneinander (Daniel, 02.09.2026: „warum das alte design? es
+        sollte alles im kasten sein").
 
-        Fehlt er, entsteht hier eine leere Hülle mit Fußzeile. Sie kostet nichts,
-        wo ohnehin ein Knopf steht, und erscheint nicht, wo keiner ist: Ohne
-        sichtbaren Knopf wird sie gar nicht erst gebaut.
+        Ohne sichtbaren Knopf wird er nicht gebaut: Wer gerade fernsieht, soll
+        nichts von der Erweiterung sehen (30.08.2026).
       */
-      let kasten = document.querySelector('.ak-amazon-suchhinweis')
       const etwasZuZeigen =
         uebersichtKnopf.style.display !== 'none' || knopf.style.display !== 'none'
+      let kasten = document.querySelector('.ak-amazon-suchhinweis')
       if (!kasten && etwasZuZeigen) {
-        kasten = document.createElement('div')
-        kasten.className = 'ak-amazon-suchhinweis ak-nur-huelle'
-        const zeile = document.createElement('div')
-        zeile.className = 'ak-such-fuss'
-        const links = document.createElement('span')
-        links.className = 'ak-such-fuss-links'
-        const mitte = document.createElement('span')
-        mitte.className = 'ak-such-fuss-mitte'
-        const rechts = document.createElement('span')
-        zeile.append(links, mitte, rechts)
-        kasten.appendChild(zeile)
-        document.body.appendChild(kasten)
+        kasten = kastenSkelett()
+        kasten.classList.add('ak-nur-huelle')
       }
-      const fuss = kasten?.querySelector('.ak-such-fuss-mitte')
+
       /*
-        **Ein Platzhalter, der nie weicht, ist schlimmer als ein leerer Platz.**
-
-        Er hält die Höhe, solange der Prüflisten-Knopf noch unterwegs ist. Auf
-        einer Seite ohne offene Prüfliste kommt er aber gar nicht — dort ist er
-        versteckt, und das „···" pulsierte im Video vom 02.09.2026 vier Sekunden
-        lang weiter, bis zum Ende der Aufnahme.
-
-        Er weicht deshalb in beiden Fällen: wenn der Knopf einzieht, und wenn
-        feststeht, dass keiner kommt (Briefkasten hat geantwortet, Knopf ist
-        versteckt).
+        **Jede Zeile hat ihren Platz, und der bleibt leer, bis sein Inhalt da
+        ist.** Der Takt schiebt nur hinein und räumt nicht mehr um — die Zeilen
+        selbst entstehen einmal in `kastenSkelett()`.
       */
-      if (fuss) {
-        const platz = fuss.querySelector('.ak-such-laedt')
+      const mitte = kasten?.querySelector('.ak-such-fuss-mitte')
+      if (mitte) {
+        /*
+          Der Prüflisten-Knopf zieht in die Mitte der Fußzeile. Solange der
+          Briefkasten schweigt, steht dort ein Ladering; steht fest, dass kein
+          Knopf kommt (Antwort da, Knopf versteckt), weicht er ersatzlos.
+
+          Ohne diese zweite Bedingung pulsierte der Platzhalter im Video vom
+          02.09.2026 vier Sekunden lang weiter, bis zum Ende der Aufnahme.
+        */
+        const platz = mitte.querySelector('.ak-laedt')
         if (uebersichtKnopf.style.display === 'none') {
           if (briefkastenAdressen) platz?.remove()
-        } else if (uebersichtKnopf.parentElement !== fuss) {
+          else if (!platz) mitte.appendChild(ladeRing('Prüfliste'))
+        } else if (uebersichtKnopf.parentElement !== mitte) {
           uebersichtKnopf.classList.add('ak-uebersicht-innen')
           platz?.remove()
-          fuss.appendChild(uebersichtKnopf)
+          mitte.appendChild(uebersichtKnopf)
         }
       }
+
       /*
-        **Und der Melde-Knopf gehört genauso hinein.**
+        **Die Meldezeile trägt entweder den Knopf oder die Marke „gemeldet ✓".**
 
-        Er stand als eigene Insel unten rechts — also hinter dem Kasten, der seit
-        4.10.13 genau dort sitzt. Daniel sah ihn nicht und fragte „wie melden?"
-        (02.09.2026), obwohl er da war.
-
-        Unsichtbar bleibt er trotzdem, wo er nichts zu sagen hat: `zeichnen()`
-        setzt ihn dann auf `display: none`, und das gilt im Kasten genauso.
+        Beides sagt dasselbe über denselben Gegenstand, deshalb derselbe Platz.
+        Solange keins von beidem feststeht, hält ein Ladering die Höhe — die
+        Zeile darf nicht nachträglich erscheinen (Daniel, 02.09.2026: „was
+        nachträglich verschwinden kann gehört hinter lade animation").
       */
-      if (kasten && knopf.parentElement !== kasten) {
-        knopf.classList.add('ak-amazon-knopf-innen')
-        kasten.insertBefore(knopf, kasten.querySelector('.ak-such-fuss') ?? null)
+      const meldeZeile = kasten?.querySelector('.ak-z-melden')
+      if (meldeZeile) {
+        if (knopf.style.display !== 'none') {
+          if (knopf.parentElement !== meldeZeile) {
+            knopf.classList.add('ak-amazon-knopf-innen')
+            meldeZeile.replaceChildren(knopf)
+          }
+        } else {
+          const marke = kasten.querySelector('.ak-z-inhalt .ak-such-fertig')
+          if (marke) meldeZeile.replaceChildren(marke)
+          else if (!briefkastenAdressen && !meldeZeile.firstChild) {
+            meldeZeile.appendChild(ladeRing('Meldezustand'))
+          } else if (briefkastenAdressen && meldeZeile.querySelector('.ak-laedt')) {
+            meldeZeile.replaceChildren()
+          }
+        }
       }
     } catch {
       /* Ohne Kasten bleibt er, wo er ist. */
@@ -8350,7 +8378,16 @@ async function speicherSchreiben(werte) {
         /* Kein Zählstand — dann bleibt es beim Adressvergleich. */
       }
       if (andereAdresse || andereFolgen) {
-        alterHinweis.remove()
+        /*
+          Neu **gezeichnet**, nicht abgerissen. Bis 4.11.0 stand hier ein
+          `remove()`, und der folgende Aufruf baute den Kasten von vorn — im
+          Video vom 02.09.2026 der Moment, in dem Elemente verschwinden
+          (Frames 239/240) und Sekundenbruchteile später zurückkommen (277/278).
+
+          Beide Bauer schreiben jetzt in die bestehenden Zeilen; was sich nicht
+          geändert hat, wird nicht angefasst (Signatur in `hinweisKasten`), und
+          den Adresswechsel erledigt `kastenSkelett()`.
+        */
         try {
           /*
             **Auf einer Suchseite baut ihn `zeigeSuchhinweis()`, sonst `zeigeAuftragshinweis()`.**
