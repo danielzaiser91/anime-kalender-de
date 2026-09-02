@@ -840,3 +840,25 @@
   flex: 1 1 auto;
   min-width: 0;
 }
+
+/*
+  Die Checkliste auf der Titelseite: dieselbe Form wie auf der Trefferliste, nur
+  ohne Ankreuzen. Die Seite, auf der man steht, ist markiert und trägt keinen
+  Sprung — sonst führt ein Knopf von hier nach hier.
+*/
+.ak-such-auswahl.ak-such-hier {
+  background: rgba(122, 162, 255, 0.12);
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.ak-such-haken {
+  flex: none;
+  color: #6ee7a0;
+  font-weight: 700;
+}
+
+.ak-such-offen {
+  flex: none;
+  color: #94a3b8;
+}

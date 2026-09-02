@@ -3792,39 +3792,52 @@ async function speicherSchreiben(werte) {
         ? [...jahrZeilen, ...teilZeilen]
         : [kastenZeile('ak-such-hinweis', 'Staffel gewechselt — für Jahr und Staffelnummer die Seite neu laden')]),
       /*
-        **Die angekreuzten Ausgaben, mit ihrem Stand und einem Sprung dazwischen.**
+        **Dieselbe Checkliste wie auf der Trefferliste — hier ohne Ankreuzen.**
 
-        Wer auf der Trefferliste zwei Ausgaben angekreuzt hat, arbeitet sie
-        nacheinander ab — und braucht dafür auf jeder Seite zweierlei: was noch
-        aussteht, und einen Weg dorthin. Ohne das musste Daniel zurücknavigieren
-        und die Suche erneut lesen (02.09.2026: „beim anime hinweistext sollten
-        die ausgewählten einträge stehen und es sollte direkt ein sprung zwischen
-        den beiden möglich sein").
+        Wer zwei Ausgaben bestätigt hat, arbeitet sie nacheinander ab und braucht
+        auf jeder Seite dasselbe Bild: welche gehören dazu, welche sind schon
+        gemeldet, und wie komme ich zur nächsten.
 
-        Der Haken kommt vom Briefkasten, nicht von einem lokalen Zähler.
+        Vorher stand hier ein Knopf „nochmal ansehen", der auf den **anderen**
+        Titel führte — verwirrend, weil er wie eine Handlung für diese Seite
+        aussah (Daniel, 02.09.2026). Jetzt: Die aktuelle Seite ist markiert und
+        trägt keinen Sprung, die anderen tragen ihr „öffnen", und was gemeldet
+        ist, hat ein Häkchen.
       */
       ...(() => {
         try {
-          /*
-            Die Erwartung kommt vom Worker, nicht aus dem Sitzungs-Merker: Der
-            verfällt nach zehn Minuten, sie gilt bis alle Ausgaben gemeldet sind.
-            Nach dem Umstieg am 02.09.2026 blieb diese Stelle stehen, und die
-            Ausgaben fehlten auf der Titelseite (Video 15:31).
-          */
           const a = suchauftrag()
           const erwartet = erwartungZu(a?.suchUrl ?? eintrag?.url ?? '') ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
-          if (erwartet.length < 2) return []
+          if (!erwartet || erwartet.length < 2) return []
           const hier = asin()
-          return erwartet.map((k) => {
+          const gruppe = document.createElement('div')
+          gruppe.className = 'ak-such-gruppe'
+          for (const k of erwartet) {
             const fertig = briefkastenSeiten?.has(String(k)) ?? false
-            const marke = fertig ? '✓' : '·'
-            if (String(k) === String(hier)) {
-              return kastenZeile(fertig ? 'ak-such-gut' : 'ak-such-hinweis', `${marke} ${k} — diese Seite`)
+            const dieseSeite = String(k) === String(hier)
+            const zeile = document.createElement('div')
+            zeile.className = 'ak-such-auswahl' + (dieseSeite ? ' ak-such-hier' : '')
+            const stand = document.createElement('span')
+            stand.className = fertig ? 'ak-such-haken' : 'ak-such-offen'
+            stand.textContent = fertig ? '✓' : '○'
+            stand.title = fertig ? 'gemeldet' : 'noch offen'
+            zeile.append(stand, document.createTextNode(' ' + k + (dieseSeite ? ' — diese Seite' : '')))
+            /* Kein Sprung auf die Seite, auf der man steht. */
+            if (!dieseSeite) {
+              const sprung = document.createElement('a')
+              sprung.className = 'ak-such-sprung'
+              sprung.href = `https://www.amazon.de/gp/video/detail/${k}`
+              sprung.textContent = 'öffnen'
+              sprung.title = `${k} öffnen`
+              sprung.addEventListener('click', (e) => {
+                e.preventDefault()
+                location.href = sprung.href
+              })
+              zeile.appendChild(sprung)
             }
-            return kastenKnopf(`${marke} ${fertig ? 'nochmal ansehen' : 'jetzt melden'}`, () => {
-              location.href = `https://www.amazon.de/gp/video/detail/${k}`
-            }, String(k))
-          })
+            gruppe.appendChild(zeile)
+          }
+          return [gruppe]
         } catch {
           return []
         }
@@ -8004,6 +8017,24 @@ async function speicherSchreiben(werte) {
       return
     }
     uebersichtKnopf.style.display = ''
+    /*
+      **Der Knopf gehört in den Kasten, auch wenn der später entsteht.**
+
+      Er zieht beim Aufbau des Kastens ein — nur entsteht der Kasten manchmal
+      erst danach (Titelseite mit geerbtem Auftrag). Dann stand er wieder
+      draußen, und im Kasten fehlte die Prüfliste (Daniel, 02.09.2026: „wo ist
+      prüfliste button?"). Der Takt holt das nach; er läuft ohnehin.
+    */
+    try {
+      const kasten = document.querySelector('.ak-amazon-suchhinweis')
+      const fuss = kasten?.querySelector('.ak-such-fuss-mitte')
+      if (fuss && uebersichtKnopf.parentElement !== fuss) {
+        uebersichtKnopf.classList.add('ak-uebersicht-innen')
+        fuss.appendChild(uebersichtKnopf)
+      }
+    } catch {
+      /* Ohne Kasten bleibt er, wo er ist. */
+    }
     schutzflaecheZeigen(true)
     /*
       **Ein Hinweiskasten einer anderen Seite wird weggeräumt und neu gebaut.**
