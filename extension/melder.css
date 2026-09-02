@@ -823,8 +823,7 @@
   Beschriftung: Sie ist bei „Prime: alles geprüft“ dieselbe wie bei „1 offen“.
 */
 .ak-such-fuss {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   align-items: center;
   gap: 8px;
   padding-top: 6px;
@@ -847,12 +846,7 @@
   nicht auf selber zeile wie anisearch button gerendert -> 2 zeilig -> führt zu
   box-height change").
 */
-/* Die rechte Hälfte — aniSearch. Dieselbe Regel wie links. */
-.ak-such-fuss-rechts {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-}
+
 
 
 
@@ -983,15 +977,32 @@
 
 /* Die Mitte der Fußzeile — dort steht „Prime: alles geprüft". */
 /*
-  Die linke Hälfte — der Prüflisten-Knopf. Sie zentriert nicht mehr selbst:
-  Ihr Inhalt füllt sie ganz aus, und das Zentrieren macht die Pille (siehe
-  oben). Vorher war der Knopf so breit wie sein Text und saß dadurch je nach
-  Beschriftung woanders.
+  **Beide Hälften teilen sich den Platz — und eine allein nimmt ihn ganz.**
+
+  Erst war es ein Grid mit zwei festen Spalten. Das teilt zuverlässig, lässt
+  aber eine leere Spalte stehen, wenn es den aniSearch-Knopf nicht gibt: Der
+  Prüflisten-Knopf saß dann in der linken Hälfte und rechts war nichts (Daniel,
+  03.09.2026: „wenn anilist nicht da ist, kann prime 100% einnehmen. wenn beide
+  flex 1 haben sollte das automatisch passieren").
+
+  Genau so ist es jetzt: `flex: 1 1 0` gibt beiden denselben Anteil, unabhängig
+  von ihrer Beschriftung, und wo nur einer steht, gehört ihm die Zeile. Der
+  leere Platz blendet sich dabei selbst aus — ein `flex: 1` auf einem leeren
+  Element beansprucht sonst trotzdem seinen Anteil.
+
+  Das Zentrieren macht weiterhin die Pille selbst, nicht ihr Platz.
 */
-.ak-such-fuss-mitte {
+.ak-such-fuss-mitte,
+.ak-such-fuss-rechts {
   display: flex;
   align-items: center;
+  flex: 1 1 0;
   min-width: 0;
+}
+
+.ak-such-fuss-mitte:empty,
+.ak-such-fuss-rechts:empty {
+  display: none;
 }
 
 /*
@@ -1143,11 +1154,11 @@
 }
 
 /*
-  Ohne den aniSearch-Knopf wäre die rechte Hälfte leer und der Prüflisten-Knopf
-  stünde in einer halben Zeile. Er nimmt sie dann ganz.
+  Im weggelegten Zustand steht nur noch der Prüflisten-Knopf in der Fußzeile —
+  dass er sie ganz einnimmt, erledigt `flex: 1 1 0` von selbst. Bleibt die
+  Trennlinie, die ohne Inhalt darüber nichts mehr trennt.
 */
 .ak-weggelegt .ak-such-fuss {
-  grid-template-columns: 1fr;
   padding-top: 0;
   border-top: none;
 }

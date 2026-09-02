@@ -229,6 +229,30 @@ const lage = await seiteObj.evaluate(() => {
 
 await seiteObj.screenshot({ path: ziel })
 
+/*
+  **Und derselbe Kasten ohne aniSearch — dann gehört die Zeile dem
+  Prüflisten-Knopf allein.**
+
+  Mit dem früheren Grid aus zwei festen Spalten blieb rechts eine leere Hälfte
+  stehen (Daniel, 03.09.2026: „wenn anilist nicht da ist, kann prime 100%
+  einnehmen"). Gemessen wird deshalb beides: geteilt, wenn zwei Knöpfe da sind,
+  und ganz, wenn nur einer bleibt.
+*/
+const ohneAniObj = await browser.newPage({ viewport: { width: 520, height: 420 } })
+await ohneAniObj.setContent(
+  seite.replace(/<span class="ak-such-fuss-rechts">[\s\S]*?<\/span>/, '<span class="ak-such-fuss-rechts"></span>'),
+)
+const ohneAni = await ohneAniObj.evaluate(() => {
+  const fuss = document.querySelector('.ak-such-fuss')
+  const knopf = document.querySelector('.ak-uebersicht-innen')
+  if (!fuss || !knopf) return null
+  return {
+    fussBreite: Math.round(fuss.getBoundingClientRect().width),
+    knopfBreite: Math.round(knopf.getBoundingClientRect().width),
+  }
+})
+await ohneAniObj.close()
+
 /* Dieselbe Messung für die Prüfliste. */
 const dialogObj = await browser.newPage({ viewport: { width: 800, height: 180 } })
 await dialogObj.setContent(dialogSeite)
@@ -292,6 +316,12 @@ pruefe(
 pruefe(
   lage.weg && Math.abs(lage.weg.zeichenOben - lage.weg.zeichenUnten) <= 1,
   `… wie senkrecht (${lage.weg?.zeichenOben}/${lage.weg?.zeichenUnten})`,
+)
+
+console.log(`\nOhne aniSearch: Fußzeile ${ohneAni?.fussBreite} px, Prüfliste ${ohneAni?.knopfBreite} px`)
+pruefe(
+  ohneAni && ohneAni.knopfBreite >= ohneAni.fussBreite - 1,
+  'ohne aniSearch nimmt der Prüflisten-Knopf die ganze Zeile',
 )
 
 console.log('\nPrüfliste — erledigte Zeile')
