@@ -1052,6 +1052,22 @@
 */
 .ak-z-weg {
   flex: none;
+  /*
+    **Zwei `center`, wie beim Debug-Knopf — und aus demselben Grund.**
+
+    Der Kommentar an `.ak-debugknopf` sagt es seit dem 02.09.2026: „Ein Zeichen
+    wie ▶ oder ⏸ sitzt in seiner Schriftart weder waagerecht noch senkrecht in
+    der Mitte." Dasselbe gilt für ✕ — hier stand nur `line-height: 1`, und das
+    stellt es nicht (Daniel, 02.09.2026: „x is not centered").
+
+    Eine Lehre, die zwanzig Zeilen weiter oben steht und trotzdem nicht getragen
+    hat: `flex` mit zwei `center` gehört an **jeden** Knopf, dessen Inhalt ein
+    einzelnes Zeichen ist. Mit `!important`, weil Amazons Regeln für `button`
+    bis hierher reichen — dieselbe Absicherung wie an der Pille der Fußzeile.
+  */
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
   width: 20px;
   height: 20px;
   padding: 0;
@@ -1059,8 +1075,10 @@
   border-radius: 5px;
   background: transparent;
   color: #64748b;
+  font-family: system-ui, sans-serif;
   font-size: 13px;
   line-height: 1;
+  text-align: center;
   cursor: pointer;
   transition: color .15s ease, background .15s ease;
 }

@@ -79,6 +79,21 @@ const amazonRegeln = `
     color: #0066c0;
     line-height: 19px;
   }
+  /*
+    Und dasselbe für Knöpfe. Der erste Anlauf hatte nur die Link-Regeln, und
+    die Kulisse meldete deshalb ein zentriertes ✕, das auf der echten Seite
+    links oben saß (Daniel, 02.09.2026: „x is not centered"). Amazon gibt
+    Knöpfen eine eigene Schrift, eine feste Zeilenhöhe und linksbündigen Text —
+    jede der drei Angaben verschiebt ein einzelnes Zeichen.
+  */
+  body button {
+    display: inline-block;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 29px;
+    text-align: left;
+    vertical-align: baseline;
+  }
 `
 
 const seite = `<!doctype html><meta charset="utf-8">
@@ -164,7 +179,22 @@ const lage = await seiteObj.evaluate(() => {
       if (!w || !t) return null
       const a = r(w)
       const b = r(t)
-      return { rechtsAbstand: Math.round(b.right - a.right), obenAbstand: Math.round(a.y - b.y) }
+      /*
+        **Das Zeichen im Knopf, nicht der Knopf.** Ein ✕ sitzt in seiner
+        Schriftart nicht von selbst mittig; gemessen wird deshalb sein eigener
+        Kasten gegen den des Knopfes (Daniel, 02.09.2026: „x is not centered").
+      */
+      const bereich = document.createRange()
+      bereich.selectNodeContents(w)
+      const z = bereich.getBoundingClientRect()
+      return {
+        rechtsAbstand: Math.round(b.right - a.right),
+        obenAbstand: Math.round(a.y - b.y),
+        zeichenLinks: Math.round(z.x - a.x),
+        zeichenRechts: Math.round(a.right - z.right),
+        zeichenOben: Math.round(z.y - a.y),
+        zeichenUnten: Math.round(a.bottom - z.bottom),
+      }
     })(),
   }
 })
@@ -209,6 +239,14 @@ pruefe(
 /* Der Ausweg aus einem Titel, der bei Prime nicht zu finden ist (02.09.2026). */
 pruefe(lage.weg && lage.weg.rechtsAbstand <= 1, 'das X sitzt am rechten Rand der Titelzeile')
 pruefe(lage.weg && lage.weg.obenAbstand <= 4, '… auf Höhe des Titels')
+pruefe(
+  lage.weg && Math.abs(lage.weg.zeichenLinks - lage.weg.zeichenRechts) <= 1,
+  `… und das ✕ steht waagerecht mittig (${lage.weg?.zeichenLinks}/${lage.weg?.zeichenRechts})`,
+)
+pruefe(
+  lage.weg && Math.abs(lage.weg.zeichenOben - lage.weg.zeichenUnten) <= 1,
+  `… wie senkrecht (${lage.weg?.zeichenOben}/${lage.weg?.zeichenUnten})`,
+)
 
 console.log(`\nBild: ${ziel}`)
 if (!existsSync(ziel)) {
