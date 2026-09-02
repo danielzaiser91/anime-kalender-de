@@ -1622,6 +1622,31 @@ rot", gehört sie umgebaut — denn leer ist bei einer Arbeitsliste der Normalfa
 Was an echten Daten trotzdem zusicherbar ist, und deshalb dort steht: dass die Datei sich
 laden lässt, und dass der leere Fall sauber durchläuft.
 
+**Am 02.09.2026 ist genau das zweimal an einem Tag passiert, beide Male von mir gebaut, beide
+Male mit stehendem Deploy.** Die Fälle sehen verschieden aus und haben dieselbe Wurzel:
+
+| Zusicherung | Bedingung | warum sie rot wurde |
+|---|---|---|
+| Rohfolgen-Zuordnung | `zahlZugeordnet > 0` bei offenen Adressen | Die Zuordnung war **fertig** — übrig blieben zwei Reste, die sich bauartbedingt nicht auflösen lassen. Null von zwei ist richtig |
+| Listenstand der Erweiterung | `zeit === meta.generatedAt` | Der Deploy prüft **vor** dem Bau. Beide Dateien entstehen im selben Lauf, aber nacheinander — dazwischen sind sie verschieden alt |
+
+**Die gemeinsame Wurzel: Eine Momentaufnahme wurde als Invariante geschrieben.** „Es ist gerade
+etwas zugeordnet worden" und „beide Dateien sind gleich alt" stimmen im Augenblick des
+Erzeugens und sonst nie zuverlässig. Eine Zusicherung behauptet aber, dass etwas **immer** gilt.
+
+**Die Prüffrage vor jeder neuen Zusicherung**, und sie ist schärfer als die alte nach der
+leeren Datei:
+
+> Unter welchen Umständen ist die Bedingung verletzt, **ohne** dass etwas kaputt ist?
+
+Fällt dazu ein Fall ein — die Arbeit ist fertig, der Lauf war noch nicht dran, die Welt ist
+weitergelaufen —, prüft die Zusicherung den falschen Gegenstand. Sie gehört dann auf eine
+**Kulisse** umgestellt, die von keinem Datenstand abhängt, oder auf eine Bedingung, die den
+Normalbetrieb einschließt (eine Schwelle statt „größer null", „nicht neuer als" statt „gleich").
+
+Beide Fassungen von heute stehen so da: Die Gruppierungsregel prüft eine erfundene Adresse mit
+zwölf Folgen und zwölf ASINs, der Bestand nur noch gegen eine Schwelle von fünf Adressen.
+
 ## Ein geklärter roter Lauf wird entfernt
 
 Daniel am 24.08.2026: „du hast die läufe im status geprüft, warum sind die immer noch sichtbar.
