@@ -5222,6 +5222,26 @@ async function speicherSchreiben(werte) {
     if (auftrag) {
       return { titel: auftrag.titel, url: auftrag.suchUrl, ausSuche: true }
     }
+    /*
+      **Eine bestätigte Erwartung nennt diese Seite — dann gehört sie zum Auftrag.**
+
+      Der Sprung-Merker in `sessionStorage` verfällt nach zehn Minuten; er ist
+      dafür gedacht, einen Klick zu überbrücken. Die Erwartung liegt seit dem
+      02.09.2026 beim Worker und gilt, bis alle Ausgaben gemeldet sind — wer sich
+      Zeit lässt oder zwischendurch etwas anderes tut, stand danach ohne
+      Melde-Knopf da, obwohl der Auftrag offen war.
+
+      Gesucht wird die Kennung dieser Seite in allen Erwartungen. Sie ist
+      eindeutig: Sie wurde auf genau einer Trefferliste angekreuzt.
+    */
+    try {
+      for (const [suchUrl, kennungen] of Object.entries(briefkastenErwartungen ?? {})) {
+        if (!Array.isArray(kennungen) || !kennungen.includes(String(schluessel))) continue
+        return { titel: suchliste[suchUrl]?.titel ?? null, url: suchUrl, ausSuche: true }
+      }
+    } catch {
+      /* Ohne Erwartung bleibt es beim Bisherigen. */
+    }
     return { titel: null, url: `https://www.amazon.de/dp/${id}`, unbekannt: true }
   }
 
