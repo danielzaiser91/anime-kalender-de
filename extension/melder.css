@@ -789,17 +789,48 @@
   min-height: 20px;
 }
 
-.ak-such-fuss a {
+/*
+  **Beide Knöpfe der Fußzeile sind dieselbe Pille — nur in anderer Farbe.**
+
+  Sie waren es nicht: Der Prüflisten-Knopf ist ein `<button>`, der aniSearch-
+  Knopf ein `<a>`, und die beiden Regeln dafür standen 60 Zeilen auseinander.
+  Der Knopf trug `line-height: 1.5`, der Link erbte 1.45 vom Kasten; ein
+  Browser gibt einem Button außerdem seine eigene Schrift, wenn niemand sie
+  setzt. Ergebnis: zwei verschieden hohe Pillen nebeneinander (Daniel,
+  02.09.2026, mit Bild: „müssen auf selber höhe etc liegen, sie sind nicht
+  pixelgenau").
+
+  Die Geometrie steht deshalb an **einer** Stelle für beide. Sie kommt aus
+  `min-height` plus senkrechter Zentrierung statt aus `padding` plus
+  `line-height` — dann entscheidet nicht mehr die Schrift über die Höhe, und
+  zwei verschiedene Elementarten können nicht auseinanderlaufen.
+
+  `text-decoration` mit `!important`, weil Amazons eigene Regeln für Links
+  in ihre Seiten hineinreichen: Der Rahmen war gleich, die Unterstreichung
+  blieb.
+*/
+.ak-such-fuss a,
+.ak-such-fuss .ak-uebersicht-innen {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
-  padding: 3px 9px;
-  border: 1px solid rgba(122, 162, 255, 0.5);
+  min-height: 26px;
+  margin: 0;
+  padding: 0 10px;
+  border-width: 1px;
+  border-style: solid;
   border-radius: 6px;
-  color: #7aa2ff;
-  text-decoration: none;
-  font-size: 12px;
+  font: 400 12px/1 "Segoe UI", system-ui, sans-serif;
+  text-decoration: none !important;
   white-space: nowrap;
+}
+
+.ak-such-fuss a {
+  border-color: rgba(122, 162, 255, 0.5);
+  background: rgba(122, 162, 255, 0.1);
+  color: #7aa2ff;
 }
 
 .ak-such-fuss a:hover {
@@ -832,24 +863,16 @@
   daneben — nur grün. Beide sind Wege, keiner ist die Handlung; gleiche Form
   heißt gleiche Bedeutung (Daniel, 02.09.2026).
 */
+/* Die Maße stehen oben bei der gemeinsamen Pille; hier nur, was ihn löst und färbt. */
 .ak-uebersicht-innen {
   position: static;
   right: auto;
   bottom: auto;
   z-index: auto;
-  display: inline-flex;
-  align-items: center;
-  margin: 0;
-  padding: 3px 9px;
-  border: 1px solid rgba(110, 231, 160, 0.5);
-  border-radius: 6px;
+  border-color: rgba(110, 231, 160, 0.5);
   background: rgba(110, 231, 160, 0.1);
   color: #6ee7a0;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.5;
   box-shadow: none;
-  white-space: nowrap;
 }
 
 .ak-uebersicht-innen:hover:not(:disabled) {
@@ -963,18 +986,15 @@
 }
 
 /*
-  **Die Debug-Zeile ist gebaut und aus.**
+  **Die Debug-Zeile ist gebaut und noch sichtbar.**
 
-  Daniel am 02.09.2026: „wir brauchen ihn vielleicht in zukunft wieder, jetzt
-  brauchen wir ihn nicht mehr, mach trotzdem so, wenn das style ok aussieht,
-  dann kann die zeile erstmal hidden werden, bis wir ihn brauchen."
+  Daniel am 02.09.2026: „wenn das style ok aussieht, dann kann die zeile erstmal
+  hidden werden, bis wir ihn brauchen." Das ist eine Reihenfolge — erst ansehen,
+  dann verstecken. Sie sofort auszublenden hat den Schritt übersprungen, den er
+  sich vorbehalten hat, und er musste den Stil trotzdem beurteilen.
 
-  Zum Wiedereinschalten diese eine Regel entfernen — die Zeile selbst, ihre
-  Beschriftung und die Schalter darin bleiben gebaut und getestet.
+  Zum Ausblenden hier `display: none` setzen; alles Übrige bleibt stehen.
 */
-.ak-z-debug {
-  display: none;
-}
 
 .ak-nur-huelle {
   padding: 6px 10px;
@@ -1129,6 +1149,23 @@
   keinen Kasten gibt, entsteht einer als Hülle, sobald ein Knopf etwas zu sagen
   hat.
 */
-.ak-amazon-knopf:not(.ak-amazon-knopf-innen) {
+/*
+  **Was in den Kasten gehört, ist unsichtbar, solange es draußen steht.**
+
+  Beide Knöpfe entstehen beim Seitenaufbau frei am `body` und ziehen im Takt
+  in den Kasten ein. In der Zwischenzeit standen sie an ihren alten Plätzen —
+  unten rechts, also über dem Kasten, der jetzt dort sitzt. Daniel am
+  02.09.2026: „da tauchen alte knöpfe teilweise noch auf bis box ganz geladen
+  ist, dann sind die alten buttons weg … sie sollen gar nicht erst erscheinen."
+
+  Für den Melde-Knopf galt die Regel seit 4.10.33, für den Prüflisten-Knopf
+  nicht — und der ist der auffälligere: Er ist der Erste, der da ist.
+
+  Sie verlieren dadurch nichts. Der Takt baut einen Kasten, sobald einer der
+  beiden etwas zu sagen hat; wo kein Kasten entsteht, soll auch kein Knopf zu
+  sehen sein (Player, 30.08.2026).
+*/
+.ak-amazon-knopf:not(.ak-amazon-knopf-innen),
+.ak-uebersicht:not(.ak-uebersicht-innen) {
   visibility: hidden;
 }

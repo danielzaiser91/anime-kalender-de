@@ -872,7 +872,6 @@ async function speicherSchreiben(werte) {
       */
       const beschriftung = document.createElement('span')
       beschriftung.textContent = 'Ruhemodus für Aufnahmen'
-      leiste.appendChild(beschriftung)
       for (const sch of DEBUG_SCHALTER) {
         const k = document.createElement('button')
         k.type = 'button'
@@ -889,6 +888,12 @@ async function speicherSchreiben(werte) {
         zeigen()
         leiste.appendChild(k)
       }
+      /*
+        Der Schalter zuerst, die Beschriftung dahinter — wie in jeder Zeile
+        dieses Kastens steht links das Bedienbare (Daniel, 02.09.2026:
+        „ruhemodus button muss links sein, text rechts").
+      */
+      leiste.appendChild(beschriftung)
       platz.appendChild(leiste)
     } catch {
       /* Eine Diagnosehilfe darf den Ablauf nie aufhalten. */

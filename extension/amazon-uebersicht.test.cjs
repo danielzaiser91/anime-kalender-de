@@ -1224,6 +1224,43 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
         Haken, den Daniel gerade gesetzt hat, im nächsten halben Takt seinen
         Zustand.
       */
+      /*
+        **Kein Knopf zeigt sich außerhalb des Kastens.**
+
+        Beide entstehen frei am `body` und ziehen im Takt ein; dazwischen
+        standen sie an ihren alten Plätzen und damit über dem Kasten (Daniel,
+        02.09.2026, mit zwei Bildern: „da tauchen alte knöpfe teilweise noch auf
+        bis box ganz geladen ist … sie sollen gar nicht erst erscheinen").
+
+        Die Regel galt für den Melde-Knopf und nicht für den Prüflisten-Knopf —
+        ausgerechnet den, der als Erster da ist. Geprüft wird das Stylesheet,
+        weil dort die Antwort steht.
+      */
+      const css = readFileSync(__dirname + '/melder.css', 'utf8')
+      pruefe(
+        'der Melde-Knopf ist unsichtbar, solange er draußen steht',
+        /\.ak-amazon-knopf:not\(\.ak-amazon-knopf-innen\)/.test(css),
+      )
+      pruefe(
+        'und der Prüflisten-Knopf genauso',
+        /\.ak-uebersicht:not\(\.ak-uebersicht-innen\)/.test(css),
+      )
+      /*
+        **Die beiden Pillen der Fußzeile teilen ihre Maße.**
+
+        Ein `<button>` und ein `<a>` nebeneinander laufen auseinander, sobald
+        jeder seine Höhe selbst aus Schrift und Innenabstand bildet — genau das
+        war zu sehen (Daniel, 02.09.2026: „sie sind nicht pixelgenau"). Steht
+        die Geometrie in einer Regel für beide, kann das nicht mehr passieren.
+      */
+      pruefe(
+        'beide Pillen der Fußzeile stehen in einer Regel',
+        /\.ak-such-fuss a,\s*\.ak-such-fuss \.ak-uebersicht-innen \{/.test(css),
+      )
+      pruefe(
+        'und ihre Höhe hängt nicht an der Schrift',
+        /\.ak-such-fuss a,[\s\S]{0,400}min-height: 26px/.test(css),
+      )
       pruefe(
         'die Inhaltszeile vergleicht ihre Signatur, bevor sie neu füllt',
         /inhalt\.dataset\.signatur === signatur/.test(quelle) && /inhalt\.dataset\.signatur = signatur/.test(quelle),
