@@ -790,11 +790,6 @@
   white-space: nowrap;
 }
 
-.ak-such-fuss a::before {
-  content: '⌕';
-  font-size: 13px;
-}
-
 .ak-such-fuss a:hover {
   border-color: #7aa2ff;
   background: rgba(122, 162, 255, 0.12);
@@ -820,16 +815,43 @@
   Der Übersichts-Knopf im Kasten: kein eigenes Schweben, keine eigene Ecke — er
   ist eine Zeile wie die anderen. Draußen bleibt er unverändert (`.ak-uebersicht`).
 */
+/*
+  Der Prüflisten-Knopf im Kasten trägt dieselbe Form wie der aniSearch-Knopf
+  daneben — nur grün. Beide sind Wege, keiner ist die Handlung; gleiche Form
+  heißt gleiche Bedeutung (Daniel, 02.09.2026).
+*/
 .ak-uebersicht-innen {
   position: static;
   right: auto;
   bottom: auto;
   z-index: auto;
+  display: inline-flex;
+  align-items: center;
   margin: 0;
   padding: 3px 9px;
-  font-size: 11px;
+  border: 1px solid rgba(110, 231, 160, 0.5);
+  border-radius: 6px;
+  background: rgba(110, 231, 160, 0.1);
+  color: #6ee7a0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
   box-shadow: none;
   white-space: nowrap;
+}
+
+.ak-uebersicht-innen:hover:not(:disabled) {
+  border-color: #6ee7a0;
+  background: rgba(110, 231, 160, 0.18);
+  color: #6ee7a0;
+}
+
+/* Eine Zeile ohne Ankreuzfeld ist selbst der Knopf. */
+.ak-such-klickbar { cursor: pointer; }
+
+.ak-such-klickbar:hover {
+  background: rgba(122, 162, 255, 0.14);
+  border-radius: 4px;
 }
 
 /* Die Mitte der Fußzeile — dort steht „Prime: alles geprüft". */
@@ -891,4 +913,31 @@
   margin-top: 0;
   padding-top: 0;
   border-top: none;
+}
+
+/*
+  Der Platzhalter, solange der Briefkasten noch nicht geantwortet hat. Er hält
+  die Höhe, damit der Kasten nicht nachträglich wächst — genau das war am
+  02.09.2026 der Vorwurf: „es soll kein nachträgliches aufploppen passieren."
+*/
+.ak-such-laedt {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 2px;
+  animation: ak-puls 1.2s ease-in-out infinite;
+}
+
+@keyframes ak-puls {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.85; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ak-such-laedt { animation: none; opacity: 0.6; }
 }

@@ -2779,6 +2779,23 @@ async function speicherSchreiben(werte) {
       nur die Zeitgeber, und ESLint hat es gemeldet, bevor es jemand im Browser
       sah.
     */
+    /*
+      **Solange etwas fehlt, sagt der Kasten das — statt es nachzuwerfen.**
+
+      Prüflisten-Knopf und Melde-Knopf entstehen außerhalb und ziehen im Takt
+      ein; der Briefkasten antwortet noch später. Im Video vom 02.09.2026 ist
+      der Kasten deshalb dreimal gewachsen, jedes Mal um eine Zeile — „mehrere
+      elemente ploppen nacheinander auf, es ist sehr unschön".
+
+      Die Fußzeile trägt ihre drei Plätze von Anfang an, und wo noch nichts
+      steht, steht ein Platzhalter mit Puls. Der Kasten hat damit von der ersten
+      Zeichnung an seine Höhe.
+    */
+    const laedt = document.createElement('span')
+    laedt.className = 'ak-such-laedt'
+    laedt.textContent = '···'
+    laedt.title = 'wird geladen'
+    mitte.appendChild(laedt)
     setTimeout(() => {
       const marke = zeile.parentElement?.querySelector('.ak-such-fertig')
       if (marke && marke.parentElement !== links) links.appendChild(marke)
@@ -2791,7 +2808,10 @@ async function speicherSchreiben(werte) {
         keiner verlangt eine Handlung (Daniel, 02.09.2026).
       */
       const uebersicht = zeile.parentElement?.querySelector('.ak-uebersicht')
-      if (uebersicht && uebersicht.parentElement !== mitte) mitte.appendChild(uebersicht)
+      if (uebersicht && uebersicht.parentElement !== mitte) {
+        laedt.remove()
+        mitte.appendChild(uebersicht)
+      }
     }, 0)
     return zeile
   }
@@ -3856,14 +3876,21 @@ async function speicherSchreiben(werte) {
             stand.textContent = fertig ? '✓' : '○'
             stand.title = fertig ? 'gemeldet' : 'noch offen'
             zeile.append(stand, document.createTextNode(' ' + k + (dieseSeite ? ' — diese Seite' : '')))
-            /* Kein Sprung auf die Seite, auf der man steht. */
+            /*
+              **Ohne Ankreuzfeld ist die Zeile selbst der Knopf.**
+
+              Auf der Trefferliste braucht jede Zeile ein Ankreuzfeld — dort wird
+              ausgewählt, und ein Klick auf die Zeile würde die Auswahl umwerfen.
+              Hier gibt es nichts auszuwählen: Die Zeile hat genau einen Zweck,
+              und dafür braucht sie keinen eigenen Knopf daneben (Daniel,
+              02.09.2026).
+
+              Auf die Seite, auf der man steht, führt weiterhin nichts.
+            */
             if (!dieseSeite) {
-              const sprung = document.createElement('a')
-              sprung.className = 'ak-such-sprung'
-              sprung.href = `https://www.amazon.de/gp/video/detail/${k}`
-              sprung.textContent = 'öffnen'
-              sprung.title = `${k} öffnen`
-              sprung.addEventListener('click', (e) => {
+              zeile.classList.add('ak-such-klickbar')
+              zeile.title = `${k} öffnen`
+              zeile.addEventListener('click', (e) => {
                 e.preventDefault()
                 /*
                   **Der Auftrag reist mit — sonst steht die Zielseite ohne da.**
@@ -3882,9 +3909,8 @@ async function speicherSchreiben(werte) {
                 } catch {
                   /* Ohne Merker geht es über die Erwartung — nur langsamer. */
                 }
-                location.href = sprung.href
+                location.href = `https://www.amazon.de/gp/video/detail/${k}`
               })
-              zeile.appendChild(sprung)
             }
             gruppe.appendChild(zeile)
           }
@@ -8135,6 +8161,7 @@ async function speicherSchreiben(werte) {
       const fuss = kasten?.querySelector('.ak-such-fuss-mitte')
       if (fuss && uebersichtKnopf.parentElement !== fuss) {
         uebersichtKnopf.classList.add('ak-uebersicht-innen')
+        fuss.querySelector('.ak-such-laedt')?.remove()
         fuss.appendChild(uebersichtKnopf)
       }
       /*
