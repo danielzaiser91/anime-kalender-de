@@ -1277,11 +1277,26 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
         seiner Beschriftung woanders (Daniel, 02.09.2026: „mach prüfliste button
         50% und links geklemmt, ani search die anderen 50%“).
       */
+      /*
+        **Die Aufteilung wird gemessen, nicht im Stylesheet gesucht.**
+
+        Hier stand eine Zusicherung auf `grid-template-columns: 1fr 1fr`. Sie
+        prüfte das **Wie** statt die **Sache** und wurde rot, als dieselbe
+        Aufteilung auf `flex: 1 1 0` umgestellt wurde — obwohl die Hälften
+        danach genauso gleich waren (03.09.2026).
+
+        Was zählt, misst `npm run check:kasten` in Chromium: gleiche Breite bei
+        zwei Knöpfen, volle Breite bei einem. Eine Textsuche im Stylesheet kann
+        das nicht — sie kennt nur die Schreibweise, die zufällig gerade dort
+        steht.
+      */
+      pruefe('beide Pillen füllen ihren Platz', /width: 100%/.test(pillenBlock))
       pruefe(
-        'die Fußzeile teilt sich in zwei gleiche Hälften',
-        /\.ak-such-fuss \{[^}]*grid-template-columns: 1fr 1fr/s.test(css),
+        'die Aufteilung der Fußzeile wird in check:kasten gemessen',
+        readFileSync(__dirname + '/../tools/melder-kasten-bild.mjs', 'utf8').includes(
+          'ohne aniSearch nimmt der Prüflisten-Knopf die ganze Zeile',
+        ),
       )
-      pruefe('und beide Pillen füllen ihre Hälfte', /width: 100%/.test(pillenBlock))
       pruefe(
         'die Inhaltszeile vergleicht ihre Signatur, bevor sie neu füllt',
         /inhalt\.dataset\.signatur === signatur/.test(quelle) && /inhalt\.dataset\.signatur = signatur/.test(quelle),
