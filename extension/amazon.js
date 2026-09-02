@@ -6872,7 +6872,17 @@ async function speicherSchreiben(werte) {
         return false
       }
     })()
-    const alleDurch = Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen
+    /*
+      **Und auch hier: eine Seite, die der Briefkasten nicht führt, ist offen.**
+
+      Der dritte von drei Sperrzweigen. Die beiden anderen bekamen `seiteOffen()`
+      am 02.09.2026, dieser blieb — und genau er griff auf der aniverse-Seite:
+      Die Checkliste zeigte ○ (offen), der Knopf daneben „alles gemeldet".
+
+      Ein Riegel, der an zwei von drei Stellen sitzt, ist keiner (dieselbe Lehre
+      wie bei der Wiedervorlage am 01.09.2026).
+    */
+    const alleDurch = Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen && !seiteOffen()
 
     /**
      * Alles durch — dann gibt es hier nichts mehr zu tun.
