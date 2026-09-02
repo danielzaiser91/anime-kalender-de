@@ -2053,6 +2053,22 @@ async function speicherSchreiben(werte) {
 
   function suchauftragMerken(auftrag) {
     try {
+      /*
+        **Ein Klick in der Prüfliste hebt das Weglegen auf — auch beim selben
+        Titel.**
+
+        Der Vermerk hängt an der Auftrags-Kennung. Wer denselben Titel nach dem
+        X noch einmal aus der Liste öffnet, bekam deshalb wieder einen leeren
+        Kasten (Daniel, 02.09.2026: „klick auf bereits gemeldete packt sie nicht
+        mehr in die box"). Seine Vorgabe lautete „bis man den nächsten titel in
+        der prüfliste auswählt" — und ein Klick auf denselben ist genauso eine
+        Auswahl.
+
+        Aufgehoben wird hier, weil **jeder** Weg aus der Liste durch diese
+        Funktion geht: Ein Vorsatz an den Klickstellen wäre bei der dritten
+        vergessen.
+      */
+      sessionStorage.removeItem(WEGGELEGT_SCHLUESSEL)
       sessionStorage.setItem(SUCH_SCHLUESSEL, JSON.stringify({ ...auftrag, zeit: Date.now() }))
     } catch {
       /* Ohne Speicher fällt nur diese Bequemlichkeit aus. */

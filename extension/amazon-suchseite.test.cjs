@@ -95,6 +95,15 @@ function lauf(pfad, suche, { auftrag = null, liste = {}, suchStand = {}, briefka
     sessionStorage: {
       getItem: (k) => speicher[k] ?? null,
       setItem: (k, v) => { speicher[k] = v },
+      /*
+        `removeItem` fehlte, und das kostete mehr als eine Methode: Der Aufruf
+        wirft, die Ausnahme bricht den ganzen `try`-Block ab, und das `setItem`
+        danach läuft nie. Die Zusicherungen meldeten daraufhin „der Suchauftrag
+        wird hinterlegt — gefunden: null" und zeigten damit auf eine Stelle, an
+        der nichts kaputt war (02.09.2026).
+      */
+      removeItem: (k) => { delete speicher[k] },
+      clear: () => { for (const k of Object.keys(speicher)) delete speicher[k] },
     },
     document: {
       documentElement: { innerHTML: '<html></html>' },

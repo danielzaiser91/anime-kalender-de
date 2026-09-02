@@ -136,6 +136,34 @@ const seite = `<!doctype html><meta charset="utf-8">
   </div>
 </div>`
 
+/*
+  **Die zweite Kulisse: die Prüfliste mit eingeblendeten Erledigten.**
+
+  Am 02.09.2026 nahm dort eine Pille die volle Breite ein, und erledigte Zeilen
+  waren blass statt grün (Daniel: „why pill taking full width? shouldnt. also
+  already reported episodes should be colored green"). Beides hing an einer
+  einzigen Regel — `display: grid` an der abgehakten Zeile, übrig aus einer
+  Zeit, in der sie Spalten hatte: In einem Grid mit einer Spalte füllt jedes
+  Kind die ganze Breite, auch eine Pille, die `inline-flex` trägt.
+*/
+const dialogSeite = `<!doctype html><meta charset="utf-8">
+<style>
+  html { background: #0b0e13; }
+  body { margin: 0; font: 13px/1.45 system-ui, sans-serif; }
+  ${amazonRegeln}
+  ${css}
+</style>
+<div class="ak-kasten ak-mit-erledigten" style="width: 760px">
+  <div class="ak-zeile ak-suchzeile ak-abgehakt">
+    <a class="ak-titel" href="#">My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)</a>
+    <span class="ak-folge">✕</span>
+  </div>
+  <div class="ak-zeile ak-suchzeile">
+    <a class="ak-titel" href="#">Is This a Zombie?</a>
+    <span class="ak-folge">12 Folgen</span>
+  </div>
+</div>`
+
 const browser = await chromium.launch()
 const seiteObj = await browser.newPage({ viewport: { width: 520, height: 420 } })
 await seiteObj.setContent(seite)
@@ -200,6 +228,24 @@ const lage = await seiteObj.evaluate(() => {
 })
 
 await seiteObj.screenshot({ path: ziel })
+
+/* Dieselbe Messung für die Prüfliste. */
+const dialogObj = await browser.newPage({ viewport: { width: 800, height: 180 } })
+await dialogObj.setContent(dialogSeite)
+const dialogLage = await dialogObj.evaluate(() => {
+  const zeile = document.querySelector('.ak-zeile.ak-abgehakt')
+  const pille = zeile?.querySelector('.ak-folge')
+  const titel = zeile?.querySelector('.ak-titel')
+  if (!zeile || !pille) return null
+  return {
+    zeileBreite: Math.round(zeile.getBoundingClientRect().width),
+    pilleBreite: Math.round(pille.getBoundingClientRect().width),
+    zeileDisplay: getComputedStyle(zeile).display,
+    titelFarbe: titel ? getComputedStyle(titel).color : '—',
+    deckkraft: getComputedStyle(zeile).opacity,
+  }
+})
+await dialogObj.screenshot({ path: ziel.replace(/\.png$/, '-pruefliste.png') })
 await browser.close()
 
 const g = (b) => (b ? '  ok   ' : '  FEHL ')
@@ -246,6 +292,25 @@ pruefe(
 pruefe(
   lage.weg && Math.abs(lage.weg.zeichenOben - lage.weg.zeichenUnten) <= 1,
   `… wie senkrecht (${lage.weg?.zeichenOben}/${lage.weg?.zeichenUnten})`,
+)
+
+console.log('\nPrüfliste — erledigte Zeile')
+console.log(`  Zeile ${dialogLage?.zeileBreite} px (${dialogLage?.zeileDisplay}), Pille ${dialogLage?.pilleBreite} px`)
+console.log(`  Titelfarbe ${dialogLage?.titelFarbe}, Deckkraft ${dialogLage?.deckkraft}\n`)
+
+/*
+  Eine Pille sagt „so viele Folgen" — sie ist eine Angabe, keine Fläche. Nimmt
+  sie die ganze Zeile ein, sieht sie aus wie ein Balken und verdeckt, dass
+  daneben noch etwas stehen könnte.
+*/
+pruefe(
+  dialogLage && dialogLage.pilleBreite < dialogLage.zeileBreite * 0.5,
+  `die Pille ist so breit wie ihr Inhalt (${dialogLage?.pilleBreite} von ${dialogLage?.zeileBreite} px)`,
+)
+pruefe(dialogLage && dialogLage.deckkraft === '1', 'eine erledigte Zeile ist nicht blass')
+pruefe(
+  dialogLage && dialogLage.titelFarbe === 'rgb(110, 231, 160)',
+  `… sondern grün (${dialogLage?.titelFarbe})`,
 )
 
 console.log(`\nBild: ${ziel}`)

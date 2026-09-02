@@ -295,8 +295,43 @@
    Kopf sichtbar. Es ganz zu löschen wäre falsch — wer eine Staffel doppelt
    prüft, soll sehen, dass sie schon durch ist. */
 .ak-zeile.ak-abgehakt { display: none; }
-.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt { display: grid; opacity: .45; }
-.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt:hover { opacity: .8; }
+
+/*
+  **Erledigt heißt grün, nicht blass — und `block`, nicht `grid`.**
+
+  Zwei Fehler in einer Zeile, beide von Daniel am 02.09.2026 gemeldet: „why
+  pill taking full width? shouldnt. also already reported episodes should be
+  colored green."
+
+  Das `display: grid` stammt aus einer Zeit, in der die Zeile Spalten hatte.
+  Heute ist sie ein `block` wie jede andere — und in einem Grid mit einer Spalte
+  füllt jedes Kind die ganze Breite, auch eine Pille, die `inline-flex` trägt.
+  Die halbe Sekunde, die das Nachsehen im Stylesheet gekostet hat, hätte ich
+  vorher aufwenden sollen statt am Element zu suchen.
+
+  Und `opacity: .45` sagt „unwichtig", nicht „geschafft". Wer die Erledigten
+  einblendet, will sehen, was er hinter sich hat — dieselbe Farbe, die im
+  Kasten „gemeldet ✓" trägt.
+*/
+.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt {
+  display: block;
+  opacity: 1;
+  background: rgba(31, 157, 85, 0.08);
+}
+
+.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt .ak-titel {
+  color: #6ee7a0;
+}
+
+.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt .ak-folge {
+  border-color: rgba(31, 157, 85, 0.45);
+  background: rgba(31, 157, 85, 0.12);
+  color: #6e9e78;
+}
+
+.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt:hover {
+  background: rgba(31, 157, 85, 0.16);
+}
 
 .ak-umschalter {
   flex: 0 0 auto;
