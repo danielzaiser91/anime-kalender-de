@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-02T09:45:36.006Z",
+  "stand": "2026-09-02T10:01:40.617Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6762,36 +6762,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 170083,
-      "titel": "Dragon Ball Daima",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GG5H5XQ35/dragon-ball-daima",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": false
-    },
-    {
-      "titleId": 170083,
-      "titel": "Dragon Ball Daima",
-      "plattform": "netflix",
-      "url": "https://www.netflix.com/title/81943491",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": false
-    },
-    {
-      "titleId": 170083,
-      "titel": "Dragon Ball Daima",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/1239-dragon-ball-daima",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": false
-    },
-    {
       "titleId": 170695,
       "titel": "I Parry Everything!",
       "plattform": "adn",
@@ -6866,16 +6836,6 @@
       "titel": "Beheneko: Ich bin ein mächtiger Behemoth und lebe als Kätzchen bei einer Elfe",
       "plattform": "primevideo",
       "url": "https://www.amazon.de/dp/B0DNG43HF4",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 176276,
-      "titel": "Demon Slave: Staffel 2",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/1125-demon-slave?s=2",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7012,16 +6972,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 185262,
-      "titel": "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/1350-hell-mode-the-hardcore-gamer-dominates-in-another-world-with-garbage-balancing",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": false
-    },
-    {
       "titleId": 185874,
       "titel": "Bleach: Thousand-Year Blood War - The Calamity",
       "plattform": "disneyplus",
@@ -7066,26 +7016,6 @@
       "titel": "Das Band der Unterwelt",
       "plattform": "netflix",
       "url": "https://www.netflix.com/title/82719204",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": false
-    },
-    {
-      "titleId": 197824,
-      "titel": "Farming Life in Another World 2",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/1008-farming-life-in-another-world",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 198113,
-      "titel": "Kill Blue",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GT00371896/kill-blue",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,

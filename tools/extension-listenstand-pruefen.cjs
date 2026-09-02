@@ -29,38 +29,28 @@ const pruefe = (bedingung, text) => {
 
 console.log('Listenstand der Erweiterung')
 
-/* 1. Die Standdatei gibt es, und sie trägt einen Zeitstempel. */
+/* 1. Die Standdatei gibt es, und sie trägt eine Prüfsumme. */
 const standDatei = 'extension/offene-amazon-stand.js'
 pruefe(existsSync(join(wurzel, standDatei)), `${standDatei} vorhanden`)
 const stand = existsSync(join(wurzel, standDatei)) ? lies(standDatei) : ''
-const zeit = stand.match(/"(\d{4}-\d{2}-\d{2}T[^"]+)"/)?.[1] ?? null
-pruefe(!!zeit, `trägt einen Zeitstempel (${zeit ?? '—'})`)
+const summe = stand.match(/"([0-9a-f]{8,})"/)?.[1] ?? null
+pruefe(!!summe, `trägt eine Prüfsumme (${summe ?? '—'})`)
 
 /*
-  2. Er darf nicht **neuer** sein als der gebaute Datensatz — das wäre unmöglich
-     und hieße, dass jemand die Datei von Hand angefasst hat.
+  2. Sie stimmt mit der ausgelieferten überein.
 
-  **Gleichheit zu verlangen war falsch, und zwar am selben Tag zum zweiten Mal.**
-  Die erste Fassung prüfte `zeit === meta.generatedAt`. Das gilt nur in dem
-  Moment, in dem der Erzeuger gerade gelaufen ist — der Deploy prüft aber **vor**
-  dem Bau, mit dem committeten Stand, und der stammt aus dem vorigen Lauf. Am
-  02.09.2026 um 09:51 stand der Deploy still: meta.json von 09:45, Listenstand
-  von 08:53.
+  **Hier ist Gleichheit richtig**, anders als bei der ersten Fassung dieser
+  Prüfung: Beide Werte entstehen im **selben** Schritt aus demselben Inhalt
+  (`tools/extension-offene-amazon.mjs`). Weichen sie ab, hat jemand eine der
+  beiden Dateien angefasst, ohne die andere nachzuziehen — und dann meldet die
+  Erweiterung dauerhaft „veraltet".
 
-  Ein Rückstand ist hier kein Fehler, sondern der Normalzustand zwischen zwei
-  Läufen — und genau der Fall, für den der „veraltet"-Hinweis in der Erweiterung
-  gebaut ist. Sie vergleicht ohnehin gegen die **Live-Seite**, nicht gegen diese
-  Datei.
-
-  Dieselbe Lehre wie bei der Rohfolgen-Zusicherung drei Stunden vorher: Eine
-  Prüfung, die am Tagesstand hängt, wird rot, weil die Welt weitergelaufen ist,
-  nicht weil etwas kaputt ist (CLAUDE.md, 25.08.2026).
+  Die alte Fassung verglich stattdessen `meta.generatedAt`, das sich stündlich
+  ändert, während die Prüfliste gleich bleibt. Das ist der Unterschied zwischen
+  zwei Werten, die zusammen geschrieben werden, und zweien, die es nicht sind.
 */
-const meta = JSON.parse(lies('public/data/meta.json'))
-pruefe(
-  !zeit || !meta.generatedAt || Date.parse(zeit) <= Date.parse(meta.generatedAt),
-  `ist nicht neuer als meta.json (${meta.generatedAt})`,
-)
+const geliefert = JSON.parse(lies('public/data/pruefliste-stand.json'))
+pruefe(summe === geliefert.amazon, `stimmt mit der ausgelieferten überein (${geliefert.amazon})`)
 
 /*
   3. Die Prüfliste selbst bleibt unberührt: genau eine Zuweisung, und der Rest
@@ -92,8 +82,8 @@ pruefe(geladenIm, 'das Manifest lädt sie zusammen mit amazon.js')
 const code = lies('extension/amazon.js')
 pruefe(code.includes('AK_OFFENE_AMAZON_STAND'), 'amazon.js liest den Stand')
 pruefe(
-  code.includes('anime-kalender.de/data/meta.json'),
-  'amazon.js hält ihn gegen meta.json der Live-Seite',
+  code.includes('anime-kalender.de/data/pruefliste-stand.json'),
+  'amazon.js hält sie gegen die ausgelieferte Prüfsumme',
 )
 pruefe(
   manifest.host_permissions?.some((h) => h.includes('anime-kalender.de')),

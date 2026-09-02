@@ -31,6 +31,7 @@
  * Das npm-Skript ruft beide auf, dazu die Vorschläge und die Wiedervorlage.
  */
 import { readFileSync, writeFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -678,11 +679,42 @@ writeFileSync(
   Rest als JSON, und `fetch-pruefungen.ts` wie `report-start.ts` schneiden
   zwischen der ersten und der letzten geschweiften Klammer. Eine Datei mit genau
   einem Wert darin ist der billigere Weg als drei angepasste Leser.
+
+  **Und der Wert ist eine Prüfsumme der Liste, nicht der Datenstand.**
+  Die erste Fassung nahm `meta.generatedAt`, und das war ein Fehlalarm-Generator:
+  Der Datensatz wird stündlich neu gebaut, die Prüfliste ändert sich dabei fast
+  nie. Zwölf Minuten nach dem Neuladen stand bei Daniel schon wieder
+  „Prime-Liste veraltet" auf dem Bildschirm (02.09.2026) — obwohl seine Liste
+  Zeichen für Zeichen die aktuelle war.
+
+  Eine Warnung, die zuverlässig zu Unrecht kommt, ist schlimmer als keine: Man
+  hört auf hinzusehen, und die echte geht darin unter (dieselbe Lehre wie bei der
+  Vier-Tage-Frist, CLAUDE.md 16.08.2026).
+
+  Verglichen wird deshalb, was sich wirklich ändern muss: der **Inhalt**. Die
+  Prüfsumme steht auch in `meta.json`, damit die Erweiterung sie von der
+  Live-Seite holen kann.
 */
-const meta = JSON.parse(readFileSync(resolve(wurzel, 'public/data/meta.json'), 'utf8'))
+const listenInhalt = 'globalThis.AK_OFFENE_AMAZON = ' + JSON.stringify(offen) + '\n'
+const pruefsumme = createHash('sha256').update(listenInhalt).digest('hex').slice(0, 16)
 writeFileSync(
   resolve(wurzel, 'extension/offene-amazon-stand.js'),
-  'globalThis.AK_OFFENE_AMAZON_STAND = ' + JSON.stringify(meta.generatedAt ?? null) + '\n',
+  'globalThis.AK_OFFENE_AMAZON_STAND = ' + JSON.stringify(pruefsumme) + '\n',
+)
+/*
+  Dieselbe Prüfsumme in eine eigene ausgelieferte Datei — nur von der Live-Seite
+  kommt die Erweiterung an einen Vergleichswert heran.
+
+  **Eigene Datei, nicht `meta.json`.** Der erste Versuch hängte das Feld dort an
+  und schrieb die Datei mit `JSON.stringify(meta)` zurück — ohne Einrückung.
+  Das ergab 490 geänderte Zeilen für ein hinzugefügtes Feld und hätte `git blame`
+  für die Datei unbrauchbar gemacht; dieselbe Falle wie bei Prettier (CLAUDE.md,
+  29.08.2026). Eine eigene Datei mit einem Wert darin kostet einen Abruf von
+  vierzig Byte und fasst nichts an, was jemand anderes schreibt.
+*/
+writeFileSync(
+  resolve(wurzel, 'public/data/pruefliste-stand.json'),
+  JSON.stringify({ amazon: pruefsumme }, null, 2) + '\n',
 )
 const eintraege = Object.values(offen).reduce((n, o) => n + o.eintraege.filter((e) => e.offen).length, 0)
 console.log(`${Object.keys(offen).length} Amazon-Adressen mit ${eintraege} offenen Einträgen`)

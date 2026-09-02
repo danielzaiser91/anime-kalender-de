@@ -1702,9 +1702,16 @@ async function speicherSchreiben(werte) {
    * zählte ihn als offen, und der Knopf meldete „alles geprüft". Beide hatten
    * recht — nur aus verschiedenen Ständen, und nichts sagte es.
    *
-   * Verglichen wird der Datenstand, den der Bau in die Liste geschrieben hat,
-   * gegen den der Live-Seite. Einmal je Stunde, denn er ändert sich nicht öfter;
-   * ein Fehlschlag bleibt folgenlos — dann steht dort eben kein Hinweis.
+   * Verglichen wird eine **Prüfsumme der Prüfliste** gegen die der Live-Seite.
+   * Einmal je Stunde; ein Fehlschlag bleibt folgenlos — dann steht dort eben kein
+   * Hinweis.
+   *
+   * **Nicht der Datenstand.** Die erste Fassung verglich `meta.generatedAt`, und
+   * das war ein Fehlalarm-Generator: Der Datensatz wird stündlich neu gebaut, die
+   * Prüfliste ändert sich dabei fast nie. Zwölf Minuten nach dem Neuladen stand
+   * bei Daniel wieder „Prime-Liste veraltet" auf dem Bildschirm (02.09.2026) —
+   * bei einer Liste, die Zeichen für Zeichen die aktuelle war. Eine Warnung, die
+   * zuverlässig zu Unrecht kommt, ist schlimmer als keine.
    */
   const STAND_FRIST_MS = 60 * 60 * 1000
   let listeVeraltet = false
@@ -1716,11 +1723,19 @@ async function speicherSchreiben(werte) {
     if (Date.now() - standGeprueftAm < STAND_FRIST_MS) return
     standGeprueftAm = Date.now()
     try {
-      const antwort = await fetch('https://anime-kalender.de/data/meta.json', { cache: 'no-store' })
+      const antwort = await fetch('https://anime-kalender.de/data/pruefliste-stand.json', { cache: 'no-store' })
       if (!antwort.ok) return
       const daten = await antwort.json()
-      if (!daten?.generatedAt) return
-      listeVeraltet = String(daten.generatedAt) !== String(eigener)
+      /*
+        **Verglichen wird die Prüfliste, nicht der Datenstand.**
+
+        `generatedAt` ändert sich stündlich mit jedem Bau; die Prüfliste ändert
+        sich fast nie. Die erste Fassung verglich den Datenstand und meldete
+        deshalb zwölf Minuten nach dem Neuladen wieder „veraltet" — bei einer
+        Liste, die Zeichen für Zeichen die aktuelle war.
+      */
+      if (!daten?.amazon) return
+      listeVeraltet = String(daten.amazon) !== String(eigener)
     } catch {
       /* Kein Netz, keine Aussage — der Hinweis bleibt weg, statt falsch zu sein. */
     }
