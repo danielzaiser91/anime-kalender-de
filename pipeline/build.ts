@@ -38,7 +38,7 @@ import {
 } from './lib/adn.ts'
 import { beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
-import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
+import { clearDir, discSlug, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
 import { SYNOPSIS_GROUPS } from '../shared/types.ts'
 import type {
   DataMeta,
@@ -3173,7 +3173,14 @@ function main(): void {
       const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? `Titel ${t.titleId}`
       const adresse = title.streams.find((x) => x.platform === 'crunchyroll')?.url
       releases.push({
-        slug: slugify(`${name}-crunchyroll-de-${t.firstEpisodeDate}`),
+        /*
+          `slugify` allein kappt bei 80 Zeichen — bei einem langen Titel frisst
+          das genau das Datum, und zwei Staffeln derselben Serie (hier: „…7th
+          Prince…“ Staffel 1 und 2) landen auf derselben Adresse. Dieselbe
+          Ursache wie bei `discSlug` für Disc-Termine (siehe dort); hier greift
+          `discSlug` aus demselben Grund: Er kappt den Namen, nie das Datum.
+        */
+        slug: discSlug(`${name}-crunchyroll-de`, t.firstEpisodeDate),
         titleId: t.titleId,
         name,
         platform: 'crunchyroll',
