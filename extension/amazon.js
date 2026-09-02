@@ -2576,6 +2576,11 @@ async function speicherSchreiben(werte) {
       const uebersicht = document.querySelector('.ak-uebersicht')
       if (uebersicht) {
         uebersicht.classList.add('ak-uebersicht-innen')
+        /*
+          Ans Kastenende — die Fußzeile holt ihn von dort in ihre Mitte, sobald
+          sie steht (siehe kastenFuss). Zwei Schritte, weil der Kasten seine
+          Zeilen der Reihe nach bekommt und die Fußzeile die letzte ist.
+        */
         kasten.appendChild(uebersicht)
       }
     } catch {
@@ -2693,7 +2698,10 @@ async function speicherSchreiben(werte) {
     zeile.className = 'ak-such-fuss'
     const links = document.createElement('span')
     links.className = 'ak-such-fuss-links'
-    zeile.append(links, rechts)
+    /* Der mittlere Platz — dorthin zieht der Übersichts-Knopf (siehe unten). */
+    const mitte = document.createElement('span')
+    mitte.className = 'ak-such-fuss-mitte'
+    zeile.append(links, mitte, rechts)
     /*
       Nach dem Anhängen umziehen — der Kasten ist dann vollständig.
 
@@ -2704,6 +2712,16 @@ async function speicherSchreiben(werte) {
     setTimeout(() => {
       const marke = zeile.parentElement?.querySelector('.ak-such-fertig')
       if (marke && marke.parentElement !== links) links.appendChild(marke)
+      /*
+        **„Prime: alles geprüft" steht zwischen den beiden, nicht darunter.**
+
+        Er stand zuerst außerhalb des Kastens, dann als eigene Zeile darin — und
+        beides sah aus wie ein dritter Absatz. Er gehört in dieselbe Zeile wie
+        die Marke und der aniSearch-Knopf: alle drei sagen etwas über den Stand,
+        keiner verlangt eine Handlung (Daniel, 02.09.2026).
+      */
+      const uebersicht = zeile.parentElement?.querySelector('.ak-uebersicht')
+      if (uebersicht && uebersicht.parentElement !== mitte) mitte.appendChild(uebersicht)
     }, 0)
     return zeile
   }

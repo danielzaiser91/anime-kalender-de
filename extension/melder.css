@@ -825,9 +825,18 @@
   right: auto;
   bottom: auto;
   z-index: auto;
-  display: block;
-  width: 100%;
-  margin-top: 8px;
+  margin: 0;
+  padding: 3px 9px;
+  font-size: 11px;
   box-shadow: none;
-  text-align: left;
+  white-space: nowrap;
+}
+
+/* Die Mitte der Fußzeile — dort steht „Prime: alles geprüft". */
+.ak-such-fuss-mitte {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-width: 0;
 }
