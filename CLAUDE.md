@@ -2016,6 +2016,19 @@ hält das Werkzeug die Klassennamen gegen `amazon.js` und bricht ab, wenn eine
 fehlt — ein Bild von einer Struktur, die es nicht mehr gibt, ist schlimmer als
 keines: Es sieht richtig aus und misst etwas anderes.
 
+**Die Kulisse trägt Amazons Regeln mit — sonst misst sie den eigenen Stil, nicht
+das Ergebnis.** Der erste Lauf meldete einen sauber zentrierten aniSearch-Knopf,
+während sein Text auf der echten Seite linksbündig klebte (Daniel, mit Bild):
+Amazon setzt für `a` unter anderem `display: inline` und `text-align: left`, mit
+höherer Spezifität als eine Klassenregel — und wo unser `display: flex`
+verliert, wirkt `justify-content` gar nicht mehr. Seitdem stellt das Werkzeug
+diese Regeln nach, und die Zusicherung misst den **Textknoten** statt des
+Rahmens: Ohne Fix meldet sie „links 11, rechts 89“, mit Fix 50/50.
+
+Daraus die allgemeine Form: **Ein Stil, der in einer fremden Seite leben muss,
+wird gegen deren Regeln geprüft, nicht im luftleeren Raum.** Was nur in der
+eigenen Kulisse funktioniert, ist nicht geprüft, sondern nur vorgeführt.
+
 Was es **nicht** ersetzt: alles, was an echten Seitendaten hängt —
 Folgenzählung, Tonspuren, Briefkasten. Dafür bleibt Daniels Sitzung die
 einzige Messstelle.

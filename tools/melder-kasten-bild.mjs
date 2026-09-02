@@ -57,10 +57,35 @@ if (fehlend.length) {
   process.exit(1)
 }
 
+/*
+  **Amazons eigene Regeln gehören in die Kulisse.**
+
+  Der erste Anlauf zeigte einen sauber zentrierten aniSearch-Knopf — auf der
+  echten Seite klebte sein Text links (Daniel, 02.09.2026, mit Bild). Eine
+  Kulisse ohne das fremde Stylesheet misst den **eigenen** Stil, nicht das
+  Ergebnis: Amazon setzt für `a` unter anderem `display: inline` und
+  `text-align: left`, und wo unser `display: flex` verliert, wirkt
+  `justify-content` gar nicht mehr.
+
+  Nachgestellt wird deshalb, was erfahrungsgemäß hineinreicht — mit **höherer
+  Spezifität** als unsere Klassenregel, so wie es dort auch der Fall ist. Was
+  hier durchgeht, geht auch auf der Seite durch.
+*/
+const amazonRegeln = `
+  body a, body a:link, body a:visited {
+    display: inline;
+    text-align: left;
+    text-decoration: underline;
+    color: #0066c0;
+    line-height: 19px;
+  }
+`
+
 const seite = `<!doctype html><meta charset="utf-8">
 <style>
   html { background: #0b0e13; }
   body { margin: 0; min-height: 420px; font: 13px/1.45 system-ui, sans-serif; }
+  ${amazonRegeln}
   ${css}
 </style>
 <div class="ak-amazon-suchhinweis">
@@ -112,8 +137,23 @@ const lage = await seiteObj.evaluate(() => {
     link: r(link) && { x: Math.round(r(link).x - k.x), breite: Math.round(r(link).width), y: Math.round(r(link).y - k.y) },
     fertig: r(fertig) && { breite: Math.round(r(fertig).width), hoehe: Math.round(r(fertig).height) },
     leererPlatz: platz ? getComputedStyle(platz).display : '—',
-    linkTextMittig:
-      link && Math.abs((r(link).x + r(link).width / 2) - (link.getBoundingClientRect().x + link.offsetWidth / 2)) < 1,
+    /*
+      **Der Text in der Pille, nicht die Pille.** Gemessen wird der Kasten des
+      Textknotens selbst — nur so fällt auf, dass er linksbündig steht, während
+      sein Rahmen die halbe Breite einnimmt.
+    */
+    linkText: (() => {
+      if (!link || !link.firstChild) return null
+      const bereich = document.createRange()
+      bereich.selectNodeContents(link)
+      const t = bereich.getBoundingClientRect()
+      const l = r(link)
+      return {
+        linksAbstand: Math.round(t.x - l.x),
+        rechtsAbstand: Math.round(l.right - t.right),
+      }
+    })(),
+    linkDisplay: link ? getComputedStyle(link).display : '—',
   }
 })
 
@@ -142,6 +182,17 @@ pruefe(
 )
 pruefe(lage.fertig && lage.fertig.breite > lage.kastenBreite * 0.8, '„gemeldet ✓" nimmt die volle Breite')
 pruefe(lage.fertig && lage.fertig.hoehe >= 28, '… mit fester Höhe statt Innenabstand')
+/*
+  Die beiden Zusicherungen, die den Fall vom 02.09.2026 halten: Unser `display`
+  muss sich gegen Amazons `inline` durchsetzen, und der Text muss mittig in
+  seiner Pille stehen — gleicher Abstand links wie rechts, zwei Pixel Toleranz
+  für die Rundung.
+*/
+pruefe(lage.linkDisplay === 'flex', 'die Pille bleibt ein Flex-Container, auch gegen Amazons Regeln')
+pruefe(
+  lage.linkText && Math.abs(lage.linkText.linksAbstand - lage.linkText.rechtsAbstand) <= 2,
+  `der aniSearch-Text steht mittig (links ${lage.linkText?.linksAbstand}, rechts ${lage.linkText?.rechtsAbstand})`,
+)
 
 console.log(`\nBild: ${ziel}`)
 if (!existsSync(ziel)) {

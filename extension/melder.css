@@ -850,10 +850,28 @@
     saß dann nicht mittig in seiner Hälfte (Daniel, 02.09.2026: „ani search
     text ist nicht zentriert, prüfliste button sitzt komisch“).
   */
-  display: flex;
+  /*
+    **Beide Zentrierungen, weil Amazon `display` überschreiben kann.**
+
+    `justify-content` wirkt nur, solange die Pille wirklich ein Flex-Container
+    ist. Auf der echten Seite blieb der aniSearch-Text trotzdem linksbündig
+    (Daniel, 02.09.2026, mit Bild): Amazons eigene Regeln für `a` reichen in
+    unsere Elemente hinein, und wo `display: flex` verliert, entscheidet
+    `text-align`.
+
+    Beides zusammen ist unabhängig davon, welches `display` gewinnt — dieselbe
+    Überlegung wie beim `!important` an `text-decoration` eine Zeile tiefer,
+    das aus demselben Grund dort steht.
+
+    **Und meine Prüfkulisse hat es nicht gefangen**, weil sie Amazons Stylesheet
+    nicht kennt. Sie stellt seitdem beide Lagen nach; siehe
+    `tools/melder-kasten-bild.mjs`.
+  */
+  display: flex !important;
   width: 100%;
   align-items: center;
   justify-content: center;
+  text-align: center;
   gap: 5px;
   min-height: 26px;
   margin: 0;
