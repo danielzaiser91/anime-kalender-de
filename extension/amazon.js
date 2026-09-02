@@ -4967,7 +4967,7 @@ async function speicherSchreiben(werte) {
         woran es liegt.
       */
       for (const [url, e] of suchZeilen.sort((a, b) => {
-        const d = Number(Boolean(suchErledigt[a[0]])) - Number(Boolean(suchErledigt[b[0]]))
+        const d = Number(istGemeldet(a[0])) - Number(istGemeldet(b[0]))
         if (d) return d
         const u = Number(Boolean(a[1].unsicher)) - Number(Boolean(b[1].unsicher))
         if (u) return u
@@ -4975,7 +4975,18 @@ async function speicherSchreiben(werte) {
       })) {
         const zeile = document.createElement('div')
         zeile.className = 'ak-zeile ak-suchzeile'
-        if (suchErledigt[url]) zeile.classList.add('ak-abgehakt')
+        /*
+          **Ausgeblendet wird, was wirklich erledigt ist — nicht, was lokal abgehakt wurde.**
+
+          `.ak-abgehakt` blendet die Zeile ganz aus (`display: none`). Sie hing am
+          lokalen Vermerk, und der steht auch dann, wenn erst eine von zwei
+          angekreuzten Ausgaben gemeldet ist: Die Liste zählte "1 von 1 offen"
+          und zeigte nichts (Daniel, 02.09.2026: "wo ist der listeneintrag?").
+
+          `istGemeldet` ist dieselbe Quelle, aus der der Zähler kommt — damit
+          sagen Zahl und Liste dasselbe.
+        */
+        if (istGemeldet(url)) zeile.classList.add('ak-abgehakt')
 
         const verweis = document.createElement('a')
         verweis.className = 'ak-titel'
