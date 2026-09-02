@@ -884,16 +884,56 @@ async function speicherSchreiben(werte) {
     }
   }
 
+  /**
+   * **Der Ruhemodus überlebt das Neuladen.**
+   *
+   * Er ist für Aufnahmen da, und eine Aufnahme führt über mehrere Seiten: Suche,
+   * Titelseite, zurück. Musste man ihn nach jedem Wechsel neu einschalten, war
+   * das erste Bild jeder Seite wieder voller Videorauschen (Daniel, 02.09.2026:
+   * „muss sich den an/aus zustand merken und bei reload etc direkt anspringen").
+   *
+   * Gespeichert wird in `chrome.storage.local` — er gilt für alle Tabs, und das
+   * ist gewollt: Wer aufnimmt, wechselt zwischen ihnen. Das ist kein Datenstand,
+   * sondern eine Werkzeug-Einstellung; die Regel „kein localStorage für
+   * gemeldet/nicht gemeldet" ist davon nicht berührt.
+   */
+  function ruhigSetzen(an) {
+    try {
+      document.documentElement.classList.toggle('ak-ruhig', an)
+      if (an) {
+        for (const v of document.querySelectorAll('video')) {
+          try {
+            v.pause()
+          } catch {
+            /* Ein Player, der sich nicht anhalten lässt, ist kein Grund abzubrechen. */
+          }
+        }
+      }
+    } catch {
+      /* Ohne Dokument gibt es nichts zu beruhigen. */
+    }
+  }
+
+  /*
+    Beim Aufbau wiederherstellen. Das läuft vor dem ersten Zeichnen, damit der
+    Hintergrund gar nicht erst anläuft.
+  */
+  try {
+    void Promise.resolve(chrome.storage.local.get('akRuhig')).then((x) => {
+      if (x?.akRuhig) ruhigSetzen(true)
+    })
+  } catch {
+    /* Ohne Speicher startet er aus — der Schalter bleibt trotzdem bedienbar. */
+  }
+
   /* Der Sandkasten der Zusicherungen kennt kein `addEventListener` am Dokument. */
   document.addEventListener?.('ak-ruhig', () => {
-    const an = document.documentElement.classList.toggle('ak-ruhig')
-    /* Laufende Videos anhalten — CSS allein stoppt sie nicht, es versteckt sie nur. */
-    for (const v of document.querySelectorAll('video')) {
-      try {
-        if (an) v.pause()
-      } catch {
-        /* Ein Player, der sich nicht anhalten lässt, ist kein Grund abzubrechen. */
-      }
+    const an = !(document.documentElement?.classList?.contains('ak-ruhig') ?? false)
+    ruhigSetzen(an)
+    try {
+      void chrome.storage.local.set({ akRuhig: an })
+    } catch {
+      /* Ohne Speicher gilt er nur für diese Seite. */
     }
     console.log('[Anime-Kalender] Ruhemodus ' + (an ? 'an' : 'aus') + ' — Hintergrund steht still.')
   })
