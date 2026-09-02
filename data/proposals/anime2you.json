@@ -1,6 +1,146 @@
 {
-  "scrapedAt": "2026-09-01T09:25:55.909Z",
+  "scrapedAt": "2026-09-02T08:48:54.660Z",
   "proposals": [
+    {
+      "articleTitle": "Netflix entfernt acht Anime-Titel aus seinem Programm",
+      "articleUrl": "https://www.anime2you.de/news/1045817/netflix-entfernt-quintuplets-und-mehr/",
+      "publishedAt": "2026-09-01",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-09-12",
+          "context": "m. Wir fassen die Details nachfolgend zusammen. Acht Anime-Abgänge Am 12. September 2026 wird »Kabaneri of the Iron Fortress: The Battle of"
+        },
+        {
+          "iso": "2026-09-30",
+          "context": "le of Unato« aus dem Angebot von Netflix entfernt. Bis einschließlich 30. September 2026 stehen zudem noch die Anime-Serien »Death Note« und"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "30 Blu-ray-Termine von Crunchyroll und AniMoon verschoben",
+      "articleUrl": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "publishedAt": "2026-09-01",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "pause": "verschoben",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Detektiv Conan« erscheint als 30th Anniversary Edition auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1044465/detektiv-conan-30th-anniversary-edition/",
+      "publishedAt": "2026-09-01",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-18",
+          "context": "Dezember 2026 Die erste »Detektiv Conan«-Box kommt voraussichtlich am 18. Dezember 2026 in einer »30th Anniversary Edition« erneut auf DVD u"
+        },
+        {
+          "month": "2026-12",
+          "context": "niversary Edition« veröffentlichen wird. Wir fassen zusammen. Release im Dezember 2026 Die erste »Detektiv Conan«-Box kommt voraussichtlich"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Fantasy-Donghua »Lord of Mysteries« erscheint auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1044052/lord-of-mysteries-erscheint-auf-blu-ray/",
+      "publishedAt": "2026-09-01",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "fentlichen wird. Wir fassen die Details nachfolgend zusammen. Release im November 2026 Die Blu-ray-Komplettbox der ersten »Lord of Mysteries"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Limitierte Steelcase-Edition von »DAN DA DAN« zum Sonderpreis",
+      "articleUrl": "https://www.anime2you.de/news/1045863/animoon-monatsangebot-dan-da-dan/",
+      "publishedAt": "2026-09-01",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-09-30",
+          "context": "»DAN DA DAN« zum Sonderpreis auf Blu-ray. Nur in diesem Monat Bis zum 30. September 2026 verkauft AniMoon Publishing die erste Staffel von »"
+        },
+        {
+          "month": "2026-09",
+          "context": "Sonderpreis AniMoon Publishing hat ein neues Monatsangebot gestartet: Im September 2026 gibt es die erste Staffel von »DAN DA DAN« zum Sonde"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Miss Kobayashi’s Dragon Maid« erscheint als Steelbook-Edition",
+      "articleUrl": "https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/",
+      "publishedAt": "2026-09-01",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-06",
+          "context": "2026 Beide Staffeln von »Miss Kobayashi’s Dragon Maid« erscheinen am 6. November 2026 in separaten Steelbook-Komplettboxen, die alle Episod"
+        },
+        {
+          "month": "2026-11",
+          "context": "tionen auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Release im November 2026 Beide Staffeln von »Miss Kobayashi’s Dragon Maid« ers"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Erste »A Wild Last Boss Appeared!«-Staffel erscheint auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/",
+      "publishedAt": "2026-09-01",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-06",
+          "context": "vember 2026 »A Wild Last Boss Appeared!« erscheint voraussichtlich am 6. November 2026 als Blu-ray-Komplettbox, die alle zwölf Episoden auf"
+        },
+        {
+          "month": "2026-11",
+          "context": "« bald auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Release im November 2026 »A Wild Last Boss Appeared!« erscheint voraussichtlic"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "»Kubo Won’t Let Me Be Invisible« erscheint als Blu-ray-Komplettbox",
       "articleUrl": "https://www.anime2you.de/news/1044503/kubo-wont-let-me-be-invisible-blu-ray-komplettbox/",
