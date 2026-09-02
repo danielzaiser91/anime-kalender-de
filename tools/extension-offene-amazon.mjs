@@ -697,9 +697,25 @@ writeFileSync(
 */
 const listenInhalt = 'globalThis.AK_OFFENE_AMAZON = ' + JSON.stringify(offen) + '\n'
 const pruefsumme = createHash('sha256').update(listenInhalt).digest('hex').slice(0, 16)
+/*
+  **Und der Zeitpunkt der Erzeugung — für eine zweite Frage.**
+
+  Die Prüfsumme beantwortet „hat die Erweiterung eine andere Liste als die
+  ausgelieferte?". Der Zeitstempel beantwortet „ist ein lokaler Vermerk noch
+  gültig?": Wer eine Suchadresse abgehakt hat und sie danach erneut in der Liste
+  findet, hat einen Vermerk, den der Bau überholt hat.
+
+  Real am 02.09.2026: Eine Meldung zu „Is This a Zombie?" wurde aus dem
+  Briefkasten verworfen (sie trug keine Titel-Kennung und ließ sich nicht
+  zuordnen). Im Browser blieb der Vermerk „gemeldet" stehen, der Briefkasten
+  wusste nichts mehr — und Daniel konnte den Auftrag nicht melden: „ich hab ihn
+  nicht melden können". Für eine Suchadresse ist der Briefkasten bauartbedingt
+  blind (siehe `istGemeldet` in amazon.js), also entschied der überholte Vermerk.
+*/
 writeFileSync(
   resolve(wurzel, 'extension/offene-amazon-stand.js'),
-  'globalThis.AK_OFFENE_AMAZON_STAND = ' + JSON.stringify(pruefsumme) + '\n',
+  'globalThis.AK_OFFENE_AMAZON_STAND = ' + JSON.stringify(pruefsumme) + '\n' +
+    'globalThis.AK_OFFENE_AMAZON_ERZEUGT = ' + JSON.stringify(new Date().toISOString().slice(0, 10)) + '\n',
 )
 /*
   Dieselbe Prüfsumme in eine eigene ausgelieferte Datei — nur von der Live-Seite

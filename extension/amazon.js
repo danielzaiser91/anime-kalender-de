@@ -4064,7 +4064,29 @@ async function speicherSchreiben(werte) {
         wo er etwas wissen kann.
       */
       if (briefkastenAdressen?.has(url)) return true
-      return Boolean(suchErledigt[url])
+      /*
+        **Ein Vermerk, den der Bau überholt hat, gilt nicht mehr.**
+
+        Steht die Adresse in einer Prüfliste, die **nach** dem Abhaken erzeugt
+        wurde, hat der Bau sie nicht abgeräumt — also ist sie offen, was auch
+        immer lokal steht. Für eine Titelseite entscheidet das der Briefkasten;
+        für eine Suchadresse kann er es nicht (sie landet dort nur im Fall
+        „nicht bei Prime"), und genau dort war die Lücke.
+
+        Real am 02.09.2026: Eine Meldung zu „Is This a Zombie?" wurde aus dem
+        Briefkasten verworfen. Der Vermerk im Browser blieb, der Auftrag stand
+        wieder in der Liste — und der Knopf sagte „gemeldet ✓". Daniel: „ich hab
+        ihn nicht melden können."
+
+        Verglichen werden Tage, nicht Sekunden: Der Vermerk trägt ein
+        ISO-Datum, die Liste ihren Erzeugungstag. Am Tag des Abhakens gilt er
+        weiter — das ist die Überbrückung, für die er gedacht ist.
+      */
+      const vermerk = suchErledigt[url]
+      if (!vermerk) return false
+      const listeVom = globalThis.AK_OFFENE_AMAZON_ERZEUGT ?? null
+      if (listeVom && String(vermerk).slice(0, 10) < String(listeVom).slice(0, 10)) return false
+      return true
     } catch {
       return false
     }
