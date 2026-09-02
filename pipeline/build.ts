@@ -3222,6 +3222,36 @@ function main(): void {
    */
   // `pflegen`: Der Bau ist der einzige Lauf, der das Gedächtnis fortschreiben
   // darf — die Checks lesen dieselbe Quelle und dürfen sie nicht verändern.
+  /**
+   * **Joyn ist ein deutscher Anbieter — dort läuft nichts auf Japanisch.**
+   *
+   * Daniel am 02.09.2026: „join titel immer als deutsch markieren. deutscher
+   * anbieter, da ist immer alles deutsch." Der Kasten zeigte davor „🇩🇪 ?" mit
+   * dem Vermerk „Der Anbieter macht dazu keine öffentliche Angabe" — richtig
+   * über die Auskunftslage, falsch über die Sache.
+   *
+   * Das ist kein Raten: Joyn gehört zu ProSiebenSat.1 und führt sein Programm
+   * für ein deutschsprachiges Publikum. Was dort im Katalog steht, ist
+   * synchronisiert; ein OmU-Angebot gibt es nicht. Die Aussage stammt aus
+   * derselben Quelle wie jede Zeile in `dub-confirmed.yaml` — von jemandem, der
+   * nachgesehen hat.
+   *
+   * **Ein von Hand geprüfter Eintrag schlägt das trotzdem.** Die Bedingung
+   * `dub === undefined` sorgt dafür: Wo jemand etwas anderes festgestellt hat,
+   * bleibt es stehen.
+   */
+  {
+    let joynJa = 0
+    for (const title of titles.values()) {
+      for (const stream of title.streams) {
+        if (stream.platform !== 'joyn' || stream.dub !== undefined) continue
+        stream.dub = true
+        joynJa++
+      }
+    }
+    if (joynJa) log(`${joynJa} Joyn-Verweis(e) als deutsch gesetzt — deutscher Anbieter`)
+  }
+
   const adnArchiv = ladeAdnArchiv({ pflegen: true })
   if (adnArchiv.serien.size) {
     let adnJa = 0

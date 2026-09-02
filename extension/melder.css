@@ -537,7 +537,12 @@
 .ak-amazon-suchhinweis {
   position: fixed;
   right: 16px;
-  bottom: 132px;
+  /*
+    Unten am Rand, mit demselben Abstand wie nach rechts. Vorher schwebte der
+    Kasten 132 px hoch, weil darunter der Übersichts-Knopf stand — der sitzt
+    jetzt in ihm drin (Daniel, 02.09.2026).
+  */
+  bottom: 16px;
   /*
     **Ganz oben, sonst klappt Amazons Karte darüber.**
     Fährt die Maus über eine Ergebniskarte, vergrößert Prime Video sie und legt
@@ -809,4 +814,20 @@
   padding: 2px 8px;
   font-size: 13px;
   line-height: 1.2;
+}
+
+/*
+  Der Übersichts-Knopf im Kasten: kein eigenes Schweben, keine eigene Ecke — er
+  ist eine Zeile wie die anderen. Draußen bleibt er unverändert (`.ak-uebersicht`).
+*/
+.ak-uebersicht-innen {
+  position: static;
+  right: auto;
+  bottom: auto;
+  z-index: auto;
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  box-shadow: none;
+  text-align: left;
 }

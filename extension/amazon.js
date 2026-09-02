@@ -2560,6 +2560,27 @@ async function speicherSchreiben(werte) {
       /* Ohne Auftrag kein Verweis — der Kasten steht trotzdem. */
     }
     document.body.appendChild(kasten)
+    /*
+      **Der Kasten ist die Erweiterung — alles gehört hinein.**
+
+      Der Übersichts-Knopf („Prime: alles geprüft") stand daneben als zweite
+      schwebende Insel, und der Kasten schwebte 132 px darüber (Daniel,
+      02.09.2026, mit Pfeilen im Bild: „the box is the extension now. everything
+      must be inside … the box must be at bottom 0").
+
+      Er zieht deshalb hier ein, solange ein Kasten steht; ohne Kasten bleibt er,
+      wo er war — auf einer Seite ohne Auftrag ist er das Einzige, was die
+      Erweiterung zeigt.
+    */
+    try {
+      const uebersicht = document.querySelector('.ak-uebersicht')
+      if (uebersicht) {
+        uebersicht.classList.add('ak-uebersicht-innen')
+        kasten.appendChild(uebersicht)
+      }
+    } catch {
+      /* Ohne Knopf steht der Kasten für sich — kein Grund, den Aufbau abzubrechen. */
+    }
     return kasten
   }
 
@@ -3139,32 +3160,13 @@ async function speicherSchreiben(werte) {
                 location.href = ziel
               })
             : null,
-          /* Der zweite Weg, falls es einen gibt — mit seiner Zugangsart benannt. */
-          ...sortiert.slice(1, 3).flatMap((z) => {
-            const zZiel = ohneParameter(z.url)
-            if (!zZiel) return []
-            return [
-              kastenKnopf(
-                /*
-                  **Der Titel der Karte gehört ins Label.** „Stattdessen: andere
-                  Ausgabe" sagt nicht, welche — bei „One Punch Man" gibt die Suche
-                  acht Karten aus, vier davon heißen fast gleich (Daniel,
-                  30.08.2026). Mit Name und Kennung ist der Knopf ohne Klick zu
-                  verstehen.
-                */
-                `Stattdessen: ${kanalKarte(z) ? 'Kanal-Abo' : 'Kauf/Abo'} · ${(z.titel ?? 'andere Ausgabe').slice(0, 40)}`,
-                () => {
-                  suchauftragMerken({
-                    ...auftrag,
-                    suchUrl: auftrag.suchUrl,
-                    zielAsin: /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(zZiel)?.[1] ?? null,
-                  })
-                  location.href = zZiel
-                },
-                /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(zZiel)?.[1] ?? null,
-              ),
-            ]
-          }),
+          /*
+            Hier standen bis zu zwei „Stattdessen: …"-Knöpfe für die weiteren
+            Karten. Seit dem 02.09.2026 stehen dieselben Ausgaben als
+            Ankreuzfelder darüber, jede mit eigenem „öffnen" — der Knopf war
+            damit dieselbe Kennung ein zweites Mal (Daniel: „stattdessen
+            entfernen (ist bereits 2. option in checkliste)").
+          */
           /*
             Hier stand „Beim Kanal-Titel nennt Amazon die Sprachen des Kanals…" —
             entfernt am 02.09.2026 auf Daniels Wunsch. Wer beide Ausgaben

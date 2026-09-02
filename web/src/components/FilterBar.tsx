@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { DataMeta, Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
 import { PLATFORMS, RELEASE_TYPES } from '@shared/types.ts'
-import {
+import { modusVon, type ModusFeld,
   EMPTY_FILTERS,
   activeFilterCount,
   filterMode,
@@ -16,10 +16,64 @@ const FSK_OPTIONS: Fsk[] = [0, 6, 12, 16, 18]
 const STATUS_OPTIONS: ReleaseStatus[] = ['airing', 'tba', 'abgeschlossen', 'erschienen', 'unbekannt']
 const KEYWORD_PREVIEW = 24
 
-function Group({ label, children }: { label: string; children: React.ReactNode }) {
+/**
+ * **Der UND/ODER-Schalter einer Kategorie.**
+ *
+ * Er erscheint erst ab der zweiten gewählten Pill: Bei einer einzigen bewirkt er
+ * nichts, und ein Schalter ohne Wirkung ist Rauschen an einer Stelle, an der
+ * ohnehin viel steht.
+ *
+ * „egal" statt „ODER" — das trifft, was die Einstellung meint, und liest sich
+ * ohne Nachdenken: Wer Netflix und Prime wählt, will „irgendwo davon" (egal
+ * welches) oder „auf beiden" (alle).
+ */
+function ModusSchalter({
+  wert,
+  setzen,
+}: {
+  wert: 'und' | 'oder'
+  setzen: (w: 'und' | 'oder') => void
+}) {
+  const knopf = (w: 'und' | 'oder', text: string, titel: string) => (
+    <button
+      type="button"
+      onClick={() => setzen(w)}
+      title={titel}
+      aria-pressed={wert === w}
+      className={
+        'rounded px-1.5 py-px text-[9px] font-semibold uppercase tracking-wider transition ' +
+        (wert === w
+          ? 'bg-slate-600 text-slate-100'
+          : 'text-slate-500 hover:text-slate-300')
+      }
+    >
+      {text}
+    </button>
+  )
+  return (
+    <span className="ml-1 inline-flex items-center gap-px rounded bg-slate-800/70 p-px">
+      {knopf('oder', 'egal', 'Mindestens eines der gewählten')}
+      {knopf('und', 'alle', 'Alle gewählten zusammen')}
+    </span>
+  )
+}
+
+function Group({
+  label,
+  children,
+  modus,
+}: {
+  label: string
+  children: React.ReactNode
+  /** Nur bei Kategorien, in denen ein Titel mehrere Werte tragen kann. */
+  modus?: { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
+}) {
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">{label}</span>
+      <span className="flex items-center text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+        {label}
+        {modus && modus.anzahl > 1 ? <ModusSchalter wert={modus.wert} setzen={modus.setzen} /> : null}
+      </span>
       <div className="flex flex-wrap gap-1.5">{children}</div>
     </div>
   )
@@ -57,6 +111,16 @@ export function FilterBar({
   const count = activeFilterCount(filters)
 
   const set = (patch: Partial<FilterState>) => onChange({ ...filters, ...patch })
+  /**
+   * Der UND/ODER-Schalter einer Kategorie — nur für Felder, in denen ein Titel
+   * mehrere Werte tragen kann. Status und FSK sind einwertig und bekommen
+   * deshalb keinen (siehe `ModusFeld` in `filters.ts`).
+   */
+  const modusVon2 = (feld: ModusFeld, anzahl: number) => ({
+    anzahl,
+    wert: modusVon(filters, feld),
+    setzen: (w: 'und' | 'oder') => set({ modus: { ...filters.modus, [feld]: w } }),
+  })
 
   /** Ein Klick auf ein Tag — der Modus entscheidet, auf welche Seite es geht. */
   const pick = <K extends ListKey>(key: K, value: FilterState[K][number]) =>
@@ -186,7 +250,7 @@ export function FilterBar({
           </div>
 
           <div className="grid gap-4 p-3 sm:grid-cols-2 xl:grid-cols-3">
-          <Group label={t('filter.platform')}>
+          <Group label={t('filter.platform')} modus={modusVon2('platforms', filters.platforms.length)}>
             {meta.platforms.map((p: PlatformId) => (
               <Chip
                 key={p}
@@ -203,7 +267,7 @@ export function FilterBar({
               um Termine, und ein Termin liegt immer auf einer der bekannten
               Plattformen — dort wäre die Gruppe leer. */}
           {showConfidence && meta.providers.length > 0 && (
-            <Group label={t('filter.provider', { count: meta.providers.length })}>
+            <Group label={t('filter.provider', { count: meta.providers.length })} modus={modusVon2('providers', filters.providers.length)}>
               {meta.providers.slice(0, showAllProviders ? undefined : 12).map((name: string) => (
                 <Chip
                   key={name}
@@ -228,7 +292,7 @@ export function FilterBar({
             </Group>
           )}
 
-          <Group label={t('filter.releaseType')}>
+          <Group label={t('filter.releaseType')} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
             {(Object.keys(RELEASE_TYPES) as ReleaseType[]).map((type) => (
               <Chip
                 key={type}
@@ -266,7 +330,7 @@ export function FilterBar({
             ))}
           </Group>
 
-          <Group label={t('filter.year')}>
+          <Group label={t('filter.year')} modus={modusVon2('years', filters.years.length)}>
             {meta.years.map((y) => (
               <Chip
                 key={y}
@@ -299,7 +363,7 @@ export function FilterBar({
           </Group>
 
           <div className="sm:col-span-2 xl:col-span-1">
-            <Group label={t('filter.genre')}>
+            <Group label={t('filter.genre')} modus={modusVon2('genres', filters.genres.length)}>
               <input
                 type="search"
                 value={genreQuery}
@@ -320,7 +384,7 @@ export function FilterBar({
           </div>
 
           <div className="sm:col-span-2">
-            <Group label={t('filter.keywords', { count: meta.keywords.length })}>
+            <Group label={t('filter.keywords', { count: meta.keywords.length })} modus={modusVon2('keywords', filters.keywords.length)}>
               <input
                 type="search"
                 value={keywordQuery}

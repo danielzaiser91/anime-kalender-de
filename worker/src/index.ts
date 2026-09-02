@@ -2237,6 +2237,49 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     return antwort({ ok: true, markiert: ids.length })
   }
 
+  /*
+    **Welche Ausgaben zu einem Suchauftrag gehören — vom Menschen bestätigt.**
+
+    Prime führt denselben Anime regelmäßig zweimal (Kanal-Abo und Kauftitel).
+    Welche Karten dasselbe Werk meinen, sieht nur ein Mensch; er kreuzt sie auf
+    der Trefferliste an, und der Auftrag gilt erst als erledigt, wenn jede
+    gemeldet ist.
+
+    Das gehört hierher, nicht in den Browser: Der erste Anlauf legte es in
+    `sessionStorage` ab und war nach einem Neuladen weg (02.09.2026). Daniels
+    Regel vom 28.08.2026: „kein localstorage dafür … single source of truth."
+  */
+  /*
+    **Vor der Pflichtfeld-Prüfung — eine Erwartung hat keine `url`.**
+
+    Der erste Einbau stand hinter `if (!url) return`, und der Worker antwortete
+    mit „url fehlt": Die Bestätigung meldet keinen Befund zu einer Adresse,
+    sondern welche Ausgaben zusammengehören. Am Knopf stand deshalb „Auswahl
+    bestätigen — nicht angekommen" (Daniel, 02.09.2026), und die Anzeige war
+    ehrlich: Es kam wirklich nichts an.
+  */
+  if (daten.erwartung && typeof daten.erwartung === 'object') {
+    const e = daten.erwartung as { suchUrl?: unknown; kennungen?: unknown }
+    const suchUrl = e.suchUrl ? String(e.suchUrl).slice(0, 500) : null
+    if (suchUrl) {
+      const liste = Array.isArray(e.kennungen)
+        ? e.kennungen.map((k) => String(k).slice(0, 40)).filter(Boolean).slice(0, 20)
+        : []
+      if (liste.length) {
+        await env.DB.prepare(
+          `INSERT INTO such_erwartung (such_url, kennungen, gesetzt_am) VALUES (?1, ?2, ?3)
+           ON CONFLICT(such_url) DO UPDATE SET kennungen = ?2, gesetzt_am = ?3`,
+        )
+          .bind(suchUrl, JSON.stringify(liste), new Date().toISOString())
+          .run()
+      } else {
+        /* Leere Liste heißt zurücknehmen — das ↺ neben dem Bestätigen-Knopf. */
+        await env.DB.prepare('DELETE FROM such_erwartung WHERE such_url = ?1').bind(suchUrl).run()
+      }
+      return antwort({ ok: true, erwartung: liste.length })
+    }
+  }
+
   const url = String(daten.url ?? '').trim()
   const befund = String(daten.befund ?? '').trim()
   if (!url) return antwort({ error: 'url fehlt' }, 400)
@@ -2442,40 +2485,6 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
   const offen2 = await env.DB.prepare('SELECT COUNT(*) AS n FROM pruefung WHERE uebernommen = 0').first<{
     n: number
   }>()
-  /*
-    **Welche Ausgaben zu einem Suchauftrag gehören — vom Menschen bestätigt.**
-
-    Prime führt denselben Anime regelmäßig zweimal (Kanal-Abo und Kauftitel).
-    Welche Karten dasselbe Werk meinen, sieht nur ein Mensch; er kreuzt sie auf
-    der Trefferliste an, und der Auftrag gilt erst als erledigt, wenn jede
-    gemeldet ist.
-
-    Das gehört hierher, nicht in den Browser: Der erste Anlauf legte es in
-    `sessionStorage` ab und war nach einem Neuladen weg (02.09.2026). Daniels
-    Regel vom 28.08.2026: „kein localstorage dafür … single source of truth."
-  */
-  if (daten.erwartung && typeof daten.erwartung === 'object') {
-    const e = daten.erwartung as { suchUrl?: unknown; kennungen?: unknown }
-    const suchUrl = e.suchUrl ? String(e.suchUrl).slice(0, 500) : null
-    if (suchUrl) {
-      const liste = Array.isArray(e.kennungen)
-        ? e.kennungen.map((k) => String(k).slice(0, 40)).filter(Boolean).slice(0, 20)
-        : []
-      if (liste.length) {
-        await env.DB.prepare(
-          `INSERT INTO such_erwartung (such_url, kennungen, gesetzt_am) VALUES (?1, ?2, ?3)
-           ON CONFLICT(such_url) DO UPDATE SET kennungen = ?2, gesetzt_am = ?3`,
-        )
-          .bind(suchUrl, JSON.stringify(liste), new Date().toISOString())
-          .run()
-      } else {
-        /* Leere Liste heißt zurücknehmen — das ↺ neben dem Bestätigen-Knopf. */
-        await env.DB.prepare('DELETE FROM such_erwartung WHERE such_url = ?1').bind(suchUrl).run()
-      }
-      return antwort({ ok: true, erwartung: liste.length })
-    }
-  }
-
   /*
     **Die Anzeige erfährt es sofort, nicht beim nächsten Nachfragen.**
 

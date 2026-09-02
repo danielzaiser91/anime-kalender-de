@@ -69,6 +69,42 @@ export interface FilterState extends FilterLists {
   availableOnly: boolean
   /** Mindest-Vertrauensstufe der Dub-Angabe (nur Datenbank-Ansicht). */
   minConfidence: DubConfidence
+  /**
+   * **Ob mehrere Pills einer Kategorie mit UND oder ODER verknüpft werden.**
+   *
+   * Voreingestellt ist, was die jeweilige Frage meistens meint: Bei Plattformen
+   * „irgendwo davon", bei Genres „alle davon". Wer es anders braucht — Titel,
+   * die auf Netflix **und** Prime laufen, oder Action **oder** Comedy —, stellt
+   * es je Kategorie um (Daniel, 02.09.2026).
+   *
+   * **Nur wo ein Titel mehrere Werte haben kann.** Status und FSK sind
+   * einwertig: „läuft UND abgeschlossen" wäre immer leer, und ein Schalter, der
+   * garantiert nichts findet, ist schlimmer als keiner. Sie fehlen hier
+   * deshalb.
+   */
+  modus: FilterModus
+}
+
+/** Die Kategorien, in denen ein Titel mehrere Werte tragen kann. */
+export type ModusFeld = 'platforms' | 'providers' | 'releaseTypes' | 'years' | 'genres' | 'keywords'
+
+export type FilterModus = Partial<Record<ModusFeld, 'und' | 'oder'>>
+
+/**
+ * Die Voreinstellung je Kategorie — sie hält das Verhalten von vor dem
+ * 02.09.2026 fest, damit ein geteilter Link dasselbe zeigt wie vorher.
+ */
+export const MODUS_VORGABE: Record<ModusFeld, 'und' | 'oder'> = {
+  platforms: 'oder',
+  providers: 'oder',
+  releaseTypes: 'oder',
+  years: 'oder',
+  genres: 'und',
+  keywords: 'und',
+}
+
+export function modusVon(f: FilterState, feld: ModusFeld): 'und' | 'oder' {
+  return f.modus?.[feld] ?? MODUS_VORGABE[feld]
 }
 
 const emptyLists = (): FilterLists => ({
@@ -90,6 +126,7 @@ export const EMPTY_FILTERS: FilterState = {
   favoritesOnly: false,
   availableOnly: false,
   minConfidence: 'low',
+  modus: {},
 }
 
 export { emptyLists }
@@ -283,8 +320,21 @@ export function filterTitles(
     if (x.keywords.some((k) => t.keywords.includes(k))) return false
     if (t.fsk !== undefined && x.fsk.includes(t.fsk)) return false
 
-    if (f.genres.length && !f.genres.every((g) => t.genres.includes(g))) return false
-    if (f.keywords.length && !f.keywords.every((k) => t.keywords.includes(k))) return false
+    /*
+      **UND oder ODER — je Kategorie, wie eingestellt.**
+
+      `passt` fasst beides zusammen: Bei „und" muss jede gewählte Pill zutreffen,
+      bei „oder" reicht eine. Die Voreinstellung hält das Verhalten von vor dem
+      02.09.2026 fest (`MODUS_VORGABE`), damit ein geteilter Link dasselbe zeigt.
+    */
+    const passt = <T>(gewaehlt: readonly T[], feld: ModusFeld, hat: (v: T) => boolean) => {
+      if (!gewaehlt.length) return true
+      return modusVon(f, feld) === 'und' ? gewaehlt.every(hat) : gewaehlt.some(hat)
+    }
+
+    if (!passt(f.genres, 'genres', (g) => t.genres.includes(g))) return false
+    if (!passt(f.keywords, 'keywords', (k) => t.keywords.includes(k))) return false
+    /* FSK ist einwertig — „ab 12 UND ab 16" gibt es nicht, deshalb ohne Modus. */
     if (f.fsk.length && (t.fsk === undefined || !f.fsk.includes(t.fsk))) return false
 
     const releases = data.releasesByTitle.get(t.id) ?? []
@@ -301,10 +351,11 @@ export function filterTitles(
     if (x.years.some((y) => yearsOf.includes(y))) return false
     if (x.statuses.includes(titleStatus(releases, today, t))) return false
 
-    if (f.platforms.length && !f.platforms.some((p) => platformsOf.has(p))) return false
-    if (f.providers.length && !f.providers.some((p) => providersOf.has(p))) return false
-    if (f.releaseTypes.length && !releases.some((r) => f.releaseTypes.includes(r.releaseType))) return false
-    if (f.years.length && !f.years.some((y) => yearsOf.includes(y))) return false
+    if (!passt(f.platforms, 'platforms', (p) => platformsOf.has(p))) return false
+    if (!passt(f.providers, 'providers', (p) => providersOf.has(p))) return false
+    if (!passt(f.releaseTypes, 'releaseTypes', (rt) => releases.some((r) => r.releaseType === rt))) return false
+    if (!passt(f.years, 'years', (y) => yearsOf.includes(y))) return false
+    /* Der Status ist einwertig — ohne Modus, aus demselben Grund wie FSK. */
     if (f.statuses.length && !f.statuses.includes(titleStatus(releases, today, t))) return false
     return true
   })
