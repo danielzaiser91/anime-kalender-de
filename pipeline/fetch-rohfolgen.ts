@@ -232,13 +232,38 @@ async function main(): Promise<void> {
     von TMDB, zusammen rund 17.000 Folgentitel.
   */
   const folgenJeTitel = new Map<number, Set<string>>()
+  /**
+   * **Dieselben Folgentitel aus aniSearch allein — der Schiedsrichter bei Gleichstand.**
+   *
+   * TMDB führt Staffeln regelmäßig unter **einer** Serie und hängt alle Folgen
+   * daran; aniSearch legt je Staffel einen eigenen Artikel an. Wo zwei unserer
+   * Titel denselben Namen tragen, trifft die TMDB-Liste deshalb beide gleich gut,
+   * und der Gleichstand ist unauflösbar.
+   *
+   * Gemessen am 02.09.2026 an „Legend of the Galactic Heroes: Die Neue These" —
+   * zwei Einträge mit demselben deutschen und englischen Namen, unterschieden nur
+   * im Romaji (Kaikou gegen Seiran), den Prime nicht führt:
+   *
+   * | Titel | aniSearch trifft „In ewiger Nacht" | TMDB trifft |
+   * |---|---|---|
+   * | 20628 (Kaikou) | **ja** | ja |
+   * | 100780 (Seiran) | nein | ja |
+   *
+   * Die feinere Quelle entscheidet also, und sie hat recht: Die Folge steht in
+   * aniSearch-Artikel 10688, der zu 20628 gehört.
+   */
+  const folgenNurAniSearch = new Map<number, Set<string>>()
   for (const t of titles) {
     const menge = new Set<string>()
+    const nurAniSearch = new Set<string>()
     const asId = asKennung[String(t.id)]?.anisearchId
     for (const f of asId ? (asFolgen[String(asId)]?.folgen ?? []) : []) {
       for (const name of [f.de, f.en]) {
         const k = folgenKern(name)
-        if (k && k.length >= 5) menge.add(k)
+        if (k && k.length >= 5) {
+          menge.add(k)
+          nurAniSearch.add(k)
+        }
       }
     }
     for (const f of tmdbFolgen[String(t.id)]?.folgen ?? []) {
@@ -246,6 +271,7 @@ async function main(): Promise<void> {
       if (k && k.length >= 5) menge.add(k)
     }
     if (menge.size) folgenJeTitel.set(t.id, menge)
+    if (nurAniSearch.size) folgenNurAniSearch.set(t.id, nurAniSearch)
   }
   /** Wie viele Adressen allein über ihre Folgentitel gefunden wurden. */
   let ueberFolgentitel = 0
@@ -425,14 +451,33 @@ async function main(): Promise<void> {
           Bleibt es auch dann gleich — zwei Titel mit derselben Trefferzahl und
           derselben Menge —, ist es ein echter Zweifelsfall und bleibt offen.
         */
+        /*
+          **Bei Punktgleichstand entscheidet zuerst aniSearch, dann die Menge.**
+
+          Treffen zwei Titel gleich viele Folgentitel, liegt das meist an TMDB:
+          Es hängt alle Folgen einer Reihe an jede Staffel. aniSearch trennt sie —
+          wer dort trifft und der andere nicht, ist gemeint. Erst wenn auch das
+          keinen Unterschied macht, entscheidet die Menge (der spezifischere
+          Eintrag führt weniger Folgentitel insgesamt).
+        */
+        const asPunkte = (id: number) => {
+          const f = folgenNurAniSearch.get(id)
+          if (!f) return 0
+          let n = 0
+          for (const k of kerne) if (f.has(k)) n++
+          return n
+        }
         const sortiert = [...punkte.entries()].sort((a, b) => {
           if (b[1] !== a[1]) return b[1] - a[1]
+          const as = asPunkte(b[0]) - asPunkte(a[0])
+          if (as !== 0) return as
           return (folgenJeTitel.get(a[0])?.size ?? 0) - (folgenJeTitel.get(b[0])?.size ?? 0)
         })
         const eindeutig =
           sortiert.length === 1 ||
           (sortiert.length > 1 &&
             (sortiert[0]![1] > sortiert[1]![1] ||
+              asPunkte(sortiert[0]![0]) > asPunkte(sortiert[1]![0]) ||
               (folgenJeTitel.get(sortiert[0]![0])?.size ?? 0) <
                 (folgenJeTitel.get(sortiert[1]![0])?.size ?? 0)))
         if (eindeutig) {
