@@ -192,10 +192,40 @@ for versuch in $(seq 1 "$VERSUCHE"); do
 
   # Ohne gelungenen Aufbau bleiben die Erzeugnisse außen vor: Sie stehen dann auf
   # dem Fernstand, und den noch einmal zu committen wäre bestenfalls ein Leerlauf.
+  #
+  # **Jeder Pfad einzeln — ein fehlender darf nicht alles mitreißen.**
+  #
+  # `git add a b` bricht ab, sobald einer der Pfade nicht existiert
+  # („pathspec did not match any files"), und staged dann **gar nichts**. Mit
+  # `2>/dev/null || true` daneben sieht das aus wie Erfolg: Der Lauf meldet
+  # „Keine Änderung — nichts zu committen" und wird grün.
+  #
+  # Am 02.09.2026 hat der Bau 222 abgeleitete Crunchyroll-Termine erzeugt
+  # (313 → 535 Releases, 949 → 2.786 Termine) und **nichts** davon committet.
+  # Die Liste ist 216 Zeilen lang; es genügt, dass eine einzige Quelle in
+  # diesem Lauf nicht entstanden ist.
+  #
+  # Einzeln hinzugefügt trägt jeder Pfad nur sein eigenes Fehlen, und wer fehlt,
+  # steht im Log — sonst sucht man den Verlust beim nächsten Mal wieder im Bau.
+  hinzu() {
+    local fehlend=()
+    local pfad
+    for pfad in "$@"; do
+      if [ -e "$pfad" ]; then
+        git add "$pfad" 2>/dev/null || true
+      else
+        fehlend+=("$pfad")
+      fi
+    done
+    if [ ${#fehlend[@]} -gt 0 ]; then
+      echo "::warning::${#fehlend[@]} Pfad(e) nicht vorhanden, übersprungen: ${fehlend[*]}"
+    fi
+  }
+
   if [ "${AUFBAU_KAPUTT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ]; then
-    git add "${QUELLEN[@]}" 2>/dev/null || true
+    hinzu "${QUELLEN[@]}"
   else
-    git add "${ERZEUGNISSE[@]}" "${QUELLEN[@]}" 2>/dev/null || true
+    hinzu "${ERZEUGNISSE[@]}" "${QUELLEN[@]}"
   fi
 
   if git diff --staged --quiet; then
