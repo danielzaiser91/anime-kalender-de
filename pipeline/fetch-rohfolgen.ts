@@ -229,17 +229,67 @@ async function main(): Promise<void> {
    * Nach Adresse allein gruppiert lägen beide in einem Topf, und die Zuordnung
    * sähe eine Staffel mit 21 widersprüchlichen Folgen.
    *
-   * Getrennt wird über die `asin` **der Folge** — sie steht seit jeher je Zeile
-   * und nennt die Seite, von der die Folge gelesen wurde. Folgen ohne sie
-   * bleiben unter ihrer Adresse zusammen; das ist der Stand vor dem 30.08.2026
-   * und der Fall einer Suchadresse, die noch keine Titelseite kennt.
+   * **Die `asin` taugt dafür nicht — sie nennt die Folge, nicht die Ausgabe.**
+   * Der Kommentar an dieser Stelle behauptete das Gegenteil („sie nennt die
+   * Seite, von der die Folge gelesen wurde"), und niemand hat es nachgemessen.
+   * Gemessen am 02.09.2026 über alle 210 offenen Rohfolgen:
+   *
+   * | | |
+   * |---|---|
+   * | Adressen | 17 |
+   * | Gruppen nach `url#asin` | **210** — also eine je Folge |
+   * | Adressen mit doppelter Folgennummer | **0** |
+   *
+   * Die Folge von Golden Kamuy trägt `B0CN6MWLVS`, ihre Nachbarin eine andere.
+   * Jede Gruppe bestand damit aus **einer** Folge, und die Zuordnung über die
+   * Folgentitel — die drei davon braucht — konnte bauartbedingt nie greifen:
+   * Der Lauf meldete vier Tage lang „0 Adressen zugeordnet".
+   *
+   * **Getrennt wird deshalb über doppelte Folgennummern**, und das ist genau
+   * das Merkmal, das den Fall beschreibt, für den die Trennung gebaut wurde:
+   * Zwei Ausgaben unter einer Adresse zählen beide von 1 an. Zählt eine Adresse
+   * durch, gehört alles zusammen — dieselbe Regel, nach der auch die
+   * Erweiterung eine geratene Staffelnummer verwirft (`staffelnBereinigen`).
+   *
+   * Die `asin` bleibt an der Folge und wird beim Speichern mitgeführt; sie ist
+   * nur als Gruppenschlüssel untauglich.
    */
   const jeUrl = new Map<string, Rohfolge[]>()
-  for (const f of folgen) {
-    const schluessel = f.asin ? `${f.url}#${f.asin}` : f.url
-    const l = jeUrl.get(schluessel) ?? []
-    l.push(f)
-    jeUrl.set(schluessel, l)
+  {
+    const jeAdresse = new Map<string, Rohfolge[]>()
+    for (const f of folgen) {
+      const l = jeAdresse.get(f.url) ?? []
+      l.push(f)
+      jeAdresse.set(f.url, l)
+    }
+    for (const [url, liste] of jeAdresse) {
+      const nummern = liste.map((f) => f.nummer).filter((n): n is number => Number.isFinite(n))
+      const doppelt = nummern.length !== new Set(nummern).size
+      if (!doppelt) {
+        jeUrl.set(url, liste)
+        continue
+      }
+      /*
+        Zwei Ausgaben unter einer Adresse: getrennt wird über die Ausgabe-Kennung,
+        wo es eine gibt (`gti`), sonst über die Reihenfolge — die zweite Folge mit
+        derselben Nummer beginnt die zweite Ausgabe.
+      */
+      let teil = 0
+      const gesehen = new Set<number>()
+      for (const f of liste) {
+        if (Number.isFinite(f.nummer)) {
+          if (gesehen.has(f.nummer as number)) {
+            teil++
+            gesehen.clear()
+          }
+          gesehen.add(f.nummer as number)
+        }
+        const schluessel = `${url}#${teil}`
+        const l = jeUrl.get(schluessel) ?? []
+        l.push(f)
+        jeUrl.set(schluessel, l)
+      }
+    }
   }
 
   /*

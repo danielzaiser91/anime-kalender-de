@@ -2321,9 +2321,24 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
     url?: string
     mitKennung?: boolean
   }>
-  const adressen = new Set(liste.filter((e) => e.mitKennung).map((e) => e.url).filter(Boolean)).size
+  /*
+    **Der Ausweg deckte genau den Fall zu, für den die Prüfung gebaut wurde.**
+
+    Gezählt wurden nur Adressen mit `mitKennung` — und am 02.09.2026 trug keiner
+    der 210 offenen Einträge eine. `adressen` war damit null, die Bedingung
+    `adressen === 0 || …` grün, und der Lauf meldete vier Tage lang „0 Adressen
+    zugeordnet", ohne dass jemand rot wurde. Die Ursache war die Gruppierung nach
+    `url#asin` (siehe `fetch-rohfolgen.ts`); gefunden hat sie nicht diese Prüfung,
+    sondern Daniels Frage nach einem ganz anderen Thema.
+
+    Gezählt werden deshalb **alle** offenen Adressen. Ob eine Kennung dabei ist,
+    entscheidet, wie gut die Zuordnung sein könnte — nicht, ob sie überhaupt
+    stattgefunden hat.
+  */
+  const adressen = new Set(liste.map((e) => e.url).filter(Boolean)).size
+  const mitKennung = new Set(liste.filter((e) => e.mitKennung).map((e) => e.url).filter(Boolean)).size
   pruefe(
-    `Rohfolgen-Zuordnung greift (${zahlZugeordnet} zugeordnet, ${adressen} Adressen offen)`,
+    `Rohfolgen-Zuordnung greift (${zahlZugeordnet} zugeordnet, ${adressen} Adressen offen, davon ${mitKennung} mit Kennung)`,
     adressen === 0 || zahlZugeordnet > 0,
     `${adressen} Adressen offen, keine einzige zugeordnet — das ist kein magerer Ertrag, sondern ein Fehler`,
   )
