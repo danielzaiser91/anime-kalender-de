@@ -22,6 +22,7 @@
  * Aufruf: `npm run data:cr-einzelwerke`
  */
 import { readFileSync, writeFileSync } from 'node:fs'
+import { recordSource } from './lib/health.ts'
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
@@ -103,3 +104,23 @@ const mitTreffer = funde.filter((f) => f.treffer)
 console.log(`\n${mitTreffer.length} von ${funde.length} im deutschen Katalog gefunden`)
 console.log(`  mit de-DE: ${mitTreffer.filter((f) => f.treffer.audio.includes('de-DE')).length}`)
 console.log(`  ohne de-DE: ${mitTreffer.filter((f) => f.treffer.audio.length && !f.treffer.audio.includes('de-DE')).length}`)
+
+/*
+  **Der Lauf meldet sich — sonst merkt niemand, dass er ausfällt.**
+
+  Dieses Skript kann nur von einer deutschen IP laufen: Das anonyme Token trägt
+  die Region der abrufenden Leitung, und aus den USA käme der US-Katalog, dessen
+  Schweigen nichts belegt. Im wöchentlichen Cloud-Lauf brach es deshalb ab, und
+  weil die drei cr-Skripte dort mit `&&` verkettet waren, riss es die beiden
+  anderen mit. Gemessen am Lauf vom 31.08.2026: „Nicht aus Deutschland —
+  Abbruch.", Exit 1 — und so jede Woche.
+
+  Aufgefallen ist es erst am 02.09.2026, weil jemand die 36 offenen
+  Crunchyroll-Verweise nachgezählt hat. Ein Skript, das sich nirgends meldet,
+  kann beliebig lange nichts tun: `check-sources.ts` sieht nur, was in
+  `data/source-health.json` steht.
+
+  `leerIstOk` ist gesetzt, weil null Treffer hier ein gültiges Ergebnis sind —
+  irgendwann ist jeder Verweis aufgelöst.
+*/
+recordSource('cr-einzelwerke', mitTreffer.length, undefined, undefined, true)

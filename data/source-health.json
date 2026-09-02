@@ -98,5 +98,15 @@
     "lastOk": "2026-09-01T20:58:13.412Z",
     "lastRun": "2026-09-01T20:58:13.412Z",
     "lastCount": 3050
+  },
+  "cr-einzelwerke": {
+    "lastOk": "2026-09-02T10:31:37.533Z",
+    "lastRun": "2026-09-02T10:31:37.533Z",
+    "lastCount": 9
+  },
+  "cr-filmbloecke": {
+    "lastOk": "2026-09-02T10:33:04.181Z",
+    "lastRun": "2026-09-02T10:33:04.181Z",
+    "lastCount": 6
   }
 }

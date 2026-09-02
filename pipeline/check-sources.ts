@@ -34,6 +34,22 @@ const MAX_AGE_DAYS = index >= 0 ? Number(args[index + 1]) : 4
  * ausgefallener Lauf soll noch keinen Alarm auslösen, zwei hintereinander schon.
  */
 const FRISTEN: Record<string, number> = {
+  /*
+    **Diese beiden laufen nur von Daniels Rechner — und deshalb unregelmäßig.**
+
+    Das anonyme Crunchyroll-Token trägt die Region der abrufenden Leitung; aus
+    der Cloud käme der US-Katalog, dessen Schweigen nichts belegt. Die Skripte
+    brechen dort ab, und bis zum 02.09.2026 taten sie das jede Woche unbemerkt in
+    einer `&&`-Kette, die zwei weitere Läufe mitriss.
+
+    Drei Wochen sind großzügig, und das ist Absicht: Eine Warnung, die zu oft zu
+    Unrecht kommt, wird überlesen (CLAUDE.md, 16.08.2026). Kommt sie, ist der
+    Griff `npm run data:cr-einzelwerke && npm run data:cr-filmbloecke` — von hier,
+    nicht aus der Cloud.
+  */
+  'cr-einzelwerke': 21,
+  'cr-filmbloecke': 21,
+
   // Wöchentlich, montags.
   'adn-catalog': 9,
   'anilist-voices': 9,

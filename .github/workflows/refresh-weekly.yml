@@ -313,7 +313,24 @@ jobs:
           # lesen. Es gilt 24 Stunden — ein Lauf braucht also ein frisches.
           CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:cr-dub -- --limit 300 && npm run data:cr-einzelwerke && npm run data:cr-filmbloecke && npm run data:cr-katalog
+        # `data:cr-einzelwerke`, `data:cr-filmbloecke` und `data:cr-katalog` standen
+        # hier bis zum 02.09.2026 in derselben Kette. Sie holen sich ein anonymes
+        # Token, und dessen Region ist die der abrufenden IP — auf GitHubs
+        # Rechnern also die USA. Das erste brach deshalb jede Woche ab („Nicht aus
+        # Deutschland — Abbruch.", Exit 1) und riss die beiden anderen mit; 36
+        # Crunchyroll-Verweise blieben so wochenlang offen, ohne dass es jemand
+        # sah.
+        #
+        # `data:cr-dub` bleibt, denn es nutzt das Zugangspaket `CR_ZUGANG` — eine
+        # CloudFront-Signatur, die nur eine Zeitbedingung trägt und deshalb auch
+        # aus den USA den deutschen Bucket öffnet. Für die **Suche** gibt es das
+        # nicht: Sie läuft über `content/v2`, das ein Bearer-Token verlangt, und
+        # der CMS-Pfad kennt keine Suche (502, gemessen 25.08.2026).
+        #
+        # Die drei laufen deshalb von Daniels Rechner. Damit das nicht wieder
+        # unbemerkt liegen bleibt, melden sie sich in `source-health.json`, und
+        # `check-sources.ts` führt eine Frist von 21 Tagen.
+        run: npm run data:cr-dub -- --limit 300
 
       - name: Fortschritt — Crunchyroll-Serienseiten auf deutsche Tonspur
         continue-on-error: true

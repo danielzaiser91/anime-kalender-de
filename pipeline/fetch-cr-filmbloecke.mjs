@@ -32,6 +32,7 @@
  * Aufruf: npm run data:cr-filmbloecke
  */
 import { readFileSync, writeFileSync } from 'node:fs'
+import { recordSource } from './lib/health.ts'
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
@@ -148,3 +149,6 @@ const mit = funde.filter((f) => f.treffer)
 console.log(`\n${mit.length} von ${funde.length} über einen eigenen Block gefunden`)
 console.log(`  mit de-DE: ${mit.filter((f) => f.treffer.audio.includes('de-DE')).length}`)
 console.log(`  ohne de-DE: ${mit.filter((f) => f.treffer.audio.length && !f.treffer.audio.includes('de-DE')).length}`)
+
+/* Warum der Lauf sich meldet: siehe `fetch-cr-einzelwerke.mjs` — dasselbe gilt hier. */
+recordSource('cr-filmbloecke', mit.length, undefined, undefined, true)
