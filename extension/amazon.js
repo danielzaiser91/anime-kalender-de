@@ -2655,8 +2655,40 @@ async function speicherSchreiben(werte) {
    * Takt hineinschiebt, und behalten es. Die Höhe steht damit ab der ersten
    * Zeichnung.
    */
+  /**
+   * **Die Adresse des Kastens — ohne das, was Prime laufend umschreibt.**
+   *
+   * `location.search` ist als Schlüssel unbrauchbar: Prime Video schreibt
+   * `ref_`, `qid`, `sr` und `pageTypeId` während des Betrachtens immer
+   * wieder um. Der Vergleich schlug damit bei **jedem** Takt fehl, der Kasten
+   * wurde zweimal je Sekunde verworfen und neu gebaut — und die Knöpfe, die
+   * darin sitzen, mit ihm. Daniel am 02.09.2026, mit Bild: „wieso seh ich das
+   * (prime alles geprüft button in box, alle anderen elemente unsichtbar)".
+   *
+   * **Derselbe Fehlgriff steht seit dem 28.08.2026 in `CLAUDE.md`**, für
+   * `filmAusSeite()`: „Ein Zwischenspeicher, dessen Schlüssel sich ständig
+   * ändert, ist keiner." Dort fiel er als Rechenlast auf, hier als
+   * verschwundene Oberfläche. Die alte Fassung baute den Kasten ohnehin bei
+   * jedem Takt neu — sie konnte an dem Schlüssel nicht scheitern, weil sie ihn
+   * nicht brauchte.
+   *
+   * Gebraucht wird von der Query genau ein Wert: der **Suchbegriff**. Jede
+   * Prime-Suche liegt unter `/s`, und zwei Suchen unterscheiden sich nur
+   * darin (31.08.2026 — ohne ihn zeigte der Kasten den Auftrag von vorhin).
+   * Auf Titelseiten trägt der Pfad die Kennung und die Query nichts, was den
+   * Kasten anginge.
+   */
+  function kastenAdresse() {
+    try {
+      const begriff = new URLSearchParams(location.search).get('k')
+      return location.pathname + (begriff ? '?k=' + begriff : '')
+    } catch {
+      return location.pathname
+    }
+  }
+
   function kastenSkelett() {
-    const jetzt = location.pathname + location.search
+    const jetzt = kastenAdresse()
     let kasten = document.querySelector('.ak-amazon-suchhinweis')
     /*
       **Ein Kasten gehört zu einer Adresse.** Prime Video wechselt ohne
@@ -8370,7 +8402,7 @@ async function speicherSchreiben(werte) {
     */
     const alterHinweis = document.querySelector('.ak-amazon-suchhinweis')
     if (alterHinweis) {
-      const andereAdresse = alterHinweis.dataset.fuerAdresse !== location.pathname + location.search
+      const andereAdresse = alterHinweis.dataset.fuerAdresse !== kastenAdresse()
       /*
         Die Folgenzahl kommt Sekunden nach dem Seitenaufbau — und sie
         entscheidet, welchen Zweig der Auftragshinweis wählt. Ändert sie sich,

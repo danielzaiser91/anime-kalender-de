@@ -708,12 +708,25 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
     `/s`. Ein Klick auf den nächsten Listeneintrag ließ ihn stehen (Daniel,
     31.08.2026).
   */
-  const skelett = quelle.slice(quelle.indexOf('function kastenSkelett'), quelle.indexOf('function ladeRing'))
+  const skelett = quelle.slice(quelle.indexOf('function kastenAdresse'), quelle.indexOf('function ladeRing'))
   pruefe(
-    'der Kasten vergleicht Pfad und Query',
-    /const jetzt = location\.pathname \+ location\.search/.test(skelett) &&
+    'der Kasten unterscheidet zwei Suchen am Suchbegriff',
+    /new URLSearchParams\(location\.search\)\.get\('k'\)/.test(skelett) &&
       /dataset\.fuerAdresse = jetzt/.test(skelett) &&
       /dataset\.fuerAdresse !== jetzt/.test(skelett),
+  )
+  /*
+    **Und er nimmt die ganze Query nicht.**
+
+    Prime schreibt `ref_`, `qid` und `sr` während des Betrachtens laufend
+    um. Ein Schlüssel, der sie enthält, ist bei jedem Takt ein anderer — der
+    Kasten wurde damit zweimal je Sekunde verworfen (Daniel, 02.09.2026, mit
+    Bild). Dieselbe Falle steht seit dem 28.08.2026 in CLAUDE.md, für
+    `filmAusSeite()`.
+  */
+  pruefe(
+    'und nicht die ganze Query, die Prime laufend umschreibt',
+    !/location\.pathname \+ location\.search/.test(skelett),
   )
 
   /*

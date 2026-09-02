@@ -1985,6 +1985,33 @@ Drei Riegel stehen jetzt davor, und jeder einzelne wäre allein zu wenig:
   einer Annahme über fremde Adressen abhängt, braucht einen zweiten ohne
   Annahmen.
 
+**Und derselbe Fehlgriff ist am 02.09.2026 ein zweites Mal passiert, mit dieser
+Lehre im Repo.** `kastenSkelett()` (4.11.0) nahm `location.pathname +
+location.search` als Kennzeichen dafür, zu welcher Seite der Hinweiskasten
+gehört — wortwörtlich der Ausdruck aus dem Absatz darüber. Der Vergleich
+schlug bei jedem Takt fehl, der Kasten wurde zweimal je Sekunde verworfen und
+neu gebaut, und mit ihm verschwanden die Knöpfe darin. Daniel sah eine
+Erweiterung, die fast nichts mehr anzeigte.
+
+**Warum die geschriebene Lehre nicht getragen hat:** Der Ausdruck stand schon
+vorher im Code, und dort war er harmlos — die alte Fassung baute den Kasten
+ohnehin bei jedem Takt neu und brauchte den Schlüssel gar nicht. Beim Umbau
+wurde er übernommen, nicht neu gewählt. **Ein Ausdruck wechselt seine
+Bedeutung, wenn der Code um ihn herum eine andere Frage stellt**, und beim
+Kopieren prüft man ihn deshalb wie eine neue Zeile.
+
+Der Griff dagegen ist billig: **Vor jedem Vergleich zweier Adressen die Frage,
+welche Teile davon der Betreiber verändert, während niemand navigiert.** Bei
+Prime sind das `ref_`, `qid`, `sr` und `pageTypeId`. Gebraucht wird fast nie
+mehr als der Pfad; hier kam der Suchbegriff `k` dazu, weil jede Prime-Suche
+unter `/s` liegt.
+
+**Offen und ungemessen:** Der Mitleser stempelt seine Antworten weiterhin mit
+`location.pathname + location.search` (`gesehen.fuerAdresse`, fünf Stellen in
+`amazon.js`). Nach demselben Befund müsste das ebenso brechen — es tut es
+sichtbar nicht, und warum, ist nicht gemessen. Wer dort etwas ändert, misst es
+zuerst.
+
 ### Der Briefkasten ist die einzige Quelle für „schon gemeldet"
 
 Bis 3.81 führte die Erweiterung zwei eigene Speicher: `amazonErledigt` für
