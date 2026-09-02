@@ -6941,10 +6941,26 @@ async function speicherSchreiben(werte) {
       Der lokale Vermerk bleibt trotzdem stehen — er trägt den Befund von
       damals, und der spart beim erneuten Melden das Nachsehen.
     */
+    /*
+      **Der vierte Sperrzweig — und der, der wirklich griff.**
+
+      Er beschriftet den Knopf über die Zahl der offenen Staffeln der Reihe. Die
+      wird aus dem lokalen Abhak-Speicher gerechnet, und der kennt nur „Staffel 1
+      dieser Kennung ist gemeldet" — nicht, dass eine zweite Ausgabe desselben
+      Werks noch aussteht.
+
+      Belegt am 02.09.2026 im Diagnosebericht, nachdem drei andere Zweige
+      gefixt waren und der Knopf trotzdem „alles gemeldet" sagte:
+
+          text "alles gemeldet"   seiteOffen true   lokalAbgehakt ["1"]
+
+      Erst die Ausgabe hat ihn gefunden; vier Runden Raten davor nicht.
+    */
     if (
       (schonGemeldet || gemeldeteStaffel === jetzigeStaffel) &&
       !nichtAngekommen(listenId) &&
-      !wiedervorlage(listenId)
+      !wiedervorlage(listenId) &&
+      !seiteOffen()
     ) {
       const offen = gesamtDerSerie(listenId) - Object.keys(staffelnDerSerie(listenId)).length
       /**
