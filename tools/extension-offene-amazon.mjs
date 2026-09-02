@@ -652,9 +652,37 @@ for (const [asin, wert] of Object.entries(ERNEUT)) {
   }
 }
 
+/*
+  **Die Liste trägt ihren Stand mit — sonst ist sie stumm veraltet.**
+
+  Diese Datei ist Teil der Erweiterung, nicht des Servers: Was der Bau hier
+  hineinschreibt, sieht Daniel erst nach einem Neuladen in `chrome://extensions`.
+  Am 02.09.2026 kam „Karakai Jouzu no Takagi-san 2" um 08:53 in die Liste; um
+  11:16 stand er auf dem Bildschirm, die Statusanzeige zählte ihn als offen — und
+  der Knopf der Erweiterung sagte „Prime: alles geprüft". Beide hatten recht, nur
+  aus verschiedenen Ständen.
+
+  Der Zeitstempel ist der des Datensatzes (`meta.json`), nicht der der Datei:
+  Die Erweiterung vergleicht ihn gegen genau diese Datei auf der Live-Seite und
+  merkt so selbst, dass sie eine alte Liste führt.
+*/
 writeFileSync(
   resolve(wurzel, 'extension/offene-amazon.js'),
   'globalThis.AK_OFFENE_AMAZON = ' + JSON.stringify(offen) + '\n',
+)
+/*
+  **Der Stand steht in einer eigenen Datei, nicht in der Prüfliste.**
+
+  Der naheliegende Weg — eine zweite Zeile in `offene-amazon.js` — hat drei
+  Leser gebrochen: Die Zusicherung schneidet dort nur das Präfix ab und parst den
+  Rest als JSON, und `fetch-pruefungen.ts` wie `report-start.ts` schneiden
+  zwischen der ersten und der letzten geschweiften Klammer. Eine Datei mit genau
+  einem Wert darin ist der billigere Weg als drei angepasste Leser.
+*/
+const meta = JSON.parse(readFileSync(resolve(wurzel, 'public/data/meta.json'), 'utf8'))
+writeFileSync(
+  resolve(wurzel, 'extension/offene-amazon-stand.js'),
+  'globalThis.AK_OFFENE_AMAZON_STAND = ' + JSON.stringify(meta.generatedAt ?? null) + '\n',
 )
 const eintraege = Object.values(offen).reduce((n, o) => n + o.eintraege.filter((e) => e.offen).length, 0)
 console.log(`${Object.keys(offen).length} Amazon-Adressen mit ${eintraege} offenen Einträgen`)

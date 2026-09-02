@@ -42,7 +42,7 @@
     "check:workflows": "node tools/check-workflows.mjs",
     "check:worker": "tsc --noEmit -p worker/tsconfig.json && node tools/worker-cache-pruefen.cjs",
     "check:hooks": "eslint web/src",
-    "check:extension": "node tools/extension-tests.mjs && node tools/amazon-startseite-pruefen.cjs && eslint --config extension/eslint.config.mjs extension/*.js",
+    "check:extension": "node tools/extension-tests.mjs && node tools/amazon-startseite-pruefen.cjs && eslint --config extension/eslint.config.mjs extension/*.js && node tools/extension-listenstand-pruefen.cjs",
     "check:zugangsart": "tsx pipeline/check-zugangsart.ts",
     "data:katalog": "tsx pipeline/fetch-anilist-katalog.ts",
     "data:ann:ids": "tsx pipeline/fetch-ann-ids.ts",

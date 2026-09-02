@@ -1688,6 +1688,43 @@ async function speicherSchreiben(werte) {
   }
 
   const liste = globalThis.AK_OFFENE_AMAZON ?? {}
+
+  /**
+   * **„Alles geprüft" ist nur wahr, solange die Liste aktuell ist.**
+   *
+   * `AK_OFFENE_AMAZON` liegt in der Erweiterung, nicht auf dem Server: Was der
+   * Bau hinzufügt, sieht der Browser erst nach einem Neuladen in
+   * `chrome://extensions`. Bis dahin sagt der Knopf „Prime: alles geprüft" und
+   * meint „in meiner Liste steht nichts mehr" — zwei verschiedene Aussagen.
+   *
+   * Real am 02.09.2026: „Karakai Jouzu no Takagi-san 2" kam um 08:53 in die
+   * Liste. Um 11:16 stand der Titel auf dem Bildschirm, die Statusanzeige
+   * zählte ihn als offen, und der Knopf meldete „alles geprüft". Beide hatten
+   * recht — nur aus verschiedenen Ständen, und nichts sagte es.
+   *
+   * Verglichen wird der Datenstand, den der Bau in die Liste geschrieben hat,
+   * gegen den der Live-Seite. Einmal je Stunde, denn er ändert sich nicht öfter;
+   * ein Fehlschlag bleibt folgenlos — dann steht dort eben kein Hinweis.
+   */
+  const STAND_FRIST_MS = 60 * 60 * 1000
+  let listeVeraltet = false
+  let standGeprueftAm = 0
+
+  async function standPruefen() {
+    const eigener = globalThis.AK_OFFENE_AMAZON_STAND ?? null
+    if (!eigener) return
+    if (Date.now() - standGeprueftAm < STAND_FRIST_MS) return
+    standGeprueftAm = Date.now()
+    try {
+      const antwort = await fetch('https://anime-kalender.de/data/meta.json', { cache: 'no-store' })
+      if (!antwort.ok) return
+      const daten = await antwort.json()
+      if (!daten?.generatedAt) return
+      listeVeraltet = String(daten.generatedAt) !== String(eigener)
+    } catch {
+      /* Kein Netz, keine Aussage — der Hinweis bleibt weg, statt falsch zu sein. */
+    }
+  }
   /**
    * **Die Prüflisten kommen von der Seite, nicht aus dem Paket.**
    *
@@ -4098,15 +4135,22 @@ async function speicherSchreiben(werte) {
         : suchen
           ? `${suchen} Prime-Suchen offen`
           : `${offen} Prime-Titel offen`
-      : 'Prime: alles geprüft',
+      : listeVeraltet
+        ? 'Prime-Liste veraltet — neu laden'
+        : 'Prime: alles geprüft',
     )
     setz(
       uebersichtKnopf,
       'title',
       gesamt
-        ? 'Liste öffnen — Seite aufrufen, warten bis der Knopf eine Zahl zeigt, klicken'
-        : 'Keine offenen Prime-Titel mehr',
+        ? listeVeraltet
+          ? 'Der Bestand ist neuer als diese Liste — es können weitere Aufträge dazugekommen sein. In chrome://extensions auf „Aktualisieren".'
+          : 'Liste öffnen — Seite aufrufen, warten bis der Knopf eine Zahl zeigt, klicken'
+        : listeVeraltet
+          ? 'Der Bestand ist neuer als diese Liste. In chrome://extensions auf „Aktualisieren", dann stehen die neuen Aufträge hier.'
+          : 'Keine offenen Prime-Titel mehr',
     )
+    void standPruefen()
     if (dialog) dialogFuellen()
   }
   uebersichtZeichnen()
