@@ -1,15 +1,74 @@
 [
   {
-    "id": 136192,
-    "unser": "Fruits Basket: Prelude",
-    "katalogId": "GMTE00119156",
-    "katalogTitel": "-prelude-",
+    "id": 20919,
+    "unser": "Project Itoh: Genocidal Organ",
+    "katalogId": "GW4HM7NZX",
+    "katalogTitel": "Genocidal Organ",
     "audio": [
       "ja-JP",
-      "en-US",
       "de-DE"
     ],
-    "art": "Katalogtitel steckt in unserem",
-    "folgen": 1
+    "art": "Name exakt",
+    "folgen": 0
+  },
+  {
+    "id": 20932,
+    "unser": "Project Itoh: Harmony",
+    "katalogId": "GEXH3W5VN",
+    "katalogTitel": "Harmony",
+    "audio": [
+      "de-DE",
+      "ja-JP"
+    ],
+    "art": "Name exakt",
+    "folgen": 0
+  },
+  {
+    "id": 20965,
+    "unser": "Project Itoh: The Empire of Corpses",
+    "katalogId": "GKEH2G77X",
+    "katalogTitel": "The Empire of Corpses",
+    "audio": [
+      "ja-JP",
+      "de-DE"
+    ],
+    "art": "Name exakt",
+    "folgen": 0
+  },
+  {
+    "id": 97917,
+    "unser": "Night is Short, Walk on Girl",
+    "katalogId": "GP5HJ8QJP",
+    "katalogTitel": "Night is Short, Walk On Girl",
+    "audio": [
+      "de-DE",
+      "ja-JP"
+    ],
+    "art": "Name exakt",
+    "folgen": 0
+  },
+  {
+    "id": 98249,
+    "unser": "Lu over the Wall",
+    "katalogId": "G3KHEVPE1",
+    "katalogTitel": "Lu Over the Wall",
+    "audio": [
+      "ja-JP",
+      "de-DE"
+    ],
+    "art": "Name exakt",
+    "folgen": 0
+  },
+  {
+    "id": 105018,
+    "unser": "Ride Your Wave",
+    "katalogId": "GMEHMEJ97",
+    "katalogTitel": "Ride Your Wave",
+    "audio": [
+      "ja-JP",
+      "de-DE"
+    ],
+    "art": "Name exakt",
+    "folgen": 0
   }
 ]

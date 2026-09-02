@@ -1,23 +1,5 @@
 [
   {
-    "id": 781,
-    "titel": "Detektiv Conan: Der Magier des letzten Jahrhunderts",
-    "en": "Detective Conan: The Last Wizard of the Century",
-    "romaji": "Meitantei Conan: Seikimatsu no Majutsushi",
-    "format": "MOVIE",
-    "jahr": 1999,
-    "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-3-der-magier-des-letzten-jahrhunderts-unbekannt-810166",
-    "treffer": {
-      "serienId": "GVDHX8DWX",
-      "blockId": "GWDU8PME1",
-      "blockTitel": "Folge „Der Magier des letzten Jahrhunderts\" in Detektiv Conan Movies",
-      "audio": [
-        "de-DE",
-        "ja-JP"
-      ]
-    }
-  },
-  {
     "id": 1362,
     "titel": "Street Fighter II: The Animated Movie",
     "en": "Street Fighter II: The Animated Movie",
@@ -26,42 +8,6 @@
     "jahr": 1994,
     "url": "https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie",
     "treffer": null
-  },
-  {
-    "id": 1363,
-    "titel": "Detektiv Conan: Der Killer in ihren Augen",
-    "en": "Detective Conan: Captured in Her Eyes",
-    "romaji": "Meitantei Conan: Hitomi no Naka no Ansatsusha",
-    "format": "MOVIE",
-    "jahr": 2000,
-    "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-4-der-killer-in-ihren-augen-unbekannt-810167",
-    "treffer": {
-      "serienId": "GVDHX8DWX",
-      "blockId": "GG1U2D54G",
-      "blockTitel": "Folge „Der Killer in ihren Augen\" in Detektiv Conan Movies",
-      "audio": [
-        "de-DE",
-        "ja-JP"
-      ]
-    }
-  },
-  {
-    "id": 1434,
-    "titel": "Lupin III.: Der Schatz des Harimao",
-    "en": "Lupin the 3rd: The Pursuit of Harimao's Treasure",
-    "romaji": "Lupin III: Harimao no Zaiho wo oe!!",
-    "format": "SPECIAL",
-    "jahr": 1995,
-    "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180",
-    "treffer": {
-      "serienId": "GJ0H7QM3K",
-      "blockId": "GR2PCV2XD",
-      "blockTitel": "LUPIN III. TV Special: Der Schatz des Harimao",
-      "audio": [
-        "ja-JP",
-        "de-DE"
-      ]
-    }
   },
   {
     "id": 2262,
@@ -84,24 +30,6 @@
     "treffer": null
   },
   {
-    "id": 6467,
-    "titel": "Detektiv Conan: Das verlorene Schiff im Himmel",
-    "en": "Detective Conan: The Lost Ship in the Sky",
-    "romaji": "Meitantei Conan: Tenkuu no Lost Ship",
-    "format": "MOVIE",
-    "jahr": 2010,
-    "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-14-das-verlorene-schiff-im-himmel-unbekannt-811396?ssid=400599",
-    "treffer": {
-      "serienId": "GVDHX8DWX",
-      "blockId": "GX9UQK3D4",
-      "blockTitel": "Folge „Das verlorene Schiff im Himmel\" in Detektiv Conan Movies",
-      "audio": [
-        "ja-JP",
-        "de-DE"
-      ]
-    }
-  },
-  {
     "id": 9488,
     "titel": "Cencoroll Connect",
     "romaji": "Cencoroll 2",
@@ -121,24 +49,6 @@
     "treffer": null
   },
   {
-    "id": 12049,
-    "titel": "Fairy Tail: The Movie - Phoenix Priestess",
-    "en": "Fairy Tail: Phoenix Priestess",
-    "romaji": "FAIRY TAIL: Houou no Miko",
-    "format": "MOVIE",
-    "jahr": 2012,
-    "url": "https://www.crunchyroll.com/fairy-tail-movies/fairy-tail-the-movie-phoenix-princess-unbekannt-821316?ssid=422327",
-    "treffer": {
-      "serienId": "G4PH0WMN7",
-      "blockId": "G609CX33Q",
-      "blockTitel": "Fairy Tail Movie 1 - Phoenix Priestess",
-      "audio": [
-        "ja-JP",
-        "de-DE"
-      ]
-    }
-  },
-  {
     "id": 20021,
     "titel": "Sword Art Online: Extra Edition",
     "en": "Sword Art Online EXTRA EDITION",
@@ -149,48 +59,13 @@
     "treffer": null
   },
   {
-    "id": 20546,
-    "titel": "Detektiv Conan: Der Scharfschütze aus einer anderen Dimension",
-    "en": "Detective Conan: Dimensional Sniper",
-    "romaji": "Meitantei Conan: Ijigen no Sniper",
+    "id": 20919,
+    "titel": "Project Itoh: Genocidal Organ",
+    "en": "Genocidal Organ",
+    "romaji": "Gyakusatsu Kikan",
     "format": "MOVIE",
-    "jahr": 2014,
-    "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-18-der-scharfschtze-aus-einer-anderen-dimension-unbekannt-812231",
-    "treffer": {
-      "serienId": "GVDHX8DWX",
-      "blockId": "GVWU0PG00",
-      "blockTitel": "Folge „Der Scharfschütze aus einer anderen Dimension\" in Detektiv Conan Movies",
-      "audio": [
-        "ja-JP",
-        "de-DE"
-      ]
-    }
-  },
-  {
-    "id": 20978,
-    "titel": "Lupin III.: Daisuke Jigens Grabstein",
-    "en": "Lupin the IIIrd: Jigen's Gravestone",
-    "romaji": "LUPIN THE IIIRD: Jigen Daisuke no Bohyou",
-    "format": "MOVIE",
-    "jahr": 2014,
-    "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942",
-    "treffer": {
-      "serienId": "G1XHJVXGN",
-      "blockId": "GR5VCD24G",
-      "blockTitel": "LUPIN III. - Daisuke Jigens Grabstein (Takeshi Koike OVA 1)",
-      "audio": [
-        "de-DE",
-        "ja-JP"
-      ]
-    }
-  },
-  {
-    "id": 20960,
-    "titel": "Love Stage!! Daran war gar nichts leicht",
-    "romaji": "LOVE STAGE!!: Chotto ja Nakutte",
-    "format": "OVA",
-    "jahr": 2014,
-    "url": "https://www.crunchyroll.com/love-stage/episode-11-841216",
+    "jahr": 2017,
+    "url": "https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444",
     "treffer": null
   },
   {
@@ -211,6 +86,25 @@
     }
   },
   {
+    "id": 20932,
+    "titel": "Project Itoh: Harmony",
+    "romaji": "Harmony",
+    "format": "MOVIE",
+    "jahr": 2015,
+    "url": "https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443",
+    "treffer": null
+  },
+  {
+    "id": 20965,
+    "titel": "Project Itoh: The Empire of Corpses",
+    "en": "The Empire of Corpses",
+    "romaji": "Shisha no Teikoku",
+    "format": "MOVIE",
+    "jahr": 2015,
+    "url": "https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057",
+    "treffer": null
+  },
+  {
     "id": 21158,
     "titel": "High Speed! Free! Starting Days",
     "en": "High Speed! -Free! Starting Days-",
@@ -219,25 +113,6 @@
     "jahr": 2015,
     "url": "https://www.crunchyroll.com/de/free-iwatobi-swim-club",
     "treffer": null
-  },
-  {
-    "id": 21376,
-    "titel": "Sound! Euphonium: Auf die Plätze, fertig, Monaka",
-    "en": "Sound! Euphonium: Ready, Set, Monaka",
-    "romaji": "Hibike! Euphonium: Kakedasu Monaka",
-    "format": "OVA",
-    "jahr": 2015,
-    "url": "https://www.crunchyroll.com/de/sound-euphonium",
-    "treffer": {
-      "serienId": "GRDQNQW9Y",
-      "blockId": "GE00020618ENUS",
-      "blockTitel": "Folge „Auf die Plätze, fertig, Monaka\" in Sound! Euphonium",
-      "audio": [
-        "ja-JP",
-        "de-DE",
-        "en-US"
-      ]
-    }
   },
   {
     "id": 21416,
@@ -269,17 +144,35 @@
     "treffer": null
   },
   {
-    "id": 97619,
-    "titel": "Lupin III.: Goemon Ishikawa, der es Blut regnen lässt",
-    "en": "Lupin the IIIrd: Goemon's Blood Spray",
-    "romaji": "LUPIN THE IIIRD: Chikemuri no Ishikawa Goemon",
+    "id": 97917,
+    "titel": "Night is Short, Walk on Girl",
+    "en": "The Night is Short, Walk on Girl",
+    "romaji": "Yoru wa Mijikashi Arukeyo Otome",
     "format": "MOVIE",
     "jahr": 2017,
-    "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944",
+    "url": "https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939",
     "treffer": {
-      "serienId": "G1XHJVXGN",
-      "blockId": "G6WEC39KZ",
-      "blockTitel": "LUPIN III. - Goemon Ishikawa, der es Blut regnen lässt (Takeshi Koike OVA 2)",
+      "serienId": "GP5HJ8QJP",
+      "blockId": "GVWU0P8X1",
+      "blockTitel": "Folge „(DE) Night is short, walk on girl\" in Night is Short, Walk On Girl",
+      "audio": [
+        "de-DE",
+        "ja-JP"
+      ]
+    }
+  },
+  {
+    "id": 87539,
+    "titel": "The Dragon Dentist",
+    "en": "The Dragon Dentist",
+    "romaji": "Ryuu no Haisha",
+    "format": "SPECIAL",
+    "jahr": 2017,
+    "url": "https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190",
+    "treffer": {
+      "serienId": "GYNV5K5ZR",
+      "blockId": "GX9UQK3W8",
+      "blockTitel": "Folge „(DE) The Dragon Dentist\" in The Dragon Dentist",
       "audio": [
         "ja-JP",
         "de-DE"
@@ -287,20 +180,20 @@
     }
   },
   {
-    "id": 98604,
-    "titel": "Detektiv Conan: Episode ONE - Der geschrumpfte Meisterdetektiv",
-    "en": "Detective Conan: Episode \"ONE\"",
-    "romaji": "Meitantei Conan: Episode \"ONE\" - Chiisakunatta Meitantei",
-    "format": "SPECIAL",
-    "jahr": 2016,
-    "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-episode-one-der-geschrumpfte-meisterdetektiv-unbekannt-821630?ssid=422962",
+    "id": 98249,
+    "titel": "Lu over the Wall",
+    "en": "Lu Over the Wall",
+    "romaji": "Yoake Tsugeru Lu no Uta",
+    "format": "MOVIE",
+    "jahr": 2017,
+    "url": "https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959",
     "treffer": {
-      "serienId": "GW4HM7NV3",
-      "blockId": "GYWEC39PZ",
-      "blockTitel": "Detektiv Conan TV Special - Episode ONE: Der geschrumpfte Meisterdetektiv",
+      "serienId": "G3KHEVPE1",
+      "blockId": "G31UX7VEJ",
+      "blockTitel": "Folge „Lu Over the Wall\" in Lu Over the Wall",
       "audio": [
-        "de-DE",
-        "ja-JP"
+        "ja-JP",
+        "de-DE"
       ]
     }
   },
@@ -325,18 +218,19 @@
     "treffer": null
   },
   {
-    "id": 107351,
-    "titel": "Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier",
-    "en": "HAIKYU!! - Special Feature! The Spring Tournament of Their Youth",
-    "romaji": "Haikyuu!!: Tokushuu! Haru-kou Volley ni Kaketa Seishun",
+    "id": 99916,
+    "titel": "Kase-san and Morning Glories",
+    "en": "Kase-san and Morning Glories",
+    "romaji": "Asagao to Kase-san.",
     "format": "OVA",
-    "jahr": 2017,
-    "url": "https://www.crunchyroll.com/de/haikyu-dubs/episode-3-special-feature-the-spring-tournament-of-their-youth-848359",
+    "jahr": 2018,
+    "url": "https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883",
     "treffer": {
-      "serienId": "GY8VM8MWY",
-      "blockId": "GPWUK14GG",
-      "blockTitel": "Folge „Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier\" in Haikyu!!",
+      "serienId": "G1XHJV3DV",
+      "blockId": "G0DUN934P",
+      "blockTitel": "Folge „Kase-san and Morning Glories\" in Kase-san and Morning Glories",
       "audio": [
+        "ja-JP",
         "de-DE"
       ]
     }
@@ -361,6 +255,24 @@
     "treffer": null
   },
   {
+    "id": 105018,
+    "titel": "Ride Your Wave",
+    "en": "Ride Your Wave",
+    "romaji": "Kimi to, Nami ni Noretara",
+    "format": "MOVIE",
+    "jahr": 2019,
+    "url": "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654",
+    "treffer": {
+      "serienId": "GMEHMEJ97",
+      "blockId": "GMKUXZ287",
+      "blockTitel": "Folge „(DE) Ride Your Wave\" in Ride Your Wave",
+      "audio": [
+        "ja-JP",
+        "de-DE"
+      ]
+    }
+  },
+  {
     "id": 108945,
     "titel": "One Punch Man Season 2 OVAs",
     "en": "One-Punch Man Season 2 OVA",
@@ -371,28 +283,6 @@
     "treffer": null
   },
   {
-    "id": 127371,
-    "titel": "Tonikawa: Over the Moon for You - Social Media",
-    "en": "TONIKAWA: Over The Moon For You ~SNS~",
-    "romaji": "Tonikaku Kawaii: SNS",
-    "format": "OVA",
-    "jahr": 2021,
-    "url": "https://www.crunchyroll.com/de/tonikawa-over-the-moon-for-you",
-    "treffer": {
-      "serienId": "GRWMGGQ86",
-      "blockId": "GK9U38XM3",
-      "blockTitel": "Folge „Social Media\" in TONIKAWA: Over The Moon For You",
-      "audio": [
-        "ja-JP",
-        "pt-BR",
-        "de-DE",
-        "fr-FR",
-        "es-419",
-        "en-US"
-      ]
-    }
-  },
-  {
     "id": 133124,
     "en": "Free! the Final Stroke: The Second Volume",
     "romaji": "Free!: the Final Stroke - Kouhen",
@@ -400,37 +290,5 @@
     "jahr": 2022,
     "url": "https://www.crunchyroll.com/de/free-iwatobi-swim-club",
     "treffer": null
-  },
-  {
-    "id": 136192,
-    "titel": "Fruits Basket: Prelude",
-    "en": "Fruits Basket -prelude-",
-    "romaji": "Fruits Basket: prelude",
-    "format": "MOVIE",
-    "jahr": 2022,
-    "url": "https://www.crunchyroll.com/de/fruits-basket",
-    "treffer": null
-  },
-  {
-    "id": 141212,
-    "titel": "Tonikawa: Over the Moon for You - Uniform",
-    "en": "TONIKAWA: Over The Moon For You ~Uniform~",
-    "romaji": "Tonikaku Kawaii: Seifuku",
-    "format": "SPECIAL",
-    "jahr": 2022,
-    "url": "https://www.crunchyroll.com/de/series/GRWMGGQ86/tonikawa-over-the-moon-for-you",
-    "treffer": {
-      "serienId": "GRWMGGQ86",
-      "blockId": "GMKUXK8G9",
-      "blockTitel": "Folge „TONIKAWA: Over The Moon For You ~Uniform~\" in TONIKAWA: Over The Moon For You",
-      "audio": [
-        "ja-JP",
-        "pt-BR",
-        "fr-FR",
-        "es-419",
-        "en-US",
-        "de-DE"
-      ]
-    }
   }
 ]

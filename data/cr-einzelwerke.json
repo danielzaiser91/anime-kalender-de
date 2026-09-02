@@ -54,16 +54,52 @@
     }
   },
   {
-    "id": 20960,
-    "titel": "Love Stage!! Daran war gar nichts leicht",
-    "romaji": "LOVE STAGE!!: Chotto ja Nakutte",
-    "format": "OVA",
+    "id": 20919,
+    "titel": "Project Itoh: Genocidal Organ",
+    "en": "Genocidal Organ",
+    "romaji": "Gyakusatsu Kikan",
+    "format": "MOVIE",
     "folgen": 1,
-    "url": "https://www.crunchyroll.com/love-stage/episode-11-841216",
+    "url": "https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444",
     "treffer": {
-      "id": "GRP8DPXMR",
+      "id": "GW4HM7NZX",
       "typ": "top_results",
-      "titel": "Love Stage!!",
+      "titel": "Genocidal Organ",
+      "audio": [
+        "ja-JP",
+        "de-DE"
+      ]
+    }
+  },
+  {
+    "id": 20932,
+    "titel": "Project Itoh: Harmony",
+    "romaji": "Harmony",
+    "format": "MOVIE",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443",
+    "treffer": {
+      "id": "GEXH3W5VN",
+      "typ": "top_results",
+      "titel": "Harmony",
+      "audio": [
+        "de-DE",
+        "ja-JP"
+      ]
+    }
+  },
+  {
+    "id": 20965,
+    "titel": "Project Itoh: The Empire of Corpses",
+    "en": "The Empire of Corpses",
+    "romaji": "Shisha no Teikoku",
+    "format": "MOVIE",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057",
+    "treffer": {
+      "id": "GKEH2G77X",
+      "typ": "top_results",
+      "titel": "The Empire of Corpses",
       "audio": [
         "ja-JP",
         "de-DE"
@@ -81,6 +117,78 @@
     "treffer": null
   },
   {
+    "id": 97917,
+    "titel": "Night is Short, Walk on Girl",
+    "en": "The Night is Short, Walk on Girl",
+    "romaji": "Yoru wa Mijikashi Arukeyo Otome",
+    "format": "MOVIE",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939",
+    "treffer": {
+      "id": "GP5HJ8QJP",
+      "typ": "top_results",
+      "titel": "Night is Short, Walk On Girl",
+      "audio": [
+        "de-DE",
+        "ja-JP"
+      ]
+    }
+  },
+  {
+    "id": 87539,
+    "titel": "The Dragon Dentist",
+    "en": "The Dragon Dentist",
+    "romaji": "Ryuu no Haisha",
+    "format": "SPECIAL",
+    "folgen": 2,
+    "url": "https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190",
+    "treffer": {
+      "id": "GYNV5K5ZR",
+      "typ": "top_results",
+      "titel": "The Dragon Dentist",
+      "audio": [
+        "ja-JP",
+        "de-DE"
+      ]
+    }
+  },
+  {
+    "id": 98249,
+    "titel": "Lu over the Wall",
+    "en": "Lu Over the Wall",
+    "romaji": "Yoake Tsugeru Lu no Uta",
+    "format": "MOVIE",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959",
+    "treffer": {
+      "id": "G3KHEVPE1",
+      "typ": "top_results",
+      "titel": "Lu Over the Wall",
+      "audio": [
+        "ja-JP",
+        "de-DE"
+      ]
+    }
+  },
+  {
+    "id": 99916,
+    "titel": "Kase-san and Morning Glories",
+    "en": "Kase-san and Morning Glories",
+    "romaji": "Asagao to Kase-san.",
+    "format": "OVA",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883",
+    "treffer": {
+      "id": "G1XHJV3DV",
+      "typ": "top_results",
+      "titel": "Kase-san and Morning Glories",
+      "audio": [
+        "ja-JP",
+        "de-DE"
+      ]
+    }
+  },
+  {
     "id": 101478,
     "titel": "Okko und ihre Geisterfreunde",
     "en": "Okko's Inn",
@@ -88,6 +196,34 @@
     "format": "MOVIE",
     "folgen": 1,
     "url": "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785",
+    "treffer": null
+  },
+  {
+    "id": 105018,
+    "titel": "Ride Your Wave",
+    "en": "Ride Your Wave",
+    "romaji": "Kimi to, Nami ni Noretara",
+    "format": "MOVIE",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654",
+    "treffer": {
+      "id": "GMEHMEJ97",
+      "typ": "top_results",
+      "titel": "Ride Your Wave",
+      "audio": [
+        "ja-JP",
+        "de-DE"
+      ]
+    }
+  },
+  {
+    "id": 107068,
+    "titel": "Karakai Jozu no Takagi-san: Staffel 2",
+    "en": "Teasing Master Takagi-san Season 2",
+    "romaji": "Karakai Jouzu no Takagi-san 2",
+    "format": "TV",
+    "folgen": 12,
+    "url": "https://www.crunchyroll.com/series/G6X0P133Y/karakai-jozu-no-takagi-san",
     "treffer": null
   }
 ]
