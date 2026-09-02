@@ -1875,14 +1875,28 @@ async function speicherSchreiben(werte) {
     }
   }
 
-  /** Der Auftrag ist abgearbeitet — Speicher leeren, Kasten entfernen. */
+  /**
+   * **Der Auftrag ist abgearbeitet — der Kasten bleibt trotzdem.**
+   *
+   * Bis zum 02.09.2026 wurde er hier entfernt, und das war richtig, solange er
+   * nur ein Hinweis war („Meldung läuft unter diesem Titel" — nach der Meldung
+   * läuft nichts mehr, Daniel am 27.08.2026).
+   *
+   * Seit dem Umbau ist er das Bedienelement: Prüflisten-Knopf, Melde-Knopf,
+   * Checkliste und die Marke „gemeldet ✓" sitzen darin. Ihn zu entfernen nahm
+   * alles mit — nach der Meldung war der Bildschirm leer (Daniel: „gemeldet,
+   * aber hinweisbox verschwindet komplett? ich brauch das gemeldet, die
+   * prüfliste, etc").
+   *
+   * Der nächste Takt zeichnet ihn neu, jetzt mit dem Ergebnis statt mit dem
+   * Auftrag. Nur der Sitzungs-Merker wird geleert — er hat seine Aufgabe getan.
+   */
   function suchauftragVergessen() {
     try {
       sessionStorage.removeItem(SUCH_SCHLUESSEL)
     } catch {
       /* Ohne Speicher gab es auch nichts zu vergessen. */
     }
-    document.querySelector('.ak-amazon-suchhinweis')?.remove()
   }
 
   function suchauftrag() {
@@ -3851,6 +3865,23 @@ async function speicherSchreiben(werte) {
               sprung.title = `${k} öffnen`
               sprung.addEventListener('click', (e) => {
                 e.preventDefault()
+                /*
+                  **Der Auftrag reist mit — sonst steht die Zielseite ohne da.**
+
+                  Der Sprung auf der Trefferliste merkt ihn seit 4.10.10; dieser
+                  hier war neu und tat es nicht. Wer von einer Ausgabe zur
+                  anderen springt, landete deshalb auf einer Seite, die ihren
+                  Auftrag erst über die Erwartung wiederfinden musste — und
+                  solange der Briefkasten noch nicht geantwortet hatte, gar nicht
+                  (Daniel, 02.09.2026: „über die prüfliste geöffnet" — nur so
+                  ging es).
+                */
+                try {
+                  const a2 = suchauftrag()
+                  if (a2?.suchUrl) suchauftragMerken({ ...a2, zielAsin: String(k) })
+                } catch {
+                  /* Ohne Merker geht es über die Erwartung — nur langsamer. */
+                }
                 location.href = sprung.href
               })
               zeile.appendChild(sprung)
