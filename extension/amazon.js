@@ -813,6 +813,37 @@ async function speicherSchreiben(werte) {
     }
   }
 
+  /**
+   * **Ruhemodus für Aufnahmen: Der Hintergrund steht still.**
+   *
+   * Prime Video spielt hinter der Seite ein Video und animiert die Karten. Bei
+   * einer Bildschirmaufnahme ändert sich dadurch fast jedes Einzelbild, und
+   * gleichmäßige Stichproben verfehlen genau die Stelle, an der die Erweiterung
+   * etwas tut (Daniel, 02.09.2026: „du verpasst die wichtigen stellen").
+   *
+   * Steht der Hintergrund, ist jede Änderung im Bild eine Änderung der
+   * Oberfläche — und die lässt sich aus der Aufnahme Bild für Bild
+   * herausrechnen, statt sie zu suchen.
+   *
+   *     document.dispatchEvent(new CustomEvent('ak-ruhig'))
+   *
+   * Ein zweiter Aufruf schaltet zurück. Der Modus gilt nur für diesen Tab und
+   * ist nach dem Neuladen weg — er ändert nichts an der Seite, er blendet aus.
+   */
+  /* Der Sandkasten der Zusicherungen kennt kein `addEventListener` am Dokument. */
+  document.addEventListener?.('ak-ruhig', () => {
+    const an = document.documentElement.classList.toggle('ak-ruhig')
+    /* Laufende Videos anhalten — CSS allein stoppt sie nicht, es versteckt sie nur. */
+    for (const v of document.querySelectorAll('video')) {
+      try {
+        if (an) v.pause()
+      } catch {
+        /* Ein Player, der sich nicht anhalten lässt, ist kein Grund abzubrechen. */
+      }
+    }
+    console.log('[Anime-Kalender] Ruhemodus ' + (an ? 'an' : 'aus') + ' — Hintergrund steht still.')
+  })
+
   function bericht() {
     const sicher = (f) => {
       try {

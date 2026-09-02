@@ -941,3 +941,30 @@
 @media (prefers-reduced-motion: reduce) {
   .ak-such-laedt { animation: none; opacity: 0.6; }
 }
+
+/*
+  **Ruhemodus für Bildschirmaufnahmen.**
+
+  Prime Video spielt hinter der Seite ein Video und animiert die Karten; in einer
+  Aufnahme ändert sich dadurch fast jedes Einzelbild. Steht der Hintergrund, ist
+  jede Änderung im Bild eine Änderung der Oberfläche — und die lässt sich aus der
+  Aufnahme herausrechnen, statt sie zu suchen (Daniel, 02.09.2026).
+
+  Eingeschaltet wird er über `document.dispatchEvent(new CustomEvent('ak-ruhig'))`.
+  Die Elemente der Erweiterung sind ausgenommen: Ihre Zustände sollen ja sichtbar
+  bleiben, auch die Ladeanzeige.
+*/
+.ak-ruhig video,
+.ak-ruhig canvas {
+  visibility: hidden !important;
+}
+
+.ak-ruhig *:not([class*='ak-']):not([class*='ak-'] *) {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+
+.ak-ruhig img[src*='images-amazon'],
+.ak-ruhig [style*='background-image'] {
+  filter: grayscale(1) brightness(0.35);
+}
