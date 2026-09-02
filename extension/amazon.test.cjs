@@ -784,5 +784,66 @@ function veraltetTest(schritte) {
   )
 }
 
+/* ══ Beim Fernsehen ist die Erweiterung unsichtbar ════════════════════ */
+{
+  /*
+    **Der Player wird gemessen, nicht am Klassennamen erkannt.**
+
+    Am 02.09.2026 lief „Vom Landei zum Schwertheiligen" S2F9 im Vollbild auf
+    einer `/gp/video/detail/`-Adresse, und über dem Bild standen Prüflisten-Knopf
+    und Ruhemodus-Zeile — Amazon hängt den Player dort ohne
+    `.webPlayerSDKContainer` ein. Daniel: „in watch mode no extension should be
+    visible."
+
+    Die Funktion wird aus `amazon.js` geholt statt nachgebaut — eine zweite
+    Fassung liefe unweigerlich auseinander (dieselbe Bauweise wie in
+    `uebersicht.test.cjs`).
+  */
+  const quelle = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const von = quelle.indexOf('function imPlayer')
+  const bis = quelle.indexOf('\n  }\n', von) + 4
+  let document
+  let window
+  const imPlayerCode = quelle.slice(von, bis).replace(/^  /gm, '')
+  // eslint-disable-next-line no-eval
+  eval(imPlayerCode)
+
+  const kulisse = ({ container = null, videos = [], hoehe = 900 }) => {
+    window = { innerHeight: hoehe }
+    document = {
+      querySelector: () => container,
+      querySelectorAll: () => videos,
+    }
+  }
+
+  kulisse({})
+  pruefe('ohne Player und ohne Video ist es kein Player', !imPlayer())
+
+  kulisse({ container: { offsetHeight: 700 } })
+  pruefe('der bekannte Player-Container zählt weiter', imPlayer())
+
+  kulisse({ container: { offsetHeight: 40 } })
+  pruefe('… aber nur mit Höhe — auf der Übersicht steht er ohne', !imPlayer())
+
+  /* Der Fall vom 02.09.2026: Vollbild ohne den bekannten Container. */
+  kulisse({ videos: [{ muted: false, readyState: 4, offsetHeight: 820 }] })
+  pruefe('ein großes laufendes Video ist ein Player, auch ohne Container', imPlayer())
+
+  /*
+    Und der Riegel dagegen: Das Hintergrundvideo einer Übersicht ist stumm.
+    Ohne diese Bedingung verschwand der Listen-Knopf auf jeder Übersichtsseite
+    (Daniel, 27.08.2026) — der Fehler, den die erste Fassung dieser Funktion
+    gemacht hat.
+  */
+  kulisse({ videos: [{ muted: true, readyState: 4, offsetHeight: 820 }] })
+  pruefe('ein stummes Hintergrundvideo ist keiner', !imPlayer())
+
+  kulisse({ videos: [{ muted: false, readyState: 4, offsetHeight: 120 }] })
+  pruefe('ein kleines Video in einer Kachel auch nicht', !imPlayer())
+
+  kulisse({ videos: [{ muted: false, readyState: 0, offsetHeight: 820 }] })
+  pruefe('und eins, das nie geladen hat, ebenso wenig', !imPlayer())
+}
+
 console.log(fehler.length ? `\n${fehler.length} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler.length ? 1 : 0)

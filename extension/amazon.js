@@ -2663,7 +2663,37 @@ async function speicherSchreiben(werte) {
         entscheidet die gemessene Größe, nicht die bloße Anwesenheit.
       */
       const el = document.querySelector('.webPlayerSDKContainer, [data-testid="player-container"]')
-      return Boolean(el && el.offsetHeight > 200)
+      if (el && el.offsetHeight > 200) return true
+
+      /*
+        **Der Container ist nicht der einzige Weg, und er hat nicht gereicht.**
+
+        Am 02.09.2026 lief „Vom Landei zum Schwertheiligen" S2F9 im Vollbild auf
+        `amazon.de/gp/video/detail/B0H1R24SVB?jic=…` — und über dem Bild standen
+        Prüflisten-Knopf und Ruhemodus-Zeile. Daniels Wort: „in watch mode no
+        extension should be visible." Es ist derselbe Fall, den die Regel
+        „Beim Fernsehen ist die Erweiterung unsichtbar" (30.08.2026) schon meint;
+        die Erkennung traf ihn nur nicht, weil Amazon den Player hier ohne den
+        bekannten Container einhängt.
+
+        **Ein Klassenname ist eine Vermutung über fremden Code, ein laufendes
+        Video ist eine Messung.** Deshalb entscheidet als Zweites die Sache
+        selbst: ein `<video>`, das mehr als die halbe Fensterhöhe einnimmt.
+
+        Der Riegel dagegen ist `muted`. Das Hintergrundvideo einer Übersicht ist
+        immer stumm — sonst lärmte jede Seite beim Blättern —, und genau daran
+        war die erste Fassung dieser Funktion gescheitert: `video[src]` allein
+        ließ den Listen-Knopf auf jeder Übersicht verschwinden (Daniel,
+        27.08.2026). Ein Film, den jemand ansieht, ist nicht stumm; ist er es
+        doch, greift der Container-Zweig darüber.
+      */
+      const hoehe = window.innerHeight || 0
+      for (const v of document.querySelectorAll('video')) {
+        if (v.muted) continue
+        if (v.readyState === 0) continue
+        if (v.offsetHeight > hoehe * 0.5) return true
+      }
+      return false
     } catch {
       return false
     }
