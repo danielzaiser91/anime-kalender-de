@@ -984,28 +984,45 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  opacity: 0.3;
+  opacity: 0.8;
   transition: opacity .15s ease;
 }
 
 .ak-debugleiste:hover { opacity: 1; }
 
 .ak-debugknopf {
-  width: 24px;
-  height: 24px;
+  /*
+    Quadratisch und mittig: Ein Zeichen wie ▶ oder ⏸ sitzt in seiner Schriftart
+    weder waagerecht noch senkrecht in der Mitte. `flex` mit zwei `center`
+    stellt es, unabhängig davon, welches Zeichen darin steht — ein zweiter
+    Schalter mit anderem Symbol sitzt dann genauso richtig.
+  */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 6px;
-  background: rgba(22, 27, 34, 0.92);
-  color: #94a3b8;
-  font-size: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 7px;
+  background: rgba(22, 27, 34, 0.95);
+  color: #cbd5e1;
+  font-family: system-ui, sans-serif;
+  font-size: 12px;
   line-height: 1;
+  text-align: center;
   cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background .15s ease;
 }
 
-.ak-debugknopf:hover { border-color: #7aa2ff; color: #7aa2ff; }
+.ak-debugknopf:hover {
+  border-color: #7aa2ff;
+  background: rgba(122, 162, 255, 0.14);
+  color: #7aa2ff;
+}
 
 .ak-debugknopf.ak-debug-an {
   border-color: #6ee7a0;
+  background: rgba(110, 231, 160, 0.14);
   color: #6ee7a0;
 }
