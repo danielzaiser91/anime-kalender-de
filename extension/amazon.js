@@ -915,16 +915,14 @@ async function speicherSchreiben(werte) {
   }
 
   /*
-    Beim Aufbau wiederherstellen. Das läuft vor dem ersten Zeichnen, damit der
-    Hintergrund gar nicht erst anläuft.
+    **Wiederhergestellt wird in `ruhig.js`, nicht hier.**
+
+    Diese Datei läuft bei `document_idle` — da stehen Amazons Elemente längst
+    und das Hintergrundvideo läuft. Der Modus muss bei `document_start` greifen,
+    und dafür gibt es ein eigenes, winziges Content-Script.
+
+    Hier bleibt nur das Umschalten: Wer den Knopf drückt, ist ohnehin da.
   */
-  try {
-    void Promise.resolve(chrome.storage.local.get('akRuhig')).then((x) => {
-      if (x?.akRuhig) ruhigSetzen(true)
-    })
-  } catch {
-    /* Ohne Speicher startet er aus — der Schalter bleibt trotzdem bedienbar. */
-  }
 
   /* Der Sandkasten der Zusicherungen kennt kein `addEventListener` am Dokument. */
   document.addEventListener?.('ak-ruhig', () => {
