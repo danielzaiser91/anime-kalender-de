@@ -2014,10 +2014,29 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         `SELECT DISTINCT such_url FROM pruefung WHERE such_url IS NOT NULL AND such_url != ''`,
       ).all<{ such_url: string }>()
       const gemeldeteSuchen = (suchen ?? []).map((r) => r.such_url)
+      /*
+        **Und die Seiten, auf denen wirklich nachgesehen wurde.**
+
+        Prime führt denselben Anime regelmäßig zweimal: über einen Kanal (aniverse,
+        Crunchyroll) und als Kauftitel. Beide sind Antworten auf „wo kann ich das
+        sehen", und nur die Meldung sagt uns, dass es sie gibt — vorher kennt der
+        Bau höchstens eine Adresse.
+
+        Ein Auftrag steuert, **was** zu prüfen ist. Er darf nicht verbieten, eine
+        zweite Seite desselben Titels zu melden: Am 02.09.2026 war nach der
+        Kauftitel-Meldung die aniverse-Meldung gesperrt, weil die Suchadresse als
+        erledigt galt (Daniel: „nach kaufoption meldung ist aniverse meldung nicht
+        mehr möglich"). Mit dieser Liste entscheidet die **Seite**, nicht der
+        Auftrag.
+      */
+      const { results: seiten } = await env.DB.prepare(
+        `SELECT DISTINCT seiten_kennung FROM pruefung WHERE seiten_kennung IS NOT NULL AND seiten_kennung != ''`,
+      ).all<{ seiten_kennung: string }>()
+      const gemeldeteSeiten = (seiten ?? []).map((r) => r.seiten_kennung)
       return antwort(
         mitNummern
-          ? { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen, eintraege }
-          : { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen },
+          ? { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen, gemeldeteSeiten, eintraege }
+          : { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen, gemeldeteSeiten },
       )
     })
 

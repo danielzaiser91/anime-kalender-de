@@ -2632,6 +2632,48 @@ async function speicherSchreiben(werte) {
    * Klick ein Sprung ins Ungewisse — zwischen einem Kauftitel und einem
    * Kanal-Abo entscheidet er, was überhaupt belegbar ist.
    */
+  /**
+   * **Eine Auswahlzeile: welche Seiten gehören zu diesem Titel?**
+   *
+   * Prime führt denselben Anime regelmäßig zweimal — über einen Kanal (aniverse,
+   * Crunchyroll) und als Kauftitel. Beide sind Wege, und **nur ein Mensch sieht
+   * vorher, welche Karten zusammengehören**: Der Bau kennt höchstens eine
+   * Adresse, und aus einem Namensvergleich folgt es nicht.
+   *
+   * Daniels Vorschlag am 02.09.2026, nachdem eine abgeleitete Lösung dreimal
+   * danebenging: „auf search seite checkboxen anbieten, welche titel erwartet
+   * werden sollen. ich wähle alles aus, klicke auf bestätigen, dann melde ich
+   * die beiden, so kann es vorher getracked werden … und du musst keine
+   * fehleranfällige implementierung bauen."
+   *
+   * Genau das: Was er ankreuzt, ist die Erwartung. Der Auftrag gilt erst als
+   * erledigt, wenn jede angekreuzte Seite gemeldet ist — und **gemeldet** sagt
+   * der Briefkasten, nicht ein lokaler Zähler.
+   */
+  function kastenAuswahl(beschriftung, kennung, angehakt) {
+    const zeile = document.createElement('label')
+    zeile.className = 'ak-such-auswahl'
+    const box = document.createElement('input')
+    box.type = 'checkbox'
+    box.checked = angehakt !== false
+    box.dataset.kennung = kennung ?? ''
+    zeile.append(box, document.createTextNode(' ' + (kennung ? `${beschriftung} (${kennung})` : beschriftung)))
+    if (kennung) {
+      zeile.addEventListener('mouseenter', () => {
+        const karte = karteZu(kennung)
+        if (!karte) return
+        karte.classList.add('ak-treffer-zeigen')
+        karte.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' })
+      })
+      zeile.addEventListener('mouseleave', () => {
+        for (const el of document.querySelectorAll('.ak-treffer-zeigen')) {
+          el.classList.remove('ak-treffer-zeigen')
+        }
+      })
+    }
+    return zeile
+  }
+
   function kastenKnopf(beschriftung, tun, kennung = null) {
     const k = document.createElement('button')
     k.type = 'button'
@@ -2902,6 +2944,58 @@ async function speicherSchreiben(werte) {
             einen Namensvergleich, und der kann danebenliegen — dann sieht Daniel
             es hier, bevor er springt, statt auf einer fremden Titelseite zu melden.
           */
+          /*
+            **Vorher ankreuzen, was zusammengehört — dann weiß der Auftrag es.**
+
+            Prime führt denselben Anime regelmäßig zweimal: über einen Kanal
+            (aniverse, Crunchyroll) und als Kauftitel. Beide sind Wege, und der
+            Bau kennt höchstens eine Adresse — welche Karten dasselbe Werk
+            meinen, sieht nur ein Mensch.
+
+            Bis zum 02.09.2026 galt der Auftrag deshalb nach **einer** Meldung
+            als erledigt, und die zweite Seite ließ sich nicht mehr melden
+            (Daniel: „nach kaufoption meldung ist aniverse meldung nicht mehr
+            möglich"). Drei Versuche, das abzuleiten, gingen daneben.
+
+            Sein Vorschlag: „auf search seite checkboxen anbieten, welche titel
+            erwartet werden sollen … so kann es vorher getracked werden und du
+            musst keine fehleranfällige implementierung bauen."
+
+            Was hier angekreuzt und bestätigt wird, ist die Erwartung. Ob eine
+            davon schon gemeldet ist, sagt der Briefkasten — nicht ein lokaler
+            Zähler.
+          */
+          ...(() => {
+            const karten = sortiert.slice(0, 4).filter((z) => ohneParameter(z.url))
+            if (karten.length < 2) return []
+            const kennungVon = (z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ohneParameter(z.url) ?? '')?.[1] ?? null
+            const bereits = new Set(auftrag.erwartet ?? [])
+            const zeilen = karten
+              .map((z) => {
+                const k = kennungVon(z)
+                if (!k) return null
+                const name = `${kanalKarte(z) ? 'Kanal-Abo' : 'Kauf/Abo'} · ${(z.titel ?? 'Ausgabe').slice(0, 40)}`
+                return kastenAuswahl(name, k, bereits.size ? bereits.has(k) : true)
+              })
+              .filter(Boolean)
+            if (zeilen.length < 2) return []
+            return [
+              kastenZeile('ak-such-hinweis', 'Welche Ausgaben gehören zu diesem Titel? Ankreuzen, bestätigen, dann jede melden.'),
+              ...zeilen,
+              kastenKnopf(
+                auftrag.erwartet?.length ? `Auswahl ändern (${auftrag.erwartet.length} erwartet)` : 'Auswahl bestätigen',
+                (k) => {
+                  const gewaehlt = [...(k.parentElement?.querySelectorAll('.ak-such-auswahl input:checked') ?? [])]
+                    .map((b) => b.dataset.kennung)
+                    .filter(Boolean)
+                  suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, erwartet: gewaehlt })
+                  k.textContent = `${gewaehlt.length} erwartet — jetzt jede öffnen und melden`
+                  k.disabled = true
+                  uebersichtZeichnen()
+                },
+              ),
+            ]
+          })(),
           ziel
             ? kastenKnopf(
                 'Zum Anime springen',
@@ -3987,6 +4081,34 @@ async function speicherSchreiben(werte) {
   let briefkastenAdressen = null
   /** Suchadressen, unter denen gemeldet wurde — vom Briefkasten, nicht lokal. */
   let briefkastenSuchen = null
+  /** Seiten-Kennungen, auf denen schon nachgesehen wurde. */
+  let briefkastenSeiten = null
+
+  /**
+   * **Diese Seite ist offen, auch wenn ihr Auftrag schon eine Meldung hat.**
+   *
+   * Prime führt denselben Anime regelmäßig zweimal — über einen Kanal und als
+   * Kauftitel. Beide sind Wege, und nur die Meldung sagt uns, dass es sie gibt.
+   * Ein Auftrag steuert, **was** zu prüfen ist; er darf nicht verbieten, die
+   * zweite Seite zu melden.
+   *
+   * Am 02.09.2026 tat er genau das: Nach der Kauftitel-Meldung war die
+   * aniverse-Meldung gesperrt, weil die Suchadresse als erledigt galt (Daniel:
+   * „nach kaufoption meldung ist aniverse meldung nicht mehr möglich").
+   *
+   * Solange der Briefkasten schweigt, gilt der Auftrag — dann ist das Verhalten
+   * wie bisher, und ein Titel steht höchstens einmal zu viel offen.
+   */
+  function seiteOffen() {
+    try {
+      if (!briefkastenSeiten) return false
+      const kennung = asin()
+      if (!kennung) return false
+      return !briefkastenSeiten.has(String(kennung))
+    } catch {
+      return false
+    }
+  }
   let briefkastenGeholtAm = 0
   const BRIEFKASTEN_FRIST_MS = 60_000
 
@@ -4053,6 +4175,8 @@ async function speicherSchreiben(werte) {
         für Suchadressen nur der lokale Vermerk, und der ist nicht abgeglichen.
       */
       briefkastenSuchen = Array.isArray(daten.gemeldeteSuchen) ? new Set(daten.gemeldeteSuchen) : null
+      /* Die Seiten, auf denen schon nachgesehen wurde — siehe `seiteOffen`. */
+      briefkastenSeiten = Array.isArray(daten.gemeldeteSeiten) ? new Set(daten.gemeldeteSeiten) : null
       briefkastenGeholtAm = Date.now()
       try {
         uebersichtZeichnen()
@@ -4142,6 +4266,30 @@ async function speicherSchreiben(werte) {
         synchron remote abgeglichen werden, kein lokales zurücksetzen only, kein
         localstorage dafür … single source of truth."
       */
+      /*
+        **Eine Erwartung schlägt jede Einzelmeldung.**
+
+        Hat Daniel auf der Trefferliste angekreuzt, welche Ausgaben zu diesem
+        Titel gehören, ist der Auftrag erst mit **allen** erledigt. Ohne das galt
+        er nach der ersten Meldung als fertig, und die zweite Seite ließ sich
+        nicht mehr melden (02.09.2026, „Is This a Zombie?": Kauftitel gemeldet,
+        aniverse gesperrt).
+
+        Was gemeldet ist, sagt der Briefkasten über `gemeldeteSeiten` — die
+        Kennungen der Seiten, auf denen wirklich nachgesehen wurde. Kein lokaler
+        Zähler: Wird eine Meldung verworfen, steht ihre Seite wieder offen.
+      */
+      const erwartet = (() => {
+        try {
+          const a = suchauftrag()
+          return a?.suchUrl === url && Array.isArray(a.erwartet) && a.erwartet.length ? a.erwartet : null
+        } catch {
+          return null
+        }
+      })()
+      if (erwartet && briefkastenSeiten) {
+        return erwartet.every((k) => briefkastenSeiten.has(String(k)))
+      }
       if (briefkastenSuchen) return briefkastenSuchen.has(url) || Boolean(suchErledigtFrisch(url))
       /*
         **Solange der Briefkasten schweigt, gilt der lokale Vermerk — befristet.**

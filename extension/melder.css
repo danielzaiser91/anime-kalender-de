@@ -670,3 +670,32 @@
   background: rgba(63, 185, 80, 0.18) !important;
   color: #7ee787 !important;
 }
+
+/*
+  Die Auswahlzeilen der Trefferliste — welche Ausgaben gehören zu diesem Titel?
+
+  Prime führt denselben Anime regelmäßig zweimal (Kanal-Abo und Kauftitel), und
+  nur ein Mensch sieht vorher, welche Karten dasselbe Werk meinen. Angekreuzt
+  wird deshalb vor dem Melden; der Auftrag gilt erst mit allen als erledigt.
+*/
+.ak-such-auswahl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 2px;
+  font-size: 12px;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.ak-such-auswahl:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+}
+
+.ak-such-auswahl input {
+  margin: 0;
+  flex: none;
+  accent-color: #1f9d55;
+  cursor: pointer;
+}
