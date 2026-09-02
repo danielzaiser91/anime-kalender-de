@@ -10,7 +10,14 @@ import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember, Franchises } from '@shared/types.ts'
-import { anzeigeName, eindeutschenStaffel, ohneStaffelEins, reihenVertreter } from '@shared/titles.ts'
+import {
+  anzeigeName,
+  eindeutschenStaffel,
+  istStaffel,
+  nachAusstrahlung,
+  ohneStaffelEins,
+  reihenVertreter,
+} from '@shared/titles.ts'
 import {
   loadAllTitles,
   loadFranchises,
@@ -1702,8 +1709,36 @@ export function DetailPanel({
      * Jahreszahl als Überschrift beantwortet keine Frage; welcher Teil gewählt
      * ist, zeigt das Karussell.
      */
-    return rest || voll
-  }, [title, reihenName])
+    if (rest) return rest
+
+    /*
+      **Die erste Staffel heißt „Staffel 1", nicht gar nichts.**
+
+      Daniel am 02.09.2026 an „Die Tagebücher der Apothekerin": „es fehlt
+      ‚1. staffel'". Bei Staffel 2 stand die Angabe da, bei Staffel 1 nichts —
+      wer aus der Übersicht kam, wusste nicht, welchen der beiden Einträge er
+      geöffnet hatte.
+
+      Der Grund ist der Abzug oben: Die erste Staffel heißt im Datensatz meist
+      genau wie die Reihe („Die Tagebücher der Apothekerin"), die zweite trägt
+      ihren Zusatz mit. Nach dem Abzug bleibt bei der ersten nichts übrig.
+
+      **Die Nummer wird gezählt, nicht geraten:** Position dieses Eintrags unter
+      den **Staffeln** der Reihe, chronologisch nach japanischer Ausstrahlung —
+      dieselbe Sortierung, aus der auch der Reihenname stammt. Filme, OVAs und
+      Specials zählen nicht mit; sie sind keine Staffeln und tragen ihren
+      Unterschied ohnehin im Namen.
+
+      Hat die Reihe nur eine Staffel, gibt es nichts zu unterscheiden, und die
+      Zeile bleibt weg wie bisher.
+    */
+    const staffeln = reihe.filter((m) => istStaffel(m.format)).slice().sort(nachAusstrahlung)
+    if (staffeln.length > 1) {
+      const platz = staffeln.findIndex((m) => m.id === title.id)
+      if (platz >= 0) return t('detail.staffelNummer', { n: platz + 1 })
+    }
+    return voll
+  }, [title, reihenName, reihe, t])
 
   /**
    * Beim Wechsel auf eine Staffel ohne Termin fehlen die Metadaten — die liegen
@@ -2334,7 +2369,19 @@ export function DetailPanel({
                             unten={
                               [
                                 luecken ? t('detail.dubLuecken', { n: luecken }) : grenze ? t(grenze.schluessel, { n: grenze.n }) : '',
-                                (s.sharedWith ?? 0) > 1 ? t('detail.sharedUrl', { count: s.sharedWith! }) : '',
+                                /*
+                                  **„2 Einträge“ stand hier und sagte niemandem etwas.**
+
+                                  Daniel am 02.09.2026: „wieso steht da ‚2 einträge‘? unnötig
+                                  verwirrende info“. Die Zahl ist `sharedWith` — wie viele **unserer**
+                                  Einträge diese eine Anbieter-Adresse bedient. Das ist eine Angabe
+                                  über unsere Datenhaltung, gestellt an einer Stelle, die eine ganz
+                                  andere Frage beantwortet: wo läuft dieser Titel.
+
+                                  Der Tooltip bleibt — wer den Grund wissen will, dass Crunchyroll
+                                  zwei unserer Staffeln unter einer Seite führt, findet ihn dort. In
+                                  der Zeile darunter stand er als nackte Zahl ohne Bezug.
+                                */
                                 s.teilBereich
                                   ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
                                   : '',

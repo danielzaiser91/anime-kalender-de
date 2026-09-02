@@ -38,7 +38,7 @@ import {
 } from './lib/adn.ts'
 import { beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
-import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
+import { clearDir, discSlug, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
 import { SYNOPSIS_GROUPS } from '../shared/types.ts'
 import type {
   DataMeta,
@@ -3173,7 +3173,19 @@ function main(): void {
       const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? `Titel ${t.titleId}`
       const adresse = title.streams.find((x) => x.platform === 'crunchyroll')?.url
       releases.push({
-        slug: slugify(`${name}-crunchyroll-de-${t.firstEpisodeDate}`),
+        /*
+          **Der Slug wird gebaut, nicht gekappt.** `slugify` schneidet bei 80
+          Zeichen ab — bei „I Was Reincarnated as the 7th Prince…“ (84 Zeichen)
+          fiel damit genau der unterscheidende Teil weg, das Datum, und beide
+          Staffeln beanspruchten dieselbe Adresse. Der Bau brach ab: „Termin
+          2025-07-30 (Folge 1) liegt nach dem belegten Ende 2024-07-16“ — zwei
+          Staffeln in einem Eintrag.
+
+          Denselben Fehler gab es am 30.08.2026 schon einmal bei den
+          Disc-Terminen, und `discSlug()` ist die Antwort darauf: Der **Name**
+          wird gekappt, das Datum danach angehängt.
+        */
+        slug: discSlug(`${name} crunchyroll de`, t.firstEpisodeDate),
         titleId: t.titleId,
         name,
         platform: 'crunchyroll',

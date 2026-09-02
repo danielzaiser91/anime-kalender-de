@@ -257,6 +257,7 @@ const TEXTE = {
   // Kurz gehalten, weil es aufgeklappt neben einer Pille steht: Wer es liest,
   // will wissen, welche Folgen — nicht, wie wir es herausgefunden haben.
   'detail.dubLuecken': 'Ohne deutschen Ton: Folge {n}',
+  'detail.staffelNummer': 'Staffel {n}',
   'detail.dubLueckenTitel': 'Nicht alle Folgen auf Deutsch',
   // Bewusst „kann abweichen", nicht „weicht ab": Belegt ist nur, dass mehrere
   // unserer Einträge auf dieselbe Adresse zeigen. Wie der Anbieter seinerseits

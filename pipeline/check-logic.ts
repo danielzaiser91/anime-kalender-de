@@ -18,7 +18,7 @@
  */
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
-import { discSlug } from './lib/util.ts'
+import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, titleStatus } from '../shared/logic.ts'
 import {
   alsEinBlock,
@@ -2258,6 +2258,38 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
   pruefe(
     'ein kurzer Titel bleibt unverändert',
     discSlug('Steins;Gate 0', '2026-10-16') === 'steins-gate-0-2026-10-16',
+  )
+
+  /*
+    **Und dieselbe Falle hat am 02.09.2026 ein zweites Mal zugeschlagen — bei
+    den Crunchyroll-Terminen.**
+
+    Der neue Ableiter baute seinen Slug mit `slugify(name + '-crunchyroll-de-'
+    + datum)`. Bei „I Was Reincarnated as the 7th Prince so I Can Take My Time
+    Perfecting My Magical Ability“ (84 Zeichen) fiel das Datum der Kappung zum
+    Opfer, und Staffel 1 und 2 beanspruchten dieselbe Adresse. Der Bau brach mit
+    einer Meldung ab, die nach einem Datenfehler aussah: „Termin 2025-07-30
+    (Folge 1) liegt nach dem belegten Ende 2024-07-16“ — zwei Staffeln in einem
+    Eintrag.
+
+    Die Lehre stand seit dem 30.08.2026 in CLAUDE.md, und `discSlug()` war die
+    Antwort darauf. Sie hat nicht getragen, weil an der neuen Stelle niemand
+    nach ihr gesucht hat. Diese Zusicherung nennt deshalb den echten Titel:
+    Wer den Ableiter wieder auf `slugify` umstellt, wird rot.
+  */
+  const langeStaffel =
+    'I Was Reincarnated as the 7th Prince so I Can Take My Time Perfecting My Magical Ability crunchyroll de'
+  const s1 = discSlug(langeStaffel, '2024-04-23')
+  const s2 = discSlug(langeStaffel, '2025-07-30')
+  pruefe('zwei Staffeln eines langen Titels bekommen zwei Adressen', s1 !== s2, `${s1} / ${s2}`)
+  pruefe('beide tragen ihr Datum', s1.endsWith('-2024-04-23') && s2.endsWith('-2025-07-30'))
+  /*
+    Die Gegenprobe zum Fehler selbst: So sah der kaputte Slug aus. Er ist der
+    Grund, warum hier `discSlug` steht und nicht `slugify`.
+  */
+  pruefe(
+    'ein bloßes slugify hätte beide gleich gemacht',
+    slugify(`${langeStaffel}-2024-04-23`) === slugify(`${langeStaffel}-2025-07-30`),
   )
 }
 
