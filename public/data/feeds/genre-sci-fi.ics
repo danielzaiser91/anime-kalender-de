@@ -6,18 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Sci-Fi
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:ghost-in-the-shell-2026@2026-08-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260825
-DTEND;VALUE=DATE:20260826
-SUMMARY:The Ghost in the Shell – Folge 8/10
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Woche
- nrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/g
- host-in-the-shell-2026
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:thunder-3@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260826

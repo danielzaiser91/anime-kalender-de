@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – kino
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:detektiv-conan-movie-29-kino@2026-08-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260825
-DTEND;VALUE=DATE:20260826
-SUMMARY:Detektiv Conan – Der gefallene Engel des Highways
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/#/release/detektiv-conan-movie-29-k
- ino
-CATEGORIES:Kino
-END:VEVENT
-BEGIN:VEVENT
 UID:all-you-need-is-kill-kino@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260929
