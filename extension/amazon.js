@@ -4011,6 +4011,43 @@ async function speicherSchreiben(werte) {
       */
       briefkastenAdressen = new Set(Array.isArray(daten.gemeldet) ? daten.gemeldet : daten.adressen)
       /*
+        **Der Briefkasten räumt den lokalen Speicher auf — an einer Stelle, nicht an siebzehn.**
+
+        `erledigt` wird an siebzehn Stellen gelesen, und jede davon hielt einen
+        Titel für gemeldet, den der Briefkasten längst nicht mehr kennt. Am
+        02.09.2026 sperrte das „Is This a Zombie?": Die frühere Meldung war aus
+        dem Briefkasten verworfen, im Browser stand weiter „✓ alles gemeldet",
+        und nur ein Konsolenbefehl half. Daniel: „warum ist ein befehl
+        notwendig… das soll synchron sein."
+
+        Statt jede Lesestelle zu prüfen, wird hier ausgemistet: Was der
+        Briefkasten nicht führt, fliegt raus. Danach stimmen alle siebzehn von
+        selbst — und das ist die einzige Stelle, die es wissen muss.
+
+        **Der frische Vermerk bleibt.** Zwischen dem Klick auf „melden" und der
+        nächsten Antwort liegen Sekunden; in denen soll der Titel nicht wieder
+        als offen dastehen. Verglichen wird gegen den Erzeugungstag der
+        Prüfliste: Was danach abgehakt wurde, ist jünger als jede Antwort, die
+        der Briefkasten dazu geben könnte.
+      */
+      try {
+        const listeVom = String(globalThis.AK_OFFENE_AMAZON_ERZEUGT ?? '').slice(0, 10)
+        const bereinigt = {}
+        let entfernt = 0
+        for (const [id, wert] of Object.entries(erledigt)) {
+          const url = liste[id]?.url ?? null
+          const frisch = listeVom && String(wert?.zeit ?? wert?.datum ?? '').slice(0, 10) >= listeVom
+          if (!url || briefkastenAdressen.has(url) || frisch) bereinigt[id] = wert
+          else entfernt++
+        }
+        if (entfernt) {
+          erledigt = bereinigt
+          void speicherSchreiben({ amazonErledigt: erledigt })
+        }
+      } catch {
+        /* Im Zweifel bleibt der Speicher, wie er war — lieber ein Titel zu viel als einer zu wenig. */
+      }
+      /*
         Die Suchadressen, unter denen gemeldet wurde — seit dem 02.09.2026 weiß
         der Briefkasten sie, und damit entscheidet er auch dort. Vorher blieb
         für Suchadressen nur der lokale Vermerk, und der ist nicht abgeglichen.
@@ -8216,6 +8253,8 @@ async function speicherSchreiben(werte) {
          * hergibt, ist er besser als nichts.
          */
         bisher.serie = seitenTitel() ?? eintrag.titel ?? bisher.serie
+        /* Wann abgehakt — der Briefkasten mistet danach aus, siehe briefkastenHolen. */
+        bisher.zeit = new Date().toISOString().slice(0, 10)
         erledigt = { ...zusammen, [listenId]: bisher }
         gemeldeteStaffel = nr
         // Abwarten: Der naechste Klick liest hier gleich wieder, und ohne das
