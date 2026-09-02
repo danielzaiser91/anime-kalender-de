@@ -36,9 +36,31 @@ const stand = existsSync(join(wurzel, standDatei)) ? lies(standDatei) : ''
 const zeit = stand.match(/"(\d{4}-\d{2}-\d{2}T[^"]+)"/)?.[1] ?? null
 pruefe(!!zeit, `trägt einen Zeitstempel (${zeit ?? '—'})`)
 
-/* 2. Er stimmt mit dem gebauten Datensatz überein — sonst ist schon das Repo uneins. */
+/*
+  2. Er darf nicht **neuer** sein als der gebaute Datensatz — das wäre unmöglich
+     und hieße, dass jemand die Datei von Hand angefasst hat.
+
+  **Gleichheit zu verlangen war falsch, und zwar am selben Tag zum zweiten Mal.**
+  Die erste Fassung prüfte `zeit === meta.generatedAt`. Das gilt nur in dem
+  Moment, in dem der Erzeuger gerade gelaufen ist — der Deploy prüft aber **vor**
+  dem Bau, mit dem committeten Stand, und der stammt aus dem vorigen Lauf. Am
+  02.09.2026 um 09:51 stand der Deploy still: meta.json von 09:45, Listenstand
+  von 08:53.
+
+  Ein Rückstand ist hier kein Fehler, sondern der Normalzustand zwischen zwei
+  Läufen — und genau der Fall, für den der „veraltet"-Hinweis in der Erweiterung
+  gebaut ist. Sie vergleicht ohnehin gegen die **Live-Seite**, nicht gegen diese
+  Datei.
+
+  Dieselbe Lehre wie bei der Rohfolgen-Zusicherung drei Stunden vorher: Eine
+  Prüfung, die am Tagesstand hängt, wird rot, weil die Welt weitergelaufen ist,
+  nicht weil etwas kaputt ist (CLAUDE.md, 25.08.2026).
+*/
 const meta = JSON.parse(lies('public/data/meta.json'))
-pruefe(zeit === meta.generatedAt, `stimmt mit meta.json überein (${meta.generatedAt})`)
+pruefe(
+  !zeit || !meta.generatedAt || Date.parse(zeit) <= Date.parse(meta.generatedAt),
+  `ist nicht neuer als meta.json (${meta.generatedAt})`,
+)
 
 /*
   3. Die Prüfliste selbst bleibt unberührt: genau eine Zuweisung, und der Rest

@@ -185,6 +185,7 @@ QUELLEN=(
   data/cr-katalog-de.json
   data/cr-katalog-zuordnung.json
   extension/offene-amazon.js
+  extension/offene-amazon-stand.js
   extension/offene-amazon-suche.js
   extension/offene-netflix.js
   extension/offene-disney.js
