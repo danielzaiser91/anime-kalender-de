@@ -3322,34 +3322,14 @@ export function DetailPanel({
                 </div>
               )}
               <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-xs">
-                {title.score !== undefined && (
-                  <>
-                    <dt className="text-slate-400 dark:text-slate-500">{t('detail.bewertung')}</dt>
-                    <dd className="text-slate-600 dark:text-slate-300">
-                      {/*
-                        Die Wertung nennt ihre Quelle — sonst sieht es aus, als
-                        wäre es unsere. „★ 8.4" ohne Herkunft las sich, als
-                        hätten wir diesen Anime selbst bewertet (Daniel,
-                        15.08.2026). Wir bewerten nichts; die Zahl ist der
-                        Nutzerdurchschnitt von AniList.
-                      */}
-                      <span className="text-amber-400" aria-hidden="true">
-                        ★
-                      </span>{' '}
-                      <span className="font-semibold tabular-nums">{(title.score / 10).toFixed(1)}</span>{' '}
-                      <span className="text-slate-400 dark:text-slate-500">AniList</span>
-                    </dd>
-                  </>
-                )}
                 {/*
-                  **Was der Kasten oben schon zeigt, steht hier nicht noch einmal.**
+                  **Die Bewertung steht oben, nicht hier.**
 
-                  Bei einem Film und bei einer Kaufausgabe tritt oben eine
-                  Faktenzeile an die Stelle des Fortschrittsbalkens — Jahr,
-                  Altersfreigabe, Studio. Bei „Venus Wars" standen dieselben drei
-                  Angaben zweimal auf einem Bildschirm, zwei Handbreit
-                  auseinander (03.09.2026, siehe „Keine Information zweimal" in
-                  `CLAUDE.md`).
+                  Beide Stellen zeigten „★ 8.8 AniList" — einmal als Pille neben
+                  dem Staffelnamen, einmal als Zeile hier. Gemessen am
+                  03.09.2026: dieselbe Zahl zweimal auf einem Bildschirm, und
+                  oben ist sie sichtbarer und trägt ihren Tooltip mit der
+                  Herkunft. Die Zeile hier war die Wiederholung.
                 */}
                 {!faktenImKasten && title.studios?.[0] && (
                   <>

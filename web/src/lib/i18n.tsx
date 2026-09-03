@@ -303,7 +303,6 @@ const TEXTE = {
   'detail.reiheKuenftig': 'noch nicht erschienen',
   'detail.folgenKurz': '{n} Fg.',
   'detail.werkangaben': 'Zum Werk',
-  'detail.bewertung': 'Bewertung',
   'detail.faktFsk': 'Altersfreigabe',
   'detail.studio': 'Studio',
   'detail.keywords': 'Keywords',
