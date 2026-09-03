@@ -4,6 +4,26 @@ import { RELEASE_TYPES } from '@shared/types.ts'
 import { addDays, startOfMonth, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 
+/**
+ * **Der Platzhalter für „keine Uhrzeit" muss aus Ziffern bestehen.**
+ *
+ * Hier stand `'~'`, und die Absicht war klar: Was keine Uhrzeit hat, gehört
+ * hinter alles mit. Nur sortiert `localeCompare` nicht nach Zeichencodes,
+ * sondern nach Kollation — und dort steht Interpunktion **vor** Ziffern:
+ *
+ *     '17:00'.localeCompare('~')      →  1   (17:00 gilt als größer)
+ *     '17:00' < '~'                   →  true (rohes < hätte gestimmt)
+ *
+ * Gemessen am 03.09.2026 an der Monatsansicht: Am 4. September stehen 23
+ * Termine, gezeigt werden vier — und das waren vier Disc-Veröffentlichungen
+ * ohne Uhrzeit, während „Meine Wiedergeburt als Schleim, 17:00, Folge 18" aus
+ * der Vorschau fiel. Wer in den Monat schaut, sucht zuerst, was läuft.
+ *
+ * `'99:99'` ist ziffernbasiert und sortiert in jeder Kollation hinter jede
+ * echte Uhrzeit.
+ */
+const OHNE_UHRZEIT = '99:99'
+
 export function MonthView({
   events,
   anchorDate,
@@ -33,7 +53,7 @@ export function MonthView({
     }
     for (const list of map.values()) {
       // Erst mit Uhrzeit, dann ohne — dieselbe Ordnung wie in der Wochenansicht.
-      list.sort((a, b) => (a.time ?? '~').localeCompare(b.time ?? '~'))
+      list.sort((a, b) => (a.time ?? OHNE_UHRZEIT).localeCompare(b.time ?? OHNE_UHRZEIT))
     }
     return map
   }, [events])
