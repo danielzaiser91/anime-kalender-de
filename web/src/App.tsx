@@ -210,6 +210,7 @@ export default function App() {
                 <Legend />
                 <span className="text-[11px] text-slate-500 dark:text-slate-400">
                   {t('legend.count', { count: events.length })}
+                  <span className="hidden sm:inline"> · {t('legend.keys')}</span>
                 </span>
               </div>
             )}

@@ -99,7 +99,40 @@ export function MonthView({
                 {Number(date.slice(8))}
               </button>
 
-              <div className="flex flex-col gap-0.5">
+              {/*
+                **Auf einem Handy sagt „Th…" nichts — ein Punkt schon.**
+
+                Sieben Spalten auf 375 px lassen 53 px je Tag. Gemessen am
+                03.09.2026: Die Titel standen dort als „Th…", „DA…", „Yu…" — das
+                ist keine Auskunft mehr, sondern der Anschein einer.
+
+                Unterhalb von `sm` zeigt die Zelle deshalb, was auf dieser
+                Breite wirklich trägt: einen Punkt je Termin in der Farbe seiner
+                Release-Art und die Anzahl. Wer mehr will, tippt — die Zelle
+                führt in die Wochenansicht dieses Tages, denselben Weg, den die
+                Tageszahl und „+n weitere" schon nehmen.
+              */}
+              {dayEvents.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => onPickDay(date)}
+                  aria-label={t('month.more', { count: dayEvents.length })}
+                  className="flex w-full cursor-pointer flex-wrap items-center gap-1 px-1 py-0.5 sm:hidden"
+                >
+                  {dayEvents.slice(0, 8).map((ev) => (
+                    <span
+                      key={ev.id}
+                      className="size-1.5 shrink-0 rounded-full"
+                      style={{ background: RELEASE_TYPES[ev.releaseType].color }}
+                    />
+                  ))}
+                  <span className="text-[11px] tabular-nums text-slate-500 dark:text-slate-400">
+                    {dayEvents.length}
+                  </span>
+                </button>
+              )}
+
+              <div className="hidden flex-col gap-0.5 sm:flex">
                 {dayEvents.slice(0, 4).map((ev) =>
                   // Ausgeblendet: nur der Name, kursiv und grau, nicht anklickbar.
                   // Die Monatsansicht zeigt ohnehin nichts weiter — hier genügt
@@ -138,7 +171,7 @@ export function MonthView({
                   <button
                     type="button"
                     onClick={() => onPickDay(date)}
-                    className="cursor-pointer px-1 text-left text-[11px] text-sky-500 hover:underline"
+                    className="hidden cursor-pointer px-1 text-left text-[11px] text-sky-500 hover:underline sm:block"
                   >
                     {t('month.more', { count: dayEvents.length - 4 })}
                   </button>

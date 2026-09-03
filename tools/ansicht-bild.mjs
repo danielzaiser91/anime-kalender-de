@@ -51,11 +51,19 @@ async function main() {
     process.exitCode = 1
     return
   }
-  const ansichten = process.argv.slice(2).length ? process.argv.slice(2) : ALLE
+  const gewaehlt = process.argv.slice(2).filter((a) => !a.startsWith('--'))
+  const ansichten = gewaehlt.length ? gewaehlt : ALLE
 
+  /*
+    **Zwei Breiten, nicht eine.** Ein Kalender wird unterwegs aufgerufen — und
+    375 × 812 ist der Zustand, in dem eine Sieben-Spalten-Woche zuerst bricht.
+    Aufruf: `node tools/ansicht-bild.mjs --handy [<ansicht> …]`.
+  */
+  const HANDY = process.argv.includes('--handy')
+  const breite = HANDY ? 375 : 1280
+  const hoehe = HANDY ? 812 : 900
   const browser = await chromium.launch()
-  /* Eine gängige Fenstergröße, kein Sonderfall — 1280 × 900. */
-  const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+  const seite = await browser.newPage({ viewport: { width: breite, height: hoehe } })
 
   const fehler = []
   seite.on('console', (m) => {
@@ -99,7 +107,7 @@ async function main() {
       /* Der Datenabruf läuft nach dem ersten Bild — sonst fotografiert man den Ladezustand. */
       await seite.waitForTimeout(2500)
       await seite.screenshot({
-        path: path.join(WURZEL, 'docs', `ansicht-${name}-${thema}.png`),
+        path: path.join(WURZEL, 'docs', `ansicht-${name}-${HANDY ? 'handy-' : ''}${thema}.png`),
         fullPage: false,
       })
       if (thema === 'dunkel') {

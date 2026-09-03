@@ -86,7 +86,11 @@ const TEXTE = {
   'card.missedCheck': 'wir sehen stündlich nach',
   'card.missedLate': 'erschien {d} — {h} Stunden später als angekündigt',
   'card.missedLateBadge': 'kam {d}',
-  'legend.count': '{count} Termine im Filter · Tasten ← → T',
+  // **Der Tastenhinweis nur dort, wo es Tasten gibt.** Auf einem Handy steht
+  // „Tasten ← → T" unter dem Kalender und beantwortet nichts (gemessen am
+  // 03.09.2026 bei 375 px). Die Zahl gilt überall, der Hinweis ab `sm`.
+  'legend.count': '{count} Termine im Filter',
+  'legend.keys': 'Tasten ← → T',
 
   'filter.search': 'Titel, Studio, Genre, Keyword …',
   'filter.mode': 'Klick-Modus',
