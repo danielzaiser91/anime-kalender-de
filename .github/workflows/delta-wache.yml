@@ -1,0 +1,76 @@
+name: Wache — Delta und Briefkasten
+
+# **Diese Wache lief bis zum 03.09.2026 auf Daniels Rechner.**
+#
+# Sie war eine geplante Aufgabe im Claude-Client: jeden Morgen um 09:07 die
+# Delta-Historie durchsehen und melden, was auffällt. Sein Einwand: „diese
+# routine kann doch problemlos remote laufen? … änder das, sodass es nicht mehr
+# auf meinem pc läuft."
+#
+# Er hat recht, und mehr als das: Sie **braucht** kein Modell. Die Beurteilung
+# steckt längst in `tools/delta-pruefen.mjs` — es endet mit Exit-Code 1, wenn
+# ein Lauf etwas Auffälliges getan hat. Was ein Modell hier tat, war
+# vorlesen. Als Workflow ist die Wache billiger, überlebt jedes Herunterfahren
+# und meldet über den Weg, den dieses Projekt ohnehin nutzt: ein roter Lauf plus
+# GitHubs Fehlermail.
+#
+# **Warum es diese Wache überhaupt gibt:** Am 26.08.2026 gingen an einem Abend
+# zweimal Meldungen aus der Browser-Erweiterung verloren, ohne dass ein Lauf rot
+# wurde — 508 Disney-Meldungen wurden zu einem einzigen Eintrag abgehakt, 216
+# One-Piece-Meldungen verschwanden ganz. Gefunden hat es Daniel, weil ihm eine
+# Zahl komisch vorkam. Das soll ihm keiner mehr abverlangen.
+
+on:
+  schedule:
+    # 07:20 UTC ist 09:20 in Berlin — kurz nach dem täglichen Datenlauf um
+    # 06:17, damit die Wache den frischen Stand sieht und nicht den von gestern.
+    - cron: '20 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: delta-wache
+  cancel-in-progress: false
+
+jobs:
+  wache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Der Datenlauf hat gerade gepusst — diese Wache braucht dessen Stand.
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # `npm ci` wäre hier Verschwendung: Beide Skripte kommen mit dem aus, was
+      # Node selbst mitbringt — kein Import aus `node_modules`.
+
+      - name: Delta der letzten 24 Stunden
+        run: node tools/delta-pruefen.mjs --tage 1
+
+      # Läuft auch, wenn die Delta-Prüfung schon rot ist: Zwei Befunde am selben
+      # Morgen sind wahrscheinlicher als einer, und der zweite geht sonst
+      # verloren.
+      - name: Briefkasten — kommt Daniels Arbeit an?
+        if: always()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: node tools/briefkasten-wache.mjs
+
+      # Der Lauf meldet sich in Daniels Statusanzeige — dort sieht er ihn neben
+      # den Datenläufen, ohne GitHub zu öffnen.
+      - name: Befund melden
+        if: failure()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: |
+          curl -sS -X POST https://newsletter.animekalender.workers.dev/lauf \
+            -H "Content-Type: application/json" \
+            -H "X-Lauf-Token: $LAUF_TOKEN" \
+            -d "{\"lauf_id\":\"${{ github.run_id }}\",\"zustand\":\"fehler\",\"notiz\":\"Delta-Wache: Auffälligkeit im Bestand oder Briefkasten\"}" \
+            || echo "Meldung an die Statusanzeige fehlgeschlagen — der rote Lauf bleibt trotzdem sichtbar."
