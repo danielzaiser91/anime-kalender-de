@@ -28,6 +28,12 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | **Selbsttaetiger Durchgang: erste Probe steht aus** | Gebaut am 01.09.2026 (4.10.1/4.10.2), geladen, aber nie gelaufen — Netflix und Disney+ sind leer. Sobald wieder Auftraege da sind: Schalter „selbsttaetig" im Kasten anschalten, eine Titelseite oeffnen, und in der Konsole mitlesen („Selbsttaetig: weiter zu …"). Zu pruefen sind drei Dinge: ob er ohne Klick anspringt, ob er nach dem Durchgang zur naechsten Adresse geht, und ob bei 20 Titeln Schluss ist. |
 
+### Zu besprechen
+
+| Frage | Messung |
+|---|---|
+| **Zwei Drittel der Kalender-Kacheln zeigen einen abgeschnittenen Titel — soll das so bleiben?** Gemessen am 03.09.2026 in der Wochenansicht bei 1280 × 900: **28 von 42** sichtbaren Titeln sind nach zwei Zeilen gekappt („Skeleton Knight in…", „Mushoku Tensei: Joble…"). Der Zeilenbedarf: 14 Titel brauchen 2 Zeilen, 8 brauchen 3, 14 brauchen 4, 6 mehr. Eine dritte Zeile würde also nur 8 von 28 retten und jede Kachel um 18 px höher machen, eine vierte 22 von 28 für 36 px — bei vier Kacheln je Spalte sind das 144 px weniger Sicht. **Das ist eine Abwägung, kein Fehler**, und sie gehört Daniel: mehr Lesbarkeit gegen weniger Termine im Bild. Dritter Weg wäre ein Umbau der Kachel (Titel und Icon-Zeile in eine Zeile), der Platz ohne Höhenzuwachs schafft |
+
 ### Warten auf Feedback
 
 | Aufgabe | Notiz |

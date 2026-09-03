@@ -81,7 +81,8 @@
     "data:cr-filmbloecke": "node pipeline/fetch-cr-filmbloecke.mjs",
     "data:cr-katalog": "node pipeline/fetch-cr-katalog.mjs",
     "data:rtlplus:katalog": "node pipeline/fetch-rtlplus-katalog.mjs",
-    "check:panel": "node tools/panel-bild.mjs"
+    "check:panel": "node tools/panel-bild.mjs",
+    "check:ansichten": "node tools/ansicht-bild.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

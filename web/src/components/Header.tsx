@@ -274,9 +274,11 @@ export function Legend() {
           </span>
         </Tooltip>
       ))}
-      <span className="inline-flex items-center gap-1.5">
-        <span className="text-amber-500">≈</span> {t('legend.estimated')}
-      </span>
+      <Tooltip text={t('legend.estimated')}>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="text-amber-500">≈</span> {t('legend.estimatedShort')}
+        </span>
+      </Tooltip>
     </div>
   )
 }

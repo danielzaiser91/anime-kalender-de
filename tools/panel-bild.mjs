@@ -38,6 +38,12 @@ const DIST = path.join(WURZEL, 'dist')
 */
 const STANDARD = ['161645', '176301', '163132']
 
+/** Ein 1×1-Pixel-PNG, transparent — die Antwort auf jede fremde Bildanfrage. */
+const EIN_PUNKT = Buffer.from(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+  'base64',
+)
+
 const TYPEN = {
   '.html': 'text/html',
   '.js': 'text/javascript',
@@ -75,7 +81,18 @@ async function main() {
       einem Zustand, in dem das Panel nie erschien.
     */
     if (url.protocol !== 'http:' && url.protocol !== 'https:') return route.continue()
-    if (url.hostname !== 'ak.test') return route.abort()
+    /*
+      **Fremde Bilder werden beantwortet, nicht abgewiesen.**
+
+      Die Cover liegen bei AniList. Ein `route.abort()` sparte den Abruf, warf
+      aber je Bild einen Konsolenfehler — sechzig Stück in der Datenbank-Ansicht,
+      und die Fehlerzählung dieses Werkzeugs war damit wertlos. Ein
+      Einpunkt-PNG kostet nichts und hält die Konsole sauber für die Fehler, um
+      die es geht.
+    */
+    if (url.hostname !== 'ak.test') {
+      return route.fulfill({ status: 200, contentType: 'image/png', body: EIN_PUNKT })
+    }
     const rel = url.pathname === '/' ? '/index.html' : url.pathname
     const datei = path.join(DIST, rel)
     if (!datei.startsWith(DIST) || !existsSync(datei)) return route.fulfill({ status: 404, body: '' })

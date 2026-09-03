@@ -66,6 +66,12 @@ const TEXTE = {
   'release.disc.hint': 'Kaufbarer Datenträger',
 
   'legend.colour': 'Farbe = Release-Art:',
+  // **Die Legende bekommt zwei Wörter, die Erklärung den Tooltip** — wie bei
+  // jedem anderen Eintrag daneben. Der volle Satz stand am 03.09.2026
+  // ungekürzt in der Zeile und war länger als die vier Farbeinträge zusammen;
+  // sein zweiter Halbsatz („Wir ziehen nach, sobald der Anbieter den Tag
+  // nennt") ist ein Versprechen, kein Handlungshinweis.
+  'legend.estimatedShort': 'geschätzter Termin',
   'legend.estimated':
     'Geschätzter Termin — aus dem bisherigen Wochenrhythmus fortgeschrieben. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
   /*
