@@ -392,6 +392,13 @@ const TEXTE = {
   // am 03.09.2026 entfallen („Keine Information zweimal", CLAUDE.md).
   'antwort.fertigTitel': 'Auf Deutsch verfügbar',
   'antwort.fertigZahl': 'Alle {count} Folgen auf Deutsch',
+  // Steht unter der Überschrift bei Titeln, zu denen wir keinen eigenen Termin
+  // haben — 1.985 Stück. „Seit" statt „erschienen am": aniSearch nennt die
+  // deutsche Erstveröffentlichung, oft eine DVD, und bei einem Simuldub sogar
+  // den Simulcast-Start. Die Quelle steht im Tooltip, damit die Zeile kurz bleibt.
+  'antwort.deSeit': 'Auf Deutsch seit {datum}',
+  'antwort.deSeitPublisher': 'Auf Deutsch seit {datum} · {publisher}',
+  'antwort.deSeitQuelle': 'Deutsche Erstveröffentlichung laut aniSearch — wir haben dazu keinen eigenen Termin gemessen.',
   'antwort.filmTitel': 'Auf Deutsch verfügbar',
   'antwort.filmNeben': 'Deutsche Synchronfassung',
   'antwort.filmOhneTitel': 'Noch keine deutsche Fassung',

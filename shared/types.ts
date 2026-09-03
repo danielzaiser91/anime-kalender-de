@@ -264,6 +264,30 @@ export interface Title {
    * wo möglich" — hier ist es möglich.
    */
   anisearchId?: number
+  /**
+   * Wann die deutsche Fassung erstmals zu haben war — laut aniSearch.
+   *
+   * **Warum ein Feld und kein Release.** Der erste Anlauf am 03.09.2026 baute
+   * daraus 1.985 Kalendereinträge, und `titles-core.json` — die Datei, die
+   * jeder Besucher beim Erstaufruf lädt — wuchs von 554 KB auf 2,7 MB.
+   * Gemessen, nicht geschätzt. Ein DVD-Datum von 2003 ist kein Termin, den
+   * jemand im Kalender sucht; es ist eine Stammdatenangabe, die im Detail-Panel
+   * eine Frage beantwortet: seit wann gibt es das überhaupt auf Deutsch?
+   *
+   * Es ist eine **Fremdangabe** und erzeugt keinen Synchro-Beleg. Bei einem
+   * Simuldub nennt aniSearch sogar den Simulcast-Start statt des
+   * Synchro-Starts (Apothekerin S1: 21.10.2023 gegen unseren gemessenen
+   * 18.11.2023) — deshalb steht sie nur dort, wo wir selbst keinen Termin
+   * haben, und die Oberfläche schreibt „laut aniSearch" dazu.
+   */
+  deErstausgabe?: {
+    /** ISO-Datum des ersten Tages. */
+    von: string
+    /** ISO-Datum des letzten Tages, wo aniSearch einen Bereich nennt. */
+    bis?: string
+    /** Verlag oder Dienst, im Klartext — „Kazé Deutschland", „Crunchyroll". */
+    publisher?: string
+  }
   /** Dasselbe für Anime News Network, die Quelle der deutschen Sprechrollen. */
   annId?: number
   /** Jahr der japanischen Erstausstrahlung. */

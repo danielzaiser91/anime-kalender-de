@@ -192,6 +192,8 @@ function AntwortKasten({
   let zaehl: string
   let fakten: { wert: string; was: string }[] | undefined
   let gedaempft = false
+  /** Woher die Nebenzeile stammt — nur gesetzt, wo sie eine Fremdangabe ist. */
+  let nebenTitel: string | undefined
 
   if (antwort.art === 'laeuft') {
     const e = antwort.haupt
@@ -238,7 +240,26 @@ function AntwortKasten({
     haupt = antwort.gesamt
       ? T('antwort.fertigZahl', { count: antwort.gesamt })
       : T('antwort.fertigTitel')
-    neben = ''
+    /*
+      **„Seit wann?" ist die einzige Frage, die hier noch offen war.**
+
+      Bei 1.985 Titeln haben wir keinen eigenen Termin, aber aniSearch nennt die
+      deutsche Erstveröffentlichung mit Verlag — „Cowboy Bebop, 08.01.2003,
+      Dybex". Sie füllt die Nebenzeile, die seit dem Zusammenlegen der drei
+      Dopplungen leer war, und sagt etwas Neues statt desselben noch einmal.
+
+      Wo wir selbst gemessen haben, steht das Feld gar nicht erst da — die
+      Übernahme in `build.ts` überspringt jeden Titel mit Termin.
+    */
+    neben = title.deErstausgabe
+      ? title.deErstausgabe.publisher
+        ? T('antwort.deSeitPublisher', {
+            datum: formatDate(title.deErstausgabe.von),
+            publisher: title.deErstausgabe.publisher,
+          })
+        : T('antwort.deSeit', { datum: formatDate(title.deErstausgabe.von) })
+      : ''
+    nebenTitel = title.deErstausgabe ? T('antwort.deSeitQuelle') : undefined
     zaehl = ''
   } else if (antwort.art === 'disc') {
     const rel = relativ(antwort.datum)
@@ -357,7 +378,11 @@ function AntwortKasten({
       >
         {haupt}
       </p>
-      {neben && <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{neben}</p>}
+      {neben && (
+        <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400" title={nebenTitel}>
+          {neben}
+        </p>
+      )}
 
       {fakten ? (
         <div className="mt-2 flex gap-4">

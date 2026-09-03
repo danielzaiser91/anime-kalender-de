@@ -106,6 +106,22 @@ kostet Uninteressierte exakt null.
 > nicht übertragen — egal wo sie liegt. Ein zweiter Host löst ein anderes Problem
 > (Repo-Größe, Deploy-Kopplung), nicht das der Ladelast.
 
+### 2b. Ein neues Release zieht Titel in den Erstaufruf
+
+**Der Fall, der Punkt 2 nicht abdeckt — gemessen am 03.09.2026.** Nicht ein neues *Feld*
+kostet Ladelast, sondern eine neue *Sorte Release*: `titles-core.json` enthält genau die
+Titel, auf die ein Release zeigt (`referenced`). Wer Releases erzeugt, entscheidet damit
+zugleich, wer in der Erstaufruf-Datei landet — auch wenn er nur an den Kalender dachte.
+
+Konkret: 1.985 deutsche Erstveröffentlichungen aus aniSearch („Cowboy Bebop, 08.01.2003,
+Dybex") als Release gebaut → `titles-core.json` **von 554 KB auf 2,7 MB**, das Fünffache,
+für Termine, die alle in der Vergangenheit liegen und die im Kalender niemand sucht.
+
+**Prüffrage vor jeder neuen Release-Quelle: Würde jemand diesen Termin im Kalender
+suchen?** Lautet die Antwort nein, ist es keine Veröffentlichung, sondern eine
+Stammdatenangabe — und die gehört als Feld an den Titel (hier: `deErstausgabe`), wo sie
+nur die Datenbank-Ansicht kostet. Dieselbe Angabe, ein Zehntel der Ladelast.
+
 ### 3. Repo über 1 GB
 
 **Auslöser:** Das aniSearch-Archiv wächst auf ~35 MB bei vollem Bestand. Erst wenn weitere

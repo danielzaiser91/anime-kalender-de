@@ -22,6 +22,7 @@ import {
   beurteileNachFolgennummern,
   type CrDubData,
 } from './lib/crunchyroll-dub.ts'
+import { terminAusEintrag } from './lib/anisearch-termine.ts'
 import { alleTermine } from './lib/crunchyroll-termine.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
@@ -3233,6 +3234,63 @@ function main(): void {
       )
 
     /* Geschrieben wird erst am Ende — nach der letzten Stelle, die entfernt. */
+  }
+
+  /**
+   * **Seit wann gibt es das auf Deutsch? — die Antwort aus aniSearch.**
+   *
+   * Gemessen am 03.09.2026: 2.202 Titel im Bestand haben eine belegte deutsche
+   * Synchro und keinen einzigen Termin. Der Kasten im Detail-Panel sagt dort
+   * „Auf Deutsch verfügbar" und kann nicht sagen, seit wann — obwohl aniSearch
+   * es für 1.985 von ihnen weiß, mit Datum und Verlag. „Cowboy Bebop,
+   * 08.01.2003 – 02.04.2003, Dybex" liegt seit Wochen im Haus und wurde von
+   * nichts gelesen.
+   *
+   * **Es wird ein Feld, kein Release.** Der erste Anlauf baute daraus 1.985
+   * Kalendereinträge — und `titles-core.json`, die Datei, die jeder Besucher
+   * beim Erstaufruf lädt, wuchs von 554 KB auf 2,7 MB. Ein DVD-Datum von 2003
+   * ist kein Termin, den jemand im Kalender sucht; es beantwortet eine
+   * Stammdatenfrage im Detail-Panel. Die Regeln der Übernahme stehen in
+   * `lib/anisearch-termine.ts`, die Begründung des Feldes bei `deErstausgabe`
+   * in `shared/types.ts`.
+   */
+  {
+    const asRoh = readJson<Record<string, { info?: { languages?: unknown[] } }>>(
+      'data/anisearch.json',
+      {},
+    )
+    const schonMitTermin = new Set(releases.map((r) => r.titleId))
+    let asNeu = 0
+    let asVorJp = 0
+    for (const title of titles.values()) {
+      if (schonMitTermin.has(title.id)) continue
+      const termin = terminAusEintrag(
+        asRoh[String(title.id)]?.info as { languages?: never[] } | undefined,
+      )
+      if (!termin) continue
+      /*
+        **Eine deutsche Fassung gibt es nicht vor dem Original.** Sechs Einträge
+        scheitern daran — meist eine Verwechslung mit einem Vorgänger im
+        aniSearch-Datensatz. Sie wären in der Anzeige nicht als falsch zu
+        erkennen, also bleiben sie draußen.
+      */
+      if (title.jpYear && Number(termin.start.slice(0, 4)) < title.jpYear) {
+        asVorJp++
+        continue
+      }
+      title.deErstausgabe = {
+        von: termin.start,
+        ...(termin.ende ? { bis: termin.ende } : {}),
+        ...(termin.publisher ? { publisher: termin.publisher } : {}),
+      }
+      asNeu++
+    }
+    if (asNeu) {
+      log(
+        `${asNeu} deutsche Erstausgaben aus aniSearch übernommen ` +
+          `(${asVorJp} vor der japanischen Ausstrahlung verworfen)`,
+      )
+    }
   }
 
   /**
