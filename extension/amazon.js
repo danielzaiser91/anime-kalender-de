@@ -6741,7 +6741,22 @@ async function speicherSchreiben(werte) {
       bei Stillstand — und für den ist sie gedacht.
     */
     const freigabeReif = Date.now() - letzterFortschritt > WARTE_FRIST_MS
-    const stand = `${deutsch}|${geladen}|${gesehen.gesamt}|${wartet}|${zahlenStehen}|${freigabeReif}`
+    /*
+      **Und die dritte Schwelle gehört genauso hinein.**
+
+      Der Warte-Zweig weiter unten wechselt nach acht Sekunden von „Folgen
+      werden geladen …" auf „Tonspuren nicht gefunden — Seite neu laden". Diese
+      Schwelle stand nicht in der Signatur, `freigabeReif` kippt aber erst nach
+      zwölf — der Satz kam also vier Sekunden zu spät, und wenn sich in der
+      Zwischenzeit sonst nichts rührte, stand der Knopf so lange auf „lädt".
+
+      Es ist derselbe Fehlgriff, den die beiden Kommentare darüber schon
+      zweimal beschrieben haben. Beim dritten Mal gehört er nicht noch einmal
+      erzählt, sondern abgestellt: **Jede Frist, die einen Text ändert, steht
+      in der Signatur.**
+    */
+    const ladeFristReif = Date.now() - letzterFortschritt > 8000
+    const stand = `${deutsch}|${geladen}|${gesehen.gesamt}|${wartet}|${zahlenStehen}|${freigabeReif}|${ladeFristReif}`
     if (stand === letzterStand) return
     letzterStand = stand
     try {
@@ -7071,9 +7086,8 @@ async function speicherSchreiben(werte) {
           Doppelte des gemessenen Falls und immer noch kurz genug, dass niemand
           ins Leere wartet.
         */
-        const wartetSeit = Date.now() - letzterFortschritt
         knopf.textContent =
-          wartetSeit > 8000
+          ladeFristReif
             ? 'Tonspuren nicht gefunden — Seite neu laden'
             : 'Folgen werden geladen …'
         return
