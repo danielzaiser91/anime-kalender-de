@@ -214,3 +214,34 @@
     - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
     - https://www.amazon.de/Vom-Landei-zum-Schwertheiligen-II/dp/B0H1QXQL33
     - https://www.fernsehserien.de/vom-landei-zum-schwertheiligen/episodenguide/staffel-2/63281
+
+# Herbst 2026 — der erste belegte Termin dieser Saison.
+#
+# Daniel am 03.09.2026: „jp 02.10.2026 muss bei uns stehen, und deutsch
+# voraussichtlich oktober 2026 muss auch bei uns stehen, so wie anisearch es sagt".
+#
+# aniSearch führt beide Angaben getrennt: die japanische Ausstrahlung mit Tag
+# (02.10.2026) und die deutsche Fassung nur mit Monat (10.2026, Publisher
+# Crunchyroll). Deshalb steht hier der Monatserste mit `estimated: true` — ein
+# erfundener Tag wäre eine Falschangabe, ein fehlender Eintrag verschweigt einen
+# belegten Termin. Sobald Crunchyroll den Tag nennt, wird er hier eingetragen
+# und `estimated` entfernt.
+#
+# **Warum von Hand und nicht aus dem Abruf:** `data/anisearch.json` führt zu
+# 2.559 Titeln einen deutschen Termin — dieser gehört nicht dazu. Der Abruf holt
+# nur den Hauptbestand, und Staffel 3 steht mangels Synchro im Katalog; eine
+# aniSearch-Kennung hat sie im Datensatz ebenfalls nicht. Der systematische Weg
+# steht als Aufgabe in `status.md`.
+
+- slug: apothecary-diaries-s3-cour1
+  anilistId: 195516
+  search: "Kusuriya no Hitorigoto"
+  titleDe: "Die Tagebücher der Apothekerin: Staffel 3 - Teil 1"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-01"
+    estimated: true
+  note: "Deutsche Fassung laut aniSearch für Oktober 2026 angekündigt (Crunchyroll) — der Tag steht noch nicht fest. Japanische Ausstrahlung ab 02.10.2026."
+  sources:
+    - https://www.anisearch.de/anime/20083
