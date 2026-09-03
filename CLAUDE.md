@@ -2119,6 +2119,41 @@ Was es **nicht** ersetzt: alles, was an echten Seitendaten hängt —
 Folgenzählung, Tonspuren, Briefkasten. Dafür bleibt Daniels Sitzung die
 einzige Messstelle.
 
+### Und die Seite selbst wird genauso abgebildet — zwei Werkzeuge, ein Griff
+
+Was für die Erweiterung seit dem 02.09.2026 gilt, galt für die Seite bis zum
+03.09.2026 nicht: Alle Styling-Befunde kamen aus Screenshots, die Daniel selbst
+gemacht hat. Seitdem gibt es zwei Werkzeuge, beide **ohne Server** —
+`page.route()` beantwortet jede Anfrage aus `dist/`, gerendert wird also genau
+das, was ausgeliefert wird.
+
+```
+npm run check:panel        # das Detail-Panel, mehrere Titel, beide Themen
+npm run check:ansichten    # alle elf Routen, beide Themen
+```
+
+**`check:panel`** misst die Höhe des Antwort-Kastens je Titel und wird rot, wenn
+sie auseinanderlaufen — das war Daniels Punkt vom 03.09.2026 („height Änderung
+der Box durch feste Höhe verhindern"), und eine Zahl hält ihn besser fest als
+ein Vorsatz.
+
+**`check:ansichten`** kennt `--handy` (375 × 812) und misst zwei Dinge, die man
+auf einem Bild nicht sieht: Konsolenfehler und waagerechte Überbreite. Beides
+hat am ersten Tag getragen — die Monatsansicht zeigte auf dem Handy Titel als
+„Th…", „DA…", „Yu…", und in der Wochenansicht standen sieben Quellenadressen
+ausgeschrieben statt verlinkt.
+
+**Fremde Bilder werden beantwortet, nicht abgewiesen.** Ein `route.abort()` für
+die AniList-Cover sparte den Abruf, warf aber je Bild einen Konsolenfehler —
+sechzig in der Datenbank-Ansicht — und machte die eigene Fehlerzählung wertlos.
+Ein Einpunkt-PNG kostet nichts und hält die Konsole frei für die Fehler, um die
+es geht.
+
+**Ein Titel ohne Termin steht nicht in `titles-core.json`.** Das Panel-Werkzeug
+öffnet deshalb über `#/datenbank?t=<id>`, nicht über den Kalender: Dort wird
+`titles.json` nachgeladen, und nur so lässt sich ein Titel abbilden, der keinen
+Kalendereintrag hat.
+
 ### Ein Zwischenspeicher, dessen Schlüssel sich ständig ändert, ist keiner
 
 Im selben Zug gefunden, bevor es jemandem auffiel: `filmAusSeite()` (3.82) nahm
