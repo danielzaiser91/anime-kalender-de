@@ -55,7 +55,11 @@ import type {
   WatchLink,
 } from '../shared/types.ts'
 import { expandEvents, releaseStatus } from '../shared/logic.ts'
-import { eindeutschenStaffel, nachAusstrahlung } from '../shared/titles.ts'
+import {
+  eindeutschenStaffel,
+  nachAusstrahlung,
+  unterscheidenderZusatz,
+} from '../shared/titles.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { buildIcs } from '../shared/ics.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
@@ -4387,9 +4391,45 @@ function main(): void {
       Eintrag, den jemand öffnen könnte, und blähte die Datei nur auf.
     */
     if (!liste.some((t) => imBestand.has(t.id))) continue
-    reihen[key] = liste.sort(nachAusstrahlung).map((t) => ({
+    /*
+      **Zwei Reihenteile dürfen nicht gleich heißen.**
+
+      Gemessen am 03.09.2026: In 74 Reihen tragen zwei oder mehr Einträge genau
+      dieselbe Beschriftung — dreimal „Bleach: Thousand-Year Blood War", bei
+      „Schleim" zweimal „Staffel 2". In der Reihenliste des Panels kann niemand
+      sehen, was er anklickt (Daniel, 02.09.2026: „es ist total unklar was man
+      dort anklickt").
+
+      Der Unterschied steht im Originaltitel: AniList führt „2nd Season" und
+      „2nd Season Part 2", die deutsche Fassung nennt beide „Staffel 2".
+      `unterscheidenderZusatz` holt ihn von dort zurück — verglichen wird mit dem
+      Geschwistereintrag, der denselben Namen trägt.
+    */
+    const sortiert = liste.sort(nachAusstrahlung)
+    const anzeigename = (t: (typeof sortiert)[number]) =>
+      t.titleDe ?? t.titleEn ?? t.titleRomaji ?? `#${t.id}`
+    const wieOft = new Map<string, number>()
+    for (const t of sortiert) {
+      const n = anzeigename(t)
+      wieOft.set(n, (wieOft.get(n) ?? 0) + 1)
+    }
+    reihen[key] = sortiert.map((t) => ({
       id: t.id,
-      name: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? `#${t.id}`,
+      name: (() => {
+        const basis = anzeigename(t)
+        if ((wieOft.get(basis) ?? 0) < 2) return basis
+        const original = t.titleEn ?? t.titleRomaji
+        /*
+          Verglichen wird mit dem **frühesten** Geschwister gleichen Namens: Bei
+          drei Bleach-Einträgen soll jeder seinen eigenen Zusatz bekommen, und
+          der gemeinsame Anfang steckt im ersten.
+        */
+        const geschwister = sortiert.find(
+          (x) => x.id !== t.id && anzeigename(x) === basis,
+        )
+        const zusatz = unterscheidenderZusatz(original, geschwister?.titleEn ?? geschwister?.titleRomaji)
+        return zusatz ? `${basis} — ${zusatz}` : basis
+      })(),
       format: t.format,
       jpYear: t.jpYear,
       episodes: t.episodes,

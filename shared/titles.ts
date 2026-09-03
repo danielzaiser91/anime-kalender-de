@@ -69,6 +69,44 @@ export function nachAusstrahlung<T extends Pick<Title, 'jpYear' | 'jpSeason' | '
 }
 
 /** Reguläre Staffel oder Beiwerk (Film, OVA, Special)? */
+/**
+ * **Zwei Reihenteile dürfen nicht gleich heißen.**
+ *
+ * Gemessen am 03.09.2026 an `franchises.json`: In **74 Reihen** tragen zwei oder
+ * mehr Einträge genau dieselbe Beschriftung — dreimal „Bleach: Thousand-Year
+ * Blood War", zweimal „Fruits Basket", und bei „Meine Wiedergeburt als Schleim"
+ * zweimal „Staffel 2". Wer die Liste öffnet, kann nicht sehen, was er anklickt;
+ * genau das hat Daniel am 02.09.2026 gemeldet: „es ist total unklar was man dort
+ * anklickt".
+ *
+ * Der Unterschied steht im **Originaltitel**, nur nicht im deutschen: AniList
+ * führt „2nd Season" und „2nd Season Part 2", die deutsche Fassung nennt beide
+ * „Staffel 2". Diese Funktion holt den Zusatz von dort zurück.
+ *
+ * **Gezählt wird ab dem ersten abweichenden Wort**, nicht ab einem festen
+ * Muster: „Part 2", „Part 3 - The Conflict", „Season 2 Part 2" — die Formen sind
+ * zu verschieden für eine Wortliste, und eine Wortliste wäre genau das, was
+ * dieses Projekt bei Folgenzuordnungen ausdrücklich nicht will.
+ *
+ * Gibt das Original nichts her (beide Originale gleich), bleibt der Name wie er
+ * ist — eine erfundene Unterscheidung wäre schlimmer als eine fehlende.
+ */
+export function unterscheidenderZusatz(
+  original: string | undefined,
+  geschwisterOriginal: string | undefined,
+): string | undefined {
+  if (!original || !geschwisterOriginal || original === geschwisterOriginal) return undefined
+  const worte = (x: string) => x.split(/\s+/).filter(Boolean)
+  const a = worte(original)
+  const b = worte(geschwisterOriginal)
+  let i = 0
+  while (i < a.length && i < b.length && a[i]!.toLowerCase() === b[i]!.toLowerCase()) i++
+  const rest = a.slice(i).join(' ').replace(/^[\s:–—-]+/, '').trim()
+  if (!rest) return undefined
+  /* „Part 2" heißt auf Deutsch „Teil 2" — dieselbe Ersetzung wie in `werkTitel`. */
+  return rest.replace(/\b(?:Part|Cour)\s+(\d+)\b/gi, 'Teil $1')
+}
+
 export function istStaffel(format: string | undefined): boolean {
   return format === 'TV' || format === 'TV_SHORT' || format === 'ONA'
 }
