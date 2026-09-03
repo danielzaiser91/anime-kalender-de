@@ -1058,6 +1058,42 @@ export function DatenschutzView() {
  * Klick entfernt erfüllt das genauso wie unter jeder Seite, und hier ist Platz
  * zu erklären, wofür welche Quelle überhaupt gebraucht wird.
  */
+/**
+ * **Eine Adresse, die dasteht, gehört verlinkt.**
+ *
+ * `meta.attribution` sind fertige Sätze aus der Pipeline, und die Adresse steht
+ * darin im Klartext: „Dub-Daten: MyDubList (https://mydublist.com) — CC BY
+ * 4.0". Gerendert wurde der Satz roh — auf der Quellenseite standen damit sieben
+ * ausgeschriebene URLs, die niemand anklicken konnte (gemessen am 03.09.2026).
+ *
+ * Der Lizenzhinweis verlangt die Nennung der Quelle; ein Klick dorthin ist das
+ * Mindeste, was man daraus machen kann. Zerlegt wird am Adressmuster, damit die
+ * Pipeline weiter Sätze liefern kann und kein Datenformat sich ändern muss.
+ */
+function MitLinks({ text }: { text: string }) {
+  /* Die schließende Klammer gehört zum Satz, nicht zur Adresse — daher `[^\s)]`. */
+  const teile = text.split(/(https?:\/\/[^\s)]+)/g)
+  return (
+    <>
+      {teile.map((teil, i) =>
+        /^https?:\/\//.test(teil) ? (
+          <a
+            key={i}
+            href={teil}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sky-600 underline decoration-dotted underline-offset-2 hover:decoration-solid dark:text-sky-400"
+          >
+            {teil.replace(/^https?:\/\/(www\.)?/, '')}
+          </a>
+        ) : (
+          <span key={i}>{teil}</span>
+        ),
+      )}
+    </>
+  )
+}
+
 export function SourcesView({ meta }: { meta: DataMeta }) {
   const { t } = useLang()
   return (
@@ -1072,7 +1108,7 @@ export function SourcesView({ meta }: { meta: DataMeta }) {
             key={a}
             className="rounded-lg border border-slate-200 px-3 py-2 dark:border-white/10"
           >
-            {a}
+            <MitLinks text={a} />
           </li>
         ))}
       </ul>

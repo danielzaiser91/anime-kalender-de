@@ -24,7 +24,24 @@ import path from 'node:path'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
-const ALLE = ['woche', 'monat', 'agenda', 'datenbank', 'wo']
+/*
+  Alle elf Routen aus `shared`/`router.ts` — auch die, die nicht in der
+  Navigation stehen. Gerade dort fällt ein Fehler sonst niemandem auf: Wer
+  „Quellen" oder „Datenschutz" öffnet, tut das selten, und wenn, dann einmal.
+*/
+const ALLE = [
+  'woche',
+  'monat',
+  'agenda',
+  'datenbank',
+  'favoriten',
+  'wo',
+  'abo',
+  'newsletter',
+  'quellen',
+  'impressum',
+  'datenschutz',
+]
 
 /** Ein 1×1-Pixel-PNG, transparent — die Antwort auf jede fremde Bildanfrage. */
 const EIN_PUNKT = Buffer.from(
