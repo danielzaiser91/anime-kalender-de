@@ -9,6 +9,12 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 ## Task Queue
 
+### Dauerauftrag
+
+| Aufgabe | zuletzt geprüft | Notiz |
+|---|---|---|
+| **Wache durchsehen** | **2026-09-03T10:20+02:00** | Sind seit diesem Zeitpunkt mehr als 24 Stunden vergangen, wird `daniel-zum-abarbeiten/00-wache.md` und `00-wache-auswertung.md` gelesen, danach der Zeitstempel hier erneuert. Beurteilt wird entlang der vier Fragen: Was läuft korrekt, wo ist Verbesserungspotenzial, wo sind echte Risiken und Lücken, was läuft komplett falsch. **Der Stempel wird nur erneuert, wenn wirklich gelesen wurde** — sonst ist er eine Zahl, die Händewaschen behauptet |
+
 ### In Arbeit
 
 | Aufgabe | SP | Notiz |

@@ -1789,6 +1789,22 @@ Ein Vorsatz, der bei jedem Sitzungsstart neu eingehalten werden muss, wird
 übersehen — eine Zeile im Footer nicht. Dieselbe Überlegung wie beim Werkzeug
 zum Aufräumen der roten Läufe (25.08.2026).
 
+**Und der Dauerauftrag oben in `status.md` trägt einen Zeitstempel, keine
+Häkchen** — Daniels Vorschlag, und er ist besser als der Weg darüber: „oder du
+machst dir selbst ein tägliches todo, wo drin steht wann du letztes mal geprüft
+hast, und wenn seitdem >24h vergangen sind prüfst du erneut und erneuerst den
+timestamp."
+
+Der Unterschied ist nicht die Bequemlichkeit, sondern die Abdeckung: Ein Eintrag,
+den der Cloud-Lauf schreibt, entsteht nur bei einem **Befund**. War die Wache
+grün, steht nichts da — und dass sie täglich grün ist, will man auch wissen.
+Der Zeitstempel fragt unabhängig davon: Wann wurde zuletzt hingesehen?
+
+Gerechnet wird er wie jede Zeitangabe in diesem Projekt aus zwei echten
+Zeitpunkten, nie aus dem Gefühl. **Erneuert wird er nur, wenn wirklich gelesen
+wurde** — sonst ist er eine Zahl, die Händewaschen behauptet, und die wäre
+schlimmer als gar keine.
+
 **Warum es die dritte Stufe überhaupt braucht.** Am 03.09.2026 hat die Wache
 gemeldet „5 Urteile verloren", und ausgewertet wurde es erst, als Daniel danach
 fragte. Ein Befund, den niemand liest, ist keine Wache, sondern ein Protokoll.
