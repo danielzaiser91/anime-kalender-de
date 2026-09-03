@@ -22,6 +22,7 @@ import {
   loadAllTitles,
   loadFranchises,
   loadMeldungen,
+  loadOhneSynchro,
   loadSynopsis,
   loadVoices,
   type Synopsis,
@@ -1819,7 +1820,20 @@ export function DetailPanel({
       return
     }
     setWechselt(true)
-    loadAllTitles(data)
+    /*
+      **Beide Bestände holen, nicht nur den Hauptbestand.**
+
+      Seit die Reihenliste auch die Teile aus dem Katalog zeigt, kann der Klick
+      auf einen davon fallen: `loadAllTitles` lädt `titles.json`, und dort steht
+      ein Titel ohne belegte Synchro nicht. Das Panel meldete dann „Zu diesem
+      Eintrag liegen keine Metadaten vor" — und derselbe Klick funktionierte,
+      sobald der Toggle den Katalog geladen hatte (Daniel, 03.09.2026).
+
+      Ein Eintrag, den die Liste zeigt, muss sich auch öffnen lassen. Beide
+      Ladewege sind gegen Mehrfachaufrufe gesichert und tun beim zweiten Mal
+      nichts, das Paar kostet also nur beim ersten Wechsel etwas.
+    */
+    Promise.all([loadAllTitles(data), loadOhneSynchro(data)])
       .catch(() => {})
       .finally(() => {
         setWechselt(false)
