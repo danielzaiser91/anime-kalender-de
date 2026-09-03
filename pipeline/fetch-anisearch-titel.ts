@@ -101,10 +101,41 @@ if (!Object.keys(bruecke).length) {
   er steht im Kalender, und sein Jahr sagt darueber nichts. „Hunter x Hunter"
   (1999) und „Yu☆Gi☆Oh!" (1998) waeren sonst nie an der Reihe.
 */
+/*
+  **Wer in einer Reihenliste steht, ist sichtbar — egal welches Format, egal
+  welches Jahr.**
+
+  Der Jahresfilter darüber spart Stunden bei Titeln, die niemand zu Gesicht
+  bekommt. Reihenmitglieder sind der Gegenfall: Sie stehen im Detail-Panel eines
+  Titels **mit** deutscher Synchro, unter „Teile in dieser Reihe", und dort las
+  ein Besucher am 03.09.2026 „Tensei Shitara Slime datta Ken: Sukuwareru
+  Ramiris" — mitten in einer Liste, die sonst „Staffel 3", „Staffel 4" sagt.
+
+  Gemessen am selben Tag: **2.158 Reihenmitglieder stammen aus dem Katalog, 1.964
+  von ihnen ohne deutschen Namen.** Es sind fast alles Specials, OVAs und Filme
+  — genau die Formate, die der Filter aussortiert („Cowboy Bebop: Yoseatsume
+  Blues", „NARUTO: Akaki Yotsuba no Clover wo Sagase").
+
+  Sie kommen deshalb ohne Ansehen von Format und Jahr in die Warteschlange, und
+  zwar **vorn**: Ein sichtbarer Titel wiegt mehr als ein neuer, den niemand
+  öffnet.
+*/
+const inReihe = new Set<number>()
+for (const teile of Object.values(
+  readJson<Record<string, { id: number }[]>>('public/data/franchises.json', {}),
+)) {
+  for (const teil of teile) inReihe.add(teil.id)
+}
+
 const warteschlange = ohne
   .filter((t) => bruecke[String(t.id)] && !bestand[String(t.id)])
-  .filter((t) => ALLE || (['TV', 'ONA'].includes(t.format ?? '') && (t.jpYear ?? 0) >= 2015))
-  .sort((a, b) => (b.jpYear ?? 0) - (a.jpYear ?? 0))
+  .filter(
+    (t) => ALLE || inReihe.has(t.id) || (['TV', 'ONA'].includes(t.format ?? '') && (t.jpYear ?? 0) >= 2015),
+  )
+  .sort((a, b) => {
+    const r = Number(inReihe.has(b.id)) - Number(inReihe.has(a.id))
+    return r !== 0 ? r : (b.jpYear ?? 0) - (a.jpYear ?? 0)
+  })
 
 log(`${warteschlange.length} Titel offen, davon kommen ${Math.min(GRENZE, warteschlange.length)} dran`)
 
