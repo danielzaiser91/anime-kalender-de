@@ -1,4 +1,4 @@
-import { ANILIST_COVER_BASIS, FRANCHISE_RELATIONS } from '../../shared/mappings.ts'
+import { ANILIST_COVER_BASIS, FRANCHISE_RELATIONS, otherZaehlt } from '../../shared/mappings.ts'
 import { sleep, warn } from './util.ts'
 
 const ENDPOINT = 'https://graphql.anilist.co'
@@ -23,7 +23,12 @@ export interface AniListMedia {
   averageScore: number | null
   isAdult: boolean
   description: string | null
-  relations?: { edges: { relationType: string; node: { id: number; type: string } }[] }
+  relations?: {
+          edges: {
+            relationType: string
+            node: { id: number; type: string; title?: { romaji: string | null; english: string | null } }
+          }[]
+        }
   endDate?: { year: number | null; month: number | null; day: number | null }
 }
 
@@ -41,7 +46,7 @@ const MEDIA_FIELDS = `
   bannerImage
   averageScore isAdult
   description(asHtml: false)
-  relations { edges { relationType node { id type } } }
+  relations { edges { relationType node { id type title { romaji english } } } }
 `
 
 interface GqlResponse<T> {
@@ -179,7 +184,7 @@ export async function katalogSeite(
         format episodes seasonYear averageScore
         genres
         coverImage { large }
-        relations { edges { relationType node { id type } } }
+        relations { edges { relationType node { id type title { romaji english } } } }
       }
     }
   }`
@@ -201,7 +206,12 @@ export async function katalogSeite(
         averageScore: number | null
         genres: string[]
         coverImage: { large: string | null }
-        relations?: { edges: { relationType: string; node: { id: number; type: string } }[] }
+        relations?: {
+          edges: {
+            relationType: string
+            node: { id: number; type: string; title?: { romaji: string | null; english: string | null } }
+          }[]
+        }
       }[]
     }
   }>(query, vars)
@@ -220,7 +230,22 @@ export async function katalogSeite(
         ? m.coverImage.large.slice(ANILIST_COVER_BASIS.length)
         : (m.coverImage?.large ?? null),
       rel: (m.relations?.edges ?? [])
-        .filter((e) => FRANCHISE_RELATIONS.has(e.relationType) && e.node?.type === 'ANIME')
+        .filter(
+          (e) =>
+            e.node?.type === 'ANIME' &&
+            (FRANCHISE_RELATIONS.has(e.relationType) ||
+              /*
+                `OTHER` ist AniLists Sammelbecken — dort stehen Reihenteile ohne
+                eigene Schublade neben „vom selben Studio". Der Namensvergleich
+                trennt sie; die Begründung samt Messwerten steht bei
+                `otherZaehlt` in `shared/mappings.ts`.
+              */
+              (e.relationType === 'OTHER' &&
+                otherZaehlt(
+                  [m.title.romaji, m.title.english],
+                  [e.node.title?.romaji, e.node.title?.english],
+                ))),
+        )
         .map((e) => e.node.id),
     })),
   }

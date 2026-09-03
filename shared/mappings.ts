@@ -113,28 +113,75 @@ export const FRANCHISE_RELATIONS = new Set([
   'SPIN_OFF',
   'SUMMARY',
   'COMPILATION',
-  /*
-    **`OTHER` gehört dazu — gemessen, nicht vermutet.**
-
-    Daniel am 03.09.2026: Zur „Apothekerin" fand die Reihenliste sechs Teile,
-    der angekündigte Film war nicht darunter. AniList kennt die Verbindung
-    sehr wohl — nur trägt sie den Typ `OTHER`:
-
-        200929 (Film „Bouhi no Hihou")   --OTHER-->  195516 (Staffel 3)
-        206349 (Special „USJ")           --OTHER-->  186148 (Maomao S2)
-
-    `OTHER` ist AniLists Sammelbecken, und genau deshalb landen dort die
-    Fälle, für die es keine engere Bezeichnung gibt: Kinofilme zu einer
-    laufenden Staffel, Werbespecials, Kurzformate. Ein Reihenteil, der in
-    keine der sieben Schubladen darüber passt, ist trotzdem ein Reihenteil.
-
-    **Die Gegenprobe gehört zu dieser Zeile:** Nach jeder Änderung hier werden
-    die Reihengrößen vorher/nachher verglichen. Eine Reihe, die plötzlich um
-    ein Vielfaches wächst, ist kein Erfolg, sondern zwei zusammengeklebte
-    Reihen.
-  */
-  'OTHER',
 ])
+
+/**
+ * **`OTHER` zählt nur, wenn die Namen zusammenpassen.**
+ *
+ * Daniel am 03.09.2026: Zur „Apothekerin" fand die Reihenliste sechs Teile, der
+ * angekündigte Film war nicht darunter. AniList kennt die Verbindung sehr wohl
+ * — nur trägt sie den Typ `OTHER`:
+ *
+ *     200929 (Film „Bouhi no Hihou")   --OTHER-->  195516 (Staffel 3)
+ *     206349 (Special „USJ")           --OTHER-->  186148 (Maomao S2)
+ *
+ * **`OTHER` einfach aufzunehmen war falsch, und die Gegenprobe hat es gezeigt.**
+ * Nach dem ersten Anlauf klebten Reihen zusammen, die nichts miteinander zu tun
+ * haben: Gundam mit Patlabor (9 → 154 Teile), „True Tears" mit „Angel Beats!"
+ * und „Hanasaku Iroha" (P.A. Works, 75 Teile), „Tamako Market" mit „Free!"
+ * (Kyoto Animation, 18 Teile). AniList benutzt `OTHER` eben auch für „vom
+ * selben Studio" und „aus derselben Anthologie".
+ *
+ * Der Unterschied steht im Namen: Ein Reihenteil heißt wie seine Reihe.
+ * „Kusuriya no Hitorigoto: Bouhi no Hihou" und „Kusuriya no Hitorigoto 3rd
+ * Season" teilen 22 Zeichen; „Mobile Suit Gundam" und „Mobile Police Patlabor"
+ * teilen „Mobile" und sonst nichts.
+ *
+ * **Acht Zeichen gemeinsamer Wortanfang** ist die Schwelle — gemessen an den
+ * Fällen, die sie halten muss:
+ *
+ * | Paar | gemeinsam | zählt |
+ * |---|---|---|
+ * | Kusuriya no Hitorigoto … | 22 | ja |
+ * | Mobile Suit Gundam / Mobile Suit Zeta Gundam | 11 („mobile suit") | ja |
+ * | Yu-Gi-Oh! Zexal / Yu-Gi-Oh! Arc-V | 8 („yu gi oh") | ja |
+ * | Mobile Suit Gundam / Mobile Police Patlabor | 6 („mobile") | nein |
+ * | Tamako Market / Free! | 0 | nein |
+ *
+ * Gezählt werden **ganze Wörter**, nicht Zeichen: „Free!" und „FrFr!" teilen
+ * sonst zwei Buchstaben, die kein gemeinsames Wort belegen.
+ */
+export function otherZaehlt(
+  namenA: (string | null | undefined)[],
+  namenB: (string | null | undefined)[],
+): boolean {
+  for (const a of namenA) {
+    for (const b of namenB) {
+      if (gemeinsameWortlaenge(a, b) >= 8) return true
+    }
+  }
+  return false
+}
+
+/** Länge des gemeinsamen Wortanfangs zweier Namen, in Zeichen. */
+function gemeinsameWortlaenge(a: string | null | undefined, b: string | null | undefined): number {
+  if (!a || !b) return 0
+  const worte = (x: string) =>
+    x
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, ' ')
+      .trim()
+      .split(' ')
+      .filter(Boolean)
+  const x = worte(a)
+  const y = worte(b)
+  let laenge = 0
+  for (let i = 0; i < x.length && i < y.length && x[i] === y[i]; i++) {
+    laenge += x[i]!.length + (i > 0 ? 1 : 0)
+  }
+  return laenge
+}
+
 
 /**
  * Adressvorsatz der AniList-Cover — wird in `ohne-synchro.json` **weggelassen**.

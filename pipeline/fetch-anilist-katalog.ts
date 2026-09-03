@@ -57,8 +57,17 @@ interface Katalog {
   eintraege: KatalogEintrag[]
 }
 
-/** Sortiert, damit die Reihenfolge im Set den Fingerabdruck nicht ändert. */
-const REL_FASSUNG = [...FRANCHISE_RELATIONS].sort().join(',')
+/**
+ * Sortiert, damit die Reihenfolge im Set den Fingerabdruck nicht ändert.
+ *
+ * Der Zusatz zählt die **Regel** mit, nicht nur die Liste: `OTHER` steht nicht
+ * in `FRANCHISE_RELATIONS`, wird aber beim Abruf ausgewertet, wenn die Namen
+ * zusammenpassen (`otherZaehlt`). Ändert sich diese Schwelle, muss der Katalog
+ * genauso neu geholt werden — ohne den Zusatz wäre der Fingerabdruck derselbe
+ * geblieben und der Cache hätte eine Regel weitergereicht, die es nicht mehr
+ * gibt.
+ */
+const REL_FASSUNG = `${[...FRANCHISE_RELATIONS].sort().join(',')}+other-namen-8`
 
 const DATEI = 'data/cache/anilist-katalog.json'
 /** Erster Jahrgang mit nennenswertem Bestand. Davor gibt es einzelne Kurzfilme. */

@@ -85,6 +85,7 @@ import {
   platformFromSite,
   ANILIST_COVER_BASIS,
   FRANCHISE_RELATIONS,
+  otherZaehlt,
 } from '../shared/mappings.ts'
 
 /** Termine, die ein Anbieter nicht eingehalten hat — siehe `pipeline/termine-pruefen.ts`. */
@@ -1220,6 +1221,29 @@ function main(): void {
   for (const media of [...Object.values(byMal), ...Object.values(byAniId)]) {
     if (media?.id && !medienNachAniId.has(media.id)) medienNachAniId.set(media.id, media)
   }
+  /**
+   * Zählt diese Kante als Reihenzugehörigkeit?
+   *
+   * Die sieben eindeutigen Arten immer; `OTHER` nur, wenn die Namen beider
+   * Seiten zusammenpassen — sonst klebt AniLists Sammelbecken Gundam an
+   * Patlabor. Begründung und Messwerte bei `otherZaehlt` in
+   * `shared/mappings.ts`; dieselbe Regel steckt im Katalog-Abruf
+   * (`lib/anilist.ts`), damit beide Wege dieselben Reihen bauen.
+   */
+  const istReihenKante = (
+    media: { title: { romaji: string | null; english: string | null } },
+    edge: {
+      relationType: string
+      node?: { title?: { romaji: string | null; english: string | null } }
+    },
+  ): boolean =>
+    FRANCHISE_RELATIONS.has(edge.relationType) ||
+    (edge.relationType === 'OTHER' &&
+      otherZaehlt(
+        [media.title.romaji, media.title.english],
+        [edge.node?.title?.romaji, edge.node?.title?.english],
+      ))
+
   const crossoverEltern = new Map<number, number[]>()
   for (const [id, media] of medienNachAniId) {
     const eltern = (media.relations?.edges ?? [])
@@ -1234,7 +1258,7 @@ function main(): void {
     parent.set(media.id, parent.get(media.id) ?? media.id)
     if (crossoverEltern.has(media.id)) continue
     for (const edge of media.relations?.edges ?? []) {
-      if (!FRANCHISE_RELATIONS.has(edge.relationType)) continue
+      if (!istReihenKante(media, edge)) continue
       if (edge.node?.type !== 'ANIME') continue
       if (crossoverEltern.has(edge.node.id)) continue
       parent.set(edge.node.id, parent.get(edge.node.id) ?? edge.node.id)
@@ -1256,7 +1280,7 @@ function main(): void {
     }
     const media = medienNachAniId.get(id)
     for (const edge of media?.relations?.edges ?? []) {
-      if (!FRANCHISE_RELATIONS.has(edge.relationType)) continue
+      if (!media || !istReihenKante(media, edge)) continue
       if (edge.node?.type !== 'ANIME') continue
       if (crossoverEltern.has(edge.node.id) && !echteCrossover.has(edge.node.id)) continue
       parent.set(edge.node.id, parent.get(edge.node.id) ?? edge.node.id)
