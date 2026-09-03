@@ -31,6 +31,7 @@
  * Aufruf: npm run data:katalog              (setzt fort, überspringt fertige Jahre)
  *         npm run data:katalog -- --neu     (von vorn)
  */
+import { FRANCHISE_RELATIONS } from '../shared/mappings.ts'
 import { katalogSeite, type KatalogEintrag } from './lib/anilist.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 
@@ -38,8 +39,26 @@ interface Katalog {
   geholtAm: string
   /** Jahre, die vollständig durchgeblättert wurden — für den Wiederaufsatz. */
   fertigeJahre: number[]
+  /**
+   * Welche Beziehungsarten in `rel` stecken — als Fingerabdruck.
+   *
+   * Der Cache wusste bisher nicht, dass er veralten kann. Am 03.09.2026 kam
+   * `OTHER` zu `FRANCHISE_RELATIONS` hinzu (der Apothekerin-Film hängt genau
+   * so an seiner Staffel). Lokal half ein `--neu`; in der CI liegt der Katalog
+   * in einem Actions-Cache, und der Wochenlauf setzt darauf auf — er hätte
+   * die alten `rel`-Listen bis in alle Ewigkeit weitergereicht, ohne dass
+   * etwas rot geworden wäre.
+   *
+   * Stimmt der Fingerabdruck nicht mehr, gilt **kein** Jahr als fertig: Der
+   * nächste Lauf holt alles neu. Das kostet einmalig zehn Minuten und ist der
+   * einzige Weg, der ohne einen Menschen auskommt, der daran denkt.
+   */
+  relFassung?: string
   eintraege: KatalogEintrag[]
 }
+
+/** Sortiert, damit die Reihenfolge im Set den Fingerabdruck nicht ändert. */
+const REL_FASSUNG = [...FRANCHISE_RELATIONS].sort().join(',')
 
 const DATEI = 'data/cache/anilist-katalog.json'
 /** Erster Jahrgang mit nennenswertem Bestand. Davor gibt es einzelne Kurzfilme. */
@@ -51,7 +70,14 @@ const NEU = args.includes('--neu')
 async function main(): Promise<void> {
   const vorhanden = NEU ? undefined : readJson<Katalog | undefined>(DATEI, undefined)
   const bekannt = new Map<number, KatalogEintrag>((vorhanden?.eintraege ?? []).map((e) => [e.id, e]))
-  const fertig = new Set(vorhanden?.fertigeJahre ?? [])
+  const veraltet = Boolean(vorhanden) && vorhanden?.relFassung !== REL_FASSUNG
+  const fertig = new Set(veraltet ? [] : (vorhanden?.fertigeJahre ?? []))
+  if (veraltet) {
+    log(
+      'Die Beziehungsarten haben sich geändert — alle Jahre werden neu geholt ' +
+        `(Cache: ${vorhanden?.relFassung ?? 'ohne Angabe'})`,
+    )
+  }
   if (bekannt.size) log(`Katalog: ${bekannt.size} Einträge bekannt, ${fertig.size} Jahre bereits fertig`)
 
   // Drei Jahre über das laufende hinaus: Angekündigtes hat oft schon ein Datum.
@@ -127,6 +153,7 @@ function sichern(bekannt: Map<number, KatalogEintrag>, fertig: Set<number>): voi
   const katalog: Katalog = {
     geholtAm: new Date().toISOString(),
     fertigeJahre: [...fertig].sort((a, b) => a - b),
+    relFassung: REL_FASSUNG,
     eintraege: [...bekannt.values()].sort((a, b) => a.id - b.id),
   }
   writeJson(DATEI, katalog, true)
