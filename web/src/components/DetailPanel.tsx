@@ -117,16 +117,36 @@ type Antwort =
  * Beim Film tritt an die Stelle des Balkens eine Faktenzeile: Ein
  * Fortschrittsbalken, der immer voll ist, misst nichts.
  */
+/**
+ * Hat dieses Release noch einen Termin in der Zukunft?
+ *
+ * Geprüft wird über die entfalteten Ereignisse, nicht über `firstEpisodeDate`:
+ * Eine Wochenserie, die vor drei Wochen begann, hat einen Start in der
+ * Vergangenheit und trotzdem neun Folgen vor sich.
+ */
+function hatKuenftigenTermin(release: Release, today: string): boolean {
+  if (release.cinemaUntil) return release.cinemaUntil >= today
+  return expandEvents(release).some((e) => e.date > today)
+}
+
 function AntwortKasten({
   antwort,
   title,
   t,
   today,
+  children,
 }: {
   antwort: Antwort
   title: Title
   t: (k: never, v?: Record<string, string | number>) => string
   today: string
+  /**
+   * Die Anbieter-Pillen. Sie standen bis zum 03.09.2026 in einem eigenen
+   * Abschnitt „WO LÄUFT ES" darunter — mit dem Ergebnis, dass der Kopf des
+   * Panels je Titel eine andere Höhe hatte und beim Wechsel sprang (Daniel, mit
+   * drei Bildern). Im Kasten haben sie einen festen Platz.
+   */
+  children?: React.ReactNode
 }) {
   const T = t as unknown as (k: string, v?: Record<string, string | number>) => string
 
@@ -253,7 +273,92 @@ function AntwortKasten({
       )}
 
       {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
+      {children}
     </section>
+  )
+}
+
+/**
+ * **Wo es läuft — im Kasten, mit fester Höhe und einem Umschalter.**
+ *
+ * Daniel am 03.09.2026, nach drei Bildern desselben Panels bei verschiedenen
+ * Titeln: „‚Wo läuft es‘ dieses heading entfernen, die pills wandern in den
+ * blauen ‚Auf deutsch verfügbar‘-Kasten … disc release von streaming per toggle
+ * seperieren … feste höhe. bei overflow erscheint horizontale scrollbar. 2 rows
+ * werden für pills vor-reserviert."
+ *
+ * Drei Dinge stecken darin, und jedes löst ein eigenes Problem:
+ *
+ * - **Die Überschrift entfällt.** „WO LÄUFT ES" über drei Anbieter-Pillen sagt
+ *   nichts, was die Pillen nicht selbst zeigen (siehe „Keine Information
+ *   zweimal" in `CLAUDE.md`).
+ * - **Die Höhe steht fest.** Zwei Reihen sind reserviert, auch wenn nur eine
+ *   Pille da ist; was nicht hineinpasst, läuft nach rechts statt nach unten.
+ *   Damit springt der Kopf beim Wechsel zwischen zwei Titeln nicht mehr.
+ * - **Stream und Disc sind zwei Fragen.** Wer wissen will, wo er es *sehen*
+ *   kann, interessiert sich nicht für Kaufausgaben — und umgekehrt. Der
+ *   Umschalter erscheint nur, wenn es beides gibt.
+ */
+function WoPillen({
+  stream,
+  disc,
+  t,
+}: {
+  stream: React.ReactNode[]
+  disc: React.ReactNode[]
+  t: (k: never, v?: Record<string, string | number>) => string
+}) {
+  const T = t as unknown as (k: string, v?: Record<string, string | number>) => string
+  const beides = stream.length > 0 && disc.length > 0
+  const [zeigeDisc, setZeigeDisc] = useState(false)
+  const sichtbar = zeigeDisc && disc.length ? disc : stream.length ? stream : disc
+  if (!stream.length && !disc.length) return null
+
+  return (
+    <div className="mt-3 border-t border-white/10 pt-2.5">
+      {beides && (
+        <div className="mb-1.5 flex justify-end">
+          <div
+            className="inline-flex rounded-full border border-white/15 bg-black/10 p-0.5 text-[11px] dark:bg-black/20"
+            role="tablist"
+            aria-label={T('where.umschalter')}
+          >
+            {[
+              { an: false, text: T('where.umschalterStream') },
+              { an: true, text: T('where.umschalterDisc') },
+            ].map((o) => (
+              <button
+                key={String(o.an)}
+                type="button"
+                role="tab"
+                aria-selected={zeigeDisc === o.an}
+                onClick={() => setZeigeDisc(o.an)}
+                className={[
+                  'rounded-full px-2.5 py-0.5 transition',
+                  zeigeDisc === o.an
+                    ? 'bg-white/85 font-medium text-slate-900 dark:bg-white/90'
+                    : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
+                ].join(' ')}
+              >
+                {o.text}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {/*
+        **Zwei Reihen, waagerecht gefüllt.** `grid-auto-flow: column` bei zwei
+        Zeilen legt die Pillen erst untereinander und dann nach rechts weiter —
+        genau der Fluss, den eine feste Höhe mit waagerechtem Überlauf braucht.
+        `min-h` hält den Platz auch dann frei, wenn nur eine Pille da ist.
+      */}
+      <div
+        className="grid min-h-[4.25rem] grid-flow-col grid-rows-2 justify-start gap-1.5 overflow-x-auto pb-1"
+        style={{ gridAutoColumns: 'max-content' }}
+      >
+        {sichtbar}
+      </div>
+    </div>
   )
 }
 
@@ -2331,7 +2436,90 @@ export function DetailPanel({
             ungleich hohe Kästen ließen beim Wechseln des Reihenteils alles
             darunter springen.
           */}
-          {antwort && <AntwortKasten antwort={antwort} title={title} t={t} today={today} />}
+          {antwort && (
+            <AntwortKasten
+              antwort={antwort}
+              title={title}
+              t={t}
+              today={today}
+            >
+              <WoPillen
+                t={t}
+                /*
+                  **Stream ist, wo man es ansehen kann.** Die Zugangsart
+                  (kostenlos, Abo, Kauf) stand bis zum 03.09.2026 als eigene
+                  Zwischenüberschrift darüber; sie steht jetzt an der Pille
+                  selbst, wo sie hingehört — drei Überschriften über je einer
+                  Pille waren mehr Gliederung als Inhalt.
+                */
+                stream={sortiertNachZugang.flatMap(({ plattformen }) =>
+                  plattformen.map((s) => {
+                    const grenze = dubGrenze(s.dubRanges)
+                    /*
+                      Lücken mitten in der Staffel kann `dubGrenze` nicht: Sie
+                      kennt nur „ab" und „bis". Bei „Hensuki" (1–4 und 6–12
+                      deutsch, 5 nicht) meldete sie „bis Folge 4" und unterschlug
+                      acht Folgen.
+                    */
+                    const luecken = dubLuecken(s.dubRanges)
+                    return (
+                      <Pille
+                        key={s.platform}
+                        name={PLATFORMS[s.platform].name}
+                        farbe={PLATFORMS[s.platform].color}
+                        url={s.url}
+                        unten={
+                          [
+                            luecken
+                              ? t('detail.dubLuecken', { n: luecken })
+                              : grenze
+                                ? t(grenze.schluessel, { n: grenze.n })
+                                : '',
+                            s.teilBereich
+                              ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
+                              : '',
+                          ]
+                            .filter(Boolean)
+                            .join(' · ') || undefined
+                        }
+                        titel={
+                          (s.sharedWith ?? 0) > 1
+                            ? t('detail.sharedUrlNote', { count: s.sharedWith! })
+                            : undefined
+                        }
+                        rechts={<DubMark dub={s.dub} />}
+                      />
+                    )
+                  }),
+                )}
+                /*
+                  **Disc ist, was man kauft** — Händler und Vorbestellungen.
+                  Vier Ausgaben desselben Verlags sind **eine** Auskunft, keine
+                  vier (Daniel, 20.08.2026): eine Pille je Shop, die Zahl der
+                  Ausgaben in der zweiten Zeile.
+                */
+                disc={[
+                  ...sortiertNachZugang.flatMap(({ shops }) =>
+                    shops.map((g) => (
+                      <Pille
+                        key={g.shop + g.eintraege[0].url}
+                        name={g.shop}
+                        url={g.eintraege[0].url}
+                        unten={
+                          g.eintraege.length > 1
+                            ? t('where.titles', { count: g.eintraege.length })
+                            : undefined
+                        }
+                      />
+                    )),
+                  ),
+                  ...vorbestellungen.map((r) => (
+                    <VorbestellPille key={r.slug} release={r} titel={anzeigeName(title)} />
+                  )),
+                ]}
+              />
+            </AntwortKasten>
+          )}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
 
@@ -2386,104 +2574,6 @@ export function DetailPanel({
             </div>
           )}
 
-          {(title.streams.length > 0 ||
-            (title.watchLinks?.length ?? 0) > 0 ||
-            vorbestellungen.length > 0) && (
-            <div>
-              <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
-              <div className="flex flex-col gap-2">
-                {sortiertNachZugang.map(({ art, plattformen, shops, zeigeUeberschrift }) => (
-                  <div key={art}>
-                    {zeigeUeberschrift && (
-                      <div className="mb-1 text-[10px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
-                        {t(`where.zugang.${art}` as never)}
-                      </div>
-                    )}
-                    <div className="flex flex-wrap gap-1.5">
-                      {plattformen.map((s) => {
-                        const grenze = dubGrenze(s.dubRanges)
-                        /*
-                          Lücken mitten in der Staffel kann `dubGrenze` nicht: Sie
-                          kennt nur „ab" und „bis". Bei „Hensuki" (1–4 und 6–12
-                          deutsch, 5 nicht) meldete sie „bis Folge 4" und
-                          unterschlug acht Folgen.
-                        */
-                        const luecken = dubLuecken(s.dubRanges)
-                        return (
-                          <Pille
-                            key={s.platform}
-                            name={PLATFORMS[s.platform].name}
-                            farbe={PLATFORMS[s.platform].color}
-                            url={s.url}
-                            unten={
-                              [
-                                luecken ? t('detail.dubLuecken', { n: luecken }) : grenze ? t(grenze.schluessel, { n: grenze.n }) : '',
-                                /*
-                                  **„2 Einträge“ stand hier und sagte niemandem etwas.**
-
-                                  Daniel am 02.09.2026: „wieso steht da ‚2 einträge‘? unnötig
-                                  verwirrende info“. Die Zahl ist `sharedWith` — wie viele **unserer**
-                                  Einträge diese eine Anbieter-Adresse bedient. Das ist eine Angabe
-                                  über unsere Datenhaltung, gestellt an einer Stelle, die eine ganz
-                                  andere Frage beantwortet: wo läuft dieser Titel.
-
-                                  Der Tooltip bleibt — wer den Grund wissen will, dass Crunchyroll
-                                  zwei unserer Staffeln unter einer Seite führt, findet ihn dort. In
-                                  der Zeile darunter stand er als nackte Zahl ohne Bezug.
-                                */
-                                s.teilBereich
-                                  ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
-                                  : '',
-                              ]
-                                .filter(Boolean)
-                                .join(' · ') || undefined
-                            }
-                            titel={(s.sharedWith ?? 0) > 1 ? t('detail.sharedUrlNote', { count: s.sharedWith! }) : undefined}
-                            rechts={<DubMark dub={s.dub} />}
-                          />
-                        )
-                      })}
-                      {/*
-                        Anbieter ohne eigene Plattform — vier Ausgaben desselben
-                        Verlags sind **eine** Auskunft, keine vier (Daniel,
-                        20.08.2026). Deshalb eine Pille je Shop, die Zahl der
-                        Ausgaben in der zweiten Zeile.
-                      */}
-                      {shops.map((g) => (
-                        <Pille
-                          key={g.shop + g.eintraege[0].url}
-                          name={g.shop}
-                          url={g.eintraege[0].url}
-                          unten={
-                            g.eintraege.length > 1
-                              ? t('where.titles', { count: g.eintraege.length })
-                              : undefined
-                          }
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-                {vorbestellungen.length > 0 && (
-                  <div>
-                    <div className="mb-1 flex items-center gap-2">
-                      <span className="text-[10px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
-                        {t('where.preorder')}
-                      </span>
-                      <span className="rounded-full bg-sky-100 px-2 py-0.5 text-[10px] text-sky-800 dark:bg-sky-500/15 dark:text-sky-300">
-                        {t('where.preorderHint')}
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {vorbestellungen.map((r) => (
-                        <VorbestellPille key={r.slug} release={r} titel={anzeigeName(title)} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
 
           {/*
             Kein Anbieter? Dann steht das da — statt gar nichts.
@@ -2829,7 +2919,21 @@ export function DetailPanel({
             </div>
           )}
 
-          {releases.length > 0 ? (
+          {/*
+            **Der Terminblock steht nur, wenn es noch etwas zu terminieren gibt.**
+
+            Daniel am 03.09.2026: „release termine bereich nur anzeigen, wenn es
+            zukünftige termine für diesen titel gibt." Bei einer Reihe, die
+            2024 zu Ende lief, beantwortet eine Überschrift „RELEASE-TERMINE FÜR
+            DEUTSCHE SYNCHRO" keine Frage mehr — sie kündigt etwas an, das
+            längst vorbei ist, und schiebt die Handlung nach unten.
+
+            **Ein Disc-Termin zählt hier mit**, anders als im Kopf: Wer vorbestellen
+            kann, hat sehr wohl einen Termin vor sich. Der Kopf beantwortet die
+            Frage „wann kann ich es sehen", dieser Block die Frage „was steht
+            noch an".
+          */}
+          {releases.length > 0 && !releases.some((r) => hatKuenftigenTermin(r, today)) ? null : releases.length > 0 ? (
             <div className="flex flex-col gap-3">
               <SectionTitle>{t('detail.releases')}</SectionTitle>
               {gruppiereReleases(releases).map((gruppe) =>

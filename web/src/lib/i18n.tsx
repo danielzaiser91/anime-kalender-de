@@ -226,6 +226,9 @@ const TEXTE = {
 
   'detail.gone': 'nicht mehr abrufbar, geprüft am {d}',
   'detail.whereToWatch': 'Wo läuft es',
+  'where.umschalter': 'Stream oder Disc',
+  'where.umschalterStream': 'Stream',
+  'where.umschalterDisc': 'Disc',
   // Steht bei den Titeln, zu denen wir keinen Anbieter kennen — 665 von 2.760.
   // Ein Satz, weil er eine Aufgabe hat: das Suchen auf dieser Seite beenden.
   // Ohne ihn fehlte der Abschnitt ganz, und „läuft nirgends" war von „wissen
