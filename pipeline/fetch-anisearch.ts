@@ -265,7 +265,31 @@ function extractDescription(html: string): string | undefined {
   )
     .replace(/\n{3,}/g, '\n\n')
     .trim()
-  return text.length > 40 ? text : undefined
+  return text.length > 40 && !istPlatzhalter(text) ? text : undefined
+}
+
+/**
+ * **Der Aufruf zum Mitschreiben ist keine Handlung.**
+ *
+ * Wo aniSearch keine deutsche Inhaltsangabe hat, steht trotzdem etwas im
+ * `<div lang="de">` — eine Bitte an die Leser: „Eine kurze Inhaltsangabe zum
+ * Anime ‚X' würde vielen Anime- und Manga-Fans weiterhelfen. Du kennst diesen
+ * Anime bereits? Dann unterstütze aniSearch und füge eine kurze Beschreibung
+ * hinzu."
+ *
+ * Der Text ist über 40 Zeichen lang, deutsch und wohlgeformt — er kam durch
+ * jede Prüfung, die es hier gab. Am 04.09.2026 gemessen: **121 Titel** zeigten
+ * live einen Mitmach-Aufruf an der Stelle, an der ihre Handlung stehen sollte,
+ * und verdeckten dabei die englische Fassung, die es sehr wohl gab.
+ *
+ * **Die Lehre ist größer als der Fall:** Eine Quelle, die ein Feld immer
+ * füllt, füllt es auch, wenn sie nichts hat. Ein Längentest prüft, dass etwas
+ * dasteht — nicht, dass es die Frage beantwortet.
+ */
+function istPlatzhalter(text: string): boolean {
+  return /unterstütze aniSearch|füge eine kurze Beschreibung|würde vielen Anime- und Manga-Fans/i.test(
+    text,
+  )
 }
 
 /**
@@ -631,7 +655,32 @@ async function main(): Promise<void> {
         veraltet(cache[t.id]) ||
         !existsSync(`${ARCHIV_DIR}/${ids.anisearch[t.id]}.html.gz`),
     )
-    .sort((a, b) => Number(withRelease.has(b.id)) - Number(withRelease.has(a.id)))
+    /*
+      **Wer noch nie geholt wurde, kommt vor jeder Auffrischung.**
+
+      Bis zum 04.09.2026 sortierte hier nur ein Kriterium: Titel mit Termin
+      zuerst. In derselben Gruppe standen damit zwei sehr verschiedene Fälle —
+      ein Titel ohne **jede** Angabe und 1.660 Titel, die nur ihre Archivdatei
+      nachholen (siehe den Absatz darüber). Bei 200 Abrufen je Lauf heißt das:
+      Der Neue wartet acht Läufe lang hinter Einträgen, die bereits vollständig
+      sind.
+
+      Genau so geschehen bei „Die Tagebücher der Apothekerin: Staffel 3": Die
+      ID-Brücke kannte die Zuordnung seit dem 31.08. (AniList 195516 → aniSearch
+      20704), der Titel lief am 01.10. an, und im Bestand stand weder eine
+      aniSearch-Kennung noch eine deutsche Beschreibung — die Seite zeigte
+      englischen AniList-Text (Daniel, 04.09.2026: „hat anisearch handlung?
+      bestimmt besser und deutsch"). Er hatte recht: aniSearch führt die Seite,
+      wir hatten sie nur nie abgerufen.
+
+      Fehlt ein Eintrag ganz, kostet sein Abruf dasselbe wie eine Auffrischung
+      und bringt ungleich mehr — also zuerst.
+    */
+    .sort(
+      (a, b) =>
+        Number(!cache[b.id]) - Number(!cache[a.id]) ||
+        Number(withRelease.has(b.id)) - Number(withRelease.has(a.id)),
+    )
     .slice(0, LIMIT)
 
   if (!queue.length) {

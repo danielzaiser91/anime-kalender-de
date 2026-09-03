@@ -319,6 +319,9 @@ const TEXTE = {
   'detail.plot': 'Handlung',
   'detail.plotMore': 'mehr anzeigen',
   'detail.plotLess': 'weniger anzeigen',
+  // **Der Ersatz sagt, wessen Handlung dasteht.** Ohne den Namen liest jemand
+  // die Handlung von Staffel 1 und hält sie für die von Staffel 3.
+  'detail.plotVonTeil': 'Noch nicht erschienen — hier steht die Handlung von „{teil}".',
   'detail.plotOnlyEnglish': 'Diese Beschreibung gibt es nur auf Englisch.',
   'detail.seasons': 'Alles aus dieser Reihe',
   // Nur noch als Beschriftung des Karussells für Screenreader — sichtbar steht

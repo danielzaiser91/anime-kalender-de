@@ -274,8 +274,18 @@ function AntwortKasten({
         schlechteste denkbare Tausch dafür.
       */
       T('antwort.rhythmusWoechentlich', { tag: weekdayName(e.date).toLowerCase() }),
+      /*
+        **„Noch X" heißt: X stehen aus — die nächste eingerechnet.**
+
+        Hier stand `rest - 1`, weil die nächste Folge eine Zeile darüber schon
+        mit Datum genannt wird. Gedacht war „und danach kommen noch elf". Gelesen
+        wurde es anders, und zwar zu Recht: Bei einer Staffel, von der noch keine
+        einzige Folge draußen ist, stand „0 von 12 erschienen" über „noch 11 bis
+        zum Finale" (Daniel, 04.09.2026: „es müsste noch 12 heißen"). Zwölf
+        Folgen stehen aus, nicht elf — die nächste ist keine erschienene.
+      */
       antwort.letzter && antwort.rest > 1
-        ? T('antwort.nochFolgen', { count: antwort.rest - 1, datum: formatDate(antwort.letzter) })
+        ? T('antwort.nochFolgen', { count: antwort.rest, datum: formatDate(antwort.letzter) })
         : T('antwort.letzteFolge'),
     ].join(' · ')
     anteil = antwort.gesamt ? Math.round((antwort.raus / antwort.gesamt) * 100) : undefined
@@ -326,27 +336,28 @@ function AntwortKasten({
     fakten = [
       { wert: antwort.publisher ?? '—', was: T('antwort.faktPublisher') },
       { wert: antwort.edition ?? '—', was: T('antwort.faktEdition') },
-      {
-        wert: title.fsk !== undefined ? T('antwort.fskAb', { n: title.fsk }) : '—',
-        was: T('antwort.faktFsk'),
-      },
+      // Die Altersfreigabe stand hier als dritte Angabe und steht seit dem
+      // 04.09.2026 als Marke am Cover — sie gehört zum Werk, nicht zur Ausgabe.
     ]
   } else if (antwort.art === 'film') {
     haupt = antwort.hatSynchro ? T('antwort.filmTitel') : T('antwort.filmOhneTitel')
     neben = antwort.hatSynchro ? T('antwort.filmNeben') : T('antwort.filmOhneNeben')
     gedaempft = !antwort.hatSynchro
     zaehl = ''
-    // Drei Angaben, die es bei einem Film wirklich gibt — statt eines Balkens
-    // ohne Messwert. Fehlt eine (FSK hat nur die Hälfte der Filme), bleibt ihr
-    // Platz leer, statt die Zeile zu verschieben.
-    fakten = [
-      { wert: title.jpYear ? String(title.jpYear) : '—', was: T('antwort.faktErschienen') },
-      {
-        wert: title.fsk !== undefined ? T('antwort.fskAb', { n: title.fsk }) : '—',
-        was: T('antwort.faktFsk'),
-      },
-      { wert: title.studios?.[0] ?? '—', was: T('antwort.faktStudio') },
-    ]
+    /*
+      **Hier stand dreimal, was oben schon steht.**
+
+      „2022 erschienen · ab 12 Altersfreigabe · 8-bit Studio" — und in der
+      Unterzeile am Cover, drei Zentimeter darüber: „Film · JP 2022 · 8-bit"
+      (Daniel, 04.09.2026: „2022 info steht bereits oben … 8-bit steht bereits
+      im sub-title div oben drin"). Die Altersfreigabe stand als einzige nur
+      hier — sie ist jetzt eine Marke an der Unterzeile, wo die anderen
+      Werkangaben ohnehin sitzen.
+
+      Ein Film bekommt damit keine Faktenzeile mehr. Der Kasten beantwortet die
+      Frage, ob es ihn auf Deutsch gibt; das Werk beschreibt der Kopf.
+    */
+    fakten = []
   } else {
     /*
       Dieselbe Dopplung wie oben, nur verneint: „Noch keine deutsche Fassung",
@@ -2301,6 +2312,62 @@ export function DetailPanel({
    */
   const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
 
+  /** Die vier Werkangaben der Unterzeile — leer heißt: kein Kasten. */
+  const unterzeile = !title
+    ? []
+    : [
+        title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
+        title.episodes && title.episodes > 1
+          ? `${title.episodes} ${t('detail.episodes')}`
+          : undefined,
+        title.jpYear ? `JP ${title.jpYear}` : undefined,
+        title.studios?.[0],
+      ].filter(Boolean)
+
+  /*
+    **Eine Staffel, die noch nicht läuft, hat keine Handlung — die Reihe schon.**
+
+    aniSearch und AniList führen künftige Staffeln ohne Inhaltsangabe, und das
+    ist richtig so: Niemand kann erzählen, was noch nicht gesendet wurde. Auf
+    der Seite blieb dafür eine leere Fläche — bei einem Titel, den gerade
+    deshalb jemand aufschlägt, weil er ihn noch nicht kennt.
+
+    Also zeigen wir die Handlung des letzten Teils, den es wirklich gibt. Daniel
+    am 04.09.2026: „für zukünftige staffeln können wir hinweistext ‚noch nicht
+    erschienen, handlung der vorherigen staffel:' … oder ‚der zuletzt
+    erschienenen staffel'".
+
+    **Gesucht wird rückwärts, nicht der direkte Vorgänger** — auch das seine
+    Beobachtung: „wenn man cour 2 anklickt, wäre letzte ja cour 1 und dort steht
+    auch keine handlung". Bei einer Staffel, die in zwei Cours zerfällt, ist der
+    Vorgänger genauso leer wie sie selbst. Die Schleife geht deshalb so weit
+    zurück, bis ein Teil eine Handlung trägt, und der Hinweis nennt ihn beim
+    Namen — sonst liest jemand die Handlung von Staffel 1 und hält sie für die
+    von Staffel 3.
+  */
+  const [ersatz, setErsatz] = useState<{ plot: Synopsis; von: FranchiseMember } | undefined>()
+  useEffect(() => {
+    let alive = true
+    setErsatz(undefined)
+    if (synopsis?.de || synopsis?.en) return
+    const vorher = reihenTeile
+      .filter((m) => m.id !== titleId && (m.jpYear ?? 9999) <= (title?.jpYear ?? 9999))
+      .sort((a, b) => (b.jpYear ?? 0) - (a.jpYear ?? 0) || b.id - a.id)
+    ;(async () => {
+      for (const m of vorher) {
+        const s = await loadSynopsis(m.id).catch(() => undefined)
+        if (!alive) return
+        if (s?.de || s?.en) {
+          setErsatz({ plot: s, von: m })
+          return
+        }
+      }
+    })()
+    return () => {
+      alive = false
+    }
+  }, [titleId, synopsis, reihenTeile, title])
+
   /** Die AniList-Wertung als Pille — steht neben dem Staffelnamen. */
   const bewertung =
     title?.score !== undefined ? (
@@ -2392,12 +2459,23 @@ export function DetailPanel({
         quelle: synopsis.deSource ?? { name: 'anisearch.de', url: 'https://www.anisearch.de/' },
       }
     }
-    if (!synopsis?.en) return undefined
-    // Die englische Fassung kommt immer von AniList — dort steht auch der Titel.
+    if (synopsis?.en) {
+      // Die englische Fassung kommt immer von AniList — dort steht auch der Titel.
+      return {
+        text: synopsis.en,
+        fallback: true,
+        quelle: { name: 'anilist.co', url: `https://anilist.co/anime/${titleId}` },
+      }
+    }
+    if (!ersatz) return undefined
+    // Der Ersatz aus der Reihe — mit Hinweis, von welchem Teil er stammt.
     return {
-      text: synopsis.en,
-      fallback: true,
-      quelle: { name: 'anilist.co', url: `https://anilist.co/anime/${titleId}` },
+      text: ersatz.plot.de ?? ersatz.plot.en!,
+      fallback: !ersatz.plot.de,
+      vonTeil: ersatz.von,
+      quelle: ersatz.plot.de
+        ? (ersatz.plot.deSource ?? { name: 'anisearch.de', url: 'https://www.anisearch.de/' })
+        : { name: 'anilist.co', url: `https://anilist.co/anime/${ersatz.von.id}` },
     }
   })()
   const keywords = allKeywords ? title.keywords : title.keywords.slice(0, KEYWORD_PREVIEW)
@@ -2587,6 +2665,22 @@ export function DetailPanel({
               container nächste zeile"). Als eigene Zeile im Inhaltsbereich
               kosteten sie 24 px für eine Angabe, die fast niemand aufklappt.
             */}
+            {/*
+              **Kein Kasten ohne Inhalt.**
+
+              Die Unterzeile setzt sich aus vier Angaben zusammen — Format,
+              Folgenzahl, Jahr, Studio. Fehlen alle vier, stand hier trotzdem
+              ein grauer Balken über dem Cover: eine leere Fläche, die aussieht
+              wie ein Ladefehler (Daniel, 04.09.2026, mit Bild; er konnte den
+              Zustand nicht wiederholen, er trat beim Wechsel zwischen Tabs
+              auf).
+
+              Die Ursache ist damit nicht gefunden — sie steht als Aufgabe in
+              `status.md`. Aber der sichtbare Schaden entsteht erst hier, und er
+              gehört unabhängig von seiner Ursache verhindert: Ein Kasten, der
+              nichts zu sagen hat, wird nicht gezeichnet.
+            */}
+            {unterzeile.length > 0 && (
             <div className="absolute left-0 top-0 z-10 max-w-[calc(100%-4rem)] rounded-br-lg bg-[rgba(8,12,18,.74)] px-2.5 py-1 backdrop-blur-[3px]">
             <p className="text-xs text-slate-300">
               {[
@@ -2608,6 +2702,26 @@ export function DetailPanel({
             </p>
             <WeitereTitel title={title} />
             </div>
+            )}
+
+            {/*
+              **Die Altersfreigabe als Marke, gegenüber der Unterzeile.**
+
+              Sie stand bis zum 04.09.2026 in der Faktenzeile des Kastens,
+              zwischen zwei Angaben, die den Kopf darüber wiederholten. Als
+              deren Dopplung fiel, blieb sie als einzige übrig — und gehört
+              damit dorthin, wo die Werkangaben stehen. Daniel: „ab 12 kann als
+              label icon oben rechts vom sub-title-div."
+
+              Rechts, weil links der Untertitel steht und die Schließen-Leiste
+              erst 3,5 rem tiefer beginnt; die Marke passt in die Lücke
+              dazwischen, ohne beide anzufassen.
+            */}
+            {title.fsk !== undefined && (
+              <span className="absolute right-11 top-0 z-10 rounded-b-lg bg-[rgba(8,12,18,.74)] px-2 py-1 text-xs font-semibold tabular-nums text-slate-200 backdrop-blur-[3px]">
+                {t('antwort.fskAb', { n: title.fsk })}
+              </span>
+            )}
           </div>
         </div>
 
@@ -3557,6 +3671,17 @@ export function DetailPanel({
             <div>
               <SectionTitle>{t('detail.plot')}</SectionTitle>
               {/*
+                **Der Hinweis steht über dem Text, nicht darunter.**
+
+                Er ändert, wie der Absatz zu lesen ist — wer ihn erst am Ende
+                findet, hat die Handlung schon dem falschen Titel zugeschrieben.
+              */}
+              {plot.vonTeil && (
+                <p className="mb-1 text-[11px] text-amber-600 dark:text-amber-400/90">
+                  {t('detail.plotVonTeil', { teil: plot.vonTeil.name })}
+                </p>
+              )}
+              {/*
                 Zuerst zwei Sätze, den Rest auf Wunsch.
 
                 Eine Inhaltsangabe von tausend Zeichen schob alles darunter aus
@@ -3660,14 +3785,8 @@ export function DetailPanel({
                     <dd className="text-slate-600 dark:text-slate-300">{title.studios.join(', ')}</dd>
                   </>
                 )}
-                {!faktenImKasten && title.fsk !== undefined && (
-                  <>
-                    <dt className="text-slate-400 dark:text-slate-500">{t('detail.faktFsk')}</dt>
-                    <dd className="text-slate-600 dark:text-slate-300">
-                      {t('antwort.fskAb', { n: title.fsk })}
-                    </dd>
-                  </>
-                )}
+                {/* Die Altersfreigabe stand hier bis zum 04.09.2026 ein zweites
+                    Mal — sie ist jetzt ausschließlich eine Marke am Cover. */}
               </dl>
             </div>
           )}

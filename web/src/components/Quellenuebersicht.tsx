@@ -54,7 +54,7 @@ export function Quellenuebersicht({ title, releases }: { title: Title; releases:
   const zeilen = useMemo(() => {
     const raus: { name: string; url?: string; speist: string; anzahl?: number }[] = [
       ...terminQuellen.map((q) => ({
-        name: q.host,
+        name: ANZEIGENAME[q.host] ?? q.host,
         url: q.url,
         speist: t('quellen.feedTermine'),
         anzahl: q.anzahl,
@@ -86,11 +86,36 @@ export function Quellenuebersicht({ title, releases }: { title: Title; releases:
         speist: t('quellen.feedStimmen'),
       })
     }
-    if ((title.streams ?? []).length) {
-      raus.push({ name: t('quellen.feedAnbieterName'), speist: t('quellen.feedAnbieter') })
-    }
+    /*
+      **Die Zeile „Anbieter selbst" ist gestrichen** (Daniel, 04.09.2026: „anbieter
+      selbst ist sinnlos, du meinst pills und ob dort de ist oder nicht … weg
+      damit"). Sie stand für das, was ohnehin in den Pillen darüber steht — wo
+      ein Titel läuft und in welcher Sprachfassung. Eine Quellenzeile, die auf
+      die Anzeige direkt darüber zeigt, belegt nichts.
+    */
     if (title.fsk !== undefined) raus.push({ name: 'FSK', speist: t('quellen.feedFsk') })
-    return raus
+    /*
+      **Eine Quelle, eine Zeile** (Daniels Vorgabe vom 29.08.2026, hier verletzt):
+      aniSearch liefert Termine **und** deutsche Titel, und stand deshalb zweimal
+      da — einmal als Terminquelle unter ihrem Hostnamen „anisearch.de", einmal
+      als Titelquelle unter „aniSearch". Am 04.09.2026: „wieso sind anisearch.de
+      und anisearch getrennt in quellen?"
+
+      Zusammengelegt wird über den Namen, nicht über die Adresse: Die Termin-URL
+      zeigt auf einen Artikel, die Titel-URL auf die Werkseite. Beide bleiben
+      erreichbar — die erste gewinnt, weil sie den Beleg trägt.
+    */
+    const zusammen = new Map<string, (typeof raus)[number]>()
+    for (const r of raus) {
+      const da = zusammen.get(r.name)
+      if (!da) zusammen.set(r.name, { ...r })
+      else {
+        if (!da.speist.includes(r.speist)) da.speist += ` · ${r.speist}`
+        da.url ??= r.url
+        if (r.anzahl) da.anzahl = (da.anzahl ?? 0) + r.anzahl
+      }
+    }
+    return [...zusammen.values()]
   }, [terminQuellen, title, t])
 
   return (
@@ -143,6 +168,19 @@ export function Quellenuebersicht({ title, releases }: { title: Title; releases:
       )}
     </div>
   )
+}
+
+/**
+ * **Hostname → der Name, unter dem die Quelle sonst auf der Seite steht.**
+ *
+ * Ohne diese Zuordnung heißt dieselbe Quelle einmal „anisearch.de" und einmal
+ * „aniSearch", und die Zusammenlegung greift nicht — sie vergleicht Namen.
+ */
+const ANZEIGENAME: Record<string, string> = {
+  'anisearch.de': 'aniSearch',
+  'anisearch.com': 'aniSearch',
+  'anilist.co': 'AniList',
+  'animenewsnetwork.com': 'Anime News Network',
 }
 
 /** Der Hostname ohne `www.` — für die Anzeige, nicht für einen Vergleich. */

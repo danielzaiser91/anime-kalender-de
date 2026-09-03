@@ -279,9 +279,25 @@ async function main(): Promise<void> {
       })
     }
     if (release.releaseType === 'weekly' && release.schedule.episodeCount) {
+      /*
+        **„Folgen: x von y" ist eine Fortschrittsangabe — also zählt sie, was
+        raus ist, nicht was als nächstes kommt.**
+
+        Hier stand `next?.episode ?? 1`: die Nummer der nächsten Folge. Bei einer
+        Staffel, die erst in vier Wochen anfängt, ergab das „1 von 12" — und
+        genau so wurde es gelesen: eine Folge sei schon da. Daniel am 04.09.2026
+        zum Vorschaubild von „Die Tagebücher der Apothekerin: Staffel 3 — Teil 1":
+        „url preview image says 1 of 12? fail". Die Zeile darüber sagt bereits,
+        wann Folge 1 kommt; darunter zu behaupten, sie sei erschienen, widerspricht
+        ihr im selben Bild.
+
+        Erschienen ist, was ein Datum bis heute hat. Ist noch nichts erschienen,
+        gibt es keinen Fortschritt zu melden — dann steht dort die Gesamtzahl.
+      */
+      const raus = events.filter((e) => e.date <= today).length
       lines.push({
         label: 'Folgen',
-        value: `${next?.episode ?? 1} von ${release.schedule.episodeCount}`,
+        value: raus ? `${raus} von ${release.schedule.episodeCount}` : `${release.schedule.episodeCount} geplant`,
       })
     }
     if (release.publisher) lines.push({ label: 'Label', value: release.publisher })
