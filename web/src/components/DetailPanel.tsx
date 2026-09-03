@@ -413,7 +413,9 @@ function AntwortKasten({
       )}
 
       {fakten ? (
-        <div className="mt-2 flex gap-4">
+        /* `mb-1` hält die Beschriftungen von der Trennlinie darunter frei — bei
+           „Venus Wars" lag „erschienen / Altersfreigabe / Studio" halb darauf. */
+        <div className="mb-1 mt-2 flex gap-4">
           {fakten.map((f) => (
             <span key={f.was} className="flex flex-col leading-tight">
               <b className="text-[13px] font-bold tabular-nums text-slate-800 dark:text-slate-100">
@@ -2148,6 +2150,14 @@ export function DetailPanel({
     // `today` steht in der Abhängigkeitsliste, weil `titleStatus` es benutzt.
   }, [title, releases, today])
 
+  /**
+   * Zeigt der Kasten oben eine Faktenzeile statt eines Balkens?
+   *
+   * Dann stehen Jahr, Altersfreigabe und Studio bereits dort, und die
+   * Werkangaben weiter unten lassen sie weg.
+   */
+  const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
+
   if (!title) {
     return (
       <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-lg overflow-y-auto border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
@@ -2376,7 +2386,15 @@ export function DetailPanel({
             <p className="max-w-full rounded-b-lg rounded-tr-lg bg-[rgba(8,12,18,.74)] px-2.5 pb-1 pt-0.5 text-xs text-slate-300 backdrop-blur-[3px]">
               {[
                 title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
-                title.episodes ? `${title.episodes} ${t('detail.episodes')}` : undefined,
+                /*
+                  **„1 Folgen" gab es hier zu lesen** — bei „Venus Wars" stand
+                  „Film · 1 Folgen · JP 1989" (03.09.2026). Falsch in beidem: Der
+                  Plural stimmt nicht, und ein Film hat keine Folgen, sondern ist
+                  einer. Bei genau einer Einheit sagt das Format schon alles.
+                */
+                title.episodes && title.episodes > 1
+                  ? `${title.episodes} ${t('detail.episodes')}`
+                  : undefined,
                 title.jpYear ? `JP ${title.jpYear}` : undefined,
                 title.studios?.[0],
               ]
@@ -3306,18 +3324,23 @@ export function DetailPanel({
                     </dd>
                   </>
                 )}
-                {title.studios?.[0] && (
+                {/*
+                  **Was der Kasten oben schon zeigt, steht hier nicht noch einmal.**
+
+                  Bei einem Film und bei einer Kaufausgabe tritt oben eine
+                  Faktenzeile an die Stelle des Fortschrittsbalkens — Jahr,
+                  Altersfreigabe, Studio. Bei „Venus Wars" standen dieselben drei
+                  Angaben zweimal auf einem Bildschirm, zwei Handbreit
+                  auseinander (03.09.2026, siehe „Keine Information zweimal" in
+                  `CLAUDE.md`).
+                */}
+                {!faktenImKasten && title.studios?.[0] && (
                   <>
                     <dt className="text-slate-400 dark:text-slate-500">{t('detail.studio')}</dt>
                     <dd className="text-slate-600 dark:text-slate-300">{title.studios.join(', ')}</dd>
                   </>
                 )}
-                {/*
-                  Die Altersfreigabe gehört zum Werk, nicht zum Termin — sie
-                  stand bisher nur im Terminblock und verschwand mit ihm, wo der
-                  entfällt.
-                */}
-                {title.fsk !== undefined && (
+                {!faktenImKasten && title.fsk !== undefined && (
                   <>
                     <dt className="text-slate-400 dark:text-slate-500">{t('detail.faktFsk')}</dt>
                     <dd className="text-slate-600 dark:text-slate-300">
