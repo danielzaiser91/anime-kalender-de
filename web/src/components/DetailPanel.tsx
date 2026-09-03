@@ -151,11 +151,25 @@ function hatKuenftigenTermin(release: Release, today: string): boolean {
 function deSeitZeile(
   title: Title,
   T: (k: string, v?: Record<string, string | number>) => string,
+  /**
+   * Steht die Zeile unter einem „Noch keine deutsche Fassung"?
+   *
+   * Dann nennt sie ihre Quelle im Text. Sonst stand über „Auf Deutsch seit
+   * 03.11.2024" die Aussage, es gebe keine deutsche Fassung — zwei Sätze, die
+   * einander widersprechen, statt zweier Auskünfte mit verschiedenen Absendern
+   * (Daniel, 03.09.2026: „widerspruch").
+   */
+  fremd = false,
 ): string {
   const e = title.deErstausgabe
   if (!e) return ''
   const wann = e.von ? formatDate(e.von) : (e.zeitraum ?? '')
   if (!wann) return ''
+  if (fremd) {
+    return e.publisher
+      ? T('antwort.deSeitFremdPublisher', { datum: wann, publisher: e.publisher })
+      : T('antwort.deSeitFremd', { datum: wann })
+  }
   return e.publisher
     ? T('antwort.deSeitPublisher', { datum: wann, publisher: e.publisher })
     : T('antwort.deSeit', { datum: wann })
@@ -330,7 +344,7 @@ function AntwortKasten({
       Der Kasten sagt weiter, was **wir** belegen können — und darunter, was die
       Fremdquelle sagt. Beides zusammen ist die ehrliche Auskunft.
     */
-    neben = deSeitZeile(title, T)
+    neben = deSeitZeile(title, T, true)
     nebenTitel = title.deErstausgabe ? T('antwort.deSeitQuelle') : undefined
     gedaempft = true
     zaehl = ''
@@ -3097,10 +3111,15 @@ export function DetailPanel({
 
                     Also: Gibt es in der Reihe echte Fernsehstaffeln, zählen nur
                     die. Gibt es keine, zählen die ONAs — dann sind sie die Serie.
+
+                    **Kurzformate zählen nie mit.** „Chopper's" ist ein TV_SHORT und
+                    stand damit unter „Hauptserie" (Daniel, 03.09.2026:
+                    „choppers gehört nicht zur hauptserie"). Eine Sendung von fünf
+                    Minuten ist Beiwerk, auch wenn sie im Fernsehen läuft.
                   */
-                  const hatTv = reihenTeile.some((m) => m.format === 'TV' || m.format === 'TV_SHORT')
+                  const hatTv = reihenTeile.some((m) => m.format === 'TV')
                   const istHauptstaffel = (m: FranchiseMember) =>
-                    hatTv ? m.format === 'TV' || m.format === 'TV_SHORT' : istStaffel(m.format)
+                    hatTv ? m.format === 'TV' : istStaffel(m.format)
                   const da = reihenTeile.filter((m) => !kuenftig(m))
                   const gruppen: { titel: string; teile: FranchiseMember[]; offen: boolean }[] = [
                     {
@@ -3134,12 +3153,31 @@ export function DetailPanel({
                     dann derselbe Text wie in der Überschrift darüber (Daniel:
                     „1. eintrag dort müsste staffel 1 heißen").
                   */
+                  /*
+                    **„Staffel 1" nur, wo es eine Staffel 2 gibt.**
+
+                    One Piece ist bei AniList **ein** Eintrag mit über tausend
+                    Folgen — die Arcs sind keine eigenen Werke. In der Liste stand
+                    trotzdem „Staffel 1", und daneben nichts weiter (Daniel,
+                    03.09.2026: „wenn one piece alles meint, dann sollte nicht
+                    staffel 1 stehen, sondern einfach ,One Piece'").
+
+                    Gezählt wird deshalb nur, wo die Nummer etwas unterscheidet:
+                    wenn **mindestens zwei** Hauptstaffeln keinen eigenen Namen
+                    tragen. Hat ein Teil einen — „Log: Fish-Man Island Saga" —,
+                    steht der da, und eine Nummer bräuchte er nicht.
+                  */
+                  const hauptstaffeln = reihenTeile.filter(istHauptstaffel).slice().sort(nachJahr)
+                  const ohneEigenenNamen = hauptstaffeln.filter((m) => {
+                    const voll = eindeutschenStaffel(m.name)
+                    return !voll.toLowerCase().startsWith(reihenName.toLowerCase())
+                      ? false
+                      : voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim() === ''
+                  })
                   const staffelNr = new Map<number, number>()
-                  reihenTeile
-                    .filter(istHauptstaffel)
-                    .slice()
-                    .sort(nachJahr)
-                    .forEach((m, i) => staffelNr.set(m.id, i + 1))
+                  if (ohneEigenenNamen.length > 1) {
+                    hauptstaffeln.forEach((m, i) => staffelNr.set(m.id, i + 1))
+                  }
 
                   const zeile = (m: FranchiseMember, offen: boolean) => {
                     const gewaehlt = m.id === title.id

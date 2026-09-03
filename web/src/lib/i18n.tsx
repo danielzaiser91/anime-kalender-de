@@ -420,6 +420,13 @@ const TEXTE = {
   // deutsche Erstveröffentlichung, oft eine DVD, und bei einem Simuldub sogar
   // den Simulcast-Start. Die Quelle steht im Tooltip, damit die Zeile kurz bleibt.
   'antwort.deSeit': 'Auf Deutsch seit {datum}',
+  // **Dieselbe Angabe, aber unter einem Nein.** Wo wir selbst keine Fassung
+  // belegen können, stand „Noch keine deutsche Fassung" über „Auf Deutsch seit
+  // 03.11.2024" — ein offener Widerspruch (Daniel, 03.09.2026). Die Fremdquelle
+  // muss sich hier selbst nennen: Dann steht dort nicht zweimal dasselbe mit
+  // umgekehrtem Vorzeichen, sondern unsere Auskunft und die von aniSearch.
+  'antwort.deSeitFremd': 'aniSearch nennt {datum}',
+  'antwort.deSeitFremdPublisher': 'aniSearch nennt {datum} · {publisher}',
   'antwort.deSeitPublisher': 'Auf Deutsch seit {datum} · {publisher}',
   'antwort.deSeitQuelle': 'Deutsche Erstveröffentlichung laut aniSearch — wir haben dazu keinen eigenen Termin gemessen.',
   'antwort.filmTitel': 'Auf Deutsch verfügbar',
