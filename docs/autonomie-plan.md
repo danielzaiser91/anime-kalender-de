@@ -60,22 +60,30 @@ mitrutschen könnten, nur simple staffel zuordnungen."*
 
 ## Wo wir heute stehen — gemessen, nicht geschätzt
 
-| Was | Stand 28.08.2026 |
-|---|---|
-| Rohfolgen im Briefkasten | 5.219 (nach dem Dubletten-Fix) |
-| davon automatisch zugeordnet | **1 von 67 Adressen** |
-| Titel mit Folgentiteln (TMDB) | 594 von 2.763 |
-| davon mit **echten** Titeln (nicht „Folge 1") | 544 |
-| echte Folgentitel gesamt | 17.706 |
-| Titel mit aniSearch-Kennung | 2.615 von 2.763 |
-| aniSearch-Episodenlisten geholt | **0** |
+| Was | 28.08.2026 | 03.09.2026 |
+|---|---|---|
+| Titel im Bestand | 2.763 | 2.766 |
+| Titel mit Folgentiteln (TMDB) | 594 | 807 |
+| **Titel mit aniSearch-Folgenliste** | **0** | **2.618** |
+| Titel mit mindestens einer Folgenliste | 594 | **2.625 (95 %)** |
+| echte Folgentitel gesamt | 17.706 | **40.552** |
+| Titel mit aniSearch-Kennung | 2.615 | 2.618 |
 
-Die entscheidende Zeile ist die zweite: Die Kette liefert, aber sie ordnet nicht
-zu. Der Grund ist banal und in einer Stunde behoben (Phase 1).
+**Der Engpass von Phase 2 ist weg.** Am 28.08. kannten wir für zwei Drittel
+unserer Titel keine Folgentitel, und die beste Quelle dafür wurde gar nicht
+abgerufen. Heute hat die überwältigende Mehrheit eine Liste mit deutschem,
+englischem und japanischem Folgentitel samt Erstausstrahlungsdatum — das Ziel
+der Phase („von 544 auf über 2.000") ist übertroffen.
 
-Die vierte und die letzte Zeile sind der eigentliche Engpass: Für zwei Drittel
-unserer Titel kennen wir keine Folgentitel, und die beste Quelle dafür holen wir
-gar nicht ab.
+**Was damit noch nicht bewiesen ist:** wie viele Rohfolgen sich damit wirklich
+zuordnen lassen. Diese Zahl kommt nur aus einem Lauf mit Briefkasten-Zugang;
+lokal ist `data/prime-zugeordnet.json` leer, weil der Abruf ein `LAUF_TOKEN`
+braucht. Der Prüfstand am 03.09.2026 nennt **zwei** offene Adressen, und beide
+sind Sonderfälle (siehe `status.md`): ein Titel, den unser Bestand gar nicht
+führt, und ein Segment-Anime, dessen aniSearch-Folgentitel Verkettungen von vier
+Kurzgeschichten sind („Lehrbuch / Hypnose / Aufwachen / Steine hüpfen lassen").
+Kein Anbieter schreibt solche Titel gleich — dort trägt der Anker bauartbedingt
+nicht, und das ist eine Grenze des Verfahrens, kein Fehler darin.
 
 ## Die Phasen
 
@@ -105,6 +113,7 @@ Der Abruf ist derselbe Weg wie der bestehende `fetch-anisearch.ts`, mit
 demselben Takt und derselben Archivierung.
 
 **Messgröße:** Titel mit echten Folgentiteln von 544 auf über 2.000.
+**Erledigt am 03.09.2026: 2.625 von 2.766 Titeln (95 %), 40.552 Folgentitel.**
 **Aufwand:** Ein Abrufskript plus Parser, Vorlage vorhanden. Ein halber Tag.
 
 ### Phase 3 — Zuordnung über Titel und Datum, ohne Nummern
