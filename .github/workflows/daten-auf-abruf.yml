@@ -31,6 +31,12 @@ on:
           - data:anisearch-titel
           - data:cr-dub
           - data:extension-liste
+          # Der Gesamtkatalog läuft sonst nur wöchentlich. Auf Abruf braucht man
+          # ihn, wenn sich die **Regel** geändert hat, nach der Reihen gebaut
+          # werden — dann sind die gespeicherten `rel`-Listen falsch, und kein
+          # planmäßiger Lauf merkt das von allein (03.09.2026: `OTHER` klebte
+          # Gundam an Patlabor, der Fix kam erst mit dem nächsten Volllauf an).
+          - data:katalog
       grenze:
         description: 'Höchstzahl Titel (nur wo der Lauf --limit kennt)'
         required: false
@@ -61,6 +67,17 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      # `data/cache/` liegt bewusst nicht im Repo. Der Katalog-Lauf setzt darauf
+      # auf und der Bau braucht ihn — ohne diesen Schritt hätte ein Abruf hier
+      # keine Wirkung auf den nächsten Bau. Derselbe Schlüssel wie in
+      # `bestand-bauen.yml`, damit beide dieselbe Ablage benutzen.
+      - name: AniList-Cache wiederverwenden
+        uses: actions/cache@v4
+        with:
+          path: data/cache
+          key: anilist-cache-${{ github.run_id }}
+          restore-keys: anilist-cache-
 
       - name: Lauf ausführen
         env:
