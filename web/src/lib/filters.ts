@@ -347,13 +347,30 @@ export function filterTitles(
 
     if (x.platforms.some((p) => platformsOf.has(p))) return false
     if (x.providers.some((p) => providersOf.has(p))) return false
-    if (x.releaseTypes.some((rt) => releases.some((r) => r.releaseType === rt))) return false
+    /*
+      **„Film ausschließen" heißt das Werk, nicht nur den Termin.**
+
+      Der Filter prüfte allein die Release-Arten. Ein Film **ohne** Termin hat
+      keine — und blieb deshalb im Ergebnis stehen: Bei einer Suche nach „one
+      piece" mit ausgeschlossenem „Film" standen „Episode of Skypia", „Heart of
+      Gold" und ein Dutzend weitere Filme in der Liste (Daniel, 03.09.2026:
+      „film ausschluss filter -> filme bleiben trotzdem in result").
+
+      Ein Titel mit `format: 'MOVIE'` ist ein Film, ob wir einen Termin dazu
+      kennen oder nicht. Die übrigen Arten haben keine solche Entsprechung im
+      Werk — „wöchentlich" oder „Disc" sagt nur ein Release.
+    */
+    const istFilmwerk = t.format === 'MOVIE'
+    const hatArt = (rt: ReleaseType) =>
+      releases.some((r) => r.releaseType === rt) || (rt === 'movie' && istFilmwerk)
+
+    if (x.releaseTypes.some(hatArt)) return false
     if (x.years.some((y) => yearsOf.includes(y))) return false
     if (x.statuses.includes(titleStatus(releases, today, t))) return false
 
     if (!passt(f.platforms, 'platforms', (p) => platformsOf.has(p))) return false
     if (!passt(f.providers, 'providers', (p) => providersOf.has(p))) return false
-    if (!passt(f.releaseTypes, 'releaseTypes', (rt) => releases.some((r) => r.releaseType === rt))) return false
+    if (!passt(f.releaseTypes, 'releaseTypes', hatArt)) return false
     if (!passt(f.years, 'years', (y) => yearsOf.includes(y))) return false
     /* Der Status ist einwertig — ohne Modus, aus demselben Grund wie FSK. */
     if (f.statuses.length && !f.statuses.includes(titleStatus(releases, today, t))) return false
