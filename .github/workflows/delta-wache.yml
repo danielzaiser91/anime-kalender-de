@@ -102,15 +102,29 @@ jobs:
       # Der Lauf meldet sich in Daniels Statusanzeige — dort sieht er ihn neben
       # den Datenläufen, ohne GitHub zu öffnen. Die Datei bleibt die
       # ausführliche Fassung.
+      # **Die Meldung trägt Repo, Workflow und Adresse mit — sonst steht in der
+      # Anzeige „(ohne Namen)".**
+      #
+      # Genau das war beim ersten Lauf zu sehen (Daniel, 03.09.2026, mit Bild).
+      # Den Namen bildet die Statusanzeige aus `workflow`; ohne ihn bleibt eine
+      # rote Zeile ohne Absender, und wer sie sieht, weiß nicht, wo er nachsehen
+      # soll. Die übrigen Läufe dieses Repos senden dieselben Felder.
       - name: Befund melden und rot werden
         if: steps.delta.outcome != 'success' || steps.kasten.outcome != 'success'
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: |
-          curl -sS -X POST https://newsletter.animekalender.workers.dev/lauf \
-            -H "Content-Type: application/json" \
-            -H "X-Lauf-Token: $LAUF_TOKEN" \
-            -d "{\"lauf_id\":\"${{ github.run_id }}\",\"zustand\":\"fehler\",\"notiz\":\"Wache: Auffälligkeit — siehe daniel-zum-abarbeiten/00-wache.md\"}" \
-            || echo "Meldung an die Statusanzeige fehlgeschlagen — der rote Lauf bleibt trotzdem sichtbar."
+          if [ -n "$LAUF_TOKEN" ]; then
+            printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"fehler","url":"%s","zweck":"%s","ziel":"%s","notiz":"%s"}' \
+              "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
+              "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+              "Sieht täglich nach, ob Bestand oder Briefkasten etwas verloren haben" \
+              "Auffälligkeiten stehen in daniel-zum-abarbeiten/00-wache.md" \
+              "Auffälligkeit gefunden — Einzelheiten in daniel-zum-abarbeiten/00-wache.md" > /tmp/befund.json
+            curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
+              -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
+              --data-binary @/tmp/befund.json > /dev/null \
+              || echo "Meldung an die Statusanzeige fehlgeschlagen — der rote Lauf bleibt trotzdem sichtbar."
+          fi
           echo "::error::Auffälligkeit gefunden — Einzelheiten in daniel-zum-abarbeiten/00-wache.md"
           exit 1
