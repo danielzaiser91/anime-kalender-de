@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Meldung, Quelle, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
 import { dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
@@ -2055,6 +2055,27 @@ export function DetailPanel({
    */
   const [wechselt, setWechselt] = useState(false)
 
+  /**
+   * **Ein Titel, den der Kern nicht kennt, wird nachgeladen.**
+   *
+   * `titles-core.json` führt nur, worauf ein Termin zeigt — ein Reihenteil ohne
+   * deutschen Termin steht dort nicht. Beim Einstieg über eine geteilte Adresse
+   * ist das der Unterschied zwischen dem Panel und einer Fehlermeldung.
+   *
+   * Genau einmal je Kennung: `versucht` merkt sich, wofür schon geladen wurde,
+   * damit ein wirklich unbekannter Titel nicht in eine Schleife läuft.
+   */
+  const [holt, setHolt] = useState(false)
+  const versucht = useRef<number | undefined>(undefined)
+  useEffect(() => {
+    if (data.titleById.has(titleId) || versucht.current === titleId) return
+    versucht.current = titleId
+    setHolt(true)
+    Promise.all([loadAllTitles(data), loadOhneSynchro(data)])
+      .catch(() => {})
+      .finally(() => setHolt(false))
+  }, [data, titleId])
+
 
   /**
    * Streaming, aufgeteilt nach dem, was es kostet.
@@ -2275,7 +2296,23 @@ export function DetailPanel({
   if (!title) {
     return (
       <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-lg overflow-y-auto border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
-        <p className="mb-3 text-sm text-slate-500">{t('detail.noMeta')}</p>
+        {/*
+          **Nachladen statt aufgeben — die Adresse muss teilbar sein.**
+
+          Der Erstaufruf lädt nur `titles-core.json`: die Titel, auf die ein
+          Termin zeigt. Wer die Adresse eines Teils **ohne** Termin öffnet oder
+          neu lädt — `#/woche?t=161802`, „Der Traum von Coleus" —, traf damit auf
+          „Zu diesem Eintrag liegen keine Metadaten vor" (Daniel, 04.09.2026:
+          „die url … ist nicht teilbar. fix das").
+
+          Beim Wechsel **innerhalb** des Panels wurde schon nachgeladen; nur beim
+          Einstieg von außen fehlte derselbe Griff. Der Ladehinweis steht so
+          lange, bis beide Bestände da sind — danach entscheidet erst, ob es den
+          Titel wirklich nicht gibt.
+        */}
+        <p className="mb-3 text-sm text-slate-500">
+          {holt ? t('detail.seasonLoading') : t('detail.noMeta')}
+        </p>
         <Button onClick={onClose} size="sm">
           {t('detail.close')}
         </Button>
