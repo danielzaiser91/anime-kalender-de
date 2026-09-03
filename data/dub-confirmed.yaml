@@ -1232,12 +1232,28 @@
   checkedAt: '2026-08-22'
   note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], fr|Französisch — 3 Tonspuren, 0 Audiodeskriptionen"
 
+# **Netflix führt nur Staffel 1 — der Beleg unten galt der falschen Staffel.**
+#
+# Beide Einträge oben und unten tragen dieselbe Notiz, dasselbe Datum und
+# dieselben drei Tonspuren, weil beide an derselben Netflix-Seite entstanden:
+# `netflix.com/title/81712068`. Diese Seite ist Staffel 1. Sie hängt bei uns an
+# **zwei** Einträgen, und die Prüfung vom 22.08.2026 hat sie einmal je Eintrag
+# beantwortet — zweimal dasselbe gemessen, zweimal ja gesagt.
+#
+# Daniel am 02.09.2026, mit Bild: „2. staffel ist nicht bei netflix, warum ist
+# die pill da". Er hat recht, und die Lehre ist größer als dieser Titel:
+# **Ein Anbieter-Verweis, der mehreren unserer Einträge zugeordnet ist, belegt
+# immer nur einen davon.** Wo `sharedWith > 1` steht, sagt eine Messung an dieser
+# Adresse nichts über die übrigen Einträge.
+#
+# `dub: false` entfernt den Verweis — genau das ist hier gewollt: Wer bei
+# Netflix nach Staffel 2 sucht, findet sie nicht.
 - anilistId: 176301
   title: "The Apothecary Diaries Season 2"
   platform: netflix
-  dub: true
-  checkedAt: '2026-08-22'
-  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], fr|Französisch — 3 Tonspuren, 0 Audiodeskriptionen"
+  dub: false
+  checkedAt: '2026-09-03'
+  note: "Netflix führt unter dieser Kennung nur Staffel 1. Der frühere Ja-Beleg vom 22.08.2026 stammt von derselben Seite und galt Staffel 1."
 
 - anilistId: 195600
   title: "Daemons of the Shadow Realm"

@@ -113,6 +113,27 @@ export const FRANCHISE_RELATIONS = new Set([
   'SPIN_OFF',
   'SUMMARY',
   'COMPILATION',
+  /*
+    **`OTHER` gehört dazu — gemessen, nicht vermutet.**
+
+    Daniel am 03.09.2026: Zur „Apothekerin" fand die Reihenliste sechs Teile,
+    der angekündigte Film war nicht darunter. AniList kennt die Verbindung
+    sehr wohl — nur trägt sie den Typ `OTHER`:
+
+        200929 (Film „Bouhi no Hihou")   --OTHER-->  195516 (Staffel 3)
+        206349 (Special „USJ")           --OTHER-->  186148 (Maomao S2)
+
+    `OTHER` ist AniLists Sammelbecken, und genau deshalb landen dort die
+    Fälle, für die es keine engere Bezeichnung gibt: Kinofilme zu einer
+    laufenden Staffel, Werbespecials, Kurzformate. Ein Reihenteil, der in
+    keine der sieben Schubladen darüber passt, ist trotzdem ein Reihenteil.
+
+    **Die Gegenprobe gehört zu dieser Zeile:** Nach jeder Änderung hier werden
+    die Reihengrößen vorher/nachher verglichen. Eine Reihe, die plötzlich um
+    ein Vielfaches wächst, ist kein Erfolg, sondern zwei zusammengeklebte
+    Reihen.
+  */
+  'OTHER',
 ])
 
 /**

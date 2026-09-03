@@ -145,7 +145,8 @@ function AntwortKasten({
   title,
   t,
   today,
-  children,
+  stream = [],
+  disc = [],
 }: {
   antwort: Antwort
   title: Title
@@ -157,8 +158,21 @@ function AntwortKasten({
    * Panels je Titel eine andere Höhe hatte und beim Wechsel sprang (Daniel, mit
    * drei Bildern). Im Kasten haben sie einen festen Platz.
    */
-  children?: React.ReactNode
+  stream?: React.ReactNode[]
+  disc?: React.ReactNode[]
 }) {
+  /*
+    **Der Umschalter sitzt oben rechts — nicht über den Pillen.**
+
+    Über ihnen kostete er eine Zeile, und die gab es nur bei Titeln mit beidem:
+    Staffel 1 war dadurch höher als Staffel 2 (Daniel, 03.09.2026, mit zwei
+    Bildern: „toggle oben rechts in box packen, sodass keine height änderung
+    passiert"). Oben rechts liegt er in einer Zeile, die ohnehin da ist — und
+    kostet keine Höhe mehr.
+  */
+  const [zeigeDisc, setZeigeDisc] = useState(false)
+  const beides = stream.length > 0 && disc.length > 0
+  const pillen = zeigeDisc && disc.length ? disc : stream.length ? stream : disc
   const T = t as unknown as (k: string, v?: Record<string, string | number>) => string
 
   /** Relative Angabe zuerst — niemand rechnet gern nach, welcher Tag der 25. ist. */
@@ -208,12 +222,24 @@ function AntwortKasten({
       ? T('antwort.erschienenZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
       : ''
   } else if (antwort.art === 'fertig') {
-    haupt = T('antwort.fertigTitel')
-    neben = T('antwort.fertigNeben')
-    anteil = 100
-    zaehl = antwort.gesamt
+    /*
+      **Eine Auskunft, eine Zeile.**
+
+      Hier standen drei: „Auf Deutsch verfügbar", darunter „Vollständig
+      synchronisiert", darunter „Alle 24 Folgen auf Deutsch" — und dazwischen ein
+      Balken, der immer voll war. Daniel am 03.09.2026: „blauer kasten sagt quasi
+      3x das selbe … 3 zeilen können zu 1 zeile werden".
+
+      Die Wahl fällt auf die **unterste**: „Alle 24 Folgen auf Deutsch" sagt
+      alles, was die beiden anderen sagen, und dazu die Zahl. Sie wird zur
+      Überschrift, der Rest entfällt — samt Balken, denn ein voller Balken misst
+      nichts.
+    */
+    haupt = antwort.gesamt
       ? T('antwort.fertigZahl', { count: antwort.gesamt })
-      : T('antwort.fertigZahlOhne')
+      : T('antwort.fertigTitel')
+    neben = ''
+    zaehl = ''
   } else if (antwort.art === 'disc') {
     const rel = relativ(antwort.datum)
     haupt = [rel, formatDate(antwort.datum)].filter(Boolean).join(', ')
@@ -249,31 +275,89 @@ function AntwortKasten({
       { wert: title.studios?.[0] ?? '—', was: T('antwort.faktStudio') },
     ]
   } else {
+    /*
+      Dieselbe Dopplung wie oben, nur verneint: „Noch keine deutsche Fassung",
+      „Bisher kein deutscher Anbieter", „Keine Folge auf Deutsch" — dreimal
+      dasselbe Nein, dazu ein leerer Balken. Es bleibt der Satz, der die Frage
+      beantwortet.
+    */
     haupt = T('antwort.ohneTitel')
-    neben = T('antwort.ohneNeben')
+    neben = ''
     gedaempft = true
-    anteil = 0
-    zaehl = T('antwort.ohneZahl')
+    zaehl = ''
   }
 
   return (
+    /*
+      **Eine Höhe für alle Zustände.**
+
+      Der Kasten trug bisher `min-h` und wuchs mit dem, was drinstand: ein Titel
+      mit zwei Anbietern war höher als einer ohne, und beim Wechsel zwischen zwei
+      Teilen derselben Reihe sprang alles darunter (Daniel, 03.09.2026, mit drei
+      Bildern: „height Änderung der Box durch feste Höhe verhindern").
+
+      Die 11,75rem sind gerechnet, nicht geraten: Kopfbereich (Überschrift,
+      Nebenzeile, Balken oder Faktenzeile, Zählzeile) plus Trennlinie plus zwei
+      reservierte Pillenreihen. Was nicht hineinpasst, läuft in den Pillen nach
+      rechts — der Kasten selbst bleibt, wie er ist.
+    */
     <section
       className={[
-        'flex min-h-[104px] flex-col justify-center rounded-xl border p-3',
+        'relative flex h-[11.75rem] flex-col rounded-xl border p-3',
         gedaempft
           ? 'border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.03]'
           : 'border-sky-400/40 bg-gradient-to-b from-sky-500/15 to-transparent dark:border-sky-400/30',
       ].join(' ')}
     >
+      {beides && (
+        <div
+          className="absolute right-2.5 top-2.5 inline-flex rounded-full border border-slate-300/60 bg-white/70 p-0.5 text-[11px] dark:border-white/15 dark:bg-black/25"
+          role="tablist"
+          aria-label={T('where.umschalter')}
+        >
+          {[
+            { an: false, text: T('where.umschalterStream') },
+            { an: true, text: T('where.umschalterDisc') },
+          ].map((o) => (
+            <button
+              key={String(o.an)}
+              type="button"
+              role="tab"
+              aria-selected={zeigeDisc === o.an}
+              onClick={() => setZeigeDisc(o.an)}
+              className={[
+                'rounded-full px-2.5 py-0.5 transition',
+                zeigeDisc === o.an
+                  ? 'bg-slate-900 font-medium text-white dark:bg-white/90 dark:text-slate-900'
+                  : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
+              ].join(' ')}
+            >
+              {o.text}
+            </button>
+          ))}
+        </div>
+      )}
+      {/*
+        **Der Kopf steht mittig im freien Platz.**
+
+        Die feste Höhe ist auf den längsten Zustand gerechnet — eine laufende
+        Staffel mit Datum, Rhythmus, Balken und Zählzeile. Bei „Alle 24 Folgen
+        auf Deutsch" bleibt davon eine Zeile übrig, und oben klaffte ein Loch,
+        während die Pillen unten klebten. `justify-center` verteilt die Luft auf
+        beide Seiten, statt sie an einer Stelle zu sammeln.
+      */}
+      <div className="flex flex-1 flex-col justify-center">
       <p
         className={[
           'text-lg font-bold leading-tight tracking-tight',
+          /* Platz für den Umschalter, damit eine lange Überschrift nicht darunter läuft. */
+          beides ? 'pr-28' : '',
           gedaempft ? 'text-slate-500 dark:text-slate-400' : 'text-slate-900 dark:text-white',
         ].join(' ')}
       >
         {haupt}
       </p>
-      <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{neben}</p>
+      {neben && <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{neben}</p>}
 
       {fakten ? (
         <div className="mt-2 flex gap-4">
@@ -286,6 +370,15 @@ function AntwortKasten({
             </span>
           ))}
         </div>
+      ) : anteil === undefined ? (
+        /*
+          **Kein Balken, wo es nichts zu messen gibt.**
+
+          Bei „vollständig" war er immer voll, bei „keine Fassung" immer leer —
+          in beiden Fällen sagte er dasselbe wie die Zeile darüber. Er bleibt,
+          wo er einen echten Zwischenstand zeigt: bei einer laufenden Staffel.
+        */
+        null
       ) : (
         <div
           className="mt-2.5 flex h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-white/10"
@@ -302,92 +395,18 @@ function AntwortKasten({
       )}
 
       {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
-      {children}
-    </section>
-  )
-}
-
-/**
- * **Wo es läuft — im Kasten, mit fester Höhe und einem Umschalter.**
- *
- * Daniel am 03.09.2026, nach drei Bildern desselben Panels bei verschiedenen
- * Titeln: „‚Wo läuft es‘ dieses heading entfernen, die pills wandern in den
- * blauen ‚Auf deutsch verfügbar‘-Kasten … disc release von streaming per toggle
- * seperieren … feste höhe. bei overflow erscheint horizontale scrollbar. 2 rows
- * werden für pills vor-reserviert."
- *
- * Drei Dinge stecken darin, und jedes löst ein eigenes Problem:
- *
- * - **Die Überschrift entfällt.** „WO LÄUFT ES" über drei Anbieter-Pillen sagt
- *   nichts, was die Pillen nicht selbst zeigen (siehe „Keine Information
- *   zweimal" in `CLAUDE.md`).
- * - **Die Höhe steht fest.** Zwei Reihen sind reserviert, auch wenn nur eine
- *   Pille da ist; was nicht hineinpasst, läuft nach rechts statt nach unten.
- *   Damit springt der Kopf beim Wechsel zwischen zwei Titeln nicht mehr.
- * - **Stream und Disc sind zwei Fragen.** Wer wissen will, wo er es *sehen*
- *   kann, interessiert sich nicht für Kaufausgaben — und umgekehrt. Der
- *   Umschalter erscheint nur, wenn es beides gibt.
- */
-function WoPillen({
-  stream,
-  disc,
-  t,
-}: {
-  stream: React.ReactNode[]
-  disc: React.ReactNode[]
-  t: (k: never, v?: Record<string, string | number>) => string
-}) {
-  const T = t as unknown as (k: string, v?: Record<string, string | number>) => string
-  const beides = stream.length > 0 && disc.length > 0
-  const [zeigeDisc, setZeigeDisc] = useState(false)
-  const sichtbar = zeigeDisc && disc.length ? disc : stream.length ? stream : disc
-  if (!stream.length && !disc.length) return null
-
-  return (
-    <div className="mt-3 border-t border-white/10 pt-2.5">
-      {beides && (
-        <div className="mb-1.5 flex justify-end">
+      </div>
+      {pillen.length > 0 && (
+        <div className="border-t border-slate-200/70 pt-2.5 dark:border-white/10">
           <div
-            className="inline-flex rounded-full border border-white/15 bg-black/10 p-0.5 text-[11px] dark:bg-black/20"
-            role="tablist"
-            aria-label={T('where.umschalter')}
+            className="grid min-h-[4.25rem] grid-flow-col grid-rows-2 justify-start gap-1.5 overflow-x-auto pb-1"
+            style={{ gridAutoColumns: 'max-content' }}
           >
-            {[
-              { an: false, text: T('where.umschalterStream') },
-              { an: true, text: T('where.umschalterDisc') },
-            ].map((o) => (
-              <button
-                key={String(o.an)}
-                type="button"
-                role="tab"
-                aria-selected={zeigeDisc === o.an}
-                onClick={() => setZeigeDisc(o.an)}
-                className={[
-                  'rounded-full px-2.5 py-0.5 transition',
-                  zeigeDisc === o.an
-                    ? 'bg-white/85 font-medium text-slate-900 dark:bg-white/90'
-                    : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
-                ].join(' ')}
-              >
-                {o.text}
-              </button>
-            ))}
+            {pillen}
           </div>
         </div>
       )}
-      {/*
-        **Zwei Reihen, waagerecht gefüllt.** `grid-auto-flow: column` bei zwei
-        Zeilen legt die Pillen erst untereinander und dann nach rechts weiter —
-        genau der Fluss, den eine feste Höhe mit waagerechtem Überlauf braucht.
-        `min-h` hält den Platz auch dann frei, wenn nur eine Pille da ist.
-      */}
-      <div
-        className="grid min-h-[4.25rem] grid-flow-col grid-rows-2 justify-start gap-1.5 overflow-x-auto pb-1"
-        style={{ gridAutoColumns: 'max-content' }}
-      >
-        {sichtbar}
-      </div>
-    </div>
+    </section>
   )
 }
 
@@ -2488,9 +2507,6 @@ export function DetailPanel({
               title={title}
               t={t}
               today={today}
-            >
-              <WoPillen
-                t={t}
                 /*
                   **Stream ist, wo man es ansehen kann.** Die Zugangsart
                   (kostenlos, Abo, Kauf) stand bis zum 03.09.2026 als eigene
@@ -2563,8 +2579,7 @@ export function DetailPanel({
                     <VorbestellPille key={r.slug} release={r} titel={anzeigeName(title)} />
                   )),
                 ]}
-              />
-            </AntwortKasten>
+            />
           )}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.

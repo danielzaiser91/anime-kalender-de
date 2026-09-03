@@ -386,17 +386,17 @@ const TEXTE = {
   'antwort.nochFolgen': 'noch {count} bis zum Finale am {datum}',
   'antwort.letzteFolge': 'letzte Folge',
   'antwort.erschienenZahl': '{raus} von {gesamt} Folgen erschienen',
+  // Steht nur noch, wo die Folgenzahl fehlt — sonst trägt „Alle {count} Folgen
+  // auf Deutsch" die Überschrift allein. „Vollständig synchronisiert" und
+  // „Alle Folgen auf Deutsch" sagten dasselbe noch zwei weitere Male und sind
+  // am 03.09.2026 entfallen („Keine Information zweimal", CLAUDE.md).
   'antwort.fertigTitel': 'Auf Deutsch verfügbar',
-  'antwort.fertigNeben': 'Vollständig synchronisiert',
   'antwort.fertigZahl': 'Alle {count} Folgen auf Deutsch',
-  'antwort.fertigZahlOhne': 'Alle Folgen auf Deutsch',
   'antwort.filmTitel': 'Auf Deutsch verfügbar',
   'antwort.filmNeben': 'Deutsche Synchronfassung',
   'antwort.filmOhneTitel': 'Noch keine deutsche Fassung',
   'antwort.filmOhneNeben': 'Kein deutscher Anbieter führt ihn bisher',
   'antwort.ohneTitel': 'Noch keine deutsche Fassung',
-  'antwort.ohneNeben': 'Bisher kein deutscher Anbieter',
-  'antwort.ohneZahl': 'Keine Folge auf Deutsch',
   'antwort.faktErschienen': 'erschienen',
   'antwort.faktFsk': 'Altersfreigabe',
   // Die drei Angaben, die es zu einer Kaufausgabe wirklich gibt — an der

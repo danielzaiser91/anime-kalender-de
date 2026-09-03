@@ -19,18 +19,9 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Kopf zeigt den Disc-Termin statt des Streaming-Starts** | 3 | Bei „Die Tagebücher der Apothekerin" Staffel 1 stand „Morgen, 04.09.2026 · Wöchentlich · 23 von 24 Folgen erschienen" — die Staffel ist seit dem 20.04.2024 komplett, der Termin ist eine Blu-ray. Daniel: „dort soll nur original deutsches frühstes release stehen". Dieselbe Falle wie am 21.08.2026 („ein künftiger Disc-Termin macht aus ‚längst fertig' ein ‚läuft noch'"), nur in neuer Form: Jetzt gibt es ein Crunchyroll-Release daneben, und die Disc überlagert es |
-| **Blauer Kasten: alle Pillen hinein, Disc/Stream per Umschalter** | 5 | „WO LÄUFT ES" als Überschrift entfällt, die Pillen wandern in den blauen Kasten. Oben rechts ein beschrifteter Umschalter zwischen Stream und Disc. **Feste Höhe mit zwei vorreservierten Reihen**, bei Überlauf waagerecht scrollbar — damit hört das Springen zwischen zwei Titeln auf (Daniel, 03.09.2026, mit drei Bildern) |
 | **227 Synchros, die aniSearch belegt und wir nicht** | 5 | Gemessen am 03.09.2026: aniSearch führt zu 2.461 Titeln eine deutsche Synchronfassung; bei **227** davon haben wir keinen eigenen Beleg — weder `dub: true` an einem Verweis noch deutsche Sprechrollen noch hohe `dubConfidence`. Es sind durchweg alte OVAs und Specials (Moldiver, Tenchi Muyo: The Movie, M.D. Geist, Oh! My Goddess Specials), also Disc-Veröffentlichungen deutscher Publisher — was nie gestreamt wurde, kann in unseren Streaming-Quellen nicht auftauchen. **Vorsicht:** aniSearchs `dubbed`-Kennzeichen ist eine Fremdangabe, kein eigener Beleg; es gehört wie jede solche Quelle als Hinweis in die Prüfliste, nicht als `dub: true` in den Bestand. **Und die erste Messung dazu war falsch:** Sie prüfte `streams[].dub` und meldete 1.010 — das misst „gibt es einen Anbieter mit belegter Fassung", nicht „gibt es eine Synchro". „Witch Hunter Robin" hat keine Streams und ist trotzdem belegt |
 | **aniSearch-Termine systematisch auswerten** | 8 | `data/anisearch.json` führt zu **2.559 Titeln** einen deutschen Termin samt Publisher — ausgewertet wird davon **keiner**. Gemessen am 03.09.2026: 2.012 Titel mit belegter Synchro haben bei uns keinen Termin und bei aniSearch einen. **Vorsicht ist geboten:** Die Daten sind Erstveröffentlichungen (Cowboy Bebop 2003 auf DVD), nicht Sendepläne, und aniSearch nennt bei Simuldubs den Simulcast-Start statt der Synchro — bei „Apothekerin" Staffel 1 den 21.10.2023 gegen unseren gemessenen 18.11.2023. Sie gehören also als `available-from` mit `estimated` in den Bestand, nie als Sendeplan, und **nie über einen eigenen Beleg**. Dazu fehlen zwei Bausteine: Der Abruf holt nur den Hauptbestand (Katalogtitel wie Staffel 3 fehlen ganz), und ohne aniSearch-Kennung im Datensatz gibt es keinen Abrufweg |
-| **Release-Termine nur bei künftigen Terminen zeigen** | 1 | Der Abschnitt steht auch dann, wenn alles längst erschienen ist — dann beantwortet er keine Frage mehr |
-| **„Frs" ausschreiben** | 1 | „Wöchentlich Frs" — niemand versteht das Kürzel. Es steht für den Wochentag; also „Wöchentlich freitags" |
 | **Crunchyroll-Termine kommen nicht im Kalender an** | 8 | Daniel am 02.09.2026 an „Die Tagebücher der Apothekerin": Der Kalender zeigt als einzigen Termin die Blu-ray am 04.09.2026 und dazu „0 von 24 Folgen erschienen · Wöchentlich Frs" — für eine Serie, die seit dem 18.11.2023 vollständig deutsch bei Crunchyroll liegt. **Die Termine sind im Haus:** `data/crunchyroll-dub.json` führt zu 450 Serien und 1.064 Blöcken **21.689 datierte deutsche Folgen** (`deutscheFolgen[].verfuegbarAb`, das `premium_available_date` der deutschen Fassung). Für diesen Titel steht dort Staffel 1 mit 18.11.2023–20.04.2024 und Staffel 2 mit 31.01.2025–25.07.2025 — auf den Tag Daniels Angabe. Ausgewertet wird das Feld von **nichts**; der Kommentar in `pipeline/lib/crunchyroll-dub.ts` sagt es seit dem Tag seiner Entstehung: „Das Feld wird derzeit von nichts ausgewertet … die Terminlogik daran anzuschließen ist eine eigene Aufgabe." Gemessen betrifft das **80 Titel mit belegter Synchro, die nur einen Disc-Termin haben** — bei jedem einzelnen behauptet die Seite damit einen Termin, der etwas anderes meint. Zu tun: `Urteil` in `crunchyroll-dub.ts` trägt den Block mit, aus dem es stammt; `build.ts` baut daraus ein Streaming-Release. Rhythmus **messen**, nicht annehmen, und bei mehreren unserer Titel je Block lieber keinen Termin als einen falschen |
-| **Ein geteilter Verweis behauptet unbelegte Verfügbarkeit** | 3 | Bei „Apothekerin Staffel 2" steht eine Netflix-Pille mit „DE ✓" — Netflix führt aber nur Staffel 1 (Daniel, 02.09.2026: „2. staffel ist nicht bei netflix, warum ist die pill da"). Der Verweis `netflix.com/title/81712068` steht in `data/anisearch.json` **nur bei 161645**; an 176301 hängt er samt `dub: true`, ohne dass eine Quelle ihn dort nennt. Das ist dieselbe Grenze wie bei Crunchyroll: Ein Block ist kein Beleg über die Serie. Zu klären ist zuerst, welcher Schritt in `build.ts` den Verweis überträgt — gemessen, nicht geraten |
-| **„2 Einträge" an den Anbieter-Pillen** | 1 | Daniel: „wieso steht da ‚2 einträge'? unnötig verwirrende info". Es ist `sharedWith` — die Zahl unserer Einträge, die diese eine Adresse bedient. Eine Angabe über unsere Datenhaltung, die auf einer Seite steht, die eine ganz andere Frage beantwortet |
-| **Disc-Termin wird als wöchentliche Serie dargestellt** | 2 | „Wöchentlich Frs · letzte Folge · 0 von 24 Folgen erschienen" über einer Steelbook-Box. Eine Disc erscheint an einem Tag komplett; Fortschrittsbalken und Rhythmus gehören dort nicht hin |
-| **Bei Staffel 1 fehlt „Staffel 1"** | 1 | Das Panel zeigt bei 176301 „Staffel 2", bei 161645 nichts — wer von der Übersicht kommt, weiß dann nicht, welchen der beiden Einträge er geöffnet hat |
-| **Das Reihen-Karussell ist unlesbar und ungeordnet** | 5 | Daniel, 02.09.2026: „es ist total unklar was man dort anklickt … der titel ist ausgepunktet, die echte info steht danach und man kann es nicht lesen … nutzer wollen Hauptserie übersichtlich alle staffeln aufsteigend sehen und dazwischen wechseln können, specials/movies sollen davon getrennt werden und zukünftige releases auch". **Kein Karussell mehr, sondern eine Liste über die volle Breite** (Daniel, direkt danach): „statt horizontalem karussel, mach einträge die die ganze breite nutzen, sodass man komplette titel lesen kann … Links an den einträgen kann das cover sein“. Je Eintrag eine Zeile: links das Cover, rechts der vollständige Titel, gruppiert in Staffeln (aufsteigend) / Specials und Filme / noch nicht erschienen. Die Liste bekommt eine Höchsthöhe und wird scrollbar: drei Einträge immer sichtbar, der vierte angeschnitten, damit man sieht, dass es weitergeht |
 | **Zwei Rohfolgen-Adressen ohne Anker** | 1 | Nach dem Gruppierungs-Fix vom 02.09.2026 sind 15 von 17 Adressen zugeordnet (127 Folgen), 187 Rohfolgen abgehakt. Offen bleiben `B0C8X3SVR3` („In ewiger Nacht", Legend of the Galactic Heroes) und `B0GPD4GNLL` („1. Mein erstes Mal mit einer Gal"). Beide tragen keine Kennung, und ihre Folgentitel stehen in keiner der beiden Quellen (`data/anisearch-folgen.json`, `data/tmdb-folgen.json`) — es fehlt also nicht ein Anker, sondern die Folgenliste dieser zwei Titel. Der Weg dorthin ist ein gezielter aniSearch-Folgenabruf |
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
 | **Pokémon Sonne & Mond: 145 statt 146** | 1 | Daniel hat am 30.08.2026 alle zwölf Prime-Bände einzeln geprüft und gemeldet: Staffel 20 mit 43 Folgen (11+11+11+10), Staffel 21 mit 48 (4×12), Staffel 22 mit 54 (14+13+13+14). AniList führt für den Block 146. Seine Gegenprobe: „so wie sie gemeldet wurden so führt sie amazon, also falls da laut anisearch was fehlt, dann hat amazon die nicht." Die Zuordnung über die Folgentitel wird eine Nummer ohne Entsprechung lassen — das ist dann kein Lesefehler, sondern eine Lücke im Angebot, und genau so gehört sie in den Datensatz |
@@ -47,6 +38,39 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 |---|---|
 
 | **Pruefstand** | Stand 01.09.2026, 18:15: **Netflix 0, Disney+ 0, Prime 1** (der gemeldete Kauftitel, faellt beim naechsten Bau) plus 1 offene Suche („Is This a Zombie?"). Golden Kamuy ist aus der Wiedervorlage genommen — ein Kanal-Titel kann die Frage bauartbedingt nicht beantworten |
+
+## Archiv 03.09.2026: Das Detail-Panel, aufgeräumt
+
+Neun Punkte aus Daniels Bilderserie vom 02. und 03.09.2026, alle ausgeliefert:
+
+- **Das Reihen-Karussell ist eine Liste geworden** — volle Breite, Cover links,
+  gruppiert in Staffeln / Specials und Filme / noch nicht erschienen, sortiert
+  erst nach Rang, dann nach Datum. Die erste Staffel heißt jetzt „Staffel 1".
+- **Die Anbieter-Pillen stehen im blauen Kasten**, mit Umschalter zwischen
+  Stream und Disc und zwei fest reservierten Reihen. Damit springt der Kopf
+  beim Wechsel zwischen zwei Titeln nicht mehr, und die Überschrift „WO LÄUFT
+  ES" — die nichts sagte, was die Pillen nicht selbst zeigen — ist weg. Damit
+  erledigt sich auch die Dopplung bei Titeln ohne deutsche Fassung.
+- **Der Kopf beantwortet die Streaming-Frage, nicht die Disc-Frage.** Gibt es
+  gar kein Streaming-Release, wird er zur Disc-Auskunft mit Label, Ausgabe und
+  FSK — statt „Wöchentlich freitags · 0 von 24 Folgen" über einer Steelbook-Box.
+- **Der Terminblock steht nur noch, wenn es künftige Termine gibt.**
+- **„Frs" heißt jetzt „freitags"**, **„2 Einträge" heißt „2 Angebote"**.
+- **Die Netflix-Pille bei Staffel 2 ist weg** — und der Grund war ein anderer
+  als vermutet: kein Übertragungsschritt im Bau, sondern ein **Handbeleg vom
+  22.08.2026**, der an derselben Netflix-Seite entstand wie der von Staffel 1.
+  Die Adresse `netflix.com/title/81712068` hängt an zwei unserer Einträge, und
+  die Prüfung hat sie einmal je Eintrag beantwortet — zweimal dasselbe
+  gemessen, zweimal ja gesagt.
+
+  **Die Lehre ist größer als der Titel:** Ein Anbieter-Verweis, der mehreren
+  unserer Einträge zugeordnet ist, belegt immer nur einen davon. Die Gegenprobe
+  über alle Handbelege fand **125 solcher Gruppen** — die allermeisten davon
+  zu Recht: Netflix führt Kuroko's Basketball S1–S3 tatsächlich unter einer
+  Kennung, und dort gilt der Beleg für alle. Welcher Fall vorliegt, steht in
+  Netflix' eigener Staffelliste, die eine Anmeldung braucht — also entscheidet
+  es die Erweiterung, nicht der Bau. Das gehört zu „Sammeln und Zuordnen
+  vollständig trennen".
 
 ## Recherche 31.08.2026: Deutsche Titel für Anime ohne belegte Synchro
 
