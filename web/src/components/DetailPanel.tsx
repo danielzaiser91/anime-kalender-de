@@ -140,6 +140,27 @@ function hatKuenftigenTermin(release: Release, today: string): boolean {
   return expandEvents(release).some((e) => e.date > today)
 }
 
+/**
+ * „Auf Deutsch seit …" — die Nebenzeile aus `deErstausgabe`.
+ *
+ * Zwei Formen, weil aniSearch zwei liefert: ein Tagesdatum („08.01.2003") oder
+ * nur einen Zeitraum („1997", „10.1990 - 03.1991"). Der Zeitraum wird
+ * unverändert durchgereicht — ein erfundener 1. Januar wäre falsch, der Text
+ * ist richtig.
+ */
+function deSeitZeile(
+  title: Title,
+  T: (k: string, v?: Record<string, string | number>) => string,
+): string {
+  const e = title.deErstausgabe
+  if (!e) return ''
+  const wann = e.von ? formatDate(e.von) : (e.zeitraum ?? '')
+  if (!wann) return ''
+  return e.publisher
+    ? T('antwort.deSeitPublisher', { datum: wann, publisher: e.publisher })
+    : T('antwort.deSeit', { datum: wann })
+}
+
 function AntwortKasten({
   antwort,
   title,
@@ -251,14 +272,7 @@ function AntwortKasten({
       Wo wir selbst gemessen haben, steht das Feld gar nicht erst da — die
       Übernahme in `build.ts` überspringt jeden Titel mit Termin.
     */
-    neben = title.deErstausgabe
-      ? title.deErstausgabe.publisher
-        ? T('antwort.deSeitPublisher', {
-            datum: formatDate(title.deErstausgabe.von),
-            publisher: title.deErstausgabe.publisher,
-          })
-        : T('antwort.deSeit', { datum: formatDate(title.deErstausgabe.von) })
-      : ''
+    neben = deSeitZeile(title, T)
     nebenTitel = title.deErstausgabe ? T('antwort.deSeitQuelle') : undefined
     zaehl = ''
   } else if (antwort.art === 'disc') {
@@ -303,7 +317,21 @@ function AntwortKasten({
       beantwortet.
     */
     haupt = T('antwort.ohneTitel')
-    neben = ''
+    /*
+      **Auch ein Nein braucht die Gegenstimme.**
+
+      361 Titel im Bestand haben keinen eigenen Synchro-Beleg, bei 227 von ihnen
+      führt aniSearch eine deutsche Fassung — meist alte OVAs und Specials
+      deutscher Publisher, die nie gestreamt wurden und deshalb in unseren
+      Streaming-Quellen gar nicht auftauchen können („M.D. Geist, 1997, OVA
+      Films"). „Noch keine deutsche Fassung" ist dort das Letzte, was jemand
+      lesen sollte, der genau danach sucht.
+
+      Der Kasten sagt weiter, was **wir** belegen können — und darunter, was die
+      Fremdquelle sagt. Beides zusammen ist die ehrliche Auskunft.
+    */
+    neben = deSeitZeile(title, T)
+    nebenTitel = title.deErstausgabe ? T('antwort.deSeitQuelle') : undefined
     gedaempft = true
     zaehl = ''
   }
@@ -3045,7 +3073,15 @@ export function DetailPanel({
               derselben Stelle wie sonst auch (Daniel, 12.08.2026).
             */
             <div className="flex flex-col gap-3">
-              <SectionTitle>{t('detail.releases')}</SectionTitle>
+              {/*
+                Die Überschrift fällt mit ihrem Inhalt weg. Bei „Cowboy Bebop"
+                stand „RELEASE-TERMINE FÜR DEUTSCHE SYNCHRO" über einer leeren
+                Fläche, nachdem der Block darunter entfallen war — die Auskunft
+                steht im Kasten oben („Auf Deutsch seit 08.01.2003 · Dybex").
+              */}
+              {(title.ohneSynchro || title.angebotSeit || !title.deErstausgabe) && (
+                <SectionTitle>{t('detail.releases')}</SectionTitle>
+              )}
               {title.ohneSynchro ? (
                 /*
                   Für einen Titel ohne belegte Synchro wäre „Termin unbekannt"
@@ -3083,6 +3119,25 @@ export function DetailPanel({
                     </p>
                   )}
                 </section>
+              ) : !title.angebotSeit && title.deErstausgabe ? (
+                /*
+                  **Der ganze Block entfällt, wo der Kasten oben es besser weiß.**
+
+                  Bei „Cowboy Bebop" stand hier „RELEASE-TERMINE FÜR DEUTSCHE
+                  SYNCHRO — Erscheinungstermin: vorhanden, Termin nicht erfasst",
+                  während zwei Handbreit darüber „Auf Deutsch seit 08.01.2003 ·
+                  Dybex S.A." zu lesen war. Das war nicht nur doppelt, es
+                  widersprach sich: Der Termin **ist** erfasst.
+
+                  Ohne die Zeile bliebe eine Überschrift über zwei Abzeichen —
+                  also fällt der Block ganz weg. Der Status steht ohnehin im
+                  Kasten, und die FSK bei den Werkangaben.
+
+                  `angebotSeit` behält seinen Platz: Es sagt etwas anderes (seit
+                  wann ein Anbieter den Titel führt) und stammt aus einer eigenen
+                  Quelle.
+                */
+                null
               ) : (
               <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
                 <div className="mb-2 flex flex-wrap items-center gap-1.5">
@@ -3255,6 +3310,19 @@ export function DetailPanel({
                   <>
                     <dt className="text-slate-400 dark:text-slate-500">{t('detail.studio')}</dt>
                     <dd className="text-slate-600 dark:text-slate-300">{title.studios.join(', ')}</dd>
+                  </>
+                )}
+                {/*
+                  Die Altersfreigabe gehört zum Werk, nicht zum Termin — sie
+                  stand bisher nur im Terminblock und verschwand mit ihm, wo der
+                  entfällt.
+                */}
+                {title.fsk !== undefined && (
+                  <>
+                    <dt className="text-slate-400 dark:text-slate-500">{t('detail.faktFsk')}</dt>
+                    <dd className="text-slate-600 dark:text-slate-300">
+                      {t('antwort.fskAb', { n: title.fsk })}
+                    </dd>
                   </>
                 )}
               </dl>

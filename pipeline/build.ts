@@ -3298,12 +3298,13 @@ function main(): void {
         aniSearch-Datensatz. Sie wären in der Anzeige nicht als falsch zu
         erkennen, also bleiben sie draußen.
       */
-      if (title.jpYear && Number(termin.start.slice(0, 4)) < title.jpYear) {
+      if (termin.start && title.jpYear && Number(termin.start.slice(0, 4)) < title.jpYear) {
         asVorJp++
         continue
       }
       title.deErstausgabe = {
-        von: termin.start,
+        ...(termin.start ? { von: termin.start } : {}),
+        ...(termin.zeitraum ? { zeitraum: termin.zeitraum } : {}),
         ...(termin.ende ? { bis: termin.ende } : {}),
         ...(termin.publisher ? { publisher: termin.publisher } : {}),
       }

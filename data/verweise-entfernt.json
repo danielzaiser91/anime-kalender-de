@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-03T10:14:52.191Z",
+  "stand": "2026-09-03T12:56:37.957Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6880,6 +6880,16 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "letzterWeg": true
+    },
+    {
+      "titleId": 176301,
+      "titel": "Die Tagebücher der Apothekerin: Staffel 2",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81712068",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
     },
     {
       "titleId": 177476,

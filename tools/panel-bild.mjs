@@ -96,7 +96,12 @@ async function main() {
         sonst den Titel der ersten.
       */
       await seite.goto('about:blank')
-      await seite.goto(`http://ak.test/#/woche?t=${id}`, { waitUntil: 'networkidle' })
+      /*
+        Über die Datenbank-Ansicht, nicht über den Kalender: Titel ohne Termin
+        stehen nicht in `titles-core.json`, und dort würde das Panel nie
+        erscheinen. Die Datenbank lädt `titles.json` nach — also alle.
+      */
+      await seite.goto(`http://ak.test/#/datenbank?t=${id}`, { waitUntil: 'networkidle' })
       const panel = seite.locator('aside[role="dialog"]')
       try {
         await panel.waitFor({ state: 'visible', timeout: 15_000 })

@@ -50,8 +50,17 @@ interface Sprachblock {
 }
 
 export interface AnisearchTermin {
-  /** ISO-Datum des ersten Tages. */
-  start: string
+  /** ISO-Datum des ersten Tages — fehlt, wo aniSearch keinen Tag nennt. */
+  start?: string
+  /**
+   * Der Rohtext, wo kein Tagesdatum drinsteht: „1997", „10.1990 - 03.1991".
+   *
+   * 124 Einträge nennen nur Jahr oder Monat, und darunter sind genau die alten
+   * VHS- und DVD-Veröffentlichungen, zu denen wir sonst gar nichts wissen
+   * („M.D. Geist, 1997, OVA Films"). Ein erfundener 1. Januar wäre falsch, der
+   * Text ist richtig — also steht er so da, wie er dasteht.
+   */
+  zeitraum?: string
   /** ISO-Datum des letzten Tages, falls aniSearch einen Bereich nennt. */
   ende?: string
   /** Der Verlag oder Dienst, der sie herausgebracht hat — als Klartext. */
@@ -91,11 +100,17 @@ export function terminAusEintrag(info: { languages?: Sprachblock[] } | undefined
   const roh = de.released.trim()
   const [vonRoh, bisRoh] = roh.split(/\s*-\s*/)
   const start = alsIso(vonRoh ?? '')
-  if (!start) return undefined
-  const ende = bisRoh ? alsIso(bisRoh) : undefined
+  const ende = start && bisRoh ? alsIso(bisRoh) : undefined
+  /*
+    Ohne Tagesdatum bleibt der Rohtext — aber nur, wenn eine Jahreszahl darin
+    steht. aniSearch schreibt sonst schlicht „?", und das ist keine Auskunft.
+  */
+  const zeitraum = !start && /\d{4}/.test(roh) ? roh : undefined
+  if (!start && !zeitraum) return undefined
   return {
-    start,
-    ...(ende && ende > start ? { ende } : {}),
+    ...(start ? { start } : {}),
+    ...(zeitraum ? { zeitraum } : {}),
+    ...(ende && start && ende > start ? { ende } : {}),
     ...(de.publisher?.length ? { publisher: de.publisher[0] } : {}),
     zitat: roh,
   }

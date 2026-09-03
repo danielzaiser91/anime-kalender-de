@@ -281,8 +281,10 @@ export interface Title {
    * haben, und die Oberfläche schreibt „laut aniSearch" dazu.
    */
   deErstausgabe?: {
-    /** ISO-Datum des ersten Tages. */
-    von: string
+    /** ISO-Datum des ersten Tages — fehlt, wo aniSearch nur Jahr oder Monat nennt. */
+    von?: string
+    /** Der Rohtext, wo kein Tagesdatum drinsteht: „1997", „10.1990 - 03.1991". */
+    zeitraum?: string
     /** ISO-Datum des letzten Tages, wo aniSearch einen Bereich nennt. */
     bis?: string
     /** Verlag oder Dienst, im Klartext — „Kazé Deutschland", „Crunchyroll". */
