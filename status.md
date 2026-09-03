@@ -19,8 +19,6 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **227 Synchros, die aniSearch belegt und wir nicht** | 5 | Gemessen am 03.09.2026: aniSearch führt zu 2.461 Titeln eine deutsche Synchronfassung; bei **227** davon haben wir keinen eigenen Beleg — weder `dub: true` an einem Verweis noch deutsche Sprechrollen noch hohe `dubConfidence`. Es sind durchweg alte OVAs und Specials (Moldiver, Tenchi Muyo: The Movie, M.D. Geist, Oh! My Goddess Specials), also Disc-Veröffentlichungen deutscher Publisher — was nie gestreamt wurde, kann in unseren Streaming-Quellen nicht auftauchen. **Vorsicht:** aniSearchs `dubbed`-Kennzeichen ist eine Fremdangabe, kein eigener Beleg; es gehört wie jede solche Quelle als Hinweis in die Prüfliste, nicht als `dub: true` in den Bestand. **Und die erste Messung dazu war falsch:** Sie prüfte `streams[].dub` und meldete 1.010 — das misst „gibt es einen Anbieter mit belegter Fassung", nicht „gibt es eine Synchro". „Witch Hunter Robin" hat keine Streams und ist trotzdem belegt |
-| **aniSearch-Termine systematisch auswerten** | 8 | `data/anisearch.json` führt zu **2.559 Titeln** einen deutschen Termin samt Publisher — ausgewertet wird davon **keiner**. Gemessen am 03.09.2026: 2.012 Titel mit belegter Synchro haben bei uns keinen Termin und bei aniSearch einen. **Vorsicht ist geboten:** Die Daten sind Erstveröffentlichungen (Cowboy Bebop 2003 auf DVD), nicht Sendepläne, und aniSearch nennt bei Simuldubs den Simulcast-Start statt der Synchro — bei „Apothekerin" Staffel 1 den 21.10.2023 gegen unseren gemessenen 18.11.2023. Sie gehören also als `available-from` mit `estimated` in den Bestand, nie als Sendeplan, und **nie über einen eigenen Beleg**. Dazu fehlen zwei Bausteine: Der Abruf holt nur den Hauptbestand (Katalogtitel wie Staffel 3 fehlen ganz), und ohne aniSearch-Kennung im Datensatz gibt es keinen Abrufweg |
 | **Zwei Rohfolgen-Adressen ohne Anker** | 1 | Nach dem Gruppierungs-Fix vom 02.09.2026 sind 15 von 17 Adressen zugeordnet (127 Folgen), 187 Rohfolgen abgehakt. Offen bleiben `B0C8X3SVR3` („In ewiger Nacht", Legend of the Galactic Heroes) und `B0GPD4GNLL` („1. Mein erstes Mal mit einer Gal"). Beide tragen keine Kennung, und ihre Folgentitel stehen in keiner der beiden Quellen (`data/anisearch-folgen.json`, `data/tmdb-folgen.json`) — es fehlt also nicht ein Anker, sondern die Folgenliste dieser zwei Titel. Der Weg dorthin ist ein gezielter aniSearch-Folgenabruf |
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
 | **Pokémon Sonne & Mond: 145 statt 146** | 1 | Daniel hat am 30.08.2026 alle zwölf Prime-Bände einzeln geprüft und gemeldet: Staffel 20 mit 43 Folgen (11+11+11+10), Staffel 21 mit 48 (4×12), Staffel 22 mit 54 (14+13+13+14). AniList führt für den Block 146. Seine Gegenprobe: „so wie sie gemeldet wurden so führt sie amazon, also falls da laut anisearch was fehlt, dann hat amazon die nicht." Die Zuordnung über die Folgentitel wird eine Nummer ohne Entsprechung lassen — das ist dann kein Lesefehler, sondern eine Lücke im Angebot, und genau so gehört sie in den Datensatz |
@@ -36,6 +34,23 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 |---|---|
 
 | **Pruefstand** | Stand 01.09.2026, 18:15: **Netflix 0, Disney+ 0, Prime 1** (der gemeldete Kauftitel, faellt beim naechsten Bau) plus 1 offene Suche („Is This a Zombie?"). Golden Kamuy ist aus der Wiedervorlage genommen — ein Kanal-Titel kann die Frage bauartbedingt nicht beantworten |
+
+## Archiv 03.09.2026: aniSearch als zweite Stimme
+
+- **2.089 Titel sagen jetzt, seit wann es sie auf Deutsch gibt** — mit Verlag,
+  aus `data/anisearch.json`. Als Feld `deErstausgabe` am Titel, **nicht** als
+  Release: Der erste Anlauf baute 1.985 Kalendereinträge und blähte
+  `titles-core.json` von 554 KB auf 2,7 MB auf. Der Auslöser dafür steht jetzt
+  in `ARCHITEKTUR.md` als Punkt 2b.
+- **Die 227 Titel ohne eigenen Beleg** brauchen keine Handprüfung mehr: Wo
+  aniSearch eine deutsche Fassung führt und wir keine belegen können, steht das
+  jetzt nebeneinander im Kasten — unsere Auskunft oben, die Fremdangabe
+  darunter, mit Quelle im Tooltip.
+- **`OTHER` zählt als Reihenbeziehung**, aber nur bei passenden Namen (acht
+  Zeichen gemeinsamer Wortanfang). Ohne diese Schranke klebten Gundam an
+  Patlabor (9 → 154 Teile), „True Tears" an „Angel Beats!" und „Tamako Market"
+  an „Free!". Der Katalog-Cache trägt seither einen Fingerabdruck der Regel und
+  holt alles neu, wenn sie sich ändert.
 
 ## Archiv 03.09.2026: Das Detail-Panel, aufgeräumt
 
