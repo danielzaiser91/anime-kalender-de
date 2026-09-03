@@ -182,6 +182,15 @@ const TEXTE = {
   'where.buy': 'Kaufen oder leihen',
   'where.buyHint': 'einmaliger Preis je Titel oder Staffel',
   'where.titles': '{count} Einträge',
+  // **„Eintrag" ist unser Wort, nicht seins.** Unter einer Shop-Pille im
+  // Detail-Panel stand „2 Einträge" — Daniel am 03.09.2026: „wieso steht da
+  // ‚2 einträge‘? unnötig verwirrende info". Gemeint sind zwei Adressen beim
+  // selben Händler: bei einer Disc zwei Ausgaben, bei einem Kaufstream zwei
+  // Käufe. „Angebote" trifft beide und sagt, was hinter dem Klick wartet.
+  //
+  // In `WhereView` bleibt „Einträge" richtig — dort zählt die Zeile unter
+  // „Crunchyroll" wirklich unsere Titel, nicht die Angebote eines Händlers.
+  'where.angebote': '{count} Angebote',
   'where.titleOne': '1 Eintrag',
   'where.tallyYes': 'deutsche Synchro dort belegt',
   'where.tallyOpen': 'Der Anbieter macht dazu keine öffentliche Angabe.',
@@ -390,6 +399,11 @@ const TEXTE = {
   'antwort.ohneZahl': 'Keine Folge auf Deutsch',
   'antwort.faktErschienen': 'erschienen',
   'antwort.faktFsk': 'Altersfreigabe',
+  // Die drei Angaben, die es zu einer Kaufausgabe wirklich gibt — an der
+  // Stelle, an der bei einer Serie der Fortschrittsbalken steht.
+  'antwort.discNeben': 'Kaufausgabe — erscheint an einem Tag komplett',
+  'antwort.faktPublisher': 'Label',
+  'antwort.faktEdition': 'Ausgabe',
   'antwort.faktStudio': 'Studio',
   'antwort.fskAb': 'ab {n}',
   'detail.lastEpisode': 'Letzte Folge',

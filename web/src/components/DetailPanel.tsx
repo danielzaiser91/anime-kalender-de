@@ -103,6 +103,17 @@ type Antwort =
   | { art: 'fertig'; raus?: number; gesamt?: number }
   | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number }
   | { art: 'ohne'; gesamt?: number }
+  /**
+   * **Eine Disc ist kein Sendeplan.**
+   *
+   * Gibt es zu einem Titel überhaupt kein Streaming-Release, fällt der Kopf auf
+   * die Disc zurück — ein Kaufdatum ist besser als gar keine Auskunft. Nur
+   * beantwortet es eine andere Frage: über einer Steelbook-Box stand
+   * „Wöchentlich freitags · letzte Folge · 0 von 24 Folgen erschienen" (Daniel,
+   * 02.09.2026). Eine Disc erscheint an einem Tag komplett; Fortschrittsbalken
+   * und Rhythmus gehören dort nicht hin.
+   */
+  | { art: 'disc'; datum: string; publisher?: string; edition?: string }
 
 /**
  * Der Kasten ganz oben — die Antwort auf „wann, wie weit, wo".
@@ -203,6 +214,24 @@ function AntwortKasten({
     zaehl = antwort.gesamt
       ? T('antwort.fertigZahl', { count: antwort.gesamt })
       : T('antwort.fertigZahlOhne')
+  } else if (antwort.art === 'disc') {
+    const rel = relativ(antwort.datum)
+    haupt = [rel, formatDate(antwort.datum)].filter(Boolean).join(', ')
+    neben = T('antwort.discNeben')
+    zaehl = ''
+    /*
+      Statt eines Balkens die drei Angaben, die es zu einer Disc wirklich gibt.
+      Ein Fortschrittsbalken hätte hier keinen Messwert — eine Disc ist am Tag
+      ihres Erscheinens zu hundert Prozent da.
+    */
+    fakten = [
+      { wert: antwort.publisher ?? '—', was: T('antwort.faktPublisher') },
+      { wert: antwort.edition ?? '—', was: T('antwort.faktEdition') },
+      {
+        wert: title.fsk !== undefined ? T('antwort.fskAb', { n: title.fsk }) : '—',
+        was: T('antwort.faktFsk'),
+      },
+    ]
   } else if (antwort.art === 'film') {
     haupt = antwort.hatSynchro ? T('antwort.filmTitel') : T('antwort.filmOhneTitel')
     neben = antwort.hatSynchro ? T('antwort.filmNeben') : T('antwort.filmOhneNeben')
@@ -2013,6 +2042,23 @@ export function DetailPanel({
 
     if (kuenftig.length > 0) {
       const n = kuenftig[0]!
+      /*
+        **Fällt der Kopf auf die Disc zurück, wird er zur Disc-Auskunft.**
+
+        `ohneDisc.length === 0` heißt: zu diesem Titel gibt es kein
+        Streaming-Release, und die Ereignisse oben stammen sämtlich von einer
+        Kaufausgabe. Sie als Sendeplan zu lesen erzeugte den Satz „Wöchentlich
+        freitags · 0 von 24 Folgen erschienen" über einer Steelbook-Box.
+      */
+      if (!ohneDisc.length) {
+        const quelle = releases.find((r) => expandEvents(r).some((e) => e.date === n.date))
+        return {
+          art: 'disc' as const,
+          datum: n.date,
+          publisher: quelle?.publisher,
+          edition: quelle?.edition,
+        }
+      }
       return {
         art: 'laeuft' as const,
         haupt: n,
@@ -2507,7 +2553,7 @@ export function DetailPanel({
                         url={g.eintraege[0].url}
                         unten={
                           g.eintraege.length > 1
-                            ? t('where.titles', { count: g.eintraege.length })
+                            ? t('where.angebote', { count: g.eintraege.length })
                             : undefined
                         }
                       />
