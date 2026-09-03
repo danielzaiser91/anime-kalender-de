@@ -1279,20 +1279,30 @@ function Pille({
       rel="noreferrer noopener"
       title={titel}
       className={[
-        'inline-flex max-w-full items-center gap-2 rounded-full px-3 py-1.5 transition',
+        'inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 transition',
         farbe
           ? 'hover:brightness-95 dark:hover:brightness-125'
           : 'border border-slate-200 hover:bg-slate-100/60 dark:border-white/10 dark:hover:bg-white/5',
       ].join(' ')}
       style={farbe ? { background: `${farbe}1f`, boxShadow: `inset 0 0 0 1px ${farbe}55` } : undefined}
     >
-      <span className="flex min-w-0 flex-col leading-tight">
-        <span className="truncate text-[13px] font-medium" style={farbe ? { color: farbe } : undefined}>
+      <span className="flex flex-col leading-tight">
+        <span
+          className="whitespace-nowrap text-[13px] font-medium"
+          style={farbe ? { color: farbe } : undefined}
+        >
           {name}
         </span>
+        {/*
+          **Kein `truncate` mehr.** Die Unterzeile trug Sätze wie „Ohne deutschen
+          Ton: Folge 2–33" und wurde ausgepunktet — eine halbe Auskunft ist
+          schlechter als eine kurze (Daniel, 03.09.2026). Seit den gekürzten
+          Texten („✕ DE 2–33") passt sie, und `whitespace-nowrap` hält sie in
+          einer Zeile: Die Pille wächst lieber mit, als etwas zu verschlucken.
+        */}
         {unten && (
           <span
-            className={`truncate text-[11px] ${farbe ? 'opacity-80' : 'text-slate-500 dark:text-slate-400'}`}
+            className={`whitespace-nowrap text-[11px] ${farbe ? 'opacity-80' : 'text-slate-500 dark:text-slate-400'}`}
             style={farbe ? { color: farbe } : undefined}
           >
             {unten}
@@ -2711,10 +2721,38 @@ export function DetailPanel({
                             .filter(Boolean)
                             .join(' · ') || undefined
                         }
+                        /*
+                          **Was in der Pille kürzt, steht hier ausgeschrieben.**
+
+                          Die Unterzeile trägt seit dem 03.09.2026 nur noch
+                          „✕ DE 2–33" statt „Ohne deutschen Ton: Folge 2–33" — sie
+                          wurde sonst ausgepunktet, und eine halbe Auskunft ist
+                          schlechter als eine kurze. Der Tooltip nennt beides:
+                          was fehlt, und wozu die Adresse sonst noch führt.
+                        */
                         titel={
-                          (s.sharedWith ?? 0) > 1
-                            ? t('detail.sharedUrlNote', { count: s.sharedWith! })
-                            : undefined
+                          [
+                            luecken ? t('detail.dubLueckenTitel') : '',
+                            grenze
+                              ? t(
+                                  grenze.schluessel === 'detail.dubUntil'
+                                    ? 'detail.dubUntilTitel'
+                                    : 'detail.dubFromTitel',
+                                  { n: grenze.n },
+                                )
+                              : '',
+                            s.teilBereich
+                              ? t('detail.teilBereichTitel', {
+                                  von: s.teilBereich.von,
+                                  bis: s.teilBereich.bis,
+                                })
+                              : '',
+                            (s.sharedWith ?? 0) > 1
+                              ? t('detail.sharedUrlNote', { count: s.sharedWith! })
+                              : '',
+                          ]
+                            .filter(Boolean)
+                            .join(' · ') || undefined
                         }
                         rechts={<DubMark dub={s.dub} />}
                       />

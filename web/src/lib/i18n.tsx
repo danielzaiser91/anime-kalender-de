@@ -269,14 +269,19 @@ const TEXTE = {
   // Folgenliste führt: Prime zeigt „Captain Tsubasa (2018)" mit 91 Folgen, und
   // dieser Eintrag sind davon die Nummern 53 bis 91. Ohne die Angabe sucht
   // jemand 39 Folgen auf einer Seite, die 91 zeigt.
-  'detail.teilBereich': 'Dort Folge {von}–{bis}',
+  'detail.teilBereich': 'Flg. {von}–{bis}',
+  'detail.teilBereichTitel': 'Dieser Eintrag umfasst dort die Folgen {von} bis {bis}',
   // Steht als „!" neben dem Anbieter, wenn der deutsche Ton Lücken hat. Der
   // Anbieter gilt trotzdem als deutsch — eine Folge genügt (Daniel,
   // 27.08.2026: „de anzeigen ab min 1 folge ist die richtige weise").
   //
   // Kurz gehalten, weil es aufgeklappt neben einer Pille steht: Wer es liest,
   // will wissen, welche Folgen — nicht, wie wir es herausgefunden haben.
-  'detail.dubLuecken': 'Ohne deutschen Ton: Folge {n}',
+  // **Auf eine Zeile gekürzt** (Daniel, 03.09.2026: „keine ausgepunkteten infos
+  // … zB ,ohne deutschen ton: Folge 2-33' -> ,x DE 2-33'"). In der Pille steht
+  // nur noch, was fehlt: das Kreuz, die Sprache, die Folgen. Der volle Satz
+  // steht im Tooltip daneben.
+  'detail.dubLuecken': '✕ DE {n}',
   'detail.staffelNummer': 'Staffel {n}',
   'detail.dubLueckenTitel': 'Nicht alle Folgen auf Deutsch',
   // Bewusst „kann abweichen", nicht „weicht ab": Belegt ist nur, dass mehrere
@@ -291,8 +296,12 @@ const TEXTE = {
   //
   // „Flg." ist Netflix' eigene Abkürzung; wer aus dem Player kommt, liest sie
   // dort genauso.
-  'detail.dubUntil': 'Deutsch bis Flg. {n}',
-  'detail.dubFrom': 'Deutsch ab Flg. {n}',
+  // Dieselbe Kurzform: ein Häkchen für das, was auf Deutsch da ist, dahinter der
+  // Bereich. Ausgeschrieben stand es in einer Pille, die dafür zu schmal ist.
+  'detail.dubUntil': '✓ DE 1–{n}',
+  'detail.dubFrom': '✓ DE ab {n}',
+  'detail.dubUntilTitel': 'Deutscher Ton bis Folge {n}',
+  'detail.dubFromTitel': 'Deutscher Ton ab Folge {n}',
   'detail.genres': 'Genres',
   'detail.seriesPartsCount': '{count} Teile in dieser Reihe',
   // Die vier Gruppen der Reihenliste. „Hauptserie" statt „Staffeln", weil eine
