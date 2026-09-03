@@ -118,6 +118,8 @@ async function gql<T>(query: string, variables: Record<string, unknown>, attempt
  * und wird dort vollständig geholt.
  */
 export interface KatalogEintrag {
+  /** Kennungen der Eltern — wer zwei hat, ist ein Crossover und verbindet nichts. */
+  eltern?: number[]
   id: number
   /** Romaji, Englisch, Japanisch — alle drei, weil alle drei gesucht werden. */
   t: [string | null, string | null, string | null]
@@ -229,6 +231,23 @@ export async function katalogSeite(
       cover: m.coverImage?.large?.startsWith(ANILIST_COVER_BASIS)
         ? m.coverImage.large.slice(ANILIST_COVER_BASIS.length)
         : (m.coverImage?.large ?? null),
+      /*
+        **Wer zwei Eltern hat, ist ein Crossover — und verbindet nichts.**
+
+        „Dragon Ball: Annecy Festival 60th Anniversary" trägt `PARENT` auf
+        Dragon Ball Super **und** auf den One-Piece-Beitrag desselben Festivals.
+        Über diese eine Kante klebten am 03.09.2026 elf Dragon-Ball-Titel in der
+        One-Piece-Reihe (Daniel, mit Bild: „64 titel in reihe komplett
+        unsortiert").
+
+        Der Hauptbestand kennt diese Regel seit dem 12.08.2026 (`crossoverEltern`
+        in `build.ts`), der Katalog nicht — dort standen nur die Kennungen, nicht
+        die Kantenarten. Jetzt reisen die Eltern mit, und der Bau kann dieselbe
+        Entscheidung treffen.
+      */
+      eltern: (m.relations?.edges ?? [])
+        .filter((e) => e.relationType === 'PARENT' && e.node?.type === 'ANIME')
+        .map((e) => e.node.id),
       rel: (m.relations?.edges ?? [])
         .filter(
           (e) =>

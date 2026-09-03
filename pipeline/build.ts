@@ -173,9 +173,35 @@ function reihenFuerKatalog(
     else parent.set(ra, rb)
   }
 
+  /*
+    **Ein Crossover verbindet keine Reihen — auch im Katalog nicht.**
+
+    Der gepflegte Bestand kennt die Regel seit dem 12.08.2026: Wer zwei
+    `PARENT`-Kanten trägt, gehört zu zwei Werken und darf ihre Reihen nicht
+    zusammenziehen. Der Katalog kannte sie nicht — dort standen bis zum
+    03.09.2026 nur die Kennungen der Nachbarn, nicht die Art der Kante.
+
+    Was das gekostet hat, stand an dem Tag im Panel: „Dragon Ball: Annecy
+    Festival 60th Anniversary" hängt an Dragon Ball Super **und** am
+    One-Piece-Beitrag desselben Festivals. Über diese eine Kante standen **elf
+    Dragon-Ball-Titel** in der One-Piece-Reihe, und weil zwei davon ONAs sind
+    (also als Staffeln zählen), war One Piece selbst plötzlich „Staffel 4"
+    (Daniel, mit Bild: „64 titel in reihe komplett unsortiert … Totale müll
+    info. Kritisch.").
+
+    **Der Eintrag fällt nicht weg**, er verbindet nur nichts: Seine Kanten
+    bleiben ungenutzt, und er erbt unten die Reihe seines ersten Elternteils.
+  */
+  const kandidaten = new Map<number, number[]>()
+  for (const e of eintraege) {
+    if ((e.eltern?.length ?? 0) >= 2) kandidaten.set(e.id, e.eltern!)
+  }
+
   for (const e of eintraege) {
     parent.set(e.id, parent.get(e.id) ?? e.id)
+    if (kandidaten.has(e.id)) continue
     for (const anderer of e.rel ?? []) {
+      if (kandidaten.has(anderer)) continue
       parent.set(anderer, parent.get(anderer) ?? anderer)
       union(e.id, anderer)
     }
@@ -193,6 +219,20 @@ function reihenFuerKatalog(
     const wurzel = find(id)
     const bisher = ausBestand.get(wurzel)
     if (bisher === undefined || franchiseId < bisher) ausBestand.set(wurzel, franchiseId)
+  }
+
+  /*
+    Ein Crossover erbt die Reihe seines **ersten** Elternteils — dieselbe Regel
+    wie im gepflegten Bestand. Verworfen wird er nicht: Er ist ein Werk und
+    gehört in eine Reihe, nur eben in genau eine.
+  */
+  for (const [id, eltern] of kandidaten) {
+    parent.set(id, parent.get(id) ?? id)
+    const erster = eltern[0]
+    if (erster !== undefined) {
+      parent.set(erster, parent.get(erster) ?? erster)
+      parent.set(find(id), find(erster))
+    }
   }
 
   const reihe = new Map<number, number>()

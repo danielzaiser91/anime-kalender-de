@@ -67,7 +67,7 @@ interface Katalog {
  * geblieben und der Cache hätte eine Regel weitergereicht, die es nicht mehr
  * gibt.
  */
-const REL_FASSUNG = `${[...FRANCHISE_RELATIONS].sort().join(',')}+other-namen-8`
+const REL_FASSUNG = `${[...FRANCHISE_RELATIONS].sort().join(',')}+other-namen-8+eltern`
 
 const DATEI = 'data/cache/anilist-katalog.json'
 /** Erster Jahrgang mit nennenswertem Bestand. Davor gibt es einzelne Kurzfilme. */

@@ -295,6 +295,12 @@ const TEXTE = {
   'detail.dubFrom': 'Deutsch ab Flg. {n}',
   'detail.genres': 'Genres',
   'detail.seriesPartsCount': '{count} Teile in dieser Reihe',
+  // Die vier Gruppen der Reihenliste. „Hauptserie" statt „Staffeln", weil eine
+  // Reihe aus einem einzigen Teil bestehen kann und „Staffeln" dann falsch
+  // klingt; „Specials & OVAs" nennt beides, weil der Unterschied hier keiner ist.
+  'detail.gruppeStaffeln': 'Hauptserie',
+  'detail.gruppeSpecials': 'Specials & OVAs',
+  'detail.gruppeFilme': 'Filme',
   'detail.reiheKuenftig': 'noch nicht erschienen',
   'detail.folgenKurz': '{n} Fg.',
   'detail.werkangaben': 'Zum Werk',

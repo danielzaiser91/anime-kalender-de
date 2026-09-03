@@ -2173,7 +2173,19 @@ export function DetailPanel({
       .filter((e) => !istErschienen(e))
       .sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
     const raus = alleEvents.filter((e) => istErschienen(e)).length
-    const gesamt = title.episodes ?? (alleEvents.length || undefined)
+    /*
+      **Keine Folgenzahl aus der Zahl der Termine.**
+
+      Bei „One Piece" stand „Alle 1 Folgen auf Deutsch" — für eine Serie mit
+      über tausend (Daniel, 03.09.2026: „Totale müll info"). AniList führt dort
+      keine Folgenzahl (die Serie läuft weiter), und der Rückfall zählte die
+      **Termine**: ein Katalog-Release ergibt ein Ereignis, also „1 Folge".
+
+      Ein Termin ist keine Folge — außer bei einer Wochenserie, wo jede Folge
+      ihren eigenen trägt. Nur dort zählt der Rückfall noch.
+    */
+    const nurWochen = fuerKopf.every((r) => r.releaseType === 'weekly')
+    const gesamt = title.episodes ?? (nurWochen && alleEvents.length > 1 ? alleEvents.length : undefined)
     const hatSynchro = (title.streams ?? []).some((s) => s.dub === true)
 
     if (kuenftig.length > 0) {
@@ -2992,8 +3004,71 @@ export function DetailPanel({
                     const rang = (m: FranchiseMember) => (istStaffel(m.format) ? 0 : 1)
                     return rang(a) - rang(b) || (a.jpYear ?? 0) - (b.jpYear ?? 0) || a.id - b.id
                   }
-                  const erschienen = reihenTeile.filter((m) => !kuenftig(m)).sort(nachRang)
-                  const kommt = reihenTeile.filter(kuenftig).sort(nachRang)
+                  /*
+                    **Vier Gruppen mit Überschrift, nicht zwei Töpfe.**
+
+                    Bei „One Piece" standen 64 Teile in einer Liste, und der erste
+                    sichtbare war eine ONA von 2018 (Daniel, 03.09.2026: „teile in
+                    dieser reihe muss sortiert sein. Zuerst Hauptstaffeln
+                    aufsteigend, dann Specials, dann movies. Entsprechende
+                    Trennstriche müssen sichtbar sein mit entsprechenden Kategorie
+                    Labels.").
+
+                    Die Reihenfolge folgt dem, was jemand sucht: erst die
+                    Hauptserie, dann das Beiwerk, dann die Filme — und ganz unten,
+                    was es noch nicht gibt. Innerhalb jeder Gruppe chronologisch.
+                  */
+                  /*
+                    **Ein Titel ohne Jahr gehört ans Ende, nicht an den Anfang.**
+
+                    `?? 0` machte aus „unbekannt" das Jahr null. Bei „One Piece"
+                    standen dadurch drei undatierte Kurzformate vor der Serie von
+                    1999, und sie selbst hieß in der Liste „Staffel 4" (Daniel,
+                    03.09.2026, mit Bild).
+                  */
+                  const nachJahr = (a: FranchiseMember, b: FranchiseMember) =>
+                    (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id
+
+                  /*
+                    **Was eine Hauptstaffel ist, entscheidet die Reihe selbst.**
+
+                    `istStaffel` zählt ONA mit, und das ist richtig: Viele neue
+                    Serien laufen als ONA („Beastars"). Für die **Zählung** einer
+                    Reihe ist es falsch, sobald sie daneben Kurzformate führt —
+                    „One Piece: Annecy Festival" und „Koisuru One Piece" sind keine
+                    Staffeln, sie haben nur dasselbe Format.
+
+                    Also: Gibt es in der Reihe echte Fernsehstaffeln, zählen nur
+                    die. Gibt es keine, zählen die ONAs — dann sind sie die Serie.
+                  */
+                  const hatTv = reihenTeile.some((m) => m.format === 'TV' || m.format === 'TV_SHORT')
+                  const istHauptstaffel = (m: FranchiseMember) =>
+                    hatTv ? m.format === 'TV' || m.format === 'TV_SHORT' : istStaffel(m.format)
+                  const da = reihenTeile.filter((m) => !kuenftig(m))
+                  const gruppen: { titel: string; teile: FranchiseMember[]; offen: boolean }[] = [
+                    {
+                      titel: t('detail.gruppeStaffeln'),
+                      teile: da.filter(istHauptstaffel).sort(nachJahr),
+                      offen: false,
+                    },
+                    {
+                      titel: t('detail.gruppeSpecials'),
+                      teile: da
+                        .filter((m) => !istHauptstaffel(m) && m.format !== 'MOVIE')
+                        .sort(nachJahr),
+                      offen: false,
+                    },
+                    {
+                      titel: t('detail.gruppeFilme'),
+                      teile: da.filter((m) => m.format === 'MOVIE').sort(nachJahr),
+                      offen: false,
+                    },
+                    {
+                      titel: t('detail.reiheKuenftig'),
+                      teile: reihenTeile.filter(kuenftig).sort(nachRang),
+                      offen: true,
+                    },
+                  ].filter((g) => g.teile.length > 0)
 
                   /*
                     **Die Staffeln werden gezählt, damit die erste „Staffel 1"
@@ -3004,9 +3079,9 @@ export function DetailPanel({
                   */
                   const staffelNr = new Map<number, number>()
                   reihenTeile
-                    .filter((m) => istStaffel(m.format))
+                    .filter(istHauptstaffel)
                     .slice()
-                    .sort((a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0) || a.id - b.id)
+                    .sort(nachJahr)
                     .forEach((m, i) => staffelNr.set(m.id, i + 1))
 
                   const zeile = (m: FranchiseMember, offen: boolean) => {
@@ -3113,17 +3188,27 @@ export function DetailPanel({
 
                   return (
                     <div role="tablist" aria-label={t('detail.seriesParts')} className="flex flex-col gap-0.5">
-                      {erschienen.map((m) => zeile(m, false))}
-                      {kommt.length > 0 && (
-                        <div className="my-1.5 flex items-center gap-2">
-                          <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-                          <span className="text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500">
-                            {t('detail.reiheKuenftig')}
-                          </span>
-                          <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-                        </div>
-                      )}
-                      {kommt.map((m) => zeile(m, true))}
+                      {gruppen.map((g, i) => (
+                        <Fragment key={g.titel}>
+                          {/*
+                            Die Überschrift der ersten Gruppe steht ohne Linie
+                            darüber — dort trennt sie nichts, sie benennt nur.
+                          */}
+                          <div
+                            className={[
+                              'flex items-center gap-2',
+                              i === 0 ? 'mb-0.5' : 'my-1.5',
+                            ].join(' ')}
+                          >
+                            {i > 0 && <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />}
+                            <span className="text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                              {g.titel}
+                            </span>
+                            <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
+                          </div>
+                          {g.teile.map((m) => zeile(m, g.offen))}
+                        </Fragment>
+                      ))}
                     </div>
                   )
                 })()}
