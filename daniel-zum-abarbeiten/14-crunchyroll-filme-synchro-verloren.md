@@ -37,6 +37,43 @@ Stand seither unverändert: **2765 Titel, 1885 Urteile, 115 offen.**
 Damit bleibt die Zuordnung im Crunchyroll-Abschnitt von `pipeline/build.ts` als einzige
 verbliebene Stelle. Welcher Zweig dort anders entscheidet, ist **nicht** gemessen.
 
+## Gemessen am 03.09.2026 — die Ursache steht fest
+
+**Es ist nicht der Bau, es ist die Quelle.** `data/cr-filmbloecke.json` ist im
+Commit `f460e90c` (02.09., 12:28, „Crunchyroll-Einzelwerke von einer deutschen
+IP geholt — 13 neue Belege") von **32 auf 25 Blöcke** geschrumpft. Sieben Blöcke
+sind weggefallen, und mit ihnen die Belege der Filme, die daran hingen.
+
+Der Bau selbst arbeitet unverändert: Beide Läufe melden dieselben Zahlen je
+Zweig (8 Einzelwerke, 34 Blockname, 5 Blockketten, 598 Serienseiten). Was sich
+geändert hat, ist das Material.
+
+| geprüft | Ergebnis |
+|---|---|
+| Zuordnungszweige im Bau | identisch in beiden Läufen |
+| `cr-filmbloecke.json` | **32 → 25 Blöcke** (f460e90c) |
+| `cr-katalog-de.json` | 2.356 Zeilen geändert im selben Commit |
+| teilen Verlierer und Gewinner Adressen? | **nein**, 0 von 15 |
+| Verlierer an Mehrfachadressen | 3 von 15 — erklärt die übrigen 12 nicht |
+
+## Die offene Frage — und sie ist keine technische
+
+Der Abruf lief **von einer deutschen IP**, der neue Stand ist also der genauere.
+Zwei Lesarten, und nur eine Messung entscheidet sie:
+
+1. **Die sieben Blöcke sind zu Recht weg** — Crunchyroll führt diese Filme hier
+   nicht mehr. Dann ist der Verlust eine Korrektur, und der Bestand hat sich
+   verbessert, nicht verschlechtert.
+2. **Der Abruf hat sie übersehen.** Dafür spricht, dass `crunchyroll-dub.json`
+   die Adressen weiterhin führt — der Beleg ist im Haus, nur der Block fehlt.
+
+Zu klären ist das an **einem** Titel von Hand: Steht „Detektiv Conan: Der Magier
+des letzten Jahrhunderts" bei Crunchyroll noch mit deutscher Tonspur? Wenn ja,
+hat der Abruf ihn verloren, und `fetch-cr-einzelwerke` braucht einen Blick. Wenn
+nein, ist die Sache erledigt und diese Datei kann weg.
+
+**Am Datenbestand ist weiterhin nichts geändert.**
+
 ## Nächster Schritt
 
 Den Crunchyroll-Abschnitt gegen den Stand von `a4bdb637` (02.09. 09:45, letzter Bau mit den
