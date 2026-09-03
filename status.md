@@ -37,6 +37,13 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 ## Archiv 03.09.2026: aniSearch als zweite Stimme
 
+- **Zwei Reihenteile hießen gleich — in 74 Reihen.** „Staffel 2" stand bei
+  „Schleim" zweimal untereinander, „Bleach: Thousand-Year Blood War" dreimal.
+  Der Unterschied steckt im Originaltitel („2nd Season" gegen „2nd Season
+  Part 2"); `unterscheidenderZusatz` in `shared/titles.ts` holt ihn zurück.
+  Es bleiben 9 Reihen, in denen auch die Originale gleich lauten (Doraemon,
+  Chibi Maruko-chan) — dort gibt es nichts zu unterscheiden.
+
 - **Der Titelabruf hatte einen Titel offen und 1.534 sichtbare übersehen.** Der
   Jahresfilter („TV/ONA ab 2015") sortierte genau die Formate aus, die in
   Reihenlisten stehen — Specials, OVAs, Filme. Reihenmitglieder kommen jetzt
