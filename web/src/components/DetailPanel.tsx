@@ -2416,21 +2416,22 @@ export function DetailPanel({
           {/*
             **410 px, und der Ausschnitt sitzt tief.**
 
-            Daniel am 03.09.2026: „cover height: 210 -> 410px;
-            background-position: 50% 20 -> 90%; (um kern des covers weiter in
-            focus zu ziehen)". Ein Anime-Cover hat seinen Bildkern selten oben —
-            bei 20 % stand die Kamera im Himmel, bei 90 % auf den Figuren.
+            Daniel am 03.09.2026, in zwei Schritten: erst „cover height: 210 ->
+            410px; background-position: 50% 20 -> 90%", nach dem Ansehen dann
+            „auf 50% 10% und 400px reduzieren (sind paar negativ aufgefallen mit
+            der verschiebung, so ist besser)". Bei 90 % lag der Ausschnitt zu
+            tief — manche Cover zeigten dann den Bildrand statt der Figuren.
 
             Der „Staffel 1"-Block darunter holt einen Teil davon wieder herein
             (sein `-mt-24`): Das Cover bleibt groß, der Weg zum Inhalt kurz.
           */}
-          <div className="relative h-[410px]">
+          <div className="relative h-[400px]">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 bg-cover"
               style={{
                 backgroundImage: buehnenBild ? `url(${buehnenBild})` : undefined,
-                backgroundPosition: '50% 90%',
+                backgroundPosition: '50% 10%',
                 zIndex: -2,
               }}
             />
@@ -2981,7 +2982,7 @@ export function DetailPanel({
                 sie zwischen Kasten und Terminen, mit ihm gehört sie sichtbar
                 zusammen.
               */}
-              <div className="relative -mt-1 rounded-xl border border-slate-200 pb-5 dark:border-white/10">
+              <div className="relative -mt-1 rounded-xl border border-slate-200 dark:border-white/10">
               <div className="max-h-[13.5rem] overflow-y-auto p-2">
                 {(() => {
                   /*
@@ -3232,17 +3233,22 @@ export function DetailPanel({
                 })()}
               </div>
               {/*
-                Ein Verlauf über der Unterkante: Er sagt, dass die Liste
-                weitergeht, und hält den angeschnittenen Eintrag von der Marke
-                darunter fern. Ohne ihn stand „Staffel 3" halb im Text der Marke.
+                **Die Marke steht unter einer eigenen Linie, nicht im Bild.**
+
+                Erst hing sie im Scrollbereich und der letzte Eintrag lag halb in
+                ihrem Text; ein Verlauf half nur halb. Daniel: „border bottom
+                zwischen scrollbereich und ,x teile...' hinzufügen. und x teile
+                gleicher abstand zur border und border darunter … hab einfach
+                line-height:1 gemacht auf den text, dann hat abstand zu den 2
+                bordern gepasst."
+
+                `leading-none` nimmt der Zeile ihre eigene Höhe — dann sind die
+                4 px Polster oben und unten wirklich gleich, statt durch die
+                Zeilenhöhe verschoben.
               */}
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-px bottom-px h-8 rounded-b-xl bg-gradient-to-t from-white via-white/85 to-transparent dark:from-[#0d1220] dark:via-[#0d1220]/85"
-              />
-              <span className="pointer-events-none absolute bottom-1.5 left-3 text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500">
+              <div className="border-t border-slate-200 px-3 py-1 text-[10px] uppercase leading-none tracking-wide text-slate-400 dark:border-white/10 dark:text-slate-500">
                 {t('detail.seriesPartsCount', { count: reihenTeile.length })}
-              </span>
+              </div>
               </div>
               {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
             </div>

@@ -314,7 +314,24 @@ export default function App() {
           onToggleFavorite={toggle}
           onToggleHidden={toggleHidden}
           onClose={() => navigate({ release: undefined, title: undefined })}
-          onOpenTitle={(id) => navigate({ title: id, release: undefined })}
+          /*
+            **Ein Wechsel in der Reihe führt auf dieselbe Adressform wie ein
+            Klick im Kalender.**
+
+            Vorher hieß ein Kalenderklick `?r=ghost-in-the-shell-2026` (über den
+            Release-Slug, weil die Teilen-Seiten unter `/r/<slug>/` liegen) und
+            ein Reihenwechsel `?t=177699` — zwei Adressen für dieselbe Ansicht
+            (Daniel, 03.09.2026: „wieso?"). Wer die zweite teilt, teilt eine
+            Adresse ohne eigene Vorschau.
+
+            Hat der Titel ein Release, gewinnt dessen Slug. Hat er keins — ein
+            Teil ohne deutschen Termin —, bleibt die Kennung; es gibt dann keinen
+            Slug, den man nehmen könnte.
+          */
+          onOpenTitle={(id) => {
+            const slug = data?.releases.find((r) => r.titleId === id)?.slug
+            navigate(slug ? { release: slug, title: undefined } : { title: id, release: undefined })
+          }}
           onFilterBy={(kind, value) => {
             const filters =
               kind === 'genre'
