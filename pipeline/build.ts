@@ -257,7 +257,7 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
    * `data/anime-ids.json`; die Begründung für aniSearch statt TMDB steht dort
    * und in `status.md`.
    */
-  const ausAnisearch = readJson<Record<string, { titel?: string }>>(
+  const ausAnisearch = readJson<Record<string, { titel?: string; anisearchId?: number }>>(
     'data/anisearch-titel.json',
     {},
   )
@@ -272,6 +272,21 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
         titleEn: englisch ?? undefined,
         /* Nur, wenn er wirklich etwas Neues sagt — sonst steht dieselbe Zeichenkette zweimal. */
         titleDe: deutsch && deutsch !== englisch && deutsch !== romaji ? deutsch : undefined,
+        /*
+          **Die Kennung geht mit — sonst nennt die Seite eine Quelle, zu der sie
+          nicht führt.**
+
+          Sie steht in derselben Datei wie der Titel und blieb trotzdem liegen:
+          Im Detail-Panel stand „aniSearch — deutscher Titel, Beschreibung" ohne
+          Verweis, und Daniel fragte zu Recht „warum ist anisearch nicht
+          anklickbar?" (03.09.2026). Gemessen: Titel 186148 trägt dort
+          `anisearchId: 20083`.
+
+          Das ist derselbe Fehlgriff wie am 28.08.2026 beim Feld `titelId` — ein
+          Wert wird geholt, abgelegt und am Ziel nicht ausgepackt. Der Einbau
+          endet am Empfänger, nicht am Sender.
+        */
+        anisearchId: ausAnisearch[String(e.id)]?.anisearchId,
         titleNative: japanisch ?? undefined,
         format: e.format ?? undefined,
         episodes: e.folgen ?? undefined,

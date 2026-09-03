@@ -20,6 +20,16 @@ on:
       # werden kann allein der Bau-Lauf — dort steht auch alles, was er
       # reparieren könnte.
       - 'Bestand — zusammenführen und bauen'
+      # **Die Wache findet, dieser Lauf wertet aus.**
+      #
+      # Am 03.09.2026 meldete die Wache „5 Urteile verloren", und ausgewertet
+      # wurde es erst, als Daniel danach fragte. Sein Einwand: „genau für solche
+      # findings sollte doch der diagnose task da sein, damit wir sehen ob unsere
+      # automatismen wirklich korrekt funktionieren … das ergebnis auswertest und
+      # entsprechend handelst."
+      #
+      # Ein Befund, den niemand liest, ist keine Wache, sondern ein Protokoll.
+      - 'Wache — Delta und Briefkasten'
     types: [completed]
 
 permissions:
@@ -120,11 +130,52 @@ jobs:
             --max-turns 60
             --allowedTools "Bash,Read,Edit,Write,Grep,Glob"
           prompt: |
-            Der Datenlauf „${{ github.event.workflow_run.name }}" ist fehlgeschlagen.
+            Der Lauf „${{ github.event.workflow_run.name }}" ist fehlgeschlagen.
             Lauf-Nummer: ${{ github.event.workflow_run.id }}
             Protokoll: gh run view ${{ github.event.workflow_run.id }} --repo ${{ github.repository }} --log-failed
 
+            **Zwei Arten von Läufen kommen hier an, und sie verlangen
+            Verschiedenes.**
+
+            Ist es die **Wache**, ist am Bau nichts kaputt — sie meldet, dass der
+            **Bestand** etwas verloren hat. Ihr Befund steht im Klartext in
+            `daniel-zum-abarbeiten/00-wache.md`; lies ihn zuerst und miss dann,
+            welcher Lauf und welche Quelle den Verlust gebracht haben. Der
+            Vergleich läuft rein auf Git-Ständen:
+
+                git log --oneline --since="3 days ago" -- data/
+                git show <commit>:public/data/titles.json > /tmp/vorher.json
+
+            Am 03.09.2026 war die Antwort ein Abruf, der seine eigene Datei
+            komplett neu schrieb und dabei 15 Belege verlor, die er beim
+            aktuellen Durchgang nicht mehr als Kandidaten hatte — nachzulesen in
+            `daniel-zum-abarbeiten/14-crunchyroll-filme-synchro-verloren.md`.
+            **Ein Verlust im Bestand ist fast nie ein Fehler im Bau, sondern
+            einer in der Quelle oder in ihrem Abruf.**
+
+            Bei jedem anderen Lauf gilt das Übliche: das Protokoll lesen.
+
             Deine Aufgabe, in dieser Reihenfolge:
+
+            0a. **Bei einem Wache-Befund: schreibe deine Auswertung als Datei**
+                nach `daniel-zum-abarbeiten/00-wache-auswertung.md` und committe
+                sie auf `main`. Nicht nur ein Issue — die Datei ist der Ort, an
+                dem am nächsten Tag jemand nachliest.
+
+                Sie beantwortet vier Fragen, in dieser Reihenfolge, und jede in
+                zwei bis vier Sätzen:
+
+                - **Was läuft korrekt?** Welche Automatik hat getan, was sie
+                  soll — gemessen, nicht vermutet.
+                - **Wo ist Verbesserungspotenzial?** Etwas funktioniert, könnte
+                  aber genauer, billiger oder früher greifen.
+                - **Wo sind echte Risiken und Lücken?** Was würde einen
+                  ähnlichen Verlust nicht bemerken?
+                - **Was läuft komplett falsch?** Mit der Zeile, an der es bricht.
+
+                Steht dort schon eine Auswertung, hänge deine oben an und lass
+                die alten stehen — sie sind der Verlauf, an dem sich zeigt, ob
+                eine Lücke wiederkehrt.
 
             0. **Zuerst den Befund festhalten, dann reparieren.** Sobald du die
                Ursache kennst, öffne ein Issue mit ihr — auch wenn du gleich

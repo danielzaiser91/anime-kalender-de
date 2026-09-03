@@ -1758,6 +1758,37 @@ Alle Datenläufe arbeiten auf GitHubs Rechnern und committen selbst — stündli
 Sendezeiten, täglich alle Quellen, montags der Tiefendurchlauf. Ob Daniels PC läuft, spielt für
 den Datenbestand keine Rolle.
 
+### Die Wache läuft, Claude wertet aus — und beim nächsten Sitzungsstart lese ich beides
+
+Seit dem 03.09.2026 gibt es dafür drei Stufen, und keine ersetzt die andere:
+
+| Stufe | Wer | Wo das Ergebnis liegt |
+|---|---|---|
+| **finden** | `delta-wache.yml`, täglich 09:20 | `daniel-zum-abarbeiten/00-wache.md` |
+| **auswerten** | `claude-reparatur.yml`, bei jedem Befund | `daniel-zum-abarbeiten/00-wache-auswertung.md` |
+| **durchsehen** | ich, **bei jedem Start des Clients** | im Gespräch, mit den nötigen Aufgaben |
+
+Daniel am 03.09.2026: „die wache soll files ablegen, cloud claude soll sie prüfen
+und auswerten, und du guckst am nächsten tag durch was korrekt läuft, wo es
+verbesserungspotential gibt, wo es echte risiken und lücken gibt, und was
+komplett falsch läuft." Auf die Rückfrage, was „nächster Tag" heißt: „meine ich
+nächstes mal wenn ich auf meinem pc claude client starte."
+
+**Also bei jedem Sitzungsstart, nicht kalendarisch.** Läuft der Client eine Woche
+nicht, warten sieben Auswertungen — und die werden dann gelesen, nicht
+übersprungen.
+
+**Warum es die dritte Stufe überhaupt braucht.** Am 03.09.2026 hat die Wache
+gemeldet „5 Urteile verloren", und ausgewertet wurde es erst, als Daniel danach
+fragte. Ein Befund, den niemand liest, ist keine Wache, sondern ein Protokoll.
+Und die Auswertung eines Laufs ist nicht dasselbe wie ihre Beurteilung: Der
+Cloud-Lauf sieht **einen** Vorfall, ich sehe die Reihe — ob dieselbe Lücke zum
+dritten Mal auftaucht, steht in keinem einzelnen Befund.
+
+Durchgesehen wird entlang derselben vier Fragen, die auch die Auswertung
+beantwortet: Was läuft korrekt, wo ist Verbesserungspotenzial, wo sind echte
+Risiken und Lücken, was läuft komplett falsch.
+
 **Zu Beginn jeder Sitzung wird deshalb der Stand abgefragt, nicht vermutet:**
 
 ```bash

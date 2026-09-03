@@ -429,7 +429,11 @@ const TEXTE = {
   'quellen.colFeeds': 'liefert',
   'quellen.feedTermine': 'Termine',
   'quellen.feedWerk': 'Titel, Cover, Genres, Jahr, Studio, Folgenzahl',
-  'quellen.feedDeutsch': 'deutscher Titel, Beschreibung',
+  // aniSearch liefert den **Haupttitel** seiner Seite, nicht zwingend einen
+  // deutschen — bei „Maomao no Hitorigoto Dai 2 Ki" ist es eine zweite
+  // Umschrift (Daniel, 03.09.2026: „warum hat dieser titel japanisch statt
+  // deutschen titel?"). Die Zeile sagt jetzt, was wirklich kommt.
+  'quellen.feedDeutsch': 'Titel und Beschreibung, wo vorhanden auf Deutsch',
   'quellen.feedStimmen': 'deutsche Sprechrollen',
   'quellen.feedAnbieterName': 'Anbieter selbst',
   'quellen.feedAnbieter': 'wo verfügbar, Sprachfassung',
