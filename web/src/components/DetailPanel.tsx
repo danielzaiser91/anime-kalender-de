@@ -154,7 +154,20 @@ function AntwortKasten({
     haupt = [rel, formatDate(e.date)].filter(Boolean).join(', ')
     if (e.episode) haupt += ` — ${T('antwort.folge', { n: e.episode })}`
     neben = [
-      T('antwort.rhythmusWoechentlich', { tag: weekdayName(e.date).slice(0, 2) }),
+      /*
+        **Der Wochentag wird ausgeschrieben, nicht abgeschnitten.**
+
+        `weekdayName(…).slice(0, 2)` machte aus „Freitag" ein „Fr", und mit dem
+        angehängten s stand dort „Wöchentlich Frs" — Daniel am 03.09.2026: „Frs
+        entfernen. wofür steht es? Niemand versteht es… Dann nicht entfernen,
+        sondern ausschreiben."
+
+        Er hat beides richtig gesehen: Das Kürzel war unlesbar, und die
+        Auskunft dahinter ist wertvoll — wer weiß, dass eine Serie freitags
+        kommt, muss nicht täglich nachsehen. Zwei Zeichen zu sparen war der
+        schlechteste denkbare Tausch dafür.
+      */
+      T('antwort.rhythmusWoechentlich', { tag: weekdayName(e.date).toLowerCase() }),
       antwort.letzter && antwort.rest > 1
         ? T('antwort.nochFolgen', { count: antwort.rest - 1, datum: formatDate(antwort.letzter) })
         : T('antwort.letzteFolge'),
@@ -1863,7 +1876,29 @@ export function DetailPanel({
   const antwort = useMemo(() => {
     if (!title) return undefined
 
-    const alleEvents = releases.flatMap((r) => expandEvents(r))
+    /*
+      **Der Kopf beantwortet die Streaming-Frage, nicht die Disc-Frage.**
+
+      Bei „Die Tagebücher der Apothekerin" Staffel 1 stand dort „Morgen,
+      04.09.2026 · Wöchentlich · 23 von 24 Folgen erschienen" — für eine Staffel,
+      die seit dem 20.04.2024 vollständig deutsch bei Crunchyroll liegt. Der
+      Termin gehörte zu einer Blu-ray. Daniel am 03.09.2026: „die staffel ist
+      komplett erschienen, es gibt nur noch ein disc release, was in der
+      folgenzählung etc nicht berücksichtigt werden soll, dort soll nur original
+      deutsches frühstes release stehen."
+
+      Es ist dieselbe Falle wie am 21.08.2026, nur andersherum: Damals machte ein
+      künftiger Disc-Termin aus „auf Netflix längst fertig" ein „läuft noch,
+      0/51". Ein Kaufdatum und ein Sendeplan sind zwei verschiedene Fragen, und
+      der Fortschrittsbalken beantwortet nur die zweite.
+
+      **Gibt es kein Streaming-Release, zählt die Disc wieder** — dann ist sie
+      die einzige Auskunft, die es gibt, und ein leerer Kopf wäre schlechter als
+      ein Kaufdatum.
+    */
+    const ohneDisc = releases.filter((r) => r.releaseType !== 'disc')
+    const fuerKopf = ohneDisc.length ? ohneDisc : releases
+    const alleEvents = fuerKopf.flatMap((r) => expandEvents(r))
     const kuenftig = alleEvents
       .filter((e) => !istErschienen(e))
       .sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))

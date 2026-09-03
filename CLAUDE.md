@@ -1318,6 +1318,34 @@ Datei, nachgeladen bei Bedarf.
 `public/data/` wird **mit committet** — die Seite ist statisch und lädt genau diese Dateien.
 `data/cache/` ist bewusst nicht im Repo; die nächtliche Action baut ihn neu auf.
 
+## Keine Information zweimal
+
+Daniel am 03.09.2026 zum blauen Kasten im Detail-Panel: Dort stand „Auf Deutsch
+verfügbar", darunter „Vollständig synchronisiert" und darunter „Alle 24 Folgen
+auf Deutsch" — drei Zeilen für eine Auskunft. Sein Urteil: „blauer kasten sagt
+quasi 3x das selbe … zusammenfassen zu 1, so spart man sich 3 und benötigt nur
+1 zeile → mehr platz für andere elemente… **Globale Regel: Keine
+Information-Dopplung.**"
+
+**Prüffrage vor jeder Zeile in der Oberfläche: Steht das, was sie sagt, schon
+irgendwo auf demselben Bildschirm?** Wenn ja, wird sie gestrichen — nicht
+umformuliert. Zwei Formulierungen derselben Sache lesen sich wie zwei Angaben,
+und der Leser sucht dann den Unterschied, den es nicht gibt.
+
+Das gilt für die drei Häufungen, die dabei immer wieder auftauchen:
+
+- **Überschrift und Inhalt.** „WO LÄUFT ES" über drei Anbieter-Pillen sagt
+  nichts, was die Pillen nicht selbst zeigen.
+- **Zustand in Wort und Bild.** Ein voller Fortschrittsbalken **und** „Alle 24
+  Folgen auf Deutsch" **und** „Vollständig synchronisiert" sind dreimal dasselbe.
+- **Der Reihenname in jeder Zeile einer Reihe.** Er steht in der Überschrift;
+  darunter gehört nur, was die Teile unterscheidet.
+
+**Die Grenze:** Zwei Angaben, die *heute zufällig* dasselbe sagen, sind keine
+Dopplung. „24 Folgen" im Kopf und „24 von 24 auf Deutsch" im Kasten fallen
+auseinander, sobald eine Staffel halb synchronisiert ist — das ist eine
+Auskunft über zwei verschiedene Dinge, die gerade übereinstimmen.
+
 ## Sprache
 
 Oberfläche, Kommentare, Commit-Messages und Dokumentation auf Deutsch. Feldnamen im Code

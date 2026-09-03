@@ -369,6 +369,8 @@ const TEXTE = {
   'antwort.inTagen': 'In {count} Tagen',
   'antwort.folge': 'Folge {n}',
   'antwort.rhythmusWoechentlich': 'Wöchentlich {tag}s',
+  // „freitags", nicht „Frs" — siehe DetailPanel. Kleingeschrieben, weil es ein
+  // Adverb ist: „wöchentlich freitags".
   'antwort.nochFolgen': 'noch {count} bis zum Finale am {datum}',
   'antwort.letzteFolge': 'letzte Folge',
   'antwort.erschienenZahl': '{raus} von {gesamt} Folgen erschienen',
