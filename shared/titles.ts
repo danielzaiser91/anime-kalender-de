@@ -30,6 +30,24 @@ export function eindeutschenStaffel(name: string): string {
     .replace(/\b(\d+)(?:st|nd|rd|th)\s+Season\b/gi, 'Staffel $1')
     .replace(/\bSeason\s+(\d+)\b/gi, 'Staffel $1')
     .replace(/\bPart\s+(\d+)\b/gi, 'Teil $1')
+    /*
+      **„Cour" und „Part" meinen dasselbe — dann heißen sie auch gleich.**
+
+      Daniel am 03.09.2026, mit zwei Bildern derselben Reihe: „Staffel 3 - Cour 1"
+      neben „Staffel 3 Teil 2". Der eine Name stammt aus aniSearchs deutschem
+      Titel, der andere entsteht hier aus „Part 2" — zwei Wege, zwei Wörter, eine
+      Reihe. Sein Urteil: „Es sollte einheitlich sein."
+
+      Gewählt ist „Teil", weil die Eindeutschung es ohnehin schon setzt: Im
+      Bestand tragen 149 Titel ein „Part N", nur 26 ein „Cour". Die Mehrheit
+      zurückzudrehen wäre der teurere Weg zum selben Ergebnis.
+
+      Ein Cour ist genau genommen ein Sendequartal und nicht jeder beliebige
+      Teil. Für diese Seite zählt aber, was ein deutscher Leser wiedererkennt —
+      und in der Klammerform wie ohne meint es hier immer dieselbe Sache: die
+      zweite Hälfte einer geteilten Staffel.
+    */
+    .replace(/\bCour\s+(\d+)\b/gi, 'Teil $1')
     .replace(/\s{2,}/g, ' ')
     .trim()
 }

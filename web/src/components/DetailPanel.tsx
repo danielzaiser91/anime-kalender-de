@@ -2580,84 +2580,144 @@ export function DetailPanel({
           {reihenTeile.length > 1 && (
             <div>
               <SectionTitle>{t('detail.seriesPartsCount', { count: reihenTeile.length })}</SectionTitle>
-              <div
-            className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1"
-            role="tablist"
-            aria-label={t('detail.seriesParts')}
-          >
-            {reihenTeile.map((m) => {
-              const gewaehlt = m.id === title.id
-              const gemerkt = favorites.has(m.id)
-              return (
-                <button
-                  key={m.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={gewaehlt}
-                  disabled={wechselt}
+              {/*
+                **Eine Liste über die volle Breite, kein Band mehr.**
+
+                Bis zum 03.09.2026 stand hier ein waagerechtes Karussell aus
+                Kacheln von 96 Pixeln. Bei einer Reihe wie „Die Tagebücher der
+                Apothekerin" hießen fünf von sechs Kacheln sichtbar gleich —
+                „Die Tagebücher der Apothekerin…" — und der unterscheidende Teil
+                lag hinter dem Abschnitt. Daniel: „es ist total unklar was man
+                dort anklickt … der titel ist ausgepunktet, die echte info steht
+                danach und man kann es nicht lesen."
+
+                Seine Vorgabe: „mach einträge die die ganze breite nutzen, sodass
+                man komplette titel lesen kann … Links an den einträgen kann das
+                cover sein", dazu eine Höchsthöhe mit drei sichtbaren Einträgen
+                und einem angeschnittenen vierten.
+
+                **Getrennt wird nach erschienen und angekündigt**, nicht nach
+                Werkart (seine Wahl unter drei Entwürfen). Das beantwortet die
+                Frage, mit der jemand hierherkommt: Was kann ich jetzt sehen?
+              */}
+              <div className="mt-1 max-h-[13.5rem] overflow-y-auto pr-1">
+                {(() => {
                   /*
-                    Der aktive Teil wird beim Öffnen sichtbar gemacht.
-
-                    Ohne das steht er bei einer langen Reihe außerhalb des
-                    Bildes: „Ghost in the Shell" hat 21 Teile, der gerade
-                    geöffnete ist der letzte, und das Band beginnt beim Film von
-                    1995. Man sieht nicht, wo man ist, und muss selbst scrollen
-                    (Daniel, 24.08.2026).
-
-                    `block: 'nearest'` verhindert, dass die Seite dabei
-                    senkrecht springt — gescrollt werden soll nur das Band.
+                    **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
+                    2027 ist angekündigt, einer aus 2023 gelaufen — unabhängig
+                    davon, ob wir für ihn eine deutsche Fassung kennen. Fehlt das
+                    Jahr, gilt der Teil als erschienen: Ein Eintrag ohne
+                    Ausstrahlungsjahr ist fast immer ein alter.
                   */
-                  ref={
-                    gewaehlt
-                      ? (el) => el?.scrollIntoView({ block: 'nearest', inline: 'center' })
-                      : undefined
-                  }
-                  onClick={() => !gewaehlt && wechsleZu(m.id)}
-                  className={[
-                    'group/karte relative w-24 shrink-0 snap-start overflow-hidden rounded-lg border text-left transition',
-                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
+                  const jahr = new Date().getFullYear()
+                  const kuenftig = (m: FranchiseMember) => (m.jpYear ?? 0) > jahr
+                  const erschienen = reihenTeile.filter((m) => !kuenftig(m))
+                  const kommt = reihenTeile.filter(kuenftig)
+
+                  const zeile = (m: FranchiseMember, offen: boolean) => {
+                    const gewaehlt = m.id === title.id
+                    const gemerkt = favorites.has(m.id)
                     /*
-                      Zwei Zustände, zwei Farben, und sie dürfen sich nicht ins
-                      Gehege kommen: Blau heißt „das siehst du gerade", Bernstein
-                      „das hast du gemerkt". Ein gemerkter Teil, der zugleich der
-                      gewählte ist, behält den blauen Ring — die Auswahl ist die
-                      dringlichere Auskunft — und trägt den Stern trotzdem.
-                      Gemerkte Karten sind außerdem nie blass: Was man sich
-                      gemerkt hat, soll man im Karussell sofort finden.
+                      **Gezeigt wird der unterscheidende Teil, nicht der ganze
+                      Name.** Der Reihenname steht zwei Zeilen höher; ihn hier
+                      sechsmal zu wiederholen füllt die Breite, die gerade erst
+                      gewonnen wurde. Bleibt nach dem Abzug nichts übrig, steht
+                      der volle Name da — bei der ersten Staffel ist das der
+                      Normalfall.
                     */
-                    gewaehlt
-                      ? 'border-sky-400 ring-2 ring-sky-400/60'
-                      : gemerkt
-                        ? 'cursor-pointer border-amber-400/70 hover:border-amber-400 dark:border-amber-400/60'
-                        : 'cursor-pointer border-slate-200 opacity-70 hover:opacity-100 dark:border-white/10',
-                  ].join(' ')}
-                >
-                  <span className="block aspect-[2/3] w-full bg-slate-200 dark:bg-white/5">
-                    {m.cover && (
-                      <img src={m.cover} alt="" loading="lazy" className="h-full w-full object-cover" />
-                    )}
-                  </span>
-                  {gemerkt && (
-                    <span
-                      className="absolute left-1 top-1 rounded-full bg-black/60 px-1 text-[11px] leading-tight text-amber-400 drop-shadow-[0_0_3px_rgba(251,191,36,.6)]"
-                      aria-label={t('card.unfavourite')}
-                    >
-                      ★
-                    </span>
-                  )}
-                  <span className="block px-1.5 py-1 text-[10px] leading-tight text-slate-600 dark:text-slate-300">
-                    <span className="line-clamp-2 font-medium">{eindeutschenStaffel(m.name)}</span>
-                    <span className="mt-0.5 block text-slate-400 dark:text-slate-500">
-                      {[m.format && m.format !== 'TV' ? (FORMAT_DE[m.format] ?? m.format) : '', m.jpYear]
-                        .filter(Boolean)
-                        .join(' · ')}
-                    </span>
-                  </span>
-                </button>
-              )
-            })}
-          </div>
-          {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
+                    const voll = eindeutschenStaffel(m.name)
+                    const rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
+                      ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()
+                      : voll
+                    const beschriftung = rest || voll
+                    return (
+                      <button
+                        key={m.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={gewaehlt}
+                        disabled={wechselt}
+                        ref={
+                          gewaehlt
+                            ? (el) => el?.scrollIntoView({ block: 'nearest' })
+                            : undefined
+                        }
+                        onClick={() => !gewaehlt && wechsleZu(m.id)}
+                        className={[
+                          'flex w-full items-center gap-2.5 rounded-lg border p-1.5 text-left transition',
+                          'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
+                          gewaehlt
+                            ? 'border-sky-400 bg-sky-50 ring-1 ring-sky-400/50 dark:bg-sky-400/10'
+                            : offen
+                              ? 'cursor-pointer border-dashed border-slate-300 opacity-80 hover:opacity-100 dark:border-white/20'
+                              : gemerkt
+                                ? 'cursor-pointer border-amber-400/70 hover:border-amber-400 dark:border-amber-400/60'
+                                : 'cursor-pointer border-transparent hover:border-slate-200 dark:hover:border-white/10',
+                        ].join(' ')}
+                      >
+                        <span
+                          className={[
+                            'block h-14 w-10 shrink-0 overflow-hidden rounded bg-slate-200 dark:bg-white/5',
+                            offen ? 'opacity-60' : '',
+                          ].join(' ')}
+                        >
+                          {m.cover && (
+                            <img
+                              src={m.cover}
+                              alt=""
+                              loading="lazy"
+                              className="h-full w-full object-cover"
+                            />
+                          )}
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span
+                            className={[
+                              'block text-sm leading-snug',
+                              gewaehlt
+                                ? 'font-medium text-sky-700 dark:text-sky-300'
+                                : 'text-slate-700 dark:text-slate-200',
+                            ].join(' ')}
+                          >
+                            {beschriftung}
+                          </span>
+                          <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400">
+                            {[
+                              m.format && m.format !== 'TV' ? (FORMAT_DE[m.format] ?? m.format) : '',
+                              m.jpYear,
+                              m.episodes ? t('detail.folgenKurz', { n: m.episodes }) : '',
+                            ]
+                              .filter(Boolean)
+                              .join(' · ')}
+                          </span>
+                        </span>
+                        {gemerkt && (
+                          <span className="shrink-0 text-sm text-amber-400" aria-label={t('card.unfavourite')}>
+                            ★
+                          </span>
+                        )}
+                      </button>
+                    )
+                  }
+
+                  return (
+                    <div role="tablist" aria-label={t('detail.seriesParts')} className="flex flex-col gap-0.5">
+                      {erschienen.map((m) => zeile(m, false))}
+                      {kommt.length > 0 && (
+                        <div className="my-1.5 flex items-center gap-2">
+                          <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
+                          <span className="text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                            {t('detail.reiheKuenftig')}
+                          </span>
+                          <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
+                        </div>
+                      )}
+                      {kommt.map((m) => zeile(m, true))}
+                    </div>
+                  )
+                })()}
+              </div>
+              {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
             </div>
           )}
 

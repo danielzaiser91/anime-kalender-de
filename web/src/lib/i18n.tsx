@@ -275,6 +275,8 @@ const TEXTE = {
   'detail.dubFrom': 'Deutsch ab Flg. {n}',
   'detail.genres': 'Genres',
   'detail.seriesPartsCount': '{count} Teile in dieser Reihe',
+  'detail.reiheKuenftig': 'noch nicht erschienen',
+  'detail.folgenKurz': '{n} Fg.',
   'detail.werkangaben': 'Zum Werk',
   'detail.bewertung': 'Bewertung',
   'detail.studio': 'Studio',
