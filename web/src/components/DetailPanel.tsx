@@ -1,11 +1,10 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { Meldung, Quelle, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
+import type { Meldung, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
 import { dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
-import { PLATFORM_TIME_NOTE } from '@shared/mappings.ts'
-import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus, istErschienen } from '@shared/logic.ts'
+import { expandEvents, titleStatus, istErschienen } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -41,8 +40,6 @@ import {
   FavoriteStar,
   HideEye,
   FskBadge,
-  PlatformBadge,
-  ReleaseTypeBadge,
   SectionTitle,
   StatusBadge,
 } from './ui.tsx'
@@ -114,41 +111,6 @@ type Antwort =
    * und Rhythmus gehören dort nicht hin.
    */
   | { art: 'disc'; datum: string; publisher?: string; edition?: string }
-
-/**
- * Der Kasten ganz oben — die Antwort auf „wann, wie weit, wo".
- *
- * **Vier Zeilen in jedem Fall.** Überschrift, Nebenzeile, dann etwas, das den
- * Fortschritt zeigt, dann eine Zählzeile. Auch „keine deutsche Fassung" bekommt
- * beides: einen leeren Balken und „Keine Folge auf Deutsch". Das ist kein
- * Füllmaterial, sondern die ehrlichste Auskunft, die es zu so einem Titel gibt —
- * und es hält den Kasten gleich hoch, damit beim Wechseln des Reihenteils nichts
- * springt.
- *
- * Beim Film tritt an die Stelle des Balkens eine Faktenzeile: Ein
- * Fortschrittsbalken, der immer voll ist, misst nichts.
- */
-/**
- * Hat dieses Release noch einen Termin in der Zukunft?
- *
- * Geprüft wird über die entfalteten Ereignisse, nicht über `firstEpisodeDate`:
- * Eine Wochenserie, die vor drei Wochen begann, hat einen Start in der
- * Vergangenheit und trotzdem neun Folgen vor sich.
- */
-function hatKuenftigenTermin(release: Release, today: string): boolean {
-  if (release.cinemaUntil) return release.cinemaUntil >= today
-  /*
-    **Heute ist nicht vorbei.** `> today` ließ einen Termin verschwinden, sobald
-    sein Tag anbrach: Bei „Die Tagebücher der Apothekerin" Staffel 1 stand die
-    Blu-ray für den 04.09.2026 im Kalender — und um 00:21 desselben Tages war der
-    ganze Terminbereich weg (Daniel, 04.09.2026: „bei staffel 1 gibt es den
-    bereich nicht").
-
-    Genau an dem Tag, an dem etwas erscheint, will man es sehen. `>=` zählt
-    heute mit.
-  */
-  return expandEvents(release).some((e) => e.date >= today)
-}
 
 /**
  * „Auf Deutsch seit …" — die Nebenzeile aus `deErstausgabe`.
@@ -538,612 +500,6 @@ function AntwortKasten({
   )
 }
 
-function ReleaseBlock({ release, today }: { release: Release; today: string }) {
-  const { t } = useLang()
-  const events = useMemo(() => expandEvents(release), [release])
-  const status = releaseStatus(release, today)
-  const last = lastEpisodeDate(release)
-  // „11" neben einer Liste, die bei „2." beginnt, liest sich wie ein Fehler.
-  // Fängt das Release mitten in der Reihe an, steht hier die Spanne.
-  const episodeSpan = useMemo(() => {
-    const count = release.schedule.episodeCount
-    if (!count) return undefined
-    const first = Math.max(1, release.schedule.firstEpisodeNumber ?? 1)
-    return first === 1 ? String(count) : `${first}–${first + count - 1}`
-  }, [release.schedule.episodeCount, release.schedule.firstEpisodeNumber])
-
-  /**
-   * Wie viele Folgen schon da sind — aber nur, solange noch welche kommen.
-   *
-   * „14" beantwortet, wie lang die Staffel wird. Die Frage beim Reinschauen ist
-   * eine andere: Wie viel kann ich jetzt sehen? Deshalb steht bei einer
-   * laufenden Serie **3/14** statt einer nackten Vierzehn (Daniel, 21.08.2026).
-   *
-   * Gezählt wird aus denselben Terminen, die auch die Liste darunter füllt —
-   * sonst widerspräche sich die Seite selbst. Ist alles erschienen, bleibt es
-   * bei der schlichten Zahl: „14/14" sagt nichts, was „14" nicht auch sagt.
-   */
-  const erschienen = useMemo(() => {
-    /**
-     * Gezählt wird nach **Datum und Uhrzeit**, nicht nach Tag.
-     *
-     * Vorher stand hier `e.date <= todayIso()`. Das zählte die heutige Folge
-     * ab Mitternacht mit — bei „Mushoku Tensei" mit Sendezeit 17:00 also
-     * siebzehn Stunden zu früh (Daniel, 23.08.2026: „um 16:59 sollte im panel
-     * 4 stehen, ab 17:00 uhr sollte dort 5 stehen").
-     */
-    const raus = events.filter((e) => istErschienen(e)).length
-    return raus > 0 && raus < events.length ? raus : undefined
-  }, [events])
-  const [showAll, setShowAll] = useState(false)
-  /** Die volle Terminliste erscheint erst auf Wunsch. */
-  const [alleTermine, setAlleTermine] = useState(false)
-  const shown = showAll ? events : events.slice(0, 8)
-
-  /**
-   * Der Satz, der das Datum einordnet — als Hovertext, nicht als Absatz.
-   *
-   * „Im Angebot seit 11.06.2025" liest sich sonst wie ein Erscheinungstermin,
-   * und der wäre bei Sword Art Online zwölf Jahre daneben. Als eigener Absatz
-   * stand die Erklärung aber bei jedem Katalogtitel im Weg. Das gepunktete
-   * Unterstreichen zeigt an, dass da noch etwas steht.
-   */
-  const datumErklaerung =
-    release.dateMeaning === 'available-from' ? t('detail.availableFromNote') : undefined
-
-  /**
-   * Die nächste Folge ist die nächste **noch nicht erschienene**.
-   *
-   * Vorher stand hier `e.date >= today`. Damit blieb der heutige Termin bis
-   * Mitternacht die „nächste Folge" — auch um 22 Uhr, fünf Stunden nachdem sie
-   * lief (Daniel, 23.08.2026, mit Bild: „Nächste Folge 23.08.2026", während
-   * die Zeile darüber schon 5/14 zählte).
-   *
-   * `kuenftige` bleibt bewusst beim Tagesvergleich: Es füttert den
-   * ICS-Export und das Kalender-Abo, und dort gehört der heutige Termin
-   * hinein. Wer eine Datei lädt, will den ganzen Tag darin haben.
-   */
-  const naechster = events.find((e) => !istErschienen(e))
-  const kuenftige = events.filter((e) => e.date >= today)
-
-  /**
-   * Die eine Hauptaktion dieses Termins — Beschriftung samt Zielort.
-   *
-   * Drei Fälle, und sie unterscheiden sich in dem, was der Leser tun **kann**:
-   *
-   * - **Disc, Termin liegt noch vor uns:** Vorbestellen. „Ansehen" wäre hier
-   *   schlicht falsch — es gibt noch nichts zu sehen.
-   * - **Disc, Termin ist durch:** Kaufen.
-   * - **Stream:** Ansehen, mit dem Namen des Anbieters.
-   *
-   * Der Zielort steht in jedem Fall dabei. Ein Knopf, der nicht verrät, wohin er
-   * führt, ist eine Zumutung — man klickt und landet irgendwo (Daniel,
-   * 15.08.2026: „da sollte ein amazon logo sein, wenn der link zu amazon führt,
-   * sodass man vorher bescheid weiß, bevor man draufklickt").
-   */
-  const hauptAktion = useMemo(() => {
-    const kauf = release.buyUrl
-    if (release.releaseType === 'disc' && kauf) {
-      const kuenftig = release.schedule.firstEpisodeDate > today
-      return {
-        url: kauf,
-        label: t(kuenftig ? 'detail.preorderAt' : 'detail.buyAt', { shop: shopName(kauf) }),
-      }
-    }
-    if (release.platformUrl) {
-      return {
-        url: release.platformUrl,
-        label: t('detail.watchOn', { platform: PLATFORMS[release.platform].name }),
-      }
-    }
-    return kauf ? { url: kauf, label: t('detail.buyAt', { shop: shopName(kauf) }) } : undefined
-  }, [release, today, t])
-
-  return (
-    <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
-      <div className="mb-2 flex flex-wrap items-center gap-1.5">
-        <ReleaseTypeBadge type={release.releaseType} />
-        <PlatformBadge platform={release.platform} />
-        <StatusBadge status={status} />
-        {release.fsk !== undefined && <FskBadge fsk={release.fsk} />}
-        {release.schedule.estimated && (
-          <span className="rounded bg-amber-500/15 px-1.5 py-0.5 text-[11px] font-semibold text-amber-500 ring-1 ring-amber-500/40">
-            ≈ {t('detail.estimatedDate')}
-          </span>
-        )}
-      </div>
-
-      {/*
-        **Woher die Schätzung kommt — im Detail, nicht in der Kachel.**
-
-        „Termin abgeleitet" stand bis zum 01.09.2026 als Etikett da und warf die
-        Frage auf, wovon. Daniel: „wir wollen ehrlich sein, aber gleichzeitig
-        vertrauenswürdig und best mögliche quelle. es ist eine schätzung
-        basierend auf bisherigen daten und erfahrungen … aber sicherheit gibt es
-        erst nach bestätigung der titel bei den anbietern."
-
-        Der Satz nennt die **Grundlage**, nicht einen Vorbehalt. Daniels
-        Verschärfung im selben Zug: „unser gewähltes datum, wovon wir ausgehen
-        das es stimmt, sollte nicht von uns selbst angezweifelt werden." Ein
-        Kalender, der seinen eigenen Termin relativiert, nimmt dem Leser die
-        Entscheidung ab, für die er hergekommen ist — deshalb steht dort, woher
-        der Tag kommt und dass wir nachziehen, nicht, dass man ihm misstrauen
-        soll.
-
-        Die Quellen selbst stehen ohnehin weiter unten im Panel, verlinkt.
-      */}
-      {release.schedule.estimated && (
-        <p className="mt-1 text-[11px] leading-snug text-slate-500 dark:text-slate-400">
-          {t('detail.estimatedWhy')}
-        </p>
-      )}
-
-      {/*
-        Der Name des Releases stand hier bis zum 12.08.2026 und wiederholte nur
-        den Eintrag, der drei Zeilen darüber im Umschalter gewählt ist. Zwei
-        Zeilen für dieselbe Auskunft sind eine zu viel.
-      */}
-      {(release.publisher || release.edition) && (
-        <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
-          {[release.publisher, release.edition].filter(Boolean).join(' · ')}
-        </p>
-      )}
-      {/*
-        Eine lange Notiz gehört eingeklappt, nicht in einen gelben Kasten.
-
-        Bis zum 25.08.2026 stand `note` immer voll ausgeschrieben da. Solange
-        dort ein Halbsatz stand („Wiederaufführung zum 25. Jubiläum"), war das
-        richtig. Seit die Kino-Einträge die Fassungslage im Klartext tragen —
-        wie viele Vorstellungen auf Deutsch, wie viele im Original, ab wann nur
-        noch eine —, sind es acht Zeilen, die den Termin darunter wegdrücken.
-
-        Daniel am 25.08.2026: „mach diesen gelben text kürzer, bzw schieb ihn
-        unten in ausklapp bereich oder mach hinter das ‚im kino ab'-datum ein
-        ausklapp icon, und zeig es dann darunter an."
-
-        Kurze Notizen bleiben deshalb sichtbar, lange klappen auf. Die Schwelle
-        liegt bei 120 Zeichen: Das ist etwa das, was in zwei Zeilen passt, ohne
-        den Blick vom Termin zu ziehen.
-      */}
-      {release.note &&
-        (release.note.length <= 120 ? (
-          <p className="mt-1 rounded bg-amber-500/10 px-2 py-1 text-xs text-amber-700 dark:text-amber-300">
-            {release.note}
-          </p>
-        ) : (
-          <details className="group mt-1">
-            <summary className="flex cursor-pointer list-none items-center gap-1 rounded px-2 py-1 text-xs text-amber-700 hover:bg-amber-500/10 dark:text-amber-300">
-              <span aria-hidden className="transition group-open:rotate-90">
-                ›
-              </span>
-              {t('detail.noteToggle')}
-            </summary>
-            <p className="mt-1 rounded bg-amber-500/10 px-2 py-1 text-xs leading-relaxed text-amber-700 dark:text-amber-300">
-              {release.note}
-            </p>
-          </details>
-        ))}
-      {/*
-        Zwei Termine, keiner belegbar — dann stehen beide da.
-
-        Nicht heimlich einen wählen: Wenn zwei Quellen verschiedene Tage nennen
-        und keine sich belegen lässt, bekommt der Leser beide samt Quelle und
-        entscheidet selbst (Daniels Regel, 13.08.2026). Der Kalender führt
-        weiterhin nur einen Termin — zwei Einträge würden behaupten, es gebe
-        zwei Veröffentlichungen, und das wäre die schlimmere Falschaussage.
-      */}
-      {release.disputedDates?.length ? (
-        <p className="mt-1 rounded bg-amber-500/10 px-2 py-1 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
-          {t('detail.disputedDate')}{' '}
-          {release.disputedDates.map((d, i) => (
-            <span key={d.date}>
-              {i > 0 && ', '}
-              <a
-                href={d.source}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="cursor-pointer font-semibold underline decoration-dotted underline-offset-2 hover:text-amber-500"
-              >
-                {formatDate(d.date)}
-              </a>
-            </span>
-          ))}
-          {/*
-            Kein Gedankenstrich. Er stand hier im Bauteil statt im Text und
-            überlebte deshalb den Durchgang durch alle Oberflächentexte
-            (Daniel, 15.08.2026: „das ist eindeutig ki, kein mensch macht das").
-            Wo ein Satz endet, steht ein Punkt.
-          */}
-          {'. '}
-          {t('detail.disputedDateHint')}
-        </p>
-      ) : null}
-      <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
-        <dt className="text-slate-400">
-          {t(
-            release.dateMeaning === 'available-from'
-              ? 'detail.availableFrom'
-              : release.releaseType === 'movie'
-                ? 'detail.startCinema'
-                : release.releaseType === 'disc'
-                  ? 'detail.startDisc'
-                  : 'detail.start',
-          )}
-        </dt>
-        <dd className="tabular-nums">
-          {/*
-            Datum und Uhrzeit in einer Zeile.
-
-            Vorher standen sie als zwei Einträge untereinander, und fehlte die
-            Uhrzeit, stand dort „unbekannt" samt Erklärknopf daneben. Das war
-            eine ganze Zeile für die Auskunft, dass wir nichts wissen — bei
-            Netflix und Prime also fast immer. Jetzt steht die Uhrzeit hinter
-            dem Datum, wenn es eine gibt, und sonst gar nichts (Daniel,
-            12.08.2026).
-          */}
-          {datumErklaerung ? (
-            <Tooltip text={datumErklaerung} unterstrichen>
-              {weekdayName(release.schedule.firstEpisodeDate, true)},{' '}
-              {formatDate(release.schedule.firstEpisodeDate)}
-            </Tooltip>
-          ) : (
-            <>
-              {weekdayName(release.schedule.firstEpisodeDate, true)},{' '}
-              {formatDate(release.schedule.firstEpisodeDate)}
-            </>
-          )}
-          {release.schedule.time && (
-            <span className="text-slate-400"> · {release.schedule.time} Uhr</span>
-          )}
-        </dd>
-        {/*
-          **Warum hier keine Uhrzeit steht — an der Stelle, an der die Frage
-          entsteht.**
-
-          Bis zum 01.09.2026 stand in der Kachel „Zeit offen". Der Satz warf
-          eine Frage auf, statt eine zu beantworten, und Daniels Sorge geht
-          weiter als die Formulierung: „dann zweifeln [Nutzer] das die daten
-          überhaupt stimmen, und vertrauen zu uns verlieren."
-
-          Die Antwort lag längst im Haus — `PLATFORM_TIME_NOTE` steht seit
-          Wochen in `shared/mappings.ts` und wurde nie angezeigt. Meist gibt es
-          die Angabe beim Anbieter schlicht nicht, und das zu sagen ist etwas
-          anderes, als eine Lücke unkommentiert zu lassen.
-        */}
-        {!release.schedule.time && PLATFORM_TIME_NOTE[release.platform] && (
-          <dd className="col-span-2 mt-0.5 text-[11px] leading-snug text-slate-400 dark:text-slate-500">
-            {PLATFORM_TIME_NOTE[release.platform]!.de}
-            {PLATFORM_TIME_NOTE[release.platform]!.source && (
-              <>
-                {' '}
-                <a
-                  href={PLATFORM_TIME_NOTE[release.platform]!.source}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline decoration-dotted underline-offset-2 hover:text-sky-500"
-                >
-                  {t('detail.timeNoteSource')}
-                </a>
-              </>
-            )}
-          </dd>
-        )}
-        {/*
-          Eine Zeile, die sagt, was gerade zählt.
-
-          Vorher standen „Start" und „Letzte Folge" nebeneinander, und bei einer
-          laufenden Serie war beides die Vergangenheit — die Frage „wann kommt
-          die nächste?" beantwortete keine der beiden (Daniel, 15.08.2026).
-          Jetzt richtet sich die Zeile nach dem Stand: kommt noch etwas, steht
-          hier die nächste Folge; ist alles durch, die letzte.
-        */}
-        {release.releaseType === 'weekly' && (
-          <>
-            <dt className="text-slate-400">{t('detail.episodes')}</dt>
-            <dd className="tabular-nums">
-              {/*
-                Beginnt das Release mitten in der Zählung, steht hier die
-                Spanne statt einer nackten Anzahl. „11" neben einer Liste, die
-                bei „2." anfängt, liest sich sonst wie ein Widerspruch.
-              */}
-              {erschienen !== undefined && episodeSpan ? (
-                <>
-                  <span className="text-sky-500 dark:text-sky-400">{erschienen}</span>
-                  <span className="text-slate-400">/</span>
-                  {episodeSpan}
-                </>
-              ) : (
-                (episodeSpan ?? '—')
-              )}
-              {release.schedule.episodeCountAssumed && (
-                <span className="ml-1 text-amber-500">
-                  <Tooltip
-                    text={
-                      release.schedule.episodeCountSource === 'anisearch'
-                        ? t('detail.assumedEpisodesAnisearch')
-                        : t('detail.assumedEpisodes')
-                    }
-                    unterstrichen
-                  >
-                    ≈
-                  </Tooltip>
-                </span>
-              )}
-            </dd>
-            {(naechster || last) && (
-              <>
-                <dt className="text-slate-400">
-                  {t(naechster ? 'detail.nextEpisode' : 'detail.lastEpisode')}
-                </dt>
-                <dd className="tabular-nums">
-                  {formatDate(naechster ? naechster.date : (last as string))}
-                  {/*
-                    Die Uhrzeit gehört hierher, nicht nur zum Start.
-                    „23.08.2026" beantwortet die Frage halb — wer heute Abend
-                    einschalten will, braucht die Stunde (Daniel, 23.08.2026:
-                    „bei nächste folge sollte auch uhrzeit stehen").
-
-                    Am Termin selbst, nicht am Sendeplan: Bei einem geteilten
-                    Start kann die erste Welle zu einer anderen Zeit kommen als
-                    der Wochentakt danach.
-                  */}
-                  {(naechster?.time ?? release.schedule.time) && (
-                    <span className="text-slate-400">
-                      {' · '}
-                      {naechster?.time ?? release.schedule.time} Uhr
-                    </span>
-                  )}
-                </dd>
-              </>
-            )}
-          </>
-        )}
-      </dl>
-
-      {/*
-        Die Hauptaktion nimmt die ganze Zeile, der Rest teilt sich die nächste.
-
-        Vorher standen alle Knöpfe in einer umbrechenden Reihe, und der
-        wichtigste — „Bei ADN ansehen" — war genauso breit wie „Teilen" daneben
-        (Daniel, 15.08.2026). Jetzt liegt er allein oben über die volle Breite,
-        und die übrigen teilen die Zeile darunter zu gleichen Teilen: bei zweien
-        je die Hälfte, bei dreien je ein Drittel. Das übernimmt `grid` mit
-        `auto-cols-fr`, ohne dass die Zahl im Code stehen muss.
-      */}
-      <div className="mt-3 flex flex-col gap-2">
-        {/*
-          **Eine** Hauptaktion, und sie sagt, was passiert und wo.
-
-          Vorher standen hier zwei Knöpfe nebeneinander — „Bei DVD / Blu-ray
-          ansehen" und „Kaufen" —, die bei Disc-Terminen auf **dieselbe** Adresse
-          zeigten (Daniel, 15.08.2026: „was bringt der kaufen button wenn er auf
-          genau das gleiche verlinkt"). Dazu passte „ansehen" nicht: Der Termin
-          liegt in der Zukunft, man kann dort nichts ansehen, man kann
-          vorbestellen.
-
-          Die Beschriftung richtet sich deshalb nach beidem — Art des Releases
-          **und** Lage des Termins —, und der Zielort steht dabei. Das ist das
-          Muster von JustWatch und aniSearch: Handlung plus Anbieter in einem
-          Feld, statt eines Knopfes, der nicht verrät, wohin er führt.
-        */}
-        {hauptAktion && (
-          <Button href={hauptAktion.url} variant="primary" size="sm" breit>
-            {hauptAktion.label}
-          </Button>
-        )}
-        <div className="grid grid-flow-col auto-cols-fr gap-2 empty:hidden">
-        {/*
-          Eintragen kann man nur, was noch kommt.
-
-          Bei einem Katalogtitel, der seit einem Jahr im Angebot ist, führte
-          „Zu Google Calendar" zu einem Termin in der Vergangenheit, und die
-          ICS-Datei enthielt lauter abgelaufene Einträge. Beide Knöpfe standen
-          also überall, halfen aber nur bei einem Bruchteil der Titel (Daniel,
-          12.08.2026).
-        */}
-        {naechster && (
-          <Button href={googleCalendarUrl(naechster)} size="sm">
-            📅 {t('detail.addToGoogleAction')}
-          </Button>
-        )}
-        {kuenftige.length > 0 && (
-          <Button
-            size="sm"
-            onClick={() => downloadIcs(kuenftige, release.name.replace(/[^\w\s-]/g, '').trim() || release.slug)}
-          >
-            ⬇ {t('detail.downloadIcs')}
-            {/*
-              Der Knopf sagt seit dem 24.08.2026 „Kalenderdatei laden" statt
-              „.ics laden" — das Kürzel steht für nichts, was man erraten kann.
-              Womit sich die Datei öffnen lässt, sagt weiterhin der Hinweis; das
-              gehört nicht auf einen Knopf.
-            */}
-            <Tooltip text={t('detail.downloadIcsHint')} seite="oben">
-              <span className="ml-1.5 inline-flex size-4 cursor-help items-center justify-center rounded-full border border-current align-[1px] text-[10px] leading-none font-bold opacity-60">
-                ?
-              </span>
-            </Tooltip>
-          </Button>
-        )}
-        </div>
-      </div>
-
-      {/*
-        Die Terminliste ist zugeklappt. Bei einer Zwölfteiler-Serie standen dort
-        zwölf Zeilen, die fast immer schon vorbei sind — sie füllten das halbe
-        Panel für eine Auskunft, die die wenigsten suchen (Daniel, 15.08.2026).
-      */}
-      {events.length > 1 && !alleTermine && (
-        <button
-          type="button"
-          onClick={() => {
-            // Ein Klick, alle Termine. Vorher klappte er die Liste auf, zeigte
-            // acht davon und verlangte denselben Klick ein zweites Mal (Daniel,
-            // 15.08.2026).
-            setAlleTermine(true)
-            setShowAll(true)
-          }}
-          className="mt-2 cursor-pointer text-xs text-sky-500 hover:underline"
-        >
-          {t('detail.showAllDates', { count: events.length })}
-        </button>
-      )}
-      {events.length > 1 && alleTermine && (
-        <div className="mt-3">
-          <SectionTitle>{t('detail.allDates')}</SectionTitle>
-          <ul className="flex flex-col gap-0.5">
-            {shown.map((ev) => (
-              <li
-                key={ev.id}
-                className={[
-                  'flex items-center gap-2 rounded px-1.5 py-1 text-xs',
-                  ev.date < today ? 'opacity-50' : '',
-                  ev.date === today ? 'bg-sky-500/10 font-semibold text-sky-500' : '',
-                ].join(' ')}
-              >
-                <span className="w-6 shrink-0 tabular-nums text-slate-400">{ev.episode}.</span>
-                <span className="tabular-nums">
-                  {weekdayName(ev.date, true)} {formatDate(ev.date)}
-                </span>
-                <span className="tabular-nums text-slate-400">{ev.time}</span>
-                {/*
-                  Eintragen lässt sich nur, was noch kommt. Bei einer Serie, die
-                  2024 gelaufen ist, stand hinter jeder Folge ein Knopf, der
-                  einen Termin in der Vergangenheit anlegt — sinnlos, und bei
-                  zwölf Folgen zwölfmal (Daniel, 15.08.2026).
-                */}
-                {ev.date >= today && (
-                  <a
-                    className="ml-auto inline-flex cursor-pointer items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-slate-400 transition hover:bg-sky-500/10 hover:text-sky-400"
-                    href={googleCalendarUrl(ev)}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    aria-label={t('detail.addSingle')}
-                  >
-                    📅 <span className="hidden sm:inline">{t('detail.addToGoogle')}</span>
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-          {events.length > 8 && (
-            <button
-              type="button"
-              onClick={() => setShowAll((s) => !s)}
-              className="mt-1 cursor-pointer text-xs text-sky-500 hover:underline"
-            >
-              {showAll ? t('detail.showFewer') : t('detail.showAllDates', { count: events.length })}
-            </button>
-          )}
-        </div>
-      )}
-
-      <Quellenliste release={release} />
-    </section>
-  )
-}
-
-/**
- * Die Belegkette eines Termins — aktuelle Quellen offen, überholte auf Klick.
- *
- * Zwei Anforderungen stehen sich hier gegenüber, und beide sind berechtigt:
- * Eine überholte Quelle darf **nie verloren gehen** (sonst ist später nicht
- * mehr zu klären, woher ein alter Termin kam), aber fünf Adressen unter einem
- * Termin sind Quellen-Spam und niemand liest sie.
- *
- * Die Auflösung ist dieselbe, die Wikipedia für Einzelnachweise wählt: sichtbar
- * bleibt, was den geltenden Stand trägt; alles Ältere steht **eingeklappt mit
- * Anzahl** dahinter und ist einen Klick entfernt.
- */
-function Quellenliste({ release }: { release: Release }) {
-  const { t } = useLang()
-  const [offen, setOffen] = useState(false)
-
-  // Rückfall auf `sources`: ältere Datensätze haben noch keine `quellen`.
-  const alle: Quelle[] =
-    release.quellen ??
-    release.sources.map((url) => ({ url, name: hostname(url), gesehenAm: '', stand: 'aktuell' as const }))
-  if (!alle.length) return null
-
-  const aktuell = alle.filter((q) => q.stand !== 'ueberholt' && q.stand !== 'vermutlich-ueberholt')
-  const alt = alle.filter((q) => q.stand === 'ueberholt' || q.stand === 'vermutlich-ueberholt')
-
-  return (
-    <div className="mt-3 text-[11px] text-slate-400">
-      <p>
-        {t('detail.source')}:{' '}
-        {(aktuell.length ? aktuell : alle).map((q, i) => (
-          <span key={q.url}>
-            {i > 0 && ', '}
-            {istMaschinenquelle(q.url) ? (
-              /*
-                Der Name kommt aus unserer eigenen Plattformliste, nicht aus der
-                Adresse. Ein erster Versuch zerlegte den Hostnamen und machte aus
-                `gw.api.animationdigitalnetwork.com` ein „Api" — geraten statt
-                nachgesehen, und prompt falsch (15.08.2026).
-              */
-              t('detail.sourceProvider', { anbieter: PLATFORMS[release.platform].name })
-            ) : (
-              <a
-                href={q.url}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="underline hover:text-sky-400"
-              >
-                {q.name || hostname(q.url)}
-              </a>
-            )}
-          </span>
-        ))}
-        {release.automatisch && (
-          <>
-            {' · '}
-            <Tooltip text={t('detail.autoSourceHint')}>
-              <span className="cursor-help underline decoration-dotted underline-offset-2">
-                {t('detail.autoSource')}
-              </span>
-            </Tooltip>
-          </>
-        )}
-      </p>
-
-      {alt.length > 0 && (
-        <>
-          <button
-            type="button"
-            onClick={() => setOffen((o) => !o)}
-            className="mt-1 cursor-pointer underline decoration-dotted underline-offset-2 hover:text-sky-400"
-          >
-            {offen
-              ? t('detail.olderSourcesHide')
-              : t(alt.length === 1 ? 'detail.olderSource' : 'detail.olderSources', { count: alt.length })}
-          </button>
-          {offen && (
-            <ul className="mt-1 space-y-0.5 border-l border-slate-300 pl-2 dark:border-slate-700">
-              {alt.map((q) => (
-                <li key={q.url} className="text-slate-400/70 dark:text-slate-500">
-                  <a
-                    href={q.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="line-through underline hover:text-sky-400"
-                  >
-                    {q.name || hostname(q.url)}
-                  </a>{' '}
-                  <span className="italic">
-                    {q.stand === 'ueberholt' ? t('detail.sourceStale') : t('detail.sourceMaybeStale')}
-                  </span>
-                  {q.grund && <span className="block">{q.grund}</span>}
-                </li>
-              ))}
-            </ul>
-          )}
-        </>
-      )}
-    </div>
-  )
-}
-
 /**
  * Was Meldungen über einen Titel sagen, ohne einen Tag zu nennen.
  *
@@ -1416,10 +772,141 @@ function kuerzeUmTitel(name: string, titel?: string): string {
   return rest
 }
 
-function VorbestellPille({ release, titel }: { release: Release; titel?: string }) {
+/**
+ * **„Merken" — ein Symbol, ein Wort, zwei Wege dahinter.**
+ *
+ * Steht in jeder Pille, die einen künftigen Termin trägt: an der Release-Pille
+ * einer Disc ebenso wie an der Anbieter-Pille einer laufenden Serie. Steht
+ * nichts mehr aus, erscheint er nicht — ein Kalendereintrag für etwas
+ * Vergangenes ist kein Angebot, sondern ein Fehlgriff.
+ */
+function MerkenKnopf({
+  release,
+  today,
+  farbe,
+}: {
+  release?: Release
+  today: string
+  farbe?: string
+}) {
   const { t } = useLang()
-  const kurzerName = kuerzeUmTitel(release.name, titel)
-  const ev = expandEvents(release)[0]
+  const [merkenOffen, setMerkenOffen] = useState(false)
+  const kuenftige = release ? expandEvents(release).filter((e) => e.date >= today) : []
+  const ev = kuenftige[0]
+  if (!ev || !release) return null
+  return (
+      <span className="relative ml-2 shrink-0">
+        <button
+          type="button"
+          onClick={() => setMerkenOffen((v) => !v)}
+          aria-expanded={merkenOffen}
+          className="flex h-7 cursor-pointer items-center gap-1 rounded-full px-2 text-[11px] font-medium transition hover:brightness-95 dark:hover:brightness-125"
+          style={farbe ? { background: `${farbe}33`, color: farbe } : undefined}
+        >
+          {/*
+            Gezeichnet, nicht als Zeichen: Ein 🗓-Emoji kam in der
+            Oberflächenschrift nicht vor und erschien als leeres Kästchen
+            (gesehen am 25.08.2026 in beiden Themen). Ein Pfad hängt an keiner
+            Schrift.
+          */}
+          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2" />
+            <path d="M8 3v4M16 3v4M3 10h18M12 14v4M10 16h4" />
+          </svg>
+          {t('detail.merken')}
+        </button>
+        {merkenOffen && (
+          <span className="absolute right-0 top-8 z-20 flex w-max flex-col overflow-hidden rounded-lg border border-slate-200 bg-white text-[12px] shadow-lg dark:border-white/10 dark:bg-[#141b2d]">
+            <a
+              href={googleCalendarUrl(ev)}
+              target="_blank"
+              rel="noreferrer noopener"
+              onClick={() => setMerkenOffen(false)}
+              className="px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-white/10"
+            >
+              {t('detail.merkenGoogle')}
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                /* Alle künftigen Folgen, nicht nur die nächste — genau
+                   dafür lädt jemand eine Kalenderdatei statt einen
+                   Einzeltermin einzutragen. */
+                downloadIcs(kuenftige, release.slug)
+                setMerkenOffen(false)
+              }}
+              className="cursor-pointer px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-white/10"
+            >
+              {t('detail.merkenIcs')}
+            </button>
+          </span>
+        )}
+      </span>
+  )
+}
+
+/**
+ * **Das Medium aus der Editionsangabe** — „Limited Steelbook Edition, Blu-ray"
+ * trägt es am Ende, andere Ausgaben mittendrin. Gesucht wird deshalb im ganzen
+ * Text, und die genauere Angabe gewinnt: „DVD & Blu-ray" ist beides.
+ */
+function mediumAus(edition?: string): string | undefined {
+  if (!edition) return undefined
+  const bd = /blu-?ray/i.test(edition)
+  const dvd = /\bdvd\b/i.test(edition)
+  if (bd && dvd) return 'DVD + BD'
+  if (bd) return 'Blu-ray'
+  if (dvd) return 'DVD'
+  return undefined
+}
+
+/** Der Händlername aus der Adresse — „amazon.de" wird zu „Amazon". */
+function haendlerAus(url?: string): string {
+  if (!url) return 'Shop'
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '').split('.')[0]
+    return host.charAt(0).toUpperCase() + host.slice(1)
+  } catch {
+    return 'Shop'
+  }
+}
+
+function ReleasePille({
+  release,
+  titel,
+  today,
+}: {
+  release: Release
+  titel?: string
+  today: string
+}) {
+  const { t } = useLang()
+  /*
+    **Die Pille sagt, was ein Klick tut — nicht, wie die Ausgabe heißt.**
+
+    Hier stand der gekürzte Releasename: „Staffel 1", darunter „Crunchyroll ·
+    Limited Steelbook Edition, Blu-ray · ab 04.09.2026". Der Titel steht drei
+    Zeilen höher im Kopf, die Edition sagt nichts über das Ziel des Links —
+    und was der Klick tut, stand nirgends. Daniel am 04.09.2026: „in der pill
+    sollte stehen ,[blu-ray] kaufen bei amazon'".
+
+    Also: das Medium als Marke, dahinter die Handlung mit dem Händler. Die
+    Edition rückt in die zweite Zeile, wo sie hingehört — sie unterscheidet
+    Ausgaben, sie benennt keine.
+  */
+  const medium = mediumAus(release.edition)
+  const kurzerName =
+    release.releaseType === 'disc'
+      ? t('detail.kaufenBei', { shop: haendlerAus(release.buyUrl ?? release.platformUrl) })
+      : kuerzeUmTitel(release.name, titel)
+  /*
+    **Der Kalendereintrag gilt dem nächsten Termin, nicht dem ersten.**
+
+    Bei einer Wochenserie, die seit anderthalb Jahren läuft, wäre der erste
+    Termin die Folge 1 von 2023 — ein Eintrag, den niemand braucht. Steht
+    nichts mehr aus, fällt das Symbol weg: Ein Kalendereintrag für etwas
+    Vergangenes ist kein Angebot, sondern ein Fehlgriff.
+  */
   const datum = release.schedule?.firstEpisodeDate
   const farbe = PLATFORMS[release.platform]?.color
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
@@ -1440,35 +927,28 @@ function VorbestellPille({ release, titel }: { release: Release; titel?: string 
           Übrig bleibt, was die Ausgaben unterscheidet: „Vol. 3" statt
           „DAN DA DAN (Staffel 2) – Vol. 3".
         */}
-        <span className="truncate text-[13px] font-medium" style={farbe ? { color: farbe } : undefined}>
-          {kurzerName}
+        <span className="flex min-w-0 items-center gap-1.5 text-[13px] font-medium" style={farbe ? { color: farbe } : undefined}>
+          {medium && (
+            <span className="shrink-0 rounded bg-black/10 px-1 py-px text-[10px] uppercase tracking-wide dark:bg-white/15">
+              {medium}
+            </span>
+          )}
+          <span className="truncate">{kurzerName}</span>
         </span>
         <span className="truncate text-[11px] opacity-80" style={farbe ? { color: farbe } : undefined}>
-          {[zweite, datum && formatDate(datum)].filter(Boolean).join(' · ')}
+          {/*
+            **„ab" oder „seit" — ein nacktes Datum sagt beides.**
+
+            „04.09.2026" allein lässt offen, ob die Ausgabe kommt oder schon da
+            ist; genau diese Frage führt jemanden auf die Seite. Zwei Zeichen
+            beantworten sie.
+          */}
+          {[zweite, datum && t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) })]
+            .filter(Boolean)
+            .join(' · ')}
         </span>
       </a>
-      {ev && (
-        <a
-          href={googleCalendarUrl(ev)}
-          target="_blank"
-          rel="noreferrer noopener"
-          aria-label={t('detail.addToGoogleAction')}
-          title={t('detail.addToGoogleAction')}
-          className="ml-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition hover:brightness-95 dark:hover:brightness-125"
-          style={farbe ? { background: `${farbe}33`, color: farbe } : undefined}
-        >
-          {/*
-            Gezeichnet, nicht als Zeichen: Ein 🗓-Emoji kam in der
-            Oberflächenschrift nicht vor und erschien als leeres Kästchen
-            (gesehen am 25.08.2026 in beiden Themen). Ein Pfad hängt an keiner
-            Schrift.
-          */}
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="16" rx="2" />
-            <path d="M8 3v4M16 3v4M3 10h18M12 14v4M10 16h4" />
-          </svg>
-        </a>
-      )}
+      <MerkenKnopf release={release} today={today} farbe={farbe} />
     </span>
   )
 }
@@ -1511,132 +991,6 @@ function gruppiereKaufwege(links: WatchLink[]): { shop: string; eintraege: { lab
       eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url })),
     }
   })
-}
-
-function gruppiereReleases(releases: Release[]): Release[][] {
-  const nachSchluessel = new Map<string, Release[]>()
-  for (const r of releases) {
-    const key = `${r.platform}|${r.releaseType}|${r.publisher ?? ''}`
-    nachSchluessel.set(key, [...(nachSchluessel.get(key) ?? []), r])
-  }
-  return [...nachSchluessel.values()]
-    .map((g) => g.sort((a, b) => a.schedule.firstEpisodeDate.localeCompare(b.schedule.firstEpisodeDate)))
-    .sort((a, b) => a[0].schedule.firstEpisodeDate.localeCompare(b[0].schedule.firstEpisodeDate))
-}
-
-/**
- * Was eine einzelne Ausgabe von den übrigen der Gruppe unterscheidet.
- *
- * Der gemeinsame Anfang aller Namen fällt weg — bei „Banana Fish – Vol. 1" und
- * „Banana Fish – Vol. 2" bleibt „Vol. 1" und „Vol. 2". Genau das ist die
- * Auskunft, die der Leser sucht; der Serientitel steht drei Zeilen weiter oben.
- */
-function unterscheidung(name: string, alle: string[]): string {
-  if (alle.length < 2) return name
-  let gemeinsam = 0
-  while (gemeinsam < name.length && alle.every((n) => n[gemeinsam] === name[gemeinsam])) gemeinsam++
-  /**
-   * **Auf die letzte Wortgrenze zurück.** Ein Abzug Zeichen für Zeichen
-   * schneidet mitten im Wort: Bei „Banana Fish – Vol. 1" und „… Vol. 2" ist der
-   * gemeinsame Anfang „Banana Fish – Vol. ", übrig bliebe die nackte Ziffer
-   * „1". Genau so stand es am 15.08.2026 im Panel, und „1" allein sagt nichts.
-   * Zurück bis zum letzten Leerzeichen bleibt „Vol. 1" — die Auskunft, die
-   * gemeint war.
-   */
-  const saeubern = (ab: number) => name.slice(ab).replace(/^[\s:–—-]+/, '').trim()
-  let rest = saeubern(gemeinsam)
-  /**
-   * Solange der Rest kein einziges Buchstabenzeichen trägt, ist er noch kein
-   * Wort — dann wird ein Wort weiter zurückgegangen. „1" wird so zu „Vol. 1".
-   * Die Schleife endet spätestens am Anfang des Namens.
-   */
-  while (!/\p{L}/u.test(rest) && gemeinsam > 0) {
-    const vorheriges = name.lastIndexOf(' ', gemeinsam - 1)
-    if (vorheriges < 0) break
-    gemeinsam = vorheriges
-    rest = saeubern(gemeinsam)
-  }
-  return rest || name
-}
-
-/**
- * Mehrere Ausgaben derselben Sache in **einer** Karte.
- *
- * Die Plaketten, der Verlag und die Quellen stehen einmal oben; darunter je
- * Ausgabe genau eine Zeile mit dem, was sie ausmacht: Datum, Unterscheidung,
- * Medium und die eine Aktion, die dort möglich ist. Das ist dieselbe Aufteilung,
- * die JustWatch für seinen Angebotsblock benutzt — ein Rahmen, wechselnder
- * Inhalt — nur ohne Reiter, weil zwei bis vier Zeilen keinen Umschalter
- * brauchen.
- */
-function ReleaseGruppe({ releases, today }: { releases: Release[]; today: string }) {
-  const { t } = useLang()
-  const erste = releases[0]
-  const namen = releases.map((r) => r.name)
-  /**
-   * Je Seite ein Eintrag, auch wenn mehrere Artikel von dort stammen.
-   *
-   * Bei Banana Fish standen zwei verschiedene Anime2You-Artikel hinter den zwei
-   * Ausgaben — angezeigt wurde „Quelle: anime2you.de, anime2you.de", und das
-   * las sich wie ein Fehler statt wie zwei Belege (15.08.2026). Gezeigt wird
-   * jetzt jede Seite einmal, verlinkt auf den ersten Artikel; die übrigen sind
-   * über die Quellenhistorie weiterhin vollständig im Datensatz.
-   */
-  const alleQuellen = [...new Map(releases.flatMap((r) => r.sources).map((s) => [hostname(s), s])).values()]
-
-  return (
-    <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
-      <div className="mb-2 flex flex-wrap items-center gap-1.5">
-        <ReleaseTypeBadge type={erste.releaseType} />
-        <PlatformBadge platform={erste.platform} />
-        {erste.fsk !== undefined && <FskBadge fsk={erste.fsk} />}
-        <span className="text-xs text-slate-500 dark:text-slate-400">
-          {t('detail.editionCount', { count: releases.length })}
-        </span>
-      </div>
-      {erste.publisher && (
-        <p className="mb-2 text-xs text-slate-500 dark:text-slate-400">{erste.publisher}</p>
-      )}
-
-      <ul className="divide-y divide-slate-200 dark:divide-white/10">
-        {releases.map((r) => {
-          const kuenftig = r.schedule.firstEpisodeDate > today
-          return (
-            <li key={r.slug} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2 first:pt-0 last:pb-0">
-              <span className="w-24 shrink-0 text-sm font-semibold tabular-nums text-slate-900 dark:text-white">
-                {formatDate(r.schedule.firstEpisodeDate)}
-              </span>
-              <span className="min-w-0 flex-1 text-xs text-slate-600 dark:text-slate-300">
-                <span className="font-medium">{unterscheidung(r.name, namen)}</span>
-                {r.edition && (
-                  <span className="block text-slate-400 dark:text-slate-500">{r.edition}</span>
-                )}
-              </span>
-              {r.buyUrl && (
-                <Button href={r.buyUrl} variant={kuenftig ? 'primary' : undefined} size="sm">
-                  {t(kuenftig ? 'detail.preorderAt' : 'detail.buyAt', { shop: shopName(r.buyUrl) })}
-                </Button>
-              )}
-            </li>
-          )
-        })}
-      </ul>
-
-      {alleQuellen.length > 0 && (
-        <p className="mt-3 text-[11px] text-slate-400">
-          {t('detail.source')}:{' '}
-          {alleQuellen.map((s, i) => (
-            <span key={s}>
-              {i > 0 && ', '}
-              <a href={s} target="_blank" rel="noreferrer noopener" className="underline hover:text-sky-400">
-                {hostname(s)}
-              </a>
-            </span>
-          ))}
-        </p>
-      )}
-    </section>
-  )
 }
 
 /**
@@ -1688,48 +1042,6 @@ function WeitereTitel({ title }: { title: Title }) {
       )}
     </div>
   )
-}
-
-/**
- * Quellen, die ein Mensch nicht aufschlagen kann.
- *
- * Manche Termine kommen aus einer Programmschnittstelle statt von einer Seite —
- * bei ADN etwa aus `gw.api.animationdigitalnetwork.com`. Diese Adresse als Link
- * anzubieten wäre eine Zumutung: Wer darauf klickt, landet bei JSON oder einer
- * Fehlermeldung. Vorher stand dort ersatzweise die Startseite des Anbieters,
- * und die war schlicht falsch — dort steht keiner dieser Termine (Daniel,
- * 15.08.2026: „das ist keine quelle").
- *
- * Also wird gesagt, was zutrifft: Die Termine kommen vom Anbieter selbst.
- */
-function istMaschinenquelle(url: string): boolean {
-  const host = hostname(url)
-  return host.startsWith('api.') || host.startsWith('gw.api.')
-}
-
-
-
-/**
- * Der Shop, wie ihn ein Mensch nennt — „Amazon", nicht „www.amazon.de".
- *
- * aniSearch schreibt bei seinen Kaufverweisen die Domain aus, und das ist die
- * belegte, funktionierende Lösung für dieselbe Frage: Vor dem Klick wissen,
- * wohin es geht. Wir kürzen sie noch auf den Namen, weil „amazon.de" in einem
- * Knopf mehr nach Adresszeile aussieht als nach Ziel.
- */
-function shopName(url: string): string {
-  const host = hostname(url)
-  const kern = host.replace(/\.(de|com|net|org|co\.uk|fr)$/, '')
-  return kern.charAt(0).toUpperCase() + kern.slice(1)
-}
-
-/** Hostname ohne „www." — der Rest der Adresse sagt dem Leser nichts. */
-function hostname(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, '')
-  } catch {
-    return url
-  }
 }
 
 /**
@@ -2134,8 +1446,29 @@ export function DetailPanel({
     const gruppen = arten.map((art) => ({
       art,
       plattformen: (title?.streams ?? []).filter((s) => (s.zugang ?? 'abo') === art),
+      /*
+        **Was man ansieht, ist Stream — was man kauft, ist Disc.**
+
+        Hier stand `kind === 'stream'` ohne Rücksicht auf die Zugangsart, und
+        weil die ganze `shops`-Liste in die **Disc**-Spalte geht, landete
+        „Crunchyroll über Prime Video" — ein Abo, `kind: stream`,
+        `zugang: abo` — unter Disc (Daniel, 04.09.2026: „dieser link führt
+        nicht zum disc, sondern zum crunchy-abo auf prime … gehört in
+        stream").
+
+        Der Umschalter verspricht „Stream | Disc". Ein Abo unter Disc bricht
+        genau dieses Versprechen — und zwar an der Stelle, an der jemand
+        nachsieht, ob er die Serie kaufen kann.
+      */
+      streamWege: gruppiereKaufwege(
+        (title?.watchLinks ?? []).filter(
+          (w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art && art !== 'kauf',
+        ),
+      ),
       shops: gruppiereKaufwege([
-        ...(title?.watchLinks ?? []).filter((w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art),
+        ...(title?.watchLinks ?? []).filter(
+          (w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art && art === 'kauf',
+        ),
         /**
          * Kaufwege gehören in die Kauf-Gruppe, nicht in einen zweiten Block.
          *
@@ -2147,7 +1480,7 @@ export function DetailPanel({
         ...(art === 'kauf' ? (title?.watchLinks ?? []).filter((w) => w.kind === 'buy') : []),
       ]),
     }))
-    const belegte = gruppen.filter((g) => g.plattformen.length || g.shops.length)
+    const belegte = gruppen.filter((g) => g.plattformen.length || g.shops.length || g.streamWege.length)
     /**
      * Die Überschrift steht nur da, wo es etwas zu trennen gibt — mit einer
      * Ausnahme: **Was Geld kostet, sagt das immer.** Ein Titel, den es nur zu
@@ -2168,12 +1501,55 @@ export function DetailPanel({
    * Gefiltert wird ueber das Startdatum, nicht ueber den Status: Ein Release,
    * das erst naechsten Monat erscheint, ist kein Bezugsweg, sondern ein Termin.
    */
-  const vorbestellungen = useMemo(
+  /*
+    **Jedes Release ist ein Weg, nicht nur das künftige.**
+
+    Bis zum 04.09.2026 standen die Termine in einem eigenen Abschnitt darunter
+    — „RELEASE-TERMINE FÜR DEUTSCHE SYNCHRO", mit Start, Folgenzahl, letzter
+    Folge, Quelle und zwei Kalender-Knöpfen je Eintrag. Bei einer Staffel, die
+    seit anderthalb Jahren durch ist, war das ein halber Bildschirm für eine
+    Auskunft, die der Kasten oben schon gibt (Daniel, 04.09.2026: „eig gehört
+    der bereich immer weg, unabhängig ob in zukunft oder nicht. die titel
+    gehören mit releasedate info in disc/stream bereich … in die pill muss auch
+    der calendar icon + eintrag").
+
+    Ein Release **ist** ein Bezugsweg: Es sagt, wo etwas herkommt und ab wann.
+    Beides passt in eine Pille — Name und Verlag oben, Datum unten, Kalender
+    rechts. Der Abschnitt darunter sagte dasselbe in zwölf Zeilen.
+
+    Getrennt wird nach Art: Eine Disc gehört zu den Kaufwegen, alles Übrige
+    zum Stream.
+  */
+  const discReleases = useMemo(
+    () => releases.filter((r) => r.releaseType === 'disc'),
+    [releases],
+  )
+  /*
+    **Ein Anbieter, eine Pille — auch wenn ein Release dieselbe Plattform
+    meint.**
+
+    Der erste Wurf gab jedem Release eine eigene Pille, und bei „Apothekerin"
+    Staffel 1 stand „Crunchyroll" dadurch zweimal in derselben Zeile: einmal
+    als Anbieter mit „DE ✓", einmal als Release mit „seit 18.11.2023". Zwei
+    Pillen, ein Weg — genau die Dopplung, gegen die `CLAUDE.md` eine eigene
+    Regel führt.
+
+    Das Datum gehört an die Pille, die es betrifft. Eine eigene bekommt nur,
+    was sonst gar nicht dastehen würde.
+  */
+  const releaseJePlattform = useMemo(() => {
+    const je = new Map<string, Release>()
+    for (const r of releases) if (!je.has(r.platform)) je.set(r.platform, r)
+    return je
+  }, [releases])
+  const streamReleases = useMemo(
     () =>
       releases.filter(
-        (r) => r.releaseType === 'disc' && (r.schedule?.firstEpisodeDate ?? '') > today,
+        (r) =>
+          r.releaseType !== 'disc' &&
+          !(title?.streams ?? []).some((s) => s.platform === r.platform),
       ),
-    [releases, today],
+    [releases, title],
   )
 
   const wechsleZu = (id: number) => {
@@ -2906,6 +2282,16 @@ export function DetailPanel({
                             s.teilBereich
                               ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
                               : '',
+                            /* Seit wann es dort läuft — die Angabe, für die es
+                               bis zum 04.09.2026 einen eigenen Abschnitt gab. */
+                            (() => {
+                              const d = releaseJePlattform.get(s.platform)?.schedule?.firstEpisodeDate
+                              return d
+                                ? t(d > today ? 'detail.abDatum' : 'detail.seitDatum', {
+                                    d: formatDate(d),
+                                  })
+                                : ''
+                            })(),
                           ]
                             .filter(Boolean)
                             .join(' · ') || undefined
@@ -2943,7 +2329,16 @@ export function DetailPanel({
                             .filter(Boolean)
                             .join(' · ') || undefined
                         }
-                        rechts={<DubMark dub={s.dub} />}
+                        rechts={
+                          <>
+                            <DubMark dub={s.dub} />
+                            <MerkenKnopf
+                              release={releaseJePlattform.get(s.platform)}
+                              today={today}
+                              farbe={PLATFORMS[s.platform].color}
+                            />
+                          </>
+                        }
                       />
                     )
                   }),
@@ -2973,6 +2368,25 @@ export function DetailPanel({
                         hinweis={t('detail.gone', { d: formatDate(s.entferntAm ?? '') })}
                       />
                     )),
+                  )
+                  /* Ein Abo, das über einen Dritten läuft — „Crunchyroll über
+                     Prime Video". Es steht bei den Streams, weil man es ansieht
+                     und nicht kauft. */
+                  .concat(
+                    sortiertNachZugang.flatMap(({ streamWege }) =>
+                      streamWege.map((g) => (
+                        <Pille
+                          key={`sw-${g.shop}-${g.eintraege[0].url}`}
+                          name={g.shop}
+                          url={g.eintraege[0].url}
+                        />
+                      )),
+                    ),
+                  )
+                  .concat(
+                    streamReleases.map((r) => (
+                      <ReleasePille key={r.slug} release={r} titel={anzeigeName(title)} today={today} />
+                    )),
                   )}
                 /*
                   **Disc ist, was man kauft** — Händler und Vorbestellungen.
@@ -2995,8 +2409,8 @@ export function DetailPanel({
                       />
                     )),
                   ),
-                  ...vorbestellungen.map((r) => (
-                    <VorbestellPille key={r.slug} release={r} titel={anzeigeName(title)} />
+                  ...discReleases.map((r) => (
+                    <ReleasePille key={r.slug} release={r} titel={anzeigeName(title)} today={today} />
                   )),
                 ]}
             />
@@ -3519,20 +2933,26 @@ export function DetailPanel({
             Frage „wann kann ich es sehen", dieser Block die Frage „was steht
             noch an".
           */}
-          {releases.length > 0 && !releases.some((r) => hatKuenftigenTermin(r, today)) ? null : releases.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              <SectionTitle>{t('detail.releases')}</SectionTitle>
-              {gruppiereReleases(releases).map((gruppe) =>
-                gruppe.length > 1 ? (
-                  <ReleaseGruppe key={gruppe[0].slug} releases={gruppe} today={today} />
-                ) : (
-                  <ReleaseBlock key={gruppe[0].slug} release={gruppe[0]} today={today} />
-                ),
-              )}
-              {/* Zusatzangaben zum Termin gehören zum Termin, nicht in einen
-                  eigenen Abschnitt weiter unten (Daniel, 15.08.2026). */}
-              <Meldungen titleId={title.id} />
-            </div>
+          {releases.length > 0 ? (
+            /*
+              **Die Termine stehen in den Pillen — hier steht nichts mehr.**
+
+              Bis zum 04.09.2026 folgte an dieser Stelle ein Abschnitt je
+              Release: Start, Folgenzahl, letzte Folge, Herkunftskasten, Quelle
+              und zwei Kalender-Knöpfe. Bei „Apothekerin" Staffel 1 waren das
+              zwei solche Blöcke für eine Serie, die seit April 2024 durch ist
+              — und der Kasten oben sagte dasselbe in einer Zeile.
+
+              Daniel am 04.09.2026, in drei Schritten: erst „der bereich gehört
+              weg, aber der link zum disc gehört in disc bereich", dann „eig
+              gehört der bereich immer weg, unabhängig ob in zukunft oder nicht.
+              die titel gehören mit releasedate info in disc/stream bereich",
+              schließlich „in die pill muss auch der calendar icon + eintrag".
+
+              **Was bleibt, sind die Meldungen** — Zusatzangaben, die zu keinem
+              einzelnen Termin gehören und in keine Pille passen.
+            */
+            <Meldungen titleId={title.id} />
           ) : (
             /*
               Dieselbe Form wie ein echter Termin, nur mit „unbekannt".
@@ -3709,28 +3129,21 @@ export function DetailPanel({
                 <p className="mt-1.5 text-[11px] text-slate-400">{t('detail.plotOnlyEnglish')}</p>
               )}
               {/*
-                Die Quelle im selben Stil wie unter einem Termin: „Quelle:
-                anisearch.de". Vorher stand sie nur als Fließtext ganz unten in
-                der Metazeile und war weder als Quelle erkennbar noch anklickbar.
+                **Die Quelle steht unten, gesammelt — nicht unter jedem Absatz.**
+
+                Hier stand „Quelle: anisearch.de", und dieselbe Zeile stand
+                unter jedem Terminblock. Seit die Termine in den Pillen sind,
+                blieb sie hier als einzige übrig — eine Fußnote unter einem
+                Absatz, während zwei Handbreit tiefer der Bereich „Woher diese
+                Angaben stammen" alle Quellen zusammen führt, aniSearch
+                eingeschlossen (Daniel, 04.09.2026: „alle stellen wo quelle
+                steht entfernen, sie sind nur noch im quellen bereich zu finden,
+                gebündelt").
+
+                Nichts geht verloren: Die Quellenübersicht führt aniSearch mit
+                „Titel und Beschreibung, wo vorhanden auf Deutsch" — samt Link
+                auf die Werkseite.
               */}
-              {/*
-                Die Quelle steht jetzt an genau einer Stelle und nennt die
-                richtige. Vorher stand sie zweimal da: einmal als Fließtext am
-                Ende der aniSearch-Beschreibung und einmal als Zeile darunter,
-                die pauschal „themoviedb.org" behauptete — auch bei den 2.385
-                Texten, die von aniSearch stammen (Daniel, 12.08.2026).
-              */}
-              <p className="mt-2 text-[11px] text-slate-400">
-                {t('detail.source')}:{' '}
-                <a
-                  href={plot.quelle.url}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="underline hover:text-sky-400"
-                >
-                  {plot.quelle.name}
-                </a>
-              </p>
             </div>
           )}
 

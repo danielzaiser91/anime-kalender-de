@@ -79,6 +79,10 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Limited Steelbook Edition, Blu-ray"
+  # Von Daniel am 04.09.2026 gefunden und weitergegeben. Ohne diese Zeile baut
+  # `build.ts` eine Amazon-**Suchadresse** — die führt auf eine Trefferliste
+  # statt auf die Ausgabe, und ein Kaufweg, den man erst suchen muss, ist keiner.
+  buyUrl: "https://www.amazon.de/Apothecary-Diaries-Tageb%C3%BCcher-Apothekerin-Gesamtausgabe/dp/B0H7HXYQR4"
   schedule: { firstEpisodeDate: "2026-09-04" }
   sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
 
