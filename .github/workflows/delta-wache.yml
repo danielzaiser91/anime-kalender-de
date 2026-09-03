@@ -9,10 +9,14 @@ name: Wache — Delta und Briefkasten
 #
 # Er hat recht, und mehr als das: Sie **braucht** kein Modell. Die Beurteilung
 # steckt längst in `tools/delta-pruefen.mjs` — es endet mit Exit-Code 1, wenn
-# ein Lauf etwas Auffälliges getan hat. Was ein Modell hier tat, war
-# vorlesen. Als Workflow ist die Wache billiger, überlebt jedes Herunterfahren
-# und meldet über den Weg, den dieses Projekt ohnehin nutzt: ein roter Lauf plus
-# GitHubs Fehlermail.
+# ein Lauf etwas Auffälliges getan hat. Was ein Modell hier tat, war vorlesen.
+# Als Workflow ist die Wache billiger, überlebt jedes Herunterfahren und hält
+# ihr Ergebnis dort fest, wo es auch morgen noch steht.
+#
+# **Das Ergebnis landet im Repo, nicht in einem Chat** (Daniel, 03.09.2026: „im
+# chat soll nix stehen, das ergebnis soll als file ins repo"). Eine Meldung im
+# Gespräch ist beim nächsten Start weg; `daniel-zum-abarbeiten/00-wache.md` steht
+# auch in drei Monaten noch da, mit Datum und Vorgeschichte.
 #
 # **Warum es diese Wache überhaupt gibt:** Am 26.08.2026 gingen an einem Abend
 # zweimal Meldungen aus der Browser-Erweiterung verloren, ohne dass ein Lauf rot
@@ -28,7 +32,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: delta-wache
@@ -40,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # Der Datenlauf hat gerade gepusst — diese Wache braucht dessen Stand.
+          # Der Datenlauf hat gerade gepusht — diese Wache braucht dessen Stand.
           ref: main
 
       - uses: actions/setup-node@v4
@@ -50,27 +54,63 @@ jobs:
       # `npm ci` wäre hier Verschwendung: Beide Skripte kommen mit dem aus, was
       # Node selbst mitbringt — kein Import aus `node_modules`.
 
+      # `continue-on-error`, damit die zweite Prüfung auch nach einem Befund
+      # läuft: Zwei Auffälligkeiten am selben Morgen sind wahrscheinlicher als
+      # eine, und die zweite ginge sonst verloren. Über Rot entscheidet der
+      # Schritt am Ende.
       - name: Delta der letzten 24 Stunden
-        run: node tools/delta-pruefen.mjs --tage 1
+        id: delta
+        continue-on-error: true
+        run: node tools/delta-pruefen.mjs --tage 1 | tee delta.txt
 
-      # Läuft auch, wenn die Delta-Prüfung schon rot ist: Zwei Befunde am selben
-      # Morgen sind wahrscheinlicher als einer, und der zweite geht sonst
-      # verloren.
       - name: Briefkasten — kommt Daniels Arbeit an?
-        if: always()
+        id: kasten
+        continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: node tools/briefkasten-wache.mjs
+        run: node tools/briefkasten-wache.mjs | tee briefkasten.txt
+
+      # **Der Exit-Code kommt aus `steps.*.outcome`, nicht aus der Pipe.**
+      #
+      # `node … | tee` gibt den Rückgabewert von `tee` zurück, und der gelingt
+      # immer — derselbe Fehler wie `git push | tail` am 29.08.2026, der drei
+      # Commits eine halbe Stunde lang verschluckt hat. GitHub merkt sich das
+      # Ergebnis des Schritts trotzdem; das ist die verlässliche Quelle.
+      - name: Ergebnis in die Wache-Datei schreiben
+        run: |
+          LAGE=ok
+          if [ "${{ steps.delta.outcome }}" != "success" ] || [ "${{ steps.kasten.outcome }}" != "success" ]; then
+            LAGE=befund
+          fi
+          node tools/wache-schreiben.mjs delta.txt briefkasten.txt "$LAGE"
+          rm -f delta.txt briefkasten.txt
+
+      - name: Änderung committen
+        run: |
+          git config user.name "anime-kalender-bot"
+          git config user.email "bot@anime-kalender.de"
+          git add daniel-zum-abarbeiten/00-wache.md
+          if git diff --staged --quiet; then
+            echo "Keine Änderung an der Wache-Datei."
+            exit 0
+          fi
+          git commit -q -m "chore(wache): Bestand und Briefkasten geprüft"
+          # Der tägliche Datenlauf kann zwischendurch gepusht haben.
+          git pull -q --rebase origin main || true
+          git push -q; echo "push exit=$?"
 
       # Der Lauf meldet sich in Daniels Statusanzeige — dort sieht er ihn neben
-      # den Datenläufen, ohne GitHub zu öffnen.
-      - name: Befund melden
-        if: failure()
+      # den Datenläufen, ohne GitHub zu öffnen. Die Datei bleibt die
+      # ausführliche Fassung.
+      - name: Befund melden und rot werden
+        if: steps.delta.outcome != 'success' || steps.kasten.outcome != 'success'
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: |
           curl -sS -X POST https://newsletter.animekalender.workers.dev/lauf \
             -H "Content-Type: application/json" \
             -H "X-Lauf-Token: $LAUF_TOKEN" \
-            -d "{\"lauf_id\":\"${{ github.run_id }}\",\"zustand\":\"fehler\",\"notiz\":\"Delta-Wache: Auffälligkeit im Bestand oder Briefkasten\"}" \
+            -d "{\"lauf_id\":\"${{ github.run_id }}\",\"zustand\":\"fehler\",\"notiz\":\"Wache: Auffälligkeit — siehe daniel-zum-abarbeiten/00-wache.md\"}" \
             || echo "Meldung an die Statusanzeige fehlgeschlagen — der rote Lauf bleibt trotzdem sichtbar."
+          echo "::error::Auffälligkeit gefunden — Einzelheiten in daniel-zum-abarbeiten/00-wache.md"
+          exit 1
