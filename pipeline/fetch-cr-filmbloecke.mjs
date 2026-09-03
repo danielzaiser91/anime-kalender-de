@@ -144,7 +144,60 @@ for (const o of offen) {
   console.log(`  ${(o.format ?? '?').padEnd(7)} ${(o.titel ?? o.en ?? '').slice(0, 42).padEnd(44)} ${z.padEnd(8)} ${treffer ? treffer.blockTitel.slice(0, 34) : ''}`)
 }
 
-writeFileSync('data/cr-filmbloecke.json', JSON.stringify(funde, null, 2) + '\n')
+/*
+  **Zusammengeführt, nicht ersetzt — sonst löscht dieser Lauf seinen eigenen
+  Ertrag.**
+
+  Die Kandidatenliste oben nimmt nur Titel **ohne** Urteil (`s.dub !== undefined`
+  → überspringen). Wer beim letzten Lauf gefunden wurde und dadurch ein
+  `dub: true` bekam, ist diesmal also kein Kandidat mehr. Wurde die Datei danach
+  komplett neu geschrieben, fiel er heraus — beim nächsten Bau fehlte sein
+  Beleg, er stand wieder ohne Urteil da, und beim übernächsten Lauf war er
+  wieder Kandidat. Ein Kreislauf, der bei jedem Durchgang Belege kostet.
+
+  Gemessen am 03.09.2026: Der Lauf vom Vortag (`f460e90c`, „13 neue Belege") hat
+  die Datei von 32 auf 25 Einträge gebracht und dabei **15** Treffer verloren —
+  darunter „Detektiv Conan: Der Magier des letzten Jahrhunderts", den Daniel am
+  selben Tag mit „Synchro | Untertitel" auf der Crunchyroll-Seite belegt hat. Der
+  Beleg war nie falsch; er war nur nicht mehr in der Datei.
+
+  Das ist die Regel aus `CLAUDE.md` in ihrer schärfsten Form: **Ein Lauf ergänzt
+  und berichtigt — er löscht keine Metadaten.**
+*/
+const vorher = (() => {
+  try {
+    return JSON.parse(readFileSync('data/cr-filmbloecke.json', 'utf8'))
+  } catch {
+    return []
+  }
+})()
+const zusammen = new Map()
+for (const f of Array.isArray(vorher) ? vorher : []) if (f?.id != null) zusammen.set(f.id, f)
+let ersetzt = 0
+let neuDazu = 0
+let behalten = 0
+for (const f of funde) {
+  if (f?.id == null) continue
+  /*
+    Ein Lauf **ohne** Treffer überschreibt einen alten **mit** Treffer nicht.
+    Crunchyroll antwortet nicht jeden Tag gleich; ein Schweigen ist kein Nein —
+    dieselbe Asymmetrie, die dieses Projekt an jeder fremden Quelle anlegt.
+  */
+  const alt = zusammen.get(f.id)
+  if (alt?.treffer && !f.treffer) {
+    behalten++
+    continue
+  }
+  if (alt) ersetzt++
+  else neuDazu++
+  zusammen.set(f.id, f)
+}
+const gesamt = [...zusammen.values()].sort((a, b) => (a.id ?? 0) - (b.id ?? 0))
+console.log(
+  `\n${neuDazu} neu, ${ersetzt} aktualisiert, ${behalten} alter Treffer gegen ein Schweigen behalten, ` +
+    `${gesamt.length} Einträge insgesamt`,
+)
+writeFileSync('data/cr-filmbloecke.json', JSON.stringify(gesamt, null, 2) + '\n')
 const mit = funde.filter((f) => f.treffer)
 console.log(`\n${mit.length} von ${funde.length} über einen eigenen Block gefunden`)
 console.log(`  mit de-DE: ${mit.filter((f) => f.treffer.audio.includes('de-DE')).length}`)

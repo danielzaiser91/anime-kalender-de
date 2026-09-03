@@ -2505,5 +2505,44 @@ console.log('\nVerpasster Termin:')
   )
 }
 
+/* ══ Ein Abruf löscht seinen eigenen Ertrag nicht ═══════════════════════════ */
+{
+  /*
+    **Der teuerste Fehler dieser Art, gemessen am 03.09.2026.**
+
+    `fetch-cr-filmbloecke.mjs` nimmt nur Titel **ohne** Urteil als Kandidaten und
+    schrieb `data/cr-filmbloecke.json` danach komplett neu. Wer beim letzten Lauf
+    gefunden wurde und dadurch ein `dub: true` bekam, war beim nächsten kein
+    Kandidat mehr — und fiel aus der Datei. Beim nächsten Bau fehlte sein Beleg,
+    er stand wieder ohne Urteil da, und beim übernächsten Lauf war er wieder
+    Kandidat. Ein Kreislauf, der bei jedem Durchgang Belege kostet.
+
+    Der Lauf vom 02.09. brachte die Datei von 32 auf 25 Einträge und verlor 15
+    Treffer — darunter „Detektiv Conan: Der Magier des letzten Jahrhunderts", den
+    Daniel am selben Tag mit „Synchro | Untertitel" auf der Seite belegt hat.
+
+    Geprüft wird der **Code**, nicht der Datenstand: Wie viele Einträge die Datei
+    heute hat, hängt vom Abruf ab und ist morgen anders — dass der Abruf
+    zusammenführt statt zu ersetzen, gilt immer.
+  */
+  const abruf = readFileSync(new URL('./fetch-cr-filmbloecke.mjs', import.meta.url), 'utf8')
+  pruefe(
+    'der Filmblock-Abruf liest den alten Stand, bevor er schreibt',
+    /readFileSync\('data\/cr-filmbloecke\.json'/.test(abruf),
+  )
+  pruefe(
+    '… führt beide Stände zusammen',
+    /const zusammen = new Map\(\)/.test(abruf) && /zusammen\.set\(f\.id, f\)/.test(abruf),
+  )
+  pruefe(
+    '… und ein Schweigen überschreibt keinen alten Treffer',
+    /if \(alt\?\.treffer && !f\.treffer\)/.test(abruf),
+  )
+  pruefe(
+    'geschrieben wird der zusammengeführte Stand, nicht die Fundliste',
+    /writeFileSync\('data\/cr-filmbloecke\.json', JSON\.stringify\(gesamt/.test(abruf),
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
