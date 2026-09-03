@@ -104,28 +104,18 @@ export function EventCard({
           ? 'border-amber-400/70 bg-amber-400/[0.07] shadow-[0_0_0_1px_rgba(251,191,36,.25)] hover:border-amber-300'
           : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-white/25 dark:hover:bg-white/[0.08]',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
-        vergangen && !favorite ? 'opacity-60 transition-opacity hover:opacity-100' : '',
+        /* 78 % statt 60 — zurückgenommen, nicht ausgeblendet (Daniel, 03.09.2026). */
+        vergangen && !favorite ? 'opacity-[0.78] transition-opacity hover:opacity-100' : '',
         dense ? 'p-1.5' : 'p-2',
       ].join(' ')}
       /*
-        **Die linke Linie sagt zweierlei — Farbe und Strichart.**
-
-        Die Farbe blieb die Release-Art; sie steht so in der Legende und ist die
-        Ordnung, nach der jemand den Kalender überfliegt. Die **Strichart**
-        übernimmt seit dem 03.09.2026 die Frage nach der Uhrzeit, die vorher zwei
-        Überschriften je Tag gekostet hat („MIT UHRZEIT", „UHRZEIT OFFEN") — bei
-        sieben Spalten vierzehn Zeilen für eine Angabe, die an der Kachel selbst
-        steht. Daniel: „trenner entfernen, stattdessen vertikale linie für alle
-        mit uhrzeit eine und alle ohne andere. legende erklärt."
-
-        **Strichart statt zweiter Farbe**, weil die Farbe schon vergeben ist: Ein
-        zweites Farbsystem an derselben Kante hätte die Release-Art unlesbar
-        gemacht, und die Legende hätte zwei Bedeutungen für dieselbe Linie
-        erklären müssen.
+        Die Farbe der linken Kante ist die Release-Art — so steht es in der
+        Legende. Eine zweite Bedeutung (Strichart für die Uhrzeit) stand hier am
+        03.09.2026 für eine halbe Stunde und ist auf Daniels Wunsch wieder
+        gewichen: „offen-border wieder rückgängig machen." Die Trennüberschriften
+        bleiben trotzdem weg — die Uhrzeit steht an der Kachel.
       */
-      style={{
-        borderLeft: `3px ${event.time ? 'solid' : 'dotted'} ${type.color}`,
-      }}
+      style={{ borderLeft: `3px solid ${type.color}` }}
     >
       {cover && !dense && (
         <img src={cover} alt="" loading="lazy" className="h-14 w-10 shrink-0 rounded object-cover" />

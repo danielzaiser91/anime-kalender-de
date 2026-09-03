@@ -352,7 +352,7 @@ function AntwortKasten({
     */
     <section
       className={[
-        'relative flex h-[9.75rem] flex-col rounded-xl border p-3',
+        'relative flex h-[9.75rem] flex-col rounded-xl border px-3 pb-3 pt-2',
         gedaempft
           ? 'border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.03]'
           : 'border-sky-400/40 bg-gradient-to-b from-sky-500/15 to-transparent dark:border-sky-400/30',
@@ -367,7 +367,13 @@ function AntwortKasten({
         während die Pillen unten klebten. `justify-center` verteilt die Luft auf
         beide Seiten, statt sie an einer Stelle zu sammeln.
       */}
-      <div className="flex flex-1 flex-col justify-center">
+      {/*
+        **Kein `flex-1` mehr am Kopfteil** (Daniel, 03.09.2026: „‚alle folgen'
+        div-element: flex:1 entfernen"). Es zog den Kopf in die Mitte des
+        Kastens und ließ darüber wie darunter Luft; jetzt steht er oben, und der
+        freie Platz sammelt sich über den Pillen, wo er nicht auffällt.
+      */}
+      <div className="flex flex-col">
       <div className="flex items-start gap-2">
       <p
         className={[
@@ -388,7 +394,7 @@ function AntwortKasten({
       */}
       {beides && (
         <div
-          className="ml-auto inline-flex shrink-0 self-start rounded-full border border-slate-300/60 bg-white/70 p-0.5 text-[11px] dark:border-white/15 dark:bg-black/25"
+          className="ml-auto mb-[5px] inline-flex shrink-0 self-start rounded-full border border-slate-300/60 bg-white/70 p-0.5 text-[11px] dark:border-white/15 dark:bg-black/25"
           role="tablist"
           aria-label={T('where.umschalter')}
         >
@@ -1213,6 +1219,44 @@ function Meldungen({ titleId }: { titleId: number }) {
  * auch, crunchy auch." Eine Folgenangabe erscheint nur, wo `dubRanges` eine
  * belegte Grenze kennt — also dort, wo der deutsche Ton wirklich aufhoert.
  */
+/**
+ * **Ein zugegangener Weg sieht aus wie der Weg, nur durchgestrichen.**
+ *
+ * Der Vermerk war bis zum 03.09.2026 abends eine graue Kachel mit gestricheltem
+ * Rand — sie sah aus wie ein Platzhalter, nicht wie „Netflix, aber nicht mehr".
+ * Daniel: „graue netflix box identisch zu netflix pill (rot etc) aber
+ * durchgestrichen mit ?-icon und bei hover/touch — tooltip mit erklärung das aus
+ * bestand entfernt seit <datum>".
+ *
+ * Sie trägt deshalb die Anbieterfarbe wie jede andere Pille, nur gedämpft, und
+ * ist kein Verweis: Ein Klick führte ins Leere, und genau das ist die Auskunft.
+ * Das Fragezeichen trägt den Tooltip — auf einem Gerät ohne Mauszeiger ist ein
+ * Zeichen zum Antippen der einzige Weg zu einer Erklärung.
+ */
+function WegPille({ name, farbe, hinweis }: { name: string; farbe?: string; hinweis: string }) {
+  return (
+    <span
+      className="inline-flex max-w-full shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 opacity-60"
+      style={farbe ? { background: `${farbe}14`, boxShadow: `inset 0 0 0 1px ${farbe}44` } : undefined}
+    >
+      <span
+        className="truncate text-[13px] font-medium line-through"
+        style={farbe ? { color: farbe } : undefined}
+      >
+        {name}
+      </span>
+      <Tooltip text={hinweis} seite="oben">
+        <span
+          className="cursor-help rounded-full border border-current px-1 text-[10px] leading-tight text-slate-500 dark:text-slate-400"
+          aria-label={hinweis}
+        >
+          ?
+        </span>
+      </Tooltip>
+    </span>
+  )
+}
+
 function Pille({
   name,
   farbe,
@@ -2176,6 +2220,22 @@ export function DetailPanel({
    */
   const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
 
+  /** Die AniList-Wertung als Pille — steht neben dem Staffelnamen. */
+  const bewertung =
+    title?.score !== undefined ? (
+      <Tooltip text={t('detail.scoreHint')} seite="oben">
+        <span className="inline-flex shrink-0 cursor-help items-baseline gap-1 rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] dark:bg-white/10">
+          <span className="font-normal text-slate-500 dark:text-slate-400">AniList</span>
+          {/* Der Stern macht auf einen Blick klar, dass es eine Wertung ist und
+              keine Folgenzahl (Daniel, 15.08.2026). */}
+          <span className="text-amber-400" aria-hidden="true">
+            ★
+          </span>
+          <span className="font-semibold tabular-nums">{(title.score / 10).toFixed(1)}</span>
+        </span>
+      </Tooltip>
+    ) : null
+
   if (!title) {
     return (
       <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-lg overflow-y-auto border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
@@ -2341,11 +2401,26 @@ export function DetailPanel({
             {reihenName}
           </h2>
 
-          <div className="relative h-[210px]">
+          {/*
+            **410 px, und der Ausschnitt sitzt tief.**
+
+            Daniel am 03.09.2026: „cover height: 210 -> 410px;
+            background-position: 50% 20 -> 90%; (um kern des covers weiter in
+            focus zu ziehen)". Ein Anime-Cover hat seinen Bildkern selten oben —
+            bei 20 % stand die Kamera im Himmel, bei 90 % auf den Figuren.
+
+            Der „Staffel 1"-Block darunter holt einen Teil davon wieder herein
+            (sein `-mt-24`): Das Cover bleibt groß, der Weg zum Inhalt kurz.
+          */}
+          <div className="relative h-[410px]">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-cover bg-[center_20%]"
-              style={{ backgroundImage: buehnenBild ? `url(${buehnenBild})` : undefined, zIndex: -2 }}
+              className="pointer-events-none absolute inset-0 bg-cover"
+              style={{
+                backgroundImage: buehnenBild ? `url(${buehnenBild})` : undefined,
+                backgroundPosition: '50% 90%',
+                zIndex: -2,
+              }}
             />
             {/*
               **Ein Verlauf, der erst in der unteren Hälfte anfängt.**
@@ -2377,7 +2452,11 @@ export function DetailPanel({
               Symbol behält seinen dunklen Grund: Auf einem hellen Cover wäre ein
               blankes Symbol sonst genauso unlesbar wie blanker Text.
             */}
-            <div className="absolute right-2 top-2 z-10 flex flex-col items-center gap-1.5 rounded-full bg-black/50 px-1 py-2 backdrop-blur-[3px]">
+            {/*
+              In der Ecke, nicht neben ihr: `top-0 right-0`, und gerundet ist nur
+              die Kante, die ins Bild zeigt (Daniel, 03.09.2026).
+            */}
+            <div className="absolute right-0 top-0 z-10 flex flex-col items-center gap-1.5 rounded-bl-lg bg-black/50 px-1.5 py-2 backdrop-blur-[3px]">
               <ShareIcon slug={title.slug} name={anzeigeName(title)} />
               <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
               <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
@@ -2400,8 +2479,18 @@ export function DetailPanel({
               </button>
             </div>
 
-            {/* Die Unterzeile überlappt das Cover — sie kostet damit keine eigene Höhe. */}
-            <p className="absolute left-4 top-1 max-w-[calc(100%-4rem)] rounded-lg bg-[rgba(8,12,18,.74)] px-2.5 py-1 text-xs text-slate-300 backdrop-blur-[3px]">
+            {/*
+              Die Unterzeile überlappt das Cover — sie kostet damit keine eigene
+              Höhe. In der Ecke wie die Bedienelemente gegenüber, gerundet nur
+              zum Bild hin.
+
+              **Die Schreibweisen stehen darin, nicht darunter** (Daniel,
+              03.09.2026: „weitere schreibweisen unter subtitle schieben, selber
+              container nächste zeile"). Als eigene Zeile im Inhaltsbereich
+              kosteten sie 24 px für eine Angabe, die fast niemand aufklappt.
+            */}
+            <div className="absolute left-0 top-0 z-10 max-w-[calc(100%-4rem)] rounded-br-lg bg-[rgba(8,12,18,.74)] px-2.5 py-1 backdrop-blur-[3px]">
+            <p className="text-xs text-slate-300">
               {[
                 title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
                 /*
@@ -2419,6 +2508,8 @@ export function DetailPanel({
                 .filter(Boolean)
                 .join(' · ')}
             </p>
+            <WeitereTitel title={title} />
+            </div>
           </div>
         </div>
 
@@ -2457,7 +2548,26 @@ export function DetailPanel({
           Malschicht wie den Container, ohne einen z-index zu vergeben und ohne
           am Layout etwas zu ändern.
         */}
-        <div className="relative flex flex-col gap-3 p-4">
+        {/*
+          Die Wertung nennt ihre Quelle — sonst sieht es aus, als wäre es
+          unsere. „★ 8.4" ohne Herkunft las sich, als hätten wir diesen Anime
+          selbst bewertet (Daniel, 15.08.2026); wir bewerten nichts, die Zahl ist
+          der Nutzerdurchschnitt von AniList.
+
+          Der Name steht ausgeschrieben statt als Logo: AniList liefert keine
+          Bildmarke zur freien Verwendung, und eine nachgebaute wäre schlechter
+          als ein Wort.
+        */}
+        {/*
+          **Der Block rückt sechs Zeilen ins Cover hinein.**
+
+          Daniel am 03.09.2026: „#3-staffel 1 container: margin-top -6em." Das
+          Cover ist seit derselben Runde 410 px hoch — ohne diesen Versatz läge
+          der erste Inhalt erst darunter, und der Weg zur Antwort wäre länger
+          geworden statt kürzer. So bleibt das Bild groß **und** der Kasten im
+          Blick; der Verlauf trägt den Text, wo er auf dem Bild steht.
+        */}
+        <div className="relative -mt-24 flex flex-col gap-3 p-4">
           {/*
             Der Reihenname steht **über** dem Karussell, der gewählte Teil
             darunter (Daniel, 15.08.2026: „ich hab s3 ausgewählt, es ist kaum
@@ -2498,73 +2608,28 @@ export function DetailPanel({
               weitere Reihenteile hat schlicht keinen unterscheidenden Zusatz;
               dann trägt ihn die Zeile über dem Karussell allein.
             */}
+            {/*
+              **Die Wertung steht vor dem Namen, nicht darunter.**
+
+              Sie war eine eigene Zeile unter dem Staffelnamen — 24 px für eine
+              Pille, die neben ihn passt (Daniel, 03.09.2026: „Rating vor
+              ,Staffel 1'"). `items-baseline` setzt sie auf die Schriftlinie des
+              Namens statt an seine Oberkante.
+            */}
             {reihenTeile.length > 1 && teilName !== reihenName && (
-              <div className="flex items-start gap-2">
-                <h3 className="flex-1 text-xl font-bold leading-tight text-slate-900 dark:text-white">
+              <div className="flex items-baseline gap-2">
+                {bewertung}
+                <h3 className="min-w-0 flex-1 text-xl font-bold leading-tight text-slate-900 dark:text-white">
                   {teilName}
                 </h3>
               </div>
             )}
             {/*
-              Alle weiteren Schreibweisen an **einer** Stelle und eingeklappt.
-
-              Vorbild ist MyAnimeLists „Alternative Titles" mit seinem
-              „More titles"-Aufklapper: Der Titel steht genau einmal groß, alle
-              Varianten gebündelt daneben. Vorher standen Umschrift und
-              Originalschrift als zwei eigene Zeilen dauerhaft im Weg — für eine
-              Auskunft, die die wenigsten suchen und niemand zweimal braucht.
-
-              Die Umschrift bekommt dabei „Staffel" statt „Season": Sie ist
-              ohnehin eine Mischform („Tensei Shitara Slime Datta Ken 4th
-              Season"), und ein zweites „Season" unter einem deutschen
-              „Staffel 4" wäre genau der Widerspruch, um den es ging. Die
-              Originalschrift bleibt unangetastet.
+              Die Pillen-Zeile trug nur noch die Wertung — Status und FSK sind
+              seit dem 13.08.2026 im Terminblock, wo sie je Release gelten. Eine
+              eigene Zeile für eine einzelne Pille ist Platz ohne Auskunft; sie
+              steht jetzt neben dem Staffelnamen (siehe `bewertung` oben).
             */}
-            <WeitereTitel title={title} />
-            <div className="mt-2 flex flex-wrap items-center gap-1.5">
-              {/*
-                Status und FSK standen hier **und** in jedem Terminblock
-                darunter — bei einem Titel mit genau einem Release war das
-                zweimal dieselbe Auskunft im selben Bild (Daniel, 13.08.2026:
-                „erschienen und fsk label werden im panel doppelt angezeigt").
-
-                Weg ist die Angabe hier oben, nicht die unten: Der Terminblock
-                nennt sie **je Release**, und das ist die genauere Aussage —
-                eine Disc kann eine andere Freigabe tragen als der Stream, und
-                „erschienen" gilt für einen Termin, nicht für einen Anime. Die
-                Bewertung bleibt, die gibt es je Titel nur einmal.
-              */}
-              {/*
-                Die Wertung nennt ihre Quelle — sonst sieht es aus, als wäre es
-                unsere.
-
-                „★ 8.4" ohne Herkunft las sich, als hätten wir diesen Anime
-                selbst mit 8,4 bewertet (Daniel, 15.08.2026). Wir bewerten
-                nichts; die Zahl ist der Nutzerdurchschnitt von AniList. Wie man
-                das löst, ist ein gelöstes Problem: JustWatch stellt das Logo der
-                Quelle vor den Wert, MyAnimeList schreibt „scored by 418,623
-                users" dazu, TMDB beschriftet die eigene Wertung wörtlich als
-                „Benutzerbewertung". Gemeinsam ist allen, dass **neben der Zahl
-                steht, wer sie vergeben hat**.
-
-                Hier steht der Name ausgeschrieben statt eines Logos: AniList
-                liefert keine Bildmarke zur freien Verwendung, und ein
-                nachgebautes Logo wäre schlechter als ein Wort.
-              */}
-              {title.score !== undefined && (
-                <Tooltip text={t('detail.scoreHint')} seite="oben">
-                  <span className="inline-flex cursor-help items-baseline gap-1 rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] dark:bg-white/10">
-                    <span className="font-normal text-slate-500 dark:text-slate-400">AniList</span>
-                    {/* Der Stern macht auf einen Blick klar, dass es eine
-                        Wertung ist und keine Folgenzahl (Daniel, 15.08.2026). */}
-                    <span className="text-amber-400" aria-hidden="true">
-                      ★
-                    </span>
-                    <span className="font-semibold tabular-nums">{(title.score / 10).toFixed(1)}</span>
-                  </span>
-                </Tooltip>
-              )}
-            </div>
             {/*
               Format, Jahr und Studio stehen seit dem 24.08.2026 in der Bühne,
               direkt unter dem Titel — dieselbe Angabe zweimal im selben Bild
@@ -2661,13 +2726,12 @@ export function DetailPanel({
                   */
                   .concat(
                     (title.entfernteStreams ?? []).map((s) => (
-                      <span
+                      <WegPille
                         key={`weg-${s.platform}-${s.url}`}
-                        title={t('detail.gone', { d: formatDate(s.entferntAm ?? '') })}
-                        className="inline-flex shrink-0 items-center gap-1 rounded-md border border-dashed border-slate-300 px-2 py-1 text-[11px] text-slate-400 line-through dark:border-white/15 dark:text-slate-500"
-                      >
-                        {PLATFORMS[s.platform]?.name ?? s.platform}
-                      </span>
+                        name={PLATFORMS[s.platform]?.name ?? s.platform}
+                        farbe={PLATFORMS[s.platform]?.color}
+                        hinweis={t('detail.gone', { d: formatDate(s.entferntAm ?? '') })}
+                      />
                     )),
                   )}
                 /*

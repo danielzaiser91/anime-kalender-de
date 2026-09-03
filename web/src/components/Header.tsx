@@ -279,22 +279,6 @@ export function Legend() {
           <span className="text-amber-500">≈</span> {t('legend.estimatedShort')}
         </span>
       </Tooltip>
-      {/*
-        **Die Strichart der linken Kachelkante.**
-
-        Sie hat am 03.09.2026 die beiden Überschriften „MIT UHRZEIT" und
-        „UHRZEIT OFFEN" abgelöst, die in jeder Tagesspalte standen. Hier steht
-        die Erklärung einmal — und sie zeigt die Sache selbst, statt sie zu
-        benennen: zwei kurze Linien im Stil, den die Kacheln tragen.
-      */}
-      <span className="inline-flex items-center gap-1.5">
-        <span className="h-3 w-0 border-l-[3px] border-solid border-slate-400 dark:border-slate-500" />
-        {t('week.withTime')}
-      </span>
-      <span className="inline-flex items-center gap-1.5">
-        <span className="h-3 w-0 border-l-[3px] border-dotted border-slate-400 dark:border-slate-500" />
-        {t('week.withoutTime')}
-      </span>
     </div>
   )
 }
