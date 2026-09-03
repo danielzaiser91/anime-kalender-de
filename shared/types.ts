@@ -523,6 +523,15 @@ export interface FranchiseMember {
   jpYear?: number
   episodes?: number
   /**
+   * Steht dieser Teil nur im Katalog hinter dem Toggle?
+   *
+   * Die Reihe eines geöffneten Titels ist vollständig, unabhängig davon, was
+   * der Toggle gerade zeigt (Daniel, 03.09.2026: „alle 6 sollten im panel immer
+   * sein"). Dass ein Teil noch keine deutsche Fassung hat, gehört trotzdem
+   * sichtbar — die Liste stellt ihn gestrichelt dar.
+   */
+  ohneSynchro?: boolean
+  /**
    * Cover **ohne** Adressvorsatz — `ANILIST_COVER_BASIS` kommt beim Laden dazu.
    *
    * Stand hier bis zum 13.08.2026 bewusst nicht drin: „Sie würden die Datei

@@ -2610,9 +2610,52 @@ export function DetailPanel({
                     Ausstrahlungsjahr ist fast immer ein alter.
                   */
                   const jahr = new Date().getFullYear()
-                  const kuenftig = (m: FranchiseMember) => (m.jpYear ?? 0) > jahr
-                  const erschienen = reihenTeile.filter((m) => !kuenftig(m))
-                  const kommt = reihenTeile.filter(kuenftig)
+                  /*
+                    **Künftig ist, was noch keine deutsche Fassung hat und
+                    frühestens dieses Jahr anfängt.**
+
+                    Das Jahr allein genügt nicht: „Staffel 3 — Teil 1" beginnt am
+                    02.10.2026 und stand mit `jpYear > jahr` bei den erschienenen
+                    (Daniel, 03.09.2026: „staffel 3 gehört auch in noch nicht
+                    erschienen"). Ein Tagesdatum führt die Reihe nicht mit — aber
+                    `ohneSynchro` sagt genau das, worum es hier geht: Für diesen
+                    Teil gibt es hier noch nichts zu sehen.
+
+                    Ein Titel aus einem späteren Jahr ist immer künftig, auch wenn
+                    wir schon eine Fassung kennen.
+                  */
+                  const kuenftig = (m: FranchiseMember) =>
+                    (m.jpYear ?? 0) > jahr || (Boolean(m.ohneSynchro) && (m.jpYear ?? 0) >= jahr)
+                  /*
+                    **Erst die Staffeln, dann alles Übrige — jeweils nach Datum.**
+
+                    Rein chronologisch stand zwischen Staffel 1 und Staffel 2 eine
+                    ONA von 2023 (Daniel: „sortierung der einträge falsch … sie
+                    sollten zuerst nach hauptstaffeln sortiert sein, dann nach
+                    datum"). Wer eine Reihe öffnet, sucht die nächste Staffel; ein
+                    Spin-off dazwischen unterbricht genau die Reihenfolge, die er
+                    im Kopf hat.
+                  */
+                  const nachRang = (a: FranchiseMember, b: FranchiseMember) => {
+                    const rang = (m: FranchiseMember) => (istStaffel(m.format) ? 0 : 1)
+                    return rang(a) - rang(b) || (a.jpYear ?? 0) - (b.jpYear ?? 0) || a.id - b.id
+                  }
+                  const erschienen = reihenTeile.filter((m) => !kuenftig(m)).sort(nachRang)
+                  const kommt = reihenTeile.filter(kuenftig).sort(nachRang)
+
+                  /*
+                    **Die Staffeln werden gezählt, damit die erste „Staffel 1"
+                    heißt.** Sie trägt im Datensatz meist den bloßen Reihennamen;
+                    nach dem Abzug unten bliebe nichts übrig, und im Panel stand
+                    dann derselbe Text wie in der Überschrift darüber (Daniel:
+                    „1. eintrag dort müsste staffel 1 heißen").
+                  */
+                  const staffelNr = new Map<number, number>()
+                  reihenTeile
+                    .filter((m) => istStaffel(m.format))
+                    .slice()
+                    .sort((a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0) || a.id - b.id)
+                    .forEach((m, i) => staffelNr.set(m.id, i + 1))
 
                   const zeile = (m: FranchiseMember, offen: boolean) => {
                     const gewaehlt = m.id === title.id
@@ -2626,10 +2669,26 @@ export function DetailPanel({
                       Normalfall.
                     */
                     const voll = eindeutschenStaffel(m.name)
-                    const rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
+                    let rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
                       ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()
                       : voll
-                    const beschriftung = rest || voll
+                    /*
+                      **Trägt der Name einen fremden Reihennamen, zählt trotzdem
+                      nur die Staffelangabe.**
+
+                      „Kusuriya no Hitorigoto Staffel 3 Teil 2" beginnt nicht mit
+                      unserem Reihennamen, weil für diesen Teil kein deutscher
+                      Titel existiert — der Abzug oben greift dann nicht, und in
+                      der Liste stand der volle japanische Name (Daniel,
+                      03.09.2026). Einen deutschen Namen können wir nicht
+                      erfinden; die Staffelangabe reicht aber, denn welche Reihe
+                      gemeint ist, steht zwei Zeilen höher.
+                    */
+                    const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
+                    if (staffelTeil && rest !== staffelTeil[1]) rest = staffelTeil[1]!
+                    /* Und die erste Staffel heißt „Staffel 1", nicht wie die Reihe. */
+                    const nr = staffelNr.get(m.id)
+                    const beschriftung = rest || (nr ? t('detail.staffelNummer', { n: nr }) : voll)
                     return (
                       <button
                         key={m.id}

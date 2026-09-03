@@ -4263,8 +4263,34 @@ function main(): void {
    * ohne Bild ist keine. Gespeichert wird nur der Dateiname ohne
    * Adressvorsatz; den hängt `loadFranchises` wieder an.
    */
-  const nachReihe = new Map<number, typeof slim>()
-  for (const t of slim) {
+  /*
+    **Eine Reihe ist vollständig oder sie ist keine.**
+
+    Bis zum 03.09.2026 entstand `franchises.json` allein aus `slim`, also aus
+    den Titeln **mit** belegter Synchro. Was hinter dem Toggle liegt, fehlte —
+    und damit hängte der Inhalt des Panels davon ab, ob der Toggle gerade an
+    war: Bei „Die Tagebücher der Apothekerin" standen ohne ihn zwei Teile, mit
+    ihm sechs. Daniel am 03.09.2026: „alle 6 sollten im panel immer sein,
+    unabhängig vom toggle."
+
+    Er hat recht, und zwar aus einem Grund, der über die Bequemlichkeit
+    hinausgeht: Der Toggle beantwortet die Frage „welche Titel will ich in der
+    **Liste** sehen". Die Reihe eines geöffneten Titels ist keine Liste, sondern
+    ein Bestandteil dieses Titels — dass Staffel 3 existiert, hört nicht auf
+    wahr zu sein, weil sie noch keine deutsche Fassung hat.
+
+    Die Katalogtitel gehen deshalb mit, tragen aber `ohneSynchro` — die Liste
+    stellt sie gestrichelt dar, statt sie als gleichwertig auszugeben.
+  */
+  const ausKatalog = readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])
+  const imBestand = new Set(slim.map((t) => t.id))
+  const fuerReihen = [
+    ...slim,
+    ...ausKatalog.filter((t) => !imBestand.has(t.id)).map((t) => ({ ...t, ohneSynchro: true })),
+  ]
+
+  const nachReihe = new Map<number, typeof fuerReihen>()
+  for (const t of fuerReihen) {
     const key = t.franchiseId ?? t.id
     const liste = nachReihe.get(key) ?? []
     liste.push(t)
@@ -4273,12 +4299,18 @@ function main(): void {
   const reihen: Record<number, FranchiseMember[]> = {}
   for (const [key, liste] of nachReihe) {
     if (liste.length < 2) continue
+    /*
+      **Eine Reihe aus lauter Katalogtiteln ist keine.** Sie gehört zu keinem
+      Eintrag, den jemand öffnen könnte, und blähte die Datei nur auf.
+    */
+    if (!liste.some((t) => imBestand.has(t.id))) continue
     reihen[key] = liste.sort(nachAusstrahlung).map((t) => ({
       id: t.id,
       name: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? `#${t.id}`,
       format: t.format,
       jpYear: t.jpYear,
       episodes: t.episodes,
+      ohneSynchro: (t as { ohneSynchro?: boolean }).ohneSynchro || undefined,
       // Nur der Dateiname; den Vorsatz hängt `loadFranchises` wieder an.
       cover: t.coverImage?.startsWith(ANILIST_COVER_BASIS)
         ? t.coverImage.slice(ANILIST_COVER_BASIS.length)
