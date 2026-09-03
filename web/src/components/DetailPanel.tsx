@@ -137,7 +137,17 @@ type Antwort =
  */
 function hatKuenftigenTermin(release: Release, today: string): boolean {
   if (release.cinemaUntil) return release.cinemaUntil >= today
-  return expandEvents(release).some((e) => e.date > today)
+  /*
+    **Heute ist nicht vorbei.** `> today` ließ einen Termin verschwinden, sobald
+    sein Tag anbrach: Bei „Die Tagebücher der Apothekerin" Staffel 1 stand die
+    Blu-ray für den 04.09.2026 im Kalender — und um 00:21 desselben Tages war der
+    ganze Terminbereich weg (Daniel, 04.09.2026: „bei staffel 1 gibt es den
+    bereich nicht").
+
+    Genau an dem Tag, an dem etwas erscheint, will man es sehen. `>=` zählt
+    heute mit.
+  */
+  return expandEvents(release).some((e) => e.date >= today)
 }
 
 /**
@@ -206,8 +216,22 @@ function AntwortKasten({
     kostet keine Höhe mehr.
   */
   const [zeigeDisc, setZeigeDisc] = useState(false)
-  const beides = stream.length > 0 && disc.length > 0
-  const pillen = zeigeDisc && disc.length ? disc : stream.length ? stream : disc
+  /*
+    **Wo noch nichts erschienen ist, gibt es nichts zu sehen.**
+
+    Bei „Apothekerin" Staffel 3 stand „01.10.2026 — Folge 1 … 0 von 12 Folgen
+    erschienen" und darunter eine Crunchyroll-Pille mit „DE ✓" (Daniel,
+    04.09.2026: „trotzdem crunchy pill? wenn 0, dann keine pill"). Die Pille
+    sagt „dort läuft es auf Deutsch" — dort läuft aber noch gar nichts, und der
+    Klick führt auf eine Seite ohne eine einzige Folge.
+
+    **Kaufwege bleiben**, denn eine Vorbestellung ist genau für diesen Zustand
+    da: Man kann sie tätigen, bevor etwas erschienen ist.
+  */
+  const nochNichts = antwort.art === 'laeuft' && antwort.raus === 0
+  const streamPillen = nochNichts ? [] : stream
+  const beides = streamPillen.length > 0 && disc.length > 0
+  const pillen = zeigeDisc && disc.length ? disc : streamPillen.length ? streamPillen : disc
   const T = t as unknown as (k: string, v?: Record<string, string | number>) => string
 
   /** Relative Angabe zuerst — niemand rechnet gern nach, welcher Tag der 25. ist. */
