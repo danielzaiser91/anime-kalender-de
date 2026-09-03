@@ -6,18 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – netflix
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:thunder-3@2026-08-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260826
-DTEND;VALUE=DATE:20260827
-SUMMARY:Thunder 3 – Folge 8/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
- t noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhy
- thmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/thund
- er-3
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-113971-netflix@2026-08-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260831

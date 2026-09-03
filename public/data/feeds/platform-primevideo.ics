@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – primevideo
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:vom-landei-zum-schwertheiligen-2@2026-08-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260826T160000Z
-DTEND:20260826T163000Z
-SUMMARY:Vom Landei zum Schwertheiligen II – Folge 8/12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/vom-landei-zum-schwertheiligen-2
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:ghost-in-the-shell-2026@2026-09-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260901

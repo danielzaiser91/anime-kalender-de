@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Reincarnation
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-08-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260826T133000Z
-DTEND:20260826T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:trapped-in-a-dating-sim-s2@2026-08-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260826T153000Z
-DTEND:20260826T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-08-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260829T093000Z

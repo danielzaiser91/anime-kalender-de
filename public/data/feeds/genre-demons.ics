@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Demons
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:tomb-raider-king@2026-08-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260826T171500Z
-DTEND:20260826T174500Z
-SUMMARY:Tomb Raider King – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/tomb-raider-king
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-08-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260828T150000Z
