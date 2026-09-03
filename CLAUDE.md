@@ -1778,6 +1778,17 @@ nächstes mal wenn ich auf meinem pc claude client starte."
 nicht, warten sieben Auswertungen — und die werden dann gelesen, nicht
 übersprungen.
 
+**Und der Cloud-Lauf trägt seinen Befund als Aufgabe in `status.md` ein.** Das
+ist der Punkt, an dem die Kette ohne Zutun schließt: Der Footer jeder Antwort
+zählt aus `status.md`, also steht der Eintrag beim nächsten Start von selbst da
+— auch wenn niemand daran denkt. Daniel am 03.09.2026: „etwas, was du
+automatisch im blick hast und mitbekommst, auch wenn ich nicht explizit darauf
+hinweise bei der nächsten session an meinem pc."
+
+Ein Vorsatz, der bei jedem Sitzungsstart neu eingehalten werden muss, wird
+übersehen — eine Zeile im Footer nicht. Dieselbe Überlegung wie beim Werkzeug
+zum Aufräumen der roten Läufe (25.08.2026).
+
 **Warum es die dritte Stufe überhaupt braucht.** Am 03.09.2026 hat die Wache
 gemeldet „5 Urteile verloren", und ausgewertet wurde es erst, als Daniel danach
 fragte. Ein Befund, den niemand liest, ist keine Wache, sondern ein Protokoll.

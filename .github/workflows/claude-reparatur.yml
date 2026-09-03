@@ -177,6 +177,22 @@ jobs:
                 die alten stehen — sie sind der Verlauf, an dem sich zeigt, ob
                 eine Lücke wiederkehrt.
 
+            0b. **Und trage eine Aufgabe in `status.md` ein**, im Abschnitt
+                „In Arbeit", mit Story Points und einer Notiz, die den Befund in
+                zwei Sätzen nennt. Das ist kein Zierrat: Der Footer jeder Antwort
+                zählt aus `status.md`, also taucht dein Eintrag beim nächsten
+                Start des Clients von selbst auf — ohne dass jemand daran denken
+                muss.
+
+                Daniel am 03.09.2026: „also sollte entsprechend ein todo angelegt
+                werden vom cloud claude, etwas, was du automatisch im blick hast
+                und mitbekommst, auch wenn ich nicht explizit darauf hinweise bei
+                der nächsten session an meinem pc."
+
+                Hast du die Ursache im selben Lauf behoben, trägst du sie
+                trotzdem ein — als erledigt, mit dem, was zu prüfen bleibt. Eine
+                Reparatur, die niemand gegenprüft, ist eine Behauptung.
+
             0. **Zuerst den Befund festhalten, dann reparieren.** Sobald du die
                Ursache kennst, öffne ein Issue mit ihr — auch wenn du gleich
                danach einen Pull Request machst. Grund: Am 29.08.2026 endete ein
