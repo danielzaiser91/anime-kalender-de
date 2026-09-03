@@ -2119,6 +2119,35 @@ Was es **nicht** ersetzt: alles, was an echten Seitendaten hängt —
 Folgenzählung, Tonspuren, Briefkasten. Dafür bleibt Daniels Sitzung die
 einzige Messstelle.
 
+### Der stündliche Lauf läuft fünfmal am Tag, nicht vierundzwanzigmal
+
+Gemessen am 03.09.2026 über die letzten zwanzig Läufe von „Stündlich —
+Sendezeiten" (`refresh-hourly.yml`, `cron: '23 * * * *'`):
+
+    Abstand zwischen zwei Läufen:  min 2,5 h  ·  median 4,7 h  ·  max 8,3 h
+    Läufe je Tag:                  5,2 statt 24
+
+Das ist kein Fehler in unserer Konfiguration, sondern GitHubs dokumentiertes
+Verhalten: Ein `schedule`-Lauf wird bei Last **verworfen**, nicht nachgeholt, und
+öffentliche Repos ohne laufende Zahlung stehen dabei hinten an. Der Name des
+Workflows behauptet also etwas, das die Plattform nicht einhalten kann.
+
+**Drei Folgen, die man kennen muss, bevor man eine Zahl glaubt:**
+
+- **Sendezeiten sind bis zu acht Stunden alt.** Wer prüft, ob ein Termin
+  eingehalten wurde, misst gegen einen Stand, der einen halben Tag zurückliegen
+  kann — nicht gegen „vor einer Stunde".
+- **Eine Codeänderung erreicht die Daten mit demselben Verzug.** Der Bau
+  (`bestand-bauen.yml`) hängt an den drei Sammel-Läufen; wer heute etwas an der
+  Pipeline ändert und die Wirkung sehen will, stößt ihn selbst an:
+  `gh workflow run bestand-bauen.yml`.
+- **„Stündlich" in einer Notiz oder einem Footer ist eine falsche Angabe.**
+  Richtig ist „mehrmals täglich, im Mittel alle viereinhalb Stunden".
+
+Wer den Takt wirklich braucht, braucht einen anderen Auslöser — einen externen
+Anstößer (`repository_dispatch` von einem Dienst, der pünktlich ist) oder einen
+Lauf auf eigener Hardware. Solange niemand das gebaut hat, gilt die Zahl oben.
+
 ### Und die Seite selbst wird genauso abgebildet — zwei Werkzeuge, ein Griff
 
 Was für die Erweiterung seit dem 02.09.2026 gilt, galt für die Seite bis zum
