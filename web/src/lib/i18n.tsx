@@ -124,7 +124,10 @@ const TEXTE = {
   'week.today': 'heute',
   'week.empty':
     'In dieser Woche liegt kein Termin, der zu den Filtern passt. Mit ← → springst du durch die Wochen.',
-  'week.withTime': 'Mit Uhrzeit',
+  // Standen bis zum 03.09.2026 als Überschrift in jeder Tagesspalte. Jetzt
+  // erklärt die Legende die Strichart der linken Kachelkante — einmal für die
+  // ganze Seite statt vierzehnmal je Woche.
+  'week.withTime': 'feste Uhrzeit',
   'week.withoutTime': 'Uhrzeit offen',
   'month.more': '+{count} weitere',
   'month.openWeek': 'Woche dieses Tages öffnen',

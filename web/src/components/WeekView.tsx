@@ -29,15 +29,6 @@ function splitByTime(events: ReleaseEvent[]): { timed: ReleaseEvent[]; untimed: 
   return { timed, untimed }
 }
 
-function GroupLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-2 px-0.5 pt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
-      <span className="whitespace-nowrap">{children}</span>
-      <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-    </div>
-  )
-}
-
 /**
  * Zwei Farbfelder im heutigen Tag: Vorbei ist grau, was noch kommt bleibt blau.
  *
@@ -275,18 +266,21 @@ export function WeekView({
                   <p className="m-auto text-xs text-slate-400 dark:text-slate-600">{t('week.nothing')}</p>
                 ) : (
                   <>
-                    {timed.length > 0 && (
-                      <>
-                        {untimed.length > 0 && <GroupLabel>{t('week.withTime')}</GroupLabel>}
-                        {isToday ? renderToday(timed) : timed.map(card)}
-                      </>
-                    )}
-                    {untimed.length > 0 && (
-                      <>
-                        {timed.length > 0 && <GroupLabel>{t('week.withoutTime')}</GroupLabel>}
-                        {untimed.map(card)}
-                      </>
-                    )}
+                    {/*
+                      **Keine Überschriften mehr — die Kachel sagt es selbst.**
+
+                      „MIT UHRZEIT" und „UHRZEIT OFFEN" standen in jeder Spalte, an
+                      der die Woche beides trug: bei sieben Spalten bis zu
+                      vierzehn Zeilen für eine Angabe, die an jeder Kachel schon
+                      steht — als Uhrzeit oder als „im Handel". Seit dem
+                      03.09.2026 trennt die Strichart der linken Linie
+                      (durchgezogen / gepunktet), und die Legende erklärt sie
+                      einmal für die ganze Seite statt vierzehnmal.
+
+                      Die Reihenfolge bleibt: erst die mit Uhrzeit, chronologisch.
+                    */}
+                    {isToday ? renderToday(timed) : timed.map(card)}
+                    {untimed.map(card)}
                   </>
                 )}
               </div>

@@ -2431,6 +2431,9 @@ function main(): void {
   const linkBefunde = readJson<
     Record<string, { status: number | string; prime?: boolean; geprueftAm?: string }>
   >('data/link-check.json', {})
+  /** Wie oft der Kanal-Verweis mit dem Crunchyroll-Befund entfallen ist. */
+  let kanalMitEntfernt = 0
+
   for (const title of titles.values()) {
     /**
      * Tote Verweise verschwinden, statt ein „✕" zu bekommen.
@@ -2591,6 +2594,38 @@ function main(): void {
       }
       if (jeAnbieter.size) title.entfernteStreams = [...jeAnbieter.values()]
     }
+
+    /*
+      **Crunchyroll über Prime Video ist Crunchyroll.**
+
+      Der Kanal zeigt denselben Katalog — wer ihn bei Prime dazubucht, sieht
+      dort, was Crunchyroll führt, und sonst nichts. Daniel am 03.09.2026:
+      „crunchy in prime ist identisch zu crunchy, also wenn wir crunchy in prime
+      pills haben, und sie gleichzeitig laut unserem Bestand nicht in crunchy
+      sind, dann sind sie auch nicht in crunchy in prime."
+
+      Deshalb erbt der Kanal-Verweis den Befund: Ist der Crunchyroll-Verweis
+      **belegt entfallen** — kein Deutsch, nicht mehr abrufbar —, dann führt der
+      Weg über Prime genauso ins Leere und verschwindet mit.
+
+      **Was er nicht erbt, ist das Schweigen.** Ein Titel ohne
+      Crunchyroll-Verweis heißt meist nur, dass wir keine Adresse kennen; dort
+      ist der Kanal-Verweis der einzige Hinweis überhaupt und bleibt stehen. Der
+      Unterschied ist derselbe wie überall in diesem Projekt: Gestrichen wird,
+      was eine Quelle **aktiv widerlegt**.
+    */
+    const crWeg = (title.entfernteStreams ?? []).some((s) => s.platform === 'crunchyroll')
+    const crDa = title.streams.some((s) => s.platform === 'crunchyroll')
+    if (crWeg && !crDa && title.watchLinks?.length) {
+      const vorher = title.watchLinks.length
+      title.watchLinks = title.watchLinks.filter(
+        (w) => !/crunchyroll/i.test(w.name ?? '') || !/prime/i.test(w.name ?? ''),
+      )
+      kanalMitEntfernt += vorher - title.watchLinks.length
+    }
+  }
+  if (kanalMitEntfernt) {
+    log(`${kanalMitEntfernt} Kanal-Verweise „Crunchyroll über Prime Video" entfernt — Crunchyroll selbst ist dort belegt weg`)
   }
   /**
    * Verweise, die es nur von Hand gibt.

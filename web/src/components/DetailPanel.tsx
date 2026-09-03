@@ -352,15 +352,43 @@ function AntwortKasten({
     */
     <section
       className={[
-        'relative flex h-[11.75rem] flex-col rounded-xl border p-3',
+        'relative flex h-[9.75rem] flex-col rounded-xl border p-3',
         gedaempft
           ? 'border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.03]'
           : 'border-sky-400/40 bg-gradient-to-b from-sky-500/15 to-transparent dark:border-sky-400/30',
       ].join(' ')}
     >
+      {/*
+        **Der Kopf steht mittig im freien Platz.**
+
+        Die feste Höhe ist auf den längsten Zustand gerechnet — eine laufende
+        Staffel mit Datum, Rhythmus, Balken und Zählzeile. Bei „Alle 24 Folgen
+        auf Deutsch" bleibt davon eine Zeile übrig, und oben klaffte ein Loch,
+        während die Pillen unten klebten. `justify-center` verteilt die Luft auf
+        beide Seiten, statt sie an einer Stelle zu sammeln.
+      */}
+      <div className="flex flex-1 flex-col justify-center">
+      <div className="flex items-start gap-2">
+      <p
+        className={[
+          'text-lg font-bold leading-tight tracking-tight',
+          gedaempft ? 'text-slate-500 dark:text-slate-400' : 'text-slate-900 dark:text-white',
+        ].join(' ')}
+      >
+        {haupt}
+      </p>
+      {/*
+        **Überschrift und Umschalter teilen sich eine Zeile.**
+
+        Der Umschalter saß bis zum 03.09.2026 abends absolut in der Ecke und
+        über der Überschrift — zwei Zeilen für zwei Angaben, die nebeneinander
+        passen. Daniel: „headline auf selbe zeile wie den toggle, trennstrich
+        genau darunter, dann die pills. box müsste also um ~2 zeilen kleiner
+        werden."
+      */}
       {beides && (
         <div
-          className="absolute right-2.5 top-2.5 inline-flex rounded-full border border-slate-300/60 bg-white/70 p-0.5 text-[11px] dark:border-white/15 dark:bg-black/25"
+          className="ml-auto inline-flex shrink-0 self-start rounded-full border border-slate-300/60 bg-white/70 p-0.5 text-[11px] dark:border-white/15 dark:bg-black/25"
           role="tablist"
           aria-label={T('where.umschalter')}
         >
@@ -386,26 +414,7 @@ function AntwortKasten({
           ))}
         </div>
       )}
-      {/*
-        **Der Kopf steht mittig im freien Platz.**
-
-        Die feste Höhe ist auf den längsten Zustand gerechnet — eine laufende
-        Staffel mit Datum, Rhythmus, Balken und Zählzeile. Bei „Alle 24 Folgen
-        auf Deutsch" bleibt davon eine Zeile übrig, und oben klaffte ein Loch,
-        während die Pillen unten klebten. `justify-center` verteilt die Luft auf
-        beide Seiten, statt sie an einer Stelle zu sammeln.
-      */}
-      <div className="flex flex-1 flex-col justify-center">
-      <p
-        className={[
-          'text-lg font-bold leading-tight tracking-tight',
-          /* Platz für den Umschalter, damit eine lange Überschrift nicht darunter läuft. */
-          beides ? 'pr-28' : '',
-          gedaempft ? 'text-slate-500 dark:text-slate-400' : 'text-slate-900 dark:text-white',
-        ].join(' ')}
-      >
-        {haupt}
-      </p>
+      </div>
       {neben && (
         <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400" title={nebenTitel}>
           {neben}
@@ -453,10 +462,19 @@ function AntwortKasten({
       </div>
       {pillen.length > 0 && (
         <div className="border-t border-slate-200/70 pt-2.5 dark:border-white/10">
-          <div
-            className="grid min-h-[4.25rem] grid-flow-col grid-rows-2 justify-start gap-1.5 overflow-x-auto pb-1"
-            style={{ gridAutoColumns: 'max-content' }}
-          >
+          {/*
+            **Eine Reihe, nicht zwei.**
+
+            Bis zum 03.09.2026 abends waren zwei Reihen fest reserviert, und
+            `grid-flow-col` füllte erst die Spalte: Zwei Pillen standen
+            untereinander, obwohl nebeneinander Platz für vier gewesen wäre.
+            Daniel: „zu viel platz verschwendung."
+
+            Jetzt eine Reihe, die nach rechts läuft. Der Kasten behält seine
+            feste Höhe, und was nicht hineinpasst, wird gescrollt statt den Kopf
+            zu verschieben.
+          */}
+          <div className="flex min-h-[2.1rem] items-start gap-1.5 overflow-x-auto pb-1">
             {pillen}
           </div>
         </div>
@@ -2294,96 +2312,96 @@ export function DetailPanel({
           sobald ein Bereich darunter aufklappt — der Klick sähe aus, als hätte
           er das Bild verändert (Daniel, 24.08.2026, am Mockup bemerkt).
         */}
+        {/*
+          **Der Titel steht über dem Cover, nicht darauf.**
+
+          Bis zum 03.09.2026 abends lag er als halbdeckende Fläche mitten im
+          Bild, und das Bild lag zu drei Vierteln unter einem Verlauf. Daniel:
+          „titel ganz nach oben schieben, volle breite (100% vom panel), cover
+          startet erst danach (wird nicht mehr durch titel verdeckt) … die
+          oberen ~60% des covers sollten fast komplett sichtbar sein, da
+          befindet sich meistens der fokus des covers."
+
+          Daraus die neue Ordnung, von oben nach unten:
+
+          1. **Titelzeile** — volle Panel-Breite, deckender Panel-Grund, kein
+             Bild darunter. Sie braucht keinen Verlauf mehr, um lesbar zu sein.
+          2. **Cover** — beginnt erst darunter und bleibt in seinen oberen zwei
+             Dritteln unangetastet.
+          3. **Unterzeile und Bedienelemente** liegen über dem Bild, jede auf
+             ihrer eigenen halbdeckenden Fläche. Die Bedienelemente stehen
+             **senkrecht** an der rechten Kante: waagerecht nahmen sie die volle
+             Breite des Bildoberteils ein, genau dort, wo der Blick hinfällt.
+        */}
         <div className="relative shrink-0" style={{ isolation: 'isolate' }}>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-[340px] bg-cover bg-[center_16%]"
-            style={{ backgroundImage: buehnenBild ? `url(${buehnenBild})` : undefined, zIndex: -2 }}
-          />
-          {/*
-            Zwei Verläufe: einer von unten, der zur Panel-Farbe ausläuft, einer
-            von links, damit das Artwork rechts frei stehen bleibt statt
-            vollflächig abgedunkelt zu werden.
+          <h2
+            title={reihenName}
+            className="line-clamp-2 px-4 pb-2 pt-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white"
+          >
+            {reihenName}
+          </h2>
 
-            **Die Farben kommen aus `styles.css` und wechseln mit dem Thema.**
-            Bis zum 25.08.2026 standen sie hier fest als `rgba(11,15,22,…)`, und
-            `--panel-grund` war nirgends definiert — der dunkle Fallback galt
-            also immer. Im hellen Thema lag der dunkle Titel damit auf einem
-            dunklen Verlauf und war praktisch unlesbar (Daniel, mit Bild:
-            „styling kaputt im light mode").
+          <div className="relative h-[210px]">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-cover bg-[center_20%]"
+              style={{ backgroundImage: buehnenBild ? `url(${buehnenBild})` : undefined, zIndex: -2 }}
+            />
+            {/*
+              **Ein Verlauf, der erst in der unteren Hälfte anfängt.**
 
-            Der Verlauf hat in beiden Themen dieselbe Aufgabe: den Bildkontrast
-            von der Schrift wegschieben. Dafür muss er im hellen Thema
-            aufhellen statt abzudunkeln.
-          */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-[340px]"
-            style={{
-              zIndex: -1,
-              background:
-                'linear-gradient(180deg, var(--buehne-oben) 0%, var(--buehne-mitte) 38%, var(--buehne-unten) 74%, var(--panel-grund) 100%),' +
-                'linear-gradient(90deg, var(--buehne-links) 0%, var(--buehne-links-mitte) 55%, var(--buehne-links-aus) 100%)',
-            }}
-          />
-          {/*
-            Bedienelemente oben rechts, auf der Bühne statt darunter.
+              Vorher lagen zwei übereinander — einer von oben, einer von links —
+              und beide begannen sofort: Das Cover war schon in der ersten Zeile
+              zur Hälfte abgedunkelt. Der von links ist ganz entfallen, denn er
+              schob den Kontrast vom Titel weg, und der Titel liegt nicht mehr
+              hier. Übrig bleibt der von unten, der bei 52 % transparent
+              anfängt und in den Panel-Grund ausläuft — damit das Cover ohne
+              Kante in die Seite übergeht.
 
-            Sie standen bis zum 24.08.2026 in der Titelzeile. Die ist jetzt Teil
-            der Bühne, und drei Symbole neben einem zweizeiligen Titel drängen
-            sich; oben rechts haben sie ihre eigene Ecke — dieselbe, in der auch
-            das Schließen sitzt.
+              **Die Farben kommen aus `styles.css` und wechseln mit dem Thema.**
+              Bis zum 25.08.2026 standen sie hier fest als `rgba(11,15,22,…)`;
+              im hellen Thema lag der dunkle Titel damit auf einem dunklen
+              Verlauf (Daniel, mit Bild: „styling kaputt im light mode").
+            */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0"
+              style={{
+                zIndex: -1,
+                background:
+                  'linear-gradient(180deg, transparent 0%, transparent 52%, var(--buehne-mitte) 78%, var(--buehne-unten) 92%, var(--panel-grund) 100%)',
+              }}
+            />
+            {/*
+              Senkrecht an der rechten Kante, direkt unter der Titelzeile. Jedes
+              Symbol behält seinen dunklen Grund: Auf einem hellen Cover wäre ein
+              blankes Symbol sonst genauso unlesbar wie blanker Text.
+            */}
+            <div className="absolute right-2 top-2 z-10 flex flex-col items-center gap-1.5 rounded-full bg-black/50 px-1 py-2 backdrop-blur-[3px]">
+              <ShareIcon slug={title.slug} name={anzeigeName(title)} />
+              <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
+              <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
+              {reihenIds.length > 1 && (
+                <ReihenStern
+                  alleGemerkt={reihenIds.every((id) => favorites.has(id))}
+                  anzahl={reihenIds.length}
+                  onMerken={() => {
+                    for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
+                  }}
+                />
+              )}
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label={t('detail.close')}
+                className="cursor-pointer px-1 text-sm text-white transition hover:opacity-70"
+              >
+                ✕
+              </button>
+            </div>
 
-            Jedes bekommt denselben dunklen Grund wie der Titel: Auf einem hellen
-            Cover wäre ein blankes Symbol sonst genauso unlesbar wie blanker Text.
-          */}
-          <div className="absolute right-2 top-2 z-10 flex items-center gap-1.5 rounded-full bg-black/50 px-2 py-1 backdrop-blur-[3px]">
-            <ShareIcon slug={title.slug} name={anzeigeName(title)} />
-            <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
-            <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
-            {reihenIds.length > 1 && (
-              <ReihenStern
-                alleGemerkt={reihenIds.every((id) => favorites.has(id))}
-                anzahl={reihenIds.length}
-                onMerken={() => {
-                  for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
-                }}
-              />
-            )}
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label={t('detail.close')}
-              className="cursor-pointer px-1 text-sm text-white transition hover:opacity-70"
-            >
-              ✕
-            </button>
-          </div>
-          {/*
-            Der Titel steht **auf** der Bühne, auf einer eigenen Fläche.
-
-            Ein Verlauf allein trägt ihn nicht: Er kommt von unten, der Titel
-            steht oben, und auf einem hellen Cover verschwindet er. Im Farbtest
-            am 24.08.2026 war er auf Reinweiß unlesbar — Daniels Vorschlag, eine
-            halbdeckende Fläche direkt hinter den Text zu legen, hielt dagegen
-            auf allen fünf Testfarben.
-
-            Titel und Unterzeile bilden **eine** Fläche in zwei Zeilen, ohne
-            Abstand dazwischen: Zwei getrennte Pillen sind verschieden breit und
-            sehen aus wie ein Versehen (Daniel, 24.08.2026: „untereinander ohne
-            gap").
-
-            Zwei feste Zeilen für den Titel — sonst verschiebt ein einzeiliger
-            Titel beim Umschalten alles darunter.
-          */}
-          <div className="relative flex flex-col items-start gap-0 px-4 pb-3 pt-[104px]">
-            <h2
-              title={reihenName}
-              className="line-clamp-2 min-h-[2.5em] rounded-t-lg bg-[rgba(8,12,18,.74)] px-2.5 pb-px pt-1 text-lg font-semibold leading-tight text-white backdrop-blur-[3px]"
-            >
-              {reihenName}
-            </h2>
-            <p className="max-w-full rounded-b-lg rounded-tr-lg bg-[rgba(8,12,18,.74)] px-2.5 pb-1 pt-0.5 text-xs text-slate-300 backdrop-blur-[3px]">
+            {/* Die Unterzeile überlappt das Cover — sie kostet damit keine eigene Höhe. */}
+            <p className="absolute left-4 top-1 max-w-[calc(100%-4rem)] rounded-lg bg-[rgba(8,12,18,.74)] px-2.5 py-1 text-xs text-slate-300 backdrop-blur-[3px]">
               {[
                 title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
                 /*
@@ -2624,7 +2642,34 @@ export function DetailPanel({
                       />
                     )
                   }),
-                )}
+                )
+                  /*
+                    **Ein Abgang ist eine Auskunft, kein Loch — und er gehört zu
+                    den anderen Wegen.**
+
+                    Bis zum 01.09.2026 fiel ein Verweis stillschweigend heraus,
+                    sobald er ins Leere führte. Daniel damals: „auch bei titeln
+                    die aus dem katalog eines anbieters fliegen entsprechend
+                    anzeigen … sie sind schließlich nicht mehr klickbar."
+
+                    Er stand danach als eigene Zeile über den Pillen — zwei
+                    Zeilen für eine Auskunft, die in eine Pille passt (Daniel,
+                    03.09.2026: „nicht mehr abrufbar auf netflix -> umstylen zu
+                    grauer netflix-pill und in box schieben"). Das Datum steht
+                    jetzt im Tooltip; sichtbar bleibt, was zählt: dieser Weg ist
+                    zu.
+                  */
+                  .concat(
+                    (title.entfernteStreams ?? []).map((s) => (
+                      <span
+                        key={`weg-${s.platform}-${s.url}`}
+                        title={t('detail.gone', { d: formatDate(s.entferntAm ?? '') })}
+                        className="inline-flex shrink-0 items-center gap-1 rounded-md border border-dashed border-slate-300 px-2 py-1 text-[11px] text-slate-400 line-through dark:border-white/15 dark:text-slate-500"
+                      >
+                        {PLATFORMS[s.platform]?.name ?? s.platform}
+                      </span>
+                    )),
+                  )}
                 /*
                   **Disc ist, was man kauft** — Händler und Vorbestellungen.
                   Vier Ausgaben desselben Verlags sind **eine** Auskunft, keine
@@ -2679,34 +2724,6 @@ export function DetailPanel({
             Pille — und damit ein Termin, den es noch nicht gibt, nicht neben
             einem verfuegbaren Angebot steht.
           */}
-          {/*
-            **Ein Abgang ist eine Auskunft, kein Loch.**
-
-            Bis zum 01.09.2026 fiel ein Verweis stillschweigend heraus, sobald er
-            ins Leere führte. Daniel: „auch bei titeln die aus dem katalog eines
-            anbieters fliegen entsprechend anzeigen … ‚seit <datum> nicht mehr im
-            katalog von <anbieter>'" — und: „sie sind schließlich nicht mehr
-            klickbar."
-
-            Deshalb ein Vermerk, kein Verweis: gedämpft, durchgestrichen, ohne
-            `href`. Er steht **über** den Wegen, die es noch gibt, denn wer den
-            Titel dort gesucht hat, sucht zuerst nach dieser Auskunft.
-          */}
-          {(title.entfernteStreams?.length ?? 0) > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {title.entfernteStreams!.map((s) => (
-                <span
-                  key={s.platform + s.url}
-                  className="inline-flex items-center gap-1 rounded-md border border-dashed border-slate-300 px-1.5 py-1 text-[11px] text-slate-400 dark:border-white/15 dark:text-slate-500"
-                >
-                  <span className="line-through">{PLATFORMS[s.platform]?.name ?? s.platform}</span>
-                  <span>{t('detail.gone', { d: formatDate(s.entferntAm ?? '') })}</span>
-                </span>
-              ))}
-            </div>
-          )}
-
-
           {/*
             Kein Anbieter? Dann steht das da — statt gar nichts.
 

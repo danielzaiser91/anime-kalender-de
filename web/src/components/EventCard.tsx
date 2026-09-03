@@ -1,5 +1,6 @@
 import type { Fsk, ReleaseEvent, Title } from '@shared/types.ts'
 import { RELEASE_TYPES } from '@shared/types.ts'
+import { todayIso } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon,
@@ -71,6 +72,21 @@ export function EventCard({
   */
   const ueberholt = Boolean(event.verpasst && !event.verpasst.erschienenAm)
 
+  /*
+    **Was vorbei ist, tritt zurück.**
+
+    Daniel am 03.09.2026: „grauton/opacity für termine in vergangenheit
+    abschwächen." Eine Kalenderwoche zeigt Montag bis Sonntag, und an einem
+    Donnerstag ist die Hälfte davon Geschichte — gleich hell dargestellt
+    konkurriert sie mit dem, was noch kommt.
+
+    **Weg ist sie damit nicht**, und das ist Absicht: Wer nachsieht, ob etwas
+    erschienen ist, sucht genau dort. Sie ist nur leiser — und beim Zeigen
+    kommt sie voll zurück. Gemerkte Titel bleiben immer hell; sie sind der
+    Grund, warum jemand die Woche überhaupt aufschlägt.
+  */
+  const vergangen = event.date < todayIso()
+
   return (
     <div
       role="button"
@@ -88,9 +104,28 @@ export function EventCard({
           ? 'border-amber-400/70 bg-amber-400/[0.07] shadow-[0_0_0_1px_rgba(251,191,36,.25)] hover:border-amber-300'
           : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-white/25 dark:hover:bg-white/[0.08]',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
+        vergangen && !favorite ? 'opacity-60 transition-opacity hover:opacity-100' : '',
         dense ? 'p-1.5' : 'p-2',
       ].join(' ')}
-      style={{ borderLeft: `3px solid ${type.color}` }}
+      /*
+        **Die linke Linie sagt zweierlei — Farbe und Strichart.**
+
+        Die Farbe blieb die Release-Art; sie steht so in der Legende und ist die
+        Ordnung, nach der jemand den Kalender überfliegt. Die **Strichart**
+        übernimmt seit dem 03.09.2026 die Frage nach der Uhrzeit, die vorher zwei
+        Überschriften je Tag gekostet hat („MIT UHRZEIT", „UHRZEIT OFFEN") — bei
+        sieben Spalten vierzehn Zeilen für eine Angabe, die an der Kachel selbst
+        steht. Daniel: „trenner entfernen, stattdessen vertikale linie für alle
+        mit uhrzeit eine und alle ohne andere. legende erklärt."
+
+        **Strichart statt zweiter Farbe**, weil die Farbe schon vergeben ist: Ein
+        zweites Farbsystem an derselben Kante hätte die Release-Art unlesbar
+        gemacht, und die Legende hätte zwei Bedeutungen für dieselbe Linie
+        erklären müssen.
+      */
+      style={{
+        borderLeft: `3px ${event.time ? 'solid' : 'dotted'} ${type.color}`,
+      }}
     >
       {cover && !dense && (
         <img src={cover} alt="" loading="lazy" className="h-14 w-10 shrink-0 rounded object-cover" />
@@ -183,7 +218,13 @@ export function EventCard({
         </div>
         <span
           className={[
-            'line-clamp-2 text-[13px] font-medium leading-snug',
+            /*
+              Drei Zeilen statt zwei (Daniel, 03.09.2026): Gemessen waren **28
+              von 42** sichtbaren Titeln nach zwei Zeilen gekappt — „Skeleton
+              Knight in…", „Mushoku Tensei: Joble…". Die dritte Zeile holt acht
+              davon zurück und kostet 18 px.
+            */
+            'line-clamp-3 text-[13px] font-medium leading-snug',
             ueberholt
               ? 'text-slate-400 line-through decoration-rose-500/60 dark:text-slate-500'
               : 'text-slate-900 dark:text-slate-100',
