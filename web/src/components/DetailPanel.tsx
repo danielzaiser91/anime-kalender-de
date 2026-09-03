@@ -2943,7 +2943,6 @@ export function DetailPanel({
           */}
           {reihenTeile.length > 1 && (
             <div>
-              <SectionTitle>{t('detail.seriesPartsCount', { count: reihenTeile.length })}</SectionTitle>
               {/*
                 **Eine Liste über die volle Breite, kein Band mehr.**
 
@@ -2964,7 +2963,26 @@ export function DetailPanel({
                 Werkart (seine Wahl unter drei Entwürfen). Das beantwortet die
                 Frage, mit der jemand hierherkommt: Was kann ich jetzt sehen?
               */}
-              <div className="mt-1 max-h-[13.5rem] overflow-y-auto pr-1">
+              {/*
+                **Die Reihe schließt direkt an den Kasten an.**
+
+                Zwischen beiden stand eine Überschrift — „64 TEILE IN DIESER
+                REIHE" —, die nichts sagte, was die Liste nicht selbst zeigt.
+                Daniel am 03.09.2026: „‚x teile in dieser reihe' entfernen und
+                reihen bereich direkt an box anknüpfen. die x zahl unten links an
+                karussell-box heften. box border geben."
+
+                Die Zahl bleibt — bei drei sichtbaren Einträgen sieht eine Reihe
+                mit einundzwanzig Teilen sonst nach dreien aus. Sie steht jetzt
+                als Marke an der unteren Kante der Box, wo sie den Platz einer
+                Überschrift nicht braucht.
+
+                Der Rahmen macht aus der Liste einen Bereich: Ohne ihn schwamm
+                sie zwischen Kasten und Terminen, mit ihm gehört sie sichtbar
+                zusammen.
+              */}
+              <div className="relative -mt-1 rounded-xl border border-slate-200 pb-5 dark:border-white/10">
+              <div className="max-h-[13.5rem] overflow-y-auto p-2">
                 {(() => {
                   /*
                     **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
@@ -3212,6 +3230,19 @@ export function DetailPanel({
                     </div>
                   )
                 })()}
+              </div>
+              {/*
+                Ein Verlauf über der Unterkante: Er sagt, dass die Liste
+                weitergeht, und hält den angeschnittenen Eintrag von der Marke
+                darunter fern. Ohne ihn stand „Staffel 3" halb im Text der Marke.
+              */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-px bottom-px h-8 rounded-b-xl bg-gradient-to-t from-white via-white/85 to-transparent dark:from-[#0d1220] dark:via-[#0d1220]/85"
+              />
+              <span className="pointer-events-none absolute bottom-1.5 left-3 text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                {t('detail.seriesPartsCount', { count: reihenTeile.length })}
+              </span>
               </div>
               {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
             </div>
