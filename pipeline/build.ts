@@ -1343,6 +1343,24 @@ function main(): void {
   }
 
   // FSK aus TMDB für alle Titel übernehmen, nicht nur für kuratierte.
+  /*
+    **Ein `available: false` gilt auch für einen Kaufweg.**
+
+    Bisher wirkte es nur auf `streams` — die `watchLinks` aus aniSearch liefen
+    daran vorbei. Bei „Nicht schon wieder, Takagi-san" stand deshalb
+    „Crunchyroll über Prime Video" im Panel, und die Adresse antwortete mit
+    Amazons Fehlerseite: „Die eingegebene Webadresse ist keine funktionsfähige
+    Seite" (Daniel, 04.09.2026, mit Bild). Sie stammt aus aniSearch und ist dort
+    veraltet.
+
+    Ein Weg, der ins Leere führt, ist schlechter als kein Weg: Er sieht aus wie
+    eine Antwort und kostet einen Klick, um sich als keine zu erweisen.
+  */
+  const toteAdressen = new Set(
+    loadDubChecks()
+      .filter((c) => c.available === false && c.url)
+      .map((c) => c.url!),
+  )
   for (const title of titles.values()) {
     const extra = tmdbTitles[title.id]
     if (extra?.fsk !== undefined && title.fsk === undefined) title.fsk = extra.fsk
@@ -1467,7 +1485,9 @@ function main(): void {
     }
     if (watchLinks.length) {
       // Ansehen vor Kaufen — wer ein Abo hat, will nicht erst zur Kasse.
-      title.watchLinks = watchLinks.sort((a, b) => (a.kind === b.kind ? 0 : a.kind === 'stream' ? -1 : 1))
+      title.watchLinks = watchLinks
+        .filter((w) => !toteAdressen.has(w.url))
+        .sort((a, b) => (a.kind === b.kind ? 0 : a.kind === 'stream' ? -1 : 1))
     }
     title.streams.sort(
       (a, b) => PLATFORM_PRIORITY.indexOf(a.platform) - PLATFORM_PRIORITY.indexOf(b.platform),
@@ -1504,7 +1524,9 @@ function main(): void {
       })
     }
     if (watchLinks.length) {
-      title.watchLinks = watchLinks.sort((a, b) => (a.kind === b.kind ? 0 : a.kind === 'stream' ? -1 : 1))
+      title.watchLinks = watchLinks
+        .filter((w) => !toteAdressen.has(w.url))
+        .sort((a, b) => (a.kind === b.kind ? 0 : a.kind === 'stream' ? -1 : 1))
     }
   }
 

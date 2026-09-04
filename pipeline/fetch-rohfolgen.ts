@@ -315,8 +315,64 @@ async function main(): Promise<void> {
       als Rueckfall fuer alles, was vorher gemeldet wurde.
     */
     const gemeldeteId = liste.find((f) => Number.isFinite(f.titel_id))?.titel_id ?? null
-    const treffer = gemeldeteId
-      ? titles.filter((t) => t.id === gemeldeteId)
+    /*
+      **Die gemeldete Kennung ist ein Vorschlag — die Folgendaten überstimmen ihn.**
+
+      Amazon tauscht beim Wechsel über das Auswahlfeld den Quelltext nicht aus
+      (siehe `CLAUDE.md`). Die Adresse wandert zur neuen Staffel, die
+      Folgenliste bleibt die der alten — und die Meldung trägt dann die
+      Kennung des **Auftrags** über Folgen, die zu einem anderen Teil gehören.
+
+      Gemessen am 04.09.2026 an „Takagi-san": Die Meldung zeigt auf 107068
+      (Staffel 2, 2019), ihre zwölf Folgen tragen die Termine 08.01. bis
+      26.03.2018 — Staffel 1 (99468). Daniel hat es an der Seite bestätigt und
+      den Weg vorgegeben: „falsche staffel kennung bug kennen wir von früheren
+      extension versionen, ähnliche verweise entsprechend datum der episoden
+      auflösen."
+
+      **Vier Bedingungen, und alle vier müssen halten** — sonst wäre es Raten:
+
+      1. Die Rohfolgen nennen überhaupt ein Jahr (Prime schreibt „8. Jan. 2018").
+      2. Der gemeldete Titel hat ein **anderes** Erstausstrahlungsjahr.
+      3. In **derselben Reihe** gibt es genau **einen** Teil mit diesem Jahr.
+      4. Er hat dieselbe Folgenzahl wie die Meldung.
+
+      Trifft eine nicht zu, bleibt die gemeldete Kennung stehen. Ein zweiter
+      Kandidat, ein fehlendes Jahr oder eine abweichende Folgenzahl heißt: Wir
+      wissen es nicht, und `ordneZu` lässt die Adresse dann offen — das ist die
+      richtige Seite zum Irren.
+    */
+    const jahreDerFolgen = new Set(
+      liste
+        .map((f) => /\b(?:19|20)\d{2}\b/.exec(f.erschienen ?? '')?.[0])
+        .filter((j): j is string => Boolean(j))
+        .map(Number),
+    )
+    let echteId = gemeldeteId
+    const gemeldeterTitel = gemeldeteId ? titles.find((t) => t.id === gemeldeteId) : undefined
+    if (
+      gemeldeterTitel?.franchiseId &&
+      jahreDerFolgen.size === 1 &&
+      gemeldeterTitel.jpYear !== [...jahreDerFolgen][0]
+    ) {
+      const jahr = [...jahreDerFolgen][0]
+      const geschwister = titles.filter(
+        (t) =>
+          t.franchiseId === gemeldeterTitel.franchiseId &&
+          t.id !== gemeldeterTitel.id &&
+          t.jpYear === jahr &&
+          t.episodes === liste.length,
+      )
+      if (geschwister.length === 1) {
+        echteId = geschwister[0]!.id
+        warn(
+          `${url}: gemeldet als ${gemeldeteId} (${gemeldeterTitel.jpYear}), ` +
+            `Folgen tragen ${jahr} — zugeordnet zu ${echteId} (${geschwister[0]!.titleDe ?? geschwister[0]!.titleRomaji})`,
+        )
+      }
+    }
+    const treffer = echteId
+      ? titles.filter((t) => t.id === echteId)
       : titles.filter((t) => (t.streams ?? []).some((s) => s.url === url)) ||
         []
     /*

@@ -25786,12 +25786,34 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-02 ---
 
-- anilistId: 107068
-  title: "Karakai Jozu no Takagi-san: Staffel 2"
+# **Diese Meldung zeigte auf die falsche Staffel** (Daniel, 04.09.2026, an der
+# Seite nachgesehen): Die Adresse `0ST5YU69NBGTLE16XV4G99HZNC` führt auf
+# **Staffel 1** — zwölf Folgen mit den Terminen 08.01. bis 26.03.2018. Staffel 2
+# lief Juli bis September 2019. Ursache ist der dokumentierte
+# Amazon-Staffelwechsel: Adresse wandert, Quelltext bleibt.
+#
+# Sein Auftrag dazu: „ähnliche verweise entsprechend datum der episoden
+# auflösen." Das tut `fetch-rohfolgen.ts` seit dem 04.09.2026 von selbst; dieser
+# Eintrag ist der Fall, an dem es gemessen wurde.
+- anilistId: 99468
+  title: "Nicht schon wieder, Takagi-san"
   platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GF1R4V96
   dub: true
-  checkedAt: '2026-09-02'
-  note: "Tonspuren: Deutsch — Amazon-Seite 0ST5YU69NBGTLE16XV4G99HZNC: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+  checkedAt: '2026-09-04'
+  note: "Kauftitel bei Prime (Staffel 1 HD 29,99 €), kein Streaming im Abo. Zwölf Folgen mit deutscher Tonspur, Termine 08.01.–26.03.2018 — geprüft von Daniel an der Seite. Die frühere Meldung stand unter AniList 107068 (Staffel 2) und gehörte hierher."
+
+# **Der Verweis „Crunchyroll über Prime Video" bei Staffel 1 ist tot.**
+# `amazon.de/dp/B0CJ6TW6L5` antwortet mit „Die eingegebene Webadresse ist keine
+# funktionsfähige Seite" (Daniel, 04.09.2026, mit Bild). Die Adresse stammt aus
+# aniSearch und ist dort veraltet.
+- anilistId: 99468
+  title: "Nicht schon wieder, Takagi-san"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJ6TW6L5
+  available: false
+  checkedAt: '2026-09-04'
+  note: "Adresse aus aniSearch, führt auf Amazons Fehlerseite. Der richtige Weg steht darüber (B0GF1R4V96)."
 
 - anilistId: 107068
   title: "Karakai Jozu no Takagi-san: Staffel 2"

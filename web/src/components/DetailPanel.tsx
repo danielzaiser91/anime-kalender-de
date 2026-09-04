@@ -155,6 +155,7 @@ function AntwortKasten({
   stream = [],
   disc = [],
   wegeHinweis,
+  notiz,
 }: {
   antwort: Antwort
   title: Title
@@ -182,6 +183,23 @@ function AntwortKasten({
    * einzige Auskunft, die das Suchen auf dieser Seite beendet.
    */
   wegeHinweis?: string
+  /**
+   * **Was den Termin erklärt, steht beim Termin.**
+   *
+   * `Release.note` trägt das, was aus keiner Zahl hervorgeht — „Zum Start
+   * standen 24 der 60 Folgen bereit", „der Tag steht noch nicht fest",
+   * „Netflix nennt den Termin auf der Titelseite; das Jahr ist abgeleitet".
+   * **271 Releases haben eine**, und sie standen bis zum 04.09.2026 als
+   * orangefarbener Kasten im Terminbereich.
+   *
+   * Mit dem Bereich sind sie verschwunden — unbeabsichtigt, denn die Pille
+   * nahm nur Name und Datum mit. Daniel hat es an der falschen Beschreibung im
+   * Footer gemerkt: „was für 24 folgen mit belegtem termin? das ist staffel 3,
+   * das erscheint erst ab 01.10.2026". Bei „Apothekerin" Staffel 3 stand dort
+   * in Wahrheit: „Deutsche Fassung laut aniSearch für Oktober 2026
+   * angekündigt — der Tag steht noch nicht fest."
+   */
+  notiz?: string
 }) {
   /*
     **Der Umschalter sitzt oben rechts — nicht über den Pillen.**
@@ -491,6 +509,13 @@ function AntwortKasten({
       )}
 
       {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
+      {/* Die Erklärung zum Termin — in der Farbe, in der sie im früheren
+          Terminblock stand, damit sie als Einschränkung lesbar bleibt. */}
+      {notiz && (
+        <p className="mt-1.5 text-[11px] leading-snug text-amber-600 dark:text-amber-400/90">
+          {notiz}
+        </p>
+      )}
       </div>
       {pillen.length === 0 && wegeHinweis && (
         <div className="border-t border-slate-200/70 pt-2.5 dark:border-white/10">
@@ -1740,6 +1765,24 @@ export function DetailPanel({
       ? t(title.hasVoices ? 'detail.whereDubbedButGone' : 'detail.whereUnknown')
       : undefined
 
+  /*
+    **Welche Notiz gilt?** Die des Releases, dessen Termin oben steht.
+
+    Bei mehreren Releases je Titel ist das der nächste künftige, sonst der
+    zuletzt erschienene — dieselbe Wahl, die der Kasten für sein Datum trifft.
+  */
+  const kastenNotiz = useMemo(() => {
+    const mitNotiz = releases.filter((r) => r.note)
+    if (!mitNotiz.length) return undefined
+    const kuenftig = mitNotiz
+      .filter((r) => (r.schedule?.firstEpisodeDate ?? '') >= today)
+      .sort((a, b) => (a.schedule?.firstEpisodeDate ?? '').localeCompare(b.schedule?.firstEpisodeDate ?? ''))
+    const vergangen = mitNotiz
+      .filter((r) => (r.schedule?.firstEpisodeDate ?? '') < today)
+      .sort((a, b) => (b.schedule?.firstEpisodeDate ?? '').localeCompare(a.schedule?.firstEpisodeDate ?? ''))
+    return (kuenftig[0] ?? vergangen[0])?.note
+  }, [releases, today])
+
   const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
 
   /** Die vier Werkangaben der Unterzeile — leer heißt: kein Kasten. */
@@ -2319,6 +2362,7 @@ export function DetailPanel({
               t={t}
               today={today}
               wegeHinweis={wegeHinweis}
+              notiz={kastenNotiz}
                 /*
                   **Stream ist, wo man es ansehen kann.** Die Zugangsart
                   (kostenlos, Abo, Kauf) stand bis zum 03.09.2026 als eigene
