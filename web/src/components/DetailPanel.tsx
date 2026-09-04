@@ -2723,15 +2723,17 @@ export function DetailPanel({
                       titel: t('detail.gruppeStaffeln'),
                       teile: reihenTeile.filter(istHauptstaffel).sort(nachStandUndJahr),
                     },
+                    /* Filme vor Specials (Daniel, 04.09.2026): Ein Film ist ein
+                       eigenständiges Werk der Reihe, ein Special ist Beiwerk. */
+                    {
+                      titel: t('detail.gruppeFilme'),
+                      teile: reihenTeile.filter((m) => m.format === 'MOVIE').sort(nachStandUndJahr),
+                    },
                     {
                       titel: t('detail.gruppeSpecials'),
                       teile: reihenTeile
                         .filter((m) => !istHauptstaffel(m) && m.format !== 'MOVIE')
                         .sort(nachStandUndJahr),
-                    },
-                    {
-                      titel: t('detail.gruppeFilme'),
-                      teile: reihenTeile.filter((m) => m.format === 'MOVIE').sort(nachStandUndJahr),
                     },
                   ].filter((g) => g.teile.length > 0)
 
