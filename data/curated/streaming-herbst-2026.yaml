@@ -1,0 +1,34 @@
+# Angekündigte Streaming-Starts der Herbstsaison 2026.
+#
+# **Was hier steht, ist angekündigt und nicht auf den Tag belegt.** Für jeden
+# Eintrag gilt: Der Monat stammt aus einer benannten Quelle, der Tag nicht —
+# deshalb durchgehend `estimated: true`, und der Grund steht in der `note`.
+# Sobald ein Anbieter den Tag nennt, wird das Datum ersetzt und `estimated`
+# entfernt.
+
+- slug: black-clover-s2-crunchyroll
+  anilistId: 195604
+  search: "Black Clover 2nd Season"
+  titleDe: "Black Clover – Staffel 2"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-01"
+    estimated: true
+  # **Drei Angaben fehlen, und jede einzelne wäre geraten.**
+  #
+  # Crunchyroll hat die Staffel am 15.06.2026 für Oktober 2026 angekündigt —
+  # ohne Tag. AniList führt denselben Stand (am 04.09.2026 abgefragt:
+  # `startDate { year: 2026, month: 10, day: null }`, `episodes: null`,
+  # Status NOT_YET_RELEASED). Auch die Folgenzahl ist damit unbelegt.
+  #
+  # **Und eine deutsche Fassung nennt keine der beiden Quellen.** Die erste
+  # Staffel liegt bei Crunchyroll mit 170 deutschen Folgen — ein starker
+  # Hinweis, aber kein Beleg. Der Eintrag steht trotzdem: „Unsicheres
+  # kennzeichnen statt weglassen" ist der Grund, warum es diesen Kalender gibt
+  # (Daniel, 04.09.2026: „warum führen wir keine staffel 2 und haben auch nicht
+  # diese info auf der webseite?").
+  note: "Angekündigt für Oktober 2026, ein Tag ist nicht genannt — das Datum ist der Monatserste als Platzhalter. Folgenzahl und deutsche Fassung sind noch nicht belegt."
+  sources:
+    - https://www.crunchyroll.com/de/news/latest/2026/6/15/black-clover-staffel-2-premiere-oktober-2026
+    - https://anilist.co/anime/195604

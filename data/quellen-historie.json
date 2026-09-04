@@ -3761,5 +3761,21 @@
       "sagt": "2026-10-01",
       "stand": "aktuell"
     }
+  ],
+  "black-clover-s2-crunchyroll": [
+    {
+      "url": "https://www.crunchyroll.com/de/news/latest/2026/6/15/black-clover-staffel-2-premiere-oktober-2026",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-09-04",
+      "sagt": "2026-10-01",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://anilist.co/anime/195604",
+      "name": "anilist.co",
+      "gesehenAm": "2026-09-04",
+      "sagt": "2026-10-01",
+      "stand": "aktuell"
+    }
   ]
 }

@@ -79,6 +79,11 @@
   search: "Black Clover"
   titleDe: "Black Clover – Staffel 1"
   platform: disneyplus
+  # Ohne diese Zeile baut die Pipeline eine Adresse aus dem Titel — und die
+  # führte auf Disneys Fehlerseite (Daniel, 04.09.2026). Die richtige hat er
+  # mitgeschickt; Disney führt die Serie unter einer `entity`-Kennung, die aus
+  # keinem Namen abzuleiten ist.
+  platformUrl: "https://www.disneyplus.com/de-de/browse/entity-484054dc-6486-477a-a31a-87163fbbb65a"
   releaseType: batch
   schedule:
     firstEpisodeDate: "2026-08-30"

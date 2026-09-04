@@ -99,8 +99,22 @@ export function unterscheidenderZusatz(
   const worte = (x: string) => x.split(/\s+/).filter(Boolean)
   const a = worte(original)
   const b = worte(geschwisterOriginal)
+  /*
+    **Ein Doppelpunkt macht aus zwei gleichen Wörtern keine verschiedenen.**
+
+    Verglichen wurde Wort gegen Wort, mitsamt der Interpunktion — und
+    „Clover:" ist nicht „Clover". Bei „Black Clover" gegen „Black Clover:
+    Jump Festa 2016 Special" endete der gemeinsame Teil damit nach „Black",
+    und die Serie hieß in der Reihenliste **„Black Clover — Clover"** (Daniel,
+    04.09.2026: „woher kommt das? — entfernen").
+
+    Der Zusatz soll sagen, was **nach** dem gemeinsamen Namen kommt. Ein
+    Trennzeichen gehört zum Namen davor, nicht zum Unterschied dahinter — es
+    wird beim Vergleich abgeschnitten, nicht beim Ausgeben.
+  */
+  const kern = (w: string) => w.toLowerCase().replace(/^[\s:–—\-.,!?]+|[\s:–—\-.,!?]+$/g, '')
   let i = 0
-  while (i < a.length && i < b.length && a[i]!.toLowerCase() === b[i]!.toLowerCase()) i++
+  while (i < a.length && i < b.length && kern(a[i]!) === kern(b[i]!)) i++
   const rest = a.slice(i).join(' ').replace(/^[\s:–—-]+/, '').trim()
   if (!rest) return undefined
   /* „Part 2" heißt auf Deutsch „Teil 2" — dieselbe Ersetzung wie in `werkTitel`. */
