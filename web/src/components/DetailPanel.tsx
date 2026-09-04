@@ -2814,7 +2814,19 @@ export function DetailPanel({
                         }
                         onClick={() => !gewaehlt && wechsleZu(m.id)}
                         className={[
-                          'flex w-full items-center gap-2.5 rounded-lg border p-1.5 text-left transition',
+                          /*
+                            **Eine Zeile je Teil, nicht zwei.**
+
+                            Gemessen am 04.09.2026: 70 px je Zeile, davon 26 px
+                            Luft — das Cover (40×56) gab die Höhe vor, der Text
+                            brauchte 37. Bei 216 px sichtbarer Höhe waren das
+                            drei Teile; eine Reihe mit acht sah nach dreien aus.
+
+                            Titel und Angaben stehen jetzt nebeneinander statt
+                            untereinander, das Cover ist auf 24×36 gekürzt: 44 px
+                            je Zeile, fünf statt drei sichtbar.
+                          */
+                          'flex w-full items-center gap-2 rounded-lg border p-1 text-left transition',
                           'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
                           gewaehlt
                             ? 'border-sky-400 bg-sky-50 ring-1 ring-sky-400/50 dark:bg-sky-400/10'
@@ -2827,7 +2839,7 @@ export function DetailPanel({
                       >
                         <span
                           className={[
-                            'block h-14 w-10 shrink-0 overflow-hidden rounded bg-slate-200 dark:bg-white/5',
+                            'block h-9 w-6 shrink-0 overflow-hidden rounded bg-slate-200 dark:bg-white/5',
                             offen ? 'opacity-60' : '',
                           ].join(' ')}
                         >
@@ -2840,10 +2852,10 @@ export function DetailPanel({
                             />
                           )}
                         </span>
-                        <span className="min-w-0 flex-1">
+                        <span className="flex min-w-0 flex-1 items-baseline gap-2">
                           <span
                             className={[
-                              'block text-sm leading-snug',
+                              'min-w-0 truncate text-sm leading-tight',
                               gewaehlt
                                 ? 'font-medium text-sky-700 dark:text-sky-300'
                                 : 'text-slate-700 dark:text-slate-200',
@@ -2851,7 +2863,9 @@ export function DetailPanel({
                           >
                             {beschriftung}
                           </span>
-                          <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400">
+                          {/* Rechts, damit der Titel den ganzen übrigen Platz bekommt —
+                              „2026 · 12 Fg." ist immer kurz, ein Titel selten. */}
+                          <span className="ml-auto shrink-0 text-[11px] text-slate-500 dark:text-slate-400">
                             {[
                               m.format && m.format !== 'TV' ? (FORMAT_DE[m.format] ?? m.format) : '',
                               m.jpYear,

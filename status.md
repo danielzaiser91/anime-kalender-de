@@ -13,14 +13,13 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | zuletzt geprüft | Notiz |
 |---|---|---|
-| **Wache durchsehen** | **2026-09-03T10:20+02:00** | Sind seit diesem Zeitpunkt mehr als 24 Stunden vergangen, wird `daniel-zum-abarbeiten/00-wache.md` und `00-wache-auswertung.md` gelesen, danach der Zeitstempel hier erneuert. Beurteilt wird entlang der vier Fragen: Was läuft korrekt, wo ist Verbesserungspotenzial, wo sind echte Risiken und Lücken, was läuft komplett falsch. **Der Stempel wird nur erneuert, wenn wirklich gelesen wurde** — sonst ist er eine Zahl, die Händewaschen behauptet |
+| **Wache durchsehen** | **2026-09-04T10:00+02:00** | Sind seit diesem Zeitpunkt mehr als 24 Stunden vergangen, wird `daniel-zum-abarbeiten/00-wache.md` und `00-wache-auswertung.md` gelesen, danach der Zeitstempel hier erneuert. Beurteilt wird entlang der vier Fragen: Was läuft korrekt, wo ist Verbesserungspotenzial, wo sind echte Risiken und Lücken, was läuft komplett falsch. **Der Stempel wird nur erneuert, wenn wirklich gelesen wurde** — sonst ist er eine Zahl, die Händewaschen behauptet |
 
 ### In Arbeit
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Ein vollständig deutscher Block belegt jede Folge darin** | 5 | Daniel am 04.09.2026, mit Bild: „wieso crunchy fragezeichen? es sollte keine fragezeichen mehr geben seit wir den crunchy lauf implementiert haben" — dazu die Gegenprobe von Hand: „staffel 2 und staffel 2 teil 2, beides weiterhin auf crunchy komplett synchronisiert". **Gemessen an „Schleim" (GYZJ43JMR):** Der Lauf kennt die Serie (`katalog: de`, `deutschImAngebot: true`), und Block „Staffel 2" hat 25 von 25 Folgen deutsch. Unser Bestand teilt dieselbe Staffel in **zwei** Titel zu je 12 Folgen (108511, 116742) plus „Die Schleim-Tagebücher". `beurteileNachFolgennummern` verlangt in Sperre 2, dass die Summe unserer Folgen exakt der höchsten Crunchyroll-Nummer entspricht — sie tut es nicht, also fällt das Urteil aus und die Pille zeigt „?". **Die ungenutzte Schlussfolgerung:** Ist ein Block vollständig deutsch, ist jede Folge darin deutsch, egal wie wir ihn aufteilen. Betroffen sind **40 Crunchyroll-Verweise ohne Urteil**. **Vorsicht ist Pflicht:** Das ist die Stelle, an der `CLAUDE.md` drei teure Fehlschläge dokumentiert („ein Block ist kein Beleg über die Serie"). Der Umbau braucht eine Gegenprobe über alle 969 Serien und einen Blick auf `check:cr-zuordnung`, bevor er ausgeliefert wird |
-| **Leere Unterzeile im Panel — Ursache unbekannt** | 3 | Daniel am 04.09.2026, mit Bild: Der graue Kasten links oben über dem Cover stand leer, bei „Die Tagebücher der Apothekerin". Aufgetreten beim Wechsel zwischen Tabs, **nicht wiederholbar**: „ich kann es nicht mehr reproduzieren … pack auf die todo es morgen zu untersuchen wie es passieren könnte und fix es." **Der sichtbare Schaden ist am selben Tag verhindert** — die Unterzeile wird nur noch gezeichnet, wenn mindestens eine der vier Angaben (Format, Folgenzahl, Jahr, Studio) da ist. **Offen bleibt die Ursache:** Wie kommt ein `title` in den Zustand, in dem alle vier fehlen? Verdächtig ist der Nachlade-Weg beim Einstieg über eine geteilte Adresse (`loadAllTitles` + `loadOhneSynchro`): Ein Titel aus dem Katalog hinter dem Toggle trägt weniger Felder als einer aus dem Hauptbestand. Zu prüfen ist, ob `titles-ohne-synchro.json` Einträge ohne `format`, `jpYear` und `studios` führt und ob einer davon während des Wechsels kurz gewinnt |
+| **Der planmäßige Wache-Lauf hat noch nie von selbst gefeuert** | 2 | Durchgesehen am 04.09.2026: `delta-wache.yml` trägt `cron: '20 7 * * *'` (09:20 Berlin) seit dem 03.09.2026. Beide bisherigen Läufe waren `workflow_dispatch` — von Hand. Der planmäßige Lauf heute um 09:20 blieb aus; um 10:04 von Hand angestoßen. **Ein Tag Beobachtung ist zu wenig für ein Urteil:** GitHub braucht bei einem neuen Cron bis zu einem Tag, und `schedule`-Läufe werden bei Last verworfen statt nachgeholt (siehe `CLAUDE.md`, der stündliche Lauf schafft 5,2 von 24). **Am 05.09. nachsehen:** Fällt der Lauf ein zweites Mal aus, ist der Cron für diesen Zweck untauglich — dann hängt die Wache an `workflow_run` hinter dem Bau-Lauf, der ohnehin täglich läuft |
 | **Zwei Rohfolgen-Adressen ohne Anker** | 2 | Stand 03.09.2026, gemessen an `data/prime-unzugeordnet.json`: Es sind noch **zwei**, aber nicht mehr dieselben. `B0C8X3SVR3` ist zugeordnet. Offen sind: (a) `B0GPD4GNLL` „1. Mein erstes Mal mit einer Gal", 11 Folgen — „kein Titel zu dieser Adresse", ohne Kennung; der Titel steht überhaupt nicht in unserem Bestand. (b) `0ST5YU69NBGTLE16XV4G99HZNC` „Karakai Jouzu no Takagi-san: Staffel 2" (AniList 107068), 12 Folgen — „keine einzige Folge zuzuordnen (Anker: aniSearch)". **Die Folgenliste ist da** (aniSearch 14102, 12 Folgen mit deutschem Titel und Datum, geholt am 01.09.). Der Anker trägt trotzdem nicht, und der Grund steht im Datensatz: Es ist ein **Segment-Anime**. aniSearchs Folgentitel sind Verkettungen („Lehrbuch / Hypnose / Aufwachen / Steine hüpfen lassen"), und kein Anbieter schreibt sie gleich. Bleibt das Datum — aniSearch führt die **japanische** Erstausstrahlung (2019-07-07 ff.), Prime meldet vermutlich das deutsche Veröffentlichungsdatum. **Belegen lässt sich das nur mit einer echten Meldung**; lokal ist `data/prime-zugeordnet.json` leer, weil der Briefkasten-Abruf ein `LAUF_TOKEN` braucht. Nächster Griff: im CI-Lauf mitlesen, welches Datum die Rohfolgen dieser Adresse tragen |
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
 | **Pokémon Sonne & Mond: 145 statt 146** | 1 | Daniel hat am 30.08.2026 alle zwölf Prime-Bände einzeln geprüft und gemeldet: Staffel 20 mit 43 Folgen (11+11+11+10), Staffel 21 mit 48 (4×12), Staffel 22 mit 54 (14+13+13+14). AniList führt für den Block 146. Seine Gegenprobe: „so wie sie gemeldet wurden so führt sie amazon, also falls da laut anisearch was fehlt, dann hat amazon die nicht." Die Zuordnung über die Folgentitel wird eine Nummer ohne Entsprechung lassen — das ist dann kein Lesefehler, sondern eine Lücke im Angebot, und genau so gehört sie in den Datensatz | **Nachgemessen am 03.09.2026:** Unser Bestand führt dafür **einen** Titel (AniList 97634) mit 146 Folgen, nicht drei Staffeln. Welche Nummer Prime nicht führt, sagt erst die Zuordnung im CI-Lauf — lokal ist `data/prime-zugeordnet.json` leer, weil der Briefkasten-Abruf ein `LAUF_TOKEN` braucht. Der Punkt hängt damit an einem Lauf mit Zugang, nicht an Arbeit hier
@@ -112,6 +111,86 @@ Neun Punkte aus Daniels Bilderserie vom 02. und 03.09.2026, alle ausgeliefert:
   Netflix' eigener Staffelliste, die eine Anmeldung braucht — also entscheidet
   es die Erweiterung, nicht der Bau. Das gehört zu „Sammeln und Zuordnen
   vollständig trennen".
+
+## Recherche 04.09.2026: Die leere Unterzeile stammt nicht aus den Daten
+
+Daniel am 04.09.2026 mit Bild: Der graue Kasten links oben über dem Cover stand
+leer. Aufgetreten beim Wechsel zwischen Tabs, nicht wiederholbar.
+
+Die Unterzeile setzt sich aus vier Angaben zusammen — Format, Folgenzahl (ab 2),
+japanisches Jahr, Studio. Leer ist sie nur, wenn **alle vier** fehlen. Gemessen
+über alle drei Bestände, aus denen ein `title` im Panel stammen kann:
+
+| Bestand | Titel | ohne alle vier Angaben |
+|---|---|---|
+| `titles.json` | 2.766 | **0** |
+| `titles-core.json` (Erstaufruf) | 454 | **0** |
+| `ohne-synchro.json` (Katalog) | 15.120 | **0** |
+
+Dazu der Feldvergleich: `titles-core.json` lässt **kein** Feld weg, das
+`titles.json` führt. Der Katalog führt kein `studios`, aber `format`, `episodes`
+und `jpYear` — also nie alle vier leer.
+
+**Damit ist der Zustand aus den Daten nicht erklärbar.** Er kann nur ein
+Renderzustand gewesen sein, und den fängt die Absicherung vom selben Tag: Die
+Unterzeile wird nur noch gezeichnet, wenn mindestens eine der vier Angaben da
+ist. Weiter zu suchen, ohne den Fall wiederholen zu können, wäre Raten.
+
+**Wieder aufgemacht wird der Punkt, wenn Daniel den leeren Kasten erneut sieht** —
+dann mit dem Wissen, dass es an keinem Datensatz liegt.
+
+## Recherche 04.09.2026: Vollständig deutsche Crunchyroll-Blöcke — der Hebel existiert nicht
+
+**Die Vermutung war:** Ist ein Crunchyroll-Block restlos deutsch, ist jede Folge
+darin deutsch — egal wie unser Bestand ihn aufteilt. Damit müssten sich Verweise
+belegen lassen, an denen `beurteileNachFolgennummern` scheitert, weil die Summe
+unserer Folgen nicht der höchsten Crunchyroll-Nummer entspricht (Fall „Schleim":
+Block „Staffel 2" hat 25 von 25 deutsch, unser Bestand teilt in 2×12).
+
+**Gemessen am 04.09.2026** über alle 969 Serien des Crunchyroll-Bestands:
+
+| | |
+|---|---|
+| Verweise ohne Urteil an Adressen mit `katalog: de` | **31** (nicht 40 — die Zahl in der Aufgabe war veraltet) |
+| davon an Adressen mit mindestens einem restlos deutschen Block | 30 an 15 Adressen |
+| **davon sicher belegbar** | **0** |
+
+**Warum null.** Der sichere Schluss braucht keine Zuordnung, aber eine
+Voraussetzung: *alle* Blöcke der Serie müssen restlos deutsch sein — dann ist
+jede Folge deutsch, und es ist gleichgültig, welcher Titel zu welchem Block
+gehört. **Keine einzige der 16 betroffenen Adressen erfüllt das.** An jeder hängt
+mindestens ein Block, der läuft oder untertitelt ist:
+
+```
+free-iwatobi-swim-club      Free! — Iwatobi Swim Club: 0/14 dt, 12 fremd
+fruits-basket               Fruits Basket (2019): 0/25 dt, 25 fremd
+kaguya-sama-love-is-war     Staffel 1: 0/12 dt, 12 fremd
+the-promised-neverland      Staffel 2: 0/12 dt, 12 fremd
+that-time-i-got-…-slime     Staffel 4: 16/19 dt, 1 fremd
+rezero-…                    Staffel 4: 11/13 dt
+sword-art-online            Alicization: 24/25 dt, 1 fremd
+nierautomata-ver11a         24/25 dt
+```
+
+**Der naheliegende Ausweg ist gemessen falsch.** Eine Präfix-Kette — Blöcke der
+Reihe nach, unsere Titel nach Jahr, solange die Summen aufgehen — belegt genau
+**drei** Titel, und mindestens einer davon ist falsch: „Sword Art Online: Extra
+Edition" ist ein **Special** mit einer Folge und steht in keinem Block; die Kette
+schob es in „Sword Art Online (25)". Das ist wörtlich der Fehler, vor dem
+`CLAUDE.md` warnt („Specials und Filme sind ausgenommen … sie stehen in keinem der
+Blöcke"). Der zweite Treffer, „Kaguya-sama: Love Is War (12)", wäre über den Block
+der **zweiten** Staffel belegt worden — richtig nur durch Zufall gleicher
+Folgenzahl.
+
+**Entscheidung: nicht gebaut.** Drei Urteile, davon eins nachweislich falsch, gegen
+einen Umbau an der Stelle mit den drei teuersten dokumentierten Fehlschlägen des
+Projekts. Die 31 offenen Verweise sind keine ungenutzten Belege, sondern echte
+offene Fragen — dort steht ein Block, der gerade läuft, oder einer ohne deutsche
+Fassung.
+
+**Wann es sich neu zu bewerten lohnt:** Wenn eine der acht Adressen oben ihre
+laufende Staffel abschließt und der Block danach restlos deutsch ist. Dann greift
+die sichere Form ohne jede Zuordnung. Bei „Schleim" ist das die Staffel 4.
 
 ## Recherche 31.08.2026: Deutsche Titel für Anime ohne belegte Synchro
 
