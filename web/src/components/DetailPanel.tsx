@@ -154,6 +154,7 @@ function AntwortKasten({
   today,
   stream = [],
   disc = [],
+  wegeHinweis,
 }: {
   antwort: Antwort
   title: Title
@@ -167,6 +168,20 @@ function AntwortKasten({
    */
   stream?: React.ReactNode[]
   disc?: React.ReactNode[]
+  /**
+   * **Was dasteht, wenn es keinen Weg gibt.**
+   *
+   * „WO LÄUFT ES — Kein Anbieter bekannt" war bis zum 04.09.2026 ein eigener
+   * Abschnitt unter dem Kasten. Seit die Pillen im Kasten stehen, ist er die
+   * letzte Hälfte eines Bereichs, den es nicht mehr gibt (Daniel: „wo läuft es
+   * bereich haben wir in die box geschoben, daher sollte der bereich nicht mehr
+   * auftauchen").
+   *
+   * Der Satz selbst bleibt, und zwar an der Stelle der Pillen: Er unterscheidet
+   * „läuft nirgends" von „wissen wir nicht" — bei 665 von 2.760 Titeln die
+   * einzige Auskunft, die das Suchen auf dieser Seite beendet.
+   */
+  wegeHinweis?: string
 }) {
   /*
     **Der Umschalter sitzt oben rechts — nicht über den Pillen.**
@@ -477,6 +492,13 @@ function AntwortKasten({
 
       {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
       </div>
+      {pillen.length === 0 && wegeHinweis && (
+        <div className="border-t border-slate-200/70 pt-2.5 dark:border-white/10">
+          <p className="flex min-h-[2.1rem] items-center text-xs text-slate-500 dark:text-slate-400">
+            {wegeHinweis}
+          </p>
+        </div>
+      )}
       {pillen.length > 0 && (
         <div className="border-t border-slate-200/70 pt-2.5 dark:border-white/10">
           {/*
@@ -1686,6 +1708,38 @@ export function DetailPanel({
    * Dann stehen Jahr, Altersfreigabe und Studio bereits dort, und die
    * Werkangaben weiter unten lassen sie weg.
    */
+  /*
+    **Kein Weg bekannt — der Satz steht jetzt im Kasten.**
+
+    Die Bedingung ist dieselbe wie im früheren Abschnitt „WO LÄUFT ES", nur
+    ihr Ort hat sich geändert. Vier Ausschlüsse gehören dazu, jeder mit
+    eigenem Anlass:
+
+    - **Es gibt Wege** — dann sagen die Pillen alles.
+    - **Kein Titel ohne deutsche Fassung** (Daniel, 01.09.2026): Oben steht
+      dann schon „Noch keine deutsche Fassung", und ein zweites Nein liest
+      sich wie eine eigene Feststellung. Sind Sprechrollen belegt, bleibt der
+      Satz — dort sagt er etwas anderes.
+    - **Kein laufender Kinofilm** (Daniel, 25.08.2026, „Detektiv Conan Film
+      29" lief in 36 Städten): Der Anbieter ist dann das Kino, und der Termin
+      steht darüber. Entschieden wird am belegten letzten Spieltag, nicht an
+      einer geschätzten Laufzeit.
+  */
+  const wegeHinweis =
+    title &&
+    title.streams.length === 0 &&
+    (title.watchLinks?.length ?? 0) === 0 &&
+    (title.hasVoices || antwort?.art !== 'ohne') &&
+    !releases.some(
+      (r) =>
+        r.platform === 'kino' &&
+        (r.cinemaUntil
+          ? r.cinemaUntil >= today
+          : (r.schedule?.firstEpisodeDate ?? '') >= today),
+    )
+      ? t(title.hasVoices ? 'detail.whereDubbedButGone' : 'detail.whereUnknown')
+      : undefined
+
   const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
 
   /** Die vier Werkangaben der Unterzeile — leer heißt: kein Kasten. */
@@ -1726,9 +1780,24 @@ export function DetailPanel({
     let alive = true
     setErsatz(undefined)
     if (synopsis?.de || synopsis?.en) return
+    /*
+      **Eine Staffel schlägt einen Film — auch einen neueren.**
+
+      Bei „Black Clover" Staffel 2 stand als Ersatz die Handlung von „Sword of
+      the Wizard King" (2023), weil der Film jünger ist als Staffel 1 (2017).
+      Daniel hatte aber „die handlung der zuletzt erschienenen **staffel**"
+      verlangt, und das ist auch die brauchbarere Auskunft: Ein Film erzählt
+      eine abgeschlossene Nebengeschichte, die Serie den Strang, den eine
+      Fortsetzung aufnimmt.
+    */
     const vorher = reihenTeile
       .filter((m) => m.id !== titleId && (m.jpYear ?? 9999) <= (title?.jpYear ?? 9999))
-      .sort((a, b) => (b.jpYear ?? 0) - (a.jpYear ?? 0) || b.id - a.id)
+      .sort(
+        (a, b) =>
+          Number(istStaffel(b.format)) - Number(istStaffel(a.format)) ||
+          (b.jpYear ?? 0) - (a.jpYear ?? 0) ||
+          b.id - a.id,
+      )
     ;(async () => {
       for (const m of vorher) {
         const s = await loadSynopsis(m.id).catch(() => undefined)
@@ -2249,6 +2318,7 @@ export function DetailPanel({
               title={title}
               t={t}
               today={today}
+              wegeHinweis={wegeHinweis}
                 /*
                   **Stream ist, wo man es ansehen kann.** Die Zugangsart
                   (kostenlos, Abo, Kauf) stand bis zum 03.09.2026 als eigene
@@ -2442,95 +2512,6 @@ export function DetailPanel({
             Pille — und damit ein Termin, den es noch nicht gibt, nicht neben
             einem verfuegbaren Angebot steht.
           */}
-          {/*
-            Kein Anbieter? Dann steht das da — statt gar nichts.
-
-            Bis zum 20.08.2026 wurde der ganze Abschnitt weggelassen, sobald wir
-            keine Bezugsquelle kannten. Das betraf **665 von 2.760 Titeln**, und
-            für einen Besucher waren zwei sehr verschiedene Dinge nicht zu
-            unterscheiden: „läuft nirgends" und „wissen wir nicht". Bei
-            „.hack//SIGN" etwa ist die deutsche Synchro über Sprechrollen belegt,
-            nur weiß niemand, wo man sie heute noch sehen kann.
-
-            Das ist genau der Fall, für den der Projektgrundsatz „Unsicheres
-            kennzeichnen statt weglassen" gemacht ist. Ein Satz, kein Absatz: Er
-            hat die eine Aufgabe, das Suchen auf dieser Seite zu beenden.
-          */}
-          {/*
-            **Solange ein Film im Kino läuft, ist „Kein Anbieter bekannt" eine
-            Irreführung — danach die richtige Auskunft.**
-
-            Der Satz stand unter „Detektiv Conan Film 29", während der Film in
-            36 Städten lief (Daniel, 25.08.2026: „wieso keine anbieter
-            bekannt?"). Der Anbieter war das Kino, und der Termin stand drei
-            Zeilen höher.
-
-            Ihn bei jedem Kinofilm auszublenden wäre aber zu grob: „später
-            irgendwann kommen kinofilme auch bei anbietern, aber solang es keine
-            gibt, brauch dieser text da nich stehen. erst wenn der film in
-            keinem kino mehr läuft, dann."
-
-            Entschieden wird deshalb am **belegten letzten Spieltag**
-            (`cinemaUntil`, aus dem CineStar-Programm über 43 Standorte) — nicht
-            an einer geschätzten Laufzeit.
-
-            Vier Fälle, und alle vier fallen richtig:
-
-            | Kino | Stream/Disc | Hinweis |
-            |---|---|---|
-            | läuft | vorhanden | nein — die erste Bedingung greift |
-            | läuft | keiner | nein — der Anbieter ist das Kino |
-            | vorbei | vorhanden | nein — die erste Bedingung greift |
-            | vorbei | keiner | **ja** |
-
-            Dass beides gleichzeitig gilt, ist dabei der Normalfall und kein
-            Sonderfall: Ein Film kann im Kino laufen und schon auf Disc sein
-            (Daniel, 25.08.2026). Die Bedingungen schließen einander nicht aus.
-
-            Fehlt `cinemaUntil` — etwa weil CineStar den Film nicht führt —,
-            zählt der Starttermin: Ab dem Kinostart gilt der Film als laufend,
-            bis das Gegenteil belegt ist. Das ist die vorsichtige Seite: lieber
-            einen Hinweis zu wenig als eine falsche Auskunft.
-          */}
-          {/*
-            **Bei einem Titel ohne deutsche Fassung entfällt der Block ganz.**
-
-            Bei „Mission: Yozakura Family" stand oben „Noch keine deutsche
-            Fassung — bisher kein deutscher Anbieter" und zwei Zeilen darunter
-            noch einmal „WO LÄUFT ES: Kein Anbieter bekannt". Daniel am
-            01.09.2026: „also ist es logisch das kein anbieter bekannt ist, es
-            sollte umformuliert werden oder der bereich muss in solchen fällen
-            einfach versteckt werden."
-
-            Die Auskunft ist dieselbe, nur zweimal — und die zweite liest sich
-            wie eine eigene Feststellung. Wo deutsche Sprechrollen belegt sind,
-            bleibt der Block: Dort sagt er etwas anderes („es gab eine Fassung,
-            wir kennen nur keinen Weg mehr dorthin"), und das steht sonst
-            nirgends.
-          */}
-          {title.streams.length === 0 &&
-            (title.watchLinks?.length ?? 0) === 0 &&
-            (title.hasVoices || antwort?.art !== 'ohne') &&
-            !releases.some(
-              (r) =>
-                r.platform === 'kino' &&
-                (r.cinemaUntil
-                  ? r.cinemaUntil >= today
-                  : (r.schedule?.firstEpisodeDate ?? '') >= today),
-            ) && (
-            <div>
-              <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
-              {/*
-                Sind deutsche Sprechrollen belegt, ist mehr bekannt als „nichts":
-                Es gab eine deutsche Fassung, wir kennen nur keinen Weg mehr
-                dorthin. Wer das liest, sucht gebraucht statt bei den
-                Streamingdiensten weiter.
-              */}
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                {t(title.hasVoices ? 'detail.whereDubbedButGone' : 'detail.whereUnknown')}
-              </p>
-            </div>
-          )}
 
           {/*
             **Dieser Block endet hier — und bis zum 25.08.2026 tat er das nicht.**
