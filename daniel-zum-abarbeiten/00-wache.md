@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 04.09.2026 um 10:04 Uhr
+**Unauffällig** · zuletzt 04.09.2026 um 14:08 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -20,15 +20,14 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 ## Bestand — die letzten 24 Stunden
 
 ```
-11 Läufe in den letzten 1 Tagen (96 insgesamt)
+9 Läufe in den letzten 1 Tagen (98 insgesamt)
 
-03.09., 09:55  Bestand — zusammenführ   mitUrteil +13, ohneUrteil -13, titelMitSynchro +8, releases +1
 03.09., 13:04  Bestand — zusammenführ   titel +1, titelMitSynchro +1, releases +1, termine +12
             ⚠  netflix: 1 Synchro-Belege weniger
 03.09., 22:23  Bestand — zusammenführ   verweise +1, ohneUrteil +1
 
 Stand jetzt: 2766 Titel, 1898 Urteile, 103 offen
-Über den Zeitraum: Titel +1, Urteile +13, offen -12
+Über den Zeitraum: Titel 0, Urteile 0, offen +1
 
 ⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
@@ -47,6 +46,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 04.09.2026 14:08 | 2766 / 1898 / 103 | Titel 0, Urteile 0, offen +1 | unauffällig |
 | 04.09.2026 10:04 | 2766 / 1898 / 103 | Titel +1, Urteile +13, offen -12 | unauffällig |
 | 03.09.2026 11:44 | 2765 / 1885 / 115 | Titel 0, Urteile -5, offen +5 | unauffällig |
 | 03.09.2026 09:29 | 2765 / 1885 / 115 | Titel 0, Urteile -5, offen +4 | 5 Urteile verloren; 5 Titel ohne Synchro-Beleg; crunchyroll: 7 Synchro-Belege weniger |
