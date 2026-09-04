@@ -2651,20 +2651,6 @@ export function DetailPanel({
                   const kuenftig = (m: FranchiseMember) =>
                     (m.jpYear ?? 0) > jahr || (Boolean(m.ohneSynchro) && (m.jpYear ?? 0) >= jahr)
                   /*
-                    **Erst die Staffeln, dann alles Übrige — jeweils nach Datum.**
-
-                    Rein chronologisch stand zwischen Staffel 1 und Staffel 2 eine
-                    ONA von 2023 (Daniel: „sortierung der einträge falsch … sie
-                    sollten zuerst nach hauptstaffeln sortiert sein, dann nach
-                    datum"). Wer eine Reihe öffnet, sucht die nächste Staffel; ein
-                    Spin-off dazwischen unterbricht genau die Reihenfolge, die er
-                    im Kopf hat.
-                  */
-                  const nachRang = (a: FranchiseMember, b: FranchiseMember) => {
-                    const rang = (m: FranchiseMember) => (istStaffel(m.format) ? 0 : 1)
-                    return rang(a) - rang(b) || (a.jpYear ?? 0) - (b.jpYear ?? 0) || a.id - b.id
-                  }
-                  /*
                     **Vier Gruppen mit Überschrift, nicht zwei Töpfe.**
 
                     Bei „One Piece" standen 64 Teile in einer Liste, und der erste
@@ -2709,29 +2695,43 @@ export function DetailPanel({
                   const hatTv = reihenTeile.some((m) => m.format === 'TV')
                   const istHauptstaffel = (m: FranchiseMember) =>
                     hatTv ? m.format === 'TV' : istStaffel(m.format)
-                  const da = reihenTeile.filter((m) => !kuenftig(m))
-                  const gruppen: { titel: string; teile: FranchiseMember[]; offen: boolean }[] = [
+                  /*
+                    **Was noch nicht da ist, gehört trotzdem zu seiner Art.**
+
+                    Bis zum 04.09.2026 gab es dafür eine vierte Gruppe, „NOCH
+                    NICHT ERSCHIENEN", ganz unten. Bei „Black Clover" stand
+                    Staffel 2 damit **unter** zwei Specials und einem Film —
+                    Daniel sah sie erst nach dem Scrollen und hielt sie für
+                    fehlend: „ich hab staffel 2 nicht gesehen unter hauptserie
+                    … keine seperate kategorie ,noch nicht erschienen', sondern
+                    direkt dort einsortieren wozu es gehört."
+
+                    Er hat recht, und zwar nicht nur für diesen Fall: Wer eine
+                    Reihe aufschlägt, sucht die nächste Staffel — und die ist
+                    per Definition die, die noch aussteht. Sie ans Ende aller
+                    Kategorien zu schieben versteckt genau das, wonach gesucht
+                    wird.
+
+                    Innerhalb einer Kategorie stehen die künftigen Teile hinten,
+                    nach Jahr sortiert. Als **gestrichelt** bleiben sie erkennbar
+                    — das war ohnehin die Zeilenmarkierung, nicht die Überschrift.
+                  */
+                  const nachStandUndJahr = (a: FranchiseMember, b: FranchiseMember) =>
+                    Number(kuenftig(a)) - Number(kuenftig(b)) || nachJahr(a, b)
+                  const gruppen: { titel: string; teile: FranchiseMember[] }[] = [
                     {
                       titel: t('detail.gruppeStaffeln'),
-                      teile: da.filter(istHauptstaffel).sort(nachJahr),
-                      offen: false,
+                      teile: reihenTeile.filter(istHauptstaffel).sort(nachStandUndJahr),
                     },
                     {
                       titel: t('detail.gruppeSpecials'),
-                      teile: da
+                      teile: reihenTeile
                         .filter((m) => !istHauptstaffel(m) && m.format !== 'MOVIE')
-                        .sort(nachJahr),
-                      offen: false,
+                        .sort(nachStandUndJahr),
                     },
                     {
                       titel: t('detail.gruppeFilme'),
-                      teile: da.filter((m) => m.format === 'MOVIE').sort(nachJahr),
-                      offen: false,
-                    },
-                    {
-                      titel: t('detail.reiheKuenftig'),
-                      teile: reihenTeile.filter(kuenftig).sort(nachRang),
-                      offen: true,
+                      teile: reihenTeile.filter((m) => m.format === 'MOVIE').sort(nachStandUndJahr),
                     },
                   ].filter((g) => g.teile.length > 0)
 
@@ -2904,7 +2904,7 @@ export function DetailPanel({
                             </span>
                             <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
                           </div>
-                          {g.teile.map((m) => zeile(m, g.offen))}
+                          {g.teile.map((m) => zeile(m, kuenftig(m)))}
                         </Fragment>
                       ))}
                     </div>
