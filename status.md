@@ -74,8 +74,32 @@ eine DNS-Abfrage in drei Sekunden.
 nicht gelesen.** Dann ist sie schlechter als keine — das ist der eigentliche
 Grund, und er gilt ueber DMARC hinaus.
 
-Was zwischen dem 24.08. und dem 04.09. passiert ist, liegt weiterhin in Daniels
-Postfach; falls es je gebraucht wird, ist es von dort zu holen.
+### Die fehlenden zwoelf Berichte, nachgereicht am 05.09.2026
+
+Daniel hat die Berichte vom 23.08. bis 03.09. aus seinem Postfach abgelegt.
+Damit ist die Frage, die seit dem 24.08. offenstand, beantwortet — und zwar
+positiv:
+
+```
+2026-08-23   3 Mails   p=none         ← letzter Bericht unter der alten Politik
+2026-08-24   1 Mail    p=quarantine   ← die Umstellung ist angekommen
+…
+2026-09-03   2 Mails   p=quarantine
+
+Zeitraum 23.08.–03.09.: 12 Berichte, 23 Mails, 0 dkim-Fehler, 0 spf-Fehler
+Kette lueckenlos, alle Absender-IPs aus dem SES-Bereich
+```
+
+**`policy_published` springt genau am 24.08. auf `quarantine`** — dem Tag der
+Umstellung. Die Empfaenger wenden die schaerfere Politik also an, und in zwoelf
+Tagen darunter ist keine einzige eigene Mail durchgefallen.
+
+Ueber den ganzen Bestand von 27 Berichten (07.08. bis 03.09., 53 Mails): **null
+Fehlschlaege, kein fremder Absender**. Ein Tag fehlt in der Kette, der 19.08. —
+aus der Zeit vor der Umstellung.
+
+Die Berichte liegen unter `__assets/notes/dmarc-berichte/` (28 Dateien),
+auszuwerten mit `node tools/dmarc-auswerten.mjs <ordner>`.
 
 ## Entschieden 05.09.2026: Der Kachel-Titel steht unter dem Cover
 
