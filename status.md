@@ -94,11 +94,16 @@ Kette lueckenlos, alle Absender-IPs aus dem SES-Bereich
 Umstellung. Die Empfaenger wenden die schaerfere Politik also an, und in zwoelf
 Tagen darunter ist keine einzige eigene Mail durchgefallen.
 
-Ueber den ganzen Bestand von 27 Berichten (07.08. bis 03.09., 53 Mails): **null
-Fehlschlaege, kein fremder Absender**. Ein Tag fehlt in der Kette, der 19.08. —
-aus der Zeit vor der Umstellung.
+Ueber den ganzen Bestand von **28 Berichten** (07.08. bis 04.09., 55 Mails):
+**null Fehlschlaege, kein fremder Absender**. Ein Tag fehlt in der Kette, der
+19.08. — aus der Zeit vor der Umstellung.
 
-Die Berichte liegen unter `__assets/notes/dmarc-berichte/` (28 Dateien),
+Der Bericht fuer den 04.09. kam am 05.09. um 12:17 nach, also nach dem
+Abschalten: 2 Mails, `p=quarantine`, keine Fehler. Google hatte den Bericht
+schon erzeugt, bevor der Eintrag ohne `rua=` gelesen wurde — **ein bis zwei
+Nachzuegler sind normal**, danach ist Ruhe.
+
+Die Berichte liegen unter `__assets/notes/dmarc-berichte/` (29 Dateien),
 auszuwerten mit `node tools/dmarc-auswerten.mjs <ordner>`.
 
 ## Entschieden 05.09.2026: Der Kachel-Titel steht unter dem Cover
