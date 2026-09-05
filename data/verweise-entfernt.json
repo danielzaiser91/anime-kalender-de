@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-05T21:23:44.529Z",
+  "stand": "2026-09-05T21:25:13.582Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1859,7 +1859,7 @@
       "seriesId": "G6NQ3DZX6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 10790,
