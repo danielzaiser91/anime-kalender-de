@@ -3058,7 +3058,18 @@ async function speicherSchreiben(werte) {
     a.target = '_blank'
     a.rel = 'noopener noreferrer'
     a.textContent = text
-    a.style.cssText = 'display:block;margin-top:4px;color:#7cc4ff;text-decoration:underline;font-size:12px'
+    /*
+      **Kein Stil am Element — sonst gewinnt er gegen jedes Stylesheet.**
+
+      Hier stand `style.cssText = 'display:block;margin-top:4px;…'`. In der
+      Fußzeile ist der Verweis aber eine Pille neben dem Prüflisten-Knopf, und
+      gegen `display:block` plus 4 px Abstand von oben kommt keine Klassenregel
+      an: Beide Knöpfe standen auf verschiedenen Höhen (Daniel, 06.09.2026:
+      „mach die buttons für anisearch und prüfliste auf selber höhe").
+
+      Das Aussehen ist dasselbe geblieben, es steht nur in `melder.css` unter
+      `.ak-such-quelle` — dort, wo die Fußzeile es überschreiben darf.
+    */
     return a
   }
 
@@ -7403,6 +7414,27 @@ async function speicherSchreiben(werte) {
       knopf.style.display = 'none'
       knopf.disabled = true
       knopf.dataset.deutsch = String(deutsch)
+      /*
+        **Der Knopf geht, die Auskunft bleibt.**
+
+        Am 02.09.2026 wurde „alles gemeldet" bewusst entfernt: „kann komplett
+        entfernt werden, weil es durch die checkbox box schon klar ist das alles
+        gemeldet wurde." Das stimmt — **wo eine Checkliste steht**. Bei einem
+        Film gibt es keine: Dort blieb nach der Meldung nur die bloße Hülle
+        übrig, und nichts sagte mehr, dass etwas passiert ist (Daniel,
+        06.09.2026: „nach meldung verschwindet der button, stattdessen soll der
+        button wie vorher mit checkmark zeigen das gemeldet wurde").
+
+        Die Marke steht links in der Fußzeile — derselbe Platz, den sie seit dem
+        02.09.2026 hat: „gemeldet links (besonders gestyled) und anisearch
+        rechts".
+      */
+      try {
+        const links = document.querySelector('.ak-amazon-suchhinweis .ak-such-fuss-links')
+        if (links && !links.firstChild) links.appendChild(kastenZeile('ak-such-fertig', 'gemeldet ✓'))
+      } catch {
+        /* Ohne Kasten keine Marke — der Knopf ist ohnehin schon weg. */
+      }
       return
     }
 

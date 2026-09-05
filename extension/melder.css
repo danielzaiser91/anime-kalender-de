@@ -835,8 +835,21 @@
   steht seit 4.11.0 in der Meldezeile darüber — und würde als leere Spalte die
   Hälften verschieben.
 */
+/*
+  **Leer bleibt sie unsichtbar, gefüllt steht sie da.**
+
+  Die Spalte trug lange nichts und hätte als leere Hälfte die Fußzeile
+  verschoben. Seit 4.13.2 nimmt sie wieder die Marke „gemeldet ✓" auf — aber nur
+  bei einem Titel ohne Checkliste, also vor allem bei Filmen (Begründung in
+  `amazon.js` am Zweig `alleDurch`).
+*/
 .ak-such-fuss-links {
   display: none;
+}
+
+.ak-such-fuss-links:not(:empty) {
+  display: flex;
+  align-items: center;
 }
 
 /*
@@ -1393,3 +1406,23 @@
   font-size: 11px;
 }
 .ak-nichtda:hover { border-color: #f85149; color: #ffa198; }
+
+/*
+  Der Quellen-Verweis im Kasten. Stand bis 4.13.1 als `style`-Attribut am
+  Element und war damit unschlagbar — in der Fußzeile ist er eine Pille, und
+  `display:block` plus Abstand von oben setzten ihn dort tiefer als den
+  Prüflisten-Knopf daneben. Hier kann `.ak-such-fuss a` ihn überschreiben.
+*/
+.ak-such-quelle {
+  display: block;
+  margin-top: 4px;
+  color: #7cc4ff;
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+/* In der Fußzeile gilt die Pillenform, nicht der Fließtext-Verweis. */
+.ak-such-fuss .ak-such-quelle {
+  margin-top: 0;
+  text-decoration: none;
+}

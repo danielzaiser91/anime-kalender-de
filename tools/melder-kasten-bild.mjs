@@ -126,7 +126,7 @@ const seite = `<!doctype html><meta charset="utf-8">
     <span class="ak-such-fuss-mitte">
       <button type="button" class="ak-uebersicht ak-uebersicht-innen">Prime: alles geprüft</button>
     </span>
-    <span class="ak-such-fuss-rechts"><a href="#">aniSearch</a></span>
+    <span class="ak-such-fuss-rechts"><a class="ak-such-quelle" href="#">aniSearch</a></span>
   </div>
   <div class="ak-z-debug">
     <div class="ak-debugleiste">
@@ -179,8 +179,8 @@ const lage = await seiteObj.evaluate(() => {
   const k = r(kasten)
   return {
     kastenBreite: Math.round(k.width),
-    knopf: r(knopf) && { x: Math.round(r(knopf).x - k.x), breite: Math.round(r(knopf).width), y: Math.round(r(knopf).y - k.y) },
-    link: r(link) && { x: Math.round(r(link).x - k.x), breite: Math.round(r(link).width), y: Math.round(r(link).y - k.y) },
+    knopf: r(knopf) && { x: Math.round(r(knopf).x - k.x), breite: Math.round(r(knopf).width), y: Math.round(r(knopf).y - k.y), hoehe: Math.round(r(knopf).height) },
+    link: r(link) && { x: Math.round(r(link).x - k.x), breite: Math.round(r(link).width), y: Math.round(r(link).y - k.y), hoehe: Math.round(r(link).height) },
     fertig: r(fertig) && { breite: Math.round(r(fertig).width), hoehe: Math.round(r(fertig).height) },
     leererPlatz: platz ? getComputedStyle(platz).display : '—',
     /*
@@ -287,6 +287,20 @@ console.log(`  gemeldet   breit=${lage.fertig?.breite} hoch=${lage.fertig?.hoehe
 
 pruefe(lage.leererPlatz === 'none', 'der leere dritte Platz der Fußzeile ist ausgeblendet')
 pruefe(lage.knopf && lage.link && lage.knopf.y === lage.link.y, 'Prüfliste und aniSearch stehen auf einer Zeile')
+/*
+  **Auf einer Zeile heißt noch nicht auf einer Höhe.**
+
+  Die Kulisse trug bis 4.13.2 ein nacktes `<a>`; das echte Element ist ein
+  `.ak-such-quelle` und brachte seinen Stil als `style`-Attribut mit
+  (`display:block`, 4 px Abstand von oben). Gegen ein Attribut kommt keine
+  Klassenregel an, und die beiden Knöpfe standen verschieden hoch — die
+  Zusicherung darüber blieb trotzdem grün, weil die Kulisse den Fall nicht
+  nachstellte (Daniel, 06.09.2026, mit Bild).
+*/
+pruefe(
+  lage.knopf && lage.link && Math.abs(lage.knopf.hoehe - lage.link.hoehe) <= 1,
+  `… und sind gleich hoch (${lage.knopf?.hoehe} / ${lage.link?.hoehe} px)`,
+)
 pruefe(lage.knopf && lage.link && lage.knopf.x < lage.link.x, 'die Prüfliste steht links, aniSearch rechts')
 pruefe(
   lage.knopf && lage.link && Math.abs(lage.knopf.breite - lage.link.breite) <= 1,
