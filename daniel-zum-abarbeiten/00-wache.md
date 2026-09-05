@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 04.09.2026 um 14:08 Uhr
+**Unauffällig** · zuletzt 05.09.2026 um 13:16 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -13,31 +13,24 @@ Disney-Meldungen wurden zu einem einzigen Eintrag abgehakt, 216
 One-Piece-Meldungen verschwanden ganz. Gefunden hat es Daniel, weil ihm eine Zahl
 komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
-## Was aufgefallen ist
-
-- netflix: 1 Synchro-Belege weniger
-
 ## Bestand — die letzten 24 Stunden
 
 ```
-9 Läufe in den letzten 1 Tagen (98 insgesamt)
+7 Läufe in den letzten 1 Tagen (105 insgesamt)
 
-03.09., 13:04  Bestand — zusammenführ   titel +1, titelMitSynchro +1, releases +1, termine +12
-            ⚠  netflix: 1 Synchro-Belege weniger
-03.09., 22:23  Bestand — zusammenführ   verweise +1, ohneUrteil +1
+04.09., 14:27  Bestand — zusammenführ   titel +1, verweise +1, mitUrteil +1, titelMitSynchro +1, releases +1, termine +12
+05.09., 08:24  Bestand — zusammenführ   verweise +1, mitUrteil +1
 
-Stand jetzt: 2766 Titel, 1898 Urteile, 103 offen
-Über den Zeitraum: Titel 0, Urteile 0, offen +1
-
-⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
+Stand jetzt: 2767 Titel, 1900 Urteile, 103 offen
+Über den Zeitraum: Titel 0, Urteile +1, offen 0
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 16 Meldungen auf 16 Adressen (primevideo 16)
+Briefkasten: 0 Meldungen auf 0 Adressen (—)
 Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 0 Adressen
-16 Adresse(n) noch nicht gelistet — Nachzügler, solange der Briefkasten unter 60 bleibt.
+Nichts im Briefkasten — nichts zu prüfen.
 ```
 
 ## Tagebuch
@@ -46,6 +39,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 05.09.2026 13:16 | 2767 / 1900 / 103 | Titel 0, Urteile +1, offen 0 | unauffällig |
 | 04.09.2026 14:08 | 2766 / 1898 / 103 | Titel 0, Urteile 0, offen +1 | unauffällig |
 | 04.09.2026 10:04 | 2766 / 1898 / 103 | Titel +1, Urteile +13, offen -12 | unauffällig |
 | 03.09.2026 11:44 | 2765 / 1885 / 115 | Titel 0, Urteile -5, offen +5 | unauffällig |
