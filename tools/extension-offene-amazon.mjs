@@ -109,8 +109,21 @@ function kennung(url) {
 
     Zwei gleich falsche Seiten sehen aus wie eine richtige — der Fehler wird
     erst sichtbar, wenn eine davon in Ordnung kommt.
+
+    **Und eine dritte Form gibt es auch.** Neben ASIN und GTI fuehrt Prime
+    Adressen der Bauart `/gp/video/detail/amzn1.dv.gti.d1c0…` — Kleinbuchstaben
+    und Punkte, also weder das eine noch das andere. Vier Verweise im Bestand
+    tragen sie (05.09.2026: „Starship Troopers: Invasion", „Cats", „Detektiv
+    Conan: Die scharlachrote Kugel", „Nukitashi"), und fuer die Prueflisten
+    waren sie damit unsichtbar: keine Kennung, kein Auftrag, kein Klick. Sie
+    standen still im Bestand, ohne Sprachurteil und ohne dass sie jemand
+    vorgelegt bekommen haette.
+
+    Aufgefallen ist es bei der Frage, warum alle drei Listen leer sind, obwohl
+    103 Verweise noch kein Urteil tragen. Die Antwort war zu 29 Faellen
+    „Kanal-Titel, schon angesehen" — und zu vier Faellen diese Zeile hier.
   */
-  return /\/(?:dp|detail)\/([A-Z0-9]{10,32})/.exec(url)?.[1]
+  return /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(url)?.[1]
 }
 
 /** Alle unsere Einträge je Amazon-Kennung — auch die schon beantworteten. */

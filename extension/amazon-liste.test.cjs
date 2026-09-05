@@ -44,7 +44,13 @@ if (!schluessel.length) {
 const abweichend = []
 for (const k of schluessel) {
   const url = liste[k]?.url ?? ''
-  const ausAdresse = /\/(?:dp|detail)\/([A-Z0-9]{10,32})/.exec(url)?.[1]
+  /*
+    Dieselben drei Formen wie in `tools/extension-offene-amazon.mjs` und
+    `amazon.js`: ASIN (10), GTI (26) und die Bauart `amzn1.dv.gti.…` mit
+    Kleinbuchstaben und Punkten. Weichen die drei Stellen voneinander ab, steht
+    ein Auftrag in der Liste, den die Seite nie wiedererkennt.
+  */
+  const ausAdresse = /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(url)?.[1]
   if (ausAdresse !== k) abweichend.push({ schluessel: k, ausAdresse, url: url.slice(-46) })
 }
 pruefe(

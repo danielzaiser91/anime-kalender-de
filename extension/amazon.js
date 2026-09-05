@@ -324,7 +324,19 @@ async function speicherSchreiben(werte) {
 
   /** Die Kennung aus der Adresse — beide Formen kommen vor. */
   function asinAusAdresse() {
-    return /\/(?:dp|detail)\/([A-Z0-9]{10,32})/.exec(`${location.pathname}${location.search}`)?.[1] ?? null
+    /*
+      **Drei Formen, nicht zwei.** Zehn Zeichen sind die ASIN, 26 die GTI — und
+      daneben fuehrt Prime Adressen wie `/gp/video/detail/amzn1.dv.gti.d1c0…`
+      mit Kleinbuchstaben und Punkten. Die Liste kennt sie seit dem 05.09.2026;
+      beide Seiten muessen dieselbe Kennung bilden, sonst steht ein Auftrag in
+      der Liste, den die Seite nie wiedererkennt — genau der Fehler vom
+      25.08.2026, nur mit vertauschten Rollen.
+    */
+    return (
+      /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(
+        `${location.pathname}${location.search}`,
+      )?.[1] ?? null
+    )
   }
 
   /**

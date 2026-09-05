@@ -1,17 +1,34 @@
 {
- "erzeugtAm": "2026-09-05T21:25:24.503Z",
+ "erzeugtAm": "2026-09-05T21:43:48.004Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 710,
+   "gemeldet": 706,
    "gesamt": 710,
-   "offen": 0,
+   "offen": 4,
    "ohneSeite": 0,
    "suchAdressen": [],
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.8ca9f6c3-21de-5225-749f-931196618766",
+   "ziele": [
+    {
+     "url": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.8ca9f6c3-21de-5225-749f-931196618766",
+     "titel": "Starship Troopers: Invasion"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.2eb82736-4d63-bfcd-21db-a04b6a8928e3",
+     "titel": "Mao Yu Tao Hua Yuan"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.9c92f9a9-a36f-4f4e-8ccd-e0d6b3649bee",
+     "titel": "Meitantei Conan: Hiiro no Dangan"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2",
+     "titel": "Nukitashi THE ANIMATION"
+    }
+   ],
+   "naechster": "Starship Troopers: Invasion"
   },
   {
    "name": "Netflix",
