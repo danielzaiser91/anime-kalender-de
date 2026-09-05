@@ -919,6 +919,24 @@
   border-style: solid;
   border-radius: 6px;
   font: 400 12px/1 "Segoe UI", system-ui, sans-serif;
+  /*
+    **Ein langer Text bricht um, statt aus der Pille zu laufen.**
+
+    Nach einem Neuladen der Erweiterung trägt der Prüflisten-Knopf den Satz
+    „Erweiterung neu geladen — Seite aktualisieren". Mit `line-height: 1` und
+    ohne Umbruch lief er waagerecht aus seiner Hälfte heraus und legte sich über
+    den aniSearch-Knopf daneben (Daniel, 06.09.2026, mit Bild: „warum geht das
+    styling kaputt, wenn neue extension version geladen wurde?").
+
+    Die Pille wächst dann in die Höhe — beide Hälften bleiben gleich breit, und
+    nichts überlappt. Bei den kurzen Beschriftungen des Normalfalls ändert sich
+    nichts.
+  */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+  padding-top: 3px;
+  padding-bottom: 3px;
   text-decoration: none !important;
   white-space: nowrap;
 }

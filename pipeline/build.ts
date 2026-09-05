@@ -39,7 +39,9 @@ import {
 } from './lib/adn.ts'
 import { beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
-import { clearDir, discSlug, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
+import { resolve } from 'node:path'
+import yaml from 'js-yaml'
+import { clearDir, discSlug, log, readJson, ROOT, slugify, warn, writeJson, writeText } from './lib/util.ts'
 import { SYNOPSIS_GROUPS } from '../shared/types.ts'
 import type {
   DataMeta,
@@ -91,6 +93,33 @@ import {
   FRANCHISE_RELATIONS,
   otherZaehlt,
 } from '../shared/mappings.ts'
+
+/**
+ * **Von Hand nachgetragene aniSearch-Kennungen.**
+ *
+ * Die ID-Brücke (`data/anime-ids.json`) kommt aus der anime-offline-database
+ * und hinkt bei neuen Titeln hinterher — genau die stehen bei uns auf der
+ * Prüfliste. Fehlt die Kennung, verweist die Erweiterung auf die Suche statt
+ * auf den Titel (Daniel, 06.09.2026 an „Nukitashi": „besser natürlich direkt
+ * linken").
+ *
+ * Die Datei überlebt jeden Lauf; `anime-ids.json` wird beim Auffrischen
+ * vollständig neu geschrieben. Deshalb steht sie hier davor.
+ */
+const anisearchHand: Record<number, number> = (() => {
+  try {
+    const roh = yaml.load(readFileSync(resolve(ROOT, 'data/anisearch-ids-hand.yaml'), 'utf8'))
+    const raus: Record<number, number> = {}
+    for (const [k, v] of Object.entries((roh ?? {}) as Record<string, unknown>)) {
+      if (Number.isFinite(Number(k)) && Number.isFinite(Number(v))) raus[Number(k)] = Number(v)
+    }
+    return raus
+  } catch {
+    /* Ohne Datei bleibt es bei der Brücke. */
+    return {}
+  }
+})()
+
 
 /** Termine, die ein Anbieter nicht eingehalten hat — siehe `pipeline/termine-pruefen.ts`. */
 const verpassteTermine = readJson<
@@ -4151,7 +4180,7 @@ function main(): void {
       `annId` nur, wo auch Stimmen belegt sind: Ohne sie führt der Verweis auf
       eine Seite, die zu unserer Frage nichts sagt.
     */
-    const asId = anisearch[t.id]?.anisearchId
+    const asId = anisearchHand[t.id] ?? anisearch[t.id]?.anisearchId
     const annId = mitStimmen.has(t.id) ? annKennungen[String(t.id)] : undefined
     return {
       ...rest,

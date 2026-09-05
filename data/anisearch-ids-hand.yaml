@@ -1,0 +1,25 @@
+# Von Hand nachgetragene aniSearch-Kennungen: AniList-ID → aniSearch-ID.
+#
+# **Wozu, wenn es die ID-Brücke gibt.** Die Zuordnung AniList → aniSearch kommt
+# aus der anime-offline-database des manami-Projekts (`data/anime-ids.json`,
+# 15.265 Titel). Sie ist gut gepflegt, aber sie hinkt bei **neuen** Titeln
+# hinterher — und genau die stehen bei uns auf der Prüfliste.
+#
+# Fehlt die Kennung, verweist die Erweiterung auf die aniSearch-**Suche** statt
+# auf den Titel. Das trägt, ist aber ein Klick mehr und trifft nicht immer
+# (Daniel, 06.09.2026: „ansonsten ist search auch ok, besser natürlich direkt
+# linken").
+#
+# **Diese Datei überlebt jeden Lauf.** `data/anime-ids.json` wird beim
+# Auffrischen vollständig neu geschrieben; ein Eintrag darin wäre nach spätestens
+# einer Woche weg. Hier gelesene Kennungen werden nach dem Laden darübergelegt
+# und gewinnen.
+#
+# **Eintragen nur, was nachgesehen wurde.** Die Kennung steht in der Adresse der
+# aniSearch-Seite: `anisearch.de/anime/<ID>,<slug>`. Wer sie rät, verlinkt einen
+# fremden Titel — und das sieht niemand, weil die Seite ja existiert.
+
+# Nukitashi THE ANIMATION (2025). In der ID-Brücke vom 31.08.2026 nicht
+# enthalten; Adresse von Daniel geprüft (06.09.2026):
+# https://www.anisearch.de/anime/19045,nukitashi-the-animation/episodes
+174188: 19045
