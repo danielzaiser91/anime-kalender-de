@@ -3220,7 +3220,9 @@ async function speicherSchreiben(werte) {
           titel: auftrag.titel,
           /* Woher die Auskunft stammt — Suchseite oder geöffnete Titelseite. */
           notiz:
-            befund.art === 'titelseite'
+            befund.art === 'liste'
+              ? 'Aus der Prüfliste gemeldet: nachgesehen, den Titel gibt es bei Prime Video nicht'
+              : befund.art === 'titelseite'
               ? 'Titelseite auf Prime Video geöffnet und geprüft: Sie gehört nicht zu diesem Titel'
               : 'Suche auf Prime Video: ' +
                 (befund.art === 'aehnlich'
@@ -5337,8 +5339,37 @@ async function speicherSchreiben(werte) {
       zeile.style.cursor = 'pointer'
       zeile.addEventListener('click', (ev) => {
         if (ev.target.closest('a')) return
+        if (ev.target.closest('button')) return
         verweis.click()
       })
+
+      /*
+        **„Gibt es dort nicht" braucht keinen Umweg über die Seite.**
+
+        Daniel am 05.09.2026: „warum gibt es in der liste kein button für 'nicht
+        auf prime' melden?" — und auf die Rückfrage, was der Knopf bedeuten
+        soll: „Ich hab nachgesehen, gibt's dort nicht."
+
+        Genau das meldet er: `befund: 'weg'` unter der Adresse des Auftrags,
+        also dasselbe Ergebnis wie der Knopf auf der Seite. Die Übernahme macht
+        daraus ein `available: false` und entfernt den Verweis.
+
+        Er steht **nicht** für „der Auftrag ist Unsinn" — dafür gibt es das X am
+        Kasten, das nur weglegt. Der Unterschied ist der zwischen einer Aussage
+        über das Angebot und einer über unsere Liste.
+      */
+      const nichtDa = document.createElement('button')
+      nichtDa.className = 'ak-umschalter ak-nichtda'
+      nichtDa.type = 'button'
+      nichtDa.textContent = '✕ nicht da'
+      nichtDa.title =
+        'Ich habe nachgesehen: Diesen Titel gibt es bei Prime Video nicht.\n' +
+        'Wird als „nicht verfügbar" gemeldet, der Verweis verschwindet aus dem Bestand.'
+      nichtDa.addEventListener('click', (ev) => {
+        ev.stopPropagation()
+        void nichtBeiPrimeMelden({ suchUrl: e.url, titel: e.titel }, { art: 'liste' }, nichtDa)
+      })
+      zeile.appendChild(nichtDa)
 
       // Was an dieser Adresse hängt: mehrere Staffeln unter einer Seite sind
       // der Regelfall, nicht die Ausnahme.
@@ -8577,6 +8608,40 @@ async function speicherSchreiben(werte) {
         ist.** Der Takt schiebt nur hinein und räumt nicht mehr um — die Zeilen
         selbst entstehen einmal in `kastenSkelett()`.
       */
+      /*
+        **Über dem Knopf steht, was er meldet.**
+
+        Daniel am 05.09.2026: „wieso steht nicht welche asin/serientitel gemeldet
+        wird auf melde button?" Auf seiner Aufnahme stand dort „✕ keine Folgen
+        für diese Staffel — melden" und sonst nichts — die Seite hiess „Cats",
+        der Auftrag „Mao Yu Tao Hua Yuan", und welcher von beiden gleich in den
+        Datensatz geht, war nicht zu sehen.
+
+        Auf seine Wahl hin steht es als **eigene Zeile über dem Knopf** statt am
+        Knopf selbst: Der bleibt damit kurz, und die Angabe ist immer sichtbar
+        statt nur beim Darüberfahren.
+      */
+      const meldetZeile = kasten?.querySelector('.ak-z-inhalt')
+      if (meldetZeile && knopf.style.display !== 'none') {
+        const wasGemeldetWird = (() => {
+          const e = liste[id]
+          const name = e?.titel ?? seitenTitel() ?? null
+          return name ? `meldet: ${name} · ${id}` : id ? `meldet: ${id}` : ''
+        })()
+        let z = meldetZeile.querySelector('.ak-meldet')
+        if (wasGemeldetWird) {
+          if (!z) {
+            z = document.createElement('div')
+            z.className = 'ak-meldet'
+            meldetZeile.appendChild(z)
+          }
+          /* Nur bei echter Änderung schreiben — sonst flackert der Kasten. */
+          if (z.textContent !== wasGemeldetWird) z.textContent = wasGemeldetWird
+        } else if (z) {
+          z.remove()
+        }
+      }
+
       const mitte = kasten?.querySelector('.ak-such-fuss-mitte')
       if (mitte) {
         /*

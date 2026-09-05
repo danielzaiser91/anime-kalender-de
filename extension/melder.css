@@ -1362,3 +1362,34 @@
 .ak-uebersicht:not(.ak-uebersicht-innen) {
   visibility: hidden;
 }
+
+/*
+  **Was der Knopf gleich meldet — eine Zeile darüber.**
+
+  Daniel am 05.09.2026: „wieso steht nicht welche asin/serientitel gemeldet
+  wird auf melde button?" Auf seine Wahl hin steht es als eigene Zeile statt am
+  Knopf: Der bleibt kurz, die Angabe ist immer sichtbar.
+
+  Gedämpft, weil sie eine Auskunft ist und keine Handlung — der Knopf darunter
+  bleibt das, worauf der Blick fällt. Die Kennung darf umbrechen; sie ist bei
+  der `amzn1.dv.gti.…`-Form länger als die Kastenbreite.
+*/
+.ak-meldet {
+  font-size: 11px;
+  line-height: 1.35;
+  color: #8b949e;
+  overflow-wrap: anywhere;
+}
+
+/*
+  Der „nicht da"-Knopf in der Prüfliste. Gleiche Bauart wie die übrigen
+  Umschalter, nur schmaler und mit Abstand nach links — er sitzt am Zeilenende
+  und soll den Titel nicht bedrängen.
+*/
+.ak-nichtda {
+  margin-left: auto;
+  flex: 0 0 auto;
+  padding: 1px 6px;
+  font-size: 11px;
+}
+.ak-nichtda:hover { border-color: #f85149; color: #ffa198; }
