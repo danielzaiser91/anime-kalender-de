@@ -3067,11 +3067,21 @@ async function speicherSchreiben(werte) {
    */
   function gemeldetMarke(an) {
     try {
-      const links = document.querySelector('.ak-amazon-suchhinweis .ak-such-fuss-links')
-      if (!links) return
-      const da = links.firstChild
-      if (an && !da) links.appendChild(kastenZeile('ak-such-fertig', 'gemeldet ✓'))
-      else if (!an && da) links.replaceChildren()
+      /*
+        **Sie steht, wo der Knopf stand** — in der Meldezeile, über der Fußzeile
+        und so breit wie sie (Daniel, 06.09.2026: „gemeldet button soll da hin wo
+        vorher der meldebutton war, und er soll wie der meldebutton full width
+        auf der zeile über prüfliste/anisearch einnehmen").
+
+        Das ist zugleich der Platz, den sie seit 4.11.0 hatte; in 4.13.2 war sie
+        versehentlich in die Fußzeile gewandert und drängte dort die beiden
+        Knöpfe zusammen.
+      */
+      const zeile = document.querySelector('.ak-amazon-suchhinweis .ak-z-melden')
+      if (!zeile) return
+      const da = zeile.querySelector('.ak-such-fertig')
+      if (an && !da) zeile.appendChild(kastenZeile('ak-such-fertig', 'gemeldet ✓'))
+      else if (!an && da) da.remove()
     } catch {
       /* Ohne Kasten gibt es nichts zu markieren. */
     }
