@@ -771,6 +771,27 @@ for (const gruppe of jeAdresse.values()) {
       gruppe.some((x) => /Kanal-Titel/.test(x.notiz ?? ''))
     if (ohneAussage) {
       ausgelassenKanal++
+      /*
+        **Ausgelassen heißt abgehakt — sonst liest sie jeder Lauf wieder.**
+
+        `geschrieben` bleibt hier null, und ganz unten hakt nur ab, wer etwas
+        geschrieben hat. Eine Kanal-Meldung ohne Aussage blieb damit für immer
+        im Briefkasten liegen: Am 05.09.2026 lagen dort **16 Meldungen auf 13
+        Adressen**, die älteste (`B09MDQX4CW`) seit Wochen — jeder Lauf holte
+        sie, ließ sie aus, ließ sie liegen. Die Wache zählte sie als Rückstand,
+        und niemand konnte etwas damit anfangen.
+
+        **Die Entscheidung ist endgültig, deshalb darf sie abgehakt werden.**
+        Sie hängt an drei Dingen, von denen keines sich zurückdreht: Der Titel
+        ist ein Kanal-Angebot (Amazons Sprachangabe belegt dort nichts, siehe
+        `CLAUDE.md`), unser Datensatz kennt die Adresse bereits, und die Meldung
+        trägt keinen Folgenbefund. Morgen käme dasselbe heraus.
+
+        **Nicht abgehakt wird, was nur heute nicht zuzuordnen ist.** Eine
+        Meldung ohne Titel steht in `11-meldungen-ohne-zuordnung.md` und bleibt
+        liegen — dort kann der nächste Bestand die Antwort bringen.
+      */
+      for (const x of gruppe) erledigteIds.add(x.id)
       continue
     }
 
@@ -1032,7 +1053,7 @@ log(
 for (const o of offenGeblieben) warn(o)
 if (TROCKEN) {
   console.log(zeilen.join('\n'))
-  log(String(erledigteIds.size) + " Meldungen blieben im Briefkasten (Trockenlauf)")
+  log(String(erledigteIds.size) + " Meldungen waeren abgehakt worden (Trockenlauf: der Briefkasten bleibt, wie er ist)")
   process.exit(0)
 }
 if (erledigteIds.size) {

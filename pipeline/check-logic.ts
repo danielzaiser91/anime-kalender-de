@@ -2597,6 +2597,23 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     /const belastbar = \(ausBestand \|\| nameGenau\) && sprachen\.size === 1/.test(roh),
     'die Bedingung fehlt oder ist gelockert — ein Namensanfang würde ungeprüft zum Beleg',
   )
+
+  /*
+    **Was ausgelassen wird, wird abgehakt — sonst wächst der Briefkasten ewig.**
+
+    `fetch-pruefungen.ts` hakt am Ende nur ab, wer etwas geschrieben hat. Eine
+    Kanal-Meldung ohne Aussage schreibt nichts und blieb deshalb liegen: Am
+    05.09.2026 lagen 16 Meldungen auf 13 Adressen im Briefkasten, die jeder Lauf
+    holte, ausließ und liegen ließ. Die Entscheidung ist endgültig (Kanal-Titel,
+    Adresse bekannt, kein Folgenbefund) — morgen käme dasselbe heraus.
+  */
+  const pruef = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
+  const auslass = /if \(ohneAussage\) \{[\s\S]{0,2000}?\n    \}/.exec(pruef)?.[0] ?? ''
+  pruefe(
+    'eine ausgelassene Kanal-Meldung wird abgehakt',
+    /for \(const x of gruppe\) erledigteIds\.add\(x\.id\)/.test(auslass),
+    'ohne das Abhaken holt jeder Lauf dieselbe Meldung erneut — der Briefkasten leert sich nie',
+  )
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
