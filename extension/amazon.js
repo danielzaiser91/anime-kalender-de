@@ -8642,6 +8642,40 @@ async function speicherSchreiben(werte) {
         }
       }
 
+      /*
+        **Der aniSearch-Verweis gehört in den Takt, nicht in den Hinweiskasten.**
+
+        Seit 4.12.8 nimmt `hinweisKasten()` die Kennung aus der Liste — nur
+        läuft die Funktion gar nicht, wenn der Kasten keinen Titel bekommt. Bei
+        den vier Titel-Aufträgen ist das der Regelfall: Dort steht die blosse
+        Hülle mit Knopf und Fußzeile, und die Fußzeile blieb rechts leer
+        (Daniel, 06.09.2026: „wo ist der anisearch link?").
+
+        Hier greift es unabhängig davon: Der Takt läuft immer, und wer zuerst
+        füllt, gewinnt — `hinweisKasten()` prüft dieselbe Bedingung
+        (`!rechts.firstChild`) und lässt eine vorhandene Zeile in Ruhe.
+      */
+      const rechtsPlatz = kasten?.querySelector('.ak-such-fuss-rechts')
+      if (rechtsPlatz && !rechtsPlatz.firstChild) {
+        try {
+          const e = liste[id]
+          const asId = e?.eintraege?.find((x) => x?.asId)?.asId
+          if (asId) {
+            rechtsPlatz.appendChild(
+              kastenVerweis('aniSearch', 'https://www.anisearch.de/anime/' + asId + '/episodes'),
+            )
+          } else if (e?.titel) {
+            /* Ohne Kennung bleibt die Suche über den Kern des Namens — wie beim Suchauftrag. */
+            const kern = e.titel.split(/[:—–(]/)[0].trim() || e.titel
+            rechtsPlatz.appendChild(
+              kastenVerweis('aniSearch', 'https://www.anisearch.de/search?q=' + encodeURIComponent(kern)),
+            )
+          }
+        } catch {
+          /* Ohne Auftrag bleibt der Platz leer — er ist eine Zugabe, keine Bedingung. */
+        }
+      }
+
       const mitte = kasten?.querySelector('.ak-such-fuss-mitte')
       if (mitte) {
         /*
