@@ -1269,6 +1269,21 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
         Flackern zurück — deshalb zählt diese Prüfung, statt zu beschreiben.
       */
       const abrisse = (quelle.match(/\.ak-amazon-suchhinweis'\)\?\.remove\(\)/g) ?? []).length
+      /*
+        **Die Marke „gemeldet ✓" wird gesetzt UND zurückgenommen.**
+
+        In 4.13.2 wurde sie nur gesetzt. Der Kasten überlebt den Wechsel zum
+        nächsten Titel, und damit stand sie dort weiter: „Detektiv Conan …"
+        zeigte gleichzeitig einen grünen „melden"-Knopf und daneben
+        „gemeldet ✓" (Daniel, 06.09.2026, mit Bild — „ich hab das noch nicht
+        gemeldet, da steht gemeldet"). Zwei Aussagen, die sich widersprechen,
+        und die falsche sah aus wie ein Ergebnis.
+      */
+      pruefe(
+        'die Marke „gemeldet ✓" wird auch wieder zurückgenommen',
+        /gemeldetMarke\(true\)/.test(quelle) && /gemeldetMarke\(false\)/.test(quelle),
+        'nur eine der beiden Richtungen gefunden',
+      )
       pruefe(
         'genau eine Stelle entfernt den Kasten',
         abrisse === 1,

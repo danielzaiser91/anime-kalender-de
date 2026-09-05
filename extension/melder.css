@@ -850,6 +850,8 @@
 .ak-such-fuss-links:not(:empty) {
   display: flex;
   align-items: center;
+  /* Sie nimmt, was sie braucht — die beiden Knöpfe teilen sich den Rest. */
+  flex: 0 0 auto;
 }
 
 /*

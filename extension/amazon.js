@@ -3051,6 +3051,32 @@ async function speicherSchreiben(werte) {
    * `target="_blank"` mit `rel="noopener"`, damit die Prime-Seite stehen bleibt —
    * ein Wechsel würde den halb geladenen Zählstand wegwerfen.
    */
+/**
+   * **Die Marke „gemeldet ✓" — gesetzt und zurückgenommen an einer Stelle.**
+   *
+   * In 4.13.2 wurde sie nur gesetzt. Der Kasten überlebt aber den Wechsel zum
+   * nächsten Titel, und damit stand sie dort weiter: „Detektiv Conan …" zeigte
+   * gleichzeitig einen grünen „melden"-Knopf und daneben „gemeldet ✓" (Daniel,
+   * 06.09.2026, mit Bild). Zwei Aussagen, die sich widersprechen, und die
+   * falsche sah aus wie ein Ergebnis.
+   *
+   * Wer setzt, nimmt auch zurück — und beides im selben Takt, damit kein
+   * Zwischenzustand übrig bleibt. Angefasst wird nur bei echter Änderung: Ein
+   * Entfernen und Neubauen je halbe Sekunde wäre genau das Flackern, das am
+   * 30.08.2026 abgestellt wurde.
+   */
+  function gemeldetMarke(an) {
+    try {
+      const links = document.querySelector('.ak-amazon-suchhinweis .ak-such-fuss-links')
+      if (!links) return
+      const da = links.firstChild
+      if (an && !da) links.appendChild(kastenZeile('ak-such-fertig', 'gemeldet ✓'))
+      else if (!an && da) links.replaceChildren()
+    } catch {
+      /* Ohne Kasten gibt es nichts zu markieren. */
+    }
+  }
+
   function kastenVerweis(text, adresse) {
     const a = document.createElement('a')
     a.className = 'ak-such-quelle'
@@ -6428,8 +6454,15 @@ async function speicherSchreiben(werte) {
     */
     if (jetztAufSuchseite()) {
       knopf.style.display = 'none'
+      gemeldetMarke(false)
       return
     }
+
+    /*
+      **Der Takt beginnt ohne Marke.** Nur der Zweig „alles durch" setzt sie
+      wieder — so kann sie einen Titelwechsel nicht überleben.
+    */
+    gemeldetMarke(false)
 
     /*
       **Solange Adresse und Quelltext verschiedene Staffeln nennen, wird nicht
@@ -7429,12 +7462,7 @@ async function speicherSchreiben(werte) {
         02.09.2026 hat: „gemeldet links (besonders gestyled) und anisearch
         rechts".
       */
-      try {
-        const links = document.querySelector('.ak-amazon-suchhinweis .ak-such-fuss-links')
-        if (links && !links.firstChild) links.appendChild(kastenZeile('ak-such-fertig', 'gemeldet ✓'))
-      } catch {
-        /* Ohne Kasten keine Marke — der Knopf ist ohnehin schon weg. */
-      }
+      gemeldetMarke(true)
       return
     }
 
