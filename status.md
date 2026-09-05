@@ -39,6 +39,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | Aufgabe | Notiz |
 |---|---|
 
+| **DMARC-Berichte fehlen seit dem 22.08.2026** | Gemessen am 05.09.2026: Der juengste Bericht unter `__assets/notes/dmarc-berichte/` deckt den **22.08.** ab, 15 Stueck insgesamt, alle noch mit `policy_published: none`. Die Umstellung auf `p=quarantine` lief am **24.08.2026, 12:05** — kein einziger Bericht danach ist abgelegt. Ob die Empfaenger die neue Politik anwenden, ist damit vierzehn Tage nach der Umstellung unbeantwortet. Google schickt sie taeglich per Mail; ausgewertet werden sie mit `tools/dmarc-auswerten.mjs`, sobald sie im Ordner liegen |
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
 
 ## Gemessen 05.09.2026: Der Briefkasten leerte sich nicht, und die Zuordnungen hielten einen Bau
