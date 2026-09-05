@@ -4271,6 +4271,56 @@ async function speicherSchreiben(werte) {
    */
   const jetztAufSuchseite = () => /^\/s(\/|$)/.test(location.pathname)
 
+  /**
+   * **Geht diese Seite uns überhaupt etwas an?**
+   *
+   * Das Manifest lässt die Erweiterung auf `amazon.de/*` laufen — also auch auf
+   * jedem Monitor, jeder Kaffeemaschine und jeder Bestellübersicht. Bis 4.12.5
+   * hat sie dort mitgezeichnet: Daniel stand am 05.09.2026 auf der Seite eines
+   * AOC-Bildschirms, und unten rechts sagte der Knopf „✕ nicht abrufbar —
+   * melden", darüber „Prime-Liste veraltet — neu laden". Sein Wort: „dont show
+   * extension on pages that are irrelevant, like this one."
+   *
+   * **Warum die Seite überhaupt so weit kam**, ist der lehrreiche Teil: Die
+   * Filmerkennung fällt auf `hatLaufzeit` zurück, und deren Muster
+   * (`\d+ Std. \d+ Min.`) trifft bei Amazon auch den Lieferzähler —
+   * „Bestellung innerhalb 3 Std. 38 Min." steht auf dem Bild. Eine Heuristik
+   * für Filme, angewandt auf eine Seite, die gar kein Video ist.
+   *
+   * Vier Merkmale, jedes für sich ausreichend, alle vier ohne Kosten:
+   *
+   * 1. **Der Pfad** `/gp/video/…` — dann ist es Prime Video, ohne Zweifel.
+   * 2. **Der Hydration-Block** `dv-web-page-hydration-data`. Das `dv-` ist
+   *    Prime Videos eigener Namensraum; `filmAusSeite()` liest ihn seit 3.82,
+   *    er ist also gemessen und nicht geraten.
+   * 3. **Der Folgen-Reiter.** Eine Serienseite hat ihn, ein Bildschirm nicht.
+   *    Steht ohnehin in `seitenLage()` bereit.
+   * 4. **Ein Auftrag für diese Adresse.** Führt die Prüfliste sie, gehört der
+   *    Kasten hin — auch wenn die Seite gerade nichts hergibt. Sonst
+   *    verschwände die Erweiterung genau dort, wo sie gebraucht wird.
+   *
+   * **`hatLaufzeit` gehört bewusst nicht dazu** — siehe oben, der Lieferzähler.
+   *
+   * Dieselbe Regel gilt seit dem 30.08.2026 für Netflix („Beim Fernsehen ist
+   * die Erweiterung unsichtbar"): Ein Element, das man nicht gesucht hat, ist
+   * im Weg. Sie war nur nie auf Amazon übertragen worden.
+   */
+  function seiteGehtUnsAn() {
+    if (/^\/gp\/video\//.test(location.pathname)) return true
+    if (document.getElementById('dv-web-page-hydration-data')) return true
+    try {
+      if (seitenLage().hatFolgenReiter) return true
+    } catch {
+      /* Ohne Lage entscheiden die übrigen drei Merkmale. */
+    }
+    try {
+      if (!eintragFuer(id)?.unbekannt) return true
+    } catch {
+      /* Ohne Liste kein Auftrag — dann bleibt es bei den Merkmalen der Seite. */
+    }
+    return false
+  }
+
 
   // Veränderlich: Das Auswahlfeld wechselt die Staffel ohne Seitenneuladen,
   // und damit die Kennung — siehe `beiStaffelwechsel()`.
@@ -8443,7 +8493,21 @@ async function speicherSchreiben(werte) {
       Übersichtsseite; im Player gibt es nichts zu lesen und nichts zu melden,
       dafür ein Bild, das niemand verdeckt haben will.
     */
-    if (imPlayer()) {
+    /*
+      **Zwei Gruende, sich unsichtbar zu machen — und nur eine Stelle dafuer.**
+
+      Der Player: Wer fernsieht, soll nichts von der Erweiterung sehen
+      (30.08.2026). Und die fremde Seite: Das Manifest laesst uns auf
+      `amazon.de/*` laufen, also auch auf jedem Monitor und jeder Kaffeemaschine
+      — dort hat der Kasten nichts verloren (Daniel, 05.09.2026: „dont show
+      extension on pages that are irrelevant, like this one").
+
+      Beide zusammen in **einer** Bedingung, weil der Abriss des Kastens genau
+      einmal im Zeichenpfad stehen darf: Jede weitere Stelle bringt das Flackern
+      zurueck, das am 30.08.2026 abgestellt wurde — eine Zusicherung in
+      `amazon-uebersicht.test.cjs` zaehlt sie deshalb.
+    */
+    if (imPlayer() || !seiteGehtUnsAn()) {
       knopf.style.display = 'none'
       uebersichtKnopf.style.display = 'none'
       document.querySelector('.ak-amazon-suchhinweis')?.remove()

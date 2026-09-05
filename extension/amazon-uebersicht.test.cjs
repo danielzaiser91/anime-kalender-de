@@ -248,7 +248,7 @@ function takten(takte, durchlaeufe = 5) {
   for (let i = 0; i < durchlaeufe; i++) for (const takt of takte) takt()
 }
 
-function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
+function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite = true) {
 
   const traeger = { hoerer: null, fenster: null, adresse: null }
   const dom = machDom(traeger)
@@ -310,6 +310,20 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
       documentElement: dom.documentElement,
       title: 'Testserie ansehen | Prime Video',
       querySelector: () => null,
+      /*
+        **Der Hydration-Block macht die Attrappe zu einer Prime-Video-Seite.**
+
+        Seit 4.12.6 zeichnet die Erweiterung nur noch, wo sie etwas zu suchen
+        hat (`seiteGehtUnsAn()`) — eine Seite ohne dieses Element ist fuer sie
+        ein Bildschirm im Warenkorb, kein Titel. Ohne die Zeile hier waeren
+        alle Zusicherungen dieser Datei still gruen geworden, weil gar nichts
+        mehr entsteht.
+
+        Der Inhalt bleibt leer: `filmAusSeite()` liest ihn, findet nichts
+        Brauchbares und faellt auf den Textweg zurueck — genau wie vorher.
+      */
+      getElementById: (id) =>
+        alsVideoSeite && id === 'dv-web-page-hydration-data' ? { textContent: '{}' } : null,
     },
     chrome: {
       /**
@@ -456,6 +470,51 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   pruefe(
     'der Melde-Knopf erscheint auch für eine Staffel, die nicht auf der Liste steht',
     angehaengt.some((e) => e.className.includes('ak-amazon-knopf')),
+  )
+}
+
+// --- 2b. Aber nicht auf einer Seite, die gar kein Video ist ----------------
+
+/*
+  **Das Manifest laesst uns auf `amazon.de/*` laufen — auch auf jedem Monitor.**
+
+  Am 05.09.2026 stand Daniel auf der Seite eines AOC-Bildschirms, und unten
+  rechts sagte der Knopf „✕ nicht abrufbar — melden", darueber „Prime-Liste
+  veraltet — neu laden": „dont show extension on pages that are irrelevant,
+  like this one."
+
+  Die Seite kam so weit, weil die Filmerkennung auf `hatLaufzeit` zurueckfaellt
+  und deren Muster auch Amazons Lieferzaehler trifft — „Bestellung innerhalb
+  3 Std. 38 Min." stand auf dem Bild.
+
+  Der Fall unterscheidet sich vom Fall darueber in genau einem Punkt: Dort ist
+  es eine Prime-Video-Seite ohne Auftrag (Knopf erscheint, siehe Oshi no Ko),
+  hier ist es ueberhaupt keine.
+*/
+{
+  const { angehaengt, takte } = starte('B000000000', {}, TEST_LISTE, false)
+  takten(takte)
+  /*
+    Gemessen wird die **Sichtbarkeit**, nicht das Anlegen: Beide Knoepfe
+    entstehen einmal beim Start und ziehen spaeter in den Kasten ein — der Takt
+    entscheidet ueber `style.display`. Wer hier auf `angehaengt` prueft, prueft
+    den Aufbau und nicht das, was Daniel sieht.
+  */
+  const sichtbar = (teil) =>
+    angehaengt.filter((e) => (e.className || '').includes(teil) && e.style?.display !== 'none')
+  pruefe(
+    'auf einer fremden Nicht-Video-Seite bleibt der Melde-Knopf verborgen',
+    sichtbar('ak-amazon-knopf').length === 0,
+    sichtbar('ak-amazon-knopf').length + ' sichtbar',
+  )
+  pruefe(
+    '… und die Übersicht ebenso',
+    sichtbar('ak-amazon-uebersicht').length === 0,
+    sichtbar('ak-amazon-uebersicht').length + ' sichtbar',
+  )
+  pruefe(
+    '… und der Kasten wird gar nicht erst gebaut',
+    !angehaengt.some((e) => (e.className || '').includes('ak-amazon-suchhinweis')),
   )
 }
 
@@ -1211,13 +1270,21 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       */
       const abrisse = (quelle.match(/\.ak-amazon-suchhinweis'\)\?\.remove\(\)/g) ?? []).length
       pruefe(
-        'genau eine Stelle entfernt den Kasten (der Player)',
+        'genau eine Stelle entfernt den Kasten',
         abrisse === 1,
         abrisse + ' Stellen',
       )
+      /*
+        Sie steht im Unsichtbar-Zweig, und der hat seit 4.12.6 zwei Gruende:
+        den Player (30.08.2026) und eine Seite, die nichts mit Prime Video zu
+        tun hat (05.09.2026). Beide in **einer** Bedingung — ein zweiter
+        Abriss brachte das Flackern zurueck.
+      */
       pruefe(
-        'und sie steht im Player-Zweig',
-        /imPlayer\(\)\)\s*\{[^}]*\.ak-amazon-suchhinweis'\)\?\.remove\(\)/s.test(quelle),
+        'und sie steht im Unsichtbar-Zweig (Player oder fremde Seite)',
+        /imPlayer\(\) \|\| !seiteGehtUnsAn\(\)\)\s*\{[^}]*\.ak-amazon-suchhinweis'\)\?\.remove\(\)/s.test(
+          quelle,
+        ),
       )
       /*
         Und der Inhalt wird nur bei echter Änderung ersetzt — sonst verlöre ein
@@ -1484,7 +1551,15 @@ for (const pfad of ['/', '/gp/video/storefront']) {
   const { angehaengt } = starte(pfad)
   const uebersicht = angehaengt.find((e) => (e.className || '').includes('ak-amazon-uebersicht'))
 
-  pruefe(`der Übersichts-Knopf erscheint auch auf ${pfad}`, Boolean(uebersicht), uebersicht?.className)
+  /*
+    **Angelegt, nicht zwingend sichtbar.** Seit 4.12.6 entscheidet
+    `seiteGehtUnsAn()` ueber die Anzeige; auf `/` fehlt der Hydration-Block,
+    also bleibt der Knopf dort verborgen. Was diese Zusicherung seit dem
+    25.08.2026 sichert, ist etwas anderes und gilt unveraendert: dass das
+    Skript auf einer Seite ohne Kennung ueberhaupt durchlaeuft und der Klick
+    nicht in die temporale Totzone faellt.
+  */
+  pruefe(`der Übersichts-Knopf entsteht auch auf ${pfad}`, Boolean(uebersicht), uebersicht?.className)
 
   let geworfen = null
   try {

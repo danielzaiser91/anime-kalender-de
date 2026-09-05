@@ -2781,6 +2781,30 @@ trifft alle übrigen Besuche derselben Seite mit — und das sind fast alle.
 Prüffrage vor jedem eingeblendeten Element: **Wer sieht das, der es nicht
 gesucht hat?**
 
+**Und dieselbe Regel galt sechs Tage lang nur für Netflix.** Am 05.09.2026 stand
+Daniel auf der Amazon-Seite eines AOC-Bildschirms, und unten rechts sagte der
+Knopf „✕ nicht abrufbar — melden", darüber „Prime-Liste veraltet — neu laden":
+„dont show extension on pages that are irrelevant, like this one."
+
+Das Manifest lässt `amazon.js` auf `amazon.de/*` laufen — also auf jedem
+Monitor, jeder Kaffeemaschine und jeder Bestellübersicht. Warum die Seite so
+weit kam, ist der lehrreiche Teil: Die Filmerkennung fällt auf `hatLaufzeit`
+zurück, und deren Muster (`\d+ Std. \d+ Min.`) trifft auch Amazons
+Lieferzähler — „Bestellung innerhalb 3 Std. 38 Min." stand auf dem Bild. Eine
+Heuristik für Filme, angewandt auf eine Seite, die gar kein Video ist.
+
+`seiteGehtUnsAn()` entscheidet seit 4.12.6 vor allem anderen, und zwar an vier
+Merkmalen, die jedes für sich genügen und zusammen nichts kosten: der Pfad
+`/gp/video/…`, der Hydration-Block `dv-web-page-hydration-data`, der
+Folgen-Reiter, oder ein Auftrag für diese Adresse. **`hatLaufzeit` gehört
+bewusst nicht dazu** — siehe Lieferzähler.
+
+**Die Lehre über dem Einzelfall:** Eine Regel, die für einen Anbieter
+aufgeschrieben wurde, gilt nicht von selbst für den nächsten. Wer sie notiert,
+prüft im selben Zug, wo dasselbe Problem noch existiert — hier lag zwischen
+„Beim Fernsehen ist die Erweiterung unsichtbar" und derselben Frage bei Amazon
+genau eine Woche.
+
 ## Die Erweiterung zählt zweistellig — und hinten
 
 Daniel am 30.08.2026: „bei versionierung maximal 2 stellig ab jetzt, nächste
