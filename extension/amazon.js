@@ -2936,7 +2936,24 @@ async function speicherSchreiben(werte) {
     */
     try {
       const rechts = kasten.querySelector('.ak-such-fuss-rechts')
-      const auftrag = suchauftrag()
+      /*
+        **Der Verweis gilt dem Auftrag — egal, aus welcher der beiden Listen er
+        stammt.**
+
+        Bis 4.12.7 kam er nur aus `suchauftrag()`, also aus einem Klick auf eine
+        **Such**adresse. Wer einen Auftrag mit eigener Titelseite oeffnete —
+        seit heute wieder vier davon —, stand ohne Gegenprobe da (Daniel,
+        05.09.2026: „wo ist der anisearch link zum gegenpruefen?").
+
+        Die Kennung liegt seit derselben Fassung in der Liste: `eintraege[].asId`.
+        Wo sie fehlt, bleibt es beim Suchverweis ueber den Namen — besser als
+        nichts, und derselbe Weg wie bisher.
+      */
+      const listenEintrag = liste[id]
+      const auftrag = suchauftrag() ?? {
+        asId: listenEintrag?.eintraege?.find((e) => e?.asId)?.asId,
+        titel: listenEintrag?.titel,
+      }
       if (rechts && !rechts.firstChild) {
         if (auftrag?.asId) {
           rechts.appendChild(

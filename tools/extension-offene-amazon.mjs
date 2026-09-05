@@ -198,6 +198,30 @@ const ERNEUT = {
   */
 }
 
+/**
+ * **Der Name, unter dem Daniel den Titel wiedererkennt — und der auf der Seite steht.**
+ *
+ * Hier stand `titleRomaji ?? titleEn`, also der japanische Name in lateinischer
+ * Schrift. Am 05.09.2026 fuehrte die Pille auf eine Amazon-Seite mit dem Titel
+ * „Cats", waehrend die Liste daneben „Mao Yu Tao Hua Yuan" zeigte — dieselbe
+ * Sache, zwei Namen, und kein Hinweis darauf. Daniels Reaktion war die richtige:
+ * „link fuehrt zu cats, statt zum anime."
+ *
+ * Beide gehoeren hin. Der deutsche Name ist der, unter dem er den Titel kennt;
+ * der fremde ist der, den Amazon anschreibt. Sie in **Klammern** zu verbinden
+ * ist kein Zufall: Der Gedankenstrich trennt in diesem Projekt Daniels eigene
+ * Zusaetze ab (`fetch-rohfolgen.ts` schneidet dort), und die Klammern wirft
+ * `ohneBeiwerk()` beim Namensabgleich ohnehin weg — der Abgleich sieht also
+ * weiterhin den deutschen Namen allein.
+ */
+function listenName(t) {
+  const de = t.titleDe
+  const fremd = t.titleEn ?? t.titleRomaji
+  if (!de) return fremd ?? '?'
+  if (!fremd || de.toLowerCase() === fremd.toLowerCase()) return de
+  return `${de} (${fremd})`
+}
+
 const JAHRESZEIT = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
 let schonGeprueft = 0
 const offen = {}
@@ -222,13 +246,15 @@ for (const [asin, eintraege] of jeAsin) {
     .sort((a, b) => (a.t.jpYear ?? 0) - (b.t.jpYear ?? 0) || (JAHRESZEIT[a.t.jpSeason] ?? 0) - (JAHRESZEIT[b.t.jpSeason] ?? 0))
   offen[asin] = {
     ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
-    titel: sortiert[0].t.titleRomaji ?? sortiert[0].t.titleEn ?? '?',
+    titel: listenName(sortiert[0].t),
     url: sortiert[0].url,
     eintraege: sortiert.map((e) => ({
       id: e.t.id,
-      name: e.t.titleRomaji ?? e.t.titleEn ?? '?',
+      name: listenName(e.t),
       folgen: e.t.episodes ?? null,
       offen: e.dub === undefined,
+      /* Für den Gegencheck: aniSearch führt zu jedem Titel die Sprachfassungen. */
+      ...(e.t.anisearchId ? { asId: e.t.anisearchId } : {}),
     })),
   }
 }
