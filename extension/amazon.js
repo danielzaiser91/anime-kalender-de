@@ -8962,6 +8962,59 @@ async function speicherSchreiben(werte) {
   let langsam = false
   let taktGeber = setInterval(taktSchritt, 500)
 
+  /**
+   * **Der Wechsel wird an der Adresse erkannt, nicht im teuren Takt.**
+   *
+   * Bis 4.13.7 fiel beides zusammen: Ob sich der Titel geändert hat, stellte
+   * `taktSchritt()` fest — und der läuft alle 500 ms, im Sparmodus alle vier
+   * Sekunden. Auf einer fertig gelesenen Seite kam ein Wechsel deshalb bis zu
+   * vier Sekunden zu spät an (Daniel, 06.09.2026: „ein wechsel muss sofort
+   * erkannt werden, und das ist sehr leicht anhand der href erkennbar, die
+   * teure logik muss dahinter liegen und darf nicht zufällig triggern").
+   *
+   * Genau so ist es jetzt gebaut. Der Wachposten vergleicht **eine
+   * Zeichenkette** — `location.href` gegen den letzten Stand. Das kostet
+   * nichts, deshalb darf er alle 150 ms laufen; die zwanzig Mustersuchen über
+   * 2,2 Millionen Zeichen bleiben im Takt dahinter.
+   *
+   * `popstate` kommt dazu, weil es für Vor und Zurück sofort feuert. Was
+   * **nicht** geht, ist `history.pushState` zu überschreiben: Ein Content-Skript
+   * lebt in einer eigenen JS-Welt, und die Aufrufe der Seite laufen an einer
+   * Fassung vorbei, die nur hier gilt. Der Vergleich ist der Weg, der ohne
+   * Annahmen über fremden Code auskommt.
+   */
+  let letzteAdresse = location.href
+
+  function adresseNeuPruefen() {
+    if (location.href === letzteAdresse) return
+    letzteAdresse = location.href
+    /*
+      Der Sparmodus gehört zur alten Seite. Ihn stehen zu lassen hieße, den
+      Wechsel zwar sofort zu bemerken und dann vier Sekunden zu warten.
+    */
+    if (langsam) {
+      langsam = false
+      clearInterval(taktGeber)
+      taktGeber = setInterval(taktSchritt, 500)
+    }
+    /* Und nicht erst beim nächsten Takt — jetzt. */
+    taktSchritt()
+  }
+
+  setInterval(adresseNeuPruefen, 150)
+  /*
+    `popstate` ist die Zugabe für Vor und Zurück — nicht die Grundlage. Wo es
+    das Ereignis nicht gibt, trägt der Vergleich oben allein; deshalb steht der
+    Aufruf in einem `try`. Ein Fehler an dieser Stelle riss sonst den ganzen
+    Rest des Skripts mit (im Sandkasten sofort sichtbar: Der Knopf blieb in
+    seinem Anfangszustand).
+  */
+  try {
+    window.addEventListener('popstate', adresseNeuPruefen)
+  } catch {
+    /* Ohne Ereignis bleibt der Vergleich im 150-ms-Takt. */
+  }
+
 
   // --- Melden --------------------------------------------------------------
 

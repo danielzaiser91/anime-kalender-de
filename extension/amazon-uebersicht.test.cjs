@@ -251,6 +251,8 @@ function takten(takte, durchlaeufe = 5) {
 function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite = true) {
 
   const traeger = { hoerer: null, fenster: null, adresse: null }
+  /** Intervalle unter einer halben Sekunde — der Adress-Wachposten, siehe unten. */
+  const wachposten = []
   const dom = machDom(traeger)
   const angehaengt = []
   dom.body.appendChild = (kind) => {
@@ -288,7 +290,11 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite 
       ausgestiegen, und keine Zusicherung konnte es sehen, weil alle mit
       `/dp/<ASIN>` starten.
     */
-    location: { pathname: seitenAsin.startsWith('/') ? seitenAsin : `/dp/${seitenAsin}`, search: '' },
+    location: (() => {
+      const pfad = seitenAsin.startsWith('/') ? seitenAsin : `/dp/${seitenAsin}`
+      /* `href` gehört dazu, seit der Adress-Wachposten ihn vergleicht (4.14.0). */
+      return { pathname: pfad, search: '', href: `https://www.amazon.de${pfad}` }
+    })(),
     /*
       **Der Spread kopiert Werte, keine Zugriffsmethoden.**
 
@@ -359,7 +365,35 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite 
     // Die Erweiterung misst seit dem 25.08.2026 ihre eigene Taktdauer. Ohne
     // performance.now() im Sandkasten wirft sie beim ersten Takt.
     performance: { now: () => Date.now() },
-    setInterval: (fn) => {
+    /*
+      **Der Wachposten läuft nicht im Takt der Zusicherungen.**
+
+      Seit 4.14.0 registriert die Erweiterung zwei Intervalle: den Takt
+      (500 ms, im Sparmodus 4000) und den Adress-Wachposten (150 ms), der nur
+      `location.href` vergleicht und bei einer Änderung sofort einen Takt
+      auslöst.
+
+      `takten()` fährt bewusst **den Takt**, nicht die Uhr — jeder Aufruf ist
+      ein Durchlauf, und die Zusicherungen zählen darauf. Käme der Wachposten
+      dazu, liefe je Runde ein zweiter, zeitversetzter Takt mit, und jede
+      zeitabhängige Zusicherung dieser Datei stünde auf einem anderen Stand.
+
+      Er wird deshalb getrennt gesammelt: `wachposten` steht bereit, wo ihn
+      eine Zusicherung braucht, und stört die übrigen nicht.
+    */
+    setInterval: (fn, ms = 500) => {
+      if (ms < 500) {
+        wachposten.push(fn)
+        return takte.length + 1000
+      }
+      /*
+        **Die Uhr springt um 500 ms je Aufruf, unabhängig von der Frist.**
+
+        Sonst zählte ein Takt im Sparmodus (4000 ms) volle vier Sekunden je
+        Runde, und nach zwei Runden hielte die Erweiterung die Seite für seit
+        acht Sekunden stehengeblieben — der Zweig „keine Folgen für diese
+        Staffel". Der Sandkasten fährt Durchläufe, nicht Zeit.
+      */
       takte.push(() => {
         uhr.jetzt += 500
         return fn()
@@ -409,7 +443,7 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite 
   traeger.fenster = sandkasten.window
   traeger.adresse = sandkasten.location
   traegerListe.set(sandkasten, traeger)
-  return { angehaengt, gesetzt, sandkasten, takte, dom, gemeldet }
+  return { angehaengt, gesetzt, sandkasten, takte, dom, gemeldet, wachposten }
 }
 
 /**
@@ -470,6 +504,61 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   pruefe(
     'der Melde-Knopf erscheint auch für eine Staffel, die nicht auf der Liste steht',
     angehaengt.some((e) => e.className.includes('ak-amazon-knopf')),
+  )
+}
+
+// --- 2a. Der Adress-Wachposten -------------------------------------------
+
+/*
+  **Ein Wechsel wird an der Adresse erkannt, nicht im teuren Takt.**
+
+  Bis 4.13.7 stellte `taktSchritt()` beides fest — und der läuft alle 500 ms,
+  im Sparmodus alle vier Sekunden. Auf einer fertig gelesenen Seite kam ein
+  Wechsel deshalb bis zu vier Sekunden zu spät an (Daniel, 06.09.2026: „ein
+  wechsel muss sofort erkannt werden, und das ist sehr leicht anhand der href
+  erkennbar, die teure logik muss dahinter liegen und darf nicht zufällig
+  triggern").
+
+  Der Wachposten vergleicht eine Zeichenkette und löst bei Änderung sofort
+  einen Takt aus. Geprüft wird beides: dass es ihn gibt, und dass er nur bei
+  einer echten Änderung anschlägt.
+*/
+{
+  const { wachposten, takte, sandkasten } = starte('B000000000')
+  pruefe('es gibt einen Adress-Wachposten', wachposten.length === 1, wachposten.length + ' Stück')
+
+  const vorher = takte.length
+  let lief = 0
+  const zaehlend = takte.map((t) => () => {
+    lief++
+    return t()
+  })
+  takte.length = 0
+  takte.push(...zaehlend)
+
+  /* Ohne Änderung passiert nichts — sonst wäre er ein zweiter Takt. */
+  wachposten[0]()
+  pruefe('ohne Adressänderung löst er keinen Takt aus', lief === 0, lief + ' Takte')
+
+  /*
+    Dass er bei einer Änderung wirklich einen Takt auslöst, ist von hier nicht
+    zu sehen: Er ruft `taktSchritt()` direkt auf, nicht über das Intervall. Was
+    sich prüfen lässt, ist der Weg dorthin — und dass er den Sparmodus abräumt,
+    denn sonst käme der Wechsel zwar sofort an und müsste vier Sekunden warten.
+  */
+  sandkasten.location.href = 'https://www.amazon.de/dp/B000000001'
+  sandkasten.location.pathname = '/dp/B000000001'
+  wachposten[0]()
+  pruefe('und die Zahl der Intervalle bleibt gleich', takte.length === vorher, takte.length + ' statt ' + vorher)
+
+  const quellText = readFileSync(__dirname + '/amazon.js', 'utf8')
+  pruefe(
+    'der Wachposten löst sofort einen Takt aus, statt auf den nächsten zu warten',
+    /function adresseNeuPruefen\(\)[\s\S]{0,900}taktSchritt\(\)/.test(quellText),
+  )
+  pruefe(
+    '… und räumt dabei den Sparmodus ab',
+    /function adresseNeuPruefen\(\)[\s\S]{0,900}langsam = false/.test(quellText),
   )
 }
 
