@@ -7521,6 +7521,19 @@ async function speicherSchreiben(werte) {
         02.09.2026 hat: „gemeldet links (besonders gestyled) und anisearch
         rechts".
       */
+      /*
+        **Der Zweig merkt sich den Pfad, statt die Marke nur zu setzen.**
+
+        In 4.13.6 tat er nur das Zweite — und der Takt darüber nahm sie sofort
+        wieder weg, weil `gemeldetFuerPfad` leer war. Ergebnis: Die Marke
+        erschien und verschwand im Halbsekundentakt (Daniel, 06.09.2026: „ist
+        sichtbar bei reload, dann paar sek später [weg] … was zur hölle").
+
+        Zwei Stellen, die dieselbe Anzeige aus verschiedenen Quellen speisen,
+        laufen garantiert auseinander. Es gibt jetzt nur noch eine Quelle: den
+        Pfad-Merker. Wer die Marke will, setzt ihn — angezeigt wird sie oben.
+      */
+      gemeldetFuerPfad = location.pathname
       gemeldetMarke(true)
       return
     }

@@ -1279,6 +1279,25 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
         gemeldet, da steht gemeldet"). Zwei Aussagen, die sich widersprechen,
         und die falsche sah aus wie ein Ergebnis.
       */
+      /*
+        **Und nur eine Stelle entscheidet, ob sie steht.**
+
+        In 4.13.6 setzte der Zweig „alles durch" die Marke direkt, während der
+        Takt darüber sie aus dem Pfad-Merker ableitete — zwei Quellen für
+        dieselbe Anzeige, und sie erschien und verschwand im Halbsekundentakt
+        (Daniel, 06.09.2026: „was zur hölle"). Wer die Marke will, setzt den
+        Merker; angezeigt wird sie an genau einer Stelle.
+      */
+      pruefe(
+        'die Marke hat genau eine Anzeigestelle',
+        (quelle.match(/gemeldetMarke\(true\)/g) ?? []).length === 1,
+        (quelle.match(/gemeldetMarke\(true\)/g) ?? []).length + ' Stellen',
+      )
+      pruefe(
+        '… und wer sie setzt, merkt sich den Pfad',
+        /gemeldetFuerPfad = location\.pathname[\s\S]{0,40}gemeldetMarke\(true\)/.test(quelle),
+        'der Merker wird nicht zusammen mit der Marke gesetzt',
+      )
       pruefe(
         'die Marke „gemeldet ✓" wird auch wieder zurückgenommen',
         /gemeldetMarke\(true\)/.test(quelle) && /gemeldetMarke\(false\)/.test(quelle),
