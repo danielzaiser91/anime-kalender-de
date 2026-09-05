@@ -30,9 +30,10 @@ import { Ereignisse, ereignisSenden } from './ereignisse.ts'
 /**
  * **Was gemeldet wurde, ist sofort gemeldet — auch für die Übersicht.**
  *
- * Die Antworten von `?zaehlen=1` und `?stand=1` werden fünf Minuten gehalten
- * (Begründung dort). Eine neue Meldung macht sie in derselben Sekunde falsch,
- * also werden sie verworfen, statt abzulaufen.
+ * Die Antworten von `?zaehlen=1` und `?stand=1` werden gehalten — eine halbe
+ * Stunde die teure Zählung, eine Minute der Stand (Begründung dort). Eine neue
+ * Meldung macht beide in derselben Sekunde falsch, also werden sie verworfen,
+ * statt abzulaufen.
  *
  * Die drei Adressen sind fest, weil die Erweiterung genau sie abfragt: die
  * Übersicht mit und ohne Folgennummern und der Stand der Anzeige. Kommt eine
@@ -1635,7 +1636,31 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
    * Antwort im schlimmsten Fall fünf Minuten alt, und das ist bei einer
    * Prüfliste folgenlos.
    */
-  const ausCache = async (bauen: () => Promise<Response>): Promise<Response> => {
+  /**
+   * **Und die Haltedauer gehoert zur Frage, nicht zum Endpunkt.**
+   *
+   * Bis zum 05.09.2026 hielten alle drei Uebersichts-Antworten eine halbe
+   * Stunde. Fuer `?zaehlen=1` ist das richtig — dort liegt die teure Abfrage
+   * (`SELECT DISTINCT url`, die ganze Tabelle), und die Frist ist der Grund,
+   * warum das Tageskontingent haelt.
+   *
+   * Fuer `?stand=1` war es falsch, und zwar sichtbar: Die Zahl darin stammt aus
+   * `pruefstand.json`, und die schreibt ein **Datenlauf**, kein Schreibzugriff
+   * auf den Worker. Das Verwerfen haengt aber genau an den Schreibzugriffen
+   * (`briefkastenCacheLeeren`). Nach einem Datenlauf zeigte die Statusanzeige
+   * deshalb bis zu dreissig Minuten den Stand von davor: Am 05.09.2026 standen
+   * vier neue Prime-Auftraege im Bestand, und in der App war die Leiste leer
+   * (Daniel: „die prime auftraege muessen auch als pill in status app").
+   *
+   * Eine Minute deckt genau den Takt ab, in dem die Anzeige ohnehin fragt. Sie
+   * ist billig: `?stand=1` liest nur die **offenen** Meldungen
+   * (`WHERE uebernommen = 0`), nicht die ganze Tabelle — das ist der
+   * Unterschied zu `?zaehlen=1`.
+   */
+  const ausCache = async (
+    bauen: () => Promise<Response>,
+    sekunden = 1800,
+  ): Promise<Response> => {
     const schluessel = new Request(new URL(request.url).toString(), { method: 'GET' })
     const cache = caches.default
     const getroffen = await cache.match(schluessel)
@@ -1644,7 +1669,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     /* Nur erfolgreiche Antworten werden gehalten — ein Fehler soll sich nicht festsetzen. */
     if (frisch.status === 200) {
       const zumHalten = new Response(frisch.clone().body, frisch)
-      zumHalten.headers.set('Cache-Control', 'public, max-age=1800')
+      zumHalten.headers.set('Cache-Control', `public, max-age=${sekunden}`)
       ctx?.waitUntil(cache.put(schluessel, zumHalten))
     }
     return frisch
@@ -1864,7 +1889,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         }
       })
       return antwort({ anbieter, erzeugtAm: new Date().toISOString() })
-    })
+    }, 60)
 
     /*
       **Die Rohfolgen für den Bau.**
