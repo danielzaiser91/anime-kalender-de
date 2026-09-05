@@ -2753,14 +2753,53 @@ function main(): void {
     >('data/prime-zugeordnet.json', {})
     let ausRoh = 0
     let adressen = 0
-    for (const eintrag of Object.values(roh)) {
+    for (const [schluessel, eintrag] of Object.entries(roh)) {
       const title = titles.get(eintrag.titleId)
       if (!title) continue
-      if (checks.has(dubKey(eintrag.titleId, 'primevideo'))) continue
+      /*
+        **Ein Handbeleg gilt seiner Adresse, nicht der ganzen Plattform.**
+
+        Der Riegel stand hier als `checks.has(<titel>|primevideo)` — je Titel
+        und Anbieter gibt es genau einen zusammengeführten Beleg, also sperrte
+        eine geprüfte Ausgabe jede Meldung zur zweiten. Genau den Fall
+        beschreibt der Kommentar unten seit dem 30.08.2026: „My First
+        Girlfriend is a Gal" läuft bei Prime als Kauftitel mit elf Folgen (KAZÉ,
+        FSK 16, deutsch) **und** über den Crunchyroll-Kanal mit zehn (FSK 18).
+        Daniel hatte den Kanal-Titel am 30.08. geprüft; seine Meldung zum
+        Kauftitel vom 01.09. lief deshalb ins Leere und lag am 05.09.2026 noch
+        unverwertet im Briefkasten.
+
+        **Was der Riegel schützen soll, bleibt geschützt:** Ein Beleg **ohne**
+        Adresse ist eine Aussage über den Anbieter — er sperrt weiter alles.
+        Einer **mit** Adresse sperrt genau diese Adresse. Ein Nein zur einen
+        Ausgabe ist kein Nein zur anderen; sie haben verschiedene Verlage,
+        verschiedene Preise und verschiedene Tonspuren.
+      */
+      const beleg = checks.get(dubKey(eintrag.titleId, 'primevideo'))
+      /*
+        **Die gemeldete Adresse ist die Seite — die ASIN je Zeile ist die Folge.**
+
+        Der Schlüssel dieser Ablage trägt `url#asin`; `url` ist die Seite, auf
+        der Daniel stand. `eintrag.asin` stammt dagegen aus der ersten Zeile der
+        Gruppe, und bei einer Folgenliste gehört sie der **ersten Folge**: Die
+        Meldung zu `dp/B0GPD4GNLL` (My First Girlfriend Is a Gal, Kauftitel)
+        führte elf Zeilen mit elf verschiedenen ASINs, die erste `B0GSSL7BMZ`.
+        Ein Verweis darauf führt auf eine einzelne Folge statt auf den Titel.
+
+        Die ASIN bleibt der Weg für Meldungen von einer **Suchadresse** — dort
+        gibt es keine Seite, auf die man verweisen könnte, und genau dafür ist
+        sie mitgeschickt worden.
+      */
+      const gemeldeteAdresse = schluessel.split('#')[0]!
+      const seite = /amazon\.[a-z.]+\/(?:dp|gp\/video\/detail)\//i.test(gemeldeteAdresse)
+        ? gemeldeteAdresse
+        : eintrag.asin
+          ? `https://www.amazon.de/dp/${eintrag.asin}`
+          : null
+      if (beleg && (!beleg.url || beleg.url === seite)) continue
       const deutsch = eintrag.folgen.some((f) => f.sprachen.includes('Deutsch'))
       if (!deutsch) continue
 
-      const seite = eintrag.asin ? `https://www.amazon.de/dp/${eintrag.asin}` : null
       /**
        * **Zwei Ausgaben desselben Titels sind zwei Wege, keine Dublette.**
        *

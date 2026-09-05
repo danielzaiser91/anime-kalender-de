@@ -13,13 +13,12 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | zuletzt geprüft | Notiz |
 |---|---|---|
-| **Wache durchsehen** | **2026-09-04T10:00+02:00** | Sind seit diesem Zeitpunkt mehr als 24 Stunden vergangen, wird `daniel-zum-abarbeiten/00-wache.md` und `00-wache-auswertung.md` gelesen, danach der Zeitstempel hier erneuert. Beurteilt wird entlang der vier Fragen: Was läuft korrekt, wo ist Verbesserungspotenzial, wo sind echte Risiken und Lücken, was läuft komplett falsch. **Der Stempel wird nur erneuert, wenn wirklich gelesen wurde** — sonst ist er eine Zahl, die Händewaschen behauptet |
+| **Wache durchsehen** | **2026-09-05T10:20+02:00** | Sind seit diesem Zeitpunkt mehr als 24 Stunden vergangen, wird `daniel-zum-abarbeiten/00-wache.md` und `00-wache-auswertung.md` gelesen, danach der Zeitstempel hier erneuert. Beurteilt wird entlang der vier Fragen: Was läuft korrekt, wo ist Verbesserungspotenzial, wo sind echte Risiken und Lücken, was läuft komplett falsch. **Der Stempel wird nur erneuert, wenn wirklich gelesen wurde** — sonst ist er eine Zahl, die Händewaschen behauptet |
 
 ### In Arbeit
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Der planmäßige Wache-Lauf hat noch nie von selbst gefeuert** | 2 | Durchgesehen am 04.09.2026: `delta-wache.yml` trägt `cron: '20 7 * * *'` (09:20 Berlin) seit dem 03.09.2026. Beide bisherigen Läufe waren `workflow_dispatch` — von Hand. Der planmäßige Lauf heute um 09:20 blieb aus; um 10:04 von Hand angestoßen. **Ein Tag Beobachtung ist zu wenig für ein Urteil:** GitHub braucht bei einem neuen Cron bis zu einem Tag, und `schedule`-Läufe werden bei Last verworfen statt nachgeholt (siehe `CLAUDE.md`, der stündliche Lauf schafft 5,2 von 24). **Am 05.09. nachsehen:** Fällt der Lauf ein zweites Mal aus, ist der Cron für diesen Zweck untauglich — dann hängt die Wache an `workflow_run` hinter dem Bau-Lauf, der ohnehin täglich läuft |
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
 | **Pokémon Sonne & Mond: 145 statt 146** | 1 | Daniel hat am 30.08.2026 alle zwölf Prime-Bände einzeln geprüft und gemeldet: Staffel 20 mit 43 Folgen (11+11+11+10), Staffel 21 mit 48 (4×12), Staffel 22 mit 54 (14+13+13+14). AniList führt für den Block 146. Seine Gegenprobe: „so wie sie gemeldet wurden so führt sie amazon, also falls da laut anisearch was fehlt, dann hat amazon die nicht." Die Zuordnung über die Folgentitel wird eine Nummer ohne Entsprechung lassen — das ist dann kein Lesefehler, sondern eine Lücke im Angebot, und genau so gehört sie in den Datensatz | **Nachgemessen am 03.09.2026:** Unser Bestand führt dafür **einen** Titel (AniList 97634) mit 146 Folgen, nicht drei Staffeln. Welche Nummer Prime nicht führt, sagt erst die Zuordnung im CI-Lauf — lokal ist `data/prime-zugeordnet.json` leer, weil der Briefkasten-Abruf ein `LAUF_TOKEN` braucht. Der Punkt hängt damit an einem Lauf mit Zugang, nicht an Arbeit hier
 
@@ -28,8 +27,6 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | **Selbsttaetiger Durchgang: erste Probe steht aus** | Gebaut am 01.09.2026 (4.10.1/4.10.2), geladen, aber nie gelaufen — Netflix und Disney+ sind leer. Sobald wieder Auftraege da sind: Schalter „selbsttaetig" im Kasten anschalten, eine Titelseite oeffnen, und in der Konsole mitlesen („Selbsttaetig: weiter zu …"). Zu pruefen sind drei Dinge: ob er ohne Klick anspringt, ob er nach dem Durchgang zur naechsten Adresse geht, und ob bei 20 Titeln Schluss ist. |
 
-| **Takagi-san: die Prime-Meldung gehört zur falschen Staffel** | 2 | Am 04.09.2026 aus dem Briefkasten geholt und gemessen (`/pruefung?rohfolgen=1`). Die Adresse `0ST5YU69NBGTLE16XV4G99HZNC` trägt `titel_id: 107068` (Staffel 2, 2019) — ihre zwölf Folgen tragen aber `staffel_text: „Nicht schon wieder, Takagi-san"` und die Termine **08.01. bis 26.03.2018**, wöchentlich. Das ist Punkt für Punkt **Staffel 1** (AniList 99468, 12 Folgen, 2018); Staffel 2 lief Juli bis September 2019. **Die Zuordnung ist zu Recht ausgestiegen** — Folgentitel und Daten passen nicht zum Titel, auf den die Meldung zeigt. Wahrscheinliche Ursache ist der dokumentierte Amazon-Staffelwechsel: Adresse wandert, Quelltext bleibt. **Was drinsteckt und ungenutzt bleibt:** zwölf Folgen mit `sprachen: [„Deutsch"]` — ein Prime-Verweis für Staffel 1, den es im Bestand nicht gibt (99468 hängt allein an Crunchyroll). Verwertbar ist er erst, wenn klar ist, **welche Staffel die Adresse wirklich zeigt** — das entscheidet ein Blick auf die Seite, nicht eine Vermutung von hier |
-| **Prime-Adresse ohne jeden Titel** | 2 | `B0GPD4GNLL`, elf Folgen, `titel_id: null`, alle mit dem **gleichen** Datum „12. Juli 2017" — also ohne verwertbaren Anker. Gemeldet als „1. Mein erstes Mal mit einer Gal", ein Titel, der überhaupt nicht in unserem Bestand steht. Solange er fehlt, gibt es nichts, dem die Folgen zugeordnet werden könnten |
 
 ### Zu besprechen
 
@@ -43,6 +40,51 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 |---|---|
 
 | **Pruefstand** | Stand 01.09.2026, 18:15: **Netflix 0, Disney+ 0, Prime 1** (der gemeldete Kauftitel, faellt beim naechsten Bau) plus 1 offene Suche („Is This a Zombie?"). Golden Kamuy ist aus der Wiedervorlage genommen — ein Kanal-Titel kann die Frage bauartbedingt nicht beantworten |
+
+## Archiv 05.09.2026: Die elf Gal-Folgen sind angekommen — drei Riegel lagen davor
+
+Die Aufgabe hieß „Prime-Adresse ohne jeden Titel" und ihre Notiz war an zwei
+Stellen falsch: Der Titel steht sehr wohl im Bestand (AniList 97863, „My First
+Girlfriend Is a Gal"), und das gleiche Datum aller elf Folgen war nicht der
+Grund, warum nichts ankam. Er war der dritte von drei Riegeln, und jeder einzelne
+hätte die Meldung allein aufgehalten.
+
+**Der erste: der Name.** Daniel meldet mit eigenem Zusatz — „My First
+Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)". Beide Namensstufen in
+`fetch-rohfolgen.ts` prüfen, ob ein **Bestandstitel** mit dem gemeldeten Namen
+beginnt (der Fall „Das Dschungelbuch" gegen „Das Dschungelbuch: Die Serie"); hier
+ist die Meldung die längere Seite. Geschnitten wird deshalb am Gedankenstrich —
+und der ist sicher, weil ihn **null** der 2.766 Einträge in einem ihrer drei
+Namen führt. Beim Bindestrich wäre er es nicht: 448 tun es.
+
+**Der zweite: die Folgenzuordnung.** Prime vergibt beim Kauftitel eigene
+Folgennamen („1. Mein erstes Mal mit einer Gal", „2. Erstes Date") und setzt bei
+allen elf den 12.07.2017; aniSearch führt dieselbe Staffel als „Der erste
+Kniefall", 12.07. bis 13.09. Weder über Namen noch über Daten ist da etwas
+zuzuordnen — das ist kein Fehler, es sind andere Texte. Die Frage dieses
+Projekts hängt aber nicht daran: Elf Zeilen, jede mit `[„Deutsch"]`. Der Beleg
+wird jetzt ohne Folgennummer abgelegt, wie beim Einzeleintrag — er gilt dem
+Titel. **Zwei Bedingungen halten ihn eng:** Kennung, Adresse oder ein **genauer**
+Namenstreffer als Herkunft, und alle Zeilen müssen dieselben Tonspuren nennen.
+
+**Der dritte: der Handbeleg.** `build.ts` stieg aus, sobald es zu Titel und
+Anbieter überhaupt einen Handbeleg gab. Die Belege werden je Titel und Anbieter
+zu **einem** zusammengeführt — Daniels Prüfung des Kanal-Titels vom 30.08.
+(`B0GV5SHH5P`, zehn Folgen, FSK 18) sperrte damit seine eigene Meldung zum
+Kauftitel vom 01.09. (`B0GPD4GNLL`, elf Folgen, FSK 16). Der Kommentar an
+derselben Stelle beschreibt genau diese zwei Ausgaben seit dem 30.08.2026 als
+zwei Wege, die beide in den Datensatz gehören. Jetzt gilt ein Beleg **seiner
+Adresse**; einer **ohne** Adresse ist eine Aussage über den Anbieter und sperrt
+weiter alles.
+
+**Nebenbefund, der sonst still falsch geblieben wäre:** Der Verweis entstand aus
+`eintrag.asin` — und das ist bei einer Folgenliste die ASIN der **ersten Folge**
+(`B0GSSL7BMZ`), nicht die der Seite. Die gemeldete Adresse steht im Schlüssel der
+Ablage (`url#asin`) und wird jetzt genommen, wo sie schon eine Titelseite ist.
+
+Im Datensatz stehen seitdem beide Prime-Wege für 97863. Fünf Zusicherungen in
+`check-logic.ts` halten alle drei Stellen fest, in beide Richtungen — die
+Lockerung beim Handbeleg ist die gefährlichere Hälfte.
 
 ## Archiv 03.09.2026: aniSearch als zweite Stimme
 
@@ -113,6 +155,34 @@ Neun Punkte aus Daniels Bilderserie vom 02. und 03.09.2026, alle ausgeliefert:
   Netflix' eigener Staffelliste, die eine Anmeldung braucht — also entscheidet
   es die Erweiterung, nicht der Bau. Das gehört zu „Sammeln und Zuordnen
   vollständig trennen".
+
+## Gemessen 05.09.2026: Der Wache-Cron feuert — mit Stärke fünf Stunden Verzug
+
+Am 04.09.2026 stand hier die Beobachtung, `delta-wache.yml` habe **noch nie** von
+selbst gefeuert; beide Läufe bis dahin waren `workflow_dispatch`. Ein Tag
+Beobachtung war zu wenig.
+
+Die Gegenprobe heute:
+
+```
+04.09., 12:07 UTC   schedule           ← der planmäßige Lauf
+04.09., 08:04 UTC   workflow_dispatch  ← von Hand angestoßen
+```
+
+Der Cron steht auf `20 7 * * *` (09:20 Berlin), gefeuert hat er um **14:07
+Berlin** — 4 Stunden 47 Minuten später. Das ist kein Fehler in der
+Konfiguration, sondern dasselbe, was `CLAUDE.md` für den stündlichen Lauf
+festhält: GitHub **verwirft** `schedule`-Läufe bei Last statt sie nachzuholen,
+und öffentliche Repos ohne laufende Zahlung stehen hinten an.
+
+**Kein Umbau.** Ein täglicher Lauf verträgt fünf Stunden Verzug — anders als
+ein stündlicher, der dabei von 24 auf 5 Läufe fällt. Die Wache sieht ohnehin auf
+die letzten 24 Stunden zurück; ob sie das um neun oder um zwei tut, ändert am
+Befund nichts.
+
+**Was daraus für jede Zeitangabe folgt:** „täglich um 09:20" im Kopf der
+Wache-Datei ist die **Absicht**, nicht der Stand. Wer wissen will, wann sie
+zuletzt lief, liest den Zeitstempel in der Datei — er kommt vom Lauf selbst.
 
 ## Recherche 04.09.2026: Die leere Unterzeile stammt nicht aus den Daten
 

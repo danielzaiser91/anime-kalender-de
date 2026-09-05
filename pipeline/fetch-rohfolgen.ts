@@ -275,6 +275,8 @@ async function main(): Promise<void> {
   }
   /** Wie viele Adressen allein über ihre Folgentitel gefunden wurden. */
   let ueberFolgentitel = 0
+  /** Adressen, deren Sprache belegt ist, deren Folgen aber nicht zuzuordnen waren. */
+  let ohneFolgenzuordnung = 0
 
   const offen: Offen[] = []
   /**
@@ -314,6 +316,11 @@ async function main(): Promise<void> {
       Seit Migration 018 traegt jede Rohfolge `titel_id`. Die Adresse bleibt
       als Rueckfall fuer alles, was vorher gemeldet wurde.
     */
+    /**
+     * Hat der **Name** genau getroffen (nicht nur als Anfang)? Entscheidet
+     * weiter unten, ob ein Beleg ohne Folgenzuordnung tragfähig ist.
+     */
+    let nameGenau = false
     const gemeldeteId = liste.find((f) => Number.isFinite(f.titel_id))?.titel_id ?? null
     /*
       **Die gemeldete Kennung ist ein Vorschlag — die Folgendaten überstimmen ihn.**
@@ -375,6 +382,8 @@ async function main(): Promise<void> {
       ? titles.filter((t) => t.id === echteId)
       : titles.filter((t) => (t.streams ?? []).some((s) => s.url === url)) ||
         []
+    /** Kam der Treffer aus dem Bestand selbst — Kennung oder hinterlegte Adresse? */
+    const ausBestand = treffer.length === 1
     /*
       **Eine Suchadresse trägt ihre Herkunft im Suchbegriff — sie stammt von uns.**
 
@@ -422,7 +431,23 @@ async function main(): Promise<void> {
     if (!treffer.length) {
       const name = liste.find((f) => f.serientitel)?.serientitel ?? null
       if (name) {
-        const k = titelSchluessel(name)
+        /*
+          **Was hinter einem Gedankenstrich steht, ist Daniels Notiz — nicht der Name.**
+
+          Gemeldet am 01.09.2026: „My First Girlfriend Is a Gal — Kauftitel
+          (FSK 16, mit OVA)". Der Zusatz sagt, **welche** Ausgabe er geöffnet
+          hat; unser Bestand führt den Titel ohne ihn. Beide Stufen unten
+          prüfen, ob ein Bestandstitel mit dem gemeldeten Namen **beginnt** —
+          und scheitern hier, weil die Meldung die längere Seite ist.
+
+          Der Schnitt am Gedankenstrich ist deshalb sicher, weil er in echten
+          Titeln nicht vorkommt: **null** der 2.767 Einträge führen ein „ — "
+          in einem ihrer drei Namen (gemessen 05.09.2026). Beim Bindestrich
+          wäre er es nicht — 448 tun es, und „Kuroko's Basketball - Winter Cup
+          Highlights Movie 1" würde zur Serie geschnitten, zu der es nicht
+          gehört.
+        */
+        const k = titelSchluessel(name.split(' — ')[0]!)
         const passt = (t: Title, genau: boolean) =>
           [t.titleDe, t.titleEn, t.titleRomaji].some((x) => {
             if (!x) return false
@@ -443,7 +468,10 @@ async function main(): Promise<void> {
         */
         const genau = titles.filter((t) => passt(t, true))
         const kandidaten = genau.length ? genau : titles.filter((t) => passt(t, false))
-        if (kandidaten.length === 1) treffer.push(kandidaten[0]!)
+        if (kandidaten.length === 1) {
+          treffer.push(kandidaten[0]!)
+          nameGenau = genau.length === 1
+        }
       }
     }
     /*
@@ -651,12 +679,51 @@ async function main(): Promise<void> {
     const paare = ordneZu(anbieter, tmdbStaffel)
     const treffend = paare.filter((p) => p.unsere !== null)
     if (!treffend.length) {
-      offen.push({
-        url,
-        titel: titel.titleDe ?? titel.titleEn ?? null,
-        grund: `keine einzige Folge zuzuordnen (Anker: ${ankerQuelle})`,
-        folgen: liste.length,
-      })
+      /*
+        **Welche Folge gemeint ist, bleibt offen — welche Sprache, nicht.**
+
+        Prime vergibt bei Kauftiteln eigene Folgennamen und setzt bei allen
+        dasselbe Datum. Gemessen am 05.09.2026 an „My First Girlfriend Is a
+        Gal": elf Folgen, alle „12. Juli 2017", Namen wie „1. Mein erstes Mal
+        mit einer Gal" — aniSearch führt dieselbe Staffel als „Der erste
+        Kniefall", 12.07. bis 13.09. Weder über den Namen noch über das Datum
+        ist da etwas zuzuordnen, und das ist kein Fehler: Es sind schlicht
+        andere Texte.
+
+        Die Frage dieses Projekts hängt nicht daran. Elf Zeilen, jede mit
+        `["Deutsch"]` — dass es die Serie dort auf Deutsch gibt, steht damit
+        fest. Der Beleg wird deshalb wie beim Einzeleintrag oben ohne
+        Folgennummer abgelegt: Er gilt dem Titel.
+
+        **Zwei Bedingungen, sonst bleibt es offen:**
+
+        1. Der Titel muss über die **Kennung, die Adresse oder einen genauen
+           Namenstreffer** gefunden worden sein. Ein Namensanfang oder ein
+           Vorschlag aus den Folgentiteln reicht nicht — bei denen ist die
+           Folgenprüfung die einzige Gegenprobe, und die ist hier gerade
+           durchgefallen.
+        2. **Alle** Zeilen müssen dieselben Tonspuren nennen. Sagen sie
+           Verschiedenes, ist die Auskunft folgenweise — und dann fehlt sie,
+           solange die Folgen nicht zuzuordnen sind.
+      */
+      const sprachen = new Set(liste.map((f) => f.sprachen ?? '[]'))
+      const belastbar = (ausBestand || nameGenau) && sprachen.size === 1
+      if (!belastbar) {
+        offen.push({
+          url,
+          titel: titel.titleDe ?? titel.titleEn ?? null,
+          grund: `keine einzige Folge zuzuordnen (Anker: ${ankerQuelle})`,
+          folgen: liste.length,
+        })
+        continue
+      }
+      zugeordnet[schluessel] = {
+        titleId: titel.id,
+        asin: liste.find((f) => f.asin)?.asin ?? null,
+        folgen: [{ unsere: null, sprachen: JSON.parse([...sprachen][0]!) as string[] }],
+      }
+      for (const f of liste) erledigt.push(f.id)
+      ohneFolgenzuordnung++
       continue
     }
 
@@ -709,6 +776,8 @@ async function main(): Promise<void> {
     `${Object.keys(zugeordnet).length} Adressen zugeordnet (${gesamtZugeordnet} Folgen), ${offen.length} offen` +
       (ueberFolgentitel ? `, davon ${ueberFolgentitel} allein über die Folgentitel gefunden` : ''),
   )
+  if (ohneFolgenzuordnung)
+    log(`${ohneFolgenzuordnung} Adressen belegen nur den Titel — die Folgen sind dort nicht zuzuordnen`)
   for (const o of offen.slice(0, 5)) log(`  offen: ${o.titel ?? o.url} — ${o.grund}`)
   recordSource('rohfolgen', gesamtZugeordnet, undefined, Object.keys(zugeordnet).length)
 }

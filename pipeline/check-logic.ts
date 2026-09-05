@@ -2544,5 +2544,60 @@ console.log('\nVerpasster Termin:')
   )
 }
 
+/*
+  **Zwei Ausgaben bei Prime, zwei Wege — der Handbeleg sperrt nur seinen eigenen.**
+
+  Bis zum 05.09.2026 stieg der Bau bei jeder Rohfolgen-Meldung aus, sobald es zu
+  Titel und Anbieter überhaupt einen Handbeleg gab (`checks.has(<id>|primevideo)`).
+  Die Belege werden je Titel und Anbieter zu **einem** zusammengeführt — eine
+  geprüfte Ausgabe sperrte damit jede Meldung zur zweiten.
+
+  Gekostet hat es elf Folgen: Daniel prüfte am 30.08.2026 den Kanal-Titel von
+  „My First Girlfriend Is a Gal" (`B0GV5SHH5P`, zehn Folgen) und meldete am
+  01.09. den Kauftitel (`B0GPD4GNLL`, elf Folgen mit deutscher Tonspur). Die
+  Meldung lag vier Tage unverwertet im Briefkasten.
+
+  Beide Richtungen stehen hier, denn die Lockerung ist die gefährlichere Hälfte:
+  Ein Beleg **ohne** Adresse gilt dem Anbieter und muss weiter alles sperren —
+  sonst überschreibt eine Meldung ein geprüftes Nein.
+*/
+console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'der Riegel sperrt nicht mehr pauschal je Anbieter',
+    !/if \(checks\.has\(dubKey\(eintrag\.titleId, 'primevideo'\)\)\) continue/.test(bau),
+    'der pauschale Riegel steht wieder da — Meldungen zur zweiten Ausgabe kommen nicht an',
+  )
+  pruefe(
+    '… sondern vergleicht die Adresse des Belegs',
+    /if \(beleg && \(!beleg\.url \|\| beleg\.url === seite\)\) continue/.test(bau),
+    'der Adressvergleich fehlt',
+  )
+  pruefe(
+    'der Verweis zeigt auf die gemeldete Seite, nicht auf die ASIN der ersten Folge',
+    /const gemeldeteAdresse = schluessel\.split\('#'\)\[0\]!/.test(bau) && /\? gemeldeteAdresse/.test(bau),
+    'die Folgen-ASIN wird wieder als Titelseite verlinkt (B0GSSL7BMZ statt B0GPD4GNLL)',
+  )
+
+  /*
+    Und die beiden Stellen in `fetch-rohfolgen.ts`, ohne die die Meldung gar
+    nicht erst bei einem Titel ankäme: der Schnitt am Gedankenstrich (Daniels
+    Zusatz „— Kauftitel (FSK 16, mit OVA)") und der Beleg ohne Folgenzuordnung,
+    wenn Prime eigene Folgennamen und für alle dasselbe Datum führt.
+  */
+  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
+  pruefe(
+    'der gemeldete Name wird am Gedankenstrich geschnitten',
+    /titelSchluessel\(name\.split\(' — '\)\[0\]!\)/.test(roh),
+    'ohne den Schnitt bleibt „… — Kauftitel (FSK 16)" ein unbekannter Titel',
+  )
+  pruefe(
+    'unzuordenbare Folgen belegen den Titel nur bei starker Herkunft und einheitlicher Sprache',
+    /const belastbar = \(ausBestand \|\| nameGenau\) && sprachen\.size === 1/.test(roh),
+    'die Bedingung fehlt oder ist gelockert — ein Namensanfang würde ungeprüft zum Beleg',
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
