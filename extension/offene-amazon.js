@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_AMAZON = {"B0GPD4GNLL":{"titel":"My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)","url":"https://www.amazon.de/dp/B0GPD4GNLL","erneut":"zweite Prime-Ausgabe; gemeldet ist bisher nur der Crunchyroll-Kanal","anilistId":97863,"eintraege":[{"id":null,"name":"My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)","folgen":null,"offen":true}]}}
+globalThis.AK_OFFENE_AMAZON = {}

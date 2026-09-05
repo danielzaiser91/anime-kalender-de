@@ -170,40 +170,19 @@ const ERNEUT = {
     ein Kauftitel, eine zweite Ausgabe, eine eigene Prime-Produktion.
   */
   /*
-    **Die zweite Prime-Ausgabe desselben Titels.**
+    **Erfüllt am 05.09.2026 — hier stand die zweite Prime-Ausgabe von „My First
+    Girlfriend Is a Gal" (`B0GPD4GNLL`, Kauftitel, FSK 16, elf Folgen mit OVA).**
 
-    Prime führt „My First Girlfriend Is a Gal" zweimal: über den
-    Crunchyroll-Kanal (FSK 18, 10 Folgen) und als Kauftitel (FSK 16, 11 Folgen
-    mit OVA, KAZÉ) — andere Folgentitel, zwei Verlage, geprüft am 30.08.2026
-    mit Bildern. Gemeldet ist bisher nur der Kanal-Weg, und bei einem
-    Kanal-Titel nennt Amazon die Sprachen des **Kanals**, nicht der Folge; der
-    Kauftitel ist die belastbarere Quelle.
+    Der Eintrag hat getan, wozu er da war: Daniels Meldung vom 01.09. fand über
+    ihn ihren Anker, und der Kauftitel steht seitdem als zweiter Prime-Weg im
+    Bestand. Die Begründung dazu steht in `status.md` („Die elf Gal-Folgen sind
+    angekommen — drei Riegel lagen davor").
 
-    Unser Bestand kennt für den Titel nur einen Prime-Verweis, deshalb fiel der
-    Auftrag nach der ersten Meldung aus der Liste (Daniel: „ich sehe keinen
-    prüfliste eintrag für die kaufbare option?"). Die Adresse hat er von Hand
-    nachgeliefert.
-
-    Bis die Erweiterung eine zweite Ausgabe selbst meldet (status.md), steht sie
-    hier — mit Kennung, nicht mit einer Suche: Sie ist bekannt.
+    Er ist nicht von Hand gestrichen worden: Die Schleife unten überspringt
+    seitdem jede Adresse, die der Bestand schon als Prime-Verweis führt. Ein
+    Auftrag, der erledigt ist, verschwindet damit von selbst — ein
+    Wiedervorlage-Eintrag hat sonst kein Ende.
   */
-  B0GPD4GNLL: {
-    titel: 'My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)',
-    grund: 'zweite Prime-Ausgabe; gemeldet ist bisher nur der Crunchyroll-Kanal',
-    /*
-      **Ohne Kennung findet die Meldung keinen Anker.**
-
-      Unser Bestand führt für diesen Titel die Adresse `B0GV5SHH5P` (den
-      Kanal-Weg); der Kauftitel steht nirgends. `fetch-pruefungen.ts` ordnet
-      über die Adresse zu und meldete deshalb „im Datensatz nicht gefunden" —
-      die Meldung vom 01.09.2026 blieb liegen, obwohl sie angekommen war.
-
-      Die Kennung steht hier, damit der Lauf sie als Anker nehmen kann. Sobald
-      die Erweiterung eine zweite Ausgabe selbst meldet (status.md), entfällt
-      dieser Eintrag.
-    */
-    anilistId: 97863,
-  },
 }
 
 const JAHRESZEIT = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
@@ -642,8 +621,24 @@ for (const zeile of belege.split(String.fromCharCode(10))) {
 }
 if (ausWeiteren) console.log(`  ${ausWeiteren} zweite Ausgabe(n) aus den Meldungen übernommen`)
 
+/*
+  **Eine Wiedervorlage ohne Ende ist keine.**
+
+  Bis zum 05.09.2026 kam jeder ERNEUT-Eintrag in die Liste, bis ihn jemand von
+  Hand herausnahm — auch der, dessen Adresse längst als Verweis im Bestand
+  stand. Daniel bekäme ihn dann jeden Tag erneut vorgelegt, und genau das ist
+  der Fehlgriff, gegen den `geprueftePrime` weiter oben gebaut wurde: „Die Liste
+  zeigt offene **Arbeit**, nicht offene **Urteile**."
+
+  Kennt der Bestand die Adresse als Prime-Verweis, ist die Frage beantwortet —
+  gleich, ob die Antwort aus einem Handbeleg oder aus gemeldeten Folgen stammt.
+*/
+const bekanntePrimeAdressen = new Set(
+  titel.flatMap((t) => (t.streams ?? []).filter((s) => s.platform === 'primevideo').map((s) => s.url)),
+)
 for (const [asin, wert] of Object.entries(ERNEUT)) {
   if (offen[asin]) continue
+  if (bekanntePrimeAdressen.has(`https://www.amazon.de/dp/${asin}`)) continue
   offen[asin] = {
     titel: wert.titel,
     url: `https://www.amazon.de/dp/${asin}`,

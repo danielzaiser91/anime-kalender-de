@@ -39,7 +39,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | Aufgabe | Notiz |
 |---|---|
 
-| **Pruefstand** | Stand 01.09.2026, 18:15: **Netflix 0, Disney+ 0, Prime 1** (der gemeldete Kauftitel, faellt beim naechsten Bau) plus 1 offene Suche („Is This a Zombie?"). Golden Kamuy ist aus der Wiedervorlage genommen — ein Kanal-Titel kann die Frage bauartbedingt nicht beantworten |
+| **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
 
 ## Gemessen 05.09.2026: Der Briefkasten leerte sich nicht, und die Zuordnungen hielten einen Bau
 
