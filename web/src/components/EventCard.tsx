@@ -99,7 +99,7 @@ export function EventCard({
         }
       }}
       className={[
-        'group relative flex w-full cursor-pointer gap-2 overflow-hidden rounded-lg border text-left transition',
+        'group relative flex w-full cursor-pointer flex-col gap-1 overflow-hidden rounded-lg border text-left transition',
         favorite
           ? 'border-amber-400/70 bg-amber-400/[0.07] shadow-[0_0_0_1px_rgba(251,191,36,.25)] hover:border-amber-300'
           : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-white/25 dark:hover:bg-white/[0.08]',
@@ -117,10 +117,42 @@ export function EventCard({
       */
       style={{ borderLeft: `3px solid ${type.color}` }}
     >
-      {cover && !dense && (
-        <img src={cover} alt="" loading="lazy" className="h-14 w-10 shrink-0 rounded object-cover" />
-      )}
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
+      {/*
+        **Der Titel steht unter dem Cover, nicht daneben — und das ist keine
+        Geschmacksfrage.**
+
+        Bis zum 05.09.2026 lief die Kachel als **Zeile**: links das Cover,
+        rechts eine Spalte aus Kopfzeile, Titel und Marken. Der Titel hatte
+        damit 85 von 153 Pixeln Breite, also rund zehn Zeichen je Zeile — bei
+        1280 × 900 waren **20 von 42** sichtbaren Titeln gekappt („Skeleton
+        Knight in Another…", „Mobile Suit Gundam Hathaway:…").
+
+        Die naheliegende Antwort war eine vierte Zeile. Gemessen
+        (`npm run bild:kachel`) trägt sie weniger, als sie kostet:
+
+        ```
+        drei Zeilen (Stand)      20 gekappt   134 px
+        vierte Zeile              6 gekappt   152 px
+        ohne Grenze               0 gekappt   170 px
+        Titel über volle Breite   0 gekappt   134 px
+        Icons neben den Titel    35 gekappt   134 px
+        ```
+
+        Der Engpass ist die **Breite**, nicht die Zeilenzahl. Über die ganze
+        Kachel sind es doppelt so viele Zeichen je Zeile, und danach ist kein
+        Titel mehr gekappt — ohne einen Pixel Höhe. Die letzte Zeile der
+        Messung ist die gemessene Sackgasse: Die Icons neben den Titel zu
+        rücken kostet mehr Breite, als die frei werdende Zeile einbringt.
+
+        Daniel hat die Zahlen und die beiden Bilder gesehen und sich dafür
+        entschieden (05.09.2026: „zeig problem und lösung visuell bevor ich
+        mich entscheide").
+      */}
+      <div className="flex w-full gap-2">
+        {cover && !dense && (
+          <img src={cover} alt="" loading="lazy" className="h-10 w-7 shrink-0 rounded object-cover" />
+        )}
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
         {/* Umbrechend, weil die Reihe je nach Titel bis zu sechs Dinge trägt:
             Uhrzeit, Folgennummer, das ≈, Teilen, Auge, Stern. In einer schmalen
             Tagesspalte passte das nicht mehr nebeneinander, und der Stern stand
@@ -206,15 +238,17 @@ export function EventCard({
             )}
           </span>
         </div>
-        <span
+        </div>
+      </div>
+      <span
           className={[
             /*
-              Drei Zeilen statt zwei (Daniel, 03.09.2026): Gemessen waren **28
-              von 42** sichtbaren Titeln nach zwei Zeilen gekappt — „Skeleton
-              Knight in…", „Mushoku Tensei: Joble…". Die dritte Zeile holt acht
-              davon zurück und kostet 18 px.
+              Drei Zeilen bleiben die Obergrenze — sie greift seit dem
+              05.09.2026 nur noch selten, weil der Titel die volle Kachelbreite
+              hat (Begründung und Messung oben). Sie steht weiter da, damit ein
+              Ausreißer die Kachel nicht sprengt.
             */
-            'line-clamp-3 text-[13px] font-medium leading-snug',
+            'line-clamp-4 text-[13px] font-medium leading-snug',
             ueberholt
               ? 'text-slate-400 line-through decoration-rose-500/60 dark:text-slate-500'
               : 'text-slate-900 dark:text-slate-100',
@@ -222,11 +256,10 @@ export function EventCard({
         >
           {event.name}
         </span>
-        <span className="flex flex-wrap items-center gap-1">
-          <PlatformBadge platform={event.platform} small />
-          {fsk !== undefined && <FskBadge fsk={fsk} small />}
-        </span>
-      </div>
+      <span className="flex flex-wrap items-center gap-1">
+        <PlatformBadge platform={event.platform} small />
+        {fsk !== undefined && <FskBadge fsk={fsk} small />}
+      </span>
     </div>
   )
 }

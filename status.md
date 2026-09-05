@@ -31,7 +31,6 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Frage | Messung |
 |---|---|
-| **Zwei Drittel der Kalender-Kacheln zeigen einen abgeschnittenen Titel — soll das so bleiben?** Gemessen am 03.09.2026 in der Wochenansicht bei 1280 × 900: **28 von 42** sichtbaren Titeln sind nach zwei Zeilen gekappt („Skeleton Knight in…", „Mushoku Tensei: Joble…"). Der Zeilenbedarf: 14 Titel brauchen 2 Zeilen, 8 brauchen 3, 14 brauchen 4, 6 mehr. Eine dritte Zeile würde also nur 8 von 28 retten und jede Kachel um 18 px höher machen, eine vierte 22 von 28 für 36 px — bei vier Kacheln je Spalte sind das 144 px weniger Sicht. **Das ist eine Abwägung, kein Fehler**, und sie gehört Daniel: mehr Lesbarkeit gegen weniger Termine im Bild. Dritter Weg wäre ein Umbau der Kachel (Titel und Icon-Zeile in eine Zeile), der Platz ohne Höhenzuwachs schafft |
 
 ### Warten auf Feedback
 
@@ -40,6 +39,42 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | **DMARC-Berichte fehlen seit dem 22.08.2026** | Gemessen am 05.09.2026: Der juengste Bericht unter `__assets/notes/dmarc-berichte/` deckt den **22.08.** ab, 15 Stueck insgesamt, alle noch mit `policy_published: none`. Die Umstellung auf `p=quarantine` lief am **24.08.2026, 12:05** — kein einziger Bericht danach ist abgelegt. Ob die Empfaenger die neue Politik anwenden, ist damit vierzehn Tage nach der Umstellung unbeantwortet. Google schickt sie taeglich per Mail; ausgewertet werden sie mit `tools/dmarc-auswerten.mjs`, sobald sie im Ordner liegen |
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
+
+## Entschieden 05.09.2026: Der Kachel-Titel steht unter dem Cover
+
+Die Frage stand seit dem 03.09.2026 unter „Zu besprechen": Zwei Drittel der
+Titel in der Wochenansicht endeten mit „…", und die naheliegende Antwort war
+eine zusätzliche Textzeile. Daniels Vorgabe zur Entscheidung: „zeig problem und
+lösung visuell bevor ich mich entscheide."
+
+Gemessen mit `npm run bild:kachel` (1280 × 900, dunkles Thema, 42 sichtbare
+Titel):
+
+```
+Titel neben dem Cover, drei Zeilen   20 gekappt   134 px   ← Stand davor
+… vier Zeilen                         6 gekappt   152 px
+… ohne Grenze                         0 gekappt   170 px
+… Icons neben den Titel              35 gekappt   134 px   ← Sackgasse
+Titel über die volle Kachelbreite     0 gekappt   136 px   ← gebaut
+```
+
+**Der Engpass war die Breite, nicht die Zeilenzahl.** Neben dem Cover hatte der
+Titel 85 von 153 Pixeln, also rund zehn Zeichen je Zeile — jede weitere Zeile
+kostete 18 px Höhe und brachte zehn Zeichen. Über die ganze Kachel sind es
+doppelt so viele je Zeile, und kein Titel ist mehr gekappt.
+
+Zwei Nebenwirkungen gehören dazu:
+
+- **Das Cover ist von 56 auf 40 px geschrumpft.** Sonst gäbe die Kopfzeile die
+  Höhe der oberen Reihe vor, und die Kachel wäre 152 px hoch geworden — genau
+  der Preis, den die vierte Zeile gekostet hätte.
+- **Die Obergrenze steht jetzt bei vier Zeilen** statt drei. Sie greift kaum
+  noch; sie ist der Riegel gegen einen Ausreißer wie „My Gift Lvl 9999
+  Unlimited Gacha: Backstabbed in a Backwater Dungeon, I'm Out for Revenge!".
+
+Die gemessene Sackgasse bleibt im Werkzeug stehen: Die Icons neben den Titel zu
+rücken kostet mehr Breite, als die frei werdende Zeile einbringt — 35 gekappte
+Titel statt 20.
 
 ## Beantwortet 05.09.2026: Welche Pokémon-Folgen Prime nicht führt
 
