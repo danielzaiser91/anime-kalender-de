@@ -2607,6 +2607,28 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     holte, ausließ und liegen ließ. Die Entscheidung ist endgültig (Kanal-Titel,
     Adresse bekannt, kein Folgenbefund) — morgen käme dasselbe heraus.
   */
+  pruefe(
+    'ein dritter Prime-Verweis aus einer Meldung wird nicht angelegt',
+    /if \(title\.streams\.filter\(\(x\) => x\.platform === 'primevideo'\)\.length >= 2\) \{/.test(bau),
+    'ohne den Deckel wächst ein Titel auf 52 Prime-Verweise — je Folge einen, wie im Verlauf von prime-zugeordnet.json',
+  )
+
+  /*
+    **Und die Zuordnungen sammeln sich, statt sich zu ersetzen.**
+
+    `fetch-rohfolgen.ts` schrieb nur die Zuordnungen des laufenden Laufs und
+    hakte den Briefkasten danach ab — was gestern zugeordnet war, war heute weg.
+    Der Verlauf der Datei zeigt es: 0, 1, 2, 0, 1 Adressen, nie mehr. `build.ts`
+    legt aus dieser Datei die Prime-Verweise an, ein solcher Verweis hielt also
+    genau einen Bau.
+  */
+  pruefe(
+    'die Zuordnungen werden mit dem alten Stand zusammengeführt',
+    /const bisher = readJson<typeof zugeordnet>\('data\/prime-zugeordnet\.json', \{\}\)/.test(roh) &&
+      /writeJson\('data\/prime-zugeordnet\.json', \{ \.\.\.bisher, \.\.\.zugeordnet \}\)/.test(roh),
+    'die Datei wird wieder überschrieben — jede Zuordnung hält dann einen Bau',
+  )
+
   const pruef = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
   const auslass = /if \(ohneAussage\) \{[\s\S]{0,2000}?\n    \}/.exec(pruef)?.[0] ?? ''
   pruefe(

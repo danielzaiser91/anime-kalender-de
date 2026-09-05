@@ -41,6 +41,42 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | **Pruefstand** | Stand 01.09.2026, 18:15: **Netflix 0, Disney+ 0, Prime 1** (der gemeldete Kauftitel, faellt beim naechsten Bau) plus 1 offene Suche („Is This a Zombie?"). Golden Kamuy ist aus der Wiedervorlage genommen — ein Kanal-Titel kann die Frage bauartbedingt nicht beantworten |
 
+## Gemessen 05.09.2026: Der Briefkasten leerte sich nicht, und die Zuordnungen hielten einen Bau
+
+Zwei Funde beim Aufräumen des Rückstands, beide still, beide mit derselben
+Bauart: Eine Datei wird überschrieben oder ein Eintrag nicht abgehakt, und was
+verlorengeht, meldet niemand.
+
+**Der Briefkasten füllte sich mit Meldungen, die niemand abhaken konnte.**
+`fetch-pruefungen.ts` hakt am Ende nur ab, wer etwas geschrieben hat. Eine
+Kanal-Meldung ohne Aussage schreibt bewusst nichts — und blieb deshalb liegen.
+Heute lagen dort 16 Meldungen auf 13 Adressen, die älteste seit Wochen; jeder
+Lauf holte sie, ließ sie aus, ließ sie liegen. Sie sind jetzt abgehakt: Die
+Entscheidung hängt an drei Dingen, von denen sich keines zurückdreht
+(Kanal-Titel, Adresse bekannt, kein Folgenbefund).
+
+**Die Zuordnungen aus den Rohfolgen hielten genau einen Bau.**
+`fetch-rohfolgen.ts` schrieb `data/prime-zugeordnet.json` mit den Zuordnungen
+des laufenden Laufs und hakte den Briefkasten danach ab. Was gestern
+zugeordnet war, war heute weg — der Verlauf der Datei zeigt 0, 1, 2, 0, 1
+Adressen, nie mehr. Am 04.09. standen dort die zwölf deutschen Takagi-Folgen,
+am 05.09. nicht. Seitdem wird der alte Stand gelesen und zusammengeführt,
+Schlüssel ist `url#asin`.
+
+**Wiederhergestellt wird der Verlauf trotzdem nicht — er ist zur Hälfte Müll.**
+Über alle Fassungen zusammen stehen dort 3.136 Adressen. Gemessen, was ein
+Einspielen bewirken würde: 2.023 neue Prime-Verweise auf 209 Titeln, davon 105
+Titel mit **fünf oder mehr** Adressen — 52 für „Niklaas, ein Junge aus
+Flandern", 51 für „Fullmetal Alchemist", 50 für „Digimon Frontier". Das ist
+eine Adresse je **Folge**, aus der Zeit vor dem 02.09.2026, als Prime jeder
+Folge eine eigene ASIN gab und die Gruppierung ihr folgte.
+
+Dieselbe Zahl ist der Maßstab für den Deckel, der jetzt in `build.ts` steht:
+Ein Titel bekommt aus Meldungen höchstens **zwei** Prime-Verweise. Zwei sind
+die Wege, die ein Besucher unterscheiden kann — im Abo und zum Kauf, und genau
+danach gruppiert die Oberfläche. Ein dritter beantwortet keine Frage, die der
+zweite offen gelassen hätte.
+
 ## Archiv 05.09.2026: Die elf Gal-Folgen sind angekommen — drei Riegel lagen davor
 
 Die Aufgabe hieß „Prime-Adresse ohne jeden Titel" und ihre Notiz war an zwei

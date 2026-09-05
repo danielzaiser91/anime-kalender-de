@@ -748,7 +748,27 @@ async function main(): Promise<void> {
     for (const f of liste) erledigt.push(f.id)
   }
 
-  writeJson('data/prime-zugeordnet.json', zugeordnet)
+  /*
+    **Der Bestand dieser Datei ist der Ertrag aller Läufe, nicht der des letzten.**
+
+    Geschrieben wurde hier `zugeordnet` — die Zuordnungen **dieses** Laufs. Und
+    weil der Briefkasten danach abgehakt wird, kommen die alten Meldungen nie
+    wieder: Was gestern zugeordnet war, war heute weg. Der Verlauf der Datei
+    zeigt es unmissverständlich — 0, 1, 2, 0, 1 Adressen, nie mehr. Am
+    04.09.2026 standen dort die zwölf deutschen Takagi-Folgen (AniList 99468),
+    am 05.09. nicht mehr.
+
+    Der Schaden ist nicht die Datei, sondern was daran hängt: `build.ts` legt aus
+    ihr die Prime-Verweise an. Ein Verweis, der aus gemeldeten Folgen entsteht,
+    hielt damit genau einen Bau.
+
+    Zusammengeführt wird über den Schlüssel `url#asin` — eine erneute Meldung
+    derselben Ausgabe **ersetzt** ihren Eintrag, alle übrigen bleiben stehen.
+    Dasselbe Muster wie beim Filmblock-Abruf, aus demselben Grund: Ein Lauf, der
+    nichts findet, darf nicht löschen, was ein früherer gefunden hat.
+  */
+  const bisher = readJson<typeof zugeordnet>('data/prime-zugeordnet.json', {})
+  writeJson('data/prime-zugeordnet.json', { ...bisher, ...zugeordnet })
   writeJson('data/prime-unzugeordnet.json', offen)
 
   /*

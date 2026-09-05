@@ -2753,6 +2753,8 @@ function main(): void {
     >('data/prime-zugeordnet.json', {})
     let ausRoh = 0
     let adressen = 0
+    /** Meldungen, die einen dritten Prime-Verweis angelegt hätten — siehe unten. */
+    let uebersprungen = 0
     for (const [schluessel, eintrag] of Object.entries(roh)) {
       const title = titles.get(eintrag.titleId)
       if (!title) continue
@@ -2838,12 +2840,41 @@ function main(): void {
           adressen++
         }
       } else if (seite) {
+        /*
+          **Zwei Ausgaben sind zwei Wege — zweiundfünfzig sind ein Fehler.**
+
+          Der Kommentar darüber erlaubt bewusst einen zweiten Prime-Verweis je
+          Titel. Wie schnell daraus etwas anderes wird, zeigt der Verlauf von
+          `data/prime-zugeordnet.json`: Über alle Fassungen zusammengenommen
+          stehen dort **3.136 Adressen**, und die Verteilung sagt, was sie sind
+          — 52 für „Niklaas, ein Junge aus Flandern", 51 für „Fullmetal
+          Alchemist", 50 für „Digimon Frontier". Eine je Folge, aus der Zeit vor
+          dem 02.09.2026, als Prime jeder Folge eine eigene ASIN gab und die
+          Gruppierung ihr darin folgte.
+
+          Der Gruppierungsfehler ist behoben, aber die Zahl bleibt der Maßstab:
+          Ein Titel hat bei Prime zwei Wege, die ein Besucher unterscheiden kann
+          — im Abo und zum Kauf. Genau danach gruppiert die Oberfläche. Ein
+          dritter Verweis beantwortet keine Frage mehr, die der zweite offen
+          gelassen hätte, und ist viel eher ein Artefakt als eine dritte
+          Ausgabe.
+
+          **Der Deckel gilt nur für das Anlegen.** Eine Sprachangabe an einem
+          vorhandenen Verweis (oben) und ein Handbeleg gehen ihn nichts an.
+        */
+        if (title.streams.filter((x) => x.platform === 'primevideo').length >= 2) {
+          uebersprungen++
+          continue
+        }
         title.streams.push({ platform: 'primevideo', url: seite, dub: true })
         ausRoh++
       }
     }
     if (ausRoh || adressen) {
       log(`${ausRoh} Prime-Verweise aus Daniels Meldungen belegt, ${adressen} Suchadresse(n) durch die Titelseite ersetzt`)
+    }
+    if (uebersprungen) {
+      log(`${uebersprungen} Meldung(en) haetten einen dritten Prime-Verweis angelegt \u2014 uebersprungen`)
     }
   }
 
