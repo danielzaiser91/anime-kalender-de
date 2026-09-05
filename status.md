@@ -20,7 +20,6 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | Aufgabe | SP | Notiz |
 |---|---|---|
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
-| **Pokémon Sonne & Mond: 145 statt 146** | 1 | Daniel hat am 30.08.2026 alle zwölf Prime-Bände einzeln geprüft und gemeldet: Staffel 20 mit 43 Folgen (11+11+11+10), Staffel 21 mit 48 (4×12), Staffel 22 mit 54 (14+13+13+14). AniList führt für den Block 146. Seine Gegenprobe: „so wie sie gemeldet wurden so führt sie amazon, also falls da laut anisearch was fehlt, dann hat amazon die nicht." Die Zuordnung über die Folgentitel wird eine Nummer ohne Entsprechung lassen — das ist dann kein Lesefehler, sondern eine Lücke im Angebot, und genau so gehört sie in den Datensatz | **Nachgemessen am 05.09.2026, mit Token am Briefkasten:** Der Bestand führt dafür **einen** Titel (AniList 97634) mit 146 Folgen. Im Briefkasten liegt zu ihm **keine einzige Rohfolge** — Daniels zwölf Bände vom 30.08. kamen als Prüfmeldung an, nicht als Folgenliste, und wurden zu **einem** Handbeleg zusammengeführt (`B0CNGQNN2P`, „alle 11 Folgen geprüft"). Welche Nummer Prime nicht führt, steht damit nirgends. Der Punkt hängt an einer neuen Meldung mit der aktuellen Erweiterung, nicht an einem Lauf
 
 
 | **Sammeln und Zuordnen vollstaendig trennen** | 13 | Daniel am 01.09.2026: „wenn disney+ sich entscheidet staffeln und episoden wild zu gruppieren, muss das dem sammeln egal sein, einfach alles melden was da ist … zuordnung muss es ebenfalls egal sein, anbieter zuordnung nicht vertrauen, sondern einzeln episoden korrekt aus gesammeltem zustand rauspicken und korrekt zuordnen, auch wenn anbieter zB folge 13 als staffel 2000 bezeichnet … anhand von verlaesslichen sicheren quellen wie zB anisearch". **Der Weg existiert fuer Prime** (`fetch-rohfolgen.ts` + `shared/folgen-zuordnung.ts`, Umbau vom 28.08.2026): Der Sammler meldet je Folge Nummer, Titel, Datum und Laufzeit, der Bau legt sie ueber TMDBs Folgentitel und Erstausstrahlungsdaten. Netflix und Disney+ gehen ihn nicht — dort entscheidet weiter die Staffelangabe des Anbieters, und genau daran haben heute drei Faelle gehangen (Kakegurui 12 Meldungen zu 24 Haekchen, Dorohedoro 1/12/13 in Staffel 1, Loser Ranger 1-24 auf einem 12-Folgen-Titel). **Vorhanden als Anker:** `data/anisearch-folgen.json` (510 Titel mit deutschem, englischem und japanischem Folgentitel plus Datum), `data/tmdb-folgen.json` (808 Titel). **Die Pipeline-Haelfte steht seit dem 05.09.2026:** `plattform` wird durch die Zuordnung durchgereicht und `build.ts` legt den Verweis beim **gemeldeten** Anbieter an — vorher war `'primevideo'` dreimal fest verdrahtet, eine Netflix-Meldung waere als Prime-Weg gelandet. **Zu tun bleibt:** die Melder von Netflix und Disney+ auf die Rohfolgen-Route umstellen (das ist die eigentliche Arbeit, sie liegt in der Erweiterung), `prime_folge` und `data/prime-zugeordnet.json` anbieteruebergreifend benennen, und die Staffelangabe des Anbieters nur noch als Hinweis fuehren. |
@@ -41,6 +40,42 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | **DMARC-Berichte fehlen seit dem 22.08.2026** | Gemessen am 05.09.2026: Der juengste Bericht unter `__assets/notes/dmarc-berichte/` deckt den **22.08.** ab, 15 Stueck insgesamt, alle noch mit `policy_published: none`. Die Umstellung auf `p=quarantine` lief am **24.08.2026, 12:05** — kein einziger Bericht danach ist abgelegt. Ob die Empfaenger die neue Politik anwenden, ist damit vierzehn Tage nach der Umstellung unbeantwortet. Google schickt sie taeglich per Mail; ausgewertet werden sie mit `tools/dmarc-auswerten.mjs`, sobald sie im Ordner liegen |
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
+
+## Beantwortet 05.09.2026: Welche Pokémon-Folgen Prime nicht führt
+
+Die Frage stand seit dem 30.08.2026 offen und war zuletzt als „Daniel muss die
+zwölf Bände neu melden" geführt. Das war falsch: Die Antwort lag im Verlauf von
+`data/prime-zugeordnet.json`, den derselbe Fehler weggeworfen hat, der heute
+behoben wurde. Zwanzig Zuordnungen zu AniList 97634 stehen darin, acht davon mit
+Folgennummern.
+
+```
+B0CNK77G6V   12 Zeilen   44–55    vollständig
+B0CNCLPCC7   12 Zeilen   56–68    es fehlt 64
+B0CH8VTJ4L   11 Zeilen   69–80    es fehlt 72
+B0CMDHVHJR   12 Zeilen   81–92    vollständig
+B0CNVT63CJ   13 Zeilen   93–105   vollständig
+B0CJS1BYWF   13 Zeilen   106–118  vollständig
+B0CNY27NKX   13 Zeilen   119–132  es fehlt 129
+B0CKFGYQ5P   13 Zeilen   133–146  es fehlt 139
+```
+
+**Vier Nummern: 64, 72, 129, 139.** Und sie sind keine Zuordnungsfehler — in
+allen acht Bändern ist die Zahl der gemeldeten Zeilen **gleich** der Zahl der
+zugeordneten. Es ist also keine Folge beim Abgleich durchgefallen; die vier
+Nummern kommen in den Bändern schlicht nicht vor. Das ist genau Daniels Maßstab
+vom 30.08.2026: „so wie sie gemeldet wurden so führt sie amazon."
+
+**Was weiterhin offen ist: die Folgen 1 bis 43.** Für sie gibt es keine
+Folgendaten — gemeldet wurde dazu nur `B0CNGQNN2P` („alle 11 Folgen geprüft",
+laut Adresse Staffel 2001) und zwölf Einzelfolgen ohne Nummer. 99 der 146
+Nummern sind damit belegt, 4 als Lücke ausgewiesen, 43 unbekannt.
+
+**Nicht in den Datensatz geschrieben**, und das ist Absicht: `dubRanges` kennt
+nur `dub: true/false`, also „dort, aber ohne Deutsch". Eine Folge, die es dort
+gar nicht gibt, ist etwas anderes — genau die Unterscheidung, die dieses Projekt
+zwischen `dub: false` und `available: false` zieht. Sie je Folge auszudrücken
+gibt der Datensatz nicht her.
 
 ## Gemessen 05.09.2026: Der Briefkasten leerte sich nicht, und die Zuordnungen hielten einen Bau
 
