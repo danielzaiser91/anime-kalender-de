@@ -3313,6 +3313,34 @@ async function speicherSchreiben(werte) {
    */
   let weitereAusgaben = []
 
+  /**
+   * **Solange gesendet wird, fasst der Takt den Knopf nicht an.**
+   *
+   * Der Klick setzt „sende …", und eine halbe Sekunde später schrieb
+   * `zeichnen()` den alten Text zurück — bis die Antwort da war, wechselte die
+   * Beschriftung im Takt hin und her (Daniel, 06.09.2026: „nach klick auf
+   * melden flackert melde button, statt direkt zu disablen").
+   *
+   * Der Merker steht am Modul, nicht am Knopf: `zeichnen()` steigt daran aus,
+   * bevor es irgendetwas berechnet.
+   */
+  let sendetGerade = false
+
+  /**
+   * **Für welchen Pfad eine Meldung durchgegangen ist.**
+   *
+   * Ohne ihn verschwand die Marke „gemeldet ✓" zwei Sekunden nach der Meldung
+   * wieder: `zeichnen()` räumt sie zu Beginn jedes Takts weg, und nur der Zweig
+   * „alles durch" setzt sie neu — der greift aber nicht bei jedem Titel.
+   * Übrig blieb ein Kasten, der weder Knopf noch Ergebnis zeigte (Daniel,
+   * 06.09.2026, mit Bild).
+   *
+   * Der Pfad, nicht die volle Adresse: Prime schreibt den `ref_`-Parameter
+   * laufend um (siehe `filmAusSeite()`), und die Marke soll den Titelwechsel
+   * nicht überleben, wohl aber das Umschreiben der Adresse.
+   */
+  let gemeldetFuerPfad = null
+
   function zeigeSuchhinweis() {
     /*
       **Eine zweite Suche gehört noch zum selben Auftrag.**
@@ -6477,6 +6505,9 @@ async function speicherSchreiben(werte) {
       Die Prüfung steht hier und nicht einmalig beim Aufbau: Der Takt zeichnet
       alle 500 ms neu und setzte die Anzeige jedes Mal zurück.
     */
+    /* Während des Sendens gehört der Knopf dem Klick, nicht dem Takt. */
+    if (sendetGerade) return
+
     if (jetztAufSuchseite()) {
       knopf.style.display = 'none'
       gemeldetMarke(false)
@@ -6484,10 +6515,13 @@ async function speicherSchreiben(werte) {
     }
 
     /*
-      **Der Takt beginnt ohne Marke.** Nur der Zweig „alles durch" setzt sie
-      wieder — so kann sie einen Titelwechsel nicht überleben.
+      **Der Takt beginnt ohne Marke — außer hier ist gerade gemeldet worden.**
+
+      Sonst setzt sie nur der Zweig „alles durch" wieder, und der greift nicht
+      bei jedem Titel; die Marke wäre zwei Sekunden nach der Meldung wieder weg.
+      Der Merker verschwindet mit dem Titel, denn er hängt am Pfad.
     */
-    gemeldetMarke(false)
+    gemeldetMarke(gemeldetFuerPfad === location.pathname)
 
     /*
       **Solange Adresse und Quelltext verschiedene Staffeln nennen, wird nicht
@@ -9097,6 +9131,8 @@ async function speicherSchreiben(werte) {
       knopf.textContent = 'Kein Token — Rechtsklick aufs Symbol, dann Optionen'
       return
     }
+    sendetGerade = true
+    knopf.disabled = true
     knopf.textContent = 'sende …'
 
     /**
@@ -9616,6 +9652,8 @@ async function speicherSchreiben(werte) {
           großes div muss entsprechend verschwinden").
         */
         if (eintrag.ausSuche) suchauftragVergessen()
+        /* Erst hier, nicht nach dem catch: Ein Fehlschlag darf keine Marke setzen. */
+        gemeldetFuerPfad = location.pathname
         uebersichtZeichnen()
       }
     } catch (err) {
@@ -9632,6 +9670,12 @@ async function speicherSchreiben(werte) {
      * Zurück kommt er erst beim Staffelwechsel — dort wird
      * `gemeldeteStaffel` geleert.
      */
+    /*
+      **Der Merker faellt hier, nicht frueher.** Zwischen Antwort und diesem
+      Punkt liegt das Abhaken; ein Takt dazwischen haette den Knopf schon wieder
+      auf „melden" gestellt, obwohl die Meldung durch ist.
+    */
+    sendetGerade = false
     setTimeout(() => {
       knopf.disabled = false
       letzterStand = ''
