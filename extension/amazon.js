@@ -2831,6 +2831,21 @@ async function speicherSchreiben(werte) {
     debug.className = 'ak-z-debug'
     kasten.appendChild(debug)
     document.body.appendChild(kasten)
+    /*
+      **Die letzte Zeile entsteht mit dem Kasten, nicht einen Takt später.**
+
+      `debugLeisteZeichnen()` lief bisher nur am Anfang von `taktSchritt()` und
+      suchte dort `.ak-z-debug` — ein Element, das es zu diesem Zeitpunkt noch
+      gar nicht gab: Der Kasten entsteht erst weiter unten im selben Takt. Die
+      Zeile kam deshalb frühestens im **nächsten** Durchlauf, und weil der Kasten
+      seinerseits erst entsteht, sobald ein Knopf sichtbar ist, lagen dazwischen
+      mehrere halbe Sekunden (Daniel, 06.09.2026: „es erscheint erst nur
+      prüflistenbutton, und sekunden später der ruhemodus button").
+
+      Hier ist der Platz schon da. Der Aufruf im Takt bleibt als Rückfall — er
+      steigt aus, sobald die Leiste steht.
+    */
+    debugLeisteZeichnen()
     return kasten
   }
 
