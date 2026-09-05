@@ -52,21 +52,34 @@ const RECORDS = [
   //
   // Die Grundlage sind 15 Google-Aggregatberichte vom 07. bis 22.08.2026:
   // 30 Mails, kein einziger dkim- oder spf-Fehlschlag, alle Absender-IPs aus
-  // dem SES-Bereich (54.240.3.x / 54.240.6.x). Nach diesem Stand sortiert die
-  // schärfere Politik keine eigene Post aus.
+  // dem SES-Bereich (54.240.3.x / 54.240.6.x) — also aus Resends Versandweg.
+  // Nach diesem Stand sortiert die schärfere Politik keine eigene Post aus.
   //
-  // `rua=` bleibt bewusst stehen. Die Berichte sind das einzige Fenster darauf,
-  // ob die Politik ankommt — im nächsten Bericht muss unter `policy_published`
-  // ein `<p>quarantine</p>` stehen. `<disposition>` bleibt dagegen bei sauberen
-  // Mails auf `none`: Es gibt nichts auszusortieren. Sie springt erst um, wenn
-  // tatsächlich eine Mail durchfällt. Ohne `rua=` müsste die Belegkette für ein
-  // späteres `p=reject` bei null neu anfangen.
+  // **`rua=` ist am 05.09.2026 entfallen, und der Grund ist der Ertrag.**
+  // Hier stand vorher, die Berichte seien „das einzige Fenster darauf, ob die
+  // Politik ankommt". Das stimmt so nicht: Ob sie veröffentlicht ist, sagt eine
+  // DNS-Abfrage in drei Sekunden. Was die Berichte zusätzlich sagen, ist, ob
+  // eine echte Mail durchfällt oder jemand Fremdes unter der Domain schreibt —
+  // und über 15 Berichte war die Antwort **null und null**, bei zwei Mails am
+  // Tag aus einer einzigen Quelle.
   //
-  // Zurückgedreht wird mit `p=none` an dieser Stelle plus `--apply`.
+  // Dafür kam täglich eine Mail bei Daniel an (05.09.2026: „ich hab dmarc
+  // emails seit 24.08. jeden tag … abschalten das ich keine emails mehr
+  // bekomme"). Eine Überwachung, die häufiger meldet, als sie etwas zu melden
+  // hat, wird nicht mehr gelesen — dann ist sie schlechter als keine.
+  //
+  // **Der Schutz bleibt vollständig.** `p=quarantine` wirkt beim Empfänger,
+  // nicht im Bericht; ohne `rua=` bekommen wir nur nichts mehr erzählt. Was in
+  // den zwei Wochen seit der Umstellung passiert ist, liegt weiterhin in
+  // Daniels Postfach, falls es je gebraucht wird.
+  //
+  // Wieder anschalten heißt: `rua=mailto:…` hier anhängen und `--apply`. Für
+  // ein späteres `p=reject` wäre das der erste Schritt — dann aber befristet
+  // und mit einem Datum, zu dem es wieder verschwindet.
   {
     name: '_dmarc',
     type: 'TXT',
-    content: 'v=DMARC1; p=quarantine; rua=mailto:danielzaiser91@googlemail.com',
+    content: 'v=DMARC1; p=quarantine',
   },
 
   // Nachweis der Domaininhaberschaft für die Google Search Console. Muss stehen

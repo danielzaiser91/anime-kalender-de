@@ -37,8 +37,45 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | Aufgabe | Notiz |
 |---|---|
 
-| **DMARC-Berichte fehlen seit dem 22.08.2026** | Gemessen am 05.09.2026: Der juengste Bericht unter `__assets/notes/dmarc-berichte/` deckt den **22.08.** ab, 15 Stueck insgesamt, alle noch mit `policy_published: none`. Die Umstellung auf `p=quarantine` lief am **24.08.2026, 12:05** — kein einziger Bericht danach ist abgelegt. Ob die Empfaenger die neue Politik anwenden, ist damit vierzehn Tage nach der Umstellung unbeantwortet. Google schickt sie taeglich per Mail; ausgewertet werden sie mit `tools/dmarc-auswerten.mjs`, sobald sie im Ordner liegen |
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
+
+## Abgeschaltet 05.09.2026: Die DMARC-Berichte haben ihre Frage beantwortet
+
+Heute Morgen stand hier noch als Aufgabe, dass seit dem 22.08. keine Berichte
+mehr abgelegt sind. Daniels Antwort darauf war eine andere als erwartet: „ich
+hab dmarc emails seit 24.08. jeden tag, wofuer haben wir das gemacht, koennen
+wir das analysieren und abschalten das ich keine emails mehr bekomme?"
+
+**Ausgewertet, was vorliegt** (15 Berichte, 07. bis 22.08.2026, `npm`-frei ueber
+`node tools/dmarc-auswerten.mjs`):
+
+```
+Mails insgesamt: 30
+dkim-Fehler:     0
+spf-Fehler:      0
+Absender-IPs:    ausschliesslich 54.240.3.x / 54.240.6.x (Amazon SES)
+```
+
+Kein einziger Fehlschlag, kein fremder Absender, zwei Mails am Tag aus einer
+einzigen Quelle. Genau diese Zahlen waren am 24.08. die Grundlage fuer den
+Wechsel auf `p=quarantine`, und sie sind seitdem die Antwort geblieben.
+
+**Der Eintrag lautet jetzt `v=DMARC1; p=quarantine`** — ohne `rua=`, gesetzt
+ueber `tools/inwx-dns.mjs --apply` und an drei Stellen nachgeprueft (INWX
+autoritativ, 1.1.1.1, 8.8.8.8).
+
+**Der Schutz bleibt vollstaendig.** `p=quarantine` wirkt beim Empfaenger, nicht
+im Bericht; ohne `rua=` bekommen wir nur nichts mehr erzaehlt. Hier stand
+vorher, die Berichte seien „das einzige Fenster darauf, ob die Politik
+ankommt" — das war zu grosszuegig formuliert: Ob sie veroeffentlicht ist, sagt
+eine DNS-Abfrage in drei Sekunden.
+
+**Und eine Ueberwachung, die haeufiger meldet, als sie etwas zu melden hat, wird
+nicht gelesen.** Dann ist sie schlechter als keine — das ist der eigentliche
+Grund, und er gilt ueber DMARC hinaus.
+
+Was zwischen dem 24.08. und dem 04.09. passiert ist, liegt weiterhin in Daniels
+Postfach; falls es je gebraucht wird, ist es von dort zu holen.
 
 ## Entschieden 05.09.2026: Der Kachel-Titel steht unter dem Cover
 
