@@ -2609,8 +2609,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'ein dritter Prime-Verweis aus einer Meldung wird nicht angelegt',
-    /if \(title\.streams\.filter\(\(x\) => x\.platform === 'primevideo'\)\.length >= 2\) \{/.test(bau),
-    'ohne den Deckel wächst ein Titel auf 52 Prime-Verweise — je Folge einen, wie im Verlauf von prime-zugeordnet.json',
+    /if \(title\.streams\.filter\(\(x\) => x\.platform === plattform\)\.length >= 2\) \{/.test(bau),
+    'ohne den Deckel wächst ein Titel auf 52 Verweise bei einem Anbieter — je Folge einen, wie im Verlauf von prime-zugeordnet.json',
   )
 
   /*
@@ -2627,6 +2627,36 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     /const bisher = readJson<typeof zugeordnet>\('data\/prime-zugeordnet\.json', \{\}\)/.test(roh) &&
       /writeJson\('data\/prime-zugeordnet\.json', \{ \.\.\.bisher, \.\.\.zugeordnet \}\)/.test(roh),
     'die Datei wird wieder überschrieben — jede Zuordnung hält dann einen Bau',
+  )
+
+  /*
+    **Der Verweis gehört dem Anbieter, der gemeldet hat.**
+
+    `Rohfolge.plattform` gibt es seit dem 01.09.2026 und kam im ganzen
+    Zuordner genau einmal vor: in seiner eigenen Deklaration. Geschrieben wurde
+    in eine Prime-Datei, `build.ts` legte daraus einen Verweis mit fest
+    verdrahtetem `platform: 'primevideo'` an. Sobald Netflix oder Disney+
+    dieselbe Route gehen, wäre eine Netflix-Meldung als Prime-Weg gelandet —
+    ein Verweis auf eine Seite, die es beim genannten Anbieter nicht gibt.
+
+    Derselbe Fehlgriff wie bei `titelId` am 28.08.2026: ein Feld, das gesendet,
+    aber nie gelesen wird.
+  */
+  pruefe(
+    'die Zuordnung schreibt mit, wer gemeldet hat',
+    /plattform: liste\[0\]!\.plattform \?\? 'primevideo'/.test(roh),
+    'ohne die Plattform kann der Bau nur raten — und riet bisher immer Prime',
+  )
+  pruefe(
+    'der Bau legt den Verweis beim gemeldeten Anbieter an',
+    /const plattform = eintrag\.plattform as PlatformId/.test(bau) &&
+      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: true \}\)/.test(bau),
+    'die Plattform ist wieder fest verdrahtet',
+  )
+  pruefe(
+    'Amazon-Eigenes bleibt an Prime gebunden',
+    /plattform !== 'primevideo'\n\s+\? gemeldeteAdresse/.test(bau),
+    'die Seite aus der ASIN gilt nur bei Amazon — bei Netflix ist die gemeldete Adresse die Seite',
   )
 
   const pruef = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')

@@ -2749,7 +2749,16 @@ function main(): void {
    */
   {
     const roh = readJson<
-      Record<string, { titleId: number; asin: string | null; folgen: { unsere: number | null; sprachen: string[] }[] }>
+      Record<
+        string,
+        {
+          titleId: number
+          asin: string | null
+          /* Wer gemeldet hat. */
+          plattform: string
+          folgen: { unsere: number | null; sprachen: string[] }[]
+        }
+      >
     >('data/prime-zugeordnet.json', {})
     let ausRoh = 0
     let adressen = 0
@@ -2777,7 +2786,21 @@ function main(): void {
         Ausgabe ist kein Nein zur anderen; sie haben verschiedene Verlage,
         verschiedene Preise und verschiedene Tonspuren.
       */
-      const beleg = checks.get(dubKey(eintrag.titleId, 'primevideo'))
+      /*
+        **Der Verweis gehört dem Anbieter, der gemeldet hat.**
+
+        Hier stand dreimal `'primevideo'` fest verdrahtet — aus der Zeit, als nur
+        Prime Rohfolgen meldete. Sobald Netflix oder Disney+ dieselbe Route
+        gehen (`status.md`, „Sammeln und Zuordnen vollstaendig trennen"), wäre
+        daraus ein Prime-Verweis auf eine Netflix-Adresse geworden.
+
+        Alles Amazon-Eigene bleibt an Prime gebunden: die Seite aus der ASIN und
+        der Rückfall auf eine vorhandene Suchadresse. Bei den übrigen Anbietern
+        ist die gemeldete Adresse die Seite, und eine Suchadresse gibt es dort
+        nicht.
+      */
+      const plattform = eintrag.plattform as PlatformId
+      const beleg = checks.get(dubKey(eintrag.titleId, plattform))
       /*
         **Die gemeldete Adresse ist die Seite — die ASIN je Zeile ist die Folge.**
 
@@ -2793,11 +2816,14 @@ function main(): void {
         sie mitgeschickt worden.
       */
       const gemeldeteAdresse = schluessel.split('#')[0]!
-      const seite = /amazon\.[a-z.]+\/(?:dp|gp\/video\/detail)\//i.test(gemeldeteAdresse)
-        ? gemeldeteAdresse
-        : eintrag.asin
-          ? `https://www.amazon.de/dp/${eintrag.asin}`
-          : null
+      const seite =
+        plattform !== 'primevideo'
+          ? gemeldeteAdresse
+          : /amazon\.[a-z.]+\/(?:dp|gp\/video\/detail)\//i.test(gemeldeteAdresse)
+            ? gemeldeteAdresse
+            : eintrag.asin
+              ? `https://www.amazon.de/dp/${eintrag.asin}`
+              : null
       if (beleg && (!beleg.url || beleg.url === seite)) continue
       const deutsch = eintrag.folgen.some((f) => f.sprachen.includes('Deutsch'))
       if (!deutsch) continue
@@ -2827,8 +2853,10 @@ function main(): void {
        * „Im Abo".
        */
       const da =
-        (seite ? title.streams.find((x) => x.platform === 'primevideo' && x.url === seite) : null) ??
-        title.streams.find((x) => x.platform === 'primevideo' && /amazon\.[a-z.]+\/s\?/i.test(x.url))
+        (seite ? title.streams.find((x) => x.platform === plattform && x.url === seite) : null) ??
+        (plattform === 'primevideo'
+          ? title.streams.find((x) => x.platform === 'primevideo' && /amazon\.[a-z.]+\/s\?/i.test(x.url))
+          : undefined)
       if (da) {
         if (da.dub !== true) {
           da.dub = true
@@ -2862,11 +2890,11 @@ function main(): void {
           **Der Deckel gilt nur für das Anlegen.** Eine Sprachangabe an einem
           vorhandenen Verweis (oben) und ein Handbeleg gehen ihn nichts an.
         */
-        if (title.streams.filter((x) => x.platform === 'primevideo').length >= 2) {
+        if (title.streams.filter((x) => x.platform === plattform).length >= 2) {
           uebersprungen++
           continue
         }
-        title.streams.push({ platform: 'primevideo', url: seite, dub: true })
+        title.streams.push({ platform: plattform, url: seite, dub: true })
         ausRoh++
       }
     }

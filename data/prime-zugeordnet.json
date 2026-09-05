@@ -1,1 +1,15 @@
-{"https://www.amazon.de/dp/B0GPD4GNLL":{"titleId":97863,"asin":"B0GSSL7BMZ","folgen":[{"unsere":null,"sprachen":["Deutsch"]}]}}
+{
+  "https://www.amazon.de/dp/B0GPD4GNLL": {
+    "titleId": 97863,
+    "asin": "B0GSSL7BMZ",
+    "folgen": [
+      {
+        "unsere": null,
+        "sprachen": [
+          "Deutsch"
+        ]
+      }
+    ],
+    "plattform": "primevideo"
+  }
+}

@@ -289,7 +289,30 @@ async function main(): Promise<void> {
    */
   const zugeordnet: Record<
     string,
-    { titleId: number; asin: string | null; folgen: { unsere: number | null; sprachen: string[] }[] }
+    {
+      titleId: number
+      asin: string | null
+      /*
+        **Wer gemeldet hat — bis zum 05.09.2026 stand das Feld nur da.**
+
+        `Rohfolge.plattform` gibt es seit dem 01.09.2026, und der Kommentar dort
+        sagt, der Zuordner behandle alle Anbieter gleich. Das stimmt für die
+        Anker (Folgentitel, Erstausstrahlung) und stimmte für nichts danach:
+        Geschrieben wurde in eine Prime-Datei, und `build.ts` legte daraus einen
+        Verweis mit fest verdrahtetem `platform: 'primevideo'` an. Eine
+        Netflix-Meldung wäre dort als Prime-Weg gelandet — ein Verweis, der auf
+        eine Seite zeigt, die es beim genannten Anbieter nicht gibt.
+
+        Aufgefallen ist es beim Nachmessen für „Sammeln und Zuordnen trennen":
+        `plattform` kommt im ganzen Skript genau einmal vor, nämlich in seiner
+        eigenen Deklaration. Derselbe Fehlgriff wie bei `titelId` am 28.08.2026
+        (CLAUDE.md, „Ein neues Feld ist erst eingebaut, wenn es am Ziel
+        angekommen ist") — nur diesmal ohne Meldung, weil bisher ausschließlich
+        Prime gemeldet hat.
+      */
+      plattform: string
+      folgen: { unsere: number | null; sprachen: string[] }[]
+    }
   > = {}
   /** Die Rohfolgen-Kennungen, die verwertet wurden — sie werden danach abgehakt. */
   const erledigt: number[] = []
@@ -629,6 +652,7 @@ async function main(): Promise<void> {
     if (liste.length === 1) {
       zugeordnet[schluessel] = {
         titleId: titel.id,
+        plattform: liste[0]!.plattform ?? 'primevideo',
         asin: liste[0]!.asin ?? null,
         folgen: [{ unsere: null, sprachen: JSON.parse(liste[0]!.sprachen ?? '[]') as string[] }],
       }
@@ -719,6 +743,7 @@ async function main(): Promise<void> {
       }
       zugeordnet[schluessel] = {
         titleId: titel.id,
+        plattform: liste[0]!.plattform ?? 'primevideo',
         asin: liste.find((f) => f.asin)?.asin ?? null,
         folgen: [{ unsere: null, sprachen: JSON.parse([...sprachen][0]!) as string[] }],
       }
@@ -729,6 +754,7 @@ async function main(): Promise<void> {
 
     zugeordnet[schluessel] = {
       titleId: titel.id,
+      plattform: liste[0]!.plattform ?? 'primevideo',
       /* Alle Zeilen einer Adresse stammen von derselben Seite — die erste genügt. */
       asin: liste.find((f) => f.asin)?.asin ?? null,
       folgen: treffend.map((p) => ({
