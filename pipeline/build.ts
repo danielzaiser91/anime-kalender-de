@@ -3986,7 +3986,23 @@ function main(): void {
       const vorhanden = new Set(title.streams.map((x) => x.platform))
       for (const quelle of quellen) {
         const ziel = asAnbieter[quelle.provider ?? '']
-        const url = (quelle.url ?? '').split('?')[0]
+        /*
+          **Auch ein ergänzter Verweis geht durch die Adressnormalisierung.**
+
+          `netflixTitelAdresse()` bringt jede Netflix-Adresse auf die Form
+          `/title/<id>` — nur läuft sie weiter oben, und dieser Block hängt
+          hinten. Am 06.09.2026 landeten dadurch zwei aniSearch-Adressen als
+          `/watch/` im Datensatz, und die Pille der Statusanzeige öffnete
+          Daniel direkt den laufenden Player: „mach pill clicks zu overview,
+          nicht direkt player."
+
+          Der Ort für die Regel ist die Regel selbst, nicht die Reihenfolge:
+          Wer hier ergänzt, ergänzt in derselben Form wie alle anderen.
+        */
+        const url =
+          ziel === 'netflix'
+            ? netflixTitelAdresse((quelle.url ?? '').split('?')[0])
+            : (quelle.url ?? '').split('?')[0]
         if (!ziel || !url) continue
         if (vorhanden.has(ziel)) continue
         if (bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url))) continue
