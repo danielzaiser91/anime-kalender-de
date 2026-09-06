@@ -263,6 +263,36 @@ export function zerlegeAdnAdresse(url: string): AdnAdresse {
 }
 
 /**
+ * Eine alte ADN-Adresse auf die Form bringen, die eine Serienkennung trägt.
+ *
+ * `animationdigitalnetwork.de/video/50-nuances-de-gras` sagt keinem Lauf, um
+ * welche Serie es geht: Der Namensteil ist **französisch**, das Archiv führt
+ * den deutschen. `beurteileAdnVerweis` steigt dort mit „keine Serienkennung in
+ * der Adresse" aus — am 06.09.2026 bei 33 von 135 ADN-Verweisen, und das war
+ * der größte Posten unter den 48 ohne Sprachurteil.
+ *
+ * Die Kennung kommt von außen, weil sie nicht in der Adresse steht: aus dem
+ * Katalog (er trägt je Serie eine `anilistId`) oder aus `data/adn-adressen.yaml`.
+ * Hier steht nur, **wie** die neue Adresse aussieht — und wann keine gebaut
+ * wird:
+ *
+ * - Trägt die Adresse schon eine Kennung, gibt es nichts zu tun.
+ * - Zeigt sie auf eine **Folge** (`…/clannad/12851-folge-24-…`), bleibt sie
+ *   stehen. Die Folgen-Id gehört zu ADNs alter Ablage; sie an eine neue
+ *   Serienkennung zu hängen ergäbe eine Adresse, die niemand geprüft hat — und
+ *   der Verweis verlöre seine Aussage über genau diese eine Folge.
+ *
+ * Die Staffelangabe `?s=` wandert mit, falls eine dasteht.
+ */
+export function adnAdresseMitKennung(url: string, kennung: number): string | undefined {
+  if (!Number.isFinite(kennung) || kennung <= 0) return undefined
+  const adresse = zerlegeAdnAdresse(url)
+  if (adresse.showId || adresse.videoId || !adresse.slug) return undefined
+  const staffel = adresse.season ? `?s=${adresse.season}` : ''
+  return `https://animationdigitalnetwork.com/de/video/${kennung}${staffel}`
+}
+
+/**
  * Was das Archiv zu diesem einen Verweis sagt.
  *
  * Ein `false` ist hier so wertvoll wie ein `true` — aber nur, weil es aus

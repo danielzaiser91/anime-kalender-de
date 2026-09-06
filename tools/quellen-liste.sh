@@ -70,6 +70,7 @@ QUELLEN=(
   # Mitgesichert zu werden schadet ihr nicht: Sie wird von Hand gepflegt, und
   # ein Lauf legt sie unverändert zurück (06.09.2026).
   data/anisearch-ids-hand.yaml
+  data/adn-adressen.yaml
   data/curated-ids.json
   data/source-health.json
   data/proposals

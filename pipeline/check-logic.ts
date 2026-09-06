@@ -47,6 +47,7 @@ import {
   ordneNachStaffelliste,
   verteileAufStaffeln,
 } from './lib/folgenbereiche.ts'
+import { adnAdresseMitKennung } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze } from '../shared/dub-grenze.ts'
 import { netflixNeutral } from '../shared/mappings.ts'
@@ -2657,6 +2658,42 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'Amazon-Eigenes bleibt an Prime gebunden',
     /plattform !== 'primevideo'\n\s+\? gemeldeteAdresse/.test(bau),
     'die Seite aus der ASIN gilt nur bei Amazon — bei Netflix ist die gemeldete Adresse die Seite',
+  )
+
+  /*
+    **Eine alte ADN-Adresse bekommt ihre Kennung — und ein Folgenverweis nicht.**
+
+    Der Namensteil einer alten Adresse ist teils französisch; ohne Kennung
+    findet das Archiv nichts, und 33 von 135 ADN-Verweisen standen deshalb am
+    06.09.2026 ohne Sprachurteil da. Die Gegenrichtung ist die eigentliche
+    Zusicherung: Wer auch Folgenverweise umschreibt, hängt eine Folgen-Id aus
+    ADNs alter Ablage an eine neue Serienkennung und erfindet damit eine
+    Adresse, die niemand geprüft hat.
+  */
+  pruefe(
+    'eine alte ADN-Serienadresse bekommt die Kennung',
+    adnAdresseMitKennung('https://animationdigitalnetwork.de/video/50-nuances-de-gras', 1234) ===
+      'https://animationdigitalnetwork.com/de/video/1234',
+    'ohne Kennung bleibt der Verweis stumm',
+  )
+  pruefe(
+    'die Staffelangabe wandert mit',
+    adnAdresseMitKennung('https://animationdigitalnetwork.de/video/haikyuu?s=2', 461) ===
+      'https://animationdigitalnetwork.com/de/video/461?s=2',
+    'ohne die Staffel wird aus einem genauen Verweis ein Serienverweis',
+  )
+  pruefe(
+    'ein Folgenverweis bleibt unangetastet',
+    adnAdresseMitKennung(
+      'https://animationdigitalnetwork.de/video/clannad/12851-folge-24-das-tomoyo-kapitel',
+      655,
+    ) === undefined,
+    'eine Folgen-Id der alten Ablage gehört nicht an eine neue Serienkennung',
+  )
+  pruefe(
+    'eine Adresse mit Kennung wird nicht angefasst',
+    adnAdresseMitKennung('https://animationdigitalnetwork.com/de/video/655-clannad', 999) === undefined,
+    'was schon eine Kennung trägt, braucht keine zweite',
   )
 
   const pruef = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')

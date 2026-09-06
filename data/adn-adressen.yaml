@@ -1,0 +1,42 @@
+# ADN-Serienkennungen für Verweise, die keine tragen.
+#
+# **Wofür das gut ist.** aniSearch führt zu manchen Titeln einen ADN-Verweis auf
+# `animationdigitalnetwork.de/video/<slug>` — die alte Domain, teils mit
+# **französischen** Namensteilen (`a-quoi-tu-joues-ayumu`, `50-nuances-de-gras`).
+# Eine solche Adresse ist stumm: Ohne Serienkennung findet `beurteileAdnVerweis`
+# nichts im Archiv, und der Verweis bleibt bei „🇩🇪 ?", obwohl ADN die Antwort
+# je Folge mitliefert.
+#
+# Die meisten dieser Adressen löst der Katalog selbst auf — er trägt je Serie
+# eine `anilistId`. Diese Datei ist für die übrigen: Serien, die der Katalog
+# gerade nicht führt.
+#
+#   <anilistId>: <adn-showId>
+#
+# **Wie eine Zeile hier belegt wird.** Nicht über einen Seitenaufruf: Beide
+# ADN-Domains antworten jedem Skript mit HTTP 403, die alte wie die neue
+# (gemessen 06.09.2026). Belegt wird über die Schnittstelle —
+# `gw.api.animationdigitalnetwork.com/show/<id>` mit `X-Target-Distribution: de`
+# antwortet mit 200, dem deutschen Titel und der kanonischen Adresse.
+#
+# **Und der Katalogendpunkt beantwortet eine andere Frage, als er scheint.**
+# `/show?limit=100&offset=0` gibt 96 Serien zurück und meldet dabei
+# `total: 252`; über drei Seiten gesammelt sind es 184 eindeutige. „Steht nicht
+# in der Antwort" heißt hier also nicht „gibt es nicht" — alle sechs Serien
+# unten fehlten in der ersten Seite und existieren trotzdem.
+
+# --- Gemessen am 06.09.2026, je Serie einzeln über /show/<id> ---------------
+# Alle sechs führen ausschließlich `vostde` (Untertitel, keine Synchro). Das
+# ist kein Grund, sie hier wegzulassen: Erst mit der Kennung kommt der Bau an
+# diese Auskunft heran, und erst dann fällt der Verweis über die übliche Regel
+# heraus.
+128223: 913 # When will Ayumu make his move?
+129192: 908 # My Isekai Life
+144932: 1035 # Edens Zero: Season 2
+144533: 976 # Bibliophile Princess
+145815: 967 # I've Somehow Gotten Stronger When I Improved My Farm-Related Skills
+162780: 1121 # Gushing over Magical Girls
+
+# Offen: „Plus-Sized Elf" (173388, Verweis `50-nuances-de-gras`). In den 184
+# gesammelten Serien steht sie nicht, und aus einem Fehlen folgt hier nichts —
+# siehe oben. Ohne Kennung bleibt der Verweis, wie er ist.

@@ -37,7 +37,7 @@ import {
   type AdnBlock,
   type AdnData,
 } from './lib/adn.ts'
-import { beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
+import { adnAdresseMitKennung, beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
@@ -3657,6 +3657,78 @@ function main(): void {
       }
     }
     if (joynJa) log(`${joynJa} Joyn-Verweis(e) als deutsch gesetzt — deutscher Anbieter`)
+  }
+
+  /**
+   * **Alte ADN-Adressen bekommen ihre Serienkennung — vor der Auswertung.**
+   *
+   * `animationdigitalnetwork.de/video/<slug>` trägt keine Kennung, und der
+   * Namensteil ist teils französisch (`50-nuances-de-gras` für „Plus-Sized
+   * Elf"). `beurteileAdnVerweis` steigt dort aus, obwohl die Serie im Archiv
+   * liegt: Gemessen am 06.09.2026 hatten **48 von 135** ADN-Verweisen kein
+   * Sprachurteil, 33 davon allein aus diesem Grund.
+   *
+   * Die Kennung wird nicht gesucht, sondern nachgeschlagen — zwei Quellen, und
+   * keine davon rät:
+   *
+   * - **Der Katalog** trägt je Serie eine `anilistId`. Sie entsteht in
+   *   `fetch-adn.ts` über `bewerteTreffer`/`passtZuSerie`, wird je Serie nur
+   *   einmal vergeben und ist damit dieselbe Zuordnung, aus der die übrigen
+   *   ADN-Adressen im Bestand stammen. 33 der 65 alten Adressen sind so
+   *   aufgelöst.
+   * - **`data/adn-adressen.yaml`** für Serien, die der Katalog gerade nicht
+   *   führt — die Liste ist gemessen, nicht geschätzt.
+   *
+   * Wirkung im selben Lauf gemessen: 38 Adressen berichtigt, danach 31 belegte
+   * Ja und 6 belegte Nein; genau ein Verweis bleibt offen, weil seine Serie
+   * gemischt ist (Chained Soldier, 1 von 24 Folgen mit `vde`).
+   *
+   * **Umgeschrieben wird nur die Serienadresse.** Ein Folgenverweis behält
+   * seine alte Form, siehe `adnAdresseMitKennung`.
+   */
+  {
+    /**
+     * **Serien, die der Katalog gerade nicht führt.**
+     *
+     * `data/adn-adressen.yaml` hält je AniList-Kennung die ADN-Serienkennung
+     * fest — gemessen über `gw.api.animationdigitalnetwork.com/show/<id>` mit
+     * `X-Target-Distribution: de`, nicht über einen Seitenaufruf: Beide
+     * ADN-Domains antworten jedem Skript mit 403, die alte wie die neue.
+     */
+    const adnAdressen: Record<number, number> = (() => {
+      try {
+        const roh = yaml.load(readFileSync(resolve(ROOT, 'data/adn-adressen.yaml'), 'utf8'))
+        const raus: Record<number, number> = {}
+        for (const [k, v] of Object.entries((roh ?? {}) as Record<string, unknown>)) {
+          if (!Number.isFinite(Number(k)) || !Number.isFinite(Number(v))) continue
+          raus[Number(k)] = Number(v)
+        }
+        return raus
+      } catch {
+        return {}
+      }
+    })()
+    const katalogKennung = new Map<number, number>()
+    for (const s of readJson<AdnData>('data/adn-catalog.json', {
+      scrapedAt: '',
+      window: { from: '', to: '' },
+      shows: [],
+    }).shows) {
+      if (s.anilistId && !katalogKennung.has(s.anilistId)) katalogKennung.set(s.anilistId, s.showId)
+    }
+    let berichtigt = 0
+    for (const title of titles.values()) {
+      for (const stream of title.streams) {
+        if (stream.platform !== 'adn') continue
+        const kennung = adnAdressen[title.id] ?? katalogKennung.get(title.id)
+        if (!kennung) continue
+        const neu = adnAdresseMitKennung(stream.url, kennung)
+        if (!neu || neu === stream.url) continue
+        stream.url = neu
+        berichtigt++
+      }
+    }
+    if (berichtigt) log(`${berichtigt} ADN-Adressen auf die Form mit Serienkennung gebracht`)
   }
 
   const adnArchiv = ladeAdnArchiv({ pflegen: true })
