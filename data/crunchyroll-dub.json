@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-31T12:23:40.672Z",
+  "scrapedAt": "2026-09-06T05:57:07.037Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -18755,7 +18755,7 @@
     {
       "url": "https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-09-06",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -27051,9 +27051,534 @@
     },
     {
       "url": "https://www.crunchyroll.com/de/haikyu-dubs/episode-3-special-feature-the-spring-tournament-of-their-youth-848359",
+      "seriesId": "GY8VM8MWY",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "HAIKYU!!",
+          "staffelId": "G63VC232D",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G31UX00WM",
+              "verfuegbarAb": "2014-04-06T09:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G2XU08845",
+              "verfuegbarAb": "2014-04-13T09:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G8WUN44GW",
+              "verfuegbarAb": "2014-04-20T09:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GD9UVPPQP",
+              "verfuegbarAb": "2014-04-27T09:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G50UZ77XP",
+              "verfuegbarAb": "2014-05-04T09:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GG1U2334G",
+              "verfuegbarAb": "2014-05-11T09:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GEVUZ44XX",
+              "verfuegbarAb": "2014-05-18T09:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G7PU4XXM1",
+              "verfuegbarAb": "2014-05-25T09:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GX9UQPPW1",
+              "verfuegbarAb": "2014-06-01T09:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GJWU25502",
+              "verfuegbarAb": "2014-06-08T09:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GN7UDPP1N",
+              "verfuegbarAb": "2014-06-15T09:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GMKUX88PD",
+              "verfuegbarAb": "2014-06-22T09:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G31UX004M",
+              "verfuegbarAb": "2014-06-29T09:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GPWUK11VQ",
+              "verfuegbarAb": "2014-07-06T09:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "G2XU088G5",
+              "verfuegbarAb": "2014-07-13T09:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GZ7UV00EJ",
+              "verfuegbarAb": "2014-07-20T09:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G50UZ77VP",
+              "verfuegbarAb": "2014-07-27T09:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GG1U233NG",
+              "verfuegbarAb": "2014-08-03T09:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GEVUZ44DX",
+              "verfuegbarAb": "2014-08-10T09:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G9DUE11M0",
+              "verfuegbarAb": "2014-08-17T09:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "G4VUQEE50",
+              "verfuegbarAb": "2014-08-24T09:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "G14U4WW7P",
+              "verfuegbarAb": "2014-08-31T09:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GJWU255W2",
+              "verfuegbarAb": "2014-09-07T09:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "GK9U355EW",
+              "verfuegbarAb": "2014-09-14T09:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GMKUX881D",
+              "verfuegbarAb": "2014-09-21T09:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "HAIKYU!! 2nd Season",
+          "staffelId": "G6P8CX5X7",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GEVUZ447X",
+              "verfuegbarAb": "2015-10-03T09:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G7PU4XX71",
+              "verfuegbarAb": "2015-10-10T09:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G9DUE1100",
+              "verfuegbarAb": "2015-10-17T09:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GX9UQPG11",
+              "verfuegbarAb": "2015-10-24T09:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G14U4W0QP",
+              "verfuegbarAb": "2015-10-31T09:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GJWU25GN2",
+              "verfuegbarAb": "2015-11-07T10:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GN7UDP9XN",
+              "verfuegbarAb": "2015-11-14T10:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GK9U350VW",
+              "verfuegbarAb": "2015-11-21T10:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GMKUX879D",
+              "verfuegbarAb": "2015-11-28T10:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G8WUN483W",
+              "verfuegbarAb": "2015-12-05T10:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GD9UVPJ9P",
+              "verfuegbarAb": "2015-12-12T10:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G50UZ79KP",
+              "verfuegbarAb": "2015-12-19T10:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G0DUN51GJ",
+              "verfuegbarAb": "2015-12-26T10:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GEVUZ42JX",
+              "verfuegbarAb": "2016-01-09T10:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GX9UQPGM1",
+              "verfuegbarAb": "2016-01-16T10:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G4VUQEJ00",
+              "verfuegbarAb": "2016-01-23T10:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GJWU25G72",
+              "verfuegbarAb": "2016-01-30T10:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GK9U3502W",
+              "verfuegbarAb": "2016-02-06T10:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GWDU85WM4",
+              "verfuegbarAb": "2016-02-13T10:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G0DUN51W3",
+              "verfuegbarAb": "2016-02-20T10:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GEVUZ4238",
+              "verfuegbarAb": "2016-02-27T10:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "G9DUE1QN7",
+              "verfuegbarAb": "2016-03-05T10:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GX9UQPGMP",
+              "verfuegbarAb": "2016-03-12T10:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G14U4W0JD",
+              "verfuegbarAb": "2016-03-19T09:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GK9U3502D",
+              "verfuegbarAb": "2016-03-26T09:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "HAIKYU!! 3rd Season",
+          "staffelId": "GR2PCV3VE",
+          "folgen": 10,
+          "kacheln": 10,
+          "deutsch": 10,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G14U4W0XZ",
+              "verfuegbarAb": "2016-10-07T09:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GJWU25GJP",
+              "verfuegbarAb": "2016-10-14T09:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GN7UDP9W5",
+              "verfuegbarAb": "2016-10-21T09:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GK9U3508Z",
+              "verfuegbarAb": "2016-10-28T09:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GWDU85WPK",
+              "verfuegbarAb": "2016-11-04T09:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GEVUZ4282",
+              "verfuegbarAb": "2016-11-11T10:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G9DUE1QD8",
+              "verfuegbarAb": "2016-11-18T10:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GX9UQPGK0",
+              "verfuegbarAb": "2016-11-25T10:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G14U4W0X9",
+              "verfuegbarAb": "2016-12-02T10:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GN7UDP9WM",
+              "verfuegbarAb": "2016-12-09T10:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "HAIKYU!! TO THE TOP",
+          "staffelId": "GY8VCPWPM",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GX9UQPGP0",
+              "verfuegbarAb": "2020-01-10T14:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G4VUQEJE8",
+              "verfuegbarAb": "2020-01-17T14:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GN7UDP9PM",
+              "verfuegbarAb": "2020-01-24T14:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GMKUX877M",
+              "verfuegbarAb": "2020-01-31T14:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G31UX0DDX",
+              "verfuegbarAb": "2020-02-07T14:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GPWUK1448",
+              "verfuegbarAb": "2020-02-14T14:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GZ7UV088W",
+              "verfuegbarAb": "2020-02-21T14:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GD9UVPJJ4",
+              "verfuegbarAb": "2020-02-28T14:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G50UZ799E",
+              "verfuegbarAb": "2020-03-06T14:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G0DUN5115",
+              "verfuegbarAb": "2020-03-13T13:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GEVUZ4222",
+              "verfuegbarAb": "2020-03-20T13:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G9DUE1QQ8",
+              "verfuegbarAb": "2020-03-27T13:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G4VUQEJJ8",
+              "verfuegbarAb": "2020-04-03T13:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GJWU25GG0",
+              "verfuegbarAb": "2020-10-02T13:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GK9U350JV",
+              "verfuegbarAb": "2020-10-09T13:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GWDU85WX3",
+              "verfuegbarAb": "2020-10-16T13:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G0DUN51PM",
+              "verfuegbarAb": "2020-10-23T13:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "G7PU4XZEN",
+              "verfuegbarAb": "2020-10-30T13:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GX9UQPGXN",
+              "verfuegbarAb": "2020-11-06T14:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G4VUQEJ93",
+              "verfuegbarAb": "2020-11-13T14:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GN7UDP9EG",
+              "verfuegbarAb": "2020-11-20T14:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GMKUX8727",
+              "verfuegbarAb": "2020-11-27T14:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G31UX0D1G",
+              "verfuegbarAb": "2020-12-04T14:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G2XU08WKD",
+              "verfuegbarAb": "2020-12-11T14:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GZ7UV08KE",
+              "verfuegbarAb": "2020-12-18T14:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "HAIKYU!! OVAs",
+          "staffelId": "GR09CX0NX",
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 5,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G31UX00NM",
+              "verfuegbarAb": "2022-06-01T09:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GVWU0Q5X7",
+              "verfuegbarAb": "2022-06-01T09:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GPWUK14GG",
+              "verfuegbarAb": "2022-06-01T09:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G14U4W0W9",
+              "verfuegbarAb": "2020-01-10T14:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GJWU25G50",
+              "verfuegbarAb": "2020-01-10T14:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Haikyu!! The Dumpster Battle",
+          "staffelId": "GRP8CXGQQ",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GG1UXWG5M",
+              "verfuegbarAb": "2024-10-31T09:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/de/haikyu/-779529",
@@ -31614,7 +32139,7 @@
     {
       "url": "https://www.crunchyroll.com/de/jungle-emperor-leo",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-09-06",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -79296,9 +79821,288 @@
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-14-das-verlorene-schiff-im-himmel-unbekannt-811396?ssid=400599",
+      "seriesId": "GVDHX8DWX",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Detektiv Conan Film 1 - Der tickende Wolkenkratzer",
+          "staffelId": "G6Q4CZ4KQ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GD9UV2ZQP",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 2 - Das 14. Ziel",
+          "staffelId": "G65VCDJQX",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZENXP",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 3 - Der Magier des letzten Jahrhunderts",
+          "staffelId": "GYWEC3N1J",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GWDU8PME1",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 4 - Der Killer in ihren Augen",
+          "staffelId": "GYGGCV78J",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2D54G",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 5 - Countdown zum Himmel",
+          "staffelId": "GR09CXQ8G",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GEVUZ83XX",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 6 - Das Phantom der Baker Street",
+          "staffelId": "GYE5CQ5E3",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVP3EJ",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 12 - Die Partitur des Grauens",
+          "staffelId": "G68VCP9GQ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GPWUK08Q5",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 14 - Das verlorene Schiff im Himmel",
+          "staffelId": "GYDQCG4Q4",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVPD78",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 15 - Die 15 Minuten der Stille",
+          "staffelId": "GRQ4CZ4VD",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GD9UV2ENK",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 16 - Der 11. Stürmer",
+          "staffelId": "GR5VCDJXE",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZEM25",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 17 - Detektiv auf hoher See",
+          "staffelId": "G6WEC3NEK",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GWDU8PZ8G",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 18 - Der Scharfschütze aus einer anderen Dimension",
+          "staffelId": "G6GGCV740",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2DP23",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 21 - Der purpurrote Liebesbrief",
+          "staffelId": "GY75CDKME",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GX9UQK8QZ",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 22 - Zero der Vollstrecker",
+          "staffelId": "GY9PC2W58",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQM4Q1",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 23 - Die stahlblaue Faust",
+          "staffelId": "G6K5CN4MP",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G0DUN1437",
+              "verfuegbarAb": "2022-09-15T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 24 - Die scharlachrote Kugel",
+          "staffelId": "G69PC2WM8",
+          "folgen": 3,
+          "kacheln": 4,
+          "deutsch": 3,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZ54W0",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 1,
+              "guid": "GWDU8X9J7",
+              "verfuegbarAb": "2022-09-22T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 25 - Die Halloween Braut",
+          "staffelId": "GRE5CQMX9",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQVNJ8",
+              "verfuegbarAb": "2024-03-12T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 26 - Das schwarze U-Boot",
+          "staffelId": "G6DQCG588",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GJWUQN11K",
+              "verfuegbarAb": "2024-08-22T22:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-15-die-15-minuten-der-stille-unbekannt-811397?ssid=400596",
@@ -88290,9 +89094,288 @@
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-18-der-scharfschtze-aus-einer-anderen-dimension-unbekannt-812231",
+      "seriesId": "GVDHX8DWX",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Detektiv Conan Film 1 - Der tickende Wolkenkratzer",
+          "staffelId": "G6Q4CZ4KQ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GD9UV2ZQP",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 2 - Das 14. Ziel",
+          "staffelId": "G65VCDJQX",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZENXP",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 3 - Der Magier des letzten Jahrhunderts",
+          "staffelId": "GYWEC3N1J",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GWDU8PME1",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 4 - Der Killer in ihren Augen",
+          "staffelId": "GYGGCV78J",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2D54G",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 5 - Countdown zum Himmel",
+          "staffelId": "GR09CXQ8G",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GEVUZ83XX",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 6 - Das Phantom der Baker Street",
+          "staffelId": "GYE5CQ5E3",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVP3EJ",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 12 - Die Partitur des Grauens",
+          "staffelId": "G68VCP9GQ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GPWUK08Q5",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 14 - Das verlorene Schiff im Himmel",
+          "staffelId": "GYDQCG4Q4",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVPD78",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 15 - Die 15 Minuten der Stille",
+          "staffelId": "GRQ4CZ4VD",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GD9UV2ENK",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 16 - Der 11. Stürmer",
+          "staffelId": "GR5VCDJXE",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZEM25",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 17 - Detektiv auf hoher See",
+          "staffelId": "G6WEC3NEK",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GWDU8PZ8G",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 18 - Der Scharfschütze aus einer anderen Dimension",
+          "staffelId": "G6GGCV740",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2DP23",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 21 - Der purpurrote Liebesbrief",
+          "staffelId": "GY75CDKME",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GX9UQK8QZ",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 22 - Zero der Vollstrecker",
+          "staffelId": "GY9PC2W58",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQM4Q1",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 23 - Die stahlblaue Faust",
+          "staffelId": "G6K5CN4MP",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G0DUN1437",
+              "verfuegbarAb": "2022-09-15T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 24 - Die scharlachrote Kugel",
+          "staffelId": "G69PC2WM8",
+          "folgen": 3,
+          "kacheln": 4,
+          "deutsch": 3,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZ54W0",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 1,
+              "guid": "GWDU8X9J7",
+              "verfuegbarAb": "2022-09-22T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 25 - Die Halloween Braut",
+          "staffelId": "GRE5CQMX9",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQVNJ8",
+              "verfuegbarAb": "2024-03-12T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 26 - Das schwarze U-Boot",
+          "staffelId": "G6DQCG588",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GJWUQN11K",
+              "verfuegbarAb": "2024-08-22T22:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-2-das-14-ziel-unbekannt-810165",
@@ -103276,15 +104359,573 @@
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-3-der-magier-des-letzten-jahrhunderts-unbekannt-810166",
+      "seriesId": "GVDHX8DWX",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Detektiv Conan Film 1 - Der tickende Wolkenkratzer",
+          "staffelId": "G6Q4CZ4KQ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GD9UV2ZQP",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 2 - Das 14. Ziel",
+          "staffelId": "G65VCDJQX",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZENXP",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 3 - Der Magier des letzten Jahrhunderts",
+          "staffelId": "GYWEC3N1J",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GWDU8PME1",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 4 - Der Killer in ihren Augen",
+          "staffelId": "GYGGCV78J",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2D54G",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 5 - Countdown zum Himmel",
+          "staffelId": "GR09CXQ8G",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GEVUZ83XX",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 6 - Das Phantom der Baker Street",
+          "staffelId": "GYE5CQ5E3",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVP3EJ",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 12 - Die Partitur des Grauens",
+          "staffelId": "G68VCP9GQ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GPWUK08Q5",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 14 - Das verlorene Schiff im Himmel",
+          "staffelId": "GYDQCG4Q4",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVPD78",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 15 - Die 15 Minuten der Stille",
+          "staffelId": "GRQ4CZ4VD",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GD9UV2ENK",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 16 - Der 11. Stürmer",
+          "staffelId": "GR5VCDJXE",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZEM25",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 17 - Detektiv auf hoher See",
+          "staffelId": "G6WEC3NEK",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GWDU8PZ8G",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 18 - Der Scharfschütze aus einer anderen Dimension",
+          "staffelId": "G6GGCV740",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2DP23",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 21 - Der purpurrote Liebesbrief",
+          "staffelId": "GY75CDKME",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GX9UQK8QZ",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 22 - Zero der Vollstrecker",
+          "staffelId": "GY9PC2W58",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQM4Q1",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 23 - Die stahlblaue Faust",
+          "staffelId": "G6K5CN4MP",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G0DUN1437",
+              "verfuegbarAb": "2022-09-15T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 24 - Die scharlachrote Kugel",
+          "staffelId": "G69PC2WM8",
+          "folgen": 3,
+          "kacheln": 4,
+          "deutsch": 3,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZ54W0",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 1,
+              "guid": "GWDU8X9J7",
+              "verfuegbarAb": "2022-09-22T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 25 - Die Halloween Braut",
+          "staffelId": "GRE5CQMX9",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQVNJ8",
+              "verfuegbarAb": "2024-03-12T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 26 - Das schwarze U-Boot",
+          "staffelId": "G6DQCG588",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GJWUQN11K",
+              "verfuegbarAb": "2024-08-22T22:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-4-der-killer-in-ihren-augen-unbekannt-810167",
+      "seriesId": "GVDHX8DWX",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Detektiv Conan Film 1 - Der tickende Wolkenkratzer",
+          "staffelId": "G6Q4CZ4KQ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GD9UV2ZQP",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 2 - Das 14. Ziel",
+          "staffelId": "G65VCDJQX",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZENXP",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 3 - Der Magier des letzten Jahrhunderts",
+          "staffelId": "GYWEC3N1J",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GWDU8PME1",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 4 - Der Killer in ihren Augen",
+          "staffelId": "GYGGCV78J",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2D54G",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 5 - Countdown zum Himmel",
+          "staffelId": "GR09CXQ8G",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GEVUZ83XX",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 6 - Das Phantom der Baker Street",
+          "staffelId": "GYE5CQ5E3",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVP3EJ",
+              "verfuegbarAb": "2021-03-31T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 12 - Die Partitur des Grauens",
+          "staffelId": "G68VCP9GQ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GPWUK08Q5",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 14 - Das verlorene Schiff im Himmel",
+          "staffelId": "GYDQCG4Q4",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVPD78",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 15 - Die 15 Minuten der Stille",
+          "staffelId": "GRQ4CZ4VD",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GD9UV2ENK",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 16 - Der 11. Stürmer",
+          "staffelId": "GR5VCDJXE",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZEM25",
+              "verfuegbarAb": "2021-04-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 17 - Detektiv auf hoher See",
+          "staffelId": "G6WEC3NEK",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GWDU8PZ8G",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 18 - Der Scharfschütze aus einer anderen Dimension",
+          "staffelId": "G6GGCV740",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2DP23",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 21 - Der purpurrote Liebesbrief",
+          "staffelId": "GY75CDKME",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GX9UQK8QZ",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 22 - Zero der Vollstrecker",
+          "staffelId": "GY9PC2W58",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQM4Q1",
+              "verfuegbarAb": "2021-05-12T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 23 - Die stahlblaue Faust",
+          "staffelId": "G6K5CN4MP",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G0DUN1437",
+              "verfuegbarAb": "2022-09-15T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 24 - Die scharlachrote Kugel",
+          "staffelId": "G69PC2WM8",
+          "folgen": 3,
+          "kacheln": 4,
+          "deutsch": 3,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G50UZ54W0",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 1,
+              "guid": "GWDU8X9J7",
+              "verfuegbarAb": "2022-09-22T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 25 - Die Halloween Braut",
+          "staffelId": "GRE5CQMX9",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQVNJ8",
+              "verfuegbarAb": "2024-03-12T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan Film 26 - Das schwarze U-Boot",
+          "staffelId": "G6DQCG588",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GJWUQN11K",
+              "verfuegbarAb": "2024-08-22T22:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-5-countdown-zum-himmel-unbekannt-810169?ssid=398572",
@@ -109280,9 +110921,2999 @@
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-episode-one-der-geschrumpfte-meisterdetektiv-unbekannt-821630?ssid=422962",
+      "seriesId": "GW4HM7NV3",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Detektiv Conan 1-182 (HD Remaster)",
+          "staffelId": "GYNQCJ720",
+          "folgen": 171,
+          "kacheln": 171,
+          "deutsch": 171,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GEVUZ2KPE",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G7PU4Z05J",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G9DUEQ7X5",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GX9UQG9DW",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G4VUQJZ35",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G14U402XQ",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GJWU2G8J7",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GK9U30Q83",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GMKUX7W5E",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GVWU05JP1",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GMKUX7WWV",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G2XU0WJ5Z",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G8WUN8E2D",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GD9UVJD2W",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G50UZ9WE7",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G9DUEQ7D5",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "G14U402EQ",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GJWU2G8X7",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GK9U30Q43",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GWDU8WGK0",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GEVUZ2KG5",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G9DUEQ7PD",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G4VUQJZXZ",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GN7UD9G7E",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 26,
+              "guid": "GMKUX7W4V",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 27,
+              "guid": "GPWUK4E5V",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 28,
+              "guid": "G8WUN8EE3",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 29,
+              "guid": "GD9UVJDDG",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 30,
+              "guid": "G50UZ9WWM",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 31,
+              "guid": "GG1U2Q00P",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 32,
+              "guid": "G7PU4Z005",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 33,
+              "guid": "G9DUEQ77D",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 34,
+              "guid": "G14U4022W",
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 35,
+              "guid": "G4VUQ9ZDK",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 36,
+              "guid": "G14U4D25J",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 37,
+              "guid": "GJWU238K1",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 38,
+              "guid": "GN7UDEG0D",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 39,
+              "guid": "GK9U3JQWG",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 40,
+              "guid": "GMKUX2W00",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 41,
+              "guid": "GVWU0EJ1G",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 42,
+              "guid": "G8WUNXE52",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 43,
+              "guid": "GD9UVKD7D",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 44,
+              "guid": "GG1U29018",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 45,
+              "guid": "G0DUNP4Z8",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 46,
+              "guid": "G9DUEJ74M",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 47,
+              "guid": "GX9UQX92E",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 48,
+              "guid": "G14U4D2ZJ",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 49,
+              "guid": "GN7UDEG3D",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 50,
+              "guid": "GMKUX2WD0",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 51,
+              "guid": "G31UX1QJ5",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 52,
+              "guid": "GPWUK7E2W",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 53,
+              "guid": "GEVUZMK1N",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 55,
+              "guid": "GD9UVKD0D",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 56,
+              "guid": "G50UZPW39",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 57,
+              "guid": "GG1U290P8",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 58,
+              "guid": "G0DUNP4E8",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 59,
+              "guid": "G7PU4E0NM",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 60,
+              "guid": "GX9UQX98E",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 61,
+              "guid": "G4VUQ9ZGK",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 62,
+              "guid": "GJWU238P1",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 63,
+              "guid": "GK9U3JQ9G",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 64,
+              "guid": "GMKUX2WN0",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 65,
+              "guid": "G31UX1Q55",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 66,
+              "guid": "GG1U28N9W",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 67,
+              "guid": "G8WUNXEK2",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 68,
+              "guid": "GD9UVKD1D",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 69,
+              "guid": "GG1U2GZD0",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 70,
+              "guid": "G0DUN8J95",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 71,
+              "guid": "GEVUZEN82",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 72,
+              "guid": "G7PU49JWE",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 73,
+              "guid": "G9DUE3GD8",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 74,
+              "guid": "GX9UQ0ZK0",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 75,
+              "guid": "GJWU2VEJ0",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 76,
+              "guid": "GN7UD4VWM",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 77,
+              "guid": "G50UZ514N",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 78,
+              "guid": "GVWU042WV",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 80,
+              "guid": "G7PU49JVN",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 81,
+              "guid": "G4VUQ28X3",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 82,
+              "guid": "G14U4MGEX",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 83,
+              "guid": "GJWU2VEXX",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 84,
+              "guid": "GN7UD4V7G",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 85,
+              "guid": "GMKUXVG47",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 86,
+              "guid": "GPWUKGD5G",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 87,
+              "guid": "G2XU0QD3D",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 88,
+              "guid": "GZ7UV41XE",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 89,
+              "guid": "G50UZ51WN",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 90,
+              "guid": "GWDU8DQG3",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 91,
+              "guid": "G0DUN8J4M",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 92,
+              "guid": "GEVUZENK0",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 93,
+              "guid": "G9DUE3G7K",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 94,
+              "guid": "G4VUQ28Z3",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 95,
+              "guid": "GJWU2VE8X",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 96,
+              "guid": "GK9U3XDQ5",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 97,
+              "guid": "GPWUKGDEG",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 98,
+              "guid": "G2XU0QDJD",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 99,
+              "guid": "G31UXZ2W7",
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 103,
+              "guid": "G2XU0G0GN",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 104,
+              "guid": "G8WUN1N15",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 105,
+              "guid": "GZ7UVEVE5",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 106,
+              "guid": "GD9UV3V31",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 107,
+              "guid": "GQJUG3G34",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 108,
+              "guid": "GWDU8J8JP",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 109,
+              "guid": "G0DUNKNK4",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 110,
+              "guid": "GX9UQWQW5",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 111,
+              "guid": "G4VUQVQV2",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 112,
+              "guid": "GJWU20209",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 113,
+              "guid": "GMKUXPX19",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 114,
+              "guid": "G31UX4XN2",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 115,
+              "guid": "GPWUKVK9K",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 116,
+              "guid": "G8WUN1NJ5",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 117,
+              "guid": "GQJUG3G54",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 118,
+              "guid": "GWDU8J82P",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 119,
+              "guid": "G0DUNKN24",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 120,
+              "guid": "GEVUZDZ74",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 121,
+              "guid": "G7PU4147Z",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 122,
+              "guid": "GX9UQWQE5",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 123,
+              "guid": "GN7UD1DM1",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 124,
+              "guid": "GMKUXPE99",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 126,
+              "guid": "GPWUKV8NK",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 127,
+              "guid": "G2XU0GNXN",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 128,
+              "guid": "GZ7UVEDQ5",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 129,
+              "guid": "GQJUG3MN4",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 130,
+              "guid": "GWDU8J7VP",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 131,
+              "guid": "G0DUNKMG4",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 132,
+              "guid": "G7PU413PZ",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 133,
+              "guid": "GX9UQW315",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 134,
+              "guid": "G14U41VQG",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 135,
+              "guid": "GJWU20QN9",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 136,
+              "guid": "GN7UD1NX1",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 140,
+              "guid": "G0DUNKMWN",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 141,
+              "guid": "GEVUZDW3W",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 142,
+              "guid": "G9DUEM9NV",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 143,
+              "guid": "G4VUQVW0P",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 144,
+              "guid": "GJWU20Q7J",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 145,
+              "guid": "GK9U3KG2Q",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 146,
+              "guid": "GVWU078X5",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 147,
+              "guid": "GPWUKV8JP",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 148,
+              "guid": "G8WUN17V0",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 149,
+              "guid": "GD9UV3EZ3",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 150,
+              "guid": "G50UZVMDK",
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 151,
+              "guid": "G50UZVM27",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 152,
+              "guid": "GWDU8J79W",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 153,
+              "guid": "GG1U2NXM9",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 154,
+              "guid": "G0DUNKM37",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 155,
+              "guid": "G7PU4135J",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 156,
+              "guid": "GX9UQW3DW",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 157,
+              "guid": "G4VUQVW35",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 158,
+              "guid": "GK9U3KG83",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 159,
+              "guid": "GWDU8J7P0",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 160,
+              "guid": "G0DUNKM9V",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 161,
+              "guid": "G7PU413W5",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 162,
+              "guid": "G9DUEM9DD",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 163,
+              "guid": "G14U41VXW",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 164,
+              "guid": "GN7UD1NWE",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 165,
+              "guid": "GMKUXPE5V",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 166,
+              "guid": "G31UX4V7W",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 167,
+              "guid": "GPWUKV80V",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 168,
+              "guid": "G8WUN17W3",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 169,
+              "guid": "GD9UV3EWG",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 170,
+              "guid": "GQJUG3M9G",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 171,
+              "guid": "G0DUNKM0V",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 172,
+              "guid": "G7PU413V5",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 174,
+              "guid": "G4VUQVWXZ",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 175,
+              "guid": "G14U41VEW",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 176,
+              "guid": "GN7UD1N7E",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 177,
+              "guid": "GMKUXPE4V",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 178,
+              "guid": "G31UX4V3W",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 179,
+              "guid": "G2XU0GN37",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 180,
+              "guid": "G8WUN17E3",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 181,
+              "guid": "GQJUG3M7G",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 182,
+              "guid": "G50UZVMWM",
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan 1-111 (Dt. Opening)",
+          "staffelId": "GYX0C4N7P",
+          "folgen": 111,
+          "kacheln": 111,
+          "deutsch": 111,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GVWU0V5W7",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G31UXPDWN",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G2XU02WG1",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G8WUND81P",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GQJUGD13W",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GWDU89WJ4",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G0DUN31K3",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G7PU45Z1V",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GX9UQDGWP",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G14U4301D",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GN7UDZ914",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GMKUXZ7PQ",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GVWU0V577",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GPWUKQ49N",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GD9UVNJME",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G50UZ2903",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GG1U2MQJ7",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GEVUZP278",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "G9DUEXQ07",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G4VUQ3J5J",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GN7UDZ9M4",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GMKUXZ71Q",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G31UXPDNN",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G2XU02KX1",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GZ7UV7KQV",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 26,
+              "guid": "GQJUGDJNW",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 27,
+              "guid": "GWDU89XV4",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 28,
+              "guid": "G0DUN3PG3",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 29,
+              "guid": "G7PU45EPV",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 30,
+              "guid": "GX9UQDX1P",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 31,
+              "guid": "G14U43DQD",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 32,
+              "guid": "GN7UDZEX4",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 33,
+              "guid": "G50UZ2PKX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 34,
+              "guid": "GG1U2M9WJ",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 35,
+              "guid": "GEVUZPM33",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 36,
+              "guid": "G9DUEXJNE",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 37,
+              "guid": "G4VUQ390D",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 38,
+              "guid": "GJWU2M37P",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 39,
+              "guid": "GK9U3ZJ2Z",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 40,
+              "guid": "GVWU0VEXZ",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 41,
+              "guid": "GPWUKQ7J1",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 42,
+              "guid": "G8WUNDXVX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 43,
+              "guid": "GD9UVNKZX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 44,
+              "guid": "G50UZ2PNX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 45,
+              "guid": "GWDU89XMJ",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 46,
+              "guid": "G0DUN3PXG",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 47,
+              "guid": "G7PU45EDD",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 48,
+              "guid": "G9DUEXJ2E",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 49,
+              "guid": "G4VUQ397D",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 50,
+              "guid": "GN7UDZEJ5",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 51,
+              "guid": "GPWUKQ7X1",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 52,
+              "guid": "G8WUNDXPX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 53,
+              "guid": "GD9UVNKGX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 54,
+              "guid": "G50UZ2PDX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 55,
+              "guid": "GG1U2M9VJ",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 56,
+              "guid": "GEVUZPMZ3",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 57,
+              "guid": "G9DUEXJEE",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 58,
+              "guid": "G4VUQ39QD",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 59,
+              "guid": "GJWU2M32P",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 60,
+              "guid": "GK9U3ZJ3Z",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 61,
+              "guid": "GVWU0VE0Z",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 62,
+              "guid": "G31UXP1XQ",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 63,
+              "guid": "G8WUNDXNX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 64,
+              "guid": "GD9UVNKVX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 65,
+              "guid": "G50UZ2PZX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 66,
+              "guid": "GG1U2M92J",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 67,
+              "guid": "G0DUN3PMG",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 68,
+              "guid": "G9DUEXJ9E",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 69,
+              "guid": "G4VUQ39WD",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 70,
+              "guid": "GN7UDZEN5",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 71,
+              "guid": "GMKUXZ2E5",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 72,
+              "guid": "GVWU0VE8Z",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 73,
+              "guid": "GPWUKQ781",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 74,
+              "guid": "G8WUNDX7X",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 75,
+              "guid": "GD9UVNKEX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 76,
+              "guid": "G50UZ2PMX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 77,
+              "guid": "G0DUN3PZG",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 78,
+              "guid": "G7PU45E8D",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 79,
+              "guid": "GX9UQDX23",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 80,
+              "guid": "G4VUQ39DD",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 81,
+              "guid": "G50UZ2P2E",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 82,
+              "guid": "GWDU89X9K",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 83,
+              "guid": "G0DUN3P35",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 84,
+              "guid": "GEVUZPMP2",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 85,
+              "guid": "GX9UQDXD0",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 86,
+              "guid": "G14U43D39",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 87,
+              "guid": "GN7UDZEZM",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 88,
+              "guid": "GWDU89XP3",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 89,
+              "guid": "G0DUN3P9M",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 90,
+              "guid": "G9DUEXJDK",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 91,
+              "guid": "G4VUQ39M3",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 92,
+              "guid": "GJWU2M3JX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 93,
+              "guid": "GK9U3ZJ85",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 94,
+              "guid": "GVWU0VEPE",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 95,
+              "guid": "GPWUKQ70G",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 96,
+              "guid": "G8WUNDX2G",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 97,
+              "guid": "GD9UVNK2M",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 98,
+              "guid": "G50UZ2P4N",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 99,
+              "guid": "GG1U2M9E2",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 100,
+              "guid": "GEVUZPMG0",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 101,
+              "guid": "G9DUEXJPK",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 102,
+              "guid": "G4VUQ39X3",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 103,
+              "guid": "GJWU2M3XX",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 104,
+              "guid": "GK9U3ZJ45",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 105,
+              "guid": "GVWU0VEZE",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 106,
+              "guid": "G2XU02K3D",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 107,
+              "guid": "GD9UVNKWM",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 108,
+              "guid": "G50UZ2PWN",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 109,
+              "guid": "GG1U2M902",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 110,
+              "guid": "GEVUZPMK0",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 111,
+              "guid": "G9DUEXJ7K",
+              "verfuegbarAb": "2021-02-10T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan 112-182 (Dt. Opening)",
+          "staffelId": "GYE5CQ523",
+          "folgen": 71,
+          "kacheln": 71,
+          "deutsch": 71,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 112,
+              "guid": "GPWUKQZWQ",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 113,
+              "guid": "G2XU024Z5",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 114,
+              "guid": "GZ7UV72NJ",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 115,
+              "guid": "GD9UVNQ4P",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 116,
+              "guid": "GWDU89EN1",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 117,
+              "guid": "G0DUN3DQJ",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 118,
+              "guid": "G7PU45MK1",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 119,
+              "guid": "GX9UQDJD1",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 120,
+              "guid": "G14U4393P",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 121,
+              "guid": "GN7UDZ2ZN",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 122,
+              "guid": "G50UZ2X23",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 123,
+              "guid": "GG1U2M4M7",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 124,
+              "guid": "GEVUZPXP8",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 125,
+              "guid": "G7PU45M5V",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 126,
+              "guid": "G4VUQ313J",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 127,
+              "guid": "GJWU2M9MZ",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 128,
+              "guid": "GN7UDZ2Z4",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 129,
+              "guid": "GMKUXZQZQ",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 130,
+              "guid": "GQJUGDVEW",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 131,
+              "guid": "G50UZ2XE3",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 132,
+              "guid": "GG1U2M4D7",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 133,
+              "guid": "GEVUZPX88",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 134,
+              "guid": "G9DUEX5D7",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 135,
+              "guid": "GX9UQDJKP",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 136,
+              "guid": "G4VUQ31MJ",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 137,
+              "guid": "GK9U3ZM8D",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 138,
+              "guid": "G31UXPW7N",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 139,
+              "guid": "G8WUNDGWP",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 140,
+              "guid": "GD9UVNQWE",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 141,
+              "guid": "GWDU89EK4",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 142,
+              "guid": "G0DUN3D03",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 143,
+              "guid": "G7PU45MVV",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 144,
+              "guid": "GX9UQDJ7P",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 145,
+              "guid": "G14U439ED",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 146,
+              "guid": "GN7UDZ274",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 147,
+              "guid": "GMKUXZQ4Q",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 148,
+              "guid": "G31UXPW3N",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 149,
+              "guid": "G2XU024J1",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 150,
+              "guid": "GZ7UV72JV",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 151,
+              "guid": "GD9UVNQDE",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 152,
+              "guid": "G50UZ2XW3",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 153,
+              "guid": "GG1U2M407",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 154,
+              "guid": "GEVUZPXK8",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 155,
+              "guid": "GX9UQDJ9P",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 156,
+              "guid": "G14U4392D",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 157,
+              "guid": "GQJUGDVPW",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 158,
+              "guid": "GWDU89E54",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 159,
+              "guid": "GEVUZPX48",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 160,
+              "guid": "G9DUEX517",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 161,
+              "guid": "G4VUQ31EJ",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 162,
+              "guid": "GJWU2M95Z",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 163,
+              "guid": "GK9U3ZM5D",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 164,
+              "guid": "GWDU89E5J",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 165,
+              "guid": "G0DUN3D1G",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 166,
+              "guid": "G7PU45MZD",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 167,
+              "guid": "GX9UQDJG3",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 168,
+              "guid": "G14U4390Z",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 169,
+              "guid": "GN7UDZ295",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 170,
+              "guid": "GMKUXZQ75",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 171,
+              "guid": "G31UXPWDQ",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 172,
+              "guid": "G2XU024WW",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 173,
+              "guid": "GZ7UV728Z",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 174,
+              "guid": "GQJUGDV1Q",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 175,
+              "guid": "GWDU89EWJ",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 176,
+              "guid": "G0DUN3DPG",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 177,
+              "guid": "G7PU45MED",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 178,
+              "guid": "GX9UQDJX3",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 179,
+              "guid": "G14U439DZ",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 180,
+              "guid": "GN7UDZ2E5",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 181,
+              "guid": "GMKUXZQ25",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            },
+            {
+              "nummer": 182,
+              "guid": "G31UXPW1Q",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan 183-254 (Dt. Opening)",
+          "staffelId": "G62PCVZKW",
+          "folgen": 72,
+          "kacheln": 72,
+          "deutsch": 72,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 183,
+              "guid": "GWDU89JEP",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 184,
+              "guid": "GG1U2MN4E",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 185,
+              "guid": "G0DUN3KD4",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 186,
+              "guid": "G7PU451MZ",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 187,
+              "guid": "GX9UQDWJ5",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 188,
+              "guid": "G14U4319G",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 189,
+              "guid": "GMKUXZPP9",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 190,
+              "guid": "G31UXP442",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 191,
+              "guid": "G2XU02GGN",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 192,
+              "guid": "GZ7UV7EE5",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 193,
+              "guid": "GQJUGD334",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 194,
+              "guid": "G50UZ2VV2",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 195,
+              "guid": "GG1U2MNNE",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 196,
+              "guid": "G7PU4511Z",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 197,
+              "guid": "G9DUEXMMJ",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 198,
+              "guid": "G4VUQ3VV2",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 199,
+              "guid": "GN7UDZ111",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 200,
+              "guid": "GK9U3ZKKE",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 201,
+              "guid": "G31UXP4N2",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 202,
+              "guid": "G2XU02G7N",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 203,
+              "guid": "GZ7UV7EG5",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 204,
+              "guid": "GQJUGD354",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 205,
+              "guid": "GWDU89J2P",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 206,
+              "guid": "G0DUN3K24",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 207,
+              "guid": "G9DUEXM0J",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 208,
+              "guid": "GX9UQDWE5",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 209,
+              "guid": "G14U4317G",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 210,
+              "guid": "GN7UDZ1M1",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 211,
+              "guid": "GMKUXZ199",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 212,
+              "guid": "G31UXPNK2",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 213,
+              "guid": "G2XU027XN",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 214,
+              "guid": "GZ7UV7GQ5",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 215,
+              "guid": "GD9UVNM91",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 216,
+              "guid": "GWDU892VP",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 217,
+              "guid": "G0DUN32G4",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 218,
+              "guid": "G7PU457PZ",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 219,
+              "guid": "G9DUEX0ZJ",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 220,
+              "guid": "G14U437QG",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 221,
+              "guid": "GJWU2MWN9",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 222,
+              "guid": "GMKUXZ1M9",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 223,
+              "guid": "G31UXPNE2",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 224,
+              "guid": "GPWUKQ9JK",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 225,
+              "guid": "G8WUNDJV5",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 226,
+              "guid": "GQJUGD504",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 227,
+              "guid": "G50UZ20N2",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 228,
+              "guid": "G0DUN32W4",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 229,
+              "guid": "GEVUZP734",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 230,
+              "guid": "GX9UQDEM5",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 231,
+              "guid": "G4VUQ3502",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 232,
+              "guid": "GJWU2MW79",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 233,
+              "guid": "G50UZ20DK",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 234,
+              "guid": "GWDU8923M",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 235,
+              "guid": "GEVUZP7QW",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 236,
+              "guid": "G7PU457D8",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 237,
+              "guid": "GX9UQDE4V",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 238,
+              "guid": "G14U437P3",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 239,
+              "guid": "GN7UDZMJ7",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 240,
+              "guid": "GMKUXZ138",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 241,
+              "guid": "G31UXPN21",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 242,
+              "guid": "G2XU027VQ",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 243,
+              "guid": "GZ7UV7GM2",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 244,
+              "guid": "GQJUGD5Z5",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 245,
+              "guid": "GG1U2MJ2V",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 246,
+              "guid": "G0DUN32NN",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 247,
+              "guid": "G7PU45748",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 248,
+              "guid": "GX9UQDEQV",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 249,
+              "guid": "G14U43743",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 250,
+              "guid": "GN7UDZMD7",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 251,
+              "guid": "GMKUXZ1X8",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 252,
+              "guid": "G31UXPNX1",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 253,
+              "guid": "G2XU0270Q",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            },
+            {
+              "nummer": 254,
+              "guid": "GZ7UV7GV2",
+              "verfuegbarAb": "2021-03-10T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan 334-433",
+          "staffelId": "GR9PC2X9K",
+          "folgen": 100,
+          "kacheln": 100,
+          "deutsch": 100,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 334,
+              "guid": "G8WUN2Z9Q",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 335,
+              "guid": "GD9UV2544",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 336,
+              "guid": "G50UZEQJE",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 337,
+              "guid": "G0DUN97Q5",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 338,
+              "guid": "GEVUZ8952",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 339,
+              "guid": "G9DUED8W8",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 340,
+              "guid": "G4VUQMNP8",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 341,
+              "guid": "GN7UDWQ5M",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 342,
+              "guid": "G50UZEQ2N",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 343,
+              "guid": "G0DUN973M",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 344,
+              "guid": "G7PU4WQ5N",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 345,
+              "guid": "GX9UQK5DN",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 346,
+              "guid": "G14U4XN3X",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 347,
+              "guid": "GK9U381Z5",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 348,
+              "guid": "GVWU0PKVE",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 349,
+              "guid": "GPWUK0PQG",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 350,
+              "guid": "G8WUN2ZDG",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 351,
+              "guid": "GZ7UVPZ7E",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 352,
+              "guid": "GQJUGEKEN",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 353,
+              "guid": "GG1U2D8D2",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 354,
+              "guid": "G0DUN979M",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 355,
+              "guid": "G7PU4WQWN",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 356,
+              "guid": "GX9UQK5KN",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 357,
+              "guid": "G14U4XNXX",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 358,
+              "guid": "GK9U38185",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 359,
+              "guid": "GMKUX5K57",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 360,
+              "guid": "GPWUK0P0G",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 361,
+              "guid": "G2XU05E5D",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 362,
+              "guid": "GD9UV252M",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 363,
+              "guid": "G50UZEQ4N",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 364,
+              "guid": "GG1U2D8E2",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 365,
+              "guid": "G0DUN970M",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 366,
+              "guid": "G7PU4WQVN",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 367,
+              "guid": "GX9UQK57N",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 368,
+              "guid": "G4VUQMNX3",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 369,
+              "guid": "GJWU2JZXX",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 370,
+              "guid": "GK9U38145",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 371,
+              "guid": "G31UX7G3G",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 372,
+              "guid": "GPWUK0P5G",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 373,
+              "guid": "G8WUN2ZWG",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 374,
+              "guid": "GD9UV25WM",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 375,
+              "guid": "G50UZEQWN",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 376,
+              "guid": "GG1U2D802",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 377,
+              "guid": "GEVUZ89K0",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 378,
+              "guid": "G9DUED87K",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 379,
+              "guid": "G4VUQMNZ3",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 380,
+              "guid": "GJWU2JZ8X",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 381,
+              "guid": "GK9U381Q5",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 382,
+              "guid": "GVWU0PKJE",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 383,
+              "guid": "G2XU05EJD",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 384,
+              "guid": "GZ7UVPZJE",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 385,
+              "guid": "GD9UV25DM",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 386,
+              "guid": "G50UZEQ7N",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 387,
+              "guid": "GG1U2D832",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 388,
+              "guid": "GEVUZ8940",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 389,
+              "guid": "G7PU4WQXN",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 390,
+              "guid": "GX9UQK5PN",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 391,
+              "guid": "G14U4XNWX",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 392,
+              "guid": "GK9U38155",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 393,
+              "guid": "G50UZEQ79",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 394,
+              "guid": "GG1U2D838",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 395,
+              "guid": "GEVUZ894N",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 396,
+              "guid": "G9DUED81M",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 397,
+              "guid": "G14U4XN0J",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 398,
+              "guid": "GJWU2JZG1",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 399,
+              "guid": "GMKUX5K70",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 400,
+              "guid": "GVWU0PK5G",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 401,
+              "guid": "GPWUK0P4W",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 402,
+              "guid": "G8WUN2Z82",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 403,
+              "guid": "GD9UV25JD",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 404,
+              "guid": "G50UZEQ99",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 405,
+              "guid": "GG1U2D8Q8",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 406,
+              "guid": "G7PU4WQZM",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 407,
+              "guid": "G9DUED8QM",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 408,
+              "guid": "GX9UQK5GE",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 409,
+              "guid": "G14U4XNDJ",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 410,
+              "guid": "GN7UDWQED",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 411,
+              "guid": "GVWU0PKEG",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 412,
+              "guid": "G31UX7G15",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 413,
+              "guid": "G2XU05EK2",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 414,
+              "guid": "GZ7UVPZKX",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 415,
+              "guid": "GQJUGEKJP",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 416,
+              "guid": "GWDU8P1XX",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 417,
+              "guid": "GG1U2D898",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 418,
+              "guid": "G0DUN97P8",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 419,
+              "guid": "G7PU4WQEM",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 420,
+              "guid": "GJWU2JZZ1",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 421,
+              "guid": "GK9U3811G",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 422,
+              "guid": "GVWU0PKKG",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 423,
+              "guid": "GPWUK0PPW",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 424,
+              "guid": "G2XU05EE2",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 425,
+              "guid": "GD9UV255D",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 426,
+              "guid": "G50UZEQQ9",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 427,
+              "guid": "GG1U2D888",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 428,
+              "guid": "GEVUZ899N",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 429,
+              "guid": "G9DUED88M",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 430,
+              "guid": "G4VUQMN2K",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 431,
+              "guid": "GJWU2JZV1",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 432,
+              "guid": "GK9U381XG",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            },
+            {
+              "nummer": 433,
+              "guid": "GMKUX5KV0",
+              "verfuegbarAb": "2021-08-18T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan 434-483",
+          "staffelId": "G6Q4CZP7D",
+          "folgen": 50,
+          "kacheln": 50,
+          "deutsch": 50,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 434,
+              "guid": "GQJUG29XX",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 435,
+              "guid": "G50UZ548J",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 436,
+              "guid": "GWDU8DK49",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 437,
+              "guid": "GG1U2GEKD",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 438,
+              "guid": "GEVUZEG1K",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 439,
+              "guid": "G7PU49VGX",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 440,
+              "guid": "G9DUE3PKQ",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 441,
+              "guid": "GX9UQ07VX",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 442,
+              "guid": "G4VUQ2XGN",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 443,
+              "guid": "G31UX93ME",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 444,
+              "guid": "G8WUNMW97",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 445,
+              "guid": "GD9UVXW40",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 446,
+              "guid": "G50UZ54JJ",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 447,
+              "guid": "GG1U2GE7D",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 448,
+              "guid": "GEVUZEG5K",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 449,
+              "guid": "G9DUE3PWQ",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 450,
+              "guid": "G4VUQ2XPN",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 451,
+              "guid": "GJWU2VX4E",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 452,
+              "guid": "GK9U3X47K",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 453,
+              "guid": "GWDU8DK9V",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 454,
+              "guid": "G0DUN803X",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 455,
+              "guid": "G7PU49V53",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 456,
+              "guid": "GX9UQ07D8",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 457,
+              "guid": "G14U4ME38",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 458,
+              "guid": "GN7UD47ZW",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 459,
+              "guid": "GMKUXV4ZW",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 460,
+              "guid": "G31UX93PD",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 461,
+              "guid": "G2XU0Q32E",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 462,
+              "guid": "G8WUNMWDM",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 463,
+              "guid": "GD9UVXWNQ",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 464,
+              "guid": "GWDU8DKPV",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 465,
+              "guid": "GG1U2GED5",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 466,
+              "guid": "G7PU49VW3",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 467,
+              "guid": "GX9UQ07K8",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 468,
+              "guid": "GJWU2VXJM",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 469,
+              "guid": "GN7UD47WW",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 470,
+              "guid": "GMKUXV45W",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 471,
+              "guid": "G31UX937D",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 472,
+              "guid": "G2XU0Q35E",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 473,
+              "guid": "GZ7UV4XP1",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 474,
+              "guid": "GQJUG29E3",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 475,
+              "guid": "GWDU8DKKV",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 476,
+              "guid": "GEVUZEGGZ",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 477,
+              "guid": "G9DUE3PP4",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 478,
+              "guid": "G4VUQ2XXG",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 479,
+              "guid": "G14U4MEE8",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 480,
+              "guid": "GJWU2VXXM",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 481,
+              "guid": "GK9U3X444",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 482,
+              "guid": "GMKUXV44W",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            },
+            {
+              "nummer": 483,
+              "guid": "G31UX933D",
+              "verfuegbarAb": "2023-01-26T18:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan TV Special - LUPIN III. VS. Detektiv Conan",
+          "staffelId": "GY8VCP9JQ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GX9UQKVVN",
+              "verfuegbarAb": "2021-05-26T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan TV Special - Episode ONE: Der geschrumpfte Meisterdetektiv",
+          "staffelId": "GYWEC39PZ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQXQZ8",
+              "verfuegbarAb": "2021-11-24T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Detektiv Conan TV Special - Lovestory im Polizeihauptquartier - Am Abend vor der Hochzeit",
+          "staffelId": "G675CDEM9",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVE793",
+              "verfuegbarAb": "2024-01-30T18:30:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-lupin-iii-vs-detektiv-conan-unbekannt-812798?ssid=404716",
@@ -110834,9 +115465,28 @@
     },
     {
       "url": "https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444",
+      "seriesId": "GW4HM7NZX",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Genocidal Organ",
+          "staffelId": "GY8VCP94X",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GPWUKQZMQ",
+              "verfuegbarAb": "2021-02-17T17:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/grimgar-ashes-and-illusions",
@@ -110849,9 +115499,28 @@
     },
     {
       "url": "https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443",
+      "seriesId": "GEXH3W5VN",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Harmony",
+          "staffelId": "GR2PCVZ8W",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G31UXPW8M",
+              "verfuegbarAb": "2021-02-17T17:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/ikki-tousen",
@@ -111384,9 +116053,174 @@
     },
     {
       "url": "https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604",
+      "seriesId": "GXJHM3N2E",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "K-ON!! (German Dub)",
+          "staffelId": "G675CDKQD",
+          "folgen": 27,
+          "kacheln": 27,
+          "deutsch": 27,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GG1U2DWX5",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GEVUZ8JWZ",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G9DUEDZ94",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G4VUQMKWG",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GN7UDWXNW",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GMKUX59EW",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GPWUK0N87",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G8WUN237M",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GD9UV29EQ",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GVWU0PN1Q",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GPWUK0NM7",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G8WUN235M",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GD9UV297Q",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G50UZEKG0",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GG1U2DWP5",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G14U4XQZ8",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GJWU2JNDM",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GK9U38VP4",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GVWU0PNGQ",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G7PU4WPG3",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "G9DUEDZK4",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "G4VUQMKGG",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GJWU2JNPM",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G7PU4WPG9",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "G9DUEDZKG",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 26,
+              "guid": "G4VUQMKGV",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            },
+            {
+              "nummer": 27,
+              "guid": "G14U4XQK7",
+              "verfuegbarAb": "2021-03-17T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "K-ON! The Movie",
+          "staffelId": "GYJQC1MX3",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2EX49",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/kandagawa-jet-girls",
@@ -111399,9 +116233,28 @@
     },
     {
       "url": "https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883",
+      "seriesId": "G1XHJV3DV",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Kase-san and Morning Glories",
+          "staffelId": "GRVNC2VNE",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G0DUN934P",
+              "verfuegbarAb": "2021-06-16T16:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/kokoro-connect",
@@ -111509,21 +116362,169 @@
     },
     {
       "url": "https://www.crunchyroll.com/love-stage/episode-11-841216",
+      "seriesId": "GRP8DPXMR",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Love Stage!!",
+          "staffelId": "GY2P15E8Y",
+          "folgen": 10,
+          "kacheln": 10,
+          "deutsch": 10,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G9DUE1ZZW",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GX9UQP11D",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G4VUQEKKM",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GJWU25NN8",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GK9U35VV0",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GVWU0QNNK",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G31UX0KK9",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G8WUN4331",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GD9UVP9Z9",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GQJUGPN00",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959",
+      "seriesId": "G3KHEVPE1",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Lu Over the Wall",
+          "staffelId": "GY19CP8G9",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GPWUK08J3",
+              "verfuegbarAb": "2021-04-14T16:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942",
+      "seriesId": "G1XHJVXGN",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "LUPIN III. - The First",
+          "staffelId": "G63VC2PW2",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GEVUZG2DZ",
+              "verfuegbarAb": "2022-02-02T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "LUPIN III. - Fujiko Mines Lüge (Takeshi Koike OVA 3)",
+          "staffelId": "G6GGCVMEK",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVXD2P",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "LUPIN III. - Goemon Ishikawa, der es Blut regnen lässt (Takeshi Koike OVA 2)",
+          "staffelId": "G6WEC39KZ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2EX7N",
+              "verfuegbarAb": "2021-12-08T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "LUPIN III. - Daisuke Jigens Grabstein (Takeshi Koike OVA 1)",
+          "staffelId": "GR5VCD24G",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GQJUG9M42",
+              "verfuegbarAb": "2021-12-08T17:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587",
@@ -111613,9 +116614,73 @@
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944",
+      "seriesId": "G1XHJVXGN",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "LUPIN III. - The First",
+          "staffelId": "G63VC2PW2",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GEVUZG2DZ",
+              "verfuegbarAb": "2022-02-02T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "LUPIN III. - Fujiko Mines Lüge (Takeshi Koike OVA 3)",
+          "staffelId": "G6GGCVMEK",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GZ7UVXD2P",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "LUPIN III. - Goemon Ishikawa, der es Blut regnen lässt (Takeshi Koike OVA 2)",
+          "staffelId": "G6WEC39KZ",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2EX7N",
+              "verfuegbarAb": "2021-12-08T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "LUPIN III. - Daisuke Jigens Grabstein (Takeshi Koike OVA 1)",
+          "staffelId": "GR5VCD24G",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GQJUG9M42",
+              "verfuegbarAb": "2021-12-08T17:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156",
@@ -111837,9 +116902,73 @@
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180",
+      "seriesId": "GJ0H7QM3K",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "LUPIN III. TV Special: Mordbefehl an Lupin - Der Höllentrip",
+          "staffelId": "G63VC2PKG",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQM3ZV",
+              "verfuegbarAb": "2021-06-16T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "LUPIN III. TV Special: Brenne Zantetsuken! Der Goldene Drache",
+          "staffelId": "G6P8CXQNG",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GJWU2JM5N",
+              "verfuegbarAb": "2021-06-16T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "LUPIN III. TV Special: Der Schatz des Harimao",
+          "staffelId": "GR2PCV2XD",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GVWU0PVQ8",
+              "verfuegbarAb": "2021-06-16T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "LUPIN III. TV Special: Das Geheimnis des „Twilight Gemini“ - Der Diamant der Dämmerung",
+          "staffelId": "GY8VCPD3G",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G9DUEDX7G",
+              "verfuegbarAb": "2021-06-16T16:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176",
@@ -111913,14 +117042,33 @@
     },
     {
       "url": "https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939",
+      "seriesId": "GP5HJ8QJP",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Night is Short, Walk On Girl",
+          "staffelId": "GRJQC14E0",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GVWU0P8X1",
+              "verfuegbarAb": "2021-04-14T16:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-09-06",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -111934,9 +117082,28 @@
     },
     {
       "url": "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654",
+      "seriesId": "GMEHMEJ97",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Ride Your Wave",
+          "staffelId": "GYNQCJ574",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GMKUXZ287",
+              "verfuegbarAb": "2021-02-03T17:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/series/G0XHWM5K7/babylon",
@@ -112408,15 +117575,53 @@
     },
     {
       "url": "https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190",
+      "seriesId": "GYNV5K5ZR",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "(DE|OmU) The Dragon Dentist",
+          "staffelId": "GYK5CN7KV",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GX9UQK3W8",
+              "verfuegbarAb": "2021-04-28T16:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057",
+      "seriesId": "GKEH2G77X",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "The Empire of Corpses",
+          "staffelId": "GY19CP80Z",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G0DUN3D8G",
+              "verfuegbarAb": "2021-02-24T17:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/tsubasa-reservoir-chronicle",
@@ -123146,7 +128351,7 @@
     {
       "url": "https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-09-06",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -124923,7 +130128,7 @@
     {
       "url": "https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-09-06",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -131036,7 +136241,7 @@
     {
       "url": "http://www.crunchyroll.com/de/sin-the-movie",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-09-06",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -131571,9 +136776,121 @@
     },
     {
       "url": "https://www.crunchyroll.com/de/sound-euphonium",
+      "seriesId": "GRDQNQW9Y",
       "quelle": "api",
-      "geprueftAm": "2026-08-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Sound! Euphonium",
+          "staffelId": "G6Q4Q4D4R",
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 14,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GE00020631DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GE00020630DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GE00020629DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GE00020628DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GE00020627DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GE00020626DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GE00020625DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GE00020624DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GE00020623DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GE00020622DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GE00020621DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GE00020620DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GE00020619DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GE00020618DEDE",
+              "verfuegbarAb": "2026-08-01T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Sound! Euphonium",
+          "staffelId": "G6P8X84V6",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Sound! Euphonium Season 3",
+          "staffelId": "GR75CDQ4K",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Sound! Euphonium: Special Feature - Ensemble Contest-",
+          "staffelId": "GS00385638JAJP",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/attack-on-titan-movies/film-3-gebrll-des-erwachens-unbekannt-817502?ssid=414213",
@@ -132455,6 +137772,170 @@
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
+        }
+      ]
+    },
+    {
+      "url": "https://Crunchyroll.com",
+      "quelle": "api",
+      "geprueftAm": "2026-09-06",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    {
+      "url": "https://crunchyroll.com",
+      "quelle": "api",
+      "geprueftAm": "2026-09-06",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G6X0P133Y/karakai-jozu-no-takagi-san",
+      "seriesId": "G6X0P133Y",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-06",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "KARAKAI JOZU NO TAKAGI-SAN: Season 1 (English Dub)",
+          "staffelId": "GYWEC3K1D",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GEVUZE9V9",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G7PU49QN9",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G9DUE38VG",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GX9UQ058J",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G4VUQ2N4V",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G14U4MNZ7",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GJWU2VZPN",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GN7UD4Q8K",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GK9U3X19N",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GMKUXVKNX",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GVWU09K38",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G50UZ5Q8W",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "KARAKAI JOZU NO TAKAGI-SAN: Season 1 (German Dub)",
+          "staffelId": "G6JQC15ZX",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GEVUZE9V9",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G7PU49QN9",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G9DUE38VG",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GX9UQ058J",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G4VUQ2N4V",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G14U4MNZ7",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GJWU2VZPN",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GN7UD4Q8K",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GK9U3X19N",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GMKUXVKNX",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GVWU09K38",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G50UZ5Q8W",
+              "verfuegbarAb": "2023-02-23T18:00:00Z"
+            }
+          ]
         }
       ]
     }
