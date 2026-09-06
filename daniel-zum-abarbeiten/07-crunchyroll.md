@@ -1,6 +1,6 @@
 # Crunchyroll: was noch zu prüfen ist
 
-Stand 2026-09-06 · **30 offene Verweise** in **20 Zeilen**.
+Stand 2026-09-06 · **29 offene Verweise** in **19 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -23,9 +23,8 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 12 | 2019-06-29 | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
 | 13 | 2018-09-21 | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
 | 14 | 2017-08-25 | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-| 15 | 2014-11-22 | Love Stage!! | [Daran war gar nichts leicht](https://www.crunchyroll.com/love-stage/episode-11-841216) |
+| 15 | 2015-07-01 | Sound! Euphonium | [Hauptserie](http://www.crunchyroll.com/de/sound-euphonium) |
 | 16 | 2014-09-16 | Love, Chunibyo & Other Delusions! | [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
-| 17 | 2011-12-03 | K-On! | [The Movie](https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604) |
-| 18 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
-| 19 | 1997-08-01 | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
-| 20 | 1994-08-06 | Street Fighter II V | [Street Fighter II: The Animated Movie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 17 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 18 | 1997-08-01 | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
+| 19 | 1994-08-06 | Street Fighter II V | [Street Fighter II: The Animated Movie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
