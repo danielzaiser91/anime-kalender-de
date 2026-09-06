@@ -20,7 +20,6 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **aniSearch fuer den Katalog hinter dem Toggle** | 5 | **Gemessen und weitgehend erledigt (06.09.2026).** Zwei Stichproben ueber zusammen **310 Katalogtitel** (aniSearch-Id-Reihenfolge, also die aeltesten und bekanntesten Werke): 310 mit deutschem Beschreibungstext, 28 mit Stream-Angabe, **58 mit deutschem Sprachblock — und davon null mit Synchro-Marke**. aniSearch markiert die Fassung selbst (`class="dubbed dubbed-1"`, „Synchronisiert"), der Parser liest sie seit jeher. Zur Einordnung: Im Hauptbestand tragen 917 von 967 handbelegten `dub: true` genau diese Marke. **Der volle Durchlauf ueber 11.548 Titel (19 Stunden) waere damit nicht gerechtfertigt.** Laeuft noch: eine dritte Stichprobe mit der neuen Sortierung (Lauf 34018778477) ueber die 1.968 Titel mit deutschem Titel — findet auch sie nichts, ist die Sache entschieden und der Schalter bleibt fuer den Beschreibungstext stehen |
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
 
 
@@ -83,6 +82,41 @@ adn          12   fuenf davon dieselbe Franchise-Adresse (JoJo), sieben auf der
                   alten Domain animationdigitalnetwork.de
 netflix      10   braucht den Player, also Daniels Klick
 ```
+
+## Entschieden 06.09.2026: Der aniSearch-Katalogdurchlauf lohnt nicht
+
+**Die Frage war:** 11.607 Katalogtitel haben eine aniSearch-Kennung, keiner war
+je geholt. Lohnt der volle Durchlauf (19 Stunden bei 6 s Abstand)?
+
+**Drei Stichproben über 560 Titel**, die letzte mit der Sortierung
+„aussichtsreiche zuerst":
+
+| | Zahl |
+|---|---|
+| deutscher Beschreibungstext | 526 |
+| Stream-Angabe | 33 |
+| deutscher Sprachblock | 84 |
+| **davon mit Synchro-Marke** | **0** |
+| Synchro-Marke in irgendeiner Sprache | **401** |
+
+Die letzte Zeile ist die Gegenprobe: Der Detektor findet 401-mal eine
+Synchronfassung, nur nie eine deutsche. Ohne sie wäre „null Treffer" kein
+Befund, sondern eine offene Frage.
+
+**Der Fehlgriff, der beinahe passiert wäre**, steht in `CLAUDE.md`: Ein
+deutscher Sprachblock bei aniSearch ist eine Veröffentlichung, keine Synchro —
+und 84 davon hätten wie ein Fund ausgesehen. Die Fassung markiert aniSearch
+selbst (`class="dubbed dubbed-1"`), der Parser liest sie seit jeher, und 917
+von 967 handbelegten `dub: true` tragen sie.
+
+**Nebenbefund, und der ist mehr wert als die Antwort:** Der Katalog hinter dem
+Toggle ist die Menge, für die MyDubList keine deutsche Synchro kennt. Für 560
+davon widerspricht aniSearch kein einziges Mal — der bisher beste Beleg für die
+Vollständigkeit der Hauptquelle.
+
+**Was bleibt:** `data:anisearch --katalog` bleibt als Schalter bestehen, für
+den deutschen Beschreibungstext und die Bezugsquellen. Ohne Vorrang, und ohne
+Plan, ihn durchlaufen zu lassen.
 
 ## Gemessen 06.09.2026: ADN-Adressen ohne Serienkennung — und zwei widerlegte Annahmen
 

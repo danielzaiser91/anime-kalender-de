@@ -1117,19 +1117,33 @@ Gemessen am 06.09.2026 an den Handbelegen: **917 von 967** Titeln mit belegtem
 
 **Was das für den Katalog hinter dem Toggle heißt.** 11.607 Katalogtitel haben
 eine aniSearch-Kennung, und keiner davon war je geholt worden — der volle
-Durchlauf kostet bei 6 Sekunden Abstand rund 19 Stunden. Zwei Stichproben über
-zusammen 310 Titel (in aniSearch-Id-Reihenfolge, also die ältesten und
-bekanntesten Werke):
+Durchlauf kostet bei 6 Sekunden Abstand rund 19 Stunden. Drei Stichproben über
+zusammen **560 Titel**, die letzte mit der Sortierung „aussichtsreiche zuerst":
 
 | | Zahl |
 |---|---|
-| deutscher Beschreibungstext | 310 |
-| Stream-Angabe | 28 |
-| deutscher Sprachblock | 58 |
+| deutscher Beschreibungstext | 526 |
+| Stream-Angabe | 33 |
+| deutscher Sprachblock | 84 |
 | **davon mit Synchro-Marke** | **0** |
+| Synchro-Marke in **irgendeiner** Sprache | **401** |
 
-Ohne die Marke sähe das nach 58 gefundenen deutschen Fassungen aus. Mit ihr ist
-es null — und der Durchlauf wäre 19 Stunden für einen Beschreibungstext.
+Die letzte Zeile ist die Gegenprobe, und ohne sie wäre der Befund wertlos: Der
+Detektor arbeitet, er findet 401-mal eine Synchronfassung — nur nie eine
+deutsche. Ein „nichts gefunden" ohne diesen Beleg beantwortet nicht, ob
+überhaupt gesucht wurde.
+
+Ohne die Marke sähe das nach 84 gefundenen deutschen Fassungen aus. Mit ihr ist
+es null, und der Durchlauf wäre 19 Stunden für einen Beschreibungstext.
+**Entschieden am 06.09.2026: Er wird nicht gefahren.** Der Schalter
+`data:anisearch --katalog` bleibt für den deutschen Text und die Streams
+bestehen, ohne Vorrang.
+
+**Und der Befund sagt etwas über den Hauptbestand.** Der Katalog hinter dem
+Toggle ist genau die Menge, für die MyDubList keine deutsche Synchro kennt. Für
+560 davon widerspricht aniSearch **kein einziges Mal**. Das ist der bisher
+beste Beleg dafür, dass die Hauptquelle des Projekts vollständig ist — er ist
+nebenbei entstanden, aus einer Messung, die etwas anderes suchte.
 
 **Die allgemeine Form:** Eine Quelle, die auf die Frage des Projekts *fast*
 antwortet, ist gefährlicher als eine, die schweigt. „Es gibt eine deutsche
