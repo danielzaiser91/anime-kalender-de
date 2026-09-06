@@ -173,10 +173,15 @@ function baueUmgebung(pfad) {
   return { umgebung, body, takte }
 }
 
-function lade(pfad) {
+/**
+ * @param liste Ersetzt die ausgelieferte Auftragsliste. Wird gebraucht, um den
+ *   leeren Fall zu prüfen, ohne dass die Zusicherung am Datenstand hängt.
+ */
+function lade(pfad, liste) {
   const { umgebung, body, takte } = baueUmgebung(pfad)
   const kontext = vm.createContext(umgebung)
   vm.runInContext(readFileSync(__dirname + '/offene-netflix.js', 'utf8'), kontext)
+  if (liste) umgebung.AK_OFFENE_TITEL = liste
   let fehler = null
   try {
     vm.runInContext(readFileSync(__dirname + '/melder.js', 'utf8'), kontext)
@@ -199,16 +204,44 @@ function suche(el, klasse) {
 
 console.log('Netflix-Prüfliste: erscheint der Knopf?\n')
 
+/**
+ * **Die Kulisse, gegen die gezählt wird — nicht die ausgelieferte Liste.**
+ *
+ * Am 06.09.2026 hat ein Datenlauf die letzten Netflix-Meldungen übernommen, und
+ * `offene-netflix.js` fiel auf **null** Aufträge. Drei Zusicherungen wurden rot,
+ * weil die Arbeit erledigt war — genau der Fehler, den `CLAUDE.md` seit dem
+ * 25.08.2026 beschreibt („Eine Prüfung, die rot wird, weil die Arbeit erledigt
+ * ist, misst das Falsche"), und er stand hier schon wieder drin.
+ *
+ * Die Kulisse bildet Daniels Fall nach: drei Titel, einer davon mit drei
+ * Staffeln. Damit sind Titelzahl (3) und Staffelzahl (5) verschieden — sonst
+ * würde die Gegenprobe unten nichts unterscheiden.
+ */
+const KULISSE = {
+  '70302573': {
+    titel: 'Sword Art Online',
+    staffeln: [
+      { nr: 1, folgen: 25, film: false, offen: true },
+      { nr: 2, folgen: 24, film: false, offen: true },
+      { nr: 3, folgen: 24, film: false, offen: true },
+    ],
+  },
+  '80243876': { titel: 'Berserk', staffeln: [{ nr: 1, folgen: 25, film: false, offen: true }] },
+  '81186100': { titel: 'Testreihe', staffeln: [{ nr: 1, folgen: 12, film: false, offen: true }] },
+}
+
+/* Die ausgelieferte Liste wird gelesen, aber nicht auf Inhalt geprüft — leer ist
+   dort der Normalfall am Ende der Arbeit. */
 const auftraege = JSON.parse(
   readFileSync(__dirname + '/offene-netflix.js', 'utf8').replace(/^[^{]*/, '').replace(/;\s*$/, ''),
 )
 pruefe(
-  'die ausgelieferte Liste trägt überhaupt Aufträge',
-  Object.keys(auftraege).length > 0,
-  Object.keys(auftraege).length,
+  'die ausgelieferte Liste parst als JSON',
+  auftraege && typeof auftraege === 'object',
+  typeof auftraege,
 )
 
-const titelseite = lade('/title/81186100')
+const titelseite = lade('/title/81186100', KULISSE)
 pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titelseite.fehler?.message)
 
 /*
@@ -265,8 +298,37 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
     )
   }
 
+  /**
+   * **Auch ohne einen einzigen Auftrag steht der Knopf da.**
+   *
+   * Daniel am 06.09.2026, nachdem ein Datenlauf die letzten Netflix-Meldungen
+   * übernommen hatte und der Knopf verschwunden war: „wenn 0 einträge, dann
+   * prüfliste button trotzdem anzeigen mit 'alles gemeldet'". Ein Knopf, der an
+   * einem Tag da ist und am nächsten fehlt, sieht aus wie eine kaputte
+   * Erweiterung — und genau danach hat er an diesem Abend viermal gesucht.
+   *
+   * Geprüft wird mit einer **leeren** Liste, nicht mit der ausgelieferten:
+   * Sonst hinge die Zusicherung am Datenstand und würde rot, sobald wieder
+   * Aufträge da sind (CLAUDE.md, 25.08.2026).
+   */
+  {
+    const leer = lade('/title/81186100', {})
+    await new Promise((r) => setImmediate(r))
+    await new Promise((r) => setImmediate(r))
+    await new Promise((r) => setImmediate(r))
+    const k = suche(leer.body, 'ak-uebersicht')
+    pruefe('ohne Aufträge steht der Knopf trotzdem da', Boolean(k), 'kein Knopf bei leerer Liste')
+    if (k) {
+      pruefe(
+        'und er sagt „Alles gemeldet"',
+        /Alles gemeldet/.test(String(k.textContent)),
+        k.textContent,
+      )
+    }
+  }
+
   /* Im Player bleibt die Erweiterung unsichtbar — Daniels Vorgabe vom 22.08.2026. */
-  const player = lade('/watch/81186102')
+  const player = lade('/watch/81186102', KULISSE)
   await new Promise((r) => setImmediate(r))
   await new Promise((r) => setImmediate(r))
   await new Promise((r) => setImmediate(r))
@@ -286,8 +348,8 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
    * erledigt ist (CLAUDE.md, 25.08.2026).
    */
   if (knopf) {
-    const titelZahl = Object.keys(auftraege).length
-    const staffelZahl = Object.values(auftraege).reduce((n, e) => n + (e.staffeln?.length || 1), 0)
+    const titelZahl = Object.keys(KULISSE).length
+    const staffelZahl = Object.values(KULISSE).reduce((n, e) => n + (e.staffeln?.length || 1), 0)
     const amKnopf = Number(/(\d+)/.exec(String(knopf.textContent))?.[1] ?? NaN)
     pruefe(
       'der Knopf nennt die Zahl der Titel, nicht die der Staffeln',

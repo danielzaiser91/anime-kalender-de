@@ -3065,7 +3065,21 @@ function schutzflaecheZeigen(sichtbar) {
 let uebersichtKnopf = null
 
 function uebersichtZeigen() {
-  if (imPlayer() || !offeneTitel || !Object.keys(offeneTitel).length) {
+  /*
+    **Eine leere Liste nimmt den Knopf nicht mehr weg** (Daniel, 06.09.2026:
+    „wenn 0 einträge, dann prüfliste button trotzdem anzeigen mit 'alles
+    gemeldet'").
+
+    Bis 4.14.9 verschwand er ganz, sobald ein Datenlauf die letzten Meldungen
+    übernommen hatte — mit der Begründung, dann gebe es wirklich nichts mehr.
+    Das stimmt für den Arbeitsvorrat und nicht für den Zugang: Ein Knopf, der
+    an einem Tag da ist und am nächsten fehlt, sieht aus wie eine kaputte
+    Erweiterung. Genau danach hat Daniel an diesem Abend viermal gesucht.
+
+    Im Player bleibt es beim Verschwinden — dort ist die Erweiterung
+    unsichtbar (22.08.2026).
+  */
+  if (imPlayer()) {
     if (uebersichtKnopf) {
       uebersichtKnopf.remove()
       uebersichtKnopf = null
@@ -3153,9 +3167,13 @@ function uebersichtZeigen() {
    * Datenlauf die Meldungen übernommen, und es gibt wirklich nichts mehr.
    */
   uebersichtKnopf.classList.toggle('ak-fertig', !offeneAdressen)
-  uebersichtKnopf.textContent = offeneAdressen
-    ? `Anime-Kalender ${offeneAdressen}`
-    : 'Anime-Kalender ✓'
+  /* Ohne jeden Eintrag sagt der Knopf, warum nichts dasteht — ein Häkchen allein
+     ließe offen, ob die Liste leer oder die Erweiterung kaputt ist. */
+  uebersichtKnopf.textContent = !Object.keys(offeneTitel ?? {}).length
+    ? 'Alles gemeldet'
+    : offeneAdressen
+      ? `Anime-Kalender ${offeneAdressen}`
+      : 'Anime-Kalender ✓'
   /* Der Worker-Stand steht hier statt am Knopf: Er beantwortet eine andere
      Frage — was ein Datenlauf schon eingespielt hat. */
   const nachStand = offenLautStand === null ? '' : `\nIm Datensatz noch ohne Urteil: ${offenLautStand}`
