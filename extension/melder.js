@@ -3024,7 +3024,7 @@ async function dialogOeffnen() {
   // Ohne Verbindung gibt es keine Liste -- und keinen stillen Absturz.
   if (!verbindungLebt()) {
     if (uebersichtKnopf) {
-      uebersichtKnopf.textContent = 'Erweiterung neu geladen — Seite aktualisieren'
+      uebersichtKnopf.textContent = '↻ Seite neu laden'
     }
     return
   }

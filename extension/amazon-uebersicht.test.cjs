@@ -1135,8 +1135,9 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     e.className.includes('ak-uebersicht'),
   )
   pruefe(
-    'nach dem Neuladen sagt der Knopf, dass die Seite aktualisiert werden muss',
-    uebersicht?.textContent.includes('Seite aktualisieren'),
+    'nach dem Neuladen sagt der Knopf, dass die Seite neu geladen werden muss',
+    /* Kurz seit 4.14.2 — der lange Satz lief aus der Pille heraus. */
+    uebersicht?.textContent.includes('Seite neu laden'),
     uebersicht?.textContent,
   )
 

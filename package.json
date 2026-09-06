@@ -40,6 +40,7 @@
     "check:logic": "tsx pipeline/check-logic.ts",
     "check:search": "tsx pipeline/check-search.ts",
     "check:workflows": "node tools/check-workflows.mjs",
+    "check:vor-commit": "npm run data:validate && npm run check:logic && npm run check:workflows && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:extension && npm run check:zugangsart && npm run build",
     "check:worker": "tsc --noEmit -p worker/tsconfig.json && node tools/worker-cache-pruefen.cjs",
     "check:hooks": "eslint web/src",
     "check:kasten": "node tools/melder-kasten-bild.mjs",

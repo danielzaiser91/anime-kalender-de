@@ -5204,7 +5204,14 @@ async function speicherSchreiben(werte) {
     // Nach einem Neuladen der Erweiterung ist die Verbindung weg. Das
     // gehoert an den Knopf, sonst klickt Daniel ins Leere.
     if (!verbindungLebt()) {
-      setz(uebersichtKnopf, 'textContent', 'Erweiterung neu geladen — Seite aktualisieren')
+      /*
+        **Kurz genug für eine Zeile** (Daniel, 06.09.2026: „damit button text
+        einzeilig bleibt mach text kürzer"). Der lange Satz „Erweiterung neu
+        geladen — Seite aktualisieren" lief aus der Pille heraus; was er
+        zusätzlich sagte — warum das nötig ist —, steht jetzt im Tooltip.
+      */
+      setz(uebersichtKnopf, 'textContent', '↻ Seite neu laden')
+      setz(uebersichtKnopf, 'title', 'Die Erweiterung wurde neu geladen. Diese Seite kennt sie noch nicht — einmal aktualisieren, dann geht es weiter.')
       uebersichtKnopf.classList.add('ak-fertig')
       return
     }
@@ -9020,7 +9027,8 @@ async function speicherSchreiben(werte) {
 
   knopf.addEventListener('click', async () => {
     if (!verbindungLebt()) {
-      knopf.textContent = 'Erweiterung neu geladen — Seite aktualisieren'
+      knopf.textContent = '↻ Seite neu laden'
+      knopf.title = 'Die Erweiterung wurde neu geladen. Diese Seite kennt sie noch nicht — einmal aktualisieren, dann geht es weiter.'
       return
     }
     // „Nicht abrufbar" ist eine eigene Aussage, kein Sonderfall von „kein

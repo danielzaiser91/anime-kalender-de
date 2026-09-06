@@ -1867,7 +1867,21 @@ gilt: nachsehen statt annehmen.
 ## Vor dem Commit
 
 ```bash
-npm run data:validate && npm run check:logic && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:extension && npm run check:zugangsart && npm run build
+npm run check:vor-commit
+```
+
+**Ein Aufruf statt einer Liste zum Abtippen** — und der Grund ist ein Fehlschlag
+vom 06.09.2026: In der Liste, die hier stand, fehlte `check:workflows`. Der
+CI-Lauf fährt ihn, die Kette hier nicht, und so gingen **drei Deploys
+hintereinander** rot, weil eine neue Datendatei nicht in `tools/quellen-liste.sh`
+stand. Eine Kette, die man von Hand zusammensetzt, ist genau um die Glieder
+kürzer, an die man gerade nicht denkt.
+
+Was darin läuft, in dieser Reihenfolge:
+
+```
+data:validate · check:logic · check:workflows · typecheck · check:worker
+check:hooks · check:extension · check:zugangsart · build
 ```
 
 **Jedes `tsc` hier braucht `--noEmit`, und die Skripte setzen es.** Ohne das legt `tsc -b`

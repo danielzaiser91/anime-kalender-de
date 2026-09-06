@@ -65,6 +65,11 @@ QUELLEN=(
   data/cr-vorschlaege.json
   data/adn-vorschlaege.json
   data/anime-ids.json
+  # Nur gelesen, nie geschrieben — steht hier, weil `check-workflows.mjs` jedes
+  # `data/…` in einer schreibenden Datei zählt und lieber einmal zu viel meldet.
+  # Mitgesichert zu werden schadet ihr nicht: Sie wird von Hand gepflegt, und
+  # ein Lauf legt sie unverändert zurück (06.09.2026).
+  data/anisearch-ids-hand.yaml
   data/curated-ids.json
   data/source-health.json
   data/proposals
