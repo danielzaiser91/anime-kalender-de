@@ -48,32 +48,47 @@ melde() {
 ZWEIG="daten/${GITHUB_RUN_ID:-lokal}-$(date -u +%Y%m%d-%H%M)"
 melde "zweig=$ZWEIG"
 
-# **Was der Lauf wirklich in der Hand hat — vor dem Stagen.**
+# **Ein fehlender Pfad darf nicht die ganze Einreichung kosten.**
 #
-# Seit dem 03.09.2026 meldet "Täglich — alle Quellen" jeden Tag "Keine Änderung
-# an den Quellen", obwohl der Lauf nachweislich arbeitet (am 06.09.: "ADN: 121
-# Tage geprüft, 106 Folgen mit deutscher Synchro"). Die Folge: `source-health`
-# steht für adn, anime2you und crunchyroll seit dem 02.09. still, die Frist in
-# `check-sources.ts` reißt, der Bau wird rot und der Deploy übersprungen.
+# `git add -- "${QUELLEN[@]}"` bricht beim **ersten** Pfad ab, den es nicht
+# gibt — und stagt dann gar nichts, auch nicht die achtzehn anderen Dateien, die
+# der Lauf gerade geschrieben hat. Die Meldung ging an stderr und wurde von
+# `2>/dev/null || true` verschluckt; nach außen sah es aus wie "keine Änderung".
 #
-# Ausgeschlossen sind bereits: die QUELLEN-Liste (die Datei steht drin),
-# `.gitignore` (sie ist nicht ignoriert) und der Schreibweg (`recordSource`
-# setzt bei jedem Aufruf `lastRun`, `writeJson` schreibt unbedingt).
+# Gemessen am 06.09.2026 im Lauf 34048827567, nachdem eine Ausgabe eingebaut war:
 #
-# Womit die Frage offen ist, ob der Lauf an dieser Stelle überhaupt geänderte
-# Dateien sieht — und das lässt sich nicht erschließen, nur messen. Die Ausgabe
-# kostet nichts und steht im Lauf-Protokoll, wenn sie das nächste Mal gebraucht
-# wird.
+#     --- Zahl geänderter Dateien: 9
+#     fatal: pathspec 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'
+#            did not match any files
+#     Keine Änderung an den Quellen — kein Pull Request.
+#
+# Neun geänderte Dateien in der Hand, darunter `data/source-health.json`,
+# `data/adn.json` und `data/crunchyroll.json` — eingereicht wurde nichts. Die
+# Arbeitsliste im Namen entsteht nur, wenn es Meldungen ohne Zuordnung gibt; seit
+# die Wache am 03.09. "0 Adressen" meldet, fehlt sie, und seitdem lief **jeder**
+# Sammel-Lauf ins Leere.
+#
+# **Was das gekostet hat:** `source-health` stand für drei Quellen vier Tage
+# still, die Frist in `check-sources.ts` riss, `data:check` machte den Bau
+# dreimal rot, und der Deploy wurde ab dem 06.09. um 14:16 übersprungen. Der
+# Alarm hat also getan, wofür er gebaut ist — die Ursache lag eine Ebene tiefer.
+#
+# Deshalb: **je Pfad einzeln**, und ein fehlender kostet nur sich selbst. Die
+# Zahl der Fehlgriffe steht im Protokoll, damit eine wachsende Lücke auffällt,
+# bevor sie jemanden etwas kostet.
 echo "--- Arbeitsverzeichnis vor dem Stagen: $(pwd), Zweig $(git rev-parse --abbrev-ref HEAD)"
-echo "--- Geänderte Dateien laut git status (erste 20):"
-git status --porcelain | head -20
 echo "--- Zahl geänderter Dateien: $(git status --porcelain | wc -l)"
 
-# **Ohne `2>/dev/null` — ein verschluckter Fehler ist der Grund, warum das drei
-# Tage lang niemand sah.** Schlägt `git add` fehl (ein Pfad, den es nicht gibt),
-# soll die Meldung im Protokoll stehen; abbrechen soll der Lauf deswegen
-# trotzdem nicht, denn nicht jede Quelle existiert in jedem Lauf.
-git add -- "${QUELLEN[@]}" || echo "!!! git add meldete einen Fehler — siehe oben"
+FEHLEND=0
+for QUELLE in "${QUELLEN[@]}"; do
+  if ! git add -- "$QUELLE" 2>/dev/null; then
+    FEHLEND=$((FEHLEND + 1))
+    echo "    übersprungen (nicht vorhanden): $QUELLE"
+  fi
+done
+if [ "$FEHLEND" -gt 0 ]; then
+  echo "--- $FEHLEND von ${#QUELLEN[@]} Pfaden gibt es gerade nicht — das ist erlaubt, sie entstehen bei Bedarf."
+fi
 if git diff --staged --quiet; then
   echo "Keine Änderung an den Quellen — kein Pull Request."
   melde "gemerged=true"
