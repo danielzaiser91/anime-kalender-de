@@ -4170,11 +4170,6 @@ function main(): void {
   }
 
   if (verweiseEntfernt.length) {
-    writeJson(
-      'data/verweise-entfernt.json',
-      { stand: new Date().toISOString(), verweise: verweiseEntfernt },
-      true,
-    )
     const ohneWeg = verweiseEntfernt.filter((e) => e.letzterWeg).length
     log(`${verweiseEntfernt.length} entfernte Verweise protokolliert (${ohneWeg} Titel zeigen danach keinen Weg mehr)`)
   }
@@ -4617,6 +4612,29 @@ function main(): void {
         warn(`${verloren.length} Titel faellt aus dem Datensatz: ${verloren.join(', ')}`)
       }
     }
+  }
+
+  /*
+    **Das Gedächtnis wird erst geschrieben, wenn der Lauf gültig ist.**
+
+    `data/verweise-entfernt.json` hält fest, was frühere Läufe als belegtes Nein
+    entfernt haben — ohne diese Datei legt der nächste Bau alles wieder an. Sie
+    stand bis zum 06.09.2026 rund 430 Zeilen weiter oben, also **vor** dem
+    Riegel darüber. Ein lokaler Lauf mit älterem `data/cache/` brach dort ab
+    („2 Titel würden aus dem Datensatz fallen") — und die Datei war da bereits
+    von 782 Zeilen auf zwei geschrumpft, weil dieser Lauf weniger entfernte
+    Verweise gesehen hatte.
+
+    Gefangen hat es `git status` vor dem Commit. Ein Riegel, der den Datensatz
+    schützt und die Nebendatei daneben unbeschädigt lässt, schützt aber nur die
+    Hälfte: Wer den Diff nicht durchsieht, committet ein leeres Gedächtnis.
+  */
+  if (verweiseEntfernt.length) {
+    writeJson(
+      'data/verweise-entfernt.json',
+      { stand: new Date().toISOString(), verweise: verweiseEntfernt },
+      true,
+    )
   }
 
   /**
