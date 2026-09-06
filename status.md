@@ -20,7 +20,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **aniSearch fuer den Katalog hinter dem Toggle** | 5 | Gemessen am 06.09.2026: **11.607 Katalogtitel mit aniSearch-Kennung, keiner davon je geholt** — waehrend im Hauptbestand 2.461 von 2.619 Eintraegen ein `dubbed: true` tragen und **null** davon fehlt. Die Quelle ist fuer ihre bisherige Aufgabe ausgeschoepft; die offene Haelfte ist der Katalog. `data:anisearch --katalog` haengt sie hinten an (Schalter im Workflow „Daten auf Abruf"). **Kosten:** 11.607 Seiten × 6 s = gut 19 Stunden, also rund 46 Laeufe zu 250. **Entschieden wird nach der Stichprobe** ueber 60 Titel — sie sagt, wie viele davon ueberhaupt eine deutsche Fassung haben |
+| **aniSearch fuer den Katalog hinter dem Toggle** | 5 | **Gemessen und weitgehend erledigt (06.09.2026).** Zwei Stichproben ueber zusammen **310 Katalogtitel** (aniSearch-Id-Reihenfolge, also die aeltesten und bekanntesten Werke): 310 mit deutschem Beschreibungstext, 28 mit Stream-Angabe, **58 mit deutschem Sprachblock — und davon null mit Synchro-Marke**. aniSearch markiert die Fassung selbst (`class="dubbed dubbed-1"`, „Synchronisiert"), der Parser liest sie seit jeher. Zur Einordnung: Im Hauptbestand tragen 917 von 967 handbelegten `dub: true` genau diese Marke. **Der volle Durchlauf ueber 11.548 Titel (19 Stunden) waere damit nicht gerechtfertigt.** Laeuft noch: eine dritte Stichprobe mit der neuen Sortierung (Lauf 34018778477) ueber die 1.968 Titel mit deutschem Titel — findet auch sie nichts, ist die Sache entschieden und der Schalter bleibt fuer den Beschreibungstext stehen |
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
 
 
@@ -109,6 +109,28 @@ bleibt offen (Chained Soldier, Serie gemischt mit 1 von 24 Folgen).
 
 Die vier `null`-Einträge, die aus der zweiten Annahme entstanden waren, sind
 entfallen — sie hätten vier Verweise entfernt, für die es keinen Beleg gibt.
+
+**Was der Bau daraus gemacht hat** (zwei Läufe, 07:11 und 07:13 UTC):
+
+| | vorher | nachher |
+|---|---|---|
+| ADN-Verweise | 135 | 129 (sechs ohne deutsche Tonspur entfernt) |
+| ohne Sprachangabe | 12 | **6** |
+| auf der alten Domain | 65 | **15** |
+| mit Staffelangabe in der Adresse | ~0 | **41** |
+
+**Eine Zahl aus der Simulation ist so nicht eingetreten**, und das gehört
+dazu: Die Schärfung um die Staffel sollte „25 weitere Urteile" bringen —
+gemessen wurde das gegen `beurteileAdnVerweis` allein. Im Bau fragen aber nur
+Verweise **ohne** `dub`, und die meisten dieser 25 trugen ihr Urteil längst aus
+einer anderen Quelle. Ihr wirklicher Gewinn ist ein anderer und trotzdem echter:
+41 Verweise führen jetzt auf die richtige **Staffel** statt auf die Serienseite.
+
+**Die sechs, die offen bleiben**, sind es aus einem Grund, den kein Code
+auflöst: Fünf JoJo-Einträge zeigen auf Serie 444 (113 von 152 Folgen mit
+`vde`), und keiner von ihnen hat ein ADN-Release, aus dem eine Staffel
+abzulesen wäre. Dazu „Plus-Sized Elf", dessen Kennung in den 184 gesammelten
+Serien nicht steht.
 
 **Was offen bleibt und warum:** 32 alte Adressen lösen weder Katalog noch
 Handliste auf. Es sind fast durchweg Fortsetzungen und Specials, die ADN unter

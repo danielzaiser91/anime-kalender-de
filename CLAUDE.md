@@ -1099,6 +1099,44 @@ Synchronfassung und tragen trotzdem nur `spoken_languages: [ja]`. Das Feld meint
 **des Films**, nicht die verfügbaren Fassungen. Über 18 deutsche Termine in sechs Filmen ist
 `iso_639_1` siebzehnmal leer; das eine `"de"` steht an einer TV-Ausstrahlung.
 
+## Ein deutscher Sprachblock bei aniSearch ist keine Synchro — die Marke daneben ist es
+
+aniSearch führt je Werk einen Block pro Sprache, mit Titel, Status, Datum und
+Verlag. Der Block „Deutsch" sagt: **es gibt hier eine Veröffentlichung**. Ob sie
+synchronisiert oder untertitelt ist, sagt er nicht — und genau daran hängt die
+Trennlinie dieses Projekts.
+
+**Die Auskunft steht daneben**, seit jeher, und der Parser liest sie:
+
+    <a href="…?dubbed=en" class="dubbed dubbed-1">
+      <span class="dubbed-1-text1">Synchronisiert</span>
+
+Gemessen am 06.09.2026 an den Handbelegen: **917 von 967** Titeln mit belegtem
+`dub: true` tragen diese Marke. Sie ist damit das belastbare Signal;
+`languages[].language === 'Deutsch'` ist es nicht.
+
+**Was das für den Katalog hinter dem Toggle heißt.** 11.607 Katalogtitel haben
+eine aniSearch-Kennung, und keiner davon war je geholt worden — der volle
+Durchlauf kostet bei 6 Sekunden Abstand rund 19 Stunden. Zwei Stichproben über
+zusammen 310 Titel (in aniSearch-Id-Reihenfolge, also die ältesten und
+bekanntesten Werke):
+
+| | Zahl |
+|---|---|
+| deutscher Beschreibungstext | 310 |
+| Stream-Angabe | 28 |
+| deutscher Sprachblock | 58 |
+| **davon mit Synchro-Marke** | **0** |
+
+Ohne die Marke sähe das nach 58 gefundenen deutschen Fassungen aus. Mit ihr ist
+es null — und der Durchlauf wäre 19 Stunden für einen Beschreibungstext.
+
+**Die allgemeine Form:** Eine Quelle, die auf die Frage des Projekts *fast*
+antwortet, ist gefährlicher als eine, die schweigt. „Es gibt eine deutsche
+Veröffentlichung" und „es gibt eine deutsche Synchronfassung" sehen in einer
+Trefferliste gleich aus, und die Differenz ist genau das, wofür es diese Seite
+gibt.
+
 ## Terminquellen: der Shop schlägt die News schlägt die Datenbank
 
 Am 13.08.2026 hat Daniel zehn angebliche Terminwidersprüche einzeln nachgeprüft. Das
