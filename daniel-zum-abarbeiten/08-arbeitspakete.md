@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-06 · **97 offene Verweise** in **67 Zeilen**,
+Stand 2026-09-06 · **95 offene Verweise** in **66 Zeilen**,
 aufgeteilt in **4 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -95,25 +95,24 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 48 | Prime Video | Higurashi no Naku Koro ni | [Rei](https://www.amazon.de/dp/B09M19FLBJ) |
 | 49 | Netflix | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
 | 50 | Crunchyroll | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Sister Venturing Out](https://www.crunchyroll.com/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out) · [Rascal Does Not Dream of a Knapsack Kid](https://www.crunchyroll.com/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid) |
-| 51 | Netflix | Fate/Stay Night | [Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter](https://www.netflix.com/watch/81186102) · [Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon](https://www.netflix.com/watch/82850867) |
-| 52 | Netflix | Death Note | [Relight](https://www.netflix.com/title/70204970) |
-| 53 | Crunchyroll | 2.5 Dimensional Seduction — 2.5 Dimensional Seduction | [2.5 Dimensional Seduction](https://www.crunchyroll.com/series/GP5HJ845X/25-dimensional-seduction) |
-| 54 | Netflix | Mushoku Tensei: Jobless Reincarnation | [Eris auf Goblinjagd](https://www.netflix.com/title/80987039) |
-| 55 | Crunchyroll | Sword Art Online | [Extra Edition](http://www.crunchyroll.com/de/sword-art-online) |
-| 56 | Crunchyroll | Given | [The Movie - To the Sea](https://www.crunchyroll.com/watch/GE00266947DEDE/given-the-movie-to-the-sea) |
-| 57 | YouTube | Kaguya-sama: Love Is War | [Ultra Romantic: Ishigami Yu möchte sich unterhalten](https://www.youtube.com/watch?v=cxTxrKrYkcY) |
-| 58 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Eternal: Der Film](https://www.netflix.com/title/81214399) |
-| 59 | Netflix | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
-| 60 | Crunchyroll | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
+| 51 | Netflix | Death Note | [Relight](https://www.netflix.com/title/70204970) |
+| 52 | Crunchyroll | 2.5 Dimensional Seduction — 2.5 Dimensional Seduction | [2.5 Dimensional Seduction](https://www.crunchyroll.com/series/GP5HJ845X/25-dimensional-seduction) |
+| 53 | Netflix | Mushoku Tensei: Jobless Reincarnation | [Eris auf Goblinjagd](https://www.netflix.com/title/80987039) |
+| 54 | Crunchyroll | Sword Art Online | [Extra Edition](http://www.crunchyroll.com/de/sword-art-online) |
+| 55 | Crunchyroll | Given | [The Movie - To the Sea](https://www.crunchyroll.com/watch/GE00266947DEDE/given-the-movie-to-the-sea) |
+| 56 | YouTube | Kaguya-sama: Love Is War | [Ultra Romantic: Ishigami Yu möchte sich unterhalten](https://www.youtube.com/watch?v=cxTxrKrYkcY) |
+| 57 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Eternal: Der Film](https://www.netflix.com/title/81214399) |
+| 58 | Netflix | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
+| 59 | Crunchyroll | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
+| 60 | Crunchyroll | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
 
-## Paket 4 — Zeilen 61 bis 67
+## Paket 4 — Zeilen 61 bis 66
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 61 | Crunchyroll | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
-| 62 | Crunchyroll | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-| 63 | Crunchyroll | Millennium Actress | [Hauptserie](https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub) |
-| 64 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
-| 65 | Crunchyroll | Mobile Suit Gundam | [Gundam Wing: Endless Waltz](http://www.crunchyroll.com/mobile-suit-gundam-wing-endless-waltz/mobile-suit-gundam-wing-endless-waltz-gundam-wing-endless-waltz-732801) |
-| 66 | Crunchyroll | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
-| 67 | Crunchyroll | Street Fighter II V | [Street Fighter II: The Animated Movie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 61 | Crunchyroll | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
+| 62 | Crunchyroll | Millennium Actress | [Hauptserie](https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub) |
+| 63 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 64 | Crunchyroll | Mobile Suit Gundam | [Gundam Wing: Endless Waltz](http://www.crunchyroll.com/mobile-suit-gundam-wing-endless-waltz/mobile-suit-gundam-wing-endless-waltz-gundam-wing-endless-waltz-732801) |
+| 65 | Crunchyroll | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
+| 66 | Crunchyroll | Street Fighter II V | [Street Fighter II: The Animated Movie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
