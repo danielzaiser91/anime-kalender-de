@@ -269,7 +269,7 @@ export function zerlegeAdnAdresse(url: string): AdnAdresse {
  * welche Serie es geht: Der Namensteil ist **französisch**, das Archiv führt
  * den deutschen. `beurteileAdnVerweis` steigt dort mit „keine Serienkennung in
  * der Adresse" aus — am 06.09.2026 bei 33 von 135 ADN-Verweisen, und das war
- * der größte Posten unter den 48 ohne Sprachurteil.
+ * der größte Posten unter den 48 ohne Urteil aus dem Archiv.
  *
  * Die Kennung kommt von außen, weil sie nicht in der Adresse steht: aus dem
  * Katalog (er trägt je Serie eine `anilistId`) oder aus `data/adn-adressen.yaml`.

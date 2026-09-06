@@ -1020,6 +1020,52 @@ es, nach der die Pipeline sucht.
 Dieselbe Notiz trägt den Fehlerseiten-Fall, wo überhaupt keine Kennung mehr in
 der Adresse steht.
 
+### ADN antwortet jedem Skript mit 403 — und sein Katalog gibt eine Seite heraus, keinen Katalog
+
+Zwei Messungen vom 06.09.2026, beide gegen eine naheliegende Vermutung.
+
+**Der Fehlercode sagt nichts.** 65 der 135 ADN-Verweise zeigen auf die alte
+Domain `animationdigitalnetwork.de/video/<slug>`, und alle antworten mit HTTP
+403. Der Schluss „die Adresse ist tot" liegt nahe und ist falsch: Die **neue**
+Adresse antwortet genauso. Beide Domains liegen hinter CloudFront, das jeden
+Aufruf ohne Browser abweist — selbst `robots.txt` ist nicht lesbar. Was
+antwortet, ist die Schnittstelle: `gw.api.animationdigitalnetwork.com/show/<id>`
+mit `X-Target-Distribution: de` gibt Titel, Sprachen (`vde`/`vostde`) und die
+kanonische Adresse heraus.
+
+**Und `/show?limit=100` ist keine Katalogabfrage.** Sie liefert 96 Serien und
+meldet dabei `total: 252`; über drei Seiten gesammelt sind es 184 eindeutige.
+Die Zahl 96 als „der deutsche Katalog" zu lesen, hat am selben Vormittag vier
+Serien als „gibt es hier nicht" eingetragen — alle vier existieren, sie standen
+nur nicht auf der ersten Seite. Dieselbe Falle wie beim Briefkasten
+(`LIMIT 500`, 26.08.2026), diesmal mit einem Feld daneben, das die Wahrheit
+sagt.
+
+Der Sammellauf war davon nicht betroffen: `fetchCatalog()` paginiert bis zwei
+Seiten nichts Neues mehr bringen und führt den Katalog über Läufe hinweg fort —
+der Kommentar dort beschreibt genau dieses Verhalten seit dem 20.08.2026. Wer
+also von Hand misst, misst schlechter als der Lauf, wenn er nur eine Seite holt.
+
+**Praktische Folge für Adressen ohne Kennung.** `animationdigitalnetwork.de/video/<slug>`
+trägt keine Serienkennung, und der Namensteil ist teils französisch
+(`50-nuances-de-gras` für „Plus-Sized Elf", `a-quoi-tu-joues-ayumu`). Damit
+findet `beurteileAdnVerweis` nichts im Archiv, und der Verweis bleibt bei
+„🇩🇪 ?", obwohl ADN die Antwort je Folge längst geliefert hat. Von 135
+ADN-Verweisen bekamen am 06.09.2026 **48 kein Urteil aus dem Archiv** (viele
+davon tragen ihr `dub` aus einer anderen Quelle, sichtbar offen waren zwölf),
+und 33 dieser 48 gingen allein auf die fehlende Kennung zurück.
+
+Die Kennung wird **nachgeschlagen, nicht gesucht**: Der Katalog trägt je Serie
+eine `anilistId` (dieselbe Zuordnung, aus der die übrigen ADN-Adressen
+stammen), und `data/adn-adressen.yaml` hält die wenigen Serien fest, die er
+gerade nicht führt. Ein zweiter Namensabgleich wäre hier der falsche Weg — die
+Fallen stehen weiter oben (`To Love-Ru`, `Wolf's Rain OVA`).
+
+**Ein Folgenverweis wird dabei nicht angefasst.** `…/clannad/12851-folge-24-…`
+nennt eine Folgen-Id aus ADNs alter Ablage; an eine neue Serienkennung gehängt
+entstünde eine Adresse, die niemand geprüft hat, und der Verweis verlöre seine
+Aussage über genau diese Folge.
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim

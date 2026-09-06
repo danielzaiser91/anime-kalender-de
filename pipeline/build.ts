@@ -3665,8 +3665,10 @@ function main(): void {
    * `animationdigitalnetwork.de/video/<slug>` trägt keine Kennung, und der
    * Namensteil ist teils französisch (`50-nuances-de-gras` für „Plus-Sized
    * Elf"). `beurteileAdnVerweis` steigt dort aus, obwohl die Serie im Archiv
-   * liegt: Gemessen am 06.09.2026 hatten **48 von 135** ADN-Verweisen kein
-   * Sprachurteil, 33 davon allein aus diesem Grund.
+   * liegt: Gemessen am 06.09.2026 bekamen **48 von 135** ADN-Verweisen kein
+   * Urteil aus dem Archiv, 33 davon allein aus diesem Grund. (Im Datensatz
+   * sichtbar offen waren zwölf — der Rest trägt sein `dub` aus einer anderen
+   * Quelle und wäre bei deren Ausfall genauso stumm.)
    *
    * Die Kennung wird nicht gesucht, sondern nachgeschlagen — zwei Quellen, und
    * keine davon rät:

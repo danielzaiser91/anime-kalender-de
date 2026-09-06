@@ -2664,8 +2664,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     **Eine alte ADN-Adresse bekommt ihre Kennung — und ein Folgenverweis nicht.**
 
     Der Namensteil einer alten Adresse ist teils französisch; ohne Kennung
-    findet das Archiv nichts, und 33 von 135 ADN-Verweisen standen deshalb am
-    06.09.2026 ohne Sprachurteil da. Die Gegenrichtung ist die eigentliche
+    findet das Archiv nichts, und 33 von 135 ADN-Verweisen bekamen deshalb am
+    06.09.2026 kein Urteil aus dem Archiv. Die Gegenrichtung ist die eigentliche
     Zusicherung: Wer auch Folgenverweise umschreibt, hängt eine Folgen-Id aus
     ADNs alter Ablage an eine neue Serienkennung und erfindet damit eine
     Adresse, die niemand geprüft hat.
