@@ -83,6 +83,35 @@ adn          12   fuenf davon dieselbe Franchise-Adresse (JoJo), sieben auf der
 netflix      10   braucht den Player, also Daniels Klick
 ```
 
+## Gebaut 06.09.2026: Die Bezugsquellen von aniSearch kommen im Bestand an
+
+**Der Anlass war ein Fall, der seit dem 25.08.2026 in `CLAUDE.md` steht und nie
+behoben wurde.** Detektiv Conan läuft bei Crunchyroll mit 405 deutschen Folgen;
+im Datensatz stand dazu ein Amazon-Kaufweg und sonst nichts. Der falsche
+Verweis (`case-closed`) war als belegtes Nein entfernt worden, der richtige nie
+angelegt — und konnte es nicht: `scrape-crunchyroll-dub.ts` bildet seine
+Warteschlange aus dem Bestand, also aus dem, was ohnehin schon dasteht.
+
+**Gemessen:** 625 Anbieter, die aniSearch zu einem Titel nennt und die im
+ausgelieferten Datensatz fehlen. Nach vier Riegeln bleiben **123** — 113
+Crunchyroll, 6 ADN, 3 Netflix, 1 Prime. Der Rest fällt weg, weil eine Adresse
+schon einmal entfernt wurde, ein Handbeleg dagegensteht oder bei Amazon nicht
+belegt ist, dass hinter `/dp/` ein Video liegt und keine DVD.
+
+Die Riegel und ihre Anlässe stehen in `CLAUDE.md`; fünf Zusicherungen halten
+sie fest, darunter die Reihenfolge (der Block gehört **hinter** das Entfernen
+der Neins — davor kamen im Probelauf 83 statt 123 heraus).
+
+**Stand nach dem Bau:** 745 Crunchyroll-Verweise, davon 143 ohne Urteil. Genau
+sie sind jetzt in der Warteschlange des Nachholaufs — die Lücke schließt sich
+also von selbst, sobald ein frisches Zugangspaket vorliegt.
+
+**Was das über die Bauart sagt:** Eine Warteschlange, die sich aus dem eigenen
+Bestand bildet, kann eine Lücke im Bestand nie schließen. Das ist dieselbe
+Klasse wie „ein Abruf, der nur ergänzt, veraltet zwangsläufig" — nur eine Ebene
+höher: Dort ging es um Antworten, die nie wieder gefragt werden, hier um
+Fragen, die nie gestellt werden.
+
 ## Entschieden 06.09.2026: Der aniSearch-Katalogdurchlauf lohnt nicht
 
 **Die Frage war:** 11.607 Katalogtitel haben eine aniSearch-Kennung, keiner war
