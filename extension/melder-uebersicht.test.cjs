@@ -272,6 +272,38 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
   await new Promise((r) => setImmediate(r))
   pruefe('im Player erscheint kein Knopf', !suche(player.body, 'ak-uebersicht'), 'Knopf im Player gefunden')
 
+  /**
+   * **Der Knopf zählt Titel — dasselbe wie die Kopfzeile der Liste.**
+   *
+   * Am 06.09.2026 stand auf Daniels Bildschirm „3 Titel zu prüfen" über einem
+   * Knopf mit der Zahl 5: Der Knopf zählte offene Staffelkürzel (Berserk 1 +
+   * Fate 1 + Sword Art Online 3), die Kopfzeile Titel. Beide Rechnungen waren
+   * schon zweimal angeglichen worden (26.08. und 30.08.2026) und beide Male
+   * wieder auseinandergelaufen; seitdem lesen sie aus **einer** Funktion.
+   *
+   * Gezählt wird gegen die **geladene** Liste, nicht gegen eine feste Zahl —
+   * eine Zusicherung, die vom Datenstand abhängt, wird rot, sobald die Arbeit
+   * erledigt ist (CLAUDE.md, 25.08.2026).
+   */
+  if (knopf) {
+    const titelZahl = Object.keys(auftraege).length
+    const staffelZahl = Object.values(auftraege).reduce((n, e) => n + (e.staffeln?.length || 1), 0)
+    const amKnopf = Number(/(\d+)/.exec(String(knopf.textContent))?.[1] ?? NaN)
+    pruefe(
+      'der Knopf nennt die Zahl der Titel, nicht die der Staffeln',
+      amKnopf === titelZahl,
+      { amKnopf, titelZahl, staffelZahl, text: knopf.textContent },
+    )
+    /* Die Gegenprobe trägt nur, solange sich beide Zahlen unterscheiden. */
+    if (staffelZahl !== titelZahl) {
+      pruefe(
+        'die Staffelzahl steht nicht am Knopf',
+        amKnopf !== staffelZahl,
+        { amKnopf, staffelZahl },
+      )
+    }
+  }
+
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')
   process.exit(schlecht ? 1 : 0)

@@ -1316,6 +1316,28 @@ async function merkeErledigt(id, staffel, folge) {
  * wären das über eine Million Vergleiche für eine Frage, die mit dem ersten
  * offenen Kürzel beantwortet ist.
  */
+/**
+ * Wie viele Titel der Liste noch etwas zu tun haben.
+ *
+ * **Eine Zahl, eine Stelle** — der Knopf und die Kopfzeile der Liste lesen
+ * beide hier. Bis zum 06.09.2026 rechneten sie getrennt und in verschiedenen
+ * Einheiten: Der Knopf zählte offene **Staffelkürzel**, die Kopfzeile offene
+ * **Titel**. Auf Daniels Bildschirm stand deshalb „3 Titel zu prüfen" über
+ * einem Knopf mit der Zahl 5 — Berserk 1 + Fate 1 + Sword Art Online 3.
+ *
+ * Das ist derselbe Fehler, den zwei Kommentare in dieser Datei schon
+ * beschreiben (26.08. und 30.08.2026): „Zwei Zähler, zwei Einheiten, dieselbe
+ * Frage — dann widersprechen sie sich zwangsläufig." Beide Male wurde die
+ * Rechnung angeglichen, nicht zusammengelegt, und beide Male ist sie wieder
+ * auseinandergelaufen. Eine gemeinsame Funktion kann das bauartbedingt nicht.
+ *
+ * Gezählt werden **Titel**, denn das ist es, was die Liste darunter zeigt. Wie
+ * viele Staffeln darin stecken, steht im Tooltip des Knopfes.
+ */
+function offeneTitelZahl() {
+  return Object.entries(offeneTitel).filter(([id, e]) => !fertig(id, e)).length
+}
+
 function fertig(id, eintrag) {
   if (istErledigt(id, 'tot')) return true
   const staffeln = staffelnVon(id, eintrag)
@@ -3046,7 +3068,7 @@ function uebersichtZeigen() {
    * Der Stand bleibt trotzdem nützlich: Er weiß, was ein Datenlauf schon
    * eingespielt hat, und das steht jetzt im Tooltip statt am Knopf.
    */
-  const offeneAdressen = offeneStaffeln
+  const offeneAdressen = offeneTitelZahl()
   const gesamt = Object.entries(offeneTitel).reduce(
     (n, [id, e]) => n + empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) }).length,
     0,
@@ -3073,9 +3095,9 @@ function uebersichtZeigen() {
   uebersichtKnopf.title =
     (!offeneAdressen
       ? `Alles gemeldet — ${gesamt} Staffeln, zum Nachsehen anklicken`
-      : offeneAdressen === gesamt
-        ? `${offeneAdressen} Staffeln warten auf eine Prüfung`
-        : `${offeneAdressen} von ${gesamt} Staffeln warten noch — der Rest ist gemeldet, aber noch nicht eingespielt`) +
+      : offeneStaffeln === gesamt
+        ? `${offeneStaffeln} Staffeln zu prüfen`
+        : `${offeneStaffeln} von ${gesamt} Staffeln zu prüfen — der Rest ist gemeldet, aber noch nicht eingespielt`) +
     nachStand
 }
 
@@ -3150,8 +3172,8 @@ async function dialogOeffnen() {
     return d || a[1].titel.localeCompare(b[1].titel, 'de')
   })
   const titelzeile = document.createElement('strong')
-  // Dieselbe Zahl wie am Knopf — sonst steht oben 146, während unten 78 steht.
-  const nochOffen = eintraege.filter(([id, e]) => !fertig(id, e)).length
+  /* Dieselbe Zahl wie am Knopf — aus derselben Funktion, nicht nachgerechnet. */
+  const nochOffen = offeneTitelZahl()
   titelzeile.textContent = nochOffen ? `${nochOffen} Titel zu prüfen` : 'Alles geprüft'
   kopf.appendChild(titelzeile)
 
