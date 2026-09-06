@@ -19,6 +19,46 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/de/trigun"
   },
+  "21": {
+   "seriesId": "GRMG8ZQZR",
+   "crTitel": "One Piece",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 1432,
+   "staffeln": 24,
+   "punkte": 4,
+   "unserTitel": "One Piece",
+   "url": "https://www.crunchyroll.com/one-piece",
+   "gesuchtAm": "2026-09-06"
+  },
+  "63": {
+   "seriesId": "GRZXD528Y",
+   "crTitel": "DearS",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "DearS",
+   "url": "https://www.crunchyroll.com/dears",
+   "gesuchtAm": "2026-09-06"
+  },
+  "68": {
+   "seriesId": "GYWEQW20Y",
+   "crTitel": "Black Cat",
+   "sprachen": [
+    "ja-JP",
+    "en-US"
+   ],
+   "folgen": 24,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "Black Cat",
+   "url": "https://www.crunchyroll.com/black-cat",
+   "gesuchtAm": "2026-09-06"
+  },
   "207": {
    "seriesId": "GYJQXM056",
    "crTitel": "Record of Grancrest War",
@@ -57,6 +97,61 @@
    "unserTitel": "Dragon Ball GT",
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/de/dragon-ball-gt"
+  },
+  "235": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 4,
+   "unserTitel": "Detektiv Conan",
+   "url": "https://www.crunchyroll.com/detektiv-conan",
+   "gesuchtAm": "2026-09-06"
+  },
+  "274": {
+   "seriesId": "G62PVK096",
+   "crTitel": "Kiddy Grade",
+   "sprachen": [
+    "ja-JP",
+    "en-US"
+   ],
+   "folgen": 24,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "Kiddy Grade",
+   "url": "https://www.crunchyroll.com/series/G62PVK096/kiddy-grade",
+   "gesuchtAm": "2026-09-06"
+  },
+  "329": {
+   "seriesId": "G9VHN9Q14",
+   "crTitel": "Planetes",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 26,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Planetes",
+   "url": "https://www.crunchyroll.com/series/G9VHN9Q14/planetes",
+   "gesuchtAm": "2026-09-06"
+  },
+  "552": {
+   "seriesId": "GVDHX83V7",
+   "crTitel": "Digimon Adventure",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Digimon",
+   "url": "https://www.crunchyroll.com/digimon-adventure",
+   "gesuchtAm": "2026-09-06"
   },
   "779": {
    "seriesId": "GW4HM7NV3",
@@ -152,6 +247,32 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/de/origin-spirits-of-the-past"
   },
+  "1292": {
+   "seriesId": "G5PHNMW59",
+   "crTitel": "Afro Samurai",
+   "sprachen": [
+    "en-US"
+   ],
+   "folgen": 6,
+   "staffeln": 2,
+   "punkte": 4,
+   "unserTitel": "Afro Samurai",
+   "url": "https://www.crunchyroll.com/afro-samurai",
+   "gesuchtAm": "2026-09-06"
+  },
+  "1313": {
+   "seriesId": "GR1XHVEZQ",
+   "crTitel": "Digimon Adventure 02",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 3,
+   "unserTitel": "Digimon 02",
+   "url": "https://www.crunchyroll.com/digimon-adventure-02",
+   "gesuchtAm": "2026-09-06"
+  },
   "1364": {
    "seriesId": "GW4HM7NV3",
    "crTitel": "Detektiv Conan",
@@ -179,6 +300,20 @@
    "unserTitel": "Detektiv Conan: Das Phantom der Baker Street",
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-6-das-phantom-der-baker-street-unbekannt-810184?ssid=398574"
+  },
+  "1374": {
+   "seriesId": "GR9P7JMV6",
+   "crTitel": "Guyver: The Bioboosted Armor",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 26,
+   "staffeln": 1,
+   "punkte": 6,
+   "unserTitel": "Guyver: The Bioboosted Armor",
+   "url": "http://www.crunchyroll.com/guyver-the-bioboosted-armor",
+   "gesuchtAm": "2026-09-06"
   },
   "1417": {
    "seriesId": "G1XHJVXGN",
@@ -222,6 +357,64 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176"
   },
+  "1535": {
+   "seriesId": "G6QWD3EE6",
+   "crTitel": "Death Note",
+   "sprachen": [
+    "fr-FR",
+    "de-DE",
+    "ja-JP",
+    "en-US",
+    "it-IT"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 4,
+   "unserTitel": "Death Note",
+   "url": "https://www.crunchyroll.com/series/G6QWD3EE6/death-note",
+   "gesuchtAm": "2026-09-06"
+  },
+  "1604": {
+   "seriesId": "GRNQ13VQR",
+   "crTitel": "REBORN!",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 204,
+   "staffeln": 9,
+   "punkte": 2,
+   "unserTitel": "Reborn!",
+   "url": "https://www.crunchyroll.com/reborn",
+   "gesuchtAm": "2026-09-06"
+  },
+  "1607": {
+   "seriesId": "GP5HJ812E",
+   "crTitel": "Venus Versus Virus",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 6,
+   "unserTitel": "Venus versus Virus",
+   "url": "https://www.crunchyroll.com/series/GP5HJ812E/venus-versus-virus",
+   "gesuchtAm": "2026-09-06"
+  },
+  "2589": {
+   "seriesId": "GYWEQW20Y",
+   "crTitel": "Black Cat",
+   "sprachen": [
+    "ja-JP",
+    "en-US"
+   ],
+   "folgen": 24,
+   "staffeln": 1,
+   "punkte": 1,
+   "unserTitel": "Black Cat: Die Katze entfernt sich",
+   "url": "https://www.crunchyroll.com/watch/G619ZW5EY/the-distant-cat",
+   "gesuchtAm": "2026-09-06"
+  },
   "2966": {
    "seriesId": "G1XHJV08M",
    "crTitel": "Spice and Wolf: MERCHANT MEETS THE WISE WOLF",
@@ -240,6 +433,20 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/de/spice-and-wolf"
   },
+  "4081": {
+   "seriesId": "GRE5XQJV6",
+   "crTitel": "Natsume's Book of Friends",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 92,
+   "staffeln": 8,
+   "punkte": 8,
+   "unserTitel": "Natsume’s Book of Friends",
+   "url": "https://www.crunchyroll.com/series/GRE5XQJV6/natsumes-book-of-friends",
+   "gesuchtAm": "2026-09-06"
+  },
   "4447": {
    "seriesId": "GW4HM7NV3",
    "crTitel": "Detektiv Conan",
@@ -253,6 +460,33 @@
    "unserTitel": "Detektiv Conan: Die Partitur des Grauens",
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-12-die-partitur-des-grauens-unbekannt-811393?ssid=400590"
+  },
+  "4970": {
+   "seriesId": "G5PHNMW59",
+   "crTitel": "Afro Samurai",
+   "sprachen": [
+    "en-US"
+   ],
+   "folgen": 6,
+   "staffeln": 2,
+   "punkte": 3,
+   "unserTitel": "Afro Samurai: Resurrection",
+   "url": "https://www.crunchyroll.com/afro-samurai/afro-samurai-resurrection-afro-samurai-resurrection-862571",
+   "gesuchtAm": "2026-09-06"
+  },
+  "5300": {
+   "seriesId": "GRE5XQJV6",
+   "crTitel": "Natsume's Book of Friends",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 92,
+   "staffeln": 8,
+   "punkte": 6,
+   "unserTitel": "Natsume’s Book of Friends: Staffel 2",
+   "url": "https://www.crunchyroll.com/series/GRE5XQJV6/natsumes-book-of-friends",
+   "gesuchtAm": "2026-09-06"
   },
   "5341": {
    "seriesId": "G1XHJV08M",
@@ -303,6 +537,32 @@
    "unserTitel": "Lupin III. vs Detektiv Conan: The Special",
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-lupin-iii-vs-detektiv-conan-unbekannt-812798?ssid=404716"
+  },
+  "6381": {
+   "seriesId": "GYEXXWD36",
+   "crTitel": "Strike Witches",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 37,
+   "staffeln": 4,
+   "punkte": 3,
+   "unserTitel": "Strike Witches 2",
+   "url": "https://www.crunchyroll.com/strike-witches",
+   "gesuchtAm": "2026-09-06"
+  },
+  "6746": {
+   "seriesId": "G619XVNEY",
+   "crTitel": "Durarara",
+   "sprachen": [
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Durarara!!",
+   "url": "https://www.crunchyroll.com/durarara",
+   "gesuchtAm": "2026-09-06"
   },
   "6862": {
    "seriesId": "GXJHM3N2E",
@@ -460,6 +720,19 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-17-detektiv-auf-hoher-see-unbekannt-812230?ssid=402659"
   },
+  "14813": {
+   "seriesId": "GYNQJ8GXY",
+   "crTitel": "My Teen Romantic Comedy SNAFU",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 10,
+   "unserTitel": "My Teen Romantic Comedy SNAFU",
+   "url": "https://www.crunchyroll.com/my-teen-romantic-comedy-snafu",
+   "gesuchtAm": "2026-09-06"
+  },
   "15813": {
    "seriesId": "G79H23ZKP",
    "crTitel": "Yoyo & Nene - Die magischen Schwestern",
@@ -474,6 +747,47 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/watch/G50UZV2GM/"
   },
+  "18671": {
+   "seriesId": "GYJQV73V6",
+   "crTitel": "Love, Chunibyo & Other Delusions - Heart Throb -",
+   "sprachen": [
+    "de-DE",
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 12,
+   "unserTitel": "Love, Chunibyo & Other Delusions! Heart Throb",
+   "url": "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-",
+   "gesuchtAm": "2026-09-06"
+  },
+  "20540": {
+   "seriesId": "G63V729XY",
+   "crTitel": "Samurai Warriors",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 1,
+   "unserTitel": "Samurai Warriors SP: Die Legende der Sanada",
+   "url": "http://www.crunchyroll.com/samurai-warriors/samurai-warriors-legend-of-the-sanada-668753",
+   "gesuchtAm": "2026-09-06"
+  },
+  "20605": {
+   "seriesId": "G6NV7Z50Y",
+   "crTitel": "Tokyo Ghoul",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 50,
+   "staffeln": 4,
+   "punkte": 4,
+   "unserTitel": "Tokyo Ghoul",
+   "url": "https://www.crunchyroll.com/tokyo-ghoul",
+   "gesuchtAm": "2026-09-06"
+  },
   "20629": {
    "seriesId": "GRNQPEGWR",
    "crTitel": "Terra Formars",
@@ -486,6 +800,45 @@
    "unserTitel": "Terra Formars",
    "gesuchtAm": "2026-08-26",
    "url": "http://www.crunchyroll.com/de/terraformars"
+  },
+  "20657": {
+   "seriesId": "G6P8DM3Q6",
+   "crTitel": "Saekano -How to Raise a Boring Girlfriend-",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 10,
+   "unserTitel": "Saekano: How to Raise a Boring Girlfriend",
+   "url": "http://www.crunchyroll.com/saekano-how-to-raise-a-boring-girlfriend-/episode-1-an-error-ridden-prologue-668049",
+   "gesuchtAm": "2026-09-06"
+  },
+  "20677": {
+   "seriesId": "G63V7VN4Y",
+   "crTitel": "DRAMAtical Murder",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "DRAMAtical Murder",
+   "url": "http://www.crunchyroll.com/dramatical-murder/episode-1-data_01_login-656927",
+   "gesuchtAm": "2026-09-06"
+  },
+  "20698": {
+   "seriesId": "GYNQJ8GXY",
+   "crTitel": "My Teen Romantic Comedy SNAFU",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 9,
+   "unserTitel": "My Teen Romantic Comedy SNAFU: TOO!",
+   "url": "https://www.crunchyroll.com/my-teen-romantic-comedy-snafu",
+   "gesuchtAm": "2026-09-06"
   },
   "20790": {
    "seriesId": "GMEHMENQM",
@@ -500,6 +853,20 @@
    "unserTitel": "Magic Kaito 1412",
    "gesuchtAm": "2026-08-26",
    "url": "http://www.crunchyroll.com/de/magickaito"
+  },
+  "20817": {
+   "seriesId": "GYDQ2NXK6",
+   "crTitel": "Laughing Under the Clouds",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 6,
+   "unserTitel": "Laughing Under the Clouds",
+   "url": "https://www.crunchyroll.com/laughing-under-the-clouds",
+   "gesuchtAm": "2026-09-06"
   },
   "20889": {
    "seriesId": "GYJQV73V6",
@@ -583,6 +950,67 @@
    "gesuchtAm": "2026-08-26",
    "url": "http://www.crunchyroll.com/de/dragon-ball-super"
   },
+  "21190": {
+   "seriesId": "G68VXG3G6",
+   "crTitel": "The Perfect Insider",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 11,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "The Perfect Insider",
+   "url": "http://www.crunchyroll.com/the-perfect-insider/episode-1-chapter-one-white-meeting-686445",
+   "gesuchtAm": "2026-09-06"
+  },
+  "21290": {
+   "seriesId": "GRWE8K5MR",
+   "crTitel": "And you thought there is never a girl online?",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 16,
+   "unserTitel": "And You Thought There Is Never a Girl Online?",
+   "url": "https://www.crunchyroll.com/and-you-thought-there-is-never-a-girl-online",
+   "gesuchtAm": "2026-09-06"
+  },
+  "21291": {
+   "seriesId": "GY8VXP2JY",
+   "crTitel": "JOKER GAME",
+   "sprachen": [
+    "es-419",
+    "pt-BR",
+    "ja-JP",
+    "en-US",
+    "fr-FR"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "Joker Game",
+   "url": "http://www.crunchyroll.com/joker-game/episode-1-joker-game-part-1-702531",
+   "gesuchtAm": "2026-09-06"
+  },
+  "21311": {
+   "seriesId": "GR5VXQ8PR",
+   "crTitel": "Bungo Stray Dogs",
+   "sprachen": [
+    "en-US",
+    "fr-FR",
+    "ja-JP",
+    "pt-BR",
+    "es-419"
+   ],
+   "folgen": 62,
+   "staffeln": 6,
+   "punkte": 6,
+   "unserTitel": "Bungo Stray Dogs",
+   "url": "http://www.crunchyroll.com/bungo-stray-dogs/episode-1-fortune-is-unpredictable-and-mutable-702635",
+   "gesuchtAm": "2026-09-06"
+  },
   "21416": {
    "seriesId": "G63K98PZ6",
    "crTitel": "One-Punch Man",
@@ -614,6 +1042,37 @@
    "gesuchtAm": "2026-08-26",
    "url": "http://www.crunchyroll.com/de/love-live-sunshine"
   },
+  "21679": {
+   "seriesId": "GR5VXQ8PR",
+   "crTitel": "Bungo Stray Dogs",
+   "sprachen": [
+    "en-US",
+    "fr-FR",
+    "ja-JP",
+    "pt-BR",
+    "es-419"
+   ],
+   "folgen": 62,
+   "staffeln": 6,
+   "punkte": 5,
+   "unserTitel": "Bungo Stray Dogs 2",
+   "url": "http://www.crunchyroll.com/bungo-stray-dogs/episode-13-the-dark-age-721377",
+   "gesuchtAm": "2026-09-06"
+  },
+  "21686": {
+   "seriesId": "G65VXM1P6",
+   "crTitel": "Küss ihn, nicht mich!",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 8,
+   "unserTitel": "Küss ihn, nicht mich!",
+   "url": "https://www.crunchyroll.com/kiss-him-not-me",
+   "gesuchtAm": "2026-09-06"
+  },
   "21742": {
    "seriesId": "GY5VEEK5Y",
    "crTitel": "Touken Ranbu - Hanamaru",
@@ -626,6 +1085,93 @@
    "unserTitel": "Katsugeki: Touken Ranbu",
    "gesuchtAm": "2026-08-26",
    "url": "http://www.crunchyroll.com/de/katsugeki-touken-ranbu"
+  },
+  "21791": {
+   "seriesId": "GR5VXQ8PR",
+   "crTitel": "Bungo Stray Dogs",
+   "sprachen": [
+    "en-US",
+    "fr-FR",
+    "ja-JP",
+    "pt-BR",
+    "es-419"
+   ],
+   "folgen": 62,
+   "staffeln": 6,
+   "punkte": 5,
+   "unserTitel": "Bungo Stray Dogs: Der Einzelgänger",
+   "url": "http://www.crunchyroll.com/bungo-stray-dogs/episode-25-walking-alone-765009",
+   "gesuchtAm": "2026-09-06"
+  },
+  "21851": {
+   "seriesId": "GJ0H7QDW8",
+   "crTitel": "Armed Girl's Machiavellism",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 8,
+   "unserTitel": "Armed Girl’s Machiavellism",
+   "url": "https://www.crunchyroll.com/armed-girls-machiavellism",
+   "gesuchtAm": "2026-09-06"
+  },
+  "97625": {
+   "seriesId": "G675QE8JR",
+   "crTitel": "Tsugumomo",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 25,
+   "staffeln": 3,
+   "punkte": 2,
+   "unserTitel": "Tsugumomo",
+   "url": "http://www.crunchyroll.com/tsugumomo/episode-1-the-scent-of-cherry-blossoms-734377",
+   "gesuchtAm": "2026-09-06"
+  },
+  "97673": {
+   "seriesId": "G6P83KDJ6",
+   "crTitel": "Nyanko Days",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "Nyanko Days",
+   "url": "http://www.crunchyroll.com/nyanko-days/episode-1-me-and-my-kitties-728655",
+   "gesuchtAm": "2026-09-06"
+  },
+  "97766": {
+   "seriesId": "GR5V1JKGR",
+   "crTitel": "GAMERS!",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Gamers!",
+   "url": "http://www.crunchyroll.com/gamers/episode-1-keita-amano-and-chapters-of-the-chosen-742409",
+   "gesuchtAm": "2026-09-06"
+  },
+  "97863": {
+   "seriesId": "G675N15MR",
+   "crTitel": "My First Girlfriend is a Gal",
+   "sprachen": [
+    "en-US",
+    "ru-RU",
+    "ja-JP"
+   ],
+   "folgen": 11,
+   "staffeln": 1,
+   "punkte": 10,
+   "unserTitel": "My First Girlfriend Is a Gal",
+   "url": "http://www.crunchyroll.com/my-first-girlfriend-is-a-gal/episode-1-my-first-time-begging-for-it-742283",
+   "gesuchtAm": "2026-09-06"
   },
   "98222": {
    "seriesId": "GW4HM7NV3",
@@ -641,6 +1187,37 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-21-der-purpurrote-liebesbrief-unbekannt-812236?ssid=402669"
   },
+  "98384": {
+   "seriesId": "GR5VXQ8PR",
+   "crTitel": "Bungo Stray Dogs",
+   "sprachen": [
+    "en-US",
+    "fr-FR",
+    "ja-JP",
+    "pt-BR",
+    "es-419"
+   ],
+   "folgen": 62,
+   "staffeln": 6,
+   "punkte": 4,
+   "unserTitel": "Bungo Stray Dogs: Dead Apple",
+   "url": "http://www.crunchyroll.com/bungo-stray-dogs/bungo-stray-dogs-dead-apple-dead-apple-777041",
+   "gesuchtAm": "2026-09-06"
+  },
+  "98443": {
+   "seriesId": "G6K51X9GY",
+   "crTitel": "JUNI TAISEN：ZODIAC WAR",
+   "sprachen": [
+    "ja-JP",
+    "en-US"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 8,
+   "unserTitel": "Juni Taisen: Zodiac War",
+   "url": "http://www.crunchyroll.com/juni-taisenzodiac-war/episode-1-even-boars-may-become-pigs-after-seven-generations-748959",
+   "gesuchtAm": "2026-09-06"
+  },
   "98856": {
    "seriesId": "GJ0H7QDW8",
    "crTitel": "Armed Girl's Machiavellism",
@@ -654,6 +1231,76 @@
    "unserTitel": "Armed Girl’s Machiavellism: Herzklopfen! Betriebsausflug der „Fünf Schwerter“",
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/armed-girls-machiavellism/episode-13-799297?ssid=385722"
+  },
+  "99426": {
+   "seriesId": "GYK541EPR",
+   "crTitel": "A Place Further Than the Universe",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 8,
+   "unserTitel": "A Place Further Than the Universe",
+   "url": "http://www.crunchyroll.com/a-place-further-than-the-universe/episode-1-one-mwillion-yen-for-youth-757769",
+   "gesuchtAm": "2026-09-06"
+  },
+  "99796": {
+   "seriesId": "GRVN7ZW3Y",
+   "crTitel": "GARO -VANISHING LINE-",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 24,
+   "staffeln": 1,
+   "punkte": 6,
+   "unserTitel": "Garo: Vanishing Line",
+   "url": "https://www.crunchyroll.com/series/GRVN7ZW3Y/garo--vanishing-line-",
+   "gesuchtAm": "2026-09-06"
+  },
+  "99940": {
+   "seriesId": "G68V4NDJ6",
+   "crTitel": "Junji Ito Collection",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 14,
+   "staffeln": 1,
+   "punkte": 6,
+   "unserTitel": "Junji Ito Collection",
+   "url": "http://www.crunchyroll.com/junji-ito-collection/episode-1-collection-no-068-souichis-convenient-curses-collection-no-090-hellish-doll-funeral-757805",
+   "gesuchtAm": "2026-09-06"
+  },
+  "100077": {
+   "seriesId": "GR79PWJ16",
+   "crTitel": "HINAMATSURI",
+   "sprachen": [
+    "ja-JP",
+    "en-US"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Hinamatsuri",
+   "url": "http://www.crunchyroll.com/hinamatsuri/episode-1-arrival-of-the-psychokinetic-girl-768969",
+   "gesuchtAm": "2026-09-06"
+  },
+  "100112": {
+   "seriesId": "G63K95846",
+   "crTitel": "Wise Man's Grandchild",
+   "sprachen": [
+    "ja-JP",
+    "es-419",
+    "pt-BR",
+    "en-US"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 8,
+   "unserTitel": "Wise Man’s Grandchild",
+   "url": "https://www.crunchyroll.com/wise-mans-grandchild",
+   "gesuchtAm": "2026-09-06"
   },
   "100653": {
    "seriesId": "GW4HM7NV3",
@@ -696,6 +1343,81 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/watch/GQJUGQWMW/"
   },
+  "101016": {
+   "seriesId": "G68V4NDJ6",
+   "crTitel": "Junji Ito Collection",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 14,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Junji Ito: Tomie",
+   "url": "http://www.crunchyroll.com/junji-ito-collection/junji-ito-collection-unbekannt-776930",
+   "gesuchtAm": "2026-09-06"
+  },
+  "103900": {
+   "seriesId": "GR8DN8XDR",
+   "crTitel": "We Never Learn: BOKUBEN",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 26,
+   "staffeln": 2,
+   "punkte": 5,
+   "unserTitel": "We Never Learn",
+   "url": "https://www.crunchyroll.com/we-never-learn-bokuben",
+   "gesuchtAm": "2026-09-06"
+  },
+  "104051": {
+   "seriesId": "G6QWDD096",
+   "crTitel": "Magia Record: Puella Magi Madoka Magica Side Story",
+   "sprachen": [
+    "pt-BR",
+    "en-US",
+    "ja-JP",
+    "es-419"
+   ],
+   "folgen": 26,
+   "staffeln": 3,
+   "punkte": 16,
+   "unserTitel": "Magia Record: Puella Magi Madoka Magica Side Story",
+   "url": "https://www.crunchyroll.com/magia-record-puella-magi-madoka-magica-side-story",
+   "gesuchtAm": "2026-09-06"
+  },
+  "104454": {
+   "seriesId": "GR8DN7N7R",
+   "crTitel": "Isekai Quartet",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 35,
+   "staffeln": 3,
+   "punkte": 4,
+   "unserTitel": "Isekai Quartet",
+   "url": "https://www.crunchyroll.com/series/GR8DN7N7R/isekai-quartet",
+   "gesuchtAm": "2026-09-06"
+  },
+  "105334": {
+   "seriesId": "G6ZJMGEXY",
+   "crTitel": "Fruits Basket (2019)",
+   "sprachen": [
+    "fr-FR",
+    "es-419",
+    "pt-BR",
+    "de-DE",
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 63,
+   "staffeln": 3,
+   "punkte": 3,
+   "unserTitel": "Fruits Basket",
+   "url": "https://www.crunchyroll.com/fruits-basket",
+   "gesuchtAm": "2026-09-06"
+  },
   "106206": {
    "seriesId": "GW4HM7NV3",
    "crTitel": "Detektiv Conan",
@@ -724,6 +1446,36 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587"
   },
+  "108241": {
+   "seriesId": "G9VHN9P7W",
+   "crTitel": "Gleipnir",
+   "sprachen": [
+    "pt-BR",
+    "en-US",
+    "es-419",
+    "ja-JP"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Gleipnir",
+   "url": "https://www.crunchyroll.com/gleipnir",
+   "gesuchtAm": "2026-09-06"
+  },
+  "108266": {
+   "seriesId": "G675QE8JR",
+   "crTitel": "Tsugumomo",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 25,
+   "staffeln": 3,
+   "punkte": 1,
+   "unserTitel": "Tsugumomo 2",
+   "url": "https://www.crunchyroll.com/tsugumomo/episode-1-the-troubleshooters-office-794656",
+   "gesuchtAm": "2026-09-06"
+  },
   "108487": {
    "seriesId": "GVDHX8V5V",
    "crTitel": "Fragtime",
@@ -737,6 +1489,19 @@
    "unserTitel": "Fragtime",
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/fragtime/fragtime-unbekannt-813782?ssid=406732"
+  },
+  "108489": {
+   "seriesId": "GYNQJ8GXY",
+   "crTitel": "My Teen Romantic Comedy SNAFU",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 9,
+   "unserTitel": "My Teen Romantic Comedy SNAFU: Climax",
+   "url": "https://www.crunchyroll.com/my-teen-romantic-comedy-snafu",
+   "gesuchtAm": "2026-09-06"
   },
   "108945": {
    "seriesId": "G63K98PZ6",
@@ -756,6 +1521,49 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang"
   },
+  "110178": {
+   "seriesId": "GR8DN7N7R",
+   "crTitel": "Isekai Quartet",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 35,
+   "staffeln": 3,
+   "punkte": 3,
+   "unserTitel": "Isekai Quartet 2",
+   "url": "https://www.crunchyroll.com/isekai-quartet",
+   "gesuchtAm": "2026-09-06"
+  },
+  "110229": {
+   "seriesId": "GR8DN8XDR",
+   "crTitel": "We Never Learn: BOKUBEN",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 26,
+   "staffeln": 2,
+   "punkte": 3,
+   "unserTitel": "We Never Learn: Staffel 2",
+   "url": "https://www.crunchyroll.com/we-never-learn-bokuben",
+   "gesuchtAm": "2026-09-06"
+  },
+  "110350": {
+   "seriesId": "G79H230GE",
+   "crTitel": "ID: INVADED",
+   "sprachen": [
+    "en-US",
+    "ja-JP",
+    "es-419",
+    "pt-BR"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "ID: Invaded",
+   "url": "https://www.crunchyroll.com/id-invaded",
+   "gesuchtAm": "2026-09-06"
+  },
   "110413": {
    "seriesId": "G1XHJVXGN",
    "crTitel": "LUPIN III. Movies",
@@ -770,6 +1578,80 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156"
   },
+  "110547": {
+   "seriesId": "GDKHZEDPM",
+   "crTitel": "Arte",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Arte",
+   "url": "https://www.crunchyroll.com/arte",
+   "gesuchtAm": "2026-09-06"
+  },
+  "112301": {
+   "seriesId": "GY243NN0R",
+   "crTitel": "The Misfit of Demon King Academy",
+   "sprachen": [
+    "es-419",
+    "en-US",
+    "ja-JP",
+    "pt-BR",
+    "fr-FR"
+   ],
+   "folgen": 37,
+   "staffeln": 2,
+   "punkte": 8,
+   "unserTitel": "The Misfit of Demon King Academy",
+   "url": "https://www.crunchyroll.com/series/GY243NN0R/the-misfit-of-demon-king-academy",
+   "gesuchtAm": "2026-09-06"
+  },
+  "112444": {
+   "seriesId": "G5PHNMW9N",
+   "crTitel": "APPARE-RANMAN!",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "Appare-Ranman!",
+   "url": "https://www.crunchyroll.com/appare-ranman",
+   "gesuchtAm": "2026-09-06"
+  },
+  "112667": {
+   "seriesId": "GVDHX8ZD0",
+   "crTitel": "Our Last Crusade or the Rise of a New World",
+   "sprachen": [
+    "en-US",
+    "ja-JP",
+    "es-419",
+    "pt-BR"
+   ],
+   "folgen": 24,
+   "staffeln": 2,
+   "punkte": 14,
+   "unserTitel": "Our Last Crusade or the Rise of a New World",
+   "url": "https://www.crunchyroll.com/our-last-crusade-or-the-rise-of-a-new-world",
+   "gesuchtAm": "2026-09-06"
+  },
+  "112818": {
+   "seriesId": "GJ0H7QXJ8",
+   "crTitel": "SUPER HXEROS",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "Super HxEros",
+   "url": "https://www.crunchyroll.com/super-hxeros",
+   "gesuchtAm": "2026-09-06"
+  },
   "113653": {
    "seriesId": "GW4HM7NV3",
    "crTitel": "Detektiv Conan",
@@ -783,6 +1665,107 @@
    "unserTitel": "Detektiv Conan: Die scharlachrote Kugel",
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-24-die-scharlachrote-kugel-unbekannt-867288"
+  },
+  "114340": {
+   "seriesId": "GQWH0M990",
+   "crTitel": "Kuma Kuma Kuma Bear",
+   "sprachen": [
+    "ja-JP",
+    "en-US"
+   ],
+   "folgen": 24,
+   "staffeln": 2,
+   "punkte": 8,
+   "unserTitel": "Kuma Kuma Kuma Bear",
+   "url": "https://www.crunchyroll.com/kuma-kuma-kuma-bear",
+   "gesuchtAm": "2026-09-06"
+  },
+  "114446": {
+   "seriesId": "G4PH0WXEM",
+   "crTitel": "Higurashi: When They Cry - GOU",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 39,
+   "staffeln": 2,
+   "punkte": 10,
+   "unserTitel": "Higurashi: When They Cry Gou",
+   "url": "https://www.crunchyroll.com/higurashi-when-they-cry-gou",
+   "gesuchtAm": "2026-09-06"
+  },
+  "115740": {
+   "seriesId": "GP5HJ85ED",
+   "crTitel": "By the Grace of the Gods",
+   "sprachen": [
+    "ja-JP",
+    "en-US",
+    "pt-BR",
+    "fr-FR",
+    "es-419"
+   ],
+   "folgen": 24,
+   "staffeln": 2,
+   "punkte": 6,
+   "unserTitel": "By the Grace of the Gods",
+   "url": "https://www.crunchyroll.com/by-the-grace-of-the-gods",
+   "gesuchtAm": "2026-09-06"
+  },
+  "117002": {
+   "seriesId": "G6QWDD096",
+   "crTitel": "Magia Record: Puella Magi Madoka Magica Side Story",
+   "sprachen": [
+    "pt-BR",
+    "en-US",
+    "ja-JP",
+    "es-419"
+   ],
+   "folgen": 26,
+   "staffeln": 3,
+   "punkte": 12,
+   "unserTitel": "Magia Record: Puella Magi Madoka Magica Side Story Staffel 2 - The Eve of Awakening",
+   "url": "https://www.crunchyroll.com/magia-record-puella-magi-madoka-magica-side-story",
+   "gesuchtAm": "2026-09-06"
+  },
+  "117074": {
+   "seriesId": "GR8DN7N7R",
+   "crTitel": "Isekai Quartet",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 35,
+   "staffeln": 3,
+   "punkte": 1,
+   "unserTitel": "Isekai Quartet the Movie: Another World",
+   "url": "https://www.crunchyroll.com/watch/GD9UVXZ91/another-world",
+   "gesuchtAm": "2026-09-06"
+  },
+  "117612": {
+   "seriesId": "G1XHJV3MV",
+   "crTitel": "How a Realist Hero Rebuilt the Kingdom",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 26,
+   "staffeln": 1,
+   "punkte": 10,
+   "unserTitel": "How a Realist Hero Rebuilt the Kingdom",
+   "url": "https://www.crunchyroll.com/how-a-realist-hero-rebuilt-the-kingdom",
+   "gesuchtAm": "2026-09-06"
+  },
+  "118419": {
+   "seriesId": "G3KHEV3MV",
+   "crTitel": "The Day I Became a God",
+   "sprachen": [
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 8,
+   "unserTitel": "The Day I Became a God",
+   "url": "https://www.crunchyroll.com/the-day-i-became-a-god",
+   "gesuchtAm": "2026-09-06"
   },
   "126659": {
    "seriesId": "G6NQ5DWZ6",
@@ -806,6 +1789,37 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/watch/GG1U2NW9Q"
   },
+  "130003": {
+   "seriesId": "GXJHM3P19",
+   "crTitel": "BOCCHI THE ROCK!",
+   "sprachen": [
+    "es-ES",
+    "ja-JP",
+    "pt-BR",
+    "fr-FR",
+    "it-IT",
+    "es-419"
+   ],
+   "folgen": 14,
+   "staffeln": 2,
+   "punkte": 4,
+   "unserTitel": "Bocchi the Rock!",
+   "url": "https://www.crunchyroll.com/bocchi-the-rock",
+   "gesuchtAm": "2026-09-06"
+  },
+  "131149": {
+   "seriesId": "G4PH0WXEM",
+   "crTitel": "Higurashi: When They Cry - GOU",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 39,
+   "staffeln": 2,
+   "punkte": 6,
+   "unserTitel": "Higurashi: When They Cry Sotsu",
+   "url": "https://www.crunchyroll.com/higurashi-when-they-cry-gou",
+   "gesuchtAm": "2026-09-06"
+  },
   "131770": {
    "seriesId": "GW4HM7NV3",
    "crTitel": "Detektiv Conan",
@@ -819,6 +1833,49 @@
    "unserTitel": "Detektiv Conan: Das Scharlachrote Alibi",
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/watch/G50UZ54W0/the-scarlet-alibi-german-dub"
+  },
+  "134623": {
+   "seriesId": "G0XHWM90E",
+   "crTitel": "LUPIN III. PART 6",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 8,
+   "unserTitel": "Lupin III. Part 6",
+   "url": "https://www.crunchyroll.com/lupin-the-3rd-part-6",
+   "gesuchtAm": "2026-09-06"
+  },
+  "136080": {
+   "seriesId": "G6QWDD096",
+   "crTitel": "Magia Record: Puella Magi Madoka Magica Side Story",
+   "sprachen": [
+    "pt-BR",
+    "en-US",
+    "ja-JP",
+    "es-419"
+   ],
+   "folgen": 26,
+   "staffeln": 3,
+   "punkte": 11,
+   "unserTitel": "Magia Record: Puella Magi Madoka Magica Side Story Final Season - Dawn of a Shallow Dream",
+   "url": "https://www.crunchyroll.com/magia-record-puella-magi-madoka-magica-side-story",
+   "gesuchtAm": "2026-09-06"
+  },
+  "139648": {
+   "seriesId": "G1XHJV3MV",
+   "crTitel": "How a Realist Hero Rebuilt the Kingdom",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 26,
+   "staffeln": 1,
+   "punkte": 8,
+   "unserTitel": "How a Realist Hero Rebuilt the Kingdom Teil 2",
+   "url": "https://www.crunchyroll.com/how-a-realist-hero-rebuilt-the-kingdom",
+   "gesuchtAm": "2026-09-06"
   },
   "142219": {
    "seriesId": "GW4HM7NV3",
@@ -834,6 +1891,19 @@
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/watch/G4VUQVNJ8/"
   },
+  "145740": {
+   "seriesId": "GW4HM7WWV",
+   "crTitel": "Grisaia Phantom Trigger",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 6,
+   "unserTitel": "Grisaia Phantom Trigger",
+   "url": "https://www.crunchyroll.com/series/GW4HM7WWV/grisaia-phantom-trigger",
+   "gesuchtAm": "2026-09-06"
+  },
   "154473": {
    "seriesId": "GT00378122",
    "crTitel": "The World's Strongest Rearguard",
@@ -846,6 +1916,37 @@
    "unserTitel": "Arifureta: From Commonplace to World’s Strongest",
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/de/series/G4PH0WXD1/arifureta-from-commonplace-to-worlds-strongest"
+  },
+  "154965": {
+   "seriesId": "GNVHKNPQ7",
+   "crTitel": "My Love Story with Yamada-kun at Lv999",
+   "sprachen": [
+    "ja-JP",
+    "en-US",
+    "hi-IN"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 16,
+   "unserTitel": "My Love Story with Yamada-kun at Lv999",
+   "url": "https://www.crunchyroll.com/series/GNVHKNPQ7/my-love-story-with-yamada-kun-at-lv999",
+   "gesuchtAm": "2026-09-06"
+  },
+  "154967": {
+   "seriesId": "GYW4MG9G6",
+   "crTitel": "Rascal Does Not Dream Series",
+   "sprachen": [
+    "fr-FR",
+    "de-DE",
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 29,
+   "staffeln": 5,
+   "punkte": 4,
+   "unserTitel": "Rascal Does Not Dream of a Sister Venturing Out",
+   "url": "https://www.crunchyroll.com/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out",
+   "gesuchtAm": "2026-09-06"
   },
   "156841": {
    "seriesId": "GW4HM7NV3",
@@ -860,8 +1961,107 @@
    "unserTitel": "Detektiv Conan: Das schwarze U-Boot",
    "gesuchtAm": "2026-08-26",
    "url": "https://www.crunchyroll.com/watch/GJWUQN11K/"
+  },
+  "161474": {
+   "seriesId": "GYW4MG9G6",
+   "crTitel": "Rascal Does Not Dream Series",
+   "sprachen": [
+    "fr-FR",
+    "de-DE",
+    "en-US",
+    "ja-JP"
+   ],
+   "folgen": 29,
+   "staffeln": 5,
+   "punkte": 5,
+   "unserTitel": "Rascal Does Not Dream of a Knapsack Kid",
+   "url": "https://www.crunchyroll.com/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid",
+   "gesuchtAm": "2026-09-06"
+  },
+  "164212": {
+   "seriesId": "G1XHJV0W8",
+   "crTitel": "Girls Band Cry",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 6,
+   "unserTitel": "Girls Band Cry",
+   "url": "https://www.crunchyroll.com/series/G1XHJV0W8/girls-band-cry",
+   "gesuchtAm": "2026-09-06"
+  },
+  "168374": {
+   "seriesId": "G4PH0WJGQ",
+   "crTitel": "7th Time Loop: The Villainess Enjoys a Carefree Life Married to Her Worst Enemy!",
+   "sprachen": [
+    "ja-JP",
+    "pt-BR"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 22,
+   "unserTitel": "7th Time Loop: The Villainess Enjoys a Carefree Life Married to Her Worst Enemy!",
+   "url": "https://www.crunchyroll.com/series/G4PH0WJGQ/7th-time-loop-the-villainess-enjoys-a-carefree-life-married-to-her-worst-enemy",
+   "gesuchtAm": "2026-09-06"
+  },
+  "170083": {
+   "seriesId": "GG5H5XQ35",
+   "crTitel": "Dragon Ball DAIMA",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 20,
+   "staffeln": 1,
+   "punkte": 6,
+   "unserTitel": "Dragon Ball Daima",
+   "url": "https://www.crunchyroll.com/series/GG5H5XQ35/dragon-ball-daima",
+   "gesuchtAm": "2026-09-06"
+  },
+  "175977": {
+   "seriesId": "G0XHWM100",
+   "crTitel": "My Deer Friend Nokotan",
+   "sprachen": [
+    "ja-JP",
+    "en-US"
+   ],
+   "folgen": 12,
+   "staffeln": 1,
+   "punkte": 8,
+   "unserTitel": "My Deer Friend Nokotan",
+   "url": "https://www.crunchyroll.com/series/G0XHWM100/my-deer-friend-nokotan",
+   "gesuchtAm": "2026-09-06"
+  },
+  "182469": {
+   "seriesId": "GRMG8ZQZR",
+   "crTitel": "One Piece",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 1432,
+   "staffeln": 24,
+   "punkte": 2,
+   "unserTitel": "One Piece Fan Letter",
+   "url": "https://www.crunchyroll.com/watch/G14UVQ5D5/one-piece-fan-letter",
+   "gesuchtAm": "2026-09-06"
+  },
+  "184639": {
+   "seriesId": "G8DHV78XM",
+   "crTitel": "Anne Shirley",
+   "sprachen": [
+    "es-419",
+    "ja-JP",
+    "pt-BR",
+    "en-US"
+   ],
+   "folgen": 24,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "Anne Shirley",
+   "url": "https://www.crunchyroll.com/series/G8DHV78XM/anne-shirley",
+   "gesuchtAm": "2026-09-06"
   }
  },
- "gesuchtAm": "2026-08-26T18:44:19.375Z",
- "hinweis": "Je AniList-Kennung die im deutschen Katalog gesuchte Crunchyroll-Serienkennung. `url` ist die Adresse, unter der unser Bestand die Serie führt — darüber liest der Abruf sie."
+ "gesuchtAm": "2026-09-06T08:15:02.435Z",
+ "hinweis": "Serienkennungen aus dem deutschen Crunchyroll-Katalog. Entsteht nur auf einem Rechner in Deutschland (die Region hängt an der IP); der Cloud-Lauf liest die Datei nur."
 }
