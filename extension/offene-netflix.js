@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_TITEL = {}
+globalThis.AK_OFFENE_TITEL = {"70302573":{"titel":"Sword Art Online","asId":7335,"staffeln":[{"nr":1,"id":11757,"name":"Sword Art Online","folgen":25,"film":false,"offen":false},{"nr":2,"id":20594,"name":"Sword Art Online II","folgen":24,"film":false,"offen":true},{"nr":3,"id":100182,"name":"Sword Art Online: Alicization","folgen":24,"film":false,"offen":false}]}}
