@@ -40,13 +40,3 @@
 # Offen: „Plus-Sized Elf" (173388, Verweis `50-nuances-de-gras`). In den 184
 # gesammelten Serien steht sie nicht, und aus einem Fehlen folgt hier nichts —
 # siehe oben. Ohne Kennung bleibt der Verweis, wie er ist.
-
-# --- Drei One-Piece-Filme, gemessen am 06.09.2026 --------------------------
-# aniSearch verweist auf die französischen Slugs (`one-piece-le-film`), unser
-# Bestand führt die Filme einzeln. Die Zuordnung ist über ADNs `originalTitle`
-# eindeutig — dort steht die Filmnummer im Klartext („One Piece Movie 1",
-# „Movie 2 : Nejimaki Shima no Bouken", „Movie 8 : Episode of Alabasta").
-# Alle drei tragen `vde`; ihre Folgenlisten liegen im Archiv.
-459: 882 # One Piece Movie 1 — One Piece - Der Film
-460: 904 # One Piece Movie 2 — Abenteuer auf der Spiralinsel
-2107: 924 # One Piece Movie 8 — Abenteuer in Alabasta: Die Wüstenprinzessin
