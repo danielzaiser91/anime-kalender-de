@@ -4031,7 +4031,25 @@ function main(): void {
         if (!ziel || !url) continue
         if (vorhanden.has(ziel)) continue
         if (bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url))) continue
-        if (checks.has(dubKey(title.id, ziel))) continue
+        /*
+          **Ein verneinender Handbeleg hält den Verweis draußen — ein bejahender
+          nicht.**
+
+          Der Riegel stand bis zum 06.09.2026 auf `checks.has(...)`, fragte also
+          nur, **ob** jemand hingesehen hat. Das ist für ein Nein genau richtig
+          (ein fehlender Verweis ist selbst eine Angabe, siehe CLAUDE.md,
+          25.08.2026) und für ein Ja verkehrt herum: Wer geprüft hat, dass es
+          dort auf Deutsch läuft, hat den besten Grund geliefert, den Weg
+          anzulegen.
+
+          Aufgefallen an „Sword Art Online II" (20594): aniSearch führt für den
+          Titel `netflix.com/title/70302573`, zwei Handbelege sagen `dub: true`
+          für die Folgen 1–24 — und im Datensatz stand kein Netflix-Weg. Über
+          den ganzen Bestand gemessen ist das **der einzige** Fall (1 von 1.092
+          bejahenden Handbelegen), die Änderung ist also so eng wie ihr Anlass.
+        */
+        const beleg = checks.get(dubKey(title.id, ziel))
+        if (beleg && (beleg.dub !== true || beleg.available === false)) continue
         if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true) continue
         title.streams.push({ platform: ziel, url })
         vorhanden.add(ziel)

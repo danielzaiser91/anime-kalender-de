@@ -2732,10 +2732,27 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       bau.includes('frueherEntfernt.has(adressKern(url))'),
     'ohne den Riegel legt jeder Bau wieder an, was der Prüflauf gerade verworfen hat',
   )
+  /*
+    **Ein verneinender Handbeleg sperrt den Anbieter — ein bejahender öffnet ihn.**
+
+    Bis zum 06.09.2026 stand hier `checks.has(...)`, also die Frage, **ob**
+    jemand hingesehen hat. Für ein Nein ist das richtig (am 25.08.2026 hat ein
+    Lauf so fünf geprüfte Neins überschrieben), für ein Ja verkehrt herum: Bei
+    „Sword Art Online II" sagten zwei Handbelege `dub: true` für die Folgen
+    1–24, und im Datensatz stand kein Netflix-Weg.
+
+    Beide Hälften stehen hier, weil die eine ohne die andere wieder in einen der
+    zwei Fehler läuft.
+  */
   pruefe(
-    'ein Handbeleg sperrt den Anbieter',
-    bau.includes('if (checks.has(dubKey(title.id, ziel))) continue'),
+    'ein verneinender Handbeleg sperrt den Anbieter',
+    bau.includes('if (beleg && (beleg.dub !== true || beleg.available === false)) continue'),
     'am 25.08.2026 hat ein Lauf so fünf geprüfte Neins überschrieben',
+  )
+  pruefe(
+    'ein bejahender Handbeleg sperrt ihn nicht',
+    !bau.includes('if (checks.has(dubKey(title.id, ziel))) continue'),
+    'wer geprüft hat, dass es dort auf Deutsch läuft, hat den besten Grund geliefert, den Weg anzulegen',
   )
   pruefe(
     'bei Amazon zählt nur, was als Video belegt ist',
