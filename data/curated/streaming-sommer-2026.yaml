@@ -61,6 +61,16 @@
       1: "2026-08-19"
       2: "2026-08-19"
       3: "2026-08-19"
+      # Sichtprüfung auf Crunchyroll (Daniel, 06.09.2026, 22:31): Am 06.09. kamen
+      # die Folgen 6, 7 und 8 gemeinsam — der ausgefallene Termin vom 30.08.
+      # wurde also gesammelt nachgereicht, genau das Muster aus dem
+      # Präzedenzfall vom 11.06.2024. Der Kalenderabruf desselben Tages kennt
+      # dazu nur eine Kachel („Folge 8"), weil Crunchyroll je Tag nur die
+      # neueste Folge zeigt; ohne diese drei Zeilen trügen 6 und 7 weiter ein
+      # „≈".
+      6: "2026-09-06"
+      7: "2026-09-06"
+      8: "2026-09-06"
   sources:
     - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
     - https://www.anime2you.de/news/1022385/crunchyroll-sommer-2026-synchros/

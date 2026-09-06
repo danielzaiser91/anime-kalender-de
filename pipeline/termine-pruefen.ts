@@ -193,13 +193,44 @@ for (const e of ereignisse) {
   neu++
 }
 
-/* Nachgeholt: Steht die Folge inzwischen im Kalender, bekommt der Eintrag ihr Datum. */
+/*
+  **Nachgeholt: Steht die Folge inzwischen im Kalender, bekommt der Eintrag ihr Datum.**
+
+  Die Suche nach der **gleichen** Nummer allein trägt nicht, und das ist keine
+  Feinheit: Crunchyrolls Kalender führt je Tag und Serie genau **eine** Kachel —
+  die neueste Folge. Wird ein ausgefallener Termin gesammelt nachgereicht, taucht
+  die verpasste Zwischenfolge dort deshalb **nie** auf, und der Eintrag bliebe
+  für immer offen.
+
+  Real bei Mushoku Tensei Staffel 3: Folge 6 fiel am 30.08.2026 aus; am
+  06.09.2026 kamen 6, 7 und 8 gemeinsam (Daniel, 22:31). Der Kalender jenes Tages
+  kennt nur „Folge 8". Ohne die Regel darunter rechnete der Kalender weiter mit
+  dem Ersatztermin aus einer Recherche — einer Vermutung, obwohl die Sache längst
+  entschieden war.
+
+  **Eine höhere Folgennummer belegt die niedrigere**, denn Folgen erscheinen
+  aufsteigend: Folge 8 kann nicht dastehen, während 6 fehlt. Was sie **nicht**
+  belegt, ist der Tag — die Folge war „spätestens dann" da. Deshalb zählt die
+  **früheste** solche Beobachtung, und nur eine ab dem erwarteten Tag; eine
+  frühere gehört zu einem Termin, der nie verpasst war.
+*/
 let nachgeholt = 0
 for (const v of verpasst) {
   if (v.erschienenAm) continue
-  const treffer = beobachtungen(v.slug).find((o) => v.episode != null && o.episode === v.episode)
+  if (v.episode == null) continue
+  const erwartetTag = String(v.erwartetAm).slice(0, 10)
+  const treffer = beobachtungen(v.slug)
+    .filter((o) => o.episode != null && o.episode >= v.episode! && o.date >= erwartetTag)
+    .sort((a, b) => (a.date < b.date ? -1 : 1))[0]
   if (!treffer) continue
-  const wirklich = new Date(`${treffer.date}T00:00:00+02:00`)
+  /*
+    Der Tag kommt aus der Beobachtung, die **Uhrzeit aus dem erwarteten
+    Termin** — der Sendeplatz ändert sich beim Nachreichen nicht. Mitternacht
+    einzusetzen läge systematisch zu früh und machte den Verzug zu klein: bei
+    Mushoku Tensei 151 Stunden statt der tatsächlichen 168, also einer Woche.
+  */
+  const uhrzeit = String(v.erwartetAm).slice(11, 19) || '00:00:00'
+  const wirklich = new Date(`${treffer.date}T${uhrzeit}Z`)
   v.erschienenAm = wirklich.toISOString()
   v.verzugStunden = Math.round((wirklich.getTime() - new Date(v.erwartetAm).getTime()) / 36e5)
   nachgeholt++

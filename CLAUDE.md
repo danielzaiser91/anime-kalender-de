@@ -1159,6 +1159,20 @@ Die ergänzten Verweise tragen sonst **keine** Sprachangabe. Sie sagen „hier
 gibt es das", nicht „auf Deutsch", und füllen damit genau die Warteschlangen,
 die vorher an ihrer eigenen Lücke verhungert sind.
 
+**Ein abgebrochener Bau hinterlässt dieses Gedächtnis trotzdem — gemessen am
+06.09.2026.** `data/verweise-entfernt.json` wird in `build.ts` rund 430 Zeilen
+**vor** dem Riegel geschrieben, der einen Titelschwund abfängt. Ein lokaler Lauf
+mit älterem `data/cache/` brach dort ab („2 Titel würden aus dem Datensatz
+fallen") — und die Datei war da bereits von 782 Zeilen auf zwei geschrumpft, weil
+dieser Lauf weniger entfernte Verweise gesehen hatte. Committet, hätte der
+nächste Bau alles wieder angelegt, was frühere Läufe als belegtes Nein entfernt
+haben.
+
+Gefangen hat es `git status` vor dem Commit; in der CI bleibt der Lauf rot und
+committet nichts. **Der Riegel schützt also den Datensatz, nicht die Nebendateien
+daneben** — wer nach einem abgebrochenen Bau committet, sieht den Diff der
+Nebendateien durch, nicht nur den von `public/data/`.
+
 ## Ein deutscher Sprachblock bei aniSearch ist keine Synchro — die Marke daneben ist es
 
 aniSearch führt je Werk einen Block pro Sprache, mit Titel, Status, Datum und
@@ -3039,6 +3053,27 @@ aufgeschrieben wurde, gilt nicht von selbst für den nächsten. Wer sie notiert,
 prüft im selben Zug, wo dasselbe Problem noch existiert — hier lag zwischen
 „Beim Fernsehen ist die Erweiterung unsichtbar" und derselben Frage bei Amazon
 genau eine Woche.
+
+**Und dieselbe Regel gilt in der teureren Richtung: zu viel statt zu wenig.**
+Am 06.09.2026 war der Prüflisten-Knopf auf Netflix vier Tage lang unsichtbar —
+im Dokument, an der richtigen Stelle, mit oberstem z-index, und
+`visibility: hidden`. Die Ursache war eine Zeile in `melder.css`, geschrieben
+für Amazons Hinweiskasten: Sie hält einen Knopf verborgen, solange er nicht in
+den Kasten eingezogen ist. `melder.css` gilt laut Manifest aber für **alle
+drei** Anbieter, und weder Netflix noch Disney+ haben diesen Kasten.
+
+**Drei Runden Fehlersuche gingen daran vorbei, weil sie die falsche Frage
+stellten.** „Ist der Knopf da?" beantworteten sie mit ja — er war es. Beantwortet
+hat es erst der berechnete Stil. Der Diagnosebericht der Erweiterung trägt
+seitdem `uebersicht.stil` (`getComputedStyle`) und `uebersicht.obenLiegt`
+(`elementFromPoint`), denn ohne beides misst er Anwesenheit statt Sichtbarkeit
+— dieselbe Unterscheidung, die die Regel „bei allem Optischen wird hingesehen,
+nicht gerechnet" für die Seite längst zieht.
+
+**Der Riegel steht in `check:logic`:** Kein Block in `melder.css` darf einen
+Knopf unsichtbar schalten, ohne einen Anbieter-Anker (`.ak-amazon`) im Selektor
+zu tragen. `amazon.js` setzt die Marke am `<html>`. Gegenprobe gefahren: ohne
+den Anker wird die Zusicherung rot.
 
 ## Die Erweiterung zählt zweistellig — und hinten
 

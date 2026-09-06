@@ -40,6 +40,35 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
 
+## Gemessen 06.09.2026: Der Prüflisten-Knopf war auf Netflix unsichtbar, nicht abwesend
+
+Daniel hat es dreimal gemeldet („prüfliste button fehlt weiterhin auf netflix",
+„keine prüfliste wird angezeigt mit neuer extension version auf homepage",
+„auf der homepage immer noch kein prüfliste button sichtbar"). Drei Runden
+Fehlersuche gingen daran vorbei, weil sie „ist er da?" fragten statt „sieht man
+ihn?".
+
+Beantwortet hat es der Diagnosebericht von 22:18 (4.14.6, `/browse`):
+
+```json
+"uebersicht": { "imDom": true, "text": "Anime-Kalender 2",
+  "lage": { "top": 835, "left": 1604, "breite": 128, "hoehe": 32 },
+  "stil": { "display": "block", "sichtbarkeit": "hidden", "deckkraft": "1",
+            "zIndex": "2147483647", "position": "fixed" } }
+```
+
+Die Ursache stand in `extension/melder.css`: eine für Amazons Hinweiskasten
+geschriebene Regel, die einen Knopf verborgen hält, solange er nicht in den
+Kasten eingezogen ist. Die Datei gilt laut Manifest für **alle drei** Anbieter,
+und weder Netflix noch Disney+ haben diesen Kasten — seit dem Umbau vom
+02.09.2026 war der Knopf dort dauerhaft unsichtbar.
+
+**Behoben in 4.14.7:** `amazon.js` markiert seine Seiten mit `ak-amazon` am
+`<html>`, die Regel verlangt diesen Anker, und `check:logic` sichert zu, dass
+kein Knopf ohne Anbieter-Anker unsichtbar geschaltet wird (Gegenprobe gefahren).
+Der Diagnosebericht trägt jetzt den berechneten Stil und `elementFromPoint`,
+damit dieselbe Frage beim nächsten Mal in einem Bericht beantwortet ist.
+
 ## Gemessen 06.09.2026: Drei rote Deploys, ein totes Zugangspaket, und was daraus folgt
 
 **Die drei roten Deploys hatten eine Ursache, und es war eine fehlende Zeile.**
