@@ -1099,6 +1099,45 @@ Synchronfassung und tragen trotzdem nur `spoken_languages: [ja]`. Das Feld meint
 **des Films**, nicht die verfügbaren Fassungen. Über 18 deutsche Termine in sechs Filmen ist
 `iso_639_1` siebzehnmal leer; das eine `"de"` steht an einer TV-Ausstrahlung.
 
+## Eine Warteschlange, die sich aus dem Bestand bildet, kann eine Lücke nie schließen
+
+`scrape-crunchyroll-dub.ts` bildet seine Liste aus den Crunchyroll-Verweisen,
+die schon im Bestand stehen. Das ist naheliegend und hat einen blinden Fleck,
+den man erst sieht, wenn man ihn sucht: **Wo kein Verweis steht, wird keiner
+geprüft — und wo keiner geprüft wird, entsteht auch keiner.**
+
+Der Beleg ist der teuerste Einzelfall des Projekts. Detektiv Conan läuft bei
+Crunchyroll mit **405 deutschen Folgen** (von Hand belegt am 25.08.2026,
+Kennung `GW4HM7NV3`, Bereiche 1–254 und 334–483). Im ausgelieferten Datensatz
+stand dazu am 06.09.2026 ein Amazon-Kaufweg und sonst nichts:
+
+1. Der falsche Verweis `crunchyroll.com/de/case-closed` (der englische Block)
+   wurde als belegtes Nein entfernt — richtig.
+2. Der richtige wurde nie angelegt — und konnte es nicht, weil die
+   Warteschlange nur kennt, was schon dasteht.
+3. aniSearch führte ihn die ganze Zeit: `crunchyroll.com/detektiv-conan`.
+
+**aniSearch nennt zu jedem Werk seine Bezugsquellen**, und der Bau las davon
+genau eine Zeile (die Ersetzung von Prime-Suchadressen). Gemessen fehlten
+**625 Anbieter**, die aniSearch kennt und der Datensatz nicht führte — 388
+Prime, 154 Crunchyroll, 33 ADN, 32 YouTube, 15 Netflix, 3 Disney+.
+
+Seit dem 06.09.2026 ergänzt `build.ts` sie, mit vier Riegeln:
+
+| Riegel | Anlass |
+|---|---|
+| die **Adresse** zählt, nicht der Anbieter | ein Crunchyroll-Block ist nicht das Werk — ein Nein zu `case-closed` ist keins zu `detektiv-conan` |
+| was einmal entfernt wurde, bleibt entfernt (`data/verweise-entfernt.json`) | sonst legt jeder Bau wieder an, was der Prüflauf gerade verwarf — ein Flattern zwischen zwei Läufen |
+| ein Handbeleg schlägt alles, auch ein verneinender | am 25.08.2026 hat ein Lauf so fünf geprüfte Neins überschrieben |
+| bei Amazon nur, was als Video belegt ist | hinter `/dp/` kann eine DVD liegen |
+
+**Der Block steht hinter dem Entfernen der Neins**, und das ist keine
+Kleinigkeit: Weiter oben sind die Anbieter noch besetzt, dort kamen im
+Probelauf 83 statt 122 Verweise heraus. Die ergänzten tragen **keine**
+Sprachangabe — sie sagen „hier gibt es das", nicht „auf Deutsch", und füllen
+damit genau die Warteschlangen, die vorher an ihrer eigenen Lücke verhungert
+sind.
+
 ## Ein deutscher Sprachblock bei aniSearch ist keine Synchro — die Marke daneben ist es
 
 aniSearch führt je Werk einen Block pro Sprache, mit Titel, Status, Datum und
