@@ -3995,6 +3995,67 @@ function main(): void {
         .join(', ')
       log(`${wegeErgaenzt} Anbieter-Verweise aus aniSearch ergänzt (${verteilung})`)
     }
+
+    /*
+      **Kanal-Angebote sind Bezugswege, keine Prime-Verweise.**
+
+      aniSearch trennt sauber, was Amazon in einer Oberfläche vermischt:
+      `prime-video` ist Amazons eigenes Angebot, `primevideo-channel-<kanal>-de`
+      ein Kanal-Abo, das man dort dazubucht. Der Unterschied entscheidet, was
+      die Angabe wert ist — bei einem Kanal-Titel zeigt Amazon die Sprachen des
+      **Kanals**, nicht die der Folge (CLAUDE.md, 24.08.2026, gemessen an „Kill
+      Blue": Amazon behauptet 12 deutsche Folgen, ADN und Netflix sagen vier).
+
+      Als **Weg** stimmt der Verweis trotzdem, und für „wo läuft es" ist er die
+      Antwort. Er landet deshalb in `watchLinks` unter dem Namen, den die
+      Oberfläche ohnehin führt („Crunchyroll über Prime Video"), statt als
+      Stream mit einer Sprachfrage, die dort niemand beantworten kann.
+
+      Der Shop-Verweis `amazon-de` bleibt ein **Kaufweg**: Hinter `/dp/` kann
+      eine DVD liegen, und ohne Beleg ist „kaufen" die vorsichtige und richtige
+      Auskunft.
+
+      Unbekannte Kanäle werden übersprungen. Ein Name, den die Oberfläche nicht
+      kennt, wäre geraten — und ein geratener Anbietername sieht aus wie eine
+      Auskunft.
+    */
+    const kanalNamen: Record<string, string> = {
+      'primevideo-channel-crunchyroll-de': 'Crunchyroll über Prime Video',
+      'primevideo-channel-aniverse-de': 'Aniverse über Prime Video',
+      'primevideo-channel-adn-de': 'ADN über Prime Video',
+      'primevideo-channel-pokemon-de': 'Pokémon TV über Prime Video',
+    }
+    let kanalWege = 0
+    let kaufWege = 0
+    for (const title of titles.values()) {
+      const quellen = anisearch[title.id]?.streams ?? []
+      if (!quellen.length) continue
+      if (title.streams.some((x) => x.platform === 'primevideo')) continue
+      if (checks.has(dubKey(title.id, 'primevideo'))) continue
+      const bekannt = new Set(
+        [...title.streams, ...(title.entfernteStreams ?? []), ...(title.watchLinks ?? [])].map((x) =>
+          adressKern(x.url),
+        ),
+      )
+      for (const quelle of quellen) {
+        const url = (quelle.url ?? '').split('?')[0]
+        if (!url || bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url))) continue
+        const kanal = kanalNamen[quelle.provider ?? '']
+        const istShop = quelle.provider === 'amazon-de' || quelle.provider === 'amazon-(de)'
+        if (!kanal && !istShop) continue
+        title.watchLinks = [
+          ...(title.watchLinks ?? []),
+          kanal
+            ? { name: kanal, url, kind: 'stream' as const, zugang: 'abo' as const }
+            : { name: 'Amazon', url, kind: 'buy' as const, zugang: 'kauf' as const },
+        ]
+        bekannt.add(adressKern(url))
+        if (kanal) kanalWege++
+        else kaufWege++
+      }
+    }
+    if (kanalWege || kaufWege)
+      log(`${kanalWege} Kanal-Angebote und ${kaufWege} Kaufwege aus aniSearch ergänzt`)
   }
 
   if (verweiseEntfernt.length) {

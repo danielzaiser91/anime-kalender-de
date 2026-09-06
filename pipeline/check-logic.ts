@@ -2743,6 +2743,22 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'hinter /dp/ kann eine DVD liegen — eine Disc als Stream wäre schlimmer als kein Weg',
   )
   pruefe(
+    'ein Kanal-Angebot wird kein Prime-Verweis',
+    bau.includes("kanal") &&
+      bau.includes("{ name: kanal, url, kind: 'stream' as const, zugang: 'abo' as const }"),
+    'bei einem Kanal-Titel zeigt Amazon die Sprachen des Kanals — als Stream wäre das eine Frage, die dort niemand beantworten kann',
+  )
+  pruefe(
+    'ein unbekannter Kanal wird übersprungen, nicht benannt',
+    bau.includes('if (!kanal && !istShop) continue'),
+    'ein geratener Anbietername sieht aus wie eine Auskunft',
+  )
+  pruefe(
+    'ein Amazon-Shop-Verweis bleibt ein Kaufweg',
+    bau.includes("{ name: 'Amazon', url, kind: 'buy' as const, zugang: 'kauf' as const }"),
+    'hinter /dp/ kann eine DVD liegen — „kaufen“ ist die vorsichtige und richtige Auskunft',
+  )
+  pruefe(
     'der Partner-Parameter von aniSearch wandert nicht mit',
     bau.includes("const url = (quelle.url ?? '').split('?')[0]"),
     'tag=anisearch.de-21 gehört aniSearch, nicht uns',
