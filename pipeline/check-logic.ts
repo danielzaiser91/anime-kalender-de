@@ -2711,6 +2711,43 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'eine alte Adresse ohne Anhaltspunkt bleibt, wie sie ist',
   )
 
+  /*
+    **Die Bezugsquellen aus aniSearch und ihre vier Riegel.**
+
+    Der Bau ergänzt seit dem 06.09.2026 Anbieter, die aniSearch zu einem Titel
+    nennt und die im Bestand fehlen — der Anlass war Detektiv Conan, das bei
+    Crunchyroll 405 deutsche Folgen hat und dort keinen Weg im Kalender
+    (CLAUDE.md, 25.08.2026). Jeder Riegel hat einen belegten Anlass, und jeder
+    einzelne kann still wegfallen, ohne dass ein Test es merkt.
+  */
+  pruefe(
+    'ergänzt wird nach dem Entfernen der belegten Neins',
+    bau.indexOf('Anbieter-Verweise aus aniSearch ergänzt') >
+      bau.indexOf('Verweise ohne deutsche Synchro entfernt'),
+    'weiter oben sind die Anbieter noch besetzt — dann ergänzt der Block fast nichts',
+  )
+  pruefe(
+    'das Gedächtnis über Läufe hinweg wird gefragt',
+    bau.includes("'data/verweise-entfernt.json'") &&
+      bau.includes('frueherEntfernt.has(adressKern(url))'),
+    'ohne den Riegel legt jeder Bau wieder an, was der Prüflauf gerade verworfen hat',
+  )
+  pruefe(
+    'ein Handbeleg sperrt den Anbieter',
+    bau.includes('if (checks.has(dubKey(title.id, ziel))) continue'),
+    'am 25.08.2026 hat ein Lauf so fünf geprüfte Neins überschrieben',
+  )
+  pruefe(
+    'bei Amazon zählt nur, was als Video belegt ist',
+    bau.includes("if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true) continue"),
+    'hinter /dp/ kann eine DVD liegen — eine Disc als Stream wäre schlimmer als kein Weg',
+  )
+  pruefe(
+    'der Partner-Parameter von aniSearch wandert nicht mit',
+    bau.includes("const url = (quelle.url ?? '').split('?')[0]"),
+    'tag=anisearch.de-21 gehört aniSearch, nicht uns',
+  )
+
   const pruef = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
   const auslass = /if \(ohneAussage\) \{[\s\S]{0,2000}?\n    \}/.exec(pruef)?.[0] ?? ''
   pruefe(

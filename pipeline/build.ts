@@ -3890,6 +3890,113 @@ function main(): void {
   }
   if (ohneDeutsch) log(`${ohneDeutsch} Verweise ohne deutsche Synchro entfernt`)
 
+  /*
+    **aniSearch nennt Bezugsquellen — und wir haben sie nie gelesen.**
+
+    Der Abruf archiviert je Werk die Anbieter, bei denen es zu sehen ist. Der
+    Bau benutzte davon genau eine Zeile: Sie ersetzt eine Prime-Suchadresse
+    durch die echte Produktseite. Alles andere lag ungenutzt.
+
+    **Der teuerste Einzelfall steht in CLAUDE.md und war nie behoben.**
+    Detektiv Conan läuft bei Crunchyroll mit 405 deutschen Folgen — von Hand
+    belegt am 25.08.2026, Kennung GW4HM7NV3. Im Bestand stand dazu ein
+    Amazon-Kaufweg und sonst nichts: Der falsche Verweis (`case-closed`, der
+    englische Block) wurde als belegtes Nein entfernt, der richtige nie
+    angelegt. aniSearch führt ihn seit jeher — `crunchyroll.com/detektiv-conan`.
+
+    Das ist kein Zufall, sondern die Bauart. `scrape-crunchyroll-dub.ts` bildet
+    seine Warteschlange aus den Verweisen, die schon im Bestand stehen: Wo
+    keiner steht, wird keiner geprüft, und wo keiner geprüft wird, entsteht auch
+    keiner. Ein Kreis, der sich nur von außen öffnen lässt.
+
+    **Der Block steht hier unten mit Absicht** — nach dem Entfernen der belegten
+    Neins. Weiter oben sind die Anbieter noch besetzt, und ergänzt würde nichts;
+    gemessen am 06.09.2026 kamen an der früheren Stelle 83 Verweise heraus
+    statt der 625, die im ausgelieferten Datensatz wirklich fehlen.
+
+    **Vier Riegel, jeder mit belegtem Anlass:**
+
+    - **Die Adresse zählt, nicht der Anbieter.** Ein Crunchyroll-Block ist nicht
+      das Werk (Conan oben, Blue Exorcist in CLAUDE.md). Ein Nein zu
+      `case-closed` ist deshalb kein Nein zu `detektiv-conan`.
+    - **Was einmal entfernt wurde, bleibt entfernt.** `data/verweise-entfernt.json`
+      ist das Gedächtnis über Läufe hinweg; ohne diesen Riegel legte der Bau
+      jede Woche wieder an, was der Prüflauf gerade verworfen hat — ein Flattern
+      zwischen zwei Läufen, das niemandem auffällt.
+    - **Ein Handbeleg schlägt alles**, auch ein verneinender. Das ist die Regel,
+      an der am 25.08.2026 ein Lauf fünf geprüfte Neins überschrieben hat.
+    - **Bei Amazon nur, was als Video belegt ist.** Hinter `/dp/` kann eine DVD
+      liegen, und eine Disc als Stream auszugeben wäre schlimmer als gar kein
+      Weg. Entschieden wird über `linkBefunde[url].prime` — dieselbe Bedingung
+      wie bei der Ersetzung der Suchadressen.
+
+    Die Verweise tragen **keine** Sprachangabe. Sie sagen „hier gibt es das",
+    nicht „hier gibt es das auf Deutsch" — und genau so füllen sie die
+    Warteschlangen, die bisher an ihrer eigenen Lücke verhungert sind.
+  */
+  {
+    const asAnbieter: Record<string, PlatformId> = {
+      crunchyroll: 'crunchyroll',
+      'adn-de': 'adn',
+      adn: 'adn',
+      netflix: 'netflix',
+      disneyplus: 'disneyplus',
+      youtube: 'youtube',
+      joyn: 'joyn',
+      'rtl-plus': 'rtlplus',
+      'prime-video': 'primevideo',
+      'amazon-de': 'primevideo',
+      'amazon-(de)': 'primevideo',
+      'primevideo-channel-crunchyroll-de': 'primevideo',
+      'primevideo-channel-aniverse-de': 'primevideo',
+    }
+    /** Adressen vergleichen sich nur ohne Protokoll, Parameter und Schrägstrich am Ende. */
+    const adressKern = (u: string): string =>
+      u
+        .replace(/^https?:\/\//, '')
+        .replace(/^www\./, '')
+        .split('?')[0]!
+        .replace(/\/$/, '')
+        .toLowerCase()
+    const frueherEntfernt = new Set(
+      readJson<{ verweise?: { url?: string }[] }>('data/verweise-entfernt.json', {})
+        .verweise?.map((e) => adressKern(e.url ?? ''))
+        .filter(Boolean) ?? [],
+    )
+    let wegeErgaenzt = 0
+    const jeAnbieter: Record<string, number> = {}
+    for (const title of titles.values()) {
+      const quellen = anisearch[title.id]?.streams ?? []
+      if (!quellen.length) continue
+      const bekannt = new Set(
+        [...title.streams, ...(title.entfernteStreams ?? []), ...(title.watchLinks ?? [])].map((x) =>
+          adressKern(x.url),
+        ),
+      )
+      const vorhanden = new Set(title.streams.map((x) => x.platform))
+      for (const quelle of quellen) {
+        const ziel = asAnbieter[quelle.provider ?? '']
+        const url = (quelle.url ?? '').split('?')[0]
+        if (!ziel || !url) continue
+        if (vorhanden.has(ziel)) continue
+        if (bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url))) continue
+        if (checks.has(dubKey(title.id, ziel))) continue
+        if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true) continue
+        title.streams.push({ platform: ziel, url })
+        vorhanden.add(ziel)
+        jeAnbieter[ziel] = (jeAnbieter[ziel] ?? 0) + 1
+        wegeErgaenzt++
+      }
+    }
+    if (wegeErgaenzt) {
+      const verteilung = Object.entries(jeAnbieter)
+        .sort((a, b) => b[1] - a[1])
+        .map(([k, v]) => `${k} ${v}`)
+        .join(', ')
+      log(`${wegeErgaenzt} Anbieter-Verweise aus aniSearch ergänzt (${verteilung})`)
+    }
+  }
+
   if (verweiseEntfernt.length) {
     writeJson(
       'data/verweise-entfernt.json',
