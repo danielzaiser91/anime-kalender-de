@@ -1,6 +1,210 @@
 {
-  "scrapedAt": "2026-09-02T08:48:54.660Z",
+  "scrapedAt": "2026-09-06T17:38:08.213Z",
   "proposals": [
+    {
+      "articleTitle": "Zweite »Apothecary Diaries«-Staffel erscheint auf DVD und Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1044146/apothecary-diaries-staffel-2-disc-release/",
+      "publishedAt": "2026-09-06",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "Diaries) auf DVD und Blu-ray in den Handel bringen wird. Disc-Release ab Dezember 2026 Das erste Volume der zweiten Staffel von »Die Tagebüc"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Blu-ray-Termin der zweiten Staffel von »As a Reincarnated Aristocrat«",
+      "articleUrl": "https://www.anime2you.de/news/1046924/as-a-reincarnated-aristocrat-staffel-2-disc-termin/",
+      "publishedAt": "2026-09-06",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "lu-ray veröffentlichen wird. Wir fassen nachfolgend zusammen. Release im November 2026 Das erste Volume der zweiten Staffel, das die […] D"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»A Silent Voice« erscheint als Steelbook-Edition auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1044326/a-silent-voice-steelbook-edition/",
+      "publishedAt": "2026-09-05",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-06",
+          "context": "2026 Die limitierte Steelbook-Ausgabe von »A Silent Voice« ist ab dem 6. November 2026 als Blu-ray erhältlich. Diese beinhaltet den 130-minü"
+        },
+        {
+          "month": "2026-11",
+          "context": "Steelbook-Edition veröffentlichen wird. Wir fassen zusammen. Release im November 2026 Die limitierte Steelbook-Ausgabe von »A Silent Voice«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zweite Staffel von »Kaiju No. 8« erscheint auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1044367/kaiju-no-8-staffel-2-disc-release/",
+      "publishedAt": "2026-09-05",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "026 Die zweite Staffel von »Kaiju No. 8« erscheint voraussichtlich am 4. Dezember 2026 in einer Komplettbox auf Blu-ray, die alle elf […]"
+        },
+        {
+          "month": "2026-12",
+          "context": "chen wird. Wir fassen nachfolgend alle Details zusammen. Disc-Release im Dezember 2026 Die zweite Staffel von »Kaiju No. 8« erscheint voraus"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Termin der vierten Blu-ray-Box von »Dragon Ball Z« + Design",
+      "articleUrl": "https://www.anime2you.de/news/1044034/dragon-ball-z-box-4-termin/",
+      "publishedAt": "2026-09-04",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-20",
+          "context": "26 Das vierte Volume von »Dragon Ball Z« erscheint voraussichtlich am 20. November 2026 […] Der Beitrag Termin der vierten Blu-ray-Box von"
+        },
+        {
+          "month": "2026-11",
+          "context": "n der Termin der vierten Box bekannt. Wir fassen zusammen. Vierte Box im November 2026 Das vierte Volume von »Dragon Ball Z« erscheint vorau"
+        }
+      ],
+      "dub": "unklar",
+      "pause": "pause",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Fünf Disc-Neuheiten im AKIBA PASS SHOP vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/",
+      "publishedAt": "2026-09-03",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-27",
+          "context": "ai-Serie »Loner Life in Another World«. Das erste Volume erscheint am 27. November 2026 als Limited Edition mit Sammelschuber, bevor […] D"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Erste »Jujutsu Kaisen«-Staffel erscheint im limitierten Steelbook",
+      "articleUrl": "https://www.anime2you.de/news/1044124/jujutsu-kaisen-staffel-1-steelbook-edition/",
+      "publishedAt": "2026-09-03",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "2026 Das Steelbook der ersten Staffel kommt nach aktueller Planung am 4. Dezember 2026 als Blu-ray in den Handel. Dieses beinhaltet alle 24"
+        },
+        {
+          "month": "2026-12",
+          "context": "in einer limitierten Steelbook-Edition veröffentlichen wird. Release im Dezember 2026 Das Steelbook der ersten Staffel kommt nach aktueller"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Pass the Monster Meat, Milady!« erscheint als Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1044343/pass-the-monster-meat-milady-blu-ray-komplettbox/",
+      "publishedAt": "2026-09-03",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "ezember 2026 »Pass the Monster Meat, Milady!« erscheint demzufolge am 4. Dezember 2026 als Komplettbox, die alle zwölf Episoden mit […] De"
+        },
+        {
+          "month": "2026-12",
+          "context": "ngen wird. Wir fassen nachfolgend alle Details zusammen. Disc-Release im Dezember 2026 »Pass the Monster Meat, Milady!« erscheint demzufolge"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disc-Termin des zweiten Parts von »Tougen Anki« + Design",
+      "articleUrl": "https://www.anime2you.de/news/1044545/tougen-anki-part-2-disc-termin/",
+      "publishedAt": "2026-09-02",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-06",
+          "context": "en 13 bis 24 der ersten Staffel besteht, erscheint voraussichtlich am 6. November 2026 als […] Der Beitrag Disc-Termin des zweiten Parts v"
+        },
+        {
+          "month": "2026-11",
+          "context": "dition auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Release im November 2026 Der zweite Part von »Tougen Anki«, der aus den Episod"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neue Film-Komplettbox zu »Naruto Shippuden« angekündigt",
+      "articleUrl": "https://www.anime2you.de/news/1044519/naruto-shippuden-neue-film-komplettbox/",
+      "publishedAt": "2026-09-02",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-19",
+          "context": "nd japanischer Sprachausgabe beinhaltet, erscheint voraussichtlich am 19. November 2026 als Blu-ray. Ein […] Der Beitrag Neue Film-Komplet"
+        },
+        {
+          "month": "2026-11",
+          "context": "ektion veröffentlichen wird. Wir fassen nachfolgend zusammen. Release im November 2026 Die neue Film-Komplettbox von »Naruto Shippuden«, die"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix entfernt acht Anime-Titel aus seinem Programm",
       "articleUrl": "https://www.anime2you.de/news/1045817/netflix-entfernt-quintuplets-und-mehr/",
