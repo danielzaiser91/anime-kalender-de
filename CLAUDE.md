@@ -1591,6 +1591,47 @@ und die echte Störung geht darin unter.
 Die Frist ist die Taktung plus zwei Tage Luft. Ein ausgefallener Lauf soll noch keinen Alarm
 auslösen, zwei hintereinander schon.
 
+## `git add` bricht ganz ab, wenn ein Pfad fehlt — und `2>/dev/null` verschweigt es
+
+Vom 03. bis zum 06.09.2026 hat „Täglich — alle Quellen" **nichts eingereicht**.
+Der Lauf endete grün, arbeitete nachweislich und meldete danach „Keine Änderung
+an den Quellen". Neun geänderte Dateien lagen in seinem Arbeitsverzeichnis,
+darunter `data/source-health.json`, `data/adn.json` und `data/crunchyroll.json`.
+
+Zwei Eigenschaften einer einzigen Zeile ergeben zusammen einen stillen Ausfall:
+
+```
+git add -- "${QUELLEN[@]}" 2>/dev/null || true
+```
+
+1. **`git add` ist alles-oder-nichts.** Ein Pfad, den es nicht gibt, beendet den
+   Aufruf mit `fatal: pathspec … did not match any files` — die 81 anderen
+   werden **nicht** gestagt. Hier fehlte
+   `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md`, eine Liste, die nur
+   bei Bedarf entsteht und seit dem 03.09. zu Recht fehlt.
+2. **`2>/dev/null || true` verschweigt genau die Zeile, die es sagt.** Nach außen
+   war der Lauf grün und "hatte nichts zu tun".
+
+**Was es gekostet hat:** vier Tage eingefrorene Quellen-Zeitstempel, eine
+gerissene Frist in `check-sources.ts`, drei rote Bauten und ein Deploy, der ab
+14:16 stand. Der Alarm hat funktioniert — er zeigte auf die Quellen, während die
+Ursache eine Ebene tiefer lag.
+
+**Zwei Regeln daraus:**
+
+- **Ein erlaubter Fehlschlag wird gezählt, nicht stummgeschaltet.** Wo `|| true`
+  steht, gehört eine Ausgabe daneben: was fehlgeschlagen ist und wie oft. Sonst
+  sieht ein Lauf, der nichts tut, genauso aus wie einer, der nichts zu tun hatte.
+- **Eine Sammelaktion über eine Liste wird je Eintrag ausgeführt**, wenn einzelne
+  Einträge fehlen dürfen. `quellen-pr.sh` stagt deshalb in einer Schleife und
+  meldet „1 von 82 Pfaden gibt es gerade nicht".
+
+**Und der Prüfgriff, der es gefunden hat, gehört zum Vorgehen:** Drei Vermutungen
+(QUELLEN-Liste, `.gitignore`, Schreibweg) waren ausgeschlossen, ohne dass eine
+weiterführte. Erst eine **Messstelle im Lauf selbst** — `git status --porcelain`
+vor dem Stagen, `git add` ohne `2>/dev/null` — beantwortete die Frage, und zwar
+im ersten Versuch.
+
 ## `git push | tail` verschluckt den Fehlschlag
 
 Am 29.08.2026 sind drei Commits eine halbe Stunde lang nicht im Repo

@@ -20,7 +20,6 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Der Sammel-Lauf hinterlässt nichts — behoben, Deploy läuft wieder** | 2 | **Erledigt: Ursache gefunden und in `a6bd674` gefixt, Wirkung am 06.09.2026 um 19:38 UTC bestätigt.** `tools/quellen-pr.sh` staged mit `git add -- "${QUELLEN[@]}"` alle Pfade in einem Aufruf — der bricht **atomar** ab, sobald einer nicht existiert (hier: `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md`, seit die Wache dort „0 Adressen" meldet). Der Fehler ging an `2>/dev/null`, also sah jeder Lauf seit dem 02.09. wie „keine Änderung" aus, obwohl `adn`, `anime2you` und `crunchyroll` sichtbar arbeiteten. Der Fix stagt seither je Pfad einzeln; ein fehlender kostet nur sich selbst. Bestätigt über den Datenstand selbst, nicht nur den Lauf: PR #48 („Tagesquellen gesammelt") trägt in `data/source-health.json` für alle drei Quellen den Zeitstempel 17:37–17:38 UTC vom 06.09., und der folgende Bau-Lauf für diesen Stand (34049237152) ist grün durchgelaufen. <br>**Zu prüfen bleibt:** ob der nächste stündliche/wöchentliche Lauf ebenfalls wieder committet — die drei Duplikat-Issues #44/#45/#47 sind mit Verweis auf `a6bd674` geschlossen, falls ein weiterer Fund auftaucht, ist es ein *neuer* Fall, kein Rückfall auf diesen. |
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
 
 
@@ -112,6 +111,51 @@ Bestand bildet, kann eine Lücke im Bestand nie schließen. Das ist dieselbe
 Klasse wie „ein Abruf, der nur ergänzt, veraltet zwangsläufig" — nur eine Ebene
 höher: Dort ging es um Antworten, die nie wieder gefragt werden, hier um
 Fragen, die nie gestellt werden.
+
+## Behoben 06.09.2026: Vier Tage lang reichte der Sammel-Lauf nichts ein
+
+**Das Symptom:** „Täglich — alle Quellen" endete jeden Tag grün und meldete
+„Keine Änderung an den Quellen — kein Pull Request", obwohl der Lauf
+nachweislich arbeitete (ADN: 121 Tage geprüft, 106 Folgen mit deutscher
+Synchro). Seit dem 02.09. stand `data/source-health.json` für `adn`,
+`anime2you` und `crunchyroll` still, die Frist in `check-sources.ts` riss,
+`data:check` machte den Bau **dreimal rot**, und der Deploy wurde ab 14:16
+übersprungen.
+
+**Die Ursache war eine Zeile**, und sie stand seit jeher da:
+
+```
+git add -- "${QUELLEN[@]}" 2>/dev/null || true
+```
+
+`git add` bricht beim **ersten** Pfad ab, den es nicht gibt — und stagt dann
+gar nichts. Der fehlende Pfad war
+`daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md`: Die Liste entsteht nur,
+wenn es Meldungen ohne Zuordnung gibt, und seit die Wache am 03.09. „0
+Adressen" meldet, fehlt sie. Genau seitdem lief jeder Sammel-Lauf ins Leere.
+
+**Sichtbar wurde es erst durch eine Messstelle.** Drei Vermutungen waren
+vorher ausgeschlossen (QUELLEN-Liste, `.gitignore`, Schreibweg), und keine
+davon führte weiter. Ein `git status --porcelain` vor dem Stagen und ein
+`git add` **ohne** `2>/dev/null` beantworteten die Frage im ersten Versuch:
+
+```
+--- Zahl geänderter Dateien: 9
+fatal: pathspec 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'
+       did not match any files
+Keine Änderung an den Quellen — kein Pull Request.
+```
+
+**Der Fix:** je Pfad einzeln stagen. Ein fehlender kostet nur sich selbst, und
+ihre Zahl steht im Protokoll („1 von 82 Pfaden gibt es gerade nicht"). Gegenprobe
+im Lauf 34049077068: PR #48 erzeugt und gemergt, `source-health` frisch, Bau
+grün, Deploy durch.
+
+**Die Lehre, und sie ist teurer als der Fehler:** `2>/dev/null || true` hat vier
+Tage lang eine Fehlermeldung verschluckt, die alles gesagt hätte. Wo ein
+Fehlschlag erlaubt ist, wird er **gezählt und protokolliert**, nicht
+stummgeschaltet — sonst sieht ein Lauf, der nichts tut, genauso aus wie einer,
+der nichts zu tun hatte.
 
 ## Entschieden 06.09.2026: Der aniSearch-Katalogdurchlauf lohnt nicht
 
