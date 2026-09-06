@@ -7,6 +7,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
 | 2 | [Prime Video — Titelseiten](07-primevideo.md) | 2 Adressen, 33 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 3 | [Netflix](06-netflix-rest.md) | 1 Titel, 11 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 4 | [Crunchyroll](07-crunchyroll.md) | 52 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 5 | [YouTube](09-youtube-liste.md) | 16 Verweise | ~30 s je Video | der Videotitel nennt oft schon die Fassung |
 
