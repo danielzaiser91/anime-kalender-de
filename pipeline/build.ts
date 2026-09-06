@@ -4146,6 +4146,27 @@ function main(): void {
     for (const title of titles.values()) {
       for (const stream of title.streams) {
         if (stream.dub !== undefined) continue
+        /*
+          **Der Handbeleg zuerst — er ist der Grund, warum dieser Weg hier steht.**
+
+          Seit dem 06.09.2026 legt die Ergänzung einen Verweis an, wenn ein
+          Handbeleg ihn bejaht. Die Runde, die Handbelege anwendet, läuft aber
+          weiter oben; der frisch entstandene Weg trug deshalb `dub: undefined`,
+          obwohl die Antwort in derselben Datei stand. Bei „Sword Art Online II"
+          hieß das: Netflix-Weg da, kein Urteil daran, und die Auskunft „🇩🇪 ?"
+          für Folgen, die Daniel selbst gemessen hat.
+
+          Dieselbe Lehre wie beim Rest dieses Blocks — wer unten ergänzt, muss
+          unten auch beurteilen.
+        */
+        const handBeleg = checks.get(dubKey(title.id, stream.platform))
+        if (handBeleg?.dub !== undefined) {
+          stream.dub = handBeleg.dub
+          if (handBeleg.dubRanges?.length) {
+            stream.dubRanges = handBeleg.dubRanges.map((r) => ({ from: r.from, to: r.to, dub: r.dub }))
+          }
+          continue
+        }
         if (stream.platform === 'crunchyroll') {
           const serie = crNachUrl.get(stream.url)
           if (!serie) continue

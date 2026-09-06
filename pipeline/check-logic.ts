@@ -2759,6 +2759,17 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     bau.includes("if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true) continue"),
     'hinter /dp/ kann eine DVD liegen — eine Disc als Stream wäre schlimmer als kein Weg',
   )
+  /*
+    Der Handbeleg gehört in dieselbe Nachrunde: Er ist der Grund, warum ein
+    bejahter Weg überhaupt angelegt wird, und die Runde, die Handbelege
+    anwendet, läuft weiter oben. Ohne ihn trug „Sword Art Online II" seinen
+    frisch entstandenen Netflix-Weg mit `dub: undefined` (06.09.2026).
+  */
+  pruefe(
+    'auch der Handbeleg wird in der Nachrunde angewandt',
+    bau.includes('const handBeleg = checks.get(dubKey(title.id, stream.platform))'),
+    'sonst steht ein bejahter Weg ohne das Urteil da, das ihn ausgelöst hat',
+  )
   pruefe(
     'ein frisch ergänzter Verweis wird im selben Lauf beurteilt',
     bau.includes('const crNachUrl = new Map(crDub.serien.map((serie) => [serie.url, serie] as const))') &&
