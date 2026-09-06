@@ -3778,6 +3778,26 @@ function nfBericht() {
       knopf: DURCHLAUF.knopf?.textContent ?? null,
     })),
     knopf: sicher(() => document.querySelector('.ak-melder')?.textContent ?? null),
+    /*
+      **Auch die Prüfliste gehört in den Bericht.**
+
+      Am 06.09.2026 fehlte ihr Knopf dreimal auf Daniels Bildschirm, und der
+      Bericht sagte nichts über ihn — jede Erklärung blieb Vermutung. Der
+      Sandkasten (`melder-uebersicht.test.cjs`) belegt seitdem, dass er
+      entsteht; was hier steht, sagt, ob er auf **dieser** Seite auch da ist.
+    */
+    uebersicht: sicher(() => {
+      const el = document.querySelector('.ak-uebersicht')
+      if (!el) return { imDom: false }
+      const rect = el.getBoundingClientRect?.()
+      return {
+        imDom: true,
+        text: el.textContent,
+        /* Da und trotzdem unsichtbar: verdeckt, außerhalb, oder auf 0 skaliert. */
+        lage: rect ? { top: Math.round(rect.top), left: Math.round(rect.left), breite: Math.round(rect.width) } : null,
+        fenster: { breite: window.innerWidth, hoehe: window.innerHeight },
+      }
+    }),
     zuletztGeoeffnet: sicher(() => zuletztGeoeffnet),
     listeGesamt: sicher(() => Object.keys(offeneTitel).length),
     /* Was der Leser sieht — er kennt die GraphQL-Antworten. */
