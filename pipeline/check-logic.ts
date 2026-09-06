@@ -2758,6 +2758,34 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     bau.includes('...verweiseEntfernt.map((e) => adressKern(e.url ?? \'\'))'),
     'ohne das legt derselbe Lauf wieder an, was er selbst eben verworfen hat',
   )
+  /*
+    **Eine Amazon-Regel darf Netflix nicht ausblenden.**
+
+    `melder.css` gilt laut Manifest für Netflix, Amazon und Disney+ — eine
+    Datei, drei Anbieter. Die Regel, die einen Knopf unsichtbar hält, solange
+    er nicht in Amazons Hinweiskasten eingezogen ist, traf deshalb auch die
+    beiden anderen, wo es diesen Kasten gar nicht gibt. Der Prüflisten-Knopf
+    war auf Netflix vier Tage lang `visibility: hidden` — im Dokument, an der
+    richtigen Stelle, mit oberstem z-index.
+  */
+  {
+    const css = readFileSync('extension/melder.css', 'utf8')
+    const versteckt = css
+      .split('}')
+      .filter((block) => /visibility:\s*hidden/.test(block))
+      /* Nur der Selektor, nicht der Kommentarblock davor — sonst ist die
+         Fehlermeldung zwei Bildschirme lang und niemand liest sie. */
+      .map((block) => (block.split('{')[0] ?? '').split('*/').pop()?.trim() ?? '')
+    const ohneAnbieter = versteckt.filter(
+      (wahl) => /\.ak-(uebersicht|melder|amazon-knopf)/.test(wahl) && !/\.ak-amazon\s/.test(wahl),
+    )
+    pruefe(
+      'kein Knopf wird ohne Anbieter-Anker unsichtbar geschaltet',
+      ohneAnbieter.length === 0,
+      ohneAnbieter,
+    )
+  }
+
   pruefe(
     'ein Kanal-Angebot wird kein Prime-Verweis',
     bau.includes("kanal") &&

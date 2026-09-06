@@ -91,7 +91,7 @@ function starteMit(quelltext) {
     // die der Abruf braucht. Wer sie aus der Adresse baut, liegt falsch.
     location: { href: 'https://www.amazon.de/gp/video/detail/B0CQ4VL364/' },
     /* getElementById: der Film-Weg liest darueber den Hydration-Block der Seite. */
-    document: { documentElement: { innerHTML: quelltext }, getElementById: () => null },
+    document: { documentElement: { innerHTML: quelltext, classList: { add() {}, remove() {}, toggle() {}, contains: () => false } }, getElementById: () => null },
     URL,
     setTimeout,
     setInterval,

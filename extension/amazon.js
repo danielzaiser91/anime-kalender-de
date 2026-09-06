@@ -925,6 +925,46 @@ async function speicherSchreiben(werte) {
    * sondern eine Werkzeug-Einstellung; die Regel „kein localStorage für
    * gemeldet/nicht gemeldet" ist davon nicht berührt.
    */
+  /**
+   * **Diese Seite gehört Amazon — das muss auch das Stylesheet wissen.**
+   *
+   * `melder.css` gilt für Netflix, Amazon und Disney+ zugleich (drei Einträge im
+   * Manifest, eine Datei). Eine Regel, die für Amazons Hinweiskasten geschrieben
+   * ist, trifft damit die anderen beiden mit — und genau das ist am 06.09.2026
+   * passiert: Der Prüflisten-Knopf war auf Netflix **unsichtbar geschaltet**,
+   * weil er dort nie in einen Kasten einzieht, den es nur bei Amazon gibt.
+   *
+   * Gemessen im Diagnosebericht von 22:18: `imDom: true`, richtige Lage, oberster
+   * z-index — und `visibility: hidden`. Drei Runden Suche gingen vorher an der
+   * Frage vorbei, weil „ist er da?" und „sieht man ihn?" verschiedene Fragen
+   * sind.
+   *
+   * Die Markierung steht am `<html>`, damit jede Regel sie als Vorfahren
+   * verwenden kann, und sie wird einmal gesetzt — hier gibt es nichts
+   * umzuschalten.
+   */
+  document.documentElement.classList.add('ak-amazon')
+
+  /**
+   * **Diese Seite gehört Amazon — das muss auch das Stylesheet wissen.**
+   *
+   * `melder.css` gilt für Netflix, Amazon und Disney+ zugleich (drei Einträge im
+   * Manifest, eine Datei). Eine Regel, die für Amazons Hinweiskasten geschrieben
+   * ist, trifft damit die anderen beiden mit — und genau das ist am 06.09.2026
+   * passiert: Der Prüflisten-Knopf war auf Netflix **unsichtbar geschaltet**,
+   * weil er dort nie in einen Kasten einzieht, den es nur bei Amazon gibt.
+   *
+   * Gemessen im Diagnosebericht von 22:18: `imDom: true`, richtige Lage, oberster
+   * z-index — und `visibility: hidden`. Drei Runden Suche gingen vorher an der
+   * Frage vorbei, weil „ist er da?" und „sieht man ihn?" verschiedene Fragen
+   * sind.
+   *
+   * Die Markierung steht am `<html>`, damit jede Regel sie als Vorfahren
+   * verwenden kann, und sie wird einmal gesetzt — hier gibt es nichts
+   * umzuschalten.
+   */
+  document.documentElement.classList.add('ak-amazon')
+
   function ruhigSetzen(an) {
     try {
       document.documentElement.classList.toggle('ak-ruhig', an)

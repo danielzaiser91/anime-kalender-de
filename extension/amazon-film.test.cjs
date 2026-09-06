@@ -40,7 +40,7 @@ const sandkasten = {
   globalThis: null,
   document: {
     getElementById: (id) => (id === 'dv-web-page-hydration-data' ? { textContent: fixture } : null),
-    documentElement: { innerHTML: '<html></html>' },
+    documentElement: { innerHTML: '<html></html>', classList: { add() {}, remove() {}, toggle() {}, contains: () => false } },
     body: { textContent: '' },
     addEventListener() {},
     querySelector: () => null,

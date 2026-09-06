@@ -139,7 +139,7 @@ function starte() {
     AK_OFFENE_AMAZON: LISTE,
     location: { pathname: '/gp/video/detail/B0GTN94C9M', search: '' },
     document: {
-      documentElement: { innerHTML: killBlueQuelltext() },
+      documentElement: { innerHTML: killBlueQuelltext(), classList: { add() {}, remove() {}, toggle() {}, contains: () => false } },
       body,
       title: 'Amazon.de: Kill Blue ansehen | Prime Video',
       createElement: (tag) => element(tag),

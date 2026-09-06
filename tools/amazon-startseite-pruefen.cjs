@@ -55,7 +55,17 @@ for (const pfad of ['/', '/gp/video/storefront', '/dp/B0DJYJBNWF']) {
     AK_OFFENE_AMAZON: liste,
     location: { pathname: pfad, search: '', href: 'https://www.amazon.de' + pfad },
     document: {
-      documentElement: { innerHTML: '<html></html>' },
+      /*
+        `classList` gehört dazu: `amazon.js` markiert seine Seiten seit dem
+        06.09.2026 mit `ak-amazon` am `<html>`, damit eine CSS-Regel für Amazons
+        Hinweiskasten nicht auch Netflix trifft. Ohne diese Zeile wirft der
+        Aufruf beim Laden, das Skript bricht ab, und vier Zusicherungen der
+        Übersicht fallen mit — genau das hat der Sandkasten gemeldet.
+      */
+      documentElement: {
+        innerHTML: '<html></html>',
+        classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
+      },
       body: { ...body, appendChild(k) { angehaengt.push(k); return k } },
       title: 'Amazon.de',
       createElement: () => mach(),

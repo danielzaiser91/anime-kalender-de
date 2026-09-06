@@ -184,6 +184,7 @@ function machDom(traeger = { hoerer: null, fenster: null, adresse: null }) {
      * Antwort, die Amazon in Wirklichkeit schickt.
      */
     documentElement: {
+      classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
       _html: '<html></html>',
       get innerHTML() {
         return this._html
