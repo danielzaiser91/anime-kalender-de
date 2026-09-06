@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-06T21:37:12.670Z",
+ "erzeugtAm": "2026-09-06T21:39:42.846Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -25,18 +25,13 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 369,
+   "gemeldet": 370,
    "gesamt": 370,
-   "offen": 1,
+   "offen": 0,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/70302573",
-   "ziele": [
-    {
-     "url": "https://www.netflix.com/title/70302573",
-     "titel": "Sword Art Online"
-    }
-   ],
-   "naechster": "Sword Art Online"
+   "ziel": null,
+   "ziele": [],
+   "naechster": null
   },
   {
    "name": "Disney+",
