@@ -323,15 +323,41 @@ function ausWeiterleitung() {
       **andere** Kennung tragen als der Auftrag. Was Daniel selbst ansteuert,
       trägt seine eigene und fällt nicht darunter.
     */
+    /*
+      **Eine Weiterleitung führt zu genau einer Seite — nicht zu allen der
+      nächsten fünf Minuten.**
+
+      Bis zum 06.09.2026 galt hier nur eine Frist. Wer aus der Liste öffnete und
+      danach irgendetwas anderes ansah, vererbte den Auftrag auf **jede** Seite,
+      die er in diesem Fenster aufrief — und weil der Vermerk anschließend
+      dauerhaft in `netflixWeiterleitungen` landet, blieb die Falschzuordnung
+      auch danach stehen.
+
+      Daniel an diesem Abend, auf „The Gentlemen": „wieso kann ich das melden,
+      das ist weder auf prüfliste noch ein anime". Er hatte Minuten zuvor einen
+      Fate-Auftrag geöffnet; die Serie erbte ihn und hätte eine Meldung unter
+      einer fremden Kennung erzeugt.
+
+      Zwei Riegel statt einem:
+
+      - **Einmalig.** Der erste Titel nach dem Klick erbt, danach ist der
+        Vermerk verbraucht. Genau ein Sprung ist eine Weiterleitung; der zweite
+        ist eine eigene Entscheidung.
+      - **Eine Minute.** So lange dauert eine Weiterleitung, nicht fünf — die
+        größere Frist stammt aus einem Bericht über einen langsamen Seitenaufbau
+        und war für den Erbfall nie gemeint.
+    */
     const frisch = Boolean(
       zuletztGeoeffnet?.id &&
+        !zuletztGeoeffnet.verbraucht &&
         offeneTitel[zuletztGeoeffnet.id] !== undefined &&
         String(zuletztGeoeffnet.id) !== String(stand.reihe) &&
-        Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000,
+        Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000,
     )
     if (frisch && stand.reihe) {
       netflixWeiterleitungen = { ...netflixWeiterleitungen, [String(stand.reihe)]: String(zuletztGeoeffnet.id) }
-      void chrome.storage.local.set({ netflixWeiterleitungen })
+      zuletztGeoeffnet = { ...zuletztGeoeffnet, verbraucht: true, zielReihe: String(stand.reihe) }
+      void chrome.storage.local.set({ netflixWeiterleitungen, zuletztGeoeffnet })
     }
     return frisch
   } catch {
@@ -351,7 +377,9 @@ function gemeinteReihe() {
   if (
     zuletztGeoeffnet?.id &&
     offeneTitel[zuletztGeoeffnet.id] !== undefined &&
-    Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000 &&
+    /* Dieselbe Minute wie in `ausWeiterleitung` — zwei Fristen für denselben
+       Vorgang laufen zwangsläufig auseinander. */
+    Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000 &&
     (nameStimmt() || ausWeiterleitung())
   ) {
     return zuletztGeoeffnet.id
@@ -364,7 +392,7 @@ function istGesucht() {
   return Boolean(
     zuletztGeoeffnet?.id &&
       offeneTitel[zuletztGeoeffnet.id] !== undefined &&
-      Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000 &&
+      Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000 &&
       (nameStimmt() || ausWeiterleitung()),
   )
 }
@@ -854,9 +882,13 @@ function knopfZeigen() {
       try {
         return Boolean(
           zuletztGeoeffnet?.id &&
+            !zuletztGeoeffnet.verbraucht &&
             offeneTitel[zuletztGeoeffnet.id] !== undefined &&
             String(zuletztGeoeffnet.id) !== String(stand.reihe) &&
-            Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000,
+            /* Dieselbe Minute und derselbe Verbrauch wie in `ausWeiterleitung()`:
+               Ein Hinweis über einer fremden Serie ist genauso falsch wie eine
+               Meldung darüber. */
+            Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000,
         )
       } catch {
         return false
@@ -1880,6 +1912,41 @@ function videoAbdrehen(zu) {
  * herankommt — deshalb der Weg über ein Ereignis am gemeinsamen `document`.
  * Verglichen wird gegen den Titel aus der Prüfliste, ohne Groß-/Kleinschreibung.
  */
+/**
+ * **Eine falsch gemerkte Weiterleitung wieder loswerden.**
+ *
+ * `netflixWeiterleitungen` gilt bewusst ohne Frist — eine Weiterleitung ändert
+ * sich nicht, und ein Vermerk spart beim nächsten Mal den Umweg. Genau deshalb
+ * bleibt ein **falscher** Vermerk aber auch für immer stehen.
+ *
+ * Am 06.09.2026 ist einer entstanden: Der Erbfall galt fünf Minuten lang und
+ * für jede Seite, also erbte „The Gentlemen" (81437051) den Fate-Auftrag
+ * (81186102). Der Erbfall ist seitdem einmalig und auf eine Minute begrenzt —
+ * für den Vermerk, der schon im Speicher liegt, braucht es trotzdem einen
+ * Handgriff.
+ *
+ *     document.dispatchEvent(new CustomEvent('ak-weiterleitung-vergessen', { detail: '81437051' }))
+ *     document.dispatchEvent(new CustomEvent('ak-weiterleitung-vergessen', { detail: 'alle' }))
+ *
+ * Ausgegeben wird, was entfernt wurde — ohne Ausgabe hätte man wieder nur ein
+ * `true` vom `dispatchEvent`, und das sagt nichts.
+ */
+document.addEventListener('ak-weiterleitung-vergessen', async (e) => {
+  const was = String(e?.detail ?? '').trim()
+  const vorher = { ...netflixWeiterleitungen }
+  if (was === 'alle') netflixWeiterleitungen = {}
+  else if (was && netflixWeiterleitungen[was] !== undefined) {
+    netflixWeiterleitungen = { ...netflixWeiterleitungen }
+    delete netflixWeiterleitungen[was]
+  } else {
+    console.log('[Anime-Kalender] Gemerkte Weiterleitungen:', vorher)
+    console.log("[Anime-Kalender] Zum Löschen: { detail: '<reihenId>' } oder { detail: 'alle' }")
+    return
+  }
+  await chrome.storage.local.set({ netflixWeiterleitungen })
+  console.log('[Anime-Kalender] vorher:', vorher, '→ jetzt:', netflixWeiterleitungen)
+})
+
 document.addEventListener('ak-oeffnen', async (e) => {
   const suche = String(e?.detail ?? '')
     .trim()

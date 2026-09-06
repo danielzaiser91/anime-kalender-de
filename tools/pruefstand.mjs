@@ -92,7 +92,23 @@ const ANBIETER = [
       dort genommen, nicht zusammengebaut — eine Adresse, die plausibel aussieht
       und ins Leere führt, ist von einer echten nicht zu unterscheiden.
     */
-    ziel: (schluessel) => adresseFuer('netflix', schluessel),
+    /*
+      **Die Pille führt auf die Titelseite, nie in den Player.**
+
+      `adresseFuer` gibt die Adresse zurück, die im Bestand steht — und die ist
+      bei zwei Verweisen eine `/watch/`-Adresse. Am 06.09.2026 landete Daniel
+      über die Pille deshalb direkt im laufenden Player: „fate grand order wurde
+      per klick auf pill geöffnet, aber direkt im player … mach pill clicks zu
+      overview, nicht direkt player."
+
+      Auf der Titelseite steht die Folgenliste, dort blendet die Erweiterung
+      ihre Prüfliste ein, und von dort führt ein Klick in den Player — umgekehrt
+      führt aus dem Player nichts zurück außer der Zurück-Taste.
+
+      Der Verweis im Datensatz bleibt, wie er ist: Er beschreibt, wo die Folge
+      liegt. Nur das **Ziel des Klicks** wird auf die Titelseite gezogen.
+    */
+    ziel: (schluessel) => `https://www.netflix.com/title/${schluessel}`,
     /* Dieselbe Regel wie in `extension-offene-liste.mjs`. */
     /*
       **`/watch/` ist eine Kennung, keine Lücke.**
