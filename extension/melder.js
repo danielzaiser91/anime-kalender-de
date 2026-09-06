@@ -162,6 +162,49 @@ let anbieterStaffeln = {}
 let letzteHerkunft = null
 
 /** Die Staffeln eines Titels — was der Anbieter sagte, sonst was wir wissen. */
+/**
+ * **Passt diese Folgennummer überhaupt in diese Staffel?**
+ *
+ * Netflix' `Season`-Knoten trägt keine Nummer (gemessen 31.08.2026); der Leser
+ * vergibt sie nach der Reihenfolge, in der die Staffeln eintreffen, und die ist
+ * nicht die des Anbieters. `staffelnBereinigen()` wirft eine geratene Nummer
+ * weg, **solange die Folgennummern durchlaufen** — dann sagt die Nummer selbst,
+ * welche Folge gemeint ist. Fängt der Anbieter je Staffel wieder bei 1 an,
+ * greift das nicht, und die geratene Nummer geht mit der Meldung raus.
+ *
+ * Genau das ist am 06.09.2026 bei „Sword Art Online" passiert: 48 Meldungen,
+ * darunter eine **S2 E25** — Staffel 2 hat 24 Folgen, die Kombination kann es
+ * nicht geben. Gleichzeitig fehlte S1 E25.
+ *
+ * Der Anbieter liefert die Folgenzahl je Staffel gleich mit
+ * (`[{seq:1,folgen:25},{seq:2,folgen:24}]`), also ist die Frage entscheidbar,
+ * ohne irgendetwas zu raten:
+ *
+ * - Die genannte Staffel deckt die Nummer ab → sie bleibt.
+ * - Genau **eine** andere deckt sie ab → die gilt; das ist eine Ableitung aus
+ *   der Liste des Anbieters, keine Vermutung.
+ * - Sonst → `null`. Ohne Staffel ordnet die Pipeline über die Folgennummer zu;
+ *   mit falscher Staffel schreibt sie einen falschen Bereich in den Datensatz.
+ *   Das ist dieselbe Wahl wie am 31.08.2026, als 132 Meldungen ihre
+ *   Staffelnummer verloren haben statt eine berichtigte zu bekommen.
+ */
+function staffelGeprueft(reihe, nummer, staffel) {
+  if (!Number.isFinite(nummer)) return staffel
+  const liste = anbieterStaffeln[String(reihe)] ?? stand.staffeln
+  if (!Array.isArray(liste) || liste.length < 2) return staffel
+  const deckt = (st) => {
+    const erste = Number.isFinite(st?.erste) ? st.erste : 1
+    const folgen = Number(st?.folgen)
+    if (!Number.isFinite(folgen) || folgen < 1) return false
+    return nummer >= erste && nummer <= erste + folgen - 1
+  }
+  const genannt = liste.find((st) => Number(st?.seq) === Number(staffel))
+  if (genannt && deckt(genannt)) return staffel
+  const passend = liste.filter(deckt)
+  if (passend.length === 1) return Number(passend[0].seq)
+  return null
+}
+
 function staffelnVon(id, eintrag) {
   const gemeldet = anbieterStaffeln[String(id)]
   if (!gemeldet?.length) return eintrag.staffeln
@@ -428,6 +471,26 @@ window.addEventListener('message', (e) => {
       Folgen prüfen" auf einer Seite mit zwölf.
     */
     if (Array.isArray(e.data.herkunft) && e.data.herkunft.length) letzteHerkunft = e.data.herkunft
+    /*
+      **Während eines Durchlaufs wird die Liste nicht ausgetauscht.**
+
+      Ein Durchlauf springt für jede Folge in den Player und zurück. Netflix
+      wählt auf der Übersicht danach **selbst** eine Staffel aus — die zuletzt
+      gesehene, nicht die, aus der der Auftrag stammt. Der Leser schickt dann
+      eine neue Folgenliste, und ab da tragen die Folgen die Nummern und
+      Staffeln einer anderen Staffel.
+
+      Daniel hat es am 06.09.2026 gesehen und benannt: „bei meldung von s1 e1-25
+      ist beim sprung zwischen player und overview von netflix automatisch s2
+      ausgewählt worden … darauf darf man sich nicht verlassen." Im Briefkasten
+      standen danach 48 Meldungen zu „Sword Art Online", darunter eine **S2
+      E25** — Staffel 2 hat 24 Folgen, die Kombination kann es nicht geben —
+      während S1 E25 fehlte.
+
+      Die Liste, mit der ein Durchlauf begonnen hat, gilt deshalb bis zu seinem
+      Ende. Was Netflix zwischendurch anzeigt, ändert den Auftrag nicht.
+    */
+    if (DURCHLAUF.laeuft) return
     const hier = String(gemeinteReihe() ?? '')
     DURCHLAUF.folgen =
       e.data.fuerReihe && hier && String(e.data.fuerReihe) !== hier
@@ -2403,9 +2466,11 @@ async function randMelden(folgen, befund, bisNummer) {
       Player sie gemeldet hat, nicht die des Anbieters (31.08.2026). Seit 4.9.0
       traegt jede Folge ihre eigene Staffel; die schlaegt beide Rueckfaelle.
     */
-    const staffelDerFolge = Number.isFinite(f.staffel)
+    const staffelRoh = Number.isFinite(f.staffel)
       ? f.staffel
       : (befund.staffel ?? DURCHLAUF.staffel ?? null)
+    /* Eine Nummer, die in diese Staffel nicht passt, geht nicht als solche raus. */
+    const staffelDerFolge = staffelGeprueft(reihe, f.nummer, staffelRoh)
     try {
       const antwort = await fetch(WORKER, {
         method: 'POST',
@@ -2471,11 +2536,13 @@ async function durchlaufMelden(folge, echte, deutsch) {
     Note (drei Staffeln) blieb Folge 31 deshalb schwarz, obwohl die Meldung
     angekommen war (Daniel, 31.08.2026).
   */
-  const staffelDerFolge = Number.isFinite(folge?.staffel)
+  const staffelRoh = Number.isFinite(folge?.staffel)
     ? folge.staffel
     : Number.isFinite(stand.staffel)
       ? stand.staffel
       : (DURCHLAUF.staffel ?? null)
+  /* Eine Nummer, die in diese Staffel nicht passt, geht nicht als solche raus. */
+  const staffelDerFolge = staffelGeprueft(gemeinteReihe(), folge?.nummer, staffelRoh)
   try {
     const antwort = await fetch(WORKER, {
       method: 'POST',
