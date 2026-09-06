@@ -628,9 +628,29 @@ async function main(): Promise<void> {
    */
   const mitKatalog = args.includes('--katalog')
   const katalog = mitKatalog
-    ? readJson<Array<{ id: number }>>('public/data/ohne-synchro.json', []).filter(
-        (k) => ids.anisearch[k.id] && !cache[k.id],
+    ? readJson<Array<{ id: number; titleDe?: string; dubConfidence?: string }>>(
+        'public/data/ohne-synchro.json',
+        [],
       )
+        .filter((k) => ids.anisearch[k.id] && !cache[k.id])
+        /*
+          **Die aussichtsreichen zuerst — sonst misst eine Stichprobe nichts.**
+
+          Der Katalog steht in AniList-Reihenfolge, und die sagt über eine
+          deutsche Fassung nichts. Zwei Merkmale sagen etwas: ein **deutscher
+          Titel** (1.992 der 15.118 tragen einen — den hat jemand vergeben, weil
+          es eine deutsche Veröffentlichung gab) und `dubConfidence`.
+
+          Die erste Stichprobe über 59 Titel in Dateireihenfolge ergab **null**
+          Treffer. Das ist ein Befund über die Reihenfolge, nicht über den
+          Katalog — deshalb steht die Sortierung hier, bevor jemand aus dem
+          Ergebnis schließt, dort sei nichts zu holen.
+        */
+        .sort(
+          (a, b) =>
+            Number(Boolean(b.titleDe)) - Number(Boolean(a.titleDe)) ||
+            Number(b.dubConfidence === 'high') - Number(a.dubConfidence === 'high'),
+        )
     : []
 
   // Titel mit Termin zuerst — das sind die, die tatsächlich jemand aufschlägt.
