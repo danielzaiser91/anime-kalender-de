@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 8
+    "2026-09": 11
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1347,7 +1347,7 @@
       "imdbId": "tt31589662",
       "tmdbId": "tv/243875",
       "dienst": "prime",
-      "am": "2026-08-18",
+      "am": "2026-09-04",
       "deutsch": true
     },
     "removed:4303794:prime": {
@@ -1487,7 +1487,7 @@
       "imdbId": "tt7587890",
       "tmdbId": "tv/79744",
       "dienst": "prime",
-      "am": "2026-08-18",
+      "am": "2026-09-04",
       "deutsch": true
     },
     "removed:1758:prime": {
@@ -2859,7 +2859,367 @@
       "dienst": "prime",
       "am": "2026-09-01",
       "deutsch": true
+    },
+    "new:4639:disney": {
+      "art": "new",
+      "titel": "Classroom of the Elite",
+      "originalTitel": "ようこそ実力至上主義の教室へ",
+      "imdbId": "tt7263328",
+      "tmdbId": "tv/72517",
+      "dienst": "disney",
+      "am": "2026-09-06",
+      "deutsch": true
+    },
+    "new:1537:prime": {
+      "art": "new",
+      "titel": "FLAMES",
+      "originalTitel": "Flames",
+      "imdbId": "tt7927936",
+      "tmdbId": "tv/76369",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "new:4118:prime": {
+      "art": "new",
+      "titel": "ImMATURE",
+      "originalTitel": "ImMATURE",
+      "imdbId": "tt8254348",
+      "tmdbId": "tv/87030",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "new:38835:prime": {
+      "art": "new",
+      "titel": "Thus Spoke Kishibe Rohan",
+      "originalTitel": "岸辺露伴は動かない",
+      "imdbId": "tt13280486",
+      "tmdbId": "tv/112752",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "new:24592764:prime": {
+      "art": "new",
+      "titel": "Hirayasumi",
+      "originalTitel": "ひらやすみ",
+      "imdbId": "tt37810816",
+      "tmdbId": "tv/297207",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "new:10270758:prime": {
+      "art": "new",
+      "titel": "The Money Game",
+      "originalTitel": "The Money Game",
+      "imdbId": "tt31048383",
+      "tmdbId": "tv/261681",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "new:26029527:netflix": {
+      "art": "new",
+      "titel": "Earle Meets World",
+      "originalTitel": "Earle Meets World",
+      "imdbId": "tt42654265",
+      "tmdbId": "tv/330371",
+      "dienst": "netflix",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "new:26119926:netflix": {
+      "art": "new",
+      "titel": "Lovesick",
+      "originalTitel": "Mal de amores",
+      "imdbId": "tt32909469",
+      "tmdbId": "tv/290234",
+      "dienst": "netflix",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "new:393:disney": {
+      "art": "new",
+      "titel": "One Piece",
+      "originalTitel": "ワンピース",
+      "imdbId": "tt0388629",
+      "tmdbId": "tv/37854",
+      "dienst": "disney",
+      "am": "2026-09-03",
+      "deutsch": true
+    },
+    "removed:2777:disney": {
+      "art": "removed",
+      "titel": "Wallander",
+      "originalTitel": "Wallander",
+      "imdbId": "tt1178618",
+      "tmdbId": "tv/7263",
+      "dienst": "disney",
+      "am": "2026-09-05",
+      "deutsch": false
+    },
+    "removed:27135:disney": {
+      "art": "removed",
+      "titel": "Schloss Einstein",
+      "originalTitel": "Schloss Einstein",
+      "imdbId": "tt0244361",
+      "tmdbId": "tv/13840",
+      "dienst": "disney",
+      "am": "2026-09-05",
+      "deutsch": true
+    },
+    "removed:4945:prime": {
+      "art": "removed",
+      "titel": "My Teen Romantic Comedy SNAFU",
+      "originalTitel": "やはり俺の青春ラブコメはまちがっている。",
+      "imdbId": "tt2703720",
+      "tmdbId": "tv/65676",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:89286:prime": {
+      "art": "removed",
+      "titel": "W'z",
+      "originalTitel": "W'z",
+      "imdbId": "tt12052708",
+      "tmdbId": "tv/83099",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:19990338:prime": {
+      "art": "removed",
+      "titel": "The Demolition Man",
+      "originalTitel": "The Demolition Man",
+      "imdbId": "tt7610342",
+      "tmdbId": "tv/230853",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:6007:prime": {
+      "art": "removed",
+      "titel": "Peppa Pig",
+      "originalTitel": "Peppa Pig",
+      "imdbId": "tt0426769",
+      "tmdbId": "tv/12225",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:1703:prime": {
+      "art": "removed",
+      "titel": "Endeavour",
+      "originalTitel": "Endeavour",
+      "imdbId": "tt2701582",
+      "tmdbId": "tv/44264",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:3653:prime": {
+      "art": "removed",
+      "titel": "Overlord",
+      "originalTitel": "オーバーロード",
+      "imdbId": "tt4869896",
+      "tmdbId": "tv/64196",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:14625960:prime": {
+      "art": "removed",
+      "titel": "Beheneko: The Elf-Girl's Cat Is Secretly an S-Ranked Monster!",
+      "originalTitel": "Sランクモンスターの《ベヒーモス》だけど、猫と間違われてエルフ娘の騎士（ペット）として暮らしてます",
+      "imdbId": "tt32856718",
+      "tmdbId": "tv/249545",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:7547079:prime": {
+      "art": "removed",
+      "titel": "Beasts Like Us",
+      "originalTitel": "Beasts Like Us",
+      "imdbId": "tt30442584",
+      "tmdbId": "tv/244024",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:82438:prime": {
+      "art": "removed",
+      "titel": "Hello Neighbor: Welcome to Raven Brooks",
+      "originalTitel": "Hello Neighbor: Welcome to Raven Brooks",
+      "imdbId": "tt23901812",
+      "tmdbId": "tv/216769",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:19699:prime": {
+      "art": "removed",
+      "titel": "The Eminence in Shadow",
+      "originalTitel": "陰の実力者になりたくて！",
+      "imdbId": "tt14115938",
+      "tmdbId": "tv/119495",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:3:prime": {
+      "art": "removed",
+      "titel": "The Big Bang Theory",
+      "originalTitel": "The Big Bang Theory",
+      "imdbId": "tt0898266",
+      "tmdbId": "tv/1418",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:5056902:prime": {
+      "art": "removed",
+      "titel": "The Continental: From the World of John Wick",
+      "originalTitel": "The Continental: From the World of John Wick",
+      "imdbId": "tt6486762",
+      "tmdbId": "tv/72710",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:647:prime": {
+      "art": "removed",
+      "titel": "The King of Queens",
+      "originalTitel": "The King of Queens",
+      "imdbId": "tt0165581",
+      "tmdbId": "tv/4238",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:187:prime": {
+      "art": "removed",
+      "titel": "Shameless",
+      "originalTitel": "Shameless",
+      "imdbId": "tt1586680",
+      "tmdbId": "tv/34307",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:2916:prime": {
+      "art": "removed",
+      "titel": "Grantchester",
+      "originalTitel": "Grantchester",
+      "imdbId": "tt3747572",
+      "tmdbId": "tv/61457",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:10751193:prime": {
+      "art": "removed",
+      "titel": "Blue Miburo",
+      "originalTitel": "青のミブロ",
+      "imdbId": "tt30523856",
+      "tmdbId": "tv/234776",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:11720742:prime": {
+      "art": "removed",
+      "titel": "Kennedy, Sinatra and the Mafia",
+      "originalTitel": "Kennedy, Sinatra and the Mafia",
+      "imdbId": "tt29685022",
+      "tmdbId": "tv/271493",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:24671574:prime": {
+      "art": "removed",
+      "titel": "Schwarze Schafe - Die Serie",
+      "originalTitel": "Schwarze Schafe - Die Serie",
+      "imdbId": "tt38709442",
+      "tmdbId": "tv/303265",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:439:prime": {
+      "art": "removed",
+      "titel": "Top Gear",
+      "originalTitel": "Top Gear",
+      "imdbId": "tt1628033",
+      "tmdbId": "tv/45",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": false
+    },
+    "removed:5136:prime": {
+      "art": "removed",
+      "titel": "Wisting",
+      "originalTitel": "Wisting",
+      "imdbId": "tt7875794",
+      "tmdbId": "tv/88358",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:17483:prime": {
+      "art": "removed",
+      "titel": "HIP - High Intellectual Potential",
+      "originalTitel": "HPI : Haut Potentiel Intellectuel",
+      "imdbId": "tt14060708",
+      "tmdbId": "tv/112738",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:26343276:prime": {
+      "art": "removed",
+      "titel": "Gladiators - Die Show der Giganten",
+      "originalTitel": "Gladiators - Die Show der Giganten",
+      "imdbId": "tt38346228",
+      "tmdbId": "tv/331731",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:83:prime": {
+      "art": "removed",
+      "titel": "Band of Brothers",
+      "originalTitel": "Band of Brothers",
+      "imdbId": "tt0185906",
+      "tmdbId": "tv/4613",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:16695716:prime": {
+      "art": "removed",
+      "titel": "MobLand",
+      "originalTitel": "MobLand",
+      "imdbId": "tt31510819",
+      "tmdbId": "tv/247718",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
+    },
+    "removed:457:prime": {
+      "art": "removed",
+      "titel": "The Pacific",
+      "originalTitel": "The Pacific",
+      "imdbId": "tt0374463",
+      "tmdbId": "tv/16997",
+      "dienst": "prime",
+      "am": "2026-09-04",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-09-02T08:48:48.344Z"
+  "fetchedAt": "2026-09-06T17:38:01.703Z"
 }
