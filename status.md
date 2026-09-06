@@ -19,6 +19,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **aniSearch fuer den Katalog hinter dem Toggle** | 5 | Gemessen am 06.09.2026: **11.607 Katalogtitel mit aniSearch-Kennung, keiner davon je geholt** — waehrend im Hauptbestand 2.461 von 2.619 Eintraegen ein `dubbed: true` tragen und **null** davon fehlt. Die Quelle ist fuer ihre bisherige Aufgabe ausgeschoepft; die offene Haelfte ist der Katalog. `data:anisearch --katalog` haengt sie hinten an (Schalter im Workflow „Daten auf Abruf"). **Kosten:** 11.607 Seiten × 6 s = gut 19 Stunden, also rund 46 Laeufe zu 250. **Entschieden wird nach der Stichprobe** ueber 60 Titel — sie sagt, wie viele davon ueberhaupt eine deutsche Fassung haben |
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
 
 
@@ -38,6 +39,49 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 |---|---|
 
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
+
+## Gemessen 06.09.2026: Drei rote Deploys, ein totes Zugangspaket, und was daraus folgt
+
+**Die drei roten Deploys hatten eine Ursache, und es war eine fehlende Zeile.**
+`check-workflows.mjs` meldete `data/anisearch-ids-hand.yaml` als „wird
+geschrieben, steht aber nicht in `tools/quellen-liste.sh`". Die Datei wird nur
+gelesen; der Melder zaehlt jedes `data/…` in einer schreibenden Datei und irrt
+lieber zu oft (dokumentiert seit 24.08.2026). Zeile ergaenzt.
+
+**Der eigentliche Fehler war die Pruefkette.** In `CLAUDE.md` stand sie als
+Liste zum Abtippen — und `check:workflows` fehlte darin. Der CI-Lauf faehrt ihn,
+ich nicht. Es gibt jetzt **`npm run check:vor-commit`** mit allen neun
+Schritten; eine Kette, die man von Hand zusammensetzt, ist genau um die Glieder
+kuerzer, an die man gerade nicht denkt.
+
+**Das Crunchyroll-Zugangspaket war acht Tage tot.** `CR_ZUGANG` trug den Stand
+vom 29.08., 17:04 und lebt 24 Stunden; `crunchyroll-dub` hat zuletzt am 31.08.
+etwas geschrieben. Aufgefallen ist es niemandem, weil die Frist in
+`check-sources.ts` auf neun Tagen steht — **der Alarm misst, wann eine Quelle
+zuletzt geschrieben hat, nicht ob sie ueberhaupt arbeiten kann.**
+
+Der Nachholauf mit frischem Paket lief am 06.09.: 29 Adressen, 17 Serien
+gelesen, **0 ohne deutsche Tonspur**, 28 Adressen neu in eine Serienkennung
+aufgeloest, 780 deutsche Folgen mit belegtem Termin.
+
+**Was er nicht geloest hat, und warum das so bleibt:** Von den 30
+Crunchyroll-Verweisen ohne Urteil tragen **26 eine alte Slug-Adresse ohne
+Serienkennung**. Der Katalogabgleich dafuer existiert und ist dokumentiert
+gescheitert (29.08.2026): Ein Namensteil trifft immer den Reihennamen, und die
+Serie vererbt ihre Sprache nicht an Specials und OVAs — von 16 Zuordnungen
+waren fuenfzehn falsch. Uebrig bleibt ein sicherer Treffer. **Hier wird nicht
+weiter gesucht**, das ist gemessen und nicht Meinung.
+
+**Stand der offenen Urteile am 06.09.2026** (100 von 2.003 Verweisen):
+
+```
+primevideo   32   davon 29 Kanal-Titel — Amazons Sprachangabe belegt dort nichts
+crunchyroll  30   26 ohne Serienkennung, siehe oben
+youtube      16
+adn          12   fuenf davon dieselbe Franchise-Adresse (JoJo), sieben auf der
+                  alten Domain animationdigitalnetwork.de
+netflix      10   braucht den Player, also Daniels Klick
+```
 
 ## Abgeschaltet 05.09.2026: Die DMARC-Berichte haben ihre Frage beantwortet
 
