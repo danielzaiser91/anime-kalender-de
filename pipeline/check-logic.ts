@@ -47,7 +47,7 @@ import {
   ordneNachStaffelliste,
   verteileAufStaffeln,
 } from './lib/folgenbereiche.ts'
-import { adnAdresseMitKennung } from './lib/adn-sprachen.ts'
+import { adnAdresseSchaerfen } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze } from '../shared/dub-grenze.ts'
 import { netflixNeutral } from '../shared/mappings.ts'
@@ -2661,39 +2661,54 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
 
   /*
-    **Eine alte ADN-Adresse bekommt ihre Kennung — und ein Folgenverweis nicht.**
+    **Eine ADN-Adresse wird geschärft — aber nur, wo es belegt ist.**
 
-    Der Namensteil einer alten Adresse ist teils französisch; ohne Kennung
-    findet das Archiv nichts, und 33 von 135 ADN-Verweisen bekamen deshalb am
-    06.09.2026 kein Urteil aus dem Archiv. Die Gegenrichtung ist die eigentliche
-    Zusicherung: Wer auch Folgenverweise umschreibt, hängt eine Folgen-Id aus
-    ADNs alter Ablage an eine neue Serienkennung und erfindet damit eine
-    Adresse, die niemand geprüft hat.
+    Ohne Serienkennung findet das Archiv nichts (33 von 135 Verweisen am
+    06.09.2026), ohne Staffel antwortet es „gemischt" (weitere 25). Beides
+    kommt von außen: die Kennung aus dem Katalog, die Staffel aus dem
+    Release-Slug.
+
+    Die Gegenrichtungen sind die eigentlichen Zusicherungen. Wer auch
+    Folgenverweise umschreibt, hängt eine Folgen-Id aus ADNs alter Ablage an
+    eine neue Serienkennung und erfindet eine Adresse, die niemand geprüft hat;
+    wer eine fremde Kennung überschreibt, macht aus einem Widerspruch eine
+    scheinbare Verbesserung.
   */
   pruefe(
     'eine alte ADN-Serienadresse bekommt die Kennung',
-    adnAdresseMitKennung('https://animationdigitalnetwork.de/video/50-nuances-de-gras', 1234) ===
+    adnAdresseSchaerfen('https://animationdigitalnetwork.de/video/50-nuances-de-gras', { kennung: 1234 }) ===
       'https://animationdigitalnetwork.com/de/video/1234',
     'ohne Kennung bleibt der Verweis stumm',
   )
   pruefe(
-    'die Staffelangabe wandert mit',
-    adnAdresseMitKennung('https://animationdigitalnetwork.de/video/haikyuu?s=2', 461) ===
-      'https://animationdigitalnetwork.com/de/video/461?s=2',
-    'ohne die Staffel wird aus einem genauen Verweis ein Serienverweis',
+    'die Staffel aus dem Release-Slug kommt an die Adresse',
+    adnAdresseSchaerfen('https://animationdigitalnetwork.com/de/video/461-haikyu', { staffel: '3' }) ===
+      'https://animationdigitalnetwork.com/de/video/461-haikyu?s=3',
+    'ohne Staffel bleibt der Befund „gemischt" — richtig und unbrauchbar',
+  )
+  pruefe(
+    'eine Staffel in der Adresse gewinnt gegen den Slug',
+    adnAdresseSchaerfen('https://animationdigitalnetwork.com/de/video/1160-dan-da-dan?s=2', { staffel: '1' }) ===
+      undefined,
+    'was in der Adresse steht, hat jemand gesetzt — ein Release-Slug ist schwächer',
+  )
+  pruefe(
+    'eine fremde Kennung wird nicht überschrieben',
+    adnAdresseSchaerfen('https://animationdigitalnetwork.com/de/video/1160-dan-da-dan', { kennung: 444 }) ===
+      undefined,
+    'zwei verschiedene Serien sind ein Widerspruch, keine Verbesserung',
   )
   pruefe(
     'ein Folgenverweis bleibt unangetastet',
-    adnAdresseMitKennung(
-      'https://animationdigitalnetwork.de/video/clannad/12851-folge-24-das-tomoyo-kapitel',
-      655,
-    ) === undefined,
+    adnAdresseSchaerfen('https://animationdigitalnetwork.de/video/clannad/12851-folge-24-das-tomoyo-kapitel', {
+      kennung: 655,
+    }) === undefined,
     'eine Folgen-Id der alten Ablage gehört nicht an eine neue Serienkennung',
   )
   pruefe(
-    'eine Adresse mit Kennung wird nicht angefasst',
-    adnAdresseMitKennung('https://animationdigitalnetwork.com/de/video/655-clannad', 999) === undefined,
-    'was schon eine Kennung trägt, braucht keine zweite',
+    'ohne Kennung und ohne Staffel passiert nichts',
+    adnAdresseSchaerfen('https://animationdigitalnetwork.de/video/haikyuu', {}) === undefined,
+    'eine alte Adresse ohne Anhaltspunkt bleibt, wie sie ist',
   )
 
   const pruef = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')

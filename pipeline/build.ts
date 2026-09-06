@@ -37,7 +37,7 @@ import {
   type AdnBlock,
   type AdnData,
 } from './lib/adn.ts'
-import { adnAdresseMitKennung, beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
+import { adnAdresseSchaerfen, beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
@@ -3718,19 +3718,49 @@ function main(): void {
     }).shows) {
       if (s.anilistId && !katalogKennung.has(s.anilistId)) katalogKennung.set(s.anilistId, s.showId)
     }
+    /**
+     * **Die Staffel steht im Release-Slug — und sie entscheidet das Urteil.**
+     *
+     * Eine ADN-Serienkennung ist ein Franchise: 461 führt alle
+     * Haikyu!!-Staffeln, 444 alle vier JoJo-Blöcke. Ein Verweis auf die nackte
+     * Serie bekommt deshalb „gemischt" — richtig und unbrauchbar.
+     *
+     * Die Staffel liegt längst im Haus: `adn-461-s3-20231001` steht als Slug an
+     * jedem ADN-Release, und sie stammt aus `staffelBloecke()`, das über die
+     * **Folgenzahl** zuordnet. Sie wird hier also nicht ermittelt, sondern
+     * abgelesen — und nur, wenn sie eindeutig ist: Nennen zwei Releases
+     * desselben Titels verschiedene Blöcke, bleibt der Verweis, wie er ist.
+     *
+     * Gemessen am 06.09.2026: 25 weitere Verweise bekommen so ein Ja. Übrig
+     * bleiben acht, deren Serie gemischt ist und zu denen kein ADN-Release
+     * existiert — dort sagt niemand, welche Staffel gemeint ist.
+     */
+    const ausRelease = new Map<number, { show: number; staffel?: string } | null>()
+    for (const release of releases) {
+      if (release.platform !== 'adn') continue
+      const teile = /^adn-(\d+)(?:-s(\d+))?/.exec(release.slug)
+      if (!teile) continue
+      const jetzt = { show: Number(teile[1]), staffel: teile[2] }
+      const bisher = ausRelease.get(release.titleId)
+      if (bisher === undefined) ausRelease.set(release.titleId, jetzt)
+      else if (bisher && (bisher.show !== jetzt.show || bisher.staffel !== jetzt.staffel)) {
+        // Zwei Blöcke, kein eindeutiger Bezug — dann lieber keine Schärfung.
+        ausRelease.set(release.titleId, null)
+      }
+    }
     let berichtigt = 0
     for (const title of titles.values()) {
       for (const stream of title.streams) {
         if (stream.platform !== 'adn') continue
-        const kennung = adnAdressen[title.id] ?? katalogKennung.get(title.id)
-        if (!kennung) continue
-        const neu = adnAdresseMitKennung(stream.url, kennung)
-        if (!neu || neu === stream.url) continue
+        const ausSlug = ausRelease.get(title.id) ?? undefined
+        const kennung = adnAdressen[title.id] ?? katalogKennung.get(title.id) ?? ausSlug?.show
+        const neu = adnAdresseSchaerfen(stream.url, { kennung, staffel: ausSlug?.staffel })
+        if (!neu) continue
         stream.url = neu
         berichtigt++
       }
     }
-    if (berichtigt) log(`${berichtigt} ADN-Adressen auf die Form mit Serienkennung gebracht`)
+    if (berichtigt) log(`${berichtigt} ADN-Adressen um Serienkennung oder Staffel geschärft`)
   }
 
   const adnArchiv = ladeAdnArchiv({ pflegen: true })

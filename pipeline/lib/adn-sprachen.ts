@@ -263,33 +263,54 @@ export function zerlegeAdnAdresse(url: string): AdnAdresse {
 }
 
 /**
- * Eine alte ADN-Adresse auf die Form bringen, die eine Serienkennung trägt.
+ * Eine ADN-Adresse so genau machen, wie unser Bestand es hergibt.
  *
- * `animationdigitalnetwork.de/video/50-nuances-de-gras` sagt keinem Lauf, um
- * welche Serie es geht: Der Namensteil ist **französisch**, das Archiv führt
- * den deutschen. `beurteileAdnVerweis` steigt dort mit „keine Serienkennung in
- * der Adresse" aus — am 06.09.2026 bei 33 von 135 ADN-Verweisen, und das war
- * der größte Posten unter den 48 ohne Urteil aus dem Archiv.
+ * Zwei Unschärfen kommen vor, und beide kosten dasselbe: ein Verweis ohne
+ * Sprachurteil.
  *
- * Die Kennung kommt von außen, weil sie nicht in der Adresse steht: aus dem
- * Katalog (er trägt je Serie eine `anilistId`) oder aus `data/adn-adressen.yaml`.
- * Hier steht nur, **wie** die neue Adresse aussieht — und wann keine gebaut
- * wird:
+ * **Keine Serienkennung.** `animationdigitalnetwork.de/video/50-nuances-de-gras`
+ * sagt keinem Lauf, um welche Serie es geht — der Namensteil ist französisch,
+ * das Archiv führt den deutschen. `beurteileAdnVerweis` steigt mit „keine
+ * Serienkennung in der Adresse" aus; am 06.09.2026 bei 33 von 135 Verweisen.
  *
- * - Trägt die Adresse schon eine Kennung, gibt es nichts zu tun.
- * - Zeigt sie auf eine **Folge** (`…/clannad/12851-folge-24-…`), bleibt sie
- *   stehen. Die Folgen-Id gehört zu ADNs alter Ablage; sie an eine neue
- *   Serienkennung zu hängen ergäbe eine Adresse, die niemand geprüft hat — und
- *   der Verweis verlöre seine Aussage über genau diese eine Folge.
+ * **Keine Staffel.** Eine ADN-Serienkennung ist ein Franchise: 461 führt alle
+ * Haikyu!!-Staffeln, 444 alle vier JoJo-Blöcke, 1160 beide von DAN DA DAN. Zeigt
+ * der Verweis auf die nackte Serie, ist der Befund „gemischt" — richtig, aber
+ * unbrauchbar. Mit `?s=<N>` wird er staffelgenau, und aus 25 weiteren Verweisen
+ * wurde am selben Tag ein Ja.
  *
- * Die Staffelangabe `?s=` wandert mit, falls eine dasteht.
+ * Beides kommt **von außen**, weil es nicht in der Adresse steht: die Kennung
+ * aus dem Katalog oder aus `data/adn-adressen.yaml`, die Staffel aus dem
+ * Release-Slug (`adn-461-s3-20231001`) — also aus `staffelBloecke()`, das über
+ * die **Folgenzahl** zuordnet und einen Block lieber unzugeordnet lässt, als
+ * ihn zu raten.
+ *
+ * Hier steht nur, **wie** die Adresse aussieht, und wann keine gebaut wird:
+ *
+ * - **Ein Folgenverweis bleibt stehen** (`…/clannad/12851-folge-24-…`). Die
+ *   Folgen-Id gehört zu ADNs alter Ablage; an eine neue Serienkennung gehängt
+ *   entstünde eine Adresse, die niemand geprüft hat — und der Verweis verlöre
+ *   seine Aussage über genau diese eine Folge.
+ * - **Eine Staffel in der Adresse gewinnt.** Sie steht dort, weil jemand sie
+ *   gesetzt hat; ein Release-Slug ist die schwächere Angabe.
+ * - **Eine fremde Kennung wird nicht überschrieben.** Nennt die Adresse Serie
+ *   1160 und das Release 444, ist das ein Widerspruch und keine Verbesserung.
+ * - Der Namensteil bleibt erhalten, wo er zur Kennung gehört — er ist Teil der
+ *   Adresse, die ADN selbst ausgibt.
  */
-export function adnAdresseMitKennung(url: string, kennung: number): string | undefined {
-  if (!Number.isFinite(kennung) || kennung <= 0) return undefined
+export function adnAdresseSchaerfen(
+  url: string,
+  ziel: { kennung?: number; staffel?: string },
+): string | undefined {
   const adresse = zerlegeAdnAdresse(url)
-  if (adresse.showId || adresse.videoId || !adresse.slug) return undefined
-  const staffel = adresse.season ? `?s=${adresse.season}` : ''
-  return `https://animationdigitalnetwork.com/de/video/${kennung}${staffel}`
+  if (adresse.videoId) return undefined
+  if (adresse.showId && ziel.kennung && String(ziel.kennung) !== adresse.showId) return undefined
+  const kennung = adresse.showId ?? (Number.isFinite(ziel.kennung) && (ziel.kennung ?? 0) > 0 ? String(ziel.kennung) : undefined)
+  if (!kennung) return undefined
+  const staffel = adresse.season ?? ziel.staffel
+  const namensteil = adresse.showId && adresse.slug ? `-${adresse.slug}` : ''
+  const neu = `https://animationdigitalnetwork.com/de/video/${kennung}${namensteil}${staffel ? `?s=${staffel}` : ''}`
+  return neu === url ? undefined : neu
 }
 
 /**
