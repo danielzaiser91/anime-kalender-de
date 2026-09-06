@@ -2535,8 +2535,33 @@ function main(): void {
      * behauptete dort ein Angebot ohne deutsche Fassung — also etwas, das es
      * gar nicht gibt.
      */
-    /* Netflix schreibt dieselbe Seite auf drei Arten — hier wird daraus eine. */
-    for (const s of title.streams) if (s.platform === 'netflix') s.url = netflixTitelAdresse(s.url)
+    /*
+      Netflix schreibt dieselbe Seite auf drei Arten — hier wird daraus eine.
+
+      **Außer die eine Form ist nachweislich tot und die andere nicht.** Am
+      06.09.2026 gemessen an zwei Fate-Titeln, die Netflix nur als Folge bzw.
+      Film **innerhalb** einer Serie führt:
+
+          /watch/82850867   HTTP 200 (20.08.2026)
+          /title/82850867   HTTP 404 (29.08.2026)
+
+      Eine eigene Titelseite gibt es für sie nicht. Die Vereinheitlichung machte
+      aus einer lebenden Adresse eine tote, der Abgangsfilter entfernte den
+      Verweis daraufhin zu Recht — und beide Titel standen danach ohne Weg da.
+
+      Der Riegel ist eng: Er greift nur, wo für die **neue** Form ein 404 vorliegt
+      und für die alte keiner. Ohne Messung bleibt es bei der Vereinheitlichung,
+      die für die übrigen 596 Netflix-Verweise richtig ist.
+    */
+    for (const s of title.streams) {
+      if (s.platform !== 'netflix') continue
+      const vereinheitlicht = netflixTitelAdresse(s.url)
+      if (vereinheitlicht === s.url) continue
+      const neuTot = linkBefunde[vereinheitlicht]?.status === 404
+      const altTot = linkBefunde[s.url]?.status === 404
+      if (neuTot && !altTot) continue
+      s.url = vereinheitlicht
+    }
     /*
       **Was auch danach keine Kennung trägt, führt ins Leere.**
 

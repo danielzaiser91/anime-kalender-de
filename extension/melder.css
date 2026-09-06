@@ -39,7 +39,16 @@
   position: fixed;
   right: 20px;
   bottom: 20px;
-  z-index: 2147483000;
+  /*
+    **Ganz oben, ohne Wenn und Aber.**
+
+    2147483000 ließ 647 Stufen über sich — und Netflix nutzt sie. Am 06.09.2026
+    stand der Knopf nachweislich im Dokument, an der richtigen Stelle, mit dem
+    richtigen Text, und war trotzdem nicht zu sehen. Die eigenen Elemente, die
+    darüber liegen sollen, gibt es nicht: Der Dialog wird über der Übersicht
+    geöffnet und trägt denselben Höchstwert.
+  */
+  z-index: 2147483647;
   padding: 8px 14px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
