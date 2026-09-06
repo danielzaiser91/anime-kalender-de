@@ -46,6 +46,16 @@ function macheElement(tag) {
     },
     appendChild(k) { this.kinder.push(k); return k },
     append(...k) { this.kinder.push(...k) },
+    /*
+      `contains` ist der Griff, mit dem `uebersichtZeigen()` seit dem 06.09.2026
+      fragt, ob sein Knopf noch im Dokument hängt. Fehlt er hier, wirft der
+      Aufruf, der Takt fängt es ab — und der Test meldet „blieb weg", obwohl der
+      Fix greift. Dieselbe Falle wie bei `window.addEventListener` weiter unten.
+    */
+    contains(k) {
+      if (!k) return false
+      return this.kinder.some((x) => x === k || (typeof x.contains === 'function' && x.contains(k)))
+    },
     remove() {},
     addEventListener() {},
     removeEventListener() {},
@@ -70,6 +80,8 @@ function macheElement(tag) {
  */
 function baueUmgebung(pfad) {
   const body = macheElement('body')
+  /** Alles, was das Skript per setInterval anmeldet — der Test löst es selbst aus. */
+  const takte = []
   const doc = {
     body,
     head: macheElement('head'),
@@ -107,8 +119,17 @@ function baueUmgebung(pfad) {
     navigator: { userAgent: 'test' },
     chrome,
     console,
-    /* Kein Takt im Sandkasten: Geprüft wird der Zustand nach dem Start. */
-    setInterval: () => 0,
+    /*
+      **Der Takt wird gesammelt, nicht verworfen.**
+
+      Ein Sandkasten ohne Takt prüft nur den Zustand direkt nach dem Laden —
+      und genau dort war nie etwas kaputt. Die Callbacks landen deshalb in
+      einer Liste, die der Test von Hand auslösen kann.
+    */
+    setInterval: (fn) => {
+      if (typeof fn === 'function') takte.push(fn)
+      return takte.length
+    },
     clearInterval: () => {},
     setTimeout: (fn) => { if (typeof fn === 'function') fn(); return 0 },
     clearTimeout: () => {},
@@ -149,11 +170,11 @@ function baueUmgebung(pfad) {
   umgebung.window = umgebung
   umgebung.globalThis = umgebung
   umgebung.self = umgebung
-  return { umgebung, body }
+  return { umgebung, body, takte }
 }
 
 function lade(pfad) {
-  const { umgebung, body } = baueUmgebung(pfad)
+  const { umgebung, body, takte } = baueUmgebung(pfad)
   const kontext = vm.createContext(umgebung)
   vm.runInContext(readFileSync(__dirname + '/offene-netflix.js', 'utf8'), kontext)
   let fehler = null
@@ -162,7 +183,7 @@ function lade(pfad) {
   } catch (e) {
     fehler = e
   }
-  return { umgebung, body, fehler }
+  return { umgebung, body, fehler, takte }
 }
 
 /** Sucht rekursiv nach einem Element mit dieser Klasse. */
@@ -211,6 +232,36 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
       'er nennt die Zahl der offenen Aufträge',
       /Anime-Kalender/.test(String(knopf.textContent)),
       knopf.textContent,
+    )
+  }
+
+  /*
+    **Der Fall, an dem die erste Fassung dieses Tests vorbeigemessen hat.**
+
+    Netflix ist eine Einseiten-Anwendung und baut Teile des `body` neu auf, ohne
+    dass sich der Pfad ändert. Nimmt jemand den Knopf dabei mit, muss der
+    nächste Takt ihn wieder anhängen — die Bedingung `if (!uebersichtKnopf)`
+    tat das nicht, denn die Variable zeigte weiter auf das herausgelöste
+    Element.
+
+    Der Test nimmt den Knopf deshalb selbst heraus und ruft die Zeichenfunktion
+    erneut auf. Ein Test, der nur den frisch geladenen Zustand prüft, trifft
+    genau die Hälfte des Lebens, in der ohnehin alles stimmt.
+  */
+  if (knopf) {
+    titelseite.body.kinder = titelseite.body.kinder.filter((k) => k !== knopf)
+    for (const takt of titelseite.takte) {
+      try {
+        takt()
+      } catch {
+        /* Ein Takt, der stolpert, hält den Test nicht auf. */
+      }
+    }
+    const wieder = suche(titelseite.body, 'ak-uebersicht')
+    pruefe(
+      'nach einem Umbau der Seite kommt der Knopf zurück',
+      Boolean(wieder),
+      'nach dem Entfernen blieb er weg',
     )
   }
 

@@ -2983,7 +2983,23 @@ function uebersichtZeigen() {
     }
     return
   }
-  if (!uebersichtKnopf) {
+  /*
+    **Eine Variable ist kein Beweis, dass das Element noch im Dokument hängt.**
+
+    Hier stand `if (!uebersichtKnopf)`. Netflix ist eine Einseiten-Anwendung und
+    baut beim Navigieren Teile des `body` neu auf — der Knopf verschwindet dabei
+    mit, die Variable zeigt aber weiter auf das herausgelöste Element. Danach
+    war die Bedingung für immer falsch, und niemand hängte ihn wieder an.
+
+    Daniel am 06.09.2026, dreimal an einem Abend: „prüfliste button fehlt
+    weiterhin auf netflix … die liste meine ich." Der Sandkasten
+    (`melder-uebersicht.test.cjs`) zeigte den Knopf jedes Mal — er stellt eine
+    Seite nach, die sich nicht mehr ändert, und traf damit genau die Hälfte des
+    Lebens, in der alles stimmt.
+
+    Gefragt wird deshalb das Dokument, nicht die Variable.
+  */
+  if (!uebersichtKnopf || !document.body.contains(uebersichtKnopf)) {
     uebersichtKnopf = document.createElement('button')
     uebersichtKnopf.className = 'ak-uebersicht'
     uebersichtKnopf.addEventListener('click', dialogOeffnen)
@@ -3600,6 +3616,23 @@ setInterval(() => {
     knopfZeigen()
   } catch {
     /* Vor dem Laden des Speichers gibt es noch nichts zu zeichnen. */
+  }
+  /*
+    **Die Liste gehört in den Takt, nicht nur an den Pfadwechsel.**
+
+    `uebersichtZeigen()` lief bisher beim Start und bei jedem Pfadwechsel. Beides
+    ist zu selten: Netflix baut seine Oberfläche auch **ohne** Pfadwechsel neu
+    auf — auf der Startseite beim Nachladen der Reihen, auf einer Titelseite beim
+    Öffnen und Schließen des Overlays. Verschwand der Knopf dabei, kam er erst
+    beim nächsten Seitenwechsel zurück, und auf `/browse` gibt es keinen.
+
+    Die Zählung darin läuft über die offenen Titel — drei Einträge am
+    06.09.2026, ein Wimpernschlag je Sekunde.
+  */
+  try {
+    uebersichtZeigen()
+  } catch {
+    /* Dieselbe Lage wie oben: Vor dem Speicher gibt es nichts zu zählen. */
   }
   /*
     Im selben Takt: Ist der selbsttaetige Durchgang an und steht hier ein
