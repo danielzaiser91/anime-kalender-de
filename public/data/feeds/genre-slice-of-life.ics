@@ -22,9 +22,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260902T160000Z
 DTEND:20260902T163000Z
 SUMMARY:Hana-Kimi – Staffel 2 – Folge 8/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/hana-kimi-s2
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -77,9 +76,18 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260905T093000Z
 DTEND:20260905T100000Z
 SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 18/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/cr-G6793XKZY
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-G6793XKZY
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GG5H5XQ7D@2026-09-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260905T110000Z
+DTEND:20260905T113000Z
+SUMMARY:Kaiju No. 8 Narumi's Week at Work – Folge 1/4
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GG5H5XQ7D
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -88,9 +96,9 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260906T083000Z
 DTEND:20260906T090000Z
 SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 7/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-s2
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-s
+ 2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -124,6 +132,17 @@ SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 19/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/cr-G6793XKZY
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GG5H5XQ7D@2026-09-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260912T110000Z
+DTEND:20260912T113000Z
+SUMMARY:Kaiju No. 8 Narumi's Week at Work – Folge 2/4
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/cr-GG5H5XQ7D
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -207,6 +226,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GG5H5XQ7D@2026-09-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260919T110000Z
+DTEND:20260919T113000Z
+SUMMARY:Kaiju No. 8 Narumi's Week at Work – Folge 3/4
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/cr-GG5H5XQ7D
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-09-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260920T083000Z
@@ -237,6 +267,17 @@ SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 21/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/cr-G6793XKZY
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GG5H5XQ7D@2026-09-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260926T110000Z
+DTEND:20260926T113000Z
+SUMMARY:Kaiju No. 8 Narumi's Week at Work – Folge 4/4
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/cr-GG5H5XQ7D
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

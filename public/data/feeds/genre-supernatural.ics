@@ -17,6 +17,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-634@2026-09-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260901T070000Z
+DTEND:20260901T073000Z
+SUMMARY:Hellsing Ultimate
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-634
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:hakaba-kitaro-der-junge-vom-friedhof-2026-09-04@2026-09-04@anime-kalend
  er-de
 DTSTAMP:20200101T000000Z
@@ -56,9 +66,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260905T120000Z
 DTEND:20260905T123000Z
 SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/cr-G6NVG970Y
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -67,9 +76,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260905T130000Z
 DTEND:20260905T133000Z
 SUMMARY:Black Torch – Folge 10/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/black-torch
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/black-torch
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -475,6 +483,17 @@ SUMMARY:Call of the Night – Staffel 2 – Vol. 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/call-of
  -the-night-s2-vol2
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-813-disc@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Dragon Ball Z (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-81
+ 3-disc
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

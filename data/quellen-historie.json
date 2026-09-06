@@ -2614,28 +2614,28 @@
       "url": "https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026",
       "name": "anisearch.de",
       "gesehenAm": "2026-09-06",
-      "sagt": "2026-08-19",
+      "sagt": "2026-07-19",
       "stand": "aktuell"
     },
     {
       "url": "https://www.anime2you.de/news/1022385/crunchyroll-sommer-2026-synchros/",
       "name": "anime2you.de",
       "gesehenAm": "2026-09-06",
-      "sagt": "2026-08-19",
+      "sagt": "2026-07-19",
       "stand": "aktuell"
     },
     {
       "url": "https://www.crunchyroll.com/de/simulcastcalendar",
       "name": "crunchyroll.com",
       "gesehenAm": "2026-09-06",
-      "sagt": "2026-08-19",
+      "sagt": "2026-07-19",
       "stand": "aktuell"
     },
     {
       "url": "https://www.crunchyroll.com/de/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation",
       "name": "crunchyroll.com",
       "gesehenAm": "2026-09-06",
-      "sagt": "2026-08-19",
+      "sagt": "2026-07-19",
       "stand": "aktuell"
     }
   ],
@@ -2769,7 +2769,7 @@
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
-      "gesehenAm": "2026-09-01",
+      "gesehenAm": "2026-09-06",
       "sagt": "2026-09-01",
       "stand": "aktuell"
     }
@@ -3775,6 +3775,42 @@
       "name": "anilist.co",
       "gesehenAm": "2026-09-06",
       "sagt": "2026-10-01",
+      "stand": "aktuell"
+    }
+  ],
+  "cr-GG5H5XQ7D": [
+    {
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-09-06",
+      "sagt": "2026-09-05",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-178754-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1044367/kaiju-no-8-staffel-2-disc-release/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-06",
+      "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-813-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1044034/dragon-ball-z-box-4-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-06",
+      "sagt": "2026-11-20",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-183291-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1044343/pass-the-monster-meat-milady-blu-ray-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-06",
+      "sagt": "2026-12-04",
       "stand": "aktuell"
     }
   ]

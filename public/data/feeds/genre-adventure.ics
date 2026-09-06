@@ -53,9 +53,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260902T171500Z
 DTEND:20260902T174500Z
 SUMMARY:Tomb Raider King – Folge 6/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/tomb-raider-king
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -77,9 +76,8 @@ DTSTART:20260904T150000Z
 DTEND:20260904T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 18/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -187,13 +185,12 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260905T130000Z
 DTEND:20260905T133000Z
 SUMMARY:Black Torch – Folge 10/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/black-torch
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/black-torch
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-06@anime-kalender-de
+UID:mushoku-tensei-s3@2026-09-06#6@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260906T150000Z
 DTEND:20260906T153000Z
@@ -201,6 +198,27 @@ SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 6/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-09-06#7@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260906T150000Z
+DTEND:20260906T153000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 7/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-09-06#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260906T150000Z
+DTEND:20260906T153000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 8/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -289,7 +307,7 @@ UID:mushoku-tensei-s3@2026-09-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260913T150000Z
 DTEND:20260913T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 7/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 9/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/mushoku-tensei-s3
@@ -401,7 +419,7 @@ UID:mushoku-tensei-s3@2026-09-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260920T150000Z
 DTEND:20260920T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 8/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 10/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/mushoku-tensei-s3
@@ -481,7 +499,7 @@ UID:mushoku-tensei-s3@2026-09-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260927T150000Z
 DTEND:20260927T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 9/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/mushoku-tensei-s3
@@ -561,7 +579,7 @@ UID:mushoku-tensei-s3@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T150000Z
 DTEND:20261004T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 10/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/mushoku-tensei-s3
@@ -619,7 +637,7 @@ UID:mushoku-tensei-s3@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T150000Z
 DTEND:20261011T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/mushoku-tensei-s3
@@ -721,7 +739,7 @@ UID:mushoku-tensei-s3@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T150000Z
 DTEND:20261018T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/mushoku-tensei-s3
@@ -764,17 +782,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T160000Z
-DTEND:20261025T163000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:black-clover-s2-crunchyroll@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261029
@@ -797,17 +804,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  t noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/stee
  l-ball-run-2nd-3rd-stage
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T160000Z
-DTEND:20261101T163000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:black-clover-s2-crunchyroll@2026-11-05@anime-kalender-de
@@ -1003,6 +999,17 @@ SUMMARY:Good Luck Girl! – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/good-lu
  ck-girl-vol-1-2026-11-20
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-813-disc@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Dragon Ball Z (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-81
+ 3-disc
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
