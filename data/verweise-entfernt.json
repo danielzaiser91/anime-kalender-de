@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-06T06:27:19.585Z",
+  "stand": "2026-09-06T07:11:12.331Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6452,6 +6452,16 @@
       "letzterWeg": true
     },
     {
+      "titleId": 128223,
+      "titel": "When Will Ayumu Make His Move?",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/913",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
       "titleId": 129192,
       "titel": "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World!",
       "plattform": "primevideo",
@@ -6459,7 +6469,17 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": false
+      "letzterWeg": true
+    },
+    {
+      "titleId": 129192,
+      "titel": "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World!",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/908",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
     },
     {
       "titleId": 130003,
@@ -6542,6 +6562,16 @@
       "letzterWeg": true
     },
     {
+      "titleId": 144932,
+      "titel": "Edens Zero: Season 2",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1035",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
       "titleId": 141391,
       "titel": "Call of the Night",
       "plattform": "adn",
@@ -6562,6 +6592,16 @@
       "letzterWeg": false
     },
     {
+      "titleId": 144533,
+      "titel": "Bibliophile Princess",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/976",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
       "titleId": 145740,
       "titel": "Grisaia Phantom Trigger",
       "plattform": "crunchyroll",
@@ -6570,6 +6610,16 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "letzterWeg": true
+    },
+    {
+      "titleId": 145815,
+      "titel": "I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/967",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
     },
     {
       "titleId": 146493,
@@ -6700,6 +6750,16 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "letzterWeg": false
+    },
+    {
+      "titleId": 162780,
+      "titel": "Gushing over Magical Girls",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1121",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
     },
     {
       "titleId": 163139,
