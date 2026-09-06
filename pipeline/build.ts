@@ -3958,11 +3958,21 @@ function main(): void {
         .split('?')[0]!
         .replace(/\/$/, '')
         .toLowerCase()
-    const frueherEntfernt = new Set(
-      readJson<{ verweise?: { url?: string }[] }>('data/verweise-entfernt.json', {})
-        .verweise?.map((e) => adressKern(e.url ?? ''))
-        .filter(Boolean) ?? [],
-    )
+    /*
+      **Das Gedächtnis reicht bis in diesen Lauf hinein.**
+
+      `data/verweise-entfernt.json` trägt den Stand des **letzten** Laufs; was
+      wenige Zeilen weiter oben gerade als belegtes Nein entfernt wurde, steht
+      dort noch nicht. Ohne `verweiseEntfernt` legte derselbe Lauf also wieder
+      an, was er selbst eben verworfen hat — das Flattern, gegen das dieser
+      Riegel gebaut ist, entstünde innerhalb einer einzigen Ausführung.
+    */
+    const frueherEntfernt = new Set([
+      ...(readJson<{ verweise?: { url?: string }[] }>('data/verweise-entfernt.json', {}).verweise?.map(
+        (e) => adressKern(e.url ?? ''),
+      ) ?? []),
+      ...verweiseEntfernt.map((e) => adressKern(e.url ?? '')),
+    ])
     let wegeErgaenzt = 0
     const jeAnbieter: Record<string, number> = {}
     for (const title of titles.values()) {
@@ -4056,6 +4066,66 @@ function main(): void {
     }
     if (kanalWege || kaufWege)
       log(`${kanalWege} Kanal-Angebote und ${kaufWege} Kaufwege aus aniSearch ergänzt`)
+
+    /*
+      **Ein frisch ergänzter Verweis wird im selben Lauf beurteilt.**
+
+      Die Auswertungen laufen weiter oben — sie sehen nur, was zu ihrem
+      Zeitpunkt dastand. Ohne diese Nachrunde bekäme ein hier entstandener
+      Verweis sein Urteil erst beim nächsten Bau, und der Fall, der die ganze
+      Ergänzung ausgelöst hat, sähe im ausgelieferten Datensatz einen Tag lang
+      unverändert aus: Detektiv Conan mit einem Crunchyroll-Weg und „🇩🇪 ?",
+      obwohl der Prüflauf am selben Vormittag 581 deutsche Folgen belegt hat.
+
+      Gefragt werden dieselben Quellen wie oben, nur je Verweis: die geprüften
+      Crunchyroll-Serien nach ihrer Adresse, und das ADN-Archiv. Beide sind an
+      dieser Stelle bereits geladen; ein zweiter Abruf entsteht nicht.
+    */
+    const crNachUrl = new Map(crDub.serien.map((serie) => [serie.url, serie] as const))
+    let nachJa = 0
+    let nachNein = 0
+    for (const title of titles.values()) {
+      for (const stream of title.streams) {
+        if (stream.dub !== undefined) continue
+        if (stream.platform === 'crunchyroll') {
+          const serie = crNachUrl.get(stream.url)
+          if (!serie) continue
+          for (const urteil of beurteile(serie, [title])) {
+            if (urteil.titleId === title.id) stream.dub = urteil.dub
+          }
+        } else if (stream.platform === 'adn' && adnArchiv.serien.size) {
+          const befund = beurteileAdnVerweis(stream.url, adnArchiv)
+          if (befund.dub !== undefined) stream.dub = befund.dub
+        }
+      }
+      /*
+        **Ein Nein entfernt den Verweis — auch hier unten.**
+
+        Der Hauptfilter ist längst durchgelaufen; ein `dub: false`, das erst
+        jetzt entsteht, bliebe sonst im ausgelieferten Datensatz stehen. Dort
+        steht bei **keinem** Verweis ein Nein, und zwar nicht zufällig: Die
+        Seite beantwortet eine Frage, und „dort nur Originalton" ist keine
+        Antwort darauf (Daniel, 15.08.2026).
+      */
+      const raus = title.streams.filter((s) => s.dub === false)
+      nachJa += title.streams.filter((s) => s.dub === true).length
+      if (!raus.length) continue
+      title.streams = title.streams.filter((s) => s.dub !== false)
+      nachNein += raus.length
+      for (const s of raus) {
+        verweiseEntfernt.push({
+          titleId: title.id,
+          titel: title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id),
+          plattform: s.platform,
+          url: s.url,
+          seriesId: null,
+          grund: 'belegtes Nein: dort gibt es keine deutsche Tonspur',
+          geprueftAm: null,
+          letzterWeg: title.streams.length === 0,
+        })
+      }
+    }
+    if (nachNein) log(`${nachNein} frisch ergänzte Verweise gleich wieder entfernt: dort gibt es keine deutsche Tonspur`)
   }
 
   if (verweiseEntfernt.length) {

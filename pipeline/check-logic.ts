@@ -2743,6 +2743,22 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'hinter /dp/ kann eine DVD liegen — eine Disc als Stream wäre schlimmer als kein Weg',
   )
   pruefe(
+    'ein frisch ergänzter Verweis wird im selben Lauf beurteilt',
+    bau.includes('const crNachUrl = new Map(crDub.serien.map((serie) => [serie.url, serie] as const))') &&
+      bau.includes('beurteileAdnVerweis(stream.url, adnArchiv)'),
+    'sonst steht der Fall, der die Ergänzung ausgelöst hat, einen Bau lang unverändert da',
+  )
+  pruefe(
+    'auch die Nachrunde entfernt ein belegtes Nein',
+    bau.includes('frisch ergänzte Verweise gleich wieder entfernt'),
+    'im ausgelieferten Datensatz steht bei keinem Verweis ein dub: false — das gilt auch hier unten',
+  )
+  pruefe(
+    'das Gedächtnis reicht bis in diesen Lauf hinein',
+    bau.includes('...verweiseEntfernt.map((e) => adressKern(e.url ?? \'\'))'),
+    'ohne das legt derselbe Lauf wieder an, was er selbst eben verworfen hat',
+  )
+  pruefe(
     'ein Kanal-Angebot wird kein Prime-Verweis',
     bau.includes("kanal") &&
       bau.includes("{ name: kanal, url, kind: 'stream' as const, zugang: 'abo' as const }"),
