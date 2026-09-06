@@ -25930,3 +25930,56 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
   checkedAt: '2026-09-06'
   note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 25: Der Weltensamen"
+
+# --- Sword Art Online auf Netflix, richtiggestellt am 06.09.2026 ---
+#
+# Netflix führt unter 70302573 GENAU ZWEI Staffeln: „Sword Art Online" (25
+# Folgen) und „Sword Art Online II" (24). Daniel hat beide vollständig
+# durchlaufen lassen — 49 Folgen, alle mit deutschem Ton — und das Dropdown
+# abgebildet.
+#
+# Die 48 Meldungen dieses Durchlaufs tragen teils die falsche Staffel: Beim
+# Sprung zwischen Player und Übersicht wählt Netflix selbst eine Staffel aus,
+# und die Erweiterung übernahm bis 4.14.8 die dabei neu gelieferte Folgenliste.
+# Im Briefkasten steht deshalb eine „S2 E25", die es nicht geben kann (Staffel 2
+# hat 24 Folgen), während S1 E25 fehlt.
+#
+# Die Ursache ist behoben (4.14.9: die Liste vom Start gilt bis zum Ende, und
+# jede Folgennummer wird gegen die Folgenzahl ihrer Staffel gehalten). Die
+# Ablage wird hier richtiggestellt, weil ein Handbeleg jede Ableitung schlägt.
+#
+# Alicization läuft unter dieser Adresse nicht — dieselbe Lage wie bei
+# „War of Underworld" (108759) und dessen Part 2 (114308), die den Vermerk seit
+# dem 22.08.2026 tragen. Der bisherige Beleg „Folge 24 mit deutschem Ton" vom
+# 22.08. gehört zu Netflix' zweiter Staffel, also zu Sword Art Online II.
+
+- anilistId: 11757
+  title: "Sword Art Online"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 25
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+  checkedAt: '2026-09-06'
+  note: "Netflix' erste Staffel unter 70302573, 25 Folgen — Daniel hat sie im Durchlauf vollständig gemessen, alle mit deutschem Ton"
+
+- anilistId: 20594
+  title: "Sword Art Online II"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 24
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+  checkedAt: '2026-09-06'
+  note: "Netflix' zweite Staffel unter 70302573, 24 Folgen — Daniel hat sie im Durchlauf vollständig gemessen, alle mit deutschem Ton"
+
+- anilistId: 100182
+  title: "Sword Art Online: Alicization"
+  platform: netflix
+  available: false
+  checkedAt: '2026-09-06'
+  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffeln — Sword Art Online und Sword Art Online II; Alicization ist nicht darunter"
