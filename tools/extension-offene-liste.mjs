@@ -30,9 +30,20 @@ const verdaechtig = verdachtsfaelle(wurzel, 'netflix')
 const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
 const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
 
-/** Die Kennung aus einer Netflix-Adresse — `/title/70302573` → `70302573`. */
+/**
+ * Die Kennung aus einer Netflix-Adresse — `/title/70302573` → `70302573`.
+ *
+ * **`/watch/` zählt mit.** Zwei Verweise im Bestand tragen eine Player-Adresse
+ * (die beiden Fate-Filme); ohne diese Form fehlten sie in der Liste der
+ * Erweiterung, während die Statusanzeige sie als offen zählte. Auf Daniels
+ * Bildschirm sah das am 06.09.2026 so aus: Pille mit zwei offenen Verweisen,
+ * Klick führt ins Leere, Erweiterung still.
+ *
+ * Bei einer Serie meint die Zahl hinter `/watch/` eine **Folge**, hinter
+ * `/title/` die **Reihe** — hier sind es Filme, wo das zusammenfällt.
+ */
 function kennung(url) {
-  return /\/title\/(\d+)/.exec(url)?.[1]
+  return /\/(?:title|watch)\/(\d+)/.exec(url)?.[1]
 }
 
 /** Reihenfolge der Staffeln: japanische Erstausstrahlung, nicht AniList-Kennung. */

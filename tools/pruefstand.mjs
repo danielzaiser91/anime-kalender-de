@@ -94,7 +94,34 @@ const ANBIETER = [
     */
     ziel: (schluessel) => adresseFuer('netflix', schluessel),
     /* Dieselbe Regel wie in `extension-offene-liste.mjs`. */
-    kennung: (u) => /\/title\/(\d+)/.exec(u)?.[1],
+    /*
+      **`/watch/` ist eine Kennung, keine Lücke.**
+
+      Hier stand nur `/title/(\d+)`. Zwei Netflix-Verweise tragen aber eine
+      Player-Adresse — `netflix.com/watch/81186102` und `.../82850867`, beides
+      Filme aus der Fate-Reihe. Sie fielen damit in `ohneSeite`, also in den
+      Topf „nur von Hand aufzulösen".
+
+      Die Folge stand am 06.09.2026 auf Daniels Bildschirm: Die Statusanzeige
+      zeigte eine Netflix-Pille mit zwei offenen Verweisen, der Klick führte auf
+      `netflix.com/browse` — die Startseite, auf der es nichts zu melden gibt —
+      und die Erweiterung blieb still, weil sie dort keinen Auftrag hat. Sein
+      Wort: „im status stand netflix hat einträge zum melden, ich klick drauf,
+      es öffnet sich nix."
+
+      Dabei ist `/watch/<id>` bei Netflix nicht weniger wert als `/title/<id>`,
+      sondern **der Arbeitsplatz der Erweiterung**: Dort läuft der Player, und
+      nur dort gibt Netflix die Tonspuren heraus. Was fehlt, ist keine Kennung,
+      sondern die Titelseite davor — und die braucht niemand, der ohnehin
+      abspielen muss.
+
+      **Der Unterschied bleibt trotzdem stehen:** Bei einer Serie ist die Zahl
+      hinter `/watch/` eine **Folge**, hinter `/title/` die **Reihe**. Beide
+      Fälle hier sind Filme, wo das zusammenfällt. Käme je ein Serienverweis in
+      dieser Form dazu, gehörte er über die Reihe aufgelöst, nicht über die
+      Folge.
+    */
+    kennung: (u) => /\/(?:title|watch)\/(\d+)/.exec(u)?.[1],
     offene: (wert) => (wert.staffeln ?? []).filter((s) => s.offen).length,
   },
   {

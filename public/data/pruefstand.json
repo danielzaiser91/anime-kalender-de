@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-06T17:39:12.884Z",
+ "erzeugtAm": "2026-09-06T17:54:58.858Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -26,14 +26,22 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 369,
-   "gesamt": 370,
-   "offen": 1,
-   "ohneSeite": 2,
+   "gesamt": 372,
+   "offen": 3,
+   "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/70302573",
    "ziele": [
     {
      "url": "https://www.netflix.com/title/70302573",
      "titel": "Sword Art Online"
+    },
+    {
+     "url": "https://www.netflix.com/watch/81186102",
+     "titel": "Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter"
+    },
+    {
+     "url": "https://www.netflix.com/watch/82850867",
+     "titel": "Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon"
     }
    ],
    "naechster": "Sword Art Online"
