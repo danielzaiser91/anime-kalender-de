@@ -604,6 +604,35 @@ async function main(): Promise<void> {
   const releases = readJson<Release[]>('public/data/releases.json', [])
   const cache = readJson<Record<string, AnisearchEntry>>('data/anisearch.json', {})
 
+  /**
+   * **`--katalog` nimmt auch die Titel hinter dem Toggle mit.**
+   *
+   * Die Warteschlange bestand bis zum 06.09.2026 nur aus dem Hauptbestand —
+   * also aus Titeln, für die eine deutsche Synchro schon belegt ist. Gemessen
+   * an diesem Tag: 2.619 aniSearch-Einträge, davon **2.461 mit `dubbed: true`**,
+   * und **null** davon fehlt im Hauptbestand. Die Quelle wird für das, wofür sie
+   * bisher benutzt wird, restlos ausgeschöpft.
+   *
+   * Daneben stehen **11.607 Katalogtitel mit aniSearch-Kennung, von denen noch
+   * kein einziger geholt wurde**. Für jeden davon sagt aniSearch dasselbe wie
+   * für die anderen: ob es eine deutsche Fassung gibt, seit wann, von welchem
+   * Verlag. Das ist genau die Frage, für die es dieses Projekt gibt — nur
+   * ungestellt.
+   *
+   * **Zuerst gemessen, dann geholt.** 11.607 Seiten sind bei 6 Sekunden Abstand
+   * gut 19 Stunden; ob sich das lohnt, entscheidet die Trefferquote einer
+   * Stichprobe, nicht die Hoffnung. Deshalb der Schalter statt einer Umstellung.
+   *
+   * Der Hauptbestand behält den Vortritt: Katalogtitel hängen sich hinten an,
+   * und die Auffrischung der belegten Titel läuft weiter wie bisher.
+   */
+  const mitKatalog = args.includes('--katalog')
+  const katalog = mitKatalog
+    ? readJson<Array<{ id: number }>>('public/data/ohne-synchro.json', []).filter(
+        (k) => ids.anisearch[k.id] && !cache[k.id],
+      )
+    : []
+
   // Titel mit Termin zuerst — das sind die, die tatsächlich jemand aufschlägt.
   const withRelease = new Set(releases.map((r) => r.titleId))
   const queue = titles
@@ -682,6 +711,16 @@ async function main(): Promise<void> {
         Number(withRelease.has(b.id)) - Number(withRelease.has(a.id)),
     )
     .slice(0, LIMIT)
+
+  /*
+    Die Katalogtitel füllen auf, was der Hauptbestand vom Kontingent übrig
+    lässt. Sie tragen nur ihre Kennung — mehr braucht `fetchTitle` nicht.
+  */
+  if (katalog.length && queue.length < LIMIT) {
+    const platz = LIMIT - queue.length
+    for (const k of katalog.slice(0, platz)) queue.push({ id: k.id } as Title)
+    log(`aniSearch: ${Math.min(platz, katalog.length)} Katalogtitel angehängt (${katalog.length} offen)`)
+  }
 
   if (!queue.length) {
     log('aniSearch: nichts nachzuladen.')

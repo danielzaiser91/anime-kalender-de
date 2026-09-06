@@ -42,6 +42,11 @@ on:
         required: false
         default: '300'
         type: string
+      katalog:
+        description: 'Auch Titel hinter dem Toggle holen (nur data:anisearch)'
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: daten
@@ -92,7 +97,11 @@ jobs:
           GRENZE='${{ inputs.grenze }}'
           # Nicht jeder Lauf kennt --limit; die, die es nicht tun, bekommen es nicht.
           case "$LAUF" in
-            data:tmdb-folgen|data:tmdb|data:anisearch|data:anisearch-folgen|data:anisearch-titel|data:cr-dub)
+            data:anisearch)
+              # `--katalog` haengt die Titel hinter dem Toggle hinten an — 11.607
+              # mit aniSearch-Kennung, von denen noch keiner geholt wurde.
+              npm run "$LAUF" -- --limit "$GRENZE" ${{ inputs.katalog && '--katalog' || '' }} ;;
+            data:tmdb-folgen|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:cr-dub)
               npm run "$LAUF" -- --limit "$GRENZE" ;;
             *)
               npm run "$LAUF" ;;
