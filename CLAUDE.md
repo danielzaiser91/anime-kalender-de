@@ -214,6 +214,28 @@ Zwei Folgen daraus:
   wertlos — ein Lauf, der es braucht, holt sich also entweder ein frisches oder meldet, dass
   seines abgelaufen ist.
 
+  **Ein Paket, das 24 Stunden lebt, und ein Lauf, der wöchentlich kommt — das geht
+  rechnerisch nicht auf.** Gemessen am 06.09.2026: Das Secret trug den Stand vom
+  **29.08., 17:04**, war also seit dem 30.08. tot; `crunchyroll-dub` hat zuletzt am
+  **31.08.** etwas geschrieben. Acht Tage lang lief der Lauf gegen ein abgelaufenes
+  Paket, und **niemandem ist es aufgefallen** — die Frist in `check-sources.ts` steht
+  auf neun Tagen (Taktung plus zwei), war also bis zuletzt grün.
+
+  Der Alarm ist damit richtig gebaut und trotzdem stumpf: Er misst, wann die Quelle
+  zuletzt **geschrieben** hat, nicht ob sie überhaupt arbeiten **kann**. Wer den
+  Rückstand aufholen will, erneuert das Paket kurz vorher von hier aus und stößt den
+  Lauf selbst an:
+
+  ```
+  node tools/cr-zugang-holen.mjs --secret
+  gh workflow run crunchyroll-nachholen.yml -f limit=0 -f alter=28
+  ```
+
+  **Der wöchentliche Lauf bleibt davon unberührt** — er läuft weiter ins Leere, solange
+  niemand am Vortag daran denkt. Das ist keine Nachlässigkeit, sondern die Folge der
+  IP-Bindung: Ein Paket kann nur an Daniels Leitung entstehen, und die steht nicht unter
+  GitHubs Kontrolle.
+
 - **Aus dem deutschen Katalog wird ein fehlendes `de-DE` zum Beleg — aus keinem anderen.** Seit
   dem 22.08.2026 läuft `data:cr-dub` über die beta-api mit diesem Paket, und jeder Eintrag trägt
   `katalog`. Nur bei `'de'` macht `beurteile()` daraus ein `dub: false`; alles ohne belegte
