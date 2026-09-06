@@ -28,6 +28,8 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | **Selbsttaetiger Durchgang: erste Probe steht aus** | Gebaut am 01.09.2026 (4.10.1/4.10.2), geladen, aber nie gelaufen — Netflix und Disney+ sind leer. Sobald wieder Auftraege da sind: Schalter „selbsttaetig" im Kasten anschalten, eine Titelseite oeffnen, und in der Konsole mitlesen („Selbsttaetig: weiter zu …"). Zu pruefen sind drei Dinge: ob er ohne Klick anspringt, ob er nach dem Durchgang zur naechsten Adresse geht, und ob bei 20 Titeln Schluss ist. |
 
 
+| **Eine Staffel als „hier nicht vorhanden" melden** | 5 | Daniel am 06.09.2026: „prüfliste fragt nach s3, netflix hat keine s3, was jetzt? wie melde ich s3 nicht auf netflix? prüfliste bietet keine option dafür". Netflix führt „Sword Art Online" mit zwei Staffeln (25 und 24 Folgen), unsere Liste mit drei — Alicization läuft dort nicht. Der Knopf „nichts da?" gilt dem **ganzen Titel** und wäre hier falsch: S1 und S2 sind vorhanden und gemeldet. Gebraucht wird dieselbe Auskunft je Staffel, und sie braucht auf beiden Seiten etwas Neues: ein Bedienelement an der Staffel-Kachel und einen Befund im Worker, den die Pipeline als „dieser Verweis deckt diese Staffel nicht ab" versteht. Bis dahin bleibt eine solche Staffel offen stehen |
+
 ### Zu besprechen
 
 | Frage | Messung |
