@@ -48,7 +48,32 @@ melde() {
 ZWEIG="daten/${GITHUB_RUN_ID:-lokal}-$(date -u +%Y%m%d-%H%M)"
 melde "zweig=$ZWEIG"
 
-git add -- "${QUELLEN[@]}" 2>/dev/null || true
+# **Was der Lauf wirklich in der Hand hat — vor dem Stagen.**
+#
+# Seit dem 03.09.2026 meldet "Täglich — alle Quellen" jeden Tag "Keine Änderung
+# an den Quellen", obwohl der Lauf nachweislich arbeitet (am 06.09.: "ADN: 121
+# Tage geprüft, 106 Folgen mit deutscher Synchro"). Die Folge: `source-health`
+# steht für adn, anime2you und crunchyroll seit dem 02.09. still, die Frist in
+# `check-sources.ts` reißt, der Bau wird rot und der Deploy übersprungen.
+#
+# Ausgeschlossen sind bereits: die QUELLEN-Liste (die Datei steht drin),
+# `.gitignore` (sie ist nicht ignoriert) und der Schreibweg (`recordSource`
+# setzt bei jedem Aufruf `lastRun`, `writeJson` schreibt unbedingt).
+#
+# Womit die Frage offen ist, ob der Lauf an dieser Stelle überhaupt geänderte
+# Dateien sieht — und das lässt sich nicht erschließen, nur messen. Die Ausgabe
+# kostet nichts und steht im Lauf-Protokoll, wenn sie das nächste Mal gebraucht
+# wird.
+echo "--- Arbeitsverzeichnis vor dem Stagen: $(pwd), Zweig $(git rev-parse --abbrev-ref HEAD)"
+echo "--- Geänderte Dateien laut git status (erste 20):"
+git status --porcelain | head -20
+echo "--- Zahl geänderter Dateien: $(git status --porcelain | wc -l)"
+
+# **Ohne `2>/dev/null` — ein verschluckter Fehler ist der Grund, warum das drei
+# Tage lang niemand sah.** Schlägt `git add` fehl (ein Pfad, den es nicht gibt),
+# soll die Meldung im Protokoll stehen; abbrechen soll der Lauf deswegen
+# trotzdem nicht, denn nicht jede Quelle existiert in jedem Lauf.
+git add -- "${QUELLEN[@]}" || echo "!!! git add meldete einen Fehler — siehe oben"
 if git diff --staged --quiet; then
   echo "Keine Änderung an den Quellen — kein Pull Request."
   melde "gemerged=true"
