@@ -421,6 +421,49 @@
     },
     "fetchedAt": "2026-08-25T05:07:07.545Z"
   },
+  "8": {
+    "anisearchId": 576,
+    "descriptionDe": "Beet hat schon immer davon geträumt, eines Tages den Zenon Warriors beitreten zu können, die als die stärksten Vandel Buster des Landes bekannt sind. Sie jagen todbringende Vandel, die andere Monster manipulieren können und ein Zeitalter der Dunkelheit hervorgebracht haben. Doch als Beet seinen Helden tatsächlich begegnet, sorgt sein unbedachtes Auftreten dafür, dass die legendären Krieger von dem starken Vandel Betorze vernichtet werden, der sich über Beets Dorf hermachen wollte. Mit letzter Kraft beschützen sie Beet und stecken ihre Lebensenergie in ihre fünf Saigas. Hierbei handelt es sich um durch göttliche Macht geschaffene Elementarwaffen, die fortan Beet gehören sollen, denn unter den Zenon Warriors befindet sich insgeheim auch Beets Bruder.\n\nAls Beet das Bewusstsein wiedererlangt, sind sowohl Beltorze als auch die Zenon-Krieger verschwunden. Sich seiner Schuld bewusst, schwört er, die nächsten Jahre mit einem intensiven Training zu verbringen, die ihm geschenkten Saigas beherrschen zu lernen, der beste Vandel Buster zu werden und das dunkle Zeitalter zu beenden. Hierfür gründet er zusammen mit seinem Kindheitsfreund Poala die neue Gruppierung namens Beet Warriors, und wenn die Zenon Warriors noch am Leben sein sollten, will er sie eines Tages finden. \n\nQuelle: www.anisearch.de/anime/576",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Bouken Ou Beet",
+          "titleNative": "Bōken Ō Beet",
+          "status": "Abgeschlossen",
+          "released": "30.09.2004 - 29.09.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "Beet the Vandel Buster",
+          "status": "Abgebrochen",
+          "released": "30.01.2007",
+          "publisher": [
+            "Illumitoon Entertainment Ltd"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 52,
+      "runtimeMinutes": 23,
+      "season": "Herbst 2004",
+      "studios": [
+        "Toei Animation Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "TV Tokyo",
+          "url": "https://www.tv-tokyo.co.jp/anime/beet/"
+        }
+      ],
+      "synonyms": [
+        "Adventure King Beet"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:32:44.568Z"
+  },
   "15": {
     "anisearchId": 3520,
     "descriptionDe": "American Football ist ein Spiel für Spezialisten, nicht für Alleskönner. Sena ist einer von ihnen. Seine Stärken sind wahrlich nicht seine Kraft und Aggressivität – er ist ein Spezialist in Sachen Geschwindigkeit. Durch Hiruma mit unkonventionellen, aber recht überzeugenden Mitteln angeworben, tritt er in den American Football-Klub »Deimon Devil Bats« seiner Schule ein. \n\nQuelle: www.anisearch.de/anime/3520",
@@ -513,6 +556,248 @@
       ]
     },
     "fetchedAt": "2026-08-25T04:55:03.082Z"
+  },
+  "16": {
+    "anisearchId": 2542,
+    "descriptionDe": "Yuuta Takemoto, Takumi Mayama und Shinobu Morita sind Collegestudenten, die sich ein kleines Apartment teilen. Eines Tages stellt ihnen ihr Lehrer Shuuji die süße Tochter seines Cousins vor. Sie heißt Hagumi und ist eine neue Schülerin. Yuuta und Shinobu verlieben sich auf den ersten Blick in sie und versuchen, ihr näherzukommen. Während jedoch der schüchterne Yuuta Schwierigkeiten hat, sich auszudrücken, sind Shinobus Versuche dagegen eher missverständlich, was mitunter an seiner äußerst mysteriösen Natur liegt. Takumi wiederum liebt Rika, eine Architektin, die allerdings noch ihrem verstorbenen Ehemann nachtrauert. Während Takumis Liebe zu Rika wächst, stellt er fest, dass sich seine nette Klassenkameradin Ayumi Yamada in ihn verliebt hat und so dreht sich das Liebeskarussell … \n\nQuelle: www.anisearch.de/anime/2542",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hachimitsu to Clover",
+          "titleNative": "ハチミツとクローバー",
+          "status": "Abgeschlossen",
+          "released": "15.04.2005 - 27.09.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "Honey and Clover",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "2009",
+          "publisher": [
+            "VIZ Media, LLC",
+            "Madman Entertainment",
+            "Discotek Media"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Honey and Clover: Primera Temporada",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "23.09.2008",
+          "publisher": [
+            "Savor Ediciones S.A."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Honey and Clover",
+          "status": "Abgeschlossen",
+          "released": "29.05.2026",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 24,
+      "runtimeMinutes": 23,
+      "season": "Frühling 2005",
+      "studios": [
+        "J.C.STAFF Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Chika UMINO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Ken’ichi KASAI",
+          "role": "Direction"
+        },
+        {
+          "name": "Hidekazu SHIMAMURA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Hachikuro",
+          "url": "https://www.hachikuro.net/"
+        }
+      ],
+      "synonyms": [
+        "Hachimitsu & Clover",
+        "Hachimitsu to Kuroba",
+        "Honey & Clover Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:32:51.616Z"
+  },
+  "17": {
+    "anisearchId": 1071,
+    "descriptionDe": "Kyosuke Kanou ist ein sechzehnjähriger Teenager, der neu im ersten Jahr auf der Jyoyo Akanegaoko High School ist. Er fing schon als kleiner Junge an Fußball zu spielen und liebte den Sport. In der Junior High School hörte er aber aus persönlichen Gründen mit seiner Leidenschaft auf. Sein älterer Bruder ist ein großes Fußball-Idol in Japan und spielt zurzeit in Italien in der ersten italienischen Liga, der Serie A, beim AC Mailand. Als Kyosuke durch einen dummen Vorfall dazu verdonnert wird die Mädchen Fußballmannschaft der Jyoyo High School zu trainieren, wird ihm wieder klar, wie sehr er doch den Fußball liebt. Er tritt in die Männermannschaft der Jyoyos ein und versucht mit seinen neuen Kameraden ein gutes Team aufzubauen. Sein Ziel ist es, einer der besten Angriffsspieler der Welt zu werden und aus dem Schatten seines Bruders zu treten. \n\nQuelle: www.anisearch.de/anime/1071",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hungry Heart: Wild Striker",
+          "titleNative": "ハングリーハート Wild Striker",
+          "status": "Abgeschlossen",
+          "released": "11.09.2002 - 10.09.2003"
+        },
+        {
+          "language": "Englisch",
+          "title": "Hungry Heart",
+          "status": "Abgeschlossen",
+          "released": "?"
+        },
+        {
+          "language": "Spanisch",
+          "title": "Hungry Heart: Wild Striker",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.08.2005 - ?"
+        },
+        {
+          "language": "Französisch",
+          "title": "Hungry Heart : Wild Striker",
+          "status": "Abgeschlossen",
+          "released": "12.2003 - 06.2004"
+        },
+        {
+          "language": "Italienisch",
+          "title": "La squadra del cuore",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "2003 - ? Alle anzeigen"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 52,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2002",
+      "studios": [
+        "Nippon Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Youichi TAKAHASHI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Satoshi SAGA",
+          "role": "Direction"
+        },
+        {
+          "name": "Ken’ichi IMAIZUMI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Nobuyuki NAKAMURA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Nipponanimation",
+          "url": "https://www.nipponanimation.com/selection/select_111/main.html"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:32:58.648Z"
+  },
+  "18": {
+    "anisearchId": 3342,
+    "descriptionDe": "Takumi Fujiwara und die Brüder Keisuke und Ryousuke Takahashi haben das »Project D« gegründet – ein Rennteam, bei dem sie ihre Fahrfähigkeiten und ihr gesamtes Potential außerhalb ihrer Präfektur zur Geltung bringen können. Über das Internet fordert Project D andere Rennteams heraus und gibt auch so die Ergebnisse der Rennen bekannt. Zu ihren Rivalen zählen die Seven-Star Leaf (SSR) und Todo-juku. Takumis Vater, Bunta, möchte auch bei dem Spaß mitmachen. Er plant, mit seinem Subaru Impreza WRX Type R Version V mitzufahren … \n\nQuelle: www.anisearch.de/anime/3342",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Initial D Fourth Stage",
+          "titleNative": "頭文字D Fourth Stage",
+          "status": "Abgeschlossen",
+          "released": "17.04.2004 - 18.02.2006"
+        },
+        {
+          "language": "Englisch",
+          "title": "Initial D: Fourth Stage",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "2010",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Initial D: Cuarta Temporada",
+          "status": "Abgeschlossen",
+          "released": "17.06.2009",
+          "publisher": [
+            "Savor Ediciones S.A."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Initial D: 4e Étape",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "12.11.2008 - 20.05.2009",
+          "publisher": [
+            "Kazé France",
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 24,
+      "runtimeMinutes": 27,
+      "season": "Frühling 2004",
+      "studios": [
+        "ACGT Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Shuuichi SHIGENO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tsuneo TOMINAGA",
+          "role": "Direction"
+        },
+        {
+          "name": "Akira KANO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Atsushi UMEBORI"
+        },
+        {
+          "name": "Dennis MARTIN",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Avexmode",
+          "url": "https://avexmode.jp/animation/initial/initial.html"
+        }
+      ],
+      "synonyms": [
+        "Initial D: 4th Stage Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:33:05.687Z"
   },
   "19": {
     "anisearchId": 1888,
@@ -940,6 +1225,159 @@
     },
     "fetchedAt": "2026-08-25T04:55:16.846Z"
   },
+  "22": {
+    "anisearchId": 823,
+    "descriptionDe": "In »The Prince of Tennis« hat Ryouma Echizen gerade mal begonnen, die Mittelschule zu besuchen, doch was Tennis angeht, gilt er mit seinen 12 Jahren jetzt schon als Wunderkind – immerhin hat er in den USA gleich mehrere Turniere hintereinander gewonnen. Dennoch: So richtig zufrieden wird Ryouma erst sein, wenn seinen Vater Nanjirou bezwungen hat. Der war einst selbst ein weltberühmter Spieler, doch mittlerweile hat er seine Karriere beendet und möchte Ryouma zu einem Profi und somit zu seinem effektiven Nachfolger machen. Auf Geheiß seines Vaters zieht Ryouma aus den USA zurück nach Japan und besucht dort die Seishun-Akademie, weil diese ein Tennis-Team mit exzellentem Ruf besitzt.\n\nKaum ist er dem Team beigetreten, fällt Ryouma auch schon dem Kapitän der Mannschaft, Kunimitsu Tezuka, ins Auge, der ihm nach kurzer Zeit anbietet, sich einen Platz in der Stammmannschaft zu erspielen. Ein so junger Spieler soll ein Stammspieler werden? Es ist nicht überraschend, dass seine Mitspieler skeptisch sind; Ryoumas arrogante Art hilft beim Einleben nicht gerade.\n\nDas Tennis-Team will jedenfalls das Nationalturnier gewinnen, doch dafür müssen aber erst mal mehrere regionale Turniere gewonnen werden. Ryouma ist froh, nun gegen so viele verschiedene Gegner spielen zu können, doch der Weg zur Meisterschaft ist weit – und der zu seinem Vater womöglich noch viel weiter. \n\nQuelle: www.anisearch.de/anime/823",
+    "streams": [
+      {
+        "provider": "primevideo-channel-crunchyroll-de",
+        "url": "https://www.amazon.de/dp/B0CHP6P6QW?tag=anisearch.de-21"
+      },
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/the-prince-of-tennis"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Tennis no Ouji-sama",
+          "titleNative": "Tennis no Ōji-sama",
+          "status": "Abgeschlossen",
+          "released": "10.10.2001 - 30.03.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "The Prince of Tennis",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "14.07.2006 - 22.08.2023",
+          "publisher": [
+            "VIZ Media, LLC",
+            "FUNimation"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "The Prince of Tennis",
+          "status": "Abgeschlossen",
+          "released": "03.10.2022 - 23.08.2023",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Prince of Tennis",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.03.2005 - 22.08.2023",
+          "publisher": [
+            "Luk Internacional, S.A.",
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "The Prince of Tennis",
+          "status": "Abgeschlossen",
+          "released": "15.10.2004 - 23.08.2023",
+          "publisher": [
+            "Mabell",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Il principe del tennis",
+          "status": "Abgebrochen",
+          "released": "08.12.2008 - 13.02.2009"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 178,
+      "runtimeMinutes": 23,
+      "season": "Herbst 2001",
+      "studios": [
+        "Trans Arts"
+      ],
+      "staff": [
+        {
+          "name": "Takeshi KONOMI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takayuki HAMANA",
+          "role": "Direction"
+        },
+        {
+          "name": "Akiharu ISHII",
+          "role": "Character Design"
+        },
+        {
+          "name": "Cheru WATANABE",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "TV Tokyo",
+          "url": "https://www.tv-tokyo.co.jp/anime/tennipri/"
+        }
+      ],
+      "synonyms": [
+        "PoT",
+        "Tennis no Oujisama Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:33:12.736Z"
+  },
+  "23": {
+    "anisearchId": 1141,
+    "descriptionDe": "Ryuuji Takane und seine Schwester Kiku haben beide das Boxtalent ihres Vaters geerbt, wobei Ryuuji dessen Kraft und Techniken geerbt hat, während Kiku sein Talent für Analyse und Strategie übernommen hat. Dem Wunsch ihres Vaters folgend versuchen sie den Titel des Box-Champions in ihre Familie zu holen, wobei Ryuuji das Kämpfen und Kiku das Coaching übernimmt. Während Kiku noch einmal auf ihre bisherigen Erlebnisse zurückblickt, steht die nationale Meisterschaft für Ryuuji schon bald bevor. Doch neben seinem langjährigen Rivalen Jun Kenzaki erwarten ihn dort auch noch viele andere starke Gegner … \n\nQuelle: www.anisearch.de/anime/1141",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ring ni Kakero 1",
+          "titleNative": "リングにかけろ 1",
+          "status": "Abgeschlossen",
+          "released": "07.10.2004 - 16.12.2004"
+        },
+        {
+          "language": "Französisch",
+          "title": "Ring ni Kakero",
+          "status": "Abgeschlossen",
+          "released": "22.03.2006",
+          "publisher": [
+            "Déclic Images",
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 25,
+      "season": "Herbst 2004",
+      "studios": [
+        "Toei Animation Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Toei Animation",
+          "url": "https://www.toei-anim.co.jp/tv/rin-kake1/"
+        }
+      ],
+      "synonyms": [
+        "Put It All in the Ring"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:33:19.759Z"
+  },
   "24": {
     "anisearchId": 1437,
     "descriptionDe": "Tenma Tsukamoto ist im zweiten Jahr der Oberschule und wie andere Mädchen auch, verliebt sie sich in einen Jungen. Doch sie schafft es einfach nicht, ihrem Klassenkameraden Ooji Karasuma ihre Liebe zu gestehen. Eines Tages erfährt sie allerdings, dass Ooji nächstes Semester die Schule wechseln wird. Mit Hilfe ihrer Freundinnen und ihrer kleinen Schwester Yakumo schmiedet sie teils fragwürdige Pläne, um ihm ihre Liebe zu gestehen; etwa indem sie sich wie eine Krankenschwester verkleidet oder ihn mit Liebesbriefpfeilen beschießt.\n\nDoch Tenma ist nicht die einzige, die sich so fühlt. Auch Kenji Harima hat es schwer getroffen, denn dieser ist unsterblich in Tenma verliebt, hat jedoch als berüchtigter Delinquent eine eher suboptimale Ausgangsposition. Sein Ziel ist es also, ein besserer Mensch zu werden und den Mut zu fassen, seine wahren Gefühle zu äußern.\n\nVon nun an setzen die beiden alles daran, ihre Träume Realität werden zu lassen – und das nicht selten mit äußert bizarren und unrealistischen Methoden. \n\nQuelle: www.anisearch.de/anime/1437",
@@ -1048,6 +1486,117 @@
       ]
     },
     "fetchedAt": "2026-08-25T05:07:21.171Z"
+  },
+  "25": {
+    "anisearchId": 2175,
+    "descriptionDe": "Nach der Apokalypse hat sich Japan in die »Große Kanto-Wüste« verwandelt und die Überlebenden müssen für ihr Auskommen zwischen den Dünen und unter dem gleißenden Sonnenlicht hart schuften. Gelernt haben die Menschen daraus dennoch nichts und manche haben immer noch ein Faible für sinnlose Gewalt und perverse Verbrechen. Unter ihnen befindet auch ein klein gebauter Mann, den sie »Sunabouzu« nennen. Dieser maskierte Handwerker hat sich trotz seines jungen Alters als Kopfgeldjäger einen Namen gemacht, denn er scheint unbesiegbar – wie ein Dämon der Wüste. Seine Mission schließt er notfalls mittels Kidnapping oder Bestechung ab und vor seiner sadistischen Ader sind selbst die »Maschinenpistolen Brüder« nicht gefeit, die er als Freunde bezeichnet. Doch seine Schwäche für das andere Geschlecht steht ihm immer wieder im Weg und seine größte Rivalin, die hübsche »Füchsin der Wüste« Junko Asagiri, weiß das geschickt für sich zu nutzen … \n\nQuelle: www.anisearch.de/anime/2175",
+    "streams": [
+      {
+        "provider": "primevideo-channel-crunchyroll-de",
+        "url": "https://www.amazon.de/dp/B0CJJGHVDK?tag=anisearch.de-21"
+      },
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GR9P7MP06/desert-punk"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Sunabouzu",
+          "titleNative": "Sunabōzu",
+          "status": "Abgeschlossen",
+          "released": "05.10.2004 - 29.03.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "Desert Punk",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.02.2006 - 15.08.2006",
+          "publisher": [
+            "FUNimation",
+            "MVM Entertainment Ltd.",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Desert Punk",
+          "status": "Abgeschlossen",
+          "released": "06.01.2023 - 16.06.2023",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Desert Punk",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "22.09.2006 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Desert Punk",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.2006 - 09.2006",
+          "publisher": [
+            "Crunchyroll",
+            "Pathé !"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Desert Punk: Il demone del deserto",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.11.2006 - ?"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 24,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2004",
+      "studios": [
+        "Gonzo K.K."
+      ],
+      "staff": [
+        {
+          "name": "Masatoshi USUNE",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takayuki INAGAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Takahiro YOSHIMATSU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kouhei TANAKA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Gonzo",
+          "url": "https://www.gonzo.co.jp/archives/sunabozu/"
+        }
+      ],
+      "synonyms": [
+        "Sunabo",
+        "Sunabozu Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:33:26.800Z"
   },
   "26": {
     "anisearchId": 825,
@@ -1226,6 +1775,155 @@
       ]
     },
     "fetchedAt": "2026-08-27T15:22:23.035Z"
+  },
+  "28": {
+    "anisearchId": 2782,
+    "descriptionDe": "»Yakitate!! Japan« handelt von einem Jungen namens Kazuma Azuma, der als kleines Kind die Liebe zum Brotbacken entdeckt. Sein Traum ist Ja-Pan zu backen – ein Brot, das Japan in der Welt repräsentiert. Deutschland hat das Roggenbrot, Frankreich das Baguette, Großbritannien den Toast, aber Japan hat noch kein derartiges Brot. Kazuma versucht, im Hauptladen der großen Backkette Pantasia anzufangen, weil er meint, so seinem Traum ein Stück näherzukommen, doch muss er erst durch die Aufnahmeprüfung. Dort wird man schnell auf seine »Sonnenhände« aufmerksam, welche die Kraft besitzen, mit Teig eigentlich Unmögliches anzustellen. So versucht Kyousuke, der Inhaber, Kazuma für seine eigenen Zwecke zu missbrauchen; aber auch Tsukino Azusagawa würde ihn gerne in ihrem eigenen Pantasia-Laden im Süden von Tokio haben. \n\nQuelle: www.anisearch.de/anime/2782",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yakitate!! Japan",
+          "titleNative": "焼きたて！！ ジャぱん",
+          "status": "Abgeschlossen",
+          "released": "12.10.2004 - 14.03.2006"
+        },
+        {
+          "language": "Englisch",
+          "title": "Yakitate!! Japan",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.03.2015 - 07.07.2015",
+          "publisher": [
+            "Viewster AG",
+            "Nozomi Entertainment",
+            "REMOW Co., Ltd."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Amasando Ja-Pan",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.06.2009 - ?",
+          "publisher": [
+            "Luk Internacional, S.A."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Yakitate Ja-pan!!",
+          "status": "Abgeschlossen",
+          "released": "09.07.2007 - 30.04.2010",
+          "publisher": [
+            "IDP"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 69,
+      "runtimeMinutes": 25,
+      "season": "Herbst 2004",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Takashi HASHIGUCHI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yasunao AOKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Atsuo TOBE"
+        },
+        {
+          "name": "Hiromi MAESAWA"
+        },
+        {
+          "name": "Yoshihito HISHINUMA"
+        },
+        {
+          "name": "Taku IWASAKI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Yakitate Japan",
+          "url": "https://www.yakitate-japan.com/"
+        }
+      ],
+      "synonyms": [
+        "Bake!! Japan",
+        "Fresh Made Japan",
+        "King of Bread",
+        "Yakitate!! Ja-Pan Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:33:33.841Z"
+  },
+  "29": {
+    "anisearchId": 3180,
+    "descriptionDe": "Der Japanische Aegis-Kreuzer Mirai wird während einer Übungsfahrt im Pazifik in die Vergangenheit geschleudert – und zwar mitten in die Schlacht von Midway im Jahr 1942. Ohne eine Chance auf Rückkehr in ihre eigene Zeit steht die Besatzung der Mirai nun vor der Entscheidung, ob sie mit ihrer überlegenen Technologie zugunsten Japans aktiv in den Zweiten Weltkrieg eingreifen sollen oder nicht. Wie werden sie sich wohl entscheiden? \n\nQuelle: www.anisearch.de/anime/3180",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Zipang",
+          "titleNative": "ジパング",
+          "status": "Abgeschlossen",
+          "released": "08.10.2004 - 01.04.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "Zipang",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.09.2006 - 16.10.2007",
+          "publisher": [
+            "Geneon Entertainment (USA) Inc."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 25,
+      "season": "Herbst 2004",
+      "studios": [
+        "Studio DEEN Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Kaiji KAWAGUCHI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kazuhiro FURUHASHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Toshihiko SAHASHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "TBS",
+          "url": "https://www.tbs.co.jp/anime-zipang/"
+        }
+      ],
+      "synonyms": [
+        "Zipangu"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:33:40.879Z"
   },
   "30": {
     "anisearchId": 345,
@@ -1945,6 +2643,109 @@
       ]
     },
     "fetchedAt": "2026-08-27T15:23:05.958Z"
+  },
+  "45": {
+    "anisearchId": 2363,
+    "descriptionDe": "In »Rurouni Kenshin« hat der Schwertkämpfer Kenshin Himura seine Vergangenheit hinter sich gelassen. Vorbei sind die Zeiten, in denen er als »Battousai« unter der Bevölkerung gefürchtet war, weil er als Auftragsmörder zahlreiche Morde beging. Heutzutage ist er ein wandernder Vagabund, der eisern an seinem Schwur festhält, keine Tode mehr zu verursachen und lediglich zu kämpfen, um zu beschützen. Dafür nutzt er ein Schwert, bei dem stumpfe und scharfe Seite vertauscht sind, um damit seine Gegner zwar zu besiegen, aber nicht zwingend zu töten.\n\nEines Tages führt ihn sein Weg nach Tokio, wo ein Schwertkämpfer unter der Bezeichnung »Battousai« nicht nur für Schrecken, sondern auch Tote sorgt. Kenshin trifft dabei auf Kaoru Kamiya, deren Dojo einen vorwiegend defensiven Schwertkampfstil unterrichtet. Nachdem Kenshin die junge Frau gerettet hat, lässt diese ihn im Dojo gastieren. Kenshin hilft ihr ein weiteres Mal, gibt sich aber als der wahre Battousai zu erkennen; Kaoru möchte dennoch, dass er bleibt. Kenshin nimmt diese Einladung an, denn schließlich ist so eine Abwechslung von Wandererleben nicht die schlechteste Idee.\n\nNur wenig später erhält Kaoru mit dem jungen und störrischen Yahiko ihren ersten Schüler, während Kenshin im Söldner Sanosuke einen Freund findet, obwohl der ihm zuvor nach dem Leben getrachtet hat. So verbringt Kenshi seine Zeit im Dojo und merkt bald, dass es in einer so großen Stadt immer was zu tun gibt, er seine Vergangenheit aber auch nie so ganz abschütteln kann. \n\nQuelle: www.anisearch.de/anime/2363",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Rurouni Kenshin: Meiji Kenkaku Romantan",
+          "titleNative": "Rurōni Kenshin: Meiji Kenkaku Romantan",
+          "status": "Abgeschlossen",
+          "released": "10.01.1996 - 08.09.1998"
+        },
+        {
+          "language": "Englisch",
+          "title": "Rurouni Kenshin",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "18.07.2000 - 24.09.2002",
+          "publisher": [
+            "Media Blasters",
+            "Sony Pictures Television International",
+            "Madman Entertainment",
+            "Crunchyroll",
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Rurouni Kenshin",
+          "status": "Abgeschlossen",
+          "released": "15.04.2016",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Kenshin, El Guerrero Samurai",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?",
+          "publisher": [
+            "Selecta Visión S.L.U.",
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Kenshin le vagabond",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.01.2002 - 25.09.2008",
+          "publisher": [
+            "Dybex S.A."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 94,
+      "runtimeMinutes": 25,
+      "season": "Winter 1995/96",
+      "studios": [
+        "GALLOP Co., Ltd.",
+        "Studio DEEN Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Nobuhiro WATSUKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kazuhiro FURUHASHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Fumie MUROI"
+        },
+        {
+          "name": "Hideki HAMASU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Noriyuki ASAKURA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Sonymusic",
+          "url": "https://www.sonymusic.co.jp/Movie/TV/Kenshin/"
+        }
+      ],
+      "synonyms": [
+        "Rurouni Kenshin: Legend of Kyoto",
+        "Rurouni Kenshin: Tales of the Meiji",
+        "Rurouni Kenshin: Wandering Samurai",
+        "Samurai X Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:33:47.918Z"
   },
   "46": {
     "anisearchId": 3192,
@@ -2671,6 +3472,89 @@
     },
     "fetchedAt": "2026-08-27T15:23:55.303Z"
   },
+  "53": {
+    "anisearchId": 555,
+    "descriptionDe": "Kaoru Hanabishi studiert in Tokio, weit entfernt von seiner wohlhabenden Familie. Er ist ein introvertierter Typ, wohnt allein in einem kleinen Appartement und pflegt zu niemandem Kontakte, außer zu den vier Mitgliedern des Foto-Clubs seiner Universität.\n\nAls er auf seinem Heimweg eine auffallend traditionell gekleidete junge Frau bemerkt, die sich in der Großstadt nicht auszukennen scheint und eine Adresse in der Nähe seines Appartements sucht, hilft er ihr sich im Bahnnetz zurechtzufinden und begleitet sie zu ihrem Ziel. Unterwegs erfährt er von ihr, dass sie auf der Suche nach einem Jungen ist, den sie seit vielen Jahren nicht gesehen hat, aber von Herzen liebt. Angekommen bei der notierten Adresse finden beide jedoch nur ein leeres Grundstück vor.\n\nDa es schon spät ist und zu regnen beginnt, nimmt Kaoru die verzweifelte junge Frau erst mal mit in seine Wohnung. Als diese ihm ein altes Kinderfoto des gesuchten Jungen zeigt, erkennt Kaoru auf diesem Bild … sich selbst und seine Kindheitsfreundin Aoi Sakuraba! Diese eröffnet ihm daraufhin, dass beide, jeweils als potentielle Erben des Firmen-Imperiums der Familie, von ihren Eltern einander versprochen wurden, dass Aoi in diesem Wissen erzogen wurde und dass sie von nun an mit ihm zusammenleben wolle. Kaoru glaubt zunächst an eine Verschwörung seiner Familie, von der er sich aufgrund schlimmer Erfahrungen losgesagt hat und setzt Aoi erst einmal vor die Tür. Doch nach kurzer Zeit merkt er, dass die Verschwörungstheorie nicht der Wahrheit entspricht und erlaubt Aoi bei ihm zu übernachten.\n\nDie Eltern der beiden haben die verabredete Verlobung allerdings längst aufgekündigt. Um die widerspenstige Aoi vorläufig zufriedenzustellen, arrangieren deren Eltern, dass Kaoru und Aoi gemeinsam in einem Landhaus des Sakuraba-Besitzes leben dürfen – natürlich in getrennten Gebäuden und unter der Aufsicht von Aois strenger Erzieherin Miyabi Kagurazaki. Um das »skandalöse« Verhalten Aois zu vertuschen, erlaubt Miyabi-san, dass Kaoru zwei seiner Studienkolleginnen auch einlädt. Er entscheidet sich für Tina Foster, ein lebhaftes Mädchen, das in Amerika aufwuchs und Taeko Minazuki, ein sehr tollpatschiges Mädchen, das zudem als Hausmädchen eingestellt wird, die in das improvisierte »Studentenwohnheim« mit Miyabi als »Verwalterin« und Aoi als »Besitzerin« einziehen – und das Schicksal nimmt seinen Lauf …\n\nWerden diese beiden »Königskinder« ein gemeinsames Glück finden? \n\nQuelle: www.anisearch.de/anime/555",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ai yori Aoshi",
+          "titleNative": "藍より青し",
+          "status": "Abgeschlossen",
+          "released": "11.04.2002 - 26.09.2002"
+        },
+        {
+          "language": "Englisch",
+          "title": "Ai Yori Aoshi",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "25.02.2003 - 14.10.2003",
+          "publisher": [
+            "FUNimation",
+            "Geneon Entertainment (USA) Inc.",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Azul: Ai Yori Aoshi",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "31.05.2004 - 22.09.2004",
+          "publisher": [
+            "Savor Ediciones S.A."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Ai Yori Aoshi",
+          "status": "Abgeschlossen",
+          "released": "16.09.2004 - 29.10.2004",
+          "publisher": [
+            "Déclic Images"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 24,
+      "runtimeMinutes": 23,
+      "season": "Frühling 2002",
+      "studios": [
+        "J.C.STAFF Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Kou FUMIZUKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masami SHIMODA",
+          "role": "Direction"
+        },
+        {
+          "name": "Kazunori IWAKURA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Toshio MASUDA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Web Archive (Aiyoriaoshi)",
+          "url": "https://web.archive.org/web/20030801155317/https://www.aiyoriaoshi.com/index2.html"
+        }
+      ],
+      "synonyms": [
+        "Bluer than Indigo Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:33:54.952Z"
+  },
   "54": {
     "anisearchId": 1921,
     "descriptionDe": "Im Jahr 2131 liegt die Welt in Trümmern. Die junge Kriegerin Deunan kämpft noch immer in den Ruinen, als sie plötzlich von ihrem früheren Freund Briareos entführt und in die futuristische Metropole Olympus verschleppt wird. Als sie erwacht, findet sie sich in einer Gesellschaft wieder, in der Menschen und Bioroids, genetische veränderte Klone, zusammenleben. Auch ihr früherer Freund Briareos hat sich verändert, da seine Körperteile durch Roboterteile ersetzt wurden. Von Hitomi, einer Bioroid, wird sie in die Abläufe der Stadt eingeweiht. Aber sie steht dieser »perfekten« Gesellschaft sehr skeptisch gegenüber, nicht zu Unrecht. Die sieben Ältesten, die zusammen mit GAIA, einem Supercomputer, die Regierung stellen, scheinen doch nicht so edle Absichten zu verfolgen. \n\nQuelle: www.anisearch.de/anime/1921",
@@ -2762,6 +3646,271 @@
       ]
     },
     "fetchedAt": "2026-08-27T15:24:02.348Z"
+  },
+  "55": {
+    "anisearchId": 2621,
+    "descriptionDe": "Elk lebt in einer Welt der Gegensätze, in der Magie, modernste Technologie, Monster und primitive Einstellungen Seite an Seite existieren. Er stammt aus einem Stamm von mächtigen Kämpfern, welche die Fähigkeit besitzen, Flammen mit ihrem Willen zu manipulieren. Doch bei einem Angriff der Armee von Romalia wird seine gesamte Familie getötet und er wird von den Soldaten gefangen genommen. Als er in ein Laboratorium zur Erschaffung von Chimären gebracht werden soll, schafft er es in letzter Sekunde zu fliehen. Da er nun keinen Ort mehr hat, an den er zurückkehren könnte, wird er schließlich von Shu gefunden, der ihn zu einem Kopfgeldjäger ausbildet.\n\nEs dauert nicht lange, bis er auf einer seiner Reisen Lieza begegnet, einer jungen Bestienmeisterin, welche die seltene Gabe besitzt, Monster und Chimären zu kontrollieren. Nachdem er sie und ihr Haustier Paundit rettet, schließen sie sich zusammen, aber ihre Feinde wollen nicht so einfach aufgeben … \n\nQuelle: www.anisearch.de/anime/2621",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Arc the Lad",
+          "titleNative": "アークザラッド",
+          "status": "Abgeschlossen",
+          "released": "05.04.1999 - 11.10.1999"
+        },
+        {
+          "language": "Englisch",
+          "title": "Arc the Lad",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.04.2001 - 22.01.2002",
+          "publisher": [
+            "ADV Films (USA)"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Arc the Lad",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "2000 - ?",
+          "publisher": [
+            "Selecta Visión S.L.U."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Arc the Lad",
+          "status": "Abgeschlossen",
+          "released": "15.02.2007",
+          "publisher": [
+            "Dybex S.A."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 25,
+      "season": "Frühling 1999",
+      "studios": [
+        "Bee Train Productions Inc."
+      ],
+      "adaptedFrom": "Videospiel",
+      "websites": [
+        {
+          "name": "Sonymusic",
+          "url": "https://www.sonymusic.co.jp/Animation/Arc/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:34:01.992Z"
+  },
+  "56": {
+    "anisearchId": 1299,
+    "descriptionDe": "Rotes Ödland. Dahinvegitierende Kuppelstädte. Ein grotesker Mond, der das Land zu erdrücken scheint. Willkommen in der Menschheitsdämmerung …\n\nEs ist ein Zeitalter, in dem die meisten Menschen vom Land in isolierte Kuppeln zogen und die knappen Lebensmittel wegen des Krieges zwischen den einzelnen Kuppelstädten und deren vertretenden Kämpfer, rationiert werden. Als Ersatz für die ungeborenen Kinder werden Puppen-Androiden vertrieben. Dieses Zeitalter wird durch die Kraft und den Willen des Volkes, dem unbesiegbaren Krieger und der Göttin Westa, kontrolliert. Wenn die Zeit stillsteht, bewegt sich die Menschheit auf einem Pfad der langsamen Zerstörung, die Erde mit sich nehmend. Wenn die beiden Mädchen Layla und Nei in die Welt hinausgehen, durch den heftigen Sturm wandernd und durch den Rachefeldzug der schönen Barbaroi, Layla Ashley, die Vorhänge öffnen, wird ein neues Zeitalter anbrechen … \n\nQuelle: www.anisearch.de/anime/1299",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Avenger",
+          "titleNative": "アヴェンジャー",
+          "status": "Abgeschlossen",
+          "released": "02.10.2003 - 25.12.2003"
+        },
+        {
+          "language": "Englisch",
+          "title": "Avenger",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "25.10.2005",
+          "publisher": [
+            "Bandai Entertainment, Inc."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2003",
+      "studios": [
+        "Bee Train Productions Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Bandaivisual",
+          "url": "https://www.bandaivisual.co.jp/avenger/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:34:09.027Z"
+  },
+  "57": {
+    "anisearchId": 1679,
+    "descriptionDe": "Der Schüler Yukio Tanaka, besser bekannt unter seinem Spitznamen »Koyuki«, ist ein klassischer Loser: Keine Freunde, unsportlich, keine besonderen Talente. Das ändert sich jedoch schlagartig, als er Ryuusuke kennenlernt, der Musiker ist. Mit Ryuusuke taucht Koyuki in die Welt des Rock ein und wird Mitglied der Band Beck. Nicht zuletzt dank Koyukis Stimme macht sich Beck auf den glamourösen Weg zum Erfolg … \n\nQuelle: www.anisearch.de/anime/1679",
+    "streams": [
+      {
+        "provider": "adn-de",
+        "url": "https://animationdigitalnetwork.de/video/beck"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Beck",
+          "titleNative": "ベック",
+          "status": "Abgeschlossen",
+          "released": "07.10.2004 - 31.03.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "Beck: Mongolian Chop Squad",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.03.2007 - 03.06.2007",
+          "publisher": [
+            "FUNimation",
+            "Anime Limited (UK)",
+            "Viewster AG",
+            "Madman Entertainment",
+            "Revelation Films"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Beck",
+          "status": "Abgeschlossen",
+          "released": "03.05.2024",
+          "publisher": [
+            "Animation Digital Network (DE)"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Beck : Mongolian Chop Squad",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.2006 - 2006",
+          "publisher": [
+            "Animation Digital Network",
+            "Kazé France"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Beck",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "26.09.2006 - 10.03.2007",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 25,
+      "season": "Herbst 2004",
+      "studios": [
+        "MADHOUSE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Harold SAKUISHI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Osamu KOBAYASHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Motonobu HORI"
+        },
+        {
+          "name": "Osamu KOBAYASHI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Web Archive (Beck)",
+          "url": "https://web.archive.org/web/20060414120943/https://www.beck.ne.jp/top.html"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:34:16.221Z"
+  },
+  "58": {
+    "anisearchId": 2217,
+    "descriptionDe": "Im Jahr 2013 erwacht der Teenager Yuji aus einem langen Kälteschlaf. Jahre zuvor hatte man ihn in Trance versetzt, in der Hoffnung, eines Tages den tödlichen Virus, der seinen Körper befallen hat, bekämpfen zu können. Doch die Zukunft, in der Yuji erwacht, erweist sich als kompletter Alptraum – überall Krieg, Tod und Verzweiflung. Ein geheimnisvolles Wesen namens Blue terrorisiert die letzten Überlebenden der Menschheit. Bald stellt sich heraus, dass Yuji der Einzige ist, der dem Ungeheuer Einhalt gebieten kann … \n\nQuelle: www.anisearch.de/anime/2217",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Blue Gender",
+          "titleNative": "ブルージェンダー",
+          "status": "Abgeschlossen",
+          "released": "08.10.1999 - 31.03.2000"
+        },
+        {
+          "language": "Englisch",
+          "title": "Blue Gender",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.10.2001 - 28.01.2003",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment",
+            "MVM Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Blue Gender",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "2002 - ?",
+          "publisher": [
+            "Déclic Images"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 25,
+      "season": "Herbst 1999",
+      "studios": [
+        "Anime International Co., Inc."
+      ],
+      "staff": [
+        {
+          "name": "Masashi ABE",
+          "role": "Direction"
+        },
+        {
+          "name": "Fuminori KIZAKI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kuniaki HAISHIMA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Anime Int",
+          "url": "https://www.anime-int.com/works/bluegender/tv/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:34:23.262Z"
   },
   "59": {
     "anisearchId": 1526,
@@ -2954,6 +4103,145 @@
       ]
     },
     "fetchedAt": "2026-08-27T15:24:16.454Z"
+  },
+  "61": {
+    "anisearchId": 2536,
+    "descriptionDe": "An Daisuke Niwas vierzehnten Geburtstag erhält er von seiner Angebeteten Risa Harada eine Abfuhr – praktisch in dem Moment, als er ihr seinen lang vorbereiteten Liebesbrief geben wollte. Doch als wäre das noch nicht genug, verwandelt er sich am selben Abend noch in den legendären Phantomdieb »Dark«. Denn das Geheimnis seiner Familie ist, dass aus ihr in jeder Generation ein neuer Dieb hervorgeht. Doch Daisuke plagen ganz andere Sorgen. Denn wie soll er jetzt noch mit seiner veränderten und erwachsenen Gestalt in die Schule gehen?\n\nSeine Mutter weiß Abhilfe. Dark muss die Heilige Jungfrau, eine gut bewachte Miniaturstatue, stehlen, um sich wieder zurückverwandeln zu können. Doch Seltsames ereignet sich, als Dark auf seinem Diebeszug auf ein ihm wohlbekanntes Gesicht trifft. Was wird als nächstes passieren? \n\nQuelle: www.anisearch.de/anime/2536",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "D.N.Angel",
+          "titleNative": "D・N・Angel",
+          "status": "Abgeschlossen",
+          "released": "03.04.2003 - 25.09.2003"
+        },
+        {
+          "language": "Englisch",
+          "title": "D.N.Angel",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.11.2004 - 23.08.2005",
+          "publisher": [
+            "ADV Films (USA)",
+            "ADV Films (UK)",
+            "Discotek Media",
+            "Madman Entertainment",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "D.N. Angel",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "19.12.2006 - 25.04.2007",
+          "publisher": [
+            "Savor Ediciones S.A.",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "D.N.Angel",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "07.01.2005 - 26.01.2006",
+          "publisher": [
+            "Déclic Images"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 23,
+      "season": "Frühling 2003",
+      "studios": [
+        "XEBEC, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Yukiru SUGISAKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Nobuyoshi HABARA",
+          "role": "Direction"
+        },
+        {
+          "name": "Shin’ichi YAMAOKA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Tomoki HASEGAWA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Web Archive (Dnangel)",
+          "url": "https://web.archive.org/web/20050228085901/https://www.dnangel.tv/"
+        }
+      ],
+      "synonyms": [
+        "DNAngel Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:34:30.315Z"
+  },
+  "62": {
+    "anisearchId": 3482,
+    "descriptionDe": "Das ganze Jahr über blühen die magischen Kirschblüten auf Hatsunejima, einer halbmondförmigen Insel, irgendwo vor Japans Küste. Während Jun’ichi Asakura, Abschlußschüler der Kazami Junior Highschool und Nachfahre einer Hexe, friedliche Tage mit seiner geliebten Adoptivschwester Nemu verbringt, erscheint ihm immer wieder ein Mädchen im Traum. Doch in dem Moment, als dieses Mädchen sich als seine nach sechs Jahren aus dem Ausland zurückgekehrte Cousine Sakura Yoshino herausstellt, ist es mit dem lieben Frieden vorbei. Für Jun’ichi beginnt eine Zeit voll von widerstreitenden Gefühlen und alten Versprechen. \n\nQuelle: www.anisearch.de/anime/3482",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "D.C.: Da Capo",
+          "titleNative": "D.C.~ダ・カーポ~",
+          "status": "Abgeschlossen",
+          "released": "06.07.2003 - 28.12.2003"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2003",
+      "studios": [
+        "ZEXCS Inc."
+      ],
+      "staff": [
+        {
+          "name": "CIRCUS",
+          "role": "Original Work"
+        },
+        {
+          "name": "Nagisa MIYAZAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Shinobu TAGASHIRA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Masumi ITOU"
+        },
+        {
+          "name": "Yuugo KANNO",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Visual Novel",
+      "websites": [
+        {
+          "name": "Hatsunejima",
+          "url": "https://www.hatsunejima.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:34:37.361Z"
   },
   "63": {
     "anisearchId": 3327,
@@ -3508,6 +4796,63 @@
     },
     "fetchedAt": "2026-08-27T15:24:51.690Z"
   },
+  "69": {
+    "anisearchId": 3034,
+    "descriptionDe": "Der fröhliche 15-jährige Agate Fluorite wurde mit einer geheimnisvollen Kraft geboren, die ihm allerdings noch nicht vollends bewusst geworden ist. Er erinnert sich zwar nicht an seine Vergangenheit, aber aus unerfindlichen Gründen ist er fähig dazu, Wunder zu wirken, die kein anderer vollbringen kann. Zusammen mit anderen Schülern besucht er seit Kurzem die Cluster Edge Academy, an der die Elite ausgebildet wird, um später einmal ihr Land, in dem künstliche Soldaten und religiöse Sekten normal sind, nach vorne zu bringen.\n\nSchon bald beeindruckt Agate mit seinem ungezwungenen Verhalten und seinem Enthusiasmus viele seiner Schulkameraden, insbesondere Beryl Jasper, ein hochgeborener, aber vom Leben gelangweilter junger Mann, der die Abwechslung zum geordneten Alltag überaus genießt. Doch es kommen stürmische Zeiten auf die Freunde zu, die diese Welt vielleicht für immer verändern werden … \n\nQuelle: www.anisearch.de/anime/3034",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Cluster Edge",
+          "titleNative": "クラスターエッジ",
+          "status": "Abgeschlossen",
+          "released": "05.10.2005 - 29.03.2006"
+        },
+        {
+          "language": "Englisch",
+          "title": "Cluster Edge",
+          "status": "Abgeschlossen",
+          "released": "11.09.2012 - 20.11.2012",
+          "publisher": [
+            "Sentai"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 25,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2005",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hajime YATATE"
+        },
+        {
+          "name": "Masashi IKEDA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masashi IKEDA",
+          "role": "Direction"
+        },
+        {
+          "name": "Takayuki NEGISHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Cluster Edge",
+          "url": "https://www.cluster-edge.net/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:34:44.380Z"
+  },
   "71": {
     "anisearchId": 3324,
     "descriptionDe": "Die aus fähigen Söldnern bestehende, antiterroristische Geheimorganisation Mithril hat den Hinweis bekommen, dass es Mächte gibt, die hinter bestimmten Personen mit einzigartigen Fähigkeiten her sind: den sogenannten Whispered. Diese haben ein so umfangreiches Verständnis von Mathematik, Wissenschaft und Technik, dass mit ihrem Wissen, das natürlich niemals in falsche Hände geraten darf, sogenannte »Schwarze Technologie« hergestellt werden kann – Technologie, die der gegenwärtigen weit voraus ist.\n\nSousuke Sagara, ein längjähriges Mitglied jener Organisation, hat den Auftrag bekommen, nach Japan zu reisen, um dort als Schüler getarnt eine mutmaßliche Whispered zu beschützen: die aufbrausende Kaname Chidori. Doch da diese selbst nicht um ihre Begabung oder den wahren Aufenthaltsgrund Sousuke Bescheid weiß, werden seine unbeholfenen Annäherungsversuche schnell missverstanden, was dem ohnehin schon wirklichkeitsfremden Soldaten zusätzliche Schwierigkeiten bereitet, sich an sein neues Leben zu gewöhnen und seine Mission auszuführen. \n\nQuelle: www.anisearch.de/anime/3324",
@@ -3721,6 +5066,1291 @@
       ]
     },
     "fetchedAt": "2026-08-27T15:25:05.806Z"
+  },
+  "73": {
+    "anisearchId": 304,
+    "descriptionDe": "Dies ist die 3. Staffel von »Full Metal Panic!«, die wieder zu den Wurzeln der 1. Staffel zurückkehrt: neuer Terrorismus, große Action und einige Tränen für Sousuke, Kaname und ihre Freunde.\n\nIn dieser Serie geht es deutlich ernster zu. Sousuke wird nämlich überraschend von seiner Mission, Kaname zu beschützen, abgezogen und lässt sie so von einem Tag auf den anderen allein. Der neue Gegner von Sousuke ist einerseits die merkwürdige Orginisation Amalgam mit einem durchgeknallten Gates als Anführer und andererseits steht Sousuke sich selbst im Weg. Er kann den Lambda Driver immer noch nicht richtig bedienen und ausgerechnet die Mechas von Amalgam haben ebenfalls diese Technik, was ihm und seinen Freunden von Mithril schwer zu schaffen macht. Zu allem Überfluss ist Kaname nun auch noch in größter Lebensgefahr und Sousuke darf und kann ihr nicht helfen … \n\nQuelle: www.anisearch.de/anime/304",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Full Metal Panic! The Second Raid",
+          "titleNative": "フルメタル・パニック！ The Second Raid",
+          "status": "Abgeschlossen",
+          "released": "14.07.2005 - 20.10.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "Full Metal Panic! The Second Raid",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "14.11.2006 - 01.05.2007",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment",
+            "Anime Limited (UK)"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Full Metal Panic! The Second Raid",
+          "status": "Abgeschlossen",
+          "released": "20.12.2013 - 21.11.2014",
+          "publisher": [
+            "Nipponart GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Full Metal Panic! The Second Raid",
+          "status": "Abgeschlossen",
+          "released": "16.08.2022",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Full Metal Panic ! The Second Raid",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.07.2013 - ?",
+          "publisher": [
+            "Dybex S.A.",
+            "Docomo d Animestore (FR)"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Full Metal Panic! The Second Raid",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.10.2008 - 06.02.2009",
+          "publisher": [
+            "Dynit SRL",
+            "SHIN ViSiON"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 23,
+      "season": "Sommer 2005",
+      "studios": [
+        "Kyoto Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Shouji GATOU",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yasuhiro TAKEMOTO",
+          "role": "Direction"
+        },
+        {
+          "name": "Osamu HORIUCHI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Toshihiko SAHASHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Tdd 1",
+          "url": "https://www.tdd-1.com/"
+        }
+      ],
+      "synonyms": [
+        "FMP! TSR",
+        "Full Metal Panic! Owaru Day By Day",
+        "Fullmetal Panic! The Second Raid Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:34:51.420Z"
+  },
+  "74": {
+    "anisearchId": 952,
+    "descriptionDe": "Mikan Sakura, ein freundliches, aber leicht naives Mädchen, wächst in einem kleinen Dorf mitten im Nirgendwo auf. Nach einiger Zeit trifft sie auf das Mädchen Hotaru Imai in ihrer Klasse und die beiden werden beste Freunde. Allerdings wechselt Hotaro plötzlich, ohne jegliche Vorwarnung, an eine andere Schule in Tokio. Mikan ist todunglücklich! Sie sieht nicht ein, dass beide getrennt leben sollen und packt ihre sieben Sachen, um ihrer Freundin zu folgen.\n\nIn Tokio angekommen, muss Mikan jedoch feststellen, dass es sich bei Hotarus Schule um ein Internat handelt – besser bekannt als »Alice Akademie« oder »Gakuen Alice«, das für Kinder mit außergewöhnlichen Begabungen ist. »Alice« ist eine angeborene Gabe und Leute mit einer solchen werden vom Staat strengstens geschützt – die Hauptaufgabe der Alice Akademie. Da das Glück auf Mikans Seite ist, wird sie auch prompt vom gutaussehenden Lehrer Narumi an der Eliteschule angemeldet, den sie vor der Akademie trifft. Alle dortigen Schüler haben ganz besondere, bizarre Fähigkeiten. Wird Mikan an ihrer neuen Schule zurechtkommen … und herausfinden, was ihr eigenes Alice ist? \n\nQuelle: www.anisearch.de/anime/952",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Gakuen Alice",
+          "titleNative": "学園アリス",
+          "status": "Abgeschlossen",
+          "released": "30.10.2004 - 14.05.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "Gakuen Alice",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "30.06.2009",
+          "publisher": [
+            "Nozomi Entertainment"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Alice Academy",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "19.05.2009",
+          "publisher": [
+            "Déclic Images"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Alice Academy",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.2009 - ?"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 25,
+      "season": "Herbst 2004",
+      "studios": [
+        "Group Tac Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Tachibana HIGUCHI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takahiro OOMORI",
+          "role": "Direction"
+        },
+        {
+          "name": "Yoshiaki ITOU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Makoto YOSHIMORI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Sonymusic",
+          "url": "https://www.sonymusic.co.jp/Animation/alice/"
+        }
+      ],
+      "synonyms": [
+        "Alice Academy",
+        "Campus Alice Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:34:58.460Z"
+  },
+  "75": {
+    "anisearchId": 2312,
+    "descriptionDe": "Kazuki Makabe wohnt zusammen mit seinem Vater auf einer friedlichen Insel im Pazifik. Sein Vater betreibt einen Töpferladen und Kazuki lebt ein normales Schülerleben auf der idyllischen Insel. Dort leben relativ wenige Familien, aber jede Familie hat ein Kind und die Kinder mögen ihr Leben auf der Insel.\n\nEines Tages kehrt Soushi, Kazukis alter Schulfreund, nach seinem Aufenthalt in Tokio zurück auf seine Heimatinsel. Etwas später geht der Alarm los und alle Bewohner sollen sich in »Alvis« versammeln, eine Art Bunker. Die Erwachsenen der Insel wissen, weshalb der Alarm ausgelöst wurde. Ein fremdartiges, leuchtendes Geschöpf ist gekommen und richtet erheblichen Schaden an und Kazuki und seine Freunde müssen die Zerstörung ihrer Heimat verhindern … \n\nQuelle: www.anisearch.de/anime/2312",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Soukyuu no Fafner: Dead Aggressor",
+          "titleNative": "Sōkyū no Fafner: Dead Aggressor",
+          "status": "Abgeschlossen",
+          "released": "05.07.2004 - 27.12.2004"
+        },
+        {
+          "language": "Englisch",
+          "title": "Fafner",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.07.2005 - 18.07.2006",
+          "publisher": [
+            "Geneon Entertainment (USA) Inc.",
+            "FUNimation",
+            "Madman Entertainment"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2004",
+      "studios": [
+        "XEBEC, Inc."
+      ],
+      "staff": [
+        {
+          "name": "XEBEC, Inc.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Nobuyoshi HABARA",
+          "role": "Direction"
+        },
+        {
+          "name": "Hisashi HIRAI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Tsuneyoshi SAITOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Fafner",
+          "url": "https://www.fafner.jp/"
+        }
+      ],
+      "synonyms": [
+        "Fafner in the Azure: Dead Aggressor",
+        "Fafner of the Blue Sky: Dead Aggressor"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:35:05.503Z"
+  },
+  "76": {
+    "anisearchId": 2654,
+    "descriptionDe": "Der aus einer magischen Welt stammende junge Archäologe Yuuno hat mit seinem Schiff einen Unfall erlitten und dabei die 21 »Jewel Seeds« überall auf der Erde verstreut. Um die Menschen vor den mächtigen Artefakten zu schützen, versucht er die außer Kontrolle geratenen Steine sogleich wieder einzusammeln. Im Kampf gegen eines der Jewel Seed Monster wird Yuuno aber so schwer verletzt, dass er sich zur Erholung seiner Kräfte und um seine Wunden zu heilen, in die tierische Form eines Frettchen zurückzieht.\n\nNichtsahnend hilft die gewöhnliche Drittklässlerin Nanoha Takamachi dem armen Frettchen und erhält von ihm zum Dank magische Kräfte und den Zauberstab Raising Heart geschenkt, der rein mittels Willenskraft erscheint, wann immer sie ihn braucht. Von diesem Tag an gibt sie ihr Bestes, um zusammen mit ihrem tierischen Begleiter die aus einer anderen Welt stammenden Jewel Seeds einzusammeln und die Menschen zu beschützen. Ihre Familie und Freunde dürfen von ihren Kämpfen als Magical Girls jedoch nichts mitbekommen, und sie ist außerdem nicht die einzige, die hinter den Steinen her ist … \n\nQuelle: www.anisearch.de/anime/2654",
+    "streams": [
+      {
+        "provider": "prime-video",
+        "url": "https://www.primevideo.com/detail/Magical-Girl-Lyrical-NANOHA/0TZV541WUOUIRMND3Z2Q0S3433"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mahou Shoujo Lyrical Nanoha",
+          "titleNative": "Mahō Shōjo Lyrical Nanoha",
+          "status": "Abgeschlossen",
+          "released": "02.10.2004 - 25.12.2004"
+        },
+        {
+          "language": "Englisch",
+          "title": "Magical Girl Lyrical Nanoha",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.12.2008",
+          "publisher": [
+            "Geneon Entertainment (USA) Inc.",
+            "Amazon.com, Inc.",
+            "Discotek Media"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 26,
+      "season": "Herbst 2004",
+      "studios": [
+        "Seven Arcs Ltd."
+      ],
+      "staff": [
+        {
+          "name": "ivory"
+        },
+        {
+          "name": "Maki TSUZUKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Akiyuki SHINBOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Yasuhiro OKUDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Hiroaki SANO",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Nanoha",
+          "url": "https://www.nanoha.com/"
+        }
+      ],
+      "synonyms": [
+        "Zaubermädchen Nanoha"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:35:12.552Z"
+  },
+  "77": {
+    "anisearchId": 8,
+    "descriptionDe": "Takamachi Nanoha war eine normale Drittklässlerin, bis sie eine magische Kraft bekam. 6 Monate sind seit der Begegnungen und der Kämpfe vergangen. Sie freute sich bereits darauf ihre alten Freunde wiederzusehen, bis es sie wieder traf. Plötzlich wurde sie in die Probleme des »Buches der Dunkelheit« hineingezogen. \n\nQuelle: www.anisearch.de/anime/8",
+    "streams": [
+      {
+        "provider": "prime-video",
+        "url": "https://www.primevideo.com/detail/Magical-Girl-Lyrical-NANOHA-A-s/0N4MVXIMBYP40OT1D8SZ64U0VA"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mahou Shoujo Lyrical Nanoha A's",
+          "titleNative": "Mahō Shōjo Lyrical Nanoha A's",
+          "status": "Abgeschlossen",
+          "released": "02.10.2005 - 25.12.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "Magical Girl Lyrical Nanoha A's",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.01.2009",
+          "publisher": [
+            "Geneon Entertainment (USA) Inc.",
+            "Amazon.com, Inc.",
+            "Discotek Media"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 26,
+      "season": "Herbst 2005",
+      "studios": [
+        "Seven Arcs Ltd."
+      ],
+      "staff": [
+        {
+          "name": "ivory"
+        },
+        {
+          "name": "Maki TSUZUKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Keizou KUSAKAWA",
+          "role": "Direction"
+        },
+        {
+          "name": "Yasuhiro OKUDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Hiroaki SANO",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Nanoha",
+          "url": "https://www.nanoha.com/"
+        }
+      ],
+      "synonyms": [
+        "Zaubermädchen Nanoha A's"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:35:19.587Z"
+  },
+  "79": {
+    "anisearchId": 2603,
+    "descriptionDe": "Es existieren drei Welten: die Menschenwelt, die der Dämonen und die Welt der Götter. Die anderen Rassen begannen vor einiger Zeit in die Menschenwelt einzuwandern, und führten zusammen ein friedliches Leben. Die zwei Prinzessinnen Nerine und Lisianthus der beiden besonderen Rassen hatten schon einmal Kontakt mit ein paar Menschen – und verliebten sich glatt in den Jungen Rin Tsuchimi. Jahre später kehren beide Mädchen in die Welt der Menschen wieder, und Rin wird von dessen Eltern förmlich gezwungen, eine von beiden zur Frau zur nehmen. Dieser jedoch hat daran gar kein Interesse. \n\nQuelle: www.anisearch.de/anime/2603",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Shuffle!",
+          "titleNative": "シャッフル！",
+          "status": "Abgeschlossen",
+          "released": "08.07.2005 - 06.01.2006"
+        },
+        {
+          "language": "Englisch",
+          "title": "Shuffle!",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "12.02.2008 - 09.09.2008",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Shuffle!",
+          "status": "Abgeschlossen",
+          "released": "01.07.2013",
+          "publisher": [
+            "Docomo d Animestore (FR)"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 24,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2005",
+      "studios": [
+        "asread"
+      ],
+      "staff": [
+        {
+          "name": "Navel",
+          "role": "Original Work"
+        },
+        {
+          "name": "Naoto HOSODA",
+          "role": "Direction"
+        },
+        {
+          "name": "Hidetsugu HIRAYAMA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Acchorike"
+        },
+        {
+          "name": "Kazuhiko SAWAGUCHI"
+        },
+        {
+          "name": "Minoru MARUO"
+        }
+      ],
+      "adaptedFrom": "Visual Novel",
+      "websites": [
+        {
+          "name": "Shuffle TV",
+          "url": "https://www.shuffle-tv.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:35:26.646Z"
+  },
+  "80": {
+    "anisearchId": 3329,
+    "descriptionDe": "Die Menschen begannen sich im All anzusiedeln. Doch 79 Jahre später kommt es zu einem folgenschweren Konflikt: Die Menschen im All wollen sich abspalten und daraufhin entsteht ein Krieg ungeheuerlichen Ausmaßes, der für beide Seiten zahlreiche Opfer fordert. Welche Beweggründe hat Char Aznable, der erste »Masked-Man« der Gundam-Welt, für Zeon zu kämpfen? \n\nQuelle: www.anisearch.de/anime/3329",
+    "streams": [
+      {
+        "provider": "primevideo-channel-crunchyroll-de",
+        "url": "https://www.amazon.de/dp/B0CGPVN9T1?tag=anisearch.de-21"
+      },
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/mobile-suit-gundam"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Gundam",
+          "titleNative": "Kidō Senshi Gundam",
+          "status": "Abgeschlossen",
+          "released": "07.04.1979 - 26.01.1980"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit Gundam",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "23.07.2001 - 02.06.2002",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Right Stuf Inc.",
+            "Anime Limited (UK)",
+            "Madman Entertainment",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Mobile Suit Gundam",
+          "status": "Abgeschlossen",
+          "released": "26.01.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Mobile Suit Gundam",
+          "status": "Abgeschlossen",
+          "released": "25.01.2021",
+          "publisher": [
+            "Crunchyroll",
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Mobile Suit Gundam",
+          "status": "Abgeschlossen",
+          "released": "26.01.2021 - 13.05.2021",
+          "publisher": [
+            "Crunchyroll",
+            "Anime Limited (France)"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mobile Suit Gundam: Il ritorno di Gundam",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "02.1980 - 06.1980"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 43,
+      "runtimeMinutes": 24,
+      "season": "Frühling 1979",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hajime YATATE"
+        },
+        {
+          "name": "Yoshiyuki TOMINO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yoshikazu YASUHIKO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Takeo WATANABE"
+        },
+        {
+          "name": "Yuushi MATSUYAMA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Gundam",
+          "url": "http://www.gundam.jp/tv/index.html"
+        },
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=20"
+        }
+      ],
+      "synonyms": [
+        "First Gundam",
+        "Gundam",
+        "Mobile Soldier Gundam",
+        "Mobile Suit Gundam 0079 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:35:33.727Z"
+  },
+  "81": {
+    "anisearchId": 647,
+    "descriptionDe": "Shiro Amada, Oberleutnant der Erdallianz, wurde von den Weltraumeinheiten zu den Bodentruppen abgezogen. Nun soll er das 08te MS TEAM leiten. Das 08te MS TEAM stellt eine Problemgruppe dar, bestehend aus einem Haufen von Außenseitern und Gaunern. Die Zeons »Geheimwaffen Entwicklungseinheit« hat eine Basis nahe der Station des 08ten MS TEAM. Eine Pilotin, Aina Sahalin, ist die Testpilotin dieser geheimen Bedrohung. Sie und Shiro hatten bereits eine schicksalhafte Begegnung … \n\nQuelle: www.anisearch.de/anime/647",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Gundam: Dai 08 MS Shoutai",
+          "titleNative": "Kidō Senshi Gundam: Dai 08 MS Shōtai",
+          "status": "Abgeschlossen",
+          "released": "25.01.1996 - 25.07.1999"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit Gundam: The 08th MS Team",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.07.2001 - 22.01.2002",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Madman Entertainment",
+            "Right Stuf Inc.",
+            "SUNRISE Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mobile Suit Gundam: The 08th MS Team",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.01.2024",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "OVA",
+      "episodes": 12,
+      "runtimeMinutes": 25,
+      "season": "Winter 1995/96",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hajime YATATE"
+        },
+        {
+          "name": "Yoshiyuki TOMINO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kunihiro MORI"
+        },
+        {
+          "name": "Takeyuki KANDA"
+        },
+        {
+          "name": "Tetsu SHIMAIYA"
+        },
+        {
+          "name": "Umanosuke IIDA"
+        },
+        {
+          "name": "Toshihiro KAWAMOTO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kouhei TANAKA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=58"
+        },
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=6"
+        },
+        {
+          "name": "Web Archive (Gundam Channel)",
+          "url": "https://web.archive.org/web/20040204035216/https://www.gundam.channel.or.jp/program/_08_ova.shtml"
+        }
+      ],
+      "synonyms": [
+        "Gundam 08th MS Team",
+        "Gundam MS08",
+        "Mobile Suit Gundam: L’Ottavo Plotone"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:35:40.774Z"
+  },
+  "82": {
+    "anisearchId": 9,
+    "descriptionDe": "UC0079, Weihnachten: Bernhard Wiseman, ein junger Pilot, wird mit einer ZEON-Einheit in die Kolonie Libot bei SIDE6 eingeschleust. Ihr Auftrag ist es, Gerüchte über eine neue Waffe der Erdallianz zu bestätigen. Trotz der Hilfe eines kleines Jungen, der die Sondereinheit mit Informationen über die Kolonie versorgt, werden sie entdeckt und es kommt zu heftigen bewaffneten Auseinandersetzungen. Die Lage ist hoffnungslos, doch ein Unglück kommt selten allein und so ereilt die Einheit die neue Direktive: Ist die neuartige Waffe nicht bis Heiligabend gefunden und unschädlich gemacht, wird die Kolonie mit Atomraketen bombardiert. \n\nQuelle: www.anisearch.de/anime/9",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Gundam 0080: Pocket no Naka no Sensou",
+          "titleNative": "Kidō Senshi Gundam 0080: Pocket no Naka no Sensō",
+          "status": "Abgeschlossen",
+          "released": "25.03.1989 - 25.08.1989"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit Gundam 0080: War in the Pocket",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "1998 - ?",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Right Stuf Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mobile Suit Gundam 0080: War in the Pocket",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.01.2024",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "OVA",
+      "episodes": 6,
+      "runtimeMinutes": 27,
+      "season": "Frühling 1989",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hajime YATATE"
+        },
+        {
+          "name": "Yoshiyuki TOMINO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Fumihiko TAKAYAMA",
+          "role": "Direction"
+        },
+        {
+          "name": "Haruhiko MIKIMOTO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Tetsurou KASHIBUCHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=59"
+        }
+      ],
+      "synonyms": [
+        "Gundam 0080: War in the Pocket"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:35:47.802Z"
+  },
+  "83": {
+    "anisearchId": 3426,
+    "descriptionDe": "Offizier Alice Miller wird beauftragt, Ermittlungen über Shiros Aufenthaltsort zum Zeitpunkt seines Verschwindens durchzuführen. Die Aufzeichnungen ihrer Entdeckung werden Aufschluss darüber liefern, ob Shiro ein Verräter ist ‒ und somit über sein Schicksal als Kommandant des 08th MS Team entscheiden. \n\nQuelle: www.anisearch.de/anime/3426",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Gundam: Dai 08 MS Shoutai - Miller’s Report",
+          "titleNative": "Kidō Senshi Gundam: Dai 08 MS Shōtai - Miller’s Report",
+          "status": "Abgeschlossen",
+          "released": "01.08.1998"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit Gundam: The 08th MS Team - Miller’s Report",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "19.03.2002",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mobile Suit Gundam: The 08th MS Team - Miller’s Report",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "2024",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 52,
+      "season": "Sommer 1998",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=254"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:35:54.851Z"
+  },
+  "84": {
+    "anisearchId": 2690,
+    "descriptionDe": "Drei Jahre sind seit der Unterzeichnung des Friedensvertrags zwischen der Erdallianz und Zeon vergangen. Dennoch leben beide Nationen in einem angespannten Verhältnis. Zeon hat seine Niederlage immer noch nicht richtig verwunden. Als auf einer Militärbasis der Erdallianz zwei neue Gundam Mobile Suit-Prototypen getestet werden, wird einer durch Zeon-Leutnant Gato gestohlen. Dieser Suit ist mit Nuklearwaffen bestückt und in den Händen von Zeon eine tödliche Waffe.\n\nDer mutige Testpilot Kou Uraki setzt sich ans Steuer der anderen Einheit und versucht, Gato aufzuhalten … ein melodramatisches Kriegsepos nimmt seinen Lauf. \n\nQuelle: www.anisearch.de/anime/2690",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Gundam 0083: Stardust Memory",
+          "titleNative": "Kidō Senshi Gundam 0083: Stardust Memory",
+          "status": "Abgeschlossen",
+          "released": "23.05.1991 - 24.09.1992"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit Gundam 0083: Stardust Memory",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "1999",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Madman Entertainment",
+            "Anime Limited (UK)"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mobile Suit Gundam 0083: Stardust Memory",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "OVA",
+      "episodes": 13,
+      "runtimeMinutes": 30,
+      "season": "Frühling 1991",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Gundam Channel",
+          "url": "https://www.gundam.channel.or.jp/program/_0083_ova.shtml"
+        }
+      ],
+      "synonyms": [
+        "Gundam 0083: Stardust Memories"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:36:01.885Z"
+  },
+  "85": {
+    "anisearchId": 1959,
+    "descriptionDe": "Sieben Jahren nach Ende des Einjährigen Kriegs im Jahr U.C. 0087 herrscht zwar Frieden, aber weil noch nicht alle Spuren des Zeon-Reiches beseitigt wurden, hatte die Erdföderation die Organisation Titans gegründet. Die geht in ihren Unterdrückungsmaßnahmen rücksichtslos gegen die Kolonien und ihre Einwohner vor und schreckt selbst vor Giftgas nicht zurück.\n\nKamille Bidan ist ein Jugendlicher, der in der Kolonie Green Noa 1 wohnt und seinen weiblich klingenden Namen fast so sehr hasst wie die Titans. Weil er mit einer Gruppe solcher Titans aneinandergerät und einen verletzt, könnte ihm eine lebenslange Haftstrafe drohen. Als sich die Situation für den jungen Mann aufgrund seines Jähzorns verschlechtert, kracht im Rahmen eines Testes ein neuer Gundam in das Gebäude – der RX-178 Gundam Mk-II. Für Kamille bedeutet der Vorfall eine Fluchtmöglichkeit, und als seine Kolonie unter Beschuss gerät, unter der Führung von Leutnant Quattro Bajeena, ergibt sich für den Jungen bald die Möglichkeit, einen Mk-II zu stehlen und zu pilotieren, um so gegen die Titans vorgehen zu können.\n\nEs stellt sich heraus, dass Quattro zur Anti Earth Union Group (AEUG) gehört, die gegen die Erdföderation und insbesondere das schändliche Verhalten der Titans vorgehen, um für die Rechte der Kolonien einzustehen. Für Kamille bietet sich endlich die Gelegenheit, nicht mehr tatenlos zusehen zu müssen. Weil sich herausstellt, dass er ein Newtype ist und damit exzellente Pilotenfähigkeiten besitzt, wird er schon bald direkt in den Mittelpunkt des Geschehens geworfen. \n\nQuelle: www.anisearch.de/anime/1959",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GXJHM3P5W/mobile-suit-zeta-gundam"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Z Gundam",
+          "titleNative": "Kidō Senshi Z Gundam",
+          "status": "Abgeschlossen",
+          "released": "02.03.1985 - 22.02.1986"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit Zeta Gundam",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "14.12.2004",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Madman Entertainment",
+            "Anime Consortium Japan Inc.",
+            "Anime Limited (UK)",
+            "SUNRISE Inc.",
+            "Right Stuf Inc.",
+            "Wakanim Nordic",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Mobile Suit Zeta Gundam",
+          "status": "Abgeschlossen",
+          "released": "19.04.2017 - 10.05.2017",
+          "publisher": [
+            "Anime Limited (France)",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mobile Suit Z Gundam",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "02.02.2009 - 10.04.2009"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 50,
+      "runtimeMinutes": 24,
+      "season": "Frühling 1985",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Yoshiyuki TOMINO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yoshikazu YASUHIKO",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Z Gundam",
+          "url": "https://www.z-gundam.net/"
+        }
+      ],
+      "synonyms": [
+        "Kidou Senshi Zeta Gundam",
+        "Z Gundam",
+        "Zeta Gundam Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:36:08.931Z"
+  },
+  "86": {
+    "anisearchId": 1602,
+    "descriptionDe": "Nach den Ereignissen von »Z Gundam« ist das Militär von der Erde und die AEUG stark geschwächt. Diese Situation will nun Neo-Zeon, Überlebende des Herzogtums Zeon, die vom Asteroiden Axis aus operieren, dazu nutzen, um an die Kontrolle des besiedelten Weltalls zu kommen.Anmerkung:\nDie englische Synchronfassung, die für die TV-Ausstrahlung des Animax-Ablegers in Singapur erstellt wurde, gilt inzwischen als größtenteils verschollen.",
+    "streams": [
+      {
+        "provider": "primevideo-channel-crunchyroll-de",
+        "url": "https://www.amazon.de/dp/B0CBFXDBJS?tag=anisearch.de-21"
+      },
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/mobile-suit-gundam-zz"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Gundam ZZ",
+          "titleNative": "Kidō Senshi Gundam ZZ",
+          "status": "Abgeschlossen",
+          "released": "08.03.1986 - 31.01.1987"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit Gundam ZZ",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?",
+          "publisher": [
+            "Right Stuf Inc.",
+            "Anime Limited (UK)",
+            "SUNRISE Inc.",
+            "Anime Consortium Japan Inc.",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Mobile Suit Gundam ZZ",
+          "status": "Abgeschlossen",
+          "released": "25.10.2017 - 14.02.2018",
+          "publisher": [
+            "Anime Limited (France)"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 47,
+      "runtimeMinutes": 24,
+      "season": "Frühling 1986",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=61"
+        }
+      ],
+      "synonyms": [
+        "Mobile Suit Gundam Double Zeta",
+        "ZZ Gundam",
+        "Mobile Suit Zeta Gundam: Season 2"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:36:15.959Z"
+  },
+  "87": {
+    "anisearchId": 394,
+    "descriptionDe": "Der letzte Kampf zwischen Amuro Ray und Char Aznable! UC 0093. Dreizehn Jahre sind vergangen seit den Ereignissen in »Mobile Suit Gundam« und der Krieg zwischen der Erde und den letzten Vertretern der Zabi-Dynastie ist zu Ende. Doch Char Aznable, von dem alle glaubten, er sei tot, kehrt zurück. Er übernimmt die Führung Neo-Zions, einer Gruppierung, deren Ziel es ist, die Bewohner der Erde zu vertreiben. Um die wenigen noch auf der Erde lebenden Menschen in den Weltraum zu verjagen, droht Char damit, einen nuklearen Winter auf der Erde herbeizuführen. Da die Regierung des Staatenbundes Erde nicht auf Char Aznables Forderungen eingehen will, wird die Londo-Bell-Einheit unter der Führung von Bright Noah und Amuro Ray damit beauftragt, Chars Pläne zu vereiteln. Vierzehn Jahre sind seit dem Krieg zwischen Zion und den föderierten Truppen der Erde vergangen und für Amuro Ray und Char Aznable nähert sich die Stunde des alles entscheidenden, letzten Kampfes! \n\nQuelle: www.anisearch.de/anime/394",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/mobile-suit-gundam/mobile-suit-gundam-chars-counterattack-mobile-suit-gundam-chars-counterattack-851199?ssid=458591"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Gundam: Gyakushuu no Char",
+          "titleNative": "Kidō Senshi Gundam: Gyakushū no Char",
+          "status": "Abgeschlossen",
+          "released": "12.03.1988"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit Gundam: Char’s Counterattack",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "20.08.2002",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Madman Entertainment",
+            "Right Stuf Inc.",
+            "Beez Entertainment",
+            "SUNRISE Inc.",
+            "Anime Limited (UK)",
+            "Netflix, Inc.",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Mobile Suit Gundam: Char’s Counter Attack",
+          "status": "Abgeschlossen",
+          "released": "14.11.2005",
+          "publisher": [
+            "Beez Entertainment",
+            "Netflix, Inc.",
+            "SUNRISE Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Mobile Suit Gundam: Char’s Counterattack",
+          "status": "Abgeschlossen",
+          "released": "18.07.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Mobile Suit Gundam : Char Contre-Attaque",
+          "status": "Abgeschlossen",
+          "released": "09.2005",
+          "publisher": [
+            "Beez Entertainment",
+            "Anime Limited (France)",
+            "Netflix, Inc.",
+            "SUNRISE Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mobile Suit Gundam: Il contrattacco di Char",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?",
+          "publisher": [
+            "Dynit SRL",
+            "SUNRISE Inc."
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 120,
+      "season": "Frühling 1988",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Yoshiyuki TOMINO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yoshiyuki TOMINO",
+          "role": "Direction"
+        },
+        {
+          "name": "Hiroyuki KITAZUME",
+          "role": "Character Design"
+        },
+        {
+          "name": "Shigeaki SAEGUSA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Novel",
+      "websites": [
+        {
+          "name": "Gundam Cca",
+          "url": "http://www.gundam-cca.net/index.html"
+        },
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=57"
+        }
+      ],
+      "synonyms": [
+        "Gundam CCA Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:36:23.005Z"
+  },
+  "88": {
+    "anisearchId": 1978,
+    "descriptionDe": "UC 0123. Dreißig Jahre sind seit der letzten Revolte Char Aznables vergangen und die Erde hat seitdem eine Zeit des Friedens und des Wohlstands ohnegleichen erlebt. Der Krieg erscheint bereits weit entfernt und Neo Zion ist nichts als Erinnerung. Doch diese Ruhe soll nicht lange andauern …\n\nDie einflussreiche Familie Ronah, die an der Spitze der Militärorganisation Crossbone Vanguard steht, bemächtigt sich der Raumkolonien Frontier Side und ruft ihre Unabhängigkeit und die Schaffung einer politischen Utopie aus: Cosmo Babylon. Für Seabook Arno und seine Freunde beginnt eine schwere Zeit, als Crossbone Vanguard ihre Kolonie angreift. Während Seabook das Steuer des Gundam-Prototypen F91 übernimmt, um sein Leben zu retten, wird seine Freundin Cecily Fairchild von Crossbone Vanguard gekidnappt. \n\nQuelle: www.anisearch.de/anime/1978",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Gundam F91",
+          "titleNative": "Kidō Senshi Gundam F91",
+          "status": "Abgeschlossen",
+          "released": "16.03.1991"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit Gundam F91",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "23.11.2004",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Beez Entertainment",
+            "Right Stuf Inc.",
+            "SUNRISE Inc.",
+            "Anime Limited (UK)"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Mobile Suit Gundam F91",
+          "status": "Abgeschlossen",
+          "released": "10.10.2005",
+          "publisher": [
+            "Beez Entertainment"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Mobile Suit Gundam F91",
+          "status": "Abgeschlossen",
+          "released": "08.09.2005",
+          "publisher": [
+            "Beez Entertainment",
+            "Anime Limited (France)"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mobile Suit Gundam F91",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "20.04.2011",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 120,
+      "season": "Frühling 1991",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Yoshiyuki TOMINO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yoshiyuki TOMINO",
+          "role": "Direction"
+        },
+        {
+          "name": "Yoshikazu YASUHIKO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Satoshi KADOKURA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=56"
+        }
+      ],
+      "synonyms": [
+        "Gundam 0123: Formula 91",
+        "Gundam F91",
+        "Gundam Formula 91 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:36:30.030Z"
+  },
+  "89": {
+    "anisearchId": 3125,
+    "descriptionDe": "Das Jahr 0153 des Universal Century bricht an, während die Erdförderation zunehmend zerfällt und an Macht verliert. Diese Schwäche nutzt das im Weltraum erstarkte Imperium von Zanscare gnadenlos aus. Dessen militärischer Arm, die »BESPA«, beginnt eine gewaltsame Invasion der Erde. Die Truppen wollen die Menschen mit brutaler Härte unterwerfen.\n\nInmitten dieses Chaos wächst Uso Ewin im scheinbar sicheren Kasarelia auf. Sein friedliches Leben endet abrupt, als er in einen Kampf zwischen der BESPA und der Widerstandstruppe »League Militaire« gerät. Aufgrund seiner außergewöhnlichen Reflexe und einer tiefen intuitiven Wahrnehmung landet der Junge im Cockpit des neuesten Rebellen-Prototyps. Er wird zum Piloten des »Victory Gundam«.\n\nGemeinsam mit seiner Kindheitsfreundin Shahkti Kareen schließt sich Uso den Rebellen an. Die Gruppe muss sich gegen eine technologisch weit überlegene Übermacht behaupten. Politische Radikalität und militärische Brutalität zwingen eine junge Generation zum nackten Kampf um das eigene Überleben. \n\nQuelle: www.anisearch.de/anime/3125",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Victory Gundam",
+          "titleNative": "Kidō Senshi Victory Gundam",
+          "status": "Abgeschlossen",
+          "released": "02.04.1993 - 25.03.1994"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit V Gundam",
+          "status": "Abgeschlossen",
+          "released": "04.10.2016 - 01.11.2016",
+          "publisher": [
+            "Right Stuf Inc."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 51,
+      "runtimeMinutes": 24,
+      "season": "Frühling 1993",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "V Gundam",
+          "url": "https://www.v-gundam.net/"
+        }
+      ],
+      "synonyms": [
+        "Mobile Suit Victory Gundam",
+        "V Gundam",
+        "Victory Gundam"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:36:37.070Z"
   },
   "90": {
     "anisearchId": 3351,
@@ -3948,6 +6578,71 @@
     },
     "fetchedAt": "2026-08-27T15:25:19.886Z"
   },
+  "92": {
+    "anisearchId": 2428,
+    "descriptionDe": "Das Streben einer Kolonie nach Unabhängigkeit entwickelte sich zu einem totalen Krieg zwischen der Erde und den Kolonien. In acht Monaten unerbittlichem Kampf konnte keine Seite einen Vorteil gewinnen, bis die Kolonien drohten, eine der Kolonien auf die Erde stürzen zu lassen, um den blauen Planeten in globales Chaos zu stürzen. Sie wollen die Erde mit aller Macht zur Kapitulation zwingen. Um dieser Bedrohung Herr zu werden, aktivierte die Erdregierung ihre Geheimwaffe, genannt »Mobile Suit Gundam« – ein Kampfsystem, das entwickelt worden war, um den Krieg zu entscheiden. Mit diesem vernichtete die Erde diejenige Kolonie, welche die Erde bedrohte, rief aber damit die größte Tragödie der Menschheit herbei, denn unter dem Druck dieser neuen Bedrohung steuerten alle Kolonien auf die Erde zu. An dem Tag, an dem die Kolonien auf die Erde fielen, wurde die Bevölkerung der Erde – 10 Milliarden Menschen – fast vollständig ausgelöscht. Der Krieg endete ohne einen Sieger … 15 Jahre sind seitdem vergangen. \n\nQuelle: www.anisearch.de/anime/2428",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Shin Seiki Gundam X",
+          "titleNative": "Kidō Shin Seiki Gundam X",
+          "status": "Abgeschlossen",
+          "released": "05.04.1996 - 28.12.1996"
+        },
+        {
+          "language": "Englisch",
+          "title": "After War Gundam X",
+          "status": "Abgeschlossen",
+          "released": "07.06.2016 - 05.07.2016",
+          "publisher": [
+            "Right Stuf Inc."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 39,
+      "runtimeMinutes": 24,
+      "season": "Frühling 1996",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hajime YATATE"
+        },
+        {
+          "name": "Yoshiyuki TOMINO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Shinji TAKAMATSU",
+          "role": "Direction"
+        },
+        {
+          "name": "Nobuyoshi NISHIMURA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Yasuo HIGUCHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Gundam X",
+          "url": "https://www.gundam-x.net/"
+        }
+      ],
+      "synonyms": [
+        "Mobile New Century Gundam X",
+        "Mobile Suit Gundam X"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:36:44.105Z"
+  },
   "93": {
     "anisearchId": 1515,
     "descriptionDe": "Vor vielen Jahren fing ein Wissenschaftler an, seine Gene zu manipulieren, und so wurde die Menschheit in zwei Lager gespalten. Auf der einen Seite die Coordinators, genmanipulierte Menschen, die auf Raumkolonien leben, und auf der anderen Seite die Naturals, »normale« Menschen, die zunehmend die Coordinators aufgrund ihrer Überlegenheit in vielen Bereichen hassen. Der Konflikt eskaliert mit der Vernichtung einer Raumkolonie mittels einer Atombombe durch die Erdallianz. Anfangs zweifelte man nicht an dem Sieg der zahlenmäßig überlegenen Erdallianz, doch die überlegene Technologie der Coordinators macht sie zu ebenbürtigen Gegnern und so stehen seit nunmehr elf Monaten die Fronten fest und keine der beiden Parteien kann einen Vorteil erlangen.\n\nIn Heliopolis, einer Kolonie der neutralen Nation Orb, sitzt der junge Kira mitten in einem Park und arbeitet etwas für seinen Professor aus, als seine Freunde ihn abholen wollen – doch der Friede ist trügerisch. Denn obwohl Heliopolis eine neutrale Kolonie ist, hat die Erde dort ein neues Trägerschiff und fünf leistungsstarke Mobile Suits versteckt. Deswegen ist nun auch Heliopolis das Ziel einiger Elitesoldaten, deren Aufgabe es ist, die fünf Prototypen zu stehlen. Eine heftige Explosion erschüttert das Labor, und ehe Kira begreift, was um ihn herum geschieht, findet er sich im Chaos wieder. Er wird von seinen Freunden getrennt, muss sich alleine durchschlagen und findet beim letzten noch nicht gestohlenen Mobile Suit Strike seinen späteren Kapitän Murrue Ramius vor. Ohne lang zu zögern, steigen die beiden in den Gundam ein, und nachdem Ramius mit der Einheit völlig überfordert ist, steuert Kira ihn in den Kampf. Seine Überlegenheit als Coordinator führt ihn letzten Endes nach der schicksalhaften Begegnung mit einem Soldaten, seinem früheren Freund Athrun, zum Sieg.Anmerkung:\nDie Recap-Episoden 14 & 26 fehlen auf der japanischen Blu-ray und in allen anderen HD-Veröffentlichungen der Serie.",
@@ -4058,6 +6753,242 @@
       ]
     },
     "fetchedAt": "2026-08-27T15:25:27.057Z"
+  },
+  "94": {
+    "anisearchId": 1444,
+    "descriptionDe": "Gundam Seed Destiny ist die Fortsetzung des erfolgreichen Anime Gundam Seed.\n\nDie Geschichte von Destiny beginnt mit einem kurzen Rückblick ins Jahr 71 CE, als die Hauptinsel von Orb zerstört wurde. Der damals 14-jährige Shinn Asuka versuchte gemeinsam mit seinen Eltern und seiner kleinen Schwester zur Evakuierung zu einem Raumschiff zu gelangen. Doch kurz bevor sie den Hafen erreichten, wurde Shinn durch einen unglücklichen Zufall von seiner Familie getrennt. Genau in diesem Moment verirrte sich ein Schuss an den Ort, an dem sich seine Familie befand. Mit Entsetzen musste er feststellen, dass seine ganze Familie getötet wurde.\n\nKnapp zwei Jahre sind seitdem vergangen und Shinn Asuka ist nach diesem Vorfall der Militärakademie von ZAFT beigetreten. Nun ist er an Bord des neuen Kampfschiffes Minerva stationiert. Sein Weg führt ihn auf eine der PLANTs, wo er Zeuge davon wird, wie eine Spezial-Einheit der Erdallianz versucht, drei neue und geheime Gundams von ZAFT zu stehlen. Kurz entschlossen greift er in das Geschehen ein und versucht die Spezial-Einheit aufzuhalten. Doch denen gelingt die erfolgreiche Flucht mit den neuen Gundam Einheiten.\n\nDoch wie gelangten die drei Piloten überhaupt in die PLANTs um die Gundams stehlen zu können? Was will die Erdallianz damit bezwecken? Droht etwa ein neuer Krieg auszubrechen, der erneut so vielen Menschen das Leben gekosten wird? \n\nQuelle: www.anisearch.de/anime/1444",
+    "streams": [
+      {
+        "provider": "primevideo-channel-crunchyroll-de",
+        "url": "https://www.amazon.de/dp/B0CJD32R9J?tag=anisearch.de-21"
+      },
+      {
+        "provider": "youtube",
+        "url": "https://www.youtube.com/playlist?list=PLJV1h9xQ7Hx-Q6DzrvQ8RoJT6itWgi0hP"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Gundam SEED Destiny",
+          "titleNative": "Kidō Senshi Gundam SEED Destiny",
+          "status": "Abgeschlossen",
+          "released": "09.10.2004 - 01.10.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Suit Gundam SEED Destiny",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "14.03.2006 - 08.01.2008",
+          "publisher": [
+            "Beez Entertainment",
+            "Madman Entertainment",
+            "Bandai Entertainment, Inc.",
+            "Anime Consortium Japan Inc.",
+            "Crunchyroll",
+            "Right Stuf Inc.",
+            "Anime Limited (UK)"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Mobile Suit Gundam Seed Destiny",
+          "status": "Abgeschlossen",
+          "released": "12.10.2017 - 28.12.2017",
+          "publisher": [
+            "Beez Entertainment",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Mobile Suit Gundam Seed Destiny",
+          "status": "Abgeschlossen",
+          "released": "2017",
+          "publisher": [
+            "Crunchyroll",
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Mobile Suit Gundam SEED Destiny",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.09.2006 - 2008",
+          "publisher": [
+            "Beez Entertainment",
+            "Crunchyroll",
+            "SUNRISE Inc."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 50,
+      "runtimeMinutes": 25,
+      "season": "Herbst 2004",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hajime YATATE"
+        },
+        {
+          "name": "Yoshiyuki TOMINO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Mitsuo FUKUDA",
+          "role": "Direction"
+        },
+        {
+          "name": "Hisashi HIRAI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Toshihiko SAHASHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Gundam Seed D",
+          "url": "https://www.gundam-seed-d.net/"
+        }
+      ],
+      "synonyms": [
+        "Gundam SEED 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:36:51.165Z"
+  },
+  "95": {
+    "anisearchId": 1440,
+    "descriptionDe": "»Turn A Gundam« siedelt sich 2000 Jahre nach den eigentlichen »Gundam«-Serien an. Auf der Welt wurde der technologische Standard, den man vorher besaß, vergessen und die Menschen leben glücklich mit den wenigen Maschinen, die sie haben. Die neuste Technologie ist zum Beispiel ein großes Luftschiff. Auf dem Mond aber leben noch Menschen mit hoch entwickelter Technologie. Die als Moonrace bezeichnete Zivilisation möchte sich nun aber wieder auf der Erde niederlassen.\n\nLoran Cehack gehört zur Moonrace. Um zu sehen, wie sich die Moonrace der Welt anpassen kann, wurde er zusammen mit zwei Freunden auf die Erde geschickt. Er arbeitet seitdem in einem Landhaus als Chauffeur und freundet sich mit den Töchtern der Familie Sochie und Kihel an.\nDoch ein paar Jahre später startet die Moonrace ihr Vorhaben und landet auf der Erde, was von den Bewohnern der Erde als Invasion ausgelegt wird. Ein Krieg entfacht und eskaliert, als man auf der Erde die alten Giganten ausgräbt, die vor 2000 Jahren die Erde beinahe zerstört hätten. Auch Atombomben werden gefunden und beide Parteien sind sich der furchtbaren Ausmaße der Bombe nicht bewusst. Loran ist der Pilot von einem der riesigen Roboter und stellt sich erst einmal auf die Seite der Erdbewohner. Im Verlauf taucht auch Königin Dianna Soriel auf, die genauso aussieht wie Kihel Heim. Die beiden wechseln die Rollen und versuchen alles, um den Konflikt zu beseitigen. \n\nQuelle: www.anisearch.de/anime/1440",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Turn A Gundam",
+          "titleNative": "∀ガンダム",
+          "status": "Abgeschlossen",
+          "released": "09.04.1999 - 14.04.2000"
+        },
+        {
+          "language": "Englisch",
+          "title": "Turn A Gundam",
+          "status": "Abgeschlossen",
+          "released": "02.06.2015 - 04.08.2015",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Anime Limited (UK)",
+            "Right Stuf Inc.",
+            "Anime Consortium Japan Inc."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 50,
+      "runtimeMinutes": 24,
+      "season": "Frühling 1999",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Turn A Gundam",
+          "url": "https://www.turn-a-gundam.net/"
+        }
+      ],
+      "synonyms": [
+        "TaG",
+        "∀ Gundam"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:36:58.206Z"
+  },
+  "96": {
+    "anisearchId": 1657,
+    "descriptionDe": "Im Jahre FC 60 leben viele Menschen in einer Kolonie, die sich im Weltall befindet. Wer die Herrschaft über die einzelnen Kolonien hat, entscheidet ein Turnier, das alle vier Jahre stattfindet. Jede Kolonie entsendet dazu einen Kämpfer und dieser muss sich dann mit einem riesigen Roboter, genannt »Gundam«, den anderen Teilnehmern stellen und diesen Kampf gewinnen. Domon Kashuu vertritt Neo-Japan in diesem Turnier, aber er kämpft weniger für den Sieg seiner Nation, sondern ist auf der Suche nach seinem Bruder, der für den Tod von Domons Eltern verantwortlich gemacht wird und für das Verschwinden einer sehr gefährlichen Waffe, dem Dark Gundam oder Devil Gundam, verantwortlich ist. \n\nQuelle: www.anisearch.de/anime/1657",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Butouden G Gundam",
+          "titleNative": "Kidō Butōden G Gundam",
+          "status": "Abgeschlossen",
+          "released": "22.04.1994 - 31.03.1995"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mobile Fighter G Gundam",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.08.2002 - 16.10.2002",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Crunchyroll",
+            "Right Stuf Inc.",
+            "Anime Limited (UK)"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Mobile Fighter G Gundam",
+          "status": "Abgeschlossen",
+          "released": "23.05.2017 - 11.07.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Mobile Fighter G Gundam",
+          "status": "Abgeschlossen",
+          "released": "17.04.2017 - 19.06.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Mobile Fighter G Gundam",
+          "status": "Abgeschlossen",
+          "released": "29.06.2017 - 31.08.2017",
+          "publisher": [
+            "Crunchyroll",
+            "Anime Limited (France)"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 49,
+      "runtimeMinutes": 24,
+      "season": "Frühling 1994",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=64"
+        }
+      ],
+      "synonyms": [
+        "Kido Butoden G Gundam",
+        "Kido Senshi G-Gundam",
+        "Mobile Fighter G-Gundam Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:37:05.266Z"
   },
   "97": {
     "anisearchId": 1204,
@@ -4243,6 +7174,752 @@
     },
     "fetchedAt": "2026-08-27T15:25:41.197Z"
   },
+  "99": {
+    "anisearchId": 1195,
+    "descriptionDe": "Mai-Otome sind Mädchen für alles, die für Politiker und Adel als Hausmädchen und als Berater fungieren. In einer Otome-Schule werden sie speziell ausgebildet und verfügen über magische Kräfte, um ihre Herren schützen zu können. Es gibt nämlich eine Untergrundorganisation, die Anschläge verübt und durch spezielle Kräfte Sklaven und ähnliche Geschöpfe erschaffen können …\n\nAm Anfang der Serie geht es um das Mädchen Arika, die erst einmal ziellos durch eine Wüste streift und durch Zufall von einem Schiff aufgenommen wird. So wie das Leben spielt, lernt sie durch ein Missgeschick Nina kennen – eine Otome. Als sie zusammen einen Entführungsfall mitbekommen, greifen sie beherzt ein. Dabei bemerkt Nina, dass Arika durch ihre Kette, ohne es zu wissen, ebenfalls über Otome-Kräfte verfügt. Was steckt dahinter? Arika selbst weiß nichts von ihrer Vergangenheit … \n\nQuelle: www.anisearch.de/anime/1195",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mai-Otome",
+          "titleNative": "舞-乙HiME",
+          "status": "Abgeschlossen",
+          "released": "07.10.2005 - 31.03.2006"
+        },
+        {
+          "language": "Englisch",
+          "title": "My Otome",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.07.2007 - 15.07.2008",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "FUNimation",
+            "Madman Entertainment"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2005",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hajime YATATE",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masakazu OHARA",
+          "role": "Direction"
+        },
+        {
+          "name": "Hirokazu HISAYUKI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Yuki KAJIURA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "My Zhime",
+          "url": "https://www.my-zhime.net/"
+        },
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=165"
+        },
+        {
+          "name": "Sunrise World",
+          "url": "https://www.sunrise-world.net/titles/pickup_165.php"
+        }
+      ],
+      "synonyms": [
+        "Mai Oto-Hime",
+        "Mai Otome",
+        "Mai-HiME 2",
+        "Mai-OtoHiME",
+        "My ZHiME"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:37:12.313Z"
+  },
+  "100": {
+    "anisearchId": 2625,
+    "descriptionDe": "Himeno lebte bisher alleine mit ihrem Vater, einem Liebesromanschriftsteller; ihre Mutter starb schon vor vielen Jahren. Doch nun hat sich ihr Vater wieder verliebt und so ziehen sie zur neuen Familie. Dort stellt sich heraus, dass Himeno damit auch zwei Schwestern bekommt: zum einen Mawata, die sich stillschweigend aus dem Familienleben heraushält, zum anderen ist da die selbstverliebte Mayune, die Himeno und deren Vater von Beginn an ablehnt.\n\nDie Situation entwickelt sich nicht gerade günstig für Himeno, denn neben den familiären Schwierigkeiten ist auch der Schulalltag nicht gerade einfach zu bewältigen: Viele Schüler werfen ihr schiefe Blicke zu und reißen Witze, was Himeno schließlich an den Rand der Verzweiflung treibt.\n\nZur gleichen Zeit treten die Leafe Knights in Erscheinung, die aus einer anderen Welt kommen, um die Erde zu retten, denn das Böse breitet sich bereits aus und entzieht allem Lebenden die Energie. Diese Ritter sind daher auf der Suche nach der sogenannten Prétear, einem Mädchen von der Erde, dessen außergewöhnliche Fähigkeit unverzichtbar für die Rettung selbiger ist. \n\nQuelle: www.anisearch.de/anime/2625",
+    "streams": [
+      {
+        "provider": "primevideo-channel-crunchyroll-de",
+        "url": "https://www.amazon.de/dp/B0CG8M6GBW?tag=anisearch.de-21"
+      },
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GRWE8VK0R/pretear"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Shin Shirayukihime Densetsu Pretear",
+          "titleNative": "新白雪姫伝説プリーティア",
+          "status": "Abgeschlossen",
+          "released": "04.04.2001 - 27.06.2001"
+        },
+        {
+          "language": "Englisch",
+          "title": "Pretear",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "25.11.2003 - 30.03.2004",
+          "publisher": [
+            "ADV Films (USA)",
+            "Madman Entertainment",
+            "ADV Films (UK)",
+            "FUNimation"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Pretear",
+          "status": "Abgeschlossen",
+          "released": "14.12.2022",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Pretear",
+          "status": "Abgeschlossen",
+          "released": "17.05.2004 - 15.10.2004",
+          "publisher": [
+            "Dybex S.A.",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Pretear: La leggenda della nuova Biancaneve",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?",
+          "publisher": [
+            "Fool Frame"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 23,
+      "season": "Frühling 2001",
+      "studios": [
+        "HAL FILM MAKER Inc."
+      ],
+      "staff": [
+        {
+          "name": "Jun’ichi SATOU"
+        },
+        {
+          "name": "Kaori NARUSE",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kiyoko SAYAMA",
+          "role": "Direction"
+        },
+        {
+          "name": "Akemi KOBAYASHI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Toshiyuki OOMORI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Web Archive (Geneon Ent)",
+          "url": "https://web.archive.org/web/20040209082415/https://www.geneon-ent.co.jp/rondorobe/anime/pretear/index_set.html"
+        }
+      ],
+      "synonyms": [
+        "New Snow White’s Legend Pretear",
+        "Shin Shirayuki-hime Densetsu Pretear Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:37:19.345Z"
+  },
+  "101": {
+    "anisearchId": 110,
+    "descriptionDe": "»Air« handelt von Yukito Kunisaki, einem Reisenden, der schon seit Jahren nach dem »Mädchen im Himmel« sucht. Die Legende über das geflügelte Menschenwesen wird in seiner Familie seit Generationen weitererzählt, damit eines Tages ein Nachkomme das tragische Schicksal jenes sagenhaften Mädchens zum Positiven verändert.\n\nAuf seiner Reise kommt Yukito in eine kleine Stadt am Strand, wo er das geheimnisvolle Mädchen Misuzu trifft, das unbedingt mit ihm Freundschaft schließen möchte. Somit nimmt eine Geschichte ihren Lauf, deren Wurzeln mehrere tausend Jahre in der Vergangenheit liegen … \n\nQuelle: www.anisearch.de/anime/110",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Air",
+          "status": "Abgeschlossen",
+          "released": "07.01.2005 - 25.03.2005"
+        },
+        {
+          "language": "Englisch",
+          "title": "Air",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "14.08.2007 - 30.10.2007",
+          "publisher": [
+            "ADV Films (USA)",
+            "FUNimation",
+            "Madman Entertainment",
+            "MVM Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Air",
+          "status": "Abgeschlossen",
+          "released": "03.12.2020",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Winter 2004/05",
+      "studios": [
+        "Kyoto Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "VISUALARTS Co., Ltd.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tatsuya ISHIHARA",
+          "role": "Direction"
+        },
+        {
+          "name": "Tomoe ARATANI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Jun MAEDA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Visual Novel",
+      "websites": [
+        {
+          "name": "Bs I",
+          "url": "https://www.bs-i.co.jp/anime/AIR/"
+        }
+      ],
+      "synonyms": [
+        "Air TV"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:37:26.396Z"
+  },
+  "102": {
+    "anisearchId": 1963,
+    "descriptionDe": "Als Kippei von der Schule nach Hause kommt, begrüßt ihn an der Tür seine fünf Jahre alte Cousine Yuzuyu. Kippeis Tante Miyako ist verschwunden und hat ihre Tochter alleine zurückgelassen. Nun liegt es an Kippeis Familie, für Yuzuyu zu sorgen und der Einzige, der genügend Zeit hat, ist Kippei. Obwohl er lieber mit Mädchen ausgegangen wäre, kümmert sich Kippei nun um Yuzuyu. Schnell muss er aber einsehen, dass es nicht leicht ist, auf ein Kind aufzupassen. Um rechtzeitig zum Kindergarten zu kommen, das Essen vorzubereiten oder mit Yuzuyu zu spielen, muss Kippei sein ganzes Leben umstellen. Kippei und Yuzuyu sind bald unzertrennlich, doch weiß Kippei, dass niemand Yuzuyus Mutter ersetzen kann. Miyako ist allerdings immer noch verschwunden und niemand weiß, wann und ob sie zurückkommen wird … \n\nQuelle: www.anisearch.de/anime/1963",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Aishiteru ze Baby",
+          "titleNative": "愛してるぜベイベ★★",
+          "status": "Abgeschlossen",
+          "released": "03.04.2004 - 09.10.2004"
+        },
+        {
+          "language": "Englisch",
+          "title": "Aishiteruze Baby (I Love You, Baby)",
+          "status": "Abgeschlossen",
+          "released": "20.05.2022"
+        },
+        {
+          "language": "Spanisch",
+          "title": "Bebé, mi amor",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.06.2023 - 08.12.2023",
+          "publisher": [
+            "ANIME REMOW LATAM S. de R.L. de C.V."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Babe, my Love",
+          "status": "Abgebrochen",
+          "released": "22.06.2006",
+          "publisher": [
+            "IDP"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 25,
+      "season": "Frühling 2004",
+      "studios": [
+        "TMS Entertainment Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Youko MAKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masaharu OKUWAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Junko YAMANAKA"
+        },
+        {
+          "name": "Masatomo SUDOU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Miki KASAMATSU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Tms E",
+          "url": "https://www.tms-e.com/on_air/beibe/"
+        }
+      ],
+      "synonyms": [
+        "Aishiteruze Baby",
+        "Baby",
+        "My Love Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:37:33.441Z"
+  },
+  "103": {
+    "anisearchId": 458,
+    "descriptionDe": "»Akazukin Cha Cha« ist die Geschichte eines jungen Mädchens, das Chacha genannt wird. Sie lebt in einem Häuschen mit dem besten Zauberer der Welt, Seravi, ihrem Wächter und Lehrer. Chacha ist, im Gegensatz zu Seravi, im Zaubern sehr ungeschickt. Zusammen mit ihren Freunden, dem Werwolf Riiya und Shiine, dem Zauberlehrling, erlebt sie zahlreiche Abenteuer und erfährt von ihrer geheimnisvollen Vergangenheit. \n\nQuelle: www.anisearch.de/anime/458",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Akazukin Chacha",
+          "titleNative": "赤ずきんチャチャ",
+          "status": "Abgeschlossen",
+          "released": "07.01.1994 - 30.06.1995"
+        },
+        {
+          "language": "Englisch",
+          "title": "Akazukin Cha Cha",
+          "status": "Abgeschlossen",
+          "released": "?"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 74,
+      "runtimeMinutes": 25,
+      "season": "Winter 1993/94",
+      "studios": [
+        "GALLOP Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Min AYAHANA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hatsuki TSUJI",
+          "role": "Direction"
+        },
+        {
+          "name": "Hajime WATANABE",
+          "role": "Character Design"
+        },
+        {
+          "name": "Osamu TEZUKA"
+        },
+        {
+          "name": "Toshihiko SAHASHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Red Riding Hood Chacha"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:37:40.468Z"
+  },
+  "104": {
+    "anisearchId": 2126,
+    "descriptionDe": "Ceres war eine Tennyo, eine himmlische Jungfrau, die vom Himmel hinunter kam, um im Fluss zu baden. Sie hing ihren Hagoromo (Gewand), welcher der Schlüssel für ihre Rückkehr zum Himmel war, an einen nahestehenden Baum. Jedoch wurde das Gewand gestohlen und der Mann, der das Gewand gestohlen hatte, zwang Ceres ihn zu heiraten. Später, in der modernen Zeit, kommt ein Nachfahre Ceres, welche eine beachtliche Menge an Tennyoblut besitzt. Ihr Name ist Aya Mikage. An ihrem sechzehnten Geburtstag feiern sie und ihr Zwillingsbruder Aki eine Party. Auf der Party plant ihr Großvater sie umzubringen, weil sie Tennyokräfte besitzt, im Gegensatz zum Rest der Familie und somit zu Ceres werden kann und so die Familie Mikage vernichten könnte. Aya jedoch kann sich nach der Verwandlung in Ceres zurückverwandeln und deshalb geschieht die Verwandlung sehr häufig. Mit Yuuhi an ihrer Seite liegt es nun an ihr, Ceres Kräfte zu kontrollieren und Ceres daran zu hindern, zurückzukehren. \n\nQuelle: www.anisearch.de/anime/2126",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ayashi no Ceres",
+          "titleNative": "妖しのセレス",
+          "status": "Abgeschlossen",
+          "released": "20.04.2000 - 28.09.2000"
+        },
+        {
+          "language": "Englisch",
+          "title": "Ceres, Celestial Legend",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "31.07.2001 - 26.03.2002",
+          "publisher": [
+            "VIZ Media, LLC",
+            "Discotek Media"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Ceres: La Leyenda Celestial",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "27.02.2007",
+          "publisher": [
+            "Savor Ediciones S.A."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Ayashi no Ceres",
+          "status": "Abgeschlossen",
+          "released": "10.05.2003 - ?",
+          "publisher": [
+            "Dybex S.A."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Ayashi no Ceres",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 24,
+      "runtimeMinutes": 21,
+      "season": "Frühling 2000",
+      "studios": [
+        "Pierrot Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Pierrot",
+          "url": "https://pierrot.jp/archives/tv_list_2000/tv_051.html"
+        }
+      ],
+      "synonyms": [
+        "Ceres Celestial Legend",
+        "Mysterious Ceres",
+        "Unearthly Ceres Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:37:47.499Z"
+  },
+  "105": {
+    "anisearchId": 3423,
+    "descriptionDe": "Jede Liebesgeschichte hat zwei Seiten: die des Mannes und die der Frau, wobei beide sehr unterschiedlich sein können. Besonders die Zeit in der Oberschule ist dabei eine Phase voller verworrener Romanzen und gebrochener Herzen. Kyouichi und Chiharu sind zum Beispiel seit ihrer Kindheit befreundet, aber ihre Beziehung wird plötzlich immer ernster, da Kyouichis Gefühle sich verändert haben. Makoto hingegen glaubt, dass sein Computer ihm dabei helfen kann, die Liebe fürs Leben zu finden. Yoshihiko ist ein talentierter Baseballspieler, der sehr unsicher ist, was das andere Geschlecht angeht. Und dann gäbe es da noch Yumi und Aki, die nach einer Lösung für ihre Probleme mit der Einsamkeit suchen. Sie alle sind in der Oberschule angekommen und müssen feststellen, dass sie noch nicht viel über das Leben oder die Liebe wissen. \n\nQuelle: www.anisearch.de/anime/3423",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Boys Be...",
+          "titleNative": "ボーイズ・ビー",
+          "status": "Abgeschlossen",
+          "released": "11.04.2000 - 04.07.2000"
+        },
+        {
+          "language": "Englisch",
+          "title": "Boys Be...",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.02.2006 - 27.06.2006",
+          "publisher": [
+            "Right Stuf Inc.",
+            "Nozomi Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Boys Be...",
+          "status": "Abgebrochen",
+          "released": "12.09.2003 - 15.06.2004",
+          "publisher": [
+            "Trimax GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Boys Be… Más alla del amor",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.04.2002 - 24.05.2002",
+          "publisher": [
+            "Savor Ediciones S.A."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Boys Be...",
+          "released": "?"
+        },
+        {
+          "language": "Italienisch",
+          "title": "Boys Be...",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.06.2002 - 07.04.2004",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 24,
+      "season": "Frühling 2000",
+      "studios": [
+        "HAL FILM MAKER Inc."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Boys Be Rightstuf",
+          "url": "https://boys-be.rightstuf.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:37:54.534Z"
+  },
+  "106": {
+    "anisearchId": 2151,
+    "descriptionDe": "Tsukushi Makino, ein Mädchen aus einer armen Familie, will eigentlich nur in Ruhe ihre letzten zwei Jahre an der Eitoku Gakuen verbringen. Eines Tages macht sie jedoch auf sich aufmerksam, indem sie für eine ihrer Freundinnen gegen die F4 auftritt, die vier populärsten, einflussreichsten und reichsten Jungen an der Schule. Dafür bekommt sie von diesen die rote Karte, eine Art Kriegserklärung der F4. Davon lässt sie sich allerdings nicht einschüchtern, behauptet sich gegen sie und beginnt sogar, sich in einen von ihnen zu verlieben. Dabei bemerkt sie, dass mehr hinter ihnen steckt, als es anfangs den Anschein hat. \n\nQuelle: www.anisearch.de/anime/2151",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hana yori Dango",
+          "titleNative": "花より男子",
+          "status": "Abgeschlossen",
+          "released": "08.09.1996 - 31.08.1997"
+        },
+        {
+          "language": "Englisch",
+          "title": "Boys over Flowers",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.09.2003 - 05.07.2005",
+          "publisher": [
+            "VIZ Media, LLC",
+            "Discotek Media",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Hana Yori Dango",
+          "status": "Abgeschlossen",
+          "released": "29.01.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Hana Yori Dango",
+          "status": "Abgeschlossen",
+          "released": "12.02.2025",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mille emozioni tra le pagine del destino per Marie-Yvonne",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "08.07.2004 - 27.08.2004"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 51,
+      "runtimeMinutes": 24,
+      "season": "Herbst 1996",
+      "studios": [
+        "Toei Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Youko KAMIO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yoshihiko UMAKOSHI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Michiru OOSHIMA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Toei Animation",
+          "url": "https://www.toei-anim.co.jp/tv/hanadan/"
+        }
+      ],
+      "synonyms": [
+        "Boys before Flowers",
+        "hyd tv Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:38:01.574Z"
+  },
+  "107": {
+    "anisearchId": 2463,
+    "descriptionDe": "»King of Bandit Jing« erzählt die Geschichte vom jungen Jing, der – auf der Suche nach besonderen Gegenständen – durch die Länder zieht. Er ist der »König der Diebe« und überall bekannt. Doch sein Vorteil ist, dass niemand weiß, wie der König der Diebe aussieht.\n\nUnd so verschlägt es Jing in die Hauptstadt der Diebe. Dort hortet der grausame Bürgermeister ein geheimnisvolles Juwel, das die »doppelte Meerjungfrau« genannt wird. Er verschanzt sich hoch oben im Turm der Stadt und hält allerhand Fallen für die Diebe bereit, die seine Schätze stehlen wollen. Doch Jing und sein treuer Rabe Kir gehen an das Problem mit Witz und Köpfchen. Denn hinter dem Juwel verbirgt sich ein ganz besonderer Schatz … \n\nQuelle: www.anisearch.de/anime/2463",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ou Dorobou Jing",
+          "titleNative": "Ō Dorobō Jing",
+          "status": "Abgeschlossen",
+          "released": "15.05.2002 - 14.08.2002"
+        },
+        {
+          "language": "Englisch",
+          "title": "King of Bandit Jing",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "22.07.2003 - 25.11.2003",
+          "publisher": [
+            "ADV Films (USA)",
+            "ADV Films (UK)",
+            "FUNimation",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "King of Bandit Jing",
+          "status": "Abgeschlossen",
+          "released": "23.05.2005",
+          "publisher": [
+            "ADV Films Germany"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Jing, roi des voleurs",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "26.09.2007",
+          "publisher": [
+            "Kazé France"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 25,
+      "season": "Frühling 2002",
+      "studios": [
+        "Studio DEEN Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Sonymusic",
+          "url": "https://www.sonymusic.co.jp/Animation/jing/"
+        }
+      ],
+      "synonyms": [
+        "Jing",
+        "Roi des Bandits Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:38:08.610Z"
+  },
+  "108": {
+    "anisearchId": 2809,
+    "descriptionDe": "Der König der Diebe und sein Frauenheld-Freund Kir sind zurück, und hinter Gittern! Das Glück dieses Duos ist nun endgültig vorbei und lässt sie eingesperrt und in Handschellen zurückgelassen im Siebten Himmel, dem besten Hochsicherheitsgefängnis auf der Welt, aus dem es kein Entkommen gab. Aber noch ist nichts verloren für Jing und Kir, denn es gibt im Siebten Himmel einen großen Schatz versteckt. Es wird gemunkelt, dass ein Mithäftling, Campari, die Fähigkeit hat Träume in Süßigkeiten kristallisieren zu können, und den Esser von allem Träumen zu lassen was er sich wünschen. Und natürlich, wie könnte es anders sein, als das Jing es stehlen möchte? \n\nQuelle: www.anisearch.de/anime/2809",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ou Dorobou Jing in Seventh Heaven",
+          "titleNative": "Ō Dorobō Jing in Seventh Heaven",
+          "status": "Abgeschlossen",
+          "released": "21.01.2004 - 28.04.2004"
+        },
+        {
+          "language": "Englisch",
+          "title": "Jing, King of Bandits: Seventh Heaven",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "20.11.2007",
+          "publisher": [
+            "ADV Films (USA)",
+            "FUNimation",
+            "Madman Entertainment"
+          ]
+        }
+      ],
+      "format": "OVA",
+      "episodes": 3,
+      "runtimeMinutes": 27,
+      "season": "Winter 2003/04",
+      "studios": [
+        "Studio DEEN Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Sonymusic",
+          "url": "https://www.sonymusic.co.jp/Animation/jing/"
+        }
+      ],
+      "synonyms": [
+        "Jing OVA",
+        "King of Bandit Jing in 7th Heaven OVA",
+        "King of Bandit Jing in Seventh Heaven"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:38:15.640Z"
+  },
   "109": {
     "anisearchId": 1191,
     "descriptionDe": "Jo, Amy, Meg und Sei sind vier grundverschiedene junge Frauen, die sich zu einem unberechenbaren Team von Privatdetektivinnen zusammengeschlossen haben, den Burst Angel. Sie lösen souverän alle Aufträge und werden dabei von Django, einem sehr schlagkräftigen Cybot, unterstützt. Unsere tapferen Heldinnen lassen sich nicht unterkriegen und nehmen es mit jedem ihrer furchterregenden Feinde auf, wie verrückt gewordene Cybots oder einem Mann, der zu einem schrecklichen Monstrum mutiert ist. \n\nQuelle: www.anisearch.de/anime/1191",
@@ -4346,6 +8023,445 @@
     },
     "fetchedAt": "2026-08-27T15:25:48.250Z"
   },
+  "110": {
+    "anisearchId": 1811,
+    "descriptionDe": "Nach dem Tod seiner Mutter versucht Mao in ihre Fußstapfen zu treten und seinerseits ein ebenso legendärer Kochkünstler zu werden, wie sie es gewesen ist. Nur so wird er den Posten des Küchenchefs im Restaurant seiner Mutter ausfüllen können – deswegen begibt er sich auf eine Reise quer durch China, um von den verschiedensten Meistern der Kochkunst zu lernen. Auf seiner Reise begegnet er vielen Menschen, von denen einige gute Freunde werden, andere aber auch erbitterte Rivalen … \n\nQuelle: www.anisearch.de/anime/1811",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Chuuka Ichiban",
+          "titleNative": "Chūka Ichiban",
+          "status": "Abgeschlossen",
+          "released": "27.04.1997 - 13.09.1998"
+        },
+        {
+          "language": "Englisch",
+          "title": "Cooking Master Boy",
+          "status": "Abgeschlossen",
+          "released": "?"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 52,
+      "runtimeMinutes": 23,
+      "season": "Frühling 1997",
+      "studios": [
+        "Nippon Animation Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Nippon Animation",
+          "url": "https://www.nippon-animation.co.jp/"
+        }
+      ],
+      "synonyms": [
+        "CMB"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:38:22.665Z"
+  },
+  "111": {
+    "anisearchId": 714,
+    "descriptionDe": "Wir schreiben das Jahr 2020, wo Computer schon Bestandteile des alltäglichen Lebens sind. Das junge Mädchen Yui Kasuga ist eine von wenigen, die nicht weiß wie man einen Computer bedient, obwohl ihr Vater Software-Entwickler ist. Ein gefährlicher Computer namens Grosser will eines Tages das Internet (ComNet) durch seine Viren übernehmen. Programme namens Korrektoren, die dazu programmiert wurden, so einen feindlichen Computer zu stoppen, benötigen nun die Hilfe von Yui Kasuga, um ihn aufzuhalten. Yui Kasuga wird ins ComNet gebracht und bekommt von einem Korrektor namens I.R. die Fähigkeit eine Fee der Korrektoren zu werden, um Viren von Grosser zu bekämpfen. \n\nQuelle: www.anisearch.de/anime/714",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Corrector Yui",
+          "titleNative": "コレクターユイ",
+          "status": "Abgeschlossen",
+          "released": "02.04.1999 - 06.10.2000"
+        },
+        {
+          "language": "Englisch",
+          "title": "Corrector Yui",
+          "status": "Abgebrochen",
+          "released": "01.07.2003 - 24.02.2004",
+          "publisher": [
+            "VIZ Media, LLC"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Corrector Yui",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.12.2001 - ?"
+        },
+        {
+          "language": "Italienisch",
+          "title": "Yui ragazza virtuale",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.10.2003 - 21.10.2003"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 52,
+      "runtimeMinutes": 25,
+      "season": "Frühling 1999",
+      "studios": [
+        "Nippon Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Yuuji MUTOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Fumie MUROI"
+        },
+        {
+          "name": "Yoshiko NAKAJIMA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kenji KAWAI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "Collector Yui Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:38:29.738Z"
+  },
+  "112": {
+    "anisearchId": 293,
+    "descriptionDe": "In der ganzen Welt werden Soldaten gesammelt, um die Auferstehung des Bösen zu verhindern. Dieses Unterfangen geht jedoch schief und so verschwinden alle Menschen von der Erde.\n\nDie siebzehnjährige Oberschüleirn Hoshino Koto wünscht sich nichts sehnlicher, als mutig zu sein, wie ihr Lieblingscharakter Misuzu. Auf einem Schulausflug besucht sie den heiligen Platz von diesem Miko, der Schrein von Izumo, wo eine Zeremonie wegen Misuzu gehalten wird. Plötzlich wird sie von etwas verfolgt und ihr Spiegel beginnt zu strahlen, als ob er rufen würde. Als ob sie von jemandem geführt wird, geht sie direkt in die Richtung des heiligen Platzes. Die Situation wird gefährlich für sie, da kommt der Führer der Cosprayers, Crus, zu Hilfe. Crus wird in den Spiegel gezogen und Scarlet, eine der Cosprayer, versucht ihm zu helfen. Bevor Crus ganz im Spiegel ist, sagt er nur noch »Hilf dem Mädchen«. Kurz danach zittert der Boden des heiligen Platzes.\n\nAls Koto ihr Bewusstsein zurückerlangt, muss sie feststellen, dass sich alles verändert hat. Keine Menschenseele verweilt mehr hier und abgesehen von ihr befinden sich lediglich Riesen aus dem finsteren Reich auf dem Planeten. \n\nQuelle: www.anisearch.de/anime/293",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Chou Henshin Cosprayers",
+          "titleNative": "Chō Henshin Cosprayers",
+          "status": "Abgeschlossen",
+          "released": "13.01.2004 - 02.03.2004"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 8,
+      "runtimeMinutes": 13,
+      "season": "Winter 2003/04",
+      "studios": [
+        "IMAGIN Co., Ltd.",
+        "Studio Live Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "IMAGIN Co., Ltd."
+        },
+        {
+          "name": "Pony Canyon Inc."
+        },
+        {
+          "name": "Studio Live Co., Ltd."
+        },
+        {
+          "name": "Takeo TAKAHASHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Miwa OOSHIMA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Toshihiko SAHASHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Pc Moe",
+          "url": "https://www.pc-moe.com/cosprayers/index.html"
+        }
+      ],
+      "synonyms": [
+        "Super Transformation Cosprayers",
+        "The Cosmopolitan Prayers"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:38:36.781Z"
+  },
+  "113": {
+    "anisearchId": 1285,
+    "descriptionDe": "2356 – Die Erde hat viel durchmachen müssen. Nachdem in relativer Nähe eine Supernova stattgefunden hat, musste vieles neu aufgebaut werden. Doch die Gefahr ist nicht vorbei, wie ein Damoklesschwert schwebt die Second Wave – die bald kommende zweite Welle der Supernova – über allem.\n\nTrotzdem lassen sich Shima und ihre Freunde ihre Schulzeit auf der Raumstation Stellvia nicht vermiesen und haben massenhaft Spaß! \n\nQuelle: www.anisearch.de/anime/1285",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Uchuu no Stellvia",
+          "titleNative": "Uchū no Stellvia",
+          "status": "Abgeschlossen",
+          "released": "03.04.2003 - 25.09.2003"
+        },
+        {
+          "language": "Englisch",
+          "title": "Stellvia",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "21.09.2004 - 13.12.2005",
+          "publisher": [
+            "Geneon Entertainment (USA) Inc.",
+            "Madman Entertainment",
+            "Discotek Media",
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 24,
+      "season": "Frühling 2003",
+      "studios": [
+        "XEBEC, Inc."
+      ],
+      "staff": [
+        {
+          "name": "XEBEC, Inc.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tatsuo SATOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Makoto UNO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Seikou NAGAOKA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "TV Tokyo",
+          "url": "https://www.tv-tokyo.co.jp/anime/stellvia/"
+        }
+      ],
+      "synonyms": [
+        "Cosmic Stellvia",
+        "Stellvia in Space",
+        "Stellvia of the Universe"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:38:43.814Z"
+  },
+  "114": {
+    "anisearchId": 119,
+    "descriptionDe": "Herzlich willkommen auf der Cromartie Oberschule, Takashi Kamiyama. Wieso du auf eine Schule für Delinquenten versetzt wurdest? Nenn es Schicksal – oder einfach nur Pech …\n\nVon nun an wird dir der Tag durch deine freundlichen Mitschüler wie dem Roboter Mechazawa, Freddie »mein-Name-ist-nicht-Mercury« und dem ominösen Gorilla versüßt. Auf deinem steinigen Pfad liegen viele Hindernisse sowie die Frage, ob man tatsächlich mit dem Pferd zur Schule kommen darf oder was passiert, wenn Mechazawas Garantie abgelaufen ist … \n\nQuelle: www.anisearch.de/anime/119",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Sakigake!! Cromartie Koukou",
+          "titleNative": "Sakigake!! Cromartie Kōkō",
+          "status": "Abgeschlossen",
+          "released": "03.10.2003 - 26.03.2004"
+        },
+        {
+          "language": "Englisch",
+          "title": "Cromartie High School",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "15.03.2005 - 16.08.2005",
+          "publisher": [
+            "ADV Films (USA)",
+            "Madman Entertainment",
+            "Discotek Media",
+            "ADV Films (UK)"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Le Bahut des Tordus",
+          "status": "Abgeschlossen",
+          "released": "05.2005 - ?",
+          "publisher": [
+            "Kazé France"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 12,
+      "season": "Herbst 2003",
+      "studios": [
+        "Production I.G., Inc."
+      ],
+      "staff": [
+        {
+          "name": "Eiji NONAKA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hiroaki SAKURAI",
+          "role": "Direction"
+        },
+        {
+          "name": "Masayuki ONJI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kunio SUMA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "TV Tokyo",
+          "url": "https://www.tv-tokyo.co.jp/anime/cromartie/"
+        }
+      ],
+      "synonyms": [
+        "Charge!! Cromartie High",
+        "Sakigake!! Cromartie High"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:38:50.844Z"
+  },
+  "115": {
+    "anisearchId": 2168,
+    "descriptionDe": "Miz, Priesterin des Wassers, plant ihren Rücktritt, um ihren Geliebten Fujisawa zu heiraten. Als Nachfolgerin hat sie bereits Qawoor Towles auserkoren, die sich auf dem Weg zum Palast befindet. Während der Ernennungszeremonie, an der die gesamte Palastwache teilnimmt, wittert Katsuhiko Jinnai seine Chance. Er bricht in das Zimmer seines »Erzrivalen« Makoto Mizuhara ein, um dessen geheime Pläne auszuspionieren. Stattdessen stößt er auf eine merkwürdige Apparatur, die er »aus Versehen« aktiviert – und katapultiert sich zusammen mit einigen anderen Gästen der Zeremonie, darunter auch Makoto, in eine parallele Welt. Dort beginnen ihre Abenteuer erst richtig … \n\nQuelle: www.anisearch.de/anime/2168",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ijigen no Sekai El-Hazard",
+          "titleNative": "異次元の世界エルハザード",
+          "status": "Abgeschlossen",
+          "released": "08.01.1998 - 26.03.1998"
+        },
+        {
+          "language": "Englisch",
+          "title": "El Hazard: The Alternative World",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "27.07.1999 - 25.01.2000",
+          "publisher": [
+            "Geneon Entertainment (USA) Inc.",
+            "Nozomi Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "El Hazard",
+          "status": "Abgebrochen",
+          "released": "09.07.2004 - ?",
+          "publisher": [
+            "Trimax GmbH",
+            "ELFRA Filmproduktions- und Verlagsgesellschaft mbH"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "El Hazard, Les Mondes Alternatifs",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.2001 - ?",
+          "publisher": [
+            "Déclic Images"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 25,
+      "season": "Winter 1997/98",
+      "studios": [
+        "Anime International Co., Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Anime Int",
+          "url": "https://www.anime-int.com/works/elhazard/tv2/"
+        }
+      ],
+      "synonyms": [
+        "El Hazard TV 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:38:57.879Z"
+  },
+  "116": {
+    "anisearchId": 3348,
+    "descriptionDe": "An einen stillen Herbsttag bereiten sich die Schüler der Shinonome High School auf das bevorstehende Schulfest vor. Herr Fujisawa, ein begeisterter Bergsteiger und Lehrer an der Shinonome High School, inspiziert das Schulgelände; die gerissene Geschäftsfrau Nanami verkauft Box-Lunches; Jinnai, der Vorsitzende der Studentenvertretung, ist in einen Skandal verwickelt. Währenddessen arbeitet Makoto in einem Labor der Schule an einer neuen Erfindung. Jinnai versucht aus Neid das neu entwickelte Gerät zu sabotieren, doch dabei gerät die Erfindung außer Kontrolle und schleudert Makoto und einige andere in die wundersame Welt „El-Hazard“. \n\nQuelle: www.anisearch.de/anime/3348",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Shinpi no Sekai El-Hazard TV",
+          "titleNative": "神秘の世界エルハザード TV",
+          "status": "Abgeschlossen",
+          "released": "06.10.1995 - 29.03.1996"
+        },
+        {
+          "language": "Englisch",
+          "title": "El Hazard: The Wanderers",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "29.07.1997 - 11.08.1998",
+          "publisher": [
+            "Enoki Films USA, Inc.",
+            "Geneon Entertainment (USA) Inc.",
+            "Nozomi Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "El Hazard: Die Nebenwelt",
+          "status": "Abgeschlossen",
+          "released": "2001",
+          "publisher": [
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "El Hazard, Le Monde Alternatif",
+          "status": "Abgeschlossen",
+          "released": "08.2000 - ?",
+          "publisher": [
+            "Déclic Images"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 23,
+      "season": "Herbst 1995",
+      "studios": [
+        "Anime International Co., Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Anime Int",
+          "url": "https://www.anime-int.com/works/elhazard/tv/"
+        }
+      ],
+      "synonyms": [
+        "El Hazard TV 1",
+        "elhaz tv Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:39:04.912Z"
+  },
   "117": {
     "anisearchId": 301,
     "descriptionDe": "Gerade war Makoto noch in der Schule und auf der Flucht vor einem Mitschüler, der ihn verprügeln wollte. Doch im nächsten Moment findet er sich, zusammen mit seiner Freundin Nanami und seinem Lehrer Fujisawa in einer fremden Welt wieder, wo Makoto als Retter begrüßt wird. Er soll einen drohenden Krieg verhindern – als Double der verschwundenen Prinzessin Fatora! \n\nQuelle: www.anisearch.de/anime/301",
@@ -4439,6 +8555,229 @@
       ]
     },
     "fetchedAt": "2026-08-27T15:25:55.282Z"
+  },
+  "118": {
+    "anisearchId": 2224,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "El Hazard: The Magnificent World 2",
+          "titleNative": "神秘の世界エルハザード2",
+          "status": "Abgeschlossen",
+          "released": "21.03.1997 - 25.10.1997"
+        },
+        {
+          "language": "Englisch",
+          "title": "El-Hazard: The Magnificent World 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "14.07.1998 - 25.08.1998",
+          "publisher": [
+            "Geneon Entertainment (USA) Inc.",
+            "Pioneer Entertainment Europe Limited",
+            "Nozomi Entertainment",
+            "Anime Limited (UK)"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Regreso A El-hazard",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "1999 - ?",
+          "publisher": [
+            "Manga Films S.L."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "El Hazard : La Dernière Nuit",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.03.2004",
+          "publisher": [
+            "Kazé France"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Ritorno a El-Hazard",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "OVA",
+      "episodes": 4,
+      "runtimeMinutes": 30,
+      "season": "Frühling 1997",
+      "studios": [
+        "Anime International Co., Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Anime Int",
+          "url": "https://www.anime-int.com/works/elhazard/ova2/"
+        }
+      ],
+      "synonyms": [
+        "El Hazard 2 - The Magnificent World",
+        "El Hazard OVA 2",
+        "Shinpi no Sekai El Hazard 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:39:11.939Z"
+  },
+  "119": {
+    "anisearchId": 1610,
+    "descriptionDe": "Ryou Mizuhara sitzt gerade mit seiner kleinen Schwester beim Abendessen, als beide jedoch jäh gestört werden. Plötzlich springt ein mysteriöses Mädchen durchs Fenster, gefolgt von einer Horde schwarz gekleideter Männer. Das geheimnisvolle, hübsche Mädchen behauptet, von der Regierung zu seiner zukünftigen Ehefrau bestimmt worden zu sein und möchte deshalb ab sofort mit ihm und seiner Schwester zusammenleben. Trotz Ryous heftiger Gegenwehr gegen ihre Pläne muss er bald feststellen, dass seine neue Mitbewohnerin nicht gerade leicht loszuwerden ist. \n\nQuelle: www.anisearch.de/anime/1610",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Final Approach",
+          "titleNative": "φなる・あぷろーち",
+          "status": "Abgeschlossen",
+          "released": "03.10.2004 - 26.12.2004"
+        },
+        {
+          "language": "Spanisch",
+          "title": "Final Approach",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "20.04.2006 - 2006"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 13,
+      "season": "Herbst 2004",
+      "studios": [
+        "ZEXCS Inc."
+      ],
+      "staff": [
+        {
+          "name": "Princess Soft",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takashi YAMAMOTO",
+          "role": "Direction"
+        },
+        {
+          "name": "Noriko SHIMAZAWA"
+        },
+        {
+          "name": "Yukiko IBE",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Originalwerk, Videospiel",
+      "websites": [
+        {
+          "name": "Trinet Ent",
+          "url": "https://www.trinet-ent.com/princess_hour/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:39:18.983Z"
+  },
+  "120": {
+    "anisearchId": 2632,
+    "descriptionDe": "Normalerweise ist das Lager der gerade obdachlosen Toru nicht sehr komfortabel. Sie zeltet im Wald, weil ihr Großvater, das einzige noch lebende Mitglied von Torus Familie, gerade die Wohnung renoviert. Dafür hat sie ein etwas eigentümliches Hobby: Sie ist leidenschaftliche Haushälterin. Dieses Hobby ist es schließlich auch, das ihr aus ihrem ungemütlichen, feuchten Heim heraushilft: Als ihre Schulkollegen von der reichen Familie Soma mitkriegen, dass Toru in dem Waldstück »wohnt«, das den Somas gehört, überreden sie das Mädchen, mit in ihr großes Haus zu ziehen und stellen sie als Haushaltshilfe ein.\n\nVon Anfang an hat Toru das Gefühl, dass die Familie Soma etwas merkwürdig ist – doch wie merkwürdig die Mitglieder des Clans wirklich sind, bemerkt sie erst, als sie einen der jungen Männer umarmt. Plötzlich steht sie nicht mehr einem gut aussehenden Jungen gegenüber, sondern einer Katze! Vor Schreck fällt sie noch zwei weiteren Jungs in die Arme, welche sich daraufhin in einer Rauchwolke in einen Hund und eine Maus verwandeln. Nachdem der erste Schreck überwunden ist, rücken die Somas auch recht schnell mit der Sprache heraus: Auf den meisten Familienmitgliedern liegt ein Fluch. Immer wenn sie mit dem anderen Geschlecht in näheren Kontakt kommen, verwandeln sie sich in eines der chinesischen Tierkreiszeichen, vorwiegend in das Tier, das dem Jungen oder Mädchen charakterlich am ähnlichsten ist. Da das Geheimnis nun gelüftet ist, wäre es eigentlich angebracht, Torus Gedächtnis zu löschen und sie fortzuschicken. Doch die Familie hat Mitleid mit dem jungen Mädchen und beschließt, ihr zu vertrauen. Sie darf bleiben und erlebt einige interessante Abenteuer mit der ungewöhnlichen Familie Soma. \n\nQuelle: www.anisearch.de/anime/2632",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Fruits Basket",
+          "titleNative": "フルーツバスケット",
+          "status": "Abgeschlossen",
+          "released": "05.07.2001 - 27.12.2001"
+        },
+        {
+          "language": "Englisch",
+          "title": "Fruits Basket",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "29.10.2002 - 27.05.2003",
+          "publisher": [
+            "Madman Entertainment",
+            "Revelation Films",
+            "MVM Entertainment Ltd.",
+            "FUNimation"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Fruits Basket",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "31.05.2004 - 11.11.2004",
+          "publisher": [
+            "Savor Ediciones S.A.",
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Fruits Basket",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "11.2002 - ?",
+          "publisher": [
+            "Déclic Images"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2001",
+      "studios": [
+        "Studio DEEN Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Natsuki TAKAYA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Akitarou DAICHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Akemi HAYASHI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Jun ABE"
+        },
+        {
+          "name": "Seiji MUTOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Deen",
+          "url": "https://www.deen.co.jp/fruba/"
+        }
+      ],
+      "synonyms": [
+        "Fruits Basket (2001)",
+        "Furuba Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:39:26.026Z"
   },
   "121": {
     "anisearchId": 2519,
@@ -4558,6 +8897,95 @@
       ]
     },
     "fetchedAt": "2026-08-27T15:26:02.464Z"
+  },
+  "122": {
+    "anisearchId": 646,
+    "descriptionDe": "In »Full Moon« geht es um Mitsuki Kouyama, die unter einer Krebserkankung leidet. Eine Operation wäre möglich, doch diese lehnt sie ab, da die Gefahr besteht, ihre Stimme zu verlieren und sich somit ihr Wunsch, Sängerin zu werden, erledigt hätte. Eines Tages tauchen zwei Shinigami auf: Meroko Yui und Takuto Kira. Die beiden sind ganz schön verwirrt, da Mitsuki sie sehen kann und dies normalerweise nicht möglich ist. Dann verplappern sich die beiden auch noch, und so erfährt Mitsuki, dass sie in einem Jahr sterben soll. Takuto hat Mitleid mit ihr und gewährt ihr einen Wunsch: Bei einem Casting macht er sie älter, damit sie daran teilnehmen kann. Die Jury ist begeistert von Mitsuki und so wird sie ausgewählt. Mitsuki möchte unbedingt Karriere machen, denn vor zwei Jahren haben sich Eichi Sakurai, ein Junge, der Astronom werden möchte, und Mitsuki versprochen, dass, wenn sie sich das nächste Mal treffen, sie ihren Träumen näher gekommen sein werden. Daraufhin zog Eichi nach Amerika. Zuvor sagte er Mitsuki aber noch, dass er sie liebt. \n\nQuelle: www.anisearch.de/anime/646",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Full Moon o Sagashite",
+          "titleNative": "満月をさがして",
+          "status": "Abgeschlossen",
+          "released": "06.04.2002 - 29.03.2003"
+        },
+        {
+          "language": "Englisch",
+          "title": "Full Moon",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "27.06.2006 - 09.2011",
+          "publisher": [
+            "VIZ Media, LLC",
+            "AnimEigo, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Full Moon: Buscando la luna llena",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "26.06.2023 - 23.10.2023",
+          "publisher": [
+            "ANIME REMOW LATAM S. de R.L. de C.V."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Full Moon",
+          "status": "Abgeschlossen",
+          "released": "13.04.2026",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 52,
+      "runtimeMinutes": 24,
+      "season": "Frühling 2002",
+      "studios": [
+        "Studio DEEN Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Arina TANEMURA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Toshiyuki KATOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Yuka KUDOU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Keita SHIINA"
+        },
+        {
+          "name": "Yoshiaki MUTOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Web Archive (TV Tokyo)",
+          "url": "https://web.archive.org/web/20040402043123/http://www.tv-tokyo.co.jp/anime/fullmoon/"
+        }
+      ],
+      "synonyms": [
+        "Fullmoon o Sagashite",
+        "Fullmoon wo Sagashite",
+        "Looking for the Full Moon",
+        "Auf der Suche nach dem Vollmond",
+        "Full Moon wo Sagashite Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:39:33.063Z"
   },
   "134": {
     "anisearchId": 1835,
@@ -252021,6 +256449,97 @@
       ]
     },
     "fetchedAt": "2026-08-22T08:53:45.425Z"
+  },
+  "195604": {
+    "anisearchId": 20716,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Black Clover 2nd Season",
+          "titleNative": "ブラッククローバー 2nd Season",
+          "status": "Zukünftig",
+          "released": "10.2026 - ?"
+        },
+        {
+          "language": "Englisch",
+          "title": "Black Clover: Season 2",
+          "status": "Zukünftig",
+          "released": "10.2026 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Black Clover: Staffel 2",
+          "status": "Zukünftig",
+          "released": "10.2026 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Black Clover: Temporada 2",
+          "status": "Zukünftig",
+          "released": "10.2026 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Black Clover : Saison 2",
+          "status": "Zukünftig",
+          "released": "10.2026 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Black Clover: Stagione 2",
+          "status": "Zukünftig",
+          "released": "10.2026 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "studios": [
+        "Pierrot Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Yuuki TABATA",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/bclover_PR"
+        },
+        {
+          "name": "Bclover",
+          "url": "https://bclover.jp/"
+        }
+      ],
+      "synonyms": [
+        "Black Clover Second Season Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-09-06T06:32:37.535Z"
   },
   "196935": {
     "anisearchId": 20808,
