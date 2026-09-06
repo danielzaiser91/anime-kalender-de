@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 05.09.2026 um 13:16 Uhr
+**Unauffällig** · zuletzt 06.09.2026 um 13:39 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -13,16 +13,29 @@ Disney-Meldungen wurden zu einem einzigen Eintrag abgehakt, 216
 One-Piece-Meldungen verschwanden ganz. Gefunden hat es Daniel, weil ihm eine Zahl
 komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
+## Was aufgefallen ist
+
+- 1 Titel ohne Synchro-Beleg
+- 78 Verweise entfernt
+
 ## Bestand — die letzten 24 Stunden
 
 ```
-7 Läufe in den letzten 1 Tagen (105 insgesamt)
+15 Läufe in den letzten 1 Tagen (120 insgesamt)
 
-04.09., 14:27  Bestand — zusammenführ   titel +1, verweise +1, mitUrteil +1, titelMitSynchro +1, releases +1, termine +12
-05.09., 08:24  Bestand — zusammenführ   verweise +1, mitUrteil +1
+05.09., 23:05  Bestand — zusammenführ   verweise +1, mitUrteil +4, ohneUrteil -3, titelMitSynchro +3
+06.09., 01:07  Bestand — zusammenführ   titel +1, verweise +1, ohneUrteil +1
+06.09., 06:05  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro -1, releases +7, termine +7
+            ⚠  1 Titel ohne Synchro-Beleg
+06.09., 07:11  Bestand — zusammenführ   verweise -6, ohneUrteil -6
+06.09., 08:02  Bestand — zusammenführ   verweise +123, ohneUrteil +123, releases +7
+06.09., 08:25  Bestand — zusammenführ   verweise -78, mitUrteil +12, ohneUrteil -90, titelMitSynchro +6, releases -4
+            ⚠  78 Verweise entfernt
 
-Stand jetzt: 2767 Titel, 1900 Urteile, 103 offen
-Über den Zeitraum: Titel 0, Urteile +1, offen 0
+Stand jetzt: 2768 Titel, 1917 Urteile, 127 offen
+Über den Zeitraum: Titel +1, Urteile +17, offen +24
+
+⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
@@ -39,6 +52,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 06.09.2026 13:39 | 2768 / 1917 / 127 | Titel +1, Urteile +17, offen +24 | unauffällig |
 | 05.09.2026 13:16 | 2767 / 1900 / 103 | Titel 0, Urteile +1, offen 0 | unauffällig |
 | 04.09.2026 14:08 | 2766 / 1898 / 103 | Titel 0, Urteile 0, offen +1 | unauffällig |
 | 04.09.2026 10:04 | 2766 / 1898 / 103 | Titel +1, Urteile +13, offen -12 | unauffällig |
