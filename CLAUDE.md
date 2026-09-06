@@ -1133,10 +1133,31 @@ Seit dem 06.09.2026 ergänzt `build.ts` sie, mit vier Riegeln:
 
 **Der Block steht hinter dem Entfernen der Neins**, und das ist keine
 Kleinigkeit: Weiter oben sind die Anbieter noch besetzt, dort kamen im
-Probelauf 83 statt 122 Verweise heraus. Die ergänzten tragen **keine**
-Sprachangabe — sie sagen „hier gibt es das", nicht „auf Deutsch", und füllen
-damit genau die Warteschlangen, die vorher an ihrer eigenen Lücke verhungert
-sind.
+Probelauf 83 statt 123 Verweise heraus.
+
+**Wer unten ergänzt, muss unten auch beurteilen.** Die Auswertungen laufen
+weiter oben und sehen nur, was zu ihrem Zeitpunkt dastand — ein hier
+entstandener Verweis bekäme sein Urteil erst beim nächsten Bau. Für Conan hieß
+das: ein Crunchyroll-Weg mit „🇩🇪 ?", während der Prüflauf am selben Vormittag
+581 deutsche Folgen belegt hatte. Die Nachrunde fragt dieselben Quellen je
+Verweis (die geprüften Crunchyroll-Serien nach Adresse, das ADN-Archiv), beide
+sind dort geladen.
+
+Zwei Dinge gehören dazu, und beide sind gemessen:
+
+- **Auch die Nachrunde entfernt ein belegtes Nein.** 78 der 123 ergänzten
+  Verweise zeigen auf Blöcke ohne deutsche Tonspur; ohne diesen Schritt stünde
+  erstmals ein `dub: false` im ausgelieferten Datensatz. Das Ergebnis ist kein
+  Verlust, sondern Wissen: 78 belegte Neins, die vorher niemand hatte.
+- **Das Gedächtnis reicht bis in den laufenden Lauf hinein.**
+  `data/verweise-entfernt.json` trägt den Stand des **letzten** Laufs; was
+  wenige Zeilen weiter oben gerade verworfen wurde, steht dort noch nicht. Ohne
+  `verweiseEntfernt` legte derselbe Lauf wieder an, was er selbst eben entfernt
+  hat — das Flattern entstünde innerhalb einer einzigen Ausführung.
+
+Die ergänzten Verweise tragen sonst **keine** Sprachangabe. Sie sagen „hier
+gibt es das", nicht „auf Deutsch", und füllen damit genau die Warteschlangen,
+die vorher an ihrer eigenen Lücke verhungert sind.
 
 ## Ein deutscher Sprachblock bei aniSearch ist keine Synchro — die Marke daneben ist es
 
