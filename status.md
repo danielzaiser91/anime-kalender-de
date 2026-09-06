@@ -30,6 +30,8 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | **Eine Staffel als „hier nicht vorhanden" melden** | 5 | Daniel am 06.09.2026: „prüfliste fragt nach s3, netflix hat keine s3, was jetzt? wie melde ich s3 nicht auf netflix? prüfliste bietet keine option dafür". Netflix führt „Sword Art Online" mit zwei Staffeln (25 und 24 Folgen), unsere Liste mit drei — Alicization läuft dort nicht. Der Knopf „nichts da?" gilt dem **ganzen Titel** und wäre hier falsch: S1 und S2 sind vorhanden und gemeldet. Gebraucht wird dieselbe Auskunft je Staffel, und sie braucht auf beiden Seiten etwas Neues: ein Bedienelement an der Staffel-Kachel und einen Befund im Worker, den die Pipeline als „dieser Verweis deckt diese Staffel nicht ab" versteht. Bis dahin bleibt eine solche Staffel offen stehen |
 
+| **Ein Handbeleg kann keinen Verweis anlegen** | 5 | Gemessen am 06.09.2026 an „Sword Art Online II" (20594): aniSearch führt für den Titel `netflix.com/title/70302573`, zwei Handbelege sagen `dub: true` für die Folgen 1–24 — und im gebauten Datensatz steht **kein** Netflix-Weg. Der Grund ist in `CLAUDE.md` beschrieben und richtig so: Ein Handbeleg beurteilt einen **vorhandenen** Verweis, er legt keinen an, und die aniSearch-Ergänzung greift nur bei Titeln ganz ohne Weg (20594 hat Crunchyroll und ADN). Das Ergebnis ist keine Falschaussage, sondern eine Lücke: Netflix fehlt bei einem Titel, für den es belegt ist. Zu klären ist, ob ein Handbeleg mit `dub: true` und ohne vorhandenen Verweis den Weg anlegen darf — und wie das gegen die Regel „ein fehlender Verweis ist selbst eine Angabe" abgegrenzt wird |
+
 ### Zu besprechen
 
 | Frage | Messung |
