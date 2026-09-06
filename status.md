@@ -83,6 +83,40 @@ adn          12   fuenf davon dieselbe Franchise-Adresse (JoJo), sieben auf der
 netflix      10   braucht den Player, also Daniels Klick
 ```
 
+## Gemessen 06.09.2026: ADN-Adressen ohne Serienkennung — und zwei widerlegte Annahmen
+
+**Was gebaut wurde.** 65 der 135 ADN-Verweise zeigen auf die alte Domain
+`animationdigitalnetwork.de/video/<slug>`. Eine solche Adresse trägt keine
+Serienkennung, und der Namensteil ist teils französisch
+(`50-nuances-de-gras` für „Plus-Sized Elf") — `beurteileAdnVerweis` steigt dort
+aus, obwohl die Serie im Archiv liegt und ADN je Folge sagt, ob es sie auf
+Deutsch gibt. **48 von 135 ADN-Verweisen bekamen deshalb kein Urteil aus dem
+Archiv, 33 davon allein aus diesem Grund.**
+
+Die Kennung wird jetzt nachgeschlagen: aus dem Katalog (er trägt je Serie eine
+`anilistId` — löst 33 der 65 auf) und aus `data/adn-adressen.yaml` für die
+sechs Serien, die der Katalog gerade nicht führt. Vor dem Einbau simuliert:
+**38 Adressen berichtigt, danach 31 belegte Ja und 6 belegte Nein**, genau einer
+bleibt offen (Chained Soldier, Serie gemischt mit 1 von 24 Folgen).
+
+**Zwei Annahmen vom selben Vormittag sind dabei gefallen**, beide meine eigenen:
+
+| Annahme | Messung |
+|---|---|
+| „Die alten Adressen antworten mit 403, also sind sie tot" | Die **neuen** antworten genauso — beide Domains liegen hinter CloudFront und weisen jeden Aufruf ohne Browser ab, selbst `robots.txt` |
+| „ADNs deutscher Katalog führt 96 Serien, vier davon fehlen darin" | `/show?limit=100` gibt 96 zurück und meldet `total: 252`; über drei Seiten gesammelt sind es **184**. Alle vier stehen darin |
+
+Die vier `null`-Einträge, die aus der zweiten Annahme entstanden waren, sind
+entfallen — sie hätten vier Verweise entfernt, für die es keinen Beleg gibt.
+
+**Was offen bleibt und warum:** 32 alte Adressen lösen weder Katalog noch
+Handliste auf. Es sind fast durchweg Fortsetzungen und Specials, die ADN unter
+**einer** Franchise-Kennung führt (sechs Haikyu!!-Einträge zeigen auf
+`/video/haikyuu`, vier Clannad-Specials auf `/video/clannad`). Die nackte
+Serienadresse brächte dort nichts: Der Befund wäre „gemischt", und welche
+ADN-Staffel unser Eintrag meint, sagt der Verweis nicht. Das ist dieselbe Grenze
+wie bei den fünf JoJo-Verweisen.
+
 ## Abgeschaltet 05.09.2026: Die DMARC-Berichte haben ihre Frage beantwortet
 
 Heute Morgen stand hier noch als Aufgabe, dass seit dem 22.08. keine Berichte
