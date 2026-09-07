@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-07T10:51:46.113Z",
+  "scrapedAt": "2026-09-07T14:45:20.342Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -18653,7 +18653,7 @@
     {
       "url": "https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -31906,7 +31906,7 @@
     {
       "url": "https://www.crunchyroll.com/de/jungle-emperor-leo",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -116879,7 +116879,7 @@
     {
       "url": "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -128162,7 +128162,7 @@
     {
       "url": "https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -129939,7 +129939,7 @@
     {
       "url": "https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -136062,7 +136062,7 @@
     {
       "url": "http://www.crunchyroll.com/de/sin-the-movie",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -138076,7 +138076,7 @@
       "seriesId": "GY5VJN1DY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -138084,7 +138084,7 @@
       "seriesId": "GY5VJN1DY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -138204,7 +138204,7 @@
     {
       "url": "http://www.crunchyroll.com/mobile-suit-gundam-wing-endless-waltz/mobile-suit-gundam-wing-endless-waltz-gundam-wing-endless-waltz-732801",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -142236,8 +142236,9 @@
       "seriesId": "G8DHV7E9Q",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-09-07",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "https://www.crunchyroll.com/isekai-quartet",
@@ -142435,7 +142436,7 @@
     {
       "url": "https://www.crunchyroll.com/liz-and-the-blue-bird/de-liz-und-der-blaue-vogel-unbekannt-850428",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -144064,39 +144065,438 @@
     },
     {
       "url": "https://www.crunchyroll.com/strike-witches",
+      "seriesId": "GYEXXWD36",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-07",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Strike Witches 2",
+          "staffelId": "GY8DD340Y",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Strike Witches: Road to Berlin",
+          "staffelId": "GRDV0913R",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/super-hxeros",
+      "seriesId": "GJ0H7QXJ8",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-07",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "SUPER HXEROS: Season 1",
+          "staffelId": "GRZXCMPQ5",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/the-day-i-became-a-god",
+      "seriesId": "G3KHEV3MV",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-07",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "The Day I Became a God: Season 1",
+          "staffelId": "GY9PC2XMJ",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/toilet-bound-hanako-kun",
+      "seriesId": "G24H1N3ZP",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-07",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Mein Schulgeist Hanako",
+          "staffelId": "GYK5CNZKE",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Mein Schulgeist Hanako Staffel 2",
+          "staffelId": "GR2PCVQE1",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 0,
+          "fremd": 24,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/tokyo-ghoul",
+      "seriesId": "G6NV7Z50Y",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-07",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Tokyo Ghoul",
+          "staffelId": "GY19CP85P",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G8WUND3GW",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GZ7UV7Q2J",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G50UZ2KXP",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GWDU89VE1",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G0DUN3GDJ",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G7PU45PM1",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GX9UQD1W1",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G14U43Q1P",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GK9U3ZVKW",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G31UXPK4M",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G2XU02XG5",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GZ7UV7QEJ",
+              "verfuegbarAb": "2020-11-24T10:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Tokyo Ghoul: Root A",
+          "staffelId": "GR79EMM16",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GMKUXZE3X",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G31UXPV28",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G2XU02NVM",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GZ7UV7DM7",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GD9UVNEG2",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GWDU89735",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G0DUN3MXP",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GEVUZPWQ9",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GX9UQD34J",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G14U43VP7",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GJWU2MQ2N",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GK9U3ZG3N",
+              "verfuegbarAb": "2020-12-22T10:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Tokyo Ghoul: re",
+          "staffelId": "GRKE9Z89R",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G31UXPVX8",
+              "verfuegbarAb": "2018-04-03T09:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GPWUKQ8K2",
+              "verfuegbarAb": "2018-04-10T09:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GZ7UV7DV7",
+              "verfuegbarAb": "2018-04-17T09:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GQJUGDMG9",
+              "verfuegbarAb": "2018-04-24T09:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GWDU89785",
+              "verfuegbarAb": "2018-05-01T09:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GEVUZPWZ9",
+              "verfuegbarAb": "2018-05-08T09:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G9DUEX9EG",
+              "verfuegbarAb": "2018-05-15T09:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G4VUQ3WQV",
+              "verfuegbarAb": "2018-05-22T09:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GJWU2MQQN",
+              "verfuegbarAb": "2018-05-29T09:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G50UZ2MMZ",
+              "verfuegbarAb": "2018-06-05T09:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GG1U2MXX1",
+              "verfuegbarAb": "2018-06-12T09:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G0DUN3MME",
+              "verfuegbarAb": "2018-06-19T09:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G9DUEX99X",
+              "verfuegbarAb": "2018-10-09T09:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G4VUQ3WWX",
+              "verfuegbarAb": "2018-10-16T09:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "G14U43VV2",
+              "verfuegbarAb": "2018-10-23T09:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GK9U3ZGGJ",
+              "verfuegbarAb": "2018-10-30T09:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GVWU0V889",
+              "verfuegbarAb": "2018-11-06T10:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "G31UXPVVZ",
+              "verfuegbarAb": "2018-11-13T10:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "G2XU02NNG",
+              "verfuegbarAb": "2018-11-20T10:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GD9UVNE7Z",
+              "verfuegbarAb": "2018-11-27T10:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "G50UZ2MGZ",
+              "verfuegbarAb": "2018-12-04T10:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GWDU89707",
+              "verfuegbarAb": "2018-12-11T10:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G0DUN3MZE",
+              "verfuegbarAb": "2018-12-18T10:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G7PU4538K",
+              "verfuegbarAb": "2018-12-25T10:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Tokyo Ghoul: OVA Season 1",
+          "staffelId": "GYDQCG42E",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G50UZ24Q2",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GWDU89K1P",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/tsugumomo/episode-1-the-troubleshooters-office-794656",
+      "seriesId": "G675QE8JR",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-07",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Tsugumomo",
+          "staffelId": "G69PW48EY",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Tsugumomo2",
+          "staffelId": "GRJ0GM22Y",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Tsugumomo2 OVA",
+          "staffelId": "G64G21VJR",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out",
@@ -144584,7 +144984,7 @@
     {
       "url": "https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -144737,21 +145137,69 @@
     },
     {
       "url": "https://www.crunchyroll.com/we-never-learn-bokuben",
+      "seriesId": "GR8DN8XDR",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-07",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "We Never Learn: BOKUBEN",
+          "staffelId": "G6ZJMPD4Y",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "We Never Learn!: BOKUBEN Staffel 2",
+          "staffelId": "GR4PK52EY",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/when-supernatural-battles-became-commonplace",
+      "seriesId": "GYMGDZN4Y",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-07",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "When Supernatural Battles Became Commonplace",
+          "staffelId": "G6VN387WR",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/wise-mans-grandchild",
+      "seriesId": "G63K95846",
       "quelle": "api",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "katalog": "de",
+      "geprueftAm": "2026-09-07",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Wise Man's Grandchild",
+          "staffelId": "G6P50Q9W6",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12,
+          "deutscheFassung": false
+        }
+      ]
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-09-07T10:51:46.132Z",
+  "aufgeloestAm": "2026-09-07T14:45:20.369Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -2849,7 +2849,7 @@
     },
     "https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430": {
       "ziel": "https://www.crunchyroll.com/de/watch/GJWU25970",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/de/en-gb/fategrand-order-absolute-demonic-front-babylonia": {
@@ -2871,7 +2871,7 @@
     },
     "https://www.crunchyroll.com/de/jungle-emperor-leo": {
       "ziel": "https://www.crunchyroll.com/de/watch/GRMGZJ1GR/jungle-emperor-leo",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/de/origin-spirits-of-the-past": {
@@ -2881,7 +2881,7 @@
     },
     "https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie": {
       "ziel": "https://www.crunchyroll.com/de/watch/GRE5PEVV6/street-fighter-ii-the-animated-movie",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-1-der-tickende-wolkenkratzer-unbekannt-810163": {
@@ -3082,7 +3082,7 @@
     },
     "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785": {
       "ziel": "https://www.crunchyroll.com/de/watch/G50UZENW4/okkos-inn?ssid=397785",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654": {
@@ -3157,7 +3157,7 @@
     },
     "https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378": {
       "ziel": "https://www.crunchyroll.com/de/watch/G31UX0ZNQ",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "http://www.crunchyroll.com/de/91-days": {
@@ -3314,7 +3314,7 @@
     },
     "http://www.crunchyroll.com/de/sin-the-movie": {
       "ziel": "https://www.crunchyroll.com/de/watch/G6ZXQ5WVR/sin-the-movie",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "http://www.crunchyroll.com/de/so-i-cant-play-h": {
@@ -3505,7 +3505,7 @@
     },
     "http://www.crunchyroll.com/mobile-suit-gundam-wing-endless-waltz/mobile-suit-gundam-wing-endless-waltz-gundam-wing-endless-waltz-732801": {
       "ziel": "https://www.crunchyroll.com/de/watch/G71F4DJ24/endless-waltz",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "http://www.crunchyroll.com/my-first-girlfriend-is-a-gal/episode-1-my-first-time-begging-for-it-742283": {
@@ -3685,7 +3685,7 @@
     },
     "https://www.crunchyroll.com/liz-and-the-blue-bird/de-liz-und-der-blaue-vogel-unbekannt-850428": {
       "ziel": "https://www.crunchyroll.com/de/watch/G4VUQE108",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-": {
@@ -3754,9 +3754,9 @@
       "ziel": "aus der Suche im deutschen Katalog"
     },
     "https://www.crunchyroll.com/toilet-bound-hanako-kun": {
-      "ziel": "https://www.crunchyroll.com/toilet-bound-hanako-kun?__cf_chl_rt_tk=0Jsgtfs.yINO5OT4.uMIiAEiOXZ_0aT9pIsxIjQSrSE-1788682246-1.0.1.1-hZM_X.u0sxOdzHIbLtLy2La4jgoPZEjxwH5st2bFlIY",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "seriesId": "G24H1N3ZP",
+      "ziel": "https://www.crunchyroll.com/de/series/G24H1N3ZP/toilet-bound-hanako-kun",
+      "geprueftAm": "2026-09-07"
     },
     "https://www.crunchyroll.com/tokyo-ghoul": {
       "seriesId": "G6NV7Z50Y",
@@ -3794,8 +3794,8 @@
       "geprueftAm": "2026-09-06"
     },
     "https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub": {
-      "ziel": "https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub?__cf_chl_rt_tk=t1leFvNuUt4blvBYvUO478drnzO0MCI.OjwzjlTu.4A-1788682282-1.0.1.1-sYJgILL000GJ8V7uFTP.eI7G44dfaAqJ3rfNocgw5jk",
-      "geprueftAm": "2026-09-06",
+      "ziel": "https://www.crunchyroll.com/de/watch/GPWUKPVP4/millennium-actress-german-dub",
+      "geprueftAm": "2026-09-07",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid": {
@@ -3814,9 +3814,9 @@
       "ziel": "aus der Suche im deutschen Katalog"
     },
     "https://www.crunchyroll.com/when-supernatural-battles-became-commonplace": {
-      "ziel": "https://www.crunchyroll.com/when-supernatural-battles-became-commonplace?__cf_chl_rt_tk=mnwxpED5XorYEoxLsammjudXaHQgtKy7UYXZqji223M-1788682293-1.0.1.1-Lj69n1L_3DEFHJ8U35b5DKWRic7QPD0J22Avb18lVq4",
-      "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "seriesId": "GYMGDZN4Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GYMGDZN4Y/when-supernatural-battles-became-commonplace",
+      "geprueftAm": "2026-09-07"
     },
     "https://www.crunchyroll.com/wise-mans-grandchild": {
       "seriesId": "G63K95846",

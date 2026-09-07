@@ -3535,11 +3535,46 @@ function main(): void {
         eintraege?: { id: string; audio?: string[]; folgen?: number; staffeln?: number }[]
       }>('data/cr-katalog-de.json', {})
       const nachKennung = new Map((katalog.eintraege ?? []).map((e) => [e.id, e]))
+      /**
+       * **Die Kennung steht nicht immer in der Adresse — dann steht sie im Gedächtnis.**
+       *
+       * Crunchyrolls alte Slug-Form (`/de/<name>`) trägt keine Serienkennung,
+       * und diese Runde stieg dort bisher aus. Gemessen am 07.09.2026: **43
+       * der 44 offenen Crunchyroll-Verweise** haben genau diese Form.
+       *
+       * `data/crunchyroll-series-ids.json` löst sie längst auf — jede der 396
+       * betroffenen Adressen steht dort, mit Kennung und Prüfdatum. Gelesen hat
+       * die Datei nur `scrape-crunchyroll-dub.ts`, also der Abruf, der sie
+       * schreibt. Wieder der Fall aus `CLAUDE.md`: „Eine Datei zu schreiben ist
+       * nicht dasselbe wie sie zu benutzen."
+       *
+       * Der Gewinn ist heute klein — drei Verweise, alle mit belegtem Nein —
+       * und wächst mit jeder Serie, die der Katalog künftig führt. Die übrigen
+       * 29 hängen am Franchise-Problem: Ihre Kennung nennt mehrere Blöcke, und
+       * welcher unsere Staffel ist, sagt die Serienebene nicht.
+       */
+      const kennungsGedaechtnis = readJson<{ adressen?: Record<string, { seriesId?: string }> }>(
+        'data/crunchyroll-series-ids.json',
+        {},
+      ).adressen
+      const kernVon = (u: string): string =>
+        u
+          .replace(/^https?:\/\//, '')
+          .replace(/^www\./, '')
+          .split('?')[0]!
+          .replace(/\/$/, '')
+          .toLowerCase()
+      const kennungJeAdresse = new Map(
+        Object.entries(kennungsGedaechtnis ?? {})
+          .filter(([, v]) => v.seriesId)
+          .map(([u, v]) => [kernVon(u), v.seriesId as string]),
+      )
       if (nachKennung.size) {
         for (const title of titles.values()) {
           for (const stream of title.streams) {
             if (stream.platform !== 'crunchyroll' || stream.dub !== undefined) continue
-            const kennung = /\/series\/([A-Z0-9]+)/.exec(stream.url)?.[1]
+            const kennung =
+              /\/series\/([A-Z0-9]+)/.exec(stream.url)?.[1] ?? kennungJeAdresse.get(kernVon(stream.url))
             if (!kennung) continue
             const eintrag = nachKennung.get(kennung)
             if (!eintrag || !eintrag.folgen) continue
