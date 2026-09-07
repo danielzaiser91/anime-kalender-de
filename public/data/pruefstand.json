@@ -1,11 +1,11 @@
 {
- "erzeugtAm": "2026-09-07T20:16:14.715Z",
+ "erzeugtAm": "2026-09-07T20:20:09.996Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 670,
-   "gesamt": 672,
+   "gemeldet": 680,
+   "gesamt": 682,
    "offen": 2,
    "ohneSeite": 2,
    "suchAdressen": [
@@ -28,29 +28,162 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 369,
-   "gesamt": 374,
-   "offen": 5,
+   "gemeldet": 383,
+   "gesamt": 562,
+   "offen": 179,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/80135674",
+   "ziel": "https://www.netflix.com/title/60021103",
    "ziele": [
     {
-     "url": "https://www.netflix.com/title/80135674",
-     "titel": "My Hero Academia"
+     "url": "https://www.netflix.com/title/60021103",
+     "titel": "Akira"
+    },
+    {
+     "url": "https://www.netflix.com/title/70012316",
+     "titel": "InuYasha: Der Film - Gefühle, die die Zeit überwinden"
+    },
+    {
+     "url": "https://www.netflix.com/title/70018513",
+     "titel": "InuYasha: Der Film - Das Traumschloss im Inneren der Spiegel"
+    },
+    {
+     "url": "https://www.netflix.com/title/70036200",
+     "titel": "InuYasha: Der Film - Die Schwerter, die die Welt unterwerfen"
+    },
+    {
+     "url": "https://www.netflix.com/title/70050576",
+     "titel": "Das Schloss des Cagliostro"
+    },
+    {
+     "url": "https://www.netflix.com/title/70052492",
+     "titel": "InuYasha: Der Film - Die Insel Hourai im Flammenmeer"
+    },
+    {
+     "url": "https://www.netflix.com/title/70065105",
+     "titel": "Paprika"
+    },
+    {
+     "url": "https://www.netflix.com/title/70074559",
+     "titel": "Naruto: The Movie - Geheimmission im Land des ewigen Schnees"
+    },
+    {
+     "url": "https://www.netflix.com/title/70101321",
+     "titel": "Naruto: The Movie 2 - Die Legende des Steins von Gelel"
+    },
+    {
+     "url": "https://www.netflix.com/title/70105699",
+     "titel": "Naruto Shippuden: The Movie - Bonds"
+    },
+    {
+     "url": "https://www.netflix.com/title/70108386",
+     "titel": "Naruto: The Movie 3 - Die Hüter des Sichelmondreiches"
+    },
+    {
+     "url": "https://www.netflix.com/title/70124999",
+     "titel": "Naruto Shippuden: The Movie"
+    },
+    {
+     "url": "https://www.netflix.com/title/70129415",
+     "titel": "Halo Legends"
+    },
+    {
+     "url": "https://www.netflix.com/title/70201870",
+     "titel": "Angel Beats!"
+    },
+    {
+     "url": "https://www.netflix.com/title/70201871",
+     "titel": "Demon King Daimao"
+    },
+    {
+     "url": "https://www.netflix.com/title/70204955",
+     "titel": "Black Butler"
+    },
+    {
+     "url": "https://www.netflix.com/title/70204957",
+     "titel": "Bleach: Thousand-Year Blood War"
+    },
+    {
+     "url": "https://www.netflix.com/title/70204980",
+     "titel": "Fullmetal Alchemist"
+    },
+    {
+     "url": "https://www.netflix.com/title/70204981",
+     "titel": "Fullmetal Alchemist: Brotherhood"
+    },
+    {
+     "url": "https://www.netflix.com/title/70204995",
+     "titel": "InuYasha"
+    },
+    {
+     "url": "https://www.netflix.com/title/70205014",
+     "titel": "Ouran High School Host Club"
+    },
+    {
+     "url": "https://www.netflix.com/title/70205687",
+     "titel": "Wolverine"
+    },
+    {
+     "url": "https://www.netflix.com/title/70205688",
+     "titel": "X-Men"
+    },
+    {
+     "url": "https://www.netflix.com/title/70207362",
+     "titel": "Highschool of the Dead"
+    },
+    {
+     "url": "https://www.netflix.com/title/70208801",
+     "titel": "Bleach: The Movie - Fade to Black"
     }
    ],
-   "naechster": "My Hero Academia"
+   "naechster": "Akira"
   },
   {
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 36,
-   "gesamt": 36,
-   "offen": 0,
+   "gesamt": 45,
+   "offen": 9,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T",
+   "ziele": [
+    {
+     "url": "https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T",
+     "titel": "Children of the Sea"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/the-rising-of-the-shield-hero-aka-tate-no-yuusha-no/4lgHH2jdAefe",
+     "titel": "The Rising of the Shield Hero: Staffel 2"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/chainsaw-man/2gMK1kC3JIEh",
+     "titel": "Chainsaw Man"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/aoashi/27OVvACG0ySD",
+     "titel": "Aoashi"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/spyfamily/fet1h9jqmrAM",
+     "titel": "Spy × Family"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-5973d358-1997-47d0-942d-e85b455ed9db",
+     "titel": "Fire Force: Staffel 3"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-9f96dac7-a7cf-4546-87a5-069cb101f174?season=782c38b7-ad71-48fc-87e4-e6b9ad7f13e4",
+     "titel": "Oshi no Ko: Mein Star"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-54a25fcf-a472-4d40-9968-13e2957e5abf",
+     "titel": "One-Punch Man: Staffel 3"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-75f4baad-151d-489d-8a9e-bec4ab49ed23",
+     "titel": "Rooster Fighter"
+    }
+   ],
+   "naechster": "Children of the Sea"
   }
  ]
 }
