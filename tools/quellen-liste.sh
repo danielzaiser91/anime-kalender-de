@@ -214,6 +214,9 @@ QUELLEN=(
   daniel-zum-abarbeiten/07-adn.md
   # Was Anime2You angekündigt hat und noch nicht im Datensatz steht — der Weg,
   # der bei „Kill Blue" gefehlt hat (07.09.2026).
+  # Warum die Wache verlorene Urteile gemeldet hat — die Wache selbst kann das
+  # nicht wissen (07.09.2026).
+  daniel-zum-abarbeiten/00-wache-auswertung.md
   daniel-zum-abarbeiten/15-news-vorschau.md
   daniel-zum-abarbeiten/16-justwatch-tonspuren.md
   daniel-zum-abarbeiten/12-verpasste-termine.md
