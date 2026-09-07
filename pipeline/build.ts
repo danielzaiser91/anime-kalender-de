@@ -4969,6 +4969,53 @@ function main(): void {
    * belegtes Nein, sondern eine fehlende Auskunft — sobald eine Prüfung sie
    * liefert, gehört der Weg zurück.
    */
+  /**
+   * **Ein Titel ohne jeden Bezugsweg — was JustWatch dazu kennt.**
+   *
+   * 243 Titel im Hauptbestand hatten am 07.09.2026 keinen einzigen Weg. Für
+   * sie beantwortet der Kalender Punkt 4 des Projektziels gar nicht („Nicht
+   * nur wann, auch wo"), und das ist bei den meisten Titeln **die** Frage: Nur
+   * gut hundert haben überhaupt einen anstehenden Termin.
+   *
+   * `data/justwatch-audio.json` nennt zu jedem Angebot eine Adresse. Sie
+   * kommen hier als **Bezugswege** an, nicht als Verweise mit Sprachurteil:
+   * Die Tonspurangabe gilt der Serie, nicht der Folge, und daraus wird
+   * grundsätzlich kein `dub`.
+   *
+   * Vier Riegel, jeder mit belegtem Anlass:
+   *
+   * | Riegel | warum |
+   * |---|---|
+   * | nur Titel **ohne** jeden Weg | wo schon einer steht, ist die Frage beantwortet — und unsere Adresse ist die geprüfte |
+   * | nichts, was einmal entfernt wurde | sonst kommt ein belegtes Nein über die Hintertür zurück |
+   * | „JustWatch TV" fliegt raus | die Eigenwerbung des Dienstes, führt zurück auf justwatch.com |
+   * | höchstens vier je Titel | eine Liste von zwölf Amazon-Varianten beantwortet keine Frage |
+   */
+  let jwWege = 0
+  {
+    const jw = readJson<
+      Record<string, { ohneTreffer?: boolean; angebote?: { anbieter: string; art: string; url?: string }[] }>
+    >('data/justwatch-audio.json', {})
+    for (const title of titles.values()) {
+      if ((title.streams ?? []).length || (title.watchLinks ?? []).length) continue
+      const b = jw[String(title.id)]
+      if (!b || b.ohneTreffer || !b.angebote?.length) continue
+      const wege: WatchLink[] = []
+      for (const a of b.angebote) {
+        if (!a.url || /^justwatch/i.test(a.anbieter)) continue
+        if (toteAdressen.has(a.url)) continue
+        const name = providerName(a.anbieter)
+        if (!name || wege.some((w) => w.name === name)) continue
+        wege.push({ name, url: a.url, kind: a.art === 'FLATRATE' || a.art === 'FREE' ? 'stream' : 'buy' })
+        if (wege.length >= 4) break
+      }
+      if (!wege.length) continue
+      title.watchLinks = wege
+      jwWege += wege.length
+    }
+  }
+  if (jwWege) log(`${jwWege} Bezugswege aus JustWatch für Titel ohne jeden Weg ergänzt`)
+
   let youtubeStumm = 0
   for (const title of titles.values()) {
     if (!title.streams?.length) continue
