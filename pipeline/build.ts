@@ -4912,6 +4912,61 @@ function main(): void {
     log(`${nachgetragen} Verweis(e) nachträglich mit Zugangsart versehen — sie entstanden nach der Hauptrunde`)
   }
 
+  /**
+   * **Ein Weg, ein Urteil — auch wenn er in zwei Listen steht.**
+   *
+   * Daniel am 07.09.2026 an „Kill Blue", mit Bild: „warum ist bei ‚… über
+   * prime' pills kein ‚DE' zeichen?" Die Pille „Aniverse über Prime Video" und
+   * der Prime-Video-Verweis zeigen auf **dieselbe** Adresse
+   * (`amazon.de/gp/video/detail/B0GTN94C9M` bzw. `amazon.de/dp/B0GTN94C9M`) —
+   * der eine trug „DE ✓", die andere gar nichts.
+   *
+   * Es fehlte also keine Auskunft, sie kam nur an einer von zwei Stellen an:
+   * Die Sprachangabe lebt in `streams`, `watchLinks` kannten das Feld nicht.
+   * Für einen Besucher sind es zwei Zeilen über dieselbe Sache, und eine davon
+   * schweigt — das liest sich wie ein Unterschied, den es nicht gibt.
+   *
+   * **Übernommen wird nur, wo beide dasselbe Angebot meinen** — und das
+   * entscheidet bei Amazon die **Kennung**, nicht die Adresse: Derselbe Titel
+   * steht dort einmal als `/gp/video/detail/B0GTN94C9M` und einmal als
+   * `/dp/B0GTN94C9M`. Ein Adressvergleich sähe zwei verschiedene Wege, wo es
+   * einer ist — genau der Fehlgriff, der am selben Tag schon eine tote
+   * Crunchyroll-Serie neu verlinkt hat.
+   *
+   * Aus dem Anbieternamen folgt dagegen nichts: Zwei Prime-Wege zum selben
+   * Titel können verschiedene Ausgaben meinen — Kanal-Abo und Kauftitel —, und
+   * deren Tonspuren sind verschieden (siehe „Bei einem Kanal-Titel ist Amazons
+   * Sprachangabe kein Beleg").
+   */
+  const wegSchluessel = (u: string): string => {
+    const asin = /\/(?:dp|detail|gp\/product)\/([A-Z0-9]{10,26})/.exec(u)?.[1]
+    if (asin) return `amazon:${asin}`
+    return u
+      .replace(/^https?:\/\//, '')
+      .replace(/^www\./, '')
+      .split('?')[0]!
+      .replace(/\/$/, '')
+      .toLowerCase()
+  }
+  let urteilGeerbt = 0
+  for (const title of titles.values()) {
+    if (!title.watchLinks?.length || !title.streams?.length) continue
+    const jeWeg = new Map(
+      title.streams.filter((s) => s.dub !== undefined && s.url).map((s) => [wegSchluessel(s.url), s.dub as boolean]),
+    )
+    if (!jeWeg.size) continue
+    for (const w of title.watchLinks) {
+      if (w.dub !== undefined || !w.url) continue
+      const urteil = jeWeg.get(wegSchluessel(w.url))
+      if (urteil === undefined) continue
+      w.dub = urteil
+      urteilGeerbt++
+    }
+  }
+  if (urteilGeerbt) {
+    log(`${urteilGeerbt} Bezugsweg(e) haben das Sprachurteil des Verweises mit derselben Adresse übernommen`)
+  }
+
   const allTitles = [...titles.values()]
   const genres = [...new Set(allTitles.flatMap((t) => t.genres))].sort((a, b) => a.localeCompare(b, 'de'))
   const keywords = [...new Set(allTitles.flatMap((t) => t.keywords))].sort((a, b) => a.localeCompare(b, 'de'))

@@ -572,7 +572,15 @@ function AntwortKasten({
             zwei Zeilen; was auch dort nicht hineinpasst — bei fünf und mehr
             Anbietern — wird gescrollt, jetzt aber senkrecht und erst dann.
           */}
-          <div className="flex max-h-[7.2rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
+          {/*
+            `max-h` deckt **genau zwei** Pillenreihen — 4,4rem sind zwei Pillen
+            à 28 px plus Abstand. Größer gesetzt schneidet der Kasten ab, statt
+            zu scrollen: Er hat eine feste Höhe, und was die Reihe darüber
+            hinaus zulässt, ragt einfach hinaus (07.09.2026 an „Kill Blue" mit
+            fünf Anbietern gemessen). Ab der dritten Reihe wird gescrollt — das
+            ist die Ausnahme für fünf und mehr Wege, nicht der Normalfall.
+          */}
+          <div className="flex max-h-[4.4rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
             {pillen}
           </div>
         </div>
@@ -1047,7 +1055,9 @@ function ReleasePille({
  * Anzeigename kommt aus dem gemeinsamen Teil vor dem Gedankenstrich; steht dort
  * nichts Gemeinsames, bleibt der volle Name stehen.
  */
-function gruppiereKaufwege(links: WatchLink[]): { shop: string; eintraege: { label?: string; url: string }[] }[] {
+function gruppiereKaufwege(
+  links: WatchLink[],
+): { shop: string; eintraege: { label?: string; url: string; dub?: boolean }[] }[] {
   const nachHost = new Map<string, WatchLink[]>()
   for (const l of links) {
     let host = l.url
@@ -1065,11 +1075,11 @@ function gruppiereKaufwege(links: WatchLink[]): { shop: string; eintraege: { lab
     const geteilt = liste.map((l) => l.name.split(/\s+—\s+/))
     const gemeinsam = geteilt.every((t) => t.length > 1 && t[0] === geteilt[0][0])
     if (liste.length === 1 || !gemeinsam) {
-      return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url })) }
+      return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url, dub: l.dub })) }
     }
     return {
       shop: geteilt[0][0],
-      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url })),
+      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url, dub: l.dub })),
     }
   })
 }
@@ -1743,9 +1753,27 @@ export function DetailPanel({
       Deckt kein Verweis die Serie vollständig ab, gilt sie als **teilweise**
       synchronisiert — dann zeigt der Kasten die Zahl statt „alle".
     */
-    const abdeckung = (title.streams ?? [])
-      .filter((s) => s.dub === true)
-      .map((s) => dubAbdeckung(s.dubRanges, gesamt))
+    /*
+      **Wer Bereiche nennt, hat nachgesehen — wer keine nennt, hat es nicht.**
+
+      Am 07.09.2026 stand über „Kill Blue" zum zweiten Mal an einem Tag „Alle 12
+      Folgen auf Deutsch", diesmal aus einer anderen Richtung: Der frisch
+      angelegte Crunchyroll-Weg trägt `dub: true` **ohne** `dubRanges` — der
+      deutsche Katalog antwortet auf Serienebene und sagt über einzelne Folgen
+      nichts. `dubAbdeckung()` liest ein fehlendes Bereichsfeld zu Recht als
+      „nichts dagegen bekannt", und damit galt die Serie wieder als vollständig,
+      obwohl die ADN-Pille daneben „✕ DE 9–12" trug.
+
+      Zwei Angaben über dieselbe Sache, und die vage überstimmte die gemessene.
+      **Sobald überhaupt ein Verweis Bereiche belegt**, entscheiden nur noch
+      diese: Sie stammen aus einer Prüfung je Folge, die anderen aus einer
+      Angabe über die Serie. Gibt es gar keine Bereiche, bleibt alles wie
+      bisher — dann ist „alle" die beste verfügbare Auskunft, und 2.700 Titel
+      hängen daran.
+    */
+    const mitUrteil = (title.streams ?? []).filter((s) => s.dub === true)
+    const belegen = mitUrteil.some((s) => s.dubRanges?.length) ? mitUrteil.filter((s) => s.dubRanges?.length) : mitUrteil
+    const abdeckung = belegen.map((s) => dubAbdeckung(s.dubRanges, gesamt))
     const vollstaendig = abdeckung.some((a) => a.vollstaendig)
     const belegteFolgen = abdeckung.length ? Math.max(...abdeckung.map((a) => a.belegt)) : 0
 
@@ -2558,6 +2586,21 @@ export function DetailPanel({
                           key={`sw-${g.shop}-${g.eintraege[0].url}`}
                           name={g.shop}
                           url={g.eintraege[0].url}
+                          /*
+                            **Dasselbe Zeichen wie am Verweis mit derselben Adresse.**
+
+                            Daniel am 07.09.2026 an „Kill Blue": „warum ist bei
+                            ‚… über prime' pills kein ‚DE' zeichen?" Die Pille
+                            „Aniverse über Prime Video" und der Prime-Verweis
+                            zeigen auf dieselbe Kennung — der eine trug „DE ✓",
+                            die andere nichts.
+
+                            Das Urteil erbt der Bezugsweg beim Bauen (`build.ts`,
+                            „Ein Weg, ein Urteil"); hier wird es nur angezeigt.
+                            Wo keins geerbt wurde, zeigt `DubMark` weiterhin das
+                            Fragezeichen — das ist die ehrliche Antwort.
+                          */
+                          rechts={<DubMark dub={g.eintraege[0].dub} />}
                         />
                       )),
                     ),
