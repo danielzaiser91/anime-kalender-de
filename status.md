@@ -145,27 +145,23 @@ sie trifft das Projektziel im Kern: Eine Seite, die niemand findet, beantwortet
 keine Frage. Details im Abschnitt darunter; am 07.09. mit Querverlinkung
 angegangen, Wirkung offen.
 
-**2. 114 Verweise ohne Sprachurteil** (Stand 07.09.2026, 09:00 — vormittags von 123 gesenkt: sechs ADN durch die Schärfung in der Nachrunde, drei Crunchyroll über die Serienkennung im deutschen Katalog). Aufgeschlüsselt:
+**2. 91 Verweise ohne Sprachurteil** (Stand 07.09.2026, 15:10 — im Lauf des Tages von 123 gesenkt). Aufgeschlüsselt:
 
 ```
-crunchyroll  49   davon 26 mit alter Slug-Adresse ohne Serienkennung
-primevideo   33   davon 29 Kanal-Titel — Amazons Angabe belegt dort nichts
-youtube      16   alle auf Daniels Arbeitsliste, nur ein Blick ins Video klärt sie
-netflix      10
-adn           6   fünf zeigen auf JoJos Sammelserie, einer hat keine Kennung
+crunchyroll  44   überwiegend Franchise-Kennungen: eine Serie, mehrere Staffeln
+primevideo   32   Kanal-Titel — Amazons Angabe belegt dort nichts
+netflix      14
+adn           1   „Plus-Sized Elf“, französischer Slug ohne Serienkennung
 ```
 
-Die 26 Crunchyroll ohne Kennung sind **dokumentiert unlösbar** (29.08.2026: von
-16 Namenszuordnungen waren fünfzehn falsch). Die 29 Prime-Kanal-Titel sind es
-ebenfalls — dort sagt Amazon die Sprachen des Kanals, nicht der Folge. Übrig
-bleiben rund 40 Verweise, an denen sich arbeiten lässt; die 12 ADN sind der
-aussichtsreichste Block, weil der Weg beschrieben ist.
+**Die 16 YouTube-Verweise sind weg** — dort führen wir seit dem 07.09. nur noch
+belegte Wege (Daniel: „youtube hat nur untertitel, also weg damit“).
 
-**3. 489 Titel ohne jeden Bezugsweg (18 %).** Kein Fehler der Pipeline —
-gemessen an 22 Stichproben, für die aniSearch einen Anbieter kennt: acht tragen
-einen verneinenden Handbeleg, die übrigen wurden angelegt und nach belegtem Nein
-wieder entfernt. Der Bestand ist dort **so ehrlich wie möglich**. Auffällig ist
-die Alterung: **326 der 489 sind älter als 2010**, nur 30 aus 2020 oder später.
+**3. 235 Titel ohne jeden Bezugsweg (8 %).** Am 07.09.2026 von 489 gesenkt:
+246 über aniSearchs Sprachblock („Deutsche Ausgabe bei aniSearch“), 57 über
+JustWatchs Angebote. Der Rest ist überwiegend alt — die Alterung war schon bei
+489 der auffällige Teil, und sie bleibt: Wer 1998 eine deutsche Fassung hatte,
+findet sie heute in keinem Katalog mehr.
 
 **4. Der stündliche Lauf ist real ein 4,5-Stunden-Lauf.** GitHub verwirft
 `schedule`-Läufe unter Last; gemessen 5,2 statt 24 Läufe am Tag (03.09.2026).
