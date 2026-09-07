@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-07 · **86 offene Verweise** in **58 Zeilen**,
+Stand 2026-09-07 · **83 offene Verweise** in **58 Zeilen**,
 aufgeteilt in **3 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -35,7 +35,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | ADN | JoJo’s Bizarre Adventure — (TV) | [JoJo’s Bizarre Adventure](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [JoJo’s Bizarre Adventure: Stardust Crusaders](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [JoJo’s Bizarre Adventure: Stardust Crusaders - Battle in Egypt](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [JoJo’s Bizarre Adventure: Diamond Is Unbreakable](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [JoJo’s Bizarre Adventure: Golden Wind](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) |
+| 1 | ADN | JoJo’s Bizarre Adventure — (TV) | [JoJo’s Bizarre Adventure: Diamond Is Unbreakable](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [JoJo’s Bizarre Adventure: Golden Wind](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) |
 | 2 | YouTube | Muumin | [Die Mumins](https://www.youtube.com/playlist?list=PLL0kUUHCSZA6VQjBcZ8TJ-tshEMyPsSt6) |
 | 3 | YouTube | B-Daman Crossfire | [Hauptserie](https://www.youtube.com/playlist?list=PL4o1lot_6q1EHL3vw_t4BGuHK6uBHyETT) |
 | 4 | YouTube | Choppy und die Prinzessin | [Hauptserie](https://www.youtube.com/watch?v=A0DaeCtJTG0) |

@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-07 · **86 offene Verweise** in **58 Zeilen**.
+Stand 2026-09-07 · **83 offene Verweise** in **58 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -36,8 +36,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | [Crunchyroll](07-crunchyroll.md) | 50 |
 | [YouTube](07-youtube.md) | 16 |
 | [Netflix](07-netflix.md) | 10 |
-| [ADN](07-adn.md) | 6 |
 | [Prime Video](07-primevideo.md) | 4 |
+| [ADN](07-adn.md) | 3 |
 
 ## Zu prüfen
 
@@ -77,7 +77,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 32 | 2019-12-29 | We Never Learn | [Hauptserie](https://www.crunchyroll.com/we-never-learn-bokuben) · [Staffel 2](https://www.crunchyroll.com/we-never-learn-bokuben) |
 | 33 | 2019-09-22 | Nicht schon wieder, Takagi-san | [Karakai Jozu no Takagi-san: Staffel 2](https://www.crunchyroll.com/series/G6X0P133Y/karakai-jozu-no-takagi-san) |
 | 34 | 2019-09-21 | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/fruits-basket) |
-| 35 | 2019-07-28 | JoJo’s Bizarre Adventure — (TV) | [JoJo’s Bizarre Adventure](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [JoJo’s Bizarre Adventure: Stardust Crusaders](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [JoJo’s Bizarre Adventure: Stardust Crusaders - Battle in Egypt](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [JoJo’s Bizarre Adventure: Diamond Is Unbreakable](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [JoJo’s Bizarre Adventure: Golden Wind](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) |
+| 35 | 2019-07-28 | JoJo’s Bizarre Adventure — (TV) | [JoJo’s Bizarre Adventure: Diamond Is Unbreakable](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [JoJo’s Bizarre Adventure: Golden Wind](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) |
 | 36 | 2019-06-29 | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
 | 37 | 2019-06-26 | Wise Man’s Grandchild | [Hauptserie](https://www.crunchyroll.com/wise-mans-grandchild) |
 | 38 | 2019-03-20 | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
