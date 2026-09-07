@@ -717,6 +717,54 @@ beide Crunchyroll-Angebote `audio: ja, pt` und führt Deutsch ausschließlich un
 Quellen, die unabhängig voneinander kein Deutsch im **Ton** finden, ergeben zusammen ein
 belegtes Nein; eine allein nicht.
 
+## Ein Beleg gehört einer Ausgabe, nicht einem Titel
+
+Am 07.09.2026 stand über „Date a Live IV" ein grünes „DE ✓", und die verlinkte
+Amazon-Seite hatte keine deutsche Tonspur. Daniel: „staffel 4 und 5 wurden von
+mir gemeldet auf prime, und beide haben dort keine synchro, also wieso steht da
+DE ✅??? … schlimmer fehler" — und, als sich zeigte, dass die Meldung seit dem
+28.08. vorlag: „das ist ja umso schlimmer."
+
+Prime führt die Reihe zweimal:
+
+| Adresse | was sie ist | Deutsch |
+|---|---|---|
+| `B0CK5N448R` | Staffel 4 im Prime-Abo | ja |
+| `B0CJJF26WZ` | derselbe Titel über den Crunchyroll-Kanal | nein |
+
+`loadDubChecks()` legte beide Belege unter denselben Schlüssel — **Titel plus
+Plattform, ohne Adresse** — und verschmolz sie. Das `dub: true` gewann und
+färbte den Verweis, der auf die Kanal-Adresse zeigt.
+
+**Zwei Regeln daraus, und die zweite ist die allgemeinere:**
+
+1. **Verschmolzen wird nur, was dieselbe Ausgabe meint.** Der Adressvergleich
+   kennt Amazons beide Schreibweisen (`/dp/<ASIN>` und
+   `/gp/video/detail/<ASIN>`) — sonst stünden zwei Belege für dieselbe Seite
+   nebeneinander und stritten.
+2. **Die Strenge hängt an der Zahl der Wege.** Hat ein Titel nur einen Verweis
+   dieser Plattform, ist die `url` im Beleg eine **Korrektur** der Adresse —
+   genau dafür ist das Feld da. Erst ab zwei Wegen wird sie zur
+   **Unterscheidung**. Ein erster, strengerer Anlauf hätte 60 Belege
+   weggeworfen, darunter lauter berechtigte Korrekturen; gemessen richtig sind
+   vier.
+
+**Dieselbe Verwechslung eine Ebene tiefer** — am selben Tag gefunden: In
+`data/prime-zugeordnet.json` lagen drei Staffel-Adressen unter Titel 15583
+(„Date a Live", Staffel 1), weil Amazon jede Staffel schlicht „Date a Live"
+nennt und der beste Namenstreffer der Reihenkopf ist. Staffel 1 bekam so die
+Adresse von Staffel 2 samt deren `dub: true`.
+
+Die Meldung wusste es besser: Die Erweiterung liest die Staffel aus der Adresse
+(`?ref_=atv_dp_season_select_sN`) und schickt sie mit. **Ab Staffel 2 wird ein
+Reihenkopf-Treffer deshalb verworfen** — lieber keine Zuordnung als eine
+falsche, denn eine falsche erzeugt eine Sprachaussage über den falschen Titel.
+
+**Die gemeinsame Prüffrage**, und sie steht in derselben Familie wie „Eine
+Amazon-Kennung zeigt auf eine Staffel, unsere Titel-Kennung auf einen Anime"
+(25.08.2026): *Meinen die beiden Angaben, die ich hier zusammenlege, wirklich
+dieselbe Sache?* Titel und Plattform genügen dafür nicht — bei Prime nie.
+
 ## Eine Serie ist bei Crunchyroll kein Block — und ein Block ist kein Beleg über die Serie
 
 Am 25.08.2026 fehlte im Kalender jeder Crunchyroll-Verweis für **Detektiv Conan**, obwohl die
