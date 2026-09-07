@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-07T04:58:01.974Z",
+ "erzeugtAm": "2026-09-07T06:05:18.998Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,8 +7,10 @@
    "gemeldet": 709,
    "gesamt": 711,
    "offen": 2,
-   "ohneSeite": 0,
-   "suchAdressen": [],
+   "ohneSeite": 1,
+   "suchAdressen": [
+    "https://www.amazon.de/s?k=When%20Will%20Ayumu%20Make%20His%20Move%3F&i=instant-video"
+   ],
    "ziel": "https://www.amazon.de/dp/B09M19FLBJ",
    "ziele": [
     {
