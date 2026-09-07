@@ -4568,6 +4568,24 @@ function main(): void {
     const toteCrSerien = new Set(
       crDub.serien.filter((s) => s.nichtVerfuegbar && s.seriesId).map((s) => s.seriesId as string),
     )
+    /**
+     * **Nicht jede tote Adresse trägt eine Kennung, die sich aus der Adresse
+     * herauslesen lässt.**
+     *
+     * Am 07.09.2026 kam derselbe Fall ein zweites Mal, mit einer anderen
+     * Adressform: aniSearch führte für „Inuyashiki: Last Hero" den bloßen
+     * Slug `crunchyroll.com/inuyashiki-last-hero` — ohne `/series/<ID>/`.
+     * `toteCrSerien` kennt die Serie über ihre Kennung `G8DHV7E9Q`, aber die
+     * Regel oben zieht die Kennung erst aus der Adresse, und diese Adresse
+     * trägt keine. Der Guard griff ins Leere, der Verweis kam frisch zurück,
+     * `check:cr-zuordnung` wurde zu Recht rot.
+     *
+     * `crDub.serien` kennt für dieselbe Serie mehrere Adressformen, jede mit
+     * ihrem eigenen `nichtVerfuegbar`-Befund — hier deckt der Katalogabruf
+     * genau die Adresse ab, die aniSearch liefert. Verglichen wird deshalb
+     * zusätzlich direkt über die Adresse, nicht nur über die Kennung darin.
+     */
+    const toteCrUrls = new Set(crDub.serien.filter((s) => s.nichtVerfuegbar).map((s) => adressKern(s.url)))
     let wegeErgaenzt = 0
     const jeAnbieter: Record<string, number> = {}
     for (const title of titles.values()) {
@@ -4605,6 +4623,8 @@ function main(): void {
           /* Die Kennung entscheidet, nicht die Schreibweise der Adresse — siehe `toteCrSerien`. */
           const kennung = /\/series\/([A-Z0-9]+)/.exec(url)?.[1]
           if (kennung && toteCrSerien.has(kennung)) continue
+          /* Und wo die Adresse keine Kennung trägt, entscheidet die Adresse selbst — siehe `toteCrUrls`. */
+          if (toteCrUrls.has(adressKern(url))) continue
         }
         /*
           **Ein verneinender Handbeleg hält den Verweis draußen — ein bejahender
