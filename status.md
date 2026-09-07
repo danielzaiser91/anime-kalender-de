@@ -20,6 +20,12 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **Projektanalyse: Stärken und Schwächen** | 8 | Daniels Auftrag vom 07.09.2026: „erstes ziel das du dir setzt sollte komplett analyse des projekts sein, wo sind schwächen und stärken, schwächen ausbessern, stärken verstärken". Gemessen statt gemeint — Datenbestand, Prüfungen, Läufe, Website, und alles gegen die fünf Punkte des Projektziels in `CLAUDE.md`. Ergebnis kommt als eigener Abschnitt hierher, die Ausbesserungen als Aufgaben |
+
+| **Websearch: Autonomie-Ziel erneut prüfen** | 3 | Daniels Auftrag vom 07.09.2026. Der Plan steht in `docs/autonomie-plan.md`; seit seiner letzten Recherche hat sich die Werkzeuglandschaft bewegt. Zu klären: Gibt es inzwischen Wege, die damals nicht existierten — für die Prüfliste (Prime duldet keinen Agenten), für Netflix (Player-Manifest verschlüsselt), für Termine (keine API kennt deutsche Synchro-Termine). Verworfenes wird mit Grund festgehalten, sonst prüft es in drei Monaten jemand erneut |
+
+| **Je Wachphase ein eigenes Ziel** | — | Daniel am 07.09.2026: „setz dir selber eigene sinnvolle ziele in jedem durchlauf mindestens ein ziel". Dauerauftrag für den autonomen Modus: Jede Wachphase benennt vor der Arbeit ein Ziel, das dem Projektziel dient, und schreibt am Ende dazu, was daraus wurde. Kein Ziel zu haben ist der Abbruch, gegen den der Modus gebaut ist |
+
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
 
 
@@ -41,6 +47,74 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 |---|---|
 
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
+
+## Projektanalyse 07.09.2026: Stärken und Schwächen, gemessen
+
+Daniels Auftrag: „wo sind schwächen und stärken, schwächen ausbessern, stärken
+verstärken". Alle Zahlen aus dem ausgelieferten Bestand vom 07.09., 04:57.
+
+### Stärken
+
+| | |
+|---|---|
+| **Quellen** | 22 von 22 grün, keine über ihrer Frist |
+| **belegte deutsche Tonspur** | 1.919 Verweise mit `dub: true` |
+| **Zusicherungen** | 270 in `check:logic`, dazu 25/15/10 in Erweiterung, Zugangsart und Worker — plus rund 700 in den Sandkästen der Erweiterung |
+| **Prüflisten** | Netflix, Disney+ und Prime **leer** — die Handarbeit ist aufgeholt |
+| **Termine** | 2.825, davon nur 230 abgeleitet (8 %) — der Rest ist belegt |
+| **Selbstschutz des Baus** | Titelschwund-Riegel, Handbeleg-Vorrang, Gedächtnis für entfernte Verweise, Frist je Quelle |
+
+Der Selbstschutz ist die eigentliche Stärke: Am 07.09. hat der Titelschwund-Riegel
+einen lokalen Lauf mit veraltetem Cache abgefangen, und `check:logic` hat zwei
+Umbauten an derselben Stelle gemeldet, bevor sie ausgeliefert waren.
+
+### Schwächen, nach Wirkung sortiert
+
+**1. Sichtbarkeit — 62 von 664 Seiten indexiert (9 %).** Die größte Lücke, und
+sie trifft das Projektziel im Kern: Eine Seite, die niemand findet, beantwortet
+keine Frage. Details im Abschnitt darunter; am 07.09. mit Querverlinkung
+angegangen, Wirkung offen.
+
+**2. 123 Verweise ohne Sprachurteil** (von 2.042). Aufgeschlüsselt:
+
+```
+crunchyroll  52   davon 26 mit alter Slug-Adresse ohne Serienkennung
+primevideo   33   davon 29 Kanal-Titel — Amazons Angabe belegt dort nichts
+youtube      16
+adn          12   Kennung ließe sich aus dem Katalog nachschlagen
+netflix      10
+```
+
+Die 26 Crunchyroll ohne Kennung sind **dokumentiert unlösbar** (29.08.2026: von
+16 Namenszuordnungen waren fünfzehn falsch). Die 29 Prime-Kanal-Titel sind es
+ebenfalls — dort sagt Amazon die Sprachen des Kanals, nicht der Folge. Übrig
+bleiben rund 40 Verweise, an denen sich arbeiten lässt; die 12 ADN sind der
+aussichtsreichste Block, weil der Weg beschrieben ist.
+
+**3. 489 Titel ohne jeden Bezugsweg (18 %).** Kein Fehler der Pipeline —
+gemessen an 22 Stichproben, für die aniSearch einen Anbieter kennt: acht tragen
+einen verneinenden Handbeleg, die übrigen wurden angelegt und nach belegtem Nein
+wieder entfernt. Der Bestand ist dort **so ehrlich wie möglich**. Auffällig ist
+die Alterung: **326 der 489 sind älter als 2010**, nur 30 aus 2020 oder später.
+
+**4. Der stündliche Lauf ist real ein 4,5-Stunden-Lauf.** GitHub verwirft
+`schedule`-Läufe unter Last; gemessen 5,2 statt 24 Läufe am Tag (03.09.2026).
+Wer eine Zahl aus dem Kalender gegen die Wirklichkeit hält, misst gegen einen
+Stand, der einen halben Tag alt sein kann.
+
+**5. Das Crunchyroll-Zugangspaket lebt 24 Stunden, sein Lauf kommt wöchentlich.**
+Ein struktureller Widerspruch, der am 06.09. acht Tage lang unbemerkt blieb. Der
+Dauerauftrag oben fängt ihn ab, aber nur solange jemand ihn liest.
+
+### Was daraus folgt
+
+Verstärkt wird, was trägt: die Zusicherungen. Jeder Fund dieser Woche hat eine
+bekommen, und zweimal hat genau das den nächsten Fehler gefangen.
+
+Ausgebessert wird in dieser Reihenfolge: **Sichtbarkeit** (läuft), **die 12
+ADN-Verweise** (Weg beschrieben), **die YouTube-Verweise** (`offerId` prüfen).
+Was dokumentiert unlösbar ist, bleibt es — es wird nicht ein drittes Mal
+gemessen.
 
 ## Gemessen 07.09.2026: Search Console — 62 indexiert, 596 nicht
 
