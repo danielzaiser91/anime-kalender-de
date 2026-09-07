@@ -50,6 +50,24 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
 
+## Gemessen 07.09.2026: alle fünf Punkte des Projektziels
+
+Am Ende des Arbeitstages jeder Punkt aus `CLAUDE.md` einzeln am ausgelieferten
+Bestand geprüft — nicht aus dem Gefühl, sondern mit einer Zahl.
+
+| Punkt | Stand | gemessen an |
+|---|---|---|
+| **1. Synchro ist nicht Untertitel** | trägt | 16 YouTube-Verweise ohne belegte Synchro heute entfernt; „7th Time Loop" mit zwei Quellen als „nur Untertitel" belegt |
+| **2. Nichts behaupten ohne Beleg** | trägt | 660 Releases, **kein einziges ohne Quelle**; 7 mit geschätztem Datum, alle als `estimated` gekennzeichnet |
+| **3. Unsicheres kennzeichnen statt weglassen** | trägt | 354 Releases ohne belegte Uhrzeit stehen als „Zeit offen" da; 81 Verweise tragen „🇩🇪 ?"; 1 strittiger Termin wird mit **beiden** Daten geführt; 15.118 Titel ohne belegte Synchro stehen hinter dem Toggle statt gestrichen zu sein |
+| **4. Nicht nur wann, auch wo** | verbessert | Titel ohne jeden Bezugsweg heute von 489 auf **235** gesenkt (aniSearch-Sprachblock, JustWatch) |
+| **5. Rechtzeitig Bescheid geben** | trägt | ICS-Feed unter `/data/feeds/all.ics` mit 269 Terminen erreichbar; Newsletter-Cron läuft stündlich im Worker |
+
+**Die Schwäche ist keine der fünf, sondern die Sichtbarkeit**: 62 von 664 Seiten
+indexiert. Dagegen ist heute alles getan, was ohne Wartezeit geht — JSON-LD samt
+`WatchAction`, Querverlinkung, und auf jeder Teilen-Seite der Abschnitt „Wo es
+auf Deutsch läuft". Was jetzt fehlt, sind Wochen.
+
 ## Gemessen 07.09.2026: was an den 81 offenen Verweisen wirklich fehlt
 
 Am Abend des Arbeitstages nachgemessen, damit niemand — ich eingeschlossen —
