@@ -29,10 +29,32 @@
 20474: 2 # Stardust Crusaders (24) — zusammen mit 20799 genau die 48 der Staffel 2
 20799: 2 # Stardust Crusaders - Battle in Egypt (24) — dieselbe Rechnung
 #
-# **Diamond Is Unbreakable (21450) und Golden Wind (102883) stehen bewusst
-# nicht hier.** Beide haben 39 Folgen, und ADN führt zwei Staffeln mit 39 —
-# eine davon vollständig deutsch, die andere gar nicht. Die Reihenfolge der
-# ADN-Staffeln entspricht zwar der Erscheinungsreihenfolge, aber das ist eine
-# Annahme, keine Messung. Bei einem Fehlgriff stünde „deutsch" an einer Staffel,
-# die es nicht ist — genau die Falschaussage, gegen die dieses Projekt gebaut
-# ist. Sie bleiben offen, bis eine Messung je Folge sie trennt.
+# **Diamond Is Unbreakable (21450) und Golden Wind (102883) waren es zunächst
+# nicht.** Beide haben 39 Folgen, und ADN führt zwei Staffeln mit 39 — eine
+# davon vollständig deutsch, die andere gar nicht. Über die Folgenzahl allein
+# ist das nicht zu trennen, und die Reihenfolge der ADN-Staffeln wäre eine
+# Annahme gewesen: Bei einem Fehlgriff stünde „deutsch" an einer Staffel, die
+# es nicht ist.
+#
+# Entschieden hat es dann ein anderes Merkmal — siehe den Nachtrag unten.
+
+# --- Nachgetragen am 07.09.2026: die beiden 39er sind doch entscheidbar ------
+#
+# Nicht über die Reihenfolge, sondern über die **Folgentitel** in der
+# Rohantwort (`data/adn-raw/444.json.gz`, Felder `name` und `reference`):
+#
+#   Staffel 3 (jojo_tv3_*)  „Jōsuke Higashikata! Trifft Angelo“,
+#                           „Auf Wiedersehen, Moriō, Das Herz aus Gold“,
+#                           „Shining D (Diamond) is Unbreakable, Teil 2“
+#                           languages: ["vostde","vde"]
+#
+#   Staffel 4 (jojo_tv4_*)  „Golden Wind“, „Bucciarati erscheint“,
+#                           „Gold Experience Requiem“
+#                           languages: ["vostde"]
+#
+# Das ist derselbe Griff, der bei YouTube trägt: **Der Titel nennt die Sache,
+# wenn niemand ihn liest.** Damit ist Staffel 3 „Diamond Is Unbreakable“ und
+# Staffel 4 „Golden Wind“ — und die Reihenfolge-Vermutung ist bestätigt statt
+# angenommen.
+21450: 3 # Diamond Is Unbreakable — Staffel 3, alle 39 Folgen mit vde
+102883: 4 # Golden Wind — Staffel 4, keine einzige mit vde (nur Untertitel)
