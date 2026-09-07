@@ -86,6 +86,25 @@ export interface DubCheck {
    * damit: Ich weiß, dass der Titel fehlt, und das ist die Antwort.
    */
   nichtImBestand?: boolean
+  /**
+   * **Die zweite, unabhängige Quelle — nur damit wird aus einer Kanal-Meldung
+   * ein Nein.**
+   *
+   * Bei einem Kanal-Titel zeigt Amazon die Tonspuren, die dem Betrachter
+   * zugänglich sind; ohne das Abo fehlt die deutsche. Gemessen am 07.09.2026:
+   * 45 solcher Meldungen ohne Deutsch, und bei **14** ist Deutsch anderweitig
+   * belegt. Ein Nein allein daraus wäre in fast jedem dritten Fall falsch, und
+   * `check:logic` verbietet es deshalb seit dem 29.08.2026.
+   *
+   * Es gibt aber den Fall, in dem eine zweite Quelle unabhängig dasselbe sagt —
+   * bei „7th Time Loop" nennt JustWatch `audio: ja, pt` und führt Deutsch nur
+   * unter den Untertiteln. Dann trägt das Nein.
+   *
+   * Wer dieses Feld setzt, sagt: **Ich habe eine zweite Quelle angesehen, und
+   * hier steht, welche.** Freitext, aber nicht leer — die Zusicherung prüft nur
+   * das Dasein, den Wert liest ein Mensch.
+   */
+  zweiteQuelle?: string
 }
 
 const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')

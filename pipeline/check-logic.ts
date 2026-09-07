@@ -2199,10 +2199,23 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
 {
   const yaml = readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')
   const mitWarnung = yaml.split(/\n(?=- anilistId:)/).filter((b) => b.includes('Kanal-Titel'))
-  const neins = mitWarnung.filter((b) => b.includes('\n  dub: false'))
+  /*
+    **Die eine Ausnahme: eine zweite, unabhängige Quelle.**
+
+    Am 07.09.2026 an „7th Time Loop" gemessen — Daniels Erweiterungsmeldung
+    nennt keine deutsche Tonspur, und JustWatch führt für beide
+    Crunchyroll-Angebote `audio: ja, pt` mit Deutsch nur als Untertitel. Zwei
+    Quellen, die unabhängig voneinander dasselbe sagen, ergeben ein Nein; eine
+    allein nicht.
+
+    Geprüft wird das **Feld**, nicht die Notiz: Ein Textmuster ließe sich mit
+    jeder Formulierung umgehen, und genau darum geht es hier nicht.
+  */
+  const neins = mitWarnung.filter((b) => b.includes('\n  dub: false') && !/\n  zweiteQuelle:/.test(b))
   pruefe(
     `kein Handbeleg macht aus einem Kanal-Titel ein Nein (${mitWarnung.length} mit Kanal-Warnung)`,
     neins.length === 0,
+    'die Ausnahme ist ein `zweiteQuelle:`-Feld — siehe CLAUDE.md, „auch für ein fehlendes Deutsch"',
   )
 }
 
@@ -2977,7 +2990,12 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'auch der Handbeleg wird in der Nachrunde angewandt',
-    bau.includes('const handBeleg = checks.get(dubKey(title.id, stream.platform))'),
+    /*
+      Seit dem 07.09.2026 über `belegFuer(...)` statt über die Map: Der Beleg
+      wird zur **Adresse** des Verweises gesucht, nicht nur zur Plattform —
+      sonst färbt ein Ja für die eine Prime-Ausgabe die andere.
+    */
+    bau.includes('const handBeleg = belegFuer(title.id, stream.platform, stream.url'),
     'sonst steht ein bejahter Weg ohne das Urteil da, das ihn ausgelöst hat',
   )
   pruefe(
