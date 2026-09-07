@@ -2833,6 +2833,25 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     ein Beleg. Deshalb steht daneben die Bedingung `folgen`: Ein Eintrag ohne
     abrufbare Folgen sagt über Tonspuren nichts.
   */
+  /*
+    **Die Wache meldet nur, was das Gedächtnis nicht erklärt.**
+
+    Am 06.09.2026 stand in ihrem Befund „78 Verweise entfernt" als
+    Auffälligkeit — während `data/verweise-entfernt.json` im selben Lauf um 78
+    Einträge wuchs. Das war der Normalfall: Die aniSearch-Ergänzung legt
+    Verweise an und entfernt die belegten Neins im selben Durchgang wieder.
+
+    Eine Warnung, die zuverlässig zu Unrecht kommt, ist schlimmer als keine —
+    man hört auf hinzusehen, und die echte Störung geht darin unter.
+  */
+  {
+    const wache = readFileSync('pipeline/bestand-historie.ts', 'utf8')
+    pruefe(
+      'die Wache rechnet begründet entfernte Verweise heraus',
+      wache.includes('entferntProtokolliert') && wache.includes('wegUnerklaert'),
+      'sonst meldet sie den Normalfall als Verlust',
+    )
+  }
   pruefe(
     'die Katalog-Runde greift nur bei genau einer Staffel',
     bau.includes('if ((eintrag.staffeln ?? 0) !== 1) continue'),

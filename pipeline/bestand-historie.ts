@@ -49,6 +49,19 @@ interface Kennzahlen {
   mitUrteil: number
   ohneUrteil: number
   titelMitSynchro: number
+  /**
+   * Wie viele Verweise das Gedächtnis als **begründet entfernt** führt.
+   *
+   * Ohne diese Zahl kann die Wache „78 Verweise entfernt" nicht von „78
+   * Verweise verschwunden" unterscheiden — und meldete am 06.09.2026 einen
+   * Alarm für den Normalfall: Die aniSearch-Ergänzung hatte 123 Verweise
+   * angelegt und 78 davon im selben Lauf als belegtes Nein wieder entfernt.
+   *
+   * Eine Warnung, die zuverlässig zu Unrecht kommt, ist schlimmer als keine
+   * (CLAUDE.md, 16.08.2026): Man hört auf hinzusehen, und die echte Störung
+   * geht darin unter.
+   */
+  entferntProtokolliert: number
   releases: number
   termine: number
   /** Je Anbieter die Zahl der Verweise mit belegter Synchro. */
@@ -94,6 +107,8 @@ function messen(): Kennzahlen {
     if (hat) titelMitSynchro++
   }
 
+  const entfernt = lies<{ verweise?: unknown[] }>('data/verweise-entfernt.json', {})
+
   return {
     titel: titel.length,
     titelMitVerweis,
@@ -101,6 +116,7 @@ function messen(): Kennzahlen {
     mitUrteil,
     ohneUrteil,
     titelMitSynchro,
+    entferntProtokolliert: Array.isArray(entfernt.verweise) ? entfernt.verweise.length : 0,
     releases: Array.isArray(releases) ? releases.length : 0,
     termine: Array.isArray(termine) ? termine.length : 0,
     jeAnbieter,
@@ -136,10 +152,23 @@ if (vorher) {
   if (d('titelMitSynchro') < 0) auffaellig.push(`${-d('titelMitSynchro')} Titel ohne Synchro-Beleg`)
   if (d('termine') < -20) auffaellig.push(`${-d('termine')} Termine weniger`)
   /*
-    Ein Verweis, der verschwindet, ist oft richtig — tote Adressen werden
-    entfernt. Verschwinden aber viele auf einmal, lohnt der Blick.
+    Ein Verweis, der verschwindet, ist oft richtig — tote Adressen und belegte
+    Neins werden entfernt, und das Gedächtnis schreibt jeden davon mit. Gemeldet
+    wird deshalb nur, was **darüber hinaus** fehlt.
+
+    Am 06.09.2026 stand hier „78 Verweise entfernt" als Auffälligkeit, während
+    das Gedächtnis im selben Lauf um 78 Einträge wuchs — der Normalfall, als
+    Alarm ausgegeben. Wo die Zahlen zusammenpassen, ist nichts verlorengegangen;
+    bleibt ein Rest, steht genau der da.
   */
-  if (d('verweise') < -50) auffaellig.push(`${-d('verweise')} Verweise entfernt`)
+  const wegErklaert = Math.max(0, d('entferntProtokolliert'))
+  const wegUnerklaert = -d('verweise') - wegErklaert
+  if (wegUnerklaert > 50) {
+    auffaellig.push(
+      `${wegUnerklaert} Verweise ohne protokollierten Grund weg` +
+        (wegErklaert ? ` (${wegErklaert} weitere sind begründet entfernt)` : ''),
+    )
+  }
   for (const [anbieter, zahl] of Object.entries(jetzt.jeAnbieter)) {
     const alt = vorher.jeAnbieter?.[anbieter] ?? 0
     if (zahl < alt) auffaellig.push(`${anbieter}: ${alt - zahl} Synchro-Belege weniger`)
