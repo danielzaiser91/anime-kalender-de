@@ -3713,7 +3713,6 @@ function main(): void {
    * **Umgeschrieben wird nur die Serienadresse.** Ein Folgenverweis behält
    * seine alte Form, siehe `adnAdresseMitKennung`.
    */
-  {
     /**
      * **Serien, die der Katalog gerade nicht führt.**
      *
@@ -3786,7 +3785,30 @@ function main(): void {
       }
     }
     if (berichtigt) log(`${berichtigt} ADN-Adressen um Serienkennung oder Staffel geschärft`)
+  /**
+   * **Dieselbe Schärfung noch einmal, für alles, was später dazukommt.**
+   *
+   * Die Runde oben läuft, bevor `build.ts` ganz unten die Anbieter aus
+   * aniSearch ergänzt. Ein ADN-Verweis, der dort entsteht, wird von ihr nie
+   * berührt — er behält seine Slug-Adresse, `beurteileAdnVerweis` findet
+   * nichts im Archiv, und der Verweis bleibt bei „🇩🇪 ?".
+   *
+   * Gemessen am 07.09.2026: **sieben** solche Verweise, darunter sechs, deren
+   * Kennung seit dem 06.09. in `data/adn-adressen.yaml` steht — die Datei war
+   * gepflegt und wirkungslos. Das ist derselbe Fehlgriff wie beim Handbeleg
+   * einen Tag zuvor: **Wer unten ergänzt, muss unten auch schärfen und
+   * beurteilen.**
+   */
+  const adnStreamSchaerfen = (titleId: number, stream: { platform: string; url: string }): boolean => {
+    if (stream.platform !== 'adn') return false
+    const ausSlug = ausRelease.get(titleId) ?? undefined
+    const kennung = adnAdressen[titleId] ?? katalogKennung.get(titleId) ?? ausSlug?.show
+    const neu = adnAdresseSchaerfen(stream.url, { kennung, staffel: ausSlug?.staffel })
+    if (!neu) return false
+    stream.url = neu
+    return true
   }
+
 
   const adnArchiv = ladeAdnArchiv({ pflegen: true })
   if (adnArchiv.serien.size) {
@@ -4174,6 +4196,21 @@ function main(): void {
             if (urteil.titleId === title.id) stream.dub = urteil.dub
           }
         } else if (stream.platform === 'adn' && adnArchiv.serien.size) {
+          /*
+            **Erst schärfen, dann beurteilen.**
+
+            Ein hier ergänzter ADN-Verweis trägt die Adresse, die aniSearch
+            führt — oft `animationdigitalnetwork.de/video/<slug>` ohne
+            Serienkennung, teils mit französischem Namensteil
+            (`50-nuances-de-gras`). `beurteileAdnVerweis` findet dazu nichts,
+            und der Verweis bleibt bei „🇩🇪 ?".
+
+            Die Schärfung oben läuft, bevor dieser Block überhaupt Verweise
+            anlegt. Gemessen am 07.09.2026 blieben deshalb sieben Verweise
+            stumm — sechs davon mit einer Kennung, die seit dem Vortag in
+            `data/adn-adressen.yaml` steht.
+          */
+          adnStreamSchaerfen(title.id, stream)
           const befund = beurteileAdnVerweis(stream.url, adnArchiv)
           if (befund.dub !== undefined) stream.dub = befund.dub
         }

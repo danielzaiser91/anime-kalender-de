@@ -2794,6 +2794,25 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       'SITE endet bereits auf einen Schrägstrich',
     )
   }
+  /*
+    **Die Nachrunde schärft die ADN-Adresse, bevor sie sie beurteilt.**
+
+    Ein hier ergänzter ADN-Verweis trägt die Adresse aus aniSearch — oft eine
+    Slug-Adresse ohne Serienkennung, teils mit französischem Namensteil. Die
+    Schärfungsrunde läuft rund 400 Zeilen weiter oben, also bevor dieser Block
+    überhaupt Verweise anlegt.
+
+    Gemessen am 07.09.2026: sieben Verweise blieben deshalb ohne Urteil, sechs
+    davon mit einer Kennung, die seit dem Vortag in `data/adn-adressen.yaml`
+    stand — die Datei war gepflegt und wirkungslos. Dieselbe Klasse Fehler wie
+    beim Handbeleg einen Tag zuvor, und deshalb steht die Zusicherung direkt
+    daneben.
+  */
+  pruefe(
+    'die Nachrunde schärft die ADN-Adresse vor der Beurteilung',
+    bau.includes('adnStreamSchaerfen(title.id, stream)'),
+    'ein ergänzter ADN-Verweis ohne Serienkennung bleibt sonst stumm',
+  )
   pruefe(
     'auch der Handbeleg wird in der Nachrunde angewandt',
     bau.includes('const handBeleg = checks.get(dubKey(title.id, stream.platform))'),
