@@ -3171,6 +3171,20 @@ async function speicherSchreiben(werte) {
    * baut die Trefferliste beim Filtern neu auf, und eine gemerkte Referenz zeigt
    * danach auf ein Element, das nicht mehr im Baum steht.
    */
+  /**
+   * Die Prime-Kennung aus einer Trefferadresse — oder `null`.
+   *
+   * Steht dreimal im Kasten und wird jedes Mal für dasselbe gebraucht: Ein
+   * Knopf, der zu einer Karte springt, gibt sie an `kastenKnopf` weiter, und
+   * die markiert damit beim Überfahren die gemeinte Kachel.
+   *
+   * **26 Zeichen, nicht 10** — Prime Video führt neben ASINs auch GTIs, und
+   * ein Muster mit `{10}` schnitt sie ab (25.08.2026).
+   */
+  function kennungAus(url) {
+    return /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ohneParameter(url) ?? '')?.[1] ?? null
+  }
+
   function karteZu(kennung) {
     if (!kennung) return null
     try {
@@ -3560,13 +3574,14 @@ async function speicherSchreiben(werte) {
           weitereAusgaben = []
         }
         const ziel = ohneParameter(t.url)
+        const zielKennung = kennungAus(ziel)
         /*
           Die Kennung des Treffers gehört in den Auftrag. Ohne sie klebte der
           Hinweis an **jeder** Amazon-Seite, die Daniel danach öffnete — er stand
           sogar im Player einer fremden Serie und behauptete dort, die Meldung
           laufe unter „Angels of Death" (27.08.2026, mit Bild).
         */
-        suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ziel)?.[1] ?? null })
+        suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: zielKennung })
         hinweisKasten(
           auftrag.titel,
           folgen,
@@ -3708,10 +3723,29 @@ async function speicherSchreiben(werte) {
             dopplung"). Ohne Auswahl — also bei nur einer Karte — bleibt der
             Hinweis unten stehen.
           */
+          /*
+            **Der Knopf nennt die Karte, die er meint — und markiert sie.**
+
+            Er hieß „Öffnen — dort werden die Tonspuren gelesen" und übergab
+            keine Kennung. Damit fiel er aus beidem heraus, was `kastenKnopf`
+            für die Zuordnung tut: kein `(ASIN)` im Label, und beim Überfahren
+            blieb die Trefferkachel unmarkiert (Daniel, 07.09.2026: „hover auf
+            extension button ‚öffnen' highlighted nicht mehr die suchkachel die
+            ausgewählt werden würde … das gesamte label ist sehr schwach").
+
+            Der Hinweis auf die Tonspuren ist im selben Zug entfallen — er
+            erklärt die Arbeitsweise der Erweiterung, und die kennt der einzige
+            Leser dieses Kastens („ist sinnlos, ich weiß wie die extension
+            funktioniert").
+          */
           sortiert.length < 2 && ziel
-            ? kastenKnopf('Öffnen — dort werden die Tonspuren gelesen', () => {
-                location.href = ziel
-              })
+            ? kastenKnopf(
+                `Suchtreffer anklicken: ${(t.titel ?? auftrag.titel ?? 'Treffer').slice(0, 60)}`,
+                () => {
+                  location.href = ziel
+                },
+                zielKennung,
+              )
             : null,
           /*
             Hier standen bis zu zwei „Stattdessen: …"-Knöpfe für die weiteren
@@ -3909,17 +3943,25 @@ async function speicherSchreiben(werte) {
         })] : []),
         ...(reihenTreffer && ohneParameter(reihenTreffer.url)
           ? [
-              kastenKnopf(`Zur Reihe springen: ${reihenTreffer.titel}`, () => {
-                location.href = ohneParameter(reihenTreffer.url)
-              }),
+              kastenKnopf(
+                `Zur Reihe springen: ${reihenTreffer.titel}`,
+                () => {
+                  location.href = ohneParameter(reihenTreffer.url)
+                },
+                kennungAus(reihenTreffer.url),
+              ),
             ]
           : []),
         ...(nurTypStreitig
           ? [
-              kastenKnopf(`Als Sammelfassung öffnen: ${befund.treffer[0].titel}`, () => {
-                const ziel = ohneParameter(befund.treffer[0].url)
-                if (ziel) location.href = ziel
-              }),
+              kastenKnopf(
+                `Als Sammelfassung öffnen: ${befund.treffer[0].titel}`,
+                () => {
+                  const ziel = ohneParameter(befund.treffer[0].url)
+                  if (ziel) location.href = ziel
+                },
+                kennungAus(befund.treffer[0].url),
+              ),
             ]
           : []),
         /*

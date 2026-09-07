@@ -625,6 +625,58 @@ pruefe(
   pruefe('der Meldezweig steht vor dem Zählzweig', melden > 0 && zaehl > 0 && melden < zaehl)
 }
 
+/*
+  **Ein Knopf, der eine Karte öffnet, nennt sie auch.**
+
+  `kastenKnopf(text, tun, kennung)` tut mit der Kennung zweierlei: Sie steht als
+  `(ASIN)` im Label, und beim Überfahren bekommt die Trefferkachel einen Rahmen
+  und wird ins Bild geholt. Beides fällt lautlos aus, wenn jemand den dritten
+  Parameter weglässt — der Knopf sieht dann normal aus und markiert nichts.
+
+  Genau das war der Einzeltreffer-Knopf (Daniel, 07.09.2026: „hover auf
+  extension button ‚öffnen' highlighted nicht mehr die suchkachel die ausgewählt
+  werden würde"). Beim Nachrüsten fand diese Zusicherung **zwei weitere** Fälle
+  derselben Art — „Zur Reihe springen" und „Als Sammelfassung öffnen".
+
+  Die Prüfung nimmt jeden Aufruf, der `location.href` auf die Adresse eines
+  Treffers setzt (erkennbar an `.url`), und verlangt eine Kennung als drittes
+  Argument. **Knöpfe, die eine neue Suche starten, sind ausgenommen** — dort
+  gibt es keine Karte auf dieser Seite, die man markieren könnte.
+*/
+{
+  const q = readFileSync(__dirname + '/amazon.js', 'utf8')
+  const ohneKennung = []
+  let i = q.indexOf('kastenKnopf(')
+  while (i !== -1) {
+    /* Bis zur schließenden Klammer des Aufrufs zählen — die Argumente sind mehrzeilig. */
+    let tiefe = 0
+    let j = i + 'kastenKnopf'.length
+    for (; j < q.length; j++) {
+      if (q[j] === '(') tiefe++
+      else if (q[j] === ')') {
+        tiefe--
+        if (tiefe === 0) break
+      }
+    }
+    const aufruf = q.slice(i, j + 1)
+    /*
+      Ausgenommen sind Knöpfe, die eine **neue Suche** starten (`/s?k=`): Sie
+      springen nicht zu einer Karte dieser Seite, es gibt also nichts zu
+      markieren. Alles andere setzt `location.href` auf die Adresse eines
+      Treffers und braucht dessen Kennung.
+    */
+    const springt = aufruf.includes('location.href') && !aufruf.includes('/s?k=')
+    if (springt && !/[Kk]ennung/.test(aufruf)) {
+      ohneKennung.push(aufruf.slice(0, 60).replace(/\s+/g, ' '))
+    }
+    i = q.indexOf('kastenKnopf(', j)
+  }
+  pruefe(
+    `jeder springende kastenKnopf trägt eine Kennung${ohneKennung.length ? ` — ohne: ${ohneKennung.join(' | ')}` : ''}`,
+    ohneKennung.length === 0,
+  )
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
