@@ -85,7 +85,8 @@
     "check:panel": "node tools/panel-bild.mjs",
     "check:ansichten": "node tools/ansicht-bild.mjs",
     "bild:kachel": "node tools/kachel-titel-messen.mjs",
-    "check:leiste": "node tools/melder-leiste-bild.mjs"
+    "check:leiste": "node tools/melder-leiste-bild.mjs",
+    "data:justwatch": "tsx pipeline/fetch-justwatch-audio.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

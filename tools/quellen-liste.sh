@@ -55,6 +55,10 @@ QUELLEN=(
   # Deutsche Handlung, FSK und Anbieter je Titel. Fehlte hier bis zum
   # 21.08.2026 — der Abruf lief allerdings auch in keinem Workflow.
   data/tmdb-titles.json
+  # Welche Tonspuren ein Anbieter laut JustWatch führt — die einzige maschinelle
+  # Quelle für Prime und die Kanal-Angebote (07.09.2026). Kandidaten, keine
+  # Urteile: Die Angabe gilt der Serie, nicht der Folge.
+  data/justwatch-audio.json
   data/tmdb-folgen.json
   data/anbieter-vorschlaege.json
   data/wiedervorlage.json
@@ -211,6 +215,7 @@ QUELLEN=(
   # Was Anime2You angekündigt hat und noch nicht im Datensatz steht — der Weg,
   # der bei „Kill Blue" gefehlt hat (07.09.2026).
   daniel-zum-abarbeiten/15-news-vorschau.md
+  daniel-zum-abarbeiten/16-justwatch-tonspuren.md
   daniel-zum-abarbeiten/12-verpasste-termine.md
   daniel-zum-abarbeiten/13-tonspur-verdacht.md
   daniel-zum-abarbeiten/07-crunchyroll.md

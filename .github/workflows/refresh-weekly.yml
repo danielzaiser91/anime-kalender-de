@@ -496,6 +496,30 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "TMDB-Folgen holen"
 
+      # Welche Tonspuren ein Anbieter führt, laut JustWatch. Die einzige
+      # maschinelle Quelle für Prime Video und die Kanal-Angebote (aniverse,
+      # ADN-Kanal, Crunchyroll-Kanal) — dort duldet Amazon keinen Agenten, und
+      # aniverse hat keine eigene Schnittstelle.
+      #
+      # Läuft in der Cloud, nicht nur hier: Die Schnittstelle braucht kein
+      # Token und kennt keine Regionsbindung; die Abfrage nennt `country: DE`
+      # ausdrücklich. Kein Grund also, sie an Daniels Leitung zu binden.
+      #
+      # Ergebnis sind **Kandidaten**: Die Angabe gilt der Serie, nicht der
+      # Folge, und ein fehlendes `de` belegt nichts (Netflix meldet dort gar
+      # keine Tonspur).
+      - name: Tonspuren laut JustWatch
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:justwatch -- --limit 40
+
+      - name: Fortschritt — Tonspuren laut JustWatch
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Tonspuren laut JustWatch"
+
       # Nicht mehr direkt auf main: Der Fund geht als Pull Request ein und wird
       # nur gemergt, wenn er sich sauber einfügt. Sonst bleibt der Zweig stehen,
       # und „Claude — Daten-PR zusammenführen" löst den Konflikt mit Blick auf
