@@ -1,0 +1,86 @@
+# **Was man sehen muss, wird angesehen — automatisch.**
+#
+# Vier Werkzeuge messen das Aussehen, und alle vier liefen bisher nur, wenn
+# jemand daran dachte:
+#
+#   check:panel      die Höhe des Antwort-Kastens je Titel — sie muss gleich
+#                    bleiben (Daniels Vorgabe vom 03.09.2026: „height Änderung
+#                    der Box durch feste Höhe verhindern")
+#   check:ansichten  alle elf Routen, beide Themen, Desktop und Handy —
+#                    Konsolenfehler und waagerechte Überbreite
+#   check:kasten     der Hinweiskasten der Erweiterung unter dem echten
+#                    melder.css, gegen Amazons eigene Regeln
+#   check:leiste     die Durchlauf-Leiste auf Netflix, berechneter Stil statt
+#                    Anwesenheit im Baum
+#
+# Am 07.09.2026 hat genau diese Lücke Arbeit gekostet: Der Antwort-Kasten war
+# zu niedrig für den neuen Zustand „teilweise", die zweite Pillenreihe stand
+# über den Rand hinaus — gefunden, weil Daniel ein Bild schickte. `check:panel`
+# hätte es gemessen; es lief nur nicht.
+#
+# **Warum ein eigener Workflow und nicht die Prüfkette:** Alle vier brauchen
+# Chromium. Im Deploy-Job gibt es keins, und ihn dorthin zu hängen hat am
+# selben Tag drei Deploys rot gemacht.
+name: Aussehen prüfen
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'web/src/**'
+      - 'extension/*.css'
+      - 'tools/*bild*'
+      - 'pipeline/build-share-pages.ts'
+  workflow_dispatch:
+
+# Ein laufender Lauf wird abgebrochen, wenn ein neuer Push kommt — geprüft
+# werden soll der neueste Stand, nicht jeder Zwischenschritt.
+concurrency:
+  group: aussehen-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ansehen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Chromium holen
+        run: npx playwright install --with-deps chromium
+
+      # Die Bildwerkzeuge lesen aus `dist/` — sie rendern genau das, was
+      # ausgeliefert wird, ohne Server (`page.route()` beantwortet jede
+      # Anfrage aus dem Ordner).
+      - name: Seite bauen
+        run: npm run build
+
+      - name: Antwort-Kasten — gleiche Höhe je Titel
+        run: npm run check:panel
+
+      - name: Alle Ansichten — Desktop
+        run: npm run check:ansichten
+
+      - name: Alle Ansichten — Handy
+        run: npm run check:ansichten -- --handy
+
+      - name: Hinweiskasten der Erweiterung
+        run: npm run check:kasten
+
+      - name: Durchlauf-Leiste der Erweiterung
+        run: npm run check:leiste
+
+      # Die Bilder bleiben als Beleg am Lauf hängen — wer eine Änderung
+      # nachvollziehen will, sieht sie, ohne selbst zu bauen.
+      - name: Bilder anhängen
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aussehen-${{ github.run_id }}
+          path: docs/*.png
+          retention-days: 14
+          if-no-files-found: warn
