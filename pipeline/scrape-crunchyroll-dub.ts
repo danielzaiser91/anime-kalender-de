@@ -126,6 +126,21 @@ const WIEDERVORLAGE_TAGE = zahl('--alter', 28)
  * statt einen je Lauf.
  */
 const FEHLER_TAGE = zahl('--fehler-alter', 7)
+/**
+ * **`--offen`: nur Adressen ohne Sprachurteil, für einen gezielten Lauf.**
+ *
+ * Die Warteschlange geht bewusst über **alle** Adressen und sortiert nach dem
+ * Alter — ein `dub === undefined` als Kriterium wäre eine Einbahnstraße, siehe
+ * die Begründung weiter unten. Daran ändert dieser Schalter nichts: Er ist
+ * kein anderer Regelweg, sondern eine Auswahl für den Fall, dass man **jetzt**
+ * eine bestimmte Lücke schließen will.
+ *
+ * Anlass (07.09.2026): 47 Crunchyroll-Verweise trugen kein Urteil, und ein
+ * Lauf über 120 Adressen nach Alter berührte keinen einzigen davon — er
+ * arbeitete die ältesten Prüfungen ab, und die waren längst beantwortet. Mit
+ * `--offen` kostet dieselbe Lücke 47 Abrufe statt eines vollen Durchlaufs.
+ */
+const NUR_OFFENE = args.includes('--offen')
 /** Rückfallebene: die gerenderte Seite lesen statt der Content-API. */
 const SEITENANZEIGE = args.includes('--seitenanzeige')
 /**
@@ -606,6 +621,8 @@ async function main(): Promise<void> {
         continue // Keine gültige Adresse — dann gibt es nichts zu holen.
       }
       if (host !== 'crunchyroll.com' && !host.endsWith('.crunchyroll.com')) continue
+      /* Siehe `--offen` oben: eine Auswahl für den gezielten Lauf, kein anderer Regelweg. */
+      if (NUR_OFFENE && s.dub !== undefined) continue
       offen.add(s.url)
     }
   }

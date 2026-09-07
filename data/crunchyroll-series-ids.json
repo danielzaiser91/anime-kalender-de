@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-09-06T08:11:44.878Z",
+  "aufgeloestAm": "2026-09-07T10:51:46.132Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -3739,19 +3739,19 @@
       "geprueftAm": "2026-09-06"
     },
     "https://www.crunchyroll.com/strike-witches": {
-      "ziel": "https://www.crunchyroll.com/strike-witches?__cf_chl_rt_tk=dfxREZorrD8YL82TwPy.jJh3wfpmZ92EaF9fUvSyQaA-1788682229-1.0.1.1-5AMVvj7ri7YocgMIkoZWCKSZFu7C76gVz4cUFWI.aDk",
+      "seriesId": "GYEXXWD36",
       "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "ziel": "aus der Suche im deutschen Katalog"
     },
     "https://www.crunchyroll.com/super-hxeros": {
-      "ziel": "https://www.crunchyroll.com/super-hxeros?__cf_chl_rt_tk=DvkfkR20hnf9P2_yx4A8HCDxPCA6XYC1i3dezt9Wi1M-1788682235-1.0.1.1-Hi_0qQkf5rQSHJ9nCDVNde9FtRti.mEHcuhMuFgdv3g",
+      "seriesId": "GJ0H7QXJ8",
       "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "ziel": "aus der Suche im deutschen Katalog"
     },
     "https://www.crunchyroll.com/the-day-i-became-a-god": {
-      "ziel": "https://www.crunchyroll.com/the-day-i-became-a-god?__cf_chl_rt_tk=OtMXvivPjB3ssCYrxpJY6ycLDZpDsCPUfOpZhfRgkBc-1788682240-1.0.1.1-eoQdVaYeYpZNAWp.6cMErZaJw54Yd71Svbbu6hGBOss",
+      "seriesId": "G3KHEV3MV",
       "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "ziel": "aus der Suche im deutschen Katalog"
     },
     "https://www.crunchyroll.com/toilet-bound-hanako-kun": {
       "ziel": "https://www.crunchyroll.com/toilet-bound-hanako-kun?__cf_chl_rt_tk=0Jsgtfs.yINO5OT4.uMIiAEiOXZ_0aT9pIsxIjQSrSE-1788682246-1.0.1.1-hZM_X.u0sxOdzHIbLtLy2La4jgoPZEjxwH5st2bFlIY",
@@ -3759,14 +3759,14 @@
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/tokyo-ghoul": {
-      "ziel": "https://www.crunchyroll.com/tokyo-ghoul?__cf_chl_rt_tk=54ePU60um3hHMvXZkmua.OP5f8bZ6euG0nJpR18wEvQ-1788682251-1.0.1.1-u6pf77KijAzh94wXmgQ32xJ3VI8AitgScmBCzesl0TM",
+      "seriesId": "G6NV7Z50Y",
       "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "ziel": "aus der Suche im deutschen Katalog"
     },
     "https://www.crunchyroll.com/tsugumomo/episode-1-the-troubleshooters-office-794656": {
-      "ziel": "https://www.crunchyroll.com/tsugumomo/episode-1-the-troubleshooters-office-794656?__cf_chl_rt_tk=GVeeodI_vTi3XN3eX8YQQGW6dB50kqR8PhDo7i01XAw-1788682257-1.0.1.1-M9SX9bljZK5lwwCFBASbdmTtYqPSWhzbFYnS8jwtL.U",
+      "seriesId": "G675QE8JR",
       "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "ziel": "aus der Suche im deutschen Katalog"
     },
     "https://www.crunchyroll.com/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out": {
       "seriesId": "GYW4MG9G6",
@@ -3784,9 +3784,9 @@
       "geprueftAm": "2026-09-06"
     },
     "https://www.crunchyroll.com/watch/GD9UVXZ91/another-world": {
-      "seriesId": "GMTE00258378",
-      "ziel": "https://www.crunchyroll.com/watch/GD9UVXZ91/another-world?__cf_chl_rt_tk=Qk4m_Egf.QefIjpvfbsr1LenVwhpmnppQSw7b0PXMds-1788682273-1.0.1.1-D0f_9tc3_l5YszR7xnb07S_d0WlEaXaXHh8IYYSOEEo",
-      "geprueftAm": "2026-09-06"
+      "seriesId": "GR8DN7N7R",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
     },
     "https://www.crunchyroll.com/watch/GE00266947DEDE/given-the-movie-to-the-sea": {
       "seriesId": "GRG5WWD4R",
@@ -3809,9 +3809,9 @@
       "geprueftAm": "2026-09-06"
     },
     "https://www.crunchyroll.com/we-never-learn-bokuben": {
-      "ziel": "https://www.crunchyroll.com/we-never-learn-bokuben?__cf_chl_rt_tk=u3ihDXFNeNd8QNAXBbfVgip6V.N5jFVUSGcaM44Amd4-1788682288-1.0.1.1-4uHPFaQ0IhxXb7MOuiblxAEeRMouvZNYBvYDGBK3n7g",
+      "seriesId": "GR8DN8XDR",
       "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "ziel": "aus der Suche im deutschen Katalog"
     },
     "https://www.crunchyroll.com/when-supernatural-battles-became-commonplace": {
       "ziel": "https://www.crunchyroll.com/when-supernatural-battles-became-commonplace?__cf_chl_rt_tk=mnwxpED5XorYEoxLsammjudXaHQgtKy7UYXZqji223M-1788682293-1.0.1.1-Lj69n1L_3DEFHJ8U35b5DKWRic7QPD0J22Avb18lVq4",
@@ -3819,9 +3819,84 @@
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/wise-mans-grandchild": {
-      "ziel": "https://www.crunchyroll.com/wise-mans-grandchild?__cf_chl_rt_tk=9jzuC7jK0TwUnGBgWuES13jdEa7zXF7qkCMzk4g2A9s-1788682299-1.0.1.1-M04H.hBcPaLlXTpkM17C9aJGqiioxnHUkbEEYoHOIU4",
+      "seriesId": "G63K95846",
       "geprueftAm": "2026-09-06",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/G62PVK096/kiddy-grade": {
+      "seriesId": "G62PVK096",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/G9VHN9Q14/planetes": {
+      "seriesId": "G9VHN9Q14",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/G6QWD3EE6/death-note": {
+      "seriesId": "G6QWD3EE6",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/GP5HJ812E/venus-versus-virus": {
+      "seriesId": "GP5HJ812E",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/GRE5XQJV6/natsumes-book-of-friends": {
+      "seriesId": "GRE5XQJV6",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/GRVN7ZW3Y/garo--vanishing-line-": {
+      "seriesId": "GRVN7ZW3Y",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/GR8DN7N7R/isekai-quartet": {
+      "seriesId": "GR8DN7N7R",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/GY243NN0R/the-misfit-of-demon-king-academy": {
+      "seriesId": "GY243NN0R",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/GW4HM7WWV/grisaia-phantom-trigger": {
+      "seriesId": "GW4HM7WWV",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/GNVHKNPQ7/my-love-story-with-yamada-kun-at-lv999": {
+      "seriesId": "GNVHKNPQ7",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/G1XHJV0W8/girls-band-cry": {
+      "seriesId": "G1XHJV0W8",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/G4PH0WJGQ/7th-time-loop-the-villainess-enjoys-a-carefree-life-married-to-her-worst-enemy": {
+      "seriesId": "G4PH0WJGQ",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/GG5H5XQ35/dragon-ball-daima": {
+      "seriesId": "GG5H5XQ35",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/G0XHWM100/my-deer-friend-nokotan": {
+      "seriesId": "G0XHWM100",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/series/G8DHV78XM/anne-shirley": {
+      "seriesId": "G8DHV78XM",
+      "geprueftAm": "2026-09-06",
+      "ziel": "aus der Suche im deutschen Katalog"
     }
   }
 }
