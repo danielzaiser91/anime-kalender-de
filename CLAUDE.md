@@ -3677,3 +3677,29 @@ Sorte benennt, zählt besser einmal durch, wie viele es wirklich gibt.
 unterscheidet zwei Sorten — auch wenn niemand sie je benannt hat. Beim nächsten
 Umbau derselben Struktur ist die erste Frage: *Welche Sorten liegen hier
 eigentlich, und meint dieser Zugriff alle?*
+
+### Eine Nichtauskunft löscht keinen Befund
+
+Am 07.09.2026 zweimal hintereinander passiert, und beim zweiten Mal war es
+sichtbar: Zwei Aniverse-Adressen waren einzeln als 404 gemessen und im Bestand
+eingetragen. Zwanzig Minuten später lief ein Prüflauf, geriet in Amazons Abwehr
+und schrieb für beide `unklar`. Die zwei toten Verweise standen danach wieder
+auf der Seite.
+
+Der Fehler steckte in einer Zeile, die harmlos aussieht:
+
+```ts
+bestand[url] = await pruefe(url)   // überschreibt bedingungslos
+```
+
+`unklar` ist aber gerade **kein** Befund — es heißt „uns wurde diesmal nichts
+gezeigt". Eine Nichtauskunft ersetzt keine Messung. Der alte Eintrag bleibt
+deshalb stehen; nur sein Datum wird nicht erneuert, damit die Adresse fällig
+bleibt. Ein echter Befund — 200 mit Produktseite, 404, Regionssperre —
+überschreibt weiterhin alles.
+
+**Die allgemeine Form, und sie gilt für jeden Zwischenspeicher mit Befunden:**
+Ein Wert, der „weiß nicht" bedeutet, darf nie denselben Platz einnehmen wie
+einer, der etwas weiß. Wer beide in dasselbe Feld schreibt, muss beim Schreiben
+unterscheiden — sonst frisst die schlechtere Auskunft die bessere, und zwar
+lautlos.

@@ -282,8 +282,26 @@ async function main(): Promise<void> {
   let tot = 0
   let geprueft = 0
   for (const url of arbeit) {
-    bestand[url] = await pruefe(url)
-    if (bestand[url].status === 'unklar') {
+    const neu = await pruefe(url)
+    /*
+      **Eine Nichtauskunft löscht keinen Befund.**
+
+      `unklar` heißt „Amazon hat uns diesmal nichts gezeigt" — das ist keine
+      Aussage über die Adresse und darf deshalb keine ersetzen. Am 07.09.2026
+      genau so passiert: Zwei als 404 gemessene Aniverse-Adressen standen im
+      Bestand, ein Testlauf lief zwanzig Minuten später gegen die Abwehr, und
+      danach stand dort wieder `unklar`. Die beiden toten Verweise waren damit
+      zurück auf der Seite.
+
+      Der alte Eintrag bleibt also stehen; nur sein Datum wird nicht erneuert,
+      damit die Adresse fällig bleibt. Ein **echter** Befund — 200 mit
+      Produktseite, 404, Regionssperre — überschreibt weiterhin alles.
+    */
+    const altStatus = bestand[url]?.status
+    const behalten =
+      neu.status === 'unklar' && altStatus !== undefined && altStatus !== 'unklar'
+    if (!behalten) bestand[url] = neu
+    if (neu.status === 'unklar') {
       if (++inFolgeUnklar >= SPERR_SCHWELLE) {
         warn(
           `Abbruch nach ${geprueft} Adressen: ${SPERR_SCHWELLE} Zwischenseiten in Folge — Amazon sperrt gerade. ` +
@@ -294,7 +312,8 @@ async function main(): Promise<void> {
     } else {
       inFolgeUnklar = 0
     }
-    if (bestand[url].status === 404 || bestand[url].status === 'region') tot++
+    /* Gezählt wird, was dieser Lauf gefunden hat — nicht, was schon dastand. */
+    if (neu.status === 404 || neu.status === 'region') tot++
     if (++geprueft % 100 === 0) log(`  ${geprueft}/${arbeit.length} — ${tot} unbrauchbar`)
     await sleep(700)
   }

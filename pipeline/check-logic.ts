@@ -3239,6 +3239,20 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     bau.includes("liste.sort((a, b) => (b.checkedAt ?? '').localeCompare(a.checkedAt ?? ''))"),
     'sonst entscheidet die Reihenfolge in der Datei, nicht das Prüfdatum',
   )
+  /*
+    **Eine Nichtauskunft löscht keinen Befund.**
+
+    Am 07.09.2026 zweimal hintereinander gemessen: Zwei als 404 belegte
+    Aniverse-Adressen standen im Bestand, ein Lauf zwanzig Minuten später lief
+    gegen Amazons Abwehr, und danach stand dort wieder `unklar` — die beiden
+    toten Verweise waren zurück auf der Seite. `unklar` heißt „uns wurde nichts
+    gezeigt"; das ersetzt keine Messung.
+  */
+  pruefe(
+    'ein „unklar" überschreibt keinen echten Befund',
+    linkPruefer.includes("neu.status === 'unklar' && altStatus !== undefined && altStatus !== 'unklar'"),
+    'sonst macht eine Abwehrseite aus einem gemessenen 404 wieder eine offene Frage',
+  )
   pruefe(
     'der Lauf bricht ab, wenn Amazon in Serie Zwischenseiten schickt',
     linkPruefer.includes('SPERR_SCHWELLE') && linkPruefer.includes('inFolgeUnklar'),
