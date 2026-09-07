@@ -25983,3 +25983,29 @@
   available: false
   checkedAt: '2026-09-06'
   note: "Der Anbieter führt unter dieser Adresse nur 2 Staffeln — Sword Art Online und Sword Art Online II; Alicization ist nicht darunter"
+
+# --- Kill Blue bei ADN, nachgemessen am 07.09.2026 --------------------------
+#
+# Daniel: "ich hab adn manuell gerade geprueft, 1-8 de, 9-12 nicht de" - mit
+# Bildern von Folge 1 (Audio Japanisch UND Deutsch, Marke "Synchro") und Folge
+# 12 (Audio nur Japanisch, Marke "Untertitel"). Das ADN-Archiv sagt dasselbe:
+# Folgen 1-8 tragen vde, 9-12 nur vostde.
+#
+# Der Beleg vom 24.08.2026 stand auf 1-4 und war damals richtig; die Synchro ist
+# seitdem gewachsen. Falsch war nicht der alte Beleg, sondern die Anzeige: Im
+# Detail-Panel stand "Alle 12 Folgen auf Deutsch", obwohl nur vier belegt waren.
+- anilistId: 198113
+  title: "KILL BLUE"
+  platform: adn
+  dub: true
+  checkedAt: '2026-09-07'
+  dubRanges:
+    - from: 1
+      to: 8
+      dub: true
+    - from: 9
+      to: 12
+      dub: false
+  note: >-
+    Daniel am 07.09.2026 von Hand an ADN geprueft: Folgen 1-8 mit deutscher
+    Tonspur, 9-12 nur Untertitel. Deckt sich mit dem ADN-Archiv (vde bei 1-8).

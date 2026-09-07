@@ -58,3 +58,42 @@ export function dubLuecken(ranges: DubBereich[] | undefined): string | null {
   if (!ohne.length || ohne.length === ranges.length) return null
   return ohne.map((r) => (r.from === r.to ? `${r.from}` : `${r.from}–${r.to}`)).join(', ')
 }
+
+/**
+ * **Wie viele Folgen sind belegt deutsch — und decken sie die Serie ab?**
+ *
+ * Der Fall, für den es diese Funktion gibt, ist am 07.09.2026 von Daniel
+ * gemeldet worden und war die schwerste Art Fehler, die diese Seite machen
+ * kann: eine Falschaussage.
+ *
+ * „Kill Blue" hat zwölf Folgen. Der ADN-Verweis trug `dub: true` mit
+ * `dubRanges: [{ from: 1, to: 4, dub: true }]` — Daniels eigene Prüfung vom
+ * 24.08.2026, damals richtig. Im Detail-Panel stand darüber **„Alle 12 Folgen
+ * auf Deutsch"**, und auf ADN hat Folge 12 nur Untertitel.
+ *
+ * **Warum keine der vorhandenen Prüfungen es sah:** `dubLuecken()` sucht
+ * Bereiche mit `dub: false`. Hier gibt es keine — die Folgen 5 bis 12 sind
+ * schlicht **nicht erfasst**. Für die Aufzählung heißt das „keine Lücke", und
+ * die Überschrift las nur `dub === true`.
+ *
+ * **Nicht erfasst ist nicht dasselbe wie deutsch.** Genau diese Unterscheidung
+ * zieht das Projekt an jeder anderen Stelle — „ein unbeantwortetes `undefined`
+ * heißt ‚wir wissen es nicht', nicht ‚dort gibt es keine'". In den Bereichen
+ * fehlte sie.
+ *
+ * Rückgabe: die Zahl der belegt deutschen Folgen, und ob sie die Serie
+ * abdecken. Ohne Bereiche gilt ein `dub: true` weiterhin für die ganze Serie —
+ * das ist der Normalfall und dort auch richtig.
+ */
+export function dubAbdeckung(
+  ranges: DubBereich[] | undefined,
+  gesamt: number | undefined,
+): { belegt: number; vollstaendig: boolean } {
+  if (!ranges?.length) return { belegt: gesamt ?? 0, vollstaendig: true }
+  const belegt = ranges
+    .filter((r) => r.dub)
+    .reduce((n, r) => n + Math.max(0, r.to - r.from + 1), 0)
+  /* Ohne bekannte Folgenzahl lässt sich nichts vergleichen — dann keine Aussage. */
+  if (!gesamt) return { belegt, vollstaendig: true }
+  return { belegt, vollstaendig: belegt >= gesamt }
+}

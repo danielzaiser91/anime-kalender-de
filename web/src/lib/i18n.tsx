@@ -424,6 +424,15 @@ const TEXTE = {
   // am 03.09.2026 entfallen („Keine Information zweimal", CLAUDE.md).
   'antwort.fertigTitel': 'Auf Deutsch verfügbar',
   'antwort.fertigZahl': 'Alle {count} Folgen auf Deutsch',
+  /*
+    **Was belegt ist, nicht was vermutet wird.**
+
+    „Kill Blue" stand mit „Alle 12 Folgen auf Deutsch" da, belegt waren vier
+    (Daniel, 07.09.2026). Der Satz hier nennt beide Zahlen — er ist genauso kurz
+    und sagt die Wahrheit.
+  */
+  'antwort.teilweiseZahl': '{raus} von {gesamt} Folgen auf Deutsch',
+  'antwort.teilweiseNeben': 'Für die übrigen fehlt uns eine Angabe',
   // Steht unter der Überschrift bei Titeln, zu denen wir keinen eigenen Termin
   // haben — 1.985 Stück. „Seit" statt „erschienen am": aniSearch nennt die
   // deutsche Erstveröffentlichung, oft eine DVD, und bei einem Simuldub sogar

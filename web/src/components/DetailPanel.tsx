@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Meldung, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
-import { dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
+import { dubAbdeckung, dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, titleStatus, istErschienen } from '@shared/logic.ts'
@@ -98,6 +98,8 @@ function ShareIcon({ slug, name }: { slug: string; name: string }) {
 type Antwort =
   | { art: 'laeuft'; haupt: ReleaseEvent; rest: number; raus: number; gesamt?: number; letzter?: string }
   | { art: 'fertig'; raus?: number; gesamt?: number }
+  /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
+  | { art: 'teilweise'; raus: number; gesamt: number }
   | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number }
   | { art: 'ohne'; gesamt?: number }
   /**
@@ -287,6 +289,18 @@ function AntwortKasten({
     zaehl = antwort.gesamt
       ? T('antwort.erschienenZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
       : ''
+  } else if (antwort.art === 'teilweise') {
+    /*
+      **Teilweise synchronisiert — die Zahl statt „alle".**
+
+      Der Zustand entsteht, wenn ein Verweis `dub: true` trägt, seine Bereiche
+      die Serie aber nicht abdecken. Vorher fiel dieser Fall in „fertig" und
+      wurde zu „Alle 12 Folgen auf Deutsch", obwohl vier belegt waren.
+    */
+    haupt = T('antwort.teilweiseZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
+    neben = T('antwort.teilweiseNeben')
+    anteil = Math.round((antwort.raus / antwort.gesamt) * 100)
+    zaehl = ''
   } else if (antwort.art === 'fertig') {
     /*
       **Eine Auskunft, eine Zeile.**
@@ -389,14 +403,21 @@ function AntwortKasten({
       Teilen derselben Reihe sprang alles darunter (Daniel, 03.09.2026, mit drei
       Bildern: „height Änderung der Box durch feste Höhe verhindern").
 
-      Die 11,75rem sind gerechnet, nicht geraten: Kopfbereich (Überschrift,
+      Die Höhe ist gerechnet, nicht geraten: Kopfbereich (Überschrift,
       Nebenzeile, Balken oder Faktenzeile, Zählzeile) plus Trennlinie plus zwei
       reservierte Pillenreihen. Was nicht hineinpasst, läuft in den Pillen nach
-      rechts — der Kasten selbst bleibt, wie er ist.
+      unten weg — der Kasten selbst bleibt, wie er ist.
+
+      **Von 9,75 auf 11 rem am 07.09.2026.** Der neue Zustand „teilweise"
+      („8 von 12 Folgen auf Deutsch") bringt einen Fortschrittsbalken mit, den
+      „fertig" nicht hat. Zusammen mit einer zweiten Pillenreihe — bei „Kill
+      Blue" sind es fünf Anbieter — stand die untere Reihe über den Rand hinaus.
+      Gemessen an genau diesem Titel; `npm run check:panel` hält fest, dass alle
+      Titel weiter gleich hoch bleiben.
     */
     <section
       className={[
-        'relative flex h-[9.75rem] flex-col rounded-xl border px-3 pb-3 pt-2',
+        'relative flex h-[11rem] flex-col rounded-xl border px-3 pb-3 pt-2',
         gedaempft
           ? 'border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.03]'
           : 'border-sky-400/40 bg-gradient-to-b from-sky-500/15 to-transparent dark:border-sky-400/30',
@@ -551,7 +572,7 @@ function AntwortKasten({
             zwei Zeilen; was auch dort nicht hineinpasst — bei fünf und mehr
             Anbietern — wird gescrollt, jetzt aber senkrecht und erst dann.
           */}
-          <div className="flex max-h-[6.1rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
+          <div className="flex max-h-[7.2rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
             {pillen}
           </div>
         </div>
@@ -1703,6 +1724,30 @@ export function DetailPanel({
     const nurWochen = fuerKopf.every((r) => r.releaseType === 'weekly')
     const gesamt = title.episodes ?? (nurWochen && alleEvents.length > 1 ? alleEvents.length : undefined)
     const hatSynchro = (title.streams ?? []).some((s) => s.dub === true)
+    /*
+      **„Alle N Folgen" nur, wenn alle N belegt sind.**
+
+      Am 07.09.2026 von Daniel gemeldet: „Kill Blue" hat zwölf Folgen, der
+      ADN-Verweis trug `dub: true` mit `dubRanges: [{ from: 1, to: 4 }]` — und
+      darüber stand **„Alle 12 Folgen auf Deutsch"**. Auf ADN hat Folge 12 nur
+      Untertitel; seine Messung ergab 1–8 deutsch, 9–12 nicht.
+
+      **Warum keine vorhandene Prüfung es sah:** `dubLuecken()` sucht Bereiche
+      mit `dub: false`. Hier gab es keine — die Folgen 5 bis 12 waren schlicht
+      **nicht erfasst**, und die Kopfzeile las nur `dub === true`.
+
+      Nicht erfasst ist nicht dasselbe wie deutsch. Genau diese Unterscheidung
+      zieht das Projekt überall sonst („ein unbeantwortetes `undefined` heißt
+      ‚wir wissen es nicht'"); in den Bereichen fehlte sie.
+
+      Deckt kein Verweis die Serie vollständig ab, gilt sie als **teilweise**
+      synchronisiert — dann zeigt der Kasten die Zahl statt „alle".
+    */
+    const abdeckung = (title.streams ?? [])
+      .filter((s) => s.dub === true)
+      .map((s) => dubAbdeckung(s.dubRanges, gesamt))
+    const vollstaendig = abdeckung.some((a) => a.vollstaendig)
+    const belegteFolgen = abdeckung.length ? Math.max(...abdeckung.map((a) => a.belegt)) : 0
 
     if (kuenftig.length > 0) {
       const n = kuenftig[0]!
@@ -1733,6 +1778,13 @@ export function DetailPanel({
       }
     }
     if (title.format === 'MOVIE') return { art: 'film' as const, hatSynchro, raus, gesamt }
+    if (hatSynchro && !vollstaendig && gesamt) {
+      /*
+        Teilweise synchronisiert: Der Kasten nennt die belegte Zahl statt „alle".
+        `laeuft` ist der Zustand, der genau das kann — er zeigt „x von y".
+      */
+      return { art: 'teilweise' as const, raus: belegteFolgen, gesamt }
+    }
     if (hatSynchro || titleStatus(releases, today, title) === 'erschienen') {
       return { art: 'fertig' as const, raus: raus || gesamt, gesamt }
     }
