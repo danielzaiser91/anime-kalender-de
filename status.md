@@ -77,14 +77,14 @@ sie trifft das Projektziel im Kern: Eine Seite, die niemand findet, beantwortet
 keine Frage. Details im Abschnitt darunter; am 07.09. mit Querverlinkung
 angegangen, Wirkung offen.
 
-**2. 123 Verweise ohne Sprachurteil** (von 2.042). Aufgeschlüsselt:
+**2. 114 Verweise ohne Sprachurteil** (Stand 07.09.2026, 09:00 — vormittags von 123 gesenkt: sechs ADN durch die Schärfung in der Nachrunde, drei Crunchyroll über die Serienkennung im deutschen Katalog). Aufgeschlüsselt:
 
 ```
-crunchyroll  52   davon 26 mit alter Slug-Adresse ohne Serienkennung
+crunchyroll  49   davon 26 mit alter Slug-Adresse ohne Serienkennung
 primevideo   33   davon 29 Kanal-Titel — Amazons Angabe belegt dort nichts
-youtube      16
-adn          12   Kennung ließe sich aus dem Katalog nachschlagen
+youtube      16   alle auf Daniels Arbeitsliste, nur ein Blick ins Video klärt sie
 netflix      10
+adn           6   fünf zeigen auf JoJos Sammelserie, einer hat keine Kennung
 ```
 
 Die 26 Crunchyroll ohne Kennung sind **dokumentiert unlösbar** (29.08.2026: von
