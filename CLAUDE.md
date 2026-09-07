@@ -1975,6 +1975,48 @@ Normalbetrieb einschließt (eine Schwelle statt „größer null", „nicht neue
 Beide Fassungen von heute stehen so da: Die Gruppierungsregel prüft eine erfundene Adresse mit
 zwölf Folgen und zwölf ASINs, der Bestand nur noch gegen eine Schwelle von fünf Adressen.
 
+## Ein roter Lauf wird bemerkt, nicht gemeldet — und die Anzeige danach geleert
+
+Daniel am 07.09.2026, 15:50: „in status app sind 2 rote läufe (vor 3h+). wann
+immer ein lauf fehlschlägt musst du selbst mitbekommen, anschauen, und handeln,
+und im anschluss status app säubern. jeder überprüfte lauf in status app muss
+aus status app auch wieder verschwinden."
+
+Beide Läufe standen seit drei Stunden, beide gingen auf **meine** Commits
+zurück, und beide hätte ich beim nächsten `gh run list` sehen können — ich habe
+nur nicht hingesehen. Die Aufräum-Regel darunter gab es längst; was fehlte, war
+der Blick.
+
+**Der Griff gehört an jede Wachphase und an jeden eigenen Push**, nicht an einen
+Vorsatz:
+
+```
+LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs --trocken
+```
+
+Er zeigt in zwei Sekunden, was in der Anzeige rot steht, und sagt dazu, ob ein
+erfolgreicher Lauf desselben Workflows nachgekommen ist. Was er **nicht**
+abnimmt, ist genau das, was ich mir ansehen muss.
+
+### Was an diesem Tag die Ursache war — und sie kommt wieder
+
+```
+! [remote rejected] daten/34112899516-… → refusing to allow a GitHub App to
+  create or update workflow `.github/workflows/refresh-weekly.yml`
+  without `workflows` permission
+```
+
+Ein Datenlauf legt seinen Fund auf einen Zweig `daten/<lauf>`. Zieht er dabei
+einen Stand von `main`, auf dem eine **Workflow-Datei** geändert wurde, will er
+sie mitpushen — und das darf das `GITHUB_TOKEN` nicht. Der ganze Lauf endet
+rot, obwohl seine Arbeit fehlerfrei war.
+
+**Praktische Folge:** Wer `.github/workflows/*` ändert, macht damit jeden
+Datenlauf rot, der gerade läuft oder in den nächsten Minuten startet. Das ist
+kein Grund, es zu lassen — aber ein Grund, danach hinzusehen und den Lauf neu
+anzustoßen. Der Fund ist nicht verloren; die Quellen werden beim nächsten Lauf
+erneut geholt.
+
 ## Ein geklärter roter Lauf wird entfernt
 
 Daniel am 24.08.2026: „du hast die läufe im status geprüft, warum sind die immer noch sichtbar.
