@@ -50,6 +50,48 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
 
+## Gemessen 07.09.2026: was an den 81 offenen Verweisen wirklich fehlt
+
+Am Abend des Arbeitstages nachgemessen, damit niemand — ich eingeschlossen —
+denselben Weg noch einmal versucht. Von 123 offenen Verweisen am Morgen sind 81
+übrig; sie zerfallen in drei Gruppen, und **keine davon löst sich automatisch**.
+
+### 22 Crunchyroll-Verweise unter einer Franchise-Kennung
+
+Der Dub-Bestand kennt die Blöcke samt Folgenzahl, aber unsere Staffel liegt
+nicht darin:
+
+```
+Love, Chunibyo & Other Delusions   12 Folgen   Blöcke: 13 (dt.), 1
+Sound! Euphonium                  13 Folgen   Blöcke: 14 (dt.), 13, 13, 1
+One Punch Man OVAs                 6 Folgen   Blöcke: 12 (dt.) ×3, 1
+SAO: Extra Edition                 1 Folge    Blöcke: 25 (dt.) ×3, 23 (dt.)
+```
+
+Es sind fast ausnahmslos **Specials, OVAs und Filme** innerhalb einer
+Serienkennung. Eine Zuordnung über die Folgenzahl — der Weg, den ADN geht —
+griffe hier daneben: 13 gegen 14 ist kein Treffer, und ein falsch getroffener
+Block erzeugt eine falsche Sprachaussage. Die Fälle mit passender Folgenzahl
+sind längst zugeordnet (35 über den Blocknamen, 5 über Blockketten).
+
+### 32 Prime-Verweise, überwiegend Kanal-Titel
+
+**JustWatch beantwortet sie nicht.** Gemessen: 24 der 32 Titel kennt es, aber
+nur bei **einem** nennt es für Prime Video eine Tonspur (Digimon, `de`). Die
+Angabe fehlt dort, wo das Angebot über einen Kanal läuft — also genau in den
+Fällen, um die es geht.
+
+### 11 Crunchyroll-Adressen ohne Serienkennung
+
+Alte Ablage-Formen (`…-unbekannt-850430`, `/watch/<id>`), überwiegend Filme.
+Der deutsche Katalog kennt keine Filme (siehe `CLAUDE.md`), und die Fuzzy-Suche
+der Content-API gibt für „Millennium Actress" einen Inuyasha-Film aus — als
+alleiniger Beleg zu schwach.
+
+**Was bleibt:** Diese 65 Verweise beantwortet nur eine Prüfung von Hand. Das ist
+kein Versäumnis der Pipeline, sondern die Grenze dessen, was fremde Quellen über
+deutsche Tonspuren hergeben.
+
 ## Gemessen 07.09.2026: die Terminqualität ist eine Stärke
 
 Punkt 1 und 2 des Projektziels („nichts behaupten, was nicht belegt ist") am
