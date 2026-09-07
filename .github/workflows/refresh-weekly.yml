@@ -330,7 +330,24 @@ jobs:
         # Die drei laufen deshalb von Daniels Rechner. Damit das nicht wieder
         # unbemerkt liegen bleibt, melden sie sich in `source-health.json`, und
         # `check-sources.ts` führt eine Frist von 21 Tagen.
-        run: npm run data:cr-dub -- --limit 300
+        #
+        # **Ein abgelaufenes Paket wird gemeldet, nicht verschluckt.**
+        #
+        # `continue-on-error` ist hier richtig — ein totes Paket ist kein Fehler
+        # im Lauf, und der Rest der Woche soll trotzdem durchlaufen. Bis zum
+        # 07.09.2026 hieß das aber auch: Der Lauf blieb grün, und niemand sah
+        # es. Gemessen an diesem Tag stammte `CR_ZUGANG` vom 06.09., 05:53 und
+        # war seit dem Vortag abgelaufen; `crunchyroll-dub` hatte zuletzt am
+        # 06.09. geschrieben. Die Frist in `check-sources.ts` steht auf neun
+        # Tagen und war deshalb noch grün.
+        #
+        # Der Melder macht daraus einen roten Eintrag in der Statusanzeige, mit
+        # dem Befehl, der es behebt. Dieselbe Lehre wie bei `git add … 2>/dev/null`
+        # (06.09.2026): Ein erlaubter Fehlschlag wird gezählt, nicht
+        # stummgeschaltet.
+        run: |
+          npm run data:cr-dub -- --limit 300 \
+            || bash "$MELDER" fehler "Crunchyroll-Zugangspaket abgelaufen — von Daniels Rechner erneuern: node tools/cr-zugang-holen.mjs --secret"
 
       - name: Fortschritt — Crunchyroll-Serienseiten auf deutsche Tonspur
         continue-on-error: true
