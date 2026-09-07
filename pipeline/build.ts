@@ -4568,6 +4568,21 @@ function main(): void {
     const toteCrSerien = new Set(
       crDub.serien.filter((s) => s.nichtVerfuegbar && s.seriesId).map((s) => s.seriesId as string),
     )
+    /**
+     * **Dieselbe Sperre über die Adresse — für alles ohne Kennung.**
+     *
+     * Der Riegel unten fragte nur nach `/series/<Kennung>`. Crunchyroll-Adressen
+     * im alten Format tragen keine (`crunchyroll.com/inuyashiki-last-hero`), und
+     * genau eine davon kam am 07.09.2026 durch: als tot entfernt, von aniSearch
+     * im selben Lauf neu ergänzt, Zusicherung rot („keine der 150 toten
+     * Crunchyroll-Adressen steht noch im Datensatz", Lauf 34160329089, Issue #54).
+     *
+     * Verglichen wird über `adressKern()` — dieselbe Serie steht mit und ohne
+     * `www.`, mit und ohne Schrägstrich am Ende.
+     */
+    const toteCrAdressen = new Set(
+      crDub.serien.filter((s) => s.nichtVerfuegbar || /nicht mehr verf|404/.test(s.fehler ?? '')).map((s) => adressKern(s.url)),
+    )
     let wegeErgaenzt = 0
     const jeAnbieter: Record<string, number> = {}
     for (const title of titles.values()) {
@@ -4605,6 +4620,8 @@ function main(): void {
           /* Die Kennung entscheidet, nicht die Schreibweise der Adresse — siehe `toteCrSerien`. */
           const kennung = /\/series\/([A-Z0-9]+)/.exec(url)?.[1]
           if (kennung && toteCrSerien.has(kennung)) continue
+          /* Und wo keine Kennung steht, entscheidet die Adresse — siehe `toteCrAdressen`. */
+          if (toteCrAdressen.has(adressKern(url))) continue
         }
         /*
           **Ein verneinender Handbeleg hält den Verweis draußen — ein bejahender

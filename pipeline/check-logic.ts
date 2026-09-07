@@ -3248,6 +3248,20 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     toten Verweise waren zurück auf der Seite. `unklar` heißt „uns wurde nichts
     gezeigt"; das ersetzt keine Messung.
   */
+  /*
+    **Eine tote Crunchyroll-Serie kommt auch ohne Kennung nicht zurück.**
+
+    Der Riegel in der aniSearch-Ergänzungsrunde fragte nur nach
+    `/series/<Kennung>`. Adressen im alten Format tragen keine, und
+    `crunchyroll.com/inuyashiki-last-hero` kam am 07.09.2026 genau so durch:
+    als tot entfernt, im selben Lauf neu ergänzt, Zusicherung rot
+    (Lauf 34160329089, Issue #54).
+  */
+  pruefe(
+    'eine tote Crunchyroll-Adresse wird auch ohne Kennung nicht neu ergänzt',
+    bau.includes('toteCrAdressen.has(adressKern(url))'),
+    'Adressen im alten Format tragen keine Serienkennung — der Kennungs-Riegel greift bei ihnen nicht',
+  )
   pruefe(
     'ein „unklar" überschreibt keinen echten Befund',
     linkPruefer.includes("neu.status === 'unklar' && altStatus !== undefined && altStatus !== 'unklar'"),
