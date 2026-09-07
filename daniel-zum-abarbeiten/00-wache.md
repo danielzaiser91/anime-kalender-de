@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 06.09.2026 um 13:39 Uhr
+**Unauffällig** · zuletzt 07.09.2026 um 09:24 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -15,27 +15,36 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 1 Titel ohne Synchro-Beleg
 - 78 Verweise entfernt
+- 1 Urteile verloren; netflix: 1 Synchro-Belege weniger
+- 1 Urteile verloren; crunchyroll: 1 Synchro-Belege weniger
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-15 Läufe in den letzten 1 Tagen (120 insgesamt)
+30 Läufe in den letzten 1 Tagen (144 insgesamt)
 
-05.09., 23:05  Bestand — zusammenführ   verweise +1, mitUrteil +4, ohneUrteil -3, titelMitSynchro +3
-06.09., 01:07  Bestand — zusammenführ   titel +1, verweise +1, ohneUrteil +1
-06.09., 06:05  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro -1, releases +7, termine +7
-            ⚠  1 Titel ohne Synchro-Beleg
-06.09., 07:11  Bestand — zusammenführ   verweise -6, ohneUrteil -6
 06.09., 08:02  Bestand — zusammenführ   verweise +123, ohneUrteil +123, releases +7
 06.09., 08:25  Bestand — zusammenführ   verweise -78, mitUrteil +12, ohneUrteil -90, titelMitSynchro +6, releases -4
             ⚠  78 Verweise entfernt
+06.09., 17:39  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1, releases +5, termine +9
+06.09., 19:50  Bestand — zusammenführ   verweise -2, ohneUrteil -2
+06.09., 20:13  Bestand — zusammenführ   verweise +2, ohneUrteil +2
+06.09., 20:36  Bestand — zusammenführ   termine -1
+06.09., 21:08  Bestand — zusammenführ   verweise -2, mitUrteil +1, ohneUrteil -3, titelMitSynchro +1
+06.09., 21:11  Bestand — zusammenführ   verweise -1, mitUrteil -1
+            ⚠  1 Urteile verloren; netflix: 1 Synchro-Belege weniger
+06.09., 21:37  Bestand — zusammenführ   verweise +1, ohneUrteil +1
+06.09., 21:39  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1
+07.09., 06:05  Bestand — zusammenführ   verweise -6, ohneUrteil -6
+07.09., 06:47  Bestand — zusammenführ   mitUrteil +3, ohneUrteil -3, titelMitSynchro +2, releases -1, termine -1
+07.09., 07:04  Bestand — zusammenführ   mitUrteil -1, ohneUrteil +1
+            ⚠  1 Urteile verloren; crunchyroll: 1 Synchro-Belege weniger
 
-Stand jetzt: 2768 Titel, 1917 Urteile, 127 offen
-Über den Zeitraum: Titel +1, Urteile +17, offen +24
+Stand jetzt: 2768 Titel, 1921 Urteile, 115 offen
+Über den Zeitraum: Titel 0, Urteile +16, offen -102
 
-⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
+⚠  3 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
@@ -52,6 +61,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 07.09.2026 09:24 | 2768 / 1921 / 115 | Titel 0, Urteile +16, offen -102 | unauffällig |
 | 06.09.2026 13:39 | 2768 / 1917 / 127 | Titel +1, Urteile +17, offen +24 | unauffällig |
 | 05.09.2026 13:16 | 2767 / 1900 / 103 | Titel 0, Urteile +1, offen 0 | unauffällig |
 | 04.09.2026 14:08 | 2766 / 1898 / 103 | Titel 0, Urteile 0, offen +1 | unauffällig |
