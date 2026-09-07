@@ -208,6 +208,9 @@ QUELLEN=(
   # ein Erzeugnis: Wer eine Datei schreibt, ohne sie hier einzutragen, schreibt
   # sie in jedem Lauf umsonst.
   daniel-zum-abarbeiten/07-adn.md
+  # Was Anime2You angekündigt hat und noch nicht im Datensatz steht — der Weg,
+  # der bei „Kill Blue" gefehlt hat (07.09.2026).
+  daniel-zum-abarbeiten/15-news-vorschau.md
   daniel-zum-abarbeiten/12-verpasste-termine.md
   daniel-zum-abarbeiten/13-tonspur-verdacht.md
   daniel-zum-abarbeiten/07-crunchyroll.md

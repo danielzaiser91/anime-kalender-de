@@ -216,6 +216,20 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anime2you
 
+      - name: Was angekündigt ist und noch fehlt
+        # Der Abruf darüber holt die Meldungen, dieser Schritt macht sie
+        # sichtbar: `daniel-zum-abarbeiten/15-news-vorschau.md` listet jede
+        # Ankündigung mit künftigem Termin, die noch nicht im Datensatz steht.
+        #
+        # Bis zum 07.09.2026 lief `data:report` in **keinem** Workflow. Die
+        # Vorschläge wurden also täglich geholt und nie angesehen — bei „Kill
+        # Blue" lag die Ankündigung vier Tage vor dem Termin im Repo, und
+        # niemand sah sie (Daniel: „wir müssen im voraus sowas vorhersehen").
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:report >> "$GITHUB_STEP_SUMMARY"
+
       - name: Fortschritt — Nachrichtenlage bei Anime2You prüfen
         continue-on-error: true
         env:

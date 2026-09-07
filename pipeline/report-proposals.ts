@@ -48,4 +48,35 @@ for (const [name, state] of Object.entries(health).sort()) {
   out.push(`| ${name} | ${age} | ${state.lastCount} |`)
 }
 
-console.log(out.join('\n'))
+const text = out.join('\n')
+console.log(text)
+
+/**
+ * **Der Bericht landet auch als Datei — sonst liest ihn niemand.**
+ *
+ * Bis zum 07.09.2026 schrieb dieser Lauf allein nach stdout, gedacht für die
+ * Zusammenfassung des Wochenlaufs. Er stand aber **in keinem Workflow**: kein
+ * Aufruf in `refresh-data.yml`, keiner in `refresh-weekly.yml`. Damit lief er
+ * nie, und die 51 gemeldeten Ankündigungen mit künftigem Termin sah niemand.
+ *
+ * Das ist teuer geworden. Daniel am 07.09.2026 zu „Kill Blue": „wir müssen im
+ * voraus sowas vorhersehen, entsprechend news etc. quellen abonieren und infos
+ * wann es auf crunchy kommt auf webseite bringen." Die Quelle **gab es**:
+ * Anime2You meldete am 20.08. „Neue »Kill Blue«-Synchronfassung erscheint auch
+ * auf ADN … Ab 24. August 2026", mit `dub: 'ja'`. Der Vorschlag lag im Repo,
+ * vier Tage vor dem Termin.
+ *
+ * Es fehlte also keine Quelle, sondern der Weg vom Abruf zum Blick — dieselbe
+ * Klasse wie „Eine Datei zu schreiben ist nicht dasselbe wie sie zu benutzen"
+ * in `CLAUDE.md`, nur eine Stufe später: Hier wurde die Datei sogar gelesen,
+ * nur lief der Leser nie.
+ *
+ * Als Datei im Repo hat der Bericht zwei Eigenschaften, die stdout nicht hat:
+ * Er überlebt den Lauf, und er steht beim nächsten Sitzungsstart da.
+ */
+const { writeFileSync, mkdirSync } = await import('node:fs')
+mkdirSync('daniel-zum-abarbeiten', { recursive: true })
+writeFileSync(
+  'daniel-zum-abarbeiten/15-news-vorschau.md',
+  `# Angekündigt, aber noch nicht im Datensatz\n\nStand: ${today}. Erzeugt von \`npm run data:report\` aus den Anime2You-Vorschlägen.\n\n${text}\n`,
+)
