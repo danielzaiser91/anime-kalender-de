@@ -2522,7 +2522,21 @@ das, was ausgeliefert wird.
 ```
 npm run check:panel        # das Detail-Panel, mehrere Titel, beide Themen
 npm run check:ansichten    # alle elf Routen, beide Themen
+npm run check:kasten       # der Hinweiskasten der Erweiterung
+npm run check:leiste       # die Durchlauf-Leiste auf Netflix
 ```
+
+**Seit dem 07.09.2026 laufen alle vier automatisch** — im Workflow
+`aussehen-pruefen.yml`, ausgelöst von Änderungen an `web/src`, den
+Erweiterungs-Stylesheets, den Bildwerkzeugen und `build-share-pages.ts`. Sie
+stehen bewusst **nicht** in `check:vor-commit`: Alle vier brauchen Chromium, im
+Deploy-Job gibt es keins, und sie dorthin zu hängen hat am selben Tag drei
+Deploys rot gemacht.
+
+Der Anlass ist derselbe Tag: Der Antwort-Kasten war zu niedrig für den neuen
+Zustand „teilweise", die zweite Pillenreihe stand über den Rand hinaus —
+gefunden, weil Daniel ein Bild schickte. `check:panel` hätte es gemessen; es
+lief nur nicht.
 
 **`check:panel`** misst die Höhe des Antwort-Kastens je Titel und wird rot, wenn
 sie auseinanderlaufen — das war Daniels Punkt vom 03.09.2026 („height Änderung
@@ -2976,6 +2990,17 @@ Daten, nicht das DOM.
 Ein Sandkasten für den ganzen Dialog wäre der gründliche Weg und kostet einen Tag.
 `extension/eslint.config.mjs` prüft stattdessen nur `no-undef` — kein Stil, keine Meinung — und
 hängt seit dem 26.08.2026 in `check:extension`. Was dort rot wird, ist ein Absturz im Browser.
+
+**Und seit dem 07.09.2026 wird jedes Content-Skript einmal geladen**
+(`tools/extension-laden-pruefen.cjs`, erster Schritt von `check:extension`). Das
+fängt die andere teure Klasse: ein Zugriff auf ein `let` oder `const` **vor**
+seiner Deklaration. Dreimal in vier Wochen passiert — `listenId` (25.08.),
+`knopf` (28.08.), `wiedervorlageBeantwortet` (01.09.) —, jedes Mal still, und
+einmal sah es aus wie ein Leistungsproblem („die extension friert den pc ein").
+
+Geladen werden alle sieben Skripte, die das Manifest in eine Seite legt,
+einschließlich `ruhig.js` und der drei Leser. Ein Skript, das nicht lädt, macht
+jede spätere Prüfung sinnlos — deshalb steht es vorn.
 
 Dieselbe Klasse Fehler ist mir an diesem Tag **dreimal** unterlaufen: `empfohlen` im Dialog,
 `location` im Test-Sandkasten, `MARKE_FOLGEN` im ausgeschnittenen Block. Alle drei hätte diese
