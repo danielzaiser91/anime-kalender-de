@@ -273,6 +273,13 @@ Zwei Folgen daraus:
     im Bestand als `nichtVerfuegbar`, weil die **US-Seite** das Banner zeigte; der deutsche
     Katalog führt beide, „Flowers of Evil" mit 13 deutschen Folgen. Wo eine Serienkennung
     bekannt ist, entscheidet deshalb der Katalog und nicht die Seite.
+  - **Und er kennt gar keine Filme.** Gemessen am 07.09.2026: Alle 1.589 Einträge in
+    `data/cr-katalog-de.json` tragen `typ: "series"`. „Millennium Actress", „Okko und ihre
+    Geisterfreunde", „Liz und der Blaue Vogel", „Sin: The Movie", „Cencoroll Connect" und
+    „Street Fighter II" fehlen dort **alle** — nicht weil es sie nicht gäbe, sondern weil der
+    Abruf nur Serien holt. Wer aus „nicht im Katalog" auf „gibt es nicht" schließt, streicht
+    bei einem Film zuverlässig das Falsche. Für Filme antwortet allein
+    `content/v2/discover/search` mit `type=movie_listing`.
 - **Netflix gibt die Sprachen erst mit dem Player heraus — gemessen, nicht vermutet.** Am
   22.08.2026 auf einer offenen Titelseite mit zwei Konsolen-Skripten geprüft:
   `models.graphql.data` umfasst 6.797 Zeichen und enthält Profile und Benachrichtigungen, null
