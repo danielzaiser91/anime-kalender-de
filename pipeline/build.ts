@@ -2537,11 +2537,18 @@ function main(): void {
       deutsche Tonspur" geprüft und standen trotzdem im Datensatz;
       `check:handbelege` hat es gemeldet und den Datenlauf rot gemacht.
 
-      Für die Auswahl eines **Sprachurteils** zählen deshalb nur Einträge, die
-      eines tragen. Was ein Adressbeleg beiträgt — die richtige Adresse — wird
-      an anderer Stelle gelesen, nicht hier.
+      Für die Auswahl zählen deshalb nur Einträge mit einer **Aussage über den
+      Verweis** — `dub` (gibt es dort deutschen Ton?) oder `available` (gibt es
+      dort überhaupt ein Angebot?). Was ein Adressbeleg beiträgt, die richtige
+      Adresse, wird an anderer Stelle gelesen.
+
+      **`available` gehört ausdrücklich dazu.** Ein erster Anlauf filterte nur
+      auf `dub` und warf damit 262 „nicht verfügbar"-Belege weg — aus sechs
+      Meldungen in `check:handbelege` wurden 268. Die beiden Felder sind
+      verschiedene Aussagen (siehe `DubCheck.available`), aber beide sind
+      Aussagen; nur der Adressbeleg ist keine.
     */
-    const liste = alle.filter((c) => typeof c.dub === 'boolean')
+    const liste = alle.filter((c) => typeof c.dub === 'boolean' || typeof c.available === 'boolean')
     if (!liste.length) return undefined
     if (url) {
       const genau = liste.find((c) => c.url && adressGleich(c.url, url))

@@ -3224,9 +3224,9 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     sie soll. Diese Zusicherung hält die Ursache fest, nicht nur die Wirkung.
   */
   pruefe(
-    'nur Einträge mit Sprachurteil zählen als Sprachbeleg',
-    bau.includes("const liste = alle.filter((c) => typeof c.dub === 'boolean')"),
-    'ein Adressbeleg trägt eine url und kein dub — er darf ein Urteil nicht verdrängen',
+    'nur Einträge mit einer Aussage zählen als Beleg — Adressbelege nicht',
+    bau.includes("typeof c.dub === 'boolean' || typeof c.available === 'boolean'"),
+    'ein Adressbeleg trägt url und keine Aussage; available gehört dazu, sonst fallen 262 „nicht verfügbar" weg',
   )
   pruefe(
     'der Lauf bricht ab, wenn Amazon in Serie Zwischenseiten schickt',

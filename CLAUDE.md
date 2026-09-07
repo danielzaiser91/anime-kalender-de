@@ -3662,9 +3662,16 @@ Tonspur, standen deshalb weiter im Datensatz.
   nötig; sie hat nur eine zweite Bedeutung derselben Datenstruktur offengelegt.
 
 **Die Lehre:** Wo eine Datei zwei Arten von Zeilen führt, muss jede Auswahl
-sagen, welche Art sie meint. `belegFuer()` sucht ein Sprachurteil und filtert
-deshalb zuerst auf `typeof c.dub === 'boolean'`. Was der Adressbeleg beiträgt,
-wird an anderer Stelle gelesen.
+sagen, welche Art sie meint. `belegFuer()` sucht eine Aussage über den Verweis
+und filtert deshalb auf `dub` **oder** `available`. Was der Adressbeleg
+beiträgt, wird an anderer Stelle gelesen.
+
+**Und die Sorten sind nicht zwei, sondern drei.** Der erste Anlauf filterte nur
+auf `dub` — und warf damit 262 `available: false`-Belege weg, die Verweise
+entfernen sollen. Aus sechs Meldungen in `check:handbelege` wurden 268. Beide
+Felder sind verschiedene Aussagen („kein deutscher Ton" gegen „dort gibt es gar
+nichts"), aber beide sind Aussagen; nur der Adressbeleg ist keine. Wer eine
+Sorte benennt, zählt besser einmal durch, wie viele es wirklich gibt.
 
 **Und die allgemeinere:** Ein Feld, das in der Hälfte der Zeilen fehlt,
 unterscheidet zwei Sorten — auch wenn niemand sie je benannt hat. Beim nächsten
