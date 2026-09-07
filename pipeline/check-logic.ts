@@ -3141,5 +3141,47 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
 }
 
+/**
+ * **Die vier Riegel vom 07.09.2026 — jeder mit seinem Anlass.**
+ *
+ * Alle vier sind an einem Tag entstanden, alle vier aus einer Meldung von
+ * Daniel, und alle vier hingen bis hierher an einem Kommentar. Ein Kommentar
+ * hält niemanden auf, der die Stelle umbaut; eine Zusicherung steht im Weg.
+ *
+ * Geprüft wird jeweils die **Stelle im Bau**, nicht der Datenbestand: Eine
+ * Prüfung, die zwischen zwei richtigen Zuständen rot wird, misst den Zeitpunkt
+ * statt die Sache (siehe 02.09.2026).
+ */
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'ein YouTube-Verweis ohne belegte Synchro wird entfernt',
+    bau.includes('YouTube-Verweise ohne belegte Synchro entfernt'),
+    'dort zeigt ein Verweis meist auf eine Playlist, und was darin liegt, ist überwiegend untertitelt',
+  )
+  pruefe(
+    'ein Bezugsweg auf dieselbe Adresse wie ein Verweis fliegt raus',
+    bau.includes('die auf dieselbe Adresse zeigen wie ein Verweis desselben Titels'),
+    'zwei Zeilen auf eine Adresse sind keine zwei Auskünfte — der Verweis gewinnt',
+  )
+  pruefe(
+    'eine nackte Domain wird zur Suche, nicht zum Verweis',
+    bau.includes('Verweise ohne Pfad auf die Suche gelenkt'),
+    'ein Verweis auf eine Startseite sieht aus wie eine Auskunft und ist keine',
+  )
+  pruefe(
+    'die Crunchyroll-Kennung wird notfalls im Gedächtnis nachgeschlagen',
+    bau.includes("readJson<{ adressen?: Record<string, { seriesId?: string }> }>(\n        'data/crunchyroll-series-ids.json'"),
+    '43 der 44 offenen Verweise standen in der alten Slug-Form ohne Kennung in der Adresse',
+  )
+
+  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
+  pruefe(
+    'eine Meldung ab Staffel 2 landet nicht am Reihenkopf',
+    roh.includes('gemeldeteStaffel > 1 && istReihenkopf(titel, titles)'),
+    'Amazon nennt jede Staffel gleich; der beste Namenstreffer ist der Reihenkopf',
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
