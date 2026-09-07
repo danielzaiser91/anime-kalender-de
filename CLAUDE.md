@@ -2867,6 +2867,62 @@ Dieselbe Klasse Fehler ist mir an diesem Tag **dreimal** unterlaufen: `empfohlen
 `location` im Test-Sandkasten, `MARKE_FOLGEN` im ausgeschnittenen Block. Alle drei hätte diese
 Prüfung genannt.
 
+## Eine Datei zu schreiben ist nicht dasselbe wie sie zu benutzen
+
+Am 06. und 07.09.2026 sind an zwei Tagen **fünf** Fälle derselben Art
+aufgefallen. Jedes Mal war die Auskunft erhoben, lag im Repo, war committet —
+und keine Zeile Code las sie:
+
+| Fall | was dalag | wie lange |
+|---|---|---|
+| Handbeleg | ein **bejahendes** `dub: true` sperrte die Ergänzung, statt sie auszulösen | seit dem ersten Riegel |
+| `data/adn-adressen.yaml` | sechs ADN-Serienkennungen, am Vortag von Hand belegt | 1 Tag |
+| `data/cr-katalog-de.json` | 1.589 Einträge des deutschen Katalogs mit Tonspuren | 5 Tage |
+| `data/rtlplus-befunde.json` | zwei tote Adressen als `lebt: false, aufStartseite: true` | 16 Tage |
+| aniSearchs Sprachblock | deutsche Veröffentlichung mit Verlag — der Bezugsweg für 246 Titel | seit jeher |
+
+Zusammen waren das an einem Vormittag: 13 Verweise mit Sprachurteil, 10 tote
+Adressen berichtigt und **246 Titel, die aus „kein Anbieter bekannt" einen
+belegten Bezugsweg bekamen** — ohne einen einzigen neuen Abruf.
+
+**Die Gemeinsamkeit ist nicht Nachlässigkeit, sondern die Bauform.** Ein Lauf
+schreibt eine Datei, der Commit belegt die Arbeit, die Quellen-Frist in
+`check-sources.ts` bleibt grün — und ob die Daten je gelesen werden, prüft
+niemand. **Ein Abruf ohne Leser sieht in jeder Statistik genauso aus wie einer
+mit.**
+
+Dieselbe Klasse steht schon zweimal weiter oben, nur je an einem Einzelfall
+festgemacht: „Ein neues Feld ist erst eingebaut, wenn es am Ziel angekommen ist"
+(28.08.2026) und „Wer unten ergänzt, muss unten auch beurteilen" (06.09.2026).
+Fünf Fälle in zwei Tagen machen daraus ein Muster.
+
+**Der Prüfgriff ist ein Einzeiler** — für jede Datendatei zählen, wer sie
+außerhalb ihres eigenen Schreibers nennt:
+
+```bash
+ls data/*.json data/*.yaml | while read f; do
+  n=$(grep -rl "$(basename "$f")" pipeline/ tools/ worker/src web/src shared 2>/dev/null | wc -l)
+  printf "%-38s %s\n" "$(basename "$f")" "$n"
+done | sort -k2 -n | head -20
+```
+
+Was oben mit **0 oder 1** steht, ist verdächtig: null heißt niemand, eins heißt
+meist der Schreiber selbst. Genau so sind `cr-tiefensuche.json` (0) und
+`cr-katalog-de.json` (1) aufgefallen.
+
+**Ein Werkzeug daraus zu machen, ist am 07.09.2026 gescheitert** — nach sechs
+Anläufen verworfen. Die Unterscheidung „Zugriff im Code" gegen „Erwähnung im
+Kommentar" ist in diesem Projekt schwer zu ziehen: Pfade stehen in Kommentaren
+regelmäßig in Backticks, Blockkommentare brechen ohne `*`-Präfix um, und
+`data` als Ordnername kommt in fast jeder Datei vor. Jede Fassung war entweder
+blind oder voller Fehlalarme, und **nur die Gegenprobe hat das gezeigt** (den
+echten Leser entfernen — die Prüfung muss anschlagen). Der Einzeiler oben ist
+ungenauer und trägt trotzdem, weil ein Mensch die zwanzig Zeilen liest.
+
+**Die Prüffrage gehört an jeden neuen Abruf**, neben die drei aus dem Abschnitt
+„Ein neuer Abruf braucht drei Dinge": *Wer liest, was er schreibt — und steht
+dessen Name irgendwo im Code?*
+
 ## Ein neues Feld ist erst eingebaut, wenn es am Ziel angekommen ist
 
 Am 28.08.2026 bekam die Prime-Meldung ein Feld `titelId` — samt Kommentar, samt
