@@ -41,7 +41,7 @@ Stand: 2026-09-07. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-20, 2026-11 (Monat) | crunchyroll, disc | – unklar | [28. »Detektiv Conan«-Film erscheint auf DVD und Blu-ray](https://www.anime2you.de/news/1044161/detektiv-conan-film-28-disc-release/) |
 | 2026-11 (Monat) | crunchyroll, disc | – unklar | [Vierte »Rising of the Shield Hero«-Staffel erscheint auf Blu-ray + Design](https://www.anime2you.de/news/1044133/shield-hero-staffel-4-blu-ray-release/) |
 | 2026-11-19, 2026-11 (Monat) | disc | ✅ zugesagt | [»Mila Superstar« erscheint als Blu-ray-Komplettbox + Design](https://www.anime2you.de/news/1043895/mila-superstar-blu-ray-komplettbox/) |
-| 2026-11-26, 2026-11 (Monat) | netflix | ✅ zugesagt | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
+| 2026-11-26, 2026-11 (Monat) | netflix | ⚠️ offen | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
 | 2026-11-03, 2026-11 (Monat) | netflix | – unklar | [Netflix kündigt neuen Original-Anime »Bass X Machina« an + Teaser](https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/) |
 | 2026-11-20, 2026-11 (Monat) | ? | – unklar | [Disc-Releasetermin von »Good Luck Girl« steht fest + Design](https://www.anime2you.de/news/1042831/good-luck-girl-disc-releasetermin/) |
 | 2026-11-03, 2026-11-05, 2026-11 (Monat) | kino | – unklar | [Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser](https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/) |
@@ -55,25 +55,26 @@ Stand: 2026-09-07. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 7 |
-| adn-catalog | 6.9 Tage her | 114 |
-| anilist-voices | 6.9 Tage her | 0 |
-| anime-offline-database | 6.9 Tage her | 8876 |
+| adn | 0.1 Tage her | 7 |
+| adn-catalog | 7.0 Tage her | 114 |
+| anilist-voices | 7.0 Tage her | 0 |
+| anime-offline-database | 7.0 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 43 |
-| anisearch | 0.0 Tage her | 3179 |
+| anisearch | 0.1 Tage her | 3179 |
 | anisearch-folgen | 5.6 Tage her | 3050 |
-| ann-voices | 6.9 Tage her | 8876 |
-| cinestar | 6.9 Tage her | 1 |
+| ann-voices | 7.0 Tage her | 8876 |
+| cinestar | 7.0 Tage her | 1 |
 | cr-einzelwerke | 5.0 Tage her | 9 |
 | cr-filmbloecke | 5.0 Tage her | 6 |
-| crunchyroll | 0.0 Tage her | 21 |
-| crunchyroll-dub | 1.1 Tage her | 1076 |
-| fsk | 6.9 Tage her | 3 |
-| link-check | 6.9 Tage her | 140 |
+| crunchyroll | 0.1 Tage her | 21 |
+| crunchyroll-dub | 0.0 Tage her | 1076 |
+| fsk | 7.0 Tage her | 3 |
+| justwatch-audio | 0.0 Tage her | 26 |
+| link-check | 7.0 Tage her | 140 |
 | motn | 5.1 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 2 |
+| motn-changes | 0.1 Tage her | 2 |
 | rohfolgen | 0.0 Tage her | 0 |
 | tmdb-folgen | 6.9 Tage her | 808 |
-| tmdb-kino | 6.9 Tage her | 2 |
-| tmdb-titles | 6.9 Tage her | 389 |
-| youtube-check | 6.9 Tage her | 0 |
+| tmdb-kino | 7.0 Tage her | 2 |
+| tmdb-titles | 7.0 Tage her | 389 |
+| youtube-check | 7.0 Tage her | 0 |

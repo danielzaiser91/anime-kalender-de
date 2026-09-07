@@ -3055,5 +3055,44 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
 }
 
+/**
+ * **Eine Frage über die Synchro ist keine Zusage.**
+ *
+ * Gefunden am 07.09.2026 an „Fool Night" (Anime2You 1043399): Der Artikel
+ * schreibt „Ob auch eine deutsche Synchronisation angeboten wird, ist zum
+ * aktuellen Zeitpunkt noch offen" — und der Vorschlag stand als **✅ zugesagt**
+ * im Kuratierungsbericht. Das alte Muster traf die Wortfolge „deutsche
+ * Synchronisation" und wertete sie als Bestätigung.
+ *
+ * Für dieses Projekt ist das der teuerste Fehlertyp überhaupt: Ein Termin mit
+ * falscher Sprachzusage ist schlimmer als kein Termin.
+ */
+{
+  const { dubBefund } = await import('./scrape-anime2you.ts')
+  pruefe(
+    'eine Frage über die Synchro gilt als offen, nicht als Zusage',
+    dubBefund('Ob auch eine deutsche Synchronisation angeboten wird, ist zum aktuellen Zeitpunkt noch offen.') ===
+      'offen',
+    'so stand es wörtlich im Fool-Night-Artikel, und der Vorschlag meldete „zugesagt"',
+  )
+  pruefe(
+    'eine echte Zusage bleibt eine Zusage',
+    dubBefund('Die Serie erscheint mit deutscher Synchronfassung am 26. November 2026.') === 'ja',
+    'sonst hätte die Schärfung jede Zusage mitgenommen — die Gegenprobe zur Zeile darüber',
+  )
+  pruefe(
+    'ein Satz mit Zweifel hebt eine Zusage im Nachbarsatz nicht auf',
+    dubBefund(
+      'Die Serie erscheint mit deutscher Synchronfassung. Ob es eine zweite Staffel gibt, ist noch offen.',
+    ) === 'ja',
+    'gewertet wird je Satz, nicht über den ganzen Artikel',
+  )
+  pruefe(
+    'ohne jeden Synchro-Bezug bleibt es unklar',
+    dubBefund('Die Serie startet am 26. November 2026 auf Netflix.') === 'unklar',
+    'das ist die Mehrheit der Artikel, und „unklar" ist dort die ehrliche Antwort',
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
