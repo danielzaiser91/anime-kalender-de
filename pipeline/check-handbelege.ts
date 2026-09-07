@@ -46,7 +46,7 @@
  *
  * Aufruf: npm run check:handbelege
  */
-import { loadDubChecks } from './lib/dub-confirmed.ts'
+import { loadDubChecks, adressKern } from './lib/dub-confirmed.ts'
 import { readJson, log, warn, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
@@ -65,7 +65,16 @@ const belege = loadDubChecks()
  * werden. Wer das Ergebnis gegen sich selbst prueft, prueft nichts.
  */
 const rohBelege = (yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml'), 'utf8')) ??
-  []) as { anilistId?: number; platform?: string; checkedAt?: string }[]
+  []) as {
+  anilistId?: number
+  platform?: string
+  checkedAt?: string
+  /* url, dub und available braucht die Prüfung auf den jüngsten Beleg — sie
+     unterscheidet damit Ausgaben und trennt Adressbelege von Befunden. */
+  url?: string
+  dub?: boolean
+  available?: boolean
+}[]
 
 /** Alle Belege eines Verweises zusammen — ein Verweis, nicht ein Eintrag. */
 const jeVerweis = new Map<string, typeof belege>()
@@ -204,18 +213,37 @@ if (verwaisteBelege) {
  *
  * Geprüft wird deshalb gegen die Rohdaten, nicht gegen das Ergebnis: Was
  * `loadDubChecks()` zurückgibt, muss das `checkedAt` der jüngsten Zeile tragen.
+ *
+ * **Zweimal nachgezogen am 07.09.2026, beide Male wegen derselben Umstellung.**
+ * Seit `loadDubChecks()` je **Ausgabe** einen Eintrag führt statt je Titel
+ * (Anlass: Date a Live IV, wo ein Prime-Abo mit Deutsch und ein
+ * Crunchyroll-Kanal ohne dieselbe Kennung teilten), stimmen zwei Annahmen
+ * dieser Prüfung nicht mehr:
+ *
+ * - **Die Gruppe ist die Ausgabe, nicht der Titel.** Zwei Ausgaben desselben
+ *   Titels dürfen verschieden alte Belege tragen; das ist kein Fehler, sondern
+ *   der Sinn der Trennung. Gruppiert wird deshalb über den Adresskern mit.
+ * - **Adressbelege zählen nicht mit.** Zeilen mit `url` und ohne Aussage
+ *   („Verweis aus Netflix' eigener Staffelliste erschlossen") sind keine
+ *   Befunde; ein jüngerer von ihnen überholt kein Urteil. Sie mitzuzählen
+ *   erzeugte 26 Meldungen über Belege, die gar nicht konkurrieren.
  */
 {
+  const aussage = (b: { dub?: boolean; available?: boolean }) =>
+    typeof b.dub === 'boolean' || typeof b.available === 'boolean'
   const jeSchluessel = new Map<string, { checkedAt?: string }[]>()
   for (const b of rohBelege) {
-    const k = `${b.anilistId}|${b.platform}`
+    if (!aussage(b)) continue
+    const k = `${b.anilistId}|${b.platform}|${adressKern(b.url)}`
     jeSchluessel.set(k, [...(jeSchluessel.get(k) ?? []), b])
   }
   const verschluckt: string[] = []
   for (const [k, gruppe] of jeSchluessel) {
     if (gruppe.length < 2) continue
     const juengstes = gruppe.map((g) => g.checkedAt ?? '').sort().at(-1)
-    const gewaehlt = belege.find((b) => `${b.anilistId}|${b.platform}` === k)
+    const gewaehlt = belege.find(
+      (b) => `${b.anilistId}|${b.platform}|${adressKern(b.url)}` === k && aussage(b),
+    )
     if (gewaehlt && (gewaehlt.checkedAt ?? '') !== juengstes) {
       verschluckt.push(`${k}: es gilt ${gewaehlt.checkedAt}, jüngster Beleg ist ${juengstes}`)
     }
