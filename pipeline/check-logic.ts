@@ -2834,6 +2834,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     abrufbare Folgen sagt über Tonspuren nichts.
   */
   pruefe(
+    'die Katalog-Runde greift nur bei genau einer Staffel',
+    bau.includes('if ((eintrag.staffeln ?? 0) !== 1) continue'),
+    'eine Serienkennung ist ein Franchise — Free! führt neun Staffeln unter einer',
+  )
+  pruefe(
     'die Serienkennung wird gegen den deutschen Katalog gehalten',
     bau.includes('über die Serienkennung im deutschen Katalog belegt') &&
       bau.includes('if (!eintrag || !eintrag.folgen) continue'),

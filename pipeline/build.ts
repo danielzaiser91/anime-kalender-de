@@ -3461,7 +3461,7 @@ function main(): void {
     {
       const katalog = readJson<{
         geholtAm?: string
-        eintraege?: { id: string; audio?: string[]; folgen?: number }[]
+        eintraege?: { id: string; audio?: string[]; folgen?: number; staffeln?: number }[]
       }>('data/cr-katalog-de.json', {})
       const nachKennung = new Map((katalog.eintraege ?? []).map((e) => [e.id, e]))
       if (nachKennung.size) {
@@ -3472,6 +3472,29 @@ function main(): void {
             if (!kennung) continue
             const eintrag = nachKennung.get(kennung)
             if (!eintrag || !eintrag.folgen) continue
+            /*
+              **Nur wo die Serie genau ein Werk ist.**
+
+              Der Katalog antwortet auf **Serienebene**, und eine Serienkennung
+              bei Crunchyroll ist ein Franchise: `GRDQV2VWY` heißt „Free! -
+              Iwatobi Swim Club" und führt **neun** Staffeln mit 51 Folgen. Ein
+              `de-DE` dort sagt nichts über „Free! Take Your Marks", einen Film
+              — genau dieses falsche Ja hätte die erste Fassung dieser Runde am
+              07.09.2026 gesetzt.
+
+              Widerlegt hat es Bofuri: Der Katalog meldet `de-DE` für die Serie,
+              der Prüflauf fand **12 deutsche Folgen in Staffel 1 und null in
+              Staffel 2** — und unser Titel ist Staffel 2. Dieselbe Lehre steht
+              seit dem 25.08.2026 in `CLAUDE.md` („Eine Serie ist bei
+              Crunchyroll kein Block"); sie beim Bauen nicht angewandt zu haben,
+              war der Fehler.
+
+              **Bei genau einer Staffel fallen Serie und Werk zusammen**, und
+              dann trägt die Angabe. 321 der 1.589 Katalogeinträge (20 %) tun
+              das nicht — für sie bleibt der Verweis offen, bis der Prüflauf je
+              Folge antwortet.
+            */
+            if ((eintrag.staffeln ?? 0) !== 1) continue
             stream.dub = (eintrag.audio ?? []).includes('de-DE')
             ausKennung++
           }
