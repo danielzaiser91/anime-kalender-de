@@ -3516,6 +3516,61 @@ function main(): void {
             ausKennung++
           }
         }
+        /**
+         * **Der jüngere Katalog überstimmt ein älteres Nein.**
+         *
+         * Das ist Daniels eigentliche Kill-Blue-Meldung vom 07.09.2026: „im
+         * anime-kalender hat dieser eintrag gar keine crunchy-pill, also
+         * behaupten wir es wäre nicht synchronisiert auf crunchy."
+         *
+         * Die Runde darüber fasst nur unbeurteilte Verweise an, und der von
+         * Kill Blue war beurteilt — mit einem **16 Tage alten** Befund:
+         *
+         * | Quelle | Stand | Aussage |
+         * |---|---|---|
+         * | `crunchyroll-dub.json`, Serie `GT00371896` | **22.08.2026** | `deutschImAngebot: true`, Staffel 1 mit **0** deutschen Folgen |
+         * | `cr-katalog-de.json`, derselbe Eintrag | **07.09.2026, 06:44** | `audio` enthält **`de-DE`** |
+         *
+         * Der ältere Befund gewann, der Verweis flog mit „belegtes Nein" heraus
+         * — und der Kalender behauptete das Gegenteil der Wirklichkeit. Am
+         * 06.09. sind dort die Folgen 1–8 auf Deutsch erschienen.
+         *
+         * Damit ist es derselbe Fehler wie beim Gedächtnis der entfernten
+         * Verweise (Frist von 28 Tagen, weiter unten): **Ein Nein ist eine
+         * Aussage über einen Tag, nicht über alle Zeit.** Nur steht hier eine
+         * jüngere Messung daneben, die es widerlegt — es braucht also gar keine
+         * Frist, sondern nur den Blick auf das Datum.
+         *
+         * **Nur in diese Richtung.** Ein `de-DE` im Katalog hebt ein Nein auf;
+         * ein fehlendes `de-DE` hebt umgekehrt **kein** Ja auf. Der Katalog
+         * antwortet auf Serienebene, und die Trennung „Serie ist kein Block"
+         * gilt unverändert — deshalb weiterhin nur bei genau einer Staffel.
+         */
+        const dubStand = crDub.scrapedAt?.slice(0, 10) ?? ''
+        const katalogStand = (katalog.geholtAm ?? '').slice(0, 10)
+        let ausKatalogNeuer = 0
+        const geprueftJe = new Map(
+          crDub.serien.filter((s) => s.seriesId).map((s) => [s.seriesId as string, s.geprueftAm ?? dubStand]),
+        )
+        for (const title of titles.values()) {
+          for (const stream of title.streams) {
+            if (stream.platform !== 'crunchyroll' || stream.dub !== false) continue
+            const kennung = /\/series\/([A-Z0-9]+)/.exec(stream.url)?.[1]
+            if (!kennung) continue
+            const eintrag = nachKennung.get(kennung)
+            if (!eintrag?.folgen || (eintrag.staffeln ?? 0) !== 1) continue
+            if (!(eintrag.audio ?? []).includes('de-DE')) continue
+            /* Nur wenn der Katalog wirklich jünger ist als die Messung, die das Nein trug. */
+            if (katalogStand <= (geprueftJe.get(kennung) ?? '')) continue
+            stream.dub = true
+            ausKatalogNeuer++
+            log(
+              `  ${title.titleDe ?? title.id}: Nein vom ${geprueftJe.get(kennung)} durch den Katalog vom ${katalogStand} überholt`,
+            )
+          }
+        }
+        if (ausKatalogNeuer)
+          log(`${ausKatalogNeuer} Nein(s) vom Katalog überholt: er ist jünger und führt de-DE`)
       }
       if (ausKennung) log(`${ausKennung} über die Serienkennung im deutschen Katalog belegt`)
     }
