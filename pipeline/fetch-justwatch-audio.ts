@@ -145,8 +145,25 @@ async function main(): Promise<void> {
     zwangsläufig" beschreibt. Ein Anbieter nimmt eine deutsche Fassung auch
     **auf**, und dann muss die Frage neu gestellt werden dürfen.
   */
+  /*
+    **Zwei Sorten Lücke, eine Quelle.**
+
+    Die zweite ist die größere und war beim ersten Bau nicht mitgedacht: **243
+    Titel im Hauptbestand haben gar keinen Bezugsweg** (gemessen 07.09.2026),
+    133 davon mit TMDB-Kennung. Für sie beantwortet JustWatch nicht die
+    Sprachfrage, sondern die davor — „wo gibt es das überhaupt?", also Punkt 4
+    des Projektziels („Nicht nur wann, auch wo").
+
+    Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro.
+    Ein Angebot, das JustWatch dort nennt, ist deshalb ein Weg, den wir zeigen
+    dürfen — die Sprachfrage bleibt davon unberührt.
+  */
   const offen = titles
-    .filter((t) => (t.streams ?? []).some((s) => s.dub === undefined))
+    .filter(
+      (t) =>
+        (t.streams ?? []).some((s) => s.dub === undefined) ||
+        (!(t.streams ?? []).length && !(t.watchLinks ?? []).length),
+    )
     .filter((t) => (bestand[String(t.id)]?.geprueftAm ?? '') < grenze)
     .sort((a, b) => (bestand[String(a.id)]?.geprueftAm ?? '').localeCompare(bestand[String(b.id)]?.geprueftAm ?? ''))
 
@@ -265,6 +282,32 @@ function liste(titles: Title[], bestand: Record<string, Befund>): void {
       mitAussage++
     }
   }
+  /*
+    **Zweiter Abschnitt: Titel ganz ohne Bezugsweg.**
+
+    243 Titel im Hauptbestand haben keinen einzigen Weg (07.09.2026) — für sie
+    beantwortet der Kalender Punkt 4 des Projektziels gar nicht („Nicht nur
+    wann, auch wo"). Wo JustWatch ein Angebot kennt, steht hier die Adresse.
+  */
+  const ohneWeg: string[] = []
+  for (const t of titles) {
+    if ((t.streams ?? []).length || (t.watchLinks ?? []).length) continue
+    const b = bestand[String(t.id)]
+    if (!b || b.ohneTreffer || !b.angebote.length) continue
+    /*
+      **„JustWatch TV" ist kein Anbieter, sondern die Eigenwerbung des Dienstes.**
+      Der Verweis führt zurück auf justwatch.com und beantwortet die Frage „wo
+      kann ich das sehen" nicht (gemessen am 07.09.2026 an „Familie Robinson").
+    */
+    const beste = b.angebote.filter((a) => a.url && !/^justwatch/i.test(a.anbieter)).slice(0, 4)
+    if (!beste.length) continue
+    ohneWeg.push(
+      `| [${t.titleDe ?? t.titleRomaji}](https://anime-kalender.de/#/datenbank?t=${t.id}) | ${beste
+        .map((a) => `[${a.anbieter}](${a.url})${a.audio.includes('de') ? ' 🇩🇪' : ''}`)
+        .join(', ')} |`,
+    )
+  }
+
   const kopf = [
     '# Was JustWatch zu offenen Verweisen sagt',
     '',
@@ -281,7 +324,24 @@ function liste(titles: Title[], bestand: Record<string, Befund>): void {
     '|---|---|---|---|---|',
   ]
   mkdirSync('daniel-zum-abarbeiten', { recursive: true })
-  writeFileSync('daniel-zum-abarbeiten/16-justwatch-tonspuren.md', `${[...kopf, ...zeilen].join('\n')}\n`)
+  const zweiter = ohneWeg.length
+    ? [
+        '',
+        '## Titel ganz ohne Bezugsweg',
+        '',
+        `${ohneWeg.length} Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.`,
+        'Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,',
+        'dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.',
+        '',
+        '| Titel | Angebote laut JustWatch |',
+        '|---|---|',
+        ...ohneWeg,
+      ]
+    : []
+  writeFileSync(
+    'daniel-zum-abarbeiten/16-justwatch-tonspuren.md',
+    `${[...kopf, ...zeilen, ...zweiter].join('\n')}\n`,
+  )
   log(`JustWatch: ${mitAussage} offene Verweise mit Tonspur-Angabe → daniel-zum-abarbeiten/16-justwatch-tonspuren.md`)
 }
 
