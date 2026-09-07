@@ -20,6 +20,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **JustWatch-Abruf bauen: Audiosprachen je Angebot** | 5 | Gemessen am 07.09.2026 (Abschnitt unten): `apis.justwatch.com/graphql` liefert `audioLanguages` je Angebot, ohne Token, robots.txt erlaubt es. Deckt genau die Lücke, für die es sonst keine Quelle gibt — 33 Prime-Verweise und die Kanal-Angebote. **Ergibt Kandidaten, kein `dub: true`:** Die Angabe gilt der Serie, nicht der Folge (Kill Blue meldet `de` für zwölf, belegt sind acht). Ziel ist eine Datei wie `data/justwatch-audio.json` plus eine Arbeitsliste, nicht ein Urteil im Bestand |
 | **Bereichsmeldung: „8" ins Feld, kein Melde-Knopf** | 3 | Daniel am 07.09.2026: „ich prüfe also manuell und merke bis 8 ist de, ich gebe in input feld 8 ein, aber es erscheint kein melde button … 1-8 de und 9-12 nicht de, müsste hier gemeldet werden". Der Mechanismus existiert vollständig — `grenzeUebernehmen()` (`melder.js:1719`) meldet vorne und hinten getrennt, Feld und Knopf werden in `durchlaufKnopfZeigen()` (`melder.js:2970`) gebaut, das CSS für `.ak-grenzknopf` steht (`melder.css:700`). **Warum er trotzdem nicht erscheint, ist ungemessen.** Nach der Lehre vom 06.09. („Ist der Knopf da?" beantwortet nicht „sieht man ihn?") gehört dazu eine Kulisse wie `check:kasten`, die die Leiste mit gesetztem `randOffen` unter `melder.css` nachstellt und den berechneten Stil misst |
 | **6 ADN-Verweise ohne Urteil — die JoJo-Sammelserie** | 2 | Von zwölf auf sechs gefallen (07.09.2026): Die Nachrunde schärft die Adresse jetzt, bevor sie sie beurteilt — sechs Verweise mit Kennung aus `data/adn-adressen.yaml` wurden dadurch beurteilt und als belegtes Nein entfernt (alle führen nur `vostde`). Übrig sind **fünf JoJo-Titel**, die auf ADNs Sammelserie 444 zeigen (113 von 152 Folgen mit `vde`, also „gemischt"), und „Plus-Sized Elf" ohne Kennung. Für JoJo fehlt der übliche Ausweg: Die Staffel steht sonst im Release-Slug, und zu keinem der fünf Titel gibt es ein ADN-Release. Denkbar wäre die Zuordnung über die Folgenzahl (26/24/24/39/39) wie in `staffelBloecke()` — riskant, weil eine falsch getroffene Staffel eine falsche Sprachaussage erzeugt, und es geht um fünf Verweise |
 
@@ -50,6 +51,49 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 |---|---|
 
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
+
+## Gemessen 07.09.2026: JustWatch nennt Audiosprachen — eine neue, legale Quelle
+
+Daniels Auftrag „erneute websearch für autonomie ziel". Drei Quellen geprüft,
+zwei verworfen, eine trägt.
+
+**Was trägt: JustWatchs GraphQL-Schnittstelle** (`apis.justwatch.com/graphql`,
+kein Token, `robots.txt` sperrt **nichts** und nennt keinen Agenten namentlich).
+Jedes Angebot trägt `audioLanguages` und `subtitleLanguages`:
+
+| Titel | was JustWatch sagt | was wir belegt haben |
+|---|---|---|
+| Kill Blue | Crunchyroll/Aniverse/ADN-Kanal `audio: de,en,es,fr,it,ja,pt,th` | 1–8 deutsch, 9–12 nicht |
+| **Chiikawa** | ADN-Kanal `audio: ja`, `sub: de` | keine Synchro, nur Untertitel — **die Gegenprobe hält** |
+| Blue Exorcist | Crunchyroll `audio: de,…` | blockweise verschieden (Kyoto Saga ohne) |
+
+Die Gegenprobe an Chiikawa ist der eigentliche Wert des Fundes: Die Quelle
+unterscheidet Synchro von Untertitel, sie sagt nicht überall „de". Damit ist es
+ein brauchbares **Signal** — kein Beleg je Folge.
+
+**Zwei Grenzen, beide gemessen:**
+
+- **Es ist eine Aussage über die Serie**, nicht über Folge oder Staffel. Bei
+  Kill Blue meldet sie `de` für alle zwölf; belegt sind acht. Ein `dub: true`
+  darf daraus nie direkt werden — dieselbe Trennung wie beim deutschen
+  Crunchyroll-Katalog.
+- **Netflix und ADN-direkt melden gar nichts** (`audio: —`), obwohl es dort
+  Deutsch gibt. Ein fehlendes `de` belegt also nichts.
+
+**Wo es hilft:** 107 Verweise haben kein Sprachurteil — 47 Crunchyroll, 33
+Prime Video, 16 YouTube, 10 Netflix, 1 ADN. Für die Prime- und Kanal-Fälle
+haben wir bisher **gar keine** maschinelle Quelle; genau dort antwortet
+JustWatch.
+
+**Verworfen, mit Grund** — damit es niemand in drei Monaten erneut prüft:
+
+- **animeschedule.net API v3**: kennt `dubPremier`, `dubTime`, `dubDelayedFrom`
+  — aber ausschließlich **englische** Dubs. Keine Sprach- oder Regionsangabe.
+- **aniSearch-Liste „Crunchyroll nur mit deutscher Synchro"** (`/lists/RmRAkk`):
+  55 Einträge, nutzerkuratiert, Stand **10.02.2023**, ohne Datumsangaben.
+- **Deutsche Synchronkartei**: `robots.txt` sperrt `/json/` und `/suche` — also
+  genau die Pfade, über die eine maschinelle Abfrage liefe. Dieselbe Lage wie
+  bei Amazon (24.08.2026): Der Pfad, den man braucht, ist zu.
 
 ## Behoben 07.09.2026: Kill Blue — drei Ursachen, drei Fixes
 
