@@ -26056,3 +26056,28 @@
   note: >-
     Daniel am 07.09.2026: "crunchy und netflix haben 1-8". Der Katalog belegt
     nur die Serienebene; die Folgengrenze kommt von seiner Messung.
+
+# --- 7th Time Loop: zwei Quellen, beide ohne deutschen Ton (07.09.2026) -----
+#
+# Daniel: "ich habe ihn gemeldet per extension, damit waere bestaetigt das er
+# keine deutsche synchro hat, entsprechend muss pill entfernt werden."
+#
+# Seine Meldung allein traegt das nicht: Bei einem Kanal-Titel zeigt Amazon die
+# Tonspuren, die dem Betrachter zugaenglich sind, und ohne das Kanal-Abo fehlt
+# die deutsche. Gemessen an unseren eigenen Daten: 45 Kanal-Meldungen ohne
+# Deutsch, und bei **14** davon ist Deutsch bei Prime anderweitig belegt
+# (JoJo, Fruits Basket, Railgun S und andere).
+#
+# Hier kommt der zweite Beleg dazu, und er ist unabhaengig: JustWatch nennt
+# fuer beide Crunchyroll-Angebote `audio: ja, pt` und fuehrt Deutsch
+# ausschliesslich unter `subtitles`. Dasselbe Muster wie bei Chiikawa --
+# untertitelt, nicht synchronisiert, und das ist die Trennlinie des Projekts.
+- anilistId: 168374
+  title: "7th Time Loop: The Villainess Enjoys a Carefree Life Married to Her Worst Enemy!"
+  platform: primevideo
+  dub: false
+  checkedAt: '2026-09-07'
+  note: >-
+    Zwei Quellen ohne deutschen Ton: Daniels Erweiterungsmeldung vom 03.09.
+    (Tonspuren Portugues, Japanisch, alle 12 Folgen, Kanal crunchyrollde) und
+    JustWatch am 07.09. (audio ja,pt -- Deutsch nur als Untertitel).

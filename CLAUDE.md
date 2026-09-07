@@ -700,6 +700,23 @@ enthalten". Deshalb prüft die Erweiterung seit dem 24.08.2026 das `benefitId`:
 Die Meldung wird nicht unterdrückt — ein Hinweis bleibt ein Hinweis. Aber aus ihr darf kein
 Beleg werden, und das ist dieselbe Trennung, die dieses Projekt bei Crunchyroll schon zieht.
 
+**Und das gilt in beide Richtungen — auch für ein fehlendes Deutsch.** Daniel am 07.09.2026
+an „7th Time Loop": „ich habe ihn gemeldet per extension, damit wäre bestätigt das er keine
+deutsche synchro hat". Der Schluss liegt nahe und trägt trotzdem nicht: Bei einem Kanal-Titel
+zeigt Amazon die Tonspuren, die dem **Betrachter** zugänglich sind, und ohne das Kanal-Abo
+fehlt die deutsche.
+
+Gemessen an unseren eigenen Daten: **45 Kanal-Meldungen ohne Deutsch, und bei 14 davon ist
+Deutsch bei Prime anderweitig belegt** — JoJo (zweimal), Fruits Basket, Railgun S, Edens Zero
+Staffel 2, The Irregular at Magic High School und weitere. Fast jedes dritte „kein Deutsch"
+wäre ein Falschnegativ gewesen.
+
+**Was trägt, ist ein zweiter unabhängiger Beleg.** Bei „7th Time Loop" nennt JustWatch für
+beide Crunchyroll-Angebote `audio: ja, pt` und führt Deutsch ausschließlich unter
+`subtitles` — dasselbe Muster wie bei Chiikawa, also untertitelt statt synchronisiert. Zwei
+Quellen, die unabhängig voneinander kein Deutsch im **Ton** finden, ergeben zusammen ein
+belegtes Nein; eine allein nicht.
+
 ## Eine Serie ist bei Crunchyroll kein Block — und ein Block ist kein Beleg über die Serie
 
 Am 25.08.2026 fehlte im Kalender jeder Crunchyroll-Verweis für **Detektiv Conan**, obwohl die
