@@ -3541,34 +3541,55 @@ keine Auskunft über die Adresse, sondern über den Abruf. Belastbar wird er ers
 mit einem **positiven Merkmal im Inhalt** — und was dieses Merkmal nicht zeigt,
 gehört als offene Frage gespeichert, nie als Ja.
 
-### Der Katalog kennt keine Filme — und das erklärt zwei Drittel der Fragezeichen
+
+### Die Crunchyroll-Fragezeichen liegen an der Zuordnung, nicht an der Quelle
 
 Daniel am 07.09.2026 zur „Wo sehen?"-Liste: „39 Fragezeichen? wir haben
 crunchyroll automatisiert, es sollte 0 fragezeichen geben, wieso funktioniert
 unser automatismus nicht perfekt..."
 
-Gemessen am selben Abend: 35 Crunchyroll-Verweise ohne Sprachurteil, und sie
-zerfallen in zwei saubere Gruppen.
+Gemessen: 35 Crunchyroll-Verweise ohne Sprachurteil — 18 MOVIE, 4 OVA, 1
+SPECIAL, 12 TV.
 
-- **23 sind Filme, OVAs oder Specials** (18 MOVIE, 4 OVA, 1 SPECIAL).
-  `data/cr-katalog-de.json` führt ausschließlich `typ: series` — Crunchyrolls
-  Filme liegen unter `movie_listing` und werden von uns nie geholt. Für sie
-  kann die Katalog-Runde nichts finden, egal wie gut die Adresse ist.
-- **12 sind Serien mit Adressen im alten Format** (`crunchyroll.com/de/<slug>`,
-  `crunchyroll.com/<slug>/episode-…`). Ohne `/series/<Kennung>` greift die
-  Zuordnung nicht — obwohl der Katalog die Serie sehr wohl führt: „Kaguya-sama:
-  Love is War" steht dort als `GRJ0J828Y` mit deutschem Ton.
+**Die erste Erklärung war falsch, und das gehört hierher.** Weil
+`data/cr-katalog-de.json` in jedem Eintrag `typ: series` trägt, lag der Schluss
+nahe, der Katalog kenne keine Filme. Er stand schon als Lehre geschrieben, als
+die Messung ihn widerlegte: `discover/browse?type=movie_listing` meldet 69
+Filme, davon 44 mit deutschem Ton — und **alle 69 stehen bereits im
+gespeicherten Katalog**. Crunchyroll gibt in `it.type` schlicht für jeden
+Eintrag `series` aus; unser Feld übernimmt das ungeprüft. Die Quelle ist
+vollständig, das Etikett ist es nicht.
 
-**Und warum ein Slug-Abgleich allein nicht genügt.** Er findet 13 der 35, aber
-nur 5 davon belastbar: Fünf „Free!"-Filme zeigen auf die **Serienadresse**
-`/de/free-iwatobi-swim-club`, ebenso die Chunibyo-OVA auf ihre Serie und
-„The Promised Neverland Staffel 2" auf Staffel 1. Wer allein dem Slug folgt,
-überträgt das Urteil der Serie auf den Film — genau der Fehler, den Daniel
-Stunden zuvor an „Date a Live" gerügt hatte („staffel 4 und 5 … haben dort keine
-synchro, also wieso steht da DE✅???"). Ein Slug-Treffer zählt deshalb nur mit
-passendem **Werktitel**, und selbst dann bleibt die Staffelfrage offen: „Kaguya
--sama: Love Is War?" (Staffel 2) normalisiert auf denselben Titel wie Staffel 1.
+Die Lehre daraus ist die ältere: **Ein Feld, das überall denselben Wert trägt,
+beschreibt nichts** — es ist die Vermutung wert, dass es gar nicht gefüllt wird.
+Bevor eine Lücke der Quelle zugeschrieben wird, wird die Quelle gefragt.
 
-Die tragfähige Lösung ist die erste Gruppe: **Crunchyrolls `movie_listing` in
-den Katalog holen.** Das beantwortet 23 von 35 aus der Quelle statt aus einem
-Namensvergleich.
+**Woran es wirklich liegt:** Crunchyroll führt Filme unter Kurznamen. „Fruits
+Basket -prelude-" heißt dort „-prelude-", „Free! -Timeless Medley- Kizuna"
+heißt „The Bond". Von 23 Film-, OVA- und Special-Verweisen ist über den Titel
+genau **einer** zuzuordnen. Ein Namensvergleich löst das nicht und darf es auch
+nicht: Ein Namensteil trifft immer den Reihennamen, und die Serie vererbt ihre
+Sprache nicht an ihre Filme (fünf „Free!"-Filme zeigen auf die Serienadresse,
+die Chunibyo-OVA auf ihre Serie, „Promised Neverland Staffel 2" auf Staffel 1).
+
+**Der tragfähige Weg ist die Kennung in der Adresse, und er ist gemessen.**
+`content/v2/cms/objects/<Kennung>?locale=de-DE` löst eine `/watch/<ID>/`-Adresse
+auf und nennt die Tonspur **des Videos** — nicht die Liste der verfügbaren
+Sprachen. An sechs Fällen geprüft (07.09.2026):
+
+| Titel | Kennung | Antwort |
+|---|---|---|
+| given: To the Sea | `GE00266947DEDE` | `audio_locale: de-DE`, Serie `GRG5WWD4R` |
+| Rascal … Sister Venturing Out | `G0DUMXDPZ` | `audio_locale: ja-JP`, Serie `GYW4MG9G6`, Folge 1 |
+| Rascal … Knapsack Kid | `GWDU73EX8` | `audio_locale: ja-JP`, Serie `GYW4MG9G6`, Folge 3 |
+| Millennium Actress, One-Punch-Man-OVAs (2×) | `GPWUKPVP4` u. a. | HTTP 404 — die Video-Kennung ist abgelaufen |
+
+**Und die Auswertung braucht die Unterscheidung vom 15.08.2026.** `de-DE` am
+Video ist ein sicheres **Ja**. `ja-JP` ist **kein** sicheres Nein: Eine deutsche
+Fassung hat bei Crunchyroll eine **eigene** Videokennung, und dass wir sie nicht
+kennen, ist keine Auskunft über sie. Ein Nein entsteht erst, wenn zusätzlich der
+Serieneintrag im Katalog kein `de-DE` führt. Wer das überspringt, wiederholt die
+975 Falschangaben, die genau aus dieser Verwechslung entstanden sind.
+
+Ein 404 sagt nichts über die Tonspur, aber viel über den Verweis: Die Adresse
+führt ins Leere und gehört geprüft.
