@@ -62,6 +62,8 @@ interface Kennzahlen {
    * geht darin unter.
    */
   entferntProtokolliert: number
+  /** Dasselbe je Anbieter — damit die Aufschlüsselung ihre Erklärung mitbringt. */
+  entferntJeAnbieter?: Record<string, number>
   releases: number
   termine: number
   /** Je Anbieter die Zahl der Verweise mit belegter Synchro. */
@@ -117,6 +119,27 @@ function messen(): Kennzahlen {
     ohneUrteil,
     titelMitSynchro,
     entferntProtokolliert: Array.isArray(entfernt.verweise) ? entfernt.verweise.length : 0,
+    /**
+     * **Dasselbe je Anbieter — sonst bleibt die Aufschlüsselung ohne Erklärung.**
+     *
+     * Die Gesamtzahl der Verweise ist seit dem 06.09.2026 gegen das Gedächtnis
+     * gerechnet: Was mit Grund entfernt wurde, gilt nicht als Verlust. Die
+     * Zeilen „crunchyroll: 6 Synchro-Belege weniger" liefen daran vorbei und
+     * standen weiter als Auffälligkeit da.
+     *
+     * Am 07.09.2026 meldete die Wache fünf solche Zeilen, und **alle fünf**
+     * gingen auf gewollte Entfernungen desselben Tages zurück: 16
+     * YouTube-Verweise ohne belegte Synchro, die FSK-18-Fassung von Date a
+     * Live, „7th Time Loop". Wer das am nächsten Morgen liest, sieht fünf
+     * Alarme und muss jeden einzeln nachschlagen.
+     */
+    entferntJeAnbieter: Array.isArray(entfernt.verweise)
+      ? (entfernt.verweise as { plattform?: string }[]).reduce<Record<string, number>>((n, e) => {
+          const p = e.plattform ?? 'unbekannt'
+          n[p] = (n[p] ?? 0) + 1
+          return n
+        }, {})
+      : {},
     releases: Array.isArray(releases) ? releases.length : 0,
     termine: Array.isArray(termine) ? termine.length : 0,
     jeAnbieter,
@@ -148,7 +171,20 @@ if (vorher) {
   const d = (feld: keyof Kennzahlen) => (jetzt[feld] as number) - (vorher[feld] as number)
 
   if (d('titel') < 0) auffaellig.push(`${-d('titel')} Titel weniger`)
-  if (d('mitUrteil') < 0) auffaellig.push(`${-d('mitUrteil')} Urteile verloren`)
+  /*
+    Auch hier gegen das Gedächtnis gerechnet: Ein Urteil verschwindet in aller
+    Regel mit dem Verweis, an dem es hing — und wenn der mit Grund entfernt
+    wurde, ist nichts verloren. Am 07.09.2026 standen fünf solche Zeilen in der
+    Wache, alle fünf erklärt.
+  */
+  const urteilWeg = -d('mitUrteil')
+  const urteilRest = urteilWeg - Math.max(0, d('entferntProtokolliert'))
+  if (urteilRest > 0) {
+    auffaellig.push(
+      `${urteilRest} Urteile verloren` +
+        (urteilWeg > urteilRest ? ` (${urteilWeg - urteilRest} weitere sind begründet entfernt)` : ''),
+    )
+  }
   if (d('titelMitSynchro') < 0) auffaellig.push(`${-d('titelMitSynchro')} Titel ohne Synchro-Beleg`)
   if (d('termine') < -20) auffaellig.push(`${-d('termine')} Termine weniger`)
   /*
@@ -169,9 +205,27 @@ if (vorher) {
         (wegErklaert ? ` (${wegErklaert} weitere sind begründet entfernt)` : ''),
     )
   }
+  /*
+    **Je Anbieter dieselbe Rechnung wie oben.**
+
+    Was mit protokolliertem Grund entfernt wurde, ist kein Verlust — es ist die
+    Arbeit, für die es das Gedächtnis gibt. Gemeldet wird der Rest; passt alles
+    zusammen, steht die Zeile gar nicht erst da.
+  */
   for (const [anbieter, zahl] of Object.entries(jetzt.jeAnbieter)) {
     const alt = vorher.jeAnbieter?.[anbieter] ?? 0
-    if (zahl < alt) auffaellig.push(`${anbieter}: ${alt - zahl} Synchro-Belege weniger`)
+    if (zahl >= alt) continue
+    const weg = alt - zahl
+    const begruendet = Math.max(
+      0,
+      (jetzt.entferntJeAnbieter?.[anbieter] ?? 0) - (vorher.entferntJeAnbieter?.[anbieter] ?? 0),
+    )
+    const rest = weg - begruendet
+    if (rest <= 0) continue
+    auffaellig.push(
+      `${anbieter}: ${rest} Synchro-Belege weniger` +
+        (begruendet ? ` (${begruendet} weitere sind begründet entfernt)` : ''),
+    )
   }
   for (const [anbieter, alt] of Object.entries(vorher.jeAnbieter ?? {})) {
     if (!(anbieter in jetzt.jeAnbieter) && alt > 0) {
