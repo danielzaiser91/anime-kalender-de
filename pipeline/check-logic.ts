@@ -2808,6 +2808,23 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     beim Handbeleg einen Tag zuvor, und deshalb steht die Zusicherung direkt
     daneben.
   */
+  /*
+    **Kein Verweis zeigt mehr auf die abgeschaltete Domain tvnow.de.**
+
+    RTL+ hieß früher TVNow; die alten Adressen leiten auf die **Startseite** um,
+    nicht auf die Serie (gemessen 07.09.2026, alle zehn). Wer im Kalender darauf
+    klickt, steht vor dem ganzen Katalog. Die neuen Adressen stehen in
+    `data/rtlplus-adressen.yaml`, je Titel über RTL+' Sitemaps belegt.
+
+    `data/rtlplus-befunde.json` wusste es seit dem 22.08.2026 für zwei davon —
+    der Befund wurde nur nie angewandt. Diese Zusicherung sorgt dafür, dass die
+    Umstellung nicht wieder still herausfällt.
+  */
+  pruefe(
+    'RTL+-Adressen werden von tvnow.de umgestellt',
+    bau.includes('RTL+-Adressen von der abgeschalteten Domain tvnow.de umgestellt'),
+    'sonst zeigen zehn Verweise weiter auf die Startseite statt auf die Serie',
+  )
   pruefe(
     'die Nachrunde schärft die ADN-Adresse vor der Beurteilung',
     bau.includes('adnStreamSchaerfen(title.id, stream)'),

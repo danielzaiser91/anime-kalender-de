@@ -1,0 +1,37 @@
+# RTL+: neue Adressen für Verweise auf die abgeschaltete Domain `tvnow.de`.
+#
+# **Wofür das gut ist.** aniSearch führt zu zehn Titeln einen RTL+-Verweis der
+# alten Form `www.tvnow.de/serien/<slug>-<nummer>`. TVNow heißt seit dem Umbau
+# `plus.rtl.de`, und die alten Adressen leiten **auf die Startseite** um — nicht
+# auf die Serie. Gemessen am 07.09.2026: alle zehn antworten mit HTTP 200 und
+# landen auf `https://plus.rtl.de/`.
+#
+# Das ist genau Daniels „404"-Fall aus `CLAUDE.md`: Weiterleitung auf die
+# Startseite des Anbieters, der Titel ist dort nicht zu finden. Wer im Kalender
+# auf „Pokémon bei RTL+" klickt, steht vor dem ganzen Katalog.
+#
+#   <anilistId>: <neuer-slug>
+#
+# **Wie eine Zeile hier belegt ist.** Über RTL+' eigene Sitemaps — der Betreiber
+# lädt ausdrücklich ein (`robots.txt`: `Allow: /`, keine namentliche Bot-Sperre,
+# neun Sitemaps, darunter `programs.sitemap.xml` mit 212 Teildateien à 1.000
+# Adressen). Der neue Slug ist der alte ohne Zahlenschwanz, mit `p_<id>` am
+# Ende; jede der zehn Adressen wurde einzeln abgerufen und ihr `<title>` gegen
+# unseren Titel gelesen. Alle zehn: HTTP 200, passender Titel.
+#
+# **Der Namensabgleich ist hier keiner** — verglichen wurde der Slug, nicht der
+# Name. Das ist der Unterschied zu den Fällen, an denen dieses Projekt schon
+# gescheitert ist (`To Love-Ru`, `Wolf's Rain OVA`): Dort war der Name das
+# einzige Merkmal, hier stimmt die Zeichenkette bis auf die Kennung überein.
+
+# --- Gemessen am 07.09.2026, je Adresse einzeln über plus.rtl.de -------------
+527: pokemon-master-quest-p_8826                                # Pokémon: Master Quest
+1564: pokemon-battle-frontier-p_9363                            # Pokémon: Battle Frontier
+1565: pokemon-dp-sieger-der-sinnoh-liga-p_7484                  # Pokémon: DP Sieger der Sinnoh Liga
+9107: pokemon-schwarz-weiss-rivalen-des-schicksals-p_4321       # Pokémon Schwarz & Weiß: Rivalen des Schicksals
+17115: pokemon-schwarz-weiss-abenteuer-in-einal-p_9051          # Pokémon Schwarz & Weiß: Abenteuer in Einal
+17873: pokemon-schwarz-weiss-abenteuer-in-einall-und-p_4746     # Pokémon Schwarz & Weiß: Abenteuer in Einall und darüber hinaus
+19291: pokemon-die-tv-serie-xy-erkundungen-in-kalos-p_6912      # Pokémon - Die TV-Serie: XY - Erkundungen in Kalos
+21356: pokemon-die-tv-serie-xyz-p_10932                         # Pokémon - Die TV Serie: XYZ
+108852: bakugan-battle-planet-p_10587                           # Bakugan: Battle Planet
+169826: bakugan-legends-p_8181                                  # Bakugan: Legends
