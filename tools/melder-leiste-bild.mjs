@@ -19,9 +19,16 @@
  *
  * Aufruf:
  *
- *     node tools/melder-leiste-bild.mjs [ziel.png]
+ *     npm run check:leiste
  *
  * Läuft headless; es erscheint kein Fenster.
+ *
+ * **Nicht in `check:extension`, und das ist kein Versehen.** Am 07.09.2026
+ * dort eingehängt, machte es drei Deploys hintereinander rot: Der Job
+ * „Erweiterung prüfen" installiert kein Chromium, und Playwright bricht mit
+ * „Executable doesn't exist" ab. Dieselbe Trennung gilt für `check:kasten`,
+ * `check:panel` und `check:ansichten` — alle vier brauchen einen Browser und
+ * laufen deshalb von Hand, nicht in der Kette vor dem Commit.
  */
 import { chromium } from 'playwright'
 import { readFileSync } from 'node:fs'
