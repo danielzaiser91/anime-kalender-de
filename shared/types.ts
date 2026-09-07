@@ -233,21 +233,6 @@ export interface WatchLink {
    * beim Bauen aus Name und Adresse bestimmt, siehe `shared/zugangsart.ts`.
    */
   zugang?: Zugangsart
-  /**
-   * **Dasselbe Urteil wie am Verweis mit derselben Adresse.**
-   *
-   * Daniel am 07.09.2026 an „Kill Blue": „warum ist bei ‚… über prime' pills
-   * kein ‚DE' zeichen?" Die Pille „Aniverse über Prime Video" und der
-   * Prime-Video-Verweis zeigen auf **dieselbe** ASIN (`B0GTN94C9M`) — der eine
-   * trug „DE ✓", die andere gar nichts.
-   *
-   * Das ist keine fehlende Auskunft, sondern eine, die nur an einer von zwei
-   * Stellen ankam: `watchLinks` kannten das Feld nicht. Übernommen wird es
-   * ausschließlich von einem Verweis mit **gleicher Adresse** — aus einem
-   * Anbieternamen folgt nichts, und zwei Wege zum selben Anbieter können
-   * verschiedene Ausgaben meinen.
-   */
-  dub?: boolean
 }
 
 export interface Title {

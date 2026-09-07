@@ -4967,42 +4967,6 @@ function main(): void {
   }
 
   /**
-   * **Ein Weg, ein Urteil — auch wenn er in zwei Listen steht.**
-   *
-   * Daniel am 07.09.2026 an „Kill Blue", mit Bild: „warum ist bei ‚… über
-   * prime' pills kein ‚DE' zeichen?" Die Pille „Aniverse über Prime Video" und
-   * der Prime-Video-Verweis zeigen auf **dieselbe** Adresse
-   * (`amazon.de/gp/video/detail/B0GTN94C9M` bzw. `amazon.de/dp/B0GTN94C9M`) —
-   * der eine trug „DE ✓", die andere gar nichts.
-   *
-   * Es fehlte also keine Auskunft, sie kam nur an einer von zwei Stellen an:
-   * Die Sprachangabe lebt in `streams`, `watchLinks` kannten das Feld nicht.
-   * Für einen Besucher sind es zwei Zeilen über dieselbe Sache, und eine davon
-   * schweigt — das liest sich wie ein Unterschied, den es nicht gibt.
-   *
-   * **Übernommen wird nur, wo beide dasselbe Angebot meinen** — und das
-   * entscheidet bei Amazon die **Kennung**, nicht die Adresse: Derselbe Titel
-   * steht dort einmal als `/gp/video/detail/B0GTN94C9M` und einmal als
-   * `/dp/B0GTN94C9M`. Ein Adressvergleich sähe zwei verschiedene Wege, wo es
-   * einer ist — genau der Fehlgriff, der am selben Tag schon eine tote
-   * Crunchyroll-Serie neu verlinkt hat.
-   *
-   * Aus dem Anbieternamen folgt dagegen nichts: Zwei Prime-Wege zum selben
-   * Titel können verschiedene Ausgaben meinen — Kanal-Abo und Kauftitel —, und
-   * deren Tonspuren sind verschieden (siehe „Bei einem Kanal-Titel ist Amazons
-   * Sprachangabe kein Beleg").
-   */
-  const wegSchluessel = (u: string): string => {
-    const asin = /\/(?:dp|detail|gp\/product)\/([A-Z0-9]{10,26})/.exec(u)?.[1]
-    if (asin) return `amazon:${asin}`
-    return u
-      .replace(/^https?:\/\//, '')
-      .replace(/^www\./, '')
-      .split('?')[0]!
-      .replace(/\/$/, '')
-      .toLowerCase()
-  }
-  /**
    * **Bei YouTube gilt eine Pille erst ab einer belegten Synchro.**
    *
    * Daniel am 07.09.2026 an „Kill Blue": „youtube hat nur untertitel, also weg
@@ -5113,6 +5077,46 @@ function main(): void {
    * nicht auf Deutsch" geprüft hat, gehört nicht in die Antwort auf „wo läuft
    * es auf Deutsch" — und wenn sich das ändert, ändert sich der Handbeleg.
    */
+  /**
+   * **Eine Adresse, eine Pille.**
+   *
+   * Daniel am 07.09.2026 an „Kill Blue": „aniverse button führt auf tote seite
+   * -> entfernen". Er führte nicht ins Leere — er führte auf **dieselbe**
+   * Amazon-Seite wie die Prime-Video-Pille daneben (`B0GTN94C9M`). Wer dort
+   * den Aniverse-Kanal sucht, findet ihn nicht, denn die Seite ist das
+   * Prime-Angebot.
+   *
+   * Zwei Zeilen, die auf dieselbe Adresse zeigen, sind keine zwei Auskünfte.
+   * Dasselbe Bild wie bei „City The Animation" (zwei Prime-Zeilen) und bei
+   * „7th Time Loop" (Verweis entfernt, Bezugsweg blieb) — dreimal am selben
+   * Tag, jedes Mal von Daniel gemeldet.
+   *
+   * Der **Verweis** gewinnt: Er trägt das Sprachurteil und die Zugangsart, der
+   * Bezugsweg nur einen Namen. Gemessen sind es 37 Dopplungen.
+   */
+  let doppelterWeg = 0
+  {
+    const kern = (u: string): string => {
+      const asin = /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,26})/i.exec(u)?.[1]
+      if (asin) return `amazon:${asin.toLowerCase()}`
+      return u
+        .replace(/^https?:\/\//, '')
+        .replace(/^www\./, '')
+        .split('?')[0]!
+        .replace(/\/$/, '')
+        .toLowerCase()
+    }
+    for (const title of titles.values()) {
+      if (!title.watchLinks?.length || !title.streams?.length) continue
+      const belegt = new Set(title.streams.map((s) => kern(s.url)))
+      const vorher = title.watchLinks.length
+      title.watchLinks = title.watchLinks.filter((w) => !belegt.has(kern(w.url)))
+      doppelterWeg += vorher - title.watchLinks.length
+    }
+  }
+  if (doppelterWeg)
+    log(`${doppelterWeg} Bezugswege entfernt, die auf dieselbe Adresse zeigen wie ein Verweis desselben Titels`)
+
   let wegNachNein = 0
   {
     const kern = (u: string): string =>
@@ -5149,25 +5153,6 @@ function main(): void {
     youtubeStumm += vorher - title.streams.length
   }
   if (youtubeStumm) log(`${youtubeStumm} YouTube-Verweise ohne belegte Synchro entfernt — dort führen wir nur belegte Wege`)
-
-  let urteilGeerbt = 0
-  for (const title of titles.values()) {
-    if (!title.watchLinks?.length || !title.streams?.length) continue
-    const jeWeg = new Map(
-      title.streams.filter((s) => s.dub !== undefined && s.url).map((s) => [wegSchluessel(s.url), s.dub as boolean]),
-    )
-    if (!jeWeg.size) continue
-    for (const w of title.watchLinks) {
-      if (w.dub !== undefined || !w.url) continue
-      const urteil = jeWeg.get(wegSchluessel(w.url))
-      if (urteil === undefined) continue
-      w.dub = urteil
-      urteilGeerbt++
-    }
-  }
-  if (urteilGeerbt) {
-    log(`${urteilGeerbt} Bezugsweg(e) haben das Sprachurteil des Verweises mit derselben Adresse übernommen`)
-  }
 
   const allTitles = [...titles.values()]
   const genres = [...new Set(allTitles.flatMap((t) => t.genres))].sort((a, b) => a.localeCompare(b, 'de'))

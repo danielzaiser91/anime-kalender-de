@@ -830,19 +830,28 @@ const PROVIDER_NAMES: Record<string, string> = {
   zdf: 'ZDF',
   'twitter-/-x': 'X',
   filmfriend: 'filmfriend',
-  // Abo-Kanäle fremder Anbieter innerhalb von Prime Video. Sie behalten den
-  // Namen des eigentlichen Anbieters samt Hinweis, wo er läuft — wer ein
-  // Crunchyroll-Abo hat, kommt mit dem Prime-Kanal nicht weiter.
+  /*
+    **Abo-Kanäle fremder Anbieter innerhalb von Prime Video.**
+
+    Der Name nennt zuerst, wo man hinkommt, und dann, was man dort braucht:
+    „Prime Video — Crunchyroll Kanalabo". Wer ein Crunchyroll-Abo hat, kommt
+    mit dem Prime-Kanal nämlich nicht weiter — es ist ein eigenes Abo.
+
+    Bis zum 07.09.2026 stand es umgekehrt („Crunchyroll über Prime Video"),
+    und Daniel las es als Prime-Angebot: „prime video ist falsch, weil es
+    crunchyroll abo auf prime video ist. also schreib Prime Video -
+    Crunchyroll Kanalabo."
+  */
   primevideo: 'Prime Video',
-  'primevideo-channel-adn': 'ADN über Prime Video',
-  'primevideo-channel-aniverse': 'Aniverse über Prime Video',
-  'primevideo-channel-crunchyroll': 'Crunchyroll über Prime Video',
-  'primevideo-channel-hbo-max': 'HBO Max über Prime Video',
-  'primevideo-channel-kixi-select': 'Kixi über Prime Video',
-  'primevideo-channel-moviedome': 'Moviedome über Prime Video',
-  'primevideo-channel-pokemon': 'Pokémon TV über Prime Video',
-  'primevideo-channel-prosiebenfun': 'ProSieben Fun über Prime Video',
-  'primevideo-channel-sevenentertainment': 'Seven Entertainment über Prime Video',
+  'primevideo-channel-adn': 'Prime Video — ADN Kanalabo',
+  'primevideo-channel-aniverse': 'Prime Video — Aniverse Kanalabo',
+  'primevideo-channel-crunchyroll': 'Prime Video — Crunchyroll Kanalabo',
+  'primevideo-channel-hbo-max': 'Prime Video — HBO Max Kanalabo',
+  'primevideo-channel-kixi-select': 'Prime Video — Kixi Kanalabo',
+  'primevideo-channel-moviedome': 'Prime Video — Moviedome Kanalabo',
+  'primevideo-channel-pokemon': 'Prime Video — Pokémon TV Kanalabo',
+  'primevideo-channel-prosiebenfun': 'Prime Video — ProSieben Fun Kanalabo',
+  'primevideo-channel-sevenentertainment': 'Prime Video — Seven Entertainment Kanalabo',
   // Leer heißt: nicht anzeigen. „Default" ist ein Datenfehler von TMDB,
   // „Amazon UK" führt in den britischen Shop.
   youtube: 'YouTube',

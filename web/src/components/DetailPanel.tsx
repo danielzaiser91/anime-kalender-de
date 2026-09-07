@@ -1055,9 +1055,28 @@ function ReleasePille({
  * Anzeigename kommt aus dem gemeinsamen Teil vor dem Gedankenstrich; steht dort
  * nichts Gemeinsames, bleibt der volle Name stehen.
  */
+/**
+ * Die Farbe eines Bezugswegs — sofern er zu einer Plattform gehört, die wir führen.
+ *
+ * Die Namen der Kanal-Wege beginnen mit dem Namen der Plattform, auf der man
+ * landet („Prime Video — Crunchyroll Kanalabo"). Wo das zutrifft, bekommt die
+ * Pille dieselbe Farbe wie die Anbieter-Pille daneben; ein Shop ohne eigene
+ * Plattform (Videobuster, maxdome, JPC) bleibt neutral.
+ *
+ * Verglichen wird über den **Namensanfang**, nicht über ein Vorkommen
+ * irgendwo: „Amazon DVD / Blu-ray" ist ein Kaufweg, kein Prime-Angebot, und
+ * soll die Prime-Farbe nicht erben.
+ */
+function farbeZuAnbieter(name: string): string | undefined {
+  for (const p of Object.values(PLATFORMS)) {
+    if (p.name && name.startsWith(p.name)) return p.color
+  }
+  return undefined
+}
+
 function gruppiereKaufwege(
   links: WatchLink[],
-): { shop: string; eintraege: { label?: string; url: string; dub?: boolean }[] }[] {
+): { shop: string; eintraege: { label?: string; url: string }[] }[] {
   const nachHost = new Map<string, WatchLink[]>()
   for (const l of links) {
     let host = l.url
@@ -1075,11 +1094,11 @@ function gruppiereKaufwege(
     const geteilt = liste.map((l) => l.name.split(/\s+—\s+/))
     const gemeinsam = geteilt.every((t) => t.length > 1 && t[0] === geteilt[0][0])
     if (liste.length === 1 || !gemeinsam) {
-      return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url, dub: l.dub })) }
+      return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url })) }
     }
     return {
       shop: geteilt[0][0],
-      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url, dub: l.dub })),
+      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url })),
     }
   })
 }
@@ -2600,7 +2619,26 @@ export function DetailPanel({
                             Wo keins geerbt wurde, zeigt `DubMark` weiterhin das
                             Fragezeichen — das ist die ehrliche Antwort.
                           */
-                          rechts={<DubMark dub={g.eintraege[0].dub} />}
+                          /*
+                            **Ein Weg zu einem Anbieter, den wir kennen, sieht aus wie einer.**
+
+                            Die Bezugswege standen weiß und randlos neben den
+                            farbigen Anbieter-Pillen, obwohl beide dasselbe
+                            beantworten: wo man es sehen kann. Daniel am
+                            07.09.2026: „vom blau gefärbten button style ist es
+                            deutlich besser als die weiße pill daneben, deshalb
+                            mach das so wie beschrieben für alle pills die
+                            aktuell noch das weiße style haben".
+
+                            Die Farbe kommt aus dem Namen, und der ist unsere
+                            eigene Erzeugung („Prime Video — Crunchyroll
+                            Kanalabo"): Wo er mit dem Namen einer bekannten
+                            Plattform beginnt, gilt deren Farbe. Ein Shop, den
+                            wir nicht als Plattform führen (Videobuster,
+                            maxdome), bleibt neutral — dort gibt es keine Farbe,
+                            die etwas bedeuten würde.
+                          */
+                          farbe={farbeZuAnbieter(g.shop)}
                         />
                       )),
                     ),
