@@ -20,9 +20,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Antwortkasten: zweite Pillenreihe wird abgeschnitten** | 2 | Angefangen 07.09.2026, Stand: `flex-wrap` sitzt (`DetailPanel.tsx:568`), Kopfzeile zeigt „8 von 12 Folgen auf Deutsch" mit Balken. Offen ist allein die feste Kastenhöhe `h-[9.75rem]` (`DetailPanel.tsx:413`) — beim neuen Zustand `teilweise` kommt der Balken dazu, und die zweite Pillenreihe passt nicht mehr hinein. Gegenprobe: `npm run check:panel 198113`, alle Titel müssen gleich hoch bleiben (Daniels Vorgabe vom 03.09.: „height Änderung der Box durch feste Höhe verhindern") |
-| **Amazon-Suchkasten: Hover markiert nicht, Label sagt nichts** | 2 | Daniel am 07.09.2026, 11:43 mit Bild: „hover auf extension button ‚öffnen' highlighted nicht mehr die suchkachel die ausgewählt werden würde … und ‚- dort werden tonspuren gelesen' ist sinnlos, ich weiß wie die extension funktioniert … stattdessen sollte dort stehen: ‚suchtreffer anklicken: `<title>` (`<asin>`)'". Ursache gemessen: `kastenKnopf()` markiert nur, wenn eine Kennung übergeben wird (`amazon.js:3283`) — beim Einzeltreffer-Knopf (`amazon.js:3712`) wird keine übergeben |
-| **PR #55 entscheiden: tote CR-Serie über Kennung ausschließen** | 3 | Der Cloud-Lauf hat den roten Bestandsbau vom 07.09. untersucht und PR #55 geöffnet (Konflikt gegen `main`, weil mein Commit 2913c2d2 dieselben Stellen anfasst). Der Kern ist richtig: `.../de/series/G4PH0WJDQ/...` wurde entfernt, `.../series/G4PH0WJDQ/...` aus aniSearch sofort neu angelegt. Zu prüfen ist die zweite Bedingung `katalog === 'de' && keine Staffeln` — sie träfe **227 lebendige** Serien und ist genau das Kill-Blue-Muster (heute keine deutschen Folgen ≠ nie welche) |
+| **Bereichsmeldung: „8" ins Feld, kein Melde-Knopf** | 3 | Daniel am 07.09.2026: „ich prüfe also manuell und merke bis 8 ist de, ich gebe in input feld 8 ein, aber es erscheint kein melde button … 1-8 de und 9-12 nicht de, müsste hier gemeldet werden". Der Mechanismus existiert vollständig — `grenzeUebernehmen()` (`melder.js:1719`) meldet vorne und hinten getrennt, Feld und Knopf werden in `durchlaufKnopfZeigen()` (`melder.js:2970`) gebaut, das CSS für `.ak-grenzknopf` steht (`melder.css:700`). **Warum er trotzdem nicht erscheint, ist ungemessen.** Nach der Lehre vom 06.09. („Ist der Knopf da?" beantwortet nicht „sieht man ihn?") gehört dazu eine Kulisse wie `check:kasten`, die die Leiste mit gesetztem `randOffen` unter `melder.css` nachstellt und den berechneten Stil misst |
 | **6 ADN-Verweise ohne Urteil — die JoJo-Sammelserie** | 2 | Von zwölf auf sechs gefallen (07.09.2026): Die Nachrunde schärft die Adresse jetzt, bevor sie sie beurteilt — sechs Verweise mit Kennung aus `data/adn-adressen.yaml` wurden dadurch beurteilt und als belegtes Nein entfernt (alle führen nur `vostde`). Übrig sind **fünf JoJo-Titel**, die auf ADNs Sammelserie 444 zeigen (113 von 152 Folgen mit `vde`, also „gemischt"), und „Plus-Sized Elf" ohne Kennung. Für JoJo fehlt der übliche Ausweg: Die Staffel steht sonst im Release-Slug, und zu keinem der fünf Titel gibt es ein ADN-Release. Denkbar wäre die Zuordnung über die Folgenzahl (26/24/24/39/39) wie in `staffelBloecke()` — riskant, weil eine falsch getroffene Staffel eine falsche Sprachaussage erzeugt, und es geht um fünf Verweise |
 
 | **Projektanalyse: Stärken und Schwächen** | 8 | Daniels Auftrag vom 07.09.2026: „erstes ziel das du dir setzt sollte komplett analyse des projekts sein, wo sind schwächen und stärken, schwächen ausbessern, stärken verstärken". Gemessen statt gemeint — Datenbestand, Prüfungen, Läufe, Website, und alles gegen die fünf Punkte des Projektziels in `CLAUDE.md`. Ergebnis kommt als eigener Abschnitt hierher, die Ausbesserungen als Aufgaben |
@@ -52,6 +50,29 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 |---|---|
 
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
+
+## Behoben 07.09.2026: Kill Blue — drei Ursachen, drei Fixes
+
+Daniels Meldung: „warum hat unser crunchylauf … nicht automatisch im kalender
+eingetragen das dieser anime jetzt auch auf crunchy ist? am 06.09. wurden die
+synchronisierten folgen 1-8 auf crunchy veröffentlicht."
+
+| Ursache | gemessen | Fix |
+|---|---|---|
+| Das Gedächtnis der entfernten Verweise kannte keine Frist | ein Nein vom 24.08. hielt für immer | 28 Tage (`NEIN_GILT_TAGE`), Feld `entferntAm` |
+| Der Sendekalender führt nachgereichte Katalog-Synchros nicht | Kill Blue steht dort nicht — es ist kein Simulcast-Termin | Katalog-Runde legt Wege über die Serienkennung an |
+| **Ein 16 Tage altes Nein schlug den jüngeren Katalog** | `crunchyroll-dub.json` 22.08.: 0 deutsche Folgen · `cr-katalog-de.json` 07.09. 06:44: `de-DE` | der jüngere Katalog überstimmt das Nein, nur in dieser Richtung, nur bei einer Staffel |
+
+Belegt im Lauf: „Kill Blue: Nein vom 2026-08-22 durch den Katalog vom
+2026-09-07 überholt". Dazu die Anzeige: Der Kasten sagte „Alle 12 Folgen auf
+Deutsch", während die ADN-Pille „✕ DE" trug — jetzt „8 von 12 Folgen auf
+Deutsch" über `dubAbdeckung()`.
+
+**Offen bleibt die Vorhersage.** Daniel: „wir müssen im voraus sowas
+vorhersehen, entsprechend news etc. quellen abonieren". Der Katalog-Lauf
+braucht eine deutsche IP und läuft deshalb nicht automatisch; ohne ihn merkt
+der Bestand eine nachgereichte Synchro erst, wenn jemand den Lauf von Hand
+anstößt.
 
 ## Projektanalyse 07.09.2026: Stärken und Schwächen, gemessen
 
