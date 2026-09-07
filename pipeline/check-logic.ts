@@ -3198,6 +3198,22 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       linkPruefer.includes("alt.status === 'unklar'"),
     'sonst bucht ein misslungener Abruf eine tote ASIN für dreißig Tage als lebend',
   )
+  /*
+    **Und der Lauf hält an, wenn die Abwehr zumacht.**
+
+    Im ersten Lauf mit dem Riegel (07.09.2026) kamen nach 668 verwertbaren
+    Befunden **623 `unklar` am Stück** — Amazon hatte gesperrt, und der Lauf
+    klopfte weitere zwanzig Minuten dagegen. Die Gegenprobe im Einzelabruf:
+    Auch eine lebende Adresse kam nur noch als 3.815-Zeichen-Seite zurück.
+
+    Weiterlaufen bringt keinen Befund und verlängert die Sperre. Die Adressen
+    bleiben fällig und kommen im nächsten Lauf dran — dafür ist `unklar` da.
+  */
+  pruefe(
+    'der Lauf bricht ab, wenn Amazon in Serie Zwischenseiten schickt',
+    linkPruefer.includes('SPERR_SCHWELLE') && linkPruefer.includes('inFolgeUnklar'),
+    'gegen eine laufende Sperre zu klopfen bringt keinen Befund und verlängert sie',
+  )
   pruefe(
     'ein Bezugsweg auf dieselbe Adresse wie ein Verweis fliegt raus',
     bau.includes('die auf dieselbe Adresse zeigen wie ein Verweis desselben Titels'),

@@ -258,10 +258,42 @@ async function main(): Promise<void> {
   const arbeit = LIMIT > 0 ? offen.slice(0, LIMIT) : offen
   log(`Verweise: ${adressen.size} bekannt, ${offen.length} fällig, ${arbeit.length} in diesem Lauf.`)
 
+  /**
+   * **Ab einer Sperre bringt Weiterlaufen nichts — außer einer längeren Sperre.**
+   *
+   * Gemessen am 07.09.2026: Ein Lauf über 1.286 Amazon-Adressen lieferte 552
+   * gute und 116 tote Befunde — und danach **623 mal `unklar` am Stück**. Die
+   * Gegenprobe im Einzelabruf zeigte, woran das lag: Auch eine nachweislich
+   * lebende Adresse (`B0DML22FHP`, „Date a Live II", zuvor 936.253 Zeichen)
+   * kam nur noch als 3.815-Zeichen-Seite ohne Titel zurück. Amazons Bot-Abwehr
+   * hatte nach rund 660 Abrufen zugemacht, und zwar für alles Weitere.
+   *
+   * Ein zweiter Versuch nach ein paar Sekunden half bei keinem von zwölf
+   * Testfällen — die Sperre gilt nicht der einzelnen Anfrage. Also wird
+   * abgebrochen statt weitergeklopft: Die restlichen Adressen bleiben fällig
+   * (`unklar` zählt als ungeprüft) und kommen im nächsten Lauf dran, wenn die
+   * Sperre abgelaufen ist.
+   *
+   * Zwanzig in Folge, nicht fünf: Einzelne Zwischenseiten kommen auch im
+   * gesunden Betrieb vor, eine Serie von zwanzig ist die Abwehr.
+   */
+  const SPERR_SCHWELLE = 20
+  let inFolgeUnklar = 0
   let tot = 0
   let geprueft = 0
   for (const url of arbeit) {
     bestand[url] = await pruefe(url)
+    if (bestand[url].status === 'unklar') {
+      if (++inFolgeUnklar >= SPERR_SCHWELLE) {
+        warn(
+          `Abbruch nach ${geprueft} Adressen: ${SPERR_SCHWELLE} Zwischenseiten in Folge — Amazon sperrt gerade. ` +
+            `${arbeit.length - geprueft} bleiben fällig und kommen im nächsten Lauf dran.`,
+        )
+        break
+      }
+    } else {
+      inFolgeUnklar = 0
+    }
     if (bestand[url].status === 404 || bestand[url].status === 'region') tot++
     if (++geprueft % 100 === 0) log(`  ${geprueft}/${arbeit.length} — ${tot} unbrauchbar`)
     await sleep(700)

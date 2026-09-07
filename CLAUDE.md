@@ -3593,3 +3593,36 @@ Serieneintrag im Katalog kein `de-DE` führt. Wer das überspringt, wiederholt d
 
 Ein 404 sagt nichts über die Tonspur, aber viel über den Verweis: Die Adresse
 führt ins Leere und gehört geprüft.
+
+### Amazons Abwehr macht nach rund 660 Abrufen zu — und dann für alles
+
+Der erste Lauf mit dem Inhalts-Riegel (07.09.2026) über 1.286 Amazon-Adressen
+lieferte **552 gute und 116 tote** Befunde — und danach **623 mal `unklar` am
+Stück**. Zwanzig Minuten lang klopfte der Lauf gegen eine geschlossene Tür.
+
+Die Gegenprobe im Einzelabruf, unmittelbar danach: Auch `B0DML22FHP` („Date a
+Live II"), die eine Stunde zuvor 936.253 Zeichen mit vollem Produktinhalt
+geliefert hatte, kam nur noch als **3.815-Zeichen-Seite ohne Titel** zurück.
+Die Sperre gilt also nicht der einzelnen Adresse, sondern uns — und sie
+unterscheidet nicht zwischen lebenden und toten ASINs.
+
+**Zwei Dinge folgen daraus, und das erste ist das wichtigere:**
+
+- **Der Riegel hat gearbeitet.** Ohne ihn stünden jetzt 623 falsche „lebt" im
+  Bestand, jedes dreißig Tage haltbar. Mit ihm stehen dort 623 offene Fragen,
+  die im nächsten Lauf wieder drankommen. Das ist der ganze Unterschied
+  zwischen einer Messung und einer Behauptung.
+- **Ein zweiter Versuch nach Sekunden hilft nicht.** Eingebaut, an zwölf Fällen
+  gemessen, bei keinem einzigen erfolgreich — und wieder ausgebaut. Die Sperre
+  ist zeitlich, nicht anfragebezogen.
+
+Deshalb bricht der Lauf jetzt bei **zwanzig Zwischenseiten in Folge** ab
+(`SPERR_SCHWELLE` in `pipeline/check-links.ts`). Einzelne kommen auch im
+gesunden Betrieb vor; eine Serie von zwanzig ist die Abwehr. Was übrig bleibt,
+bleibt fällig.
+
+**Die allgemeine Form:** Bei einer Quelle mit Bot-Abwehr ist die erste Frage
+nicht „wie schnell darf ich fragen", sondern **„wie viel darf ich in einer
+Sitzung fragen"**. Ein Takt schützt vor Überlast, nicht vor einem Kontingent —
+und ein Lauf, der nach der Sperre weiterläuft, erzeugt keine Daten, sondern nur
+den Anschein von Arbeit.
