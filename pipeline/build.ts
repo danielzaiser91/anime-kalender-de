@@ -4280,6 +4280,27 @@ function main(): void {
       /* Was dieser Lauf selbst gerade verworfen hat, bleibt ohne Frist draußen. */
       ...verweiseEntfernt.map((e) => adressKern(e.url ?? '')),
     ])
+    /**
+     * **Eine tote Crunchyroll-Serie erkennt man an ihrer Kennung, nicht an der
+     * Adresse.** Dieselbe Serie taucht bei Crunchyroll mit und ohne `/de/` im
+     * Pfad auf, und `adressKern` gleicht das nicht aus — `frueherEntfernt`
+     * schützt deshalb nur die genaue Adresse, die einmal entfernt wurde.
+     *
+     * Am 07.09.2026 flog `.../de/series/G4PH0WJDQ/captain-tsubasa-junior-youth-arc`
+     * so aus dem Bestand (Crunchyroll: „nicht mehr verfügbar"), und dieselbe
+     * Runde hier legte Sekunden später `.../series/G4PH0WJDQ/...` — ohne
+     * `/de/`, aus aniSearch — als neuen Verweis wieder an. `check:cr-zuordnung`
+     * hat es zu Recht rot gemeldet: eine tote Serie, frisch verlinkt.
+     */
+    const toteCrSerienIds = new Set(
+      crDub.serien
+        .filter(
+          (s) =>
+            s.nichtVerfuegbar || (Boolean(s.seriesId) && s.katalog === 'de' && !(s.staffeln ?? []).length),
+        )
+        .map((s) => s.seriesId)
+        .filter((id): id is string => Boolean(id)),
+    )
     let wegeErgaenzt = 0
     const jeAnbieter: Record<string, number> = {}
     for (const title of titles.values()) {
@@ -4313,6 +4334,10 @@ function main(): void {
         if (!ziel || !url) continue
         if (vorhanden.has(ziel)) continue
         if (bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url))) continue
+        if (ziel === 'crunchyroll') {
+          const kennung = /\/series\/([A-Z0-9]+)/.exec(url)?.[1]
+          if (kennung && toteCrSerienIds.has(kennung)) continue
+        }
         /*
           **Ein verneinender Handbeleg hält den Verweis draußen — ein bejahender
           nicht.**

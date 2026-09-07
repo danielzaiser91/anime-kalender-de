@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-07T09:27:42.676Z",
+  "stand": "2026-09-07T09:34:32.060Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -8822,6 +8822,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-07",
       "letzterWeg": true
+    },
+    {
+      "titleId": 163024,
+      "titel": "Captain Tsubasa: Staffel 2 - Die Junioren",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/series/G4PH0WJDQ/captain-tsubasa-junior-youth-arc",
+      "seriesId": "G4PH0WJDQ",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-09-06",
+      "entferntAm": "2026-09-07",
+      "letzterWeg": false
     }
   ]
 }
