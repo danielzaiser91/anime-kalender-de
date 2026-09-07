@@ -2820,6 +2820,25 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     der Befund wurde nur nie angewandt. Diese Zusicherung sorgt dafür, dass die
     Umstellung nicht wieder still herausfällt.
   */
+  /*
+    **Die Serienkennung schlägt den Namensabgleich.**
+
+    Wo ein Crunchyroll-Verweis eine Kennung trägt (`/series/GXXXXXXXX/`), wird
+    sie direkt gegen `data/cr-katalog-de.json` gehalten — Zeichenkette gegen
+    Zeichenkette. Der Namensabgleich eine Runde davor braucht dagegen einen
+    strengen Filter, weil ein Namensteil immer den Reihennamen trifft (von 16
+    Zuordnungen waren am 29.08.2026 fünfzehn falsch).
+
+    Der Katalog ist der **deutsche**; aus ihm ist auch ein fehlendes `de-DE`
+    ein Beleg. Deshalb steht daneben die Bedingung `folgen`: Ein Eintrag ohne
+    abrufbare Folgen sagt über Tonspuren nichts.
+  */
+  pruefe(
+    'die Serienkennung wird gegen den deutschen Katalog gehalten',
+    bau.includes('über die Serienkennung im deutschen Katalog belegt') &&
+      bau.includes('if (!eintrag || !eintrag.folgen) continue'),
+    'ohne die Folgenbedingung würde ein leerer Katalogeintrag ein Nein erzeugen',
+  )
   pruefe(
     'RTL+-Adressen werden von tvnow.de umgestellt',
     bau.includes('RTL+-Adressen von der abgeschalteten Domain tvnow.de umgestellt'),

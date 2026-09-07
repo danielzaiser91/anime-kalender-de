@@ -3428,6 +3428,57 @@ function main(): void {
       ausKatalog++
     }
     if (ausKatalog) log(`${ausKatalog} über den vollständigen deutschen Katalog belegt`)
+
+    /**
+     * **Achte Runde: die Serienkennung aus der Adresse gegen den Katalog.**
+     *
+     * Die Runde darüber gleicht **Namen** ab und ist deshalb streng gefiltert —
+     * ein Namensteil trifft immer den Reihennamen. Wo der Verweis aber selbst
+     * eine Serienkennung trägt (`crunchyroll.com/de/series/GXXXXXXXX/…`),
+     * braucht es keinen Namensabgleich: Die Kennung steht in beiden Beständen,
+     * und `data/cr-katalog-de.json` nennt zu ihr die Tonspuren.
+     *
+     * Das ist derselbe Unterschied, der die RTL+-Umstellung am 07.09.2026
+     * tragfähig gemacht hat: **Zeichenkette gegen Zeichenkette statt Name gegen
+     * Name.** An den Fällen, an denen dieses Projekt gescheitert ist
+     * (`To Love-Ru`, `Wolf's Rain OVA`, die 16 Katalogzuordnungen vom
+     * 29.08.2026), war der Name jedes Mal das einzige Merkmal.
+     *
+     * **Der Katalog ist der deutsche** — er entsteht mit einem anonymen Token,
+     * dessen Region die der abrufenden IP ist, und läuft deshalb von Daniels
+     * Rechner (siehe `refresh-weekly.yml`). Damit gilt hier die Regel aus
+     * `CLAUDE.md`: Aus **diesem** Katalog ist auch ein fehlendes `de-DE` ein
+     * Beleg — anders als aus dem US-Katalog, wo es gar nichts heißt.
+     *
+     * **Eine Serie ohne Folgen wird übersprungen.** `folgen: 0` steht im
+     * Katalog für Einträge ohne abrufbare Folgen; über deren Tonspuren sagt die
+     * Liste nichts Belastbares.
+     *
+     * Gemessen am 07.09.2026: vier der 52 offenen Crunchyroll-Verweise tragen
+     * eine Kennung, die der Katalog führt — drei mit `de-DE`, einer ohne.
+     */
+    let ausKennung = 0
+    {
+      const katalog = readJson<{
+        geholtAm?: string
+        eintraege?: { id: string; audio?: string[]; folgen?: number }[]
+      }>('data/cr-katalog-de.json', {})
+      const nachKennung = new Map((katalog.eintraege ?? []).map((e) => [e.id, e]))
+      if (nachKennung.size) {
+        for (const title of titles.values()) {
+          for (const stream of title.streams) {
+            if (stream.platform !== 'crunchyroll' || stream.dub !== undefined) continue
+            const kennung = /\/series\/([A-Z0-9]+)/.exec(stream.url)?.[1]
+            if (!kennung) continue
+            const eintrag = nachKennung.get(kennung)
+            if (!eintrag || !eintrag.folgen) continue
+            stream.dub = (eintrag.audio ?? []).includes('de-DE')
+            ausKennung++
+          }
+        }
+      }
+      if (ausKennung) log(`${ausKennung} über die Serienkennung im deutschen Katalog belegt`)
+    }
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
     /*

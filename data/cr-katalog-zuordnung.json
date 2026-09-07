@@ -1,74 +1,75 @@
 [
   {
-    "id": 20919,
-    "unser": "Project Itoh: Genocidal Organ",
-    "katalogId": "GW4HM7NZX",
-    "katalogTitel": "Genocidal Organ",
+    "id": 2273,
+    "unser": "Gundam Wing: Endless Waltz",
+    "katalogId": "GMTE00129209",
+    "katalogTitel": "Mobile Suit Gundam Wing ENDLESS WALTZ",
     "audio": [
-      "ja-JP",
-      "de-DE"
-    ],
-    "art": "Name exakt",
-    "folgen": 0
-  },
-  {
-    "id": 20932,
-    "unser": "Project Itoh: Harmony",
-    "katalogId": "GEXH3W5VN",
-    "katalogTitel": "Harmony",
-    "audio": [
-      "de-DE",
       "ja-JP"
     ],
     "art": "Name exakt",
-    "folgen": 0
+    "folgen": 1
   },
   {
-    "id": 20965,
-    "unser": "Project Itoh: The Empire of Corpses",
-    "katalogId": "GKEH2G77X",
-    "katalogTitel": "The Empire of Corpses",
+    "id": 20646,
+    "unser": "Inou Battle Within Everyday Life",
+    "katalogId": "GYMGDZN4Y",
+    "katalogTitel": "When Supernatural Battles Became Commonplace",
     "audio": [
-      "ja-JP",
-      "de-DE"
-    ],
-    "art": "Name exakt",
-    "folgen": 0
-  },
-  {
-    "id": 97917,
-    "unser": "Night is Short, Walk on Girl",
-    "katalogId": "GP5HJ8QJP",
-    "katalogTitel": "Night is Short, Walk On Girl",
-    "audio": [
-      "de-DE",
       "ja-JP"
     ],
     "art": "Name exakt",
-    "folgen": 0
+    "folgen": 12
   },
   {
-    "id": 98249,
-    "unser": "Lu over the Wall",
-    "katalogId": "G3KHEVPE1",
-    "katalogTitel": "Lu Over the Wall",
+    "id": 100112,
+    "unser": "Wise Man’s Grandchild",
+    "katalogId": "G63K95846",
+    "katalogTitel": "Wise Man's Grandchild",
     "audio": [
       "ja-JP",
-      "de-DE"
+      "es-419",
+      "pt-BR",
+      "en-US"
     ],
     "art": "Name exakt",
-    "folgen": 0
+    "folgen": 12
   },
   {
-    "id": 105018,
-    "unser": "Ride Your Wave",
-    "katalogId": "GMEHMEJ97",
-    "katalogTitel": "Ride Your Wave",
+    "id": 112818,
+    "unser": "Super HxEros",
+    "katalogId": "GJ0H7QXJ8",
+    "katalogTitel": "SUPER HXEROS",
     "audio": [
-      "ja-JP",
-      "de-DE"
+      "en-US",
+      "ja-JP"
     ],
     "art": "Name exakt",
-    "folgen": 0
+    "folgen": 12
+  },
+  {
+    "id": 118419,
+    "unser": "The Day I Became a God",
+    "katalogId": "G3KHEV3MV",
+    "katalogTitel": "The Day I Became a God",
+    "audio": [
+      "en-US",
+      "ja-JP"
+    ],
+    "art": "Name exakt",
+    "folgen": 12
+  },
+  {
+    "id": 136192,
+    "unser": "Fruits Basket: Prelude",
+    "katalogId": "GMTE00119156",
+    "katalogTitel": "-prelude-",
+    "audio": [
+      "de-DE",
+      "en-US",
+      "ja-JP"
+    ],
+    "art": "Katalogtitel steckt in unserem",
+    "folgen": 1
   }
 ]
