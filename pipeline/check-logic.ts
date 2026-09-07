@@ -2783,6 +2783,27 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   {
     const seiten = readFileSync('pipeline/build-share-pages.ts', 'utf8')
+    /*
+      **Strukturierte Daten sind das Signal, das Google direkt versteht.**
+
+      Am 07.09.2026 trug keine einzige Seite einen `ld+json`-Block — bei einer
+      Seite, deren Kern ein Termin ist, die naheliegendste Auskunft überhaupt.
+      Gleichzeitig standen 562 Seiten als „Gefunden – zurzeit nicht indexiert".
+
+      Der Typ folgt dem Werk: ein Film ist `Movie`, alles andere `TVSeries`.
+      Ein Typ für beides behauptet für eine Blu-ray-Box dasselbe wie für eine
+      wöchentliche Ausstrahlung.
+    */
+    pruefe(
+      'die Teilen-Seiten tragen strukturierte Daten',
+      seiten.includes('application/ld+json') && seiten.includes('function strukturierteDaten('),
+      'ohne JSON-LD fehlt die Auskunft, was die Seite überhaupt ist',
+    )
+    pruefe(
+      'ein Film bekommt Movie, eine Serie TVSeries',
+      seiten.includes("istFilm ? 'Movie' : 'TVSeries'"),
+      'ein Typ für beides behauptet für eine Disc dasselbe wie für eine Ausstrahlung',
+    )
     pruefe(
       'die Teilen-Seiten verlinken die anderen Ausgaben desselben Titels',
       seiten.includes('Weitere Ausgaben von') && seiten.includes('const jeTitel = new Map<number, Release[]>()'),

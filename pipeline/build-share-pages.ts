@@ -196,6 +196,63 @@ function body(
     </article>`
 }
 
+/**
+ * **Strukturierte Daten — das Signal, das Google direkt versteht.**
+ *
+ * Gemessen am 07.09.2026: Weder die Startseite noch eine Teilen-Seite trug
+ * einen einzigen `application/ld+json`-Block. Für eine Seite, deren Kern ein
+ * **Termin** ist, ist das die naheliegendste Auskunft überhaupt — und sie
+ * fehlte vollständig, während 562 Seiten als „Gefunden – zurzeit nicht
+ * indexiert" in der Search Console standen.
+ *
+ * **Nichts wird erfunden.** Jedes Feld hier stammt aus dem Datensatz: Name,
+ * Beschreibung, Bild, Genres, Folgenzahl, Termin. Kein `aggregateRating`, kein
+ * `offers` — beides hätten wir nicht belegt, und die Regel dieses Projekts
+ * gilt für Maschinenleser genauso wie für Menschen.
+ *
+ * **Der Typ folgt dem Werk, nicht dem Release.** Ein Film ist `Movie`, alles
+ * andere `TVSeries`; das Release liefert den Termin dazu. Wer beides in einen
+ * Typ presst, behauptet für eine Blu-ray-Box dieselbe Sache wie für eine
+ * wöchentliche Ausstrahlung.
+ */
+function strukturierteDaten(release: Release, title: Title | undefined, today: string): string {
+  const events = expandEvents(release)
+  const next = events.find((e) => e.date >= today) ?? events[0]
+  const url = `${SITE}r/${release.slug}/`
+
+  const istFilm = title?.format === 'MOVIE'
+  const daten: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': istFilm ? 'Movie' : 'TVSeries',
+    name: release.name,
+    url,
+    inLanguage: 'de',
+    /* Dieselbe Beschreibung wie im og:description — eine Auskunft, eine Quelle. */
+    description: describe(release, title, today),
+  }
+
+  /* Nur setzen, was wirklich dasteht — ein leeres Feld ist schlechter als keins. */
+  if (title?.genres?.length) daten.genre = title.genres.slice(0, 5).map((g) => GENRE_DE[g] ?? g)
+  if (!istFilm && title?.episodes) daten.numberOfEpisodes = title.episodes
+  if (title?.jpYear) daten.datePublished = String(title.jpYear)
+  daten.image = `${SITE}og/${release.slug}.jpg`
+
+  /*
+    Der Termin als eigenes Ereignis. `BroadcastEvent` passt für eine
+    Ausstrahlung, `PublicationEvent` für eine Veröffentlichung — bei einer
+    Disc oder einem Streaming-Start ist das Zweite richtig.
+  */
+  if (next?.date) {
+    daten.releasedEvent = {
+      '@type': 'PublicationEvent',
+      startDate: next.date,
+      location: { '@type': 'VirtualLocation', name: PLATFORMS[release.platform].name },
+    }
+  }
+
+  return `    <script type="application/ld+json">${JSON.stringify(daten)}</script>`
+}
+
 function head(release: Release, title: Title | undefined, today: string): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
@@ -223,6 +280,7 @@ function head(release: Release, title: Title | undefined, today: string): string
     <meta name="twitter:description" content="${esc(description)}" />
     <meta name="twitter:image" content="${image}" />
     <link rel="canonical" href="${url}" />
+${strukturierteDaten(release, title, today)}
     <script>
       // Läuft vor dem Modul-Skript der App, weil klassische Inline-Skripte
       // nicht deferred sind. Nur setzen, wenn der Besucher nicht schon selbst
