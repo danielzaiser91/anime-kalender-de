@@ -2726,6 +2726,28 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       bau.indexOf('Verweise ohne deutsche Synchro entfernt'),
     'weiter oben sind die Anbieter noch besetzt — dann ergänzt der Block fast nichts',
   )
+  /*
+    **Ein belegtes Nein hat eine Frist.**
+
+    Der Riegel hielt einen entfernten Verweis dauerhaft draußen. Bei „Kill Blue"
+    hieß das: Am 24.08.2026 null deutsche Folgen bei Crunchyroll, Verweis zu
+    Recht entfernt — am 06.09. erschienen die Folgen 1–8 auf Deutsch, und der
+    Kalender zeigte weiter keinen Weg. Er behauptete damit das Gegenteil der
+    Wirklichkeit.
+
+    Dieselbe Regel gilt seit dem 15.08.2026 für Warteschlangen; das Gedächtnis
+    war die Stelle, an der sie nie angewandt wurde.
+  */
+  pruefe(
+    'ein belegtes Nein veraltet nach einer Frist',
+    bau.includes('const NEIN_GILT_TAGE = 28') && bau.includes("(e.entferntAm ?? '') >= neinGrenze"),
+    'ohne Frist bleibt ein Verweis draußen, auch wenn der Anbieter die Synchro aufnimmt',
+  )
+  pruefe(
+    'jeder entfernte Verweis bekommt ein Datum',
+    bau.includes('entferntAm: todayIso()'),
+    'ohne Datum ist die Frist nicht messbar',
+  )
   pruefe(
     'das Gedächtnis über Läufe hinweg wird gefragt',
     bau.includes("'data/verweise-entfernt.json'") &&
@@ -2873,6 +2895,20 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       'sonst meldet sie den Normalfall als Verlust',
     )
   }
+  /*
+    **Der Katalog legt einen Weg an, nicht nur ein Urteil.**
+
+    „Kill Blue" hatte am 24.08.2026 null deutsche Folgen bei Crunchyroll, der
+    Verweis flog zu Recht heraus. Am 06.09. erschienen die Folgen 1–8 auf
+    Deutsch — und kein einziger Lauf konnte das finden: Der Sendekalender führt
+    nachgereichte Katalog-Synchros nicht, und der Dub-Lauf prüft nur Serien mit
+    vorhandenem Verweis.
+  */
+  pruefe(
+    'der deutsche Katalog legt fehlende Crunchyroll-Wege an',
+    bau.includes('Crunchyroll-Wege neu angelegt') && bau.includes('const asCr ='),
+    'sonst findet niemand eine Synchro, die nach dem Entfernen des Verweises erscheint',
+  )
   pruefe(
     'die Katalog-Runde greift nur bei genau einer Staffel',
     bau.includes('if ((eintrag.staffeln ?? 0) !== 1) continue'),

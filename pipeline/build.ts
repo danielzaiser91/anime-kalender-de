@@ -1079,6 +1079,21 @@ interface EntfernterVerweis {
   seriesId: string | null
   grund: string
   geprueftAm: string | null
+  /**
+   * **Wann dieser Verweis entfernt wurde — die Frist hängt daran.**
+   *
+   * Ohne das Feld ist ein Nein für immer wahr, und genau daran ist am
+   * 07.09.2026 „Kill Blue" gescheitert: Am 24.08. hatte Crunchyroll dort **null**
+   * deutsche Folgen, der Verweis flog zu Recht heraus. Am 06.09. erschienen die
+   * Folgen 1–8 auf Deutsch — und der Kalender zeigte weiter keinen
+   * Crunchyroll-Weg, behauptete also das Gegenteil.
+   *
+   * Dieselbe Regel steht seit dem 15.08.2026 in `CLAUDE.md`, nur für
+   * Warteschlangen: „Jede Warteschlange wird nach dem Alter gebildet, nie nach
+   * ‚schon beantwortet'." Das Gedächtnis war die Stelle, an der sie nie
+   * angewandt wurde.
+   */
+  entferntAm: string | null
   letzterWeg: boolean
 }
 
@@ -3229,6 +3244,7 @@ function main(): void {
                 ? 'Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar'
                 : 'deutscher Katalog führt unter dieser Kennung keine einzige Staffel',
               geprueftAm: serie.geprueftAm ?? null,
+              entferntAm: todayIso(),
               /* Bleibt der Titel danach ganz ohne Weg? Das gehoert ins Protokoll. */
               letzterWeg: title.streams.length === 0,
             })
@@ -3502,6 +3518,65 @@ function main(): void {
         }
       }
       if (ausKennung) log(`${ausKennung} über die Serienkennung im deutschen Katalog belegt`)
+    }
+
+    /**
+     * **Neunte Runde: der Katalog legt den Verweis an, nicht nur das Urteil.**
+     *
+     * Die Runde darüber beurteilt einen Verweis, der schon dasteht. Genau daran
+     * ist am 07.09.2026 „Kill Blue" gescheitert, von Daniel gemeldet:
+     *
+     * - Am 24.08. hatte Crunchyroll dort **null** deutsche Folgen — der Verweis
+     *   flog zu Recht heraus.
+     * - Am **06.09.** erschienen die Folgen 1–8 auf Deutsch.
+     * - Der Kalender zeigte weiter keinen Crunchyroll-Weg und behauptete damit
+     *   das Gegenteil.
+     *
+     * **Kein einziger Lauf hätte es finden können**, und das ist der eigentliche
+     * Befund:
+     *
+     * | Lauf | was er sieht |
+     * |---|---|
+     * | `crunchyroll` (stündlich) | den **Sendekalender** — dort steht Kill Blue nicht, denn eine nachgereichte Katalog-Synchro ist kein Simulcast-Termin |
+     * | `crunchyroll-dub` (wöchentlich) | nur Serien, die **schon** einen Verweis haben |
+     * | `cr-katalog` | den ganzen deutschen Katalog — läuft aber nicht automatisch, weil er eine deutsche IP braucht |
+     *
+     * Diese Runde schließt die Lücke: Der Katalog nennt zu jeder Serienkennung
+     * ihre Tonspuren. Führt er `de-DE` und der Titel hat keinen
+     * Crunchyroll-Weg, entsteht er hier — mit Urteil, denn dieselbe Antwort
+     * belegt beides.
+     *
+     * **Die Zuordnung läuft über die aniSearch-Adresse**, nicht über den Namen.
+     * Ein Namensabgleich gegen 1.589 Katalogeinträge ist genau der Fehler, der
+     * am 29.08.2026 fünfzehn von sechzehn Zuordnungen falsch gemacht hat. Wo
+     * aniSearch eine Crunchyroll-Adresse mit Kennung führt, ist die Zuordnung
+     * dagegen eine Zeichenkette.
+     *
+     * **Und nur bei genau einer Staffel** — aus demselben Grund wie eine Runde
+     * darüber: Eine Serienkennung ist ein Franchise.
+     */
+    let ausKatalogNeu = 0
+    {
+      const katalog = readJson<{
+        eintraege?: { id: string; audio?: string[]; folgen?: number; staffeln?: number }[]
+      }>('data/cr-katalog-de.json', {})
+      const nachKennung = new Map((katalog.eintraege ?? []).map((e) => [e.id, e]))
+      if (nachKennung.size) {
+        for (const title of titles.values()) {
+          if (title.streams.some((s) => s.platform === 'crunchyroll')) continue
+          const asCr = (anisearch[title.id]?.streams ?? []).find((q) => q.provider === 'crunchyroll')
+          const kennung = /\/series\/([A-Z0-9]+)/.exec(asCr?.url ?? '')?.[1]
+          if (!kennung) continue
+          const eintrag = nachKennung.get(kennung)
+          if (!eintrag?.folgen || (eintrag.staffeln ?? 0) !== 1) continue
+          if (!(eintrag.audio ?? []).includes('de-DE')) continue
+          const url = (asCr?.url ?? '').split('?')[0]!
+          title.streams.push({ platform: 'crunchyroll', url, dub: true })
+          ausKatalogNeu++
+        }
+      }
+      if (ausKatalogNeu)
+        log(`${ausKatalogNeu} Crunchyroll-Wege neu angelegt: der deutsche Katalog führt sie mit deutscher Tonspur`)
     }
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
@@ -4079,6 +4154,7 @@ function main(): void {
         seriesId: null,
         grund: 'belegtes Nein: dort gibt es keine deutsche Tonspur',
         geprueftAm: null,
+        entferntAm: todayIso(),
         letzterWeg: title.streams.length === 0,
       })
     }
@@ -4164,10 +4240,44 @@ function main(): void {
       an, was er selbst eben verworfen hat — das Flattern, gegen das dieser
       Riegel gebaut ist, entstünde innerhalb einer einzigen Ausführung.
     */
+    /**
+     * **Ein belegtes Nein gilt 28 Tage, nicht für immer.**
+     *
+     * Der Riegel hielt einen einmal entfernten Verweis dauerhaft draußen. Das
+     * ist gegen das Flattern zwischen zwei Läufen richtig — und gegen die
+     * Wirklichkeit falsch, denn ein Anbieter nimmt eine deutsche Fassung auch
+     * **auf**.
+     *
+     * Belegt an „Kill Blue" (07.09.2026, von Daniel gemeldet): Am 24.08. führte
+     * Crunchyroll dort null deutsche Folgen, der Verweis flog zu Recht heraus.
+     * Am **06.09.** erschienen die Folgen 1–8 auf Deutsch — und der Kalender
+     * zeigte weiter keinen Crunchyroll-Weg. Das ist die schlimmste Art Fehler,
+     * die diese Seite machen kann: Sie behauptet nicht zu wenig, sondern das
+     * Gegenteil.
+     *
+     * **Dieselbe Regel steht seit dem 15.08.2026 in `CLAUDE.md`**, nur für
+     * Warteschlangen: „Jede Warteschlange wird nach dem Alter gebildet, nie
+     * nach ‚schon beantwortet'." Das Gedächtnis war die Stelle, an der sie nie
+     * angewandt wurde — und es ist dieselbe Begründung: Verliert ein Dienst die
+     * Lizenz, verschwindet die Fassung; bekommt er sie, erscheint sie.
+     *
+     * **28 Tage** sind dieselbe Frist, die `scrape-crunchyroll-dub.ts` für die
+     * Wiedervorlage nutzt. Sie ist lang genug, dass kein Lauf gegen den
+     * nächsten flattert, und kurz genug, dass eine neue Synchro binnen eines
+     * Monats ankommt.
+     *
+     * **Einträge ohne Datum gelten als alt** — sie stammen aus der Zeit vor
+     * diesem Feld, und ihr Nein ist entsprechend ungeprüft. Sie kommen damit
+     * beim nächsten Bau alle einmal zurück in die Prüfung; das ist gewollt.
+     */
+    const NEIN_GILT_TAGE = 28
+    const neinGrenze = addDays(todayIso(), -NEIN_GILT_TAGE)
     const frueherEntfernt = new Set([
-      ...(readJson<{ verweise?: { url?: string }[] }>('data/verweise-entfernt.json', {}).verweise?.map(
-        (e) => adressKern(e.url ?? ''),
-      ) ?? []),
+      ...(readJson<{ verweise?: { url?: string; entferntAm?: string | null }[] }>(
+        'data/verweise-entfernt.json',
+        {},
+      ).verweise?.filter((e) => (e.entferntAm ?? '') >= neinGrenze).map((e) => adressKern(e.url ?? '')) ?? []),
+      /* Was dieser Lauf selbst gerade verworfen hat, bleibt ohne Frist draußen. */
       ...verweiseEntfernt.map((e) => adressKern(e.url ?? '')),
     ])
     let wegeErgaenzt = 0
@@ -4388,6 +4498,7 @@ function main(): void {
           seriesId: null,
           grund: 'belegtes Nein: dort gibt es keine deutsche Tonspur',
           geprueftAm: null,
+          entferntAm: todayIso(),
           letzterWeg: title.streams.length === 0,
         })
       }

@@ -527,18 +527,31 @@ function AntwortKasten({
       {pillen.length > 0 && (
         <div className="border-t border-slate-200/70 pt-2.5 dark:border-white/10">
           {/*
-            **Eine Reihe, nicht zwei.**
+            **Umbrechen statt scrollen — der Platz ist ohnehin reserviert.**
 
-            Bis zum 03.09.2026 abends waren zwei Reihen fest reserviert, und
-            `grid-flow-col` füllte erst die Spalte: Zwei Pillen standen
-            untereinander, obwohl nebeneinander Platz für vier gewesen wäre.
-            Daniel: „zu viel platz verschwendung."
+            Die Geschichte dieser Zeile in drei Schritten:
 
-            Jetzt eine Reihe, die nach rechts läuft. Der Kasten behält seine
-            feste Höhe, und was nicht hineinpasst, wird gescrollt statt den Kopf
-            zu verschieben.
+            1. Bis zum 03.09.2026 waren zwei Reihen fest reserviert, und
+               `grid-flow-col` füllte erst die Spalte: Zwei Pillen standen
+               untereinander, obwohl nebeneinander Platz für vier war. Daniels
+               Urteil: „zu viel platz verschwendung."
+            2. Danach **eine** Reihe mit `overflow-x-auto`. Das löste die
+               Verschwendung und schuf die Gegenrichtung: Der Kasten ist für
+               zwei Zeilen hoch, die Pillen blieben in der ersten, und darunter
+               erschien ein Rollbalken über leerem Raum (Daniel, 07.09.2026:
+               „die blaue box ist extra 2 zeilen hoch, verteilen sich die pills
+               nicht über die 2 zeilen … 1 zeile die doppelt so hoch wie pills
+               ist und flex-wrap hat, müsste es doch easy gefixed sein?").
+            3. Jetzt `flex-wrap`: Die Pillen füllen die erste Reihe und
+               brechen in die zweite um, wenn sie nicht passen.
+
+            **Die feste Höhe bleibt trotzdem gewahrt.** Sie war Daniels Vorgabe
+            vom 03.09. („height Änderung der Box durch feste Höhe verhindern"),
+            und `check:panel` misst sie. Deshalb begrenzt `max-h` die Reihe auf
+            zwei Zeilen; was auch dort nicht hineinpasst — bei fünf und mehr
+            Anbietern — wird gescrollt, jetzt aber senkrecht und erst dann.
           */}
-          <div className="flex min-h-[2.1rem] items-start gap-1.5 overflow-x-auto pb-1">
+          <div className="flex max-h-[6.1rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
             {pillen}
           </div>
         </div>
