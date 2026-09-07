@@ -90,6 +90,23 @@ export interface DubCheck {
 
 const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')
 
+/**
+ * Adressen vergleichen sich nur ohne Protokoll, Parameter und Schrägstrich —
+ * und bei Amazon zusätzlich ohne den Pfadteil vor der Kennung: Dieselbe Ausgabe
+ * steht dort als `/dp/<ASIN>` und als `/gp/video/detail/<ASIN>`.
+ */
+export function adressKern(u: string | undefined): string {
+  if (!u) return ''
+  const ohne = u
+    .replace(/^https?:\/\//, '')
+    .replace(/^www\./, '')
+    .split('?')[0]!
+    .replace(/\/$/, '')
+    .toLowerCase()
+  const asin = /\/(?:dp|gp\/video\/detail)\/([a-z0-9]{10,26})/.exec(ohne)?.[1]
+  return asin ? `amazon:${asin}` : ohne
+}
+
 export function loadDubChecks(): DubCheck[] {
   if (!existsSync(DATEI)) return []
   const raw = yaml.load(readFileSync(DATEI, 'utf8'))
@@ -125,8 +142,37 @@ export function loadDubChecks(): DubCheck[] {
       warn(`dub-confirmed.yaml: ${item.anilistId}/${item.platform} ohne checkedAt`)
       continue
     }
-    const schluessel = dubKey(item.anilistId, item.platform)
-    const vorhanden = out.findIndex((x) => dubKey(x.anilistId, x.platform) === schluessel)
+    /**
+     * **Zwei Ausgaben sind zwei Belege — verschmolzen wird nur, was dieselbe
+     * Adresse meint.**
+     *
+     * Bis zum 07.09.2026 lief der Schlüssel über Titel und Plattform allein.
+     * Prime führt denselben Anime aber regelmäßig zweimal, und die beiden
+     * Ausgaben haben verschiedene Tonspuren:
+     *
+     * | Adresse | was sie ist | Deutsch |
+     * |---|---|---|
+     * | `B0CK5N448R` | Date a Live IV im Prime-Abo | ja |
+     * | `B0CJJF26WZ` | derselbe Titel über den Crunchyroll-Kanal | nein |
+     *
+     * Beide Zeilen wurden zu einer verschmolzen, das `dub: true` gewann — und
+     * färbte den Verweis, der auf die **Kanal**-Adresse zeigt. Daniel am
+     * 07.09.2026: „staffel 4 und 5 wurden von mir gemeldet auf prime, und beide
+     * haben dort keine synchro, also wieso steht da DE ✅??? … schlimmer
+     * fehler". Er hatte recht, und die Meldung war seit dem 28.08. da.
+     *
+     * Dieselbe Lehre steht seit dem 25.08.2026 in `CLAUDE.md`, nur für die
+     * andere Richtung: „Eine Amazon-Kennung zeigt auf eine Staffel, unsere
+     * Titel-Kennung auf einen Anime." Wer zwei Angaben zu „derselben Serie"
+     * zusammenlegt, muss zuerst prüfen, ob sie dieselbe Ausgabe meinen.
+     *
+     * **Ein Eintrag ohne Adresse gilt weiter für die ganze Plattform** — das
+     * ist der Normalfall und die Mehrheit der 3.000 Belege.
+     */
+    const schluessel = `${dubKey(item.anilistId, item.platform)}|${adressKern(item.url)}`
+    const vorhanden = out.findIndex(
+      (x) => `${dubKey(x.anilistId, x.platform)}|${adressKern(x.url)}` === schluessel,
+    )
     if (vorhanden >= 0) out[vorhanden] = verschmelze(out[vorhanden]!, item)
     else out.push(item)
   }
@@ -174,4 +220,10 @@ function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
 
 export function dubKey(anilistId: number, platform: string): string {
   return `${anilistId}|${platform}`
+}
+
+/** Meinen zwei Adressen dieselbe Ausgabe? */
+export function adressGleich(a: string | undefined, b: string | undefined): boolean {
+  const ka = adressKern(a)
+  return Boolean(ka) && ka === adressKern(b)
 }

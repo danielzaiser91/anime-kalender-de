@@ -14,7 +14,7 @@ import {
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { zugangsart } from '../shared/zugangsart.ts'
-import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
+import { adressGleich, dubKey, loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
 import {
   beurteile,
   beurteileBlockketten,
@@ -2489,7 +2489,61 @@ function main(): void {
   // `loadDubChecks()` führt mehrere Zeilen zu einem Verweis bereits zusammen und
   // lässt dabei den jüngeren Befund gewinnen — hier liegt je Schlüssel genau
   // einer vor.
-  const checks = new Map(loadDubChecks().map((c) => [dubKey(c.anilistId, c.platform), c]))
+  /**
+   * **Der Beleg zur Adresse schlägt den Beleg zur Plattform.**
+   *
+   * `loadDubChecks()` hält seit dem 07.09.2026 je Ausgabe einen eigenen Eintrag
+   * — vorher verschmolzen zwei Prime-Ausgaben desselben Titels zu einem, und
+   * ein `dub: true` für die eine färbte die andere (Date a Live IV: Prime-Abo
+   * mit Deutsch, Crunchyroll-Kanal ohne). Hier wird ausgewählt, welcher gilt:
+   *
+   * 1. der Beleg mit **derselben** Adresse wie der Verweis,
+   * 2. sonst der Beleg **ohne** Adresse — er gilt der Plattform,
+   * 3. sonst keiner. Ein Beleg zu einer fremden Ausgabe sagt nichts über diese.
+   *
+   * Punkt 3 ist der eigentliche Fix. Er ist streng, und das muss er sein: Ein
+   * Ja für die falsche Ausgabe ist genau die Behauptung, die diese Seite nicht
+   * machen darf.
+   */
+  const alleChecks = loadDubChecks()
+  const checksJePlattform = new Map<string, DubCheck[]>()
+  for (const c of alleChecks) {
+    const k = dubKey(c.anilistId, c.platform)
+    const liste = checksJePlattform.get(k) ?? []
+    liste.push(c)
+    checksJePlattform.set(k, liste)
+  }
+  const belegFuer = (
+    titleId: number,
+    plattform: PlatformId,
+    url?: string,
+    /** Wie viele Verweise dieser Plattform der Titel hat — entscheidet über die Strenge. */
+    anzahlWege = 1,
+  ): DubCheck | undefined => {
+    const liste = checksJePlattform.get(dubKey(titleId, plattform))
+    if (!liste?.length) return undefined
+    if (url) {
+      const genau = liste.find((c) => c.url && adressGleich(c.url, url))
+      if (genau) return genau
+    }
+    const ohneAdresse = liste.find((c) => !c.url)
+    if (ohneAdresse) return ohneAdresse
+    /*
+      **Bei einem einzigen Weg ist die Adresse im Beleg eine Korrektur, keine
+      Unterscheidung.**
+
+      Genau dafür ist das Feld da (siehe `DubCheck.url`): „Die richtige
+      Adresse, falls die im Datensatz danebenliegt." Wer hier streng vergleicht,
+      wirft 60 Belege weg, die den Verweis gerade richtigstellen sollen.
+
+      **Erst ab zwei Wegen wird die Adresse zur Unterscheidung** — dann gibt es
+      zwei Ausgaben, und ein Beleg für die eine sagt nichts über die andere. Das
+      ist der Date-a-Live-Fall vom 07.09.2026.
+    */
+    return anzahlWege > 1 ? undefined : liste[0]
+  }
+  /* Rückwärtsverträglich für die Stellen, die keine Adresse zur Hand haben. */
+  const checks = new Map(alleChecks.map((c) => [dubKey(c.anilistId, c.platform), c]))
   /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
   const youtubeBefunde = readJson<Record<string, { art: string; inDE: number }>>('data/youtube-check.json', {})
   /**
@@ -2665,7 +2719,7 @@ function main(): void {
         abgaenge.push({ ...stream, entferntAm: linkBefunde[stream.url]?.geprueftAm ?? todayIso() })
         return false
       }
-      const check = checks.get(dubKey(title.id, stream.platform))
+      const check = belegFuer(title.id, stream.platform, stream.url, title.streams.filter((x) => x.platform === stream.platform).length)
       if (check?.available === false) {
         entfernt++
         abgaenge.push({ ...stream, entferntAm: check.checkedAt ?? todayIso() })
@@ -4418,7 +4472,7 @@ function main(): void {
           den ganzen Bestand gemessen ist das **der einzige** Fall (1 von 1.092
           bejahenden Handbelegen), die Änderung ist also so eng wie ihr Anlass.
         */
-        const beleg = checks.get(dubKey(title.id, ziel))
+        const beleg = belegFuer(title.id, ziel, url)
         if (beleg && (beleg.dub !== true || beleg.available === false)) continue
         if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true) continue
         title.streams.push({ platform: ziel, url })
@@ -4529,7 +4583,7 @@ function main(): void {
           Dieselbe Lehre wie beim Rest dieses Blocks — wer unten ergänzt, muss
           unten auch beurteilen.
         */
-        const handBeleg = checks.get(dubKey(title.id, stream.platform))
+        const handBeleg = belegFuer(title.id, stream.platform, stream.url, (title.streams ?? []).filter((x) => x.platform === stream.platform).length)
         if (handBeleg?.dub !== undefined) {
           stream.dub = handBeleg.dub
           if (handBeleg.dubRanges?.length) {

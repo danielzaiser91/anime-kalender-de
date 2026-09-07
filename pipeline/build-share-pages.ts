@@ -182,6 +182,47 @@ function body(
       </ul>`
     : ''
 
+  /**
+   * **Wo es auf Deutsch läuft — die Auskunft, die es nur hier gibt.**
+   *
+   * Gemessen am 07.09.2026: 62 von 664 Seiten sind indexiert (9 %). Technisch
+   * ist nichts im Weg — jede Seite existiert, trägt ein `canonical`, keine ein
+   * `noindex`, und die robots.txt erlaubt alles. Was bleibt, ist dünner und
+   * einander ähnelnder Inhalt: 663 Seiten mit rund 1.500 Zeichen, aufgebaut
+   * aus Titel, Fakten und Beschreibung — und die Beschreibung ist bei allen
+   * Ausgaben derselben Serie dieselbe.
+   *
+   * Ausgerechnet die Angabe, für die es dieses Projekt gibt, stand auf keiner
+   * einzigen Teilen-Seite: **welcher Anbieter die deutsche Fassung führt, und
+   * bis zu welcher Folge.** Das ist einzigartiger Inhalt im Wortsinn — kein
+   * anderer Kalender trennt Synchro von Untertitel je Folge — und es
+   * beantwortet genau die Frage, mit der jemand sucht („… deutsch stream").
+   *
+   * **Nichts wird dabei behauptet.** Ein Verweis ohne Urteil erscheint gar
+   * nicht; ein Bereich wird nur genannt, wenn er belegt ist.
+   */
+  const wege = (title?.streams ?? []).filter((s) => s.dub === true)
+  const wegeBlock = wege.length
+    ? `<h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Wo ${esc(
+        title?.titleDe ?? title?.titleEn ?? title?.titleRomaji ?? release.name,
+      )} auf Deutsch läuft</h2>
+      <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">
+        ${wege
+          .map((s) => {
+            const belegt = (s.dubRanges ?? []).filter((r) => r.dub)
+            const spanne = belegt.length
+              ? belegt.map((r) => (r.from === r.to ? `Folge ${r.from}` : `Folgen ${r.from}–${r.to}`)).join(', ')
+              : title?.episodes
+                ? `alle ${title.episodes} Folgen`
+                : 'auf Deutsch'
+            return `<li><a href="${esc(s.url)}" rel="nofollow" style="color:#7dd3fc;">${esc(
+              PLATFORMS[s.platform].name,
+            )}</a> — ${esc(spanne)} auf Deutsch</li>`
+          })
+          .join('\n        ')}
+      </ul>`
+    : ''
+
   return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(release.name)}</h1>
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>
@@ -191,6 +232,7 @@ function body(
       <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">
         ${termine || '<li>Noch kein Termin erfasst.</li>'}
       </ul>
+      ${wegeBlock}
       ${andere}
       <p><a href="${esc(SITE + hash)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
     </article>`

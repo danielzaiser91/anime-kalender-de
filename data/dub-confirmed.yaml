@@ -26083,6 +26083,25 @@
     JustWatch am 07.09. (audio ja,pt -- Deutsch nur als Untertitel).
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-07 ---
+# --- Date a Live: die FSK-18-Fassung bei Prime hat keine deutsche Tonspur ---
+#
+# B0CJJF26WZ ist der Crunchyroll-Kanal-Titel und fuehrt dort nur die Staffeln 4
+# und 5. Die Meldung vom 28.08.2026 nennt als Tonspuren English, Espanol
+# (Latinoamerica), Francais und Japanisch -- kein Deutsch. Daniel hat es am
+# 07.09.2026 am Bildschirm bestaetigt: "beide haben dort keine synchro".
+#
+# Zwei Quellen also, und die zweite ist unabhaengig von Amazons Kanalangabe:
+# seine eigene Ansicht der Seite. Damit ist es ein belegtes Nein und der
+# Verweis faellt heraus; die echten Prime-Ausgaben stehen in watch-links.yaml.
+- anilistId: 116605
+  title: "Date a Live IV"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJJF26WZ
+  dub: false
+  checkedAt: '2026-09-07'
+  note: >-
+    FSK-18-Fassung ueber den Crunchyroll-Kanal, Tonspuren en/es/fr/ja. Daniel am
+    07.09.2026: "staffel 4 und 5 ... haben dort keine synchro".
 
 - anilistId: 19163
   title: "Date a Live II"
@@ -26122,3 +26141,14 @@
   dub: true
   checkedAt: '2026-09-07'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FLKK79P9: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 5, zugang=kauf_oder_leihe"
+
+- anilistId: 19163
+  title: "Date a Live II"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJJF26WZ
+  dub: false
+  checkedAt: '2026-09-07'
+  note: >-
+    Dieselbe FSK-18-Fassung, und sie fuehrt Staffel 2 gar nicht. Daniel am
+    07.09.2026: "das verlinkt zur fsk 18 fassung von date a live, die hat nur 2
+    staffeln (4 und 5) auf amazon".

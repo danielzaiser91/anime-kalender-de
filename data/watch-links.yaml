@@ -62,3 +62,36 @@
       kind: buy
   sources:
     - https://animoon-publishing.de/products/2-5-dimensional-seduction-vol-1
+
+# --- Date a Live: zwei Ausgaben bei Prime, und wir zeigten die falsche -------
+#
+# Daniel am 07.09.2026: "staffel 4 und 5 wurden von mir gemeldet auf prime, und
+# beide haben dort keine synchro, also wieso steht da DE?" -- und kurz darauf:
+# "staffel 4 und 5 sind also ueber 2 verweise erreichbar auf prime, du kennst
+# beide, aber wir zeigen nur echte verweise mit nachweislich synchro aktuell
+# oder in der vergangenheit, entsprechend fliegen die fsk18 verweise fuer
+# staffel 4 und 5 raus, und die anderen beiden verweise kommen rein."
+#
+# Prime fuehrt die Reihe doppelt:
+#
+#   B0CJJF26WZ   Crunchyroll-Kanal, S4+S5, Tonspuren en/es/fr/ja -- kein Deutsch
+#   B0CK5N448R   Prime-Abo, Staffel 4, Tonspur Deutsch (Beleg 28.08.2026)
+#   B0FLKK79P9   Prime, Staffel 5, Tonspur Deutsch (Beleg 28.08.2026)
+#
+# Im Bestand stand die Kanal-Adresse als Verweis, das Urteil kam aber vom Beleg
+# zur Prime-Adresse -- ein Ja fuer Ausgabe A an Ausgabe B. Genau das sah Daniel.
+- anilistId: 116605
+  title: Date a Live IV
+  streams:
+    - platform: primevideo
+      url: https://www.amazon.de/dp/B0CK5N448R
+  sources:
+    - https://www.amazon.de/dp/B0CK5N448R
+
+- anilistId: 151380
+  title: Date a Live V
+  streams:
+    - platform: primevideo
+      url: https://www.amazon.de/dp/B0FLKK79P9
+  sources:
+    - https://www.amazon.de/dp/B0FLKK79P9
