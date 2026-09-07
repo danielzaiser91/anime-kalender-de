@@ -292,6 +292,28 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
     }
   }
 
+  /*
+    **Wo man es sehen kann — als Maschinenauskunft.**
+
+    Der Block nennt seit dem 07.09.2026 Name, Genres, Folgenzahl und den
+    Termin. Was fehlte, ist genau die Angabe, für die es dieses Projekt gibt:
+    **welcher Anbieter die deutsche Fassung führt.** Schema.org kennt dafür
+    `potentialAction: WatchAction` mit einem `target` je Anbieter.
+
+    Aufgenommen wird nur, was belegt ist: ein Verweis mit `dub: true`. Ein
+    Fragezeichen wäre hier eine Behauptung — ein Suchergebnis, das „ansehen"
+    verspricht und zu einer Seite ohne deutsche Fassung führt, ist schlimmer
+    als keins.
+  */
+  const schauWege = (title?.streams ?? []).filter((s) => s.dub === true && s.url)
+  if (schauWege.length) {
+    daten.potentialAction = schauWege.map((s) => ({
+      '@type': 'WatchAction',
+      target: { '@type': 'EntryPoint', urlTemplate: s.url, actionPlatform: PLATFORMS[s.platform].name },
+      expectsAcceptanceOf: { '@type': 'Offer', availableAtOrFrom: { '@type': 'Country', name: 'DE' } },
+    }))
+  }
+
   return `    <script type="application/ld+json">${JSON.stringify(daten)}</script>`
 }
 
