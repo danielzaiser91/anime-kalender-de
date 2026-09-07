@@ -4948,6 +4948,42 @@ function main(): void {
       .replace(/\/$/, '')
       .toLowerCase()
   }
+  /**
+   * **Bei YouTube gilt eine Pille erst ab einer belegten Synchro.**
+   *
+   * Daniel am 07.09.2026 an „Kill Blue": „youtube hat nur untertitel, also weg
+   * damit, wir führen nur >1 folge synchro pillen dort."
+   *
+   * YouTube ist der einzige Anbieter im Bestand, bei dem ein Verweis meist auf
+   * eine **Playlist** zeigt, und was darin liegt, ist überwiegend untertitelt —
+   * Trailer, Werbefolgen, ganze Staffeln mit Untertiteln. Ein „🇩🇪 ?" behauptet
+   * dort nichts Falsches und ist trotzdem irreführend: Es sieht aus wie ein
+   * Weg zur deutschen Fassung, und in aller Regel ist es keiner.
+   *
+   * Bei jedem anderen Anbieter bleibt das Fragezeichen richtig, und diese
+   * Regel gilt ausdrücklich nur für YouTube. Der Unterschied ist die
+   * Trefferquote: Bei Netflix oder Prime führt ein unbeantworteter Verweis in
+   * aller Regel zu einer Seite, auf der es die Serie wirklich gibt.
+   *
+   * **Ins Gedächtnis der entfernten Verweise kommt das nicht.** Es ist kein
+   * belegtes Nein, sondern eine fehlende Auskunft — sobald eine Prüfung sie
+   * liefert, gehört der Weg zurück.
+   */
+  let youtubeStumm = 0
+  for (const title of titles.values()) {
+    if (!title.streams?.length) continue
+    const vorher = title.streams.length
+    title.streams = title.streams.filter((s) => {
+      if (s.platform !== 'youtube') return true
+      if (s.dub !== true) return false
+      /* „Mehr als eine Folge": Wo Bereiche stehen, werden sie gezählt; ohne Bereiche gilt der Beleg für den ganzen Weg. */
+      const belegt = (s.dubRanges ?? []).filter((r) => r.dub).reduce((n, r) => n + Math.max(0, r.to - r.from + 1), 0)
+      return !(s.dubRanges ?? []).length || belegt > 1
+    })
+    youtubeStumm += vorher - title.streams.length
+  }
+  if (youtubeStumm) log(`${youtubeStumm} YouTube-Verweise ohne belegte Synchro entfernt — dort führen wir nur belegte Wege`)
+
   let urteilGeerbt = 0
   for (const title of titles.values()) {
     if (!title.watchLinks?.length || !title.streams?.length) continue

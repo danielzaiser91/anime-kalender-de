@@ -26019,3 +26019,40 @@
   dub: true
   checkedAt: '2026-09-07'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CWF24FSQ: alle 12 Folgen geprüft, Abos: Prime, animedigitalde, aniversede, zugang=abo_und_kauf"
+
+# --- Kill Blue: Daniels Nachmessung am 07.09.2026 ---------------------------
+#
+# "crunchy und netflix haben 1-8 das hab ich doch reported, warum steht
+# weiterhin DE als haetten alle 12 synchro?"
+#
+# Die Belege vom 24.08. standen auf 1-4 und waren damals richtig; die deutsche
+# Fassung waechst mit der laufenden Ausstrahlung. Am 06.09. sind die Folgen 5-8
+# dazugekommen -- auf Crunchyroll neu, auf Netflix und ADN nachgezogen.
+#
+# Der Crunchyroll-Verweis trug bis dahin gar keinen Bereich: Er stammt aus dem
+# deutschen Katalog, und der antwortet auf Serienebene. Genau daran stand
+# "DE" ohne Einschraenkung an einer Serie, von der acht von zwoelf Folgen
+# synchronisiert sind.
+- anilistId: 198113
+  title: "KILL BLUE"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-09-07'
+  dubRanges:
+    - { from: 1, to: 8, dub: true }
+    - { from: 9, to: 12, dub: false }
+  note: >-
+    Daniel am 07.09.2026: "crunchy und netflix haben 1-8". Loest den Beleg vom
+    24.08. ab (damals 1-4).
+
+- anilistId: 198113
+  title: "KILL BLUE"
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-09-07'
+  dubRanges:
+    - { from: 1, to: 8, dub: true }
+    - { from: 9, to: 12, dub: false }
+  note: >-
+    Daniel am 07.09.2026: "crunchy und netflix haben 1-8". Der Katalog belegt
+    nur die Serienebene; die Folgengrenze kommt von seiner Messung.
