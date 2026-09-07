@@ -7845,12 +7845,35 @@
   checkedAt: '2026-08-23'
   note: "Videotitel: „Magical Girl Site Folge 1 (dt. Synchro) | KAZÉ Watch Together\" (Kanal: Crunchyroll Extras Deutschland)"
 
+- anilistId: 15583
+  title: "Date a Live"
+  platform: youtube
+  url: https://www.youtube.com/watch?v=RiuV5W30Xvc
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+    - from: 2
+      to: 12
+      dub: false
+  checkedAt: '2026-09-07'
+  note: "Folge 1 vollständig auf Deutsch (Daniel, 07.09.2026: „season 1 ep 1 date a live, deutsch komplett“) — der Verlag hat nur diese eine Folge auf seinem Kanal, die übrigen elf gibt es dort nicht"
+
 - anilistId: 100722
   title: "Date A Live III"
   platform: youtube
+  url: https://www.youtube.com/watch?v=YCjRubbaIHk
   dub: true
-  checkedAt: '2026-08-23'
-  note: "Videotitel: „Date A Live Season 3 Episode 1│ganze Anime-Folge (deutsch)\" (Kanal: ninotakutv)"
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+    - from: 2
+      to: 12
+      dub: false
+  checkedAt: '2026-09-07'
+  note: "Videotitel: „Date A Live Season 3 Episode 1│ganze Anime-Folge (deutsch)\" (Kanal: ninotakutv) — unter diesem Verweis liegt nur Folge 1; der Kanal hat den Rest nicht hochgeladen (Daniel, 07.09.2026)"
 
 - anilistId: 108430
   title: "given"

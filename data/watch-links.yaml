@@ -95,3 +95,15 @@
       url: https://www.amazon.de/dp/B0FLKK79P9
   sources:
     - https://www.amazon.de/dp/B0FLKK79P9
+
+# Der Verlag hat genau eine Folge auf seinem YouTube-Kanal — Folge 1, komplett
+# auf Deutsch (Daniel, 07.09.2026). Wie weit der Verweis reicht, steht als
+# Bereich im Handbeleg (`data/dub-confirmed.yaml`); ohne ihn stünde an der
+# Pille „alle 12 Folgen auf Deutsch", und das wäre für elf davon falsch.
+- anilistId: 15583
+  title: Date a Live
+  streams:
+    - platform: youtube
+      url: https://www.youtube.com/watch?v=RiuV5W30Xvc
+  sources:
+    - https://www.youtube.com/watch?v=RiuV5W30Xvc

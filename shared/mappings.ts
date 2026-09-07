@@ -833,25 +833,33 @@ const PROVIDER_NAMES: Record<string, string> = {
   /*
     **Abo-Kanäle fremder Anbieter innerhalb von Prime Video.**
 
-    Der Name nennt zuerst, wo man hinkommt, und dann, was man dort braucht:
-    „Prime Video — Crunchyroll Kanalabo". Wer ein Crunchyroll-Abo hat, kommt
-    mit dem Prime-Kanal nämlich nicht weiter — es ist ein eigenes Abo.
+    Der Name nennt den Ort und in Klammern den Kanal: „Amazon Prime
+    (Aniverse)". Beides muss drinstehen — wer ein Crunchyroll-Abo hat, kommt
+    mit dem Prime-Kanal nicht weiter, das ist ein eigenes Abo.
 
-    Bis zum 07.09.2026 stand es umgekehrt („Crunchyroll über Prime Video"),
-    und Daniel las es als Prime-Angebot: „prime video ist falsch, weil es
-    crunchyroll abo auf prime video ist. also schreib Prime Video -
-    Crunchyroll Kanalabo."
+    Zwei Fassungen davor, beide von Daniel korrigiert. Erst stand es umgekehrt
+    („Crunchyroll über Prime Video"), und er las es als Prime-Angebot: „prime
+    video ist falsch, weil es crunchyroll abo auf prime video ist. also schreib
+    Prime Video - Crunchyroll Kanalabo." Daraus wurde „Prime Video — Crunchyroll
+    Kanalabo", und am selben Abend fiel das Wort: „das kanalabo ist implizit, und
+    kann weg denk ich. und video klingt doof, schreib lieber Amazon Prime
+    (Aniverse)" (07.09.2026).
+
+    **Warum „Kanalabo" wirklich entbehrlich ist:** Die Klammer trägt die
+    Auskunft schon. „Amazon Prime (Aniverse)" liest sich als „bei Amazon Prime,
+    dort im Aniverse-Teil" — dass ein fremder Name in Klammern ein eigenes Abo
+    bedeutet, muss das Wort nicht buchstabieren.
   */
   primevideo: 'Prime Video',
-  'primevideo-channel-adn': 'Prime Video — ADN Kanalabo',
-  'primevideo-channel-aniverse': 'Prime Video — Aniverse Kanalabo',
-  'primevideo-channel-crunchyroll': 'Prime Video — Crunchyroll Kanalabo',
-  'primevideo-channel-hbo-max': 'Prime Video — HBO Max Kanalabo',
-  'primevideo-channel-kixi-select': 'Prime Video — Kixi Kanalabo',
-  'primevideo-channel-moviedome': 'Prime Video — Moviedome Kanalabo',
-  'primevideo-channel-pokemon': 'Prime Video — Pokémon TV Kanalabo',
-  'primevideo-channel-prosiebenfun': 'Prime Video — ProSieben Fun Kanalabo',
-  'primevideo-channel-sevenentertainment': 'Prime Video — Seven Entertainment Kanalabo',
+  'primevideo-channel-adn': 'Amazon Prime (ADN)',
+  'primevideo-channel-aniverse': 'Amazon Prime (Aniverse)',
+  'primevideo-channel-crunchyroll': 'Amazon Prime (Crunchyroll)',
+  'primevideo-channel-hbo-max': 'Amazon Prime (HBO Max)',
+  'primevideo-channel-kixi-select': 'Amazon Prime (Kixi)',
+  'primevideo-channel-moviedome': 'Amazon Prime (Moviedome)',
+  'primevideo-channel-pokemon': 'Amazon Prime (Pokémon TV)',
+  'primevideo-channel-prosiebenfun': 'Amazon Prime (ProSieben Fun)',
+  'primevideo-channel-sevenentertainment': 'Amazon Prime (Seven Entertainment)',
   // Leer heißt: nicht anzeigen. „Default" ist ein Datenfehler von TMDB,
   // „Amazon UK" führt in den britischen Shop.
   youtube: 'YouTube',

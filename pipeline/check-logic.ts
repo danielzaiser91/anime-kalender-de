@@ -3154,10 +3154,49 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
  */
 {
   const bau = readFileSync('pipeline/build.ts', 'utf8')
+  /*
+    **Die Zusicherung ist mit ihrer Regel gewandert.**
+
+    Sie hieß bis zum Abend des 07.09.2026 „ohne belegte Synchro wird entfernt"
+    und prüfte auf die Zählung `belegt > 1`. Am selben Abend präzisierte Daniel
+    die Vorgabe an einem Gegenbeispiel: „season 1 ep 1 date a live, deutsch
+    komplett. füg es hinzu, schreib auch das es nur diese ep unter diesem
+    verweis gibt, sodass kein falscher eindruck entsteht."
+
+    Damit entscheidet nicht mehr die Zahl der Folgen, sondern ob der **Umfang
+    ausgewiesen** ist — reichen die Bereiche bis zur letzten Folge, steht er in
+    der Pille. Die Prüfung greift jetzt an genau dieser Stelle: Fällt der
+    Vergleich `bisWohin >= gesamt` weg, ist die Regel weg.
+  */
   pruefe(
-    'ein YouTube-Verweis ohne belegte Synchro wird entfernt',
-    bau.includes('YouTube-Verweise ohne belegte Synchro entfernt'),
-    'dort zeigt ein Verweis meist auf eine Playlist, und was darin liegt, ist überwiegend untertitelt',
+    'ein YouTube-Verweis bleibt nur, wenn sein Umfang ausgewiesen ist',
+    bau.includes('bisWohin >= gesamt') && bau.includes('YouTube-Verweise entfernt, deren Umfang unbekannt bleibt'),
+    'sonst behauptet eine Pille alle Folgen, wo der Kanal nur die erste hat',
+  )
+  /*
+    **Amazons Fehlerseite kommt auch mit HTTP 200 — und ein leeres 200 ist kein Ja.**
+
+    Daniel meldete am 07.09.2026 vier tote Aniverse-Verweise an „Date a Live"
+    und stellte die Frage, um die es hier geht: „kannst du das auch selbst
+    mitbekommen und evtl generisch fixen? weil ich nicht alle manuell prüfen
+    kann."
+
+    Die Ursache stand im eigenen Bestand: `amazon.de/dp/B0C9VS255F` war am
+    24.08.2026 als **HTTP 200** gebucht; derselbe Abruf am 07.09.2026 antwortete
+    mit 404. Amazon hatte beim Massenlauf eine Zwischenseite geliefert, 200 und
+    ohne Inhalt — und damit war die Adresse dreißig Tage lang nicht mehr fällig.
+
+    Ohne beide Riegel zusammen bleibt die Lücke offen: `PRODUKTSEITE` erkennt
+    das leere 200, und `unklar` in der Fälligkeit sorgt dafür, dass es beim
+    nächsten Lauf wieder drankommt. Fehlt der zweite, ist der erste nur eine
+    andere Schreibweise für denselben Falschbefund.
+  */
+  const linkPruefer = readFileSync('pipeline/check-links.ts', 'utf8')
+  pruefe(
+    'ein Amazon-200 ohne Produktseite gilt nicht als lebende Adresse',
+    linkPruefer.includes('if (!PRODUKTSEITE.test(text)) return { status: \'unklar\'') &&
+      linkPruefer.includes("alt.status === 'unklar'"),
+    'sonst bucht ein misslungener Abruf eine tote ASIN für dreißig Tage als lebend',
   )
   pruefe(
     'ein Bezugsweg auf dieselbe Adresse wie ein Verweis fliegt raus',

@@ -306,6 +306,9 @@ const TEXTE = {
   // Bereich. Ausgeschrieben stand es in einer Pille, die dafür zu schmal ist.
   'detail.dubUntil': '✓ DE 1–{n}',
   'detail.dubFrom': '✓ DE ab {n}',
+  // Wo nur die erste Folge dort liegt — auf einem Verlagskanal bei YouTube der
+  // Normalfall. „1–1" wäre richtig gerechnet und trotzdem verwirrend.
+  'detail.dubNurEine': '✓ DE nur Fg. 1',
   'detail.dubUntilTitel': 'Deutscher Ton bis Folge {n}',
   'detail.dubFromTitel': 'Deutscher Ton ab Folge {n}',
   'detail.genres': 'Genres',

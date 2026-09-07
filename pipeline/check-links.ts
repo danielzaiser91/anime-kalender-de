@@ -87,6 +87,42 @@ const heute = () => new Date().toISOString().slice(0, 10)
 const AMAZON_VIDEO = /amazon\.[a-z.]+\/(gp\/video\/detail|dp)\//i
 const NICHT_IN_REGION = /In deiner Region nicht mehr auf Prime Video verfügbar/i
 
+/**
+ * **Amazons Fehlerseite kommt auch mit HTTP 200 — und ein leeres 200 ist kein Ja.**
+ *
+ * Gefunden am 07.09.2026, nachdem Daniel vier tote Aniverse-Verweise an „Date a
+ * Live" gemeldet hatte („aniverse pill hier führt auf toten link", dann Staffel
+ * 4, dann Staffel 3) und dazu die entscheidende Frage stellte: „kannst du das
+ * auch selbst mitbekommen und evtl generisch fixen? weil ich nicht alle manuell
+ * prüfen kann."
+ *
+ * Der Bestand sagte für `amazon.de/dp/B0C9VS255F`: **HTTP 200, geprüft am
+ * 24.08.2026**. Derselbe Abruf am 07.09.2026 lieferte 404 mit dem Titel „Seite
+ * wurde nicht gefunden" — die ASIN gab es also schon damals nicht. Amazon hatte
+ * beim Massenlauf eine Zwischenseite ausgeliefert, 200 und ohne Inhalt, und der
+ * Lauf hat sie als „lebt" gebucht. Danach war die Adresse dreißig Tage lang
+ * nicht mehr fällig.
+ *
+ * Das ist derselbe Fehlgriff, den der Kommentar zu `prime` unten für **ein
+ * Feld** schon beschreibt — nur trifft er hier den Status selbst, und der
+ * entscheidet über den Verbleib des Verweises.
+ *
+ * **Zwei Riegel, beide messbar:**
+ *
+ * - `NICHT_GEFUNDEN` — Amazons Wortlaut der Fehlerseite. Sie kommt meist mit
+ *   404, aber nicht immer; der Text ist die verlässlichere Angabe.
+ * - `PRODUKTSEITE` — eine echte Amazon-Detailseite trägt eines dieser Merkmale.
+ *   Fehlen sie **alle** bei einem 200, war es keine Produktseite: Dann wird
+ *   `unklar` gespeichert statt einer Zusage, und die Adresse ist beim nächsten
+ *   Lauf sofort wieder fällig (siehe `offen` in `main`).
+ *
+ * Gemessen an zwei Adressen: die tote Seite ist 2.299 Zeichen lang und trägt
+ * keines der Merkmale, die lebende (`B0DML22FHP`, „Date A Live") 936.253 mit
+ * allen.
+ */
+const NICHT_GEFUNDEN = /keine funktionsfähige Seite auf unserer Website|Seite wurde nicht gefunden/i
+const PRODUKTSEITE = /dp-container|productTitle|av-detail-section|\|\s*Prime Video/i
+
 async function pruefe(url: string): Promise<Befund> {
   try {
     const res = await fetch(url, {
@@ -97,6 +133,15 @@ async function pruefe(url: string): Promise<Befund> {
     if (res.ok && AMAZON_VIDEO.test(url)) {
       const text = await res.text()
       if (NICHT_IN_REGION.test(text)) return { status: 'region', geprueftAm: heute() }
+      /* Fehlerseite trotz 200 — dieselbe Aussage wie ein 404, nur anders verpackt. */
+      if (NICHT_GEFUNDEN.test(text)) return { status: 404, geprueftAm: heute() }
+      /*
+        Ein 200 ohne jedes Produktmerkmal beweist nichts über die Adresse,
+        sondern nur, dass Amazon uns diesmal etwas anderes geschickt hat. Als
+        `unklar` gespeichert bleibt es beim nächsten Lauf fällig — als 200
+        gespeichert wäre es dreißig Tage lang eine falsche Zusage.
+      */
+      if (!PRODUKTSEITE.test(text)) return { status: 'unklar', geprueftAm: heute() }
       /**
        * `prime` wird nur gesetzt, wenn es **zutrifft** — nie auf `false`.
        *
@@ -196,7 +241,13 @@ async function main(): Promise<void> {
   const grenze = new Date(Date.now() - ALTER * 86_400_000).toISOString().slice(0, 10)
   const offen = [...adressen].filter((u) => {
     const alt = bestand[u]
-    return !alt || alt.geprueftAm < grenze
+    /*
+      **`unklar` ist kein Befund, sondern eine offene Frage.** Es steht dort, wo
+      Amazon mit 200 geantwortet, aber keine Produktseite geliefert hat. Wäre es
+      wie ein echter Befund dreißig Tage haltbar, hätte der Riegel nur den
+      falschen Eintrag umbenannt statt ihn zu beheben.
+    */
+    return !alt || alt.status === 'unklar' || alt.geprueftAm < grenze
   })
   /*
     Vorrang vor der Reihenfolge des Bestands: Ein Lauf mit `--limit` würde diese

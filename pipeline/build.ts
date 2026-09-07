@@ -4960,7 +4960,13 @@ function main(): void {
             Anbieter, und aus 176 Titeln wuerden Dutzende Einzelgruppen.
             Beinahe eingebaut am 29.08.2026, gefangen beim Nachlesen.
           */
-          name: 'Disc bei aniSearch',
+          /*
+            **Das Wort „Disc" ist weg, das Zeichen sagt es besser.** Daniel am
+            07.09.2026: „füg ein cd icon links in die pill statt disc zu
+            schreiben. einfach icon + anisearch". Die Pille trägt seither ein
+            Silberscheiben-Zeichen; der Name nennt nur noch die Quelle.
+          */
+          name: 'aniSearch',
           url: erste.url ?? `https://www.anisearch.de/anime/${title.id}`,
           kind: 'buy',
         },
@@ -5237,6 +5243,34 @@ function main(): void {
   }
   if (wegNachNein) log(`${wegNachNein} Bezugswege entfernt, deren Adresse als belegtes Nein aus den Verweisen flog`)
 
+  /**
+   * **Ein YouTube-Verweis bleibt, wenn sein Umfang dransteht — nicht, wenn er groß genug ist.**
+   *
+   * Die erste Fassung vom 07.09.2026 zählte Folgen: unter zwei belegten flog
+   * der Verweis, Anlass war „Kill Blue" („youtube hat nur untertitel, also weg
+   * damit, wir führen nur >1 folge synchro pillen dort"). Sechzehn Verweise
+   * gingen so.
+   *
+   * Am selben Abend kam die genauere Vorgabe, mit einem Gegenbeispiel: „season
+   * 1 ep 1 date a live, deutsch komplett. füg es hinzu, schreib auch das es nur
+   * diese ep unter diesem verweis gibt, sodass kein falscher eindruck
+   * entsteht." Ein Verweis auf **eine** Folge ist also kein Problem — der
+   * falsche Eindruck ist es. Und der entsteht nicht aus der Zahl, sondern
+   * daraus, dass niemand sie sieht.
+   *
+   * Deshalb entscheidet jetzt, ob der Umfang **ausgewiesen** ist:
+   *
+   * - keine Bereiche → der Beleg gilt dem ganzen Weg, die Pille sagt „alle
+   *   Folgen"; das war schon immer so und bleibt richtig, wo es stimmt;
+   * - Bereiche, die bis zur letzten Folge reichen → die Pille nennt die Grenze
+   *   („✓ DE nur Fg. 1"), und niemand kann sich verlesen;
+   * - Bereiche, die **vor** der letzten Folge enden → genau die Lücke von
+   *   „Kill Blue": Belegt sind acht von zwölf, über die übrigen vier sagt
+   *   niemand etwas, und die Pille schwiege ebenfalls. Der Verweis fliegt.
+   *
+   * Ohne bekannte Folgenzahl gibt es nichts zu vergleichen; dann zählt der
+   * Beleg, wie bisher.
+   */
   let youtubeStumm = 0
   for (const title of titles.values()) {
     if (!title.streams?.length) continue
@@ -5244,13 +5278,18 @@ function main(): void {
     title.streams = title.streams.filter((s) => {
       if (s.platform !== 'youtube') return true
       if (s.dub !== true) return false
-      /* „Mehr als eine Folge": Wo Bereiche stehen, werden sie gezählt; ohne Bereiche gilt der Beleg für den ganzen Weg. */
-      const belegt = (s.dubRanges ?? []).filter((r) => r.dub).reduce((n, r) => n + Math.max(0, r.to - r.from + 1), 0)
-      return !(s.dubRanges ?? []).length || belegt > 1
+      const bereiche = s.dubRanges ?? []
+      if (!bereiche.length) return true
+      const gesamt = title.episodes
+      if (!gesamt) return true
+      /* Reicht die Beschreibung bis zur letzten Folge? Dann steht der Umfang in der Pille. */
+      const bisWohin = bereiche.reduce((n, r) => Math.max(n, r.to), 0)
+      return bisWohin >= gesamt
     })
     youtubeStumm += vorher - title.streams.length
   }
-  if (youtubeStumm) log(`${youtubeStumm} YouTube-Verweise ohne belegte Synchro entfernt — dort führen wir nur belegte Wege`)
+  if (youtubeStumm)
+    log(`${youtubeStumm} YouTube-Verweise entfernt, deren Umfang unbekannt bleibt — dort führen wir nur ausgewiesene Wege`)
 
   const allTitles = [...titles.values()]
   const genres = [...new Set(allTitles.flatMap((t) => t.genres))].sort((a, b) => a.localeCompare(b, 'de'))

@@ -3498,3 +3498,77 @@ in *gelesenen Zeilen* misst, ist die erste Frage nicht „wie schnell ist die
 Abfrage", sondern **„wie oft läuft sie, und liest sie jedes Mal dasselbe?"** Ein
 Index beantwortet die erste Frage. Die zweite beantwortet nur, wer aufhört zu
 fragen.
+
+### Ein HTTP 200 von Amazon heißt nicht, dass es die Seite gibt
+
+Daniel meldete am 07.09.2026 vier tote Verweise am selben Werk — „aniverse pill
+hier führt auf toten link", dann Staffel 4, dann Staffel 3 — und stellte die
+Frage, auf die es ankam: **„kannst du das auch selbst mitbekommen und evtl
+generisch fixen? weil ich nicht alle manuell prüfen kann."**
+
+Die Antwort stand im eigenen Bestand. Für `amazon.de/dp/B0C9VS255F` führte
+`data/link-check.json` **HTTP 200, geprüft am 24.08.2026**. Derselbe Abruf am
+07.09.2026 antwortete mit 404 und dem Titel „Seite wurde nicht gefunden" — die
+ASIN gab es schon damals nicht. Amazon hatte beim Massenlauf eine Zwischenseite
+ausgeliefert: Status 200, 2.299 Zeichen, kein Produktinhalt. Der Lauf buchte das
+als „Adresse lebt", und damit war sie dreißig Tage lang nicht mehr fällig.
+
+**Das Muster ist älter als der Fall.** Dieselbe Datei trägt seit dem 20.08.2026
+einen Kommentar darüber, dass Amazon bei Massenläufen Zwischenseiten schickt —
+er stand am Feld `prime` und galt einem Zusatzbefund. Dass derselbe Abruf auch
+den **Status** wertlos macht, hat niemand zu Ende gedacht. Eine Lehre, die nur
+an der Stelle steht, an der sie entdeckt wurde, trägt nicht bis zur nächsten.
+
+**Zwei Riegel, und sie wirken nur zusammen** (`pipeline/check-links.ts`):
+
+- `PRODUKTSEITE` — eine echte Detailseite trägt `dp-container`, `productTitle`,
+  `av-detail-section` oder „| Prime Video" im Titel. Fehlen alle bei einem 200,
+  war es keine Produktseite.
+- `status: 'unklar'` statt eines Befunds, **und** `unklar` gilt in der
+  Fälligkeit als ungeprüft. Ohne den zweiten Teil wäre der erste nur eine andere
+  Schreibweise für denselben Falschbefund — dreißig Tage Ruhe für eine tote
+  Adresse.
+
+Dazu erkennt `NICHT_GEFUNDEN` Amazons Fehlerseite am Wortlaut, denn sie kommt
+nicht immer mit 404.
+
+`check-logic.ts` hält beide Riegel fest („ein Amazon-200 ohne Produktseite gilt
+nicht als lebende Adresse"). Ein Kommentar hält niemanden auf, der die Stelle
+umbaut.
+
+**Die allgemeine Form:** Bei einer Quelle mit Bot-Abwehr ist der Statuscode
+keine Auskunft über die Adresse, sondern über den Abruf. Belastbar wird er erst
+mit einem **positiven Merkmal im Inhalt** — und was dieses Merkmal nicht zeigt,
+gehört als offene Frage gespeichert, nie als Ja.
+
+### Der Katalog kennt keine Filme — und das erklärt zwei Drittel der Fragezeichen
+
+Daniel am 07.09.2026 zur „Wo sehen?"-Liste: „39 Fragezeichen? wir haben
+crunchyroll automatisiert, es sollte 0 fragezeichen geben, wieso funktioniert
+unser automatismus nicht perfekt..."
+
+Gemessen am selben Abend: 35 Crunchyroll-Verweise ohne Sprachurteil, und sie
+zerfallen in zwei saubere Gruppen.
+
+- **23 sind Filme, OVAs oder Specials** (18 MOVIE, 4 OVA, 1 SPECIAL).
+  `data/cr-katalog-de.json` führt ausschließlich `typ: series` — Crunchyrolls
+  Filme liegen unter `movie_listing` und werden von uns nie geholt. Für sie
+  kann die Katalog-Runde nichts finden, egal wie gut die Adresse ist.
+- **12 sind Serien mit Adressen im alten Format** (`crunchyroll.com/de/<slug>`,
+  `crunchyroll.com/<slug>/episode-…`). Ohne `/series/<Kennung>` greift die
+  Zuordnung nicht — obwohl der Katalog die Serie sehr wohl führt: „Kaguya-sama:
+  Love is War" steht dort als `GRJ0J828Y` mit deutschem Ton.
+
+**Und warum ein Slug-Abgleich allein nicht genügt.** Er findet 13 der 35, aber
+nur 5 davon belastbar: Fünf „Free!"-Filme zeigen auf die **Serienadresse**
+`/de/free-iwatobi-swim-club`, ebenso die Chunibyo-OVA auf ihre Serie und
+„The Promised Neverland Staffel 2" auf Staffel 1. Wer allein dem Slug folgt,
+überträgt das Urteil der Serie auf den Film — genau der Fehler, den Daniel
+Stunden zuvor an „Date a Live" gerügt hatte („staffel 4 und 5 … haben dort keine
+synchro, also wieso steht da DE✅???"). Ein Slug-Treffer zählt deshalb nur mit
+passendem **Werktitel**, und selbst dann bleibt die Staffelfrage offen: „Kaguya
+-sama: Love Is War?" (Staffel 2) normalisiert auf denselben Titel wie Staffel 1.
+
+Die tragfähige Lösung ist die erste Gruppe: **Crunchyrolls `movie_listing` in
+den Katalog holen.** Das beantwortet 23 von 35 aus der Quelle statt aus einem
+Namensvergleich.

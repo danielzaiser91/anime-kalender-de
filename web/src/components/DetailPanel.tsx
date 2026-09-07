@@ -751,6 +751,69 @@ function WegPille({ name, farbe, hinweis }: { name: string; farbe?: string; hinw
   )
 }
 
+/**
+ * **Die Silberscheibe für aniSearch-Disc-Wege.**
+ *
+ * Daniel am 07.09.2026: „füg ein cd icon links in die pill statt disc zu
+ * schreiben. einfach icon + anisearch und schöner gestyled." Das Zeichen sagt
+ * in 14 px, wofür das Wort „Disc" eine Zeile brauchte — und es sagt es auch
+ * dem, der die Pille nur streift.
+ *
+ * `currentColor` statt einer festen Farbe: So trägt das Zeichen dieselbe
+ * Tönung wie der Text daneben, in beiden Themen.
+ */
+function DiscZeichen() {
+  return (
+    <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" aria-hidden="true">
+      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3" />
+      <circle cx="8" cy="8" r="1.9" stroke="currentColor" strokeWidth="1.3" />
+      {/* Der Lichtreflex — ohne ihn liest sich der Ring als Zielscheibe. */}
+      <path d="M4.6 4.2A5 5 0 0 1 8 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity="0.55" />
+    </svg>
+  )
+}
+
+/**
+ * **Zu jedem Titel ein Weg zu aniSearch — auch ohne Kennung.**
+ *
+ * Daniel am 07.09.2026: „anisearch link für alle titel dort einfügen wo wir
+ * anisearch links haben, ansonsten anisearch search seite mit dem titel da
+ * einfügen. überall soll da ein link sein." Und einen Prompt später: „oder du
+ * kannst statt search auch herausfinden was der tatsächliche link zum anime ist,
+ * das wäre besser."
+ *
+ * Genau das ist die Reihenfolge hier. 2.621 der 2.768 Titel tragen eine
+ * `anisearchId` (gemessen 07.09.2026, 94,7 %) — für sie führt der Verweis
+ * direkt auf die Werkseite. Für die übrigen 147 gibt es keine geratene Kennung,
+ * sondern die Suche mit dem Titel: `anisearch.de/anime/index?text=…` liefert
+ * belegt die Trefferliste (an „Date A Bullet" geprüft, HTTP 200 mit Treffer).
+ *
+ * **Warum keine Kennung geraten wird:** Eine erfundene Nummer führt auf eine
+ * fremde Werkseite, und das ist von einer richtigen nicht zu unterscheiden —
+ * dieselbe Falle wie bei den drei erfundenen Amazon-Adressen vom 23.08.2026.
+ * Die Suche ist einen Klick länger und immer richtig.
+ */
+function AniSearchVerweis({ title }: { title: Title }) {
+  const ziel = title.anisearchId
+    ? `https://www.anisearch.de/anime/${title.anisearchId}`
+    : `https://www.anisearch.de/anime/index?text=${encodeURIComponent(anzeigeName(title))}`
+  return (
+    <a
+      href={ziel}
+      target="_blank"
+      rel="noreferrer noopener"
+      title={title.anisearchId ? 'Bei aniSearch ansehen' : 'Bei aniSearch suchen'}
+      className="ml-auto inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-slate-500 transition hover:bg-slate-200/70 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
+    >
+      aniSearch
+      {/* Der Pfeil sagt „führt hinaus" — ohne ihn liest sich das Wort als Quellenangabe. */}
+      <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+        <path d="M4 2h6v6M10 2 2.5 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </a>
+  )
+}
+
 function Pille({
   name,
   farbe,
@@ -758,6 +821,7 @@ function Pille({
   unten,
   rechts,
   titel,
+  icon,
 }: {
   name: string
   farbe?: string
@@ -765,6 +829,7 @@ function Pille({
   unten?: string
   rechts?: ReactNode
   titel?: string
+  icon?: ReactNode
 }) {
   return (
     <a
@@ -780,6 +845,11 @@ function Pille({
       ].join(' ')}
       style={farbe ? { background: `${farbe}1f`, boxShadow: `inset 0 0 0 1px ${farbe}55` } : undefined}
     >
+      {icon && (
+        <span className="flex shrink-0 items-center" style={farbe ? { color: farbe } : undefined}>
+          {icon}
+        </span>
+      )}
       <span className="flex flex-col leading-tight">
         <span
           className="whitespace-nowrap text-[13px] font-medium"
@@ -1059,8 +1129,8 @@ function ReleasePille({
  * Die Farbe eines Bezugswegs — sofern er zu einer Plattform gehört, die wir führen.
  *
  * Die Namen der Kanal-Wege beginnen mit dem Namen der Plattform, auf der man
- * landet („Prime Video — Crunchyroll Kanalabo"). Wo das zutrifft, bekommt die
- * Pille dieselbe Farbe wie die Anbieter-Pille daneben; ein Shop ohne eigene
+ * landet („Amazon Prime (Aniverse)"). Wo das zutrifft, bekommt die Pille
+ * dieselbe Farbe wie die Anbieter-Pille daneben; ein Shop ohne eigene
  * Plattform (Videobuster, maxdome, JPC) bleibt neutral.
  *
  * Verglichen wird über den **Namensanfang**, nicht über ein Vorkommen
@@ -1068,6 +1138,21 @@ function ReleasePille({
  * soll die Prime-Farbe nicht erben.
  */
 function farbeZuAnbieter(name: string): string | undefined {
+  /*
+    **„Amazon Prime" steht nicht in `PLATFORMS`** — dort heißt der Anbieter
+    „Prime Video". Seit der Umbenennung am 07.09.2026 („das kanalabo ist
+    implizit … schreib lieber Amazon Prime (Aniverse)") beginnt kein Kanalname
+    mehr mit dem Plattformnamen; ohne diese Zeile hätten alle neun Kanal-Pillen
+    ihre Farbe verloren — still, denn eine fehlende Farbe sieht aus wie Absicht.
+  */
+  if (name.startsWith('Amazon Prime')) return PLATFORMS.primevideo.color
+  /*
+    **aniSearch ist keine Plattform, aber ein Weg** — und trug als einziger den
+    farblosen Umriss, während alles daneben Farbe hatte (Daniel, 07.09.2026:
+    „verbesser die pill, style sie gelblich"). Das Gelb ist aniSearchs eigene
+    Hausfarbe, nicht geraten.
+  */
+  if (name === 'aniSearch') return '#f0a500'
   for (const p of Object.values(PLATFORMS)) {
     if (p.name && name.startsWith(p.name)) return p.color
   }
@@ -1090,8 +1175,23 @@ function gruppiereKaufwege(
     nachHost.set(host, liste)
   }
 
+  /*
+    **Zwei Schreibweisen, dieselbe Absicht: „Basis, dann Zusatz".**
+
+    Bis zum 07.09.2026 trennte ein Gedankenstrich („Prime Video — ADN
+    Kanalabo"), seither eine Klammer („Amazon Prime (ADN)"). Ohne den zweiten
+    Fall stünden mehrere Kanäle desselben Hosts wieder als einzelne Pillen
+    nebeneinander, statt sich eine Basis zu teilen — dieselbe Auskunft, nur
+    breiter.
+  */
+  const zerlege = (name: string): string[] => {
+    const klammer = /^(.+?)\s+\((.+)\)$/.exec(name)
+    if (klammer) return [klammer[1]!, klammer[2]!]
+    return name.split(/\s+—\s+/)
+  }
+
   return [...nachHost.values()].map((liste) => {
-    const geteilt = liste.map((l) => l.name.split(/\s+—\s+/))
+    const geteilt = liste.map((l) => zerlege(l.name))
     const gemeinsam = geteilt.every((t) => t.length > 1 && t[0] === geteilt[0][0])
     if (liste.length === 1 || !gemeinsam) {
       return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url })) }
@@ -2428,14 +2528,30 @@ export function DetailPanel({
               ,Staffel 1'"). `items-baseline` setzt sie auf die Schriftlinie des
               Namens statt an seine Oberkante.
             */}
-            {reihenTeile.length > 1 && teilName !== reihenName && (
-              <div className="flex items-baseline gap-2">
-                {bewertung}
+            {/*
+              **Der aniSearch-Verweis steht rechts in derselben Zeile.**
+
+              Daniel am 07.09.2026: „hier im grün markierten bereich wäre platz
+              für ein AniSearch Link. mach das" — und gleich danach der
+              Geltungsbereich: „anisearch link für alle titel dort einfügen wo
+              wir anisearch links haben, ansonsten anisearch search seite mit dem
+              titel da einfügen. überall soll da ein link sein."
+
+              Deshalb wird die Zeile jetzt **immer** gerendert, nicht mehr nur
+              bei einem Reihenteil mit eigenem Namen. Der Staffelname darin folgt
+              weiter seiner alten Bedingung; ohne ihn bleibt eine Zeile aus
+              Wertung links und Verweis rechts — beides Angaben, die vorher
+              entweder gar nicht oder nur an einer Stelle standen.
+            */}
+            <div className="flex items-baseline gap-2">
+              {bewertung}
+              {reihenTeile.length > 1 && teilName !== reihenName && (
                 <h3 className="min-w-0 flex-1 text-xl font-bold leading-tight text-slate-900 dark:text-white">
                   {teilName}
                 </h3>
-              </div>
-            )}
+              )}
+              <AniSearchVerweis title={title} />
+            </div>
             {/*
               Die Pillen-Zeile trug nur noch die Wertung — Status und FSK sind
               seit dem 13.08.2026 im Terminblock, wo sie je Release gelten. Eine
@@ -2492,6 +2608,22 @@ export function DetailPanel({
                       acht Folgen.
                     */
                     const luecken = dubLuecken(s.dubRanges)
+                    /*
+                      **Was da ist, nicht was fehlt.**
+
+                      Der Verlag hat von „Date a Live" genau Folge 1 auf YouTube
+                      (Daniel, 07.09.2026: „schreib auch das es nur diese ep
+                      unter diesem verweis gibt, sodass kein falscher eindruck
+                      entsteht"). `dubLuecken` machte daraus „✕ DE 2–12" —
+                      richtig, aber von hinten gedacht: Wer die Pille sieht, will
+                      wissen, was er bekommt, nicht was ihm fehlt.
+
+                      Der Fall ist eng gefasst — **ein** deutscher Bereich, und
+                      der ist Folge 1. Alles Übrige bleibt bei der Lücken-Form,
+                      die dort die kürzere Auskunft ist.
+                    */
+                    const deutsch = (s.dubRanges ?? []).filter((r) => r.dub)
+                    const nurErste = deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1
                     return (
                       <Pille
                         key={s.platform}
@@ -2500,11 +2632,13 @@ export function DetailPanel({
                         url={s.url}
                         unten={
                           [
-                            luecken
-                              ? t('detail.dubLuecken', { n: luecken })
-                              : grenze
-                                ? t(grenze.schluessel, { n: grenze.n })
-                                : '',
+                            nurErste
+                              ? t('detail.dubNurEine')
+                              : luecken
+                                ? t('detail.dubLuecken', { n: luecken })
+                                : grenze
+                                  ? t(grenze.schluessel, { n: grenze.n })
+                                  : '',
                             s.teilBereich
                               ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
                               : '',
@@ -2631,14 +2765,15 @@ export function DetailPanel({
                             aktuell noch das weiße style haben".
 
                             Die Farbe kommt aus dem Namen, und der ist unsere
-                            eigene Erzeugung („Prime Video — Crunchyroll
-                            Kanalabo"): Wo er mit dem Namen einer bekannten
+                            eigene Erzeugung („Amazon Prime
+                            (Crunchyroll)"): Wo er mit dem Namen einer bekannten
                             Plattform beginnt, gilt deren Farbe. Ein Shop, den
                             wir nicht als Plattform führen (Videobuster,
                             maxdome), bleibt neutral — dort gibt es keine Farbe,
                             die etwas bedeuten würde.
                           */
                           farbe={farbeZuAnbieter(g.shop)}
+                          icon={g.shop === 'aniSearch' ? <DiscZeichen /> : undefined}
                         />
                       )),
                     ),
@@ -2666,6 +2801,14 @@ export function DetailPanel({
                             ? t('where.angebote', { count: g.eintraege.length })
                             : undefined
                         }
+                        /*
+                          Auch hier trägt der Weg die Farbe seines Anbieters —
+                          derselbe Grund wie bei den Stream-Wegen darüber. Für
+                          aniSearch kommt die Silberscheibe dazu: Sie ersetzt
+                          das Wort „Disc", das bis zum 07.09.2026 im Namen stand.
+                        */
+                        farbe={farbeZuAnbieter(g.shop)}
+                        icon={g.shop === 'aniSearch' ? <DiscZeichen /> : undefined}
                       />
                     )),
                   ),
