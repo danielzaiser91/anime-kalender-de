@@ -42,6 +42,44 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
 
+## Gemessen 07.09.2026: Search Console — 62 indexiert, 596 nicht
+
+Abgefragt in der Search Console (Edge, angemeldete Sitzung), nicht geschätzt:
+
+| Grund | Seiten | Bewertung |
+|---|---|---|
+| Gefunden – zurzeit nicht indexiert | **562** | der eigentliche Fall, siehe unten |
+| Gecrawlt – zurzeit nicht indexiert | 28 | Google war da und hat abgelehnt |
+| Seite mit Weiterleitung | 3 | **kein Fehler** — `www.` und `http://`-Varianten |
+| Nicht gefunden (404) | 2 | **kein Fehler** — eine Fremdadresse (`anime.php?next`), ein Slug, den ein Import-Fix zu Recht entfernt hat (`virgin-road-vol-3-2026-11-20`) |
+| Duplikat – andere kanonische Seite | 1 | `as-a-reincarnated-aristocrat-s1-vol1` |
+| **indexiert** | **62** | |
+
+Die Live-Seite ist technisch sauber: **664 von 664** Sitemap-Adressen antworten
+mit 200, kein `noindex`, jedes `canonical` zeigt auf sich selbst, `robots.txt`
+erlaubt alles.
+
+**Die 562 sind der Fall vom 17.08.2026 in größer** (damals 171). Die Antwort
+von damals — Übersicht und Startseite verlinken jede Teilen-Seite — reicht
+nicht: Eine Seite, auf die nur eine Sammelliste zeigt, bleibt ein Blatt am Ende
+eines Astes.
+
+**Getan am 07.09.2026:** Die Teilen-Seiten verlinken jetzt die anderen Ausgaben
+desselben Titels (149 der 662 Adressen haben welche). Das legt Querverbindungen
+statt nur Blätter und hebt den eigenen Textanteil je Seite — bei
+`wind-breaker-s2-vol1` von 924 auf 1.645 Zeichen.
+
+**Das Duplikat ist damit mitbehandelt:** Gemessen an drei Paaren liegt die
+Wortüberschneidung zwischen zwei Ausgaben desselben Titels bei **96 bis 98
+Prozent** — von 855 bis 1355 Zeichen entfallen vier Fünftel auf die
+Serienbeschreibung, die bei jeder Ausgabe dieselbe ist. Ein `canonical` wäre
+der falsche Griff: „Vol. 2" ist eine eigene Veröffentlichung mit eigenem Termin,
+und genau danach sucht jemand.
+
+**Offen bleibt die Wirkung.** Ob Google die Seiten daraufhin aufnimmt,
+entscheidet sich über Wochen, nicht über Tage. Der Zähler in der Search Console
+ist die Messstelle.
+
 ## Gemessen 06.09.2026: Der Prüflisten-Knopf war auf Netflix unsichtbar, nicht abwesend
 
 Daniel hat es dreimal gemeldet („prüfliste button fehlt weiterhin auf netflix",
