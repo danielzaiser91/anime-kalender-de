@@ -3626,3 +3626,47 @@ nicht „wie schnell darf ich fragen", sondern **„wie viel darf ich in einer
 Sitzung fragen"**. Ein Takt schützt vor Überlast, nicht vor einem Kontingent —
 und ein Lauf, der nach der Sperre weiterläuft, erzeugt keine Daten, sondern nur
 den Anschein von Arbeit.
+
+### Ein Adressbeleg ist kein Sprachbeleg — und hat einen verdrängt
+
+`data/dub-confirmed.yaml` führt zwei Arten von Einträgen, und sie sehen fast
+gleich aus:
+
+```yaml
+- anilistId: 21856          # Sprachurteil — trägt dub, keine url
+  platform: netflix
+  dub: false
+  note: "Tonspuren: ja|Japanisch [Original], fr|Französisch, … 7 Tonspuren"
+
+- anilistId: 21856          # Adressbeleg — trägt url, kein dub
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  note: "Verweis aus Netflix' eigener Staffelliste erschlossen"
+```
+
+Solange `loadDubChecks()` beide zu **einem** Eintrag verschmolz, fiel das nicht
+auf: Adresse und Urteil landeten in derselben Zeile. Seit der Trennung je
+Ausgabe (07.09.2026, wegen Date a Live IV) stehen sie nebeneinander — und
+`belegFuer()` wählte nach der Regel „Beleg mit derselben Adresse zuerst". Die
+hatte nur der Adressbeleg. Das Urteil kam nie zum Zug.
+
+Fünf Staffeln „My Hero Academia", auf Netflix nachweislich ohne deutsche
+Tonspur, standen deshalb weiter im Datensatz.
+
+**Zwei Dinge sind hier gut gegangen, und beide gehören genannt:**
+
+- `check:handbelege` hat es gefunden und den Datenlauf rot gemacht — eine
+  Prüfung, die genau ihren Zweck erfüllt hat. Ohne sie wäre der Fehler still
+  gewesen.
+- Der Fehler entstand aus einem **richtigen** Fix. Die Trennung je Ausgabe war
+  nötig; sie hat nur eine zweite Bedeutung derselben Datenstruktur offengelegt.
+
+**Die Lehre:** Wo eine Datei zwei Arten von Zeilen führt, muss jede Auswahl
+sagen, welche Art sie meint. `belegFuer()` sucht ein Sprachurteil und filtert
+deshalb zuerst auf `typeof c.dub === 'boolean'`. Was der Adressbeleg beiträgt,
+wird an anderer Stelle gelesen.
+
+**Und die allgemeinere:** Ein Feld, das in der Hälfte der Zeilen fehlt,
+unterscheidet zwei Sorten — auch wenn niemand sie je benannt hat. Beim nächsten
+Umbau derselben Struktur ist die erste Frage: *Welche Sorten liegen hier
+eigentlich, und meint dieser Zugriff alle?*

@@ -2520,8 +2520,29 @@ function main(): void {
     /** Wie viele Verweise dieser Plattform der Titel hat — entscheidet über die Strenge. */
     anzahlWege = 1,
   ): DubCheck | undefined => {
-    const liste = checksJePlattform.get(dubKey(titleId, plattform))
-    if (!liste?.length) return undefined
+    const alle = checksJePlattform.get(dubKey(titleId, plattform))
+    if (!alle?.length) return undefined
+    /*
+      **Ein Beleg ohne Sprachurteil ist kein Sprachbeleg.**
+
+      In `dub-confirmed.yaml` stehen zwei Arten von Einträgen: Sprachurteile
+      (`dub: true|false`) und **Adressbelege** — Zeilen, die nur festhalten, wo
+      ein Verweis herkommt („Verweis aus Netflix' eigener Staffelliste
+      erschlossen"). Die zweite Art trägt eine `url` und kein `dub`.
+
+      Seit die Belege je Ausgabe getrennt geführt werden (07.09.2026), standen
+      beide Arten nebeneinander in derselben Liste — und weil der Adressbeleg
+      die passende `url` trug, gewann er nach Regel 1 gegen das Urteil, das
+      keine hatte. Fünf Staffeln „My Hero Academia" waren auf Netflix als „ohne
+      deutsche Tonspur" geprüft und standen trotzdem im Datensatz;
+      `check:handbelege` hat es gemeldet und den Datenlauf rot gemacht.
+
+      Für die Auswahl eines **Sprachurteils** zählen deshalb nur Einträge, die
+      eines tragen. Was ein Adressbeleg beiträgt — die richtige Adresse — wird
+      an anderer Stelle gelesen, nicht hier.
+    */
+    const liste = alle.filter((c) => typeof c.dub === 'boolean')
+    if (!liste.length) return undefined
     if (url) {
       const genau = liste.find((c) => c.url && adressGleich(c.url, url))
       if (genau) return genau

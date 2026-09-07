@@ -3209,6 +3209,25 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     Weiterlaufen bringt keinen Befund und verlängert die Sperre. Die Adressen
     bleiben fällig und kommen im nächsten Lauf dran — dafür ist `unklar` da.
   */
+  /*
+    **Ein Adressbeleg ist kein Sprachbeleg.**
+
+    `dub-confirmed.yaml` führt zweierlei: Sprachurteile (`dub: true|false`) und
+    Zeilen, die nur die Herkunft einer Adresse festhalten — mit `url`, ohne
+    `dub`. Seit die Belege je Ausgabe getrennt stehen (07.09.2026), lagen beide
+    in derselben Liste, und der Adressbeleg gewann gegen das Urteil, weil er die
+    passende Adresse trug.
+
+    Folge: Fünf Staffeln „My Hero Academia", auf Netflix als „ohne deutsche
+    Tonspur" geprüft, standen weiter im Datensatz. `check:handbelege` hat es
+    gemeldet und den Datenlauf rot gemacht — die Prüfung hat also gehalten, was
+    sie soll. Diese Zusicherung hält die Ursache fest, nicht nur die Wirkung.
+  */
+  pruefe(
+    'nur Einträge mit Sprachurteil zählen als Sprachbeleg',
+    bau.includes("const liste = alle.filter((c) => typeof c.dub === 'boolean')"),
+    'ein Adressbeleg trägt eine url und kein dub — er darf ein Urteil nicht verdrängen',
+  )
   pruefe(
     'der Lauf bricht ab, wenn Amazon in Serie Zwischenseiten schickt',
     linkPruefer.includes('SPERR_SCHWELLE') && linkPruefer.includes('inFolgeUnklar'),
