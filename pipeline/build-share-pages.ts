@@ -86,6 +86,7 @@ function body(
   title: Title | undefined,
   synopsis: string | undefined,
   today: string,
+  geschwister: Release[],
 ): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
@@ -113,6 +114,74 @@ function body(
     })
     .join('\n        ')
 
+  /**
+   * **Die anderen Ausgaben desselben Titels — verlinkt und benannt.**
+   *
+   * Stand der Search Console am 07.09.2026: **62 Seiten indexiert, 596 nicht.**
+   * Die Gründe, gemessen statt vermutet:
+   *
+   * | Grund | Seiten |
+   * |---|---|
+   * | Gefunden – zurzeit nicht indexiert | 562 |
+   * | Gecrawlt – zurzeit nicht indexiert | 28 |
+   * | Seite mit Weiterleitung | 3 |
+   * | Nicht gefunden (404) | 2 |
+   * | Duplikat – andere kanonische Seite | 1 |
+   *
+   * Die letzten drei sind kein Fehler oder längst erklärt: Die Weiterleitungen
+   * sind die Domain-Varianten (www, http), von den beiden 404ern ist einer eine
+   * Fremdadresse (`anime.php?next`) und der andere ein Slug, den ein
+   * Import-Fix zu Recht entfernt hat.
+   *
+   * **Die 562 sind der Fall vom 17.08.2026, unerledigt** — damals 171 Seiten,
+   * und die Antwort darauf steht weiter unten in dieser Datei: Übersicht und
+   * Startseite verlinken jede Teilen-Seite. Das reicht nicht. Eine Seite, auf
+   * die nur eine Sammelliste zeigt, bleibt für Google ein Blatt am Ende eines
+   * Astes.
+   *
+   * Der Block hier legt **Querverbindungen zwischen verwandten Seiten**: Vol. 1
+   * zeigt auf Vol. 2 und auf den Streaming-Weg desselben Titels, und umgekehrt.
+   * 149 der 662 Adressen gehören zu einem Titel mit mehreren Ausgaben.
+   *
+   * **Und er behebt die eine Duplikat-Seite mit.** Google nennt
+   * `as-a-reincarnated-aristocrat-s1-vol1`; gemessen an drei solchen Paaren
+   * liegt die Wortüberschneidung bei **96 bis 98 Prozent**, denn von 855 bis
+   * 1355 Zeichen sichtbarem Text entfallen rund vier Fünftel auf die
+   * Serienbeschreibung, und die ist bei jeder Ausgabe dieselbe.
+   *
+   * Ein `canonical` auf eine der Seiten wäre der falsche Griff: „Vol. 2" und
+   * „Staffel 3" sind eigene Veröffentlichungen mit eigenem Termin, und genau
+   * danach sucht jemand. Was fehlt, ist nicht weniger Seite, sondern mehr
+   * eigener Inhalt — und der liegt bereit.
+   */
+  const andere = geschwister.length
+    ? `<h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Weitere Ausgaben von ${esc(
+        title?.titleDe ?? title?.titleEn ?? title?.titleRomaji ?? release.name,
+      )}</h2>
+      <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">
+        ${geschwister
+          .map((g) => {
+            const wann = g.schedule.firstEpisodeDate
+              ? `${weekdayName(g.schedule.firstEpisodeDate)}, ${formatDate(g.schedule.firstEpisodeDate)}`
+              : 'Termin offen'
+            const wo = `${RELEASE_TYPES[g.releaseType].short} bei ${PLATFORMS[g.platform].name}`
+            const zusatz = g.edition ? ' · ' + g.edition : ''
+            return (
+              '<li><a href="' +
+              esc(SITE) +
+              'r/' +
+              esc(g.slug) +
+              '/" style="color:#7dd3fc;">' +
+              esc(g.name) +
+              '</a> — ' +
+              esc(wo + ' · ' + wann + zusatz) +
+              '</li>'
+            )
+          })
+          .join('\n        ')}
+      </ul>`
+    : ''
+
   return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(release.name)}</h1>
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>
@@ -122,6 +191,7 @@ function body(
       <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">
         ${termine || '<li>Noch kein Termin erfasst.</li>'}
       </ul>
+      ${andere}
       <p><a href="${esc(SITE + hash)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
     </article>`
 }
@@ -192,11 +262,26 @@ function main(): void {
     process.exit(1)
   }
 
+  /* Welche Ausgaben gehören zu demselben Titel? Einmal gruppiert statt je Seite gesucht. */
+  const jeTitel = new Map<number, Release[]>()
+  for (const r of releases) {
+    if (!r.slug) continue
+    const liste = jeTitel.get(r.titleId)
+    if (liste) liste.push(r)
+    else jeTitel.set(r.titleId, [r])
+  }
+
   for (const release of releases) {
     const dir = resolve(DIST, 'r', release.slug)
     mkdirSync(dir, { recursive: true })
     const title = titleById.get(release.titleId)
-    const inhalt = body(release, title, synopses[String(release.titleId)]?.de, today)
+    const inhalt = body(
+      release,
+      title,
+      synopses[String(release.titleId)]?.de,
+      today,
+      (jeTitel.get(release.titleId) ?? []).filter((g) => g.slug !== release.slug),
+    )
     const seite = (before + head(release, title, today) + after).replace(
       ROOT_TAG,
       `<div id="root">${inhalt}</div>`,

@@ -2765,6 +2765,35 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     anwendet, läuft weiter oben. Ohne ihn trug „Sword Art Online II" seinen
     frisch entstandenen Netflix-Weg mit `dub: undefined` (06.09.2026).
   */
+  /*
+    **Die Teilen-Seiten verlinken einander — und zwar über saubere Adressen.**
+
+    Stand der Search Console am 07.09.2026: 62 Seiten indexiert, 562 als
+    „Gefunden – zurzeit nicht indexiert". Das ist der Fall vom 17.08.2026 in
+    größer (damals 171): Eine Seite, auf die nur eine Sammelliste zeigt, bleibt
+    für Google ein Blatt am Ende eines Astes. Der Geschwister-Block legt
+    Querverbindungen zwischen den Ausgaben desselben Titels — 149 der 662
+    Adressen haben welche.
+
+    Der zweite Teil ist die Falle, in die der erste Versuch gelaufen ist:
+    `SITE` endet bauartbedingt auf einen Schrägstrich (`.replace(/\/?$/, '/')`).
+    Ein `'/r/'` dahinter ergibt `anime-kalender.de//r/...` — abrufbar, aber eine
+    andere Adresse als die in der Sitemap, und damit genau das Duplikat, das
+    hier vermieden werden soll.
+  */
+  {
+    const seiten = readFileSync('pipeline/build-share-pages.ts', 'utf8')
+    pruefe(
+      'die Teilen-Seiten verlinken die anderen Ausgaben desselben Titels',
+      seiten.includes('Weitere Ausgaben von') && seiten.includes('const jeTitel = new Map<number, Release[]>()'),
+      'ohne Querverbindungen zeigt nur die Sammelliste auf eine Teilen-Seite',
+    )
+    pruefe(
+      'keine doppelten Schrägstriche in den erzeugten Adressen',
+      !/esc\(SITE\)\s*\+\s*\n?\s*'\//.test(seiten),
+      'SITE endet bereits auf einen Schrägstrich',
+    )
+  }
   pruefe(
     'auch der Handbeleg wird in der Nachrunde angewandt',
     bau.includes('const handBeleg = checks.get(dubKey(title.id, stream.platform))'),
