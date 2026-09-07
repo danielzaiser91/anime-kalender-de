@@ -4512,11 +4512,26 @@ function main(): void {
       kennt, wäre geraten — und ein geratener Anbietername sieht aus wie eine
       Auskunft.
     */
-    const kanalNamen: Record<string, string> = {
-      'primevideo-channel-crunchyroll-de': 'Crunchyroll über Prime Video',
-      'primevideo-channel-aniverse-de': 'Aniverse über Prime Video',
-      'primevideo-channel-adn-de': 'ADN über Prime Video',
-      'primevideo-channel-pokemon-de': 'Pokémon TV über Prime Video',
+    /*
+      **Der Name kommt aus `providerName()`, nicht aus einer zweiten Liste.**
+
+      Hier standen die vier Namen ausgeschrieben — eine Kopie dessen, was
+      `shared/mappings.ts` ohnehin führt. Am 07.09.2026 fiel auf, was das
+      kostet: Die Umbenennung auf „Prime Video — Crunchyroll Kanalabo" traf nur
+      die eine Fassung, und in der „Wo sehen?"-Liste standen beide nebeneinander
+      — 376 Einträge unter dem neuen Namen, 54 unter dem alten.
+
+      Zwei Fassungen derselben Zuordnung laufen auseinander; das ist dieselbe
+      Lehre, die in `CLAUDE.md` für Regeltexte steht. Die aniSearch-Kennung
+      trägt ein `-de` am Ende, das `canonicalProvider()` nicht kennt — deshalb
+      wird es abgeschnitten, bevor gefragt wird.
+    */
+    const kanalName = (provider: string): string | undefined => {
+      if (!provider.startsWith('primevideo-channel-')) return undefined
+      /* Die aniSearch-Kennung trägt ein `-de`, das `canonicalProvider()` nicht kennt. */
+      const name = providerName(provider.replace(/-de$/, ''))
+      /* Ein Name, den die Oberfläche nicht kennt, wäre geraten — dann lieber keiner. */
+      return name && !/^Primevideo/i.test(name) ? name : undefined
     }
     let kanalWege = 0
     let kaufWege = 0
@@ -4533,7 +4548,7 @@ function main(): void {
       for (const quelle of quellen) {
         const url = (quelle.url ?? '').split('?')[0]
         if (!url || bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url))) continue
-        const kanal = kanalNamen[quelle.provider ?? '']
+        const kanal = kanalName(quelle.provider ?? '')
         const istShop = quelle.provider === 'amazon-de' || quelle.provider === 'amazon-(de)'
         if (!kanal && !istShop) continue
         title.watchLinks = [
