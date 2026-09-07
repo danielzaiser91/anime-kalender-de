@@ -2513,6 +2513,18 @@ function main(): void {
     liste.push(c)
     checksJePlattform.set(k, liste)
   }
+  /**
+   * Eine reine Adresskorrektur (nur `url`, kein Urteil) darf ein vorhandenes
+   * Urteil nicht verdrängen.
+   *
+   * Bei My Hero Academia Staffel 2 (Netflix) stehen zwei Zeilen: `dub: false`
+   * ohne `url`, und eine Adresskorrektur „aus Netflix' eigener Staffelliste
+   * erschlossen" mit `url`, aber ohne `dub`. Weil der Datensatz-Stream genau
+   * diese Adresse trägt, gewann bisher die urteilslose Zeile — der belegte
+   * Verweis blieb stehen, statt entfernt zu werden (Lauf 34158655288,
+   * 07.09.2026).
+   */
+  const traegtUrteil = (c: DubCheck) => typeof c.dub === 'boolean' || c.available === false
   const belegFuer = (
     titleId: number,
     plattform: PlatformId,
@@ -2523,10 +2535,10 @@ function main(): void {
     const liste = checksJePlattform.get(dubKey(titleId, plattform))
     if (!liste?.length) return undefined
     if (url) {
-      const genau = liste.find((c) => c.url && adressGleich(c.url, url))
+      const genau = liste.find((c) => c.url && adressGleich(c.url, url) && traegtUrteil(c))
       if (genau) return genau
     }
-    const ohneAdresse = liste.find((c) => !c.url)
+    const ohneAdresse = liste.find((c) => !c.url && traegtUrteil(c))
     if (ohneAdresse) return ohneAdresse
     /*
       **Bei einem einzigen Weg ist die Adresse im Beleg eine Korrektur, keine
@@ -2540,7 +2552,13 @@ function main(): void {
       zwei Ausgaben, und ein Beleg für die eine sagt nichts über die andere. Das
       ist der Date-a-Live-Fall vom 07.09.2026.
     */
-    return anzahlWege > 1 ? undefined : liste[0]
+    if (anzahlWege > 1) {
+      return url ? liste.find((c) => c.url && adressGleich(c.url, url)) : undefined
+    }
+    // Einziger Weg: Ein Urteil unter irgendeiner Adresse gilt, auch wenn sie
+    // nicht zur unsrigen passt — sonst verdrängt eine reine Adresskorrektur
+    // ohne Urteil ein echtes Urteil (JoJo no Kimyou na Bouken, Prime Video).
+    return liste.find(traegtUrteil) ?? liste[0]
   }
   /* Rückwärtsverträglich für die Stellen, die keine Adresse zur Hand haben. */
   /**
