@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 11
+    "2026-09": 14
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1847,7 +1847,7 @@
       "imdbId": "tt3743822",
       "tmdbId": "tv/62286",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-09-07",
       "deutsch": false
     },
     "removed:1745:prime": {
@@ -2807,7 +2807,7 @@
       "imdbId": "tt1520211",
       "tmdbId": "tv/1402",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-09-07",
       "deutsch": true
     },
     "removed:292:prime": {
@@ -3219,7 +3219,27 @@
       "dienst": "prime",
       "am": "2026-09-04",
       "deutsch": true
+    },
+    "removed:91:prime": {
+      "art": "removed",
+      "titel": "Supernatural",
+      "originalTitel": "Supernatural",
+      "imdbId": "tt0460681",
+      "tmdbId": "tv/1622",
+      "dienst": "prime",
+      "am": "2026-09-07",
+      "deutsch": true
+    },
+    "removed:40065:netflix": {
+      "art": "removed",
+      "titel": "Poong The Joseon Psychiatrist",
+      "originalTitel": "조선 정신과 의사 유세풍",
+      "imdbId": "tt21423436",
+      "tmdbId": "tv/139289",
+      "dienst": "netflix",
+      "am": "2026-09-07",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-06T17:38:01.703Z"
+  "fetchedAt": "2026-09-07T09:22:03.266Z"
 }
