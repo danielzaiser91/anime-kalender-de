@@ -20,13 +20,11 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **JustWatch-Abruf bauen: Audiosprachen je Angebot** | 5 | Gemessen am 07.09.2026 (Abschnitt unten): `apis.justwatch.com/graphql` liefert `audioLanguages` je Angebot, ohne Token, robots.txt erlaubt es. Deckt genau die Lücke, für die es sonst keine Quelle gibt — 33 Prime-Verweise und die Kanal-Angebote. **Ergibt Kandidaten, kein `dub: true`:** Die Angabe gilt der Serie, nicht der Folge (Kill Blue meldet `de` für zwölf, belegt sind acht). Ziel ist eine Datei wie `data/justwatch-audio.json` plus eine Arbeitsliste, nicht ein Urteil im Bestand |
 | **Bereichsmeldung: „8" ins Feld, kein Melde-Knopf** | 3 | Daniel am 07.09.2026: „ich prüfe also manuell und merke bis 8 ist de, ich gebe in input feld 8 ein, aber es erscheint kein melde button … 1-8 de und 9-12 nicht de, müsste hier gemeldet werden". Der Mechanismus existiert vollständig — `grenzeUebernehmen()` (`melder.js:1719`) meldet vorne und hinten getrennt, Feld und Knopf werden in `durchlaufKnopfZeigen()` (`melder.js:2970`) gebaut, das CSS für `.ak-grenzknopf` steht (`melder.css:700`). **Warum er trotzdem nicht erscheint, ist ungemessen.** Nach der Lehre vom 06.09. („Ist der Knopf da?" beantwortet nicht „sieht man ihn?") gehört dazu eine Kulisse wie `check:kasten`, die die Leiste mit gesetztem `randOffen` unter `melder.css` nachstellt und den berechneten Stil misst |
 | **1 ADN-Verweis ohne Urteil — „Plus-Sized Elf"** | 1 | Von zwölf über sechs auf **einen** gefallen (gemessen 07.09.2026, 13:50). Die JoJo-Fälle sind durch die Nachrunde mit `data/adn-adressen.yaml` und den Katalog beurteilt. Übrig ist ein Verweis mit französischem Slug (`50-nuances-de-gras`), also ohne Serienkennung. ADNs Schnittstelle hat **keine brauchbare Suche**: `/show?search=…` liefert für „Plus-Sized Elf" und für „nuances" dieselben drei unpassenden Treffer — der Parameter wird ignoriert (am selben Tag gemessen). Bleibt offen, bis die Kennung anderswo auftaucht |
 
 | **Projektanalyse: Stärken und Schwächen** | 8 | Daniels Auftrag vom 07.09.2026: „erstes ziel das du dir setzt sollte komplett analyse des projekts sein, wo sind schwächen und stärken, schwächen ausbessern, stärken verstärken". Gemessen statt gemeint — Datenbestand, Prüfungen, Läufe, Website, und alles gegen die fünf Punkte des Projektziels in `CLAUDE.md`. Ergebnis kommt als eigener Abschnitt hierher, die Ausbesserungen als Aufgaben |
 
-| **Websearch: Autonomie-Ziel erneut prüfen** | 3 | Daniels Auftrag vom 07.09.2026. Der Plan steht in `docs/autonomie-plan.md`; seit seiner letzten Recherche hat sich die Werkzeuglandschaft bewegt. Zu klären: Gibt es inzwischen Wege, die damals nicht existierten — für die Prüfliste (Prime duldet keinen Agenten), für Netflix (Player-Manifest verschlüsselt), für Termine (keine API kennt deutsche Synchro-Termine). Verworfenes wird mit Grund festgehalten, sonst prüft es in drei Monaten jemand erneut |
 
 | **Je Wachphase ein eigenes Ziel** | — | Daniel am 07.09.2026: „setz dir selber eigene sinnvolle ziele in jedem durchlauf mindestens ein ziel". Dauerauftrag für den autonomen Modus: Jede Wachphase benennt vor der Arbeit ein Ziel, das dem Projektziel dient, und schreibt am Ende dazu, was daraus wurde. Kein Ziel zu haben ist der Abbruch, gegen den der Modus gebaut ist |
 
@@ -51,6 +49,29 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 |---|---|
 
 | **Pruefstand** | Stand 05.09.2026, 10:55: **Netflix 0, Disney+ 0, Prime 0** — alle drei Listen leer. Uebrig ist **1 Suchadresse ohne Titelseite** („Is This a Zombie?"). Der Gal-Kauftitel ist raus, seit sein Verweis im Bestand steht; die Wiedervorlage streicht seitdem selbst, was der Bestand schon als Prime-Verweis fuehrt, statt auf eine Hand zu warten |
+
+## Gemessen 07.09.2026: die Terminqualität ist eine Stärke
+
+Punkt 1 und 2 des Projektziels („nichts behaupten, was nicht belegt ist") am
+Bestand gemessen, 16:20 Uhr:
+
+| | |
+|---|---|
+| Releases | 660 |
+| **ohne Quelle** | **0** |
+| mit geschätztem Datum (`estimated`) | 7 |
+| mit angenommener Folgenzahl | 6 |
+| mit verpasstem Termin | 1 — Mushoku Tensei S3 Folge 6, aufgelöst |
+
+Der verpasste Termin ist der Prüfstein: Folge 6 war für den 30.08. angekündigt
+und kam am 06.09. — 168 Stunden Verzug, im Datensatz mit `erschienenAm` und
+Recherchenotiz festgehalten. Die Folgen 7 und 8 liegen ebenfalls auf dem 06.09.,
+genau wie Daniel es am Morgen gemeldet hat. **Der Kalender stimmt an der Stelle,
+an der er am leichtesten falsch läge.**
+
+Das ist die Stärke, die es zu verstärken gilt: kein einziger Termin ohne Quelle,
+und ein verstrichener Termin verschwindet nicht, sondern sagt, dass er nicht
+eingehalten wurde.
 
 ## Gemessen 07.09.2026: JustWatch nennt Audiosprachen — eine neue, legale Quelle
 
