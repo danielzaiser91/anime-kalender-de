@@ -5044,6 +5044,43 @@ function main(): void {
   }
   if (primeFremd) log(`${primeFremd} Bezugswege auf primevideo.com entfernt — Prime Video führen wir über amazon.de`)
 
+  /**
+   * **Was als belegtes Nein aus den Verweisen flog, kommt nicht als Bezugsweg zurück.**
+   *
+   * Gefunden am 07.09.2026 an „7th Time Loop": Der Prime-Verweis wurde wegen
+   * des Handbelegs „kein deutscher Ton" entfernt — und derselbe Weg stand als
+   * Bezugsweg weiter da, mit „🇩🇪 ?" daneben. Für einen Besucher ist das
+   * dieselbe Zeile, nur ohne Wissen; Daniels Punkt war genau diese Pille.
+   *
+   * Verglichen wird über den Adresskern, denn beide Listen führen dieselbe
+   * Adresse mal mit und mal ohne Parameter.
+   *
+   * **Nur belegte Neins, keine Frist.** Ein Weg, den ein Mensch als „dort
+   * nicht auf Deutsch" geprüft hat, gehört nicht in die Antwort auf „wo läuft
+   * es auf Deutsch" — und wenn sich das ändert, ändert sich der Handbeleg.
+   */
+  let wegNachNein = 0
+  {
+    const kern = (u: string): string =>
+      u
+        .replace(/^https?:\/\//, '')
+        .replace(/^www\./, '')
+        .split('?')[0]!
+        .replace(/\/$/, '')
+        .toLowerCase()
+    const raus = new Set(verweiseEntfernt.map((e) => kern(e.url ?? '')))
+    for (const e of readJson<{ verweise?: { url?: string }[] }>('data/verweise-entfernt.json', {}).verweise ?? []) {
+      raus.add(kern(e.url ?? ''))
+    }
+    for (const title of titles.values()) {
+      if (!title.watchLinks?.length) continue
+      const vorher = title.watchLinks.length
+      title.watchLinks = title.watchLinks.filter((w) => !raus.has(kern(w.url)))
+      wegNachNein += vorher - title.watchLinks.length
+    }
+  }
+  if (wegNachNein) log(`${wegNachNein} Bezugswege entfernt, deren Adresse als belegtes Nein aus den Verweisen flog`)
+
   let youtubeStumm = 0
   for (const title of titles.values()) {
     if (!title.streams?.length) continue
