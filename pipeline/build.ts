@@ -1140,7 +1140,8 @@ function main(): void {
           episodes?: number
           episodesEstimated?: boolean
           /** Der Titel je Sprache — hier steht der deutsche Name des Werks. */
-          languages?: { language?: string; title?: string }[]
+          /* `publisher` und `status` tragen den Bezugsweg aus dem deutschen Block — siehe unten. */
+          languages?: { language?: string; title?: string; status?: string; publisher?: string[] }[]
         }
       }
     >
@@ -4617,6 +4618,62 @@ function main(): void {
       discWege++
     }
     if (discWege) log(`${discWege} Titel ohne Weg haben jetzt eine deutsche Disc-Ausgabe als Bezugsweg`)
+  }
+
+  /**
+   * **Zweite Stufe: die deutsche Veröffentlichung aus dem Sprachblock.**
+   *
+   * Der Block darüber liest `<section id="items">` aus dem HTML-Archiv — die
+   * **kaufbaren Artikel**. Bei älteren Titeln steht dort nichts, obwohl es die
+   * deutsche Ausgabe gab: Gemessen am 07.09.2026 führte
+   * `data/disc-ausgaben.json` **keinen einzigen** der 489 weglosen Titel,
+   * während aniSearchs Sprachblock für 360 von ihnen eine deutsche
+   * Veröffentlichung nennt — mit Zeitraum, Status und Verlag:
+   *
+   *     School Rumble    Abgeschlossen  23.01.2006 - 26.10.2007
+   *                      Tokyopop GmbH, Nipponart GmbH        dubbed: true
+   *
+   * Diese Angabe liegt in `data/anisearch.json` und wurde bisher von niemandem
+   * für die Wegfrage gelesen. Sie halbiert die Lücke: **246 Titel** bekommen so
+   * einen belegten Bezugsweg, die weglosen fallen von 489 auf 243.
+   *
+   * **Drei Riegel, jeder mit Grund:**
+   *
+   * - **Nur mit Verlag.** Ein Block ohne Verlag kann eine Ankündigung sein; mit
+   *   Verlag ist es eine Veröffentlichung, die es gegeben hat. 252 der 360
+   *   tragen einen.
+   * - **Nur erschienene Status.** „Zukünftig" ist kein Bezugsweg, sondern ein
+   *   Termin — und der gehört in den Kalender, nicht in die Wegliste.
+   * - **Kein Synchro-Beleg.** Der Block trägt zwar `dubbed`, und das ist laut
+   *   `CLAUDE.md` das belastbare Signal (917 von 967 Handbelegen). Der Weg hier
+   *   sagt trotzdem nichts über die Sprache — genau wie der Disc-Weg darüber.
+   *   Eine Auskunft nach der anderen; wer beides in einem Schritt macht, kann
+   *   hinterher nicht sagen, worauf ein Urteil beruht.
+   *
+   * **Und der Name bleibt konstant**, aus demselben Grund wie oben: Die
+   * „Wo?"-Ansicht bündelt über ihn.
+   */
+  {
+    let ausgabeWege = 0
+    for (const title of titles.values()) {
+      if (title.streams.length || (title.watchLinks ?? []).length) continue
+      const block = (anisearch[title.id]?.info?.languages ?? []).find(
+        (l) => l.language === 'Deutsch',
+      )
+      if (!block?.publisher?.length) continue
+      if (!['Abgeschlossen', 'Abgebrochen', 'Laufend'].includes(String(block.status))) continue
+      const as = anisearch[title.id]?.anisearchId
+      title.watchLinks = [
+        {
+          name: 'Deutsche Ausgabe bei aniSearch',
+          url: as ? `https://www.anisearch.de/anime/${as}` : `https://www.anisearch.de/anime/${title.id}`,
+          kind: 'buy',
+        },
+      ]
+      ausgabeWege++
+    }
+    if (ausgabeWege)
+      log(`${ausgabeWege} Titel ohne Weg haben jetzt eine belegte deutsche Veröffentlichung als Bezugsweg`)
   }
 
   /**

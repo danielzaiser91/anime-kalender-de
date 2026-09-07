@@ -2883,6 +2883,30 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     vollständig deutsch, die andere gar nicht. Die zwei Titel dazu bleiben
     deshalb offen.
   */
+  /*
+    **Ein Bezugsweg aus dem Sprachblock braucht Verlag und erschienenen Status.**
+
+    aniSearchs deutscher Sprachblock nennt Zeitraum, Status und Verlag. Ohne
+    Verlag kann er eine Ankündigung sein; mit Status „Zukünftig" ist er ein
+    Termin und kein Weg. Beide Riegel zusammen machen aus der Angabe einen
+    Beleg — sie halbiert die Zahl der Titel ohne Weg (489 auf 243, gemessen
+    07.09.2026).
+
+    Und der Weg trägt **keine** Sprachaussage, obwohl der Block `dubbed`
+    führt: eine Auskunft nach der anderen, sonst ist hinterher nicht mehr
+    erkennbar, worauf ein Urteil beruht.
+  */
+  pruefe(
+    'der Bezugsweg aus dem Sprachblock verlangt Verlag und erschienenen Status',
+    bau.includes('if (!block?.publisher?.length) continue') &&
+      bau.includes("['Abgeschlossen', 'Abgebrochen', 'Laufend'].includes(String(block.status))"),
+    'ohne die Riegel wird aus einer Ankündigung ein Bezugsweg',
+  )
+  pruefe(
+    'er trägt keine Sprachangabe',
+    !/name: 'Deutsche Ausgabe bei aniSearch'[\s\S]{0,200}dub:/.test(bau),
+    'der Block sagt, dass es die Ausgabe gab — nicht, in welcher Sprache sie lief',
+  )
   pruefe(
     'die ADN-Staffelzuordnung wird gelesen, der Release-Slug geht vor',
     bau.includes('data/adn-staffelzuordnung.yaml') &&
