@@ -3094,5 +3094,34 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
 }
 
+/**
+ * **Prime Video führen wir über amazon.de, nicht über primevideo.com.**
+ *
+ * Daniel am 07.09.2026 an „City The Animation": Der Titel stand zweimal mit
+ * Prime Video in der „Wo sehen?"-Liste, einmal als „DE ✓" und einmal als
+ * „DE ?" — die zweite Zeile war ein Bezugsweg auf `primevideo.com`.
+ *
+ * Die Regel gilt seit dem 08.08.2026 für Verweise (`isUnusablePrimeLink`); die
+ * Bezugswege liefen daran vorbei, weil sie aus aniSearchs Quellenliste
+ * stammen und die beide Domains führt.
+ */
+{
+  /*
+    **Geprüft wird die Filterstelle, nicht der Datenbestand.**
+
+    Der erste Anlauf las `public/data/titles.json` und wurde rot — zu Recht,
+    denn der ausgelieferte Stand trägt die sechs Wege noch, und der Bau, der
+    sie entfernt, läuft erst danach. Eine Zusicherung, die zwischen zwei
+    richtigen Zuständen rot ist, misst den Zeitpunkt statt die Sache; die
+    Lehre steht seit dem 02.09.2026 in `CLAUDE.md`.
+  */
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'Bezugswege auf primevideo.com werden entfernt',
+    bau.includes('Bezugswege auf primevideo.com entfernt') && bau.includes('.test(w.url))'),
+    'eine ASIN gilt nicht marktübergreifend, und zwei Prime-Zeilen sehen aus wie zwei Angebote',
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -5016,6 +5016,34 @@ function main(): void {
   }
   if (jwWege) log(`${jwWege} Bezugswege aus JustWatch für Titel ohne jeden Weg ergänzt`)
 
+  /**
+   * **Prime Video führen wir über amazon.de — `primevideo.com` fliegt raus.**
+   *
+   * Daniel am 07.09.2026 an „City The Animation", mit vier Bildern: Der Titel
+   * stand in der „Wo sehen?"-Liste zweimal mit Prime Video, einmal als „DE ✓"
+   * (amazon.de) und einmal als „DE ?" (primevideo.com). „entfern alle links /
+   * pills / verweise / etc. zu primevideo.com. diese domain unterstützen wir
+   * nicht, nur amazon.de wird als ‚prime video' von uns unterstützt".
+   *
+   * Die Regel gibt es seit dem 08.08.2026 als `isUnusablePrimeLink()`, und sie
+   * greift bei den **Verweisen**. Die **Bezugswege** liefen daran vorbei: Sie
+   * entstehen aus aniSearchs Quellenliste, und die führt beide Domains. Ein
+   * Titel bekam so zwei Prime-Zeilen, von denen die zweite nichts wusste — für
+   * einen Besucher sieht das aus wie zwei Angebote.
+   *
+   * Der Grund für die Regel ist unverändert: Eine ASIN gilt nicht
+   * marktübergreifend, und `amazon.de` ist die vertrautere Adresse zur selben
+   * Inhalteseite.
+   */
+  let primeFremd = 0
+  for (const title of titles.values()) {
+    if (!title.watchLinks?.length) continue
+    const vorher = title.watchLinks.length
+    title.watchLinks = title.watchLinks.filter((w) => !/(^|\/\/|\.)primevideo\.com\//.test(w.url))
+    primeFremd += vorher - title.watchLinks.length
+  }
+  if (primeFremd) log(`${primeFremd} Bezugswege auf primevideo.com entfernt — Prime Video führen wir über amazon.de`)
+
   let youtubeStumm = 0
   for (const title of titles.values()) {
     if (!title.streams?.length) continue
