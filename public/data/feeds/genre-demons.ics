@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Demons
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:black-clover-s1-disneyplus@2026-08-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260830
-DTEND;VALUE=DATE:20260831
-SUMMARY:Black Clover – Staffel 1
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/#/release/black-clover-s
- 1-disneyplus
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T171500Z
