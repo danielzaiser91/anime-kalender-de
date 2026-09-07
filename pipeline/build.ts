@@ -3808,7 +3808,33 @@ function main(): void {
         return {}
       }
     })()
-    const katalogKennung = new Map<number, number>()
+    /**
+   * **Titel ohne eigenes ADN-Release — die Staffel steht dann hier.**
+   *
+   * Die Staffel kommt sonst aus dem Release-Slug (`adn-461-s3-20231001`). Zu
+   * manchen Titeln gibt es kein ADN-Release; ihr Verweis zeigt auf die nackte
+   * Serienkennung und bekommt den Befund „gemischt" — richtig und unbrauchbar.
+   *
+   * `data/adn-staffelzuordnung.yaml` hält je AniList-Kennung die ADN-Staffel
+   * fest, belegt über die **Folgenzahl** und nur dort, wo sie eindeutig ist.
+   * Gemessen am 07.09.2026 an JoJo (Serie 444): Staffel 1 hat 26 Folgen,
+   * Staffel 2 achtundvierzig, Staffel 3 und 4 je 39 — die ersten drei unserer
+   * fünf Titel sind damit eindeutig, die beiden 39er ausdrücklich nicht.
+   */
+  const adnStaffeln: Record<number, string> = (() => {
+    try {
+      const roh = yaml.load(readFileSync(resolve(ROOT, 'data/adn-staffelzuordnung.yaml'), 'utf8'))
+      const raus: Record<number, string> = {}
+      for (const [k, v] of Object.entries((roh ?? {}) as Record<string, unknown>)) {
+        if (!Number.isFinite(Number(k)) || !Number.isFinite(Number(v))) continue
+        raus[Number(k)] = String(v)
+      }
+      return raus
+    } catch {
+      return {}
+    }
+  })()
+  const katalogKennung = new Map<number, number>()
     for (const s of readJson<AdnData>('data/adn-catalog.json', {
       scrapedAt: '',
       window: { from: '', to: '' },
@@ -3923,7 +3949,10 @@ function main(): void {
     if (stream.platform !== 'adn') return false
     const ausSlug = ausRelease.get(titleId) ?? undefined
     const kennung = adnAdressen[titleId] ?? katalogKennung.get(titleId) ?? ausSlug?.show
-    const neu = adnAdresseSchaerfen(stream.url, { kennung, staffel: ausSlug?.staffel })
+    /* Der Release-Slug zuerst — er stammt aus der laufenden Zuordnung; die Datei
+       ist für die Titel, zu denen es kein Release gibt. */
+    const staffel = ausSlug?.staffel ?? adnStaffeln[titleId]
+    const neu = adnAdresseSchaerfen(stream.url, { kennung, staffel })
     if (!neu) return false
     stream.url = neu
     return true

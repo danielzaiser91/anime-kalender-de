@@ -2868,6 +2868,27 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     bau.includes('RTL+-Adressen von der abgeschalteten Domain tvnow.de umgestellt'),
     'sonst zeigen zehn Verweise weiter auf die Startseite statt auf die Serie',
   )
+  /*
+    **Wo kein ADN-Release die Staffel nennt, tut es die Zuordnungsdatei.**
+
+    Eine ADN-Serienkennung ist ein Franchise: 444 führt alle vier
+    JoJo-Blöcke. Ohne Staffel bekommt der Verweis den Befund „gemischt" —
+    richtig und unbrauchbar. Normalerweise steht sie im Release-Slug;
+    `data/adn-staffelzuordnung.yaml` schließt die Lücke für Titel, zu denen es
+    kein ADN-Release gibt.
+
+    Belegt wird dort über die **Folgenzahl** und nur, wo sie eindeutig ist:
+    Bei JoJo hat Staffel 1 sechsundzwanzig Folgen, Staffel 2 achtundvierzig,
+    Staffel 3 und 4 je neununddreißig — und von den beiden 39ern ist eine
+    vollständig deutsch, die andere gar nicht. Die zwei Titel dazu bleiben
+    deshalb offen.
+  */
+  pruefe(
+    'die ADN-Staffelzuordnung wird gelesen, der Release-Slug geht vor',
+    bau.includes('data/adn-staffelzuordnung.yaml') &&
+      bau.includes('ausSlug?.staffel ?? adnStaffeln[titleId]'),
+    'die Datei ist die Rückfallebene, nicht die erste Quelle',
+  )
   pruefe(
     'die Nachrunde schärft die ADN-Adresse vor der Beurteilung',
     bau.includes('adnStreamSchaerfen(title.id, stream)'),

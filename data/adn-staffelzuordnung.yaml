@@ -1,0 +1,38 @@
+# ADN-Staffelnummern für Titel ohne eigenes ADN-Release.
+#
+# **Wofür das gut ist.** Eine ADN-Serienkennung ist ein Franchise: 444 führt
+# alle vier JoJo-Blöcke, 461 alle Haikyu!!-Staffeln. Ein Verweis auf die nackte
+# Serie bekommt deshalb den Befund „gemischt" — richtig und unbrauchbar.
+#
+# Normalerweise liest `build.ts` die Staffel aus dem Release-Slug
+# (`adn-461-s3-20231001`). Zu manchen Titeln gibt es aber gar kein ADN-Release;
+# dann sagt niemand, welche Staffel gemeint ist, und der Verweis bleibt bei
+# „🇩🇪 ?".
+#
+#   <anilistId>: <adn-staffelnummer>
+#
+# **Wie eine Zeile hier belegt ist.** Über die **Folgenzahl**, nicht über den
+# Namen — dasselbe zählbare zweite Merkmal, das `staffelBloecke()` für die
+# Release-Zuordnung verlangt. Geht die Summe nicht eindeutig auf, bleibt der
+# Titel hier weg; ein geratener Block erzeugt eine falsche Sprachaussage, und
+# das ist teurer als ein offener Verweis.
+
+# --- Gemessen am 07.09.2026 am ADN-Archiv, Serie 444 (JoJo) ------------------
+#
+#   ADN-Staffel 1 | 26 Folgen | 26 mit vde
+#   ADN-Staffel 2 | 48 Folgen | 48 mit vde
+#   ADN-Staffel 3 | 39 Folgen | 39 mit vde
+#   ADN-Staffel 4 | 39 Folgen |  0 mit vde
+#
+# Drei unserer fünf Titel sind damit eindeutig:
+14719: 1 # JoJo's Bizarre Adventure (26 Folgen) — trifft Staffel 1 als einzige mit 26
+20474: 2 # Stardust Crusaders (24) — zusammen mit 20799 genau die 48 der Staffel 2
+20799: 2 # Stardust Crusaders - Battle in Egypt (24) — dieselbe Rechnung
+#
+# **Diamond Is Unbreakable (21450) und Golden Wind (102883) stehen bewusst
+# nicht hier.** Beide haben 39 Folgen, und ADN führt zwei Staffeln mit 39 —
+# eine davon vollständig deutsch, die andere gar nicht. Die Reihenfolge der
+# ADN-Staffeln entspricht zwar der Erscheinungsreihenfolge, aber das ist eine
+# Annahme, keine Messung. Bei einem Fehlgriff stünde „deutsch" an einer Staffel,
+# die es nicht ist — genau die Falschaussage, gegen die dieses Projekt gebaut
+# ist. Sie bleiben offen, bis eine Messung je Folge sie trennt.
