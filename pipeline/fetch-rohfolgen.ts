@@ -73,6 +73,21 @@ function titelSchluessel(name: string): string {
     .replace(/[^a-z0-9]+/g, '')
 }
 
+/**
+ * Ist dieser Titel der Kopf seiner Reihe — also das, was ein Anbieter
+ * „Staffel 1" nennen würde?
+ *
+ * Gemessen an der japanischen Ausstrahlung: der älteste Eintrag derselben
+ * `franchiseId`. Ein Titel ohne Reihe ist für sich genommen der Kopf.
+ */
+function istReihenkopf(titel: Title, alle: Title[]): boolean {
+  if (!titel.franchiseId) return true
+  const reihe = alle.filter((t) => t.franchiseId === titel.franchiseId && t.jpYear)
+  if (reihe.length < 2) return true
+  const aeltester = reihe.reduce((a, b) => ((a.jpYear ?? 9999) <= (b.jpYear ?? 9999) ? a : b))
+  return aeltester.id === titel.id
+}
+
 interface TmdbEintrag {
   tmdbId: number
   folgen: TmdbFolge[]
@@ -275,6 +290,7 @@ async function main(): Promise<void> {
   }
   /** Wie viele Adressen allein über ihre Folgentitel gefunden wurden. */
   let ueberFolgentitel = 0
+  let uebersprungenStaffel = 0
   /** Adressen, deren Sprache belegt ist, deren Folgen aber nicht zuzuordnen waren. */
   let ohneFolgenzuordnung = 0
 
@@ -649,6 +665,37 @@ async function main(): Promise<void> {
       Sache aufteilt — dann ist die Zuordnung wieder die richtige Frage. 36 der
       101 offenen Adressen tragen genau einen.
     */
+    /**
+     * **Eine Meldung, die ihre Staffel nennt, gehört nicht an den Reihenkopf.**
+     *
+     * Daniel am 07.09.2026 an „Date a Live": Er hat alle fünf Staffeln über
+     * eine Prime-Seite gemeldet, und **drei** verschiedene Adressen landeten
+     * unter Titel 15583 — Staffel 1:
+     *
+     *     B0DML22FHP  „laut Adresse Staffel 2"  → 15583
+     *     B0C7LZCS5H  „laut Adresse Staffel 1"  → 15583
+     *     B0DMB2MKZX  „laut Adresse Staffel 3"  → 15583
+     *
+     * Der Grund ist die Zuordnung über den Namen: Amazon nennt jede Staffel
+     * schlicht „Date a Live", und der beste Namenstreffer ist der Reihenkopf.
+     * Staffel 1 bekam dadurch die Adresse von Staffel 2 und mit ihr ein
+     * `dub: true`, das nie für sie belegt war.
+     *
+     * Die Meldung **weiß** es besser — die Erweiterung liest die Staffel aus
+     * der Adresse (`?ref_=atv_dp_season_select_sN`) und schickt sie mit. Ab
+     * Staffel 2 wird ein Reihenkopf-Treffer deshalb verworfen: Lieber keine
+     * Zuordnung als eine falsche, denn eine falsche erzeugt eine Sprachaussage
+     * über den falschen Titel.
+     *
+     * **Nur ab Staffel 2**, und nur wenn unser Titel wirklich der Kopf ist:
+     * Bei einer einteiligen Reihe ist „Staffel 1" die einzige, und dort ist
+     * der Kopf richtig.
+     */
+    const gemeldeteStaffel = liste[0]?.staffel_nr ?? null
+    if (gemeldeteStaffel !== null && gemeldeteStaffel > 1 && istReihenkopf(titel, titles)) {
+      uebersprungenStaffel++
+      continue
+    }
     if (liste.length === 1) {
       zugeordnet[schluessel] = {
         titleId: titel.id,
@@ -820,7 +867,10 @@ async function main(): Promise<void> {
   const gesamtZugeordnet = Object.values(zugeordnet).reduce((n, z) => n + z.folgen.length, 0)
   log(
     `${Object.keys(zugeordnet).length} Adressen zugeordnet (${gesamtZugeordnet} Folgen), ${offen.length} offen` +
-      (ueberFolgentitel ? `, davon ${ueberFolgentitel} allein über die Folgentitel gefunden` : ''),
+      (ueberFolgentitel ? `, davon ${ueberFolgentitel} allein über die Folgentitel gefunden` : '') +
+      (uebersprungenStaffel
+        ? `, ${uebersprungenStaffel} übersprungen: die Meldung nennt eine Staffel ab 2, der Treffer war der Reihenkopf`
+        : ''),
   )
   if (ohneFolgenzuordnung)
     log(`${ohneFolgenzuordnung} Adressen belegen nur den Titel — die Folgen sind dort nicht zuzuordnen`)
