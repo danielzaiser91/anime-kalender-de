@@ -108,6 +108,27 @@ Stand, der einen halben Tag alt sein kann.
 Ein struktureller Widerspruch, der am 06.09. acht Tage lang unbemerkt blieb. Der
 Dauerauftrag oben fängt ihn ab, aber nur solange jemand ihn liest.
 
+### Punkt 5 des Projektziels ist geprüft und trägt (07.09.2026)
+
+„Rechtzeitig Bescheid geben" stand in der Analyse nur mit einer Terminzahl da —
+ob Abo und Newsletter wirklich funktionieren, war ungeprüft. Gemessen an der
+Live-Seite:
+
+| | |
+|---|---|
+| `/data/feeds/all.ics` | HTTP 200, `text/calendar`, 117 KB |
+| Termine darin | 269 — davon **222 künftig**, 47 aus dem 7-Tage-Rückblick |
+| Gültigkeit | sauberer `END:VCALENDAR`, Zeiten in UTC |
+| Varianten | `platform-netflix` 18, `platform-crunchyroll` 117, `genre-action` 134 |
+| Newsletter-Worker | `/health` meldet `activeSubscribers: 2` |
+| Verdrahtung | die Worker-Adresse steht im ausgelieferten Bundle |
+
+**Ein Messfehler auf dem Weg dahin gehört zum Befund:** Der erste Versuch rief
+`/feeds/all.ics` ab und bekam 404. Der Feed liegt unter `/data/feeds/` — die
+Seite verlinkt ihn richtig (`web/src/lib/data.ts`), nur meine Annahme war
+falsch. Wer eine Adresse rät statt sie im Code nachzuschlagen, misst einen
+Ausfall, den es nicht gibt.
+
 ### Was daraus folgt
 
 Verstärkt wird, was trägt: die Zusicherungen. Jeder Fund dieser Woche hat eine
