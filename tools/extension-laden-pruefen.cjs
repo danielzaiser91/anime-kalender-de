@@ -31,8 +31,14 @@ const vm = require('node:vm')
 
 /*
   Die Content-Skripte laut Manifest — die Leser laufen in derselben Seite und
-  gehören dazu. `optionen.js` läuft in der Optionsseite und hat ein eigenes
-  DOM; es bleibt draußen, weil sein Sandkasten ein anderer wäre.
+  gehören dazu, `ruhig.js` ebenfalls: Es liegt auf **jeder** Amazon-Seite, ein
+  Absturz dort trifft alles.
+
+  **`optionen.js` bleibt draußen**, und das ist eine Abwägung, keine Lücke: Es
+  greift beim Laden auf die Elemente seiner eigenen HTML-Seite zu, die hier
+  alle null sind. Dafür bräuchte es ein zweites, nachgebautes DOM — für vierzig
+  Zeilen Optionsseite mehr Gerüst als Gewinn. Sie lädt nur, wenn Daniel sie
+  selbst öffnet, und ein Fehler dort fällt sofort auf.
 */
 const SKRIPTE = [
   'extension/melder.js',
@@ -41,6 +47,8 @@ const SKRIPTE = [
   'extension/leser.js',
   'extension/amazon-leser.js',
   'extension/disney-leser.js',
+  /* Läuft laut Manifest auf jeder Amazon-Seite — ein Absturz hier trifft alle. */
+  'extension/ruhig.js',
 ]
 
 const fehler = []
@@ -191,6 +199,8 @@ function baueSandkasten(host, pfad) {
     chrome: {
       storage: {
         local: { get: async () => ({}), set: async () => undefined, remove: async () => undefined },
+        /* Die Optionsseite legt das Token in `sync` ab, nicht in `local`. */
+        sync: { get: async () => ({}), set: async () => undefined, remove: async () => undefined },
         onChanged: { addListener() {} },
       },
       runtime: {
