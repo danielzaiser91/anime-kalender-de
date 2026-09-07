@@ -2508,10 +2508,39 @@ function main(): void {
   const alleChecks = loadDubChecks()
   const checksJePlattform = new Map<string, DubCheck[]>()
   for (const c of alleChecks) {
+    /*
+      **Adressbelege bleiben draußen — sie tragen keine Aussage über den Verweis.**
+
+      `dub-confirmed.yaml` führt neben den Urteilen auch Zeilen, die nur die
+      Herkunft einer Adresse festhalten („Verweis aus Netflix' eigener
+      Staffelliste erschlossen"): mit `url`, ohne `dub` und ohne `available`.
+      Solange `loadDubChecks()` beide verschmolz, fiel das nicht auf; seit der
+      Trennung je Ausgabe (07.09.2026) gewann der Adressbeleg gegen das Urteil,
+      weil er die passende Adresse trug — fünf Staffeln „My Hero Academia"
+      standen so trotz belegtem Nein im Datensatz.
+
+      **`available` gehört dazu, `dub` allein genügt nicht.** Ein erster Anlauf
+      filterte nur auf `dub` und warf 262 „nicht verfügbar"-Belege weg; aus
+      sechs Meldungen in `check:handbelege` wurden 268. Beide Felder sind
+      verschiedene Aussagen (siehe `DubCheck.available`), aber beide sind
+      Aussagen.
+    */
+    if (typeof c.dub !== 'boolean' && typeof c.available !== 'boolean') continue
     const k = dubKey(c.anilistId, c.platform)
     const liste = checksJePlattform.get(k) ?? []
     liste.push(c)
     checksJePlattform.set(k, liste)
+  }
+  /*
+    **Der jüngste Beleg steht vorn — einmal sortiert, nicht bei jedem Aufruf.**
+
+    `belegFuer()` greift in jeder Stufe den ersten passenden Eintrag. Ohne
+    Sortierung ist das der erste der Datei, und bei 26 Verweisen war das ein
+    Beleg, den ein jüngerer längst überholt hatte (07.09.2026). Die Reihenfolge
+    ist für alle Aufrufe dieselbe, also wird sie einmal hier festgelegt.
+  */
+  for (const liste of checksJePlattform.values()) {
+    liste.sort((a, b) => (b.checkedAt ?? '').localeCompare(a.checkedAt ?? ''))
   }
   const belegFuer = (
     titleId: number,
@@ -2548,7 +2577,19 @@ function main(): void {
       verschiedene Aussagen (siehe `DubCheck.available`), aber beide sind
       Aussagen; nur der Adressbeleg ist keine.
     */
-    const liste = alle.filter((c) => typeof c.dub === 'boolean' || typeof c.available === 'boolean')
+    /*
+      **Und innerhalb jeder Stufe gewinnt der jüngste Beleg.**
+
+      `loadDubChecks()` ließ den jüngeren gewinnen, solange es je Schlüssel nur
+      einen Eintrag gab. Seit der Trennung je Ausgabe liegen mehrere
+      nebeneinander, und `find()` nahm schlicht den ersten der Datei — bei 26
+      Verweisen war das ein Beleg, den ein jüngerer längst überholt hatte
+      (gemessen 07.09.2026, `check:handbelege` meldet solche Fälle namentlich).
+
+      Ein Sortiervorgang je Aufruf wäre Verschwendung: Die Reihenfolge ist für
+      alle Aufrufe dieselbe, also wird sie einmal beim Aufbau der Karte gesetzt.
+    */
+    const liste = alle
     if (!liste.length) return undefined
     if (url) {
       const genau = liste.find((c) => c.url && adressGleich(c.url, url))

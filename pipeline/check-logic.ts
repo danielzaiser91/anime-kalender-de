@@ -3225,8 +3225,19 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'nur Einträge mit einer Aussage zählen als Beleg — Adressbelege nicht',
-    bau.includes("typeof c.dub === 'boolean' || typeof c.available === 'boolean'"),
+    bau.includes("if (typeof c.dub !== 'boolean' && typeof c.available !== 'boolean') continue"),
     'ein Adressbeleg trägt url und keine Aussage; available gehört dazu, sonst fallen 262 „nicht verfügbar" weg',
+  )
+  /*
+    **Und der jüngste Beleg steht vorn.** `belegFuer()` greift in jeder Stufe
+    den ersten passenden Eintrag; ohne Sortierung ist das der erste der Datei.
+    Bei 26 Verweisen war das am 07.09.2026 ein Beleg, den ein jüngerer längst
+    überholt hatte — `check:handbelege` meldet solche Fälle namentlich.
+  */
+  pruefe(
+    'bei mehreren Belegen gilt der jüngste',
+    bau.includes("liste.sort((a, b) => (b.checkedAt ?? '').localeCompare(a.checkedAt ?? ''))"),
+    'sonst entscheidet die Reihenfolge in der Datei, nicht das Prüfdatum',
   )
   pruefe(
     'der Lauf bricht ab, wenn Amazon in Serie Zwischenseiten schickt',
