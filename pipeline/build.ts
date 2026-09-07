@@ -2543,6 +2543,53 @@ function main(): void {
     return anzahlWege > 1 ? undefined : liste[0]
   }
   /* Rückwärtsverträglich für die Stellen, die keine Adresse zur Hand haben. */
+  /**
+   * **Eine nackte Domain ist kein Weg zu einem Titel.**
+   *
+   * Gemessen am 07.09.2026: Zwei Crunchyroll-Verweise trugen als Adresse
+   * schlicht `https://crunchyroll.com` — einer davon mit großem C, beide ohne
+   * Pfad. Sie stammen aus einer Quelle, die statt einer Titelseite ihre eigene
+   * Startseite gemeldet hat.
+   *
+   * Für einen Besucher ist das die schlechteste Art von Verweis: Er sieht aus
+   * wie eine Auskunft („dort läuft es"), führt aber auf eine Startseite, auf
+   * der er den Titel selbst suchen muss. Ein Fragezeichen wäre ehrlicher
+   * gewesen, gar kein Verweis noch mehr.
+   *
+   * **Ins Gedächtnis kommt das nicht**: Es ist kein belegtes Nein, sondern eine
+   * kaputte Adresse. Taucht dieselbe Serie später mit einer echten Adresse auf,
+   * soll sie kommen dürfen.
+   */
+  let ohnePfad = 0
+  for (const title of titles.values()) {
+    if (!title.streams?.length) continue
+    for (const stream of title.streams) {
+      let pfad = ''
+      try {
+        pfad = new URL(stream.url).pathname
+      } catch {
+        pfad = ''
+      }
+      if (pfad !== '' && pfad !== '/') continue
+      /*
+        **Ersetzt, nicht entfernt.**
+
+        Der erste Anlauf warf den Verweis weg — und nahm damit „Black Clover:
+        Staffel 2" und „Kaiju No. 8 Narumi's Week" den einzigen Weg, den sie
+        haben. Beide haben eine belegte deutsche Synchro; ohne Verweis wären
+        sie hinter den Toggle gewandert, und der Riegel gegen Titelschwund
+        schlug zu Recht an.
+      */
+      const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? ''
+      if (stream.platform === 'crunchyroll' && name) {
+        stream.url = `https://www.crunchyroll.com/de/search?q=${encodeURIComponent(name)}`
+        ohnePfad++
+      }
+    }
+  }
+  if (ohnePfad)
+    log(`${ohnePfad} Verweise ohne Pfad auf die Suche gelenkt — eine nackte Domain ist kein Weg zu einem Titel`)
+
   const checks = new Map(alleChecks.map((c) => [dubKey(c.anilistId, c.platform), c]))
   /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
   const youtubeBefunde = readJson<Record<string, { art: string; inDE: number }>>('data/youtube-check.json', {})
@@ -5103,6 +5150,7 @@ function main(): void {
    * marktübergreifend, und `amazon.de` ist die vertrautere Adresse zur selben
    * Inhalteseite.
    */
+
   let primeFremd = 0
   for (const title of titles.values()) {
     if (!title.watchLinks?.length) continue
