@@ -4280,6 +4280,34 @@ function main(): void {
       /* Was dieser Lauf selbst gerade verworfen hat, bleibt ohne Frist draußen. */
       ...verweiseEntfernt.map((e) => adressKern(e.url ?? '')),
     ])
+    /**
+     * **Eine tote Crunchyroll-Serie erkennt man an ihrer Kennung, nicht an der
+     * Adresse.**
+     *
+     * Am 07.09.2026 ist der Bau daran rot geworden (Lauf 34106061181):
+     * `.../de/series/G4PH0WJDQ/captain-tsubasa-junior-youth-arc` flog als
+     * belegtes Nein aus dem Bestand — Crunchyroll meldet für die Serie „Videos
+     * nicht mehr verfügbar" —, und dieselbe Runde hier legte Sekunden später
+     * `.../series/G4PH0WJDQ/...` **ohne** `/de/` aus aniSearch neu an.
+     * `check:cr-zuordnung` hat es zu Recht gemeldet: eine tote Serie, frisch
+     * verlinkt.
+     *
+     * Weder `bekannt` noch `frueherEntfernt` konnten greifen: Beide vergleichen
+     * normalisierte **Adressen**, und `adressKern()` gleicht den `/de/`-Teil
+     * nicht aus. Die zweite Adresse war nie ein Stream, stand also in keiner
+     * der beiden Mengen.
+     *
+     * **Nur `nichtVerfuegbar` zählt, nicht „gerade keine deutsche Folge".**
+     * Der Vorschlag aus dem Reparatur-Lauf (PR #55) nahm zusätzlich jede Serie
+     * mit `katalog: 'de'` und leerer Staffelliste — gemessen sind das **227
+     * lebendige** Serien. Genau das ist das Kill-Blue-Muster vom selben Tag:
+     * Am 22.08. hatte Crunchyroll dort null deutsche Folgen, am 06.09. lagen
+     * acht vor. Heute keine Synchro zu haben ist kein Beleg dafür, nie eine zu
+     * bekommen — und ein Ausschluss über die Kennung kennt keine Frist.
+     */
+    const toteCrSerien = new Set(
+      crDub.serien.filter((s) => s.nichtVerfuegbar && s.seriesId).map((s) => s.seriesId as string),
+    )
     let wegeErgaenzt = 0
     const jeAnbieter: Record<string, number> = {}
     for (const title of titles.values()) {
@@ -4313,6 +4341,11 @@ function main(): void {
         if (!ziel || !url) continue
         if (vorhanden.has(ziel)) continue
         if (bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url))) continue
+        if (ziel === 'crunchyroll') {
+          /* Die Kennung entscheidet, nicht die Schreibweise der Adresse — siehe `toteCrSerien`. */
+          const kennung = /\/series\/([A-Z0-9]+)/.exec(url)?.[1]
+          if (kennung && toteCrSerien.has(kennung)) continue
+        }
         /*
           **Ein verneinender Handbeleg hält den Verweis draußen — ein bejahender
           nicht.**
