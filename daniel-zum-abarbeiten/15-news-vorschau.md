@@ -1,6 +1,6 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-07. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
@@ -55,26 +55,26 @@ Stand: 2026-09-07. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.1 Tage her | 7 |
-| adn-catalog | 7.0 Tage her | 114 |
-| anilist-voices | 7.0 Tage her | 0 |
-| anime-offline-database | 7.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 43 |
-| anisearch | 0.1 Tage her | 3179 |
-| anisearch-folgen | 5.6 Tage her | 3050 |
-| ann-voices | 7.0 Tage her | 8876 |
-| cinestar | 7.0 Tage her | 1 |
-| cr-einzelwerke | 5.0 Tage her | 9 |
-| cr-filmbloecke | 5.0 Tage her | 6 |
-| crunchyroll | 0.1 Tage her | 21 |
-| crunchyroll-dub | 0.0 Tage her | 1076 |
-| fsk | 7.0 Tage her | 3 |
-| justwatch-audio | 0.0 Tage her | 26 |
-| link-check | 7.0 Tage her | 140 |
-| motn | 5.1 Tage her | 1888 |
-| motn-changes | 0.1 Tage her | 2 |
-| rohfolgen | 0.0 Tage her | 0 |
-| tmdb-folgen | 6.9 Tage her | 808 |
-| tmdb-kino | 7.0 Tage her | 2 |
-| tmdb-titles | 7.0 Tage her | 389 |
-| youtube-check | 7.0 Tage her | 0 |
+| adn | 0.0 Tage her | 6 |
+| adn-catalog | 7.9 Tage her | 114 |
+| anilist-voices | 7.9 Tage her | 0 |
+| anime-offline-database | 7.9 Tage her | 8876 |
+| anime2you | 0.9 Tage her | 0 |
+| anisearch | 1.0 Tage her | 3179 |
+| anisearch-folgen | 6.5 Tage her | 3050 |
+| ann-voices | 7.9 Tage her | 8876 |
+| cinestar | 7.9 Tage her | 1 |
+| cr-einzelwerke | 5.9 Tage her | 9 |
+| cr-filmbloecke | 5.9 Tage her | 6 |
+| crunchyroll | 0.0 Tage her | 21 |
+| crunchyroll-dub | 0.8 Tage her | 1076 |
+| fsk | 7.9 Tage her | 3 |
+| justwatch-audio | 0.9 Tage her | 28 |
+| link-check | 0.5 Tage her | 6 |
+| motn | 6.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 48 |
+| rohfolgen | 0.2 Tage her | 0 |
+| tmdb-folgen | 7.8 Tage her | 808 |
+| tmdb-kino | 7.9 Tage her | 2 |
+| tmdb-titles | 7.8 Tage her | 389 |
+| youtube-check | 7.9 Tage her | 0 |
