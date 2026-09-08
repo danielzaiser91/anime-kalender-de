@@ -26,6 +26,7 @@
  * einem Anbieter zu sehen sind und deshalb überhaupt einen deutschen Namen
  * tragen (Daniel: „erstmal alle ab 2015, danach den rest").
  */
+import { titelAus, type Titelherkunft } from './lib/anisearch-titel.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 
 const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)'
@@ -45,6 +46,17 @@ interface OhneSynchro {
 interface Titeleintrag {
   /** Wie der Titel bei aniSearch heißt — der deutsche Name, wo es einen gibt. */
   titel: string
+  /**
+   * **Woher der Name stammt — und ob er überhaupt deutsch ist.**
+   *
+   * `sprachblock` und `synonym` sind belegt deutsch, `ueberschrift` ist es
+   * nicht: Die `<h1 id="htitle">` trägt keine Sprachkennzeichnung und nennt bei
+   * einem Titel ohne deutsche Veröffentlichung schlicht den japanischen Namen.
+   *
+   * Fehlt das Feld ganz, stammt der Eintrag aus einem Lauf vor dem 08.09.2026
+   * und ist von unbekannter Herkunft.
+   */
+  quelle?: Titelherkunft
   anisearchId: number
   fetchedAt: string
 }
@@ -127,8 +139,35 @@ for (const teile of Object.values(
   for (const teil of teile) inReihe.add(teil.id)
 }
 
+/**
+ * **Fällig wird über das Alter, nicht über „steht noch nicht da".**
+ *
+ * Ein Filter der Form „hole, was fehlt" macht jede Antwort endgültig — die
+ * Regel steht in CLAUDE.md, und dieser Lauf hat sie bis zum 08.09.2026
+ * verletzt. Sie hat genau das gekostet, was sie verhindern soll: Die 3.531
+ * Einträge aus der alten Überschriften-Lesung wären nie wieder drangekommen,
+ * und mit ihnen die 715 japanischen Namen, die dort als deutsche stehen.
+ *
+ * Ein Eintrag ist fällig, wenn er
+ *   - keine Herkunft trägt (Altbestand, Sprache unbekannt),
+ *   - nur die Überschrift kennt (ein Sprachblock kann inzwischen da sein —
+ *     eine Staffel erscheint hier später), oder
+ *   - älter ist als `--alter` Tage.
+ *
+ * Ein belegter deutscher Sprachblock ändert sich dagegen praktisch nie; er
+ * kommt nur über die Frist wieder dran.
+ */
+const ALTER_TAGE = Number(/--alter[= ](\d+)/.exec(process.argv.join(' '))?.[1] ?? 180)
+const faellig = (t: { id: number }): boolean => {
+  const e = bestand[String(t.id)]
+  if (!e) return true
+  if (!e.quelle || e.quelle === 'ueberschrift') return true
+  const alter = (Date.now() - Date.parse(e.fetchedAt)) / 86_400_000
+  return !(alter < ALTER_TAGE)
+}
+
 const warteschlange = ohne
-  .filter((t) => bruecke[String(t.id)] && !bestand[String(t.id)])
+  .filter((t) => bruecke[String(t.id)] && faellig(t))
   .filter(
     (t) => ALLE || inReihe.has(t.id) || (['TV', 'ONA'].includes(t.format ?? '') && (t.jpYear ?? 0) >= 2015),
   )
@@ -139,14 +178,9 @@ const warteschlange = ohne
 
 log(`${warteschlange.length} Titel offen, davon kommen ${Math.min(GRENZE, warteschlange.length)} dran`)
 
-/** Der deutsche Name steht in der Überschrift der Seite, nicht im Seitentitel. */
-function titelAus(html: string): string | null {
-  const m = /<h1[^>]*id="htitle"[^>]*>([^<]+)</.exec(html)
-  return m ? m[1].replace(/\s+/g, ' ').trim() || null : null
-}
-
 let geholt = 0
 let neu = 0
+let deutsch = 0
 for (const t of warteschlange.slice(0, GRENZE)) {
   const asId = bruecke[String(t.id)]!
   try {
@@ -163,13 +197,20 @@ for (const t of warteschlange.slice(0, GRENZE)) {
       }
       continue
     }
-    const titel = titelAus(await antwort.text())
-    if (titel) {
-      bestand[String(t.id)] = { titel, anisearchId: asId, fetchedAt: new Date().toISOString() }
+    const fund = titelAus(await antwort.text())
+    if (fund) {
+      bestand[String(t.id)] = {
+        titel: fund.titel,
+        quelle: fund.quelle,
+        anisearchId: asId,
+        fetchedAt: new Date().toISOString(),
+      }
       neu++
+      if (fund.quelle !== 'ueberschrift') deutsch++
     }
     geholt++
-    if (geholt % 100 === 0) log(`  ${geholt}/${Math.min(GRENZE, warteschlange.length)} — zuletzt „${titel ?? '—'}"`)
+    if (geholt % 100 === 0)
+      log(`  ${geholt}/${Math.min(GRENZE, warteschlange.length)} — zuletzt „${fund?.titel ?? '—'}"`)
   } catch (err) {
     warn(`aniSearch ${asId}: ${(err as Error).message}`)
   }
@@ -177,4 +218,7 @@ for (const t of warteschlange.slice(0, GRENZE)) {
 }
 
 writeJson('data/anisearch-titel.json', bestand, true)
-log(`${geholt} Seiten geholt, ${neu} Titel gesichert, ${Object.keys(bestand).length} insgesamt`)
+log(
+  `${geholt} Seiten geholt, ${neu} Titel gesichert (${deutsch} davon belegt deutsch), ` +
+    `${Object.keys(bestand).length} insgesamt`,
+)

@@ -467,6 +467,23 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anisearch-folgen -- --limit 120
 
+      # **Deutsche Namen für den Katalog hinter dem Toggle.**
+      #
+      # Stand bis zum 08.09.2026 in keinem planmäßigen Lauf, nur in
+      # „Datenlauf auf Abruf" — der Bestand fror nach dem einen Lauf ein, der
+      # ihn angelegt hat. Seit der Umstellung auf eine Warteschlange nach Alter
+      # ist das nicht nur eine Lücke, sondern macht die Umstellung wirkungslos:
+      # Was nie wieder drankommt, wird auch nie berichtigt.
+      #
+      # 400 Seiten bei zwei Sekunden Takt sind rund 13 Minuten. Die 3.531
+      # Alteinträge sind damit in neun Wochen einmal durch — sie tragen ihren
+      # Namen aus der Überschrift und sind alle fällig.
+      - name: aniSearch — deutsche Titel für den Katalog
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:anisearch-titel -- --limit 400
+
       - name: Fortschritt — Deutsche Texte und Anbieter von aniSearch
         continue-on-error: true
         env:

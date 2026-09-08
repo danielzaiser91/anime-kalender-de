@@ -17,6 +17,7 @@
  * Aufruf: npm run check:logic
  */
 import { readFileSync } from 'node:fs'
+import { titelAus } from './lib/anisearch-titel.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, titleStatus } from '../shared/logic.ts'
@@ -3293,6 +3294,77 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'eine Meldung ab Staffel 2 landet nicht am Reihenkopf',
     roh.includes('gemeldeteStaffel > 1 && istReihenkopf(titel, titles)'),
     'Amazon nennt jede Staffel gleich; der beste Namenstreffer ist der Reihenkopf',
+  )
+}
+
+/**
+ * **Die Überschrift einer aniSearch-Seite ist kein deutscher Titel.**
+ *
+ * Anlass: Der Katalog führte „Tensei Kizoku, Kantei Skill de Nariagaru Dai 3
+ * Ki" als `titleDe`, während aniSearch unter „Synonyme" „…: Staffel 3" nennt
+ * (Daniel, 08.09.2026). Die `<h1 id="htitle">` trägt keine Sprachkennzeichnung.
+ *
+ * Geprüft wird an einer **Kulisse**, nicht am Bestand: Was hier steht, gilt
+ * unabhängig davon, welche Seiten ein Lauf gerade geholt hat.
+ */
+{
+  const seite = (blocke: string, synonyme: string, h1 = 'Tensei Kizoku, Kantei Skill de Nariagaru Dai 3 Ki') =>
+    `<h1 id="htitle">${h1}</h1><section id="information"><ul class="cols"><li><ul class="xlist">` +
+    blocke +
+    (synonyme
+      ? `<li><div class="synonyms"><span class="header">Synonyme:</span> ${synonyme}</div></li>`
+      : '') +
+    '</ul><div class="showall"><button type="button">Alle anzeigen</button></div></li></ul></section>'
+
+  const block = (land: string, sprache: string, titel: string) =>
+    `<li><div class="title" lang="${land}"><img src="x" class="flag" alt="${sprache}" title="${sprache}">` +
+    `<strong class="f16">${titel}</strong></div>` +
+    `<div class="status"><span class="header">Status:</span> Abgeschlossen</div></li>`
+
+  const jaBlock = block('ja', 'Japanisch', 'Tensei Kizoku, Kantei Skill de Nariagaru Dai 3 Ki')
+  const deBlock = block('de', 'Deutsch', 'Die rothaarige Schneeprinzessin: Staffel 2')
+
+  const nurJa = titelAus(seite(jaBlock, 'Appraisal Skill 3rd Season, Appraisal Skill: Staffel 3'))
+  pruefe(
+    'ein deutsches Synonym schlägt die japanische Überschrift',
+    nurJa?.titel === 'Appraisal Skill: Staffel 3' && nurJa.quelle === 'synonym',
+    `„Staffel" steht in keinem japanischen Synonym — gelesen wurde stattdessen „${nurJa?.titel}"`,
+  )
+
+  const mitDe = titelAus(seite(jaBlock + deBlock, 'Snow White with the Red Hair (Staffel 2)'))
+  pruefe(
+    'der deutsche Sprachblock schlägt das Synonym',
+    mitDe?.titel === 'Die rothaarige Schneeprinzessin: Staffel 2' && mitDe.quelle === 'sprachblock',
+    'über alle 3.179 Archivseiten weicht der Block in 97 von 98 Fällen ab — zu seinen Gunsten',
+  )
+
+  const ohne = titelAus(seite(jaBlock, 'Kanteiskill, Appraisal Skill 3rd Season'))
+  pruefe(
+    'ohne deutschen Beleg wird die Überschrift als solche vermerkt',
+    ohne?.quelle === 'ueberschrift',
+    'sonst behauptet der Katalog einen deutschen Namen, den niemand belegt hat',
+  )
+
+  pruefe(
+    'der Knopf „Alle anzeigen" hängt nicht am letzten Synonym',
+    !/Alle anzeigen/.test(
+      titelAus(seite(jaBlock, 'Erstes Synonym, Zweites: Staffel 3'))?.titel ?? 'Alle anzeigen',
+    ),
+    'Synonyme sind das letzte Feld der Infobox; der Wert lief bis zum Abschnittsende',
+  )
+
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'aus einer Überschrift macht der Bau kein titleDe',
+    bau.includes("eintrag?.quelle === 'ueberschrift' ? undefined : eintrag?.titel"),
+    'die Überschrift trägt keine Sprachkennzeichnung — titleRomaji sagt ohnehin dasselbe',
+  )
+
+  const holer = readFileSync('pipeline/fetch-anisearch-titel.ts', 'utf8')
+  pruefe(
+    'die Warteschlange bildet sich über das Alter, nicht über „fehlt noch"',
+    holer.includes('const faellig =') && holer.includes("e.quelle === 'ueberschrift'"),
+    'ein Filter „hole, was fehlt" macht jede Antwort endgültig — auch die falsche',
   )
 }
 

@@ -555,7 +555,17 @@ export function extractInfo(html: string): AnisearchInfo | undefined {
   // Kopfes — deshalb hier über die ganze Infobox.
   const synonyme = fields(section).find((f) => f.label === 'Synonyme')
   if (synonyme) {
-    info.synonyms = textOf(synonyme.value.replace(/<input[\s\S]*$/, ''))
+    /*
+      **Der Wert endet am `</div>`, nicht am Ende der Infobox.**
+
+      Synonyme sind das letzte Feld; `fields()` schneidet erst am nächsten Feld
+      oder am Abschnittsende, und dazwischen steht noch der Knopf „Alle
+      anzeigen". Ohne diesen Schnitt hängt er am **letzten** Synonym — gemessen
+      am 08.09.2026 bei 1.840 von 2.430 Einträgen im Bestand. Aufgefallen ist es
+      nie, weil das Feld bis dahin niemand gelesen hat.
+    */
+    const roh = synonyme.value.split('</div>')[0]!.replace(/<input[\s\S]*$/, '')
+    info.synonyms = textOf(roh)
       .split(/,\s*/)
       .map((s) => s.replace(/…mehr$/, '').trim())
       .filter(Boolean)
