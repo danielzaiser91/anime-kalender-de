@@ -6,28 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-634@2026-09-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260901T070000Z
-DTEND:20260901T073000Z
-SUMMARY:Hellsing Ultimate
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-634
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:ghost-in-the-shell-2026@2026-09-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260901
-DTEND;VALUE=DATE:20260902
-SUMMARY:The Ghost in the Shell – Folge 9/10
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Woche
- nrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/g
- host-in-the-shell-2026
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:clevatess-s2@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T120000Z

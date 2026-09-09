@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Horror
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-634@2026-09-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260901T070000Z
-DTEND:20260901T073000Z
-SUMMARY:Hellsing Ultimate
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-634
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:hakaba-kitaro-der-junge-vom-friedhof-2026-09-04@2026-09-04@anime-kalend
  er-de
 DTSTAMP:20200101T000000Z
