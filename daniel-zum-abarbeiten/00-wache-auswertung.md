@@ -5,7 +5,33 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 09.09.2026, 19:10 — durchgesehen, nichts offen
+
+**Was läuft korrekt.** Sieben Läufe in 24 Stunden, keiner mit Veränderung, der
+Briefkasten leer — der Stand ist seit dem 08.09. unbewegt (2.768 Titel, 1.913
+Urteile, 74 offen). Die Zahlen der Wache decken sich mit dem, was am Abend von
+Hand gemessen wurde.
+
+**Der Verbesserungsvorschlag vom 07.09. ist erledigt** — und zwar am selben Tag:
+`bestand-historie.ts` rechnet je Anbieter die **begründeten** Entfernungen aus
+`data/verweise-entfernt.json` gegen den Verlust und meldet nur den Rest
+(„… Synchro-Belege weniger (N weitere sind begründet entfernt)"). Der Vorschlag
+bleibt hier stehen, damit niemand ihn ein zweites Mal aufschreibt.
+
+**Wo echte Risiken sind.** Keines aus diesen Läufen. Der bekannte Punkt bleibt:
+Die Wache läuft um 09:20, ein Arbeitstag erzeugt bis zum Abend Dutzende
+Änderungen, und sie meldet sie erst am nächsten Morgen. Genau dafür gibt es
+diese Datei.
+
+**Was komplett falsch läuft.** Nichts. Die drei Fehler dieses Abends
+(Melde-Kasten, Auftrag über zwei Ausgaben, Staffelwarnung) liegen alle in der
+Erweiterung und berühren den Bestand nicht — der eine, der ihn berührte (ein
+verlorener Beleg zu „Death Note: Relight"), war für die Wache unsichtbar: Er
+entstand aus zwei Meldungen, die zu **einem** Beleg wurden. Ein Verlust, den es
+nie in den Bestand geschafft hat, taucht in keiner Delta-Zeile auf.
+
 ---
+
 
 ## 07.09.2026, 15:31 — fünf gemeldete Verluste, alle erklärt
 

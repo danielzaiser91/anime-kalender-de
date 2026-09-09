@@ -3830,6 +3830,36 @@ gewechselt".
 Dropdown-Wechsel Jahr und Staffelnummer aus dem alten Quelltext, ohne zu warnen.
 Wer das anfasst, misst zuerst, welcher Wächter dort wirklich anschlägt.
 
+### Die Gegenprobe fällt — fünf Mängel einer Kulisse, keiner zu erraten
+
+Am 09.09.2026 stand hier: „Bis die Gegenprobe fällt, ist es keine Prüfung — nur
+eine bessere Kulisse." Sie fällt jetzt. `tools/amazon-startseite-pruefen.cjs`
+meldet den `istKanalKarte`-Absturz wörtlich so, wie Daniel ihn gesehen hat:
+„Cannot access 'istKanalKarte' before initialization".
+
+Dazwischen lagen **fünf** Mängel der Kulisse, jeder einzeln gemessen — und jeder
+verdeckte den nächsten:
+
+| fehlte | Wirkung |
+|---|---|
+| `querySelector`, das wirklich sucht | der Kasten bekam nie sein `.ak-z-inhalt`, keine Zeile wurde eingehängt |
+| `AK_PRIME_SUCHE` | `offeneSuche()` liest **diese** Liste, nicht `AK_OFFENE_AMAZON` — ohne sie kein Auftrag |
+| `sessionStorage` | schon `seiteGehtUnsAn()` lief in seinen Fangzweig, die Seite galt als fremd |
+| `closest` an den Trefferkarten | `suchTreffer()` warf auf oberster Ebene — das Skript endete stumm |
+| `createTextNode` und `append` | dieselbe Stelle, ein Schritt weiter, in den Ankreuz-Zeilen |
+
+**Das Vorgehen ist die eigentliche Lehre.** Vier Anläufe aus Vermutungen hatten
+nichts gebracht; gefunden wurde jeder Mangel durch dieselbe Frage, gestellt an
+den Ablauf statt an den Code: *Wie weit kommt er?* Gemessen wurde daran, **was
+am `body` hängt** — der Übersichts-Knopf entsteht früh, der Kasten spät. „Nichts
+angehängt" auf der Suchseite, während drei andere Adressen ihren Knopf haben,
+zeigt die Stelle genauer als jeder Stapelauszug.
+
+**Und ein stiller Ausstieg sieht aus wie eine bestandene Prüfung.** Alle fünf
+Fälle endeten ohne rote Zeile: Der Wurf stand auf oberster Ebene des Skripts,
+die Prüfung sah einen Knopf, den es vor der Absturzstelle gab, und meldete grün.
+Deshalb zählt sie jetzt die Zeilen im Kasten — und wird rot, wenn er leer bleibt.
+
 ### Der fünfte `let`-Zugriff vor der Deklaration — gefangen vom Sandkasten
 
 Der Fix darüber rief `kennungImQuelltextBekannt()` neu aus `zeigeAuftragshinweis()`

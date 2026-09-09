@@ -39,6 +39,35 @@ liste[SUCH_ADRESSE] = {
 }
 
 function baueDom() {
+  /**
+   * **`querySelector` muss wirklich suchen — sonst endet der Ablauf im Nichts.**
+   *
+   * Bis zum 09.09.2026 gab jeder Mock-Knoten hier `null` zurück. `hinweisKasten()`
+   * holt sich damit kein `.ak-z-inhalt`, und **alle** Zeilen des Kastens —
+   * Befund, Ankreuz-Felder, Melde-Knopf — werden nie eingehängt. Die Prüfung lief
+   * grün, weil sie nichts erreichte: Die Gegenprobe (den Fehler wieder einbauen)
+   * blieb ebenfalls grün, und genau daran ist am selben Tag ein Absturz
+   * vorbeigelaufen.
+   *
+   * Gesucht wird, was `amazon.js` wirklich benutzt: Klassennamen (`.ak-z-inhalt`)
+   * und Attribut-Auswahl über `data-testid`. Mehr braucht es nicht — und mehr
+   * wäre eine DOM-Nachbildung, die selbst Fehler haben kann.
+   */
+  const passt = (knoten, wahl) => {
+    const w = String(wahl).trim()
+    if (w.startsWith('.')) return String(knoten.className || '').split(/\s+/).includes(w.slice(1))
+    const attr = /^\[([\w-]+)="?([^\]"]+)"?\]$/.exec(w)
+    if (attr) return knoten.getAttribute?.(attr[1]) === attr[2]
+    return false
+  }
+  const suche = (knoten, wahl) => {
+    for (const k of knoten.kinder ?? []) {
+      if (passt(k, wahl)) return k
+      const tiefer = suche(k, wahl)
+      if (tiefer) return tiefer
+    }
+    return null
+  }
   const mach = () => ({
     className: '',
     style: {},
@@ -56,9 +85,11 @@ function baueDom() {
     */
     replaceChildren(...neu) { this.kinder = neu; return undefined },
     appendChild(k) { this.kinder.push(k); return k },
+    /* Die Ankreuz-Zeile hängt Feld und Text in einem Aufruf ein. */
+    append(...neu) { this.kinder.push(...neu) },
     remove() {},
     addEventListener(art, fn) { this.hoerer[art] = fn },
-    querySelector: () => null,
+    querySelector(wahl) { return suche(this, wahl) },
     querySelectorAll: () => [],
     focus() {},
 insertBefore(k) { this.kinder.push(k); return k },
@@ -83,6 +114,7 @@ insertBefore(k) { this.kinder.push(k); return k },
   `search` gehört mit in die Kulisse: Ohne den Suchbegriff hält `amazon.js` die
   Adresse für eine leere Suche und baut den Kasten gar nicht erst.
 */
+let fehlgeschlagen = false
 const PFADE = [
   { pfad: '/', suche: '' },
   { pfad: '/gp/video/storefront', suche: '' },
@@ -112,6 +144,22 @@ function baueKarten(mach) {
         ? { getAttribute: () => `https://www.amazon.de/gp/video/detail/${kennung}` }
         : null
     k.querySelectorAll = () => []
+    /*
+      **`closest` gehört dazu — hier ist der Ablauf gestorben.**
+
+      `suchTreffer()` zählt über `k.closest('ul')?.getAttribute('aria-label')`,
+      wie viele Karten in der echten Ergebnisliste stehen. Ohne die Methode wirft
+      es „k.closest is not a function", der Wurf steht auf oberster Ebene des
+      Skripts (Zeile 4502, `const aufSuchseite = zeigeSuchhinweis() || …`) — und
+      **damit endet die Erweiterung**: kein Knopf, kein Takt, kein Kasten.
+
+      Gemessen am 09.09.2026, nachdem drei andere Mängel der Kulisse behoben
+      waren. Genau dieser Wurf ist der Grund, warum die Gegenprobe zum
+      `istKanalKarte`-Absturz grün blieb: Auf der Suchseite kam das Skript nie
+      bis zu dem Zweig, der ihn ausgelöst hätte.
+    */
+    k.closest = (wahl) =>
+      wahl === 'ul' ? { getAttribute: (n) => (n === 'aria-label' ? 'Beste Ergebnisse' : null) } : null
     return k
   }
   return [
@@ -130,6 +178,41 @@ for (const { pfad, suche } of PFADE) {
   const sandkasten = {
     globalThis: null,
     AK_OFFENE_AMAZON: liste,
+    /*
+      **Die Prüfliste der Suchen ist eine eigene Liste — gemessen am 09.09.2026.**
+
+      `offeneSuche()` liest `suchliste`, und die kommt aus `AK_PRIME_SUCHE`, nicht
+      aus `AK_OFFENE_AMAZON`. Ohne sie findet die Erweiterung auf `/s?k=…` keinen
+      Auftrag, `zeigeSuchhinweis()` steigt sofort aus, und der ganze Kasten
+      entsteht nie. Genau hier ist der Ablauf ausgestiegen, während die Prüfung
+      grün meldete.
+    */
+    AK_PRIME_SUCHE: { [SUCH_ADRESSE]: liste[SUCH_ADRESSE] },
+    /*
+      **Und ein Sitzungsspeicher — ohne ihn wirft schon `seiteGehtUnsAn()`.**
+
+      Der gemerkte Suchauftrag liegt im `sessionStorage`; jeder Zugriff darauf
+      wirft in einem nackten `vm`-Kontext. `eintragFuer()` fängt das ab, gibt
+      „unbekannt" zurück, und die Erweiterung hält die Seite für eine, die sie
+      nichts angeht: Sie steigt aus, bevor sie einen Takt startet. Auf der
+      Suchseite war das genau der Ausstieg, den niemand gesehen hat.
+    */
+    sessionStorage: (() => {
+      const werte = new Map()
+      return {
+        getItem: (k) => (werte.has(k) ? werte.get(k) : null),
+        setItem: (k, v) => werte.set(k, String(v)),
+        removeItem: (k) => werte.delete(k),
+      }
+    })(),
+    localStorage: (() => {
+      const werte = new Map()
+      return {
+        getItem: (k) => (werte.has(k) ? werte.get(k) : null),
+        setItem: (k, v) => werte.set(k, String(v)),
+        removeItem: (k) => werte.delete(k),
+      }
+    })(),
     location: { pathname: pfad, search: suche, href: 'https://www.amazon.de' + pfad + suche },
     document: {
       /*
@@ -146,6 +229,13 @@ for (const { pfad, suche } of PFADE) {
       body: { ...body, appendChild(k) { angehaengt.push(k); return k } },
       title: 'Amazon.de',
       createElement: () => mach(),
+      /*
+        Textknoten sind der zweite Baustein des Kastens: Die Ankreuz-Zeilen
+        setzen ihren Text über , nicht über .
+        Ohne ihn wirft  — und damit endet wieder das ganze
+        Skript (gemessen 09.09.2026, direkt hinter dem -Fund).
+      */
+      createTextNode: (t) => ({ textContent: String(t), kinder: [] }),
       querySelector: () => null,
       /* Der Takt fragt danach; ohne sie wirft er, bevor er etwas prüft. */
       getElementById: () => null,
@@ -269,4 +359,53 @@ for (const { pfad, suche } of PFADE) {
   console.log('  Knopf:', uebersicht ? JSON.stringify(uebersicht.textContent) : 'FEHLT')
   console.log('  Takt:', taktFehler ? 'FEHLER — ' + taktFehler.message : takte.length + ' gesammelt, ' + Math.min(3, takte.length) + ' gelaufen')
   console.log('  Klick:', klickFehler ? 'FEHLER — ' + klickFehler.message : uebersicht?.hoerer?.click ? 'ok' : 'kein Handler')
+
+  /*
+    **Und der Kasten selbst — er ist der Zweck des Ganzen.**
+
+    Bis zum 09.09.2026 endete die Prüfung beim Übersichts-Knopf, und der entsteht
+    **vor** allem Interessanten. Der Suchkasten mit Befund, Ankreuz-Feldern und
+    Melde-Knopf wurde nie erreicht: Erst fehlten die Trefferkarten, dann die
+    Suchseite, dann ein `querySelector`, das wirklich sucht. Jeder dieser drei
+    Schritte war nötig, keiner allein genügte — und solange die Gegenprobe grün
+    blieb, war es keine Prüfung, sondern eine Kulisse.
+
+    Gezählt werden deshalb die Zeilen im Kasten. Null Zeilen auf der Suchseite
+    heißt: Der Ablauf steigt vorher aus, und die Prüfung sagt es jetzt.
+  */
+  const kasten = angehaengt.find((e) => (e.className || '').includes('ak-amazon-suchhinweis'))
+  const inhalt = kasten?.querySelector?.('.ak-z-inhalt') ?? null
+  const zeilen = inhalt?.kinder?.length ?? 0
+  const texte = (inhalt?.kinder ?? []).map((k) => String(k.textContent ?? '').slice(0, 40)).filter(Boolean)
+  console.log('  Kasten:', kasten ? `${zeilen} Zeile(n)` : 'FEHLT')
+  for (const t of texte.slice(0, 4)) console.log('        ·', t)
+  if (pfad === '/s' && (!kasten || zeilen === 0)) {
+    console.log('  ⚠ Auf der Suchseite bleibt der Kasten leer — der Ablauf steigt vor dem Befund aus.')
+    fehlgeschlagen = true
+  }
+}
+
+/*
+  **Und das ist der Riegel, um den es die ganze Zeit ging.**
+
+  Am 09.09.2026 waren fünf Mängel dieser Kulisse zu beheben, jeder einzeln
+  gemessen — und keiner davon war zu erraten:
+
+  | fehlte | Wirkung |
+  |---|---|
+  | `querySelector`, das wirklich sucht | der Kasten bekam nie sein `.ak-z-inhalt` |
+  | `AK_PRIME_SUCHE` | `offeneSuche()` liest **diese** Liste, nicht `AK_OFFENE_AMAZON` |
+  | `sessionStorage` | schon `seiteGehtUnsAn()` lief in seinen Fangzweig |
+  | `closest` an den Trefferkarten | `suchTreffer()` warf — auf oberster Ebene, das Skript endete |
+  | `createTextNode` und `append` | die Ankreuz-Zeilen warfen an derselben Stelle |
+
+  **Die Gegenprobe fällt jetzt** (den `istKanalKarte`-Fehler wieder einbauen —
+  `function` zu `const` machen): „Cannot access 'istKanalKarte' before
+  initialization", wörtlich Daniels Fehlerbild vom selben Tag. Bis dahin war
+  diese Datei keine Prüfung, sondern eine Kulisse, die grün meldete, weil sie
+  nichts erreichte.
+*/
+if (fehlgeschlagen) {
+  console.error('\nDer Suchkasten wird nicht erreicht — die Prüfung misst dann nichts.')
+  process.exit(1)
 }
