@@ -51,7 +51,17 @@
 4155: 948 # One Piece Film: Strong World (vde, vostde)
 173388: 1171 # Plus-Sized Elf — führt ausschließlich vostde, also Untertitel
 
-# Offen bleibt „High Speed! -Free! Starting Days-" (21158, Verweis
-# `free-starting-days`): In den 171 gesammelten Shows gibt es keinen einzigen
-# Treffer auf „Free" oder „Starting Days". Aus dem Fehlen folgt hier nichts —
-# siehe oben.
+# --- Über JustWatch gefunden, 09.09.2026 -----------------------------------
+#
+# **JustWatch nennt die kanonische ADN-Adresse — mit Kennung.**
+#
+# Unter den 171 Shows, die `/show?limit=100&offset=…` herausgibt, steht dieser
+# Film nicht (die API meldet weiter `total: 252`). JustWatch führt ihn dagegen
+# mit `animationdigitalnetwork.com/de/video/1181/25475-film`, und die
+# Folgenliste `/video/show/1181` bestätigt es: `languages: ["vostde", "vde"]`.
+#
+# `/show/1181` selbst antwortet mit HTTP 504 — die Folgenroute tut es nicht.
+# Das ist ein Weg, den dieses Projekt bisher nicht genutzt hat: JustWatch nennt
+# je Angebot eine **kanonische** Adresse, und bei ADN steckt die Serienkennung
+# darin.
+21158: 1181 # High Speed! Free! Starting Days (vde, vostde)

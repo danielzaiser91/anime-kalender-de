@@ -153,6 +153,11 @@ export async function main(): Promise<void> {
     String(s).toLowerCase().replace(/-+/g, '-').replace(/^-|-$/g, '')
   /* Die aniSearch-Zuordnung — sie kennt zu manchen Werken eine Adresse mit Kennung. */
   const anisearch = readJson<Record<string, unknown>>('data/anisearch.json', {})
+  /* JustWatch als zweite Quelle — sie entscheidet, ob eine Adresse ins Leere führt. */
+  const justwatch = readJson<Record<string, { angebote?: { anbieter?: string }[] }>>(
+    'data/justwatch-audio.json',
+    {},
+  )
   const katalogNachSlug = new Map(katalog.filter((e) => e.slug).map((e) => [slugKern(String(e.slug)), e]))
   log(`Katalog: ${katalog.length} Einträge, davon ${katalogNachSlug.size} mit Slug.`)
 
@@ -292,6 +297,36 @@ export async function main(): Promise<void> {
     const ausSlug = slugTeile.map((s) => katalogNachSlug.get(s)).find(Boolean)
     const kandidat = serieId ? katalogNachId.get(serieId) : (ausSlug ?? (await sucheSerie(werk)))
     if (!kandidat) {
+      /**
+       * **Zwei Stellen, die unabhängig schweigen — dann führt die Adresse ins Leere.**
+       *
+       * „Kennt der deutsche Katalog nicht" war bis heute **kein** Beleg, und der
+       * Grund dafür ist entfallen: Der Katalog holte nur Serien, Filme fehlten
+       * bauartbedingt. Seit dem 09.09.2026 holt er auch `movie_listing` (69
+       * Stück, laut `total` vollständig) — ein Film, der dort fehlt, fehlt
+       * wirklich.
+       *
+       * Ein Beleg wird daraus trotzdem erst mit einer **zweiten** Quelle:
+       * JustWatch muss den Titel kennen, Angebote führen **und** Crunchyroll
+       * nicht darunter haben. Kennt JustWatch gar nichts, ist sein Schweigen
+       * keine Auskunft (5 von 9 Fällen tragen so, 1 widerspricht — „Okko und
+       * ihre Geisterfreunde" läuft dort sehr wohl, nur unter anderem Slug).
+       *
+       * Der Befund gilt der **Adresse**, nicht der Sprache: Der Bau macht daraus
+       * `available: false` und entfernt den Verweis, der niemanden mehr
+       * irgendwohin führt.
+       */
+      const jwEintrag = justwatch[String(werk.id)]
+      const anbieter = (jwEintrag?.angebote ?? []).map((a) => String(a?.anbieter ?? ''))
+      if (anbieter.length && !anbieter.some((n) => /crunchyroll/i.test(n))) {
+        return {
+          herkunft: 'tot',
+          geprueftAm: heute(),
+          grund:
+            `im deutschen Katalog nicht geführt, und JustWatch nennt ${anbieter.length} Anbieter ohne Crunchyroll ` +
+            `(${[...new Set(anbieter)].slice(0, 3).join(', ')})`,
+        }
+      }
       return { herkunft: 'offen', geprueftAm: heute(), grund: 'keine Kennung in der Adresse, kein sicherer Treffer' }
     }
     /*

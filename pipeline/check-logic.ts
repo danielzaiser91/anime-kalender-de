@@ -3398,6 +3398,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     ['462', '906', 'One Piece Film 4 (vde)'],
     ['4155', '948', 'One Piece Film 10 — Strong World (vde)'],
     ['173388', '1171', 'Plus-Sized Elf (nur vostde)'],
+    ['21158', '1181', 'High Speed! Free! Starting Days (vde) — über JustWatch gefunden'],
   ]) {
     pruefe(
       `ADN-Kennung ${anilist} → ${show} steht in adn-adressen.yaml (${name})`,
