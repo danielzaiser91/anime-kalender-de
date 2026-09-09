@@ -151,6 +151,8 @@ export async function main(): Promise<void> {
    */
   const slugKern = (s: string): string =>
     String(s).toLowerCase().replace(/-+/g, '-').replace(/^-|-$/g, '')
+  /* Die aniSearch-Zuordnung — sie kennt zu manchen Werken eine Adresse mit Kennung. */
+  const anisearch = readJson<Record<string, unknown>>('data/anisearch.json', {})
   const katalogNachSlug = new Map(katalog.filter((e) => e.slug).map((e) => [slugKern(String(e.slug)), e]))
   log(`Katalog: ${katalog.length} Einträge, davon ${katalogNachSlug.size} mit Slug.`)
 
@@ -240,7 +242,32 @@ export async function main(): Promise<void> {
       }
     }
 
-    const serieId = /\/series\/([A-Z0-9]+)/i.exec(url)?.[1]
+    /**
+     * **aniSearch kennt zu manchen Werken die bessere Adresse — mit Kennung.**
+     *
+     * Unser Bestand führt „Sound! Euphonium" unter einem alten Slug
+     * (`crunchyroll.com/de/sound-euphonium`), aniSearch unter
+     * `series/GRDQNQW9Y`. Eine Kennung schlägt jeden Slug: Sie führt ohne
+     * Umweg in den Katalog und von dort in die Staffelliste.
+     *
+     * Gelesen wird nur, was schon im Haus liegt — dieselbe Datei, aus der der
+     * Bau seit dem 06.09.2026 fehlende Anbieter ergänzt. Das ist die Klasse
+     * Fehler, die CLAUDE.md als „Eine Datei zu schreiben ist nicht dasselbe wie
+     * sie zu benutzen" führt: fünf Fälle an zwei Tagen.
+     */
+    const ausAnisearch = (() => {
+      try {
+        const e = anisearch[String(werk.id)] as { streams?: { url?: string }[] } | undefined
+        for (const s of e?.streams ?? []) {
+          const treffer = /crunchyroll\.com\/(?:[a-z-]+\/)?series\/([A-Z0-9]{6,})/i.exec(String(s?.url ?? ''))
+          if (treffer) return treffer[1]
+        }
+      } catch {
+        /* Ohne aniSearch-Eintrag bleibt es bei der eigenen Adresse. */
+      }
+      return undefined
+    })()
+    const serieId = /\/series\/([A-Z0-9]+)/i.exec(url)?.[1] ?? ausAnisearch
     /*
       **Der Slug steht in der Adresse — er wird gelesen, bevor gesucht wird.**
 
