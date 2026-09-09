@@ -1,6 +1,45 @@
 {
-  "scrapedAt": "2026-09-09T08:59:59.437Z",
+  "scrapedAt": "2026-09-09T14:03:26.395Z",
   "proposals": [
+    {
+      "articleTitle": "Design der limitierten Blu-ray-Edition von »Clevatess« enthüllt",
+      "articleUrl": "https://www.anime2you.de/news/1048245/clevatess-limited-edition-blu-ray-design/",
+      "publishedAt": "2026-09-09",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-06",
+          "context": "er 2026 Das erste Volume von »Clevatess« erscheint voraussichtlich am 6. November 2026 in einer Limited Edition als […] Der Beitrag Design"
+        },
+        {
+          "month": "2026-11",
+          "context": "weiter unten ansehen könnt. Wir fassen alle Details zusammen. Release ab November 2026 Das erste Volume von »Clevatess« erscheint voraussich"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Deutscher Synchro-Trailer zu »My Gift Lvl 9999 Unlimited Gacha«",
+      "articleUrl": "https://www.anime2you.de/news/1048275/my-gift-lvl-9999-unlimited-gacha-synchro-trailer/",
+      "publishedAt": "2026-09-09",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-09",
+          "context": "die deutsche Vertonung vorstellt. Das Video findet ihr unten. Release im September 2026 Die Komplettbox von »My Gift Lvl 9999 Unlimited […]"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Prime Video zeigt »Seven Knights of Marronnier Kingdom« im Simulcast",
       "articleUrl": "https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/",
