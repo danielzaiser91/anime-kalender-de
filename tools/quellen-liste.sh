@@ -121,6 +121,12 @@ QUELLEN=(
   # jeder Lauf diesen Preis erneut — 676 Seitenaufrufe auf einem fremden Server
   # für eine Angabe, die sich nie ändert.
   data/crunchyroll-series-ids.json
+  # Die Sprachurteile für Verweise, die keine bekamen — aufgelöst über die
+  # Kennung in der Adresse oder über die Staffelliste im deutschen Katalog.
+  # Jeder Befund kostet ein bis drei Abrufe gegen die Content-API und gilt
+  # dauerhaft: Eine abgelaufene Videokennung wird nicht wieder gültig, und
+  # welche Staffel Deutsch führt, ändert sich selten.
+  data/crunchyroll-offene.json
   # Die Rohantworten der Content-API. Aus demselben Grund wie `data/adn-raw`:
   # Ein später gebrauchtes Feld muss eine Änderung am Parser sein können und
   # nicht ein zweiter Lauf über 959 Serien. Hier hängt konkret der deutsche
