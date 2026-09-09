@@ -3751,3 +3751,32 @@ lautet die Antwort fast immer ja.
 **Offen und eingetragen:** Der Sandkasten müsste echte Trefferkarten stellen,
 um den Suchkasten wirklich auszuführen. Das ist die einzige Prüfung, die diesen
 Fall fangen würde.
+
+### Ein „Widerspruch" zwischen Quelle und Handprüfung ist oft ein Zeitversatz
+
+`npm run check:quellen` meldete am 09.09.2026 einen falsch negativen Befund:
+„Kill Ao" (198113) — die Crunchyroll-Quelle sage nein, die Handprüfung deutsch.
+Nachgesehen stehen dort **zwei** Handprüfungen, und beide sind richtig:
+
+| Datum | Befund | Daniels Wortlaut |
+|---|---|---|
+| 24.08.2026 | `dub: false` | „auf crunchy gibt es fuer kill blue keine synchronisierte folge" |
+| 07.09.2026 | `dub: true`, Folgen 1–8 | „crunchy und netflix haben 1-8" |
+
+Dazwischen ist die deutsche Fassung erschienen. Der Quellenbefund in
+`data/crunchyroll-dub.json` trägt `geprueftAm: 2026-08-22` — er ist nicht
+falsch, sondern **älter als die Wirklichkeit**.
+
+**Die Lehre gilt jeder Robustheitsprüfung dieser Art:** Sie hält zwei Aussagen
+gegeneinander, die zu **verschiedenen Zeitpunkten** entstanden sind. Bei einer
+laufenden Serie ändert sich die Antwort während der Ausstrahlung — genau
+deshalb wird jede Warteschlange nach dem Alter gebildet und nicht nach „schon
+beantwortet" (siehe „Ein Abruf, der nur ergänzt, veraltet zwangsläufig").
+
+**Der Prüfgriff, bevor ein Widerspruch untersucht wird:** die beiden
+Zeitstempel nebeneinanderlegen. Liegt die Handprüfung nach dem Quellenabruf und
+lief die Serie dazwischen weiter, ist der Fall geklärt und niemand hat sich
+geirrt. Erst wenn die Quelle **jünger** ist, lohnt die Suche nach einem Fehler.
+
+`check:quellen` gehört bewusst nicht zu `check:vor-commit`: Ein solcher Befund
+macht keinen Lauf rot, und das ist richtig so.
