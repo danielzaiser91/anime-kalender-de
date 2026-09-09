@@ -18,6 +18,26 @@ const liste = JSON.parse(
     .replace(/;?\s*$/, ''),
 )
 
+/*
+  **Ein Suchauftrag als Kulisse — die echte Liste hat gerade keinen.**
+
+  Der Suchkasten mit seinen Ankreuz-Feldern entsteht nur, wenn ein Auftrag auf
+  **diese** Suchadresse zeigt. `extension/offene-amazon.js` ist eine
+  Arbeitsliste: Sie schwankt täglich und ist am Ende leer — sie als Kulisse zu
+  nehmen hieße, die Prüfung an den Datenstand zu hängen (CLAUDE.md, 25.08.2026:
+  „Testdaten gehören in den Test, nicht in den Datenbestand").
+
+  Die Werte sind Daniels echter Fall vom 09.09.2026: „Death Note: Relight" ist
+  **ein** Eintrag mit zwei Folgen, den Prime als zwei Kauftitel führt.
+*/
+const SUCH_ADRESSE = 'https://www.amazon.de/s?k=Death%20Note%20Relight&i=instant-video'
+liste[SUCH_ADRESSE] = {
+  titel: 'Death Note: Relight',
+  url: SUCH_ADRESSE,
+  suchUrl: SUCH_ADRESSE,
+  eintraege: [{ id: 2994, name: 'Death Note: Relight', folgen: 2, offen: true }],
+}
+
 function baueDom() {
   const mach = () => ({
     className: '',
@@ -70,8 +90,42 @@ const PFADE = [
   { pfad: '/s', suche: '?k=Death%20Note%20Relight&i=instant-video' },
 ]
 
+/**
+ * Zwei Trefferkarten, wie Amazon sie auf einer Suchseite ausliefert.
+ *
+ * Gelesen werden genau drei Dinge: `data-card-title`, `data-card-entitlement`
+ * und der Verweis auf die Titelseite. Die Werte sind Daniels echter Fall vom
+ * 09.09.2026 — „Death Note: Relight" ist ein Eintrag mit zwei Folgen, den Prime
+ * als zwei Kauftitel mit eigenen Kennungen führt.
+ */
+function baueKarten(mach) {
+  const karte = (titel, kennung) => {
+    const k = mach()
+    const attr = {
+      'data-card-title': titel,
+      'data-card-entitlement': 'Purchase',
+      'data-testid': 'card',
+    }
+    k.getAttribute = (n) => attr[n] ?? null
+    k.querySelector = (sel) =>
+      sel.includes('/gp/video/detail/')
+        ? { getAttribute: () => `https://www.amazon.de/gp/video/detail/${kennung}` }
+        : null
+    k.querySelectorAll = () => []
+    return k
+  }
+  return [
+    karte('Death Note Relight 1: Visions of a God', 'B0FVDZ286F'),
+    karte("Death Note Relight 2: L's Successors", 'B0FWYWSS3M'),
+  ]
+}
+
 for (const { pfad, suche } of PFADE) {
   const { mach, body } = baueDom()
+  /* Karten gibt es nur auf der Suchseite — sonst wäre der Kasten dort falsch. */
+  const karten = pfad === '/s' ? baueKarten(mach) : []
+  /* Der Takt sammelt sich hier; ausgelöst wird er nach dem Laden. */
+  const takte = []
   const angehaengt = []
   const sandkasten = {
     globalThis: null,
@@ -93,7 +147,27 @@ for (const { pfad, suche } of PFADE) {
       title: 'Amazon.de',
       createElement: () => mach(),
       querySelector: () => null,
-      querySelectorAll: () => [],
+      /* Der Takt fragt danach; ohne sie wirft er, bevor er etwas prüft. */
+      getElementById: () => null,
+      /*
+        **Auf der Suchseite stehen Trefferkarten — sonst läuft der halbe
+        Suchkasten nie.**
+
+        `suchTreffer()` liest `article[data-testid="card"]` und daraus
+        `data-card-title`, `data-card-entitlement` und den Verweis auf die
+        Titelseite. Ohne Karten steigt die Auswertung sofort aus, und alles
+        dahinter — Trefferbewertung, Ankreuz-Felder, der Kasten selbst — wird
+        nie ausgeführt.
+
+        Genau daran ist am 09.09.2026 ein Absturz vorbeigelaufen: `istKanalKarte`
+        wurde vor seiner Deklaration gerufen, die Erweiterung war auf jeder
+        Suchseite weg, und dieser Sandkasten meldete grün. Die Gegenprobe (den
+        Fehler wieder einbauen) blieb ebenfalls grün — der Zweig war unerreichbar.
+
+        Die beiden Karten sind Daniels echter Fall: „Death Note: Relight" ist
+        **ein** Eintrag mit zwei Folgen, den Prime als zwei Kauftitel führt.
+      */
+      querySelectorAll: (sel) => (sel === 'article[data-testid="card"]' ? karten : []),
     focus() {},
       addEventListener() {},
       head: mach(),
@@ -114,8 +188,25 @@ for (const { pfad, suche } of PFADE) {
     */
     URLSearchParams,
     URL,
-    setInterval: () => 0,
-    setTimeout: () => 0,
+    /*
+      **Der Takt wird gesammelt, nicht gestartet.**
+
+      `amazon.js` baut seinen Hinweiskasten nicht beim Laden, sondern im Takt —
+      ohne ihn bleibt der halbe Suchkasten unerreicht, und genau dort lag am
+      09.09.2026 der Absturz, den dieser Sandkasten grün gemeldet hat.
+
+      Sofort auszuführen wäre falsch: Der Takt ruft sich über `setTimeout`
+      selbst wieder auf, und die Prüfung liefe endlos. Gesammelt wird deshalb,
+      und der erste Durchlauf wird unten einmal von Hand ausgelöst.
+    */
+    setInterval: (fn) => {
+      if (typeof fn === 'function') takte.push(fn)
+      return 0
+    },
+    setTimeout: (fn) => {
+      if (typeof fn === 'function') takte.push(fn)
+      return 0
+    },
     clearInterval() {},
     console,
     performance: { now: () => Date.now() },
@@ -146,6 +237,27 @@ for (const { pfad, suche } of PFADE) {
     fehler = err
   }
 
+  /*
+    **Ein Takt-Durchlauf von Hand — dort entsteht der Kasten.**
+
+    Das Laden allein baut nur den Übersichts-Knopf. Alles Weitere — Hinweiskasten,
+    Trefferbewertung, Ankreuz-Felder — hängt am Takt, und der ist im Sandkasten
+    eine Attrappe. Ein einziger Durchlauf genügt und kann nicht in eine Schleife
+    geraten: Was er selbst wieder einplant, sammeln wir nur.
+
+    Ein Wurf hier ist genau der Fund, um den es geht — er wird gezählt, nicht
+    verschluckt.
+  */
+  let taktFehler = null
+  for (const fn of takte.slice(0, 3)) {
+    try {
+      const r = fn()
+      if (r && typeof r.catch === 'function') r.catch((e) => { taktFehler ??= e })
+    } catch (err) {
+      taktFehler ??= err
+    }
+  }
+
   const uebersicht = angehaengt.find((e) => (e.className || '').includes('ak-amazon-uebersicht'))
   let klickFehler = null
   if (uebersicht?.hoerer?.click) {
@@ -155,5 +267,6 @@ for (const { pfad, suche } of PFADE) {
   console.log(`\n=== Adresse ${pfad} ===`)
   console.log('  Aufbau:', fehler ? 'FEHLER — ' + fehler.message : 'durchgelaufen')
   console.log('  Knopf:', uebersicht ? JSON.stringify(uebersicht.textContent) : 'FEHLT')
+  console.log('  Takt:', taktFehler ? 'FEHLER — ' + taktFehler.message : takte.length + ' gesammelt, ' + Math.min(3, takte.length) + ' gelaufen')
   console.log('  Klick:', klickFehler ? 'FEHLER — ' + klickFehler.message : uebersicht?.hoerer?.click ? 'ok' : 'kein Handler')
 }

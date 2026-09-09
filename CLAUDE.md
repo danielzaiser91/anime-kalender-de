@@ -3748,9 +3748,20 @@ ist schöner", sondern: **Kann irgendetwas ihn rufen, bevor diese Zeile
 gelaufen ist?** Bei einem Modul mit Takt, Beobachtern und Klick-Behandlern
 lautet die Antwort fast immer ja.
 
-**Offen und eingetragen:** Der Sandkasten müsste echte Trefferkarten stellen,
-um den Suchkasten wirklich auszuführen. Das ist die einzige Prüfung, die diesen
-Fall fangen würde.
+**Der Sandkasten ist am 09.09.2026 nachgezogen worden — und reicht noch nicht.**
+Er kennt jetzt die Suchseite (`/s?k=…`), zwei echte Trefferkarten
+(`article[data-testid="card"]` mit `data-card-title` und Verweis), einen
+Suchauftrag als Kulisse und löst den Takt einmal aus, statt ihn nur zu sammeln.
+Jeder dieser vier Schritte war nötig; keiner allein genügte.
+
+**Die Gegenprobe bleibt trotzdem grün** — den Fehler wieder einzubauen meldet
+nichts. Der Zweig mit den Ankreuz-Feldern wird also weiterhin nicht erreicht,
+und woran es jetzt noch hängt, ist ungemessen (Verdacht: Der Kasten wartet auf
+die Briefkasten-Antwort, und der `fetch`-Mock liefert ein leeres Objekt).
+
+**Bis die Gegenprobe fällt, ist es keine Prüfung** — nur eine bessere Kulisse.
+Wer hier weitermacht, misst zuerst, wo der Ablauf aussteigt: eine Ausgabe je
+Zweig im Takt, nicht ein weiterer Anlauf aus einer Vermutung.
 
 ### Ein „Widerspruch" zwischen Quelle und Handprüfung ist oft ein Zeitversatz
 
