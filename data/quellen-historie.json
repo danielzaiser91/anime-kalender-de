@@ -1779,7 +1779,7 @@
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
-      "gesehenAm": "2026-08-17",
+      "gesehenAm": "2026-09-09",
       "sagt": "2024-09-05",
       "stand": "aktuell"
     }
@@ -3811,6 +3811,24 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-09-09",
       "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-561-ssaga-14-wano-kuni-20240919": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-09-09",
+      "sagt": "2024-09-19",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-178869-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1048245/clevatess-limited-edition-blu-ray-design/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-09",
+      "sagt": "2026-11-06",
       "stand": "aktuell"
     }
   ]

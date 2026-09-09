@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-09T13:38:45.450Z",
+ "erzeugtAm": "2026-09-09T14:26:04.778Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,10 +7,18 @@
    "gemeldet": 668,
    "gesamt": 669,
    "offen": 1,
-   "ohneSeite": 2,
+   "ohneSeite": 10,
    "suchAdressen": [
+    "https://www.amazon.de/s?k=AnoHana%3A%20Die%20Blume%2C%20die%20wir%20an%20jenem%20Tag%20sahen&i=instant-video",
+    "https://www.amazon.de/s?k=Detektiv%20Conan%3A%20Der%20nachtschwarze%20J%C3%A4ger&i=instant-video",
+    "https://www.amazon.de/s?k=Haruka%20und%20der%20Zauberspiegel&i=instant-video",
+    "https://www.amazon.de/s?k=Ein%20Brief%20an%20Momo&i=instant-video",
+    "https://www.amazon.de/s?k=Yoyo%20%26%20Nene%3A%20Die%20magischen%20Schwestern&i=instant-video",
+    "https://www.amazon.de/s?k=Giovannis%20Insel&i=instant-video",
+    "https://www.amazon.de/s?k=Die%20Polar-B%C3%A4ren&i=instant-video",
     "https://www.amazon.de/s?k=2.5%20Dimensional%20Seduction&i=instant-video",
-    "https://www.amazon.de/s?k=Death%20Note%3A%20Relight&i=instant-video"
+    "https://www.amazon.de/s?k=Death%20Note%3A%20Relight&i=instant-video",
+    "https://www.amazon.de/s?k=Girls%20%26%20Panzer%20OVA&i=instant-video"
    ],
    "ziel": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2",
    "ziele": [

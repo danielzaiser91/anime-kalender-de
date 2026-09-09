@@ -239,9 +239,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260909T120000Z
 DTEND:20260909T123000Z
 SUMMARY:Clevatess – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/clevatess-s2
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/clevatess-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -250,9 +249,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260909T133000Z
 DTEND:20260909T140000Z
 SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 7/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1055,6 +1053,17 @@ SUMMARY:Banana Fish – Vol. 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/banana-
  fish-vol2
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-178869-disc@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:Clevatess (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-17
+ 8869-disc
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
