@@ -3752,6 +3752,46 @@ sind die Folgen-Meldungen, für die es die Bündelung gibt.
 Wo zwei Ebenen dieselbe Adresse benutzen — Auftrag und Angebot —, muss **jede**
 Stelle sagen, welche sie meint. Lesen und Schreiben sind dabei zwei Stellen.
 
+### JustWatch ist die zweite Quelle, die dieses Projekt lange gesucht hat
+
+Am 09.09.2026 abends dreimal in einer Stunde derselbe Griff, jedes Mal mit
+Ergebnis — und jedes Mal aus einer Datei, die seit dem 07.09. im Repo liegt
+(`data/justwatch-audio.json`, 351 Titel, 80 mit Angeboten).
+
+**1. Kanal-Meldungen ohne Deutsch werden zu belegten Neins.** Bei einem
+Kanal-Titel zeigt Prime nur die Tonspuren, die dem Betrachter zugänglich sind;
+eine Meldung „kein Deutsch" ist dort für sich kein Beleg. Aus 39 solchen
+Meldungen macht `pipeline/kanal-gegenprobe.ts` **18 belegte Nein** — Prime fiel
+damit von 29 auf 11 Verweise ohne Sprachurteil.
+
+**2. Wo JustWatch widerspricht, war die Meldung falsch.** Fünf Titel führen dort
+deutschen Ton. Sie bekommen **kein** Urteil (JustWatch sagt „irgendwo deutsch",
+nicht „bei diesem Anbieter"), sondern einen Vermerk in
+`data/kanal-widerspruch.json` — und darüber stehen sie wieder in Daniels
+Prüfliste. Ohne ihn verhinderte die Meldung ihre eigene Überprüfung.
+
+**3. Ein Anbieter, den JustWatch nicht nennt, führt den Titel nicht.** Für die
+Crunchyroll-Adressen, die im deutschen Katalog fehlen, ist das die zweite
+Quelle: Kennt JustWatch den Titel, führt Angebote und **kein** Crunchyroll, ist
+die Adresse tot. Fünf von neun tragen das; einer widerspricht („Okko und ihre
+Geisterfreunde" läuft dort, nur unter anderem Slug).
+
+**4. Und die Adressen dort sind kanonisch — mit Kennung.** Der letzte ADN-Verweis
+ohne Urteil hing daran, dass `/show?limit=100&offset=…` nur 171 von 252 Shows
+herausgibt. JustWatch nannte
+`animationdigitalnetwork.com/de/video/1181/25475-film`, und
+`/video/show/1181` bestätigte `vde`. Der Weg über die Angebotsadresse ist neu
+und trägt weiter, wo ein Katalog lückenhaft ist.
+
+**Die gemeinsame Form:** JustWatch beantwortet nicht die Sprachfrage — seine
+Angabe gilt der Serie und ist oft leer. Es beantwortet die Frage **daneben**:
+*Führt dieser Anbieter dieses Werk überhaupt, und unter welcher Adresse?* Genau
+daran sind hier drei Automatismen gescheitert, und alle drei laufen jetzt.
+
+**Die Grenze bleibt:** Ein leeres `audio` ist Schweigen, kein Nein. Gewertet wird
+nur ein Angebot mit belegter Tonspur — dieselbe Asymmetrie, die dieses Projekt an
+jeder fremden Quelle anlegt.
+
 ### Ein Auftrag gehört zu einer Suche — nicht zu „einer Suchseite"
 
 Daniel am 09.09.2026: „polar bären als ‚nicht bei prime' gemeldet -> nächsten
