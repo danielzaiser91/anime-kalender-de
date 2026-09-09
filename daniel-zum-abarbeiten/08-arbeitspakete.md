@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-09 · **48 offene Verweise** in **31 Zeilen**,
+Stand 2026-09-09 · **46 offene Verweise** in **30 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -36,7 +36,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | Crunchyroll | Meine Wiedergeburt als Schleim in einer anderen Welt | [Hauptserie](http://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime) · [Staffel 2](https://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime) · [Staffel 2](https://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime) |
-| 2 | Crunchyroll | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/fruits-basket) · [Prelude](https://www.crunchyroll.com/de/fruits-basket) |
+| 2 | Crunchyroll | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/fruits-basket) |
 | 3 | Crunchyroll | Hamatora: The Animation | [Hauptserie](http://www.crunchyroll.com/hamatora/episode-1-file-01-egg-of-columbus-648733) · [Re:␣Hamatora](http://www.crunchyroll.com/hamatora/episode-1-melancholy-of-hero-657029) |
 | 4 | Prime Video | Shakugan no Shana | [Season III](https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video) |
 | 5 | Crunchyroll | Sound! Euphonium | [Hauptserie](http://www.crunchyroll.com/de/sound-euphonium) · [Liz und der Blaue Vogel](https://www.crunchyroll.com/liz-and-the-blue-bird/de-liz-und-der-blaue-vogel-unbekannt-850428) |
@@ -56,7 +56,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 19 | Crunchyroll | Sword Art Online | [Extra Edition](http://www.crunchyroll.com/de/sword-art-online) |
 | 20 | Crunchyroll | Given | [The Movie - To the Sea](https://www.crunchyroll.com/watch/GE00266947DEDE/given-the-movie-to-the-sea) |
 
-## Paket 2 — Zeilen 21 bis 31
+## Paket 2 — Zeilen 21 bis 30
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -68,6 +68,5 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 26 | ADN | Free! Iwatobi Swim Club | [High Speed! Free! Starting Days](https://animationdigitalnetwork.de/video/free-starting-days) |
 | 27 | Crunchyroll | Millennium Actress | [Hauptserie](https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub) |
 | 28 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
-| 29 | Crunchyroll | Mobile Suit Gundam | [Gundam Wing: Endless Waltz](http://www.crunchyroll.com/mobile-suit-gundam-wing-endless-waltz/mobile-suit-gundam-wing-endless-waltz-gundam-wing-endless-waltz-732801) |
-| 30 | Crunchyroll | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
-| 31 | Crunchyroll | Street Fighter II V | [Street Fighter II: The Animated Movie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 29 | Crunchyroll | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
+| 30 | Crunchyroll | Street Fighter II V | [Street Fighter II: The Animated Movie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
