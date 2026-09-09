@@ -178,6 +178,41 @@ for (const [id, eintraege] of jeAdresse) {
       laut: 'anbieter',
     }
     /**
+     * **Was über die Zählung des Anbieters hinausgeht, verschwindet sonst
+     * spurlos.**
+     *
+     * Die Paarung oben läuft der Reihe nach: Netflix nennt fünf Staffeln, wir
+     * führen an derselben Adresse neun Einträge (fünf Fernsehstaffeln und vier
+     * OVAs dazwischen). Die Einträge ab Position sechs wurden nie betrachtet —
+     * weder gepaart noch angehängt. Waren die ersten fünf beantwortet, fiel der
+     * Titel ganz aus der Liste.
+     *
+     * Gemessen am 09.09.2026: Die Netflix-Prüfliste war **leer**, während der
+     * Datensatz neun Verweise ohne Sprachurteil führte — fünf davon an dieser
+     * einen Haikyu!!-Adresse. Niemand konnte sie prüfen, und niemandem fiel es
+     * auf: Eine leere Liste sieht aus wie erledigte Arbeit.
+     *
+     * Sie kommen deshalb als eigene Zeilen dazu, mit **unserer** Zählung und
+     * ihrer Titel-Kennung. Der Anbieter kennt sie nicht als Staffel; die
+     * Erweiterung bietet dafür seit 4.17.0 das ✕ an der Pille, das titelgenau
+     * meldet.
+     */
+    const ueberzaehlig = sortiert
+      .slice(gemeldet.length)
+      .filter((e) => e.dub === undefined || verdaechtig.has(e.t.id))
+    for (const [j, e] of ueberzaehlig.entries()) {
+      offen[id].staffeln.push({
+        nr: gemeldet.length + j + 1,
+        name: e.t.titleDe ?? e.t.titleEn ?? e.t.titleRomaji ?? `Eintrag ${gemeldet.length + j + 1}`,
+        folgen: e.t.episodes ?? 1,
+        erste: 1,
+        film: e.t.format === 'MOVIE',
+        id: e.t.id,
+        offen: true,
+        ausserhalb: true,
+      })
+    }
+    /**
      * Bleibt nach dem Abgleich keine offene Staffel, gehört der Titel nicht auf
      * die Liste.
      *

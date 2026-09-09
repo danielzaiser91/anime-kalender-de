@@ -3523,7 +3523,16 @@ async function dialogOeffnen() {
       if (staffeln.length > 1) {
         const nr = document.createElement("span")
         nr.className = "ak-st"
-        nr.textContent = `S${st.nr}`
+        /*
+          **Was der Anbieter nicht als Staffel führt, trägt seinen Namen.**
+
+          Seit dem 09.09.2026 hängt die Liste Einträge an, die über die Zählung
+          des Anbieters hinausgehen — „BAKI-DOU: The Invincible Samurai Part 2"
+          ist bei Netflix keine eigene Staffel, bei uns ein eigener Titel. „S6"
+          wäre dort eine Nummer, die es dort nicht gibt; der Name sagt, was
+          gemeint ist.
+        */
+        nr.textContent = st.ausserhalb && st.name ? String(st.name).slice(0, 42) : `S${st.nr}`
         pille.appendChild(nr)
       }
 

@@ -389,6 +389,16 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
     )
     pruefe('und mit demselben Befund wie ein toter Verweis', fn.includes("befund: 'weg'"))
     pruefe('er fragt einmal nach, bevor er streicht', q.includes("weg.dataset.sicher !== 'ja'"))
+    /*
+      **Und was über die Zählung des Anbieters hinausgeht, trägt seinen Namen.**
+
+      Die Liste hängt seit dem 09.09.2026 Einträge an, die der Anbieter nicht als
+      Staffel führt (). Eine Nummer wäre dort eine Erfindung.
+    */
+    pruefe(
+      'ein Eintrag außerhalb der Anbieter-Zählung zeigt seinen Namen',
+      q.includes('st.ausserhalb && st.name'),
+    )
   }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')
