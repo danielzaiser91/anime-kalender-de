@@ -26294,3 +26294,19 @@
   checkedAt: '2026-09-09'
   zweiteQuelle: 'Crunchyroll-Katalog DE 07.09.2026: GP5HJ845X nur ja-JP'
   note: "Kein deutscher Ton — zwei unabhängige Quellen: Prime meldet für alle 24 Folgen nur 日本語 (Meldung 4319, Kanal-Titel ADN/Crunchyroll, für sich kein Beleg), und der deutsche Crunchyroll-Katalog führt GP5HJ845X am 07.09.2026 ausschließlich mit ja-JP."
+
+# --- Crunchyroll-Filmsuche, gemessen am 09.09.2026 ---
+- anilistId: 136192
+  title: "Fruits Basket: Prelude"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/fruits-basket
+  dub: true
+  checkedAt: '2026-09-09'
+  note: "Crunchyroll führt den Film im deutschen Katalog unter dem Kurznamen „-prelude-\" (GMTE00119156, Start 2022) mit audio_locales de-DE, en-US, ja-JP. Über den Titel war er nicht zu finden — die Suche mit unserem Namen liefert ihn, der Slug der Adresse zeigt auf die Serie."
+- anilistId: 2273
+  title: "Gundam Wing: Endless Waltz"
+  platform: crunchyroll
+  url: http://www.crunchyroll.com/mobile-suit-gundam-wing-endless-waltz/mobile-suit-gundam-wing-endless-waltz-gundam-wing-endless-waltz-732801
+  dub: false
+  checkedAt: '2026-09-09'
+  note: "Der deutsche Katalog führt „Mobile Suit Gundam Wing ENDLESS WALTZ\" (GMTE00129209) ausschließlich mit ja-JP — kein deutscher Ton bei Crunchyroll. Abruf über discover/search?type=movie_listing&locale=de-DE von einer deutschen Leitung (country: DE)."
