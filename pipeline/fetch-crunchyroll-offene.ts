@@ -225,7 +225,7 @@ export async function main(): Promise<void> {
       Bei einem Film oder einer OVA sagt der Serieneintrag nichts: Die Serie
       vererbt ihre Sprache nicht an ihre Nebenausgaben (fünf „Free!"-Filme
       zeigen auf die Serienadresse). Ein Urteil gibt es deshalb nur, wenn das
-      Werk selbst eine Serie ist **und** die Folgenzahl zusammenpasst.
+      Werk selbst eine Serie ist.
     */
     if (werk.format !== 'TV' && werk.format !== 'ONA') {
       return {
@@ -236,26 +236,108 @@ export async function main(): Promise<void> {
         grund: `„${kandidat.titel}" ist die Reihe, ${werk.format} ist eine eigene Ausgabe`,
       }
     }
-    const passt = werk.episodes != null && kandidat.folgen != null && werk.episodes === kandidat.folgen
-    if (!passt) {
+    /**
+     * **Und beurteilt wird die Staffel, nicht die Serie.**
+     *
+     * Der Serieneintrag im Katalog bündelt, was AniList trennt: „Kaguya-sama"
+     * steht dort mit 43 Folgen für fünf Staffeln, „Fruits Basket" mit 63 für
+     * drei. Ein Vergleich auf Serienebene kann deshalb **nie** aufgehen — im
+     * ersten Anlauf am 09.09.2026 fiel jede der elf Serien mit „Folgenzahl
+     * weicht ab (12 gegen 43)" durch.
+     *
+     * Die Staffelliste beantwortet dieselbe Frage sauber, und sie
+     * unterscheidet, worauf es ankommt (gemessen am selben Tag):
+     *
+     *     seq 1 | 12 Fg | Kaguya-sama: Love is War   | ja, es, pt, en, fr
+     *     seq 2 | 12 Fg | Kaguya-sama: Love is War?  | ja, en, es, pt, fr, de-DE
+     *
+     * Staffel 1 ohne Deutsch, Staffel 2 mit — auf Serienebene wäre beides ein
+     * „die Serie führt Deutsch" gewesen, und für Staffel 1 falsch.
+     */
+    const staffeln = await holeStaffeln(kandidat.id)
+    if (!staffeln.length) {
       return {
         herkunft: 'offen',
         seriesId: kandidat.id,
         titel: kandidat.titel,
         geprueftAm: heute(),
-        grund: `Folgenzahl weicht ab (${werk.episodes ?? '?'} gegen ${kandidat.folgen ?? '?'})`,
+        grund: `„${kandidat.titel}" gibt keine Staffelliste heraus`,
       }
     }
-    const deutsch = (kandidat.audio ?? []).includes('de-DE')
+    /*
+      **Name und Folgenzahl müssen beide treffen, und der Treffer muss eindeutig sein.**
+
+      Kaguya-sama Staffel 1 und 2 haben beide zwölf Folgen; sie unterscheiden
+      sich nur im Namen („Love is War" gegen „Love is War?"). Umgekehrt tragen
+      manche Staffeln bei Crunchyroll einen anderen Namen als bei uns — dann
+      entscheidet die Folgenzahl allein, aber nur, wenn keine zweite Staffel
+      dieselbe hat. Bleiben zwei übrig, gibt es kein Urteil.
+    */
+    const namen = [werk.titleDe, werk.titleEn, werk.titleRomaji].filter(Boolean).map((n) => norm(n as string))
+    const nachName = staffeln.filter((s) => namen.includes(norm(s.titel)))
+    const nachZahl = staffeln.filter((s) => werk.episodes != null && s.folgen === werk.episodes)
+    const treffer =
+      nachName.length === 1 && (nachZahl.length === 0 || nachZahl.some((s) => s.id === nachName[0]!.id))
+        ? nachName[0]
+        : nachZahl.length === 1
+          ? nachZahl[0]
+          : undefined
+    if (!treffer) {
+      return {
+        herkunft: 'offen',
+        seriesId: kandidat.id,
+        titel: kandidat.titel,
+        geprueftAm: heute(),
+        grund:
+          `kein eindeutiger Staffeltreffer (${werk.episodes ?? '?'} Fg.; ` +
+          `${nachName.length} über den Namen, ${nachZahl.length} über die Zahl von ${staffeln.length})`,
+      }
+    }
+    const deutsch = treffer.audio.includes('de-DE')
     return {
       herkunft: 'katalog',
       dub: deutsch,
       seriesId: kandidat.id,
-      titel: kandidat.titel,
-      audio: kandidat.audio,
+      titel: treffer.titel,
+      audio: treffer.audio,
       geprueftAm: heute(),
-      grund: `Name und Folgenzahl treffen (${werk.episodes})`,
+      grund: `Staffel „${treffer.titel}" mit ${treffer.folgen ?? '?'} Folgen`,
     }
+  }
+
+  /** Die Staffeln einer Serie mit ihren Tonspuren — je Staffel, nicht je Serie. */
+  async function holeStaffeln(
+    serieId: string,
+  ): Promise<{ id: string; titel: string; folgen: number | null; audio: string[] }[]> {
+    const { body } = await hol(`https://beta-api.crunchyroll.com/content/v2/cms/series/${serieId}/seasons?locale=de-DE`)
+    const daten =
+      (
+        body as {
+          data?: {
+            id: string
+            title?: string
+            number_of_episodes?: number
+            audio_locale?: string
+            versions?: { audio_locale?: string }[]
+          }[]
+        }
+      )?.data ?? []
+    return daten.map((s) => ({
+      id: s.id,
+      titel: s.title ?? '',
+      folgen: s.number_of_episodes ?? null,
+      /*
+        `versions` nennt alle Fassungen dieser Staffel; `audio_locale` nur die
+        des Blocks, den wir gerade in der Hand haben. Wo es beides gibt, zählt
+        die Liste — sonst hinge das Urteil daran, welchen Block Crunchyroll
+        zuerst ausliefert.
+      */
+      audio: [...new Set((s.versions ?? []).map((v) => v.audio_locale).filter(Boolean) as string[])].length
+        ? [...new Set((s.versions ?? []).map((v) => v.audio_locale).filter(Boolean) as string[])]
+        : s.audio_locale
+          ? [s.audio_locale]
+          : [],
+    }))
   }
 
   /**

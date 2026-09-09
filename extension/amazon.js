@@ -8017,6 +8017,41 @@ async function speicherSchreiben(werte) {
     knopf.dataset.neuLaden = 'false'
     knopf.dataset.wechselt = 'false'
 
+    /**
+     * **Der Knopf wartet, bis der Staffelwechsel wirklich verarbeitet ist.**
+     *
+     * Daniel am 09.09.2026, mit drei Bildern: „nach einem wechsel button erst
+     * rot nicht klickbar, vorherige asin, dann grün klickbar, immer noch
+     * vorherige asin, dann neue asin. … der melde button muss auch auf die
+     * geänderte asin warten."
+     *
+     * Der mittlere Zustand ist der gefährliche, und zwar nicht wegen der
+     * Anzeige: `beiStaffelwechsel()` zieht **drei** Dinge zusammen nach — `id`,
+     * `listenId` und `eintrag`. Aus `eintrag.url` entsteht die Adresse der
+     * Meldung. Wer klickt, bevor das gelaufen ist, meldet den Befund der neuen
+     * Staffel unter dem Listeneintrag der alten.
+     *
+     * Verglichen wird gegen `asin()`, also gegen die Adresse: Sie wandert beim
+     * Wechsel sofort mit, während der Quelltext hinterherhinkt (CLAUDE.md,
+     * 24.08.2026). Weichen beide ab, ist der Wechsel bekannt und noch nicht
+     * verarbeitet — das dauert höchstens einen Takt.
+     */
+    const kennungDerSeite = (() => {
+      try {
+        return asin()
+      } catch {
+        return null
+      }
+    })()
+    if (kennungDerSeite && id && kennungDerSeite !== id) {
+      knopf.disabled = true
+      knopf.dataset.wechselt = 'true'
+      knopf.textContent = 'Staffelwechsel wird übernommen …'
+      knopf.title = `Die Seite steht auf ${kennungDerSeite}, der Auftrag noch auf ${id}. Eine Meldung von hier trüge die falsche Adresse.`
+      knopf.dataset.deutsch = 'false'
+      return
+    }
+
     if (!zahlenStehen) {
       knopf.disabled = true
       /*
@@ -8878,10 +8913,36 @@ async function speicherSchreiben(werte) {
       */
       const meldetZeile = kasten?.querySelector('.ak-z-inhalt')
       if (meldetZeile && knopf.style.display !== 'none') {
+        /*
+          **Dieselbe Quelle wie die Meldung — sonst zeigt die Zeile etwas anderes an,
+          als der Knopf sendet.**
+
+          Hier stand `id`. Die Variable wird nur in `beiStaffelwechsel()`
+          nachgezogen, und der Wechsel gilt erst als erkannt, wenn der Quelltext
+          zur Adresse aufgeschlossen hat. Die Meldung nimmt ihre Kennung
+          dagegen direkt aus `asin()`, also aus der Adresse — die wandert
+          sofort mit.
+
+          Daniel am 09.09.2026, mit drei Bildern: „nach einem wechsel button
+          erst rot nicht klickbar, vorherige asin, dann grün klickbar, immer
+          noch vorherige asin, dann neue asin." Im mittleren Zustand war der
+          Knopf freigegeben und die Zeile nannte die Staffel davor.
+        */
+        const kennungJetzt = (() => {
+          try {
+            return asin() ?? id
+          } catch {
+            return id
+          }
+        })()
         const wasGemeldetWird = (() => {
-          const e = liste[id]
+          const e = liste[kennungJetzt] ?? liste[id]
           const name = e?.titel ?? seitenTitel() ?? null
-          return name ? `meldet: ${name} · ${id}` : id ? `meldet: ${id}` : ''
+          return name
+            ? `meldet: ${name} · ${kennungJetzt}`
+            : kennungJetzt
+              ? `meldet: ${kennungJetzt}`
+              : ''
         })()
         let z = meldetZeile.querySelector('.ak-meldet')
         if (wasGemeldetWird) {

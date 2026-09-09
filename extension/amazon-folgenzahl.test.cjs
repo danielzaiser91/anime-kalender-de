@@ -677,6 +677,39 @@ pruefe(
   )
 }
 
+/**
+ * **Der Melde-Knopf wartet auf die neue Kennung, die Anzeigezeile zeigt sie sofort.**
+ *
+ * Daniel am 09.09.2026, mit drei Bildern: „nach einem wechsel button erst rot
+ * nicht klickbar, vorherige asin, dann grün klickbar, immer noch vorherige
+ * asin, dann neue asin. … der melde button muss auch auf die geänderte asin
+ * warten."
+ *
+ * Der mittlere Zustand ist der gefährliche, und zwar nicht wegen der Anzeige:
+ * `beiStaffelwechsel()` zieht drei Dinge zusammen nach — `id`, `listenId` und
+ * `eintrag` —, und aus `eintrag.url` entsteht die Adresse der Meldung. Ein
+ * Klick davor meldet den Befund der neuen Staffel unter dem Listeneintrag der
+ * alten.
+ *
+ * Geprüft wird am Quelltext: Die Anzeige entsteht tief in einer IIFE, und der
+ * Zustand hängt an einer echten Amazon-Seite. Das ist weniger als ein
+ * Ausführen und mehr als ein Kommentar — es fängt den Fall, dass jemand den
+ * Riegel wieder herausnimmt.
+ */
+{
+  pruefe(
+    'der Knopf sperrt, solange Seite und Auftrag verschiedene Kennungen tragen',
+    quelle.includes('kennungDerSeite && id && kennungDerSeite !== id') &&
+      quelle.includes('Staffelwechsel wird übernommen'),
+    'sonst meldet ein Klick die neue Staffel unter der alten Adresse',
+  )
+  pruefe(
+    'die Meldezeile nimmt ihre Kennung aus derselben Quelle wie die Meldung',
+    quelle.includes('const kennungJetzt = ') && quelle.includes('meldet: ${kennungJetzt}'),
+    'mit `id` hinkt sie dem Wechsel hinterher',
+  )
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
