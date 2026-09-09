@@ -3703,3 +3703,51 @@ Ein Wert, der „weiß nicht" bedeutet, darf nie denselben Platz einnehmen wie
 einer, der etwas weiß. Wer beide in dasselbe Feld schreibt, muss beim Schreiben
 unterscheiden — sonst frisst die schlechtere Auskunft die bessere, und zwar
 lautlos.
+
+### Ein Helfer im Modulscope ist eine `function`, keine `const`-Pfeilfunktion
+
+Am 09.09.2026 war die Erweiterung auf jeder Amazon-Suchseite komplett weg.
+Daniels Bild aus der Fehlerliste:
+
+    Uncaught (in promise) ReferenceError:
+    Cannot access 'istKanalKarte' before initialization    amazon.js:4943
+
+**Vierter Fall dieser Klasse in vier Wochen** — `listenId` (25.08.), `knopf`
+(28.08.), `wiedervorlageBeantwortet` (01.09.) —, und der erste, den ich selbst
+eingebaut habe, während die Lehre dazu im Repo stand. Beim Herausziehen eines
+Blocks in eine Funktion wurde der Helfer daneben als `const` mit Pfeilfunktion
+angelegt. Der Name wird gehoben, der Wert nicht.
+
+**Und die drei vorhandenen Prüfungen fangen ihn alle nicht — jede aus einem
+eigenen Grund:**
+
+| Prüfung | warum sie schweigt |
+|---|---|
+| `extension-laden-pruefen.cjs` | lädt die Datei; der Zweig läuft erst auf einer Suchseite mit Trefferkarten |
+| `amazon-startseite-pruefen.cjs` | kannte `/s?k=…` nicht — jetzt schon, erreicht den Zweig aber ohne echte Karten trotzdem nicht |
+| statische Zusicherung in `amazon-folgenzahl.test.cjs` | sucht `name.` (Zugriff als Objekt), nicht `name(` (Aufruf) |
+
+Die naheliegende Schärfung — auch den Aufruf zählen — ist **gemessen und
+verworfen**: Sie fängt genau diesen Fall nicht, denn der Aufruf steht im Text
+*unter* der Deklaration und wird nur zur Laufzeit früher erreicht. Dafür meldet
+sie `suchOffen()` (Zeile 820, deklariert bei 5303) — dieselbe Bauform, dort
+harmlos, weil der Diagnosebericht erst auf Knopfdruck läuft. Textlich sind die
+beiden nicht zu trennen; dasselbe Ergebnis wie am 01.09.2026, und dieselbe
+Entscheidung: zurückgenommen, weil eine Prüfung, die zuverlässig zu Unrecht rot
+wird, schlimmer ist als keine.
+
+**Was bleibt, ist die Bauregel — und sie kostet nichts:**
+
+> Ein Helfer im Modulscope, der von mehr als einer Stelle gerufen wird, ist eine
+> `function`-Deklaration. Sie wird vollständig gehoben und kann nicht zu früh
+> gelesen werden.
+
+`const` bleibt richtig für Werte und für Funktionen, die nachweislich erst nach
+ihrer Zeile laufen. Die Frage vor jedem neuen Helfer lautet deshalb nicht „was
+ist schöner", sondern: **Kann irgendetwas ihn rufen, bevor diese Zeile
+gelaufen ist?** Bei einem Modul mit Takt, Beobachtern und Klick-Behandlern
+lautet die Antwort fast immer ja.
+
+**Offen und eingetragen:** Der Sandkasten müsste echte Trefferkarten stellen,
+um den Suchkasten wirklich auszuführen. Das ist die einzige Prüfung, die diesen
+Fall fangen würde.
