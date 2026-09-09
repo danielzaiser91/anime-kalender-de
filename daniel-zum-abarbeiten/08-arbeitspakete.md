@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-09 · **40 offene Verweise** in **27 Zeilen**,
+Stand 2026-09-09 · **39 offene Verweise** in **26 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -56,14 +56,13 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 19 | Netflix | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
 | 20 | Crunchyroll | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
 
-## Paket 2 — Zeilen 21 bis 27
+## Paket 2 — Zeilen 21 bis 26
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 21 | Crunchyroll | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
 | 22 | Crunchyroll | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-| 23 | ADN | Free! Iwatobi Swim Club | [High Speed! Free! Starting Days](https://animationdigitalnetwork.de/video/free-starting-days) |
-| 24 | Crunchyroll | Millennium Actress | [Hauptserie](https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub) |
-| 25 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
-| 26 | Crunchyroll | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
-| 27 | Crunchyroll | Street Fighter II V | [Street Fighter II: The Animated Movie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 23 | Crunchyroll | Millennium Actress | [Hauptserie](https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub) |
+| 24 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 25 | Crunchyroll | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
+| 26 | Crunchyroll | Street Fighter II V | [Street Fighter II: The Animated Movie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
