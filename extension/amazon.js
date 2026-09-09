@@ -4268,7 +4268,17 @@ async function speicherSchreiben(werte) {
       ...(() => {
         try {
           const a = suchauftrag()
-          const erwartet = erwartungZu(a?.suchUrl ?? eintrag?.url ?? '') ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
+          /*
+            **Der Briefkasten gewinnt, der Vermerk überbrückt.**
+
+            Auf einer frisch geladenen Titelseite ist `briefkastenErwartungen`
+            beim ersten Zeichnen noch leer; die Checkliste fehlte damit genau
+            dann, wenn sie gebraucht wird — direkt nach dem Sprung von der
+            Suchseite (Daniel, 09.09.2026, mit Bild). Der Vermerk aus dem
+            `sessionStorage` trägt dieselbe Auswahl und ist sofort da.
+          */
+          const erwartet =
+            erwartungZu(a?.suchUrl ?? eintrag?.url ?? '') ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
           if (!erwartet || erwartet.length < 2) return []
           const hier = asin()
           const gruppe = document.createElement('div')
@@ -5045,6 +5055,35 @@ async function speicherSchreiben(werte) {
       })
       if (!antwort.ok) return false
       await briefkastenHolen(true)
+      /*
+        **Die Auswahl wandert in den gemerkten Auftrag — sonst ist sie auf der
+        nächsten Seite nicht da.**
+
+        Der Briefkasten ist die Quelle der Wahrheit, aber er ist auf einer frisch
+        geladenen Titelseite erst nach dem ersten Zeichnen da. Die Checkliste
+        („welche gehören dazu, welche sind gemeldet") blieb deshalb leer, obwohl
+        die Bestätigung stand — Daniel am 09.09.2026: „in extension fehlt die
+        checkliste, ich erwarte die checkliste, sodass ich nach meldung auch
+        direkt sehe das der eine eintrag der checkliste erfolgreich gemeldet ist
+        … und dass ich direkt zum 2. springen kann."
+
+        Der Vermerk im `sessionStorage` überbrückt genau diese Lücke. Er ersetzt
+        den Briefkasten nicht: Welche Ausgabe schon **gemeldet** ist, sagt
+        weiterhin nur der (`briefkastenSeiten`), und sobald er da ist, gewinnt
+        seine Liste.
+      */
+      try {
+        const roh = sessionStorage.getItem(SUCH_SCHLUESSEL)
+        if (roh) {
+          const a = JSON.parse(roh)
+          if (a && (a.suchUrl === suchUrl || !a.suchUrl)) {
+            a.erwartet = kennungen
+            sessionStorage.setItem(SUCH_SCHLUESSEL, JSON.stringify(a))
+          }
+        }
+      } catch {
+        /* Ohne Speicher bleibt es beim Briefkasten — eine Bequemlichkeit weniger. */
+      }
       return true
     } catch {
       return false
@@ -9008,7 +9047,26 @@ async function speicherSchreiben(werte) {
         })()
         const wasGemeldetWird = (() => {
           const e = liste[kennungJetzt] ?? liste[id]
-          const name = e?.titel ?? seitenTitel() ?? null
+          /*
+            **Der Auftragstitel steht vor dem Seitentitel.**
+
+            `seitenTitel()` liest die Überschrift der Amazon-Seite und greift
+            daneben, wenn sie noch nicht steht: Auf einer Titelseite, die aus
+            einem **Such**auftrag heraus geöffnet wurde, stand dort „meldet:
+            Chatverlauf · B0FVDZ286F" (Daniel, 09.09.2026, mit Bild) — ein
+            Eintrag aus Amazons eigener Navigationsleiste.
+
+            Der Auftrag weiß es besser und ändert sich nicht: Er ist der Grund,
+            warum diese Seite überhaupt offen ist.
+          */
+          const ausAuftrag = (() => {
+            try {
+              return suchauftrag()?.titel ?? null
+            } catch {
+              return null
+            }
+          })()
+          const name = e?.titel ?? ausAuftrag ?? seitenTitel() ?? null
           return name
             ? `meldet: ${name} · ${kennungJetzt}`
             : kennungJetzt
