@@ -26176,3 +26176,25 @@
     Dieselbe FSK-18-Fassung, und sie fuehrt Staffel 2 gar nicht. Daniel am
     07.09.2026: "das verlinkt zur fsk 18 fassung von date a live, die hat nur 2
     staffeln (4 und 5) auf amazon".
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-09 ---
+
+- anilistId: 104276
+  title: "My Hero Academia 4"
+  platform: primevideo
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 22
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+    - from: 23
+      to: 23
+      dub: false
+      checked: [23]
+    - from: 24
+      to: 25
+      dub: true
+      checked: [24, 25]
+  checkedAt: '2026-09-09'
+  note: "Folgen 1–22 mit deutschem Ton, Folge 23 ohne deutschen Ton, Folgen 24–25 mit deutschem Ton — Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), Русский, 日本語 — Amazon-Seite B0HC53WXQQ: alle 1 Folge geprüft, Abos: crunchyrollde, laut Adresse Staffel 10, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
