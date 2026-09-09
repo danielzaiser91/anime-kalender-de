@@ -1086,15 +1086,25 @@
 }
 
 /*
-  Die Untergrenze hält den Namen lesbar. Ohne sie gibt der rechte Platz als
-  Erster nach, und gemessen brach dann ausgerechnet „aniSearch" auf zwei Zeilen
-  um (46 px hoch), während links weiter alles in eine Zeile passte — ein Wort
-  mit neun Buchstaben ist die falsche Stelle zum Sparen. Bei 12 px Schrift und
-  2 × 10 px Innenabstand braucht es 77 px; 80 sind die nächste runde Zahl.
+  **Die Untergrenze hält den Namen lesbar — und sie wird nicht in Pixeln gemessen.**
+
+  Ohne sie gibt der rechte Platz als Erster nach, und gemessen brach dann
+  ausgerechnet „aniSearch" auf zwei Zeilen um (46 px hoch), während links weiter
+  alles in eine Zeile passte. Ein Wort mit neun Buchstaben ist die falsche
+  Stelle zum Sparen.
+
+  Der erste Anlauf setzte `80px` — die Breite, die das Wort bei 12 px Segoe UI
+  braucht. Auf dem CI-Rechner gibt es Segoe UI nicht, die Ersatzschrift ist
+  breiter, und dort brach der Name trotzdem um (`npm run check:kasten` im
+  Workflow „Aussehen prüfen", 09.09.2026). Eine Pixelzahl ist eine Behauptung
+  über die Schrift des Betrachters.
+
+  `max-content` ist dieselbe Aussage in der richtigen Einheit: „so breit, wie
+  dein Text ohne Umbruch braucht" — auf jeder Schrift, in jeder Größe.
 */
 .ak-such-fuss-rechts {
   flex: 1 1 0;
-  min-width: 80px;
+  min-width: max-content;
 }
 
 /*

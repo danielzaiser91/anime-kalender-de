@@ -273,8 +273,26 @@ export async function main(): Promise<void> {
       entscheidet die Folgenzahl allein, aber nur, wenn keine zweite Staffel
       dieselbe hat. Bleiben zwei übrig, gibt es kein Urteil.
     */
+    /*
+      **Erst wörtlich, dann normalisiert — sonst frisst die Normalisierung das
+      unterscheidende Zeichen.**
+
+      Crunchyroll trennt „Kaguya-sama: Love is War" (Staffel 1) und
+      „Kaguya-sama: Love is War**?**" (Staffel 2) allein durch das Fragezeichen,
+      und beide haben zwölf Folgen. `norm()` streicht Satzzeichen — damit trafen
+      beide Werke beide Staffeln, und keines bekam ein Urteil (gemessen
+      09.09.2026: „2 über den Namen, 2 über die Zahl von 5").
+
+      Der wörtliche Vergleich ignoriert nur Groß- und Kleinschreibung und
+      Leerraum. Trifft er genau eine Staffel, ist die Sache entschieden; sonst
+      geht es wie bisher weiter.
+    */
+    const rohNamen = [werk.titleDe, werk.titleEn, werk.titleRomaji]
+      .filter(Boolean)
+      .map((n) => String(n).trim().toLowerCase())
+    const woertlich = staffeln.filter((s) => rohNamen.includes(s.titel.trim().toLowerCase()))
     const namen = [werk.titleDe, werk.titleEn, werk.titleRomaji].filter(Boolean).map((n) => norm(n as string))
-    const nachName = staffeln.filter((s) => namen.includes(norm(s.titel)))
+    const nachName = woertlich.length === 1 ? woertlich : staffeln.filter((s) => namen.includes(norm(s.titel)))
     const nachZahl = staffeln.filter((s) => werk.episodes != null && s.folgen === werk.episodes)
     const treffer =
       nachName.length === 1 && (nachZahl.length === 0 || nachZahl.some((s) => s.id === nachName[0]!.id))
@@ -352,7 +370,28 @@ export async function main(): Promise<void> {
   async function sucheSerie(
     werk: Title,
   ): Promise<{ id: string; titel: string; audio?: string[]; folgen?: number | null } | undefined> {
-    const namen = [werk.titleDe, werk.titleEn, werk.titleRomaji].filter(Boolean) as string[]
+    /*
+      **Auch der Reihenname wird gesucht — die Staffel entscheidet danach.**
+
+      Unser Bestand führt „The Promised Neverland Season 2", der Katalog „THE
+      PROMISED NEVERLAND" mit zwei Staffeln. Ein Suchabgleich, der
+      Namensgleichheit verlangt, findet die Serie deshalb nie — und ohne Serie
+      gibt es keine Staffelliste (gemessen 09.09.2026: fünf Werke fielen so
+      durch, darunter drei Slime-Staffeln).
+    */
+    const ohneStaffel = (n: string) =>
+      n
+        .replace(/\s*[:\-–]?\s*(season|staffel|s)\s*\d+\s*$/i, '')
+        .replace(/\s+\d+(st|nd|rd|th)?\s+season\s*$/i, '')
+        .trim()
+    const namen = [
+      ...new Set(
+        [werk.titleDe, werk.titleEn, werk.titleRomaji]
+          .filter(Boolean)
+          .flatMap((n) => [String(n), ohneStaffel(String(n))])
+          .filter((n) => n.length >= 3),
+      ),
+    ]
     for (const name of namen) {
       const { body } = await hol(
         `https://beta-api.crunchyroll.com/content/v2/discover/search?q=${encodeURIComponent(name)}&n=8&type=series&locale=de-DE`,

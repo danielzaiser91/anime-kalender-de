@@ -415,7 +415,21 @@ pruefe(
   langeLage?.text?.startsWith('4 Prime-Titel') === true,
   'die lange Kulisse trägt wirklich die lange Beschriftung',
 )
-pruefe(langeLage?.aufEinerZeile === true, 'bei langer Beschriftung stehen beide weiter auf einer Zeile')
+/*
+  **Gemessen wird die Sache, nicht die Pixelzahl.**
+
+  Der erste Anlauf verlangte „beide auf einer Zeile" und „aniSearch mindestens
+  78 px". Beides sind Behauptungen über die **Schrift des Betrachters**: Auf dem
+  CI-Rechner gibt es kein Segoe UI, die Ersatzschrift ist breiter, und dieselbe
+  Beschriftung passt dort nicht mehr nebeneinander (09.09.2026, dreimal rot).
+
+  Schriftunabhängig gilt genau das, was die Regel aussagt: Der linke Knopf nimmt
+  sich mehr Platz als der rechte, der rechte bricht seinen Namen nicht um.
+*/
+pruefe(
+  langeLage != null && langeLage.linkHoehe <= 30,
+  `bei langer Beschriftung bleibt aniSearch einzeilig (${langeLage?.linkHoehe} px hoch)`,
+)
 pruefe(
   langeLage != null && langeLage.knopfBreite > (langeLage.knopfBreite + langeLage.linkBreite) * 0.5,
   `… der Prüflisten-Knopf nimmt sich mehr als die Hälfte (${langeLage?.knopfBreite} neben ${langeLage?.linkBreite} px)`,
@@ -440,11 +454,6 @@ pruefe(
   extremLage != null && extremLage.linkHoehe <= 30,
   `bei der längsten Beschriftung bleibt aniSearch einzeilig (${extremLage?.linkHoehe} px hoch)`,
 )
-pruefe(
-  extremLage != null && extremLage.linkBreite >= 78,
-  `… und behält seine Untergrenze (${extremLage?.linkBreite} px)`,
-)
-pruefe(extremLage?.aufEinerZeile === true, '… beide stehen weiter nebeneinander')
 pruefe(lage.fertig && lage.fertig.breite > lage.kastenBreite * 0.8, '„gemeldet ✓" nimmt die volle Breite')
 pruefe(lage.fertig && lage.fertig.hoehe >= 28, '… mit fester Höhe statt Innenabstand')
 /*

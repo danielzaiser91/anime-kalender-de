@@ -3801,6 +3801,52 @@ function main(): void {
     }
 
     /**
+     * **Die Verweise, die alle Runden davor nicht beurteilen konnten.**
+     *
+     * Daniel am 07.09.2026: „39 Fragezeichen? wir haben crunchyroll
+     * automatisiert, es sollte 0 fragezeichen geben." Gemessen am 09.09.2026
+     * blieben 34 übrig, und keiner davon aus einem Fehler: 27 tragen eine
+     * Adresse im alten Format ohne Serienkennung, der Rest sind Filme und OVAs,
+     * die eine Serienrunde bauartbedingt nicht beurteilt.
+     *
+     * `pipeline/fetch-crunchyroll-offene.ts` geht sie einzeln an — Kennung aus
+     * der Adresse auflösen, sonst die Serie im Katalog suchen und ihre
+     * **Staffelliste** lesen. Hier wird nur angewandt, was dort belegt wurde.
+     *
+     * **Ein `tot` ist kein Sprachurteil.** Die Videokennung ist abgelaufen, die
+     * Adresse führt ins Leere; der Verweis fliegt weiter unten über dieselbe
+     * Regel wie jede andere tote Adresse. Ihn hier auf `dub: false` zu setzen
+     * hieße, ein fehlendes Angebot als „ohne deutschen Ton" auszugeben — die
+     * Unterscheidung, die `DubCheck.available` seit dem 12.08.2026 zieht.
+     */
+    {
+      const offene = readJson<Record<string, { herkunft?: string; dub?: boolean; grund?: string }>>(
+        'data/crunchyroll-offene.json',
+        {},
+      )
+      let ausOffenen = 0
+      let toteOffene = 0
+      for (const title of titles.values()) {
+        for (const stream of title.streams) {
+          if (stream.platform !== 'crunchyroll' || stream.dub !== undefined) continue
+          const b = offene[stream.url]
+          if (!b) continue
+          if (b.herkunft === 'tot') {
+            toteOffene++
+            continue
+          }
+          if (typeof b.dub !== 'boolean') continue
+          stream.dub = b.dub
+          ausOffenen++
+        }
+      }
+      if (ausOffenen)
+        log(`${ausOffenen} Crunchyroll-Verweise über Videokennung oder Staffelliste beurteilt`)
+      if (toteOffene)
+        log(`${toteOffene} Crunchyroll-Verweise mit abgelaufener Videokennung — sie fliegen als tote Adresse`)
+    }
+
+    /**
      * **Neunte Runde: der Katalog legt den Verweis an, nicht nur das Urteil.**
      *
      * Die Runde darüber beurteilt einen Verweis, der schon dasteht. Genau daran

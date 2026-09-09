@@ -3259,6 +3259,16 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     (Lauf 34160329089, Issue #54).
   */
   pruefe(
+    'die Befunde aus fetch-crunchyroll-offene.ts werden im Bau auch gelesen',
+    bau.includes("'data/crunchyroll-offene.json'") && bau.includes("if (b.herkunft === 'tot')"),
+    'eine Datei zu schreiben ist nicht dasselbe wie sie zu benutzen — fünf solcher Fälle in zwei Tagen (CLAUDE.md, 07.09.2026)',
+  )
+  pruefe(
+    'ein abgelaufener Verweis wird dort nicht zum Sprachurteil',
+    bau.includes('toteOffene++') && !/herkunft === 'tot'[\s\S]{0,120}stream\.dub = /.test(bau),
+    'ein fehlendes Angebot ist kein „ohne deutschen Ton" — die Unterscheidung von DubCheck.available',
+  )
+  pruefe(
     'eine tote Crunchyroll-Adresse wird auch ohne Kennung nicht neu ergänzt',
     bau.includes('toteCrAdressen.has(adressKern(url))'),
     'Adressen im alten Format tragen keine Serienkennung — der Kennungs-Riegel greift bei ihnen nicht',
