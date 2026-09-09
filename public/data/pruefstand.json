@@ -1,11 +1,11 @@
 {
- "erzeugtAm": "2026-09-09T17:50:04.965Z",
+ "erzeugtAm": "2026-09-09T18:01:06.024Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 682,
-   "gesamt": 683,
+   "gemeldet": 665,
+   "gesamt": 666,
    "offen": 1,
    "ohneSeite": 0,
    "suchAdressen": [],
@@ -21,13 +21,22 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 369,
+   "gemeldet": 367,
    "gesamt": 369,
-   "offen": 0,
+   "offen": 2,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.netflix.com/title/81214399",
+   "ziele": [
+    {
+     "url": "https://www.netflix.com/title/81214399",
+     "titel": "Pretty Guardian Sailor Moon Eternal: Der Film"
+    },
+    {
+     "url": "https://www.netflix.com/title/81922765",
+     "titel": "Baki-Dou: The Invincible Samurai"
+    }
+   ],
+   "naechster": "Pretty Guardian Sailor Moon Eternal: Der Film"
   },
   {
    "name": "Disney+",
