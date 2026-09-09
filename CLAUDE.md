@@ -3704,6 +3704,54 @@ einer, der etwas weiß. Wer beide in dasselbe Feld schreibt, muss beim Schreiben
 unterscheiden — sonst frisst die schlechtere Auskunft die bessere, und zwar
 lautlos.
 
+### Die Prüfliste kennt genau eine Wahrheit — den Briefkasten
+
+Daniel am 09.09.2026: „mach das die prüfliste synchron ist … sodass du einträge
+beliebig zur prüfung geben kannst, ich will keine console commands bei mir lokal
+ausführen."
+
+Die Regel dazu steht seit dem 28.08.2026 („single source of truth"), und eine
+Zeile widersprach ihr:
+
+    if (briefkastenSuchen) return briefkastenSuchen.has(url) || Boolean(suchErledigtFrisch(url))
+
+Der lokale Vermerk war damit keine Überbrückung mehr, sondern zweite Wahrheit:
+Wer eine Meldung serverseitig verwarf, um einen Titel erneut prüfen zu lassen,
+sah den Eintrag in Daniels Browser trotzdem nicht wieder.
+
+Seit 4.16.6 entscheidet der Briefkasten allein, sobald er geantwortet hat — und
+der widerlegte Vermerk wird **weggeworfen**, nicht nur übergangen. Zurückgestellt
+wird mit:
+
+    LAUF_TOKEN=… node tools/pruefung-zurueckstellen.mjs --offen
+    LAUF_TOKEN=… node tools/pruefung-zurueckstellen.mjs --zurueck <ids>
+
+**Was das Werkzeug nicht tut:** einen bereits eingearbeiteten Handbeleg aus
+`data/dub-confirmed.yaml` entfernen. Der wird von Hand zurückgenommen, mit
+Begründung im Commit — es ist die teuerste Quelle des Projekts, und sie soll
+nicht von einem Skript geräumt werden. Das Werkzeug zeigt an, wenn es einen
+findet.
+
+### Eine Suchadresse ist ein Auftrag, kein Angebot — auch beim Schreiben
+
+Am 09.09.2026 hat Daniel beide Ausgaben von „Death Note: Relight" gemeldet
+(`B0FVDZ286F` und `B0FWYWSS3M`). Im Bestand stand danach **eine**.
+
+`fetch-pruefungen.ts` bündelt Meldungen je Adresse — richtig, denn eine Reihe
+wird Folge für Folge gemeldet und soll einen Beleg ergeben. Der Schlüssel war
+`plattform + url`, und bei einem Suchauftrag ist die `url` für beide Ausgaben
+dieselbe: Aus zwei Meldungen wurde eine Gruppe, aus der Gruppe der Befund der
+**jüngeren** Meldung.
+
+Beim **Lesen** zieht `loadDubChecks()` diese Trennung seit dem 07.09.2026 (Date a
+Live IV, siehe oben). Beim Schreiben fehlte sie. Der Schlüssel trägt jetzt
+zusätzlich `seiten_kennung`; Meldungen ohne Kennung bleiben beieinander — das
+sind die Folgen-Meldungen, für die es die Bündelung gibt.
+
+**Die allgemeine Form, und sie ist in diesem Projekt jetzt dreimal aufgetreten:**
+Wo zwei Ebenen dieselbe Adresse benutzen — Auftrag und Angebot —, muss **jede**
+Stelle sagen, welche sie meint. Lesen und Schreiben sind dabei zwei Stellen.
+
 ### Ein Auftrag gehört zu einer Suche — nicht zu „einer Suchseite"
 
 Daniel am 09.09.2026: „polar bären als ‚nicht bei prime' gemeldet -> nächsten

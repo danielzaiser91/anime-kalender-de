@@ -52,6 +52,15 @@ interface Pruefung {
   teil_von: number | null
   teil_bis: number | null
   gemeldet_am: string
+  /**
+   * **Welche Seite angesehen wurde — nicht, welcher Auftrag gemeint war.**
+   *
+   * Der Worker liefert das Feld seit Migration 021; hier stand es nicht, und
+   * damit fehlte es auch in der Gruppierung. Zwei Ausgaben unter einer
+   * Suchadresse wurden dadurch zu einem Beleg (Death Note: Relight,
+   * 09.09.2026).
+   */
+  seiten_kennung?: string | null
 }
 
 if (!TOKEN) {
@@ -388,7 +397,26 @@ function staffelnDerAdresse(ids: number[]): Staffeleintrag[] {
  */
 const jeAdresse = new Map<string, Pruefung[]>()
 for (const p of pruefungen) {
-  const schluessel = `${p.plattform}\u0000${p.url}`
+  /*
+    **Und die Seitenkennung gehört dazu — sonst frisst die zweite Ausgabe die
+    erste.**
+
+    Eine Suchadresse steht für einen Auftrag, nicht für ein Angebot: Prime führt
+    „Death Note: Relight" als zwei Kauftitel (`B0FVDZ286F`, `B0FWYWSS3M`), und
+    beide Meldungen tragen dieselbe `url`. Ohne die Kennung landeten sie in
+    einer Gruppe, aus der genau **ein** Beleg entsteht — der der jüngeren
+    Meldung. Gemessen am 09.09.2026: Daniel meldete beide, im Bestand stand
+    danach nur `B0FWYWSS3M`.
+
+    Das ist dieselbe Trennung, die `loadDubChecks()` seit dem 07.09.2026 beim
+    **Lesen** zieht („Ein Beleg gehört einer Ausgabe, nicht einem Titel", Date a
+    Live IV). Beim Schreiben fehlte sie.
+
+    **Meldungen ohne Kennung bleiben beieinander** (leerer Zusatz): Das sind die
+    Folgen-Meldungen einer Reihe, und für die ist die Bündelung der Zweck dieser
+    Gruppe.
+  */
+  const schluessel = `${p.plattform}\u0000${p.url}\u0000${p.seiten_kennung ?? ''}`
   jeAdresse.set(schluessel, [...(jeAdresse.get(schluessel) ?? []), p])
 }
 

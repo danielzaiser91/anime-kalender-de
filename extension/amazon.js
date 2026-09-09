@@ -5372,6 +5372,24 @@ async function speicherSchreiben(werte) {
     }
   }
 
+  /**
+   * **Einen lokalen Vermerk wegwerfen, den der Briefkasten widerlegt hat.**
+   *
+   * Läuft aus `istGemeldet()`, also aus einer Funktion, die im Takt mehrfach je
+   * Sekunde aufgerufen wird — geschrieben wird trotzdem höchstens einmal je
+   * Adresse: Danach ist der Eintrag weg, und die Bedingung greift nicht mehr.
+   */
+  function vermerkVerwerfen(url) {
+    try {
+      const rest = { ...suchErledigt }
+      delete rest[url]
+      suchErledigt = rest
+      void speicherSchreiben({ amazonSuche: rest })
+    } catch {
+      /* Ohne Speicher bleibt der Vermerk stehen — der Briefkasten gilt trotzdem. */
+    }
+  }
+
   function istGemeldet(url) {
     /*
       **Als Funktionsdeklaration, und der Rumpf in try.**
@@ -5456,7 +5474,30 @@ async function speicherSchreiben(werte) {
       if (erwartet && briefkastenSeiten) {
         return erwartet.every((k) => briefkastenSeiten.has(String(k)))
       }
-      if (briefkastenSuchen) return briefkastenSuchen.has(url) || Boolean(suchErledigtFrisch(url))
+      /*
+        **Hat der Briefkasten geantwortet, entscheidet er allein — auch gegen
+        den lokalen Vermerk.**
+
+        Bis 4.16.6 stand hier `|| suchErledigtFrisch(url)`, und damit war der
+        Vermerk nicht mehr Überbrückung, sondern zweite Wahrheit: Wer eine
+        Meldung serverseitig verwarf, um einen Titel noch einmal prüfen zu
+        lassen, sah den Eintrag in Daniels Browser trotzdem nicht wieder — es
+        brauchte einen Konsolenbefehl bei ihm.
+
+        Daniel am 09.09.2026: „mach das die prüfliste synchron ist … sodass du
+        einträge beliebig zur prüfung geben kannst, ich will keine console
+        commands bei mir lokal ausführen." Und schon am 28.08.2026: „single
+        source of truth."
+
+        Der Vermerk wird dabei **aufgeräumt**, nicht nur übergangen — sonst
+        bliebe er liegen und entschiede beim nächsten Start wieder mit, solange
+        der Briefkasten noch schweigt.
+      */
+      if (briefkastenSuchen) {
+        const gefuehrt = briefkastenSuchen.has(url)
+        if (!gefuehrt && suchErledigt[url]) vermerkVerwerfen(url)
+        return gefuehrt
+      }
       /*
         **Solange der Briefkasten schweigt, gilt der lokale Vermerk — befristet.**
 

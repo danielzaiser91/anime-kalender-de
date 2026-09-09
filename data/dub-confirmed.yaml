@@ -26277,3 +26277,20 @@
   available: false
   checkedAt: '2026-09-09'
   note: "Suche auf Prime Video: kein einziger Treffer"
+
+# --- Von Hand nachgetragen am 09.09.2026 ---
+- anilistId: 2994
+  title: "Death Note: Relight"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FVDZ286F
+  dub: true
+  checkedAt: '2026-09-09'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FVDZ286F (Relight 1, Visions of a God): Film geprüft, Kauf/Leihe. Meldung 4323 vom 09.09.2026; sie ging beim Abholen verloren, weil beide Ausgaben unter der Suchadresse gebündelt wurden."
+- anilistId: 185515
+  title: "2.5 Dimensional Seduction"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D84DKFSH
+  dub: false
+  checkedAt: '2026-09-09'
+  zweiteQuelle: 'Crunchyroll-Katalog DE 07.09.2026: GP5HJ845X nur ja-JP'
+  note: "Kein deutscher Ton — zwei unabhängige Quellen: Prime meldet für alle 24 Folgen nur 日本語 (Meldung 4319, Kanal-Titel ADN/Crunchyroll, für sich kein Beleg), und der deutsche Crunchyroll-Katalog führt GP5HJ845X am 07.09.2026 ausschließlich mit ja-JP."
