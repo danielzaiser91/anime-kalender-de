@@ -3542,6 +3542,58 @@ async function dialogOeffnen() {
         marke.textContent = `E${alsBereiche(offen).join(", E")}`
         pille.appendChild(marke)
       }
+      /**
+       * **Eine Staffel, die es hier nicht gibt — und nur sie.**
+       *
+       * Daniel am 06.09.2026: „prüfliste fragt nach s3, netflix hat keine s3,
+       * was jetzt? wie melde ich s3 nicht auf netflix? prüfliste bietet keine
+       * option dafür." Netflix führt „Sword Art Online" mit zwei Staffeln,
+       * unsere Liste mit drei — Alicization läuft dort nicht.
+       *
+       * Der Knopf „nichts da?" am Zeilenende gilt dem **Verweis**, und der
+       * gehört allen Staffeln: Ihn zu drücken hätte S1 und S2 mit gestrichen,
+       * die vorhanden und gemeldet sind.
+       *
+       * Dieser hier meldet **titelgenau**. `titelIdFuer(id, st.nr)` löst die
+       * Staffel in unsere AniList-Kennung auf, die Meldung trägt sie als
+       * `titelId` — und `fetch-pruefungen.ts` arbeitet damit genau diesen Titel
+       * ab, statt über die Adresse zu gehen. Ohne aufgelöste Kennung erscheint
+       * er gar nicht: Eine Meldung, die nicht zuzuordnen ist, richtet mehr
+       * Schaden an als der fehlende Knopf.
+       */
+      const staffelTitelId = titelIdFuer(id, st.nr)
+      if (staffelTitelId && staffeln.length > 1 && offen.length) {
+        const weg = document.createElement('button')
+        weg.type = 'button'
+        weg.className = 'ak-staffel-weg'
+        weg.textContent = '✕'
+        weg.title = `Staffel ${st.nr} gibt es hier nicht — nur diese Staffel melden`
+        weg.addEventListener('click', async (ereignis) => {
+          ereignis.stopPropagation()
+          ereignis.preventDefault()
+          /* Zweistufig wie „nichts da?": Ein Fehlklick streicht eine Staffel. */
+          if (weg.dataset.sicher !== 'ja') {
+            weg.dataset.sicher = 'ja'
+            weg.textContent = 'wirklich?'
+            weg.classList.add('ak-frage')
+            setTimeout(() => {
+              if (weg.dataset.sicher !== 'ja') return
+              weg.dataset.sicher = ''
+              weg.textContent = '✕'
+              weg.classList.remove('ak-frage')
+            }, 4000)
+            return
+          }
+          weg.disabled = true
+          weg.textContent = '…'
+          const { ok, text } = await staffelWegMelden(id, st, staffelTitelId, eintrag.titel)
+          weg.classList.remove('ak-frage')
+          weg.textContent = ok ? '✓' : text
+          weg.disabled = ok
+          if (ok) pille.classList.add('ak-abgehakt')
+        })
+        pille.appendChild(weg)
+      }
       folgen.appendChild(pille)
     }
 
@@ -3780,6 +3832,47 @@ setInterval(() => void standHolen(), 5 * 60 * 1000)
  * Gemeldet wird derselbe Befund, den die Titelseite ohne abspielbare Folge
  * liefert: `weg`. Die Pipeline entfernt den Verweis daraufhin aus dem Datensatz.
  */
+/**
+ * **Diese eine Staffel gibt es hier nicht — als Meldung an den Briefkasten.**
+ *
+ * Unterschied zu `totMelden()`: Dort ist die **Adresse** das Ziel („dort ist
+ * gar nichts"), hier ein einzelner **Titel** („die Reihe läuft, diese Staffel
+ * nicht"). Deshalb geht `titelId` mit, und die Notiz sagt, worum es ging —
+ * `fetch-pruefungen.ts` bevorzugt die Kennung aus der Meldung vor jeder
+ * Rekonstruktion über die Adresse.
+ *
+ * `befund: 'weg'` ist derselbe wie beim toten Verweis, und das ist richtig:
+ * Der Bau macht daraus `available: false` und entfernt den Verweis — beim
+ * gemeldeten Titel, nicht bei seinen Geschwistern.
+ */
+async function staffelWegMelden(reihe, st, titelId, titel) {
+  const { token } = await chrome.storage.sync.get('token')
+  if (!token) return { ok: false, text: 'Kein Token' }
+  try {
+    const antwort = await fetch(WORKER, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+      body: JSON.stringify({
+        plattform: 'netflix',
+        url: `https://www.netflix.com/title/${reihe}`,
+        titelId,
+        staffel: Number(st.nr) || null,
+        sprachen: [],
+        befund: 'weg',
+        titel: titel || null,
+        notiz: `Netflix führt Staffel ${st.nr} nicht — die Reihe läuft dort, diese Staffel nicht. Aus der Prüfliste je Staffel gemeldet.`,
+      }),
+    })
+    if (!antwort.ok) {
+      const daten = await antwort.json().catch(() => ({}))
+      return { ok: false, text: daten.error ?? `Fehler ${antwort.status}` }
+    }
+    return { ok: true, text: 'gemeldet' }
+  } catch (err) {
+    return { ok: false, text: `Nicht erreichbar: ${err.message}` }
+  }
+}
+
 async function totMelden(id, titel) {
   const { token } = await chrome.storage.sync.get('token')
   if (!token) return { ok: false, text: 'Kein Token — Rechtsklick aufs Symbol, dann Optionen' }

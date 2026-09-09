@@ -366,6 +366,30 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
     }
   }
 
+  /*
+    **Eine Staffel, die es beim Anbieter nicht gibt — und nur sie.**
+
+    Daniel am 06.09.2026: „prüfliste fragt nach s3, netflix hat keine s3, was
+    jetzt?" Der Knopf am Zeilenende meint den ganzen Verweis; dieser hier meint
+    eine Staffel und meldet deshalb **titelgenau**. Geprüft wird der Quelltext,
+    weil die Kachel nur mit passenden Aufträgen entsteht — was hier zählt, ist
+    die Bedingung davor und das, was mitgeschickt wird.
+  */
+  {
+    const q = readFileSync(__dirname + '/melder.js', 'utf8')
+    pruefe(
+      'der Staffel-Knopf verlangt eine aufgelöste Titel-Kennung',
+      q.includes('const staffelTitelId = titelIdFuer(id, st.nr)') &&
+        q.includes('if (staffelTitelId && staffeln.length > 1'),
+    )
+    const fn = q.slice(q.indexOf('async function staffelWegMelden'), q.indexOf('async function totMelden'))
+    pruefe(
+      'er meldet titelgenau, nicht über die Adresse',
+      fn.includes('titelId,') && fn.includes('staffel: Number(st.nr)'),
+    )
+    pruefe('und mit demselben Befund wie ein toter Verweis', fn.includes("befund: 'weg'"))
+    pruefe('er fragt einmal nach, bevor er streicht', q.includes("weg.dataset.sicher !== 'ja'"))
+  }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')
   process.exit(schlecht ? 1 : 0)

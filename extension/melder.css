@@ -280,6 +280,28 @@
 .ak-tot:disabled { cursor: default; opacity: .55; }
 .ak-tot.ak-frage { border-color: #f85149; color: #f85149; }
 
+/*
+  **Das ✕ an der Staffel-Pille: „diese Staffel gibt es hier nicht".**
+
+  Es sitzt **in** der Pille, weil es ihr gilt und nicht der Zeile — der
+  „nichts da?"-Knopf am Zeilenende meint den ganzen Verweis. Klein und grau,
+  bis man darüberfährt: Wer eine Staffel streicht, soll es wollen, nicht
+  treffen (Daniel, 06.09.2026).
+*/
+.ak-staffel-weg {
+  margin-left: 6px;
+  padding: 0 5px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: none;
+  color: #6e7681;
+  font: 500 10px/1.5 "Segoe UI", system-ui, sans-serif;
+  cursor: pointer;
+}
+.ak-staffel-weg:hover:not(:disabled) { border-color: #f85149; color: #f85149; }
+.ak-staffel-weg:disabled { cursor: default; opacity: .55; }
+.ak-staffel-weg.ak-frage { border-color: #f85149; color: #f85149; }
+
 /* Wie Abgearbeitetes aussieht, steht weiter unten beim Umschalter. */
 
 /* Zweite Stufe: Aus dieser Staffel wurde schon etwas gemeldet, nur nicht genau
