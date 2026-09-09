@@ -87,7 +87,8 @@
     "bild:kachel": "node tools/kachel-titel-messen.mjs",
     "check:leiste": "node tools/melder-leiste-bild.mjs",
     "data:justwatch": "tsx pipeline/fetch-justwatch-audio.ts",
-    "data:cr-offene": "tsx pipeline/fetch-crunchyroll-offene.ts"
+    "data:cr-offene": "tsx pipeline/fetch-crunchyroll-offene.ts",
+    "data:kanal-gegenprobe": "tsx pipeline/kanal-gegenprobe.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

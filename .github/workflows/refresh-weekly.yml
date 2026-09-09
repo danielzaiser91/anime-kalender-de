@@ -572,6 +572,19 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Tonspuren laut JustWatch"
 
+      # Ein Kanal-Titel zeigt bei Prime die Tonspuren, die dem **Betrachter**
+      # zugänglich sind — ohne Kanal-Abo fehlt die deutsche. Eine Meldung „kein
+      # Deutsch" ist dort für sich kein Beleg; erst eine zweite Quelle, die
+      # unabhängig keinen deutschen Ton findet, macht ein Nein daraus.
+      #
+      # Direkt hinter dem JustWatch-Lauf, weil er die zweite Quelle ist: Was er
+      # gerade geholt hat, wird im selben Durchgang ausgewertet.
+      - name: Kanal-Meldungen gegen JustWatch prüfen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:kanal-gegenprobe
+
       # Nicht mehr direkt auf main: Der Fund geht als Pull Request ein und wird
       # nur gemergt, wenn er sich sauber einfügt. Sonst bleibt der Zweig stehen,
       # und „Claude — Daten-PR zusammenführen" löst den Konflikt mit Blick auf
