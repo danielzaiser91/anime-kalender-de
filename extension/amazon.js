@@ -680,6 +680,21 @@ async function speicherSchreiben(werte) {
   let asinZwischenspeicher = null
   let asinZu = -1
   /**
+   * **Der Zwischenspeicher von `kennungImQuelltextBekannt()` — hier oben, nicht
+   * bei seiner Funktion.**
+   *
+   * Die Funktion steht rund 4.000 Zeilen weiter unten, `zeigeAuftragshinweis()`
+   * ruft sie seit dem 09.09.2026 über `quelltextVeraltet()` aber schon beim
+   * Seitenaufbau. Ein `let` unterhalb der ersten Nutzung liefert dann kein
+   * `undefined`, sondern wirft — und der Kasten war weg.
+   *
+   * Fünfter Fall dieser Klasse (`listenId`, `knopf`, `wiedervorlageBeantwortet`,
+   * `istKanalKarte`). Gefangen hat ihn diesmal der Sandkasten, nicht der Blick:
+   * `amazon-suchseite.test.cjs` wurde rot, bevor etwas ausgeliefert war.
+   */
+  let kennungBekanntSpeicher = null
+  let kennungBekanntZu = -1
+  /**
    * **Ein Muster über den ganzen Quelltext — nicht 220 Ausschnitte.**
    *
    * Die erste Fassung lief über **alle** `titleID`-Fundstellen und legte je
@@ -861,9 +876,26 @@ async function speicherSchreiben(werte) {
     {
       an: '⏸',
       aus: '▶',
+      text: 'Ruhemodus für Aufnahmen',
       titel: 'Ruhemodus: Hintergrundvideo und Animationen anhalten (für Aufnahmen)',
       aktiv: () => document.documentElement?.classList?.contains('ak-ruhig') ?? false,
       schalten: () => document.dispatchEvent(new CustomEvent('ak-ruhig')),
+    },
+    /*
+      **Der Bericht als Knopf — nicht als Konsolenbefehl.**
+
+      Er hing an `AK.report()` bzw. an einem Ereignis am `document`, und beides
+      setzt eine offene Konsole voraus. Genau die will Daniel nicht bedienen
+      (09.09.2026: „pack in die debug leiste der extension ein report button für
+      das ak-report rein"), und wer gerade einen Fehler vor sich hat, soll ihn
+      mit einem Klick festhalten können statt mit einer Anleitung.
+    */
+    {
+      an: '⭳',
+      aus: '⭳',
+      text: 'Bericht laden',
+      titel: 'Diagnosebericht als JSON herunterladen (Tagebuch, Zählstand, Auftrag)',
+      schalten: () => berichtHerunterladen(),
     },
   ]
 
@@ -882,30 +914,36 @@ async function speicherSchreiben(werte) {
         anderes tun. Daniel am 02.09.2026: „neben dem button steht ein kurztext
         was der button macht."
       */
-      const beschriftung = document.createElement('span')
-      beschriftung.textContent = 'Ruhemodus für Aufnahmen'
       for (const sch of DEBUG_SCHALTER) {
         const k = document.createElement('button')
         k.type = 'button'
         k.className = 'ak-debugknopf'
         k.title = sch.titel
         const zeigen = () => {
-          k.textContent = sch.aktiv() ? sch.an : sch.aus
-          k.classList.toggle('ak-debug-an', sch.aktiv())
+          const an = sch.aktiv?.() ?? false
+          k.textContent = an ? sch.an : sch.aus
+          k.classList.toggle('ak-debug-an', an)
         }
         k.addEventListener('click', () => {
           sch.schalten()
           zeigen()
         })
         zeigen()
-        leiste.appendChild(k)
+        /*
+          **Jeder Schalter trägt seine eigene Beschriftung.**
+
+          Bis 4.16.5 stand eine einzige am Ende der Leiste — sie gehörte dem
+          Ruhemodus und wäre neben einem zweiten Knopf eine Falschauskunft
+          gewesen. Der Schalter zuerst, sein Text dahinter (Daniel, 02.09.2026:
+          „ruhemodus button muss links sein, text rechts").
+        */
+        const paar = document.createElement('span')
+        paar.className = 'ak-debugpaar'
+        const beschriftung = document.createElement('span')
+        beschriftung.textContent = sch.text
+        paar.append(k, beschriftung)
+        leiste.appendChild(paar)
       }
-      /*
-        Der Schalter zuerst, die Beschriftung dahinter — wie in jeder Zeile
-        dieses Kastens steht links das Bedienbare (Daniel, 02.09.2026:
-        „ruhemodus button muss links sein, text rechts").
-      */
-      leiste.appendChild(beschriftung)
       platz.appendChild(leiste)
     } catch {
       /* Eine Diagnosehilfe darf den Ablauf nie aufhalten. */
@@ -2162,6 +2200,64 @@ async function speicherSchreiben(werte) {
     }
   }
 
+  /**
+   * **Unter welchen Suchbegriffen ein gemerkter Auftrag gilt.**
+   *
+   * Der Merker überlebt den Seitenwechsel und gilt zehn Minuten — er ist dafür
+   * da, eine **Weitersuche** desselben Auftrags zu überbrücken („Kürzer
+   * suchen", „Deutsch suchen"), deren Adresse in keiner Liste steht.
+   *
+   * Ohne diese Bindung galt er für **jede** Suchseite. Daniel am 09.09.2026:
+   * „polar bären als ‚nicht bei prime' gemeldet -> nächsten eintrag in
+   * prüfliste gewählt -> extension wechselt inhalt der melde box zurück zu
+   * polar bären nach <2sek". Der Kasten zeigte den alten Auftrag über den
+   * Trefferkarten des neuen — samt Melde-Knopf, der unter der alten
+   * Suchadresse gemeldet hätte.
+   *
+   * Aufgefallen ist es an einer Sekunde Verzug: `suchliste` kommt aus
+   * `chrome.storage`, also asynchron. Beim ersten Takt ist sie leer,
+   * `offeneSuche()` findet nichts — und genau in dieses Loch sprang der
+   * Merker. Er schrieb sich dabei mit neuer Zeit zurück und hielt sich selbst
+   * am Leben.
+   */
+  function begriffeDesAuftrags(a) {
+    const s = new Set()
+    try {
+      const k = new URLSearchParams(new URL(a?.suchUrl ?? '').search).get('k')
+      if (k) s.add(k)
+    } catch {
+      /* Ohne brauchbare Adresse zählen die Begriffe darunter. */
+    }
+    for (const b of [a?.suchbegriff, a?.suchbegriffEn, ...(Array.isArray(a?.begriffe) ? a.begriffe : [])]) {
+      if (b) s.add(String(b))
+    }
+    return s
+  }
+
+  /** Gehört die Suche, auf der wir stehen, zu diesem Auftrag? */
+  function gehoertZurSuche(a) {
+    const begriff = new URLSearchParams(location.search).get('k')
+    if (!begriff || !a) return false
+    return begriffeDesAuftrags(a).has(begriff)
+  }
+
+  /**
+   * Weitersuchen — der Auftrag nimmt den neuen Begriff mit.
+   *
+   * Ohne ihn stünde die Zieladresse in keiner Liste und trüge einen Begriff,
+   * den der Auftrag nicht kennt: `gehoertZurSuche()` sagte nein, und der Kasten
+   * wäre weg — genau der Fehler vom 27.08.2026, gegen den es den Merker gibt.
+   */
+  function weitersuchen(auftrag, begriff) {
+    try {
+      const bisher = Array.from(begriffeDesAuftrags(auftrag))
+      suchauftragMerken({ ...auftrag, begriffe: [...bisher, begriff] })
+    } catch {
+      /* Ohne Speicher bleibt nur die Suche selbst. */
+    }
+    location.href = `https://www.amazon.de/s?k=${encodeURIComponent(begriff)}&i=instant-video`
+  }
+
   /** Steht die aktuelle Adresse als Suche auf der Liste? */
   function offeneSuche() {
     /*
@@ -3413,7 +3509,13 @@ async function speicherSchreiben(werte) {
       anderes, worauf er sich beziehen könnte.
     */
     const ausListe = offeneSuche()
-    const gemerkt = !ausListe && /^\/s(\/|$)/.test(location.pathname) ? suchauftrag() : null
+    /*
+      **Und nur, wenn diese Suche wirklich zu ihm gehört** — siehe
+      `gehoertZurSuche()`. Vorher genügte „irgendeine Suchseite", und der
+      Auftrag des vorigen Titels stand über den Treffern des nächsten.
+    */
+    const gemerktRoh = !ausListe && /^\/s(\/|$)/.test(location.pathname) ? suchauftrag() : null
+    const gemerkt = gemerktRoh && gehoertZurSuche(gemerktRoh) ? gemerktRoh : null
     const auftrag = ausListe ?? gemerkt
     if (!auftrag) return false
     /*
@@ -3836,16 +3938,12 @@ async function speicherSchreiben(werte) {
         */
         ...(auftragDe && auftragDe !== jetzigerBegriff
           ? [
-              kastenKnopf(`Deutsch suchen: ${auftragDe}`, () => {
-                location.href = `https://www.amazon.de/s?k=${encodeURIComponent(auftragDe)}&i=instant-video`
-              }),
+              kastenKnopf(`Deutsch suchen: ${auftragDe}`, () => weitersuchen(auftrag, auftragDe)),
             ]
           : []),
         ...(auftragEn && auftragEn !== jetzigerBegriff
           ? [
-              kastenKnopf(`Englisch suchen: ${auftragEn}`, () => {
-                location.href = `https://www.amazon.de/s?k=${encodeURIComponent(auftragEn)}&i=instant-video`
-              }),
+              kastenKnopf(`Englisch suchen: ${auftragEn}`, () => weitersuchen(auftrag, auftragEn)),
             ]
           : []),
         /*
@@ -3858,9 +3956,9 @@ async function speicherSchreiben(werte) {
           gibt. Deutsch und Englisch stehen darüber, „Kürzer suchen" darunter;
           beide kommen aus dem Bestand statt aus einer Regel.
         */
-        ...(kurzform && kurzform !== jetzigerBegriff ? [kastenKnopf(`Kürzer suchen: ${kurzform}`, () => {
-          location.href = `https://www.amazon.de/s?k=${encodeURIComponent(kurzform)}&i=instant-video`
-        })] : []),
+        ...(kurzform && kurzform !== jetzigerBegriff
+          ? [kastenKnopf(`Kürzer suchen: ${kurzform}`, () => weitersuchen(auftrag, kurzform))]
+          : []),
         ...(reihenTreffer && ohneParameter(reihenTreffer.url)
           ? [
               kastenKnopf(
@@ -4251,7 +4349,14 @@ async function speicherSchreiben(werte) {
         : []),
       ...(seitenAngabenGelten
         ? [...jahrZeilen, ...teilZeilen]
-        : [kastenZeile('ak-such-hinweis', 'Staffel gewechselt — für Jahr und Staffelnummer die Seite neu laden')]),
+        /*
+          **„Titel gewechselt", nicht „Staffel gewechselt".** Der Wächter
+          darüber schlägt seit dem 09.09.2026 nur noch an, wenn der Quelltext
+          zu einem anderen **Werk** gehört — beim Staffelwechsel liefert er
+          bauartbedingt false (siehe `quelltextVeraltet()`). Die alte
+          Beschriftung nannte eine Ursache, die es nie war.
+        */
+        : [kastenZeile('ak-such-hinweis', 'Titel gewechselt — für Jahr und Staffelnummer die Seite neu laden')]),
       /*
         **Dieselbe Checkliste wie auf der Trefferliste — hier ohne Ankreuzen.**
 
@@ -4277,8 +4382,8 @@ async function speicherSchreiben(werte) {
             Suchseite (Daniel, 09.09.2026, mit Bild). Der Vermerk aus dem
             `sessionStorage` trägt dieselbe Auswahl und ist sofort da.
           */
-          const erwartet =
-            erwartungZu(a?.suchUrl ?? eintrag?.url ?? '') ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
+          const suchUrlHier = a?.suchUrl ?? eintrag?.url ?? ''
+          const erwartet = erwartungZu(suchUrlHier) ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
           if (!erwartet || erwartet.length < 2) return []
           const hier = asin()
           const gruppe = document.createElement('div')
@@ -4321,7 +4426,16 @@ async function speicherSchreiben(werte) {
                   ging es).
                 */
                 try {
-                  const a2 = suchauftrag()
+                  /*
+                    **Fehlt der Merker, wird er aus dem Eintrag gebaut.** Die
+                    Checkliste steht auch dann da, wenn der Auftrag nur über die
+                    Erwartung gefunden wurde (`eintragFuer()`); ohne diesen Zweig
+                    reiste er von hier aus nicht mit, und die Zielseite fing bei
+                    null an.
+                  */
+                  const a2 =
+                    suchauftrag() ??
+                    (suchUrlHier ? { titel: suchliste[suchUrlHier]?.titel ?? null, suchUrl: suchUrlHier, erwartet } : null)
                   if (a2?.suchUrl) suchauftragMerken({ ...a2, zielAsin: String(k) })
                 } catch {
                   /* Ohne Merker geht es über die Erwartung — nur langsamer. */
@@ -4881,6 +4995,34 @@ async function speicherSchreiben(werte) {
       return Array.isArray(l) && l.length ? l : null
     } catch {
       return null
+    }
+  }
+
+  /**
+   * **Steht von einer bestätigten Erwartung noch eine Ausgabe aus?**
+   *
+   * Der Auftrag endet nicht mit der ersten Meldung, wenn ein Mensch angekreuzt
+   * hat, dass zwei Ausgaben zusammengehören. `istGemeldet()` weiß das seit dem
+   * 02.09.2026 — die **Aufräumarbeiten** nach der Meldung wussten es nicht:
+   * Sie hakten die Suchadresse ab und vergaßen den Auftrag.
+   *
+   * Daniel am 09.09.2026 an „Death Note: Relight" (zwei Kauftitel, ein
+   * Eintrag): Nach der Meldung von `B0FVDZ286F` führte der Klick auf die
+   * zweite Zeile auf eine Seite ohne Kasten — keine Checkliste, kein
+   * aniSearch-Verweis, und statt des Auftragstitels stand dort „Chatverlauf",
+   * ein Textfund aus Amazons eigener Seite.
+   *
+   * Der Vermerk aus dem `sessionStorage` zählt als Rückfall mit: Direkt nach
+   * der Meldung hat der Briefkasten noch nicht geantwortet, und genau in
+   * diesen Sekunden wird entschieden.
+   */
+  function erwartungNochOffen(suchUrl) {
+    try {
+      const erwartet = erwartungZu(suchUrl) ?? (Array.isArray(suchauftrag()?.erwartet) ? suchauftrag().erwartet : null)
+      if (!erwartet || erwartet.length < 2) return false
+      return erwartet.some((k) => !briefkastenSeiten?.has(String(k)))
+    } catch {
+      return false
     }
   }
 
@@ -6496,8 +6638,6 @@ async function speicherSchreiben(werte) {
    * gewechselt hat. Dagegen hilft diese Prüfung nicht — dort greift der
    * Vergleich der Staffelnummern weiter unten, der zum Neuladen auffordert.
    */
-  let kennungBekanntSpeicher = null
-  let kennungBekanntZu = -1
   /**
    * **Kennt der Quelltext die Kennung aus der Adresse überhaupt?**
    *
@@ -8654,6 +8794,28 @@ async function speicherSchreiben(werte) {
   function quelltextVeraltet() {
     // Der eindeutige Fall zuerst: gleiche Kennung in Adresse und Quelltext.
     if (quelltextGehoertZurSeite()) return false
+    /*
+      **Und der zweite eindeutige Fall: Der Quelltext kennt die Adress-Kennung.**
+
+      Ohne diese Zeile war der Titelvergleich darunter auf jeder Seite mit
+      abweichender `titleID` ein Dauer-Fehlalarm — und das sind viele: Prime
+      führt Filme und Sammelseiten regelmäßig so (Digimon Tamers, Death Note
+      Relight, 2.5 Dimensional Seduction). Beim Rendern wechselt der Titel auch
+      dann, wenn alles in Ordnung ist; oben griff der Rettungsanker nur bei
+      **gleicher** Kennung, und hier fiel er aus.
+
+      Daniel am 09.09.2026 an zwei frisch geladenen Seiten mit je einer
+      Staffel: „warum steht da staffel gewechselt jahr staffelnummer warnung?"
+      Neuladen half nicht — es konnte nicht helfen.
+
+      **Dem Staffelwechsel wird dadurch nichts genommen.** Er leert über
+      `beiStaffelwechsel()` das Titel-Kennung-Paar, und der Serientitel bleibt
+      dabei derselbe: Der Vergleich darunter schlägt in diesem Fall ohnehin nie
+      an. Was er wirklich fängt, ist der **Titel**wechsel — und dort ist die
+      Adress-Kennung im alten Quelltext nachweislich 0-mal zu finden (Messung
+      vom 25.08.2026, siehe `kennungImQuelltextBekannt()`).
+    */
+    if (kennungImQuelltextBekannt()) return false
     const titel = seitenTitel()
     const kennung = asinAusSeite()
     if (!titel || !kennung) return false
@@ -10024,14 +10186,34 @@ async function speicherSchreiben(werte) {
           über den Sprung von der Trefferliste auf die Titelseite hinweg.
         */
         const suchAdresse = eintrag.url ?? suchauftrag()?.suchUrl ?? null
-        if (eintrag.ausSuche && suchAdresse) await suchAbhaken(suchAdresse)
+        /*
+          **Die eigene Seite gilt sofort als gemeldet — sonst zählt die
+          Checkliste sie erst nach der nächsten Briefkasten-Antwort.**
+
+          Daniels Erwartung vom 09.09.2026: „nach meldung erwartung:
+          Checklisten Eintrag kriegt checkmark." Der Haken hängt an
+          `briefkastenSeiten`; bis dessen Antwort da ist, vergehen Sekunden.
+          Dieselbe Überbrückung wie bei `briefkastenAdressen` zwei Absätze
+          weiter oben — der Briefkasten bleibt maßgeblich, er kommt nur später.
+        */
+        try {
+          const hier = asin()
+          if (hier && briefkastenSeiten) briefkastenSeiten.add(String(hier))
+        } catch {
+          /* Noch keine Auskunft vom Briefkasten — dann trägt sie den Haken selbst. */
+        }
+        /*
+          **Erst wenn keine Ausgabe mehr aussteht.** Bei zwei bestätigten
+          Ausgaben ist die Suche nach der ersten Meldung nicht erledigt.
+        */
+        if (eintrag.ausSuche && suchAdresse && !erwartungNochOffen(suchAdresse)) await suchAbhaken(suchAdresse)
         /*
           Und der Kasten verschwindet mit ihm. Er sagt „Meldung läuft unter
           diesem Titel" — nach der Meldung läuft nichts mehr, und er stand
           trotzdem weiter da (Daniel, 27.08.2026: „erfolgreich gemeldet,
           großes div muss entsprechend verschwinden").
         */
-        if (eintrag.ausSuche) suchauftragVergessen()
+        if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
         /* Erst hier, nicht nach dem catch: Ein Fehlschlag darf keine Marke setzen. */
         gemeldetFuerPfad = location.pathname
         uebersichtZeichnen()

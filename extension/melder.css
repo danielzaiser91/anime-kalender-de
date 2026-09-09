@@ -1403,7 +1403,15 @@
 .ak-debugleiste {
   display: flex;
   align-items: center;
-  gap: 6px;
+  /*
+    **Zwei Schalter passen nicht nebeneinander in 300 Pixel.**
+
+    Seit 4.16.5 steht neben dem Ruhemodus der Bericht-Knopf. Ohne Umbruch
+    schöbe der zweite den ersten aus dem Kasten; die Paare halten dabei
+    zusammen (`.ak-debugpaar`), damit kein Text unter dem falschen Knopf landet.
+  */
+  flex-wrap: wrap;
+  gap: 6px 10px;
   padding-top: 6px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: #64748b;
@@ -1413,6 +1421,14 @@
 }
 
 .ak-debugleiste:hover { opacity: 1; }
+
+/* Knopf und seine Beschriftung bleiben beisammen, auch beim Umbruch. */
+.ak-debugpaar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
 
 .ak-debugknopf {
   /*

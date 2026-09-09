@@ -49,6 +49,7 @@ const gebraucht = [
   'ak-such-fuss-mitte',
   'ak-such-fuss-rechts',
   'ak-z-debug',
+  'ak-debugpaar',
 ]
 const fehlend = gebraucht.filter((k) => !quelle.includes(k))
 if (fehlend.length) {
@@ -130,8 +131,8 @@ const seite = `<!doctype html><meta charset="utf-8">
   </div>
   <div class="ak-z-debug">
     <div class="ak-debugleiste">
-      <button type="button" class="ak-debugknopf">▶</button>
-      <span>Ruhemodus für Aufnahmen</span>
+      <span class="ak-debugpaar"><button type="button" class="ak-debugknopf">▶</button><span>Ruhemodus für Aufnahmen</span></span>
+      <span class="ak-debugpaar"><button type="button" class="ak-debugknopf">⭳</button><span>Bericht laden</span></span>
     </div>
   </div>
 </div>`

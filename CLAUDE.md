@@ -3704,6 +3704,100 @@ einer, der etwas weiß. Wer beide in dasselbe Feld schreibt, muss beim Schreiben
 unterscheiden — sonst frisst die schlechtere Auskunft die bessere, und zwar
 lautlos.
 
+### Ein Auftrag gehört zu einer Suche — nicht zu „einer Suchseite"
+
+Daniel am 09.09.2026: „polar bären als ‚nicht bei prime' gemeldet -> nächsten
+eintrag in prüfliste gewählt -> extension wechselt inhalt der melde box zurück
+zu polar bären nach <2sek". Über den Trefferkarten von „Ein Brief an Momo" stand
+der Auftrag des vorigen Titels — samt Melde-Knopf, der unter dessen Suchadresse
+gemeldet hätte.
+
+Der gemerkte Auftrag im `sessionStorage` gilt zehn Minuten und ist für eine
+**Weitersuche** da („Kürzer suchen", „Deutsch suchen"), deren Adresse in keiner
+Liste steht. Er war an **keinen Suchbegriff** gebunden, und die Regel dafür
+lautete wörtlich: „Auf einer Suchseite ist er die richtige Auskunft — dort gibt
+es nichts anderes, worauf er sich beziehen könnte." Genau das ist falsch, sobald
+die nächste Suche selbst ein Auftrag ist.
+
+**Der Weg hinein ist eine Sekunde Verzug.** `suchliste` kommt aus
+`chrome.storage`, also asynchron; beim ersten Takt ist sie leer, `offeneSuche()`
+findet nichts — und in dieses Loch sprang der Merker. Er schrieb sich dabei mit
+neuer Zeit zurück und hielt sich selbst am Leben.
+
+Seit 4.16.5 trägt er die Begriffe, für die er gilt (`begriffeDesAuftrags()`),
+und die Weitersuch-Knöpfe hängen ihren Zielbegriff an (`weitersuchen()`).
+
+**Die allgemeine Form:** Ein Rückfallwert braucht eine Bedingung, unter der er
+gilt — sonst füllt er jede Lücke, auch die, die eine Sekunde später von selbst
+zugeht. Und ein Rückfall, der sich beim Benutzen erneuert, verfällt nie.
+
+### Ein Auftrag mit zwei Ausgaben ist nach der ersten Meldung nicht fertig
+
+Am selben Tag, an „Death Note: Relight" (ein Eintrag, zwei Kauftitel): Nach der
+Meldung von `B0FVDZ286F` führte der Klick auf die zweite Zeile der Checkliste
+auf eine Seite **ohne Kasten** — keine Checkliste, kein aniSearch-Verweis, und
+statt des Auftragstitels stand dort „Chatverlauf", ein Textfund aus Amazons
+eigener Seite.
+
+`istGemeldet()` kennt die Erwartung seit dem 02.09.2026 und wartet auf **alle**
+Ausgaben. Die **Aufräumarbeiten** nach der Meldung kannten sie nicht: Sie hakten
+die Suchadresse ab (`suchAbhaken`) und vergaßen den Auftrag
+(`suchauftragVergessen`). Ohne Auftrag findet die Zielseite nichts mehr, woran
+sie hängen könnte.
+
+Beides hängt seit 4.16.5 an `erwartungNochOffen()`. Dazu zählt die eigene Seite
+sofort als gemeldet (`briefkastenSeiten`), damit die Checkliste ihren Haken
+zeigt, bevor der Briefkasten antwortet — dieselbe Überbrückung wie bei
+`briefkastenAdressen`.
+
+**Die Prüffrage bei jedem „erledigt":** Erledigt *was* — diese Seite oder den
+Auftrag? Wo ein Mensch angekreuzt hat, dass zwei Dinge zusammengehören, ist das
+zwei verschiedene Fragen.
+
+### „Staffel gewechselt" stand auf Seiten mit genau einer Staffel
+
+Dritter Befund vom 09.09.2026, aus einem Bild: Auf einer frisch geladenen Seite
+(„2.5 Dimensional Seduction", eine Staffel) sagte der Kasten „Staffel gewechselt
+— für Jahr und Staffelnummer die Seite neu laden". Neuladen half nicht; es
+konnte nicht helfen.
+
+`quelltextVeraltet()` fragt zuerst, ob Adresse und Quelltext **dieselbe** Kennung
+nennen. Tun sie das nicht — der Normalfall bei Filmen und Sammelseiten, siehe
+Digimon Tamers —, entscheidet ein Titelvergleich, und der schlägt an, sobald
+sich `seitenTitel()` ändert. Beim Rendern ändert er sich immer. Der Rettungsanker
+von 1.3 deckte also genau die Seiten ab, auf denen es nie ein Problem gab.
+
+Seit 4.16.5 steht davor die Frage, die dieses Projekt an anderer Stelle längst
+für die tragfähige hält: **Kommt die Adress-Kennung im Quelltext überhaupt vor?**
+(`kennungImQuelltextBekannt()`, gemessen am 25.08.2026 — eigene Kennung 11 bis
+119 Treffer, fremde 0.)
+
+**Dem Staffelwechsel wird dadurch nichts genommen**, und das ist der zweite
+Befund: Er leert über `beiStaffelwechsel()` das Titel-Kennung-Paar, und der
+Serientitel bleibt derselbe — der Vergleich schlug dort **nie** an. Die Zeile hat
+also nie einen Staffelwechsel gemeldet, nur Fehlalarme; sie heißt jetzt „Titel
+gewechselt".
+
+**Offen und ungemessen:** Damit zeigt der Kasten nach einem echten
+Dropdown-Wechsel Jahr und Staffelnummer aus dem alten Quelltext, ohne zu warnen.
+Wer das anfasst, misst zuerst, welcher Wächter dort wirklich anschlägt.
+
+### Der fünfte `let`-Zugriff vor der Deklaration — gefangen vom Sandkasten
+
+Der Fix darüber rief `kennungImQuelltextBekannt()` neu aus `zeigeAuftragshinweis()`
+— also rund 4.000 Zeilen **vor** dem `let` seines Zwischenspeichers. Ergebnis:
+`ReferenceError` beim Seitenaufbau, der Kasten war weg. Fünfter Fall dieser
+Klasse nach `listenId`, `knopf`, `wiedervorlageBeantwortet` und `istKanalKarte`.
+
+Diesmal hat ihn eine Prüfung gefangen, bevor etwas ausgeliefert war:
+`amazon-suchseite.test.cjs` wurde rot, und `amazon-folgenzahl.test.cjs` nannte
+die zweite Fundstelle im selben Lauf. Das ist der Beleg dafür, dass die beiden
+Prüfungen vom 09.09.2026 tragen — und dazu die Bauregel:
+
+> **Wer eine Funktion an eine frühere Stelle des Ablaufs hängt, nimmt ihren
+> Zustand mit nach oben.** Der Zwischenspeicher gehört dann zu den Variablen am
+> Kopf des Moduls, nicht neben seine Funktion.
+
 ### Ein Helfer im Modulscope ist eine `function`, keine `const`-Pfeilfunktion
 
 Am 09.09.2026 war die Erweiterung auf jeder Amazon-Suchseite komplett weg.
