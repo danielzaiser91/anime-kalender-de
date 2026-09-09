@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-09. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-51 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+53 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -17,6 +17,8 @@ Stand: 2026-09-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-09 (Monat) | crunchyroll | ✅ zugesagt | [Deutsche Synchro von Teil 2 der vierten »Re:ZERO«-Staffel startet später](https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/) |
 | 2026-09-12, 2026-09-30 | netflix | – unklar | [Netflix entfernt acht Anime-Titel aus seinem Programm](https://www.anime2you.de/news/1045817/netflix-entfernt-quintuplets-und-mehr/) |
 | 2026-09-29 | netflix | – unklar | [Netflix-Termin des dritten »Mononoke«-Films + Trailer](https://www.anime2you.de/news/1042775/dritter-mononoke-film-netflix-termin/) |
+| 2026-10-03, 2026-10 (Monat) | primevideo | – unklar | [Prime Video zeigt »Seven Knights of Marronnier Kingdom« im Simulcast](https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/) |
+| 2026-10 (Monat) | ? | ✅ zugesagt | [Deutscher Trailer zu »My Love Story with Yamada-kun at Lv999« + Cast](https://www.anime2you.de/news/1047161/my-love-story-with-yamada-kun-at-lv999-deutscher-trailer/) |
 | 2026-10-25, 2026-10 (Monat) | netflix | ✅ zugesagt | [Netflix enthüllt Termin der neuen »My Happy Marriage«-Folgen + Trailer](https://www.anime2you.de/news/1045378/my-happy-marriage-specials-netflix-termin/) |
 | 2026-10-22, 2026-10 (Monat) | disc | ✅ zugesagt | [»Detektei Layton« erscheint als Blu-ray-Komplettbox + Design](https://www.anime2you.de/news/1044532/detektei-layton-blu-ray-komplettbox/) |
 | 2026-10-30, 2026-10 (Monat) | crunchyroll | – unklar | [Crunchyroll bald nicht mehr auf Nintendo Switch verfügbar](https://www.anime2you.de/news/1044861/crunchyroll-bald-nicht-mehr-auf-nintendo-switch/) |
@@ -46,35 +48,33 @@ Stand: 2026-09-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-20, 2026-11 (Monat) | ? | – unklar | [Disc-Releasetermin von »Good Luck Girl« steht fest + Design](https://www.anime2you.de/news/1042831/good-luck-girl-disc-releasetermin/) |
 | 2026-11-03, 2026-11-05, 2026-11 (Monat) | kino | – unklar | [Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser](https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/) |
 | 2026-11-27 | ? | – unklar | [Fünf Disc-Neuheiten im AKIBA PASS SHOP vorbestellbar](https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/) |
-| 2026-12 (Monat) | crunchyroll, disc | – unklar | [Zweite »Apothecary Diaries«-Staffel erscheint auf DVD und Blu-ray](https://www.anime2you.de/news/1044146/apothecary-diaries-staffel-2-disc-release/) |
-| 2026-12-04, 2026-12 (Monat) | crunchyroll, disc | – unklar | [Zweite Staffel von »Kaiju No. 8« erscheint auf Blu-ray](https://www.anime2you.de/news/1044367/kaiju-no-8-staffel-2-disc-release/) |
 
-… und 11 weitere.
+… und 13 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 6 |
-| adn-catalog | 7.9 Tage her | 114 |
-| anilist-voices | 7.9 Tage her | 0 |
-| anime-offline-database | 7.9 Tage her | 8876 |
-| anime2you | 0.9 Tage her | 0 |
+| adn-catalog | 8.9 Tage her | 114 |
+| anilist-voices | 8.9 Tage her | 0 |
+| anime-offline-database | 8.9 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 42 |
 | anisearch | 1.0 Tage her | 3179 |
-| anisearch-folgen | 6.5 Tage her | 3050 |
-| ann-voices | 7.9 Tage her | 8876 |
-| cinestar | 7.9 Tage her | 1 |
-| cr-einzelwerke | 5.9 Tage her | 9 |
-| cr-filmbloecke | 5.9 Tage her | 6 |
+| anisearch-folgen | 7.5 Tage her | 3050 |
+| ann-voices | 8.9 Tage her | 8876 |
+| cinestar | 8.9 Tage her | 1 |
+| cr-einzelwerke | 6.9 Tage her | 9 |
+| cr-filmbloecke | 6.9 Tage her | 6 |
 | crunchyroll | 0.0 Tage her | 21 |
-| crunchyroll-dub | 0.8 Tage her | 1076 |
-| fsk | 7.9 Tage her | 3 |
-| justwatch-audio | 0.9 Tage her | 28 |
-| link-check | 0.5 Tage her | 6 |
-| motn | 6.0 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 48 |
+| crunchyroll-dub | 1.8 Tage her | 1076 |
+| fsk | 8.9 Tage her | 3 |
+| justwatch-audio | 1.9 Tage her | 28 |
+| link-check | 1.5 Tage her | 6 |
+| motn | 7.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 7 |
 | rohfolgen | 0.2 Tage her | 0 |
-| tmdb-folgen | 7.8 Tage her | 808 |
-| tmdb-kino | 7.9 Tage her | 2 |
-| tmdb-titles | 7.8 Tage her | 389 |
-| youtube-check | 7.9 Tage her | 0 |
+| tmdb-folgen | 8.8 Tage her | 808 |
+| tmdb-kino | 8.9 Tage her | 2 |
+| tmdb-titles | 8.8 Tage her | 389 |
+| youtube-check | 8.9 Tage her | 0 |

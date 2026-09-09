@@ -1,6 +1,42 @@
 {
-  "scrapedAt": "2026-09-07T11:39:43.097Z",
+  "scrapedAt": "2026-09-09T08:59:59.437Z",
   "proposals": [
+    {
+      "articleTitle": "Prime Video zeigt »Seven Knights of Marronnier Kingdom« im Simulcast",
+      "articleUrl": "https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/",
+      "publishedAt": "2026-09-07",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-03",
+          "context": "2026 »Die sieben Ritter des Königreichs der Marronniers« wird ab dem 3. Oktober 2026 im japanischen Fernsehen ausgestrahlt. […] Der Beitr"
+        },
+        {
+          "month": "2026-10",
+          "context": "of the Marronnier Kingdom) gesichert hat. Wir fassen zusammen. Start im Oktober 2026 »Die sieben Ritter des Königreichs der Marronniers« wi"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Deutscher Trailer zu »My Love Story with Yamada-kun at Lv999« + Cast",
+      "articleUrl": "https://www.anime2you.de/news/1047161/my-love-story-with-yamada-kun-at-lv999-deutscher-trailer/",
+      "publishedAt": "2026-09-07",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2026-10",
+          "context": "Synchro-Trailer, den ihr unten in diesem Artikel findet. Disc-Release ab Oktober 2026 Das erste Volume von »My Love Story with Yamada-kun at"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Zweite »Apothecary Diaries«-Staffel erscheint auf DVD und Blu-ray",
       "articleUrl": "https://www.anime2you.de/news/1044146/apothecary-diaries-staffel-2-disc-release/",
