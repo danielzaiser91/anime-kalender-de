@@ -3378,5 +3378,34 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
 }
 
+/**
+ * **Drei ADN-Serienkennungen, die ein Datenlauf schon einmal weggeräumt hat.**
+ *
+ * Am 09.09.2026 sind sie über `/show?limit=100&offset=…` belegt und in
+ * `data/adn-adressen.yaml` eingetragen worden. Eine Stunde später standen sie
+ * nicht mehr da: `tools/commit-data.sh` rettet die Quellen aus dem
+ * Arbeitsverzeichnis des Laufs, setzt hart auf `origin/main` zurück und spielt
+ * sie wieder ein — ein Lauf, der vor der Korrektur startete, schreibt damit
+ * seinen alten Stand zurück (CLAUDE.md, 29.08.2026, damals 19 Handbelege).
+ *
+ * Genau dafür steht hier eine Zusicherung und nicht nur ein Kommentar: Die
+ * Korrektur allein hält keinen Lauf aus, die Zusicherung meldet sich, wenn sie
+ * verlorengeht.
+ */
+{
+  const adressen = readFileSync('data/adn-adressen.yaml', 'utf8')
+  for (const [anilist, show, name] of [
+    ['462', '906', 'One Piece Film 4 (vde)'],
+    ['4155', '948', 'One Piece Film 10 — Strong World (vde)'],
+    ['173388', '1171', 'Plus-Sized Elf (nur vostde)'],
+  ]) {
+    pruefe(
+      `ADN-Kennung ${anilist} → ${show} steht in adn-adressen.yaml (${name})`,
+      new RegExp(`^${anilist}: ${show}\\b`, 'm').test(adressen),
+      'gemessen am 09.09.2026; ein Datenlauf hat sie schon einmal überschrieben',
+    )
+  }
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
