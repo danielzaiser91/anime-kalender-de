@@ -1701,3 +1701,42 @@ for (const pfad of ['/', '/gp/video/storefront']) {
     angehaengt.map((e) => e.className).join(' | '),
   )
 }
+
+/**
+ * **Fortschritt und Sendezustand sind zwei Marken, nicht eine.**
+ *
+ * Bis zum 09.09.2026 stand in der Liste „1/9 — nicht angekommen" in **einer**
+ * Pille. Daniel las es als eine Aussage und musste zweimal nachfragen: „2/9
+ * heißt also es wurde noch nicht gemeldet? weil er lokal mitzählt und wartet
+ * bis alles gemeldet ist?" — und, mit zwei Bildern: „das muss besser gelabeled
+ * sein, das ist zu verwirrend, außerdem ist inkonsistent … 1/9 + text -- 2/9
+ * ohne text."
+ *
+ * Es sind zwei unabhängige Dinge: wie weit die Serie durch ist, und ob die
+ * Meldung den Worker erreicht hat. Das zweite verschwindet nach Sekunden —
+ * in derselben Pille sah das nach einer wechselnden Beschriftung derselben
+ * Sache aus.
+ *
+ * Geprüft wird am Quelltext, denn die Liste entsteht tief in einer IIFE: dass
+ * der Fortschritt ausgeschrieben ist („2 von 9 gemeldet" statt „2/9"), dass
+ * der Sendezustand eine eigene Marke bekommt, und dass die beiden Texte nicht
+ * wieder in einer Zeile zusammengesetzt werden.
+ */
+{
+  const quelle = readFileSync(require('node:path').join(__dirname, 'amazon.js'), 'utf8')
+  pruefe(
+    'der Fortschritt steht ausgeschrieben, nicht als Bruch',
+    quelle.includes("stand.replace('/', ' von ')") && quelle.includes(' gemeldet`'),
+    'ein Bruchstrich sagt nicht, was gezählt wird',
+  )
+  pruefe(
+    'der Sendezustand ist eine eigene Marke',
+    quelle.includes("sende.textContent = 'nur auf diesem Rechner'"),
+    'sonst liest sich der Fortschritt wie eine Aussage über das Senden',
+  )
+  pruefe(
+    'die beiden Texte werden nicht in einer Marke zusammengesetzt',
+    !/\$\{stand\}[^`]*nicht angekommen/.test(quelle),
+    'genau diese Verkettung war der Anlass',
+  )
+}

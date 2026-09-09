@@ -3683,7 +3683,8 @@ async function speicherSchreiben(werte) {
                 void erwartungMelden(auftrag.suchUrl, gewaehlt).then((ok) => {
                   if (!ok) {
                     k.disabled = false
-                    k.textContent = 'Auswahl bestätigen — nicht angekommen'
+                    /* Dieselbe Sprache wie in der Liste: „gesendet" ist die Frage, nicht „angekommen". */
+                    k.textContent = 'nicht gesendet — noch einmal'
                     return
                   }
                   k.textContent = `${gewaehlt.length} erwartet`
@@ -5580,12 +5581,27 @@ async function speicherSchreiben(werte) {
          * Die Liste hat recht, sie zu zeigen. Sie war nur stumm darüber, warum.
          */
         const verloren = nichtAngekommen(asinEintrag)
-        marke.className = fertig(asinEintrag)
-          ? 'ak-folge ak-fertig'
-          : verloren
-            ? 'ak-folge ak-verloren'
-            : 'ak-folge ak-angefasst'
-        marke.textContent = verloren ? `${stand} — nicht angekommen` : stand
+        marke.className = fertig(asinEintrag) ? 'ak-folge ak-fertig' : 'ak-folge ak-angefasst'
+        /*
+          **Zwei Aussagen, zwei Marken — sie zusammenzuziehen war der Fehler.**
+
+          Bis zum 09.09.2026 stand hier „1/9 — nicht angekommen" in **einer**
+          Pille, und Daniel las es als eine Aussage: „2/9 heißt also es wurde
+          noch nicht gemeldet? weil er lokal mitzählt und wartet bis alles
+          gemeldet ist?" Es sind aber zwei unabhängige Dinge:
+
+              2 von 9 gemeldet     wie weit die Serie durch ist
+              nur auf dem Rechner  ob die Meldung den Worker erreicht hat
+
+          Dazu kam, dass die zweite Angabe verschwindet, sobald die Meldung
+          ankommt — nach ein paar Sekunden. Nebeneinander in derselben Pille
+          sah das aus wie eine wechselnde Beschriftung derselben Sache
+          („inkonsistent siehe screenshots, 1/9 + text -- 2/9 ohne text").
+
+          Ausgeschrieben statt „2/9": Der Bruchstrich sagt nicht, was gezählt
+          wird, und genau danach musste er fragen.
+        */
+        marke.textContent = stand === '✓' ? '✓ alle gemeldet' : `${stand.replace('/', ' von ')} gemeldet`
         /**
          * Beim Überfahren steht da, **welche** Staffeln durch sind.
          *
@@ -5596,6 +5612,24 @@ async function speicherSchreiben(werte) {
          */
         marke.title = staffelUebersicht(asinEintrag)
         zeile.appendChild(marke)
+        /*
+          **Und der Sendezustand als eigene Marke daneben.**
+
+          Daniel am 09.09.2026: „wenn es nur lokal und noch nicht gesendet ist,
+          mach diesen zustand deutlich." Sie steht nur da, solange der
+          Briefkasten die Adresse nicht führt — im Normalfall also für die
+          Sekunden zwischen Klick und Ankunft, und dauerhaft nur dann, wenn die
+          Meldung wirklich unterwegs verlorengegangen ist (30.08.2026: acht
+          Titel lokal abgehakt, im Briefkasten nie angekommen).
+        */
+        if (verloren) {
+          const sende = document.createElement('span')
+          sende.className = 'ak-folge ak-verloren'
+          sende.textContent = 'nur auf diesem Rechner'
+          sende.title =
+            'Der Befund steht lokal, im Briefkasten liegt dazu nichts. Kurz nach dem Melden ist das normal — bleibt es stehen, ist die Meldung nicht angekommen.'
+          zeile.appendChild(sende)
+        }
       }
       inhalt.appendChild(zeile)
     }
