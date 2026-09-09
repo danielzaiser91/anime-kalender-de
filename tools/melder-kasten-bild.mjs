@@ -238,6 +238,88 @@ await seiteObj.screenshot({ path: ziel })
   einnehmen"). Gemessen wird deshalb beides: geteilt, wenn zwei Knöpfe da sind,
   und ganz, wenn nur einer bleibt.
 */
+/*
+  **Und derselbe Kasten mit einer langen Beschriftung links.**
+
+  Der Normalfall („Prime: alles geprüft") lässt beide Knöpfe bei ihrer halben
+  Zeile — daran ist nicht abzulesen, was bei einem langen Text passiert. Genau
+  dort lag der Fehler vom 09.09.2026: „1 Prime-Titel · 2 Suchen offen" brach in
+  zwei Zeilen um, während neben „aniSearch" Platz stand.
+
+  Gemessen wird deshalb ein zweiter Kasten mit Daniels echtem Text. Er muss
+  einzeilig bleiben, breiter als die Hälfte sein — und aniSearch entsprechend
+  schmaler.
+*/
+const langObj = await browser.newPage({ viewport: { width: 520, height: 420 } })
+/*
+  Ersetzt wird über den Klassennamen, nicht über den Text: Ein Textvergleich
+  hängt an Umlaut und Schreibweise der Kulisse und scheitert lautlos, sobald
+  dort jemand ein Wort ändert — beim ersten Anlauf genau so passiert, die
+  Messung lief mit der kurzen Beschriftung weiter und meldete „unverändert".
+*/
+await langObj.setContent(
+  seite.replace(
+    /(<button type="button" class="ak-uebersicht ak-uebersicht-innen">)[^<]*/,
+    '$14 Prime-Titel · 12 Suchen offen · 2 Kanäle',
+  ),
+)
+
+/*
+  **Und der Extremfall: die längste Beschriftung, die der Knopf je trägt.**
+
+  „Erweiterung neu geladen — Seite aktualisieren" steht dort nach jedem
+  Neuladen der Erweiterung (Daniel, 06.09.2026, mit Bild). Bei einem Kasten von
+  340 px muss aniSearch dafür so weit nachgeben, dass sein eigener Name nicht
+  mehr hineinpasst — die Untergrenze am rechten Platz hält ihn lesbar, und der
+  linke Text bricht dann um, statt den Nachbarn zu verdrängen.
+*/
+const extremObj = await browser.newPage({ viewport: { width: 520, height: 420 } })
+await extremObj.setContent(
+  seite.replace(
+    /(<button type="button" class="ak-uebersicht ak-uebersicht-innen">)[^<]*/,
+    '$1Erweiterung neu geladen — Seite aktualisieren',
+  ),
+)
+const extremLage = await extremObj.evaluate(() => {
+  const knopf = document.querySelector('.ak-uebersicht-innen')
+  const link = document.querySelector('.ak-such-fuss-rechts a')
+  if (!knopf || !link) return null
+  const a = knopf.getBoundingClientRect()
+  const b = link.getBoundingClientRect()
+  /* Der Textknoten des Links — läuft er über seine Pille hinaus? */
+  const bereich = document.createRange()
+  bereich.selectNodeContents(link)
+  const t = bereich.getBoundingClientRect()
+  return {
+    knopfBreite: Math.round(a.width),
+    linkBreite: Math.round(b.width),
+    linkTextBreite: Math.round(t.width),
+    linkHoehe: Math.round(b.height),
+    aufEinerZeile: Math.abs(a.y - b.y) <= 1,
+  }
+})
+await extremObj.close()
+const langeLage = await langObj.evaluate(() => {
+  const kasten = document.querySelector('.ak-amazon-suchhinweis')
+  const knopf = document.querySelector('.ak-uebersicht-innen')
+  const link = document.querySelector('.ak-such-fuss-rechts a')
+  if (!kasten || !knopf || !link) return null
+  const k = kasten.getBoundingClientRect()
+  const a = knopf.getBoundingClientRect()
+  const b = link.getBoundingClientRect()
+  return {
+    kastenBreite: Math.round(k.width),
+    knopfBreite: Math.round(a.width),
+    linkBreite: Math.round(b.width),
+    knopfHoehe: Math.round(a.height),
+    linkHoehe: Math.round(b.height),
+    aufEinerZeile: Math.abs(a.y - b.y) <= 1,
+    /* Gegenprobe: Steht in der Kulisse wirklich die lange Beschriftung? */
+    text: knopf.textContent.trim(),
+  }
+})
+await langObj.close()
+
 const ohneAniObj = await browser.newPage({ viewport: { width: 520, height: 420 } })
 await ohneAniObj.setContent(
   seite.replace(/<span class="ak-such-fuss-rechts">[\s\S]*?<\/span>/, '<span class="ak-such-fuss-rechts"></span>'),
@@ -303,9 +385,66 @@ pruefe(
 )
 pruefe(lage.knopf && lage.link && lage.knopf.x < lage.link.x, 'die Prüfliste steht links, aniSearch rechts')
 pruefe(
-  lage.knopf && lage.link && Math.abs(lage.knopf.breite - lage.link.breite) <= 1,
-  'beide sind gleich breit (je eine Hälfte)',
+  lage.knopf && lage.link && Math.abs(lage.knopf.breite - lage.link.breite) <= 10,
+  'bei kurzer Beschriftung sind beide gleich breit (je eine Hälfte)',
 )
+/*
+  **Und bei langer Beschriftung gibt aniSearch nach, statt links umzubrechen.**
+
+  Daniel am 09.09.2026: „mach anisearch flex verkleinern … sodass der kleiner
+  wird wenn text von prüfliste button groß wird." Vorher war die Hälfte fest,
+  und „1 Prime-Titel · 2 Suchen offen" brach in zwei Zeilen um — neben einem
+  Knopf, in dem ein Wort mit neun Buchstaben stand.
+
+  Die drei Zusicherungen messen die drei Teile der Vorgabe: der linke Knopf
+  wächst über die Hälfte, der rechte fällt darunter, und einzeilig bleibt es.
+*/
+console.log(
+  `\n  lang   „${langeLage?.text}" — Prüfliste ${langeLage?.knopfBreite} px, aniSearch ${langeLage?.linkBreite} px`,
+)
+console.log(
+  `  extrem „Erweiterung neu geladen …" — Prüfliste ${extremLage?.knopfBreite} px, aniSearch ${extremLage?.linkBreite} px\n`,
+)
+/*
+  **Die Gegenprobe zur Kulisse selbst.** Beim ersten Anlauf griff die Ersetzung
+  nicht (Umlaut im Suchtext), und die „lange" Messung lief mit der kurzen
+  Beschriftung weiter — sie meldete „unverändert" und war doch nur dieselbe
+  Messung zweimal.
+*/
+pruefe(
+  langeLage?.text?.startsWith('4 Prime-Titel') === true,
+  'die lange Kulisse trägt wirklich die lange Beschriftung',
+)
+pruefe(langeLage?.aufEinerZeile === true, 'bei langer Beschriftung stehen beide weiter auf einer Zeile')
+pruefe(
+  langeLage != null && langeLage.knopfBreite > (langeLage.knopfBreite + langeLage.linkBreite) * 0.5,
+  `… der Prüflisten-Knopf nimmt sich mehr als die Hälfte (${langeLage?.knopfBreite} neben ${langeLage?.linkBreite} px)`,
+)
+pruefe(
+  langeLage != null && langeLage.linkBreite < lage.link.breite,
+  `… und aniSearch gibt nach (${langeLage?.linkBreite} statt ${lage.link?.breite} px)`,
+)
+pruefe(
+  langeLage != null && langeLage.knopfHoehe <= 30,
+  `… ohne dass der Text umbricht (${langeLage?.knopfHoehe} px hoch)`,
+)
+/*
+  **Und beim Extremfall gibt aniSearch nicht seinen Namen her.**
+
+  Ohne Untergrenze schrumpfte der rechte Platz auf 64 px, und „aniSearch" brach
+  auf zwei Zeilen um (46 px hoch) — während links weiter alles in eine Zeile
+  passte. Daniel am 09.09.2026: „mach für den anisearch button einfach eine
+  min-width."
+*/
+pruefe(
+  extremLage != null && extremLage.linkHoehe <= 30,
+  `bei der längsten Beschriftung bleibt aniSearch einzeilig (${extremLage?.linkHoehe} px hoch)`,
+)
+pruefe(
+  extremLage != null && extremLage.linkBreite >= 78,
+  `… und behält seine Untergrenze (${extremLage?.linkBreite} px)`,
+)
+pruefe(extremLage?.aufEinerZeile === true, '… beide stehen weiter nebeneinander')
 pruefe(lage.fertig && lage.fertig.breite > lage.kastenBreite * 0.8, '„gemeldet ✓" nimmt die volle Breite')
 pruefe(lage.fertig && lage.fertig.hoehe >= 28, '… mit fester Höhe statt Innenabstand')
 /*

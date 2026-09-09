@@ -947,7 +947,6 @@
   padding-top: 3px;
   padding-bottom: 3px;
   text-decoration: none !important;
-  white-space: nowrap;
 }
 
 .ak-such-fuss a {
@@ -1033,8 +1032,82 @@
 .ak-such-fuss-rechts {
   display: flex;
   align-items: center;
-  flex: 1 1 0;
   min-width: 0;
+}
+
+/*
+  **Der Prüflisten-Platz nimmt sich, was er braucht — aniSearch gibt ihn her.**
+
+  Bis zum 09.09.2026 trugen beide `flex: 1 1 0`, also feste Hälften (Daniels
+  Vorgabe vom 02.09.2026: „mach prüfliste button 50% und links geklemmt, ani
+  search die anderen 50% rechts daneben"). Bei einer langen Beschriftung brach
+  der linke Text dann um, während neben dem Wort „aniSearch" Platz stand: „1
+  Prime-Titel · 2 Suchen offen" gegen neun Buchstaben.
+
+  Seine neue Vorgabe (09.09.2026): „mach anisearch flex verkleinern, also zB
+  beiden button in der zeile ne flex base geben, aber flex 0 auf anisearch btn,
+  sodass der kleiner wird wenn text von prüfliste button groß wird."
+
+  Beide starten deshalb bei ihrer halben Zeile; der linke wächst darüber hinaus,
+  wenn sein Text es verlangt (`flex-grow: 1`), der rechte wächst nie und gibt
+  nach (`flex-grow: 0`, `flex-shrink: 1`). Die Hälften bleiben der Normalfall
+  und werden nur dort verlassen, wo sonst umgebrochen würde.
+
+  **Die Hälfte ist eine Untergrenze, keine Basis** — und das ist der Unterschied,
+  an dem zwei Anläufe gescheitert sind. Mit `flex: 1 0 50%` auf beiden Plätzen
+  füllen die Basen zusammen schon die ganze Zeile; es bleibt kein Rest, in den
+  der linke wachsen könnte, und `flex-grow` wirkt nie (gemessen 155 zu 147 px,
+  bei kurzem wie bei langem Text).
+
+  Richtig ist die umgekehrte Zuweisung: Der **linke** Platz ist so breit wie
+  sein Inhalt, mindestens aber halb — er wächst also mit dem Text und
+  unterschreitet die Hälfte nie. Der **rechte** nimmt, was übrig bleibt.
+
+  **Und die Angaben gehören an die Plätze, nicht an die Pillen darin.** Der
+  erste Anlauf setzte sie an `.ak-uebersicht-innen` und `a`; die sind Kinder der
+  Plätze und keine Flex-Elemente der Fußzeile. Gemessen änderte sich dadurch
+  gar nichts.
+*/
+/*
+  **`max-content`, nicht `auto` — sonst fragt der Platz seinen eigenen Inhalt.**
+
+  Die Pille darin trägt `width: 100%`, also 100 % **des Platzes**. Mit
+  `flex-basis: auto` richtet sich der Platz nach ihr und sie sich nach ihm; die
+  Rechnung geht im Kreis und endet bei der Untergrenze. Gemessen blieb der Knopf
+  deshalb auch bei einer langen Beschriftung exakt bei seinen 155 px.
+
+  `max-content` ist die Breite, die der **Text** ohne Umbruch braucht. Damit
+  wächst der Platz mit der Beschriftung, und `min-width` bleibt das, was es sein
+  soll: eine Untergrenze für den kurzen Fall.
+*/
+.ak-such-fuss-mitte {
+  flex: 0 0 max-content;
+  min-width: 50%;
+}
+
+/*
+  Die Untergrenze hält den Namen lesbar. Ohne sie gibt der rechte Platz als
+  Erster nach, und gemessen brach dann ausgerechnet „aniSearch" auf zwei Zeilen
+  um (46 px hoch), während links weiter alles in eine Zeile passte — ein Wort
+  mit neun Buchstaben ist die falsche Stelle zum Sparen. Bei 12 px Schrift und
+  2 × 10 px Innenabstand braucht es 77 px; 80 sind die nächste runde Zahl.
+*/
+.ak-such-fuss-rechts {
+  flex: 1 1 0;
+  min-width: 80px;
+}
+
+/*
+  **Ohne aniSearch nimmt der Prüflisten-Knopf die ganze Zeile.**
+
+  Daniel am 03.09.2026: „wenn anilist nicht da ist, kann prime 100% einnehmen."
+  Der leere Platz rechts wird ausgeblendet — der linke bliebe dann aber bei
+  seinen 50 %, weil er absichtlich nicht wächst (`flex-grow: 0`, siehe oben).
+  Diese Regel gibt ihm das Wachstum genau dann zurück, wenn niemand daneben
+  steht.
+*/
+.ak-such-fuss:has(.ak-such-fuss-rechts:empty) .ak-such-fuss-mitte {
+  flex-grow: 1;
 }
 
 .ak-such-fuss-mitte:empty,
