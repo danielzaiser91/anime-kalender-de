@@ -45,16 +45,51 @@ if (tok.country !== 'DE') { console.error('Nicht aus Deutschland — Abbruch.');
 const hol = (u) => fetch(u, { headers: { Authorization: `Bearer ${tok.access_token}`, 'User-Agent': UA } }).then((r) => r.json()).catch(() => null)
 
 const alle = []
+/**
+ * **Zwei Durchläufe: Serien und Filme.**
+ *
+ * `browse` ohne `type` liefert ausschließlich Serien — gemessen am 09.09.2026:
+ * 1.587 Einträge, **kein einziger Film**. Genau deshalb stand in CLAUDE.md, der
+ * deutsche Katalog kenne keine Filme; er kennt sie, nur fragt niemand danach.
+ * `type=movie_listing` gibt 69 heraus, 44 davon mit deutscher Tonspur.
+ *
+ * Das ist die Hälfte der offenen Crunchyroll-Verweise: 18 der 33 ohne
+ * Sprachurteil sind Filme, und ihre Adressen tragen den Slug, unter dem der
+ * Katalog sie führt.
+ */
+for (const typ of ['', 'movie_listing']) {
 for (let start = 0; start < 3000; start += 100) {
-  const r = await hol(`https://beta-api.crunchyroll.com/content/v2/discover/browse?n=100&start=${start}&locale=de-DE`)
+  const r = await hol(`https://beta-api.crunchyroll.com/content/v2/discover/browse?n=100&start=${start}&locale=de-DE${typ ? '&type=' + typ : ''}`)
   const seite = r?.data ?? []
   if (!seite.length) break
   for (const it of seite) {
     const md = it.movie_listing_metadata ?? it.series_metadata ?? {}
     alle.push({
       id: it.id,
-      typ: it.type,
+      /*
+        **Nicht `it.type` — das sagt bei jedem Eintrag `series`.**
+
+        Gemessen am 09.09.2026 an allen 1.656 Einträgen: Auch die 69 Filme
+        tragen dort `series`. Genau daraus war in CLAUDE.md der Schluss
+        entstanden, der deutsche Katalog kenne keine Filme. Verlässlich ist
+        allein, aus welchem Durchlauf der Eintrag stammt.
+      */
+      typ: typ === 'movie_listing' ? 'film' : 'serie',
       titel: it.title,
+      /**
+       * **Der Slug ist der Schlüssel, den unsere Adressen mitbringen.**
+       *
+       * Crunchyroll führt Filme unter Kurznamen („-prelude-" für „Fruits Basket
+       * -prelude-"), und über den Titel ist von 23 Film-Verweisen genau einer
+       * zuzuordnen (gemessen 09.09.2026). Unsere Adressen tragen aber denselben
+       * Slug, den der Katalog hier führt — er löst die Zuordnung ohne jeden
+       * Namensvergleich.
+       *
+       * **Und er belegt nichts über eine Nebenausgabe:** Fünf „Free!"-Filme
+       * zeigen auf den Slug ihrer Reihe. Der Slug sagt, welche **Serie** gemeint
+       * ist; ob das Werk selbst dazugehört, entscheidet die Staffelliste.
+       */
+      slug: it.slug_title ?? null,
       beschreibung: (it.description ?? '').slice(0, 300),
       audio: md.audio_locales ?? (md.audio_locale ? [md.audio_locale] : []),
       untertitel: md.subtitle_locales ?? [],
@@ -65,6 +100,7 @@ for (let start = 0; start < 3000; start += 100) {
   }
   process.stdout.write(`\r  ${alle.length} / ${r?.total ?? '?'}`)
   await new Promise((x) => setTimeout(x, 700))
+}
 }
 console.log(`\n${alle.length} Einträge geholt, ${alle.filter((x) => x.audio.includes('de-DE')).length} mit de-DE`)
 writeFileSync('data/cr-katalog-de.json', JSON.stringify({ geholtAm: new Date().toISOString(), eintraege: alle }, null, 2) + '\n')

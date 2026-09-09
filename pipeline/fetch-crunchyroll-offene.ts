@@ -122,11 +122,37 @@ export async function main(): Promise<void> {
 
   const roh = readJson<Title[] | Record<string, Title>>('public/data/titles.json', [])
   const titles = (Array.isArray(roh) ? roh : Object.values(roh)) as Title[]
-  const katalog = readJson<{ eintraege?: { id: string; titel: string; audio?: string[]; folgen?: number | null }[] }>(
-    'data/cr-katalog-de.json',
-    {},
-  ).eintraege ?? []
+  const katalog =
+    readJson<{
+      eintraege?: { id: string; titel: string; typ?: string; slug?: string | null; audio?: string[]; folgen?: number | null }[]
+    }>('data/cr-katalog-de.json', {}).eintraege ?? []
   const katalogNachId = new Map(katalog.map((e) => [e.id, e]))
+  /**
+   * **Der Slug aus unserer Adresse führt zur Serienkennung.**
+   *
+   * Bis zum 09.09.2026 gab es zwei Wege: die Kennung in der Adresse
+   * (`/series/G…`) oder eine Namenssuche. Der erste greift bei alten Adressen
+   * nicht, der zweite scheitert an Crunchyrolls Kurznamen — von 23 Film-,
+   * OVA- und Special-Verweisen war über den Titel genau **einer** zuzuordnen.
+   *
+   * Der Slug steht in beidem: in unserer Adresse (`/de/fruits-basket`,
+   * `/mobile-suit-gundam-wing-endless-waltz/…`) und im Katalog (`slug_title`).
+   * Gemessen am selben Tag ordnet er 9 der 33 offenen Verweise zu, ohne einen
+   * einzigen Namensvergleich.
+   */
+  /**
+   * **Gleich geschrieben ist nicht gleich geschrieben.**
+   *
+   * Unsere Adresse trägt `free-iwatobi-swim-club`, der Katalog führt
+   * `free---iwatobi-swim-club` — dieselbe Serie, drei Bindestriche
+   * Unterschied. Und `-prelude-` trägt sie am Anfang und am Ende. Normalisiert
+   * wird deshalb auf beiden Seiten gleich: mehrfache Bindestriche zu einem,
+   * Ränder weg.
+   */
+  const slugKern = (s: string): string =>
+    String(s).toLowerCase().replace(/-+/g, '-').replace(/^-|-$/g, '')
+  const katalogNachSlug = new Map(katalog.filter((e) => e.slug).map((e) => [slugKern(String(e.slug)), e]))
+  log(`Katalog: ${katalog.length} Einträge, davon ${katalogNachSlug.size} mit Slug.`)
 
   /* Die offenen Verweise — Adresse, Werk und was wir über das Werk wissen. */
   const offen: { url: string; titel: Title }[] = []
@@ -215,7 +241,29 @@ export async function main(): Promise<void> {
     }
 
     const serieId = /\/series\/([A-Z0-9]+)/i.exec(url)?.[1]
-    const kandidat = serieId ? katalogNachId.get(serieId) : await sucheSerie(werk)
+    /*
+      **Der Slug steht in der Adresse — er wird gelesen, bevor gesucht wird.**
+
+      Reihenfolge nach Verlässlichkeit: die Kennung in der Adresse, dann ihr
+      Slug, dann die Namenssuche. Die Slug-Teile sind alles, was kein Pfadwort
+      und keine Kennung ist; `/de/fruits-basket` liefert `fruits-basket`,
+      `/mobile-suit-gundam-wing-endless-waltz/…-732801` beide Teile.
+    */
+    const slugTeile = (() => {
+      try {
+        const pfad = new URL(url).pathname.replace(/^\/(de|de-DE)\//, '/')
+        const raus = new Set(['watch', 'series', 'de'])
+        return pfad
+          .split('/')
+          .filter(Boolean)
+          .filter((t) => !raus.has(t) && !/^G[A-Z0-9]{6,}$/.test(t))
+          .map((t) => slugKern(t))
+      } catch {
+        return []
+      }
+    })()
+    const ausSlug = slugTeile.map((s) => katalogNachSlug.get(s)).find(Boolean)
+    const kandidat = serieId ? katalogNachId.get(serieId) : (ausSlug ?? (await sucheSerie(werk)))
     if (!kandidat) {
       return { herkunft: 'offen', geprueftAm: heute(), grund: 'keine Kennung in der Adresse, kein sicherer Treffer' }
     }
@@ -227,6 +275,29 @@ export async function main(): Promise<void> {
       zeigen auf die Serienadresse). Ein Urteil gibt es deshalb nur, wenn das
       Werk selbst eine Serie ist.
     */
+    /**
+     * **Es sei denn, der Treffer ist selbst ein Film.**
+     *
+     * Seit dem 09.09.2026 holt der Katalogsammler auch `type=movie_listing`
+     * (69 Filme, 44 mit deutschem Ton) und merkt sich den Durchlauf als `typ`.
+     * Zeigt der Slug unserer Adresse auf einen **Filmeintrag**, ist das nicht
+     * die Reihe, sondern das Werk — und seine Tonspuren gelten unmittelbar.
+     *
+     * Der Riegel darunter bleibt für alles andere: Fünf „Free!"-Filme zeigen auf
+     * den Slug ihrer **Serie**, und die vererbt ihre Sprache nicht.
+     */
+    if (werk.format === 'MOVIE' && kandidat.typ === 'film') {
+      const deutschImFilm = (kandidat.audio ?? []).includes('de-DE')
+      return {
+        herkunft: 'katalog',
+        dub: deutschImFilm,
+        seriesId: kandidat.id,
+        titel: kandidat.titel,
+        audio: kandidat.audio ?? [],
+        geprueftAm: heute(),
+        grund: `Filmeintrag „${kandidat.titel}" im deutschen Katalog${deutschImFilm ? ' mit' : ' ohne'} de-DE`,
+      }
+    }
     if (werk.format !== 'TV' && werk.format !== 'ONA') {
       return {
         herkunft: 'offen',
@@ -301,6 +372,33 @@ export async function main(): Promise<void> {
           ? nachZahl[0]
           : undefined
     if (!treffer) {
+      /**
+       * **Sagen alle Staffeln dasselbe, braucht es keine Zuordnung.**
+       *
+       * „Meine Wiedergeburt als Schleim" führt sechs Staffeln, **jede** mit
+       * deutscher Fassung. Welche unser Eintrag meint, ist dann gleichgültig:
+       * Das Urteil fällt für jede gleich aus. Drei unserer Verweise hingen am
+       * 09.09.2026 allein daran, dass die Folgenzahlen nicht aufgingen (24, 12
+       * und 12 gegen 25, 25, 26, 21, 5, 3).
+       *
+       * **Nur bei Einstimmigkeit**, und nur mit mehr als einer Staffel — sonst
+       * ist es der gewöhnliche Serienvergleich, den dieses Projekt aus gutem
+       * Grund nicht macht. Ein einstimmiges **Nein** zählt ebenso: Es kommt aus
+       * dem deutschen Katalog, und dort ist ein fehlendes `de-DE` ein Beleg.
+       */
+      const alleDeutsch = staffeln.length > 1 && staffeln.every((s) => s.audio.includes('de-DE'))
+      const keineDeutsch = staffeln.length > 1 && staffeln.every((s) => !s.audio.includes('de-DE'))
+      if (alleDeutsch || keineDeutsch) {
+        return {
+          herkunft: 'katalog',
+          dub: alleDeutsch,
+          seriesId: kandidat.id,
+          titel: kandidat.titel,
+          audio: alleDeutsch ? ['de-DE'] : [],
+          geprueftAm: heute(),
+          grund: `alle ${staffeln.length} Staffeln von „${kandidat.titel}" ${alleDeutsch ? 'führen' : 'führen kein'} Deutsch — die Zuordnung ändert daran nichts`,
+        }
+      }
       return {
         herkunft: 'offen',
         seriesId: kandidat.id,
@@ -369,7 +467,7 @@ export async function main(): Promise<void> {
    */
   async function sucheSerie(
     werk: Title,
-  ): Promise<{ id: string; titel: string; audio?: string[]; folgen?: number | null } | undefined> {
+  ): Promise<{ id: string; titel: string; typ?: string; audio?: string[]; folgen?: number | null } | undefined> {
     /*
       **Auch der Reihenname wird gesucht — die Staffel entscheidet danach.**
 
