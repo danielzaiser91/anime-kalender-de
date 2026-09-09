@@ -43,11 +43,49 @@ export function verdachtsfaelle(wurzel, plattform) {
   } catch {
     /* Ohne Datei gibt es keine Verdachtsfälle — die Liste bleibt, wie sie war. */
   }
+  /**
+   * **Zweite Quelle: Kanal-Meldungen, denen JustWatch widerspricht.**
+   *
+   * `pipeline/kanal-gegenprobe.ts` macht aus einer Kanal-Meldung ohne Deutsch
+   * plus einer schweigenden zweiten Quelle ein belegtes Nein. Findet JustWatch
+   * dort aber **deutschen Ton**, ist die Meldung ein Falschnegativ — der Fall,
+   * vor dem CLAUDE.md warnt: Ohne Kanal-Abo zeigt Amazon die deutsche Tonspur
+   * gar nicht, und 14 von 45 solcher Meldungen waren am 07.09.2026 falsch.
+   *
+   * Solche Titel gehören zurück in die Prüfliste, und zwar sichtbar: Sie tragen
+   * ein Urteil, dem eine Quelle widerspricht — dieselbe Lage wie beim
+   * MOTN-Wechsel darüber, nur aus anderer Richtung.
+   *
+   * **Eigene Datei, nicht `tonspur-verdacht.json`:** Die schreibt ein anderer
+   * Lauf komplett neu, und ein Eintrag darin wäre beim nächsten Durchgang weg —
+   * dieselbe Falle, die am 09.09.2026 schon `data/adn-adressen.yaml` erwischt
+   * hat.
+   */
+  try {
+    const roh = JSON.parse(readFileSync(resolve(wurzel, 'data/kanal-widerspruch.json'), 'utf8'))
+    for (const v of Array.isArray(roh?.faelle) ? roh.faelle : []) {
+      if (v.platform !== plattform || raus.has(v.titleId)) continue
+      raus.set(v.titleId, { kanalWiderspruch: v.quelle ?? 'JustWatch', seit: v.seit })
+    }
+  } catch {
+    /* Noch kein Lauf, keine Widersprüche. */
+  }
   return raus
 }
 
 /** Der Satz, der im Kasten der Erweiterung steht. */
 export function verdachtHinweis(v) {
+  /*
+    Ein Kanal-Widerspruch ist die andere Richtung: Die Meldung sagte „kein
+    Deutsch", eine zweite Quelle findet welches. Der Satz muss sagen, was zu tun
+    ist — mit Kanal-Abo nachsehen.
+  */
+  if (v.kanalWiderspruch) {
+    return (
+      `Wiedervorlage: Die Meldung sagt „kein Deutsch", ${v.kanalWiderspruch} findet deutschen Ton — ` +
+      `bei einem Kanal-Titel zeigt Prime ohne Abo keine deutsche Tonspur, bitte mit Abo gegenprüfen`
+    )
+  }
   return (
     `Wiedervorlage: Eine zweite Quelle nannte hier seit ${v.vorherSeit} deutschen Ton ` +
     `und tut es seit ${v.seit} nicht mehr — bitte gegenprüfen`

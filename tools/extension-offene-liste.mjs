@@ -128,7 +128,22 @@ for (const [id, eintraege] of jeAdresse) {
     doch alles auf die prüfliste und mit extension gecheckt werden oder nicht?").
   */
   const verdacht = eintraege.map((e) => verdaechtig.get(e.t.id)).find(Boolean)
-  if (!zuZeigen.some((e) => e.dub === undefined) && !verdacht) continue
+  /*
+    **Gefragt wird nach allem, was offen ist — angezeigt wird es seit heute auch.**
+
+    Der Absatz darüber stimmt für die Zeile, die daraus entsteht: Vier abgehakte
+    Staffeln und keine anklickbare Folge waren eine Zumutung. Er hat aber vier
+    Haikyu!!-OVAs **dauerhaft unsichtbar** gemacht: Sie standen ohne Urteil im
+    Datensatz, tauchten in keiner Liste auf, und niemand konnte sie prüfen
+    (gemessen 09.09.2026 — von neun offenen Netflix-Verweisen sind fünf so
+    entstanden).
+
+    Seit heute bekommen überzählige Einträge eigene Zeilen **mit ihrem Namen**
+    (`ausserhalb: true`), und damit ist der alte Einwand erledigt: Es steht dort
+    „Haikyu!! Lev ist hier!", nicht „Film 2". Der Vorfilter darf sie deshalb
+    nicht mehr aussortieren.
+  */
+  if (!eintraege.some((e) => e.dub === undefined) && !verdacht) continue
   /**
    * OVAs und Specials fallen weg, wo Serienstaffeln dieselbe Adresse haben.
    *
@@ -197,8 +212,17 @@ for (const [id, eintraege] of jeAdresse) {
      * Erweiterung bietet dafür seit 4.17.0 das ✕ an der Pille, das titelgenau
      * meldet.
      */
-    const ueberzaehlig = sortiert
-      .slice(gemeldet.length)
+    /*
+      **Gezählt wird gegen alle Einträge, nicht gegen die angezeigten.**
+
+      `sortiert` enthält nur Serien (`zuZeigen`) — die OVAs sind dort gar nicht
+      drin, und `slice()` darauf fand sie nie. Genau deshalb blieben die vier
+      Haikyu!!-OVAs unsichtbar, obwohl die Zeile daneben schon stand.
+    */
+    const gepaart = new Set(sortiert.slice(0, gemeldet.length).map((e) => e.t.id))
+    const ueberzaehlig = [...eintraege]
+      .sort((a, b) => vergleiche(a.t, b.t))
+      .filter((e) => !gepaart.has(e.t.id))
       .filter((e) => e.dub === undefined || verdaechtig.has(e.t.id))
     for (const [j, e] of ueberzaehlig.entries()) {
       offen[id].staffeln.push({

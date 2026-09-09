@@ -59,6 +59,7 @@ QUELLEN=(
   # Quelle für Prime und die Kanal-Angebote (07.09.2026). Kandidaten, keine
   # Urteile: Die Angabe gilt der Serie, nicht der Folge.
   data/justwatch-audio.json
+  data/kanal-widerspruch.json
   data/tmdb-folgen.json
   data/anbieter-vorschlaege.json
   data/wiedervorlage.json

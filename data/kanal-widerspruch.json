@@ -1,0 +1,45 @@
+{
+  "standAm": "2026-09-09",
+  "faelle": [
+    {
+      "titleId": 18507,
+      "titel": "Free! Iwatobi Swim Club",
+      "platform": "primevideo",
+      "quelle": "JustWatch 2026-09-07",
+      "ton": "de, en, es, fr, ja, pt",
+      "seit": "2026-09-09"
+    },
+    {
+      "titleId": 103631,
+      "titel": "Trinity Seven: Heavens Library & Crimson Lord",
+      "platform": "primevideo",
+      "quelle": "JustWatch 2026-09-07",
+      "ton": "ja, de",
+      "seit": "2026-09-09"
+    },
+    {
+      "titleId": 21741,
+      "titel": "Touken Ranbu: Hanamaru",
+      "platform": "primevideo",
+      "quelle": "JustWatch 2026-09-07",
+      "ton": "de, ja",
+      "seit": "2026-09-09"
+    },
+    {
+      "titleId": 21311,
+      "titel": "Bungo Stray Dogs",
+      "platform": "primevideo",
+      "quelle": "JustWatch 2026-09-07",
+      "ton": "en, es, fr, ja, pt, ru, de",
+      "seit": "2026-09-09"
+    },
+    {
+      "titleId": 552,
+      "titel": "Digimon",
+      "platform": "primevideo",
+      "quelle": "JustWatch 2026-09-09",
+      "ton": "de, es, ja, pt",
+      "seit": "2026-09-09"
+    }
+  ]
+}
