@@ -1,1 +1,1 @@
-globalThis.AK_PRIME_SUCHE = {}
+globalThis.AK_PRIME_SUCHE = {"https://www.amazon.de/s?k=Plus-Sized%20Elf&i=instant-video":{"titel":"Plus-Sized Elf","suchbegriff":"Plus Sized Elf","suchbegriffEn":null,"id":173388,"folgen":12,"jahr":2024,"asId":19014,"vorschlag":true}}
