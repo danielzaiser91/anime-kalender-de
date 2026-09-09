@@ -332,15 +332,35 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
    * `data/anime-ids.json`; die Begründung für aniSearch statt TMDB steht dort
    * und in `status.md`.
    */
-  const ausAnisearch = readJson<Record<string, { titel?: string; anisearchId?: number }>>(
-    'data/anisearch-titel.json',
-    {},
-  )
+  /*
+    **`quelle` entscheidet, ob der Name als deutscher gelten darf.**
+
+    Die `<h1>` einer aniSearch-Seite trägt keine Sprachkennzeichnung. Bei einem
+    Titel mit deutscher Veröffentlichung steht dort meistens der deutsche Name
+    — deshalb hat das lange getragen. Bei einem ohne steht dort der japanische,
+    und dann behauptet `titleDe` etwas Falsches: „Tensei Kizoku, Kantei Skill de
+    Nariagaru Dai 3 Ki" stand so im Katalog, während aniSearch unter „Synonyme"
+    „…: Staffel 3" führt (Daniel, 08.09.2026).
+
+    `ueberschrift` heißt deshalb: Name unbekannter Sprache. Er wird nicht zu
+    `titleDe` — `titleRomaji` sagt ohnehin dasselbe, und die Oberfläche fällt
+    von selbst darauf zurück.
+
+    **Ein Eintrag ohne `quelle` behält sein `titleDe`.** Er stammt aus einem
+    Lauf vor dem 08.09.2026, seine Sprache ist weder belegt noch widerlegt, und
+    ein Lauf löscht keine Metadaten. Fällig ist er trotzdem: `faellig()` in
+    `fetch-anisearch-titel.ts` holt ihn erneut, und danach entscheidet die
+    Herkunft.
+  */
+  const ausAnisearch = readJson<
+    Record<string, { titel?: string; quelle?: string; anisearchId?: number }>
+  >('data/anisearch-titel.json', {})
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id))
     .map((e) => {
       const [romaji, englisch, japanisch] = e.t
-      const deutsch = ausAnisearch[String(e.id)]?.titel
+      const eintrag = ausAnisearch[String(e.id)]
+      const deutsch = eintrag?.quelle === 'ueberschrift' ? undefined : eintrag?.titel
       return {
         id: e.id,
         titleRomaji: romaji ?? undefined,
@@ -361,7 +381,7 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
           Wert wird geholt, abgelegt und am Ziel nicht ausgepackt. Der Einbau
           endet am Empfänger, nicht am Sender.
         */
-        anisearchId: ausAnisearch[String(e.id)]?.anisearchId,
+        anisearchId: eintrag?.anisearchId,
         titleNative: japanisch ?? undefined,
         format: e.format ?? undefined,
         episodes: e.folgen ?? undefined,

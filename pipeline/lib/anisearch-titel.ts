@@ -1,0 +1,63 @@
+/**
+ * **Welcher Name auf einer aniSearch-Seite der deutsche ist.**
+ *
+ * Steht in `lib/`, nicht im Abrufskript: Das ruft auf Modulebene ab, ein Import
+ * daraus würde also einen Lauf über tausende fremde Seiten auslösen. Genau
+ * dieser Fehlgriff hat am 30.08.2026 eine gepflegte YAML-Datei überschrieben.
+ */
+import { extractInfo } from '../fetch-anisearch.ts'
+
+export type Titelherkunft = 'sprachblock' | 'synonym' | 'ueberschrift'
+
+/**
+ * **Der deutsche Name steht im deutschen Sprachblock — nicht in der Überschrift.**
+ *
+ * Die `<h1 id="htitle">` ist der *Haupttitel* der Seite und trägt keine
+ * Sprachkennzeichnung; aniSearch wählt dort die gebräuchlichste Schreibweise.
+ * Bei einem Titel **mit** deutscher Veröffentlichung ist das meistens der
+ * deutsche Name — genau deshalb hat der Lauf hier lange funktioniert. Bei einem
+ * Titel **ohne** ist es der japanische, und dann behauptet `titleDe` etwas
+ * Falsches.
+ *
+ * Gemeldet von Daniel am 08.09.2026 an „Tensei Kizoku, Kantei Skill de
+ * Nariagaru Dai 3 Ki" (aniSearch 19993, AniList 185756): Die Seite zeigt oben
+ * die japanische Flagge, unter „Synonyme" aber „As a Reincarnated Aristocrat,
+ * I'll Use My Appraisal Skill to Rise in the World: Staffel 3" — und Staffel 2
+ * steht bei uns genau so im Bestand.
+ *
+ * Gefragt wird deshalb in dieser Reihenfolge:
+ *
+ * 1. **Der deutsche Sprachblock.** Er trägt die Flagge und ist damit belegt
+ *    deutsch. Er gewinnt immer, wenn es ihn gibt — gemessen über alle 3.179
+ *    archivierten Seiten weicht er in **97 von 98** Fällen vom Synonym ab, und
+ *    zwar zu seinen Gunsten: „Die rothaarige Schneeprinzessin: Staffel 2"
+ *    gegen „Snow White with the Red Hair (Staffel 2)".
+ * 2. **Ein Synonym mit dem Wort „Staffel".** Das ist kein Namensraten, sondern
+ *    ein Sprachmerkmal: „Staffel" steht in keinem englischen und in keinem
+ *    japanischen Synonym. Es greift genau dort, wo es gebraucht wird — bei
+ *    einer angekündigten Staffel, die hier noch nicht erschienen ist und
+ *    deshalb keinen Sprachblock hat.
+ * 3. **Die Überschrift**, als das, was sie ist: ein Name unbekannter Sprache.
+ *    Sie bleibt, weil im Katalog sonst gar nichts stünde — aber sie wird als
+ *    `ueberschrift` vermerkt, und `build.ts` macht daraus kein `titleDe`.
+ */
+export function titelAus(html: string): { titel: string; quelle: Titelherkunft } | null {
+  const info = extractInfo(html)
+
+  const block = info?.languages?.find((l) => l.language === 'Deutsch')?.title?.trim()
+  if (block) return { titel: block, quelle: 'sprachblock' }
+
+  /*
+    Nur als eigenes Wort: „Staffel" darf nicht in „Staffelei" oder in einem
+    zusammengesetzten Fremdwort greifen, und eine Zahl muss dabeistehen — ein
+    Synonym ohne sie unterscheidet die Staffeln nicht, um die es hier geht.
+  */
+  const synonym = info?.synonyms?.find((t) => /\bStaffel\b/.test(t) && /\d/.test(t))?.trim()
+  if (synonym) return { titel: synonym, quelle: 'synonym' }
+
+  const m = /<h1[^>]*id="htitle"[^>]*>([^<]+)</.exec(html)
+  const ueberschrift = m?.[1].replace(/\s+/g, ' ').trim()
+  return ueberschrift ? { titel: ueberschrift, quelle: 'ueberschrift' } : null
+}
+
+
