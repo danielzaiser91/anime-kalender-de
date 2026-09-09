@@ -710,6 +710,38 @@ pruefe(
   )
 }
 
+/**
+ * **Die Ankreuz-Felder stehen in beiden Trefferzweigen.**
+ *
+ * Sie waren bis zum 09.09.2026 nur im Zweig für genaue Treffer — gerade dort,
+ * wo sie am wenigsten gebraucht werden. Daniel an „Death Note: Relight" (ein
+ * Eintrag, zwei Folgen): Prime führt „Relight 1" und „Relight 2" als zwei
+ * Kauftitel, der Kasten bot nur „Anderes Werk — gehört zu einem eigenen
+ * Eintrag" an, und nach der ersten Meldung wäre der Auftrag erledigt gewesen.
+ *
+ * Ein Duplikat des Blocks wäre der falsche Weg gewesen: Zwei Fassungen
+ * derselben Regel laufen auseinander. Er steht deshalb als Funktion da und
+ * wird zweimal gerufen.
+ */
+{
+  pruefe(
+    'der Ankreuz-Block ist eine Funktion, kein Duplikat',
+    (quelle.match(/function erwartungsAuswahl\(/g) ?? []).length === 1,
+    'zwei Fassungen derselben Regel laufen auseinander',
+  )
+  pruefe(
+    'er wird in beiden Trefferzweigen gerufen',
+    (quelle.match(/erwartungsAuswahl\(auftrag, /g) ?? []).length >= 2 &&
+      quelle.includes('nurAehnlich ? erwartungsAuswahl(auftrag, befund.treffer, false)'),
+    'sonst lässt sich ein Eintrag mit zwei Prime-Ausgaben nicht vollständig melden',
+  )
+  pruefe(
+    'bei einem nur ähnlichen Treffer ist nichts vorgekreuzt',
+    quelle.includes('bereits.size ? bereits.has(k) : vorausgewaehlt'),
+    'eine Vorauswahl wäre dort eine Behauptung — „Sword Art Online" gegen „… Alicization"',
+  )
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)

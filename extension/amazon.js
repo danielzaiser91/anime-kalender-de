@@ -3617,106 +3617,7 @@ async function speicherSchreiben(werte) {
             davon schon gemeldet ist, sagt der Briefkasten — nicht ein lokaler
             Zähler.
           */
-          ...(() => {
-            const karten = sortiert.slice(0, 4).filter((z) => ohneParameter(z.url))
-            if (karten.length < 2) return []
-            const kennungVon = (z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ohneParameter(z.url) ?? '')?.[1] ?? null
-            /*
-              **Die bestätigte Auswahl kommt aus dem gemerkten Auftrag, nicht aus der Prüfliste.**
-
-              `auftrag` stammt aus `AK_OFFENE_AMAZON` — die Liste kennt keine
-              Erwartung, sie wird ja erst hier gesetzt. Gespeichert wird sie in
-              `sessionStorage` (`suchauftragMerken`), und das überlebt ein
-              Neuladen; gelesen wurde sie nur nicht, und nach F5 stand wieder
-              „Auswahl bestätigen" (Daniel, 02.09.2026: „nach neuladen muss
-              bestätigung erhalten bleiben").
-            */
-            /*
-              **Die Erwartung kommt vom Worker.**
-
-              Der erste Anlauf nahm `sessionStorage` — und war nach einem
-              Neuladen weg, weil eine andere Stelle denselben Schlüssel ohne
-              `erwartet` überschrieb. Daniel dazu: „warum willst du irgendwas in
-              session storage machen? so machst du schon wieder quatsch und es
-              ist kein single source of truth."
-            */
-            const erwartetJetzt = erwartungZu(auftrag.suchUrl)
-            const bereits = new Set(erwartetJetzt ?? [])
-            const zeilen = karten
-              .map((z) => {
-                const k = kennungVon(z)
-                if (!k) return null
-                const name = `${kanalKarte(z) ? 'Kanal-Abo' : 'Kauf/Abo'} · ${(z.titel ?? 'Ausgabe').slice(0, 40)}`
-                return kastenAuswahl(name, k, bereits.size ? bereits.has(k) : true, (kennung) => {
-                  /*
-                    Damit die Zielseite weiß, welcher Auftrag gemeint ist — sonst
-                    steht dort „Steht nicht auf der Prüfliste". Die Erwartung
-                    reist mit, sie gilt für beide Ausgaben.
-                  */
-                  suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: kennung })
-                })
-              })
-              .filter(Boolean)
-            if (zeilen.length < 2) return []
-            /*
-              **Auswahl und Bestätigen stehen in einem Kasten — sie gehören zusammen.**
-
-              Vorher waren es lose Zeilen zwischen anderen Hinweisen, und der
-              Knopf sah aus wie einer von vieren (Daniel, 02.09.2026: „checkboxen
-              und auswahl bestätigen in einen kasten packen, die gehören
-              zusammen"). Die erklärende Überschrift ist im selben Zug entfallen:
-              Ankreuzfelder mit einem Bestätigen-Knopf erklären sich.
-            */
-            const gruppe = document.createElement('div')
-            gruppe.className = 'ak-such-gruppe'
-            for (const z of zeilen) gruppe.appendChild(z)
-            const knopfReihe = document.createElement('div')
-            knopfReihe.className = 'ak-such-knopfreihe'
-            const bestaetigen = kastenKnopf(
-              erwartetJetzt?.length ? `${erwartetJetzt.length} erwartet` : 'Auswahl bestätigen',
-              (k) => {
-                const gewaehlt = [...gruppe.querySelectorAll('.ak-such-auswahl input:checked')]
-                  .map((b) => b.dataset.kennung)
-                  .filter(Boolean)
-                k.disabled = true
-                k.textContent = 'speichere …'
-                void erwartungMelden(auftrag.suchUrl, gewaehlt).then((ok) => {
-                  if (!ok) {
-                    k.disabled = false
-                    /* Dieselbe Sprache wie in der Liste: „gesendet" ist die Frage, nicht „angekommen". */
-                    k.textContent = 'nicht gesendet — noch einmal'
-                    return
-                  }
-                  k.textContent = `${gewaehlt.length} erwartet`
-                  zuruecknehmen.hidden = false
-                  uebersichtZeichnen()
-                })
-              },
-            )
-            bestaetigen.disabled = Boolean(erwartetJetzt?.length)
-            /*
-              **Zurücknehmen gehört daneben, nicht in ein Untermenü.**
-
-              Eine Bestätigung, die sich nicht widerrufen lässt, macht aus einem
-              Verklicker eine Sackgasse — hier sogar eine, die den Auftrag
-              offenhält, bis beide Ausgaben gemeldet sind (Daniel, 02.09.2026:
-              „neben bestätigen muss ein undo button sein").
-            */
-            const zuruecknehmen = kastenKnopf('↺', () => {
-              zuruecknehmen.hidden = true
-              void erwartungMelden(auftrag.suchUrl, []).then(() => {
-                bestaetigen.textContent = 'Auswahl bestätigen'
-                bestaetigen.disabled = false
-                uebersichtZeichnen()
-              })
-            })
-            zuruecknehmen.title = 'Bestätigung zurücknehmen'
-            zuruecknehmen.classList.add('ak-suchknopf-klein')
-            zuruecknehmen.hidden = !erwartetJetzt?.length
-            knopfReihe.append(bestaetigen, zuruecknehmen)
-            gruppe.appendChild(knopfReihe)
-            return [gruppe]
-          })(),
+          ...erwartungsAuswahl(auftrag, sortiert),
           /*
             Hier standen „Zum Anime springen" und darunter „Stattdessen: …" —
             dieselben Kennungen ein zweites Mal. Seit dem 02.09.2026 sitzt der
@@ -3867,6 +3768,24 @@ async function speicherSchreiben(werte) {
               ? `${gefunden.echte} Treffer gelesen, keiner passt`
               : `${gefunden.gesehen} Karten gelesen, alle Empfehlungen`,
         ),
+        /**
+         * **Auch ein „ähnlicher" Befund bekommt die Ankreuz-Felder.**
+         *
+         * Sie standen bis zum 09.09.2026 nur im Zweig für genaue Treffer —
+         * gerade dort, wo sie am wenigsten gebraucht werden. Passt der Name,
+         * ist die Zuordnung ohnehin klar; hier ist sie es nicht, und hier
+         * entscheidet ein Mensch.
+         *
+         * Daniel am 09.09.2026 an „Death Note: Relight" (ein Eintrag, zwei
+         * Folgen): Prime führt „Relight 1: Visions of a God" und „Relight 2:
+         * L's Successors" als zwei Kauftitel mit eigenen Kennungen. Beide
+         * zusammen sind unser Eintrag — der Kasten bot aber nur „Anderes Werk"
+         * an, und nach der ersten Meldung wäre der Auftrag erledigt gewesen.
+         *
+         * Vorgekreuzt wird hier nichts: Ein ähnlicher Treffer kann auch wirklich
+         * ein anderes Werk sein („Sword Art Online" gegen „… Alicization").
+         */
+        ...(nurAehnlich ? erwartungsAuswahl(auftrag, befund.treffer, false) : []),
         /*
           **Ein Titel mit Zusatz findet oft nichts, der Haupttitel schon.**
 
@@ -4962,6 +4881,143 @@ async function speicherSchreiben(werte) {
    * Danach wird der Briefkasten neu geholt, damit die Anzeige nicht auf einem
    * lokalen Zwischenstand sitzt.
    */
+  /**
+   * **Die Ankreuz-Felder für zusammengehörende Ausgaben — für beide Trefferarten.**
+   *
+   * Der Block stand bis zum 09.09.2026 nur im Zweig für **genaue** Treffer.
+   * Genau dort wird er aber am seltensten gebraucht: Passt der Name, ist die
+   * Zuordnung ohnehin klar.
+   *
+   * Daniel am 09.09.2026 an „Death Note: Relight" (ein Eintrag, zwei Folgen):
+   * Prime führt „Relight 1: Visions of a God" und „Relight 2: L's
+   * Successors" als zwei Kauftitel mit eigenen Kennungen. Beide zusammen
+   * sind unser Eintrag — der Kasten sagte „Anderes Werk — gehört zu einem
+   * eigenen Eintrag", weil der Namensvergleich sie als Fortsetzungen liest.
+   *
+   * Seine Frage: „kann die extension das zuverlässig zuordnen wenn sie 2
+   * verschiedene asins sind?" Ja — über genau diesen Weg, den er selbst
+   * vorgeschlagen hat (02.09.2026): ankreuzen, was zusammengehört, dann hält
+   * der Auftrag offen, bis beide gemeldet sind.
+   *
+   * `vorausgewaehlt` unterscheidet die beiden Zweige: Bei einem genauen
+   * Treffer sind alle Karten dieselbe Sache, bei einem ähnlichen entscheidet
+   * der Mensch — dort wird nichts vorgekreuzt.
+   */
+  /*
+    Dieselbe Frage wie im Trefferzweig, nur an einer Stelle, die beide erreichen:
+    Läuft die Karte über ein Kanal-Abo (aniverse, Crunchyroll) oder ist sie ein
+    eigener Kauf-/Abo-Titel? Für die Erwartung ist das nur eine Beschriftung —
+    das Urteil über die Tonspur fällt später auf der Titelseite.
+  */
+  const istKanalKarte = (k) => /channel|subscription/i.test(String(k?.zugang ?? ''))
+
+  function erwartungsAuswahl(auftrag, sortiert, vorausgewaehlt = true) {
+            const karten = sortiert.slice(0, 4).filter((z) => ohneParameter(z.url))
+            if (karten.length < 2) return []
+            const kennungVon = (z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ohneParameter(z.url) ?? '')?.[1] ?? null
+            /*
+              **Die bestätigte Auswahl kommt aus dem gemerkten Auftrag, nicht aus der Prüfliste.**
+
+              `auftrag` stammt aus `AK_OFFENE_AMAZON` — die Liste kennt keine
+              Erwartung, sie wird ja erst hier gesetzt. Gespeichert wird sie in
+              `sessionStorage` (`suchauftragMerken`), und das überlebt ein
+              Neuladen; gelesen wurde sie nur nicht, und nach F5 stand wieder
+              „Auswahl bestätigen" (Daniel, 02.09.2026: „nach neuladen muss
+              bestätigung erhalten bleiben").
+            */
+            /*
+              **Die Erwartung kommt vom Worker.**
+
+              Der erste Anlauf nahm `sessionStorage` — und war nach einem
+              Neuladen weg, weil eine andere Stelle denselben Schlüssel ohne
+              `erwartet` überschrieb. Daniel dazu: „warum willst du irgendwas in
+              session storage machen? so machst du schon wieder quatsch und es
+              ist kein single source of truth."
+            */
+            const erwartetJetzt = erwartungZu(auftrag.suchUrl)
+            const bereits = new Set(erwartetJetzt ?? [])
+            const zeilen = karten
+              .map((z) => {
+                const k = kennungVon(z)
+                if (!k) return null
+                const name = `${istKanalKarte(z) ? 'Kanal-Abo' : 'Kauf/Abo'} · ${(z.titel ?? 'Ausgabe').slice(0, 40)}`
+                /*
+                  Bei einem genauen Treffer meinen alle Karten dieselbe Sache —
+                  dort ist alles vorgekreuzt. Bei einem nur ähnlichen entscheidet
+                  der Mensch, welche zusammengehören; eine Vorauswahl wäre dort
+                  eine Behauptung.
+                */
+                return kastenAuswahl(name, k, bereits.size ? bereits.has(k) : vorausgewaehlt, (kennung) => {
+                  /*
+                    Damit die Zielseite weiß, welcher Auftrag gemeint ist — sonst
+                    steht dort „Steht nicht auf der Prüfliste". Die Erwartung
+                    reist mit, sie gilt für beide Ausgaben.
+                  */
+                  suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: kennung })
+                })
+              })
+              .filter(Boolean)
+            if (zeilen.length < 2) return []
+            /*
+              **Auswahl und Bestätigen stehen in einem Kasten — sie gehören zusammen.**
+
+              Vorher waren es lose Zeilen zwischen anderen Hinweisen, und der
+              Knopf sah aus wie einer von vieren (Daniel, 02.09.2026: „checkboxen
+              und auswahl bestätigen in einen kasten packen, die gehören
+              zusammen"). Die erklärende Überschrift ist im selben Zug entfallen:
+              Ankreuzfelder mit einem Bestätigen-Knopf erklären sich.
+            */
+            const gruppe = document.createElement('div')
+            gruppe.className = 'ak-such-gruppe'
+            for (const z of zeilen) gruppe.appendChild(z)
+            const knopfReihe = document.createElement('div')
+            knopfReihe.className = 'ak-such-knopfreihe'
+            const bestaetigen = kastenKnopf(
+              erwartetJetzt?.length ? `${erwartetJetzt.length} erwartet` : 'Auswahl bestätigen',
+              (k) => {
+                const gewaehlt = [...gruppe.querySelectorAll('.ak-such-auswahl input:checked')]
+                  .map((b) => b.dataset.kennung)
+                  .filter(Boolean)
+                k.disabled = true
+                k.textContent = 'speichere …'
+                void erwartungMelden(auftrag.suchUrl, gewaehlt).then((ok) => {
+                  if (!ok) {
+                    k.disabled = false
+                    /* Dieselbe Sprache wie in der Liste: „gesendet" ist die Frage, nicht „angekommen". */
+                    k.textContent = 'nicht gesendet — noch einmal'
+                    return
+                  }
+                  k.textContent = `${gewaehlt.length} erwartet`
+                  zuruecknehmen.hidden = false
+                  uebersichtZeichnen()
+                })
+              },
+            )
+            bestaetigen.disabled = Boolean(erwartetJetzt?.length)
+            /*
+              **Zurücknehmen gehört daneben, nicht in ein Untermenü.**
+
+              Eine Bestätigung, die sich nicht widerrufen lässt, macht aus einem
+              Verklicker eine Sackgasse — hier sogar eine, die den Auftrag
+              offenhält, bis beide Ausgaben gemeldet sind (Daniel, 02.09.2026:
+              „neben bestätigen muss ein undo button sein").
+            */
+            const zuruecknehmen = kastenKnopf('↺', () => {
+              zuruecknehmen.hidden = true
+              void erwartungMelden(auftrag.suchUrl, []).then(() => {
+                bestaetigen.textContent = 'Auswahl bestätigen'
+                bestaetigen.disabled = false
+                uebersichtZeichnen()
+              })
+            })
+            zuruecknehmen.title = 'Bestätigung zurücknehmen'
+            zuruecknehmen.classList.add('ak-suchknopf-klein')
+            zuruecknehmen.hidden = !erwartetJetzt?.length
+            knopfReihe.append(bestaetigen, zuruecknehmen)
+            gruppe.appendChild(knopfReihe)
+            return [gruppe]
+  }
+
   async function erwartungMelden(suchUrl, kennungen) {
     try {
       /* Dasselbe wie an jeder anderen Meldestelle — es gibt kein tokenHolen(). */
