@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-09-07T14:45:20.369Z",
+  "aufgeloestAm": "2026-09-09T13:58:24.897Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -3897,6 +3897,21 @@
       "seriesId": "G8DHV78XM",
       "geprueftAm": "2026-09-06",
       "ziel": "aus der Suche im deutschen Katalog"
+    },
+    "https://www.crunchyroll.com/de/search?q=Black%20Clover%3A%20Staffel%202": {
+      "ziel": "https://www.crunchyroll.com/de/search?q=Black%20Clover%3A%20Staffel%202",
+      "geprueftAm": "2026-09-09",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/de/search?q=Kaiju%20No.%208%20Narumi's%20Week%20at%20Work": {
+      "ziel": "https://www.crunchyroll.com/de/search?q=Kaiju%20No.%208%20Narumi%27s%20Week%20at%20Work",
+      "geprueftAm": "2026-09-09",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/the-promised-neverland": {
+      "ziel": "https://www.crunchyroll.com/the-promised-neverland?__cf_chl_rt_tk=WFw_sNHBGezxnlzhllIfwApvySlc.Mb29ReyTcrdrHo-1788962295-1.0.1.1-45J_jNdupk.KLTOZa4igiaHxUfhOuAwP05gHt01n6UA",
+      "geprueftAm": "2026-09-09",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     }
   }
 }
