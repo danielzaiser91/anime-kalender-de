@@ -47,13 +47,36 @@ insertBefore(k) { this.kinder.push(k); return k },
   return { mach, body }
 }
 
-for (const pfad of ['/', '/gp/video/storefront', '/dp/B0DJYJBNWF']) {
+/*
+  **Die Suchseite gehört dazu — dort war die Erweiterung am 09.09.2026 weg.**
+
+  Geprüft wurden bis dahin Startseite, Storefront und eine Titelseite. Der
+  Suchkasten mit seinen Ankreuz-Feldern läuft aber nur auf `/s?k=…`, und genau
+  dort warf ein `const`, das vor seiner Deklaration gelesen wurde: „Cannot
+  access 'istKanalKarte' before initialization" (Daniel, mit Bild aus der
+  Fehlerliste).
+
+  Vierter Fall dieser Klasse — `listenId` (25.08.), `knopf` (28.08.),
+  `wiedervorlageBeantwortet` (01.09.). Die drei davor hat diese Datei gefangen,
+  diesen nicht: Sie kannte die Seite nicht, auf der er auftritt.
+
+  `search` gehört mit in die Kulisse: Ohne den Suchbegriff hält `amazon.js` die
+  Adresse für eine leere Suche und baut den Kasten gar nicht erst.
+*/
+const PFADE = [
+  { pfad: '/', suche: '' },
+  { pfad: '/gp/video/storefront', suche: '' },
+  { pfad: '/dp/B0DJYJBNWF', suche: '' },
+  { pfad: '/s', suche: '?k=Death%20Note%20Relight&i=instant-video' },
+]
+
+for (const { pfad, suche } of PFADE) {
   const { mach, body } = baueDom()
   const angehaengt = []
   const sandkasten = {
     globalThis: null,
     AK_OFFENE_AMAZON: liste,
-    location: { pathname: pfad, search: '', href: 'https://www.amazon.de' + pfad },
+    location: { pathname: pfad, search: suche, href: 'https://www.amazon.de' + pfad + suche },
     document: {
       /*
         `classList` gehört dazu: `amazon.js` markiert seine Seiten seit dem

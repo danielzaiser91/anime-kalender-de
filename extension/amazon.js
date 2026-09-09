@@ -4909,7 +4909,22 @@ async function speicherSchreiben(werte) {
     eigener Kauf-/Abo-Titel? Für die Erwartung ist das nur eine Beschriftung —
     das Urteil über die Tonspur fällt später auf der Titelseite.
   */
-  const istKanalKarte = (k) => /channel|subscription/i.test(String(k?.zugang ?? ''))
+  /*
+    **Deklaration, kein `const` — sonst wirft der erste Aufruf.**
+
+    Als Pfeilfunktion an einem `const` stand der Name zwar oben, der Wert aber
+    erst hier: `erwartungsAuswahl()` wird vom Kasten gerufen, bevor diese Zeile
+    an der Reihe ist, und Chrome meldete „Cannot access 'istKanalKarte' before
+    initialization" (Daniel, 09.09.2026, mit Bild — die Erweiterung war auf der
+    Suchseite komplett weg). Eine `function` wird vollständig gehoben.
+
+    Vierter Fall dieser Klasse: `listenId` (25.08.), `knopf` (28.08.),
+    `wiedervorlageBeantwortet` (01.09.) — und diesmal von mir eingebaut,
+    während die Lehre dazu im Repo stand.
+  */
+  function istKanalKarte(k) {
+    return /channel|subscription/i.test(String(k?.zugang ?? ''))
+  }
 
   function erwartungsAuswahl(auftrag, sortiert, vorausgewaehlt = true) {
             const karten = sortiert.slice(0, 4).filter((z) => ohneParameter(z.url))
