@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 17
+    "2026-09": 20
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1347,7 +1347,7 @@
       "imdbId": "tt31589662",
       "tmdbId": "tv/243875",
       "dienst": "prime",
-      "am": "2026-09-04",
+      "am": "2026-09-08",
       "deutsch": true
     },
     "removed:4303794:prime": {
@@ -2567,7 +2567,7 @@
       "imdbId": "tt2805096",
       "tmdbId": "tv/58841",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-09-08",
       "deutsch": true
     },
     "removed:37932:prime": {
@@ -3719,7 +3719,77 @@
       "dienst": "prime",
       "am": "2026-09-07",
       "deutsch": true
+    },
+    "new:12482:disney": {
+      "art": "new",
+      "titel": "Harry Wild",
+      "originalTitel": "Harry Wild",
+      "imdbId": "tt14527610",
+      "tmdbId": "tv/156993",
+      "dienst": "disney",
+      "am": "2026-09-09",
+      "deutsch": true
+    },
+    "new:26030196:disney": {
+      "art": "new",
+      "titel": "The Girls: A Khloé Kardashian Project",
+      "originalTitel": "The Girls: A Khloé Kardashian Project",
+      "imdbId": "tt42007275",
+      "tmdbId": "tv/330438",
+      "dienst": "disney",
+      "am": "2026-09-09",
+      "deutsch": false
+    },
+    "new:16989472:disney": {
+      "art": "new",
+      "titel": "Dangerous Truth",
+      "originalTitel": "Das Zweite Attentat",
+      "imdbId": "tt21057070",
+      "tmdbId": "tv/258415",
+      "dienst": "disney",
+      "am": "2026-09-09",
+      "deutsch": true
+    },
+    "new:20240957:disney": {
+      "art": "new",
+      "titel": "The Kollective",
+      "originalTitel": "The Kollective",
+      "imdbId": "tt31159061",
+      "tmdbId": "tv/292664",
+      "dienst": "disney",
+      "am": "2026-09-09",
+      "deutsch": true
+    },
+    "new:265:prime": {
+      "art": "new",
+      "titel": "Rome",
+      "originalTitel": "Rome",
+      "imdbId": "tt0384766",
+      "tmdbId": "tv/1891",
+      "dienst": "prime",
+      "am": "2026-09-08",
+      "deutsch": true
+    },
+    "new:26341999:netflix": {
+      "art": "new",
+      "titel": "DANG!",
+      "originalTitel": "DANG!",
+      "imdbId": "tt40003445",
+      "tmdbId": "tv/314478",
+      "dienst": "netflix",
+      "am": "2026-09-08",
+      "deutsch": false
+    },
+    "removed:369:prime": {
+      "art": "removed",
+      "titel": "Tom Clancy's Jack Ryan",
+      "originalTitel": "Tom Clancy's Jack Ryan",
+      "imdbId": "tt5057054",
+      "tmdbId": "tv/73375",
+      "dienst": "prime",
+      "am": "2026-09-09",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-08T08:53:35.609Z"
+  "fetchedAt": "2026-09-09T08:59:53.589Z"
 }
