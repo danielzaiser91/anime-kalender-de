@@ -3099,6 +3099,45 @@ Feldname eine Kennung — und Kennungen werden auf Eindeutigkeit geprüft, nicht
 auf Vorhandensein. Dasselbe gilt für CSS-Klassen, die an zwei Stellen vergeben
 werden, und für Speicherschlüssel.
 
+## Eine Summe belegt, dass es passt — nicht, dass es die richtigen sind
+
+Am Vormittag des 10.09.2026 ist die kumulative Rechnung eingebaut worden, und
+sie hat vier Netflix-Adressen aufgelöst. Am Nachmittag hat dieselbe Rechnung
+vier **falsche** Belege erzeugt.
+
+Die Prime-Seite `B0D2NL5GYX` ist Haikyu!!s Staffel 4 mit 27 Folgen:
+
+```
+richtig:  TO THE TOP 13 + LAND VS. AIR 2 + Part 2 zwölf   = 27
+gebucht:  Special 1 + 3rd Season 10 + Special 1 + TO THE TOP 13 + LAND VS. AIR 2 = 27
+```
+
+**Beide Summen ergeben 27.** Bei einer Reihe mit neun Einträgen gibt es mehrere
+Teilmengen mit derselben Summe, und die erste gewinnt. Die Folgenzahl-Kontrolle
+merkte nichts — sie prüft, **dass** es aufgeht, nicht **welche** Titel es sind.
+
+**Die Ursache war ein Nebeneffekt:** `staffelnDerAdresse()` führt seit demselben
+Vormittag OVAs und Specials mit. Für `ordneNachStaffelliste()` ist das richtig
+— es rechnet über Folgenzahlen und braucht sie. Ein zweiter Block liest
+dieselbe Liste aber als **Staffelfolge** (`reihe.slice(staffelNr - 1)`), und
+dort verschiebt jede Nebenausgabe den Index um eins.
+
+**Die Regel, und sie gilt über diesen Fall hinaus:**
+
+> **Wer über einen Index zugreift, braucht eine andere Liste als wer rechnet.**
+> Dieselbe Funktion für beides zu benutzen sieht sparsam aus und koppelt zwei
+> Fragen, die nichts miteinander zu tun haben. Ändert sich die Liste für die
+> eine, kippt lautlos die andere.
+
+**Und der Prüfgriff nach jeder Änderung an einer geteilten Liste:** Wer liest
+sie noch, und **wie** — nach Position oder nach Inhalt? Ein `slice`, ein
+`[i]`, ein `.length` gegen eine Nummer sind Positionszugriffe; sie vertragen
+keine neuen Einträge in der Mitte.
+
+Der Schaden war hier gering, weil die Handbelege eine Datei sind, die man lesen
+kann. Bei einem Wert im Datensatz wäre er unsichtbar geblieben — vier Staffeln
+mit einem Urteil, das nie jemand für sie geprüft hat.
+
 ## Der Anbieter zählt kumulativ — Position gegen Position ist keine Zuordnung
 
 Am 10.09.2026 fand Daniel „Haikyu!! Lev ist hier!" bei Netflix unter
