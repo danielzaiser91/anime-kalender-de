@@ -970,18 +970,39 @@ for (const gruppe of jeAdresse.values()) {
     zeilen.push(`- anilistId: ${id}`)
     if (t?.titleDe || t?.titleEn) zeilen.push(`  title: ${JSON.stringify(t.titleDe ?? t.titleEn)}`)
     zeilen.push(`  platform: ${p.plattform}`)
-    // Kam die Zuordnung über den Namen zustande, kennt unser Datensatz die
-    // Adresse noch nicht — dann gehört sie mit hinein, sonst bleibt der Befund
-    // ohne Verweis stehen.
+    /**
+     * **Die Adresse steht immer dabei — seit dem 10.09.2026.**
+     *
+     * Vorher wurde sie nur geschrieben, wenn unser Datensatz sie **nicht**
+     * kannte. Der Gedanke war: Was ohnehin bekannt ist, muss nicht wiederholt
+     * werden. Genau umgekehrt wird ein Beleg gebraucht — er sagt, **woran**
+     * gemessen wurde, und das ist bei einer bekannten Adresse genauso wichtig
+     * wie bei einer neuen.
+     *
+     * **Der Fall ist real eingetreten.** 854 Belege nennen in ihrer Notiz eine
+     * Amazon-Kennung („Amazon-Seite B07L1CMH2D: alle 0 Folgen geprüft"), 497
+     * davon ohne `url`-Feld — und ohne das gilt der Befund für **jede**
+     * Adresse dieser Plattform, auch für später hinzukommende. Bei 47 ist das
+     * folgenreich, weil ihr Urteil den Verweis **entfernt**. „Haikyu!! 3rd
+     * Season" bekam am 10.09.2026 die Prime-Adresse `B0D544CDK6`, und ein
+     * Beleg vom 25.08. zu einer ganz anderen Seite warf sie sofort wieder
+     * hinaus.
+     *
+     * **Warum das gefahrlos ist:** `loadDubChecks()` unterscheidet seit dem
+     * 07.09.2026 selbst, was die Adresse im Beleg bedeutet — bei einem Titel
+     * mit **einem** Verweis dieser Plattform ist sie eine **Korrektur**, ab
+     * zwei Wegen eine **Unterscheidung**. Ein erster, strengerer Anlauf hätte
+     * damals 60 Belege weggeworfen, darunter lauter berechtigte Korrekturen;
+     * die Leseseite trägt beide Fälle also längst.
+     */
     const echte = echteAmazonAdresse(p)
-    let adresseGeschrieben = false
-    if (echte) {
-      zeilen.push(`  url: ${echte}`)
-      adresseGeschrieben = true
-    } else if (!nachUrl.has(schluesselAdresse(p.url))) {
-      zeilen.push(`  url: ${p.url}`)
-      adresseGeschrieben = true
-    }
+    /*
+      `wegAusMeldung()` löst eine Suchadresse über die `seiten_kennung` auf — die
+      Kennung der Seite, auf der wirklich nachgesehen wurde. Ohne sie stünde im
+      Beleg eine Amazon-Suche, und die beantwortet die Frage nicht, die dieses
+      Projekt stellt.
+    */
+    zeilen.push(`  url: ${echte ?? wegAusMeldung(p)}`)
     /*
       Der Teilbereich steht vor dem Befund: Er sagt, worüber der Befund
       überhaupt spricht. Gemeldet wird er einmal je Adresse; die neueste
@@ -1034,9 +1055,7 @@ for (const gruppe of jeAdresse.values()) {
         und sie ist die nützlichste Angabe, die eine Kanal-Meldung hat: Sie sagt,
         **welche Seite** angesehen wurde.
       */
-      if (!adresseGeschrieben && !nachUrl.has(schluesselAdresse(p.url))) {
-        zeilen.push(`  url: ${wegAusMeldung(p)}`)
-      }
+      /* Die Adresse steht seit dem 10.09.2026 weiter oben — bei jedem Beleg. */
     } else if (eigene.length) {
       const ganz = eigene.length === 1 && eigene[0]!.von === 1 && eigene[0]!.bis === (t?.episodes ?? -1)
       zeilen.push(`  dub: ${eigene.some((b) => b.dub)}`)
