@@ -75,7 +75,20 @@ async function main(): Promise<void> {
 
   const ziel = resolve(ROOT, 'daniel-zum-abarbeiten/17-vorfaelle.md')
   if (!alle.length) {
-    recordSource('vorfaelle', 0)
+    /*
+      **Null Vorfälle ist der Bestzustand, kein Ausfall.**
+
+      Am 10.09.2026 hat genau das den Bau-Lauf rot gemacht (34510184965):
+      `check-sources` sah eine Quelle, die „seit noch nie nichts geliefert“
+      hat, und brach ab — dabei hatte die Erweiterung schlicht nichts zu melden.
+      Dieselbe Falle wie am 25.08.2026, als eine leere Arbeitsliste vier
+      Zusicherungen rot machte: Eine Prüfung, die anschlägt, weil nichts kaputt
+      ist, misst den falschen Gegenstand.
+
+      `leerIstOk` sagt: Der Abruf hat funktioniert, er hat nur nichts gefunden.
+      Ein echter Ausfall bleibt sichtbar — der HTTP-Zweig oben trägt ihn.
+    */
+    recordSource('vorfaelle', 0, undefined, undefined, true)
     log('Nichts zu berichten.')
     return
   }
@@ -133,7 +146,7 @@ async function main(): Promise<void> {
     body: JSON.stringify({ ids: alle.map((v) => v.id) }),
   })
   if (!weg.ok) warn(`Vorfälle nicht gelöscht: HTTP ${weg.status} — sie tauchen beim nächsten Lauf erneut auf.`)
-  recordSource('vorfaelle', alle.length)
+  recordSource('vorfaelle', alle.length, undefined, undefined, true)
 }
 
 await main()
