@@ -695,6 +695,22 @@ async function speicherSchreiben(werte) {
   let kennungBekanntSpeicher = null
   let kennungBekanntZu = -1
   /**
+   * **Welche Kennungen die Adresse schon getragen hat — hier oben, aus demselben
+   * Grund wie der Speicher darüber.**
+   *
+   * Beide werden von `quelltextVeraltet()` gelesen, und das läuft schon beim
+   * Seitenaufbau. Ein `let` unterhalb der ersten Nutzung wirft; das ist in
+   * dieser Datei fünfmal passiert.
+   *
+   * Gebraucht werden sie für den Staffelwechsel: Wechselt die Adresse von
+   * `B0BZGQZCFT` auf `B0CHL21CT2`, tauscht Amazon den Quelltext erst Sekunden
+   * später aus. Nennt der Quelltext in dieser Zeit eine Kennung, die die
+   * **Adresse vorher trug**, gehört er zur alten Seite — und nur so ist das von
+   * einer Sammelseite zu unterscheiden, deren `titleID` legitim abweicht.
+   */
+  let letzteAdressKennung = null
+  const fruehereAdressKennungen = new Set()
+  /**
    * **Ein Muster über den ganzen Quelltext — nicht 220 Ausschnitte.**
    *
    * Die erste Fassung lief über **alle** `titleID`-Fundstellen und legte je
@@ -7460,6 +7476,24 @@ async function speicherSchreiben(werte) {
     }
     knopf.style.display = ''
 
+    /**
+     * **Ein Knopf, der zur alten Seite gehört, wird nicht angeboten.**
+     *
+     * Der Zweig steht vor allen anderen, weil jede Auskunft darunter aus dem
+     * Quelltext stammt: Folgenzahl, Tonspuren, Staffelnummer. Gehört der zur
+     * verlassenen Seite, ist nicht nur die Beschriftung falsch — die Meldung
+     * wäre es auch.
+     *
+     * Er löst sich von selbst, sobald Amazon nachgezogen hat; ein Neuladen
+     * verlangt er deshalb nicht.
+     */
+    if (quelltextVonFruehererSeite()) {
+      knopf.disabled = true
+      knopf.textContent = 'Seite wechselt …'
+      knopf.title = 'Die Angaben gehören noch zur vorigen Seite. Einen Augenblick.'
+      return
+    }
+
     if (!geladen) {
       /**
        * Auch eine tote Seite bleibt gemeldet, wenn sie gemeldet wurde.
@@ -8856,6 +8890,13 @@ async function speicherSchreiben(werte) {
       Adress-Kennung im alten Quelltext nachweislich 0-mal zu finden (Messung
       vom 25.08.2026, siehe `kennungImQuelltextBekannt()`).
     */
+    /*
+      **Vor dem Freibrief steht die Frage, ob wir die Seite schon verlassen
+      haben.** Umgekehrte Reihenfolge hieße: Der Staffelwähler der alten Seite
+      nennt die neue Kennung, `kennungImQuelltextBekannt()` sagt „passt", und
+      der veraltete Quelltext gilt als frisch (10.09.2026, Bungo Stray Dogs).
+    */
+    if (quelltextVonFruehererSeite()) return true
     if (kennungImQuelltextBekannt()) return false
     const titel = seitenTitel()
     const kennung = asinAusSeite()
@@ -8916,6 +8957,46 @@ async function speicherSchreiben(werte) {
     const ausAdresse = asinAusAdresse()
     return Boolean(ausSeite && ausAdresse && ausSeite === ausAdresse)
   }
+
+  /**
+   * **Der Quelltext gehört zu einer Seite, die wir schon verlassen haben.**
+   *
+   * Daniel am 10.09.2026 mit einer Bildschirmaufnahme: Nach dem Wechsel auf
+   * Staffel 2 stand der Melde-Knopf **vier Sekunden lang** scharf, während die
+   * Kopfzeile weiter `B0BZGQZCFT` nannte — die Adresse führte längst
+   * `B0CHL21CT2`. Wer in diesem Fenster klickt, meldet die alte Kennung.
+   *
+   * Dass der Wächter das durchgehen ließ, hat einen Grund:
+   * `kennungImQuelltextBekannt()` fragt, ob die Adress-Kennung **irgendwo** im
+   * Quelltext steht — und beim Staffelwechsel steht sie dort immer, nämlich im
+   * Staffelwähler der alten Seite. Der Freibrief, der Sammelseiten vom
+   * Fehlalarm befreit, deckte damit genau den Fall zu, für den es den Wächter
+   * gibt.
+   *
+   * Die Unterscheidung läuft deshalb über die **Adresse**, nicht über den
+   * Quelltext: Eine Sammelseite trägt im Quelltext eine `titleID`, die nie in
+   * der Adresse stand; nach einem Staffelwechsel trägt er die Kennung, die
+   * gerade noch dort stand.
+   */
+  function quelltextVonFruehererSeite() {
+    const ausSeite = asinAusSeite()
+    const ausAdresse = asinAusAdresse()
+    if (!ausSeite || !ausAdresse || ausSeite === ausAdresse) return false
+    return fruehereAdressKennungen.has(ausSeite)
+  }
+
+  /**
+   * Schreibt die Adress-Kennung fort. Läuft aus der Adresswache und einmal beim
+   * Start — ohne den ersten Aufruf bliebe die erste Seite ungezählt, und der
+   * Wechsel von ihr weg wäre unsichtbar.
+   */
+  function adressKennungFortschreiben() {
+    const jetzt = asinAusAdresse()
+    if (!jetzt || jetzt === letzteAdressKennung) return
+    if (letzteAdressKennung) fruehereAdressKennungen.add(letzteAdressKennung)
+    letzteAdressKennung = jetzt
+  }
+  adressKennungFortschreiben()
 
   let letzteKennung = staffelKennung()
 
@@ -9504,6 +9585,15 @@ async function speicherSchreiben(werte) {
   function adresseNeuPruefen() {
     if (location.href === letzteAdresse) return
     letzteAdresse = location.href
+    /*
+      **Der Quelltext der alten Seite wird weggeworfen, nicht abgewartet.**
+
+      `seitenHtml()` hält ihn bis zu zwei Sekunden. Ohne diese Zeile arbeitet
+      der Takt direkt nach dem Wechsel garantiert mit dem alten Stand — und der
+      Wechsel „sofort erkannt" wäre nur die halbe Wahrheit.
+    */
+    htmlNeuLesen()
+    adressKennungFortschreiben()
     /*
       Der Sparmodus gehört zur alten Seite. Ihn stehen zu lassen hieße, den
       Wechsel zwar sofort zu bemerken und dann vier Sekunden zu warten.
