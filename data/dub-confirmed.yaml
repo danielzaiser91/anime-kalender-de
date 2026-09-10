@@ -69,6 +69,25 @@
 # künftig verhindern soll, steht in CLAUDE.md unter „Der Anbieter zählt
 # kumulativ".
 #
+#
+# ── Zurückgenommen am 10.09.2026: vier Belege aus einer zufälligen Summe ─────
+#
+# Die Prime-Seite `B0D2NL5GYX` ist Haikyu!!s **Staffel 4** und führt 27 Folgen:
+# TO THE TOP (13) + LAND VS. AIR (2) + TO THE TOP Part 2 (12). Der Lauf ordnete
+# sie stattdessen an 21348, 21698, 107351, 106625 und 111790 zu — deren Summe
+# **ebenfalls** 27 ergibt (1 + 10 + 1 + 13 + 2), obwohl vier davon zu anderen
+# Staffeln gehören.
+#
+# Der Sonderfall in `ordneNachStaffelliste()` ("führt der Anbieter eine Staffel
+# und wir mehrere, entscheidet die Summe") prüft die Gesamtsumme, nicht **welche**
+# Titel sie bilden. Bei einer Reihe mit neun Einträgen gibt es mehrere
+# Teilmengen mit derselben Summe, und die erste gewinnt.
+#
+# Behalten wird nur der Beleg für 106625 (TO THE TOP, Folgen 1–13): Er steht am
+# Anfang der Staffel und stimmt unabhängig von der Auswahl. Die Reihenfolge von
+# LAND VS. AIR und Part 2 innerhalb der Prime-Staffel ist nicht belegt — die
+# beiden bleiben offen, bis sie es ist.
+#
 
 - anilistId: 1663
   title: 3000 Leagues in Search of Mother
@@ -26438,36 +26457,9 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-10 ---
 
-- anilistId: 21348
-  title: "Haikyu!! Kampf gegen ungenügende Noten"
-  platform: primevideo
-  dub: true
-  checkedAt: '2026-09-10'
-  note: "Folge 1 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Amazon-Seite B0D2NL5GYX: alle 27 Folgen geprüft, Abos: animedigitalde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 21698
-  title: "Haikyu!! Karasuno vs. Shiratorizawa"
-  platform: primevideo
-  dub: true
-  checkedAt: '2026-09-10'
-  note: "Folgen 1–10 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Amazon-Seite B0D2NL5GYX: alle 27 Folgen geprüft, Abos: animedigitalde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 107351
-  title: "Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier"
-  platform: primevideo
-  dub: true
-  checkedAt: '2026-09-10'
-  note: "Folge 1 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Amazon-Seite B0D2NL5GYX: alle 27 Folgen geprüft, Abos: animedigitalde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 106625
   title: "Haikyu!! To the Top"
   platform: primevideo
   dub: true
   checkedAt: '2026-09-10'
   note: "Folgen 1–13 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Amazon-Seite B0D2NL5GYX: alle 27 Folgen geprüft, Abos: animedigitalde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 111790
-  title: "Haikyu!! An Land vs. In der Luft / Der ”Weg” des Balls"
-  platform: primevideo
-  checkedAt: '2026-09-10'
-  note: "Folgen 1–2 ohne deutschen Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Amazon-Seite B0D2NL5GYX: alle 27 Folgen geprüft, Abos: animedigitalde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"

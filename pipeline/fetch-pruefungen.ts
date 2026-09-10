@@ -338,7 +338,27 @@ const erledigteIds = new Set<number>()
  * die steigt zwar meistens mit der Zeit, aber eben nur meistens.
  */
 const JAHRESZEIT: Record<string, number> = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
-function staffelnDerAdresse(ids: number[]): Staffeleintrag[] {
+/**
+ * **Zwei Fragen, zwei Listen.**
+ *
+ * `ordneNachStaffelliste()` rechnet über **Folgenzahlen** und braucht deshalb
+ * jeden Eintrag der Adresse, auch OVAs und Specials: Der Anbieter zählt sie als
+ * Folgen seiner Staffeln mit, und ohne sie geht die Summe nicht auf.
+ *
+ * Der Block „Eine Staffel gehört ihrem Titel" greift dagegen über
+ * `reihe.slice(staffelNr - 1)` zu — er versteht die Liste als **Staffelfolge**.
+ * Steht dort eine OVA zwischen Staffel 2 und 3, zeigt „Staffel 4" auf den
+ * falschen Eintrag.
+ *
+ * Genau das ist am 10.09.2026 passiert: Die Prime-Seite `B0D2NL5GYX` (Haikyu!!
+ * Staffel 4, 27 Folgen) wurde an 21348, 21698, 107351, 106625 und 111790
+ * zugeordnet — deren Summe **ebenfalls** 27 ergibt (1+10+1+13+2), obwohl vier
+ * davon zu anderen Staffeln gehören. Vier Belege mussten zurückgenommen werden.
+ *
+ * `nurStaffeln` gibt die alte, gefilterte Liste zurück — für alle, die zählen
+ * statt zu rechnen.
+ */
+function staffelnDerAdresse(ids: number[], nurStaffeln = false): Staffeleintrag[] {
   /*
     **Bei einem einzigen Titel braucht es keine Folgenzahl.**
 
@@ -387,9 +407,12 @@ function staffelnDerAdresse(ids: number[]): Staffeleintrag[] {
    * Filme bleiben draußen, wo Serien danebenstehen: Ein Film ist keine Folge
    * einer Staffel, und seine Eins würde die Rechnung um eins verschieben.
    */
-  const eintraege = alle.filter(
+  const ohneFilme = alle.filter(
     (t) => t.format !== 'MOVIE' || !alle.some((x) => x.format === 'TV' || x.format === 'ONA'),
   )
+  /* Wer über die Staffelnummer indiziert, darf keine Nebenausgabe dazwischen haben. */
+  const serien = ohneFilme.filter((t) => t.format === 'TV' || t.format === 'ONA')
+  const eintraege = nurStaffeln && serien.length ? serien : ohneFilme
   return eintraege
     .sort((a, b) => {
       const jahr = (a.jpYear ?? 0) - (b.jpYear ?? 0)
@@ -564,8 +587,10 @@ for (const gruppe of jeAdresse.values()) {
     const kopf = liste.find((x) => x.id === ids[0])
     const franchise = kopf?.franchiseId ?? ids[0]
     if (staffelNr && folgenZahl > 0 && franchise) {
+      /* `slice(staffelNr - 1)` zählt Staffeln — Nebenausgaben verschieben den Index. */
       const reihe = staffelnDerAdresse(
         liste.filter((x) => (x.franchiseId ?? x.id) === franchise).map((x) => x.id),
+        true,
       )
       const gedeckt: number[] = []
       let rest = folgenZahl

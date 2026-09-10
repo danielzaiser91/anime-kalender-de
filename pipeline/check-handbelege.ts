@@ -92,7 +92,25 @@ for (const [k, gruppe] of jeVerweis) {
   const [idRoh, platform] = k.split(':')
   const t = nachId.get(Number(idRoh))
   if (!t) continue
-  const stream = (t.streams ?? []).find((s) => s.platform === platform)
+  /**
+   * **Nennt der Beleg eine Adresse, gilt er ihr — nicht der Plattform.**
+   *
+   * Die Suche lief über `platform` allein und meldete deshalb einen Fehler, wo
+   * keiner ist: „Haikyu!! 3rd Season" trägt einen Beleg `available: false` zu
+   * `B07L1CMH2D` („alle 0 Folgen") und seit dem 10.09.2026 einen Verweis auf
+   * `B0D544CDK6`, eine andere Seite desselben Titels mit elf Folgen. Beides ist
+   * richtig, und `belegFuer()` im Bau unterscheidet es längst über
+   * `adressGleich()`.
+   *
+   * Ohne Adresse im Beleg bleibt es beim alten Weg: Dann gilt er der ganzen
+   * Plattform, und genau so wirkt er auch im Bau.
+   */
+  const belegAdressen = gruppe.map((b) => b.url).filter((u): u is string => Boolean(u))
+  const stream = belegAdressen.length
+    ? (t.streams ?? []).find(
+        (s) => s.platform === platform && belegAdressen.some((u) => adressKern(u) === adressKern(s.url)),
+      )
+    : (t.streams ?? []).find((s) => s.platform === platform)
   const name = `${idRoh} (${t.titleRomaji ?? '?'}) — ${platform}`
 
   const sagtJa = gruppe.some((b) => b.dub === true || (b.dubRanges ?? []).some((r) => r.dub))
