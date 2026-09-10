@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-10 · **39 offene Verweise** in **26 Zeilen**.
+Stand 2026-09-10 · **35 offene Verweise** in **23 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,7 +33,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Crunchyroll](07-crunchyroll.md) | 28 |
+| [Crunchyroll](07-crunchyroll.md) | 24 |
 | [Netflix](07-netflix.md) | 9 |
 | [Prime Video](07-primevideo.md) | 2 |
 
@@ -51,22 +51,19 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 8 | 2021-03-26 | The Promised Neverland | [Staffel 2](https://www.crunchyroll.com/the-promised-neverland) |
 | 9 | 2021-02-11 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Eternal: Der Film](https://www.netflix.com/title/81214399) |
 | 10 | 2020-06-17 | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
-| 11 | 2020-03-27 | One Punch Man | [OVAs](https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close) · [Staffel 2 OVAs](https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang) |
-| 12 | 2020-01-10 | Haikyu!! | [Lev ist hier!](https://www.netflix.com/title/80090673) · [Kampf gegen ungenügende Noten](https://www.netflix.com/title/80090673) · [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.netflix.com/title/80090673) · [An Land vs. In der Luft / Der ”Weg” des Balls](https://www.netflix.com/title/80090673) |
-| 13 | 2019-09-21 | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/fruits-basket) |
-| 14 | 2019-06-29 | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
-| 15 | 2019-03-20 | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
-| 16 | 2018-09-21 | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
-| 17 | 2018-04-21 | Sound! Euphonium | [Hauptserie](http://www.crunchyroll.com/de/sound-euphonium) · [Liz und der Blaue Vogel](https://www.crunchyroll.com/liz-and-the-blue-bird/de-liz-und-der-blaue-vogel-unbekannt-850428) |
-| 18 | 2017-08-25 | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-| 19 | 2014-09-23 | Hamatora: The Animation | [Hauptserie](http://www.crunchyroll.com/hamatora/episode-1-file-01-egg-of-columbus-648733) · [Re:␣Hamatora](http://www.crunchyroll.com/hamatora/episode-1-melancholy-of-hero-657029) |
-| 20 | 2014-09-16 | Love, Chunibyo & Other Delusions! | [Heart Throb](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-) · [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
-| 21 | 2012-03-24 | Shakugan no Shana | [Season III](https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video) |
-| 22 | 2011-02-23 | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
-| 23 | 2002-09-14 | Millennium Actress | [Hauptserie](https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub) |
-| 24 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
-| 25 | 1997-08-01 | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
-| 26 | 1994-08-06 | Street Fighter II V | [Street Fighter II: The Animated Movie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 11 | 2020-01-10 | Haikyu!! | [Lev ist hier!](https://www.netflix.com/title/80090673) · [Kampf gegen ungenügende Noten](https://www.netflix.com/title/80090673) · [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.netflix.com/title/80090673) · [An Land vs. In der Luft / Der ”Weg” des Balls](https://www.netflix.com/title/80090673) |
+| 12 | 2019-09-21 | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/fruits-basket) |
+| 13 | 2019-06-29 | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
+| 14 | 2019-03-20 | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
+| 15 | 2018-09-21 | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
+| 16 | 2018-04-21 | Sound! Euphonium | [Hauptserie](http://www.crunchyroll.com/de/sound-euphonium) · [Liz und der Blaue Vogel](https://www.crunchyroll.com/liz-and-the-blue-bird/de-liz-und-der-blaue-vogel-unbekannt-850428) |
+| 17 | 2017-08-25 | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
+| 18 | 2014-09-23 | Hamatora: The Animation | [Hauptserie](http://www.crunchyroll.com/hamatora/episode-1-file-01-egg-of-columbus-648733) · [Re:␣Hamatora](http://www.crunchyroll.com/hamatora/episode-1-melancholy-of-hero-657029) |
+| 19 | 2014-09-16 | Love, Chunibyo & Other Delusions! | [Heart Throb](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-) · [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
+| 20 | 2012-03-24 | Shakugan no Shana | [Season III](https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video) |
+| 21 | 2011-02-23 | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
+| 22 | 2002-09-14 | Millennium Actress | [Hauptserie](https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub) |
+| 23 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
