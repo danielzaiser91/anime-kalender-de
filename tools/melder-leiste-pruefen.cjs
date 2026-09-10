@@ -175,11 +175,11 @@ console.log('\nDie Leiste nach einer uneinheitlichen Randprobe:')
 const zweig = /if \(DURCHLAUF\.randOffen && !DURCHLAUF\.laeuft\) \{([\s\S]*?)\n  \} else \{/.exec(quelle)?.[1] ?? ''
 pruefe('es gibt einen Zweig für die uneinheitliche Randprobe', zweig.length > 0)
 pruefe('er legt das Grenzfeld an', zweig.includes("DURCHLAUF.grenzFeld = document.createElement('input')"))
-pruefe('er legt den Melde-Knopf an', zweig.includes("DURCHLAUF.grenzKnopf = document.createElement('button')"))
-pruefe('beide werden sichtbar geschaltet', zweig.includes('DURCHLAUF.grenzKnopf.hidden = false') && zweig.includes('DURCHLAUF.grenzFeld.hidden = false'))
+pruefe('er legt den Melde-Knopf an', zweig.includes("DURCHLAUF.grenzeMeldenKnopf = document.createElement('button')"))
+pruefe('beide werden sichtbar geschaltet', zweig.includes('DURCHLAUF.grenzeMeldenKnopf.hidden = false') && zweig.includes('DURCHLAUF.grenzFeld.hidden = false'))
 pruefe(
   'der Knopf hängt am Feld, nicht an der Leiste',
-  zweig.includes('DURCHLAUF.grenzFeld.after(DURCHLAUF.grenzKnopf)'),
+  zweig.includes('DURCHLAUF.grenzFeld.after(DURCHLAUF.grenzeMeldenKnopf)'),
   'sonst steht er woanders, sobald das Feld umzieht',
 )
 /*
@@ -192,6 +192,29 @@ pruefe(
   'beim Abräumen der Leiste werden Feld und Knopf genullt',
   /DURCHLAUF\.grenzFeld = null/.test(quelle) && /DURCHLAUF\.grenzKnopf = null/.test(quelle),
 )
+
+/**
+ * **Ein Feld von `DURCHLAUF`, ein Element.**
+ *
+ * Bis zum 10.09.2026 hießen zwei verschiedene Knöpfe `DURCHLAUF.grenzKnopf`:
+ * der Umschalter `⏱ 2 / ⏱ alle / ⇤⇥` in der Leiste und der `✓ melden` am
+ * Grenzfeld. Der Umschalter entsteht beim Aufbau der Leiste und ist danach
+ * verbunden — die Bedingung `!isConnected` beim zweiten traf deshalb **nie**
+ * zu, und der Melde-Knopf wurde nie angelegt.
+ *
+ * Die drei Zusicherungen darüber waren dabei grün: Sie prüfen den Quelltext,
+ * und dort stand alles richtig. Gefangen wird so etwas nur durch die Frage,
+ * ob ein Name **zweimal** vergeben ist.
+ */
+{
+  const namen = [...quelle.matchAll(/DURCHLAUF\.(\w+) = document\.createElement\(/g)].map((m) => m[1])
+  const doppelt = namen.filter((n, i) => namen.indexOf(n) !== i)
+  pruefe(
+    'kein Feld von DURCHLAUF trägt zwei verschiedene Elemente',
+    doppelt.length === 0,
+    [...new Set(doppelt)],
+  )
+}
 
 console.log('')
 if (fehler.length) {

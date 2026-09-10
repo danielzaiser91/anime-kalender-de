@@ -2733,6 +2733,8 @@ function durchlaufKnopfZeigen() {
       DURCHLAUF.leiste = null
       DURCHLAUF.knopf = null
       DURCHLAUF.grenzKnopf = null
+      DURCHLAUF.nochmalKnopf = null
+      DURCHLAUF.grenzeMeldenKnopf = null
       /*
         **Auch das Grenzfeld — sonst überlebt die Referenz ihr Element.**
 
@@ -2748,6 +2750,8 @@ function durchlaufKnopfZeigen() {
       */
       DURCHLAUF.grenzFeld = null
       DURCHLAUF.grenzKnopf = null
+      DURCHLAUF.nochmalKnopf = null
+      DURCHLAUF.grenzeMeldenKnopf = null
     }
     schutzflaecheZeigen(false)
     return
@@ -2857,6 +2861,29 @@ function durchlaufKnopfZeigen() {
     })
     DURCHLAUF.leiste.appendChild(DURCHLAUF.grenzKnopf)
 
+    /**
+     * **Was nur der Rechtsklick konnte, kann jetzt ein Knopf.**
+     *
+     * „Stand für einen Lauf übergehen" stand im Tooltip des Hauptknopfs — also
+     * an einer Stelle, die niemand liest, bevor er sie braucht. Daniel am
+     * 10.09.2026: „rechtsklick verhalten ist versteckt, mach es sichtbar, es
+     * sollte kein verstecktes wissen geben, erweiterung muss klar und deutlich
+     * ihr verhalten kommunizieren."
+     *
+     * Der Rechtsklick bleibt — er ist der schnellere Weg für den, der ihn
+     * kennt. Neu ist, dass man ihn nicht kennen muss.
+     */
+    DURCHLAUF.nochmalKnopf = document.createElement('button')
+    DURCHLAUF.nochmalKnopf.className = 'ak-durchlauf ak-grenze'
+    DURCHLAUF.nochmalKnopf.textContent = '↻ alle'
+    DURCHLAUF.nochmalKnopf.title =
+      'Prüft auch die Folgen noch einmal, die schon gemeldet sind.\nGilt für einen Lauf.'
+    DURCHLAUF.nochmalKnopf.addEventListener('click', () => {
+      console.log('[Anime-Kalender] Stand wird für einen Lauf übergangen')
+      void durchlaufStandVergessen()
+    })
+    DURCHLAUF.leiste.appendChild(DURCHLAUF.nochmalKnopf)
+
     DURCHLAUF.knopf.addEventListener(
       'contextmenu',
       (e) => {
@@ -2892,6 +2919,7 @@ function durchlaufKnopfZeigen() {
   */
   if (DURCHLAUF.grenzKnopf) {
     DURCHLAUF.grenzKnopf.hidden = DURCHLAUF.laeuft
+    if (DURCHLAUF.nochmalKnopf) DURCHLAUF.nochmalKnopf.hidden = DURCHLAUF.laeuft
     DURCHLAUF.grenzKnopf.textContent =
       probeGrenze === RAND ? '⇤⇥' : probeGrenze ? `⏱ ${probeGrenze}` : '⏱ alle'
     DURCHLAUF.grenzKnopf.title =
@@ -2970,6 +2998,7 @@ function durchlaufKnopfZeigen() {
     sähe aus wie eine Wirkung und hätte keine.
   */
   if (DURCHLAUF.grenzKnopf) DURCHLAUF.grenzKnopf.hidden = DURCHLAUF.laeuft
+  if (DURCHLAUF.nochmalKnopf) DURCHLAUF.nochmalKnopf.hidden = DURCHLAUF.laeuft
 
   /*
     **Uneinheitliche Randprobe: hier entscheidet ein Mensch.**
@@ -3007,14 +3036,29 @@ function durchlaufKnopfZeigen() {
       es gibt kein bestätigen oder so button?" (31.08.2026). Enter blieb
       selbstverständlich, der Knopf steht jetzt daneben.
     */
-    if (!DURCHLAUF.grenzKnopf?.isConnected) {
-      DURCHLAUF.grenzKnopf = document.createElement('button')
-      DURCHLAUF.grenzKnopf.className = 'ak-grenzknopf'
-      DURCHLAUF.grenzKnopf.textContent = '✓ melden'
-      DURCHLAUF.grenzKnopf.addEventListener('click', () => void grenzeUebernehmen())
-      DURCHLAUF.grenzFeld.after(DURCHLAUF.grenzKnopf)
+    /**
+     * **Eigene Variable — `grenzKnopf` gehört dem Umschalter.**
+     *
+     * Beide Knöpfe hießen `DURCHLAUF.grenzKnopf`: der Umschalter `⏱ 2 / ⏱ alle /
+     * ⇤⇥` in der Leiste und dieser hier am Grenzfeld. Der Umschalter entsteht
+     * beim Aufbau der Leiste und ist danach **verbunden** — die Bedingung
+     * `!isConnected` traf deshalb nie zu, und der Melde-Knopf wurde nie
+     * angelegt. Stattdessen bekam der Umschalter ein `hidden = false`, das ihm
+     * ohnehin galt.
+     *
+     * Gefunden am 10.09.2026 beim Einbau des „↻ alle"-Knopfs daneben. Daniels
+     * Meldung vom 31.08.2026 („wie melde ich die bis 155? es gibt kein
+     * bestätigen oder so button?") war damit nur scheinbar behoben: Der Knopf
+     * stand im Quelltext und im Sandkasten, aber nie auf der Seite.
+     */
+    if (!DURCHLAUF.grenzeMeldenKnopf?.isConnected) {
+      DURCHLAUF.grenzeMeldenKnopf = document.createElement('button')
+      DURCHLAUF.grenzeMeldenKnopf.className = 'ak-grenzknopf'
+      DURCHLAUF.grenzeMeldenKnopf.textContent = '✓ melden'
+      DURCHLAUF.grenzeMeldenKnopf.addEventListener('click', () => void grenzeUebernehmen())
+      DURCHLAUF.grenzFeld.after(DURCHLAUF.grenzeMeldenKnopf)
     }
-    DURCHLAUF.grenzKnopf.hidden = false
+    DURCHLAUF.grenzeMeldenKnopf.hidden = false
     const { erste, letzte } = DURCHLAUF.randOffen
     DURCHLAUF.grenzFeld.placeholder = `dt. bis Flg. ?`
     DURCHLAUF.grenzFeld.max = String(letzte.folge.nummer)
@@ -3026,7 +3070,7 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.knopf.classList.add('ak-uneinheitlich')
   } else {
     if (DURCHLAUF.grenzFeld) DURCHLAUF.grenzFeld.hidden = true
-    if (DURCHLAUF.grenzKnopf) DURCHLAUF.grenzKnopf.hidden = true
+    if (DURCHLAUF.grenzeMeldenKnopf) DURCHLAUF.grenzeMeldenKnopf.hidden = true
     DURCHLAUF.knopf?.classList.remove('ak-uneinheitlich')
   }
   /* Die offenen Folgen selbst — für die Spanne im Knopftext. */
@@ -3045,7 +3089,7 @@ function durchlaufKnopfZeigen() {
   DURCHLAUF.knopf.title =
     stand +
     '\nUmschalt+Klick: kehrt die Grenze für einen Lauf um.' +
-    '\nRechtsklick: Stand für einen Lauf übergehen.'
+    '\nDer Knopf „↻ alle" daneben prüft auch schon gemeldete Folgen noch einmal.'
 }
 
 /**

@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import type { ReactNode } from 'react'
 import type { Meldung, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
 import { dubAbdeckung, dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
@@ -950,6 +951,29 @@ function MerkenKnopf({
 }) {
   const { t } = useLang()
   const [merkenOffen, setMerkenOffen] = useState(false)
+  /**
+   * **Wo das Menü steht — gemessen, nicht per CSS.**
+   *
+   * Es hing als `absolute` im Knopf und lag damit in derselben Box wie die
+   * Pille. Die Anbieterliste des Panels scrollt, und ein Kind, das unten
+   * hinausragt, verlängert dort den Inhalt: Statt über der Liste zu liegen,
+   * erzeugte das Menü eine Bildlaufleiste und war selbst nicht zu sehen
+   * (Daniel, 10.09.2026, mit zwei Bildern). Am `<body>` kann das nicht mehr
+   * passieren — derselbe Weg wie beim Hinweis-Baustein in `ui.tsx`.
+   */
+  const knopf = useRef<HTMLButtonElement>(null)
+  const [pos, setPos] = useState<{ top: number; right: number } | null>(null)
+  useEffect(() => {
+    if (!merkenOffen) return
+    /* Scrollt die Liste unter dem offenen Menü weg, stimmt seine Stelle nicht mehr. */
+    const zu = () => setMerkenOffen(false)
+    window.addEventListener('scroll', zu, true)
+    window.addEventListener('resize', zu)
+    return () => {
+      window.removeEventListener('scroll', zu, true)
+      window.removeEventListener('resize', zu)
+    }
+  }, [merkenOffen])
   const kuenftige = release ? expandEvents(release).filter((e) => e.date >= today) : []
   const ev = kuenftige[0]
   if (!ev || !release) return null
@@ -957,7 +981,27 @@ function MerkenKnopf({
       <span className="relative ml-2 shrink-0">
         <button
           type="button"
-          onClick={() => setMerkenOffen((v) => !v)}
+          ref={knopf}
+          /**
+           * **Der Knopf sitzt in einem Verweis — der Klick darf ihn nicht auslösen.**
+           *
+           * Die Pille ist ein `<a>` auf die Anbieterseite, und „Merken" steht
+           * darin. Ohne diese beiden Zeilen führte jeder Klick auf den Knopf zu
+           * Crunchyroll, und das Menü öffnete sich erst auf der Rückkehr
+           * (Daniel, 10.09.2026: „klick auf merken leitet direkt auf crunchyroll
+           * weiter").
+           */
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            if (merkenOffen) {
+              setMerkenOffen(false)
+              return
+            }
+            const r = knopf.current?.getBoundingClientRect()
+            if (r) setPos({ top: r.bottom + 4, right: Math.max(8, window.innerWidth - r.right) })
+            setMerkenOffen(true)
+          }}
           aria-expanded={merkenOffen}
           className="flex h-7 cursor-pointer items-center gap-1 rounded-full px-2 text-[11px] font-medium transition hover:brightness-95 dark:hover:brightness-125"
           style={farbe ? { background: `${farbe}33`, color: farbe } : undefined}
@@ -974,32 +1018,54 @@ function MerkenKnopf({
           </svg>
           {t('detail.merken')}
         </button>
-        {merkenOffen && (
-          <span className="absolute right-0 top-8 z-20 flex w-max flex-col overflow-hidden rounded-lg border border-slate-200 bg-white text-[12px] shadow-lg dark:border-white/10 dark:bg-[#141b2d]">
-            <a
-              href={googleCalendarUrl(ev)}
-              target="_blank"
-              rel="noreferrer noopener"
-              onClick={() => setMerkenOffen(false)}
-              className="px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-white/10"
-            >
-              {t('detail.merkenGoogle')}
-            </a>
-            <button
-              type="button"
-              onClick={() => {
-                /* Alle künftigen Folgen, nicht nur die nächste — genau
-                   dafür lädt jemand eine Kalenderdatei statt einen
-                   Einzeltermin einzutragen. */
-                downloadIcs(kuenftige, release.slug)
-                setMerkenOffen(false)
-              }}
-              className="cursor-pointer px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-white/10"
-            >
-              {t('detail.merkenIcs')}
-            </button>
-          </span>
-        )}
+        {merkenOffen &&
+          createPortal(
+            <>
+              {/* Ein Klick daneben schließt — sonst bliebe das Menü am Rand des
+                  Bildschirms stehen, während darunter weitergeklickt wird. */}
+              <span
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setMerkenOffen(false)
+                }}
+                className="fixed inset-0 z-40"
+              />
+              <span
+                style={pos ? { top: pos.top, right: pos.right } : { left: -9999, top: 0 }}
+                className="fixed z-50 flex w-max flex-col overflow-hidden rounded-lg border border-slate-200 bg-white text-[12px] shadow-lg dark:border-white/10 dark:bg-[#141b2d]"
+              >
+                <a
+                  href={googleCalendarUrl(ev)}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setMerkenOffen(false)
+                  }}
+                  className="px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-white/10"
+                >
+                  {t('detail.merkenGoogle')}
+                </a>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    /* Alle künftigen Folgen, nicht nur die nächste — genau
+                       dafür lädt jemand eine Kalenderdatei statt einen
+                       Einzeltermin einzutragen. */
+                    downloadIcs(kuenftige, release.slug)
+                    setMerkenOffen(false)
+                  }}
+                  className="cursor-pointer px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-white/10"
+                >
+                  {t('detail.merkenIcs')}
+                </button>
+              </span>
+            </>,
+            document.body,
+          )}
       </span>
   )
 }
