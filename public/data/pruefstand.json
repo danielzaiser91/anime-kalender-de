@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-10T20:07:19.488Z",
+ "erzeugtAm": "2026-09-10T20:08:58.105Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -40,12 +40,16 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 364,
-   "gesamt": 372,
-   "offen": 8,
+   "gemeldet": 363,
+   "gesamt": 373,
+   "offen": 10,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/80090673",
+   "ziel": "https://www.netflix.com/title/70302573",
    "ziele": [
+    {
+     "url": "https://www.netflix.com/title/70302573",
+     "titel": "Sword Art Online"
+    },
     {
      "url": "https://www.netflix.com/title/80090673",
      "titel": "Haikyu!!"
@@ -67,7 +71,7 @@
      "titel": "Baki-Dou: The Invincible Samurai"
     }
    ],
-   "naechster": "Haikyu!!"
+   "naechster": "Sword Art Online"
   },
   {
    "name": "Disney+",
@@ -115,6 +119,42 @@
     }
    ],
    "naechster": "Sin: The Movie"
+  },
+  {
+   "name": "Suchadressen",
+   "plattform": "suchadressen",
+   "gemeldet": 0,
+   "gesamt": 6,
+   "offen": 6,
+   "ohneSeite": 0,
+   "ziel": "https://www.amazon.de/s?k=Danganronpa%203%3A%20The%20End%20of%20Hope%E2%80%99s%20Peak%20Academy%20-%20Future%20Arc&i=instant-video",
+   "ziele": [
+    {
+     "url": "https://www.amazon.de/s?k=Danganronpa%203%3A%20The%20End%20of%20Hope%E2%80%99s%20Peak%20Academy%20-%20Future%20Arc&i=instant-video",
+     "titel": "Danganronpa 3: The End of Hope’s Peak Academy - Future Arc"
+    },
+    {
+     "url": "https://www.amazon.de/s?k=Danganronpa%203%3A%20The%20End%20of%20Hope%E2%80%99s%20Peak%20High%20School%20-%20Hope%20Arc%20-%20The%20School%20of%20Hope%20and%20the%20Students%20of%20Despair&i=instant-video",
+     "titel": "Danganronpa 3: The End of Hope’s Peak High School - Hope Arc - The School of Hope and the Students of Despair"
+    },
+    {
+     "url": "https://www.amazon.de/s?k=Saekano%3A%20How%20to%20Raise%20a%20Boring%20Girlfriend%20%E2%99%AD&i=instant-video",
+     "titel": "Saekano: How to Raise a Boring Girlfriend.flat"
+    },
+    {
+     "url": "https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video",
+     "titel": "Shakugan no Shana: Season III"
+    },
+    {
+     "url": "https://www.amazon.de/s?k=THE%20GHOST%20IN%20THE%20SHELL&i=instant-video",
+     "titel": "The Ghost in the Shell"
+    },
+    {
+     "url": "https://www.amazon.de/s?k=From%20Old%20Country%20Bumpkin%20to%20Master%20Swordsman%20II&i=instant-video",
+     "titel": "Vom Landei zum Schwertheiligen II"
+    }
+   ],
+   "naechster": "Danganronpa 3: The End of Hope’s Peak Academy - Future Arc"
   }
  ]
 }
