@@ -2009,15 +2009,6 @@ async function grenzeUebernehmen() {
   )
 }
 
-async function probeGrenzeUmschalten() {
-  probeGrenze = probeGrenze === 2 ? RAND : probeGrenze === RAND ? 0 : 2
-  try {
-    await chrome.storage.local.set({ [PROBE_SCHLUESSEL]: probeGrenze })
-  } catch {
-    /* Dann gilt die Einstellung nur für diese Sitzung. */
-  }
-  durchlaufKnopfZeigen()
-}
 
 const durchlaufSchluessel = (reihe) => `ak-durchlauf-${reihe}`
 
@@ -3157,7 +3148,7 @@ function durchlaufKnopfZeigen() {
           offen: durchlaufOffen().length,
           folgenBekannt: DURCHLAUF.folgen.length,
           gemeldet: DURCHLAUF.gemeldet.size,
-          grenze: probeGrenze,
+          auftrag: durchlaufAuftrag()?.map((f) => f.nummer) ?? null,
           shift: e.shiftKey,
         }
         if (DURCHLAUF.laeuft) {
@@ -3180,20 +3171,28 @@ function durchlaufKnopfZeigen() {
           Fassung auf den Hauptweg und die teure hinter den Griff.
         */
         /* Umschalt kehrt die Einstellung für diesen einen Lauf um. */
-        void durchlaufStarten(e.shiftKey ? (probeGrenze ? 0 : 2) : probeGrenze)
+        /*
+          Die Grenze ist Geschichte: `durchlaufStarten()` liest den Auftrag aus
+          der Prüfliste und fällt sonst auf erste und letzte offene Folge
+          zurück. Umschalt bleibt als Griff für den vollen Lauf.
+        */
+        void durchlaufStarten(e.shiftKey ? 0 : undefined)
       },
     )
     /*
-      Der Schalter sitzt am Knopf, nicht in den Optionen: Er wird beim
-      Erproben ständig gebraucht und soll dort sein, wo die Arbeit stattfindet.
+      **Den Modus-Umschalter gibt es seit dem 10.09.2026 nicht mehr.**
+
+      Er wechselte zwischen „zwei Folgen", „alle" und „Anfang und Ende" — eine
+      Frage an den Menschen, deren Antwort seit heute Vormittag in der Prüfliste
+      steht: Sie nennt je Eintrag `erste` und `folgen`, also „S1 Folge 26" oder
+      „S1 F13–15". `durchlaufAuftrag()` liest das, und der Knopf schreibt es hin.
+
+      Daniel: „mach es so das es minimal invasiv für mich ist und gleichzeitig
+      maximale abdeckung hat, ein button für alles je nach zustand und
+      melde-item." Wo die Liste nichts Genaues weiß, bleibt es bei erster und
+      letzter offener Folge — dem sparsamen Weg, der seit dem 26.08.2026 der
+      richtige ist.
     */
-    DURCHLAUF.grenzKnopf = document.createElement('button')
-    DURCHLAUF.grenzKnopf.className = 'ak-durchlauf ak-grenze'
-    DURCHLAUF.grenzKnopf.addEventListener('click', () => {
-      console.log('[Anime-Kalender] Schalter geklickt, Grenze war', probeGrenze)
-      void probeGrenzeUmschalten()
-    })
-    DURCHLAUF.leiste.appendChild(DURCHLAUF.grenzKnopf)
 
     /**
      * **Was nur der Rechtsklick konnte, kann jetzt ein Knopf.**
@@ -3251,18 +3250,7 @@ function durchlaufKnopfZeigen() {
 
     Der Klick hat also immer funktioniert. Nur die Anzeige kam nicht mehr dazu.
   */
-  if (DURCHLAUF.grenzKnopf) {
-    DURCHLAUF.grenzKnopf.hidden = DURCHLAUF.laeuft
-    if (DURCHLAUF.nochmalKnopf) DURCHLAUF.nochmalKnopf.hidden = DURCHLAUF.laeuft
-    DURCHLAUF.grenzKnopf.textContent =
-      probeGrenze === RAND ? '⇤⇥' : probeGrenze ? `⏱ ${probeGrenze}` : '⏱ alle'
-    DURCHLAUF.grenzKnopf.title =
-      probeGrenze === RAND
-        ? 'Prüft nur die erste und die letzte Folge und nimmt an, dass alles dazwischen gleich ist.\nKlick: auf „alle" umstellen.'
-        : probeGrenze
-          ? `Ein Klick prüft ${probeGrenze} Folgen.\nKlick: auf Anfang und Ende umstellen.`
-          : 'Ein Klick prüft alle offenen Folgen.\nKlick: auf zwei begrenzen.'
-  }
+  if (DURCHLAUF.nochmalKnopf) DURCHLAUF.nochmalKnopf.hidden = DURCHLAUF.laeuft
   if (!DURCHLAUF.laeuft && DURCHLAUF.stoerung) {
     /*
       **Nicht jede Störung heißt „zu viele Tabs".**
@@ -3409,9 +3397,27 @@ function durchlaufKnopfZeigen() {
   }
   /* Die offenen Folgen selbst — für die Spanne im Knopftext. */
   const liste = durchlaufOffen()
-  const jetzt = probeGrenze === RAND ? Math.min(offen, 2) : probeGrenze ? Math.min(offen, probeGrenze) : offen
-  DURCHLAUF.knopf.textContent =
-    probeGrenze === RAND && offen > 2
+  /**
+   * **Der Knopf sagt, was er tut — und das steht in der Prüfliste.**
+   *
+   * Drei Lagen, und keine davon fragt zurück:
+   *
+   * | Was die Prüfliste sagt | Was der Knopf tut |
+   * |---|---|
+   * | genaue Folgen („S1 F26", „S1 F13–15") | prüft genau die, vollständig |
+   * | nur „diese Staffel ist offen" | erste und letzte offene — der sparsame Weg |
+   * | nichts mehr offen | erscheint gar nicht |
+   *
+   * Daniel am 10.09.2026: „ein button für alles je nach zustand und melde-item."
+   * Ein Umschalter davor wäre eine Frage an den Menschen, deren Antwort schon
+   * dasteht.
+   */
+  const auftrag = durchlaufAuftrag()
+  DURCHLAUF.knopf.textContent = auftrag
+    ? auftrag.length === 1
+      ? `▶ Folge ${auftrag[0].nummer} prüfen`
+      : `▶ Folgen ${alsBereiche(auftrag.map((f) => Number(f.nummer))).join(', ')} prüfen`
+    : offen > 2
       ? /*
           **Zwei Folgen, keine Spanne.** „Anfang & Ende (1–26)" las sich wie
           „prüft 1 bis 26" — Daniel am 10.09.2026: „erst stand auf button 1-26,
@@ -3420,9 +3426,7 @@ function durchlaufKnopfZeigen() {
           sagt, was der Bindestrich verschwiegen hat.
         */
         `▶ nur F${liste[0]?.nummer ?? 1} + F${liste[liste.length - 1]?.nummer ?? offen}`
-      : jetzt < offen
-        ? `▶ ${jetzt} von ${offen} prüfen`
-        : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
+      : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
   const stand =
     offen === DURCHLAUF.folgen.length
       ? `${offen} Folgen sind bekannt. Jede wird kurz geöffnet; das landet in „Weiter ansehen".`
@@ -3449,7 +3453,7 @@ function durchlaufKnopfZeigen() {
     (ohneSpur
       ? `\n${ohneSpur} Folge(n) lieferten binnen zwanzig Sekunden keine Tonspur. Das ist keine Störung — ein zweiter Lauf holt sie meist.`
       : '') +
-    '\nUmschalt+Klick: kehrt die Grenze für einen Lauf um.' +
+    '\nUmschalt+Klick: prüft alle offenen Folgen statt nur der genannten.' +
     '\nDer Knopf „↻ alle" daneben prüft auch schon gemeldete Folgen noch einmal.'
 }
 

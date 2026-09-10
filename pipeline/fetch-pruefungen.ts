@@ -313,6 +313,7 @@ let uebernommen = 0
 let selbstZugeordnet = 0
 /** Meldungen, die über ihre Staffelnummer an den richtigen Titel der Reihe gingen. */
 let nachStaffelZugeordnet = 0
+let nachFolgentitelZugeordnet = 0
 /** Meldungen, deren Suchadresse den Titel im Klartext trug. */
 let ausSuchadresseZugeordnet = 0
 /** Wie viele Adressen die Meldung selbst zugeordnet hat — der Weg ohne Raten. */
@@ -587,6 +588,56 @@ for (const gruppe of jeAdresse.values()) {
    * Adresse, hat die Adresse selbst die bessere Auskunft, und `verteileAufStaffeln`
    * arbeitet damit weiter wie bisher.
    */
+  /**
+   * **Nennt der Folgentitel die Ausgabenart, gehört die Meldung der Nebenausgabe.**
+   *
+   * Daniel am 10.09.2026: „das einzige problem war das netflix hier ova
+   * reingemischt hat, aber diese info ist ohne in player reinzugehen bereits
+   * scrape-bar … du musst doch eig nur die titel aller episoden kennen, um es
+   * beim abgleich später korrekt zuordnen zu können?"
+   *
+   * Er hat recht, und die Information war die ganze Zeit unterwegs: Die
+   * Erweiterung schickt `folge` mit, bei Haikyu!! Staffel 1 Folge 26 steht dort
+   * „Haikyu! OVA". Der Worker speichert sie seit Migration 028.
+   *
+   * **Warum Zahlen es nicht können:** Netflix' Staffel 1 hat 26 Folgen, unsere
+   * 25 — die 26. ist die OVA. Über Nummern ist das nicht von einer
+   * 26-teiligen Serie zu unterscheiden, und zwei Zerlegungen mit derselben
+   * Summe schon gar nicht (am selben Tag real: vier falsche Belege). Ein Wort
+   * im Titel entscheidet es.
+   *
+   * **Zwei Bedingungen, beide notwendig:** Der Folgentitel nennt die Art, und
+   * an der Adresse hängt **genau ein** Titel dieser Art. Sonst bleibt es beim
+   * bisherigen Weg — ein erzwungener Treffer wäre schlimmer als keiner.
+   */
+  {
+    const ausgabenart = (text: string): 'OVA' | 'SPECIAL' | null => {
+      const t = text.toLowerCase()
+      if (/\bova\b|\boav\b/.test(t)) return 'OVA'
+      if (/\bspecial|\bsonderfolge|\bsonderbeitrag/.test(t)) return 'SPECIAL'
+      return null
+    }
+    const gemeldeteArt = gruppe
+      .map((x) => (x.folge ? ausgabenart(String(x.folge)) : null))
+      .find((a): a is 'OVA' | 'SPECIAL' => Boolean(a))
+    if (gemeldeteArt && ids.length) {
+      /* Alle Titel dieser Adresse — auch die, die der Namensweg nicht fand. */
+      const kandidaten = (nachUrl.get(schluesselAdresse(p.url)) ?? ids)
+        .map((n) => liste.find((x) => x.id === n))
+        .filter((t): t is NonNullable<typeof t> => Boolean(t))
+        .filter((t) => t.format === gemeldeteArt)
+      if (kandidaten.length === 1 && !ids.includes(kandidaten[0]!.id)) {
+        log(
+          `Folgentitel „${gruppe.find((x) => x.folge)?.folge}" nennt ${gemeldeteArt} — ` +
+            `Meldung geht an ${kandidaten[0]!.id} („${kandidaten[0]!.titleDe ?? kandidaten[0]!.titleEn}") ` +
+            `statt an ${ids.join(', ')}`,
+        )
+        ids = [kandidaten[0]!.id]
+        nachFolgentitelZugeordnet++
+      }
+    }
+  }
+
   if (ids.length === 1) {
     const staffelNr = gruppe
       .map((x) => x.staffel)
@@ -1165,6 +1216,9 @@ log(
       : '') +
     (nachStaffelZugeordnet
       ? `, ${nachStaffelZugeordnet} über die Staffelnummer an den Titel der Reihe`
+      : '') +
+    (nachFolgentitelZugeordnet
+      ? `, ${nachFolgentitelZugeordnet} über den Folgentitel an die Nebenausgabe`
       : '') +
     (ausgelassenKanal
       ? `, ${ausgelassenKanal} Kanal-Meldung(en) ohne Urteil ausgelassen (sie würden nur einen jüngeren Beleg verdecken)`
