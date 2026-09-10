@@ -3062,6 +3062,42 @@ ungenauer und trägt trotzdem, weil ein Mensch die zwanzig Zeilen liest.
 „Ein neuer Abruf braucht drei Dinge": *Wer liest, was er schreibt — und steht
 dessen Name irgendwo im Code?*
 
+## Eine fremde Quelle taugt als Wegweiser, auch wo sie als Zeuge nicht taugt
+
+Am 07.09.2026 ist entschieden worden, dass aus JustWatchs Tonspurangabe **kein**
+`dub` wird: Sie gilt der Serie, nicht der Folge, und unser Kalender antwortet je
+Ausgabe. Die Entscheidung steht.
+
+Am 10.09.2026 hat dieselbe Datei trotzdem einen Verweis geklärt — über etwas
+anderes, das nebenbei darin steht:
+
+```json
+{ "anbieter": "Crunchyroll", "audio": ["de", "en", "ja"],
+  "url": "https://www.crunchyroll.com/watch/GVWU0Q527" }
+```
+
+Unser eigener Verweis lautete `crunchyroll.com/de/sword-art-online` — ein Slug
+aus der Frühzeit, der auf die **Reihe** zeigt, während unser Titel die EXTRA
+EDITION ist. Aus einem Slug wird kein Urteil. Aus der Kennung daneben schon:
+Damit greift der Zweig, der ohnehin der beste ist, und Crunchyroll nennt selbst
+die Fassungen dieser Folge.
+
+**Der Unterschied ist nicht die Quelle, sondern die Frage an sie.** „Läuft das
+auf Deutsch" beantwortet JustWatch schlechter als der Anbieter selbst. „Wo genau
+liegt das beim Anbieter" beantwortet JustWatch besser als unser Altbestand — und
+diese Antwort ist überprüfbar, weil die erste Hand danach gefragt wird.
+
+**Prüffrage vor jedem „diese Quelle taugt nicht":** Taugt sie *für diese eine
+Angabe* nicht — oder für gar nichts? Eine verworfene Quelle wird sonst zweimal
+verworfen: einmal zu Recht, einmal zu Unrecht.
+
+**Und geliehene Kennungen belegen nur sich selbst.** Der erste Lauf lieferte den
+Gegenfall sofort mit: Für „Okko's Inn" nennt JustWatch `GWDU8PMGG`, Crunchyroll
+kennt die Kennung nicht mehr — und der Code hätte daraus `herkunft: 'tot'`
+gemacht und **unseren** Verweis auf `/okkos-inn/…` entfernt, der davon
+unberührt ist. Ein 404 gilt dem Verweis, der die Kennung selbst trägt; alles
+andere ist ein Schluss von einer fremden Adresse auf die eigene.
+
 ## Wer eine Datei anwendet, muss hinter jeder Stelle stehen, die Verweise anlegt
 
 Am 10.09.2026 dreimal in zwei Stunden derselbe Fehler, jedes Mal an einer
