@@ -242,11 +242,37 @@ function AntwortKasten({
     if (tage <= 6) return T('antwort.inTagen', { count: tage })
     return ''
   }
+  /*
+    Dieselbe Angabe, aber kleingeschrieben: Sie steht jetzt mitten im Satz
+    („erscheint in 2 Tagen, am …") statt am Satzanfang. Ein großes „Heute"
+    dort liest sich wie ein Fehler.
+  */
+  const relativImSatz = (datum: string): string => {
+    const tage = Math.round(
+      (new Date(`${datum}T12:00:00Z`).getTime() - new Date(`${today}T12:00:00Z`).getTime()) / 86400000,
+    )
+    if (tage <= 0) return T('antwort.relHeute')
+    if (tage === 1) return T('antwort.relMorgen')
+    if (tage <= 6) return T('antwort.relInTagen', { count: tage })
+    return ''
+  }
+  /** Was hervorgehoben wird, trägt die Akzentfarbe des Kastens. */
+  const betont = (text: string): ReactNode => (
+    <span className="text-sky-700 dark:text-sky-300">{text}</span>
+  )
 
-  let haupt: string
+  /*
+    **Überschrift und Zählzeile sind Knoten, keine Zeichenketten.**
+
+    Daniel am 10.09.2026: „use coloring". Was hervorgehoben werden soll — die
+    Folgennummer, die Zahl der erschienenen Folgen —, steht mitten im Satz;
+    ohne Auszeichnung im Text ist das nicht zu machen. Alle übrigen Zustände
+    setzen weiterhin schlichte Zeichenketten, die als Knoten durchgehen.
+  */
+  let haupt: ReactNode
   let neben: string
   let anteil: number | undefined
-  let zaehl: string
+  let zaehl: ReactNode
   let fakten: { wert: string; was: string }[] | undefined
   let gedaempft = false
   /** Woher die Nebenzeile stammt — nur gesetzt, wo sie eine Fremdangabe ist. */
@@ -254,9 +280,30 @@ function AntwortKasten({
 
   if (antwort.art === 'laeuft') {
     const e = antwort.haupt
-    const rel = relativ(e.date)
-    haupt = [rel, formatDate(e.date)].filter(Boolean).join(', ')
-    if (e.episode) haupt += ` — ${T('antwort.folge', { n: e.episode })}`
+    /*
+      **Zuerst die Sache, dann der Termin** (Daniel, 10.09.2026: „it is
+      important to mention the important part first"). Vorher stand dort
+      „In 2 Tagen, 12.09.2026 — Folge 2" — drei Angaben, aneinandergereiht, und
+      die wichtigste hinten.
+
+      Der Wochentag steht ausgeschrieben im Satz, weil er die Frage „wann
+      ungefähr" schneller beantwortet als ein Datum. Er verschwindet dafür aus
+      der Rhythmuszeile darunter: zweimal „Samstag" auf einem Bildschirm wäre
+      dieselbe Auskunft doppelt.
+    */
+    const rel = relativImSatz(e.date)
+    const wasKommt = antwort.raus === 0 ? 'erste' : 'naechste'
+    const kopf = e.episode
+      ? T(`antwort.${wasKommt}FolgeNr`, { n: e.episode })
+      : T(`antwort.${wasKommt}Folge`)
+    const termin = rel
+      ? T('antwort.erscheintRelativ', { rel, tag: weekdayName(e.date), datum: formatDate(e.date) })
+      : T('antwort.erscheintDatum', { tag: weekdayName(e.date), datum: formatDate(e.date) })
+    haupt = (
+      <>
+        {betont(kopf)} <span className="font-normal text-slate-700 dark:text-slate-300">{termin}</span>
+      </>
+    )
     neben = [
       /*
         **Der Wochentag wird ausgeschrieben, nicht abgeschnitten.**
@@ -271,7 +318,14 @@ function AntwortKasten({
         kommt, muss nicht täglich nachsehen. Zwei Zeichen zu sparen war der
         schlechteste denkbare Tausch dafür.
       */
-      T('antwort.rhythmusWoechentlich', { tag: weekdayName(e.date).toLowerCase() }),
+      /*
+        **Der Wochentag ist nach oben gewandert, nicht verschwunden.** Er steht
+        seit dem 10.09.2026 ausgeschrieben im Satz der Überschrift („am Samstag
+        den 12.09.2026"); ihn hier zu wiederholen wäre dieselbe Auskunft
+        zweimal. Was bleibt, ist die Frequenz — und die sagt zusammen mit dem
+        Tag oben alles, was „Wöchentlich samstags" sagte.
+      */
+      T('antwort.rhythmusWoechentlichKurz'),
       /*
         **„Noch X" heißt: X stehen aus — die nächste eingerechnet.**
 
@@ -287,8 +341,20 @@ function AntwortKasten({
         : T('antwort.letzteFolge'),
     ].join(' · ')
     anteil = antwort.gesamt ? Math.round((antwort.raus / antwort.gesamt) * 100) : undefined
+    /*
+      **Die erschienenen Folgen sind die zweite betonte Angabe** (Daniel,
+      10.09.2026: „emphasize already released episodes and next episodes").
+      Hervorgehoben wird die Zahl, nicht der Satz: Wer den Kasten überfliegt,
+      soll sehen, wie viel schon da ist.
+    */
     zaehl = antwort.gesamt
-      ? T('antwort.erschienenZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
+      ? (
+          <>
+            <span className="font-semibold text-emerald-700 dark:text-emerald-400">{antwort.raus}</span>
+            {' '}
+            {T('antwort.erschienenRest', { gesamt: antwort.gesamt })}
+          </>
+        )
       : ''
   } else if (antwort.art === 'teilweise') {
     /*

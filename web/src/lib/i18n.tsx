@@ -415,12 +415,45 @@ const TEXTE = {
   'antwort.morgen': 'Morgen',
   'antwort.inTagen': 'In {count} Tagen',
   'antwort.folge': 'Folge {n}',
+  /*
+    **Die Überschrift nennt zuerst, wonach gefragt wird.**
+
+    Bis zum 10.09.2026 stand dort „In 2 Tagen, 12.09.2026 — Folge 2": erst der
+    Abstand, dann das Datum, und die Folge als Nachtrag hinter einem Strich.
+    Daniel: „title needs to emphasize already released episodes and next
+    episodes … it is important to mention the important part first."
+
+    Jetzt steht vorn, worum es geht — „Nächste Folge (Folge 2)" —, und der
+    Termin folgt als Satz. Der Wochentag steht dabei ausgeschrieben im Datum
+    und ist deshalb aus der Rhythmuszeile darunter verschwunden: „am Samstag
+    den 12.09.2026" und „Wöchentlich samstags" wären dieselbe Auskunft zweimal
+    auf einem Bildschirm (CLAUDE.md, „Keine Information zweimal").
+  */
+  'antwort.naechsteFolge': 'Nächste Folge',
+  'antwort.naechsteFolgeNr': 'Nächste Folge (Folge {n})',
+  // Wo noch keine Folge draußen ist, ist die nächste die erste — und das ist
+  // die interessantere Auskunft: Die Reihe fängt an.
+  'antwort.ersteFolgeNr': 'Erste Folge (Folge {n})',
+  'antwort.ersteFolge': 'Erste Folge',
+  'antwort.erscheintRelativ': 'erscheint {rel}, am {tag} den {datum}.',
+  // Ab einer Woche Abstand rechnet niemand mehr in Tagen — dann trägt das
+  // Datum allein.
+  'antwort.erscheintDatum': 'erscheint am {tag} den {datum}.',
+  'antwort.relHeute': 'heute',
+  'antwort.relMorgen': 'morgen',
+  'antwort.relInTagen': 'in {count} Tagen',
+  // Ohne Wochentag: der Rhythmus sagt nur noch die Frequenz, der Tag steht in
+  // der Überschrift.
+  'antwort.rhythmusWoechentlichKurz': 'Wöchentlich',
   'antwort.rhythmusWoechentlich': 'Wöchentlich {tag}s',
   // „freitags", nicht „Frs" — siehe DetailPanel. Kleingeschrieben, weil es ein
   // Adverb ist: „wöchentlich freitags".
   'antwort.nochFolgen': 'noch {count} bis zum Finale am {datum}',
   'antwort.letzteFolge': 'letzte Folge',
   'antwort.erschienenZahl': '{raus} von {gesamt} Folgen erschienen',
+  // Dieselbe Zeile, aber ohne die vordere Zahl: Die steht hervorgehoben
+  // davor, weil sie die Auskunft ist, um die es geht.
+  'antwort.erschienenRest': 'von {gesamt} Folgen erschienen',
   // Steht nur noch, wo die Folgenzahl fehlt — sonst trägt „Alle {count} Folgen
   // auf Deutsch" die Überschrift allein. „Vollständig synchronisiert" und
   // „Alle Folgen auf Deutsch" sagten dasselbe noch zwei weitere Male und sind
