@@ -1054,8 +1054,32 @@ function playerAuftragOffen() {
   } catch {
     /* Ohne lesbare Adresse entscheidet die Prüfliste allein. */
   }
+  /*
+    **`gemeinteReihe()` beantwortet eine andere Frage — und sagt nie nein.**
+
+    Sie löst auf, **welche** Reihe gemeint ist, und fällt am Ende auf
+    `stand.reihe` zurück: die Reihe, die gerade läuft. Als Ja/Nein-Test ist sie
+    damit auf **jeder** Player-Seite wahr. Am 10.09.2026 stand deshalb über
+    „Heroes", Staffel 3, Folge 17 der Kasten „Folge 17: kein Deutsch gefunden" —
+    kein Anime, nicht auf der Prüfliste, Daniel wollte einfach fernsehen: „wieso
+    ist die extension hier??? fail."
+
+    Es ist derselbe Titel wie am 30.08.2026 („i am just watching something,
+    there should be no elements from the extension on screen") und dieselbe
+    Regel — nur an einer zweiten Stelle, die es damals noch nicht gab. Eine
+    Regel, die für einen Anzeigeweg aufgeschrieben wurde, gilt nicht von selbst
+    für den nächsten.
+
+    `istGesucht()` steht zwanzig Zeilen darüber und stellt genau die richtige
+    Frage: Steht die Reihe in `offeneTitel`? Sie war die ganze Zeit da.
+
+    **Die allgemeine Form:** Eine Funktion, die einen Wert **auflöst**, ist kein
+    Test. Sie hat einen Rückfall, und ein Rückfall liefert immer etwas — sonst
+    wäre er keiner. `Boolean(x())` über einer solchen Funktion ist deshalb
+    fast immer `true`.
+  */
   try {
-    return Boolean(gemeinteReihe())
+    return istGesucht()
   } catch {
     return false
   }

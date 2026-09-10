@@ -3602,6 +3602,31 @@ Auswahlfeld mit dem Staffel-2-Namen, `lage.staffelZahl: 2`, und am Knopf stand 1
 aus, wenn sie zu dem Zeitpunkt genommen wird, den sie beschreiben soll. „Jetzt"
 ist beim Senden ein anderes Jetzt als beim Abrufen.
 
+### Eine Auflösefunktion ist kein Test — sie sagt nie nein
+
+Am 10.09.2026 stand über „Heroes", Staffel 3, Folge 17 der Kasten „Folge 17:
+kein Deutsch gefunden". Kein Anime, nicht auf der Prüfliste; Daniel wollte
+fernsehen: „wieso ist die extension hier??? fail."
+
+Der Riegel war gebaut und griff nie.  fragte
+ — und  **löst auf**, welche Reihe
+gemeint ist. Sie hat einen Rückfall (), und ein Rückfall
+liefert immer etwas, sonst wäre er keiner. Auf jeder Player-Seite war der Test
+damit wahr. Zwanzig Zeilen darüber stand  und stellte genau die
+richtige Frage: Steht die Reihe in ?
+
+**Die allgemeine Form:**  über einer Funktion mit Rückfall ist
+fast immer . Prüffrage vor jedem solchen Test: **Unter welcher Bedingung
+gibt diese Funktion etwas Falsches zurück?** Fällt keine ein, ist es kein Test.
+
+Und die zweite Lehre ist eine Wiederholung: Es war **derselbe Titel** wie am
+30.08.2026 („i am just watching something, there should be no elements from the
+extension on screen") — dieselbe Regel, eine zweite Anzeigestelle, die es damals
+noch nicht gab. Wer eine Regel aufschreibt, prüft im selben Zug, wo dasselbe
+Problem noch existiert; wer eine **neue Anzeige** baut, sucht die Regeln, die
+für die alten gelten.  führt den Fall
+jetzt aus, statt ihn zu lesen — die Gegenprobe fällt.
+
 ### Beim Fernsehen ist die Erweiterung unsichtbar
 
 Am 30.08.2026 stand über einer laufenden Folge „Heroes" unten rechts ein Knopf:
