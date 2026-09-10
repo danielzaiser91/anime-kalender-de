@@ -10,8 +10,7 @@ hat, und wann wir das nächste Mal nachsehen. Erscheint die Folge später doch, 
 Anbieters, News-Seite, Social Media —, trägt den neuen Termin und die Quelle dort ein. Der
 nächste Lauf bestätigt ihn oder verwirft ihn.
 
-Stand: 2026-09-10 11:28 · 1 offen, 1 nachgeholt
+Stand: 2026-09-10 14:32 · 0 offen, 1 nachgeholt
 
 | Titel | Folge | erwartet | beim Anbieter | neu erwartet | Recherche |
 |---|---|---|---|---|---|
-| Tomb Raider King | 7 | 2026-09-09 17:15 | 6 Folgen | — | **offen** |
