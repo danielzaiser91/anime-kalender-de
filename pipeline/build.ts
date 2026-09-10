@@ -3277,11 +3277,45 @@ function main(): void {
       const b = linkBefunde[u]
       return b?.prime === true && b.status === 200
     }
+    /**
+     * **Die zweite Quelle für „diese Seite gibt es": Daniels eigene Notiz.**
+     *
+     * Der Riegel darüber verlangt einen Link-Befund mit Status 200. Den gibt es
+     * für Amazon nur in Losen — der Prüflauf kommt nach rund 660 Abrufen in die
+     * Abwehr und bucht danach `unklar` (623 Adressen am 07.09.2026). Deshalb
+     * stand am 10.09.2026 für 33 Titel eine Amazon-**Suche** im Kalender,
+     * obwohl aniSearch die Titelseite kennt und Daniel sie beim Prüfen selbst
+     * offen hatte.
+     *
+     * Genau das ist der Beleg: Seine Notiz nennt die Kennung, auf der er
+     * nachgesehen hat („Amazon-Seite B0F2GXP162 … Seitenadresse: B0DXS2THFS").
+     * Steht **dieselbe** Kennung auch in aniSearchs Quellenliste, haben zwei
+     * unabhängige Stellen dieselbe Seite genannt — ein Mensch mit der Seite vor
+     * Augen schlägt einen HTTP-Statuscode.
+     *
+     * Gemessen: 19 der 33 tragen das. Die übrigen 14 bleiben bei der Suche —
+     * entweder kennt aniSearch keine Kennung (7) oder die Notiz nennt eine
+     * andere Seite als aniSearch (7), und dann entscheidet nichts.
+     */
+    const ausNotiz = (): string | undefined => {
+      const notizen = (checksJePlattform.get(dubKey(title.id, 'primevideo')) ?? [])
+        .map((c) => c.note ?? '')
+        .join(' ')
+      if (!notizen) return undefined
+      for (const quelle of anisearch[title.id]?.streams ?? []) {
+        const kennung = /amazon\.[a-z.]+\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,})/i.exec(
+          String(quelle.url ?? ''),
+        )?.[1]
+        if (kennung && notizen.includes(kennung)) return `https://www.amazon.de/dp/${kennung}`
+      }
+      return undefined
+    }
     const echt =
       (title.watchLinks ?? []).find((w) => belegt(w.url))?.url ??
       (anisearch[title.id]?.streams ?? [])
         .map((s) => s.url?.split('?')[0])
-        .find((u) => belegt(u))
+        .find((u) => belegt(u)) ??
+      ausNotiz()
     if (!echt) continue
     prime.url = echt
     ersetzt++
