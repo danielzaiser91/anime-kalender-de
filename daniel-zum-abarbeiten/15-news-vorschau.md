@@ -1,13 +1,14 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-09. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-10. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-53 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+58 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
+| 2026-09 (Monat) | disc | ✅ zugesagt | [Deutscher Synchro-Trailer zu »My Gift Lvl 9999 Unlimited Gacha«](https://www.anime2you.de/news/1048275/my-gift-lvl-9999-unlimited-gacha-synchro-trailer/) |
 | 2026-09-30, 2026-09 (Monat) | disc | – unklar | [Limitierte Steelcase-Edition von »DAN DA DAN« zum Sonderpreis](https://www.anime2you.de/news/1045863/animoon-monatsangebot-dan-da-dan/) |
 | 2026-09 (Monat) | primevideo, aniverse | – unklar | [Neue Anime-Katalogtitel im September 2026 bei aniverse](https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/) |
 | 2026-09 (Monat) | disc | – unklar | [Anime-Neuheiten im September 2026 auf DVD und Blu-ray](https://www.anime2you.de/news/1043751/disc-neuheiten-september-2026/) |
@@ -29,6 +30,8 @@ Stand: 2026-09-09. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10-16, 2026-10 (Monat) | crunchyroll, disc | – unklar | [Design der Blu-ray-Box der vierten »Rent-A-Girlfriend«-Staffel + Extras](https://www.anime2you.de/news/1039040/rent-a-girlfriend-staffel-4-box-design/) |
 | 2026-10-17 | crunchyroll, adn | – unklar | [Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer](https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/) |
 | 2026-10-22 | disc | – unklar | [Sieben Blu-ray-Neuheiten ab sofort bei Anime Planet vorbestellbar](https://www.anime2you.de/news/1043419/anime-planet-oktober-november-2026-vorbestellung/) |
+| 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [Design der limitierten Blu-ray-Edition von »Clevatess« enthüllt](https://www.anime2you.de/news/1048245/clevatess-limited-edition-blu-ray-design/) |
+| 2026-11 (Monat) | ? | – unklar | [Limitierte Steelcase-Edition von »Good Luck Girl!« vorbestellbar](https://www.anime2you.de/news/1048260/good-luck-girl-steelcase-edition-vorbestellbar/) |
 | 2026-11 (Monat) | crunchyroll, disc | – unklar | [Blu-ray-Termin der zweiten Staffel von »As a Reincarnated Aristocrat«](https://www.anime2you.de/news/1046924/as-a-reincarnated-aristocrat-staffel-2-disc-termin/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [»A Silent Voice« erscheint als Steelbook-Edition auf Blu-ray](https://www.anime2you.de/news/1044326/a-silent-voice-steelbook-edition/) |
 | 2026-11-20, 2026-11 (Monat) | crunchyroll, disc | – unklar | [Termin der vierten Blu-ray-Box von »Dragon Ball Z« + Design](https://www.anime2you.de/news/1044034/dragon-ball-z-box-4-termin/) |
@@ -45,36 +48,34 @@ Stand: 2026-09-09. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-19, 2026-11 (Monat) | disc | ✅ zugesagt | [»Mila Superstar« erscheint als Blu-ray-Komplettbox + Design](https://www.anime2you.de/news/1043895/mila-superstar-blu-ray-komplettbox/) |
 | 2026-11-26, 2026-11 (Monat) | netflix | ⚠️ offen | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
 | 2026-11-03, 2026-11 (Monat) | netflix | – unklar | [Netflix kündigt neuen Original-Anime »Bass X Machina« an + Teaser](https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/) |
-| 2026-11-20, 2026-11 (Monat) | ? | – unklar | [Disc-Releasetermin von »Good Luck Girl« steht fest + Design](https://www.anime2you.de/news/1042831/good-luck-girl-disc-releasetermin/) |
-| 2026-11-03, 2026-11-05, 2026-11 (Monat) | kino | – unklar | [Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser](https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/) |
-| 2026-11-27 | ? | – unklar | [Fünf Disc-Neuheiten im AKIBA PASS SHOP vorbestellbar](https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/) |
 
-… und 13 weitere.
+… und 18 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 6 |
-| adn-catalog | 8.9 Tage her | 114 |
-| anilist-voices | 8.9 Tage her | 0 |
-| anime-offline-database | 8.9 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 42 |
-| anisearch | 1.0 Tage her | 3179 |
-| anisearch-folgen | 7.5 Tage her | 3050 |
-| ann-voices | 8.9 Tage her | 8876 |
-| cinestar | 8.9 Tage her | 1 |
-| cr-einzelwerke | 6.9 Tage her | 9 |
-| cr-filmbloecke | 6.9 Tage her | 6 |
-| crunchyroll | 0.0 Tage her | 21 |
-| crunchyroll-dub | 1.8 Tage her | 1076 |
-| fsk | 8.9 Tage her | 3 |
-| justwatch-audio | 1.9 Tage her | 28 |
-| link-check | 1.5 Tage her | 6 |
-| motn | 7.0 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 7 |
-| rohfolgen | 0.2 Tage her | 0 |
-| tmdb-folgen | 8.8 Tage her | 808 |
-| tmdb-kino | 8.9 Tage her | 2 |
-| tmdb-titles | 8.8 Tage her | 389 |
-| youtube-check | 8.9 Tage her | 0 |
+| adn | 0.0 Tage her | 5 |
+| adn-catalog | 0.8 Tage her | 115 |
+| anilist-voices | 0.8 Tage her | 0 |
+| anime-offline-database | 0.8 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 41 |
+| anisearch | 0.8 Tage her | 3179 |
+| anisearch-folgen | 0.8 Tage her | 24 |
+| ann-voices | 0.8 Tage her | 8876 |
+| cinestar | 0.8 Tage her | 2 |
+| cr-einzelwerke | 7.9 Tage her | 9 |
+| cr-filmbloecke | 7.9 Tage her | 6 |
+| crunchyroll | 0.0 Tage her | 22 |
+| crunchyroll-dub | 0.8 Tage her | 1079 |
+| crunchyroll-offene | 0.1 Tage her | 8 |
+| fsk | 0.8 Tage her | 3 |
+| justwatch-audio | 0.6 Tage her | 6 |
+| link-check | 0.8 Tage her | 19 |
+| motn | 8.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 2 |
+| rohfolgen | 0.1 Tage her | 0 |
+| tmdb-folgen | 0.8 Tage her | 830 |
+| tmdb-kino | 0.8 Tage her | 3 |
+| tmdb-titles | 0.8 Tage her | 400 |
+| youtube-check | 0.8 Tage her | 1 |
