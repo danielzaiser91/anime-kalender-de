@@ -3062,6 +3062,43 @@ ungenauer und trägt trotzdem, weil ein Mensch die zwanzig Zeilen liest.
 „Ein neuer Abruf braucht drei Dinge": *Wer liest, was er schreibt — und steht
 dessen Name irgendwo im Code?*
 
+## Wer einen Fehlalarm abstellt, muss sagen, was der Wächter noch fangen soll
+
+Am 09.09.2026 stand auf frisch geladenen Seiten mit **einer** Staffel die
+Warnung „Staffel gewechselt". Ursache: `quelltextVeraltet()` verglich Titel und
+Kennung, und bei Sammelseiten (Digimon Tamers, Death Note Relight) weicht die
+`titleID` legitim von der Adress-Kennung ab. Der Fix war eine Zeile:
+
+```js
+if (kennungImQuelltextBekannt()) return false   // steht die Adress-Kennung im Quelltext?
+```
+
+Am 10.09.2026 meldete Daniel eine Bildschirmaufnahme: Nach dem Wechsel auf
+Staffel 2 stand der Melde-Knopf **vier Sekunden** scharf, während die Kopfzeile
+noch die alte Kennung nannte. Dieselbe Zeile war die Ursache — **beim
+Staffelwechsel steht die neue Kennung immer im alten Quelltext**, nämlich im
+Staffelwähler. Der Freibrief gegen den Fehlalarm deckte genau den Alarm zu, für
+den es den Wächter gibt.
+
+**Die allgemeine Form:** Ein Wächter schlägt in zwei Lagen an, einer echten und
+einer falschen. Wer die falsche abstellt, formuliert dabei eine Bedingung — und
+die trifft fast immer auch einen Teil der echten. Prüffrage vor jedem
+`return false`, das einen Alarm unterdrückt:
+
+> **Nenne die Lage, in der der Wächter weiterhin anschlagen soll — und rechne
+> die neue Bedingung an ihr durch.** Kommt „schlägt nicht mehr an" heraus, ist
+> der Wächter tot, nicht geheilt.
+
+Hier hätte die Rechnung dreißig Sekunden gedauert: Der Wächter soll den
+Seitenwechsel fangen. Beim Seitenwechsel steht die neue Kennung im
+Staffelwähler. Also schlägt er nicht mehr an.
+
+**Die Unterscheidung, die trägt, lag außerhalb des Quelltexts.** Eine
+Sammelseite trägt eine `titleID`, die **nie** in der Adresse stand; nach einem
+Staffelwechsel trägt der Quelltext die Kennung, die dort **gerade noch** stand.
+Wer sich die früheren Adress-Kennungen merkt, trennt beide Fälle sauber —
+gemessen an denselben Seiten, an denen zuvor beide Fassungen falsch lagen.
+
 ## Eine fremde Quelle taugt als Wegweiser, auch wo sie als Zeuge nicht taugt
 
 Am 07.09.2026 ist entschieden worden, dass aus JustWatchs Tonspurangabe **kein**
