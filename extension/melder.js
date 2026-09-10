@@ -3078,7 +3078,14 @@ function durchlaufKnopfZeigen() {
   const jetzt = probeGrenze === RAND ? Math.min(offen, 2) : probeGrenze ? Math.min(offen, probeGrenze) : offen
   DURCHLAUF.knopf.textContent =
     probeGrenze === RAND && offen > 2
-      ? `▶ Anfang & Ende (${liste[0]?.nummer ?? 1}–${liste[liste.length - 1]?.nummer ?? offen})`
+      ? /*
+          **Zwei Folgen, keine Spanne.** „Anfang & Ende (1–26)" las sich wie
+          „prüft 1 bis 26" — Daniel am 10.09.2026: „erst stand auf button 1-26,
+          ich hab geklickt, er hat gemeldet, jetzt steht 2-25… was ist los?"
+          Geprüft wurden genau zwei, und danach war der Rest offen. Das Pluszeichen
+          sagt, was der Bindestrich verschwiegen hat.
+        */
+        `▶ nur F${liste[0]?.nummer ?? 1} + F${liste[liste.length - 1]?.nummer ?? offen}`
       : jetzt < offen
         ? `▶ ${jetzt} von ${offen} prüfen`
         : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`

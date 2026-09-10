@@ -91,20 +91,44 @@ export interface VerpassterTermin {
   neuErwartet: string | null
   /** Von Hand: was die Recherche ergeben hat, mit Quelle. */
   recherche: string | null
+  /**
+   * Wird beim Schreiben aussortiert — die Folge kam am erwarteten Tag, der
+   * Vermerk beschreibt also nichts, was passiert ist. Steht bewusst nicht in
+   * der Datei, sondern nur zwischen Lesen und Schreiben.
+   */
+  gestrichen?: boolean
 }
 
 const ereignisse = readJson<Ereignis[]>('public/data/events.json', [])
 const kalender = readJson<Kalender>('data/crunchyroll.json', {})
 const verpasst = readJson<VerpassterTermin[]>('data/termine-verpasst.json', [])
 
-/* Beobachtungen je Serienadresse — der Schlüssel, über den ein Termin bestätigt wird. */
+/**
+ * **Der Schlüssel ist die Serienkennung, nicht die volle Adresse.**
+ *
+ * Beide Seiten nennen dieselbe Serie und schreiben sie verschieden: Der
+ * Kalender führt `…/series/GT00378123/tomb-raider-king`, die Veröffentlichung
+ * `…/series/GT00378123/`. Als Zeichenketten treffen sie sich **nie** — und
+ * damit fand kein einziger verpasster Termin je seine Bestätigung.
+ *
+ * Aufgefallen am 10.09.2026: „Tomb Raider King" stand mit „⚠ nicht erschienen"
+ * an Folge 7 im Kalender, während Crunchyroll sie seit dem 09.09. zeigt und
+ * unser eigener Bestand sie als beobachtet führt. Der Nachtrag darunter war
+ * gebaut und lief ins Leere.
+ *
+ * Die Kennung nach `/series/` ist eindeutig und überlebt jede Schreibweise des
+ * Slugs. Wo sie fehlt (andere Anbieter), bleibt die Adresse ohne ihre
+ * Schrägstriche am Ende der Schlüssel.
+ */
+const adressKern = (u: string): string =>
+  /\/series\/([A-Z0-9]+)/i.exec(String(u))?.[1] ?? String(u).replace(/\/+$/, '').toLowerCase()
+
+/* Beobachtungen je Serie — der Schlüssel, über den ein Termin bestätigt wird. */
 const gesehen = new Map<string, Beobachtung[]>()
 for (const eintrag of Object.values(kalender.german ?? {})) {
   if (!eintrag.seriesUrl) continue
-  gesehen.set(eintrag.seriesUrl, [
-    ...(gesehen.get(eintrag.seriesUrl) ?? []),
-    ...(eintrag.observations ?? []),
-  ])
+  const schluessel = adressKern(eintrag.seriesUrl)
+  gesehen.set(schluessel, [...(gesehen.get(schluessel) ?? []), ...(eintrag.observations ?? [])])
 }
 /* Ein Ereignis kennt die Serienadresse nicht — die Veröffentlichung schon. */
 const veroeffentlichungen = readJson<Array<{ slug: string; platformUrl?: string }>>(
@@ -115,7 +139,7 @@ const adresseJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.platform
 
 function beobachtungen(slug: string): Beobachtung[] {
   const adresse = adresseJeSlug.get(slug)
-  return adresse ? (gesehen.get(adresse) ?? []) : []
+  return adresse ? (gesehen.get(adressKern(adresse)) ?? []) : []
 }
 
 function zeitpunkt(e: Ereignis): Date {
@@ -215,6 +239,7 @@ for (const e of ereignisse) {
   frühere gehört zu einem Termin, der nie verpasst war.
 */
 let nachgeholt = 0
+let ohneVerzug = 0
 for (const v of verpasst) {
   if (v.erschienenAm) continue
   if (v.episode == null) continue
@@ -231,12 +256,35 @@ for (const v of verpasst) {
   */
   const uhrzeit = String(v.erwartetAm).slice(11, 19) || '00:00:00'
   const wirklich = new Date(`${treffer.date}T${uhrzeit}Z`)
+  const verzug = Math.round((wirklich.getTime() - new Date(v.erwartetAm).getTime()) / 36e5)
+  /**
+   * **Kein Verzug heißt: Der Termin wurde eingehalten.**
+   *
+   * Der Prüflauf sieht am Abend des Sendetags nach. Steht die Folge dann noch
+   * nicht da — weil der Anbieter eine Stunde später liefert, oder weil unsere
+   * Uhrzeit zehn Minuten danebenliegt —, entsteht ein Vermerk, den die
+   * Beobachtung desselben Tages sofort widerlegt. „Tomb Raider King" trug ihn
+   * an Folge 7, obwohl Crunchyroll sie am erwarteten Tag zeigte (10.09.2026).
+   *
+   * Ein solcher Eintrag wird nicht nachgetragen, sondern **gestrichen**: Er
+   * beschreibt nichts, was passiert ist.
+   */
+  if (verzug <= 0) {
+    v.gestrichen = true
+    ohneVerzug++
+    continue
+  }
   v.erschienenAm = wirklich.toISOString()
-  v.verzugStunden = Math.round((wirklich.getTime() - new Date(v.erwartetAm).getTime()) / 36e5)
+  v.verzugStunden = verzug
   nachgeholt++
 }
 
-writeJson('data/termine-verpasst.json', verpasst, true)
+if (ohneVerzug) log(`${ohneVerzug} Vermerk(e) gestrichen — die Folge kam am erwarteten Tag`)
+writeJson(
+  'data/termine-verpasst.json',
+  verpasst.filter((v) => !v.gestrichen),
+  true,
+)
 
 /* Die Arbeitsliste für die Handrecherche — offene Fälle zuerst. */
 const offen = verpasst.filter((v) => !v.erschienenAm)
