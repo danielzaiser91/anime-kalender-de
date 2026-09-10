@@ -22,6 +22,49 @@
   const MARKE = 'ak-disney'
   const MARKE_STEUER = 'ak-disney-steuer'
   const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
+
+  /**
+   * **Was auffällt, wird gemeldet — nicht in die Konsole geschrieben.**
+   *
+   * Daniel am 10.09.2026: „info bringt nix, du liest nix aus der console aus,
+   * ich lese auch nix aus … du musst informiert werden über issues." Jede
+   * Diagnose, die in der Browserkonsole endet, ist tote Information: Er schaut
+   * dort nicht hin, ich komme nicht daran.
+   *
+   * Der Weg ist derselbe, den die Meldungen ohnehin gehen — an den Worker, von
+   * dort holt ihn ein Datenlauf ab und legt ihn unter `daniel-zum-abarbeiten/`.
+   *
+   * **Drei Riegel**, damit der Melder nicht selbst zur Störquelle wird:
+   * dieselbe Art je Seite nur einmal pro Sitzung, höchstens zwanzig insgesamt,
+   * und jeder Fehler beim Melden bleibt stumm.
+   */
+  const VORFALL_GEMELDET = new Set()
+  let vorfallZahl = 0
+  async function vorfallMelden(art, daten = {}) {
+    try {
+      const schluessel = `${art}|${location.pathname}`
+      if (VORFALL_GEMELDET.has(schluessel) || vorfallZahl >= 20) return
+      VORFALL_GEMELDET.add(schluessel)
+      vorfallZahl++
+      const { token } = await chrome.storage.sync.get('token')
+      if (!token) return
+      await fetch(WORKER.replace('/pruefung', '/vorfall'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({
+          plattform: 'disneyplus',
+          art,
+          url: location.href.split('?')[0],
+          version: chrome.runtime?.getManifest?.()?.version ?? null,
+          ...daten,
+        }),
+      })
+    } catch {
+      /* Ein Vorfallbericht darf nie im Weg stehen. */
+    }
+  }
+
+
   /* Abstand zwischen zwei Abrufen — die Seite selbst macht einen je Klick. */
   const TAKT = 300
 
@@ -787,6 +830,14 @@
     )
     if (gescheitert.length) {
       console.warn(`[Anime-Kalender] ${gescheitert.length} Meldungen kamen nicht an:`, gescheitert)
+      /*
+        **Das ist der Fall, für den es den Meldeweg gibt.** Verlorene Befunde
+        sind Arbeit, die zweimal getan werden muss — und bis zum 10.09.2026 stand
+        die Zahl nur in der Konsole, wo sie niemand las.
+      */
+      void vorfallMelden('melden_fehlgeschlagen', {
+        text: `${gescheitert.length} Meldung(en) kamen nicht an: ${gescheitert.slice(0, 3).join('; ')}`,
+      })
     }
     await briefkastenHolen()
     zeigeUebersicht()

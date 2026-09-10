@@ -314,6 +314,49 @@ async function speicherSchreiben(werte) {
 
   const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
 
+  /**
+   * **Was auffällt, wird gemeldet — nicht in die Konsole geschrieben.**
+   *
+   * Daniel am 10.09.2026: „info bringt nix, du liest nix aus der console aus,
+   * ich lese auch nix aus … du musst informiert werden über issues." Jede
+   * Diagnose, die in der Browserkonsole endet, ist tote Information: Er schaut
+   * dort nicht hin, ich komme nicht daran.
+   *
+   * Der Weg ist derselbe, den die Meldungen ohnehin gehen — an den Worker, von
+   * dort holt ihn ein Datenlauf ab und legt ihn unter `daniel-zum-abarbeiten/`.
+   *
+   * **Drei Riegel**, damit der Melder nicht selbst zur Störquelle wird:
+   * dieselbe Art je Seite nur einmal pro Sitzung, höchstens zwanzig insgesamt,
+   * und jeder Fehler beim Melden bleibt stumm.
+   */
+  const VORFALL_GEMELDET = new Set()
+  let vorfallZahl = 0
+  async function vorfallMelden(art, daten = {}) {
+    try {
+      const schluessel = `${art}|${location.pathname}`
+      if (VORFALL_GEMELDET.has(schluessel) || vorfallZahl >= 20) return
+      VORFALL_GEMELDET.add(schluessel)
+      vorfallZahl++
+      const { token } = await chrome.storage.sync.get('token')
+      if (!token) return
+      await fetch(WORKER.replace('/pruefung', '/vorfall'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({
+          plattform: 'primevideo',
+          art,
+          url: location.href.split('?')[0],
+          version: chrome.runtime?.getManifest?.()?.version ?? null,
+          ...daten,
+        }),
+      })
+    } catch {
+      /* Ein Vorfallbericht darf nie im Weg stehen. */
+    }
+  }
+
+
+
   /** Kurz und eindeutig — der Knopf hat wenig Platz. */
   const ZUGANG_TEXT = {
     kauf: '💰 nur Kauf',
@@ -10425,6 +10468,14 @@ async function speicherSchreiben(werte) {
       }
     } catch (err) {
       knopf.textContent = `Nicht erreichbar: ${err.message}`
+      /*
+        **Ein Befund, der nicht ankommt, ist verlorene Arbeit.** Bis zum
+        10.09.2026 stand das nur am Knopf — und war weg, sobald Daniel die Seite
+        verließ. Der Vorfall überlebt das.
+      */
+      void vorfallMelden('melden_fehlgeschlagen', {
+        text: `Meldung nicht abgesetzt: ${String(err?.message ?? err).slice(0, 200)}`,
+      })
     }
     /**
      * „Gemeldet" bleibt stehen, bis sich etwas ändert.

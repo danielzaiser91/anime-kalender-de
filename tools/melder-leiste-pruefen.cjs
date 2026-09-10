@@ -216,6 +216,28 @@ pruefe(
   )
 }
 
+/**
+ * **Alle drei Melder erreichen mich, nicht nur die Konsole.**
+ *
+ * Daniel am 10.09.2026: „info bringt nix, du liest nix aus der console aus, ich
+ * lese auch nix aus … du musst informiert werden über issues." Seit 4.17.10
+ * meldet jede der drei Erweiterungsdateien ihre Vorfälle an den Worker, und ein
+ * Datenlauf legt sie unter `daniel-zum-abarbeiten/17-vorfaelle.md` ab.
+ *
+ * Diese Zusicherung hält fest, dass keine davon beim nächsten Umbau
+ * zurückfällt — eine Datei, die wieder nur `console.warn` schreibt, meldet
+ * nichts und sieht dabei aus wie vorher.
+ */
+{
+  const { resolve: pfad } = require('node:path')
+  for (const datei of ['melder.js', 'amazon.js', 'disney.js']) {
+    const text = readFileSync(pfad(__dirname, '..', 'extension', datei), 'utf8')
+    pruefe(`${datei} kennt vorfallMelden()`, text.includes('async function vorfallMelden('))
+    pruefe(`${datei} kennt den Endpunkt /vorfall`, text.includes("'/vorfall'"))
+    pruefe(`${datei} meldet mindestens einen Vorfall`, /void vorfallMelden\(/.test(text))
+  }
+}
+
 console.log('')
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) rot.`)
