@@ -81,6 +81,7 @@ import {
   DURCHZAEHLUNG_UNKLAR,
 } from './lib/crunchyroll.ts'
 import type { Release, Title } from '../shared/types.ts'
+import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -3359,8 +3360,21 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'zwei Zeilen auf eine Adresse sind keine zwei Auskünfte — der Verweis gewinnt',
   )
   pruefe(
-    'eine nackte Domain wird zur Suche, nicht zum Verweis',
-    bau.includes('Verweise ohne Pfad auf die Suche gelenkt'),
+    /*
+      **Umgekehrt seit dem 10.09.2026.** Bis dahin hielt diese Zusicherung fest,
+      dass aus einer nackten Domain eine Suche wird — der Gedanke war, dem
+      Besucher wenigstens etwas zu geben. Crunchyroll antwortet auf diese Suche
+      mit „Es konnte nichts gefunden werden" (Daniel, mit Bild), und seine
+      Ansage lautet: „alle links die auf such query gehen, statt direkt auf
+      treffer, müssen entfernt werden von der webseite."
+
+      Was bleibt, ist der Satz darunter — ein Verweis auf eine Startseite sieht
+      aus wie eine Auskunft und ist keine. Nur ist die Antwort darauf jetzt die
+      echte Adresse aus dem Katalog, und wo die fehlt, gar keine.
+    */
+    'eine nackte Domain wird zur Serienadresse oder zu gar nichts',
+    bau.includes('über den deutschen Katalog auf ihre Serienadresse gesetzt') &&
+      bau.includes('eine nackte Domain ist kein Weg zu einem Titel'),
     'ein Verweis auf eine Startseite sieht aus wie eine Auskunft und ist keine',
   )
   pruefe(
@@ -3540,6 +3554,62 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'staffelnDerAdresse() kennt beide Fassungen',
     quelle.includes('function staffelnDerAdresse(ids: number[], nurStaffeln = false)'),
     'wer rechnet, braucht alle Einträge; wer zählt, nur die Staffeln',
+  )
+}
+
+/**
+ * **Eine Suchadresse ist kein Weg — und der Katalog kennt die echte.**
+ *
+ * Am 10.09.2026 stand für „Kaiju No. 8 Narumi's Week at Work" ein Verweis auf
+ * `crunchyroll.com/de/search?q=…` im Datensatz. Crunchyroll antwortet darauf
+ * mit „Es konnte nichts gefunden werden" (Daniel, mit Bild); die richtige
+ * Adresse steht seit dem 22.08.2026 im deutschen Katalog.
+ *
+ * Geprüft wird an genau diesen beiden Fällen — und an den Gegenproben, die die
+ * Regel eng halten müssen: „Kaiju" darf nicht „Kaiju Girls" treffen, und wo
+ * zwei Serien denselben Namen tragen, gibt es keine Adresse.
+ */
+{
+  const index = crNamensindexAusDatei()
+  pruefe(
+    'der Katalog ist geladen',
+    index.size > 500,
+    `nur ${index.size} Namen im Index — ohne Katalog prüft der Rest nichts`,
+  )
+  pruefe(
+    'Daniels Fall löst sich auf die Serienadresse auf',
+    crAdresseZu(index, "Kaiju No. 8 Narumi's Week at Work") ===
+      'https://www.crunchyroll.com/de/series/GG5H5XQ7D/kaiju-no-8',
+    `bekommen: ${crAdresseZu(index, "Kaiju No. 8 Narumi's Week at Work")}`,
+  )
+  pruefe(
+    'und die zweite Suchadresse ebenso',
+    crAdresseZu(index, 'Black Clover: Staffel 2') === 'https://www.crunchyroll.com/de/series/GRE50KV36/black-clover',
+    `bekommen: ${crAdresseZu(index, 'Black Clover: Staffel 2')}`,
+  )
+  /* Die Wortgrenze ist der ganze Riegel: ohne sie träfe „Kaiju" auch „Kaiju Girls". */
+  pruefe(
+    'ein Namensanfang ohne Wortgrenze trifft nicht',
+    crAdresseZu(crNamensindex([{ id: 'G1', titel: 'Kaiju', slug: 'kaiju' }]), 'Kaijuu Girls') === undefined,
+    'sonst erbt eine fremde Serie die Adresse einer anderen',
+  )
+  pruefe(
+    'zwei Serien gleichen Namens ergeben keine Adresse',
+    crAdresseZu(
+      crNamensindex([
+        { id: 'G1', titel: 'Doppelt', slug: 'a' },
+        { id: 'G2', titel: 'Doppelt', slug: 'b' },
+      ]),
+      'Doppelt',
+    ) === undefined,
+    'ein mehrdeutiger Name entscheidet nichts',
+  )
+  /* Und der Bau muss die Funktion wirklich rufen — an beiden Stellen. */
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'der Bau repariert Suchadressen, statt sie zu erzeugen',
+    !bau.includes('crunchyroll.com/de/search?q=') && (bau.match(/crAdresseZu\(/g) ?? []).length >= 2,
+    'die Erzeugung ist zurück oder die Reparatur fehlt an einer der beiden Stellen',
   )
 }
 

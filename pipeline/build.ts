@@ -15,6 +15,7 @@ import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { zugangsart } from '../shared/zugangsart.ts'
 import { adressGleich, dubKey, loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
+import { crAdresseZu as crAdresseNachName, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import {
   beurteile,
   beurteileBlockketten,
@@ -290,6 +291,61 @@ function reihenFuerKatalog(
  * ab. Beides wird gebraucht: die Kennung zum Aussortieren, die Reihe zum
  * Zusammenführen — siehe `reihenFuerKatalog`.
  */
+/**
+ * **Was der Katalog nicht auflösen konnte, geht an Daniel.**
+ *
+ * Eine Suchadresse verschwindet ersatzlos von der Seite (siehe die Regel im
+ * Bau) — und damit auch die Auskunft, dass es den Titel dort überhaupt gibt.
+ * Ohne diese Liste wäre sie weg; mit ihr ist sie eine Frage mit Adresse.
+ *
+ * Bei Prime kann sie niemand anders beantworten: Amazons robots.txt sperrt 19
+ * Bots namentlich und den Pfad der Folgenliste ausdrücklich, und die acht
+ * Adressen, die aniSearch dazu kennt, stehen im Link-Check auf „unklar" —
+ * Amazons Abwehr hat am 09.09.2026 zugemacht. Was hinter einem Produktpfad
+ * liegt, kann eine DVD sein; das entscheidet ein Blick, kein Abruf.
+ */
+function schreibeSuchadressen(offen: { id: number; titel: string; plattform: string; url: string }[]): void {
+  const ziel = 'daniel-zum-abarbeiten/18-suchadressen.md'
+  const stand = new Date().toISOString().slice(0, 10)
+  if (!offen.length) {
+    writeText(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'))
+    return
+  }
+  const anisearch = readJson<Record<string, { streams?: { provider?: string; url?: string }[] }>>(
+    'data/anisearch.json',
+    {},
+  )
+  const t = ``
+  const zeilen: string[] = [
+    '# Suchadressen — welcher Titel steckt dahinter?',
+    '',
+    `_Stand ${stand} · ${offen.length} offen_`,
+    '',
+    'Diese Verweise führten auf eine **Suche** statt auf eine Titelseite und sind',
+    'deshalb von der Seite verschwunden. Was hier steht, ist die Frage danach, wo',
+    'der Titel beim Anbieter wirklich liegt.',
+    '',
+    `**So antwortest du:** Adresse der Titelseite hinter den Eintrag schreiben — oder ${t}x${t}, wenn es den Titel dort nicht gibt.`,
+    `Bei Prime zählt nur eine Video-Adresse (${t}/gp/video/detail/…${t} oder ${t}primevideo.com/detail/…${t});`,
+    `hinter einem ${t}/dp/${t} kann eine DVD liegen.`,
+    '',
+  ]
+  for (const e of offen.sort((a, b) => a.plattform.localeCompare(b.plattform) || a.titel.localeCompare(b.titel))) {
+    zeilen.push(`## ${e.titel}`, '')
+    zeilen.push(`- Anbieter: **${e.plattform}** · unser Titel ${t}${e.id}${t}`)
+    zeilen.push(`- war verlinkt als: <${e.url}>`)
+    const kandidaten = (anisearch[e.id]?.streams ?? [])
+      .map((q) => q.url)
+      .filter((u): u is string => Boolean(u))
+      /* Nur Kandidaten desselben Anbieters — ein Netflix-Link beantwortet keine Prime-Frage. */
+      .filter((u) => (plattformAusAdresse(u) ?? '') === e.plattform)
+    for (const k of kandidaten) zeilen.push(`- aniSearch nennt: <${k}> — passt das?`)
+    zeilen.push('- **Antwort:** ', '')
+  }
+  writeText(ziel, zeilen.join('\n') + '\n')
+  log(`${offen.length} Suchadressen in ${ziel} vorgelegt`)
+}
+
 function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] = []): void {
   const katalog = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {})
   const eintraege = katalog.eintraege ?? []
@@ -2696,35 +2752,85 @@ function main(): void {
    * kaputte Adresse. Taucht dieselbe Serie später mit einer echten Adresse auf,
    * soll sie kommen dürfen.
    */
+
+  /**
+   * **Eine Suchadresse ist kein Weg — auch nicht als Notbehelf.**
+   *
+   * Bis zum 10.09.2026 hat genau diese Stelle aus einer pfadlosen Adresse eine
+   * Crunchyroll-Suche gemacht, mit unserem Titel als Suchbegriff. Der Gedanke
+   * war, dem Besucher wenigstens etwas zu geben. Gemessen an dem, was dabei
+   * herauskam, war es weniger als nichts: Für „Kaiju No. 8 Narumi's Week at
+   * Work" antwortet Crunchyroll mit **„Es konnte nichts gefunden werden"**
+   * (Daniel, 10.09.2026, mit Bild). Unser Titel ist dort der Name eines
+   * Staffelblocks, kein Suchbegriff.
+   *
+   * Daniels Ansage: „alle links die auf such query gehen, statt direkt auf
+   * treffer, müssen entfernt werden von der webseite."
+   *
+   * **Die echte Adresse lag die ganze Zeit im Repo.** Der deutsche Katalog
+   * (`data/cr-katalog-de.json`, 1.656 Serien) führt „Kaiju No. 8" unter
+   * `GG5H5XQ7D`/`kaiju-no-8` — Zeichen für Zeichen die Adresse, die Daniel
+   * von Hand herausgesucht hat. Dieselbe Klasse wie die fünf Fälle vom
+   * 06./07.09.2026: geschrieben, committet, nie gelesen.
+   *
+   * **Gefragt wird nur nach der Adresse, nicht nach dem Ob.** Der Verweis
+   * steht bereits — mitsamt seinem Sprachurteil; hier wird ausschließlich
+   * seine kaputte Adresse ersetzt. Deshalb genügt ein Namensabgleich, wo er
+   * sonst zu Recht als unzuverlässig gilt: Er beantwortet die Frage „wo genau
+   * liegt das beim Anbieter", nicht „läuft das dort" (dieselbe Trennung wie
+   * bei JustWatch, 10.09.2026).
+   *
+   * Und weil eine Crunchyroll-Serienseite alle Staffeln und Nebenausgaben
+   * einer Reihe führt (Daniels Bildschirmabzug zeigt „Season 1 · Mission
+   * Recon · Season 2 · Narumi's Week at Work" unter einer Adresse), ist der
+   * Reihenkopf für ein Special die **richtige** Antwort, nicht die zweitbeste.
+   *
+   * **Warum die Reparatur hier steht und das Entfernen ganz unten:** Eine
+   * pfadlose Adresse überlebt die nachfolgenden Runden nicht — sie fliegt als
+   * kaputter Verweis heraus, und dann gibt es nichts mehr zu reparieren.
+   * Umgekehrt ersetzen spätere Runden Suchadressen noch durch echte
+   * Titelseiten (Daniels Prime-Meldungen); wer sie hier wegwirft, nimmt ihnen
+   * die Gelegenheit. Zwei Aufgaben, zwei Stellen.
+   */
+  const crNamen = crNamensindexAusDatei()
+  const crAdresseZu = (name: string): string | undefined => crAdresseNachName(crNamen, name)
+
+  /** Was am Ende übrig bleibt und niemand automatisch auflösen kann. */
+  const suchOffen: { id: number; titel: string; plattform: string; url: string }[] = []
+
   let ohnePfad = 0
+  let ohnePfadWeg = 0
   for (const title of titles.values()) {
     if (!title.streams?.length) continue
-    for (const stream of title.streams) {
+    const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? ''
+    title.streams = title.streams.filter((stream) => {
       let pfad = ''
       try {
         pfad = new URL(stream.url).pathname
       } catch {
         pfad = ''
       }
-      if (pfad !== '' && pfad !== '/') continue
-      /*
-        **Ersetzt, nicht entfernt.**
-
-        Der erste Anlauf warf den Verweis weg — und nahm damit „Black Clover:
-        Staffel 2" und „Kaiju No. 8 Narumi's Week" den einzigen Weg, den sie
-        haben. Beide haben eine belegte deutsche Synchro; ohne Verweis wären
-        sie hinter den Toggle gewandert, und der Riegel gegen Titelschwund
-        schlug zu Recht an.
-      */
-      const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? ''
+      if (pfad !== '' && pfad !== '/') return true
       if (stream.platform === 'crunchyroll' && name) {
-        stream.url = `https://www.crunchyroll.com/de/search?q=${encodeURIComponent(name)}`
-        ohnePfad++
+        const echte = crAdresseZu(name)
+        if (echte) {
+          stream.url = echte
+          ohnePfad++
+          return true
+        }
       }
-    }
+      /*
+        **Ins Gedächtnis kommt das nicht**: Es ist kein belegtes Nein, sondern
+        eine kaputte Adresse. Taucht dieselbe Serie später mit einer echten
+        Adresse auf, soll sie kommen dürfen.
+      */
+      ohnePfadWeg++
+      suchOffen.push({ id: title.id, titel: name, plattform: stream.platform, url: stream.url })
+      return false
+    })
   }
-  if (ohnePfad)
-    log(`${ohnePfad} Verweise ohne Pfad auf die Suche gelenkt — eine nackte Domain ist kein Weg zu einem Titel`)
+  if (ohnePfad) log(`${ohnePfad} Verweise ohne Pfad über den deutschen Katalog auf ihre Serienadresse gesetzt`)
+  if (ohnePfadWeg) log(`${ohnePfadWeg} Verweise ohne Pfad entfernt — eine nackte Domain ist kein Weg zu einem Titel`)
 
   const checks = new Map(alleChecks.map((c) => [dubKey(c.anilistId, c.platform), c]))
   /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
@@ -5735,6 +5841,57 @@ function main(): void {
   }
   if (youtubeStumm)
     log(`${youtubeStumm} YouTube-Verweise entfernt, deren Umfang unbekannt bleibt — dort führen wir nur ausgewiesene Wege`)
+
+
+  /**
+   * **Und was am Ende noch auf eine Suche zeigt, fliegt.**
+   *
+   * Die Reparatur weiter oben hat den Katalog gefragt, die Runden dazwischen
+   * hatten jede Gelegenheit, eine echte Titelseite einzusetzen. Was hier noch
+   * steht, ist eine Suche — und die ist als Auskunft schlechter als nichts:
+   * Sie sieht aus wie ein Weg und endet auf „Es konnte nichts gefunden werden".
+   *
+   * Die Frage dahinter geht deshalb nicht verloren, sie wechselt den Ort:
+   * `daniel-zum-abarbeiten/18-suchadressen.md`.
+   */
+  let suchAdressen = 0
+  let ausSuche = 0
+  for (const title of titles.values()) {
+    if (!title.streams?.length) continue
+    const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? ''
+    title.streams = title.streams.filter((stream) => {
+      let suche = false
+      try {
+        const u = new URL(stream.url)
+        /* Amazons `/s?k=`, Crunchyrolls `/search?q=`, Netflix' `/search?q=`. */
+        suche = /\/search(\/|$)|^\/s$/.test(u.pathname) || u.searchParams.has('k') || u.searchParams.has('q')
+      } catch {
+        suche = false
+      }
+      if (!suche) return true
+      /*
+        **Auch hier wird erst repariert.** Die Suchadresse steht heute nicht
+        mehr nur im Bau: Ein früherer Lauf hat sie aus dem Datensatz nach
+        `data/crunchyroll-series-ids.json` übernommen, und von dort kommt sie
+        zurück. Wer sie nur wegwirft, verliert den Verweis — obwohl der Katalog
+        die Adresse kennt.
+      */
+      if (stream.platform === 'crunchyroll' && name) {
+        const echte = crAdresseZu(name)
+        if (echte) {
+          stream.url = echte
+          ausSuche++
+          return true
+        }
+      }
+      suchAdressen++
+      suchOffen.push({ id: title.id, titel: name, plattform: stream.platform, url: stream.url })
+      return false
+    })
+  }
+  if (ausSuche) log(`${ausSuche} Suchadressen über den deutschen Katalog auf ihre Serienadresse gesetzt`)
+  if (suchAdressen) log(`${suchAdressen} Suchadressen entfernt — eine Suche ist kein Weg zu einem Titel`)
+  schreibeSuchadressen(suchOffen)
 
   const allTitles = [...titles.values()]
   const genres = [...new Set(allTitles.flatMap((t) => t.genres))].sort((a, b) => a.localeCompare(b, 'de'))

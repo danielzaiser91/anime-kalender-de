@@ -3006,6 +3006,70 @@ Dieselbe Klasse Fehler ist mir an diesem Tag **dreimal** unterlaufen: `empfohlen
 `location` im Test-Sandkasten, `MARKE_FOLGEN` im ausgeschnittenen Block. Alle drei hätte diese
 Prüfung genannt.
 
+## Ein Notbehelf, der auf eine Suche zeigt, ist schlechter als kein Weg
+
+Daniel am 10.09.2026, mit Bild: Für „Kaiju No. 8 Narumi's Week at Work" stand
+im Kalender ein Crunchyroll-Verweis, der Klick landete auf
+`crunchyroll.com/de/search?q=Kaiju%20No.%208%20Narumi's%20Week%20at%20Work` —
+und dort auf **„Es konnte nichts gefunden werden"**. Seine Ansage: „alle links
+die auf such query gehen, statt direkt auf treffer, müssen entfernt werden von
+der webseite."
+
+Der Verweis war absichtlich so gebaut. `build.ts` machte aus einer pfadlosen
+Adresse eine Suche mit unserem Titel als Suchbegriff, mit der ausdrücklichen
+Begründung, ein Verweis sei besser als keiner. **Er ist es nicht:** Ein Weg,
+der aussieht wie eine Auskunft und auf eine leere Trefferliste führt, kostet
+den Besucher einen Klick und die Seite ihre Glaubwürdigkeit. Ein fehlender Weg
+sagt „wir wissen es nicht" — dieselbe Unterscheidung, die dieses Projekt bei
+`dub: false` gegen `dub: undefined` längst zieht.
+
+**Und die richtige Adresse lag im Repo.** `data/cr-katalog-de.json` (seit dem
+22.08.2026, 1.656 Serien) führt „Kaiju No. 8" unter `GG5H5XQ7D`/`kaiju-no-8` —
+Zeichen für Zeichen die Adresse, die Daniel danach von Hand herausgesucht hat.
+Sechster Fall der Klasse im Abschnitt darunter.
+
+**Warum ein Namensabgleich hier zulässig ist**, wo er sonst zu Recht als
+untauglich gilt (`To Love-Ru`, `Wolf's Rain OVA`): Die Frage ist eine andere.
+Nicht „läuft dieses Werk dort?", sondern „unter welcher Adresse liegt das Werk,
+von dem wir schon wissen, dass es dort läuft?" — der Verweis steht bereits samt
+Sprachurteil, ersetzt wird nur seine kaputte Adresse. Dieselbe Trennung wie bei
+JustWatch am selben Tag: eine Quelle, die als Zeuge nicht taugt, taugt als
+Wegweiser.
+
+Der Reihenkopf ist dabei die **richtige** Antwort, nicht die zweitbeste: Eine
+Crunchyroll-Serienseite führt alle Blöcke einer Reihe, bei Kaiju No. 8 sind das
+„Season 1 · Mission Recon · Season 2 · Narumi's Week at Work" unter einer
+Adresse.
+
+### Der Rückkanal ist die eigentliche Falle
+
+Die Suchadresse wieder loszuwerden war schwerer als gedacht, und der Grund ist
+allgemein: **Was der Bau erzeugt, kommt über die Quellen zurück.** Ein früherer
+Lauf hat die erzeugte Adresse aus dem Datensatz nach
+`data/crunchyroll-series-ids.json` übernommen; von dort liest der Bau sie
+wieder ein. Die Erzeugung abzuschalten genügt deshalb nicht — sie muss auch
+dort entfernt werden, wo sie inzwischen gespeichert ist.
+
+**Prüffrage, wenn eine erzeugte Angabe verschwinden soll:** *Hat sie in der
+Zwischenzeit den Weg in eine Quelldatei gefunden?* Ein `grep` über `data/`
+beantwortet das in Sekunden und spart die Runde Fehlersuche, in der die Zeile
+„trotz Fix immer noch da" heißt.
+
+### Zwei Aufgaben, zwei Stellen
+
+Repariert wird **früh** (eine pfadlose Adresse überlebt die nachfolgenden
+Runden nicht — sie fliegt als kaputter Verweis heraus, und dann gibt es nichts
+mehr zu reparieren), entfernt wird **spät** (dazwischen ersetzen andere Runden
+Suchadressen noch durch echte Titelseiten aus Daniels Meldungen; wer sie vorher
+wegwirft, nimmt ihnen die Gelegenheit). Ein erster Anlauf mit nur einer Stelle
+warf **230 statt 43** Adressen weg — die Differenz waren genau die, die eine
+spätere Runde noch aufgelöst hätte.
+
+Was übrig bleibt, wechselt den Ort statt zu verschwinden:
+`daniel-zum-abarbeiten/18-suchadressen.md`. Bei Prime kann die Frage niemand
+anders beantworten — Amazons robots.txt sperrt 19 Bots namentlich, und die acht
+Adressen, die aniSearch dazu kennt, stehen im Link-Check auf `unklar`.
+
 ## Eine Datei zu schreiben ist nicht dasselbe wie sie zu benutzen
 
 Am 06. und 07.09.2026 sind an zwei Tagen **fünf** Fälle derselben Art

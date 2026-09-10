@@ -227,6 +227,9 @@ QUELLEN=(
   daniel-zum-abarbeiten/00-wache-auswertung.md
   daniel-zum-abarbeiten/15-news-vorschau.md
   daniel-zum-abarbeiten/16-justwatch-tonspuren.md
+  # Verweise, die auf eine Suche zeigten statt auf eine Titelseite — der Bau
+  # entfernt sie und legt die Frage hier ab (10.09.2026).
+  daniel-zum-abarbeiten/18-suchadressen.md
   daniel-zum-abarbeiten/12-verpasste-termine.md
   daniel-zum-abarbeiten/13-tonspur-verdacht.md
   daniel-zum-abarbeiten/07-crunchyroll.md
