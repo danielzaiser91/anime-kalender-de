@@ -127,6 +127,15 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:pruefungen
 
+      # Was der Erweiterung aufgefallen ist, ohne dass jemand die Konsole oeffnet.
+      # Bis zum 10.09.2026 stand das nur im Browser-Log — also nirgends, wo es
+      # jemand liest (Daniel: "du musst informiert werden ueber issues").
+      - name: Vorfaelle aus der Erweiterung abholen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:vorfaelle
+
       - name: Fortschritt — Meldungen einarbeiten
         continue-on-error: true
         env:

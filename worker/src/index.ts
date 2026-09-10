@@ -107,7 +107,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i
 function cors(env: Env): Record<string, string> {
   return {
     'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN || '*',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Methods': 'POST, GET, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   }
 }
@@ -1450,6 +1450,116 @@ async function handleNetzfund(request: Request, env: Env): Promise<Response> {
   return antwort({ ok: true, funde: anzahl?.n ?? 0 })
 }
 
+/**
+ * **Was der Erweiterung auffällt, ohne dass jemand die Konsole öffnet.**
+ *
+ * Daniel am 10.09.2026: „info bringt nix, du liest nix aus der console aus, ich
+ * lese auch nix aus. denk darüber nach auch bezüglich allen anderen derartigen
+ * logs, du musst informiert werden über issues."
+ *
+ * Er hat recht, und der Punkt geht weiter als das eine Log. Die Erweiterung
+ * schreibt seit Monaten Diagnosen in die Browserkonsole — „keine Tonspur
+ * gelesen", „Folge gehört zu fremder Reihe", „Durchlauf abgebrochen bei
+ * M7111". Gelesen hat sie nie jemand: Er schaut dort nicht hin, und ich komme
+ * gar nicht daran. Die Information existierte nur, wenn er zufällig hinsah und
+ * ein Bildschirmfoto schickte.
+ *
+ * Der Weg ist derselbe wie bei den Prüfungen, und genau deshalb ist er richtig:
+ * melden, abholen, unter `daniel-zum-abarbeiten/` ablegen. Dort lese ich es
+ * beim nächsten Durchgang ohnehin.
+ *
+ * **Was hier nicht landet:** der normale Ablauf. Ein Vorfall ist etwas, das
+ * anders lief als vorgesehen — nicht jede geprüfte Folge.
+ */
+async function handleVorfall(request: Request, env: Env): Promise<Response> {
+  const offen = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+  const antwort = (body: unknown, status = 200) =>
+    new Response(JSON.stringify(body), { status, headers: offen })
+
+  if (request.method === 'GET') {
+    const token = new URL(request.url).searchParams.get('token') ?? ''
+    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    const { results } = await env.DB.prepare(
+      `SELECT id, plattform, art, url, reihe, folge_nr, staffel, text, version, gemeldet_am
+         FROM vorfall ORDER BY gemeldet_am DESC LIMIT 500`,
+    ).all()
+    return antwort({ vorfaelle: results ?? [] })
+  }
+
+  /*
+    **Löschen gehört dazu.** Ein abgeholter Vorfall, der liegen bleibt, taucht
+    beim nächsten Lauf wieder auf und sieht aus wie ein neuer — dieselbe Falle,
+    die `/pruefung` mit seinem DELETE vermeidet.
+  */
+  if (request.method === 'DELETE') {
+    const token = request.headers.get('X-Lauf-Token') ?? ''
+    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    let ids: number[] = []
+    try {
+      const daten = (await request.json()) as { ids?: unknown }
+      ids = Array.isArray(daten.ids) ? daten.ids.map(Number).filter(Number.isFinite) : []
+    } catch {
+      return antwort({ error: 'Kein gültiges JSON' }, 400)
+    }
+    if (!ids.length) return antwort({ ok: true, geloescht: 0 })
+    const platzhalter = ids.map((_, i) => `?${i + 1}`).join(', ')
+    await env.DB.prepare(`DELETE FROM vorfall WHERE id IN (${platzhalter})`)
+      .bind(...ids)
+      .run()
+    return antwort({ ok: true, geloescht: ids.length })
+  }
+
+  if (request.method !== 'POST') return antwort({ error: 'GET, POST oder DELETE erwartet' }, 405)
+  const token = request.headers.get('X-Lauf-Token') ?? ''
+  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+
+  let daten: Record<string, unknown>
+  try {
+    daten = (await request.json()) as Record<string, unknown>
+  } catch {
+    return antwort({ error: 'Kein gültiges JSON' }, 400)
+  }
+
+  const art = String(daten.art ?? '').slice(0, 40)
+  const plattform = String(daten.plattform ?? '').slice(0, 20)
+  if (!art || !plattform) return antwort({ error: 'art und plattform fehlen' }, 400)
+
+  /*
+    **Dieselbe Sache am selben Tag zählt einmal.** Ein Durchlauf über zwölf
+    Folgen, die alle keine Tonspur liefern, ist **ein** Vorfall — zwölf Zeilen
+    wären dieselbe Auskunft zwölfmal, und sie würden das Wesentliche zudecken.
+    Die Folgennummer geht dabei nicht verloren: Sie steht im Text der ersten.
+  */
+  const tag = jetztIso().slice(0, 10)
+  const schon = await env.DB.prepare(
+    `SELECT id FROM vorfall
+      WHERE art = ?1 AND plattform = ?2 AND IFNULL(url, '') = ?3 AND substr(gemeldet_am, 1, 10) = ?4`,
+  )
+    .bind(art, plattform, String(daten.url ?? '').slice(0, 500), tag)
+    .first()
+  if (schon) return antwort({ ok: true, doppelt: true })
+
+  await env.DB.prepare(
+    `INSERT INTO vorfall (plattform, art, url, reihe, folge_nr, staffel, text, version, gemeldet_am)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)`,
+  )
+    .bind(
+      plattform,
+      art,
+      daten.url ? String(daten.url).slice(0, 500) : null,
+      daten.reihe ? String(daten.reihe).slice(0, 60) : null,
+      Number.isFinite(Number(daten.folge_nr)) ? Number(daten.folge_nr) : null,
+      Number.isFinite(Number(daten.staffel)) ? Number(daten.staffel) : null,
+      daten.text ? String(daten.text).slice(0, 500) : null,
+      daten.version ? String(daten.version).slice(0, 20) : null,
+      jetztIso(),
+    )
+    .run()
+
+  const anzahl = await env.DB.prepare('SELECT COUNT(*) AS n FROM vorfall').first<{ n: number }>()
+  return antwort({ ok: true, vorfaelle: anzahl?.n ?? 0 })
+}
+
 async function handleLauf(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
   const offen = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
   const antwort = (body: unknown, status = 200) =>
@@ -2527,7 +2637,12 @@ export default {
     if (request.method === 'OPTIONS') {
       // Der Laufstatus wird auch von einer Datei auf dem Schreibtisch gelesen;
       // die hat den Ursprung `null` und käme an der sonstigen Beschränkung nicht vorbei.
-      if (url.pathname === '/lauf' || url.pathname === '/pruefung' || url.pathname === '/netzfund') {
+      if (
+        url.pathname === '/lauf' ||
+        url.pathname === '/pruefung' ||
+        url.pathname === '/netzfund' ||
+        url.pathname === '/vorfall'
+      ) {
         return new Response(null, {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -2615,6 +2730,12 @@ export default {
         return handleLand(request, env)
       case '/netzfund':
         return handleNetzfund(request, env)
+      /*
+        **Was der Erweiterung auffaellt** — siehe handleVorfall(). Der Weg ist
+        derselbe wie bei den Pruefungen: melden, abholen, ablegen.
+      */
+      case '/vorfall':
+        return handleVorfall(request, env)
       /*
         **Der Kanal, auf dem die Statusanzeige zuhört.**
 

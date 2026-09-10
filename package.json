@@ -56,6 +56,7 @@
     "data:motn-links": "tsx pipeline/motn-links.ts",
     "data:motn:check": "tsx pipeline/check-motn.ts",
     "data:pruefungen": "tsx pipeline/fetch-pruefungen.ts",
+    "data:vorfaelle": "tsx pipeline/fetch-vorfaelle.ts",
     "data:netflix-rest": "node pipeline/list-netflix-rest.mjs",
     "data:extension-liste": "tsx pipeline/vorschlaege-anbieter.ts && tsx pipeline/wiedervorlage.ts && node tools/extension-offene-liste.mjs && node tools/extension-offene-amazon.mjs && node tools/extension-offene-disney.mjs && node tools/pruefstand.mjs",
     "data:youtube:report": "node pipeline/report-youtube.mjs",

@@ -575,6 +575,50 @@ window.addEventListener('message', (e) => {
  * Erweiterung beim Öffnen mit, statt dass jemand jede Folge startet.
  * Geschickt werden nur Feldnamen und kurze Fundstellen, nicht die Antwort.
  */
+/**
+ * **Was auffällt, wird gemeldet — nicht in die Konsole geschrieben.**
+ *
+ * Daniel am 10.09.2026: „info bringt nix, du liest nix aus der console aus, ich
+ * lese auch nix aus … du musst informiert werden über issues." Er hat recht,
+ * und der Punkt geht weiter als das eine Log: Jede Diagnose, die in der
+ * Browserkonsole endet, ist tote Information. Er schaut dort nicht hin, ich
+ * komme nicht daran — sie existiert nur, wenn er zufällig hinsieht und ein Bild
+ * schickt.
+ *
+ * Der Weg ist derselbe, den die Meldungen ohnehin gehen: an den Worker, von
+ * dort holt ihn ein Datenlauf ab und legt ihn unter `daniel-zum-abarbeiten/`.
+ *
+ * **Drei Riegel**, damit der Melder nicht selbst zur Störquelle wird:
+ * dieselbe Art je Seite nur einmal pro Sitzung, höchstens zwanzig insgesamt,
+ * und jeder Fehler beim Melden bleibt stumm. Ein Fahrtenschreiber, der die
+ * Fahrt stört, ist keiner.
+ */
+const VORFALL_GEMELDET = new Set()
+let vorfallZahl = 0
+async function vorfallMelden(art, daten = {}) {
+  try {
+    const schluessel = `${art}|${location.pathname}`
+    if (VORFALL_GEMELDET.has(schluessel) || vorfallZahl >= 20) return
+    VORFALL_GEMELDET.add(schluessel)
+    vorfallZahl++
+    const { token } = await chrome.storage.sync.get('token')
+    if (!token) return
+    await fetch(WORKER.replace('/pruefung', '/vorfall'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+      body: JSON.stringify({
+        plattform: 'netflix',
+        art,
+        url: location.href.split('?')[0],
+        version: chrome.runtime?.getManifest?.()?.version ?? null,
+        ...daten,
+      }),
+    })
+  } catch {
+    /* Ein Vorfallbericht darf nie im Weg stehen. */
+  }
+}
+
 async function fundSchicken(fund) {
   const { token } = await chrome.storage.sync.get('token')
   if (!token) return
@@ -2198,6 +2242,15 @@ async function durchlaufStarten(grenze) {
         if (code) {
           DURCHLAUF.stoerung = code
           DURCHLAUF.abbruch = true
+          /*
+            Eine Stoerung bricht den Durchlauf ab — und ist damit genau das, wovon
+            ich erfahren muss, ohne dass jemand die Konsole oeffnet.
+          */
+          void vorfallMelden('stoerung', {
+            reihe: gemeinteReihe(),
+            folge_nr: f.nummer,
+            text: `Netflix meldet ${code} — Durchlauf abgebrochen`,
+          })
           break
         }
       }
@@ -2337,12 +2390,22 @@ async function durchlaufStarten(grenze) {
         Durchlauf wieder dran — genau wie vorgesehen.
       */
       console.info(`[Anime-Kalender] Folge ${f.nummer}: keine Tonspur gelesen — bleibt offen`)
+      void vorfallMelden('ohne_tonspur', {
+        reihe: gemeinteReihe(),
+        folge_nr: f.nummer,
+        text: `Folge ${f.nummer} lieferte binnen zwanzig Sekunden keine Tonspur — bleibt offen`,
+      })
     } else {
       DURCHLAUF.fremde = (DURCHLAUF.fremde ?? 0) + 1
       /* Auch das ist ein geplanter Fall, kein Fehler — siehe oben. */
       console.info(
         `[Anime-Kalender] Folge ${f.nummer} gehört zu Reihe ${stand.reihe}, nicht zu ${gemeinteReihe()} — übersprungen`,
       )
+      void vorfallMelden('fremde_reihe', {
+        reihe: gemeinteReihe(),
+        folge_nr: f.nummer,
+        text: `Folge ${f.nummer} gehört laut Player zu „${stand.reihe}", erwartet war „${gemeinteReihe()}"`,
+      })
     }
     durchlaufKnopfZeigen()
 

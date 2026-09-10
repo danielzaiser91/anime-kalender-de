@@ -240,5 +240,6 @@ QUELLEN=(
   daniel-zum-abarbeiten/10-rtlplus.md
   daniel-zum-abarbeiten/10-kinostarts.md
   daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md
+  daniel-zum-abarbeiten/17-vorfaelle.md
   daniel-zum-abarbeiten/00-START-HIER.md
 )
