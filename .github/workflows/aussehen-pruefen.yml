@@ -71,6 +71,9 @@ jobs:
       - name: Hinweiskasten der Erweiterung
         run: npm run check:kasten
 
+      - name: Der Netflix-Kasten (Aufbau, Trennlinie, leerer Fall)
+        run: npm run check:netflix-kasten
+
       - name: Durchlauf-Leiste der Erweiterung
         run: npm run check:leiste
 

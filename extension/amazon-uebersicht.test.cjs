@@ -1335,14 +1335,19 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
         ersetzt ihn nur, wenn die Adresse gewechselt hat. Damit gibt es
         weiterhin genau einen — auf dem Weg, der auch das Flackern beendet.
       */
-      const skelett = quelle.slice(quelle.indexOf('function kastenSkelett'), quelle.indexOf('function ladeRing'))
+      /*
+        Das Gerüst steht seit dem 10.09.2026 in `box.js` — dieselbe Regel, aber
+        für alle drei Anbieter. Geprüft wird deshalb dort, nicht mehr in
+        `kastenSkelett()`, das den Kasten nur noch anfordert.
+      */
+      const skelett = require('node:fs').readFileSync(__dirname + '/box.js', 'utf8')
       pruefe(
         'kastenSkelett gibt einen vorhandenen Kasten zurück statt einen zweiten zu bauen',
         /if \(kasten\) return kasten/.test(skelett),
       )
       pruefe(
         'und ersetzt ihn beim Adresswechsel',
-        /dataset\.fuerAdresse !== jetzt/.test(skelett) && /kasten\.remove\(\)/.test(skelett),
+        /dataset\.fuerAdresse !== fuerAdresse/.test(skelett) && /kasten\.remove\(\)/.test(skelett),
       )
       /*
         **Der Kasten wird genau einmal abgerissen: wenn niemand ihn sehen soll.**

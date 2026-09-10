@@ -104,7 +104,7 @@ const seite = `<!doctype html><meta charset="utf-8">
   ${amazonRegeln}
   ${css}
 </style>
-<div class="ak-amazon-suchhinweis">
+<div class="ak-box ak-amazon-suchhinweis">
   <div class="ak-z-titel">
     <span class="ak-z-titel-text">Is This a Zombie? · 12 Folgen</span>
     <button type="button" class="ak-z-weg">✕</button>

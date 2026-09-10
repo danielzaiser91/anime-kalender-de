@@ -3046,47 +3046,22 @@ async function speicherSchreiben(werte) {
     }
   }
 
+  /**
+   * **Das Gerüst kommt aus `box.js`, der Inhalt von hier.**
+   *
+   * Bis zum 10.09.2026 baute diese Funktion den Kasten selbst — fünf Zeilen,
+   * ein Fuß mit drei Plätzen, eine Debug-Zeile. Netflix und Disney+ hatten
+   * nichts dergleichen, und Daniel wollte es dort auch: „am besten selbe
+   * extension design auf allen seiten fürs reporten, aber jede seite hat
+   * eigenheiten."
+   *
+   * Zwei Kopien desselben Gerüsts laufen auseinander — deshalb steht es einmal
+   * in `box.js` und wird von allen drei Meldern gerufen. Was Prime auszeichnet,
+   * bleibt hier: die bereinigte Adresse als Schlüssel und die Klasse, an der
+   * das Stylesheet die Lage festmacht.
+   */
   function kastenSkelett() {
-    const jetzt = kastenAdresse()
-    let kasten = document.querySelector('.ak-amazon-suchhinweis')
-    /*
-      **Ein Kasten gehört zu einer Adresse.** Prime Video wechselt ohne
-      Neuladen; ein stehengebliebener Kasten beschriebe eine Seite, die niemand
-      mehr ansieht (Daniel, 30.08.2026: „warum ändert sich das div nicht").
-
-      Zwei Suchseiten unterscheiden sich dabei nur in der Query — der Vergleich
-      lief einmal über `location.pathname` allein, und bei jeder Prime-Suche ist
-      das `/s`. Der Kasten zeigte dann den Auftrag von vorhin (31.08.2026).
-
-      Nur bei einem echten Wechsel wird er ersetzt; sonst bleibt er stehen, und
-      genau das ist der Zweck dieser Funktion.
-    */
-    if (kasten && kasten.dataset.fuerAdresse !== jetzt) {
-      kasten.remove()
-      kasten = null
-    }
-    if (kasten) return kasten
-
-    kasten = document.createElement('div')
-    kasten.className = 'ak-amazon-suchhinweis'
-    kasten.dataset.fuerAdresse = jetzt
-    for (const klasse of ['ak-z-titel', 'ak-z-inhalt', 'ak-z-melden']) {
-      const zeile = document.createElement('div')
-      zeile.className = klasse
-      kasten.appendChild(zeile)
-    }
-    const fuss = document.createElement('div')
-    fuss.className = 'ak-such-fuss'
-    for (const klasse of ['ak-such-fuss-links', 'ak-such-fuss-mitte', 'ak-such-fuss-rechts']) {
-      const platz = document.createElement('span')
-      platz.className = klasse
-      fuss.appendChild(platz)
-    }
-    kasten.appendChild(fuss)
-    const debug = document.createElement('div')
-    debug.className = 'ak-z-debug'
-    kasten.appendChild(debug)
-    document.body.appendChild(kasten)
+    const kasten = akBox('ak-amazon-suchhinweis', kastenAdresse())
     /*
       **Die letzte Zeile entsteht mit dem Kasten, nicht einen Takt später.**
 

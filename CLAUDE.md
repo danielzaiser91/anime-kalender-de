@@ -3671,6 +3671,48 @@ für richtig gehalten, so wie sie am selben Tag einen doppelt vergebenen Feldnam
 für richtig hielt. Die Gegenprobe fällt: mit dem alten Ausdruck reißen drei der
 acht Zusicherungen.
 
+### Ein Gerüst für drei Anbieter — und was beim Teilen wirklich bricht
+
+Daniel am 10.09.2026 auf Netflix: „mach so eine schicke extension box ähnlich
+wie bei prime … am besten selbe extension design auf allen seiten fürs
+reporten, aber jede seite hat eigenheiten, also eigene melde elemente."
+
+Gebaut ist die Trennung als `extension/box.js`: `akBox()` liefert das Gerüst
+(Titel, Inhalt, Melden, Fuß, Debug), `akDebugLeiste()` die Schalterzeile, und
+was darin steht, entscheidet der Melder. Die Datei steht im Manifest **vor**
+den drei Meldern — Content-Skripte kennen keine Module, teilen sich aber den
+Scope einer `content_scripts`-Gruppe.
+
+**Der Umbau hat nicht am Code gehakt, sondern an fünf Kulissen.** Jede
+Sandkasten-Prüfung lädt ihre Datei selbst, und keine wusste von der neuen:
+
+| was fehlte | Symptom |
+|---|---|
+| `box.js` im Vorlauf | „akBox is not defined" — für Code, der im Browser läuft |
+| `dataset` am Kulissen-Element | Absturz beim Stempeln des Kastens |
+| `isConnected` | der Kasten entstand bei **jedem** Aufruf neu |
+| ein `querySelector`, der wirklich sucht | die Zeilen blieben leer, die Knöpfe unerreichbar |
+| `WeakMap` im Kontext | `box.js` warf beim Laden, und dann fehlte alles daraus |
+
+**Die Lehre ist der erste Punkt, nicht die Liste.** `tools/extension-laden-pruefen.cjs`
+lädt jetzt die **Gruppe** aus dem Manifest statt der Einzeldatei — die Liste
+steht dort, wo Chrome sie liest, nicht in einer zweiten Aufzählung im Werkzeug.
+Wer eine gemeinsame Datei einführt, zieht die Kulissen im selben Zug nach; sonst
+prüfen sie einen Zustand, den es nirgends gibt.
+
+**Und dieselben Klassen sind kein Detail, sondern die halbe Arbeit.** Die
+Netflix-Elemente trugen zunächst `ak-quelle` und `ak-uebersicht` — im Bild nahm
+aniSearch die volle Breite ein, und der Prüflisten-Knopf war unsichtbar, weil
+der linke Fußplatz seit 4.11.0 ausgeblendet ist. Richtig sind `ak-such-quelle`,
+`ak-uebersicht-innen` und der **mittlere** Platz. Gefunden hat es keine
+Zusicherung, sondern `npm run check:netflix-kasten` — ein Bild.
+
+**Ein leerer Kasten ist ein sichtbarer Kasten.** Die fünf Zeilen verschwinden
+einzeln (`:empty`), Rahmen und Hintergrund nicht. Auf einer Seite ohne Auftrag
+stünde damit ein leeres Rechteck — genau der Fehler, den derselbe Tag im Player
+schon gekostet hat. `.ak-box:not(:has(> :not(:empty)))` blendet ihn aus, und die
+Gegenprobe dazu steht im Bild-Werkzeug.
+
 ### Beim Fernsehen ist die Erweiterung unsichtbar
 
 Am 30.08.2026 stand über einer laufenden Folge „Heroes" unten rechts ein Knopf:

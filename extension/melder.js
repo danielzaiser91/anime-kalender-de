@@ -1058,6 +1058,63 @@ let playerStummFrist = null
  * steht. Beim freien Schauen einer Serie, die wir nicht führen, bleibt der
  * Player leer.
  */
+/**
+ * **Der Kasten auf der Netflix-Seite — dasselbe Gerüst wie bei Prime.**
+ *
+ * Daniel am 10.09.2026: „mach so eine schicke extension box ähnlich wie bei
+ * prime … am besten selbe extension design auf allen seiten fürs reporten, aber
+ * jede seite hat eigenheiten, also eigene melde elemente."
+ *
+ * Bis dahin schwebten hier drei getrennte Elemente am Bildschirmrand — der
+ * Melde-Knopf, die Durchlauf-Leiste und der Übersichts-Knopf. Sie entstanden zu
+ * verschiedenen Zeitpunkten, standen übereinander und hatten je eigene
+ * Abstände; auf dem Bild vom 10.09.2026 sind es drei Rechtecke in drei
+ * Fluchtlinien.
+ *
+ * Jetzt gilt für alle drei Anbieter derselbe Aufbau (`box.js`), und was Netflix
+ * eigen ist, steht in seinen Zeilen: der Durchlauf, der nur hier existiert, und
+ * die Staffelwahl, die Prime nicht kennt.
+ *
+ * **Auf einer Seite ohne Auftrag entsteht er nicht** — dieselbe Regel wie für
+ * die Player-Anzeige, und aus demselben Grund: „i am just watching something,
+ * there should be no elements from the extension on screen" (30.08.2026).
+ */
+function netflixKasten() {
+  /*
+    Der Pfad genügt als Schlüssel: Netflix hängt an eine Titeladresse keine
+    Parameter, die den Kasten angingen — anders als Prime, das `ref_` und `qid`
+    laufend umschreibt.
+  */
+  return akBox('ak-netflix-kasten', location.pathname)
+}
+
+/**
+ * Die Debug-Zeile — Bericht und Ruhemodus, wie bei Prime.
+ *
+ * Sie stand auf Netflix bisher gar nicht zur Verfügung: Der Bericht hing an
+ * einem Ereignis am `document`, und das setzt eine offene Konsole voraus.
+ * Daniel am 10.09.2026: „pack dort auch unten ne trennlinie für debug icons
+ * rein, und pack dort das ak-report rein."
+ */
+function netflixDebugZeile(kasten) {
+  akDebugLeiste(kasten, [
+    {
+      an: '⏸',
+      aus: '▶',
+      text: 'Ruhemodus',
+      titel: 'Hintergrundvideo und Animationen anhalten (für Aufnahmen)',
+      aktiv: () => document.documentElement?.classList?.contains('ak-ruhig') ?? false,
+      schalten: () => document.dispatchEvent(new CustomEvent('ak-ruhig')),
+    },
+    /*
+      Der Bericht hängt seit dem 30.08.2026 an einem Ereignis am Dokument —
+      der Knopf löst genau das aus, statt den Weg ein zweites Mal zu bauen.
+      Zwei Fassungen desselben Berichts laufen auseinander.
+    */
+    akBerichtSchalter(() => document.dispatchEvent(new CustomEvent('ak-report'))),
+  ])
+}
+
 function playerAuftragOffen() {
   /*
     **`?ak=1` in der Adresse ist die zweite Antwort auf dieselbe Frage.**
@@ -1286,7 +1343,8 @@ function knopfZeigen() {
       knopf = document.createElement('button')
       knopf.className = 'ak-melder'
       knopf.addEventListener('click', melden)
-      document.body.appendChild(knopf)
+      /* Der Melde-Knopf sitzt im Kasten, wie bei Prime — siehe netflixKasten(). */
+      netflixKasten().querySelector('.ak-z-melden')?.appendChild(knopf)
     }
     knopf.hidden = false
     knopf.disabled = true
@@ -1336,7 +1394,7 @@ function knopfZeigen() {
     knopf = document.createElement('button')
     knopf.className = 'ak-melder'
     knopf.addEventListener('click', melden)
-    document.body.appendChild(knopf)
+    netflixKasten().querySelector('.ak-z-melden')?.appendChild(knopf)
   }
   const { text, klasse, aktiv } = beschriftung(spuren)
   /*
@@ -3287,7 +3345,14 @@ function durchlaufKnopfZeigen() {
       false,
     )
     DURCHLAUF.leiste.appendChild(DURCHLAUF.knopf)
-    document.body.appendChild(DURCHLAUF.leiste)
+    /*
+      **In den Kasten, nicht an den Bildschirmrand** (10.09.2026). Die Leiste
+      war ein eigenes schwebendes Element mit eigenem Abstand; jetzt ist sie die
+      Melde-Zeile des gemeinsamen Kastens und rückt mit ihm.
+    */
+    const kasten = netflixKasten()
+    kasten.querySelector('.ak-z-melden')?.appendChild(DURCHLAUF.leiste)
+    netflixDebugZeile(kasten)
     schutzflaecheZeigen(true)
   }
   /**
@@ -3603,9 +3668,72 @@ function uebersichtZeigen() {
   */
   if (!uebersichtKnopf || !document.body.contains(uebersichtKnopf)) {
     uebersichtKnopf = document.createElement('button')
-    uebersichtKnopf.className = 'ak-uebersicht'
+    /*
+      `ak-uebersicht-innen` dazu: Die Grundklasse trägt die Lage für einen frei
+      schwebenden Knopf, die zweite das Aussehen im Fuß. Ohne sie stünde er
+      weiterhin am Bildschirmrand statt im Kasten.
+    */
+    uebersichtKnopf.className = 'ak-uebersicht ak-uebersicht-innen'
     uebersichtKnopf.addEventListener('click', dialogOeffnen)
-    document.body.appendChild(uebersichtKnopf)
+    /*
+      **In die Mitte des Fußes, wie bei Prime** (10.09.2026). Der linke Platz
+      ist seit 4.11.0 ausgeblendet — er trug einmal die Marke „gemeldet ✓". Der
+      Knopf schwebte vorher eigenständig am Bildschirmrand; damit standen drei
+      Elemente untereinander, die zusammengehören.
+    */
+    /*
+      Defensiv: Ein fehlender Platz darf nicht den ganzen Zeichner abbrechen —
+      dahinter hängt die Prüfliste, und die soll auch dann noch aufgehen.
+    */
+    netflixKasten().querySelector('.ak-such-fuss-mitte')?.appendChild(uebersichtKnopf)
+  }
+  /*
+    **Und rechts daneben aniSearch** — die Seite, die eine Reihe klärt, wenn
+    Netflix sie anders schneidet als wir. Im Prüflisten-Dialog steht der Verweis
+    seit dem 28.08.2026; auf der Titelseite, wo wirklich gearbeitet wird, fehlte
+    er. Daniel am 10.09.2026: „aniesearch link, ak-report button, etc. auch vom
+    ablauf etc. … versuch es möglichst gleichzuziehen."
+
+    Er zeigt auf **den Titel, an dem gerade gearbeitet wird**, nicht auf die
+    Reihe im Allgemeinen: `gemeinteReihe()` löst die Netflix-Kennung in unseren
+    Eintrag auf, und der trägt die aniSearch-Kennung.
+  */
+  {
+    const platz = netflixKasten().querySelector('.ak-such-fuss-rechts')
+    const asId = (() => {
+      try {
+        return offeneTitel[String(gemeinteReihe())]?.asId ?? null
+      } catch {
+        return null
+      }
+    })()
+    const vorhanden = platz?.querySelector('.ak-such-quelle')
+    if (!asId) {
+      vorhanden?.remove()
+    } else if (!vorhanden) {
+      const link = document.createElement('a')
+      /*
+        `ak-such-quelle`, nicht `ak-quelle`: Die erste Klasse gehört zum Fuß des
+        Kastens und teilt sich die Breite mit dem Knopf daneben; die zweite ist
+        die Zeile im Prüflisten-Dialog. Mit der falschen nahm aniSearch die
+        ganze Breite ein (10.09.2026, im Bild sichtbar).
+      */
+      link.className = 'ak-such-quelle'
+      link.href = 'https://www.anisearch.de/anime/' + asId + '/episodes'
+      /*
+        `_blank`, anders als die Titel-Verweise der Prüfliste: Hier wird gerade
+        gemeldet, und ein Wechsel in dieser Ansicht verlöre den Player samt
+        seiner Tonspurliste.
+      */
+      link.target = '_blank'
+      link.rel = 'noreferrer noopener'
+      link.textContent = 'aniSearch'
+      link.title = 'Deutsche Folgentitel und Anbieter bei aniSearch nachsehen'
+      platz.appendChild(link)
+    } else if (vorhanden.href.indexOf('/' + asId + '/') < 0) {
+      /* Die Reihe hat gewechselt — dann zeigt der alte Verweis auf den falschen Titel. */
+      vorhanden.href = 'https://www.anisearch.de/anime/' + asId + '/episodes'
+    }
   }
   /**
    * Gezählt wird, was noch aussteht — nicht, was in der Liste steht.

@@ -40,6 +40,24 @@ const vm = require('node:vm')
   Zeilen Optionsseite mehr Gerüst als Gewinn. Sie lädt nur, wenn Daniel sie
   selbst öffnet, und ein Fehler dort fällt sofort auf.
 */
+/**
+ * Welche Dateien laut Manifest **vor** dieser geladen werden.
+ *
+ * Nur die derselben Gruppe: Ein Skript in `world: 'MAIN'` teilt seinen Scope
+ * nicht mit den übrigen, und ein anderer Anbieter ohnehin nicht.
+ */
+function manifestGruppe(datei) {
+  const name = datei.replace(/^extension\//, '')
+  const manifest = JSON.parse(readFileSync('extension/manifest.json', 'utf8'))
+  for (const gruppe of manifest.content_scripts ?? []) {
+    const js = gruppe.js ?? []
+    const platz = js.indexOf(name)
+    if (platz > 0) return js.slice(0, platz)
+    if (platz === 0) return []
+  }
+  return []
+}
+
 const SKRIPTE = [
   'extension/melder.js',
   'extension/amazon.js',
@@ -224,7 +242,23 @@ for (const datei of SKRIPTE) {
     console.log(`  – ${datei} — gibt es nicht (mehr)`)
     continue
   }
-  const quelle = readFileSync(datei, 'utf8')
+  /*
+    **Vorgeladen wird, was das Manifest vorlädt.**
+
+    Seit dem 10.09.2026 steht das gemeinsame Kastengerüst in `box.js`, und die
+    drei Melder rufen seine Funktionen. Im Browser liegen alle Dateien einer
+    `content_scripts`-Gruppe im selben Scope; wer hier nur die eine Datei lädt,
+    misst einen Zustand, den es nicht gibt — und bekommt „akBox is not defined"
+    für Code, der im Browser einwandfrei läuft.
+
+    Gelesen wird die Reihenfolge aus dem Manifest selbst, nicht aus einer
+    zweiten Liste hier: Zwei Listen laufen auseinander, und die im Manifest ist
+    die, nach der Chrome sich richtet.
+  */
+  const vorlauf = manifestGruppe(datei)
+    .map((n) => readFileSync('extension/' + n, 'utf8'))
+    .join(String.fromCharCode(10))
+  const quelle = vorlauf + String.fromCharCode(10) + readFileSync(datei, 'utf8')
   /* Die Seite, auf der das Skript wirklich läuft — sonst steigt es sofort aus. */
   const host = datei.includes('amazon')
     ? 'www.amazon.de'

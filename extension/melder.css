@@ -600,7 +600,7 @@
   abgeschnittenen Titel („Anime-Kalender sucht: Cowb…") und zwei Knöpfe quer
   darüber.
 */
-.ak-amazon-suchhinweis {
+.ak-box {
   position: fixed;
   right: 16px;
   /*
@@ -1202,11 +1202,49 @@
   zwischen sichtbaren Kindern liegt. Was in eine Zeile einzieht, verschiebt
   damit nichts über sich.
 */
-.ak-amazon-suchhinweis {
+/*
+  **Dasselbe Gerüst auf allen drei Seiten** (Daniel, 10.09.2026: „am besten
+  selbe extension design auf allen seiten fürs reporten, aber jede seite hat
+  eigenheiten"). `.ak-box` trägt Aussehen und Aufbau, die Anbieterklasse
+  daneben nur die Lage — bei Prime unten rechts, bei Netflix daneben, weil dort
+  der Player seine eigenen Bedienelemente hat.
+*/
+/*
+  **Ein Kasten ohne Inhalt ist kein Kasten.**
+
+  Die fünf Zeilen entstehen zusammen, und leere nehmen keinen Platz — der
+  Rahmen und der Hintergrund des Kastens aber schon. Auf einer Seite ohne
+  Auftrag stünde damit ein leeres Rechteck, und genau das war der Fehler vom
+  10.09.2026 im Netflix-Player: „wieso ist die extension hier??? fail."
+
+  `:has()` beantwortet die Frage direkt: Trägt kein Kind Inhalt, verschwindet
+  der Kasten. Chrome kann es seit Fassung 105, und die Erweiterung läuft
+  nirgends sonst.
+*/
+.ak-box:not(:has(> :not(:empty))) {
+  display: none;
+}
+
+.ak-box {
   display: flex;
   flex-direction: column;
   gap: 7px;
 }
+
+/*
+  **Die Debug-Zeile steht unter einer Trennlinie** (Daniel, 10.09.2026: „pack
+  dort auch unten ne trennlinie für debug icons rein"). Sie gehört nicht zur
+  Arbeit an der Seite, sondern zur Arbeit an der Erweiterung — und was
+  verschiedene Dinge sind, soll auch verschieden aussehen.
+
+  `:not(:empty)`, damit die Linie mit der Zeile verschwindet: Eine Trennlinie
+  über nichts trennt nichts.
+*/
+/*
+  Die Trennlinie bringt `.ak-debugleiste` selbst mit (seit 02.09.2026) — hier
+  stünde sie ein zweites Mal, und zwei Linien übereinander sehen aus wie ein
+  Fehler im Stylesheet.
+*/
 
 .ak-z-titel:empty,
 .ak-z-inhalt:empty,
@@ -1415,7 +1453,7 @@
   aber kein Bedienelement. Wer sie nicht sucht, soll sie nicht bemerken: halb
   durchsichtig, bis die Maus darauf liegt.
 */
-.ak-amazon-suchhinweis { position: fixed; }
+.ak-box { position: fixed; }
 
 /*
   Sie klebte am linken Rand des Kastens, ein paar Pixel über dessen Unterkante
@@ -1645,4 +1683,40 @@
 @keyframes akPlayerEin {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: none; }
+}
+
+/*
+  **Der Netflix-Kasten liegt, wo bei Prime der seine liegt** — unten rechts.
+  Das Aussehen kommt von `.ak-box`; hier steht nur, was Netflix eigen ist.
+
+  Er ist schmaler als der von Prime: Dort steht eine Checkliste mit
+  Ausgaben-Zeilen, hier eine Knopfleiste. Ein Kasten, der breiter ist als sein
+  Inhalt, sieht aus wie ein Ladefehler.
+*/
+.ak-netflix-kasten {
+  max-width: 300px;
+}
+
+/*
+  Die Melde-Zeile trägt bei Netflix zwei Dinge nebeneinander: die
+  Durchlauf-Leiste und den Melde-Knopf des Players. Beide sollen die volle
+  Breite nutzen und umbrechen dürfen.
+*/
+.ak-netflix-kasten .ak-z-melden {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/*
+  Im Kasten schwebt nichts mehr — die drei Elemente lagen vorher einzeln am
+  Bildschirmrand und brachten ihre eigene Lage mit (10.09.2026).
+*/
+.ak-netflix-kasten .ak-melder,
+.ak-netflix-kasten .ak-uebersicht,
+.ak-netflix-kasten .ak-durchlauf-leiste {
+  position: static;
+  right: auto;
+  bottom: auto;
+  z-index: auto;
 }

@@ -117,7 +117,8 @@ pruefe('jeder Eintrag nennt mindestens eine Folge', ohneEmpfehlung.length === 0,
   const zweig = quelle.indexOf('if (!istGesucht()) {')
   const abschnitt = quelle.slice(zweig, zweig + 3000)
   const ausstieg = abschnitt.indexOf('if (!kamAusListe) {')
-  const einhaengen = abschnitt.indexOf('document.body.appendChild(knopf)')
+  /* Seit dem 10.09.2026 zieht der Knopf in den gemeinsamen Kasten ein, nicht mehr an den body. */
+  const einhaengen = abschnitt.indexOf(".ak-z-melden')?.appendChild(knopf)")
   pruefe('der Zweig ohne Auftrag existiert', zweig > 0)
   pruefe('er steigt ohne Auftrag aus', ausstieg > 0)
   pruefe(

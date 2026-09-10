@@ -52,6 +52,14 @@ export default [
         TextDecoder: 'readonly',
         atob: 'readonly',
         btoa: 'readonly',
+        /*
+          Aus `box.js` — die Datei lädt laut Manifest vor jedem Melder und stellt
+          das gemeinsame Kastengerüst. Für ESLint ist sie eine eigene Datei,
+          im Browser teilen sich beide denselben Scope.
+        */
+        akBox: 'readonly',
+        akDebugLeiste: 'readonly',
+        akBerichtSchalter: 'readonly',
       },
     },
     rules: { 'no-undef': 'error' },

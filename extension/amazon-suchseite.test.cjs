@@ -15,7 +15,7 @@
 const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
-const quelle = readFileSync(__dirname + '/amazon.js', 'utf8')
+const quelle = readFileSync(__dirname + '/box.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/amazon.js', 'utf8')
 
 const SUCHLISTE = {
   'https://www.amazon.de/s?k=Cowboy%20Bebop&i=instant-video': {
@@ -35,6 +35,8 @@ function pruefe(name, bedingung, gefunden) {
 function element() {
   const e = {
     className: '',
+    /* Angehaengt gilt als verbunden — akBox() prueft es, seit es den Kasten merkt. */
+    isConnected: true,
     style: { cssText: '' },
     dataset: {},
     textContent: '',
@@ -717,12 +719,19 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
     `/s`. Ein Klick auf den nächsten Listeneintrag ließ ihn stehen (Daniel,
     31.08.2026).
   */
+  /*
+    **Die Regel liegt seit dem 10.09.2026 an zwei Orten**, und das ist Absicht:
+    Welcher Teil der Adresse den Kasten unterscheidet, weiß nur der Anbieter
+    (`kastenAdresse()` hier); dass ein Kasten zu genau einer Adresse gehört und
+    sonst ersetzt wird, gilt überall (`akBox()` in `box.js`).
+  */
   const skelett = quelle.slice(quelle.indexOf('function kastenAdresse'), quelle.indexOf('function ladeRing'))
+  const boxQuelle = readFileSync(__dirname + '/box.js', 'utf8')
   pruefe(
     'der Kasten unterscheidet zwei Suchen am Suchbegriff',
     /new URLSearchParams\(location\.search\)\.get\('k'\)/.test(skelett) &&
-      /dataset\.fuerAdresse = jetzt/.test(skelett) &&
-      /dataset\.fuerAdresse !== jetzt/.test(skelett),
+      /dataset\.fuerAdresse = fuerAdresse/.test(boxQuelle) &&
+      /dataset\.fuerAdresse !== fuerAdresse/.test(boxQuelle),
   )
   /*
     **Und er nimmt die ganze Query nicht.**

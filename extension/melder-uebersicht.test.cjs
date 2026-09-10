@@ -28,6 +28,8 @@ const pruefe = (name, ok, gefunden) => {
 function macheElement(tag) {
   return {
     tagName: String(tag).toUpperCase(),
+    /* Angehaengt gilt als verbunden — akBox() prueft es, seit es den Kasten merkt. */
+    isConnected: true,
     className: '',
     id: '',
     hidden: false,
@@ -59,7 +61,20 @@ function macheElement(tag) {
     remove() {},
     addEventListener() {},
     removeEventListener() {},
-    querySelector() { return null },
+    /*
+      **Sucht wirklich** — seit dem 10.09.2026 baut box.js einen Kasten mit
+      Zeilen und Fuss, und der Melder haengt seine Knoepfe ueber querySelector
+      hinein. Ein querySelector, der immer null gibt, laesst alles leer.
+    */
+    querySelector(sel) {
+      const klasse = String(sel).trim().split(/\s+/).pop().replace(/^\./, '')
+      for (const k of this.kinder ?? []) {
+        if (String(k?.className ?? '').split(/\s+/).includes(klasse)) return k
+        const tiefer = k?.querySelector?.(sel)
+        if (tiefer) return tiefer
+      }
+      return null
+    },
     querySelectorAll() { return [] },
     setAttribute() {},
     getAttribute() { return null },
@@ -93,7 +108,20 @@ function baueUmgebung(pfad) {
     addEventListener() {},
     removeEventListener() {},
     dispatchEvent() { return true },
-    querySelector() { return null },
+    /*
+      **Sucht wirklich** — seit dem 10.09.2026 baut box.js einen Kasten mit
+      Zeilen und Fuss, und der Melder haengt seine Knoepfe ueber querySelector
+      hinein. Ein querySelector, der immer null gibt, laesst alles leer.
+    */
+    querySelector(sel) {
+      const klasse = String(sel).trim().split(/\s+/).pop().replace(/^\./, '')
+      for (const k of this.kinder ?? []) {
+        if (String(k?.className ?? '').split(/\s+/).includes(klasse)) return k
+        const tiefer = k?.querySelector?.(sel)
+        if (tiefer) return tiefer
+      }
+      return null
+    },
     querySelectorAll() { return [] },
     getElementById() { return null },
   }
@@ -149,6 +177,7 @@ function baueUmgebung(pfad) {
     Number,
     Boolean,
     Set,
+    WeakMap,
     Map,
     Error,
     RegExp,
@@ -180,6 +209,8 @@ function baueUmgebung(pfad) {
 function lade(pfad, liste) {
   const { umgebung, body, takte } = baueUmgebung(pfad)
   const kontext = vm.createContext(umgebung)
+  /* `box.js` lädt im Browser vor `melder.js` — hier genauso, sonst fehlt akBox(). */
+  vm.runInContext(readFileSync(__dirname + '/box.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/offene-netflix.js', 'utf8'), kontext)
   if (liste) umgebung.AK_OFFENE_TITEL = liste
   let fehler = null

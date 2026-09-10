@@ -31,7 +31,7 @@
 const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
-const quelle = readFileSync('extension/melder.js', 'utf8')
+const quelle = readFileSync('extension/box.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/melder.js', 'utf8')
 
 const fehler = []
 const pruefe = (was, ok, zusatz) => {
@@ -43,6 +43,9 @@ const pruefe = (was, ok, zusatz) => {
 function machElement(tag = 'div') {
   const el = {
     tagName: String(tag).toUpperCase(),
+    /* Seit dem 10.09.2026 baut `box.js` den Kasten und stempelt ihn — dafuer
+       braucht jedes Element sein `dataset`. */
+    dataset: {},
     className: '',
     textContent: '',
     value: '',
@@ -85,7 +88,24 @@ function machElement(tag = 'div') {
       this.hoerer[art] = fn
     },
     removeEventListener() {},
-    querySelector: () => null,
+    /*
+      **Sucht wirklich** — seit dem 10.09.2026 baut `box.js` einen Kasten mit
+      Zeilen und einem Fuß, und der Melder greift über `querySelector` hinein.
+      Ein `querySelector`, der immer `null` gibt, lässt jede dieser Zeilen leer;
+      die Prüfung meldete dann einen Absturz, den es im Browser nicht gibt.
+
+      Gesucht wird nach Klassen, weil der Code nur danach sucht, und rekursiv,
+      weil die Fuß-Plätze eine Ebene tiefer liegen.
+    */
+    querySelector(sel) {
+      const klasse = String(sel).trim().split(/\s+/).pop().replace(/^\./, '')
+      for (const k of this.kinder ?? []) {
+        if (String(k?.className ?? '').split(/\s+/).includes(klasse)) return k
+        const tiefer = k?.querySelector?.(sel)
+        if (tiefer) return tiefer
+      }
+      return null
+    },
     querySelectorAll: () => [],
     getBoundingClientRect: () => ({ top: 0, left: 0, width: 100, height: 30 }),
     focus() {},
