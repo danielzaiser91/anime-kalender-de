@@ -214,16 +214,38 @@ function staffelnVon(id, eintrag) {
    * Der Anbieter sagt, **wie** er teilt — was wir schon geprüft haben, steht
    * nur in unserer Liste. Reicht sie nicht so weit, gilt die Staffel als offen.
    */
-  return gemeldet.map((s, i) => ({
-    nr: s.seq,
-    name: s.name || `Staffel ${s.seq}`,
-    folgen: s.folgen,
-    erste: s.erste ?? 1,
-    // `film` kann aus der Meldung kommen (Netflix nannte weder Staffel noch
-    // Folge) oder aus unserem Datensatz.
-    film: s.film ?? eintrag.staffeln[i]?.film ?? false,
-    offen: eintrag.staffeln[i]?.offen ?? true,
-  }))
+  /**
+   * **Was außerhalb der Anbieterzählung steht, überlebt sie.**
+   *
+   * Die Zeile darüber sagt, der Anbieter bestimme die Aufteilung — und das
+   * stimmt für seine eigenen Staffeln. Seit dem 09.09.2026 hängt die Prüfliste
+   * aber Einträge an, die es bei ihm gar **nicht** als Staffel gibt: OVAs und
+   * Specials, die bei uns eigene Titel sind (`ausserhalb: true`). Sie stehen
+   * genau deshalb dort, weil die Anbieterzählung sie nicht kennt.
+   *
+   * Bis 4.17.5 ersetzte die Meldung die Liste vollständig, und damit
+   * verschwanden sie. Daniel am 10.09.2026 mit Bild: Bei „Haikyu!!" zeigte der
+   * Dialog vier Pillen (S1–S4, Netflix' Zählung), bei „Dorohedoro" und drei
+   * weiteren dagegen die Nebenausgabe — dort hatte Netflix noch nichts
+   * gemeldet. Vier offene Einträge waren nicht erreichbar.
+   *
+   * Angehängt statt eingemischt: Die Nebenausgaben tragen Nummern hinter der
+   * Anbieterzählung, und ihre Reihenfolge im Dialog soll das auch zeigen.
+   */
+  const ausserhalb = (eintrag.staffeln ?? []).filter((st) => st?.ausserhalb)
+  return [
+    ...gemeldet.map((s, i) => ({
+      nr: s.seq,
+      name: s.name || `Staffel ${s.seq}`,
+      folgen: s.folgen,
+      erste: s.erste ?? 1,
+      // `film` kann aus der Meldung kommen (Netflix nannte weder Staffel noch
+      // Folge) oder aus unserem Datensatz.
+      film: s.film ?? eintrag.staffeln[i]?.film ?? false,
+      offen: eintrag.staffeln[i]?.offen ?? true,
+    })),
+    ...ausserhalb,
+  ]
 }
 
 /**
@@ -3576,7 +3598,9 @@ async function dialogOeffnen() {
         weg.type = 'button'
         weg.className = 'ak-staffel-weg'
         weg.textContent = '✕'
-        weg.title = `Staffel ${st.nr} gibt es hier nicht — nur diese Staffel melden`
+        weg.title = st.ausserhalb && st.name
+          ? `„${st.name}" gibt es hier nicht — nur diese Ausgabe melden`
+          : `Staffel ${st.nr} gibt es hier nicht — nur diese Staffel melden`
         weg.addEventListener('click', async (ereignis) => {
           ereignis.stopPropagation()
           ereignis.preventDefault()
