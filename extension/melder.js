@@ -2327,10 +2327,20 @@ async function durchlaufStarten(grenze) {
         von zwölf.
       */
       DURCHLAUF.ohneSpur = (DURCHLAUF.ohneSpur ?? 0) + 1
-      console.warn(`[Anime-Kalender] Folge ${f.nummer}: keine Tonspur gelesen — bleibt offen`)
+      /*
+        **`info`, nicht `warn` — das hier ist kein Fehler.**
+
+        Chrome sammelt `console.warn` im Fehler-Panel, und dort las Daniel am
+        10.09.2026 „[Anime-Kalender] Folge 25: keine Tonspur gelesen" als
+        Störung. Sie ist keine: Netflix hat binnen zwanzig Sekunden keine
+        Tonspur ausgeliefert, die Folge bleibt offen und kommt beim nächsten
+        Durchlauf wieder dran — genau wie vorgesehen.
+      */
+      console.info(`[Anime-Kalender] Folge ${f.nummer}: keine Tonspur gelesen — bleibt offen`)
     } else {
       DURCHLAUF.fremde = (DURCHLAUF.fremde ?? 0) + 1
-      console.warn(
+      /* Auch das ist ein geplanter Fall, kein Fehler — siehe oben. */
+      console.info(
         `[Anime-Kalender] Folge ${f.nummer} gehört zu Reihe ${stand.reihe}, nicht zu ${gemeinteReihe()} — übersprungen`,
       )
     }
@@ -3093,8 +3103,28 @@ function durchlaufKnopfZeigen() {
     offen === DURCHLAUF.folgen.length
       ? `${offen} Folgen sind bekannt. Jede wird kurz geöffnet; das landet in „Weiter ansehen".`
       : `${DURCHLAUF.folgen.length - offen} von ${DURCHLAUF.folgen.length} sind gemeldet, ${offen} fehlen noch.`
+  /**
+   * **Warum etwas offen blieb, gehört an den Knopf.**
+   *
+   * Blieb eine Folge ohne Tonspur, stand die Zahl bisher in einer
+   * **eingeklappten** Konsolengruppe („3 Folge(n) geprüft, 2 ohne Tonspur") —
+   * also an der einen Stelle, die niemand aufklappt. Sichtbar war nur die
+   * Warnung im Fehler-Panel, und die las sich wie eine Störung.
+   *
+   * Jetzt sagt es der Knopf selbst: Der Lauf ist durch, so viele blieben offen,
+   * und ein zweiter Klick holt sie. Daniel am 10.09.2026: „erweiterung muss
+   * klar und deutlich ihr verhalten kommunizieren."
+   */
+  const ohneSpur = DURCHLAUF.ohneSpur ?? 0
+  if (!DURCHLAUF.laeuft && ohneSpur > 0 && offen > 0) {
+    DURCHLAUF.knopf.textContent =
+      `↻ ${ohneSpur} ohne Tonspur — noch einmal`
+  }
   DURCHLAUF.knopf.title =
     stand +
+    (ohneSpur
+      ? `\n${ohneSpur} Folge(n) lieferten binnen zwanzig Sekunden keine Tonspur. Das ist keine Störung — ein zweiter Lauf holt sie meist.`
+      : '') +
     '\nUmschalt+Klick: kehrt die Grenze für einen Lauf um.' +
     '\nDer Knopf „↻ alle" daneben prüft auch schon gemeldete Folgen noch einmal.'
 }
