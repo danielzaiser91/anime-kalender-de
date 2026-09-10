@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-09T13:58:24.880Z",
+  "scrapedAt": "2026-09-10T18:37:16.922Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -117136,10 +117136,82 @@
       "url": "https://www.crunchyroll.com/series/G0XHWM5K7/babylon",
       "seriesId": "G0XHWM5K7",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-09-10",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Babylon",
+          "staffelId": "GR49C7JKK",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G14U4G4PM",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GJWU2E21E",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GK9U3D3NK",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GVWU0400N",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G31UXZXXE",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G2XU0D000",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GZ7UV1VV9",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GQJUGQGGX",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GWDU8Q889",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G0DUNJNN0",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G7PU4J44X",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GX9UQZQQX",
+              "verfuegbarAb": "2023-04-13T17:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/series/G3KHEVD7E/digimon-frontier",
