@@ -5011,6 +5011,97 @@ function main(): void {
     if (nachNein) log(`${nachNein} frisch ergänzte Verweise gleich wieder entfernt: dort gibt es keine deutsche Tonspur`)
   }
 
+  /**
+   * **Wer die Staffeln exakt füllt, lässt für einen weiteren keinen Platz.**
+   *
+   * Die Umkehrung der Rechnung vom 10.09.2026: Meldet der Anbieter seine
+   * Staffelaufteilung, und füllen unsere **beurteilten** Titel jede seiner
+   * Staffeln der Reihe nach exakt auf, dann ist dort nichts mehr frei. Ein
+   * Titel derselben Adresse ohne Urteil läuft dort nicht — sein Verweis führt
+   * ins Leere.
+   *
+   * Das ist kein Umkehrschluss aus Schweigen, sondern eine Abzählung: Netflix
+   * zeigt „Sword Art Online" mit 25 und 24 Folgen, unsere ersten beiden Titel
+   * haben genau diese Zahlen und sind belegt. Für die 23 Folgen der beiden
+   * Alicization-Teile ist kein Platz — sie laufen dort wirklich nicht. Dasselbe
+   * bei „Mushoku Tensei": 23 + 25 = 11 + 12 und 13 + 12, der Special mit seiner
+   * einen Folge passt in keine der beiden Staffeln.
+   *
+   * **Drei Bedingungen, alle notwendig**, und zusammen sind sie streng genug:
+   * Die Aufteilung des Anbieters muss vorliegen, die beurteilten Titel müssen
+   * **jede** Staffel exakt füllen, und es darf keiner von ihnen übrig bleiben.
+   * Fehlt eine davon, wird nichts entfernt — das ist der Unterschied zu der
+   * Positionspaarung, die am 22.08.2026 sechs Verweise zu Unrecht gestrichen
+   * hat (siehe CLAUDE.md, „Der Anbieter zählt kumulativ").
+   */
+  {
+    const staffelStruktur = readJson<
+      Record<string, { staffeln?: { seq: number; folgen: number }[] }>
+    >('data/anbieter-staffeln.json', {})
+    const netflixKennung = (u: string): string | null =>
+      /netflix\.com\/(?:[a-z-]+\/)?title\/(\d+)/i.exec(u)?.[1] ?? null
+    const jahrRang = (t: Title): number =>
+      (t.jpYear ?? 0) * 100 + ({ WINTER: 1, SPRING: 2, SUMMER: 3, FALL: 4 }[t.jpSeason ?? ''] ?? 0)
+
+    /* Alle Titel je Netflix-Adresse, in der Reihenfolge ihrer Ausstrahlung. */
+    const jeAdresse = new Map<string, Array<{ title: Title; stream: StreamLink }>>()
+    for (const title of titles.values()) {
+      for (const stream of title.streams ?? []) {
+        const id = netflixKennung(stream.url)
+        if (!id) continue
+        const liste = jeAdresse.get(id) ?? []
+        liste.push({ title, stream })
+        jeAdresse.set(id, liste)
+      }
+    }
+
+    let ohnePlatz = 0
+    for (const [id, liste] of jeAdresse) {
+      const staffeln = staffelStruktur[id]?.staffeln
+      if (!staffeln?.length) continue
+      const offen = liste.filter((e) => e.stream.dub !== true && e.stream.dub !== false)
+      if (!offen.length) continue
+      const sortiert = [...liste].sort((a, b) => jahrRang(a.title) - jahrRang(b.title) || a.title.id - b.title.id)
+      const beurteilt = sortiert.filter((e) => e.stream.dub === true || e.stream.dub === false)
+
+      let i = 0
+      let fuellt = true
+      for (const st of staffeln) {
+        let summe = 0
+        while (i < beurteilt.length && summe < (st.folgen ?? 0)) {
+          const n = beurteilt[i]!.title.episodes ?? 0
+          if (!n || summe + n > (st.folgen ?? 0)) break
+          summe += n
+          i++
+        }
+        if (summe !== (st.folgen ?? 0)) {
+          fuellt = false
+          break
+        }
+      }
+      if (!fuellt || i !== beurteilt.length) continue
+
+      for (const { title, stream } of offen) {
+        title.streams = title.streams.filter((x) => x !== stream)
+        ohnePlatz++
+        verweiseEntfernt.push({
+          titleId: title.id,
+          titel: title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id),
+          plattform: stream.platform,
+          url: stream.url,
+          seriesId: null,
+          grund:
+            `der Anbieter führt ${staffeln.map((st) => st.folgen).join(' + ')} Folgen, und die belegten Titel ` +
+            `füllen sie exakt — für ${title.episodes ?? '?'} weitere ist dort kein Platz`,
+          geprueftAm: null,
+          entferntAm: todayIso(),
+          letzterWeg: title.streams.length === 0,
+        })
+      }
+    }
+    if (ohnePlatz) log(`${ohnePlatz} Netflix-Verweise entfernt: die Staffeln des Anbieters sind voll`)
+  }
+
   if (verweiseEntfernt.length) {
     const ohneWeg = verweiseEntfernt.filter((e) => e.letzterWeg).length
     log(`${verweiseEntfernt.length} entfernte Verweise protokolliert (${ohneWeg} Titel zeigen danach keinen Weg mehr)`)
