@@ -3062,6 +3062,40 @@ ungenauer und trägt trotzdem, weil ein Mensch die zwanzig Zeilen liest.
 „Ein neuer Abruf braucht drei Dinge": *Wer liest, was er schreibt — und steht
 dessen Name irgendwo im Code?*
 
+## Wer eine Datei anwendet, muss hinter jeder Stelle stehen, die Verweise anlegt
+
+Am 10.09.2026 dreimal in zwei Stunden derselbe Fehler, jedes Mal an einer
+anderen Stelle — und alle drei sahen aus wie „die Quelle weiß es nicht":
+
+| Fall | was dastand | was fehlte |
+|---|---|---|
+| 11 Verweise mit `herkunft: 'tot'` | der Bau **zählte** sie und schrieb daneben, sie flögen „weiter unten über dieselbe Regel" | die Regel läuft über `crDub.serien` und kennt diese Adressen nicht |
+| „Millennium Actress" | die Serienadresse flog raus, aniSearch legte `…/watch/GPWUKPVP4/…` neu an | der Riegel `toteCrAdressen` kannte nur `crDub.serien` |
+| drei fertige Urteile (2× `false`, 1× `true`) | standen in `crunchyroll-offene.json` | die Nachrunde beurteilt über `crNachUrl` — dort stehen frisch ergänzte Adressen nie |
+
+**Die gemeinsame Ursache ist keine Nachlässigkeit, sondern die Reihenfolge.**
+`build.ts` beurteilt oben und ergänzt unten. Jede Auswertung, die oben steht,
+sieht nur, was zu ihrem Zeitpunkt dastand — und jede Adresse, die unten entsteht,
+ist für sie unsichtbar. Das steht seit dem 06.09.2026 als „Wer unten ergänzt,
+muss unten auch beurteilen" in dieser Datei; die Nachrunde tut es auch, nur mit
+**ihren** Quellen (Handbeleg, `crNachUrl`, ADN-Archiv). Kommt eine vierte Quelle
+dazu, muss sie an **beiden** Stellen stehen.
+
+**Der Prüfgriff nach jeder neuen Befundquelle**, und er kostet zwei Minuten:
+
+> Die Datei in `build.ts` suchen. Steht ihr Name **einmal** da, ist sie
+> vermutlich falsch eingebaut — ergänzt wird an zwei Stellen, angewandt an
+> zweien.
+
+**Und das Symptom ist immer dasselbe**, weshalb es dreimal gedauert hat: Ein
+Verweis ohne Urteil sieht aus wie eine ungeklärte Frage. Dass die Antwort längst
+im Repo liegt, sieht man ihm nicht an — nur der Vergleich zwischen Lauf-Log und
+Datensatz zeigt es („17 offen" gegen „28 im Datensatz"). Wo diese beiden Zahlen
+auseinandergehen, ist die Ursache nie die Quelle.
+
+Wirkung an einem Vormittag: Crunchyroll von 28 auf 11 Verweise ohne
+Sprachurteil, ohne einen einzigen neuen Abruf.
+
 ## Ein neues Feld ist erst eingebaut, wenn es am Ziel angekommen ist
 
 Am 28.08.2026 bekam die Prime-Meldung ein Feld `titelId` — samt Kommentar, samt
