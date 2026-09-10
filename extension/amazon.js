@@ -711,6 +711,25 @@ async function speicherSchreiben(werte) {
   let letzteAdressKennung = null
   const fruehereAdressKennungen = new Set()
   /**
+   * **Was der Briefkasten weiß — hier oben, und zwar aus demselben Grund wie
+   * alles andere in diesem Block.**
+   *
+   * Die vier standen bis zum 10.09.2026 rund 2.800 Zeilen weiter unten, direkt
+   * über `erwartungZu()`. Das ging gut, solange nur der Takt sie las; seit
+   * `suchauftragMerken()` die bestätigte Erwartung mitgibt, liest sie auch eine
+   * Funktion, die 2.800 Zeilen **davor** steht. Ein `let` unterhalb der ersten
+   * Nutzung wirft — fünfmal in dieser Datei passiert, zuletzt an
+   * `kennungBekanntSpeicher`.
+   */
+  /** Adressen, unter denen gemeldet wurde — vom Briefkasten, nicht lokal. */
+  let briefkastenAdressen = null
+  /** Suchadressen, unter denen gemeldet wurde — vom Briefkasten, nicht lokal. */
+  let briefkastenSuchen = null
+  /** Seiten-Kennungen, auf denen schon nachgesehen wurde. */
+  let briefkastenSeiten = null
+  /** Je Suchadresse die bestätigten Ausgaben — vom Worker, nicht aus dem Browser. */
+  let briefkastenErwartungen = null
+  /**
    * **Ein Muster über den ganzen Quelltext — nicht 220 Ausschnitte.**
    *
    * Die erste Fassung lief über **alle** `titleID`-Fundstellen und legte je
@@ -2175,7 +2194,32 @@ async function speicherSchreiben(werte) {
         vergessen.
       */
       sessionStorage.removeItem(WEGGELEGT_SCHLUESSEL)
-      sessionStorage.setItem(SUCH_SCHLUESSEL, JSON.stringify({ ...auftrag, zeit: Date.now() }))
+      /*
+        **Die bestätigte Erwartung reist mit — hier, nicht an den Klickstellen.**
+
+        Daniel am 10.09.2026 an „Plus-Sized Elf" mit drei Bildern: Auf der
+        Suchseite standen beide Ausgaben angehakt („2 erwartet"), auf **beiden**
+        Titelseiten fehlte die Checkliste. Sie hängt an
+        `erwartet.length >= 2`, und dort kommt die Liste aus zwei Quellen: dem
+        Briefkasten — der auf einer frisch geladenen Seite noch schweigt — und
+        dem Auftrag im `sessionStorage`.
+
+        Der Auftrag stammt aus `AK_OFFENE_AMAZON`, und **die Prüfliste kennt
+        keine Erwartung**; das steht am Auswahlkasten sogar wörtlich. Die vier
+        Klickstellen schrieben ihn deshalb ohne, obwohl der Kommentar an einer
+        von ihnen behauptete, sie reise mit. Der Leser war seit dem 09.09.2026
+        gebaut, der Schreiber nicht.
+
+        Ergänzt wird sie an **dieser** Stelle, weil jeder Weg hier durchkommt —
+        derselbe Grund, aus dem zwei Zeilen darüber das Weglegen aufgehoben
+        wird: „Ein Vorsatz an den Klickstellen wäre bei der dritten vergessen."
+      */
+      const mitErwartung = (() => {
+        if (Array.isArray(auftrag?.erwartet) && auftrag.erwartet.length) return auftrag
+        const bestaetigt = erwartungZu(auftrag?.suchUrl ?? '')
+        return bestaetigt ? { ...auftrag, erwartet: bestaetigt } : auftrag
+      })()
+      sessionStorage.setItem(SUCH_SCHLUESSEL, JSON.stringify({ ...mitErwartung, zeit: Date.now() }))
     } catch {
       /* Ohne Speicher fällt nur diese Bequemlichkeit aus. */
     }
@@ -4996,13 +5040,6 @@ async function speicherSchreiben(werte) {
    * jede Adresse, die der Briefkasten nicht mehr führt, gilt als offen, auch
    * wenn sie lokal abgehakt ist.
    */
-  let briefkastenAdressen = null
-  /** Suchadressen, unter denen gemeldet wurde — vom Briefkasten, nicht lokal. */
-  let briefkastenSuchen = null
-  /** Seiten-Kennungen, auf denen schon nachgesehen wurde. */
-  let briefkastenSeiten = null
-  /** Je Suchadresse die bestätigten Ausgaben — vom Worker, nicht aus dem Browser. */
-  let briefkastenErwartungen = null
 
   /** Die bestätigte Erwartung zu einer Suchadresse, oder null. */
   function erwartungZu(suchUrl) {
