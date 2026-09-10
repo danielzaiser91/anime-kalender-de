@@ -3062,6 +3062,36 @@ ungenauer und trägt trotzdem, weil ein Mensch die zwanzig Zeilen liest.
 „Ein neuer Abruf braucht drei Dinge": *Wer liest, was er schreibt — und steht
 dessen Name irgendwo im Code?*
 
+## Ein Rückfall, den niemand befüllt, ist kein Rückfall
+
+Am 09.09.2026 fehlte die Checkliste auf einer frisch geladenen Titelseite, weil
+`briefkastenErwartungen` beim ersten Zeichnen noch leer ist. Der Fix las
+zusätzlich den Auftrag aus dem `sessionStorage`:
+
+```js
+const erwartet = erwartungZu(suchUrlHier) ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
+```
+
+Am 10.09.2026 fehlte sie wieder — „auf suchseite auswahl bestätigt, auf #1 und
+#3 fehlen die checklisten" (Plus-Sized Elf, zwei Ausgaben). Der Rückfall war
+gebaut und griff nie: **Keine der vier Stellen, die den Auftrag schreiben, legte
+`erwartet` hinein.** Der Auftrag stammt aus `AK_OFFENE_AMAZON`, und die
+Prüfliste kennt keine Erwartung — das steht am Auswahlkasten sogar wörtlich, drei
+Zeilen über der Klickstelle, deren Kommentar behauptete, die Erwartung reise mit.
+
+**Die Prüffrage nach jedem neuen Rückfall — und sie ist eine andere als die
+nach einer neuen Quelle:**
+
+> **Wer schreibt das, was ich hier lese, und tut er es heute schon?** Ein
+> `?? ausDemSpeicher` sieht fertig aus, auch wenn der Speicher an dieser Stelle
+> immer leer ist. Ein Rückfall, der nie greift, fällt nicht auf: Er sieht aus
+> wie eine Vorsichtsmaßnahme, die bisher nicht gebraucht wurde.
+
+**Und ergänzt wird an der Stelle, durch die jeder Weg geht**, nicht an den vier
+Klickstellen. `suchauftragMerken()` hebt zwei Zeilen darüber schon das
+Weglegen auf, mit genau dieser Begründung: „Ein Vorsatz an den Klickstellen wäre
+bei der dritten vergessen." Er war bei allen vieren vergessen.
+
 ## Wer einen Fehlalarm abstellt, muss sagen, was der Wächter noch fangen soll
 
 Am 09.09.2026 stand auf frisch geladenen Seiten mit **einer** Staffel die
