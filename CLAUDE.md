@@ -3062,6 +3062,40 @@ ungenauer und trägt trotzdem, weil ein Mensch die zwanzig Zeilen liest.
 „Ein neuer Abruf braucht drei Dinge": *Wer liest, was er schreibt — und steht
 dessen Name irgendwo im Code?*
 
+## Eine Überbrückung gehört nicht in den Speicher, den sie überbrückt
+
+Der Briefkasten antwortet mit Verzögerung, deshalb trägt die Erweiterung ihre
+eigene Meldung sofort nach. Dreimal gebaut, dreimal derselbe Griff:
+
+```js
+briefkastenAdressen.add(eintrag.url)      // 30.08.2026 — hält
+briefkastenSeiten.add(String(hier))       // 09.09.2026 — hält nicht
+```
+
+Der Unterschied liegt nicht im Code, sondern im Abruf danach:
+`briefkastenHolen()` **ersetzt** diese Mengen (`= new Set(daten.…)`). Ein
+Nachtrag lebt also nur bis zum nächsten Abruf — und der kommt hier sofort, denn
+der Melde-Handler stößt ihn selbst an (`void briefkastenHolen(true)`). Zu diesem
+Zeitpunkt führt der Worker die Meldung noch nicht.
+
+Daniel am 10.09.2026: „nach meldung muss checklisten eintrag den haken bekommen
+statt dem kreis", und einen Prompt später die Beobachtung, die es entscheidet:
+„der haken kommt nach navigation zum 2. eintrag, also wird es ein ui update sein
+was fehlt." Genau so war es — der Nachtrag war weg, bevor ihn jemand sehen
+konnte.
+
+**Der Griff, der trägt:** Ein **eigener** Merker neben der ersetzten Menge.
+
+> Prüffrage vor jeder Überbrückung: **Wer schreibt diese Datenstruktur sonst
+> noch — und ersetzt er sie oder ergänzt er sie?** Wer ersetzt, löscht die
+> Überbrückung mit.
+
+**Und die Überbrückung bleibt bei der Anzeige.** Ob ein Verweis wirklich
+abgehakt ist, entscheidet weiterhin der Briefkasten allein: Eine Meldung, die
+nicht ankommt, darf nicht als erledigt gelten. Der lokale Merker sagt „das habe
+ich gerade abgeschickt", nicht „das ist erledigt" — eine Zusicherung in
+`amazon-erwartung-reist.test.cjs` hält fest, dass `seiteOffen()` ihn nicht liest.
+
 ## Ein Rückfall, den niemand befüllt, ist kein Rückfall
 
 Am 09.09.2026 fehlte die Checkliste auf einer frisch geladenen Titelseite, weil
