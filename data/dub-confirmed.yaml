@@ -26456,3 +26456,12 @@
   checkedAt: '2026-09-09'
   zweiteQuelle: "JustWatch 2026-09-07: Anime Digital Network Amazon Channel, Zavvi — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 2 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-10 ---
+
+- anilistId: 103631
+  title: "Trinity Seven: Heavens Library & Crimson Lord"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-09-10'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DY17414W: alle 14 Folgen geprüft, Abos: Prime, aniversede, zugang=abo"
