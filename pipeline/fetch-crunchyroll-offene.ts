@@ -214,16 +214,58 @@ export async function main(): Promise<void> {
         return { herkunft: 'tot', geprueftAm: heute(), grund: `Videokennung ${videoId} gibt es nicht mehr` }
       }
       const o = (body as { data?: Record<string, never>[] })?.data?.[0] as
-        | { title?: string; episode_metadata?: { audio_locale?: string; series_id?: string } }
+        | {
+            title?: string
+            episode_metadata?: {
+              audio_locale?: string
+              series_id?: string
+              /* Alle Fassungen derselben Folge — der Schlüssel, siehe unten. */
+              versions?: { audio_locale?: string }[]
+            }
+          }
         | undefined
       const md = o?.episode_metadata
       if (md?.audio_locale === 'de-DE') {
         return { herkunft: 'video', dub: true, titel: o?.title, seriesId: md.series_id, geprueftAm: heute() }
       }
+      /**
+       * **Die Folge nennt ihre sämtlichen Fassungen selbst — und das ist ein
+       * Beleg.**
+       *
+       * `audio_locale` sagt, in welcher Sprache **dieses** Video vorliegt;
+       * daraus folgt nichts, denn die deutsche Fassung hat eine eigene
+       * Kennung. `versions[]` ist die andere Auskunft: Dort listet Crunchyroll
+       * **alle** Fassungen derselben Folge — genau der Schlüssel, den CLAUDE.md
+       * seit dem 25.08.2026 als den tragfähigen benennt („er hängt an der
+       * Folge, nicht am Block").
+       *
+       * Gemessen am 10.09.2026 an beiden „Rascal"-Filmen: `audio_locale: ja-JP`,
+       * `versions: en-US, ja-JP, fr-FR` — kein Deutsch, und zwar nicht als
+       * Schweigen, sondern als vollständige Liste. Der Serieneintrag führt
+       * `de-DE` (aus anderen Staffeln), der Zweig darunter kam deshalb nie zu
+       * einem Urteil.
+       *
+       * Der Abruf kommt aus Deutschland (`country: DE`, sonst bricht der Lauf
+       * ab) — die Einschränkung vom 22.08.2026 („ein fehlendes de-DE aus
+       * US-Sicht belegt nichts") greift hier nicht.
+       */
+      const fassungen = [...new Set((md?.versions ?? []).map((v) => v?.audio_locale).filter(Boolean))]
+      if (fassungen.length && !fassungen.includes('de-DE')) {
+        return {
+          herkunft: 'video',
+          dub: false,
+          titel: o?.title,
+          seriesId: md?.series_id,
+          audio: fassungen as string[],
+          geprueftAm: heute(),
+          grund: `die Folge nennt ihre Fassungen selbst (${fassungen.join(', ')}) — kein Deutsch darunter`,
+        }
+      }
       /*
-        Kein Deutsch an **diesem** Video — das ist kein Nein. Gefragt wird
-        deshalb der Serieneintrag: Führt auch er kein `de-DE`, haben zwei
-        Stellen unabhängig geschwiegen, und daraus wird ein Nein.
+        Kein Deutsch an **diesem** Video und keine Fassungsliste — das ist kein
+        Nein. Gefragt wird deshalb der Serieneintrag: Führt auch er kein
+        `de-DE`, haben zwei Stellen unabhängig geschwiegen, und daraus wird
+        eins.
       */
       const serie = md?.series_id ? katalogNachId.get(md.series_id) : undefined
       if (serie && !(serie.audio ?? []).includes('de-DE')) {
