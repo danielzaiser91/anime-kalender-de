@@ -25,4 +25,3 @@ nicht. Drei Fälle, drei Handgriffe:
 | Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |
 |---|---|---|---|---|---|
 | primevideo | https://www.amazon.de/dp/B0D4K9PV2F | Haikyuu!! | kein_dub | [Haikyu!!](https://anilist.co/anime/20464) | Vorschlag bestätigen, dann Adresse eintragen |
-| primevideo | https://www.amazon.de/dp/B0D544CDK6 | Haikyuu!! | dub | [Haikyu!!](https://anilist.co/anime/20464) | Vorschlag bestätigen, dann Adresse eintragen |
