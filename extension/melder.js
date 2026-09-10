@@ -2260,7 +2260,20 @@ function durchlaufAuftrag() {
     if (!reihe) return null
     const eintrag = offeneTitel[String(reihe)]
     if (!eintrag) return null
-    const staffelJetzt = Number(stand.staffel)
+    /*
+      **Die Staffel steht in der Folgenliste, nicht im Player-Stand.**
+
+      `stand.staffel` fuellt der Player; auf der Titelseite ist sie leer — und
+      genau dort steht der Knopf. Die Liste, die `leser.js` zur gewaehlten
+      Staffel schickt, traegt sie je Folge mit (10.09.2026: Der Knopf zeigte
+      weiter "nur F2 + F25", weil dieser Zugriff ins Leere lief).
+
+      `staffelnBereinigen()` nullt sie, wo die Nummern ueber alle Staffeln
+      durchlaufen — dort gibt es nichts zuzuordnen, und der Auftrag greift
+      folgerichtig nicht.
+    */
+    const ausListe = DURCHLAUF.folgen.map((f) => Number(f.staffel)).find((n) => Number.isFinite(n))
+    const staffelJetzt = Number.isFinite(ausListe) ? ausListe : Number(stand.staffel)
     if (!Number.isFinite(staffelJetzt)) return null
     /* Mehrere Einträge je Staffel gibt es seit der kumulativen Rechnung. */
     const passend = staffelnVon(reihe, eintrag).filter(
