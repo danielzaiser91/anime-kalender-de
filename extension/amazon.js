@@ -9324,7 +9324,17 @@ async function speicherSchreiben(werte) {
         */
         const kennungJetzt = (() => {
           try {
-            return asin() ?? id
+            /*
+              **`asin()` fragt zuerst den Quelltext — und der hinkt nach.**
+
+              Nach einem Staffelwechsel steht dort Sekunden lang die Kennung der
+              verlassenen Seite; in der Aufnahme vom 10.09.2026 nannte die
+              Kopfzeile vier Sekunden lang `B0BZGQZCFT`, während die Adresse
+              schon `B0CHL21CT2` führte. Der Knopf ist in dieser Zeit gesperrt,
+              aber eine Kopfzeile, die eine andere Seite nennt als die Adresse,
+              ist trotzdem falsch — sie sagt, was gleich gemeldet würde.
+            */
+            return (quelltextVonFruehererSeite() ? asinAusAdresse() : asin()) ?? id
           } catch {
             return id
           }
