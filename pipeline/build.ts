@@ -5495,6 +5495,47 @@ function main(): void {
   if (jwWege) log(`${jwWege} Bezugswege aus JustWatch für Titel ohne jeden Weg ergänzt`)
 
   /**
+   * **Und dieselbe Frage an aniSearch — sie kennt Wege, die JustWatch nicht hat.**
+   *
+   * Gemessen am 10.09.2026: 236 Titel zeigen keinen einzigen Weg, und zu zwölf
+   * davon führt `data/anisearch.json` eine Quelle. JustWatch kennt nur einen
+   * einzigen davon — seine Datei deckt 351 Titel ab, unser Bestand 2.768.
+   *
+   * Die Riegel sind dieselben wie beim Block darüber, und der wichtigste ist
+   * der erste: **nur wo gar nichts steht.** Wo ein geprüfter Verweis existiert,
+   * ist er die bessere Auskunft; hier geht es um die Titel, bei denen der
+   * Kalender auf „wo läuft das" nichts antwortet.
+   *
+   * **YouTube bleibt draußen**, und das ist kein Versehen: Ein Kanal zeigt dort
+   * regelmäßig die untertitelte Fassung, und ein Weg ohne Sprachurteil ist
+   * genau die Halbwahrheit, gegen die Punkt 1 des Projektziels steht (16 solche
+   * Verweise sind am 07.09.2026 entfernt worden). Sieben der zwölf sind
+   * YouTube-Fälle — sie bleiben ungezeigt, bis eine Tonspur belegt ist.
+   */
+  let asWege = 0
+  for (const title of titles.values()) {
+    if ((title.streams ?? []).length || (title.watchLinks ?? []).length) continue
+    const quellen = anisearch[title.id]?.streams ?? []
+    if (!quellen.length) continue
+    const wege: WatchLink[] = []
+    for (const quelle of quellen) {
+      const url = (quelle.url ?? '').split('?')[0]
+      const anbieter = String(quelle.provider ?? '')
+      if (!url || /youtube/i.test(anbieter)) continue
+      if (toteAdressen.has(url)) continue
+      /* Die aniSearch-Kennung trägt ein `-de` am Ende, das `providerName()` nicht kennt. */
+      const name = providerName(anbieter.replace(/-de$/, ''))
+      if (!name || /^Primevideo/i.test(name) || wege.some((w) => w.name === name)) continue
+      wege.push({ name, url, kind: 'stream' })
+      if (wege.length >= 4) break
+    }
+    if (!wege.length) continue
+    title.watchLinks = wege
+    asWege += wege.length
+  }
+  if (asWege) log(`${asWege} Bezugswege aus aniSearch für Titel ohne jeden Weg ergänzt`)
+
+  /**
    * **Prime Video führen wir über amazon.de — `primevideo.com` fliegt raus.**
    *
    * Daniel am 07.09.2026 an „City The Animation", mit vier Bildern: Der Titel
