@@ -1743,6 +1743,46 @@ eigenen Commits nicht enthielt. Ohne diesen Blick wäre die Arbeit eines ganzen
 Abschnitts liegen geblieben — sichtbar erst beim nächsten Datenlauf, der auf
 einem Stand ohne sie gebaut hätte.
 
+## Eine Migration wird angewandt **und** gebucht — sonst läuft die Buchführung weg
+
+Bis zum 10.09.2026 führte `wrangler d1 migrations list` elf Migrationen (018
+bis 028) unter „Migrations to be applied", obwohl der Worker ihre Spalten seit
+Wochen liest und schreibt. Sie waren einzeln über `d1 execute --file=…`
+angewandt worden, und die Tabelle `d1_migrations` wusste davon nichts.
+
+**Das ist keine Kosmetik, es ist eine Falle mit Zeitzünder.** Wer irgendwann
+`migrations apply` ausführt, fährt alle elf erneut: Die
+`CREATE TABLE IF NOT EXISTS` sind harmlos, ein `ALTER TABLE ADD COLUMN` auf eine
+vorhandene Spalte bricht ab — **mitten im Stapel**, mit halb nachgetragener
+Buchführung. Genau deshalb wurde jede neue Migration von Hand angewandt, und
+genau deshalb wuchs der Rückstand weiter.
+
+**Nachgetragen wurde nur die Buchführung**, nicht das Schema, und jede Zeile
+gegen die Produktivdatenbank belegt: drei Spalten in `pruefung`
+(`seiten_kennung`, `titel_id`, `folge`), zwei in `subscribers`, fünf Indizes,
+die Tabellen `such_erwartung` und `vorfall`. Der Beleg mit allen Prüfabfragen
+steht in `docs/d1-migrationen-nachgetragen-2026-09-10.sql`.
+
+**Ab 029 gilt wieder der normale Weg:**
+
+```bash
+cd worker && npx wrangler d1 migrations apply anime-kalender --remote -c wrangler.toml
+```
+
+**Und wenn eine Migration doch einmal von Hand laufen muss** — weil sie einen
+Sonderfall hat, den der Mechanismus nicht kann —, gehört die Buchung in
+denselben Handgriff:
+
+```sql
+INSERT INTO d1_migrations (name) SELECT '<datei>.sql'
+WHERE NOT EXISTS (SELECT 1 FROM d1_migrations WHERE name = '<datei>.sql');
+```
+
+Die allgemeine Form steht schon zweimal in dieser Datei, einmal für Abrufe
+(„Ein neuer Abruf braucht drei Dinge, nicht eines") und einmal für Daten („Eine
+Datei zu schreiben ist nicht dasselbe wie sie zu benutzen"): **Ein Vorgang ist
+erst fertig, wenn auch das mitgeführt ist, was ihn später wiederfindet.**
+
 ## Der Worker wird aus `worker/` ausgeliefert, nicht aus der Wurzel
 
 ```
