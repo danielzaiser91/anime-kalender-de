@@ -43,6 +43,32 @@
 # ---------------------------------------------------------------------------
 # Prüfung vom 12.08.2026 (Batch 1)
 # ---------------------------------------------------------------------------
+#
+# ── Zurückgenommen am 10.09.2026: sechs „nicht darunter"-Belege ──────────────
+#
+# Sechs Einträge trugen `available: false` mit der Notiz „Der Anbieter führt
+# unter dieser Adresse nur N Staffel(n); diese ist nicht darunter". Sie stammten
+# nicht aus einer Prüfung, sondern aus `ordneNachStaffelliste()`: Die Funktion
+# paart Position gegen Position, und wo unser Datensatz mehr Einträge führt als
+# der Anbieter Staffeln, gilt der überzählige als „nicht vorhanden".
+#
+# Widerlegt an „HAIKYU!! TO THE TOP Part 2" (Daniel, 10.09.2026, mit vier
+# Bildern): Netflix führt Staffel 4 mit **27** Folgen. Unsere TO THE TOP hat 13,
+# „LAND VS. AIR" 2, Part 2 zwölf — zusammen genau 27. Der Titel läuft dort sehr
+# wohl; der Anbieter fasst nur zusammen, was AniList trennt.
+#
+# Alle sechs tragen dasselbe Muster (eine Fortsetzung, die der Anbieter der
+# Vorstaffel zurechnet), und alle sechs gehen als Summe auf:
+#
+#   108759 / 114308  Sword Art Online: Alicization – War of Underworld (+ Part 2)
+#   187267           BEASTARS Final Season Part 2
+#   131518 / 162670  Dr. STONE New World (+ Part 2)
+#   113538           HAIKYU!! TO THE TOP Part 2
+#
+# Die Verweise kommen über aniSearch von selbst zurück. Was die Zuordnung
+# künftig verhindern soll, steht in CLAUDE.md unter „Der Anbieter zählt
+# kumulativ".
+#
 
 - anilistId: 1663
   title: 3000 Leagues in Search of Mother
@@ -1647,35 +1673,6 @@
   checkedAt: '2026-08-22'
   note: "Folge 24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
 
-- anilistId: 108759
-  title: "Sword Art Online: Alicization - War of Underworld"
-  platform: netflix
-  available: false
-  checkedAt: '2026-08-22'
-  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffel(n); diese ist nicht darunter"
-
-- anilistId: 114308
-  title: "Sword Art Online: Alicization - War of Underworld Part 2"
-  platform: netflix
-  available: false
-  checkedAt: '2026-08-22'
-  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffel(n); diese ist nicht darunter"
-
-# My Hero Academia: die fehlenden Netflix-Verweise.
-#
-# Netflix führt die Reihe unter einer Adresse in sieben Staffeln und meldet
-# ihre Längen selbst: 13, 25, 25, 25, 25, 25, 25 (Daniel, 22.08.2026, aus den
-# Metadaten der Seite). Unsere sieben Fernsehstaffeln haben 13, 25, 25, 25,
-# 25, 25, 21 — sechs Zahlen in Folge treffen exakt.
-#
-# Verzeichnet waren bisher nur Staffel 1 und Staffel 6; für die fünf übrigen
-# hatte nie eine Quelle einen Verweis. Sie stehen hier, weil die Übereinstimmung
-# der Reihe nach sie belegt — nicht, weil jemand jede einzeln geöffnet hätte.
-#
-# Die Abweichung bei Staffel 7 (Netflix 25, wir 21) bleibt offen: Netflix
-# rechnet dort Folgen mit, die AniList nicht führt. Für die Zuordnung ist das
-# unerheblich — die sechs Treffer davor legen die Reihenfolge fest.
-
 - anilistId: 21856
   title: My Hero Academia Season 2
   platform: netflix
@@ -1871,13 +1868,6 @@
   dub: true
   checkedAt: '2026-08-22'
   note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 10 Tonspuren, 3 Audiodeskriptionen"
-
-- anilistId: 187267
-  title: "BEASTARS Final Season Part 2"
-  platform: netflix
-  available: false
-  checkedAt: '2026-08-22'
-  note: "Der Anbieter führt unter dieser Adresse nur 3 Staffel(n); diese ist nicht darunter"
 
 - anilistId: 10218
   title: "Berserk: The Golden Age Arc I - The Egg of the King"
@@ -2233,13 +2223,6 @@
   checkedAt: '2026-08-22'
   note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — 4 Tonspuren, 0 Audiodeskriptionen"
 
-- anilistId: 131518
-  title: "Dr. STONE New World"
-  platform: netflix
-  available: false
-  checkedAt: '2026-08-22'
-  note: "Der Anbieter führt unter dieser Adresse nur 3 Staffel(n); diese ist nicht darunter"
-
 - anilistId: 142876
   title: "Dr. STONE Special Episode – RYUSUI"
   platform: netflix
@@ -2251,13 +2234,6 @@
       checked: [1, 23]
   checkedAt: '2026-08-22'
   note: "Folgen 1–23 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — 4 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 162670
-  title: "Dr. STONE New World Part 2"
-  platform: netflix
-  available: false
-  checkedAt: '2026-08-22'
-  note: "Der Anbieter führt unter dieser Adresse nur 3 Staffel(n); diese ist nicht darunter"
 
 - anilistId: 21717
   title: "Fate/EXTRA Last Encore"
@@ -6356,13 +6332,6 @@
       checked: [1, 27]
   checkedAt: '2026-08-22'
   note: "Folgen 1–27 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 113538
-  title: "HAIKYU!! TO THE TOP Part 2"
-  platform: netflix
-  available: false
-  checkedAt: '2026-08-22'
-  note: "Der Anbieter führt unter dieser Adresse nur 4 Staffel(n); diese ist nicht darunter"
 
 - anilistId: 97918
   title: "Kabaneri of the Iron Fortress: The Battle of Unato"

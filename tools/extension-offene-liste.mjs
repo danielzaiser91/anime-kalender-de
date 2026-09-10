@@ -219,9 +219,98 @@ for (const [id, eintraege] of jeAdresse) {
       drin, und `slice()` darauf fand sie nie. Genau deshalb blieben die vier
       Haikyu!!-OVAs unsichtbar, obwohl die Zeile daneben schon stand.
     */
+    /**
+     * **Der Anbieter zählt kumulativ — und damit steht fest, wo unsere Titel liegen.**
+     *
+     * Daniel am 10.09.2026 an „Haikyu!! Lev ist hier!", mit vier Bildern: Er
+     * fand die OVA bei Netflix unter `/watch/81308427`, und der Zurück-Pfeil
+     * führte auf **Staffel 1, Folge 26**. Sie ist dort keine eigene Staffel —
+     * sie hängt am Ende der Staffel, zu der sie gehört.
+     *
+     * Damit ist die Paarung „Position gegen Position" widerlegt: Sie ordnete
+     * unsere Staffel 1 (25 Folgen) Netflix' Staffel 1 (26) zu und verglich die
+     * Zahlen nie. Bei Haikyu!! passte **keine** einzige Position — 25↔26,
+     * 25↔26, 10↔11, 13↔27 —, und die vier OVAs fielen als „überzählig" heraus.
+     *
+     * Die Rechnung, die es auflöst, stand seit dem 22.08.2026 als Kommentar
+     * zwanzig Zeilen weiter oben: „Netflix meldet 26 + 26 + 11 + 27 = 90
+     * Folgen, unsere Fernsehstaffeln haben 85, die vier OVA-Einträge zusammen
+     * fünf." Gezogen wurde daraus nur der Schluss, die OVAs zu verstecken.
+     *
+     * Jetzt wird gerechnet: Unsere Titel werden der Reihe nach in die
+     * Anbieter-Staffeln gefüllt. Geht eine Staffel **exakt** auf, ist die
+     * Zuordnung belegt, und jeder Titel kennt seine erste Folgennummer beim
+     * Anbieter — „Lev ist hier!" beginnt bei 26.
+     *
+     * Gemessen am 10.09.2026 über alle Netflix-Adressen mit Anbieterzählung:
+     * Bei Haikyu!! geht jede der vier Staffelgrenzen auf (25+1, 25+1, 10+1,
+     * 13+2+12), ebenso bei Hi Score Girl (12+3, 9), Dorohedoro (12+1, 11),
+     * BAKI-DOU (13+12) und Sailor Moon Eternal (1+1).
+     *
+     * **Geht die Rechnung nicht auf, wird nichts behauptet.** Dann bleibt es
+     * beim bisherigen Weg: eigene Zeile mit `ausserhalb: true`, die die
+     * Erweiterung mit dem ✕ „gibt es hier nicht" abschließen kann.
+     */
+    const reihenfolge = [...eintraege].sort((a, b) => vergleiche(a.t, b.t))
+    const verteilung = (() => {
+      const raus = new Map()
+      let i = 0
+      for (const st of gemeldet) {
+        const drin = []
+        let summe = 0
+        const soll = st.folgen ?? 0
+        while (i < reihenfolge.length && summe < soll) {
+          const e = reihenfolge[i]
+          const n = e.t.episodes ?? 0
+          /* Ein Titel, der über die Staffelgrenze hinausragt, wird nicht geteilt. */
+          if (!n || summe + n > soll) break
+          drin.push({ e, erste: summe + 1 })
+          summe += n
+          i++
+        }
+        /* Nur eine **exakt** gefüllte Staffel ist ein Beleg. */
+        if (summe !== soll || !drin.length) return null
+        raus.set(st.seq, drin)
+      }
+      /* Bleibt einer unserer Titel übrig, deckt die Rechnung ihn nicht ab. */
+      return i === reihenfolge.length ? raus : null
+    })()
+
+    if (verteilung) {
+      /*
+        **Die Zeilen werden neu gebaut, nicht ergänzt.** Die Paarung oben hat
+        jeder Anbieter-Staffel genau einen unserer Titel zugeschrieben; die
+        Rechnung weiß es besser und kennt zu jeder Staffel alle.
+      */
+      offen[id].staffeln = []
+      for (const st of gemeldet) {
+        for (const { e, erste } of verteilung.get(st.seq) ?? []) {
+          const einzeln = (verteilung.get(st.seq) ?? []).length > 1
+          offen[id].staffeln.push({
+            nr: st.seq,
+            /*
+              Steht nur ein Titel in der Staffel, ist der Name des Anbieters der
+              richtige — er steht so im Player. Teilen sich mehrere die Staffel,
+              sagt erst unser Name, welcher gemeint ist.
+            */
+            name: einzeln
+              ? (e.t.titleDe ?? e.t.titleEn ?? e.t.titleRomaji ?? `Staffel ${st.seq}`)
+              : (st.name ?? `Staffel ${st.seq}`),
+            folgen: e.t.episodes ?? 1,
+            erste,
+            film: e.t.format === 'MOVIE',
+            id: e.t.id,
+            offen: e.dub === undefined || verdaechtig.has(e.t.id),
+          })
+        }
+      }
+      offen[id].laut = 'anbieter-gerechnet'
+      if (!offen[id].staffeln.some((st) => st.offen)) delete offen[id]
+      continue
+    }
+
     const gepaart = new Set(sortiert.slice(0, gemeldet.length).map((e) => e.t.id))
-    const ueberzaehlig = [...eintraege]
-      .sort((a, b) => vergleiche(a.t, b.t))
+    const ueberzaehlig = reihenfolge
       .filter((e) => !gepaart.has(e.t.id))
       .filter((e) => e.dub === undefined || verdaechtig.has(e.t.id))
     for (const [j, e] of ueberzaehlig.entries()) {

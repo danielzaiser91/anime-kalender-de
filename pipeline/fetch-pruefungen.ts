@@ -710,6 +710,40 @@ for (const gruppe of jeAdresse.values()) {
   const zuordnung =
     anbieterStaffeln && staffeln.length ? ordneNachStaffelliste(anbieterStaffeln, staffeln) : undefined
   const nichtGefuehrt = new Set(zuordnung?.ohneEntsprechung.map((x) => x.id) ?? [])
+  /**
+   * **„Keine eigene Staffel" heißt nicht „läuft dort nicht".**
+   *
+   * Der Zweig weiter unten macht aus einem Eintrag ohne Entsprechung ein
+   * `available: false` und entfernt damit den Verweis. Das ist richtig, wo der
+   * Anbieter die Staffel wirklich nicht hat — und falsch, wo er sie der
+   * **Vorstaffel zurechnet**.
+   *
+   * Widerlegt am 10.09.2026 an „HAIKYU!! TO THE TOP Part 2" (Daniel, mit vier
+   * Bildern): Netflix führt Staffel 4 mit **27** Folgen. Unsere TO THE TOP hat
+   * 13, die OVA „LAND VS. AIR" 2, Part 2 zwölf — zusammen genau 27. Der Titel
+   * läuft dort sehr wohl; der Anbieter fasst nur zusammen, was AniList trennt.
+   * Der Verweis war seit dem 22.08.2026 entfernt, und weil er fehlte, ging die
+   * Folgenrechnung der Prüfliste nicht mehr auf: vier Haikyu!!-OVAs blieben
+   * unzuordenbar.
+   *
+   * Gemessen standen **sechs** solcher Belege in `dub-confirmed.yaml`, alle
+   * nach demselben Muster (eine Fortsetzung, die der Anbieter der Vorstaffel
+   * zurechnet): SAO Alicization War of Underworld und Part 2, BEASTARS Final
+   * Season Part 2, Dr. STONE New World und Part 2, HAIKYU!! Part 2.
+   *
+   * **Die Rechnung, die beide Fälle trennt:** Wie viele Folgen führt der
+   * Anbieter mehr, als die gepaarten Titel hergeben? Passt der überzählige
+   * Titel in diesen Platz, ist er dort — nur anders geschnitten. Sonst bleibt
+   * es beim bisherigen Schluss.
+   */
+  if (nichtGefuehrt.size && zuordnung?.paare.length) {
+    const platz = zuordnung.paare.reduce(
+      (n, paar) => n + Math.max(0, (paar.anbieter.folgen ?? 0) - (paar.unser.folgen ?? 0)),
+      0,
+    )
+    const fehlend = zuordnung.ohneEntsprechung.reduce((n, u) => n + (u.folgen ?? 0), 0)
+    if (fehlend > 0 && platz >= fehlend) nichtGefuehrt.clear()
+  }
 
   /**
    * Eine Meldung, die niemand zuordnen kann, ist trotzdem Arbeit gewesen.
