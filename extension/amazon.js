@@ -7849,6 +7849,26 @@ async function speicherSchreiben(werte) {
           ladeFristReif
             ? 'Tonspuren nicht gefunden — Seite neu laden'
             : 'Folgen werden geladen …'
+        /*
+          **Ab hier steht fest, dass nichts kam — und das gehört gemeldet.**
+
+          Acht Sekunden sind mehr als das Doppelte des gemessenen Normalfalls
+          (554 ms). Was danach noch „nicht gefunden" heißt, ist ein Vorfall:
+          Vielleicht hat Amazon den Seitenaufbau geändert, vielleicht greift ein
+          Muster nicht mehr. Bis zum 10.09.2026 stand das nur auf dem Knopf, und
+          davon erfahre ich nur, wenn Daniel zufällig ein Bild schickt — genau
+          der Weg, den er als untauglich benannt hat: „info bringt nix, du liest
+          nix aus der console aus, ich lese auch nix aus."
+
+          Netflix meldet denselben Zustand seit 4.17.11 als `ohne_tonspur`.
+          Der Riegel „je Art und Seite einmal" fängt den Takt ab, in dem
+          `zeichnen()` läuft.
+        */
+        if (ladeFristReif) {
+          void vorfallMelden('ohne_tonspur', {
+            text: 'Nach acht Sekunden keine Tonspur auf der Seite gefunden',
+          })
+        }
         return
       }
       knopf.dataset.tot = String(regionWeg || nichtAbrufbar || !wartet)

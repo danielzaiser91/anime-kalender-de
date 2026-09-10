@@ -920,6 +920,24 @@
     if (!istFehlerseite()) return false
     const ziel = letztesZiel()
     if (!ziel) return false
+    /*
+      **Aus der Fehlerseite wird weiterhin keine Meldung — aber ein Vorfall.**
+
+      Die Unterscheidung steht weiter oben: `/de-de/error?src=bap` kann eine
+      Störung sein, die beim zweiten Klick weg ist (real am 26.08.2026 bei
+      „Bright Sun: Dark Shadows"). Als Befund über den Titel taugt sie deshalb
+      nichts, und daran ändert sich nichts.
+
+      **Ihre Häufigkeit ist trotzdem eine Auskunft.** Landet Daniel bei jedem
+      dritten Klick aus der Prüfliste auf einer Fehlerseite, stimmt etwas mit
+      unseren Adressen nicht — und das sieht niemand, solange jeder Fall
+      einzeln vor ihm steht und danach vergessen ist. Genau dafür gibt es den
+      Kanal seit 4.17.11.
+    */
+    /* Kein `titel`-Feld: Der Vorfall kennt die Spalte nicht, der Text trägt ihn. */
+    void vorfallMelden('stoerung', {
+      text: `Disney+ zeigte eine Fehlerseite statt „${ziel.titel}"`,
+    })
     zeigePruefung(`${ziel.titel}\nDisney+ hat eine Fehlerseite gezeigt.\n▸ nochmal versuchen`, {
       klasse: 'schlecht',
       klick: () => {
