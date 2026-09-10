@@ -1,0 +1,25 @@
+-- Der Folgentitel, den die Erweiterung seit jeher mitschickt.
+--
+-- **Der Anlass** (Daniel, 10.09.2026): „es geht bei anfang ende nur darum das
+-- alle in der liste dub haben, das stimmt doch auch für s1, das einzige problem
+-- war das netflix hier ova reingemischt hat, aber diese info ist ohne in player
+-- reinzugehen bereits scrape-bar … du musst doch eig nur die titel aller
+-- episoden kennen, um es beim abgleich später korrekt zuordnen zu können?"
+--
+-- Er hat recht, und die Information war die ganze Zeit unterwegs: `melder.js`
+-- setzt `folge: stand.folge` in jede Meldung — bei Haikyu!! Staffel 1 Folge 26
+-- steht dort „Haikyu! OVA". Der Worker speicherte sie nur nicht: In der
+-- INSERT-Liste standen `folgen` (Anzahl) und `folge_nr` (Nummer), der Titel
+-- fehlte. Erhoben, übertragen, beim Empfang verworfen.
+--
+-- **Was die Spalte wert ist.** Ein Anbieter mischt Nebenausgaben in seine
+-- Staffeln — Netflix zählt die Haikyu!!-OVA als Folge 26 der ersten Staffel,
+-- Prime führt sie am Ende von Staffel 4. Über Nummern allein ist das nicht zu
+-- trennen: Beide Zerlegungen ergeben dieselbe Summe (am 10.09.2026 real
+-- passiert, vier falsche Belege). Der Folgentitel entscheidet es in einem Wort.
+--
+-- Und er wirkt **rückwirkend**: Die Zuordnung läuft im Bau, nicht beim Melden.
+-- Was einmal mit Titel im Briefkasten liegt, lässt sich später besser zuordnen,
+-- auch wenn niemand die Folge noch einmal öffnet.
+
+ALTER TABLE pruefung ADD COLUMN folge TEXT;

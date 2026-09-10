@@ -61,6 +61,21 @@ interface Pruefung {
    * 09.09.2026).
    */
   seiten_kennung?: string | null
+  /**
+   * **Der Titel der Folge, auf die sich die Meldung bezieht.**
+   *
+   * Die Erweiterung schickt ihn seit jeher mit (`folge: stand.folge`); der
+   * Worker warf ihn beim Empfang weg und speichert ihn erst seit Migration 028.
+   *
+   * Er ist der Anker, den Nummern nicht ersetzen: Netflix zählt die
+   * Haikyu!!-OVA als Folge 26 der ersten Staffel und nennt sie „Haikyu! OVA".
+   * Über Zahlen allein ist das nicht von der 26. Folge einer 26-teiligen Serie
+   * zu unterscheiden — der Titel sagt es in einem Wort.
+   *
+   * Daniel am 10.09.2026: „du musst doch eig nur die titel aller episoden
+   * kennen, um es beim abgleich später korrekt zuordnen zu können?"
+   */
+  folge?: string | null
 }
 
 if (!TOKEN) {

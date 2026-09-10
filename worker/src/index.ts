@@ -2207,11 +2207,11 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     const nurPlattform = sucheP.get('plattform')
     const abfrage = nurPlattform
       ? `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id
+                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id, folge
            FROM pruefung WHERE uebernommen = 0 AND plattform = ?
            ORDER BY gemeldet_am LIMIT 500`
       : `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id
+                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id, folge
            FROM pruefung WHERE uebernommen = 0
            ORDER BY gemeldet_am LIMIT 500`
     const stmt = env.DB.prepare(abfrage)
@@ -2472,8 +2472,8 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
       02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
     */
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -2518,6 +2518,19 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       zahlOderNull(daten.titelId ?? daten.titel_id),
       /* Die Suchadresse, unter der der Auftrag stand — siehe Migration 025. */
       daten.suchUrl ? String(daten.suchUrl).slice(0, 500) : null,
+      /**
+       * **Der Folgentitel — seit Migration 028, und er war die ganze Zeit da.**
+       *
+       * `melder.js` setzt `folge: stand.folge` in jede Meldung; bei Haikyu!!
+       * Staffel 1 Folge 26 steht dort „Haikyu! OVA". Gespeichert wurde er nie —
+       * erhoben, übertragen, beim Empfang verworfen.
+       *
+       * Er ist der Anker, den Nummern nicht ersetzen können: Ein Anbieter mischt
+       * Nebenausgaben in seine Staffeln, und über Folgenzahlen allein sind zwei
+       * Zerlegungen mit derselben Summe nicht zu unterscheiden (am 10.09.2026
+       * real passiert, vier falsche Belege). Ein Wort im Titel entscheidet es.
+       */
+      daten.folge ? String(daten.folge).slice(0, 200) : null,
     )
     .run()
 

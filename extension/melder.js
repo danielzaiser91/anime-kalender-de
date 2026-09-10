@@ -553,6 +553,8 @@ window.addEventListener('message', (e) => {
       überlebt das nicht.
     */
     knopfZeigen()
+    /* Im Player zeichnet `knopfZeigen()` nichts — dort ist das hier zuständig. */
+    playerZeigen()
     /*
       Die automatische Meldung beim Abspielen ist seit dem 26.08.2026 aus.
       Gemeldet wird nur noch über den Durchlauf oder von Hand — dann ist immer
@@ -1059,7 +1061,7 @@ function playerAuftragOffen() {
   }
 }
 
-function playerAnzeige(text, art = 'laeuft') {
+function playerAnzeige(text, art = 'laeuft', knopfText = null) {
   try {
     if (!imPlayer()) return
     if (!playerAuftragOffen()) {
@@ -1073,11 +1075,75 @@ function playerAnzeige(text, art = 'laeuft') {
       playerFeld.className = 'ak-player-anzeige'
       document.body.appendChild(playerFeld)
     }
-    playerFeld.textContent = text
     playerFeld.dataset.art = art
+    playerFeld.replaceChildren(document.createTextNode(text))
+    /*
+      **Der Knopf, der im Player gefehlt hat.**
+
+      Die selbsttätige Meldung beim Abspielen ist seit dem 26.08.2026 aus:
+      „Gemeldet wird nur noch über den Durchlauf oder von Hand — dann ist immer
+      klar, woher eine Meldung stammt." Der Satz stimmt, nur gab es die Hand
+      nicht: `zeigeUebersicht()` räumt im Player alles ab, und der Durchlauf
+      nimmt Anfang und Ende, nicht eine bestimmte Folge.
+
+      Für einen Auftrag wie „Haikyu!! S1 Folge 26" blieb damit kein Weg. Daniel
+      am 10.09.2026, nachdem er die Folge über den Direktlink geöffnet hatte:
+      „nix ist weiter passiert."
+
+      Der Knopf ändert daran genau eine Sache — die Meldung bleibt eine bewusste
+      Handlung, sie ist nur endlich möglich.
+    */
+    if (knopfText) {
+      const knopfHier = document.createElement('button')
+      knopfHier.type = 'button'
+      knopfHier.className = 'ak-player-knopf'
+      knopfHier.textContent = knopfText
+      knopfHier.addEventListener('click', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        playerAnzeige('Anime-Kalender: meldet …', 'laeuft')
+        void melden({ automatisch: false })
+      })
+      playerFeld.appendChild(knopfHier)
+      /* Nur der Knopf nimmt Klicks an — die Fläche daneben gehört dem Player. */
+      playerFeld.classList.add('ak-player-bedienbar')
+    } else {
+      playerFeld.classList.remove('ak-player-bedienbar')
+    }
   } catch {
     /* Eine Anzeige, die den Player stört, ist keine. */
   }
+}
+
+/**
+ * **Was im Player zu sehen ist — einmal je Takt entschieden.**
+ *
+ * Vier Lagen, und jede hat ihren eigenen Satz: Es fehlen noch Daten, es fehlen
+ * die Tonspuren, es ist alles da (dann steht der Knopf bereit), oder die Folge
+ * ist bereits gemeldet.
+ */
+function playerZeigen() {
+  if (!imPlayer() || !playerAuftragOffen()) return
+  if (gesendet.has(schluessel())) {
+    const wie = gesendet.get(schluessel())
+    if (wie === 'deutsch') playerAnzeige('Anime-Kalender: als deutsch gemeldet', 'gut')
+    else if (wie === 'kein_deutsch') playerAnzeige('Anime-Kalender: als „kein Deutsch" gemeldet', 'gut')
+    return
+  }
+  if (!stand.reihe) {
+    playerAnzeige('Anime-Kalender: wartet auf die Folgendaten …', 'laeuft')
+    return
+  }
+  if (!stand.spuren) {
+    playerAnzeige('Anime-Kalender: wartet auf die Tonspuren — Abspielen drücken', 'laeuft')
+    return
+  }
+  const { deutsch } = urteil(stand.spuren)
+  playerAnzeige(
+    `Folge ${stand.folgeNr ?? '?'}: ${deutsch ? 'deutsche Tonspur gefunden' : 'kein Deutsch gefunden'}`,
+    'laeuft',
+    deutsch ? 'Als deutsch melden' : 'Als „kein Deutsch" melden',
+  )
 }
 
 function zeigeErgebnis(text, gutgegangen) {
@@ -2179,6 +2245,55 @@ function durchlaufOffen() {
   return DURCHLAUF.folgen.filter((f) => !DURCHLAUF.gemeldet.has(f.videoId))
 }
 
+/**
+ * **Welche Folgen die Prüfliste für diese Staffel wirklich will.**
+ *
+ * Bis zum 10.09.2026 entschied das ein Umschalter am Knopf: zwei Folgen, alle,
+ * oder Anfang und Ende. Er stammte aus einer Zeit, in der die Prüfliste nur
+ * „Staffel 3 ist offen" sagen konnte — welche Folge, wusste sie nicht.
+ *
+ * Seit heute Vormittag weiß sie es: Die kumulative Rechnung trägt je Eintrag
+ * `erste` und `folgen` ein, und daraus wird „Haikyu!! S1 Folge 26" oder
+ * „Hi Score Girl S1 F13–15". Ein Umschalter, der davor gewählt hätte, wäre
+ * jetzt eine Frage an den Menschen, deren Antwort schon dasteht.
+ *
+ * Daniel am 10.09.2026: „ein button für alles je nach zustand und melde-item."
+ *
+ * Steht für die gerade gewählte Staffel ein Eintrag mit Folgengrenzen, gelten
+ * genau die. Sonst bleibt es bei allen offenen — dort weiß die Liste es nicht
+ * besser.
+ */
+function durchlaufAuftrag() {
+  try {
+    const reihe = gemeinteReihe()
+    if (!reihe) return null
+    const eintrag = offeneTitel[String(reihe)]
+    if (!eintrag) return null
+    const staffelJetzt = Number(stand.staffel)
+    if (!Number.isFinite(staffelJetzt)) return null
+    /* Mehrere Einträge je Staffel gibt es seit der kumulativen Rechnung. */
+    const passend = staffelnVon(reihe, eintrag).filter(
+      (st) => Number(st.nr) === staffelJetzt && st.offen && !st.film,
+    )
+    if (!passend.length) return null
+    const nummern = new Set()
+    for (const st of passend) {
+      const erste = Number.isFinite(st.erste) ? st.erste : 1
+      for (let i = 0; i < (st.folgen ?? 0); i++) nummern.add(erste + i)
+    }
+    /*
+      **Nur wenn es wirklich ein Ausschnitt ist.** Deckt der Eintrag die ganze
+      Staffel ab, sagt er nichts Neues — dann gilt der gewohnte Weg, und der
+      Knopf zeigt die Gesamtzahl statt einer Aufzählung.
+    */
+    if (!nummern.size || nummern.size >= DURCHLAUF.folgen.length) return null
+    const folgen = DURCHLAUF.folgen.filter((f) => nummern.has(Number(f.nummer)))
+    return folgen.length ? folgen : null
+  } catch {
+    return null
+  }
+}
+
 /** Dem Leser sagen, ob er Videodaten durchlassen soll. */
 function videoAbdrehen(zu) {
   window.postMessage({ marke: 'ak-steuer', videoZu: zu }, '*')
@@ -2309,20 +2424,25 @@ async function durchlaufStarten(grenze) {
   if (!DURCHLAUF.uebergangen) await durchlaufStandLaden(reihe)
   DURCHLAUF.uebergangen = false
   const alleOffen = durchlaufOffen()
-  /*
-    Bei `RAND` genau zwei Folgen: die erste und die letzte. Sie werden in
-    dieser Reihenfolge geprüft, damit die Staffelnummer aus der ersten schon
-    feststeht, wenn die letzte gemeldet wird.
-  */
-  const offen =
-    grenze === RAND
-      ? alleOffen.length > 1
-        ? [alleOffen[0], alleOffen[alleOffen.length - 1]]
-        : alleOffen
-      : grenze
-        ? alleOffen.slice(0, grenze)
-        : alleOffen
-  DURCHLAUF.randprobe = grenze === RAND && alleOffen.length > 1 ? alleOffen : null
+  /**
+   * **Der Auftrag entscheidet, sonst die Ränder.**
+   *
+   * Nennt die Prüfliste genaue Folgen („S1 Folge 26"), werden genau die geprüft
+   * — vollständig, denn ein Ausschnitt von drei Folgen ist keine Stichprobe.
+   *
+   * Sagt sie nur „diese Staffel ist offen", bleibt es bei der sparsamen
+   * Fassung: erste und letzte offene Folge. Sie in dieser Reihenfolge zu
+   * prüfen ist Absicht — die Staffelnummer aus der ersten steht dann schon
+   * fest, wenn die letzte gemeldet wird. Bei uneinheitlichem Ergebnis fragt die
+   * Leiste nach der Grenze.
+   */
+  const ausAuftrag = durchlaufAuftrag()
+  const offen = ausAuftrag
+    ? ausAuftrag
+    : alleOffen.length > 1
+      ? [alleOffen[0], alleOffen[alleOffen.length - 1]]
+      : alleOffen
+  DURCHLAUF.randprobe = !ausAuftrag && alleOffen.length > 1 ? alleOffen : null
   if (!offen.length) return
 
   /*
@@ -4093,6 +4213,18 @@ setInterval(() => {
     knopfZeigen()
   } catch {
     /* Vor dem Laden des Speichers gibt es noch nichts zu zeichnen. */
+  }
+  /*
+    **Der Player braucht denselben Takt.**
+
+    Die Anzeige hing zuerst an der Leser-Nachricht — und die kommt nur, wenn
+    leser.js etwas findet. Bleibt sie aus, blieb auch die Anzeige aus, und genau
+    das war der Fall, den niemand sehen konnte (10.09.2026).
+  */
+  try {
+    playerZeigen()
+  } catch {
+    /* Ohne Prüfliste gibt es im Player nichts zu sagen. */
   }
   /*
     **Die Liste gehört in den Takt, nicht nur an den Pfadwechsel.**
