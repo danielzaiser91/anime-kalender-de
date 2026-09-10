@@ -2490,6 +2490,53 @@ function main(): void {
   }
 
   /**
+   * **Verweise, die kein Sammellauf findet — von Hand belegt.**
+   *
+   * Die Erweiterung meldet Seiten, die unser Datensatz gar nicht kennt: Ein
+   * Anbieter führt denselben Anime unter mehreren Kennungen, und aniSearch
+   * nennt nur eine. Solche Meldungen landen in
+   * `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md` — und blieben dort
+   * liegen, weil es **keinen Weg gab, die Adresse einzutragen**. Am 10.09.2026
+   * warteten so 54 Meldungen zu drei Haikyu!!-Staffeln, zwei davon für Titel
+   * ohne einen einzigen Prime-Verweis.
+   *
+   * `data/adn-adressen.yaml` und `data/rtlplus-adressen.yaml` **ersetzen** eine
+   * vorhandene Adresse; diese Datei **legt eine an**. Deshalb die dritte.
+   *
+   * **Der Eintrag urteilt nicht.** Er sagt „dort gibt es diesen Titel", nicht
+   * „dort ist er auf Deutsch" — das Sprachurteil kommt weiter aus den
+   * Meldungen. Steht die Adresse erst im Datensatz, findet `fetch-pruefungen.ts`
+   * sie über `nachUrl` und ordnet die Folgenbefunde zu.
+   *
+   * Ein Verweis, der schon dasteht, wird nicht verdoppelt: Verglichen wird über
+   * denselben Adresskern wie überall.
+   */
+  let vonHand = 0
+  {
+    const roh = existsSync(resolve(ROOT, 'data/verweise-von-hand.yaml'))
+      ? yaml.load(readFileSync(resolve(ROOT, 'data/verweise-von-hand.yaml'), 'utf8'))
+      : []
+    const eintraege = Array.isArray(roh)
+      ? (roh as Array<{ anilistId?: number; platform?: string; url?: string; beleg?: string }>)
+      : []
+    for (const e of eintraege) {
+      if (!e.anilistId || !e.platform || !e.url) continue
+      const title = titles.get(e.anilistId)
+      if (!title) {
+        warn(`verweise-von-hand: Titel ${e.anilistId} steht nicht im Bestand`)
+        continue
+      }
+      if ((title.streams ?? []).some((s) => adressGleich(s.url, e.url!))) continue
+      title.streams = [
+        ...(title.streams ?? []),
+        { platform: e.platform as PlatformId, url: e.url } as StreamLink,
+      ]
+      vonHand++
+    }
+  }
+  if (vonHand) log(`${vonHand} Verweise aus data/verweise-von-hand.yaml ergänzt`)
+
+  /**
    * Was ein Mensch nachgesehen hat, schlägt jede Ableitung.
    *
    * Für YouTube, Netflix, Prime Video, RTL+ und Joyn gibt es keine Quelle, die

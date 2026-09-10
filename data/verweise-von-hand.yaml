@@ -1,0 +1,53 @@
+# Verweise, die kein Sammellauf findet — von Hand belegt.
+#
+# **Wofür das gut ist.** Die Erweiterung meldet Seiten, die unser Datensatz gar
+# nicht kennt: Ein Anbieter führt denselben Anime unter mehreren Kennungen, und
+# aniSearch nennt nur eine. Solche Meldungen landen in
+# `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md` — und blieben dort
+# liegen, denn es gab keinen Weg, die Adresse einzutragen. Am 10.09.2026 warteten
+# so 54 Meldungen zu drei Haikyu!!-Staffeln.
+#
+# `data/adn-adressen.yaml` und `data/rtlplus-adressen.yaml` **ersetzen** eine
+# vorhandene Adresse; diese Datei **legt eine an**. Das ist der Unterschied, und
+# er ist der Grund, warum es eine dritte Datei braucht.
+#
+# **Was ein Eintrag nicht tut: urteilen.** Er sagt „dort gibt es diesen Titel",
+# nicht „dort ist er auf Deutsch". Das Sprachurteil kommt weiter aus den
+# Meldungen — sobald die Adresse hier steht, findet `fetch-pruefungen.ts` sie
+# und ordnet die Folgenbefunde zu.
+#
+# **Jede Zeile trägt ihren Beleg.** Nicht „sieht richtig aus", sondern was
+# gemessen wurde: die Staffelangabe der Seite, die Folgenzahl, die Summe. Ein
+# Namensvergleich allein genügt nicht — „Beyblade Burst Surge" und „Beyblade
+# Burst Rise" trennt ein Wort.
+#
+# Felder:
+#   anilistId  Pflicht — die Kennung des Anime.
+#   platform   Pflicht — crunchyroll | netflix | primevideo | youtube | adn |
+#              aniverse | wow | joyn | rtlplus | disneyplus
+#   url        Pflicht — die Adresse, wie sie im Browser steht.
+#   belegtAm   Pflicht — Datum, ISO, in Anführungszeichen.
+#   beleg      Pflicht — womit die Zuordnung gemessen wurde.
+
+- anilistId: 21698
+  title: 'HAIKYU!! 3rd Season'
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D544CDK6
+  belegtAm: '2026-09-10'
+  beleg: >-
+    Die Seite meldet sich als Staffel 3 unter dem Serientitel „Haikyuu!!".
+    Prime führt dort 11 Folgen; unsere 3rd Season hat 10 und das
+    Spring-Tournament-Special (107351) eine — die Summe geht exakt auf.
+    Der Titel hatte bis dahin keinen einzigen Prime-Verweis.
+
+- anilistId: 106625
+  title: 'HAIKYU!! TO THE TOP'
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D2NL5GYX
+  belegtAm: '2026-09-10'
+  beleg: >-
+    Die Seite meldet sich als Staffel 4 unter dem Serientitel „Haikyuu!!" und
+    führt 27 Folgen. Unsere drei Einträge dieser Staffel zusammen: TO THE TOP
+    13, LAND VS. AIR 2, TO THE TOP Part 2 zwölf — genau 27. Daniels 27
+    Folgenmeldungen vom 10.09.2026 nennen 25 mit deutschem Ton und zwei ohne.
+    Der Titel hatte bis dahin keinen einzigen Prime-Verweis.
