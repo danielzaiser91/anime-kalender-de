@@ -4678,9 +4678,34 @@ function main(): void {
      * Verglichen wird über `adressKern()` — dieselbe Serie steht mit und ohne
      * `www.`, mit und ohne Schrägstrich am Ende.
      */
-    const toteCrAdressen = new Set(
-      crDub.serien.filter((s) => s.nichtVerfuegbar || /nicht mehr verf|404/.test(s.fehler ?? '')).map((s) => adressKern(s.url)),
-    )
+    /**
+     * **Auch die Befunde aus `crunchyroll-offene.json` gehören hierher.**
+     *
+     * `crDub.serien` kennt nur, was der wöchentliche Lauf geprüft hat.
+     * `fetch-crunchyroll-offene.ts` belegt daneben eigene Adressen als tot —
+     * abgelaufene Videokennung, oder im deutschen Katalog nicht geführt und von
+     * JustWatch gegengeprüft.
+     *
+     * Ohne diese Zeile legt die Nachrunde sie **jeden Lauf** neu an: Gemessen
+     * am 10.09.2026 an „Millennium Actress" — die Serienadresse
+     * `crunchyroll.com/de/millennium-actress` flog als „nicht mehr verfügbar"
+     * heraus, und aus aniSearch kam `…/watch/GPWUKPVP4/…` zurück, eine andere
+     * Adresse mit demselben Ziel. Der Verweis stand danach wieder da, ohne
+     * Urteil, und mein Block weiter oben sah ihn nie — er läuft vorher.
+     *
+     * Das ist dieselbe Klasse wie „Wer unten ergänzt, muss unten auch
+     * beurteilen" (06.09.2026), nur eine Quelle weiter.
+     */
+    const toteCrAdressen = new Set([
+      ...crDub.serien
+        .filter((s) => s.nichtVerfuegbar || /nicht mehr verf|404/.test(s.fehler ?? ''))
+        .map((s) => adressKern(s.url)),
+      ...Object.entries(
+        readJson<Record<string, { herkunft?: string }>>('data/crunchyroll-offene.json', {}),
+      )
+        .filter(([, b]) => b?.herkunft === 'tot')
+        .map(([url]) => adressKern(url)),
+    ])
     let wegeErgaenzt = 0
     const jeAnbieter: Record<string, number> = {}
     for (const title of titles.values()) {
