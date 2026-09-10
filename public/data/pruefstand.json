@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-10T18:44:14.736Z",
+ "erzeugtAm": "2026-09-10T20:07:19.488Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -79,6 +79,42 @@
    "ziel": null,
    "ziele": [],
    "naechster": null
+  },
+  {
+   "name": "Crunchyroll",
+   "plattform": "crunchyroll",
+   "gemeldet": 0,
+   "gesamt": 6,
+   "offen": 6,
+   "ohneSeite": 0,
+   "ziel": "http://www.crunchyroll.com/de/sin-the-movie",
+   "ziele": [
+    {
+     "url": "http://www.crunchyroll.com/de/sin-the-movie",
+     "titel": "Sin: The Movie"
+    },
+    {
+     "url": "https://www.crunchyroll.com/series/G619XVNEY/durarara",
+     "titel": "Durarara!!"
+    },
+    {
+     "url": "https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430",
+     "titel": "Cencoroll Connect"
+    },
+    {
+     "url": "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-",
+     "titel": "Love, Chunibyo & Other Delusions! Heart Throb"
+    },
+    {
+     "url": "https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378",
+     "titel": "Your Voice: Kimikoe"
+    },
+    {
+     "url": "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785",
+     "titel": "Okko und ihre Geisterfreunde"
+    }
+   ],
+   "naechster": "Sin: The Movie"
   }
  ]
 }

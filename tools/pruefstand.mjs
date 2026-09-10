@@ -231,6 +231,65 @@ const stand = ANBIETER.map((a) => {
   }
 })
 
+/**
+ * **Was keine Erweiterung hat, ist trotzdem Arbeit.**
+ *
+ * Daniel am 10.09.2026, mit Bild der Statusanzeige: „im todo stehen viel mehr
+ * meldungen etc die ich machen muss als im status app als pill stehen." Die
+ * Prüfliste führte fünf Aufgaben, die Anzeige eine Pille.
+ *
+ * Zwei Ursachen, und das hier ist die zweite: Der Prüfstand kannte nur die drei
+ * Anbieter, für die es ein Content-Skript gibt. Die Crunchyroll-Verweise ohne
+ * Urteil und die Suchadressen, für die niemand eine Titelseite kennt, standen
+ * nirgends — obwohl beide in `00-START-HIER.md` als Aufgabe geführt werden.
+ *
+ * Sie brauchen keine Zählung über Staffeln: Es sind Listen, und ihre Länge ist
+ * die Arbeit. Ein Klick führt auf den ersten Eintrag, wie bei den übrigen
+ * Pillen auch.
+ */
+function nachtrag(name, plattform, ziele) {
+  if (!ziele.length) return []
+  return [
+    {
+      name,
+      plattform,
+      gemeldet: 0,
+      gesamt: ziele.length,
+      offen: ziele.length,
+      ohneSeite: 0,
+      ziel: ziele[0].url,
+      ziele: ziele.slice(0, 25),
+      naechster: ziele[0].titel ?? null,
+    },
+  ]
+}
+
+/* Crunchyroll-Verweise ohne Sprachurteil — Filme und Specials, die in keinem Block stehen. */
+const crOffen = []
+for (const t of titel) {
+  for (const s of t.streams ?? []) {
+    if (s.platform !== 'crunchyroll' || s.dub !== undefined) continue
+    crOffen.push({ url: s.url, titel: t.titleDe ?? t.titleEn ?? null })
+  }
+}
+
+/*
+  Die Suchadressen kommen aus der Datei, die der Bau neben der Markdown-Liste
+  schreibt — dieselbe Quelle, damit Anzeige und Prüfliste nicht auseinanderlaufen.
+*/
+let suchOffen = []
+try {
+  suchOffen = JSON.parse(readFileSync(resolve(wurzel, 'data/suchadressen-offen.json'), 'utf8')).map((e) => ({
+    url: e.url,
+    titel: e.titel ?? null,
+  }))
+} catch {
+  /* Gibt es die Datei nicht, gibt es die Pille nicht — kein Grund abzubrechen. */
+}
+
+stand.push(...nachtrag('Crunchyroll', 'crunchyroll', crOffen))
+stand.push(...nachtrag('Suchadressen', 'suchadressen', suchOffen))
+
 writeFileSync(
   resolve(wurzel, 'public/data/pruefstand.json'),
   JSON.stringify({ erzeugtAm: new Date().toISOString(), anbieter: stand }, null, 1) + '\n',

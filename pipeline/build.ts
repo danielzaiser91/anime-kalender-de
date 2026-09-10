@@ -343,6 +343,17 @@ function schreibeSuchadressen(offen: { id: number; titel: string; plattform: str
     zeilen.push('- **Antwort:** ', '')
   }
   writeText(ziel, zeilen.join('\n') + '\n')
+  /*
+    **Dieselbe Liste noch einmal als Datei, die ein Werkzeug lesen kann.**
+
+    Die Markdown-Fassung ist für Daniel, diese für `tools/pruefstand.mjs`: Ohne
+    sie hat die Statusanzeige für diese Aufgabe keine Pille, und dann steht dort
+    weniger Arbeit, als die Prüfliste führt (Daniel, 10.09.2026: „im todo stehen
+    viel mehr meldungen etc die ich machen muss als im status app als pill
+    stehen"). Eine Anzeige, die nur einen Teil der Arbeit zeigt, beantwortet die
+    Frage nicht, für die es sie gibt.
+  */
+  writeJson('data/suchadressen-offen.json', offen)
   log(`${offen.length} Suchadressen in ${ziel} vorgelegt`)
 }
 
