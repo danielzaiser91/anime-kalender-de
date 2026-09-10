@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-10T11:09:25.629Z",
+ "erzeugtAm": "2026-09-10T11:30:39.582Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -39,16 +39,12 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 363,
-   "gesamt": 373,
-   "offen": 10,
+   "gemeldet": 364,
+   "gesamt": 372,
+   "offen": 8,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/70302573",
+   "ziel": "https://www.netflix.com/title/80090673",
    "ziele": [
-    {
-     "url": "https://www.netflix.com/title/70302573",
-     "titel": "Sword Art Online"
-    },
     {
      "url": "https://www.netflix.com/title/80090673",
      "titel": "Haikyu!!"
@@ -70,7 +66,7 @@
      "titel": "Baki-Dou: The Invincible Samurai"
     }
    ],
-   "naechster": "Sword Art Online"
+   "naechster": "Haikyu!!"
   },
   {
    "name": "Disney+",
