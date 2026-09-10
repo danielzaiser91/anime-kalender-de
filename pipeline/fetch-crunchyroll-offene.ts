@@ -154,10 +154,40 @@ export async function main(): Promise<void> {
   /* Die aniSearch-Zuordnung — sie kennt zu manchen Werken eine Adresse mit Kennung. */
   const anisearch = readJson<Record<string, unknown>>('data/anisearch.json', {})
   /* JustWatch als zweite Quelle — sie entscheidet, ob eine Adresse ins Leere führt. */
-  const justwatch = readJson<Record<string, { angebote?: { anbieter?: string }[] }>>(
+  const justwatch = readJson<Record<string, { angebote?: { anbieter?: string; url?: string }[] }>>(
     'data/justwatch-audio.json',
     {},
   )
+  /**
+   * **JustWatch nennt die Adresse, die unser Bestand nicht hat — mit Kennung.**
+   *
+   * Ein Verweis aus der Frühzeit trägt einen Slug (`/de/sword-art-online`),
+   * und aus einem Slug wird kein Urteil: Er zeigt auf die Reihe, nicht auf die
+   * Ausgabe. JustWatch führt zu denselben Titeln eine kanonische
+   * Crunchyroll-Adresse, und die trägt eine **Videokennung**
+   * (`/watch/GVWU0Q527`). Damit greift der Zweig, der ohnehin der beste ist:
+   * Crunchyroll selbst wird nach den Fassungen dieser Folge gefragt.
+   *
+   * **Genommen wird nur die Kennung, nie die Sprachangabe.** Dass JustWatch
+   * daneben `audio: ["de", …]` führt, bleibt unbenutzt — die Entscheidung vom
+   * 07.09.2026 („die Tonspurangabe gilt der Serie, nicht der Folge") steht
+   * unberührt. Das Urteil kommt aus erster Hand; JustWatch weist nur den Weg
+   * dorthin. Dieselbe Rolle spielt seit dem 09.09.2026 die aniSearch-Adresse
+   * ein paar Zeilen weiter unten, nur liefert die eine Serien-, keine
+   * Videokennung.
+   *
+   * Gemessen am 10.09.2026: 3 der 9 Verweise ohne Sprachurteil bekommen so
+   * eine Kennung — „Sword Art Online EXTRA EDITION", „Okko's Inn" und
+   * „Sound! Euphonium".
+   */
+  const videoAusJustwatch = (werkId: number | string): string | undefined => {
+    for (const a of justwatch[String(werkId)]?.angebote ?? []) {
+      if (!/crunchyroll/i.test(String(a?.anbieter ?? ''))) continue
+      const treffer = /crunchyroll\.com\/(?:[a-z-]+\/)?watch\/([A-Z0-9]{6,})/i.exec(String(a?.url ?? ''))
+      if (treffer) return treffer[1]
+    }
+    return undefined
+  }
   const katalogNachSlug = new Map(katalog.filter((e) => e.slug).map((e) => [slugKern(String(e.slug)), e]))
   log(`Katalog: ${katalog.length} Einträge, davon ${katalogNachSlug.size} mit Slug.`)
 
@@ -205,13 +235,30 @@ export async function main(): Promise<void> {
    * Adresse zulässt.
    */
   async function beurteile(url: string, werk: Title): Promise<Befund> {
-    const videoId = /\/watch\/([A-Z0-9]+)/i.exec(url)?.[1]
+    const eigeneVideoId = /\/watch\/([A-Z0-9]+)/i.exec(url)?.[1]
+    const videoId = eigeneVideoId ?? videoAusJustwatch(werk.id)
     if (videoId) {
       const { status, body } = await hol(
         `https://beta-api.crunchyroll.com/content/v2/cms/objects/${videoId}?locale=de-DE`,
       )
+      /**
+       * **Ein 404 belegt nur den Verweis, der ihn selbst trägt.**
+       *
+       * Steht die Kennung in **unserer** Adresse, führt sie ins Leere und der
+       * Verweis fliegt raus. Ist sie von JustWatch geliehen, sagt ihr Ende
+       * nichts über unsere Adresse — sie kann längst veraltet sein, während
+       * unser Slug weiterhin trägt. Gemessen am 10.09.2026 an „Okko's Inn":
+       * JustWatch nennt `GWDU8PMGG`, Crunchyroll kennt die Kennung nicht mehr,
+       * und unser Verweis auf `/okkos-inn/…` ist davon unberührt.
+       */
       if (status === 404) {
-        return { herkunft: 'tot', geprueftAm: heute(), grund: `Videokennung ${videoId} gibt es nicht mehr` }
+        return eigeneVideoId
+          ? { herkunft: 'tot', geprueftAm: heute(), grund: `Videokennung ${videoId} gibt es nicht mehr` }
+          : {
+              herkunft: 'offen',
+              geprueftAm: heute(),
+              grund: `die von JustWatch genannte Kennung ${videoId} gibt es nicht mehr`,
+            }
       }
       const o = (body as { data?: Record<string, never>[] })?.data?.[0] as
         | {
