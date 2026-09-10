@@ -3099,6 +3099,45 @@ Feldname eine Kennung — und Kennungen werden auf Eindeutigkeit geprüft, nicht
 auf Vorhandensein. Dasselbe gilt für CSS-Klassen, die an zwei Stellen vergeben
 werden, und für Speicherschlüssel.
 
+## Eine Diagnose, die in der Konsole endet, ist keine
+
+Die Erweiterung schrieb seit Monaten Befunde in die Browserkonsole: „keine
+Tonspur gelesen", „Folge gehört zu fremder Reihe", „N Meldungen kamen nicht an",
+„Durchlauf abgebrochen bei M7111". Am 10.09.2026 schickte Daniel ein
+Bildschirmfoto aus Chromes Fehler-Panel — so ist einer davon zum ersten Mal
+angekommen, nach Wochen.
+
+Sein Urteil traf die ganze Klasse: „info bringt nix, du liest nix aus der
+console aus, ich lese auch nix aus. denk darüber nach auch bezüglich **allen
+anderen derartigen logs**, du musst informiert werden über issues."
+
+**Mein erster Griff war der falsche.** Ich hatte `console.warn` zu
+`console.info` gemacht, damit es nicht mehr im Fehler-Panel landet — also die
+Anzeige repariert und die Auskunft dabei noch leiser gemacht. Eine Sackgasse
+bleibt eine, auch wenn sie ordentlich beschildert ist.
+
+**Die Prüffrage vor jeder Diagnosezeile:**
+
+> **Wer liest das, und wann?** Gibt es darauf keine Antwort mit einem Namen und
+> einem Zeitpunkt, ist die Zeile Selbstgespräch. Dann gehört die Information
+> dorthin, wo sie ohnehin gelesen wird — oder sie wird nicht erhoben.
+
+In diesem Projekt heißt das: **an den Worker melden.** Der Weg lag seit Monaten
+vor (Meldungen, Netzfunde, Laufstatus gehen ihn alle), er wurde für Diagnosen
+nur nie benutzt. Seit 4.17.11 melden alle drei Melder ihre Vorfälle an
+`/vorfall`, und `pipeline/fetch-vorfaelle.ts` legt sie unter
+`daniel-zum-abarbeiten/17-vorfaelle.md` ab — dort, wo der nächste Durchgang sie
+ohnehin liest.
+
+**Drei Riegel halten den Melder harmlos**, und sie gehören zu jedem solchen
+Kanal: dieselbe Art je Seite einmal pro Sitzung, eine Obergrenze, und jeder
+Fehler beim Melden bleibt stumm. Ein Fahrtenschreiber, der die Fahrt stört, ist
+keiner.
+
+**Und ein Vorfall ist nicht automatisch ein Fehler.** „Keine Tonspur gelesen"
+ist ein vorgesehener Fall — interessant wird er durch seine **Häufigkeit**, und
+genau die war unsichtbar, solange jede Zeile einzeln in der Konsole verhallte.
+
 ## Eine Summe belegt, dass es passt — nicht, dass es die richtigen sind
 
 Am Vormittag des 10.09.2026 ist die kumulative Rechnung eingebaut worden, und
