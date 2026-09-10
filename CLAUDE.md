@@ -3608,24 +3608,28 @@ Am 10.09.2026 stand über „Heroes", Staffel 3, Folge 17 der Kasten „Folge 17
 kein Deutsch gefunden". Kein Anime, nicht auf der Prüfliste; Daniel wollte
 fernsehen: „wieso ist die extension hier??? fail."
 
-Der Riegel war gebaut und griff nie.  fragte
- — und  **löst auf**, welche Reihe
-gemeint ist. Sie hat einen Rückfall (), und ein Rückfall
+Der Riegel war gebaut und griff nie. `playerAuftragOffen()` fragte
+`Boolean(gemeinteReihe())` — und `gemeinteReihe()` **löst auf**, welche Reihe
+gemeint ist. Sie hat einen Rückfall (`return stand.reihe`), und ein Rückfall
 liefert immer etwas, sonst wäre er keiner. Auf jeder Player-Seite war der Test
-damit wahr. Zwanzig Zeilen darüber stand  und stellte genau die
-richtige Frage: Steht die Reihe in ?
+damit wahr. Zwanzig Zeilen darüber stand `istGesucht()` und stellte genau die
+richtige Frage: Steht die Reihe in `offeneTitel`?
 
-**Die allgemeine Form:**  über einer Funktion mit Rückfall ist
-fast immer . Prüffrage vor jedem solchen Test: **Unter welcher Bedingung
-gibt diese Funktion etwas Falsches zurück?** Fällt keine ein, ist es kein Test.
+**Die allgemeine Form:** `Boolean(x())` über einer Funktion mit Rückfall ist
+fast immer `true`. Prüffrage vor jedem solchen Test: **Unter welcher Bedingung
+gibt diese Funktion etwas Falsches zurück?** Fällt keine ein, ist es kein Test,
+sondern eine Zeile, die aussieht wie einer.
 
 Und die zweite Lehre ist eine Wiederholung: Es war **derselbe Titel** wie am
 30.08.2026 („i am just watching something, there should be no elements from the
 extension on screen") — dieselbe Regel, eine zweite Anzeigestelle, die es damals
 noch nicht gab. Wer eine Regel aufschreibt, prüft im selben Zug, wo dasselbe
-Problem noch existiert; wer eine **neue Anzeige** baut, sucht die Regeln, die
-für die alten gelten.  führt den Fall
-jetzt aus, statt ihn zu lesen — die Gegenprobe fällt.
+Problem noch existiert; wer eine **neue Anzeige** baut, sucht die Regeln, die für
+die alten gelten. `extension/player-nur-mit-auftrag.test.cjs` führt den Fall
+jetzt aus, statt ihn zu lesen — eine Textprüfung hätte `Boolean(gemeinteReihe())`
+für richtig gehalten, so wie sie am selben Tag einen doppelt vergebenen Feldnamen
+für richtig hielt. Die Gegenprobe fällt: mit dem alten Ausdruck reißen drei der
+acht Zusicherungen.
 
 ### Beim Fernsehen ist die Erweiterung unsichtbar
 
