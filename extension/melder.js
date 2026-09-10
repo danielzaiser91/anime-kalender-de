@@ -678,9 +678,43 @@ function vielleichtSenden() {
       schlicht falsch. `playerAnzeige()` prüft das selbst; der Aufruf hier
       trägt nur den Text, auf den gewartet wird.
     */
-    if (stand.reihe) playerAnzeige('Anime-Kalender: wartet auf die Tonspuren …', 'laeuft')
+    playerAnzeige(
+      stand.reihe
+        ? 'Anime-Kalender: wartet auf die Tonspuren …'
+        : 'Anime-Kalender: wartet auf die Folgendaten …',
+      'laeuft',
+    )
+    /*
+      **Bleibt es dabei, ist das ein Vorfall.** Fünfundzwanzig Sekunden reichen
+      dem Player unter allen bisher gesehenen Bedingungen; danach kommt nichts
+      mehr. Ohne diese Meldung bliebe es beim Schweigen — und genau das war der
+      Fall, den niemand sehen konnte.
+    */
+    if (!playerStummFrist) {
+      playerStummFrist = setTimeout(() => {
+        playerStummFrist = null
+        if (stand.reihe && stand.spuren) return
+        playerAnzeige(
+          stand.reihe
+            ? 'Anime-Kalender: keine Tonspuren gelesen — nicht gemeldet'
+            : 'Anime-Kalender: keine Folgendaten gelesen — nicht gemeldet',
+          'fehler',
+        )
+        void vorfallMelden('player_stumm', {
+          reihe: stand.reihe ?? null,
+          folge_nr: stand.folgeNr ?? null,
+          staffel: stand.staffel ?? null,
+          text: stand.reihe
+            ? 'Reihe gelesen, aber binnen 25 Sekunden keine Tonspuren — nichts gemeldet'
+            : 'Binnen 25 Sekunden weder Reihe noch Tonspuren gelesen — nichts gemeldet',
+        })
+      }, 25_000)
+    }
     return
   }
+  /* Es hat geklappt — die Frist hat sich erledigt. */
+  clearTimeout(playerStummFrist)
+  playerStummFrist = null
   const k = schluessel()
   if (gesendet.has(k)) return
   gesendet.set(k, 'unterwegs')
@@ -977,6 +1011,8 @@ async function melden({ automatisch = false } = {}) {
  * Wer nach zwanzig Sekunden hinsieht, will wissen, was passiert ist.
  */
 let playerFeld = null
+/** Läuft die Frist, nach der ein stummer Player als Vorfall gilt? */
+let playerStummFrist = null
 
 /**
  * **Steht diese Folge auf der Prüfliste?**
@@ -997,6 +1033,25 @@ let playerFeld = null
  * Player leer.
  */
 function playerAuftragOffen() {
+  /*
+    **`?ak=1` in der Adresse ist die zweite Antwort auf dieselbe Frage.**
+
+    `gemeinteReihe()` weiß erst Bescheid, wenn der Player seine Metadaten
+    herausgerückt hat — bis dahin vergehen Sekunden, und wenn sie **gar nicht**
+    kommen, weiß es die Erweiterung nie. Genau das ist am 10.09.2026 passiert:
+    Daniel öffnete Folge 26 über den Direktlink, und es blieb still. Ob die
+    Erweiterung wartete, scheiterte oder die Folge für fremd hielt, war von außen
+    nicht zu unterscheiden.
+
+    Der Parameter beantwortet es unabhängig davon: Wer ihn setzt, hat die Folge
+    **zum Melden** geöffnet — Daniels eigener Vorschlag („du kannst es auch per
+    url parameter zB lösen"). Die Aufträge in der Prüfliste tragen ihn seitdem.
+  */
+  try {
+    if (new URLSearchParams(location.search).get('ak')) return true
+  } catch {
+    /* Ohne lesbare Adresse entscheidet die Prüfliste allein. */
+  }
   try {
     return Boolean(gemeinteReihe())
   } catch {
