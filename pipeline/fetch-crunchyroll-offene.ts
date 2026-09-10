@@ -361,6 +361,37 @@ export async function main(): Promise<void> {
       }
     }
     if (werk.format !== 'TV' && werk.format !== 'ONA') {
+      /**
+       * **Zeigt die Adresse auf die Reihe, ist die Sprachfrage offen — die
+       * Angebotsfrage nicht.**
+       *
+       * Fünf „Free!"-Filme, eine Chunibyo-OVA, zwei Specials: Ihre Adresse
+       * nennt den Slug der Serie. Ob der **Film** dort läuft, sagt das nicht,
+       * und die Serie vererbt ihre Sprache nicht.
+       *
+       * Beantwortbar bleibt die Frage daneben: Der deutsche Katalog führt seit
+       * dem 09.09.2026 auch Filme (69, laut `total` vollständig) — steht das
+       * Werk dort nicht und nennt JustWatch Angebote **ohne** Crunchyroll, dann
+       * gibt es dort kein Angebot, und der Verweis führt für dieses Werk ins
+       * Leere.
+       *
+       * Gemessen am 10.09.2026: fünf von neun tragen das. „Sword Art Online:
+       * Extra Edition" widerspricht — JustWatch führt dort einen
+       * Crunchyroll-Kanal, also bleibt der Verweis offen.
+       */
+      const jwEintrag2 = justwatch[String(werk.id)]
+      const anbieter2 = (jwEintrag2?.angebote ?? []).map((a) => String(a?.anbieter ?? ''))
+      if (anbieter2.length && !anbieter2.some((n) => /crunchyroll/i.test(n))) {
+        return {
+          herkunft: 'tot',
+          seriesId: kandidat.id,
+          titel: kandidat.titel,
+          geprueftAm: heute(),
+          grund:
+            `die Adresse zeigt auf die Reihe „${kandidat.titel}", das ${werk.format} steht nicht im deutschen Katalog, ` +
+            `und JustWatch nennt ${anbieter2.length} Anbieter ohne Crunchyroll (${[...new Set(anbieter2)].slice(0, 3).join(', ')})`,
+        }
+      }
       return {
         herkunft: 'offen',
         seriesId: kandidat.id,
