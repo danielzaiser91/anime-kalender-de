@@ -672,12 +672,13 @@ function vielleichtSenden() {
     Tonspurliste wartet. Ohne ein Zeichen sieht das aus wie nichts.
   */
   if (!stand.reihe || !stand.spuren) {
-    playerAnzeige(
-      stand.reihe
-        ? 'Anime-Kalender: wartet auf die Tonspuren …'
-        : 'Anime-Kalender: liest die Folge …',
-      'laeuft',
-    )
+    /*
+      **Erst wenn die Reihe steht, ist klar, ob uns die Folge angeht.** Vorher
+      wäre jede Zeile geraten — und im Player einer fremden Serie wäre sie
+      schlicht falsch. `playerAnzeige()` prüft das selbst; der Aufruf hier
+      trägt nur den Text, auf den gewartet wird.
+    */
+    if (stand.reihe) playerAnzeige('Anime-Kalender: wartet auf die Tonspuren …', 'laeuft')
     return
   }
   const k = schluessel()
@@ -976,9 +977,42 @@ async function melden({ automatisch = false } = {}) {
  * Wer nach zwanzig Sekunden hinsieht, will wissen, was passiert ist.
  */
 let playerFeld = null
+
+/**
+ * **Steht diese Folge auf der Prüfliste?**
+ *
+ * Daniel am 10.09.2026, nachdem die Anzeige zuerst immer erschien: „im player
+ * darf nichts zu sehen sein, was nicht relevant ist, wenn es hier konkret darum
+ * geht die episode zu melden, dann ist es ein gewollter zustand, entsprechend
+ * darf dort etwas zu sehen sein."
+ *
+ * Der Schalter ist deshalb nicht die Herkunft des Links, sondern die Sache
+ * selbst: `gemeinteReihe()` gibt genau dann eine Reihe zurück, wenn sie in der
+ * Prüfliste steht — und nur dann meldet die Erweiterung überhaupt etwas. Wo sie
+ * nichts tut, zeigt sie auch nichts.
+ *
+ * Das deckt beide Wege ab, ohne einen dritten zu erfinden: den Durchlauf, der
+ * selbst hinnavigiert, und den Direktlink auf eine Folge, die auf der Liste
+ * steht. Beim freien Schauen einer Serie, die wir nicht führen, bleibt der
+ * Player leer.
+ */
+function playerAuftragOffen() {
+  try {
+    return Boolean(gemeinteReihe())
+  } catch {
+    return false
+  }
+}
+
 function playerAnzeige(text, art = 'laeuft') {
   try {
     if (!imPlayer()) return
+    if (!playerAuftragOffen()) {
+      /* Kein Auftrag, keine Anzeige — und eine schon stehende verschwindet. */
+      if (playerFeld?.isConnected) playerFeld.remove()
+      playerFeld = null
+      return
+    }
     if (!playerFeld?.isConnected) {
       playerFeld = document.createElement('div')
       playerFeld.className = 'ak-player-anzeige'
