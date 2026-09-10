@@ -3062,6 +3062,55 @@ ungenauer und trägt trotzdem, weil ein Mensch die zwanzig Zeilen liest.
 „Ein neuer Abruf braucht drei Dinge": *Wer liest, was er schreibt — und steht
 dessen Name irgendwo im Code?*
 
+## Der Anbieter zählt kumulativ — Position gegen Position ist keine Zuordnung
+
+Am 10.09.2026 fand Daniel „Haikyu!! Lev ist hier!" bei Netflix unter
+`/watch/81308427`; der Zurück-Pfeil führte auf **Staffel 1, Folge 26**. Die OVA
+ist dort keine eigene Staffel — sie hängt am Ende der Staffel, zu der sie
+gehört. Unsere Prüfliste wollte ihn gerade „gibt es hier nicht" melden lassen.
+
+**Die Rechnung stand seit dem 22.08.2026 als Kommentar im Code:** „Netflix
+meldet 26 + 26 + 11 + 27 = 90 Folgen, unsere Fernsehstaffeln haben 85, die vier
+OVA-Einträge zusammen fünf." Gezogen wurde daraus nur der Schluss, die OVAs zu
+**verstecken** — nicht der, sie zuzuordnen.
+
+Die Zuordnung paarte stattdessen Position gegen Position und verglich die
+Folgenzahlen nur auf „Abstand höchstens 3". Bei Haikyu!! passte **keine**
+einzige Position (25↔26, 25↔26, 10↔11, 13↔27), und drei exakte Treffer deckten
+die vierte Abweichung. Der überzählige fünfte Eintrag — „TO THE TOP Part 2",
+zwölf Folgen — galt als nicht geführt und bekam `available: false`. In Wahrheit
+steckt er in Netflix' Staffel 4: **27 = 13 + 2 + 12**.
+
+**Der Schaden lief in drei Stufen**, und die dritte macht die Klasse aus:
+
+| Stufe | was geschah |
+|---|---|
+| 1 | Ein echter Verweis wurde entfernt (22.08.2026), mit einer Notiz, die wie eine Prüfung aussieht |
+| 2 | Ohne ihn ging die Folgenrechnung nicht mehr auf (78 statt 90) |
+| 3 | Vier OVAs blieben unzuordenbar — und der nächste Schritt wäre gewesen, sie **auch** wegzumelden |
+
+Sechs solcher Belege standen in `dub-confirmed.yaml`, alle nach demselben
+Muster: eine Fortsetzung, die der Anbieter der Vorstaffel zurechnet (SAO
+Alicization War of Underworld und Part 2, BEASTARS Final Season Part 2,
+Dr. STONE New World und Part 2, HAIKYU!! Part 2).
+
+**Die Regel, die daraus folgt:**
+
+> **Ein Anbieter teilt anders als AniList — aber er zählt lückenlos.** Unsere
+> Titel liegen der Reihe nach in seinen Staffeln. Geht eine Staffel als **Summe
+> exakt** auf, ist die Zuordnung belegt, und jeder Titel kennt seine erste
+> Folgennummer dort. Geht sie nicht auf, wird nichts behauptet.
+
+Die Summe ist der belastbare Anker, nicht die Position und nicht die einzelne
+Zahl. Und die Umkehrung gilt genauso: **„Keine eigene Staffel" heißt nicht
+„läuft dort nicht".** Bevor ein Titel als nicht geführt gilt, wird
+nachgerechnet, wie viele Folgen der Anbieter mehr führt, als die gepaarten Titel
+hergeben — passt der überzählige in diesen Platz, ist er dort.
+
+Wirkung am selben Tag: Vier von sechs offenen Netflix-Adressen lösten sich auf,
+ohne einen einzigen Abruf. „Dorohedoro: Teuflische Anekdoten" ist S1 E13,
+„Hi Score Girl: Extra Stage" S1 E13–15, „BAKI-DOU Part 2" S1 E14–25.
+
 ## Eine Überbrückung gehört nicht in den Speicher, den sie überbrückt
 
 Der Briefkasten antwortet mit Verzögerung, deshalb trägt die Erweiterung ihre
