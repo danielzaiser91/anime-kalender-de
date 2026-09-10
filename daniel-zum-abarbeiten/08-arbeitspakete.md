@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-10 · **25 offene Verweise** in **20 Zeilen**,
+Stand 2026-09-10 · **22 offene Verweise** in **17 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,27 +31,24 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 20
+## Paket 1 — Zeilen 1 bis 17
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | Crunchyroll | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/fruits-basket) |
-| 2 | Prime Video | Shakugan no Shana | [Season III](https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video) |
-| 3 | Crunchyroll | Sound! Euphonium | [Hauptserie](http://www.crunchyroll.com/de/sound-euphonium) |
-| 4 | Crunchyroll | Love, Chunibyo & Other Delusions! | [Heart Throb](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-) · [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
-| 5 | Netflix | Baki — the Grappler | [BAKI-DOU: The Invincible Samurai Teil 2](https://www.netflix.com/title/81922765) |
-| 6 | Prime Video | Nukitashi | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2) |
-| 7 | Crunchyroll | The Promised Neverland | [Staffel 2](https://www.crunchyroll.com/the-promised-neverland) |
-| 8 | Netflix | Haikyu!! | [Lev ist hier!](https://www.netflix.com/title/80090673) · [Kampf gegen ungenügende Noten](https://www.netflix.com/title/80090673) · [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.netflix.com/title/80090673) · [An Land vs. In der Luft / Der ”Weg” des Balls](https://www.netflix.com/title/80090673) |
-| 9 | Netflix | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
-| 10 | Crunchyroll | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Sister Venturing Out](https://www.crunchyroll.com/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out) · [Rascal Does Not Dream of a Knapsack Kid](https://www.crunchyroll.com/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid) |
-| 11 | Crunchyroll | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
-| 12 | Netflix | Mushoku Tensei: Jobless Reincarnation | [Eris auf Goblinjagd](https://www.netflix.com/title/80987039) |
-| 13 | Crunchyroll | Sword Art Online | [Extra Edition](http://www.crunchyroll.com/de/sword-art-online) |
-| 14 | Crunchyroll | Given | [The Movie - To the Sea](https://www.crunchyroll.com/watch/GE00266947DEDE/given-the-movie-to-the-sea) |
-| 15 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Eternal: Der Film](https://www.netflix.com/title/81214399) |
-| 16 | Netflix | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
-| 17 | Crunchyroll | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
-| 18 | Crunchyroll | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
-| 19 | Crunchyroll | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-| 20 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 1 | Prime Video | Shakugan no Shana | [Season III](https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video) |
+| 2 | Crunchyroll | Sound! Euphonium | [Hauptserie](http://www.crunchyroll.com/de/sound-euphonium) |
+| 3 | Crunchyroll | Love, Chunibyo & Other Delusions! | [Heart Throb](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-) · [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
+| 4 | Netflix | Baki — the Grappler | [BAKI-DOU: The Invincible Samurai Teil 2](https://www.netflix.com/title/81922765) |
+| 5 | Prime Video | Nukitashi | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2) |
+| 6 | Netflix | Haikyu!! | [Lev ist hier!](https://www.netflix.com/title/80090673) · [Kampf gegen ungenügende Noten](https://www.netflix.com/title/80090673) · [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.netflix.com/title/80090673) · [An Land vs. In der Luft / Der ”Weg” des Balls](https://www.netflix.com/title/80090673) |
+| 7 | Netflix | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
+| 8 | Crunchyroll | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Sister Venturing Out](https://www.crunchyroll.com/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out) · [Rascal Does Not Dream of a Knapsack Kid](https://www.crunchyroll.com/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid) |
+| 9 | Crunchyroll | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
+| 10 | Netflix | Mushoku Tensei: Jobless Reincarnation | [Eris auf Goblinjagd](https://www.netflix.com/title/80987039) |
+| 11 | Crunchyroll | Sword Art Online | [Extra Edition](http://www.crunchyroll.com/de/sword-art-online) |
+| 12 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Eternal: Der Film](https://www.netflix.com/title/81214399) |
+| 13 | Netflix | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
+| 14 | Crunchyroll | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
+| 15 | Crunchyroll | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
+| 16 | Crunchyroll | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
+| 17 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
