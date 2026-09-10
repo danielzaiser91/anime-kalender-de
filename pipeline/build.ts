@@ -4696,13 +4696,16 @@ function main(): void {
      * Das ist dieselbe Klasse wie „Wer unten ergänzt, muss unten auch
      * beurteilen" (06.09.2026), nur eine Quelle weiter.
      */
+    /* Die Befunde aus dem Einzellauf — beide Blöcke unten lesen sie. */
+    const crOffeneBefunde = readJson<Record<string, { herkunft?: string; dub?: boolean }>>(
+      'data/crunchyroll-offene.json',
+      {},
+    )
     const toteCrAdressen = new Set([
       ...crDub.serien
         .filter((s) => s.nichtVerfuegbar || /nicht mehr verf|404/.test(s.fehler ?? ''))
         .map((s) => adressKern(s.url)),
-      ...Object.entries(
-        readJson<Record<string, { herkunft?: string }>>('data/crunchyroll-offene.json', {}),
-      )
+      ...Object.entries(crOffeneBefunde)
         .filter(([, b]) => b?.herkunft === 'tot')
         .map(([url]) => adressKern(url)),
     ])
@@ -4898,6 +4901,26 @@ function main(): void {
           continue
         }
         if (stream.platform === 'crunchyroll') {
+          /**
+           * **Auch `crunchyroll-offene.json` gehört hierher — sonst bleibt das
+           * Urteil im Bestand liegen.**
+           *
+           * `crNachUrl` kennt nur, was der wöchentliche Lauf geprüft hat. Die
+           * Adressen, die aniSearch hier gerade ergänzt hat, stehen dort selten:
+           * `fruits-basket`, `the-promised-neverland`,
+           * `watch/GE00266947DEDE/…` — für alle drei lag am 10.09.2026 ein
+           * fertiges Urteil in der Datei (zweimal `false`, einmal `true`), und
+           * alle drei standen trotzdem auf „🇩🇪 ?".
+           *
+           * Der Block, der diese Datei anwendet, läuft rund 800 Zeilen weiter
+           * oben — also bevor es diese Verweise gibt. Dieselbe Lehre wie im
+           * Absatz darüber, nur eine Quelle weiter.
+           */
+          const ausOffenen = crOffeneBefunde[stream.url]
+          if (typeof ausOffenen?.dub === 'boolean') {
+            stream.dub = ausOffenen.dub
+            continue
+          }
           const serie = crNachUrl.get(stream.url)
           if (!serie) continue
           for (const urteil of beurteile(serie, [title])) {
