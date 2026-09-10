@@ -1,7 +1,7 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-10 · **31 offene Verweise** in **21 Zeilen**,
-aufgeteilt in **2 Pakete** zu je 20.
+Stand 2026-09-10 · **25 offene Verweise** in **20 Zeilen**,
+aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
 `dub-pruefliste.md`, nur nach Nutzen sortiert statt nach Datum: Was viele Folgen oder einen
@@ -42,22 +42,16 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 5 | Netflix | Baki — the Grappler | [BAKI-DOU: The Invincible Samurai Teil 2](https://www.netflix.com/title/81922765) |
 | 6 | Prime Video | Nukitashi | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2) |
 | 7 | Crunchyroll | The Promised Neverland | [Staffel 2](https://www.crunchyroll.com/the-promised-neverland) |
-| 8 | Crunchyroll | Free! Iwatobi Swim Club | [High Speed! Free! Starting Days](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! -Timeless Medley- The Bond](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! -Timeless Medley- The Promise](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! Take Your Marks](https://www.crunchyroll.com/de/series/GRDQV2VWY/free---iwatobi-swim-club) · [Free! the Final Stroke: The First Volume](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! the Final Stroke: The Second Volume](https://www.crunchyroll.com/de/free-iwatobi-swim-club) |
-| 9 | Netflix | Haikyu!! | [Lev ist hier!](https://www.netflix.com/title/80090673) · [Kampf gegen ungenügende Noten](https://www.netflix.com/title/80090673) · [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.netflix.com/title/80090673) · [An Land vs. In der Luft / Der ”Weg” des Balls](https://www.netflix.com/title/80090673) |
-| 10 | Netflix | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
-| 11 | Crunchyroll | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Sister Venturing Out](https://www.crunchyroll.com/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out) · [Rascal Does Not Dream of a Knapsack Kid](https://www.crunchyroll.com/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid) |
-| 12 | Crunchyroll | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
-| 13 | Netflix | Mushoku Tensei: Jobless Reincarnation | [Eris auf Goblinjagd](https://www.netflix.com/title/80987039) |
-| 14 | Crunchyroll | Sword Art Online | [Extra Edition](http://www.crunchyroll.com/de/sword-art-online) |
-| 15 | Crunchyroll | Given | [The Movie - To the Sea](https://www.crunchyroll.com/watch/GE00266947DEDE/given-the-movie-to-the-sea) |
-| 16 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Eternal: Der Film](https://www.netflix.com/title/81214399) |
-| 17 | Netflix | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
-| 18 | Crunchyroll | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
-| 19 | Crunchyroll | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
-| 20 | Crunchyroll | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-
-## Paket 2 — Zeilen 21 bis 21
-
-| # | Anbieter | Reihe | Noch zu bestätigen |
-|---|---|---|---|
-| 21 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 8 | Netflix | Haikyu!! | [Lev ist hier!](https://www.netflix.com/title/80090673) · [Kampf gegen ungenügende Noten](https://www.netflix.com/title/80090673) · [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.netflix.com/title/80090673) · [An Land vs. In der Luft / Der ”Weg” des Balls](https://www.netflix.com/title/80090673) |
+| 9 | Netflix | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
+| 10 | Crunchyroll | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Sister Venturing Out](https://www.crunchyroll.com/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out) · [Rascal Does Not Dream of a Knapsack Kid](https://www.crunchyroll.com/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid) |
+| 11 | Crunchyroll | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
+| 12 | Netflix | Mushoku Tensei: Jobless Reincarnation | [Eris auf Goblinjagd](https://www.netflix.com/title/80987039) |
+| 13 | Crunchyroll | Sword Art Online | [Extra Edition](http://www.crunchyroll.com/de/sword-art-online) |
+| 14 | Crunchyroll | Given | [The Movie - To the Sea](https://www.crunchyroll.com/watch/GE00266947DEDE/given-the-movie-to-the-sea) |
+| 15 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Eternal: Der Film](https://www.netflix.com/title/81214399) |
+| 16 | Netflix | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
+| 17 | Crunchyroll | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
+| 18 | Crunchyroll | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
+| 19 | Crunchyroll | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
+| 20 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
