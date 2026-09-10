@@ -483,10 +483,48 @@ function schreibeUebersicht(
     `      <p><a href="${SITE}" style="color:#7dd3fc;">Zum Kalender</a></p>\n` +
     `    </article>`
 
+  /**
+   * **Die Übersicht ist eine Liste — dann soll sie das auch sagen.**
+   *
+   * Gemessen am 10.09.2026 über alle 643 erzeugten Seiten: Genau zwei trugen
+   * kein `application/ld+json`, und eine davon war diese. Jede Teilen-Seite
+   * beschreibt sich seit dem 07.09.2026 als `Movie` oder `TVSeries`; der
+   * Einstieg zu allen 641 beschrieb sich gar nicht.
+   *
+   * `ItemList` ist der Typ dafür, und die zwanzig nächsten Termine reichen:
+   * Die Liste soll die Sache benennen, nicht den ganzen Bestand wiederholen —
+   * jeder Eintrag steht ohnehin auf seiner eigenen Seite.
+   */
+  const naechsteZwanzig = kommend.slice(0, 20)
+  const listenDaten = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Anime-Termine mit deutscher Synchronisation',
+    description: `${releases.length} Veröffentlichungen, ${kommend.length} davon stehen noch an.`,
+    numberOfItems: releases.length,
+    itemListElement: naechsteZwanzig.map((r, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `${SITE}r/${r.slug}/`,
+      name: titleById.get(r.titleId)?.titleDe ?? r.name,
+    })),
+  }
   const kopf =
     `    <title>Alle Anime-Termine mit deutscher Synchro — Anime-Kalender DE</title>\n` +
     `    <meta name="description" content="Vollständige Liste aller ${releases.length} Anime-Veröffentlichungen mit deutscher Synchronisation: Termin, Anbieter und Details je Titel." />\n` +
-    `    <link rel="canonical" href="${SITE}termine/" />\n`
+    `    <link rel="canonical" href="${SITE}termine/" />\n` +
+    /*
+      Ohne Vorschaubild steht beim Teilen ein leerer Kasten. Das Bild der
+      nächsten Veröffentlichung ist die ehrlichste Wahl — es zeigt, was die
+      Liste als Erstes bringt. Gibt es keine, bleibt das Feld weg.
+    */
+    (naechsteZwanzig[0]
+      ? `    <meta property="og:image" content="${SITE}og/${naechsteZwanzig[0].slug}.jpg" />\n` +
+        `    <meta property="og:image:type" content="image/jpeg" />\n` +
+        `    <meta property="og:image:width" content="1200" />\n` +
+        `    <meta property="og:image:height" content="630" />\n`
+      : '') +
+    `    <script type="application/ld+json">${JSON.stringify(listenDaten)}</script>\n`
 
   const dir = resolve(DIST, 'termine')
   mkdirSync(dir, { recursive: true })
@@ -529,9 +567,40 @@ function schreibeStartseite(
     `      <p><a href="${SITE}termine/" style="color:#7dd3fc;">Alle ${releases.length} Termine ansehen</a></p>\n` +
     `    </article>`
 
+  /**
+   * **Die Startseite sagt, was diese Seite ist.**
+   *
+   * `WebSite` mit `SearchAction` ist das, worauf Google seine Sitelinks-Suchbox
+   * stützt, und `WebPage` mit `inLanguage: de` beantwortet die Frage, für
+   * welchen Markt die Seite gilt — bei einem Kalender, der ausdrücklich nur
+   * deutsche Fassungen führt, ist das die halbe Auskunft.
+   *
+   * Die Suchadresse zeigt auf `#/datenbank?q=`, weil dort die Volltextsuche
+   * sitzt. Dass eine Suchmaschine hinter dem `#` nichts sieht, ändert daran
+   * nichts: Die Angabe sagt einem **Menschen**, wo er landet.
+   */
+  const startDaten = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    url: SITE,
+    name: 'Anime-Kalender DE',
+    inLanguage: 'de-DE',
+    description:
+      'Alle Anime, für die es eine deutsche Synchronfassung gibt oder geben wird — mit Termin, Anbieter und Kalender-Export.',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: { '@type': 'EntryPoint', urlTemplate: `${SITE}#/datenbank?q={search_term_string}` },
+      'query-input': 'required name=search_term_string',
+    },
+  }
   writeFileSync(
     resolve(DIST, 'index.html'),
-    template.replace(rootTag, `<div id="root">${inhalt}</div>`),
+    template
+      .replace(rootTag, `<div id="root">${inhalt}</div>`)
+      .replace(
+        '</head>',
+        `    <script type="application/ld+json">${JSON.stringify(startDaten)}</script>\n  </head>`,
+      ),
     'utf8',
   )
 }
