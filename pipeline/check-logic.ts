@@ -3504,5 +3504,44 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
 }
 
+/**
+ * **Wer über einen Index zugreift, braucht die Staffelliste.**
+ *
+ * `staffelnDerAdresse()` führt seit dem 10.09.2026 OVAs und Specials mit —
+ * richtig für `ordneNachStaffelliste()`, das über Folgenzahlen rechnet und sie
+ * braucht, weil der Anbieter sie als Folgen seiner Staffeln mitzählt.
+ *
+ * Ein zweiter Block liest dieselbe Liste als **Staffelfolge**
+ * (`reihe.slice(staffelNr - 1)`), und dort verschiebt jede Nebenausgabe den
+ * Index um eins. Am selben Tag hat das vier falsche Belege erzeugt: Die
+ * Prime-Seite `B0D2NL5GYX` (Haikyu!! Staffel 4, 27 Folgen) wurde an fünf Titel
+ * verteilt, deren Summe **ebenfalls** 27 ergibt (1+10+1+13+2). Die
+ * Folgenzahl-Kontrolle merkte nichts — sie prüft, dass es aufgeht, nicht
+ * welche Titel es sind.
+ *
+ * Diese Zusicherung hält die Kopplung fest, damit sie beim nächsten Umbau
+ * auffällt statt lautlos zu kippen.
+ */
+{
+  const quelle = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
+  const anfang = quelle.indexOf('const reihe = staffelnDerAdresse(')
+  const block = anfang >= 0 ? quelle.slice(anfang, anfang + 400) : ''
+  pruefe(
+    'die Staffel-über-Franchise-Zuordnung bekommt die gefilterte Liste',
+    anfang >= 0 && /staffelnDerAdresse\([\s\S]*?,\s*true,?\s*\)/.test(block),
+    'ohne den Schalter zeigt reihe.slice(staffelNr - 1) auf eine Nebenausgabe — vier falsche Belege am 10.09.2026',
+  )
+  pruefe(
+    'und sie greift weiterhin über die Staffelnummer zu',
+    block.includes('reihe.slice(staffelNr - 1)'),
+    'ändert sich der Zugriff, gilt die Zusicherung darüber einer Sache, die es nicht mehr gibt',
+  )
+  pruefe(
+    'staffelnDerAdresse() kennt beide Fassungen',
+    quelle.includes('function staffelnDerAdresse(ids: number[], nurStaffeln = false)'),
+    'wer rechnet, braucht alle Einträge; wer zählt, nur die Staffeln',
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
