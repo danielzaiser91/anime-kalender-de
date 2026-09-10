@@ -58,6 +58,38 @@ jobs:
       LAUF_ZWECK: "Untersucht einen rot gelaufenen Datenlauf von anime-kalender.de"
       LAUF_ZIEL: "Ursache benennen und, wenn möglich, als Pull Request beheben"
     steps:
+      # **Erst fragen, ob es den Fehler noch gibt.**
+      #
+      # Am 10.09.2026 lief diese Untersuchung zehn Minuten lang gegen einen
+      # Fehler, den ich währenddessen selbst behoben hatte: Der rote Lauf war um
+      # 17:46, der grüne Nachfolger um 17:48, die Untersuchung endete um 17:56
+      # mit "Reached maximum number of turns (60)" — und ohne Ergebnis. Daniel
+      # sah davon nur einen roten Lauf in der Statusanzeige: "wieso gibt es
+      # einen roten lauf fürs untersuchen der roten läufe."
+      #
+      # Das Kriterium ist dasselbe, das `tools/laeufe-aufraeumen.mjs` benutzt,
+      # um einen roten Lauf abzunehmen: Ist derselbe Workflow danach erfolgreich
+      # durchgelaufen, ist die Sache erledigt. Es kostet einen API-Aufruf und
+      # spart im Zweifel den ganzen Lauf — samt seiner Zeile in der Anzeige.
+      - name: Gibt es den Fehler noch?
+        id: noch_da
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          nachfolger=$(gh run list \
+            --repo "${{ github.repository }}" \
+            --workflow "${{ github.event.workflow_run.name }}" \
+            --status success --limit 5 \
+            --json databaseId,createdAt \
+            --jq "[.[] | select(.databaseId > ${{ github.event.workflow_run.id }})] | length")
+          if [ "${nachfolger:-0}" -gt 0 ]; then
+            echo "Ein erfolgreicher Lauf desselben Workflows kam danach — nichts zu untersuchen."
+            echo "weiter=nein" >> "$GITHUB_OUTPUT"
+          else
+            echo "weiter=ja" >> "$GITHUB_OUTPUT"
+          fi
+
       # Sofort anmelden, noch vor allem anderen.
       #
       # Der Schritt weiter unten braucht das ausgecheckte Skript und läuft
@@ -69,6 +101,7 @@ jobs:
       # Ein curl braucht nichts als das Token. Schlägt er fehl, läuft der Job
       # weiter — die spätere Anmeldung holt es nach.
       - name: Sofort anmelden
+        if: steps.noch_da.outputs.weiter == 'ja'
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -83,6 +116,7 @@ jobs:
 
 
       - uses: actions/checkout@v4
+        if: steps.noch_da.outputs.weiter == 'ja'
         with:
           ref: main
           # Die Vorgeschichte wird gebraucht: Fast jede Ursache lässt sich
@@ -98,24 +132,30 @@ jobs:
       # nicht. Die Abmeldung scheiterte mit Exit 127 und machte einen Lauf rot,
       # dessen Arbeit fertig und richtig war.
       - name: Melder bereitlegen
+        if: steps.noch_da.outputs.weiter == 'ja'
         run: |
           cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
           echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
 
       - name: Lauf anmelden
+        if: steps.noch_da.outputs.weiter == 'ja'
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" laeuft
 
       - uses: actions/setup-node@v4
+        if: steps.noch_da.outputs.weiter == 'ja'
         with:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - name: Abhängigkeiten
+        if: steps.noch_da.outputs.weiter == 'ja'
+        run: npm ci
 
       - uses: anthropics/claude-code-action@v1
+        if: steps.noch_da.outputs.weiter == 'ja'
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # Ohne diese Zeile passiert nichts: Die Action lehnt Bots als Auslöser
@@ -123,11 +163,19 @@ jobs:
           # Datenläufe committen als `github-actions[bot]`.
           allowed_bots: 'github-actions[bot]'
           claude_args: |
-            # Sechzig statt dreißig: Am 29.08.2026 endete ein Lauf mit
-            # „Reached maximum number of turns (30)" und hat **nichts**
-            # hinterlassen — weder Befund noch Issue. Allein die Prüfkette
-            # kostet neun Aufrufe, und `npm run build` dauert.
-            --max-turns 60
+            # **Dritter Anlauf, und diesmal nicht nur eine größere Zahl.**
+            #
+            # 30 reichten nicht (29.08.2026), 60 auch nicht (10.09.2026, Lauf
+            # 34510277622: „Reached maximum number of turns (60)", ohne Befund
+            # und ohne Issue). Beim ersten Mal war die Antwort, die Zahl zu
+            # verdoppeln — sie hat zwölf Tage gehalten.
+            #
+            # Deshalb sinkt hier zuerst der Verbrauch: Die Prüfkette steht als
+            # `check:vor-commit` im Auftrag statt als neun Einzelaufrufe, und
+            # der Schritt „Gibt es den Fehler noch?" verhindert den ganzen Lauf,
+            # wenn ein grüner Nachfolger die Sache erledigt hat. 120 ist der
+            # Puffer darüber, nicht die Lösung.
+            --max-turns 120
             --allowedTools "Bash,Read,Edit,Write,Grep,Glob"
           prompt: |
             Der Lauf „${{ github.event.workflow_run.name }}" ist fehlgeschlagen.
@@ -214,20 +262,20 @@ jobs:
             - `CLAUDE.md` im Wurzelverzeichnis gilt. Dort stehen die Grundsätze
               dieses Projekts, besonders: Nichts behaupten, was nicht belegt ist.
             - Die Prüfkette muss vor dem Pull Request grün sein:
-              `npm run data:validate && npm run check:logic && npm run check:cr-zuordnung && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:extension && npm run check:zugangsart && npm run build`
+              `npm run check:vor-commit`
             - Ist der Fehler ein Widerspruch im Datensatz (`pruefeErgebnis` bricht
               ab), dann ist der Melder **nicht** das Problem. Ihn weicher zu
               stellen, um einen grünen Lauf zu bekommen, ist ausdrücklich falsch —
               repariere die Ursache und lass die Zusicherung stehen.
             - Kommentare, Commit-Nachricht und Pull-Request-Text auf Deutsch.
-            - **Die Prüfkette läuft einmal, am Ende.** Sie kostet neun Aufrufe;
-              wer sie zwischendurch startet, verbraucht seine Züge daran und
-              kommt nicht mehr zum Pull Request.
+            - **Die Prüfkette läuft einmal, am Ende.** `check:vor-commit` fasst
+              sie zu einem Aufruf zusammen — wer die Einzelläufe von Hand
+              aneinanderreiht, verbraucht acht Züge für dasselbe Ergebnis.
 
       # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
       - name: Lauf abmelden
+        if: always() && steps.noch_da.outputs.weiter == 'ja'
         continue-on-error: true
-        if: always()
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
