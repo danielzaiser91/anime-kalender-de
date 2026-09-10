@@ -500,12 +500,29 @@ export async function main(): Promise<void> {
     const namen = [werk.titleDe, werk.titleEn, werk.titleRomaji].filter(Boolean).map((n) => norm(n as string))
     const nachName = woertlich.length === 1 ? woertlich : staffeln.filter((s) => namen.includes(norm(s.titel)))
     const nachZahl = staffeln.filter((s) => werk.episodes != null && s.folgen === werk.episodes)
+    /**
+     * **Bleiben mehrere übrig, entscheidet das Jahr.**
+     *
+     * Bei „Sound! Euphonium" heißen zwei Staffeln gleich und zwei haben
+     * dreizehn Folgen — über Name und Zahl ist nichts zu holen. Unser Bestand
+     * führt `jpYear: 2015`, und Crunchyrolls Staffel-Tags nennen
+     * `Frühling-2015`. Ein Jahr ist kein Namensvergleich: Es steht auf beiden
+     * Seiten als Zahl und stammt aus der japanischen Ausstrahlung.
+     *
+     * Angewandt nur, wenn es **genau eine** Staffel trifft — sonst bleibt es
+     * beim bisherigen Ergebnis, also meist bei keinem Urteil.
+     */
+    const nachJahr = werk.jpYear
+      ? staffeln.filter((st) => (st.jahre ?? []).includes(Number(werk.jpYear)))
+      : []
     const treffer =
       nachName.length === 1 && (nachZahl.length === 0 || nachZahl.some((s) => s.id === nachName[0]!.id))
         ? nachName[0]
         : nachZahl.length === 1
           ? nachZahl[0]
-          : undefined
+          : nachJahr.length === 1
+            ? nachJahr[0]
+            : undefined
     if (!treffer) {
       /**
        * **Sagen alle Staffeln dasselbe, braucht es keine Zuordnung.**
@@ -559,7 +576,7 @@ export async function main(): Promise<void> {
   /** Die Staffeln einer Serie mit ihren Tonspuren — je Staffel, nicht je Serie. */
   async function holeStaffeln(
     serieId: string,
-  ): Promise<{ id: string; titel: string; folgen: number | null; audio: string[] }[]> {
+  ): Promise<{ id: string; titel: string; folgen: number | null; audio: string[]; jahre: number[] }[]> {
     const { body } = await hol(`https://beta-api.crunchyroll.com/content/v2/cms/series/${serieId}/seasons?locale=de-DE`)
     const daten =
       (
@@ -569,6 +586,7 @@ export async function main(): Promise<void> {
             title?: string
             number_of_episodes?: number
             audio_locale?: string
+            season_tags?: string[]
             versions?: { audio_locale?: string }[]
           }[]
         }
@@ -588,6 +606,18 @@ export async function main(): Promise<void> {
         : s.audio_locale
           ? [s.audio_locale]
           : [],
+      /**
+       * **Das Jahr steht in den Staffel-Tags — der Anker, der bisher fehlte.**
+       *
+       * „Sound! Euphonium" hat bei Crunchyroll zwei Staffeln desselben Namens
+       * (14 und 13 Folgen) und eine dritte mit 13. Über Name und Zahl ist
+       * unsere Staffel (13 Folgen) nicht zu treffen; `season_tags` sagt es in
+       * einem Wort: `Frühling-2015`, `Herbst-2016`, `spring-2024`.
+       *
+       * Geschrieben wird mal deutsch, mal englisch — gelesen wird deshalb nur
+       * die **Jahreszahl**.
+       */
+      jahre: [...new Set((s.season_tags ?? []).map((tag) => Number(/(\d{4})/.exec(String(tag))?.[1])).filter(Boolean))],
     }))
   }
 
