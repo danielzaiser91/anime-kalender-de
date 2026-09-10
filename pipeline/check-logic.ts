@@ -1697,6 +1697,76 @@ console.log('\nStreaming Availability API:')
    * die falsch sein könnte, und eine abweichende Zahl sagt nur, dass der
    * Anbieter anders zählt.
    */
+  /**
+   * **Der Anbieter zählt kumulativ — Haikyu!!, gemessen am 10.09.2026.**
+   *
+   * Daniel fand „Lev ist hier!" bei Netflix unter `/watch/81308427`; der
+   * Zurück-Pfeil führte auf **Staffel 1, Folge 26**. Die OVA ist dort keine
+   * eigene Staffel, sie hängt am Ende der Staffel, zu der sie gehört — und
+   * dasselbe gilt für die drei anderen Nebenausgaben.
+   *
+   * Die Positionspaarung machte daraus vier Jahre Arbeit zunichte: Sie
+   * verheiratete unsere Staffel 1 (25) mit Netflix' Staffel 1 (26), verglich
+   * die Zahlen nur auf „Abstand höchstens 3" und erklärte den überzähligen
+   * fünften Eintrag für nicht vorhanden. Der Verweis auf „TO THE TOP Part 2"
+   * war deshalb seit dem 22.08.2026 entfernt.
+   *
+   * Die Zahlen unten stehen wörtlich im Netflix-Folgenwähler (26, 26, 11, 27)
+   * und in unserem Bestand.
+   */
+  const netflixHaikyu = [
+    { seq: 1, name: 'Haikyu!!', folgen: 26, erste: 1 },
+    { seq: 2, name: 'Haikyu!! II', folgen: 26, erste: 1 },
+    { seq: 3, name: 'Haikyu!! Karasuno vs Shiratorizawa', folgen: 11, erste: 1 },
+    { seq: 4, name: 'Haikyu!! Staffel 4', folgen: 27, erste: 1 },
+  ]
+  const unsereHaikyu = [
+    { id: 20464, titel: 'HAIKYU!!', folgen: 25 },
+    { id: 20884, titel: 'Lev Appears!', folgen: 1 },
+    { id: 20992, titel: 'HAIKYU!! 2nd Season', folgen: 25 },
+    { id: 21348, titel: 'VS Failing Marks', folgen: 1 },
+    { id: 21698, titel: 'HAIKYU!! 3rd Season', folgen: 10 },
+    { id: 107351, titel: 'Spring Tournament Special', folgen: 1 },
+    { id: 106625, titel: 'TO THE TOP', folgen: 13 },
+    { id: 111790, titel: 'LAND VS. AIR', folgen: 2 },
+    { id: 113538, titel: 'TO THE TOP Part 2', folgen: 12 },
+  ]
+  const haikyu = ordneNachStaffelliste(netflixHaikyu, unsereHaikyu)
+  pruefe('jede der vier Netflix-Staffeln bekommt ihre Titel',
+    haikyu.paare.length === 4 && haikyu.ohneEntsprechung.length === 0,
+    { paare: haikyu.paare.length, ohne: haikyu.ohneEntsprechung.length })
+  pruefe('kein Titel gilt mehr als nicht geführt — Part 2 liegt in Staffel 4',
+    haikyu.paare[3]?.teile?.some((t) => t.id === 113538) === true,
+    haikyu.paare[3]?.teile?.map((t) => t.id))
+  /* Der Fall, der die ganze Kette ausgelöst hat: Folge 26 der ersten Staffel. */
+  const lev = ordneMeldungZu({ folge: 26, staffel: 1 }, unsereHaikyu, netflixHaikyu)
+  pruefe('Folge 26 der Staffel 1 ist die OVA „Lev Appears!", nicht die Serie',
+    lev?.staffel.id === 20884 && lev.folgeInStaffel === 1, lev)
+  pruefe('Folge 25 derselben Staffel bleibt bei der Serie',
+    ordneMeldungZu({ folge: 25, staffel: 1 }, unsereHaikyu, netflixHaikyu)?.staffel.id === 20464)
+  /* Staffel 4 trägt drei Titel — die Grenzen liegen bei 13 und 15. */
+  pruefe('Staffel 4, Folge 14 ist die erste Folge von „LAND VS. AIR"',
+    ordneMeldungZu({ folge: 14, staffel: 4 }, unsereHaikyu, netflixHaikyu)?.staffel.id === 111790)
+  pruefe('Staffel 4, Folge 16 ist die erste von „TO THE TOP Part 2"',
+    ordneMeldungZu({ folge: 16, staffel: 4 }, unsereHaikyu, netflixHaikyu)?.staffel.id === 113538)
+
+  /**
+   * **Und die Rechnung behauptet nichts, wo sie nicht aufgeht.**
+   *
+   * Bei „Mushoku Tensei" führt Netflix 23 + 25 = 48 Folgen, unsere sechs
+   * Einträge zusammen 49 — eine Folge zu viel. Dann bleibt es beim bisherigen
+   * Weg; ein erzwungener Treffer wäre schlimmer als keiner.
+   */
+  const schiefeSumme = ordneNachStaffelliste(
+    [{ seq: 1, name: 'St. 1', folgen: 10, erste: 1 }],
+    [
+      { id: 1, titel: 'A', folgen: 6 },
+      { id: 2, titel: 'B', folgen: 5 },
+    ],
+  )
+  pruefe('geht die Summe nicht auf, entsteht keine kumulative Zuordnung',
+    !schiefeSumme.paare.some((paar) => paar.teile), schiefeSumme.paare)
+
   const schief = ordneNachStaffelliste(
     [
       { seq: 1, name: 'St. 1', folgen: 13, erste: 1 },

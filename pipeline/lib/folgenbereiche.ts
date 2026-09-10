@@ -193,7 +193,19 @@ export function ordneNachStaffelliste(
   anbieter: AnbieterStaffel[],
   unsere: Staffeleintrag[],
 ): {
-  paare: Array<{ anbieter: AnbieterStaffel; unser: Staffeleintrag }>
+  paare: Array<{
+    anbieter: AnbieterStaffel
+    unser: Staffeleintrag
+    /**
+     * Alle unsere Titel, die in **dieser** Staffel des Anbieters liegen.
+     *
+     * Steht hier mehr als einer, entscheidet die Folgennummer, welcher gemeint
+     * ist — dasselbe wie bei `zusammengefasst`, nur je Staffel statt für die
+     * ganze Adresse. Gebraucht, seit die kumulative Verteilung auch dann greift,
+     * wenn der Anbieter mehrere Staffeln führt.
+     */
+    teile?: Staffeleintrag[]
+  }>
   /** Unsere Einträge, für die der Anbieter gar keine Staffel führt. */
   ohneEntsprechung: Staffeleintrag[]
   /**
@@ -209,6 +221,59 @@ export function ordneNachStaffelliste(
   problem?: string
 } {
   const sortiert = [...anbieter].sort((a, b) => a.seq - b.seq)
+
+  /**
+   * **Der Anbieter zählt lückenlos — dann ist die Verteilung Arithmetik.**
+   *
+   * Daniel am 10.09.2026 an „Haikyu!! Lev ist hier!": Die OVA liegt bei Netflix
+   * als **Staffel 1, Folge 26** — sie ist dort keine eigene Staffel, sondern
+   * hängt am Ende der Staffel, zu der sie gehört. Dasselbe bei den drei anderen
+   * Haikyu!!-Nebenausgaben, bei „Hi Score Girl: Extra Stage" (S1 E13–15) und bei
+   * „Dorohedoro: Teuflische Anekdoten" (S1 E13).
+   *
+   * Die Paarung darunter läuft Position gegen Position und prüft die
+   * Folgenzahlen nur auf „Abstand höchstens 3". Bei Haikyu!! passte **keine**
+   * Position (25↔26, 25↔26, 10↔11, 13↔27); drei fast-Treffer deckten die
+   * vierte Abweichung, und der überzählige fünfte Eintrag bekam ein
+   * `available: false` — obwohl er in Staffel 4 steckt (27 = 13 + 2 + 12).
+   *
+   * Hier wird stattdessen aufgefüllt: unsere Titel der Reihe nach in die
+   * Staffeln des Anbieters. Geht **jede** Staffel exakt auf und bleibt keiner
+   * übrig, ist die Zuordnung belegt — und zwar besser als jede Paarung, denn
+   * sie erklärt jede einzelne Folge.
+   *
+   * **Nur bei exaktem Aufgehen.** Ein Titel, der über eine Staffelgrenze
+   * hinausragt, bricht die Rechnung ab; dann bleibt es beim bisherigen Weg.
+   */
+  const kumulativ = ((): Array<{ st: AnbieterStaffel; drin: Staffeleintrag[] }> | null => {
+    if (!sortiert.length || unsere.length <= sortiert.length) return null
+    const raus: Array<{ st: AnbieterStaffel; drin: Staffeleintrag[] }> = []
+    let i = 0
+    for (const st of sortiert) {
+      const drin: Staffeleintrag[] = []
+      let summe = 0
+      while (i < unsere.length && summe < st.folgen) {
+        const u = unsere[i]!
+        if (!u.folgen || summe + u.folgen > st.folgen) break
+        drin.push(u)
+        summe += u.folgen
+        i++
+      }
+      if (summe !== st.folgen || !drin.length) return null
+      raus.push({ st, drin })
+    }
+    return i === unsere.length ? raus : null
+  })()
+  if (kumulativ) {
+    return {
+      paare: kumulativ.map(({ st, drin }) => ({
+        anbieter: st,
+        unser: drin[0]!,
+        teile: drin.length > 1 ? drin : undefined,
+      })),
+      ohneEntsprechung: [],
+    }
+  }
 
   /**
    * Der Reihe nach paaren geht nur in **einer** Richtung.
@@ -396,6 +461,20 @@ export function ordneMeldungZu(
       Folgennummer, welcher gemeint ist: Bei „Tokyo Revengers" gehören die
       Folgen 1–13 zu „Christmas Showdown", 14–26 zu „Tenjiku Arc".
     */
+    /*
+      **Die Teile dieser Staffel schlagen die Zusammenfassung der Adresse.**
+
+      `zusammengefasst` gilt für alle Staffeln gemeinsam — das trägt nur, wo der
+      Anbieter eine einzige führt. `teile` sagt es je Staffel, und genau das
+      braucht „Haikyu!!": Folge 26 der Staffel 1 ist die OVA, Folge 26 der
+      Staffel 2 das Special.
+    */
+    if (paar.teile && paar.teile.length > 1) {
+      const inBlock = meldung.folge - paar.anbieter.erste + 1
+      if (inBlock < 1 || inBlock > paar.anbieter.folgen) return null
+      const treffer = ordneFolgeZu(inBlock, paar.teile)
+      return treffer ? { staffel: treffer.staffel, folgeInStaffel: treffer.folgeInStaffel } : null
+    }
     if (zusammengefasst && zusammengefasst.length > 1) {
       const inBlock = meldung.folge - paar.anbieter.erste + 1
       if (inBlock < 1 || inBlock > paar.anbieter.folgen) return null

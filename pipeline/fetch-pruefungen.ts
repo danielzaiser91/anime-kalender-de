@@ -370,8 +370,26 @@ function staffelnDerAdresse(ids: number[]): Staffeleintrag[] {
    *
    * Ein Titel, an dessen Adresse **nur** Filme hängen, bleibt unberührt.
    */
-  const serien = alle.filter((t) => t.format === 'TV' || t.format === 'ONA')
-  const eintraege = serien.length ? serien : alle
+  /**
+   * **Sie zählen nicht als Staffeln — deshalb müssen sie hier bleiben.**
+   *
+   * Der Absatz darüber stimmt in der Beobachtung und irrte im Schluss: Weil der
+   * Anbieter OVAs als Folgen seiner Staffeln mitrechnet, gehören sie in die
+   * Rechnung — nicht aus ihr heraus. Sie zu entfernen machte aus „Netflix zählt
+   * 26, wir 25" ein unlösbares Rätsel, statt es zu beantworten (die 26. ist die
+   * OVA).
+   *
+   * `ordneNachStaffelliste()` verteilt seit dem 10.09.2026 kumulativ und
+   * braucht dafür **alle** Einträge in ihrer Reihenfolge. Geht die Verteilung
+   * nicht auf, fällt es dort auf die alten Wege zurück — ohne diese Liste fiel
+   * es auf einen falschen.
+   *
+   * Filme bleiben draußen, wo Serien danebenstehen: Ein Film ist keine Folge
+   * einer Staffel, und seine Eins würde die Rechnung um eins verschieben.
+   */
+  const eintraege = alle.filter(
+    (t) => t.format !== 'MOVIE' || !alle.some((x) => x.format === 'TV' || x.format === 'ONA'),
+  )
   return eintraege
     .sort((a, b) => {
       const jahr = (a.jpYear ?? 0) - (b.jpYear ?? 0)
