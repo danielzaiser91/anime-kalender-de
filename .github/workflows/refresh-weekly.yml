@@ -564,11 +564,13 @@ jobs:
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        # 200 statt 40 seit dem 10.09.2026. Gemessen standen 257 Titel in der
-        # Warteschlange (24 offene Verweise, 233 ganz ohne Bezugsweg), und die
-        # Wiedervorlage faellt nach 28 Tagen erneut an: Mit 40 je Woche kam der
-        # Lauf nie durch, er holte immer nur die aeltesten nach. Bei einer
-        # Sekunde Pause je Abruf sind 200 Titel gut drei Minuten.
+        # 200 statt 40 seit dem 10.09.2026. Die Warteschlange umfasst 259 Titel
+        # (24 Verweise ohne Sprachurteil, 235 ganz ohne Bezugsweg), und sie wird
+        # **gleichzeitig** faellig: Am 09.09.2026 sind alle geprueft worden, also
+        # stehen sie am 07.10. gemeinsam wieder an. Mit 40 je Woche braeuchte der
+        # Lauf sieben Wochen fuer eine Runde, die alle vier Wochen neu beginnt —
+        # er kaeme nie durch. Bei einer Sekunde Pause je Abruf sind 200 Titel gut
+        # drei Minuten.
         run: npm run data:justwatch -- --limit 200
 
       - name: Fortschritt — Tonspuren laut JustWatch
