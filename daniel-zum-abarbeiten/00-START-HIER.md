@@ -8,7 +8,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 |---|---|---|---|---|
 | 1 | Prime Video — Suchseiten | 1 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
 | 2 | [Prime Video — Titelseiten](07-primevideo.md) | 5 Adressen, 10 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 3 | [Netflix](06-netflix-rest.md) | 7 Titel, 11 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 3 | [Netflix](06-netflix-rest.md) | 5 Titel, 8 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 4 | [Crunchyroll](07-crunchyroll.md) | 6 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 
 **Alles außer Nummer 4 und 5 läuft über die Browser-Erweiterung** aus `extension/`.

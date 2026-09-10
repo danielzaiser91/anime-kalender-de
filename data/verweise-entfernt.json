@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-10T09:53:31.345Z",
+  "stand": "2026-09-10T11:09:21.884Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -9196,6 +9196,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-10",
       "letzterWeg": true
+    },
+    {
+      "titleId": 141534,
+      "titel": "Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80987039",
+      "seriesId": null,
+      "grund": "der Anbieter führt 23 + 25 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-10",
+      "letzterWeg": false
     }
   ]
 }
