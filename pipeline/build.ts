@@ -3827,12 +3827,44 @@ function main(): void {
       let ausOffenen = 0
       let toteOffene = 0
       for (const title of titles.values()) {
-        for (const stream of title.streams) {
+        for (const stream of [...title.streams]) {
           if (stream.platform !== 'crunchyroll' || stream.dub !== undefined) continue
           const b = offene[stream.url]
           if (!b) continue
+          /**
+           * **Ein `tot` wurde gezählt und nie angewandt — 11 Verweise standen so
+           * dauerhaft auf „🇩🇪 ?".**
+           *
+           * Der Kommentar darüber sagte, der Verweis fliege „weiter unten über
+           * dieselbe Regel wie jede andere tote Adresse". Die Regel gibt es, nur
+           * kennt sie diese Adressen nicht: Sie läuft über `crDub.serien`, also
+           * über die Serien, die der wöchentliche Lauf geprüft hat. Was
+           * `fetch-crunchyroll-offene.ts` als tot belegt, steht dort nicht.
+           *
+           * Gemessen am 10.09.2026: 28 Verweise ohne Sprachurteil im Datensatz,
+           * 17 davon beim Lauf offen — und **11 als tot beurteilt**, ohne jede
+           * Wirkung. Die Erklärung vom Vortag („das macht die aniSearch-Nachrunde
+           * wieder auf") war falsch: Dem Lauf war keine einzige dieser Adressen
+           * unbekannt.
+           *
+           * Entfernt wird, nicht auf `dub: false` gesetzt: Es fehlt das Angebot,
+           * nicht die deutsche Fassung — dieselbe Unterscheidung wie bei
+           * „Videos dieser Serie nicht mehr verfügbar".
+           */
           if (b.herkunft === 'tot') {
+            title.streams = title.streams.filter((s) => s !== stream)
             toteOffene++
+            verweiseEntfernt.push({
+              titleId: title.id,
+              titel: title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id),
+              plattform: 'crunchyroll',
+              url: stream.url,
+              seriesId: null,
+              grund: b.grund ?? 'Adresse führt ins Leere (fetch-crunchyroll-offene)',
+              geprueftAm: null,
+              entferntAm: todayIso(),
+              letzterWeg: title.streams.length === 0,
+            })
             continue
           }
           if (typeof b.dub !== 'boolean') continue
@@ -3843,7 +3875,7 @@ function main(): void {
       if (ausOffenen)
         log(`${ausOffenen} Crunchyroll-Verweise über Videokennung oder Staffelliste beurteilt`)
       if (toteOffene)
-        log(`${toteOffene} Crunchyroll-Verweise mit abgelaufener Videokennung — sie fliegen als tote Adresse`)
+        log(`${toteOffene} Crunchyroll-Verweise entfernt: die Adresse führt ins Leere (abgelaufene Videokennung oder im deutschen Katalog nicht geführt)`)
     }
 
     /**

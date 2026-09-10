@@ -3408,5 +3408,31 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   }
 }
 
+/**
+ * **Ein toter Crunchyroll-Verweis wird entfernt, nicht gezählt.**
+ *
+ * `fetch-crunchyroll-offene.ts` belegt eine Adresse als tot — abgelaufene
+ * Videokennung, oder im deutschen Katalog nicht geführt und von JustWatch
+ * gegengeprüft. Der Bau zählte diese Befunde nur und schrieb daneben, der
+ * Verweis fliege „weiter unten über dieselbe Regel wie jede andere tote
+ * Adresse". Die Regel gibt es, nur läuft sie über `crDub.serien` und kennt
+ * diese Adressen nicht.
+ *
+ * Gemessen am 10.09.2026: 28 Crunchyroll-Verweise ohne Sprachurteil, 17 beim
+ * Lauf offen — und **11 als tot beurteilt**, ohne jede Wirkung.
+ */
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const anfang = bau.indexOf("'data/crunchyroll-offene.json'")
+  const block = bau.slice(anfang, bau.indexOf('Neunte Runde', anfang))
+  pruefe(
+    'ein toter Crunchyroll-Befund entfernt den Verweis',
+    block.includes("b.herkunft === 'tot'") &&
+      block.includes('title.streams.filter((s) => s !== stream)') &&
+      block.includes('verweiseEntfernt.push'),
+    'sonst wird der Befund gezählt und nichts passiert — elf Verweise am 10.09.2026',
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
