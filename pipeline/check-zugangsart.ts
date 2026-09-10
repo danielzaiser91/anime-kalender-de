@@ -195,8 +195,28 @@ console.log('\nSuchadressen behaupten kein Angebot:')
   const jeArt: Record<string, number> = {}
   for (const s of suchadressen) jeArt[s.zugang ?? '(leer)'] = (jeArt[s.zugang ?? '(leer)'] ?? 0) + 1
   console.log(`  ${suchadressen.length} Suchadressen im Datensatz: ${JSON.stringify(jeArt)}`)
-  // Sonst prüft die Regel oben irgendwann nichts mehr, ohne dass es auffällt.
-  pruefe('es gibt überhaupt Suchadressen im Bestand', suchadressen.length > 0, suchadressen.length)
+  /*
+    **Umgedreht am 10.09.2026 — und der Anlass ist eine alte Lehre.**
+
+    Hier stand `suchadressen.length > 0` mit der Begründung, die Regel darüber
+    prüfe sonst irgendwann nichts mehr. Die Sorge war berechtigt, die Bedingung
+    war es nicht: Seit heute fliegt jede Suchadresse aus dem Datensatz
+    (Daniel: „alle links die auf such query gehen … müssen entfernt werden"),
+    also ist null der **Zielzustand** — und die Zusicherung wurde rot, weil die
+    Arbeit fertig war. Genau der Fehler, den CLAUDE.md seit dem 25.08.2026
+    beschreibt: „Unter welchen Umständen ist die Bedingung verletzt, ohne dass
+    etwas kaputt ist?"
+
+    Die Umkehrung misst dieselbe Sache und hält in beide Richtungen: Findet sich
+    doch eine Suchadresse, darf sie jedenfalls kein Angebot behaupten. Was die
+    Regel oben wirklich prüft, prüfen die drei Fälle darüber an einer Kulisse —
+    unabhängig von jedem Datenstand.
+  */
+  pruefe(
+    'keine Suchadresse behauptet ein Angebot',
+    suchadressen.every((s) => s.zugang === undefined || s.zugang === 'unbekannt'),
+    JSON.stringify(jeArt),
+  )
 }
 
 {

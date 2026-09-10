@@ -60,6 +60,16 @@ const ohneWegMitSynchro = ohneWeg.filter((t) => t.hasVoices).length
  * Sortiert wird nach Ertrag, nicht nach Anbietergröße — bei Netflix kostet ein
  * Titel einen Klick je Folge, bei Prime liest die Erweiterung selbst.
  */
+/** Wie viele Suchadressen offen sind — gezählt an den Überschriften der Liste. */
+const suchadressen = (() => {
+  try {
+    return (readFileSync('daniel-zum-abarbeiten/18-suchadressen.md', 'utf8').match(/^## /gm) ?? [])
+      .length
+  } catch {
+    return 0
+  }
+})()
+
 const aufgaben = [
   {
     nr: 1,
@@ -89,7 +99,24 @@ const aufgaben = [
     wie: 'Titelseite öffnen, **Abspielen**, warten, zurück',
   },
   {
+    /*
+      **Die Adressen, die auf eine Suche zeigten** (10.09.2026). Sie sind aus
+      dem Datensatz verschwunden, weil eine Suche schlechter ist als kein Weg —
+      die Frage danach, wo der Titel wirklich liegt, ist geblieben. Bei Prime
+      kann sie niemand automatisch beantworten: Amazons robots.txt sperrt 19
+      Bots namentlich, und die Adressen, die aniSearch dazu kennt, stehen im
+      Link-Check auf „unklar".
+    */
     nr: 4,
+    titel: 'Suchadressen — welcher Titel steckt dahinter?',
+    datei: 'daniel-zum-abarbeiten/18-suchadressen.md',
+    umfang: zaehl(suchadressen, 'Adresse', 'Adressen'),
+    zeit: '~30 s je Titel',
+    loest: 'Verweise, die ins Leere zeigten, statt zum Titel',
+    wie: 'Titel bei Prime suchen, Adresse der Titelseite eintragen — oder ein x für: gibt es dort nicht',
+  },
+  {
+    nr: 5,
     titel: 'Crunchyroll',
     datei: 'daniel-zum-abarbeiten/07-crunchyroll.md',
     umfang: zaehl(offen.get('crunchyroll') ?? 0, 'Verweis', 'Verweise'),
@@ -98,7 +125,7 @@ const aufgaben = [
     wie: 'Seite ansehen, Kurzschrift in die Liste',
   },
   {
-    nr: 5,
+    nr: 6,
     titel: 'YouTube',
     datei: 'daniel-zum-abarbeiten/09-youtube-liste.md',
     umfang: zaehl(offen.get('youtube') ?? 0, 'Verweis', 'Verweise'),
@@ -107,7 +134,7 @@ const aufgaben = [
     wie: 'Video öffnen, Tonspur hören',
   },
   {
-    nr: 6,
+    nr: 7,
     titel: 'Disney+',
     datei: 'daniel-zum-abarbeiten/07-disneyplus.md',
     umfang: `${disneyListe} Titel, ${zaehl(offen.get('disneyplus') ?? 0, 'Verweis', 'Verweise')}`,
@@ -133,7 +160,7 @@ for (const a of aufgaben) {
 }
 md.push(
   '',
-  '**Alles außer Nummer 4 und 5 läuft über die Browser-Erweiterung** aus `extension/`.',
+  '**Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.',
   'Sie zeigt auf jeder Anbieterseite, was dort noch offen ist, liest die Tonspuren und',
   'schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippen.',
   '',
