@@ -1605,3 +1605,44 @@
   margin-top: 0;
   text-decoration: none;
 }
+
+/*
+  **Die Anzeige im Player.**
+
+  Seit dem 22.08.2026 räumt die Erweiterung im Player alles ab — der Gedanke war
+  richtig, eine Bedienleiste über einem laufenden Video stört. Der Schluss war zu
+  weit: Gemeldet wird genau dort, und das Ergebnis ging ins Leere (Daniel,
+  10.09.2026: „nix ist weiter passiert. wurde es gemeldet ohne das ich etwas
+  visuell sehe?").
+
+  Deshalb klein und oben links, wo Netflix nur den Zurück-Pfeil hat. `pointer-events:
+  none` — sie soll gesehen werden, nicht bedient, und nie einen Klick abfangen,
+  der dem Player gilt.
+*/
+.ak-player-anzeige {
+  position: fixed;
+  top: 14px;
+  left: 88px;
+  z-index: 2147483000;
+  max-width: 42ch;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font: 500 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #e6edf3;
+  background: rgba(13, 17, 23, 0.86);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 4px 14px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  animation: akPlayerEin 0.18s ease-out;
+}
+.ak-player-anzeige[data-art='gut'] {
+  color: #7ee787;
+  box-shadow: inset 0 0 0 1px rgba(126, 231, 135, 0.45), 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.ak-player-anzeige[data-art='fehler'] {
+  color: #ff7b72;
+  box-shadow: inset 0 0 0 1px rgba(255, 123, 114, 0.5), 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+@keyframes akPlayerEin {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}

@@ -666,10 +666,24 @@ function schluessel() {
 }
 
 function vielleichtSenden() {
-  if (!stand.reihe || !stand.spuren) return
+  /*
+    **Auch das Warten gehört auf den Bildschirm.** Zwischen „Player offen" und
+    „gemeldet" liegen ein paar Sekunden, in denen die Erweiterung auf die
+    Tonspurliste wartet. Ohne ein Zeichen sieht das aus wie nichts.
+  */
+  if (!stand.reihe || !stand.spuren) {
+    playerAnzeige(
+      stand.reihe
+        ? 'Anime-Kalender: wartet auf die Tonspuren …'
+        : 'Anime-Kalender: liest die Folge …',
+      'laeuft',
+    )
+    return
+  }
   const k = schluessel()
   if (gesendet.has(k)) return
   gesendet.set(k, 'unterwegs')
+  playerAnzeige(`Anime-Kalender: meldet Folge ${stand.folgeNr ?? '?'} …`, 'laeuft')
   void melden({ automatisch: true })
 }
 
@@ -941,7 +955,45 @@ async function melden({ automatisch = false } = {}) {
   }
 }
 
+/**
+ * **Im Player war die Erweiterung unsichtbar — und damit stumm.**
+ *
+ * Seit dem 22.08.2026 räumt `zeigeUebersicht()` im Player alles ab: „dort ist
+ * die Erweiterung unsichtbar". Der Gedanke war richtig — eine Bedienleiste über
+ * einem laufenden Video stört. Der Schluss war zu weit: Gemeldet wird **genau
+ * hier**, und das Ergebnis ging an `knopf`, den es im Player nicht gibt.
+ * `zeigeErgebnis()` fiel also still auf die erste Zeile zurück.
+ *
+ * Daniel am 10.09.2026, nachdem er eine Folge geöffnet hatte: „player hat sich
+ * durch link geöffnet, nix ist weiter passiert. wurde es gemeldet ohne das ich
+ * etwas visuell sehe? — wenn ja, dann ist das klarer verstoß gegen offene
+ * kommunikation regel." Es war nicht gemeldet, und **auch das** war nicht zu
+ * sehen: Zwischen „liest gerade", „fertig" und „gescheitert" konnte er nicht
+ * unterscheiden.
+ *
+ * Die Anzeige ist deshalb klein und oben links, wo Netflix nur den Zurück-Pfeil
+ * hat — sie stört nicht, aber sie ist da. Sie verschwindet nicht von selbst:
+ * Wer nach zwanzig Sekunden hinsieht, will wissen, was passiert ist.
+ */
+let playerFeld = null
+function playerAnzeige(text, art = 'laeuft') {
+  try {
+    if (!imPlayer()) return
+    if (!playerFeld?.isConnected) {
+      playerFeld = document.createElement('div')
+      playerFeld.className = 'ak-player-anzeige'
+      document.body.appendChild(playerFeld)
+    }
+    playerFeld.textContent = text
+    playerFeld.dataset.art = art
+  } catch {
+    /* Eine Anzeige, die den Player stört, ist keine. */
+  }
+}
+
 function zeigeErgebnis(text, gutgegangen) {
+  /* Im Player gibt es keinen Knopf — dort sagt es die eigene Anzeige. */
+  playerAnzeige(text, gutgegangen ? 'gut' : 'fehler')
   if (!knopf) return
   knopf.textContent = text
   knopf.classList.add(gutgegangen ? 'ak-erfolg' : 'ak-fehler')
