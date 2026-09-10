@@ -3062,6 +3062,43 @@ ungenauer und trägt trotzdem, weil ein Mensch die zwanzig Zeilen liest.
 „Ein neuer Abruf braucht drei Dinge": *Wer liest, was er schreibt — und steht
 dessen Name irgendwo im Code?*
 
+## Ein Test über den Quelltext fängt keinen doppelt vergebenen Namen
+
+Am 31.08.2026 fragte Daniel: „wie melde ich die bis 155? es gibt kein bestätigen
+oder so button?" Der Knopf wurde gebaut, drei Zusicherungen hielten ihn fest
+(„er legt den Melde-Knopf an", „beide werden sichtbar geschaltet", „der Knopf
+hängt am Feld"), und alle drei waren grün.
+
+Er ist trotzdem nie erschienen. Beide Knöpfe hießen `DURCHLAUF.grenzKnopf`:
+
+```js
+DURCHLAUF.grenzKnopf = document.createElement('button')   // der Umschalter, in der Leiste
+…
+if (!DURCHLAUF.grenzKnopf?.isConnected) {                  // der „✓ melden" am Grenzfeld
+  DURCHLAUF.grenzKnopf = document.createElement('button')
+```
+
+Der Umschalter entsteht beim Aufbau der Leiste und ist danach **verbunden** —
+die Bedingung traf nie zu. Aufgefallen ist es erst am 10.09.2026 beim Einbau
+eines dritten Knopfs daneben.
+
+**Warum die Zusicherungen es nicht fangen konnten:** Sie prüfen den Quelltext,
+und dort stand alles richtig. Ein doppelt vergebener Name ist im Quelltext
+**korrekt** — falsch wird er erst zur Laufzeit, wenn die zweite Zuweisung die
+erste überschreibt oder gar nicht erst läuft.
+
+**Die Prüfung, die es fängt, fragt nach der Menge:**
+
+```js
+const namen = [...quelle.matchAll(/DURCHLAUF\.(\w+) = document\.createElement\(/g)].map((m) => m[1])
+pruefe('kein Feld trägt zwei verschiedene Elemente', namen.length === new Set(namen).size)
+```
+
+**Die allgemeine Form:** Wo ein Objekt als Ablage für Elemente dient, ist jeder
+Feldname eine Kennung — und Kennungen werden auf Eindeutigkeit geprüft, nicht
+auf Vorhandensein. Dasselbe gilt für CSS-Klassen, die an zwei Stellen vergeben
+werden, und für Speicherschlüssel.
+
 ## Der Anbieter zählt kumulativ — Position gegen Position ist keine Zuordnung
 
 Am 10.09.2026 fand Daniel „Haikyu!! Lev ist hier!" bei Netflix unter
