@@ -730,6 +730,23 @@ async function speicherSchreiben(werte) {
   /** Je Suchadresse die bestätigten Ausgaben — vom Worker, nicht aus dem Browser. */
   let briefkastenErwartungen = null
   /**
+   * **Was diese Sitzung selbst gemeldet hat — neben dem Briefkasten, nicht in ihm.**
+   *
+   * Die eigene Meldung wurde bis 4.17.4 in `briefkastenSeiten` nachgetragen, und
+   * das hielt genau bis zum nächsten Abruf: `briefkastenHolen()` **ersetzt** die
+   * Menge, und der Worker führt die Meldung erst, wenn sie durch ist. Der Haken
+   * erschien deshalb nicht (Daniel, 10.09.2026, mit Bild: „nach meldung muss
+   * checklisten eintrag den haken bekommen statt dem kreis" — er kam erst nach
+   * dem Wechsel auf die zweite Ausgabe, „also wird es ein ui update sein was
+   * fehlt").
+   *
+   * Eine eigene Menge übersteht das Ersetzen. Sie gilt nur für die Anzeige der
+   * Checkliste: Ob ein Verweis wirklich abgehakt ist, entscheidet weiterhin der
+   * Briefkasten allein (siehe `seiteOffen`), denn eine Meldung, die nicht
+   * ankommt, darf nicht als erledigt gelten.
+   */
+  const selbstGemeldeteSeiten = new Set()
+  /**
    * **Ein Muster über den ganzen Quelltext — nicht 220 Ausschnitte.**
    *
    * Die erste Fassung lief über **alle** `titleID`-Fundstellen und legte je
@@ -4449,7 +4466,8 @@ async function speicherSchreiben(werte) {
           const gruppe = document.createElement('div')
           gruppe.className = 'ak-such-gruppe'
           for (const k of erwartet) {
-            const fertig = briefkastenSeiten?.has(String(k)) ?? false
+            /* Der Briefkasten weiß es später, diese Sitzung weiß es sofort. */
+            const fertig = (briefkastenSeiten?.has(String(k)) ?? false) || selbstGemeldeteSeiten.has(String(k))
             const dieseSeite = String(k) === String(hier)
             const zeile = document.createElement('div')
             zeile.className = 'ak-such-auswahl' + (dieseSeite ? ' ak-such-hier' : '')
@@ -10376,9 +10394,18 @@ async function speicherSchreiben(werte) {
         */
         try {
           const hier = asin()
-          if (hier && briefkastenSeiten) briefkastenSeiten.add(String(hier))
+          if (hier) {
+            /*
+              **Beides, und das zweite ist das, was hält.** Der Nachtrag in
+              `briefkastenSeiten` hilft dem laufenden Takt; er verschwindet aber
+              beim nächsten Abruf, weil der die Menge ersetzt. Der eigene Merker
+              bleibt, bis die Seite neu geladen wird.
+            */
+            if (briefkastenSeiten) briefkastenSeiten.add(String(hier))
+            selbstGemeldeteSeiten.add(String(hier))
+          }
         } catch {
-          /* Noch keine Auskunft vom Briefkasten — dann trägt sie den Haken selbst. */
+          /* Ohne Kennung gibt es nichts nachzutragen — der Briefkasten holt es nach. */
         }
         /*
           **Erst wenn keine Ausgabe mehr aussteht.** Bei zwei bestätigten

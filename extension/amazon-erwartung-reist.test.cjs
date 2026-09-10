@@ -111,9 +111,61 @@ const leser = quelle.includes(
 )
 pruefe('Die Titelseite liest Briefkasten zuerst, dann den Merker', leser)
 
+/*
+  **Der Haken nach der eigenen Meldung.**
+
+  Daniel am 10.09.2026, zweites Bild: „nach meldung muss checklisten eintrag den
+  haken bekommen statt dem kreis … der haken kommt nach navigation zum 2.
+  eintrag, also wird es ein ui update sein was fehlt."
+
+  Die Überbrückung gab es — sie schrieb die eigene Kennung in
+  `briefkastenSeiten`. Das hielt bis zum nächsten Abruf: `briefkastenHolen()`
+  **ersetzt** diese Menge, und der Worker führt die frische Meldung noch nicht.
+  Ein eigener Merker übersteht das Ersetzen.
+*/
+console.log('')
+console.log('Zusicherungen zum Haken nach der eigenen Meldung\n')
+
+const merkerDekl = quelle.indexOf('const selbstGemeldeteSeiten = new Set()')
+pruefe('Es gibt einen eigenen Merker neben dem Briefkasten', merkerDekl > 0)
+pruefe(
+  'Der Melde-Handler trägt die eigene Seite dort ein',
+  quelle.includes('selbstGemeldeteSeiten.add(String(hier))'),
+)
+pruefe(
+  'Die Checkliste liest ihn zusätzlich zum Briefkasten',
+  quelle.includes(
+    "const fertig = (briefkastenSeiten?.has(String(k)) ?? false) || selbstGemeldeteSeiten.has(String(k))",
+  ),
+)
+pruefe(
+  'Der Merker steht oberhalb jeder Nutzung',
+  merkerDekl > 0 &&
+    merkerDekl < quelle.indexOf('selbstGemeldeteSeiten.add(') &&
+    merkerDekl < quelle.indexOf('selbstGemeldeteSeiten.has('),
+  { merkerDekl, add: quelle.indexOf('selbstGemeldeteSeiten.add('), has: quelle.indexOf('selbstGemeldeteSeiten.has(') },
+)
+
+/*
+  **Und er bleibt bei der Anzeige.**
+
+  `seiteOffen()` entscheidet, ob ein Verweis wirklich abgehakt ist — dort gilt
+  der Briefkasten allein, denn eine Meldung, die nicht ankommt, darf nicht als
+  erledigt zählen. Wer den Merker dort einbaut, macht aus einer Anzeige eine
+  Behauptung.
+*/
+const seiteOffenBlock = quelle.match(/function seiteOffen\([\s\S]*?\n  \}/)
+pruefe('seiteOffen() ist auffindbar', Boolean(seiteOffenBlock))
+if (seiteOffenBlock) {
+  pruefe(
+    'seiteOffen() entscheidet weiter allein über den Briefkasten',
+    !seiteOffenBlock[0].includes('selbstGemeldeteSeiten'),
+  )
+}
+
 console.log('')
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) gerissen.`)
   process.exit(1)
 }
-console.log('Alle Zusicherungen zur mitreisenden Erwartung halten.')
+console.log('Alle Zusicherungen zu Checkliste und Haken halten.')
