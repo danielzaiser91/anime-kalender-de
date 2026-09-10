@@ -209,6 +209,30 @@ function staffelnVon(id, eintrag) {
   const gemeldet = anbieterStaffeln[String(id)]
   if (!gemeldet?.length) return eintrag.staffeln
   /**
+   * **Eine gerechnete Liste kennt die Anbieterzählung schon.**
+   *
+   * `laut: 'anbieter-gerechnet'` heißt: Die Pipeline hat unsere Titel bereits in
+   * die Staffeln des Anbieters einsortiert — `nr` ist **seine** Staffelnummer,
+   * `erste` die Folgennummer darin. Bei Haikyu!! sind das neun Einträge in
+   * Netflix' vier Staffeln, „Lev ist hier!" als `nr 1, erste 26`.
+   *
+   * Sie danach durch die Anbieterzählung zu **ersetzen** wirft genau die
+   * Auflösung weg, für die gerechnet wurde — und weil die Zuordnung über den
+   * **Index** lief (`eintrag.staffeln[i]`), erbte Netflix' Staffel 1 dabei den
+   * Offen-Status des zweiten Eintrags. Ergebnis am 10.09.2026: Der Knopf zeigte
+   * „nur F2 + F25" statt „Folge 26 prüfen", und die vier offenen Nebenausgaben
+   * waren über die Leiste gar nicht erreichbar.
+   *
+   * **Position gegen Position ist keine Zuordnung** — dieselbe Lehre, die am
+   * selben Tag schon die Haikyu-Verweise gekostet hat (CLAUDE.md, „Der Anbieter
+   * zählt kumulativ"). Neun Einträge auf vier Staffeln zu legen, indem man sie
+   * durchnummeriert, geht nicht auf, und niemand merkt es: Die Liste sieht
+   * danach vollständig aus.
+   *
+   * Das Feld stand seit dem 09.09.2026 in der Datei und wurde nie gelesen.
+   */
+  if (eintrag.laut === 'anbieter-gerechnet') return eintrag.staffeln
+  /**
    * Die Anbieterzählung übernehmen, den Offen-Status behalten.
    *
    * Der Anbieter sagt, **wie** er teilt — was wir schon geprüft haben, steht
@@ -3452,8 +3476,8 @@ function durchlaufKnopfZeigen() {
   const auftrag = durchlaufAuftrag()
   DURCHLAUF.knopf.textContent = auftrag
     ? auftrag.length === 1
-      ? `▶ Folge ${auftrag[0].nummer} prüfen`
-      : `▶ Folgen ${alsBereiche(auftrag.map((f) => Number(f.nummer))).join(', ')} prüfen`
+      ? `▶ Episode ${auftrag[0].nummer} prüfen`
+      : `▶ Episoden ${alsBereiche(auftrag.map((f) => Number(f.nummer))).join(', ')} prüfen`
     : offen > 2
       ? /*
           **Zwei Folgen, keine Spanne.** „Anfang & Ende (1–26)" las sich wie
@@ -3462,7 +3486,14 @@ function durchlaufKnopfZeigen() {
           Geprüft wurden genau zwei, und danach war der Rest offen. Das Pluszeichen
           sagt, was der Bindestrich verschwiegen hat.
         */
-        `▶ nur F${liste[0]?.nummer ?? 1} + F${liste[liste.length - 1]?.nummer ?? offen}`
+        /*
+          **E wie Episode, nicht F wie Folge** (Daniel, 10.09.2026: „änder das
+          f, es soll e sein, e für episode, nicht f für folge"). Die Pillen der
+          Prüfliste schreiben seit jeher `E26`; hier stand `F26`, und zwei
+          Schreibweisen für dieselbe Sache auf einem Bildschirm liest man als
+          zwei Angaben.
+        */
+        `▶ nur E${liste[0]?.nummer ?? 1} + E${liste[liste.length - 1]?.nummer ?? offen}`
       : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
   const stand =
     offen === DURCHLAUF.folgen.length
