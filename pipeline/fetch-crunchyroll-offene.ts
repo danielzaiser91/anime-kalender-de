@@ -740,13 +740,18 @@ export async function main(): Promise<void> {
     ]
     for (const name of namen) {
       const { body } = await hol(
-        `https://beta-api.crunchyroll.com/content/v2/discover/search?q=${encodeURIComponent(name)}&n=8&type=series&locale=de-DE`,
+        `https://beta-api.crunchyroll.com/content/v2/discover/search?q=${encodeURIComponent(name)}&n=8&type=series,movie_listing&locale=de-DE`,
       )
       const gruppen = (body as { data?: { items?: { id: string; title: string }[] }[] })?.data ?? []
       for (const g of gruppen) {
         for (const it of g.items ?? []) {
           if (norm(it.title) !== norm(name)) continue
-          /* Der Katalog kennt die Tonspuren; die Suche nennt sie nicht vollständig. */
+              /*
+            **Auch Filme werden gesucht.** Bis zum 10.09.2026 fragte die Suche nur
+            `type=series`, und ein Film liegt bei Crunchyroll als `movie_listing` —
+            der Katalogsammler holt beide seit dem 09.09., die Suche tat es nicht.
+          */
+      /* Der Katalog kennt die Tonspuren; die Suche nennt sie nicht vollständig. */
           const ausKatalog = katalogNachId.get(it.id)
           if (ausKatalog) return ausKatalog
         }
