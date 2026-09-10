@@ -1,6 +1,6 @@
 # Crunchyroll: was noch zu prüfen ist
 
-Stand 2026-09-10 · **24 offene Verweise** in **15 Zeilen**.
+Stand 2026-09-10 · **20 offene Verweise** in **13 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -17,10 +17,8 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 6 | 2019-09-21 | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/fruits-basket) |
 | 7 | 2019-06-29 | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
 | 8 | 2018-09-21 | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
-| 9 | 2018-04-21 | Sound! Euphonium | [Hauptserie](http://www.crunchyroll.com/de/sound-euphonium) · [Liz und der Blaue Vogel](https://www.crunchyroll.com/liz-and-the-blue-bird/de-liz-und-der-blaue-vogel-unbekannt-850428) |
-| 10 | 2017-08-25 | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-| 11 | 2014-09-23 | Hamatora: The Animation | [Hauptserie](http://www.crunchyroll.com/hamatora/episode-1-file-01-egg-of-columbus-648733) · [Re:␣Hamatora](http://www.crunchyroll.com/hamatora/episode-1-melancholy-of-hero-657029) |
-| 12 | 2014-09-16 | Love, Chunibyo & Other Delusions! | [Heart Throb](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-) · [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
-| 13 | 2011-02-23 | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
-| 14 | 2002-09-14 | Millennium Actress | [Hauptserie](https://www.crunchyroll.com/watch/GPWUKPVP4/millennium-actress-german-dub) |
-| 15 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 9 | 2017-08-25 | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
+| 10 | 2015-07-01 | Sound! Euphonium | [Hauptserie](http://www.crunchyroll.com/de/sound-euphonium) |
+| 11 | 2014-09-16 | Love, Chunibyo & Other Delusions! | [Heart Throb](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-) · [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
+| 12 | 2011-02-23 | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
+| 13 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
