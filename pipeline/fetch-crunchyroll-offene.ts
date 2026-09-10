@@ -468,6 +468,42 @@ export async function main(): Promise<void> {
        * Extra Edition" widerspricht — JustWatch führt dort einen
        * Crunchyroll-Kanal, also bleibt der Verweis offen.
        */
+      /**
+       * **Erst nachsehen, ob Crunchyroll die Ausgabe selbst führt.**
+       *
+       * Der Riegel oben stellt richtig fest, dass eine OVA nicht die Reihe ist.
+       * Daraus folgt aber nicht, dass sie unauffindbar wäre: Crunchyroll legt
+       * Nebenausgaben regelmäßig als **eigene Staffel** unter derselben Reihe
+       * an und schreibt die Art in den Staffeltitel.
+       *
+       * Gemessen am 10.09.2026 an „Love, Chunibyo & Other Delusions - Heart
+       * Throb -": Die Reihe führt zwei Staffeln, `GYP8CXW2Q` („(German Dub)",
+       * 13 Folgen, `de-DE`) und `GR2PCVZM5` („(OVA)", 1 Folge, `ja-JP`). Unser
+       * Werk ist die OVA — und die gibt es dort nur auf Japanisch.
+       *
+       * Zwei Bedingungen, beide notwendig: **genau eine** Staffel trägt die
+       * Ausgabenart im Titel (bei mehreren entscheidet nichts), und sie nennt
+       * überhaupt Fassungen. Eine leere Fassungsliste ist Schweigen, kein Nein.
+       */
+      const ausgabenMuster =
+        werk.format === 'OVA' ? /\bOVA\b/i : werk.format === 'SPECIAL' ? /\bspecials?\b/i : undefined
+      if (ausgabenMuster) {
+        const derReihe = await holeStaffeln(kandidat.id)
+        const passend = derReihe.filter((st) => ausgabenMuster.test(st.titel))
+        if (passend.length === 1 && passend[0]!.audio.length) {
+          const st = passend[0]!
+          const deutsch = st.audio.includes('de-DE')
+          return {
+            herkunft: 'katalog',
+            dub: deutsch,
+            seriesId: st.id,
+            titel: st.titel,
+            audio: st.audio,
+            geprueftAm: heute(),
+            grund: `Crunchyroll führt „${st.titel}" als eigene Staffel${deutsch ? ' mit' : ' ohne'} de-DE`,
+          }
+        }
+      }
       const jwEintrag2 = justwatch[String(werk.id)]
       const anbieter2 = (jwEintrag2?.angebote ?? []).map((a) => String(a?.anbieter ?? ''))
       if (anbieter2.length && !anbieter2.some((n) => /crunchyroll/i.test(n))) {
