@@ -84,5 +84,39 @@ pruefe(
 */
 pruefe(/if \(frisch\.status === 200\)/.test(quelle), 'Nur erfolgreiche Antworten werden gehalten')
 
+/*
+  **Der Prüfstand-Endpunkt zieht nur ab, was er noch nicht kennt.**
+
+  Am 10.09.2026 zeigte die Statusanzeige eine einzige Pille („Amazon 2 Suchen"),
+  während die Prüfliste fünf Aufgaben führte — Daniel: „im todo stehen viel mehr
+  meldungen etc die ich machen muss als im status app als pill stehen."
+
+  Die Ursache war ein `SELECT DISTINCT plattform, url` **ohne Zeitfilter**: Jede
+  jemals gemeldete Adresse galt als erledigt. Das stimmte, solange eine Meldung
+  je Adresse den ganzen Titel abhakte; seit die Prüfliste einzelne Folgen nennt
+  („S1 Folge 26"), kann dieselbe Adresse weiter offen sein.
+
+  Geprüft wird beides: dass der Zeitstempel des Prüfstands gelesen wird und dass
+  die Abfrage ihn benutzt. Ohne den zweiten Teil wäre es ein Wert, den niemand
+  einsetzt — genau der Fehler, den dieses Projekt fünfmal an Datendateien hatte
+  (CLAUDE.md, „Eine Datei zu schreiben ist nicht dasselbe wie sie zu benutzen").
+*/
+pruefe(
+  quelle.includes('const seit = stand.erzeugtAm ?? null'),
+  'Der Prüfstand-Zeitstempel wird gelesen',
+)
+pruefe(
+  quelle.includes('gemeldet_am > ?1'),
+  'und die Abfrage der gemeldeten Adressen benutzt ihn',
+)
+/*
+  Der Rückfall ohne Zeitstempel bleibt: Ein alter oder kaputter Prüfstand soll
+  lieber ein Ziel zu wenig zeigen als eins, das längst erledigt ist.
+*/
+pruefe(
+  quelle.includes("SELECT DISTINCT plattform, url FROM pruefung WHERE url IS NOT NULL AND url != ''`,"),
+  'ohne Zeitstempel gilt weiterhin die alte, strengere Rechnung',
+)
+
 console.log(fehler ? `\n${fehler} Fehler` : '\nalles grün')
 process.exit(fehler ? 1 : 0)

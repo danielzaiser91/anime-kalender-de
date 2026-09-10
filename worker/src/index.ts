@@ -1888,24 +1888,60 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
        * Zahl `unterwegs` daneben bleibt bei den offenen: Sie beantwortet eine
        * andere Frage — was der nächste Datenlauf noch abholt.
        */
-      const { results: jemals } = await env.DB.prepare(
-        `SELECT DISTINCT plattform, url FROM pruefung WHERE url IS NOT NULL AND url != ''`,
-      ).all<{ plattform: string; url: string }>()
+      let stand: { anbieter?: unknown[]; erzeugtAm?: string } = {}
+      try {
+        const res = await fetch(new URL('data/pruefstand.json', env.SITE_URL).toString(), {
+          cf: { cacheTtl: 60 },
+        } as RequestInit)
+        if (res.ok) stand = (await res.json()) as { anbieter?: unknown[]; erzeugtAm?: string }
+      } catch {
+        /* Ohne Prüfstand bleibt die Briefkasten-Zahl — besser als keine. */
+      }
+
+      /**
+       * **Abgezogen wird nur, was der Prüfstand noch nicht kennt.**
+       *
+       * Hier stand `SELECT DISTINCT plattform, url` ohne Zeitfilter: **jede**
+       * jemals gemeldete Adresse galt als erledigt. Das war richtig, solange
+       * eine Meldung je Adresse den ganzen Titel erledigte.
+       *
+       * Seit dem 10.09.2026 nennt die Prüfliste **einzelne Folgen** derselben
+       * Adresse („S1 Folge 26", „S1 F13–15"). Eine Adresse, unter der schon
+       * gemeldet wurde, kann also weiter offen sein — und genau das ist der
+       * Normalfall bei Haikyu!!, Dorohedoro und Hi Score Girl.
+       *
+       * Die Folge sah Daniel am 10.09.2026: In der Statusanzeige stand nur
+       * „Amazon 2 Suchen", während die Prüfliste fünf Aufgaben führte
+       * („im todo stehen viel mehr meldungen etc die ich machen muss als im
+       * status app als pill stehen"). Der Worker rechnete Netflix auf null und
+       * Prime auf die zwei Suchen herunter — beide Male, weil unter jeder
+       * Adresse irgendwann einmal etwas gemeldet worden war.
+       *
+       * **Der Zeitstempel des Prüfstands trennt es sauber.** Er entsteht beim
+       * Datenbau, und alles davor hat der Bau bereits eingearbeitet: Führt er
+       * die Adresse trotzdem als Ziel, ist dort noch etwas offen. Nur was
+       * **danach** gemeldet wurde, ist die Überbrückung, für die dieser Abzug
+       * gedacht war — die Lücke zwischen Meldung und nächstem Datenlauf.
+       *
+       * Ohne Zeitstempel (alter Prüfstand, kaputte Datei) bleibt es beim alten
+       * Verhalten: lieber ein Ziel zu wenig als eins, das längst erledigt ist.
+       */
+      const seit = stand.erzeugtAm ?? null
+      const { results: jemals } = seit
+        ? await env.DB.prepare(
+            `SELECT DISTINCT plattform, url FROM pruefung
+             WHERE url IS NOT NULL AND url != '' AND gemeldet_am > ?1`,
+          )
+            .bind(seit)
+            .all<{ plattform: string; url: string }>()
+        : await env.DB.prepare(
+            `SELECT DISTINCT plattform, url FROM pruefung WHERE url IS NOT NULL AND url != ''`,
+          ).all<{ plattform: string; url: string }>()
       const jeGemeldet = new Map<string, Set<string>>()
       for (const r of jemals ?? []) {
         const dazu = jeGemeldet.get(r.plattform) ?? new Set<string>()
         dazu.add(r.url)
         jeGemeldet.set(r.plattform, dazu)
-      }
-
-      let stand: { anbieter?: unknown[] } = {}
-      try {
-        const res = await fetch(new URL('data/pruefstand.json', env.SITE_URL).toString(), {
-          cf: { cacheTtl: 60 },
-        } as RequestInit)
-        if (res.ok) stand = (await res.json()) as { anbieter?: unknown[] }
-      } catch {
-        /* Ohne Prüfstand bleibt die Briefkasten-Zahl — besser als keine. */
       }
 
       const anbieter = (stand.anbieter ?? []).map((roh) => {
@@ -1921,9 +1957,11 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         }
         const unterwegs = gemeldeteAdressen.get(a.plattform) ?? new Set<string>()
         /*
-          Ein Ziel, unter dem jemals gemeldet wurde, ist erledigt — auch wenn
-          der Datensatz es noch nicht weiß und der Briefkasten es schon
-          abgegeben hat.
+          Ein Ziel, unter dem **seit dem Prüfstand** gemeldet wurde, ist
+          erledigt — auch wenn der Datensatz es noch nicht weiß und der
+          Briefkasten es schon abgegeben hat. Ältere Meldungen zählen nicht:
+          Der Bau kennt sie, und wenn er die Adresse trotzdem führt, steht dort
+          noch etwas aus (siehe oben).
         */
         const schonGemeldet = jeGemeldet.get(a.plattform) ?? new Set<string>()
         const offeneZiele = (a.ziele ?? []).filter((z) => !schonGemeldet.has(z.url))
