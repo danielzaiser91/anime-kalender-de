@@ -2413,7 +2413,7 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
       Zählung des Anbieters auf unseren Titel gerutscht. Am 11.09.2026 stand
       „HAIKYU!! 2nd Season" (25 Folgen) mit „Folge 26 deutsch" im Datensatz:
       Netflix' S2 E26 ist die OVA „VS Failing Marks". Berichtigt; gemessen
-      standen danach noch 24 Belege derselben Art, am selben Tag 22. Die Schwelle darf nur sinken.
+      standen danach noch 24 Belege derselben Art, am selben Tag 15. Die Schwelle darf nur sinken.
     */
     const folgenJeTitel = new Map(
       (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number; episodes?: number }[]).map(
@@ -2424,7 +2424,7 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
       const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
       return n > 0 && (b.dubRanges ?? []).some((r) => (r.to ?? 0) > n)
     }).length
-    pruefe('Handbelege: höchstens 22 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 22, `${drueber}`)
+    pruefe('Handbelege: höchstens 15 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 15, `${drueber}`)
   }
 }
 
