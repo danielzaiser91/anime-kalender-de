@@ -136,8 +136,18 @@ function titelIdFuer(reihe, staffelNr) {
     const staffeln = offeneTitel[String(reihe)]?.staffeln ?? []
     if (!staffeln.length) return null
     if (staffelNr != null) {
-      const treffer = staffeln.find((st) => Number(st.nr) === Number(staffelNr))
-      return treffer?.id ?? null
+      /*
+        **Nicht der erste Eintrag der Staffel, sondern der offene.** Bei Haikyu!!
+        steht unter Netflix' Staffel 1 zuerst die Hauptstaffel (belegt) und dann
+        die OVA (offen). `find()` nahm die Hauptstaffel — ein ✕ an der Pille
+        hätte die falsche als „hier nicht vorhanden" gemeldet (11.09.2026).
+        Mehrere offene: dann keiner, eine Meldung ohne sicheres Ziel richtet mehr
+        Schaden an als der fehlende Knopf.
+      */
+      const inStaffel = staffeln.filter((st) => Number(st.nr) === Number(staffelNr))
+      if (inStaffel.length === 1) return inStaffel[0].id ?? null
+      const offene = inStaffel.filter((st) => st.offen)
+      return offene.length === 1 ? (offene[0].id ?? null) : null
     }
     const ids = [...new Set(staffeln.map((st) => st.id).filter((x) => x != null))]
     return ids.length === 1 ? ids[0] : null
@@ -205,7 +215,82 @@ function staffelGeprueft(reihe, nummer, staffel) {
   return null
 }
 
+/**
+ * **Die Folgenkennungen bleiben in der Erweiterung.** Der Worker kappt
+ * `staffeln` bei 4000 Zeichen; bei One Piece wären es über 20.000, und in den
+ * Briefkasten käme abgeschnittenes JSON. Gebraucht werden sie nur hier, auf der
+ * Titelseite (`staffelJeFolge()`).
+ */
+function ohneKennungen(staffeln) {
+  return Array.isArray(staffeln) ? staffeln.map(({ ids, ...rest }) => rest) : (staffeln ?? null)
+}
+
+/**
+ * **Eine Pille je Anbieterstaffel** (Daniel, 11.09.2026, mit Bild: „warum liegt
+ * es ausserhalb der s1 pill? das soll bitte in 1 pill alle episoden pro staffel,
+ * 1 pill je staffel").
+ *
+ * Die gerechnete Liste führt je **Titel** einen Eintrag — bei Haikyu!! neun, in
+ * Netflix' vier Staffeln einsortiert. Für den Dialog ist das die falsche
+ * Einheit: Daniel sieht dort eine Staffel des Anbieters und will wissen, welche
+ * Folgen darin durch sind. Neun Pillen für vier Staffeln zerlegen, was auf dem
+ * Bildschirm zusammengehört — „S1 ✓ E26" stand neben „S1 E2–25".
+ *
+ * Gruppiert wird über `nr`, die Anbieterstaffel. Die Spanne reicht von der
+ * kleinsten ersten bis zur größten letzten Folge; offen ist die Staffel, sobald
+ * **ein** Eintrag darin offen ist. Welche Folgen genau offen sind, braucht der
+ * Dialog nicht von hier — er färbt sie nach dem Meldestand.
+ *
+ * **Der Knopf liest die feine Liste weiter selbst** (`durchlaufAuftrag()`): Er
+ * braucht „Episode 26", nicht „Staffel 1". Zwei Fragen, zwei Listen — dieselbe
+ * Regel wie in `CLAUDE.md`, „Wer über einen Index zugreift, braucht eine andere
+ * Liste als wer rechnet".
+ */
+function staffelnGruppiert(eintraege) {
+  const jeNr = new Map()
+  for (const st of eintraege ?? []) {
+    const nr = Number(st.nr)
+    const erste = Number.isFinite(st.erste) ? st.erste : 1
+    const letzte = erste + (st.folgen ?? 0) - 1
+    const da = jeNr.get(nr)
+    if (!da) {
+      jeNr.set(nr, { ...st, nr, erste, letzte, name: st.name, ids: [st.id], offenIds: st.offen ? [st.id] : [] })
+      continue
+    }
+    da.erste = Math.min(da.erste, erste)
+    da.letzte = Math.max(da.letzte, letzte)
+    da.offen = da.offen || st.offen
+    da.film = da.film && st.film
+    da.ids.push(st.id)
+    if (st.offen) da.offenIds.push(st.id)
+  }
+  return [...jeNr.values()]
+    .sort((a, b) => a.nr - b.nr)
+    .map((g) => ({
+      nr: g.nr,
+      name: g.name,
+      erste: g.erste,
+      folgen: g.letzte - g.erste + 1,
+      film: g.film,
+      offen: g.offen,
+      /*
+        Die Kennung nur, wo sie eindeutig ist: Das ✕ an der Pille meldet
+        titelgenau, und bei mehreren Titeln je Staffel wüsste es nicht, welcher.
+        Ist genau einer offen, ist er gemeint — die übrigen sind belegt.
+      */
+      id: g.offenIds.length === 1 ? g.offenIds[0] : g.ids.length === 1 ? g.ids[0] : null,
+    }))
+}
+
 function staffelnVon(id, eintrag) {
+  /*
+    **Die gerechnete Liste zuerst — vor der Frage, ob Netflix schon etwas
+    gemeldet hat.** Die Zeile stand darunter, und bei „Dorohedoro", „Hi Score
+    Girl" und „BAKI-DOU" — Titeln ohne gespeicherte Anbieterzählung — kam
+    deshalb die feine Liste zurück: zwei Pillen für Netflix' Staffel 1, genau
+    das, was Daniel am 11.09.2026 bei Haikyu!! beanstandet hat.
+  */
+  if (eintrag.laut === 'anbieter-gerechnet') return staffelnGruppiert(eintrag.staffeln)
   const gemeldet = anbieterStaffeln[String(id)]
   if (!gemeldet?.length) return eintrag.staffeln
   /**
@@ -230,8 +315,8 @@ function staffelnVon(id, eintrag) {
    * danach vollständig aus.
    *
    * Das Feld stand seit dem 09.09.2026 in der Datei und wurde nie gelesen.
+   * Die Abfrage steht seit dem 11.09.2026 ganz oben in der Funktion.
    */
-  if (eintrag.laut === 'anbieter-gerechnet') return eintrag.staffeln
   /**
    * Die Anbieterzählung übernehmen, den Offen-Status behalten.
    *
@@ -931,7 +1016,7 @@ async function melden({ automatisch = false } = {}) {
         // Wie die Reihe beim Anbieter aufgeteilt ist: je Staffel die Zahl der
         // Folgen. Damit lässt sich eine Meldung später einer unserer Staffeln
         // zuordnen, auch wenn der Anbieter anders einteilt.
-        staffeln: stand.staffeln,
+        staffeln: ohneKennungen(stand.staffeln),
         /**
          * **Wie viele Folgen der Anbieter überhaupt führt.**
          *
@@ -2361,44 +2446,151 @@ function durchlaufOffen() {
  * besser.
  */
 function durchlaufAuftrag() {
+  const alle = auftragsFolgen()
+  if (!alle) return null
+  /*
+    **Was schon gemeldet ist, ist kein Auftrag mehr.** Ohne diesen Schritt stand
+    nach der Meldung von „Lev ist hier!" weiter „▶ Episode 26 prüfen" da, bis
+    der nächste Datenlauf die Prüfliste nachzog.
+  */
+  return alle.filter((f) => !DURCHLAUF.gemeldet.has(f.videoId))
+}
+
+/**
+ * **Zu welcher Anbieterstaffel gehört eine Folge — über Netflix' Kennungen.**
+ *
+ * Bis 4.19.0 las der Knopf die Staffel aus `f.staffel`. Die vergibt `leser.js`
+ * nach der **Reihenfolge**, in der die Staffeln geladen wurden
+ * (`staffelNummerFuer()`), und `staffelnBereinigen()` löscht sie, sobald die
+ * Liste nur eine Staffel enthält — auf der Titelseite der Normalfall. Bei
+ * Haikyu!! blieb die Staffel damit leer, `durchlaufAuftrag()` gab auf, und der
+ * Knopf fiel auf die Stichprobe „nur E2 + E25" zurück (Daniel, 11.09.2026, mit
+ * Bild). Der Fix vom 10.09.2026 hatte genau diese Stelle angefasst und die
+ * Löschung darunter nicht gesehen; die Zusicherung setzte `staffel` von Hand
+ * und lief an `staffelnBereinigen()` vorbei.
+ *
+ * Tragfähig ist die Folgenkennung: Der Player nennt je Staffel ihre Folgen
+ * samt Kennung (`leser.js`, Feld `ids`), und dieselbe Kennung trägt jede Folge
+ * der Titelseite als `videoId`. Das ist keine Ableitung, sondern ein Abgleich.
+ *
+ * Rückgabe: Kennung der Folge → Staffelnummer beim Anbieter.
+ */
+function staffelJeFolge(reihe) {
+  const zuordnung = new Map()
+  for (const st of anbieterStaffeln[String(reihe)] ?? []) {
+    if (!Array.isArray(st?.ids) || !st.ids.length) continue
+    const ids = new Set(st.ids.map(Number))
+    for (const f of DURCHLAUF.folgen) if (ids.has(Number(f.videoId))) zuordnung.set(f.videoId, Number(st.seq))
+  }
+  return zuordnung
+}
+
+/**
+ * **Welche Anbieterstaffeln passen zu einer geladenen Staffel?**
+ *
+ * Der Rückfall, solange der Player die Kennungen noch nicht geliefert hat:
+ * Folgenzahl, erste und letzte Nummer müssen **genau** stimmen. Bei Haikyu!!
+ * passen damit S1 und S2 (je 26), nicht S4 (27). Mehrdeutig ist das oft — ob
+ * es stört, entscheidet `auftragsFolgen()`: Wollen alle Kandidaten dieselben
+ * Folgen, ist die Frage beantwortet, ohne dass die Staffel feststeht.
+ *
+ * Die Aufteilung kommt aus dem Player, und wo er noch nichts gemeldet hat, aus
+ * der gerechneten Liste selbst — sie **ist** die Aufteilung des Anbieters.
+ */
+function staffelKandidaten(gruppe, reihe, eintrag) {
+  const gespeichert = anbieterStaffeln[String(reihe)] ?? []
+  const aufteilung = gespeichert.length
+    ? gespeichert.map((st) => ({
+        nr: Number(st.seq),
+        erste: Number.isFinite(st.erste) ? st.erste : 1,
+        folgen: Number(st.folgen),
+        film: Boolean(st.film),
+      }))
+    : eintrag.laut === 'anbieter-gerechnet'
+      ? staffelnGruppiert(eintrag.staffeln)
+      : []
+  const nummern = gruppe.map((f) => Number(f.nummer)).filter(Number.isFinite)
+  if (!nummern.length) return []
+  const kleinste = Math.min(...nummern)
+  const groesste = Math.max(...nummern)
+  return aufteilung
+    .filter(
+      (st) =>
+        !st.film && st.folgen === gruppe.length && st.erste === kleinste && st.erste + st.folgen - 1 === groesste,
+    )
+    .map((st) => st.nr)
+}
+
+/**
+ * Der Auftrag samt der schon gemeldeten Folgen — `null` heißt: Die Prüfliste
+ * weiß für diese Staffel nichts Genaues, es gilt die Stichprobe.
+ *
+ * Ein **leeres** Feld heißt dagegen: Die Liste kennt die Staffel, und darin ist
+ * nichts offen. Dann gibt es auch keine Stichprobe — sie prüfte Folgen, die
+ * längst belegt sind.
+ */
+function auftragsFolgen() {
   try {
     const reihe = gemeinteReihe()
     if (!reihe) return null
     const eintrag = offeneTitel[String(reihe)]
     if (!eintrag) return null
+    const gerechnet = eintrag.laut === 'anbieter-gerechnet'
     /*
-      **Die Staffel steht in der Folgenliste, nicht im Player-Stand.**
-
-      `stand.staffel` fuellt der Player; auf der Titelseite ist sie leer — und
-      genau dort steht der Knopf. Die Liste, die `leser.js` zur gewaehlten
-      Staffel schickt, traegt sie je Folge mit (10.09.2026: Der Knopf zeigte
-      weiter "nur F2 + F25", weil dieser Zugriff ins Leere lief).
-
-      `staffelnBereinigen()` nullt sie, wo die Nummern ueber alle Staffeln
-      durchlaufen — dort gibt es nichts zuzuordnen, und der Auftrag greift
-      folgerichtig nicht.
+      Die **feine** Liste, nicht `staffelnVon()`: Seit dem 11.09.2026 gruppiert
+      jene je Anbieterstaffel, und aus „Staffel 1, Folgen 1–26" ließe sich nicht
+      mehr ablesen, dass nur Folge 26 offen ist.
     */
-    const ausListe = DURCHLAUF.folgen.map((f) => Number(f.staffel)).find((n) => Number.isFinite(n))
-    const staffelJetzt = Number.isFinite(ausListe) ? ausListe : Number(stand.staffel)
-    if (!Number.isFinite(staffelJetzt)) return null
-    /* Mehrere Einträge je Staffel gibt es seit der kumulativen Rechnung. */
-    const passend = staffelnVon(reihe, eintrag).filter(
-      (st) => Number(st.nr) === staffelJetzt && st.offen && !st.film,
-    )
-    if (!passend.length) return null
-    const nummern = new Set()
-    for (const st of passend) {
-      const erste = Number.isFinite(st.erste) ? st.erste : 1
-      for (let i = 0; i < (st.folgen ?? 0); i++) nummern.add(erste + i)
+    const fein = gerechnet ? eintrag.staffeln : staffelnVon(reihe, eintrag)
+    /* Welche Folgennummern die Liste in einer Staffel will; `null`: Sie kennt die Staffel nicht. */
+    const gewollt = (nr) => {
+      const inStaffel = (fein ?? []).filter((st) => Number(st.nr) === nr && !st.film)
+      if (!inStaffel.length) return gerechnet ? new Set() : null
+      const nummern = new Set()
+      for (const st of inStaffel) {
+        if (!st.offen) continue
+        const erste = Number.isFinite(st.erste) ? st.erste : 1
+        for (let i = 0; i < (st.folgen ?? 0); i++) nummern.add(erste + i)
+      }
+      return nummern
     }
-    /*
-      **Nur wenn es wirklich ein Ausschnitt ist.** Deckt der Eintrag die ganze
-      Staffel ab, sagt er nichts Neues — dann gilt der gewohnte Weg, und der
-      Knopf zeigt die Gesamtzahl statt einer Aufzählung.
-    */
-    if (!nummern.size || nummern.size >= DURCHLAUF.folgen.length) return null
-    const folgen = DURCHLAUF.folgen.filter((f) => nummern.has(Number(f.nummer)))
-    return folgen.length ? folgen : null
+    const zuordnung = staffelJeFolge(reihe)
+    /* Je Netflix-Staffel eine Gruppe — der Leser sammelt alle, die angeklickt wurden. */
+    const gruppen = new Map()
+    for (const f of DURCHLAUF.folgen) {
+      const k = String(f.seasonId ?? '')
+      if (!gruppen.has(k)) gruppen.set(k, [])
+      gruppen.get(k).push(f)
+    }
+    const auftrag = []
+    for (const gruppe of gruppen.values()) {
+      const bekannt = gruppe.map((f) => zuordnung.get(f.videoId)).find((n) => Number.isFinite(n))
+      let staffeln = Number.isFinite(bekannt) ? [bekannt] : staffelKandidaten(gruppe, reihe, eintrag)
+      /* Im Player nennt Netflix die Staffel selbst. */
+      if (!staffeln.length && imPlayer() && Number.isFinite(Number(stand.staffel))) staffeln = [Number(stand.staffel)]
+      if (!staffeln.length) return null
+      const wuensche = staffeln.map(gewollt)
+      if (wuensche.some((w) => w === null)) return null
+      /*
+        **Nur wenn es wirklich ein Ausschnitt ist.** Will die Liste die ganze
+        Staffel, sagt sie nichts Neues — dann gilt die Stichprobe, und der
+        Knopf zeigt die Gesamtzahl statt einer Aufzählung.
+      */
+      if (wuensche.some((w) => w.size && gruppe.every((f) => w.has(Number(f.nummer))))) return null
+      const gleich = wuensche.every((w) => w.size === wuensche[0].size && [...w].every((n) => wuensche[0].has(n)))
+      /*
+        **Mehrdeutig und uneinig:** Bei einer gerechneten Liste wird vereint —
+        eine Folge zu viel ist eine richtige Meldung, und im Player lernt die
+        Erweiterung dabei die Kennungen, die die Frage beim nächsten Mal
+        entscheiden. Die Stichprobe dagegen prüfte zwei Folgen, die keiner der
+        Kandidaten will.
+      */
+      if (!gleich && !gerechnet) return null
+      const vereint = new Set(wuensche.flatMap((w) => [...w]))
+      for (const f of gruppe) if (vereint.has(Number(f.nummer))) auftrag.push(f)
+    }
+    if (!gruppen.size) return null
+    return auftrag.length || gerechnet ? auftrag : null
   } catch {
     return null
   }
@@ -2563,6 +2755,7 @@ async function durchlaufStarten(grenze) {
   DURCHLAUF.laeuft = true
   DURCHLAUF.abbruch = false
   DURCHLAUF.stoerung = null
+  DURCHLAUF.angenommen = null
   /*
     **Hier gehört der Merker zurückgesetzt, nicht beim Rechtsklick.**
 
@@ -2824,6 +3017,19 @@ async function durchlaufStarten(grenze) {
     )
     if (ersteFolge.deutsch === letzteFolge.deutsch) {
       await randMelden(DURCHLAUF.randprobe, ersteFolge, letzteFolge.folge.nummer)
+      /*
+        **Die Annahme gehört an den Knopf, nicht nur in die Notiz.** Daniel am
+        11.09.2026: „wenn es dazu führt das e2-e25 als dub true gekennzeichnet
+        werden muss es besser kommuniziert werden." Die Notiz erreicht
+        `dub-confirmed.yaml`, der Knopf danach sagte bloß „26 Folgen geprüft".
+      */
+      const gemessen = new Set([ersteFolge.folge.nummer, letzteFolge.folge.nummer])
+      DURCHLAUF.angenommen = {
+        gemessen: [...gemessen],
+        rest: DURCHLAUF.randprobe.map((f) => Number(f.nummer)).filter((n) => !gemessen.has(n)),
+        deutsch: ersteFolge.deutsch,
+        reihe: String(gemeinteReihe()),
+      }
       DURCHLAUF.randOffen = null
     } else {
       /* Uneinheitlich — hier entscheidet ein Mensch, nicht eine Annahme. */
@@ -2951,7 +3157,7 @@ async function randMelden(folgen, befund, bisNummer) {
           folge_nr: f.nummer,
           staffel: staffelDerFolge,
           titelId: titelIdFuer(reihe, staffelDerFolge),
-          staffeln: stand.staffeln ?? null,
+          staffeln: ohneKennungen(stand.staffeln),
           serientitel: stand.serientitel ?? null,
           notiz:
             /*
@@ -3045,7 +3251,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
         */
         staffel: staffelDerFolge,
         titelId: titelIdFuer(gemeinteReihe(), staffelDerFolge),
-        staffeln: stand.staffeln ?? null,
+        staffeln: ohneKennungen(stand.staffeln),
         serientitel: stand.serientitel ?? null,
         notiz: `Durchlauf: Folge ${folge.nummer}${folge.titel ? ` — ${folge.titel}` : ''}`,
         /*
@@ -3426,8 +3632,12 @@ function durchlaufKnopfZeigen() {
     return
   }
   if (!offen) {
-    DURCHLAUF.knopf.textContent = `✓ ${DURCHLAUF.folgen.length} Folgen geprüft`
+    const ang = DURCHLAUF.angenommen?.reihe === String(gemeinteReihe()) ? DURCHLAUF.angenommen : null
+    DURCHLAUF.knopf.textContent = ang?.rest.length
+      ? `✓ E${ang.gemessen.join(' + E')} ${ang.deutsch ? 'deutsch' : 'ohne Deutsch'} · E${alsBereiche(ang.rest).join(', ')} angenommen`
+      : `✓ ${DURCHLAUF.folgen.length} Folgen geprüft`
     DURCHLAUF.knopf.title =
+      (ang?.rest.length ? 'Die angenommenen Folgen sind so gemeldet und in der Notiz als angenommen vermerkt.\n' : '') +
       'Alles gemeldet. Neue Folgen tauchen hier wieder auf.\nRechtsklick: Stand verwerfen und erneut prüfen.'
     /* Abgeschaltet wäre auch der Rechtsklick tot — also nur still, nicht taub. */
     DURCHLAUF.knopf.disabled = false
@@ -3539,6 +3749,21 @@ function durchlaufKnopfZeigen() {
    * dasteht.
    */
   const auftrag = durchlaufAuftrag()
+  /*
+    **Kennt die Liste die Staffel und will daraus nichts mehr, ist der Knopf
+    fertig** — keine Stichprobe über Folgen, die längst belegt sind (Daniel,
+    11.09.2026: „nur E2 + E25" bei Haikyu!!, Staffel 1, wo E26 schon gemeldet
+    war).
+  */
+  if (auftrag && !auftrag.length) {
+    const erledigt = auftragsFolgen() ?? []
+    DURCHLAUF.knopf.textContent = erledigt.length
+      ? `✓ E${alsBereiche(erledigt.map((f) => Number(f.nummer))).join(', ')} geprüft`
+      : '✓ nichts offen'
+    DURCHLAUF.knopf.title = 'Aus dieser Staffel steht nichts mehr auf der Prüfliste.'
+    DURCHLAUF.knopf.classList.add('ak-fertig')
+    return
+  }
   DURCHLAUF.knopf.textContent = auftrag
     ? auftrag.length === 1
       ? `▶ Episode ${auftrag[0].nummer} prüfen`
@@ -3558,7 +3783,14 @@ function durchlaufKnopfZeigen() {
           Schreibweisen für dieselbe Sache auf einem Bildschirm liest man als
           zwei Angaben.
         */
-        `▶ nur E${liste[0]?.nummer ?? 1} + E${liste[liste.length - 1]?.nummer ?? offen}`
+        /*
+          **Und das Plus verschweigt nicht mehr, was daraus folgt** (Daniel,
+          11.09.2026: „wenn es dazu führt das e2-e25 als dub true gekennzeichnet
+          werden muss es besser kommuniziert werden"). Stimmen beide überein,
+          meldet `randMelden()` den Rest als Annahme mit.
+        */
+        `▶ E${liste[0]?.nummer ?? 1} + E${liste[liste.length - 1]?.nummer ?? offen} prüfen → gilt für ` +
+        `E${alsBereiche(liste.map((f) => Number(f.nummer))).join(', ')}`
       : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
   const stand =
     offen === DURCHLAUF.folgen.length
@@ -3583,6 +3815,9 @@ function durchlaufKnopfZeigen() {
   }
   DURCHLAUF.knopf.title =
     stand +
+    (!auftrag && offen > 2
+      ? '\nWeichen beide voneinander ab, wird nichts angenommen; dann fragt die Leiste nach der Grenze.'
+      : '') +
     (ohneSpur
       ? `\n${ohneSpur} Folge(n) lieferten binnen zwanzig Sekunden keine Tonspur. Das ist keine Störung — ein zweiter Lauf holt sie meist.`
       : '') +
@@ -4169,13 +4404,18 @@ async function dialogOeffnen() {
         /* Ein Häkchen statt des Wortes: Die Pille trägt beides, und
            „gemeldet:" davor kostet die Hälfte des Platzes. */
         marke.className = "ak-durch"
-        marke.textContent = `✓ E${alsBereiche(gemeldet).join(", E")}`
+        /*
+          **Ein E vorn, danach nur Zahlen** (Daniel, 11.09.2026: „bei komma
+          seperator kein erneutes e, das kann man sich sparen … format: e1-4,
+          5-6, 9-12"). Das E sagt einmal, was die Zahlen sind.
+        */
+        marke.textContent = `✓ E${alsBereiche(gemeldet).join(", ")}`
         pille.appendChild(marke)
       }
       if (offen.length) {
         const marke = document.createElement("span")
         marke.className = "ak-folge"
-        marke.textContent = `E${alsBereiche(offen).join(", E")}`
+        marke.textContent = `E${alsBereiche(offen).join(", ")}`
         pille.appendChild(marke)
       }
       /**

@@ -3642,6 +3642,48 @@ Auswahlfeld mit dem Staffel-2-Namen, `lage.staffelZahl: 2`, und am Knopf stand 1
 aus, wenn sie zu dem Zeitpunkt genommen wird, den sie beschreiben soll. „Jetzt"
 ist beim Senden ein anderes Jetzt als beim Abrufen.
 
+### Eine Kulisse, die ein Feld von Hand setzt, prüft an der Stelle vorbei, die es löscht
+
+Am 10.09.2026 sollte der Netflix-Knopf bei Haikyu!! „▶ Episode 26 prüfen"
+zeigen. Der Fix las die Staffel aus der Folgenliste (`f.staffel`), die
+Zusicherung baute diese Liste mit `staffel: 1` und war grün. Am 11.09.2026 stand
+auf Daniels Bildschirm trotzdem „nur E2 + E25".
+
+Zwischen Leser und Knopf liegt `staffelnBereinigen()`, und die löscht die
+Staffel, sobald die Liste nur **eine** Staffel enthält. Auf der Titelseite ist
+das der Normalfall. Die Kulisse hat das Feld also genau dort gesetzt, wo der
+echte Ablauf es entfernt. Die Zusicherung prüfte damit einen Zustand, den es auf
+der Seite nie gab.
+
+**Prüffrage vor jeder Kulisse:** *Durch welche Funktionen läuft der Wert auf dem
+echten Weg, bevor er hier ankommt?* Die Kulisse schickt ihn durch dieselben
+Funktionen, statt das Ergebnis vorwegzunehmen. `netflix-auftrag.test.cjs` baut
+die Liste deshalb roh und lässt `staffelnBereinigen()` laufen; die erste
+Zusicherung hält fest, dass danach wirklich keine Staffel mehr dasteht.
+
+Zwei Befunde am selben Fall gehören dazu:
+
+- **Die Staffelnummer des Lesers ist eine Ladereihenfolge**
+  (`staffelNummerFuer()`), keine Anbieterzählung. Sie taugt nur, solange jemand
+  bei Staffel 1 anfängt. Tragfähig ist die **Folgenkennung**: Der Player nennt
+  je Staffel seine Folgen (`ids` in `anbieterStaffeln`), die Titelseite dieselben
+  Kennungen als `videoId`. Solange der Player noch nichts geliefert hat, gilt
+  der Abgleich über Folgenzahl, erste und letzte Nummer. Er ist bei Haikyu!!
+  mehrdeutig (S1 und S2 je 26 Folgen) und genügt trotzdem, sobald beide
+  Kandidaten dieselbe Folge wollen.
+- **Die Kennungen bleiben in der Erweiterung.** Der Worker kappt `staffeln` bei
+  4000 Zeichen; mit den Kennungen von One Piece käme abgeschnittenes JSON in den
+  Briefkasten. `ohneKennungen()` nimmt sie vor jeder Meldung heraus.
+
+**Und eine Stichprobe sagt, was sie annimmt.** Stimmen erste und letzte Folge
+überein, meldet `randMelden()` alle dazwischen mit, als Annahme in der Notiz.
+Auf dem Knopf stand bis 4.19.0 nur „nur E2 + E25". Daniel am 11.09.2026:
+„wenn es dazu führt das e2-e25 als dub true gekennzeichnet werden muss es besser
+kommuniziert werden." Seit 4.19.1 heißt es vorher „▶ E2 + E25 prüfen → gilt für
+E2-25" und danach „✓ E2 + E25 deutsch · E3-24 angenommen". Das Plus bleibt: Es
+sagt, dass zwei Folgen gemessen werden und nicht der ganze Bereich (Daniel,
+10.09.2026: „erst stand auf button 1-26, ich hab geklickt … jetzt steht 2-25").
+
 ### Eine Auflösefunktion ist kein Test — sie sagt nie nein
 
 Am 10.09.2026 stand über „Heroes", Staffel 3, Folge 17 der Kasten „Folge 17:

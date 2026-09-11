@@ -22,6 +22,9 @@ import { readFileSync, mkdirSync } from 'node:fs'
 
 const css = readFileSync('extension/melder.css', 'utf8')
 const box = readFileSync('extension/box.js', 'utf8')
+/* Der längste Knopftext — die Stichprobe samt ihrer Folge (11.09.2026). */
+const KNOPF = process.env.KNOPF ?? '▶ E2 + E25 prüfen → gilt für E2-25'
+const BILD = process.env.BILD ?? 'docs/netflix-kasten.png'
 
 const browser = await chromium.launch()
 const seite = await browser.newPage({ viewportSize: { width: 520, height: 420 } })
@@ -35,7 +38,7 @@ await seite.setContent(`<!doctype html><meta charset="utf-8">
 
 /* Das echte Gerüst — und darin die Elemente, die der Melder auf Netflix baut. */
 await seite.evaluate(
-  ([quelle]) => {
+  ([quelle, knopfText]) => {
     // eslint-disable-next-line no-eval
     ;(0, eval)(quelle)
     const kasten = window.akBox('ak-netflix-kasten', '/title/80090673')
@@ -60,7 +63,7 @@ await seite.evaluate(
     nochmal.textContent = '↻ alle'
     const start = document.createElement('button')
     start.className = 'ak-durchlauf'
-    start.textContent = '▶ Episode 26 prüfen'
+    start.textContent = knopfText
     leiste.append(nochmal, start)
     melden.appendChild(leiste)
 
@@ -89,7 +92,7 @@ await seite.evaluate(
       window.akBerichtSchalter(() => {}),
     ])
   },
-  [box],
+  [box, KNOPF],
 )
 
 /* Gemessen wird, was ein Bild nicht zeigt: Zeilenlage und die Trennlinie. */
@@ -108,6 +111,8 @@ const mass = await seite.evaluate(() => {
     linksX: links.getBoundingClientRect().left,
     rechtsX: rechts.getBoundingClientRect().left,
     breite: Math.round(kasten.getBoundingClientRect().width),
+    knopfRechts: Math.round(kasten.querySelector('.ak-durchlauf:not(.ak-grenze)').getBoundingClientRect().right),
+    kastenRechts: Math.round(kasten.getBoundingClientRect().right),
     /*
       **Die Gegenprobe gehört zur Regel.** Ohne sie sagt die Prüfung nur, dass
       ein gefüllter Kasten zu sehen ist — und das war er auch vorher.
@@ -141,11 +146,12 @@ pruefe('sie steht unter dem Fuß', mass.debugOben >= mass.fussUnten, `${mass.deb
 pruefe('Prüfliste links, aniSearch rechts', mass.linksX < mass.rechtsX, `${mass.linksX} / ${mass.rechtsX}`)
 /* 300 px Inhalt plus Innenabstand und Rahmen — schmaler als Prime (340). */
 pruefe('ein leerer Kasten ist unsichtbar', mass.leerVersteckt, mass.leerAnzeige)
+pruefe('der Knopf ragt nicht aus dem Kasten', mass.knopfRechts <= mass.kastenRechts, `${mass.knopfRechts} / ${mass.kastenRechts}`)
 pruefe('der Kasten bleibt schmal', mass.breite <= 332, `${mass.breite} px`)
 
 mkdirSync('docs', { recursive: true })
-await seite.locator('.ak-netflix-kasten').screenshot({ path: 'docs/netflix-kasten.png' })
-console.log('\n  Bild: docs/netflix-kasten.png')
+await seite.locator('.ak-netflix-kasten').screenshot({ path: BILD })
+console.log(`\n  Bild: ${BILD}`)
 
 await browser.close()
 process.exit(fehler.length ? 1 : 0)

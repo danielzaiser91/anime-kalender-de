@@ -43,7 +43,17 @@ function schneide(name) {
   return treffer?.[0] ?? null
 }
 
-const teile = ['staffelnVon', 'durchlaufAuftrag'].map((n) => [n, schneide(n)])
+const teile = [
+  'staffelnGruppiert',
+  'staffelnVon',
+  'durchlaufAuftrag',
+  'auftragsFolgen',
+  'staffelJeFolge',
+  'staffelKandidaten',
+  'staffelnBereinigen',
+  'titelIdFuer',
+  'alsBereiche',
+].map((n) => [n, schneide(n)])
 for (const [name, code] of teile) pruefe(`${name}() ist im Quelltext auffindbar`, Boolean(code))
 if (teile.some(([, code]) => !code)) {
   console.error('\nOhne die Funktionen prüft der Rest nichts.')
@@ -81,31 +91,90 @@ const NETFLIX = [
  * `gemeldet` sind die videoIds, die schon abgehakt sind — bei Daniel waren das
  * Folge 1 und 26, weshalb der Rückfall „nur E2 + E25" anbot.
  */
-function auftragFuer(staffelNr, anzahlFolgen, { gemeldet = [], anbieter = NETFLIX, eintrag = HAIKYU } = {}) {
-  const folgen = Array.from({ length: anzahlFolgen }, (_, i) => ({
+/** Die Kennung einer Folge: Staffel mal tausend plus Nummer — eindeutig über alle Staffeln. */
+const vid = (staffel, nummer) => staffel * 1000 + nummer
+
+function auftragFuer(
+  staffelNr,
+  anzahlFolgen,
+  { gemeldet = [], anbieter = NETFLIX, eintrag = HAIKYU, ausdruck = 'durchlaufAuftrag()' } = {},
+) {
+  /*
+    **So, wie die Liste auf der Titelseite ankommt:** Der Leser nummeriert die
+    Staffel nach Ladereihenfolge, und `staffelnBereinigen()` löscht sie bei nur
+    einer Staffel. Bis 4.19.0 setzte diese Kulisse `staffel` von Hand und lief
+    an genau der Stelle vorbei, an der Daniels Knopf scheiterte (11.09.2026).
+  */
+  const roh = Array.from({ length: anzahlFolgen }, (_, i) => ({
     nummer: i + 1,
-    staffel: staffelNr,
-    videoId: `v${i + 1}`,
+    staffel: 1,
+    seasonId: `s${staffelNr}`,
+    videoId: vid(staffelNr, i + 1),
   }))
   const kontext = {
     anbieterStaffeln: { '80090673': anbieter },
     offeneTitel: { '80090673': eintrag },
     stand: { staffel: null },
-    DURCHLAUF: { folgen, gemeldet: new Set(gemeldet) },
+    DURCHLAUF: { folgen: [], gemeldet: new Set(gemeldet.map((n) => vid(staffelNr, n))) },
     gemeinteReihe: () => '80090673',
+    imPlayer: () => false,
+    roh,
     Number,
     Set,
+    Map,
+    Math,
     Boolean,
+    String,
+    Array,
     ergebnis: null,
   }
   vm.createContext(kontext)
-  vm.runInContext(teile.map(([, code]) => code).join('\n\n') + '\nergebnis = durchlaufAuftrag()', kontext)
+  vm.runInContext(
+    teile.map(([, code]) => code).join('\n\n') +
+      '\nDURCHLAUF.folgen = staffelnBereinigen(roh)\nergebnis = ' +
+      ausdruck,
+    kontext,
+  )
   return kontext.ergebnis?.map((f) => f.nummer) ?? null
 }
 
-/* Daniels Fall, wörtlich: Staffel 1 gewählt, 1 und 26 schon abgehakt. */
-const s1 = auftragFuer(1, 26, { gemeldet: ['v1', 'v26'] })
+/* Die Kulisse stellt den Fehlerfall wirklich nach: Nach der Bereinigung trägt keine Folge eine Staffel. */
+pruefe(
+  'staffelnBereinigen() löscht die Staffel bei nur einer geladenen Staffel',
+  auftragFuer(1, 26, { ausdruck: 'DURCHLAUF.folgen.filter((f) => f.staffel != null)' })?.length === 0,
+)
+
+/* Daniels Fall: Staffel 1 gewählt, Folge 1 abgehakt — gewollt ist Folge 26. */
+const s1 = auftragFuer(1, 26, { gemeldet: [1] })
 pruefe('Staffel 1 verlangt genau Folge 26', JSON.stringify(s1) === '[26]', s1)
+
+/* Und nach der Meldung von 26: nichts mehr — keine Stichprobe über E2 und E25. */
+const s1fertig = auftragFuer(1, 26, { gemeldet: [1, 26] })
+pruefe('ist Folge 26 gemeldet, bleibt ein leerer Auftrag statt der Stichprobe', JSON.stringify(s1fertig) === '[]', s1fertig)
+
+/*
+  **Die Kennungen entscheiden, wo die Zahl nicht reicht.** S1 und S2 haben je
+  26 Folgen. Ist „Lev ist hier!" übernommen, will S1 nichts mehr, S2 weiter
+  Folge 26 — ohne Kennungen ist nicht zu sagen, welche Staffel geladen ist.
+*/
+const OHNE_LEV = {
+  ...HAIKYU,
+  staffeln: HAIKYU.staffeln.map((st) => (st.nr === 1 ? { ...st, offen: false } : st)),
+}
+const MIT_IDS = NETFLIX.map((st) => ({
+  ...st,
+  ids: Array.from({ length: st.folgen }, (_, i) => vid(st.seq, i + 1)),
+}))
+const s1kennung = auftragFuer(1, 26, { eintrag: OHNE_LEV, anbieter: MIT_IDS })
+pruefe('mit Kennungen: Staffel 1 ohne offene Einträge ergibt nichts', JSON.stringify(s1kennung) === '[]', s1kennung)
+const s2kennung = auftragFuer(2, 26, { eintrag: OHNE_LEV, anbieter: MIT_IDS })
+pruefe('mit Kennungen: Staffel 2 verlangt weiter Folge 26', JSON.stringify(s2kennung) === '[26]', s2kennung)
+const s1ohne = auftragFuer(1, 26, { eintrag: OHNE_LEV })
+pruefe(
+  'ohne Kennungen und uneinig: eine Folge zu viel statt der Stichprobe',
+  JSON.stringify(s1ohne) === '[26]',
+  s1ohne,
+)
 
 /* Und die übrigen drei Nebenausgaben derselben Adresse. */
 pruefe('Staffel 2 verlangt Folge 26', JSON.stringify(auftragFuer(2, 26)) === '[26]', auftragFuer(2, 26))
@@ -138,6 +207,69 @@ const ganz = auftragFuer(
   },
 )
 pruefe('eine vollständig offene Staffel ergibt keinen Ausschnitt', ganz === null, ganz)
+
+/*
+  **Eine Pille je Anbieterstaffel** (Daniel, 11.09.2026: „das soll bitte in 1
+  pill alle episoden pro staffel, 1 pill je staffel"). Der Dialog liest
+  `staffelnVon()`; aus neun Haikyu-Einträgen müssen vier Staffeln werden.
+*/
+function imKontext(ausdruck, eintrag = HAIKYU) {
+  const kontext = {
+    anbieterStaffeln: { '80090673': NETFLIX },
+    offeneTitel: { '80090673': eintrag },
+    Number,
+    Set,
+    Map,
+    Math,
+    Boolean,
+    String,
+    ergebnis: null,
+  }
+  vm.createContext(kontext)
+  vm.runInContext(teile.map(([, code]) => code).join('\n\n') + '\nergebnis = ' + ausdruck, kontext)
+  return kontext.ergebnis
+}
+
+const pillen = imKontext("staffelnVon('80090673', offeneTitel['80090673'])")
+pruefe('der Dialog zeigt vier Pillen, nicht neun', pillen?.length === 4, pillen?.length)
+pruefe(
+  'Staffel 1 reicht von Folge 1 bis 26',
+  pillen?.[0]?.erste === 1 && pillen?.[0]?.folgen === 26,
+  pillen?.[0] && { erste: pillen[0].erste, folgen: pillen[0].folgen },
+)
+pruefe('Staffel 4 reicht bis Folge 27', pillen?.[3]?.erste === 1 && pillen?.[3]?.folgen === 27, pillen?.[3]?.folgen)
+pruefe('eine Staffel mit offener Nebenausgabe gilt als offen', pillen?.every((p) => p.offen) === true)
+
+/*
+  **Das ✕ an der Pille meldet den offenen Titel, nicht den ersten.** Unter
+  Netflix' Staffel 1 stehen die Hauptstaffel (belegt) und „Lev ist hier!"
+  (offen); `find()` nahm früher die Hauptstaffel.
+*/
+const HAIKYU_IDS = {
+  ...HAIKYU,
+  staffeln: HAIKYU.staffeln.map((st, i) => ({ ...st, id: 1000 + i })),
+}
+pruefe(
+  'das ✕ an Staffel 1 meint die offene OVA',
+  imKontext("titelIdFuer('80090673', 1)", HAIKYU_IDS) === 1001,
+  imKontext("titelIdFuer('80090673', 1)", HAIKYU_IDS),
+)
+pruefe(
+  'bei zwei offenen Einträgen einer Staffel gibt es kein ✕',
+  imKontext("titelIdFuer('80090673', 4)", {
+    ...HAIKYU_IDS,
+    staffeln: HAIKYU_IDS.staffeln.map((st) => (st.nr === 4 ? { ...st, offen: true } : st)),
+  }) === null,
+)
+
+/* Und das Format, das Daniel vorgegeben hat — ein E vorn, danach nur Zahlen. */
+const format = imKontext("'E' + alsBereiche([1, 2, 3, 5, 6, 9, 10, 11, 12, 26]).join(', ')")
+pruefe('Bereiche lesen sich wie E1-3, 5-6, 9-12, 26', format === 'E1-3, 5-6, 9-12, 26', format)
+pruefe(
+  'kein zweites E hinter dem Komma — auch nicht an der Pille',
+  !/join\(", E"\)/.test(quelle),
+  'join(", E") steht noch im Quelltext',
+)
 
 console.log('')
 if (fehler.length) {

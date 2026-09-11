@@ -178,6 +178,21 @@
       name: s.shortName ?? s.longName ?? null,
       folgen: (s.episodes ?? []).length,
       erste: (s.episodes ?? [])[0]?.seq ?? null,
+      /*
+        **Die Kennungen der Folgen — daran erkennt die Titelseite die Staffel.**
+        Dort kommt die Folgenliste ohne Staffelnummer an, nur mit `videoId`
+        (11.09.2026, Haikyu!!: „nur E2 + E25" statt „Episode 26"). Welche der
+        beiden Angaben die `videoId` ist, zeigt `laufend` darunter: verglichen
+        wird mit beiden, also werden beide mitgegeben.
+      */
+      ids: [
+        ...new Set(
+          (s.episodes ?? [])
+            .flatMap((e) => [e.id, e.episodeId])
+            .map(Number)
+            .filter((n) => n > 0),
+        ),
+      ],
     }))
 
     let laufend = null
