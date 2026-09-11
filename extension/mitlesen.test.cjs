@@ -76,6 +76,14 @@ const window = {
   postMessage: (nachricht) => gesendet.push(nachricht),
 }
 
+/*
+  `flach()` steht vor dem Block, `sammleFolgen()` darin ruft sie (11.09.2026:
+  alle kleinen Felder je Folge). Die echte Funktion, nicht eine Attrappe — sonst
+  prüft der Test einen Leser, der keine Felder mitschickt.
+*/
+const flachQuelle = /  function flach\([\s\S]*?\n  \}\n/.exec(quelle)?.[0]
+if (!flachQuelle) { console.error('flach() nicht gefunden'); process.exit(1) }
+eval(flachQuelle)
 eval(quelle.slice(von, bis))
 
 const ergebnis = {}
@@ -135,7 +143,18 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
         videoId: 82756676,
         episodes: {
           edges: [
-            { node: { __typename: 'Episode', number: 1156, videoId: 82756678, title: 'Folge 1156' } },
+            {
+              node: {
+                __typename: 'Episode',
+                number: 1156,
+                videoId: 82756678,
+                title: 'Folge 1156',
+                /* Erfundene Namen: Die Prüfung gilt dem Mitnehmen, nicht dem Namen. */
+                laufzeitProbe: 1440,
+                bildProbe: { url: 'https://example.invalid/bild.jpg' },
+                listeProbe: [1, 2, 3],
+              },
+            },
             { node: { __typename: 'Episode', number: 1157, videoId: 82756679, title: 'Folge 1157' } },
           ],
         },
@@ -146,6 +165,14 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
   const meldung = gesendet.find((m) => m.marke === 'ak-folgenliste')
   pruefe('die Folgenliste wird weitergereicht', Boolean(meldung), gesendet.map((m) => m.marke))
   pruefe('beide Folgen sind dabei', meldung?.folgen?.length === 2, meldung?.folgen?.length)
+  /* Daniel, 11.09.2026: „alle folgen maximal mögliche infos sammeln". */
+  const felder = meldung?.folgen?.[0]?.felder ?? {}
+  pruefe('jedes kleine Feld der Folge reist mit', felder.laufzeitProbe === 1440 && felder.title === 'Folge 1156', felder)
+  pruefe(
+    'Bildadressen und Listen bleiben draußen',
+    !('bildProbe.url' in felder) && !('listeProbe' in felder),
+    Object.keys(felder),
+  )
   pruefe(
     'Nummer und Kennung stehen beieinander',
     meldung?.folgen?.[0]?.nummer === 1156 && meldung?.folgen?.[0]?.videoId === 82756678,

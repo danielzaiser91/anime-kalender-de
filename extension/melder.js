@@ -838,6 +838,8 @@ window.addEventListener('message', (e) => {
       staffeln: e.data.staffeln ?? null,
       serientitel: e.data.serientitel ?? null,
       titel: e.data.titel,
+      folgeRoh: e.data.folgeRoh ?? null,
+      reiheRoh: e.data.reiheRoh ?? null,
     }
     /*
       **Beide Fälle zeichnet `knopfZeigen()` selbst — hier wird nichts mehr
@@ -3344,6 +3346,20 @@ async function randMelden(folgen, befund, bisNummer) {
             `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, ` +
             `dazwischen nicht geprüft` +
             (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : ``),
+          /* Auch eine abgeleitete Folge bringt ihren Titel und ihre Felder mit — für die Zuordnung. */
+          rohfolgen: [
+            {
+              gti: f.videoId != null ? String(f.videoId) : null,
+              nummer: f.nummer ?? null,
+              titel: f.titel ?? null,
+              staffelText: f.seasonId != null ? String(f.seasonId) : null,
+              staffelNr: staffelDerFolge ?? null,
+              roh: {
+                liste: f.felder ?? null,
+                angenommen: f.nummer !== folgen[0].nummer && f.nummer !== bisNummer,
+              },
+            },
+          ],
         }),
       })
       if (antwort.ok) {
@@ -3461,7 +3477,17 @@ async function durchlaufMelden(folge, echte, deutsch) {
             titel: folge.titel ?? null,
             sprachen: echte.map((x) => `${x.code}|${x.name}`),
             staffelText: folge.seasonId != null ? String(folge.seasonId) : null,
-            staffelNr: Number.isFinite(folge.staffel) ? folge.staffel : null,
+            staffelNr: staffelDerFolge ?? null,
+            /*
+              **Alles, was die Folge über sich sagt** (Daniel, 11.09.2026: „alle
+              folgen maximal mögliche infos sammeln"). Aus der Folgenliste und —
+              wenn der Player gerade diese Folge zeigt — aus dem Player.
+            */
+            roh: {
+              liste: folge.felder ?? null,
+              player: String(stand.folge ?? '') === String(folge.videoId) ? stand.folgeRoh : null,
+              reihe: stand.reiheRoh ?? null,
+            },
           },
         ],
       }),

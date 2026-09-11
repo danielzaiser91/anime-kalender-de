@@ -2630,11 +2630,28 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         Tabelle nur Prime-Zeilen; jetzt melden auch Netflix und Disney+ hierher,
         und ein Aufräumen ohne Plattform löschte die Zeilen des Nachbarn.
       */
-      await env.DB.prepare(
-        'DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0',
-      )
-        .bind(url, String(daten.plattform ?? 'primevideo'))
-        .run()
+      /*
+        **Netflix und Disney+ melden je Folge — dort ersetzt eine Meldung nur
+        ihre eigene Folge.** Prime schickt alle Folgen einer Seite auf einmal,
+        und dafür ist das Aufräumen je Adresse gebaut. Ein Netflix-Durchlauf
+        schickt je Folge eine Meldung, und so blieb von 26 Rohfolgen nur die
+        letzte stehen (gefunden am 11.09.2026 beim Einbau der Spalte `roh`).
+      */
+      const plattform = String(daten.plattform ?? 'primevideo')
+      const kennungen = rohfolgen.map((f: Record<string, unknown>) => (f.gti ? String(f.gti) : null)).filter(Boolean)
+      if (plattform === 'primevideo' || !kennungen.length) {
+        await env.DB.prepare('DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0')
+          .bind(url, plattform)
+          .run()
+      } else {
+        await env.DB.batch(
+          kennungen.map((k) =>
+            env.DB.prepare(
+              'DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND gti = ?3',
+            ).bind(url, plattform, k),
+          ),
+        )
+      }
     } catch (e) {
       console.error(`prime_folge aufraeumen: ${(e as Error).message}`)
     }
@@ -2645,8 +2662,8 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       env.DB.prepare(
         `INSERT INTO prime_folge (url, asin, gti, nummer, titel, erschienen, dauer_sek,
                                   sprachen, untertitel, staffel_text, staffel_nr, gemeldet_am,
-                                  titel_id, plattform)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)`,
+                                  titel_id, plattform, roh)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15)`,
       ).bind(
         url,
         f.asin ? String(f.asin).slice(0, 40) : null,
@@ -2677,6 +2694,8 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
           entscheidet über die Anker, nicht über die Anbieter-Staffelnummer.
         */
         String(daten.plattform ?? 'primevideo').slice(0, 20),
+        /* Alles Kleine, was die Seite über die Folge sagt — Migration 029. */
+        f.roh ? JSON.stringify(f.roh).slice(0, 8000) : null,
       ),
     )
     try {

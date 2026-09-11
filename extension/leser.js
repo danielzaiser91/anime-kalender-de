@@ -163,6 +163,38 @@
    */
   let metadaten = null
 
+  /**
+   * **Alle kleinen Felder eines Knotens — ungefiltert, weil ungemessen.**
+   *
+   * Daniel am 11.09.2026: „alle folgen maximal mögliche infos sammeln, also ep
+   * titel sehr wichtig für zuordnung später, besonders wegen ova. auch runtime
+   * und release date und original release date".
+   *
+   * Wie Netflix Laufzeit und Datum nennt, ist nicht gemessen — und geratene
+   * Feldnamen haben hier schon einmal einen Tag gekostet (`seasonSeq`,
+   * `seasonNumber`, 31.08.2026). Deshalb geht **alles** mit, was klein ist:
+   * Zahlen, Wahrheitswerte, kurze Texte, bis zwei Ebenen tief. Listen und
+   * Bildadressen bleiben draußen, sie sind groß und sagen nichts über die Folge.
+   * Welche Felder davon Laufzeit und Datum sind, liest man an der ersten echten
+   * Meldung ab (Spalte `roh` in `prime_folge`).
+   */
+  function flach(o, tiefe = 0, raus = {}, vorsatz = '') {
+    if (!o || typeof o !== 'object' || tiefe > 2) return raus
+    for (const [k, v] of Object.entries(o)) {
+      if (Object.keys(raus).length >= 80) break
+      if (v == null) continue
+      const name = vorsatz + k
+      if (typeof v === 'string') {
+        if (v.length <= 400 && !/^https?:/.test(v)) raus[name] = v
+      } else if (typeof v === 'number' || typeof v === 'boolean') {
+        raus[name] = v
+      } else if (!Array.isArray(v)) {
+        flach(v, tiefe + 1, raus, name + '.')
+      }
+    }
+    return raus
+  }
+
   function lesMetadaten(text) {
     let daten
     try {
@@ -199,7 +231,7 @@
     for (const s of v.seasons) {
       for (const e of s.episodes ?? []) {
         if (e.episodeId === v.currentEpisode || e.id === v.currentEpisode) {
-          laufend = { staffel: s.seq, folge: e.seq, titel: e.title ?? null }
+          laufend = { staffel: s.seq, folge: e.seq, titel: e.title ?? null, roh: flach(e) }
         }
       }
     }
@@ -210,6 +242,8 @@
       art: v.type ?? null,
       staffeln,
       laufend,
+      /* Die Reihe selbst: Jahr, Freigabe, was Netflix sonst dazu sagt. */
+      reiheRoh: flach(v),
     }
     // Zum Nachsehen in der Konsole — sonst ist von aussen nicht zu erkennen,
     // ob die Metadaten ankamen oder die Titelzeile aushelfen musste.
@@ -457,6 +491,8 @@
         nummer,
         videoId: Number(kennung),
         titel: o.title ?? null,
+        /* Alles Kleine aus der Folgenliste — Laufzeit, Datum, was Netflix nennt. */
+        felder: flach(o),
         seasonId: hier,
         staffel: hier ? staffelNummerFuer(hier) : null,
         /*
@@ -871,6 +907,8 @@
           staffeln: metadaten.staffeln,
           serientitel: metadaten.titel,
           art: metadaten.art,
+          folgeRoh: metadaten.laufend?.roh ?? null,
+          reiheRoh: metadaten.reiheRoh ?? null,
         }
       : {}
     window.postMessage(
