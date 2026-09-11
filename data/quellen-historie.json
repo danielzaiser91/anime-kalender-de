@@ -3831,5 +3831,23 @@
       "sagt": "2026-11-06",
       "stand": "aktuell"
     }
+  ],
+  "auto-21516-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1048297/netflix-entfernt-kuromukuro/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-11",
+      "sagt": "2026-10-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-166477-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1048218/cafe-terrace-and-its-goddesses-staffel-2-disc-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-11",
+      "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
   ]
 }
