@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-11 · **12 offene Verweise** in **10 Zeilen**.
+Stand 2026-09-11 · **13 offene Verweise** in **11 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,8 +33,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
+| [Netflix](07-netflix.md) | 6 |
 | [Crunchyroll](07-crunchyroll.md) | 6 |
-| [Netflix](07-netflix.md) | 5 |
 | [Prime Video](07-primevideo.md) | 1 |
 
 ## Zu prüfen
@@ -48,9 +48,10 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 5 | 2019-03-20 | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
 | 6 | 2018-09-21 | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
 | 7 | 2017-08-25 | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-| 8 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Heart Throb](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-) |
-| 9 | 2011-02-23 | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
-| 10 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 8 | 2017-03-16 | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! 2](https://www.netflix.com/title/80131674) |
+| 9 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Heart Throb](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-) |
+| 10 | 2011-02-23 | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
+| 11 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
