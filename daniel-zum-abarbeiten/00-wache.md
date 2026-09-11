@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 10.09.2026 um 14:14 Uhr
+**Unauffällig** · zuletzt 11.09.2026 um 14:12 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -15,50 +15,55 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 2 Titel ohne Synchro-Beleg; adn: 3 Synchro-Belege weniger
+- netflix: 1 Synchro-Belege weniger
+- 40 Urteile verloren; 14 Titel ohne Synchro-Beleg; primevideo: 41 Synchro-Belege weniger
+- netflix: 1 Synchro-Belege weniger
+- netflix: 1 Synchro-Belege weniger
+- netflix: 1 Synchro-Belege weniger
+- netflix: 1 Synchro-Belege weniger
 - netflix: 1 Synchro-Belege weniger
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-34 Läufe in den letzten 1 Tagen (225 insgesamt)
+18 Läufe in den letzten 1 Tagen (243 insgesamt)
 
-09.09., 13:38  Bestand — zusammenführ   mitUrteil +3, ohneUrteil -3, titelMitSynchro +2
-09.09., 14:26  Bestand — zusammenführ   verweise +1, mitUrteil -3, ohneUrteil +4, titelMitSynchro -2, releases -18, termine -4
-            ⚠  2 Titel ohne Synchro-Beleg; adn: 3 Synchro-Belege weniger
-09.09., 16:49  Bestand — zusammenführ   verweise +15, mitUrteil +14, ohneUrteil +1, titelMitSynchro +7
-09.09., 16:59  Bestand — zusammenführ   verweise -1, ohneUrteil -1
-09.09., 17:05  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2, titelMitSynchro +1, releases -1, termine -1
-09.09., 17:32  Bestand — zusammenführ   mitUrteil +3, ohneUrteil -3, titelMitSynchro +2
-09.09., 18:01  Bestand — zusammenführ   verweise -18, ohneUrteil -18
-09.09., 18:06  Bestand — zusammenführ   verweise -1, mitUrteil +2, ohneUrteil -3, titelMitSynchro +1
-09.09., 18:30  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1
-10.09., 05:19  Bestand — zusammenführ   verweise -4, ohneUrteil -4
-10.09., 05:26  Bestand — zusammenführ   verweise -4, ohneUrteil -4
-10.09., 05:30  Bestand — zusammenführ   verweise -6, ohneUrteil -6
-10.09., 05:35  Bestand — zusammenführ   verweise -2, mitUrteil +1, ohneUrteil -3, titelMitSynchro +1
-10.09., 06:29  Bestand — zusammenführ   verweise -2, ohneUrteil -2
-10.09., 06:34  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1
-10.09., 06:42  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1
-10.09., 06:47  Bestand — zusammenführ   verweise -1, ohneUrteil -1
-10.09., 08:59  Bestand — zusammenführ   verweise -1, ohneUrteil -1, releases -1, termine -1
-10.09., 09:16  Bestand — zusammenführ   verweise +6, mitUrteil +4, ohneUrteil +2, titelMitSynchro +1
-10.09., 09:27  Bestand — zusammenführ   verweise +1, mitUrteil +1
-10.09., 11:09  Bestand — zusammenführ   verweise -3, ohneUrteil -3
-10.09., 11:42  Bestand — zusammenführ   verweise +1, mitUrteil -1, ohneUrteil +2
+10.09., 12:48  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1
+10.09., 13:17  Bestand — zusammenführ   verweise +1, mitUrteil +2, ohneUrteil -1
+10.09., 13:48  Bestand — zusammenführ   verweise +1, mitUrteil -1, ohneUrteil +2
             ⚠  netflix: 1 Synchro-Belege weniger
+10.09., 17:46  Bestand — zusammenführ   verweise -43, mitUrteil -40, ohneUrteil -3, titelMitSynchro -14, releases -3
+            ⚠  40 Urteile verloren; 14 Titel ohne Synchro-Beleg; primevideo: 41 Synchro-Belege weniger
+10.09., 17:48  Bestand — zusammenführ   verweise +1, mitUrteil -1, ohneUrteil +2
+            ⚠  netflix: 1 Synchro-Belege weniger
+10.09., 18:36  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2
+10.09., 18:38  Bestand — zusammenführ   verweise +1, ohneUrteil +1, titelMitSynchro +1, releases +1, termine +1
+            ⚠  netflix: 1 Synchro-Belege weniger
+10.09., 18:44  Bestand — zusammenführ   verweise +60, mitUrteil +62, ohneUrteil -2, titelMitSynchro +28, releases +7
+10.09., 20:08  Bestand — zusammenführ   verweise +1, mitUrteil -1, ohneUrteil +2
+            ⚠  netflix: 1 Synchro-Belege weniger
+10.09., 21:44  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2
+11.09., 00:17  Bestand — zusammenführ   verweise +1, mitUrteil -1, ohneUrteil +2
+            ⚠  netflix: 1 Synchro-Belege weniger
+11.09., 04:53  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2
+11.09., 08:58  Bestand — zusammenführ   verweise +1, mitUrteil -1, ohneUrteil +2, releases +1, termine +2
+            ⚠  netflix: 1 Synchro-Belege weniger
+11.09., 09:53  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2
+11.09., 10:36  Bestand — zusammenführ   verweise +1, mitUrteil +2, ohneUrteil -1, titelMitSynchro +2
+11.09., 11:00  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2
+11.09., 11:05  Bestand — zusammenführ   verweise +1, ohneUrteil +1, releases -1
 
-Stand jetzt: 2768 Titel, 1941 Urteile, 26 offen
-Über den Zeitraum: Titel 0, Urteile +25, offen -45
+Stand jetzt: 2768 Titel, 1968 Urteile, 20 offen
+Über den Zeitraum: Titel 0, Urteile +26, offen -5
 
-⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
+⚠  7 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 54 Meldungen auf 54 Adressen (primevideo 54)
-Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 4 Adressen
+Briefkasten: 26 Meldungen auf 26 Adressen (primevideo 26)
+Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 2 Adressen
 Alle Adressen sind gelistet.
 ```
 
@@ -68,6 +73,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 11.09.2026 14:12 | 2768 / 1968 / 20 | Titel 0, Urteile +26, offen -5 | unauffällig |
 | 10.09.2026 14:14 | 2768 / 1941 / 26 | Titel 0, Urteile +25, offen -45 | unauffällig |
 | 09.09.2026 14:20 | 2768 / 1913 / 74 | Titel 0, Urteile 0, offen 0 | unauffällig |
 | 08.09.2026 14:08 | 2768 / 1913 / 74 | Titel 0, Urteile -13, offen -12 | unauffällig |
