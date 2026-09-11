@@ -3871,6 +3871,18 @@ Knopf unsichtbar schalten, ohne einen Anbieter-Anker (`.ak-amazon`) im Selektor
 zu tragen. `amazon.js` setzt die Marke am `<html>`. Gegenprobe gefahren: ohne
 den Anker wird die Zusicherung rot.
 
+**Und seit es einen gemeinsamen Kasten gibt, braucht der Kasten selbst eine
+Regel.** Am 11.09.2026 stand im Player von „Heroes" wieder etwas: der leere
+Rahmen mit der Debug-Zeile. Melde-Knopf, Leiste und Prüflisten-Knopf hatten je
+ihre eigene Regel und waren alle verschwunden — der Kasten, der sie trägt, hatte
+keine. Seit 4.19.4 entscheidet `seiteGehtUnsAn()` im Sekundentakt über den
+ganzen Kasten: Stöberseite ja, Player nach `playerAuftragOffen()`, Titelseite
+nach der Kennung der Seite (nicht nach `gemeinteReihe()`, die auf die vorige
+Reihe zurückfällt). Dazu `.ak-box[hidden] { display: none }` — ohne diese Zeile
+gewann das `display: flex` der Box gegen das Attribut, gemessen in
+`check:netflix-kasten`. **Wer ein neues Gerüst um bestehende Elemente legt,
+gibt dem Gerüst dieselben Sichtbarkeitsregeln wie seinen Inhalten.**
+
 ## Die Erweiterung zählt zweistellig — und hinten
 
 Daniel am 30.08.2026: „bei versionierung maximal 2 stellig ab jetzt, nächste

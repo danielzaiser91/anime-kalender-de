@@ -1458,6 +1458,41 @@ function playerAuftragOffen() {
   }
 }
 
+/**
+ * **Hat der Kasten auf dieser Seite etwas zu suchen?** Eine Regel für den ganzen
+ * Kasten, nicht eine je Inhalt.
+ *
+ * Daniel am 11.09.2026 mit Bild, im Player von „Heroes": „wenn ich von overview
+ * zur serie wechsele die nicht in prüfliste der extension ist -> extension
+ * verstecken." Die Inhalte des Kastens verschwanden dort alle einzeln — Melde-
+ * Knopf, Leiste, Prüflisten-Knopf —, übrig blieb der Rahmen mit der Debug-Zeile.
+ * Jede Anzeigestelle hatte ihre Regel, der Kasten selbst keine.
+ *
+ * - Auf der Stöberseite bleibt er: Dort sitzt der Weg zur Prüfliste.
+ * - Im Player gilt, was `playerAuftragOffen()` sagt.
+ * - Auf einer Titelseite zählt die Kennung der Seite: Steht sie auf der Liste,
+ *   leitet eine gemerkte Weiterleitung dorthin, oder wurde sie eben aus der
+ *   Liste heraus geöffnet?
+ *
+ * Nicht über `gemeinteReihe()`: Sie fällt auf `stand.reihe` zurück, und das ist
+ * auf einer Titelseite oft die Reihe der vorigen Seite (CLAUDE.md, „Eine
+ * Auflösefunktion ist kein Test").
+ */
+function seiteGehtUnsAn() {
+  if (imPlayer()) return playerAuftragOffen()
+  const hier =
+    /\/title\/(\d+)/.exec(location.pathname)?.[1] ?? new URLSearchParams(location.search).get('jbv') ?? null
+  if (!hier) return true
+  if (offeneTitel[hier] !== undefined) return true
+  const weiter = netflixWeiterleitungen?.[hier]
+  if (weiter && offeneTitel[String(weiter)] !== undefined) return true
+  return Boolean(
+    zuletztGeoeffnet?.id &&
+      offeneTitel[zuletztGeoeffnet.id] !== undefined &&
+      Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000,
+  )
+}
+
 function playerAnzeige(text, art = 'laeuft', knopfText = null) {
   try {
     if (!imPlayer()) return
@@ -4923,6 +4958,13 @@ setInterval(() => {
     uebersichtZeigen()
   } catch {
     /* Dieselbe Lage wie oben: Vor dem Speicher gibt es nichts zu zählen. */
+  }
+  /* Und über allem: ob der Kasten auf dieser Seite überhaupt etwas zu suchen hat. */
+  try {
+    const kasten = document.querySelector('.ak-netflix-kasten')
+    if (kasten) kasten.hidden = !seiteGehtUnsAn()
+  } catch {
+    /* Im Zweifel bleibt er, wie er ist — lieber ein Kasten zu viel als ein toter Takt. */
   }
   /*
     Im selben Takt: Ist der selbsttaetige Durchgang an und steht hier ein

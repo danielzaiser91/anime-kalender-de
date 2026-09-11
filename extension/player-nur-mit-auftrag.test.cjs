@@ -113,6 +113,49 @@ pruefe(
   lauf({ reihe: '70111777' }) === false && /return stand\.reihe\s*\n\}/.test(schneide('gemeinteReihe') ?? ''),
 )
 
+/*
+  **Der ganze Kasten, nicht nur der Player** (Daniel, 11.09.2026, im Player von
+  „Heroes": „wenn ich von overview zur serie wechsele die nicht in prüfliste der
+  extension ist -> extension verstecken"). Übrig war der Rahmen mit der
+  Debug-Zeile — jede Anzeigestelle hatte ihre Regel, der Kasten keine.
+*/
+const regel = schneide('seiteGehtUnsAn')
+pruefe('seiteGehtUnsAn() ist im Quelltext auffindbar', Boolean(regel))
+function seite(adresse, { reihe = null, offene = {}, zuletzt = null } = {}) {
+  const [pfad, suche = ''] = adresse.split('?')
+  const kontext = {
+    stand: { reihe },
+    offeneTitel: offene,
+    netflixWeiterleitungen: {},
+    zuletztGeoeffnet: zuletzt,
+    location: { pathname: pfad, search: suche ? `?${suche}` : '' },
+    imPlayer: () => pfad.startsWith('/watch/'),
+    URLSearchParams,
+    Date,
+    Boolean,
+    String,
+    nameStimmt: () => false,
+    ausWeiterleitung: () => false,
+    ergebnis: null,
+  }
+  vm.createContext(kontext)
+  vm.runInContext(
+    [...teile.map(([, code]) => code), regel].join('\n\n') + '\nergebnis = seiteGehtUnsAn()',
+    kontext,
+  )
+  return kontext.ergebnis
+}
+const LISTE = { 80090673: { staffeln: [] } }
+pruefe('auf der Stöberseite bleibt der Kasten — dort sitzt der Weg zur Prüfliste', seite('/browse', { offene: LISTE }) === true)
+pruefe('im Player einer fremden Serie verschwindet er', seite('/watch/70111779', { reihe: '70136130', offene: LISTE }) === false)
+pruefe('auf der Titelseite einer fremden Serie verschwindet er', seite('/title/70136130', { offene: LISTE }) === false)
+pruefe(
+  'auch wenn der Stand noch die Reihe der vorigen Seite trägt',
+  seite('/title/70136130', { reihe: '80090673', offene: LISTE }) === false,
+)
+pruefe('auf der Titelseite einer Serie der Liste bleibt er', seite('/title/80090673', { offene: LISTE }) === true)
+pruefe('ein geöffnetes Overlay zählt wie die Titelseite', seite('/browse?jbv=70136130', { offene: LISTE }) === false)
+
 console.log('')
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) gerissen.`)

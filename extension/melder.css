@@ -1239,6 +1239,11 @@
   flex-direction: column;
   gap: 7px;
 }
+/* `hidden` am Kasten muss gegen das `display: flex` darüber gewinnen — sonst
+   bleibt er auf einer fremden Serie stehen (Heroes, 11.09.2026). */
+.ak-box[hidden] {
+  display: none;
+}
 
 /*
   **Die Debug-Zeile steht unter einer Trennlinie** (Daniel, 10.09.2026: „pack

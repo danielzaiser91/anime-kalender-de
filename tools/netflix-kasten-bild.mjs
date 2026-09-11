@@ -111,6 +111,13 @@ const mass = await seite.evaluate(() => {
     linksX: links.getBoundingClientRect().left,
     rechtsX: rechts.getBoundingClientRect().left,
     breite: Math.round(kasten.getBoundingClientRect().width),
+    /* Ein versteckter Kasten muss gegen das display: flex der Box gewinnen (Heroes, 11.09.2026). */
+    versteckt: (() => {
+      kasten.hidden = true
+      const d = getComputedStyle(kasten).display
+      kasten.hidden = false
+      return d
+    })(),
     knopfRechts: Math.round(kasten.querySelector('.ak-durchlauf:not(.ak-grenze)').getBoundingClientRect().right),
     kastenRechts: Math.round(kasten.getBoundingClientRect().right),
     /*
@@ -147,6 +154,7 @@ pruefe('Prüfliste links, aniSearch rechts', mass.linksX < mass.rechtsX, `${mass
 /* 300 px Inhalt plus Innenabstand und Rahmen — schmaler als Prime (340). */
 pruefe('ein leerer Kasten ist unsichtbar', mass.leerVersteckt, mass.leerAnzeige)
 pruefe('der Knopf ragt nicht aus dem Kasten', mass.knopfRechts <= mass.kastenRechts, `${mass.knopfRechts} / ${mass.kastenRechts}`)
+pruefe('ein versteckter Kasten ist wirklich weg', mass.versteckt === 'none', mass.versteckt)
 pruefe('der Kasten bleibt schmal', mass.breite <= 332, `${mass.breite} px`)
 
 mkdirSync('docs', { recursive: true })
