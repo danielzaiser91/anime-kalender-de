@@ -3804,17 +3804,24 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–9 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
-- anilistId: 20992
-  title: "HAIKYU!! 2nd Season"
+# Neu zugeordnet am 11.09.2026. Die drei Meldungen vom 22.08. (Briefkasten-Ids
+# 284, 315, 316) nennen Netflix' Zählung: S2 E26, S4 E1, S4 E27. Zugeordnet
+# wurden sie vor der kumulativen Rechnung — „Folge 26" landete bei der zweiten
+# Staffel (25 Folgen), „Folgen 1–27" bei To the Top (13 Folgen). Netflix hängt
+# die OVAs an die Staffel, zu der sie gehören (CLAUDE.md, „Der Anbieter zählt
+# kumulativ"): S2 E26 ist „VS Failing Marks", S4 = To the Top 13 + Land vs.
+# Air 2 + Part 2 12, also E1 → To the Top Folge 1, E27 → Part 2 Folge 12.
+- anilistId: 21348
+  title: "HAIKYU!!: VS Failing Marks"
   platform: netflix
   dub: true
   dubRanges:
-    - from: 26
-      to: 26
+    - from: 1
+      to: 1
       dub: true
-      checked: [26]
+      checked: [1]
   checkedAt: '2026-08-22'
-  note: "Folge 26 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+  note: "Netflix S2 E26 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
 
 - anilistId: 106625
   title: "HAIKYU!! TO THE TOP"
@@ -3822,11 +3829,23 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 27
+      to: 1
       dub: true
-      checked: [1, 27]
+      checked: [1]
   checkedAt: '2026-08-22'
-  note: "Folgen 1–27 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+  note: "Netflix S4 E1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 113538
+  title: "HAIKYU!! TO THE TOP Part 2"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 12
+      to: 12
+      dub: true
+      checked: [12]
+  checkedAt: '2026-08-22'
+  note: "Netflix S4 E27 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
 
 - anilistId: 21699
   title: "KONOSUBA -God's blessing on this wonderful world! 2"

@@ -2408,6 +2408,23 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
     const liste = (yaml.load(roh) as unknown[]) ?? []
     const doppelt = liste.length - new Set(liste.map((b) => JSON.stringify(b))).size
     pruefe('Handbelege: kein Beleg steht zweimal in der Datei', doppelt === 0, `${doppelt} identische Doppel`)
+    /*
+      **Kein Beleg nennt Folgen, die sein Titel nicht hat** — sonst ist die
+      Zählung des Anbieters auf unseren Titel gerutscht. Am 11.09.2026 stand
+      „HAIKYU!! 2nd Season" (25 Folgen) mit „Folge 26 deutsch" im Datensatz:
+      Netflix' S2 E26 ist die OVA „VS Failing Marks". Berichtigt; gemessen
+      standen danach noch 24 Belege derselben Art. Die Schwelle darf nur sinken.
+    */
+    const folgenJeTitel = new Map(
+      (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number; episodes?: number }[]).map(
+        (t) => [t.id, t.episodes ?? 0],
+      ),
+    )
+    const drueber = (liste as { anilistId?: number; dubRanges?: { to?: number }[] }[]).filter((b) => {
+      const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
+      return n > 0 && (b.dubRanges ?? []).some((r) => (r.to ?? 0) > n)
+    }).length
+    pruefe('Handbelege: höchstens 24 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 24, `${drueber}`)
   }
 }
 
