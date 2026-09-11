@@ -25,3 +25,4 @@ nicht. Drei Fälle, drei Handgriffe:
 | Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |
 |---|---|---|---|---|---|
 | primevideo | https://www.amazon.de/dp/B0D4K9PV2F | Haikyuu!! | kein_dub | [Haikyu!!](https://anilist.co/anime/20464) | Vorschlag bestätigen, dann Adresse eintragen |
+| netflix | https://www.netflix.com/title/80090673 | Haikyu!! — Der Anbieter führt 4 Staffel(n), unser Datensatz nur 2 an dieser Adresse — uns fehlen Verweise, und ohne sie ist keine Zuordnung sicher | St.1/Flg.26 dub, St.3/Flg.11 dub | [Haikyu!! Lev ist hier!](https://anilist.co/anime/20884)<br>[Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://anilist.co/anime/107351) | Vorschlag bestätigen, dann Adresse eintragen |
