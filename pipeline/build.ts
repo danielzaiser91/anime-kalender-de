@@ -4828,14 +4828,33 @@ function main(): void {
      */
     const NEIN_GILT_TAGE = 28
     const neinGrenze = addDays(todayIso(), -NEIN_GILT_TAGE)
-    const frueherEntfernt = new Set([
-      ...(readJson<{ verweise?: { url?: string; entferntAm?: string | null }[] }>(
+    /**
+     * **Manche Gründe gelten der Adresse, manche nur einem Titel an ihr.**
+     *
+     * Eine tote Adresse ist für jeden Titel tot. „Beim Anbieter ist kein Platz"
+     * und „die Adresse zeigt auf eine andere Reihe" betreffen dagegen genau den
+     * Titel, der entfernt wurde. Bis zum 11.09.2026 merkte sich das Gedächtnis
+     * nur die Adresse, und bei Sword Art Online flatterte die Prüfliste deshalb
+     * von Bau zu Bau: Ein Lauf legte SAO II den Netflix-Weg an, die Platzprüfung
+     * warf War of Underworld und Part 2 unter derselben Adresse zu Recht hinaus
+     * — und der nächste Lauf hielt die Adresse für entfernt und legte SAO II
+     * nicht mehr an. Ohne SAO II war kein Platz voll, War of Underworld blieb,
+     * und die Liste fragte wieder nach Folgen, die Daniel am 06.09. gemessen hat.
+     */
+    const NUR_DIESER_TITEL = /^der Anbieter führt |^die Adresse zeigt auf die Reihe/
+    const merkeSchluessel = (e: { titleId?: number; url?: string; grund?: string }) =>
+      NUR_DIESER_TITEL.test(e.grund ?? '') ? `${e.titleId}|${adressKern(e.url ?? '')}` : adressKern(e.url ?? '')
+    const frueherEntferntRoh = new Set([
+      ...(readJson<{ verweise?: { titleId?: number; url?: string; grund?: string; entferntAm?: string | null }[] }>(
         'data/verweise-entfernt.json',
         {},
-      ).verweise?.filter((e) => (e.entferntAm ?? '') >= neinGrenze).map((e) => adressKern(e.url ?? '')) ?? []),
+      ).verweise?.filter((e) => (e.entferntAm ?? '') >= neinGrenze).map(merkeSchluessel) ?? []),
       /* Was dieser Lauf selbst gerade verworfen hat, bleibt ohne Frist draußen. */
-      ...verweiseEntfernt.map((e) => adressKern(e.url ?? '')),
+      ...verweiseEntfernt.map(merkeSchluessel),
     ])
+    const frueherEntfernt = {
+      has: (kern: string, titleId: number) => frueherEntferntRoh.has(kern) || frueherEntferntRoh.has(`${titleId}|${kern}`),
+    }
     /**
      * **Eine tote Crunchyroll-Serie erkennt man an ihrer Kennung, nicht an der
      * Adresse.**
@@ -4939,7 +4958,7 @@ function main(): void {
             : (quelle.url ?? '').split('?')[0]
         if (!ziel || !url) continue
         if (vorhanden.has(ziel)) continue
-        if (bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url))) continue
+        if (bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url), title.id)) continue
         if (ziel === 'crunchyroll') {
           /* Die Kennung entscheidet, nicht die Schreibweise der Adresse — siehe `toteCrSerien`. */
           const kennung = /\/series\/([A-Z0-9]+)/.exec(url)?.[1]
@@ -5039,7 +5058,7 @@ function main(): void {
       )
       for (const quelle of quellen) {
         const url = (quelle.url ?? '').split('?')[0]
-        if (!url || bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url))) continue
+        if (!url || bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url), title.id)) continue
         const kanal = kanalName(quelle.provider ?? '')
         const istShop = quelle.provider === 'amazon-de' || quelle.provider === 'amazon-(de)'
         if (!kanal && !istShop) continue

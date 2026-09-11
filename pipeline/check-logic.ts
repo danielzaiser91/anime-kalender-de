@@ -2864,7 +2864,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe(
     'das Gedächtnis über Läufe hinweg wird gefragt',
     bau.includes("'data/verweise-entfernt.json'") &&
-      bau.includes('frueherEntfernt.has(adressKern(url))'),
+      bau.includes('frueherEntfernt.has(adressKern(url), title.id)'),
     'ohne den Riegel legt jeder Bau wieder an, was der Prüflauf gerade verworfen hat',
   )
   /*
@@ -3111,7 +3111,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'das Gedächtnis reicht bis in diesen Lauf hinein',
-    bau.includes('...verweiseEntfernt.map((e) => adressKern(e.url ?? \'\'))'),
+    bau.includes('...verweiseEntfernt.map(merkeSchluessel)'),
     'ohne das legt derselbe Lauf wieder an, was er selbst eben verworfen hat',
   )
   /*
@@ -3638,6 +3638,23 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'der Bau repariert Suchadressen, statt sie zu erzeugen',
     !bau.includes('crunchyroll.com/de/search?q=') && (bau.match(/crAdresseZu\(/g) ?? []).length >= 2,
     'die Erzeugung ist zurück oder die Reparatur fehlt an einer der beiden Stellen',
+  )
+}
+
+/*
+  **Das Gedächtnis entfernter Verweise unterscheidet Adresse und Titel.**
+  Am 11.09.2026 flatterte Sword Art Online von Bau zu Bau: „kein Platz" für War
+  of Underworld sperrte die Adresse, und damit auch SAO II, dem sie gehört.
+  Gegenprobe gefahren: mit dem alten Schlüssel legt der zweite Lauf SAO II nicht
+  mehr an, mit dem neuen schon.
+*/
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'ein Titel-Grund („kein Platz") sperrt nur diesen Titel, nicht die ganze Adresse',
+    /NUR_DIESER_TITEL = \/\^der Anbieter führt /.test(bau) &&
+      (bau.match(/frueherEntfernt\.has\(adressKern\(url\), title\.id\)/g) ?? []).length >= 2,
+    'das Gedächtnis fragt wieder nur nach der Adresse',
   )
 }
 

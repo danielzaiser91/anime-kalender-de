@@ -3313,6 +3313,22 @@ Muster: eine Fortsetzung, die der Anbieter der Vorstaffel zurechnet (SAO
 Alicization War of Underworld und Part 2, BEASTARS Final Season Part 2,
 Dr. STONE New World und Part 2, HAIKYU!! Part 2).
 
+**Richtigstellung vom 11.09.2026: Bei SAO stimmte der Schluss nicht.** Daniel
+hatte am 06.09. das Netflix-Dropdown abgebildet: genau zwei Staffeln, SAO (25)
+und SAO II (24), alle 49 Folgen gemessen. 25 + 24 geht mit SAO und SAO II
+**exakt** auf; War of Underworld hat dort keinen Platz. Die beiden
+„nicht vorhanden"-Belege sind wiederhergestellt. Die Regel oben bleibt richtig
+— sie verlangt, dass die Summe aufgeht, und das tat sie bei SAO mit anderen
+Titeln. Zurückgenommen wurde am 10.09. also ein Beleg, dessen Gegenprobe
+(welche Titel füllen die Staffeln?) niemand gerechnet hat.
+
+**Und das Gedächtnis entfernter Verweise muss Adresse und Titel trennen.** Die
+Platzprüfung warf War of Underworld zu Recht hinaus, das Gedächtnis merkte sich
+aber nur die Adresse — und sperrte damit SAO II, dem sie gehört. Die Prüfliste
+flatterte von Bau zu Bau. Seit dem 11.09.2026 gelten „kein Platz" und „andere
+Reihe" nur für den einen Titel (`NUR_DIESER_TITEL` in `build.ts`), tote
+Adressen weiter für alle.
+
 **Die Regel, die daraus folgt:**
 
 > **Ein Anbieter teilt anders als AniList — aber er zählt lückenlos.** Unsere

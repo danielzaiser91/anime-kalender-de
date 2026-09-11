@@ -14597,6 +14597,25 @@
   checkedAt: '2026-09-06'
   note: "Der Anbieter führt unter dieser Adresse nur 2 Staffeln — Sword Art Online und Sword Art Online II; Alicization ist nicht darunter"
 
+# Wiederhergestellt am 11.09.2026. Am 10.09. zurückgenommen mit der Begründung,
+# Netflix rechne War of Underworld in seine Staffeln ein. Bei SAO geht die Summe
+# aber mit SAO (25) und SAO II (24) exakt auf — Daniels Dropdown vom 06.09.
+- anilistId: 108759
+  title: "Sword Art Online: Alicization - War of Underworld"
+  platform: netflix
+  url: https://www.netflix.com/title/70302573
+  available: false
+  checkedAt: '2026-09-06'
+  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffeln — Sword Art Online (25) und Sword Art Online II (24); War of Underworld ist nicht darunter"
+
+- anilistId: 114308
+  title: "Sword Art Online: Alicization - War of Underworld Part 2"
+  platform: netflix
+  url: https://www.netflix.com/title/70302573
+  available: false
+  checkedAt: '2026-09-06'
+  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffeln — Sword Art Online (25) und Sword Art Online II (24); War of Underworld Part 2 ist nicht darunter"
+
 # --- Kill Blue bei ADN, nachgemessen am 07.09.2026 --------------------------
 #
 # Daniel: "ich hab adn manuell gerade geprueft, 1-8 de, 9-12 nicht de" - mit
