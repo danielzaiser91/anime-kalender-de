@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-11T09:53:31.180Z",
+ "erzeugtAm": "2026-09-11T10:36:26.865Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -40,12 +40,16 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 364,
-   "gesamt": 372,
-   "offen": 8,
+   "gemeldet": 366,
+   "gesamt": 373,
+   "offen": 7,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/80090673",
+   "ziel": "https://www.netflix.com/title/70302573",
    "ziele": [
+    {
+     "url": "https://www.netflix.com/title/70302573",
+     "titel": "Sword Art Online"
+    },
     {
      "url": "https://www.netflix.com/title/80090673",
      "titel": "Haikyu!!"
@@ -57,17 +61,9 @@
     {
      "url": "https://www.netflix.com/title/80997338",
      "titel": "Hi Score Girl"
-    },
-    {
-     "url": "https://www.netflix.com/title/81214399",
-     "titel": "Pretty Guardian Sailor Moon Eternal: Der Film"
-    },
-    {
-     "url": "https://www.netflix.com/title/81922765",
-     "titel": "Baki-Dou: The Invincible Samurai"
     }
    ],
-   "naechster": "Haikyu!!"
+   "naechster": "Sword Art Online"
   },
   {
    "name": "Disney+",

@@ -91,7 +91,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-09-10T13:47:59.632Z",
-    "lastRun": "2026-09-11T09:53:20.183Z",
+    "lastRun": "2026-09-11T10:36:20.710Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -120,8 +120,8 @@
     "lastCount": 8
   },
   "vorfaelle": {
-    "lastOk": "2026-09-11T09:53:18.642Z",
-    "lastRun": "2026-09-11T09:53:18.642Z",
+    "lastOk": "2026-09-11T10:36:19.401Z",
+    "lastRun": "2026-09-11T10:36:19.401Z",
     "lastCount": 0
   }
 }
