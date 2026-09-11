@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 23
+    "2026-09": 25
   },
   "gesehen": {
     "26341901:netflix": {
@@ -3809,7 +3809,87 @@
       "dienst": "prime",
       "am": "2026-09-10",
       "deutsch": true
+    },
+    "new:70489:prime": {
+      "art": "new",
+      "titel": "Reporter Blues",
+      "originalTitel": "Reporter Blues",
+      "imdbId": "tt0296401",
+      "tmdbId": "tv/45003",
+      "dienst": "prime",
+      "am": "2026-09-11",
+      "deutsch": true
+    },
+    "new:26344238:prime": {
+      "art": "new",
+      "titel": "Honor Thy Mother",
+      "originalTitel": "Honor Thy Mother",
+      "imdbId": "tt41793323",
+      "tmdbId": "tv/319722",
+      "dienst": "prime",
+      "am": "2026-09-11",
+      "deutsch": false
+    },
+    "new:26596665:prime": {
+      "art": "new",
+      "titel": "Jagamae Sangeetham",
+      "originalTitel": "Jagamae Sangeetham",
+      "imdbId": "tt40857865",
+      "tmdbId": "tv/316970",
+      "dienst": "prime",
+      "am": "2026-09-10",
+      "deutsch": false
+    },
+    "new:26599168:netflix": {
+      "art": "new",
+      "titel": "Death of the Pastor's Wife",
+      "originalTitel": "Death of the Pastor's Wife",
+      "imdbId": "tt44113382",
+      "tmdbId": "tv/331616",
+      "dienst": "netflix",
+      "am": "2026-09-10",
+      "deutsch": true
+    },
+    "new:26596568:prime": {
+      "art": "new",
+      "titel": "The Grand Tour",
+      "originalTitel": "The Grand Tour",
+      "imdbId": "tt44974627",
+      "tmdbId": "tv/329471",
+      "dienst": "prime",
+      "am": "2026-09-10",
+      "deutsch": false
+    },
+    "new:25369742:netflix": {
+      "art": "new",
+      "titel": "The Perfect Lie",
+      "originalTitel": "De Eetclub",
+      "imdbId": "tt37439410",
+      "tmdbId": "tv/325755",
+      "dienst": "netflix",
+      "am": "2026-09-10",
+      "deutsch": false
+    },
+    "new:26029625:netflix": {
+      "art": "new",
+      "titel": "Chumbak",
+      "originalTitel": "चुंबक",
+      "imdbId": "tt39640519",
+      "tmdbId": "tv/313172",
+      "dienst": "netflix",
+      "am": "2026-09-10",
+      "deutsch": false
+    },
+    "new:25664978:netflix": {
+      "art": "new",
+      "titel": "Crew Girl",
+      "originalTitel": "Crew Girl",
+      "imdbId": "tt38218082",
+      "tmdbId": "tv/300507",
+      "dienst": "netflix",
+      "am": "2026-09-10",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-10T08:58:35.805Z"
+  "fetchedAt": "2026-09-11T08:56:42.540Z"
 }
