@@ -1,6 +1,126 @@
 {
-  "scrapedAt": "2026-09-10T08:58:41.762Z",
+  "scrapedAt": "2026-09-11T08:56:48.789Z",
   "proposals": [
+    {
+      "articleTitle": "Deutscher Synchro-Trailer zu »Avatar: Die sieben Häfen« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1048545/avatar-die-sieben-haefen-deutscher-trailer/",
+      "publishedAt": "2026-09-10",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-09",
+          "context": "atar: Die sieben Häfen« (Original: »Avatar: Seven Havens«) erfolgt am 9. Oktober 2026 mit drei Episoden in deutscher und […] Der Beitrag D"
+        },
+        {
+          "month": "2026-10",
+          "context": "Vertonung vorgestellt wird. Das Video findet ihr weiter unten. Start im Oktober 2026 Der Start von »Avatar: Die sieben Häfen« (Original: »A"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix entfernt »Kuromukuro« aus seinem Programm",
+      "articleUrl": "https://www.anime2you.de/news/1048297/netflix-entfernt-kuromukuro/",
+      "publishedAt": "2026-09-10",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-03",
+          "context": "weitere Serie aus dem Programm. Wir fassen die Details zusammen. Bis 3. Oktober 2026 »Kuromukuro« kann laut dem entsprechenden Eintrag nur"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Anime Planet startet große »End of Summer«-Rabattaktion",
+      "articleUrl": "https://www.anime2you.de/news/1048476/anime-planet-end-of-summer-rabattaktion/",
+      "publishedAt": "2026-09-10",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-09-12",
+          "context": "zusammen. Über 150 Produkte Der große »End of Summer Sale« läuft vom 12. September 2026 um 12:00 Uhr bis zum 20. September 2026 um 23:55 Uh"
+        },
+        {
+          "iso": "2026-09-20",
+          "context": "End of Summer Sale« läuft vom 12. September 2026 um 12:00 Uhr bis zum 20. September 2026 um 23:55 Uhr […] Der Beitrag Anime Planet startet"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Design der Steelbook-Edition von »A Silent Voice« + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1048229/a-silent-voice-steelbook-design/",
+      "publishedAt": "2026-09-10",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-06",
+          "context": "26 Die limitierte Steelbook-Ausgabe von »A Silent Voice« erscheint am 6. November 2026 als Blu-ray. Neben dem 130-minütigen Film […] Der B"
+        },
+        {
+          "month": "2026-11",
+          "context": "nen Extras enthüllt. Ein Produktbild findet ihr weiter unten. Release im November 2026 Die limitierte Steelbook-Ausgabe von »A Silent Voice«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Blu-ray-Termin der zweiten »The Café Terrace and Its Goddesses«-Staffel",
+      "articleUrl": "https://www.anime2you.de/news/1048218/cafe-terrace-and-its-goddesses-staffel-2-disc-termin/",
+      "publishedAt": "2026-09-10",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "ffel von »The Café Terrace and Its Goddesses« erscheint demzufolge am 4. Dezember 2026 […] Der Beitrag Blu-ray-Termin der zweiten »The Caf"
+        },
+        {
+          "month": "2027-02",
+          "context": "in den Handel bringen wird. Wir fassen nachfolgend zusammen. Release im Februar 2027 Die zweite Staffel von »The Café Terrace and Its Godde"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll bringt »Witch on the Holy Night« ins Kino + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1048494/crunchyroll-witch-on-the-holy-night-kinostart/",
+      "publishedAt": "2026-09-10",
+      "category": "kino",
+      "platforms": [
+        "crunchyroll",
+        "kino"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-26",
+          "context": "sammen. Kinostart im Januar 2027 »Witch on the Holy Night« startet am 26. Januar 2027 mit deutscher Synchronisation […] Der Beitrag Crunch"
+        },
+        {
+          "month": "2027-01",
+          "context": "t Sony Pictures ins Kino bringen wird. Wir fassen zusammen. Kinostart im Januar 2027 »Witch on the Holy Night« startet am 26. Januar 2027 mi"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Design der limitierten Blu-ray-Edition von »Clevatess« enthüllt",
       "articleUrl": "https://www.anime2you.de/news/1048245/clevatess-limited-edition-blu-ray-design/",
