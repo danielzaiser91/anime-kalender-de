@@ -2398,6 +2398,17 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
     grund = (e as Error).message.split(String.fromCharCode(10))[0] ?? ''
   }
   pruefe(`data/dub-confirmed.yaml ist gültiges YAML${lesbar ? '' : ` — ${grund}`}`, lesbar)
+  /*
+    **Kein Beleg zweimal.** Am 11.09.2026 standen 1.489 identische Doppel in der
+    Datei, entstanden bei mehrfachen lokalen Läufen am 22.–24.08. Sie änderten
+    nichts am Ergebnis, aber jede Zählung („so viele Handbelege") lag um fast
+    die Hälfte daneben. Aufgeräumt mit `tools/handbelege-doppel-entfernen.mjs`.
+  */
+  if (lesbar) {
+    const liste = (yaml.load(roh) as unknown[]) ?? []
+    const doppelt = liste.length - new Set(liste.map((b) => JSON.stringify(b))).size
+    pruefe('Handbelege: kein Beleg steht zweimal in der Datei', doppelt === 0, `${doppelt} identische Doppel`)
+  }
 }
 
 /**
