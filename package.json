@@ -45,6 +45,7 @@
     "check:hooks": "eslint web/src",
     "check:kasten": "node tools/melder-kasten-bild.mjs",
     "check:netflix-kasten": "node tools/netflix-kasten-bild.mjs",
+    "check:netflix-dialog": "node tools/netflix-dialog-bild.mjs",
     "check:extension": "node tools/extension-laden-pruefen.cjs && node tools/extension-tests.mjs && node tools/amazon-startseite-pruefen.cjs && eslint --config extension/eslint.config.mjs extension/*.js && node tools/extension-listenstand-pruefen.cjs && node tools/melder-leiste-pruefen.cjs",
     "check:zugangsart": "tsx pipeline/check-zugangsart.ts",
     "data:katalog": "tsx pipeline/fetch-anilist-katalog.ts",

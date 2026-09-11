@@ -1832,13 +1832,33 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         `nummern` bleibt für die Netflix-Seite, die eine durchlaufende Zählung
         hat; `paare` ist die genauere Auskunft.
       */
+      /*
+        **Mit Datum der letzten Meldung** (Daniel, 11.09.2026: „gemeldet (+datum
+        wann zuletzt)"). Die Erweiterung zeigt je Folge genau einen Zustand, und
+        „gemeldet" trägt sein Datum — auch für Folgen, die eine Stichprobe
+        abgeleitet hat: Sie gehen als eigene Meldung ein und gelten wie gemessene.
+      */
+      /*
+        `folge` ist bei Netflix die Kennung aus `/watch/<id>` — Player und
+        Durchlauf schicken beide sie. Damit trifft die Erweiterung eine Folge
+        exakt, ohne die Staffel zu kennen, und lernt nebenbei, welche Staffel
+        auf der Titelseite geladen ist. `staffelBekannt` trennt eine gemeldete
+        Staffel vom Ersatzwert 1, den `staffel` seit jeher trägt.
+      */
       const { results } = await env.DB.prepare(
-        `SELECT DISTINCT folge_nr, staffel FROM pruefung WHERE url = ? AND folge_nr IS NOT NULL`,
+        `SELECT folge_nr, staffel, folge, MAX(gemeldet_am) AS am FROM pruefung
+         WHERE url = ? AND folge_nr IS NOT NULL GROUP BY folge_nr, staffel, folge`,
       )
         .bind(fuer)
-        .all<{ folge_nr: number; staffel: number | null }>()
+        .all<{ folge_nr: number; staffel: number | null; folge: string | null; am: string | null }>()
       const nummern = [...new Set((results ?? []).map((r) => r.folge_nr))]
-      const paare = (results ?? []).map((r) => ({ nummer: r.folge_nr, staffel: r.staffel ?? 1 }))
+      const paare = (results ?? []).map((r) => ({
+        nummer: r.folge_nr,
+        staffel: r.staffel ?? 1,
+        staffelBekannt: r.staffel != null,
+        folge: r.folge,
+        am: r.am,
+      }))
       return antwort({ nummern, paare })
     }
 

@@ -3667,10 +3667,10 @@ Zwei Befunde am selben Fall gehören dazu:
   (`staffelNummerFuer()`), keine Anbieterzählung. Sie taugt nur, solange jemand
   bei Staffel 1 anfängt. Tragfähig ist die **Folgenkennung**: Der Player nennt
   je Staffel seine Folgen (`ids` in `anbieterStaffeln`), die Titelseite dieselben
-  Kennungen als `videoId`. Solange der Player noch nichts geliefert hat, gilt
-  der Abgleich über Folgenzahl, erste und letzte Nummer. Er ist bei Haikyu!!
-  mehrdeutig (S1 und S2 je 26 Folgen) und genügt trotzdem, sobald beide
-  Kandidaten dieselbe Folge wollen.
+  Kennungen als `videoId`. Eine Meldung aus dem Player trägt Kennung **und**
+  Staffel und verrät sie damit ebenfalls. Erst danach gilt der Abgleich über
+  Folgenzahl, erste und letzte Nummer; er ist bei Haikyu!! mehrdeutig (S1 und
+  S2 je 26 Folgen), und dann gilt der strengere Zustand der beiden.
 - **Die Kennungen bleiben in der Erweiterung.** Der Worker kappt `staffeln` bei
   4000 Zeichen; mit den Kennungen von One Piece käme abgeschnittenes JSON in den
   Briefkasten. `ohneKennungen()` nimmt sie vor jeder Meldung heraus.
@@ -3683,6 +3683,39 @@ kommuniziert werden." Seit 4.19.1 heißt es vorher „▶ E2 + E25 prüfen → g
 E2-25" und danach „✓ E2 + E25 deutsch · E3-24 angenommen". Das Plus bleibt: Es
 sagt, dass zwei Folgen gemessen werden und nicht der ganze Bereich (Daniel,
 10.09.2026: „erst stand auf button 1-26, ich hab geklickt … jetzt steht 2-25").
+
+### Drei Zustände je Folge, zwei Quellen, eine Funktion
+
+Derselbe Vormittag hat gezeigt, warum die Zusicherungen allein nicht reichten:
+Knopf und Dialog rechneten „schon gemeldet" **je für sich**. Der Dialog las den
+lokalen Speicher `erledigt` und hielt alles Ungemeldete für offen (bei Haikyu!!
+S1 „E2–25", obwohl der Bestand sie über die Streaming Availability API belegt).
+Der Knopf las den Briefkasten, glich aber über die Nummer allein ab: Die Meldung
+von **S2** E26 vom 22.08. machte S1 E26 zu „✓ geprüft". Nachgesehen im
+Briefkasten war S1 E26 nie gemeldet. Daniel hatte es gleich gesagt („laut auftrag
+müsste e26 erneut gemeldet werden"), und seine Vorgabe danach war: „zustände
+sind schließlich nur: gemeldet (+datum wann zuletzt), zu melden, erneut melden …
+pro episode … single source of truth".
+
+Seit 4.19.2 gilt:
+
+| Quelle | sagt | wo |
+|---|---|---|
+| Briefkasten | gemeldet, je Folge mit Datum und Kennung | `?gemeldet=` → `paare[].am`, `.folge` |
+| Prüfliste | zu melden · erneut · belegt (+ Datum eines Handbelegs) | `zustand`, `am`, `seit` je Eintrag |
+
+`folgeZustand()` in `melder.js` führt beides zu **einem** Zustand je Folge
+zusammen, und Dialog, Knopf und Durchlauf lesen nur diese Funktion. Eine
+Stichprobe meldet jede abgeleitete Folge einzeln (`randMelden()`), sie ist im
+Briefkasten also eine Meldung wie jede andere und braucht keinen Sonderfall.
+
+**Die Prüffrage, die den Fehler verhindert hätte:** *Woher nimmt diese Anzeige
+ihren Stand — und nimmt die Anzeige daneben ihn von derselben Stelle?* Zwei
+Anzeigen desselben Sachverhalts mit zwei Leitungen laufen auseinander, sobald
+eine der Leitungen einen Sonderfall anders behandelt.
+
+Bild dazu: `npm run check:netflix-dialog` rechnet die Zustände mit den echten
+Funktionen gegen die ausgelieferte Liste und zeichnet den Dialog.
 
 ### Eine Auflösefunktion ist kein Test — sie sagt nie nein
 

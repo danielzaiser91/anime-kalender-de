@@ -20,6 +20,7 @@
  * Aufruf: node tools/extension-offene-liste.mjs
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -102,6 +103,43 @@ const anisearchKennung = (() => {
     return {}
   }
 })()
+
+/**
+ * **Drei Zustände je Folge, eine Quelle** (Daniel, 11.09.2026: „zustände sind
+ * schließlich nur: gemeldet (+datum wann zuletzt), zu melden, erneut melden").
+ *
+ * Aus dem Bestand kommt je Eintrag, was er über seine Folgen weiß:
+ *
+ * - `melden`: kein Urteil im Datensatz
+ * - `erneut`: ein Urteil, dem eine zweite Quelle widerspricht
+ * - `belegt`: ein Urteil — mit Datum, wo ein Handbeleg es trägt
+ *
+ * „Gemeldet" ergänzt die Erweiterung aus dem Briefkasten, je Folge mit Datum.
+ * Dialog und Knopf lesen beides über dieselbe Funktion (`folgeZustand()` in
+ * `melder.js`); keiner von beiden rechnet einen eigenen Stand.
+ */
+const belegtAm = (() => {
+  try {
+    const liste = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
+    const raus = new Map()
+    for (const b of liste) {
+      if (b?.platform !== 'netflix' || !b.checkedAt) continue
+      if (b.dub === undefined && b.available === undefined) continue
+      const alt = raus.get(b.anilistId)
+      if (!alt || String(b.checkedAt) > alt) raus.set(b.anilistId, String(b.checkedAt))
+    }
+    return raus
+  } catch {
+    return new Map()
+  }
+})()
+const ERZEUGT = new Date().toISOString()
+function zustandVon(e) {
+  if (e.dub === undefined) return { zustand: 'melden' }
+  /* Seit wann: Eine Meldung danach löst das „erneut“ ab, eine ältere nicht. */
+  if (verdaechtig.has(e.t.id)) return { zustand: 'erneut', seit: ERZEUGT }
+  return { zustand: 'belegt', am: belegtAm.get(e.t.id) ?? null }
+}
 
 const offen = {}
 for (const [id, eintraege] of jeAdresse) {
@@ -189,6 +227,7 @@ for (const [id, eintraege] of jeAdresse) {
         offen: sortiert[i]
           ? sortiert[i].dub === undefined || verdaechtig.has(sortiert[i].t.id)
           : true,
+        ...(sortiert[i] ? zustandVon(sortiert[i]) : { zustand: 'melden' }),
       })),
       laut: 'anbieter',
     }
@@ -301,6 +340,7 @@ for (const [id, eintraege] of jeAdresse) {
             film: e.t.format === 'MOVIE',
             id: e.t.id,
             offen: e.dub === undefined || verdaechtig.has(e.t.id),
+            ...zustandVon(e),
           })
         }
       }
@@ -322,6 +362,7 @@ for (const [id, eintraege] of jeAdresse) {
         film: e.t.format === 'MOVIE',
         id: e.t.id,
         offen: true,
+        ...zustandVon(e),
         ausserhalb: true,
       })
     }
@@ -377,6 +418,7 @@ for (const [id, eintraege] of jeAdresse) {
       film: e.t.format === 'MOVIE' || (e.t.format !== 'TV' && e.t.episodes === 1),
       // Was hier schon beantwortet ist, muss niemand mehr anklicken.
       offen: e.dub === undefined || verdaechtig.has(e.t.id),
+      ...zustandVon(e),
     })),
   }
 }

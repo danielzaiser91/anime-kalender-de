@@ -228,6 +228,12 @@
   color: #6e9e78;
   font-weight: 500;
 }
+/* Erneut zu melden: ein Urteil, dem eine zweite Quelle widerspricht — gelb wie die
+   uneinheitliche Stichprobe, denn beides heißt „hier sieht jemand hin". */
+.ak-folge > .ak-folge.ak-erneut {
+  color: #d29922;
+  border-color: #d29922;
+}
 /* Eine Staffel, die ganz durch ist, tritt als Ganzes zurück. */
 .ak-folge.ak-fertig {
   border-color: rgba(255, 255, 255, 0.08);
