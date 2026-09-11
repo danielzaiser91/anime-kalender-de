@@ -3733,6 +3733,34 @@ eine der Leitungen einen Sonderfall anders behandelt.
 Bild dazu: `npm run check:netflix-dialog` rechnet die Zustände mit den echten
 Funktionen gegen die ausgelieferte Liste und zeichnet den Dialog.
 
+### Die Ladereihenfolge ist keine Staffelnummer — auch nicht in der Meldung
+
+Am Abend desselben Tages, mit Diagnosebericht: Daniel klickte bei Haikyu!! S1,
+dann S3, dann S2 an. Der Leser sammelt alle und nummeriert nach Eintreffen — die
+11-Folgen-Staffel (Netflix' S3) hieß bei ihm „2". Zwei Folgen:
+
+- **Der Knopf rechnete über alle geladenen Staffeln** und zeigte bei S3 „✓
+  E1-26 erledigt". Seit 4.19.5 arbeiten Knopf und Durchlauf nur mit der
+  **angezeigten** Staffel (`angezeigteFolgenSetzen()`): Welche das ist, sagen
+  die Folgentitel auf der Seite; sonst gilt die zuletzt geladene.
+- **Die Meldung zu „Haikyu! Season 3 OVA" ging als S2 E11 raus.** Der Code
+  sagte ausdrücklich „Die Staffel der Folge schlägt die des Players" — und die
+  Staffel der Folge war die Ladereihenfolge. Jetzt bestimmt `staffelFuerFolge()`
+  sie aus der Zuordnung der ganzen geladenen Staffel (Kennungen, Folgenzahl),
+  dann aus dem Player, wenn er genau diese Folge zeigt, sonst gar nicht. Die
+  falsche Meldung (Id 4396) ist im Briefkasten berichtigt, bevor ein Lauf sie
+  einarbeitete.
+
+Und ein Riegel gegen Folgeschäden: Eine Meldung verrät die Staffel ihrer Gruppe
+nur, wenn deren Folgenzahl passt. Sonst hätte die eine falsche Meldung die
+Gruppe auf Dauer zu Staffel 2 gemacht.
+
+**Die allgemeine Form steht schon weiter oben** („Eine geratene Staffelnummer
+ist schlechter als keine", 31.08.2026) — sie galt dem Leser, nicht der Stelle,
+die seinen Wert in die Meldung schreibt. Ein Wert, der als unzuverlässig erkannt
+ist, wird an **jeder** Stelle entwertet, die ihn liest; `grep` nach dem Feldnamen
+findet sie alle.
+
 ### Eine Auflösefunktion ist kein Test — sie sagt nie nein
 
 Am 10.09.2026 stand über „Heroes", Staffel 3, Folge 17 der Kasten „Folge 17:

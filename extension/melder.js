@@ -817,12 +817,18 @@ window.addEventListener('message', (e) => {
     */
     if (DURCHLAUF.laeuft) return
     const hier = String(gemeinteReihe() ?? '')
-    DURCHLAUF.folgen =
+    const neu =
       e.data.fuerReihe && hier && String(e.data.fuerReihe) !== hier
         ? []
         : Array.isArray(e.data.folgen)
           ? staffelnBereinigen(e.data.folgen)
           : []
+    /* Welche Staffel eben dazukam — sie ist die angeklickte, solange die Seite nichts anderes zeigt. */
+    const bekannt = new Set((DURCHLAUF.alleFolgen ?? []).map((f) => f.videoId))
+    const dazu = neu.find((f) => !bekannt.has(f.videoId))
+    if (dazu) DURCHLAUF.zuletztGeladen = dazu.seasonId ?? null
+    DURCHLAUF.alleFolgen = neu
+    angezeigteFolgenSetzen()
     void durchlaufStandLaden(gemeinteReihe()).then(durchlaufKnopfZeigen)
     durchlaufKnopfZeigen()
     return
@@ -2216,8 +2222,12 @@ async function standHolen() {
  * versehentlichen Seitenaufruf.
  */
 const DURCHLAUF = {
-  /** Was der Leser aus den Folgenlisten gesammelt hat. */
+  /** Die Folgen der **angezeigten** Staffel — damit arbeiten Knopf und Durchlauf. */
   folgen: [],
+  /** Alles, was der Leser gesammelt hat, über alle angeklickten Staffeln. */
+  alleFolgen: [],
+  /** Die Kennung der Staffel, die zuletzt dazukam — Rückfall für `angezeigteFolgenSetzen()`. */
+  zuletztGeladen: null,
   /**
    * **Welche Folgen gemeldet sind — nach Kennung, nicht nach Kürzel.**
    *
@@ -2735,16 +2745,103 @@ function folgenJeStaffel(folgen) {
  *    Haikyu!! passen S1 und S2 (je 26) — mehrdeutig, und `zustandDerFolge()`
  *    nimmt dann den strengeren Zustand.
  */
+/**
+ * **Die angezeigte Staffel — Knopf und Durchlauf arbeiten nur mit ihr.**
+ *
+ * Daniel am 11.09.2026 mit Video und Bericht, an Haikyu!!: „Bei staffelwechsel
+ * wechselt extension button anzeige nicht, staffel 3 hat nur 11 episoden, da
+ * steht weiterhin e1-26 erledigt."
+ *
+ * Der Leser sammelt jede Staffel, die angeklickt wird, und schickt die Summe:
+ * im Bericht 63 Folgen aus drei Staffeln. Der Knopf rechnete über alle drei,
+ * also stand dort „E1-26" — die Nummern aller geladenen Staffeln zusammen,
+ * gleich welche gerade zu sehen war.
+ *
+ * Welche Staffel zu sehen ist, sagt Netflix nirgends in den Daten. Auf der
+ * Seite stehen aber ihre Folgentitel („Ende und Anfang", „Die Begrüßung"), und
+ * die kennt der Leser je Folge. Die Gruppe mit den meisten Titeln auf der Seite
+ * ist die angezeigte. Findet sich keiner, gilt die zuletzt geladene Staffel —
+ * wer eine neue anklickt, lädt sie.
+ *
+ * **Während eines Durchlaufs wird nicht gewechselt:** Netflix wählt nach der
+ * Rückkehr aus dem Player selbst eine Staffel (06.09.2026, SAO), und der Auftrag
+ * gilt bis zum Ende für die Staffel, mit der er begann.
+ */
+function angezeigteFolgenSetzen() {
+  const alle = DURCHLAUF.alleFolgen ?? []
+  /* Ein Film baut seine Liste selbst (durchlaufFilmAuftrag) — ohne Leserliste bleibt sie, wie sie ist. */
+  if (DURCHLAUF.laeuft || !alle.length) return false
+  const gruppen = folgenJeStaffel(alle)
+  let wahl = alle
+  if (gruppen.size > 1) {
+    const text = document.body?.textContent ?? ''
+    let beste = 0
+    wahl = null
+    for (const gruppe of gruppen.values()) {
+      const treffer = gruppe.filter((f) => typeof f.titel === 'string' && f.titel.length > 3 && text.includes(f.titel))
+        .length
+      if (treffer > beste) {
+        beste = treffer
+        wahl = gruppe
+      }
+    }
+    if (!wahl) wahl = gruppen.get(String(DURCHLAUF.zuletztGeladen ?? '')) ?? [...gruppen.values()].pop()
+  }
+  const vorher = DURCHLAUF.folgen
+  const gleich = vorher.length === wahl.length && vorher.every((f, i) => f.videoId === wahl[i]?.videoId)
+  if (!gleich) DURCHLAUF.folgen = wahl
+  return !gleich
+}
+
+/**
+ * **Die Staffel einer Folge für die Meldung — aus ihrer Zuordnung, nicht aus der
+ * Ladereihenfolge.**
+ *
+ * Bis 4.19.4 galt: „Die Staffel der Folge schlägt die des Players." Die Staffel
+ * der Folge vergibt `leser.js` aber in der Reihenfolge, in der Staffeln
+ * angeklickt werden. Bei Haikyu!! kam Netflix' Staffel 3 als zweite — und die
+ * Meldung zu „Haikyu! Season 3 OVA" ging als **S2 E11** raus (11.09.2026,
+ * Briefkasten-Id 4396). Der Player hatte beim ersten Öffnen noch keine Staffel
+ * genannt.
+ *
+ * Jetzt, in dieser Reihenfolge: die Zuordnung der ganzen geladenen Staffel
+ * (`staffelnDerGruppe()`: Kennungen aus dem Player, dann Folgenzahl), dann der
+ * Player — aber nur, wenn er genau diese Folge zeigt. Sonst keine Staffel: Eine
+ * geratene ist schlechter als keine, die Pipeline ordnet dann über Nummer und
+ * Titel zu.
+ */
+function staffelFuerFolge(reihe, f) {
+  if (!f) return null
+  const kennung = String(f.seasonId ?? '')
+  const gruppe = (DURCHLAUF.alleFolgen ?? DURCHLAUF.folgen).filter((x) => String(x.seasonId ?? '') === kennung)
+  const kandidaten = staffelnDerGruppe(reihe, gruppe.length ? gruppe : [f])
+  if (kandidaten.length === 1) return kandidaten[0]
+  if (String(stand.folge ?? '') === String(f.videoId) && Number.isFinite(Number(stand.staffel))) {
+    const zeigt = Number(stand.staffel)
+    if (!kandidaten.length || kandidaten.includes(zeigt)) return zeigt
+  }
+  return null
+}
+
 function staffelnDerGruppe(reihe, gruppe) {
   for (const st of anbieterStaffeln[String(reihe)] ?? []) {
     if (!Array.isArray(st?.ids) || !st.ids.length) continue
     const ids = new Set(st.ids.map(Number))
     if (gruppe.some((f) => ids.has(Number(f.videoId)))) return [Number(st.seq)]
   }
+  /*
+    **Eine Meldung verrät die Staffel — wenn ihre Folgenzahl passt.** Am
+    11.09.2026 lag „S2 E11" für Netflix' Staffel 3 im Briefkasten, aus der
+    Ladereihenfolge. Ohne diesen Riegel hätte die falsche Meldung die Gruppe auf
+    Dauer zu Staffel 2 gemacht, und jede weitere Meldung daraus ebenso.
+  */
   const m = MELDUNGEN.get(String(reihe))
+  const aufteilung = anbieterAufteilung(reihe)
   for (const f of gruppe) {
     const bekannt = m?.jeFolge.get(String(f.videoId))?.staffel
-    if (Number.isFinite(bekannt)) return [bekannt]
+    if (!Number.isFinite(bekannt)) continue
+    const st = aufteilung.find((x) => x.nr === bekannt)
+    if (!st || st.folgen === gruppe.length) return [bekannt]
   }
   const nummern = gruppe.map((f) => Number(f.nummer)).filter(Number.isFinite)
   if (nummern.length) {
@@ -3347,9 +3444,8 @@ async function randMelden(folgen, befund, bisNummer) {
       Player sie gemeldet hat, nicht die des Anbieters (31.08.2026). Seit 4.9.0
       traegt jede Folge ihre eigene Staffel; die schlaegt beide Rueckfaelle.
     */
-    const staffelRoh = Number.isFinite(f.staffel)
-      ? f.staffel
-      : (befund.staffel ?? DURCHLAUF.staffel ?? null)
+    /* Aus der Zuordnung der Folge, nicht aus der Ladereihenfolge — siehe staffelFuerFolge(). */
+    const staffelRoh = staffelFuerFolge(reihe, f)
     /* Eine Nummer, die in diese Staffel nicht passt, geht nicht als solche raus. */
     const staffelDerFolge = staffelGeprueft(reihe, f.nummer, staffelRoh)
     try {
@@ -3441,11 +3537,12 @@ async function durchlaufMelden(folge, echte, deutsch) {
     Note (drei Staffeln) blieb Folge 31 deshalb schwarz, obwohl die Meldung
     angekommen war (Daniel, 31.08.2026).
   */
-  const staffelRoh = Number.isFinite(folge?.staffel)
-    ? folge.staffel
-    : Number.isFinite(stand.staffel)
-      ? stand.staffel
-      : (DURCHLAUF.staffel ?? null)
+  /*
+    **Nicht mehr „die Staffel der Folge schlägt die des Players".** Die Staffel
+    der Folge war die Ladereihenfolge; Haikyu!! Staffel 3 ging deshalb als S2
+    raus (11.09.2026). Siehe staffelFuerFolge().
+  */
+  const staffelRoh = staffelFuerFolge(gemeinteReihe(), folge)
   /* Eine Nummer, die in diese Staffel nicht passt, geht nicht als solche raus. */
   const staffelDerFolge = staffelGeprueft(gemeinteReihe(), folge?.nummer, staffelRoh)
   try {
@@ -4958,6 +5055,20 @@ setInterval(() => {
     uebersichtZeigen()
   } catch {
     /* Dieselbe Lage wie oben: Vor dem Speicher gibt es nichts zu zählen. */
+  }
+  /*
+    **Wechselt die angezeigte Staffel, zeichnet der Knopf sie neu** (Daniel,
+    11.09.2026: „Bei staffelwechsel wechselt extension button anzeige nicht").
+    Netflix lädt eine schon einmal angeklickte Staffel nicht neu — ohne diesen
+    Takt käme dann keine Nachricht, und der Knopf bliebe bei der vorigen.
+  */
+  try {
+    if (!imPlayer() && angezeigteFolgenSetzen()) {
+      void durchlaufStandLaden(gemeinteReihe()).then(durchlaufKnopfZeigen)
+      durchlaufKnopfZeigen()
+    }
+  } catch {
+    /* Ohne Folgenliste gibt es nichts zu wechseln. */
   }
   /* Und über allem: ob der Kasten auf dieser Seite überhaupt etwas zu suchen hat. */
   try {

@@ -257,6 +257,87 @@ pruefe(
 )
 pruefe('kein zweites E hinter dem Komma', !/join\(", E"\)/.test(quelle))
 
+/* ── Mehrere geladene Staffeln (Daniel, 11.09.2026, Haikyu!!-Bericht) ── */
+
+/*
+  Der Leser hatte drei Staffeln gesammelt, in der Reihenfolge des Anklickens:
+  S1 (26), dann Netflix' S3 (11, vom Leser als „2" nummeriert), dann S2 (26,
+  als „3"). Die Meldung zu „Haikyu! Season 3 OVA" ging als S2 E11 raus.
+*/
+const drei = [
+  ...Array.from({ length: 26 }, (_, i) => ({ nummer: i + 1, staffel: 1, seasonId: 's1', videoId: vid(1, i + 1), titel: `Eins ${i + 1}` })),
+  ...Array.from({ length: 11 }, (_, i) => ({ nummer: i + 1, staffel: 2, seasonId: 's3', videoId: vid(3, i + 1), titel: `Drei ${i + 1}` })),
+  ...Array.from({ length: 26 }, (_, i) => ({ nummer: i + 1, staffel: 3, seasonId: 's2', videoId: vid(2, i + 1), titel: `Zwei ${i + 1}` })),
+]
+function mehrere(ausdruck, { seite = '', meldungen = [], stand = { staffel: null, folge: null } } = {}) {
+  const kontext = {
+    anbieterStaffeln: { '80090673': NETFLIX },
+    offeneTitel: { '80090673': HAIKYU },
+    stand,
+    DURCHLAUF: { folgen: [], alleFolgen: drei, zuletztGeladen: 's2', gemeldet: new Set(), laeuft: false },
+    document: { body: { textContent: seite } },
+    gemeinteReihe: () => '80090673',
+    imPlayer: () => false,
+    meldungen,
+    Number,
+    Set,
+    Map,
+    Math,
+    Boolean,
+    String,
+    Array,
+    ergebnis: null,
+  }
+  vm.createContext(kontext)
+  vm.runInContext(
+    CODE +
+      '\n' +
+      schneide('angezeigteFolgenSetzen') +
+      '\n' +
+      schneide('staffelFuerFolge') +
+      "\nmeldungenMerken('80090673', meldungen)\nergebnis = " +
+      ausdruck,
+    kontext,
+  )
+  return kontext.ergebnis
+}
+const DREI_11 = 'DURCHLAUF.alleFolgen.find((f) => f.seasonId === "s3" && f.nummer === 11)'
+pruefe(
+  'die Folge aus Netflix’ Staffel 3 geht als S3 raus, nicht in Ladereihenfolge als S2',
+  mehrere(`staffelFuerFolge('80090673', ${DREI_11})`) === 3,
+  mehrere(`staffelFuerFolge('80090673', ${DREI_11})`),
+)
+pruefe(
+  'eine falsch nummerierte Meldung vergiftet die Zuordnung nicht',
+  mehrere(`staffelFuerFolge('80090673', ${DREI_11})`, {
+    meldungen: [{ nummer: 11, staffel: 2, staffelBekannt: true, folge: String(vid(3, 11)), am: AM }],
+  }) === 3,
+)
+pruefe(
+  'bei zwei gleich langen Staffeln entscheidet der Player, wenn er genau diese Folge zeigt',
+  mehrere(`staffelFuerFolge('80090673', DURCHLAUF.alleFolgen[25])`, { stand: { staffel: 1, folge: String(vid(1, 26)) } }) === 1,
+)
+pruefe(
+  'ohne Player und bei Mehrdeutigkeit keine geratene Staffel',
+  mehrere(`staffelFuerFolge('80090673', DURCHLAUF.alleFolgen[25])`) === null,
+)
+pruefe(
+  'angezeigt ist die Staffel, deren Titel auf der Seite stehen',
+  mehrere('(angezeigteFolgenSetzen(), DURCHLAUF.folgen.length + ":" + DURCHLAUF.folgen[0].seasonId)', {
+    seite: 'Folgen … Drei 1 … Drei 2 … Drei 3 … Eins 1',
+  }) === '11:s3',
+)
+pruefe(
+  'ohne Titel auf der Seite gilt die zuletzt geladene',
+  mehrere('(angezeigteFolgenSetzen(), DURCHLAUF.folgen[0].seasonId)') === 's2',
+)
+pruefe(
+  'der Knopf rechnet nur mit der angezeigten Staffel — S3 will E11',
+  JSON.stringify(
+    mehrere('(angezeigteFolgenSetzen(), durchlaufAuftrag().map((f) => f.nummer))', { seite: 'Drei 1 Drei 2 Drei 3' }),
+  ) === '[11]',
+)
+
 console.log('')
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) gerissen.`)

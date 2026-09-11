@@ -279,9 +279,14 @@ pruefe('ohne Vermerke ist nichts erledigt',
 for (const name of ['durchlaufMelden', 'randMelden']) {
   const von = quelle.indexOf('async function ' + name)
   const block = quelle.slice(von, quelle.indexOf('\n}\n', von))
+  /*
+    Seit dem 11.09.2026 nicht mehr `f.staffel` — das war die Ladereihenfolge des
+    Lesers, und Haikyu!! Staffel 3 ging damit als S2 raus. Jede Folge bekommt
+    ihre Staffel weiterhin einzeln, aber aus ihrer Zuordnung.
+  */
   pruefe(
-    `${name} liest die Staffel an der Folge`,
-    /Number\.isFinite\((f|folge)\??\.staffel\)/.test(block),
+    `${name} bestimmt die Staffel je Folge`,
+    /staffelFuerFolge\(.*\b(f|folge)\)/.test(block) && !/Number\.isFinite\((f|folge)\??\.staffel\)/.test(block),
   )
   pruefe(
     `${name} hakt nicht mit einer erratenen Staffel ab`,
