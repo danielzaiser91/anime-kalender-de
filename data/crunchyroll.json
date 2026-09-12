@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-12T09:45:12.256Z",
+  "scrapedAt": "2026-09-12T15:21:30.977Z",
   "window": {
     "from": "2026-08-31",
     "to": "2026-09-20"
@@ -494,7 +494,8 @@
         "2026-08-15",
         "2026-08-22",
         "2026-08-29",
-        "2026-09-05"
+        "2026-09-05",
+        "2026-09-12"
       ],
       "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
       "seriesId": "G6NVG970Y",
@@ -555,6 +556,10 @@
         {
           "date": "2026-09-05",
           "episode": 21
+        },
+        {
+          "date": "2026-09-12",
+          "episode": 22
         }
       ],
       "earliest": {
@@ -749,7 +754,8 @@
         "2026-08-15",
         "2026-08-22",
         "2026-08-29",
-        "2026-09-05"
+        "2026-09-05",
+        "2026-09-12"
       ],
       "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
       "seriesId": "GT00377907",
@@ -794,6 +800,10 @@
         {
           "date": "2026-09-05",
           "episode": 10
+        },
+        {
+          "date": "2026-09-12",
+          "episode": 11
         }
       ],
       "earliest": {
@@ -1521,7 +1531,8 @@
       "time": "13:00",
       "weekday": 5,
       "dates": [
-        "2026-09-05"
+        "2026-09-05",
+        "2026-09-12"
       ],
       "rawTitle": "Kaiju No. 8 Narumi's Week at Work (Deutsch)",
       "seriesId": "GG5H5XQ7D",
@@ -1530,13 +1541,17 @@
         {
           "date": "2026-09-05",
           "episode": 1
+        },
+        {
+          "date": "2026-09-12",
+          "episode": 2
         }
       ],
       "earliest": {
         "date": "2026-09-05",
         "episode": 1
       },
-      "weeklyConfirmed": false
+      "weeklyConfirmed": true
     }
   },
   "slots": [
@@ -1788,6 +1803,36 @@
       "date": "2026-09-12",
       "time": "11:30",
       "episode": 19,
+      "german": true
+    },
+    {
+      "key": "kaiju no 8 narumi s week at work",
+      "rawTitle": "Kaiju No. 8 Narumi's Week at Work (Deutsch)",
+      "seriesId": "GG5H5XQ7D",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GG5H5XQ7D/kaiju-no-8",
+      "date": "2026-09-12",
+      "time": "13:00",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-09-12",
+      "time": "14:00",
+      "episode": 22,
+      "german": true
+    },
+    {
+      "key": "black torch s1",
+      "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
+      "seriesId": "GT00377907",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "date": "2026-09-12",
+      "time": "15:00",
+      "episode": 11,
       "german": true
     }
   ]
