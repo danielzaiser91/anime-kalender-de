@@ -309,6 +309,30 @@ for (const [id, eintraege] of jeAdresse) {
         }
         /* Nur eine **exakt** gefüllte Staffel ist ein Beleg. */
         if (summe !== soll || !drin.length) return null
+        /*
+          **Nebenausgaben hängt der Anbieter ans Ende, nicht an ihre
+          chronologische Stelle.**
+
+          Belegt an Haikyu!!, zweimal (Daniel, 12.09.2026, mit Bild aus dem
+          Player): Netflix' Staffel 4 hat 27 Folgen — 1 bis 13 „TO THE TOP",
+          14 bis 25 „Part 2", und **26 und 27** die OVA „An Land vs. In der
+          Luft / Der ‚Weg' des Balls". Die Rechnung setzte sie auf 14 und 15,
+          weil sie 2020 zwischen den beiden Cours erschien; auf Position 14
+          steht dort aber „Rhythmus". Dieselbe Bauform in Staffel 1: „Lev ist
+          hier!" ist Folge 26 hinter 25 regulären.
+
+          Die Summe ändert sich dadurch nicht, nur die Reihenfolge **innerhalb**
+          einer Anbieterstaffel — die Zuordnung bleibt also belegt, und nur die
+          Folgennummern rücken an die richtige Stelle. Sortiert wird stabil,
+          damit mehrere Nebenausgaben untereinander chronologisch bleiben.
+        */
+        const beiwerk = (paar) => (['OVA', 'SPECIAL', 'MOVIE'].includes(paar.e.t.format ?? '') ? 1 : 0)
+        drin.sort((a, b) => beiwerk(a) - beiwerk(b))
+        let laufend = 1
+        for (const eintrag of drin) {
+          eintrag.erste = laufend
+          laufend += eintrag.e.t.episodes ?? 0
+        }
         raus.set(st.seq, drin)
       }
       /* Bleibt einer unserer Titel übrig, deckt die Rechnung ihn nicht ab. */
