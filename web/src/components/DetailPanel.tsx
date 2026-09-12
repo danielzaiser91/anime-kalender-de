@@ -304,12 +304,33 @@ function AntwortKasten({
     const kopf = e.episode
       ? T(`antwort.${wasKommt}FolgeNr`, { n: e.episode })
       : T(`antwort.${wasKommt}Folge`)
+    /*
+      **Die Uhrzeit gehört dazu, wo wir eine führen** (Daniel, 12.09.2026:
+      „heute ist der 12.09. es ist noch nicht erschienen, und wir führen die
+      voraussichtliche Uhrzeit, also sollten wir die Uhrzeit hier in der blauen
+      Box auch anzeigen").
+
+      An einem Tag, an dem die Folge noch kommt, ist „erscheint heute" die
+      halbe Auskunft — die andere Hälfte ist, ob man in zwei Minuten oder in
+      sechs Stunden nachsehen soll. Sie steht im Datensatz (`schedule.time`,
+      aus Crunchyrolls Kalender gemessen), und der Kasten hat sie bisher
+      weggelassen.
+
+      **„Voraussichtlich", weil es eine Fortschreibung ist.** Der Rhythmus ist
+      gemessen, dieser einzelne Termin ist daraus gerechnet — ein Anbieter kann
+      ihn verschieben, und genau das kommt vor (`schedule.verpasst`). Fehlt die
+      Uhrzeit, steht dort nichts: eine erfundene wäre schlimmer als keine
+      (CLAUDE.md, „Keine erfundenen Uhrzeiten").
+    */
     const termin = rel
       ? T('antwort.erscheintRelativ', { rel, tag: weekdayName(e.date), datum: formatDate(e.date) })
       : T('antwort.erscheintDatum', { tag: weekdayName(e.date), datum: formatDate(e.date) })
+    const mitZeit = e.time
+      ? T('antwort.erscheintUmZeit', { termin: termin.replace(/\.$/, ''), zeit: e.time })
+      : termin
     haupt = (
       <>
-        {betont(kopf)} <span className="font-normal text-slate-700 dark:text-slate-300">{termin}</span>
+        {betont(kopf)} <span className="font-normal text-slate-700 dark:text-slate-300">{mitZeit}</span>
       </>
     )
     neben = [
