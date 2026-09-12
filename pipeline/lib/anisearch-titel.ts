@@ -41,11 +41,25 @@ export type Titelherkunft = 'sprachblock' | 'synonym' | 'ueberschrift'
  *    Sie bleibt, weil im Katalog sonst gar nichts stünde — aber sie wird als
  *    `ueberschrift` vermerkt, und `build.ts` macht daraus kein `titleDe`.
  */
-export function titelAus(html: string): { titel: string; quelle: Titelherkunft } | null {
+export function titelAus(
+  html: string,
+): { titel: string; quelle: Titelherkunft; englisch?: string } | null {
   const info = extractInfo(html)
 
+  /**
+   * **Der englische Name, wo AniList keinen führt.**
+   *
+   * 8.683 Katalogtitel haben bei AniList kein `title.english`, 5.690 davon zu
+   * chinesischen Originalen — 656 davon stehen in der Reihe eines Titels, den
+   * jemand öffnen kann. Dort stand dann „Guimi Zhi Zhu: Wu Mian Ren Pian"
+   * (Daniel, 12.09.2026: „why 2 of these titles have chinese titles, instead of
+   * english/german"). aniSearch führt den englischen Namen im selben
+   * Sprachblock, aus dem der deutsche kommt.
+   */
+  const englisch = info?.languages?.find((l) => l.language === 'Englisch')?.title?.trim() || undefined
+
   const block = info?.languages?.find((l) => l.language === 'Deutsch')?.title?.trim()
-  if (block) return { titel: block, quelle: 'sprachblock' }
+  if (block) return { titel: block, quelle: 'sprachblock', englisch }
 
   /*
     Nur als eigenes Wort: „Staffel" darf nicht in „Staffelei" oder in einem
@@ -53,11 +67,11 @@ export function titelAus(html: string): { titel: string; quelle: Titelherkunft }
     Synonym ohne sie unterscheidet die Staffeln nicht, um die es hier geht.
   */
   const synonym = info?.synonyms?.find((t) => /\bStaffel\b/.test(t) && /\d/.test(t))?.trim()
-  if (synonym) return { titel: synonym, quelle: 'synonym' }
+  if (synonym) return { titel: synonym, quelle: 'synonym', englisch }
 
   const m = /<h1[^>]*id="htitle"[^>]*>([^<]+)</.exec(html)
   const ueberschrift = m?.[1].replace(/\s+/g, ' ').trim()
-  return ueberschrift ? { titel: ueberschrift, quelle: 'ueberschrift' } : null
+  return ueberschrift ? { titel: ueberschrift, quelle: 'ueberschrift', englisch } : null
 }
 
 

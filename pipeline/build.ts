@@ -420,7 +420,7 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
     Herkunft.
   */
   const ausAnisearch = readJson<
-    Record<string, { titel?: string; quelle?: string; anisearchId?: number }>
+    Record<string, { titel?: string; quelle?: string; anisearchId?: number; englisch?: string }>
   >('data/anisearch-titel.json', {})
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id))
@@ -444,7 +444,8 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
       return {
         id: e.id,
         titleRomaji: romaji ?? undefined,
-        titleEn: englisch ?? undefined,
+        /* AniList führt bei chinesischen Produktionen oft keinen englischen Namen — aniSearch schon. */
+        titleEn: englisch ?? eintrag?.englisch ?? undefined,
         /* Nur, wenn er wirklich etwas Neues sagt — sonst steht dieselbe Zeichenkette zweimal. */
         titleDe: deutsch && deutsch !== englisch && deutsch !== romaji ? deutsch : undefined,
         /*

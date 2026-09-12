@@ -57,6 +57,8 @@ interface Titeleintrag {
    * und ist von unbekannter Herkunft.
    */
   quelle?: Titelherkunft
+  /** Der englische Name laut aniSearch — nur gesetzt, wo die Seite einen führt. */
+  englisch?: string
   anisearchId: number
   fetchedAt: string
 }
@@ -202,6 +204,7 @@ for (const t of warteschlange.slice(0, GRENZE)) {
       bestand[String(t.id)] = {
         titel: fund.titel,
         quelle: fund.quelle,
+        englisch: fund.englisch,
         anisearchId: asId,
         fetchedAt: new Date().toISOString(),
       }
