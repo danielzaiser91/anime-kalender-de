@@ -17,6 +17,7 @@ export type ViewId =
   | 'datenbank'
   | 'favoriten'
   | 'wo'
+  | 'news'
   | 'abo'
   | 'newsletter'
   | 'quellen'
@@ -30,6 +31,13 @@ export const VIEWS: { id: ViewId; label: string; inNav: boolean }[] = [
   { id: 'datenbank', label: 'Datenbank', inNav: true },
   { id: 'favoriten', label: 'Favoriten', inNav: true },
   { id: 'wo', label: 'Wo sehen?', inNav: true },
+  /*
+    **News gehört in die Leiste, nicht in den Fuß** (Daniel, 12.09.2026: „a news
+    section for the website, where all our news regarding dubs … are published
+    in a bite-sized format"). Wer wissen will, was sich getan hat, soll nicht
+    erst scrollen.
+  */
+  { id: 'news', label: 'News', inNav: true },
   { id: 'abo', label: 'Kalender-Abo', inNav: false },
   { id: 'newsletter', label: 'Newsletter', inNav: false },
   { id: 'quellen', label: 'Quellen', inNav: false },

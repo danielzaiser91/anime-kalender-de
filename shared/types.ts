@@ -673,3 +673,43 @@ export const FSK_COLORS: Record<Fsk, string> = {
   16: '#0075bf',
   18: '#e30613',
 }
+
+/**
+ * **Was für eine Meldung das ist.**
+ *
+ * `neu`          — der Titel hat erstmals eine belegte deutsche Synchro.
+ * `folgen`       — neue deutsche Folgen einer laufenden Serie, je Tag gebündelt.
+ * `angekuendigt` — ein deutscher Starttermin ist zum ersten Mal bekannt.
+ * `disc`, `kino` — dasselbe für Disc-Veröffentlichung und Kinostart.
+ * `verspaetet`   — ein angekündigter Termin verstrich, ohne dass etwas erschien.
+ */
+export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet'
+
+/**
+ * Eine Meldung für die Nachrichtenseite.
+ *
+ * Der Text entsteht **nicht** hier: Der Bau liefert die Angaben, die Oberfläche
+ * formuliert daraus einen Satz. Sonst stünde die deutsche Fassung fest in einer
+ * Datei, und die Seite kann zwei Sprachen.
+ */
+export interface NewsEintrag {
+  /** Tag, an dem die Meldung zum ersten Mal wahr war — sie wandert danach nicht mehr. */
+  am: string
+  art: NewsArt
+  titelId: number
+  titel: string
+  slug: string
+  cover?: string
+  platform?: PlatformId
+  anbieter?: string
+  /** Der Termin, um den es geht (angekündigt, Disc, Kino, verpasst). */
+  datum?: string
+  /** Erste betroffene Folge — bei `folgen` der Anfang des Bereichs. */
+  von?: number
+  /** Letzte betroffene Folge. */
+  bis?: number
+  anzahl?: number
+  /** Bei `verspaetet`: wann die Folge dann doch kam. */
+  nachgereichtAm?: string
+  release?: string
+}

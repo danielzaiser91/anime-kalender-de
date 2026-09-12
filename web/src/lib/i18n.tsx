@@ -33,6 +33,27 @@ const TEXTE = {
   // Kurzform für schmale Schirme: Mit dem fünften Reiter passte die Leiste bei
   // 375 px nicht mehr in eine Zeile und schob die Seite waagrecht auf.
   'view.wo.short': 'Wo?',
+  'view.news': 'News',
+  'news.titel': 'Was sich getan hat',
+  'news.leer': 'Noch keine Meldungen.',
+  'news.heute': 'Heute',
+  'news.gestern': 'Gestern',
+  // Eine Zeile je Meldung, so kurz wie möglich — die Karte nennt den Titel schon.
+  'news.art.neu': 'Neu auf Deutsch',
+  'news.art.folgen': 'Neue Folgen',
+  'news.art.angekuendigt': 'Angekündigt',
+  'news.art.disc': 'Auf Disc',
+  'news.art.kino': 'Im Kino',
+  'news.art.verspaetet': 'Nicht erschienen',
+  'news.neu': 'Erstmals mit deutscher Synchro bei {anbieter}',
+  'news.neuOhne': 'Erstmals mit deutscher Synchro',
+  'news.folge': 'Folge {von} auf Deutsch bei {anbieter}',
+  'news.folgen': 'Folgen {von}–{bis} auf Deutsch bei {anbieter}',
+  'news.angekuendigt': 'Start am {datum} bei {anbieter}',
+  'news.disc': 'Erscheint am {datum} auf Disc',
+  'news.kino': 'Kinostart am {datum}',
+  'news.verspaetet': 'Folge {von} war für den {datum} angekündigt und ist nicht erschienen',
+  'news.nachgereicht': 'Folge {von} kam mit Verspätung am {datum}',
   'view.abo': 'Kalender-Abo',
   'view.newsletter': 'Newsletter',
   // Steht im Hovertext des Newsletter-Knopfes, sobald ein Abo hinterlegt ist.

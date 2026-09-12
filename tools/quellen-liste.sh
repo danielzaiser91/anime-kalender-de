@@ -128,6 +128,10 @@ QUELLEN=(
   # von gestern stammt — und genau das Datum ist die Angabe, die sonst nirgends
   # steht (Crunchyroll nennt nur den Termin der Originalfassung).
   data/crunchyroll-neu.json
+  # Wann eine Meldung der Nachrichtenseite zum ersten Mal wahr war. Ohne diese
+  # Datei rutschte bei jedem Bau jede Meldung auf heute — die Seite behauptete
+  # dann täglich, alles sei neu.
+  data/news-historie.json
   # Die Sprachurteile für Verweise, die keine bekamen — aufgelöst über die
   # Kennung in der Adresse oder über die Staffelliste im deutschen Katalog.
   # Jeder Befund kostet ein bis drei Abrufe gegen die Content-API und gilt

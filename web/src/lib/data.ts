@@ -1,6 +1,6 @@
 import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { SYNOPSIS_GROUPS } from '@shared/types.ts'
-import type { DataMeta, Franchises, Meldung, Release, ReleaseEvent, Title } from '@shared/types.ts'
+import type { DataMeta, Franchises, Meldung, NewsEintrag, Release, ReleaseEvent, Title } from '@shared/types.ts'
 
 export interface Dataset {
   titles: Title[]
@@ -163,6 +163,24 @@ export function loadFranchises(): Promise<Franchises> {
     })
     .catch(() => ({}) as Franchises)
   return franchisesPromise
+}
+
+let newsPromise: Promise<NewsEintrag[]> | undefined
+
+/**
+ * Die Meldungen der Nachrichtenseite — eigene Datei, geholt beim Öffnen.
+ *
+ * Sie gehört nicht in den Startdatensatz: Wer den Kalender aufschlägt, will
+ * Termine sehen, nicht die Chronik. 275 Meldungen sind rund 60 KB.
+ */
+export function loadNews(): Promise<NewsEintrag[]> {
+  newsPromise ??= loadJson<NewsEintrag[]>('news.json')
+    .then((liste) => {
+      for (const m of liste) if (m.cover && !m.cover.startsWith('http')) m.cover = ANILIST_COVER_BASIS + m.cover
+      return liste
+    })
+    .catch(() => [])
+  return newsPromise
 }
 
 let meldungenPromise: Promise<Map<number, Meldung[]>> | undefined

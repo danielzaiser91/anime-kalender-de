@@ -10,6 +10,7 @@ import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header, Legend } from './components/Header.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
+import { NewsView } from './components/NewsView.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
 import { FilterBar } from './components/FilterBar.tsx'
 import { WeekView } from './components/WeekView.tsx'
@@ -294,6 +295,7 @@ export default function App() {
             <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
           ))}
 
+        {route.view === 'news' && <NewsView oeffne={(id: number) => navigate({ title: id })} />}
         {route.view === 'abo' && <SubscribeView meta={data.meta} />}
         {route.view === 'newsletter' && <NewsletterView meta={data.meta} data={data} />}
         {route.view === 'quellen' && <SourcesView meta={data.meta} />}

@@ -64,6 +64,7 @@ import {
   unterscheidenderZusatz,
 } from '../shared/titles.ts'
 import { addDays, todayIso } from '../shared/time.ts'
+import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { buildIcs } from '../shared/ics.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -6728,6 +6729,35 @@ function main(): void {
 
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
+
+  /*
+    **Die Nachrichten — aus dem, was ohnehin dasteht.** Kein neuer Abruf: neue
+    Synchros, neue Folgen, Termine und verpasste Termine stehen bereits im
+    Datensatz. Das Gedächtnis daneben hält fest, wann eine Meldung zum ersten
+    Mal wahr war; ohne das rutschte bei jedem Bau alles auf heute.
+  */
+  {
+    const newsHistorie = readJson<NewsHistorie>('data/news-historie.json', { zuerst: {} })
+    const meldungen = baueNews(
+      [...titles.values()],
+      releases,
+      readJson<{ id: number; seit: string }[]>(`${OUT}/neu-mit-synchro.json`, []),
+      readJson<{ folgen?: { serieId: string; serie: string; nummer?: number; gesehenAm: string }[] }>(
+        'data/crunchyroll-neu.json',
+        {},
+      ).folgen ?? [],
+      newsHistorie,
+    )
+    writeJson(`${OUT}/news.json`, meldungen)
+    writeJson('data/news-historie.json', newsHistorie)
+    const jeArt = new Map<string, number>()
+    for (const m of meldungen) jeArt.set(m.art, (jeArt.get(m.art) ?? 0) + 1)
+    log(
+      `${meldungen.length} Meldungen für die Nachrichtenseite (` +
+        [...jeArt].map(([a, n]) => `${a} ${n}`).join(', ') +
+        ')',
+    )
+  }
   writeJson(`${OUT}/meta.json`, meta, true)
 
   // --- ICS-Abo-Feeds --------------------------------------------------------
