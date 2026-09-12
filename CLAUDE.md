@@ -3960,6 +3960,19 @@ Sandkasten-Prüfung lädt ihre Datei selbst, und keine wusste von der neuen:
 | ein `querySelector`, der wirklich sucht | die Zeilen blieben leer, die Knöpfe unerreichbar |
 | `WeakMap` im Kontext | `box.js` warf beim Laden, und dann fehlte alles daraus |
 
+**Disney+ zog als letzter nach — am 12.09.2026, zwei Tage später.** Die Datei
+stand dort seit dem ersten Tag im Manifest und wurde nie gerufen; die beiden
+Knöpfe schwebten weiter einzeln am Bildschirmrand, jeder mit seiner Lage im
+Inline-Stil. **Ein geladenes Modul, das niemand aufruft, sieht in jeder Prüfung
+aus wie ein benutztes** — dieselbe Klasse wie „Eine Datei zu schreiben ist nicht
+dasselbe wie sie zu benutzen", nur im Browser.
+
+Geprüft wird es wie die beiden anderen mit einem Bild (`npm run
+check:disney-kasten`), und das Werkzeug misst dabei drei Dinge, die ein Bild
+verschweigt: ob der Prüf-Knopf mit einem langen Befund über den Kasten
+hinausläuft, ob beide Knöpfe wirklich `position: static` tragen, und ob ein
+leerer Kasten verschwindet.
+
 **Die Lehre ist der erste Punkt, nicht die Liste.** `tools/extension-laden-pruefen.cjs`
 lädt jetzt die **Gruppe** aus dem Manifest statt der Einzeldatei — die Liste
 steht dort, wo Chrome sie liest, nicht in einer zweiten Aufzählung im Werkzeug.

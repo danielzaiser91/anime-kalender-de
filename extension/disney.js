@@ -332,12 +332,48 @@
       }, 15000)
     })
 
-  // --- Die beiden Knöpfe ----------------------------------------------------
+  // --- Der Kasten ----------------------------------------------------------
 
-  const KNOPF_STIL =
-    'position:fixed;right:16px;z-index:2147483000;border-radius:8px;' +
-    'border:1px solid #ffffff33;background:#111;color:#fff;text-align:left;' +
-    'font:12px/1.35 system-ui,sans-serif;max-width:340px;white-space:pre-line'
+  /**
+   * **Dasselbe Gerüst wie bei Netflix und Prime.**
+   *
+   * Daniel am 10.09.2026: „am besten selbe extension design auf allen seiten
+   * fürs reporten, aber jede seite hat eigenheiten, also eigene melde
+   * elemente." Netflix und Prime zogen am selben Tag um; Disney+ lud `box.js`
+   * laut Manifest, rief es aber nie — hier schwebten die beiden Knöpfe weiter
+   * einzeln am Bildschirmrand, jeder mit seiner eigenen Lage im Inline-Stil.
+   *
+   * **Der Schlüssel ist die Kennung der Seite, nicht die Adresse.** Disney+
+   * hängt an eine Titeladresse Parameter, die den Kasten nichts angehen; die
+   * Kennung ist genau das, was `pruefeAdresse()` ohnehin als Seitenwechsel
+   * ansieht. Fehlt sie (Fehlerseite, Startseite), trägt der Pfad.
+   */
+  function disneyKasten() {
+    return akBox('ak-disney-kasten', kennung(location.href) ?? location.pathname)
+  }
+
+  /**
+   * Die Debug-Zeile — Bericht und Ruhemodus, wie bei den anderen beiden.
+   *
+   * Der Diagnosebericht hing hier bisher allein an einem Ereignis am
+   * `document` und setzte damit eine offene Konsole voraus — genau die will
+   * Daniel nicht bedienen (10.09.2026).
+   */
+  function disneyDebugZeile(kasten) {
+    akDebugLeiste(kasten, [
+      {
+        an: '⏸',
+        aus: '▶',
+        text: 'Ruhemodus',
+        titel: 'Hintergrundvideo und Animationen anhalten (für Aufnahmen)',
+        aktiv: () => document.documentElement?.classList?.contains('ak-ruhig') ?? false,
+        schalten: () => document.dispatchEvent(new CustomEvent('ak-ruhig')),
+      },
+      akBerichtSchalter(() => document.dispatchEvent(new CustomEvent('ak-report'))),
+    ])
+  }
+
+  // --- Die beiden Knöpfe ----------------------------------------------------
 
   let pruefKnopf = null
   /*
@@ -364,20 +400,24 @@
   }
 
   function zeigePruefung(text, { klasse = null, klick = null, laeuft = false } = {}) {
-    if (!pruefKnopf) {
+    const kasten = disneyKasten()
+    if (!pruefKnopf?.isConnected) {
       pruefKnopf = document.createElement('button')
       pruefKnopf.type = 'button'
-      pruefKnopf.style.cssText = KNOPF_STIL + ';bottom:58px;padding:9px 15px;font-size:13px'
-      document.body.appendChild(pruefKnopf)
+      kasten.querySelector('.ak-z-melden')?.appendChild(pruefKnopf)
     }
+    disneyDebugZeile(kasten)
     if (laeuft) drehe(text)
     else {
       haltAn()
       pruefKnopf.textContent = text
     }
-    pruefKnopf.style.background =
-      klasse === 'gut' ? '#14532d' : klasse === 'schlecht' ? '#7f1d1d' : '#111'
-    pruefKnopf.style.cursor = klick ? 'pointer' : 'default'
+    /*
+      Die Farben kommen aus `melder.css`, nicht mehr aus dem Inline-Stil: Ein
+      grüner Melde-Knopf soll auf allen drei Seiten derselbe grüne sein.
+    */
+    pruefKnopf.className =
+      'ak-melder' + (klasse === 'gut' ? ' ak-erfolg' : klasse === 'schlecht' ? ' ak-fehler' : '')
     pruefKnopf.disabled = !klick
     pruefKnopf.onclick = klick
   }
@@ -602,14 +642,20 @@
 
   function zeigeUebersicht() {
     const offen = offeneEintraege()
-    if (!uebersichtKnopf) {
+    const kasten = disneyKasten()
+    if (!uebersichtKnopf?.isConnected) {
       uebersichtKnopf = document.createElement('button')
       uebersichtKnopf.type = 'button'
-      uebersichtKnopf.style.cssText =
-        KNOPF_STIL + ';bottom:16px;padding:7px 13px;cursor:pointer;opacity:.85'
+      /*
+        Zwei Klassen: `ak-uebersicht` trägt Form und Farbe, `ak-uebersicht-innen`
+        nimmt ihr die feste Lage am Bildschirmrand. Dieselbe Paarung wie bei
+        Netflix und Prime — im Kasten schwebt nichts mehr.
+      */
+      uebersichtKnopf.className = 'ak-uebersicht ak-uebersicht-innen'
       uebersichtKnopf.onclick = dialogOeffnen
-      document.body.appendChild(uebersichtKnopf)
+      kasten.querySelector('.ak-such-fuss-mitte')?.appendChild(uebersichtKnopf)
     }
+    disneyDebugZeile(kasten)
     /*
       Gezählt wird der Titel, nicht die Meldung. Ein Titel, von dem 15 von 86
       Folgen gemeldet sind, ist weiter offen — „anime-kalender button sollte 31

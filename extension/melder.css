@@ -1728,9 +1728,37 @@
 */
 .ak-netflix-kasten .ak-melder,
 .ak-netflix-kasten .ak-uebersicht,
-.ak-netflix-kasten .ak-durchlauf-leiste {
+.ak-netflix-kasten .ak-durchlauf-leiste,
+.ak-disney-kasten .ak-melder,
+.ak-disney-kasten .ak-uebersicht {
   position: static;
   right: auto;
   bottom: auto;
   z-index: auto;
+}
+
+/*
+  **Disney+ bekommt denselben Kasten** (12.09.2026). Er ist etwas breiter als
+  der von Netflix: Dort steht eine Knopfleiste, hier ein Satz — „Folge 7 von
+  24: kein Deutsch gefunden" braucht die Zeile, und ein Umbruch mitten im
+  Befund liest sich wie zwei Befunde.
+*/
+.ak-disney-kasten {
+  max-width: 340px;
+}
+
+.ak-disney-kasten .ak-z-melden {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/*
+  Der Prüf-Knopf trägt einen ganzen Satz, keinen Titel — linksbündig und mit
+  Umbrüchen, sonst steht „sammle Folgen …" mittig unter einem Drehzeichen.
+*/
+.ak-disney-kasten .ak-melder {
+  width: 100%;
+  text-align: left;
+  white-space: pre-line;
 }

@@ -80,6 +80,9 @@ jobs:
       - name: Hinweiskasten der Erweiterung
         run: npm run check:kasten
 
+      - name: Der Disney+-Kasten
+        run: npm run check:disney-kasten
+
       - name: Der Netflix-Kasten (Aufbau, Trennlinie, leerer Fall)
         run: npm run check:netflix-kasten
 
