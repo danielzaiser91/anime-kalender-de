@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Supernatural
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-G6NVG970Y@2026-09-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260905T120000Z
-DTEND:20260905T123000Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:black-torch@2026-09-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260905T130000Z
-DTEND:20260905T133000Z
-SUMMARY:Black Torch – Folge 10/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/black-torch
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:vampire-princess-miyu-2026-09-08@2026-09-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260908
