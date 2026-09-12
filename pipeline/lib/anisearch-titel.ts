@@ -43,7 +43,7 @@ export type Titelherkunft = 'sprachblock' | 'synonym' | 'ueberschrift'
  */
 export function titelAus(
   html: string,
-): { titel: string; quelle: Titelherkunft; englisch?: string } | null {
+): { titel: string; quelle: Titelherkunft; englisch?: string; synonyme?: string[] } | null {
   const info = extractInfo(html)
 
   /**
@@ -58,8 +58,25 @@ export function titelAus(
    */
   const englisch = info?.languages?.find((l) => l.language === 'Englisch')?.title?.trim() || undefined
 
+  /*
+    **Die Synonyme reisen mit — sie tragen oft den deutschen Namen.**
+
+    Für „Kusuriya no Hitorigoto: Bouhi no Hihou" (aniSearch 20990) gibt es
+    **keinen** deutschen Sprachblock, aber unter den Synonymen steht „Die
+    Tagebücher der Apothekerin: Der Film" (gemessen 12.09.2026, nachdem Daniel
+    es gemeldet hatte). Der Synonym-Zweig unten sucht nur Staffelnamen und
+    trifft einen Filmtitel nie.
+
+    Welches Synonym deutsch ist, entscheidet sich hier trotzdem nicht: aniSearch
+    kennzeichnet sie nicht nach Sprache, und danebenstehen „Les Carnets de
+    l'Apothicaire : Le Film" und „Los diarios de la boticaria: La película".
+    Erst der Bau weiß, wie die **Reihe** auf Deutsch heißt — und ein Synonym,
+    das mit diesem belegten Namen beginnt, ist die deutsche Fassung.
+  */
+  const synonyme = info?.synonyms?.map((t) => t.trim()).filter(Boolean)
+
   const block = info?.languages?.find((l) => l.language === 'Deutsch')?.title?.trim()
-  if (block) return { titel: block, quelle: 'sprachblock', englisch }
+  if (block) return { titel: block, quelle: 'sprachblock', englisch, synonyme }
 
   /*
     Nur als eigenes Wort: „Staffel" darf nicht in „Staffelei" oder in einem
@@ -67,11 +84,11 @@ export function titelAus(
     Synonym ohne sie unterscheidet die Staffeln nicht, um die es hier geht.
   */
   const synonym = info?.synonyms?.find((t) => /\bStaffel\b/.test(t) && /\d/.test(t))?.trim()
-  if (synonym) return { titel: synonym, quelle: 'synonym', englisch }
+  if (synonym) return { titel: synonym, quelle: 'synonym', englisch, synonyme }
 
   const m = /<h1[^>]*id="htitle"[^>]*>([^<]+)</.exec(html)
   const ueberschrift = m?.[1].replace(/\s+/g, ' ').trim()
-  return ueberschrift ? { titel: ueberschrift, quelle: 'ueberschrift', englisch } : null
+  return ueberschrift ? { titel: ueberschrift, quelle: 'ueberschrift', englisch, synonyme } : null
 }
 
 

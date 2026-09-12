@@ -59,6 +59,20 @@ interface Titeleintrag {
   quelle?: Titelherkunft
   /** Der englische Name laut aniSearch — nur gesetzt, wo die Seite einen führt. */
   englisch?: string
+  /**
+   * **Die Synonyme der Seite, roh.**
+   *
+   * aniSearch kennzeichnet sie nicht nach Sprache: Beim Apothekerin-Film
+   * stehen dort „Die Tagebücher der Apothekerin: Der Film", „Les Carnets de
+   * l'Apothicaire : Le Film" und „Los diarios de la boticaria: La película"
+   * nebeneinander. Hier entsteht deshalb kein Urteil — der Bau erkennt den
+   * deutschen daran, dass er mit dem belegten deutschen Reihennamen beginnt.
+   *
+   * Der Titel fiel bis zum 12.09.2026 durch alle drei Maschen: kein deutscher
+   * Sprachblock, und der Synonym-Zweig sucht Staffelnamen („Staffel" plus
+   * Ziffer), was einen Filmtitel nie trifft.
+   */
+  synonyme?: string[]
   anisearchId: number
   fetchedAt: string
   /**
@@ -80,7 +94,19 @@ interface Titeleintrag {
 }
 
 /** Hochzählen, sobald `titelAus()` ein Feld mehr liest. 2 = englischer Sprachblock. */
-const PARSER_STAND = 2
+/*
+  **3 seit dem 12.09.2026: Der Ausleser liest jetzt die Synonyme mit.**
+
+  Ohne diese Erhöhung bliebe der Einbau wirkungslos: Alle 979 Katalogtitel in
+  Reihen mit deutschem Namen sind längst geholt — nur eben von einem Ausleser,
+  der das Feld noch nicht kannte. Bei einer Frist von 180 Tagen kämen sie erst
+  im März wieder dran.
+
+  Das ist derselbe Fall, den der Kommentar am Feld `stand` schon beschreibt,
+  und das zweite Mal an einem Tag: vormittags für den englischen Namen,
+  abends für die Synonyme.
+*/
+const PARSER_STAND = 3
 
 const bruecke = readJson<{ anisearch: Record<string, number> }>('data/anime-ids.json', {
   anisearch: {},
@@ -225,6 +251,14 @@ for (const t of warteschlange.slice(0, GRENZE)) {
         titel: fund.titel,
         quelle: fund.quelle,
         englisch: fund.englisch,
+        /*
+          **Die Synonyme, weil der deutsche Name oft nur dort steht.** Für den
+          Apothekerin-Film führt aniSearch keinen deutschen Sprachblock, aber
+          ein Synonym „Die Tagebücher der Apothekerin: Der Film". Welches davon
+          deutsch ist, entscheidet der Bau am belegten Reihennamen — hier wird
+          nur aufgehoben, was er dafür braucht.
+        */
+        synonyme: fund.synonyme?.length ? fund.synonyme.slice(0, 12) : undefined,
         anisearchId: asId,
         fetchedAt: new Date().toISOString(),
         stand: PARSER_STAND,

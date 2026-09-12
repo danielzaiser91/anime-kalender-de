@@ -456,7 +456,10 @@ function schreibeOhneSynchro(
     Herkunft.
   */
   const ausAnisearch = readJson<
-    Record<string, { titel?: string; quelle?: string; anisearchId?: number; englisch?: string }>
+    Record<
+      string,
+      { titel?: string; quelle?: string; anisearchId?: number; englisch?: string; synonyme?: string[] }
+    >
   >('data/anisearch-titel.json', {})
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id))
@@ -481,9 +484,22 @@ function schreibeOhneSynchro(
         Apothekerin-Film kennt aniSearch keinen deutschen Namen; AniList führt
         ihn unter `synonyms`, und der belegte Reihenname macht ihn erkennbar.
       */
+      /*
+        **Zwei Synonymlisten, dieselbe Regel.**
+
+        AniList führt für den Apothekerin-Film genau ein Synonym, und das ist
+        englisch („The Apothecary Diaries Movie"). aniSearch führt den deutschen
+        Namen — aber nicht im Sprachblock, sondern unter den Synonymen, wo er
+        zwischen der französischen und der spanischen Fassung steht.
+
+        Gefragt werden deshalb beide Listen, aniSearch zuerst: Sie ist die
+        Quelle, die deutsche Titel überhaupt kennt.
+      */
+      const reihenName = deutscheReihe.get(reihe.get(e.id) ?? e.id)
       const deutsch =
         (belegt ? eintrag?.titel : undefined) ??
-        deutschAusSynonymen(e.synonyme, deutscheReihe.get(reihe.get(e.id) ?? e.id))
+        deutschAusSynonymen(eintrag?.synonyme, reihenName) ??
+        deutschAusSynonymen(e.synonyme, reihenName)
       return {
         id: e.id,
         titleRomaji: romaji ?? undefined,
