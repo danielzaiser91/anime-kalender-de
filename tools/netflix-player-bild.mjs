@@ -129,6 +129,33 @@ pruefe(
   'replaceChildren im Takt ersetzt auch den Knopf',
 )
 pruefe(
+  'die Anzeige geht weg, wenn der Player verlassen wird',
+  quelle.includes('function playerFeldWeg()') && /if \(!imPlayer\(\) \|\| !playerAuftragOffen\(\)\) return playerFeldWeg\(\)/.test(quelle),
+  'ein nacktes return lässt sie über der Titelseite stehen',
+)
+/*
+  **Der Takt hält sich aus einem laufenden Durchlauf heraus** (Daniel,
+  12.09.2026). Das Flag liegt im `localStorage`, weil die Antwort eine
+  Navigation überleben muss und synchron gebraucht wird — und es verfällt,
+  damit ein abgestürzter Tab die Erweiterung nicht dauerhaft stilllegt.
+*/
+pruefe(
+  'ein laufender Durchlauf pausiert den Takt',
+  quelle.includes("const DURCHLAUF_FLAG = 'ak-durchlauf-laeuft'") &&
+    quelle.includes('if (durchlaufLaeuftHier()) return'),
+  'sonst zeichnet der Takt für Zustände, die eine Sekunde später vorbei sind',
+)
+pruefe(
+  'das Flag verfällt von selbst',
+  quelle.includes('DURCHLAUF_FLAG_MAX_MS') && /Date\.now\(\) - seit > DURCHLAUF_FLAG_MAX_MS/.test(quelle),
+  'ein Flag ohne Verfallsdatum legt die Erweiterung nach einem Absturz still',
+)
+pruefe(
+  'es wird bei Start und Ende gesetzt',
+  (quelle.match(/durchlaufFlagSetzen\((true|false)\)/g) ?? []).length >= 2,
+  'ein Flag, das nur gesetzt wird, ist eine Falle',
+)
+pruefe(
   'im Player zeichnet nur playerZeigen()',
   /function knopfZeigen\(\) \{[\s\S]{0,900}if \(imPlayer\(\)\) \{\s*knopfEntfernen\(\)/.test(quelle),
   'sonst steht ein leerer Titelseiten-Knopf über dem Bild',

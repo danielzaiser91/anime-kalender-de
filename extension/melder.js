@@ -1502,13 +1502,83 @@ function seiteGehtUnsAn() {
   )
 }
 
+/**
+ * **Läuft gerade ein Durchlauf? — die Antwort überlebt eine Navigation.**
+ *
+ * Daniel am 12.09.2026: „wenn der melde button episoden nacheinander öffnet und
+ * meldet, was er schnell macht, würde das unnötiges rendern verursachen; anfang
+ * und ende per flag steuern … sodass performance gespart und fehler vermieden
+ * werden."
+ *
+ * `DURCHLAUF.laeuft` kann das nicht beantworten: Der Durchlauf wechselt
+ * zwischen Titelseite und Player, und bei einer echten Navigation lädt Netflix
+ * das Skript neu — der Merker ist dann weg, der Durchlauf läuft weiter. Der
+ * Takt zeichnete in dieser Zeit munter Knöpfe, Kästen und Anzeigen für einen
+ * Zustand, der eine Sekunde später wieder ein anderer ist.
+ *
+ * `localStorage` ist hier richtig und `chrome.storage` wäre falsch: Die Antwort
+ * wird **synchron** im Takt gebraucht, sie gilt nur für diesen Tab, und sie
+ * darf nichts kosten.
+ *
+ * **Ein Flag ohne Verfallsdatum ist eine Falle.** Stürzt der Tab mitten im
+ * Durchlauf ab, bliebe es stehen, und die Erweiterung zeichnete nie wieder
+ * etwas — schlimmer als das Problem, das es löst. Deshalb trägt es den
+ * Zeitpunkt seines Setzens und gilt nach einer Viertelstunde als tot; ein
+ * Durchlauf über eine ganze Staffel dauert Minuten, nicht Stunden.
+ */
+const DURCHLAUF_FLAG = 'ak-durchlauf-laeuft'
+/** Länger als jeder echte Durchlauf, kurz genug, dass ein Absturz nicht nachwirkt. */
+const DURCHLAUF_FLAG_MAX_MS = 15 * 60 * 1000
+
+function durchlaufFlagSetzen(an) {
+  try {
+    if (an) localStorage.setItem(DURCHLAUF_FLAG, String(Date.now()))
+    else localStorage.removeItem(DURCHLAUF_FLAG)
+  } catch {
+    /* Ohne Speicher läuft alles wie vorher — das Flag ist eine Ersparnis, keine Bedingung. */
+  }
+}
+
+function durchlaufLaeuftHier() {
+  try {
+    const seit = Number(localStorage.getItem(DURCHLAUF_FLAG))
+    if (!seit) return false
+    if (Date.now() - seit > DURCHLAUF_FLAG_MAX_MS) {
+      localStorage.removeItem(DURCHLAUF_FLAG)
+      return false
+    }
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * **Die Anzeige verschwindet, sobald sie nicht mehr hingehört.**
+ *
+ * Sie räumte sich nur auf, solange man **im** Player war: `playerAnzeige()`
+ * stieg bei `!imPlayer()` mit einem nackten `return` aus, und das Feld blieb
+ * stehen. Nach dem Melden und dem Weg zurück zur Titelseite hing „Folge 13:
+ * deutsche Tonspur gefunden" samt Knopf über der Übersicht (Daniel,
+ * 12.09.2026: „der denkt wir sind noch im player obwohl wir bereits in
+ * overview sind") — und ein Klick darauf hätte eine Folge gemeldet, die
+ * niemand mehr ansieht.
+ *
+ * Dieselbe Regel wie für den Kasten: Wer ein Element einblendet, gibt ihm den
+ * Weg hinaus mit. Der Takt ruft das hier bei jedem Durchlauf.
+ */
+function playerFeldWeg() {
+  if (playerFeld?.isConnected) playerFeld.remove()
+  playerFeld = null
+  playerText = null
+  playerKnopf = null
+}
+
 function playerAnzeige(text, art = 'laeuft', knopfText = null) {
   try {
-    if (!imPlayer()) return
-    if (!playerAuftragOffen()) {
-      /* Kein Auftrag, keine Anzeige — und eine schon stehende verschwindet. */
-      if (playerFeld?.isConnected) playerFeld.remove()
-      playerFeld = null
+    if (!imPlayer() || !playerAuftragOffen()) {
+      /* Kein Player, kein Auftrag, keine Anzeige — und eine stehende geht weg. */
+      playerFeldWeg()
       return
     }
     if (!playerFeld?.isConnected) {
@@ -1587,7 +1657,8 @@ function playerAnzeige(text, art = 'laeuft', knopfText = null) {
  * ist bereits gemeldet.
  */
 function playerZeigen() {
-  if (!imPlayer() || !playerAuftragOffen()) return
+  /* Verlassener Player oder kein Auftrag: Die Anzeige geht mit — siehe playerFeldWeg(). */
+  if (!imPlayer() || !playerAuftragOffen()) return playerFeldWeg()
   if (gesendet.has(schluessel())) {
     const wie = gesendet.get(schluessel())
     if (wie === 'deutsch') playerAnzeige('Anime-Kalender: als deutsch gemeldet', 'gut')
@@ -3092,6 +3163,8 @@ async function durchlaufStarten(grenze) {
     er einen zweiten Start abweist.
   */
   DURCHLAUF.laeuft = true
+  /* Der Takt hält sich ab jetzt heraus — siehe durchlaufLaeuftHier(). */
+  durchlaufFlagSetzen(true)
   DURCHLAUF.abbruch = false
   DURCHLAUF.stoerung = null
   DURCHLAUF.angenommen = null
@@ -3409,6 +3482,7 @@ async function durchlaufStarten(grenze) {
 
   videoAbdrehen(false)
   DURCHLAUF.laeuft = false
+  durchlaufFlagSetzen(false)
   durchlaufKnopfZeigen()
   /*
     **Und weiter zum nächsten Auftrag — das ist der Unterschied zwischen
@@ -5064,6 +5138,19 @@ setInterval(pfadPruefen, 1000)
  * Prüfliste kommt Sekunden später aus dem Speicher.
  */
 setInterval(() => {
+  /*
+    **Während eines Durchlaufs zeichnet nur der Durchlauf.**
+
+    Er öffnet Folge um Folge, wechselt dabei zwischen Player und Titelseite und
+    ist in wenigen Sekunden mehrfach woanders. Der Takt baute in dieser Zeit
+    Knöpfe, Kästen und Anzeigen für Zustände, die schon vorbei waren — Arbeit
+    ohne Empfänger, und jede davon eine Gelegenheit, etwas Falsches zu zeigen.
+
+    Seine eigene Leiste zeichnet der Durchlauf selbst (`durchlaufKnopfZeigen()`),
+    der Abbrechen-Knopf bleibt also erreichbar — er ist der Notausgang, und der
+    darf nie an einer Sparmaßnahme hängen (CLAUDE.md, 26.08.2026).
+  */
+  if (durchlaufLaeuftHier()) return
   try {
     knopfZeigen()
   } catch {
