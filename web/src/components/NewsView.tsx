@@ -228,12 +228,28 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
                       <span className="h-11 w-8 shrink-0 rounded bg-slate-200 dark:bg-slate-800" />
                     )}
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-semibold text-slate-800 dark:text-slate-100">
-                        {e.titel}
+                      {/*
+                        **Der Teil steht am Titel, nicht hinter dem Anbieter.**
+
+                        „bei Crunchyroll · Lord of Mysteries Specials" las sich
+                        wie eine Fußnote zum Anbieter — die Meldung betrifft aber
+                        genau diesen Teil und **nicht** die Hauptserie (Daniel,
+                        12.09.2026). Ein Rahmen am Titel beantwortet die Frage
+                        beim Überfliegen; blasse Schrift am Zeilenende tut es
+                        nicht.
+                      */}
+                      <span className="flex items-baseline gap-1.5">
+                        <span className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">
+                          {e.titel}
+                        </span>
+                        {erste.teil && (
+                          <span className="shrink-0 rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
+                            {erste.teil}
+                          </span>
+                        )}
                       </span>
                       <span className="block truncate text-xs text-slate-500 dark:text-slate-400">
                         {kurz(erste)}
-                        {erste.teil && <span className="opacity-70"> · {erste.teil}</span>}
                         {e.meldungen.length > 1 && (
                           <span className="opacity-70"> · {t('news.weitere', { n: e.meldungen.length - 1 })}</span>
                         )}
@@ -283,9 +299,13 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
                             <span className={`shrink-0 rounded px-1.5 py-0.5 text-[11px] ${FARBE[m.art]}`}>
                               {t(`news.art.${m.art}`)}
                             </span>
+                            {m.teil && (
+                              <span className="shrink-0 rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
+                                {m.teil}
+                              </span>
+                            )}
                             <span className="min-w-0 flex-1 truncate text-xs text-slate-600 dark:text-slate-300">
                               {satz(m)}
-                              {m.teil && <span className="opacity-60"> · {m.teil}</span>}
                             </span>
                           </button>
                         </li>

@@ -3845,9 +3845,18 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe('zwei Meldungen zur selben Reihe ergeben einen Eintrag', raus.length === 1, raus.length)
   pruefe('und beide stehen darin', raus[0]?.meldungen.length === 2, raus[0]?.meldungen.length)
+  /*
+    **Und der Teilname nennt nur, was ihn vom Kopf unterscheidet.**
+
+    Bis zum 12.09.2026 stand dort der volle Name: In der Liste las sich das als
+    „bei Crunchyroll · Lord of Mysteries Specials", blass und hinter dem
+    Anbieter (Daniel: „heb besser hervor das es sich bei dem neuzugang nur um
+    die Specials handelt"). Der Reihenname steht eine Zeile höher — hier bleibt
+    „Specials".
+  */
   pruefe(
     'der Kopf ist die Reihe, der abweichende Teil wird benannt',
-    raus[0]?.titelId === 1 && raus[0]?.meldungen.some((m) => m.teilId === 2 && m.teil === 'Reihe Specials'),
+    raus[0]?.titelId === 1 && raus[0]?.meldungen.some((m) => m.teilId === 2 && m.teil === 'Specials'),
     JSON.stringify(raus[0]?.meldungen),
   )
   pruefe(

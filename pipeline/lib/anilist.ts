@@ -157,6 +157,19 @@ export interface KatalogEintrag {
    * japanisches Werk wäre der Romaji ohnehin der richtige Name.
    */
   latein?: string | null
+  /**
+   * **Die Synonyme im Rohzustand — der deutsche Name steht oft darunter.**
+   *
+   * AniList kennzeichnet Synonyme nicht nach Sprache, deshalb entsteht hier
+   * kein Urteil: „Die Tagebücher der Apothekerin: Der Film" und „Les Carnets de
+   * l'Apothicaire : Le Film" stehen gleichberechtigt nebeneinander (Daniel,
+   * 12.09.2026: „Die Tagebücher der Apothekerin: Der Film muss da stehen").
+   *
+   * Entscheiden kann es nur der Bau, denn dort ist bekannt, wie die **Reihe**
+   * auf Deutsch heißt — und ein Synonym, das mit diesem belegten Namen
+   * beginnt, ist belegbar deutsch. Das ist ein Abgleich, kein Sprachraten.
+   */
+  synonyme?: string[] | null
   genres: string[]
   score: number | null
   /**
@@ -298,6 +311,8 @@ export async function katalogSeite(
       })(),
       status: m.status ?? null,
       latein: bestesSynonym(m.title.english, m.countryOfOrigin, m.synonyms),
+      /* Höchstens acht — mehr trägt keine Reihe bei, und der Cache bleibt schlank. */
+      synonyme: m.synonyms?.length ? m.synonyms.slice(0, 8) : undefined,
       folgen: m.episodes,
       genres: m.genres ?? [],
       score: m.averageScore,

@@ -48,6 +48,16 @@ export function eindeutschenStaffel(name: string): string {
       zweite Hälfte einer geteilten Staffel.
     */
     .replace(/\bCour\s+(\d+)\b/gi, 'Teil $1')
+    /*
+      **Und zwischen Staffel und Teil steht immer derselbe Strich.**
+
+      Dieselbe Reihe zeigte „Staffel 3 - Teil 1" neben „Staffel 3 Teil 2"
+      (Daniel, 12.09.2026: „außerdem fehlt der bindestrich bei teil 2"). Der
+      erste Name stammt aus aniSearchs deutschem Titel und bringt den Strich
+      mit, der zweite entsteht zwei Zeilen höher aus „Part 2" und hat keinen.
+      Die Regel darüber hat die Wörter vereinheitlicht, nicht ihre Fügung.
+    */
+    .replace(/\b(Staffel\s+\d+)\s*[-–—]?\s+(Teil\s+\d+)/gi, '$1 - $2')
     .replace(/\s{2,}/g, ' ')
     .trim()
 }

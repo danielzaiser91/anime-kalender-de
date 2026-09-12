@@ -113,7 +113,23 @@ type Antwort =
    * 02.09.2026). Eine Disc erscheint an einem Tag komplett; Fortschrittsbalken
    * und Rhythmus gehören dort nicht hin.
    */
-  | { art: 'disc'; datum: string; publisher?: string; edition?: string }
+  /**
+   * **Und er nennt den Band, den es schon gibt.**
+   *
+   * Bei „Banana Fish" stand dort „in 2 Monaten, 06.11.2026" — Band 1 lag seit
+   * dem 21.08.2026 im Laden, und wir verlinkten sogar dorthin (Daniel,
+   * 12.09.2026: „das gibt es bereits komplett deutsch seit 21. august. und wir
+   * verlinken sogar dahin"). Der nächste Termin allein liest sich wie „es gibt
+   * noch nichts".
+   */
+  | {
+      art: 'disc'
+      datum: string
+      publisher?: string
+      edition?: string
+      /** Alle Kaufausgaben des Titels, erschienene zuerst. Ab zwei Bänden gezeigt. */
+      baende?: { name?: string; datum: string; raus: boolean }[]
+    }
 
 /**
  * „Auf Deutsch seit …" — die Nebenzeile aus `deErstausgabe`.
@@ -430,7 +446,21 @@ function AntwortKasten({
     zaehl = ''
   } else if (antwort.art === 'disc') {
     const rel = relativ(antwort.datum)
-    haupt = [rel, formatDate(antwort.datum)].filter(Boolean).join(', ')
+    /*
+      **Ab zwei Bänden zählt der Stand, nicht der nächste Termin.**
+
+      „in 2 Monaten, 06.11.2026" verschweigt, dass Band 1 seit dem 21.08. im
+      Laden liegt — und der Kauf-Weg daneben führt genau dorthin. Die Zeile
+      nennt deshalb beide: „Vol. 1 seit 21.08.2026 · Vol. 2 am 06.11.2026".
+    */
+    haupt =
+      antwort.baende
+        ?.map((b) =>
+          [b.name, T(b.raus ? 'antwort.discSeit' : 'antwort.discAm', { datum: formatDate(b.datum) })]
+            .filter(Boolean)
+            .join(' '),
+        )
+        .join(' · ') ?? [rel, formatDate(antwort.datum)].filter(Boolean).join(', ')
     neben = T('antwort.discNeben')
     zaehl = ''
     /*
@@ -881,8 +911,21 @@ function DiscZeichen() {
  * Genau das ist die Reihenfolge hier. 2.621 der 2.768 Titel tragen eine
  * `anisearchId` (gemessen 07.09.2026, 94,7 %) — für sie führt der Verweis
  * direkt auf die Werkseite. Für die übrigen 147 gibt es keine geratene Kennung,
- * sondern die Suche mit dem Titel: `anisearch.de/anime/index?text=…` liefert
- * belegt die Trefferliste (an „Date A Bullet" geprüft, HTTP 200 mit Treffer).
+ * sondern die Suche mit dem Titel.
+ *
+ * **Und die Suchadresse ist `/search?q=`, nicht `/anime/index?text=`.**
+ * Letztere antwortet mit HTTP 200 und „Deine Suchanfrage ist ungültig — bitte
+ * sende Deine Suchanfrage erneut ab": ein Filterformular, das ohne Sitzung
+ * nicht abschickt (Daniel, 12.09.2026, mit Bild: „die anisearch verlinkung
+ * läuft ins leere"). Der Beleg dafür, dass es hier je funktioniert hat, war ein
+ * Statuscode — genau der Fehler, den diese Akte für Amazon schon beschreibt:
+ * **200 heißt „ich habe geantwortet", nicht „es gibt die Seite".**
+ *
+ * Gemessen am 12.09.2026, vier Formen gegeneinander: `/anime/index?text=` gibt
+ * dreimal die Fehlermeldung, `/search?q=` liefert die Trefferliste — „Date A
+ * Bullet" → `anime/14630`, „Kusuriya no Hitorigoto: Bouhi no Hihou" →
+ * `anime/20990`. Ein Titel, den aniSearch nicht führt, ergibt dort eine leere
+ * Liste; das ist die ehrliche Auskunft und keine Fehlerseite.
  *
  * **Warum keine Kennung geraten wird:** Eine erfundene Nummer führt auf eine
  * fremde Werkseite, und das ist von einer richtigen nicht zu unterscheiden —
@@ -892,7 +935,7 @@ function DiscZeichen() {
 function AniSearchVerweis({ title }: { title: Title }) {
   const ziel = title.anisearchId
     ? `https://www.anisearch.de/anime/${title.anisearchId}`
-    : `https://www.anisearch.de/anime/index?text=${encodeURIComponent(anzeigeName(title))}`
+    : `https://www.anisearch.de/search?q=${encodeURIComponent(anzeigeName(title))}`
   return (
     <a
       href={ziel}
@@ -1737,9 +1780,29 @@ export function DetailPanel({
   const teilName = useMemo(() => {
     if (!title) return ''
     const voll = eindeutschenStaffel(anzeigeName(title))
-    const rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
+    let rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
       ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()
       : voll
+    /*
+      **Trägt der Name einen fremden Reihennamen, zählt nur die Staffelangabe.**
+
+      Über „Staffel 3 Teil 2" stand im Kopf „Kusuriya no Hitorigoto Staffel 3
+      Teil 2", in der Liste darunter korrekt „Staffel 3 Teil 2" — bei Teil 1
+      stimmten beide (Daniel, 12.09.2026). Der Grund ist der Abzug oben: Für
+      Teil 2 kennen wir keinen deutschen Namen, der Titel beginnt deshalb nicht
+      mit unserem Reihennamen, und der Abzug greift nicht.
+
+      Die Liste zieht dieselbe Regel seit dem 03.09.2026 — der Kopf nicht, und
+      damit stand derselbe Teil an zwei Stellen verschieden da. Welche Reihe
+      gemeint ist, sagt die Zeile darüber; einen deutschen Namen erfindet auch
+      diese Regel nicht.
+
+      **Nur bei einer Staffel.** Beim Beiwerk ist der fremde Reihenname gerade
+      das Unterscheidende — „Maomao no Hitorigoto Staffel 2" ist nicht die
+      zweite Staffel der Hauptserie.
+    */
+    const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
+    if (istStaffel(title.format) && staffelTeil && rest !== staffelTeil[1]) rest = staffelTeil[1]!
     /**
      * Bleibt nichts übrig, heißt der Teil wie die Reihe — dann steht auch der
      * volle Name hier, und die Ausgabestelle unterdrückt die Zeile als
@@ -2085,11 +2148,33 @@ export function DetailPanel({
       */
       if (!ohneDisc.length) {
         const quelle = releases.find((r) => expandEvents(r).some((e) => e.date === n.date))
+        /*
+          **Jeder Band mit seinem Termin, nicht nur der nächste.**
+
+          Der Bandname steht in `name` („Banana Fish – Vol. 1"); abgezogen wird
+          der Titel selbst, sonst stünde er in jeder Zeile noch einmal. Bleibt
+          nichts übrig — bei einer einzelnen Gesamtausgabe der Normalfall —,
+          trägt die Zeile nur ihr Datum.
+        */
+        const eigenerName = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? ''
+        const baende = releases
+          .flatMap((r) =>
+            expandEvents(r).map((e) => ({
+              name:
+                r.name && r.name !== eigenerName
+                  ? r.name.replace(eigenerName, '').replace(/^[\s:–—-]+/, '').trim() || undefined
+                  : undefined,
+              datum: e.date,
+              raus: istErschienen(e),
+            })),
+          )
+          .sort((a, b) => a.datum.localeCompare(b.datum))
         return {
           art: 'disc' as const,
           datum: n.date,
           publisher: quelle?.publisher,
           edition: quelle?.edition,
+          baende: baende.length > 1 ? baende : undefined,
         }
       }
       return {
@@ -3330,8 +3415,23 @@ export function DetailPanel({
                       erfinden; die Staffelangabe reicht aber, denn welche Reihe
                       gemeint ist, steht zwei Zeilen höher.
                     */
+                    /*
+                      **Und nur bei einer Hauptstaffel.**
+
+                      Unter „Specials & OVAs" stand „Staffel 2" — der Eintrag ist
+                      aber „Maomao no Hitorigoto Staffel 2", die zweite Staffel
+                      einer Mini-Serie, nicht die der Hauptserie (Daniel,
+                      12.09.2026: „solche staffel bezeichnungen dürfen nur bei
+                      hauptserie einzeln so aufgelistet sein … Maomao no
+                      Hitorigoto Staffel 2 müsste da stehen").
+
+                      Die Kürzung lebt davon, dass die Reihe eine Zeile höher
+                      steht — und das trägt nur für die Hauptserie. Beim Beiwerk
+                      gehört der fremde Reihenname dazu: Er ist gerade das, was
+                      den Eintrag von der Hauptserie unterscheidet.
+                    */
                     const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
-                    if (staffelTeil && rest !== staffelTeil[1]) rest = staffelTeil[1]!
+                    if (istHauptstaffel(m) && staffelTeil && rest !== staffelTeil[1]) rest = staffelTeil[1]!
                     /* Und die erste Staffel heißt „Staffel 1", nicht wie die Reihe. */
                     const nr = staffelNr.get(m.id)
                     const beschriftung = rest || (nr ? t('detail.staffelNummer', { n: nr }) : voll)
@@ -3424,7 +3524,20 @@ export function DetailPanel({
                                   12.09.2026 nicht genügt; „ab 2027" beantwortet
                                   die Frage, ohne eine Zeile zu kosten.
                                 */
-                                const vorsatz = offen ? 'ab ' : ''
+                                /*
+                                  **Und es sagt, dass es die japanische
+                                  Ausstrahlung ist.**
+
+                                  Über „Staffel 3 - Teil 1" stand im Kasten der
+                                  01.10.2026 und in dieser Zeile der 02.10.2026
+                                  (Daniel, 12.09.2026: „warum steht oben 01.10.
+                                  und unten 02.10.?"). Beide stimmen: oben der
+                                  deutsche Termin, hier der japanische Start,
+                                  nach dem die Liste auch sortiert ist. Zwei
+                                  Daten zu derselben Sache auf einem Bildschirm
+                                  brauchen das Wort, das sie unterscheidet.
+                                */
+                                const vorsatz = offen ? 'JP ab ' : 'JP '
                                 const roh = m.jpStart
                                 if (!roh) return m.jpYear ? `${vorsatz}${m.jpYear}` : ''
                                 const [jahr, monat, tag] = roh.split('-')

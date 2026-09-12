@@ -358,7 +358,42 @@ function schreibeSuchadressen(offen: { id: number; titel: string; plattform: str
   log(`${offen.length} Suchadressen in ${ziel} vorgelegt`)
 }
 
-function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] = []): void {
+/**
+ * **Ein Synonym, das mit dem deutschen Reihennamen beginnt, ist deutsch.**
+ *
+ * AniList kennzeichnet Synonyme nicht nach Sprache — „Die Tagebücher der
+ * Apothekerin: Der Film" steht dort neben „Les Carnets de l'Apothicaire : Le
+ * Film" und „Los diarios de la boticaria: La película". Ein Sprachdetektor
+ * wäre Raten; der Abgleich gegen einen **belegten** Namen ist keiner: Heißt
+ * die Reihe im Bestand „Die Tagebücher der Apothekerin", dann ist ein Synonym
+ * mit genau diesem Anfang die deutsche Fassung dieses Titels.
+ *
+ * Anlass (Daniel, 12.09.2026): Im Panel stand „Kusuriya no Hitorigoto: Bouhi
+ * no Hihou" — „Die Tagebücher der Apothekerin: Der Film muss da stehen".
+ *
+ * Die Grenze ist dieselbe wie überall hier: Der Reihenname muss **belegt**
+ * sein (er stammt aus aniSearchs Sprachblock oder einem Handbeleg), und das
+ * Synonym muss über den bloßen Namen hinausgehen — sonst wäre es nur der
+ * Reihenname noch einmal und sagt über diesen Teil nichts.
+ */
+function deutschAusSynonymen(
+  synonyme: string[] | null | undefined,
+  reihenName: string | undefined,
+): string | undefined {
+  if (!synonyme?.length || !reihenName || reihenName.length < 4) return undefined
+  const vorsatz = reihenName.toLowerCase()
+  const treffer = synonyme
+    .map((x) => x.trim())
+    .filter((x) => x.toLowerCase().startsWith(vorsatz) && x.length > reihenName.length + 2)
+  /* Der kürzeste ist der knappste Zusatz — „: Der Film" schlägt „: Der Film (2026)". */
+  return treffer.sort((x, y) => x.length - y.length)[0]
+}
+
+function schreibeOhneSynchro(
+  bekannt: Map<number, number>,
+  verschoben: Title[] = [],
+  deutscheReihe: Map<number, string> = new Map(),
+): void {
   const katalog = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {})
   const eintraege = katalog.eintraege ?? []
   if (!eintraege.length) {
@@ -441,7 +476,14 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
         erneut geholt und ihre Herkunft vermerkt hat.
       */
       const belegt = eintrag?.quelle === 'sprachblock' || eintrag?.quelle === 'synonym'
-      const deutsch = belegt ? eintrag?.titel : undefined
+      /*
+        **Und wo aniSearch schweigt, fragt der Bau die Reihe.** Für den
+        Apothekerin-Film kennt aniSearch keinen deutschen Namen; AniList führt
+        ihn unter `synonyms`, und der belegte Reihenname macht ihn erkennbar.
+      */
+      const deutsch =
+        (belegt ? eintrag?.titel : undefined) ??
+        deutschAusSynonymen(e.synonyme, deutscheReihe.get(reihe.get(e.id) ?? e.id))
       return {
         id: e.id,
         titleRomaji: romaji ?? undefined,
@@ -6233,7 +6275,31 @@ function main(): void {
       if (ausAnisearch) {
         const { text, url } = trenneQuelle(ausAnisearch)
         eintrag.de = text
-        eintrag.deSource = { name: 'anisearch.de', url: url ?? `https://www.anisearch.de/anime/` }
+        /*
+          **Ein Quellenverweis führt zum Werk, nicht in ein Verzeichnis.**
+
+          Der Rückfall lautete `anisearch.de/anime/` — die Anime-Übersicht der
+          ganzen Seite, für 221 von 2.497 Verweisen (gemessen 12.09.2026). Wer
+          dort klickt, sucht danach von Hand weiter; die Angabe „Quelle:
+          aniSearch" wird damit unüberprüfbar.
+
+          Die Kennung liegt im Haus: 2.621 Titel tragen `anisearchId`. Wo auch
+          die fehlt, geht es zur Suche mit dem Titel — `/search?q=`, denn
+          `/anime/index?text=` antwortet mit „Deine Suchanfrage ist ungültig"
+          (Daniel, 12.09.2026, mit Bild: „die anisearch verlinkung läuft ins
+          leere … pack auf die todo diese stelle und alle anderen zu
+          verbessern").
+        */
+        eintrag.deSource = {
+          name: 'anisearch.de',
+          url:
+            url ??
+            (t.anisearchId
+              ? `https://www.anisearch.de/anime/${t.anisearchId}`
+              : `https://www.anisearch.de/search?q=${encodeURIComponent(
+                  t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id),
+                )}`),
+        }
       } else if (ausTmdb?.overviewDe) {
         eintrag.de = ausTmdb.overviewDe
         eintrag.deSource = {
@@ -6632,7 +6698,18 @@ function main(): void {
   writeJson(`${OUT}/titles.json`, slim)
   // Kennung → Reihe: das Erste sortiert die schon gepflegten Titel aus, das
   // Zweite hält Reihen zusammen, die über die Grenze der beiden Bestände gehen.
-  schreibeOhneSynchro(new Map(slim.map((t) => [t.id, t.franchiseId ?? t.id])), verschoben)
+  /*
+    Wie jede Reihe auf Deutsch heißt — der Maßstab, an dem ein AniList-Synonym
+    als deutsch erkennbar wird. Genommen wird der Name des Reihenkopfs; ein
+    Staffeltitel („… Staffel 2") wäre ein zu enger Vorsatz.
+  */
+  const deutscheReihe = new Map<number, string>()
+  for (const t of slim) if ((t.franchiseId ?? t.id) === t.id && t.titleDe) deutscheReihe.set(t.id, t.titleDe)
+  schreibeOhneSynchro(
+    new Map(slim.map((t) => [t.id, t.franchiseId ?? t.id])),
+    verschoben,
+    deutscheReihe,
+  )
   schreibeNeuMitSynchro(slim, releases)
   // Synopsen in Gruppen statt in einer Datei.
   //

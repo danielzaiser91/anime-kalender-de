@@ -25,6 +25,7 @@
  */
 import type { NewsArt, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
+import { eindeutschenStaffel } from '../../shared/titles.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -186,7 +187,13 @@ export function baueNews(
     disc: 4,
     folgen: 5,
   }
-  const name = (t: Title) => t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id)
+  /*
+    **Dieselbe Schreibweise wie überall sonst.** Ohne die Eindeutschung stand im
+    Chip „Staffel 3 - Cour 1" neben einem „Staffel 3 - Teil 2" aus derselben
+    Reihe — die Vereinheitlichung von „Cour"/„Part" lebt in `shared/titles.ts`
+    und wurde hier bisher nicht gerufen.
+  */
+  const name = (t: Title) => eindeutschenStaffel(t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id))
 
   /*
     **Der Kopf der Gruppe ist die Reihe, nicht der Teil.**
@@ -208,6 +215,23 @@ export function baueNews(
     gruppen.set(schluessel, g)
   }
 
+  /*
+    **Der Teil nennt, was ihn von der Reihe unterscheidet — nicht die Reihe.**
+
+    Unter „Lord of Mysteries" stand „bei Crunchyroll · Lord of Mysteries
+    Specials", blass und hinter dem Anbieter (Daniel, 12.09.2026: „heb besser
+    hervor das es sich bei dem neuzugang nur um die Specials handelt, nicht um
+    die hauptserie. so wie es aktuell dort steht ist es verwirrend"). Der
+    Reihenname steht eine Zeile höher; hier bleibt „Specials".
+  */
+  const teilName = (teil: Title, kopf: string) => {
+    const voll = name(teil)
+    const rest = voll.toLowerCase().startsWith(kopf.toLowerCase())
+      ? voll.slice(kopf.length).replace(/^[\s:–—-]+/, '').trim()
+      : voll
+    return rest || voll
+  }
+
   const eintraege: NewsEintrag[] = []
   for (const g of gruppen.values()) {
     const jeTeil = new Map<number, number>()
@@ -215,17 +239,18 @@ export function baueNews(
     const haeufigster = [...jeTeil.entries()].sort((a, b) => b[1] - a[1])[0]![0]
     const kopfT =
       kopfTitel.get(g.wurzel) ?? g.teile.find((m) => m.titel.id === haeufigster)!.titel
+    const kopf = name(kopfT)
     const meldungen: NewsMeldung[] = g.teile
       .slice()
       .sort((a, b) => rang[a.art] - rang[b.art] || (a.datum ?? '').localeCompare(b.datum ?? ''))
       .map((m) => {
         const { am: _am, titel: teil, ...rest } = m
-        return teil.id === kopfT.id ? rest : { ...rest, teil: name(teil), teilId: teil.id }
+        return teil.id === kopfT.id ? rest : { ...rest, teil: teilName(teil, kopf), teilId: teil.id }
       })
     eintraege.push({
       am: g.am,
       titelId: kopfT.id,
-      titel: name(kopfT),
+      titel: kopf,
       slug: kopfT.slug,
       cover: kopfT.coverImage ?? g.teile.find((m) => m.titel.coverImage)?.titel.coverImage,
       meldungen,

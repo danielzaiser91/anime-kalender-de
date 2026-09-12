@@ -534,6 +534,8 @@ const TEXTE = {
   // Die drei Angaben, die es zu einer Kaufausgabe wirklich gibt — an der
   // Stelle, an der bei einer Serie der Fortschrittsbalken steht.
   'antwort.discNeben': 'Kaufausgabe — erscheint an einem Tag komplett',
+  'antwort.discSeit': 'seit {datum}',
+  'antwort.discAm': 'am {datum}',
   'antwort.faktPublisher': 'Label',
   'antwort.faktEdition': 'Ausgabe',
   'antwort.faktStudio': 'Studio',
