@@ -36,4 +36,14 @@ DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
  ing-kino
 CATEGORIES:Kino
 END:VEVENT
+BEGIN:VEVENT
+UID:auto-143103-kino@2027-01-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270126
+DTEND;VALUE=DATE:20270127
+SUMMARY:Witch on the Holy Night
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/#/release/auto-143103-kino
+CATEGORIES:Kino
+END:VEVENT
 END:VCALENDAR

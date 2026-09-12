@@ -141,6 +141,18 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:lord-of-mysteries-specials-crunchyroll-de-2026-09-10@2026-09-10@anime-k
+ alender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260910T020000Z
+DTEND:20260910T023000Z
+SUMMARY:Lord of Mysteries Specials
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
+ ps://anime-kalender.de/#/release/lord-of-mysteries-specials-crunchyroll-de
+ -2026-09-10
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-09-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260912T093000Z
@@ -1292,6 +1304,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sailor-
  moon-sailor-stars-2027-01-15
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-143103-kino@2027-01-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270126
+DTEND;VALUE=DATE:20270127
+SUMMARY:Witch on the Holy Night
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/#/release/auto-143103-kino
+CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
 UID:oshi-no-ko-s3-vol1@2027-04-16@anime-kalender-de

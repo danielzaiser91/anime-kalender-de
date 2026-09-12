@@ -27,6 +27,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:lord-of-mysteries-specials-crunchyroll-de-2026-09-10@2026-09-10@anime-k
+ alender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260910T020000Z
+DTEND:20260910T023000Z
+SUMMARY:Lord of Mysteries Specials
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
+ ps://anime-kalender.de/#/release/lord-of-mysteries-specials-crunchyroll-de
+ -2026-09-10
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T140000Z

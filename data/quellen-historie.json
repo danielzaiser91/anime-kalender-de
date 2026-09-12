@@ -2778,7 +2778,7 @@
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
-      "gesehenAm": "2026-09-10",
+      "gesehenAm": "2026-09-12",
       "sagt": "2026-09-10",
       "stand": "aktuell"
     }
@@ -3847,6 +3847,15 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-09-12",
       "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-143103-kino": [
+    {
+      "url": "https://www.anime2you.de/news/1048494/crunchyroll-witch-on-the-holy-night-kinostart/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-12",
+      "sagt": "2027-01-26",
       "stand": "aktuell"
     }
   ]
