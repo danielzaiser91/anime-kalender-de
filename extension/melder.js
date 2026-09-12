@@ -4227,10 +4227,32 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.knopf.classList.add('ak-fertig')
     return
   }
+  /*
+    **Wo die Staffel mehrdeutig ist, sagt der Knopf es.**
+
+    Konosuba hat in Staffel 1 **und** 2 je elf Folgen, beide von 1 an gezählt —
+    `staffelnDerGruppe()` liefert dann zwei Kandidaten, und `zustandDerFolge()`
+    nimmt den strengeren. Auf der Titelseite von Staffel 1 (seit dem 23.08.2026
+    belegt) stand deshalb „▶ Episoden 1-10 prüfen", die Zahlen aus Staffel 2.
+    Daniel am 12.09.2026: „warum sagt melde button bei s1 e1-10 prüfen? der
+    denkt es ist staffel 2 ausgewählt???"
+
+    **Gemeldet würde trotzdem richtig** — `staffelFuerFolge()` gibt bei mehreren
+    Kandidaten `null` zurück, und die Pipeline ordnet über Folgennummer und
+    Titel zu. Falsch ist nur die Aufforderung: Sie schickt ihn zu Arbeit, die
+    vielleicht schon getan ist.
+
+    Die strengere Wahl bleibt (lieber eine Folge zu viel geprüft als eine
+    Lücke), sie nennt sich jetzt nur beim Namen. Eindeutig wird es, sobald der
+    Player einmal lief: Dann kennt die Erweiterung die Folgenkennungen der
+    Staffel, und `staffelnDerGruppe()` entscheidet ohne Raten.
+  */
+  const staffelUnklar =
+    auftrag && staffelnDerGruppe(gemeinteReihe(), DURCHLAUF.folgen ?? []).length > 1 ? ' · Staffel unklar' : ''
   DURCHLAUF.knopf.textContent = auftrag
     ? auftrag.length === 1
-      ? `▶ Episode ${auftrag[0].nummer} prüfen`
-      : `▶ Episoden ${alsBereiche(auftrag.map((f) => Number(f.nummer))).join(', ')} prüfen`
+      ? `▶ Episode ${auftrag[0].nummer} prüfen${staffelUnklar}`
+      : `▶ Episoden ${alsBereiche(auftrag.map((f) => Number(f.nummer))).join(', ')} prüfen${staffelUnklar}`
     : offen > 2
       ? /*
           **Zwei Folgen, keine Spanne.** „Anfang & Ende (1–26)" las sich wie
