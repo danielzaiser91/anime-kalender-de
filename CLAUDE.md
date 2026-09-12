@@ -1250,6 +1250,45 @@ gilt jetzt nur noch, was aus dem Sprachblock oder den Synonymen stammt. Wo
 AniList keinen englischen Namen führt (8.683 Titel, 656 davon in der Reihe eines
 Bestandstitels), liefert aniSearchs Sprachblock ihn nach.
 
+## Für 85 Titel ist „kein Anbieter bekannt" die Antwort, nicht die Lücke
+
+Am 12.09.2026 durchgemessen, weil die Aufgabenliste seit Tagen „Titel ohne
+jeden Bezugsweg" führte. Von 2.771 Titeln haben **235** weder Stream noch
+Kaufweg noch Termin. Aufgeschlüsselt:
+
+| | Zahl | was dort steht |
+|---|---|---|
+| deutsche Erstausgabe aus aniSearch | 116 | „Auf Deutsch seit 08.01.2003 · Dybex" |
+| belegte Sprechrollen, kein Weg | 34 | „Eine deutsche Fassung gab es — die Sprecher sind belegt" |
+| gar nichts | **85** | „Kein Anbieter bekannt" |
+
+**Vier Quellen dafür geprüft, alle vier verworfen — mit Grund, damit niemand
+sie in drei Monaten erneut prüft:**
+
+- **JustWatch** hat 232 der 235 bereits abgefragt und nichts gefunden.
+- **aniSearchs `websites`** trägt bei 102 etwas — ausnahmslos japanische
+  Studioseiten (Sunrise, Pierrot, Toei).
+- **JPC** sperrt weder KI-Bots namentlich noch den Suchpfad (robots.txt
+  geprüft), führt Anime-DVDs aber unter `poprock` ohne eigene Kategorie und
+  **ohne EAN im Treffer**: „Sorcerer Hunters" liefert dort ein Jazz-Album „The
+  Sorcerers". Ein Namensabgleich ohne eindeutigen Schlüssel erzeugt genau die
+  Kauflinks, vor denen diese Akte warnt — und beim Preis wiegt ein Irrtum
+  schwerer als beim Termin.
+- **Anime News Network** führt EANs an Releases (1.576 der 2.119 archivierten
+  Titel), aber **null deutsche Ausgaben**: Die Encyclopedia pflegt den
+  englischsprachigen Markt. Und Sprecher hat es für diese Titel ebenfalls
+  nicht — 2.119 von 2.120 Kennungen sind längst abgefragt, nur eine war nie
+  dran. Die Warteschlange ist also nicht schuld.
+
+**Was daraus folgt, ist eine Haltung, keine Aufgabe.** Diese 85 sind meist vor
+2000 erschienen und liefen hier im Fernsehen; es gibt sie heute nirgends mehr
+zu sehen oder zu kaufen. „Kein Anbieter bekannt" ist dafür die richtige
+Auskunft — sie beendet das Suchen, statt es zu verlängern (dieselbe Aufgabe wie
+bei `dub: undefined` gegen `dub: false`).
+
+**Wieder aufgegriffen wird es, sobald je Titel eine EAN vorliegt.** Dann trägt
+ein Shop-Abgleich, weil er nicht mehr über Namen laufen muss. Vorher nicht.
+
 ## Ein Pinyin-Titel ist kein Name — und das Synonym daneben ist einer
 
 AniLists `romaji` ist bei japanischen Werken die etablierte Umschrift; „Shingeki
