@@ -123,6 +123,11 @@ QUELLEN=(
   # jeder Lauf diesen Preis erneut — 676 Seitenaufrufe auf einem fremden Server
   # für eine Angabe, die sich nie ändert.
   data/crunchyroll-series-ids.json
+  # Was Crunchyroll als neu hinzugefügt führt, gefiltert auf deutsche Tonspur.
+  # Das Gedächtnis dieses Laufs: Ohne die Datei wüsste niemand, welcher Fund
+  # von gestern stammt — und genau das Datum ist die Angabe, die sonst nirgends
+  # steht (Crunchyroll nennt nur den Termin der Originalfassung).
+  data/crunchyroll-neu.json
   # Die Sprachurteile für Verweise, die keine bekamen — aufgelöst über die
   # Kennung in der Adresse oder über die Staffelliste im deutschen Katalog.
   # Jeder Befund kostet ein bis drei Abrufe gegen die Content-API und gilt

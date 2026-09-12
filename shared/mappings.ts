@@ -825,8 +825,21 @@ const PROVIDER_NAMES: Record<string, string> = {
   rakuten: 'Rakuten TV',
   arthousecnma: 'Arthouse CNMA',
   'cnma-arthouse': 'Arthouse CNMA',
-  iq: 'iQIYI',
-  wetv: 'WeTV',
+  /*
+    **WeTV und iQIYI stehen in Deutschland nicht zur Verfügung.**
+
+    aniSearch führt sie bei chinesischen Produktionen mit; auf einer deutschen
+    Seite sind sie kein Bezugsweg. Gemessen am 12.09.2026 an „Lord of
+    Mysteries" (Daniel: „remove the wetv entry … its a dead link"): Die
+    Album-Adresse `wetv.vip/en/album/7o961rwa3bmfgob` antwortet mit HTTP 200
+    und liefert die **Startseite** aus — derselbe Seitentitel wie `wetv.vip/`,
+    kein Titelinhalt. Das ist das Muster, das dieses Projekt seit dem
+    20.08.2026 als toten Verweis führt.
+
+    Leerer Name heißt: Der Anbieter kommt gar nicht erst in die Bezugswege.
+  */
+  iq: '',
+  wetv: '',
   zdf: 'ZDF',
   'twitter-/-x': 'X',
   filmfriend: 'filmfriend',

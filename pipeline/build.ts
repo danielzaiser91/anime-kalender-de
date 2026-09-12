@@ -427,7 +427,20 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
     .map((e) => {
       const [romaji, englisch, japanisch] = e.t
       const eintrag = ausAnisearch[String(e.id)]
-      const deutsch = eintrag?.quelle === 'ueberschrift' ? undefined : eintrag?.titel
+      /*
+        **Belegt heißt: aus dem Sprachblock oder den Synonymen.** Ein Eintrag
+        ohne `quelle` stammt aus einem Lauf vor dem 08.09.2026 und galt bis zum
+        12.09.2026 als deutsch — 1.001 Katalogtitel trugen so einen Namen, den
+        niemand als deutsch belegt hatte, davon 335 zu chinesischen Originalen.
+        Auf der Seite stand deshalb „Guimi Zhi Zhu: Tebie Pian - Liewu", während
+        der englische Titel „Lord of Mysteries Specials" danebenlag (Daniel,
+        12.09.2026: „why 2 of these titles have chinese titles").
+
+        Sie fallen jetzt auf Englisch zurück, bis `fetch-anisearch-titel.ts` sie
+        erneut geholt und ihre Herkunft vermerkt hat.
+      */
+      const belegt = eintrag?.quelle === 'sprachblock' || eintrag?.quelle === 'synonym'
+      const deutsch = belegt ? eintrag?.titel : undefined
       return {
         id: e.id,
         titleRomaji: romaji ?? undefined,
@@ -453,6 +466,9 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
         format: e.format ?? undefined,
         episodes: e.folgen ?? undefined,
         jpYear: e.jahr ?? undefined,
+        /* Der Termin, soweit AniList ihn kennt — bei Ankündigungen das Einzige, was dasteht. */
+        jpStart: e.start ?? undefined,
+        jpStatus: e.status ?? undefined,
         genres: e.genres,
         /**
          * **Ohne** Adressvorsatz — der wird erst im Browser angehängt. Bei
@@ -3753,6 +3769,92 @@ function main(): void {
     if (ketten) log(`${ketten} weitere über Blockketten belegt (ein Block deckt mehrere Staffeln)`)
 
     /**
+     * **Ein deutscher Block, den keiner unserer Titel führt — das Special.**
+     *
+     * Der teuerste Fall dieser Woche (Daniel, 12.09.2026): „Lord of Mysteries"
+     * führt bei Crunchyroll vier Blöcke. Unser Datensatz kannte nur den ersten,
+     * denn die drei anderen sind bei AniList **eigene Einträge** — Specials,
+     * Chibi-Kurzfilme, der nächste Arc. Am 10.09.2026 erschienen die drei
+     * Specials auf Deutsch; auf der Seite stand davon nichts, und zwar nicht
+     * wegen eines fehlenden Abrufs: `beurteile()` fragt nur Titel, die diese
+     * Adresse schon **tragen**. Ein Titel ohne Verweis wird nie beurteilt, und
+     * ohne Urteil bekommt er keinen Verweis — eine Warteschlange, die ihre
+     * eigene Lücke bewacht (dieselbe Klasse wie in `CLAUDE.md`, „Eine
+     * Warteschlange, die sich aus dem Bestand bildet").
+     *
+     * Diese Runde schließt sie, und zwar eng:
+     *
+     * - Der Block muss **vollständig deutsch** sein (`deutsch === folgen`).
+     * - Keiner der Titel dieser Adresse darf dieselbe Folgenzahl haben — sonst
+     *   gehört der Block ihm, nicht einem Geschwister.
+     * - Unter den Geschwistern derselben Reihe darf es **genau einen** Titel
+     *   mit dieser Folgenzahl geben, und der darf noch keinen
+     *   Crunchyroll-Verweis tragen.
+     *
+     * Bleibt es mehrdeutig, passiert nichts: Eine falsche Zuordnung behauptet
+     * eine Sprachfassung über den falschen Titel, und das ist schlimmer als
+     * eine Lücke, die eine Zeile im Log nennt.
+     */
+    let geschwisterBloecke = 0
+    for (const { serie, titel: gruppe } of nachSerienId.values()) {
+      if (serie.katalog !== 'de' || !serie.deutschImAngebot || serie.nichtVerfuegbar) continue
+      const unsere = [...gruppe.values()]
+      if (!unsere.length) continue
+      const reihe = unsere[0]!.franchiseId ?? unsere[0]!.id
+      const belegteZahlen = new Set(unsere.map((t) => t.episodes).filter(Boolean))
+      for (const block of serie.staffeln ?? []) {
+        const zahl = block.folgen ?? 0
+        if (!zahl || block.deutsch !== zahl) continue
+        if (belegteZahlen.has(zahl)) continue
+        /* Geschwister aus dem Bestand **und** aus dem Katalog — das Special steht meist dort. */
+        const ausBestand = [...titles.values()].filter(
+          (t) => (t.franchiseId ?? t.id) === reihe && t.id !== reihe && t.episodes === zahl,
+        )
+        const ausKatalog = katalogEintraege.filter(
+          (e) =>
+            e.folgen === zahl &&
+            !titles.has(e.id) &&
+            (e.eltern ?? []).some((x) => unsere.some((t) => t.id === x)),
+        )
+        const treffer = [...ausBestand.map((t) => t.id), ...ausKatalog.map((e) => e.id)]
+        if (treffer.length !== 1) continue
+        const id = treffer[0]!
+        let ziel = titles.get(id)
+        if (!ziel) {
+          const e = katalogEintraege.find((x) => x.id === id)!
+          const anzeige = e.t[1] ?? e.t[0] ?? String(e.id)
+          ziel = {
+            id: e.id,
+            slug: `${slugify(anzeige)}-${e.id}`,
+            keywords: [],
+            dubConfidence: 'low' as const,
+            titleRomaji: e.t[0] ?? undefined,
+            titleEn: e.t[1] ?? undefined,
+            titleNative: e.t[2] ?? undefined,
+            format: e.format ?? undefined,
+            jpYear: e.jahr ?? undefined,
+            episodes: e.folgen ?? undefined,
+            genres: e.genres?.length ? [...e.genres] : [],
+            coverImage: e.cover ? `https://s4.anilist.co/file/anilistcdn/media/anime/cover/${e.cover}` : undefined,
+            streams: [],
+            franchiseId: reihe,
+          }
+          titles.set(e.id, ziel)
+        }
+        if (ziel.streams.some((x) => x.platform === 'crunchyroll')) continue
+        ziel.streams.push({ platform: 'crunchyroll', url: serie.url, dub: true })
+        geschwisterBloecke++
+        log(
+          `  Crunchyroll-Block „${block.name}" (${zahl} Folgen, deutsch) dem Titel ${ziel.id} ` +
+            `(${ziel.titleDe ?? ziel.titleEn ?? ziel.titleRomaji}) zugeordnet`,
+        )
+      }
+    }
+    if (geschwisterBloecke)
+      log(`${geschwisterBloecke} deutsche Blöcke einem Geschwistertitel zugeordnet, der bisher keinen Weg hatte`)
+
+
+    /**
      * **Fünfte Runde: Filme und Specials, die der Katalog einzeln führt.**
      *
      * Die Suche nach Serienkennungen läuft mit `type=series` — Filme findet sie
@@ -6493,6 +6595,23 @@ function main(): void {
     ...ausKatalog.filter((t) => !imBestand.has(t.id)).map((t) => ({ ...t, ohneSynchro: true })),
   ]
 
+  /**
+   * **Was an einem anderen Teil der Reihe hängt, ist Beiwerk.**
+   *
+   * AniLists `PARENT`-Kante sagt es, das Format nicht: Bei chinesischen
+   * Produktionen ist jeder Teil eine ONA, und ohne dieses Feld standen bei
+   * „Lord of Mysteries" die Specials und das Chibi-Theater unter „Hauptserie"
+   * (Daniel, 12.09.2026). Der Katalog führt die Kante für **alle** Titel, auch
+   * für die im Bestand — er ist der vollständige AniList-Abzug.
+   */
+  const elternVon = new Map<number, number[]>()
+  for (const e of readJson<{ eintraege?: { id: number; eltern?: number[] }[] }>(
+    'data/cache/anilist-katalog.json',
+    {},
+  ).eintraege ?? []) {
+    if (e.eltern?.length) elternVon.set(e.id, e.eltern)
+  }
+
   const nachReihe = new Map<number, typeof fuerReihen>()
   for (const t of fuerReihen) {
     const key = t.franchiseId ?? t.id
@@ -6550,7 +6669,12 @@ function main(): void {
       format: t.format,
       jpYear: t.jpYear,
       episodes: t.episodes,
+      /* Der Termin, soweit bekannt — bei Katalogtiteln die einzige Zeitangabe. */
+      jpStart: t.jpStart,
+      jpStatus: t.jpStatus,
       ohneSynchro: (t as { ohneSynchro?: boolean }).ohneSynchro || undefined,
+      /* Hängt er an einem anderen Teil **dieser** Reihe? Eine fremde Elternkante zählt nicht. */
+      beiwerk: (elternVon.get(t.id) ?? []).some((e) => sortiert.some((x) => x.id === e)) || undefined,
       // Nur der Dateiname; den Vorsatz hängt `loadFranchises` wieder an.
       cover: t.coverImage?.startsWith(ANILIST_COVER_BASIS)
         ? t.coverImage.slice(ANILIST_COVER_BASIS.length)

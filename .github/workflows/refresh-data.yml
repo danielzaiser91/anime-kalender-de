@@ -165,6 +165,23 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Deutsche Sendezeiten von Crunchyroll lesen"
 
+      - name: Neue deutsche Folgen bei Crunchyroll finden
+        # Vier Abrufe, wenige Sekunden: Crunchyroll führt selbst, was neu
+        # hinzugekommen ist, und nennt je Folge ihre Tonspur. Ohne diesen Lauf
+        # erfahren wir von einer neuen Synchro erst bei der nächsten
+        # Wiedervorlage — bei den Lord-of-Mysteries-Specials wären das
+        # vier Wochen gewesen (10.09.2026).
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:cr-neu
+
+      - name: Fortschritt — Neue deutsche Folgen bei Crunchyroll finden
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Neue deutsche Folgen bei Crunchyroll finden"
+
       - name: ADN-Kalender lesen
         # Liefert Datum, Uhrzeit UND Sprachfassung — die einzige Quelle neben
         # Crunchyroll, die die Synchro selbst ausweist.

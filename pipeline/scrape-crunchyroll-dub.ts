@@ -646,6 +646,24 @@ async function main(): Promise<void> {
   // hängt daran, ob sich bei diesem Titel überhaupt etwas bewegt.
   const fristen = ALTER_GESETZT ? new Map<string, number>() : fristenJeAdresse(titles)
   const grenzeFuer = (u: string) => addDays(todayIso(), -(fristen.get(u) ?? WIEDERVORLAGE_TAGE))
+  /**
+   * **Eine neue deutsche Folge hebt jede Frist auf.**
+   *
+   * Am 10.09.2026 erschienen die drei „Lord of Mysteries"-Specials auf Deutsch,
+   * einen Tag nachdem dieser Lauf die Serie gelesen hatte. Die nächste
+   * Wiedervorlage wäre der 07.10. gewesen — vier Wochen, in denen die Seite
+   * nichts davon wusste. `fetch-crunchyroll-neu.ts` sieht täglich nach, was
+   * hinzugekommen ist; was dort steht, kommt hier sofort wieder dran.
+   */
+  const neuSeit = new Map<string, string>()
+  for (const f of readJson<{ folgen?: { serieId?: string; gesehenAm?: string }[] }>(
+    'data/crunchyroll-neu.json',
+    {},
+  ).folgen ?? []) {
+    if (!f.serieId || !f.gesehenAm) continue
+    const bisher = neuSeit.get(f.serieId)
+    if (!bisher || f.gesehenAm > bisher) neuSeit.set(f.serieId, f.gesehenAm)
+  }
   const fehlerGrenze = addDays(todayIso(), -FEHLER_TAGE)
   /**
    * Gezielt die Seiten erneut prüfen, bei denen der letzte Lauf nichts sagen
@@ -675,6 +693,9 @@ async function main(): Promise<void> {
      * Region stammt als der Zugang, mit dem wir gerade fragen, kommt neu dran.
      */
     if (katalogJetzt && s.katalog && s.katalog !== katalogJetzt) return false
+    /* Seit dem letzten Blick ist dort eine deutsche Folge dazugekommen. */
+    const neuAm = s.seriesId ? neuSeit.get(s.seriesId) : undefined
+    if (neuAm && (s.geprueftAm ?? '') < neuAm) return false
     if (NUR_FEHLER) return !s.fehler
     /**
      * „Nicht verfügbar" ist ein Befund, „hat nicht geantwortet" ist keiner.

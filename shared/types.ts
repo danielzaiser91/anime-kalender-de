@@ -246,6 +246,18 @@ export interface Title {
   format?: string
   episodes?: number
   /**
+   * **Beginn der Originalausstrahlung, so genau wie AniList ihn kennt.**
+   *
+   * Nur bei Titeln aus dem Katalog gesetzt — im gepflegten Bestand steht der
+   * deutsche Termin ohnehin am Release, und der japanische wäre dort Ladelast
+   * ohne Gegenwert. Im Katalog ist es die einzige Zeitangabe überhaupt: Bei
+   * „Lord of Mysteries" trugen drei von vier Teilen weder Jahr noch Termin
+   * (Daniel, 12.09.2026).
+   */
+  jpStart?: string
+  /** `NOT_YET_RELEASED`, `RELEASING`, `FINISHED` — sagt, ob der Termin noch aussteht. */
+  jpStatus?: string
+  /**
    * true, wenn zu diesem Titel deutsche Sprechrollen vorliegen.
    *
    * Nur ein Merker, keine Daten: Die Rollen selbst liegen in einer eigenen
@@ -547,6 +559,16 @@ export interface FranchiseMember {
   name: string
   format?: string
   jpYear?: number
+  /**
+   * Startdatum laut AniList, so genau wie es dort steht (`2026`, `2026-06`,
+   * `2026-06-19`).
+   *
+   * Ein Katalogtitel hat sonst gar keine Zeitangabe: Bei „Lord of Mysteries"
+   * stand im Panel dreimal nur das Format (Daniel, 12.09.2026).
+   */
+  jpStart?: string
+  /** `NOT_YET_RELEASED` heißt: Der Termin steht noch aus. */
+  jpStatus?: string
   episodes?: number
   /**
    * Steht dieser Teil nur im Katalog hinter dem Toggle?
@@ -567,6 +589,17 @@ export interface FranchiseMember {
    * Preis dafür steht in der Zeile, in der `franchises.json` geschrieben wird.
    */
   cover?: string
+  /**
+   * **Hängt dieser Teil an einem anderen der Reihe?**
+   *
+   * AniList kennt die Beziehung `PARENT`: Specials, Kurzformate und Beiwerk
+   * nennen die Serie, zu der sie gehören. Das Format tut es nicht — bei
+   * chinesischen Produktionen ist **alles** eine ONA, und ohne dieses Feld
+   * standen bei „Lord of Mysteries" die Specials und das Chibi-Theater unter
+   * „Hauptserie" (Daniel, 12.09.2026: „they are specials and categorized as
+   * hauptserie").
+   */
+  beiwerk?: boolean
 }
 
 /** franchiseId → alle Einträge der Reihe, in Ausstrahlungsreihenfolge. */

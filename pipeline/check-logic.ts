@@ -51,7 +51,7 @@ import {
 import { adnAdresseSchaerfen } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze } from '../shared/dub-grenze.ts'
-import { netflixNeutral } from '../shared/mappings.ts'
+import { netflixNeutral, providerName } from '../shared/mappings.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -3477,8 +3477,10 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 
   const bau = readFileSync('pipeline/build.ts', 'utf8')
   pruefe(
-    'aus einer Überschrift macht der Bau kein titleDe',
-    bau.includes("eintrag?.quelle === 'ueberschrift' ? undefined : eintrag?.titel"),
+    'als deutscher Titel gilt nur, was aus Sprachblock oder Synonymen stammt',
+    /* Seit dem 12.09.2026 strenger: Auch ein Eintrag **ohne** Herkunft zählt nicht mehr —
+       1.001 Katalogtitel trugen so einen unbelegten Namen, 335 davon zu chinesischen Originalen. */
+    bau.includes("quelle === 'sprachblock' || eintrag?.quelle === 'synonym'"),
     'die Überschrift trägt keine Sprachkennzeichnung — titleRomaji sagt ohnehin dasselbe',
   )
 
@@ -3655,6 +3657,57 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     /NUR_DIESER_TITEL = \/\^der Anbieter führt /.test(bau) &&
       (bau.match(/frueherEntfernt\.has\(adressKern\(url\), title\.id\)/g) ?? []).length >= 2,
     'das Gedächtnis fragt wieder nur nach der Adresse',
+  )
+}
+
+/*
+  **Der Fall „Lord of Mysteries" (Daniel, 12.09.2026).**
+
+  Vier Fehler an einem Titel, und jeder hat seine eigene Zusicherung:
+
+  1. Die drei Specials fehlten ganz, obwohl Crunchyroll sie seit dem 10.09.2026
+     auf Deutsch führt — `beurteile()` fragt nur Titel, die die Adresse schon
+     tragen, und ein Titel ohne Verweis bekommt so nie einen.
+  2. Kein Termin, weil der Katalogabruf nur `seasonYear` holte.
+  3. Chinesische Titel, weil eine aniSearch-Überschrift ohne belegte Herkunft
+     als deutscher Titel galt.
+  4. Specials standen unter „Hauptserie", weil bei chinesischen Produktionen
+     jeder Teil eine ONA ist.
+*/
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const katalog = readFileSync('pipeline/lib/anilist.ts', 'utf8')
+  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+
+  pruefe(
+    'ein deutscher Block ohne Titel geht an den Geschwistertitel',
+    bau.includes('geschwisterBloecke') && bau.includes('e.eltern ?? []'),
+    'ohne diese Runde bleibt ein Special unsichtbar, solange es keinen Verweis hat',
+  )
+  pruefe(
+    'der Katalogabruf holt das Startdatum',
+    /startDate { year month day }/.test(katalog) && katalog.includes('status?: string | null'),
+    'ohne startDate hat ein Katalogtitel keine einzige Zeitangabe',
+  )
+  pruefe(
+    'ein aniSearch-Titel gilt nur mit belegter Herkunft als deutsch',
+    bau.includes("quelle === 'sprachblock' || eintrag?.quelle === 'synonym'"),
+    'sonst steht ein Romaji-Titel als deutscher im Datensatz',
+  )
+  pruefe(
+    'die Reihe trennt Beiwerk von Hauptstaffeln',
+    bau.includes('beiwerk:') && panel.includes('!m.beiwerk'),
+    'ohne die PARENT-Kante ist bei einer ONA-Reihe alles Hauptserie',
+  )
+  pruefe(
+    'eine neue deutsche Folge hebt die Crunchyroll-Frist auf',
+    readFileSync('pipeline/scrape-crunchyroll-dub.ts', 'utf8').includes('neuSeit'),
+    'sonst erfährt die Seite von einer neuen Synchro erst Wochen später',
+  )
+  pruefe(
+    'WeTV und iQIYI sind keine Bezugswege',
+    providerName('wetv') === '' && providerName('iq') === '',
+    'sie liefern in Deutschland nichts aus',
   )
 }
 

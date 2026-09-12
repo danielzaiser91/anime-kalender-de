@@ -3138,9 +3138,21 @@ export function DetailPanel({
                     „choppers gehört nicht zur hauptserie"). Eine Sendung von fünf
                     Minuten ist Beiwerk, auch wenn sie im Fernsehen läuft.
                   */
+                  /*
+                    **Und bei chinesischen Produktionen entscheidet das Format
+                    gar nichts.** Dort ist jeder Teil eine ONA — Serie, Specials
+                    und Chibi-Kurzfilme gleichermaßen. Bei „Lord of Mysteries"
+                    standen deshalb alle vier Teile unter „Hauptserie" (Daniel,
+                    12.09.2026: „they are specials and categorized as
+                    hauptserie").
+
+                    AniList sagt es trotzdem: Ein Special nennt die Serie, zu
+                    der es gehört (`PARENT`), eine Staffel tut das nicht. Der
+                    Bau reicht das als `beiwerk` durch.
+                  */
                   const hatTv = reihenTeile.some((m) => m.format === 'TV')
                   const istHauptstaffel = (m: FranchiseMember) =>
-                    hatTv ? m.format === 'TV' : istStaffel(m.format)
+                    hatTv ? m.format === 'TV' : istStaffel(m.format) && !m.beiwerk
                   /*
                     **Was noch nicht da ist, gehört trotzdem zu seiner Art.**
 
@@ -3316,7 +3328,28 @@ export function DetailPanel({
                           <span className="ml-auto shrink-0 text-[11px] text-slate-500 dark:text-slate-400">
                             {[
                               m.format && m.format !== 'TV' ? (FORMAT_DE[m.format] ?? m.format) : '',
-                              m.jpYear,
+                              /*
+                                **Der Termin schlägt das Jahr — wo es einen gibt.**
+
+                                Bei „Lord of Mysteries" stand hinter drei von vier
+                                Teilen nur das Format: kein Jahr, kein Datum
+                                (Daniel, 12.09.2026: „why important info like
+                                release dates or estimated release dates are
+                                missing"). AniList kennt für die Specials den
+                                19.06.2026; seit dem 12.09.2026 holt der
+                                Katalogabruf `startDate` mit.
+
+                                Angezeigt wird so genau, wie die Quelle ist:
+                                „2026", „06.2026" oder „19.06.2026".
+                              */
+                              (() => {
+                                const roh = m.jpStart
+                                if (!roh) return m.jpYear ?? ''
+                                const [jahr, monat, tag] = roh.split('-')
+                                if (tag) return `${tag}.${monat}.${jahr}`
+                                if (monat) return `${monat}.${jahr}`
+                                return jahr
+                              })(),
                               m.episodes ? t('detail.folgenKurz', { n: m.episodes }) : '',
                             ]
                               .filter(Boolean)

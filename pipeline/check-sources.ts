@@ -58,6 +58,8 @@ const FRISTEN: Record<string, number> = {
   // Läuft wöchentlich, holt aber nur, was älter als 28 Tage ist — ein Lauf
   // ohne neue Seiten meldet trotzdem seinen Bestand.
   'crunchyroll-dub': 9,
+  // Läuft täglich — vier Abrufe. Bleibt er zwei Tage stumm, ist etwas kaputt.
+  'crunchyroll-neu': 3,
   /*
     Wöchentlich. Der Lauf arbeitet eine Liste ab, die kleiner wird — sind alle
     Verweise beurteilt, holt er nichts mehr und meldet trotzdem seinen Bestand.

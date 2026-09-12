@@ -126,6 +126,21 @@ export interface KatalogEintrag {
   format: string | null
   jahr: number | null
   folgen: number | null
+  /**
+   * **Beginn laut AniList — der einzige Termin, den ein Katalogtitel hat.**
+   *
+   * Bis zum 12.09.2026 holte die Abfrage nur `seasonYear`, und der ist bei
+   * Ankündigungen und bei chinesischen Produktionen oft leer: Alle vier Teile
+   * von „Lord of Mysteries" standen ohne jede Zeitangabe im Panel (Daniel:
+   * „why important info like release dates or estimated release dates are
+   * missing"). `startDate` trägt dort den 19.06.2026.
+   *
+   * Unvollständige Daten bleiben unvollständig: AniList führt „2026" ohne
+   * Monat als `{ year: 2026 }`, und daraus wird `2026`, nicht `2026-01-01`.
+   */
+  start?: string | null
+  /** `RELEASING`, `FINISHED`, `NOT_YET_RELEASED` — sagt, ob ein Termin noch aussteht. */
+  status?: string | null
   genres: string[]
   score: number | null
   /**
@@ -183,7 +198,8 @@ export async function katalogSeite(
       media(type: ANIME, isAdult: false, format_in: $f, ${datumsFilter} sort: ${absteigend ? 'ID_DESC' : 'ID'}) {
         id
         title { romaji english native }
-        format episodes seasonYear averageScore
+        format episodes seasonYear averageScore status
+        startDate { year month day }
         genres
         coverImage { large }
         relations { edges { relationType node { id type title { romaji english } } } }
@@ -205,6 +221,8 @@ export async function katalogSeite(
         format: string | null
         episodes: number | null
         seasonYear: number | null
+        status?: string | null
+        startDate?: { year: number | null; month: number | null; day: number | null } | null
         averageScore: number | null
         genres: string[]
         coverImage: { large: string | null }
@@ -224,7 +242,15 @@ export async function katalogSeite(
       id: m.id,
       t: [m.title.romaji, m.title.english, m.title.native],
       format: m.format,
-      jahr: m.seasonYear,
+      jahr: m.seasonYear ?? m.startDate?.year ?? null,
+      start: (() => {
+        const d = m.startDate
+        if (!d?.year) return null
+        const zwei = (n: number) => String(n).padStart(2, '0')
+        if (!d.month) return String(d.year)
+        return d.day ? `${d.year}-${zwei(d.month)}-${zwei(d.day)}` : `${d.year}-${zwei(d.month)}`
+      })(),
+      status: m.status ?? null,
       folgen: m.episodes,
       genres: m.genres ?? [],
       score: m.averageScore,

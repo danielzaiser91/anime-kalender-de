@@ -25,8 +25,8 @@
     "lastCount": 115
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-09-10T18:37:16.943Z",
-    "lastRun": "2026-09-10T18:37:16.943Z",
+    "lastOk": "2026-09-12T07:33:02.303Z",
+    "lastRun": "2026-09-12T07:33:02.303Z",
     "lastCount": 1079
   },
   "anime-offline-database": {
@@ -123,5 +123,10 @@
     "lastOk": "2026-09-12T04:51:00.899Z",
     "lastRun": "2026-09-12T04:51:00.899Z",
     "lastCount": 0
+  },
+  "crunchyroll-neu": {
+    "lastOk": "2026-09-12T07:26:54.857Z",
+    "lastRun": "2026-09-12T07:26:54.857Z",
+    "lastCount": 41
   }
 }
