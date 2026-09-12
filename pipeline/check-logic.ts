@@ -3785,6 +3785,33 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 }
 
 /*
+  **Zwei Auskünfte über dieselbe Sache dürfen sich nicht widersprechen**
+  (Daniel, 12.09.2026): Auf der Nachrichtenseite stand „Gals Can't Be Kind to
+  Otaku!? — Neu auf Deutsch", im Panel daneben „Noch keine deutsche Fassung",
+  und bei Crunchyroll gab es keine deutsche Folge. Dieselbe Datei speist den
+  Newsletter.
+*/
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    '„neu auf Deutsch" verlangt eine belegte Synchro',
+    bau.includes('const belegteSynchro = (t: Title): boolean =>') &&
+      /seit !== historie\.angelegtAm && belegteSynchro\(t\)/.test(bau),
+    '„neu im Bestand" ist nicht „neu auf Deutsch" — und der Newsletter verschickt es',
+  )
+  pruefe(
+    'Crunchyrolls Folgenwissen landet als Bereich am Verweis',
+    bau.includes('stream.dubRanges = bereiche') && bau.includes('if (unsere.length !== 1) continue'),
+    'ohne Bereiche gewinnt die Zahl eines anderen Anbieters — „8 von 24" statt 19',
+  )
+  pruefe(
+    'ein Handbeleg wird dabei nie überschrieben',
+    /if \(!stream \|\| stream\.dub !== true \|\| stream\.dubRanges\?\.length\) continue/.test(bau),
+    'gemessen schlägt abgeleitet',
+  )
+}
+
+/*
   **Die Nachrichtenseite bündelt je Anime und Tag** (Daniel, 12.09.2026: „pro
   tag max 1 eintrag je anime — alle infos zu diesem anime … müssen unter diesem
   anime gebündelt aufgelistet sein").

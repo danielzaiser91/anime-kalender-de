@@ -695,11 +695,34 @@ function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): void {
   }
 
   const grenze = addDays(heute, -FENSTER_TAGE)
+  /*
+    **„Neu im Bestand" ist nicht „neu auf Deutsch".**
+
+    Der Hauptbestand führt jeden Titel, für den MyDubList eine deutsche Synchro
+    kennt — auch angekündigte und vermutete. Diese Datei behauptet dagegen
+    etwas Stärkeres: Sie speist die Nachrichtenseite („Neu auf Deutsch") und
+    den Newsletter, und beide sagen dem Leser, dass es die Fassung **jetzt**
+    gibt.
+
+    Am 12.09.2026 stand „Gals Can't Be Kind to Otaku!? — Neu auf Deutsch" auf
+    der Seite, während das Panel daneben „Noch keine deutsche Fassung" zeigte;
+    Daniel hat bei Crunchyroll nachgesehen: keine deutsche Folge. Gemessen
+    waren **6 von 20** Einträgen in dieser Lage — sie wären genauso an die
+    Abonnenten gegangen.
+
+    Belegt heißt hier dasselbe wie im Detail-Panel: ein Verweis mit `dub: true`,
+    belegte Sprechrollen, oder ein deutscher Termin. Ein Titel ohne all das ist
+    ein Neuzugang **des Bestands**, und darüber gibt es nichts zu melden.
+  */
+  const belegteSynchro = (t: Title): boolean =>
+    (t.streams ?? []).some((s) => s.dub === true) ||
+    Boolean((t as { hasVoices?: boolean }).hasVoices) ||
+    ersterTermin.has(t.id)
   const neu = titles
     .filter((t) => {
       const seit = historie.seit[t.id]
       // Der Ausgangsstand ist kein Neuzugang, egal wie jung sein Datum ist.
-      return seit >= grenze && seit !== historie.angelegtAm
+      return seit >= grenze && seit !== historie.angelegtAm && belegteSynchro(t)
     })
     .map((t) => ({
       id: t.id,
@@ -3671,6 +3694,62 @@ function main(): void {
         belegt++
       }
     }
+
+    /*
+      **Was Crunchyroll je Folge weiß, gehört an den Verweis.**
+
+      Daniel am 12.09.2026 an „Das Band der Unterwelt": Im Panel stand „8 von 24
+      Folgen auf Deutsch", während Crunchyroll 19 führte. Die 8 kam von Disney+,
+      wo ein Handbeleg Folgen 1–8 nennt — und die Regel im Panel lautet zu
+      Recht: Sobald **ein** Verweis Bereiche belegt, entscheiden nur noch diese.
+      Der Crunchyroll-Verweis trug keine.
+
+      Gemessen am selben Tag: Von 625 Crunchyroll-Verweisen mit `dub: true`
+      trugen **625 minus einen** keine Bereiche, obwohl `crunchyroll-dub.json`
+      23.404 deutsche Folgen mit Nummern führt. Das Wissen lag im Haus und kam
+      nie an — dieselbe Klasse wie „Eine Datei zu schreiben ist nicht dasselbe
+      wie sie zu benutzen" (CLAUDE.md).
+
+      **Streng, wie bei den Terminen.** Übernommen wird nur, wo nichts zu raten
+      ist: genau ein Titel an dieser Adresse, genau ein Block mit deutschen
+      Folgen, und dessen Folgenzahl passt zu unserer. Sonst entscheidet die
+      Zuordnung über das Ergebnis, und eine falsche Bereichsangabe behauptet
+      etwas über einzelne Folgen — schlimmer als gar keine.
+
+      Ein Handbeleg wird nie überschrieben: Er ist gemessen, das hier ist
+      abgeleitet.
+    */
+    let bereicheNeu = 0
+    for (const serie of crDub.serien) {
+      const unsere = nachUrl.get(serie.url) ?? []
+      if (unsere.length !== 1) continue
+      const title = unsere[0]!
+      const stream = title.streams.find((s) => s.platform === 'crunchyroll' && s.url === serie.url)
+      if (!stream || stream.dub !== true || stream.dubRanges?.length) continue
+      const bloecke = (serie.staffeln ?? []).filter((st) => (st.deutscheFolgen ?? []).length)
+      if (bloecke.length !== 1) continue
+      const nummern = [
+        ...new Set(
+          (bloecke[0]!.deutscheFolgen ?? [])
+            .map((f) => Number(f.nummer))
+            .filter((n) => Number.isFinite(n) && n >= 1),
+        ),
+      ].sort((a, b) => a - b)
+      if (!nummern.length) continue
+      /* Mehr deutsche Folgen als der Titel hat, heißt: Der Block ist nicht seiner. */
+      if (title.episodes && nummern[nummern.length - 1]! > title.episodes) continue
+      const bereiche: { from: number; to: number; dub: boolean }[] = []
+      for (const n of nummern) {
+        const letzter = bereiche[bereiche.length - 1]
+        if (letzter && n === letzter.to + 1) letzter.to = n
+        else bereiche.push({ from: n, to: n, dub: true })
+      }
+      /* „Alle Folgen deutsch" sagt der Kasten ohnehin — ein Bereich über alles ist Ballast. */
+      if (bereiche.length === 1 && bereiche[0]!.from === 1 && bereiche[0]!.to === (title.episodes ?? 0)) continue
+      stream.dubRanges = bereiche
+      bereicheNeu++
+    }
+    if (bereicheNeu) log(`${bereicheNeu} Crunchyroll-Verweise mit Folgenbereichen aus dem Dub-Bestand`)
 
     /**
      * Zweite Runde: über die **Serienkennung** statt über die Adresse.

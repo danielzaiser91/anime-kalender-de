@@ -9460,14 +9460,17 @@
 - anilistId: 195600
   title: "Das Band der Unterwelt"
   platform: disneyplus
+  url: https://www.disneyplus.com/de-de/browse/entity-8cc06990-0faf-4a7e-ac1f-fb74cb4b9286
   dub: true
   dubRanges:
     - from: 1
-      to: 8
+      to: 11
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8]
-  checkedAt: '2026-08-26'
-  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de, ja"
+  checkedAt: '2026-09-12'
+  note: >-
+    11 Folgen auf Deutsch (Daniel, 12.09.2026). Vorher standen hier 8 aus der
+    Meldung vom 26.08.2026 — seitdem sind drei dazugekommen. Die Adresse trägt
+    jetzt den Sprachpfad /de-de/; ohne ihn führte der Verweis ins Leere.
 
 - anilistId: 140291
   title: "Disney Twisted-Wonderland: Die Serie - Episode of Heartslabyul"
@@ -9916,14 +9919,21 @@
 - anilistId: 195600
   title: "Das Band der Unterwelt"
   platform: netflix
-  dub: false
+  url: https://www.netflix.com/title/82719204
+  dub: true
   dubRanges:
     - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-  checkedAt: '2026-08-26'
-  note: "Folge 1 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], fr|Französisch — Durchlauf: Folge 1 — Herr Dr. Tenma"
+      to: 11
+      dub: true
+  checkedAt: '2026-09-12'
+  note: >-
+    11 Folgen auf Deutsch, Folge 12 laut Netflix ab dem 19.09.2026 (Daniel,
+    12.09.2026). **Berichtigt einen falsch zugeordneten Beleg:** Hier stand seit
+    dem 26.08.2026 „Folge 1 ohne deutschen Ton", und die Notiz nannte als
+    Folgentitel „Herr Dr. Tenma" — eine Folge aus „Monster". Die Meldung stammt
+    aus einem Durchlauf und ist unter der falschen Reihe gelandet; sie hat den
+    Netflix-Verweis aus dem Datensatz entfernt, weshalb dort gar kein Weg zu
+    Netflix mehr stand.
 
 - anilistId: 19
   title: "Monster"
