@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Survival
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:im-standing-on-a-million-lives-s1-box@2026-09-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260904
-DTEND;VALUE=DATE:20260905
-SUMMARY:I'm Standing on a Million Lives – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/im-stan
- ding-on-a-million-lives-s1-box
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00378078@2026-09-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260905T160000Z

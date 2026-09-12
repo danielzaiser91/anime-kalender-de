@@ -6,18 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Horror
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:hakaba-kitaro-der-junge-vom-friedhof-2026-09-04@2026-09-04@anime-kalend
- er-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260904
-DTEND;VALUE=DATE:20260905
-SUMMARY:Hakaba Kitaro: Der Junge vom Friedhof (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/hakaba-
- kitaro-der-junge-vom-friedhof-2026-09-04
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:vampire-princess-miyu-2026-09-08@2026-09-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260908

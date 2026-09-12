@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Gore
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:re-zero-s3-vol1@2026-09-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260904
-DTEND;VALUE=DATE:20260905
-SUMMARY:Re:ZERO – Staffel 3 – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/re-zero
- -s3-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-09-09#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T140000Z
