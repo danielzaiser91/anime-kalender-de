@@ -136,7 +136,26 @@ export function baueNews(
     if (!t) continue
     const datum = r.schedule?.firstEpisodeDate
     if (datum) {
-      const art: NewsArt = r.releaseType === 'disc' ? 'disc' : r.releaseType === 'movie' ? 'kino' : 'angekuendigt'
+      /*
+        **„Im Kino" sagt die Plattform, nicht die Art des Werks.**
+
+        `releaseType: 'movie'` heißt „das hier ist ein Film" — und daraus wurde
+        „Im Kino". Für „Mononoke – The Movie: Chapter III" stand deshalb „ab
+        29.09.2026 · Im Kino" in den Nachrichten; das Release trägt
+        `platform: 'netflix'` und die Netflix-Adresse als Quelle (Daniel,
+        12.09.2026: „woher kommt dieser news eintrag mit ab 29.09.2026 im kino?
+        … wo genau steht diese info, und woher kommt das?").
+
+        Ein Film, der bei einem Streamingdienst erscheint, ist keine
+        Kinopremiere. Entschieden wird deshalb an `platform === 'kino'` — dem
+        Feld, das genau das bedeutet.
+      */
+      const art: NewsArt =
+        r.releaseType === 'disc'
+          ? 'disc'
+          : r.platform === 'kino'
+            ? 'kino'
+            : 'angekuendigt'
       roh.push({
         schluessel: `${art}:${r.slug}:${datum}`,
         fallback: datum > heute ? heute : datum,

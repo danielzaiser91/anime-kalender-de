@@ -211,6 +211,10 @@ QUELLEN=(
   data/crunchyroll-de-kennungen.json
   data/cr-einzelwerke.json
   data/cr-filmbloecke.json
+  # Deutsche Trailer zu Anime-Filmen, je Titel eine YouTube-Kennung. Quelle ist
+  # KinoChecks offizielle API plus der Index seines Kanals; ohne diese Zeile
+  # wäre die Arbeit jedes Laufs weg — siehe die vier Messdateien vom 24.08.2026.
+  data/trailer.json
   data/cr-katalog-de.json
   data/cr-katalog-zuordnung.json
   extension/offene-amazon.js

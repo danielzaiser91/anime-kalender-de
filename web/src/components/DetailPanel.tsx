@@ -923,6 +923,137 @@ function DiscZeichen() {
 }
 
 /**
+ * **Der Trailer — eine Pille, die sich zu einem Kino öffnet.**
+ *
+ * Daniel am 12.09.2026: „im panel erscheint ‚trailer anschauen'
+ * pill/button/interaktives element … wenn angeklickt, öffnet sich das youtube
+ * video embedded in einem overlay dialog mit 95% width und height, in diesem
+ * dialog gibt es ein x button oben rechts um es zu schließen, über dem
+ * embedded video steht was es ist (trailer für <titel des anime films>),
+ * außerdem muss dort auch noch ein link-button element sein, mit label ‚in
+ * youtube öffnen'."
+ *
+ * **Drei Entscheidungen, die nicht im Auftrag standen:**
+ *
+ * - **`youtube-nocookie.com`** statt der gewöhnlichen Einbettung. Diese Seite
+ *   führt eine Datenschutzerklärung und einen Double-Opt-in-Newsletter; ein
+ *   Werbetracker im Panel wäre ein Widerspruch dazu. Die Einbettung sieht
+ *   identisch aus.
+ * - **Das `<iframe>` entsteht erst beim Öffnen.** Sonst lädt jedes geöffnete
+ *   Panel YouTube mit, auch wenn niemand den Trailer sehen will — bei 52
+ *   Filmen selten, aber es kostet jedes Mal einen Fremdabruf.
+ * - **Der Dialog schließt auch mit Escape und einem Klick daneben.** Ein X
+ *   allein ist auf dem Handy weit weg vom Daumen.
+ */
+function TrailerKino({ trailer, titel }: { trailer: { video: string; titel: string }; titel: string }) {
+  const { t } = useLang()
+  const [offen, setOffen] = useState(false)
+
+  /*
+    Escape schließt, und solange der Dialog steht, scrollt die Seite darunter
+    nicht mit — sonst wandert das Panel weg, während oben ein Video läuft.
+  */
+  useEffect(() => {
+    if (!offen) return
+    const beiTaste = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOffen(false)
+    }
+    document.addEventListener('keydown', beiTaste)
+    const vorher = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', beiTaste)
+      document.body.style.overflow = vorher
+    }
+  }, [offen])
+
+  return (
+    <>
+      {/*
+        **Die Pille sagt, was sie tut, und sieht aus wie ein Abspielknopf.**
+        Ein gefülltes Dreieck in einem eigenen Kreis: Das ist das Zeichen, das
+        jeder kennt, und es unterscheidet die Pille von den Anbieter-Pillen
+        darunter, die zu einer fremden Seite führen statt etwas zu öffnen.
+      */}
+      <button
+        type="button"
+        onClick={() => setOffen(true)}
+        className="group inline-flex shrink-0 items-center gap-1.5 rounded-full border border-rose-400/40 bg-rose-500/10 py-1 pl-1 pr-3 text-xs font-semibold text-rose-700 transition hover:border-rose-400/70 hover:bg-rose-500/20 dark:text-rose-300"
+      >
+        <span
+          aria-hidden="true"
+          className="grid h-5 w-5 place-items-center rounded-full bg-rose-600 text-[9px] text-white transition group-hover:scale-110"
+        >
+          ▶
+        </span>
+        {t('trailer.ansehen')}
+      </button>
+
+      {/*
+        **Der Dialog hängt am Körper, nicht im Panel.**
+
+        `position: fixed` bezieht sich normalerweise auf das Fenster — aber
+        nicht, wenn ein Vorfahre `transform`, `filter` oder `backdrop-filter`
+        trägt: Dann wird dieser Vorfahre zum Bezugsrahmen. Das Detail-Panel
+        fährt mit einer Transform-Animation herein, also saß der Dialog in ihm
+        und ragte rechts aus dem Bild (gemessen 12.09.2026 am ersten Bild).
+
+        Der Messwert log dabei nicht, er beantwortete nur eine andere Frage:
+        „95 % breit" stimmte, gemessen an `window.innerWidth` — die **Lage** hat
+        niemand gefragt. Genau dafür gibt es das Bild, und deshalb prüft
+        `trailer-dialog-bild.mjs` jetzt auch die Ränder.
+      */}
+      {offen &&
+        createPortal(
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={t('trailer.ueberschrift', { titel })}
+          onClick={() => setOffen(false)}
+          className="fixed inset-0 z-[120] grid place-items-center bg-black/80 p-2 backdrop-blur-sm"
+        >
+          {/* Der Klick im Dialog darf ihn nicht schließen — nur der daneben. */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="flex h-[95vh] w-[95vw] flex-col overflow-hidden rounded-2xl border border-white/15 bg-slate-950 shadow-2xl"
+          >
+            <div className="flex shrink-0 items-center gap-3 border-b border-white/10 px-4 py-2.5">
+              <h2 className="min-w-0 flex-1 truncate text-sm font-semibold text-white">
+                {t('trailer.ueberschrift', { titel })}
+              </h2>
+              <a
+                href={`https://www.youtube.com/watch?v=${trailer.video}`}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-xs font-medium text-slate-200 transition hover:border-white/40 hover:bg-white/10 hover:text-white"
+              >
+                {t('trailer.beiYoutube')} ↗
+              </a>
+              <button
+                type="button"
+                onClick={() => setOffen(false)}
+                aria-label={t('trailer.schliessen')}
+                className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-lg text-slate-300 transition hover:bg-white/10 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${trailer.video}?autoplay=1&rel=0`}
+              title={trailer.titel || t('trailer.ueberschrift', { titel })}
+              allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen"
+              allowFullScreen
+              className="min-h-0 flex-1 border-0 bg-black"
+            />
+          </div>
+        </div>,
+          document.body,
+        )}
+    </>
+  )
+}
+
+/**
  * **So genau, wie AniList es weiß — nicht nur das Jahr.**
  *
  * Im Kopf stand „Film · JP 2026", während die Reihenliste zwei Zeilen tiefer
@@ -2859,13 +2990,19 @@ export function DetailPanel({
               Wertung links und Verweis rechts — beides Angaben, die vorher
               entweder gar nicht oder nur an einer Stelle standen.
             */}
-            <div className="flex items-baseline gap-2">
+            <div className="flex flex-wrap items-baseline gap-2">
               {bewertung}
               {reihenTeile.length > 1 && teilName !== reihenName && (
                 <h3 className="min-w-0 flex-1 text-xl font-bold leading-tight text-slate-900 dark:text-white">
                   {teilName}
                 </h3>
               )}
+              {/*
+                **Der Trailer steht bei den Angaben zum Werk, nicht bei den
+                Anbietern.** Er beantwortet eine andere Frage als „wo kann ich
+                das sehen" — nämlich „will ich das überhaupt".
+              */}
+              {title.trailer && <TrailerKino trailer={title.trailer} titel={anzeigeName(title)} />}
               <AniSearchVerweis title={title} />
             </div>
             {/*

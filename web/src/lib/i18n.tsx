@@ -535,6 +535,10 @@ const TEXTE = {
   // Stelle, an der bei einer Serie der Fortschrittsbalken steht.
   'antwort.discNeben': 'Kaufausgabe — erscheint an einem Tag komplett',
   'antwort.discSeit': 'seit {datum}',
+  'trailer.ansehen': 'Trailer anschauen',
+  'trailer.ueberschrift': 'Trailer für {titel}',
+  'trailer.beiYoutube': 'In YouTube öffnen',
+  'trailer.schliessen': 'Trailer schließen',
   'antwort.discAm': 'am {datum}',
   'antwort.faktPublisher': 'Label',
   'antwort.faktEdition': 'Ausgabe',

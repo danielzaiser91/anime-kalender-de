@@ -325,6 +325,18 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:disc-ausgaben
 
+      # Deutsche Trailer zu Anime-Filmen, aus KinoChecks offizieller API und dem
+      # Index seines Kanals. Täglich, weil ein Trailer vor dem Kinostart
+      # erscheint — und billig: Der Kanalindex kostet 166 der 10.000
+      # YouTube-Einheiten am Tag, KinoCheck wird nur für Filme ab 2012 gefragt,
+      # die der Index nicht kennt.
+      - name: Deutsche Trailer zu Anime-Filmen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: npm run data:trailer
+
       # Nicht mehr direkt auf main: Der Fund geht als Pull Request ein und wird
       # nur gemergt, wenn er sich sauber einfügt. Sonst bleibt der Zweig stehen,
       # und „Claude — Daten-PR zusammenführen" löst den Konflikt mit Blick auf

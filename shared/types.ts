@@ -291,6 +291,20 @@ export interface Title {
    */
   anisearchId?: number
   /**
+   * **Der deutsche Trailer, wo es einen gibt.**
+   *
+   * Daniel am 12.09.2026: „pack für anime filme trailer von diesem kanal" —
+   * dem deutschen KinoCheck-Kanal. Gespeichert wird nur, was die Oberfläche
+   * braucht: die YouTube-Kennung zum Einbetten und der Titel des Videos, damit
+   * im Dialog steht, was dort läuft.
+   *
+   * Nur bei Filmen, und nur bei 52 von 700 — KinoCheck begleitet das
+   * Kinoprogramm, und die meisten Anime-Filme im Bestand sind älter als der
+   * Kanal. Wo nichts steht, gibt es keinen Trailer; die Pille erscheint dann
+   * gar nicht erst.
+   */
+  trailer?: { video: string; titel: string }
+  /**
    * Wann die deutsche Fassung erstmals zu haben war — laut aniSearch.
    *
    * **Warum ein Feld und kein Release.** Der erste Anlauf am 03.09.2026 baute

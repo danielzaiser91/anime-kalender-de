@@ -6267,6 +6267,14 @@ function main(): void {
   /* `data/ann-ids.json` führt die Zuordnung unter `ann`: AniList-Kennung -> ANN-Kennung. */
   const annKennungen = readJson<{ ann?: Record<string, number> }>('data/ann-ids.json', {}).ann ?? {}
 
+  /*
+    **Die Trailer, je Titel eine YouTube-Kennung.** Geholt von
+    `fetch-trailer.ts` aus KinoChecks offizieller API und dem Index seines
+    Kanals; hier wird nur zugeordnet. Ein Titel ohne Eintrag bekommt kein Feld
+    — die Pille im Panel hängt an seinem Dasein.
+  */
+  const trailer = readJson<Record<string, { video: string; titel: string }>>('data/trailer.json', {})
+
   const slim = allTitles.map((t) => {
     const ausAnisearch = anisearch[t.id]?.descriptionDe
     const ausTmdb = tmdbTitles[t.id]
@@ -6330,6 +6338,10 @@ function main(): void {
       ...(mitStimmen.has(t.id) ? { hasVoices: true as const } : {}),
       ...(Number.isFinite(asId) ? { anisearchId: asId } : {}),
       ...(Number.isFinite(annId) ? { annId } : {}),
+      /* Nur die beiden Felder, die die Oberfläche braucht — Herkunft und Prüfdatum bleiben in der Quelle. */
+      ...(trailer[String(t.id)]
+        ? { trailer: { video: trailer[String(t.id)]!.video, titel: trailer[String(t.id)]!.titel } }
+        : {}),
     }
   })
 

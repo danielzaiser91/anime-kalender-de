@@ -41,6 +41,7 @@ on:
           # planmäßiger Lauf merkt das von allein (03.09.2026: `OTHER` klebte
           # Gundam an Patlabor, der Fix kam erst mit dem nächsten Volllauf an).
           - data:katalog
+          - data:trailer
       grenze:
         description: 'Höchstzahl Titel (nur wo der Lauf --limit kennt)'
         required: false

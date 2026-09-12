@@ -62,8 +62,11 @@ jobs:
       - name: Seite bauen
         run: npm run build
 
-      - name: Antwort-Kasten — gleiche Höhe je Titel
+      - name: Antwort-Kasten — nichts ragt hinaus
         run: npm run check:panel
+
+      - name: Der Trailer-Dialog
+        run: npm run check:trailer
 
       - name: Alle Ansichten — Desktop
         run: npm run check:ansichten
