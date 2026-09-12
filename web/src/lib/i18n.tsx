@@ -473,6 +473,9 @@ const TEXTE = {
   // Ab einer Woche Abstand rechnet niemand mehr in Tagen — dann trägt das
   // Datum allein.
   'antwort.erscheintDatum': 'erscheint am {tag} den {datum}.',
+  // Die Uhrzeit hängt hinten an, wo eine bekannt ist — „voraussichtlich", weil
+  // der einzelne Termin aus dem gemessenen Rhythmus fortgeschrieben ist.
+  'antwort.erscheintUmZeit': '{termin}, voraussichtlich um {zeit} Uhr.',
   'antwort.relHeute': 'heute',
   'antwort.relMorgen': 'morgen',
   'antwort.relInTagen': 'in {count} Tagen',
