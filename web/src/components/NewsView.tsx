@@ -152,9 +152,24 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
   const schluessel = (e: NewsEintrag): string => `${e.am}|${e.titelId}`
 
   const umschalten = (e: NewsEintrag): void => {
-    /* Eine einzelne Meldung hat nichts aufzuklappen — dann führt der Klick zum Titel. */
+    /*
+      **Eine einzelne Meldung öffnet den Teil, zu dem sie gehört.**
+
+      Der Klick führte auf den Reihenkopf — und im Panel stand die Meldung dann
+      nirgends. Für „Mononoke" bündelt die Zeile auf „The Phantom in the Rain",
+      der Termin am 29.09.2026 gehört aber zu „Chapter III"; wer klickte,
+      landete bei einem Titel ohne diesen Termin (Daniel, 12.09.2026: „alle news
+      einträge öffnen aktuell nur das jeweilige panel, aber wo genau steht diese
+      info … Alle Infos in News müssen ja eig auch im panel sichtbar sein").
+
+      Die aufgeklappten Zeilen konnten das längst (`m.teilId ?? e.titelId`) —
+      nur die Kopfzeile nicht.
+
+      **Bei mehreren Meldungen bleibt es beim Aufklappen.** Sie können zu
+      verschiedenen Teilen gehören; einen davon zu wählen wäre geraten.
+    */
     if (e.meldungen.length < 2) {
-      oeffne(e.titelId)
+      oeffne(e.meldungen[0]?.teilId ?? e.titelId)
       return
     }
     setOffen((alt) => {
