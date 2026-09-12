@@ -233,6 +233,20 @@ export interface WatchLink {
    * beim Bauen aus Name und Adresse bestimmt, siehe `shared/zugangsart.ts`.
    */
   zugang?: Zugangsart
+  /**
+   * **Die eine Folge, auf die dieser Weg zeigt** — wo die Adresse es selbst sagt.
+   *
+   * Daniel am 12.09.2026 an „Banana Fish": Die Akibapass-Pille führt zu Folge 1,
+   * die dort längst auf Deutsch läuft, und daneben stand als Termin der
+   * 06.11.2026 — der zweite Blu-ray-Band. „da steht 06.11., das ist in 2
+   * monaten, es muss besser kommuniziert werden. folge 1 jetzt, rest 06.11."
+   *
+   * Die Adresse trägt die Auskunft: `…/exklusive-dub-previews/videos/
+   * banana-fish-s1e01-…`. Drei Wege im Bestand sind so gebaut (zwei bei ADN,
+   * einer bei Akibapass); ohne die Angabe sieht ein Weg zu **einer** Folge
+   * genauso aus wie einer zur ganzen Serie.
+   */
+  nurFolge?: number
 }
 
 export interface Title {

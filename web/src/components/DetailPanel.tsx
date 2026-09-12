@@ -1322,7 +1322,7 @@ function farbeZuAnbieter(name: string): string | undefined {
 
 function gruppiereKaufwege(
   links: WatchLink[],
-): { shop: string; eintraege: { label?: string; url: string }[] }[] {
+): { shop: string; eintraege: { label?: string; url: string; nurFolge?: number }[] }[] {
   const nachHost = new Map<string, WatchLink[]>()
   for (const l of links) {
     let host = l.url
@@ -1355,11 +1355,11 @@ function gruppiereKaufwege(
     const geteilt = liste.map((l) => zerlege(l.name))
     const gemeinsam = geteilt.every((t) => t.length > 1 && t[0] === geteilt[0][0])
     if (liste.length === 1 || !gemeinsam) {
-      return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url })) }
+      return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url, nurFolge: l.nurFolge })) }
     }
     return {
       shop: geteilt[0][0],
-      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url })),
+      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url, nurFolge: l.nurFolge })),
     }
   })
 }
@@ -2951,6 +2951,22 @@ export function DetailPanel({
                           */
                           farbe={farbeZuAnbieter(g.shop)}
                           icon={g.shop === 'aniSearch' ? <DiscZeichen /> : undefined}
+                          /*
+                            **Ein Weg zu einer einzelnen Folge sagt das.**
+
+                            Bei „Banana Fish" führt die Akibapass-Pille auf eine
+                            Dub-Vorschau der ersten Folge, und daneben stand als
+                            Termin der 06.11.2026 — der zweite Blu-ray-Band.
+                            Beides zusammen las sich, als gäbe es bis November
+                            gar nichts (Daniel, 12.09.2026: „folge 1 jetzt, rest
+                            06.11."). Die Angabe steht am Weg, weil sie zu ihm
+                            gehört, nicht zum Titel.
+                          */
+                          unten={
+                            g.eintraege[0].nurFolge
+                              ? t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
+                              : undefined
+                          }
                         />
                       )),
                     ),

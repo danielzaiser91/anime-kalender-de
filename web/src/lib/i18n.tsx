@@ -290,6 +290,9 @@ const TEXTE = {
   // Ein Satz, weil er eine Aufgabe hat: das Suchen auf dieser Seite beenden.
   // Ohne ihn fehlte der Abschnitt ganz, und „läuft nirgends" war von „wissen
   // wir nicht" nicht zu unterscheiden.
+  // Steht unter einer Pille, deren Adresse auf genau eine Folge zeigt — etwa
+  // eine Dub-Vorschau. Ohne die Angabe sieht sie aus wie ein Weg zur Serie.
+  'detail.nurFolge': 'nur Folge {n}',
   'detail.whereUnknown': 'Kein Anbieter bekannt.',
   // **Wo deutsche Sprechrollen belegt sind, ist „kein Anbieter" die halbe
   // Auskunft.** 277 Titel sind am 29.08.2026 in genau diesem Fall: Es gab eine

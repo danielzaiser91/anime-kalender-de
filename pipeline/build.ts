@@ -1658,7 +1658,26 @@ function main(): void {
       // Leerer Name heißt: der Anbieter gehört nicht auf eine deutsche Seite.
       if (!name) continue
       if (!watchLinks.some((w) => w.name === name)) {
-        watchLinks.push({ name, url, kind: providerKind(provider) })
+        /*
+          **Zeigt die Adresse auf eine einzelne Folge, sagt der Weg das.**
+
+          Bei „Banana Fish" führt die Akibapass-Pille auf
+          `…/exklusive-dub-previews/videos/banana-fish-s1e01-…` — eine
+          Dub-Vorschau der ersten Folge. Im Panel sah sie aus wie ein Weg zur
+          ganzen Serie, daneben stand als Termin der 06.11.2026 (Daniel,
+          12.09.2026: „folge 1 jetzt, rest 06.11.").
+
+          Erkannt wird nur, was die Adresse selbst nennt — `s1e01`, `folge-1`,
+          `episode-3`. Drei Wege im Bestand tragen so etwas; alles Weitere wäre
+          Raten über fremde Adressen.
+        */
+        const nurFolge = Number(/(?:s\d+e|episode-|folge-|-ep-?)(\d{1,3})(?:[^\d]|$)/i.exec(url)?.[1])
+        watchLinks.push({
+          name,
+          url,
+          kind: providerKind(provider),
+          ...(Number.isFinite(nurFolge) && nurFolge > 0 ? { nurFolge } : {}),
+        })
       }
     }
     if (watchLinks.length) {
