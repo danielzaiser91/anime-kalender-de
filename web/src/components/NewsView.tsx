@@ -238,12 +238,12 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
                         beim Überfliegen; blasse Schrift am Zeilenende tut es
                         nicht.
                       */}
-                      <span className="flex items-baseline gap-1.5">
-                        <span className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">
+                      <span className="flex min-w-0 items-baseline gap-1.5">
+                        <span className="min-w-0 truncate text-sm font-semibold text-slate-800 dark:text-slate-100">
                           {e.titel}
                         </span>
                         {erste.teil && (
-                          <span className="shrink-0 rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
+                          <span className="min-w-0 shrink truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
                             {erste.teil}
                           </span>
                         )}
@@ -300,7 +300,7 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
                               {t(`news.art.${m.art}`)}
                             </span>
                             {m.teil && (
-                              <span className="shrink-0 rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
+                              <span className="min-w-0 shrink truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
                                 {m.teil}
                               </span>
                             )}
