@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-09-11T08:56:40.460Z",
+  "scrapedAt": "2026-09-12T08:41:53.278Z",
   "window": {
-    "from": "2026-07-28",
-    "to": "2026-11-25"
+    "from": "2026-07-29",
+    "to": "2026-11-26"
   },
   "shows": [
     {
@@ -795,6 +795,172 @@
           "duration": 4154,
           "title": "Hellsing Ultimate X",
           "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv/web/eps10_320x180.jpg"
+        }
+      ],
+      "batch": true
+    },
+    {
+      "showId": 398,
+      "title": "Undefeated Bahamut Chronicle",
+      "originalTitle": "Undefeated Bahamut Chronicles",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/398",
+      "episodes": [
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7024-folge-1",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 1,
+          "type": "EPS",
+          "duration": 1420,
+          "title": "Scharlachrote Kriegsprinzessin",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps1_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 2,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7025-folge-2",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 2,
+          "type": "EPS",
+          "duration": 1420,
+          "title": "Der schwächste Drag-Knight",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps2_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 3,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7026-folge-3",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 3,
+          "type": "EPS",
+          "duration": 1418,
+          "title": "Wie es zur Verlobung mit dem Mädchen aus dem Norden kam",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps3_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 4,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7027-folge-4",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 4,
+          "type": "EPS",
+          "duration": 1419,
+          "title": "Die sechste Ruine - Miniaturgarten",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps4_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 5,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7028-folge-5",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 5,
+          "type": "EPS",
+          "duration": 1419,
+          "title": "Der Wunsch des Mädchens",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps5_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 6,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7123-folge-6",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 6,
+          "type": "EPS",
+          "duration": 1419,
+          "title": "Die Rückkehr der Stärksten",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps6_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 7,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7124-folge-7",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 7,
+          "type": "EPS",
+          "duration": 1419,
+          "title": "Die Wahrheit über das Mädchen",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps7_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 8,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7125-folge-8",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 8,
+          "type": "EPS",
+          "duration": 1419,
+          "title": "Das Erwachen des Abyss",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps8_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 9,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7126-folge-9",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 9,
+          "type": "EPS",
+          "duration": 1419,
+          "title": "Das Versprechen",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps9_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 10,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7127-folge-10",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 10,
+          "type": "EPS",
+          "duration": 1419,
+          "title": "Der Lohn der Mädchen",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps10_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 11,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7128-folge-11",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 11,
+          "type": "EPS",
+          "duration": 1419,
+          "title": "Der Dolch des Kaiserreichs",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps11_320x180.jpg"
+        },
+        {
+          "date": "2026-09-10",
+          "time": "09:00",
+          "episode": 12,
+          "url": "https://animationdigitalnetwork.com/de/video/398-saibahamut_tv/7181-folge-12",
+          "season": "1",
+          "seasonReference": "saibahamut_tv",
+          "order": 12,
+          "type": "EPS",
+          "duration": 1417,
+          "title": "Der lang gehegte Wunsch des Mädchens",
+          "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps12_320x180.jpg"
         }
       ],
       "batch": true
