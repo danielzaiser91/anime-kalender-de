@@ -445,8 +445,13 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
       return {
         id: e.id,
         titleRomaji: romaji ?? undefined,
-        /* AniList führt bei chinesischen Produktionen oft keinen englischen Namen — aniSearch schon. */
-        titleEn: englisch ?? eintrag?.englisch ?? undefined,
+        /*
+          AniList führt bei chinesischen Produktionen oft keinen englischen
+          Namen. Zwei Aushilfen, in dieser Reihenfolge: aniSearchs Sprachblock
+          „Englisch", und AniLists eigene Synonymliste (`latein`) — dort steht
+          für „Guimi Zhi Zhu: Wu Mian Ren Pian" ein „Lord of the Mysteries 2".
+        */
+        titleEn: englisch ?? eintrag?.englisch ?? e.latein ?? undefined,
         /* Nur, wenn er wirklich etwas Neues sagt — sonst steht dieselbe Zeichenkette zweimal. */
         titleDe: deutsch && deutsch !== englisch && deutsch !== romaji ? deutsch : undefined,
         /*
@@ -1828,7 +1833,7 @@ function main(): void {
          */
         const vorhanden = titles.get(e.id)
         if (vorhanden) return vorhanden
-        const anzeige = e.t[1] ?? e.t[0] ?? String(e.id)
+        const anzeige = e.t[1] ?? e.latein ?? e.t[0] ?? String(e.id)
         const neu: Title = {
           id: e.id,
           slug: `${slugify(anzeige)}-${e.id}`,
@@ -1841,7 +1846,7 @@ function main(): void {
            */
           dubConfidence: 'low' as const,
           titleRomaji: e.t[0] ?? undefined,
-          titleEn: e.t[1] ?? undefined,
+          titleEn: e.t[1] ?? e.latein ?? undefined,
           titleNative: e.t[2] ?? undefined,
           format: e.format ?? undefined,
           jpYear: e.jahr ?? undefined,
@@ -3824,14 +3829,14 @@ function main(): void {
         let ziel = titles.get(id)
         if (!ziel) {
           const e = katalogEintraege.find((x) => x.id === id)!
-          const anzeige = e.t[1] ?? e.t[0] ?? String(e.id)
+          const anzeige = e.t[1] ?? e.latein ?? e.t[0] ?? String(e.id)
           ziel = {
             id: e.id,
             slug: `${slugify(anzeige)}-${e.id}`,
             keywords: [],
             dubConfidence: 'low' as const,
             titleRomaji: e.t[0] ?? undefined,
-            titleEn: e.t[1] ?? undefined,
+            titleEn: e.t[1] ?? e.latein ?? undefined,
             titleNative: e.t[2] ?? undefined,
             format: e.format ?? undefined,
             jpYear: e.jahr ?? undefined,

@@ -60,13 +60,27 @@ export interface NeueFolge {
   /** Japanische bzw. originale Erstausstrahlung, wie Crunchyroll sie führt. */
   ausstrahlung?: string
   /**
-   * Der Tag, an dem **wir** die deutsche Fassung zum ersten Mal gesehen haben.
+   * **Wann die deutsche Fassung verfügbar wurde — von Crunchyroll selbst.**
    *
-   * Crunchyroll nennt kein Datum für „seit wann gibt es die deutsche Tonspur";
-   * `premium_available_date` trägt den Termin der Originalfassung (bei den
-   * Lord-of-Mysteries-Specials der 19.06.2026, deutsch kamen sie am 10.09.).
-   * Wer täglich nachsieht, hat den Tag auf den Tag genau — und das ist die
-   * Angabe, um die es auf dieser Seite geht.
+   * `premium_available_date` an der **deutschen** Folge trägt den deutschen
+   * Termin, nicht den der Originalfassung. Für die Lord-of-Mysteries-Specials
+   * steht dort der **10.09.2026** — auf den Tag Daniels Angabe —, während
+   * `episode_air_date` bei denselben Folgen den 19./26./27.06.2026 nennt.
+   * Gemessen am 12.09.2026 an zehn Serien quer durch den Lauf; bei einem
+   * Simulcast-Dub fallen beide Daten zusammen, sonst liegen sie Wochen
+   * auseinander.
+   *
+   * Der frühere Kommentar hier behauptete das Gegenteil. Er stammte aus einer
+   * Messung an der **Originalfassung** — dieselbe Verwechslung, die dieses
+   * Projekt bei Crunchyroll schon einmal teuer bezahlt hat: Ein Objekt je
+   * Tonspur, und die Frage ist immer, welches man gerade in der Hand hält.
+   */
+  verfuegbarAb?: string
+  /**
+   * Der Tag, an dem **wir** den Fund gesehen haben.
+   *
+   * Bleibt als Rückfall: Wo Crunchyroll kein `premium_available_date` führt,
+   * ist der eigene Fundtag die beste verfügbare Angabe.
    */
   gesehenAm: string
 }
@@ -128,6 +142,7 @@ async function main(): Promise<void> {
         nummer: typeof m.episode_number === 'number' ? m.episode_number : undefined,
         titel: typeof eintrag.title === 'string' ? eintrag.title : undefined,
         ausstrahlung: typeof m.episode_air_date === 'string' ? m.episode_air_date : undefined,
+        verfuegbarAb: typeof m.premium_available_date === 'string' ? m.premium_available_date : undefined,
         gesehenAm: heute,
       }
       bekannt.set(guid, folge)

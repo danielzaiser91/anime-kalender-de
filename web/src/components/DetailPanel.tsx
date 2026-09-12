@@ -1601,13 +1601,29 @@ export function DetailPanel({
     for (const t of data.titleById.values()) {
       if ((t.franchiseId ?? t.id) !== wurzel) continue
       const bisher = teile.get(t.id)
+      /*
+        **Was `franchises.json` sagt, gewinnt — und zwar vollständig.**
+
+        Feld für Feld aufzuzählen hieß: Jedes Feld, das später dazukommt,
+        fehlt hier. Bei „Lord of Mysteries" fielen so `beiwerk`, `jpStart`
+        und `jpStatus` heraus, sobald `titles.json` nachgeladen war — die
+        Specials standen zwei Sekunden lang richtig unter „Specials" und
+        danach unter „Hauptserie" (Daniel, 12.09.2026: „für paar sek war
+        chibi theatre unter specials eingeordnet, dann wieder in
+        hauptserie").
+
+        Der Titel liefert deshalb nur noch die Vorgabe; der Eintrag der
+        Reihe liegt darüber. Fehlende Felder stehen in der Datei gar nicht
+        erst, überschreiben also nichts.
+      */
       teile.set(t.id, {
         id: t.id,
-        name: bisher?.name ?? t.titleDe ?? t.titleEn ?? t.titleRomaji ?? `#${t.id}`,
-        format: bisher?.format ?? t.format,
-        jpYear: bisher?.jpYear ?? t.jpYear,
-        episodes: bisher?.episodes ?? t.episodes,
-        cover: bisher?.cover ?? t.coverImage,
+        name: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? `#${t.id}`,
+        format: t.format,
+        jpYear: t.jpYear,
+        episodes: t.episodes,
+        cover: t.coverImage,
+        ...bisher,
       })
     }
     if (!teile.has(title.id)) {

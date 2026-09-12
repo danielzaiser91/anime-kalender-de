@@ -141,6 +141,22 @@ export interface KatalogEintrag {
   start?: string | null
   /** `RELEASING`, `FINISHED`, `NOT_YET_RELEASED` — sagt, ob ein Termin noch aussteht. */
   status?: string | null
+  /**
+   * **Ein lesbarer Name, wo der Romaji keiner ist.**
+   *
+   * AniLists `romaji` ist bei japanischen Werken die etablierte Umschrift —
+   * „Shingeki no Kyojin" sucht auch hier jemand so. Bei chinesischen und
+   * koreanischen Produktionen ist es eine Pinyin- bzw. Hangul-Umschrift, die
+   * niemand kennt: „Guimi Zhi Zhu: Wu Mian Ren Pian" (Daniel, 12.09.2026:
+   * „wu mian ren pian ist weiterhin chinesisch").
+   *
+   * Fehlt dort der englische Name, führt AniList ihn oft unter `synonyms` —
+   * für diesen Titel „Lord of the Mysteries 2". Genommen wird davon nur ein
+   * rein lateinischer Eintrag, und nur bei `countryOfOrigin` ≠ JP: Die Liste
+   * enthält auch vietnamesische und indonesische Fassungen, und für ein
+   * japanisches Werk wäre der Romaji ohnehin der richtige Name.
+   */
+  latein?: string | null
   genres: string[]
   score: number | null
   /**
@@ -163,6 +179,33 @@ export interface KatalogEintrag {
   rel: number[]
 }
 
+
+/**
+ * **Der beste lateinische Zweitname — oder keiner.**
+ *
+ * Greift nur, wo AniList keinen englischen Namen führt **und** das Werk nicht
+ * aus Japan stammt. Genommen wird der längste Eintrag, der ausschließlich aus
+ * lateinischen Buchstaben, Ziffern und gewöhnlicher Zeichensetzung besteht:
+ * Diakritika schließen die vietnamesische Fassung aus („Chúa Tể Huyền Bí"),
+ * die Mindestlänge das Kürzel („LOTM"), und der längste ist der mit dem
+ * meisten Inhalt.
+ *
+ * Was übrig bleibt, ist ein Vorschlag für `titleEn` — nicht für `titleDe`.
+ * Ein englischer Name ist keine deutsche Fassung, und die Trennlinie dieses
+ * Projekts verläuft genau dort.
+ */
+export function bestesSynonym(
+  englisch: string | null | undefined,
+  land: string | null | undefined,
+  synonyme: string[] | null | undefined,
+): string | null {
+  if (englisch || !land || land === 'JP' || !synonyme?.length) return null
+  const tauglich = synonyme
+    .map((s) => s.trim())
+    .filter((s) => s.length >= 6 && /^[A-Za-z0-9][A-Za-z0-9 .,:!?'&()/-]*$/.test(s) && /[a-z]/.test(s))
+  if (!tauglich.length) return null
+  return tauglich.sort((a, b) => b.length - a.length)[0]!
+}
 
 /** Formate, die als Anime-Titel zählen — `MUSIC` sind Musikvideos. */
 const KATALOG_FORMATE = ['TV', 'TV_SHORT', 'MOVIE', 'SPECIAL', 'OVA', 'ONA']
@@ -198,6 +241,7 @@ export async function katalogSeite(
       media(type: ANIME, isAdult: false, format_in: $f, ${datumsFilter} sort: ${absteigend ? 'ID_DESC' : 'ID'}) {
         id
         title { romaji english native }
+        synonyms countryOfOrigin
         format episodes seasonYear averageScore status
         startDate { year month day }
         genres
@@ -218,6 +262,8 @@ export async function katalogSeite(
       media: {
         id: number
         title: { romaji: string | null; english: string | null; native: string | null }
+        synonyms?: string[] | null
+        countryOfOrigin?: string | null
         format: string | null
         episodes: number | null
         seasonYear: number | null
@@ -251,6 +297,7 @@ export async function katalogSeite(
         return d.day ? `${d.year}-${zwei(d.month)}-${zwei(d.day)}` : `${d.year}-${zwei(d.month)}`
       })(),
       status: m.status ?? null,
+      latein: bestesSynonym(m.title.english, m.countryOfOrigin, m.synonyms),
       folgen: m.episodes,
       genres: m.genres ?? [],
       score: m.averageScore,
