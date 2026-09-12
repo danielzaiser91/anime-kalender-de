@@ -1686,6 +1686,52 @@
   pointer-events: none;
   animation: akPlayerEin 0.18s ease-out;
 }
+
+/*
+  **Der Melde-Knopf im Player — er hatte gar keinen Stil.**
+
+  Gebaut am 10.09.2026 (`playerAnzeige`, Parameter `knopfText`), und die beiden
+  Regeln dazu fehlten von Anfang an: `.ak-player-knopf` und
+  `.ak-player-bedienbar` standen in keiner Zeile dieser Datei. Zwei Folgen,
+  beide bei Daniel angekommen (12.09.2026, mit Bild):
+
+  - **Unbeschriftet.** Ohne eigene Farben erbt der Knopf `color: #e6edf3` vom
+    Kasten und behält Chromes weißen Grund — weiße Schrift auf Weiß. Im Bild
+    ein leeres Rechteck.
+  - **Nicht klickbar.** Die Anzeige trägt `pointer-events: none`, damit sie dem
+    Player nicht die Klicks wegnimmt. `.ak-player-bedienbar` sollte das für den
+    Knopf aufheben — die Klasse wird im JS gesetzt und hatte hier keine Regel.
+    Der Knopf war also Zierde.
+
+  **Die Lehre steht seit dem 02.09.2026 in CLAUDE.md** („Beim Styling der
+  Erweiterung wird hingesehen, nicht gerechnet") und hat hier nicht getragen,
+  weil dieser Zustand nie abgebildet wurde: `check:netflix-kasten` zeichnet die
+  **Titelseite**. Ein Element, das nur im Player erscheint, sieht niemand.
+*/
+.ak-player-anzeige.ak-player-bedienbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.ak-player-knopf {
+  flex: none;
+  padding: 4px 12px;
+  border: 1px solid rgba(110, 231, 160, 0.55);
+  border-radius: 999px;
+  background: rgba(110, 231, 160, 0.14);
+  color: #6ee7a0;
+  font: 600 12px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+
+.ak-player-knopf:hover {
+  border-color: #6ee7a0;
+  background: rgba(110, 231, 160, 0.24);
+}
 .ak-player-anzeige[data-art='gut'] {
   color: #7ee787;
   box-shadow: inset 0 0 0 1px rgba(126, 231, 135, 0.45), 0 4px 14px rgba(0, 0, 0, 0.4);

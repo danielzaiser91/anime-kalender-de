@@ -83,6 +83,9 @@ jobs:
       - name: Der Disney+-Kasten
         run: npm run check:disney-kasten
 
+      - name: Die Anzeige im Netflix-Player
+        run: npm run check:netflix-player
+
       - name: Der Netflix-Kasten (Aufbau, Trennlinie, leerer Fall)
         run: npm run check:netflix-kasten
 
