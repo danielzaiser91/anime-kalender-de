@@ -95,6 +95,22 @@ const NEU = args.includes('--neu')
 /** Nur die Seiten, bei denen der letzte Lauf einen Fehler vermerkt hat. */
 const NUR_FEHLER = args.includes('--nur-fehler')
 /**
+ * **Nur die Serien, bei denen `fetch-crunchyroll-neu.ts` heute etwas gefunden hat.**
+ *
+ * Der Neuzugangs-Lauf sieht täglich nach, was auf Deutsch dazugekommen ist, und
+ * hebt damit die Wiedervorlage der betroffenen Serien auf — nur greift das
+ * erst, wenn dieser Lauf das nächste Mal läuft, und das ist montags. Bei den
+ * „Lord of Mysteries"-Specials (erschienen Donnerstag, den 10.09.2026) wären
+ * das fünf Tage gewesen: besser als die vier Wochen vorher, aber nicht gut.
+ *
+ * Mit diesem Schalter kostet derselbe Lauf **täglich** fast nichts: Am
+ * 12.09.2026 standen in den 400 jüngsten Crunchyroll-Folgen 20 Serien mit
+ * neuen deutschen Folgen, gegenüber rund 1.100 Serien im vollen Durchlauf. Der
+ * Rest bleibt dem Wochenlauf überlassen — die Frage „hat sich bei einer Serie
+ * unbemerkt etwas geändert" ist eine andere als „ist heute etwas erschienen".
+ */
+const NUR_NEU = args.includes('--nur-neu')
+/**
  * Ab wann eine gelesene Seite erneut drankommt.
  *
  * Der Grund für die Wiedervorlage: Bis zum 15.08.2026 entstand die
@@ -696,6 +712,11 @@ async function main(): Promise<void> {
     /* Seit dem letzten Blick ist dort eine deutsche Folge dazugekommen. */
     const neuAm = s.seriesId ? neuSeit.get(s.seriesId) : undefined
     if (neuAm && (s.geprueftAm ?? '') < neuAm) return false
+    /*
+      Beim täglichen Lauf zählt nur genau das: Alles andere gilt als frisch,
+      auch wenn seine Frist längst abgelaufen ist. Der Wochenlauf holt es nach.
+    */
+    if (NUR_NEU) return true
     if (NUR_FEHLER) return !s.fehler
     /**
      * „Nicht verfügbar" ist ein Befund, „hat nicht geantwortet" ist keiner.
@@ -706,6 +727,25 @@ async function main(): Promise<void> {
      */
     const befund = s.nichtVerfuegbar === true || !s.fehler
     return s.geprueftAm >= (befund ? grenzeFuer(u) : fehlerGrenze)
+  }
+  /*
+    **`--nur-neu` filtert die Liste, nicht nur die Frist.**
+
+    `frisch()` sagt zu einer Adresse, die im Bestand gar nicht steht, „nicht
+    frisch" — und das ist richtig: Eine nie geprüfte Serie muss drankommen.
+    Beim täglichen Lauf wäre es falsch. Er soll genau die Serien anfassen, bei
+    denen Crunchyroll heute etwas Neues auf Deutsch führt; alles andere ist
+    Sache des Wochenlaufs, sonst zieht der erste Lauf den ganzen Rückstand.
+  */
+  if (NUR_NEU) {
+    const gesucht = new Set(neuSeit.keys())
+    const vorher = adressen.length
+    adressen = adressen.filter((u) => {
+      const s = bestand.get(u)
+      const ausAdresse = /crunchyroll\.com\/(?:[a-z-]+\/)?series\/([A-Z0-9]+)/i.exec(u)?.[1]
+      return (s?.seriesId && gesucht.has(s.seriesId)) || (ausAdresse ? gesucht.has(ausAdresse) : false)
+    })
+    log(`Crunchyroll: nur die Neuzugänge — ${adressen.length} von ${vorher} Adressen betreffen eine Serie mit neuen deutschen Folgen`)
   }
   const schonDa = adressen.filter(frisch).length
   const nachgefasst = adressen.filter((u) => !frisch(u) && bestand.get(u)?.fehler).length

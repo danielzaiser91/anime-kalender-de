@@ -3707,6 +3707,31 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     readFileSync('pipeline/scrape-crunchyroll-dub.ts', 'utf8').includes('neuSeit'),
     'sonst erfährt die Seite von einer neuen Synchro erst Wochen später',
   )
+  /*
+    **Und die aufgehobene Frist braucht einen Lauf, der sie einlöst.**
+    Der Fund kommt täglich, `data:cr-dub` lief nur wöchentlich — fünf Tage
+    Verzug beim Lord-of-Mysteries-Fall, statt der vier Wochen vorher. Der
+    tägliche Lauf fasst mit `--nur-neu` genau die Serien aus dem Fund an.
+  */
+  {
+    const scrape = readFileSync('pipeline/scrape-crunchyroll-dub.ts', 'utf8')
+    const taeglich = readFileSync('.github/workflows/refresh-data.yml', 'utf8')
+    pruefe(
+      'der tägliche Lauf beurteilt die Neuzugänge selbst',
+      taeglich.includes('data:cr-dub -- --nur-neu') && scrape.includes('const NUR_NEU'),
+      'sonst hebt der Fund eine Frist auf, die erst am Montag jemand einlöst',
+    )
+    pruefe(
+      '`--nur-neu` filtert die Adressliste, nicht nur die Frist',
+      /if \(NUR_NEU\) \{[\s\S]{0,600}adressen = adressen\.filter/.test(scrape),
+      'sonst zieht der tägliche Lauf jede nie geprüfte Serie mit — beim ersten Mal den ganzen Rückstand',
+    )
+    pruefe(
+      'ein fehlendes Zugangspaket wird gemeldet, nicht verschluckt',
+      taeglich.includes("steps.cr_neu_beurteilen.outcome == 'failure'"),
+      'ein Lauf, der still gegen ein abgelaufenes Paket läuft, sieht acht Tage lang aus wie ein gesunder',
+    )
+  }
   pruefe(
     'WeTV und iQIYI sind keine Bezugswege',
     providerName('wetv') === '' && providerName('iq') === '',

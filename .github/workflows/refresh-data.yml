@@ -182,6 +182,36 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Neue deutsche Folgen bei Crunchyroll finden"
 
+      - name: Die neu gefundenen Serien sofort beurteilen
+        # Der Fund allein ändert den Datensatz nicht — er hebt nur die
+        # Wiedervorlage auf, und die greift erst beim Wochenlauf am Montag.
+        # Bei den Lord-of-Mysteries-Specials (Donnerstag, 10.09.2026) wären das
+        # fünf Tage gewesen. `--nur-neu` beschränkt denselben Lauf auf die
+        # Serien aus dem Fund: am 12.09.2026 zwanzig statt rund elfhundert.
+        #
+        # **Ohne gültiges Zugangspaket bricht er ab, und das ist Absicht** — ein
+        # Lauf, der unbemerkt den US-Katalog liest, ist schlimmer als keiner.
+        # Der Schritt darunter sagt, wenn genau das passiert ist.
+        id: cr_neu_beurteilen
+        continue-on-error: true
+        env:
+          CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:cr-dub -- --nur-neu --limit 60
+
+      - name: Zugangspaket melden, wenn der Lauf daran gescheitert ist
+        if: steps.cr_neu_beurteilen.outcome == 'failure'
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        # Die Signatur gilt 24 Stunden und kann nur an einer deutschen Leitung
+        # entstehen. Acht Tage lang lief der Wochenlauf einmal gegen ein
+        # abgelaufenes Paket, ohne dass es jemandem auffiel (06.09.2026) — die
+        # Frist in `check-sources.ts` misst, wann eine Quelle zuletzt
+        # geschrieben hat, nicht ob sie überhaupt arbeiten kann.
+        run: |
+          bash "$MELDER" schritt "Crunchyroll-Urteil übersprungen: CR_ZUGANG fehlt oder ist abgelaufen — node tools/cr-zugang-holen.mjs --secret"
+
       - name: ADN-Kalender lesen
         # Liefert Datum, Uhrzeit UND Sprachfassung — die einzige Quelle neben
         # Crunchyroll, die die Synchro selbst ausweist.
