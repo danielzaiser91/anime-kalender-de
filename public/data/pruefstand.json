@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-12T15:23:32.645Z",
+ "erzeugtAm": "2026-09-12T15:52:32.898Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -40,9 +40,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 367,
-   "gesamt": 373,
-   "offen": 6,
+   "gemeldet": 370,
+   "gesamt": 374,
+   "offen": 4,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/80090673",
    "ziele": [
@@ -53,14 +53,6 @@
     {
      "url": "https://www.netflix.com/title/80131674",
      "titel": "Konosuba: God’s Blessing on This Wonderful World!"
-    },
-    {
-     "url": "https://www.netflix.com/title/80991903",
-     "titel": "Dorohedoro"
-    },
-    {
-     "url": "https://www.netflix.com/title/80997338",
-     "titel": "Hi Score Girl"
     }
    ],
    "naechster": "Haikyu!!"

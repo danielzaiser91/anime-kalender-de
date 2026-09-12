@@ -15127,3 +15127,31 @@
   dub: true
   checkedAt: '2026-09-10'
   note: "Folgen 1–13 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Amazon-Seite B0D2NL5GYX: alle 27 Folgen geprüft, Abos: animedigitalde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-12 ---
+
+- anilistId: 114622
+  title: "Dorohedoro: Teuflische Anekdoten"
+  platform: netflix
+  url: https://www.netflix.com/title/80991903
+  dub: true
+  dubRanges:
+    - from: 13
+      to: 13
+      dub: true
+      checked: [13]
+  checkedAt: '2026-09-12'
+  note: "Folge 13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Durchlauf: Folge 13 — Teuflische Anekdoten"
+
+- anilistId: 104307
+  title: "Hi Score Girl: Extra Stage"
+  platform: netflix
+  url: https://www.netflix.com/title/80997338
+  dub: true
+  dubRanges:
+    - from: 13
+      to: 15
+      dub: true
+      checked: [13, 14, 15]
+  checkedAt: '2026-09-12'
+  note: "Folgen 13–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — Durchlauf: Folge 13 — Runde 13"
