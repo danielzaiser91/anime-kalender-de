@@ -3750,6 +3750,13 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     readFileSync('pipeline/fetch-crunchyroll-neu.ts', 'utf8').includes('alterEintrag.verfuegbarAb'),
     'sonst erreicht ein neues Feld genau die Einträge nie, die schon dastehen',
   )
+  pruefe(
+    'ein Eintrag aus einem älteren Ausleser wird wieder fällig',
+    /if \(\(e\.stand \?\? 1\) < PARSER_STAND\) return true/.test(
+      readFileSync('pipeline/fetch-anisearch-titel.ts', 'utf8'),
+    ),
+    'sonst kommt eine Seite 180 Tage lang nicht dran, obwohl der Ausleser mehr liest als beim letzten Mal',
+  )
 }
 
 /*

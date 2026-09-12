@@ -61,7 +61,26 @@ interface Titeleintrag {
   englisch?: string
   anisearchId: number
   fetchedAt: string
+  /**
+   * **Mit welchem Stand des Auslesers dieser Eintrag entstanden ist.**
+   *
+   * Ein Eintrag ohne Feld, das der Ausleser heute kennt, ist von einem
+   * Eintrag, dessen Seite dieses Feld nicht führt, nicht zu unterscheiden —
+   * und weil die Frist 180 Tage beträgt, kommt er bis dahin nicht wieder
+   * dran. Genau das ist am 12.09.2026 passiert: Der Lauf holte 1.200 Seiten,
+   * und keine einzige trug den englischen Namen, den der Ausleser seit
+   * demselben Vormittag mitliest.
+   *
+   * Ein Stand, der hinter dem aktuellen liegt, macht fällig. Das ist derselbe
+   * Hebel wie „ein bekannter Fund wird ergänzt, nicht übersprungen" bei den
+   * Crunchyroll-Neuzugängen, nur für einen Lauf, der ganze Seiten neu holen
+   * muss statt ein Feld nachzutragen.
+   */
+  stand?: number
 }
+
+/** Hochzählen, sobald `titelAus()` ein Feld mehr liest. 2 = englischer Sprachblock. */
+const PARSER_STAND = 2
 
 const bruecke = readJson<{ anisearch: Record<string, number> }>('data/anime-ids.json', {
   anisearch: {},
@@ -163,6 +182,7 @@ const ALTER_TAGE = Number(/--alter[= ](\d+)/.exec(process.argv.join(' '))?.[1] ?
 const faellig = (t: { id: number }): boolean => {
   const e = bestand[String(t.id)]
   if (!e) return true
+  if ((e.stand ?? 1) < PARSER_STAND) return true
   if (!e.quelle || e.quelle === 'ueberschrift') return true
   const alter = (Date.now() - Date.parse(e.fetchedAt)) / 86_400_000
   return !(alter < ALTER_TAGE)
@@ -207,6 +227,7 @@ for (const t of warteschlange.slice(0, GRENZE)) {
         englisch: fund.englisch,
         anisearchId: asId,
         fetchedAt: new Date().toISOString(),
+        stand: PARSER_STAND,
       }
       neu++
       if (fund.quelle !== 'ueberschrift') deutsch++
