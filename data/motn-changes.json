@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 25
+    "2026-09": 27
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1057,7 +1057,7 @@
       "imdbId": "tt9813792",
       "tmdbId": "tv/124364",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-09-11",
       "deutsch": true
     },
     "removed:39338:prime": {
@@ -1347,7 +1347,7 @@
       "imdbId": "tt31589662",
       "tmdbId": "tv/243875",
       "dienst": "prime",
-      "am": "2026-09-08",
+      "am": "2026-09-11",
       "deutsch": true
     },
     "removed:4303794:prime": {
@@ -3889,7 +3889,57 @@
       "dienst": "netflix",
       "am": "2026-09-10",
       "deutsch": false
+    },
+    "new:13400604:prime": {
+      "art": "new",
+      "titel": "LOL: Last One Laughing Germany - Halloween Special",
+      "originalTitel": "LOL: Last One Laughing - Halloween Special",
+      "imdbId": "tt34161421",
+      "tmdbId": "tv/274864",
+      "dienst": "prime",
+      "am": "2026-09-12",
+      "deutsch": true
+    },
+    "new:25245287:prime": {
+      "art": "new",
+      "titel": "Operation Deception",
+      "originalTitel": "Operation Deception",
+      "imdbId": "tt43122935",
+      "tmdbId": "tv/323980",
+      "dienst": "prime",
+      "am": "2026-09-12",
+      "deutsch": false
+    },
+    "new:26597227:prime": {
+      "art": "new",
+      "titel": "The Trial",
+      "originalTitel": "El juicio",
+      "imdbId": "tt33023009",
+      "tmdbId": "tv/260249",
+      "dienst": "prime",
+      "am": "2026-09-12",
+      "deutsch": false
+    },
+    "new:25245470:netflix": {
+      "art": "new",
+      "titel": "Physical 100: Italy",
+      "originalTitel": "Physical Italia - da 100 a 1",
+      "imdbId": "tt37694172",
+      "tmdbId": "tv/324111",
+      "dienst": "netflix",
+      "am": "2026-09-11",
+      "deutsch": false
+    },
+    "removed:543:prime": {
+      "art": "removed",
+      "titel": "2 Broke Girls",
+      "originalTitel": "2 Broke Girls",
+      "imdbId": "tt1845307",
+      "tmdbId": "tv/39340",
+      "dienst": "prime",
+      "am": "2026-09-12",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-09-11T08:56:42.540Z"
+  "fetchedAt": "2026-09-12T08:41:55.045Z"
 }

@@ -1,23 +1,23 @@
 {
   "adn": {
-    "lastOk": "2026-09-11T08:56:40.459Z",
-    "lastRun": "2026-09-11T08:56:40.459Z",
-    "lastCount": 5
+    "lastOk": "2026-09-12T08:41:53.277Z",
+    "lastRun": "2026-09-12T08:41:53.277Z",
+    "lastCount": 6
   },
   "anime2you": {
-    "lastOk": "2026-09-11T08:56:48.787Z",
-    "lastRun": "2026-09-11T08:56:48.787Z",
-    "lastCount": 41
+    "lastOk": "2026-09-12T08:42:01.336Z",
+    "lastRun": "2026-09-12T08:42:01.336Z",
+    "lastCount": 40
   },
   "crunchyroll": {
-    "lastOk": "2026-09-12T04:50:17.280Z",
-    "lastRun": "2026-09-12T04:50:17.280Z",
-    "lastCount": 17
+    "lastOk": "2026-09-12T08:40:51.260Z",
+    "lastRun": "2026-09-12T08:40:51.260Z",
+    "lastCount": 22
   },
   "anisearch": {
-    "lastOk": "2026-09-11T08:56:50.448Z",
-    "lastRun": "2026-09-11T08:56:50.448Z",
-    "lastCount": 3179
+    "lastOk": "2026-09-12T08:42:10.524Z",
+    "lastRun": "2026-09-12T08:42:10.524Z",
+    "lastCount": 3180
   },
   "adn-catalog": {
     "lastOk": "2026-09-09T13:51:14.195Z",
@@ -60,9 +60,9 @@
     "lastCount": 400
   },
   "motn-changes": {
-    "lastOk": "2026-09-11T08:56:42.541Z",
-    "lastRun": "2026-09-11T08:56:42.541Z",
-    "lastCount": 8
+    "lastOk": "2026-09-12T08:41:55.045Z",
+    "lastRun": "2026-09-12T08:41:55.045Z",
+    "lastCount": 5
   },
   "motn": {
     "lastOk": "2026-09-02T08:52:21.656Z",
@@ -125,8 +125,8 @@
     "lastCount": 0
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-09-12T07:26:54.857Z",
-    "lastRun": "2026-09-12T07:26:54.857Z",
+    "lastOk": "2026-09-12T08:40:56.968Z",
+    "lastRun": "2026-09-12T08:40:56.968Z",
     "lastCount": 41
   }
 }
