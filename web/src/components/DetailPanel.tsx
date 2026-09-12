@@ -543,7 +543,30 @@ function AntwortKasten({
     */
     <section
       className={[
-        'relative flex h-[11rem] flex-col rounded-xl border px-3 pb-3 pt-2',
+        /*
+          **Mindesthöhe statt fester Höhe — seit dem 12.09.2026.**
+
+          Bei „Steel Ball Run" stand die Netflix-Pille halb unter der
+          Reihenliste (Daniel, mit Bild: „warum ist das design hier kaputt?").
+          Dieser Titel bringt alles auf einmal mit: zweizeilige Überschrift,
+          Rhythmuszeile, Balken, Zählzeile **und** eine zweizeilige Notiz. Das
+          ist höher als 11rem, und was übersteht, schob die Pillenreihe aus dem
+          Kasten heraus.
+
+          Die feste Höhe war Daniels Vorgabe vom 03.09.2026 („height Änderung
+          der Box durch feste Höhe verhindern"), und ihr Zweck bleibt gewahrt:
+          Der Kasten ist für den **Regelfall** gerechnet und springt zwischen
+          zwei Teilen derselben Reihe nicht. Wo der Inhalt wirklich mehr
+          braucht, wächst er jetzt, statt ihn hinauszudrücken — ein Kasten, der
+          seine Notiz verschluckt oder eine Pille unter die Liste schiebt,
+          beantwortet die Frage schlechter als einer, der zwanzig Pixel höher
+          ist.
+
+          Am 07.09.2026 war die Antwort auf denselben Fehler, die feste Höhe von
+          9,75 auf 11rem zu erhöhen. Das trägt genau bis zum nächsten Zustand,
+          den niemand vorhergesehen hat — und davon gab es seitdem zwei.
+        */
+        'relative flex min-h-[11rem] flex-col rounded-xl border px-3 pb-3 pt-2',
         gedaempft
           ? 'border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.03]'
           : 'border-sky-400/40 bg-gradient-to-b from-sky-500/15 to-transparent dark:border-sky-400/30',
@@ -665,14 +688,14 @@ function AntwortKasten({
       )}
       </div>
       {pillen.length === 0 && wegeHinweis && (
-        <div className="border-t border-slate-200/70 pt-2.5 dark:border-white/10">
+        <div className="mt-auto shrink-0 border-t border-slate-200/70 pt-2.5 dark:border-white/10">
           <p className="flex min-h-[2.1rem] items-center text-xs text-slate-500 dark:text-slate-400">
             {wegeHinweis}
           </p>
         </div>
       )}
       {pillen.length > 0 && (
-        <div className="border-t border-slate-200/70 pt-2.5 dark:border-white/10">
+        <div className="mt-auto shrink-0 border-t border-slate-200/70 pt-2.5 dark:border-white/10">
           {/*
             **Umbrechen statt scrollen — der Platz ist ohnehin reserviert.**
 
@@ -897,6 +920,27 @@ function DiscZeichen() {
       <path d="M4.6 4.2A5 5 0 0 1 8 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity="0.55" />
     </svg>
   )
+}
+
+/**
+ * **So genau, wie AniList es weiß — nicht nur das Jahr.**
+ *
+ * Im Kopf stand „Film · JP 2026", während die Reihenliste zwei Zeilen tiefer
+ * den 11.12.2026 nannte (Daniel, 12.09.2026: „für den film kennen wir genauere
+ * infos für jp release date als 2026, oben steht trotzdem nur 2026"). Beide
+ * lesen dieselbe Quelle; nur der Kopf nahm ausschließlich `jpYear`.
+ *
+ * Das Datum bleibt eine Zusatzangabe und steht deshalb klein im Kopf, nicht in
+ * der Auswahlbox — dort gehört allein der deutsche Termin hin.
+ */
+function jpAngabe(jpStart: string | undefined, jpYear: number | undefined): string | undefined {
+  if (jpStart) {
+    const [jahr, monat, tag] = jpStart.split('-')
+    if (tag) return `JP ${tag}.${monat}.${jahr}`
+    if (monat) return `JP ${monat}.${jahr}`
+    return `JP ${jahr}`
+  }
+  return jpYear ? `JP ${jpYear}` : undefined
 }
 
 /**
@@ -1715,6 +1759,16 @@ export function DetailPanel({
   const reihenIds: number[] = useMemo(() => reihenTeile.map((m) => m.id), [reihenTeile])
 
   /**
+   * Der eigene Eintrag in der Reihe — er trägt Felder, die `titles.json` nicht
+   * führt. `jpStart` etwa steht dort bei keinem einzigen der 2.771 Titel; in
+   * `franchises.json` bei jedem, für den AniList mehr weiß als das Jahr.
+   */
+  const eigenerTeil = useMemo(
+    () => reihenTeile.find((m) => m.id === title?.id),
+    [reihenTeile, title],
+  )
+
+  /**
    * Das Banner des Titels — oder geliehen von einem Teil der Reihe, der eines hat.
    *
    * Ohne den Rückfall verschwindet der Kopf beim Umschalten auf ein Special und
@@ -2267,7 +2321,7 @@ export function DetailPanel({
         title.episodes && title.episodes > 1
           ? `${title.episodes} ${t('detail.episodes')}`
           : undefined,
-        title.jpYear ? `JP ${title.jpYear}` : undefined,
+        jpAngabe(eigenerTeil?.jpStart, title.jpYear),
         title.studios?.[0],
       ].filter(Boolean)
 
@@ -2656,7 +2710,7 @@ export function DetailPanel({
                 title.episodes && title.episodes > 1
                   ? `${title.episodes} ${t('detail.episodes')}`
                   : undefined,
-                title.jpYear ? `JP ${title.jpYear}` : undefined,
+                jpAngabe(eigenerTeil?.jpStart, title.jpYear),
                 title.studios?.[0],
               ]
                 .filter(Boolean)
@@ -3525,21 +3579,31 @@ export function DetailPanel({
                                   die Frage, ohne eine Zeile zu kosten.
                                 */
                                 /*
-                                  **Und es sagt, dass es die japanische
-                                  Ausstrahlung ist.**
+                                  **Hier steht der deutsche Termin oder gar
+                                  keiner.**
 
-                                  Über „Staffel 3 - Teil 1" stand im Kasten der
-                                  01.10.2026 und in dieser Zeile der 02.10.2026
-                                  (Daniel, 12.09.2026: „warum steht oben 01.10.
-                                  und unten 02.10.?"). Beide stimmen: oben der
-                                  deutsche Termin, hier der japanische Start,
-                                  nach dem die Liste auch sortiert ist. Zwei
-                                  Daten zu derselben Sache auf einem Bildschirm
-                                  brauchen das Wort, das sie unterscheidet.
+                                  Bis zum 12.09.2026 stand die japanische
+                                  Ausstrahlung da — erst nackt, dann als
+                                  „JP 02.10.2026", weil der Kasten darüber den
+                                  deutschen 01.10. nannte und niemand den
+                                  Unterschied sah. Daniels Antwort auf die
+                                  Kennzeichnung: „jp release dates sind fast
+                                  komplett irrelevant … dürfen aber nie
+                                  prominent präsentiert werden … falls
+                                  unbekannt, lieber kein datum dort."
+
+                                  Das ist dieselbe Trennlinie wie überall in
+                                  diesem Projekt: Die Seite beantwortet eine
+                                  deutsche Frage. Ein japanisches Datum an
+                                  dieser Stelle sieht aus wie eine Antwort
+                                  darauf und ist keine.
+
+                                  `jpStart` bleibt im Datensatz — die Reihe
+                                  wird danach sortiert.
                                 */
-                                const vorsatz = offen ? 'JP ab ' : 'JP '
-                                const roh = m.jpStart
-                                if (!roh) return m.jpYear ? `${vorsatz}${m.jpYear}` : ''
+                                const vorsatz = offen ? 'ab ' : ''
+                                const roh = m.deStart
+                                if (!roh) return ''
                                 const [jahr, monat, tag] = roh.split('-')
                                 if (tag) return `${vorsatz}${tag}.${monat}.${jahr}`
                                 if (monat) return `${vorsatz}${monat}.${jahr}`

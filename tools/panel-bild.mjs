@@ -135,21 +135,62 @@ async function main() {
       const kasten = panel.locator('section').first()
       await kasten.waitFor({ state: 'visible', timeout: 15_000 })
       const box = await kasten.boundingBox()
-      if (thema === 'dunkel') hoehen.push({ id, hoehe: Math.round(box?.height ?? 0) })
+      /*
+        **Gemessen wird, ob etwas hinausragt — nicht, ob alle gleich hoch sind.**
+
+        Bis zum 12.09.2026 stand hier „alle gleich hoch": die Vorgabe vom
+        03.09.2026, dass der Kasten beim Wechsel zwischen zwei Teilen einer
+        Reihe nicht springt. Sie hat genau das gemessen, was sie sollte — und
+        den eigentlichen Fehler zweimal durchgelassen: Am 07.09. und am 12.09.
+        ragte die Pillenreihe aus dem Kasten heraus, beide Male gleich hoch,
+        beide Male von Daniel auf einem Bild gefunden.
+
+        Eine gleiche Höhe ist eine Momentaufnahme. Die Frage, um die es geht,
+        lautet: Steht der Inhalt im Kasten? Das misst `scrollHeight` gegen
+        `clientHeight`, und es bleibt richtig, wenn ein neuer Zustand dazukommt.
+      */
+      const ueberlauf = await kasten.evaluate((el) => ({
+        innen: el.scrollHeight,
+        sichtbar: el.clientHeight,
+        /* Und keins der Kinder darf unten aus dem Rahmen ragen. */
+        raus: [...el.children].reduce(
+          (m, k) => Math.max(m, Math.round(k.getBoundingClientRect().bottom - el.getBoundingClientRect().bottom)),
+          0,
+        ),
+      }))
+      if (thema === 'dunkel') {
+        hoehen.push({
+          id,
+          hoehe: Math.round(box?.height ?? 0),
+          ueberlauf: Math.max(ueberlauf.innen - ueberlauf.sichtbar, ueberlauf.raus),
+        })
+      }
       await panel.screenshot({ path: path.join(WURZEL, 'docs', `panel-${id}-${thema}.png`) })
     }
   }
 
   await browser.close()
 
-  console.log('\nHöhe des Antwort-Kastens je Titel:')
-  for (const h of hoehen) console.log(`  ${h.id}: ${h.hoehe} px`)
-  const einzig = new Set(hoehen.map((h) => h.hoehe))
-  if (einzig.size > 1) {
-    console.log(`\n  ✕ ${einzig.size} verschiedene Höhen — der Kasten springt beim Wechsel.`)
+  /* Die Mindesthöhe aus `DetailPanel.tsx` — 11rem bei 16 px Grundschrift. */
+  const MINDEST = 176
+
+  console.log('\nAntwort-Kasten je Titel:')
+  for (const h of hoehen) {
+    console.log(`  ${h.id}: ${h.hoehe} px${h.ueberlauf > 0 ? `  ✕ ${h.ueberlauf} px ragen hinaus` : ''}`)
+  }
+  const raus = hoehen.filter((h) => h.ueberlauf > 0)
+  const zuKlein = hoehen.filter((h) => h.hoehe < MINDEST)
+  if (raus.length) {
+    console.log(`\n  ✕ bei ${raus.length} Titel(n) steht Inhalt außerhalb des Kastens.`)
+    process.exitCode = 1
+  } else if (zuKlein.length) {
+    console.log(`\n  ✕ ${zuKlein.length} Titel unter der Mindesthöhe von ${MINDEST} px.`)
     process.exitCode = 1
   } else {
-    console.log('\n  ok  alle gleich hoch')
+    const einzig = new Set(hoehen.map((h) => h.hoehe))
+    console.log(
+      `\n  ok  alles im Kasten, Mindesthöhe gehalten${einzig.size > 1 ? ` (${einzig.size} Höhen — der Regelfall ist ${MINDEST} px)` : ''}`,
+    )
   }
 }
 

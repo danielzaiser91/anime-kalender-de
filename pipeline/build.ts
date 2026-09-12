@@ -6770,6 +6770,21 @@ function main(): void {
     Die Katalogtitel gehen deshalb mit, tragen aber `ohneSynchro` — die Liste
     stellt sie gestrichelt dar, statt sie als gleichwertig auszugeben.
   */
+  /*
+    **Der früheste deutsche Termin je Titel.** Er ist das einzige Datum, das in
+    die Auswahlbox des Panels gehört (Daniel, 12.09.2026) — die japanische
+    Ausstrahlung bleibt für die Sortierung im Datensatz, wird dort aber nicht
+    mehr angezeigt. Gezählt wird der Beginn jedes Releases, Disc wie Stream:
+    Gefragt ist „seit wann gibt es das hier", nicht „auf welchem Weg".
+  */
+  const deStart = new Map<number, string>()
+  for (const r of releases) {
+    const d = r.schedule?.firstEpisodeDate
+    if (!d) continue
+    const bisher = deStart.get(r.titleId)
+    if (!bisher || d < bisher) deStart.set(r.titleId, d)
+  }
+
   const ausKatalog = readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])
   const imBestand = new Set(slim.map((t) => t.id))
   const fuerReihen = [
@@ -6863,6 +6878,7 @@ function main(): void {
       */
       jpStart: t.jpStart ?? jpStart.get(t.id),
       jpStatus: t.jpStatus,
+      deStart: deStart.get(t.id),
       ohneSynchro: (t as { ohneSynchro?: boolean }).ohneSynchro || undefined,
       /* Hängt er an einem anderen Teil **dieser** Reihe? Eine fremde Elternkante zählt nicht. */
       beiwerk: (elternVon.get(t.id) ?? []).some((e) => sortiert.some((x) => x.id === e)) || undefined,

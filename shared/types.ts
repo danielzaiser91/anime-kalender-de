@@ -583,6 +583,20 @@ export interface FranchiseMember {
   jpStart?: string
   /** `NOT_YET_RELEASED` heißt: Der Termin steht noch aus. */
   jpStatus?: string
+  /**
+   * **Der früheste deutsche Termin dieses Teils — das Datum, das hier zählt.**
+   *
+   * Die Auswahlbox zeigte bis zum 12.09.2026 `jpStart`, also die japanische
+   * Ausstrahlung. Daniel: „jp release dates sind fast komplett irrelevant …
+   * sie sind eine nette zusatz info, dürfen aber nie prominent präsentiert
+   * werden, uns interessieren de release dates, daher hier in dieser box
+   * niemals jp release dates anzeigen, nur de dates wenn bekannt, falls
+   * unbekannt, lieber kein datum dort."
+   *
+   * Kein Datum ist also die richtige Antwort, wo wir keins haben — und
+   * `jpStart` bleibt im Datensatz, weil die Reihe danach **sortiert** wird.
+   */
+  deStart?: string
   episodes?: number
   /**
    * Steht dieser Teil nur im Katalog hinter dem Toggle?
