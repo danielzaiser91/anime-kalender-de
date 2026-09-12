@@ -30,6 +30,9 @@ on:
           - data:anisearch-folgen
           - data:anisearch-titel
           - data:cr-dub
+          # Neuzugänge bei Crunchyroll. Auf Abruf, wenn der Lauf ein Feld
+          # mehr mitschreibt — die bekannten Funde bekommen es dann nachgetragen.
+          - data:cr-neu
           - data:extension-liste
           - data:justwatch
           # Der Gesamtkatalog läuft sonst nur wöchentlich. Auf Abruf braucht man
