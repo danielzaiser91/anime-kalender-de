@@ -91,6 +91,7 @@
     "check:panel": "node tools/panel-bild.mjs",
     "check:trailer": "node tools/trailer-dialog-bild.mjs",
     "mess:suche": "node tools/such-messung.mjs",
+    "mess:filter": "node tools/filter-messung.mjs",
     "check:ansichten": "node tools/ansicht-bild.mjs",
     "check:news": "node tools/news-bild.mjs",
     "bild:kachel": "node tools/kachel-titel-messen.mjs",
