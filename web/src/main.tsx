@@ -24,3 +24,22 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 )
+
+/**
+ * **Der Ladeschirm geht weg, wenn wirklich etwas dasteht.**
+ *
+ * `render()` kehrt sofort zurück — React zeichnet danach. Ihn hier direkt zu
+ * entfernen zeigte für einen Bildaufbau wieder den Rohbau aus `#root`, also
+ * genau das, wogegen er gebaut ist. `requestAnimationFrame` verschiebt es auf
+ * den ersten Rahmen nach dem Zeichnen.
+ *
+ * Die Klasse fällt **vor** dem Entfernen: `#root` wird damit sichtbar,
+ * während der Schirm noch darüberliegt — sonst blitzt für einen Rahmen der
+ * leere Grund durch.
+ */
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    document.documentElement.classList.remove('ak-laedt')
+    document.getElementById('ak-ladeschirm')?.remove()
+  })
+})

@@ -303,7 +303,22 @@ export interface Title {
    * Kanal. Wo nichts steht, gibt es keinen Trailer; die Pille erscheint dann
    * gar nicht erst.
    */
-  trailer?: { video: string; titel: string }
+  trailer?: {
+    video: string
+    titel: string
+    /**
+     * **Die Sprache — und warum sie hierher gehört.**
+     *
+     * Nur 56 der 700 Filme haben einen deutschen Trailer; für 442 weitere
+     * kennt TMDB einen englischen oder japanischen. Den als „Trailer
+     * anschauen" auszugeben wäre eine Falschangabe auf einer Seite, deren
+     * ganzer Zweck die deutsche Fassung ist. Daniel, 12.09.2026: „falls suche
+     * keine treffer zu einem kinofilm findet, dann entsprechenden hinweis
+     * anbinden … zB bei trailer button sagen ‚trailer in <sprache> - einen
+     * deutschen trailer haben wir noch nicht gefunden'."
+     */
+    sprache: 'de' | 'en' | 'ja'
+  }
   /**
    * Wann die deutsche Fassung erstmals zu haben war — laut aniSearch.
    *

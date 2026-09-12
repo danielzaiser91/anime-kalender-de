@@ -47,23 +47,32 @@ if (!existsSync(DIST)) {
 }
 
 /*
-  **Der Titel wird gesucht, nicht festgeschrieben.**
+  **Die Titel werden gesucht, nicht festgeschrieben.**
 
   Eine feste Kennung koppelt die Prüfung an den Datenstand: Verliert „A New
   Dawn" seinen Trailer, wird sie rot, obwohl nichts kaputt ist — genau der
   Fehler, der am 25.08.2026 drei Deploys aufgehalten hat („Eine Prüfung, die rot
-  wird, weil die Arbeit erledigt ist, misst das Falsche"). Genommen wird der
-  erste Titel im ausgelieferten Datensatz, der einen Trailer trägt; ein
-  Argument überschreibt das.
+  wird, weil die Arbeit erledigt ist, misst das Falsche").
+
+  Geprüft werden **beide** Fälle: ein deutscher Trailer (der Regelfall, für den
+  das gebaut ist) und ein fremdsprachiger (56 gegen 442 im Bestand). Der zweite
+  hat einen eigenen Text und eine eigene Farbe; ihn nicht zu prüfen hieße, die
+  häufigere Hälfte ungesehen auszuliefern.
 */
 const titles = JSON.parse(await readFile(path.join(DIST, 'data', 'titles.json'), 'utf8'))
-const ID = Number(process.argv[2]) || titles.find((t) => t.trailer)?.id
+const gewaehlt = Number(process.argv[2])
+const FAELLE = gewaehlt
+  ? [{ art: 'gewählt', id: gewaehlt }]
+  : [
+      { art: 'deutsch', id: titles.find((t) => t.trailer?.sprache === 'de')?.id },
+      { art: 'fremd', id: titles.find((t) => t.trailer && t.trailer.sprache !== 'de')?.id },
+    ].filter((f) => f.id)
 
 /*
   Kein Titel mit Trailer heißt: Der Datenlauf war noch nicht dran. Das ist ein
   Zustand, kein Fehler — die Prüfung sagt es und endet grün.
 */
-if (!ID) {
+if (!FAELLE.length) {
   console.log('Kein Titel mit Trailer im Datensatz — nichts zu prüfen (`npm run data:trailer`).')
   process.exit(0)
 }
@@ -97,67 +106,79 @@ const pruefe = (was, ok, zusatz) => {
   if (!ok) fehler.push(was)
 }
 
-console.log(`Der Trailer-Dialog an Titel ${ID}:\n`)
-
-let mass
-for (const thema of ['dunkel', 'hell']) {
-  await seite.emulateMedia({ colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
-  await seite.goto('about:blank')
-  await seite.goto(`http://ak.test/#/datenbank?t=${ID}`, { waitUntil: 'networkidle' })
-
-  const pille = seite.getByRole('button', { name: 'Trailer anschauen' })
-  await pille.waitFor({ state: 'visible', timeout: 15_000 })
-  await pille.click()
-
-  const dialog = seite.getByRole('dialog', { name: /Trailer für/ })
-  await dialog.waitFor({ state: 'visible', timeout: 10_000 })
-
-  if (thema === 'dunkel') {
-    mass = await seite.evaluate(() => {
-      const d = document.querySelector('[role="dialog"][aria-modal="true"]')
-      const kasten = d?.firstElementChild
-      const k = kasten?.getBoundingClientRect()
-      const rahmen = d?.querySelector('iframe')
-      const knopf = [...(d?.querySelectorAll('a') ?? [])].find((a) => /youtube/i.test(a.textContent ?? ''))
-      const x = d?.querySelector('button[aria-label]')
-      return {
-        breite: Math.round(((k?.width ?? 0) / window.innerWidth) * 100),
-        hoehe: Math.round(((k?.height ?? 0) / window.innerHeight) * 100),
-        ueberschrift: d?.querySelector('h2')?.textContent?.trim() ?? '',
-        src: rahmen?.getAttribute('src') ?? '',
-        rahmenHoehe: Math.round(rahmen?.getBoundingClientRect().height ?? 0),
-        youtubeKnopf: knopf?.textContent?.trim() ?? '',
-        youtubeZiel: knopf?.getAttribute('href') ?? '',
-        /* „oben rechts" wird gemessen, nicht geglaubt. */
-        xRechts: Math.round((k?.right ?? 0) - (x?.getBoundingClientRect().right ?? 0)),
-        xOben: Math.round((x?.getBoundingClientRect().top ?? 0) - (k?.top ?? 0)),
-        /* Die Seite darunter darf nicht mitscrollen. */
-        koerperGesperrt: getComputedStyle(document.body).overflow === 'hidden',
-        /*
-          **Die Lage, nicht nur die Größe.** Der erste Entwurf maß „95 % breit"
-          und war zufrieden — auf dem Bild ragte der Dialog rechts aus dem
-          Fenster, weil er im Panel hing statt am Körper. Eine Breite sagt
-          nichts darüber, wo etwas anfängt.
-        */
-        linksFrei: Math.round(k?.left ?? 0),
-        rechtsFrei: Math.round(window.innerWidth - (k?.right ?? 0)),
-        obenFrei: Math.round(k?.top ?? 0),
-      }
-    })
+/** Läuft im Browser: alles, was ein Bild nicht beantwortet. */
+function messen() {
+  const d = document.querySelector('[role="dialog"][aria-modal="true"]')
+  const kasten = d?.firstElementChild
+  const k = kasten?.getBoundingClientRect()
+  const rahmen = d?.querySelector('iframe')
+  const knopf = [...(d?.querySelectorAll('a') ?? [])].find((a) => /youtube/i.test(a.textContent ?? ''))
+  const x = d?.querySelector('button[aria-label]')
+  return {
+    breite: Math.round(((k?.width ?? 0) / window.innerWidth) * 100),
+    hoehe: Math.round(((k?.height ?? 0) / window.innerHeight) * 100),
+    ueberschrift: d?.querySelector('h2')?.textContent?.trim() ?? '',
+    src: rahmen?.getAttribute('src') ?? '',
+    rahmenHoehe: Math.round(rahmen?.getBoundingClientRect().height ?? 0),
+    youtubeKnopf: knopf?.textContent?.trim() ?? '',
+    youtubeZiel: knopf?.getAttribute('href') ?? '',
+    /* „oben rechts" wird gemessen, nicht geglaubt. */
+    xRechts: Math.round((k?.right ?? 0) - (x?.getBoundingClientRect().right ?? 0)),
+    xOben: Math.round((x?.getBoundingClientRect().top ?? 0) - (k?.top ?? 0)),
+    /* Die Seite darunter darf nicht mitscrollen. */
+    koerperGesperrt: getComputedStyle(document.body).overflow === 'hidden',
+    /*
+      **Die Lage, nicht nur die Größe.** Der erste Entwurf maß „95 % breit"
+      und war zufrieden — auf dem Bild ragte der Dialog rechts aus dem
+      Fenster, weil er im Panel hing statt am Körper. Eine Breite sagt
+      nichts darüber, wo etwas anfängt.
+    */
+    linksFrei: Math.round(k?.left ?? 0),
+    rechtsFrei: Math.round(window.innerWidth - (k?.right ?? 0)),
+    obenFrei: Math.round(k?.top ?? 0),
   }
+}
 
-  await seite.screenshot({ path: path.join(WURZEL, 'docs', `trailer-dialog-${thema}.png`) })
+const messungen = {}
+for (const fall of FAELLE) {
+  console.log(`\nFall „${fall.art}" an Titel ${fall.id}:\n`)
+  for (const thema of ['dunkel', 'hell']) {
+    await seite.emulateMedia({ colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
+    await seite.goto('about:blank')
+    await seite.goto(`http://ak.test/#/datenbank?t=${fall.id}`, { waitUntil: 'networkidle' })
 
-  /* Escape schließt — auf dem Handy ist das X weit weg vom Daumen. */
-  await seite.keyboard.press('Escape')
-  const wegDa = await seite
-    .getByRole('dialog', { name: /Trailer für/ })
-    .isVisible()
-    .catch(() => false)
-  if (thema === 'dunkel') pruefe('Escape schließt den Dialog', !wegDa)
+    /* Der Text wechselt mit der Sprache — gefunden wird über das gemeinsame Wort. */
+    const pille = seite.getByRole('button', { name: /Trailer/ })
+    await pille.waitFor({ state: 'visible', timeout: 15_000 })
+    /* Ohne das Abspieldreieck aus dem Icon — `textContent` nimmt es mit. */
+    const pillenText = ((await pille.textContent()) ?? '').replace(/[^\p{L}\p{N} ]+/gu, '').trim()
+    await pille.click()
+
+    const dialog = seite.getByRole('dialog', { name: /Trailer für/ })
+    await dialog.waitFor({ state: 'visible', timeout: 10_000 })
+
+    if (thema === 'dunkel') {
+      messungen[fall.art] = { ...(await seite.evaluate(messen)), pillenText }
+    }
+
+    /* Nur der Regelfall wird abgebildet — zwei Bilder je Thema wären vier gleiche. */
+    if (fall.art !== 'fremd') {
+      await seite.screenshot({ path: path.join(WURZEL, 'docs', `trailer-dialog-${thema}.png`) })
+    }
+
+    /* Escape schließt — auf dem Handy ist das X weit weg vom Daumen. */
+    await seite.keyboard.press('Escape')
+    const wegDa = await seite
+      .getByRole('dialog', { name: /Trailer für/ })
+      .isVisible()
+      .catch(() => false)
+    if (thema === 'dunkel' && fall.art !== 'fremd') pruefe('Escape schließt den Dialog', !wegDa)
+  }
 }
 
 await browser.close()
+
+const mass = messungen.deutsch ?? messungen['gewählt'] ?? Object.values(messungen)[0]
 
 pruefe('er ist 95 % breit', Math.abs(mass.breite - 95) <= 1, `${mass.breite} %`)
 pruefe('er ist 95 % hoch', Math.abs(mass.hoehe - 95) <= 1, `${mass.hoehe} %`)
@@ -166,13 +187,42 @@ pruefe('das Video ist eingebettet', /youtube-nocookie\.com\/embed\//.test(mass.s
 pruefe('es füllt den Dialog', mass.rahmenHoehe > 400, `${mass.rahmenHoehe} px`)
 pruefe('der YouTube-Knopf trägt sein Label', /In YouTube öffnen/.test(mass.youtubeKnopf), mass.youtubeKnopf)
 pruefe('und führt zum Video', /youtube\.com\/watch\?v=.+/.test(mass.youtubeZiel), mass.youtubeZiel)
-pruefe('das X steht oben rechts', mass.xRechts >= 0 && mass.xRechts < 40 && mass.xOben < 40, `${mass.xRechts}/${mass.xOben} px`)
+pruefe(
+  'das X steht oben rechts',
+  mass.xRechts >= 0 && mass.xRechts < 40 && mass.xOben < 40,
+  `${mass.xRechts}/${mass.xOben} px`,
+)
 pruefe('die Seite darunter scrollt nicht mit', mass.koerperGesperrt)
 pruefe(
   'er steht mittig im Fenster, nicht im Panel',
   Math.abs(mass.linksFrei - mass.rechtsFrei) <= 2 && mass.linksFrei >= 0 && mass.obenFrei >= 0,
   `links ${mass.linksFrei}, rechts ${mass.rechtsFrei}, oben ${mass.obenFrei} px`,
 )
+
+/*
+  **Und der häufigere Fall: ein Trailer, der nicht deutsch ist.** 442 der 498
+  Einträge sind englisch oder japanisch. Die Pille muss es sagen, sonst
+  verspricht sie etwas, das diese Seite nicht liefert.
+*/
+if (messungen.deutsch) {
+  pruefe(
+    'die deutsche Pille verspricht nichts Fremdes',
+    messungen.deutsch.pillenText === 'Trailer anschauen',
+    messungen.deutsch.pillenText,
+  )
+}
+if (messungen.fremd) {
+  pruefe(
+    'die fremdsprachige Pille nennt die Sprache',
+    /^Trailer auf (Englisch|Japanisch)$/.test(messungen.fremd.pillenText),
+    messungen.fremd.pillenText,
+  )
+  pruefe(
+    'und der Dialog sagt, dass ein deutscher noch fehlt',
+    /noch nicht gefunden/.test(messungen.fremd.ueberschrift),
+    messungen.fremd.ueberschrift,
+  )
+}
 
 console.log('\n  Bilder: docs/trailer-dialog-dunkel.png · docs/trailer-dialog-hell.png')
 process.exit(fehler.length ? 1 : 0)

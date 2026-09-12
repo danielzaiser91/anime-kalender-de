@@ -76,8 +76,64 @@
       content="https://anime-kalender.de/og/default.jpg"
     />
     <!-- social:end -->
+    <!--
+      **Der Ladeschirm — und warum er nicht einfach ein leeres Feld ist.**
+
+      Im `#root` steht ausgeliefertes HTML: Titel, Beschreibung und die
+      nächsten Termine, erzeugt von `build-share-pages.ts`. Das ist Absicht und
+      bleibt so — eine Seite ohne Text rankt für nichts, und ein Besucher ohne
+      JavaScript bekommt hier eine vollständige Auskunft.
+
+      Für alle anderen blitzt sie eine knappe Sekunde auf, bevor React sie
+      ersetzt (Daniel, 12.09.2026, mit Bild: „beim neuladen der webseite steht
+      für <1sek dieser frame auf der webseite"). Also: Wer JavaScript hat,
+      bekommt den Ladeschirm und sieht den Rohbau gar nicht erst; wer keins
+      hat, sieht weiterhin die Termine.
+
+      Die Umschaltung passiert **vor** dem ersten Zeichnen — deshalb steht das
+      Skript im Kopf und nicht am Ende des Körpers.
+    -->
+    <style>
+      #ak-ladeschirm { display: none }
+      html.ak-laedt #root { visibility: hidden }
+      html.ak-laedt #ak-ladeschirm {
+        display: grid;
+        place-items: center;
+        position: fixed;
+        inset: 0;
+        background: #0b0f16;
+        z-index: 9999;
+      }
+      html.ak-laedt:not(.dark) #ak-ladeschirm { background: #f8fafc }
+      /* Drei Punkte, die nacheinander atmen — klein genug, um nicht selbst aufzufallen. */
+      #ak-ladeschirm span {
+        width: 0.5rem;
+        height: 0.5rem;
+        margin: 0 0.2rem;
+        border-radius: 9999px;
+        background: #38bdf8;
+        display: inline-block;
+        animation: ak-puls 1.05s ease-in-out infinite;
+      }
+      #ak-ladeschirm span:nth-child(2) { animation-delay: 0.14s }
+      #ak-ladeschirm span:nth-child(3) { animation-delay: 0.28s }
+      @keyframes ak-puls {
+        0%, 70%, 100% { opacity: 0.25; transform: scale(0.8) }
+        35% { opacity: 1; transform: scale(1) }
+      }
+      /* Wer keine Bewegung will, bekommt einen ruhenden Punkt statt keiner Auskunft. */
+      @media (prefers-reduced-motion: reduce) {
+        #ak-ladeschirm span { animation: none; opacity: 0.6 }
+      }
+    </style>
+    <script>
+      document.documentElement.classList.add('ak-laedt')
+    </script>
   </head>
   <body>
+    <div id="ak-ladeschirm" role="status" aria-label="Die Seite wird geladen">
+      <div><span></span><span></span><span></span></div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

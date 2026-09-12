@@ -6273,7 +6273,10 @@ function main(): void {
     Kanals; hier wird nur zugeordnet. Ein Titel ohne Eintrag bekommt kein Feld
     — die Pille im Panel hängt an seinem Dasein.
   */
-  const trailer = readJson<Record<string, { video: string; titel: string }>>('data/trailer.json', {})
+  const trailer = readJson<Record<string, { video: string; titel: string; sprache?: 'de' | 'en' | 'ja' }>>(
+    'data/trailer.json',
+    {},
+  )
 
   const slim = allTitles.map((t) => {
     const ausAnisearch = anisearch[t.id]?.descriptionDe
@@ -6340,7 +6343,14 @@ function main(): void {
       ...(Number.isFinite(annId) ? { annId } : {}),
       /* Nur die beiden Felder, die die Oberfläche braucht — Herkunft und Prüfdatum bleiben in der Quelle. */
       ...(trailer[String(t.id)]
-        ? { trailer: { video: trailer[String(t.id)]!.video, titel: trailer[String(t.id)]!.titel } }
+        ? {
+            trailer: {
+              video: trailer[String(t.id)]!.video,
+              titel: trailer[String(t.id)]!.titel,
+              /* Ältere Einträge kannten das Feld nicht — sie stammen aus der deutschen Erstfassung. */
+              sprache: trailer[String(t.id)]!.sprache ?? ('de' as const),
+            },
+          }
         : {}),
     }
   })

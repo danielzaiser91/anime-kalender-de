@@ -945,9 +945,39 @@ function DiscZeichen() {
  * - **Der Dialog schließt auch mit Escape und einem Klick daneben.** Ein X
  *   allein ist auf dem Handy weit weg vom Daumen.
  */
-function TrailerKino({ trailer, titel }: { trailer: { video: string; titel: string }; titel: string }) {
+function TrailerKino({
+  trailer,
+  titel,
+}: {
+  trailer: { video: string; titel: string; sprache: 'de' | 'en' | 'ja' }
+  titel: string
+}) {
   const { t } = useLang()
   const [offen, setOffen] = useState(false)
+  /*
+    **Ein fremdsprachiger Trailer sagt, dass er einer ist.** Nur 56 der 700
+    Filme haben einen deutschen; für 442 weitere kennt TMDB einen englischen
+    oder japanischen. Ihn als „Trailer anschauen" auszugeben wäre auf dieser
+    Seite eine Falschangabe — sie beantwortet eine deutsche Frage.
+  */
+  /*
+    **Und was wir nicht benennen können, gilt als deutsch.**
+
+    Der erste Entwurf baute den Textschlüssel aus dem Sprachcode zusammen. Bei
+    einem Eintrag ohne `sprache` stand daraufhin „Trailer auf
+    trailer.sprache.undefined" auf der Pille (gemessen 12.09.2026). Ein
+    zusammengesetzter Schlüssel hat keinen Rückfall — er trifft oder er steht
+    roh da.
+
+    Der Bau setzt `sprache ?? 'de'`, im Datensatz kann der Fall also nicht
+    auftreten. Genau deshalb ist er gefährlich: Er fällt erst auf, wenn er
+    schon auf der Seite steht.
+  */
+  const SPRACHNAME = { en: 'trailer.sprache.en', ja: 'trailer.sprache.ja' } as const
+  const fremd = trailer.sprache === 'en' || trailer.sprache === 'ja'
+  const deutsch = !fremd
+  const spracheName = fremd ? t(SPRACHNAME[trailer.sprache as 'en' | 'ja']) : ''
+  const knopfText = deutsch ? t('trailer.ansehen') : t('trailer.ansehenFremd', { sprache: spracheName })
 
   /*
     Escape schließt, und solange der Dialog steht, scrollt die Seite darunter
@@ -978,15 +1008,24 @@ function TrailerKino({ trailer, titel }: { trailer: { video: string; titel: stri
       <button
         type="button"
         onClick={() => setOffen(true)}
-        className="group inline-flex shrink-0 items-center gap-1.5 rounded-full border border-rose-400/40 bg-rose-500/10 py-1 pl-1 pr-3 text-xs font-semibold text-rose-700 transition hover:border-rose-400/70 hover:bg-rose-500/20 dark:text-rose-300"
+        title={deutsch ? undefined : t('trailer.nochKeinDeutscher')}
+        className={[
+          'group inline-flex shrink-0 items-center gap-1.5 rounded-full border py-1 pl-1 pr-3 text-xs font-semibold transition',
+          deutsch
+            ? 'border-rose-400/40 bg-rose-500/10 text-rose-700 hover:border-rose-400/70 hover:bg-rose-500/20 dark:text-rose-300'
+            : 'border-slate-300 bg-slate-500/5 text-slate-600 hover:border-slate-400 hover:bg-slate-500/10 dark:border-white/15 dark:text-slate-300',
+        ].join(' ')}
       >
         <span
           aria-hidden="true"
-          className="grid h-5 w-5 place-items-center rounded-full bg-rose-600 text-[9px] text-white transition group-hover:scale-110"
+          className={[
+            'grid h-5 w-5 place-items-center rounded-full text-[9px] text-white transition group-hover:scale-110',
+            deutsch ? 'bg-rose-600' : 'bg-slate-500',
+          ].join(' ')}
         >
           ▶
         </span>
-        {t('trailer.ansehen')}
+        {knopfText}
       </button>
 
       {/*
@@ -1020,6 +1059,17 @@ function TrailerKino({ trailer, titel }: { trailer: { video: string; titel: stri
             <div className="flex shrink-0 items-center gap-3 border-b border-white/10 px-4 py-2.5">
               <h2 className="min-w-0 flex-1 truncate text-sm font-semibold text-white">
                 {t('trailer.ueberschrift', { titel })}
+                {/*
+                  Der Hinweis steht **im** Dialog, nicht nur als Tooltip an der
+                  Pille: Wer hier landet, hat geklickt und erwartet Deutsch —
+                  er soll es lesen können, ohne mit der Maus zu suchen. Auf
+                  einem Touchgerät gibt es den Tooltip ohnehin nicht.
+                */}
+                {!deutsch && (
+                  <span className="ml-2 font-normal text-slate-400">
+                    · {spracheName} — {t('trailer.nochKeinDeutscher')}
+                  </span>
+                )}
               </h2>
               <a
                 href={`https://www.youtube.com/watch?v=${trailer.video}`}
