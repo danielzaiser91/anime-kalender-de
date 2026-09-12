@@ -8,6 +8,9 @@
 #                    der Box durch feste Höhe verhindern")
 #   check:ansichten  alle elf Routen, beide Themen, Desktop und Handy —
 #                    Konsolenfehler und waagerechte Überbreite
+#   check:news       die Nachrichtenseite — auch aufgeklappt, was ein Lauf
+#                    ohne Klick nie zu sehen bekommt; misst zugleich die
+#                    Zeilenhöhe, denn Dichte ist dort die Anforderung
 #   check:kasten     der Hinweiskasten der Erweiterung unter dem echten
 #                    melder.css, gegen Amazons eigene Regeln
 #   check:leiste     die Durchlauf-Leiste auf Netflix, berechneter Stil statt
@@ -67,6 +70,12 @@ jobs:
 
       - name: Alle Ansichten — Handy
         run: npm run check:ansichten -- --handy
+
+      - name: Nachrichtenseite — zugeklappt und aufgeklappt
+        run: npm run check:news
+
+      - name: Nachrichtenseite auf dem Handy
+        run: npm run check:news -- --handy
 
       - name: Hinweiskasten der Erweiterung
         run: npm run check:kasten

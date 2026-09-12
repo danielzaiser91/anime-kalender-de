@@ -123,6 +123,7 @@ async function main(): Promise<void> {
   const bekannt = new Map(alt.folgen.map((f) => [f.guid, f]))
   const neu: NeueFolge[] = []
   let gelesen = 0
+  let ergaenzt = 0
 
   for (let start = 0; start < SEITEN * 100; start += 100) {
     const daten = await seite(bearer, start)
@@ -132,7 +133,24 @@ async function main(): Promise<void> {
       const m = (eintrag.episode_metadata ?? {}) as Record<string, unknown>
       if (m.audio_locale !== DEUTSCH) continue
       const guid = String(eintrag.id ?? '')
-      if (!guid || bekannt.has(guid)) continue
+      if (!guid) continue
+      /*
+        **Ein bekannter Fund wird ergänzt, nicht übersprungen.**
+
+        Sonst erreicht ein neu eingebautes Feld genau die Einträge nie, die
+        schon dastehen — derselbe Fehlgriff, der in CLAUDE.md unter „Ein neues
+        Feld ist erst eingebaut, wenn es am Ziel angekommen ist" steht. Der
+        Fundtag bleibt dabei unangetastet: Er sagt, wann **wir** es gesehen
+        haben, und das ändert sich rückwirkend nicht.
+      */
+      const alterEintrag = bekannt.get(guid)
+      if (alterEintrag) {
+        if (!alterEintrag.verfuegbarAb && typeof m.premium_available_date === 'string') {
+          alterEintrag.verfuegbarAb = m.premium_available_date
+          ergaenzt++
+        }
+        continue
+      }
       const folge: NeueFolge = {
         guid,
         serieId: String(m.series_id ?? ''),
@@ -161,6 +179,7 @@ async function main(): Promise<void> {
   recordSource('crunchyroll-neu', folgen.length, undefined, undefined, true)
   const serien = new Set(neu.map((f) => f.serie))
   log(`${gelesen} Folgen gelesen, ${neu.length} neue deutsche aus ${serien.size} Serien`)
+  if (ergaenzt) log(`${ergaenzt} bekannte Funde um ihr deutsches Verfügbarkeitsdatum ergänzt`)
   for (const s of [...serien].slice(0, 15)) log(`  neu auf Deutsch: ${s}`)
   log(`${folgen.length} Funde im Fenster der letzten ${HALTBAR_TAGE} Tage`)
 }

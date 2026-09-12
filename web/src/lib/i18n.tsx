@@ -54,6 +54,19 @@ const TEXTE = {
   'news.kino': 'Kinostart am {datum}',
   'news.verspaetet': 'Folge {von} war für den {datum} angekündigt und ist nicht erschienen',
   'news.nachgereicht': 'Folge {von} kam mit Verspätung am {datum}',
+  // Kurzform für die Übersichtszeile: Stichworte statt Satz — der Vollsatz steht aufgeklappt darunter.
+  'news.alle': 'Alles',
+  'news.weitere': '+{n} weitere',
+  // Der Chip nennt die Art, die Zeile nennt die Umstände — sonst steht beides zweimal da
+  // („Kino 29.09." neben dem Chip „Im Kino").
+  'news.kurz.neu': 'bei {anbieter}',
+  'news.kurz.folge': 'E{von} · {anbieter}',
+  'news.kurz.folgen': 'E{von}–{bis} · {anbieter}',
+  'news.kurz.angekuendigt': 'ab {datum} · {anbieter}',
+  'news.kurz.disc': 'ab {datum}',
+  'news.kurz.kino': 'ab {datum}',
+  'news.kurz.verspaetet': 'E{von}, erwartet zum {datum}',
+  'news.kurz.nachgereicht': 'E{von}, kam am {datum}',
   'view.abo': 'Kalender-Abo',
   'view.newsletter': 'Newsletter',
   // Steht im Hovertext des Newsletter-Knopfes, sobald ein Abo hinterlegt ist.

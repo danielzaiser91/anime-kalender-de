@@ -25,9 +25,14 @@ import path from 'node:path'
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
 /*
-  Alle elf Routen aus `shared`/`router.ts` — auch die, die nicht in der
+  Alle Routen aus `shared`/`router.ts` — auch die, die nicht in der
   Navigation stehen. Gerade dort fällt ein Fehler sonst niemandem auf: Wer
   „Quellen" oder „Datenschutz" öffnet, tut das selten, und wenn, dann einmal.
+
+  **Eine neue Route gehört in diese Liste.** „News" kam am 12.09.2026 dazu und
+  stand einen halben Tag lang in keiner Bildprüfung — der Lauf meldete
+  trotzdem „ok", weil er nur zählt, was er kennt. Ein Prüflauf, der eine Lücke
+  nicht nennt, ist von einem bestandenen nicht zu unterscheiden.
 */
 const ALLE = [
   'woche',
@@ -36,6 +41,7 @@ const ALLE = [
   'datenbank',
   'favoriten',
   'wo',
+  'news',
   'abo',
   'newsletter',
   'quellen',

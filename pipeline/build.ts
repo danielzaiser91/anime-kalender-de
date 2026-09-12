@@ -6756,9 +6756,14 @@ function main(): void {
     writeJson(`${OUT}/news.json`, meldungen)
     writeJson('data/news-historie.json', newsHistorie)
     const jeArt = new Map<string, number>()
-    for (const m of meldungen) jeArt.set(m.art, (jeArt.get(m.art) ?? 0) + 1)
+    let einzeln = 0
+    for (const e of meldungen)
+      for (const m of e.meldungen) {
+        einzeln++
+        jeArt.set(m.art, (jeArt.get(m.art) ?? 0) + 1)
+      }
     log(
-      `${meldungen.length} Meldungen für die Nachrichtenseite (` +
+      `${meldungen.length} Einträge für die Nachrichtenseite, ${einzeln} Meldungen darin (` +
         [...jeArt].map(([a, n]) => `${a} ${n}`).join(', ') +
         ')',
     )

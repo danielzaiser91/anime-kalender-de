@@ -23,7 +23,7 @@
  * Meldung fest, wann sie zuerst dastand; danach ändert sich ihr Datum nie
  * wieder.
  */
-import type { NewsArt, NewsEintrag, Release, Title } from '../../shared/types.ts'
+import type { NewsArt, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
@@ -45,6 +45,16 @@ interface CrNeueFolge {
   serieId: string
   serie: string
   nummer?: number
+  /**
+   * **Crunchyrolls eigenes Datum für die deutsche Fassung.**
+   *
+   * `premium_available_date` an der deutschen Folge — für die
+   * Lord-of-Mysteries-Specials der 10.09.2026, auf den Tag Daniels Angabe.
+   * Ohne dieses Feld datierte die Meldung auf unseren Fundtag, und der ist
+   * bei einem täglichen Lauf bis zu einen Tag daneben, beim ersten Lauf über
+   * ein Fenster von 120 Tagen beliebig weit.
+   */
+  verfuegbarAb?: string
   gesehenAm: string
 }
 
@@ -62,14 +72,9 @@ export function baueNews(
   const heute = todayIso()
   const grenze = addDays(heute, -FENSTER_TAGE)
   const nachId = new Map(titles.map((t) => [t.id, t]))
-  const roh: (Omit<NewsEintrag, 'am'> & { schluessel: string; fallback: string })[] = []
+  const roh: (NewsMeldung & { schluessel: string; fallback: string; titel: Title })[] = []
 
-  const kopf = (t: Title) => ({
-    titelId: t.id,
-    titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id),
-    slug: t.slug,
-    cover: t.coverImage,
-  })
+  const kopf = (t: Title) => ({ titel: t })
 
   /* 1. Erstmals mit deutscher Synchro. */
   for (const n of neuMitSynchro) {
@@ -81,16 +86,18 @@ export function baueNews(
       fallback: n.seit,
       art: 'neu',
       ...kopf(t),
-      anbieter,
+      platform: anbieter,
     })
   }
 
   /* 2. Neue deutsche Folgen — je Serie und Tag eine Meldung, nicht je Folge. */
   const jeSerieUndTag = new Map<string, { serie: string; tag: string; nummern: number[] }>()
   for (const f of crNeu) {
-    if (!f.serieId || f.gesehenAm < grenze) continue
-    const schluessel = `${f.serieId}|${f.gesehenAm}`
-    const eintrag = jeSerieUndTag.get(schluessel) ?? { serie: f.serie, tag: f.gesehenAm, nummern: [] }
+    /* Crunchyrolls eigenes Datum, sonst unser Fundtag. */
+    const tag = (f.verfuegbarAb ?? f.gesehenAm).slice(0, 10)
+    if (!f.serieId || tag < grenze) continue
+    const schluessel = `${f.serieId}|${tag}`
+    const eintrag = jeSerieUndTag.get(schluessel) ?? { serie: f.serie, tag, nummern: [] }
     if (typeof f.nummer === 'number') eintrag.nummern.push(f.nummer)
     jeSerieUndTag.set(schluessel, eintrag)
   }
@@ -115,7 +122,7 @@ export function baueNews(
       fallback: eintrag.tag,
       art: 'folgen',
       ...kopf(t),
-      anbieter: 'crunchyroll',
+      platform: 'crunchyroll',
       von: nummern[0],
       bis: nummern[nummern.length - 1],
       anzahl: nummern.length || undefined,
@@ -134,7 +141,7 @@ export function baueNews(
         fallback: datum > heute ? heute : datum,
         art,
         ...kopf(t),
-        anbieter: r.platform,
+        platform: r.platform,
         datum,
         release: r.slug,
       })
@@ -146,7 +153,7 @@ export function baueNews(
         fallback: v.erwartetAm,
         art: 'verspaetet',
         ...kopf(t),
-        anbieter: r.platform,
+        platform: r.platform,
         datum: v.erwartetAm,
         von: Number(nummer),
         release: r.slug,
@@ -157,13 +164,13 @@ export function baueNews(
   }
 
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
-  const eintraege: NewsEintrag[] = []
+  const datiert: (NewsMeldung & { am: string; titel: Title })[] = []
   for (const r of roh) {
     const { schluessel, fallback, ...rest } = r
     const zuerst = historie.zuerst[schluessel] ?? (fallback > heute ? heute : fallback)
     historie.zuerst[schluessel] = zuerst
     if (zuerst < grenze) continue
-    eintraege.push({ ...rest, am: zuerst })
+    datiert.push({ ...rest, am: zuerst })
   }
 
   /* Alte Schlüssel aus dem Gedächtnis werfen — sonst wächst es ohne Ende. */
@@ -179,7 +186,63 @@ export function baueNews(
     disc: 4,
     folgen: 5,
   }
+  const name = (t: Title) => t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id)
+
+  /*
+    **Der Kopf der Gruppe ist die Reihe, nicht der Teil.**
+
+    Bevorzugt der Titel, dessen Kennung die Reihe selbst ist; gibt es ihn im
+    Bestand nicht (die Reihe hängt dann an einem Teil), entscheidet der Teil mit
+    den meisten Meldungen an diesem Tag. Das Cover wird geliehen, wo der Kopf
+    keines hat — eine Zeile ohne Bild fällt in einer Liste auf.
+  */
+  const wurzelVon = (t: Title) => t.franchiseId ?? t.id
+  const kopfTitel = new Map<number, Title>()
+  for (const t of titles) if (wurzelVon(t) === t.id) kopfTitel.set(t.id, t)
+
+  const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()
+  for (const m of datiert) {
+    const schluessel = `${m.am}|${wurzelVon(m.titel)}`
+    const g = gruppen.get(schluessel) ?? { am: m.am, wurzel: wurzelVon(m.titel), teile: [] }
+    g.teile.push(m)
+    gruppen.set(schluessel, g)
+  }
+
+  const eintraege: NewsEintrag[] = []
+  for (const g of gruppen.values()) {
+    const jeTeil = new Map<number, number>()
+    for (const m of g.teile) jeTeil.set(m.titel.id, (jeTeil.get(m.titel.id) ?? 0) + 1)
+    const haeufigster = [...jeTeil.entries()].sort((a, b) => b[1] - a[1])[0]![0]
+    const kopfT =
+      kopfTitel.get(g.wurzel) ?? g.teile.find((m) => m.titel.id === haeufigster)!.titel
+    const meldungen: NewsMeldung[] = g.teile
+      .slice()
+      .sort((a, b) => rang[a.art] - rang[b.art] || (a.datum ?? '').localeCompare(b.datum ?? ''))
+      .map((m) => {
+        const { am: _am, titel: teil, ...rest } = m
+        return teil.id === kopfT.id ? rest : { ...rest, teil: name(teil), teilId: teil.id }
+      })
+    eintraege.push({
+      am: g.am,
+      titelId: kopfT.id,
+      titel: name(kopfT),
+      slug: kopfT.slug,
+      cover: kopfT.coverImage ?? g.teile.find((m) => m.titel.coverImage)?.titel.coverImage,
+      meldungen,
+    })
+  }
+
+  /*
+    **Sortiert wird nach Tag, dann nach der wichtigsten Meldung des Eintrags.**
+    Ein Anime, der heute erstmals deutsch ist, steht über einem, der eine
+    weitere Folge bekommen hat — auch wenn er daneben noch drei Termine trägt.
+  */
   return eintraege
-    .sort((a, b) => b.am.localeCompare(a.am) || rang[a.art] - rang[b.art] || a.titel.localeCompare(b.titel, 'de'))
+    .sort(
+      (a, b) =>
+        b.am.localeCompare(a.am) ||
+        rang[a.meldungen[0]!.art] - rang[b.meldungen[0]!.art] ||
+        a.titel.localeCompare(b.titel, 'de'),
+    )
     .slice(0, HOECHSTENS)
 }

@@ -81,6 +81,9 @@ import {
   DURCHZAEHLUNG_UNKLAR,
 } from './lib/crunchyroll.ts'
 import type { Release, Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
+import { bestesSynonym } from './lib/anilist.ts'
+import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 
 let fehler = 0
@@ -3708,6 +3711,90 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'WeTV und iQIYI sind keine Bezugswege',
     providerName('wetv') === '' && providerName('iq') === '',
     'sie liefern in Deutschland nichts aus',
+  )
+  /*
+    **Nachtrag vom selben Tag, zweite Runde** (Daniel: „für paar sek war chibi
+    theatre unter specials eingeordnet, dann wieder in hauptserie", „wu mian ren
+    pian ist weiterhin chinesisch").
+  */
+  pruefe(
+    'die Reihe im Panel behält die Felder aus franchises.json',
+    /teile\.set\(t\.id, \{[\s\S]{0,400}\.\.\.bisher,/.test(panel),
+    'Feld für Feld neu gebaut verliert beiwerk, jpStart und jpStatus, sobald titles.json nachlädt',
+  )
+  pruefe(
+    'der Katalogabruf holt Synonyme und Herkunftsland',
+    katalog.includes('synonyms countryOfOrigin') && katalog.includes('export function bestesSynonym'),
+    'ohne sie bleibt ein chinesischer Titel bei seiner Pinyin-Umschrift',
+  )
+  pruefe(
+    'ein lateinisches Synonym gilt nur für nicht-japanische Werke ohne englischen Namen',
+    bestesSynonym(null, 'CN', ['Lord of the Mysteries 2', '诡秘之主 第二季']) === 'Lord of the Mysteries 2' &&
+      bestesSynonym('Lord of Mysteries', 'CN', ['Lord of the Mysteries']) === null &&
+      bestesSynonym(null, 'JP', ['Attack on Titan']) === null &&
+      bestesSynonym(null, 'CN', ['LOTM', 'Chúa Tể Huyền Bí']) === null,
+    'sonst gewinnt eine vietnamesische Fassung oder ein Kürzel',
+  )
+  pruefe(
+    'der Bau nimmt den lateinischen Namen als englischen',
+    (bau.match(/e\.latein/g) ?? []).length >= 4,
+    'geholt und nicht benutzt ist derselbe Fehler wie gar nicht geholt',
+  )
+  pruefe(
+    'Crunchyrolls deutsches Datum steht an der deutschen Folge',
+    readFileSync('pipeline/fetch-crunchyroll-neu.ts', 'utf8').includes('verfuegbarAb: typeof m.premium_available_date'),
+    'sonst datiert eine Meldung auf unseren Fundtag statt auf den Erscheinungstag',
+  )
+  pruefe(
+    'ein bekannter Fund wird um fehlende Felder ergänzt',
+    readFileSync('pipeline/fetch-crunchyroll-neu.ts', 'utf8').includes('alterEintrag.verfuegbarAb'),
+    'sonst erreicht ein neues Feld genau die Einträge nie, die schon dastehen',
+  )
+}
+
+/*
+  **Die Nachrichtenseite bündelt je Anime und Tag** (Daniel, 12.09.2026: „pro
+  tag max 1 eintrag je anime — alle infos zu diesem anime … müssen unter diesem
+  anime gebündelt aufgelistet sein").
+
+  Geprüft wird an einer Kulisse, nicht am Datenstand: Ob heute zufällig zwei
+  Meldungen zum selben Titel anfallen, ist keine Eigenschaft des Codes.
+*/
+{
+  const heute = todayIso()
+  const titel = (id: number, franchiseId: number, name: string): Title =>
+    ({ id, franchiseId, slug: `t-${id}`, titleEn: name, streams: [], keywords: [], genres: [] }) as unknown as Title
+  const kopfT = titel(1, 1, 'Reihe')
+  const teilT = titel(2, 1, 'Reihe Specials')
+  const historie: NewsHistorie = { zuerst: {} }
+  const raus = baueNews(
+    [kopfT, teilT],
+    [
+      {
+        slug: 'r-disc',
+        titleId: 1,
+        name: 'Reihe',
+        platform: 'disc',
+        releaseType: 'disc',
+        schedule: { firstEpisodeDate: heute },
+        sources: [],
+      } as unknown as Release,
+    ],
+    [{ id: 2, seit: heute }],
+    [],
+    historie,
+  )
+  pruefe('zwei Meldungen zur selben Reihe ergeben einen Eintrag', raus.length === 1, raus.length)
+  pruefe('und beide stehen darin', raus[0]?.meldungen.length === 2, raus[0]?.meldungen.length)
+  pruefe(
+    'der Kopf ist die Reihe, der abweichende Teil wird benannt',
+    raus[0]?.titelId === 1 && raus[0]?.meldungen.some((m) => m.teilId === 2 && m.teil === 'Reihe Specials'),
+    JSON.stringify(raus[0]?.meldungen),
+  )
+  pruefe(
+    'eine Meldung zum Kopf selbst nennt keinen Teil',
+    raus[0]?.meldungen.some((m) => m.art === 'disc' && m.teil === undefined),
+    JSON.stringify(raus[0]?.meldungen),
   )
 }
 
