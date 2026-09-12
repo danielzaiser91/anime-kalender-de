@@ -1335,6 +1335,9 @@ async function melden({ automatisch = false } = {}) {
  * Wer nach zwanzig Sekunden hinsieht, will wissen, was passiert ist.
  */
 let playerFeld = null
+/* Textknoten und Knopf der Player-Anzeige — wiederverwendet, nicht neu gebaut. */
+let playerText = null
+let playerKnopf = null
 /** Läuft die Frist, nach der ein stummer Player als Vorfall gilt? */
 let playerStummFrist = null
 
@@ -1514,7 +1517,25 @@ function playerAnzeige(text, art = 'laeuft', knopfText = null) {
       document.body.appendChild(playerFeld)
     }
     playerFeld.dataset.art = art
-    playerFeld.replaceChildren(document.createTextNode(text))
+    /*
+      **Neu gebaut wird nur, was sich geändert hat.**
+
+      `playerZeigen()` läuft im Sekundentakt, und `replaceChildren` warf dabei
+      jedes Mal den ganzen Inhalt weg — samt Melde-Knopf. Sichtbar war das als
+      Pulsieren beim Überfahren (Daniel, 12.09.2026: „wieso pulsiert der button
+      beim hover?"), und es ist schlimmer als ein Schönheitsfehler: Ein Klick,
+      der zwischen Ersetzen und Mausloslassen fällt, trifft einen Knopf, den es
+      nicht mehr gibt.
+
+      Der Text steht deshalb in einem eigenen Knoten, der nur beschrieben wird,
+      wenn er etwas anderes sagen soll — der Knopf daneben bleibt stehen.
+    */
+    if (!playerText?.isConnected) {
+      playerText = document.createElement('span')
+      playerText.className = 'ak-player-text'
+      playerFeld.replaceChildren(playerText)
+    }
+    if (playerText.textContent !== text) playerText.textContent = text
     /*
       **Der Knopf, der im Player gefehlt hat.**
 
@@ -1532,20 +1553,25 @@ function playerAnzeige(text, art = 'laeuft', knopfText = null) {
       Handlung, sie ist nur endlich möglich.
     */
     if (knopfText) {
-      const knopfHier = document.createElement('button')
-      knopfHier.type = 'button'
-      knopfHier.className = 'ak-player-knopf'
-      knopfHier.textContent = knopfText
-      knopfHier.addEventListener('click', (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        playerAnzeige('Anime-Kalender: meldet …', 'laeuft')
-        void melden({ automatisch: false })
-      })
-      playerFeld.appendChild(knopfHier)
+      /* Derselbe Knopf, solange er dasselbe sagt — siehe oben. */
+      if (!playerKnopf?.isConnected) {
+        playerKnopf = document.createElement('button')
+        playerKnopf.type = 'button'
+        playerKnopf.className = 'ak-player-knopf'
+        playerKnopf.addEventListener('click', (e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          playerAnzeige('Anime-Kalender: meldet …', 'laeuft')
+          void melden({ automatisch: false })
+        })
+        playerFeld.appendChild(playerKnopf)
+      }
+      if (playerKnopf.textContent !== knopfText) playerKnopf.textContent = knopfText
       /* Nur der Knopf nimmt Klicks an — die Fläche daneben gehört dem Player. */
       playerFeld.classList.add('ak-player-bedienbar')
     } else {
+      playerKnopf?.remove()
+      playerKnopf = null
       playerFeld.classList.remove('ak-player-bedienbar')
     }
   } catch {
@@ -1613,6 +1639,22 @@ function knopfEntfernen() {
 }
 
 function knopfZeigen() {
+  /*
+    **Im Player zeichnet `playerZeigen()`, sonst niemand.**
+
+    Der Melde-Knopf dieser Funktion gehört auf die Titelseite. Im Player gibt
+    es die eigene Anzeige oben links — und der Kasten unten rechts trug
+    daneben einen zweiten Knopf, dessen Text dort leer bleibt: ein schmaler
+    weißer Streifen über dem laufenden Bild (Daniel, 12.09.2026: „unten rechts
+    weiterhin kaputt", der Diagnosebericht nennt `knopf: ""`).
+
+    Zwei Anzeigen für dieselbe Sache waren schon am 10.09.2026 die Ursache —
+    damals andersherum, mit einer Anzeige, die es nicht gab.
+  */
+  if (imPlayer()) {
+    knopfEntfernen()
+    return
+  }
   const { spuren, reihe } = stand
   // Zweite Sicherung an der Stelle, die tatsächlich in die Seite schreibt: Wer
   // hier ankommt, ohne dass der Titel gesucht ist, hat einen Weg gefunden, den

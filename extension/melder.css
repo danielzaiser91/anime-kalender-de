@@ -1715,6 +1715,11 @@
   pointer-events: auto;
 }
 
+/* Der Text nimmt den Platz, der neben dem Knopf bleibt — ohne ihn zu drängen. */
+.ak-player-text {
+  min-width: 0;
+}
+
 .ak-player-knopf {
   flex: none;
   padding: 4px 12px;

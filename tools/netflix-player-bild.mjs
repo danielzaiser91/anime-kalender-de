@@ -57,7 +57,10 @@ await seite.evaluate(() => {
   const feld = document.createElement('div')
   feld.className = 'ak-player-anzeige ak-player-bedienbar'
   feld.dataset.art = 'laeuft'
-  feld.append(document.createTextNode('Folge 26: deutsche Tonspur gefunden'))
+  const text = document.createElement('span')
+  text.className = 'ak-player-text'
+  text.textContent = 'Folge 26: deutsche Tonspur gefunden'
+  feld.appendChild(text)
   const knopf = document.createElement('button')
   knopf.type = 'button'
   knopf.className = 'ak-player-knopf'
@@ -112,6 +115,24 @@ pruefe('er trägt überhaupt eine Farbe', mass.farbe !== 'rgb(230, 237, 243)', m
 pruefe('er hat Breite', mass.breite > 40, `${mass.breite} px`)
 pruefe('er bleibt in der Anzeige', mass.knopfRechts <= mass.feldRechts, `${mass.knopfRechts} / ${mass.feldRechts}`)
 pruefe('ohne Knopf bleibt die Anzeige durchlässig', mass.ohneKnopf === 'none', mass.ohneKnopf)
+
+/*
+  **Der Takt darf den Knopf nicht ersetzen.** `playerZeigen()` läuft jede
+  Sekunde; baute die Anzeige dabei ihren Inhalt neu, pulsierte der Knopf und ein
+  Klick konnte ins Leere gehen (Daniel, 12.09.2026). Geprüft wird am Quelltext,
+  weil der Takt selbst in dieser Kulisse nicht läuft.
+*/
+const quelle = readFileSync('extension/melder.js', 'utf8')
+pruefe(
+  'die Anzeige baut ihren Inhalt nicht bei jedem Takt neu',
+  quelle.includes('if (!playerText?.isConnected)') && quelle.includes('if (!playerKnopf?.isConnected)'),
+  'replaceChildren im Takt ersetzt auch den Knopf',
+)
+pruefe(
+  'im Player zeichnet nur playerZeigen()',
+  /function knopfZeigen\(\) \{[\s\S]{0,900}if \(imPlayer\(\)\) \{\s*knopfEntfernen\(\)/.test(quelle),
+  'sonst steht ein leerer Titelseiten-Knopf über dem Bild',
+)
 
 console.log('\n  Bild: docs/netflix-player.png')
 process.exit(fehler.length ? 1 : 0)
