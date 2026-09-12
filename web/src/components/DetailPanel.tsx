@@ -139,7 +139,15 @@ function deSeitZeile(
   const e = title.deErstausgabe
   if (!e) return ''
   const wann = e.von ? formatDate(e.von) : (e.zeitraum ?? '')
-  if (!wann) return ''
+  /*
+    **Ohne Datum bleibt der Verlag — er ist die ganze Spur, die es gibt.**
+
+    aniSearch schreibt bei alten Titeln `released: "?"` und nennt trotzdem den
+    Verlag. Für einen Titel, zu dem keine Quelle einen Bezugsweg kennt, stand
+    hier bis zum 12.09.2026 gar nichts; jetzt steht wenigstens, bei wem die
+    deutsche Fassung erschienen ist — wonach jemand suchen kann.
+  */
+  if (!wann) return e.publisher ? T('antwort.deVerlag', { publisher: e.publisher }) : ''
   if (fremd) {
     return e.publisher
       ? T('antwort.deSeitFremdPublisher', { datum: wann, publisher: e.publisher })

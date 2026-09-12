@@ -516,6 +516,7 @@ const TEXTE = {
   'antwort.deSeitFremd': 'aniSearch nennt {datum}',
   'antwort.deSeitFremdPublisher': 'aniSearch nennt {datum} · {publisher}',
   'antwort.deSeitPublisher': 'Auf Deutsch seit {datum} · {publisher}',
+  'antwort.deVerlag': 'Deutsche Fassung bei {publisher}',
   'antwort.deSeitQuelle': 'Deutsche Erstveröffentlichung laut aniSearch — wir haben dazu keinen eigenen Termin gemessen.',
   'antwort.filmTitel': 'Auf Deutsch verfügbar',
   'antwort.filmNeben': 'Deutsche Synchronfassung',

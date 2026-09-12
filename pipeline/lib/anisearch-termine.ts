@@ -106,7 +106,23 @@ export function terminAusEintrag(info: { languages?: Sprachblock[] } | undefined
     steht. aniSearch schreibt sonst schlicht „?", und das ist keine Auskunft.
   */
   const zeitraum = !start && /\d{4}/.test(roh) ? roh : undefined
-  if (!start && !zeitraum) return undefined
+  /*
+    **Ein Verlag ohne Datum ist immer noch eine Auskunft.**
+
+    aniSearch schreibt bei alten Titeln oft `released: "?"` und nennt daneben
+    trotzdem den Verlag — „Devil Lady, Fehse Benfeghoul GbR". Bis zum
+    12.09.2026 fiel der Eintrag hier ganz heraus, und im Panel stand nichts.
+    Für einen Titel, zu dem **keine** Quelle einen Bezugsweg kennt (gemessen:
+    235 im Bestand), ist „erschienen bei X" der Unterschied zwischen einer
+    Spur und einer leeren Seite — und es ist genau die Art Angabe, die dieses
+    Projekt kennzeichnet statt wegzulassen (CLAUDE.md, Projektziel 3).
+
+    Ein Datum wird daraus **nicht**: Ohne Jahreszahl bleibt `zeitraum` leer,
+    und die Oberfläche schreibt dann den Verlag ohne Zeitangabe.
+  */
+  if (!start && !zeitraum) {
+    return de.publisher?.length ? { publisher: de.publisher[0], zitat: roh } : undefined
+  }
   return {
     ...(start ? { start } : {}),
     ...(zeitraum ? { zeitraum } : {}),
