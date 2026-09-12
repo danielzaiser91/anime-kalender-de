@@ -229,6 +229,24 @@ export function DatabaseView({
                     ].join(' ')}
                   />
                 )}
+                {/*
+                  **Ein Cartoon sagt, dass er einer ist.**
+
+                  Daniel wollte sie sichtbar haben, nicht versteckt — aber
+                  ununterscheidbar sollen sie auch nicht sein: Die Seite
+                  verspricht Anime, und „Avatar" ist keiner im Sinne der
+                  Datenbanken. Die Marke steht oben, damit sie nicht mit dem
+                  „ohne Synchro"-Band unten kollidiert; beides zugleich kommt
+                  vor.
+                */}
+                {main.westlich && (
+                  <span
+                    title={t('db.westlichHinweis')}
+                    className="absolute left-1 top-1 rounded bg-violet-600/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]"
+                  >
+                    {t('db.westlich')}
+                  </span>
+                )}
                 {keinDub && (
                   <span className="absolute inset-x-0 bottom-0 bg-slate-900/80 px-1.5 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-[1px]">
                     {t('db.noDubBadge')}

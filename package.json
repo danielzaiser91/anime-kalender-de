@@ -90,6 +90,7 @@
     "data:rtlplus:katalog": "node pipeline/fetch-rtlplus-katalog.mjs",
     "check:panel": "node tools/panel-bild.mjs",
     "check:trailer": "node tools/trailer-dialog-bild.mjs",
+    "check:einstellungen": "node tools/einstellungen-bild.mjs",
     "mess:suche": "node tools/such-messung.mjs",
     "mess:filter": "node tools/filter-messung.mjs",
     "check:ansichten": "node tools/ansicht-bild.mjs",
@@ -98,6 +99,7 @@
     "check:leiste": "node tools/melder-leiste-bild.mjs",
     "data:justwatch": "tsx pipeline/fetch-justwatch-audio.ts",
     "data:trailer": "tsx pipeline/fetch-trailer.ts",
+    "data:cartoons": "tsx pipeline/fetch-cartoons.ts",
     "data:cr-offene": "tsx pipeline/fetch-crunchyroll-offene.ts",
     "data:kanal-gegenprobe": "tsx pipeline/kanal-gegenprobe.ts"
   },

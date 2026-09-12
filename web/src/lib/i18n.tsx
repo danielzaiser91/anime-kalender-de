@@ -535,6 +535,13 @@ const TEXTE = {
   // Stelle, an der bei einer Serie der Fortschrittsbalken steht.
   'antwort.discNeben': 'Kaufausgabe — erscheint an einem Tag komplett',
   'antwort.discSeit': 'seit {datum}',
+  'einstellungen.titel': 'Einstellungen',
+  'einstellungen.schliessen': 'Einstellungen schließen',
+  'einstellungen.cartoonsAus': 'Westliche Anime (Cartoons) ausblenden',
+  'einstellungen.cartoonsAusHinweis':
+    'Serien wie Avatar oder Arcane entstehen nicht in Japan und gelten den Anime-Datenbanken deshalb nicht als Anime. Wir führen sie trotzdem — hier kannst du sie wegschalten.',
+  'db.westlich': 'Cartoon',
+  'db.westlichHinweis': 'Westliche Animation — kein Anime im Sinne der Datenbanken, aber auf Deutsch zu sehen.',
   'trailer.ansehen': 'Trailer anschauen',
   'trailer.ansehenFremd': 'Trailer auf {sprache}',
   'trailer.nochKeinDeutscher': 'Einen deutschen Trailer haben wir noch nicht gefunden.',

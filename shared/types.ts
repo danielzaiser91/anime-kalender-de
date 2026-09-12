@@ -291,6 +291,22 @@ export interface Title {
    */
   anisearchId?: number
   /**
+   * **Eine westliche Animationsserie, kein Anime.**
+   *
+   * Daniel am 12.09.2026, nach der Analyse in `docs/analyse-cartoons.md`:
+   * „dann auf die seite" — alle 906, immer sichtbar, ausblendbar über die
+   * Einstellungen.
+   *
+   * Das Feld ist die Trennlinie, an der die Oberfläche beide Sorten
+   * unterscheidet: AniList und aniSearch führen diese Titel bewusst nicht
+   * (ihre Grenze ist die Produktion, nicht das Aussehen), sie kommen von TMDB,
+   * und für sie gilt die Synchro-Frage anders — eine deutsche Fassung ist bei
+   * ihnen der Normalfall.
+   */
+  westlich?: true
+  /** Die TMDB-Kennung — bei westlichen Titeln die einzige, die sie haben. */
+  tmdbId?: number
+  /**
    * **Der deutsche Trailer, wo es einen gibt.**
    *
    * Daniel am 12.09.2026: „pack für anime filme trailer von diesem kanal" —

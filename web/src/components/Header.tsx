@@ -1,3 +1,4 @@
+import type React from 'react'
 import { RELEASE_TYPES } from '@shared/types.ts'
 import type { ReleaseType } from '@shared/types.ts'
 import { VIEWS, type ViewId } from '../lib/router.ts'
@@ -41,9 +42,16 @@ export function Header({
   date,
   onView,
   onDate,
+  einstellungen,
 }: {
   view: ViewId
   date: string
+  /**
+   * Der Einstellungsknopf, fertig verdrahtet. Als Element statt als
+   * Zustand-und-Rückruf: Der Header soll nicht wissen, was hinter dem Zahnrad
+   * liegt — er gibt ihm nur seinen Platz neben dem Thema-Umschalter.
+   */
+  einstellungen?: React.ReactNode
   onView: (v: ViewId) => void
   onDate: (d: string) => void
 }) {
@@ -168,6 +176,7 @@ export function Header({
                 )}
               </button>
             </Tooltip>
+            {einstellungen}
             <ThemeToggle />
           </div>
         </div>

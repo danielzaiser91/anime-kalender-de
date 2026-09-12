@@ -43,6 +43,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { clearDir, discSlug, log, readJson, ROOT, slugify, warn, writeJson, writeText } from './lib/util.ts'
+import { alsTitel, type CartoonEintrag } from './lib/cartoons.ts'
 import { SYNOPSIS_GROUPS } from '../shared/types.ts'
 import type {
   DataMeta,
@@ -387,6 +388,31 @@ function deutschAusSynonymen(
     .filter((x) => x.toLowerCase().startsWith(vorsatz) && x.length > reihenName.length + 2)
   /* Der kürzeste ist der knappste Zusatz — „: Der Film" schlägt „: Der Film (2026)". */
   return treffer.sort((x, y) => x.length - y.length)[0]
+}
+
+/**
+ * **Westliche Animationsserien nach `public/data/cartoons.json`.**
+ *
+ * Geholt von `fetch-cartoons.ts` aus TMDB, hier nur umgeformt: Aus einem
+ * TMDB-Eintrag wird ein `Title` wie jeder andere, damit Kalender, Datenbank
+ * und Detail-Panel ihn ohne Sonderfall anzeigen.
+ *
+ * **Fehlt die Quelldatei, bleibt die alte Fassung stehen** — dieselbe Regel
+ * wie beim AniList-Katalog: Ein Lauf ohne warmen Stand soll die Titel nicht
+ * von der Seite nehmen.
+ */
+function schreibeCartoons(): void {
+  const roh = readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {})
+  const eintraege = Object.values(roh)
+  if (!eintraege.length) {
+    warn('Keine data/cartoons.json — cartoons.json bleibt auf dem letzten Stand. Holen mit "npm run data:cartoons".')
+    return
+  }
+  const titel = eintraege
+    .map(alsTitel)
+    .sort((a, b) => (b.jpYear ?? 0) - (a.jpYear ?? 0) || a.id - b.id)
+  writeJson(`${OUT}/cartoons.json`, titel)
+  log(`${titel.length} westliche Animationsserien geschrieben`)
 }
 
 function schreibeOhneSynchro(
@@ -2020,6 +2046,20 @@ function main(): void {
   }
 
   // --- Releases aufbauen ----------------------------------------------------
+  /*
+    **Der westliche Bestand — früh, weil er vom Anime-Bestand nichts braucht.**
+
+    Er wird nicht in `titles.json` gemischt: Das ist die Datei, die jeder
+    Besucher lädt, und 906 Titel darin kosteten jeden von ihnen Ladezeit. Wie
+    `ohne-synchro.json` wird sie nachgeladen — nur eben immer, weil Daniel sie
+    sichtbar haben will.
+
+    **Vor dem Riegel**, der einen Titelschwund abfängt: Bricht der Bau dort ab,
+    hat das mit diesen Titeln nichts zu tun, und sie sollen nicht mit ihm
+    ausfallen.
+  */
+  schreibeCartoons()
+
   const releases: Release[] = []
   const seenSlugs = new Set<string>()
   const usedCrKeys = new Set<string>()

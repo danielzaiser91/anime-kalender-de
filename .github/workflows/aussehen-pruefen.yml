@@ -68,6 +68,9 @@ jobs:
       - name: Der Trailer-Dialog
         run: npm run check:trailer
 
+      - name: Die Einstellungen
+        run: npm run check:einstellungen
+
       - name: Alle Ansichten — Desktop
         run: npm run check:ansichten
 

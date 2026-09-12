@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
 import type { Dataset } from './lib/data.ts'
-import { loadAllTitles, loadDataset, loadOhneSynchro } from './lib/data.ts'
+import { EinstellungenDialog, EinstellungenKnopf, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
+import { loadAllTitles, loadCartoons, loadDataset, loadOhneSynchro } from './lib/data.ts'
 import { filterEvents, filterTitles, toggleValue, type FilterState } from './lib/filters.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
 import { speicherSichern, useNewsletterSync } from './lib/newsletterSync.ts'
@@ -61,6 +62,22 @@ export default function App() {
    */
   const [zeigeOhneSynchro, setZeigeOhneSynchro] = useState(false)
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
+  const [cartoons, setCartoons] = useState<Title[]>()
+  /*
+    **Standardmäßig aus** (Daniel, 12.09.2026) — die Cartoons sind also
+    sichtbar, bis jemand sie wegschaltet. Gespeichert im Browser, nicht in
+    der Adresse: Wer einen Link teilt, teilt nicht seine Vorlieben mit.
+  */
+  const [cartoonsAus, setCartoonsAus] = useState(cartoonsAusGespeichert)
+  const [einstellungenOffen, setEinstellungenOffen] = useState(false)
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(CARTOONS_AUS, cartoonsAus ? '1' : '0')
+    } catch {
+      /* Gesperrte Site-Daten: Die Wahl gilt dann für diese Sitzung. */
+    }
+  }, [cartoonsAus])
   const [route, navigate] = useRoute()
   const { favorites, toggle } = useFavorites()
   const { hidden, toggle: toggleHidden } = useHidden()
@@ -128,6 +145,16 @@ export default function App() {
     loadOhneSynchro(data).then(setOhneSynchro)
   }, [data, zeigeOhneSynchro, ohneSynchro])
 
+  /*
+    **Die westlichen Serien kommen immer** — sie sind standardmäßig sichtbar
+    (Daniel, 12.09.2026). Geholt werden sie trotzdem erst hier und nicht beim
+    Start: 372 KB, die der Kalender für seine erste Ansicht nicht braucht.
+  */
+  useEffect(() => {
+    if (!data || cartoons) return
+    loadCartoons(data).then(setCartoons)
+  }, [data, cartoons])
+
   const events = useMemo(
     () => (data ? filterEvents(data, route.filters, today, favorites) : []),
     [data, route.filters, today, favorites],
@@ -135,9 +162,11 @@ export default function App() {
   const titles = useMemo(() => {
     if (!data) return []
     const basis = allTitles ?? data.titles
-    const quelle = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
+    const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
+    /* Der Schalter in den Einstellungen blendet sie aus — standardmäßig sind sie da. */
+    const quelle = !cartoonsAus && cartoons ? [...mitOhne, ...cartoons] : mitOhne
     return filterTitles(quelle, data, route.filters, today, favorites)
-  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, route.filters, today, favorites])
+  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites])
 
   const openTitleId = useMemo(() => {
     if (route.title) return route.title
@@ -181,7 +210,19 @@ export default function App() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <Header view={route.view} date={route.date} onView={setView} onDate={(d) => navigate({ date: d })} />
+      <Header
+        view={route.view}
+        date={route.date}
+        onView={setView}
+        onDate={(d) => navigate({ date: d })}
+        einstellungen={<EinstellungenKnopf offen={einstellungenOffen} setOffen={setEinstellungenOffen} />}
+      />
+      <EinstellungenDialog
+        offen={einstellungenOffen}
+        schliessen={() => setEinstellungenOffen(false)}
+        cartoonsAus={cartoonsAus}
+        setCartoonsAus={setCartoonsAus}
+      />
 
       <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-4">
         {/*

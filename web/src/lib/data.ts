@@ -135,6 +135,32 @@ export function loadOhneSynchro(data: Dataset): Promise<Title[]> {
   return ohneSynchroPromise
 }
 
+let cartoonsPromise: Promise<Title[]> | undefined
+
+/**
+ * **Westliche Animationsserien — immer geladen, ausblendbar über Einstellungen.**
+ *
+ * Daniel am 12.09.2026: alle 906, „immer sichtbar, aber bau eine einstellung
+ * seite … dort als erste option einfügen, ‚westliche anime (Cartoons)
+ * ausblenden' — standardmäßig aus".
+ *
+ * Sie stehen in einer eigenen Datei (372 KB), nicht in `titles.json`: Wer nur
+ * den Kalender aufruft, soll sie nicht mitladen. Geholt wird beim ersten
+ * Aufbau der Titelliste, nicht beim Start.
+ *
+ * Die Titel wandern in denselben Index wie alle anderen — sonst fände das
+ * Detail-Panel einen gemerkten Titel nicht wieder.
+ */
+export function loadCartoons(data: Dataset): Promise<Title[]> {
+  cartoonsPromise ??= loadJson<Title[]>('cartoons.json')
+    .then((titles) => {
+      for (const t of titles) data.titleById.set(t.id, data.titleById.get(t.id) ?? t)
+      return titles
+    })
+    .catch(() => [])
+  return cartoonsPromise
+}
+
 /** Wie ein Eintrag in `ohne-synchro.json` wirklich aussieht — drei Felder fehlen. */
 type OhneSynchroRoh = Omit<Title, 'slug' | 'keywords' | 'streams'>
 

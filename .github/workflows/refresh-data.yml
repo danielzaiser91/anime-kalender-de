@@ -330,6 +330,17 @@ jobs:
       # erscheint — und billig: Der Kanalindex kostet 166 der 10.000
       # YouTube-Einheiten am Tag, KinoCheck wird nur für Filme ab 2012 gefragt,
       # die der Index nicht kennt.
+      # Westliche Animationsserien. Der Lauf holt nur, was älter als 21 Tage
+      # ist — Anbieter wechseln, Folgenzahlen wachsen, und ein angekündigter
+      # Titel bekommt irgendwann einen Anbieter. Im Normalfall sind das
+      # wenige Dutzend Abrufe.
+      - name: Westliche Animationsserien
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: npm run data:cartoons
+
       - name: Deutsche Trailer zu Anime-Filmen
         continue-on-error: true
         env:

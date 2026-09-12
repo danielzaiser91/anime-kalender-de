@@ -42,6 +42,7 @@ on:
           # Gundam an Patlabor, der Fix kam erst mit dem nächsten Volllauf an).
           - data:katalog
           - data:trailer
+          - data:cartoons
       grenze:
         description: 'Höchstzahl Titel (nur wo der Lauf --limit kennt)'
         required: false

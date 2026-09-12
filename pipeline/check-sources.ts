@@ -73,6 +73,8 @@ const FRISTEN: Record<string, number> = {
   'justwatch-audio': 9,
   /* Täglich geholt, also Taktung plus zwei Tage Luft — wie bei den anderen täglichen Quellen. */
   trailer: 4,
+  /* Täglich geholt, also Taktung plus zwei Tage Luft. */
+  cartoons: 4,
   // Wöchentlich. Ein Fenster von zwölf Monaten enthält in ruhigen Wochen
   // **null** Anime-Kinostarts — das ist kein Ausfall, sondern die Branche.
   'tmdb-kino': 9,
