@@ -1226,6 +1226,22 @@ Donghua meist leer: drei von vier Teilen standen ohne Jahr und ohne Termin da.
 Seit dem 12.09.2026 holt sie `startDate` und `status` mit; angezeigt wird so
 genau, wie die Quelle ist (`2026`, `06.2026`, `19.06.2026`).
 
+**5. Crunchyroll nennt das deutsche Datum — an der deutschen Folge.** Gemessen
+am 12.09.2026 an zehn Serien quer durch den Neu-Lauf: `premium_available_date`
+trägt an einem Objekt mit `audio_locale: de-DE` den **deutschen**
+Verfügbarkeitstermin, `episode_air_date` daneben die originale Ausstrahlung.
+Für die Lord-of-Mysteries-Specials steht dort der 10.09.2026 gegen den
+19./26./27.06.2026 — auf den Tag Daniels Angabe. Bei einem Simulcast-Dub fallen
+beide zusammen, sonst liegen Wochen dazwischen.
+
+Das war im Haus: `crunchyroll-dub.ts` führt das Feld seit jeher als
+`verfuegbarAb`, 23.404 Folgen tragen es, und `crunchyroll-termine.ts` baut
+daraus Kalendereinträge. Der Kommentar im **neuen** Lauf behauptete trotzdem das
+Gegenteil — er stammte aus einer Messung an der **Originalfassung**. Dieselbe
+Verwechslung, vor der diese Akte an drei Stellen warnt: ein Objekt je Tonspur,
+und die Frage ist immer, welches man gerade in der Hand hält. Ein Fund datiert
+seitdem auf `verfuegbarAb`, nicht auf unseren Fundtag.
+
 **Und die Titel: 1.001 Katalogtitel trugen einen „deutschen" Namen, den niemand
 als deutsch belegt hatte** — die aniSearch-Überschrift aus Läufen vor dem
 08.09.2026, 335 davon zu chinesischen Originalen („Guimi Zhi Zhu: Tebie Pian -
@@ -1233,6 +1249,29 @@ Liewu", während „Lord of Mysteries Specials" danebenlag). Als deutscher Titel
 gilt jetzt nur noch, was aus dem Sprachblock oder den Synonymen stammt. Wo
 AniList keinen englischen Namen führt (8.683 Titel, 656 davon in der Reihe eines
 Bestandstitels), liefert aniSearchs Sprachblock ihn nach.
+
+## Ein Pinyin-Titel ist kein Name — und das Synonym daneben ist einer
+
+AniLists `romaji` ist bei japanischen Werken die etablierte Umschrift; „Shingeki
+no Kyojin" sucht auch hier jemand so. Bei chinesischen und koreanischen
+Produktionen ist es eine Umschrift, die niemand kennt: „Guimi Zhi Zhu: Wu Mian
+Ren Pian" (Daniel, 12.09.2026: „wu mian ren pian ist weiterhin chinesisch").
+
+Fehlt dort der englische Name, führt AniList ihn oft unter **`synonyms`** — für
+diesen Titel „Lord of the Mysteries 2". Der Katalogabruf holt `synonyms` und
+`countryOfOrigin` seit dem 12.09.2026 mit; `bestesSynonym()` nimmt davon den
+längsten rein lateinischen Eintrag, und nur bei `countryOfOrigin` ≠ JP.
+
+Drei Riegel, jeder mit belegtem Fall aus derselben Liste: **nur ASCII-Latein**
+(sonst gewinnt „Chúa Tể Huyền Bí"), **mindestens sechs Zeichen** (sonst „LOTM"),
+und **Kleinbuchstaben müssen vorkommen** (ein reines Versalienkürzel ist kein
+Name). Was übrig bleibt, ist ein Vorschlag für `titleEn` — nie für `titleDe`:
+Ein englischer Name ist keine deutsche Fassung, und genau dort verläuft die
+Trennlinie dieses Projekts.
+
+**Die allgemeine Form:** Ein Feld, das für die halbe Welt die richtige Antwort
+ist, ist deshalb noch keine Antwort für die andere Hälfte. Die Frage ist nicht
+„ist das Feld gefüllt", sondern „beantwortet es hier die Frage".
 
 ## Eine Warteschlange, die sich aus dem Bestand bildet, kann eine Lücke nie schließen
 
@@ -1646,6 +1685,51 @@ Datei, nachgeladen bei Bedarf.
 
 `public/data/` wird **mit committet** — die Seite ist statisch und lädt genau diese Dateien.
 `data/cache/` ist bewusst nicht im Repo; die nächtliche Action baut ihn neu auf.
+
+## Eine Liste wird nach Entitäten gebündelt, nicht nach Ereignissen
+
+Die Nachrichtenseite führte am 12.09.2026 eine Zeile je **Meldung**. Ein Anime
+mit vier Auskünften an einem Tag belegte vier Zeilen, und die Seite wuchs, ohne
+mehr zu sagen. Daniel: „pro tag max 1 eintrag je anime — alle infos zu diesem
+anime … müssen unter diesem anime gebündelt aufgelistet sein. und die übersicht
+muss noch kompakter, damit man nicht so viel scrollen muss."
+
+**Gebündelt wird je Reihe, nicht je Titel.** Für den Leser ist „Lord of
+Mysteries" ein Anime; dass die Specials im Datensatz ein eigener Titel sind, ist
+eine Auskunft über den Datensatz. Die Meldung nennt ihren Teil in einem Feld,
+statt eine eigene Zeile zu bekommen.
+
+**Der Aufbau ist gemessen, nicht ausgedacht.** Zehn vergleichbare Listen im
+Browser vermessen (`getBoundingClientRect`, nicht geschätzt):
+
+| Seite | Zeilenhöhe | Textgrößen |
+|---|---|---|
+| Wikipedia, erweiterte Letzte Änderungen | 22 px | 1 |
+| GitHub Activity / Commits | 64 / 71 px | 2 |
+| LiveChart Schedule | 80–92 px | 2 |
+| Discourse Latest | 88 px | 2 |
+| Sentry Issue Stream | 119 px | 3 |
+
+Zwei Befunde daraus tragen jede künftige Liste dieser Art:
+
+- **Keine dieser Listen mischt beliebig viele Ereignisarten in eine Zeile.** Wer
+  feste Arten hat, nimmt **Spalten** (Sentry: Events/Users; Discourse:
+  Antworten/Aufrufe); wer wechselnde hat, nimmt **Chips**. Spalten ertragen
+  keine schwankende Menge — Chips schon.
+- **Der Zähler ist der Aufklapper** (Wikipedia „3 Änderungen", incident.io
+  „6 components ⌄"), und aufgeklappt wird **inline**. Ein Hover-Popover scheidet
+  aus: Auf Touch gibt es keinen Hover, und WCAG 1.4.13 verlangt zusätzlich, dass
+  der Inhalt überfahrbar und schließbar bleibt.
+
+Die Chips stehen in **fester** Reihenfolge, nicht nach Häufigkeit — sonst
+springen sie von Tag zu Tag an eine andere Stelle. Und der Chip nennt die
+**Art**, die Zeile die **Umstände**: „Kino 29.09." neben einem Chip „Im Kino"
+wäre dieselbe Auskunft zweimal (siehe „Keine Information zweimal").
+
+**Geprüft wird der aufgeklappte Zustand mit** (`npm run check:news`). Ein Lauf,
+der nie klickt, prüft grundsätzlich nicht, was hinter einer Interaktion liegt —
+und hier war genau die die Anforderung. Dasselbe Werkzeug misst die Zeilenhöhe
+gegen eine Obergrenze, denn Dichte ist hier die Sache selbst und kein Stilwunsch.
 
 ## Keine Information zweimal
 
