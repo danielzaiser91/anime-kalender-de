@@ -3110,8 +3110,22 @@ export function DetailPanel({
                     Ein Titel aus einem späteren Jahr ist immer künftig, auch wenn
                     wir schon eine Fassung kennen.
                   */
+                  /*
+                    **AniList sagt es selbst, wo wir bisher gerechnet haben.**
+
+                    Der Jahresvergleich ist eine Ableitung und irrt am
+                    Jahreswechsel in beide Richtungen. `NOT_YET_RELEASED` ist
+                    dagegen eine Auskunft — für „Lord of the Mysteries 2" steht
+                    dort 2027 und genau dieser Status (Daniel, 12.09.2026: „2027
+                    release date ankündigung fehlt, und sollte entsprechend
+                    gekennzeichnet werden, das es noch nicht erschienen ist und
+                    noch erscheint"). Der Vergleich bleibt als Rückfall für
+                    Einträge ohne Status.
+                  */
                   const kuenftig = (m: FranchiseMember) =>
-                    (m.jpYear ?? 0) > jahr || (Boolean(m.ohneSynchro) && (m.jpYear ?? 0) >= jahr)
+                    m.jpStatus === 'NOT_YET_RELEASED' ||
+                    (m.jpStatus !== 'FINISHED' &&
+                      ((m.jpYear ?? 0) > jahr || (Boolean(m.ohneSynchro) && (m.jpYear ?? 0) >= jahr)))
                   /*
                     **Vier Gruppen mit Überschrift, nicht zwei Töpfe.**
 
@@ -3359,12 +3373,19 @@ export function DetailPanel({
                                 „2026", „06.2026" oder „19.06.2026".
                               */
                               (() => {
+                                /*
+                                  **Was noch aussteht, sagt es mit einem Wort.**
+                                  Eine gestrichelte Linie allein hat Daniel am
+                                  12.09.2026 nicht genügt; „ab 2027" beantwortet
+                                  die Frage, ohne eine Zeile zu kosten.
+                                */
+                                const vorsatz = offen ? 'ab ' : ''
                                 const roh = m.jpStart
-                                if (!roh) return m.jpYear ?? ''
+                                if (!roh) return m.jpYear ? `${vorsatz}${m.jpYear}` : ''
                                 const [jahr, monat, tag] = roh.split('-')
-                                if (tag) return `${tag}.${monat}.${jahr}`
-                                if (monat) return `${monat}.${jahr}`
-                                return jahr
+                                if (tag) return `${vorsatz}${tag}.${monat}.${jahr}`
+                                if (monat) return `${vorsatz}${monat}.${jahr}`
+                                return `${vorsatz}${jahr}`
                               })(),
                               m.episodes ? t('detail.folgenKurz', { n: m.episodes }) : '',
                             ]

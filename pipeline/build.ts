@@ -6676,8 +6676,17 @@ function main(): void {
       format: t.format,
       jpYear: t.jpYear,
       episodes: t.episodes,
-      /* Der Termin, soweit bekannt — bei Katalogtiteln die einzige Zeitangabe. */
-      jpStart: t.jpStart,
+      /*
+        **Der Termin, soweit bekannt.**
+
+        Bei einem Katalogtitel steht er am Titel selbst; bei einem Titel aus
+        dem Bestand steht er nur in `jpStart` — der Karte, die der Bau ohnehin
+        führt. Ohne diesen Rückgriff blieben ausgerechnet die Titel ohne
+        Datum, die auf der Seite sichtbar sind: „Lord of Mysteries Specials"
+        zeigte im Panel nur sein Format, obwohl AniList den 20.06.2026 führt
+        (Daniel, 12.09.2026: „jp release date fehlt dort").
+      */
+      jpStart: t.jpStart ?? jpStart.get(t.id),
       jpStatus: t.jpStatus,
       ohneSynchro: (t as { ohneSynchro?: boolean }).ohneSynchro || undefined,
       /* Hängt er an einem anderen Teil **dieser** Reihe? Eine fremde Elternkante zählt nicht. */
