@@ -1171,6 +1171,69 @@ Synchronfassung und tragen trotzdem nur `spoken_languages: [ja]`. Das Feld meint
 **des Films**, nicht die verfügbaren Fassungen. Über 18 deutsche Termine in sechs Filmen ist
 `iso_639_1` siebzehnmal leer; das eine `"de"` steht an einer TV-Ausstrahlung.
 
+## Ein Anbieter meldet, was neu ist — fragen muss man ihn selbst
+
+Am 10.09.2026 erschienen die drei Specials zu „Lord of Mysteries" auf Deutsch
+bei Crunchyroll. Unser Prüflauf hatte die Serie am **09.09.** gelesen. Die Seite
+zeigte danach: keine Specials, keine deutsche Fassung, kein Termin. Daniel am
+12.09.2026: „thats a huge flaw of the website … this was announced in advance on
+various news sites, and it did get dub on crunchyroll, 2 ways that we cover and
+should have been notified about."
+
+Vier Fehler trafen an einem Titel zusammen, und drei davon sind allgemein.
+
+**1. Die Wiedervorlage war die falsche Frage.** `scrape-crunchyroll-dub.ts` geht
+1.100 Serien reihum durch, mit Fristen von Tagen bis Wochen. Wer so sucht, findet
+eine neue Synchro im Mittel eine halbe Frist zu spät — hier wären es vier Wochen
+gewesen. Crunchyroll beantwortet die Frage dagegen direkt:
+
+    GET /content/v2/discover/browse?type=episode&sort_by=newly_added&n=100
+    → data[].episode_metadata.audio_locale === 'de-DE'
+
+Gemessen am 12.09.2026: 41 deutsche Folgen aus 20 Serien in den 400 jüngsten
+Einträgen, darunter die Specials. Vier Abrufe, wenige Sekunden — deshalb
+täglich (`fetch-crunchyroll-neu.ts`). Der Fund urteilt nicht, er **hebt die
+Frist auf**: Die Serie kommt sofort wieder dran, und das Urteil fällt wie immer
+mit dem deutschen Zugangspaket.
+
+**Der Filter der Schnittstelle taugt nicht** — `audio_locales=de-DE` ändert das
+Ergebnis nicht (drei Varianten gemessen). Gefiltert wird bei uns.
+
+**2. Ein Titel ohne Verweis wird nie beurteilt.** `beurteile()` bekommt die Titel,
+die diese Crunchyroll-Adresse **tragen**. Die Specials sind bei AniList ein
+eigener Eintrag ohne jeden Verweis — also ohne Urteil, also ohne Verweis. Das ist
+dieselbe Bauform wie im Abschnitt darunter („Eine Warteschlange, die sich aus dem
+Bestand bildet"), nur eine Ebene tiefer: nicht die Warteschlange bewacht ihre
+Lücke, sondern die Zuordnung.
+
+Seit dem 12.09.2026 schließt eine Runde im Bau sie, und zwar eng: Ein Block muss
+**vollständig deutsch** sein, keiner der Titel dieser Adresse darf dieselbe
+Folgenzahl haben, und unter den Geschwistern der Reihe darf es genau **einen**
+Titel mit dieser Folgenzahl geben. Trifft das zu, holt der Bau den Titel aus dem
+Katalog in den Bestand und legt den Verweis an. Bleibt es mehrdeutig, passiert
+nichts — eine falsche Zuordnung behauptet eine Sprachfassung über den falschen
+Titel.
+
+**3. Bei chinesischen Produktionen sagt das Format nichts.** Alle vier Teile der
+Reihe sind ONA; im Panel stand deshalb alles unter „Hauptserie". AniLists
+`PARENT`-Kante trennt es sauber: Specials und Chibi-Theater nennen die Serie,
+zu der sie gehören, der nächste Arc nicht. Der Bau reicht das als `beiwerk`
+durch.
+
+**4. Ohne `startDate` hat ein Katalogtitel keine einzige Zeitangabe.** Die
+Katalogabfrage holte nur `seasonYear`, und der ist bei Ankündigungen und
+Donghua meist leer: drei von vier Teilen standen ohne Jahr und ohne Termin da.
+Seit dem 12.09.2026 holt sie `startDate` und `status` mit; angezeigt wird so
+genau, wie die Quelle ist (`2026`, `06.2026`, `19.06.2026`).
+
+**Und die Titel: 1.001 Katalogtitel trugen einen „deutschen" Namen, den niemand
+als deutsch belegt hatte** — die aniSearch-Überschrift aus Läufen vor dem
+08.09.2026, 335 davon zu chinesischen Originalen („Guimi Zhi Zhu: Tebie Pian -
+Liewu", während „Lord of Mysteries Specials" danebenlag). Als deutscher Titel
+gilt jetzt nur noch, was aus dem Sprachblock oder den Synonymen stammt. Wo
+AniList keinen englischen Namen führt (8.683 Titel, 656 davon in der Reihe eines
+Bestandstitels), liefert aniSearchs Sprachblock ihn nach.
+
 ## Eine Warteschlange, die sich aus dem Bestand bildet, kann eine Lücke nie schließen
 
 `scrape-crunchyroll-dub.ts` bildet seine Liste aus den Crunchyroll-Verweisen,
