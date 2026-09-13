@@ -98,6 +98,57 @@ import {
 } from '../shared/mappings.ts'
 
 /**
+ * **Kinostart-Ankündigungen, von Hand recherchiert** (`data/kino-ankuendigungen.yaml`).
+ *
+ * Nur, was über AniLists `jpStart` hinausgeht: ein genauerer japanischer
+ * Termin, ein angekündigter deutscher Zeitraum, der Verleih. Ein genauer
+ * deutscher Termin gehört nicht hierher, sondern als Release nach
+ * `data/curated/kino-2026.yaml` — nur dort erscheint er im Kalender.
+ *
+ * Die Datei liegt bewusst nicht unter `data/curated/`: `loadCurated()` liest
+ * dort jede YAML als Release-Liste.
+ */
+type KinoAnkuendigung = {
+  anilistId: number
+  /** `false`, wo die Recherche ergab, dass es kein Kinofilm ist (YouTube, Festival-Kurzfilm, Promo). */
+  kinofilm?: false
+  /** Herkunftsland, wo es nicht Japan ist — überschreibt den Katalog. */
+  land?: string
+  jp?: string | Date
+  /** Deutscher Kinostart einer Fassung **ohne** Synchro (sonst ein Release in `kino-2026.yaml`). */
+  deTermin?: string | Date
+  deZeitraum?: string
+  verleih?: string
+  fassung?: 'synchro' | 'omu' | 'beides'
+  sources?: string[]
+}
+const KINO_ANKUENDIGUNGEN = new Map(
+  (
+    (yaml.load(readFileSync(resolve(ROOT, 'data/kino-ankuendigungen.yaml'), 'utf8')) as KinoAnkuendigung[] | null) ?? []
+  ).map((k) => [k.anilistId, k]),
+)
+function kinoFeld(id: number): { kino?: NonNullable<Title['kino']>; land?: string } {
+  const k = KINO_ANKUENDIGUNGEN.get(id)
+  if (!k) return {}
+  /* Ein unquotiertes Datum macht js-yaml zum Date — hier wird es wieder Text. */
+  const text = (d: string | Date | undefined) => (d instanceof Date ? d.toISOString().slice(0, 10) : d)
+  const jp = text(k.jp)
+  const deTermin = text(k.deTermin)
+  return {
+    ...(k.land ? { land: k.land } : {}),
+    kino: {
+      ...(k.kinofilm === false ? { kinofilm: false as const } : {}),
+      ...(jp ? { jp } : {}),
+      ...(deTermin ? { deTermin } : {}),
+      ...(k.deZeitraum ? { deZeitraum: k.deZeitraum } : {}),
+      ...(k.verleih ? { verleih: k.verleih } : {}),
+      ...(k.fassung ? { fassung: k.fassung } : {}),
+      ...(k.sources?.[0] ? { quelle: k.sources[0] } : {}),
+    },
+  }
+}
+
+/**
  * **Von Hand nachgetragene aniSearch-Kennungen.**
  *
  * Die ID-Brücke (`data/anime-ids.json`) kommt aus der anime-offline-database
@@ -589,6 +640,8 @@ function schreibeOhneSynchro(
          */
         dubConfidence: 'low' as const,
         ohneSynchro: true,
+        ...(e.land ? { land: e.land } : {}),
+        ...kinoFeld(e.id),
       }
     })
 
@@ -608,7 +661,7 @@ function schreibeOhneSynchro(
    */
   const vorhanden = new Set(ohne.map((t) => t.id))
   const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id))
-  const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, dubConfidence: 'low' as const, ohneSynchro: true }))]
+  const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
 
   writeJson(`${OUT}/ohne-synchro.json`, alle)
   log(
@@ -6408,6 +6461,7 @@ function main(): void {
             },
           }
         : {}),
+      ...kinoFeld(t.id),
     }
   })
 

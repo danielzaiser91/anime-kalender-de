@@ -271,6 +271,33 @@ export interface Title {
   jpStart?: string
   /** `NOT_YET_RELEASED`, `RELEASING`, `FINISHED` — sagt, ob der Termin noch aussteht. */
   jpStatus?: string
+  /** Herkunftsland laut AniList, nur wenn es nicht Japan ist (`CN`, `KR`, `TW`). */
+  land?: string
+  /**
+   * **Was wir über den Kinostart eines angekündigten Films wissen**, von Hand
+   * recherchiert in `data/kino-ankuendigungen.yaml`.
+   *
+   * Daniel am 13.09.2026 zum Apothekerin-Film: Statt „Noch keine deutsche
+   * Fassung" soll dort stehen, wann er in Japan ins Kino kommt und dass ein
+   * deutscher Termin noch fehlt. Den japanischen Termin kennt AniList meist
+   * selbst (`jpStart`); dieses Feld trägt nur, was darüber hinausgeht oder ihn
+   * berichtigt. Ein genauer deutscher Kinostart ist kein Feld hier, sondern ein
+   * Release in `data/curated/kino-2026.yaml`.
+   */
+  kino?: {
+    /** `false`, wo die Recherche ergab, dass der Film gar nicht ins Kino kommt. */
+    kinofilm?: false
+    /** Kinostart im Herkunftsland, wo eine Quelle genauer oder aktueller ist als AniList. */
+    jp?: string
+    /** Deutscher Kinostart einer Fassung ohne Synchro — mit Synchro wäre es ein Release. */
+    deTermin?: string
+    /** Angekündigter deutscher Zeitraum („Frühjahr 2027") ohne genauen Tag. */
+    deZeitraum?: string
+    /** Deutscher Verleih oder Lizenzgeber, sobald einer bekannt ist. */
+    verleih?: string
+    fassung?: 'synchro' | 'omu' | 'beides'
+    quelle?: string
+  }
   /**
    * true, wenn zu diesem Titel deutsche Sprechrollen vorliegen.
    *

@@ -1,0 +1,362 @@
+# Kinostart-Ankündigungen für Anime-Filme ohne deutsche Fassung.
+#
+# Hier steht nur, was über AniLists `jpStart` hinausgeht: ein genauerer oder
+# berichtigter japanischer Kinostart (`jp`), ein angekündigter deutscher
+# Zeitraum ohne genauen Tag (`deZeitraum`), der deutsche Verleih (`verleih`)
+# und die Fassung, sofern angekündigt (`fassung`: synchro | omu | beides).
+#
+# Ein genauer deutscher Kinostart gehört NICHT hierher, sondern als Release
+# nach data/curated/kino-2026.yaml — nur dort erscheint er im Kalender.
+#
+# Datumsangaben immer in Anführungszeichen ("2026-12-11", "2026-12", "2027"):
+# js-yaml macht aus einem nackten Datum sonst ein Date-Objekt.
+#
+# Angelegt am 13.09.2026 (Daniel: „ersetz es entsprechend für alle filme die als
+# kino film angekündigt sind … guck dafür für jeden film in unseren bestand und
+# mach auch eine web recherche").
+
+
+- anilistId: 133904
+  title: "Scissor Seven Movie"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://animecorner.me/scissor-seven-movie-set-in-xuanwu-announced-for-2028-global-release-planned/
+
+- anilistId: 136205
+  title: "Akubi wo Suru ni wa Wake ga Aru"
+  kinofilm: false
+  note: "2013 als TV-Serie geplant, nie erschienen"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.animenewsnetwork.com/news/2013-03-21/gainax-reveals-proposed-akubi-o-suru-ni-wa-wake-ga-aru-anime
+
+- anilistId: 138561
+  title: "Gui Lieche (AniList jetzt: Long Wu / 龙屋)"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.bilibili.com/video/BV1yL4y1a7jg/
+    - https://zhuanlan.zhihu.com/p/36768809
+
+- anilistId: 138571
+  title: "My Grandpa (Wo Yeye / 我爷爷)"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.bilibili.com/video/BV1Zq4y1K7Ju/
+
+- anilistId: 150294
+  title: "Qing Chi Hong Xiaodou Ba! Hong Yu Lü"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://movie.douban.com/subject/35907138/
+    - https://www.maoyan.com/films/1469790
+
+- anilistId: 150295
+  title: "King Gesar: Trials and Tribulations (格萨尔王之磨炼, umbenannt in 雪域少年)"
+  land: CN
+  jp: "2023-08-19"
+  note: "unter dem Titel 雪域少年 bereits 2023 in China gestartet"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.tibetcul.com/news/movie/42699.html
+    - https://www.ctdsb.net/c1742_202308/1865819.html
+
+- anilistId: 153821
+  title: "The Monkey King: Havoc in Heaven"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://baike.baidu.com/item/%E8%A5%BF%E6%B8%B8%E8%AE%B0%E4%B9%8B%E5%A4%A7%E5%9C%A3%E9%97%B9%E5%A4%A9%E5%AE%AB/19760213
+    - https://movie.douban.com/subject/26649681//
+
+- anilistId: 163789
+  title: "Tale of the Nine Tailed"
+  land: KR
+  checkedAt: '2026-09-13'
+  sources:
+    - https://en.namu.wiki/w/%EA%B5%AC%EB%AF%B8%ED%98%B8%EB%8E%90:%20%EC%97%B0%EC%9D%98%20%EC%8B%9C%EC%9E%91
+
+- anilistId: 163792
+  title: "The Legendary Moonlight Sculptor"
+  land: KR
+  checkedAt: '2026-09-13'
+  sources:
+    - https://en.namu.wiki/w/%EB%8B%AC%EB%B9%9B%EC%A1%B0%EA%B0%81%EC%82%AC(%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98)
+
+- anilistId: 171952
+  title: "The Eminence in Shadow: Lost Echoes (Kage no Jitsuryokusha ni Naritakute!: Zankyou-hen)"
+  deZeitraum: "2027"
+  verleih: "peppermint anime"
+  note: "auf der AnimagiC für deutsche Kinos lizenziert, noch ohne Termin und Fassung"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.anime2you.de/news/1036645/eminence-in-shadow-lost-echoes-im-kino/
+    - https://animecorner.me/the-eminence-in-shadow-movie-reveals-new-trailer-and-visual-2027-release-date/
+
+- anilistId: 183418
+  title: "Gill (Agami / 아가미)"
+  land: KR
+  jp: "2026-09-09"
+  note: "südkoreanischer Film; Kinostart laut HanCinema, einzige Quelle"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.hancinema.net/korean_movie_Gill.php
+
+- anilistId: 186347
+  title: "IDOLiSH7: Kikkou no Quarter"
+  kinofilm: false
+  note: "offen, ob Kino oder Streaming"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.animenewsnetwork.com/news/2025-01-25/idolish7-gets-4th-season-anime-1st-season-compilation-film-kikko-no-quarter-adaptation/.220457
+    - https://anitrendz.net/news/2025/01/25/idolish7-tv-anime-receives-4th-season/
+
+- anilistId: 187479
+  title: "(Title to be Announced), Kinofilm von BUG FILMS, Regie Kazuki Kawagoe"
+  kinofilm: false
+  note: "nur ein Filmprojekt ohne Titel und Termin; ob Kino, ist offen"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.bugfilms.jp/news/
+    - https://en.wikipedia.org/wiki/Bug_Films
+
+- anilistId: 191013
+  title: "Sunny"
+  kinofilm: false
+  note: "2029 ist das Ziel der Fertigstellung, kein angekündigter Kinostart"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.animenewsnetwork.com/news/2025-04-17/tekkonkinkreet-michael-arias-directs-animated-adaptation-of-taiyo-matsumoto-sunny-manga/.223651
+    - https://www.anitrendz.com/news/2025/04/17/taiyo-matsumotos-sunny-manga-gets-anime-film-adaptation-in-2029
+
+- anilistId: 191025
+  title: "HIDARI"
+  kinofilm: false
+  note: "offen, ob Kino oder Streaming"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.thepopverse.com/movies-hidari-anime-film-keanu-reeves-casting-cannes-2026-announced
+    - https://hidari-movie.com/
+
+- anilistId: 194029
+  title: "FOXING: Kitsuné-tsuki"
+  kinofilm: false
+  note: "Festival-Kurzfilm (Fantasia)"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.animenewsnetwork.com/news/2026-07-09/toei-animation-foxing-kitsune-tsuki-anime-screens-in-festivals/.239447
+    - https://fantasiafestival.com/en/film/foxing-kitsune-tsuki
+
+- anilistId: 199150
+  title: "DEATH STRANDING MOSQUITO (Arbeitstitel)"
+  kinofilm: false
+  note: "offen, ob Kino oder Streaming"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.cartoonbrew.com/anime/kojima-productions-death-stranding-mosquito-254907.html
+    - https://www.dexerto.com/tv-movies/death-stranding-mosquito-anime-movie-3256086/
+
+- anilistId: 199340
+  title: "Rascal Does Not Dream of a Dear Friend"
+  deTermin: "2026-10-27"
+  verleih: "peppermint anime"
+  fassung: "omu"
+  note: "in ausgewählten Kinos, nur OmU, eine Synchro ist laut Ankündigung nicht geplant; insidekino nennt den 20.10. als Event"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/
+    - https://www.insidekino.com/DStarts/DStartplan.htm
+
+- anilistId: 199375
+  title: "BOO"
+  kinofilm: false
+  note: "Indie-Kunstprojekt; weder Kinostart noch 2033 belegt"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://kiryukan.hariko.com/buutop.htm
+
+- anilistId: 205289
+  title: "Norman the Snowman: Kodomo-tachi no Hitotsuboshi"
+  kinofilm: false
+  note: "Vorgänger liefen vor allem in Planetarien; ob es ein Kinofilm ist, ist offen"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.taiyokikaku.com/newsentry/4459
+
+- anilistId: 206140
+  title: "Looking For Gods"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://m.163.com/dy/article/JRO0GFUD0516BJGJ.html?clickfrom=subscribe
+    - https://www.catsuka.com/breves/2026-06-12/looking-for-gods-projet-de-film-chinois-par-firecat-et-ideomotor
+
+- anilistId: 206856
+  title: "Shinbi's Haunted House: One More Summon"
+  land: KR
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.themoviedb.org/movie/1457042-10
+    - https://www.cjenm.com/en/featured-contents/shinbis-haunted-house-one-more-summon/
+
+- anilistId: 206876
+  title: "Soul Land: The Legendary Gods' Realm (Douluo Dalu: Shenjie Chuanshuo)"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.gamersky.com/news/202410/1829937.shtml
+    - https://baike.baidu.com/item/%E6%96%97%E7%BD%97%E5%A4%A7%E9%99%86%E9%99%A2%E7%BA%BF%E5%89%A7%E5%9C%BA%E7%89%88%E7%A5%9E%E7%95%8C%E4%BC%A0%E8%AF%B4/66709088
+
+- anilistId: 208754
+  title: "Unanswered//butterfly: Sword Art Online"
+  kinofilm: false
+  note: "Promo-Anime zum Spiel: einmalige Vorführung, YouTube-Premiere, Beigabe zur Ultimate Edition"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://dengekionline.com/article/202605/74306
+    - https://ln-news.com/articles/126014
+
+- anilistId: 211189
+  title: "Peppa Pig's Perfect Holiday"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.themoviedb.org/movie/1650896/
+    - https://x.com/GarfieldMovNews/status/2027171947738472828?lang=en
+
+- anilistId: 211232
+  title: "Majo no Tani no Yoru"
+  kinofilm: false
+  note: "läuft nur im Ghibli Park"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.animenewsnetwork.com/news/2026-04-20/studio-ghibli-animates-majo-no-tani-no-yoru-short-for-ghibli-park/.236613
+    - https://www.crunchyroll.com/news/latest/2026/4/21/ghibli-park-new-anime-short-majyo-no-tani-no-yoru-july-2026
+
+- anilistId: 211331
+  title: "Kujira wo Yumemu"
+  kinofilm: false
+  note: "auf YouTube veröffentlicht, kein Kinostart"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.anitrendz.com/news/2026/04/24/a-girl-journeys-with-her-dog-and-a-poets-voice-in-dreaming-of-a-whale-anime-trailer
+
+- anilistId: 213518
+  title: "The Swords: The 13th Sword"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://x.com/AnimePowered/status/2069146907361132625
+    - https://www.anime-planet.com/anime/the-swords-the-13th-sword
+
+- anilistId: 213667
+  title: "LUCA"
+  kinofilm: false
+  note: "auf YouTube veröffentlicht, kein Kinostart"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://anitrendz.net/news/2026/02/02/anime-short-film-luca-debuts-on-youtube/
+
+- anilistId: 213668
+  title: "Eri"
+  kinofilm: false
+  note: "Kurzfilm, Weltpremiere in Cannes"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.cartoonbrew.com/shorts/honami-yano-eri-trailer-cannes-directors-fortnight-260792.html
+    - https://www.miyu.fr/production/en/eri-the-cow/
+
+- anilistId: 213846
+  title: "Solo Leveling: Beyond the System"
+  verleih: "Crunchyroll"
+  note: "deutscher Kinostart zugesagt, noch ohne Termin und Fassung"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.anime2you.de/news/1036731/solo-leveling-film-im-kino/
+    - https://www.crunchyroll.com/de/news/announcements/2026/7/3/solo-leveling-beyond-the-system-anime-film-ankuendigung-aniplex-crunchyroll
+
+- anilistId: 213928
+  title: "Love and Other Trash"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.berlinale.de/en/2026/news-press-releases/273288.html
+    - https://www.berlinale.de/en/2026/programme/202615603.html
+
+- anilistId: 213958
+  title: "Teenieping: Legend of the Whale Heartstone"
+  land: KR
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.koreatimes.co.kr/entertainment/films/20260721/teenieping-sequel-dives-into-maternal-love-with-bigger-spectacle
+    - https://samg.net/en/samg_news/samg-entertainment-sets-aug-5-release-for-teenieping-legend-of-the-whale-heartstone/
+
+- anilistId: 214018
+  title: "JUNK END"
+  kinofilm: false
+  note: "offen, ob Kino oder Streaming"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://x.com/YAMIKEN123/status/2044387541496041683
+    - https://www.cinematoday.jp/news/N0149287
+
+- anilistId: 214067
+  title: "20001 An Earth Odyssey"
+  kinofilm: false
+  note: "Festival-Kurzfilm (Fantasia)"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.animenewsnetwork.com/news/2026-07-09/salamander-pictures-nippon-animation-20001-an-earth-odyssey-anime-short-to-premiere-on-july-18/.239326
+    - https://www.cartoonbrew.com/anime/taiki-sakurai-salamander-pictures-20001-an-earth-odyssey-264265.html
+
+- anilistId: 214068
+  title: "Echo"
+  jp: "2026-03-06"
+  note: "Kinostart in Japan als Teil des Omnibusfilms „GEMNIBUS vol.2\"; der 19.07. bei AniList ist die Fantasia-Premiere"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://tuad-koyu.jp/news/see/5081
+    - https://gemstone.toho.co.jp/content/moshikorekaroumarerunonara/
+
+- anilistId: 214070
+  title: "Dust of the Simulacrum (Sazin no Nakade / 砂塵ノ中デ)"
+  kinofilm: false
+  note: "Indie-Kurzfilm, Premiere beim Fantasia; ein Kinostart ist nur über Crowdfunding geplant"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://fantasiafestival.com/en/film/dust-of-the-simulacrum
+    - https://x.com/sazin_no_nakade
+
+- anilistId: 214071
+  title: "ambivalent garden"
+  kinofilm: false
+  note: "Abschlussarbeit einer Kunsthochschule"
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.tamabi.ac.jp/works/119580/
+
+- anilistId: 214075
+  title: "Kkokdu"
+  land: KR
+  checkedAt: '2026-09-13'
+  sources:
+    - https://en.wikipedia.org/wiki/List_of_animated_feature_films_of_2027
+
+- anilistId: 214871
+  title: "Ling Cage Movie (Ling Long / 灵笼大电影)"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://finance.sina.com.cn/wm/2026-03-28/doc-inhspmsx7550019.shtml
+    - https://www.sina.cn/news/detail/5281973306131388.html
+
+- anilistId: 215639
+  title: "All Wishes Come True!"
+  land: CN
+  checkedAt: '2026-09-13'
+  sources:
+    - https://www.1905.com/mdb/film/2259040/
+    - https://baxian-movie.com/en/

@@ -158,6 +158,16 @@ export interface KatalogEintrag {
    */
   latein?: string | null
   /**
+   * **Herkunftsland, nur wenn es nicht Japan ist** (`countryOfOrigin`).
+   *
+   * Der Kasten eines angekündigten Kinofilms nennt den Kinostart im
+   * Herkunftsland (Daniel, 13.09.2026). 19 von 112 angekündigten Filmen stammen
+   * aus China oder Südkorea — „In Japan ab …" wäre dort eine Falschangabe.
+   * Japan bleibt weg: Es ist der Regelfall und stünde sonst siebzehntausendmal
+   * im Cache.
+   */
+  land?: string
+  /**
    * **Die Synonyme im Rohzustand — der deutsche Name steht oft darunter.**
    *
    * AniList kennzeichnet Synonyme nicht nach Sprache, deshalb entsteht hier
@@ -311,6 +321,7 @@ export async function katalogSeite(
       })(),
       status: m.status ?? null,
       latein: bestesSynonym(m.title.english, m.countryOfOrigin, m.synonyms),
+      land: m.countryOfOrigin && m.countryOfOrigin !== 'JP' ? m.countryOfOrigin : undefined,
       /* Höchstens acht — mehr trägt keine Reihe bei, und der Cache bleibt schlank. */
       synonyme: m.synonyms?.length ? m.synonyms.slice(0, 8) : undefined,
       folgen: m.episodes,

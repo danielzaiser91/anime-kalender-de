@@ -7,7 +7,7 @@ import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, titleStatus, istErschienen } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
-import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
+import { addDays, formatDate, monthName, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember, Franchises } from '@shared/types.ts'
 import {
@@ -102,6 +102,20 @@ type Antwort =
   /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
   | { art: 'teilweise'; raus: number; gesamt: number }
   | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number }
+  /**
+   * **Ein angekündigter Kinofilm ohne deutsche Fassung.** `jp` in der Genauigkeit
+   * der Quelle (Tag, Monat oder Jahr), `jpRaus` sagt, ob er dort schon läuft.
+   */
+  | {
+      art: 'kino'
+      jp?: string
+      jpRaus: boolean
+      land: string
+      deTermin?: string
+      deZeitraum?: string
+      verleih?: string
+      fassung?: 'synchro' | 'omu' | 'beides'
+    }
   | { art: 'ohne'; gesamt?: number }
   /**
    * **Eine Disc ist kein Sendeplan.**
@@ -474,6 +488,45 @@ function AntwortKasten({
       // Die Altersfreigabe stand hier als dritte Angabe und steht seit dem
       // 04.09.2026 als Marke am Cover — sie gehört zum Werk, nicht zur Ausgabe.
     ]
+  } else if (antwort.art === 'kino') {
+    const { land, adj } = KINO_LAND[antwort.land]!
+    haupt = !antwort.jp
+      ? T('antwort.kinoOffen', { land })
+      : antwort.jpRaus
+        ? T('antwort.kinoSeit', { datum: kinoDatum(antwort.jp), adj })
+        : antwort.jp.length === 4
+          ? T('antwort.kinoJahr', { land, jahr: antwort.jp })
+          : T('antwort.kinoAb', { land, datum: kinoDatum(antwort.jp) })
+    /*
+      Die Nebenzeile sagt, was zum deutschen Kinostart bekannt ist — Termin oder
+      Zeitraum, Verleih, Fassung —, so viel davon eben belegt ist.
+    */
+    const fassung = antwort.fassung
+      ? T(
+          antwort.fassung === 'omu'
+            ? 'antwort.kinoFassungOmu'
+            : antwort.fassung === 'synchro'
+              ? 'antwort.kinoFassungSynchro'
+              : 'antwort.kinoFassungBeides',
+        )
+      : undefined
+    neben =
+      antwort.deTermin || antwort.deZeitraum
+        ? [
+            antwort.deTermin
+              ? T('antwort.kinoDeTermin', { datum: formatDate(antwort.deTermin) })
+              : T('antwort.kinoDeZeitraum', { zeitraum: antwort.deZeitraum ?? '' }),
+            antwort.verleih,
+            fassung,
+          ]
+            .filter(Boolean)
+            .join(' · ')
+        : antwort.verleih
+          ? T('antwort.kinoDeVerleih', { verleih: antwort.verleih })
+          : T('antwort.kinoDeOffen')
+    gedaempft = true
+    zaehl = ''
+    fakten = []
   } else if (antwort.art === 'film') {
     haupt = antwort.hatSynchro ? T('antwort.filmTitel') : T('antwort.filmOhneTitel')
     neben = antwort.hatSynchro ? T('antwort.filmNeben') : T('antwort.filmOhneNeben')
@@ -1114,6 +1167,34 @@ function TrailerKino({
  * Das Datum bleibt eine Zusatzangabe und steht deshalb klein im Kopf, nicht in
  * der Auswahlbox — dort gehört allein der deutsche Termin hin.
  */
+/**
+ * Ist ein Termin in der Genauigkeit seiner Quelle schon vorbei? „2026-12" gilt
+ * erst ab Januar als erschienen, nicht schon am 1. Dezember.
+ */
+function jpErschienen(jp: string, today: string): boolean {
+  return jp.length >= 10 ? jp <= today : jp < today.slice(0, jp.length)
+}
+
+/**
+ * **Das Herkunftsland im Satz.** 19 der 112 angekündigten Filme stammen aus
+ * China oder Südkorea (gemessen 13.09.2026). Ein Land, das hier fehlt, bekommt
+ * keinen Kino-Kasten — lieber das allgemeine Nein als ein falsches „In Japan".
+ */
+const KINO_LAND: Record<string, { land: string; adj: string }> = {
+  JP: { land: 'Japan', adj: 'japanischen' },
+  CN: { land: 'China', adj: 'chinesischen' },
+  KR: { land: 'Südkorea', adj: 'südkoreanischen' },
+  TW: { land: 'Taiwan', adj: 'taiwanischen' },
+}
+
+/** „11.12.2026", „Dezember 2026" oder „2027" — so genau, wie die Quelle ist. */
+function kinoDatum(jp: string): string {
+  const [jahr, monat, tag] = jp.split('-')
+  if (tag) return formatDate(jp)
+  if (monat) return `${monthName(Number(monat) - 1)} ${jahr}`
+  return jahr ?? jp
+}
+
 function jpAngabe(jpStart: string | undefined, jpYear: number | undefined): string | undefined {
   if (jpStart) {
     const [jahr, monat, tag] = jpStart.split('-')
@@ -2421,7 +2502,45 @@ export function DetailPanel({
         letzter: kuenftig[kuenftig.length - 1]?.date,
       }
     }
-    if (title.format === 'MOVIE') return { art: 'film' as const, hatSynchro, raus, gesamt }
+    if (title.format === 'MOVIE') {
+      /*
+        **Ein angekündigter Kinofilm bekommt seinen Kinostart statt eines Neins.**
+
+        Daniel am 13.09.2026 zum Apothekerin-Film: Statt „Noch keine deutsche
+        Fassung — Kein deutscher Anbieter führt ihn bisher" soll dort stehen,
+        wann er in Japan ins Kino kommt, dass der deutsche Termin noch fehlt und
+        was der Stern bringt. AniList führt `MOVIE` als Film mit Kinostart.
+
+        Als angekündigt gilt: von Hand recherchiert (`kino`), noch nicht
+        erschienen, oder in Japan seit höchstens einem Jahr im Kino. Ein Film,
+        der vor Jahren lief und nie nach Deutschland kam, behält das Nein — dort
+        wäre „seit 2019 in japanischen Kinos" keine Auskunft, auf die jemand
+        wartet.
+      */
+      const jp = title.kino?.jp ?? title.jpStart
+      const land = title.land ?? 'JP'
+      /*
+        Mit Termin entscheidet der Termin, nicht AniLists Status: „King Gesar"
+        steht dort als angekündigt und lief 2023 in China. Ohne Termin bleibt
+        nur der Status.
+      */
+      const angekuendigt = jp
+        ? !jpErschienen(jp, today) || jp >= addDays(today, -365)
+        : title.jpStatus === 'NOT_YET_RELEASED' || title.jpStatus === 'RELEASING' || Boolean(title.kino)
+      if (!hatSynchro && KINO_LAND[land] && title.kino?.kinofilm !== false && angekuendigt) {
+        return {
+          art: 'kino' as const,
+          jp,
+          jpRaus: jp !== undefined && jpErschienen(jp, today),
+          land,
+          deTermin: title.kino?.deTermin,
+          deZeitraum: title.kino?.deZeitraum,
+          verleih: title.kino?.verleih,
+          fassung: title.kino?.fassung,
+        }
+      }
+      return { art: 'film' as const, hatSynchro, raus, gesamt }
+    }
     if (hatSynchro && !vollstaendig && gesamt) {
       /*
         Teilweise synchronisiert: Der Kasten nennt die belegte Zahl statt „alle".
@@ -2459,8 +2578,29 @@ export function DetailPanel({
       steht darüber. Entschieden wird am belegten letzten Spieltag, nicht an
       einer geschätzten Laufzeit.
   */
+  /*
+    **Bei einem angekündigten Kinofilm steht dort, was der Stern bringt.**
+    „Kein Anbieter bekannt" ist bei einem Film, der noch gar nicht erschienen
+    ist, keine Auskunft — die Frage des Lesers ist, wann er ihn sehen kann.
+  */
   const wegeHinweis =
-    title &&
+    title && antwort?.art === 'kino'
+      ? /*
+          Steht der deutsche Kinostart schon fest (dann ohne Synchro, sonst wäre
+          es ein Release), wartet der Stern auf die deutsche Fassung.
+        */
+        antwort.deTermin
+        ? favorites.has(title.id)
+          ? t('antwort.kinoGemerktFassung')
+          : verbindung.verbunden
+            ? t('antwort.kinoMerkenFassungMail', { mail: verbindung.mail ?? '' })
+            : t('antwort.kinoMerkenFassung')
+        : favorites.has(title.id)
+          ? t('antwort.kinoGemerkt')
+          : verbindung.verbunden
+            ? t('antwort.kinoMerkenMail', { mail: verbindung.mail ?? '' })
+            : t('antwort.kinoMerken')
+      : title &&
     title.streams.length === 0 &&
     (title.watchLinks?.length ?? 0) === 0 &&
     (title.hasVoices || antwort?.art !== 'ohne') &&
@@ -3912,10 +4052,15 @@ export function DetailPanel({
                 Fläche, nachdem der Block darunter entfallen war — die Auskunft
                 steht im Kasten oben („Auf Deutsch seit 08.01.2003 · Dybex").
               */}
-              {(title.ohneSynchro || title.angebotSeit || !title.deErstausgabe) && (
+              {/*
+                Bei einem angekündigten Kinofilm sagt der Kasten oben schon, dass
+                der deutsche Termin fehlt und was der Stern bringt — hier stünde
+                es ein zweites Mal (siehe „Keine Information zweimal").
+              */}
+              {antwort?.art !== 'kino' && (title.ohneSynchro || title.angebotSeit || !title.deErstausgabe) && (
                 <SectionTitle>{t('detail.releases')}</SectionTitle>
               )}
-              {title.ohneSynchro ? (
+              {antwort?.art === 'kino' ? null : title.ohneSynchro ? (
                 /*
                   Für einen Titel ohne belegte Synchro wäre „Termin unbekannt"
                   die falsche Auskunft: Unbekannt ist nicht der Termin, sondern
