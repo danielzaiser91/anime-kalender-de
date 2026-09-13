@@ -31,6 +31,8 @@ on:
       - 'Stündlich — Sendezeiten'
       - 'Täglich — alle Quellen'
       - 'Wöchentlich — tiefer Durchlauf'
+      # Die Recherche zu ausgebliebenen Folgen reicht wie ein Sammel-Lauf ein.
+      - 'Claude — ausgebliebene Folgen recherchieren'
     types: [completed]
     # **Nicht** zusätzlich hinter „Claude — Daten-PR zusammenführen".
     #

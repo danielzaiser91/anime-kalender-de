@@ -186,6 +186,11 @@ const verpassteTermine = readJson<
     folgenVerfuegbar?: number | null
     neuErwartet?: string | null
     recherche?: string | null
+    rechercheQuelle?: string | null
+    rechercheAm?: string | null
+    geprueftAm?: string | null
+    newsGeprueftAm?: string | null
+    hinweise?: { quelle: string; titel: string; url: string; datum: string }[]
   }>
 >('data/termine-verpasst.json', [])
 
@@ -2145,7 +2150,13 @@ function main(): void {
       nichts erschien, verschwindet damit nicht — er sagt es (Daniel,
       31.08.2026: „falsche infos auf der webseite sind unbedingt zu vermeiden").
     */
-    const verpasstHier = verpassteTermine.filter((v) => v.slug === entry.slug && v.episode != null)
+    /*
+      Aufsteigend nach Termin: Fällt eine Folge zweimal aus (am alten Tag und
+      am recherchierten Ersatztermin), gilt der jüngere Vermerk.
+    */
+    const verpasstHier = verpassteTermine
+      .filter((v) => v.slug === entry.slug && v.episode != null)
+      .sort((a, b) => a.erwartetAm.localeCompare(b.erwartetAm))
     if (verpasstHier.length) {
       schedule.verpasst = Object.fromEntries(
         verpasstHier.map((v) => [
@@ -2157,6 +2168,11 @@ function main(): void {
             ...(v.folgenVerfuegbar != null ? { folgenVerfuegbar: v.folgenVerfuegbar } : {}),
             ...(v.neuErwartet ? { neuErwartet: v.neuErwartet } : {}),
             ...(v.recherche ? { recherche: v.recherche } : {}),
+            ...(v.recherche && v.rechercheQuelle ? { rechercheQuelle: v.rechercheQuelle } : {}),
+            ...(v.rechercheAm ? { rechercheAm: v.rechercheAm } : {}),
+            ...(v.geprueftAm ? { geprueftAm: v.geprueftAm } : {}),
+            ...(v.newsGeprueftAm ? { newsGeprueftAm: v.newsGeprueftAm } : {}),
+            ...(v.hinweise?.length ? { hinweise: v.hinweise } : {}),
           },
         ]),
       )

@@ -1,0 +1,152 @@
+name: Claude — ausgebliebene Folgen recherchieren
+
+# **Wenn eine Folge nicht zum angekündigten Termin kommt, sucht dieser Lauf den Grund.**
+#
+# Daniel am 13.09.2026: Unter „Folge 8 ist nicht erschienen" fragt jeder „und
+# wann dann?". Der Sendezeiten-Lauf sieht mehrmals täglich im Anbieter-Kalender
+# nach und gleicht Anime2You ab — beides kostet nichts. Eine Verschiebung, eine
+# Produktionspause oder ein neuer Termin steht aber oft nur auf Social Media,
+# in den Anbieter-News oder bei japanischen Quellen. Dafür braucht es eine
+# echte Recherche, und die kostet Züge im Abo.
+#
+# Deshalb nur, was sich lohnt (`pipeline/lib/ausgeblieben.ts`): ab sechs
+# Stunden Verzug, einmal täglich, nach zwei Wochen wöchentlich, nach zwei
+# Monaten nicht mehr. Ist nichts fällig, endet der Lauf in Sekunden, ohne
+# Claude zu starten — das ist der Normalfall.
+#
+# Claude schreibt nur vier Felder in `data/termine-verpasst.json`;
+# `verpasst-faellig.ts --pruefen` verwirft alles andere, bevor eingereicht
+# wird. Eingereicht wird wie bei jedem Sammel-Lauf über `quellen-pr.sh`.
+
+on:
+  schedule:
+    # 11:17 UTC = 13:17 Berlin (Sommerzeit). Die meisten Simulcast-Dubs laufen
+    # nachmittags und abends; wer gestern ausblieb, ist dann über sechs Stunden alt.
+    - cron: '17 11 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: claude-verpasst-recherche
+  cancel-in-progress: false
+
+jobs:
+  recherchieren:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      LAUF_ZWECK: "Recherchiert, warum angekündigte Folgen nicht erschienen sind"
+      LAUF_ZIEL: "Grund oder neuen Termin mit Quelle in data/termine-verpasst.json eintragen"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Melder bereitlegen
+        run: |
+          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Was ist fällig?
+        id: faellig
+        run: npx tsx pipeline/verpasst-faellig.ts --aus "$RUNNER_TEMP/faellig.json"
+
+      # Erst anmelden, wenn es etwas zu tun gibt — sonst stünde täglich ein
+      # Lauf in der Statusanzeige, der nichts getan hat.
+      - name: Lauf anmelden
+        if: steps.faellig.outputs.anzahl != '0'
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" laeuft
+
+      - name: Recherche
+        if: steps.faellig.outputs.anzahl != '0'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: 'github-actions[bot]'
+          claude_args: |
+            --max-turns 60
+            --model claude-sonnet-5
+            --allowedTools "Read,Edit,Grep,Glob,WebSearch,WebFetch"
+          prompt: |
+            Recherche zu Anime-Folgen, die nicht zum angekündigten Termin erschienen sind.
+
+            ## Ausgangslage
+
+            `data/termine-verpasst.json` führt Folgen einer deutschen Synchronfassung,
+            die beim Anbieter (meist Crunchyroll) zum angekündigten Termin nicht
+            erschienen sind. Die heute fälligen Einträge stehen in
+            `${{ runner.temp }}/faellig.json` (Feld `id` ist der Schlüssel).
+
+            ## Aufgabe je fälligem Eintrag
+
+            Finde heraus, ob es eine öffentliche Meldung zu diesem Ausfall gibt:
+            Verschiebung, Pause, Produktionsprobleme, neuer Termin — für die
+            **deutsche** Fassung oder für die Serie insgesamt (eine japanische
+            Verschiebung erklärt einen Simulcast-Dub-Ausfall meist mit).
+
+            Sieh nach, in dieser Reihenfolge:
+            1. Crunchyroll-News und die offiziellen Crunchyroll-Konten (DE und
+               international) auf X, Bluesky, Instagram
+            2. deutsche News: anime2you.de, animenachrichten.de, animefanpage
+            3. offizielle Konten der Serie bzw. des Studios, Anime News Network
+            4. eine allgemeine Websuche nach Titel + „delay"/„postponed"/„verschoben"
+
+            ## Was du schreibst — nur diese vier Felder des Eintrags, nichts sonst
+
+            - `rechercheAm`: der aktuelle Zeitpunkt als ISO-Zeitstempel (UTC).
+              **Immer setzen**, auch wenn du nichts findest.
+            - `recherche`: ein bis zwei sachliche Sätze auf Deutsch, die ein
+              Besucher der Seite liest, z. B. „Crunchyroll hat die Folge wegen
+              Produktionsverzögerungen um eine Woche verschoben." Nur, was die
+              Quelle wirklich sagt; keine Vermutung. Höchstens 300 Zeichen.
+              **Findest du nichts, bleibt das Feld unverändert** (meist `null`).
+            - `rechercheQuelle`: die https-Adresse der Quelle, die `recherche`
+              belegt. Ohne `recherche` unverändert lassen.
+            - `neuErwartet`: **nur**, wenn eine Quelle einen konkreten Tag für
+              diese Folge nennt. ISO mit Uhrzeit in UTC; ist keine Uhrzeit
+              genannt, übernimm die Uhrzeit aus `erwartetAm`. Sonst unverändert.
+
+            ## Verbindlich
+
+            - Keine anderen Felder, keine anderen Einträge, keine anderen Dateien.
+              Ein Prüfschritt danach verwirft den ganzen Lauf, wenn du davon abweichst.
+            - Ist die Folge laut Anbieter inzwischen erschienen, trage nichts ein —
+              das erkennt der Sendezeiten-Lauf selbst.
+            - Eine Meldung zu einer **anderen** Staffel oder einem anderen Titel
+              zählt nicht. Im Zweifel nichts eintragen: Ein falscher Grund auf der
+              Seite ist schlimmer als keiner.
+            - Kein git, kein Commit — das übernimmt der Workflow.
+
+      - name: Recherche prüfen
+        if: steps.faellig.outputs.anzahl != '0'
+        run: npx tsx pipeline/verpasst-faellig.ts --pruefen
+
+      - name: Ergebnis als Pull Request einreichen
+        if: steps.faellig.outputs.anzahl != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Block statt Einzeiler: „chore(data): …" läse YAML sonst als zweite Zuordnung.
+        run: |
+          bash tools/quellen-pr.sh "chore(data): Recherche zu ausgebliebenen Folgen"
+
+      - name: Lauf abmelden
+        if: always() && steps.faellig.outputs.anzahl != '0'
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"

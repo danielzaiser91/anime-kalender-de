@@ -102,23 +102,7 @@ export interface Schedule {
    * dass er nicht eingehalten wurde, wie viele Folgen der Anbieter wirklich
    * zeigt und wann wir das nächste Mal nachsehen.
    */
-  verpasst?: Record<
-    number,
-    {
-      /** Wann es hätte sein sollen. */
-      erwartetAm: string
-      /** Wann die Folge wirklich kam — leer, solange sie aussteht. */
-      erschienenAm?: string
-      /** Verzug in Stunden, sobald beides bekannt ist. */
-      verzugStunden?: number
-      /** Wie viele Folgen der Anbieter zu diesem Zeitpunkt zeigte. */
-      folgenVerfuegbar?: number
-      /** Der neue erwartete Termin aus der Handrecherche. */
-      neuErwartet?: string
-      /** Was die Recherche ergeben hat. */
-      recherche?: string
-    }
-  >
+  verpasst?: Record<number, VermerkAusgeblieben>
   /** true, wenn das Datum abgeleitet statt bestätigt ist. */
   estimated?: boolean
   /** true, wenn die Folgenzahl nicht belegt ist und angenommen wurde. */
@@ -612,14 +596,41 @@ export interface ReleaseEvent {
    * damit sagen, was los ist, statt einen Termin zu behaupten, an dem nichts
    * erschienen ist.
    */
-  verpasst?: {
-    erwartetAm: string
-    erschienenAm?: string
-    verzugStunden?: number
-    folgenVerfuegbar?: number
-    neuErwartet?: string
-    recherche?: string
-  }
+  verpasst?: VermerkAusgeblieben
+}
+
+/**
+ * Was wir über einen Termin wissen, den der Anbieter nicht eingehalten hat.
+ *
+ * Die Felder ab `geprueftAm` beantworten die Frage, die jeder stellt, der
+ * „nicht erschienen" liest: **und wann dann?** Wissen wir es nicht, soll
+ * wenigstens dastehen, dass und wann wir nachgesehen haben, und wo (Daniel,
+ * 13.09.2026: „sodass nutzer beruhigt sind und sich sicher sein können, das
+ * sie sich auf den kalender verlassen können").
+ */
+export interface VermerkAusgeblieben {
+  /** Wann es hätte sein sollen. */
+  erwartetAm: string
+  /** Wann die Folge wirklich kam — leer, solange sie aussteht. */
+  erschienenAm?: string
+  /** Verzug in Stunden, sobald beides bekannt ist. */
+  verzugStunden?: number
+  /** Wie viele Folgen der Anbieter zu diesem Zeitpunkt zeigte. */
+  folgenVerfuegbar?: number
+  /** Der neue erwartete Termin — nur mit einer Quelle, die ihn nennt. */
+  neuErwartet?: string
+  /** Was die Recherche ergeben hat, ein bis zwei Sätze für Besucher. */
+  recherche?: string
+  /** Die Adresse, die `recherche` belegt. */
+  rechercheQuelle?: string
+  /** Wann zuletzt recherchiert wurde — auch wenn nichts gefunden wurde. */
+  rechercheAm?: string
+  /** Wann der Anbieter-Kalender zuletzt gelesen wurde, ohne die Folge zu zeigen. */
+  geprueftAm?: string
+  /** Wann die News-Feeds zuletzt gelesen wurden. */
+  newsGeprueftAm?: string
+  /** Meldungen, die zu diesem Titel eine Pause oder Verschiebung nennen. */
+  hinweise?: { quelle: string; titel: string; url: string; datum: string }[]
 }
 
 /**

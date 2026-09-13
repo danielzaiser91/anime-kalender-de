@@ -1,0 +1,72 @@
+/**
+ * **Welche ausgebliebenen Folgen heute recherchiert werden — und ob die Recherche sauber war.**
+ *
+ * Zwei Aufrufe, beide aus `claude-verpasst-recherche.yml`:
+ *
+ * - ohne Schalter: schreibt die fälligen Vermerke nach `--aus <datei>` und
+ *   `anzahl=<n>` nach `$GITHUB_OUTPUT`. Bei null startet kein Claude — das ist
+ *   der Normalfall, und er kostet dann nichts.
+ * - `--pruefen`: vergleicht die Datei nach der Recherche mit dem Stand davor.
+ *   Claude darf genau vier Felder schreiben; alles andere ist ein Fehler, und
+ *   dann wird nichts eingereicht.
+ *
+ * Warum die Prüfung nicht dem Prompt überlassen wird: `neuErwartet` verschiebt
+ * alle folgenden Termine im Kalender. Ein Datum ohne Quelle oder ein
+ * versehentlich geändertes `erschienenAm` wäre genau die unbelegte Behauptung,
+ * gegen die dieses Projekt gebaut ist.
+ */
+import { appendFileSync, readFileSync, writeFileSync } from 'node:fs'
+import { execSync } from 'node:child_process'
+import { readJson } from './lib/util.ts'
+import { rechercheFaellig } from './lib/ausgeblieben.ts'
+import type { VerpassterTermin } from './termine-pruefen.ts'
+
+const DATEI = 'data/termine-verpasst.json'
+const ERLAUBT = new Set(['recherche', 'rechercheQuelle', 'rechercheAm', 'neuErwartet'])
+const args = process.argv.slice(2)
+const jetzt = new Date()
+
+if (args.includes('--pruefen')) {
+  const vorher = JSON.parse(execSync(`git show HEAD:${DATEI}`, { encoding: 'utf8' })) as VerpassterTermin[]
+  const nachher = JSON.parse(readFileSync(DATEI, 'utf8')) as VerpassterTermin[]
+  const fehler: string[] = []
+  const alt = new Map(vorher.map((v) => [v.id, v]))
+  if (nachher.length !== vorher.length) fehler.push(`Zahl der Einträge geändert: ${vorher.length} → ${nachher.length}`)
+  for (const n of nachher) {
+    const a = alt.get(n.id)
+    if (!a) {
+      fehler.push(`${n.id}: neuer Eintrag`)
+      continue
+    }
+    const schluessel = new Set([...Object.keys(a), ...Object.keys(n)])
+    for (const k of schluessel) {
+      const feld = (x: VerpassterTermin) => JSON.stringify((x as unknown as Record<string, unknown>)[k] ?? null)
+      const gleich = feld(a) === feld(n)
+      if (!gleich && !ERLAUBT.has(k)) fehler.push(`${n.id}: Feld „${k}" geändert`)
+    }
+    if (n.recherche != null) {
+      if (typeof n.recherche !== 'string' || n.recherche.length > 320) fehler.push(`${n.id}: recherche leer oder über 320 Zeichen`)
+      if (!n.rechercheQuelle || !/^https:\/\/\S+$/.test(n.rechercheQuelle)) fehler.push(`${n.id}: recherche ohne https-Quelle`)
+    }
+    if (n.rechercheAm != null && Number.isNaN(Date.parse(n.rechercheAm))) fehler.push(`${n.id}: rechercheAm ist kein Zeitpunkt`)
+    if (n.neuErwartet !== a.neuErwartet && n.neuErwartet != null) {
+      const t = Date.parse(n.neuErwartet)
+      if (Number.isNaN(t) || !/T\d\d:\d\d/.test(n.neuErwartet)) fehler.push(`${n.id}: neuErwartet ohne Datum mit Uhrzeit`)
+      else if (t <= Date.parse(n.erwartetAm)) fehler.push(`${n.id}: neuErwartet liegt nicht nach dem ausgebliebenen Termin`)
+      if (!n.rechercheQuelle) fehler.push(`${n.id}: neuErwartet ohne Quelle`)
+    }
+  }
+  if (fehler.length) {
+    console.error(`Recherche verworfen, ${fehler.length} Befund(e):\n  ${fehler.join('\n  ')}`)
+    process.exit(1)
+  }
+  console.log(`Recherche sauber: ${nachher.filter((n, i) => JSON.stringify(n) !== JSON.stringify(vorher[i])).length} Eintrag/Einträge geändert`)
+  process.exit(0)
+}
+
+const aus = /--aus[= ](\S+)/.exec(args.join(' '))?.[1]
+const faellig = readJson<VerpassterTermin[]>(DATEI, []).filter((v) => rechercheFaellig(v, jetzt))
+console.log(`${faellig.length} ausgebliebene Folge(n) fällig für die Recherche`)
+for (const v of faellig) console.log(`  · ${v.name}, Folge ${v.episode ?? '?'} — erwartet ${v.erwartetAm}`)
+if (aus) writeFileSync(aus, JSON.stringify(faellig, null, 2))
+if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `anzahl=${faellig.length}\n`)

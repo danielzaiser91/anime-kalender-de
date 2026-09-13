@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { ReactNode } from 'react'
-import type { Meldung, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
+import type { Meldung, Release, ReleaseEvent, Title, VermerkAusgeblieben, WatchLink } from '@shared/types.ts'
 import { dubAbdeckung, dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
@@ -106,6 +106,10 @@ type Antwort =
       letzter?: string
       /** Der verstrichene Tag, wenn die nächste Folge auf einem Ersatztermin liegt. */
       verschobenVon?: string
+      /** Stehen mehrere ausgebliebene Folgen hintereinander, die Nummer der letzten. */
+      ausgebliebenBis?: number
+      /** Was wir zum Ausfall wissen — am ausgebliebenen Termin, auch wenn ein Ersatztermin vorn steht. */
+      vermerk?: VermerkAusgeblieben
     }
   | { art: 'fertig'; raus?: number; gesamt?: number }
   /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
@@ -195,6 +199,37 @@ function deSeitZeile(
   return e.publisher
     ? T('antwort.deSeitPublisher', { datum: wann, publisher: e.publisher })
     : T('antwort.deSeit', { datum: wann })
+}
+
+/**
+ * Die Nummer der letzten ausgebliebenen Folge in einer ununterbrochenen Reihe ab `erste`.
+ *
+ * Fällt eine Woche aus und die nächste auch, stünde sonst „Folge 8 ist nicht
+ * erschienen" über einem Kasten, in dem auch Folge 9 fehlt.
+ */
+function ausgebliebenBis(erste: ReleaseEvent, kuenftig: ReleaseEvent[]): number | undefined {
+  let bis = erste.episode
+  if (bis == null) return undefined
+  for (const e of kuenftig) {
+    if (e === erste || e.episode == null || e.episode <= bis) continue
+    if (e.episode !== bis + 1 || !istAusgeblieben(e)) break
+    bis = e.episode
+  }
+  return bis > erste.episode! ? bis : undefined
+}
+
+/**
+ * „heute, 16:29 Uhr" — wann zuletzt nachgesehen wurde, in Berliner Zeit.
+ *
+ * Die Uhrzeit gehört dazu: „heute nachgesehen" beruhigt um 23 Uhr nicht, wenn
+ * es um sieben Uhr morgens war.
+ */
+function zeitpunktText(iso: string, today: string, T: (k: string) => string): string {
+  const d = new Date(iso)
+  const tag = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(d)
+  const zeit = new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' }).format(d)
+  const vorn = tag === today ? T('antwort.relHeute') : tag === addDays(today, -1) ? T('antwort.relGestern') : formatDate(tag)
+  return `${vorn}, ${zeit} Uhr`
 }
 
 function AntwortKasten({
@@ -376,7 +411,12 @@ function AntwortKasten({
     const ausgeblieben = istAusgeblieben(e)
     haupt = ausgeblieben ? (
       <>
-        <span className="text-rose-600 dark:text-rose-400">⚠ {T('antwort.ausgeblieben', { n: e.episode ?? '' })}</span>
+        <span className="text-rose-600 dark:text-rose-400">
+          ⚠{' '}
+          {antwort.ausgebliebenBis
+            ? T('antwort.ausgebliebenMehrere', { von: e.episode ?? '', bis: antwort.ausgebliebenBis })
+            : T('antwort.ausgeblieben', { n: e.episode ?? '' })}
+        </span>
         <span className="font-normal text-slate-700 dark:text-slate-300">
           {', '}
           {e.time
@@ -425,7 +465,6 @@ function AntwortKasten({
         ? T('antwort.nochFolgen', { count: antwort.rest, datum: formatDate(antwort.letzter) })
         : T('antwort.letzteFolge'),
       antwort.verschobenVon && T('antwort.verschobenVon', { datum: formatDate(antwort.verschobenVon) }),
-      ausgeblieben && T('card.missedCheck'),
     ]
       .filter(Boolean)
       .join(' · ')
@@ -762,6 +801,16 @@ function AntwortKasten({
       )}
 
       {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
+      {antwort.art === 'laeuft' && antwort.vermerk && (
+        <VermerkAuskunft
+          vermerk={antwort.vermerk}
+          ausgeblieben={istAusgeblieben(antwort.haupt)}
+          anbieter={PLATFORMS[antwort.haupt.platform]?.name ?? antwort.haupt.platform}
+          anbieterUrl={(title.streams ?? []).find((s) => s.platform === antwort.haupt.platform)?.url}
+          today={today}
+          T={T}
+        />
+      )}
       {/* Die Erklärung zum Termin — in der Farbe, in der sie im früheren
           Terminblock stand, damit sie als Einschränkung lesbar bleibt. */}
       {notiz && (
@@ -967,6 +1016,103 @@ function Meldungen({ titleId }: { titleId: number }) {
  * Das Fragezeichen trägt den Tooltip — auf einem Gerät ohne Mauszeiger ist ein
  * Zeichen zum Antippen der einzige Weg zu einer Erklärung.
  */
+/**
+ * **Was wir zu einer ausgebliebenen Folge wissen — und was wir tun.**
+ *
+ * Daniel am 13.09.2026 unter „Folge 8 ist nicht erschienen": „aber wann
+ * erscheint sie nun? klar, wir wissen es nicht, aber genau das werden sich
+ * nutzer fragen … sodass nutzer beruhigt sind und sich sicher sein können, das
+ * sie sich auf den kalender verlassen können."
+ *
+ * Die Antwort auf „wann" ist meist „unbekannt". Was sich trotzdem sagen lässt,
+ * steht hier, und jede Zeile nur, wenn sie belegt ist:
+ *
+ * 1. dass wir beim Anbieter nachsehen, wann zuletzt, und dass man selbst
+ *    nachsehen kann (der Anbietername ist der Verweis — die Pille darunter
+ *    wäre sonst dieselbe Auskunft zweimal);
+ * 2. was Anime2You meldet, oder dass es nichts meldet — nur wenn der Feed
+ *    **nach** dem Termin gelesen wurde;
+ * 3. was die tägliche Recherche ergab, mit Quelle, oder bis wann sie nichts
+ *    fand.
+ *
+ * Ist die Folge auf einen Ersatztermin verschoben, entfällt Zeile 1: Dann gibt
+ * es einen Termin, und der steht in der Überschrift.
+ */
+function VermerkAuskunft({
+  vermerk,
+  ausgeblieben,
+  anbieter,
+  anbieterUrl,
+  today,
+  T,
+}: {
+  vermerk: VermerkAusgeblieben
+  ausgeblieben: boolean
+  anbieter: string
+  anbieterUrl?: string
+  today: string
+  T: (k: string, v?: Record<string, string | number>) => string
+}) {
+  const link = 'text-sky-700 underline decoration-sky-700/30 underline-offset-2 hover:decoration-sky-700 dark:text-sky-300 dark:decoration-sky-300/30'
+  const [vor, nach] = T('antwort.vermerkPruefen', { anbieter: '\u0000' }).split('\u0000')
+  const zeilen: ReactNode[] = []
+  if (ausgeblieben) {
+    zeilen.push(
+      <>
+        {vor}
+        {anbieterUrl ? (
+          <a href={anbieterUrl} target="_blank" rel="noopener noreferrer" className={link}>
+            {anbieter}
+          </a>
+        ) : (
+          anbieter
+        )}
+        {nach}
+        {vermerk.geprueftAm && ` ${T('antwort.vermerkZuletzt', { wann: zeitpunktText(vermerk.geprueftAm, today, T) })}`}
+      </>,
+    )
+  }
+  if (vermerk.hinweise?.length) {
+    for (const h of vermerk.hinweise) {
+      zeilen.push(
+        <>
+          {T('antwort.vermerkNews', { quelle: h.quelle, datum: formatDate(h.datum.slice(0, 10)) })}{' '}
+          <a href={h.url} target="_blank" rel="noopener noreferrer" className={link}>
+            {h.titel}
+          </a>
+        </>,
+      )
+    }
+  } else if (ausgeblieben && vermerk.newsGeprueftAm) {
+    zeilen.push(T('antwort.vermerkNewsLeer'))
+  }
+  if (vermerk.recherche) {
+    zeilen.push(
+      <>
+        {vermerk.recherche}
+        {vermerk.rechercheQuelle && (
+          <>
+            {' '}
+            <a href={vermerk.rechercheQuelle} target="_blank" rel="noopener noreferrer" className={link}>
+              {T('antwort.vermerkQuelle')}
+            </a>
+          </>
+        )}
+      </>,
+    )
+  } else if (ausgeblieben && vermerk.rechercheAm) {
+    zeilen.push(T('antwort.vermerkRechercheLeer', { datum: formatDate(vermerk.rechercheAm.slice(0, 10)) }))
+  }
+  if (!zeilen.length) return null
+  return (
+    <div className="mt-2 space-y-0.5 border-t border-slate-200/70 pt-1.5 text-[11px] leading-snug text-slate-600 dark:border-white/10 dark:text-slate-300">
+      {zeilen.map((z, i) => (
+        <p key={i}>{z}</p>
+      ))}
+    </div>
+  )
+}
+
 function WegPille({ name, farbe, hinweis }: { name: string; farbe?: string; hinweis: string }) {
   return (
     <span
@@ -2550,6 +2696,10 @@ export function DetailPanel({
         verschobenVon: istAusgeblieben(n)
           ? undefined
           : offen.find((o) => istAusgeblieben(o) && o.episode === n.episode)?.date,
+        ausgebliebenBis: istAusgeblieben(n) ? ausgebliebenBis(n, kuenftig) : undefined,
+        vermerk: istAusgeblieben(n)
+          ? n.verpasst
+          : offen.find((o) => istAusgeblieben(o) && o.episode === n.episode)?.verpasst,
       }
     }
     if (title.format === 'MOVIE') {

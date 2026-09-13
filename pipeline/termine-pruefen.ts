@@ -36,6 +36,7 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
+import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 
 /** Fünfzehn Minuten Nachsicht — ein Anbieter stellt selten auf die Sekunde ein. */
 const KARENZ_MS = 15 * 60 * 1000
@@ -60,6 +61,7 @@ interface Beobachtung {
   episode?: number
 }
 interface Kalender {
+  scrapedAt?: string
   window?: { from?: string; to?: string }
   german?: Record<string, { seriesUrl?: string; observations?: Beobachtung[] }>
 }
@@ -89,8 +91,18 @@ export interface VerpassterTermin {
   folgenVerfuegbar: number | null
   /** Von Hand: der neue erwartete Termin, wenn die Recherche einen ergibt. */
   neuErwartet: string | null
-  /** Von Hand: was die Recherche ergeben hat, mit Quelle. */
+  /** Was die Recherche ergeben hat — ein bis zwei Sätze, die auf der Seite stehen. */
   recherche: string | null
+  /** Die Adresse, die `recherche` belegt. */
+  rechercheQuelle?: string | null
+  /** Wann zuletzt recherchiert wurde, auch ohne Fund — die Frist hängt daran. */
+  rechercheAm?: string | null
+  /** Wann der Anbieter-Kalender zuletzt gelesen wurde, ohne die Folge zu zeigen. */
+  geprueftAm?: string | null
+  /** Wann die Anime2You-Meldungen zuletzt gelesen wurden. */
+  newsGeprueftAm?: string | null
+  /** Anime2You-Meldungen zu diesem Titel mit Pausen- oder Verschiebungssignal. */
+  hinweise?: { quelle: string; titel: string; url: string; datum: string }[]
   /**
    * Wird beim Schreiben aussortiert — die Folge kam am erwarteten Tag, der
    * Vermerk beschreibt also nichts, was passiert ist. Steht bewusst nicht in
@@ -166,7 +178,10 @@ function folgenBeimAnbieter(slug: string): number | null {
   const kennung = /\/series\/([A-Z0-9]+)/.exec(adresse)?.[1]
   const eintrag = dub.find((d) => (kennung ? d.seriesId === kennung : d.url === adresse))
   if (!eintrag) return null
-  const zahlen = (eintrag.staffeln ?? []).flatMap((s) => (s.deutscheFolgen ?? []).map((f) => f.nummer))
+  /* Folgen ohne Nummer (Specials) ergäben sonst NaN — so stand „NaN Folgen" in der Liste (13.09.2026). */
+  const zahlen = (eintrag.staffeln ?? [])
+    .flatMap((s) => (s.deutscheFolgen ?? []).map((f) => f.nummer))
+    .filter((n) => Number.isFinite(n))
   return zahlen.length ? Math.max(...zahlen) : null
 }
 
@@ -279,6 +294,54 @@ for (const v of verpasst) {
   nachgeholt++
 }
 
+/*
+  **Was bei einem offenen Vermerk zuletzt nachgesehen wurde, steht am Vermerk.**
+
+  Daniel am 13.09.2026: Unter „Folge 8 ist nicht erschienen" soll stehen, dass
+  wir nachsehen, wie oft, und ob die News etwas wissen — „sodass nutzer beruhigt
+  sind". Behauptet wird dabei nur, was dieser Lauf belegen kann:
+
+  - `geprueftAm` ist der Zeitpunkt, an dem der **Kalender** gelesen wurde
+    (`scrapedAt`), nicht der dieses Laufs. Ist der Abruf davor gescheitert,
+    bleibt die Datei alt, und mit ihr der Zeitstempel — sonst stünde auf der
+    Seite „zuletzt nachgesehen: eben", obwohl niemand hingesehen hat.
+  - `newsGeprueftAm` gilt nur, wenn der Feed **nach** dem Termin geholt wurde.
+    Ein Feed vom Vormittag sagt nichts über eine Absage am Nachmittag.
+*/
+const a2y = readJson<{
+  scrapedAt?: string
+  proposals?: { articleTitle: string; articleUrl: string; publishedAt: string; category: string; platforms: string[]; pause?: string }[]
+}>('data/proposals/anime2you.json', {})
+const titel = readJson<Array<{ id: number; titleDe?: string; titleEn?: string; titleRomaji?: string }>>(
+  'public/data/titles.json',
+  [],
+)
+const titelJeId = new Map(titel.map((t) => [t.id, t]))
+let hinweiseNeu = 0
+for (const v of verpasst) {
+  if (v.erschienenAm || v.gestrichen) continue
+  if (kalender.scrapedAt && kalender.scrapedAt > v.erwartetAm && (!v.geprueftAm || kalender.scrapedAt > v.geprueftAm)) {
+    v.geprueftAm = kalender.scrapedAt
+  }
+  if (a2y.scrapedAt && a2y.scrapedAt > v.erwartetAm) v.newsGeprueftAm = a2y.scrapedAt
+  const t = titelJeId.get(v.titleId)
+  const namen = [v.name, t?.titleDe, t?.titleEn, t?.titleRomaji]
+  /* Zehn Tage vor dem Termin: Eine Pause wird meist vorab angekündigt. */
+  const ab = new Date(new Date(v.erwartetAm).getTime() - 10 * 864e5).toISOString()
+  const bekannt = new Set((v.hinweise ?? []).map((h) => h.url))
+  for (const p of a2y.proposals ?? []) {
+    if (!p.pause || p.category !== 'streaming' || p.publishedAt < ab || bekannt.has(p.articleUrl)) continue
+    if (p.platforms.length && !p.platforms.includes(v.platform)) continue
+    if (!artikelNenntTitel(p.articleTitle, namen)) continue
+    v.hinweise = [
+      ...(v.hinweise ?? []),
+      { quelle: 'Anime2You', titel: p.articleTitle, url: p.articleUrl, datum: p.publishedAt },
+    ]
+    hinweiseNeu++
+  }
+}
+if (hinweiseNeu) log(`${hinweiseNeu} Anime2You-Meldung(en) einem ausgebliebenen Termin zugeordnet`)
+
 if (ohneVerzug) log(`${ohneVerzug} Vermerk(e) gestrichen — die Folge kam am erwarteten Tag`)
 writeJson(
   'data/termine-verpasst.json',
@@ -296,18 +359,18 @@ const zeilen = [
   'hat, und wann wir das nächste Mal nachsehen. Erscheint die Folge später doch, füllt er',
   '`erschienenAm` und nennt den Verzug.',
   '',
-  '**Was von Hand dazugehört:** In `data/termine-verpasst.json` stehen je Eintrag die Felder',
-  '`neuErwartet` und `recherche`. Wer nachsieht, warum sich etwas verschoben hat — Meldung des',
-  'Anbieters, News-Seite, Social Media —, trägt den neuen Termin und die Quelle dort ein. Der',
-  'nächste Lauf bestätigt ihn oder verwirft ihn.',
+  '**Recherchiert wird automatisch:** Ab sechs Stunden Verzug sucht `claude-verpasst-recherche.yml`',
+  'einmal täglich im Netz (Anbieter-News, Social Media, Anime2You) und schreibt `recherche`,',
+  '`rechercheQuelle`, `rechercheAm` und — nur mit Quelle, die den Tag nennt — `neuErwartet`.',
+  'Nach zwei Wochen wöchentlich, nach zwei Monaten nicht mehr. Von Hand eintragen geht weiterhin.',
   '',
   `Stand: ${JETZT.toISOString().slice(0, 16).replace('T', ' ')} · ${offen.length} offen, ${verpasst.length - offen.length} nachgeholt`,
   '',
-  '| Titel | Folge | erwartet | beim Anbieter | neu erwartet | Recherche |',
-  '|---|---|---|---|---|---|',
+  '| Titel | Folge | erwartet | beim Anbieter | Kalender gelesen | Anime2You | Recherche | fällig |',
+  '|---|---|---|---|---|---|---|---|',
   ...offen.map(
     (v) =>
-      `| ${v.name} | ${v.episode ?? '—'} | ${v.erwartetAm.slice(0, 16).replace('T', ' ')} | ${v.folgenVerfuegbar ?? '?'} Folgen | ${v.neuErwartet ?? '—'} | ${v.recherche ?? '**offen**'} |`,
+      `| ${v.name} | ${v.episode ?? '—'} | ${v.erwartetAm.slice(0, 16).replace('T', ' ')} | ${v.folgenVerfuegbar ?? '?'} Folgen | ${v.geprueftAm?.slice(0, 16).replace('T', ' ') ?? '—'} | ${v.hinweise?.length ? v.hinweise.map((h) => `[${h.titel}](${h.url})`).join('<br>') : v.newsGeprueftAm ? 'keine Meldung' : '—'} | ${v.recherche ? `${v.recherche}${v.rechercheQuelle ? ` ([Quelle](${v.rechercheQuelle}))` : ''}` : v.rechercheAm ? `nichts gefunden (${v.rechercheAm.slice(0, 10)})` : '**offen**'} | ${rechercheFaellig(v, JETZT) ? 'ja' : 'nein'} |`,
   ),
   '',
 ]

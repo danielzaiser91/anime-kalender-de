@@ -486,6 +486,16 @@ const TEXTE = {
   'antwort.angekuendigtFuer': 'angekündigt für {tag} den {datum}.',
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
   'antwort.verschobenVon': 'verschoben vom {datum}',
+  'antwort.ausgebliebenMehrere': 'Folgen {von} bis {bis} sind nicht erschienen',
+  // Die Auskunft unter einer ausgebliebenen Folge (Daniel, 13.09.2026: „sodass
+  // nutzer beruhigt sind"). {anbieter} wird im Panel zum Verweis.
+  'antwort.vermerkPruefen': 'Wir sehen mehrmals täglich bei {anbieter} nach und tragen die Folge ein, sobald sie da ist.',
+  'antwort.vermerkZuletzt': 'Zuletzt nachgesehen: {wann}.',
+  'antwort.vermerkNews': '{quelle} am {datum}:',
+  'antwort.vermerkNewsLeer': 'Anime2You meldet bisher keine Verschiebung.',
+  'antwort.vermerkQuelle': 'Quelle',
+  'antwort.vermerkRechercheLeer': 'Auch in weiteren News und auf Social Media haben wir bis zum {datum} nichts dazu gefunden.',
+  'antwort.relGestern': 'gestern',
   'antwort.relHeute': 'heute',
   'antwort.relMorgen': 'morgen',
   'antwort.relInTagen': 'in {count} Tagen',

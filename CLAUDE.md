@@ -1154,6 +1154,18 @@ Der Lauf hatte die OVA über ihren eigenen Block beurteilt und ein **Nein** gebu
 
 Daniel am 13.09.2026, mit zwei Bildern: Die Kalenderkachel trug „⚠ nicht erschienen", das Detail-Panel daneben „8 von 13 Folgen erschienen" und „Nächste Folge (Folge 9)". Die Kachel las `schedule.verpasst`, die Zählung nur Datum und Uhrzeit (`istErschienen`). Seitdem steigt `istErschienen()` bei `istAusgeblieben()` aus, und **jede** Stelle, die Folgen zählt oder einen nächsten Termin wählt, geht über diese beiden: Panel-Kopf und Fortschritt, „Merken", der Favoriten-Zeitstrahl, der ICS-Titel im Abo. Wer eine neue Anzeige baut, die „erschienen" oder „nächste Folge" sagt, nimmt diese Funktionen und keinen eigenen Datumsvergleich; `EventCard.tsx:88` (`vergangen`) ist bewusst ein reiner Datumsvergleich, weil er nur die Helligkeit steuert.
 
+**Und „nicht erschienen" allein beantwortet die Frage nicht, die es aufwirft** (Daniel, 13.09.2026, 21:34: „aber wann erscheint sie nun? … sodass nutzer beruhigt sind und sich sicher sein können, das sie sich auf den kalender verlassen können"). Seitdem gibt es drei Stufen, verschieden teuer und deshalb verschieden oft (`pipeline/lib/ausgeblieben.ts`):
+
+| Stufe | wer | wie oft | steht im Panel als |
+|---|---|---|---|
+| Anbieter-Kalender lesen | `termine-pruefen.ts` | mit jedem Sendezeiten-Lauf | „Wir sehen mehrmals täglich bei Crunchyroll nach … Zuletzt nachgesehen: heute, 16:29 Uhr." |
+| Anime2You-Pausenmeldungen abgleichen | dito | dito, gegen den täglichen Feed | Artikel mit Verweis, oder „meldet bisher keine Verschiebung" |
+| Netz-Recherche (News, Social Media) | `claude-verpasst-recherche.yml` | täglich ab 6 h Verzug, nach 14 Tagen wöchentlich, nach 60 nie | Ergebnis mit Quelle, oder „bis zum … nichts gefunden" |
+
+Drei Riegel, jeder aus einer Falle, die sonst auf der Seite stünde: **„Zuletzt nachgesehen" ist `scrapedAt` des Kalenders**, nicht der Zeitpunkt des Prüflaufs — ein gescheiterter Abruf behauptet sonst ein Nachsehen, das nicht stattfand. **„Anime2You meldet nichts" gilt nur mit einem Feed, der nach dem Termin geholt wurde.** Und **Claude darf nur vier Felder schreiben** (`recherche`, `rechercheQuelle`, `rechercheAm`, `neuErwartet`); `verpasst-faellig.ts --pruefen` vergleicht mit dem Stand davor und verwirft den ganzen Lauf bei jeder anderen Änderung, bei `recherche` ohne https-Quelle und bei `neuErwartet` ohne Quelle — denn ein Ersatztermin verschiebt alle folgenden Termine im Kalender.
+
+Die Anime2You-Zuordnung ist absichtlich eng (ganzer Name als Wortfolge, ohne Staffelzusatz, ab acht Zeichen): Gemessen am 13.09.2026 tragen nur 5 von 92 Vorschlägen ein Pausensignal, fast alle zu Disc-Terminen. Die Recherche fängt, was dieser Abgleich verpasst; ein Fehltreffer stünde dagegen als Grund auf der Seite.
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim

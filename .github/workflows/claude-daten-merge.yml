@@ -23,6 +23,7 @@ on:
       - 'Stündlich — Sendezeiten'
       - 'Täglich — alle Quellen'
       - 'Wöchentlich — tiefer Durchlauf'
+      - 'Claude — ausgebliebene Folgen recherchieren'
     types: [completed]
   workflow_dispatch:
 

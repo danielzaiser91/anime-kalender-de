@@ -21,6 +21,7 @@ import { titelAus } from './lib/anisearch-titel.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, titleStatus } from '../shared/logic.ts'
+import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import {
   alsEinBlock,
   bestimmeRhythmus,
@@ -2640,6 +2641,34 @@ console.log('\nVerpasster Termin:')
     'nachgeliefert zaehlt wieder als erschienen',
     istErschienen({ ...ausgefallen, verpasst: { ...ausgefallen.verpasst!, erschienenAm: '2026-08-31T10:00:00Z' } }, spaeter),
   )
+
+  /* Die Recherche-Frist: ab sechs Stunden, täglich, nach zwei Wochen wöchentlich, nach zwei Monaten nie. */
+  const termin = '2026-09-13T08:30:00.000Z'
+  const um = (iso: string) => new Date(iso)
+  pruefe('keine Recherche unter sechs Stunden Verzug', !rechercheFaellig({ erwartetAm: termin }, um('2026-09-13T14:00:00Z')))
+  pruefe('ab sechs Stunden ohne bisherige Recherche fällig', rechercheFaellig({ erwartetAm: termin }, um('2026-09-13T15:00:00Z')))
+  pruefe(
+    'am nächsten Tag wieder fällig, am selben nicht',
+    rechercheFaellig({ erwartetAm: termin, rechercheAm: '2026-09-13T15:00:00Z' }, um('2026-09-14T11:17:00Z')) &&
+      !rechercheFaellig({ erwartetAm: termin, rechercheAm: '2026-09-13T15:00:00Z' }, um('2026-09-13T23:00:00Z')),
+  )
+  pruefe(
+    'nach zwei Wochen nur noch wöchentlich',
+    !rechercheFaellig({ erwartetAm: termin, rechercheAm: '2026-09-29T11:17:00Z' }, um('2026-09-30T11:17:00Z')),
+  )
+  pruefe('nach zwei Monaten nicht mehr', !rechercheFaellig({ erwartetAm: termin }, um('2026-11-20T11:17:00Z')))
+  pruefe('nachgeliefert nie', !rechercheFaellig({ erwartetAm: termin, erschienenAm: '2026-09-14T08:30:00Z' }, um('2026-09-14T11:17:00Z')))
+
+  /* Anime2You-Zuordnung: der ganze Name, ohne Staffelzusatz, ab acht Zeichen. */
+  pruefe(
+    'Pausenmeldung nennt die Reihe ohne Staffelzusatz',
+    artikelNenntTitel('»Mushoku Tensei« pausiert eine Woche', ['Mushoku Tensei: Jobless Reincarnation – Staffel 3', 'Mushoku Tensei']),
+  )
+  pruefe(
+    'ein ähnlicher Titel trifft nicht',
+    !artikelNenntTitel('»Blue Lock« Staffel 3 verschoben', ['Blue Box', 'Ao no Hako']),
+  )
+  pruefe('ein zu kurzer Name trifft nicht', !artikelNenntTitel('»Frieren« entfällt diese Woche', ['Frieren']))
 }
 
 /* ══ Ein Abruf löscht seinen eigenen Ertrag nicht ═══════════════════════════ */
