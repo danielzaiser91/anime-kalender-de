@@ -15301,3 +15301,13 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   checkedAt: '2026-09-13'
   note: "Staffel 2 bei Prime, 10 Folgen, alle mit deutschem Ton (Daniel, 13.09.2026). Die Seite ist die, die aniSearch nennt; bisher stand hier nur eine Prime-Suchadresse."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-13 ---
+
+- anilistId: 21699
+  title: "KonoSuba: God’s Blessing on This Wonderful World! 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80131674
+  dub: true
+  checkedAt: '2026-09-13'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — Durchlauf: Folge 1 — Law & Order: Axel"
