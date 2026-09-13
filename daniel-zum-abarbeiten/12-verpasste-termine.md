@@ -10,7 +10,8 @@ hat, und wann wir das nächste Mal nachsehen. Erscheint die Folge später doch, 
 Anbieters, News-Seite, Social Media —, trägt den neuen Termin und die Quelle dort ein. Der
 nächste Lauf bestätigt ihn oder verwirft ihn.
 
-Stand: 2026-09-13 06:20 · 0 offen, 1 nachgeholt
+Stand: 2026-09-13 12:06 · 1 offen, 1 nachgeholt
 
 | Titel | Folge | erwartet | beim Anbieter | neu erwartet | Recherche |
 |---|---|---|---|---|---|
+| You and I Are Polar Opposites – Staffel 2 | 8 | 2026-09-13 08:30 | 12 Folgen | — | **offen** |
