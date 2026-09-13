@@ -53,6 +53,7 @@ const namen = [
   'datumKurz',
   'zustandZeilen',
   'durchlaufAuftrag',
+  'stichprobeUeberEinenTitel',
   'folgenJeStaffel',
   'staffelnDerGruppe',
   'zustandDerFolge',
@@ -336,6 +337,68 @@ pruefe(
   JSON.stringify(
     mehrere('(angezeigteFolgenSetzen(), durchlaufAuftrag().map((f) => f.nummer))', { seite: 'Drei 1 Drei 2 Drei 3' }),
   ) === '[11]',
+)
+
+/* ── Stichprobe über genau einen Titel (Konosuba S2, 13.09.2026) ─────────── */
+
+/*
+  Netflix' Staffel 2 hat 11 Folgen: unsere zweite Staffel mit 10 und die OVA als
+  E11. Ist die OVA schon belegt, nennt der Auftrag E1–10 — ein Titel, also die
+  Stichprobe über dessen Folgen statt zehn einzelner Prüfungen.
+*/
+const KONOSUBA = (ovaZustand) => ({
+  titel: 'Konosuba',
+  laut: 'anbieter-gerechnet',
+  staffeln: [
+    { nr: 1, name: 'Konosuba', folgen: 10, erste: 1, offen: false, zustand: 'belegt' },
+    { nr: 1, name: 'OVA 1', folgen: 1, erste: 11, offen: false, zustand: 'belegt' },
+    { nr: 2, name: 'Konosuba 2', folgen: 10, erste: 1, offen: true, zustand: 'melden' },
+    { nr: 2, name: 'OVA 2', folgen: 1, erste: 11, offen: ovaZustand !== 'belegt', zustand: ovaZustand },
+  ].map((st, i) => ({ ...st, id: 2000 + i })),
+})
+const KONOSUBA_NETFLIX = [
+  { seq: 1, name: 'Staffel 1', folgen: 11, erste: 1 },
+  { seq: 2, name: 'Staffel 2', folgen: 11, erste: 1 },
+].map((st) => ({ ...st, ids: Array.from({ length: st.folgen }, (_, i) => vid(st.seq, i + 1)) }))
+
+const stichprobe = (eintrag) =>
+  ausfuehren('[durchlaufAuftrag()?.map((f) => f.nummer) ?? null, DURCHLAUF.stichprobe?.map((f) => f.nummer) ?? null]', {
+    staffelNr: 2,
+    anzahl: 11,
+    eintrag,
+    anbieter: KONOSUBA_NETFLIX,
+  })
+
+const mitOvaBelegt = stichprobe(KONOSUBA('belegt'))
+pruefe(
+  'OVA belegt, E1–10 offen: kein Einzelauftrag, sondern Stichprobe über E1–10',
+  mitOvaBelegt[0] === null && JSON.stringify(mitOvaBelegt[1]) === JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+  mitOvaBelegt,
+)
+
+const mitOvaOffen = stichprobe(KONOSUBA('melden'))
+pruefe(
+  'OVA ebenfalls offen: zwei Titel in einer Staffel, also jede Folge einzeln',
+  JSON.stringify(mitOvaOffen[0]) === JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) && mitOvaOffen[1] === null,
+  mitOvaOffen,
+)
+
+/* Eine laufende Staffel: Netflix zeigt 8 Folgen, der Titel hat 10 — keine Stichprobe. */
+const laufend = ausfuehren('[durchlaufAuftrag()?.map((f) => f.nummer) ?? null, DURCHLAUF.stichprobe]', {
+  staffelNr: 2,
+  anzahl: 8,
+  eintrag: KONOSUBA('belegt'),
+  anbieter: [{ seq: 2, name: 'Staffel 2', folgen: 8, erste: 1, ids: Array.from({ length: 8 }, (_, i) => vid(2, i + 1)) }],
+})
+pruefe(
+  'laufende Staffel (8 von 10 da): jede Folge einzeln',
+  JSON.stringify(laufend[0]) === JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8]) && laufend[1] === null,
+  laufend,
+)
+
+pruefe(
+  'zwei Folgen eines Titels bleiben ein Einzelauftrag (Haikyu S4 E14–15)',
+  JSON.stringify(auftrag({ staffelNr: 4, anzahl: 27 })) === '[14,15]',
 )
 
 console.log('')

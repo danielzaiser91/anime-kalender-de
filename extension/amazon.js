@@ -1928,6 +1928,14 @@ async function speicherSchreiben(werte) {
     if (!geputzt || geputzt.length < 3) return null
     if (/^(season|staffel)\s*\d+$/i.test(geputzt)) return null
     if (/^amazon\.de$/i.test(geputzt)) return null
+    /*
+      **„Chatverlauf" ist Amazons Rufus-Leiste, kein Titel.** Zwei Meldungen am
+      13.09.2026 (Okko, Danganronpa 3) trugen genau diesen Namen und ließen sich
+      keinem Titel zuordnen; am 09.09.2026 stand er schon einmal im Kasten von
+      „Death Note: Relight". Die Überschrift des Chat-Fensters ist das erste
+      `h1`, wenn die Seite selbst keins trägt.
+    */
+    if (/^chatverlauf$/i.test(geputzt)) return null
     return geputzt
   }
 
@@ -5229,7 +5237,12 @@ async function speicherSchreiben(werte) {
             const knopfReihe = document.createElement('div')
             knopfReihe.className = 'ak-such-knopfreihe'
             const bestaetigen = kastenKnopf(
-              erwartetJetzt?.length ? `${erwartetJetzt.length} erwartet` : 'Auswahl bestätigen',
+              /*
+                „2 ausgewählt", nicht „2 erwartet" (Daniel, 13.09.2026: „warum steht da
+                2 erwartet, statt ausgewählt"). Der Chip bestätigt die gespeicherte
+                Auswahl; „erwartet" las sich wie ein Zustand, auf den man warten muss.
+              */
+              erwartetJetzt?.length ? `${erwartetJetzt.length} ausgewählt` : 'Auswahl bestätigen',
               (k) => {
                 const gewaehlt = [...gruppe.querySelectorAll('.ak-such-auswahl input:checked')]
                   .map((b) => b.dataset.kennung)
@@ -5243,7 +5256,7 @@ async function speicherSchreiben(werte) {
                     k.textContent = 'nicht gesendet — noch einmal'
                     return
                   }
-                  k.textContent = `${gewaehlt.length} erwartet`
+                  k.textContent = `${gewaehlt.length} ausgewählt`
                   zuruecknehmen.hidden = false
                   uebersichtZeichnen()
                 })
@@ -9433,6 +9446,19 @@ async function speicherSchreiben(werte) {
           }
         })()
         const wasGemeldetWird = (() => {
+          /*
+            **Keine Kopfzeile über einer leeren Meldezeile.** Auf einer Titelseite,
+            die nicht auf der Prüfliste steht, blendet der Takt den Knopf aus („Weg
+            statt grau", 27.08.2026). Die Kopfzeile „meldet: Vom Landei zum
+            Schwertheiligen · B0H1QXQL33" stand trotzdem da, darunter nichts
+            (Daniel, 13.09.2026, zweimal: „weder gemeldet ✅, noch ein klickbarer
+            button"). Was nicht gemeldet werden kann, wird auch nicht angekündigt.
+          */
+          try {
+            if (!liste[listenId] && !eintrag?.ausSuche && !serieBekannt()) return ''
+          } catch {
+            /* Ohne Auskunft bleibt es bei der Kopfzeile. */
+          }
           const e = liste[kennungJetzt] ?? liste[id]
           /*
             **Der Auftragstitel steht vor dem Seitentitel.**

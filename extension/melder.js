@@ -2813,20 +2813,80 @@ function durchlaufOffen() {
  * besser.
  */
 function durchlaufAuftrag() {
+  DURCHLAUF.stichprobe = null
   const geladen = geladeneZustaende()
   if (!geladen) return null
   const zuTun = geladen.filter((z) => z.zustand !== 'gemeldet').map((z) => z.f)
   /*
-    **Ist eine ganze Staffel zu melden, gilt die Stichprobe** — erste und letzte
-    Folge, der Rest als Annahme (`randMelden()`). Der Knopf sagt das seit
-    4.19.1 ausdrücklich („→ gilt für E2-25").
+    **Deckt der Auftrag genau einen Titel, gilt die Stichprobe** — erste und
+    letzte Folge, der Rest als Annahme (`randMelden()`). Der Knopf sagt das
+    seit 4.19.1 ausdrücklich („→ gilt für E1-10").
+
+    Bis zum 13.09.2026 galt sie nur, wenn die **ganze** Netflix-Staffel offen
+    war. Bei Konosuba Staffel 2 war die elfte Folge (die OVA) schon gemeldet, der
+    Auftrag nannte E1–10, und der Knopf prüfte alle zehn einzeln. Daniel:
+    „warum wird jede einzelne episode geprüft statt von bis prüfung und assume
+    alles dub?" — und seine Regel dazu: Stichprobe, wo die Folgenzahl zum Titel
+    passt; einzeln, wo der Anbieter eine OVA einmischt oder die Staffel noch
+    läuft.
+
+    Genau das prüft `stichprobeUeberEinenTitel()`: Die offenen Folgen bilden
+    lückenlos **einen** Eintrag der Prüfliste, mit dessen erster Folge und
+    dessen Folgenzahl. Eine eingemischte OVA ist ein eigener Eintrag und bricht
+    die Übereinstimmung, eine laufende Staffel hat bei Netflix weniger Folgen
+    als der Eintrag — in beiden Fällen bleibt es beim einzelnen Prüfen.
   */
-  const gruppen = folgenJeStaffel(DURCHLAUF.folgen)
-  for (const gruppe of gruppen.values()) {
-    const offen = gruppe.filter((f) => zuTun.includes(f))
-    if (gruppe.length > 2 && offen.length === gruppe.length) return null
+  const stichprobe = stichprobeUeberEinenTitel(zuTun)
+  if (stichprobe) {
+    DURCHLAUF.stichprobe = stichprobe
+    return null
+  }
+  /*
+    Listen, die nur Netflix' eigene Staffeln kennen (`laut: 'anbieter'`), sagen
+    nichts über eingemischte OVAs. Dort bleibt die ältere Regel: Stichprobe nur,
+    wenn die ganze Staffel offen ist.
+  */
+  if (offeneTitel[String(gemeinteReihe())]?.laut !== 'anbieter-gerechnet') {
+    const gruppen = folgenJeStaffel(DURCHLAUF.folgen)
+    for (const gruppe of gruppen.values()) {
+      const offen = gruppe.filter((f) => zuTun.includes(f))
+      if (gruppe.length > 2 && offen.length === gruppe.length) return null
+    }
   }
   return zuTun
+}
+
+/**
+ * **Sind die offenen Folgen genau ein Titel der Prüfliste?** Dann die Folgen,
+ * nach Nummer geordnet — sonst `null`.
+ *
+ * Nur bei Listen, die in Netflix' Staffeln **gerechnet** sind: Dort trägt jeder
+ * Eintrag `erste` und `folgen` in Netflix' Zählung, und eine OVA am Ende der
+ * Staffel ist ein eigener Eintrag (Haikyu!! S1 E26, Konosuba S2 E11). Ab drei
+ * Folgen — bei zweien ist die Stichprobe schon die ganze Prüfung.
+ */
+function stichprobeUeberEinenTitel(zuTun) {
+  if (zuTun.length < 3) return null
+  const reihe = gemeinteReihe()
+  const eintrag = offeneTitel[String(reihe)]
+  if (eintrag?.laut !== 'anbieter-gerechnet') return null
+  const sortiert = [...zuTun].sort((a, b) => Number(a.nummer) - Number(b.nummer))
+  const erste = Number(sortiert[0].nummer)
+  const letzte = Number(sortiert[sortiert.length - 1].nummer)
+  if (!Number.isFinite(erste) || letzte - erste + 1 !== sortiert.length) return null
+  const kandidaten = new Set()
+  for (const gruppe of folgenJeStaffel(DURCHLAUF.folgen).values()) {
+    for (const nr of staffelnDerGruppe(reihe, gruppe)) kandidaten.add(Number(nr))
+  }
+  const passend = (eintrag.staffeln ?? []).filter(
+    (st) =>
+      !st.film &&
+      st.zustand !== 'belegt' &&
+      kandidaten.has(Number(st.nr)) &&
+      (Number.isFinite(st.erste) ? st.erste : 1) === erste &&
+      Number(st.folgen) === sortiert.length,
+  )
+  return passend.length === 1 ? sortiert : null
 }
 
 /** Je Netflix-Staffel eine Gruppe — der Leser sammelt alle, die angeklickt wurden. */
@@ -3149,12 +3209,14 @@ async function durchlaufStarten(grenze) {
    * Leiste nach der Grenze.
    */
   const ausAuftrag = durchlaufAuftrag()
+  /* Deckt der Auftrag genau einen Titel, ist die Stichprobe über dessen Folgen gezogen — nicht über alle offenen. */
+  const basis = DURCHLAUF.stichprobe ?? alleOffen
   const offen = ausAuftrag
     ? ausAuftrag
-    : alleOffen.length > 1
-      ? [alleOffen[0], alleOffen[alleOffen.length - 1]]
-      : alleOffen
-  DURCHLAUF.randprobe = !ausAuftrag && alleOffen.length > 1 ? alleOffen : null
+    : basis.length > 1
+      ? [basis[0], basis[basis.length - 1]]
+      : basis
+  DURCHLAUF.randprobe = !ausAuftrag && basis.length > 1 ? basis : null
   if (!offen.length) return
 
   /*
@@ -4188,7 +4250,7 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.knopf?.classList.remove('ak-uneinheitlich')
   }
   /* Die offenen Folgen selbst — für die Spanne im Knopftext. */
-  const liste = durchlaufOffen()
+  let liste = durchlaufOffen()
   /**
    * **Der Knopf sagt, was er tut — und das steht in der Prüfliste.**
    *
@@ -4205,6 +4267,8 @@ function durchlaufKnopfZeigen() {
    * dasteht.
    */
   const auftrag = durchlaufAuftrag()
+  /* Die Stichprobe über einen Titel nennt dessen Spanne, nicht die aller offenen Folgen. */
+  if (!auftrag && DURCHLAUF.stichprobe) liste = DURCHLAUF.stichprobe
   /*
     **Kennt die Liste die Staffel und will daraus nichts mehr, ist der Knopf
     fertig** — keine Stichprobe über Folgen, die längst belegt sind (Daniel,

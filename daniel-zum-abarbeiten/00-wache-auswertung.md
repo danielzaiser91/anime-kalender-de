@@ -5,6 +5,16 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 13.09.2026, 20:47 — durchgesehen, nichts offen
+
+**Was läuft korrekt.** Letzter Lauf 13.09.2026, 14:43, „unauffällig“: 2.771 Titel, 1.972 Urteile, 19 offen; über 24 Stunden +3 Urteile, −1 offen. Keine Verluste.
+
+**Briefkasten.** 32 Meldungen (Prime 26, Netflix 6), alle in 11-meldungen-ohne-zuordnung.md gelistet. Die 6 Netflix-Meldungen (Haikyu) sind am Abend von Hand verbucht und abgehakt; die 26 Prime-Meldungen gehören zu einem Kanal-Titel (Haikyuu!!, ADN-Kanal) und tragen kein Urteil.
+
+**Wo echte Risiken sind.** Keines im Bestand. Der Durchgang am Abend hat Zuordnungsfehler gezeigt, die für die Wache unsichtbar sind, weil sie nie als Verlust auftreten: ein Prime-Beleg am falschen Titel (Plus-Sized Elf unter Trinity Seven), ein falsches Nein des Crunchyroll-Laufs (Chunibyo-OVA). Beide berichtigt, die Ursachen stehen als Aufgaben in status.md.
+
+---
+
 ## 09.09.2026, 19:10 — durchgesehen, nichts offen
 
 **Was läuft korrekt.** Sieben Läufe in 24 Stunden, keiner mit Veränderung, der

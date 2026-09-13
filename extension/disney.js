@@ -500,9 +500,17 @@
     const erledigte = alle.filter(istErledigt)
     const eintraege = zeigeErledigte ? alle : alle.filter((e) => !istErledigt(e))
     dialog = document.createElement('div')
+    /*
+      **Über dem Kasten, nicht in ihm.** Hier stand ein fester Abstand von 100 px
+      zum unteren Rand. Seit die Knöpfe im gemeinsamen Kasten sitzen (12.09.2026),
+      ist der höher, und seine Oberkante lag über der Ecke des Dialogs (Daniel,
+      13.09.2026, mit Bild). Der Abstand kommt deshalb aus der Lage des Kastens.
+    */
+    const kastenOben = disneyKasten().getBoundingClientRect().top
+    const unten = Math.max(16, Math.round(window.innerHeight - kastenOben + 12))
     dialog.style.cssText =
-      'position:fixed;right:16px;bottom:100px;z-index:2147483001;width:min(460px,92vw);' +
-      'max-height:70vh;overflow:auto;background:#111;color:#fff;border:1px solid #ffffff33;' +
+      `position:fixed;right:16px;bottom:${unten}px;z-index:2147483001;width:min(460px,92vw);` +
+      `max-height:min(70vh,calc(100vh - ${unten + 16}px));overflow:auto;background:#111;color:#fff;border:1px solid #ffffff33;` +
       'border-radius:10px;padding:14px 16px;font:13px/1.5 system-ui,sans-serif;' +
       'box-shadow:0 8px 32px #000a'
 

@@ -107,3 +107,20 @@
       url: https://www.youtube.com/watch?v=RiuV5W30Xvc
   sources:
     - https://www.youtube.com/watch?v=RiuV5W30Xvc
+
+# Okko und ihre Geisterfreunde: bei crunchyroll.com nicht mehr verfügbar, drei andere
+# Wege von Daniel herausgesucht (13.09.2026). Sprachfassung je Weg nicht geprüft. Apple TV
+# zeigte den Film ebenfalls, verweist dort aber nur in die Prime-App und ist kein eigener
+# Bezugsweg (docs/recherche-anbieterketten.md).
+- anilistId: 101478
+  title: Okko und ihre Geisterfreunde
+  links:
+    - name: maxdome
+      url: https://store.maxdome.de/mo45189120
+      kind: stream
+    - name: Amazon
+      url: https://www.amazon.de/Okko-ihre-Geisterfreunde-Film-Blu-ray/dp/B07X5R7M5P
+      kind: buy
+  sources:
+    - https://store.maxdome.de/mo45189120
+    - https://www.amazon.de/Okko-ihre-Geisterfreunde-Film-Blu-ray/dp/B07X5R7M5P
