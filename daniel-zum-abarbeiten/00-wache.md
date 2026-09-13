@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 12.09.2026 um 13:36 Uhr
+**Unauffällig** · zuletzt 13.09.2026 um 14:43 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -16,20 +16,20 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 ## Bestand — die letzten 24 Stunden
 
 ```
-10 Läufe in den letzten 1 Tagen (253 insgesamt)
+14 Läufe in den letzten 1 Tagen (267 insgesamt)
 
-12.09., 07:37  Bestand — zusammenführ   titel +1, verweise +1, mitUrteil +1, titelMitSynchro +1, termine -11
-12.09., 08:43  Bestand — zusammenführ   titel +2, releases +3, termine +14
+12.09., 15:52  Bestand — zusammenführ   verweise +1, mitUrteil +3, ohneUrteil -2, titelMitSynchro +1
+13.09., 09:41  Bestand — zusammenführ   verweise +1, ohneUrteil +1
 
-Stand jetzt: 2771 Titel, 1969 Urteile, 20 offen
-Über den Zeitraum: Titel +3, Urteile +1, offen 0
+Stand jetzt: 2771 Titel, 1972 Urteile, 19 offen
+Über den Zeitraum: Titel 0, Urteile +3, offen -1
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 28 Meldungen auf 28 Adressen (primevideo 26, netflix 2)
-Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 5 Adressen
+Briefkasten: 32 Meldungen auf 32 Adressen (primevideo 26, netflix 6)
+Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 6 Adressen
 Alle Adressen sind gelistet.
 ```
 
@@ -39,6 +39,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 13.09.2026 14:43 | 2771 / 1972 / 19 | Titel 0, Urteile +3, offen -1 | unauffällig |
 | 12.09.2026 13:36 | 2771 / 1969 / 20 | Titel +3, Urteile +1, offen 0 | unauffällig |
 | 11.09.2026 14:12 | 2768 / 1968 / 20 | Titel 0, Urteile +26, offen -5 | unauffällig |
 | 10.09.2026 14:14 | 2768 / 1941 / 26 | Titel 0, Urteile +25, offen -45 | unauffällig |
