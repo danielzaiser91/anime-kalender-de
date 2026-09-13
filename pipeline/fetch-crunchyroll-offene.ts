@@ -122,6 +122,28 @@ export async function main(): Promise<void> {
 
   const roh = readJson<Title[] | Record<string, Title>>('public/data/titles.json', [])
   const titles = (Array.isArray(roh) ? roh : Object.values(roh)) as Title[]
+  /**
+   * **Die Geschwister eines Werks in derselben Reihe, nach Art getrennt.**
+   *
+   * Crunchyroll hängt Nebenausgaben gern an die Staffel, zu der sie gehören:
+   * „Love, Chunibyo & Other Delusions - Heart Throb - (German Dub)" hat 13
+   * Folgen — die Staffel mit 12 plus die OVA als S2 E13; bei Durarara führt die
+   * Serie 25 Folgen, 24 plus eines der Specials (Daniel, 13.09.2026, beide mit
+   * Bild). Wer nur nach genau gleicher Folgenzahl sucht, findet in beiden Fällen
+   * keinen Block. Diese Liste liefert die Zahlen, mit denen sich die Summe
+   * rechnen lässt.
+   */
+  const reiheVon = (t: Title): number => (t.franchiseId as number | undefined) ?? t.id
+  const geschwister = (werk: Title): { haupt: number[]; neben: number[] } => {
+    const haupt: number[] = []
+    const neben: number[] = []
+    for (const t of titles) {
+      if (t.id === werk.id || reiheVon(t) !== reiheVon(werk) || !Number.isFinite(t.episodes)) continue
+      if (t.format === 'TV' || t.format === 'ONA') haupt.push(Number(t.episodes))
+      else if (t.format === 'OVA' || t.format === 'SPECIAL') neben.push(Number(t.episodes))
+    }
+    return { haupt, neben }
+  }
   const katalog =
     readJson<{
       eintraege?: { id: string; titel: string; typ?: string; slug?: string | null; audio?: string[]; folgen?: number | null }[]
@@ -416,6 +438,22 @@ export async function main(): Promise<void> {
             `(${[...new Set(anbieter)].slice(0, 3).join(', ')})`,
         }
       }
+      /*
+        **Eine Altadresse der Form „…-unbekannt-NNNNNN" ist tot.** Crunchyroll hat
+        diese Medienseiten mit dem Umbau abgeschaltet; beide, die am 13.09.2026
+        geöffnet wurden (Cencoroll Connect, Your Voice), führten auf „404 – Seite
+        nicht gefunden“ (Daniel, mit Bildern). Okko trug dieselbe Form und fand
+        sich nur noch unter neuer Serienkennung. Der Befund gilt
+        der Adresse, nicht der Sprache — er entfernt einen Weg, der nirgends
+        mehr hinführt.
+      */
+      if (/-unbekannt-\d+(?:[/?#]|$)/i.test(url)) {
+        return {
+          herkunft: 'tot',
+          geprueftAm: heute(),
+          grund: 'Altadresse der Form „…-unbekannt-N" ohne Serienkennung; diese Seiten führen seit dem Umbau auf 404',
+        }
+      }
       return { herkunft: 'offen', geprueftAm: heute(), grund: 'keine Kennung in der Adresse, kein sicherer Treffer' }
     }
     /*
@@ -489,6 +527,40 @@ export async function main(): Promise<void> {
         werk.format === 'OVA' ? /\bOVA\b/i : werk.format === 'SPECIAL' ? /\bspecials?\b/i : undefined
       if (ausgabenMuster) {
         const derReihe = await holeStaffeln(kandidat.id)
+        /*
+          **Steckt die Nebenausgabe synchronisiert in einer Hauptstaffel?**
+
+          Chunibyo Heart Throb: Der Block „(OVA)" hat eine Folge nur mit
+          Untertiteln, und daraus wurde am 10.09.2026 ein Nein. Im Block
+          „(German Dub)" steht dieselbe Folge als S2 E13 mit Synchro — 13 Folgen
+          = Staffel 12 + OVA 1. Bei Durarara führt die Serie 25 deutsche Folgen,
+          24 plus eines der beiden Specials.
+
+          Gerechnet wird mit den Folgenzahlen aus unserem Bestand: Ein deutscher
+          Block, dessen Folgenzahl eine Hauptserie der Reihe um **mindestens
+          eine und höchstens so viele** Folgen übersteigt, wie dieses Werk hat,
+          trägt es mit. **Genau ein** solcher Block, sonst kein Urteil.
+        */
+        const { haupt } = geschwister(werk)
+        const eigene = Number.isFinite(werk.episodes) ? Number(werk.episodes) : 1
+        const mitgefuehrt = derReihe.filter(
+          (st) =>
+            st.audio.includes('de-DE') &&
+            st.folgen != null &&
+            haupt.some((n) => st.folgen! - n >= 1 && st.folgen! - n <= eigene),
+        )
+        if (mitgefuehrt.length === 1) {
+          const st = mitgefuehrt[0]!
+          return {
+            herkunft: 'katalog',
+            dub: true,
+            seriesId: st.id,
+            titel: st.titel,
+            audio: st.audio,
+            geprueftAm: heute(),
+            grund: `„${st.titel}" führt ${st.folgen} deutsche Folgen, mehr als die Hauptserie — das ${werk.format} steckt darin`,
+          }
+        }
         const passend = derReihe.filter((st) => ausgabenMuster.test(st.titel))
         if (passend.length === 1 && passend[0]!.audio.length) {
           const st = passend[0]!
@@ -598,6 +670,20 @@ export async function main(): Promise<void> {
     const nachJahr = werk.jpYear
       ? staffeln.filter((st) => (st.jahre ?? []).includes(Number(werk.jpYear)))
       : []
+    /*
+      **Führt eine Staffel ihre Nebenausgabe mit, geht die Folgenzahl als Summe auf.**
+
+      Heart Throb hat bei uns 12 Folgen, Crunchyrolls Dub-Block 13 — die OVA
+      steckt als E13 darin. Gesucht wurde bisher nur nach genau 12, und so blieb
+      die Staffel am 10.09.2026 offen („0 über den Namen, 0 über die Zahl").
+      Die Summe gilt nur mit einer Nebenausgabe **derselben Reihe** und nur,
+      wenn genau eine Staffel sie trifft.
+    */
+    const { neben } = geschwister(werk)
+    const nachSumme =
+      werk.episodes != null && nachZahl.length === 0
+        ? staffeln.filter((s) => s.folgen != null && neben.some((k) => s.folgen === werk.episodes! + k))
+        : []
     const treffer =
       nachName.length === 1 && (nachZahl.length === 0 || nachZahl.some((s) => s.id === nachName[0]!.id))
         ? nachName[0]
@@ -605,7 +691,9 @@ export async function main(): Promise<void> {
           ? nachZahl[0]
           : nachJahr.length === 1
             ? nachJahr[0]
-            : undefined
+            : nachSumme.length === 1
+              ? nachSumme[0]
+              : undefined
     if (!treffer) {
       /**
        * **Sagen alle Staffeln dasselbe, braucht es keine Zuordnung.**

@@ -1138,6 +1138,18 @@ nennt eine Folgen-Id aus ADNs alter Ablage; an eine neue Serienkennung gehängt
 entstünde eine Adresse, die niemand geprüft hat, und der Verweis verlöre seine
 Aussage über genau diese Folge.
 
+### Eine Nebenausgabe hat bei Crunchyroll oft zwei Blöcke — und nur einer ist der richtige
+
+Gemessen am 13.09.2026 von Daniel an zwei Titeln, beide mit Bild:
+
+| Titel | Block | Folgen | Fassung |
+|---|---|---|---|
+| Chunibyo Heart Throb | „(German Dub)“ | 13 = Staffel 12 + OVA als S2 E13 | Synchro |
+| Chunibyo Heart Throb | „(OVA)“ | 1 | nur Untertitel |
+| Durarara!! | Serie | 25 = 24 + eines der Specials | Synchro |
+
+Der Lauf hatte die OVA über ihren eigenen Block beurteilt und ein **Nein** gebucht, obwohl dieselbe Folge im Dub-Block synchronisiert steckt; die Staffel blieb offen, weil er eine Staffel mit genau 12 Folgen suchte. **Vor einem Nein zu einer Nebenausgabe wird deshalb nach einem deutschen Block gesucht, der eine Hauptserie der Reihe um die Nebenausgabe übersteigt**, und eine Staffel darf als Summe aus Werk plus Nebenausgabe derselben Reihe aufgehen (fetch-crunchyroll-offene.ts). Dieselbe Rechnung wie „Der Anbieter zählt kumulativ“ bei Netflix, nur eine Ebene tiefer.
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim
