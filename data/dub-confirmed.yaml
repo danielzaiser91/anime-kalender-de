@@ -12980,7 +12980,7 @@
 - anilistId: 21509
   title: "Danganronpa 3: The End of Hope’s Peak Academy - Future Arc"
   platform: primevideo
-  url: https://www.amazon.de/s?k=Danganronpa%203%3A%20The%20End%20of%20Hope%E2%80%99s%20Peak%20Academy%20-%20Future%20Arc&i=instant-video
+  url: https://www.amazon.de/dp/B0H9G1CNHC
   dub: true
   checkedAt: '2026-08-31'
   note: "Prime fuehrt Danganronpa 3 als eine Staffel mit 24 Folgen, alle mit deutschem Ton (Daniels Meldung vom 30.08.2026 unter der Adresse des Despair Arc). Folgen 1–12 davon sind dieser Titel; die Aufteilung stammt von Daniel selbst (31.08.2026). Die Pipeline kann sie nicht rechnen: AniList fuehrt Future Arc und Hope Arc unter Reihe 21509, den Despair Arc dazwischen unter 16592."
@@ -12988,7 +12988,7 @@
 - anilistId: 97672
   title: "Danganronpa 3: The End of Hope’s Peak High School - Hope Arc - The School of Hope and the Students of Despair"
   platform: primevideo
-  url: https://www.amazon.de/s?k=Danganronpa%203%3A%20The%20End%20of%20Hope%E2%80%99s%20Peak%20High%20School%20-%20Hope%20Arc%20-%20The%20School%20of%20Hope%20and%20the%20Students%20of%20Despair&i=instant-video
+  url: https://www.amazon.de/dp/B0H9G1CNHC
   dub: true
   checkedAt: '2026-08-31'
   note: "Prime fuehrt Danganronpa 3 als eine Staffel mit 24 Folgen, alle mit deutschem Ton (Daniels Meldung vom 30.08.2026 unter der Adresse des Despair Arc). Folge 24 davon sind dieser Titel; die Aufteilung stammt von Daniel selbst (31.08.2026). Die Pipeline kann sie nicht rechnen: AniList fuehrt Future Arc und Hope Arc unter Reihe 21509, den Despair Arc dazwischen unter 16592."
@@ -15202,3 +15202,60 @@
   available: false
   checkedAt: '2026-09-13'
   note: "Serienseite zeigt „nicht mehr verfügbar“ (Daniel, 13.09.2026). Unsere alte Adresse (…/watch/GJWU25970) führte auf 404."
+
+- anilistId: 18671
+  title: "Love, Chunibyo & Other Delusions! Heart Throb"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GYJQV73V6/love-chunibyo--other-delusions---heart-throb--
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-09-13'
+  note: "Crunchyroll führt „S2: … Heart Throb - (German Dub)“ mit 13 Episoden (Daniel, 13.09.2026, mit Bild); daneben ein gleichnamiger Eintrag mit 1 Episode, die OVA. Die Serie hat 12 Folgen, die 13. ist eine Zusatzfolge; auf unsere Zählung gekappt. Alte Adresse ohne Kennung ersetzt."
+
+- anilistId: 20889
+  title: "Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GYJQV73V6/love-chunibyo--other-delusions---heart-throb--
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-09-13'
+  note: "Im Block „S2: … Heart Throb - (German Dub)“ ist S2 E13 „Offenbarung des wahren Auges des bösen Königs … Wiederholung“ mit „Synchro | Untertitel“ geführt (Daniel, 13.09.2026, mit Bild). Der eigene Block „(OVA)“ (GR2PCVZM5) trägt nur Untertitel, daraus hatte der Lauf am 10.09. ein Nein gemacht. Die deutsche Fassung steckt im Dub-Block der Staffel."
+
+- anilistId: 21683
+  title: "Your Voice: Kimikoe"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GKEH2GQ7V/your-voice--kimikoe-
+  available: false
+  checkedAt: '2026-09-13'
+  note: "Serienseite zeigt „Leider sind die Videos dieser Serie nicht mehr verfügbar“ und „Keine Videos verfügbar“ (Daniel, 13.09.2026, mit Bild). Die alte Adresse (…-unbekannt-850378) führte auf 404."
+
+- anilistId: 101478
+  title: "Okko und ihre Geisterfreunde"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GJ0H7Q4Z9/okkos-inn
+  available: false
+  checkedAt: '2026-09-13'
+  note: "crunchyroll.com zeigt „Leider sind die Videos dieser Serie nicht mehr verfügbar“ und „Keine Videos verfügbar“ (Daniel, 13.09.2026, mit Bild). Gleichzeitig führt Prime Video den Film über den Crunchyroll-Kanal (amzn1.dv.gti.3cb88c42-8aba-78c5-3026-ee065e93e11e), die Erweiterung zeigt dort Deutsch mit Kanal-Warnung. Kanal-Katalog und crunchyroll.com sind also verschieden."
+
+- anilistId: 199588
+  title: "Gals Can’t Be Kind to Otaku!?"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/series/GT00371662
+  dub: false
+  checkedAt: '2026-09-13'
+  note: "Alle Folgen nur mit Untertiteln, kein Eintrag „(German Dub)“ (Daniel, 13.09.2026)."
+
+- anilistId: 101478
+  title: "Okko und ihre Geisterfreunde"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/amzn1.dv.gti.3cb88c42-8aba-78c5-3026-ee065e93e11e
+  checkedAt: '2026-09-13'
+  note: "Adressbeleg: Prime führt den Film über den Crunchyroll-Kanal (Abo crunchyrollde), Tonspuren laut Seite Deutsch und Japanisch (Daniel, 13.09.2026, Meldung 4417). Kanal-Titel, deshalb kein Sprachurteil. Die Meldung trug als Titel „Chatverlauf“ und ließ sich nicht zuordnen."
