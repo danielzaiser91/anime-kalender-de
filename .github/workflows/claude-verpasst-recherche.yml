@@ -141,7 +141,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # Block statt Einzeiler: „chore(data): …" läse YAML sonst als zweite Zuordnung.
+        #
+        # **Die Anmeldung wird vorher neu gesetzt.** Der Claude-Schritt richtet
+        # für sich ein eigenes Token als Git-Anmeldung ein und widerruft es am
+        # Ende. Der erste echte Lauf am 13.09.2026 war danach sauber recherchiert
+        # und scheiterte beim Push mit „Invalid username or token" — das
+        # Ergebnis war verloren. Ohne diese beiden Zeilen pusht hier niemand.
         run: |
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           bash tools/quellen-pr.sh "chore(data): Recherche zu ausgebliebenen Folgen"
 
       - name: Lauf abmelden

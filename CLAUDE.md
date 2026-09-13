@@ -1172,6 +1172,8 @@ Drei Riegel, jeder aus einer Falle, die sonst auf der Seite stünde: **„Zuletz
 
 **Eine neue Prüfung bewertet, was sich geändert hat, nicht den Altbestand.** Der erste Lauf am 13.09.2026 wurde rot, weil `--pruefen` alle Einträge nach den neuen Regeln maß: Die von Hand geschriebene Recherche zu Mushoku Tensei S3 (30.08.) hat 977 Zeichen und kein Quellenfeld, das es damals nicht gab. Claude hatte sie nicht angefasst, verworfen wurde trotzdem der ganze Lauf. Wer einer Datei eine Regel hinzufügt, fragt vorher: *Erfüllt der Bestand sie schon — und wenn nicht, prüft sie dann nur das Neue?*
 
+**Nach `claude-code-action` pusht ein späterer Schritt nicht mehr mit der Anmeldung des Checkouts.** Der zweite Lauf am 13.09.2026 war sauber recherchiert und scheiterte im Einreich-Schritt mit „Invalid username or token": Die Action setzt für sich ein eigenes Token als Git-Anmeldung und widerruft es am Ende. Das Ergebnis war verloren. Wer hinter dem Claude-Schritt noch pusht, setzt die Anmeldung vorher selbst neu (`extraheader` entfernen, `origin` mit `GITHUB_TOKEN`) — so steht es in `claude-verpasst-recherche.yml`.
+
 Die Anime2You-Zuordnung ist absichtlich eng (ganzer Name als Wortfolge, ohne Staffelzusatz, ab acht Zeichen): Gemessen am 13.09.2026 tragen nur 5 von 92 Vorschlägen ein Pausensignal, fast alle zu Disc-Terminen. Die Recherche fängt, was dieser Abgleich verpasst; ein Fehltreffer stünde dagegen als Grund auf der Seite.
 
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
