@@ -18,6 +18,8 @@ export interface CuratedEntry {
   publisher?: string
   edition?: string
   note?: string
+  /** Warum der Eintrag so aussieht — für uns; erscheint nicht auf der Seite (siehe `Release.herkunft`). */
+  herkunft?: string
   /**
    * Zweitkandidaten für den Termin, jeweils mit Quelle.
    *

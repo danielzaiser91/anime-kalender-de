@@ -139,13 +139,13 @@ export function pruefeErgebnis(
         // Run – 2nd & 3rd STAGE" deckt elf Folgen ab, während der
         // AniList-Eintrag der Auftaktfolge auf 1 steht — beides stimmt.
         !s.firstEpisodeNumber &&
-        !r.note
+        (!r.note && !r.herkunft)
       ) {
         fehler.push(
           `${at}: ${s.episodeCount} Folgen für "${title.titleRomaji ?? title.id}", der ${title.episodes} hat — ` +
             `das sieht nach mehreren Staffeln in einem Eintrag aus`,
         )
-      } else if (diff > 0 && !s.episodeCountAssumed && !s.firstEpisodeNumber && !r.note) {
+      } else if (diff > 0 && !s.episodeCountAssumed && !s.firstEpisodeNumber && (!r.note && !r.herkunft)) {
         // Nur nach oben: Ein Release, das einen Teil einer langen Serie
         // abdeckt (Disney+ zeigt Naruto in Staffelpaketen), nennt zu Recht
         // weniger Folgen als der Gesamteintrag.

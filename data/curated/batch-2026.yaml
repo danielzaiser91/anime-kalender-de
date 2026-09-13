@@ -98,7 +98,7 @@
   titleDe: "Beelzebub"
   platform: netflix
   releaseType: batch
-  note: "Zum Start standen 24 der 60 Folgen bereit; die übrigen reicht Netflix nach."
+  herkunft: "Zum Start standen 24 der 60 Folgen bereit; die übrigen reicht Netflix nach."
   schedule:
     firstEpisodeDate: "2026-07-25"
     episodeCount: 24

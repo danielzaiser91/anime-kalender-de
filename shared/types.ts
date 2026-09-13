@@ -509,7 +509,22 @@ export interface Release {
   fsk?: Fsk
   publisher?: string
   edition?: string
+  /** Ein Hinweis für Besucher — steht im Detail-Panel und auf der Teilen-Seite. */
   note?: string
+  /**
+   * **Warum der Eintrag so aussieht — für uns, nicht für Besucher.**
+   *
+   * Daniel am 13.09.2026 zu „Zum Start am 19.08.2026 standen die Folgen 1 bis 3
+   * gemeinsam bereit": „das interessiert nicht als textform … das ist höchstens
+   * für uns interessant." Dieselbe Sorte waren die meisten der 288 Notizen:
+   * „Deutsche Fassung bei Crunchyroll — 12 Folgen mit belegtem Termin (Block …)",
+   * „Automatisch übernommen aus …", „ADN führt diese Staffel als Folgen …".
+   * Sie erklären unsere Zuordnung, nicht den Termin.
+   *
+   * Die Bestandsprüfung liest beide Felder: Ein erklärter Sonderfall bleibt
+   * erklärt, egal für wen die Erklärung gedacht ist.
+   */
+  herkunft?: string
   /**
    * Letzter belegter Kinotag — nur bei `platform: 'kino'`.
    *

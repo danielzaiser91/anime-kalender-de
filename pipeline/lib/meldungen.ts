@@ -381,7 +381,7 @@ export function releasesAus(
       releaseType: art,
       schedule: { firstEpisodeDate: tag },
       year: Number(tag.slice(0, 4)),
-      note: `Automatisch übernommen aus „${v.articleTitle}".`,
+      herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
       automatisch: true,
       sources: [v.articleUrl],
       quellen: [quelle],

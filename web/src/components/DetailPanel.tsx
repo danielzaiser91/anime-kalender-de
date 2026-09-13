@@ -272,9 +272,12 @@ function AntwortKasten({
   /**
    * **Was den Termin erklärt, steht beim Termin.**
    *
-   * `Release.note` trägt das, was aus keiner Zahl hervorgeht — „Zum Start
-   * standen 24 der 60 Folgen bereit", „der Tag steht noch nicht fest",
-   * „Netflix nennt den Termin auf der Titelseite; das Jahr ist abgeleitet".
+   * `Release.note` trägt das, was aus keiner Zahl hervorgeht — „der Tag steht
+   * noch nicht fest", „Netflix nennt den Termin auf der Titelseite; das Jahr
+   * ist abgeleitet". Was nur unsere Zuordnung erklärt („Zum Start standen die
+   * Folgen 1 bis 3 bereit", „Automatisch übernommen aus …"), steht seit dem
+   * 13.09.2026 in `Release.herkunft` und nicht hier (Daniel: „das ist höchstens
+   * für uns interessant").
    * **271 Releases haben eine**, und sie standen bis zum 04.09.2026 als
    * orangefarbener Kasten im Terminbereich.
    *

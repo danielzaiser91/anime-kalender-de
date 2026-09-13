@@ -2288,7 +2288,8 @@ function main(): void {
       fsk,
       publisher: entry.publisher,
       edition: entry.edition,
-      note: entry.note ?? durchzaehlungHinweis,
+      note: entry.note,
+      herkunft: entry.herkunft ?? durchzaehlungHinweis,
       disputedDates: entry.disputedDates,
       schedule,
       // Aus dem Termin, der am Ende dasteht — nicht aus dem kuratierten. Der
@@ -2380,7 +2381,7 @@ function main(): void {
         platformUrl: slot.seriesUrl,
         releaseType: 'batch',
         fsk: title?.fsk,
-        note: 'Crunchyroll führt dazu bisher genau einen deutschen Termin.',
+        herkunft: 'Crunchyroll führt dazu bisher genau einen deutschen Termin.',
         schedule: { firstEpisodeDate: date, time: slot.time, episodeCount: 1 },
         year: Number(date.slice(0, 4)),
         sources: [CR_CALENDAR_URL],
@@ -2447,7 +2448,7 @@ function main(): void {
       platformUrl: slot.seriesUrl,
       releaseType: 'weekly',
       fsk: title?.fsk,
-      note,
+      herkunft: note,
       schedule: {
         firstEpisodeDate,
         firstEpisodeNumber,
@@ -2705,7 +2706,7 @@ function main(): void {
            */
           dateMeaning: block.rhythm === 'weekly' ? undefined : 'available-from',
           fsk: title?.fsk ?? fskFromAdnAge(show.age),
-          note: adnHinweis(block, abschnitt, teile.length, anzahl, title, unscharf),
+          herkunft: adnHinweis(block, abschnitt, teile.length, anzahl, title, unscharf),
           schedule: {
             firstEpisodeDate: first.date,
             time: first.time,
@@ -4578,7 +4579,7 @@ function main(): void {
         */
         dateMeaning: t.rhythmus === 'batch' ? 'available-from' : undefined,
         fsk: title.fsk,
-        note: `Deutsche Fassung bei Crunchyroll — ${t.datiert} Folgen mit belegtem Termin (Block „${t.blockName}“)`,
+        herkunft: `Deutsche Fassung bei Crunchyroll — ${t.datiert} Folgen mit belegtem Termin (Block „${t.blockName}“)`,
         year: Number(t.firstEpisodeDate.slice(0, 4)),
         sources: [adresse ?? 'https://www.crunchyroll.com/de'],
       })

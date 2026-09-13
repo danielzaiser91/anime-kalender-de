@@ -1150,6 +1150,14 @@ Gemessen am 13.09.2026 von Daniel an zwei Titeln, beide mit Bild:
 
 Der Lauf hatte die OVA über ihren eigenen Block beurteilt und ein **Nein** gebucht, obwohl dieselbe Folge im Dub-Block synchronisiert steckt; die Staffel blieb offen, weil er eine Staffel mit genau 12 Folgen suchte. **Vor einem Nein zu einer Nebenausgabe wird deshalb nach einem deutschen Block gesucht, der eine Hauptserie der Reihe um die Nebenausgabe übersteigt**, und eine Staffel darf als Summe aus Werk plus Nebenausgabe derselben Reihe aufgehen (fetch-crunchyroll-offene.ts). Dieselbe Rechnung wie „Der Anbieter zählt kumulativ“ bei Netflix, nur eine Ebene tiefer.
 
+## Eine Notiz für Besucher ist keine Notiz über unsere Zuordnung
+
+Daniel am 13.09.2026 zu „Zum Start am 19.08.2026 standen die Folgen 1 bis 3 gemeinsam bereit, danach geht es im Wochentakt weiter" im Antwort-Kasten: „das interessiert nicht als textform, wir schreiben bereits wieviele folgen draussen sind … rückblickende gebündelte releases sind uninteressant … das ist höchstens für uns interessant."
+
+Gezählt waren es 288 Notizen, und die meisten gehörten zu dieser Sorte — erzeugt vom Bau, um eine Zuordnung zu erklären: „Deutsche Fassung bei Crunchyroll — 12 Folgen mit belegtem Termin (Block …)" (232×), „ADN führt diese Staffel als Folgen …", „Crunchyroll führt dazu bisher genau einen deutschen Termin", „Crunchyroll zählt die Reihe durch", „Automatisch übernommen aus …". Seitdem gibt es zwei Felder: `note` für Besucher (ein Termin, dessen Tag nicht feststeht; ein Film ohne FSK-Freigabe; Tonspuren einer Disc) und `herkunft` für uns. Panel und Teilen-Seiten zeigen nur `note`; die Bestandsprüfung liest beide als Erklärung einer auffälligen Folgenzahl.
+
+**Prüffrage vor jeder neuen Notiz: Macht der Besucher etwas anders, weil er sie liest?** Wenn nein, ist es `herkunft`.
+
 ## Ein Teil gehört zu seiner Staffel — gezählt wird über den Namen, nicht über die Position
 
 Daniel am 13.09.2026 an Mushoku Tensei, mit zwei Bildern: Über der dritten Staffel stand „Staffel 5", und der erste Listeneintrag hieß wie die Reihe. AniList führt die zweite Hälfte einer geteilten Staffel als eigenen Eintrag („Cour 2"), und Kopf wie Liste zählten nach Position — Kopf über `istStaffel`, Liste über `istHauptstaffel`, zwei Rechnungen für dieselbe Frage. Seitdem beantwortet `staffelBeschriftungen()` in `shared/titles.ts` sie für beide: Ein Name mit Staffelnummer setzt die Staffel, ein Name nur mit „Teil N" gehört zur Staffel davor, und hat eine Staffel Teile, heißen alle „Staffel N - Teil M" (bei einer einzigen Staffel nur „Teil M"). Nummern gibt es erst ab zwei Staffeln ohne eigenen Namen, sonst hieße One Piece wieder „Staffel 1".
