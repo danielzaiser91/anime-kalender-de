@@ -22,6 +22,7 @@ import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, titleStatus } from '../shared/logic.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
+import { hauptstaffeln, staffelBeschriftungen } from '../shared/titles.ts'
 import {
   alsEinBlock,
   bestimmeRhythmus,
@@ -2671,6 +2672,56 @@ console.log('\nVerpasster Termin:')
   pruefe('ein zu kurzer Name trifft nicht', !artikelNenntTitel('»Frieren« entfällt diese Woche', ['Frieren']))
 }
 
+/*
+  **Ein Teil gehört zu seiner Staffel** — Mushoku Tensei, wörtlich aus
+  `franchises.json` (13.09.2026). Im Kopf stand „Staffel 5" über Staffel 3.
+*/
+console.log('\nStaffel und Teil zählen:')
+{
+  const reihe = 'Mushoku Tensei: Jobless Reincarnation'
+  const mushoku = [
+    { id: 108465, name: 'Mushoku Tensei: Jobless Reincarnation', format: 'TV', jpStart: '2021-01-11' },
+    { id: 127720, name: 'Mushoku Tensei: Jobless Reincarnation Cour 2', format: 'TV', jpStart: '2021-10-04' },
+    { id: 141534, name: 'Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd', format: 'SPECIAL', jpStart: '2022-03-16', beiwerk: true },
+    { id: 146065, name: 'Mushoku Tensei: Jobless Reincarnation — Season 2', format: 'TV', jpStart: '2023-07-03' },
+    { id: 166873, name: 'Mushoku Tensei: Jobless Reincarnation - Staffel 2 Cour 2', format: 'TV', jpStart: '2024-04-08' },
+    { id: 178789, name: 'Mushoku Tensei: Jobless Reincarnation — Season 3', format: 'TV', jpStart: '2026-07-04' },
+  ]
+  const b = staffelBeschriftungen(hauptstaffeln(mushoku), reihe)
+  const erwartet: [number, string][] = [
+    [108465, 'Staffel 1 - Teil 1'],
+    [127720, 'Staffel 1 - Teil 2'],
+    [146065, 'Staffel 2 - Teil 1'],
+    [166873, 'Staffel 2 - Teil 2'],
+    [178789, 'Staffel 3'],
+  ]
+  pruefe(
+    'Mushoku Tensei: drei Staffeln, zwei davon mit Teilen',
+    erwartet.every(([id, text]) => b.get(id) === text) && !b.has(141534),
+    Object.fromEntries(b),
+  )
+  const onePiece = staffelBeschriftungen(
+    [
+      { id: 21, name: 'One Piece', jpStart: '1999-10-20' },
+      { id: 2, name: 'One Piece Log: Fish-Man Island Saga', jpStart: '2024-04-01' },
+    ],
+    'One Piece',
+  )
+  pruefe('eine Staffel ohne Namen neben einer benannten bekommt keine Nummer', onePiece.size === 0, Object.fromEntries(onePiece))
+  const zweiTeile = staffelBeschriftungen(
+    [
+      { id: 1, name: 'Vinland Saga', jpStart: '2019-07-08' },
+      { id: 2, name: 'Vinland Saga Part 2', jpStart: '2019-10-01' },
+    ],
+    'Vinland Saga',
+  )
+  pruefe(
+    'eine einzige geteilte Staffel heißt Teil 1 und Teil 2, ohne Staffelnummer',
+    zweiTeile.get(1) === 'Teil 1' && zweiTeile.get(2) === 'Teil 2',
+    Object.fromEntries(zweiTeile),
+  )
+}
+
 /* ══ Ein Abruf löscht seinen eigenen Ertrag nicht ═══════════════════════════ */
 {
   /*
@@ -3748,7 +3799,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'die Reihe trennt Beiwerk von Hauptstaffeln',
-    bau.includes('beiwerk:') && panel.includes('!m.beiwerk'),
+    /* Die Hauptstaffel-Regel steht seit dem 13.09.2026 in shared/titles.ts — Kopf und Liste teilen sie. */
+    bau.includes('beiwerk:') && readFileSync('shared/titles.ts', 'utf8').includes('!m.beiwerk'),
     'ohne die PARENT-Kante ist bei einer ONA-Reihe alles Hauptserie',
   )
   pruefe(

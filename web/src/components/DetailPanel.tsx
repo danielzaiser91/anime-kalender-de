@@ -13,8 +13,9 @@ import type { FranchiseMember, Franchises } from '@shared/types.ts'
 import {
   anzeigeName,
   eindeutschenStaffel,
+  hauptstaffeln,
+  staffelBeschriftungen,
   istStaffel,
-  nachAusstrahlung,
   ohneStaffelEins,
   reihenVertreter,
 } from '@shared/titles.ts'
@@ -2315,9 +2316,24 @@ export function DetailPanel({
      * Jahreszahl als Überschrift beantwortet keine Frage; welcher Teil gewählt
      * ist, zeigt das Karussell.
      */
-    if (rest) return rest
-
     /*
+      **Staffel und Teil kommen aus derselben Zählung wie in der Liste.**
+
+      Über Mushoku Tensei Staffel 3 stand „Staffel 5": Gezählt wurde die
+      Position unter allen Fernsehstaffeln, und AniList führt die beiden
+      zweiten Hälften („Cour 2") als eigene Einträge (Daniel, 13.09.2026).
+      `staffelBeschriftungen()` ordnet einen Teil seiner Staffel zu.
+    */
+    const beschriftung = staffelBeschriftungen(hauptstaffeln(reihenTeile), reihenName).get(title.id)
+    if (beschriftung) return beschriftung
+    if (rest) return rest
+    return voll
+  }, [title, reihenName, reihenTeile])
+
+  /*
+    Vorher stand hier eine Zählung nach Position, mit dieser Begründung — sie
+    gilt weiter, die Rechnung steht jetzt in `staffelBeschriftungen()`:
+
       **Die erste Staffel heißt „Staffel 1", nicht gar nichts.**
 
       Daniel am 02.09.2026 an „Die Tagebücher der Apothekerin": „es fehlt
@@ -2337,14 +2353,7 @@ export function DetailPanel({
 
       Hat die Reihe nur eine Staffel, gibt es nichts zu unterscheiden, und die
       Zeile bleibt weg wie bisher.
-    */
-    const staffeln = reihe.filter((m) => istStaffel(m.format)).slice().sort(nachAusstrahlung)
-    if (staffeln.length > 1) {
-      const platz = staffeln.findIndex((m) => m.id === title.id)
-      if (platz >= 0) return t('detail.staffelNummer', { n: platz + 1 })
-    }
-    return voll
-  }, [title, reihenName, reihe, t])
+  */
 
   /**
    * Beim Wechsel auf eine Staffel ohne Termin fehlen die Metadaten — die liegen
@@ -3891,9 +3900,8 @@ export function DetailPanel({
                     der es gehört (`PARENT`), eine Staffel tut das nicht. Der
                     Bau reicht das als `beiwerk` durch.
                   */
-                  const hatTv = reihenTeile.some((m) => m.format === 'TV')
-                  const istHauptstaffel = (m: FranchiseMember) =>
-                    hatTv ? m.format === 'TV' : istStaffel(m.format) && !m.beiwerk
+                  const hauptIds = new Set(hauptstaffeln(reihenTeile).map((m) => m.id))
+                  const istHauptstaffel = (m: FranchiseMember) => hauptIds.has(m.id)
                   /*
                     **Was noch nicht da ist, gehört trotzdem zu seiner Art.**
 
@@ -3957,17 +3965,8 @@ export function DetailPanel({
                     tragen. Hat ein Teil einen — „Log: Fish-Man Island Saga" —,
                     steht der da, und eine Nummer bräuchte er nicht.
                   */
-                  const hauptstaffeln = reihenTeile.filter(istHauptstaffel).slice().sort(nachJahr)
-                  const ohneEigenenNamen = hauptstaffeln.filter((m) => {
-                    const voll = eindeutschenStaffel(m.name)
-                    return !voll.toLowerCase().startsWith(reihenName.toLowerCase())
-                      ? false
-                      : voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim() === ''
-                  })
-                  const staffelNr = new Map<number, number>()
-                  if (ohneEigenenNamen.length > 1) {
-                    hauptstaffeln.forEach((m, i) => staffelNr.set(m.id, i + 1))
-                  }
+                  /* Seit dem 13.09.2026 zählt `staffelBeschriftungen()` — auch „Teil 2" gehört zu seiner Staffel. */
+                  const staffelLabel = staffelBeschriftungen(reihenTeile.filter(istHauptstaffel), reihenName)
 
                   const zeile = (m: FranchiseMember, offen: boolean) => {
                     const gewaehlt = m.id === title.id
@@ -4013,9 +4012,8 @@ export function DetailPanel({
                     */
                     const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
                     if (istHauptstaffel(m) && staffelTeil && rest !== staffelTeil[1]) rest = staffelTeil[1]!
-                    /* Und die erste Staffel heißt „Staffel 1", nicht wie die Reihe. */
-                    const nr = staffelNr.get(m.id)
-                    const beschriftung = rest || (nr ? t('detail.staffelNummer', { n: nr }) : voll)
+                    /* Und die erste Staffel heißt „Staffel 1", ein Teil „Staffel 1 - Teil 2". */
+                    const beschriftung = (istHauptstaffel(m) && staffelLabel.get(m.id)) || rest || voll
                     return (
                       <button
                         key={m.id}

@@ -29,7 +29,9 @@ export function eindeutschenStaffel(name: string): string {
     .replace(/\bSeasons\s+(\d+)\s*(?:&|and|\+|–|-)\s*(\d+)/gi, 'Staffeln $1 & $2')
     .replace(/\b(\d+)(?:st|nd|rd|th)\s+Season\b/gi, 'Staffel $1')
     .replace(/\bSeason\s+(\d+)\b/gi, 'Staffel $1')
-    .replace(/\bPart\s+(\d+)\b/gi, 'Teil $1')
+    // Auch „Part.2" — so heißt der zweite Teil von „Kengan Ashura: Staffel 2" bei
+    // AniList; ohne Punkt-Variante blieb er ungezählt (13.09.2026).
+    .replace(/\bPart\.?\s*(\d+)\b/gi, 'Teil $1')
     /*
       **„Cour" und „Part" meinen dasselbe — dann heißen sie auch gleich.**
 
@@ -65,6 +67,85 @@ export function eindeutschenStaffel(name: string): string {
 /** Der Name, unter dem ein Titel angezeigt wird — deutsch, wo vorhanden. */
 export function anzeigeName(title: Pick<Title, 'titleDe' | 'titleEn' | 'titleRomaji' | 'id'>): string {
   return eindeutschenStaffel(title.titleDe ?? title.titleEn ?? title.titleRomaji ?? `#${title.id}`)
+}
+
+/**
+ * Die Hauptstaffeln einer Reihe — **eine** Regel für Kopf und Liste des Panels.
+ *
+ * Gibt es echte Fernsehstaffeln, zählen nur die; sonst die ONAs, ohne Beiwerk.
+ * Die Begründung (Kurzformate, chinesische ONA-Specials) steht an der
+ * Reihenliste in `DetailPanel.tsx`.
+ */
+export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean }>(teile: T[]): T[] {
+  const hatTv = teile.some((m) => m.format === 'TV')
+  return teile.filter((m) => (hatTv ? m.format === 'TV' : istStaffel(m.format) && !m.beiwerk))
+}
+
+/**
+ * **Welche Staffel und welcher Teil ein Eintrag ist — gezählt, nicht an der Position abgelesen.**
+ *
+ * Daniel am 13.09.2026 an Mushoku Tensei, mit zwei Bildern: Im Kopf stand
+ * „Staffel 5" über der dritten Staffel, und der erste Eintrag der Liste hieß
+ * wie die Reihe statt „Staffel 1". AniList führt die zweite Hälfte einer
+ * geteilten Staffel als eigenen Eintrag („Cour 2"); gezählt wurde nach
+ * Position, und so wurden aus drei Staffeln fünf. Seine Vorgabe: „teil 2 …
+ * ist eig teil von der 1. staffel … unter staffel 1 gebündelt (teil 1 - teil 2)".
+ *
+ * Die Regeln, der Reihe nach über die Ausstrahlung:
+ *
+ * - Nennt der Name eine Staffel („Staffel 2", „Staffel 2 - Teil 2"), gilt sie.
+ * - Nennt er **nur** einen Teil ab 2, gehört er zur Staffel davor.
+ * - Nennt er nichts, ist er die nächste Staffel. Trägt er einen eigenen Namen
+ *   („Log: Fish-Man Island Saga"), behält er ihn und bekommt keine Beschriftung.
+ *
+ * Nummern gibt es nur, wo sie etwas unterscheiden: bei **mindestens zwei**
+ * Staffeln ohne eigenen Namen — sonst hieße One Piece wieder „Staffel 1"
+ * (Daniel, 03.09.2026). Hat eine Staffel Teile, heißen alle ihre Einträge
+ * „Staffel N - Teil M", der erste also „Teil 1".
+ *
+ * Zurück kommt nur, was eine Beschriftung bekommt; alles andere zeigt weiter
+ * seinen Namen.
+ */
+export function staffelBeschriftungen<T extends { id: number; name: string; jpYear?: number; jpStart?: string }>(
+  staffeln: T[],
+  reihenName: string,
+): Map<number, string> {
+  const zeit = (m: T) => m.jpStart ?? String(m.jpYear ?? 9999)
+  const sortiert = staffeln.slice().sort((a, b) => zeit(a).localeCompare(zeit(b)) || a.id - b.id)
+  const eintraege: { id: number; staffel: number; teil?: number; eigenerName: boolean }[] = []
+  let aktuell = 0
+  for (const m of sortiert) {
+    const voll = eindeutschenStaffel(m.name)
+    const rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
+      ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()
+      : voll
+    const mitStaffel = /(?:^|\s)Staffel\s+(\d+)(?:\s*-\s*Teil\s+(\d+))?\s*$/i.exec(rest)
+    const nurTeil = /^Teil\s+(\d+)$/i.exec(rest)
+    if (mitStaffel) {
+      aktuell = Number(mitStaffel[1])
+      eintraege.push({ id: m.id, staffel: aktuell, teil: mitStaffel[2] ? Number(mitStaffel[2]) : undefined, eigenerName: false })
+    } else if (nurTeil) {
+      const teil = Number(nurTeil[1])
+      if (teil === 1 || aktuell === 0) aktuell += 1
+      eintraege.push({ id: m.id, staffel: aktuell, teil, eigenerName: false })
+    } else {
+      aktuell += 1
+      eintraege.push({ id: m.id, staffel: aktuell, eigenerName: rest !== '' })
+    }
+  }
+  const ohneNamen = new Set(eintraege.filter((e) => !e.eigenerName).map((e) => e.staffel))
+  const mitTeilen = new Set(eintraege.filter((e) => (e.teil ?? 1) >= 2).map((e) => e.staffel))
+  const beschriftung = new Map<number, string>()
+  for (const e of eintraege) {
+    if (e.eigenerName) continue
+    const teil = mitTeilen.has(e.staffel) ? (e.teil ?? 1) : undefined
+    if (ohneNamen.size < 2) {
+      if (teil) beschriftung.set(e.id, `Teil ${teil}`)
+      continue
+    }
+    beschriftung.set(e.id, teil ? `Staffel ${e.staffel} - Teil ${teil}` : `Staffel ${e.staffel}`)
+  }
+  return beschriftung
 }
 
 const JAHRESZEIT: Record<string, number> = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
