@@ -1150,6 +1150,10 @@ Gemessen am 13.09.2026 von Daniel an zwei Titeln, beide mit Bild:
 
 Der Lauf hatte die OVA über ihren eigenen Block beurteilt und ein **Nein** gebucht, obwohl dieselbe Folge im Dub-Block synchronisiert steckt; die Staffel blieb offen, weil er eine Staffel mit genau 12 Folgen suchte. **Vor einem Nein zu einer Nebenausgabe wird deshalb nach einem deutschen Block gesucht, der eine Hauptserie der Reihe um die Nebenausgabe übersteigt**, und eine Staffel darf als Summe aus Werk plus Nebenausgabe derselben Reihe aufgehen (fetch-crunchyroll-offene.ts). Dieselbe Rechnung wie „Der Anbieter zählt kumulativ“ bei Netflix, nur eine Ebene tiefer.
 
+## Ein verstrichener Termin ist keine erschienene Folge — und das entscheidet eine Funktion
+
+Daniel am 13.09.2026, mit zwei Bildern: Die Kalenderkachel trug „⚠ nicht erschienen", das Detail-Panel daneben „8 von 13 Folgen erschienen" und „Nächste Folge (Folge 9)". Die Kachel las `schedule.verpasst`, die Zählung nur Datum und Uhrzeit (`istErschienen`). Seitdem steigt `istErschienen()` bei `istAusgeblieben()` aus, und **jede** Stelle, die Folgen zählt oder einen nächsten Termin wählt, geht über diese beiden: Panel-Kopf und Fortschritt, „Merken", der Favoriten-Zeitstrahl, der ICS-Titel im Abo. Wer eine neue Anzeige baut, die „erschienen" oder „nächste Folge" sagt, nimmt diese Funktionen und keinen eigenen Datumsvergleich; `EventCard.tsx:88` (`vergangen`) ist bewusst ein reiner Datumsvergleich, weil er nur die Helligkeit steuert.
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim

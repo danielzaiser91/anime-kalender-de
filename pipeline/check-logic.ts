@@ -2624,6 +2624,22 @@ console.log('\nVerpasster Termin:')
       ohneErsatz.find((e) => e.episode === 7)?.date === '2026-09-06',
     ohneErsatz.find((e) => e.episode === 7)?.date,
   )
+  /*
+    Daniel am 13.09.2026: Kalender „⚠ nicht erschienen", Panel „8 von 13
+    erschienen". Die Zählung läuft über `istErschienen`, also hält es die fest.
+  */
+  const spaeter = new Date('2026-09-01T12:00:00Z')
+  const fuenf = ohneErsatz.find((e) => e.episode === 5)!
+  const ausgefallen = ohneErsatz.find((e) => e.episode === 6)!
+  pruefe(
+    'ein ausgebliebener Termin zaehlt nicht als erschienen, die Folge davor schon',
+    !istErschienen(ausgefallen, spaeter) && istErschienen(fuenf, spaeter),
+    { sechs: istErschienen(ausgefallen, spaeter), fuenf: istErschienen(fuenf, spaeter) },
+  )
+  pruefe(
+    'nachgeliefert zaehlt wieder als erschienen',
+    istErschienen({ ...ausgefallen, verpasst: { ...ausgefallen.verpasst!, erschienenAm: '2026-08-31T10:00:00Z' } }, spaeter),
+  )
 }
 
 /* ══ Ein Abruf löscht seinen eigenen Ertrag nicht ═══════════════════════════ */

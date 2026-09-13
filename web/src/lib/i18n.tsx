@@ -117,7 +117,9 @@ const TEXTE = {
   'card.missedBadge': 'nicht erschienen',
   'card.missedCount': 'beim Anbieter stehen {n} Folgen',
   'card.missedNext': 'neu erwartet: {d}',
-  'card.missedCheck': 'wir sehen stündlich nach',
+  // „stündlich" stimmte nie: GitHub startet den Lauf im Mittel alle 4,7 Stunden
+  // (gemessen 03.09.2026, CLAUDE.md „Der stündliche Lauf läuft fünfmal am Tag").
+  'card.missedCheck': 'wir sehen mehrmals täglich nach',
   'card.missedLate': 'erschien {d} — {h} Stunden später als angekündigt',
   'card.missedLateBadge': 'kam {d}',
   // **Der Tastenhinweis nur dort, wo es Tasten gibt.** Auf einem Handy steht
@@ -479,6 +481,11 @@ const TEXTE = {
   // Die Uhrzeit hängt hinten an, wo eine bekannt ist — „voraussichtlich", weil
   // der einzelne Termin aus dem gemessenen Rhythmus fortgeschrieben ist.
   'antwort.erscheintUmZeit': '{termin}, voraussichtlich um {zeit} Uhr.',
+  // Die nächste Folge kam nicht zum angekündigten Termin (`schedule.verpasst`).
+  'antwort.ausgeblieben': 'Folge {n} ist nicht erschienen',
+  'antwort.angekuendigtFuer': 'angekündigt für {tag} den {datum}.',
+  'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
+  'antwort.verschobenVon': 'verschoben vom {datum}',
   'antwort.relHeute': 'heute',
   'antwort.relMorgen': 'morgen',
   'antwort.relInTagen': 'in {count} Tagen',

@@ -1,6 +1,7 @@
 import type { ReleaseEvent } from './types.ts'
 import { PLATFORMS, RELEASE_TYPES } from './types.ts'
 import { addDays, berlinToUtc, toIcsStamp } from './time.ts'
+import { istAusgeblieben } from './logic.ts'
 
 const PRODID = '-//anime-kalender-de//Anime-Kalender DE//DE'
 
@@ -29,8 +30,15 @@ export interface IcsOptions {
 
 export function eventSummary(ev: ReleaseEvent): string {
   const type = RELEASE_TYPES[ev.releaseType]
+  /*
+    Wer den Kalender abonniert hat, sieht den verstrichenen Termin sonst als
+    gewöhnliche Folge — dieselbe Lücke, die am 13.09.2026 im Detail-Panel
+    auffiel. Der Eintrag bleibt stehen (seine UID ändert sich nicht), er sagt
+    nur, was aus ihm geworden ist.
+  */
   if (ev.releaseType === 'weekly' && ev.episode) {
-    return `${ev.name} – Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}`
+    const vorn = istAusgeblieben(ev) ? '⚠ nicht erschienen: ' : ''
+    return `${vorn}${ev.name} – Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}`
   }
   if (ev.releaseType === 'disc') return `${ev.name} (${type.short})`
   return ev.name

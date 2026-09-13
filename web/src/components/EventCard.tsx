@@ -1,6 +1,7 @@
 import type { Fsk, ReleaseEvent, Title } from '@shared/types.ts'
 import { RELEASE_TYPES } from '@shared/types.ts'
 import { todayIso } from '@shared/time.ts'
+import { istAusgeblieben } from '@shared/logic.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon,
@@ -70,7 +71,7 @@ export function EventCard({
     was daraus geworden ist. Nachgeholt (`erschienenAm`) zählt nicht mehr dazu:
     Dann ist die Folge da, und der Termin war nur zu früh.
   */
-  const ueberholt = Boolean(event.verpasst && !event.verpasst.erschienenAm)
+  const ueberholt = istAusgeblieben(event)
 
   /*
     **Was vorbei ist, tritt zurück.**

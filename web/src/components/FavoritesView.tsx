@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Release, Title } from '@shared/types.ts'
 import { loadAllTitles, type Dataset } from '../lib/data.ts'
-import { lastEpisodeDate, releaseStatus } from '@shared/logic.ts'
+import { istAusgeblieben, lastEpisodeDate, releaseStatus } from '@shared/logic.ts'
 import { addDays, formatDate, todayIso } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { favoritSeit } from '../lib/favorites.ts'
@@ -196,13 +196,14 @@ export function FavoritesView({
   /** Die vierzehn Tage des Zeitstrahls, mit den Folgen je Tag. */
   const strahl = useMemo(() => {
     const von = addDays(heute, -TAGE_ZURUECK)
-    const tage: { datum: string; anzahl: number; namen: string[] }[] = []
+    const tage: { datum: string; anzahl: number; ausgeblieben: number; namen: string[] }[] = []
     for (let i = 0; i <= TAGE_ZURUECK + TAGE_VORAUS; i++) {
       const datum = addDays(von, i)
       const treffer = (data.eventsByDate.get(datum) ?? []).filter((e) => favorites.has(e.titleId))
       tage.push({
         datum,
         anzahl: treffer.length,
+        ausgeblieben: treffer.filter(istAusgeblieben).length,
         namen: [...new Set(treffer.map((e) => data.titleById.get(e.titleId)?.titleDe ?? ''))].filter(Boolean),
       })
     }
@@ -438,13 +439,14 @@ function Zeitstrahl({
   gewaehlt,
   onWaehlen,
 }: {
-  tage: { datum: string; anzahl: number; namen: string[] }[]
+  tage: { datum: string; anzahl: number; ausgeblieben: number; namen: string[] }[]
   heute: string
   gewaehlt: string | null
   onWaehlen: (datum: string) => void
 }) {
   const { t } = useLang()
-  const erschienen = tage.filter((d) => d.datum < heute).reduce((n, d) => n + d.anzahl, 0)
+  /* Ein verstrichener Termin ohne Folge ist nicht „erschienen" (13.09.2026). */
+  const erschienen = tage.filter((d) => d.datum < heute).reduce((n, d) => n + d.anzahl - d.ausgeblieben, 0)
   const kommt = tage.filter((d) => d.datum > heute).reduce((n, d) => n + d.anzahl, 0)
 
   return (

@@ -167,10 +167,28 @@ export function titleStatus(
  * offen".
  */
 export function istErschienen(
-  ereignis: { date: string; time?: string },
+  ereignis: { date: string; time?: string; verpasst?: { erschienenAm?: string } },
   jetzt: Date = new Date(),
 ): boolean {
+  /*
+    **Ein verstrichener Termin ist keine erschienene Folge.**
+
+    Daniel am 13.09.2026, mit zwei Bildern: Im Kalender stand „You and I Are
+    Polar Opposites" Folge 8 mit „⚠ nicht erschienen", im Detail-Panel
+    daneben „8 von 13 Folgen erschienen" und „Nächste Folge (Folge 9)". Die
+    Kachel las `verpasst`, die Zählung nur die Uhrzeit — zwei Leitungen für
+    dieselbe Frage. Seitdem beantwortet diese Funktion sie für alle.
+  */
+  if (istAusgeblieben(ereignis)) return false
   return berlinToUtc(ereignis.date, ereignis.time ?? '23:59').getTime() <= jetzt.getTime()
+}
+
+/**
+ * Hat der Anbieter diesen Termin verstreichen lassen, ohne die Folge bisher
+ * nachzuliefern? Nachgeholt (`erschienenAm`) zählt nicht mehr dazu.
+ */
+export function istAusgeblieben(ereignis: { verpasst?: { erschienenAm?: string } }): boolean {
+  return Boolean(ereignis.verpasst && !ereignis.verpasst.erschienenAm)
 }
 
 export function expandEvents(release: Release): ReleaseEvent[] {

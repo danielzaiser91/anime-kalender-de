@@ -5,7 +5,7 @@ import type { Meldung, Release, ReleaseEvent, Title, WatchLink } from '@shared/t
 import { dubAbdeckung, dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
-import { expandEvents, titleStatus, istErschienen } from '@shared/logic.ts'
+import { expandEvents, titleStatus, istErschienen, istAusgeblieben } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { addDays, formatDate, monthName, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -97,7 +97,16 @@ function ShareIcon({ slug, name }: { slug: string; name: string }) {
 
 /** Was die Antwortzeile zu sagen hat — je nach Lage des Titels. */
 type Antwort =
-  | { art: 'laeuft'; haupt: ReleaseEvent; rest: number; raus: number; gesamt?: number; letzter?: string }
+  | {
+      art: 'laeuft'
+      haupt: ReleaseEvent
+      rest: number
+      raus: number
+      gesamt?: number
+      letzter?: string
+      /** Der verstrichene Tag, wenn die nächste Folge auf einem Ersatztermin liegt. */
+      verschobenVon?: string
+    }
   | { art: 'fertig'; raus?: number; gesamt?: number }
   /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
   | { art: 'teilweise'; raus: number; gesamt: number }
@@ -358,7 +367,24 @@ function AntwortKasten({
     const mitZeit = e.time
       ? T('antwort.erscheintUmZeit', { termin: termin.replace(/\.$/, ''), zeit: e.time })
       : termin
-    haupt = (
+    /*
+      **Ist die nächste Folge ausgeblieben, sagt der Kasten das zuerst** (Daniel,
+      13.09.2026: „die info, das ein titel nicht zur versprochenen uhrzeit
+      erschienen ist muss auch im detail panel stehen"). Die Kachel im Kalender
+      trug es längst; hier stand „Nächste Folge (Folge 9)", als wäre Folge 8 da.
+    */
+    const ausgeblieben = istAusgeblieben(e)
+    haupt = ausgeblieben ? (
+      <>
+        <span className="text-rose-600 dark:text-rose-400">⚠ {T('antwort.ausgeblieben', { n: e.episode ?? '' })}</span>
+        <span className="font-normal text-slate-700 dark:text-slate-300">
+          {', '}
+          {e.time
+            ? T('antwort.angekuendigtFuerZeit', { tag: weekdayName(e.date), datum: formatDate(e.date), zeit: e.time })
+            : T('antwort.angekuendigtFuer', { tag: weekdayName(e.date), datum: formatDate(e.date) })}
+        </span>
+      </>
+    ) : (
       <>
         {betont(kopf)} <span className="font-normal text-slate-700 dark:text-slate-300">{mitZeit}</span>
       </>
@@ -398,7 +424,11 @@ function AntwortKasten({
       antwort.letzter && antwort.rest > 1
         ? T('antwort.nochFolgen', { count: antwort.rest, datum: formatDate(antwort.letzter) })
         : T('antwort.letzteFolge'),
-    ].join(' · ')
+      antwort.verschobenVon && T('antwort.verschobenVon', { datum: formatDate(antwort.verschobenVon) }),
+      ausgeblieben && T('card.missedCheck'),
+    ]
+      .filter(Boolean)
+      .join(' · ')
     anteil = antwort.gesamt ? Math.round((antwort.raus / antwort.gesamt) * 100) : undefined
     /*
       **Die erschienenen Folgen sind die zweite betonte Angabe** (Daniel,
@@ -1426,7 +1456,8 @@ function MerkenKnopf({
       window.removeEventListener('resize', zu)
     }
   }, [merkenOffen])
-  const kuenftige = release ? expandEvents(release).filter((e) => e.date >= today) : []
+  /* Ein ausgebliebener Termin ist keiner, den man sich eintragen könnte. */
+  const kuenftige = release ? expandEvents(release).filter((e) => e.date >= today && !istAusgeblieben(e)) : []
   const ev = kuenftige[0]
   if (!ev || !release) return null
   return (
@@ -2399,8 +2430,16 @@ export function DetailPanel({
     const ohneDisc = releases.filter((r) => r.releaseType !== 'disc')
     const fuerKopf = ohneDisc.length ? ohneDisc : releases
     const alleEvents = fuerKopf.flatMap((r) => expandEvents(r))
-    const kuenftig = alleEvents
-      .filter((e) => !istErschienen(e))
+    const offen = alleEvents.filter((e) => !istErschienen(e))
+    /*
+      **Eine ausgebliebene Folge mit Ersatztermin steht zweimal da — gezählt wird sie einmal.**
+
+      `expandEvents` führt den verstrichenen Tag weiter (durchgestrichen im
+      Kalender) und legt die Folge zusätzlich auf ihren recherchierten neuen
+      Termin. Für „noch X bis zum Finale" ist das eine Folge, nicht zwei.
+    */
+    const kuenftig = offen
+      .filter((e) => !istAusgeblieben(e) || !offen.some((o) => o.episode === e.episode && !istAusgeblieben(o)))
       .sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
     const raus = alleEvents.filter((e) => istErschienen(e)).length
     /*
@@ -2508,6 +2547,9 @@ export function DetailPanel({
         raus,
         gesamt,
         letzter: kuenftig[kuenftig.length - 1]?.date,
+        verschobenVon: istAusgeblieben(n)
+          ? undefined
+          : offen.find((o) => istAusgeblieben(o) && o.episode === n.episode)?.date,
       }
     }
     if (title.format === 'MOVIE') {
