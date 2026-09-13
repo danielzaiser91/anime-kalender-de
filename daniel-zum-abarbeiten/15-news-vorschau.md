@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-12. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-13. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-64 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+65 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -16,9 +16,10 @@ Stand: 2026-09-12. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-09-29, 2026-09 (Monat) | netflix | ✅ zugesagt | [Neuer Netflix-Trailer zur »LEGO One Piece«-Miniserie](https://www.anime2you.de/news/1043281/netflix-lego-one-piece-neuer-trailer/) |
 | 2026-09 (Monat) | netflix | – unklar | [Netflix: Alle Anime-Neuzugänge im September 2026](https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/) |
 | 2026-09 (Monat) | crunchyroll | ✅ zugesagt | [Deutsche Synchro von Teil 2 der vierten »Re:ZERO«-Staffel startet später](https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/) |
-| 2026-09-12, 2026-09-20 | ? | – unklar | [Anime Planet startet große »End of Summer«-Rabattaktion](https://www.anime2you.de/news/1048476/anime-planet-end-of-summer-rabattaktion/) |
-| 2026-09-12, 2026-09-30 | netflix | – unklar | [Netflix entfernt acht Anime-Titel aus seinem Programm](https://www.anime2you.de/news/1045817/netflix-entfernt-quintuplets-und-mehr/) |
+| 2026-09-20 | ? | – unklar | [Anime Planet startet große »End of Summer«-Rabattaktion](https://www.anime2you.de/news/1048476/anime-planet-end-of-summer-rabattaktion/) |
 | 2026-09-29 | netflix | – unklar | [Netflix-Termin des dritten »Mononoke«-Films + Trailer](https://www.anime2you.de/news/1042775/dritter-mononoke-film-netflix-termin/) |
+| 2026-09-30 | netflix | – unklar | [Netflix entfernt acht Anime-Titel aus seinem Programm](https://www.anime2you.de/news/1045817/netflix-entfernt-quintuplets-und-mehr/) |
+| 2026-10-27, 2026-10 (Monat) | kino | ✅ zugesagt | [Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«](https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/) |
 | 2026-10-09, 2026-10 (Monat) | ? | ✅ zugesagt | [Deutscher Synchro-Trailer zu »Avatar: Die sieben Häfen« + Visual](https://www.anime2you.de/news/1048545/avatar-die-sieben-haefen-deutscher-trailer/) |
 | 2026-10-03, 2026-10 (Monat) | primevideo | – unklar | [Prime Video zeigt »Seven Knights of Marronnier Kingdom« im Simulcast](https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/) |
 | 2026-10 (Monat) | ? | ✅ zugesagt | [Deutscher Trailer zu »My Love Story with Yamada-kun at Lv999« + Cast](https://www.anime2you.de/news/1047161/my-love-story-with-yamada-kun-at-lv999-deutscher-trailer/) |
@@ -47,37 +48,37 @@ Stand: 2026-09-12. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-19, 2026-11 (Monat) | disc | – unklar | [»Kubo Won’t Let Me Be Invisible« erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1044503/kubo-wont-let-me-be-invisible-blu-ray-komplettbox/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [Fantasy-Anime »Failure Frame« erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1044382/failure-frame-blu-ray-komplettbox/) |
 | 2026-11 (Monat) | crunchyroll, disc | – unklar | [Erste »Clevatess«-Staffel erscheint als Limited Edition auf Blu-ray](https://www.anime2you.de/news/1044108/clevatess-staffel-1-blu-ray-release/) |
-| 2026-11-20, 2026-11 (Monat) | crunchyroll, disc | – unklar | [28. »Detektiv Conan«-Film erscheint auf DVD und Blu-ray](https://www.anime2you.de/news/1044161/detektiv-conan-film-28-disc-release/) |
 
-… und 24 weitere.
+… und 25 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 6 |
-| adn-catalog | 2.8 Tage her | 115 |
-| anilist-voices | 2.8 Tage her | 0 |
-| anime-offline-database | 2.8 Tage her | 8876 |
+| adn-catalog | 3.8 Tage her | 115 |
+| anilist-voices | 3.8 Tage her | 0 |
+| anime-offline-database | 3.8 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 40 |
-| anisearch | 1.0 Tage her | 3179 |
-| anisearch-folgen | 2.8 Tage her | 24 |
-| ann-voices | 2.8 Tage her | 8876 |
-| cinestar | 2.8 Tage her | 2 |
-| cr-einzelwerke | 9.9 Tage her | 9 |
-| cr-filmbloecke | 9.9 Tage her | 6 |
+| anisearch | 1.0 Tage her | 3180 |
+| anisearch-folgen | 3.8 Tage her | 24 |
+| ann-voices | 3.8 Tage her | 8876 |
+| cartoons | 0.6 Tage her | 866 |
+| cinestar | 3.8 Tage her | 2 |
+| cr-einzelwerke | 11.0 Tage her | 9 |
+| cr-filmbloecke | 11.0 Tage her | 6 |
 | crunchyroll | 0.0 Tage her | 22 |
 | crunchyroll-dub | 0.0 Tage her | 1079 |
-| crunchyroll-neu | 0.0 Tage her | 41 |
-| crunchyroll-offene | 2.1 Tage her | 8 |
-| fsk | 2.8 Tage her | 3 |
-| justwatch-audio | 2.6 Tage her | 0 |
-| link-check | 2.8 Tage her | 19 |
-| motn | 10.0 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 5 |
-| rohfolgen | 0.5 Tage her | 0 |
-| tmdb-folgen | 2.8 Tage her | 830 |
-| tmdb-kino | 2.8 Tage her | 3 |
-| tmdb-titles | 2.8 Tage her | 400 |
-| vorfaelle | 0.0 Tage her | 0 |
-| youtube-check | 2.8 Tage her | 1 |
+| crunchyroll-neu | 0.0 Tage her | 47 |
+| crunchyroll-offene | 3.1 Tage her | 8 |
+| fsk | 3.8 Tage her | 3 |
+| justwatch-audio | 3.6 Tage her | 0 |
+| link-check | 3.8 Tage her | 19 |
+| motn | 11.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 0 |
+| rohfolgen | 0.7 Tage her | 0 |
+| tmdb-folgen | 3.8 Tage her | 830 |
+| tmdb-kino | 3.8 Tage her | 3 |
+| tmdb-titles | 3.8 Tage her | 400 |
+| vorfaelle | 0.1 Tage her | 0 |
+| youtube-check | 3.8 Tage her | 1 |
