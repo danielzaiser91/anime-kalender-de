@@ -1,6 +1,27 @@
 {
-  "scrapedAt": "2026-09-12T08:42:01.338Z",
+  "scrapedAt": "2026-09-13T09:36:54.405Z",
   "proposals": [
+    {
+      "articleTitle": "Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«",
+      "articleUrl": "https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/",
+      "publishedAt": "2026-09-12",
+      "category": "kino",
+      "platforms": [
+        "kino"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-27",
+          "context": "r 2026 »Rascal Does Not Dream of a Dear Friend« startet demzufolge am 27. Oktober 2026 im japanischen Originalton mit deutschen Untertiteln"
+        },
+        {
+          "month": "2026-10",
+          "context": "»Rascal Does Not Dream«-Reihe bekannt. Wir fassen zusammen. Kinostart im Oktober 2026 »Rascal Does Not Dream of a Dear Friend« startet demzu"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Deutscher Synchro-Trailer zu »Avatar: Die sieben Häfen« + Visual",
       "articleUrl": "https://www.anime2you.de/news/1048545/avatar-die-sieben-haefen-deutscher-trailer/",
@@ -44,10 +65,6 @@
       "category": "disc",
       "platforms": [],
       "dates": [
-        {
-          "iso": "2026-09-12",
-          "context": "zusammen. Über 150 Produkte Der große »End of Summer Sale« läuft vom 12. September 2026 um 12:00 Uhr bis zum 20. September 2026 um 23:55 Uh"
-        },
         {
           "iso": "2026-09-20",
           "context": "End of Summer Sale« läuft vom 12. September 2026 um 12:00 Uhr bis zum 20. September 2026 um 23:55 Uhr […] Der Beitrag Anime Planet startet"
@@ -460,10 +477,6 @@
         "netflix"
       ],
       "dates": [
-        {
-          "iso": "2026-09-12",
-          "context": "m. Wir fassen die Details nachfolgend zusammen. Acht Anime-Abgänge Am 12. September 2026 wird »Kabaneri of the Iron Fortress: The Battle of"
-        },
         {
           "iso": "2026-09-30",
           "context": "le of Unato« aus dem Angebot von Netflix entfernt. Bis einschließlich 30. September 2026 stehen zudem noch die Anime-Serien »Death Note« und"

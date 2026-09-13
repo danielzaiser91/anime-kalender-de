@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-12T07:33:02.277Z",
+  "scrapedAt": "2026-09-13T09:35:52.264Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -62100,15 +62100,15 @@
       "seriesId": "GT00378078",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-12",
+      "geprueftAm": "2026-09-13",
       "deutschImAngebot": true,
       "staffeln": [
         {
           "name": "Staffel 1",
           "staffelId": "GS00378079JAJP",
-          "folgen": 11,
-          "kacheln": 11,
-          "deutsch": 4,
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 5,
           "fremd": 5,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -62131,6 +62131,11 @@
               "nummer": 4,
               "guid": "GE00380351DEDE",
               "verfuegbarAb": "2026-09-05T16:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GE00380352DEDE",
+              "verfuegbarAb": "2026-09-12T16:00:00Z"
             }
           ]
         }
@@ -68176,7 +68181,7 @@
       "seriesId": "GG5H5XQ7D",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-09",
+      "geprueftAm": "2026-09-13",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -68335,9 +68340,9 @@
         {
           "name": "Narumi's Week at Work",
           "staffelId": "GS00379220JAJP",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 1,
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -68345,6 +68350,11 @@
               "nummer": 1,
               "guid": "GE00379478DEDE",
               "verfuegbarAb": "2026-09-05T11:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GE00379479DEDE",
+              "verfuegbarAb": "2026-09-12T11:00:00Z"
             }
           ]
         }
@@ -70896,7 +70906,7 @@
       "seriesId": "GG5H5XQ7D",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-09",
+      "geprueftAm": "2026-09-13",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -71055,9 +71065,9 @@
         {
           "name": "Narumi's Week at Work",
           "staffelId": "GS00379220JAJP",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 1,
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -71065,6 +71075,11 @@
               "nummer": 1,
               "guid": "GE00379478DEDE",
               "verfuegbarAb": "2026-09-05T11:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GE00379479DEDE",
+              "verfuegbarAb": "2026-09-12T11:00:00Z"
             }
           ]
         }
@@ -72875,7 +72890,7 @@
       "seriesId": "G6NVG970Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-09-13",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -73239,9 +73254,9 @@
         {
           "name": "Staffel 4",
           "staffelId": "GS00371885JAJP",
-          "folgen": 18,
-          "kacheln": 18,
-          "deutsch": 18,
+          "folgen": 22,
+          "kacheln": 22,
+          "deutsch": 22,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -73334,6 +73349,26 @@
               "nummer": 18,
               "guid": "GE00374418DEDE",
               "verfuegbarAb": "2026-08-01T10:25:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GE00374419DEDE",
+              "verfuegbarAb": "2026-08-22T13:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GE00374420DEDE",
+              "verfuegbarAb": "2026-08-29T12:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GE00374421DEDE",
+              "verfuegbarAb": "2026-09-05T12:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GE00374422DEDE",
+              "verfuegbarAb": "2026-09-12T12:00:00Z"
             }
           ]
         }
@@ -131206,7 +131241,7 @@
       "seriesId": "GYZJ43JMR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-07",
+      "geprueftAm": "2026-09-13",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -131621,9 +131656,9 @@
         {
           "name": "Staffel 4",
           "staffelId": "GS00371777JAJP",
-          "folgen": 21,
-          "kacheln": 21,
-          "deutsch": 18,
+          "folgen": 22,
+          "kacheln": 22,
+          "deutsch": 19,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -131716,6 +131751,11 @@
               "nummer": 18,
               "guid": "GE00374382DEDE",
               "verfuegbarAb": "2026-09-04T15:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GE00374383DEDE",
+              "verfuegbarAb": "2026-09-11T15:00:00Z"
             }
           ]
         },
@@ -135233,7 +135273,7 @@
       "seriesId": "G0XHWM0D3",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-09-13",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -135310,9 +135350,9 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00380179JAJP",
-          "folgen": 7,
-          "kacheln": 7,
-          "deutsch": 4,
+          "folgen": 10,
+          "kacheln": 10,
+          "deutsch": 7,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -135335,6 +135375,21 @@
               "nummer": 4,
               "guid": "GE00380183DEDE",
               "verfuegbarAb": "2026-08-19T15:30:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GE00380184DEDE",
+              "verfuegbarAb": "2026-08-26T15:30:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GE00380185DEDE",
+              "verfuegbarAb": "2026-09-02T15:30:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GE00380186DEDE",
+              "verfuegbarAb": "2026-09-09T15:30:00Z"
             }
           ]
         }
@@ -136726,15 +136781,15 @@
       "seriesId": "GT00371630",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-12",
+      "geprueftAm": "2026-09-13",
       "deutschImAngebot": true,
       "staffeln": [
         {
           "name": "Das Band der Unterwelt",
           "staffelId": "GS00371631JAJP",
-          "folgen": 22,
-          "kacheln": 22,
-          "deutsch": 19,
+          "folgen": 23,
+          "kacheln": 23,
+          "deutsch": 20,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -136832,6 +136887,11 @@
               "nummer": 19,
               "guid": "GE00374603DEDE",
               "verfuegbarAb": "2026-09-05T16:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GE00374604DEDE",
+              "verfuegbarAb": "2026-09-12T16:00:00Z"
             }
           ]
         }

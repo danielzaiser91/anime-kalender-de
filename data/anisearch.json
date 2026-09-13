@@ -241623,6 +241623,96 @@
     },
     "fetchedAt": "2026-08-22T05:06:14.660Z"
   },
+  "143103": {
+    "anisearchId": 16972,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mahou Tsukai no Yoru",
+          "titleNative": "Mahō Tsukai no Yoru",
+          "status": "Zukünftig",
+          "released": "20.11.2026"
+        },
+        {
+          "language": "Englisch",
+          "title": "Witch on the Holy Night",
+          "status": "Zukünftig",
+          "released": "28.01.2027",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Witch on the Holy Night",
+          "status": "Zukünftig",
+          "released": "26.01.2027",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Witch on the Holy Night",
+          "status": "Zukünftig",
+          "released": "28.01.2027",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Witch on the Holy Night",
+          "status": "Zukünftig",
+          "released": "27.01.2027",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Witch on the Holy Night",
+          "status": "Zukünftig",
+          "released": "28.01.2027",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "season": "Herbst 2026",
+      "studios": [
+        "ufotable, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Kinoko NASU"
+        },
+        {
+          "name": "Notes Co., Ltd.",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Visual Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/mahoyo_movie"
+        },
+        {
+          "name": "Mahoyo Movie",
+          "url": "https://mahoyo-movie.com/"
+        }
+      ],
+      "synonyms": [
+        "Mahoyo Movie"
+      ]
+    },
+    "fetchedAt": "2026-09-13T09:36:56.640Z"
+  },
   "143270": {
     "anisearchId": 16976,
     "descriptionDe": "In dem kleinen Café »Lyco-Reco« im Herzen Tokios gibt es immer viel zu tun. Denn hier können die Kunden nicht nur Getränke und Speisen bestellen, sondern auch noch Dienstleistungen ganz anderer Art. Egal ob es um Hilfe bei der Kindererziehung, Beratung in Liebesdingen oder Fragen um Geschäftliches geht, Mika, der Manager des Cafés, und seine Mitarbeiterinnen versuchen, eine Lösung zu finden, selbst wenn sie sich dabei gegen gefährliche Monster behaupten müssen. \n\nQuelle: www.anisearch.de/anime/16976",
@@ -288426,6 +288516,123 @@
       ]
     },
     "fetchedAt": "2026-08-25T05:05:59.907Z"
+  },
+  "199588": {
+    "anisearchId": 20953,
+    "descriptionDe": "Takuya Seo ist ein unscheinbarer und ruhiger Otaku, der in der Schule kaum auffällt. Das Besondere an ihm ist, dass er nicht etwa ein Fan eines populären Animes ist, sondern ausgerechnet von einem typischen »Kleine-Mädchen-Anime«, der jeden Sonntag um zehn Uhr morgens ausgestrahlt wird. Das merkwürdig dunkle Setting und die eingestreuten surrealen Gags lassen ihn einfach nicht mehr los, und sogar sein geliebter Radiergummi ist ein Fanartikel der Serie, den es nur für Aktionsteilnehmer gab. Von »Gyarus« hält er sich hingegen lieber fern, denn er glaubt nicht, dass diese jemals nett zu ihm sein könnten.\n\nDas ändert sich erst, als ihn zwei Mädchen aus seiner Klasse ansprechen, weil eine von ihnen sich seinen Radiergummi ausborgen möchte: Die coole, aber verpeilte Kei Amane und die fröhliche Kotoko Ijichi könnten kaum unterschiedlicher sein, doch sie haben insgeheim die gleichen Hobbys. Im gemeinsamen Gespräch stellt Takuya fest, dass die beiden mit Animes und Games durchaus vertraut sind und sogar die gleichen Serien verfolgen wie er. Obwohl sie vermeintlich in einer anderen Welt leben, machen sie sich bald schon zusammen auf die Suche nach begehrten Figuren, unterhalten sich über die neuesten Folgen und verbringen immer mehr Zeit miteinander. Ob er seine beliebten Mitschülerinnen bisher vielleicht wirklich falsch eingeschätzt hat? \n\nQuelle: www.anisearch.de/anime/20953",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GT00371662"
+      },
+      {
+        "provider": "akibapass",
+        "url": "https://akibapassshop.de/products/26d003-gals-otaku-digital-download?ref=anisearch"
+      },
+      {
+        "provider": "akiba-pass-tv",
+        "url": "https://www.akibapass.tv/products/gals-can-t-be-kind-to-otaku-omu-season-1"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Otaku ni Yasashii Gal wa Inai!?",
+          "titleNative": "Otaku ni Yasashī Gal wa Inai!?",
+          "status": "Abgeschlossen",
+          "released": "08.04.2026 - 24.06.2026"
+        },
+        {
+          "language": "Englisch",
+          "title": "Gals Can’t Be Kind to Otaku!?",
+          "status": "Abgeschlossen",
+          "released": "08.04.2026 - 24.06.2026",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Gals Can’t Be Kind to Otaku!?",
+          "status": "Abgeschlossen",
+          "released": "08.04.2026 - 24.06.2026",
+          "publisher": [
+            "Crunchyroll",
+            "peppermint anime GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Gals Can’t Be Kind to Otaku!?",
+          "status": "Abgeschlossen",
+          "released": "08.04.2026 - 24.06.2026",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Gals Can’t Be Kind to Otaku!?",
+          "status": "Abgeschlossen",
+          "released": "08.04.2026 - 24.06.2026",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Gals Can’t Be Kind to Otaku!?",
+          "status": "Abgeschlossen",
+          "released": "08.04.2026 - 24.06.2026",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 23,
+      "season": "Frühling 2026",
+      "studios": [
+        "TMS Entertainment Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Norishiro-chan",
+          "role": "Original Work"
+        },
+        {
+          "name": "Arata MITA",
+          "role": "Direction"
+        },
+        {
+          "name": "Lion MATSUDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Wataru SATOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/OtaGal_official"
+        },
+        {
+          "name": "Otagal",
+          "url": "https://otagal.jp/"
+        }
+      ],
+      "synonyms": [
+        "OtaGal",
+        "Gibt’s denn keine Gyaru",
+        "die nett zu Otaku sind?!"
+      ]
+    },
+    "fetchedAt": "2026-09-13T09:37:03.589Z"
   },
   "201903": {
     "anisearchId": 21004,
