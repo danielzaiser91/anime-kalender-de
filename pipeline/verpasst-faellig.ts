@@ -7,8 +7,10 @@
  *   `anzahl=<n>` nach `$GITHUB_OUTPUT`. Bei null startet kein Claude — das ist
  *   der Normalfall, und er kostet dann nichts.
  * - `--pruefen`: vergleicht die Datei nach der Recherche mit dem Stand davor.
- *   Claude darf genau vier Felder schreiben; alles andere ist ein Fehler, und
+ *   Claude darf genau drei Felder schreiben; alles andere ist ein Fehler, und
  *   dann wird nichts eingereicht.
+ * - `--stempeln --aus <datei>`: setzt `rechercheAm` für jeden fälligen Eintrag
+ *   auf die echte Uhrzeit, auch wenn nichts gefunden wurde.
  *
  * Warum die Prüfung nicht dem Prompt überlassen wird: `neuErwartet` verschiebt
  * alle folgenden Termine im Kalender. Ein Datum ohne Quelle oder ein
@@ -17,14 +19,36 @@
  */
 import { appendFileSync, readFileSync, writeFileSync } from 'node:fs'
 import { execSync } from 'node:child_process'
-import { readJson } from './lib/util.ts'
+import { readJson, writeJson } from './lib/util.ts'
 import { rechercheFaellig } from './lib/ausgeblieben.ts'
 import type { VerpassterTermin } from './termine-pruefen.ts'
 
 const DATEI = 'data/termine-verpasst.json'
-const ERLAUBT = new Set(['recherche', 'rechercheQuelle', 'rechercheAm', 'neuErwartet'])
+/*
+  **`rechercheAm` schreibt nicht Claude, sondern `--stempeln`.**
+
+  Der erste erfolgreiche Lauf am 13.09.2026 endete um 20:09 UTC und trug
+  „20:45" ein — geraten, und in der Zukunft. Ein Modell kennt die Uhrzeit nicht;
+  der Workflow schon.
+*/
+const ERLAUBT = new Set(['recherche', 'rechercheQuelle', 'neuErwartet'])
 const args = process.argv.slice(2)
 const jetzt = new Date()
+
+if (args.includes('--stempeln')) {
+  const liste = /--aus[= ](\S+)/.exec(args.join(' '))?.[1]
+  if (!liste) {
+    console.error('--stempeln braucht --aus <datei> mit den fälligen Einträgen')
+    process.exit(1)
+  }
+  const ids = new Set((JSON.parse(readFileSync(liste, 'utf8')) as VerpassterTermin[]).map((v) => v.id))
+  const alle = readJson<VerpassterTermin[]>(DATEI, [])
+  const stempel = jetzt.toISOString()
+  for (const v of alle) if (ids.has(v.id)) v.rechercheAm = stempel
+  writeJson(DATEI, alle, true)
+  console.log(`${ids.size} Eintrag/Einträge mit rechercheAm ${stempel} gestempelt`)
+  process.exit(0)
+}
 
 if (args.includes('--pruefen')) {
   const vorher = JSON.parse(execSync(`git show HEAD:${DATEI}`, { encoding: 'utf8' })) as VerpassterTermin[]

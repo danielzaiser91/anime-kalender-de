@@ -14,7 +14,8 @@ name: Claude — ausgebliebene Folgen recherchieren
 # Monaten nicht mehr. Ist nichts fällig, endet der Lauf in Sekunden, ohne
 # Claude zu starten — das ist der Normalfall.
 #
-# Claude schreibt nur vier Felder in `data/termine-verpasst.json`;
+# Claude schreibt nur drei Felder in `data/termine-verpasst.json`, den
+# Zeitstempel setzt der Workflow;
 # `verpasst-faellig.ts --pruefen` verwirft alles andere, bevor eingereicht
 # wird. Eingereicht wird wie bei jedem Sammel-Lauf über `quellen-pr.sh`.
 
@@ -106,10 +107,11 @@ jobs:
             3. offizielle Konten der Serie bzw. des Studios, Anime News Network
             4. eine allgemeine Websuche nach Titel + „delay"/„postponed"/„verschoben"
 
-            ## Was du schreibst — nur diese vier Felder des Eintrags, nichts sonst
+            ## Was du schreibst — nur diese drei Felder des Eintrags, nichts sonst
 
-            - `rechercheAm`: der aktuelle Zeitpunkt als ISO-Zeitstempel (UTC).
-              **Immer setzen**, auch wenn du nichts findest.
+            Findest du nichts, änderst du gar nichts. Wann recherchiert wurde,
+            trägt der Workflow danach selbst ein.
+
             - `recherche`: ein bis zwei sachliche Sätze auf Deutsch, die ein
               Besucher der Seite liest, z. B. „Crunchyroll hat die Folge wegen
               Produktionsverzögerungen um eine Woche verschoben." Nur, was die
@@ -135,6 +137,12 @@ jobs:
       - name: Recherche prüfen
         if: steps.faellig.outputs.anzahl != '0'
         run: npx tsx pipeline/verpasst-faellig.ts --pruefen
+
+      # Der Zeitstempel kommt vom Workflow, nicht vom Modell — der erste Lauf
+      # trug eine geratene Uhrzeit ein, 36 Minuten in der Zukunft (13.09.2026).
+      - name: Recherche stempeln
+        if: steps.faellig.outputs.anzahl != '0'
+        run: npx tsx pipeline/verpasst-faellig.ts --stempeln --aus "$RUNNER_TEMP/faellig.json"
 
       - name: Ergebnis als Pull Request einreichen
         if: steps.faellig.outputs.anzahl != '0'
