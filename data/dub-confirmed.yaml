@@ -3860,14 +3860,15 @@
 - anilistId: 113538
   title: "HAIKYU!! TO THE TOP Part 2"
   platform: netflix
+  url: https://www.netflix.com/title/80090673
   dub: true
   dubRanges:
-    - from: 12
-      to: 12
+    - from: 1
+      to: 2
       dub: true
-      checked: [12]
-  checkedAt: '2026-08-22'
-  note: "Netflix S4 E27 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+      checked: [1, 2]
+  checkedAt: '2026-09-11'
+  note: "Netflix S4 E14 „Rhythmus“ und E15 „Etwas finden“ mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original]. **Berichtigt am 13.09.2026:** Hier stand seit dem 22.08. „Folge 12“ aus Netflix S4 E27. Die Folgentitel entscheiden es: Rhythmus und Etwas finden sind Folge 1 und 2 von TO THE TOP 2 (aniSearch, Erstausstrahlung 03. und 10.10.2020), E26–27 ist die OVA „An Land vs. In der Luft“ (ADN führt sie ebenso am Ende von Staffel 4)"
 
 - anilistId: 97996
   title: "KONOSUBA -God's blessing on this wonderful world! 2: God's Blessings on This Wonderful Choker!"
@@ -15155,3 +15156,42 @@
     umgerechnet:** Netflix führt die drei Extra-Stage-Folgen als Staffel 1,
     Folgen 13–15. Unser Titel hat drei Folgen. Tonspuren an Netflix' E13: de,
     ja, tr, it, fr, en, pl, pt-BR, es, es-ES, th.
+
+- anilistId: 20884
+  title: "Haikyu!! Lev ist hier!"
+  platform: netflix
+  url: https://www.netflix.com/title/80090673
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-09-11'
+  note: "Netflix S1 E26 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original]. Netflix hängt die OVA an Staffel 1 an (Meldung vom 11.09.2026, Id 4397)"
+
+- anilistId: 107351
+  title: "Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier"
+  platform: netflix
+  url: https://www.netflix.com/title/80090673
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-09-11'
+  note: "Netflix S3 E11 „Haikyu! Season 3 OVA\" mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] (Meldung vom 11.09.2026, Id 4396)"
+
+- anilistId: 111790
+  title: "Haikyu!! An Land vs. In der Luft / Der Weg des Balls"
+  platform: netflix
+  url: https://www.netflix.com/title/80090673
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: true
+      checked: [1, 2]
+  checkedAt: '2026-09-11'
+  note: "Netflix S4 E26 und E27 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original]. Netflix hängt die OVA an Staffel 4 an, hinter TO THE TOP 2 (Meldungen vom 11.09.2026, Id 4399 und 4400)"
