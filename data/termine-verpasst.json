@@ -28,7 +28,9 @@
     "folgenVerfuegbar": 12,
     "neuErwartet": null,
     "recherche": null,
-    "rechercheAm": "2026-09-13T20:45:00.000Z"
+    "rechercheAm": "2026-09-13T20:45:00.000Z",
+    "geprueftAm": "2026-09-13T22:30:41.628Z",
+    "newsGeprueftAm": "2026-09-13T09:36:54.405Z"
   },
   {
     "id": "mushoku-tensei-s3@2026-09-13",
@@ -43,6 +45,7 @@
     "verzugStunden": null,
     "folgenVerfuegbar": null,
     "neuErwartet": null,
-    "recherche": null
+    "recherche": null,
+    "geprueftAm": "2026-09-13T22:30:41.628Z"
   }
 ]
