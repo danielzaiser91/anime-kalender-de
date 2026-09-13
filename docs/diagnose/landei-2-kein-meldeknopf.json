@@ -1,0 +1,326 @@
+{
+  "erwartungsLage": {
+    "briefkastenDa": true,
+    "seitenBekannt": 218,
+    "erwartungenBekannt": 3,
+    "suchOffen": 1,
+    "zeilen": [
+      {
+        "suche": "https://www.amazon.de/s?k=Plus-Sized%20Elf&i=instant-video",
+        "titel": "Plus-Sized Elf",
+        "erwartet": [
+          "B0DY17414W",
+          "B0DJM2FGH6"
+        ],
+        "jeKennung": [
+          "B0DY17414W:gemeldet",
+          "B0DJM2FGH6:gemeldet"
+        ],
+        "inGemeldeteSuchen": true,
+        "lokalErledigt": null,
+        "istGemeldet": true
+      },
+      {
+        "suche": "amazon.de/s?k=The%20Ghost%20in%20the%20Shell&i=instant-video",
+        "titel": "The Ghost in the Shell",
+        "erwartet": null,
+        "jeKennung": null,
+        "inGemeldeteSuchen": false,
+        "lokalErledigt": null,
+        "istGemeldet": false
+      }
+    ]
+  },
+  "knopfLage": {
+    "text": "🇩🇪 Deutsch · 10 Folgen · Staffel 2 · neu · melden",
+    "gesperrt": false,
+    "sichtbar": false,
+    "imKasten": false,
+    "seiteOffen": true,
+    "gemeldeteStaffel": null,
+    "lokalAbgehakt": [],
+    "fertigLaut": false
+  },
+  "erzeugtAm": "2026-09-13T18:35:44.772Z",
+  "version": "4.20.1",
+  "adresse": "https://www.amazon.de/dp/B0H1QXQL33",
+  "zustand": {
+    "id": "B0H1QXQL33",
+    "listenId": "B0H1QXQL33",
+    "eintrag": {
+      "titel": null,
+      "ausSuche": false
+    },
+    "letzteKennung": "?|2|B0H1QXQL33|Vom Landei zum Schwertheiligen",
+    "staffelKennung": "?|2|B0H1QXQL33|Vom Landei zum Schwertheiligen",
+    "staffelNummer": 2,
+    "staffelAusAdresse": null,
+    "staffelAusSeite": 2,
+    "gemeldeteStaffelNummer": null,
+    "gabStaffelwechsel": true,
+    "letzteZahl": 10,
+    "letzterStand": "true|10|10|false|true|true|true",
+    "letzterFortschritt": "2026-09-13T18:32:44.475Z",
+    "wartetSeitMs": 180298,
+    "langsam": true,
+    "taktMs": 9,
+    "taktMax": 13.900000005960464,
+    "takte": 46
+  },
+  "zaehlstand": {
+    "gesamt": 10,
+    "fuerAdresse": "/dp/B0H1QXQL33",
+    "nummern": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "jeFolge": [
+      [
+        1,
+        [
+          "Deutsch",
+          "English",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "Français",
+          "Italiano",
+          "Português (Brasil)",
+          "ไทย",
+          "日本語"
+        ]
+      ],
+      [
+        2,
+        [
+          "Deutsch",
+          "English",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "Français",
+          "Italiano",
+          "Português (Brasil)",
+          "ไทย",
+          "日本語"
+        ]
+      ],
+      [
+        3,
+        [
+          "Deutsch",
+          "English",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "Français",
+          "Italiano",
+          "Português (Brasil)",
+          "ไทย",
+          "日本語"
+        ]
+      ],
+      [
+        4,
+        [
+          "Deutsch",
+          "English",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "Français",
+          "Italiano",
+          "Português (Brasil)",
+          "ไทย",
+          "日本語"
+        ]
+      ],
+      [
+        5,
+        [
+          "Deutsch",
+          "English",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "Français",
+          "Italiano",
+          "Português (Brasil)",
+          "ไทย",
+          "日本語"
+        ]
+      ],
+      [
+        6,
+        [
+          "Deutsch",
+          "English",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "Français",
+          "Italiano",
+          "Português (Brasil)",
+          "ไทย",
+          "日本語"
+        ]
+      ],
+      [
+        7,
+        [
+          "Deutsch",
+          "English",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "Français",
+          "Italiano",
+          "Português (Brasil)",
+          "ไทย",
+          "日本語"
+        ]
+      ],
+      [
+        8,
+        [
+          "Deutsch",
+          "English",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "Français",
+          "Italiano",
+          "Português (Brasil)",
+          "ไทย",
+          "日本語"
+        ]
+      ],
+      [
+        9,
+        [
+          "Deutsch",
+          "English",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "Français",
+          "Italiano",
+          "Português (Brasil)",
+          "ไทย",
+          "日本語"
+        ]
+      ],
+      [
+        10,
+        [
+          "Deutsch",
+          "English",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "Français",
+          "Italiano",
+          "Português (Brasil)",
+          "ไทย",
+          "日本語"
+        ]
+      ]
+    ],
+    "sprachen": [
+      "Deutsch",
+      "English",
+      "Español (España)",
+      "Español (Latinoamérica)",
+      "Français",
+      "Italiano",
+      "Português (Brasil)",
+      "ไทย",
+      "日本語"
+    ],
+    "abschnitte": {
+      "gesamt": 1,
+      "offen": 0
+    }
+  },
+  "lage": {
+    "fehlerseite": false,
+    "regionWeg": false,
+    "nichtAbrufbar": false,
+    "stoerung": false,
+    "hatFolgenReiter": true,
+    "staffelZahl": 2,
+    "regionFolgen": [],
+    "folgenLautSeite": 10,
+    "hatLaufzeit": true
+  },
+  "istFilmSeite": false,
+  "quelltextVeraltet": false,
+  "seite": {
+    "titel": "Amazon.de: Vom Landei zum Schwertheiligen II ansehen | Prime Video",
+    "folgenImDom": 10,
+    "knopfText": "🇩🇪 Deutsch · 10 Folgen · Staffel 2 · neu · melden"
+  },
+  "umfeld": {
+    "eintraegeInListe": 6,
+    "erledigteEintraege": 400,
+    "offeneSuchen": 2,
+    "suchauftrag": null,
+    "zugangsart": "abo",
+    "abos": [
+      "Prime",
+      "FVOD"
+    ],
+    "ueberKanal": false,
+    "teilBereich": null
+  },
+  "tagebuch": [
+    {
+      "t": "2026-09-13T18:32:43.912Z",
+      "was": "antwort",
+      "fuerAdresse": "/dp/B0H1QXQL33",
+      "standAdresse": null,
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": true
+    },
+    {
+      "t": "2026-09-13T18:32:43.924Z",
+      "was": "knopftext",
+      "von": "",
+      "nach": "🇩🇪 Deutsch · 10 Folgen · Staffel 2 · neu · melden",
+      "gelesen": 10
+    },
+    {
+      "t": "2026-09-13T18:32:43.957Z",
+      "was": "antwort",
+      "fuerAdresse": "/dp/B0H1QXQL33",
+      "standAdresse": "/dp/B0H1QXQL33",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-09-13T18:32:44.475Z",
+      "was": "staffelwechsel",
+      "von": "?|2|B0H1QXQL33|Chatverlauf",
+      "nach": "?|2|B0H1QXQL33|Vom Landei zum Schwertheiligen",
+      "adresse": ""
+    },
+    {
+      "t": "2026-09-13T18:32:45.523Z",
+      "was": "antwort",
+      "fuerAdresse": "/dp/B0H1QXQL33",
+      "standAdresse": "/dp/B0H1QXQL33",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-09-13T18:32:47.265Z",
+      "was": "antwort",
+      "fuerAdresse": "/dp/B0H1QXQL33",
+      "standAdresse": "/dp/B0H1QXQL33",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    }
+  ]
+}

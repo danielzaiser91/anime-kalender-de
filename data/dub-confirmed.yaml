@@ -15086,13 +15086,13 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-10 ---
 
-- anilistId: 103631
-  title: "Trinity Seven: Heavens Library & Crimson Lord"
+- anilistId: 173388
+  title: "Plus-Sized Elf"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0DY17414W
   dub: true
   checkedAt: '2026-09-10'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DY17414W: alle 14 Folgen geprüft, Abos: Prime, aniversede, zugang=abo"
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DY17414W: alle 14 Folgen geprüft, Abos: Prime, aniversede, zugang=abo — **Umgebucht am 13.09.2026:** Die Seite B0DY17414W ist „Plus-Sized Elf – Staffel 1“ (Daniel, mit Bild), nicht Trinity Seven: Heavens Library & Crimson Lord (ein Film mit einer Folge). Prime führt 14 Folgen, der Titel hat 12."
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-10 ---
 
@@ -15259,3 +15259,45 @@
   url: https://www.amazon.de/gp/video/detail/amzn1.dv.gti.3cb88c42-8aba-78c5-3026-ee065e93e11e
   checkedAt: '2026-09-13'
   note: "Adressbeleg: Prime führt den Film über den Crunchyroll-Kanal (Abo crunchyrollde), Tonspuren laut Seite Deutsch und Japanisch (Daniel, 13.09.2026, Meldung 4417). Kanal-Titel, deshalb kein Sprachurteil. Die Meldung trug als Titel „Chatverlauf“ und ließ sich nicht zuordnen."
+
+- anilistId: 21180
+  title: "Saekano: How to Raise a Boring Girlfriend.flat"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Saekano%3A%20How%20to%20Raise%20a%20Boring%20Girlfriend%20%E2%99%AD&i=instant-video
+  available: false
+  checkedAt: '2026-09-13'
+  note: "Prime führt nur Staffel 1 (B0CHK8ZF85, 13 Folgen, Crunchyroll-Kanal), keine zweite Staffel (Daniel, 13.09.2026, mit Bild)."
+
+- anilistId: 6773
+  title: "Shakugan no Shana: Season III"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video
+  available: false
+  checkedAt: '2026-09-13'
+  note: "Prime führt „Shakugan no Shana“ nur mit Staffel 1 und 2 (B0CMZZVV7R), keine dritte Staffel (Daniel, 13.09.2026, mit Bild)."
+
+- anilistId: 177699
+  title: "The Ghost in the Shell"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GZD5N2GP
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  checkedAt: '2026-09-13'
+  note: "Folgen 1–10 mit deutschem Ton, im Player unter Audio „Deutsch“ geprüft (Daniel, 13.09.2026, mit Bild). Die Seite ist die, die aniSearch nennt. Die Erweiterung bot dort keinen Melde-Knopf an, deshalb von Hand."
+
+- anilistId: 194829
+  title: "Vom Landei zum Schwertheiligen II"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0H1QXQL33
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  checkedAt: '2026-09-13'
+  note: "Staffel 2 bei Prime, 10 Folgen, alle mit deutschem Ton (Daniel, 13.09.2026). Die Seite ist die, die aniSearch nennt; bisher stand hier nur eine Prime-Suchadresse."
