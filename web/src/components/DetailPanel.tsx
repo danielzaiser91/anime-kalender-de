@@ -742,7 +742,15 @@ function AntwortKasten({
       </div>
       {pillen.length === 0 && wegeHinweis && (
         <div className="mt-auto shrink-0 border-t border-slate-200/70 pt-2.5 dark:border-white/10">
-          <p className="flex min-h-[2.1rem] items-center text-xs text-slate-500 dark:text-slate-400">
+          {/* Beim Kinofilm ist der Satz ein Favoriten-Hinweis und trägt deren Gelb (Daniel, 13.09.2026). */}
+          <p
+            className={[
+              'flex min-h-[2.1rem] items-center text-xs',
+              antwort.art === 'kino'
+                ? 'text-amber-600 dark:text-amber-400'
+                : 'text-slate-500 dark:text-slate-400',
+            ].join(' ')}
+          >
             {wegeHinweis}
           </p>
         </div>
