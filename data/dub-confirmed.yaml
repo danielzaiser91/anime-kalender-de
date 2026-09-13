@@ -9485,11 +9485,11 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 13
+      to: 12
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   checkedAt: '2026-08-26'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, ja, pt-BR"
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, ja, pt-BR. **Auf unsere Zählung gekappt (13.09.2026):** Gemeldet waren 1–13, der Titel hat 12. Disney+ führt laut Streaming Availability API 23 Folgen = 12 + Staffel 2 mit 11 (eigener Beleg); die OVA steht dort nicht. Folge 13 gehört damit zu keinem Titel und ist weggelassen"
 
 - anilistId: 173172
   title: "Dorohedoro: Staffel 2"
@@ -9542,12 +9542,8 @@
       to: 9
       dub: true
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    - from: 10
-      to: 13
-      dub: false
-      checked: [10, 11, 12, 13]
   checkedAt: '2026-08-26'
-  note: "Folgen 1–9 mit deutschem Ton, Folgen 10–13 ohne deutschen Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, ja, pt-BR — Widersprüchliche Meldungen zu Folge 1, 2, 3, 6, 4, 5, 7, 9, 8"
+  note: "Folgen 1–9 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, ja, pt-BR. **Auf unsere Zählung gekappt (13.09.2026):** Gemeldet waren zusätzlich 10–13 ohne deutschen Ton, und zu 1–9 lagen widersprüchliche Meldungen vor. Staffel 2 hat 9 Folgen; Disney+ führt laut Streaming Availability API 22 = Staffel 1 (13) + Staffel 2 (9), deutsch dort 14–22. Die Meldungen zu 10–13 und die Gegenstimmen zu 1–9 stammen damit aus Staffel 1 — ein Urteil über Staffel 1 folgt daraus nicht, weil die Staffelnummer der Meldungen fehlt"
 
 - anilistId: 153800
   title: "One-Punch Man: Staffel 3"
@@ -9627,11 +9623,11 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 26
+      to: 24
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
   checkedAt: '2026-08-26'
-  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, ja, pt-BR"
+  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, ja, pt-BR. **Auf unsere Zählung gekappt (13.09.2026):** Gemeldet waren 1–26, der Titel hat 24. Die Streaming Availability API bestätigt 2–24 deutsch bei Disney+; Christmas Showdown und Tenjiku Arc tragen eigene Belege (je 1–13). Folge 25 und 26 gehören zu keinem Titel und sind weggelassen"
 
 - anilistId: 107693
   title: "Welcome to Demon School! Iruma-kun"
@@ -11292,12 +11288,8 @@
       to: 24
       dub: true
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
-    - from: 25
-      to: 25
-      dub: false
-      checked: [25]
   checkedAt: '2026-08-30'
-  note: "Folgen 1–24 mit deutschem Ton, Folge 25 ohne deutschen Ton — Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0CVFNLP9D: alle 24 Folgen geprüft, Abos: freewithads, crunchyrollde, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  note: "Folgen 1–24 mit deutschem Ton — auf unsere Zählung gekappt (13.09.2026): Prime zeigte eine 25. Folge ohne deutschen Ton, der Titel hat 24; vermutlich eine der beiden Railgun-S-Beigaben, die Zuordnung ist nicht belegt und deshalb weggelassen — Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0CVFNLP9D: alle 24 Folgen geprüft, Abos: freewithads, crunchyrollde, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
 - anilistId: 144932
   title: "Edens Zero: Season 2"

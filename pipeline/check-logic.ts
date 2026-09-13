@@ -2417,6 +2417,10 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
       „HAIKYU!! 2nd Season" (25 Folgen) mit „Folge 26 deutsch" im Datensatz:
       Netflix' S2 E26 ist die OVA „VS Failing Marks". Berichtigt; gemessen
       standen danach noch 24 Belege derselben Art, am selben Tag 12. Die Schwelle darf nur sinken.
+      Am 13.09.2026 auf 8: Bei Dorohedoro, Tokyo Revengers, Medalist Staffel 2
+      (Disney+) und Railgun S (Prime) hingen überzählige Folgen hinten an, die
+      laut Streaming Availability API zu keinem Titel gehören — gekappt, nicht
+      umgebucht.
     */
     const folgenJeTitel = new Map(
       (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number; episodes?: number }[]).map(
@@ -2427,7 +2431,7 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
       const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
       return n > 0 && (b.dubRanges ?? []).some((r) => (r.to ?? 0) > n)
     }).length
-    pruefe('Handbelege: höchstens 12 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 12, `${drueber}`)
+    pruefe('Handbelege: höchstens 8 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 8, `${drueber}`)
   }
 }
 
