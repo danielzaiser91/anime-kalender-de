@@ -1170,6 +1170,8 @@ Daniel am 13.09.2026, mit zwei Bildern: Die Kalenderkachel trug „⚠ nicht ers
 
 Drei Riegel, jeder aus einer Falle, die sonst auf der Seite stünde: **„Zuletzt nachgesehen" ist `scrapedAt` des Kalenders**, nicht der Zeitpunkt des Prüflaufs — ein gescheiterter Abruf behauptet sonst ein Nachsehen, das nicht stattfand. **„Anime2You meldet nichts" gilt nur mit einem Feed, der nach dem Termin geholt wurde.** Und **Claude darf nur vier Felder schreiben** (`recherche`, `rechercheQuelle`, `rechercheAm`, `neuErwartet`); `verpasst-faellig.ts --pruefen` vergleicht mit dem Stand davor und verwirft den ganzen Lauf bei jeder anderen Änderung, bei `recherche` ohne https-Quelle und bei `neuErwartet` ohne Quelle — denn ein Ersatztermin verschiebt alle folgenden Termine im Kalender.
 
+**Eine neue Prüfung bewertet, was sich geändert hat, nicht den Altbestand.** Der erste Lauf am 13.09.2026 wurde rot, weil `--pruefen` alle Einträge nach den neuen Regeln maß: Die von Hand geschriebene Recherche zu Mushoku Tensei S3 (30.08.) hat 977 Zeichen und kein Quellenfeld, das es damals nicht gab. Claude hatte sie nicht angefasst, verworfen wurde trotzdem der ganze Lauf. Wer einer Datei eine Regel hinzufügt, fragt vorher: *Erfüllt der Bestand sie schon — und wenn nicht, prüft sie dann nur das Neue?*
+
 Die Anime2You-Zuordnung ist absichtlich eng (ganzer Name als Wortfolge, ohne Staffelzusatz, ab acht Zeichen): Gemessen am 13.09.2026 tragen nur 5 von 92 Vorschlägen ein Pausensignal, fast alle zu Disc-Terminen. Die Recherche fängt, was dieser Abgleich verpasst; ein Fehltreffer stünde dagegen als Grund auf der Seite.
 
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
