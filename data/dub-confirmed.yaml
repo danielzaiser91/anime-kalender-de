@@ -12891,26 +12891,9 @@
   title: "How Heavy Are the Dumbbells You Lift? Gnadenlose Trainingsstunde"
   platform: primevideo
   url: https://www.amazon.de/dp/B0CZSMKH71
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: true
-      checked: [1]
-    - from: 2
-      to: 2
-      dub: false
-      checked: [2]
-    - from: 3
-      to: 7
-      dub: true
-      checked: [3, 4, 5, 6, 7]
-    - from: 8
-      to: 8
-      dub: false
-      checked: [8]
-  checkedAt: '2026-08-31'
-  note: "Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folgen 3–7 mit deutschem Ton, Folge 8 ohne deutschen Ton — Tonspuren: Deutsch — Amazon-Seite B0CZSMKH71: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+  available: false
+  checkedAt: '2026-09-13'
+  note: "Die Seite ist nicht das Special, sondern die Hauptserie als Kauftitel (1 Staffel, „Staffel 1 kaufen HD\"; Daniel, 13.09.2026, mit Bild). Das Special wird dort nicht geführt. Hier stand seit dem 31.08. ein Beleg mit Folgen 1–8, der der Hauptserie galt."
 
 - anilistId: 539
   title: "Tenchi Muyo! (Episode 1 - 6)"
@@ -15195,3 +15178,27 @@
       checked: [1, 2]
   checkedAt: '2026-09-11'
   note: "Netflix S4 E26 und E27 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original]. Netflix hängt die OVA an Staffel 4 an, hinter TO THE TOP 2 (Meldungen vom 11.09.2026, Id 4399 und 4400)"
+
+- anilistId: 2262
+  title: "Sin: The Movie"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GMTE00192533/sin-the-movie
+  available: false
+  checkedAt: '2026-09-13'
+  note: "Seite zeigt „Leider sind die Videos dieser Serie nicht mehr verfügbar“ (Daniel, 13.09.2026, mit Bild). Unsere alte Adresse crunchyroll.com/de/sin-the-movie führte ins Leere, die Suche nach „Sin“ findet den Film nicht."
+
+- anilistId: 8408
+  title: "Durarara!! Specials"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/series/G619XVNEY/durarara
+  dub: true
+  checkedAt: '2026-09-13'
+  note: "Crunchyroll führt unter dieser Serie 25 Folgen, alle mit deutschem Ton (Daniel, 13.09.2026). Die Serie hat 24, die 25. ist eines der beiden Specials; welches, ist nicht belegt, deshalb ohne Folgenbereich. Die Serie selbst (6746) trägt ihr eigenes Urteil."
+
+- anilistId: 9488
+  title: "Cencoroll Connect"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/G4PH0WZG8/cencoroll-connect
+  available: false
+  checkedAt: '2026-09-13'
+  note: "Serienseite zeigt „nicht mehr verfügbar“ (Daniel, 13.09.2026). Unsere alte Adresse (…/watch/GJWU25970) führte auf 404."
