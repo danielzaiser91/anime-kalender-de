@@ -44,11 +44,21 @@ if (args.includes('--pruefen')) {
       const gleich = feld(a) === feld(n)
       if (!gleich && !ERLAUBT.has(k)) fehler.push(`${n.id}: Feld „${k}" geändert`)
     }
-    if (n.recherche != null) {
+    /*
+      **Geprüft wird, was dieser Lauf geändert hat — nicht der Altbestand.**
+
+      Der erste Lauf am 13.09.2026 wurde rot an „Mushoku Tensei Staffel 3,
+      30.08.": Deren `recherche` stammt von Hand aus dem August, ist länger als
+      320 Zeichen und hat kein Quellenfeld, weil es das damals nicht gab. Claude
+      hatte den Eintrag nicht angefasst, und verworfen wurde trotzdem der ganze
+      Lauf samt seiner Recherche zu einer anderen Folge.
+    */
+    const geaendert = (k: keyof VerpassterTermin) => JSON.stringify(a[k] ?? null) !== JSON.stringify(n[k] ?? null)
+    if ((geaendert('recherche') || geaendert('rechercheQuelle')) && n.recherche != null) {
       if (typeof n.recherche !== 'string' || n.recherche.length > 320) fehler.push(`${n.id}: recherche leer oder über 320 Zeichen`)
       if (!n.rechercheQuelle || !/^https:\/\/\S+$/.test(n.rechercheQuelle)) fehler.push(`${n.id}: recherche ohne https-Quelle`)
     }
-    if (n.rechercheAm != null && Number.isNaN(Date.parse(n.rechercheAm))) fehler.push(`${n.id}: rechercheAm ist kein Zeitpunkt`)
+    if (geaendert('rechercheAm') && n.rechercheAm != null && Number.isNaN(Date.parse(n.rechercheAm))) fehler.push(`${n.id}: rechercheAm ist kein Zeitpunkt`)
     if (n.neuErwartet !== a.neuErwartet && n.neuErwartet != null) {
       const t = Date.parse(n.neuErwartet)
       if (Number.isNaN(t) || !/T\d\d:\d\d/.test(n.neuErwartet)) fehler.push(`${n.id}: neuErwartet ohne Datum mit Uhrzeit`)
