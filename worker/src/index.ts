@@ -2690,7 +2690,18 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         zahlOderNull(f.nummer),
         f.titel ? String(f.titel).slice(0, 300) : null,
         f.erschienen ? String(f.erschienen).slice(0, 30) : null,
-        zahlOderNull(f.dauerSek),
+        /*
+          **Netflix schickt die Laufzeit nur in `roh`.** Gemessen am 14.09.2026
+          an fünf Netflix-Rohfolgen: `roh.liste.runtimeSec` und
+          `displayRuntimeSec` (je 1428 bei „Law & Order: Axel"), `dauerSek` fehlt.
+          Ein Erscheinungsdatum liefert die Folgenliste nicht — das einzige
+          Datum ist `bookmark.watchedDate`, und das ist Daniels Wiedergabe.
+        */
+        zahlOderNull(
+          f.dauerSek ??
+            (f.roh as { liste?: Record<string, unknown> } | undefined)?.liste?.runtimeSec ??
+            (f.roh as { liste?: Record<string, unknown> } | undefined)?.liste?.displayRuntimeSec,
+        ),
         f.sprachen ? JSON.stringify(f.sprachen).slice(0, 1000) : null,
         f.untertitel ? JSON.stringify(f.untertitel).slice(0, 1000) : null,
         f.staffelText ? String(f.staffelText).slice(0, 120) : null,
