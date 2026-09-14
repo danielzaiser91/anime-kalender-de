@@ -367,6 +367,13 @@ function schreibeSuchadressen(offen: { id: number; titel: string; plattform: str
   const stand = new Date().toISOString().slice(0, 10)
   if (!offen.length) {
     writeText(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'))
+    /*
+      **Auch „nichts offen" wird geschrieben.** Hier stand nur `return`, und
+      `data/suchadressen-offen.json` behielt die letzten sechs Einträge — alle
+      am 13.09.2026 geklärt, und die Statusanzeige zeigte weiter „Suchadressen 6"
+      (Daniel, 14.09.2026: „wieso passen pills nicht zum echten status?").
+    */
+    writeJson('data/suchadressen-offen.json', [])
     return
   }
   const anisearch = readJson<Record<string, { streams?: { provider?: string; url?: string }[] }>>(

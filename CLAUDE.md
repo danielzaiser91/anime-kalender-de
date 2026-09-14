@@ -1164,6 +1164,23 @@ Am 14.09.2026 stand die Frage, wie viele deutsche Verweise eine belegte Folgenza
 
 **Das Feld am Datensatz ist das Ergebnis des Baus, nicht der Bestand dahinter.** Der Bau überträgt nur einen Teil der Einzelbelege in `dubRanges`; wer eine Abdeckung aus `titles.json` abliest, misst den Bau, nicht das Wissen. Prüffrage vor jeder Abdeckungszahl: *Welche Dateien unter `data/` beantworten dieselbe Frage — und habe ich jede davon gezählt?* Nachmessen mit `node tools/folgenzahl-abdeckung-messen.mjs`; die Regeln, die daraus für die Pillen folgen, stehen an `folgenAngabeFuer()`. Wächst die Spalte „laufend", bekommen mehr Pillen keine Zahl — dann lohnt es, die fehlende Quelle zu suchen.
 
+## Statusanzeige und Erweiterung lesen denselben Stand — den des Workers
+
+Daniel am 14.09.2026, mit zwei Bildern: Die Statusanzeige zeigte „Amazon 6 · Suchadressen 6" und keine Netflix-Pille, die Erweiterung auf Prime „2 Prime-Titel zu prüfen" — aus derselben Prüfliste. „wieso passen pills nicht zum echten status? das sollte doch single source of truth sein."
+
+Drei Rechnungen, drei Fehler:
+
+| Stelle | rechnete | was fehlte |
+|---|---|---|
+| `extension-offene-amazon.mjs` | schrieb den Grund einer Wiedervorlage ins Feld `wiedervorlage` | **keine Stelle liest es** — `amazon.js` fragt `erneut`, `pruefstand.mjs` zählt `eintraege[].offen`, und das stand für Verdachtsfälle auf `false` |
+| `public/data/pruefstand.json` | aus den Listen des letzten vollen Laufs | ich hatte nach der Änderung nur zwei der sechs Generatoren laufen lassen |
+| `amazon.js` | Meldungen **aller Zeiten** plus zwei lokale Speicher (`amazonErledigt`, `amazonWiedervorlage`) | ein früher gemeldeter Titel blieb ausgeblendet, auch wenn die Liste ihn neu vorlegt |
+| `build.ts` (Suchadressen) | schrieb `data/suchadressen-offen.json` nur, wenn etwas offen war | beim Übergang auf „nichts offen" blieb die Datei mit sechs längst geklärten Titeln stehen — die Pille „Suchadressen 6" zählte Arbeit, die es nicht gab |
+
+Seitdem: Eine Wiedervorlage trägt `erneut` und ist offen; die Kette läuft nur ganz (`npm run data:extension-liste`); und `fertig()` in `amazon.js` fragt zuerst `?stand=1` — **dieselbe Antwort, die die Statusanzeige zeigt**. Lokal überbrückt nur noch `frischGemeldet` die Sekunden nach der eigenen Meldung. Der Netflix-Melder las den Stand für seine Zahl schon seit dem 26.08.2026; Prime hat es nie übernommen.
+
+**Prüffrage für jede neue Zahl „offen" in einer Oberfläche:** *Rechnet sie selbst, oder liest sie `?stand=1`?* Rechnet sie selbst, läuft sie früher oder später auseinander — hier dreimal in drei Wochen.
+
 ## Eine Notiz für Besucher ist keine Notiz über unsere Zuordnung
 
 Daniel am 13.09.2026 zu „Zum Start am 19.08.2026 standen die Folgen 1 bis 3 gemeinsam bereit, danach geht es im Wochentakt weiter" im Antwort-Kasten: „das interessiert nicht als textform, wir schreiben bereits wieviele folgen draussen sind … rückblickende gebündelte releases sind uninteressant … das ist höchstens für uns interessant."

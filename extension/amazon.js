@@ -764,6 +764,16 @@ async function speicherSchreiben(werte) {
    * Nutzung wirft — fünfmal in dieser Datei passiert, zuletzt an
    * `kennungBekanntSpeicher`.
    */
+  /**
+   * **Die offenen Prime-Adressen laut Worker — dieselbe Zahl wie in der Statusanzeige.**
+   *
+   * `null`, solange der Worker nicht geantwortet hat. `fertig()` fragt zuerst
+   * hier (14.09.2026, siehe dort). Steht oben, weil `fertig()` von Stellen weit
+   * über seiner Deklaration gerufen wird — ein `let` darunter wirft.
+   */
+  let standZiele = null
+  /** Adressen, die diese Sitzung selbst gemeldet hat — bis der Stand sie abbildet. */
+  const frischGemeldet = new Set()
   /** Adressen, unter denen gemeldet wurde — vom Briefkasten, nicht lokal. */
   let briefkastenAdressen = null
   /** Suchadressen, unter denen gemeldet wurde — vom Briefkasten, nicht lokal. */
@@ -4962,6 +4972,23 @@ async function speicherSchreiben(werte) {
 
   function fertig(asinEintrag) {
     /*
+      **Erledigt ist, was der Worker nicht mehr als Ziel führt.**
+
+      Am 14.09.2026 zeigte die Statusanzeige „Amazon 6", der Knopf hier „2
+      Prime-Titel" — beide aus derselben Liste, aber aus zwei Rechnungen. Die
+      Anzeige liest `?stand=1` (Prüfliste minus Meldungen seit ihrer Erzeugung),
+      diese Datei rechnete mit Meldungen aller Zeiten und zwei lokalen Speichern.
+      Daniel: „das sollte doch single source of truth sein und den tatsächlichen
+      zu meldenden stand anzeigen."
+
+      Seitdem gilt hier dieselbe Antwort wie dort: Führt der Worker die Adresse
+      als offenes Ziel, ist der Eintrag offen. Die eigene Meldung dieser Sitzung
+      (`frischGemeldet`) überbrückt nur die Sekunden bis zum nächsten Abruf. Ohne
+      Antwort des Workers bleibt die ältere Rechnung darunter der Rückfall.
+    */
+    const url = liste[asinEintrag]?.url
+    if (standZiele && url) return !standZiele.has(url) || frischGemeldet.has(url)
+    /*
       **Auch hier entscheidet der Briefkasten, nicht der Rechner.**
 
       Führt er die Adresse dieses Eintrags nicht mehr, ist nichts gemeldet — egal
@@ -5434,6 +5461,24 @@ async function speicherSchreiben(werte) {
       */
       briefkastenErwartungen = daten.erwartungen && typeof daten.erwartungen === 'object' ? daten.erwartungen : null
       briefkastenGeholtAm = Date.now()
+      /*
+        **Im selben Takt der Stand, den die Statusanzeige zeigt.**
+
+        `?stand=1` ist die Prüfliste minus der Meldungen seit ihrer Erzeugung,
+        gerechnet vom Worker. Er verwirft seinen Zwischenspeicher bei jeder
+        Meldung, also bildet der nächste Abruf die eigene Meldung ab — dann ist
+        die Überbrückung in `frischGemeldet` für diese Adresse erledigt.
+      */
+      try {
+        const stand = await fetch(`${WORKER}?stand=1`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null))
+        const prime = (stand?.anbieter ?? []).find((a) => a.plattform === 'primevideo')
+        if (prime && Array.isArray(prime.ziele)) {
+          standZiele = new Set(prime.ziele.map((z) => z.url))
+          for (const u of [...frischGemeldet]) if (!standZiele.has(u)) frischGemeldet.delete(u)
+        }
+      } catch {
+        /* Ohne Stand gilt die ältere Rechnung in `fertig()`. */
+      }
       try {
         uebersichtZeichnen()
       } catch {
@@ -10411,6 +10456,8 @@ async function speicherSchreiben(werte) {
         */
         try {
           if (briefkastenAdressen && eintrag.url) briefkastenAdressen.add(eintrag.url)
+          /* Dieselbe Überbrückung für den Worker-Stand, bis `briefkastenHolen` ihn neu lädt. */
+          if (eintrag.url) frischGemeldet.add(eintrag.url)
         } catch {
           /* Noch keine Auskunft vom Briefkasten — dann gibt es nichts zu ergänzen. */
         }
