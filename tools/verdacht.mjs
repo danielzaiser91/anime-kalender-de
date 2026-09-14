@@ -24,6 +24,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import yaml from 'js-yaml'
 
 /**
  * Offene Verdachtsfälle je Anbieter, als Menge von AniList-Kennungen.
@@ -70,6 +71,33 @@ export function verdachtsfaelle(wurzel, plattform) {
   } catch {
     /* Noch kein Lauf, keine Widersprüche. */
   }
+  /**
+   * **Dritte Quelle: Belege, deren Folgen über den Titel hinausreichen.**
+   *
+   * Ein Handbeleg „Folge 1–22" an einem Titel mit 21 Folgen trägt die Zählung
+   * des Anbieters, nicht unsere (FGO Babylonia: Netflix zählt Episode 0 mit).
+   * Aufgelöst wird das über die Folgentitel — und die schickt die Erweiterung
+   * nur für Seiten, die über die Prüfliste geöffnet werden. Am 13.09.2026 standen
+   * acht solcher Belege seit Tagen als „wartet auf Folgentitel" im Footer, und
+   * keiner war auf einer Liste; es wartete also auf etwas, das nie kommt.
+   *
+   * Gerechnet wird dasselbe wie in `check:logic` („höchstens N nennen Folgen
+   * über der Folgenzahl ihres Titels"). Ist ein Fall zugeordnet, fällt er
+   * dort heraus — und damit hier von selbst von der Liste.
+   */
+  try {
+    const titel = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
+    const folgen = new Map((Array.isArray(titel) ? titel : Object.values(titel)).map((t) => [t.id, t.episodes ?? 0]))
+    const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
+    for (const b of belege) {
+      if (b.platform !== plattform || raus.has(b.anilistId)) continue
+      const n = folgen.get(b.anilistId) ?? 0
+      const bis = Math.max(0, ...(b.dubRanges ?? []).map((r) => r.to ?? 0))
+      if (n > 0 && bis > n) raus.set(b.anilistId, { anbieterZaehlung: { bis, folgen: n } })
+    }
+  } catch {
+    /* Ohne Titel oder Belege gibt es nichts zu vergleichen. */
+  }
   return raus
 }
 
@@ -80,6 +108,12 @@ export function verdachtHinweis(v) {
     Deutsch", eine zweite Quelle findet welches. Der Satz muss sagen, was zu tun
     ist — mit Kanal-Abo nachsehen.
   */
+  if (v.anbieterZaehlung) {
+    return (
+      `Zuordnung: Der Beleg nennt Folgen bis ${v.anbieterZaehlung.bis}, unser Titel hat ${v.anbieterZaehlung.folgen} — ` +
+      `bitte die Folgen hier melden, damit ihre Titel zeigen, welche Folge wohin gehört`
+    )
+  }
   if (v.kanalWiderspruch) {
     return (
       `Wiedervorlage: Die Meldung sagt „kein Deutsch", ${v.kanalWiderspruch} findet deutschen Ton — ` +

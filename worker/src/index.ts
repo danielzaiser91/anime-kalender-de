@@ -2091,6 +2091,25 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         damals kostete es zwei Einträge). `?nach=<id>` setzt dort fort, wo die
         letzte Seite endete; `gesamt` bleibt die ungekürzte Zahl.
       */
+      /*
+        **Probe: die jüngsten Rohfolgen eines Anbieters samt `roh`, auch übernommene.**
+
+        Die Abfrage darunter gibt nur offene Zeilen heraus und ohne `roh` — beides
+        mit Grund (Menge, Kontingent). Welche Felder Netflix je Folge liefert
+        (Laufzeit? Datum?), war am 14.09.2026 damit nicht zu beantworten: Alle
+        Netflix-Zeilen waren längst übernommen, und die Spalte kam nie heraus.
+        Höchstens 5 Zeilen, nach Kennung absteigend — ein Index-Zugriff.
+      */
+      const probe = new URL(request.url).searchParams.get('probe')
+      if (probe) {
+        const { results } = await env.DB.prepare(
+          `SELECT id, url, nummer, titel, erschienen, dauer_sek, plattform, uebernommen, gemeldet_am, roh
+             FROM prime_folge WHERE plattform = ?1 AND roh IS NOT NULL ORDER BY id DESC LIMIT 5`,
+        )
+          .bind(probe.slice(0, 20))
+          .all()
+        return antwort({ probe: results ?? [] })
+      }
       const nach = Number(new URL(request.url).searchParams.get('nach') ?? 0)
       const { results } = await env.DB.prepare(
         /*
