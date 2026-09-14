@@ -14,7 +14,7 @@ import {
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { zugangsart } from '../shared/zugangsart.ts'
-import { adressGleich, dubKey, loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
+import { adressGleich, adressKern, dubKey, loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
 import { crAdresseZu as crAdresseNachName, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import {
   beurteile,
@@ -2916,6 +2916,42 @@ function main(): void {
   for (const liste of checksJePlattform.values()) {
     liste.sort((a, b) => (b.checkedAt ?? '').localeCompare(a.checkedAt ?? ''))
   }
+
+  /**
+   * **Eine zweite Ausgabe mit Deutsch wird ein eigener Verweis.**
+   *
+   * Digimon stand mit genau einer Prime-Adresse im Bestand, der
+   * Crunchyroll-Kanal-Ausgabe `B0CHHNJJW3` — ohne deutschen Ton. Die Ausgabe
+   * „In Prime enthalten" (`B0CGRJGJX1`) hat ihn, und ihr Beleg trägt die
+   * Adresse. `belegFuer()` nimmt bei einem einzigen Weg aber zuerst den Beleg mit
+   * **derselben** Adresse; das Nein zur Kanal-Seite gewann, der Verweis flog
+   * heraus, und das Ja zur anderen Seite fand keinen Weg, an dem es hängen
+   * konnte (Daniel, 14.09.2026).
+   *
+   * Angelegt wird nur, wenn **jeder** vorhandene Weg dieser Plattform belegt
+   * ohne Deutsch ist. Sonst ist die Adresse im Beleg eine Korrektur (siehe
+   * `belegFuer()`), und ein zusätzlicher Verweis wäre eine Dublette. Nur für
+   * Amazon-Titelseiten: Dort sind Ausgaben mit eigener Kennung die Regel.
+   */
+  let ausgabeErgaenzt = 0
+  for (const [schluessel, liste] of checksJePlattform) {
+    const [idRoh, plattform] = schluessel.split('|')
+    const title = titles.get(Number(idRoh))
+    if (!title) continue
+    const wege = title.streams.filter((s) => s.platform === plattform)
+    if (!wege.length) continue
+    /* Je Adresse zählt der jüngste Beleg — die Liste ist oben schon sortiert. */
+    const neuestes = new Map<string, DubCheck>()
+    for (const c of liste) if (c.url && !neuestes.has(adressKern(c.url))) neuestes.set(adressKern(c.url), c)
+    if (!wege.every((s) => neuestes.get(adressKern(s.url))?.dub === false)) continue
+    for (const c of neuestes.values()) {
+      if (c.dub !== true || !/amazon\.de\/(?:dp|gp\/video\/detail)\//.test(c.url ?? '')) continue
+      if (title.streams.some((s) => adressGleich(s.url, c.url))) continue
+      title.streams.push({ platform: plattform as PlatformId, url: c.url! } as StreamLink)
+      ausgabeErgaenzt++
+    }
+  }
+  if (ausgabeErgaenzt) log(`${ausgabeErgaenzt} Verweise auf eine zweite Ausgabe mit deutschem Ton angelegt`)
   const belegFuer = (
     titleId: number,
     plattform: PlatformId,
@@ -6304,6 +6340,77 @@ function main(): void {
   if (ausSuche) log(`${ausSuche} Suchadressen über den deutschen Katalog auf ihre Serienadresse gesetzt`)
   if (suchAdressen) log(`${suchAdressen} Suchadressen entfernt — eine Suche ist kein Weg zu einem Titel`)
   schreibeSuchadressen(suchOffen)
+
+  /**
+   * **Zwei Ausgaben derselben Staffel: die ohne Deutsch bleibt als Auskunft stehen.**
+   *
+   * Ein belegtes Nein entfernt den Verweis (15.08.2026), und dabei bleibt es.
+   * Gibt es beim selben Anbieter aber **auch** eine Ausgabe mit deutschem Ton,
+   * findet ein Besucher dort beide und weiß nicht, welche gemeint ist — Digimon
+   * bei Prime: „In Prime enthalten" mit Synchro, der Crunchyroll-Kanal nur mit
+   * Untertiteln. Daniel am 14.09.2026: „wenn beides legit ist, dann sollten wir
+   * diese erkenntnis offen kommunizieren".
+   *
+   * Gelesen wird aus den Belegen, nicht aus den entfernten Verweisen: Ob die
+   * Kanal-Adresse in diesem Lauf überhaupt als Verweis ankam, hängt an den
+   * Sammelquellen; das Nein im Beleg steht fest. Je Adresse zählt der jüngste
+   * Beleg — ein späteres Ja nimmt die Ausgabe wieder heraus.
+   *
+   * Im selben Zug fällt dieselbe Seite unter zwei Schreibweisen weg (`/dp/` und
+   * `/gp/video/detail/`, Date a Live V trug beide als zwei Pillen).
+   */
+  {
+    const kanalName = (text: string): string | undefined => {
+      const treffer =
+        /Abos:[^—]*?\b(crunchyroll|aniverse|animedigital)de\b/i.exec(text)?.[1] ??
+        /\b(Crunchyroll|Aniverse|ADN)[ -](?:Amazon Channel|Kanal)/i.exec(text)?.[1]
+      if (!treffer) return undefined
+      const k = treffer.toLowerCase()
+      return k === 'crunchyroll' ? 'Crunchyroll' : k === 'aniverse' ? 'Aniverse' : 'ADN'
+    }
+    let doppelt = 0
+    let ausgabenOhneDe = 0
+    for (const title of titles.values()) {
+      const gesehen = new Set<string>()
+      const vorher = title.streams.length
+      title.streams = title.streams.filter((s) => {
+        const k = `${s.platform}|${adressKern(s.url)}`
+        if (gesehen.has(k)) return false
+        gesehen.add(k)
+        return true
+      })
+      doppelt += vorher - title.streams.length
+
+      const ausgaben: NonNullable<Title['ausgabenOhneDe']> = []
+      for (const plattform of new Set(title.streams.filter((s) => s.dub === true).map((s) => s.platform))) {
+        const beurteilt = new Set<string>()
+        for (const c of checksJePlattform.get(dubKey(title.id, plattform)) ?? []) {
+          if (!c.url || beurteilt.has(adressKern(c.url))) continue
+          beurteilt.add(adressKern(c.url))
+          if (c.dub !== false) continue
+          if (title.streams.some((s) => adressGleich(s.url, c.url))) continue
+          const texte = alleChecks
+            .filter((x) => x.anilistId === title.id && x.platform === plattform && adressGleich(x.url, c.url))
+            .map((x) => `${x.note ?? ''} ${(x as { zweiteQuelle?: string }).zweiteQuelle ?? ''}`)
+            .join(' ')
+          const kanal = kanalName(texte)
+          ausgaben.push({
+            platform: plattform,
+            url: c.url,
+            ...(kanal ? { kanal } : {}),
+            ...(/Deutsch nur als Untertitel/i.test(texte) ? { untertitelDe: true } : {}),
+            ...(c.checkedAt ? { geprueftAm: c.checkedAt } : {}),
+          })
+        }
+      }
+      if (ausgaben.length) {
+        title.ausgabenOhneDe = ausgaben
+        ausgabenOhneDe += ausgaben.length
+      }
+    }
+    if (doppelt) log(`${doppelt} doppelte Verweise (dieselbe Seite, andere Schreibweise) zusammengelegt`)
+    if (ausgabenOhneDe) log(`${ausgabenOhneDe} Ausgaben ohne deutschen Ton neben einer mit Deutsch angezeigt`)
+  }
 
   const allTitles = [...titles.values()]
   const genres = [...new Set(allTitles.flatMap((t) => t.genres))].sort((a, b) => a.localeCompare(b, 'de'))

@@ -284,6 +284,11 @@ const TEXTE = {
   'detail.linkBuy': 'kaufen oder leihen',
 
   'detail.gone': 'nicht mehr abrufbar, geprüft am {d}',
+  'detail.ausgabeKanal': '{kanal}-Kanal',
+  'detail.ausgabeAndere': 'andere Ausgabe',
+  'detail.ausgabeOhneDe': 'ohne DE',
+  'detail.ausgabeNurUt': 'nur dt. Untertitel',
+  'detail.ausgabeTitel': '{anbieter} führt zwei Ausgaben. Diese hat keinen deutschen Ton, die andere schon.',
   'detail.whereToWatch': 'Wo läuft es',
   'where.umschalter': 'Stream oder Disc',
   'where.umschalterStream': 'Stream',

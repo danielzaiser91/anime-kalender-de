@@ -1181,6 +1181,28 @@ Seitdem: Eine Wiedervorlage trägt `erneut` und ist offen; die Kette läuft nur 
 
 **Prüffrage für jede neue Zahl „offen" in einer Oberfläche:** *Rechnet sie selbst, oder liest sie `?stand=1`?* Rechnet sie selbst, läuft sie früher oder später auseinander — hier dreimal in drei Wochen.
 
+## Zwei Ausgaben derselben Staffel beim selben Anbieter — beide werden gezeigt
+
+Daniel am 14.09.2026 an Digimon, mit drei Bildern: Die Prime-Pille führte auf `B0CHHNJJW3`, ohne deutschen Ton, und dort hat er gemeldet. Unter `B0CGRJGJX1` liegen dieselben 54 Folgen mit deutscher Synchro, mit anderen Folgentiteln und demselben Datum. „wenn beides legit ist, dann sollten wir diese erkenntnis offen kommunizieren … die pills zu amazon ohne de entsprechend auch anzeigen, aber mit durchstrich".
+
+Die Auflösung stand bei JustWatch **je Angebot**, und die Gegenprobe las sie je Titel:
+
+| JustWatch-Angebot | Ton | Untertitel |
+|---|---|---|
+| Amazon Prime Video (Flatrate) | de | de |
+| Aniverse Amazon Channel | de | de |
+| Crunchyroll Amazon Channel | es, ja, pt | u. a. de |
+
+Die Meldung trug `Abos: crunchyrollde`. Sie war also richtig, und das Deutsch gehört einer anderen Ausgabe. `kanal-gegenprobe.ts` hielt sie für einen Widerspruch und legte die Kanal-Seite erneut vor, wo erneut kein Deutsch zu sehen war. Von den fünf „Widersprüchen" vom 09.09.2026 waren drei solche Fälle (Digimon, Bungo Stray Dogs, Touken Ranbu), einer ein belegtes Nein (Trinity Seven: Deutsch nur bei MagentaTV und Apple), einer echt (Free!: das Crunchyroll-Angebot selbst hat de).
+
+Seitdem:
+
+- **Die Gegenprobe vergleicht mit dem Angebot des gemeldeten Kanals.** Ohne Deutsch dort gilt ein Nein für diese Ausgabe. Hat ein **anderes** Amazon-Angebot Deutsch, entsteht `art: 'andere-ausgabe'` in `data/kanal-widerspruch.json`, und die Prüfliste legt statt der Kanal-Seite eine **Suche** vor, auf der die Ausgabe mit Deutsch angekreuzt wird. Ein Urteil gilt der Adresse, nicht dem Titel (`beurteiltSchluessel()`). Achtung beim Bearbeiten: Die alten Schlüssel dort trennten mit einem NUL-Zeichen, das `grep` als Leerzeichen zeigt und an dem `Edit` scheitert.
+- **Der Bau legt die Ausgabe mit Deutsch als Verweis an**, wenn jeder vorhandene Weg der Plattform belegt ohne Deutsch ist. Sonst ist die Adresse im Beleg eine Korrektur, siehe `belegFuer()`.
+- **`Title.ausgabenOhneDe` hält die Ausgabe ohne Deutsch fest**, nur wenn derselbe Titel beim selben Anbieter einen deutschen Verweis hat. Gelesen wird aus den Belegen, nicht aus den entfernten Verweisen. Das Panel zeigt sie durchgestrichen mit Kanal und „ohne DE" oder „nur dt. Untertitel". Die Regel „ein belegtes Nein entfernt den Verweis" (15.08.2026) gilt für alle übrigen Fälle weiter.
+
+**Prüffrage bei jedem Widerspruch zwischen einer Meldung und einer fremden Quelle:** *Meinen beide dieselbe Ausgabe?* Der Abschnitt „Ein Beleg gehört einer Ausgabe, nicht einem Titel" (07.09.2026) zog diese Trennung für unsere Belege. Für die zweite Quelle fehlte sie.
+
 ## Eine Notiz für Besucher ist keine Notiz über unsere Zuordnung
 
 Daniel am 13.09.2026 zu „Zum Start am 19.08.2026 standen die Folgen 1 bis 3 gemeinsam bereit, danach geht es im Wochentakt weiter" im Antwort-Kasten: „das interessiert nicht als textform, wir schreiben bereits wieviele folgen draussen sind … rückblickende gebündelte releases sind uninteressant … das ist höchstens für uns interessant."

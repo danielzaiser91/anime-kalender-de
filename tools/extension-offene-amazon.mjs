@@ -619,6 +619,47 @@ try {
 }
 if (ausVorschlaegen) console.log(`  ${ausVorschlaegen} Suchen aus TMDB-Vorschlägen`)
 
+/*
+  **Eine zweite Ausgabe mit Deutsch wird gesucht, nicht die Kanal-Seite erneut vorgelegt.**
+
+  Die Kanal-Seite ist gemeldet und zeigt kein Deutsch; JustWatch nennt aber ein
+  anderes Amazon-Angebot mit deutschem Ton (Prime inklusive oder ein zweiter
+  Kanal). Die Kanal-Seite wieder vorzulegen führt auf dieselbe Seite ohne
+  Deutsch. Die Suche zeigt beide Ausgaben, und die mit Deutsch wird dort
+  angekreuzt und gemeldet (Daniel, 14.09.2026, an Digimon: „baust entsprechend
+  verweise in prüfliste um sodass die auf searchseite zeigen und ich beides
+  auswählen kann"). Ist sie gemeldet, schreibt `kanal-gegenprobe.ts` den Fall
+  nicht mehr, und die Zeile fällt von selbst heraus.
+*/
+let zweiteAusgaben = 0
+try {
+  const roh = JSON.parse(readFileSync(resolve(wurzel, 'data/kanal-widerspruch.json'), 'utf8'))
+  for (const v of Array.isArray(roh?.faelle) ? roh.faelle : []) {
+    if (v.art !== 'andere-ausgabe' || v.platform !== 'primevideo') continue
+    const t = titel.find((x) => x.id === v.titleId)
+    if (!t) continue
+    const name = t.titleDe ?? t.titleEn ?? t.titleRomaji ?? v.titel
+    const url = 'https://www.amazon.de/s?k=' + encodeURIComponent(suchbegriffAus(name)) + '&i=instant-video'
+    if (suche[url] || geprueftePrime.adressen.has(url)) continue
+    suche[url] = {
+      titel: mitTeilnummer(name, t),
+      erneut:
+        `Zweite Ausgabe: ${v.anbieter} führt diesen Titel mit deutschem Ton, die gemeldete Kanal-Ausgabe nicht — ` +
+        `die Ausgabe mit Deutsch ankreuzen und melden`,
+      suchbegriff: suchbegriffAus(t.titleDe ?? name),
+      suchbegriffEn: t.titleEn && t.titleEn !== t.titleDe ? suchbegriffAus(t.titleEn) : null,
+      id: t.id,
+      folgen: t.episodes ?? null,
+      jahr: Number.isFinite(t.jpYear) ? t.jpYear : null,
+      asId: anisearch[String(t.id)]?.anisearchId ?? null,
+    }
+    zweiteAusgaben++
+  }
+} catch {
+  /* Noch keine Gegenprobe gelaufen — nichts zu suchen. */
+}
+if (zweiteAusgaben) console.log(`  ${zweiteAusgaben} Suchen nach einer zweiten Ausgabe mit deutschem Ton`)
+
 writeFileSync(
   resolve(wurzel, 'extension/offene-amazon-suche.js'),
   'globalThis.AK_PRIME_SUCHE = ' + JSON.stringify(suche) + '\n',

@@ -65,7 +65,12 @@ export function verdachtsfaelle(wurzel, plattform) {
   try {
     const roh = JSON.parse(readFileSync(resolve(wurzel, 'data/kanal-widerspruch.json'), 'utf8'))
     for (const v of Array.isArray(roh?.faelle) ? roh.faelle : []) {
-      if (v.platform !== plattform || raus.has(v.titleId)) continue
+      /*
+        Eine zweite Ausgabe mit Deutsch ist kein Widerspruch zur Kanal-Seite —
+        die erneut vorzulegen zeigt wieder kein Deutsch. Sie wird gesucht
+        (`extension-offene-amazon.mjs`, 14.09.2026).
+      */
+      if (v.platform !== plattform || raus.has(v.titleId) || v.art === 'andere-ausgabe') continue
       raus.set(v.titleId, { kanalWiderspruch: v.quelle ?? 'JustWatch', seit: v.seit })
     }
   } catch {
