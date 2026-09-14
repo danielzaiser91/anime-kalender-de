@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { ReactNode } from 'react'
-import type { Meldung, Release, ReleaseEvent, Title, VermerkAusgeblieben, WatchLink } from '@shared/types.ts'
+import type { Meldung, Release, ReleaseEvent, StreamLink, Title, VermerkAusgeblieben, WatchLink } from '@shared/types.ts'
 import { dubAbdeckung, dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
-import { expandEvents, titleStatus, istErschienen, istAusgeblieben } from '@shared/logic.ts'
+import { expandEvents, titleStatus, istErschienen, istAusgeblieben, releaseStatus } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { addDays, formatDate, monthName, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -873,7 +873,13 @@ function AntwortKasten({
             fünf Anbietern gemessen). Ab der dritten Reihe wird gescrollt — das
             ist die Ausnahme für fünf und mehr Wege, nicht der Normalfall.
           */}
-          <div className="flex max-h-[4.4rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
+          {/*
+            **Zwei Reihen zweizeiliger Pillen, nicht einzeiliger.** Seit jede
+            Pille ihre Folgenzahl trägt (14.09.2026), ist sie rund 42 px hoch;
+            zwei Reihen brauchen damit etwa 94 px, `4.4rem` gab 70 — bei „Kill
+            Blue" lag die vierte Pille abgeschnitten im Rollbereich.
+          */}
+          <div className="flex max-h-[6rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
             {pillen}
           </div>
         </div>
@@ -999,12 +1005,13 @@ function Meldungen({ titleId }: { titleId: number }) {
  * klickbarer bereich sein, uebersichtlich, stream pills und kauf pills, alle
  * infos in die pills."
  *
- * **Was in der Pille steht, steht im Datensatz.** Die zweite Zeile nennt die
- * Bedingung — Abo, kostenlos, Kanal —, nicht die Folgenzahl: Ein Stream-Verweis
- * zeigt auf die **Serie**, nicht auf unsere Staffel. Daniel am 25.08.2026 zu
- * einem Entwurf, der "12 Folgen" behauptete: "ADN hat folgen 1-24, netflix
- * auch, crunchy auch." Eine Folgenangabe erscheint nur, wo `dubRanges` eine
- * belegte Grenze kennt — also dort, wo der deutsche Ton wirklich aufhoert.
+ * **Was in der Pille steht, steht im Datensatz.** Seit dem 14.09.2026 nennt die
+ * zweite Zeile die Folgenzahl **unseres Titels** bei diesem Anbieter (Regeln an
+ * der Stelle, an der sie entsteht). Der Einwand vom 25.08.2026 bleibt der
+ * Maßstab — ein Stream-Verweis zeigt auf die **Serie**, und „12 Folgen" darf
+ * nur dastehen, wo es für diesen Titel gilt (Daniel damals: "ADN hat folgen
+ * 1-24, netflix auch, crunchy auch"). Deshalb zählt die Zahl die Folgen des
+ * Titels, nicht die der Anbieter-Seite.
  */
 /**
  * **Ein zugegangener Weg sieht aus wie der Weg, nur durchgestrichen.**
@@ -2515,6 +2522,50 @@ export function DetailPanel({
     [releases, title],
   )
 
+  /*
+    **Die Pille nennt, wie viele Folgen es dort gibt — nicht, seit wann.**
+
+    Daniel am 13.09.2026: „in den pills muss überall drin stehen wieviele
+    episoden bei dem jeweiligen anbieter sind. einfaches de ✅ reicht nicht, und
+    seit datum ist uninteressant." Das Datum bleibt im Datensatz.
+
+    Vier Quellen, gemessen am 14.09.2026 über 1.982 deutsche Verweise (517 Filme,
+    783 mit Einzelbeleg je Anbieter, 682 abgeschlossene Serien, 0 laufende ohne
+    Beleg), von Daniel so bestätigt:
+
+    1. **Film:** keine Zahl — ein Film ist eine Folge.
+    2. **Belegte Bereiche:** was sie sagen — „nur Fg. 1" (Date a Live auf
+       YouTube, 07.09.2026: „was da ist, nicht was fehlt"), eine Lücke, eine
+       Grenze oder die Summe.
+    3. **Laufende Wochenserie:** die bei diesem Anbieter erschienenen Folgen,
+       gezählt wie im Kasten darüber.
+    4. **Abgeschlossene Serie:** die Folgen des Titels — dieselbe Rechnung wie
+       „Alle 12 Folgen auf Deutsch".
+
+    Eine laufende Serie ohne Wochenplan und ohne Beleg bekommt keine Zahl — dort
+    wüssten wir sie nicht. Ein Bezugsweg („Amazon Prime (Crunchyroll)") erbt die
+    Angaben des Verweises mit derselben Adresse; ohne ihn gilt die Regel des Titels.
+  */
+  const folgenAngabeFuer = (s: { platform?: string; dubRanges?: StreamLink['dubRanges'] } | undefined): string => {
+    if (!title || title.format === 'MOVIE') return ''
+    const deutsch = (s?.dubRanges ?? []).filter((r) => r.dub)
+    if (deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1) return t('detail.dubNurEine')
+    const luecken = dubLuecken(s?.dubRanges)
+    if (luecken) return t('detail.dubLuecken', { n: luecken })
+    const grenze = dubGrenze(s?.dubRanges)
+    if (grenze) return t(grenze.schluessel, { n: grenze.n })
+    const release = s?.platform ? releaseJePlattform.get(s.platform) : undefined
+    if (release?.releaseType === 'weekly' && releaseStatus(release, today) === 'airing') {
+      const raus = expandEvents(release).filter((e) => istErschienen(e)).length
+      return raus ? t('detail.folgenKurz', { n: raus }) : ''
+    }
+    if (deutsch.length) return t('detail.folgenKurz', { n: dubAbdeckung(s?.dubRanges, title.episodes).belegt })
+    const abgeschlossen = title.jpEnd
+      ? title.jpEnd < today
+      : Boolean(title.jpYear && title.jpYear < Number(today.slice(0, 4)))
+    return abgeschlossen && title.episodes ? t('detail.folgenKurz', { n: title.episodes }) : ''
+  }
+
   const wechsleZu = (id: number) => {
     if (id === titleId) return
     if (data.titleById.has(id)) {
@@ -3477,8 +3528,8 @@ export function DetailPanel({
                       der ist Folge 1. Alles Übrige bleibt bei der Lücken-Form,
                       die dort die kürzere Auskunft ist.
                     */
-                    const deutsch = (s.dubRanges ?? []).filter((r) => r.dub)
-                    const nurErste = deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1
+                    /* Regeln an `folgenAngabeFuer()` — Film, Bereiche, laufend, abgeschlossen. */
+                    const folgenAngabe = folgenAngabeFuer(s)
                     return (
                       <Pille
                         key={s.platform}
@@ -3487,26 +3538,10 @@ export function DetailPanel({
                         url={s.url}
                         unten={
                           [
-                            nurErste
-                              ? t('detail.dubNurEine')
-                              : luecken
-                                ? t('detail.dubLuecken', { n: luecken })
-                                : grenze
-                                  ? t(grenze.schluessel, { n: grenze.n })
-                                  : '',
+                            folgenAngabe,
                             s.teilBereich
                               ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
                               : '',
-                            /* Seit wann es dort läuft — die Angabe, für die es
-                               bis zum 04.09.2026 einen eigenen Abschnitt gab. */
-                            (() => {
-                              const d = releaseJePlattform.get(s.platform)?.schedule?.firstEpisodeDate
-                              return d
-                                ? t(d > today ? 'detail.abDatum' : 'detail.seitDatum', {
-                                    d: formatDate(d),
-                                  })
-                                : ''
-                            })(),
                           ]
                             .filter(Boolean)
                             .join(' · ') || undefined
@@ -3643,7 +3678,9 @@ export function DetailPanel({
                           unten={
                             g.eintraege[0].nurFolge
                               ? t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
-                              : undefined
+                              : folgenAngabeFuer(
+                                  (title.streams ?? []).find((x) => x.url === g.eintraege[0].url),
+                                ) || undefined
                           }
                         />
                       )),

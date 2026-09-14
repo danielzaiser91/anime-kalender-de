@@ -1150,6 +1150,20 @@ Gemessen am 13.09.2026 von Daniel an zwei Titeln, beide mit Bild:
 
 Der Lauf hatte die OVA über ihren eigenen Block beurteilt und ein **Nein** gebucht, obwohl dieselbe Folge im Dub-Block synchronisiert steckt; die Staffel blieb offen, weil er eine Staffel mit genau 12 Folgen suchte. **Vor einem Nein zu einer Nebenausgabe wird deshalb nach einem deutschen Block gesucht, der eine Hauptserie der Reihe um die Nebenausgabe übersteigt**, und eine Staffel darf als Summe aus Werk plus Nebenausgabe derselben Reihe aufgehen (fetch-crunchyroll-offene.ts). Dieselbe Rechnung wie „Der Anbieter zählt kumulativ“ bei Netflix, nur eine Ebene tiefer.
 
+## Wer eine Abdeckung misst, zählt alle Quellen — nicht die eine, die am Verweis steht
+
+Am 14.09.2026 stand die Frage, wie viele deutsche Verweise eine belegte Folgenzahl je Anbieter haben. Meine erste Antwort war „93 von 1.982, 5 %" — gezählt hatte ich nur `dubRanges` am Verweis. Daniel: „guck nochmal genau in bestand ob wir evtl schon mehr wissen als die 5% die du ansprichst." Es waren **66 %**, und der Rest (682) sind abgeschlossene Serien, für die die Folgenzahl des Titels gilt:
+
+| Quelle | Verweise |
+|---|---|
+| Film (eine Folge) | 517 |
+| Crunchyroll-Dub-Bestand, `deutscheFolgen` je Staffel | 515 |
+| ADN-Historie (`data/adn-vde-historie.json`) | 98 |
+| Handbelege und Meldungen (`dubRanges`) | 91 |
+| Streaming-Availability-Archiv, `dienste.<anbieter>.deutsch` | 79 |
+
+**Das Feld am Datensatz ist das Ergebnis des Baus, nicht der Bestand dahinter.** Der Bau überträgt nur einen Teil der Einzelbelege in `dubRanges`; wer eine Abdeckung aus `titles.json` abliest, misst den Bau, nicht das Wissen. Prüffrage vor jeder Abdeckungszahl: *Welche Dateien unter `data/` beantworten dieselbe Frage — und habe ich jede davon gezählt?* Nachmessen mit `node tools/folgenzahl-abdeckung-messen.mjs`; die Regeln, die daraus für die Pillen folgen, stehen an `folgenAngabeFuer()`. Wächst die Spalte „laufend", bekommen mehr Pillen keine Zahl — dann lohnt es, die fehlende Quelle zu suchen.
+
 ## Eine Notiz für Besucher ist keine Notiz über unsere Zuordnung
 
 Daniel am 13.09.2026 zu „Zum Start am 19.08.2026 standen die Folgen 1 bis 3 gemeinsam bereit, danach geht es im Wochentakt weiter" im Antwort-Kasten: „das interessiert nicht als textform, wir schreiben bereits wieviele folgen draussen sind … rückblickende gebündelte releases sind uninteressant … das ist höchstens für uns interessant."

@@ -157,12 +157,23 @@ async function main() {
           (m, k) => Math.max(m, Math.round(k.getBoundingClientRect().bottom - el.getBoundingClientRect().bottom)),
           0,
         ),
+        /*
+          **Und der Pillenbereich darf nicht selbst rollen.** Er hat eine eigene
+          Höchsthöhe mit `overflow-y-auto`; ragt eine Pillenreihe hinein, ist
+          der Kasten außen korrekt und die Pille trotzdem abgeschnitten. Am
+          14.09.2026 bei „Kill Blue" so gemeldet „alles im Kasten", während die
+          ADN-Pille halb verdeckt war.
+        */
+        pillen: [...el.querySelectorAll('.overflow-y-auto')].reduce(
+          (m, p) => Math.max(m, p.scrollHeight - p.clientHeight),
+          0,
+        ),
       }))
       if (thema === 'dunkel') {
         hoehen.push({
           id,
           hoehe: Math.round(box?.height ?? 0),
-          ueberlauf: Math.max(ueberlauf.innen - ueberlauf.sichtbar, ueberlauf.raus),
+          ueberlauf: Math.max(ueberlauf.innen - ueberlauf.sichtbar, ueberlauf.raus, ueberlauf.pillen),
         })
       }
       await panel.screenshot({ path: path.join(WURZEL, 'docs', `panel-${id}-${thema}.png`) })
