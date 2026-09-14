@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-14T09:52:14.345Z",
+  "scrapedAt": "2026-09-14T11:33:12.645Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -15347,7 +15347,7 @@
       "seriesId": "G79H23ZQ3",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-30",
+      "geprueftAm": "2026-09-14",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -39789,7 +39789,7 @@
       "seriesId": "GNVHKN952",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-30",
+      "geprueftAm": "2026-09-14",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -53532,7 +53532,7 @@
       "seriesId": "GJ0H7QG4E",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-30",
+      "geprueftAm": "2026-09-14",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -63409,7 +63409,7 @@
       "seriesId": "GXJHM39MP",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-30",
+      "geprueftAm": "2026-09-14",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -145703,6 +145703,101 @@
       "quelle": "api",
       "geprueftAm": "2026-09-09",
       "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYJQV73V6/love-chunibyo--other-delusions---heart-throb--",
+      "seriesId": "GYJQV73V6",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-14",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Love, Chunibyo & Other Delusions - Heart Throb - (German Dub)",
+          "staffelId": "GYP8CXW2Q",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GG1U2M5E0",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G0DUN3W05",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G7PU452VE",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GX9UQDM70",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G14U43JE9",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GN7UDZK7M",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GMKUXZMWM",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G31UXPEQX",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G2XU021J9",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GD9UVNZD4",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GQJUGD07D",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GWDU89MGK",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G0DUN3W45",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Love, Chunibyo & Other Delusions - Heart Throb - (OVA)",
+          "staffelId": "GR2PCVZM5",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     }
   ]
 }
