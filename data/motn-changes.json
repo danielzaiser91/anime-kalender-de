@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 29
+    "2026-09": 31
   },
   "gesehen": {
     "26341901:netflix": {
@@ -3939,7 +3939,27 @@
       "dienst": "prime",
       "am": "2026-09-12",
       "deutsch": true
+    },
+    "new:24974277:netflix": {
+      "art": "new",
+      "titel": "Love Upon a Time",
+      "originalTitel": "ภพเธอ",
+      "imdbId": "tt34934110",
+      "tmdbId": "tv/217838",
+      "dienst": "netflix",
+      "am": "2026-09-13",
+      "deutsch": false
+    },
+    "new:26599179:netflix": {
+      "art": "new",
+      "titel": "Four Hands, Two Sonatas",
+      "originalTitel": "포핸즈",
+      "imdbId": "tt39368345",
+      "tmdbId": "tv/305644",
+      "dienst": "netflix",
+      "am": "2026-09-13",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-13T09:36:48.126Z"
+  "fetchedAt": "2026-09-14T09:53:06.854Z"
 }

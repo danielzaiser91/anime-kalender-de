@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-13T09:35:52.264Z",
+  "scrapedAt": "2026-09-14T09:52:14.345Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -55170,7 +55170,7 @@
       "seriesId": "GNVHKN933",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-12",
+      "geprueftAm": "2026-09-14",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -55318,9 +55318,9 @@
         {
           "name": "Season 3",
           "staffelId": "GS00378132JAJP",
-          "folgen": 10,
-          "kacheln": 10,
-          "deutsch": 7,
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 8,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -55358,6 +55358,11 @@
               "nummer": 31,
               "guid": "GE00380161DEDE",
               "verfuegbarAb": "2026-09-06T14:00:00Z"
+            },
+            {
+              "nummer": 32,
+              "guid": "GE00380162DEDE",
+              "verfuegbarAb": "2026-09-13T14:00:00Z"
             }
           ]
         }
@@ -61747,15 +61752,15 @@
       "seriesId": "GT00371881",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-12",
+      "geprueftAm": "2026-09-14",
       "deutschImAngebot": true,
       "staffeln": [
         {
           "name": "Staffel 1",
           "staffelId": "GS00371882JAJP",
-          "folgen": 9,
-          "kacheln": 9,
-          "deutsch": 6,
+          "folgen": 10,
+          "kacheln": 10,
+          "deutsch": 7,
           "fremd": 3,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -61788,6 +61793,11 @@
               "nummer": 6,
               "guid": "GE00378874DEDE",
               "verfuegbarAb": "2026-09-06T15:45:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GE00378875DEDE",
+              "verfuegbarAb": "2026-09-13T15:45:00Z"
             }
           ]
         }
@@ -61968,7 +61978,7 @@
       "seriesId": "GT00371896",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-12",
+      "geprueftAm": "2026-09-14",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -61976,8 +61986,8 @@
           "staffelId": "GS00371897JAJP",
           "folgen": 12,
           "kacheln": 12,
-          "deutsch": 8,
-          "fremd": 4,
+          "deutsch": 10,
+          "fremd": 2,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -62019,6 +62029,16 @@
               "nummer": 8,
               "guid": "GE00375338DEDE",
               "verfuegbarAb": "2026-09-06T15:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GE00375339DEDE",
+              "verfuegbarAb": "2026-09-13T15:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GE00375340DEDE",
+              "verfuegbarAb": "2026-09-13T15:00:00Z"
             }
           ]
         }
