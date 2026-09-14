@@ -15330,3 +15330,39 @@
       checked: [26]
   checkedAt: '2026-09-10'
   note: "Folgen 1–25 mit deutschem Ton, Folge 26 ohne deutschen Ton — Amazon-Seite B0D4K9PV2F: alle 26 Folgen geprüft, Abos: animedigitalde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Zweite Prime-Ausgabe mit deutschem Ton, 14.09.2026 ---
+- anilistId: 552
+  title: "Digimon"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CGRJGJX1
+  dub: true
+  checkedAt: '2026-09-14'
+  zweiteQuelle: "JustWatch 2026-09-09: Amazon Prime Video (Flatrate) und Aniverse Amazon Channel — Ton de"
+  note: "Ausgabe „In Prime enthalten“: die Erweiterung zeigte in Daniels Sitzung Deutsch, 54 Folgen, Staffel 1. Daniel am 14.09.2026: „Digimon Staffel 1, alle 54 Folgen existieren auf prime auf deutsch, aber unter anderer ASIN“. Die Ausgabe B0CHHNJJW3 läuft über den Crunchyroll-Kanal."
+
+# --- Kanal-Meldungen mit zweiter Quelle belegt, 2026-09-14 ---
+- anilistId: 103631
+  title: "Trinity Seven: Heavens Library & Crimson Lord"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0HFKQ7R7T
+  dub: false
+  checkedAt: '2026-09-14'
+  zweiteQuelle: "JustWatch 2026-09-07: Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+- anilistId: 21311
+  title: "Bungo Stray Dogs"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0BZGQZCFT
+  dub: false
+  checkedAt: '2026-09-14'
+  zweiteQuelle: "JustWatch 2026-09-07: Crunchyroll Amazon Channel — Ton en, es, fr, ja, pt, ru, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+- anilistId: 552
+  title: "Digimon"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CHHNJJW3
+  dub: false
+  checkedAt: '2026-09-14'
+  zweiteQuelle: "JustWatch 2026-09-09: Crunchyroll Amazon Channel — Ton es, ja, pt, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."

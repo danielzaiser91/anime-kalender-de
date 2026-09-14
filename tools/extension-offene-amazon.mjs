@@ -244,15 +244,27 @@ for (const [asin, eintraege] of jeAsin) {
   const sortiert = eintraege
     .slice()
     .sort((a, b) => (a.t.jpYear ?? 0) - (b.t.jpYear ?? 0) || (JAHRESZEIT[a.t.jpSeason] ?? 0) - (JAHRESZEIT[b.t.jpSeason] ?? 0))
+  /*
+    **`erneut`, nicht `wiedervorlage` — und der Eintrag ist offen.**
+
+    Bis zum 14.09.2026 stand der Grund hier im Feld `wiedervorlage`, das keine
+    Stelle liest: `amazon.js` fragt `erneut`, `tools/pruefstand.mjs` zählt
+    `eintraege[].offen`. Beides ging an Verdachtsfällen vorbei — die
+    Zuordnungsaufträge (Captain Tsubasa, Golden Kamuy, Solo Leveling, Haikyu!!)
+    fehlten in der Statusanzeige, und die Erweiterung blendete die
+    Kanal-Widersprüche aus, weil unter ihren Adressen früher schon gemeldet
+    worden war. Daniel sah drei verschiedene Zahlen für dieselbe Liste: „das
+    sollte doch single source of truth sein."
+  */
   offen[asin] = {
-    ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
+    ...(verdacht ? { erneut: verdachtHinweis(verdacht) } : {}),
     titel: listenName(sortiert[0].t),
     url: sortiert[0].url,
     eintraege: sortiert.map((e) => ({
       id: e.t.id,
       name: listenName(e.t),
       folgen: e.t.episodes ?? null,
-      offen: e.dub === undefined,
+      offen: e.dub === undefined || Boolean(verdaechtig.get(e.t.id)),
       /* Für den Gegencheck: aniSearch führt zu jedem Titel die Sprachfassungen. */
       ...(e.t.anisearchId ? { asId: e.t.anisearchId } : {}),
     })),
@@ -516,7 +528,8 @@ for (const t of titel) {
     const verdacht = verdaechtig.get(t.id)
     suche[s.url] = {
       titel: angezeigt,
-      ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
+      /* `erneut` wie bei den Titelseiten — das Feld, das die Erweiterung liest. */
+      ...(verdacht ? { erneut: verdachtHinweis(verdacht) } : {}),
       /*
         Der Begriff, mit dem wirklich gesucht wird — deutscher Titel zuerst,
         Englisch nur als Rückfall, Gattungswörter raus.
@@ -605,6 +618,47 @@ try {
   /* Ohne Vorschlagsdatei bleibt die Liste, wie sie war. */
 }
 if (ausVorschlaegen) console.log(`  ${ausVorschlaegen} Suchen aus TMDB-Vorschlägen`)
+
+/*
+  **Eine zweite Ausgabe mit Deutsch wird gesucht, nicht die Kanal-Seite erneut vorgelegt.**
+
+  Die Kanal-Seite ist gemeldet und zeigt kein Deutsch; JustWatch nennt aber ein
+  anderes Amazon-Angebot mit deutschem Ton (Prime inklusive oder ein zweiter
+  Kanal). Die Kanal-Seite wieder vorzulegen führt auf dieselbe Seite ohne
+  Deutsch. Die Suche zeigt beide Ausgaben, und die mit Deutsch wird dort
+  angekreuzt und gemeldet (Daniel, 14.09.2026, an Digimon: „baust entsprechend
+  verweise in prüfliste um sodass die auf searchseite zeigen und ich beides
+  auswählen kann"). Ist sie gemeldet, schreibt `kanal-gegenprobe.ts` den Fall
+  nicht mehr, und die Zeile fällt von selbst heraus.
+*/
+let zweiteAusgaben = 0
+try {
+  const roh = JSON.parse(readFileSync(resolve(wurzel, 'data/kanal-widerspruch.json'), 'utf8'))
+  for (const v of Array.isArray(roh?.faelle) ? roh.faelle : []) {
+    if (v.art !== 'andere-ausgabe' || v.platform !== 'primevideo') continue
+    const t = titel.find((x) => x.id === v.titleId)
+    if (!t) continue
+    const name = t.titleDe ?? t.titleEn ?? t.titleRomaji ?? v.titel
+    const url = 'https://www.amazon.de/s?k=' + encodeURIComponent(suchbegriffAus(name)) + '&i=instant-video'
+    if (suche[url] || geprueftePrime.adressen.has(url)) continue
+    suche[url] = {
+      titel: mitTeilnummer(name, t),
+      erneut:
+        `Zweite Ausgabe: ${v.anbieter} führt diesen Titel mit deutschem Ton, die gemeldete Kanal-Ausgabe nicht — ` +
+        `die Ausgabe mit Deutsch ankreuzen und melden`,
+      suchbegriff: suchbegriffAus(t.titleDe ?? name),
+      suchbegriffEn: t.titleEn && t.titleEn !== t.titleDe ? suchbegriffAus(t.titleEn) : null,
+      id: t.id,
+      folgen: t.episodes ?? null,
+      jahr: Number.isFinite(t.jpYear) ? t.jpYear : null,
+      asId: anisearch[String(t.id)]?.anisearchId ?? null,
+    }
+    zweiteAusgaben++
+  }
+} catch {
+  /* Noch keine Gegenprobe gelaufen — nichts zu suchen. */
+}
+if (zweiteAusgaben) console.log(`  ${zweiteAusgaben} Suchen nach einer zweiten Ausgabe mit deutschem Ton`)
 
 writeFileSync(
   resolve(wurzel, 'extension/offene-amazon-suche.js'),

@@ -764,6 +764,16 @@ async function speicherSchreiben(werte) {
    * Nutzung wirft — fünfmal in dieser Datei passiert, zuletzt an
    * `kennungBekanntSpeicher`.
    */
+  /**
+   * **Die offenen Prime-Adressen laut Worker — dieselbe Zahl wie in der Statusanzeige.**
+   *
+   * `null`, solange der Worker nicht geantwortet hat. `fertig()` fragt zuerst
+   * hier (14.09.2026, siehe dort). Steht oben, weil `fertig()` von Stellen weit
+   * über seiner Deklaration gerufen wird — ein `let` darunter wirft.
+   */
+  let standZiele = null
+  /** Adressen, die diese Sitzung selbst gemeldet hat — bis der Stand sie abbildet. */
+  const frischGemeldet = new Set()
   /** Adressen, unter denen gemeldet wurde — vom Briefkasten, nicht lokal. */
   let briefkastenAdressen = null
   /** Suchadressen, unter denen gemeldet wurde — vom Briefkasten, nicht lokal. */
@@ -4962,6 +4972,23 @@ async function speicherSchreiben(werte) {
 
   function fertig(asinEintrag) {
     /*
+      **Erledigt ist, was der Worker nicht mehr als Ziel führt.**
+
+      Am 14.09.2026 zeigte die Statusanzeige „Amazon 6", der Knopf hier „2
+      Prime-Titel" — beide aus derselben Liste, aber aus zwei Rechnungen. Die
+      Anzeige liest `?stand=1` (Prüfliste minus Meldungen seit ihrer Erzeugung),
+      diese Datei rechnete mit Meldungen aller Zeiten und zwei lokalen Speichern.
+      Daniel: „das sollte doch single source of truth sein und den tatsächlichen
+      zu meldenden stand anzeigen."
+
+      Seitdem gilt hier dieselbe Antwort wie dort: Führt der Worker die Adresse
+      als offenes Ziel, ist der Eintrag offen. Die eigene Meldung dieser Sitzung
+      (`frischGemeldet`) überbrückt nur die Sekunden bis zum nächsten Abruf. Ohne
+      Antwort des Workers bleibt die ältere Rechnung darunter der Rückfall.
+    */
+    const url = liste[asinEintrag]?.url
+    if (standZiele && url) return !standZiele.has(url) || frischGemeldet.has(url)
+    /*
       **Auch hier entscheidet der Briefkasten, nicht der Rechner.**
 
       Führt er die Adresse dieses Eintrags nicht mehr, ist nichts gemeldet — egal
@@ -5028,6 +5055,29 @@ async function speicherSchreiben(werte) {
    * nennt. Bleibt es darüber, ist die Sache erledigt und der Bruch sagt nichts
    * mehr — dann steht dort ein Haken.
    */
+  /**
+   * **Was gemeldet ist, kurz: „S1 E1–54" oder „S1, S3".**
+   *
+   * Die Folgenzahl stammt aus der Meldung selbst (`folgen` im Briefkasten).
+   * Fehlt sie, bleibt es bei der Staffel. Eine Deklaration, keine
+   * Pfeilfunktion: Die Liste wird auch gezeichnet, bevor diese Zeile gelaufen
+   * ist (CLAUDE.md, „Ein Helfer im Modulscope ist eine `function`").
+   */
+  function gemeldetKurz(asinEintrag) {
+    const nummern = Object.keys(staffelnDerSerie(asinEintrag))
+    if (!nummern.length) return ''
+    const folgen = {}
+    for (const k of serienGefaehrten(asinEintrag)) Object.assign(folgen, erledigt[k]?.folgen ?? {})
+    const teile = nummern
+      .map((nr) => {
+        const name = nr === 'ohne Nummer' ? '' : `S${nr}`
+        const bereich = folgen[nr] > 1 ? `E1–${folgen[nr]}` : ''
+        return [name, bereich].filter(Boolean).join(' ')
+      })
+      .filter(Boolean)
+    return teile.length > 3 ? `${teile.slice(0, 3).join(', ')} +${teile.length - 3}` : teile.join(', ')
+  }
+
   function fortschritt(asinEintrag) {
     const e = erledigt[asinEintrag]
     if (!e) return null
@@ -5434,6 +5484,24 @@ async function speicherSchreiben(werte) {
       */
       briefkastenErwartungen = daten.erwartungen && typeof daten.erwartungen === 'object' ? daten.erwartungen : null
       briefkastenGeholtAm = Date.now()
+      /*
+        **Im selben Takt der Stand, den die Statusanzeige zeigt.**
+
+        `?stand=1` ist die Prüfliste minus der Meldungen seit ihrer Erzeugung,
+        gerechnet vom Worker. Er verwirft seinen Zwischenspeicher bei jeder
+        Meldung, also bildet der nächste Abruf die eigene Meldung ab — dann ist
+        die Überbrückung in `frischGemeldet` für diese Adresse erledigt.
+      */
+      try {
+        const stand = await fetch(`${WORKER}?stand=1`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null))
+        const prime = (stand?.anbieter ?? []).find((a) => a.plattform === 'primevideo')
+        if (prime && Array.isArray(prime.ziele)) {
+          standZiele = new Set(prime.ziele.map((z) => z.url))
+          for (const u of [...frischGemeldet]) if (!standZiele.has(u)) frischGemeldet.delete(u)
+        }
+      } catch {
+        /* Ohne Stand gilt die ältere Rechnung in `fertig()`. */
+      }
       try {
         uebersichtZeichnen()
       } catch {
@@ -5996,7 +6064,23 @@ async function speicherSchreiben(werte) {
           Ausgeschrieben statt „2/9": Der Bruchstrich sagt nicht, was gezählt
           wird, und genau danach musste er fragen.
         */
-        marke.textContent = stand === '✓' ? '✓ alle gemeldet' : `${stand.replace('/', ' von ')} gemeldet`
+        /*
+          **Die Marke nennt, was gemeldet ist — nicht „alle".**
+
+          Daniel am 14.09.2026 an Digimon: „ich hab nur die 54 folgen von staffel
+          1 gemeldet, warum steht da alle gemeldet statt (s1e1-54) gemeldet?"
+          „✓" hieß hier „so viele Staffeln, wie diese Zeile kennt" — bei einer
+          Zeile mit einer Staffel also immer „alle", auch wenn die Reihe weitere
+          hat, die als eigene Titel geführt werden.
+        */
+        const gemeldet = gemeldetKurz(asinEintrag)
+        marke.textContent = gemeldet
+          ? stand.includes('/')
+            ? `${gemeldet} gemeldet · ${stand.replace('/', ' von ')}`
+            : `${gemeldet} gemeldet`
+          : stand === '✓'
+            ? '✓ gemeldet'
+            : `${stand.replace('/', ' von ')} gemeldet`
         /**
          * Beim Überfahren steht da, **welche** Staffeln durch sind.
          *
@@ -6468,8 +6552,10 @@ async function speicherSchreiben(werte) {
         const angezeigt =
           bandNr && Number(bandNr[2]) > 0 ? `${bandNr[1]}, Vol. ${Number(bandNr[2])}` : nr
         const zeichen = p.befund === 'dub' ? '🇩🇪' : p.befund === 'weg' ? '✕✕' : '✕'
-        jeAdresse[asin] = jeAdresse[asin] ?? { staffeln: {}, gesamt: 1, serie: null }
+        jeAdresse[asin] = jeAdresse[asin] ?? { staffeln: {}, folgen: {}, gesamt: 1, serie: null }
         jeAdresse[asin].staffeln[angezeigt] = zeichen
+        /* Wie viele Folgen die Meldung trug — für „S1 E1–54 gemeldet" (Daniel, 14.09.2026). */
+        if (Number.isFinite(p.folgen) && p.folgen > 0) jeAdresse[asin].folgen[angezeigt] = p.folgen
         if (p.titel) jeAdresse[asin].serie = p.titel
         jeAdresse[asin].gesamt = Math.max(
           jeAdresse[asin].gesamt,
@@ -6502,6 +6588,7 @@ async function speicherSchreiben(werte) {
         ...wert,
         ...(da ?? {}),
         staffeln: { ...(wert.staffeln ?? {}), ...(da?.staffeln ?? {}) },
+        folgen: { ...(da?.folgen ?? {}), ...(wert.folgen ?? {}) },
         gesamt: Math.max(da?.gesamt ?? 1, wert.gesamt ?? 1),
         serie: da?.serie ?? wert.serie ?? null,
       }
@@ -10411,6 +10498,8 @@ async function speicherSchreiben(werte) {
         */
         try {
           if (briefkastenAdressen && eintrag.url) briefkastenAdressen.add(eintrag.url)
+          /* Dieselbe Überbrückung für den Worker-Stand, bis `briefkastenHolen` ihn neu lädt. */
+          if (eintrag.url) frischGemeldet.add(eintrag.url)
         } catch {
           /* Noch keine Auskunft vom Briefkasten — dann gibt es nichts zu ergänzen. */
         }

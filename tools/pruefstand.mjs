@@ -197,7 +197,12 @@ const stand = ANBIETER.map((a) => {
   */
   const ziele = liste
     .filter(([, wert]) => a.offene(wert) > 0)
-    .slice(0, 25)
+    /*
+      **Alle, nicht fünfundzwanzig** (14.09.2026). Seit die Erweiterungen ihr
+      „offen" aus diesen Zielen lesen, hieße eine Grenze: Eintrag 26 gilt dort
+      als erledigt. Die Datei bleibt trotzdem klein — ein Ziel sind rund
+      hundert Zeichen.
+    */
     .map(([schluessel, wert]) => ({ url: a.ziel(schluessel, wert), titel: wert?.titel ?? null }))
     .filter((z) => z.url)
 

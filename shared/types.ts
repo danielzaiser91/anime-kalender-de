@@ -418,6 +418,29 @@ export interface Title {
    * Vermerk über die Vergangenheit, nicht anklickbar.
    */
   entfernteStreams?: StreamLink[]
+  /**
+   * **Andere Ausgaben derselben Staffel beim selben Anbieter — ohne deutschen Ton.**
+   *
+   * Prime führt Digimon zweimal: „In Prime enthalten" mit deutscher Synchro
+   * (`B0CGRJGJX1`) und über den Crunchyroll-Kanal nur japanisch mit deutschen
+   * Untertiteln (`B0CHHNJJW3`). Ein belegtes Nein entfernt einen Verweis
+   * (15.08.2026) — hier aber sieht ein Besucher die Kanal-Ausgabe bei Prime und
+   * fragt sich, welche gemeint ist. Daniel am 14.09.2026: „wenn beides legit
+   * ist, dann sollten wir diese erkenntnis offen kommunizieren … die pills zu
+   * amazon ohne de entsprechend auch anzeigen, aber mit durchstrich".
+   *
+   * Steht nur dort, wo derselbe Titel beim selben Anbieter **auch** einen
+   * deutschen Verweis hat. Ohne ihn bleibt es beim Entfernen.
+   */
+  ausgabenOhneDe?: Array<{
+    platform: PlatformId
+    url: string
+    /** Über welchen Kanal-Abo die Ausgabe läuft — „Crunchyroll", „Aniverse", „ADN". */
+    kanal?: string
+    /** Eine zweite Quelle nennt deutsche Untertitel (OmU). */
+    untertitelDe?: boolean
+    geprueftAm?: string
+  }>
   /** Weitere Wege zum Ansehen oder Kaufen, die keine eigene Plattform sind. */
   watchLinks?: WatchLink[]
   /**

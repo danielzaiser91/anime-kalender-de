@@ -39,6 +39,31 @@ liste[SUCH_ADRESSE] = {
   eintraege: [{ id: 2994, name: 'Death Note: Relight', folgen: 2, offen: true }],
 }
 
+/*
+  **Eine eigene Liste für die Stand-Probe — der echte Bestand schwankt.**
+
+  Am 14.09.2026 zeigte die Statusanzeige „Amazon 6", der Knopf „2 Prime-Titel"
+  (Daniel: „das sollte doch single source of truth sein"). Seitdem fragt
+  `fertig()` zuerst den Worker-Stand. Die Probe: drei Einträge, der Briefkasten
+  leer, der Stand nennt **einen** als offen — der Knopf muss 1 zählen. Die
+  alte Rechnung (Briefkasten aller Zeiten) käme auf 3; so fällt die Gegenprobe.
+*/
+const STAND_LISTE = {
+  B0PROBEAAA: { titel: 'Probe A', url: 'https://www.amazon.de/dp/B0PROBEAAA', eintraege: [{ id: 1, name: 'Probe A', folgen: 12, offen: true }] },
+  B0PROBEBBB: {
+    titel: 'Probe B',
+    url: 'https://www.amazon.de/dp/B0PROBEBBB',
+    erneut: 'Zuordnung: Probe',
+    eintraege: [{ id: 2, name: 'Probe B', folgen: 12, offen: true }],
+  },
+  B0PROBECCC: { titel: 'Probe C', url: 'https://www.amazon.de/dp/B0PROBECCC', eintraege: [{ id: 3, name: 'Probe C', folgen: 12, offen: true }] },
+}
+const STAND_ANTWORT = {
+  anbieter: [{ plattform: 'primevideo', ziele: [{ url: 'https://www.amazon.de/dp/B0PROBEBBB', titel: 'Probe B' }] }],
+}
+/** Prüfungen, die erst nach den asynchronen Abrufen laufen können. */
+const nachDenAbrufen = []
+
 function baueDom() {
   /**
    * **`querySelector` muss wirklich suchen — sonst endet der Ablauf im Nichts.**
@@ -123,6 +148,8 @@ const PFADE = [
   { pfad: '/gp/video/storefront', suche: '' },
   { pfad: '/dp/B0DJYJBNWF', suche: '' },
   { pfad: '/s', suche: '?k=Death%20Note%20Relight&i=instant-video' },
+  /* Die Stand-Probe vom 14.09.2026 — eigene Liste, eigene Abruf-Antworten (siehe `STAND_LISTE`). */
+  { pfad: '/gp/video/storefront', suche: '', stand: true },
 ]
 
 /**
@@ -171,7 +198,7 @@ function baueKarten(mach) {
   ]
 }
 
-for (const { pfad, suche } of PFADE) {
+for (const { pfad, suche, stand } of PFADE) {
   const { mach, body } = baueDom()
   /* Karten gibt es nur auf der Suchseite — sonst wäre der Kasten dort falsch. */
   const karten = pfad === '/s' ? baueKarten(mach) : []
@@ -180,7 +207,7 @@ for (const { pfad, suche } of PFADE) {
   const angehaengt = []
   const sandkasten = {
     globalThis: null,
-    AK_OFFENE_AMAZON: liste,
+    AK_OFFENE_AMAZON: stand ? STAND_LISTE : liste,
     /*
       **Die Prüfliste der Suchen ist eine eigene Liste — gemessen am 09.09.2026.**
 
@@ -270,7 +297,19 @@ for (const { pfad, suche } of PFADE) {
       storage: { local: { get: (k, cb) => cb({}), set: (v, cb) => cb && cb() } },
     },
     window: { addEventListener() {}, location: { pathname: pfad, search: '' } },
-    fetch: () => Promise.resolve({ ok: true, json: () => Promise.resolve({}) }),
+    /* In der Stand-Probe: leerer Briefkasten, der Worker-Stand nennt einen Eintrag. */
+    fetch: (u) =>
+      Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve(
+            stand && String(u).includes('stand=1')
+              ? STAND_ANTWORT
+              : stand && String(u).includes('zaehlen=1')
+                ? { adressen: [], gemeldet: [] }
+                : {},
+          ),
+      }),
     /*
       **Was der Browser mitbringt, muss der Sandkasten auch mitbringen.**
 
@@ -352,6 +391,15 @@ for (const { pfad, suche } of PFADE) {
   }
 
   const uebersicht = angehaengt.find((e) => (e.className || '').includes('ak-amazon-uebersicht'))
+  if (stand) {
+    nachDenAbrufen.push(() => {
+      const text = String(uebersicht?.textContent ?? '')
+      const passt = /(^|\D)1 Prime-Titel/.test(text)
+      console.log(`\n=== Stand-Probe ${pfad} ===`)
+      console.log(`  Knopf nach dem Abruf: ${JSON.stringify(text)} — ${passt ? 'ok, zählt den Worker-Stand' : 'FALSCH, erwartet 1 Prime-Titel'}`)
+      if (!passt) fehlgeschlagen = true
+    })
+  }
   let klickFehler = null
   if (uebersicht?.hoerer?.click) {
     try { uebersicht.hoerer.click() } catch (err) { klickFehler = err }
@@ -408,7 +456,15 @@ for (const { pfad, suche } of PFADE) {
   diese Datei keine Prüfung, sondern eine Kulisse, die grün meldete, weil sie
   nichts erreichte.
 */
-if (fehlgeschlagen) {
-  console.error('\nDer Suchkasten wird nicht erreicht — die Prüfung misst dann nichts.')
-  process.exit(1)
-}
+/*
+  **Die Stand-Probe zählt erst nach den Abrufen.** Briefkasten und Worker-Stand
+  kommen über `fetch`, also asynchron — gezählt wird deshalb nach einem echten
+  Timer, nicht im Durchlauf selbst.
+*/
+setTimeout(() => {
+  for (const pruefung of nachDenAbrufen) pruefung()
+  if (fehlgeschlagen) {
+    console.error('\nDer Suchkasten wird nicht erreicht oder die Stand-Probe zählt falsch — die Prüfung misst dann nichts.')
+    process.exit(1)
+  }
+}, 50)

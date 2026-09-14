@@ -113,6 +113,16 @@ const funde = []
  * die Liste ist hier also schon da.
  */
 const offeneTitel = globalThis.AK_OFFENE_TITEL ?? {}
+/**
+ * **Die offenen Netflix-Adressen laut Worker — dieselbe Zahl wie in der Statusanzeige.**
+ *
+ * `null`, bis `standHolen()` geantwortet hat; `fertig()` fragt zuerst hier
+ * (14.09.2026). Steht oben, weil `fertig()` beim Seitenaufbau läuft — ein `let`
+ * weiter unten wäre beim ersten Aufruf noch nicht initialisiert.
+ */
+let standZieleNetflix = null
+/** Reihen, die diese Sitzung selbst gemeldet hat — bis der Stand sie abbildet. */
+const frischGemeldetNetflix = new Set()
 
 /**
  * **Welches Werk meint diese Meldung — der Auftrag weiß es, die Adresse nicht.**
@@ -1258,6 +1268,9 @@ async function melden({ automatisch = false } = {}) {
       return zeigeErgebnis(daten.error ?? `Fehler ${antwort.status}`, false)
     }
     gemeldet.add(stand.reihe)
+    /* Bis der Worker-Stand die Meldung abbildet, gilt sie hier als erledigt — und er wird gleich neu gefragt. */
+    frischGemeldetNetflix.add(String(gemeinteReihe()))
+    void standHolen()
     if (stand.folgeNr) {
       meldungenMerken(gemeinteReihe(), [
         {
@@ -2227,6 +2240,25 @@ function offeneTitelZahl() {
 }
 
 function fertig(id, eintrag) {
+  /*
+    **Erledigt ist, was der Worker nicht mehr als Ziel führt** — dieselbe Regel
+    wie in `amazon.js`.
+
+    Daniel am 14.09.2026, mit zwei Bildern: Statusanzeige „Netflix 2", die
+    Prüfliste hier „1 Titel zu prüfen". FGO Babylonia stand als gemeldet, weil
+    `erledigt` alle 22 Folgen aus früheren Meldungen trug — dass die Liste den
+    Titel als Zuordnungsauftrag neu vorlegt (`zustand: 'erneut'`), sah nur
+    `folgeZustand()`, nicht diese Funktion. „warum dieser schiefstand?"
+
+    Die eigene Meldung dieser Sitzung überbrückt `frischGemeldetNetflix` bis
+    zum nächsten Stand-Abruf. Ohne Antwort des Workers bleibt die Rechnung
+    darunter der Rückfall.
+  */
+  if (standZieleNetflix) {
+    return (
+      !standZieleNetflix.has(`https://www.netflix.com/title/${id}`) || frischGemeldetNetflix.has(String(id))
+    )
+  }
   if (istErledigt(id, 'tot')) return true
   const staffeln = staffelnVon(id, eintrag)
   const abgehakt = new Set(erledigt[String(id)] ?? [])
@@ -2306,6 +2338,13 @@ async function standHolen() {
     const netflix = (daten.anbieter ?? []).find((a) => a.plattform === 'netflix')
     if (!netflix) return
     offenLautStand = netflix.offen
+    /* Die offenen Adressen selbst — `fertig()` fragt sie (14.09.2026). */
+    if (Array.isArray(netflix.ziele)) {
+      standZieleNetflix = new Set(netflix.ziele.map((z) => z.url))
+      for (const id of [...frischGemeldetNetflix]) {
+        if (!standZieleNetflix.has(`https://www.netflix.com/title/${id}`)) frischGemeldetNetflix.delete(id)
+      }
+    }
     uebersichtZeigen()
   } catch {
     /* Ohne Netz bleibt die lokale Zählung stehen. */
@@ -3404,6 +3443,8 @@ async function durchlaufStarten(grenze) {
       }
       if (ok) {
         DURCHLAUF.gemeldet.add(f.videoId)
+        /* Kein Stand-Abruf je Folge — der Takt holt ihn; bis dahin überbrückt dieser Vermerk. */
+        frischGemeldetNetflix.add(String(reihe))
         meldungenMerken(reihe, [
           {
             nummer: f.nummer,
@@ -3674,6 +3715,7 @@ async function randMelden(folgen, befund, bisNummer) {
       if (antwort.ok) {
         gemeldet++
         DURCHLAUF.gemeldet.add(f.videoId)
+        frischGemeldetNetflix.add(String(reihe))
         /* Abgeleitet zählt wie gemessen (Daniel, 11.09.2026) — mit demselben Datum. */
         meldungenMerken(reihe, [
           {

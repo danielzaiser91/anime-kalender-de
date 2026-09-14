@@ -2,6 +2,7 @@
   "standAm": "2026-09-14",
   "faelle": [
     {
+      "art": "kanal",
       "titleId": 18507,
       "titel": "Free! Iwatobi Swim Club",
       "platform": "primevideo",
@@ -10,43 +11,45 @@
       "seit": "2026-09-14"
     },
     {
-      "titleId": 103631,
-      "titel": "Trinity Seven: Heavens Library & Crimson Lord",
+      "art": "kanal",
+      "titleId": 105334,
+      "titel": "Fruits Basket",
       "platform": "primevideo",
       "quelle": "JustWatch 2026-09-07",
-      "ton": "ja, de",
+      "ton": "de, en, es, fr, ja, pt, ru",
       "seit": "2026-09-14"
     },
     {
+      "art": "andere-ausgabe",
       "titleId": 21741,
       "titel": "Touken Ranbu: Hanamaru",
       "platform": "primevideo",
       "quelle": "JustWatch 2026-09-07",
       "ton": "de, ja",
+      "anbieter": "Aniverse Amazon Channel",
+      "url": "https://www.amazon.de/dp/B0CJJH97FX",
       "seit": "2026-09-14"
     },
     {
+      "art": "andere-ausgabe",
       "titleId": 21311,
       "titel": "Bungo Stray Dogs",
       "platform": "primevideo",
       "quelle": "JustWatch 2026-09-07",
-      "ton": "en, es, fr, ja, pt, ru, de",
+      "ton": "de, ja",
+      "anbieter": "Aniverse Amazon Channel",
+      "url": "https://www.amazon.de/dp/B0BZGQZCFT",
       "seit": "2026-09-14"
     },
     {
-      "titleId": 552,
-      "titel": "Digimon",
-      "platform": "primevideo",
-      "quelle": "JustWatch 2026-09-09",
-      "ton": "de, es, ja, pt",
-      "seit": "2026-09-14"
-    },
-    {
+      "art": "andere-ausgabe",
       "titleId": 101478,
       "titel": "Okko und ihre Geisterfreunde",
       "platform": "primevideo",
       "quelle": "JustWatch 2026-09-07",
       "ton": "de, ja",
+      "anbieter": "Crunchyroll Amazon Channel",
+      "url": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.3cb88c42-8aba-78c5-3026-ee065e93e11e",
       "seit": "2026-09-14"
     }
   ]

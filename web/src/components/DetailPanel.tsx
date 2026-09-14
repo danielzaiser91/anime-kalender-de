@@ -1462,6 +1462,7 @@ function Pille({
   rechts,
   titel,
   icon,
+  durchgestrichen,
 }: {
   name: string
   farbe?: string
@@ -1470,6 +1471,8 @@ function Pille({
   rechts?: ReactNode
   titel?: string
   icon?: ReactNode
+  /** Eine Ausgabe ohne deutschen Ton — sichtbar und anklickbar, aber durchgestrichen. */
+  durchgestrichen?: boolean
 }) {
   return (
     <a
@@ -1479,6 +1482,7 @@ function Pille({
       title={titel}
       className={[
         'inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 transition',
+        durchgestrichen ? 'opacity-70' : '',
         farbe
           ? 'hover:brightness-95 dark:hover:brightness-125'
           : 'border border-slate-200 hover:bg-slate-100/60 dark:border-white/10 dark:hover:bg-white/5',
@@ -3609,6 +3613,34 @@ export function DetailPanel({
                     jetzt im Tooltip; sichtbar bleibt, was zählt: dieser Weg ist
                     zu.
                   */
+                  /*
+                    **Zwei Ausgaben derselben Staffel — die ohne Deutsch steht
+                    daneben, durchgestrichen.**
+
+                    Daniel am 14.09.2026 an Digimon: Prime führt die Serie „In
+                    Prime enthalten" mit deutscher Synchro und über den
+                    Crunchyroll-Kanal nur mit Untertiteln. Wer bei Prime sucht,
+                    findet beide; die Pille sagt, welche es nicht ist, statt sie
+                    zu verschweigen („sodass nutzer sich selbst ein bild machen
+                    können"). Welche Ausgaben es gibt, entscheidet der Bau
+                    (`ausgabenOhneDe`).
+                  */
+                  .concat(
+                    (title.ausgabenOhneDe ?? []).map((a) => (
+                      <Pille
+                        key={`ausgabe-${a.url}`}
+                        name={PLATFORMS[a.platform]?.name ?? a.platform}
+                        farbe={PLATFORMS[a.platform]?.color}
+                        url={a.url}
+                        durchgestrichen
+                        unten={[
+                          a.kanal ? t('detail.ausgabeKanal', { kanal: a.kanal }) : t('detail.ausgabeAndere'),
+                          t(a.untertitelDe ? 'detail.ausgabeNurUt' : 'detail.ausgabeOhneDe'),
+                        ].join(' · ')}
+                        titel={t('detail.ausgabeTitel', { anbieter: PLATFORMS[a.platform]?.name ?? a.platform })}
+                      />
+                    )),
+                  )
                   .concat(
                     (title.entfernteStreams ?? []).map((s) => (
                       <WegPille

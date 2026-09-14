@@ -1164,6 +1164,45 @@ Am 14.09.2026 stand die Frage, wie viele deutsche Verweise eine belegte Folgenza
 
 **Das Feld am Datensatz ist das Ergebnis des Baus, nicht der Bestand dahinter.** Der Bau überträgt nur einen Teil der Einzelbelege in `dubRanges`; wer eine Abdeckung aus `titles.json` abliest, misst den Bau, nicht das Wissen. Prüffrage vor jeder Abdeckungszahl: *Welche Dateien unter `data/` beantworten dieselbe Frage — und habe ich jede davon gezählt?* Nachmessen mit `node tools/folgenzahl-abdeckung-messen.mjs`; die Regeln, die daraus für die Pillen folgen, stehen an `folgenAngabeFuer()`. Wächst die Spalte „laufend", bekommen mehr Pillen keine Zahl — dann lohnt es, die fehlende Quelle zu suchen.
 
+## Statusanzeige und Erweiterung lesen denselben Stand — den des Workers
+
+Daniel am 14.09.2026, mit zwei Bildern: Die Statusanzeige zeigte „Amazon 6 · Suchadressen 6" und keine Netflix-Pille, die Erweiterung auf Prime „2 Prime-Titel zu prüfen" — aus derselben Prüfliste. „wieso passen pills nicht zum echten status? das sollte doch single source of truth sein."
+
+Drei Rechnungen, drei Fehler:
+
+| Stelle | rechnete | was fehlte |
+|---|---|---|
+| `extension-offene-amazon.mjs` | schrieb den Grund einer Wiedervorlage ins Feld `wiedervorlage` | **keine Stelle liest es** — `amazon.js` fragt `erneut`, `pruefstand.mjs` zählt `eintraege[].offen`, und das stand für Verdachtsfälle auf `false` |
+| `public/data/pruefstand.json` | aus den Listen des letzten vollen Laufs | ich hatte nach der Änderung nur zwei der sechs Generatoren laufen lassen |
+| `amazon.js` | Meldungen **aller Zeiten** plus zwei lokale Speicher (`amazonErledigt`, `amazonWiedervorlage`) | ein früher gemeldeter Titel blieb ausgeblendet, auch wenn die Liste ihn neu vorlegt |
+| `build.ts` (Suchadressen) | schrieb `data/suchadressen-offen.json` nur, wenn etwas offen war | beim Übergang auf „nichts offen" blieb die Datei mit sechs längst geklärten Titeln stehen — die Pille „Suchadressen 6" zählte Arbeit, die es nicht gab |
+
+Seitdem: Eine Wiedervorlage trägt `erneut` und ist offen; die Kette läuft nur ganz (`npm run data:extension-liste`); und `fertig()` in `amazon.js` fragt zuerst `?stand=1` — **dieselbe Antwort, die die Statusanzeige zeigt**. Lokal überbrückt nur noch `frischGemeldet` die Sekunden nach der eigenen Meldung. Der Netflix-Melder hatte dieselbe Lücke eine Stufe versteckter: Er holte den Stand seit dem 26.08.2026, las daraus aber nur `offen` für eine Nebenzeile — Zahl und Liste kamen weiter aus `erledigt`. Am selben Tag zeigte die Statusanzeige „Netflix 2", die Prüfliste „1 Titel" (FGO Babylonia als gemeldet, obwohl als Zuordnungsauftrag neu vorgelegt). Seit 4.20.4 fragt auch dort `fertig()` die offenen Adressen des Stands. **Und der Prüfstand führt alle Ziele, nicht 25** — sonst gälte Eintrag 26 in beiden Erweiterungen als erledigt.
+
+**Prüffrage für jede neue Zahl „offen" in einer Oberfläche:** *Rechnet sie selbst, oder liest sie `?stand=1`?* Rechnet sie selbst, läuft sie früher oder später auseinander — hier dreimal in drei Wochen.
+
+## Zwei Ausgaben derselben Staffel beim selben Anbieter — beide werden gezeigt
+
+Daniel am 14.09.2026 an Digimon, mit drei Bildern: Die Prime-Pille führte auf `B0CHHNJJW3`, ohne deutschen Ton, und dort hat er gemeldet. Unter `B0CGRJGJX1` liegen dieselben 54 Folgen mit deutscher Synchro, mit anderen Folgentiteln und demselben Datum. „wenn beides legit ist, dann sollten wir diese erkenntnis offen kommunizieren … die pills zu amazon ohne de entsprechend auch anzeigen, aber mit durchstrich".
+
+Die Auflösung stand bei JustWatch **je Angebot**, und die Gegenprobe las sie je Titel:
+
+| JustWatch-Angebot | Ton | Untertitel |
+|---|---|---|
+| Amazon Prime Video (Flatrate) | de | de |
+| Aniverse Amazon Channel | de | de |
+| Crunchyroll Amazon Channel | es, ja, pt | u. a. de |
+
+Die Meldung trug `Abos: crunchyrollde`. Sie war also richtig, und das Deutsch gehört einer anderen Ausgabe. `kanal-gegenprobe.ts` hielt sie für einen Widerspruch und legte die Kanal-Seite erneut vor, wo erneut kein Deutsch zu sehen war. Von den fünf „Widersprüchen" vom 09.09.2026 waren drei solche Fälle (Digimon, Bungo Stray Dogs, Touken Ranbu), einer ein belegtes Nein (Trinity Seven: Deutsch nur bei MagentaTV und Apple), einer echt (Free!: das Crunchyroll-Angebot selbst hat de).
+
+Seitdem:
+
+- **Die Gegenprobe vergleicht mit dem Angebot des gemeldeten Kanals.** Ohne Deutsch dort gilt ein Nein für diese Ausgabe. Hat ein **anderes** Amazon-Angebot Deutsch, entsteht `art: 'andere-ausgabe'` in `data/kanal-widerspruch.json`, und die Prüfliste legt statt der Kanal-Seite eine **Suche** vor, auf der die Ausgabe mit Deutsch angekreuzt wird. Ein Urteil gilt der Adresse, nicht dem Titel (`beurteiltSchluessel()`). Achtung beim Bearbeiten: Die alten Schlüssel dort trennten mit einem NUL-Zeichen, das `grep` als Leerzeichen zeigt und an dem `Edit` scheitert.
+- **Der Bau legt die Ausgabe mit Deutsch als Verweis an**, wenn jeder vorhandene Weg der Plattform belegt ohne Deutsch ist. Sonst ist die Adresse im Beleg eine Korrektur, siehe `belegFuer()`.
+- **`Title.ausgabenOhneDe` hält die Ausgabe ohne Deutsch fest**, nur wenn derselbe Titel beim selben Anbieter einen deutschen Verweis hat. Gelesen wird aus den Belegen, nicht aus den entfernten Verweisen. Das Panel zeigt sie durchgestrichen mit Kanal und „ohne DE" oder „nur dt. Untertitel". Die Regel „ein belegtes Nein entfernt den Verweis" (15.08.2026) gilt für alle übrigen Fälle weiter.
+
+**Prüffrage bei jedem Widerspruch zwischen einer Meldung und einer fremden Quelle:** *Meinen beide dieselbe Ausgabe?* Der Abschnitt „Ein Beleg gehört einer Ausgabe, nicht einem Titel" (07.09.2026) zog diese Trennung für unsere Belege. Für die zweite Quelle fehlte sie.
+
 ## Eine Notiz für Besucher ist keine Notiz über unsere Zuordnung
 
 Daniel am 13.09.2026 zu „Zum Start am 19.08.2026 standen die Folgen 1 bis 3 gemeinsam bereit, danach geht es im Wochentakt weiter" im Antwort-Kasten: „das interessiert nicht als textform, wir schreiben bereits wieviele folgen draussen sind … rückblickende gebündelte releases sind uninteressant … das ist höchstens für uns interessant."
