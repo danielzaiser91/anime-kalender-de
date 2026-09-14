@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-09-14T09:57:18.600Z",
+ "erzeugtAm": "2026-09-14T11:10:03.704Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 717,
+   "gemeldet": 712,
    "gesamt": 723,
-   "offen": 6,
+   "offen": 11,
    "ohneSeite": 0,
    "suchAdressen": [],
    "ziel": "https://www.amazon.de/dp/B0CHHNJJW3",
@@ -20,6 +20,14 @@
      "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
     },
     {
+     "url": "https://www.amazon.de/dp/0Q6QUJIEW346VMM87OG648DPND",
+     "titel": "Haikyu!!"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0D4K9PV2F",
+     "titel": "Haikyu!!"
+    },
+    {
      "url": "https://www.amazon.de/dp/B0BZGQZCFT",
      "titel": "Bungo Stray Dogs"
     },
@@ -28,8 +36,20 @@
      "titel": "Touken Ranbu: Hanamaru (Touken Ranbu - Hanamaru)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y",
+     "titel": "Golden Kamuy"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0GXPFJJZK",
+     "titel": "Captain Tsubasa (Captain Tsubasa (2018))"
+    },
+    {
      "url": "https://www.amazon.de/dp/B0HFKQ7R7T",
      "titel": "Trinity Seven: Heavens Library & Crimson Lord"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0FJWFGLQC",
+     "titel": "Solo Leveling"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2",
@@ -41,13 +61,22 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 374,
+   "gemeldet": 372,
    "gesamt": 374,
-   "offen": 0,
+   "offen": 2,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.netflix.com/title/81186100",
+   "ziele": [
+    {
+     "url": "https://www.netflix.com/title/81186100",
+     "titel": "Fate/Grand Order Absolute Demonic Front: Babylonia"
+    },
+    {
+     "url": "https://www.netflix.com/title/82047155",
+     "titel": "Shiboyugi: Das Phantom-Mädchen im Spiel des Todes"
+    }
+   ],
+   "naechster": "Fate/Grand Order Absolute Demonic Front: Babylonia"
   },
   {
    "name": "Disney+",

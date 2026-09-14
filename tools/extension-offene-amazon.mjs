@@ -244,15 +244,27 @@ for (const [asin, eintraege] of jeAsin) {
   const sortiert = eintraege
     .slice()
     .sort((a, b) => (a.t.jpYear ?? 0) - (b.t.jpYear ?? 0) || (JAHRESZEIT[a.t.jpSeason] ?? 0) - (JAHRESZEIT[b.t.jpSeason] ?? 0))
+  /*
+    **`erneut`, nicht `wiedervorlage` — und der Eintrag ist offen.**
+
+    Bis zum 14.09.2026 stand der Grund hier im Feld `wiedervorlage`, das keine
+    Stelle liest: `amazon.js` fragt `erneut`, `tools/pruefstand.mjs` zählt
+    `eintraege[].offen`. Beides ging an Verdachtsfällen vorbei — die
+    Zuordnungsaufträge (Captain Tsubasa, Golden Kamuy, Solo Leveling, Haikyu!!)
+    fehlten in der Statusanzeige, und die Erweiterung blendete die
+    Kanal-Widersprüche aus, weil unter ihren Adressen früher schon gemeldet
+    worden war. Daniel sah drei verschiedene Zahlen für dieselbe Liste: „das
+    sollte doch single source of truth sein."
+  */
   offen[asin] = {
-    ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
+    ...(verdacht ? { erneut: verdachtHinweis(verdacht) } : {}),
     titel: listenName(sortiert[0].t),
     url: sortiert[0].url,
     eintraege: sortiert.map((e) => ({
       id: e.t.id,
       name: listenName(e.t),
       folgen: e.t.episodes ?? null,
-      offen: e.dub === undefined,
+      offen: e.dub === undefined || Boolean(verdaechtig.get(e.t.id)),
       /* Für den Gegencheck: aniSearch führt zu jedem Titel die Sprachfassungen. */
       ...(e.t.anisearchId ? { asId: e.t.anisearchId } : {}),
     })),
@@ -516,7 +528,8 @@ for (const t of titel) {
     const verdacht = verdaechtig.get(t.id)
     suche[s.url] = {
       titel: angezeigt,
-      ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
+      /* `erneut` wie bei den Titelseiten — das Feld, das die Erweiterung liest. */
+      ...(verdacht ? { erneut: verdachtHinweis(verdacht) } : {}),
       /*
         Der Begriff, mit dem wirklich gesucht wird — deutscher Titel zuerst,
         Englisch nur als Rückfall, Gattungswörter raus.
