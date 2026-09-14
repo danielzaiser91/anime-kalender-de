@@ -28,7 +28,7 @@
     "folgenVerfuegbar": 12,
     "neuErwartet": null,
     "recherche": null,
-    "rechercheAm": "2026-09-13T20:45:00.000Z",
+    "rechercheAm": "2026-09-14T17:00:30.122Z",
     "geprueftAm": "2026-09-14T14:16:12.182Z",
     "newsGeprueftAm": "2026-09-14T11:39:50.041Z"
   },
@@ -47,6 +47,7 @@
     "neuErwartet": null,
     "recherche": null,
     "geprueftAm": "2026-09-14T14:16:12.182Z",
-    "newsGeprueftAm": "2026-09-14T11:39:50.041Z"
+    "newsGeprueftAm": "2026-09-14T11:39:50.041Z",
+    "rechercheAm": "2026-09-14T17:00:30.122Z"
   }
 ]
