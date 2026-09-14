@@ -1201,6 +1201,8 @@ Seitdem:
 - **Der Bau legt die Ausgabe mit Deutsch als Verweis an**, wenn jeder vorhandene Weg der Plattform belegt ohne Deutsch ist. Sonst ist die Adresse im Beleg eine Korrektur, siehe `belegFuer()`.
 - **`Title.ausgabenOhneDe` hält die Ausgabe ohne Deutsch fest**, nur wenn derselbe Titel beim selben Anbieter einen deutschen Verweis hat. Gelesen wird aus den Belegen, nicht aus den entfernten Verweisen. Das Panel zeigt sie durchgestrichen mit Kanal und „ohne DE" oder „nur dt. Untertitel". Die Regel „ein belegtes Nein entfernt den Verweis" (15.08.2026) gilt für alle übrigen Fälle weiter.
 
+Das erste Bild des gebauten Panels zeigte drei Fehler, die kein Datenblick fand: Die Pille war nur blasser, nicht durchgestrichen. Daneben stand ein alter Abgang („Prime Video — nicht mehr abrufbar"), obwohl Prime jetzt einen gültigen Weg hat. Und der Bezugsweg „Amazon Prime (Crunchyroll)" auf einer dritten Kennung stand ungestrichen neben der gestrichenen Kanal-Ausgabe. Dazu trug „Date a Live II" die Kanal-Seite von Staffel 4, weil die Meldung damals an mehrere Titel der Reihe verteilt worden war. Seitdem: Abgänge fallen am Ende weg, sobald der Anbieter wieder einen Weg hat. Bezugswege desselben Kanals wandern zur Ausgabe ohne Deutsch. Eine Adresse mit Belegen bei mehreren Titeln wird nicht gezeigt. `check:logic` sichert, dass keine Ausgabe ohne Deutsch ohne deutschen Verweis daneben oder zugleich als Verweis dasteht.
+
 **Prüffrage bei jedem Widerspruch zwischen einer Meldung und einer fremden Quelle:** *Meinen beide dieselbe Ausgabe?* Der Abschnitt „Ein Beleg gehört einer Ausgabe, nicht einem Titel" (07.09.2026) zog diese Trennung für unsere Belege. Für die zweite Quelle fehlte sie.
 
 ## Eine Notiz für Besucher ist keine Notiz über unsere Zuordnung

@@ -6368,8 +6368,26 @@ function main(): void {
       const k = treffer.toLowerCase()
       return k === 'crunchyroll' ? 'Crunchyroll' : k === 'aniverse' ? 'Aniverse' : 'ADN'
     }
+    /*
+      **Eine Adresse, die bei zwei Titeln belegt ist, gehört keinem sicher.**
+
+      Der erste Bau zeigte bei „Date a Live II" die Kanal-Seite `B0CJJF26WZ` —
+      die trägt laut Daniels Beleg Staffel 4 und 5. Die Meldung war damals an
+      mehrere Titel der Reihe verteilt worden. Eine durchgestrichene Pille zu
+      einer fremden Staffel wäre eine falsche Auskunft; lieber keine.
+    */
+    const titelJeAdresse = new Map<string, Set<number>>()
+    for (const c of alleChecks) {
+      if (!c.url) continue
+      const k = adressKern(c.url)
+      const menge = titelJeAdresse.get(k) ?? new Set<number>()
+      menge.add(c.anilistId)
+      titelJeAdresse.set(k, menge)
+    }
     let doppelt = 0
     let ausgabenOhneDe = 0
+    let mehrdeutig = 0
+    let abgaengeUeberholt = 0
     for (const title of titles.values()) {
       const gesehen = new Set<string>()
       const vorher = title.streams.length
@@ -6389,6 +6407,10 @@ function main(): void {
           beurteilt.add(adressKern(c.url))
           if (c.dub !== false) continue
           if (title.streams.some((s) => adressGleich(s.url, c.url))) continue
+          if ((titelJeAdresse.get(adressKern(c.url))?.size ?? 0) > 1) {
+            mehrdeutig++
+            continue
+          }
           const texte = alleChecks
             .filter((x) => x.anilistId === title.id && x.platform === plattform && adressGleich(x.url, c.url))
             .map((x) => `${x.note ?? ''} ${(x as { zweiteQuelle?: string }).zweiteQuelle ?? ''}`)
@@ -6403,13 +6425,53 @@ function main(): void {
           })
         }
       }
+      /*
+        **Ein Bezugsweg über denselben Kanal ist dieselbe Ausgabe.**
+
+        Digimon trug nach dem ersten Bau zusätzlich die Pille „Amazon Prime
+        (Crunchyroll) · 54 Fg." auf `B0CHHGC263` — ungestrichen, direkt neben der
+        durchgestrichenen Crunchyroll-Kanal-Ausgabe. Die zweite Quelle des Neins
+        ist JustWatchs Angebot „Crunchyroll Amazon Channel", und das gilt dem
+        Kanal, nicht einer einzelnen Kennung.
+      */
+      for (const a of [...ausgaben]) {
+        if (!a.kanal || a.platform !== 'primevideo') continue
+        const kanalMuster = new RegExp(`\\(${a.kanal}\\)`, 'i')
+        const gleicherKanal = (title.watchLinks ?? []).filter(
+          (w) => w.kind === 'stream' && /amazon\./.test(w.url) && kanalMuster.test(w.name ?? ''),
+        )
+        for (const w of gleicherKanal) {
+          if (!ausgaben.some((x) => adressGleich(x.url, w.url))) ausgaben.push({ ...a, url: w.url })
+        }
+        if (gleicherKanal.length) title.watchLinks = (title.watchLinks ?? []).filter((w) => !gleicherKanal.includes(w))
+      }
       if (ausgaben.length) {
         title.ausgabenOhneDe = ausgaben
         ausgabenOhneDe += ausgaben.length
       }
+      /*
+        **Ein Abgang gilt nur, solange der Anbieter keinen gültigen Weg trägt.**
+
+        So steht es seit dem 01.09.2026 an der Stelle, die `entfernteStreams`
+        füllt. Dort ist der Stand aber ein früherer: Die zweite Ausgabe mit
+        Deutsch kommt erst über die Belege dazu, und Digimon zeigte danach neben
+        der deutschen Prime-Pille eine graue „Prime Video — nicht mehr abrufbar"
+        (`B00SZC9B9G`, weg seit 20.08.2026). Hier am Ende gilt die Regel für den
+        fertigen Stand.
+      */
+      if (title.entfernteStreams?.length) {
+        const vorherWeg = title.entfernteStreams.length
+        title.entfernteStreams = title.entfernteStreams.filter(
+          (a) => !title.streams.some((s) => s.platform === a.platform),
+        )
+        abgaengeUeberholt += vorherWeg - title.entfernteStreams.length
+        if (!title.entfernteStreams.length) delete title.entfernteStreams
+      }
     }
     if (doppelt) log(`${doppelt} doppelte Verweise (dieselbe Seite, andere Schreibweise) zusammengelegt`)
     if (ausgabenOhneDe) log(`${ausgabenOhneDe} Ausgaben ohne deutschen Ton neben einer mit Deutsch angezeigt`)
+    if (mehrdeutig) log(`${mehrdeutig} Ausgaben ohne Deutsch übersprungen: Adresse bei mehreren Titeln belegt`)
+    if (abgaengeUeberholt) log(`${abgaengeUeberholt} Abgänge entfernt, deren Anbieter wieder einen gültigen Weg trägt`)
   }
 
   const allTitles = [...titles.values()]

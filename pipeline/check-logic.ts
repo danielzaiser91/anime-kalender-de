@@ -3967,5 +3967,32 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
 }
 
+/*
+  **Eine Ausgabe ohne Deutsch steht nur neben einer mit Deutsch — und nie selbst als Verweis.**
+
+  `ausgabenOhneDe` zeigt eine zweite Ausgabe beim selben Anbieter durchgestrichen
+  (Digimon, 14.09.2026). Ohne deutschen Verweis daneben wäre sie ein belegtes
+  Nein durch die Hintertür, und als Verweis zugleich stünde sie zweimal da, einmal
+  mit „DE ?" und einmal durchgestrichen. Gilt auch für einen Datensatz ohne einen
+  einzigen solchen Fall.
+*/
+{
+  const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | Record<string, Title>
+  const alle = Array.isArray(roh) ? roh : Object.values(roh)
+  const kern =(u: string) => /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,26})/i.exec(u)?.[1] ?? u
+  const falsch = alle.filter((t) =>
+    (t.ausgabenOhneDe ?? []).some(
+      (a) =>
+        (t.streams ?? []).some((s) => kern(s.url) === kern(a.url)) ||
+        !(t.streams ?? []).some((s) => s.platform === a.platform && s.dub === true),
+    ),
+  )
+  pruefe(
+    'eine Ausgabe ohne Deutsch steht nur neben einer mit Deutsch und nie selbst als Verweis',
+    falsch.length === 0,
+    falsch.map((t) => t.id),
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

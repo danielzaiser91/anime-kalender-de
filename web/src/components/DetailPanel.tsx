@@ -1496,7 +1496,7 @@ function Pille({
       )}
       <span className="flex flex-col leading-tight">
         <span
-          className="whitespace-nowrap text-[13px] font-medium"
+          className={`whitespace-nowrap text-[13px] font-medium ${durchgestrichen ? 'line-through' : ''}`}
           style={farbe ? { color: farbe } : undefined}
         >
           {name}
