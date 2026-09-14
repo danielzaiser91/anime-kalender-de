@@ -295347,6 +295347,15 @@
     ],
     "geholtAm": "2026-09-01T18:06:31.361Z"
   },
+  "16972": {
+    "anisearchId": 16972,
+    "folgen": [
+      {
+        "nr": 1
+      }
+    ],
+    "geholtAm": "2026-09-14T11:40:05.771Z"
+  },
   "16976": {
     "anisearchId": 16976,
     "folgen": [
@@ -333733,6 +333742,18 @@
     ],
     "geholtAm": "2026-09-01T20:58:06.657Z"
   },
+  "20885": {
+    "anisearchId": 20885,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      }
+    ],
+    "geholtAm": "2026-09-14T11:39:58.868Z"
+  },
   "20893": {
     "anisearchId": 20893,
     "folgen": [
@@ -334198,6 +334219,108 @@
       }
     ],
     "geholtAm": "2026-09-01T18:50:14.713Z"
+  },
+  "20953": {
+    "anisearchId": 20953,
+    "folgen": [
+      {
+        "nr": 1,
+        "datum": "2026-04-08",
+        "minuten": 23,
+        "de": "1. Stunde „Mit Otaku, Gyaru und Kiramon“",
+        "en": "Can a Gal Be Kind to Otaku?",
+        "ja": "Otaku to Gal to Kiramon to (オタクとギャルとキラモンと)"
+      },
+      {
+        "nr": 2,
+        "datum": "2026-04-15",
+        "minuten": 23,
+        "de": "2. Stunde „Mein Zimmer wird zu einem Gyaru-Hangout?!“",
+        "en": "Is My Room a Hangout Spot for Gals?!",
+        "ja": "Boku no Heya ga Gal no Tamariba ni!? (ボクの部屋がギャルのたまり場に!?)"
+      },
+      {
+        "nr": 3,
+        "datum": "2026-04-22",
+        "minuten": 23,
+        "de": "Magst du … raufkommen?",
+        "en": "Do You Want to Come Over?",
+        "ja": "Uchi… Agatteku? (うち…上がってく？)"
+      },
+      {
+        "nr": 4,
+        "datum": "2026-04-29",
+        "minuten": 23,
+        "de": "Gehen wir zum Karaoke",
+        "en": "Let’s Go to Karaoke",
+        "ja": "Karaoke Ikou♪ (カラオケいこう♪)"
+      },
+      {
+        "nr": 5,
+        "datum": "2026-05-06",
+        "minuten": 23,
+        "de": "Und? Wie findest du unsere Badesachen?",
+        "en": "So? You like our swimsuits?",
+        "ja": "Dou yo? Uchira no Mizugi wa♡ (どうよ？うちらの水着は♡)"
+      },
+      {
+        "nr": 6,
+        "datum": "2026-05-13",
+        "minuten": 23,
+        "de": "Love?",
+        "en": "Love?",
+        "ja": "Love? (ラブ？)"
+      },
+      {
+        "nr": 7,
+        "datum": "2026-05-20",
+        "minuten": 23,
+        "de": "Otaku-kun, du bist ja ein richtiger Aufreißer",
+        "en": "You’re a Real Pickup Artist, Otaku-kun",
+        "ja": "Otaku-kun wa Kudokima da ne (オタクくんは口説き魔だね)"
+      },
+      {
+        "nr": 8,
+        "datum": "2026-05-27",
+        "minuten": 23,
+        "de": "Sleepover? Das geht doch nicht, oder …?",
+        "en": "A Slumber Party? No Way.",
+        "ja": "Otomarikai Nante Sonnaa (お泊り会なんてそんなぁ)"
+      },
+      {
+        "nr": 9,
+        "datum": "2026-06-03",
+        "minuten": 23,
+        "de": "Du hast mich getäuscht, Ijichi Kotoko …!",
+        "en": "This Was Your Idea, Kotoko Ijichi!",
+        "ja": "Hakatta na Ijichi Kotoko! (謀ったな伊地知琴子…！)"
+      },
+      {
+        "nr": 10,
+        "datum": "2026-06-10",
+        "minuten": 23,
+        "de": "Schulfest!",
+        "en": "The School Festival!!",
+        "ja": "Gakkousai!! (学校祭!!)"
+      },
+      {
+        "nr": 11,
+        "datum": "2026-06-17",
+        "minuten": 23,
+        "de": "Schmerz …!",
+        "en": "Zing!",
+        "ja": "Zuki…… (ズキ……ッ)"
+      },
+      {
+        "nr": 12,
+        "datum": "2026-06-24",
+        "minuten": 23,
+        "de": "Sag mal, Otaku-kun …",
+        "en": "Oh, Come On, Otaku-kun",
+        "ja": "Otaku-kun saa (オタクくんさぁ～)"
+      }
+    ],
+    "geholtAm": "2026-09-14T11:40:12.822Z"
   },
   "20983": {
     "anisearchId": 20983,

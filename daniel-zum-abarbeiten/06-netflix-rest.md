@@ -1,6 +1,6 @@
 # Netflix: was kein Automat beantworten kann
 
-Stand 2026-09-09 · **9 Titel**.
+Stand 2026-09-14 · **0 Titel**.
 
 Netflix gibt seine Tonspuren nur an einen laufenden Player heraus — fünfmal gemessen,
 fünfmal bestätigt. Es gibt keinen Abruf, der das hier abnehmen könnte.
@@ -23,12 +23,3 @@ Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.
 
 | # | Titel | Folgen | Jahr | Verweis |
 |---|---|---:|---:|---|
-| 1 | BAKI-DOU: The Invincible Samurai Part 2 | 12 | 2026 | [öffnen](https://www.netflix.com/title/81922765) |
-| 2 | Hi Score Girl: Extra Stage | 3 | 2019 | [öffnen](https://www.netflix.com/title/80997338) |
-| 3 | Haikyu!! An Land vs. In der Luft / Der ”Weg” des Balls | 2 | 2020 | [öffnen](https://www.netflix.com/title/80090673) |
-| 4 | Haikyu!! Lev ist hier! | 1 | 2014 | [öffnen](https://www.netflix.com/title/80090673) |
-| 5 | Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier | 1 | 2017 | [öffnen](https://www.netflix.com/title/80090673) |
-| 6 | Haikyu!! Kampf gegen ungenügende Noten | 1 | 2015 | [öffnen](https://www.netflix.com/title/80090673) |
-| 7 | Pretty Guardian Sailor Moon Eternal: Der Film | 1 | 2021 | [öffnen](https://www.netflix.com/title/81214399) |
-| 8 | Dorohedoro: Teuflische Anekdoten | 1 | 2020 | [öffnen](https://www.netflix.com/title/80991903) |
-| 9 | Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd | 1 | 2022 | [öffnen](https://www.netflix.com/title/80987039) |

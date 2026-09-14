@@ -1,5 +1,5 @@
 {
-  "standAm": "2026-09-09",
+  "standAm": "2026-09-14",
   "faelle": [
     {
       "titleId": 18507,
@@ -7,7 +7,7 @@
       "platform": "primevideo",
       "quelle": "JustWatch 2026-09-07",
       "ton": "de, en, es, fr, ja, pt",
-      "seit": "2026-09-09"
+      "seit": "2026-09-14"
     },
     {
       "titleId": 103631,
@@ -15,7 +15,7 @@
       "platform": "primevideo",
       "quelle": "JustWatch 2026-09-07",
       "ton": "ja, de",
-      "seit": "2026-09-09"
+      "seit": "2026-09-14"
     },
     {
       "titleId": 21741,
@@ -23,7 +23,7 @@
       "platform": "primevideo",
       "quelle": "JustWatch 2026-09-07",
       "ton": "de, ja",
-      "seit": "2026-09-09"
+      "seit": "2026-09-14"
     },
     {
       "titleId": 21311,
@@ -31,7 +31,7 @@
       "platform": "primevideo",
       "quelle": "JustWatch 2026-09-07",
       "ton": "en, es, fr, ja, pt, ru, de",
-      "seit": "2026-09-09"
+      "seit": "2026-09-14"
     },
     {
       "titleId": 552,
@@ -39,7 +39,15 @@
       "platform": "primevideo",
       "quelle": "JustWatch 2026-09-09",
       "ton": "de, es, ja, pt",
-      "seit": "2026-09-09"
+      "seit": "2026-09-14"
+    },
+    {
+      "titleId": 101478,
+      "titel": "Okko und ihre Geisterfreunde",
+      "platform": "primevideo",
+      "quelle": "JustWatch 2026-09-07",
+      "ton": "de, ja",
+      "seit": "2026-09-14"
     }
   ]
 }
