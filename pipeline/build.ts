@@ -6440,9 +6440,11 @@ function main(): void {
         const gleicherKanal = (title.watchLinks ?? []).filter(
           (w) => w.kind === 'stream' && /amazon\./.test(w.url) && kanalMuster.test(w.name ?? ''),
         )
-        for (const w of gleicherKanal) {
-          if (!ausgaben.some((x) => adressGleich(x.url, w.url))) ausgaben.push({ ...a, url: w.url })
-        }
+        /*
+          Die Pille steht schon da — eine zweite Kennung desselben Kanals wäre
+          dieselbe Auskunft zweimal (erster Bau: zwei gestrichene
+          „Crunchyroll-Kanal"-Pillen bei Digimon). Der Weg verschwindet nur.
+        */
         if (gleicherKanal.length) title.watchLinks = (title.watchLinks ?? []).filter((w) => !gleicherKanal.includes(w))
       }
       if (ausgaben.length) {
