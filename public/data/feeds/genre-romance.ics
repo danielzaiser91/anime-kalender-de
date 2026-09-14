@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Romance
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:2-5-dimensional-seduction-2026-09-07@2026-09-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260907
-DTEND;VALUE=DATE:20260908
-SUMMARY:2.5 Dimensional Seduction (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/2-5-dim
- ensional-seduction-2026-09-07
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-09-09#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T140000Z
