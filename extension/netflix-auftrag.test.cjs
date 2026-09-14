@@ -401,6 +401,36 @@ pruefe(
   JSON.stringify(auftrag({ staffelNr: 4, anzahl: 27 })) === '[14,15]',
 )
 
+/* ── Stand-Probe: „offen" kommt vom Worker, nicht aus dem lokalen Speicher (14.09.2026) ── */
+
+/*
+  Daniel mit zwei Bildern: Statusanzeige „Netflix 2", die Prüfliste „1 Titel zu
+  prüfen" — FGO Babylonia galt als gemeldet, weil `erledigt` alle Folgen aus
+  früheren Meldungen trug, während die Liste den Titel als Zuordnungsauftrag
+  neu vorlegte. Die Kulisse sagt „lokal ist alles abgehakt"; entscheiden muss
+  trotzdem der Stand.
+*/
+{
+  const code = schneide('fertig')
+  pruefe('fertig() ist im Quelltext auffindbar', Boolean(code))
+  if (code) {
+    const kontext = {
+      standZieleNetflix: null,
+      frischGemeldetNetflix: new Set(),
+      istErledigt: () => true,
+      kuerzelErledigt: () => true,
+      staffelnVon: () => [],
+      erledigt: {},
+    }
+    vm.runInNewContext(`${code}\nthis.fertig = fertig`, kontext)
+    kontext.standZieleNetflix = new Set(['https://www.netflix.com/title/81186100'])
+    pruefe('steht im Worker-Stand: offen, auch wenn lokal alles abgehakt ist', kontext.fertig(81186100, {}) === false)
+    pruefe('steht nicht im Worker-Stand: erledigt', kontext.fertig(82047155, {}) === true)
+    kontext.frischGemeldetNetflix.add('81186100')
+    pruefe('die eigene Meldung dieser Sitzung überbrückt bis zum nächsten Stand', kontext.fertig(81186100, {}) === true)
+  }
+}
+
 console.log('')
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) gerissen.`)
