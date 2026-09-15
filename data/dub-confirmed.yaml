@@ -15316,8 +15316,8 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-13 ---
 
-- anilistId: 20464
-  title: "Haikyu!!"
+- anilistId: 20992
+  title: Haikyu!! Zweite Staffel
   platform: primevideo
   url: https://www.amazon.de/dp/B0D4K9PV2F
   dub: true
@@ -15326,12 +15326,8 @@
       to: 25
       dub: true
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
-    - from: 26
-      to: 26
-      dub: false
-      checked: [26]
-  checkedAt: '2026-09-10'
-  note: "Folgen 1–25 mit deutschem Ton, Folge 26 ohne deutschen Ton — Amazon-Seite B0D4K9PV2F: alle 26 Folgen geprüft, Abos: animedigitalde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  checkedAt: "2026-09-10"
+  note: "Folgen 1–25 mit deutschem Ton, Folge 26 ohne deutschen Ton — Amazon-Seite B0D4K9PV2F: alle 26 Folgen geprüft, Abos: animedigitalde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — Zuordnung 15.09.2026 über die Rohfolgen 20321–20346: Die Seite ist Haikyu!! Staffel 2 (20992), Folge 1 „Let's go! Tokyo!\", Folge 26 „Kampf gegen ungenügende Noten\" ist die OVA „VS Failing Marks\" (21348). Deren „kein Deutsch\" stammt von einem Kanal-Titel und ist kein Beleg; es entfällt"
 
 # --- Zweite Prime-Ausgabe mit deutschem Ton, 14.09.2026 ---
 - anilistId: 552
@@ -15473,8 +15469,8 @@
   checkedAt: '2026-09-15'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B086G16LZZ: alle 1 Folge geprüft, Abos: crunchyrollde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 20464
-  title: "Haikyu!!"
+- anilistId: 20992
+  title: Haikyu!! Zweite Staffel
   platform: primevideo
   url: https://www.amazon.de/dp/B0D4K9PV2F
   dub: true
@@ -15483,12 +15479,8 @@
       to: 25
       dub: true
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
-    - from: 26
-      to: 26
-      dub: false
-      checked: [26]
-  checkedAt: '2026-09-15'
-  note: "Folgen 1–25 mit deutschem Ton, Folge 26 ohne deutschen Ton — Amazon-Seite B0D4K9PV2F: alle 26 Folgen geprüft, Abos: animedigitalde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  checkedAt: "2026-09-15"
+  note: "Folgen 1–25 mit deutschem Ton, Folge 26 ohne deutschen Ton — Amazon-Seite B0D4K9PV2F: alle 26 Folgen geprüft, Abos: animedigitalde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — Zuordnung 15.09.2026 über die Rohfolgen 20321–20346: Die Seite ist Haikyu!! Staffel 2 (20992), Folge 1 „Let's go! Tokyo!\", Folge 26 „Kampf gegen ungenügende Noten\" ist die OVA „VS Failing Marks\" (21348). Deren „kein Deutsch\" stammt von einem Kanal-Titel und ist kein Beleg; es entfällt"
 
 - anilistId: 163024
   title: "Captain Tsubasa: Staffel 2 - Die Junioren"
