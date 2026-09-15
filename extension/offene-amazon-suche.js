@@ -1,1 +1,1 @@
-globalThis.AK_PRIME_SUCHE = {"https://www.amazon.de/s?k=Okko%20ihre%20Geisterfreunde&i=instant-video":{"titel":"Okko und ihre Geisterfreunde","erneut":"Zweite Ausgabe: Crunchyroll Amazon Channel führt diesen Titel mit deutschem Ton, die gemeldete Kanal-Ausgabe nicht — die Ausgabe mit Deutsch ankreuzen und melden","suchbegriff":"Okko ihre Geisterfreunde","suchbegriffEn":"Okko s Inn","id":101478,"folgen":1,"jahr":2018,"asId":13541}}
+globalThis.AK_PRIME_SUCHE = {}
