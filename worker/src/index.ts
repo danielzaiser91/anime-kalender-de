@@ -2102,12 +2102,23 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       */
       const probe = new URL(request.url).searchParams.get('probe')
       if (probe) {
-        const { results } = await env.DB.prepare(
-          `SELECT id, url, nummer, titel, erschienen, dauer_sek, plattform, uebernommen, gemeldet_am, roh
-             FROM prime_folge WHERE plattform = ?1 AND roh IS NOT NULL ORDER BY id DESC LIMIT 5`,
-        )
-          .bind(probe.slice(0, 20))
-          .all()
+        /*
+          `&id=<n>` holt genau eine Zeile — Daniel am 15.09.2026: „sag mir aus
+          gemeldetem stand was für ep 2 angekommen ist". Die jüngsten fünf
+          reichen dafür nicht, sobald danach weitere Folgen kamen.
+        */
+        const id = Number(new URL(request.url).searchParams.get('id') ?? 0)
+        const { results } = await (
+          Number.isInteger(id) && id > 0
+            ? env.DB.prepare(
+                `SELECT id, url, nummer, titel, erschienen, dauer_sek, plattform, uebernommen, gemeldet_am, roh
+                   FROM prime_folge WHERE id = ?1 AND plattform = ?2`,
+              ).bind(id, probe.slice(0, 20))
+            : env.DB.prepare(
+                `SELECT id, url, nummer, titel, erschienen, dauer_sek, plattform, uebernommen, gemeldet_am, roh
+                   FROM prime_folge WHERE plattform = ?1 AND roh IS NOT NULL ORDER BY id DESC LIMIT 5`,
+              ).bind(probe.slice(0, 20))
+        ).all()
         return antwort({ probe: results ?? [] })
       }
       const nach = Number(new URL(request.url).searchParams.get('nach') ?? 0)
