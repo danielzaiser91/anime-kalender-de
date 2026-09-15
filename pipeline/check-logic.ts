@@ -2830,6 +2830,16 @@ console.log('\nStaffel und Teil zählen:')
   den Monat kannte — und der Zwischenspeicher holte den inzwischen genannten Tag
   nie nach.
 */
+/* Solo Leveling, 15.09.2026: dieselbe Meldung zweimal ergab denselben Beleg zweimal. */
+console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut angehängt:')
+{
+  const abholung = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
+  pruefe(
+    'fetch-pruefungen vergleicht neue Belege mit den vorhandenen',
+    /const vorhanden = new Set\(/.test(abholung) && /!vorhanden\.has\(JSON\.stringify\(eintrag\)\)/.test(abholung),
+  )
+}
+
 console.log('\nJapanischer Start: so genau wie die Quelle, und angekündigte Titel frisch:')
 {
   const bau = readFileSync('pipeline/build.ts', 'utf8')

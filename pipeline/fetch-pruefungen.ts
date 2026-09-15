@@ -1096,7 +1096,33 @@ if (zeilen.length && !TROCKEN) {
   const p = resolve(ROOT, 'data/dub-confirmed.yaml')
   const alt = readFileSync(p, 'utf8')
   const kopf = `\n# --- Aus dem Browser gemeldet, abgeholt am ${heute} ---`
-  const neu = alt.trimEnd() + '\n' + kopf + '\n' + zeilen.join('\n') + '\n'
+  /*
+    **Ein Beleg, der wörtlich schon dasteht, wird nicht noch einmal angehängt.**
+
+    Solo Leveling, 15.09.2026: Daniel meldete dieselbe Seite um 11:07 und beim
+    Test um 20:51 — gleicher Tag, gleiche Notiz, also derselbe Beleg zweimal. Die
+    Zusicherung „kein Beleg steht zweimal in der Datei" machte den Deploy rot.
+    Verglichen wird das gelesene Objekt, nicht der Text: Kommentare und
+    Anführungszeichen dürfen sich unterscheiden.
+  */
+  const vorhanden = new Set(((yaml.load(alt) as unknown[] | null) ?? []).map((b) => JSON.stringify(b)))
+  const bloecke: string[][] = []
+  for (const z of zeilen) {
+    if (z.startsWith('- ')) bloecke.push([z])
+    else if (bloecke.length) bloecke[bloecke.length - 1]!.push(z)
+  }
+  const neueBloecke = bloecke.filter((b) => {
+    try {
+      const eintrag = (yaml.load(b.join('\n')) as unknown[] | null)?.[0]
+      return !vorhanden.has(JSON.stringify(eintrag))
+    } catch {
+      return true
+    }
+  })
+  const uebersprungen = bloecke.length - neueBloecke.length
+  if (uebersprungen) log(`${uebersprungen} Beleg(e) standen wörtlich schon da — nicht erneut angehängt`)
+  const neueZeilen = neueBloecke.flatMap((b) => ['', ...b.filter((z, i) => i === 0 || z !== '')])
+  const neu = alt.trimEnd() + '\n' + kopf + '\n' + neueZeilen.join('\n') + '\n'
   /*
     **Erst lesen, dann schreiben — sonst fällt der Fehler drei Schritte später.**
 
@@ -1117,7 +1143,7 @@ if (zeilen.length && !TROCKEN) {
       `Die erzeugten Zeilen ergeben kein gültiges YAML — nichts geschrieben. ${(e as Error).message}`,
     )
   }
-  writeFileSync(p, neu)
+  if (neueZeilen.some((z) => z.startsWith('- '))) writeFileSync(p, neu)
 }
 
 /**
