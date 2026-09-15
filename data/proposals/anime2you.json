@@ -1,6 +1,44 @@
 {
-  "scrapedAt": "2026-09-14T11:39:50.041Z",
+  "scrapedAt": "2026-09-15T09:26:42.717Z",
   "proposals": [
+    {
+      "articleTitle": "Netflix nimmt ersten »Demon Slayer: Infinity Castle«-Film ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1049975/demon-slayer-infinity-castle-bald-auf-netflix/",
+      "publishedAt": "2026-09-14",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-09-28",
+          "context": "in Kürze auch hierzulande bereitstellen wird. Wir fassen zusammen. Ab 28. September 2026 Der rund 155-minütige erste Teil der »Demon Slayer:"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neues 4K-Steelbook zu »Godzilla Minus One« angekündigt",
+      "articleUrl": "https://www.anime2you.de/news/1049955/neues-godzilla-minus-one-4k-steelbook/",
+      "publishedAt": "2026-09-14",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-05",
+          "context": "n ansehen. Release im November 2026 »Godzilla Minus One« erscheint am 5. November 2026 in einem limitierten Steelbook mit »Glow-in-the-dark«"
+        },
+        {
+          "month": "2026-11",
+          "context": ". Ein erstes Produktbild könnt ihr euch weiter unten ansehen. Release im November 2026 »Godzilla Minus One« erscheint am 5. November 2026 in"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«",
       "articleUrl": "https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/",

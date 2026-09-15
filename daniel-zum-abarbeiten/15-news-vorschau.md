@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-14. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-15. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-65 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+67 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -17,6 +17,7 @@ Stand: 2026-09-14. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-09 (Monat) | netflix | – unklar | [Netflix: Alle Anime-Neuzugänge im September 2026](https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/) |
 | 2026-09 (Monat) | crunchyroll | ✅ zugesagt | [Deutsche Synchro von Teil 2 der vierten »Re:ZERO«-Staffel startet später](https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/) |
 | 2026-09-20 | ? | – unklar | [Anime Planet startet große »End of Summer«-Rabattaktion](https://www.anime2you.de/news/1048476/anime-planet-end-of-summer-rabattaktion/) |
+| 2026-09-28 | netflix | – unklar | [Netflix nimmt ersten »Demon Slayer: Infinity Castle«-Film ins Programm](https://www.anime2you.de/news/1049975/demon-slayer-infinity-castle-bald-auf-netflix/) |
 | 2026-09-29 | netflix | – unklar | [Netflix-Termin des dritten »Mononoke«-Films + Trailer](https://www.anime2you.de/news/1042775/dritter-mononoke-film-netflix-termin/) |
 | 2026-09-30 | netflix | – unklar | [Netflix entfernt acht Anime-Titel aus seinem Programm](https://www.anime2you.de/news/1045817/netflix-entfernt-quintuplets-und-mehr/) |
 | 2026-10-27, 2026-10 (Monat) | kino | ✅ zugesagt | [Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«](https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/) |
@@ -34,6 +35,7 @@ Stand: 2026-09-14. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10-03 | netflix | ✅ zugesagt | [Netflix entfernt »Kuromukuro« aus seinem Programm](https://www.anime2you.de/news/1048297/netflix-entfernt-kuromukuro/) |
 | 2026-10-17 | crunchyroll, adn | – unklar | [Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer](https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/) |
 | 2026-10-22 | disc | – unklar | [Sieben Blu-ray-Neuheiten ab sofort bei Anime Planet vorbestellbar](https://www.anime2you.de/news/1043419/anime-planet-oktober-november-2026-vorbestellung/) |
+| 2026-11-05, 2026-11 (Monat) | disc | – unklar | [Neues 4K-Steelbook zu »Godzilla Minus One« angekündigt](https://www.anime2you.de/news/1049955/neues-godzilla-minus-one-4k-steelbook/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [Design der Steelbook-Edition von »A Silent Voice« + Extras](https://www.anime2you.de/news/1048229/a-silent-voice-steelbook-design/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [Design der limitierten Blu-ray-Edition von »Clevatess« enthüllt](https://www.anime2you.de/news/1048245/clevatess-limited-edition-blu-ray-design/) |
 | 2026-11 (Monat) | ? | – unklar | [Limitierte Steelcase-Edition von »Good Luck Girl!« vorbestellbar](https://www.anime2you.de/news/1048260/good-luck-girl-steelcase-edition-vorbestellbar/) |
@@ -46,40 +48,38 @@ Stand: 2026-09-14. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [»Miss Kobayashi’s Dragon Maid« erscheint als Steelbook-Edition](https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Erste »A Wild Last Boss Appeared!«-Staffel erscheint auf Blu-ray](https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/) |
 | 2026-11-19, 2026-11 (Monat) | disc | – unklar | [»Kubo Won’t Let Me Be Invisible« erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1044503/kubo-wont-let-me-be-invisible-blu-ray-komplettbox/) |
-| 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [Fantasy-Anime »Failure Frame« erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1044382/failure-frame-blu-ray-komplettbox/) |
-| 2026-11 (Monat) | crunchyroll, disc | – unklar | [Erste »Clevatess«-Staffel erscheint als Limited Edition auf Blu-ray](https://www.anime2you.de/news/1044108/clevatess-staffel-1-blu-ray-release/) |
 
-… und 25 weitere.
+… und 27 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 6 |
-| adn-catalog | 4.8 Tage her | 115 |
-| anilist-voices | 4.8 Tage her | 0 |
-| anime-offline-database | 4.8 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 40 |
-| anisearch | 1.0 Tage her | 3182 |
-| anisearch-folgen | 4.8 Tage her | 24 |
-| ann-voices | 4.8 Tage her | 8876 |
+| adn-catalog | 0.9 Tage her | 116 |
+| anilist-voices | 0.9 Tage her | 0 |
+| anime-offline-database | 0.9 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 41 |
+| anisearch | 0.9 Tage her | 3182 |
+| anisearch-folgen | 0.9 Tage her | 15 |
+| ann-voices | 0.9 Tage her | 8876 |
 | cartoons | 1.0 Tage her | 0 |
-| cinestar | 4.8 Tage her | 2 |
-| cr-einzelwerke | 12.0 Tage her | 9 |
-| cr-filmbloecke | 12.0 Tage her | 6 |
+| cinestar | 0.9 Tage her | 1 |
+| cr-einzelwerke | 13.0 Tage her | 9 |
+| cr-filmbloecke | 13.0 Tage her | 6 |
 | crunchyroll | 0.0 Tage her | 17 |
-| crunchyroll-dub | 0.0 Tage her | 1079 |
-| crunchyroll-neu | 0.0 Tage her | 51 |
-| crunchyroll-offene | 4.1 Tage her | 8 |
-| fsk | 4.8 Tage her | 3 |
-| justwatch-audio | 4.7 Tage her | 0 |
-| link-check | 4.8 Tage her | 19 |
-| motn | 12.0 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 2 |
-| rohfolgen | 0.6 Tage her | 0 |
-| tmdb-folgen | 4.8 Tage her | 830 |
-| tmdb-kino | 4.8 Tage her | 3 |
-| tmdb-titles | 4.8 Tage her | 400 |
-| trailer | 1.0 Tage her | 83 |
+| crunchyroll-dub | 0.0 Tage her | 1080 |
+| crunchyroll-neu | 0.0 Tage her | 52 |
+| crunchyroll-offene | 5.1 Tage her | 8 |
+| fsk | 0.9 Tage her | 3 |
+| justwatch-audio | 5.6 Tage her | 0 |
+| link-check | 0.9 Tage her | 41 |
+| motn | 13.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 0 |
+| rohfolgen | 0.1 Tage her | 0 |
+| tmdb-folgen | 0.9 Tage her | 837 |
+| tmdb-kino | 0.9 Tage her | 4 |
+| tmdb-titles | 0.9 Tage her | 400 |
+| trailer | 1.0 Tage her | 0 |
 | vorfaelle | 0.1 Tage her | 0 |
-| youtube-check | 4.8 Tage her | 1 |
+| youtube-check | 0.9 Tage her | 0 |
