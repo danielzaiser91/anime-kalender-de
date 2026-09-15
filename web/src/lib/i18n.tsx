@@ -57,6 +57,7 @@ const TEXTE = {
   // Kurzform für die Übersichtszeile: Stichworte statt Satz — der Vollsatz steht aufgeklappt darunter.
   'news.alle': 'Alles',
   'news.weitere': '+{n} weitere',
+  'news.aeltere': 'Ältere News',
   // Der Chip nennt die Art, die Zeile nennt die Umstände — sonst steht beides zweimal da
   // („Kino 29.09." neben dem Chip „Im Kino").
   'news.kurz.neu': 'bei {anbieter}',

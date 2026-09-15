@@ -66,6 +66,14 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
   const [meldungen, setMeldungen] = useState<NewsEintrag[] | null>(null)
   const [offen, setOffen] = useState<Set<string>>(new Set())
   const [filter, setFilter] = useState<NewsArt | null>(null)
+  /*
+    **Vorn stehen die letzten 14 Tage, Älteres auf Knopfdruck** (Daniel,
+    15.09.2026: „news seite auf letzte 14 tage beschränken und für ältere news
+    einen button ‚ältere News' anbieten"). Die Filterzähler zählen, was gerade
+    gezeigt wird — sonst stünde „Disc 12" über einer Liste mit drei.
+  */
+  const [aeltereZeigen, setAeltereZeigen] = useState(false)
+  const grenze = addDays(todayIso(), -14)
 
   useEffect(() => {
     let abgebrochen = false
@@ -77,23 +85,29 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
     }
   }, [])
 
-  /* Wie oft jede Art insgesamt vorkommt — die Filterleiste zeigt nur, was es gibt. */
+  const sichtbar = useMemo(
+    () => (aeltereZeigen ? (meldungen ?? []) : (meldungen ?? []).filter((e) => e.am >= grenze)),
+    [meldungen, aeltereZeigen, grenze],
+  )
+  const aeltereGibtEs = !aeltereZeigen && (meldungen ?? []).some((e) => e.am < grenze)
+
+  /* Wie oft jede Art vorkommt — die Filterleiste zeigt nur, was es gibt. */
   const jeArt = useMemo(() => {
     const zahl = new Map<NewsArt, number>()
-    for (const e of meldungen ?? []) for (const m of e.meldungen) zahl.set(m.art, (zahl.get(m.art) ?? 0) + 1)
+    for (const e of sichtbar) for (const m of e.meldungen) zahl.set(m.art, (zahl.get(m.art) ?? 0) + 1)
     return zahl
-  }, [meldungen])
+  }, [sichtbar])
 
   const tage = useMemo(() => {
     const jeTag = new Map<string, NewsEintrag[]>()
-    for (const e of meldungen ?? []) {
+    for (const e of sichtbar) {
       if (filter && !e.meldungen.some((m) => m.art === filter)) continue
       const liste = jeTag.get(e.am) ?? []
       liste.push(e)
       jeTag.set(e.am, liste)
     }
     return [...jeTag.entries()].sort((a, b) => b[0].localeCompare(a[0]))
-  }, [meldungen, filter])
+  }, [sichtbar, filter])
 
   const anbieterName = (m: NewsMeldung): string =>
     m.platform ? (PLATFORMS[m.platform as PlatformId]?.name ?? m.platform) : (m.anbieter ?? '')
@@ -333,6 +347,16 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
           </ul>
         </div>
       ))}
+
+      {aeltereGibtEs && (
+        <button
+          type="button"
+          onClick={() => setAeltereZeigen(true)}
+          className="mt-1 w-full rounded-lg border border-slate-200 py-2 text-sm text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
+        >
+          {t('news.aeltere')}
+        </button>
+      )}
     </section>
   )
 }
