@@ -588,6 +588,17 @@ jetzt Tonspuren, Film, Kennung, Staffel, Abos (`seite.zugaenge`) sowie Kauf und 
 Quelltext-Wächter bleiben bewusst: Sie bewachen nur noch, was wirklich aus dem Seitentext
 kommt (Titel-Rückfälle, Zahl über der Liste).
 
+**Und das alte Kaufmuster war eine Fehlanzeige — gemessen am selben Abend.** Golden Kamuy
+(`0QG5UD99TZDIAQSBIEJD3EXG2Y`) meldete am 27.08. `zugang=abo_und_kauf`, mit 4.20.19 `abo`.
+Anonym nachgemessen: Der Aktionsblock nennt nur `SUBSCRIBE`, kein `TRANSACT`; die sieben
+Treffer für „Als Kauftitel verfügbar" im Quelltext stehen alle in `focusMessage`/`glanceMessage`
+— den Hinweisen auf Kacheln **fremder** Titel in den Empfehlungsleisten. Dieselbe Falle wie bei
+`benefitId`: Ein Muster über den ganzen Quelltext liest die Nachbarn mit. **Die Seite war davon
+nicht betroffen:** Der Bau rechnet die Zugangsart selbst (`shared/zugangsart.ts`) und liest
+`zugang=` aus der Notiz nicht; Golden Kamuy stand im Datensatz schon auf `abo`. Die
+465 `zugang=abo_und_kauf` und 226 `zugang=kauf_oder_leihe` in `data/dub-confirmed.yaml`
+(gezählt am 15.09.2026) sind deshalb nur Notiztext und kein Beleg für einen Kaufweg.
+
 **Ein Rückfall verdeckt die Fehler der Quelle, die er ersetzt.** Phase 2 (15.09.2026) nahm
 `staffelAusSeite()` den Muster-Rückfall — und zwei Zusicherungen wurden rot, weil
 `beiStaffelwechsel()` die Staffelnummer aus dem Schnappschuss sofort wieder leerte:
