@@ -15366,3 +15366,13 @@
   checkedAt: '2026-09-14'
   zweiteQuelle: "JustWatch 2026-09-09: Crunchyroll Amazon Channel — Ton es, ja, pt, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+# --- Free! Staffel 1 über den Crunchyroll-Kanal: belegtes Nein, 15.09.2026 ---
+- anilistId: 18507
+  title: "Free! Iwatobi Swim Club"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CGVS29ZD
+  dub: false
+  checkedAt: '2026-09-15'
+  zweiteQuelle: "Crunchyroll, von Daniel geprüft am 23.08.2026: Staffel 1 und 2 nur englische Synchro, deutsch erst Staffel 3 („1-0, 2-0, 3-12“)"
+  note: "Crunchyroll-Kanal-Ausgabe. Die Kanal-Meldung vom 24.08.2026 zeigt kein Deutsch; JustWatchs „de“ beim Crunchyroll-Angebot gilt der Reihe und stammt aus Staffel 3. Daniel am 15.09.2026 im Durchgang, ohne Kanal-Abo."

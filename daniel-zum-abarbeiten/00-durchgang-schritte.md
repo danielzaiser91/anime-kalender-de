@@ -1,63 +1,57 @@
-# Durchgang 13.09.2026 — vorbereitete Schritte
+# Durchgang 15.09.2026 — Schritte
 
-Jede Zeile ist fertig zum Vorlesen: Link, Handgriff, Frage, und was ich mit der Antwort tue.
-Während des Durchgangs wird hier nur abgelesen, nicht nachgeschlagen.
+Gemessen um 09:24 aus `extension/offene-*.js` und `?stand=1`: Netflix 2, Amazon 8 Titelseiten, Amazon 3 Suchen, Disney+ 0, Suchadressen 0.
 
-Erledigt: Laufstatus-App (19:41), Erweiterung 4.20.1 (19:42), Haikyu-Netflix (selbst verbucht).
+Kurzschrift: `1` deutsch · `0` kein Deutsch · `x` gibt es dort nicht · mehrere mit Punkt.
 
-## 3 · Konosuba Staffel 2 (Netflix) — gestellt 19:42
+Einarbeitung nach jeder Meldung über die Erweiterung: `?gemeldet=<url>` bzw. `?zaehlen=1` im Briefkasten prüfen, dann „eingetragen" und nächster Schritt.
 
-- Link: https://www.netflix.com/title/80131674?ak=1
-- Handgriff: Staffel 2 wählen, Prüf-Knopf im Kasten. Erscheint „dt. bis Flg. ?", letzte deutsche Folge eintragen, ✓ melden.
-- Antwort einarbeiten: Meldung kommt über den Briefkasten, der Bau übernimmt sie. Ich prüfe nur, ob sie angekommen ist (`?token=` Liste, plattform netflix, url 80131674).
-- Bereichsmelder gilt als getestet, wenn das Zahlenfeld erschien und die Meldung zwei Bereiche trägt; erschien es nicht (alles deutsch), bleibt der Test offen.
+## Netflix — Zuordnungsaufträge (die Folgentitel sollen ankommen)
 
-## 4 · Disney+-Box gegenprüfen
+1. **Fate/Grand Order Absolute Demonic Front: Babylonia** — [bei Netflix öffnen](https://www.netflix.com/title/81186100)
+   Im Kasten steht „↻ erneut melden: E1-22" und ein Knopf, der mit „▶" beginnt und auf „prüfen" endet. Knopf drücken und durchlaufen lassen.
+   Frage: Steht am Ende im Kasten, dass alles gemeldet ist?
+   - ja → Briefkasten prüfen (22 Folgen mit Titel), weiter mit 2
+   - Knopf fehlt / bricht ab → Bild erbitten
 
-- Link: https://www.disneyplus.com/browse/entity-bc2dae95-23e6-45dc-8177-066425b10fa0 (Naruto)
-- Frage: Stehen die Knöpfe der Erweiterung **in einem Kasten** unten rechts (nicht mehr einzeln am Rand), und läuft nichts über?
-- Antwort: 1 → Punkt erledigt. 0 → Bild erbitten.
+2. **Shiboyugi: Das Phantom-Mädchen im Spiel des Todes** — [bei Netflix öffnen](https://www.netflix.com/title/82047155)
+   Wie 1, erwartet „↻ erneut melden: E1-12".
 
-## 5 · „How Heavy Are the Dumbbells You Lift?" — Prime-Seite
+## Amazon — Suche nach der zweiten Ausgabe mit deutschem Ton
 
-- Link: https://www.amazon.de/dp/B0CZSMKH71
-- Frage: Was ist das? (a) die Hauptserie mit 12 Folgen, (b) eine OmU-Ausgabe der Hauptserie, (c) das Special „Gnadenlose Trainingsstunde"
-- Antwort: a/b → Beleg von 138103 auf 107226 umhängen (b: dub false); c → bleibt.
+3. **Bungo Stray Dogs** — [Suche öffnen](https://www.amazon.de/s?k=Bungo%20Stray%20Dogs&i=instant-video)
+   Laut JustWatch hat die Ausgabe im **Aniverse-Kanal** deutschen Ton, die Crunchyroll-Kanal-Ausgabe (`B0BZGQZCFT`) nicht. Im Kasten die Aniverse-Ausgabe ankreuzen, „Auswahl bestätigen", dann bei ihr „öffnen" und dort den Knopf „… · melden als „Bungo Stray Dogs"" drücken.
+   Frage: Zeigt der Knopf auf der Aniverse-Seite „🇩🇪 Deutsch"?
+   - ja und gemeldet → Briefkasten prüfen; Bau legt die Ausgabe als Verweis an, weiter mit 4
+   - kein Deutsch → nachfragen (Kanal-Abo? falsche Karte?)
+   - keine zweite Ausgabe in der Trefferliste → `x`, ich vermerke es in `data/kanal-widerspruch`-Fall
 
-## 6 · Crunchyroll: 7 Verweise ohne Sprachurteil — je Titel `1` / `0` / `x`
+4. **Touken Ranbu: Hanamaru** — [Suche öffnen](https://www.amazon.de/s?k=Touken%20Ranbu%20Hanamaru&i=instant-video)
+   Wie 3; deutsch laut JustWatch im **Aniverse-Kanal**, nicht die Crunchyroll-Kanal-Seite `B0CJJH97FX`.
 
-1. Sin: The Movie (2262) — http://www.crunchyroll.com/de/sin-the-movie
-2. Durarara!! (8408) — https://www.crunchyroll.com/series/G619XVNEY/durarara
-3. Cencoroll Connect (9488) — https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430
-4. Love, Chunibyo & Other Delusions! Heart Throb (18671) — https://www.crunchyroll.com/de/series/GYJQV73V6/love-chunibyo--other-delusions---heart-throb--
-5. Your Voice: Kimikoe (21683) — https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378
-6. Okko und ihre Geisterfreunde (101478) — https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785
-7. Gals Can't Be Kind to Otaku!? (199588) — https://www.crunchyroll.com/series/GT00371662
+5. **Okko und ihre Geisterfreunde** (Film) — [Suche öffnen](https://www.amazon.de/s?k=Okko%20ihre%20Geisterfreunde&i=instant-video)
+   Wie 3; deutsch laut JustWatch im **Crunchyroll-Kanal**. Findet die Suche nichts: Knopf „Englisch suchen: Okko s Inn".
 
-Einzeln stellen, einer je Antwort. Einarbeiten: Handbeleg `platform: crunchyroll`, `dub` bzw. `available: false`, Datum 13.09.2026. Führt ein Link auf eine andere Seite als den Titel: Adresse erfragen und als `url` mitschreiben.
+## Amazon — Zuordnungsaufträge (Folgentitel sollen ankommen)
 
-## 7 · Prime: 7 Suchadressen — Titelseite finden
+Handgriff jeweils: Seite öffnen, warten bis die Folgenzahl vollständig ist, dann den roten/grünen Knopf unten rechts, der auf „· melden" endet. Der Kasten nennt dazu „Zuordnung: Der Beleg nennt Folgen bis …".
 
-Handgriff je Eintrag: Suche öffnen, den richtigen Treffer anklicken, im Kasten melden. Die Erweiterung bucht es selbst.
+6. **Haikyu!!** (Staffel 1) — [bei Prime öffnen](https://www.amazon.de/dp/0Q6QUJIEW346VMM87OG648DPND) — Beleg bis 26, Titel hat 25
+7. **Haikyu!!** (Seite laut Adresse Staffel 2) — [bei Prime öffnen](https://www.amazon.de/dp/B0D4K9PV2F) — Beleg bis 26 (1–25 deutsch, 26 nicht)
+8. **Golden Kamuy** — [bei Prime öffnen](https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y) — Beleg bis 13, Titel hat 12
+9. **Captain Tsubasa (2018)** — [bei Prime öffnen](https://www.amazon.de/gp/video/detail/B0GXPFJJZK) — Beleg bis 91, Titel hat 52 (Prime bündelt beide Staffeln)
+10. **Solo Leveling** — [bei Prime öffnen](https://www.amazon.de/dp/B0FJWFGLQC) — Beleg bis 13, Titel hat 12
 
-1. Danganronpa 3 – Future Arc (21509) — https://www.amazon.de/s?k=Danganronpa%203%3A%20The%20End%20of%20Hope%E2%80%99s%20Peak%20Academy%20-%20Future%20Arc&i=instant-video
-2. Danganronpa 3 – Hope Arc (97672) — https://www.amazon.de/s?k=Danganronpa%203%3A%20The%20End%20of%20Hope%E2%80%99s%20Peak%20High%20School%20-%20Hope%20Arc%20-%20The%20School%20of%20Hope%20and%20the%20Students%20of%20Despair&i=instant-video
-3. Saekano ♭ (21180) — https://www.amazon.de/s?k=Saekano%3A%20How%20to%20Raise%20a%20Boring%20Girlfriend%20%E2%99%AD&i=instant-video
-4. Shakugan no Shana III (6773) — https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video
-5. The Ghost in the Shell (177699) — https://www.amazon.de/s?k=THE%20GHOST%20IN%20THE%20SHELL&i=instant-video · aniSearch nennt https://www.amazon.de/dp/B0GZD5N2GP?tag=anisearch.de-21
-6. Vom Landei zum Schwertheiligen II (194829) — https://www.amazon.de/s?k=From%20Old%20Country%20Bumpkin%20to%20Master%20Swordsman%20II&i=instant-video · aniSearch nennt https://www.amazon.de/dp/B0H1QXQL33?tag=anisearch.de-21
-7. Plus-Sized Elf (173388) — https://www.amazon.de/s?k=Plus-Sized%20Elf&i=instant-video
+Frage je Schritt: Ist der Knopf nach dem Klick auf „gemeldet" gesprungen? → Briefkasten prüfen, weiter.
 
-Gibt es keinen Treffer: `x` → `available: false` für primevideo.
+## Amazon — erste Prüfung
 
-## 8 · Prime-Kanal-Wiedervorlagen (JustWatch findet Deutsch, Meldung sagte nein)
+11. **Nukitashi THE ANIMATION** — [bei Prime öffnen](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2)
+    Knopf „… · melden" drücken. Frage: Was steht vorn auf dem Knopf, „🇩🇪 Deutsch" oder „✕ kein Deutsch"?
 
-Vorfrage zuerst: **Hast du bei Prime ein Kanal-Abo (ADN/animedigitalde oder Crunchyroll)?** Ohne Abo zeigt Prime die deutsche Tonspur nicht — dann alle fünf überspringen und als 🟡 „braucht Kanal-Abo" in status.md.
+## Amazon — nur mit Crunchyroll-Kanal-Abo
 
-1. Digimon (552) — https://www.amazon.de/dp/B0CHHNJJW3
-2. Free! Iwatobi Swim Club (18507) — https://www.amazon.de/dp/B0CGVS29ZD
-3. Bungo Stray Dogs (21311) — https://www.amazon.de/dp/B0BZGQZCFT
-4. Touken Ranbu: Hanamaru (21741) — https://www.amazon.de/dp/B0CJJH97FX
-5. Nukitashi (174188) — https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd
+Vorab-Frage: Hast du das Crunchyroll-Kanal-Abo bei Prime? Ohne Abo zeigt Prime die deutsche Tonspur nicht — dann beide überspringen, sie bleiben stehen.
 
-Mit Abo: Seite öffnen, eine Folge anspielen, `1`/`0`. Einarbeiten als Handbeleg mit `url`.
+12. **Free! Iwatobi Swim Club** — [bei Prime öffnen](https://www.amazon.de/dp/B0CGVS29ZD) — JustWatch: Crunchyroll-Kanal mit de
+13. **Fruits Basket (2019)** — [bei Prime öffnen](https://www.amazon.de/gp/video/detail/B0GDFC7BL6) — JustWatch: Crunchyroll-Kanal mit de
