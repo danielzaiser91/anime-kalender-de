@@ -4193,11 +4193,23 @@ function durchlaufKnopfZeigen() {
   }
   if (!offen) {
     const ang = DURCHLAUF.angenommen?.reihe === String(gemeinteReihe()) ? DURCHLAUF.angenommen : null
+    /*
+      **„angenommen" sagte nicht, was mit den Folgen passiert ist.**
+
+      Daniel am 15.09.2026 an FGO Babylonia, mit Bild: „✓ E1 + E22 deutsch ·
+      E2-21 angenommen — warum angenommen? ist damit gemeint, e1 + 22 wurden
+      erfolgreich gemeldet und e2-21 sind davon abgeleitet und alle als de
+      markiert?" Genau das: zwei geprüft, der Rest mit demselben Befund
+      gemeldet. Der Knopf sagt es jetzt so.
+    */
     DURCHLAUF.knopf.textContent = ang?.rest.length
-      ? `✓ E${ang.gemessen.join(' + E')} ${ang.deutsch ? 'deutsch' : 'ohne Deutsch'} · E${alsBereiche(ang.rest).join(', ')} angenommen`
+      ? `✓ E${ang.gemessen.join(' + E')} geprüft: ${ang.deutsch ? 'deutsch' : 'ohne Deutsch'} · ` +
+        `E${alsBereiche(ang.rest).join(', ')} ebenfalls ${ang.deutsch ? 'als deutsch' : 'ohne Deutsch'} gemeldet`
       : `✓ ${DURCHLAUF.folgen.length} Folgen geprüft`
     DURCHLAUF.knopf.title =
-      (ang?.rest.length ? 'Die angenommenen Folgen sind so gemeldet und in der Notiz als angenommen vermerkt.\n' : '') +
+      (ang?.rest.length
+        ? 'Die Folgen dazwischen wurden nicht einzeln geöffnet, sondern mit dem Befund der beiden geprüften gemeldet. Die Notiz der Meldung vermerkt das.\n'
+        : '') +
       'Alles gemeldet. Neue Folgen tauchen hier wieder auf.\nRechtsklick: Stand verwerfen und erneut prüfen.'
     /* Abgeschaltet wäre auch der Rechtsklick tot — also nur still, nicht taub. */
     DURCHLAUF.knopf.disabled = false
