@@ -782,6 +782,16 @@ beide Crunchyroll-Angebote `audio: ja, pt` und führt Deutsch ausschließlich un
 Quellen, die unabhängig voneinander kein Deutsch im **Ton** finden, ergeben zusammen ein
 belegtes Nein; eine allein nicht.
 
+**Und eine ausgelassene Meldung muss die Gegenprobe trotzdem erreichen.** Nukitashi stand am
+15.09.2026 seit dem 28.08. auf der Prüfliste: `fetch-pruefungen.ts` lässt eine Kanal-Meldung
+ohne Folgenbefund aus, wenn der Datensatz ihre Adresse schon kennt, und schreibt dann keinen
+Beleg mit „Kanal" in der Notiz — genau die Zeilen, die `kanal-gegenprobe.ts` liest. Die zweite
+Quelle (JustWatch: Aniverse-Kanal nur Ton ja) lag die ganze Zeit bereit, und eine erneute
+Meldung wäre wieder ausgelassen worden. Die Gegenprobe liest deshalb zusätzlich
+`data/prime-zugeordnet.json`: eine Adresse ohne jeden Beleg, deren gemeldete Folgen alle
+Tonspuren tragen und keine davon Deutsch. **Prüffrage bei jedem Auslassen: Wer braucht die
+Zeile, die jetzt nicht geschrieben wird?**
+
 ## Ein Beleg gehört einer Ausgabe, nicht einem Titel
 
 Am 07.09.2026 stand über „Date a Live IV" ein grünes „DE ✓", und die verlinkte

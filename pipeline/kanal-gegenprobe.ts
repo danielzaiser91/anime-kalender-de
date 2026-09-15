@@ -105,6 +105,37 @@ const kanalOffen = belege.filter(
     !schonBeurteiltFuer(b),
 )
 
+/*
+  **Eine übersprungene Kanal-Meldung kommt über die Zuordnung herein.**
+
+  `fetch-pruefungen.ts` lässt eine Kanal-Meldung ohne Folgenbefund aus, wenn der
+  Datensatz ihre Adresse schon kennt — sie schreibt dann keinen Beleg mit
+  „Kanal" in der Notiz, und diese Liste sah sie nie. Nukitashi, 15.09.2026: neun
+  Folgen nur 日本語 über den Aniverse-Kanal, JustWatch nennt für genau dieses
+  Angebot Ton ja und deutsche Untertitel — und der Titel stand trotzdem jede
+  Woche wieder auf der Prüfliste, denn eine erneute Meldung wird wieder
+  ausgelassen. `data/prime-zugeordnet.json` hält die Tonspuren je Adresse fest;
+  eine Adresse ohne jeden Beleg und ohne Deutsch in einer ihrer Folgen ist genau
+  so ein Fall. Die Kanäle kennt sie nicht, verglichen wird dann über alle
+  Angebote.
+*/
+const zugeordnet = JSON.parse(readFileSync(resolve(ROOT, 'data/prime-zugeordnet.json'), 'utf8')) as Record<
+  string,
+  { titleId?: number; plattform?: string; folgen?: { sprachen?: string[] }[] }
+>
+const titelName = new Map(
+  (JSON.parse(readFileSync(resolve(ROOT, 'public/data/titles.json'), 'utf8')) as { id: number; titleDe?: string; titleEn?: string }[]).map(
+    (t) => [t.id, t.titleDe ?? t.titleEn],
+  ),
+)
+for (const [url, z] of Object.entries(zugeordnet)) {
+  const folgen = z.folgen ?? []
+  if (z.plattform !== 'primevideo' || z.titleId == null || !folgen.length) continue
+  if (folgen.some((f) => !f.sprachen?.length || f.sprachen.includes('Deutsch'))) continue
+  if (belege.some((x) => x.anilistId === z.titleId && (x.platform ?? 'primevideo') === 'primevideo')) continue
+  kanalOffen.push({ anilistId: z.titleId, title: titelName.get(z.titleId), platform: 'primevideo', url })
+}
+
 log(`${kanalOffen.length} Kanal-Meldungen ohne Urteil.`)
 
 const heute = new Date().toISOString().slice(0, 10)

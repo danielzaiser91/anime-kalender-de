@@ -15433,3 +15433,13 @@
   checkedAt: '2026-09-15'
   zweiteQuelle: "JustWatch 2026-09-07: Crunchyroll Amazon Channel — Ton de, ja"
   note: "Film über den Crunchyroll-Kanal: Tonspuren Deutsch und Japanisch (Meldung 4454 aus Daniels Sitzung, 15.09.2026, 10:43). Kanal-Titel — die zweite Quelle macht daraus den Beleg."
+
+# --- Kanal-Meldungen mit zweiter Quelle belegt, 2026-09-15 ---
+- anilistId: 174188
+  title: "Nukitashi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2
+  dub: false
+  checkedAt: '2026-09-15'
+  zweiteQuelle: "JustWatch 2026-09-07: Aniverse Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
