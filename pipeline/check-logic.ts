@@ -2433,7 +2433,15 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
       const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
       return n > 0 && (b.dubRanges ?? []).some((r) => (r.to ?? 0) > n)
     }).length
-    pruefe('Handbelege: höchstens 8 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 8, `${drueber}`)
+    /*
+      Am 15.09.2026 auf 5: Die Netflix-Belege von FGO Babylonia (1–22 bei 21
+      Folgen) und Shiboyugi (1–12 bei 11) über die Folgentitel zugeordnet —
+      Netflix-Folge 1 ist „Initium Iter" (110851), Folge 12 von Shiboyugi der Film
+      „44: CLOUDY BEACH" (209961). Zwei neue Belege derselben Titel aus dem
+      Durchgang hatten die Zahl auf 10 gehoben und den Deploy vier Stunden rot
+      gemacht.
+    */
+    pruefe('Handbelege: höchstens 5 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 5, `${drueber}`)
   }
 }
 

@@ -2618,6 +2618,12 @@ npm run check:vor-commit
 
 **Ein Generator schreibt mehr als die Datei, wegen der man ihn aufruft.** Am 14.09.2026 habe ich die Prüflisten neu erzeugt und `extension/offene-*.js` committet — `public/data/pruefliste-stand.json`, die dieselben Werkzeuge im selben Zug schreiben, blieb liegen. `tools/extension-listenstand-pruefen.cjs` vergleicht beide Stände, und der Deploy wurde rot („stimmt mit der ausgelieferten überein"), bis der nächste Commit die Datei nachholte. Nach jedem Generatorlauf deshalb `git status` und **alles** stagen, was er geändert hat — nicht nur die erwarteten Pfade.
 
+**Auch ein reiner Daten-Commit läuft durch `check:logic`.** Am 15.09.2026 gingen im Durchgang
+morgens mehrere Handbeleg-Commits ohne Prüfkette raus; zwei davon (FGO 1–22 bei 21 Folgen,
+Shiboyugi 1–12 bei 11) hoben „Handbelege über der Folgenzahl" von 8 auf 10, und **jeder Deploy
+blieb von 07:55 bis 11:30 rot**. Bemerkt wurde es erst beim nächsten Code-Commit. Eine Zeile in
+`data/dub-confirmed.yaml` ist für die Zusicherungen genauso Code wie eine Zeile in `build.ts`.
+
 **Ein Aufruf statt einer Liste zum Abtippen** — und der Grund ist ein Fehlschlag
 vom 06.09.2026: In der Liste, die hier stand, fehlte `check:workflows`. Der
 CI-Lauf fährt ihn, die Kette hier nicht, und so gingen **drei Deploys

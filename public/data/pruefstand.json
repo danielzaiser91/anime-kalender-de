@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-15T09:22:12.207Z",
+ "erzeugtAm": "2026-09-15T09:27:29.489Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -41,22 +41,13 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 372,
+   "gemeldet": 374,
    "gesamt": 374,
-   "offen": 2,
+   "offen": 0,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/81186100",
-   "ziele": [
-    {
-     "url": "https://www.netflix.com/title/81186100",
-     "titel": "Fate/Grand Order Absolute Demonic Front: Babylonia"
-    },
-    {
-     "url": "https://www.netflix.com/title/82047155",
-     "titel": "Shiboyugi: Das Phantom-Mädchen im Spiel des Todes"
-    }
-   ],
-   "naechster": "Fate/Grand Order Absolute Demonic Front: Babylonia"
+   "ziel": null,
+   "ziele": [],
+   "naechster": null
   },
   {
    "name": "Disney+",

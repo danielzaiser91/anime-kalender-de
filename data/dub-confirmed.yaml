@@ -2708,11 +2708,11 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 22
+      to: 21
       dub: true
-      checked: [1, 21, 22]
+      checked: [20, 21]
   checkedAt: '2026-08-22'
-  note: "Folgen 1–22 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+  note: "Folgen 1–21 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen — Zuordnung 15.09.2026: Netflix zählt „Initium Iter – Reisebeginn“ als Folge 1 (Rohfolge 19610, 27 Min.), Folge 22 „Grand Order“ ist unsere 21"
 
 - anilistId: 110349
   title: "Great Pretender"
@@ -3277,11 +3277,11 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 12
+      to: 11
       dub: true
-      checked: [1, 12]
+      checked: [1]
   checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+  note: "Folgen 1–11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen — Zuordnung 15.09.2026: Netflix-Folge 12 „L-O---E“ (90 Min., Yukis 44. Game auf der Insel) ist der Film „44: CLOUDY BEACH“ (209961), eigener Beleg"
 
 - anilistId: 101361
   title: "Sirius the Jaeger"
@@ -14513,11 +14513,11 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 22
+      to: 21
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
   checkedAt: '2026-09-06'
-  note: "Folgen 1–22 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 22, dazwischen nicht geprüft — Folge 22: Grand Order"
+  note: "Folgen 1–21 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 22, dazwischen nicht geprüft — Folge 22: Grand Order — Zuordnung 15.09.2026: Netflix zählt „Initium Iter – Reisebeginn“ als Folge 1 (Rohfolge 19610, 27 Min.), Folge 22 „Grand Order“ ist unsere 21"
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-06 ---
 
@@ -15395,11 +15395,11 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 22
+      to: 21
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
   checkedAt: '2026-09-15'
-  note: "Folgen 1–22 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 22, dazwischen nicht geprüft — Folge 22: Grand Order"
+  note: "Folgen 1–21 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 22, dazwischen nicht geprüft — Folge 22: Grand Order — Zuordnung 15.09.2026: Netflix zählt „Initium Iter – Reisebeginn“ als Folge 1 (Rohfolge 19610, 27 Min.), Folge 22 „Grand Order“ ist unsere 21"
 
 - anilistId: 180746
   title: "Shiboyugi: Das Phantom-Mädchen im Spiel des Todes"
@@ -15408,11 +15408,11 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 12
+      to: 11
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
   checkedAt: '2026-09-15'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: L-O---E"
+  note: "Folgen 1–11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: L-O---E — Zuordnung 15.09.2026: Netflix-Folge 12 „L-O---E“ (90 Min., Yukis 44. Game auf der Insel) ist der Film „44: CLOUDY BEACH“ (209961), eigener Beleg"
 
 # --- Touken Ranbu: Hanamaru, Aniverse-Ausgabe mit deutschem Ton, 15.09.2026 ---
 - anilistId: 21741
@@ -15443,3 +15443,20 @@
   checkedAt: '2026-09-15'
   zweiteQuelle: "JustWatch 2026-09-07: Aniverse Amazon Channel — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+# --- Netflix-Zuordnung über Folgentitel, 15.09.2026 ---
+- anilistId: 110851
+  title: "Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter"
+  platform: netflix
+  url: https://www.netflix.com/title/81186100
+  dub: true
+  checkedAt: '2026-09-15'
+  note: "Netflix führt Initium Iter als Folge 1 von Babylonia („Initium Iter – Reisebeginn“, Rohfolge 19610, 27 Min.). Tonspuren der Randprobe an Folge 1: de|Deutsch, ja|Japanisch [Original]."
+
+- anilistId: 209961
+  title: "SHIBOYUGI: Das Phantom-Mädchen im Spiel des Todes - 44: CLOUDY BEACH"
+  platform: netflix
+  url: https://www.netflix.com/title/82047155
+  dub: true
+  checkedAt: '2026-09-15'
+  note: "Netflix führt den Film als Folge 12 der Serie („L-O---E“, Rohfolge 19643, 90 Min.). Deutscher Ton an genau dieser Folge gemessen (Randprobe Folge 12)."
