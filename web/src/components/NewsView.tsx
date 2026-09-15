@@ -285,7 +285,8 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
                         Teil und **nicht** die Hauptserie (Daniel, 12.09.2026). Ohne
                         Teil steht hier die Kurzform.
                       */}
-                      {erste.teil ? (
+                      {/* Heißt der Teil wie die Zeile darüber, sagt er nichts Neues (15.09.2026, Bildprüfung). */}
+                      {erste.teil && erste.teil !== e.titel ? (
                         <span className="min-w-0 self-start truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
                           {erste.teil}
                         </span>
@@ -305,7 +306,7 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
                             {n > 1 && <span className="ml-1 tabular-nums opacity-70">{n}</span>}
                           </span>
                         ))}
-                        {erste.teil && (
+                        {erste.teil && erste.teil !== e.titel && (
                           <span className="min-w-0 truncate text-xs text-slate-500 dark:text-slate-400">
                             {kurz(erste)}
                             {e.meldungen.length > 1 && (
@@ -337,7 +338,7 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
                             <span className={`shrink-0 rounded px-1.5 py-0.5 text-[11px] ${FARBE[m.art]}`}>
                               {t(`news.art.${m.art}`)}
                             </span>
-                            {m.teil && (
+                            {m.teil && m.teil !== e.titel && (
                               <span className="min-w-0 shrink truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
                                 {m.teil}
                               </span>
