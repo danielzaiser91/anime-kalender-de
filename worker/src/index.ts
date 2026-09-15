@@ -2252,8 +2252,35 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         mehr möglich"). Mit dieser Liste entscheidet die **Seite**, nicht der
         Auftrag.
       */
-      const { results: seiten } = await env.DB.prepare(
-        `SELECT DISTINCT seiten_kennung FROM pruefung WHERE seiten_kennung IS NOT NULL AND seiten_kennung != ''`,
+      /*
+        **Gezählt wird seit dem Prüfstand — wie bei `?stand=1`.**
+
+        Bis zum 15.09.2026 kamen hier die Seiten **aller** Meldungen. Eine Meldung,
+        die der Bau eingearbeitet hat und die trotzdem kein Urteil ergab (eine
+        Kanal-Meldung ohne Folgenbefund), sperrte ihre Seite damit für immer: Bei
+        Touken Ranbu (`B0FQXKKXQW`) verschwand der Melde-Knopf, bei Nukitashi stand
+        „gemeldet ✓" auf einem Titel, den die Prüfliste als offen führte. Die
+        Ziele zählen seit dem 14.09. nur Meldungen nach `erzeugtAm`; die Seiten
+        zählten weiter alles, und die Erweiterung zeigte zwei Stände zugleich.
+        Ohne Prüfstand bleibt es beim alten Verhalten.
+      */
+      let seitStand: string | null = null
+      try {
+        const res = await fetch(new URL('data/pruefstand.json', env.SITE_URL).toString(), {
+          cf: { cacheTtl: 60 },
+        } as RequestInit)
+        if (res.ok) seitStand = ((await res.json()) as { erzeugtAm?: string }).erzeugtAm ?? null
+      } catch {
+        /* Ohne Prüfstand zählen alle Meldungen. */
+      }
+      const { results: seiten } = await (seitStand
+        ? env.DB.prepare(
+            `SELECT DISTINCT seiten_kennung FROM pruefung
+             WHERE seiten_kennung IS NOT NULL AND seiten_kennung != '' AND gemeldet_am > ?1`,
+          ).bind(seitStand)
+        : env.DB.prepare(
+            `SELECT DISTINCT seiten_kennung FROM pruefung WHERE seiten_kennung IS NOT NULL AND seiten_kennung != ''`,
+          )
       ).all<{ seiten_kennung: string }>()
       const gemeldeteSeiten = (seiten ?? []).map((r) => r.seiten_kennung)
       /* Die bestätigten Erwartungen — siehe Migration 026. */
