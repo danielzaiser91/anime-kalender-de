@@ -2623,6 +2623,11 @@ morgens mehrere Handbeleg-Commits ohne Prüfkette raus; zwei davon (FGO 1–22 b
 Shiboyugi 1–12 bei 11) hoben „Handbelege über der Folgenzahl" von 8 auf 10, und **jeder Deploy
 blieb von 07:55 bis 11:30 rot**. Bemerkt wurde es erst beim nächsten Code-Commit. Eine Zeile in
 `data/dub-confirmed.yaml` ist für die Zusicherungen genauso Code wie eine Zeile in `build.ts`.
+Und beim Beheben: **Eine Schwelle nicht auf den Messwert des Augenblicks senken.** Ich setzte
+sie danach von 8 auf 5, und der nächste Bau machte den Deploy sofort wieder rot, weil er zwei
+Zuordnungsaufträge aus demselben Durchgang als Belege übernahm. Dazu kam, dass ich beim
+Aufräumen einen roten Lauf gelöscht habe, ohne ihn anzusehen: **Vor `gh run delete` wird jeder
+einzelne Lauf angesehen, nicht die Liste der roten von heute.**
 
 **Ein Aufruf statt einer Liste zum Abtippen** — und der Grund ist ein Fehlschlag
 vom 06.09.2026: In der Liste, die hier stand, fehlte `check:workflows`. Der
