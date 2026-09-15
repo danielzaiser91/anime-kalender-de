@@ -1263,7 +1263,6 @@ async function speicherSchreiben(werte) {
         zugangsart: zugangsart(),
         abos: abos(),
         ueberKanal: ueberKanal(),
-        teilBereich,
       })),
       tagebuch,
     }
@@ -1655,154 +1654,12 @@ async function speicherSchreiben(werte) {
    * Deshalb wird die Gesamtzahl von der Seite gelesen und **beides** angezeigt.
    * Was nicht geladen ist, wird nicht behauptet.
    */
-  /**
-   * Die Sprachnamen aus einem `audioTracks`-Inhalt.
-   *
-   * **Zwei Formen, beide echt.** Die meisten Seiten führen schlichte Namen:
-   *
-   *     "audioTracks":["Deutsch","日本語"]
-   *
-   * „Oshi no Ko" Staffel 3 dagegen ganze Objekte (Daniel, 23.08.2026):
-   *
-   *     "audioTracks":[{"audioTrackId":"de-de_dialog_0","displayName":"Deutsch",
-   *                     "languageCode":"de-de","audioSubtype":"dialog", …}]
-   *
-   * Die erste Fassung zerlegte den zweiten Fall an den Kommas und schickte
-   * Bruchstücke wie `{"audioTrackId":"de-de_dialog_0` als „Sprache" an den
-   * Worker. Erkannt wird die Objektform am `displayName`; bleibt keiner übrig,
-   * gilt die schlichte Lesart.
-   */
-  function sprachnamen(inhalt) {
-    const namen = [...inhalt.matchAll(/"displayName"\s*:\s*"([^"]+)"/g)].map((m) => m[1])
-    if (namen.length) return namen
-    return inhalt
-      .split(',')
-      .map((s) => s.trim().replace(/^"|"$/g, ''))
-      .filter((s) => s && !s.includes('{') && !s.includes(':'))
-  }
-
-  let spurenSpeicher = null
-  let spurenZu = -1
   /*
-    Der Zwischenspeicher hängt an `htmlGelesenAm` — solange der Quelltext
-    derselbe ist, kann sich daraus nichts anderes ergeben. Gerufen wird die
-    Funktion je Takt zwei- bis viermal (aus `quelltextPasst()`, direkt beim
-    Zeichnen und aus dem Diagnosefeld); bei 2,2 Mio. Zeichen macht das den
-    Unterschied.
-
-    **Das Ergebnis wird geteilt und enthält `Set`-Felder.** Kein Aufrufer darf
-    es verändern — heute liest `zeichnen()` nur, und dabei muss es bleiben.
+    **`spuren()` gibt es nicht mehr (15.09.2026, Umbau Phase 2).** Die Funktion las
+    Tonspuren und Folgennummern per Muster aus dem ganzen Quelltext; seit dem
+    Umbau vom 15.09.2026 liefert allein `amazon-leser.js` den Zählstand, und sie
+    hatte keinen Aufrufer mehr.
   */
-  function spuren() {
-    const text = seitenHtml()
-    if (spurenZu === htmlGelesenAm && spurenSpeicher) return spurenSpeicher
-    const alle = new Set()
-    const nummern = new Set()
-    /*
-      **Die Sprachen gehören zur Folge, nicht zur Staffel.**
-
-      Bis zum 25.08.2026 landete alles in `alle` — sobald **eine** Folge Deutsch
-      trug, meldete der Knopf „🇩🇪 Deutsch" für die ganze Staffel. Bei „Kill Blue"
-      hieß das: 12 Folgen behauptet, 4 vorhanden. Daniel hat es an drei Quellen
-      unabhängig gemessen (ADN 4, Netflix 4, Crunchyroll 0) und die Antwort der
-      Seite selbst dagegengehalten:
-
-          Folge 1–4    audioTracks: ["Deutsch","日本語"]
-          Folge 5–12   audioTracks: ["日本語"]
-
-      Amazon liefert es also je Folge und liefert es richtig. Der Fehler lag
-      allein im Zusammenwerfen. `jeFolge` hält es getrennt; daraus entstehen die
-      Bereiche in der Meldung.
-    */
-    const jeFolge = new Map()
-    /**
-     * **Gepaart über die Reihenfolge, nicht über einen Abstand.**
-     *
-     * Bis zum 25.08.2026 verlangte ein einziges Muster, dass `audioTracks` und
-     * `episodeNumber` höchstens 400 Zeichen auseinanderliegen. Bei „Babylon"
-     * liegen sie weiter auseinander — die Seite führt 15 Tonspurangaben, alle
-     * mit Deutsch, und 12 Folgennummern, und die Erweiterung fand **null**
-     * Paare. Der Knopf blieb auf „Tonspuren noch nicht geladen" stehen
-     * (Daniel, 25.08.2026, gemessen mit `tools/amazon-tonspuren-messen.js`).
-     *
-     * Dass ein fester Abstand nicht trägt, steht seit dem 23.08.2026 in
-     * `CLAUDE.md`: „Ein Abstand, der vom Inhalt eines Nachbarfelds abhängt, ist
-     * keine Regel, sondern ein Zufall mit Frist." Die Frist ist jetzt abgelaufen.
-     *
-     * Stattdessen werden beide Feldarten mit ihrer Position eingesammelt und
-     * der Reihe nach gepaart: Zu einer Tonspurangabe gehört die **nächste**
-     * Folgennummer dahinter — aber nur, wenn vorher keine weitere
-     * Tonspurangabe kommt. Das braucht keine Zahl und gilt unabhängig davon,
-     * wie viel Amazon dazwischenschreibt.
-     */
-    const tonspuren = [...text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)]
-    const folgenNr = [...text.matchAll(/"episodeNumber"\s*:\s*(\d+)/g)]
-    let nrIndex = 0
-    for (let i = 0; i < tonspuren.length; i++) {
-      const von = tonspuren[i].index ?? 0
-      const bis = tonspuren[i + 1]?.index ?? text.length
-      while (nrIndex < folgenNr.length && (folgenNr[nrIndex].index ?? 0) < von) nrIndex++
-      const treffer = folgenNr[nrIndex]
-      if (!treffer || (treffer.index ?? 0) >= bis) continue
-      const nr = Number(treffer[1])
-      nummern.add(nr)
-      const namen = sprachnamen(tonspuren[i][1])
-      jeFolge.set(nr, namen)
-      for (const name of namen) alle.add(name)
-    }
-    /**
-     * Wie viele Folgen die Staffel insgesamt hat.
-     *
-     * Steht als Fließtext über der Liste („51 Folgen") und zusätzlich als Feld.
-     * Fehlt beides, bleibt die Zahl offen — dann wird auch keine Vollständigkeit
-     * behauptet.
-     */
-    /**
-     * Das Seitengerüst zuerst — es gehört zur **gezeigten** Staffel.
-     *
-     * Bis zum 24.08.2026 stand `episodeCount` vorn, mit der Begründung, das
-     * Seitengerüst nenne nur die Zahl des gerade gewählten Abschnitts. An drei
-     * Seiten nachgemessen stimmt das nicht: Digimon Tamers zeigt `>51 Folgen<`
-     * bei den Abschnitten 1–24, 25–48 und 49–51; Bakugan Staffel 1 zeigt 13 bei
-     * einem Abschnitt; Barbapapa Staffel 1 zeigt 45. Auf allen dreien fehlte
-     * `episodeCount` im Rohzustand ganz — es kommt erst mit den nachgeholten
-     * Abschnitten.
-     *
-     * Und genau darin lag der Fehler: Nach einem Staffelwechsel steht dort noch
-     * die Zahl der **vorigen** Staffel, und sie gewann. Der Knopf sagte „55
-     * Folgen" auf einer Staffel mit 45 (Daniel, 24.08.2026, zweimal gemeldet).
-     */
-    const gesamt =
-      Number(/>\s*(\d+)\s*Folgen\s*</.exec(text)?.[1]) ||
-      Number(/"episodeCount"\s*:\s*(\d+)/.exec(text)?.[1]) ||
-      null
-
-    /**
-     * Ein Film hat keine Folgenliste — und damit keine `episodeNumber`.
-     *
-     * Die Suche oben verlangt beides nebeneinander und findet bei „Sing a Bit
-     * of Harmony" deshalb nichts; der Knopf blieb auf „Tonspuren noch nicht
-     * geladen" (Daniel, 23.08.2026, mit Bild). Ein Film ist aber genau der
-     * einfache Fall: **eine** Tonspurangabe für **einen** Titel.
-     *
-     * Erkannt wird er daran, dass die Seite keine Folgenzahl nennt. Gezählt
-     * wird er als eine Einheit, damit der Knopf eine Zahl zeigt und die
-     * Vollständigkeitsprüfung aufgeht.
-     */
-    if (!alle.size && gesamt === null) {
-      for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)) {
-        for (const name of sprachnamen(m[1])) alle.add(name)
-      }
-      if (alle.size) {
-        nummern.add(1)
-        jeFolge.set(1, [...alle])
-      }
-    }
-
-    spurenSpeicher = { sprachen: [...alle], nummern, gesamt, jeFolge }
-    spurenZu = htmlGelesenAm
-    return spurenSpeicher
-  }
 
   /**
    * Der Serientitel, wie ihn die Seite selbst nennt.
@@ -4151,22 +4008,13 @@ async function speicherSchreiben(werte) {
    * unterscheidet — 26 gegen 1. Entschieden wird von Hand; die Erweiterung
    * kann diese Frage nicht beantworten, aber sie kann sie stellen.
    */
-  /**
-   * **Der Ausschnitt, für den die nächste Meldung gilt.**
-   *
-   * Prime bündelt mehrere Arcs zu einem Eintrag mit durchlaufender
-   * Nummerierung: „Captain Tsubasa (2018)" ist eine Liste von 91 Folgen, und
-   * unser Eintrag „Staffel 2 — Die Junioren" sind davon die Nummern 53 bis
-   * 91. Ohne diese Angabe meldete ein Blick auf die Seite 91 Folgen für eine
-   * Staffel, die 39 hat — und der deutsche Ton der ersten 52 landete auf dem
-   * falschen Eintrag (Daniel, 27.08.2026, mit IMDb-Gegenprobe an den
-   * Folgentiteln 89 bis 91).
-   *
-   * Gesetzt wird er nur, wenn Daniel ihn bestätigt: Die Vermutung stammt aus
-   * einem Zahlenvergleich, und die Reihenfolge der Arcs ist eine Annahme.
-   */
-  let teilBereich = null
-
+  /*
+    **`teilBereich` gibt es hier nicht mehr (15.09.2026, Umbau Phase 2).** Der
+    Ausschnitt einer durchlaufenden Prime-Liste (Captain Tsubasa 2018: 91 Folgen,
+    53–91 sind „Die Junioren") wurde von Knöpfen gesetzt, die 4.0.16 entfernt
+    hat; seitdem blieb die Variable immer `null`. Zugeordnet wird im Bau über die
+    Rohfolgen oder per Handbeleg mit `teilBereich` in `data/dub-confirmed.yaml`.
+  */
   function zeigeAuftragshinweis() {
     /*
       **Nach `listenId`, nicht davor.** Diese Funktion braucht den fertigen
@@ -4363,9 +4211,7 @@ async function speicherSchreiben(werte) {
         kastenZeile('ak-such-hinweis', 'Oben die richtige Staffel wählen, dann melden'),
       )
     }
-    if (teilBereich) {
-      teilZeilen.push(kastenZeile('ak-such-gut', `Meldung gilt für Folgen ${teilBereich.von}–${teilBereich.bis}`))
-    } else if (buendel) {
+    if (buendel) {
       /*
         **Zuordnen ist Sache des Baus, nicht Daniels.**
 
@@ -8094,19 +7940,8 @@ async function speicherSchreiben(werte) {
       — der Film hätte danach „1 Folge" am Knopf getragen statt „Film".
     */
     const istFilm = (istFilmSeite() || !gesehen.gesamt) && geladen === 1
-    /*
-      **Ist ein Teilbereich bestätigt, gilt seine Zahl.**
-
-      Der Knopf schrieb „Folge 53–91 · 91 Folgen": Der Bereich stimmte, die
-      Zahl daneben war die der ganzen Seite. Gemeldet worden wären damit 91
-      Folgen für eine Staffel, die 39 hat (Daniel, 27.08.2026: „zeigt der
-      button hier korrekt an? soll ich melden?" — nein, und darum nicht).
-    */
-    const teilLang = teilBereich ? teilBereich.bis - teilBereich.von + 1 : null
     const umfang = istFilm
       ? 'Film'
-      : teilLang
-        ? `${teilLang} ${teilLang === 1 ? 'Folge' : 'Folgen'} (Folge ${teilBereich.von}–${teilBereich.bis})`
       : vollstaendig
         ? `${geladen} ${geladen === 1 ? 'Folge' : 'Folgen'}`
         : regionWeg
@@ -9014,10 +8849,9 @@ async function speicherSchreiben(werte) {
       beiden meinten dasselbe. Nennt der Sprachstand schon, wie viel gelesen
       wurde, ist der Umfang daneben Wiederholung.
 
-      Film und Teilbereich behalten ihren Zusatz: „Film" ist keine Zahl, und
-      ein bestätigter Bereich sagt etwas anderes als die gelesene Menge.
+      Ein Film behält seinen Zusatz: „Film" ist keine Zahl.
     */
-    const umfangTeil = (bereiche || gelesenText) && !istFilm && !teilLang ? '' : ' · ' + umfang
+    const umfangTeil = (bereiche || gelesenText) && !istFilm ? '' : ' · ' + umfang
     /*
       **Wohin die Meldung geht, steht auf dem Knopf.**
 
@@ -10289,11 +10123,7 @@ async function speicherSchreiben(werte) {
            * wird die **geladene** Zahl, nicht die behauptete Gesamtzahl: Nur
            * über die reicht der Befund.
            */
-          /*
-            Bei einem bestätigten Teilbereich zählt seine Länge, nicht die der
-            Seite: Die Meldung gilt für unseren Eintrag, nicht für Amazons Liste.
-          */
-          folgen: teil ? 1 : teilBereich ? teilBereich.bis - teilBereich.von + 1 : geladen,
+          folgen: teil ? 1 : geladen,
           /**
            * Zugangsart und Abos als eigene Felder, nicht nur als Fließtext.
            *
@@ -10380,12 +10210,6 @@ async function speicherSchreiben(werte) {
               }
             })(),
           })),
-          /*
-            Der bestätigte Ausschnitt, falls die Seite mehrere unserer Einträge
-            in einer durchlaufenden Liste führt. Fehlt im Normalfall.
-          */
-          teil_von: teilBereich?.von ?? null,
-          teil_bis: teilBereich?.bis ?? null,
           /**
            * Die Notiz sagt, worüber der Befund reicht.
            *
