@@ -323,7 +323,42 @@ setTimeout(() => {
     [nachNr.get(1)?.sprachen, nachNr.get(12)?.sprachen],
   )
 
-  ergebnis()
+  /*
+    **Eine Folge ohne Tonspurangabe wird nicht gemeldet.**
+
+    Captain Tsubasa 2018 (15.09.2026): Folgen ohne `audioTracks` (Kanal ohne
+    Abo) gingen als `kein_dub` raus. Hier: Folge 1–4 leer, 5–8 Deutsch, 9–12
+    nur Japanisch. Gemeldet werden 5–12, je Folge; 1–4 fehlen.
+  */
+  const leer = starte()
+  takten(leer.takte, leer.uhr)
+  leer.sandkasten.__nachrichtenHoerer?.({
+    source: leer.sandkasten.window,
+    data: {
+      marke: 'ak-amazon-folgen',
+      schnappschuss: true,
+      fuerAdresse: leer.sandkasten.location.pathname,
+      gesamt: 12,
+      ersetzt: true,
+      asin: 'B0GTN94C9M',
+      funde: Array.from({ length: 12 }, (_, i) => ({
+        nummer: i + 1,
+        sprachen: i < 4 ? [] : i < 8 ? ['Deutsch', '日本語'] : ['日本語'],
+        titel: `Folge ${i + 1}`,
+        zugaenge: ['animedigitalde'],
+      })),
+    },
+  })
+  takten(leer.takte, leer.uhr)
+  leer.angehaengt.find((e) => (e.className || '').includes('ak-amazon-knopf'))?.hoerer?.click?.()
+
+  setTimeout(() => {
+    const nrn = leer.gemeldet.map((m) => m.koerper.folge_nr).sort((a, b) => a - b)
+    pruefe('leere Tonspurlisten: Folgen 5–12 gehen einzeln raus, 1–4 gar nicht', JSON.stringify(nrn) === JSON.stringify([5, 6, 7, 8, 9, 10, 11, 12]), nrn)
+    const je = new Map(leer.gemeldet.map((m) => [m.koerper.folge_nr, m.koerper.befund]))
+    pruefe('leere Tonspurlisten: Folge 5 dub, Folge 12 kein_dub', je.get(5) === 'dub' && je.get(12) === 'kein_dub', [je.get(5), je.get(12)])
+    ergebnis()
+  }, 0)
 }, 0)
 
 /* --- Ergebnis ------------------------------------------------------------ */
@@ -542,6 +577,15 @@ function ergebnis() {
     'der Knopf meldet die Staffel nicht als gesperrt',
     !/Region nicht mehr/.test(kg?.textContent ?? ''),
     kg?.textContent,
+  )
+  /*
+    Captain Tsubasa 2018, 15.09.2026: „67 von 91 gelesen" klang nach „lädt noch".
+    Der Knopf dieses Sandkastens bleibt bei „prüfe Melde-Status …" stehen, der
+    Sprachtext ist hier nicht zu sehen — deshalb am Quelltext festgehalten.
+  */
+  pruefe(
+    'gesperrte Folgen zählen im Knopftext als gelesen',
+    /geladen \+ gesperrtZahl < gesamtFolgen/.test(readFileSync('extension/amazon.js', 'utf8')),
   )
   pruefe(
     'und die gesperrten gelten nicht als „ohne Deutsch"',

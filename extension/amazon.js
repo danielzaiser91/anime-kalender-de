@@ -8959,7 +8959,21 @@ async function speicherSchreiben(werte) {
       dort „12 von 11 gelesen", sobald Prime eine Nummer über der Staffelgröße
       vergibt — genau der Fall aus `geladeneFolgen()`.
     */
-    const gelesenText = gesamtFolgen && geladen && geladen < gesamtFolgen ? ` · ${geladen} von ${gesamtFolgen} gelesen` : ''
+    /*
+      **Eine gesperrte Folge ist gelesen — nur nicht abrufbar.**
+
+      Captain Tsubasa 2018 (`B0GC9MPBHQ`, 15.09.2026): alle Abschnitte geholt,
+      Folgen 1–24 in der Region gesperrt, 25–91 gelesen. Der Knopf sagte „67 von
+      91 gelesen", und Daniel wartete darauf, dass es weiterlädt. Gesperrte
+      zählen deshalb als gelesen und stehen als eigene Zahl daneben.
+    */
+    const gesperrtZahl = gesehen.gesperrt?.size ?? 0
+    const gelesenText =
+      gesamtFolgen && geladen && geladen + gesperrtZahl < gesamtFolgen
+        ? ` · ${geladen} von ${gesamtFolgen} gelesen${gesperrtZahl ? `, ${gesperrtZahl} gesperrt` : ''}`
+        : gesperrtZahl && geladen
+          ? ` · ${gesperrtZahl} gesperrt`
+          : ''
     const sprachStand = bereiche
       ? `🇩🇪 Folge ${bereiche} deutsch${gelesenText}`
       : deutsch
@@ -10117,10 +10131,21 @@ async function speicherSchreiben(werte) {
       const karte = gesehen.jeFolge
       if (!karte || karte.size < 2) return [null]
       const hatDeutsch = (namen) => (namen ?? []).some((s) => /deutsch|german/i.test(s))
-      const werte = [...karte.values()]
-      const gemischt = werte.some((n) => hatDeutsch(n) !== hatDeutsch(werte[0]))
+      /*
+        **Eine Folge ohne Tonspurangabe wird nicht gemeldet — sie hat nichts gesagt.**
+
+        Captain Tsubasa 2018, 15.09.2026 (Meldungen 4483 ff.): Folgen 25–52 kamen
+        über den Crunchyroll-Kanal ohne Abo mit leerem `audioTracks` und gingen als
+        `kein_dub` raus. Leer heißt „nicht gezeigt", nicht „kein Deutsch". Solche
+        Folgen machen die Staffel trotzdem zur Mischung — sonst würde aus 53–91
+        Deutsch eine Meldung über alle 91 Folgen.
+      */
+      const bekannt = [...karte.entries()].filter(([, namen]) => (namen ?? []).length)
+      if (!bekannt.length) return [null]
+      const gemischt =
+        bekannt.length < karte.size || bekannt.some(([, n]) => hatDeutsch(n) !== hatDeutsch(bekannt[0][1]))
       if (!gemischt) return [null]
-      return [...karte.entries()]
+      return bekannt
         .sort((a, b) => a[0] - b[0])
         .map(([nr, namen]) => ({ folgeNr: nr, sprachen: namen, deutsch: hatDeutsch(namen) }))
     }
