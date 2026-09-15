@@ -2797,6 +2797,31 @@ console.log('\nStaffel und Teil zählen:')
   Haikyu!! (20464), 15.09.2026: `amazon.de/dp/0Q6QUJIEW346VMM87OG648DPND` zeigte
   „Suchen Sie etwas?". Eine GTI gilt nur unter `/gp/video/detail/`.
 */
+/*
+  Ähnliche Titel im Detail-Panel (15.09.2026). Erfundene Titel, damit die
+  Zusicherung nicht am Datenstand hängt.
+*/
+console.log('\nÄhnliche Titel:')
+{
+  const { aehnlicheTitel } = await import('../web/src/lib/aehnlich.ts')
+  const titel = (id: number, genres: string[], keywords: string[], franchiseId?: number) =>
+    ({ id, franchiseId, genres, keywords }) as unknown as import('../shared/types.ts').Title
+  const liste = [
+    titel(1, ['Action', 'Cyberpunk'], ['Cyborg', 'Cyberpunk', 'Noir']),
+    titel(2, ['Action', 'Cyberpunk'], ['Cyborg'], 1),
+    titel(3, ['Action', 'Cyberpunk'], ['Cyborg', 'Noir'], 30),
+    titel(4, ['Action'], ['Cyborg', 'Noir'], 30),
+    titel(5, ['Action', 'Romance'], ['Schule']),
+    titel(6, ['Comedy'], ['Kochen']),
+  ]
+  const v = aehnlicheTitel(liste[0]!, liste)
+  const ids = v.map((x) => x.title.id)
+  pruefe('die eigene Reihe wird nicht vorgeschlagen', !ids.includes(1) && !ids.includes(2), ids)
+  pruefe('eine Reihe erscheint nur einmal, mit ihrem ähnlichsten Teil', ids.filter((i) => i === 3 || i === 4).length === 1 && ids[0] === 3, ids)
+  pruefe('ein Titel ohne gemeinsames Merkmal fehlt', !ids.includes(6), ids)
+  pruefe('Genre und Keyword gleichen Namens zählen als ein Merkmal', !v[0]!.gemeinsam.includes('k:Cyberpunk'), v[0]?.gemeinsam)
+}
+
 console.log('\nPrime: eine GTI steht nie unter /dp/:')
 {
   const { amazonAdresseRichten, amazonTitelAdresse } = await import('./lib/amazon-adresse.ts')

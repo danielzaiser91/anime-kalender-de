@@ -30,6 +30,7 @@ import {
   type Voices,
 } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { aehnlicheTitel } from '../lib/aehnlich.ts'
 import { useShare } from '../lib/share.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
@@ -2066,6 +2067,92 @@ function VoiceCast({ titleId }: { titleId: number }) {
                 )}
               </p>
             </>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/**
+ * Ähnliche Titel — zugeklappt, und erst der Klick lädt und rechnet.
+ *
+ * Daniel am 15.09.2026: „aber einklappbar". Die Rechnung braucht den ganzen
+ * Hauptbestand (`titles.json`, mehrere Megabyte); wer nie aufklappt, lädt ihn
+ * nicht. Die gemeinsamen Merkmale stehen je Zeile dabei — so ist nachzulesen,
+ * warum ein Titel vorgeschlagen wird.
+ */
+function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; data: Dataset; onOpenTitle: (id: number) => void }) {
+  const { t, tGenre, tKeyword } = useLang()
+  const [open, setOpen] = useState(false)
+  const [alle, setAlle] = useState<Title[] | undefined>()
+
+  useEffect(() => {
+    setOpen(false)
+  }, [title.id])
+
+  useEffect(() => {
+    if (!open || alle) return
+    let alive = true
+    loadAllTitles(data)
+      .then((l) => {
+        if (alive) setAlle(l)
+      })
+      .catch(() => {
+        if (alive) setAlle([])
+      })
+    return () => {
+      alive = false
+    }
+  }, [open, alle, data])
+
+  const vorschlaege = useMemo(() => (open && alle ? aehnlicheTitel(title, alle) : []), [open, alle, title])
+  const merkmalName = (m: string) => (m.startsWith('g:') ? tGenre(m.slice(2)) : tKeyword(m.slice(2)))
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+      >
+        <span aria-hidden className={`transition-transform ${open ? 'rotate-90' : ''}`}>
+          ›
+        </span>
+        {t('detail.aehnlich')}
+      </button>
+
+      {open && (
+        <div className="mt-2">
+          {alle === undefined ? (
+            <p className="text-sm text-slate-400">{t('detail.aehnlichLaedt')}</p>
+          ) : vorschlaege.length === 0 ? (
+            <p className="text-sm text-slate-400">{t('detail.aehnlichKeine')}</p>
+          ) : (
+            <ul className="flex flex-col gap-1">
+              {vorschlaege.map((v) => (
+                <li key={v.title.id}>
+                  <button
+                    type="button"
+                    onClick={() => onOpenTitle(v.title.id)}
+                    className="flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-1.5 py-1 text-left transition hover:bg-slate-100 dark:hover:bg-white/5"
+                  >
+                    {v.title.coverImage ? (
+                      <img src={v.title.coverImage} alt="" loading="lazy" className="h-10 w-7 shrink-0 rounded object-cover" />
+                    ) : (
+                      <span className="h-10 w-7 shrink-0 rounded bg-slate-200 dark:bg-white/10" />
+                    )}
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm text-slate-700 dark:text-slate-200">{anzeigeName(v.title)}</span>
+                      <span className="block truncate text-[11px] text-slate-400">
+                        {t('detail.aehnlichGemeinsam', { merkmale: [...new Set(v.gemeinsam.map(merkmalName))].join(', ') })}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
           )}
         </div>
       )}
@@ -4598,6 +4685,8 @@ export function DetailPanel({
             eine Quelle von sechs und war nicht klickbar (Daniel: „quellen
             links in details kacheln nicht anklickbar").
           */}
+          <AehnlicheTitel title={title} data={data} onOpenTitle={onOpenTitle} />
+
           <Quellenuebersicht title={title} releases={releases} />
         </div>
       </aside>

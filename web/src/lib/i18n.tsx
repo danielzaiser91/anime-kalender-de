@@ -449,6 +449,10 @@ const TEXTE = {
   // Anime News Network kommt nur dazu, wenn von dort auch Rollen stammen — der
   // Link daneben ist deren Nutzungsauflage, nicht bloß eine Höflichkeit.
   'detail.voicesSource': 'Angaben von AniList',
+  'detail.aehnlich': 'Ähnliche Titel',
+  'detail.aehnlichLaedt': 'Wird geladen …',
+  'detail.aehnlichKeine': 'Keine ähnlichen Titel gefunden.',
+  'detail.aehnlichGemeinsam': 'gemeinsam: {merkmale}',
   'detail.nextEpisode': 'Nächste Folge',
 
   // Die Antwortzeile ganz oben im Panel — sie beantwortet in einem Satz,
