@@ -6726,6 +6726,18 @@ async function speicherSchreiben(werte) {
         anzahl: (e.data.folgen ?? []).length,
         ersetzt: Boolean(e.data.ersetzt),
       })
+      /*
+        **Ein Schnappschuss ersetzt den Zählstand — ohne Zusammenführen.**
+
+        Seit dem Umbau vom 15.09.2026 schickt der Leser immer seinen ganzen
+        Zustand für eine Seite (`amazon-leser.js`, „Das Modell"). Was vorher im
+        Stand lag, ist darin enthalten oder gehört zu einer anderen Seite. Die
+        Adressregel darunter bleibt für die Angaben, die an der Seite hängen.
+      */
+      if (e.data.schnappschuss && gesehen.fuerAdresse === jetzigeAdresse) {
+        gesehen = leererStand()
+        gesehen.fuerAdresse = jetzigeAdresse
+      }
       if (gesehen.fuerAdresse !== jetzigeAdresse) {
         gesehen = leererStand()
         gesehen.fuerAdresse = jetzigeAdresse
@@ -6793,25 +6805,8 @@ async function speicherSchreiben(werte) {
           gültigem JSON; sie hier wegzuwerfen hieße, sie später ein zweites Mal
           abzurufen.
         */
-        /*
-          **Eine leere Tonspurliste überschreibt keine gefüllte.**
-
-          Daniel am 15.09.2026 an Bungo Stray Dogs Staffel 3 (Aniverse-Kanal,
-          ohne Abo), mit Bericht: Die Seitendaten meldeten zwölf Folgen mit
-          Deutsch, der Knopf stand auf „🇩🇪 Deutsch". 0,54 s später kam der
-          Folgen-Abruf mit denselben zwölf Folgen und **leeren** `audioTracks`,
-          und der Knopf fiel auf „✕ kein Deutsch". Beim Laden davor kamen die
-          beiden Antworten andersherum an — Ergebnis „Deutsch". Ein Wettlauf,
-          und der Verlierer war die Auskunft.
-
-          Leer heißt „nichts gesagt" (Kanal ohne Abo, gesperrte Folge), nicht
-          „kein Deutsch" — dieselbe Unterscheidung wie bei `verfuegbar: false`
-          darüber.
-        */
-        const neueSpuren = f.sprachen ?? []
-        if (neueSpuren.length || !gesehen.jeFolge.get(f.nummer)?.length) {
-          gesehen.jeFolge.set(f.nummer, neueSpuren)
-        }
+        /* Leere Tonspuren überschreiben keine gefüllten — das regelt der Leser (`uebernehmen()`). */
+        gesehen.jeFolge.set(f.nummer, f.sprachen ?? [])
         gesehen.metaJeFolge ??= new Map()
         gesehen.metaJeFolge.set(f.nummer, f)
       }

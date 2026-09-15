@@ -60,7 +60,7 @@ const sandkasten = {
 }
 sandkasten.globalThis = sandkasten
 vm.runInNewContext(
-  `${schneide('namenAus')}\n${schneide('ausHydration')}\n;globalThis.__seite = ausHydration();`,
+  `${schneide('namenAus')}\n${schneide('ausHydration')}\n;globalThis.__seite = ausHydration(document.getElementById('dv-web-page-hydration-data').textContent);`,
   sandkasten,
   { filename: 'amazon-leser.js (Auszug)' },
 )
@@ -367,15 +367,20 @@ pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.
   nicht.
 */
 {
-  pruefe('der Merker trägt einen Finger, nicht nur die Adresse', quelle.includes('hydrationFuer !== finger'))
-  pruefe('der Finger nimmt die Länge des Blocks mit', /firstChild[\s\S]{0,200}length/.test(quelle))
+  /*
+    Seit dem Umbau vom 15.09.2026 steht die Regel in `ausDom()`: Gelesen wird
+    erneut, solange sich die Länge des Blocks ändert (`gelesenBeiLaenge`).
+  */
+  pruefe('der Merker vergleicht die Länge des Blocks', /laenge === gelesenBeiLaenge/.test(quelle))
+  pruefe('die Länge kommt vom Textknoten', /firstChild\?\.length/.test(quelle))
   /*
     Und er nimmt sie über `CharacterData.length`, nicht über `textContent`:
     Zwei Megabyte je Takt neu aufzubauen war die Bauweise, die den Tab am
     31.08.2026 auf 9,4 GB gebracht hat.
   */
-  const fn = quelle.slice(quelle.indexOf('function hydrationFinger()'))
-  pruefe('… ohne den Text neu aufzubauen', !fn.slice(0, 300).includes('textContent'))
+  const fn = quelle.slice(quelle.indexOf('function ausDom('))
+  const vorVergleich = fn.slice(0, fn.indexOf('laenge === gelesenBeiLaenge'))
+  pruefe('… ohne den Text vor dem Vergleich neu aufzubauen', !vorVergleich.includes('textContent'))
 }
 
 if (fehler.length) {

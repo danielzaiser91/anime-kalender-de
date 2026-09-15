@@ -528,9 +528,10 @@ Staffel längst über `getDetailWidgets` nach — Zugang, Kanal, Jahr und Staffe
 weiter aus dem alten Block, und kein Wächter schlug an. Daniel an Bungo Stray Dogs (Staffel 3 →
 Auswahlfeld Staffel 1): ohne Neuladen „🇩🇪 Deutsch · 12 Folgen · Staffel 1 · Abo + Kauf · ⚠
 Kanal", nach dem Neuladen „✕ kein Deutsch" auf einer Seite, die in der Region nicht verfügbar
-ist. „fix das es direkt ohne neuladen klappt." Seit 4.20.8 ruft `neueSeiteHolen()` nach jedem
-Adresswechsel innerhalb der Seite die neue Adresse einmal im Hintergrund ab, und `seitenHtml()`
-liefert diesen Stand, solange er zur Adresse gehört. Das bildet das Neuladen nach, statt Amazons
+ist. „fix das es direkt ohne neuladen klappt." Seit 4.20.9 ruft der Leser nach jedem
+Adresswechsel innerhalb der Seite die neue Adresse einmal im Hintergrund ab
+(`ausNachgeholterSeite()` in `amazon-leser.js`) und schickt den Quelltext mit; `seitenHtml()`
+liefert diesen Stand (`ersatzQuelltext`), solange er zur Adresse gehört. Das bildet das Neuladen nach, statt Amazons
 interne Anfragen zu erraten. Im Tagebuch des Berichts steht `quelltext-nachgeholt` oder der
 Grund, warum es nicht geklappt hat.
 
@@ -567,6 +568,18 @@ jede Fehlerrunde seit dem 24.08. hat einen Wächter dazugebaut statt eine Quelle
 **Prüffrage vor jedem weiteren Fix an der Amazon-Erweiterung: Entsteht der Fehler, weil zwei
 Quellen dasselbe beantworten?** Dann ist der Fix, eine davon zu streichen — nicht, eine
 Vorrangregel zwischen ihnen zu erfinden.
+
+**Umgebaut am 15.09.2026 (4.20.11, Phase 1): der Leser ist die eine Quelle.**
+`amazon-leser.js` hält je Seite **einen** Zustand, geschlüsselt über Pfad und Staffel aus der
+Adresse. Beim Laden liest er den Hydration-Block aus dem DOM, nach einem Wechsel aus der
+nachgeholten Seite; die übrigen Abschnitte holt er über die Tokens aus demselben Quelltext.
+Gesendet wird an **einer** Stelle, immer der ganze Zustand (`schnappschuss: true`), und
+`amazon.js` ersetzt seinen Zählstand damit. Gestrichen sind das Mitlesen von Amazons eigenen
+`fetch`/XHR-Anfragen, der gezielte Staffel-Abruf (`holeStaffel`), der Muster-Rückfall und die
+Wechselerkennung über das erste Token. `amazon-nachladen.test.cjs` prüft das Modell an der
+echten Digimon-Antwort, `amazon.test.cjs` hält fest: eine Sendestelle, ein neuer Zustand je
+Wechsel, keine Hooks auf `fetch`/XHR. Phase 2 räumt die Stellen in `amazon.js` auf, die Angaben
+weiterhin selbst aus dem Quelltext ziehen (Liste in `status.md`).
 
 **Was das an einem Abend gekostet hat**, gehört dazu: ein Dutzend Fehler, die alle wie
 verschiedene Fehler aussahen — falsche Folgenzahl, verschluckte Meldungen, „nicht abrufbar"

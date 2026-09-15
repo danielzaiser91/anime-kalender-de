@@ -1,160 +1,99 @@
 /**
- * Hört mit, was Amazon beim Blättern durch die Folgenliste nachlädt — und holt
- * die Abschnitte nach, die Daniel sonst einzeln anklicken müsste.
+ * Liest je Prime-Seite **einen** Zustand und schickt ihn vollständig an `amazon.js`.
  *
- * ## Warum es das braucht
+ * ## Das Modell
  *
- * Die Tonspuren stehen im ausgelieferten HTML — aber **nur für den Abschnitt,
- * der beim Seitenaufbau gewählt war**. Wechselt Daniel auf „Folgen 25–48",
- * kommen die Kacheln nach, der Quelltext behält aber die alten Angaben.
+ * Daniel am 15.09.2026, nach drei Fixes an einem Vormittag: „es ist ein simples
+ * scraping … einfach scrapen was da ist, mitbekommen wann ein wechsel passiert,
+ * bisherige scraping data entsprechend zurücksetzen und scraping erneut starten."
  *
- * Gemessen am 23.08.2026 an „Digimon Tamers" (51 Folgen), nach dem Wechsel auf
- * 25–48, aus Daniels angemeldeter Sitzung:
+ * Genau so ist es gebaut:
  *
- * ```
- * audioTracks: 27 | episodeNumber: 1,2,3,…,24
- * ```
+ * 1. **Ein Zustand je Seite.** Schlüssel ist der Pfad plus die Staffel aus der
+ *    Adresse (`?ref_=…_sN`) — Sammel-Kennungen wie JoJo wechseln die Staffel,
+ *    ohne den Pfad zu ändern.
+ * 2. **Ändert sich der Schlüssel, wird der Zustand verworfen** und neu gelesen.
+ * 3. **Eine Quelle:** der Hydration-Block der Seite
+ *    (`<script id="dv-web-page-hydration-data">`). Beim Laden steht er im DOM.
+ *    Nach einem Wechsel über das Auswahlfeld tauscht Amazon ihn **nicht** aus
+ *    (gemessen 24.08.2026 und im Bericht vom 15.09.2026) — dann wird die Seite
+ *    der neuen Adresse abgerufen und der Block aus der Antwort gelesen. Das sind
+ *    dieselben Daten, die ein Neuladen bringt.
+ * 4. **Weitere Abschnitte** einer langen Staffel („Folgen 25–48") stehen nicht im
+ *    Block; sie kommen über die Tokens aus derselben Seite
+ *    (`/gp/video/api/getDetailWidgets`), Zeichen für Zeichen der Abruf, den ein
+ *    Klick auf das Abschnitts-Auswahlfeld auslöst.
+ * 5. **Gesendet wird an einer Stelle, immer der ganze Zustand.** `amazon.js`
+ *    ersetzt seinen Zählstand damit und führt nichts zusammen.
  *
- * Die Folgen 25–48 waren auf dem Bildschirm zu sehen und im Quelltext nicht
- * vorhanden. Wer nur das HTML liest, bekommt also dauerhaft den ersten
- * Abschnitt und hält ihn für die Staffel.
+ * ## Was es vorher gab, und warum es wegfiel
  *
- * ## Die Struktur, gemessen am 23.08.2026
+ * Bis 4.20.10 lasen fünf Wege dieselben Angaben — DOM-Block, nachgeholte Seite,
+ * ein gezielter `getDetailWidgets`-Abruf je Staffel, das Mitlesen von Amazons
+ * eigenen Anfragen samt Muster-Rückfall, und das Nachholen der Abschnitte — und
+ * schickten sie über vier Stellen. Wer zuletzt ankam, gewann: Am 15.09.2026
+ * zeigte derselbe Knopf nach dem Laden je nach Reihenfolge „Deutsch" oder
+ * „kein Deutsch", weil der Staffel-Abruf leere `audioTracks` (Kanal ohne Abo)
+ * über die gefüllten des Blocks schrieb.
  *
- * Amazon holt die Folgen über `/gp/video/api/getDetailWidgets`. Die Antwort ist
- * gültiges JSON und enthält **den gewählten Abschnitt plus die Zugänge zu allen
- * übrigen**:
- *
- * ```
- * widgets.episodeList.episodeCount                     → 51
- * widgets.episodeList.episodes[].detail.audioTracks    → ["Deutsch"]
- * widgets.episodeList.episodes[].detail.episodeNumber  → 25 … 48
- * widgets.episodeList.actions.episodePages[].token     → drei Abschnitte
- * ```
- *
- * ## Was hier passiert
- *
- * Zwei Dinge, und der Unterschied ist wichtig:
- *
- * 1. **Mitgelesen** wird am Ergebnis, nicht am Aufruf — `fetch` und
- *    `XMLHttpRequest` geben ihre Antwort ohnehin an die Seite weiter, und genau
- *    dort wird sie abgegriffen.
- * 2. **Nachgeholt** werden allein die Abschnitte derselben Folgenliste, deren
- *    Token in der Antwort mitgeliefert wurde. Das ist Zeichen für Zeichen der
- *    Abruf, den ein Klick aufs Dropdown auslöst — in derselben angemeldeten
- *    Sitzung, auf derselben Seite, ausgelöst dadurch, dass Daniel diese Seite
- *    geöffnet hat. Es wird nichts gesucht, nichts durchlaufen und keine zweite
- *    Serie angefasst.
- *
- * Läuft in der Seitenwelt (`world: MAIN`), weil ein Content-Script in seiner
- * eigenen Welt weder die `fetch`-Funktion der Seite noch ihre Anmeldung
- * erreicht.
+ * Läuft in der Seitenwelt (`world: MAIN`) bei `document_start`: Nur hier gehört
+ * ein `fetch` zur angemeldeten Sitzung, und nur hier ist der Verweis-Parameter
+ * der Startadresse noch zu sehen.
  */
 ;(() => {
   const MARKE = 'ak-amazon-folgen'
 
   /**
-   * Obergrenze für das Nachholen.
+   * Obergrenze für das Nachholen von Abschnitten.
    *
-   * Bei 24 Folgen je Abschnitt deckt das rund 600 Folgen ab — mehr als jede
-   * Serie im Bestand. Die Grenze steht nicht wegen der Datenmenge da, sondern
-   * damit aus einer Bedienhilfe nie ein Durchlauf wird: Wo sie greift, bleibt
-   * die Zahl unvollständig, und der Knopf meldet dann ausdrücklich einen
-   * Ausschnitt statt eines „kein Deutsch".
+   * Bei 24 Folgen je Abschnitt rund 600 Folgen — mehr als jede Serie im Bestand.
+   * Die Grenze steht da, damit aus einer Bedienhilfe nie ein Durchlauf wird: Wo
+   * sie greift, bleiben Abschnitte offen, und der Knopf meldet einen Ausschnitt.
    */
   const MAX_ABSCHNITTE = 25
 
-  /** Pause zwischen zwei Abrufen. Ein Mensch klickt auch nicht schneller. */
+  /** Pause zwischen zwei Abschnitts-Abrufen. Ein Mensch klickt auch nicht schneller. */
   const PAUSE_MS = 400
 
-  const geholt = new Set()
+  /** So lange wird beim Laden im Halbsekundentakt nach dem Block gesehen. */
+  const ANLAUF_TAKTE = 60
 
   /**
-   * **Alle Abschnitts-Tokens, die diese Seite je genannt hat.**
-   *
-   * `geholt` sagt, was schon abgerufen wurde. Erst der Vergleich mit dieser
-   * Menge sagt, ob noch etwas aussteht — und genau das entscheidet, ob die
-   * Folgenliste vollständig ist. Die Zahl aus `episodeCount` kann es nicht
-   * entscheiden, siehe die Bänder-Regel in `amazon.js`.
-   */
-  const alleAbschnitte = new Set()
-  let laeuft = false
-  let titleID = null
-
-  /**
-   * Der Stand des Lesers, ablesbar aus der Konsole.
-   *
-   * Zweimal hintereinander blieb der Knopf bei „24 von 51" stehen, und beide
-   * Male war die Ursache eine andere als vermutet — einmal fehlte die
-   * Netzantwort, einmal der richtige Feldname. Geraten wurde jedes Mal zuerst.
-   *
-   * Diese Aufstellung sagt in einem Zug, wie weit der Leser gekommen ist:
-   * ob er läuft, ob er die Kennung hat, wie viele Abschnitte er sieht, was er
-   * angefordert hat und woran es scheiterte. `copy(JSON.stringify(
-   * window.__akAmazon))` in der Konsole genügt.
-   *
-   * Sie bleibt dauerhaft drin. Ein paar Zähler kosten nichts, und der nächste
-   * Umbau bei Amazon kommt bestimmt.
-   */
-  /**
-   * Die Adresse, wie sie beim **Seitenstart** aussah.
-   *
-   * Amazon räumt seinen Verweis-Parameter weg, sobald die Seite steht — die
-   * Meldung vom 23.08.2026, 19:31 Uhr trug deshalb keine Staffelangabe, obwohl
-   * Daniel `?ref_=atv_dp_season_select_s3` aufgerufen hatte. Dieses Skript
-   * läuft bei `document_start` und sieht sie noch; `amazon.js` startet bei
-   * `document_idle` und kommt zu spät.
+   * Die Adresse beim **Seitenstart** — Amazon räumt `?ref_=…_sN` weg, sobald die
+   * Seite steht (23.08.2026), und `amazon.js` startet zu spät, um ihn zu sehen.
    */
   const startAdresse = location.href
-  /**
-   * **Der Hydration-Block im DOM gehört zur Seite, die geladen wurde — nur zu ihr.**
-   *
-   * Amazon tauscht beim Wechsel über das Auswahlfeld Adresse und Folgenliste,
-   * das `<script id="dv-web-page-hydration-data">` aber nicht. `schritt()` las
-   * ihn trotzdem bei jeder neuen Adresse neu und stempelte ihn mit ihr. Belegt
-   * am 15.09.2026 im Bericht zu Bungo Stray Dogs (Staffel 3 → 1): Der Knopf
-   * stand 19,896 s nach dem Wechsel richtig auf „✕ kein Deutsch", 0,18 s später
-   * auf „🇩🇪 Deutsch" — zwölf Folgen mit „Deutsch Dialogue Boost", die Tonspuren
-   * von Staffel 3, unter der Adresse von Staffel 1.
-   *
-   * Nach einem Wechsel holt `seiteNachholen()` die neue Seite und liest den
-   * Block aus der Antwort — dieselben Daten, die ein Neuladen bringt.
-   */
   const startPfad = location.pathname
-  let nachgeholtFuer = null
-  let holtSeiteFuer = null
 
+  /* Festgehalten, bevor irgendjemand `fetch` ersetzt. */
+  const nativFetch = window.fetch
+
+  /**
+   * Der Stand des Lesers, ablesbar über `window.__akAmazon` — und über den
+   * Diagnosebericht der Erweiterung.
+   */
   const diagnose = {
-    fassung: '0.54.0',
+    fassung: '1.0.0',
     startAdresse,
-    suchteil: location.search,
-    anlaeufe: 0,
-    quelltextLaenge: 0,
-    titleID: null,
-    titleIDfundstellen: 0,
-    episodePagesGefunden: false,
-    tokensImQuelltext: 0,
+    schluessel: null,
+    quelle: null,
+    folgen: 0,
+    abschnitte: 0,
+    geholt: 0,
     abrufe: [],
     fehler: [],
   }
   window.__akAmazon = diagnose
 
   const warte = (ms) => new Promise((r) => setTimeout(r, ms))
+  const fehler = (err) => diagnose.fehler.push(String(err?.message ?? err).slice(0, 120))
 
   /**
    * Die Sprachnamen aus einem `audioTracks`-Feld — beide Formen.
    *
-   * Die meisten Seiten führen schlichte Namen (`["Deutsch","日本語"]`), „Oshi
-   * no Ko" Staffel 3 dagegen ganze Objekte:
-   *
-   *     [{"audioTrackId":"de-de_dialog_0","displayName":"Deutsch",
-   *       "languageCode":"de-de","audioSubtype":"dialog", …}]
-   *
-   * Die erste Fassung reichte sie unverändert weiter. Beim Empfänger wurde
-   * daraus `[object Object]`, in der Meldung an den Worker ein zerlegtes
-   * JSON-Bruchstück — genau so kam sie am 23.08.2026 zweimal an. **Der Fehler
-   * saß hier, nicht in `amazon.js`:** Dort war er schon behoben, und trotzdem
-   * blieb die Meldung falsch, weil die Sprachen über diesen Weg kommen.
+   * Meist schlichte Namen (`["Deutsch","日本語"]`), bei „Oshi no Ko" Staffel 3
+   * ganze Objekte mit `displayName`. Ungefiltert weitergereicht wurde daraus am
+   * 23.08.2026 `[object Object]` in der Meldung.
    */
   function namenAus(spuren) {
     if (!Array.isArray(spuren)) return []
@@ -164,35 +103,14 @@
   }
 
   /**
-   * Aus einer Antwort die Folgen mit ihren Tonspuren ziehen.
-   *
-   * **Geparst, nicht abgetastet.** Die Antwort ist gültiges JSON; ein Muster
-   * über den Zeichenabstand („`episodeNumber` irgendwo hinter `audioTracks`")
-   * hält nur so lange, wie dazwischen nichts Langes steht — `contributors` mit
-   * gefüllter Besetzungsliste reicht, um es zu brechen.
-   *
-   * Das Muster bleibt als Rückfallebene: Ändert Amazon die Verschachtelung,
-   * liefert es wenigstens noch die Sprachen.
-   */
-
-  /**
-   * **Eine Folge, vollständig — nicht zwei Felder daraus.**
-   *
-   * Daniel am 25.08.2026, nachdem er die Antwort selbst gelesen hatte: „da steht
-   * sogar fsk, und abo required, episoden beschreibung, etc releasedate der
-   * episode runtime, etc, audiotracks, title id etc. alles was wir brauchen
-   * quasi… wir sammeln ab jetzt infos pro episode."
-   *
-   * Die Antwort von `getDetailWidgets` ist gültiges JSON; es gibt hier nichts zu
-   * parsen. Was hier stehen bleibt, ist eine **Auswahl**, keine Ableitung: Jedes
-   * Feld kommt unverändert aus der Antwort, damit später nichts ein zweites Mal
-   * abgerufen werden muss.
+   * **Eine Folge, vollständig** — Daniel am 25.08.2026: „wir sammeln ab jetzt
+   * infos pro episode." Jedes Feld kommt unverändert aus der Antwort.
    */
   function folgeAusDetail(folge) {
     const d = folge?.detail
-    if (!d) return null
+    if (!d || !Number.isFinite(d.episodeNumber)) return null
     return {
-      nummer: Number.isFinite(d.episodeNumber) ? d.episodeNumber : null,
+      nummer: d.episodeNumber,
       kennung: folge.titleID ?? null,
       gti: folge.self?.compactGTI ?? null,
       titel: d.title ?? null,
@@ -213,33 +131,13 @@
   }
 
   /**
-   * **Der Film-Weg: die Seite bringt ihre Daten schon mit.**
+   * Seite und Folgen aus dem Text eines Hydration-Blocks.
    *
-   * Für einen Film schickt Prime **keinen** `getDetailWidgets`-Abruf ab (Daniel,
-   * 25.08.2026). Stattdessen steht im ausgelieferten HTML ein Skriptblock
-   * `<script id="dv-web-page-hydration-data" type="application/json">` mit dem
-   * vollständigen Zustand der Seite.
-   *
-   * Gemessen an „Avatar Aang: Der Herr der Elemente" (`B0H6QYBZFS`,
-   * 239.064 Zeichen JSON):
-   *
-   *     init.preparations.body.atf.state.detail.headerDetail[<ASIN>]
-   *       title, synopsis, audioTracks, subtitles, entityType: "Movie",
-   *       runtime, releaseDate, releaseYear, genres, studios, images, …
-   *
-   *     benefitId  →  "paramountplusde"   (ein Kanal-Abo, kein Prime-Inhalt)
-   *
-   * Auch das ist gültiges JSON in einem `<script>`-Element — gelesen wird es
-   * über `textContent`, nicht über ein Muster auf dem Quelltext.
+   * Gemessen an „Avatar Aang" (Film) und „Yu-Gi-Oh! ZEXAL" Staffel 2 (Serie):
+   * `atf.state.detail.headerDetail[<Kennung>]` trägt Titel, Tonspuren, Staffel,
+   * `btf.state.detail.detail` je Folge dasselbe Objekt wie die Widget-Antwort.
    */
-  function ausHydration(jsonText) {
-    /* Ohne Text: der Block der geladenen Seite. Mit Text: der einer nachgeholten. */
-    let text = jsonText
-    if (text == null) {
-      const block = document.getElementById('dv-web-page-hydration-data')
-      if (!block) return null
-      text = block.textContent
-    }
+  function ausHydration(text) {
     let daten
     try {
       daten = JSON.parse(text)
@@ -256,12 +154,8 @@
     if (!kopf) return null
 
     /*
-      **Die Zugänge stehen an der Seite, nicht nur an der Folge.**
-
-      `benefitId` taucht im ganzen Block auf — in den Kanal-Karten, im
-      Abspiel-Knopf, in den Empfehlungsleisten daneben. Gelesen wird deshalb
-      nur der Aktionsblock der Seite selbst; alles andere gehört zu fremden
-      Titeln (`containers` ist die Empfehlungsleiste „Kunden schauten auch").
+      **Die Zugänge stehen am Aktionsblock der Seite.** `benefitId` taucht im
+      ganzen Block auf, auch in Empfehlungsleisten fremder Titel.
     */
     const zugaengeAus = (o) => [
       ...new Set([...JSON.stringify(o ?? {}).matchAll(/"benefitId":"([^"]+)"/g)].map((m) => m[1])),
@@ -273,21 +167,9 @@
       /* „season" bei einer Staffel, „movie" bei einem Film, „episode" bei einer Folge. */
       sorte: kopf.titleType ?? null,
       titel: kopf.title ?? null,
-      /* Der Serientitel — bei einer Staffel steht er getrennt vom Staffelnamen. */
       serie: kopf.parentTitle ?? null,
       staffel: Number.isFinite(kopf.seasonNumber) ? kopf.seasonNumber : null,
-      /**
-       * **Der Band, falls Prime die Staffel geteilt hat.**
-       *
-       * „Yu-Gi-Oh! ZEXAL" führt sechs Einträge im Auswahlfeld, aber nur drei
-       * Staffeln: jede einmal als Band 1 und einmal als Band 2. Ohne diese
-       * Angabe sähen zwei Meldungen zu „Staffel 2" wie ein Widerspruch aus,
-       * obwohl sie verschiedene Folgen meinen.
-       *
-       * Genommen wird der Name aus der Staffelliste, nicht aus dem Seitentitel:
-       * Dort steht er als eigenes Feld, statt aus „Yu-Gi-Oh! ZEXAL - Season 2,
-       * Volume 2 [OV]" herausgeschnitten werden zu müssen.
-       */
+      /* Der Band, falls Prime die Staffel geteilt hat („Season 2, Volume 2", ZEXAL). */
       band: (oben.seasons?.[kennung] ?? []).find((s) => s?.isSelected)?.displayName ?? null,
       beschreibung: kopf.synopsis ?? null,
       sprachen: namenAus(kopf.audioTracks ?? []),
@@ -299,18 +181,11 @@
       studios: Array.isArray(kopf.studios) ? kopf.studios : [],
       genres: (kopf.genres ?? []).map((g) => g?.text).filter(Boolean),
       zugaenge: zugaengeAus(oben.action),
-      fsk:
-        oben.metadata?.[kennung]?.maturityRating?.displayText ??
-        kopf.ratingBadge?.displayText ??
-        null,
+      fsk: oben.metadata?.[kennung]?.maturityRating?.displayText ?? kopf.ratingBadge?.displayText ?? null,
       bild: kopf.images?.covershot ?? null,
       imdb: oben.imdb?.[kennung]?.score ?? null,
-      /*
-        Die Folgenzahl der Staffel steht als Text („74 Folgen"), nicht als Zahl.
-        Sie meint die **Reihe**, nicht den gerade gezeigten Abschnitt.
-      */
+      /* Als Text („74 Folgen") und für die **Reihe**, nicht den gezeigten Abschnitt. */
       folgenGesamt: Number(/(\d+)/.exec(oben.metadata?.[kennung]?.episodeCount ?? '')?.[1]) || null,
-      /* Alle Staffeln mit ihrer eigenen Kennung — der Bauplan der Reihe. */
       staffeln: (oben.seasons?.[kennung] ?? []).map((s) => ({
         kennung: s.seasonId,
         name: s.displayName,
@@ -319,42 +194,20 @@
       })),
     }
 
-    /*
-      **Und die Folgen stehen im unteren Teil derselben Seite.**
-
-      Daniel am 25.08.2026: „ich merke gerade das hydration steht auch 1:1
-      genauso bei serien, also brauchen wir das widget überhaupt nicht."
-
-      Er hat recht. `btf.state.detail.detail` führt je Folge dasselbe Objekt wie
-      die Widget-Antwort — Nummer, Titel, Beschreibung, Tonspuren, Untertitel,
-      Dauer, Erscheinungsdatum. Der Abruf ist damit nur noch der Weg zu den
-      **weiteren Abschnitten**, nicht mehr die Quelle.
-    */
     const folgen = []
     for (const [asin, e] of Object.entries(unten?.detail?.detail ?? {})) {
       /* Der Eintrag der Staffel selbst steht mit drin — er ist keine Folge. */
       if (e?.titleType !== 'episode' || !Number.isFinite(e.episodeNumber)) continue
-
       /*
-        **Ob die Folge hier abrufbar ist, steht im Aktionsblock.**
-
-        Daniel am 25.08.2026 an „Yu-Gi-Oh! ZEXAL" Staffel 2: „ein paar episoden
-        sind in der region nicht verfügbar." Bei ihnen trägt `primaryActions`
-        eine schlichte Meldung statt eines Abspiel- oder Abo-Knopfes:
-
-            actionType: "MESSAGE"
-            string: "In deiner Region nicht mehr auf Prime Video verfügbar"
-
-        Ihre `audioTracks` sind dann **leer** — was ohne diese Unterscheidung
-        wie „keine deutsche Fassung" aussähe. Es heißt aber nur: hier nicht.
+        **Ob die Folge hier abrufbar ist, steht im Aktionsblock.** Bei „In deiner
+        Region nicht mehr auf Prime Video verfügbar" trägt `primaryActions` nur
+        eine MESSAGE, und die `audioTracks` sind leer — das heißt „hier nicht",
+        nicht „ohne deutsche Fassung" (ZEXAL, 25.08.2026).
       */
       const aktion = unten?.action?.btf?.[asin]
       const arten = (aktion?.primaryActions ?? []).map((a) => a?.actionType)
-      const meldung = (aktion?.primaryActions ?? [])
-        .map((a) => a?.payload?.message?.message?.string ?? '')
-        .find(Boolean)
+      const meldung = (aktion?.primaryActions ?? []).map((a) => a?.payload?.message?.message?.string ?? '').find(Boolean)
       const gesperrt = arten.length > 0 && arten.every((a) => a === 'MESSAGE')
-
       folgen.push({
         nummer: e.episodeNumber,
         kennung: asin,
@@ -369,221 +222,172 @@
         fsk: unten?.metadata?.[asin]?.maturityRating?.displayText ?? null,
         bild: e.images?.covershot ?? null,
         zugaenge: zugaengeAus(aktion),
-        /* false heißt „hier gesperrt", nicht „ohne deutsche Fassung". */
         verfuegbar: !gesperrt,
-        hinweis: gesperrt ? meldung ?? null : null,
+        hinweis: gesperrt ? (meldung ?? null) : null,
       })
     }
-    folgen.sort((a, b) => a.nummer - b.nummer)
-
     return { ...seite, folgen }
   }
 
   /**
-   * **Für welchen Stand des Hydration-Blocks schon gelesen wurde.**
+   * `titleID` und Abschnitts-Tokens aus dem Quelltext einer Seite.
    *
-   * Bis 4.1.10 stand hier nur die Adresse. Wer einmal gelesen hatte, las nie
-   * wieder — auch dann nicht, wenn der Block beim ersten Griff erst zwei von
-   * dreizehn Folgen trug und Amazon ihn Sekundenbruchteile später vollständig
-   * nachreichte.
-   *
-   * Genau das ist am 31.08.2026 an „Encouragement of Climb" Staffel 1
-   * (`B0GP83RCNX`, 13 Folgen) passiert: Der Knopf blieb auf „2 gelesen — 11
-   * fehlen noch" stehen, nach einem Neuladen war alles da. Der Kommentar in
-   * `schritt()` warnt seit dem 25.08.2026 vor genau diesem Muster — er meinte
-   * aber nur den vollständigen Fehlschlag. Der **halbe** Erfolg ist derselbe
-   * Fall: Ein Merker, der eine Verzögerung festhält, macht sie zum Dauerzustand.
-   *
-   * Der Finger ist deshalb Adresse **plus Länge des Blocks**. Wächst der Block,
-   * wird neu gelesen und neu gesendet; der Empfänger sammelt je Folgennummer,
-   * doppelt Gesendetes schadet dort nicht. Bleibt er gleich, passiert nichts.
+   * **Beide Namen sind gemessen** (23.08.2026, „Digimon Tamers"): Im Quelltext
+   * heißt das Feld `token` (im Aufruf `widgetToken`), und die `titleID` ist nicht
+   * die Kennung der Adresse (Seite `B0CQ4VL364`, Abruf `B0CKPCSHMC`). Jede
+   * Fundstelle wird probiert, nicht die erste — `titleID` steht vielfach im
+   * Quelltext, auch in Empfehlungsleisten. Das JSON liegt mal roh, mal maskiert
+   * (`\"titleID\"`) vor.
    */
-  let hydrationFuer = null
-
-  /**
-   * **Gemessen wird die Länge des Textknotens, nicht der Text selbst.**
-   *
-   * `block.textContent` würde je Takt bis zu zwei Megabyte neu aufbauen — das
-   * ist die Bauweise, die am 31.08.2026 einen Prime-Tab auf 9,4 GB und den
-   * Hover-Effekt auf fünf Sekunden gebracht hat. `CharacterData.length` ist
-   * dagegen eine Zahl, die schon dasteht.
-   */
-  /**
-   * Holt die Seite der jetzigen Adresse und reicht ihren Hydration-Block weiter —
-   * dazu den ganzen Quelltext, den `amazon.js` für Zugang und Kanal braucht.
-   * Ein Abruf je Staffelwechsel, derselbe, den ein Neuladen auslösen würde.
-   */
-  async function seiteNachholen() {
-    const pfad = location.pathname
-    if (!/\/(?:dp|gp\/video\/detail)\//.test(pfad)) return
-    if (nachgeholtFuer === pfad || holtSeiteFuer === pfad) return
-    holtSeiteFuer = pfad
-    /* Gestempelt beim Abrufbeginn, nicht beim Senden. */
-    const abrufAdresse = location.pathname + location.search
-    try {
-      const antwort = await nativFetch.call(window, pfad + location.search, { credentials: 'include' })
-      if (!antwort.ok) return
-      const html = await antwort.text()
-      /* Inzwischen weiternavigiert — dann gehört die Antwort zu niemandem mehr. */
-      if (location.pathname !== pfad) return
-      const treffer = /<script[^>]*id="dv-web-page-hydration-data"[^>]*>([\s\S]*?)<\/script>/.exec(html)
-      const seite = treffer ? ausHydration(treffer[1]) : null
-      nachgeholtFuer = pfad
-      window.postMessage(
-        {
-          marke: MARKE,
-          funde: !seite
-            ? []
-            : seite.folgen.length > 0
-              ? seite.folgen
-              : seite.art && seite.art !== 'TV Show'
-                ? [{ ...seite, nummer: 1 }]
-                : [],
-          gesamt: seite ? seite.folgen.length || (seite.art !== 'TV Show' ? 1 : null) : null,
-          ...(seite ? { seite } : {}),
-          startAdresse,
-          fuerAdresse: abrufAdresse,
-          quelltext: html,
-          quelltextFuer: pfad,
-        },
-        '*',
+  function tokensAus(html) {
+    let titleID = null
+    for (const m of html.matchAll(/titleID/g)) {
+      const treffer = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10,32})/.exec(html.slice(m.index, m.index + 80))
+      if (treffer) {
+        titleID = treffer[1]
+        break
+      }
+    }
+    for (const m of html.matchAll(/episodePages/g)) {
+      const block = nurDasArray(html.slice(m.index, m.index + 20000).replace(/\\+"/g, '"'))
+      const tokens = [...block.matchAll(/"isSelected"\s*:\s*(true|false)[\s\S]{0,400}?"token"\s*:\s*"([^"]{20,})"/g)].map(
+        (t) => ({ token: t[2], gewaehlt: t[1] === 'true' }),
       )
-    } catch {
-      /* Kein Netz — dann bleibt es beim Folgen-Abruf über getDetailWidgets. */
-    } finally {
-      if (holtSeiteFuer === pfad) holtSeiteFuer = null
+      if (tokens.length) return { titleID, tokens }
     }
-  }
-
-  function hydrationFinger() {
-    const knoten = document.getElementById('dv-web-page-hydration-data')?.firstChild
-    return `${location.pathname}${location.search}#${knoten?.length ?? 0}`
+    return { titleID, tokens: [] }
   }
 
   /**
-   * **Die Adresse, unter der der laufende Abruf begonnen hat.**
-   *
-   * Der Stempel an jeder Antwort hieß bisher `location.pathname +
-   * location.search`, **gelesen beim Senden**. Der Kommentar unten begründet
-   * das damit, dass `startAdresse` für den Skriptstart steht und nicht für den
-   * Abruf — richtig, nur ist der Sendezeitpunkt genauso falsch: Zwischen Abruf
-   * und Auswertung liegen Sekunden, und in dieser Zeit kann Daniel die Staffel
-   * gewechselt haben.
-   *
-   * Genau das ist am 31.08.2026 bei „Space Dandy" passiert
-   * (`docs/diagnose/space-dandy-staffel2-ohne-folgen.json`): Staffel 2 zeigt
-   * gar keine Folgen, der Zählstand trug trotzdem 26 — **unter der neuen
-   * Adresse**. Der Empfänger leert nur, wenn die Adresse der Antwort von seinem
-   * Stand abweicht; mit dem Stempel von eben tut sie das nie.
-   *
-   * Gesetzt wird sie beim Beginn jedes Abrufs. Kommt die Antwort nach einem
-   * Wechsel an, trägt sie die **alte** Adresse, der Empfänger erkennt sie als
-   * fremd und wirft sie weg — wie es die Regel seit dem 25.08.2026 vorsieht.
+   * Vom `episodePages`-Fund nur das Array. Gleich dahinter steht `pagination`
+   * mit denselben Abschnitten unter **eigenen** Tokens — ein fester Ausschnitt
+   * holte bei „Digimon Tamers" einen Abschnitt doppelt (23.08.2026).
    */
-  let abrufAdresse = location.pathname + location.search
-
-  function auswerten(text, herkunft) {
-    if (typeof text !== 'string' || text.length < 60) return
-    if (!text.includes('audioTracks') && !text.includes('episodePages')) return
-
-    const funde = []
-    let gesamt = null
-    let seiten = []
-
-    try {
-      const liste = JSON.parse(text)?.widgets?.episodeList
-      if (liste) {
-        if (Number.isFinite(liste.episodeCount)) gesamt = liste.episodeCount
-        for (const folge of liste.episodes ?? []) {
-          const d = folge?.detail
-          if (!d || !Array.isArray(d.audioTracks) || !Number.isFinite(d.episodeNumber)) continue
-          const voll = folgeAusDetail(folge)
-          if (voll) funde.push(voll)
-        }
-        for (const seite of liste.actions?.episodePages ?? []) {
-          const token = seite?.token
-          if (typeof token !== 'string' || token.length <= 10) continue
-          // Der gerade gelieferte Abschnitt gilt als erledigt: Seine Folgen
-          // stehen oben schon in `funde`, ein zweiter Abruf brächte dieselben
-          // Daten und einen Zugriff mehr auf Amazons Server.
-          if (seite.isSelected) geholt.add(token)
-          alleAbschnitte.add(token)
-          seiten.push(token)
-        }
-      }
-    } catch {
-      /* Keine JSON-Antwort — dann greift das Muster unten. */
+  function nurDasArray(text) {
+    const auf = text.indexOf('[')
+    if (auf < 0) return text
+    let tiefe = 0
+    for (let i = auf; i < text.length; i++) {
+      if (text[i] === '[') tiefe++
+      else if (text[i] === ']' && --tiefe === 0) return text.slice(auf, i + 1)
     }
+    return text
+  }
 
-    if (!funde.length) {
-      // Rückfall: Eine Sprache ohne Nummer zählt als Sprache, **nicht** als
-      // Folge — sonst stimmte die Zahl am Knopf wieder nicht.
-      for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)) {
-        const namen = [...m[1].matchAll(/"displayName"\s*:\s*"([^"]+)"/g)].map((t) => t[1])
-        const sprachen = namen.length
-          ? namen
-          : m[1]
-              .split(',')
-              .map((s) => s.trim().replace(/^"|"$/g, ''))
-              .filter((s) => s && !s.includes('{') && !s.includes(':'))
-        if (sprachen.length) funde.push({ nummer: null, sprachen })
-      }
+  // --- Der Zustand ------------------------------------------------------------
+
+  /** Die Staffel aus der Adresse, sofern sie dort steht. */
+  const staffelAusAdresse = () => Number(/[?&]ref_=[^&]*_s(\d+)/.exec(location.search)?.[1]) || null
+
+  let zustand = null
+
+  function neuerZustand() {
+    zustand = {
+      pfad: location.pathname,
+      staffel: staffelAusAdresse(),
+      /* Die Adresse beim Beginn — mit ihr wird abgerufen und gestempelt. */
+      adresse: location.pathname + location.search,
+      seite: null,
+      folgen: new Map(),
+      gesamt: null,
+      titleID: null,
+      tokens: new Set(),
+      geholt: new Set(),
+      nachholenLaeuft: false,
     }
-
-    if (funde.length || gesamt !== null) {
-      /*
-        **Jede Meldung sagt, zu welcher Seite sie gehoert.**
-
-        Daniel hat den Wettlauf am 25.08.2026 eingekreist: Laedt ein Titel noch
-        — erkennbar an Amazons Abspiel-Knopf, der rund zwanzig Sekunden lang
-        eine Ladeanimation zeigt — und wechselt man in dieser Zeit, kommen
-        dessen Nachlade-Antworten **nach** dem Wechsel an. Sie landeten im
-        frisch geleerten Zaehlstand des neuen Titels: "13 von 24" bei Clannad,
-        wo die dreizehn zu Darwin Jihen gehoerten. Wartet er, bis der vorige
-        Titel fertig ist, stimmt alles.
-
-         taugt dafuer nicht: Sie steht fuer den Skriptstart, nicht
-        fuer den Abruf.  wird hier gelesen, also genau dann, wenn
-        die Antwort ausgewertet wird.
-      */
-      window.postMessage(
-        { marke: MARKE, funde, gesamt, startAdresse, fuerAdresse: abrufAdresse, abschnitte: { gesamt: alleAbschnitte.size, offen: [...alleAbschnitte].filter((t) => !geholt.has(t)).length }, },
-        '*',
-      )
-    }
-
-    // Die Kennung der Serie steht in der Adresse, aus der die Antwort kam. Sie
-    // wird gelesen, nicht gebaut — ohne sie wird nichts nachgeholt.
-    if (!titleID && typeof herkunft === 'string') {
-      try {
-        titleID = new URL(herkunft, location.href).searchParams.get('titleID')
-      } catch {
-        /* Keine brauchbare Adresse — dann bleibt es beim Mitlesen. */
-      }
-    }
-    if (seiten.length > 1) void nachholen(seiten)
+    diagnose.schluessel = `${zustand.pfad}|${zustand.staffel ?? ''}`
+    diagnose.quelle = null
+    return zustand
   }
 
   /**
-   * Die übrigen Abschnitte derselben Folgenliste holen.
-   *
-   * Jedes Token genau einmal, nacheinander, mit Pause. Was zurückkommt, läuft
-   * durch `auswerten` — findet es dort weitere Tokens, sind die längst gesehen
-   * und die Schleife endet von selbst.
+   * **Ist das noch dieselbe Seite?** Ein anderer Pfad heißt nein; eine andere
+   * Staffel in der Adresse ebenfalls. Fehlt die Staffel in der Adresse, ist das
+   * keine Auskunft — Amazon räumt den Parameter nach dem Laden weg, und ein
+   * Wechsel daraus wäre ein Fehlalarm, der die Seite ein zweites Mal abruft.
    */
-  async function nachholen(tokens) {
-    if (laeuft || !titleID) return
-    const offen = tokens.filter((t) => !geholt.has(t))
-    if (!offen.length) return
-    laeuft = true
+  function gleicheSeite(z) {
+    if (!z || location.pathname !== z.pfad) return false
+    const s = staffelAusAdresse()
+    return s === null || s === z.staffel
+  }
+
+  /**
+   * Folgen in den Zustand übernehmen — je Nummer eine.
+   *
+   * **Eine leere Tonspurliste überschreibt keine gefüllte.** Leer heißt „nichts
+   * gesagt" (Kanal ohne Abo, gesperrte Folge), nicht „kein Deutsch" (15.09.2026).
+   */
+  function uebernehmen(z, folgen) {
+    for (const f of folgen) {
+      if (!f || !Number.isFinite(f.nummer)) continue
+      const alt = z.folgen.get(f.nummer)
+      if (alt?.sprachen?.length && !f.sprachen?.length) continue
+      z.folgen.set(f.nummer, f)
+    }
+  }
+
+  /** Den Block und die Tokens einer Seite in den Zustand legen. */
+  function ausSeite(z, blockText, html, quelle) {
+    const seite = ausHydration(blockText)
+    if (!seite) return false
+    z.seite = seite
+    uebernehmen(z, seite.folgen)
+    const { titleID, tokens } = tokensAus(html)
+    if (titleID) z.titleID = titleID
+    for (const t of tokens) {
+      z.tokens.add(t.token)
+      /* Der gewählte Abschnitt steht schon im Block — ihn zu holen brächte nichts. */
+      if (t.gewaehlt) z.geholt.add(t.token)
+    }
+    diagnose.quelle = quelle
+    return true
+  }
+
+  /**
+   * **Die einzige Sendestelle.** Immer der ganze Zustand; `amazon.js` ersetzt
+   * seinen Zählstand damit (`schnappschuss: true`).
+   */
+  function senden(z, zusatz = {}) {
+    if (z !== zustand) return
+    const abrufAdresse = z.adresse
+    const folgen = [...z.folgen.values()].sort((a, b) => a.nummer - b.nummer)
+    const seite = z.seite
+    /* Ein Film zählt als eine Folge. */
+    const funde = folgen.length ? folgen : seite?.art && seite.art !== 'TV Show' ? [{ ...seite, nummer: 1 }] : []
+    diagnose.folgen = folgen.length
+    diagnose.abschnitte = z.tokens.size
+    diagnose.geholt = z.geholt.size
+    window.postMessage(
+      {
+        marke: MARKE,
+        schnappschuss: true,
+        funde,
+        gesamt: z.gesamt ?? (funde.length || null),
+        ...(seite ? { seite } : {}),
+        startAdresse,
+        fuerAdresse: abrufAdresse,
+        abschnitte: { gesamt: z.tokens.size, offen: [...z.tokens].filter((t) => !z.geholt.has(t)).length },
+        ...zusatz,
+      },
+      '*',
+    )
+  }
+
+  /** Die übrigen Abschnitte über ihre Tokens — jeder genau einmal, nacheinander. */
+  async function nachholen(z) {
+    if (z.nachholenLaeuft || !z.titleID) return
+    z.nachholenLaeuft = true
     try {
-      for (const token of offen) {
-        if (geholt.size >= MAX_ABSCHNITTE) break
-        geholt.add(token)
+      for (const token of [...z.tokens]) {
+        if (z !== zustand) return
+        if (z.geholt.has(token)) continue
+        if (z.geholt.size >= MAX_ABSCHNITTE) break
+        z.geholt.add(token)
         const widgets = JSON.stringify([{ widgetType: 'EpisodeList', widgetToken: token }])
         const adresse =
           '/gp/video/api/getDetailWidgets' +
-          `?titleID=${encodeURIComponent(titleID)}&widgets=${encodeURIComponent(widgets)}`
+          `?titleID=${encodeURIComponent(z.titleID)}&widgets=${encodeURIComponent(widgets)}`
         try {
           const antwort = await nativFetch.call(window, adresse, {
             credentials: 'include',
@@ -591,544 +395,108 @@
           })
           const text = antwort.ok ? await antwort.text() : ''
           diagnose.abrufe.push({ status: antwort.status, zeichen: text.length })
-          if (antwort.ok) auswerten(text, antwort.url)
+          if (z !== zustand || !antwort.ok) continue
+          const liste = JSON.parse(text)?.widgets?.episodeList
+          if (!liste) continue
+          if (Number.isFinite(liste.episodeCount)) z.gesamt = liste.episodeCount
+          uebernehmen(z, (liste.episodes ?? []).map(folgeAusDetail))
+          for (const s of liste.actions?.episodePages ?? []) {
+            if (typeof s?.token === 'string' && s.token.length > 10) z.tokens.add(s.token)
+          }
+          senden(z)
         } catch (err) {
-          /* Ein fehlgeschlagener Abschnitt lässt die Zahl unvollständig — und
-             damit meldet der Knopf ausdrücklich einen Ausschnitt. */
-          diagnose.fehler.push(String(err?.message ?? err).slice(0, 120))
+          /* Ein fehlgeschlagener Abschnitt bleibt offen — der Knopf meldet dann einen Ausschnitt. */
+          fehler(err)
         }
         await warte(PAUSE_MS)
       }
     } finally {
-      laeuft = false
+      z.nachholenLaeuft = false
     }
   }
 
-  // --- Der Seitenquelltext --------------------------------------------------
+  // --- Beim Laden: der Block im DOM ---------------------------------------------
 
   /**
-   * Beim ersten Seitenaufbau gibt es nichts mitzulesen.
-   *
-   * Amazon liefert den ersten Abschnitt **im HTML** mit — es fliegt also keine
-   * Antwort vorbei, an die sich der Mitleser hängen könnte. Ohne diesen Weg
-   * blieb der Knopf deshalb bei „24 von 51 — Abschnitte selbst öffnen" stehen,
-   * obwohl die Zugänge zu den übrigen Abschnitten längst auf der Seite lagen
-   * (Daniel, 23.08.2026, mit Bild).
-   *
-   * Gemessen an derselben Seite, welche Felder es wirklich sind:
-   *
-   * ```
-   * "titleID":"B0CKPCSHMC"          ← nicht die ASIN der Seite (B0CQ4VL364)!
-   * "episodePages":[{"isSelected":true,…,"token":"ADAAAAIEAGJhbXpuMS5…"}]
-   * ```
-   *
-   * **Beide Namen waren zu messen, nicht zu erraten.** Der erste Versuch suchte
-   * nach `widgetToken` — so heißt das Feld im *Aufruf*, im Seitenquelltext
-   * heißt es `token`. Und die `titleID` aus der Adresse zu bauen wäre
-   * fehlgegangen: Die Seite liegt unter `B0CQ4VL364`, der Abruf braucht
-   * `B0CKPCSHMC`.
+   * **Der Block wächst beim Laden.** Bei „Encouragement of Climb" trug der erste
+   * Griff zwei von dreizehn Folgen (31.08.2026). Gelesen wird deshalb erneut,
+   * solange sich die Länge ändert — gemessen am Textknoten, nicht am Text, der
+   * je Takt bis zu zwei Megabyte neu aufbauen würde.
    */
-  /**
-   * Vom `episodePages`-Fund nur das Array selbst behalten.
-   *
-   * Gleich dahinter steht `pagination` — „Vorherige Seite", „Nächste Seite" —
-   * mit **denselben Abschnitten unter eigenen Tokens**. Wer stumpf 20.000
-   * Zeichen absucht, findet bei „Digimon Tamers" fünf statt drei Tokens und
-   * holt einen Abschnitt doppelt: 267 KB umsonst, bei jedem Seitenaufruf
-   * (gemessen 23.08.2026 an Daniels Diagnose-Ausgabe).
-   *
-   * Geschnitten wird über die Klammern, nicht über ein Stichwort: Ein
-   * `indexOf('pagination')` hielte nur, solange dieses Feld dort steht.
-   */
-  function nurDieAbschnitte(block) {
-    const auf = block.indexOf('[')
-    if (auf < 0) return block
-    let tiefe = 0
-    for (let i = auf; i < block.length; i++) {
-      const c = block[i]
-      if (c === '[') tiefe++
-      else if (c === ']' && --tiefe === 0) return block.slice(auf, i + 1)
-    }
-    return block
+  let gelesenBeiLaenge = -1
+
+  function ausDom(z) {
+    const knoten = document.getElementById('dv-web-page-hydration-data')
+    const laenge = knoten?.firstChild?.length ?? 0
+    if (!laenge || laenge === gelesenBeiLaenge) return
+    const html = document.documentElement?.innerHTML ?? ''
+    if (!ausSeite(z, knoten.textContent, html, 'dom')) return
+    gelesenBeiLaenge = laenge
+    senden(z)
+    void nachholen(z)
   }
 
-  function ausSeite(vorgelesen) {
-    const html = vorgelesen ?? document.documentElement?.innerHTML
-    if (typeof html !== 'string') return
-    diagnose.quelltextLaenge = html.length
+  // --- Nach einem Wechsel: die Seite der neuen Adresse --------------------------
 
-    /**
-     * **Jede** Fundstelle wird probiert, nicht die erste.
-     *
-     * `titleID` steht in einem Seitenquelltext dieser Größe vielfach — in
-     * Empfehlungsleisten, in Verfolgungsmarken, in Vorlagen ohne Wert. Die
-     * erste Fundstelle zu nehmen und beim Misserfolg aufzugeben heißt, an der
-     * falschen Stelle zu scheitern und die richtige nie zu sehen.
-     */
-    if (!titleID) {
-      const stellen = [...html.matchAll(/titleID/g)].map((m) => m.index)
-      diagnose.titleIDfundstellen = stellen.length
-      for (const i of stellen) {
-        // Gesucht wird am kurzen Ausschnitt: Amazon legt sein JSON mal roh in
-        // einem Skriptblock ab, mal maskiert in einem HTML-Attribut
-        // (`\"titleID\":\"…\"`). Eine Regex für beide Formen wird unlesbar.
-        const treffer = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10,32})/.exec(html.slice(i, i + 80))
-        if (treffer) {
-          titleID = treffer[1]
-          break
-        }
+  async function ausNachgeholterSeite(z) {
+    try {
+      const antwort = await nativFetch.call(window, z.adresse, { credentials: 'include' })
+      if (z !== zustand) return
+      if (!antwort.ok) {
+        fehler(`Seite ${antwort.status}`)
+        return
       }
-      diagnose.titleID = titleID
+      const html = await antwort.text()
+      if (z !== zustand) return
+      const block = /<script[^>]*id="dv-web-page-hydration-data"[^>]*>([\s\S]*?)<\/script>/.exec(html)?.[1]
+      if (!block || !ausSeite(z, block, html, 'nachgeholt')) {
+        fehler('nachgeholte Seite ohne Block')
+        return
+      }
+      /* Den Quelltext braucht `amazon.js` für Angaben, die es selbst daraus liest. */
+      senden(z, { quelltext: html, quelltextFuer: z.pfad })
+      void nachholen(z)
+    } catch (err) {
+      fehler(err)
     }
-    if (!titleID) return
+  }
 
-    // Dasselbe hier: Der erste `episodePages`-Fund muss nicht der mit den
-    // Tokens sein.
-    const stellen = [...html.matchAll(/episodePages/g)].map((m) => m.index)
-    diagnose.episodePagesGefunden = stellen.length > 0
-    for (const start of stellen) {
-      const block = nurDieAbschnitte(html.slice(start, start + 20000).replace(/\\+"/g, '"'))
-      const tokens = []
-      for (const m of block.matchAll(/"isSelected"\s*:\s*(true|false)[\s\S]{0,400}?"token"\s*:\s*"([^"]{20,})"/g)) {
-        // Der gewählte Abschnitt steht schon im HTML — seine Folgen hat
-        // `amazon.js` bereits gezählt. Ihn zu holen brächte nichts als einen
-        // Zugriff mehr.
-        if (m[1] === 'true') geholt.add(m[2])
-        tokens.push(m[2])
-      }
-      if (tokens.length > 1) {
-        diagnose.tokensImQuelltext = tokens.length
-        void nachholen(tokens)
+  // --- Der Takt ---------------------------------------------------------------
+
+  let takte = 0
+  /**
+   * Der Zustand der geladenen Seite — nur für ihn gilt der DOM-Block. Wer nach
+   * einem Wechsel zur Startseite zurückkehrt, bekommt einen neuen Zustand, und
+   * der DOM-Block kann inzwischen zu jeder Staffel gehören, die dazwischen lag.
+   */
+  let ersterZustand = null
+
+  function takt() {
+    if (!/\/(?:dp|gp\/video\/detail)\//.test(location.pathname)) return
+    if (!gleicheSeite(zustand)) {
+      const erster = zustand === null
+      const z = neuerZustand()
+      /* Ein leerer Schnappschuss räumt den Knopf sofort — „Folgen werden geladen". */
+      senden(z)
+      if (erster && location.pathname === startPfad) {
+        ersterZustand = z
+      } else {
+        void ausNachgeholterSeite(z)
         return
       }
     }
+    if (zustand === ersterZustand && takte < ANLAUF_TAKTE) ausDom(zustand)
   }
 
-  // --- fetch ---------------------------------------------------------------
-
-  // Festgehalten, bevor die eigene Fassung gesetzt wird: Das Nachholen ruft
-  // absichtlich die **native** Funktion, sonst läse es seine eigene Antwort ein
-  // zweites Mal mit.
-  const nativFetch = window.fetch
-
-  try {
-    window.fetch = async function (...args) {
-      const antwort = await nativFetch.apply(this, args)
-      try {
-        // Geklont, damit die Seite ihre eigene Antwort unangetastet bekommt.
-        antwort
-          .clone()
-          .text()
-          .then((t) => auswerten(t, antwort.url))
-          .catch(() => {})
-      } catch {
-        /* Eine Antwort, die sich nicht klonen lässt, bleibt liegen. */
-      }
-      return antwort
+  /**
+   * Halbsekundentakt beim Laden, danach alle zwei Sekunden: Ab dann wird nur noch
+   * gefragt, ob die Seite gewechselt hat — ein Zeichenkettenvergleich.
+   */
+  const schnell = setInterval(() => {
+    if (++takte >= ANLAUF_TAKTE) {
+      clearInterval(schnell)
+      setInterval(takt, 2000)
     }
-  } catch {
-    /* Ohne fetch-Mitlesen bleibt der XHR-Weg. */
-  }
-
-  // --- XMLHttpRequest ------------------------------------------------------
-
-  try {
-    const beschreibung = Object.getOwnPropertyDescriptor(XMLHttpRequest.prototype, 'responseText')
-    const nativGetter = beschreibung?.get
-    if (nativGetter) {
-      Object.defineProperty(XMLHttpRequest.prototype, 'responseText', {
-        configurable: true,
-        enumerable: beschreibung.enumerable,
-        get() {
-          const text = nativGetter.call(this)
-          try {
-            auswerten(text, this.responseURL)
-          } catch {
-            /* Eine unlesbare Antwort ändert nichts am Rest. */
-          }
-          return text
-        },
-      })
-    }
-  } catch {
-    /* Ohne Mitlesen bleibt der Stand aus dem HTML. */
-  }
-
-  // --- Anlauf ---------------------------------------------------------------
-
-  /**
-   * Der Quelltext wird mehrfach befragt, nicht einmal.
-   *
-   * Das Skript läuft bei `document_start`, da steht vom Seitenkörper noch
-   * nichts. Wie lange Amazon braucht, bis die Folgenliste im Quelltext steht,
-   * hängt an Leitung und Gerät — deshalb wird nachgesehen statt geraten.
-   * Sobald `nachholen()` einmal gegriffen hat, sind die Tokens in `geholt` und
-   * weitere Anläufe tun nichts.
-   */
-  /**
-   * Beim Staffelwechsel fängt der Leser von vorn an.
-   *
-   * Amazon tauscht im Auswahlfeld die ganze Seite aus und schreibt eine neue
-   * Kennung in die Adresse, ohne neu zu laden. Behielte der Leser seine alte
-   * `titleID`, holte er die Abschnitte der **vorigen** Staffel nach — und
-   * `geholt` hielte ihn davon ab, die neuen überhaupt anzufordern.
-   */
-  /**
-   * Die Adresse als Zeichenkette — mit `String()`, nicht mit `+`.
-   *
-   * `location.pathname + location.search` sieht nach Textverkettung aus, ist
-   * aber eine **Zahlenaddition**, sobald beide Werte fehlen: `undefined +
-   * undefined` ergibt `NaN`, und `NaN === NaN` ist `false`. Der Vergleich
-   * meldete dann bei **jedem** Takt einen Seitenwechsel und leerte `geholt` —
-   * jeder Abschnitt wurde doppelt und dreifach geholt.
-   */
-  const pfad = () => `${location?.pathname ?? ''}${location?.search ?? ''}`
-
-  let letzterPfad = pfad()
-  let langsam = false
-  let takt = null
-
-  /**
-   * Ein Fingerabdruck der gerade gezeigten Folgenliste.
-   *
-   * Der erste Abschnitts-Token gehört zu **dieser** Staffel und wechselt mit
-   * ihr. Er ist damit das Merkmal, das ein Staffelwechsel nicht verfehlen kann
-   * — anders als die Adresse, die Amazon beim Wechsel über das Auswahlfeld
-   * nicht immer anfasst.
-   *
-   * Gelesen wird nur der Anfang des Tokens: Er genügt zum Vergleichen, und die
-   * kurze Zeichenkette bleibt auch in der Diagnose lesbar.
-   */
-  function abschnittsFinger(vorgelesen) {
-    try {
-      /**
-       * **Der Quelltext wird durchgereicht, nicht zweimal gebaut.**
-       *
-       * `innerHTML` baut die Zeichenkette jedes Mal neu auf — bei einer
-       * Prime-Seite 2,2 MB. Bis zum 25.08.2026 taten das je 500-ms-Takt **zwei**
-       * Stellen unabhängig voneinander: diese hier und `ausSeite()`. Zusammen
-       * mit `body.textContent` waren das rund **9 MB Zeichenketten je Sekunde**
-       * je Prime-Tab, dreißig Sekunden lang — und Chrome hält alle Tabs
-       * derselben Site in **einem** Renderer-Prozess, wo sich der Müll summiert.
-       * Daniel am 25.08.2026: „nach ca 20 meldungen in a row, crashed es …
-       * memory leak??"
-       *
-       * `schritt()` liest jetzt einmal und gibt den Stand weiter. Beide lesen
-       * ohnehin denselben Stand im selben Durchlauf; sie lasen ihn nur getrennt.
-       *
-       * **Der `textContent`-Wächter fällt damit weg**, und das ist kein
-       * Verlust: Er sollte das teure `innerHTML` verhindern, griff aber nie —
-       * auf einer Prime-Titelseite steht „Folgen" praktisch immer (Reiter,
-       * Zwischenüberschrift, Kachelbeschriftung), und er baute selbst eine
-       * Zeichenkette über den ganzen Baum auf.
-       *
-       * Ohne Argument liest die Funktion weiter selbst — der gemächliche Takt
-       * ruft sie so auf.
-       */
-      const html = vorgelesen ?? document.documentElement?.innerHTML
-      if (typeof html !== 'string') return ''
-      const i = html.indexOf('episodePages')
-      if (i < 0) return ''
-      const m = /\\?"token\\?"\s*:\s*\\?"([A-Za-z0-9+/=_.-]{20,})/.exec(html.slice(i, i + 2000))
-      return m ? m[1].slice(0, 32) : ''
-    } catch {
-      return ''
-    }
-  }
-
-  let letzterFinger = ''
-
-  /**
-   * Die ASIN, die die **Adresse** gerade nennt.
-   *
-   * Sie ist beim Dropdown-Wechsel die einzige Quelle, die mitwandert — der
-   * Quelltext bleibt bei der Staffel, mit der die Seite geladen wurde.
-   */
-  function asinAusAdresse() {
-    return /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,32})(?:[/?]|$)/.exec(location.pathname)?.[1] ?? null
-  }
-
-  /**
-   * Die Kennung, zu der der jetzige Zählstand gehört.
-   *
-   * Beim Laden ist das die der Adresse — der Quelltext ist dann frisch und
-   * gehört genau zu ihr. Danach setzt jeder Abruf sie auf die geholte Staffel.
-   * Aus dem Vergleich mit der Adresse folgt beides: ob überhaupt etwas zu holen
-   * ist, und ob der Aufruf die gewünschte Staffel überhaupt treffen kann.
-   */
-  let geholteStaffel =
-    /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,32})(?:[/?]|$)/.exec(location.pathname)?.[1] ?? null
-  let holtGerade = false
-
-  /**
-   * Die Folgenliste einer Staffel gezielt anfordern.
-   *
-   * Ohne „widgetToken": Der liefert einen bestimmten Abschnitt, die Kennung
-   * allein den ersten — und damit `episodeCount` und die Tonspuren, um die es
-   * geht. Weitere Abschnitte holt `nachholen()` wie bisher über die Tokens aus
-   * der Antwort.
-   *
-   * Gesendet wird mit `ersetzt: true`: Der Empfänger muss seinen Zählstand
-   * wegwerfen, sonst mischen sich die Folgen zweier Staffeln.
-   */
-  async function holeStaffel(asin) {
-    /* Ab hier gehört alles, was zurückkommt, zu dieser Adresse. */
-    abrufAdresse = location.pathname + location.search
-    if (holtGerade || !asin || asin === geholteStaffel) return
-    holtGerade = true
-    // Beim Fehlschlag zurück auf den alten Wert — sonst gilt eine Staffel als
-    // geholt, von der nie etwas angekommen ist, und der Knopf wartet für immer.
-    const vorher = geholteStaffel
-    geholteStaffel = asin
-    let ankam = false
-    try {
-      const widgets = JSON.stringify([{ widgetType: 'EpisodeList' }])
-      const adresse =
-        '/gp/video/api/getDetailWidgets' +
-        `?titleID=${encodeURIComponent(asin)}&widgets=${encodeURIComponent(widgets)}`
-      const antwort = await nativFetch.call(window, adresse, {
-        credentials: 'include',
-        headers: { accept: 'application/json', 'x-requested-with': 'XMLHttpRequest' },
-      })
-      if (!antwort.ok) return
-      const text = await antwort.text()
-      const liste = JSON.parse(text)?.widgets?.episodeList
-      if (!liste) return
-
-      const funde = []
-      for (const folge of liste.episodes ?? []) {
-        const d = folge?.detail
-        if (!d || !Array.isArray(d.audioTracks) || !Number.isFinite(d.episodeNumber)) continue
-        const voll = folgeAusDetail(folge)
-        if (voll) funde.push(voll)
-      }
-      const gesamt = Number.isFinite(liste.episodeCount) ? liste.episodeCount : null
-      window.postMessage(
-        { marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin, fuerAdresse: abrufAdresse, abschnitte: { gesamt: alleAbschnitte.size, offen: [...alleAbschnitte].filter((t) => !geholt.has(t)).length }, },
-        '*',
-      )
-      ankam = true
-
-      // Die übrigen Abschnitte wie gewohnt — die Tokens stehen in der Antwort.
-      const seiten = []
-      for (const seite of liste.actions?.episodePages ?? []) {
-        if (typeof seite?.token !== 'string' || seite.token.length <= 10) continue
-        if (seite.isSelected) geholt.add(seite.token)
-        alleAbschnitte.add(seite.token)
-        seiten.push(seite.token)
-      }
-      if (seiten.length > 1) {
-        titleID = asin
-        void nachholen(seiten)
-      }
-    } catch {
-      /* Kein Netz oder eine unerwartete Antwort — dann bleibt es beim Mitlesen. */
-    } finally {
-      if (!ankam) geholteStaffel = vorher
-      holtGerade = false
-    }
-  }
-
-  /** Nimmt den Quelltext entgegen, wenn ihn der Aufrufer schon hat (siehe schritt()). */
-  function beiSeitenwechsel(vorgelesen) {
-    const jetzt = pfad()
-    const finger = abschnittsFinger(vorgelesen)
-    /**
-     * Zwei Merkmale, und das zweite ist das verlässlichere.
-     *
-     * Bis zum 24.08.2026 zählte nur der Pfad. Wechselt Amazon die Staffel über
-     * das Auswahlfeld, ohne die Adresse zu ändern — oder ändert sie erst nach
-     * dem Inhalt —, blieb der Wechsel unbemerkt: `geholt` behielt die Tokens
-     * der alten Staffel, und für die neue wurde nie etwas angefordert. Genau
-     * das hat Daniel beobachtet: beim ersten Laden klappte es, nach dem
-     * Dropdown-Wechsel nicht mehr.
-     */
-    const gewechselt = jetzt !== letzterPfad || (finger && finger !== letzterFinger)
-    if (!gewechselt) return
-    letzterPfad = jetzt
-    letzterFinger = finger
-    titleID = null
-    geholt.clear()
-    /**
-     * **Auch die zuletzt geholte Kennung wird vergessen — sonst gibt es keinen
-     * zweiten Anlauf.**
-     *
-     * `holeStaffel()` steigt aus, wenn die gewünschte Kennung bereits geholt
-     * wurde. Das ist innerhalb einer Staffel richtig und spart Abrufe. Über
-     * einen Seitenwechsel hinweg ist es falsch: Der Knopf leert seinen
-     * Zählstand beim Wechsel, und wenn danach kein Abruf mehr kommt, bleibt er
-     * für immer leer.
-     *
-     * Genau das hat Daniel am 25.08.2026 gemessen — der Knopf zeigte nach dem
-     * Wechsel kurz „🇩🇪 Deutsch · 12 Folgen", fiel dann auf „Tonspuren noch
-     * nicht geladen" zurück und blieb dort: „jetzt sind 5min später und es
-     * steht immer noch ‚noch nicht geladen'". Der erste Abruf war angekommen,
-     * der zweite unterblieb.
-     *
-     * Ein Abruf je Seitenwechsel ist der Preis, und er ist niedrig: Prime holt
-     * dieselbe Adresse beim Navigieren ohnehin selbst.
-     */
-    geholteStaffel = null
-    /* Auch der Hydration-Block gehoert zur alten Adresse. */
-    hydrationFuer = null
-    diagnose.titleID = null
-    diagnose.tokensImQuelltext = 0
-    diagnose.anlaeufe = 0
-    takten(false) // Die neue Staffel lädt gerade erst — wieder genau hinsehen.
-    /**
-     * Und die Folgenliste gezielt holen, statt auf einen Quelltext zu warten,
-     * der nie kommt. Das ist der Unterschied zwischen „Seite neu laden" und
-     * „einen Moment" (Daniel, 24.08.2026: „wozu muss ich neuladen").
-     */
-    /**
-     * **Nur, wenn die ASIN allein die Staffel bestimmt.**
-     *
-     * `getDetailWidgets?titleID=<ASIN>` liefert die Folgenliste, die zu dieser
-     * Kennung gehört — und mehr weiß der Aufruf nicht. Bei einer Serie, die je
-     * Staffel eine eigene ASIN führt, ist das genau die richtige. Bei einer
-     * **Sammel-ASIN** für mehrere Staffeln (JoJo: 7, Jujutsu Kaisen: 4, Marco:
-     * 8) kommt dagegen immer dieselbe zurück, egal welche Staffel gerade
-     * gewählt ist.
-     *
-     * Was dann geschieht, hat Daniel am 25.08.2026 gemeldet: Er stand auf
-     * Jujutsu Kaisen Staffel 3 mit zwölf Folgen, der Knopf sagte „23 Folgen",
-     * und die Meldung ging mit dieser Zahl raus. Der Abruf hatte die Folgen
-     * einer anderen Staffel geliefert und den Zählstand damit **ersetzt** —
-     * `ersetzt: true` ist für den Fall gedacht, dass die neuen Daten die
-     * richtigen sind.
-     *
-     * Erkennbar ist die Sammel-ASIN **an der Kennung selbst**: Bleibt sie beim
-     * Wechsel dieselbe, könnte der Aufruf nur wieder dieselbe Staffel liefern.
-     * Dann wird nicht geholt, und es bleibt beim Hinweis, neu zu laden. Genau
-     * das prüft `holeStaffel()` in seiner ersten Zeile.
-     *
-     * Bis zum 25.08.2026 stand hier stattdessen die **Staffelnummer** aus der
-     * Adresse: geholt wurde nur bei `_s1`. Das traf den Sammelfall richtig, warf
-     * aber den häufigeren gleich mit weg — jeder Wechsel auf Staffel 2 oder
-     * höher verlangte ein Neuladen, auch dort, wo der Abruf funktioniert hätte
-     * (High School DxD, GOSICK, Captain Tsubasa führen je Staffel eine eigene
-     * Kennung). Daniel am 25.08.2026: „neu lade zwang bug … ich muss jedesmal
-     * neuladen nervt".
-     */
-    void holeStaffel(asinAusAdresse())
-  }
-
-  /**
-   * Nach getaner Arbeit wird der Takt langsam, nicht stumm.
-   *
-   * Ihn ganz abzuschalten war die erste Fassung — dann bleibt ein
-   * Staffelwechsel unbemerkt, und genau der ist der häufigste Fall. Ihn
-   * unverändert weiterlaufen zu lassen war die zweite: zwei Durchläufe je
-   * Sekunde, für immer, auf einer Seite, die stundenlang offen sein kann.
-   *
-   * Also beides. 30 Sekunden lang wird der Quelltext im Halbsekundentakt
-   * abgesucht — solange lädt Amazon noch nach. Danach genügt es, alle vier
-   * Sekunden nach einer neuen Kennung zu sehen; ein Mensch wechselt die
-   * Staffel nicht schneller.
-   */
-  function takten(gemaechlich) {
-    if (takt !== null && gemaechlich === langsam) return
-    langsam = gemaechlich
-    if (takt !== null) clearInterval(takt)
-    takt = setInterval(gemaechlich ? beiSeitenwechsel : schritt, gemaechlich ? 4000 : 500)
-  }
-
-  function schritt() {
-    /* Jeder Takt liest die Seite neu — was er findet, gehört zu dieser Adresse. */
-    abrufAdresse = location.pathname + location.search
-    /*
-      **Einmal lesen, zweimal verwenden.**
-
-      Bis zum 25.08.2026 bauten abschnittsFinger() und ausSeite() den Quelltext
-      je Takt unabhaengig voneinander auf — zusammen mit body.textContent rund
-      9 MB Zeichenketten je Sekunde je Prime-Tab. Beide lesen ohnehin denselben
-      Stand im selben Durchlauf.
-    */
-    /*
-      **Der Film-Weg zuerst — er braucht keinen Abruf.**
-
-      Für einen Film schickt Prime kein `getDetailWidgets`; die Daten stehen im
-      Hydration-Block der ausgelieferten Seite. Einmal je Adresse gelesen und
-      weitergereicht, danach schweigt es.
-    */
-    /*
-      **Der Merker wird erst gesetzt, wenn es geklappt hat.**
-
-      Daniel am 25.08.2026 an „Jujutsu Kaisen 0" (`0PCNT2617SSVLV8ZGSS62UTQSZ`):
-      Der Knopf blieb auf „nicht abrufbar", auch nach Neuladen. Sein
-      Diagnosefeld zeigte neun Sprachen, aber `folgen: 0` und `jeFolge: {}` —
-      die Sprachen kamen aus dem Muster-Rückfall, der Film-Weg war nie gelaufen.
-
-      Der Block ist da und vollständig (544.032 Zeichen, nachgemessen), und er
-      trägt alles: `entityType: "Movie"`, die neun Tonspuren. Nur hatte der erste
-      Versuch nach 500 ms ins Leere gegriffen — und weil `hydrationFuer`
-      **unabhängig vom Ergebnis** gesetzt wurde, gab es keinen zweiten.
-
-      Ein Merker, der auch den Fehlschlag festhält, verwandelt eine Verzögerung
-      in einen Dauerzustand.
-    */
-    /*
-      **Die Seite bringt alles mit — Film wie Serie.**
-
-      Daniel am 25.08.2026: „ich merke gerade das hydration steht auch 1:1
-      genauso bei serien, also brauchen wir das widget überhaupt nicht und
-      können immer auf hydration gehen."
-
-      Gemessen an „Yu-Gi-Oh! ZEXAL" Staffel 2 (`B0GV8N71SL`): Der Block liefert
-      Serientitel, Staffelnummer, alle sechs Staffeln mit eigener Kennung, die
-      Gesamtzahl von 74 Folgen — und 24 Folgen mit Tonspuren, Beschreibung und
-      Erscheinungsdatum. Der Widget-Abruf ist damit nur noch der Weg zu den
-      **weiteren Abschnitten**, nicht mehr die Quelle.
-
-      Der Merker wird erst nach einem Treffer gesetzt: Ein erster Versuch nach
-      500 ms greift bei einem halben Megabyte JSON manchmal ins Leere, und ein
-      Fehlschlag darf keine Verzögerung in einen Dauerzustand verwandeln
-      („Jujutsu Kaisen 0" blieb so auf „nicht abrufbar" stehen).
-    */
-    const finger = hydrationFinger()
-    if (location.pathname !== startPfad) {
-      if (nachgeholtFuer !== location.pathname) void seiteNachholen()
-    } else if (hydrationFuer !== finger) {
-      const seite = ausHydration()
-      if (seite) {
-        hydrationFuer = finger
-        window.postMessage(
-          {
-            marke: MARKE,
-            /* Ein Film zählt als eine Folge, eine Serie bringt ihre eigenen mit. */
-            funde:
-              seite.folgen.length > 0
-                ? seite.folgen
-                : seite.art && seite.art !== 'TV Show'
-                  ? [{ ...seite, nummer: 1 }]
-                  : [],
-            gesamt: seite.folgen.length || (seite.art !== 'TV Show' ? 1 : null),
-            seite,
-            startAdresse,
-            fuerAdresse: abrufAdresse,
-          },
-          '*',
-        )
-      }
-    }
-
-    const html = document.documentElement?.innerHTML ?? ''
-    beiSeitenwechsel(html)
-    if (++diagnose.anlaeufe > 60 || diagnose.tokensImQuelltext) {
-      takten(true)
-      return
-    }
-    try {
-      ausSeite(html)
-    } catch (err) {
-      diagnose.fehler.push(String(err?.message ?? err).slice(0, 120))
-    }
-  }
-
-  takten(false)
-  try {
-    ausSeite()
-  } catch {
-    /* Beim ersten Anlauf ist der Seitenkörper meist noch leer — erwartet. */
-  }
+    takt()
+  }, 500)
 })()

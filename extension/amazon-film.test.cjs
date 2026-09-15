@@ -108,7 +108,8 @@ vm.runInNewContext(
   { filename: 'amazon-leser.js (Auszug)' },
 )
 
-const film = sandkasten.__ausHydration()
+/* Seit dem Umbau vom 15.09.2026 bekommt die Funktion den Blocktext — aus dem DOM oder aus einer nachgeholten Seite. */
+const film = sandkasten.__ausHydration(fixture)
 
 pruefe('der Hydration-Block wird gelesen', Boolean(film), film)
 pruefe('die Kennung stimmt', film?.kennung === 'B0H6QYBZFS', film?.kennung)
@@ -170,27 +171,18 @@ pruefe('Beschreibung gelesen', (film?.beschreibung ?? '').length > 40, (film?.be
  * die ganze Taktmechanik nachbauen.
  */
 {
-  const zeilen = quelle.split('\n')
-  const i = zeilen.findIndex((z) => z.includes('const seite = ausHydration()'))
-  pruefe('der Hydration-Weg wird in schritt() gerufen', i >= 0, i)
-
   /*
-    Die nächsten Zeilen bis zum Weiterreichen. Der Merker muss **hinter** der
-    Prüfung stehen: `if (seite) { hydrationFuer = … }`. Steht er davor, sperrt
-    ein Fehlschlag jeden weiteren Versuch — genau der Fall von „Jujutsu
+    Seit dem Umbau vom 15.09.2026 steht der Merker in `ausDom()` und heißt
+    `gelesenBeiLaenge`. Er muss **hinter** der Treffer-Prüfung stehen: Steht er
+    davor, sperrt ein Fehlschlag jeden weiteren Versuch — der Fall „Jujutsu
     Kaisen 0".
   */
-  const danach = zeilen.slice(i, i + 4).join('\n')
-  pruefe(
-    'der Merker steht hinter der Treffer-Prüfung',
-    /if \(seite\) \{\s*\n\s*hydrationFuer =/.test(danach),
-    danach.trim().slice(0, 120),
-  )
-  pruefe(
-    'und die Zeile davor setzt ihn nicht',
-    !new RegExp('ausHydration\\(\\)\\s*\\n\\s*hydrationFuer =').test(danach),
-    danach.trim().slice(0, 120),
-  )
+  const start = quelle.indexOf('function ausDom(')
+  pruefe('der DOM-Weg steht in ausDom()', start >= 0, start)
+  const rumpf = quelle.slice(start, quelle.indexOf('\n  }\n', start))
+  const pruefung = rumpf.indexOf("if (!ausSeite(z, knoten.textContent, html, 'dom')) return")
+  const merker = rumpf.indexOf('gelesenBeiLaenge = laenge')
+  pruefe('der Merker steht hinter der Treffer-Prüfung', pruefung >= 0 && merker > pruefung, { pruefung, merker })
 }
 
 if (fehler.length) {

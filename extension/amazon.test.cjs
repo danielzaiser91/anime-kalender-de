@@ -774,14 +774,26 @@ function veraltetTest(schritte) {
     'die Staffelnummer aus der Adresse steuert das Nachladen nicht mehr',
     !/staffelInAdresse/.test(leser),
   )
+  /*
+    **Das Modell seit dem 15.09.2026: ein Zustand je Seite, eine Sendestelle.**
+
+    Daniel: „einfach scrapen was da ist, mitbekommen wann ein wechsel passiert,
+    bisherige scraping data entsprechend zurücksetzen und scraping erneut
+    starten". Vorher schickten vier Stellen aus fünf Quellen, und wer zuletzt
+    ankam, gewann. Diese Zusicherungen halten den Umbau fest.
+  */
   pruefe(
-    'der Zaehlstand merkt sich, zu welcher Kennung er gehoert',
-    /geholteStaffel\s*=[\s\S]{0,200}location\.pathname/.test(leser),
+    'der Leser schickt an genau einer Stelle',
+    (leser.match(/window\.postMessage\(/g) ?? []).length === 1,
+    (leser.match(/window\.postMessage\(/g) ?? []).length,
   )
+  pruefe('und immer als Schnappschuss', /schnappschuss:\s*true/.test(leser))
+  pruefe('ein Wechsel erzeugt einen neuen Zustand', /if \(!gleicheSeite\(zustand\)\)[\s\S]{0,120}neuerZustand\(\)/.test(leser))
   pruefe(
-    'und ein misslungener Abruf gibt die Kennung wieder frei',
-    /if \(!ankam\) geholteStaffel = vorher/.test(leser),
+    'eine leere Tonspurliste ueberschreibt keine gefuellte',
+    /if \(alt\?\.sprachen\?\.length && !f\.sprachen\?\.length\) continue/.test(leser),
   )
+  pruefe('Amazons eigene Anfragen werden nicht mehr mitgelesen', !/window\.fetch\s*=/.test(leser) && !/XMLHttpRequest\.prototype/.test(leser))
 }
 
 /* ══ Beim Fernsehen ist die Erweiterung unsichtbar ════════════════════ */
