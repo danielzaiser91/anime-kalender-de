@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-09-13
+Stand: 2026-09-15
 
 ## Was hier zu tun ist
 
@@ -24,4 +24,6 @@ nicht. Drei Fälle, drei Handgriffe:
 
 | Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |
 |---|---|---|---|---|---|
-| primevideo | https://www.amazon.de/dp/B0D4K9PV2F | Haikyuu!! | kein_dub | [Haikyu!!](https://anilist.co/anime/20464) | Vorschlag bestätigen, dann Adresse eintragen |
+| primevideo | https://www.amazon.de/dp/B0CVQW43HC | Captain Tsubasa 2018 - Elementary School | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0DJB5NGNK | Captain Tsubasa 2018 - Elementary School | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0D2M355W6 | Captain Tsubasa 2018 - Junior High School | dub | — | Titel von Hand suchen |

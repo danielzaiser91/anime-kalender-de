@@ -15460,3 +15460,63 @@
   dub: true
   checkedAt: '2026-09-15'
   note: "Netflix führt den Film als Folge 12 der Serie („L-O---E“, Rohfolge 19643, 90 Min.). Deutscher Ton an genau dieser Folge gemessen (Randprobe Folge 12)."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-15 ---
+
+- anilistId: 101478
+  title: "Okko und ihre Geisterfreunde"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B086G16LZZ
+  dub: true
+  checkedAt: '2026-09-15'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B086G16LZZ: alle 1 Folge geprüft, Abos: crunchyrollde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20464
+  title: "Haikyu!!"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D4K9PV2F
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 25
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    - from: 26
+      to: 26
+      dub: false
+      checked: [26]
+  checkedAt: '2026-09-15'
+  note: "Folgen 1–25 mit deutschem Ton, Folge 26 ohne deutschen Ton — Amazon-Seite B0D4K9PV2F: alle 26 Folgen geprüft, Abos: animedigitalde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 100745
+  title: "Captain Tsubasa"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GXPFJJZK
+  dub: true
+  dubRanges:
+    - from: 25
+      to: 52
+      dub: false
+      checked: [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52]
+    - from: 53
+      to: 91
+      dub: true
+      checked: [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91]
+  checkedAt: '2026-09-15'
+  note: "Folgen 25–52 ohne deutschen Ton, Folgen 53–91 mit deutschem Ton — Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0GC9MPBHQ: nur 67 von 91 Folgen geladen — Rest ungeprüft, Abos: crunchyrollde, laut Adresse Staffel 1, zugang=abo, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 163024
+  title: "Captain Tsubasa: Staffel 2 - Die Junioren"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CZTFL57B
+  dub: true
+  checkedAt: '2026-09-15'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CZTFL57B: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=kauf"
+
+- anilistId: 151807
+  title: "Solo Leveling"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FJWFGLQC
+  dub: true
+  checkedAt: '2026-09-15'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FJWFGLQC: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf"
