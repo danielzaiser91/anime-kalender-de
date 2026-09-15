@@ -6,7 +6,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 7 Adressen, 3 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 3 Adressen, 4 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
 Sie zeigt auf jeder Anbieterseite, was dort noch offen ist, liest die Tonspuren und

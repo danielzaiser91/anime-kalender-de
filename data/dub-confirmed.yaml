@@ -15552,3 +15552,13 @@
       dub: true
   checkedAt: "2026-09-15"
   note: "Kaufausgabe Mittelschule Teil 2: alle 12 Folgen mit deutschem Ton (Daniels Meldung vom 15.09.2026, 10:57). Folgen 41–52: Die vier Kaufausgaben mit 14, 14, 12 und 12 Folgen ergeben genau die 52 von Captain Tsubasa (2018); die Rohfolgen-Zuordnung traf Titel innerhalb genau dieser Blöcke, TMDB trennt Grundschule (1–28) und Mittelschule (29–52) bei „Der Sommer fängt an“."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-15 ---
+
+- anilistId: 100745
+  title: "Captain Tsubasa"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CVQW43HC
+  dub: true
+  checkedAt: '2026-09-15'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CVQW43HC: alle 14 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=kauf"
