@@ -2075,24 +2075,33 @@ function VoiceCast({ titleId }: { titleId: number }) {
 }
 
 /**
- * Ähnliche Titel — zugeklappt, und erst der Klick lädt und rechnet.
+ * Ähnliche Titel — aufgeklappt, einklappbar, geladen erst im Bild.
  *
- * Daniel am 15.09.2026: „aber einklappbar". Die Rechnung braucht den ganzen
- * Hauptbestand (`titles.json`, mehrere Megabyte); wer nie aufklappt, lädt ihn
- * nicht. Die gemeinsamen Merkmale stehen je Zeile dabei — so ist nachzulesen,
- * warum ein Titel vorgeschlagen wird.
+ * Daniel am 15.09.2026: „aber einklappbar", dann „per default aufklappen".
+ * Die Rechnung braucht den ganzen Hauptbestand (`titles.json`, mehrere
+ * Megabyte). Geholt wird er deshalb erst, wenn der Bereich ins Bild scrollt —
+ * wer das Panel oben liest und schließt, lädt nichts. Die gemeinsamen Merkmale
+ * stehen je Zeile dabei, damit nachzulesen ist, warum ein Titel vorkommt.
  */
 function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; data: Dataset; onOpenTitle: (id: number) => void }) {
   const { t, tGenre, tKeyword } = useLang()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
+  const [imBild, setImBild] = useState(false)
   const [alle, setAlle] = useState<Title[] | undefined>()
+  const bereich = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setOpen(false)
-  }, [title.id])
+    const el = bereich.current
+    if (!el || imBild) return
+    const beobachter = new IntersectionObserver((eintraege) => {
+      if (eintraege.some((e) => e.isIntersecting)) setImBild(true)
+    })
+    beobachter.observe(el)
+    return () => beobachter.disconnect()
+  }, [imBild])
 
   useEffect(() => {
-    if (!open || alle) return
+    if (!open || !imBild || alle) return
     let alive = true
     loadAllTitles(data)
       .then((l) => {
@@ -2104,13 +2113,13 @@ function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; data: Data
     return () => {
       alive = false
     }
-  }, [open, alle, data])
+  }, [open, imBild, alle, data])
 
   const vorschlaege = useMemo(() => (open && alle ? aehnlicheTitel(title, alle) : []), [open, alle, title])
   const merkmalName = (m: string) => (m.startsWith('g:') ? tGenre(m.slice(2)) : tKeyword(m.slice(2)))
 
   return (
-    <div>
+    <div ref={bereich}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}

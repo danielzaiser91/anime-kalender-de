@@ -55,7 +55,8 @@ function gewichte(alle: readonly Title[]): Map<string, number> {
   return w
 }
 
-export function aehnlicheTitel(titel: Title, alle: readonly Title[], anzahl = 8): Vorschlag[] {
+/** Höchstens fünf (Daniel, 15.09.2026: „max 5 ähnliche titel"). */
+export function aehnlicheTitel(titel: Title, alle: readonly Title[], anzahl = 5): Vorschlag[] {
   const eigene = new Set(merkmale(titel))
   if (!eigene.size) return []
   const w = gewichte(alle)
