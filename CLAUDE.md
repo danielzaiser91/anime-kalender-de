@@ -3216,6 +3216,8 @@ echte Fund in Fehlalarmen.
 **Nebenbefund, direkt verwertbar:** One Piece Folge 1156 hat auf Netflix genau eine Tonspur,
 `ja / Japanisch [Original]`. Daniels Meldung war richtig.
 
+**Und ein Folgendatum gibt Netflix gar nicht heraus — gemessen am 15.09.2026.** Seit 4.19.3 schickt `melder.js` je Folge jedes kleine Feld aus Folgenliste, Player und Reihe (`prime_folge.roh`). An den jüngsten Zeilen (`?rohfolgen=1&probe=netflix`) steht die Laufzeit zweimal (`liste.runtimeSec`, `player.runtime`), ein Erscheinungs- oder Ausstrahlungsdatum nirgends. `player.bookmark.watchedDate` ist der Sehverlauf des Kontos, kein Datum der Folge. Folgendaten für die Zuordnung kommen weiter von TMDB.
+
 ### Und doch ein Weg: der Player liest je Folge, wenn man ihm die Videodaten abdreht
 
 Fünf Wege waren zu, und der sechste kam von Daniel (26.08.2026): „was wenn du ein skript
