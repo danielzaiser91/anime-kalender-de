@@ -30,8 +30,15 @@ const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
 const HANDY = process.argv.includes('--handy')
 
-/** Obergrenze für eine Übersichtszeile. Reißt sie, ist die Seite nicht mehr kompakt. */
-const HOECHSTE_ZEILE = 72
+/**
+ * Obergrenze für eine Übersichtszeile. Reißt sie, ist die Seite nicht mehr kompakt.
+ *
+ * Seit dem 15.09.2026 hat ein Eintrag drei Zeilen (Titel, Teil, Arten) und steht
+ * auf breiten Schirmen zu zweit nebeneinander — Daniel: „news 3-zeilig machen.
+ * dann sollten auch 2 news nebeneinander passen". Gemessen 74 px; die Grenze
+ * lässt dafür Luft, fängt aber eine vierte Zeile.
+ */
+const HOECHSTE_ZEILE = 80
 
 const EIN_PUNKT = Buffer.from(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',

@@ -56,8 +56,14 @@ const FARBE: Record<NewsArt, string> = {
  */
 const ARTEN: NewsArt[] = ['neu', 'angekuendigt', 'verspaetet', 'kino', 'disc', 'folgen']
 
+/*
+  **Nur die ersten zehn Zeichen sind das Datum.** Manche Meldungen tragen einen
+  vollen Zeitstempel („2026-08-30T15:00:00.000Z"); das Zerlegen an „-" machte
+  daraus „30T15:00:00.000Z.08.2026" in der Tagesüberschrift und in „kam am …"
+  (Daniel, 15.09.2026: „wieso so ein komisches datum format?").
+*/
 function datumKurz(iso: string): string {
-  const [j, m, t] = iso.split('-')
+  const [j, m, t] = iso.slice(0, 10).split('-')
   return `${t}.${m}.${j}`
 }
 
@@ -102,9 +108,11 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
     const jeTag = new Map<string, NewsEintrag[]>()
     for (const e of sichtbar) {
       if (filter && !e.meldungen.some((m) => m.art === filter)) continue
-      const liste = jeTag.get(e.am) ?? []
+      /* Gruppiert wird nach dem Tag, nicht nach dem Zeitstempel — sonst bekäme jede Uhrzeit ihre eigene Überschrift. */
+      const tag = e.am.slice(0, 10)
+      const liste = jeTag.get(tag) ?? []
       liste.push(e)
-      jeTag.set(e.am, liste)
+      jeTag.set(tag, liste)
     }
     return [...jeTag.entries()].sort((a, b) => b[0].localeCompare(a[0]))
   }, [sichtbar, filter])
@@ -195,7 +203,7 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
   }
 
   return (
-    <section className="mx-auto w-full max-w-3xl px-3 py-4">
+    <section className="mx-auto w-full max-w-5xl px-3 py-4">
       <h2 className="mb-2 text-lg font-semibold text-slate-800 dark:text-slate-100">{t('news.titel')}</h2>
 
       {/* Filterleiste: nur Arten, die wirklich vorkommen — ein leerer Filter ist eine Sackgasse. */}
@@ -234,7 +242,16 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
           <h3 className="sticky top-0 z-10 bg-slate-50/90 py-1 text-xs font-semibold uppercase tracking-wide text-slate-500 backdrop-blur dark:bg-slate-950/90 dark:text-slate-400">
             {tagName(tag)} <span className="font-normal normal-case opacity-60">· {liste.length}</span>
           </h3>
-          <ul className="mt-1 divide-y divide-slate-100 dark:divide-slate-800/70">
+          {/*
+            **Drei Zeilen je Eintrag, zwei Einträge nebeneinander** (Daniel,
+            15.09.2026, mit Bild: „platz reicht kaum für diese news zeile - news
+            3-zeilig machen. dann sollten auch 2 news nebeneinander passen").
+            Titel, Teil und Kurzform standen in einer Zeile, und der Teil
+            („Mononoke – The Movie: Chapter III – Der Fluch der Schlange")
+            drückte den Titel zusammen. Jetzt hat jede Angabe ihre Zeile, die Chips
+            stehen neben der Kurzform.
+          */}
+          <ul className="mt-1 grid grid-cols-1 gap-x-4 sm:grid-cols-2">
             {liste.map((e) => {
               const auf = offen.has(schluessel(e))
               const sortiert = [...e.meldungen].sort((a, b) => ARTEN.indexOf(a.art) - ARTEN.indexOf(b.art))
@@ -244,7 +261,7 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
                 ([, n]) => n > 0,
               )
               return (
-                <li key={schluessel(e)}>
+                <li key={schluessel(e)} className="min-w-0 border-b border-slate-100 dark:border-slate-800/70">
                   <button
                     type="button"
                     onClick={() => umschalten(e)}
@@ -252,59 +269,51 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
                     className="flex w-full items-center gap-2.5 py-1.5 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
                   >
                     {e.cover ? (
-                      <img src={e.cover} alt="" loading="lazy" className="h-11 w-8 shrink-0 rounded object-cover" />
+                      <img src={e.cover} alt="" loading="lazy" className="h-14 w-10 shrink-0 rounded object-cover" />
                     ) : (
-                      <span className="h-11 w-8 shrink-0 rounded bg-slate-200 dark:bg-slate-800" />
+                      <span className="h-14 w-10 shrink-0 rounded bg-slate-200 dark:bg-slate-800" />
                     )}
-                    <span className="min-w-0 flex-1">
+                    <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                      {/* Zeile 1: der Titel, allein — er ist, wonach man die Liste überfliegt. */}
+                      <span className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">{e.titel}</span>
                       {/*
-                        **Der Teil steht am Titel, nicht hinter dem Anbieter.**
+                        Zeile 2: der Teil, falls die Meldung einen bestimmten meint.
 
-                        „bei Crunchyroll · Lord of Mysteries Specials" las sich
-                        wie eine Fußnote zum Anbieter — die Meldung betrifft aber
-                        genau diesen Teil und **nicht** die Hauptserie (Daniel,
-                        12.09.2026). Ein Rahmen am Titel beantwortet die Frage
-                        beim Überfliegen; blasse Schrift am Zeilenende tut es
-                        nicht.
+                        **Der Teil steht am Titel, nicht hinter dem Anbieter.** „bei
+                        Crunchyroll · Lord of Mysteries Specials" las sich wie eine
+                        Fußnote zum Anbieter — die Meldung betrifft aber genau diesen
+                        Teil und **nicht** die Hauptserie (Daniel, 12.09.2026). Ohne
+                        Teil steht hier die Kurzform.
                       */}
-                      <span className="flex min-w-0 items-baseline gap-1.5">
-                        <span className="min-w-0 truncate text-sm font-semibold text-slate-800 dark:text-slate-100">
-                          {e.titel}
+                      {erste.teil ? (
+                        <span className="min-w-0 self-start truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
+                          {erste.teil}
                         </span>
+                      ) : (
+                        <span className="truncate text-xs text-slate-500 dark:text-slate-400">
+                          {kurz(erste)}
+                          {e.meldungen.length > 1 && (
+                            <span className="opacity-70"> · {t('news.weitere', { n: e.meldungen.length - 1 })}</span>
+                          )}
+                        </span>
+                      )}
+                      {/* Zeile 3: die Arten als Chips, mit Teil davor die Kurzform. */}
+                      <span className="flex min-w-0 items-center gap-1">
+                        {arten.map(([a, n]) => (
+                          <span key={a} className={`shrink-0 rounded px-1.5 py-px text-[11px] ${FARBE[a]}`}>
+                            {t(`news.art.${a}`)}
+                            {n > 1 && <span className="ml-1 tabular-nums opacity-70">{n}</span>}
+                          </span>
+                        ))}
                         {erste.teil && (
-                          <span className="min-w-0 shrink truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
-                            {erste.teil}
+                          <span className="min-w-0 truncate text-xs text-slate-500 dark:text-slate-400">
+                            {kurz(erste)}
+                            {e.meldungen.length > 1 && (
+                              <span className="opacity-70"> · {t('news.weitere', { n: e.meldungen.length - 1 })}</span>
+                            )}
                           </span>
                         )}
                       </span>
-                      <span className="block truncate text-xs text-slate-500 dark:text-slate-400">
-                        {kurz(erste)}
-                        {e.meldungen.length > 1 && (
-                          <span className="opacity-70"> · {t('news.weitere', { n: e.meldungen.length - 1 })}</span>
-                        )}
-                      </span>
-                    </span>
-                    {/*
-                      Auf einem schmalen Schirm ist nur für **einen** Chip Platz — dann steht
-                      dort die wichtigste Art und daneben, wie viele weitere es gibt. Die Chips
-                      ganz auszublenden hieße, auf dem Handy die Art zu verschweigen, und genau
-                      die beantwortet die Frage „muss ich hinsehen".
-                    */}
-                    <span className="flex shrink-0 items-center gap-1">
-                      {arten.map(([a, n], i) => (
-                        <span
-                          key={a}
-                          className={`rounded px-1.5 py-0.5 text-[11px] ${i > 0 ? 'hidden sm:inline' : ''} ${FARBE[a]}`}
-                        >
-                          {t(`news.art.${a}`)}
-                          {n > 1 && <span className="ml-1 tabular-nums opacity-70">{n}</span>}
-                        </span>
-                      ))}
-                      {arten.length > 1 && (
-                        <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[11px] tabular-nums text-slate-500 sm:hidden dark:bg-slate-800 dark:text-slate-400">
-                          +{arten.length - 1}
-                        </span>
-                      )}
                     </span>
                     <span
                       className={`shrink-0 pr-1 text-slate-400 transition-transform ${auf ? 'rotate-90' : ''} ${

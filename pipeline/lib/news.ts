@@ -174,11 +174,16 @@ export function baueNews(
         art: 'verspaetet',
         ...kopf(t),
         platform: r.platform,
-        datum: v.erwartetAm,
+        /*
+          Nur das Datum: Der Vermerk führt Zeitstempel, die Meldung ein Datum.
+          Durchgereicht stand „06T15:00:00.000Z.09.2026" auf der News-Seite
+          (Daniel, 15.09.2026).
+        */
+        datum: v.erwartetAm.slice(0, 10),
         von: Number(nummer),
         release: r.slug,
         /* Was inzwischen daraus wurde — leer, solange die Folge aussteht. */
-        nachgereichtAm: v.erschienenAm,
+        nachgereichtAm: v.erschienenAm?.slice(0, 10),
       })
     }
   }
