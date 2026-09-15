@@ -15385,3 +15385,31 @@
   available: false
   checkedAt: '2026-09-15'
   note: "Aniverse-Ausgabe, Staffel 1: „In deiner Region nicht mehr auf Prime Video verfügbar“ (Daniel, Bild im Durchgang). JustWatchs Aniverse-Angebot mit deutschem Ton gehört zu Staffel 3 (B0CGQ5H216). Die Crunchyroll-Kanal-Ausgabe B0BZGQZCFT ist ohne Deutsch belegt."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-15 ---
+
+- anilistId: 103275
+  title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
+  platform: netflix
+  url: https://www.netflix.com/title/81186100
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 22
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+  checkedAt: '2026-09-15'
+  note: "Folgen 1–22 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 22, dazwischen nicht geprüft — Folge 22: Grand Order"
+
+- anilistId: 180746
+  title: "Shiboyugi: Das Phantom-Mädchen im Spiel des Todes"
+  platform: netflix
+  url: https://www.netflix.com/title/82047155
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-09-15'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: L-O---E"
