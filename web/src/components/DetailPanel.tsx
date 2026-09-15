@@ -6,6 +6,7 @@ import { dubAbdeckung, dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, titleStatus, istErschienen, istAusgeblieben, releaseStatus } from '@shared/logic.ts'
+import { naechsteRecherche } from '@shared/recherche-plan.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { addDays, formatDate, monthName, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -1076,6 +1077,36 @@ function VermerkAuskunft({
   const link = 'text-sky-700 underline decoration-sky-700/30 underline-offset-2 hover:decoration-sky-700 dark:text-sky-300 dark:decoration-sky-300/30'
   const [vor, nach] = T('antwort.vermerkPruefen', { anbieter: '\u0000' }).split('\u0000')
   const zeilen: ReactNode[] = []
+  /*
+    **Wann zuletzt, wann als Nächstes — je Stufe** (Daniel, 15.09.2026: „wann war
+    das letzte mal das wir geprüft haben, und wann steht die nächste Prüfung an?
+    Offen kommunizieren"). Die nächste Recherche rechnet dieselbe Regel aus wie
+    der Lauf (`shared/recherche-plan.ts`); weil GitHub geplante Läufe oft später
+    startet, heißt es „voraussichtlich … ab".
+  */
+  const naechsteSuche = (): string | null => {
+    const n = naechsteRecherche(vermerk, new Date())
+    if (!n) return null
+    const tag = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(n)
+    const zeit = new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' }).format(n)
+    const vorn =
+      tag === today
+        ? T('antwort.relHeute')
+        : tag === addDays(today, 1)
+          ? T('antwort.relMorgen')
+          : T('antwort.amDatum', { datum: formatDate(tag) })
+    return T('antwort.naechsteVoraussichtlich', { tag: vorn, zeit })
+  }
+  const planZeile = (): string | null => {
+    if (!ausgeblieben) return null
+    const naechste = naechsteSuche()
+    if (vermerk.rechercheAm) {
+      return naechste
+        ? T('antwort.vermerkRechercheZuletzt', { wann: zeitpunktText(vermerk.rechercheAm, today, T), naechste })
+        : T('antwort.vermerkRechercheEnde')
+    }
+    return naechste ? T('antwort.vermerkRechercheStart', { naechste }) : null
+  }
   if (ausgeblieben) {
     zeilen.push(
       <>
@@ -1089,6 +1120,7 @@ function VermerkAuskunft({
         )}
         {nach}
         {vermerk.geprueftAm && ` ${T('antwort.vermerkZuletzt', { wann: zeitpunktText(vermerk.geprueftAm, today, T) })}`}
+        {` ${T('antwort.vermerkNaechsterBlick')}`}
       </>,
     )
   }
@@ -1104,7 +1136,7 @@ function VermerkAuskunft({
       )
     }
   } else if (ausgeblieben && vermerk.newsGeprueftAm) {
-    zeilen.push(T('antwort.vermerkNewsLeer'))
+    zeilen.push(T('antwort.vermerkNewsLeerStand', { wann: zeitpunktText(vermerk.newsGeprueftAm, today, T) }))
   }
   if (vermerk.recherche) {
     zeilen.push(
@@ -1123,6 +1155,8 @@ function VermerkAuskunft({
   } else if (ausgeblieben && vermerk.rechercheAm) {
     zeilen.push(T('antwort.vermerkRechercheLeer', { datum: formatDate(vermerk.rechercheAm.slice(0, 10)) }))
   }
+  const plan = planZeile()
+  if (plan) zeilen.push(plan)
   if (!zeilen.length) return null
   return (
     <div className="mt-2 space-y-0.5 border-t border-slate-200/70 pt-1.5 text-[11px] leading-snug text-slate-600 dark:border-white/10 dark:text-slate-300">

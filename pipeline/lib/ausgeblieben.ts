@@ -20,37 +20,23 @@
 const STUNDE = 36e5
 const TAG = 24 * STUNDE
 
-/** Unter diesem Verzug wird nicht recherchiert — die meisten Fälle erledigen sich vorher. */
-export const RECHERCHE_AB_MS = 6 * STUNDE
-/** Täglich in den ersten zwei Wochen … */
-export const RECHERCHE_TAKT_FRUEH_MS = 20 * STUNDE
-/** … danach wöchentlich: Wer zwei Wochen nichts meldet, meldet selten am dritten Tag. */
-export const RECHERCHE_TAKT_SPAET_MS = 6.5 * TAG
-export const RECHERCHE_SPAET_AB_MS = 14 * TAG
-/** Nach zwei Monaten ohne Folge sucht niemand mehr täglich — der Vermerk bleibt stehen. */
-export const RECHERCHE_BIS_MS = 60 * TAG
-
-export interface OffenerVermerk {
-  erwartetAm: string
-  erschienenAm?: string | null
-  rechercheAm?: string | null
-}
-
-/**
- * Ist dieser Vermerk heute eine Recherche wert?
- *
- * Die Frist hängt am Alter des Ausfalls, nicht an der Zahl der Versuche:
- * „20 Stunden" statt „24", damit ein täglicher Lauf, der mal zehn Minuten
- * früher startet, keinen Tag überspringt.
- */
-export function rechercheFaellig(v: OffenerVermerk, jetzt: Date): boolean {
-  if (v.erschienenAm) return false
-  const seit = jetzt.getTime() - new Date(v.erwartetAm).getTime()
-  if (!Number.isFinite(seit) || seit < RECHERCHE_AB_MS || seit > RECHERCHE_BIS_MS) return false
-  if (!v.rechercheAm) return true
-  const takt = seit > RECHERCHE_SPAET_AB_MS ? RECHERCHE_TAKT_SPAET_MS : RECHERCHE_TAKT_FRUEH_MS
-  return jetzt.getTime() - new Date(v.rechercheAm).getTime() >= takt
-}
+/*
+  Fristen und Fälligkeit stehen seit dem 15.09.2026 in `shared/recherche-plan.ts`:
+  Die Seite nennt dieselbe nächste Recherche, die der Lauf ansetzt (Daniel: „wann
+  steht die nächste Prüfung an? Offen kommunizieren").
+*/
+export {
+  RECHERCHE_AB_MS,
+  RECHERCHE_TAKT_FRUEH_MS,
+  RECHERCHE_TAKT_SPAET_MS,
+  RECHERCHE_SPAET_AB_MS,
+  RECHERCHE_BIS_MS,
+  rechercheFaellig,
+  naechsteRecherche,
+  type OffenerVermerk,
+} from '../../shared/recherche-plan.ts'
+void STUNDE
+void TAG
 
 const normal = (s: string): string =>
   ` ${s

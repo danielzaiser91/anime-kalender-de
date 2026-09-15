@@ -2674,6 +2674,30 @@ console.log('\nVerpasster Termin:')
   )
   pruefe('nach zwei Monaten nicht mehr', !rechercheFaellig({ erwartetAm: termin }, um('2026-11-20T11:17:00Z')))
   pruefe('nachgeliefert nie', !rechercheFaellig({ erwartetAm: termin, erschienenAm: '2026-09-14T08:30:00Z' }, um('2026-09-14T11:17:00Z')))
+  /* Die nächste Recherche, wie sie die Seite nennt (15.09.2026, „offen kommunizieren"). */
+  const { naechsteRecherche } = await import('../shared/recherche-plan.ts')
+  const naechste = (v: { erwartetAm: string; rechercheAm?: string; erschienenAm?: string }, jetzt: string) =>
+    naechsteRecherche(v, new Date(jetzt))?.toISOString() ?? null
+  pruefe(
+    'erste Suche frühestens sechs Stunden nach dem Termin, zum nächsten Lauf',
+    naechste({ erwartetAm: '2026-09-13T09:00:00Z' }, '2026-09-13T09:30:00Z') === '2026-09-14T11:17:00.000Z',
+    naechste({ erwartetAm: '2026-09-13T09:00:00Z' }, '2026-09-13T09:30:00Z'),
+  )
+  pruefe(
+    'danach täglich',
+    naechste({ erwartetAm: '2026-09-13T09:00:00Z', rechercheAm: '2026-09-14T11:17:00Z' }, '2026-09-14T12:00:00Z') === '2026-09-15T11:17:00.000Z',
+    naechste({ erwartetAm: '2026-09-13T09:00:00Z', rechercheAm: '2026-09-14T11:17:00Z' }, '2026-09-14T12:00:00Z'),
+  )
+  pruefe(
+    'nach zwei Wochen wöchentlich',
+    naechste({ erwartetAm: '2026-09-13T09:00:00Z', rechercheAm: '2026-09-29T11:17:00Z' }, '2026-09-29T12:00:00Z') === '2026-10-06T11:17:00.000Z',
+    naechste({ erwartetAm: '2026-09-13T09:00:00Z', rechercheAm: '2026-09-29T11:17:00Z' }, '2026-09-29T12:00:00Z'),
+  )
+  pruefe(
+    'nach zwei Monaten keine mehr, nachgeliefert keine',
+    naechste({ erwartetAm: '2026-09-13T09:00:00Z', rechercheAm: '2026-11-10T11:17:00Z' }, '2026-11-10T12:00:00Z') === null &&
+      naechste({ erwartetAm: '2026-09-13T09:00:00Z', erschienenAm: '2026-09-14T08:00:00Z' }, '2026-09-14T09:00:00Z') === null,
+  )
 
   /* Anime2You-Zuordnung: der ganze Name, ohne Staffelzusatz, ab acht Zeichen. */
   pruefe(
