@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-14T11:33:12.645Z",
+  "scrapedAt": "2026-09-15T09:25:42.642Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -49583,7 +49583,7 @@
       "seriesId": "G8DHV7WJP",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-12",
+      "geprueftAm": "2026-09-15",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -49660,9 +49660,9 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00377992JAJP",
-          "folgen": 10,
-          "kacheln": 10,
-          "deutsch": 10,
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 11,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -49715,6 +49715,11 @@
               "nummer": 10,
               "guid": "GE00378002DEDE",
               "verfuegbarAb": "2026-09-07T13:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GE00378003DEDE",
+              "verfuegbarAb": "2026-09-14T13:00:00Z"
             }
           ]
         }
@@ -129024,7 +129029,7 @@
       "seriesId": "G8DHV7WJP",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-12",
+      "geprueftAm": "2026-09-15",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -129101,9 +129106,9 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00377992JAJP",
-          "folgen": 10,
-          "kacheln": 10,
-          "deutsch": 10,
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 11,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -129156,6 +129161,11 @@
               "nummer": 10,
               "guid": "GE00378002DEDE",
               "verfuegbarAb": "2026-09-07T13:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GE00378003DEDE",
+              "verfuegbarAb": "2026-09-14T13:00:00Z"
             }
           ]
         }
