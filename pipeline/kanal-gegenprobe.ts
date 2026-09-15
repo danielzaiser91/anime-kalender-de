@@ -168,12 +168,19 @@ for (const b of kanalOffen) {
       !istKanalAngebot(a) &&
       (a.audio ?? []).some(deutsch),
   )
-  /* Ist die Ausgabe mit Deutsch schon belegt, gibt es nichts mehr zu suchen. */
+  /*
+    Ist die Ausgabe mit Deutsch schon belegt, gibt es nichts mehr zu suchen —
+    und ebenso wenig, wenn eine andere Ausgabe schon geprüft und als nicht
+    verfügbar belegt ist. Bungo Stray Dogs, 15.09.2026: Die Aniverse-Ausgabe von
+    Staffel 1 ist in Deutschland nicht mehr abrufbar, JustWatchs „de" gehört zu
+    Staffel 3. Ohne diese Bedingung stünde die Suche jeden Montag wieder auf der
+    Liste.
+  */
   const hatDeutscheAusgabe = belege.some(
     (x) =>
       x.anilistId === b.anilistId &&
       (x.platform ?? 'primevideo') === (b.platform ?? 'primevideo') &&
-      x.dub === true,
+      (x.dub === true || (x.available === false && Boolean(x.url) && adressKern(x.url!) !== adressKern(b.url ?? ''))),
   )
   if (andereMitDeutsch.length && !kanalMitDeutsch && !hatDeutscheAusgabe) {
     widersprueche.push({

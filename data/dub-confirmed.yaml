@@ -15376,3 +15376,12 @@
   checkedAt: '2026-09-15'
   zweiteQuelle: "Crunchyroll, von Daniel geprüft am 23.08.2026: Staffel 1 und 2 nur englische Synchro, deutsch erst Staffel 3 („1-0, 2-0, 3-12“)"
   note: "Crunchyroll-Kanal-Ausgabe. Die Kanal-Meldung vom 24.08.2026 zeigt kein Deutsch; JustWatchs „de“ beim Crunchyroll-Angebot gilt der Reihe und stammt aus Staffel 3. Daniel am 15.09.2026 im Durchgang, ohne Kanal-Abo."
+
+# --- Bungo Stray Dogs Staffel 1 bei Aniverse über Prime: nicht verfügbar, 15.09.2026 ---
+- anilistId: 21311
+  title: "Bungo Stray Dogs"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0825L839L
+  available: false
+  checkedAt: '2026-09-15'
+  note: "Aniverse-Ausgabe, Staffel 1: „In deiner Region nicht mehr auf Prime Video verfügbar“ (Daniel, Bild im Durchgang). JustWatchs Aniverse-Angebot mit deutschem Ton gehört zu Staffel 3 (B0CGQ5H216). Die Crunchyroll-Kanal-Ausgabe B0BZGQZCFT ist ohne Deutsch belegt."
