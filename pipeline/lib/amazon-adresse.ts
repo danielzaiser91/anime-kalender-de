@@ -29,5 +29,24 @@ export function echteAmazonAdresse(p: {
     Fehler, der am 25.08.2026 „Babylon" und „Akame ga Kill" unlesbar machte.
   */
   const kennung = /^Amazon-Seite ([A-Z0-9]{10,26})/.exec(p.notiz ?? '')?.[1]
-  return kennung ? `https://www.amazon.de/dp/${kennung}` : null
+  return kennung ? amazonTitelAdresse(kennung) : null
+}
+
+/**
+ * **Eine GTI gehört unter `/gp/video/detail/`, nie unter `/dp/`.**
+ *
+ * `/dp/` kennt nur zehnstellige ASINs. Haikyu!! (20464) stand am 15.09.2026 mit
+ * `amazon.de/dp/0Q6QUJIEW346VMM87OG648DPND` im Kalender, und der Klick zeigte
+ * „Suchen Sie etwas?"; dieselbe Kennung unter `/gp/video/detail/` öffnet die
+ * Staffel. Jede Stelle, die eine Prime-Adresse baut oder übernimmt, geht deshalb
+ * über diese beiden Funktionen.
+ */
+export function amazonTitelAdresse(kennung: string): string {
+  return kennung.length > 10
+    ? `https://www.amazon.de/gp/video/detail/${kennung}`
+    : `https://www.amazon.de/dp/${kennung}`
+}
+
+export function amazonAdresseRichten(url: string): string {
+  return url.replace(/^(https?:\/\/(?:www\.)?amazon\.de)\/dp\/([A-Z0-9]{11,32})(?=[/?#]|$)/i, '$1/gp/video/detail/$2')
 }

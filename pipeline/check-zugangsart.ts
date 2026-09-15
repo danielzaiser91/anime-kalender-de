@@ -238,11 +238,15 @@ console.log('\nSuchadressen behaupten kein Angebot:')
     echteAmazonAdresse({ plattform: 'primevideo', url: suche, notiz: 'Amazon-Seite B000W9GBW6: 26 Folgen geprüft' }) ===
       'https://www.amazon.de/dp/B000W9GBW6',
   )
-  /* Prime Video führt neben zehnstelligen ASINs auch GTIs mit 26 Zeichen. */
+  /*
+    Prime Video führt neben zehnstelligen ASINs auch GTIs mit 26 Zeichen — und
+    die gelten nur unter `/gp/video/detail/` (Haikyu!!, 15.09.2026: `/dp/<GTI>`
+    zeigte „Suchen Sie etwas?").
+  */
   pruefe(
-    'eine lange Kennung (GTI) wird nicht abgeschnitten',
+    'eine lange Kennung (GTI) wird nicht abgeschnitten und steht unter /gp/video/detail/',
     echteAmazonAdresse({ plattform: 'primevideo', url: suche, notiz: 'Amazon-Seite 0J16B1NAB82TO0O5A5Q8TLG1VP: geprüft' }) ===
-      'https://www.amazon.de/dp/0J16B1NAB82TO0O5A5Q8TLG1VP',
+      'https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP',
   )
   pruefe(
     'ein echter Titelverweis wird nicht angefasst',

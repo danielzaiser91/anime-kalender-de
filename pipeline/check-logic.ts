@@ -2793,6 +2793,29 @@ console.log('\nStaffel und Teil zählen:')
   Ein Beleg **ohne** Adresse gilt dem Anbieter und muss weiter alles sperren —
   sonst überschreibt eine Meldung ein geprüftes Nein.
 */
+/*
+  Haikyu!! (20464), 15.09.2026: `amazon.de/dp/0Q6QUJIEW346VMM87OG648DPND` zeigte
+  „Suchen Sie etwas?". Eine GTI gilt nur unter `/gp/video/detail/`.
+*/
+console.log('\nPrime: eine GTI steht nie unter /dp/:')
+{
+  const { amazonAdresseRichten, amazonTitelAdresse } = await import('./lib/amazon-adresse.ts')
+  pruefe(
+    'eine GTI unter /dp/ wird auf /gp/video/detail/ gerichtet',
+    amazonAdresseRichten('https://www.amazon.de/dp/0Q6QUJIEW346VMM87OG648DPND') ===
+      'https://www.amazon.de/gp/video/detail/0Q6QUJIEW346VMM87OG648DPND',
+  )
+  pruefe(
+    'eine ASIN bleibt unter /dp/',
+    amazonAdresseRichten('https://www.amazon.de/dp/B0D4K9PV2F') === 'https://www.amazon.de/dp/B0D4K9PV2F' &&
+      amazonTitelAdresse('B0D4K9PV2F') === 'https://www.amazon.de/dp/B0D4K9PV2F',
+  )
+  pruefe(
+    'der Bau baut keine /dp/-Adresse mehr von Hand',
+    !/amazon\.de\/dp\/\$\{/.test(readFileSync('pipeline/build.ts', 'utf8')),
+  )
+}
+
 console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 {
   const bau = readFileSync('pipeline/build.ts', 'utf8')
@@ -2803,7 +2826,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     '… sondern vergleicht die Adresse des Belegs',
-    /if \(beleg && \(!beleg\.url \|\| beleg\.url === seite\)\) continue/.test(bau),
+    /if \(beleg && \(!beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\)\)\) continue/.test(bau),
     'der Adressvergleich fehlt',
   )
   pruefe(

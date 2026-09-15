@@ -5082,10 +5082,17 @@ async function speicherSchreiben(werte) {
    * ist (CLAUDE.md, „Ein Helfer im Modulscope ist eine `function`").
    */
   function gemeldetKurz(asinEintrag) {
-    const nummern = Object.keys(staffelnDerSerie(asinEintrag))
+    /*
+      **Die Marke sagt, was unter diesem Eintrag gemeldet ist — nicht in der Reihe.**
+
+      Free!, 15.09.2026: Eine Seite mit einer Staffel trug „S1, S2, S3 gemeldet",
+      weil hier `staffelnDerSerie()` über alle Einträge derselben Serie las. Für
+      den Fortschritt der Reihe ist das richtig (`fortschritt()`), für die Marke
+      eines Eintrags nicht.
+    */
+    const nummern = Object.keys(erledigt[asinEintrag]?.staffeln ?? {})
     if (!nummern.length) return ''
-    const folgen = {}
-    for (const k of serienGefaehrten(asinEintrag)) Object.assign(folgen, erledigt[k]?.folgen ?? {})
+    const folgen = { ...(erledigt[asinEintrag]?.folgen ?? {}) }
     const teile = nummern
       .map((nr) => {
         const name = nr === 'ohne Nummer' ? '' : `S${nr}`

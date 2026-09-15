@@ -69,6 +69,7 @@ import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { buildIcs } from '../shared/ics.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
+import { amazonAdresseRichten, amazonTitelAdresse } from './lib/amazon-adresse.ts'
 import { netflixAdresseTaugt } from '../shared/netflix-adresse-pruefung.ts'
 import {
   meldungenAus,
@@ -3520,11 +3521,11 @@ function main(): void {
         plattform !== 'primevideo'
           ? gemeldeteAdresse
           : /amazon\.[a-z.]+\/(?:dp|gp\/video\/detail)\//i.test(gemeldeteAdresse)
-            ? gemeldeteAdresse
+            ? amazonAdresseRichten(gemeldeteAdresse)
             : eintrag.asin
-              ? `https://www.amazon.de/dp/${eintrag.asin}`
+              ? amazonTitelAdresse(eintrag.asin)
               : null
-      if (beleg && (!beleg.url || beleg.url === seite)) continue
+      if (beleg && (!beleg.url || adressGleich(beleg.url, seite ?? undefined))) continue
       const deutsch = eintrag.folgen.some((f) => f.sprachen.includes('Deutsch'))
       if (!deutsch) continue
 
@@ -3746,7 +3747,7 @@ function main(): void {
         const kennung = /amazon\.[a-z.]+\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,})/i.exec(
           String(quelle.url ?? ''),
         )?.[1]
-        if (kennung && notizen.includes(kennung)) return `https://www.amazon.de/dp/${kennung}`
+        if (kennung && notizen.includes(kennung)) return amazonTitelAdresse(kennung)
       }
       return undefined
     }
