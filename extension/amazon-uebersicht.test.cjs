@@ -1409,7 +1409,8 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       )
       pruefe(
         '… und wer sie setzt, merkt sich den Pfad',
-        /gemeldetFuerPfad = location\.pathname[\s\S]{0,40}gemeldetMarke\(true\)/.test(quelle),
+        /* Seit 4.20.20 hat „alles gemeldet" einen eigenen Merker (`durchFuerPfad`), der wieder fällt. */
+        /durchFuerPfad = location\.pathname[\s\S]{0,40}gemeldetMarke\(true\)/.test(quelle),
         'der Merker wird nicht zusammen mit der Marke gesetzt',
       )
       pruefe(

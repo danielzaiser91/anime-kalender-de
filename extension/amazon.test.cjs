@@ -390,7 +390,10 @@ function veraltetTest(schritte) {
   pruefe('der Empfaenger prueft die Adresse', /e\.data\.fuerAdresse !== location\.pathname/.test(quelle))
   /* Free!, 15.09.2026: „S1, S2, S3 gemeldet" auf einer Seite mit einer Staffel. */
   const kurz = /function gemeldetKurz\(asinEintrag\) \{[\s\S]*?\n  \}/.exec(quelle)?.[0] ?? ''
-  pruefe('die Listen-Marke liest nur den eigenen Eintrag, nicht die Reihe', kurz.length > 0 && !/staffelnDerSerie|serienGefaehrten/.test(kurz.replace(/\/\*[\s\S]*?\*\//g, '')))
+  /* Solo Leveling, 15.09.2026: „gemeldet ✓" aus den ersten Sekunden blieb neben dem Melde-Knopf stehen. */
+  pruefe('„alles gemeldet" verlangt Antworten von Stand und Briefkasten', /const datenDa = standZiele !== null && briefkastenSeiten !== null/.test(quelle) && /datenDa && Boolean\(abgehakt\)/.test(quelle))
+  pruefe('die Marke aus „alles gemeldet" fällt, sobald er nicht mehr gilt', /if \(!alleDurch && durchFuerPfad === location\.pathname\) durchFuerPfad = null/.test(quelle))
+  pruefe('die Listen-Marke liest nur den eigenen Eintrag, nicht die Reihe',kurz.length > 0 && !/staffelnDerSerie|serienGefaehrten/.test(kurz.replace(/\/\*[\s\S]*?\*\//g, '')))
   const leser = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon-leser.js'), 'utf8')
   /*
     **Gezählt wird nicht, verglichen wird.**

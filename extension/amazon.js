@@ -3408,6 +3408,16 @@ async function speicherSchreiben(werte) {
    * nicht überleben, wohl aber das Umschreiben der Adresse.
    */
   let gemeldetFuerPfad = null
+  /*
+    **Die Marke aus „alles gemeldet" hat ihren eigenen Merker (15.09.2026).**
+    Solo Leveling: In den ersten Sekunden fehlten Stand und Briefkasten, die
+    Rechnung hielt den Titel wegen einer lokalen Meldung von 11:07 für erledigt
+    und merkte sich den Pfad in `gemeldetFuerPfad`. Danach war die Seite laut
+    Stand offen, der Melde-Knopf erschien — und „gemeldet ✓" blieb daneben
+    stehen, weil nichts den Merker zurücknahm. Dieser hier fällt, sobald
+    „alles gemeldet" nicht mehr gilt; der für die eigene Meldung bleibt.
+  */
+  let durchFuerPfad = null
 
   function zeigeSuchhinweis() {
     /*
@@ -6981,7 +6991,7 @@ async function speicherSchreiben(werte) {
       bei jedem Titel; die Marke wäre zwei Sekunden nach der Meldung wieder weg.
       Der Merker verschwindet mit dem Titel, denn er hängt am Pfad.
     */
-    gemeldetMarke(gemeldetFuerPfad === location.pathname)
+    gemeldetMarke(gemeldetFuerPfad === location.pathname || durchFuerPfad === location.pathname)
 
     /*
       **Solange Adresse und Quelltext verschiedene Staffeln nennen, wird nicht
@@ -7964,7 +7974,15 @@ async function speicherSchreiben(werte) {
       Ein Riegel, der an zwei von drei Stellen sitzt, ist keiner (dieselbe Lehre
       wie bei der Wiedervorlage am 01.09.2026).
     */
-    const alleDurch = Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen && !seiteOffen()
+    /*
+      **Ohne Antwort von Stand und Briefkasten gilt nichts als erledigt.** Vorher
+      fiel `fertig()` auf Meldungen aller Zeiten zurück und `seiteOffen()` auf
+      „nicht offen" — genau in den ersten Sekunden nach dem Laden.
+    */
+    const datenDa = standZiele !== null && briefkastenSeiten !== null
+    const alleDurch =
+      datenDa && Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen && !seiteOffen()
+    if (!alleDurch && durchFuerPfad === location.pathname) durchFuerPfad = null
 
     /**
      * Alles durch — dann gibt es hier nichts mehr zu tun.
@@ -8020,7 +8038,7 @@ async function speicherSchreiben(werte) {
         laufen garantiert auseinander. Es gibt jetzt nur noch eine Quelle: den
         Pfad-Merker. Wer die Marke will, setzt ihn — angezeigt wird sie oben.
       */
-      gemeldetFuerPfad = location.pathname
+      durchFuerPfad = location.pathname
       gemeldetMarke(true)
       return
     }
