@@ -161,6 +161,45 @@ for (const b of kanalOffen) {
   const schluessel = beurteiltSchluessel(b)
   if (gesehen.has(schluessel)) continue
   const eintrag = jw[String(b.anilistId)]
+  const kanaele = (/Abos: ([^—]*?)(?:, zugang=|, Seitenadresse|\s—|$)/.exec(b.note ?? '')?.[1] ?? '')
+    .split(/,\s*/)
+    .map((a) => a.trim().toLowerCase().replace(/de$/, ''))
+    .filter((a) => a && a !== 'prime' && a !== 'keine angabe')
+  /*
+    **Die erste zweite Quelle ist der Kanal-Anbieter selbst.**
+
+    Free!, 15.09.2026: Die Meldung kam vom Crunchyroll-Kanal ohne Deutsch, JustWatch
+    nennt beim Crunchyroll-Angebot „de" — aber für die ganze Reihe, und das Deutsch
+    gehört zu Staffel 3. Für Staffel 1 hatte Daniel bei Crunchyroll selbst „kein
+    Deutsch" belegt (23.08.). Ein Handbeleg beim Anbieter des Kanals meint genau
+    diesen Titel und schlägt die Reihenangabe von JustWatch. Sagt er Nein, ist die
+    Kanal-Meldung belegt; sagt er Ja, bleibt es beim Vergleich unten.
+  */
+  const plattformDesKanals: Record<string, string> = { crunchyroll: 'crunchyroll', aniverse: 'aniverse', animedigital: 'adn' }
+  const beimAnbieter = belege.filter(
+    (x) =>
+      x.anilistId === b.anilistId &&
+      kanaele.some((k) => plattformDesKanals[k] === x.platform) &&
+      typeof x.dub === 'boolean',
+  )
+  if (beimAnbieter.length && !beimAnbieter.some((x) => x.dub === true)) {
+    gesehen.add(schluessel)
+    const quelle = beimAnbieter[beimAnbieter.length - 1]!
+    neu.push(
+      [
+        `- anilistId: ${b.anilistId}`,
+        `  title: ${JSON.stringify(b.title ?? String(b.anilistId))}`,
+        `  platform: ${b.platform ?? 'primevideo'}`,
+        ...(b.url ? [`  url: ${b.url}`] : []),
+        '  dub: false',
+        `  checkedAt: '${heute}'`,
+        `  zweiteQuelle: ${JSON.stringify(`Handbeleg ${quelle.platform} ${quelle.checkedAt ?? ''}: kein deutscher Ton`)}`,
+        `  note: ${JSON.stringify('Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und der Handbeleg beim Anbieter des Kanals für denselben Titel.')}`,
+      ].join('\n'),
+    )
+    log(`  – ${b.anilistId} ${(b.title ?? '').slice(0, 40).padEnd(40)} Handbeleg ${quelle.platform} ${quelle.checkedAt ?? ''}`)
+    continue
+  }
   const mitTon = (eintrag?.angebote ?? []).filter((a) => Array.isArray(a.audio) && a.audio.length)
   if (!mitTon.length) {
     ohneQuelle++
@@ -184,10 +223,6 @@ for (const b of kanalOffen) {
     - ein anderes Amazon-Angebot mit Deutsch → zweite Ausgabe, die über die
       Prüfliste gesucht wird
   */
-  const kanaele = (/Abos: ([^—]*?)(?:, zugang=|, Seitenadresse|\s—|$)/.exec(b.note ?? '')?.[1] ?? '')
-    .split(/,\s*/)
-    .map((a) => a.trim().toLowerCase().replace(/de$/, ''))
-    .filter((a) => a && a !== 'prime' && a !== 'keine angabe')
   const istKanalAngebot = (a: Angebot) =>
     /amazon channel/i.test(a.anbieter ?? '') &&
     kanaele.some((k) => (a.anbieter ?? '').toLowerCase().replace(/\s+/g, '').startsWith(k))
