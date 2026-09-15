@@ -479,6 +479,9 @@ const TEXTE = {
   // die interessantere Auskunft: Die Reihe fängt an.
   'antwort.ersteFolgeNr': 'Erste Folge (Folge {n})',
   'antwort.ersteFolge': 'Erste Folge',
+  // Nur noch diese eine steht aus (Daniel, 15.09.2026).
+  'antwort.finaleFolgeNr': 'Finale Folge (Folge {n})',
+  'antwort.finaleFolge': 'Finale Folge',
   'antwort.erscheintRelativ': 'erscheint {rel}, am {tag} den {datum}.',
   // Ab einer Woche Abstand rechnet niemand mehr in Tagen — dann trägt das
   // Datum allein.

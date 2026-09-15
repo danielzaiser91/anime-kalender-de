@@ -378,7 +378,12 @@ function AntwortKasten({
       dieselbe Auskunft doppelt.
     */
     const rel = relativImSatz(e.date)
-    const wasKommt = antwort.raus === 0 ? 'erste' : 'naechste'
+    /*
+      **Die letzte Folge heißt so, wie sie ist** (Daniel, 15.09.2026: „statt
+      nächste - finale folge, wenn letzte folge der staffel"). `rest` zählt die
+      kommende Folge mit; steht nur sie noch aus, ist sie das Finale.
+    */
+    const wasKommt = antwort.raus === 0 ? 'erste' : antwort.rest === 1 ? 'finale' : 'naechste'
     const kopf = e.episode
       ? T(`antwort.${wasKommt}FolgeNr`, { n: e.episode })
       : T(`antwort.${wasKommt}Folge`)
@@ -467,7 +472,10 @@ function AntwortKasten({
       */
       antwort.letzter && antwort.rest > 1
         ? T('antwort.nochFolgen', { count: antwort.rest, datum: formatDate(antwort.letzter) })
-        : T('antwort.letzteFolge'),
+        : /* Steht „Finale Folge" schon in der Überschrift, wäre „letzte Folge" hier dieselbe Auskunft zweimal. */
+          antwort.raus === 0
+          ? T('antwort.letzteFolge')
+          : null,
       antwort.verschobenVon && T('antwort.verschobenVon', { datum: formatDate(antwort.verschobenVon) }),
     ]
       .filter(Boolean)
