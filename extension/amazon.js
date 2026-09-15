@@ -6793,7 +6793,25 @@ async function speicherSchreiben(werte) {
           gültigem JSON; sie hier wegzuwerfen hieße, sie später ein zweites Mal
           abzurufen.
         */
-        gesehen.jeFolge.set(f.nummer, f.sprachen ?? [])
+        /*
+          **Eine leere Tonspurliste überschreibt keine gefüllte.**
+
+          Daniel am 15.09.2026 an Bungo Stray Dogs Staffel 3 (Aniverse-Kanal,
+          ohne Abo), mit Bericht: Die Seitendaten meldeten zwölf Folgen mit
+          Deutsch, der Knopf stand auf „🇩🇪 Deutsch". 0,54 s später kam der
+          Folgen-Abruf mit denselben zwölf Folgen und **leeren** `audioTracks`,
+          und der Knopf fiel auf „✕ kein Deutsch". Beim Laden davor kamen die
+          beiden Antworten andersherum an — Ergebnis „Deutsch". Ein Wettlauf,
+          und der Verlierer war die Auskunft.
+
+          Leer heißt „nichts gesagt" (Kanal ohne Abo, gesperrte Folge), nicht
+          „kein Deutsch" — dieselbe Unterscheidung wie bei `verfuegbar: false`
+          darüber.
+        */
+        const neueSpuren = f.sprachen ?? []
+        if (neueSpuren.length || !gesehen.jeFolge.get(f.nummer)?.length) {
+          gesehen.jeFolge.set(f.nummer, neueSpuren)
+        }
         gesehen.metaJeFolge ??= new Map()
         gesehen.metaJeFolge.set(f.nummer, f)
       }

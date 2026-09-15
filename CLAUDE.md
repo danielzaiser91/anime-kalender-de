@@ -546,6 +546,17 @@ der Antwort und reicht den Quelltext an `amazon.js` weiter — ein Abruf statt z
 **Wer eine veraltete Quelle ersetzt, sucht jeden Leser dieser Quelle** — hier waren es zwei
 Welten (Content-Skript und Seitenskript), die denselben Block unabhängig lasen.
 
+**Eine leere Tonspurliste ist Schweigen — auch zwischen zwei eigenen Quellen.** Minuten
+später, Staffel 3 frisch geladen: „✕ kein Deutsch", obwohl dieselbe Seite eben noch „Deutsch"
+zeigte. Der zweite Bericht: Die Seitendaten meldeten zwölf Folgen mit Deutsch, 0,54 s danach
+lieferte `getDetailWidgets` dieselben Folgen mit **leeren** `audioTracks` (Aniverse-Kanal ohne
+Abo) und überschrieb die Liste. Beim Laden davor kamen beide Antworten andersherum an. Seit
+4.20.10 überschreibt eine leere Liste keine gefüllte. Die Regel „aus Schweigen folgt kein Nein"
+galt bisher für fremde Quellen; sie gilt genauso, wenn zwei Abrufe desselben Anbieters
+nacheinander eintreffen. **Ein Befund, der von der Ankunftsreihenfolge abhängt, ist ein
+Wettlauf — Prüfgriff: denselben Bericht zweimal ziehen und die Reihenfolge im Tagebuch
+vergleichen.**
+
 **Was das an einem Abend gekostet hat**, gehört dazu: ein Dutzend Fehler, die alle wie
 verschiedene Fehler aussahen — falsche Folgenzahl, verschluckte Meldungen, „nicht abrufbar"
 bei vorhandenen Titeln, hängende Knöpfe. Dagegen wurden nacheinander sechs Wächter gebaut
