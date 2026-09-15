@@ -1771,26 +1771,22 @@ async function speicherSchreiben(werte) {
    * 202 Verweise mit geratener Zugangsart, ein weiterer hilft niemandem.
    */
   /*
-    Zwischengespeichert werden nur die Kaufhinweise aus dem Text — sie hängen am
-    Quelltext. Die Abos kommen seit dem 15.09.2026 aus dem Schnappschuss des
-    Lesers und werden je Aufruf frisch gefragt; ein Speicher am Quelltext-Stempel
-    bemerkte einen neuen Schnappschuss nicht.
+    **Seit dem 15.09.2026 (Umbau Phase 2) aus dem Schnappschuss.** Kauf und Leihe
+    kamen per Muster aus dem sichtbaren Seitentext („Als Kauftitel verfügbar",
+    „Kaufen HD"); der Leser liest sie jetzt aus dem Aktionsblock (`seite.kaufbar`,
+    `seite.leihbar`, gemessen an `B0CVQW43HC`). Vor dem ersten Schnappschuss wird
+    nichts behauptet.
   */
-  let kaufSpeicher = null
-  let kaufZu = -1
   function zugangsart() {
-    const text = seitenHtml()
-    if (kaufZu !== htmlGelesenAm || kaufSpeicher === null) {
-      kaufSpeicher = {
-        kauf:
-          /Als Kauf-?\s*(oder Leihtitel|titel)\s*verfügbar/i.test(text) ||
-          /(Folge|Staffel)\s+\d+\s+kaufen/i.test(text) ||
-          /Kaufen\s+(SD|HD|UHD)\b/.test(text),
-        leihe: /Als Kauf- oder Leihtitel verfügbar/i.test(text) || /Leihen\s+(SD|HD|UHD)\b/.test(text),
-      }
-      kaufZu = htmlGelesenAm
+    let s = null
+    try {
+      s = gesehen?.seite ?? null
+    } catch {
+      return null
     }
-    const { kauf, leihe } = kaufSpeicher
+    if (!s) return null
+    const kauf = Boolean(s.kaufbar)
+    const leihe = Boolean(s.leihbar)
     const abo = abos().length > 0
     return abo && kauf ? 'abo_und_kauf' : abo ? 'abo' : kauf ? (leihe ? 'kauf_oder_leihe' : 'kauf') : null
   }

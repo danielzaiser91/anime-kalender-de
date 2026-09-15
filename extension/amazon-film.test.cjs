@@ -166,6 +166,28 @@ const ohneKopf = sandkasten.__ausHydration(
     },
   }),
 )
+/* Kaufausgabe B0CVQW43HC, 15.09.2026: TRANSACT und „Als Kauftitel verfügbar" im Aktionsblock. */
+const kaufSeite = (texte) =>
+  sandkasten.__ausHydration(
+    JSON.stringify({
+      init: {
+        preparations: {
+          body: {
+            atf: {
+              state: {
+                pageTitleId: 'B0KAUF0001',
+                detail: { headerDetail: { B0KAUF0001: { entityType: 'TV Show', title: 'Kaufstaffel', audioTracks: ['Deutsch'] } } },
+                action: { atf: { B0KAUF0001: { primaryActions: [{ actionType: 'TRANSACT', label: { string: texte } }] } } },
+              },
+            },
+          },
+        },
+      },
+    }),
+  )
+pruefe('eine Kaufseite ist kaufbar, nicht leihbar', kaufSeite('Als Kauftitel verfügbar')?.kaufbar === true && kaufSeite('Als Kauftitel verfügbar')?.leihbar === false)
+pruefe('„Als Kauf- oder Leihtitel verfügbar" ist beides', kaufSeite('Als Kauf- oder Leihtitel verfügbar')?.leihbar === true)
+pruefe('Avatar (Paramount+-Kanal) ist nicht kaufbar', film?.kaufbar === false, film?.kaufbar)
 pruefe(
   'ein leeres headerDetail fällt auf detail.detail zurück',
   ohneKopf?.art === 'Movie' && (ohneKopf?.sprachen ?? []).includes('Deutsch'),

@@ -581,6 +581,13 @@ echten Digimon-Antwort, `amazon.test.cjs` hält fest: eine Sendestelle, ein neue
 Wechsel, keine Hooks auf `fetch`/XHR. Phase 2 räumt die Stellen in `amazon.js` auf, die Angaben
 weiterhin selbst aus dem Quelltext ziehen (Liste in `status.md`).
 
+**Phase 2 ist am 15.09.2026 abgeschlossen (4.20.15–4.20.19).** Aus dem Schnappschuss kommen
+jetzt Tonspuren, Film, Kennung, Staffel, Abos (`seite.zugaenge`) sowie Kauf und Leihe
+(`seite.kaufbar`/`leihbar` aus `actionType: TRANSACT` im Aktionsblock). Gestrichen sind
+`spuren()`, `sprachnamen()`, `teilBereich` und das zweite Parsen in `filmAusSeite()`. Die
+Quelltext-Wächter bleiben bewusst: Sie bewachen nur noch, was wirklich aus dem Seitentext
+kommt (Titel-Rückfälle, Zahl über der Liste).
+
 **Ein Rückfall verdeckt die Fehler der Quelle, die er ersetzt.** Phase 2 (15.09.2026) nahm
 `staffelAusSeite()` den Muster-Rückfall — und zwei Zusicherungen wurden rot, weil
 `beiStaffelwechsel()` die Staffelnummer aus dem Schnappschuss sofort wieder leerte:

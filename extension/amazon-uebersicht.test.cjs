@@ -220,8 +220,12 @@ function machDom(traeger = { hoerer: null, fenster: null, adresse: null }) {
         const zugaenge = [...new Set([...wert.matchAll(/"benefitId"\s*:\s*"([^"]+)"/g)].map((m) => m[1]))]
         /* Kennung und Staffel ebenso — `asinAusSeite()` und `staffelAusSeite()` suchen nicht mehr selbst. */
         const staffel = Number(/"seasonNumber\\*"\s*:\s*(\d+)/.exec(wert)?.[1]) || null
+        const kaufbar = /Als Kauf-?\s*(oder Leihtitel|titel)\s*verfügbar|(Folge|Staffel)\s+\d+\s+kaufen|Kaufen\s+(SD|HD|UHD)\b/i.test(wert)
+        const leihbar = /Leihtitel|Leihen\s+(SD|HD|UHD)\b/.test(wert)
         const seite = {
           ...(zugaenge.length ? { zugaenge } : {}),
+          ...(kaufbar ? { kaufbar } : {}),
+          ...(leihbar ? { leihbar } : {}),
           ...(asin ? { kennung: asin } : {}),
           ...(staffel ? { staffel } : {}),
         }

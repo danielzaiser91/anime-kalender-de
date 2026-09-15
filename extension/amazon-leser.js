@@ -188,6 +188,14 @@
       studios: Array.isArray(kopf.studios) ? kopf.studios : [],
       genres: (kopf.genres ?? []).map((g) => g?.text).filter(Boolean),
       zugaenge: zugaengeAus(oben.action),
+      /*
+        **Kauf und Leihe stehen ebenfalls im Aktionsblock** — gemessen am
+        15.09.2026 an der Kaufausgabe `B0CVQW43HC`: `actionType: "TRANSACT"` und
+        der Text „Als Kauftitel verfügbar". Bisher las `amazon.js` beides per
+        Muster aus dem sichtbaren Seitentext.
+      */
+      kaufbar: /"actionType":"TRANSACT"/.test(JSON.stringify(oben.action ?? {})),
+      leihbar: /Leihtitel|Leihen\b/.test(JSON.stringify(oben.action ?? {})),
       fsk: oben.metadata?.[kennung]?.maturityRating?.displayText ?? kopf.ratingBadge?.displayText ?? null,
       bild: kopf.images?.covershot ?? null,
       imdb: oben.imdb?.[kennung]?.score ?? null,
