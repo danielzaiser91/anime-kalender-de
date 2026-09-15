@@ -17,6 +17,27 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260909T160000Z
+DTEND:20260909T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 9/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260916T160000Z
+DTEND:20260916T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1419@2026-09-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260917T070000Z
@@ -25,6 +46,28 @@ SUMMARY:SERVAMP
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1419
 CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260923T160000Z
+DTEND:20260923T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T160000Z
+DTEND:20260930T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:my-love-story-with-yamada-kun-vol2@2026-10-02@anime-kalender-de
@@ -36,6 +79,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-love
  -story-with-yamada-kun-vol2
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T160000Z
+DTEND:20261007T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-147103-netflix@2026-10-25@anime-kalender-de

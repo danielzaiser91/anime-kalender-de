@@ -6,6 +6,18 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Politics
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:ghost-in-the-shell-2026@2026-09-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260908
+DTEND;VALUE=DATE:20260909
+SUMMARY:The Ghost in the Shell – Folge 10/10
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Woche
+ nrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/g
+ host-in-the-shell-2026
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T120000Z
@@ -23,6 +35,16 @@ DTEND:20260909T140000Z
 SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-09-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260909T153000Z
+DTEND:20260909T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 7/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -88,6 +110,17 @@ SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-09-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260916T153000Z
+DTEND:20260916T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 8/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -193,6 +226,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-09-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260923T153000Z
+DTEND:20260923T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 9/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-09-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T150000Z
@@ -269,6 +313,17 @@ SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 10/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T153000Z
+DTEND:20260930T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -352,6 +407,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T153000Z
+DTEND:20261007T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:apothecary-diaries-s3-cour1@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261008
@@ -429,6 +495,17 @@ SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
  schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
  ails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T153000Z
+DTEND:20261014T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
