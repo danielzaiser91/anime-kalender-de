@@ -390,6 +390,12 @@ function veraltetTest(schritte) {
   pruefe('der Empfaenger prueft die Adresse', /e\.data\.fuerAdresse !== location\.pathname/.test(quelle))
   /* Free!, 15.09.2026: „S1, S2, S3 gemeldet" auf einer Seite mit einer Staffel. */
   const kurz = /function gemeldetKurz\(asinEintrag\) \{[\s\S]*?\n  \}/.exec(quelle)?.[0] ?? ''
+  /* Touken Ranbu, 15.09.2026: Die bestätigte Auswahl kam nach dem ersten Zeichnen und löste keins mehr aus. */
+  pruefe(
+    'das Eintreffen der bestätigten Auswahl zeichnet den Kasten neu',
+    /kasten\.dataset\.beiErwartungen = briefkastenErwartungen \? 'da' : 'fehlt'/.test(quelle) &&
+      /andereAdresse \|\| andereFolgen \|\| andereErwartungen/.test(quelle),
+  )
   /* Solo Leveling, 15.09.2026: „gemeldet ✓" aus den ersten Sekunden blieb neben dem Melde-Knopf stehen. */
   pruefe('„alles gemeldet" verlangt Antworten von Stand und Briefkasten', /const datenDa = standZiele !== null && briefkastenSeiten !== null/.test(quelle) && /datenDa && Boolean\(abgehakt\)/.test(quelle))
   pruefe('die Marke aus „alles gemeldet" fällt, sobald er nicht mehr gilt', /if \(!alleDurch && durchFuerPfad === location\.pathname\) durchFuerPfad = null/.test(quelle))

@@ -2941,6 +2941,15 @@ async function speicherSchreiben(werte) {
     } catch {
       kasten.dataset.beiFolgen = '0'
     }
+    /*
+      **Und zu einem Stand der bestätigten Auswahl (15.09.2026).** Touken Ranbu:
+      Im neuen Tab entstand der Kasten, bevor der Worker die Auswahl geliefert
+      hatte — beide Ausgaben vorgekreuzt, „Auswahl bestätigen". Neu gezeichnet
+      wurde nur bei neuer Adresse oder Folgenzahl, also nie. Beim Neuladen kam
+      die Antwort zufällig früher. Das Eintreffen der Auswahl ist jetzt selbst
+      ein Anlass.
+    */
+    kasten.dataset.beiErwartungen = briefkastenErwartungen ? 'da' : 'fehlt'
     kasten.classList.remove('ak-nur-huelle')
 
     /*
@@ -9581,7 +9590,8 @@ async function speicherSchreiben(werte) {
       } catch {
         /* Kein Zählstand — dann bleibt es beim Adressvergleich. */
       }
-      if (andereAdresse || andereFolgen) {
+      const andereErwartungen = alterHinweis.dataset.beiErwartungen !== (briefkastenErwartungen ? 'da' : 'fehlt')
+      if (andereAdresse || andereFolgen || andereErwartungen) {
         /*
           Neu **gezeichnet**, nicht abgerissen. Bis 4.11.0 stand hier ein
           `remove()`, und der folgende Aufruf baute den Kasten von vorn — im
