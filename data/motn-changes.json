@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 33
+    "2026-09": 35
   },
   "gesehen": {
     "26341901:netflix": {
@@ -3959,7 +3959,47 @@
       "dienst": "netflix",
       "am": "2026-09-13",
       "deutsch": false
+    },
+    "new:26596763:disney": {
+      "art": "new",
+      "titel": "Welcome to the Family: The Murder of Dan Markel",
+      "originalTitel": "Welcome to the Family: The Murder of Dan Markel",
+      "imdbId": "tt44842745",
+      "tmdbId": "tv/333058",
+      "dienst": "disney",
+      "am": "2026-09-15",
+      "deutsch": false
+    },
+    "new:5124:disney": {
+      "art": "new",
+      "titel": "The God of High School",
+      "originalTitel": "THE GOD OF HIGH SCHOOL ゴッド・オブ・ハイスクール",
+      "imdbId": "tt12227418",
+      "tmdbId": "tv/99778",
+      "dienst": "disney",
+      "am": "2026-09-15",
+      "deutsch": true
+    },
+    "new:26598260:disney": {
+      "art": "new",
+      "titel": "Locker Diaries: Descendants",
+      "originalTitel": "Locker Diaries: Descendants",
+      "imdbId": "tt41880577",
+      "tmdbId": "tv/317374",
+      "dienst": "disney",
+      "am": "2026-09-15",
+      "deutsch": true
+    },
+    "new:692:netflix": {
+      "art": "new",
+      "titel": "The Tudors",
+      "originalTitel": "The Tudors",
+      "imdbId": "tt0758790",
+      "tmdbId": "tv/2942",
+      "dienst": "netflix",
+      "am": "2026-09-15",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-09-15T09:26:36.898Z"
+  "fetchedAt": "2026-09-15T19:40:27.141Z"
 }
