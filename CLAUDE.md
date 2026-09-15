@@ -557,6 +557,17 @@ nacheinander eintreffen. **Ein Befund, der von der Ankunftsreihenfolge abhängt,
 Wettlauf — Prüfgriff: denselben Bericht zweimal ziehen und die Reihenfolge im Tagebuch
 vergleichen.**
 
+**Und die Frage dahinter stellt Daniel, nicht der dritte Fix.** Daniel am 15.09.2026 nach drei
+Anläufen an einem Vormittag: „warum ist das so kompliziert … es ist ein simples scraping …
+mitbekommen wann ein wechsel passiert, bisherige scraping data entsprechend zurücksetzen und
+scraping erneut starten … ich versteh nicht wo die schwierigkeit oder komplexität sein soll."
+Die Schwierigkeit lag nicht bei Amazon, sondern im Aufbau: Mehrere Quellen (DOM-Block,
+Quelltext-Muster, `getDetailWidgets`, nachgeholte Seite) schreiben in **einen** Zählstand, und
+jede Fehlerrunde seit dem 24.08. hat einen Wächter dazugebaut statt eine Quelle wegzunehmen.
+**Prüffrage vor jedem weiteren Fix an der Amazon-Erweiterung: Entsteht der Fehler, weil zwei
+Quellen dasselbe beantworten?** Dann ist der Fix, eine davon zu streichen — nicht, eine
+Vorrangregel zwischen ihnen zu erfinden.
+
 **Was das an einem Abend gekostet hat**, gehört dazu: ein Dutzend Fehler, die alle wie
 verschiedene Fehler aussahen — falsche Folgenzahl, verschluckte Meldungen, „nicht abrufbar"
 bei vorhandenen Titeln, hängende Knöpfe. Dagegen wurden nacheinander sechs Wächter gebaut
