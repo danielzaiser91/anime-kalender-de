@@ -212,6 +212,12 @@ function machDom(traeger = { hoerer: null, fenster: null, adresse: null }) {
         }
         const gesamt = Number(/"episodeCount"\s*:\s*(\d+)/.exec(wert)?.[1]) || null
         const asin = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10,32})/.exec(wert)?.[1] ?? null
+        /*
+          Seit dem 15.09.2026 liest `abos()` die Zugänge aus dem Schnappschuss
+          (`seite.zugaenge`), wie ihn `amazon-leser.js` aus dem Aktionsblock baut.
+          Die Kulisse schickt sie deshalb mit, statt sie im Quelltext liegen zu lassen.
+        */
+        const zugaenge = [...new Set([...wert.matchAll(/"benefitId"\s*:\s*"([^"]+)"/g)].map((m) => m[1]))]
         traeger.hoerer?.({
           source: traeger.fenster,
           data: {
@@ -229,6 +235,7 @@ function machDom(traeger = { hoerer: null, fenster: null, adresse: null }) {
             ersetzt: false,
             asin: null,
             funde,
+            ...(zugaenge.length ? { seite: { zugaenge } } : {}),
           },
         })
       },

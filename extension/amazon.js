@@ -1779,23 +1779,29 @@ async function speicherSchreiben(werte) {
    * Bleibt beides stumm, wird **nichts** behauptet — der Datensatz hat schon
    * 202 Verweise mit geratener Zugangsart, ein weiterer hilft niemandem.
    */
-  let zugangSpeicher = null
-  let zugangZu = -1
+  /*
+    Zwischengespeichert werden nur die Kaufhinweise aus dem Text — sie hängen am
+    Quelltext. Die Abos kommen seit dem 15.09.2026 aus dem Schnappschuss des
+    Lesers und werden je Aufruf frisch gefragt; ein Speicher am Quelltext-Stempel
+    bemerkte einen neuen Schnappschuss nicht.
+  */
+  let kaufSpeicher = null
+  let kaufZu = -1
   function zugangsart() {
     const text = seitenHtml()
-    if (zugangZu === htmlGelesenAm && zugangSpeicher !== null) return zugangSpeicher
-    const kauf =
-      /Als Kauf-?\s*(oder Leihtitel|titel)\s*verfügbar/i.test(text) ||
-      /(Folge|Staffel)\s+\d+\s+kaufen/i.test(text) ||
-      /Kaufen\s+(SD|HD|UHD)\b/.test(text)
-    const leihe =
-      /Als Kauf- oder Leihtitel verfügbar/i.test(text) || /Leihen\s+(SD|HD|UHD)\b/.test(text)
+    if (kaufZu !== htmlGelesenAm || kaufSpeicher === null) {
+      kaufSpeicher = {
+        kauf:
+          /Als Kauf-?\s*(oder Leihtitel|titel)\s*verfügbar/i.test(text) ||
+          /(Folge|Staffel)\s+\d+\s+kaufen/i.test(text) ||
+          /Kaufen\s+(SD|HD|UHD)\b/.test(text),
+        leihe: /Als Kauf- oder Leihtitel verfügbar/i.test(text) || /Leihen\s+(SD|HD|UHD)\b/.test(text),
+      }
+      kaufZu = htmlGelesenAm
+    }
+    const { kauf, leihe } = kaufSpeicher
     const abo = abos().length > 0
-
-    zugangSpeicher =
-      abo && kauf ? 'abo_und_kauf' : abo ? 'abo' : kauf ? (leihe ? 'kauf_oder_leihe' : 'kauf') : null
-    zugangZu = htmlGelesenAm
-    return zugangSpeicher
+    return abo && kauf ? 'abo_und_kauf' : abo ? 'abo' : kauf ? (leihe ? 'kauf_oder_leihe' : 'kauf') : null
   }
 
   /**
@@ -1866,14 +1872,8 @@ async function speicherSchreiben(werte) {
    * Ein Kauftitel zaehlt nicht als Kanal: Was gekauft wird, hat seine
    * eigene Tonspur, und die kennt Amazon.
    */
-  let kanalSpeicher = null
-  let kanalZu = -1
   function ueberKanal() {
-    seitenHtml()
-    if (kanalZu === htmlGelesenAm && kanalSpeicher !== null) return kanalSpeicher
-    kanalSpeicher = ueberKanalRechnen()
-    kanalZu = htmlGelesenAm
-    return kanalSpeicher
+    return ueberKanalRechnen()
   }
 
   function ueberKanalRechnen() {
@@ -1885,15 +1885,22 @@ async function speicherSchreiben(werte) {
     return true
   }
 
-  /** Welche Abos diese Staffel freischalten — `Prime`, `aniversede`, … */
-  let abosSpeicher = null
-  let abosZu = -1
+  /**
+   * Welche Abos diese Staffel freischalten — `Prime`, `aniversede`, …
+   *
+   * **Aus dem Aktionsblock der Seite, nicht aus dem ganzen Quelltext** (Umbau
+   * Phase 2, 15.09.2026). Das Muster über den Quelltext fand `benefitId` auch in
+   * Empfehlungsleisten fremder Titel; der Leser liest es aus `atf.state.action`
+   * und schickt es als `seite.zugaenge` (gemessen an Avatar: `paramountplusde`,
+   * an ZEXAL: `crunchyrollde`). Vor dem ersten Schnappschuss ist die Liste leer.
+   */
   function abos() {
-    const text = seitenHtml()
-    if (abosZu === htmlGelesenAm && abosSpeicher) return abosSpeicher
-    abosSpeicher = [...new Set([...text.matchAll(/"benefitId"\s*:\s*"([^"]+)"/g)].map((m) => m[1]))]
-    abosZu = htmlGelesenAm
-    return abosSpeicher
+    try {
+      const z = gesehen?.seite?.zugaenge
+      return Array.isArray(z) ? z : []
+    } catch {
+      return []
+    }
   }
 
   const liste = globalThis.AK_OFFENE_AMAZON ?? {}
