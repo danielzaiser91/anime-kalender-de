@@ -605,7 +605,12 @@ pruefe(
   const leser = readFileSync(__dirname + '/amazon-leser.js', 'utf8')
   pruefe(
     'der Leser stempelt mit der Abruf-Adresse',
-    leser.split('fuerAdresse: abrufAdresse').length - 1 === 3 &&
+    /*
+      Gezählt gegen die Sendestellen, nicht gegen eine feste Zahl: Am 15.09.2026
+      kam mit `seiteNachholen()` eine vierte dazu, und die „3" wurde rot, obwohl
+      jede Stelle richtig stempelte.
+    */
+    leser.split('fuerAdresse: abrufAdresse').length - 1 === (leser.match(/window\.postMessage\(/g) ?? []).length &&
       !leser.includes('fuerAdresse: location.pathname'),
   )
 }

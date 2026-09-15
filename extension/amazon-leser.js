@@ -106,6 +106,23 @@
    * `document_idle` und kommt zu spät.
    */
   const startAdresse = location.href
+  /**
+   * **Der Hydration-Block im DOM gehört zur Seite, die geladen wurde — nur zu ihr.**
+   *
+   * Amazon tauscht beim Wechsel über das Auswahlfeld Adresse und Folgenliste,
+   * das `<script id="dv-web-page-hydration-data">` aber nicht. `schritt()` las
+   * ihn trotzdem bei jeder neuen Adresse neu und stempelte ihn mit ihr. Belegt
+   * am 15.09.2026 im Bericht zu Bungo Stray Dogs (Staffel 3 → 1): Der Knopf
+   * stand 19,896 s nach dem Wechsel richtig auf „✕ kein Deutsch", 0,18 s später
+   * auf „🇩🇪 Deutsch" — zwölf Folgen mit „Deutsch Dialogue Boost", die Tonspuren
+   * von Staffel 3, unter der Adresse von Staffel 1.
+   *
+   * Nach einem Wechsel holt `seiteNachholen()` die neue Seite und liest den
+   * Block aus der Antwort — dieselben Daten, die ein Neuladen bringt.
+   */
+  const startPfad = location.pathname
+  let nachgeholtFuer = null
+  let holtSeiteFuer = null
 
   const diagnose = {
     fassung: '0.54.0',
@@ -215,12 +232,17 @@
    * Auch das ist gültiges JSON in einem `<script>`-Element — gelesen wird es
    * über `textContent`, nicht über ein Muster auf dem Quelltext.
    */
-  function ausHydration() {
-    const block = document.getElementById('dv-web-page-hydration-data')
-    if (!block) return null
+  function ausHydration(jsonText) {
+    /* Ohne Text: der Block der geladenen Seite. Mit Text: der einer nachgeholten. */
+    let text = jsonText
+    if (text == null) {
+      const block = document.getElementById('dv-web-page-hydration-data')
+      if (!block) return null
+      text = block.textContent
+    }
     let daten
     try {
-      daten = JSON.parse(block.textContent)
+      daten = JSON.parse(text)
     } catch {
       return null
     }
@@ -386,6 +408,53 @@
    * Hover-Effekt auf fünf Sekunden gebracht hat. `CharacterData.length` ist
    * dagegen eine Zahl, die schon dasteht.
    */
+  /**
+   * Holt die Seite der jetzigen Adresse und reicht ihren Hydration-Block weiter —
+   * dazu den ganzen Quelltext, den `amazon.js` für Zugang und Kanal braucht.
+   * Ein Abruf je Staffelwechsel, derselbe, den ein Neuladen auslösen würde.
+   */
+  async function seiteNachholen() {
+    const pfad = location.pathname
+    if (!/\/(?:dp|gp\/video\/detail)\//.test(pfad)) return
+    if (nachgeholtFuer === pfad || holtSeiteFuer === pfad) return
+    holtSeiteFuer = pfad
+    /* Gestempelt beim Abrufbeginn, nicht beim Senden. */
+    const abrufAdresse = location.pathname + location.search
+    try {
+      const antwort = await nativFetch.call(window, pfad + location.search, { credentials: 'include' })
+      if (!antwort.ok) return
+      const html = await antwort.text()
+      /* Inzwischen weiternavigiert — dann gehört die Antwort zu niemandem mehr. */
+      if (location.pathname !== pfad) return
+      const treffer = /<script[^>]*id="dv-web-page-hydration-data"[^>]*>([\s\S]*?)<\/script>/.exec(html)
+      const seite = treffer ? ausHydration(treffer[1]) : null
+      nachgeholtFuer = pfad
+      window.postMessage(
+        {
+          marke: MARKE,
+          funde: !seite
+            ? []
+            : seite.folgen.length > 0
+              ? seite.folgen
+              : seite.art && seite.art !== 'TV Show'
+                ? [{ ...seite, nummer: 1 }]
+                : [],
+          gesamt: seite ? seite.folgen.length || (seite.art !== 'TV Show' ? 1 : null) : null,
+          ...(seite ? { seite } : {}),
+          startAdresse,
+          fuerAdresse: abrufAdresse,
+          quelltext: html,
+          quelltextFuer: pfad,
+        },
+        '*',
+      )
+    } catch {
+      /* Kein Netz — dann bleibt es beim Folgen-Abruf über getDetailWidgets. */
+    } finally {
+      if (holtSeiteFuer === pfad) holtSeiteFuer = null
+    }
+  }
+
   function hydrationFinger() {
     const knoten = document.getElementById('dv-web-page-hydration-data')?.firstChild
     return `${location.pathname}${location.search}#${knoten?.length ?? 0}`
@@ -1017,7 +1086,9 @@
       („Jujutsu Kaisen 0" blieb so auf „nicht abrufbar" stehen).
     */
     const finger = hydrationFinger()
-    if (hydrationFuer !== finger) {
+    if (location.pathname !== startPfad) {
+      if (nachgeholtFuer !== location.pathname) void seiteNachholen()
+    } else if (hydrationFuer !== finger) {
       const seite = ausHydration()
       if (seite) {
         hydrationFuer = finger

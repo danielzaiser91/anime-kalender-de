@@ -534,6 +534,18 @@ liefert diesen Stand, solange er zur Adresse gehört. Das bildet das Neuladen na
 interne Anfragen zu erraten. Im Tagebuch des Berichts steht `quelltext-nachgeholt` oder der
 Grund, warum es nicht geklappt hat.
 
+**Und der erste Anlauf dazu hat nur die halbe Quelle erwischt.** 4.20.8 holte den Quelltext
+für `amazon.js` nach; Zugang und Kanal stimmten danach, „🇩🇪 Deutsch" blieb. Daniels Bericht
+zeigte es auf die Zehntelsekunde: 19,896 s nach dem Wechsel „✕ kein Deutsch", 0,18 s später
+wieder „Deutsch" mit zwölf Folgen „Deutsch Dialogue Boost" — die Tonspuren von Staffel 3. Der
+**Mitleser** (`amazon-leser.js`) las den Hydration-Block aus dem DOM und stempelte ihn mit der
+neuen Adresse; `hydrationFinger()` enthält den Pfad, also las er bei jedem Wechsel denselben
+alten Block „neu". Seit 4.20.9 liest er den DOM-Block nur auf der geladenen Seite
+(`startPfad`); nach einem Wechsel holt `seiteNachholen()` die neue Seite, liest den Block aus
+der Antwort und reicht den Quelltext an `amazon.js` weiter — ein Abruf statt zwei.
+**Wer eine veraltete Quelle ersetzt, sucht jeden Leser dieser Quelle** — hier waren es zwei
+Welten (Content-Skript und Seitenskript), die denselben Block unabhängig lasen.
+
 **Was das an einem Abend gekostet hat**, gehört dazu: ein Dutzend Fehler, die alle wie
 verschiedene Fehler aussahen — falsche Folgenzahl, verschluckte Meldungen, „nicht abrufbar"
 bei vorhandenen Titeln, hängende Knöpfe. Dagegen wurden nacheinander sechs Wächter gebaut

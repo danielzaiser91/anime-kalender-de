@@ -141,12 +141,11 @@ async function speicherSchreiben(werte) {
    * nach dem Neuladen auf „✕ kein Deutsch" — die Staffel-1-Seite ist in der
    * Region gar nicht verfügbar. „fix das es direkt ohne neuladen klappt."
    *
-   * `neueSeiteHolen()` ruft die neue Adresse einmal im Hintergrund ab, in der
-   * angemeldeten Sitzung — dieselben Daten, die ein Neuladen bringt. Solange
-   * sie zur Adresse gehören, sind sie der Quelltext.
+   * Der Mitleser holt die neue Adresse einmal im Hintergrund ab
+   * (`seiteNachholen()` in `amazon-leser.js`) und schickt den Quelltext mit.
+   * Solange er zur Adresse gehört, ist er der Quelltext.
    */
   let ersatzQuelltext = null
-  let ersatzHoltFuer = null
   function seitenHtml() {
     if (ersatzQuelltext && ersatzQuelltext.fuerPfad === location.pathname) return ersatzQuelltext.html
     if (htmlZwischenspeicher === null || Date.now() - htmlGelesenAm > HTML_FRIST_MS) {
@@ -6753,6 +6752,13 @@ async function speicherSchreiben(werte) {
       Was der Hydration-Block über die Seite sagt — Kennung, Serientitel,
       Staffelnummer, Gesamtzahl. Alles aus gültigem JSON, keine Muster mehr.
     */
+    /* Der nachgeholte Quelltext einer neuen Staffel — siehe `ersatzQuelltext`. */
+    if (typeof e.data.quelltext === 'string' && e.data.quelltextFuer === location.pathname) {
+      ersatzQuelltext = { fuerPfad: e.data.quelltextFuer, html: e.data.quelltext }
+      /* Die Zwischenspeicher hängen an diesem Zeitstempel — sie rechnen jetzt neu. */
+      htmlGelesenAm = Date.now()
+      notiere('quelltext-nachgeholt', { pfad: e.data.quelltextFuer, zeichen: e.data.quelltext.length })
+    }
     if (e.data.seite) {
       const s = e.data.seite
       if (s.kennung) gemeldeteSeitenKennung = s.kennung
@@ -9842,44 +9848,6 @@ async function speicherSchreiben(werte) {
    */
   let letzteAdresse = location.href
 
-  /**
-   * Holt die Seite der neuen Adresse, wenn der Quelltext von einer früheren stammt.
-   *
-   * Nur nach einem Wechsel innerhalb der geladenen Seite: Beim ersten Laden ist
-   * der Quelltext frisch, dann gibt es noch keine frühere Adress-Kennung. Ein
-   * Abruf je Wechsel — derselbe, den ein Neuladen auslösen würde.
-   */
-  async function neueSeiteHolen() {
-    const pfad = location.pathname
-    if (!/\/(?:dp|gp\/video\/detail)\//.test(pfad)) return
-    if (!fruehereAdressKennungen.size) return
-    if (ersatzHoltFuer === pfad || ersatzQuelltext?.fuerPfad === pfad) return
-    ersatzHoltFuer = pfad
-    try {
-      const antwort = await fetch(pfad + location.search, { credentials: 'include' })
-      if (!antwort.ok) {
-        notiere('quelltext-nachholen-fehlgeschlagen', { pfad, status: antwort.status })
-        return
-      }
-      const html = await antwort.text()
-      /* Inzwischen weiternavigiert — dann gehört die Antwort zu niemandem mehr. */
-      if (location.pathname !== pfad) return
-      if (!html.includes('dv-web-page-hydration-data')) {
-        notiere('quelltext-nachholen-ohne-block', { pfad, zeichen: html.length })
-        return
-      }
-      ersatzQuelltext = { fuerPfad: pfad, html }
-      /* Die Zwischenspeicher hängen an diesem Zeitstempel — sie rechnen jetzt neu. */
-      htmlGelesenAm = Date.now()
-      notiere('quelltext-nachgeholt', { pfad, zeichen: html.length })
-      taktSchritt()
-    } catch (err) {
-      notiere('quelltext-nachholen-fehlgeschlagen', { pfad, fehler: String(err?.message ?? err).slice(0, 80) })
-    } finally {
-      if (ersatzHoltFuer === pfad) ersatzHoltFuer = null
-    }
-  }
-
   function adresseNeuPruefen() {
     if (location.href === letzteAdresse) return
     letzteAdresse = location.href
@@ -9892,7 +9860,6 @@ async function speicherSchreiben(werte) {
     */
     htmlNeuLesen()
     adressKennungFortschreiben()
-    void neueSeiteHolen()
     /*
       Der Sparmodus gehört zur alten Seite. Ihn stehen zu lassen hieße, den
       Wechsel zwar sofort zu bemerken und dann vier Sekunden zu warten.
