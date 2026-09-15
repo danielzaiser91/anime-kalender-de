@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 14.09.2026 um 16:04 Uhr
+**Unauffällig** · zuletzt 15.09.2026 um 14:41 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -16,23 +16,21 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 ## Bestand — die letzten 24 Stunden
 
 ```
-14 Läufe in den letzten 1 Tagen (281 insgesamt)
+8 Läufe in den letzten 1 Tagen (289 insgesamt)
 
-13.09., 19:35  Bestand — zusammenführ   verweise +1, mitUrteil +9, ohneUrteil -8, titelMitSynchro +6, releases +1, termine +1
-13.09., 20:01  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1
-14.09., 12:01  Bestand — zusammenführ   verweise -5, mitUrteil -2, ohneUrteil -3, titelMitSynchro +1
-14.09., 12:07  Bestand — zusammenführ   releases +20, termine +33
+15.09., 07:54  Bestand — zusammenführ   verweise -1, ohneUrteil -1
+15.09., 09:30  Bestand — zusammenführ   verweise +3, mitUrteil +6, ohneUrteil -3, titelMitSynchro +3, releases +1
 
-Stand jetzt: 2771 Titel, 1980 Urteile, 7 offen
-Über den Zeitraum: Titel 0, Urteile +8, offen -12
+Stand jetzt: 2771 Titel, 1986 Urteile, 3 offen
+Über den Zeitraum: Titel 0, Urteile +6, offen -4
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 0 Meldungen auf 0 Adressen (—)
-Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 2 Adressen
-Nichts im Briefkasten — nichts zu prüfen.
+Briefkasten: 3 Meldungen auf 3 Adressen (primevideo 3)
+Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 3 Adressen
+Alle Adressen sind gelistet.
 ```
 
 ## Tagebuch
@@ -41,6 +39,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 15.09.2026 14:41 | 2771 / 1986 / 3 | Titel 0, Urteile +6, offen -4 | unauffällig |
 | 14.09.2026 16:04 | 2771 / 1980 / 7 | Titel 0, Urteile +8, offen -12 | unauffällig |
 | 13.09.2026 14:43 | 2771 / 1972 / 19 | Titel 0, Urteile +3, offen -1 | unauffällig |
 | 12.09.2026 13:36 | 2771 / 1969 / 20 | Titel +3, Urteile +1, offen 0 | unauffällig |
