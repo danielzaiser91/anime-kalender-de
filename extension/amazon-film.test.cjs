@@ -146,6 +146,32 @@ pruefe(
 )
 pruefe('kein Prime-Zugang dabei', !(film?.zugaenge ?? []).includes('Prime'), film?.zugaenge)
 
+/* „One Piece – Strong World", 30.08.2026: `headerDetail` leer, der Kopf steht in `detail.detail`. */
+const ohneKopf = sandkasten.__ausHydration(
+  JSON.stringify({
+    init: {
+      preparations: {
+        body: {
+          atf: {
+            state: {
+              pageTitleId: 'B0DQM2JXB6',
+              detail: {
+                headerDetail: {},
+                detail: { B0DQM2JXB6: { entityType: 'Movie', title: 'One Piece – Strong World', audioTracks: ['Deutsch', '日本語'] } },
+              },
+            },
+          },
+        },
+      },
+    },
+  }),
+)
+pruefe(
+  'ein leeres headerDetail fällt auf detail.detail zurück',
+  ohneKopf?.art === 'Movie' && (ohneKopf?.sprachen ?? []).includes('Deutsch'),
+  ohneKopf,
+)
+
 /* Was der Kalender sonst noch brauchen kann — alles ohne zweiten Abruf. */
 pruefe('Laufzeit gelesen', typeof film?.laufzeit === 'string' && film.laufzeit.length > 0, film?.laufzeit)
 pruefe('Erscheinungsjahr gelesen', film?.jahr === 2026, film?.jahr)

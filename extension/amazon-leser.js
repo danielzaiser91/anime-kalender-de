@@ -150,7 +150,14 @@
     if (!oben) return null
 
     const kennung = oben.pageTitleId ?? null
-    const kopf = (oben.detail?.headerDetail ?? {})[kennung] ?? Object.values(oben.detail?.headerDetail ?? {})[0]
+    /*
+      **`headerDetail` ist manchmal leer — dann steht der Kopf in `detail.detail`.**
+      „One Piece – Strong World" (30.08.2026): `audioTracks` dreimal im Block,
+      `headerDetail` ein leeres Objekt. Übernommen aus `filmAusSeite()` in
+      `amazon.js`, das seit dem 15.09.2026 nicht mehr selbst parst.
+    */
+    const koepfe = { ...(oben.detail?.detail ?? {}), ...(oben.detail?.headerDetail ?? {}) }
+    const kopf = koepfe[kennung] ?? Object.values(oben.detail?.headerDetail ?? {})[0] ?? Object.values(koepfe).find((x) => x?.audioTracks?.length)
     if (!kopf) return null
 
     /*

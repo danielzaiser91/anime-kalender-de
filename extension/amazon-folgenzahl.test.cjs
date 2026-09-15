@@ -177,60 +177,26 @@ const stueckFilm = quelle.match(/function filmAusSeite\(\) \{[\s\S]*?\n  \}/)
 pruefe('filmAusSeite() ist im Quelltext auffindbar', Boolean(stueckFilm))
 
 if (stueckFilm) {
-  const lies = (inhalt, pfad) => {
-    const bau = new Function(
-      'document',
-      'location',
-      `let filmStand = { fuerAdresse: null, daten: null }
-${stueckFilm[0]}
-return filmAusSeite()`,
-    )
-    return bau(
-      { getElementById: (id) => (id === 'dv-web-page-hydration-data' ? { textContent: inhalt } : null) },
-      { pathname: pfad, search: '' },
-    )
-  }
-
-  const bloodC = lies(
-    block('B0GQJ8WYJD', 'B0GQJ8WYJD', {
-      entityType: 'Movie',
-      title: 'Blood-C: The Last Dark',
-      audioTracks: ['Deutsch', '日本語'],
-      duration: 6106,
-    }),
-    '/gp/video/detail/B0GQJFL1XG',
-  )
+  /* Seit dem 15.09.2026 liest sie den Seitenstand des Lesers, nicht mehr den Block. */
+  const lies = (seite) => new Function('gesehen', `${stueckFilm[0]}\nreturn filmAusSeite()`)({ seite })
+  const bloodC = lies({
+    art: 'Movie',
+    kennung: 'B0GQJ8WYJD',
+    titel: 'Blood-C: The Last Dark',
+    sprachen: ['Deutsch', '日本語'],
+    dauerSek: 6106,
+  })
   pruefe('Blood-C liefert seine Tonspuren', bloodC?.sprachen?.join() === 'Deutsch,日本語', bloodC?.sprachen)
   pruefe('und die Laufzeit in Sekunden', bloodC?.dauerSek === 6106, bloodC?.dauerSek)
   pruefe('und die Kennung aus dem Block, nicht aus der Adresse', bloodC?.kennung === 'B0GQJ8WYJD', bloodC?.kennung)
-
-  const niceDay = lies(
-    block('B0FWK8XMDJ', 'B0FWK8XMDJ', {
-      entityType: 'Movie',
-      title: 'Have A Nice Day',
-      audioTracks: ['Deutsch'],
-      duration: 4472,
-    }),
-    '/gp/video/detail/B0FYSH898T',
-  )
+  const niceDay = lies({ art: 'Movie', kennung: 'B0FWK8XMDJ', titel: 'Have A Nice Day', sprachen: ['Deutsch'] })
   pruefe('Have A Nice Day ebenso', niceDay?.sprachen?.join() === 'Deutsch', niceDay?.sprachen)
-
-  /*
-    Gegenproben. Eine Serie darf hier nichts liefern — für sie ist der Mitleser
-    zuständig, der die Folgen einzeln kennt; eine Sprachliste für die ganze
-    Staffel wäre die schlechtere Auskunft.
-  */
-  const serie = lies(
-    block('B0GV8N71SL', 'B0GV8N71SL', { entityType: 'TV Show', title: 'Yu-Gi-Oh! ZEXAL', audioTracks: ['Deutsch'] }),
-    '/gp/video/detail/B0GV8N71SL',
-  )
+  const serie = lies({ art: 'TV Show', kennung: 'B0GV8N71SL', sprachen: ['Deutsch'] })
   pruefe('eine Serie liefert hier nichts', serie === null, serie)
-
-  const ohneSpuren = lies(
-    block('B0X', 'B0X', { entityType: 'Movie', title: 'Film ohne Tonspuren', audioTracks: [] }),
-    '/gp/video/detail/B0X',
-  )
+  const ohneSpuren = lies({ art: 'Movie', kennung: 'B0X', sprachen: [] })
   pruefe('ein Film ohne Tonspuren liefert nichts', ohneSpuren === null, ohneSpuren)
+  pruefe('ohne Seitenstand liefert sie nichts', lies(undefined) === null)
+  pruefe('filmAusSeite() parst den Hydration-Block nicht mehr selbst', !/getElementById|JSON\.parse/.test(stueckFilm[0]))
 }
 
 /*

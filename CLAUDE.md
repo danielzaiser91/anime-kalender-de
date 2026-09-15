@@ -2808,6 +2808,13 @@ liest den Block direkt, einmal je Adresse zwischengespeichert (er ist 145 bis
 204 KB groß — ihn je Takt zu parsen wäre genau die Arbeit, die am selben Tag
 schon einmal die Seite lahmgelegt hat).
 
+**Überholt am 15.09.2026 (Umbau Phase 2):** Seit dem Leser-Umbau schickt `amazon-leser.js`
+einen Film zuverlässig als eine Folge samt `seite` im Schnappschuss; der Handschlag
+`ak-amazon-anfrage` behebt das Problem, an dem die Nachricht damals scheiterte.
+`filmAusSeite()` parst den Block deshalb nicht mehr selbst, sondern liest `gesehen.seite`. Den
+Rückfall für ein leeres `headerDetail` hat der Leser übernommen (Zusicherung in
+`amazon-film.test.cjs`, ohne ihn rot).
+
 **Die abweichende `pageTitleId` ist dabei kein Titelwechsel.** Prime führt einen
 Film regelmäßig unter einer anderen Kennung als die Adresse — dasselbe Bild wie
 bei Digimon Tamers weiter oben. Die Adress-Kennung kommt im Quelltext trotzdem

@@ -493,6 +493,10 @@ async function speicherSchreiben(werte) {
    * zeigt warum: `gesamt: 1` bei `fuerAdresse: null`. Diese Eins stammt aus dem
    * Seitengerüst, nicht vom Mitleser; der hat für diese Seiten nie geliefert.
    *
+   * **Überholt am 15.09.2026:** Seit dem Leser-Umbau kommt der Film wieder über
+   * den Schnappschuss (`seite`, eine Folge); `filmAusSeite()` liest nur noch
+   * diesen Stand. Die Herleitung darunter bleibt als Anlass stehen.
+   *
    * **Statt die postMessage-Kette zu reparieren, entfällt sie hier.** Mitleser
    * und Erweiterung teilen sich das DOM — das `<script>` mit dem Block ist für
    * beide dasselbe Element. Bei einem Film ist ohnehin nichts nachzuladen: keine
@@ -503,97 +507,29 @@ async function speicherSchreiben(werte) {
    * je Takt zu parsen wäre genau die Sorte Arbeit, die am 28.08.2026 schon
    * einmal die Seite lahmgelegt hat (`taktMax: 1377`).
    */
-  let filmStand = { fuerAdresse: null, gelesenAm: 0, daten: null }
+  /*
+    **Seit dem 15.09.2026 (Umbau Phase 2) liest diese Funktion nichts mehr selbst.**
+    Bis dahin parste sie den Hydration-Block ein zweites Mal — mit drei Riegeln
+    gegen die Rechenlast, die 3.82 den Rechner eingefroren hatte. Der Leser
+    (`amazon-leser.js`) liest denselben Block ohnehin, schickt die Seite als
+    `seite` im Schnappschuss mit und zählt einen Film als eine Folge. Den
+    Rückfall für ein leeres `headerDetail` („One Piece – Strong World") hat er
+    übernommen. Hier bleibt die Frage „Film mit Tonspuren?" an einer Stelle.
+  */
   function filmAusSeite() {
-    /*
-      **Drei Riegel vor dem Parsen — jeder einzeln notwendig.**
-
-      Die erste Fassung (3.82) hat Daniels Rechner eingefroren: „die extension
-      friert den pc ein … download von diagnose dauert jetzt schon 3min".
-
-      Der Block ist 145 bis 440 KB groß. Ihn zu lesen heißt, `textContent` zu
-      einem neuen String zu ziehen **und** einen Objektbaum daraus zu bauen — je
-      Takt, also alle 500 ms. Der Speicher kommt dabei nicht hinterher.
-
-      Gedacht war ein Zwischenspeicher je Adresse. Er hat nie gegriffen, weil der
-      Schlüssel `location.search` enthielt: **Prime schreibt den
-      `ref_`-Parameter laufend um**, und damit war die Adresse bei jedem Takt eine
-      andere. Genau davor warnt `extension/PERFORMANCE.md`, und genau dieselbe
-      Ursache hatte der Einbruch vom Nachmittag (`taktMax: 1377`).
-
-      1. **Der Pfad ist der Schlüssel, nicht die Adresse.** Der Verweis-Parameter
-         sagt nichts über den Inhalt der Seite.
-      2. **Serien fassen den Block gar nicht an.** Wer einen Folgen-Reiter hat,
-         ist keine Filmseite — und die teuersten Seiten sind genau die (Pokémon
-         mit siebenundfünfzig Staffeln).
-      3. **Und höchstens einmal je fünf Sekunden**, komme was wolle. Ein Riegel,
-         der von einer Annahme über fremde Adressen abhängt, braucht einen
-         zweiten, der ohne Annahmen auskommt.
-    */
-    const schluessel = location.pathname
-    if (filmStand.fuerAdresse === schluessel) return filmStand.daten
-    if (Date.now() - filmStand.gelesenAm < 5000) return filmStand.daten
-    /*
-      Die billige Vorprüfung zuerst: `seitenLage()` läuft ohnehin je Takt und
-      ist zwischengespeichert, `getElementById` kostet nichts.
-    */
     try {
-      if (seitenLage().hatFolgenReiter) {
-        filmStand = { fuerAdresse: schluessel, gelesenAm: Date.now(), daten: null }
-        return null
+      const s = gesehen?.seite
+      if (!s || s.art !== 'Movie' || !(s.sprachen ?? []).length) return null
+      return {
+        kennung: s.kennung ?? null,
+        titel: s.titel ?? null,
+        sprachen: s.sprachen,
+        untertitel: s.untertitel ?? [],
+        dauerSek: s.dauerSek ?? null,
+        erschienen: s.erschienen ?? null,
       }
     } catch {
-      /* Ohne Lage wird gelesen — lieber einmal zu viel als eine tote Seite. */
-    }
-    filmStand = { fuerAdresse: schluessel, gelesenAm: Date.now(), daten: null }
-    try {
-      const block = document.getElementById('dv-web-page-hydration-data')
-      if (!block) return null
-      const daten = JSON.parse(block.textContent)
-      const oben = daten?.init?.preparations?.body?.atf?.state
-      if (!oben) return null
-      /*
-        **`headerDetail` ist manchmal leer — dann steht alles in `detail`.**
-
-        Daniel am 30.08.2026 an „One Piece – Strong World": Der Knopf blieb auf
-        „Tonspuren nicht gefunden — Seite neu laden" stehen, obwohl
-        `istFilmSeite` griff und der Quelltext frisch war.
-
-        Anonym nachgemessen: Die Seite führt `audioTracks: ["Deutsch","日本語"]`
-        **dreimal** — unter `detail.headerDetail`, unter `detail.detail` und
-        unter `btfMoreDetails`. Im Zustand, den dieser Code liest, ist
-        `headerDetail` ein leeres Objekt, und `Object.values(alle)[0]` gibt
-        deshalb `undefined`.
-
-        Gelesen wird jetzt aus beiden Töpfen, `headerDetail` zuerst. Der
-        Rückfall auf den ersten Eintrag bleibt: Die Adresse (`B0DQM5BCFD`) und
-        die Kennung im Block (`B0DQM2JXB6`) gehen bei Filmen regelmäßig
-        auseinander.
-      */
-      const alle = { ...(oben.detail?.detail ?? {}), ...(oben.detail?.headerDetail ?? {}) }
-      const kopf = alle[oben.pageTitleId ?? ''] ?? Object.values(alle).find((x) => x?.audioTracks?.length)
-      if (!kopf) return null
-      /*
-        Nur ein Film. Bei einer Serie liefert der Mitleser die Folgen einzeln,
-        und die sind die genauere Auskunft — hier würde eine einzelne
-        Sprachliste für die ganze Staffel stehen.
-      */
-      const art = String(kopf.entityType ?? '')
-      if (art && art !== 'Movie') return null
-      const sprachen = (kopf.audioTracks ?? [])
-        .map((t) => (typeof t === 'string' ? t : (t?.displayName ?? t?.name ?? null)))
-        .filter(Boolean)
-      if (!sprachen.length) return null
-      filmStand.daten = {
-        kennung: oben.pageTitleId ?? null,
-        titel: kopf.title ?? null,
-        sprachen,
-        untertitel: Array.isArray(kopf.subtitles) ? kopf.subtitles : [],
-        dauerSek: Number.isFinite(kopf.duration) ? kopf.duration : null,
-        erschienen: kopf.releaseDate ?? null,
-      }
-      return filmStand.daten
-    } catch {
+      /* Vor dem ersten Schnappschuss gibt es keinen Stand — dann entscheidet der Textweg. */
       return null
     }
   }
