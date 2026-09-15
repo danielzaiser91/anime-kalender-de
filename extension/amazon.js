@@ -129,7 +129,26 @@ async function speicherSchreiben(werte) {
   const HTML_FRIST_MS = 2000
   let htmlZwischenspeicher = null
   let htmlGelesenAm = 0
+  /**
+   * **Nach einem Staffelwechsel liest die Erweiterung die neue Seite selbst.**
+   *
+   * Amazon tauscht beim Wechsel über das Auswahlfeld Adresse und Folgenliste,
+   * den Quelltext mit dem Hydration-Block aber nicht (gemessen 24.08.2026).
+   * Die Folgen holt der Mitleser seitdem über `getDetailWidgets` nach — Zugang,
+   * Kanal, Jahr und Staffelnummer lasen weiter aus dem alten Block. Daniel am
+   * 15.09.2026 an Bungo Stray Dogs (Staffel 3 → 1): Ohne Neuladen stand der
+   * Knopf auf „🇩🇪 Deutsch · 12 Folgen · Staffel 1 · Abo + Kauf · ⚠ Kanal",
+   * nach dem Neuladen auf „✕ kein Deutsch" — die Staffel-1-Seite ist in der
+   * Region gar nicht verfügbar. „fix das es direkt ohne neuladen klappt."
+   *
+   * `neueSeiteHolen()` ruft die neue Adresse einmal im Hintergrund ab, in der
+   * angemeldeten Sitzung — dieselben Daten, die ein Neuladen bringt. Solange
+   * sie zur Adresse gehören, sind sie der Quelltext.
+   */
+  let ersatzQuelltext = null
+  let ersatzHoltFuer = null
   function seitenHtml() {
+    if (ersatzQuelltext && ersatzQuelltext.fuerPfad === location.pathname) return ersatzQuelltext.html
     if (htmlZwischenspeicher === null || Date.now() - htmlGelesenAm > HTML_FRIST_MS) {
       htmlZwischenspeicher = document.documentElement?.innerHTML ?? ''
       htmlGelesenAm = Date.now()
@@ -9823,6 +9842,44 @@ async function speicherSchreiben(werte) {
    */
   let letzteAdresse = location.href
 
+  /**
+   * Holt die Seite der neuen Adresse, wenn der Quelltext von einer früheren stammt.
+   *
+   * Nur nach einem Wechsel innerhalb der geladenen Seite: Beim ersten Laden ist
+   * der Quelltext frisch, dann gibt es noch keine frühere Adress-Kennung. Ein
+   * Abruf je Wechsel — derselbe, den ein Neuladen auslösen würde.
+   */
+  async function neueSeiteHolen() {
+    const pfad = location.pathname
+    if (!/\/(?:dp|gp\/video\/detail)\//.test(pfad)) return
+    if (!fruehereAdressKennungen.size) return
+    if (ersatzHoltFuer === pfad || ersatzQuelltext?.fuerPfad === pfad) return
+    ersatzHoltFuer = pfad
+    try {
+      const antwort = await fetch(pfad + location.search, { credentials: 'include' })
+      if (!antwort.ok) {
+        notiere('quelltext-nachholen-fehlgeschlagen', { pfad, status: antwort.status })
+        return
+      }
+      const html = await antwort.text()
+      /* Inzwischen weiternavigiert — dann gehört die Antwort zu niemandem mehr. */
+      if (location.pathname !== pfad) return
+      if (!html.includes('dv-web-page-hydration-data')) {
+        notiere('quelltext-nachholen-ohne-block', { pfad, zeichen: html.length })
+        return
+      }
+      ersatzQuelltext = { fuerPfad: pfad, html }
+      /* Die Zwischenspeicher hängen an diesem Zeitstempel — sie rechnen jetzt neu. */
+      htmlGelesenAm = Date.now()
+      notiere('quelltext-nachgeholt', { pfad, zeichen: html.length })
+      taktSchritt()
+    } catch (err) {
+      notiere('quelltext-nachholen-fehlgeschlagen', { pfad, fehler: String(err?.message ?? err).slice(0, 80) })
+    } finally {
+      if (ersatzHoltFuer === pfad) ersatzHoltFuer = null
+    }
+  }
+
   function adresseNeuPruefen() {
     if (location.href === letzteAdresse) return
     letzteAdresse = location.href
@@ -9835,6 +9892,7 @@ async function speicherSchreiben(werte) {
     */
     htmlNeuLesen()
     adressKennungFortschreiben()
+    void neueSeiteHolen()
     /*
       Der Sparmodus gehört zur alten Seite. Ihn stehen zu lassen hieße, den
       Wechsel zwar sofort zu bemerken und dann vier Sekunden zu warten.

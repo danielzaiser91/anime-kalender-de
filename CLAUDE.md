@@ -523,6 +523,17 @@ Die Erweiterung verlangt deshalb seit dem 24.08.2026 ein Neuladen, sobald Adress
 Quelltext verschiedene Staffelnummern nennen. Das ist keine Notlösung: Sie kann nicht wissen,
 was Staffel 3 enthält, wenn Amazon es nirgends hinschreibt.
 
+**Überholt am 15.09.2026: Sie holt es sich selbst.** Der Mitleser lud die Folgen einer neuen
+Staffel längst über `getDetailWidgets` nach — Zugang, Kanal, Jahr und Staffelnummer kamen aber
+weiter aus dem alten Block, und kein Wächter schlug an. Daniel an Bungo Stray Dogs (Staffel 3 →
+Auswahlfeld Staffel 1): ohne Neuladen „🇩🇪 Deutsch · 12 Folgen · Staffel 1 · Abo + Kauf · ⚠
+Kanal", nach dem Neuladen „✕ kein Deutsch" auf einer Seite, die in der Region nicht verfügbar
+ist. „fix das es direkt ohne neuladen klappt." Seit 4.20.8 ruft `neueSeiteHolen()` nach jedem
+Adresswechsel innerhalb der Seite die neue Adresse einmal im Hintergrund ab, und `seitenHtml()`
+liefert diesen Stand, solange er zur Adresse gehört. Das bildet das Neuladen nach, statt Amazons
+interne Anfragen zu erraten. Im Tagebuch des Berichts steht `quelltext-nachgeholt` oder der
+Grund, warum es nicht geklappt hat.
+
 **Was das an einem Abend gekostet hat**, gehört dazu: ein Dutzend Fehler, die alle wie
 verschiedene Fehler aussahen — falsche Folgenzahl, verschluckte Meldungen, „nicht abrufbar"
 bei vorhandenen Titeln, hängende Knöpfe. Dagegen wurden nacheinander sechs Wächter gebaut
