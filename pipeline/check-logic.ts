@@ -2825,6 +2825,23 @@ console.log('\nStaffel und Teil zählen:')
   Ähnliche Titel im Detail-Panel (15.09.2026). Erfundene Titel, damit die
   Zusicherung nicht am Datenstand hängt.
 */
+/*
+  Black Clover Staffel 2, 15.09.2026: „JP 31.10.2026" im Panel, obwohl AniList nur
+  den Monat kannte — und der Zwischenspeicher holte den inzwischen genannten Tag
+  nie nach.
+*/
+console.log('\nJapanischer Start: so genau wie die Quelle, und angekündigte Titel frisch:')
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const abruf = readFileSync('pipeline/fetch.ts', 'utf8')
+  pruefe('der Reihe geht das genaue, nicht das aufgefüllte Datum mit', /jpStart: t\.jpStart \?\? jpStartAnzeige\.get\(t\.id\)/.test(bau))
+  pruefe('ohne Tag bleibt es beim Monat', /if \(!d\.day\) return `\$\{d\.year\}-\$\{p\(d\.month\)\}`/.test(bau))
+  pruefe(
+    'nicht abgeschlossene Titel werden bei jedem Lauf neu geholt',
+    /!cached\[id\] \|\| nochOffen\(cached\[id\]\)/.test(abruf) && /!byAniId\[id\] \|\| nochOffen\(byAniId\[id\]\)/.test(abruf),
+  )
+}
+
 console.log('\nÄhnliche Titel:')
 {
   const { aehnlicheTitel } = await import('../web/src/lib/aehnlich.ts')

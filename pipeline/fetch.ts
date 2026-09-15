@@ -49,8 +49,22 @@ async function main(): Promise<void> {
   log(`Insgesamt ${malIds.length} MAL-IDs mit deutscher Synchro`)
 
   // 2. AniList-Metadaten
+  /*
+    **Was noch nicht abgeschlossen ist, wird bei jedem Lauf neu geholt.**
+
+    Bis zum 15.09.2026 kam nur, was im Zwischenspeicher fehlte. Ein angekündigter
+    Titel blieb damit auf dem Stand seines ersten Abrufs stehen: Black Clover
+    Staffel 2 hatte am 03.09. „Oktober 2026" ohne Tag, AniList führt seit der
+    Ankündigung vom 07.09. den 03.10. — im Panel stand weiter der Monat, und
+    `isoDate()` machte daraus „31.10.2026" (Daniel, 15.09.2026). Dieselbe Falle
+    wie in CLAUDE.md, „Ein Abruf, der nur ergänzt, veraltet zwangsläufig".
+    Abgeschlossene und abgesetzte Titel ändern sich nicht mehr und bleiben im
+    Speicher.
+  */
+  const nochOffen = (m: AniListMedia | undefined): boolean =>
+    Boolean(m) && m!.status !== 'FINISHED' && m!.status !== 'CANCELLED'
   const cached = readJson<Record<string, AniListMedia>>('data/cache/anilist-media.json', {})
-  const missing = FORCE ? malIds : malIds.filter((id) => !cached[id])
+  const missing = FORCE ? malIds : malIds.filter((id) => !cached[id] || nochOffen(cached[id]))
   log(`AniList: ${missing.length} von ${malIds.length} IDs fehlen im Cache`)
 
   if (!SKIP_ANILIST && missing.length > 0) {
@@ -107,7 +121,7 @@ async function main(): Promise<void> {
   // AniList-Daten der kuratierten Titel nachladen, falls sie nicht über MAL kamen.
   const byAniId = readJson<Record<string, AniListMedia>>('data/cache/anilist-by-id.json', {})
   const neededIds = [...new Set(Object.values(resolved))].filter(
-    (id) => FORCE || !byAniId[id],
+    (id) => FORCE || !byAniId[id] || nochOffen(byAniId[id]),
   )
   if (!SKIP_ANILIST && neededIds.length > 0) {
     log(`AniList: ${neededIds.length} kuratierte Titel nachladen`)

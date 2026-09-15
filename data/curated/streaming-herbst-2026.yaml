@@ -13,9 +13,17 @@
   platform: crunchyroll
   releaseType: weekly
   schedule:
-    firstEpisodeDate: "2026-10-01"
+    firstEpisodeDate: "2026-10-03"
     estimated: true
-  # **Drei Angaben fehlen, und jede einzelne wäre geraten.**
+  # **Stand 15.09.2026:** Anime2You (07.09.2026) und Crunchyroll nennen den
+  # 03.10.2026 als Start in Japan, Crunchyroll zeigt die Folgen im Simulcast mit
+  # Untertiteln; die deutsche Fassung steht dort als „TBA". Das Datum ist damit
+  # der OmU-Start, übernommen mit `estimated` — so erlaubt es CLAUDE.md
+  # („Datum aus dem Simulcast-Start übernommen statt aus einer Dub-Ankündigung").
+  # Vorher stand hier der Monatserste als Platzhalter, und AniLists fehlender Tag
+  # erschien im Panel als „JP 31.10.2026" (Daniel, 15.09.2026).
+  #
+  # **Ursprünglich: drei Angaben fehlen, und jede einzelne wäre geraten.**
   #
   # Crunchyroll hat die Staffel am 15.06.2026 für Oktober 2026 angekündigt —
   # ohne Tag. AniList führt denselben Stand (am 04.09.2026 abgefragt:
@@ -28,7 +36,9 @@
   # kennzeichnen statt weglassen" ist der Grund, warum es diesen Kalender gibt
   # (Daniel, 04.09.2026: „warum führen wir keine staffel 2 und haben auch nicht
   # diese info auf der webseite?").
-  note: "Angekündigt für Oktober 2026, ein Tag ist nicht genannt — das Datum ist der Monatserste als Platzhalter. Folgenzahl und deutsche Fassung sind noch nicht belegt."
+  note: "Crunchyroll zeigt die Staffel ab dem 03.10.2026 im Simulcast mit Untertiteln. Eine deutsche Fassung ist noch nicht angekündigt — das Datum ist der Start mit Untertiteln."
   sources:
+    - https://www.anime2you.de/news/1047190/black-clover-second-season-termin/
+    - https://www.crunchyroll.com/news/latest/2026/6/15/black-clover-season-2-anime-october-2026-release-date-director
     - https://www.crunchyroll.com/de/news/latest/2026/6/15/black-clover-staffel-2-premiere-oktober-2026
     - https://anilist.co/anime/195604

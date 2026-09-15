@@ -1109,6 +1109,23 @@ function isoDate(d: { year: number | null; month: number | null; day: number | n
   return `${d.year}-${p(d.month, '12')}-${p(d.day, '31')}`
 }
 
+/**
+ * **Das Datum so genau, wie die Quelle es kennt — für die Anzeige.**
+ *
+ * `isoDate()` füllt fehlende Angaben mit dem spätesten Wert auf: Für die Frage
+ * „lief das in Japan schon?" ist das die vorsichtige Richtung. Als Anzeige wird
+ * daraus eine erfundene Angabe — Black Clover Staffel 2 stand mit „JP
+ * 31.10.2026" im Panel, weil AniList nur „Oktober 2026" kannte (Daniel,
+ * 15.09.2026; der Start ist der 03.10.2026). Hier bleibt es bei `2026-10`.
+ */
+function isoDatumGenau(d: { year: number | null; month: number | null; day: number | null } | undefined) {
+  if (!d?.year) return undefined
+  const p = (n: number) => String(n).padStart(2, '0')
+  if (!d.month) return String(d.year)
+  if (!d.day) return `${d.year}-${p(d.month)}`
+  return `${d.year}-${p(d.month)}-${p(d.day)}`
+}
+
 function mapStreams(media: AniListMedia): StreamLink[] {
   const out: StreamLink[] = []
   const displayTitle = media.title.english ?? media.title.romaji ?? ''
@@ -1496,6 +1513,8 @@ function main(): void {
    * Startdatum nirgends.
    */
   const jpStart = new Map<number, string>()
+  /** Dasselbe, aber nur so genau wie die Quelle — für die Reihenliste im Panel (siehe `isoDatumGenau`). */
+  const jpStartAnzeige = new Map<number, string>()
 
   for (const [malId, media] of Object.entries(byMal)) {
     if (!media?.id) continue
@@ -1504,6 +1523,8 @@ function main(): void {
     titles.set(media.id, titleFromMedia(media, confidence))
     const start = isoDate(media.startDate)
     if (start) jpStart.set(media.id, start)
+    const genau = isoDatumGenau(media.startDate)
+    if (genau) jpStartAnzeige.set(media.id, genau)
   }
 
   // Kuratierte Titel können auf AniList-Einträge zeigen, die nicht über MyDubList kamen.
@@ -1513,6 +1534,8 @@ function main(): void {
     titles.set(media.id, titleFromMedia(media, confidence))
     const start = isoDate(media.startDate)
     if (start) jpStart.set(media.id, start)
+    const genau = isoDatumGenau(media.startDate)
+    if (genau) jpStartAnzeige.set(media.id, genau)
   }
 
   // --- Reihen zusammenführen -------------------------------------------------
@@ -7204,7 +7227,7 @@ function main(): void {
         zeigte im Panel nur sein Format, obwohl AniList den 20.06.2026 führt
         (Daniel, 12.09.2026: „jp release date fehlt dort").
       */
-      jpStart: t.jpStart ?? jpStart.get(t.id),
+      jpStart: t.jpStart ?? jpStartAnzeige.get(t.id),
       jpStatus: t.jpStatus,
       deStart: deStart.get(t.id),
       ohneSynchro: (t as { ohneSynchro?: boolean }).ohneSynchro || undefined,

@@ -1873,6 +1873,14 @@ Das ist keine Theorie, es ist am 15.08.2026 dreimal am selben Tag aufgefallen:
 - `fetch-anisearch.ts` filterte auf `!cache[t.id].info`. Nach dem ersten erfolgreichen Abruf war
   ein Titel dauerhaft erledigt, sein Bestand an Anbietern eingefroren.
 - Beide zusammen führten dazu, dass 975 Titel ein unbelegtes „keine deutsche Synchro" trugen.
+- **Und am 15.09.2026 ein drittes Mal, bei AniList selbst.** `fetch.ts` holte nur fehlende
+  Kennungen. Black Clover Staffel 2 blieb auf dem Abruf vom 03.09. („Oktober 2026", ohne Tag),
+  obwohl AniList seit der Ankündigung vom 07.09. den 03.10. führt; `isoDate()` füllte den
+  fehlenden Tag mit 31 auf, und das Panel zeigte „JP 31.10.2026" (Daniel: „wir haben anime2you
+  geparsed, und wissen das es am 03.10. in japan erscheint"). Seitdem werden nicht
+  abgeschlossene Titel bei jedem Lauf neu geholt, und die Anzeige bekommt das Datum nur so genau,
+  wie die Quelle es kennt (`isoDatumGenau`). **Ein aufgefüllter Wert ist für eine Rechnung
+  vorsichtig und als Anzeige erfunden** — wer ein Datum für beides benutzt, braucht zwei Felder.
 
 **Warum das gerade hier gefährlich ist:** Verliert ein Streamingdienst die Lizenzrechte, nimmt er
 die deutsche Fassung wieder aus dem Angebot. Crunchyroll führt aus diesem Grund keine erste
