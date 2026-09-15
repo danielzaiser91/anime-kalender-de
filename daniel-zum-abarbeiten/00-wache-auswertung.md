@@ -5,6 +5,16 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 15.09.2026, 08:35 — durchgesehen, nichts offen
+
+**Was läuft korrekt.** Letzter Lauf 14.09.2026, 16:04, „unauffällig": 2.771 Titel, 1.980 Urteile, 7 offen; über 24 Stunden +8 Urteile, −12 offen. Alle Läufe der Nacht grün, Statusanzeige ohne roten Lauf, Briefkasten leer.
+
+**Die eine Verlustzeile ist gewollt.** „14.09., 12:01 verweise −5, mitUrteil −2" kommt aus der Ausgaben-Umstellung: belegte Neins für die Crunchyroll-Kanal-Ausgaben von Digimon und Bungo Stray Dogs sowie für Trinity Seven auf Prime, dazu doppelte `/dp/`- und `/gp/video/detail/`-Verweise (Date a Live V), die zusammengelegt wurden. Digimon hat dafür einen Verweis mit Deutsch gewonnen.
+
+**Wo Verbesserungspotenzial ist.** Die Kanal-Gegenprobe läuft nur montags im Tiefendurchlauf. Eine neue Kanal-Meldung wartet damit bis zu einer Woche auf ihre zweite Quelle. Das bleibt so, solange nicht mehrere Meldungen pro Woche anfallen.
+
+---
+
 ## 13.09.2026, 20:47 — durchgesehen, nichts offen
 
 **Was läuft korrekt.** Letzter Lauf 13.09.2026, 14:43, „unauffällig“: 2.771 Titel, 1.972 Urteile, 19 offen; über 24 Stunden +3 Urteile, −1 offen. Keine Verluste.
