@@ -218,6 +218,13 @@ function machDom(traeger = { hoerer: null, fenster: null, adresse: null }) {
           Die Kulisse schickt sie deshalb mit, statt sie im Quelltext liegen zu lassen.
         */
         const zugaenge = [...new Set([...wert.matchAll(/"benefitId"\s*:\s*"([^"]+)"/g)].map((m) => m[1]))]
+        /* Kennung und Staffel ebenso — `asinAusSeite()` und `staffelAusSeite()` suchen nicht mehr selbst. */
+        const staffel = Number(/"seasonNumber\\*"\s*:\s*(\d+)/.exec(wert)?.[1]) || null
+        const seite = {
+          ...(zugaenge.length ? { zugaenge } : {}),
+          ...(asin ? { kennung: asin } : {}),
+          ...(staffel ? { staffel } : {}),
+        }
         traeger.hoerer?.({
           source: traeger.fenster,
           data: {
@@ -235,7 +242,7 @@ function machDom(traeger = { hoerer: null, fenster: null, adresse: null }) {
             ersetzt: false,
             asin: null,
             funde,
-            ...(zugaenge.length ? { seite: { zugaenge } } : {}),
+            ...(Object.keys(seite).length ? { seite } : {}),
           },
         })
       },
@@ -985,8 +992,8 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
   // Staffel 1 melden. Die Adresse nennt keine Staffel — genau wie im echten
   // Fall, nachdem Amazon den Parameter weggeräumt hat.
-  sandkasten.document.documentElement.innerHTML = seite(1)
   sandkasten.location.search = ''
+  sandkasten.document.documentElement.innerHTML = seite(1)
   takten(takte)
   angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))?.hoerer?.click?.()
 

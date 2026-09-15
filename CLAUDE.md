@@ -581,6 +581,15 @@ echten Digimon-Antwort, `amazon.test.cjs` hält fest: eine Sendestelle, ein neue
 Wechsel, keine Hooks auf `fetch`/XHR. Phase 2 räumt die Stellen in `amazon.js` auf, die Angaben
 weiterhin selbst aus dem Quelltext ziehen (Liste in `status.md`).
 
+**Ein Rückfall verdeckt die Fehler der Quelle, die er ersetzt.** Phase 2 (15.09.2026) nahm
+`staffelAusSeite()` den Muster-Rückfall — und zwei Zusicherungen wurden rot, weil
+`beiStaffelwechsel()` die Staffelnummer aus dem Schnappschuss sofort wieder leerte:
+`staffelKennung()` liest sie, also galt jeder neue Schnappschuss selbst als Wechsel. Seit
+Wochen lief das so, und der Rückfall fand die Nummer jedes Mal im Quelltext wieder. Gefunden
+hat es erst eine Messung in einer Testkopie (Diagnose des Knopfs nach dem ersten Takt), nicht
+der zweite Fix-Versuch. **Wer einen Rückfall streicht, rechnet damit, dass darunter ein
+Fehler zum Vorschein kommt — und misst, statt die Kulisse umzubauen, bis der Test grün ist.**
+
 **Was das an einem Abend gekostet hat**, gehört dazu: ein Dutzend Fehler, die alle wie
 verschiedene Fehler aussahen — falsche Folgenzahl, verschluckte Meldungen, „nicht abrufbar"
 bei vorhandenen Titeln, hängende Knöpfe. Dagegen wurden nacheinander sechs Wächter gebaut

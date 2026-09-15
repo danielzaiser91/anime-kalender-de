@@ -674,8 +674,6 @@ async function speicherSchreiben(werte) {
   /** Der Bandname, wenn Prime die Staffel geteilt hat („Season 2, Volume 2"). */
   let gemeldeterBand = null
 
-  let asinZwischenspeicher = null
-  let asinZu = -1
   /**
    * **Der Zwischenspeicher von `kennungImQuelltextBekannt()` — hier oben, nicht
    * bei seiner Funktion.**
@@ -773,13 +771,12 @@ async function speicherSchreiben(werte) {
    */
   function asinAusSeite() {
     /* Aus dem JSON gemeldet schlägt aus dem Quelltext gelesen. */
-    if (gemeldeteSeitenKennung) return gemeldeteSeitenKennung
-    const html = seitenHtml()
-    if (typeof html !== 'string') return null
-    if (asinZu === htmlGelesenAm) return asinZwischenspeicher
-    asinZwischenspeicher = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10,32})/.exec(html)?.[1] ?? null
-    asinZu = htmlGelesenAm
-    return asinZwischenspeicher
+    /*
+      **Kein Muster über den Quelltext mehr (Umbau Phase 2, 15.09.2026).** Die
+      Kennung kommt aus dem Schnappschuss des Lesers (`seite.kennung`); vor dem
+      ersten Schnappschuss gibt es keine, und `asin()` nimmt die Adresse.
+    */
+    return gemeldeteSeitenKennung ?? null
   }
 
   /**
@@ -1373,17 +1370,11 @@ async function speicherSchreiben(werte) {
       Mitleser — beides kostet nichts. Dieselbe Lehre wie am 28.08.2026: Wer
       den Quelltext ein weiteres Mal liest, zahlt dafür bei jedem Takt.
     */
-    const html = seitenHtml()
-    if (typeof html !== 'string') return null
-    // Im Umkreis der ersten titleID suchen — das ist die gerade gezeigte
-    // Staffel. Weiter hinten stehen Empfehlungen mit fremden Nummern.
-    for (const m of html.matchAll(/titleID/g)) {
-      const fenster = html.slice(m.index, m.index + 900)
-      if (!/titleID\\*"\s*:\s*\\*"[A-Z0-9]{10,32}/.test(fenster)) continue
-      const n = /"seasonNumber\\*"\s*:\s*(\d+)/.exec(fenster)?.[1]
-      if (n) return Number(n)
-      break
-    }
+    /*
+      **Und seit dem 15.09.2026 auch keine Suche nach `seasonNumber` mehr.** Die
+      Nummer kommt aus dem Schnappschuss (`seite.staffel`); bis er da ist, bleibt
+      der Fenstertitel. Die Adresse fragt `staffelSchluessel()` selbst.
+    */
     // Rückfall: der Seitentitel nennt sie im Klartext.
     const ausTitel = /,\s*(?:Staffel|Season)\s*(\d+)/i.exec(document.title || '')?.[1]
     return ausTitel ? Number(ausTitel) : null
@@ -9098,7 +9089,14 @@ async function speicherSchreiben(werte) {
       gesehen = leererStand()
     */
     letzteZahl = -1
-    gemeldeteStaffelNummer = null /* gehört zur alten Staffel, schlägt sonst die Adresse */
+    /*
+      **`gemeldeteStaffelNummer` wird hier nicht mehr geleert (15.09.2026).** Sie
+      kommt aus dem Schnappschuss, und `staffelKennung()` liest sie: Ein neuer
+      Schnappschuss galt damit selbst als Wechsel und löschte die Nummer, die er
+      gerade gebracht hatte. Solange der Muster-Rückfall in `staffelAusSeite()`
+      bestand, fiel das nicht auf. Der Empfänger leert sie beim Adresswechsel —
+      derselbe Grundsatz wie beim Zählstand darüber.
+    */
     gemeldeteStaffel = null
     letzterStand = ''
     letzterFortschritt = Date.now()
