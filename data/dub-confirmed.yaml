@@ -15413,3 +15413,13 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   checkedAt: '2026-09-15'
   note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: L-O---E"
+
+# --- Touken Ranbu: Hanamaru, Aniverse-Ausgabe mit deutschem Ton, 15.09.2026 ---
+- anilistId: 21741
+  title: "Touken Ranbu: Hanamaru"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FQXKKXQW
+  dub: true
+  checkedAt: '2026-09-15'
+  zweiteQuelle: "JustWatch 2026-09-07: Aniverse Amazon Channel — Ton de, ja"
+  note: "Aniverse-Ausgabe „Die komplette Serie“, Staffel 1: alle 12 Folgen mit Deutsch und Japanisch, Abos aniversede und FVOD (Diagnosebericht aus Daniels Sitzung, 15.09.2026, 10:37). Die Crunchyroll-Kanal-Ausgabe B0CJJH97FX zeigt nur Japanisch."
