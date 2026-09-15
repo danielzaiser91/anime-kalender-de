@@ -94,6 +94,8 @@ function starte(quelltext) {
   const nachrichten = []
   const angefordert = []
   const fenster = {
+    /* Der Leser beantwortet Anfragen von amazon.js — hier fragt niemand. */
+    addEventListener() {},
     postMessage: (n) => nachrichten.push(n),
     fetch: async (adresse) => {
       angefordert.push(String(adresse))

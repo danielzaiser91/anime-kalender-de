@@ -454,12 +454,29 @@
         return
       }
       /* Den Quelltext braucht `amazon.js` für Angaben, die es selbst daraus liest. */
+      z.quelltext = html
       senden(z, { quelltext: html, quelltextFuer: z.pfad })
       void nachholen(z)
     } catch (err) {
       fehler(err)
     }
   }
+
+  /**
+   * **`amazon.js` fragt nach, sobald es zuhört.**
+   *
+   * Der Leser startet bei `document_start` und schickt seinen ersten
+   * Schnappschuss nach einer halben Sekunde; `amazon.js` startet erst bei
+   * `document_idle` und hört auf einer großen Seite dann noch nicht zu. Am
+   * 15.09.2026 blieb der Knopf deshalb nach dem Umbau auf „Folgen werden
+   * geladen" und fiel auf „Tonspuren nicht gefunden" (Bungo Stray Dogs Staffel
+   * 3, Daniel mit Bild). Der alte Leser schickte später noch mehrmals und
+   * verdeckte das. Jetzt beantwortet er eine Anfrage mit dem ganzen Zustand.
+   */
+  window.addEventListener('message', (e) => {
+    if (e.source !== window || e.data?.marke !== 'ak-amazon-anfrage' || !zustand) return
+    senden(zustand, zustand.quelltext ? { quelltext: zustand.quelltext, quelltextFuer: zustand.pfad } : {})
+  })
 
   // --- Der Takt ---------------------------------------------------------------
 

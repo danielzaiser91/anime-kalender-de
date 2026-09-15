@@ -6649,6 +6649,17 @@ async function speicherSchreiben(werte) {
     uebersichtZeichnen()
   })()
 
+  /*
+    **Beim Start den Stand beim Leser anfragen.** Sein erster Schnappschuss kommt
+    oft, bevor dieses Skript zuhört (siehe `amazon-leser.js`, „amazon.js fragt
+    nach"). Die Antwort trifft ein, nachdem der Hörer darunter steht —
+    `postMessage` stellt sie erst in einer späteren Aufgabe zu.
+  */
+  try {
+    window.postMessage({ marke: 'ak-amazon-anfrage' }, '*')
+  } catch {
+    /* Ohne Nachrichtenweg (Sandkasten) bleibt es beim ersten Schnappschuss. */
+  }
   window.addEventListener('message', (e) => {
     /**
      * **Eine späte Antwort des vorigen Titels gehört nicht in diesen Zählstand.**

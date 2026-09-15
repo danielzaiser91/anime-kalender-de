@@ -794,6 +794,14 @@ function veraltetTest(schritte) {
     /if \(alt\?\.sprachen\?\.length && !f\.sprachen\?\.length\) continue/.test(leser),
   )
   pruefe('Amazons eigene Anfragen werden nicht mehr mitgelesen', !/window\.fetch\s*=/.test(leser) && !/XMLHttpRequest\.prototype/.test(leser))
+  /*
+    **Der erste Schnappschuss kommt oft, bevor amazon.js zuhört.** Nach dem
+    Umbau blieb der Knopf deshalb auf „Tonspuren nicht gefunden" (Daniel,
+    15.09.2026, 10:20). amazon.js fragt beim Start nach, der Leser antwortet.
+  */
+  const inhalt = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  pruefe('amazon.js fragt beim Start nach dem Stand', inhalt.includes("marke: 'ak-amazon-anfrage'"))
+  pruefe('und der Leser beantwortet die Anfrage', /marke !== 'ak-amazon-anfrage'[\s\S]{0,80}senden\(zustand/.test(leser))
 }
 
 /* ══ Beim Fernsehen ist die Erweiterung unsichtbar ════════════════════ */
