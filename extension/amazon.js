@@ -5609,6 +5609,29 @@ async function speicherSchreiben(werte) {
         Wo ein Mensch angekreuzt hat, was zusammengehört, entscheidet das — und
         sonst nichts.
       */
+      /*
+        **Für eine Suche der Prüfliste entscheidet der Worker-Stand — wie bei den Titelseiten.**
+
+        Daniel am 15.09.2026, mit zwei Bildern: Statusanzeige „Amazon 11 offen ·
+        8 Titel · 3 Suchen", die Erweiterung „8 Prime-Titel · 2 Suchen offen".
+        Am 14.09.2026 war nur `fertig()` auf `?stand=1` umgestellt worden, die
+        Suchen rechneten weiter mit Meldungen aller Zeiten. Die neue Ausgaben-Suche
+        für „Bungo Stray Dogs" trägt dieselbe Adresse wie eine Suche, die Wochen
+        vorher gemeldet worden war, und galt deshalb als erledigt.
+
+        Nur für Adressen der Prüfliste: Eine Weitersuche („Kürzer suchen") steht
+        nicht im Stand und darf daraus nicht „gemeldet" ableiten. Eine
+        angekreuzte Erwartung bleibt, was sie ist: Erst alle Ausgaben machen den
+        Auftrag fertig.
+      */
+      if (standZiele && suchliste?.[url]) {
+        if (standZiele.has(url) && !frischGemeldet.has(url)) return false
+        const erwartetStand = erwartungZu(url)
+        if (erwartetStand && briefkastenSeiten) {
+          return erwartetStand.every((k) => briefkastenSeiten.has(String(k)))
+        }
+        return true
+      }
       const erwartetVorab = erwartungZu(url)
       if (erwartetVorab && briefkastenSeiten) {
         return erwartetVorab.every((k) => briefkastenSeiten.has(String(k)))
@@ -5695,6 +5718,8 @@ async function speicherSchreiben(werte) {
   const suchOffen = () => Object.keys(suchliste).filter((u) => !istGemeldet(u))
 
   async function suchAbhaken(url) {
+    /* Der Worker-Stand führt die Suche noch bis zum nächsten Abruf — so lange zählt die eigene Meldung. */
+    frischGemeldet.add(url)
     /*
       Der lokale Eintrag überbrückt die Sekunden bis zur nächsten Antwort des
       Briefkastens; danach ist dessen Liste maßgeblich.

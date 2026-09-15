@@ -58,8 +58,29 @@ const STAND_LISTE = {
   },
   B0PROBECCC: { titel: 'Probe C', url: 'https://www.amazon.de/dp/B0PROBECCC', eintraege: [{ id: 3, name: 'Probe C', folgen: 12, offen: true }] },
 }
+/*
+  **Und dieselbe Probe für die Suchen (15.09.2026).** Statusanzeige „3 Suchen",
+  Erweiterung „2 Suchen offen": Eine Ausgaben-Suche trug die Adresse einer
+  Wochen vorher gemeldeten Suche. Hier stehen beide Suchen im Briefkasten aller
+  Zeiten, der Stand nennt eine als offen — der Knopf muss „1 Suchen offen" sagen.
+  Die alte Rechnung käme auf keine offene Suche.
+*/
+const STAND_SUCHE_A = 'https://www.amazon.de/s?k=Probe%20Suche%20A&i=instant-video'
+const STAND_SUCHE_B = 'https://www.amazon.de/s?k=Probe%20Suche%20B&i=instant-video'
+const STAND_SUCHE = {
+  [STAND_SUCHE_A]: { titel: 'Probe Suche A', suchbegriff: 'Probe Suche A', id: 11, folgen: 12 },
+  [STAND_SUCHE_B]: { titel: 'Probe Suche B', suchbegriff: 'Probe Suche B', id: 12, folgen: 12 },
+}
 const STAND_ANTWORT = {
-  anbieter: [{ plattform: 'primevideo', ziele: [{ url: 'https://www.amazon.de/dp/B0PROBEBBB', titel: 'Probe B' }] }],
+  anbieter: [
+    {
+      plattform: 'primevideo',
+      ziele: [
+        { url: 'https://www.amazon.de/dp/B0PROBEBBB', titel: 'Probe B' },
+        { url: STAND_SUCHE_A, titel: '' },
+      ],
+    },
+  ],
 }
 /** Prüfungen, die erst nach den asynchronen Abrufen laufen können. */
 const nachDenAbrufen = []
@@ -217,7 +238,7 @@ for (const { pfad, suche, stand } of PFADE) {
       entsteht nie. Genau hier ist der Ablauf ausgestiegen, während die Prüfung
       grün meldete.
     */
-    AK_PRIME_SUCHE: { [SUCH_ADRESSE]: liste[SUCH_ADRESSE] },
+    AK_PRIME_SUCHE: stand ? STAND_SUCHE : { [SUCH_ADRESSE]: liste[SUCH_ADRESSE] },
     /*
       **Und ein Sitzungsspeicher — ohne ihn wirft schon `seiteGehtUnsAn()`.**
 
@@ -306,7 +327,7 @@ for (const { pfad, suche, stand } of PFADE) {
             stand && String(u).includes('stand=1')
               ? STAND_ANTWORT
               : stand && String(u).includes('zaehlen=1')
-                ? { adressen: [], gemeldet: [] }
+                ? { adressen: [], gemeldet: [STAND_SUCHE_A, STAND_SUCHE_B], gemeldeteSuchen: [STAND_SUCHE_A, STAND_SUCHE_B] }
                 : {},
           ),
       }),
@@ -394,9 +415,9 @@ for (const { pfad, suche, stand } of PFADE) {
   if (stand) {
     nachDenAbrufen.push(() => {
       const text = String(uebersicht?.textContent ?? '')
-      const passt = /(^|\D)1 Prime-Titel/.test(text)
+      const passt = /(^|\D)1 Prime-Titel · 1 Suchen offen/.test(text)
       console.log(`\n=== Stand-Probe ${pfad} ===`)
-      console.log(`  Knopf nach dem Abruf: ${JSON.stringify(text)} — ${passt ? 'ok, zählt den Worker-Stand' : 'FALSCH, erwartet 1 Prime-Titel'}`)
+      console.log(`  Knopf nach dem Abruf: ${JSON.stringify(text)} — ${passt ? 'ok, zählt den Worker-Stand' : 'FALSCH, erwartet „1 Prime-Titel · 1 Suchen offen“'}`)
       if (!passt) fehlgeschlagen = true
     })
   }

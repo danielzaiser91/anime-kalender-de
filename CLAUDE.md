@@ -1181,6 +1181,8 @@ Seitdem: Eine Wiedervorlage trägt `erneut` und ist offen; die Kette läuft nur 
 
 **Prüffrage für jede neue Zahl „offen" in einer Oberfläche:** *Rechnet sie selbst, oder liest sie `?stand=1`?* Rechnet sie selbst, läuft sie früher oder später auseinander — hier dreimal in drei Wochen.
 
+**Und am Tag danach ein viertes Mal, in derselben Datei.** Daniel am 15.09.2026: Statusanzeige „8 Titel · 3 Suchen", Erweiterung „8 Prime-Titel · 2 Suchen offen". Umgestellt hatte ich am 14.09. nur `fertig()` für Titelseiten; die Suchen zählt `istGemeldet()`, und die las weiter Meldungen aller Zeiten. Die neue Ausgaben-Suche „Bungo Stray Dogs" trägt wörtlich die Adresse einer Suche, die Wochen vorher gemeldet worden war. Seit 4.20.6 fragt `istGemeldet()` für jede Adresse der Prüfliste zuerst den Stand; die Stand-Probe in `amazon-startseite-pruefen.cjs` zählt jetzt Titel **und** Suchen (Gegenprobe ohne die Regel: „1 Prime-Titel offen"). **Wer eine Zahl auf eine Quelle umstellt, sucht vorher jede Stelle, die zur selben Anzeige beiträgt** — hier stand sie im selben Knopftext, eine Funktion weiter.
+
 ## Zwei Ausgaben derselben Staffel beim selben Anbieter — beide werden gezeigt
 
 Daniel am 14.09.2026 an Digimon, mit drei Bildern: Die Prime-Pille führte auf `B0CHHNJJW3`, ohne deutschen Ton, und dort hat er gemeldet. Unter `B0CGRJGJX1` liegen dieselben 54 Folgen mit deutscher Synchro, mit anderen Folgentiteln und demselben Datum. „wenn beides legit ist, dann sollten wir diese erkenntnis offen kommunizieren … die pills zu amazon ohne de entsprechend auch anzeigen, aber mit durchstrich".
