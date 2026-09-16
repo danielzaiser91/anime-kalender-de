@@ -7623,7 +7623,8 @@ function main(): void {
   const deStart = new Map<number, string>()
   for (const r of releases) {
     const d = r.schedule?.firstEpisodeDate
-    if (!d) continue
+    /* Eine TV-Sichtung nennt unseren ersten Blick, keinen Start (Pokémon Horizonte „16.09.2026", 16.09.2026). */
+    if (!d || r.tvLetzteSichtung) continue
     const bisher = deStart.get(r.titleId)
     if (!bisher || d < bisher) deStart.set(r.titleId, d)
   }
