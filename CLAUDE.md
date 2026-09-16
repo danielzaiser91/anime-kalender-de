@@ -1369,6 +1369,25 @@ Drei Riegel, jeder aus einer Falle, die sonst auf der Seite stünde: **„Zuletz
 
 Die Anime2You-Zuordnung ist absichtlich eng (ganzer Name als Wortfolge, ohne Staffelzusatz, ab acht Zeichen): Gemessen am 13.09.2026 tragen nur 5 von 92 Vorschlägen ein Pausensignal, fast alle zu Disc-Terminen. Die Recherche fängt, was dieser Abgleich verpasst; ein Fehltreffer stünde dagegen als Grund auf der Seite.
 
+## Cartoons sind Titel wie alle anderen — auch im Panel
+
+Daniel an „The Mighty Nein" (16.09.2026), acht Punkte: „JP 2025" über einer US-Serie,
+„Noch keine deutsche Fassung" trotz deutscher Fassung, eine Prime-Pille, die auf unsere eigene
+Seite führte (`href=""`), keine Beschreibung, keine Wertung, keine ähnlichen Titel, das
+Studio „Prime Video" und TMDBs schwarzer Platzhalter als Poster. „fix es … generisch für
+alle."
+
+- **Beschreibung und Land lagen seit dem 12.09. im Abruf und wurden nie benutzt** — dieselbe
+  Klasse wie „Eine Datei zu schreiben ist nicht dasselbe wie sie zu benutzen". Wer einen
+  Bestand an die Oberfläche bringt, prüft jedes Feld des Abrufs gegen `alsTitel()`.
+- **`netzwerk` ist der Sender, nicht das Studio**; Studios sind `production_companies`.
+- **Das Standardposter von TMDB ist sprachabhängig** und bei `language=de-DE` oft ein
+  Platzhalter. `bestesBild()` (lib/cartoons.ts) nimmt das bestbewertete unter de/en/ohne.
+- **Ohne Sprachbeleg sagt der Kasten nichts über die Fassung** („In Deutschland verfügbar"
+  bzw. „Deutsche Fassung nicht geprüft") — TMDB nennt Anbieter, keine Tonspuren.
+- **Handbelege mit negativer Kennung** wirken in `schreibeCartoons()` und werden in
+  `check:handbelege` mitgeprüft.
+
 ## Fernsehen ist ein eigener Anbieter — mit Sender und Sendetagen
 
 Seit dem 16.09.2026 (Daniel an Dragon Ball DAIMA: „tägliche tv releases sind ein
