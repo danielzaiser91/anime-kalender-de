@@ -286,8 +286,17 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
                         Teil steht hier die Kurzform.
                       */}
                       {/* Heißt der Teil wie die Zeile darüber, sagt er nichts Neues (15.09.2026, Bildprüfung). */}
+                      {/*
+                        **`max-w-full` neben `self-start`, sonst schneidet `truncate` nichts ab.**
+
+                        In einer Flex-Spalte heißt `self-start` „so breit wie dein Inhalt" — die
+                        Plakette wuchs damit auf 474 px in einem 375 px breiten Fenster, und die
+                        News-Seite bekam auf dem Handy 177 px Überbreite (gemessen 16.09.2026,
+                        `check:ansichten --handy` war rot). `min-w-0` allein hilft nicht: Es senkt
+                        die Untergrenze, nicht die Obergrenze.
+                      */}
                       {erste.teil && erste.teil !== e.titel ? (
-                        <span className="min-w-0 self-start truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
+                        <span className="min-w-0 max-w-full self-start truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
                           {erste.teil}
                         </span>
                       ) : (
