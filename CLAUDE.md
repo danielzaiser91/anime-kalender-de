@@ -2839,6 +2839,18 @@ npm run check:vor-commit
 
 **Ein Generator schreibt mehr als die Datei, wegen der man ihn aufruft.** Am 14.09.2026 habe ich die Prüflisten neu erzeugt und `extension/offene-*.js` committet — `public/data/pruefliste-stand.json`, die dieselben Werkzeuge im selben Zug schreiben, blieb liegen. `tools/extension-listenstand-pruefen.cjs` vergleicht beide Stände, und der Deploy wurde rot („stimmt mit der ausgelieferten überein"), bis der nächste Commit die Datei nachholte. Nach jedem Generatorlauf deshalb `git status` und **alles** stagen, was er geändert hat — nicht nur die erwarteten Pfade.
 
+**Jeder rote Lauf ist eine Mail an Daniel** (16.09.2026: „soviele emails wegen failenden runs,
+allein heute und gestern"). Gezählt am 15./16.09.: 14 Fehlermails, alle von meinen eigenen
+Pushes oder Versuchen — Daten-Commits ohne `check:logic` (Deploy 07:55–11:30 rot), ein
+Typfehler an `synonyms`, ein 404 in `check:ansichten`, drei umgehängte Belege ohne
+`check:handbelege`, ein Messlauf, der absichtlich scheitern durfte. Drei Griffe dagegen:
+Vor dem Push die Prüfungen fahren, die die CI **zusätzlich** fährt (`check:ansichten` und
+`check:panel` bei Änderungen an `web/src`, `check:handbelege` nach einem Bau bei geänderten
+Belegen). Ein Mess- oder Versuchslauf endet mit Exit 0 und schreibt sein Ergebnis ins
+Protokoll, statt rot zu werden. Und ein Messlauf wird erst angestoßen, wenn feststeht,
+dass sein Ergebnis nicht schon anderswo liegt (die Cron-Landmessung stand seit dem 22.08.
+in D1).
+
 **Wer einen Handbeleg auf eine andere Kennung umhängt, fährt `check:handbelege` vorher mit.** Das steht nicht in `check:vor-commit` (es braucht den gebauten Datensatz) und bricht den Bau ab, wenn die neue Kennung nicht im Bestand steht — am 16.09.2026 bei drei umgehängten Prime-Belegen (Lauf 35125372002). Entweder die Staffel kommt über `synchro-von-hand.yaml` in den Bestand, oder der Beleg trägt `nichtImBestand: true` mit dem Grund in der Notiz.
 
 **Auch ein reiner Daten-Commit läuft durch `check:logic`.** Am 15.09.2026 gingen im Durchgang
