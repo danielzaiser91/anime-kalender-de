@@ -35,10 +35,10 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | Crunchyroll | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019) |
-| 2 | Crunchyroll | JoJo’s Bizarre Adventure | [Stone Ocean](https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure) |
-| 3 | Crunchyroll | Highschool D×D | [Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) · [BorN: Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) |
-| 4 | Crunchyroll | The Promised Neverland | [Staffel 2](https://www.crunchyroll.com/de/series/GYVD2K1WY/the-promised-neverland) |
+| 1 | Prime Video | Yu-Gi-Oh! Zexal | [II](https://www.amazon.de/gp/video/detail/0JCA33AQG97BOWLTEVFO06HR3J) |
+| 2 | Crunchyroll | Yu-Gi-Oh! Zexal | [II](https://www.crunchyroll.com/series/GRDQD8PDY/yu-gi-oh-zexal) |
+| 3 | Crunchyroll | JoJo’s Bizarre Adventure | [Stone Ocean](https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure) |
+| 4 | Crunchyroll | Highschool D×D | [Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) · [BorN: Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) |
 | 5 | Crunchyroll | Blue Exorcist | [Kuro reißt aus](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) · [The Movie](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) |
 | 6 | Crunchyroll | Black Clover | [Sword of the Wizard King](https://www.crunchyroll.com/de/series/GRE50KV36/black-clover) |
 | 7 | Crunchyroll | Kaguya-sama: Love Is War | [Ultra Romantic: Ishigami Yu möchte sich unterhalten](https://www.crunchyroll.com/de/series/GRJ0J828Y/kaguya-sama-love-is-war) |

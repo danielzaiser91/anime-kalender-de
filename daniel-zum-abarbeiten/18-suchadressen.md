@@ -1,18 +1,5 @@
-# Suchadressen — welcher Titel steckt dahinter?
+# Suchadressen
 
-_Stand 2026-09-16 · 1 offen_
+_Stand 2026-09-16_
 
-Diese Verweise führten auf eine **Suche** statt auf eine Titelseite und sind
-deshalb von der Seite verschwunden. Was hier steht, ist die Frage danach, wo
-der Titel beim Anbieter wirklich liegt.
-
-**So antwortest du:** Adresse der Titelseite hinter den Eintrag schreiben — oder x, wenn es den Titel dort nicht gibt.
-Bei Prime zählt nur eine Video-Adresse (/gp/video/detail/… oder primevideo.com/detail/…);
-hinter einem /dp/ kann eine DVD liegen.
-
-## Yu-Gi-Oh! Capsule Monsters
-
-- Anbieter: **primevideo** · unser Titel 123074
-- war verlinkt als: <https://www.amazon.de/s?k=Yu-Gi-Oh!%20Capsule%20Monsters&i=instant-video>
-- **Antwort:** 
-
+Nichts offen — jeder Verweis führt auf eine Titelseite.

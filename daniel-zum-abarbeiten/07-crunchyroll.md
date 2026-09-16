@@ -1,6 +1,6 @@
 # Crunchyroll: was noch zu prüfen ist
 
-Stand 2026-09-16 · **9 offene Verweise** in **7 Zeilen**.
+Stand 2026-09-16 · **8 offene Verweise** in **6 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -12,7 +12,6 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 1 | 2023-06-16 | Black Clover | [Sword of the Wizard King](https://www.crunchyroll.com/de/series/GRE50KV36/black-clover) |
 | 2 | 2021-12-01 | JoJo’s Bizarre Adventure | [Stone Ocean](https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure) |
 | 3 | 2021-10-21 | Kaguya-sama: Love Is War | [Ultra Romantic: Ishigami Yu möchte sich unterhalten](https://www.crunchyroll.com/de/series/GRJ0J828Y/kaguya-sama-love-is-war) |
-| 4 | 2021-03-26 | The Promised Neverland | [Staffel 2](https://www.crunchyroll.com/de/series/GYVD2K1WY/the-promised-neverland) |
-| 5 | 2019-09-21 | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019) |
-| 6 | 2015-12-26 | Highschool D×D | [Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) · [BorN: Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) |
-| 7 | 2012-12-28 | Blue Exorcist | [Kuro reißt aus](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) · [The Movie](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) |
+| 4 | 2015-12-26 | Highschool D×D | [Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) · [BorN: Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) |
+| 5 | 2014-03-23 | Yu-Gi-Oh! Zexal | [II](https://www.crunchyroll.com/series/GRDQD8PDY/yu-gi-oh-zexal) |
+| 6 | 2012-12-28 | Blue Exorcist | [Kuro reißt aus](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) · [The Movie](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) |
