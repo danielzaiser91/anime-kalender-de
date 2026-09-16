@@ -1,10 +1,16 @@
 name: Crunchyroll — Weiche aus der Cloud messen
 
 # Einmalige Messung (16.09.2026): Als welches Land sieht Crunchyroll die Weiche
-# (worker-cr/), wenn ein GitHub-Runner in den USA sie aufruft?
+# (worker-cr/), wenn ein GitHub-Runner in den USA sie aufruft — und trägt ein
+# in Deutschland geholtes Token die Staffelliste auch von hier aus?
 
 on:
   workflow_dispatch:
+    inputs:
+      token:
+        description: 'Anonymes Crunchyroll-Token aus Deutschland (1 Stunde gültig)'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -18,7 +24,13 @@ jobs:
         env:
           CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
         run: |
-          for i in 1 2 3; do
-            curl -sS -H "X-Weiche-Token: $CR_WEICHE_TOKEN" "https://cr-weiche.animekalender.workers.dev/?diag=1"
-            echo
-          done
+          curl -sS -H "X-Weiche-Token: $CR_WEICHE_TOKEN" "https://cr-weiche.animekalender.workers.dev/?diag=1"
+          echo
+      - name: Deutsches Token aus den USA
+        if: inputs.token != ''
+        env:
+          TOKEN: ${{ inputs.token }}
+        run: |
+          curl -sS -H "Authorization: Bearer $TOKEN" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0 Safari/537.36' \
+            "https://beta-api.crunchyroll.com/content/v2/cms/series/G6ZJMGEXY/seasons?locale=de-DE" \
+            | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const j=JSON.parse(s);for(const x of j.data??[])console.log(x.title,"|",(x.versions??[]).map(v=>v.audio_locale).includes("de-DE")?"DE":"-");if(!j.data)console.log(s.slice(0,300))})'
