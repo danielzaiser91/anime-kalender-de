@@ -2457,6 +2457,38 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
       Prüfung, die rot wird, weil die Arbeit erledigt ist").
     */
     pruefe('Handbelege: höchstens 8 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 8, `${drueber}`)
+    /*
+      **Ein Prime-Beleg ab Amazons Staffel 2 hängt nicht am Reihenkopf, wenn die
+      Reihe genau eine Staffel mit dieser Nummer führt.** Am 16.09.2026 stand
+      „Fruits Basket" (Staffel 1, 25 Folgen) mit der Seite B0GDFC7BL6 und „DE ✓"
+      im Datensatz — laut Meldung Amazons Staffel 3 mit 13 Folgen (Daniel: Staffel
+      1 dort ohne Deutsch). Dieselbe Fehlzuordnung aus der Zeit vor dem 31.08.
+      trugen 14 weitere Belege; umgehängt (drei davon an Staffeln, die der Bestand
+      noch nicht führt: Berserk 2017 S2, Our Last Crusade S2, Irregular S3). Entschieden wird über die
+      Staffelnummer im Namen, nicht über die Folgenzahl — Prime bündelt und teilt
+      anders (CLAUDE.md, „Prime schneidet Reihen anders zu").
+      Offen bleibt ein Fall: „Bluelock" trägt Amazons Staffel 2 mit 24 Folgen,
+      unsere Staffel 2 hat 14 — ob die Seite zu Staffel 1 gehört, steht nicht fest.
+    */
+    const reihen = JSON.parse(readFileSync('public/data/franchises.json', 'utf8')) as Record<
+      string,
+      { id: number; name: string; format?: string; beiwerk?: boolean }[]
+    >
+    const reiheVon = new Map<number, { id: number; name: string; format?: string; beiwerk?: boolean }[]>()
+    for (const r of Object.values(reihen)) for (const m of r) reiheVon.set(m.id, r)
+    const staffelImNamen = (n: string): number | null => {
+      const m = /(?:staffel|season)\s*(\d+)|(\d+)(?:st|nd|rd|th)\s+season/i.exec(n)
+      return m ? Number(m[1] ?? m[2]) : null
+    }
+    const amKopf = (liste as { anilistId?: number; platform?: string; note?: string }[]).filter((b) => {
+      const n = Number(/laut Adresse Staffel (\d+)/.exec(b.note ?? '')?.[1] ?? 0)
+      if (b.platform !== 'primevideo' || n < 2 || n > 50) return false
+      const r = reiheVon.get(b.anilistId ?? -1) ?? []
+      const haupt = r.filter((k) => (k.format === 'TV' || k.format === 'ONA') && !k.beiwerk)
+      if (haupt[0]?.id !== b.anilistId || staffelImNamen(haupt[0].name) !== null) return false
+      return haupt.filter((k) => staffelImNamen(k.name) === n).length === 1
+    }).length
+    pruefe('Handbelege: höchstens 1 Prime-Beleg ab Staffel 2 hängt am Reihenkopf', amKopf <= 1, `${amKopf}`)
   }
 }
 
