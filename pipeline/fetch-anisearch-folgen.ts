@@ -144,6 +144,13 @@ function archiviere(id: number, html: string): void {
   writeFileSync(resolve(ARCHIV, `${id}.html.gz`), gzipSync(html))
 }
 
+/*
+  Abbruch bei einer Sperre (403/423/429) oder fünf Fehlschlägen in Folge — dieselbe Regel wie im
+  Titelabruf (16.09.2026: aniSearch antwortete mit 423, der Titelabruf fragte 2.400-mal weiter).
+*/
+let fehlerInFolge = 0
+let gesperrt = false
+
 async function holeFolgen(id: number): Promise<AsFolge[] | undefined> {
   try {
     const res = await fetch(`https://www.anisearch.de/anime/${id}/episodes`, {
@@ -152,8 +159,10 @@ async function holeFolgen(id: number): Promise<AsFolge[] | undefined> {
     })
     if (!res.ok) {
       warn(`aniSearch ${id}/episodes: HTTP ${res.status}`)
+      if ([403, 423, 429].includes(res.status) || ++fehlerInFolge >= 5) gesperrt = true
       return undefined
     }
+    fehlerInFolge = 0
     const html = await res.text()
     /* Erst archivieren, dann auswerten — ein Parserfehler kostet dann keinen
        zweiten Abruf. Dieselbe Regel wie beim Titel-Abruf. */
@@ -161,6 +170,7 @@ async function holeFolgen(id: number): Promise<AsFolge[] | undefined> {
     return ausSeite(html)
   } catch (e) {
     warn(`aniSearch ${id}/episodes: ${(e as Error).message}`)
+    if (++fehlerInFolge >= 5) gesperrt = true
     return undefined
   }
 }
@@ -205,6 +215,10 @@ async function main(): Promise<void> {
 
   for (const { t, asId } of queue) {
     const folgen = await holeFolgen(asId)
+    if (gesperrt) {
+      warn('Abbruch: aniSearch weist ab oder ist nicht erreichbar. Der Rest kommt im nächsten Lauf.')
+      break
+    }
     await schlaf(DELAY_MS)
     if (!folgen) continue
     geholt++

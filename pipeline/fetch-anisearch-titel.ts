@@ -30,7 +30,15 @@ import { titelAus, type Titelherkunft } from './lib/anisearch-titel.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 
 const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)'
-const TAKT_MS = 2000
+/*
+  Sechs Sekunden, wie `fetch-anisearch.ts` — aniSearchs dokumentierte Grenze sind zehn Anfragen je
+  Minute. Mit zwei Sekunden lief dieser Abruf dreimal darüber, und am 16.09.2026 antwortete
+  aniSearch den Läufen von GitHub nur noch mit HTTP 423; zwei Läufe fragten danach trotzdem
+  2.400-mal weiter.
+*/
+const TAKT_MS = 6000
+/** So viele Fehlschläge hintereinander, dann ist Schluss — eine Sperre hört nicht von selbst auf. */
+const MAX_FEHLER_IN_FOLGE = 5
 /* `--limit` heißt es in allen anderen Läufen — dieselbe Schreibweise spart eine Fehlerquelle. */
 const GRENZE = Number(/--limit[= ](\d+)/.exec(process.argv.join(' '))?.[1] ?? 2500)
 const ALLE = process.argv.includes('--alle')
@@ -236,6 +244,7 @@ log(`${warteschlange.length} Titel offen, davon kommen ${Math.min(GRENZE, wartes
 let geholt = 0
 let neu = 0
 let deutsch = 0
+let fehlerInFolge = 0
 for (const t of warteschlange.slice(0, GRENZE)) {
   const asId = bruecke[String(t.id)]!
   try {
@@ -246,12 +255,17 @@ for (const t of warteschlange.slice(0, GRENZE)) {
     if (!antwort.ok) {
       warn(`aniSearch ${asId} (AniList ${t.id}): HTTP ${antwort.status}`)
       /* Eine Sperre erkennt man daran, dass sie nicht aufhört — dann abbrechen. */
-      if (antwort.status === 403 || antwort.status === 429) {
+      if (antwort.status === 403 || antwort.status === 423 || antwort.status === 429) {
         warn('Abbruch: aniSearch weist ab. Der Rest kommt im nächsten Lauf.')
+        break
+      }
+      if (++fehlerInFolge >= MAX_FEHLER_IN_FOLGE) {
+        warn(`Abbruch: ${MAX_FEHLER_IN_FOLGE} Fehlschläge in Folge.`)
         break
       }
       continue
     }
+    fehlerInFolge = 0
     const fund = titelAus(await antwort.text())
     if (fund) {
       bestand[String(t.id)] = {
@@ -278,6 +292,10 @@ for (const t of warteschlange.slice(0, GRENZE)) {
       log(`  ${geholt}/${Math.min(GRENZE, warteschlange.length)} — zuletzt „${fund?.titel ?? '—'}"`)
   } catch (err) {
     warn(`aniSearch ${asId}: ${(err as Error).message}`)
+    if (++fehlerInFolge >= MAX_FEHLER_IN_FOLGE) {
+      warn(`Abbruch: ${MAX_FEHLER_IN_FOLGE} Fehlschläge in Folge — aniSearch ist nicht erreichbar.`)
+      break
+    }
   }
   await sleep(TAKT_MS)
 }
