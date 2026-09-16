@@ -2228,34 +2228,44 @@ function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; data: Data
                   <button
                     type="button"
                     onClick={() => onOpenTitle(v.title.id)}
-                    className="flex h-full w-full cursor-pointer flex-col gap-1.5 rounded-lg p-1.5 text-left transition hover:bg-slate-100 dark:hover:bg-white/5"
+                    /*
+                      **Cover über die volle Höhe, Name oben, Merkmale unten** (Daniel,
+                      16.09.2026). Die feste Kachelhöhe ist der Grund, warum das geht:
+                      Ohne sie richtet sich das Bild nach der Textmenge, und eine Kachel
+                      mit dreizeiligem Titel hätte ein höheres Poster als die daneben.
+                      144 px bei 96 px Breite ist das Posterformat 2:3.
+                    */
+                    className="flex h-36 w-full cursor-pointer items-stretch gap-2 rounded-lg p-1.5 text-left transition hover:bg-slate-100 dark:hover:bg-white/5"
                   >
                     {v.title.coverImage ? (
                       <img
                         src={v.title.coverImage}
                         alt=""
                         loading="lazy"
-                        className="h-[136px] w-24 shrink-0 rounded-md object-cover shadow-sm"
+                        className="h-full w-[88px] shrink-0 rounded-md object-cover shadow-sm"
                       />
                     ) : (
-                      <span className="h-[136px] w-24 shrink-0 rounded-md bg-slate-200 dark:bg-white/10" />
+                      <span className="h-full w-[88px] shrink-0 rounded-md bg-slate-200 dark:bg-white/10" />
                     )}
-                    <span className="line-clamp-2 text-sm font-medium leading-snug text-slate-700 dark:text-slate-200">
-                      {anzeigeName(v.title)}
-                    </span>
-                    <span className="flex flex-wrap gap-1">
-                      {[...new Set(v.gemeinsam)].map((m) => (
-                        <span
-                          key={m}
-                          className={
-                            m.startsWith('g:')
-                              ? 'rounded bg-sky-500/10 px-1.5 py-px text-[10px] font-medium text-sky-700 dark:bg-sky-400/15 dark:text-sky-300'
-                              : 'rounded bg-slate-500/10 px-1.5 py-px text-[10px] text-slate-600 dark:bg-white/10 dark:text-slate-300'
-                          }
-                        >
-                          {merkmalName(m)}
-                        </span>
-                      ))}
+                    {/* `justify-between` verankert: Name am oberen Rand, Chips am unteren. */}
+                    <span className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
+                      <span className="line-clamp-3 text-sm font-medium leading-snug text-slate-700 dark:text-slate-200">
+                        {anzeigeName(v.title)}
+                      </span>
+                      <span className="flex flex-wrap gap-1">
+                        {[...new Set(v.gemeinsam)].map((m) => (
+                          <span
+                            key={m}
+                            className={
+                              m.startsWith('g:')
+                                ? 'rounded bg-sky-500/10 px-1.5 py-px text-[10px] font-medium text-sky-700 dark:bg-sky-400/15 dark:text-sky-300'
+                                : 'rounded bg-slate-500/10 px-1.5 py-px text-[10px] text-slate-600 dark:bg-white/10 dark:text-slate-300'
+                            }
+                          >
+                            {merkmalName(m)}
+                          </span>
+                        ))}
+                      </span>
                     </span>
                   </button>
                 </li>
