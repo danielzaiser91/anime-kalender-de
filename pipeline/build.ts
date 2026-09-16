@@ -6204,6 +6204,51 @@ function main(): void {
   }
   if (jwWege) log(`${jwWege} Bezugswege aus JustWatch für Titel ohne jeden Weg ergänzt`)
 
+  /*
+    **Ein Bezugsweg führt zum Anbieter, nicht zu einer Datenbank.**
+
+    Die Pille „maxdome · 2 Angebote" öffnete `themoviedb.org/movie/347200-3/watch`
+    statt `store.maxdome.de/mo45163184` (Daniel, 16.09.2026, mit drei Bildern:
+    „stattdessen direkt zu maxdome leiten → generisch fixen"). Der Kommentar an
+    der erzeugenden Stelle nennt den Grund und war bis heute richtig: „Einen Link
+    je Anbieter liefert TMDB nicht, nur eine Übersichtsseite."
+
+    **JustWatch liefert ihn** — dieselbe Datenbasis, eine Ebene tiefer:
+    `data/justwatch-audio.json` führt je Angebot eine Adresse beim Anbieter
+    selbst. Gemessen am 16.09.2026: 1.187 Bezugswege zeigen auf themoviedb.org
+    (Apple TV 248, freenet 213, MagentaTV 168, Videoload 148, maxdome 97 …),
+    verteilt auf 364 Titel. Von den zehn, die JustWatch schon kennt, ließen sich
+    16 von 20 Wegen ersetzen.
+
+    Ersetzt wird nur, was zum selben Anbieter gehört; wo JustWatch schweigt,
+    bleibt die Übersichtsseite stehen, bis der Lauf sie eingeholt hat. Eine
+    Übersicht ist ein Umweg — eine erfundene Anbieteradresse wäre eine Sackgasse.
+  */
+  let jwDirekt = 0
+  {
+    const jw = readJson<
+      Record<string, { angebote?: { anbieter: string; url?: string }[] }>
+    >('data/justwatch-audio.json', {})
+    const kern = (x: string) => x.toLowerCase().replace(/[^a-z0-9]/g, '')
+    for (const title of titles.values()) {
+      const wege = title.watchLinks
+      if (!wege?.length) continue
+      const angebote = jw[String(title.id)]?.angebote ?? []
+      if (!angebote.length) continue
+      for (const w of wege) {
+        if (!/themoviedb.org/.test(w.url)) continue
+        const treffer = angebote.find(
+          (a) => a.url && (kern(a.anbieter).includes(kern(w.name)) || kern(w.name).includes(kern(a.anbieter))),
+        )
+        if (!treffer?.url || toteAdressen.has(treffer.url)) continue
+        w.url = treffer.url
+        jwDirekt++
+      }
+    }
+  }
+  if (jwDirekt)
+    log(`${jwDirekt} Bezugswege zeigen jetzt direkt zum Anbieter statt auf die TMDB-Übersicht`)
+
   /**
    * **Und dieselbe Frage an aniSearch — sie kennt Wege, die JustWatch nicht hat.**
    *

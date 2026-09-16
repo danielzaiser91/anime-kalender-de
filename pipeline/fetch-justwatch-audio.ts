@@ -158,11 +158,24 @@ async function main(): Promise<void> {
     Ein Angebot, das JustWatch dort nennt, ist deshalb ein Weg, den wir zeigen
     dürfen — die Sprachfrage bleibt davon unberührt.
   */
+  /*
+    **Dritter Grund, hier zu fragen: ein Weg ohne Ziel.**
+
+    Wo TMDB Anbieter nennt, aber keinen Deeplink liefert, trägt der Bezugsweg
+    seit jeher die TMDB-Übersichtsseite — die Pille „maxdome" öffnete also
+    themoviedb.org statt store.maxdome.de (Daniel, 16.09.2026). JustWatch nennt
+    je Angebot die Adresse beim Anbieter selbst; gemessen sind das 1.187 Wege auf
+    364 Titeln, und bei den zehn schon gefragten ließen sich 16 von 20 ersetzen.
+
+    Diese Titel haben einen Weg und fielen deshalb durch beide Bedingungen
+    darüber — „hat einen Weg" heißt hier eben nicht „hat ein Ziel".
+  */
   const offen = titles
     .filter(
       (t) =>
         (t.streams ?? []).some((s) => s.dub === undefined) ||
-        (!(t.streams ?? []).length && !(t.watchLinks ?? []).length),
+        (!(t.streams ?? []).length && !(t.watchLinks ?? []).length) ||
+        (t.watchLinks ?? []).some((w) => /themoviedb.org/.test(w.url ?? '')),
     )
     .filter((t) => (bestand[String(t.id)]?.geprueftAm ?? '') < grenze)
     .sort((a, b) => (bestand[String(a.id)]?.geprueftAm ?? '').localeCompare(bestand[String(b.id)]?.geprueftAm ?? ''))
