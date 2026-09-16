@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-16 · **15 offene Verweise** in **11 Zeilen**.
+Stand 2026-09-17 · **11 offene Verweise** in **8 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -34,23 +34,20 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | Offen je Anbieter | Verweise |
 |---|---|
 | [Joyn](07-joyn.md) | 9 |
-| [Prime Video](07-primevideo.md) | 6 |
+| [Prime Video](07-primevideo.md) | 2 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-03-31 | Classroom of the Elite | [Hauptserie](https://www.amazon.de/dp/B0GGJKGT5P) · [Staffel 2](https://www.amazon.de/dp/B0F1DKXTW7) |
-| 2 | 2026-03-31 | Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs | [Hauptserie](https://www.amazon.de/dp/B0CJRDG5R6) |
-| 3 | 2024-09-05 | Spy × Family | [Code: White](https://www.joyn.de/filme/spy-x-family-code-white) |
-| 4 | 2024-04-12 | Detektiv Conan | [Das 1-Million-Dollar-Pentagramm](https://www.joyn.de/filme/detektiv-conan-film-27-das-1-million-dollar-pentagram) |
-| 5 | 2023-06-20 | Kizuna no Allele | [Hauptserie](https://www.amazon.de/dp/B0BX2L1CQJ) |
-| 6 | 2022-07-07 | Ponkotsu Quest: Maou to Haken no Mamono-tachi | [Vinland Saga](https://www.amazon.de/dp/B0C55SJB1W) |
-| 7 | 2019-09-18 | Astra Lost in Space | [Hauptserie](https://www.joyn.de/serien/astra-lost-in-space) |
-| 8 | 2014-06-25 | No Game No Life | [Hauptserie](https://www.joyn.de/serien/no-game-no-life) |
-| 9 | 2012-09-22 | Kuroko’s Basketball: | [Staffel 1](https://www.amazon.de/dp/B09P9P9YG6) |
-| 10 | 2012-01-26 | Bakugan: Spieler des Schicksals | [Hauptserie](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Neu Vestroia](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Invasion der Gundalianer](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Mechtanium Surge](https://www.joyn.de/serien/bakugan-battle-brawlers) |
-| 11 | 2007-09-29 | Guardian of the Spirit | [Hauptserie](https://www.joyn.de/serien/guardian-of-the-spirit) |
+| 1 | 2024-09-05 | Spy × Family | [Code: White](https://www.joyn.de/filme/spy-x-family-code-white) |
+| 2 | 2024-04-12 | Detektiv Conan | [Das 1-Million-Dollar-Pentagramm](https://www.joyn.de/filme/detektiv-conan-film-27-das-1-million-dollar-pentagram) |
+| 3 | 2023-06-20 | Kizuna no Allele | [Hauptserie](https://www.amazon.de/dp/B0BX2L1CQJ) |
+| 4 | 2022-09-26 | Classroom of the Elite | [Staffel 2](https://www.amazon.de/dp/B0F1DKXTW7) |
+| 5 | 2019-09-18 | Astra Lost in Space | [Hauptserie](https://www.joyn.de/serien/astra-lost-in-space) |
+| 6 | 2014-06-25 | No Game No Life | [Hauptserie](https://www.joyn.de/serien/no-game-no-life) |
+| 7 | 2012-01-26 | Bakugan: Spieler des Schicksals | [Hauptserie](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Neu Vestroia](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Invasion der Gundalianer](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Mechtanium Surge](https://www.joyn.de/serien/bakugan-battle-brawlers) |
+| 8 | 2007-09-29 | Guardian of the Spirit | [Hauptserie](https://www.joyn.de/serien/guardian-of-the-spirit) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
