@@ -1939,6 +1939,37 @@ function farbeZuAnbieter(name: string): string | undefined {
     Hausfarbe, nicht geraten.
   */
   if (name === 'aniSearch') return '#f0a500'
+  /*
+    **Die Hausfarben der Shops, die keine Plattform bei uns sind.**
+
+    Daniel am 16.09.2026 zur maxdome-Pille: „das maxdome icon ist blau,
+    entsprechend die maxdome pill stylen." Bis dahin blieben diese Wege
+    farblos, weil sie nicht in `PLATFORMS` stehen — in einer Reihe bunter
+    Pillen sieht das aus wie ein Fehler.
+
+    Jede Farbe ist **abgelesen, nicht gewählt**: aus dem jeweiligen Logo bei
+    Wikimedia Commons (maxdome 2021: #0094d7, sechs Vorkommen; MagentaTV 2024:
+    #e20074, die Telekom-Hausfarbe). Wo ein Markenzeichen vorliegt, trägt die
+    Pille es zusätzlich — die übrigen bekommen wenigstens ihre Farbe.
+  */
+  const SHOP_FARBEN: Record<string, string> = {
+    /* maxdome-Logo 2021 bei Wikimedia Commons, sechs Vorkommen. */
+    maxdome: '#0094d7',
+    /* MagentaTV-Logo 2024, die Telekom-Hausfarbe. */
+    MagentaTV: '#e20074',
+    /* Die drei aus der simple-icons-Datenbank, die dort die Marken-Hexwerte pflegt. */
+    'Rakuten TV': '#bf0000',
+    'Sky Store': '#0072c9',
+    'freenet meinVOD': '#84bc34',
+    /*
+      **Apple TV (#000000) und Google Play (#414141) stehen bewusst nicht hier.**
+      Ihre Hausfarben sind Schwarz und Dunkelgrau — auf dunklem Grund wäre die
+      Pille unsichtbar. Der neutrale Umriss ist dort die bessere Auskunft.
+      Videoload und Akibapass fehlen, weil zu ihnen keine belegte Farbe vorliegt;
+      geraten wird keine.
+    */
+  }
+  if (SHOP_FARBEN[name]) return SHOP_FARBEN[name]
   for (const p of Object.values(PLATFORMS)) {
     if (p.name && name.startsWith(p.name)) return p.color
   }
