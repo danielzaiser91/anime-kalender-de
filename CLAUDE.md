@@ -249,7 +249,15 @@ Zwei Folgen daraus:
   den deutschen Katalog (`content/v2/cms/series/<id>/seasons`, Fairy Tail: DE-Token „DE",
   US-Token „–"). Die Cloud braucht also nur ein frisches deutsches Token (1 Stunde) oder
   das CMS-Paket (24 Stunden) — und beides entsteht bisher nur an Daniels Leitung.
-  Übrig bleiben ein deutscher Proxy oder ein Kleinserver (kostet Geld). `wrangler delete`
+  **Getragen hat Vercel** (am selben Abend): eine Funktion in `fra1` (`weiche-vercel/`,
+  Projekt `cr-weiche`, Konto per Google) meldet vom GitHub-Runner aus dreimal
+  `{"region":"fra1","crunchyroll":"DE"}`. Dahinter steht AWS Frankfurt, kein Cloudflare,
+  also reicht niemand das Land des Aufrufers durch. Sie leitet nur an
+  `beta-api.crunchyroll.com` weiter und verlangt `X-Weiche-Token` (GitHub-Secret
+  `CR_WEICHE_TOKEN`, Vercel-Env `WEICHE_TOKEN`); `data:cr-offene` nutzt sie, sobald das
+  Secret gesetzt ist. Ausliefern: `cd weiche-vercel && npx vercel deploy --prod --token …`
+  (Token in `my_secrets.md`). Vercels Node-Laufzeit will benannte `GET`/`POST`-Handler — ein
+  `export default` stürzt mit `FUNCTION_INVOCATION_FAILED` ab. `wrangler delete`
   scheitert mit unserem Token („Memberships->Read"); gelöscht wird über
   `DELETE /accounts/<id>/workers/scripts/<name>`, KV anlegen darf das Token nicht.
 

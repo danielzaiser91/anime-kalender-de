@@ -33,6 +33,8 @@ on:
           # Neuzugänge bei Crunchyroll. Auf Abruf, wenn der Lauf ein Feld
           # mehr mitschreibt — die bekannten Funde bekommen es dann nachgetragen.
           - data:cr-neu
+          # Verweise ohne Sprachurteil — über die Vercel-Weiche in Frankfurt (weiche-vercel/).
+          - data:cr-offene
           - data:extension-liste
           - data:justwatch
           # Der Gesamtkatalog läuft sonst nur wöchentlich. Auf Abruf braucht man
@@ -96,6 +98,7 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           ANILIST_TOKEN: ${{ secrets.ANILIST_TOKEN }}
           CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
+          CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
           set -euo pipefail
