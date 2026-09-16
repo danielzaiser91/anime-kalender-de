@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-16T20:13:04.142Z",
+  "stand": "2026-09-16T20:18:10.485Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7743,7 +7743,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-09-16",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 170083,
@@ -7754,7 +7754,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-09-16",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 170083,
@@ -7765,7 +7765,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-09-16",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 170083,
@@ -7776,7 +7776,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-09-16",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 170695,
@@ -9107,7 +9107,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-09-16",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 173388,
