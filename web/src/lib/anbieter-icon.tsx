@@ -30,6 +30,8 @@ const DATEI: Record<string, string> = {
   'freenet meinvod': 'freenet',
   disneyplus: 'disneyplus',
   'disney+': 'disneyplus',
+  adn: 'adn',
+  'animation digital network': 'adn',
 }
 
 /**
@@ -38,9 +40,13 @@ const DATEI: Record<string, string> = {
  * Für Disney+ gibt es kein freies quadratisches Zeichen: simple-icons hat die Marke
  * entfernt, Commons führt nur die Wortmarke („Disney+ 2024", gemeinfrei, 1033×565).
  * In ein Quadrat gezwängt blieb davon ein Strich; in ihrer Breite ist sie lesbar.
- * Für ADN gibt es weder hier noch dort ein freies Zeichen (geprüft 16.09.2026).
+ *
+ * **ADN hat kein frei lizenziertes Zeichen.** Die Wortmarke stammt von fr.wikipedia
+ * („Logo Anime-Digital-Network.svg", dort als nicht freies Markenlogo geführt) und steht
+ * hier nur zur Kennzeichnung des verlinkten Anbieters — Daniels Entscheidung vom
+ * 16.09.2026, im Wissen um das Restrisiko. Widerspricht ADN, fliegt sie wieder raus.
  */
-const BREITE: Record<string, number> = { disneyplus: 1033 / 565 }
+const BREITE: Record<string, number> = { disneyplus: 1033 / 565, adn: 121 / 44 }
 
 /**
  * Der Name eines Bezugswegs trägt manchmal den Kanal in Klammern — „Amazon Prime

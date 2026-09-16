@@ -1739,6 +1739,23 @@ Seitdem zeigt eine Weg-Pille eine Folgenzahl nur, wenn ein Verweis mit **derselb
 über ihren Weg sagte. Dieselbe Trennung wie „Ein Beleg gehört einer Ausgabe, nicht einem
 Titel" (07.09.2026), diesmal in der Anzeige.
 
+### Was MyDubList nicht kennt, kommt über `synchro-von-hand.yaml` in den Bestand
+
+„Yu-Gi-Oh! Capsule Monsters" stand am 16.09.2026 als „Noch keine deutsche Fassung" hinter
+dem Toggle. Die Serie wurde nie in Japan ausgestrahlt (4Kids-Auftragsproduktion), lief aber
+auf RTL II und steht bei TOGGO — in der deutschen Zählung als **Staffel 6 von „Yu-Gi-Oh!",
+Folgen 225–236** (fernsehserien.de). aniSearch führt sie gar nicht; der Suchlink im Panel
+lief deshalb ins Leere.
+
+Der Hauptbestand entsteht aus MyDubList, und für Titel, die dort fehlen, gab es keinen Weg
+hinein — `watch-links.yaml` ergänzt nur, was schon da ist. `data/synchro-von-hand.yaml` ist
+dieser Weg: zwei Quellen je Eintrag, `fetch.ts` holt die AniList-Daten mit, der Bau nimmt
+den Titel auf.
+
+**Prüfgriff bei „Noch keine deutsche Fassung" für einen alten Titel:** die deutsche Zählung
+der Hauptreihe ansehen. Fernsehsender und Streamer zählen Nebenserien oft als weitere
+Staffel mit — dasselbe Muster wie „Der Anbieter zählt kumulativ".
+
 ### aniSearchs deutsches Datum ist oft der Simulcast, nicht die Synchro
 
 Der deutsche Sprachblock nennt die **erste** deutsche Veröffentlichung, und die ist bei neueren
@@ -3118,6 +3135,12 @@ Erweiterungs-Stylesheets, den Bildwerkzeugen und `build-share-pages.ts`. Sie
 stehen bewusst **nicht** in `check:vor-commit`: Alle vier brauchen Chromium, im
 Deploy-Job gibt es keins, und sie dorthin zu hängen hat am selben Tag drei
 Deploys rot gemacht.
+
+**Die Bilder landen in `docs/`, und einige davon sind versioniert.** Nach einem
+Lauf mit eigenen Titeln wird aufgeräumt mit `git checkout -- docs/` und
+`git clean -n docs/` (erst ansehen) — nicht mit `rm docs/panel-*.png`. Das hat am
+16.09.2026 die versionierten Standardbilder mitgelöscht, und der nächste Commit
+mit `git pull --rebase` scheiterte an den Löschungen.
 
 Der Anlass ist derselbe Tag: Der Antwort-Kasten war zu niedrig für den neuen
 Zustand „teilweise", die zweite Pillenreihe stand über den Rand hinaus —
