@@ -1,0 +1,25 @@
+name: Crunchyroll — Weiche aus der Cloud messen
+
+# Messung (16.09.2026): Als welches Land sieht Crunchyroll die Vercel-Weiche
+# (weiche-vercel/), wenn ein GitHub-Runner in den USA sie aufruft? Endet immer
+# grün — das Ergebnis steht im Protokoll.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  messen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Diagnose der Weiche
+        env:
+          CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
+        run: |
+          for i in 1 2 3; do
+            curl -sS -H "X-Weiche-Token: $CR_WEICHE_TOKEN" "https://cr-weiche.vercel.app/api/cr?diag=1" || true
+            echo
+          done
