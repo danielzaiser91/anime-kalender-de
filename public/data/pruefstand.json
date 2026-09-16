@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-16T09:41:46.539Z",
+ "erzeugtAm": "2026-09-16T10:07:34.507Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -56,17 +56,113 @@
    "name": "Crunchyroll",
    "plattform": "crunchyroll",
    "gemeldet": 0,
-   "gesamt": 1,
-   "offen": 1,
+   "gesamt": 31,
+   "offen": 31,
    "ohneSeite": 0,
-   "ziel": "https://www.crunchyroll.com/series/GRDQD8PDY/yu-gi-oh-zexal",
+   "ziel": "https://www.crunchyroll.com/de/series/G24H1NZXD/ikki-tousen",
    "ziele": [
+    {
+     "url": "https://www.crunchyroll.com/de/series/G24H1NZXD/ikki-tousen",
+     "titel": "Ikki Tousen: Xtreme Xecutor"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GRP585ZQR/code-geass---akito-the-exiled",
+     "titel": "Code Geass: Akito the Exiled - Der zerrissene Wyvern"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/G24H1NZXD/ikki-tousen",
+     "titel": "Ikki Tousen in Kyoto"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist",
+     "titel": "Blue Exorcist: Kuro reißt aus"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist",
+     "titel": "Blue Exorcist: The Movie"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd",
+     "titel": "Highschool D×D: Mini-Episoden"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GRP585ZQR/code-geass---akito-the-exiled",
+     "titel": "Code Geass: Akito the Exiled - Der zerrissene Wyvern"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GRP585ZQR/code-geass---akito-the-exiled",
+     "titel": "Code Geass: Akito the Exiled - The Brightness Falls"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GRP585ZQR/code-geass---akito-the-exiled",
+     "titel": "Code Geass: Akito the Exiled - Memories of Hatred"
+    },
     {
      "url": "https://www.crunchyroll.com/series/GRDQD8PDY/yu-gi-oh-zexal",
      "titel": "Yu-Gi-Oh! Zexal II"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GY2P9ED0Y/code-geass",
+     "titel": null
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GR751KNZY/attack-on-titan",
+     "titel": "Attack on Titan Part I: Crimson Bow and Arrow"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GR751KNZY/attack-on-titan",
+     "titel": "Attack on Titan - Movie Teil 2: Flügel der Freiheit"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/G4PH0WP4K/the-rolling-girls",
+     "titel": "The Rolling Girls"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GY8VM8MWY/haikyu",
+     "titel": "Haikyu!! Movie 1 - Ende und Anfang"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/G63K4W296/space-dandy",
+     "titel": null
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GRP585ZQR/code-geass---akito-the-exiled",
+     "titel": "Code Geass: Akito the Exiled - To The Beloved"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd",
+     "titel": "Highschool D×D BorN: Mini-Episoden"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/G4PH0WE7E/dimension-w",
+     "titel": "Dimension W OVA: Do Robots Dream of Bathhouses?"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GR24GX896/kabaneri-of-the-iron-fortress",
+     "titel": "Kabaneri of the Iron Fortress: The Battle of Unato"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GY2PW178Y/keijo",
+     "titel": "Keijo!!!!!!!! Bonusfolgen"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/G6VDWKM76/persona5-the-animation",
+     "titel": "Persona 5 the Animation: Ein magischer Valentinstag"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GR3KVPQER/cells-at-work",
+     "titel": "Cells at Work!: Mini-Specials"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GP5HJ80VJ/how-heavy-are-the-dumbbells-you-lift",
+     "titel": "How Heavy Are the Dumbbells You Lift? Gnadenlose Trainingsstunde"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
+     "titel": "Black Clover: Sword of the Wizard King"
     }
    ],
-   "naechster": "Yu-Gi-Oh! Zexal II"
+   "naechster": "Ikki Tousen: Xtreme Xecutor"
   }
  ]
 }
