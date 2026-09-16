@@ -8,7 +8,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 |---|---|---|---|---|
 | 2 | [Prime Video — Titelseiten](07-primevideo.md) | 3 Adressen, 4 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 | 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 1 Adresse | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
-| 5 | [Crunchyroll](07-crunchyroll.md) | 9 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
+| 5 | [Crunchyroll](07-crunchyroll.md) | 7 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
 Sie zeigt auf jeder Anbieterseite, was dort noch offen ist, liest die Tonspuren und
