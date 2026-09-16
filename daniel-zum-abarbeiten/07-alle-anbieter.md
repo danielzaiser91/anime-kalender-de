@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-16 · **0 offene Verweise** in **0 Zeilen**.
+Stand 2026-09-16 · **2 offene Verweise** in **2 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,11 +33,17 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
+| [Prime Video](07-primevideo.md) | 1 |
+| [Crunchyroll](07-crunchyroll.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
+| 1 | 2014-03-23 | Yu-Gi-Oh! Zexal | [II](https://www.amazon.de/gp/video/detail/0JCA33AQG97BOWLTEVFO06HR3J) |
+| 2 | 2014-03-23 | Yu-Gi-Oh! Zexal | [II](https://www.crunchyroll.com/series/GRDQD8PDY/yu-gi-oh-zexal) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
+- **Crunchyroll:** Der Simulcast-Kalender führt nur laufende Staffeln. Für Katalogtitel sagt er nichts — Fehlen ist dort kein Gegenbeweis.
+- **Prime Video:** Prime Video nennt die Tonspuren erst auf der Produktseite, und die ist ohne Anmeldung unvollständig.
