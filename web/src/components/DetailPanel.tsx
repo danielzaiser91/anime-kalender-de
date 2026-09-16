@@ -2031,7 +2031,13 @@ function ReleasePille({
             ist; genau diese Frage führt jemanden auf die Seite. Zwei Zeichen
             beantworten sie.
           */}
-          {[zweite, datum && t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) })]
+          {[
+            zweite,
+            /* Bei einer TV-Sichtung ist das Datum unsere erste Sichtung, kein Start — genannt wird die letzte. */
+            release.tvLetzteSichtung
+              ? t('detail.tvGesehen', { d: formatDate(release.tvLetzteSichtung) })
+              : datum && t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) }),
+          ]
             .filter(Boolean)
             .join(' · ')}
         </span>
@@ -3112,7 +3118,8 @@ export function DetailPanel({
       Ein Termin ist keine Folge — außer bei einer Wochenserie, wo jede Folge
       ihren eigenen trägt. Nur dort zählt der Rückfall noch.
     */
-    const nurWochen = fuerKopf.every((r) => r.releaseType === 'weekly')
+    /* Eine TV-Sichtung zählt Sendungen, keine Folgen der Serie (Pokémon Horizonte: „Alle 2 Folgen", 16.09.2026). */
+    const nurWochen = fuerKopf.every((r) => r.releaseType === 'weekly' && !r.tvLetzteSichtung)
     const gesamt = title.episodes ?? (nurWochen && alleEvents.length > 1 ? alleEvents.length : undefined)
     /*
       **„Alle N Folgen" nur, wenn alle N belegt sind.**
