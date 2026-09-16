@@ -83,3 +83,27 @@ export function loadWatchLinks(): CuratedWatch[] {
     return []
   }
 }
+
+/** Ein Titel mit belegter Synchro, den MyDubList nicht führt — `data/synchro-von-hand.yaml`. */
+export interface SynchroVonHand {
+  anilistId: number
+  title: string
+  belegtAm: string
+  sources: string[]
+}
+
+/**
+ * Lädt `data/synchro-von-hand.yaml`.
+ *
+ * Ohne zwei Quellen zählt ein Eintrag nicht — ein Hauptbestandstitel behauptet eine
+ * deutsche Fassung, und dafür genügt keine einzelne Fundstelle.
+ */
+export function loadSynchroVonHand(): SynchroVonHand[] {
+  const file = resolve(ROOT, 'data/synchro-von-hand.yaml')
+  try {
+    const parsed = yaml.load(readFileSync(file, 'utf8')) as SynchroVonHand[] | null
+    return (parsed ?? []).filter((e) => e?.anilistId && (e.sources?.length ?? 0) >= 2)
+  } catch {
+    return []
+  }
+}

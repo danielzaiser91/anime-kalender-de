@@ -17,6 +17,7 @@ QUELLEN=(
   data/anisearch-titel.json
   data/wikidata-titel.json
   data/titel-de.yaml
+  data/synchro-von-hand.yaml
   data/termine-verpasst.json
   data/tonspur-verdacht.json
   data/motn-tonspur.json

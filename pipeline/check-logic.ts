@@ -90,6 +90,7 @@ import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
 import { ladeTitelDe } from './lib/titel-de.ts'
+import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 
 let fehler = 0
@@ -4223,6 +4224,16 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('Amazon ist Prime Video', verlagAlsDienst('Amazon.com, Inc.') === 'primevideo')
   pruefe('Wakanim ist ein Dienst ohne Plattform', verlagAlsDienst('Wakanim DE') === '-')
   pruefe('Kazé und KSM sind Disc-Verlage', verlagAlsDienst('Kazé Deutschland') === undefined && verlagAlsDienst('KSM Anime') === undefined)
+}
+/*
+  Ein Titel mit Handbeleg (`data/synchro-von-hand.yaml`) braucht zwei Quellen — der Lader
+  verwirft sonst still, und der Titel bliebe ohne Hinweis hinter dem Toggle.
+*/
+{
+  const roh = (yaml.load(readFileSync('data/synchro-von-hand.yaml', 'utf8')) ?? []) as { anilistId?: number; sources?: string[] }[]
+  const schwach = roh.filter((e) => (e.sources ?? []).length < 2)
+  pruefe('jeder Handbeleg einer Synchro nennt zwei Quellen', schwach.length === 0, schwach.map((e) => e.anilistId))
+  pruefe('die Handbelege werden gelesen', loadSynchroVonHand().length === roh.length)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -139,3 +139,15 @@
   sources:
     - https://www.animeversand.shop/Dragon-Quest-The-Adventure-of-Dai-Staffel-1-Gesamtausgabe-Bundle-12-DVDs/ADV07511
     - https://www.synchronkartei.de/serie/53682
+
+# In der deutschen Zählung Staffel 6 von „Yu-Gi-Oh!" (Folgen 225–236); TOGGO
+# führt sie kostenlos. Die Adresse ist Folge 1, verlinkt von fernsehserien.de.
+- anilistId: 123074
+  title: 'Yu-Gi-Oh! Capsule Monsters'
+  links:
+    - name: TOGGO
+      url: https://www.toggo.de/yu-gi-oh-pty647/folge/ins-spiel-gezogen-vep24158
+      kind: stream
+  sources:
+    - https://www.fernsehserien.de/yu-gi-oh/folgen/6x01-ins-spiel-gezogen-137612
+    - https://www.toggo.de/yu-gi-oh-pty647/folge/ins-spiel-gezogen-vep24158

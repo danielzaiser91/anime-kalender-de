@@ -1,0 +1,25 @@
+# Titel mit deutscher Synchro, die MyDubList nicht führt — von Hand belegt.
+#
+# **Wofür das gut ist.** Der Hauptbestand entsteht aus MyDubList. Was dort fehlt,
+# landet hinter dem Toggle als „Noch keine deutsche Fassung", auch wenn es die
+# Fassung seit Jahren gibt. Erster Fall: „Yu-Gi-Oh! Capsule Monsters" lief auf
+# RTL II und steht bei TOGGO — in der deutschen Zählung als Staffel 6 von
+# „Yu-Gi-Oh!", Folgen 225–236 (Daniel, 16.09.2026).
+#
+# **Zwei Quellen je Eintrag**, dieselbe Regel wie in `titel-de.yaml`. Der Abruf
+# (`pipeline/fetch.ts`) holt die AniList-Daten dieser Kennungen mit, der Bau
+# nimmt sie in den Hauptbestand auf. Wo man sie sehen kann, steht wie immer in
+# `watch-links.yaml` oder `verweise-von-hand.yaml`.
+#
+# Felder:
+#   anilistId  Pflicht — die Kennung des Anime.
+#   title      Pflicht — zum Wiederfinden, wird nicht angezeigt.
+#   belegtAm   Pflicht — Datum, ISO, in Anführungszeichen.
+#   sources    Pflicht — mindestens zwei Adressen.
+
+- anilistId: 123074
+  title: 'Yu-Gi-Oh! Capsule Monsters'
+  belegtAm: '2026-09-16'
+  sources:
+    - https://en.wikipedia.org/wiki/Yu-Gi-Oh!_Capsule_Monsters
+    - https://www.fernsehserien.de/yu-gi-oh/episodenguide/staffel-6/3762
