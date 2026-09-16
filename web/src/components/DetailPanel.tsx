@@ -47,7 +47,7 @@ import {
   SectionTitle,
 } from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
-import { AnbieterIcon } from '../lib/anbieter-icon.tsx'
+import { AnbieterIcon, anbieterDatei } from '../lib/anbieter-icon.tsx'
 
 const KEYWORD_PREVIEW = 8
 /**
@@ -348,7 +348,15 @@ function AntwortKasten({
   const nochNichts = antwort.art === 'laeuft' && antwort.raus === 0
   const streamPillen = nochNichts ? [] : stream
   const beides = streamPillen.length > 0 && disc.length > 0
-  const pillen = zeigeDisc && disc.length ? disc : streamPillen.length ? streamPillen : disc
+  /*
+    **Der Umschalter steht immer da, sobald es Pillen gibt.** Stand er nur bei beidem,
+    war eine einzelne Kaufpille nicht als Disc zu erkennen (Daniel, 16.09.2026, an
+    „Dragon Quest: The Adventure of Dai": „damit disc/stream klar ist immer oben rechts
+    den toggle anzeigen"). Gewählt ist die Seite mit Pillen; die leere ist gesperrt.
+  */
+  const umschalter = streamPillen.length > 0 || disc.length > 0
+  const aktivDisc = beides ? zeigeDisc : streamPillen.length === 0
+  const pillen = aktivDisc ? disc : streamPillen
   const T = t as unknown as (k: string, v?: Record<string, string | number>) => string
 
   /** Relative Angabe zuerst — niemand rechnet gern nach, welcher Tag der 25. ist. */
@@ -773,27 +781,30 @@ function AntwortKasten({
         genau darunter, dann die pills. box müsste also um ~2 zeilen kleiner
         werden."
       */}
-      {beides && (
+      {umschalter && (
         <div
           className="ml-auto mb-[5px] inline-flex shrink-0 self-start rounded-full border border-slate-300/60 bg-white/70 p-0.5 text-[11px] dark:border-white/15 dark:bg-black/25"
           role="tablist"
           aria-label={T('where.umschalter')}
         >
           {[
-            { an: false, text: T('where.umschalterStream') },
-            { an: true, text: T('where.umschalterDisc') },
+            { an: false, text: T('where.umschalterStream'), leer: streamPillen.length === 0 },
+            { an: true, text: T('where.umschalterDisc'), leer: disc.length === 0 },
           ].map((o) => (
             <button
               key={String(o.an)}
               type="button"
               role="tab"
-              aria-selected={zeigeDisc === o.an}
+              aria-selected={aktivDisc === o.an}
+              disabled={o.leer}
               onClick={() => setZeigeDisc(o.an)}
               className={[
                 'rounded-full px-2.5 py-0.5 transition',
-                zeigeDisc === o.an
+                aktivDisc === o.an
                   ? 'bg-slate-900 font-medium text-white dark:bg-white/90 dark:text-slate-900'
-                  : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
+                  : o.leer
+                    ? 'cursor-not-allowed text-slate-300 dark:text-slate-600'
+                    : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
               ].join(' ')}
             >
               {o.text}
@@ -4106,7 +4117,7 @@ export function DetailPanel({
                           das Wort „Disc", das bis zum 07.09.2026 im Namen stand.
                         */
                         farbe={farbeZuAnbieter(g.shop)}
-                        icon={g.shop === 'aniSearch' ? <DiscZeichen /> : <AnbieterIcon was={g.shop} />}
+                        icon={anbieterDatei(g.shop) ? <AnbieterIcon was={g.shop} /> : <DiscZeichen />}
                       />
                     )),
                   ),
