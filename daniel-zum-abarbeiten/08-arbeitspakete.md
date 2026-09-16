@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-16 · **24 offene Verweise** in **18 Zeilen**,
+Stand 2026-09-16 · **22 offene Verweise** in **16 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,25 +31,23 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 18
+## Paket 1 — Zeilen 1 bis 16
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | Joyn | Bakugan: Spieler des Schicksals | [Hauptserie](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Neu Vestroia](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Invasion der Gundalianer](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Mechtanium Surge](https://www.joyn.de/serien/bakugan-battle-brawlers) |
 | 2 | Joyn | Guardian of the Spirit | [Hauptserie](https://www.joyn.de/serien/guardian-of-the-spirit) |
 | 3 | Prime Video | Classroom of the Elite | [Hauptserie](https://www.amazon.de/dp/B0GGJKGT5P) · [Staffel 2](https://www.amazon.de/dp/B0F1DKXTW7) |
-| 4 | Crunchyroll | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019) |
-| 5 | Prime Video | Kuroko’s Basketball: | [Staffel 1](https://www.amazon.de/dp/B09P9P9YG6) |
-| 6 | Prime Video | Ponkotsu Quest: Maou to Haken no Mamono-tachi | [Vinland Saga](https://www.amazon.de/dp/B0C55SJB1W) |
-| 7 | Prime Video | Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs | [Hauptserie](https://www.amazon.de/dp/B0CJRDG5R6) |
-| 8 | Prime Video | Kizuna no Allele | [Hauptserie](https://www.amazon.de/dp/B0BX2L1CQJ) |
-| 9 | Crunchyroll | JoJo’s Bizarre Adventure | [Stone Ocean](https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure) |
-| 10 | Joyn | Astra Lost in Space | [Hauptserie](https://www.joyn.de/serien/astra-lost-in-space) |
-| 11 | Crunchyroll | Highschool D×D | [Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) · [BorN: Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) |
-| 12 | Joyn | No Game No Life | [Hauptserie](https://www.joyn.de/serien/no-game-no-life) |
-| 13 | Crunchyroll | The Promised Neverland | [Staffel 2](https://www.crunchyroll.com/de/series/GYVD2K1WY/the-promised-neverland) |
-| 14 | Crunchyroll | Blue Exorcist | [Kuro reißt aus](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) · [The Movie](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) |
-| 15 | Joyn | Spy × Family | [Code: White](https://www.joyn.de/filme/spy-x-family-code-white) |
-| 16 | Joyn | Detektiv Conan | [Das 1-Million-Dollar-Pentagramm](https://www.joyn.de/filme/detektiv-conan-film-27-das-1-million-dollar-pentagram) |
-| 17 | Crunchyroll | Black Clover | [Sword of the Wizard King](https://www.crunchyroll.com/de/series/GRE50KV36/black-clover) |
-| 18 | Crunchyroll | Kaguya-sama: Love Is War | [Ultra Romantic: Ishigami Yu möchte sich unterhalten](https://www.crunchyroll.com/de/series/GRJ0J828Y/kaguya-sama-love-is-war) |
+| 4 | Prime Video | Kuroko’s Basketball: | [Staffel 1](https://www.amazon.de/dp/B09P9P9YG6) |
+| 5 | Prime Video | Ponkotsu Quest: Maou to Haken no Mamono-tachi | [Vinland Saga](https://www.amazon.de/dp/B0C55SJB1W) |
+| 6 | Prime Video | Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs | [Hauptserie](https://www.amazon.de/dp/B0CJRDG5R6) |
+| 7 | Prime Video | Kizuna no Allele | [Hauptserie](https://www.amazon.de/dp/B0BX2L1CQJ) |
+| 8 | Crunchyroll | JoJo’s Bizarre Adventure | [Stone Ocean](https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure) |
+| 9 | Joyn | Astra Lost in Space | [Hauptserie](https://www.joyn.de/serien/astra-lost-in-space) |
+| 10 | Crunchyroll | Highschool D×D | [Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) · [BorN: Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) |
+| 11 | Joyn | No Game No Life | [Hauptserie](https://www.joyn.de/serien/no-game-no-life) |
+| 12 | Crunchyroll | Blue Exorcist | [Kuro reißt aus](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) · [The Movie](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) |
+| 13 | Joyn | Spy × Family | [Code: White](https://www.joyn.de/filme/spy-x-family-code-white) |
+| 14 | Joyn | Detektiv Conan | [Das 1-Million-Dollar-Pentagramm](https://www.joyn.de/filme/detektiv-conan-film-27-das-1-million-dollar-pentagram) |
+| 15 | Crunchyroll | Black Clover | [Sword of the Wizard King](https://www.crunchyroll.com/de/series/GRE50KV36/black-clover) |
+| 16 | Crunchyroll | Kaguya-sama: Love Is War | [Ultra Romantic: Ishigami Yu möchte sich unterhalten](https://www.crunchyroll.com/de/series/GRJ0J828Y/kaguya-sama-love-is-war) |

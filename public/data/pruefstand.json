@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-16T16:52:32.733Z",
+ "erzeugtAm": "2026-09-16T16:58:02.815Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,8 +7,12 @@
    "gemeldet": 717,
    "gesamt": 726,
    "offen": 9,
-   "ohneSeite": 1,
+   "ohneSeite": 5,
    "suchAdressen": [
+    "https://www.amazon.de/s?k=That%20Time%20I%20Got%20Reincarnated%20as%20a%20Slime&i=instant-video",
+    "https://www.amazon.de/s?k=The%20Saint's%20Magic%20Power%20is%20Omnipotent&i=instant-video",
+    "https://www.amazon.de/s?k=WIND%20BREAKER&i=instant-video",
+    "https://www.amazon.de/s?k=Yu-Gi-Oh!%20Capsule%20Monsters&i=instant-video",
     "https://www.amazon.de/s?k=Arifureta%3A%20From%20Commonplace%20to%20World%E2%80%99s%20Strongest%20OVAs&i=instant-video"
    ],
    "ziel": "https://www.amazon.de/dp/B09P9P9YG6",
@@ -78,8 +82,8 @@
    "name": "Crunchyroll",
    "plattform": "crunchyroll",
    "gemeldet": 0,
-   "gesamt": 9,
-   "offen": 9,
+   "gesamt": 7,
+   "offen": 7,
    "ohneSeite": 0,
    "ziel": "https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist",
    "ziele": [
@@ -98,14 +102,6 @@
     {
      "url": "https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd",
      "titel": "Highschool D×D BorN: Mini-Episoden"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
-     "titel": "Fruits Basket"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GYVD2K1WY/the-promised-neverland",
-     "titel": "The Promised Neverland Staffel 2"
     },
     {
      "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
