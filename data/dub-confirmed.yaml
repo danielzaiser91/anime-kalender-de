@@ -15560,3 +15560,85 @@
   dub: true
   checkedAt: '2026-09-16'
   note: "Tonspuren: Deutsch — Amazon-Seite B0FJWFGLQC: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf"
+
+# --- Crunchyroll-Katalog, von Hand abgefragt am 2026-09-16 (Status-App: 9 offene Verweise) ---
+
+- anilistId: 131942
+  title: "JoJo’s Bizarre Adventure: Stone Ocean"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure
+  available: false
+  checkedAt: '2026-09-16'
+  note: "Crunchyrolls deutscher Katalog, von hier abgefragt am 16.09.2026 (content/v2/cms/series/<id>/seasons, locale de-DE, Land DE): Staffeln Phantom Blood bis Golden Wind, kein Stone Ocean (Netflix-Titel) — die Serienseite führt dieses Werk nicht; die Suche nennt keinen eigenen Eintrag."
+
+- anilistId: 146722
+  title: "JoJo’s Bizarre Adventure: Stone Ocean"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure
+  available: false
+  checkedAt: '2026-09-16'
+  note: "Crunchyrolls deutscher Katalog, von hier abgefragt am 16.09.2026 (content/v2/cms/series/<id>/seasons, locale de-DE, Land DE): Staffeln Phantom Blood bis Golden Wind, kein Stone Ocean (Netflix-Titel) — die Serienseite führt dieses Werk nicht; die Suche nennt keinen eigenen Eintrag."
+
+- anilistId: 131680
+  title: "Black Clover: Sword of the Wizard King"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GRE50KV36/black-clover
+  available: false
+  checkedAt: '2026-09-16'
+  note: "Crunchyrolls deutscher Katalog, von hier abgefragt am 16.09.2026 (content/v2/cms/series/<id>/seasons, locale de-DE, Land DE): Season 1 Part 1–4 und eine OVA, kein Film (Netflix-Titel) — die Serienseite führt dieses Werk nicht; die Suche nennt keinen eigenen Eintrag."
+
+- anilistId: 13357
+  title: "Highschool D×D: Mini-Episoden"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd
+  available: false
+  checkedAt: '2026-09-16'
+  note: "Crunchyrolls deutscher Katalog, von hier abgefragt am 16.09.2026 (content/v2/cms/series/<id>/seasons, locale de-DE, Land DE): nur die vier TV-Staffeln, keine Mini-Episoden — die Serienseite führt dieses Werk nicht; die Suche nennt keinen eigenen Eintrag."
+
+- anilistId: 21279
+  title: "Highschool D×D BorN: Mini-Episoden"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd
+  available: false
+  checkedAt: '2026-09-16'
+  note: "Crunchyrolls deutscher Katalog, von hier abgefragt am 16.09.2026 (content/v2/cms/series/<id>/seasons, locale de-DE, Land DE): nur die vier TV-Staffeln, keine Mini-Episoden — die Serienseite führt dieses Werk nicht; die Suche nennt keinen eigenen Eintrag."
+
+- anilistId: 11266
+  title: "Blue Exorcist: Kuro reißt aus"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist
+  available: false
+  checkedAt: '2026-09-16'
+  note: "Crunchyrolls deutscher Katalog, von hier abgefragt am 16.09.2026 (content/v2/cms/series/<id>/seasons, locale de-DE, Land DE): nur Kyoto Saga bis Blue Night Saga, keine OVA — die Serienseite führt dieses Werk nicht; die Suche nennt keinen eigenen Eintrag."
+
+- anilistId: 11737
+  title: "Blue Exorcist: The Movie"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist
+  available: false
+  checkedAt: '2026-09-16'
+  note: "Crunchyrolls deutscher Katalog, von hier abgefragt am 16.09.2026 (content/v2/cms/series/<id>/seasons, locale de-DE, Land DE): nur Kyoto Saga bis Blue Night Saga, kein Film — die Serienseite führt dieses Werk nicht; die Suche nennt keinen eigenen Eintrag."
+
+- anilistId: 165557
+  title: "Kaguya-sama: Love Is War - Ultra Romantic: Ishigami Yu möchte sich unterhalten"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GRJ0J828Y/kaguya-sama-love-is-war
+  available: false
+  checkedAt: '2026-09-16'
+  note: "Crunchyrolls deutscher Katalog, von hier abgefragt am 16.09.2026 (content/v2/cms/series/<id>/seasons, locale de-DE, Land DE): Staffeln 1–3, Episodic Cut und Stairway to Adulthood, kein Ishigami-Special — die Serienseite führt dieses Werk nicht; die Suche nennt keinen eigenen Eintrag."
+
+- anilistId: 108725
+  title: "The Promised Neverland Staffel 2"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GYVD2K1WY/the-promised-neverland
+  dub: false
+  checkedAt: '2026-09-16'
+  note: "Crunchyrolls deutscher Katalog, von hier abgefragt am 16.09.2026 (content/v2/cms/series/<id>/seasons, locale de-DE, Land DE): Staffel 2 (GR5VCD2V2, 12 Folgen) führt nur ja-JP und en-US; Staffel 1 dagegen de-DE."
+
+- anilistId: 105334
+  title: "Fruits Basket"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019
+  dub: false
+  checkedAt: '2026-09-16'
+  note: "Crunchyrolls deutscher Katalog, von hier abgefragt am 16.09.2026 (content/v2/cms/series/<id>/seasons, locale de-DE, Land DE): Staffel 1 (G6DKXEWKR, 25 Folgen) ohne de-DE; Staffel 2 und The Final Season mit de-DE. Passt zu Daniels Prime-Befund (Staffel 1 ohne Deutsch)."
