@@ -26,11 +26,19 @@ jobs:
         run: |
           curl -sS -H "X-Weiche-Token: $CR_WEICHE_TOKEN" "https://cr-weiche.animekalender.workers.dev/?diag=1"
           echo
-      - name: Deutsches Token aus den USA
+      - name: Deutsches Token gegen US-Token, Pruefstein Fairy Tail
         if: inputs.token != ''
         env:
-          TOKEN: ${{ inputs.token }}
+          TOKEN_DE: ${{ inputs.token }}
         run: |
-          curl -sS -H "Authorization: Bearer $TOKEN" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0 Safari/537.36' \
-            "https://beta-api.crunchyroll.com/content/v2/cms/series/G6ZJMGEXY/seasons?locale=de-DE" \
-            | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const j=JSON.parse(s);for(const x of j.data??[])console.log(x.title,"|",(x.versions??[]).map(v=>v.audio_locale).includes("de-DE")?"DE":"-");if(!j.data)console.log(s.slice(0,300))})'
+          cat > pruef.mjs <<'JS'
+          const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0 Safari/537.36'
+          const us = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', { method: 'POST', headers: { Authorization: 'Basic ' + Buffer.from('noaihdevm_6iyg0a8l0q:').toString('base64'), 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': UA }, body: 'grant_type=client_id' }).then((r) => r.json())
+          for (const [name, tok] of [['DE-Token', process.env.TOKEN_DE], ['US-Token (' + us.country + ')', us.access_token]]) {
+            for (const serie of ['G6DQDD3WR', 'G6ZJMGEXY']) {
+              const j = await fetch('https://beta-api.crunchyroll.com/content/v2/cms/series/' + serie + '/seasons?locale=de-DE', { headers: { Authorization: 'Bearer ' + tok, 'User-Agent': UA } }).then((r) => r.json())
+              console.log(name, serie, (j.data ?? []).map((x) => x.title.slice(0, 25) + ':' + ((x.versions ?? []).map((v) => v.audio_locale).includes('de-DE') ? 'DE' : '-')).join(' | ') || JSON.stringify(j).slice(0, 200))
+            }
+          }
+          JS
+          node pruef.mjs
