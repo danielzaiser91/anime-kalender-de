@@ -42,3 +42,23 @@
     - https://www.crunchyroll.com/news/latest/2026/6/15/black-clover-season-2-anime-october-2026-release-date-director
     - https://www.crunchyroll.com/de/news/latest/2026/6/15/black-clover-staffel-2-premiere-oktober-2026
     - https://anilist.co/anime/195604
+
+- slug: dragon-ball-daima-rtlplus
+  anilistId: 170083
+  search: "Dragon Ball Daima"
+  platform: rtlplus
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-09-25"
+    episodeCount: 20
+  # **16.09.2026, ersetzt den automatischen Eintrag vom 28.08.** Der Parser nahm
+  # aus dem Anime2You-Artikel das Datum der TV-Premiere (TOGGO plus, Mo–Fr 21:15,
+  # 28.08.–22.09.) und hängte es an RTL+. Auf RTL+ und in der TOGGO-App stehen
+  # alle 20 Folgen erst ab dem 25.09. (beide Artikel). Die TV-Fassung ist
+  # geschnitten (Mr.-Popo-Szenen durch Standbilder ersetzt, manime.de 30.08.);
+  # ob RTL+ dieselbe Fassung zeigt, ist nicht bekannt.
+  note: "Seit 28.08.2026 im TV bei TOGGO plus (Mo–Fr 21:15, Wiederholung ab 26.09. Sa/So 21:15). Die TV-Fassung ist geschnitten; ob RTL+ dieselbe zeigt, ist nicht bekannt."
+  sources:
+    - https://www.anime2you.de/news/1039738/dragon-ball-daima-toggo-rtl-starttermin/
+    - https://www.anime2you.de/news/1047175/toggo-plus-dragon-ball-daima-wiederholung/
+    - https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/
