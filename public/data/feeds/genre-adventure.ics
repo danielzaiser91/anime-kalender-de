@@ -173,6 +173,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-09-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260916T140500Z
+DTEND:20260916T143500Z
+SUMMARY:Pokémon Horizonte – Folge 1/1
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDeta
+ ils: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-09-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260916T150500Z
+DTEND:20260916T153500Z
+SUMMARY:Pokémon Horizonte – Folge 1/1
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:vom-landei-zum-schwertheiligen-2@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T160000Z

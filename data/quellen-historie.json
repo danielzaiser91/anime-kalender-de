@@ -3976,5 +3976,23 @@
       "sagt": "2026-08-28",
       "stand": "aktuell"
     }
+  ],
+  "auto-158871-tv-super-rtl": [
+    {
+      "url": "https://plus.rtl.de/tv-programm",
+      "name": "plus.rtl.de",
+      "gesehenAm": "2026-09-16",
+      "sagt": "2026-09-16",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-158871-tv-toggo-plus": [
+    {
+      "url": "https://plus.rtl.de/tv-programm",
+      "name": "plus.rtl.de",
+      "gesehenAm": "2026-09-16",
+      "sagt": "2026-09-16",
+      "stand": "aktuell"
+    }
   ]
 }
