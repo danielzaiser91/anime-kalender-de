@@ -231,6 +231,10 @@ Zwei Folgen daraus:
   gh workflow run crunchyroll-nachholen.yml -f limit=0 -f alter=28
   ```
 
+  **Gelöst am 16.09.2026:** Jeder Workflow holt das Paket vor seinen Crunchyroll-Schritten
+  selbst, über die Vercel-Weiche (`cr-zugang-holen.mjs --github-env` → `CR_ZUGANG_FRISCH`);
+  das Secret ist nur noch Rückfall. Der Absatz darunter beschreibt den Stand davor.
+
   **Der wöchentliche Lauf bleibt davon unberührt** — er läuft weiter ins Leere, solange
   niemand am Vortag daran denkt. Das ist keine Nachlässigkeit, sondern die Folge der
   IP-Bindung: Ein Paket kann nur an Daniels Leitung entstehen, und die steht nicht unter
