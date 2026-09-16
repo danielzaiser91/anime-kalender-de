@@ -22,6 +22,7 @@
 import { findDates, parseFeed, type FoundDate } from './lib/feed.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { sendezeiten, type Sendezeit } from './lib/sendezeit.ts'
 import { loadCurated } from './lib/curated.ts'
 import type { PlatformId } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
@@ -134,8 +135,41 @@ export interface Proposal {
    * nützlich ist.
    */
   pause?: string
+  /**
+   * Sendezeiten aus dem Artikeltext, mit belegendem Satz.
+   *
+   * Zweiter Fall, in dem ein Vorschlag ohne künftigen Termin nützlich ist: Eine
+   * Start-Meldung sagt „seit heute" und nennt dabei den Takt für alle weiteren
+   * Folgen. Ihr Datum liegt in der Vergangenheit, der Kalender braucht sie
+   * trotzdem — und kein anderer Artikel nennt die Uhrzeit.
+   */
+  zeiten?: Sendezeit[]
   /** true, wenn dieser Artikel schon als Quelle in data/curated/ steht. */
   alreadyCurated: boolean
+}
+
+/**
+ * Meldungen, bei denen sich der Volltextabruf lohnt.
+ *
+ * Der Feed-Auszug endet vor dem Ablaufteil, die Sendezeit steht also nie darin.
+ * Sie für **jeden** Artikel nachzuholen wären 75 Abrufe je Lauf für eine Angabe,
+ * die nur Start-Meldungen tragen; diese Wörter grenzen sie ein, und zwar auf dem
+ * Auszug, der ohnehin schon da ist.
+ */
+const START_SIGNAL = /(gestartet|ab sofort|seit heute|simulcast|jeden \w+tag|wochentakt|weitere (episoden|folgen))/i
+/** Obergrenze je Lauf — ein Filter, der zu viel durchlässt, darf keine Abruflawine auslösen. */
+const HOECHSTENS_VOLLTEXTE = 12
+
+/** Holt den Artikel und gibt seinen Text ohne Auszeichnung zurück. */
+async function artikelText(url: string): Promise<string | undefined> {
+  const html = await fetchText(url)
+  if (!html) return undefined
+  return html
+    .replace(/<script[\s\S]*?<\/script>/g, ' ')
+    .replace(/<style[\s\S]*?<\/style>/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
 }
 
 async function fetchText(url: string): Promise<string | undefined> {
@@ -161,6 +195,8 @@ async function main(): Promise<void> {
 
   const today = todayIso()
   const proposals: Proposal[] = []
+  /** Wie viele Volltexte dieser Lauf schon geholt hat — siehe HOECHSTENS_VOLLTEXTE. */
+  let volltexte = 0
 
   for (const feed of FEEDS) {
     const xml = await fetchText(feed.url)
@@ -187,10 +223,29 @@ async function main(): Promise<void> {
           ? PAUSE_HINTS.find((p) => p.pattern.test(text))?.art
           : undefined
 
+      // Sendezeit nachholen, solange das Kontingent reicht. Der Volltext ist
+      // der einzige Ort, an dem sie steht — und nur bei Streaming-Meldungen
+      // ist sie überhaupt eine Frage: Eine Disc erscheint im Laden.
+      let zeiten: Sendezeit[] | undefined
+      if (
+        volltexte < HOECHSTENS_VOLLTEXTE &&
+        feed.category === 'streaming' &&
+        platforms.length > 0 &&
+        START_SIGNAL.test(text)
+      ) {
+        volltexte++
+        const voll = await artikelText(item.link)
+        await sleep(1500)
+        const gefunden = voll ? sendezeiten(voll) : []
+        if (gefunden.length) zeiten = gefunden
+      }
+
       // Ein Vorschlag braucht einen künftigen Termin — außer er meldet eine
-      // Pause. „Die Serie pausiert bis auf Weiteres" nennt kein Datum und
-      // ändert den Kalender trotzdem.
-      if (!relevant.length && !pause) continue
+      // Pause oder eine Sendezeit. „Die Serie pausiert bis auf Weiteres" nennt
+      // kein Datum und ändert den Kalender trotzdem; „seit heute, weitere
+      // Folgen jeden Samstag um 18:00 Uhr" nennt ein vergangenes und trägt die
+      // einzige Uhrzeitangabe, die es zu dieser Serie gibt.
+      if (!relevant.length && !pause && !zeiten) continue
 
       proposals.push({
         articleTitle: item.title,
@@ -201,6 +256,7 @@ async function main(): Promise<void> {
         dates: relevant,
         dub,
         ...(pause ? { pause } : {}),
+        ...(zeiten ? { zeiten } : {}),
         alreadyCurated: curatedSources.has(item.link.replace(/\/$/, '')),
       })
     }
@@ -232,6 +288,21 @@ async function main(): Promise<void> {
   for (const p of offen.slice(0, 15)) {
     const when = p.dates.map((d) => d.iso ?? d.month).join(', ')
     log(`  · [${p.platforms.join('/') || '?'}] ${p.articleTitle} — ${when} (Synchro: ${p.dub})`)
+  }
+
+  // Sendezeiten eigens auflisten — sie sind der einzige Weg zu einer belegten
+  // Uhrzeit, und im Fließtext der Liste oben gingen sie unter.
+  //
+  // Die Zahl der geprüften Volltexte gehört dazu: „keine Sendezeit gefunden"
+  // beantwortet sonst nicht, ob überhaupt gesucht wurde. Außerhalb eines
+  // Season-Starts ist null der Normalfall, und genau dann sieht ein kaputter
+  // Zweig aus wie ein ruhiger Tag.
+  const mitZeit = all.filter((p) => p.zeiten?.length)
+  log(`${volltexte} Meldungen im Volltext auf Sendezeiten geprüft, ${mitZeit.length} mit Fund.`)
+  if (mitZeit.length) {
+    for (const p of mitZeit) {
+      for (const z of p.zeiten ?? []) log(`  · ${z.tag} ${z.zeit} — ${p.articleTitle}`)
+    }
   }
 }
 

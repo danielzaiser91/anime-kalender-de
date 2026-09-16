@@ -1699,6 +1699,35 @@ angebliche Widersprüche gingen allein darauf zurück. Erkennbar sind sie am Fla
 Block (`class="flag" alt="us"`); **deutsche Ausgaben tragen keine Flagge**. 28 von 122
 Vorschlägen waren ausländisch.
 
+### Die Uhrzeit steht in der Start-Meldung, nicht in der Ankündigung
+
+Am 16.09.2026 standen 13 künftige Netflix-Termine ohne Uhrzeit im Kalender (Thunder 3,
+JoJo Steel Ball Run), gegenüber 65 von 89 bei Crunchyroll. Die Frage war, ob es dafür
+überhaupt eine Quelle gibt. Gemessen:
+
+| Quelle | Sendezeit genannt |
+|---|---|
+| Anime2You, „Simulcast gestartet" | **3 von 3** — „Weitere Episoden erscheinen jeden Samstag um 18:00 Uhr" |
+| Anime2You, Ankündigung / Monatsübersicht / Season-Vorschau | 0 von 3 |
+| die 25 Anime2You-Artikel, die bei uns als Quelle stehen | **0 von 25** |
+| RSS-Auszug (alle drei Feeds, 75 Artikel) | 0 — der Auszug bricht vor dem Ablaufteil ab |
+| Netflix selbst, zu Steel Ball Run | keine Angabe (whats-on-netflix, 16.09.2026) |
+
+**Rückwirkend ist hier nichts zu holen, künftig schon** — und die Start-Meldungen fielen
+bisher durch den Zukunfts-Filter des Vorschlagslaufs: Sie sagen „seit heute", nennen also
+ein vergangenes Datum, und tragen die einzige Uhrzeitangabe, die es zu dieser Serie gibt.
+Seit dem 16.09.2026 holt `scrape-anime2you.ts` bei Streaming-Meldungen mit Start-Signal den
+Volltext nach (höchstens zwölf je Lauf) und legt gefundene Zeiten als Vorschlag vor —
+dieselbe Ausnahme wie bei den Pausenmeldungen.
+
+**Der Wochentag ist der Riegel.** Eine nackte Uhrzeit trifft die Zeitstempel der
+Seitenleiste („Neueste News … 19:45 Uhr"): elf Fehlalarme je Seite, gemessen an acht
+Artikeln, null davon mit Wochentag davor. Die Gegenprobe steht in `check:logic`.
+
+**Die 13 Termine bleiben trotzdem ohne Uhrzeit**, und das ist die richtige Auskunft — die
+Entscheidung von früher gilt unverändert: keine Faustregel als Uhrzeit eintragen. Die
+„00:00 Pacific"-Regel für Netflix-Eigenproduktionen ist keine Angabe über diese Serie.
+
 ## Was erzeugt wird, wird auch geprüft
 
 `npm run data:validate` sichert nur `data/curated/*.yaml` — also den Teil, den ohnehin jemand

@@ -87,6 +87,7 @@ import { todayIso } from '../shared/time.ts'
 import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
+import { sendezeiten } from './lib/sendezeit.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -4106,6 +4107,25 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     falsch.length === 0,
     falsch.map((t) => t.id),
   )
+}
+
+/*
+  Eine Sendezeit braucht ihren Wochentag.
+
+  Die Uhrzeit einer Folge steht bei Anime2You nur im Fließtext der
+  Start-Meldung („Weitere Episoden erscheinen jeden Samstag um 18:00 Uhr").
+  Dieselbe Seite trägt in der Leiste daneben die Zeitstempel fremder Artikel —
+  elf je Seite, gemessen am 16.09.2026 an acht Netflix-Meldungen. Ohne den
+  Wochentag davor wäre jeder davon eine erfundene Sendezeit, und eine erfundene
+  Uhrzeit ist in diesem Projekt schlimmer als keine.
+*/
+{
+  const echt = 'stehen bei Netflix seit Kurzem zur Verfügung. Fortan erscheint jeden Mittwoch um 16:00 Uhr jeweils eine neue Folge.'
+  const leiste = 'Neueste News 19:45 Uhr Demon Slayer 16:30 Uhr Preiserhöhung 21:13 Uhr'
+  const gefunden = sendezeiten(echt)
+  pruefe('eine Sendezeit mit Wochentag wird gelesen', gefunden.length === 1 && gefunden[0].zeit === '16:00' && gefunden[0].tag === 'Mittwoch', gefunden)
+  pruefe('die Zeitstempel der Seitenleiste zählen nicht als Sendezeit', sendezeiten(leiste).length === 0, sendezeiten(leiste))
+  pruefe('die Uhrzeit kommt zweistellig heraus, wie schedule.time', sendezeiten('jeden Samstag um 9.30 Uhr')[0]?.zeit === '09:30')
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
