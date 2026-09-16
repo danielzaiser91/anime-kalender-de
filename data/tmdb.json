@@ -1784,5 +1784,42 @@
       "adn",
       "primevideo"
     ]
+  },
+  "dragon-ball-daima-toggo-plus": {
+    "tmdbId": 236994,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/236994-daima/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "crunchyroll",
+      "adn",
+      "primevideo"
+    ]
   }
 }

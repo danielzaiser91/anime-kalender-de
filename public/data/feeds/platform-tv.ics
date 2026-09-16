@@ -3,7 +3,7 @@ VERSION:2.0
 PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Anime-Kalender DE – Martial Arts
+X-WR-CALNAME:Anime-Kalender DE – tv
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
 UID:dragon-ball-daima-toggo-plus@2026-09-09@anime-kalender-de
@@ -104,84 +104,5 @@ SUMMARY:Dragon Ball DAIMA – Folge 20/20
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/#/release/dragon-ball-daima-toggo-plus
 CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:dragon-ball-daima-rtlplus@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Dragon Ball DAIMA
-DESCRIPTION:Plattform: RTL+\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
- bestätigt.\nDetails: https://anime-kalender.de/#/release/dragon-ball-daima
- -rtlplus
-CATEGORIES:RTL+
-END:VEVENT
-BEGIN:VEVENT
-UID:naruto-shippuden-flammende-chunin-pruefung-naruto-gegen-konohamaru-2026
- -11-19@2026-11-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261119
-DTEND;VALUE=DATE:20261120
-SUMMARY:Naruto Shippuden: Flammende Chunin-Prüfung - Naruto gegen Konohamar
- u! (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/naruto-
- shippuden-flammende-chunin-pruefung-naruto-gegen-konohamaru-2026-11-19
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:the-last-naruto-the-movie-2026-11-19@2026-11-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261119
-DTEND;VALUE=DATE:20261120
-SUMMARY:The Last: Naruto the Movie (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/the-las
- t-naruto-the-movie-2026-11-19
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:boruto-naruto-the-movie-2026-11-19@2026-11-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261119
-DTEND;VALUE=DATE:20261120
-SUMMARY:Boruto: Naruto the Movie (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/boruto-
- naruto-the-movie-2026-11-19
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-813-disc@2026-11-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261120
-DTEND;VALUE=DATE:20261121
-SUMMARY:Dragon Ball Z (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-81
- 3-disc
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:jujutsu-kaisen-2026-12-04@2026-12-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261204
-DTEND;VALUE=DATE:20261205
-SUMMARY:Jujutsu Kaisen (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/jujutsu
- -kaisen-2026-12-04
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:jujutsu-kaisen-2027-05-07@2027-05-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270507
-DTEND;VALUE=DATE:20270508
-SUMMARY:Jujutsu Kaisen (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/jujutsu
- -kaisen-2027-05-07
-CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR
