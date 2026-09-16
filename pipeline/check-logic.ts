@@ -95,6 +95,7 @@ import { artAus, formatAus, kurzAus } from './extract-disc-ausgaben.ts'
 import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
+import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -4348,6 +4349,25 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const neu = beobachtungenAusBlock(serie, { 9: '2026-05-30' })
   pruefe('der Block mit derselben beobachteten Folge liefert die übrigen Tage', neu[1] === '2026-04-04' && neu[2] === '2026-04-11' && !neu[9], neu)
   pruefe('ohne passende Beobachtung kommt nichts', Object.keys(beobachtungenAusBlock(serie, { 9: '2026-05-31' })).length === 0)
+}
+/*
+  **Eine Crunchyroll-Reihe „führt ein Werk nicht" nur mit vollständiger Staffelliste**
+  (16.09.2026). Die Fälle sind die gemessenen: JoJo (Summe 158 = Katalog),
+  Black Clover mit OVA-Staffel, Blue Exorcist mit lückenhafter Liste (48 gegen 98).
+*/
+{
+  const st = (titel: string, folgen: number, ...jahre: number[]) => ({ titel, folgen, jahre })
+  const jojo = [st('Phantom Blood', 26, 2012), st('Re-Edited', 3), st('Stardust', 24, 2014), st('Egypt', 24, 2015), st('Diamond', 39, 2016), st('Golden Wind', 42, 2018)]
+  pruefe('Stone Ocean (ONA 2021) steht nicht unter JoJo', Boolean(reiheFuehrtEsNicht({ format: 'ONA', episodes: 12, jpYear: 2021 }, jojo, 158, false)))
+  pruefe('gleiche Folgenzahl aus einem anderen Jahr hält den Befund nicht auf', Boolean(reiheFuehrtEsNicht({ format: 'ONA', episodes: 26, jpYear: 2022 }, jojo, 158, false)))
+  pruefe('ein Werk aus einem Staffeljahr gilt als vielleicht dabei', !reiheFuehrtEsNicht({ format: 'TV', episodes: 12, jpYear: 2016 }, jojo, 158, false))
+  pruefe('nennt die Suche etwas anderes, kein Befund', !reiheFuehrtEsNicht({ format: 'ONA', episodes: 12, jpYear: 2021 }, jojo, 158, true))
+  const clover = [st('Part 1', 51, 2017), st('Part 2', 51), st('Part 3', 52), st('Part 4', 16), st('OVA', 1, 2019)]
+  pruefe('Black Clovers OVA-Staffel ist nicht der Film', Boolean(reiheFuehrtEsNicht({ format: 'MOVIE', episodes: 1, jpYear: 2023 }, clover, 171, false)))
+  pruefe('für eine OVA ist die OVA-Staffel ein möglicher Treffer', !reiheFuehrtEsNicht({ format: 'OVA', episodes: 1 }, clover, 171, false))
+  const blue = [st('Kyoto', 12, 2017), st('Shimane', 12, 2024), st('Snow', 12, 2024), st('Night', 12, 2025)]
+  pruefe('eine lückenhafte Staffelliste belegt kein Fehlen', !reiheFuehrtEsNicht({ format: 'TV', episodes: 25, jpYear: 2011 }, blue, 98, false))
+  pruefe('Gegenprobe: dieselbe Liste als vollständig ergäbe den Befund', Boolean(reiheFuehrtEsNicht({ format: 'TV', episodes: 25, jpYear: 2011 }, blue, 48, false)))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

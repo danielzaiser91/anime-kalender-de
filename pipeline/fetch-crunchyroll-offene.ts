@@ -48,6 +48,7 @@
 import type { Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { jahrPasst, reiheFuehrtEsNicht as reiheFuehrtEsNichtRein, type CrStaffel } from './lib/cr-reihe.ts'
 
 const DATEI = 'data/crunchyroll-offene.json'
 const UA =
@@ -60,6 +61,12 @@ const zahl = (name: string, fallback: number) => {
 }
 const LIMIT = zahl('--limit', 0)
 const TROCKEN = args.includes('--trocken')
+/**
+ * `--ids 131942,11737` prüft genau diese Titel, auch mit Urteil — für
+ * Gegenproben an Fällen, die ein Handbeleg längst entschieden hat. Nur mit
+ * `--trocken` sinnvoll; ohne schreibt der Lauf die Befunde wie sonst.
+ */
+const IDS = args.includes('--ids') ? new Set(String(args[args.indexOf('--ids') + 1]).split(',').map(Number)) : null
 
 interface Befund {
   /** Woher das Urteil stammt — für den Leser wichtiger als das Urteil selbst. */
@@ -216,9 +223,10 @@ export async function main(): Promise<void> {
   /* Die offenen Verweise — Adresse, Werk und was wir über das Werk wissen. */
   const offen: { url: string; titel: Title }[] = []
   for (const t of titles) {
+    if (IDS && !IDS.has(t.id)) continue
     for (const s of t.streams ?? []) {
       if (s.platform !== 'crunchyroll') continue
-      if (s.dub === true || s.dub === false) continue
+      if (!IDS && (s.dub === true || s.dub === false)) continue
       offen.push({ url: s.url, titel: t })
     }
   }
@@ -547,6 +555,13 @@ export async function main(): Promise<void> {
           (st) =>
             st.audio.includes('de-DE') &&
             st.folgen != null &&
+            /*
+              Ein Block, der selbst so viele Folgen hat wie eine unserer
+              Hauptserien, ist diese Hauptserie und trägt nichts mit: DxD „Hero"
+              hat bei uns wie bei Crunchyroll 13 Folgen, 13 − 12 hätte sonst die
+              Mini-Episoden hineingerechnet (16.09.2026).
+            */
+            !haupt.includes(st.folgen) &&
             haupt.some((n) => st.folgen! - n >= 1 && st.folgen! - n <= eigene),
         )
         if (mitgefuehrt.length === 1) {
@@ -575,6 +590,10 @@ export async function main(): Promise<void> {
             grund: `Crunchyroll führt „${st.titel}" als eigene Staffel${deutsch ? ' mit' : ' ohne'} de-DE`,
           }
         }
+      }
+      const nichtDabei = await reiheFuehrtEsNicht(werk, kandidat, await holeStaffeln(kandidat.id))
+      if (nichtDabei) {
+        return { herkunft: 'tot', seriesId: kandidat.id, titel: kandidat.titel, geprueftAm: heute(), grund: nichtDabei }
       }
       const jwEintrag2 = justwatch[String(werk.id)]
       const anbieter2 = (jwEintrag2?.angebote ?? []).map((a) => String(a?.anbieter ?? ''))
@@ -654,7 +673,17 @@ export async function main(): Promise<void> {
     const woertlich = staffeln.filter((s) => rohNamen.includes(s.titel.trim().toLowerCase()))
     const namen = [werk.titleDe, werk.titleEn, werk.titleRomaji].filter(Boolean).map((n) => norm(n as string))
     const nachName = woertlich.length === 1 ? woertlich : staffeln.filter((s) => namen.includes(norm(s.titel)))
-    const nachZahl = staffeln.filter((s) => werk.episodes != null && s.folgen === werk.episodes)
+    /*
+      **Die Folgenzahl allein trifft auch fremde Staffeln — das Jahr hält dagegen.**
+      Stone Ocean (2021, 26 Folgen) traf am 16.09.2026 JoJo Staffel 1 (2012, 26
+      Folgen) und bekam deren „Deutsch". Kennen beide Seiten ein Jahr, muss es passen.
+    */
+    const nachZahl = staffeln.filter(
+      (s) =>
+        werk.episodes != null &&
+        s.folgen === werk.episodes &&
+        (!werk.jpYear || !s.jahre.length || jahrPasst(s.jahre, Number(werk.jpYear))),
+    )
     /**
      * **Bleiben mehrere übrig, entscheidet das Jahr.**
      *
@@ -709,6 +738,10 @@ export async function main(): Promise<void> {
        * Grund nicht macht. Ein einstimmiges **Nein** zählt ebenso: Es kommt aus
        * dem deutschen Katalog, und dort ist ein fehlendes `de-DE` ein Beleg.
        */
+      const nichtDabei = nachName.length + nachZahl.length + nachSumme.length === 0 ? await reiheFuehrtEsNicht(werk, kandidat, staffeln) : undefined
+      if (nichtDabei) {
+        return { herkunft: 'tot', seriesId: kandidat.id, titel: kandidat.titel, geprueftAm: heute(), grund: nichtDabei }
+      }
       const alleDeutsch = staffeln.length > 1 && staffeln.every((s) => s.audio.includes('de-DE'))
       const keineDeutsch = staffeln.length > 1 && staffeln.every((s) => !s.audio.includes('de-DE'))
       if (alleDeutsch || keineDeutsch) {
@@ -742,6 +775,48 @@ export async function main(): Promise<void> {
       geprueftAm: heute(),
       grund: `Staffel „${treffer.titel}" mit ${treffer.folgen ?? '?'} Folgen`,
     }
+  }
+
+  /** Die Regel steht in `lib/cr-reihe.ts`; hier kommen Katalogzahl und Suche dazu. */
+  async function reiheFuehrtEsNicht(
+    werk: Title,
+    kandidat: { id: string; titel: string },
+    staffeln: CrStaffel[],
+  ): Promise<string | undefined> {
+    const katalogFolgen = katalogNachId.get(kandidat.id)?.folgen
+    /* Die Suche kostet einen Abruf — erst fragen, wenn die Liste sonst genügen würde. */
+    if (!reiheFuehrtEsNichtRein(werk, staffeln, katalogFolgen, false)) return undefined
+    return reiheFuehrtEsNichtRein(werk, staffeln, katalogFolgen, await andersWoMoeglich(werk, kandidat))
+  }
+
+  /**
+   * Nennt die Suche nach dem Werk einen anderen Eintrag, der es sein könnte?
+   *
+   * „Könnte" heißt: Der Titel beginnt wie die Reihe (die ersten zwei Wörter,
+   * „attack on …"), oder er steckt ganz im Werknamen („-prelude-" in „Fruits
+   * Basket -prelude-"). Ein Namensvergleich entscheidet hier nichts — er hält
+   * nur einen Befund zurück, der sonst einen Verweis entfernen würde.
+   */
+  async function andersWoMoeglich(werk: Title, kandidat: { id: string; titel: string }): Promise<boolean> {
+    const anfang = norm(kandidat.titel).split(' ').slice(0, 2).join(' ')
+    const werkNamen = [werk.titleDe, werk.titleEn, werk.titleRomaji].filter(Boolean).map((n) => norm(n as string))
+    for (const name of new Set(werkNamen)) {
+      if (name.length < 3) continue
+      const { body } = await hol(
+        `https://beta-api.crunchyroll.com/content/v2/discover/search?q=${encodeURIComponent(name)}&n=8&type=series,movie_listing&locale=de-DE`,
+      )
+      await sleep(700)
+      for (const g of (body as { data?: { items?: { id: string; title: string }[] }[] })?.data ?? []) {
+        for (const it of g.items ?? []) {
+          if (it.id === kandidat.id) continue
+          const t = norm(it.title)
+          if ((anfang.length >= 4 && t.startsWith(anfang)) || (t.length >= 5 && werkNamen.some((w) => w.includes(t)))) {
+            return true
+          }
+        }
+      }
+    }
+    return false
   }
 
   /** Die Staffeln einer Serie mit ihren Tonspuren — je Staffel, nicht je Serie. */
