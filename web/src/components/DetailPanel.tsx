@@ -3135,7 +3135,20 @@ export function DetailPanel({
       hängen daran.
     */
     const mitUrteil = (title.streams ?? []).filter((s) => s.dub === true)
-    const belegen = mitUrteil.some((s) => s.dubRanges?.length) ? mitUrteil.filter((s) => s.dubRanges?.length) : mitUrteil
+    /*
+      **Bei einer abgeschlossenen Serie zählt ein Verweis ohne Bereiche wie in der Pille.**
+      Die Pille zeigt dort alle Folgen (Regel 4 an `folgenAngabeFuer()`, mit Daniel am
+      14.09.2026 abgestimmt); der Kasten ließ ihn weg, sobald ein anderer Verweis Bereiche
+      trug, und schrieb „36 von 145" neben „ADN 145 Fg. ✓" (Eyeshield 21, Monster, Death
+      Note — Stichprobe 16.09.2026). Die Vorsicht aus Kill Blue gilt weiter für laufende Serien.
+    */
+    const abgeschlossenFuerKasten = title.jpEnd
+      ? title.jpEnd < today
+      : Boolean(title.jpYear && title.jpYear < Number(today.slice(0, 4)))
+    const belegen =
+      mitUrteil.some((s) => s.dubRanges?.length) && !abgeschlossenFuerKasten
+        ? mitUrteil.filter((s) => s.dubRanges?.length)
+        : mitUrteil
     /*
       Auch Kaufwege mit belegter Spanne zählen — und ein Titel, dessen Synchro nur über
       Sprechrollen belegt ist, gilt als vollständig: Dort ist keine Spanne bekannt, und
