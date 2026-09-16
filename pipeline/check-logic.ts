@@ -90,6 +90,7 @@ import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
 import { ladeTitelDe } from './lib/titel-de.ts'
+import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 
@@ -4244,6 +4245,16 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('ein Weg ohne Bereiche gilt als vollständig', folgenOhneAnbieter([[{ from: 1, to: 75, dub: true }], undefined], 100) === null)
   pruefe('ohne deutschen Weg keine Aussage', folgenOhneAnbieter([], 100) === null)
   pruefe('Lücken in der Mitte', folgenOhneAnbieter([[{ from: 1, to: 4, dub: true }, { from: 6, to: 12, dub: true }]], 12) === '5')
+}
+/*
+  Ein englischer Name aus aniSearchs Synonymen, wo sonst nur Romaji steht (Dai-Filme, 16.09.2026).
+*/
+{
+  const avan = ['Dragon Quest Movie 2', 'Dragon Quest: Great Adventure of Dai! Disciple of Avan', 'Dragon Quest: The Adventure of Dai - Avan’s Disciples']
+  pruefe('das kürzeste englische Synonym gewinnt', englischAusSynonymen(avan) === 'Dragon Quest: The Adventure of Dai - Avan’s Disciples', englischAusSynonymen(avan))
+  pruefe('„Movie 2" allein benennt nichts', englischAusSynonymen(['Dragon Quest Movie 2']) === undefined)
+  pruefe('Romaji ist kein Englisch', englischAusSynonymen(['Shingeki no Kyojin', 'Dai no Daibouken']) === undefined)
+  pruefe('Deutsch mit Umlaut ist kein Englisch', englischAusSynonymen(['Dais großes Abenteuer in der Welt']) === undefined)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

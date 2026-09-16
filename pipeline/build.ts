@@ -26,6 +26,7 @@ import {
   type CrDubData,
 } from './lib/crunchyroll-dub.ts'
 import { terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
+import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { alleTermine } from './lib/crunchyroll-termine.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
@@ -601,7 +602,7 @@ function schreibeOhneSynchro(
           „Englisch", und AniLists eigene Synonymliste (`latein`) — dort steht
           für „Guimi Zhi Zhu: Wu Mian Ren Pian" ein „Lord of the Mysteries 2".
         */
-        titleEn: englisch ?? eintrag?.englisch ?? e.latein ?? undefined,
+        titleEn: englisch ?? eintrag?.englisch ?? englischAusSynonymen(eintrag?.synonyme) ?? e.latein ?? undefined,
         /* Nur, wenn er wirklich etwas Neues sagt — sonst steht dieselbe Zeichenkette zweimal. */
         titleDe: deutsch && deutsch !== englisch && deutsch !== romaji ? deutsch : undefined,
         /*
@@ -6052,7 +6053,7 @@ function main(): void {
    * Dieselbe Reihenfolge-Falle wie bei der Zugangsart darunter, und dieselbe
    * Antwort: Wer den Endzustand braucht, läuft am Ende.
    *
-   * **Und nur, wo sonst nichts steht.** Wer einen Stream hat, braucht keinen
+   * **Und nur, wo sonst nichts steht** (so bis 16.09.2026, siehe unten). Wer einen Stream hat, braucht keinen
    * Hinweis auf eine womöglich vergriffene DVD von 2005 — der Verweis wäre dort
    * Rauschen statt Auskunft.
    */
@@ -6063,11 +6064,22 @@ function main(): void {
     )
     let discWege = 0
     for (const title of titles.values()) {
-      if (title.streams.length || (title.watchLinks ?? []).length) continue
+      /*
+        **Überholt am 16.09.2026: auch neben anderen Wegen.** Der Riegel „nur, wo
+        sonst nichts steht" stammt aus der Zeit vor dem Disc-Reiter. Seit Stream
+        und Disc getrennt stehen, ist eine Disc kein Rauschen neben einem Stream.
+        Anlass: „Dragon Quest: The Adventure of Dai" zeigte nur die Animeversand-DVD
+        (Folgen 1–75), während aniSearch vier Blu-ray-Boxen und ein Komplettset von
+        Kazé führt — dazu der Hinweis, 76–100 biete niemand an (Daniel, mit Bild).
+        Gemessen: 1.073 Titel mit belegter deutscher Disc-Ausgabe und einem anderen
+        Weg bekamen bisher keine.
+      */
+      if ((title.watchLinks ?? []).some((w) => w.name === 'aniSearch')) continue
       const ausgaben = discAusgaben[String(title.id)]
       if (!ausgaben?.length) continue
       const erste = ausgaben[0]!
       title.watchLinks = [
+        ...(title.watchLinks ?? []),
         {
           /*
             **Der Name ist konstant, die Zahl nicht.** Die „Wo?"-Ansicht buendelt
@@ -6089,7 +6101,7 @@ function main(): void {
       ]
       discWege++
     }
-    if (discWege) log(`${discWege} Titel ohne Weg haben jetzt eine deutsche Disc-Ausgabe als Bezugsweg`)
+    if (discWege) log(`${discWege} Titel haben jetzt ihre deutsche Disc-Ausgabe als Bezugsweg`)
   }
 
   /**
@@ -7308,6 +7320,35 @@ function main(): void {
   }
 
   writeJson(`${OUT}/titles.json`, slim)
+
+  /*
+    **Weitere Namen für die Suche — eine eigene Datei, geladen erst in der Datenbank.**
+
+    Wer „abenteuer von dai" sucht, meint „Dragon Quest: The Adventure of Dai"; der
+    deutsche Name „Dais Abenteuer" steht nur unter aniSearchs Synonymen (Daniel,
+    16.09.2026: „google schafft es"). Die Suche kannte bis dahin nur die vier
+    angezeigten Namen. Gemessen: 4.539 Synonyme zu 1.934 Titeln, 160 KB, gepackt 61 KB
+    — zu viel für `titles.json`, das der Kalender nicht braucht.
+  */
+  {
+    const katalogTitel = readJson<Record<string, { synonyme?: string[] }>>('data/anisearch-titel.json', {})
+    const synonyme: Record<string, string[]> = {}
+    const aufnehmen = (id: number, liste: string[] | undefined, schon: (string | undefined)[]) => {
+      const bekannt = new Set(schon.filter(Boolean).map((s) => s!.toLowerCase()))
+      const neu = [...new Set((liste ?? []).map((s) => (s.endsWith('Alle anzeigen') ? s.slice(0, -13) : s).trim()))]
+        .filter((s) => s && !bekannt.has(s.toLowerCase()))
+        .slice(0, 12)
+      if (neu.length) synonyme[id] = neu
+    }
+    for (const t of titles.values()) {
+      aufnehmen(t.id, anisearch[t.id]?.info?.synonyms, [t.titleDe, t.titleEn, t.titleRomaji, t.titleNative])
+    }
+    for (const [id, e] of Object.entries(katalogTitel)) {
+      if (!synonyme[id]) aufnehmen(Number(id), e.synonyme, [])
+    }
+    writeJson(`${OUT}/synonyme.json`, synonyme)
+    log(`${Object.keys(synonyme).length} Titel mit weiteren Namen für die Suche`)
+  }
   // Kennung → Reihe: das Erste sortiert die schon gepflegten Titel aus, das
   // Zweite hält Reihen zusammen, die über die Grenze der beiden Bestände gehen.
   /*

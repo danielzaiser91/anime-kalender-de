@@ -91,4 +91,30 @@ export function titelAus(
   return ueberschrift ? { titel: ueberschrift, quelle: 'ueberschrift', englisch, synonyme } : null
 }
 
+/**
+ * **Ein englischer Name aus aniSearchs Synonymen — für Titel, die sonst japanisch heißen.**
+ *
+ * Die Dai-Filme standen am 16.09.2026 als „Dai no Daibouken Tachiagare!! Avan no Shito" in
+ * der Reihe (Daniel: „wann sehe ich die deutschen/englischen titel, statt den
+ * japanischen?"). Weder AniList noch aniSearchs Sprachblock führen einen englischen Namen;
+ * die Synonyme schon: „Dragon Quest: The Adventure of Dai - Avan’s Disciples".
+ *
+ * aniSearch kennzeichnet Synonyme nicht nach Sprache. Erkannt wird Englisch an einem
+ * englischen Füllwort als eigenem Wort — Romaji hat keins („no", „wa" zählen nicht), und
+ * „Dragon Quest movie 3" fällt durch, weil es nichts benennt. Dazu nur lateinische Zeichen
+ * ohne Umlaute und Kleinbuchstaben im Namen. Unter mehreren gewinnt der kürzeste.
+ */
+export function englischAusSynonymen(synonyme: string[] | null | undefined): string | undefined {
+  const treffer = (synonyme ?? [])
+    .map((s) => s.trim())
+    .filter(
+      (s) =>
+        s.length >= 6 &&
+        /[a-z]/.test(s) &&
+        /^[\x20-\x7E’]+$/.test(s) &&
+        /\b(of|the|and|from|with|to|for|in)\b/i.test(s),
+    )
+  return treffer.sort((a, b) => a.length - b.length)[0]
+}
+
 

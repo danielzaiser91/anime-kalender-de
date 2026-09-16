@@ -3216,14 +3216,16 @@ export function DetailPanel({
   /*
     **Welche Folgen bei keinem bekannten Anbieter liegen.** Die Dai-DVD-Box enthält 1–75,
     die Serie hat 100 Folgen; ohne diese Zeile blieb offen, wo 76–100 zu sehen sind
-    (Daniel, 16.09.2026). Gezählt werden alle deutschen Wege — Verweise mit `dub: true`
-    und Bezugswege mit belegten Bereichen; ein Weg ohne Bereiche gilt als vollständig.
+    (Daniel, 16.09.2026). Gezählt werden **alle** Wege; einer ohne Bereiche — eine
+    aniSearch-Ausgabe, ein Stream mit „DE ?" — kann die fehlenden Folgen enthalten und
+    gilt deshalb als vollständig. So stand „76–100 bei keinem Anbieter", während
+    aniSearch vier Blu-ray-Boxen und ein Komplettset führte (Daniel, mit Bild).
   */
   const folgenLuecke = useMemo(() => {
     if (!title || title.format === 'MOVIE') return null
     const wege = [
-      ...(title.streams ?? []).filter((s) => s.dub === true).map((s) => s.dubRanges),
-      ...(title.watchLinks ?? []).filter((w) => w.dubRanges?.some((r) => r.dub)).map((w) => w.dubRanges),
+      ...(title.streams ?? []).map((s) => (s.dub === true ? s.dubRanges : undefined)),
+      ...(title.watchLinks ?? []).map((w) => w.dubRanges),
     ]
     return folgenOhneAnbieter(wege, title.episodes)
   }, [title])
