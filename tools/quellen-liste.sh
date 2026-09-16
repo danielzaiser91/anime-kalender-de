@@ -15,6 +15,8 @@ QUELLEN=(
   data/anisearch.json
   data/anisearch-folgen.json
   data/anisearch-titel.json
+  data/wikidata-titel.json
+  data/titel-de.yaml
   data/termine-verpasst.json
   data/tonspur-verdacht.json
   data/motn-tonspur.json

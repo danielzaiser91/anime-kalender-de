@@ -107,6 +107,12 @@ const FRISTEN: Record<string, number> = {
   cinestar: 9,
   // Wöchentlich, wie der Lauf, der sie füllt.
   'link-check': 9,
+  /*
+    Wöchentlich. Der Lauf findet nur etwas, wenn seit dem letzten Mal ein Titel
+    ohne deutschen Namen dazugekommen ist — in ruhigen Wochen sind null Treffer
+    der Normalfall und kein Ausfall.
+  */
+  'wikidata-titel': 9,
   /**
    * Monatlich — die Taktung kommt hier nicht vom Nutzen, sondern vom
    * Kontingent.

@@ -1,0 +1,44 @@
+# Deutsche Werktitel, von Hand geprüft.
+#
+# Wofür diese Datei da ist: `titleDe` entsteht sonst aus aniSearchs deutschem
+# Sprachblock und aus TMDB. Am 16.09.2026 blieben damit 132 Titel ohne deutschen
+# Namen — 57 davon mit belegter deutscher Fassung, die also einen haben.
+# Gemessen: aniSearch führt für 54 archivierte Seiten drei deutsche Sprachblöcke
+# und keinen einzigen Namen darin; TMDB fällt bei `language=de-DE` still auf den
+# Originaltitel zurück (0 echte Übersetzungen in einer Stichprobe von 15).
+#
+# Kandidaten findet `npx tsx pipeline/fetch-wikidata-titel.ts` über die
+# MAL-Kennung; eingetragen wird hier nur, was eine **zweite** Quelle bestätigt.
+# Der Grund steht in CLAUDE.md, „Eine Überschrift ist keine Sprachangabe": Ein
+# deutscher Name, unter dem niemand sucht, ist schlechter als keiner.
+#
+# Ein Eintrag hier schlägt jede automatische Quelle.
+#
+# id      — unsere Titel-Kennung (AniList)
+# titleDe — der Name, wie er in Deutschland verwendet wird
+# quellen — mindestens zwei, unabhängig voneinander
+# geprueftAm — wann nachgesehen wurde
+
+- id: 2043
+  titleDe: "Cat’s Eye – Ein Supertrio"
+  geprueftAm: "2026-09-16"
+  note: "Lief ab dem 13.11.1995 im deutschen Fernsehen. Der Neuaufguss von 2025 steht bei uns als „Cat’s Eye: Ein Supertrio“ — derselbe Name, andere Fassung."
+  quellen:
+    - https://de.wikipedia.org/wiki/Ein_Supertrio
+    - https://www.anime2you.de/news/230373/ein-supertrio-cats-eye-erscheint-auf-blu-ray/
+
+- id: 101344
+  titleDe: "Made in Abyss: Gefährten der Dämmerung"
+  geprueftAm: "2026-09-16"
+  note: "Zweiter Zusammenschnitt-Film; deutscher Verleihtitel auf Disc und im Stream."
+  quellen:
+    - https://www.moviepilot.de/movies/made-in-abyss-wandering-twilight
+    - https://www.videobuster.de/dvd-bluray-verleih/230076/made-in-abyss-2-gefaehrten-der-daemmerung
+
+- id: 21726
+  titleDe: "Aggretsuko"
+  geprueftAm: "2026-09-16"
+  note: "Netflix führt die Serie hier unter dem Kurznamen, nicht unter „Aggressive Retsuko“. Deutsche Synchro seit dem Start am 20.04.2018."
+  quellen:
+    - https://www.kino.de/serie/aggretsuko/
+    - https://animania.de/netflix-neustart-aggretsuko/

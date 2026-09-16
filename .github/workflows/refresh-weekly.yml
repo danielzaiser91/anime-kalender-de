@@ -208,6 +208,22 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "AniList-Gesamtkatalog"
 
+      # Sucht deutsche Werktitel bei Wikidata, für Titel, die bei uns keinen haben.
+      # Eine einzige SPARQL-Abfrage über alle offenen MAL-Kennungen; das Ergebnis
+      # ist eine Kandidatenliste, kein Titel — eingetragen wird von Hand in
+      # data/titel-de.yaml, mit zweiter Quelle.
+      - name: Deutsche Werktitel bei Wikidata
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:wikidata-titel
+
+      - name: Fortschritt — Deutsche Werktitel bei Wikidata
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Deutsche Werktitel bei Wikidata"
+
       - name: Crunchyroll — zwölf Wochen
         continue-on-error: true
         run: npx tsx pipeline/scrape-crunchyroll.ts --weeks 12

@@ -15,6 +15,7 @@ import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { zugangsart } from '../shared/zugangsart.ts'
 import { adressGleich, adressKern, dubKey, loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
+import { ladeTitelDe } from './lib/titel-de.ts'
 import { crAdresseZu as crAdresseNachName, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import {
   beurteile,
@@ -1707,6 +1708,9 @@ function main(): void {
     Ein Weg, der ins Leere führt, ist schlechter als kein Weg: Er sieht aus wie
     eine Antwort und kostet einen Klick, um sich als keine zu erweisen.
   */
+  /** Von Hand geprüfte deutsche Werktitel, siehe unten bei `deutscheTitelHand`. */
+  const handTitel = ladeTitelDe()
+
   const toteAdressen = new Set(
     loadDubChecks()
       .filter((c) => c.available === false && c.url)
@@ -1722,6 +1726,30 @@ function main(): void {
   // Dienst zu haben sind.
   let fremdeAdressen = 0
   let umsortiert = 0
+  /*
+    **Von Hand geprüfte deutsche Werktitel — sie schlagen jede Quelle.**
+
+    Am 16.09.2026 standen 132 Titel ohne deutschen Namen da, 57 davon mit
+    belegter deutscher Fassung (Sprechrollen, deutsche Erstausgabe oder ein
+    Verweis mit `dub: true`) — die haben also einen, wir kannten ihn nur nicht.
+    Beide automatischen Quellen sind dort erschöpft: aniSearch führt für die 54
+    archivierten Seiten drei deutsche Sprachblöcke und keinen Namen darin, TMDB
+    fällt bei `language=de-DE` still auf den Originaltitel zurück.
+
+    `data/titel-de.yaml` ist die dritte Stufe, dieselbe wie bei der Synchro:
+    nachgesehen, mit zwei Quellen belegt, mit Datum. Sie steht vor den beiden
+    automatischen Runden, damit ein geprüfter Name nicht von einer Datenbank
+    überschrieben wird.
+  */
+  let deutscheTitelHand = 0
+  for (const eintrag of handTitel) {
+    const title = titles.get(eintrag.id)
+    if (!title || !eintrag.titleDe) continue
+    title.titleDe = werkTitel(eintrag.titleDe)
+    deutscheTitelHand++
+  }
+  if (deutscheTitelHand) log(`${deutscheTitelHand} deutsche Titel aus data/titel-de.yaml übernommen`)
+
   let deutscheTitel = 0
   let deutscheTitelTmdb = 0
   let netflixOhneKennung = 0

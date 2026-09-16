@@ -88,6 +88,7 @@ import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
+import { ladeTitelDe } from './lib/titel-de.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -4126,6 +4127,35 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('eine Sendezeit mit Wochentag wird gelesen', gefunden.length === 1 && gefunden[0].zeit === '16:00' && gefunden[0].tag === 'Mittwoch', gefunden)
   pruefe('die Zeitstempel der Seitenleiste zählen nicht als Sendezeit', sendezeiten(leiste).length === 0, sendezeiten(leiste))
   pruefe('die Uhrzeit kommt zweistellig heraus, wie schedule.time', sendezeiten('jeden Samstag um 9.30 Uhr')[0]?.zeit === '09:30')
+}
+
+/*
+  Ein von Hand geprüfter deutscher Titel wird nicht überschrieben.
+
+  `data/titel-de.yaml` ist die dritte Stufe hinter aniSearch und TMDB, und sie
+  ist die teuerste: Jeder Eintrag kostet Nachsehen und zwei Quellen. Die
+  Zusicherung prüft die Form (Kennung, Name, zwei Belege) und den Abgleich mit
+  dem Datensatz — aber nur für Titel, die dort schon einen Namen tragen.
+
+  Die Einschränkung ist Absicht: Ein frisch eingetragener Name steht erst nach
+  dem nächsten Bau im Datensatz. Ohne sie wäre die Prüfung zwischen Commit und
+  Datenlauf zu Unrecht rot — genau der Fehler vom 02.09.2026, als eine
+  Momentaufnahme als Zusicherung geschrieben wurde.
+*/
+{
+  const hand = ladeTitelDe()
+  const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | Record<string, Title>
+  const alle = Array.isArray(roh) ? roh : Object.values(roh)
+  const nachId = new Map(alle.map((t) => [t.id, t]))
+  const ohneBeleg = hand.filter((e) => (e.quellen ?? []).length < 2)
+  pruefe('jeder Handtitel nennt zwei Quellen', ohneBeleg.length === 0, ohneBeleg.map((e) => e.id))
+  const unbekannt = hand.filter((e) => !nachId.has(e.id))
+  pruefe('jeder Handtitel zeigt auf einen Titel im Bestand', unbekannt.length === 0, unbekannt.map((e) => e.id))
+  const ueberschrieben = hand.filter((e) => {
+    const vorhanden = nachId.get(e.id)?.titleDe
+    return vorhanden !== undefined && vorhanden !== e.titleDe
+  })
+  pruefe('kein Handtitel wurde im Datensatz durch eine Datenbank ersetzt', ueberschrieben.length === 0, ueberschrieben.map((e) => `${e.id}: ${nachId.get(e.id)?.titleDe} statt ${e.titleDe}`))
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
