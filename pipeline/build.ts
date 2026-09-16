@@ -3255,6 +3255,19 @@ function main(): void {
   >('data/link-check.json', {})
   /** Wie oft der Kanal-Verweis mit dem Crunchyroll-Befund entfallen ist. */
   let kanalMitEntfernt = 0
+  /** Welche Anbieter der zuletzt ausgelieferte Stand je Titel mit „DE ✓" führte — für die Abgänge. */
+  const vorherDeutsch = new Map<number, Set<string>>()
+  {
+    const alt = readJson<Title[] | Record<string, Title>>('public/data/titles.json', [])
+    for (const t of Array.isArray(alt) ? alt : Object.values(alt)) {
+      /* Auch die geführten Abgänge — sonst verschwände einer beim Bau nach seinem Entstehen. */
+      const deutsch = [
+        ...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform),
+        ...(t.entfernteStreams ?? []).filter((s) => s.dub === true).map((s) => s.platform),
+      ]
+      if (deutsch.length) vorherDeutsch.set(t.id, new Set(deutsch))
+    }
+  }
 
   for (const title of titles.values()) {
     /**
@@ -3312,6 +3325,17 @@ function main(): void {
       Abgänge werden gesammelt, nicht weggeworfen — siehe `entfernteStreams`.
     */
     const abgaenge: typeof title.streams = []
+    /*
+      **Ein Abgang nur, wo es vorher Deutsch gab.** „Netflix — nicht mehr abrufbar" stand
+      über Mushoku Tensei Staffel 3, die dort nie lief (Daniel, 16.09.2026, mit Bild des
+      Staffel-Dropdowns: nur Staffel 1 und 2). Alle 514 Abgänge im Datensatz trugen kein
+      Sprachurteil — die Pille behauptete einen Verlust, den niemand belegt hatte.
+      Belegt ist er nur, wenn ein Handbeleg oder der zuletzt ausgelieferte Stand dort
+      deutschen Ton führte.
+    */
+    const warDeutsch = (s: { platform: PlatformId; url: string }) =>
+      (checksJePlattform.get(dubKey(title.id, s.platform)) ?? []).some((c) => c.dub === true) ||
+      (vorherDeutsch.get(title.id)?.has(s.platform) ?? false)
     title.streams = title.streams.filter((stream) => {
       /**
        * Was YouTube selbst über seine Verweise sagt.
@@ -3436,8 +3460,9 @@ function main(): void {
         */
         if (/[?&]k=|\/s\?/.test(a.url)) continue
         if (title.streams.some((s) => s.platform === a.platform)) continue
+        if (!warDeutsch(a)) continue
         const bisher = jeAnbieter.get(a.platform)
-        if (!bisher || (a.entferntAm ?? '') > (bisher.entferntAm ?? '')) jeAnbieter.set(a.platform, a)
+        if (!bisher || (a.entferntAm ?? '') > (bisher.entferntAm ?? '')) jeAnbieter.set(a.platform, { ...a, dub: true })
       }
       if (jeAnbieter.size) title.entfernteStreams = [...jeAnbieter.values()]
     }
@@ -3461,7 +3486,8 @@ function main(): void {
       Unterschied ist derselbe wie überall in diesem Projekt: Gestrichen wird,
       was eine Quelle **aktiv widerlegt**.
     */
-    const crWeg = (title.entfernteStreams ?? []).some((s) => s.platform === 'crunchyroll')
+    /* Alle Abgänge, nicht nur die angezeigten — ein Crunchyroll-Verweis ohne früheres Deutsch ist trotzdem weg. */
+    const crWeg = abgaenge.some((s) => s.platform === 'crunchyroll')
     const crDa = title.streams.some((s) => s.platform === 'crunchyroll')
     if (crWeg && !crDa && title.watchLinks?.length) {
       const vorher = title.watchLinks.length
