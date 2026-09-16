@@ -1699,6 +1699,40 @@ angebliche Widersprüche gingen allein darauf zurück. Erkennbar sind sie am Fla
 Block (`class="flag" alt="us"`); **deutsche Ausgaben tragen keine Flagge**. 28 von 122
 Vorschlägen waren ausländisch.
 
+### Für den deutschen Namen gibt es drei Quellen — und die dritte heißt Nachsehen
+
+Am 16.09.2026 standen 132 Titel ohne `titleDe` da, **57 davon mit belegter deutscher Fassung**
+(Sprechrollen, deutsche Erstausgabe oder ein Verweis mit `dub: true`). Die haben einen Namen,
+wir kannten ihn nur nicht. Gemessen, bevor gebaut wurde:
+
+| Quelle | Ergebnis |
+|---|---|
+| aniSearch-Archiv, 54 der 132 liegen dort | 3 deutsche Sprachblöcke, **0 mit Namen** |
+| TMDB `language=de-DE`, Stichprobe 15 | **0 Übersetzungen** — es fällt still auf den Originaltitel zurück |
+| Wikidata über `P4086` (MAL-Kennung) | 29 Treffer, 6 brauchbare Kandidaten |
+
+**Wikidata liefert Kandidaten, keine Titel.** Unter den deutschen Labels stehen vier Sorten,
+und nur eine taugt:
+
+```
+Sorcerer Hunters: Heiße Früchtchen zum Vernaschen   der Verleihtitel        ✓
+Bakuman.                     zu „Bakuman. 3"        der Reihenkopf          ✗
+City Hunter/Staffel 4                               Wikipedia-Unterseite    ✗
+Marudukku sukuranburu: Nenshou                      eine Romanisierung      ✗
+```
+
+**Die Richtung entscheidet beim Reihenkopf-Riegel**, und der erste Anlauf hatte sie falsch
+herum: Er verwarf „Sorcerer Hunters: Heiße Früchtchen zum Vernaschen", weil der englische
+Name darin steckt — das ist aber genau die **Erweiterung** um den Untertitel. Verworfen wird
+nur das **kürzere** Label.
+
+**Eingetragen wird von Hand, mit zwei Quellen**, in `data/titel-de.yaml`; der Bau liest sie vor
+aniSearch und TMDB. Von sechs Kandidaten hielten drei der Prüfung stand (Cat’s Eye – Ein
+Supertrio, Made in Abyss: Gefährten der Dämmerung, Aggretsuko), einer fiel mangels zweiter
+Quelle durch. Das ist dieselbe Stufenfolge wie bei der Synchro — und derselbe Grund: Ein
+deutscher Name, unter dem niemand sucht, ist schlechter als keiner (belegt am 01.09.2026 mit
+„Yuu Gi Ou").
+
 ### Die Uhrzeit steht in der Start-Meldung, nicht in der Ankündigung
 
 Am 16.09.2026 standen 13 künftige Netflix-Termine ohne Uhrzeit im Kalender (Thunder 3,
