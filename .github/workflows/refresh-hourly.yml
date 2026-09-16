@@ -178,6 +178,14 @@ jobs:
         continue-on-error: true
         run: npx tsx pipeline/termine-pruefen.ts
 
+      # Das TV-Programm von RTL+ nennt nur den laufenden Tag — mehrmals täglich
+      # abgefragt, damit keine Sendung durchrutscht (16.09.2026, status.md).
+      - name: TV-Programm von RTL+ lesen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:tv-programm
+
       - name: Fortschritt — Crunchyroll-Kalender lesen
         continue-on-error: true
         env:

@@ -60,6 +60,8 @@ const FRISTEN: Record<string, number> = {
   'crunchyroll-dub': 9,
   // Läuft täglich — vier Abrufe. Bleibt er zwei Tage stumm, ist etwas kaputt.
   'crunchyroll-neu': 3,
+  // Mehrmals täglich; zwei stumme Tage heißen, RTL+ hat die Seite umgebaut.
+  'tv-programm': 3,
   /*
     Wöchentlich. Der Lauf arbeitet eine Liste ab, die kleiner wird — sind alle
     Verweise beurteilt, holt er nichts mehr und meldet trotzdem seinen Bestand.

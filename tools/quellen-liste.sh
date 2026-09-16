@@ -131,6 +131,9 @@ QUELLEN=(
   # von gestern stammt — und genau das Datum ist die Angabe, die sonst nirgends
   # steht (Crunchyroll nennt nur den Termin der Originalfassung).
   data/crunchyroll-neu.json
+  # Gesichtete Anime-Sendungen im TV-Programm von RTL+ — die Seite zeigt nur
+  # den laufenden Tag, das Gedächtnis entsteht erst hier (16.09.2026).
+  data/tv-programm.json
   # Wann eine Meldung der Nachrichtenseite zum ersten Mal wahr war. Ohne diese
   # Datei rutschte bei jedem Bau jede Meldung auf heute — die Seite behauptete
   # dann täglich, alles sei neu.

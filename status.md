@@ -150,6 +150,26 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 | **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
 
+## Recherchiert 16.09.2026: Quellen für deutsche TV-Sendetermine
+
+Anlass: Dragon Ball DAIMA bei TOGGO plus (Daniel: „tägliche tv releases sind ein paradebeispiel …"). Gemessen je Quelle, Probeabrufe sparsam:
+
+| Quelle | Weg | Reichweite | Befund | Urteil |
+|---|---|---|---|---|
+| fernsehserien.de | schema.org in der Seite | Wochen | Impressum: „Vervielfältigung jeglicher Art ist nur mit schriftlicher Genehmigung gestattet" | verworfen (Daniel: „andere quellen suchen") |
+| TVmaze | API `schedule?country=DE` | — | am 17.09.2026 genau 1 Eintrag für Deutschland | verworfen, leer |
+| RTL+ Programmseite `plus.rtl.de/tv-programm` | HTML, `curl` genügt; TOGGO plus, RTLZWEI, Super RTL | **nur heute** | robots `Allow: /`; AGB verbieten nur **kommerzielles** TDM (§ 44b) | nutzbar, wenn das Projekt nicht kommerziell ist |
+| RTL+ EPG-Schnittstelle (bedrock) | JSON mit anonymem Token | ~14 Tage | undokumentiert, Token-Abfrage nachzubauen | Grauzone |
+| rtl2.de `/tv-programm/<datum>` | schema.org | 7 Tage | robots frei; AGB „nur privat, nicht kommerziell" | nutzbar wie oben, zurzeit kein Anime |
+| ARD Mediathek (KiKA) | `preloadedState` | 8 Tage, mit Folgennummer | robots sperrt `claudebot` namentlich, TDM-Vorbehalt nach § 44b(3) | verworfen |
+| programm-api.ard.de | — | — | robots `Disallow: /` | verworfen |
+| ProSieben MAXX / Joyn | GraphQL `api.joyn.de` | — | robots `Disallow: /` | verworfen |
+| toggo.de, nick.de | — | — | kein Programmendpunkt | verworfen |
+| iptv-org/epg | Werkzeug, holt bei MagentaTV | 2 Tage | keine Rechte an den Daten | verworfen |
+| presseportal.de RSS (z. B. ProSieben MAXX) | RSS | Ankündigungen | „kann grundsätzlich redaktionell frei verwendet werden" | nutzbar für Starttermine |
+
+Nicht geprüft: Programmzeitschriften (Daten von Drittanbietern), DVB-EIT über eigenen Empfänger (Hardware). Beleg DAIMA über RTL+: 16.09. 21:15–21:35 „Degesu", 27.09. (So) „Glorio", 30.09. nicht mehr im Plan.
+
 ## Recherchiert 13.09.2026: Kinostarts der 112 angekündigten Anime-Filme
 
 Anlass: Daniel wollte im Kasten des Apothekerin-Films den Kinostart statt „Noch keine deutsche Fassung" — für alle angekündigten Kinofilme, mit Web-Recherche je Film und dem Hinweis, gefundene Webseiten als mögliche Newsquellen festzuhalten. Recherchiert in vier Gruppen (je 28 Filme), Ergebnis in `data/kino-ankuendigungen.yaml` (41 Einträge).

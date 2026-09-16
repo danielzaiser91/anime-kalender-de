@@ -641,6 +641,11 @@ export interface Release {
    * die Meldung den richtigen Titel meint. Wer es weiß, kann widersprechen.
    */
   automatisch?: boolean
+  /**
+   * Letzter Tag, an dem die Reihe im TV-Programm gesichtet wurde (`pipeline/lib/tv-termine.ts`).
+   * Die Quelle kennt kein Ende; bis sieben Tage danach gilt die Reihe als laufend.
+   */
+  tvLetzteSichtung?: string
 }
 
 export interface ReleaseEvent {

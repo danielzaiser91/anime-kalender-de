@@ -97,6 +97,8 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus } from './lib/meldungen.ts'
+import { releasesAusTvProgramm } from './lib/tv-termine.ts'
+import { namensKern, sendungenAusSeite, titelZuordnen } from './fetch-tv-programm.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -4405,6 +4407,43 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe('das Ende steht am 22.09.', lastEpisodeDate(daima) === '2026-09-22')
   pruefe('jedes Ereignis trägt den Sender', ev.every((e) => e.sender === 'TOGGO plus'))
+}
+/*
+  **TV-Programm von RTL+** (16.09.2026): Auslesen, wörtlich zuordnen, Wiederholungen
+  nicht doppelt zählen, Handeintrag gewinnt.
+*/
+{
+  const eintrag = (start: string, titel: string, folge: string | null, kennung: string) =>
+    `{\\"start\\":{\\"date\\":\\"${start}\\",\\"title\\":\\"x\\"},\\"end\\":{\\"date\\":\\"${start}\\",\\"title\\":\\"y\\"},\\"title\\":\\"${titel}\\",\\"extraTitle\\":${folge === null ? 'null' : `\\"${folge}\\"`},\\"action\\":{\\"target\\":{\\"type\\":\\"modal\\",\\"value_modal\\":{\\"id\\":\\"${Buffer.from(kennung).toString('base64')}\\"}}}}`
+  const seite = [
+    eintrag('2026-09-16T21:15:00+02:00', 'Dragon Ball DAIMA', 'Degesu', 'rtlde_toggo_plus+543649+2026-09-16'),
+    eintrag('2026-09-16T17:05:00+02:00', 'Pokémon Horizonte: Die Serie', 'Enteis', 'rtlde_super_rtl+543466+2026-09-16'),
+    eintrag('2026-09-16T18:00:00+02:00', 'Fremde Sendung', null, 'kaputt'),
+  ].join(',')
+  const gelesen = sendungenAusSeite(seite)
+  pruefe('das eingebettete Programm wird gelesen, eine kaputte Kennung verworfen', gelesen.length === 2, gelesen)
+  const namen = new Map([
+    [namensKern('Dragon Ball DAIMA'), 170083],
+    [namensKern('Pokémon Horizonte'), 158871],
+  ])
+  pruefe('„: Die Serie" wird für die Zuordnung abgestreift', titelZuordnen('Pokémon Horizonte: Die Serie', namen) === 158871)
+  pruefe('ein Namensteil ordnet nicht zu', titelZuordnen('Dragon Ball', namen) === undefined)
+  const titles = new Map([[158871, { id: 158871, titleDe: 'Pokémon Horizonte' } as Title]])
+  const s = (start: string, folge: string) => ({ titleId: 158871, titel: 'x', folge, sender: 'Super RTL', start, ende: start, gesehenAm: '2026-09-16' })
+  const tv = releasesAusTvProgramm(
+    [s('2026-09-15T16:05:00+02:00', 'A'), s('2026-09-16T16:05:00+02:00', 'B'), s('2026-09-17T09:00:00+02:00', 'A')],
+    titles,
+    [],
+  )
+  pruefe('eine Wiederholung zählt nicht als neue Folge', tv[0]?.schedule.episodeCount === 2, tv[0]?.schedule)
+  pruefe('verschiedene Uhrzeiten: keine Uhrzeit behauptet', tv[0]?.schedule.time === undefined)
+  pruefe('die letzte Sichtung trägt auch die Wiederholung', tv[0]?.tvLetzteSichtung === '2026-09-17')
+  pruefe(
+    'eine gesichtete Reihe läuft eine Woche nach der letzten Sichtung noch',
+    tv[0] !== undefined && titleStatus([tv[0]], '2026-09-24') === 'airing' && titleStatus([tv[0]], '2026-09-25') !== 'airing',
+  )
+  const hand = { titleId: 158871, platform: 'tv', sender: 'Super RTL' } as Release
+  pruefe('ein Handeintrag beim selben Sender gewinnt', releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'A')], titles, [hand]).length === 0)
 }
 /* Ein Fernsehtermin wird kein Streaming-Termin (Dragon Ball DAIMA, 16.09.2026). */
 {

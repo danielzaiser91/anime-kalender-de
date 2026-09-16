@@ -102,6 +102,8 @@ export function releaseStatus(release: Release, today = todayIso()): ReleaseStat
   const s = release.schedule
   if (!s?.firstEpisodeDate) return 'unbekannt'
   if (s.firstEpisodeDate > today) return 'tba'
+  /* Gesichtete TV-Reihen haben kein bekanntes Ende — eine Woche nach der letzten Sichtung laufen sie noch. */
+  if (release.tvLetzteSichtung && release.tvLetzteSichtung >= addDays(today, -7)) return 'airing'
   const last = lastEpisodeDate(release)
   if (!last) return 'airing'
   if (last < today) return 'abgeschlossen'

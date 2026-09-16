@@ -81,6 +81,8 @@ import {
   releasesAus,
   type Vorschlag,
 } from './lib/meldungen.ts'
+import { releasesAusTvProgramm } from './lib/tv-termine.ts'
+import type { TvSendung } from './fetch-tv-programm.ts'
 import {
   KEYWORD_BLOCKLIST,
   PLATFORM_PRIORITY,
@@ -2853,6 +2855,15 @@ function main(): void {
       `${ausMeldungen.length} Termine automatisch aus Anime2You übernommen: ` +
         ausMeldungen.map((r) => `${r.name} (${r.platform}, ${r.schedule.firstEpisodeDate})`).join(', '),
     )
+
+  // --- Termine aus dem TV-Programm (RTL+) -------------------------------------
+  // Nach den Handeinträgen: Ein gepflegter TV-Termin kennt die Folgennummern und gewinnt.
+  const tvProgramm = Object.values(
+    readJson<{ sendungen?: Record<string, TvSendung> }>('data/tv-programm.json', {}).sendungen ?? {},
+  )
+  const ausTv = releasesAusTvProgramm(tvProgramm, titles, releases)
+  releases.push(...ausTv)
+  if (ausTv.length) log(`${ausTv.length} TV-Termine aus dem RTL+-Programm: ${ausTv.map((r) => `${r.name} (${r.sender})`).join(', ')}`)
 
   quellenPflegen(releases)
 

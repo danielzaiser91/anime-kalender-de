@@ -27,6 +27,7 @@
     "data:check": "tsx pipeline/check-sources.ts",
     "data:cr-dub": "tsx pipeline/scrape-crunchyroll-dub.ts",
     "data:cr-neu": "tsx pipeline/fetch-crunchyroll-neu.ts",
+    "data:tv-programm": "tsx pipeline/fetch-tv-programm.ts",
     "data:dub-checks": "tsx pipeline/report-dub-checks.ts",
     "data:report": "tsx pipeline/report-proposals.ts",
     "data:icons": "tsx pipeline/build-icons.ts",
