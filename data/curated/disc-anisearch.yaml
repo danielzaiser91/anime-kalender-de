@@ -253,9 +253,14 @@
   platform: disc
   releaseType: disc
   publisher: "Kazé Deutschland"
-  edition: "Staffel 1+2 - Komplettset Blu-ray · Staffel 1+2 - Komplettset"
+  # Der Name stand zweimal in derselben Zeile („… Blu-ray · Staffel 1+2 - Komplettset").
+  edition: "Gesamtausgabe Staffel 1+2 — 8 Blu-rays"
+  note: "Beide Staffeln ungeschnitten auf acht Blu-rays (1.250 Minuten), im Keep Case mit Schuber und Booklet. Bisher gab es die Staffeln hier nur einzeln (27.04.2018 und 07.06.2024)."
   schedule: { firstEpisodeDate: "2026-09-18" }
-  sources: [https://www.anisearch.de/article/211705,code-geass-lelouch-of-the-rebellion-staffel-1-2-komplettset-blu-ray]
+  sources:
+    - https://www.anisearch.de/article/211705,code-geass-lelouch-of-the-rebellion-staffel-1-2-komplettset-blu-ray
+    - https://collectors-junkies.com/code-geass-lelouch-of-the-rebellion-staffel-12-gesamtausgabe-auf-blu-ray-ab-september-2026/
+    - https://www.amazon.de/Code-Geass-Gesamtausgabe-Staffel-Blu-ray/dp/B0H7HTWHGB
 
 - slug: 2-5-dimensional-seduction-2026-09-07
   anilistId: 158559
@@ -443,9 +448,14 @@
   platform: disc
   releaseType: disc
   publisher: "Kazé Deutschland"
-  edition: "Staffel 1+2 - Komplettset Blu-ray · Staffel 1+2 - Komplettset"
+  # Der Name stand zweimal in derselben Zeile („… Blu-ray · Staffel 1+2 - Komplettset").
+  edition: "Gesamtausgabe Staffel 1+2 — 8 Blu-rays"
+  note: "Beide Staffeln ungeschnitten auf acht Blu-rays (1.250 Minuten), im Keep Case mit Schuber und Booklet. Bisher gab es die Staffeln hier nur einzeln (27.04.2018 und 07.06.2024)."
   schedule: { firstEpisodeDate: "2026-09-18" }
-  sources: [https://www.anisearch.de/article/211705,code-geass-lelouch-of-the-rebellion-staffel-1-2-komplettset-blu-ray]
+  sources:
+    - https://www.anisearch.de/article/211705,code-geass-lelouch-of-the-rebellion-staffel-1-2-komplettset-blu-ray
+    - https://collectors-junkies.com/code-geass-lelouch-of-the-rebellion-staffel-12-gesamtausgabe-auf-blu-ray-ab-september-2026/
+    - https://www.amazon.de/Code-Geass-Gesamtausgabe-Staffel-Blu-ray/dp/B0H7HTWHGB
 
 - slug: hallo-kurt-2026-12-03
   anilistId: 2912

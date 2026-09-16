@@ -243,6 +243,7 @@ function AntwortKasten({
   wegeHinweis,
   notiz,
   angebotSeit,
+  kaufausgabe,
   hinweis,
 }: {
   antwort: Antwort
@@ -302,6 +303,15 @@ function AntwortKasten({
    * werden").
    */
   angebotSeit?: string
+  /**
+   * **Die Kaufausgabe, wenn sie nicht die Hauptauskunft ist.**
+   *
+   * Steht ein Titel längst auf Deutsch zum Streamen und kommt nur noch eine
+   * Blu-ray, ist ihr Termin eine Nebensache — vorher war er die Überschrift
+   * („In 2 Tagen, 18.09.2026" über „Code Geass", das seit 2023 bei Crunchyroll
+   * liegt). Hier steht er als das, was er ist, mit Datum und Label.
+   */
+  kaufausgabe?: string
   /**
    * Der Merken-Hinweis für Titel ohne belegte Synchro — was der Stern bewirkt.
    *
@@ -835,6 +845,7 @@ function AntwortKasten({
 
       {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
       {angebotSeit && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{angebotSeit}</p>}
+      {kaufausgabe && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{kaufausgabe}</p>}
       {hinweis}
       {antwort.art === 'laeuft' && antwort.vermerk && (
         <VermerkAuskunft
@@ -2799,8 +2810,25 @@ export function DetailPanel({
       die einzige Auskunft, die es gibt, und ein leerer Kopf wäre schlechter als
       ein Kaufdatum.
     */
+    const hatSynchro = (title.streams ?? []).some((s) => s.dub === true)
     const ohneDisc = releases.filter((r) => r.releaseType !== 'disc')
-    const fuerKopf = ohneDisc.length ? ohneDisc : releases
+    /*
+      **Eine Kaufausgabe beantwortet nicht die Frage „wann kommt es".**
+
+      Bei „Code Geass" stand über einem Titel, der seit September 2023 auf
+      Deutsch bei Crunchyroll liegt: „In 2 Tagen, 18.09.2026 · Kaufausgabe" —
+      während die Pillen im selben Kasten „Crunchyroll · 25 Fg. · 🇩🇪 ✓" zeigten
+      (Daniel, 16.09.2026, mit Bild: „der titel ist schon lange erschienen …
+      es muss klar sein was gemeint ist, worauf bezieht sich das?"). Der Termin
+      gehört zu einer **neuen Blu-ray-Ausgabe**, nicht zur Erstveröffentlichung.
+
+      Der Rückfall auf die Disc bleibt richtig, wo sie wirklich die einzige
+      Auskunft ist — also **ohne** belegten deutschen Stream. Gibt es einen,
+      ist er die Antwort, und die Kaufausgabe steht als eigene Zeile darunter.
+      44 Titel sind betroffen, darunter beide Code-Geass-Staffeln, fünf
+      Naruto-Filme und „Mila Superstar".
+    */
+    const fuerKopf = ohneDisc.length ? ohneDisc : hatSynchro ? [] : releases
     const alleEvents = fuerKopf.flatMap((r) => expandEvents(r))
     const offen = alleEvents.filter((e) => !istErschienen(e))
     /*
@@ -2827,7 +2855,6 @@ export function DetailPanel({
     */
     const nurWochen = fuerKopf.every((r) => r.releaseType === 'weekly')
     const gesamt = title.episodes ?? (nurWochen && alleEvents.length > 1 ? alleEvents.length : undefined)
-    const hatSynchro = (title.streams ?? []).some((s) => s.dub === true)
     /*
       **„Alle N Folgen" nur, wenn alle N belegt sind.**
 
@@ -2980,6 +3007,26 @@ export function DetailPanel({
     return { art: 'ohne' as const, gesamt }
     // `today` steht in der Abhängigkeitsliste, weil `titleStatus` es benutzt.
   }, [title, releases, today])
+
+  /*
+    **Der Disc-Termin, den der Kopf nicht mehr trägt.**
+
+    Nur wenn die Antwort oben aus den Streams kommt (also kein Disc-Zustand
+    ist) und es wirklich eine künftige Kaufausgabe gibt. Sonst stünde die Zeile
+    neben einer Überschrift, die dasselbe Datum schon nennt.
+  */
+  const kaufausgabeZeile = useMemo(() => {
+    if (!title || antwort?.art === 'disc') return undefined
+    const naechste = releases
+      .filter((r) => r.releaseType === 'disc' && (r.schedule?.firstEpisodeDate ?? '') > today)
+      .sort((a, b) => (a.schedule?.firstEpisodeDate ?? '').localeCompare(b.schedule?.firstEpisodeDate ?? ''))[0]
+    if (!naechste?.schedule?.firstEpisodeDate) return undefined
+    const label = naechste.publisher ?? naechste.edition
+    const datum = formatDate(naechste.schedule.firstEpisodeDate)
+    return label
+      ? t('antwort.kaufausgabeAm', { datum, label })
+      : t('antwort.kaufausgabeAmOhne', { datum })
+  }, [title, releases, today, antwort, t])
 
   /**
    * Zeigt der Kasten oben eine Faktenzeile statt eines Balkens?
@@ -3667,6 +3714,7 @@ export function DetailPanel({
                     })
                   : undefined
               }
+              kaufausgabe={kaufausgabeZeile}
               hinweis={
                 title.ohneSynchro ? (
                   <>

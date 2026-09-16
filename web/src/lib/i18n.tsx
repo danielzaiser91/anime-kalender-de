@@ -278,6 +278,12 @@ const TEXTE = {
   // Was er trug, steht im Antwort-Kasten darüber (Status in Worten), am Cover (FSK)
   // oder nirgends mehr („Erscheinungstermin: unbekannt" war eine Nicht-Auskunft).
   'antwort.imAngebotSeit': 'Bei {anbieter} im Angebot seit {datum}',
+  // „Kaufausgabe" statt „Disc": Der Termin gehört zu einer Blu-ray oder DVD, die man
+  // kauft — nicht zur deutschen Fassung selbst, die meist längst zu streamen ist.
+  'antwort.kaufausgabeAm': 'Neue Kaufausgabe am {datum} — {label}',
+  // Ohne Label endete die Zeile auf einem nackten Gedankenstrich („am 19.11.2026 — "),
+  // gemessen an „Mila Superstar" am 16.09.2026.
+  'antwort.kaufausgabeAmOhne': 'Neue Kaufausgabe am {datum}',
   // Beide Texte stehen seit dem 12.08.2026 als Hovertext hinter dem Wort
   // „unbekannt" statt als eigener Kasten — sie erklären, warum dort kein Datum
   // steht, und das ist eine Fußnote, keine Schlagzeile.
