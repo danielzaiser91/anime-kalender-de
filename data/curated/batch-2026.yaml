@@ -165,5 +165,9 @@
     # eigenes Release. Ohne diese Angabe stünde hier „1. Fr 25.09.2026", und
     # genau das las sich wie der Termin der Auftaktfolge.
     firstEpisodeNumber: 2
+    # Netflix schreibt „PHASE 2 bis 3: ab 25. September wöchentlich" — „Phase" ist die
+    # Rennetappe (Stage) der Vorlage, keine Folgenzahl. Elf neue Folgen, freitags bis 04.12.
+    # (whats-on-netflix, 16.09.2026; Daniels Frage, geprüft).
   sources:
     - https://www.anime2you.de/news/1027799/jojo-steel-ball-run-fortsetzung-netflix-termin/
+    - https://www.whats-on-netflix.com/news/steel-ball-run-part-2-netflix-release-date/
