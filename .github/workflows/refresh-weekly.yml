@@ -376,11 +376,15 @@ jobs:
       # die Serie im deutschen Katalog suchen und ihre **Staffelliste** lesen.
       # Er braucht dasselbe Zugangspaket wie der Lauf darüber; ohne läuft er
       # ins Leere und meldet das.
+      # Seit dem 16.09.2026 über die Weiche in Frankfurt (worker-cr/): Der Lauf
+      # braucht einen deutschen Abruf und brach auf dem US-Runner bis dahin
+      # jede Woche ab.
       - name: Crunchyroll — Verweise ohne Sprachurteil auflösen
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
+          CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
         run: npm run data:cr-offene
 
       - name: Fortschritt — Crunchyroll-Serienseiten auf deutsche Tonspur

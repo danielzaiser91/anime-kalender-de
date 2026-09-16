@@ -236,6 +236,17 @@ Zwei Folgen daraus:
   IP-Bindung: Ein Paket kann nur an Daniels Leitung entstehen, und die steht nicht unter
   GitHubs Kontrolle.
 
+- **Cloudflare gilt für Crunchyroll als Deutschland — die Weiche `worker-cr/` trägt den
+  deutschen Abruf in die Cloud** (16.09.2026). Ein Wegwerf-Worker bekam von
+  `auth/v1/token` `country: DE`, die Staffelliste von Fruits Basket stimmte mit der Messung
+  vom PC überein — auch ohne Placement (Ausgangs-IP `2a06:98c0:…`, `loc=DE`). Der Worker
+  `cr-weiche` steht trotzdem per Placement in Frankfurt, leitet nur an
+  `beta-api.crunchyroll.com` weiter und verlangt `X-Weiche-Token` (GitHub-Secret
+  `CR_WEICHE_TOKEN`). `data:cr-offene` nutzt ihn, sobald das Secret gesetzt ist; ohne läuft
+  er direkt wie auf Daniels PC. **Offen:** Dasselbe würde das tägliche Erneuern von
+  `CR_ZUGANG` ohne Daniels PC erlauben. `wrangler delete` scheitert mit unserem Token
+  („Memberships->Read"); gelöscht wird über `DELETE /accounts/<id>/workers/scripts/<name>`.
+
 - **Aus dem deutschen Katalog wird ein fehlendes `de-DE` zum Beleg — aus keinem anderen.** Seit
   dem 22.08.2026 läuft `data:cr-dub` über die beta-api mit diesem Paket, und jeder Eintrag trägt
   `katalog`. Nur bei `'de'` macht `beurteile()` daraus ein `dub: false`; alles ohne belegte

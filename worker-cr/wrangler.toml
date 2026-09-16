@@ -1,0 +1,11 @@
+# Crunchyroll-Weiche — siehe index.js. Ausliefern:
+#   cd worker-cr && npx wrangler deploy --config wrangler.toml
+# Geheimwort: npx wrangler secret put WEICHE_TOKEN --config wrangler.toml
+name = "cr-weiche"
+main = "index.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+# Frankfurt: Crunchyroll soll die Anfrage als deutsch erkennen (gemessen 16.09.2026).
+[placement]
+region = "aws:eu-central-1"

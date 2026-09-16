@@ -90,8 +90,21 @@ const norm = (s: string | undefined | null): string =>
     .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .trim()
 
+/**
+ * **In der Cloud über die Weiche in Frankfurt** (`worker-cr/`, 16.09.2026).
+ * Ohne `CR_WEICHE_TOKEN` geht der Abruf direkt — so läuft es auf Daniels PC.
+ */
+const WEICHE = process.env.CR_WEICHE ?? 'https://cr-weiche.animekalender.workers.dev/'
+const WEICHE_TOKEN = process.env.CR_WEICHE_TOKEN
+function crFetch(url: string, init: RequestInit = {}): Promise<Response> {
+  if (!WEICHE_TOKEN) return fetch(url, init)
+  const headers = new Headers(init.headers)
+  headers.set('X-Weiche-Token', WEICHE_TOKEN)
+  return fetch(`${WEICHE}?url=${encodeURIComponent(url)}`, { ...init, headers })
+}
+
 async function holeToken(): Promise<string> {
-  const r = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', {
+  const r = await crFetch('https://beta-api.crunchyroll.com/auth/v1/token', {
     method: 'POST',
     headers: {
       Authorization: 'Basic ' + Buffer.from('noaihdevm_6iyg0a8l0q:').toString('base64'),
@@ -123,7 +136,7 @@ async function holeToken(): Promise<string> {
 export async function main(): Promise<void> {
   const token = await holeToken()
   const hol = async (u: string): Promise<{ status: number; body: unknown }> => {
-    const r = await fetch(u, { headers: { Authorization: `Bearer ${token}`, 'User-Agent': UA } })
+    const r = await crFetch(u, { headers: { Authorization: `Bearer ${token}`, 'User-Agent': UA } })
     return { status: r.status, body: await r.json().catch(() => null) }
   }
 
