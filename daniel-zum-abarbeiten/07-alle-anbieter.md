@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-16 · **22 offene Verweise** in **16 Zeilen**.
+Stand 2026-09-16 · **15 offene Verweise** in **11 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -34,7 +34,6 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | Offen je Anbieter | Verweise |
 |---|---|
 | [Joyn](07-joyn.md) | 9 |
-| [Crunchyroll](07-crunchyroll.md) | 7 |
 | [Prime Video](07-primevideo.md) | 6 |
 
 ## Zu prüfen
@@ -46,20 +45,14 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 3 | 2024-09-05 | Spy × Family | [Code: White](https://www.joyn.de/filme/spy-x-family-code-white) |
 | 4 | 2024-04-12 | Detektiv Conan | [Das 1-Million-Dollar-Pentagramm](https://www.joyn.de/filme/detektiv-conan-film-27-das-1-million-dollar-pentagram) |
 | 5 | 2023-06-20 | Kizuna no Allele | [Hauptserie](https://www.amazon.de/dp/B0BX2L1CQJ) |
-| 6 | 2023-06-16 | Black Clover | [Sword of the Wizard King](https://www.crunchyroll.com/de/series/GRE50KV36/black-clover) |
-| 7 | 2022-07-07 | Ponkotsu Quest: Maou to Haken no Mamono-tachi | [Vinland Saga](https://www.amazon.de/dp/B0C55SJB1W) |
-| 8 | 2021-12-01 | JoJo’s Bizarre Adventure | [Stone Ocean](https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure) |
-| 9 | 2021-10-21 | Kaguya-sama: Love Is War | [Ultra Romantic: Ishigami Yu möchte sich unterhalten](https://www.crunchyroll.com/de/series/GRJ0J828Y/kaguya-sama-love-is-war) |
-| 10 | 2019-09-18 | Astra Lost in Space | [Hauptserie](https://www.joyn.de/serien/astra-lost-in-space) |
-| 11 | 2015-12-26 | Highschool D×D | [Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) · [BorN: Mini-Episoden](https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd) |
-| 12 | 2014-06-25 | No Game No Life | [Hauptserie](https://www.joyn.de/serien/no-game-no-life) |
-| 13 | 2012-12-28 | Blue Exorcist | [Kuro reißt aus](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) · [The Movie](https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist) |
-| 14 | 2012-09-22 | Kuroko’s Basketball: | [Staffel 1](https://www.amazon.de/dp/B09P9P9YG6) |
-| 15 | 2012-01-26 | Bakugan: Spieler des Schicksals | [Hauptserie](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Neu Vestroia](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Invasion der Gundalianer](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Mechtanium Surge](https://www.joyn.de/serien/bakugan-battle-brawlers) |
-| 16 | 2007-09-29 | Guardian of the Spirit | [Hauptserie](https://www.joyn.de/serien/guardian-of-the-spirit) |
+| 6 | 2022-07-07 | Ponkotsu Quest: Maou to Haken no Mamono-tachi | [Vinland Saga](https://www.amazon.de/dp/B0C55SJB1W) |
+| 7 | 2019-09-18 | Astra Lost in Space | [Hauptserie](https://www.joyn.de/serien/astra-lost-in-space) |
+| 8 | 2014-06-25 | No Game No Life | [Hauptserie](https://www.joyn.de/serien/no-game-no-life) |
+| 9 | 2012-09-22 | Kuroko’s Basketball: | [Staffel 1](https://www.amazon.de/dp/B09P9P9YG6) |
+| 10 | 2012-01-26 | Bakugan: Spieler des Schicksals | [Hauptserie](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Neu Vestroia](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Invasion der Gundalianer](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Mechtanium Surge](https://www.joyn.de/serien/bakugan-battle-brawlers) |
+| 11 | 2007-09-29 | Guardian of the Spirit | [Hauptserie](https://www.joyn.de/serien/guardian-of-the-spirit) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
-- **Crunchyroll:** Der Simulcast-Kalender führt nur laufende Staffeln. Für Katalogtitel sagt er nichts — Fehlen ist dort kein Gegenbeweis.
 - **Joyn:** Joyn nennt die Sprachfassung nirgends öffentlich.
 - **Prime Video:** Prime Video nennt die Tonspuren erst auf der Produktseite, und die ist ohne Anmeldung unvollständig.

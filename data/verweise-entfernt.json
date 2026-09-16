@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-16T16:57:55.583Z",
+  "stand": "2026-09-16T17:00:51.145Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6902,7 +6902,7 @@
       "titleId": 105334,
       "titel": "Fruits Basket",
       "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/fruits-basket",
+      "url": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -6979,7 +6979,7 @@
       "titleId": 108725,
       "titel": "The Promised Neverland Staffel 2",
       "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/the-promised-neverland",
+      "url": "https://www.crunchyroll.com/de/series/GYVD2K1WY/the-promised-neverland",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -8791,17 +8791,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 105334,
-      "titel": "Fruits Basket",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/fruits-basket",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-16",
-      "letzterWeg": false
-    },
-    {
       "titleId": 108241,
       "titel": "Gleipnir",
       "plattform": "crunchyroll",
@@ -8817,17 +8806,6 @@
       "titel": "My Teen Romantic Comedy SNAFU: Climax",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/my-teen-romantic-comedy-snafu",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-16",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 108725,
-      "titel": "The Promised Neverland Staffel 2",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/the-promised-neverland",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
