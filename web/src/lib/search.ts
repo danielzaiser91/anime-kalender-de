@@ -166,13 +166,22 @@ export function trifftUngefaehr(suchwoerter: string[], titelFelder: string[]): b
  * nachsichtige. Bleibt die strenge Stufe leer, wird die nachsichtige gefragt —
  * sonst nicht.
  */
+const FUELLWOERTER = new Set(['von', 'der', 'die', 'das', 'des', 'dem', 'den', 'und', 'ein', 'eine', 'the', 'of', 'and', 'a', 'an', 'no'])
+
 export function sucheZweistufig<T>(
   quelle: T[],
   suchbegriff: string,
   genau: (item: T) => string[],
   titel: (item: T) => string[],
 ): T[] {
-  const suchwoerter = woerter(suchbegriff)
+  /*
+    **Füllwörter entscheiden nichts.** „abenteuer von dai" fand „Dais Abenteuer" nicht,
+    weil „von" dort nicht vorkommt (Daniel, 16.09.2026). Sie fallen weg, solange etwas
+    übrig bleibt — wer nur „the" sucht, bekommt weiter die Treffer dafür.
+  */
+  const alle = woerter(suchbegriff)
+  const ohneFuell = alle.filter((w) => !FUELLWOERTER.has(w))
+  const suchwoerter = ohneFuell.length ? ohneFuell : alle
   if (!suchwoerter.length) return quelle
   const streng = quelle.filter((item) => trifftGenau(suchwoerter, genau(item)))
   if (streng.length) return streng

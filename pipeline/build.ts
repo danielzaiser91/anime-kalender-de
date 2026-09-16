@@ -1465,6 +1465,8 @@ function main(): void {
           /** Der Titel je Sprache — hier steht der deutsche Name des Werks. */
           /* `publisher` und `status` tragen den Bezugsweg aus dem deutschen Block — siehe unten. */
           languages?: { language?: string; title?: string; status?: string; publisher?: string[] }[]
+          /** Weitere Namen, ohne Sprachkennzeichen — für die Suche (`synonyme.json`). */
+          synonyms?: string[]
         }
       }
     >

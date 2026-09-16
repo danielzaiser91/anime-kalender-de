@@ -332,3 +332,26 @@ export function feedUrl(name: string): string {
 export function absoluteFeedUrl(name: string): string {
   return new URL(feedUrl(name), window.location.href).toString()
 }
+
+/**
+ * **Weitere Namen je Titel — nur für die Suche.**
+ *
+ * aniSearchs Synonyme tragen oft den deutschen Namen, unter dem jemand sucht („Dais
+ * Abenteuer"), ohne dass er angezeigt wird. Sie liegen in einer eigenen Datei und kommen
+ * erst mit der Datenbank-Ansicht; bis dahin sucht die Suche wie bisher.
+ */
+const SYNONYME = new Map<number, string[]>()
+let synonymePromise: Promise<void> | undefined
+
+export function loadSynonyme(): Promise<void> {
+  synonymePromise ??= loadJson<Record<string, string[]>>('synonyme.json')
+    .then((roh) => {
+      for (const [id, namen] of Object.entries(roh)) SYNONYME.set(Number(id), namen)
+    })
+    .catch(() => {})
+  return synonymePromise
+}
+
+export function synonymeFuer(id: number): string[] {
+  return SYNONYME.get(id) ?? []
+}

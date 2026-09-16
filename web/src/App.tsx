@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
 import type { Dataset } from './lib/data.ts'
 import { EinstellungenDialog, EinstellungenKnopf, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
-import { loadAllTitles, loadCartoons, loadDataset, loadOhneSynchro } from './lib/data.ts'
+import { loadAllTitles, loadCartoons, loadDataset, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
 import { filterEvents, filterTitles, toggleValue, type FilterState } from './lib/filters.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
 import { speicherSichern, useNewsletterSync } from './lib/newsletterSync.ts'
@@ -133,8 +133,9 @@ export default function App() {
   // Kalender-Kern führt nur die gut hundert Titel mit Termin.
   useEffect(() => {
     if (!data || allTitles || (route.view !== 'datenbank' && route.view !== 'wo')) return
-    loadAllTitles(data)
-      .then(setAllTitles)
+    /* Die Synonyme kommen mit — erst danach steht die Liste, damit die Suche sie kennt. */
+    Promise.all([loadAllTitles(data), loadSynonyme()])
+      .then(([alle]) => setAllTitles(alle))
       .catch(() => setAllTitles(data.titles))
   }, [data, allTitles, route.view])
 

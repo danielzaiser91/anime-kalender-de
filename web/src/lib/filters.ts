@@ -11,6 +11,7 @@ import type {
 import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import type { Dataset } from './data.ts'
 import { sucheZweistufig } from './search.ts'
+import { synonymeFuer } from './data.ts'
 
 /**
  * Die Listen, die es sowohl als Einschluss als auch als Ausschluss gibt.
@@ -201,9 +202,14 @@ export function activeFilterCount(f: FilterState): number {
  * der „転生したらスライム" einfügt oder „Meine Wiedergeburt als Schleim" schreibt.
  */
 function namen(title: Title | undefined): string[] {
-  return [title?.titleDe, title?.titleEn, title?.titleRomaji, title?.titleNative].filter(
-    (v): v is string => !!v,
-  )
+  return [
+    title?.titleDe,
+    title?.titleEn,
+    title?.titleRomaji,
+    title?.titleNative,
+    /* Weitere Namen aus aniSearch — geladen mit der Datenbank-Ansicht, siehe `loadSynonyme()`. */
+    ...(title ? synonymeFuer(title.id) : []),
+  ].filter((v): v is string => !!v)
 }
 
 /** Alles, was die strenge Suchstufe durchsuchen darf. */
