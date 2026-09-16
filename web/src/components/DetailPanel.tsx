@@ -1567,7 +1567,11 @@ function jpAngabe(jpStart: string | undefined, jpYear: number | undefined, land 
  * Die Suche ist einen Klick länger und immer richtig.
  */
 function AniSearchVerweis({ title }: { title: Title }) {
-  const ziel = title.anisearchId
+  /* Cartoons führt aniSearch nicht — dort steht der Weg zu TMDB, woher ihre Angaben stammen (16.09.2026). */
+  const tmdb = title.westlich && title.tmdbId ? `https://www.themoviedb.org/tv/${title.tmdbId}` : undefined
+  const ziel = tmdb
+    ? tmdb
+    : title.anisearchId
     ? `https://www.anisearch.de/anime/${title.anisearchId}`
     : `https://www.anisearch.de/search?q=${encodeURIComponent(anzeigeName(title))}`
   return (
@@ -1575,10 +1579,10 @@ function AniSearchVerweis({ title }: { title: Title }) {
       href={ziel}
       target="_blank"
       rel="noreferrer noopener"
-      title={title.anisearchId ? 'Bei aniSearch ansehen' : 'Bei aniSearch suchen'}
+      title={tmdb ? 'Bei TMDB ansehen' : title.anisearchId ? 'Bei aniSearch ansehen' : 'Bei aniSearch suchen'}
       className="ml-auto inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-slate-500 transition hover:bg-slate-200/70 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
     >
-      aniSearch
+      {tmdb ? 'TMDB' : 'aniSearch'}
       {/* Der Pfeil sagt „führt hinaus" — ohne ihn liest sich das Wort als Quellenangabe. */}
       <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
         <path d="M4 2h6v6M10 2 2.5 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -2526,19 +2530,22 @@ export function DetailPanel({
   useEffect(() => {
     let alive = true
     setSynopsis(undefined)
-    loadSynopsis(titleId)
-      .then((s) => {
-        /* Cartoons tragen ihre Beschreibung im Titel (TMDB) — es gibt für sie keine Gruppendatei. */
-        const inline = data.titleById.get(titleId)?.synopsis
-        if (alive) setSynopsis(s ?? (inline ? { de: inline } : undefined))
-      })
-      .catch(() => {})
+    /* Cartoons (negative Kennung) tragen ihre Beschreibung im Titel — für sie gibt es keine Gruppendatei (16.09.2026). */
+    if (titleId < 0) {
+      setSynopsis(title?.synopsis ? { de: title.synopsis } : undefined)
+    } else {
+      loadSynopsis(titleId)
+        .then((s) => {
+          if (alive) setSynopsis(s)
+        })
+        .catch(() => {})
+    }
     setAllKeywords(false)
     setPlotOffen(false)
     return () => {
       alive = false
     }
-  }, [titleId])
+  }, [titleId, title?.synopsis])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

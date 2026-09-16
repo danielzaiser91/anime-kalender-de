@@ -97,6 +97,7 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus } from './lib/meldungen.ts'
+import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 import { namensKern, sendungenAusSeite, titelZuordnen } from './fetch-tv-programm.ts'
 
@@ -4444,6 +4445,19 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   const hand = { titleId: 158871, platform: 'tv', sender: 'Super RTL' } as Release
   pruefe('ein Handeintrag beim selben Sender gewinnt', releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'A')], titles, [hand]).length === 0)
+}
+/* Cartoons: ähnliche Titel am Mittel beider Listen, ein gemeinsames Schlagwort ist Pflicht (16.09.2026). */
+{
+  const c = (id: number, keywords: string[]) =>
+    ({ id, westlich: true, genres: ['Animation', 'Sci-Fi & Fantasy'], keywords, streams: [] }) as unknown as Title
+  const fueller = Array.from({ length: 40 }, (_, i) => c(-1000 - i, [`x${i}`, `y${i}`]))
+  const nein = c(-1, ['outcast', 'fugitive', 'based on web series', 'dungeons and dragons', 'save the world', 'unlikely heroes'])
+  const vox = c(-2, ['elves', 'dwarf', 'magic', 'vampire', 'dragon', 'demon', 'myth', 'based on web series', 'elemental', 'dungeons and dragons', 'drama'])
+  const leer = c(-3, [])
+  const alle = [nein, vox, leer, ...fueller]
+  const v = aehnlicheTitel(nein, alle)
+  pruefe('zwei seltene gemeinsame Schlagwörter machen ähnlich, auch bei ungleich langen Listen', v.some((x) => x.title.id === -2), v)
+  pruefe('ein Cartoon ohne Schlagwörter ist keinem ähnlich', !v.some((x) => x.title.id === -3))
 }
 /* Ein Fernsehtermin wird kein Streaming-Termin (Dragon Ball DAIMA, 16.09.2026). */
 {

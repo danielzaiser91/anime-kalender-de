@@ -56,7 +56,17 @@ function gewichte(alle: readonly Title[]): Map<string, number> {
 }
 
 /** Höchstens fünf (Daniel, 15.09.2026: „max 5 ähnliche titel"). */
+/**
+ * **Cartoons messen am Mittel beider Listen** (16.09.2026). TMDB-Schlagwortlisten sind
+ * sehr ungleich lang: „The Mighty Nein" hat 6, „The Legend of Vox Machina" 15, und die
+ * beiden teilen die seltensten („dungeons and dragons", „based on web series"). Geteilt
+ * durch die Vereinigung blieben sie unter der Schwelle, und das Panel sagte „keine
+ * ähnlichen Titel". Geteilt wird deshalb durch das geometrische Mittel beider Gewichte,
+ * und ein gemeinsames Schlagwort ist Pflicht — sonst lag jeder Titel ohne Schlagwörter
+ * bei 1,00. Anime rechnen weiter wie bisher.
+ */
 export function aehnlicheTitel(titel: Title, alle: readonly Title[], anzahl = 5): Vorschlag[] {
+  const kuerzere = Boolean(titel.westlich)
   const eigene = new Set(merkmale(titel))
   if (!eigene.size) return []
   const w = gewichte(alle)
@@ -70,9 +80,11 @@ export function aehnlicheTitel(titel: Title, alle: readonly Title[], anzahl = 5)
     if (reihe === wurzel) continue
     let schnitt = 0
     let verein = eigenesGewicht
+    let fremdesGewicht = 0
     const gemeinsam: string[] = []
     for (const m of merkmale(b)) {
       const g = w.get(m) ?? 0
+      fremdesGewicht += g
       if (eigene.has(m)) {
         schnitt += g
         gemeinsam.push(m)
@@ -81,7 +93,9 @@ export function aehnlicheTitel(titel: Title, alle: readonly Title[], anzahl = 5)
       }
     }
     if (!schnitt || !verein) continue
-    const anteil = schnitt / verein
+    /* Mindestens ein gemeinsames Schlagwort — ein Genre allein ist bei Cartoons Allerwelt. */
+    if (kuerzere && !gemeinsam.some((m) => m.startsWith('k:'))) continue
+    const anteil = kuerzere ? schnitt / Math.sqrt(eigenesGewicht * fremdesGewicht) : schnitt / verein
     if (anteil < MINDESTANTEIL) continue
     const bisher = besteJeReihe.get(reihe)
     if (!bisher || bisher.anteil < anteil) besteJeReihe.set(reihe, { title: b, anteil, gemeinsam })
