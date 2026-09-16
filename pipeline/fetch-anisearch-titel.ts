@@ -210,6 +210,13 @@ const faellig = (t: { id: number }): boolean => {
   if (!e) return true
   if ((e.stand ?? 1) < PARSER_STAND) return true
   if (!e.quelle || e.quelle === 'ueberschrift') return true
+  /*
+    Synonyme werden erst seit dem 12.09.2026 mitgespeichert — und sie tragen oft den
+    deutschen Namen, wo es keinen Sprachblock gibt („Die Tagebücher der Apothekerin: Der
+    Film"). 2.331 ältere Einträge hätten sie über die 180-Tage-Frist nie bekommen
+    (gemessen 16.09.2026, nach Daniels Hinweis auf japanische Titel im Panel).
+  */
+  if (!e.synonyme && e.fetchedAt < '2026-09-12') return true
   const alter = (Date.now() - Date.parse(e.fetchedAt)) / 86_400_000
   return !(alter < ALTER_TAGE)
 }
