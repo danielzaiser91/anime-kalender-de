@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Bildzeichen aus „Maxdome Logo (2021).svg", Wikimedia Commons, videociety GmbH, CC BY-SA 4.0
+     (https://creativecommons.org/licenses/by-sa/4.0). Zuschnitt auf das Zeichen: anime-kalender.de, 16.09.2026,
+     unter derselben Lizenz. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 98 44.918" width="98" height="44.918">
+<defs>
+<linearGradient id="XMLID_13_" gradientUnits="userSpaceOnUse" x1="-77.9014" y1="385.8687" x2="-62.5264" y2="401.2437" gradientTransform="matrix(1 0 0 -1 107.7554 417.96)">
+						<stop offset="0" style="stop-color:#0094D7"/>
+						<stop offset="1" style="stop-color:#75B5E4"/>
+						
+						
+						
+					</linearGradient>
+<linearGradient id="XMLID_14_" gradientUnits="userSpaceOnUse" x1="-36.0859" y1="390.6372" x2="-25.6279" y2="401.0952" gradientTransform="matrix(1 0 0 -1 107.7554 417.96)">
+						<stop offset="0" style="stop-color:#0094D7"/>
+						<stop offset="1" style="stop-color:#75B5E4"/>
+						
+						
+						
+					</linearGradient>
+<linearGradient id="XMLID_15_" gradientUnits="userSpaceOnUse" x1="-25.6045" y1="400.3745" x2="-25.6045" y2="373.2085" gradientTransform="matrix(1 0 0 -1 107.7554 417.96)">
+						<stop offset="0" style="stop-color:#004770"/>
+						<stop offset="1" style="stop-color:#0088CD"/>
+						
+						
+						
+					</linearGradient>
+<linearGradient id="XMLID_16_" gradientUnits="userSpaceOnUse" x1="-59.5249" y1="400.3716" x2="-59.5249" y2="374.7686" gradientTransform="matrix(1 0 0 -1 107.7554 417.96)">
+						<stop offset="0" style="stop-color:#004770"/>
+						<stop offset="1" style="stop-color:#0088CD"/>
+						
+						
+						
+					</linearGradient>
+</defs>
+<path fill="url(#XMLID_13_)" d="M48.61,20.17l-0.78-0.78L34.93,6.449c-1.245-1.262-2.943-1.974-4.715-1.977       c-1.781,0-3.461,0.703-4.734,1.977L0,31.95l12.969,12.969l17.227-17.246l-0.012-0.012l0,0l13.699,13.715       c1.273,1.272,2.953,1.973,4.73,1.973"/>
+<path fill="url(#XMLID_14_)" d="M48.613,43.348c1.77,0,3.445-0.699,4.719-1.973l12.945-12.949L66.27,28.43l0.769-0.77       l17.255,17.258L97.267,31.95L84.681,19.368l0.045,0.042L71.766,6.449c-1.273-1.273-2.949-1.977-4.719-1.977       s-3.457,0.703-4.73,1.98L48.61,20.17"/>
+<path fill="url(#XMLID_15_)" d="M75.277,19.414l-8.242,8.243l17.258,17.262L97.266,31.95L84.727,19.414       c-1.277-1.277-2.949-1.977-4.719-1.977S76.551,18.137,75.277,19.414z"/>
+<path fill="url(#XMLID_16_)" d="M38.418,19.422l-8.234,8.239l13.699,13.715c1.273,1.272,2.953,1.973,4.73,1.973       c1.77,0,3.445-0.699,4.719-1.973l12.945-12.949L66.27,28.43c-1.254,1.254-2.871,1.945-4.688,1.945s-3.523-0.75-4.738-1.961       l-9.008-9.021c-1.27-1.258-2.289-1.945-4.688-1.945C41.371,17.449,39.691,18.148,38.418,19.422z"/>
+</svg>

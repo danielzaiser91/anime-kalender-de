@@ -31,6 +31,7 @@ const DATEI: Record<string, string> = {
   disneyplus: 'disneyplus',
   'disney+': 'disneyplus',
   adn: 'adn',
+  maxdome: 'maxdome',
   'animation digital network': 'adn',
 }
 
@@ -46,7 +47,13 @@ const DATEI: Record<string, string> = {
  * hier nur zur Kennzeichnung des verlinkten Anbieters — Daniels Entscheidung vom
  * 16.09.2026, im Wissen um das Restrisiko. Widerspricht ADN, fliegt sie wieder raus.
  */
-const BREITE: Record<string, number> = { disneyplus: 1033 / 565, adn: 121 / 44 }
+/*
+  maxdome: das Bildzeichen („M") aus „Maxdome Logo (2021).svg" (Commons, videociety GmbH,
+  CC BY-SA 4.0), auf das Zeichen zugeschnitten — der Schriftzug stünde neben dem Namen doppelt.
+  Als Bild, weil es seine eigenen Blautöne trägt (Daniel, 16.09.2026: „bei maxdome fehlt noch
+  das icon").
+*/
+const BREITE: Record<string, number> = { disneyplus: 1033 / 565, adn: 121 / 44, maxdome: 98 / 44.918 }
 
 /**
  * Der Name eines Bezugswegs trägt manchmal den Kanal in Klammern — „Amazon Prime
@@ -73,7 +80,7 @@ export function anbieterDatei(was: string): string | undefined {
  * weißem Zeichen) trägt seine Farbe selbst — als Maske würde es zu einer blauen
  * Fläche, deshalb kommt es als `<img>`.
  */
-const ALS_BILD = new Set(['primevideo'])
+const ALS_BILD = new Set(['primevideo', 'maxdome'])
 
 export function AnbieterIcon({ was, groesse = 14 }: { was: string; groesse?: number }) {
   const datei = anbieterDatei(was)
@@ -84,9 +91,9 @@ export function AnbieterIcon({ was, groesse = 14 }: { was: string; groesse?: num
         src={`${import.meta.env.BASE_URL}anbieter/${datei}.svg`}
         alt=""
         aria-hidden
-        width={groesse}
+        width={Math.round(groesse * (BREITE[datei] ?? 1))}
         height={groesse}
-        className="shrink-0 rounded-[3px]"
+        className={datei === 'primevideo' ? 'shrink-0 rounded-[3px]' : 'shrink-0'}
       />
     )
   }

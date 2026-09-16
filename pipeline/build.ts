@@ -6956,7 +6956,7 @@ function main(): void {
         also keine Nennung — genannt wird trotzdem, weil die Zeichen fremde Marken sind
         und der Leser wissen soll, woher sie stammen und wem sie gehören.
       */
-      'Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0, Wikimedia Commons (https://commons.wikimedia.org) — gemeinfrei, ADN-Wortmarke aus der französischen Wikipedia; die Marken gehören ihren Inhabern',
+      'Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0, Wikimedia Commons (https://commons.wikimedia.org) — gemeinfrei, ADN-Wortmarke aus der französischen Wikipedia, maxdome-Zeichen nach „Maxdome Logo (2021)“ von videociety GmbH (CC BY-SA 4.0, zugeschnitten); die Marken gehören ihren Inhabern',
       /**
        * Pflicht, nicht Höflichkeit — und deshalb an dieselbe Zahl gebunden.
        *
