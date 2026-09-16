@@ -46,7 +46,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { clearDir, discSlug, log, readJson, ROOT, slugify, warn, writeJson, writeText } from './lib/util.ts'
-import { alsTitel, type CartoonEintrag } from './lib/cartoons.ts'
+import { alsTitel, plattformVon, type CartoonEintrag } from './lib/cartoons.ts'
 import { SYNOPSIS_GROUPS, type DiscAusgabe } from '../shared/types.ts'
 import type {
   DataMeta,
@@ -485,6 +485,30 @@ function schreibeCartoons(): void {
     Prime alle acht Folgen auf Deutsch). TMDB nennt nur den Dienst; ein Beleg mit
     negativer Kennung trägt Adresse und Sprache nach oder nimmt den Weg heraus.
   */
+  /*
+    **Die Adresse beim Anbieter kommt von JustWatch** — nur als Wegweiser, die
+    Tonspur-Angabe bleibt unbenutzt (CLAUDE.md, JustWatch gilt der Serie).
+    Abonnement vor Kauf, wenn beide dasselbe Ziel haben.
+  */
+  const jw = readJson<Record<string, { angebote?: { anbieter?: string; art?: string; url?: string }[] }>>(
+    'data/justwatch-audio.json',
+    {},
+  )
+  let jwAdressen = 0
+  for (const t of titel) {
+    const angebote = [...(jw[String(t.id)]?.angebote ?? [])].sort(
+      (a, b) => Number(b.art === 'FLATRATE') - Number(a.art === 'FLATRATE'),
+    )
+    for (const s of t.streams) {
+      if (s.url) continue
+      const a = angebote.find((x) => x.url && plattformVon(x.anbieter ?? '') === s.platform)
+      if (a?.url) {
+        s.url = a.url
+        jwAdressen++
+      }
+    }
+  }
+  if (jwAdressen) log(`${jwAdressen} Cartoon-Verweise mit Adresse von JustWatch`)
   const belege = loadDubChecks().filter((b) => b.anilistId < 0)
   const nachId = new Map(titel.map((t) => [t.id, t]))
   let belegt = 0

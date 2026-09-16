@@ -131,7 +131,15 @@ async function main(): Promise<void> {
   const limit = zahl('--limit', 40)
   const alterTage = zahl('--alter', 28)
 
-  const titles = readJson<Title[]>('public/data/titles.json', [])
+  /*
+    **Cartoons fragen mit** (16.09.2026): TMDB nennt dort nur den Dienst, keine
+    Adresse — die Prime-Pille von „The Mighty Nein" führte deshalb ins Leere.
+    JustWatch kennt die Seite beim Anbieter; zugeordnet wird wie immer über die
+    TMDB-Kennung, die Cartoons selbst tragen. `--nur-cartoons` holt nur sie.
+  */
+  const nurCartoons = args.includes('--nur-cartoons')
+  const cartoons = readJson<Title[]>('public/data/cartoons.json', [])
+  const titles = nurCartoons ? cartoons : [...readJson<Title[]>('public/data/titles.json', []), ...cartoons]
   const tmdb = readJson<Record<string, { tmdbId?: number }>>('data/tmdb-titles.json', {})
   const bestand = readJson<Record<string, Befund>>(DATEI, {})
 
@@ -193,7 +201,7 @@ async function main(): Promise<void> {
   let fehler = 0
 
   for (const t of offen.slice(0, limit)) {
-    const erwartet = tmdb[String(t.id)]?.tmdbId
+    const erwartet = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
     const name = t.titleDe || t.titleRomaji || t.titleEn
     if (!name) continue
     try {
