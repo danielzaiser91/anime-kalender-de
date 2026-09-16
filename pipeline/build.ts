@@ -6395,6 +6395,26 @@ function main(): void {
   if (toteWegeSpaet)
     log(`${toteWegeSpaet} Bezugswege entfernt, die nach der ersten Prüfung dazukamen und ins Leere führen`)
 
+  /*
+    **Ein digitaler Shop ist ein Stream, egal welche Runde ihn angelegt hat.** Die
+    TMDB- und JustWatch-Runden ordnen seit dem 16.09.2026 richtig ein; aniSearchs
+    Bezugsquellen und `watch-links.yaml` legten maxdome, Sky Store, Videoload und
+    Apple TV weiter als `buy` an — 218 Wege im Disc-Reiter (gemessen am selben Tag,
+    „Final Fantasy VII: Advent Children"). „Amazon" bleibt Kauf: Hinter `/dp/` kann
+    eine Disc liegen.
+  */
+  const DIGITALE_SHOPS = /^(maxdome|sky store|videoload|apple tv|google play|rakuten tv|magentatv|freenet meinvod|chili|youtube|amazon video)$/i
+  let digitalUmgeordnet = 0
+  for (const title of titles.values()) {
+    for (const w of title.watchLinks ?? []) {
+      if (w.kind !== 'buy' || !DIGITALE_SHOPS.test(w.name ?? '')) continue
+      w.kind = 'stream'
+      w.zugang ??= 'kauf'
+      digitalUmgeordnet++
+    }
+  }
+  if (digitalUmgeordnet) log(`${digitalUmgeordnet} Kaufwege digitaler Shops als Stream eingeordnet`)
+
   /**
    * **Prime Video führen wir über amazon.de — `primevideo.com` fliegt raus.**
    *

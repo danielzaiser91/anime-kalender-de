@@ -922,8 +922,13 @@ function AntwortKasten({
             Pille ihre Folgenzahl trägt (14.09.2026), ist sie rund 42 px hoch;
             zwei Reihen brauchen damit etwa 94 px, `4.4rem` gab 70 — bei „Kill
             Blue" lag die vierte Pille abgeschnitten im Rollbereich.
+
+            **Und drei einzeilige Reihen passen hinein (7.5rem).** Seit die
+            Pillen ihr Anbieterzeichen tragen (16.09.2026), sind sie rund 20 px
+            breiter; „Final Fantasy VII: Advent Children" mit sieben Wegen brach
+            in eine dritte Reihe um, die bei 6rem 11 px in den Rollbereich hing.
           */}
-          <div className="flex max-h-[6rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
+          <div className="flex max-h-[7.5rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
             {pillen}
           </div>
         </div>

@@ -7,7 +7,7 @@
  *
  * **Woher die Zeichen kommen:** [simple-icons](https://simpleicons.org), unter
  * CC0 veröffentlicht, als einfarbige Pfade. Sie liegen bei uns im Repo
- * (`web/public/anbieter/`) statt als Hotlink — eine fremde Adresse im Ladepfad
+ * (`public/anbieter/`) statt als Hotlink — eine fremde Adresse im Ladepfad
  * der eigenen Seite ist dieselbe Falle wie Live-Scraping.
  *
  * **Eingefärbt wird über eine CSS-Maske, nicht über `<img>`.** Ein eingebundenes
@@ -28,7 +28,19 @@ const DATEI: Record<string, string> = {
   'rakuten tv': 'rakuten-tv',
   'sky store': 'sky-store',
   'freenet meinvod': 'freenet',
+  disneyplus: 'disneyplus',
+  'disney+': 'disneyplus',
 }
+
+/**
+ * **Zeichen, die breiter als hoch sind — Verhältnis Breite zu Höhe.**
+ *
+ * Für Disney+ gibt es kein freies quadratisches Zeichen: simple-icons hat die Marke
+ * entfernt, Commons führt nur die Wortmarke („Disney+ 2024", gemeinfrei, 1033×565).
+ * In ein Quadrat gezwängt blieb davon ein Strich; in ihrer Breite ist sie lesbar.
+ * Für ADN gibt es weder hier noch dort ein freies Zeichen (geprüft 16.09.2026).
+ */
+const BREITE: Record<string, number> = { disneyplus: 1033 / 565 }
 
 /**
  * Der Name eines Bezugswegs trägt manchmal den Kanal in Klammern — „Amazon Prime
@@ -38,6 +50,11 @@ export function anbieterDatei(was: string): string | undefined {
   const kern = was.toLowerCase().replace(/\s*\(.*$/, '').trim()
   if (DATEI[kern]) return DATEI[kern]
   if (kern.startsWith('amazon prime') || kern === 'prime video') return 'primevideo'
+  /*
+    Ein Kauf bei Amazon ist kein Prime-Weg — er bekommt das „a" des Shops (Commons,
+    „Amazon icon.svg", gemeinfrei), nicht das Prime-Zeichen (Daniel, 16.09.2026).
+  */
+  if (kern.startsWith('amazon')) return 'amazon'
   return undefined
 }
 
@@ -73,7 +90,7 @@ export function AnbieterIcon({ was, groesse = 14 }: { was: string; groesse?: num
       aria-hidden
       className="inline-block shrink-0"
       style={{
-        width: groesse,
+        width: Math.round(groesse * (BREITE[datei] ?? 1)),
         height: groesse,
         backgroundColor: 'currentColor',
         WebkitMaskImage: url,
