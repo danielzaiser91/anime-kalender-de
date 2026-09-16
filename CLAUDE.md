@@ -1726,6 +1726,32 @@ holt der nächste `data:cr-dub`-Lauf, der den Verweis jetzt überhaupt erst sieh
 am selben Tag durchgetragen: Katalog → Verweis → Dub-Lauf (16 offene Adressen) → alle fünf
 Akito-Teile mit belegtem „DE ✓".
 
+### Eine Folgenzahl am Weg braucht einen Sprachbeleg an genau diesem Weg
+
+Am 16.09.2026 stand an der Prime-Pille von „Dragon Quest: Die Abenteuer von Dai" eine
+Folgenzahl mit „DE", obwohl der Prime-Kanal nur Untertitel führt (Daniel, mit Bild). Die
+deutsche Synchro gibt es nur auf Disc (DVD-Gesamtausgabe Folgen 1–75). Die Zahl gehörte der
+**Reihe** — `folgenAngabeFuer()` fand sie über einen Verweis desselben Titels, nicht über den
+Weg, an dem sie stand.
+
+Seitdem zeigt eine Weg-Pille eine Folgenzahl nur, wenn ein Verweis mit **derselben Adresse**
+`dub: true` trägt; sonst steht dort „DE ?". 160 Titel verloren damit eine Zahl, die nichts
+über ihren Weg sagte. Dieselbe Trennung wie „Ein Beleg gehört einer Ausgabe, nicht einem
+Titel" (07.09.2026), diesmal in der Anzeige.
+
+### Stream oder Disc entscheidet der Anbieter, nicht die Quelle
+
+maxdome und freenet meinVOD standen am 16.09.2026 im Disc-Reiter: Die TMDB- und
+JustWatch-Runden legten jedes Kauf- oder Leihangebot als `kind: 'buy'` an. Ein Kauf-Stream ist
+aber ein Stream mit `zugang: 'kauf'`. `buy` bekommen nur physische Shops (`PHYSISCHE_SHOPS` in
+`build.ts`). Wege mit einer themoviedb.org-Adresse bekommen den Direktlink aus JustWatch, wo
+er bekannt ist — TMDB ist ein Verzeichnis, kein Anbieter.
+
+**Und eine TMDB-Filmkennung, die mehreren Titeln gehört, belegt keinen.**
+`mehrdeutigeFilmzuordnungen()` verwirft sie samt JustWatch-Angeboten. Achtung beim Nachmessen:
+tv und movie haben **getrennte Nummernräume** — dieselbe Zahl ist dort zwei verschiedene Werke.
+Die erste Zählung vermischte beide und kam auf 139, echt waren 5.
+
 ### Für den deutschen Namen gibt es drei Quellen — und die dritte heißt Nachsehen
 
 Am 16.09.2026 standen 132 Titel ohne `titleDe` da, **57 davon mit belegter deutscher Fassung**
