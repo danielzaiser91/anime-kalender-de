@@ -3706,6 +3706,14 @@ Was übrig bleibt, wechselt den Ort statt zu verschwinden:
 anders beantworten — Amazons robots.txt sperrt 19 Bots namentlich, und die acht
 Adressen, die aniSearch dazu kennt, stehen im Link-Check auf `unklar`.
 
+**Wer einen Wert umzieht, zieht jeden Leser mit.** Die Statusanzeige las ab dem
+10.09.2026 `data/suchadressen-offen.json`, die Prüfliste der Erweiterung
+(`tools/extension-offene-amazon.mjs`) weiter die Verweise im Datensatz, in
+denen keine Suche mehr stand. Sechs Tage lang zeigte die Statusanzeige
+„Suchadressen 1", die Erweiterung kannte keine, und auf Amazons Suchseite stand
+kein Kasten (Daniel, 16.09.2026, Yu-Gi-Oh! Capsule Monsters). Prüfgriff beim
+Umzug: `grep` nach dem **alten** Fundort (hier `/\/s\?/` über `t.streams`).
+
 ## Eine Datei zu schreiben ist nicht dasselbe wie sie zu benutzen
 
 Am 06. und 07.09.2026 sind an zwei Tagen **fünf** Fälle derselben Art
