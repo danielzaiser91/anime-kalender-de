@@ -156,3 +156,24 @@
   sources:
     - https://www.fernsehserien.de/yu-gi-oh/folgen/6x01-ins-spiel-gezogen-137612
     - https://www.toggo.de/yu-gi-oh-pty647/folge/ins-spiel-gezogen-vep24158
+
+# TOGGO zeigt die Folgen nach der TV-Ausstrahlung (TOGGO plus, ab 28.08.2026)
+# eine Weile zum Abruf — am 16.09.2026 standen dort nur die Folgen 12 bis 16
+# (Daniel, mit Bild). Deshalb ohne Folgenbereich: Er wäre am nächsten Tag falsch.
+# Alle 20 Folgen gibt es dort und bei RTL+ ab dem 25.09.2026. Folge 1 liegt
+# dauerhaft auf TOGGOs YouTube-Kanal („Dragon Ball DAIMA Deutsch | Verschwörung
+# | Folge 1 | TOGGO", oEmbed geprüft 16.09.2026).
+- anilistId: 170083
+  title: 'Dragon Ball Daima'
+  links:
+    - name: TOGGO
+      url: https://www.toggo.de/sammlung/alle-formate/serien/dragon-ball-daima-vse446
+      kind: stream
+    - name: YouTube (TOGGO)
+      url: https://www.youtube.com/watch?v=Ck7fc3OiRak
+      kind: stream
+      dubRanges: [{ from: 1, to: 1, dub: true }]
+  sources:
+    - https://www.toggo.de/sammlung/alle-formate/serien/dragon-ball-daima-vse446
+    - https://www.youtube.com/watch?v=Ck7fc3OiRak
+    - https://www.anime2you.de/news/1044800/dragon-ball-daima-ab-heute-im-free-tv/
