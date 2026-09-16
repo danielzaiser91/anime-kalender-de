@@ -1369,6 +1369,36 @@ Drei Riegel, jeder aus einer Falle, die sonst auf der Seite stünde: **„Zuletz
 
 Die Anime2You-Zuordnung ist absichtlich eng (ganzer Name als Wortfolge, ohne Staffelzusatz, ab acht Zeichen): Gemessen am 13.09.2026 tragen nur 5 von 92 Vorschlägen ein Pausensignal, fast alle zu Disc-Terminen. Die Recherche fängt, was dieser Abgleich verpasst; ein Fehltreffer stünde dagegen als Grund auf der Seite.
 
+## Fernsehen ist ein eigener Anbieter — mit Sender und Sendetagen
+
+Seit dem 16.09.2026 (Daniel an Dragon Ball DAIMA: „tägliche tv releases sind ein
+paradebeispiel für eine notwendige erweiterung der webseite"). Bis dahin hängte der
+Anime2You-Parser das TV-Premierendatum (28.08., TOGGO plus) an RTL+, wo die Serie erst ab
+25.09. abrufbar ist.
+
+- **`platform: tv` braucht `sender`**, `schedule.wochentage` (1 = Mo … 7 = So) ersetzt den
+  Wochentakt. `sendeplatz()` in `shared/logic.ts` zählt über die Sendetage; zwischen zwei
+  Stützpunkten zählt ein Sendeplan weiter, statt Folgen auf den nächsten belegten Tag zu
+  legen (die Nachzügler-Regel für Streaming bleibt ohne `wochentage` unverändert).
+  Angezeigt wird der Sender überall über `anbieterName()` — Karte, Panel, ICS, Teilen-Seiten,
+  Newsletter.
+- **„Noch X bis zum Finale" zählt die Ausgabe der nächsten Folge.** Vorher mischte der Kasten
+  TV (bis 22.09.) und RTL+ (ab 25.09.).
+- **Quelle: `plus.rtl.de/tv-programm`** (`fetch-tv-programm.ts`, stündlicher Lauf). Nur der
+  laufende Tag, nur die RTL-Gruppe (TOGGO plus, Super RTL, RTLZWEI …), keine Folgennummern.
+  Rechtsgrundlage: robots `Allow: /`, die AGB verbieten nur kommerzielles TDM — diese Seite
+  ist laut Impressum nicht kommerziell. **Wird sie je kommerziell (Werbung, Affiliate), fällt
+  diese Quelle weg.** Alle übrigen geprüften Quellen samt Grund stehen in `status.md`
+  („Quellen für deutsche TV-Sendetermine"); fernsehserien.de, ARD/KiKA und Joyn sind
+  verworfen.
+- **Aus Sichtungen wird kein Plan.** `lib/tv-termine.ts` zählt neue Folgentitel als Folgen,
+  Wiederholungen nicht, und schreibt nichts fort; eine gesichtete Reihe gilt bis sieben Tage
+  nach der letzten Sichtung als laufend (`tvLetzteSichtung`). Ein Handeintrag in
+  `data/curated/tv-2026.yaml` beim selben Sender gewinnt — nur er kennt Folgennummern und
+  Sendetage.
+- **Ein Datum im TV-Umfeld eines Artikels wird kein Streaming-Termin** (`TV_UMFELD` in
+  `lib/meldungen.ts`).
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim
