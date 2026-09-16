@@ -50,6 +50,57 @@ interface Ausgabe {
   datum: string
   /** Artikelseite bei aniSearch, wo es eine gibt. */
   url?: string
+  /** Bildträger: „Blu-ray", „DVD", „4K UHD". */
+  format?: string
+  /** `gesamt` — Komplettset/Gesamtausgabe, `teil` — Volume/Box x/y, `einzel` — alles andere. */
+  art?: 'gesamt' | 'teil' | 'einzel'
+  /** Die Bezeichnung ohne Reihennamen und Formatklammer: „Box 1/4", „Komplettset". */
+  kurz?: string
+}
+
+/**
+ * **Welcher Bildträger — gelesen an der Plakette, nicht nur am Namen.**
+ *
+ * aniSearch setzt eine Plakette (`<div class="rank">Blu-ray</div>`) an Blu-ray, 4K,
+ * eBook und Spiele — an DVDs **nicht**. „Dragon Quest: The Adventure of Dai -
+ * Komplettset" ist die DVD neben „… - Komplettset [Blu-ray]" und fiel deshalb bis zum
+ * 16.09.2026 heraus (Daniel: „die discs … sind in blueray und dvd aufgeteilt").
+ * Gemessen über 27.695 deutsche Artikel: 4.499 Blu-ray-Plaketten, keine einzige für DVD.
+ *
+ * Ohne Plakette steht aber auch Manga („Bd. 12"), Figuren und Musik. Eine DVD ist es
+ * deshalb nur, wenn es einen Blu-ray-Zwilling gleichen Namens gibt oder der Name ein
+ * Video-Merkmal trägt.
+ */
+export function formatAus(edition: string, plakette: string | undefined, zwillinge: Set<string>): string | null {
+  if (plakette) {
+    if (/UHD/i.test(plakette)) return '4K UHD'
+    if (/Blu-?ray/i.test(plakette)) return 'Blu-ray'
+    if (/DVD/i.test(plakette)) return 'DVD'
+    return null
+  }
+  if (/\[[^\]]*\]\s*$/.test(edition)) {
+    if (/\[Blu-?ray\]/i.test(edition)) return 'Blu-ray'
+    if (/\[DVD\]/i.test(edition)) return 'DVD'
+    return null
+  }
+  if (/\bBd\.|Figur|Modell|\bOST\b|Soundtrack|\bSongs?\b|Album|\bCD\b|\bED:|\bOP:|Artbook|Roman|Poster|Kalender|Nendoroid/i.test(edition)) return null
+  if (zwillinge.has(edition)) return 'DVD'
+  if (/\bVol\.\s*\d+\/\d+|\bBox\b|Gesamtausgabe|Komplettset|Complete|Collection|Staffel|\bDVD\b|Mediabook|Steelbook|Digipack/i.test(edition)) return 'DVD'
+  return null
+}
+
+/** Gesamtausgabe, Teil einer Reihe von Bänden oder eine einzelne Ausgabe (Film, Special). */
+export function artAus(edition: string): 'gesamt' | 'teil' | 'einzel' {
+  if (/\b\d+\s*\/\s*\d+\b/.test(edition) || /\bVol\.\s*\d/i.test(edition)) return 'teil'
+  if (/Gesamtausgabe|Komplettset|Komplettbox|Complete|Collection/i.test(edition)) return 'gesamt'
+  return 'einzel'
+}
+
+/** „Reihe - Box 1/4 [Blu-ray]" → „Box 1/4". */
+export function kurzAus(edition: string): string {
+  const ohneKlammer = edition.replace(/\s*\[[^\]]*\]\s*$/, '').trim()
+  const i = ohneKlammer.indexOf(' - ')
+  return i >= 0 ? ohneKlammer.slice(i + 3).trim() : ohneKlammer
 }
 
 /**
@@ -94,25 +145,38 @@ function main(): void {
     const abschnitt = html.slice(start, html.indexOf('</section>', start))
 
     const eigene: Ausgabe[] = []
-    for (const m of abschnitt.matchAll(/<li class="merch\d+[^"]*" data-date="([^"]*)">([\s\S]*?)<\/li>/g)) {
-      const [, datum, block] = m
-      const edition = /<span class="title">([^<]*)</.exec(block!)?.[1]?.trim()
-      if (!edition) continue
+    const bloecke = [...abschnitt.matchAll(/<li class="merch\d+[^"]*" data-date="([^"]*)">([\s\S]*?)<\/li>/g)]
+      .map((m) => ({
+        datum: m[1]!,
+        block: m[2]!,
+        edition: /<span class="title">([^<]*)</.exec(m[2]!)?.[1]?.trim().replace(/&amp;/g, '&') ?? '',
+      }))
+      .filter((b) => b.edition)
+    /* Namen, zu denen es eine „[Blu-ray]"-Fassung gibt — ihr Zwilling ohne Klammer ist die DVD. */
+    const zwillinge = new Set(
+      bloecke.filter((b) => /\s*\[Blu-?ray\]\s*$/i.test(b.edition)).map((b) => b.edition.replace(/\s*\[Blu-?ray\]\s*$/i, '')),
+    )
+    for (const { datum, block, edition } of bloecke) {
       geprueft++
       /* Ausländische Ausgaben tragen ein Flaggenbild, deutsche nicht. */
-      if (/class="flag"[^>]*alt="[a-z]{2}"/.test(block!)) {
+      if (/class="flag"[^>]*alt="[a-z]{2}"/.test(block)) {
         auslaendisch++
         continue
       }
-      if (!istBildtraeger(edition)) {
+      const plakette = /<div class="rank">([^<]*)</.exec(block)?.[1]
+      const format = formatAus(edition, plakette, zwillinge) ?? (istBildtraeger(edition) ? 'DVD' : null)
+      if (!format) {
         verworfen++
         continue
       }
-      const pfad = /data-href="(article\/[^"]+)"/.exec(block!)?.[1]
+      const pfad = /data-href="(article\/[^"]+)"/.exec(block)?.[1]
       eigene.push({
         edition,
-        datum: /^\d{4}-\d{2}-\d{2}$/.test(datum!) ? datum! : '',
+        datum: /^\d{4}-\d{2}-\d{2}$/.test(datum) ? datum : '',
         ...(pfad ? { url: `https://www.anisearch.de/${pfad}` } : {}),
+        format,
+        art: artAus(edition),
+        kurz: kurzAus(edition),
       })
     }
     if (!eigene.length) continue
@@ -132,4 +196,6 @@ function main(): void {
   log(`  davon ${ohneWeg} Titel, die sonst keinen einzigen Weg zeigen`)
 }
 
-main()
+/* Nur als Hauptlauf — die Zusicherungen importieren die Funktionen oben, und ein Import darf
+   die Datei nicht neu schreiben (dieselbe Falle wie `disc-proposals-to-yaml.ts`, 30.08.2026). */
+if (process.argv[1]?.replaceAll(String.fromCharCode(92), '/').endsWith('extract-disc-ausgaben.ts')) main()

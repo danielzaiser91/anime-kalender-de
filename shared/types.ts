@@ -691,6 +691,16 @@ export interface VermerkAusgeblieben {
 export const SYNOPSIS_GROUPS = 32
 
 /**
+ * **Eine deutsche Disc-Ausgabe, wie aniSearch sie führt** — kompakt, weil 1.847 Titel
+ * zusammen 537 KB ergäben. `public/data/disc/<id % SYNOPSIS_GROUPS>.json`, geladen mit
+ * dem Detail-Panel.
+ *
+ * Stellen: Kurzname („Box 1/4"), Format (b Blu-ray, d DVD, u 4K UHD), Art (g Gesamtausgabe,
+ * t Teil einer Reihe von Bänden, e einzeln), Datum (ISO oder leer), aniSearch-Artikelkennung.
+ */
+export type DiscAusgabe = [kurz: string, format: 'b' | 'd' | 'u', art: 'g' | 't' | 'e', datum: string, artikel: number]
+
+/**
  * Ein Eintrag einer Reihe, wie ihn `franchises.json` führt.
  *
  * Bewusst knapp: Die Datei beantwortet nur „welche Staffeln, Filme und

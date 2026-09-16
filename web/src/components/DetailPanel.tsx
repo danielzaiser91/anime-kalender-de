@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { ReactNode } from 'react'
-import type { Meldung, Release, ReleaseEvent, StreamLink, Title, VermerkAusgeblieben, WatchLink } from '@shared/types.ts'
+import type { DiscAusgabe, Meldung, Release, ReleaseEvent, StreamLink, Title, VermerkAusgeblieben, WatchLink } from '@shared/types.ts'
 import { bereicheKurz, dubAbdeckung, dubGrenze, dubLuecken, folgenOhneAnbieter } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
@@ -26,6 +26,7 @@ import {
   loadFranchises,
   loadMeldungen,
   loadOhneSynchro,
+  loadDiscAusgaben,
   loadSynopsis,
   loadVoices,
   type Synopsis,
@@ -1615,6 +1616,97 @@ function Pille({
   )
 }
 
+const DISC_FORMAT: Record<DiscAusgabe[1], string> = { b: 'Blu-ray', d: 'DVD', u: '4K UHD' }
+
+/**
+ * **Die deutschen Disc-Ausgaben: je Format eine Pille, die Einzelbände zum Aufklappen.**
+ *
+ * Daniel am 16.09.2026 an Dragon Quest Dai: aniSearch führt Blu-ray und DVD, je als
+ * Komplettset und in vier Boxen — „wir wollen auf unserer webseite nicht unnötig viele
+ * titel anzeigen … 2 discs pills dvd und blueray, führen zu gesamtpaket, darunter
+ * ausklappbar die volumes". Gewählt: Die Gesamtausgabe (oder bei Filmen die jüngste
+ * Ausgabe) je Format als Pille, dazu **eine** Umschalt-Pille für alle Einzelbände. Die
+ * Liste selbst steht unter dem Kasten, damit dessen Höhe fest bleibt.
+ */
+function discPillen(
+  ausgaben: DiscAusgabe[],
+  offen: boolean,
+  umschalten: () => void,
+  t: (k: string, v?: Record<string, string | number>) => string,
+): ReactNode[] {
+  const pillen: ReactNode[] = []
+  for (const f of ['b', 'd', 'u'] as const) {
+    const eigene = ausgaben.filter((a) => a[1] === f)
+    const kopf = eigene.filter((a) => a[2] === 'g')
+    const wahl = kopf[0] ?? eigene.find((a) => a[2] === 'e')
+    if (!wahl) continue
+    pillen.push(
+      <Pille
+        key={`disc-${f}`}
+        name={DISC_FORMAT[f]}
+        url={`https://www.anisearch.de/article/${wahl[4]}`}
+        unten={kopf.length ? t('where.discGesamt') : wahl[0]}
+        titel={`${wahl[0]}${wahl[3] ? ` · ${formatDate(wahl[3])}` : ''}`}
+        icon={<DiscZeichen />}
+      />,
+    )
+  }
+  const einzeln = ausgaben.filter((a) => a[2] === 't' || (a[2] === 'e' && ausgaben.some((b) => b[1] === a[1] && b[2] === 'g')))
+  if (einzeln.length) {
+    pillen.push(
+      <button
+        key="disc-einzeln"
+        type="button"
+        onClick={umschalten}
+        aria-expanded={offen}
+        className="inline-flex shrink-0 items-center gap-2 rounded-full border border-slate-200 px-3 py-1.5 text-left transition hover:bg-slate-100/60 dark:border-white/10 dark:hover:bg-white/5"
+      >
+        <DiscZeichen />
+        <span className="flex flex-col leading-tight">
+          <span className="whitespace-nowrap text-[13px] font-medium">{t('where.discEinzeln')}</span>
+          <span className="whitespace-nowrap text-[11px] text-slate-500 dark:text-slate-400">
+            {t('where.discAnzahl', { n: einzeln.length })} {offen ? '▴' : '▾'}
+          </span>
+        </span>
+      </button>,
+    )
+  }
+  return pillen
+}
+
+/** Die aufgeklappten Einzelbände, nach Format getrennt. */
+function DiscEinzelListe({ ausgaben }: { ausgaben: DiscAusgabe[] }) {
+  const gruppen = (['b', 'd', 'u'] as const)
+    .map((f) => ({
+      f,
+      liste: ausgaben
+        .filter((a) => a[1] === f && a[2] !== 'g')
+        .sort((a, b) => a[3].localeCompare(b[3]) || a[0].localeCompare(b[0])),
+    }))
+    .filter((g) => g.liste.length)
+  return (
+    <div className="mt-2 space-y-1.5 rounded-xl border border-slate-200 px-3 py-2 text-xs dark:border-white/10">
+      {gruppen.map((g) => (
+        <div key={g.f} className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="w-14 shrink-0 font-medium text-slate-700 dark:text-slate-200">{DISC_FORMAT[g.f]}</span>
+          {g.liste.map((a) => (
+            <a
+              key={a[4]}
+              href={`https://www.anisearch.de/article/${a[4]}`}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="whitespace-nowrap text-sky-700 hover:underline dark:text-sky-300"
+              title={a[3] ? formatDate(a[3]) : undefined}
+            >
+              {a[0]}
+            </a>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 /**
  * Eine Ausgabe, die es noch nicht gibt — mit Erinnerungsknopf.
  *
@@ -2363,6 +2455,22 @@ export function DetailPanel({
   /** Die ersten drei Genres reichen fuer die Frage "ist das meins?". */
   const [genresOffen, setGenresOffen] = useState(false)
   const [plotOffen, setPlotOffen] = useState(false)
+  const [discAusgaben, setDiscAusgaben] = useState<DiscAusgabe[]>([])
+  const [discOffen, setDiscOffen] = useState(false)
+
+  useEffect(() => {
+    let alive = true
+    setDiscAusgaben([])
+    setDiscOffen(false)
+    loadDiscAusgaben(titleId)
+      .then((a) => {
+        if (alive) setDiscAusgaben(a)
+      })
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
+  }, [titleId])
 
   useEffect(() => {
     let alive = true
@@ -4124,8 +4232,12 @@ export function DetailPanel({
                   Ausgaben in der zweiten Zeile.
                 */
                 disc={[
+                  /* Die aniSearch-Ausgaben ersetzen die eine aniSearch-Pille, sobald sie geladen sind. */
+                  ...discPillen(discAusgaben, discOffen, () => setDiscOffen((o) => !o), t as unknown as (k: string, v?: Record<string, string | number>) => string),
                   ...sortiertNachZugang.flatMap(({ shops }) =>
-                    shops.map((g) => (
+                    shops
+                      .filter((g) => !(g.shop === 'aniSearch' && discAusgaben.length))
+                      .map((g) => (
                       <Pille
                         key={g.shop + g.eintraege[0].url}
                         name={g.shop}
@@ -4155,6 +4267,7 @@ export function DetailPanel({
                 ]}
             />
           )}
+          {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
 

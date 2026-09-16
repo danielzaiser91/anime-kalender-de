@@ -1,5 +1,5 @@
 import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
-import { SYNOPSIS_GROUPS } from '@shared/types.ts'
+import { SYNOPSIS_GROUPS, type DiscAusgabe } from '@shared/types.ts'
 import type { DataMeta, Franchises, Meldung, NewsEintrag, Release, ReleaseEvent, Title } from '@shared/types.ts'
 
 export interface Dataset {
@@ -354,4 +354,17 @@ export function loadSynonyme(): Promise<void> {
 
 export function synonymeFuer(id: number): string[] {
   return SYNONYME.get(id) ?? []
+}
+
+const discGruppen = new Map<number, Promise<Record<number, DiscAusgabe[]>>>()
+
+/** Die deutschen Disc-Ausgaben eines Titels — dieselben Gruppen wie die Handlung. */
+export async function loadDiscAusgaben(titleId: number): Promise<DiscAusgabe[]> {
+  const gruppe = titleId % SYNOPSIS_GROUPS
+  let geladen = discGruppen.get(gruppe)
+  if (!geladen) {
+    geladen = loadJson<Record<number, DiscAusgabe[]>>(`disc/${gruppe}.json`).catch(() => ({}))
+    discGruppen.set(gruppe, geladen)
+  }
+  return (await geladen)[titleId] ?? []
 }

@@ -90,6 +90,7 @@ import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
 import { ladeTitelDe } from './lib/titel-de.ts'
+import { artAus, formatAus, kurzAus } from './extract-disc-ausgaben.ts'
 import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
@@ -4255,6 +4256,20 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('„Movie 2" allein benennt nichts', englischAusSynonymen(['Dragon Quest Movie 2']) === undefined)
   pruefe('Romaji ist kein Englisch', englischAusSynonymen(['Shingeki no Kyojin', 'Dai no Daibouken']) === undefined)
   pruefe('Deutsch mit Umlaut ist kein Englisch', englischAusSynonymen(['Dais großes Abenteuer in der Welt']) === undefined)
+}
+/*
+  Disc-Ausgaben: DVD ohne Plakette, Gesamtausgabe gegen Box (Dragon Quest Dai, 16.09.2026).
+*/
+{
+  const zw = new Set(['Dai - Komplettset'])
+  pruefe('Blu-ray-Plakette ist Blu-ray', formatAus('Dai - Komplettset [Blu-ray]', 'Blu-ray', zw) === 'Blu-ray')
+  pruefe('der Zwilling ohne Klammer ist die DVD', formatAus('Dai - Komplettset', undefined, zw) === 'DVD')
+  pruefe('ein Manga-Band ist keine Disc', formatAus('Attack on Titan - Bd. 12', undefined, zw) === null)
+  pruefe('eine Figur ist keine Disc', formatAus('One Piece - Figur: Nami', undefined, zw) === null)
+  pruefe('eBook ist keine Disc', formatAus('Dai - Vol. 09 [eBook]', 'eBook', zw) === null)
+  pruefe('Box 1/4 ist ein Teil', artAus('Dai - Box 1/4 [Blu-ray]') === 'teil')
+  pruefe('Komplettset ist eine Gesamtausgabe', artAus('Dai - Komplettset') === 'gesamt')
+  pruefe('Kurzname ohne Reihe und Klammer', kurzAus('Dragon Quest: The Adventure of Dai - Box 1/4 [Blu-ray]') === 'Box 1/4')
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -1739,6 +1739,16 @@ Seitdem zeigt eine Weg-Pille eine Folgenzahl nur, wenn ein Verweis mit **derselb
 über ihren Weg sagte. Dieselbe Trennung wie „Ein Beleg gehört einer Ausgabe, nicht einem
 Titel" (07.09.2026), diesmal in der Anzeige.
 
+### Die Folgenzahl einer Disc sagt der Herausgeber, nicht der Händler — die EAN verbindet beide
+
+Animeversand führte die DVD-Gesamtausgabe von „Dragon Quest: The Adventure of Dai" mit
+„Episoden: 1-75"; eingetragen, und im Panel stand „Folgen 76–100 führt kein bekannter
+Anbieter". Daniel hatte den richtigen Verdacht („eig sind es 25 je volume"): Der Herausgeber
+(crunchyroll-vertrieb.de) nennt für **dieselbe EAN** 100 Folgen, Volume 1 = 1–25. Ein
+Händlerfeld ist eine Abschrift; vor einer Folgenspanne aus einem Shop wird die EAN beim
+Verlag nachgeschlagen. Und aniSearch nennt auf Artikelseiten **keine** Folgen, nur Sprache,
+Untertitel und EAN (geprüft 16.09.2026).
+
 ### Was MyDubList nicht kennt, kommt über `synchro-von-hand.yaml` in den Bestand
 
 „Yu-Gi-Oh! Capsule Monsters" stand am 16.09.2026 als „Noch keine deutsche Fassung" hinter

@@ -136,11 +136,14 @@
     - name: Animeversand
       url: https://www.animeversand.shop/Dragon-Quest-The-Adventure-of-Dai-Staffel-1-Gesamtausgabe-Bundle-12-DVDs/ADV07511
       kind: buy
-      # Produktseite, Eigenschaften: „Episoden: 1-75", Sprachen Deutsch (16.09.2026)
-      dubRanges: [{ from: 1, to: 75, dub: true }]
+      # Animeversand schreibt „Episoden: 1-75" — falsch. Dieselbe EAN (7630017542045) führt der
+      # Herausgeber als „Gesamtausgabe ohne Schuber – DVD" mit 100 Folgen
+      # (crunchyroll-vertrieb.de/product/av5141, geprüft 16.09.2026, Daniels Verdacht).
+      dubRanges: [{ from: 1, to: 100, dub: true }]
   sources:
     - https://www.animeversand.shop/Dragon-Quest-The-Adventure-of-Dai-Staffel-1-Gesamtausgabe-Bundle-12-DVDs/ADV07511
     - https://www.synchronkartei.de/serie/53682
+    - https://crunchyroll-vertrieb.de/product/av5141/
 
 # In der deutschen Zählung Staffel 6 von „Yu-Gi-Oh!" (Folgen 225–236); TOGGO
 # führt sie kostenlos. Die Adresse ist Folge 1, verlinkt von fernsehserien.de.

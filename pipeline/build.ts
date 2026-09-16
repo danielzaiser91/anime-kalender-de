@@ -47,7 +47,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { clearDir, discSlug, log, readJson, ROOT, slugify, warn, writeJson, writeText } from './lib/util.ts'
 import { alsTitel, type CartoonEintrag } from './lib/cartoons.ts'
-import { SYNOPSIS_GROUPS } from '../shared/types.ts'
+import { SYNOPSIS_GROUPS, type DiscAusgabe } from '../shared/types.ts'
 import type {
   DataMeta,
   FranchiseMember,
@@ -7386,6 +7386,35 @@ function main(): void {
   clearDir(`${OUT}/synopses`)
   for (const [gruppe, inhalt] of gruppen) writeJson(`${OUT}/synopses/${gruppe}.json`, inhalt)
   log(`Synopsen in ${gruppen.size} Gruppen geschrieben (vorher eine Datei mit ${Object.keys(synopses).length} Einträgen)`)
+
+  /*
+    **Die deutschen Disc-Ausgaben je Titel, in denselben Gruppen.** Das Panel zeigt je
+    Format die Gesamtausgabe und klappt die Einzelbände auf (Daniel, 16.09.2026: „2 discs
+    pills dvd und blueray, führen zu gesamtpaket, darunter ausklappbar die volumes").
+  */
+  {
+    const roh = readJson<Record<string, { kurz?: string; format?: string; art?: string; datum: string; url?: string }[]>>(
+      'data/disc-ausgaben.json',
+      {},
+    )
+    const discGruppen = new Map<number, Record<number, DiscAusgabe[]>>()
+    for (const [id, liste] of Object.entries(roh)) {
+      if (!titles.has(Number(id))) continue
+      const kompakt = liste.flatMap((a): DiscAusgabe[] => {
+        const artikel = Number(/article\/(\d+)/.exec(a.url ?? '')?.[1])
+        if (!artikel || !a.kurz || !a.format || !a.art) return []
+        const f = a.format === 'Blu-ray' ? 'b' : a.format === 'DVD' ? 'd' : 'u'
+        return [[a.kurz, f, a.art[0] as 'g' | 't' | 'e', a.datum, artikel]]
+      })
+      if (!kompakt.length) continue
+      const gruppe = Number(id) % SYNOPSIS_GROUPS
+      const eintrag = discGruppen.get(gruppe) ?? {}
+      eintrag[Number(id)] = kompakt
+      discGruppen.set(gruppe, eintrag)
+    }
+    clearDir(`${OUT}/disc`)
+    for (const [gruppe, inhalt] of discGruppen) writeJson(`${OUT}/disc/${gruppe}.json`, inhalt)
+  }
   /**
    * Die Reihen — welche Staffeln, Filme und Specials zusammengehören.
    *

@@ -236,6 +236,9 @@ const TEXTE = {
   // In `WhereView` bleibt „Einträge" richtig — dort zählt die Zeile unter
   // „Crunchyroll" wirklich unsere Titel, nicht die Angebote eines Händlers.
   'where.angebote': '{count} Angebote',
+  'where.discGesamt': 'Gesamtausgabe',
+  'where.discEinzeln': 'Einzelausgaben',
+  'where.discAnzahl': '{n} Ausgaben',
   'where.titleOne': '1 Eintrag',
   'where.tallyYes': 'deutsche Synchro dort belegt',
   'where.tallyOpen': 'Der Anbieter macht dazu keine öffentliche Angabe.',
