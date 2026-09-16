@@ -76,9 +76,39 @@ export function anzeigeName(title: Pick<Title, 'titleDe' | 'titleEn' | 'titleRom
  * Die Begründung (Kurzformate, chinesische ONA-Specials) steht an der
  * Reihenliste in `DetailPanel.tsx`.
  */
-export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean }>(teile: T[]): T[] {
+export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; episodes?: number }>(teile: T[]): T[] {
   const hatTv = teile.some((m) => m.format === 'TV')
-  return teile.filter((m) => (hatTv ? m.format === 'TV' : istStaffel(m.format) && !m.beiwerk))
+  /*
+    **Eine Streaming-Staffel ist eine Staffel.** „Stone Ocean" und „Steel Ball Run" liefen
+    als Netflix-Serien (ONA) und standen deshalb unter den Nebenausgaben, während die
+    übrigen JoJo-Teile Hauptserie waren (Daniel, 16.09.2026). Neben Fernsehstaffeln zählt
+    ein ONA mit mindestens zehn Folgen, das kein Beiwerk ist — gemessen 62 Fälle, darunter
+    Dorohedoro Staffel 2, Rent-a-Girlfriend Staffel 4 und 5, Beastars, Baki.
+  */
+  if (!hatTv) return teile.filter((m) => istStaffel(m.format) && !m.beiwerk)
+  const langeOna = teile.filter((m) => m.format === 'ONA' && !m.beiwerk && (m.episodes ?? 0) >= 10)
+  /*
+    Und ein kurzes ONA, das wie eine dieser Staffeln anfängt: „Steel Ball Run" führt AniList
+    mit einer Folge, weil bisher nur Folge 1 erschienen ist — es ist trotzdem der Anfang der
+    Staffel „STEEL BALL RUN … 2nd - 3rd STAGE". Verlangt wird, dass sein **ganzer** Name der
+    Anfang einer solchen Staffel ist — zwei gemeinsame Wörter holten „Gundam Build Divers:
+    Prolog" neben „Gundam Build Divers Re:Rise" mit herein.
+  */
+  const woerter = (name: unknown) =>
+    ' ' +
+    String(name ?? '')
+      .toLowerCase()
+      .split(/[^\p{L}\p{N}]+/u)
+      .filter(Boolean)
+      .join(' ') +
+    ' '
+  const lange = langeOna.map((m) => woerter((m as { name?: string }).name))
+  return teile.filter((m) => {
+    if (m.format === 'TV' || langeOna.includes(m)) return true
+    if (m.format !== 'ONA' || m.beiwerk) return false
+    const eigen = woerter((m as { name?: string }).name)
+    return eigen.trim().includes(' ') && lange.some((l) => l !== eigen && l.startsWith(eigen))
+  })
 }
 
 /**

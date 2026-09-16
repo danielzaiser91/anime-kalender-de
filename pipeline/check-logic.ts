@@ -4271,5 +4271,25 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('Komplettset ist eine Gesamtausgabe', artAus('Dai - Komplettset') === 'gesamt')
   pruefe('Kurzname ohne Reihe und Klammer', kurzAus('Dragon Quest: The Adventure of Dai - Box 1/4 [Blu-ray]') === 'Box 1/4')
 }
+/* Streaming-Staffeln zählen neben Fernsehstaffeln zur Hauptserie (JoJo, 16.09.2026). */
+{
+  const jojo = [
+    { id: 1, name: 'Golden Wind', format: 'TV', episodes: 39 },
+    { id: 2, name: 'Stone Ocean', format: 'ONA', episodes: 12 },
+    { id: 3, name: 'Kurzfilmchen', format: 'ONA', episodes: 3 },
+    { id: 4, name: 'Beiwerk-Reihe', format: 'ONA', episodes: 12, beiwerk: true },
+  ]
+  const ids = hauptstaffeln(jojo).map((m) => m.id).join(',')
+  pruefe('ein ONA mit zehn und mehr Folgen ist Hauptserie, Kurzes und Beiwerk nicht', ids === '1,2', ids)
+  const sbr = [
+    { id: 1, name: 'Golden Wind', format: 'TV', episodes: 39 },
+    { id: 5, name: 'Steel Ball Run: JoJo’s Bizarre Adventure', format: 'ONA', episodes: 1 },
+    { id: 6, name: 'STEEL BALL RUN JoJo’s Bizarre Adventure 2nd - 3rd STAGE', format: 'ONA', episodes: 11 },
+    { id: 7, name: 'Gundam Build Divers: Prolog', format: 'ONA', episodes: 1 },
+    { id: 8, name: 'Gundam Build Divers Re:Rise', format: 'ONA', episodes: 13 },
+  ]
+  const sbrIds = hauptstaffeln(sbr).map((m) => m.id).join(',')
+  pruefe('der Anfang einer Streaming-Staffel gehört dazu, ein Prolog nicht', sbrIds === '1,5,6,8', sbrIds)
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
