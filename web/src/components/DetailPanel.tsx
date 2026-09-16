@@ -46,6 +46,7 @@ import {
   SectionTitle,
 } from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
+import { AnbieterIcon } from '../lib/anbieter-icon.tsx'
 
 const KEYWORD_PREVIEW = 8
 /**
@@ -3831,6 +3832,7 @@ export function DetailPanel({
                         key={s.platform}
                         name={PLATFORMS[s.platform].name}
                         farbe={PLATFORMS[s.platform].color}
+                        icon={<AnbieterIcon was={s.platform} />}
                         url={s.url}
                         unten={
                           [
@@ -3987,7 +3989,7 @@ export function DetailPanel({
                             die etwas bedeuten würde.
                           */
                           farbe={farbeZuAnbieter(g.shop)}
-                          icon={g.shop === 'aniSearch' ? <DiscZeichen /> : undefined}
+                          icon={g.shop === 'aniSearch' ? <DiscZeichen /> : <AnbieterIcon was={g.shop} />}
                           /*
                             **Ein Weg zu einer einzelnen Folge sagt das.**
 
@@ -4040,7 +4042,7 @@ export function DetailPanel({
                           das Wort „Disc", das bis zum 07.09.2026 im Namen stand.
                         */
                         farbe={farbeZuAnbieter(g.shop)}
-                        icon={g.shop === 'aniSearch' ? <DiscZeichen /> : undefined}
+                        icon={g.shop === 'aniSearch' ? <DiscZeichen /> : <AnbieterIcon was={g.shop} />}
                       />
                     )),
                   ),

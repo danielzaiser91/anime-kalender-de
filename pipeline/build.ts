@@ -6698,6 +6698,12 @@ function main(): void {
       'Deutsche Inhaltsangaben & Bezugsquellen: aniSearch (https://www.anisearch.de)',
       'ID-Zuordnung: anime-offline-database (https://github.com/manami-project/anime-offline-database) — ODbL v1.0',
       'Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag',
+      /*
+        Die Markenzeichen an den Anbieter-Pillen. simple-icons steht unter CC0, verlangt
+        also keine Nennung — genannt wird trotzdem, weil die Zeichen fremde Marken sind
+        und der Leser wissen soll, woher sie stammen und wem sie gehören.
+      */
+      'Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0; die Marken gehören ihren Inhabern',
       /**
        * Pflicht, nicht Höflichkeit — und deshalb an dieselbe Zahl gebunden.
        *
