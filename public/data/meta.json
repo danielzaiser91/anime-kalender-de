@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T12:11:45.606Z",
+  "generatedAt": "2026-09-16T12:18:15.573Z",
   "titleCount": 2771,
   "releaseCount": 556,
   "eventCount": 2859,
@@ -463,6 +463,7 @@
     "ZDF",
     "Amazon Prime (Kixi)",
     "Amazon Video",
+    "Animeversand",
     "AniMoon — Vol. 1",
     "AniMoon — Vol. 2",
     "AniMoon — Vol. 3",
@@ -500,7 +501,7 @@
     "Deutsche Inhaltsangaben & Bezugsquellen: aniSearch (https://www.anisearch.de)",
     "ID-Zuordnung: anime-offline-database (https://github.com/manami-project/anime-offline-database) — ODbL v1.0",
     "Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag",
-    "Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0; die Marken gehören ihren Inhabern",
+    "Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0, und Wikimedia Commons (https://commons.wikimedia.org) — gemeinfrei; die Marken gehören ihren Inhabern",
     "Welche Folgen auf Netflix eine deutsche Tonspur haben: Streaming Availability API (https://www.movieofthenight.com/about/api)"
   ]
 }
