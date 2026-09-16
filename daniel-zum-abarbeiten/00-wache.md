@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 15.09.2026 um 14:41 Uhr
+**Unauffällig** · zuletzt 16.09.2026 um 14:36 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -16,20 +16,30 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 ## Bestand — die letzten 24 Stunden
 
 ```
-8 Läufe in den letzten 1 Tagen (289 insgesamt)
+20 Läufe in den letzten 1 Tagen (309 insgesamt)
 
-15.09., 07:54  Bestand — zusammenführ   verweise -1, ohneUrteil -1
-15.09., 09:30  Bestand — zusammenführ   verweise +3, mitUrteil +6, ohneUrteil -3, titelMitSynchro +3, releases +1
+15.09., 13:42  Bestand — zusammenführ   verweise +1, ohneUrteil +1
+16.09., 09:41  Bestand — zusammenführ   verweise +2, ohneUrteil +2
+16.09., 10:07  Bestand — zusammenführ   verweise +33, mitUrteil +3, ohneUrteil +30, titelMitSynchro +3
+16.09., 10:15  Bestand — zusammenführ   verweise +1, mitUrteil +22, ohneUrteil -21, titelMitSynchro +13, releases +1
+16.09., 11:58  Bestand — zusammenführ   verweise -2, ohneUrteil -2
+16.09., 11:59  Bestand — zusammenführ   verweise +2, ohneUrteil +2
+16.09., 12:08  Bestand — zusammenführ   verweise -2, ohneUrteil -2
+16.09., 12:11  Bestand — zusammenführ   verweise +2, ohneUrteil +2
+16.09., 12:18  Bestand — zusammenführ   verweise -2, ohneUrteil -2
+16.09., 12:27  Bestand — zusammenführ   verweise +2, ohneUrteil +2
+16.09., 12:30  Bestand — zusammenführ   verweise -2, ohneUrteil -2
+16.09., 12:32  Bestand — zusammenführ   verweise +2, ohneUrteil +2
 
-Stand jetzt: 2771 Titel, 1986 Urteile, 3 offen
-Über den Zeitraum: Titel 0, Urteile +6, offen -4
+Stand jetzt: 2771 Titel, 2011 Urteile, 15 offen
+Über den Zeitraum: Titel 0, Urteile +25, offen +11
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 3 Meldungen auf 3 Adressen (primevideo 3)
-Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 3 Adressen
+Briefkasten: 2 Meldungen auf 2 Adressen (primevideo 2)
+Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 2 Adressen
 Alle Adressen sind gelistet.
 ```
 
@@ -39,6 +49,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 16.09.2026 14:36 | 2771 / 2011 / 15 | Titel 0, Urteile +25, offen +11 | unauffällig |
 | 15.09.2026 14:41 | 2771 / 1986 / 3 | Titel 0, Urteile +6, offen -4 | unauffällig |
 | 14.09.2026 16:04 | 2771 / 1980 / 7 | Titel 0, Urteile +8, offen -12 | unauffällig |
 | 13.09.2026 14:43 | 2771 / 1972 / 19 | Titel 0, Urteile +3, offen -1 | unauffällig |
