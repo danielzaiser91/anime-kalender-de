@@ -29,7 +29,7 @@
     "neuErwartet": null,
     "recherche": null,
     "rechercheAm": "2026-09-16T15:28:52.054Z",
-    "geprueftAm": "2026-09-16T11:56:49.569Z",
+    "geprueftAm": "2026-09-16T17:09:48.959Z",
     "newsGeprueftAm": "2026-09-16T09:20:40.440Z"
   },
   {
@@ -46,8 +46,40 @@
     "folgenVerfuegbar": null,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-09-16T11:56:49.569Z",
+    "geprueftAm": "2026-09-16T17:09:48.959Z",
     "newsGeprueftAm": "2026-09-16T09:20:40.440Z",
     "rechercheAm": "2026-09-16T15:28:52.054Z"
+  },
+  {
+    "id": "cr-GRGG9798R@2026-09-16",
+    "slug": "cr-GRGG9798R",
+    "titleId": 189046,
+    "name": "Re:ZERO -Starting Life in Another World- Staffel 4",
+    "platform": "crunchyroll",
+    "episode": 14,
+    "erwartetAm": "2026-09-16T14:00:00.000Z",
+    "bemerktAm": "2026-09-16T17:09:49.450Z",
+    "erschienenAm": null,
+    "verzugStunden": null,
+    "folgenVerfuegbar": 25,
+    "neuErwartet": null,
+    "recherche": null,
+    "geprueftAm": "2026-09-16T17:09:48.959Z"
+  },
+  {
+    "id": "hana-kimi-s2@2026-09-16",
+    "slug": "hana-kimi-s2",
+    "titleId": 209669,
+    "name": "Hana-Kimi – Staffel 2",
+    "platform": "crunchyroll",
+    "episode": 10,
+    "erwartetAm": "2026-09-16T16:00:00.000Z",
+    "bemerktAm": "2026-09-16T17:09:49.450Z",
+    "erschienenAm": null,
+    "verzugStunden": null,
+    "folgenVerfuegbar": 12,
+    "neuErwartet": null,
+    "recherche": null,
+    "geprueftAm": "2026-09-16T17:09:48.959Z"
   }
 ]
