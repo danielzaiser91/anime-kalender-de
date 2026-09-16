@@ -99,6 +99,15 @@ function ShareIcon({ slug, name }: { slug: string; name: string }) {
   )
 }
 
+const TAGE_KURZ = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
+/** „Mo–Fr" bei lückenlosen Sendetagen, sonst „Sa, So". */
+function sendetageText(tage: number[]): string {
+  const t = [...new Set(tage)].filter((x) => x >= 1 && x <= 7).sort((a, b) => a - b)
+  if (t.length === 7) return 'Täglich'
+  const lueckenlos = t.length > 2 && t.every((x, i) => i === 0 || x === t[i - 1]! + 1)
+  return lueckenlos ? `${TAGE_KURZ[t[0]! - 1]}–${TAGE_KURZ[t[t.length - 1]! - 1]}` : t.map((x) => TAGE_KURZ[x - 1]).join(', ')
+}
+
 /** Was die Antwortzeile zu sagen hat — je nach Lage des Titels. */
 type Antwort =
   | {
@@ -108,6 +117,8 @@ type Antwort =
       raus: number
       gesamt?: number
       letzter?: string
+      /** Feste Sendetage der Ausgabe (Fernsehen), 1 = Montag. */
+      sendetage?: number[]
       /** Der verstrichene Tag, wenn die nächste Folge auf einem Ersatztermin liegt. */
       verschobenVon?: string
       /** Stehen mehrere ausgebliebene Folgen hintereinander, die Nummer der letzten. */
@@ -519,7 +530,7 @@ function AntwortKasten({
         zweimal. Was bleibt, ist die Frequenz — und die sagt zusammen mit dem
         Tag oben alles, was „Wöchentlich samstags" sagte.
       */
-      T('antwort.rhythmusWoechentlichKurz'),
+      antwort.sendetage?.length ? sendetageText(antwort.sendetage) : T('antwort.rhythmusWoechentlichKurz'),
       /*
         **„Noch X" heißt: X stehen aus — die nächste eingerechnet.**
 
@@ -3211,13 +3222,20 @@ export function DetailPanel({
           baende: baende.length > 1 ? baende : undefined,
         }
       }
+      /*
+        **„Noch X bis zum Finale" zählt die Ausgabe der nächsten Folge, nicht alle.**
+        Dragon Ball DAIMA läuft im TV bis 22.09. und steht ab 25.09. bei RTL+; der
+        Kasten nannte „noch 5 bis zum Finale am 25.09." (16.09.2026).
+      */
+      const derselben = kuenftig.filter((e) => e.releaseSlug === n.releaseSlug)
       return {
         art: 'laeuft' as const,
         haupt: n,
-        rest: kuenftig.length,
+        rest: derselben.length,
         raus,
         gesamt,
-        letzter: kuenftig[kuenftig.length - 1]?.date,
+        letzter: derselben[derselben.length - 1]?.date,
+        sendetage: releases.find((r) => r.slug === n.releaseSlug)?.schedule.wochentage,
         verschobenVon: istAusgeblieben(n)
           ? undefined
           : offen.find((o) => istAusgeblieben(o) && o.episode === n.episode)?.date,
