@@ -6,30 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – disc
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:vampire-princess-miyu-2026-09-08@2026-09-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260908
-DTEND;VALUE=DATE:20260909
-SUMMARY:Vampire Princess Miyu (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/vampire
- -princess-miyu-2026-09-08
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m
- -out-for-@2026-09-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260908
-DTEND;VALUE=DATE:20260909
-SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
- n\, I’m Out for Revenge! (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-gift
- -lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m-out-for-
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:promise-of-wizard-2026-09-17@2026-09-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260917
