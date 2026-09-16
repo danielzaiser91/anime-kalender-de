@@ -1699,6 +1699,33 @@ angebliche Widersprüche gingen allein darauf zurück. Erkennbar sind sie am Fla
 Block (`class="flag" alt="us"`); **deutsche Ausgaben tragen keine Flagge**. 28 von 122
 Vorschlägen waren ausländisch.
 
+### Ein Katalog, der Adressen repariert, kann auch welche anlegen
+
+Am 16.09.2026 stand über „Code Geass: Akito the Exiled - The Brightness Falls" ein „Noch keine
+deutsche Fassung" — während Crunchyroll die Reihe unter `GRP585ZQR` mit „Audio: Japanese,
+**Deutsch**, Français" führt und alle fünf Folgen als „Synchro | Untertitel" ausweist. Vier der
+fünf Teile hatten einen Prime-Weg, der fünfte gar keinen (Daniel: „Sogar auf crunchyroll
+existent, wo wir 100%-ige abdeckung haben sollten").
+
+**Zwei bekannte Muster trafen sich in einem Titel:**
+
+- `data/cr-katalog-de.json` liegt seit dem 22.08.2026 im Repo und wurde nur benutzt, um eine
+  **vorhandene** kaputte Adresse zu ersetzen („Eine Datei zu schreiben ist nicht dasselbe wie
+  sie zu benutzen").
+- Die Warteschlange des Dub-Laufs bildet sich aus den vorhandenen Verweisen — ohne Verweis
+  keine Prüfung, ohne Prüfung kein Verweis („Eine Warteschlange, die sich aus dem Bestand
+  bildet, kann eine Lücke nie schließen").
+
+Gemessen: 2.142 Titel ohne Crunchyroll-Verweis, 304 mit Katalogtreffer, **75 davon in einem
+Eintrag mit `de-DE`**. Nach den Riegeln (früher entfernt, tote Serienkennung, verneinender
+Handbeleg) legt der Bau **33** an.
+
+**Angelegt wird ohne Sprachurteil.** Die Tonspurliste des Katalogs gilt der Reihe, nicht der
+Folge — Wegweiser, nicht Zeuge (dieselbe Trennung wie bei JustWatch, 10.09.2026). Das Urteil
+holt der nächste `data:cr-dub`-Lauf, der den Verweis jetzt überhaupt erst sieht. Die Kette hat
+am selben Tag durchgetragen: Katalog → Verweis → Dub-Lauf (16 offene Adressen) → alle fünf
+Akito-Teile mit belegtem „DE ✓".
+
 ### Für den deutschen Namen gibt es drei Quellen — und die dritte heißt Nachsehen
 
 Am 16.09.2026 standen 132 Titel ohne `titleDe` da, **57 davon mit belegter deutscher Fassung**
