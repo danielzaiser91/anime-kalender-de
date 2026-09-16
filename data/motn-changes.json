@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 35
+    "2026-09": 37
   },
   "gesehen": {
     "26341901:netflix": {
@@ -3999,7 +3999,17 @@
       "dienst": "netflix",
       "am": "2026-09-15",
       "deutsch": true
+    },
+    "new:4088:disney": {
+      "art": "new",
+      "titel": "The Beatles Anthology",
+      "originalTitel": "The Beatles Anthology",
+      "imdbId": "tt0111893",
+      "tmdbId": "tv/16906",
+      "dienst": "disney",
+      "am": "2026-09-16",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-15T19:40:27.141Z"
+  "fetchedAt": "2026-09-16T09:20:10.531Z"
 }
