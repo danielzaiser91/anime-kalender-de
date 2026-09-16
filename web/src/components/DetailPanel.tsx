@@ -212,6 +212,12 @@ function deSeitZeile(
       ? T('antwort.deSeitFremdPublisher', { datum: wann, publisher: e.publisher })
       : T('antwort.deSeitFremd', { datum: wann })
   }
+  /* Ein Zeitraum („10.1990 - 03.1991") bekommt kein „seit" (Stichprobe 16.09.2026). */
+  if (!e.von && e.zeitraum?.includes('-')) {
+    return e.publisher
+      ? T('antwort.deZeitraumPublisher', { zeitraum: e.zeitraum, publisher: e.publisher })
+      : T('antwort.deZeitraum', { zeitraum: e.zeitraum })
+  }
   return e.publisher
     ? T('antwort.deSeitPublisher', { datum: wann, publisher: e.publisher })
     : T('antwort.deSeit', { datum: wann })
@@ -4016,7 +4022,15 @@ export function DetailPanel({
               wegeHinweis={wegeHinweis}
               notiz={kastenNotiz}
               angebotSeit={
-                title.angebotSeit
+                /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
+                   Auskunft mehr („Auf Deutsch seit 28.12.2023 · Netflix, Inc." über „Bei Netflix im
+                   Angebot seit 08.03.2024", Pokémon-Concierge, Stichprobe 16.09.2026). */
+                title.angebotSeit &&
+                !(
+                  title.deErstausgabe?.von &&
+                  title.deErstausgabe.von <= title.angebotSeit.date &&
+                  (title.deErstausgabe.publisher ?? '').toLowerCase().includes((PLATFORMS[title.angebotSeit.platform]?.name ?? '§').toLowerCase())
+                )
                   ? t('antwort.imAngebotSeit', {
                       datum: formatDate(title.angebotSeit.date),
                       anbieter: PLATFORMS[title.angebotSeit.platform]?.name ?? title.angebotSeit.platform,

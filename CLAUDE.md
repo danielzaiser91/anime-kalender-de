@@ -3154,6 +3154,13 @@ stehen bewusst **nicht** in `check:vor-commit`: Alle vier brauchen Chromium, im
 Deploy-Job gibt es keins, und sie dorthin zu hängen hat am selben Tag drei
 Deploys rot gemacht.
 
+**Und die ausgelieferte Seite prüft `npm run check:stichprobe -- <keim>`** (16.09.2026):
+50 zufällige Panels live gerendert, Kastentext gegen Widerspruchsregeln („0 von N" neben
+einer vollen Pille, „keine Fassung" trotz Beleg, „Alle 1 Folgen" …). Der erste Lauf meldete
+„0 Befunde" — die Regeln waren zu eng; erst das Lesen der Textliste fand vier Fehlerarten.
+**Die Liste wird gelesen, nicht nur gezählt.** Nach jedem Fix läuft eine neue Auswahl
+(anderer Keim), sonst misst die Stichprobe nur, was sie schon kennt.
+
 **Die Bilder landen in `docs/`, und einige davon sind versioniert.** Nach einem
 Lauf mit eigenen Titeln wird aufgeräumt mit `git checkout -- docs/` und
 `git clean -n docs/` (erst ansehen) — nicht mit `rm docs/panel-*.png`. Das hat am

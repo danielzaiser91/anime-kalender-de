@@ -567,6 +567,8 @@ const TEXTE = {
   // deutsche Erstveröffentlichung, oft eine DVD, und bei einem Simuldub sogar
   // den Simulcast-Start. Die Quelle steht im Tooltip, damit die Zeile kurz bleibt.
   'antwort.deSeit': 'Auf Deutsch seit {datum}',
+  'antwort.deZeitraum': 'Auf Deutsch erschienen {zeitraum}',
+  'antwort.deZeitraumPublisher': 'Auf Deutsch erschienen {zeitraum} · {publisher}',
   // **Dieselbe Angabe, aber unter einem Nein.** Wo wir selbst keine Fassung
   // belegen können, stand „Noch keine deutsche Fassung" über „Auf Deutsch seit
   // 03.11.2024" — ein offener Widerspruch (Daniel, 03.09.2026). Die Fremdquelle
