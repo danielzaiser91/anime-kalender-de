@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T10:15:40.629Z",
+  "generatedAt": "2026-09-16T11:57:59.950Z",
   "titleCount": 2771,
   "releaseCount": 556,
   "eventCount": 2859,
@@ -500,6 +500,7 @@
     "Deutsche Inhaltsangaben & Bezugsquellen: aniSearch (https://www.anisearch.de)",
     "ID-Zuordnung: anime-offline-database (https://github.com/manami-project/anime-offline-database) — ODbL v1.0",
     "Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag",
+    "Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0; die Marken gehören ihren Inhabern",
     "Welche Folgen auf Netflix eine deutsche Tonspur haben: Streaming Availability API (https://www.movieofthenight.com/about/api)"
   ]
 }
