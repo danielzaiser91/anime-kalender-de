@@ -194,7 +194,8 @@ function deSeitZeile(
     hier bis zum 12.09.2026 gar nichts; jetzt steht wenigstens, bei wem die
     deutsche Fassung erschienen ist — wonach jemand suchen kann.
   */
-  if (!wann) return e.publisher ? T('antwort.deVerlag', { publisher: e.publisher }) : ''
+  /* Unter „Noch keine deutsche Fassung" nennt die Zeile ihren Absender (Bakuman 3, Stichprobe 16.09.2026). */
+  if (!wann) return e.publisher ? T(fremd ? 'antwort.deVerlagFremd' : 'antwort.deVerlag', { publisher: e.publisher }) : ''
   if (fremd) {
     return e.publisher
       ? T('antwort.deSeitFremdPublisher', { datum: wann, publisher: e.publisher })
@@ -564,7 +565,8 @@ function AntwortKasten({
       Überschrift, der Rest entfällt — samt Balken, denn ein voller Balken misst
       nichts.
     */
-    haupt = antwort.gesamt
+    /* „Alle 1 Folgen" stand über OVAs mit einer Folge — dort sagt die Überschrift ohne Zahl dasselbe. */
+    haupt = antwort.gesamt && antwort.gesamt > 1
       ? T('antwort.fertigZahl', { count: antwort.gesamt })
       : T('antwort.fertigTitel')
     /*
@@ -1645,7 +1647,8 @@ function discPillen(
         key={`disc-${f}`}
         name={DISC_FORMAT[f]}
         url={`https://www.anisearch.de/article/${wahl[4]}`}
-        unten={kopf.length ? t('where.discGesamt') : wahl[0]}
+        /* Bei einer Einzelausgabe (Film) wiederholte der Kurzname den Titel — das Datum sagt mehr (Stichprobe 16.09.2026). */
+        unten={kopf.length ? t('where.discGesamt') : wahl[3] ? formatDate(wahl[3]) : undefined}
         titel={`${wahl[0]}${wahl[3] ? ` · ${formatDate(wahl[3])}` : ''}`}
         icon={<DiscZeichen />}
       />,
@@ -3363,6 +3366,8 @@ export function DetailPanel({
       Anbieter" stand über „Vom Landei zum Schwertheiligen II", deren Folge 11 heute kommt
       (Daniel, 16.09.2026).
     */
+    /* Im Teilweise-Zustand sagt der Kasten es schon („Für die übrigen fehlt uns eine Angabe"). */
+    if (antwort?.art === 'teilweise') return null
     const gesamt = antwort?.art === 'laeuft' ? antwort.raus : title.episodes
     return folgenOhneAnbieter(wege, gesamt)
   }, [title, antwort])
