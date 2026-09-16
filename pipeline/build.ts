@@ -16,6 +16,7 @@ import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../sha
 import { zugangsart } from '../shared/zugangsart.ts'
 import { adressGleich, adressKern, dubKey, loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
 import { ladeTitelDe } from './lib/titel-de.ts'
+import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { crAdresseZu as crAdresseNachName, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import {
   beurteile,
@@ -1441,6 +1442,11 @@ function main(): void {
     'data/tmdb-titles.json',
     {},
   )
+  /* Mehrfach vergebene Filme verlieren ihre TMDB-Angaben — siehe `mehrdeutigeFilmzuordnungen()`. */
+  const tmdbMehrdeutig = mehrdeutigeFilmzuordnungen(tmdbTitles)
+  for (const id of tmdbMehrdeutig) delete tmdbTitles[id]
+  if (tmdbMehrdeutig.size)
+    log(`${tmdbMehrdeutig.size} TMDB-Zuordnungen verworfen: derselbe Film stand bei mehreren Titeln`)
   // Deutsche Inhaltsangaben und Anbieter von aniSearch. Fehlt die Datei, läuft
   // alles wie zuvor — nur eben mit den schwächeren Texten.
   const anisearch = readJson<
@@ -6204,6 +6210,8 @@ function main(): void {
     >('data/justwatch-audio.json', {})
     for (const title of titles.values()) {
       if ((title.streams ?? []).length || (title.watchLinks ?? []).length) continue
+      /* JustWatch findet den Titel über dieselbe TMDB-Kennung — mehrdeutig heißt auch hier: nicht verwenden. */
+      if (tmdbMehrdeutig.has(String(title.id))) continue
       const b = jw[String(title.id)]
       if (!b || b.ohneTreffer || !b.angebote?.length) continue
       const wege: WatchLink[] = []
@@ -6264,6 +6272,7 @@ function main(): void {
     for (const title of titles.values()) {
       const wege = title.watchLinks
       if (!wege?.length) continue
+      if (tmdbMehrdeutig.has(String(title.id))) continue
       const angebote = jw[String(title.id)]?.angebote ?? []
       if (!angebote.length) continue
       for (const w of wege) {

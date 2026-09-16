@@ -89,6 +89,7 @@ import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
 import { ladeTitelDe } from './lib/titel-de.ts'
+import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -4156,6 +4157,27 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     return vorhanden !== undefined && vorhanden !== e.titleDe
   })
   pruefe('kein Handtitel wurde im Datensatz durch eine Datenbank ersetzt', ueberschrieben.length === 0, ueberschrieben.map((e) => `${e.id}: ${nachId.get(e.id)?.titleDe} statt ${e.titleDe}`))
+}
+
+/*
+  Ein TMDB-Film gehört genau einem Titel — und Serie und Film sind verschiedene Nummernräume.
+
+  Die erste Messung am 16.09.2026 zählte 139 Doppelungen, weil sie `tv/34065` („Black
+  Cat") und `movie/34065` (ein Pokémon-Film) für dieselbe Kennung hielt. Echt waren
+  fünf, alle in Filmreihen. Die Zusicherung hält beide Richtungen fest.
+*/
+{
+  const raus = mehrdeutigeFilmzuordnungen({
+    '8888': { tmdbId: 212161, kind: 'movie' },
+    '15197': { tmdbId: 212161, kind: 'movie' },
+    '68': { tmdbId: 34065, kind: 'tv' },
+    '1122': { tmdbId: 34065, kind: 'movie' },
+    '21': { tmdbId: 37854, kind: 'tv' },
+    '22': { tmdbId: 37854, kind: 'tv' },
+  })
+  pruefe('zwei Titel auf demselben TMDB-Film verlieren beide die Zuordnung', raus.has('8888') && raus.has('15197'))
+  pruefe('Serie und Film mit gleicher Nummer sind verschiedene Werke', !raus.has('68') && !raus.has('1122'))
+  pruefe('Staffeln dürfen sich eine TMDB-Serie teilen', !raus.has('21') && !raus.has('22'))
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
