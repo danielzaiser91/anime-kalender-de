@@ -84,6 +84,10 @@ export interface DubCheck {
    *
    * Das Feld wird von Hand gesetzt, nie von einem Lauf. Wer es setzt, sagt
    * damit: Ich weiß, dass der Titel fehlt, und das ist die Antwort.
+   *
+   * Zweiter Fall seit dem 16.09.2026: ein Beleg, der vom Reihenkopf an die
+   * Staffel umgehängt wurde, die seine Adresse nennt — und diese Staffel steht
+   * (noch) nicht im Bestand. Die Notiz sagt dann, ob und wie sie hineinkommt.
    */
   nichtImBestand?: boolean
   /**

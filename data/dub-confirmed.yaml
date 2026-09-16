@@ -7132,7 +7132,8 @@
   platform: primevideo
   url: https://www.amazon.de/dp/B0CWRDZVBY
   checkedAt: '2026-08-25'
-  note: "Tonspuren: English, 日本語 — Amazon-Seite B0CWRDZVBY: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — 16.09.2026 von AniList 20458 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen"
+  nichtImBestand: true
+  note: "Tonspuren: English, 日本語 — Amazon-Seite B0CWRDZVBY: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — 16.09.2026 von AniList 20458 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen — Irregular Staffel 3 fehlt im Bestand; Crunchyrolls deutscher Katalog führt sie ohne de-DE (16.09.2026)"
 
 - anilistId: 133175
   title: "The Dawn of the Witch"
@@ -12577,7 +12578,8 @@
   url: https://www.amazon.de/gp/video/detail/B0FKZM9J6V
   dub: true
   checkedAt: '2026-08-30'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FKZM9J6V: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf — 16.09.2026 von AniList 33 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen"
+  nichtImBestand: true
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FKZM9J6V: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf — 16.09.2026 von AniList 33 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen — Berserk (2017) Staffel 2 fehlt in MyDubList und im Katalog; Aufnahme über synchro-von-hand.yaml braucht eine zweite Quelle (offen seit 16.09.2026)"
 
 - anilistId: 97668
   title: "One Punch Man 2"
@@ -12941,7 +12943,8 @@
   url: https://www.amazon.de/dp/B0CVR4N6DN
   dub: true
   checkedAt: '2026-08-30'
-  note: "Tonspuren: Deutsch, 日本語, English, Español (Latinoamérica), Português (Brasil), English [Audio Description], Español (Latinoamérica) [descripción de audio], Português (Brasil) [Descrição do áudio], English [Audio Description — Amazon-Seite B0CVR4N6DN: alle 12 Folgen geprüft, Abos: FVOD, aniversede, crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — 16.09.2026 von AniList 112667 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen"
+  nichtImBestand: true
+  note: "Tonspuren: Deutsch, 日本語, English, Español (Latinoamérica), Português (Brasil), English [Audio Description], Español (Latinoamérica) [descripción de audio], Português (Brasil) [Descrição do áudio], English [Audio Description — Amazon-Seite B0CVR4N6DN: alle 12 Folgen geprüft, Abos: FVOD, aniversede, crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — 16.09.2026 von AniList 112667 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen — Our Last Crusade Staffel 2 fehlt im Bestand; Crunchyrolls deutscher Katalog führt Staffel 2 ohne de-DE (16.09.2026), die Amazon-Angabe stammt von einem Kanal-Titel"
 
 - anilistId: 133844
   title: "Overlord IV"
