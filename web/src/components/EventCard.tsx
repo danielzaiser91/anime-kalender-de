@@ -101,9 +101,20 @@ export function EventCard({
       }}
       className={[
         'group relative flex w-full cursor-pointer flex-col gap-1 overflow-hidden rounded-lg border text-left transition',
+        /*
+          **Fernsehen sieht man auf einen Blick** (Daniel, 16.09.2026: „mark the tv
+          episodes in the kalender differently, they should be visually obv that
+          they are tv shows"): gestrichelter Rahmen, getönter Grund, Fernseher-Zeichen
+          an der Senderplakette. Die linke Kante bleibt die Release-Art.
+        */
+        event.platform === 'tv' && !favorite
+          ? 'border-dashed border-teal-500/60 bg-teal-500/[0.07] hover:border-teal-500 dark:border-teal-400/50 dark:bg-teal-400/[0.08]'
+          : '',
         favorite
           ? 'border-amber-400/70 bg-amber-400/[0.07] shadow-[0_0_0_1px_rgba(251,191,36,.25)] hover:border-amber-300'
-          : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-white/25 dark:hover:bg-white/[0.08]',
+          : event.platform === 'tv'
+            ? ''
+            : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-white/25 dark:hover:bg-white/[0.08]',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
         /* 78 % statt 60 — zurückgenommen, nicht ausgeblendet (Daniel, 03.09.2026). */
         vergangen && !favorite ? 'opacity-[0.78] transition-opacity hover:opacity-100' : '',
@@ -178,7 +189,8 @@ export function EventCard({
           ) : event.releaseType === 'disc' ? (
             <span>{t('card.inStores')}</span>
           ) : null}
-          {event.episode && (
+          {/* Eine TV-Sichtung zählt unsere Sichtungen, keine Folgen der Serie — keine Angabe statt „Ep 1/1“. */}
+          {event.episode && !event.sichtung && (
             <span className="rounded bg-slate-200/70 px-1 tabular-nums dark:bg-white/10">
               {t('card.episode', { n: event.episode })}
               {event.episodeCount ? `/${event.episodeCount}` : ''}

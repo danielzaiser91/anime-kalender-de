@@ -181,7 +181,7 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
     erst am Ende verbunden, sonst bliebe ein führender Trennpunkt stehen.
   */
   const time = ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : ''
-  const episode = ev.episode ? `Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}` : ''
+  const episode = ev.episode && !ev.sichtung ? `Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}` : ''
   const platform = PLATFORMS[ev.platform]
   const watch = watchUrl(ctx, ev)
 
@@ -242,7 +242,7 @@ function textSections(ctx: RowContext, events: ReleaseEvent[]): string {
           .map((ev) => {
             const watch = watchUrl(ctx, ev)
             return (
-              `  - ${ev.name}${ev.episode ? ` (Folge ${ev.episode})` : ''}${
+              `  - ${ev.name}${ev.episode && !ev.sichtung ? ` (Folge ${ev.episode})` : ''}${
                 ev.time ? ` — ${ev.time} Uhr` : ev.releaseType === 'disc' ? ' — im Handel' : ''
               }, ${anbieterName(ev.platform, ev.sender)}\n` +
               `    Kalender: ${calendarUrl(ctx, ev)}` +

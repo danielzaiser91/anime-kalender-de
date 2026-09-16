@@ -3,6 +3,7 @@ import type { ReleaseEvent } from '@shared/types.ts'
 import { RELEASE_TYPES } from '@shared/types.ts'
 import { addDays, startOfMonth, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { TvZeichen } from './ui.tsx'
 
 /**
  * **Der Platzhalter für „keine Uhrzeit" muss aus Ziffern bestehen.**
@@ -157,10 +158,14 @@ export function MonthView({
                         : 'text-slate-700 hover:bg-slate-200/70 dark:text-slate-200 dark:hover:bg-white/10',
                     ].join(' ')}
                   >
-                    <span
-                      className="size-1.5 shrink-0 rounded-full"
-                      style={{ background: RELEASE_TYPES[ev.releaseType].color }}
-                    />
+                    {ev.platform === 'tv' ? (
+                      <TvZeichen className="size-2.5 shrink-0 text-teal-600 dark:text-teal-400" />
+                    ) : (
+                      <span
+                        className="size-1.5 shrink-0 rounded-full"
+                        style={{ background: RELEASE_TYPES[ev.releaseType].color }}
+                      />
+                    )}
                     {favorites.has(ev.titleId) && <span aria-hidden="true">★</span>}
                     {ev.time && <span className="tabular-nums opacity-70">{ev.time}</span>}
                     <span className="truncate">{ev.name}</span>

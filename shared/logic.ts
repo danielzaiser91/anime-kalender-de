@@ -229,6 +229,7 @@ export function expandEvents(release: Release): ReleaseEvent[] {
     releaseType: release.releaseType,
     platform: release.platform,
     ...(release.sender ? { sender: release.sender } : {}),
+    ...(release.tvLetzteSichtung ? { sichtung: true } : {}),
     name: release.name,
     estimated: s.estimated,
   }

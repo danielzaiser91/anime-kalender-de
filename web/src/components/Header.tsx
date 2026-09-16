@@ -5,7 +5,7 @@ import { VIEWS, type ViewId } from '../lib/router.ts'
 import { addDays, addMonths, formatDateLong, monthName, startOfWeek, todayIso } from '@shared/time.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { InstallButton } from './InstallPrompt.tsx'
-import { Tooltip } from './ui.tsx'
+import { Tooltip, TvZeichen } from './ui.tsx'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 
 function ThemeToggle() {
@@ -283,6 +283,11 @@ export function Legend() {
           </span>
         </Tooltip>
       ))}
+      <Tooltip text={t('legend.tvHint')}>
+        <span className="inline-flex items-center gap-1.5 text-teal-700 dark:text-teal-300">
+          <TvZeichen /> {t('legend.tv')}
+        </span>
+      </Tooltip>
       <Tooltip text={t('legend.estimated')}>
         <span className="inline-flex items-center gap-1.5">
           <span className="text-amber-500">≈</span> {t('legend.estimatedShort')}

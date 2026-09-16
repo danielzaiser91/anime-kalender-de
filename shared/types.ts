@@ -662,6 +662,8 @@ export interface ReleaseEvent {
   platform: PlatformId
   /** Bei `platform: 'tv'` der Sender — siehe `anbieterName()`. */
   sender?: string
+  /** Stammt aus einer TV-Sichtung (`tvLetzteSichtung`) — die Folgennummer ist dann nur unsere Zählung. */
+  sichtung?: boolean
   name: string
   estimated?: boolean
   /**

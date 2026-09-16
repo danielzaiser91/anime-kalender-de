@@ -36,7 +36,7 @@ export function eventSummary(ev: ReleaseEvent): string {
     auffiel. Der Eintrag bleibt stehen (seine UID ändert sich nicht), er sagt
     nur, was aus ihm geworden ist.
   */
-  if (ev.releaseType === 'weekly' && ev.episode) {
+  if (ev.releaseType === 'weekly' && ev.episode && !ev.sichtung) {
     const vorn = istAusgeblieben(ev) ? '⚠ nicht erschienen: ' : ''
     return `${vorn}${ev.name} – Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}`
   }

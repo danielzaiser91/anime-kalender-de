@@ -96,6 +96,7 @@
     "mess:suche": "node tools/such-messung.mjs",
     "mess:filter": "node tools/filter-messung.mjs",
     "check:ansichten": "node tools/ansicht-bild.mjs",
+    "check:tv-schalter": "node tools/tv-schalter-pruefen.mjs",
     "check:news": "node tools/news-bild.mjs",
     "bild:kachel": "node tools/kachel-titel-messen.mjs",
     "check:leiste": "node tools/melder-leiste-bild.mjs",

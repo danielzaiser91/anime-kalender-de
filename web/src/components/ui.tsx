@@ -135,8 +135,19 @@ export function PlatformBadge({ platform, small, sender }: { platform: PlatformI
       ].join(' ')}
       style={{ background: `${p.color}22`, color: p.color, boxShadow: `inset 0 0 0 1px ${p.color}55` }}
     >
+      {platform === 'tv' && <TvZeichen />}
       {anbieterName(platform, sender)}
     </span>
+  )
+}
+
+/** Fernseher-Zeichen — markiert TV-Ausstrahlungen im Kalender (16.09.2026). */
+export function TvZeichen({ className = 'size-3' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" className={className} aria-hidden="true">
+      <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" />
+      <path d="M5.5 14.5h5M6 1l2 2.5L10 1" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   )
 }
 

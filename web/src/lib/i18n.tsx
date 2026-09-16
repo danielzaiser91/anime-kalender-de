@@ -107,6 +107,10 @@ const TEXTE = {
   // sein zweiter Halbsatz („Wir ziehen nach, sobald der Anbieter den Tag
   // nennt") ist ein Versprechen, kein Handlungshinweis.
   'legend.estimatedShort': 'geschätzter Termin',
+  'legend.tv': 'TV-Ausstrahlung',
+  'legend.tvHint': 'Läuft im Fernsehen — gestrichelt umrandet, mit Sendernamen.',
+  'legend.tvZeigen': 'TV-Sendungen zeigen',
+  'legend.tvZeigenHint': 'Blendet Fernsehausstrahlungen im Kalender ein oder aus. Die Wahl merkt sich dieser Browser.',
   'legend.estimated':
     'Geschätzter Termin — aus dem bisherigen Wochenrhythmus fortgeschrieben. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
   /*

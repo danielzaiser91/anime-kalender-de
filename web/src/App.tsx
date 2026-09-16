@@ -14,6 +14,7 @@ import { InstallDialog } from './components/InstallPrompt.tsx'
 import { NewsView } from './components/NewsView.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
 import { FilterBar } from './components/FilterBar.tsx'
+import { Toggle } from './components/ui.tsx'
 import { WeekView } from './components/WeekView.tsx'
 import { MonthView } from './components/MonthView.tsx'
 import { AgendaView } from './components/AgendaView.tsx'
@@ -70,6 +71,21 @@ export default function App() {
   */
   const [cartoonsAus, setCartoonsAus] = useState(cartoonsAusGespeichert)
   const [einstellungenOffen, setEinstellungenOffen] = useState(false)
+  /* TV-Termine ausblenden (Daniel, 16.09.2026) — wie die Cartoons im Browser gemerkt, nicht in der Adresse. */
+  const [tvAus, setTvAus] = useState(() => {
+    try {
+      return localStorage.getItem('tvAus') === '1'
+    } catch {
+      return false
+    }
+  })
+  useEffect(() => {
+    try {
+      localStorage.setItem('tvAus', tvAus ? '1' : '0')
+    } catch {
+      /* Gesperrte Site-Daten: Die Wahl gilt dann für diese Sitzung. */
+    }
+  }, [tvAus])
 
   useEffect(() => {
     try {
@@ -157,8 +173,11 @@ export default function App() {
   }, [data, cartoons])
 
   const events = useMemo(
-    () => (data ? filterEvents(data, route.filters, today, favorites) : []),
-    [data, route.filters, today, favorites],
+    () =>
+      data
+        ? filterEvents(data, route.filters, today, favorites).filter((e) => !tvAus || e.platform !== 'tv')
+        : [],
+    [data, route.filters, today, favorites, tvAus],
   )
   const titles = useMemo(() => {
     if (!data) return []
@@ -251,6 +270,12 @@ export default function App() {
             {isCalendar && (
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Legend />
+                <Toggle
+                  checked={!tvAus}
+                  onChange={(an: boolean) => setTvAus(!an)}
+                  label={t('legend.tvZeigen')}
+                  hint={t('legend.tvZeigenHint')}
+                />
                 <span className="text-[11px] text-slate-500 dark:text-slate-400">
                   {t('legend.count', { count: events.length })}
                   <span className="hidden sm:inline"> · {t('legend.keys')}</span>

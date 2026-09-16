@@ -33,6 +33,7 @@ on:
       - 'web/src/**'
       - 'extension/*.css'
       - 'tools/*bild*'
+      - 'tools/tv-schalter-pruefen.mjs'
       - 'pipeline/build-share-pages.ts'
   workflow_dispatch:
 
@@ -76,6 +77,9 @@ jobs:
 
       - name: Alle Ansichten — Handy
         run: npm run check:ansichten -- --handy
+
+      - name: Schalter „TV-Sendungen zeigen“
+        run: npm run check:tv-schalter
 
       - name: Nachrichtenseite — zugeklappt und aufgeklappt
         run: npm run check:news
