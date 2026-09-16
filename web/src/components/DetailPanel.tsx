@@ -921,7 +921,7 @@ function AntwortKasten({
             zwei Reihen brauchen damit etwa 94 px, `4.4rem` gab 70 — bei „Kill
             Blue" lag die vierte Pille abgeschnitten im Rollbereich.
           */}
-          <div className="flex max-h-[6rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto overscroll-contain pb-1">
+          <div className="flex max-h-[6rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
             {pillen}
           </div>
         </div>
@@ -3244,9 +3244,18 @@ export function DetailPanel({
       Ohne die Klasse reicht der Browser das Rad an die Seite dahinter weiter,
       sobald das Panel unten angekommen ist — der Kalender scrollte weg, während
       das Panel offen stand (Daniel, 16.09.2026: „wenn maus auf detailpanel, dann
-      darf scrollen nur fürs detail panel gelten"). Dieselbe Klasse tragen die
-      zweite Panel-Hülle und die beiden inneren Rollbereiche (Pillen,
-      Reihenliste) — sonst endet ihr Weg im Panel und schiebt es weiter.
+      darf scrollen nur fürs detail panel gelten"). Dieselbe Klasse trägt die
+      zweite Panel-Hülle.
+
+      **Die inneren Rollbereiche tragen sie ausdrücklich nicht** (Pillenreihe,
+      Reihenliste). Der erste Anlauf gab sie ihnen mit — und damit stand das Rad
+      still, sobald die Maus über „Teile dieser Reihe" war: Am Ende der Liste
+      soll das **Panel** weiterscrollen, nur die Seite dahinter nicht. Daniel
+      eine halbe Stunde später: „maus in ‚teile dieser reihe'-box, scrollen nach
+      oben führt nicht dazu, dass das detail panel scrollt."
+
+      Die Grenze liegt also genau eine Ebene höher, als sie zuerst gezogen war:
+      zwischen Panel und Seite, nicht zwischen Liste und Panel.
     */
     return (
       <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-lg overflow-y-auto overscroll-contain border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
@@ -4161,7 +4170,7 @@ export function DetailPanel({
                 zusammen.
               */}
               <div className="relative -mt-1 rounded-xl border border-slate-200 dark:border-white/10">
-              <div className="max-h-[13.5rem] overflow-y-auto overscroll-contain p-2">
+              <div className="max-h-[13.5rem] overflow-y-auto p-2">
                 {(() => {
                   /*
                     **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
