@@ -1739,6 +1739,20 @@ Seitdem zeigt eine Weg-Pille eine Folgenzahl nur, wenn ein Verweis mit **derselb
 über ihren Weg sagte. Dieselbe Trennung wie „Ein Beleg gehört einer Ausgabe, nicht einem
 Titel" (07.09.2026), diesmal in der Anzeige.
 
+### aniSearchs deutsches Datum ist oft der Simulcast, nicht die Synchro
+
+Der deutsche Sprachblock nennt die **erste** deutsche Veröffentlichung, und die ist bei neueren
+Titeln der OmU-Simulcast. „Dragon Quest: The Adventure of Dai": „Synchronisiert, 03.10.2020 –
+22.10.2022, Publisher: Crunchyroll, Kazé Deutschland" — die Marke sagt, dass es eine Synchro
+gibt, Datum und erster Verlag gehören zum Simulcast, die Synchro zu Kazés Disc. Im Panel stand
+„Auf Deutsch seit 03.10.2020 · Crunchyroll" (Daniel, 16.09.2026).
+
+Gemessen: 375 Titel mit deutschem Datum höchstens sieben Tage neben dem japanischen Start und
+einem Dienst als erstem Verlag, **119** ohne belegten Dub-Stream bei diesem Dienst. Dort fallen
+Datum und Dienst weg, ein Disc-Verlag bleibt (`verlagAlsDienst()` in
+`lib/anisearch-termine.ts`). Verweise, die der Bau erst später aus aniSearch ergänzt, sieht die
+Regel nicht — dort fehlt dann höchstens ein Datum.
+
 ### Stream oder Disc entscheidet der Anbieter, nicht die Quelle
 
 maxdome und freenet meinVOD standen am 16.09.2026 im Disc-Reiter: Die TMDB- und

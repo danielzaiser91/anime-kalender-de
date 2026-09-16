@@ -131,3 +131,24 @@ export function terminAusEintrag(info: { languages?: Sprachblock[] } | undefined
     zitat: roh,
   }
 }
+
+/**
+ * **Welcher Plattform ein Verlagsname aus aniSearch entspricht** — `undefined`, wenn es
+ * kein Streamingdienst ist (dann ist es ein Disc-Verlag wie KSM oder Kazé).
+ *
+ * Gebraucht, um ein Simulcast-Datum von einem Synchro-Datum zu trennen: Nennt aniSearch
+ * als ersten deutschen Verlag einen Dienst, und liegt das Datum am japanischen Start,
+ * ist es die OmU-Veröffentlichung — außer bei genau diesem Dienst ist ein deutscher
+ * Stream belegt. Wakanim und Anime on Demand gibt es nicht mehr; sie zählen als Dienst
+ * ohne Plattform, damit sie nie als Disc-Verlag stehen bleiben.
+ */
+export function verlagAlsDienst(verlag: string): string | undefined {
+  const v = verlag.toLowerCase()
+  if (v.includes('crunchyroll')) return 'crunchyroll'
+  if (v.includes('animation digital network') || v === 'adn') return 'adn'
+  if (v.includes('netflix')) return 'netflix'
+  if (v.includes('amazon')) return 'primevideo'
+  if (v.includes('disney')) return 'disneyplus'
+  if (v.includes('wakanim') || v.includes('anime on demand') || v.includes('akiba pass') || v.includes('joyn')) return '-'
+  return undefined
+}

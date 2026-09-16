@@ -23,6 +23,7 @@ import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, titleStatus } from '../shared/logic.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
+import { verlagAlsDienst } from './lib/anisearch-termine.ts'
 import {
   alsEinBlock,
   bestimmeRhythmus,
@@ -4213,5 +4214,15 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('ohne Trennstelle bleibt der Kopf', reihenAnfang(einzeln[0], einzeln) === 'One Piece')
 }
 
+/*
+  Ein Verlag bei aniSearch ist ein Dienst oder ein Disc-Label — nur das zweite bleibt
+  stehen, wenn das deutsche Datum der Simulcast ist (Dragon Quest Dai, 16.09.2026).
+*/
+{
+  pruefe('Crunchyroll ist ein Dienst', verlagAlsDienst('Crunchyroll') === 'crunchyroll')
+  pruefe('Amazon ist Prime Video', verlagAlsDienst('Amazon.com, Inc.') === 'primevideo')
+  pruefe('Wakanim ist ein Dienst ohne Plattform', verlagAlsDienst('Wakanim DE') === '-')
+  pruefe('Kazé und KSM sind Disc-Verlage', verlagAlsDienst('Kazé Deutschland') === undefined && verlagAlsDienst('KSM Anime') === undefined)
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -25,7 +25,7 @@ import {
   beurteileNachFolgennummern,
   type CrDubData,
 } from './lib/crunchyroll-dub.ts'
-import { terminAusEintrag } from './lib/anisearch-termine.ts'
+import { terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { alleTermine } from './lib/crunchyroll-termine.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
@@ -4745,6 +4745,7 @@ function main(): void {
     const schonMitTermin = new Set(releases.map((r) => r.titleId))
     let asNeu = 0
     let asVorJp = 0
+    let asSimulcast = 0
     for (const title of titles.values()) {
       if (schonMitTermin.has(title.id)) continue
       const termin = terminAusEintrag(
@@ -4761,6 +4762,36 @@ function main(): void {
         asVorJp++
         continue
       }
+      /*
+        **Ein Simulcast-Datum ist kein Synchro-Datum.** aniSearchs deutscher Block
+        nennt die erste deutsche Veröffentlichung überhaupt, und das ist oft der
+        OmU-Simulcast: „Dragon Quest: The Adventure of Dai" — 03.10.2020, Publisher
+        Crunchyroll, Kazé Deutschland. Die Synchro gibt es nur auf Kazés Disc; im
+        Panel stand „Auf Deutsch seit 03.10.2020 · Crunchyroll" (Daniel, 16.09.2026).
+        Gemessen: 375 Titel mit deutschem Datum am japanischen Start und einem
+        Streamingdienst als erstem Verlag, 119 davon ohne belegten Dub-Stream dort.
+        Bei denen fallen Datum und Dienst weg; ein Disc-Verlag bleibt als Spur.
+      */
+      const asDe = (asRoh[String(title.id)]?.info?.languages as { language?: string; released?: string; publisher?: string[] }[] | undefined) ?? []
+      const tagAus = (s?: string) => {
+        const m = /(\d{2})\.(\d{2})\.(\d{4})/.exec(s ?? '')
+        return m ? Date.UTC(Number(m[3]), Number(m[2]) - 1, Number(m[1])) : undefined
+      }
+      const deTag = tagAus(asDe.find((l) => l.language === 'Deutsch')?.released)
+      const jpTag = tagAus(asDe.find((l) => l.language === 'Japanisch')?.released)
+      const verlage = asDe.find((l) => l.language === 'Deutsch')?.publisher ?? []
+      const simulcast =
+        deTag !== undefined && jpTag !== undefined && Math.abs(deTag - jpTag) <= 7 * 864e5 &&
+        verlage.length > 0 && verlagAlsDienst(verlage[0]!) !== undefined &&
+        !(title.streams ?? []).some((s) => s.dub === true && s.platform === verlagAlsDienst(verlage[0]!))
+      if (simulcast) {
+        const disc = verlage.find((v) => verlagAlsDienst(v) === undefined)
+        asSimulcast++
+        if (!disc) continue
+        title.deErstausgabe = { publisher: disc }
+        asNeu++
+        continue
+      }
       title.deErstausgabe = {
         ...(termin.start ? { von: termin.start } : {}),
         ...(termin.zeitraum ? { zeitraum: termin.zeitraum } : {}),
@@ -4772,7 +4803,8 @@ function main(): void {
     if (asNeu) {
       log(
         `${asNeu} deutsche Erstausgaben aus aniSearch übernommen ` +
-          `(${asVorJp} vor der japanischen Ausstrahlung verworfen)`,
+          `(${asVorJp} vor der japanischen Ausstrahlung verworfen, ` +
+          `${asSimulcast} Simulcast-Daten ohne Dub-Stream nicht als Synchro-Datum)`,
       )
     }
   }
