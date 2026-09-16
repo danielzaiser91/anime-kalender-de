@@ -1,0 +1,24 @@
+name: Crunchyroll — Weiche aus der Cloud messen
+
+# Einmalige Messung (16.09.2026): Als welches Land sieht Crunchyroll die Weiche
+# (worker-cr/), wenn ein GitHub-Runner in den USA sie aufruft?
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  messen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Diagnose der Weiche
+        env:
+          CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
+        run: |
+          for i in 1 2 3; do
+            curl -sS -H "X-Weiche-Token: $CR_WEICHE_TOKEN" "https://cr-weiche.animekalender.workers.dev/?diag=1"
+            echo
+          done

@@ -23,6 +23,25 @@ export default {
     if (!env.WEICHE_TOKEN || request.headers.get('X-Weiche-Token') !== env.WEICHE_TOKEN) {
       return new Response('nicht erlaubt', { status: 403 })
     }
+    /* Diagnose: wo läuft die Weiche, und als welches Land sieht Crunchyroll sie? */
+    if (new URL(request.url).searchParams.has('diag')) {
+      const trace = await fetch('https://www.cloudflare.com/cdn-cgi/trace').then((r) => r.text())
+      const token = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Basic ' + btoa('noaihdevm_6iyg0a8l0q:'),
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'User-Agent': UA,
+        },
+        body: 'grant_type=client_id',
+      }).then((r) => r.json())
+      return Response.json({
+        eingang: request.cf?.colo,
+        eingangLand: request.cf?.country,
+        ausgang: trace.split('\n').filter((l) => /^(colo|loc|ip)=/.test(l)),
+        crunchyroll: token.country,
+      })
+    }
     let ziel
     try {
       ziel = new URL(new URL(request.url).searchParams.get('url') ?? '')
