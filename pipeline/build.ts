@@ -5946,6 +5946,25 @@ function main(): void {
    */
   for (const release of releases) release.name = eindeutschenStaffel(release.name)
 
+  /*
+    **Was belegt erschienen ist, ist keine Schätzung mehr.** Eine Meldung mit Folgenbereich
+    sagt, bis zu welcher Folge der Anbieter liefert, und ihr Prüftag, bis wann das stand.
+    Genau das braucht `expandEvents()` — siehe `schedule.belegtBis`.
+  */
+  let belegtBisGesetzt = 0
+  for (const release of releases) {
+    if (release.releaseType !== 'weekly') continue
+    const title = titles.get(release.titleId)
+    const stream = title?.streams.find((s) => s.platform === release.platform && s.dub === true)
+    const bis = Math.max(0, ...(stream?.dubRanges ?? []).filter((r) => r.dub).map((r) => r.to))
+    if (!title || !stream || !bis) continue
+    const am = belegFuer(title.id, stream.platform, stream.url)?.checkedAt?.slice(0, 10)
+    if (!am) continue
+    release.schedule.belegtBis = { folge: bis, am }
+    belegtBisGesetzt++
+  }
+  if (belegtBisGesetzt) log(`${belegtBisGesetzt} Wochenserien mit belegt erschienenen Folgen — dort keine Schätzung mehr`)
+
   // --- Termine ausrollen ----------------------------------------------------
   const events: ReleaseEvent[] = releases
     .flatMap(expandEvents)

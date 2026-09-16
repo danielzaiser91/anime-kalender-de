@@ -3335,8 +3335,14 @@ export function DetailPanel({
       ...(title.streams ?? []).map((s) => (s.dub === true ? s.dubRanges : undefined)),
       ...(title.watchLinks ?? []).map((w) => w.dubRanges),
     ]
-    return folgenOhneAnbieter(wege, title.episodes)
-  }, [title])
+    /*
+      Bei einer laufenden Serie zählt nur, was erschienen ist — „Folgen 11–12 führt kein
+      Anbieter" stand über „Vom Landei zum Schwertheiligen II", deren Folge 11 heute kommt
+      (Daniel, 16.09.2026).
+    */
+    const gesamt = antwort?.art === 'laeuft' ? antwort.raus : title.episodes
+    return folgenOhneAnbieter(wege, gesamt)
+  }, [title, antwort])
   const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
 
   /** Die vier Werkangaben der Unterzeile — leer heißt: kein Kasten. */

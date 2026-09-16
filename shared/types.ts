@@ -89,6 +89,15 @@ export interface Schedule {
    */
   observed?: Record<number, string>
   /**
+   * **Bis zu welcher Folge der Anbieter belegt liefert — und an welchem Tag das geprüft wurde.**
+   *
+   * „Vom Landei zum Schwertheiligen II": Beobachtet waren nur die Tage von Folge 1 und 5,
+   * Folge 10 (09.09.) stand deshalb als „geschätzt" da, obwohl eine Meldung Prime mit den
+   * Folgen 1–10 auf Deutsch belegt (Daniel, 16.09.2026). Ein Termin bis zu dieser Folge, der
+   * nicht nach dem Prüftag liegt, ist erschienen und gilt nicht mehr als Schätzung.
+   */
+  belegtBis?: { folge: number; am: string }
+  /**
    * **Termine, die der Anbieter nicht eingehalten hat — je Folgennummer.**
    *
    * Ein geschätzter Termin verstrich bis zum 31.08.2026 spurlos: Der Kalender

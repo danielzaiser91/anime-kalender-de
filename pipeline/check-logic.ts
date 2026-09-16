@@ -4291,5 +4291,16 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const sbrIds = hauptstaffeln(sbr).map((m) => m.id).join(',')
   pruefe('der Anfang einer Streaming-Staffel gehört dazu, ein Prolog nicht', sbrIds === '1,5,6,8', sbrIds)
 }
+/* Ein belegt erschienener Termin ist keine Schätzung (Vom Landei zum Schwertheiligen II, 16.09.2026). */
+{
+  const r = {
+    slug: 'probe-landei', titleId: 1, name: 'Probe', platform: 'primevideo', releaseType: 'weekly', year: 2026, sources: ['x'],
+    schedule: { firstEpisodeDate: '2026-07-08', episodeCount: 12, observed: { 1: '2026-07-08', 5: '2026-08-05' }, belegtBis: { folge: 10, am: '2026-09-13' } },
+  } as unknown as Release
+  const ev = expandEvents(r)
+  const f = (n: number) => ev.find((e) => e.episode === n)
+  pruefe('Folge 10 vor dem Prüftag ist belegt, nicht geschätzt', f(10)?.estimated === undefined, f(10))
+  pruefe('Folge 11 danach bleibt geschätzt', f(11)?.estimated === true, f(11))
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

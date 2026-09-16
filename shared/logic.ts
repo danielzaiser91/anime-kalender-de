@@ -359,7 +359,12 @@ export function expandEvents(release: Release): ReleaseEvent[] {
       episodeCount: last,
       // Gesehen ist gesehen; fortgeschrieben bleibt eine Annahme, auch wenn
       // der Start selbst belegt ist.
-      estimated: s.observed?.[episode] ? undefined : lastAnchor ? true : s.estimated,
+      estimated:
+        s.observed?.[episode] || (s.belegtBis && episode <= s.belegtBis.folge && date <= s.belegtBis.am)
+          ? undefined
+          : lastAnchor
+            ? true
+            : s.estimated,
       /*
         **Nur der Tag, an dem wirklich nichts kam, trägt den Vermerk.**
 
