@@ -43,9 +43,7 @@ import {
   Tooltip,
   FavoriteStar,
   HideEye,
-  FskBadge,
   SectionTitle,
-  StatusBadge,
 } from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 
@@ -244,6 +242,8 @@ function AntwortKasten({
   disc = [],
   wegeHinweis,
   notiz,
+  angebotSeit,
+  hinweis,
 }: {
   antwort: Antwort
   title: Title
@@ -291,6 +291,25 @@ function AntwortKasten({
    * angekündigt — der Tag steht noch nicht fest."
    */
   notiz?: string
+  /**
+   * **„Im Angebot seit" — die einzige Angabe, die der frühere Terminblock allein trug.**
+   *
+   * 267 Titel haben sie (Streaming Availability API: seit wann ein Anbieter den
+   * Titel führt). Sie ist **nicht** das Erscheinungsdatum der deutschen Fassung;
+   * der Tooltip am Datum sagt das. Sie steht seit dem 16.09.2026 hier, weil der
+   * Block darunter ersatzlos entfallen ist (Daniel: „dann gibt es keinen
+   * verwendungszweck mehr für die untere, und kann entsprechend restlos entfernt
+   * werden").
+   */
+  angebotSeit?: string
+  /**
+   * Der Merken-Hinweis für Titel ohne belegte Synchro — was der Stern bewirkt.
+   *
+   * Stand bis zum 16.09.2026 im Block darunter, zusammen mit einem zweiten
+   * „Keine deutsche Synchro bekannt" neben dem, das der Kasten schon sagt.
+   * Geblieben ist der Teil, der etwas Neues sagt.
+   */
+  hinweis?: React.ReactNode
 }) {
   /*
     **Der Umschalter sitzt oben rechts — nicht über den Pillen.**
@@ -815,6 +834,8 @@ function AntwortKasten({
       )}
 
       {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
+      {angebotSeit && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{angebotSeit}</p>}
+      {hinweis}
       {antwort.art === 'laeuft' && antwort.vermerk && (
         <VermerkAuskunft
           vermerk={antwort.vermerk}
@@ -3182,7 +3203,6 @@ export function DetailPanel({
     )
   }
 
-  const status = titleStatus(releases, today, title)
 
   // Handlung auf Deutsch; fehlt sie, lieber den englischen Text mit Hinweis
   // zeigen als gar keinen.
@@ -3639,6 +3659,30 @@ export function DetailPanel({
               today={today}
               wegeHinweis={wegeHinweis}
               notiz={kastenNotiz}
+              angebotSeit={
+                title.angebotSeit
+                  ? t('antwort.imAngebotSeit', {
+                      datum: formatDate(title.angebotSeit.date),
+                      anbieter: PLATFORMS[title.angebotSeit.platform]?.name ?? title.angebotSeit.platform,
+                    })
+                  : undefined
+              }
+              hinweis={
+                title.ohneSynchro ? (
+                  <>
+                    <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
+                      {verbindung.verbunden
+                        ? t('detail.noDubWatchConnected', { mail: verbindung.mail ?? '' })
+                        : t('detail.noDubWatchOpen')}
+                    </p>
+                    {favorites.has(title.id) && (
+                      <p className="mt-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+                        {t('detail.noDubWatched')}
+                      </p>
+                    )}
+                  </>
+                ) : undefined
+              }
                 /*
                   **Stream ist, wo man es ansehen kann.** Die Zugangsart
                   (kostenlos, Abo, Kauf) stand bis zum 03.09.2026 als eigene
@@ -4453,126 +4497,23 @@ export function DetailPanel({
               „Im Angebot seit: unbekannt" sagt dasselbe in einer Zeile und an
               derselben Stelle wie sonst auch (Daniel, 12.08.2026).
             */
-            <div className="flex flex-col gap-3">
-              {/*
-                Die Überschrift fällt mit ihrem Inhalt weg. Bei „Cowboy Bebop"
-                stand „RELEASE-TERMINE FÜR DEUTSCHE SYNCHRO" über einer leeren
-                Fläche, nachdem der Block darunter entfallen war — die Auskunft
-                steht im Kasten oben („Auf Deutsch seit 08.01.2003 · Dybex").
-              */}
-              {/*
-                Bei einem angekündigten Kinofilm sagt der Kasten oben schon, dass
-                der deutsche Termin fehlt und was der Stern bringt — hier stünde
-                es ein zweites Mal (siehe „Keine Information zweimal").
-              */}
-              {antwort?.art !== 'kino' && (title.ohneSynchro || title.angebotSeit || !title.deErstausgabe) && (
-                <SectionTitle>{t('detail.releases')}</SectionTitle>
-              )}
-              {antwort?.art === 'kino' ? null : title.ohneSynchro ? (
-                /*
-                  Für einen Titel ohne belegte Synchro wäre „Termin unbekannt"
-                  die falsche Auskunft: Unbekannt ist nicht der Termin, sondern
-                  ob es überhaupt je eine deutsche Fassung gibt. Hier steht
-                  deshalb, was wir wirklich wissen — und was der Stern bringt.
-                */
-                <section className="rounded-xl border border-dashed border-slate-300 bg-slate-100/60 p-3 dark:border-white/20 dark:bg-white/[0.02]">
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                    {t('detail.noDubTitle')}
-                  </p>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
-                    {t('detail.noDubBody')}
-                  </p>
-                  {/*
-                    Der Hinweis sagt, was der Stern **bewirkt**, und das hängt
-                    davon ab, ob ein Newsletter hinterlegt ist.
+            /*
+              **Hier stand der Bereich „Release-Termine für deutsche Synchro".**
 
-                    Vorher stand hier „☆ Merken — du bekommst eine Mail, sobald
-                    sich das ändert." Das versprach eine Mail an jemanden, der
-                    womöglich gar nicht abonniert hat (Daniel, 15.08.2026:
-                    „schwammig formuliert und nutzer können es leicht falsch
-                    verstehen"). Jetzt steht bei einem verbundenen Browser die
-                    Adresse da, an die wir tatsächlich schreiben, und bei einem
-                    unverbundenen der zweite nötige Schritt.
-                  */}
-                  <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
-                    {verbindung.verbunden
-                      ? t('detail.noDubWatchConnected', { mail: verbindung.mail ?? '' })
-                      : t('detail.noDubWatchOpen')}
-                  </p>
-                  {favorites.has(title.id) && (
-                    <p className="mt-1 text-xs font-medium text-amber-600 dark:text-amber-400">
-                      {t('detail.noDubWatched')}
-                    </p>
-                  )}
-                </section>
-              ) : !title.angebotSeit && title.deErstausgabe ? (
-                /*
-                  **Der ganze Block entfällt, wo der Kasten oben es besser weiß.**
+              Er ist am 16.09.2026 ersatzlos entfallen (Daniel, mit Bild: „das
+              sollte doch alles hochgewandert sein in die obere box, und dann gibt
+              es keinen verwendungszweck mehr für die untere"). Wohin seine drei
+              Angaben gegangen sind:
 
-                  Bei „Cowboy Bebop" stand hier „RELEASE-TERMINE FÜR DEUTSCHE
-                  SYNCHRO — Erscheinungstermin: vorhanden, Termin nicht erfasst",
-                  während zwei Handbreit darüber „Auf Deutsch seit 08.01.2003 ·
-                  Dybex S.A." zu lesen war. Das war nicht nur doppelt, es
-                  widersprach sich: Der Termin **ist** erfasst.
-
-                  Ohne die Zeile bliebe eine Überschrift über zwei Abzeichen —
-                  also fällt der Block ganz weg. Der Status steht ohnehin im
-                  Kasten, und die FSK bei den Werkangaben.
-
-                  `angebotSeit` behält seinen Platz: Es sagt etwas anderes (seit
-                  wann ein Anbieter den Titel führt) und stammt aus einer eigenen
-                  Quelle.
-                */
-                null
-              ) : (
-              <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
-                <div className="mb-2 flex flex-wrap items-center gap-1.5">
-                  <StatusBadge status={status} />
-                  {title.fsk !== undefined && <FskBadge fsk={title.fsk} />}
-                </div>
-                <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
-                  <dt className="text-slate-400">
-                    {t(title.angebotSeit ? 'detail.offerSince' : 'detail.availableFrom')}
-                  </dt>
-                  <dd>
-                    {/*
-                      **Ein Datum, wo bisher „unbekannt" stand.**
-
-                      329 Titel mit belegter deutscher Synchro haben keinen
-                      Termin — erschienen, bevor der Kalender sie kannte. Für sie
-                      führt die Streaming Availability API ein `availableSince`:
-                      seit wann der Anbieter den Titel listet.
-
-                      Das ist **nicht** das Erscheinungsdatum der deutschen
-                      Fassung, und der Tooltip sagt das auch. Es ist trotzdem
-                      mehr als „unbekannt": Wer wissen will, ob ein Titel gerade
-                      erst dazukam oder schon zwei Jahre liegt, bekommt hier die
-                      Antwort.
-                    */}
-                    {title.angebotSeit ? (
-                      <Tooltip text={t('detail.availableFromNote')} unterstrichen>
-                        <span>
-                          {formatDate(title.angebotSeit.date)}
-                          <span className="ml-1 opacity-60">
-                            ({PLATFORMS[title.angebotSeit.platform]?.name ?? title.angebotSeit.platform})
-                          </span>
-                        </span>
-                      </Tooltip>
-                    ) : (
-                      <Tooltip
-                        text={t(status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease')}
-                        unterstrichen
-                      >
-                        <span className="opacity-70">
-                          {t(status === 'erschienen' ? 'detail.releasedValue' : 'detail.unknown')}
-                        </span>
-                      </Tooltip>
-                    )}
-                  </dd>
-                </dl>
-              </section>
-              )}
-            </div>
+              | Angabe | wohin |
+              |---|---|
+              | Status-Plakette („Erschienen") | der Kasten oben sagt es in Worten |
+              | FSK („16") | steht als Marke am Cover, 493 der 943 Titel hatten sie zweimal |
+              | „Im Angebot seit 25.07.2024 (Netflix)" | als Zeile in den Kasten, 267 Titel |
+              | „Erscheinungstermin: unbekannt" | gestrichen — eine Nicht-Auskunft |
+              | „Keine deutsche Synchro bekannt" samt Merken-Hinweis | der Satz stand doppelt, der Hinweis ist im Kasten |
+            */
+            null
           )}
 
           {/*

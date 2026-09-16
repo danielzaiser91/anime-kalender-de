@@ -274,7 +274,10 @@ const TEXTE = {
   'detail.merkenIcs': 'Kalenderdatei (.ics)',
   'detail.abDatum': 'ab {d}',
   'detail.seitDatum': 'seit {d}',
-  'detail.releases': 'Release-Termine für deutsche Synchro',
+  // Der Bereich „Release-Termine für deutsche Synchro" ist am 16.09.2026 entfallen:
+  // Was er trug, steht im Antwort-Kasten darüber (Status in Worten), am Cover (FSK)
+  // oder nirgends mehr („Erscheinungstermin: unbekannt" war eine Nicht-Auskunft).
+  'antwort.imAngebotSeit': 'Bei {anbieter} im Angebot seit {datum}',
   // Beide Texte stehen seit dem 12.08.2026 als Hovertext hinter dem Wort
   // „unbekannt" statt als eigener Kasten — sie erklären, warum dort kein Datum
   // steht, und das ist eine Fußnote, keine Schlagzeile.
