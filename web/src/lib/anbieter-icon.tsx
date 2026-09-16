@@ -41,9 +41,32 @@ export function anbieterDatei(was: string): string | undefined {
   return undefined
 }
 
+/**
+ * **Zeichen, die als Bild gezeigt werden — mit ihren eigenen Farben.**
+ *
+ * Das Prime-Video-Zeichen von simple-icons ist die Wortmarke als Umriss; auf 14 px
+ * blieb davon ein unleserlicher Strich (Daniel, 16.09.2026: „prime icon ist müll
+ * hier"). Das quadratische Logo von Wikimedia Commons (gemeinfrei, blauer Grund mit
+ * weißem Zeichen) trägt seine Farbe selbst — als Maske würde es zu einer blauen
+ * Fläche, deshalb kommt es als `<img>`.
+ */
+const ALS_BILD = new Set(['primevideo'])
+
 export function AnbieterIcon({ was, groesse = 14 }: { was: string; groesse?: number }) {
   const datei = anbieterDatei(was)
   if (!datei) return null
+  if (ALS_BILD.has(datei)) {
+    return (
+      <img
+        src={`${import.meta.env.BASE_URL}anbieter/${datei}.svg`}
+        alt=""
+        aria-hidden
+        width={groesse}
+        height={groesse}
+        className="shrink-0 rounded-[3px]"
+      />
+    )
+  }
   const url = `url(${import.meta.env.BASE_URL}anbieter/${datei}.svg)`
   return (
     <span

@@ -4043,12 +4043,27 @@ export function DetailPanel({
                             06.11."). Die Angabe steht am Weg, weil sie zu ihm
                             gehört, nicht zum Titel.
                           */
-                          unten={
-                            g.eintraege[0].nurFolge
-                              ? t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
-                              : folgenAngabeFuer(
-                                  (title.streams ?? []).find((x) => x.url === g.eintraege[0].url),
-                                ) || undefined
+                          /*
+                            **Eine Folgenzahl nur, wo die deutsche Fassung an diesem Weg belegt ist.**
+
+                            „Amazon Prime (Crunchyroll) · 100 Fg." stand über „Dragon Quest: The
+                            Adventure of Dai" — der Kanal führt die Serie nur auf Japanisch (Daniel,
+                            16.09.2026, mit Bild; Crunchyrolls deutscher Katalog: 0 von 101 Folgen
+                            deutsch). Die Zahl stammte aus der Titelregel von `folgenAngabeFuer()`,
+                            die für Verweise mit `dub: true` gemessen war und hier ohne jeden Verweis
+                            griff. 160 Titel zeigten so eine Stream-Pille mit Folgenzahl, ohne dass
+                            dort Deutsch belegt war.
+
+                            Ohne Urteil also keine Zahl — und rechts das Zeichen, das der Kommentar
+                            darüber schon lange versprach: „DE ?", die ehrliche Antwort.
+                          */
+                          unten={(() => {
+                            if (g.eintraege[0].nurFolge) return t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
+                            const verweis = (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)
+                            return verweis?.dub === true ? folgenAngabeFuer(verweis) || undefined : undefined
+                          })()}
+                          rechts={
+                            <DubMark dub={(title.streams ?? []).find((x) => x.url === g.eintraege[0].url)?.dub} />
                           }
                         />
                       )),

@@ -6743,7 +6743,7 @@ function main(): void {
         also keine Nennung — genannt wird trotzdem, weil die Zeichen fremde Marken sind
         und der Leser wissen soll, woher sie stammen und wem sie gehören.
       */
-      'Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0; die Marken gehören ihren Inhabern',
+      'Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0, und Wikimedia Commons (https://commons.wikimedia.org) — gemeinfrei; die Marken gehören ihren Inhabern',
       /**
        * Pflicht, nicht Höflichkeit — und deshalb an dieselbe Zahl gebunden.
        *

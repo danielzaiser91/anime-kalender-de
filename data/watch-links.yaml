@@ -124,3 +124,18 @@
   sources:
     - https://store.maxdome.de/mo45189120
     - https://www.amazon.de/Okko-ihre-Geisterfreunde-Film-Blu-ray/dp/B07X5R7M5P
+
+# Dragon Quest: The Adventure of Dai — die deutsche Synchro (Rescue Film, München)
+# gibt es nicht im Stream: Crunchyroll führt die Serie im deutschen Katalog ohne
+# deutsche Folge (0 von 101, geprüft 22.08.2026), der Crunchyroll-Kanal bei Amazon
+# nur auf Japanisch (Daniel, 16.09.2026). Auf Disc ist sie belegt: „Sprachen:
+# Deutsch, Japanisch", Folgen 1–75, 12 DVDs, lieferbar (geprüft 16.09.2026).
+- anilistId: 114099
+  title: "Dragon Quest: The Adventure of Dai"
+  links:
+    - name: Animeversand
+      url: https://www.animeversand.shop/Dragon-Quest-The-Adventure-of-Dai-Staffel-1-Gesamtausgabe-Bundle-12-DVDs/ADV07511
+      kind: buy
+  sources:
+    - https://www.animeversand.shop/Dragon-Quest-The-Adventure-of-Dai-Staffel-1-Gesamtausgabe-Bundle-12-DVDs/ADV07511
+    - https://www.synchronkartei.de/serie/53682
