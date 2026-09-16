@@ -15,7 +15,7 @@ async function handler(req) {
     return Response.json({ region: process.env.VERCEL_REGION, crunchyroll: t.country })
   }
   let ziel
-  try { ziel = new URL(such.get('url') ?? '') } catch { return new Response('url fehlt', { status: 400 }) }
+  try { ziel = new URL(such.get('ziel') ?? '') } catch { return new Response('url fehlt', { status: 400 }) }
   if (ziel.protocol !== 'https:' || ziel.hostname !== 'beta-api.crunchyroll.com') return new Response('nur beta-api.crunchyroll.com', { status: 400 })
   const headers = new Headers({ 'User-Agent': UA })
   for (const n of ['authorization', 'content-type']) if (req.headers.get(n)) headers.set(n, req.headers.get(n))

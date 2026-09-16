@@ -118,11 +118,19 @@ jobs:
       - name: Browser installieren
         run: npx playwright install --with-deps chromium
 
+      # Frisches Zugangspaket über die Vercel-Weiche in Frankfurt (weiche-vercel/,
+      # 16.09.2026) — das Secret CR_ZUGANG bleibt nur Rückfall, es lebt 24 Stunden.
+      - name: Crunchyroll-Zugangspaket über die Weiche holen
+        continue-on-error: true
+        env:
+          CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
+        run: node tools/cr-zugang-holen.mjs --github-env
+
       - name: Crunchyroll-Serienseiten auf deutsche Tonspur
         env:
           # Ohne das Paket bricht der Lauf ab, statt still den US-Katalog zu
           # lesen. Es gilt 24 Stunden — ein Lauf braucht also ein frisches.
-          CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
+          CR_ZUGANG: ${{ env.CR_ZUGANG_FRISCH || secrets.CR_ZUGANG }}
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:cr-dub -- --limit ${{ inputs.limit }} --alter ${{ inputs.alter }}${{ inputs.nur_fehler && ' --nur-fehler' || '' }}
 

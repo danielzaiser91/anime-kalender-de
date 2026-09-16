@@ -38,13 +38,30 @@
  * Muss auf einem Rechner in Deutschland laufen. Kein Konto, keine
  * Anmeldedaten — das Token ist anonym.
  */
+import { appendFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
+
+/*
+  **In der Cloud über die Vercel-Weiche in Frankfurt** (16.09.2026, weiche-vercel/).
+  Mit CR_WEICHE_TOKEN gehen beide Abrufe über sie; das Paket entsteht dann auf
+  einem GitHub-Runner, ohne Daniels PC. `--github-env` legt es als
+  CR_ZUGANG_FRISCH für die folgenden Schritte ab (maskiert), statt es auszugeben.
+*/
+const WEICHE = process.env.CR_WEICHE ?? 'https://cr-weiche.vercel.app/api/cr'
+const WEICHE_TOKEN = process.env.CR_WEICHE_TOKEN
+const holen = (url, init = {}) => {
+  if (!WEICHE_TOKEN) return fetch(url, init)
+  return fetch(`${WEICHE}?ziel=${encodeURIComponent(url)}`, {
+    ...init,
+    headers: { ...init.headers, 'x-weiche-token': WEICHE_TOKEN },
+  })
+}
 
 const BASIS = 'https://beta-api.crunchyroll.com'
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
 
-const token = await fetch(`${BASIS}/auth/v1/token`, {
+const token = await holen(`${BASIS}/auth/v1/token`, {
   method: 'POST',
   headers: {
     authorization: 'Basic Y3Jfd2ViOg==',
@@ -59,7 +76,7 @@ if (token.country !== 'DE') {
   process.exit(1)
 }
 
-const index = await fetch(`${BASIS}/index/v2`, {
+const index = await holen(`${BASIS}/index/v2`, {
   headers: { authorization: `Bearer ${token.access_token}`, 'user-agent': UA },
 }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`index/v2: HTTP ${r.status}`))))
 
@@ -75,7 +92,13 @@ const paket = {
 
 console.log(`Zugangspaket für ${paket.land}, Bucket ${paket.bucket}, gültig bis ${paket.gueltig_bis}`)
 
-if (process.argv.includes('--secret')) {
+if (process.argv.includes('--github-env')) {
+  const wert = JSON.stringify(paket)
+  console.log(`::add-mask::${paket.signature}`)
+  console.log(`::add-mask::${paket.policy}`)
+  appendFileSync(process.env.GITHUB_ENV, `CR_ZUGANG_FRISCH=${wert}\n`)
+  console.log('Als CR_ZUGANG_FRISCH für die folgenden Schritte abgelegt.')
+} else if (process.argv.includes('--secret')) {
   execFileSync('gh', ['secret', 'set', 'CR_ZUGANG', '--body', JSON.stringify(paket)], { stdio: 'inherit' })
   console.log('Als Repo-Secret CR_ZUGANG abgelegt.')
 } else {

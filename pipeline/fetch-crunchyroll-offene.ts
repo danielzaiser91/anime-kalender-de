@@ -100,7 +100,7 @@ function crFetch(url: string, init: RequestInit = {}): Promise<Response> {
   if (!WEICHE_TOKEN) return fetch(url, init)
   const headers = new Headers(init.headers)
   headers.set('X-Weiche-Token', WEICHE_TOKEN)
-  return fetch(`${WEICHE}?url=${encodeURIComponent(url)}`, { ...init, headers })
+  return fetch(`${WEICHE}?ziel=${encodeURIComponent(url)}`, { ...init, headers })
 }
 
 async function holeToken(): Promise<string> {

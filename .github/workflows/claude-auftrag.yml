@@ -171,6 +171,13 @@ jobs:
           ' > /dev/null 2>&1 &
           echo "Hintergrund-Melder gestartet"
 
+      # Frisches Zugangspaket über die Vercel-Weiche in Frankfurt (weiche-vercel/,
+      # 16.09.2026) — das Secret CR_ZUGANG bleibt nur Rückfall, es lebt 24 Stunden.
+      - name: Crunchyroll-Zugangspaket über die Weiche holen
+        continue-on-error: true
+        env:
+          CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
+        run: node tools/cr-zugang-holen.mjs --github-env
 
       - uses: anthropics/claude-code-action@v1
         env:
@@ -180,7 +187,7 @@ jobs:
           # sie hier stehen. Am 21.08.2026 hat ein Auftrag deshalb die ganze
           # Anbindung gebaut und keinen einzigen Abruf zustande gebracht.
           STREAMING_API_KEY: ${{ secrets.STREAMING_API_KEY }}
-          CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
+          CR_ZUGANG: ${{ env.CR_ZUGANG_FRISCH || secrets.CR_ZUGANG }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         with:
