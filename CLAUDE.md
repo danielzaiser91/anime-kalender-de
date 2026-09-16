@@ -236,16 +236,22 @@ Zwei Folgen daraus:
   IP-Bindung: Ein Paket kann nur an Daniels Leitung entstehen, und die steht nicht unter
   GitHubs Kontrolle.
 
-- **Cloudflare gilt für Crunchyroll als Deutschland — die Weiche `worker-cr/` trägt den
-  deutschen Abruf in die Cloud** (16.09.2026). Ein Wegwerf-Worker bekam von
-  `auth/v1/token` `country: DE`, die Staffelliste von Fruits Basket stimmte mit der Messung
-  vom PC überein — auch ohne Placement (Ausgangs-IP `2a06:98c0:…`, `loc=DE`). Der Worker
-  `cr-weiche` steht trotzdem per Placement in Frankfurt, leitet nur an
-  `beta-api.crunchyroll.com` weiter und verlangt `X-Weiche-Token` (GitHub-Secret
-  `CR_WEICHE_TOKEN`). `data:cr-offene` nutzt ihn, sobald das Secret gesetzt ist; ohne läuft
-  er direkt wie auf Daniels PC. **Offen:** Dasselbe würde das tägliche Erneuern von
-  `CR_ZUGANG` ohne Daniels PC erlauben. `wrangler delete` scheitert mit unserem Token
-  („Memberships->Read"); gelöscht wird über `DELETE /accounts/<id>/workers/scripts/<name>`.
+- **Ein Cloudflare Worker macht einen Abruf nicht deutsch — er reicht das Land des Aufrufers
+  durch** (16.09.2026, verworfen nach Messung). Ein Worker in Frankfurt (Placement,
+  `colo=FRA`) bekam von `auth/v1/token` `DE`, solange **ich** ihn aufrief; vom GitHub-Runner
+  aus `US` bei unverändertem `colo=FRA` (`/cdn-cgi/trace`: `loc=US`), und ein **Cron** der
+  Weiche lief in Osaka mit `US` — wie die 606 Cron-Messungen des Newsletter-Workers seit dem
+  22.08. Cloudflare gibt bei Unteranfragen an Cloudflare-Zonen das Land der **eingehenden**
+  Anfrage weiter. Placement ändert den Ort, nicht das Land. Weiche (`cr-weiche`) und
+  Secret wieder entfernt.
+
+  **Was dabei trug:** Ein in Deutschland geholtes anonymes Token liefert auch vom US-Runner
+  den deutschen Katalog (`content/v2/cms/series/<id>/seasons`, Fairy Tail: DE-Token „DE",
+  US-Token „–"). Die Cloud braucht also nur ein frisches deutsches Token (1 Stunde) oder
+  das CMS-Paket (24 Stunden) — und beides entsteht bisher nur an Daniels Leitung.
+  Übrig bleiben ein deutscher Proxy oder ein Kleinserver (kostet Geld). `wrangler delete`
+  scheitert mit unserem Token („Memberships->Read"); gelöscht wird über
+  `DELETE /accounts/<id>/workers/scripts/<name>`, KV anlegen darf das Token nicht.
 
 - **Aus dem deutschen Katalog wird ein fehlendes `de-DE` zum Beleg — aus keinem anderen.** Seit
   dem 22.08.2026 läuft `data:cr-dub` über die beta-api mit diesem Paket, und jeder Eintrag trägt
