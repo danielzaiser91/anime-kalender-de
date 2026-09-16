@@ -2205,24 +2205,57 @@ function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; data: Data
           ) : vorschlaege.length === 0 ? (
             <p className="text-sm text-slate-400">{t('detail.aehnlichKeine')}</p>
           ) : (
-            <ul className="flex flex-col gap-1">
+            /*
+              **Kacheln statt Zeilen — das Bild und die Gemeinsamkeit lösen den Klick aus.**
+
+              Vorher: ein 28×40-Pixel-Cover und darunter „gemeinsam: Real Robot,
+              Roboter, Mecha" als grauer Fließtext. Daniel am 16.09.2026, mit Bild:
+              „nutzer sind interessiert wenn das bild oder die gemeinsamkeiten dem
+              geschmack passen. also entsprechend diese beiden hervorheben."
+
+              Also beides größer: Poster im Format 2:3 mit 96 px Breite (dreimal so
+              viel Fläche wie zuvor) und die Merkmale als Chips statt als Aufzählung.
+              Zwei Kacheln je Reihe passen in die 32 rem des Panels, ohne dass ein
+              Titel abgeschnitten wird; bei fünf Vorschlägen sind das drei Reihen.
+
+              Genre und Keyword tragen verschiedene Farben: Das Genre sagt, was für
+              ein Werk es ist, das Keyword, was darin vorkommt — zwei Fragen, die
+              man beim Überfliegen auseinanderhalten können soll.
+            */
+            <ul className="grid grid-cols-2 gap-1.5">
               {vorschlaege.map((v) => (
                 <li key={v.title.id}>
                   <button
                     type="button"
                     onClick={() => onOpenTitle(v.title.id)}
-                    className="flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-1.5 py-1 text-left transition hover:bg-slate-100 dark:hover:bg-white/5"
+                    className="flex h-full w-full cursor-pointer flex-col gap-1.5 rounded-lg p-1.5 text-left transition hover:bg-slate-100 dark:hover:bg-white/5"
                   >
                     {v.title.coverImage ? (
-                      <img src={v.title.coverImage} alt="" loading="lazy" className="h-10 w-7 shrink-0 rounded object-cover" />
+                      <img
+                        src={v.title.coverImage}
+                        alt=""
+                        loading="lazy"
+                        className="h-[136px] w-24 shrink-0 rounded-md object-cover shadow-sm"
+                      />
                     ) : (
-                      <span className="h-10 w-7 shrink-0 rounded bg-slate-200 dark:bg-white/10" />
+                      <span className="h-[136px] w-24 shrink-0 rounded-md bg-slate-200 dark:bg-white/10" />
                     )}
-                    <span className="min-w-0">
-                      <span className="block truncate text-sm text-slate-700 dark:text-slate-200">{anzeigeName(v.title)}</span>
-                      <span className="block truncate text-[11px] text-slate-400">
-                        {t('detail.aehnlichGemeinsam', { merkmale: [...new Set(v.gemeinsam.map(merkmalName))].join(', ') })}
-                      </span>
+                    <span className="line-clamp-2 text-sm font-medium leading-snug text-slate-700 dark:text-slate-200">
+                      {anzeigeName(v.title)}
+                    </span>
+                    <span className="flex flex-wrap gap-1">
+                      {[...new Set(v.gemeinsam)].map((m) => (
+                        <span
+                          key={m}
+                          className={
+                            m.startsWith('g:')
+                              ? 'rounded bg-sky-500/10 px-1.5 py-px text-[10px] font-medium text-sky-700 dark:bg-sky-400/15 dark:text-sky-300'
+                              : 'rounded bg-slate-500/10 px-1.5 py-px text-[10px] text-slate-600 dark:bg-white/10 dark:text-slate-300'
+                          }
+                        >
+                          {merkmalName(m)}
+                        </span>
+                      ))}
                     </span>
                   </button>
                 </li>
