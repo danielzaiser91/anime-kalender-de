@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-15T09:25:42.642Z",
+  "scrapedAt": "2026-09-16T10:12:17.185Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -145803,6 +145803,3352 @@
           "staffelId": "GR2PCVZM5",
           "folgen": 1,
           "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G24H1NZXD/ikki-tousen",
+      "seriesId": "G24H1NZXD",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Ikki Tousen: Dragon Destiny",
+          "staffelId": "G6MGC3J4Q",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GJWU2M393",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GN7UDZE2Q",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GMKUXZ2QG",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G31UXP1W4",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G2XU02KGX",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G8WUNDX1V",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GD9UVNK3V",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GG1U2M9NK",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G0DUN3PKQ",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GX9UQDXW9",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G4VUQ39VE",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GJWU2M303",
+              "verfuegbarAb": "2021-02-04T07:59:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Ikki Tousen: Great Guardians",
+          "staffelId": "GYGGCVMDK",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GK9U3435V",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G50UZ4Z7N",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GG1U2E232",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G0DUN0N5M",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G9DUEPE1K",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GX9UQ7QPN",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G14U4E4WX",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GN7UD7DPG",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GK9U34355",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G31UX3X0G",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GZ7UVXV0E",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GQJUG9G1N",
+              "verfuegbarAb": "2021-11-25T07:59:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Ikki Tousen: OVA Season 1",
+          "staffelId": "GR2PCV3MM",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 3,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GX9UQGQP4",
+              "verfuegbarAb": "2022-06-28T21:30:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G4VUQJQEQ",
+              "verfuegbarAb": "2022-07-05T21:30:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G14U404WV",
+              "verfuegbarAb": "2022-07-12T21:30:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G3KHEVMN1/tokyo-revengers",
+      "seriesId": "G3KHEVMN1",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Tokyo Revengers",
+          "staffelId": "GYE5CQ5N2",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G7PU4WGJW",
+              "verfuegbarAb": "2021-05-29T21:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GN7UDW5PJ",
+              "verfuegbarAb": "2021-06-05T21:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G0DUN939X",
+              "verfuegbarAb": "2021-06-12T21:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GEVUZ8PN1",
+              "verfuegbarAb": "2021-06-19T21:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GX9UQKKK2",
+              "verfuegbarAb": "2021-06-26T21:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GN7UDWW4P",
+              "verfuegbarAb": "2021-07-03T21:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G50UZE483",
+              "verfuegbarAb": "2021-07-10T21:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GPWUK0EM9",
+              "verfuegbarAb": "2021-07-17T21:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G7PU4WZP3",
+              "verfuegbarAb": "2021-07-24T21:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G31UX7DJ8",
+              "verfuegbarAb": "2021-07-31T21:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GX9UQKG5G",
+              "verfuegbarAb": "2021-08-07T21:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GG1U2D947",
+              "verfuegbarAb": "2021-08-14T21:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GJWU2JZ03",
+              "verfuegbarAb": "2021-08-21T21:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G50UZE5Q7",
+              "verfuegbarAb": "2021-08-28T21:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GD9UV28ZG",
+              "verfuegbarAb": "2021-09-04T21:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G2XU05D50",
+              "verfuegbarAb": "2021-09-11T21:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GVWU0P498",
+              "verfuegbarAb": "2021-09-18T21:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GX9UQKJ92",
+              "verfuegbarAb": "2021-09-25T21:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GWDU8PJDK",
+              "verfuegbarAb": "2021-10-02T21:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G2XU0574N",
+              "verfuegbarAb": "2021-10-09T21:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GWDU8KV9W",
+              "verfuegbarAb": "2021-10-16T21:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GZ7UVX3M1",
+              "verfuegbarAb": "2021-10-23T21:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GK9U3421P",
+              "verfuegbarAb": "2021-10-30T21:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G0DUN0XEW",
+              "verfuegbarAb": "2021-11-06T21:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G4PH0WE7E/dimension-w",
+      "seriesId": "G4PH0WE7E",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Dimension W",
+          "staffelId": "GRE5CQKMV",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GG1U2G8ZM",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GEVUZE9NG",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G7PU49QJ0",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G4VUQ2N89",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GJWU2VZEV",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GN7UD4QVV",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GVWU09K4M",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GPWUKGPZJ",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G2XU0QE4V",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GZ7UV4Z2D",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GQJUG2KV8",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GWDU8D1EN",
+              "verfuegbarAb": "2023-02-25T01:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G4PH0WP4K/the-rolling-girls",
+      "seriesId": "G4PH0WP4K",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G63K4W296/space-dandy",
+      "seriesId": "G63K4W296",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Space Dandy",
+          "staffelId": "G6P57PKJ6",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 26,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GJWU254E4",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GN7UDP5VZ",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GK9U357D8",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GWDU85NQG",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GEVUZ45NM",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G9DUE1WG3",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G4VUQEP81",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GN7UDP52X",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GK9U357M2",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G31UX0MWV",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G2XU08Z4P",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GZ7UV0N2N",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GQJUGP4VE",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G50UZ7JX4",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GG1U23743",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GEVUZ45XM",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G7PU4XKMQ",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "G9DUE1W53",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GJWU2549W",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GK9U357K2",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GVWU0QD70",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GPWUK1WVM",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G8WUN491K",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "GD9UVP43N",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GQJUGP43E",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            },
+            {
+              "nummer": 26,
+              "guid": "GWDU85NJG",
+              "verfuegbarAb": "2022-05-10T17:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G6VDWKM76/persona5-the-animation",
+      "seriesId": "G6VDWKM76",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "PERSONA5 the Animation",
+          "staffelId": "GY3K1EW9Y",
+          "folgen": 26,
+          "kacheln": 28,
+          "deutsch": 26,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G2XU08EQE",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G8WUN4ZMM",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GZ7UV0Z41",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GD9UVP5XQ",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GQJUGPK23",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G50UZ7Q50",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GEVUZ49NZ",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G9DUE18G4",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GX9UQP5Z8",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G4VUQEN8G",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GJWU25ZEM",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GMKUX8KGW",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GPWUK1PD7",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G8WUN4Z0M",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GD9UVP58Q",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G50UZ7Q10",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G0DUN57DX",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "G9DUE1854",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GX9UQP5J8",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G14U4WN98",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GK9U351M4",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GVWU0QKWQ",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GPWUK1PZ7",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G2XU08E4E",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GD9UVP5QQ",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 26,
+              "guid": "G50UZ7QX0",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 1,
+              "guid": "GG1U238N5",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G9DUE1GXW",
+              "verfuegbarAb": "2022-06-15T11:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GP5HJ80VJ/how-heavy-are-the-dumbbells-you-lift",
+      "seriesId": "GP5HJ80VJ",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "(DE) How Heavy Are the Dumbbells You Lift?",
+          "staffelId": "GYK5CNZ4X",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G7PU4V3MJ",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G9DUEP955",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G4VUQXW15",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GJWU2XQ07",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GK9U34GK3",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GMKUX4EPE",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GPWUK58V3",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G8WUNW71D",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GD9UVWE3W",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G50UZ4MV7",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GG1U2EXN9",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GEVUZGWDE",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GR24GX896/kabaneri-of-the-iron-fortress",
+      "seriesId": "GR24GX896",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Kabaneri of the Iron Fortress",
+          "staffelId": "GY8D4WE7Y",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G14U4N2ED",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GJWU2Z8XZ",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GN7UDQG74",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G50UZQW4X",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GG1U280EJ",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GEVUZ9KK3",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G9DUE877E",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G4VUQNZZD",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G14U4N22Z",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GN7UDQGG5",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GK9U31QQZ",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GMKUXKWW5",
+              "verfuegbarAb": "2022-11-17T18:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Kabaneri of the Iron Fortress Compilation Movies",
+          "staffelId": "GYG5Q127Y",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GD9UV5DDX",
+              "verfuegbarAb": "2022-11-24T18:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GQJUGK77Q",
+              "verfuegbarAb": "2022-11-24T18:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd",
+      "seriesId": "GR2P21J9R",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "High School DxD",
+          "staffelId": "GY8VZ1P7Y",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G6ME9J87R",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G63K20746",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GR243G1P6",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GRZJNE246",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G6QWVDKQ6",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GYW47WZ06",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GR0XN51WY",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GR79EX7Z6",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G6XJXG18R",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GY1XMWNEY",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GYQWVDK7Y",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GRW47WZ3Y",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "High School DxD NEW",
+          "staffelId": "GYQ42MZE6",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 13,
+              "guid": "GREXNGKVY",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G69V41MVY",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "G64PZEM1R",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G6J05X12R",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G6KEG4XM6",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GRVD05E4R",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "G6P5KMX96",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GY8D94X7Y",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GRDK1WN3Y",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "G65P57X76",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GYG53E93Y",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "GYEXNGPV6",
+              "verfuegbarAb": "2020-08-17T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "High School DxD BorN",
+          "staffelId": "G6X05VP5Y",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GWDU89V18",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GG1U2MW8X",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G0DUN3G7Z",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G7PU45PQG",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G4VUQ3KNM",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GJWU2MNZ8",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GMKUXZ9K2",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GVWU0VNKK",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GPWUKQNPD",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G8WUND3Z1",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GQJUGDN20",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GWDU89VD8",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "High School DxD Hero",
+          "staffelId": "GRZJ7W8D6",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GEVUZPJEV",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G7PU45P9G",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G9DUEXZ3W",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G14U43QME",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GN7UDZX4P",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GMKUXZ9V2",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GVWU0VN9K",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GPWUKQNGD",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GZ7UV7Q4G",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G50UZ2K1D",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GWDU89VQ8",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G0DUN3GJZ",
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GR3KVPQER/cells-at-work",
+      "seriesId": "GR3KVPQER",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Cells at Work!",
+          "staffelId": "GRP58G4GR",
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 14,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GG1U23Q82",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G0DUN517M",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GEVUZ4290",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G7PU4XZQN",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G9DUE1Q8K",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GX9UQPG5N",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G4VUQEJN3",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G14U4W0NX",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GN7UDP9QG",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GMKUX87K7",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G31UX0DGG",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GPWUK14PG",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G2XU08WED",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GD9UVPJ5M",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Cells at Work!!",
+          "staffelId": "GRE5CQ5G8",
+          "folgen": 8,
+          "kacheln": 8,
+          "deutsch": 8,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GX9UQZQ88",
+              "verfuegbarAb": "2023-04-22T00:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G4VUQ8Q4G",
+              "verfuegbarAb": "2023-04-22T00:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G14U4G4Z8",
+              "verfuegbarAb": "2023-04-22T00:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GJWU2E2DM",
+              "verfuegbarAb": "2023-04-22T00:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GN7UDVD3W",
+              "verfuegbarAb": "2023-04-22T00:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GMKUXGXDW",
+              "verfuegbarAb": "2023-04-22T00:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GPWUKDK27",
+              "verfuegbarAb": "2023-04-22T00:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G8WUN0NQM",
+              "verfuegbarAb": "2023-04-22T00:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GR751KNZY/attack-on-titan",
+      "seriesId": "GR751KNZY",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Attack on Titan Season 2",
+          "staffelId": "GYE58GMXR",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 26,
+              "guid": "GZ7UVX4XE",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 27,
+              "guid": "GD9UVWXWM",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 28,
+              "guid": "GQJUG927N",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 29,
+              "guid": "G50UZ45WN",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 30,
+              "guid": "GG1U2EG02",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 31,
+              "guid": "G0DUN084M",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 32,
+              "guid": "GEVUZGEK0",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 33,
+              "guid": "G9DUEP37K",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 34,
+              "guid": "G4VUQX2Z3",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 35,
+              "guid": "G14U4EM2X",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 36,
+              "guid": "GJWU2XV8X",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            },
+            {
+              "nummer": 37,
+              "guid": "GN7UD74GG",
+              "verfuegbarAb": "2022-02-08T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Attack on Titan Season 3",
+          "staffelId": "GRG5GZZ3R",
+          "folgen": 22,
+          "kacheln": 22,
+          "deutsch": 22,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 38,
+              "guid": "GPWUK5G1W",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 39,
+              "guid": "G2XU03Q82",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 40,
+              "guid": "G8WUNWM42",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 41,
+              "guid": "GZ7UVX40X",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 42,
+              "guid": "GD9UVWXPD",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 43,
+              "guid": "G50UZ4579",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 44,
+              "guid": "GWDU8KD5X",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 45,
+              "guid": "GG1U2EG38",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 46,
+              "guid": "GEVUZGE4N",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 47,
+              "guid": "G7PU4V9XM",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 48,
+              "guid": "G9DUEP31M",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 49,
+              "guid": "GX9UQ70PE",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 50,
+              "guid": "G4VUQX2JK",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 51,
+              "guid": "G14U4EM0J",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 52,
+              "guid": "GJWU2XVG1",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 53,
+              "guid": "GK9U34X0G",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 54,
+              "guid": "GVWU0Z95G",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 55,
+              "guid": "G31UX39D5",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 56,
+              "guid": "G8WUNWM82",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 57,
+              "guid": "GQJUG921P",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 58,
+              "guid": "GWDU8KDWX",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            },
+            {
+              "nummer": 59,
+              "guid": "GG1U2EGQ8",
+              "verfuegbarAb": "2022-02-10T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Attack on Titan Final Season",
+          "staffelId": "G69PC2WV0",
+          "folgen": 30,
+          "kacheln": 30,
+          "deutsch": 30,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 60,
+              "guid": "GMKUX80Q0",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 61,
+              "guid": "GVWU0Q1WG",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 62,
+              "guid": "GPWUK1MZW",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 63,
+              "guid": "G8WUN45G2",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 64,
+              "guid": "GZ7UV092X",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 65,
+              "guid": "GQJUGPWVP",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 66,
+              "guid": "GWDU850EX",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 67,
+              "guid": "G0DUN5ZD8",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 68,
+              "guid": "GEVUZ40XN",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 69,
+              "guid": "G7PU4X8MM",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 70,
+              "guid": "GX9UQP2JE",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 71,
+              "guid": "G14U4W51J",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 72,
+              "guid": "GJWU25K01",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 73,
+              "guid": "G50UZ7GVG",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 74,
+              "guid": "GG1U231NK",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 75,
+              "guid": "G0DUN5ZKQ",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 76,
+              "guid": "G9DUE14MP",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 77,
+              "guid": "GX9UQP2W9",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 78,
+              "guid": "GN7UDP01Q",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 79,
+              "guid": "GMKUX80PG",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 80,
+              "guid": "G31UX0844",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 81,
+              "guid": "G9DUE1VV2",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 82,
+              "guid": "GX9UQP88Q",
+              "verfuegbarAb": "2022-04-26T16:00:00Z"
+            },
+            {
+              "nummer": 83,
+              "guid": "GEVUZ4135",
+              "verfuegbarAb": "2022-05-03T16:00:00Z"
+            },
+            {
+              "nummer": 84,
+              "guid": "G9DUE1W9X",
+              "verfuegbarAb": "2022-05-10T16:00:00Z"
+            },
+            {
+              "nummer": 85,
+              "guid": "GPWUK1Q1N",
+              "verfuegbarAb": "2022-05-17T16:00:00Z"
+            },
+            {
+              "nummer": 86,
+              "guid": "GWDU85GZV",
+              "verfuegbarAb": "2022-05-24T16:00:00Z"
+            },
+            {
+              "nummer": 87,
+              "guid": "GVWU0Q5VZ",
+              "verfuegbarAb": "2022-05-31T16:00:00Z"
+            },
+            {
+              "nummer": 1,
+              "guid": "GJWU294XK",
+              "verfuegbarAb": "2023-09-11T05:30:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GK9U3KW5J",
+              "verfuegbarAb": "2024-01-08T05:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Attack on Titan OADs",
+          "staffelId": "GY3VC2P34",
+          "folgen": 8,
+          "kacheln": 8,
+          "deutsch": 8,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G8WUNZNPW",
+              "verfuegbarAb": "2022-10-19T19:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GK9U31P7J",
+              "verfuegbarAb": "2022-10-26T19:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G2XU0EM41",
+              "verfuegbarAb": "2022-11-02T19:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GEVUZ98J5",
+              "verfuegbarAb": "2022-11-09T20:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GQJUGK7EW",
+              "verfuegbarAb": "2022-11-16T20:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G8WUNZ8X4",
+              "verfuegbarAb": "2022-11-23T20:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G0DUN77E1",
+              "verfuegbarAb": "2022-11-30T20:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GEVUZ9N5J",
+              "verfuegbarAb": "2022-12-07T20:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Attack on Titan: THE LAST ATTACK",
+          "staffelId": "G6JQC1E10",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G31UVEN1E",
+              "verfuegbarAb": "2025-04-18T00:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRP585ZQR/code-geass---akito-the-exiled",
+      "seriesId": "GRP585ZQR",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Code Geass - Akito the Exiled",
+          "staffelId": "G6K5CNZ35",
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 5,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GPWUKVJQJ",
+              "verfuegbarAb": "2022-12-12T19:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G2XU0G12V",
+              "verfuegbarAb": "2022-12-12T19:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G8WUN1VDN",
+              "verfuegbarAb": "2022-12-12T19:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GZ7UVE37D",
+              "verfuegbarAb": "2022-12-12T19:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GD9UV3ZN7",
+              "verfuegbarAb": "2022-12-12T19:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GY2P9ED0Y/code-geass",
+      "seriesId": "GY2P9ED0Y",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Code Geass: Lelouch of the Rebellion",
+          "staffelId": "GYE5CQP30",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GQJUG2D3M",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G50UZ52VG",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GG1U2GMNK",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G0DUN83KQ",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G7PU4951W",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GX9UQ0DW9",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G14U4M310",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GN7UD4Z1Q",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G50UZ52V1",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GG1U2GMNN",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GEVUZEP7J",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G9DUE3X02",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GX9UQ0DEQ",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G14U4M375",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GK9U3XZE7",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GVWU09VMP",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GPWUKGQ9E",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "G8WUNMDJ8",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GD9UVXNM5",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GQJUG2D52",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GWDU8D92E",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "G0DUN8322",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GX9UQ0K1Q",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G14U4MXQ5",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GJWU2VJND",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Code Geass: Lelouch of the Rebellion R2",
+          "staffelId": "GR75CD52N",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G31UX97K3",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GPWUKG0NE",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G2XU0Q5X8",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GZ7UV4PQK",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GD9UVX295",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GQJUG2EN2",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GWDU8DPVE",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GEVUZE83J",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G9DUE3DN2",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GX9UQ0KMQ",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G4VUQ2M0W",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G14U4MXJ5",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GJWU2VJ7D",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GN7UD4WK8",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GK9U3X827",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GMKUXV5MZ",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G8WUNM2V8",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "G50UZ5EN1",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "G0DUN89W2",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GX9UQ0K4Q",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "G14U4MXP5",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GN7UD4WJ8",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GK9U3X8N7",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "GVWU09P2P",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "G2XU0Q5V8",
+              "verfuegbarAb": "2023-09-19T15:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GY2PW178Y/keijo",
+      "seriesId": "GY2PW178Y",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Keijo!!!!!!!!",
+          "staffelId": "G68VJ1N96",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GVWU05PP7",
+              "verfuegbarAb": "2016-10-07T06:59:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G31UXD77N",
+              "verfuegbarAb": "2016-10-14T06:59:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GPWUK405N",
+              "verfuegbarAb": "2016-10-21T06:59:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G2XU0W531",
+              "verfuegbarAb": "2016-10-28T06:59:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G8WUN82WP",
+              "verfuegbarAb": "2016-11-04T06:59:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GZ7UV8PXV",
+              "verfuegbarAb": "2016-11-11T07:59:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GD9UVJ2WE",
+              "verfuegbarAb": "2016-11-18T07:59:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G50UZ9E43",
+              "verfuegbarAb": "2016-11-25T07:59:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GG1U2QDE7",
+              "verfuegbarAb": "2016-12-02T07:59:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G0DUN1903",
+              "verfuegbarAb": "2016-12-09T07:59:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G7PU4ZWVV",
+              "verfuegbarAb": "2016-12-16T07:59:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G9DUEQDP7",
+              "verfuegbarAb": "2016-12-23T07:59:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GY8VM8MWY/haikyu",
+      "seriesId": "GY8VM8MWY",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "HAIKYU!!",
+          "staffelId": "G63VC232D",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G31UX00WM",
+              "verfuegbarAb": "2014-04-06T09:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G2XU08845",
+              "verfuegbarAb": "2014-04-13T09:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G8WUN44GW",
+              "verfuegbarAb": "2014-04-20T09:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GD9UVPPQP",
+              "verfuegbarAb": "2014-04-27T09:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G50UZ77XP",
+              "verfuegbarAb": "2014-05-04T09:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GG1U2334G",
+              "verfuegbarAb": "2014-05-11T09:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GEVUZ44XX",
+              "verfuegbarAb": "2014-05-18T09:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G7PU4XXM1",
+              "verfuegbarAb": "2014-05-25T09:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GX9UQPPW1",
+              "verfuegbarAb": "2014-06-01T09:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GJWU25502",
+              "verfuegbarAb": "2014-06-08T09:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GN7UDPP1N",
+              "verfuegbarAb": "2014-06-15T09:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GMKUX88PD",
+              "verfuegbarAb": "2014-06-22T09:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G31UX004M",
+              "verfuegbarAb": "2014-06-29T09:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GPWUK11VQ",
+              "verfuegbarAb": "2014-07-06T09:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "G2XU088G5",
+              "verfuegbarAb": "2014-07-13T09:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GZ7UV00EJ",
+              "verfuegbarAb": "2014-07-20T09:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G50UZ77VP",
+              "verfuegbarAb": "2014-07-27T09:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GG1U233NG",
+              "verfuegbarAb": "2014-08-03T09:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GEVUZ44DX",
+              "verfuegbarAb": "2014-08-10T09:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G9DUE11M0",
+              "verfuegbarAb": "2014-08-17T09:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "G4VUQEE50",
+              "verfuegbarAb": "2014-08-24T09:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "G14U4WW7P",
+              "verfuegbarAb": "2014-08-31T09:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GJWU255W2",
+              "verfuegbarAb": "2014-09-07T09:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "GK9U355EW",
+              "verfuegbarAb": "2014-09-14T09:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GMKUX881D",
+              "verfuegbarAb": "2014-09-21T09:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "HAIKYU!! 2nd Season",
+          "staffelId": "G6P8CX5X7",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GEVUZ447X",
+              "verfuegbarAb": "2015-10-03T09:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G7PU4XX71",
+              "verfuegbarAb": "2015-10-10T09:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G9DUE1100",
+              "verfuegbarAb": "2015-10-17T09:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GX9UQPG11",
+              "verfuegbarAb": "2015-10-24T09:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G14U4W0QP",
+              "verfuegbarAb": "2015-10-31T09:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GJWU25GN2",
+              "verfuegbarAb": "2015-11-07T10:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GN7UDP9XN",
+              "verfuegbarAb": "2015-11-14T10:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GK9U350VW",
+              "verfuegbarAb": "2015-11-21T10:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GMKUX879D",
+              "verfuegbarAb": "2015-11-28T10:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G8WUN483W",
+              "verfuegbarAb": "2015-12-05T10:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GD9UVPJ9P",
+              "verfuegbarAb": "2015-12-12T10:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G50UZ79KP",
+              "verfuegbarAb": "2015-12-19T10:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G0DUN51GJ",
+              "verfuegbarAb": "2015-12-26T10:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GEVUZ42JX",
+              "verfuegbarAb": "2016-01-09T10:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GX9UQPGM1",
+              "verfuegbarAb": "2016-01-16T10:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G4VUQEJ00",
+              "verfuegbarAb": "2016-01-23T10:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GJWU25G72",
+              "verfuegbarAb": "2016-01-30T10:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GK9U3502W",
+              "verfuegbarAb": "2016-02-06T10:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GWDU85WM4",
+              "verfuegbarAb": "2016-02-13T10:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G0DUN51W3",
+              "verfuegbarAb": "2016-02-20T10:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GEVUZ4238",
+              "verfuegbarAb": "2016-02-27T10:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "G9DUE1QN7",
+              "verfuegbarAb": "2016-03-05T10:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GX9UQPGMP",
+              "verfuegbarAb": "2016-03-12T10:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G14U4W0JD",
+              "verfuegbarAb": "2016-03-19T09:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GK9U3502D",
+              "verfuegbarAb": "2016-03-26T09:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "HAIKYU!! 3rd Season",
+          "staffelId": "GR2PCV3VE",
+          "folgen": 10,
+          "kacheln": 10,
+          "deutsch": 10,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G14U4W0XZ",
+              "verfuegbarAb": "2016-10-07T09:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GJWU25GJP",
+              "verfuegbarAb": "2016-10-14T09:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GN7UDP9W5",
+              "verfuegbarAb": "2016-10-21T09:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GK9U3508Z",
+              "verfuegbarAb": "2016-10-28T09:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GWDU85WPK",
+              "verfuegbarAb": "2016-11-04T09:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GEVUZ4282",
+              "verfuegbarAb": "2016-11-11T10:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G9DUE1QD8",
+              "verfuegbarAb": "2016-11-18T10:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GX9UQPGK0",
+              "verfuegbarAb": "2016-11-25T10:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G14U4W0X9",
+              "verfuegbarAb": "2016-12-02T10:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GN7UDP9WM",
+              "verfuegbarAb": "2016-12-09T10:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "HAIKYU!! TO THE TOP",
+          "staffelId": "GY8VCPWPM",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GX9UQPGP0",
+              "verfuegbarAb": "2020-01-10T14:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G4VUQEJE8",
+              "verfuegbarAb": "2020-01-17T14:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GN7UDP9PM",
+              "verfuegbarAb": "2020-01-24T14:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GMKUX877M",
+              "verfuegbarAb": "2020-01-31T14:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G31UX0DDX",
+              "verfuegbarAb": "2020-02-07T14:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GPWUK1448",
+              "verfuegbarAb": "2020-02-14T14:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GZ7UV088W",
+              "verfuegbarAb": "2020-02-21T14:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GD9UVPJJ4",
+              "verfuegbarAb": "2020-02-28T14:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G50UZ799E",
+              "verfuegbarAb": "2020-03-06T14:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G0DUN5115",
+              "verfuegbarAb": "2020-03-13T13:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GEVUZ4222",
+              "verfuegbarAb": "2020-03-20T13:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G9DUE1QQ8",
+              "verfuegbarAb": "2020-03-27T13:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G4VUQEJJ8",
+              "verfuegbarAb": "2020-04-03T13:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GJWU25GG0",
+              "verfuegbarAb": "2020-10-02T13:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GK9U350JV",
+              "verfuegbarAb": "2020-10-09T13:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GWDU85WX3",
+              "verfuegbarAb": "2020-10-16T13:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G0DUN51PM",
+              "verfuegbarAb": "2020-10-23T13:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "G7PU4XZEN",
+              "verfuegbarAb": "2020-10-30T13:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GX9UQPGXN",
+              "verfuegbarAb": "2020-11-06T14:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G4VUQEJ93",
+              "verfuegbarAb": "2020-11-13T14:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GN7UDP9EG",
+              "verfuegbarAb": "2020-11-20T14:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GMKUX8727",
+              "verfuegbarAb": "2020-11-27T14:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G31UX0D1G",
+              "verfuegbarAb": "2020-12-04T14:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G2XU08WKD",
+              "verfuegbarAb": "2020-12-11T14:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GZ7UV08KE",
+              "verfuegbarAb": "2020-12-18T14:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "HAIKYU!! OVAs",
+          "staffelId": "GR09CX0NX",
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 5,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G31UX00NM",
+              "verfuegbarAb": "2022-06-01T09:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GVWU0Q5X7",
+              "verfuegbarAb": "2022-06-01T09:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GPWUK14GG",
+              "verfuegbarAb": "2022-06-01T09:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G14U4W0W9",
+              "verfuegbarAb": "2020-01-10T14:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GJWU25G50",
+              "verfuegbarAb": "2020-01-10T14:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Haikyu!! The Dumpster Battle",
+          "staffelId": "GRP8CXGQQ",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GG1UXWG5M",
+              "verfuegbarAb": "2024-10-31T09:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure",
+      "seriesId": "GYP8DP1MY",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-09-16",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "JoJo's Bizarre Adventure",
+          "staffelId": "G62P15W86",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 26,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G7PU4V4ND",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G9DUEPEVE",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GX9UQ7Q83",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G14U4E4ZZ",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GN7UD7D35",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GMKUX4XD5",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GVWU0Z0GZ",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G2XU030PW",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GZ7UVXV5Z",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GQJUG9G8Q",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G50UZ4Z3X",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GG1U2E2PJ",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G7PU4V4GD",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GX9UQ7QV3",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "G14U4E4KZ",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GN7UD7D85",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GMKUX4XN5",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GPWUK5K31",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "G2XU030MW",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GD9UVWV1X",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GQJUG9GXQ",
+              "verfuegbarAb": "2021-11-18T17:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GQJUG9DX5",
+              "verfuegbarAb": "2022-01-13T17:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G50UZ428K",
+              "verfuegbarAb": "2022-01-13T17:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "GWDU8K94M",
+              "verfuegbarAb": "2022-01-13T17:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GG1U2EMKV",
+              "verfuegbarAb": "2022-01-13T17:00:00Z"
+            },
+            {
+              "nummer": 26,
+              "guid": "G0DUN03VN",
+              "verfuegbarAb": "2022-01-13T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "JoJo's Bizarre Adventure Re-Edited",
+          "staffelId": "GRVN3MKXY",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "JoJo's Bizarre Adventure: Stardust Crusaders",
+          "staffelId": "G6Q4K93ZR",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GN7UDP0X4",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GK9U35WVD",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GMKUX809Q",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G31UX08KN",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G2XU08911",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G8WUN45VP",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GZ7UV093V",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GD9UVP7ZE",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G50UZ7GN3",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GG1U23157",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G0DUN5ZW3",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G7PU4X82V",
+              "verfuegbarAb": "2022-04-21T16:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GK9U3588G",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G31UX0775",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "G2XU08552",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GZ7UV0PPX",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GQJUGPEEP",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GWDU85PPX",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GEVUZ488N",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G9DUE1DDM",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GX9UQPKKE",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GJWU25JX1",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "GK9U3584G",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "GWDU85PKZ",
+              "verfuegbarAb": "2022-05-19T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "JoJo's Bizarre Adventure: Stardust Crusaders - Battle in Egypt",
+          "staffelId": "GRE51M7G6",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 25,
+              "guid": "G14U4W93X",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 26,
+              "guid": "GJWU259MX",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 27,
+              "guid": "GN7UDP2ZG",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 28,
+              "guid": "GK9U35MZ5",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 29,
+              "guid": "GMKUX8QZ7",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 30,
+              "guid": "GVWU0QWVE",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 31,
+              "guid": "G31UX0WPG",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 32,
+              "guid": "GZ7UV027E",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 33,
+              "guid": "GQJUGPVEN",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 34,
+              "guid": "G50UZ7XEN",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 35,
+              "guid": "GWDU85EP3",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 36,
+              "guid": "GG1U234D2",
+              "verfuegbarAb": "2022-06-16T16:00:00Z"
+            },
+            {
+              "nummer": 37,
+              "guid": "G7PU4ZN3D",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 38,
+              "guid": "G9DUEQV9E",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 39,
+              "guid": "GX9UQG833",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 40,
+              "guid": "G14U40ZVZ",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 41,
+              "guid": "GN7UD93N5",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 42,
+              "guid": "GK9U30PGZ",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 43,
+              "guid": "GVWU05G8Z",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 44,
+              "guid": "GPWUK4281",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 45,
+              "guid": "G2XU0WPNW",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 46,
+              "guid": "GZ7UV85DZ",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 47,
+              "guid": "GQJUG18MQ",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            },
+            {
+              "nummer": 48,
+              "guid": "G50UZ93MX",
+              "verfuegbarAb": "2022-07-21T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "JoJo's Bizarre Adventure: Diamond is Unbreakable",
+          "staffelId": "GRZX241XY",
+          "folgen": 39,
+          "kacheln": 39,
+          "deutsch": 39,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GG1U282EJ",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G0DUN7N4G",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GEVUZ9ZK3",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G9DUE8E7E",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GX9UQ5Q93",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G14U4N42Z",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GN7UDQDG5",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GK9U313QZ",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GWDU818GK",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GG1U28200",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G0DUN7N45",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G7PU4Q40E",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GX9UQ5Q90",
+              "verfuegbarAb": "2022-10-20T17:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GVWU0KK30",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "G31UXGG5V",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GPWUKPP3M",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G2XU0EEMP",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "G8WUNZZKK",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GZ7UVZZWN",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GD9UV551N",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GWDU8114G",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GEVUZ991M",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G7PU4QQGQ",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G4VUQNNG1",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "G14U4NNK1",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 26,
+              "guid": "GJWU2ZZPW",
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 27,
+              "guid": "GWDU8D943",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 28,
+              "guid": "GG1U2GMK2",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 29,
+              "guid": "G0DUN83VM",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 30,
+              "guid": "GEVUZEP10",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 31,
+              "guid": "G9DUE3XKK",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 32,
+              "guid": "G14U4M3KX",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 33,
+              "guid": "GJWU2VMPX",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 34,
+              "guid": "GK9U3XZ95",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 35,
+              "guid": "GVWU09V3E",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 36,
+              "guid": "GPWUKGQ3G",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 37,
+              "guid": "G8WUNMDKG",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 38,
+              "guid": "GZ7UV47WE",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            },
+            {
+              "nummer": 39,
+              "guid": "GQJUG2D4N",
+              "verfuegbarAb": "2023-01-19T18:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "JoJo's Bizarre Adventure: Golden Wind",
+          "staffelId": "GYG5V184Y",
+          "folgen": 42,
+          "kacheln": 42,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
