@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-16T16:58:02.815Z",
+ "erzeugtAm": "2026-09-16T17:07:01.948Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -77,46 +77,6 @@
    "ziel": null,
    "ziele": [],
    "naechster": null
-  },
-  {
-   "name": "Crunchyroll",
-   "plattform": "crunchyroll",
-   "gemeldet": 0,
-   "gesamt": 7,
-   "offen": 7,
-   "ohneSeite": 0,
-   "ziel": "https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist",
-   "ziele": [
-    {
-     "url": "https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist",
-     "titel": "Blue Exorcist: Kuro reißt aus"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist",
-     "titel": "Blue Exorcist: The Movie"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd",
-     "titel": "Highschool D×D: Mini-Episoden"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd",
-     "titel": "Highschool D×D BorN: Mini-Episoden"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
-     "titel": "Black Clover: Sword of the Wizard King"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure",
-     "titel": "JoJo’s Bizarre Adventure: Stone Ocean"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GRJ0J828Y/kaguya-sama-love-is-war",
-     "titel": "Kaguya-sama: Love Is War - Ultra Romantic: Ishigami Yu möchte sich unterhalten"
-    }
-   ],
-   "naechster": "Blue Exorcist: Kuro reißt aus"
   },
   {
    "name": "Suchadressen",
