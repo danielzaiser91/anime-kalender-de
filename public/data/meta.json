@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-16T12:32:20.290Z",
-  "titleCount": 2771,
+  "generatedAt": "2026-09-16T13:20:23.298Z",
+  "titleCount": 2772,
   "releaseCount": 556,
   "eventCount": 2859,
   "genres": [
@@ -445,11 +445,11 @@
     "Kino On Demand",
     "Kixi",
     "Netflix",
+    "TOGGO",
     "ADN",
     "Amazon Prime (ProSieben Fun)",
     "Paramount+",
     "Paramount+ über Apple TV",
-    "TOGGO",
     "Amazon Prime Video",
     "Amazon Prime Video With Ads",
     "Animation Digital Network",
@@ -501,7 +501,7 @@
     "Deutsche Inhaltsangaben & Bezugsquellen: aniSearch (https://www.anisearch.de)",
     "ID-Zuordnung: anime-offline-database (https://github.com/manami-project/anime-offline-database) — ODbL v1.0",
     "Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag",
-    "Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0, und Wikimedia Commons (https://commons.wikimedia.org) — gemeinfrei; die Marken gehören ihren Inhabern",
+    "Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0, Wikimedia Commons (https://commons.wikimedia.org) — gemeinfrei, ADN-Wortmarke aus der französischen Wikipedia; die Marken gehören ihren Inhabern",
     "Welche Folgen auf Netflix eine deutsche Tonspur haben: Streaming Availability API (https://www.movieofthenight.com/about/api)"
   ]
 }

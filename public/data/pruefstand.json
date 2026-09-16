@@ -1,20 +1,16 @@
 {
- "erzeugtAm": "2026-09-16T12:32:24.914Z",
+ "erzeugtAm": "2026-09-16T13:20:30.348Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 718,
-   "gesamt": 722,
-   "offen": 4,
+   "gesamt": 721,
+   "offen": 3,
    "ohneSeite": 0,
    "suchAdressen": [],
-   "ziel": "https://www.amazon.de/gp/video/detail/0JCA33AQG97BOWLTEVFO06HR3J",
+   "ziel": "https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y",
    "ziele": [
-    {
-     "url": "https://www.amazon.de/gp/video/detail/0JCA33AQG97BOWLTEVFO06HR3J",
-     "titel": "Yu-Gi-Oh! Zexal II"
-    },
     {
      "url": "https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y",
      "titel": "Golden Kamuy"
@@ -28,7 +24,7 @@
      "titel": "Solo Leveling"
     }
    ],
-   "naechster": "Yu-Gi-Oh! Zexal II"
+   "naechster": "Golden Kamuy"
   },
   {
    "name": "Netflix",
@@ -56,8 +52,8 @@
    "name": "Crunchyroll",
    "plattform": "crunchyroll",
    "gemeldet": 0,
-   "gesamt": 10,
-   "offen": 10,
+   "gesamt": 9,
+   "offen": 9,
    "ohneSeite": 0,
    "ziel": "https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist",
    "ziele": [
@@ -72,10 +68,6 @@
     {
      "url": "https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd",
      "titel": "Highschool D×D: Mini-Episoden"
-    },
-    {
-     "url": "https://www.crunchyroll.com/series/GRDQD8PDY/yu-gi-oh-zexal",
-     "titel": "Yu-Gi-Oh! Zexal II"
     },
     {
      "url": "https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd",
@@ -103,6 +95,22 @@
     }
    ],
    "naechster": "Blue Exorcist: Kuro reißt aus"
+  },
+  {
+   "name": "Suchadressen",
+   "plattform": "suchadressen",
+   "gemeldet": 0,
+   "gesamt": 1,
+   "offen": 1,
+   "ohneSeite": 0,
+   "ziel": "https://www.amazon.de/s?k=Yu-Gi-Oh!%20Capsule%20Monsters&i=instant-video",
+   "ziele": [
+    {
+     "url": "https://www.amazon.de/s?k=Yu-Gi-Oh!%20Capsule%20Monsters&i=instant-video",
+     "titel": "Yu-Gi-Oh! Capsule Monsters"
+    }
+   ],
+   "naechster": "Yu-Gi-Oh! Capsule Monsters"
   }
  ]
 }
