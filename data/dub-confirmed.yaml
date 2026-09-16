@@ -7127,10 +7127,19 @@
   checkedAt: '2026-08-25'
   note: "Amazon-Seite B07KL1ZV6B: alle 0 Folgen geprüft, Abos: keine Angabe"
 
+# AniList 143271 ("Mahouka Koukou no Rettousei 3rd Season") gibt es nicht im
+# Bestand — MyDubList führt diese Staffel nicht, anders als 20458, 21684,
+# 112300 und 178707 derselben Reihe. Kein Fehler in der Kennung: Sie ist
+# korrekt (13 Folgen, 2024, per AniList geprüft am 16.09.2026). Der Beleg
+# selbst zeigt außerdem keine deutsche Tonspur (nur English, 日本語) und trägt
+# die Kanal-Titel-Warnung — ein zweiter Beleg fehlt also ohnehin. Bleibt
+# stehen, damit dieselbe Prüfung nicht doppelt läuft und sofort gilt, falls
+# die Staffel später mit einer echten deutschen Fassung dazukommt.
 - anilistId: 143271
   title: "The Irregular at Magic High School: Staffel 3"
   platform: primevideo
   url: https://www.amazon.de/dp/B0CWRDZVBY
+  nichtImBestand: true
   checkedAt: '2026-08-25'
   note: "Tonspuren: English, 日本語 — Amazon-Seite B0CWRDZVBY: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — 16.09.2026 von AniList 20458 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen"
 
@@ -12571,11 +12580,19 @@
   checkedAt: '2026-08-28'
   note: "Tonspuren: Deutsch, 日本語, English — Amazon-Seite B0CH8BD664: alle 7 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
+# AniList 97643 ("Berserk 2", die CGI-Fortsetzung von 2017) führt der Bestand
+# nicht — MyDubList kennt nur die 1997er "Berserk" (AniList 33). Vor dem
+# Umhängen (16.09.2026, siehe check-logic.ts) hing dieser Beleg fälschlich an
+# der 1997er Serie und hätte deren Prime-Pille mit der Sprache einer anderen
+# Verfilmung gefärbt. Jetzt zeigt er korrekt ins Leere, statt falsch zu
+# zeigen. `nichtImBestand`, bis der Titel über data/synchro-von-hand.yaml mit
+# zwei unabhängigen Quellen aufgenommen wird.
 - anilistId: 97643
   title: "Berserk: Staffel 2"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0FKZM9J6V
   dub: true
+  nichtImBestand: true
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FKZM9J6V: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf — 16.09.2026 von AniList 33 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen"
 
@@ -12935,11 +12952,20 @@
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0B6GM8THT: alle 12 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
+# AniList 139825 ("Our Last Crusade or the Rise of a New World Season 2",
+# 2024) führt der Bestand nicht — MyDubList kennt nur Staffel 1 (AniList
+# 112667). Vor dem Umhängen (16.09.2026, siehe check-logic.ts) hing dieser
+# Beleg fälschlich am Reihenkopf und hätte dessen Prime-Pille mit der Sprache
+# der falschen Staffel gefärbt. Zudem ist es ein Kanal-Titel — Amazons
+# Sprachangabe allein wäre ohnehin kein Beleg, ein zweiter fehlt. `nichtImBestand`,
+# bis der Titel über data/synchro-von-hand.yaml mit zwei unabhängigen Quellen
+# aufgenommen wird.
 - anilistId: 139825
   title: "Our Last Crusade or the Rise of a New World: Staffel 2"
   platform: primevideo
   url: https://www.amazon.de/dp/B0CVR4N6DN
   dub: true
+  nichtImBestand: true
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, 日本語, English, Español (Latinoamérica), Português (Brasil), English [Audio Description], Español (Latinoamérica) [descripción de audio], Português (Brasil) [Descrição do áudio], English [Audio Description — Amazon-Seite B0CVR4N6DN: alle 12 Folgen geprüft, Abos: FVOD, aniversede, crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — 16.09.2026 von AniList 112667 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen"
 
