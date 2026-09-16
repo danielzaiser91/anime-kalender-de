@@ -2014,6 +2014,13 @@ Live-Prüfung. **Vor dem Commit einer Datei aus `QUELLEN` wird `gh run list` gef
 ein Datenlauf läuft; wenn ja, wird nach seinem Ende nachgesehen, ob die eigene Fassung
 noch steht.
 
+**Dritter Fall, 16.09.2026 abends — und diesmal stand der laufende Bau in der Ausgabe
+direkt über dem Commit.** `bestand-bauen` (in_progress) committete danach seinen Stand von
+`data/verweise-von-hand.yaml` und nahm den Daima-YouTube-Verweis wieder heraus;
+`dub-confirmed.yaml` im selben Commit überlebte. Nachsehen allein hat also nicht getragen.
+**Läuft ein Datenlauf oder Bau, wird eine Datei aus `QUELLEN` nicht committet, sondern
+gewartet** — im Hintergrund, bis er fertig ist.
+
 **Und deshalb gehört zu jeder Datenkorrektur eine Zusicherung.** Die Korrektur
 allein hält einen Lauf nicht aus; die Zusicherung meldet sich, wenn sie
 verlorengeht. Am selben Tag zweimal bewiesen — beim Kanal-Nein und bei den
