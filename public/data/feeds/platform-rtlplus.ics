@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – rtlplus
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:dragon-ball-daima-rtlplus@2026-09-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260925
+DTEND;VALUE=DATE:20260926
+SUMMARY:Dragon Ball DAIMA
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
+ bestätigt.\nDetails: https://anime-kalender.de/#/release/dragon-ball-daima
+ -rtlplus
+CATEGORIES:RTL+
+END:VEVENT
+END:VCALENDAR

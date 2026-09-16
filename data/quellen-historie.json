@@ -3930,5 +3930,28 @@
       "sagt": "2026-07-15",
       "stand": "aktuell"
     }
+  ],
+  "dragon-ball-daima-rtlplus": [
+    {
+      "url": "https://www.anime2you.de/news/1039738/dragon-ball-daima-toggo-rtl-starttermin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-16",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1047175/toggo-plus-dragon-ball-daima-wiederholung/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-16",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/",
+      "name": "manime.de",
+      "gesehenAm": "2026-09-16",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    }
   ]
 }

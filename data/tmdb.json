@@ -1747,5 +1747,42 @@
   "miss-kobayashi-s-dragon-maid-valentinstag-und-onsen-erwartet-nicht-zu-viel-2026-": {},
   "sailor-moon-sailor-stars-2027-01-15": {},
   "apothecary-diaries-s3-cour1": {},
-  "black-clover-s2-crunchyroll": {}
+  "black-clover-s2-crunchyroll": {},
+  "dragon-ball-daima-rtlplus": {
+    "tmdbId": 236994,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/236994-daima/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "crunchyroll",
+      "adn",
+      "primevideo"
+    ]
+  }
 }
