@@ -1952,7 +1952,9 @@ function ReleasePille({
   const kurzerName =
     release.releaseType === 'disc'
       ? t('detail.kaufenBei', { shop: haendlerAus(release.buyUrl ?? release.platformUrl) })
-      : kuerzeUmTitel(release.name, titel)
+      : /* Ein Stream-Termin nennt den Anbieter wie jede Stream-Pille — nicht den Serientitel, der
+           im Kopf steht („Undefeated Bahamut Chronicle" statt „ADN", Daniel, 16.09.2026). */
+        (PLATFORMS[release.platform]?.name ?? kuerzeUmTitel(release.name, titel))
   /*
     **Der Kalendereintrag gilt dem nächsten Termin, nicht dem ersten.**
 
@@ -1987,6 +1989,7 @@ function ReleasePille({
               {medium}
             </span>
           )}
+          {release.releaseType !== 'disc' && <AnbieterIcon was={release.platform} />}
           <span className="truncate">{kurzerName}</span>
         </span>
         <span className="truncate text-[11px] opacity-80" style={farbe ? { color: farbe } : undefined}>
@@ -3026,7 +3029,16 @@ export function DetailPanel({
       die einzige Auskunft, die es gibt, und ein leerer Kopf wäre schlechter als
       ein Kaufdatum.
     */
-    const hatSynchro = (title.streams ?? []).some((s) => s.dub === true)
+    /*
+      **Synchro belegt heißt nicht nur „ein Stream mit DE ✓".** „Undefeated Bahamut Chronicle"
+      stand als „Noch keine deutsche Fassung" da — mit belegten deutschen Sprechrollen und
+      einer Blu-ray-Gesamtausgabe seit 2020 im Disc-Reiter (Daniel, 16.09.2026). Belegt ist
+      sie auch durch die Sprechrollen und durch einen Kaufweg mit deutscher Folgenspanne.
+    */
+    const hatSynchro =
+      (title.streams ?? []).some((s) => s.dub === true) ||
+      Boolean(title.hasVoices) ||
+      (title.watchLinks ?? []).some((w) => w.dubRanges?.some((r) => r.dub))
     const ohneDisc = releases.filter((r) => r.releaseType !== 'disc')
     /*
       **Eine Kaufausgabe beantwortet nicht die Frage „wann kommt es".**

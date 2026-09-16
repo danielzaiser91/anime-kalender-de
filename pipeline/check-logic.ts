@@ -4270,6 +4270,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('Box 1/4 ist ein Teil', artAus('Dai - Box 1/4 [Blu-ray]') === 'teil')
   pruefe('Komplettset ist eine Gesamtausgabe', artAus('Dai - Komplettset') === 'gesamt')
   pruefe('Kurzname ohne Reihe und Klammer', kurzAus('Dragon Quest: The Adventure of Dai - Box 1/4 [Blu-ray]') === 'Box 1/4')
+  pruefe('die Formatklammer fällt auch mitten im Namen', kurzAus('Bahamut - Vol. 1/4: Limited Edition [Blu-ray] + Sammelschuber') === 'Vol. 1/4: Limited Edition + Sammelschuber')
 }
 /* Streaming-Staffeln zählen neben Fernsehstaffeln zur Hauptserie (JoJo, 16.09.2026). */
 {

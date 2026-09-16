@@ -2199,6 +2199,8 @@ function main(): void {
 
   const releases: Release[] = []
   const seenSlugs = new Set<string>()
+  /** ADN-Verweise, die aus einem ADN-Termin entstehen (der Termin belegt die Synchro). */
+  let adnVerweiseErgaenzt = 0
   const usedCrKeys = new Set<string>()
   // Kuratierte Termine, die der Crunchyroll-Kalender nicht bestätigt.
   const unverified: string[] = []
@@ -2795,6 +2797,18 @@ function main(): void {
           year: Number(first.date.slice(0, 4)),
           sources: [ADN_CALENDAR_URL],
         })
+        /*
+          **Ein ADN-Termin belegt die Synchro — also gehört ein ADN-Verweis dazu.** Der Termin
+          entsteht nur aus Folgen mit `vde`. „Undefeated Bahamut Chronicle" hatte trotzdem keinen
+          Verweis: Das Panel zeigte „Noch keine deutsche Fassung" und darunter eine Termin-Pille
+          mit dem Seriennamen, die auf Folge 1 führte (Daniel, 16.09.2026). Der Verweis zeigt auf
+          die Serienseite, nicht auf die Folge; Handbelege greifen weiter unten wie bei jedem
+          anderen Verweis.
+        */
+        if (title && !title.streams.some((s) => s.platform === 'adn')) {
+          title.streams.push({ platform: 'adn', url: first.url.replace(/(\/video\/[^/]+)\/\d+-[^/]*$/, '$1'), dub: true })
+          adnVerweiseErgaenzt++
+        }
         /**
          * ADNs Titel ist der deutsche — er wird zum Suchbegriff.
          *
@@ -4775,6 +4789,8 @@ function main(): void {
     let asNeu = 0
     let asVorJp = 0
     let asSimulcast = 0
+    let asDiscDatum = 0
+    const discFuerErstausgabe = readJson<Record<string, { datum: string }[]>>('data/disc-ausgaben.json', {})
     for (const title of titles.values()) {
       if (schonMitTermin.has(title.id)) continue
       const termin = terminAusEintrag(
@@ -4813,6 +4829,37 @@ function main(): void {
         deTag !== undefined && jpTag !== undefined && Math.abs(deTag - jpTag) <= 7 * 864e5 &&
         verlage.length > 0 && verlagAlsDienst(verlage[0]!) !== undefined &&
         !(title.streams ?? []).some((s) => s.dub === true && s.platform === verlagAlsDienst(verlage[0]!))
+      /*
+        **Und ein Datum dicht am japanischen Start ist Simulcast, wenn die Discs erst später kamen.**
+        „Undefeated Bahamut Chronicle": deutscher Block 20.01.–02.04.2016 (neun Tage nach dem
+        japanischen Start, Verlag Nipponart), die deutschen Discs ab 30.06.2017 — Volume 1 bis 4,
+        Gesamtausgabe 25.05.2020 (Daniel, 16.09.2026). Dann gilt das früheste Disc-Datum.
+      */
+      const fruehesteDisc = (discFuerErstausgabe[String(title.id)] ?? [])
+        .map((a) => a.datum)
+        .filter(Boolean)
+        .sort()[0]
+      /*
+        Erst ab 2012 und nicht bei Filmen: Davor heißt ein deutsches Datum nah am japanischen
+        Start eine echte Ausstrahlung mit Synchro — „Wickie" 1974, „Final Fantasy: Die Mächte
+        in Dir" im Kino 2001. Gemessen danach: 548 Serien, Stichprobe durchweg OmU-Simulcasts
+        (Kazé, peppermint, Crunchyroll) mit späteren deutschen Discs.
+      */
+      const nahAmStart =
+        deTag !== undefined &&
+        jpTag !== undefined &&
+        deTag - jpTag <= 30 * 864e5 &&
+        new Date(jpTag).getUTCFullYear() >= 2012 &&
+        title.format !== 'MOVIE'
+      const discDatumGilt =
+        Boolean(fruehesteDisc) && (simulcast || nahAmStart) && (!termin.start || fruehesteDisc! > termin.start)
+      if (discDatumGilt) {
+        const disc = verlage.find((v) => verlagAlsDienst(v) === undefined)
+        title.deErstausgabe = { von: fruehesteDisc!, ...(disc ? { publisher: disc } : {}) }
+        asDiscDatum++
+        asNeu++
+        continue
+      }
       if (simulcast) {
         const disc = verlage.find((v) => verlagAlsDienst(v) === undefined)
         asSimulcast++
@@ -4833,7 +4880,8 @@ function main(): void {
       log(
         `${asNeu} deutsche Erstausgaben aus aniSearch übernommen ` +
           `(${asVorJp} vor der japanischen Ausstrahlung verworfen, ` +
-          `${asSimulcast} Simulcast-Daten ohne Dub-Stream nicht als Synchro-Datum)`,
+          `${asSimulcast} Simulcast-Daten ohne Dub-Stream nicht als Synchro-Datum, ` +
+          `${asDiscDatum} durch das früheste Disc-Datum ersetzt)`,
       )
     }
   }
@@ -5078,6 +5126,7 @@ function main(): void {
       }
     }
     if (berichtigt) log(`${berichtigt} ADN-Adressen um Serienkennung oder Staffel geschärft`)
+    if (adnVerweiseErgaenzt) log(`${adnVerweiseErgaenzt} ADN-Verweise aus ADN-Terminen angelegt`)
   /**
    * **RTL+ hat seine Domain gewechselt — die alten Adressen zeigen ins Leere.**
    *

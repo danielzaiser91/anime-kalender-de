@@ -98,7 +98,11 @@ export function artAus(edition: string): 'gesamt' | 'teil' | 'einzel' {
 
 /** „Reihe - Box 1/4 [Blu-ray]" → „Box 1/4". */
 export function kurzAus(edition: string): string {
-  const ohneKlammer = edition.replace(/\s*\[[^\]]*\]\s*$/, '').trim()
+  /* Die Formatklammer kann mitten im Namen stehen: „Vol. 1/4: Limited Edition [Blu-ray] + Sammelschuber". */
+  const ohneKlammer = edition
+    .replace(/\s*\[(Blu-?ray|DVD|4K UHD)\]/gi, '')
+    .replace(/\s*\[[^\]]*\]\s*$/, '')
+    .trim()
   const i = ohneKlammer.indexOf(' - ')
   return i >= 0 ? ohneKlammer.slice(i + 3).trim() : ohneKlammer
 }

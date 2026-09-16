@@ -804,7 +804,8 @@ export const PLATFORMS: Record<PlatformId, { name: string; color: string; home: 
   netflix: { name: 'Netflix', color: '#e50914', home: 'https://www.netflix.com/de/' },
   primevideo: { name: 'Prime Video', color: '#00a8e1', home: 'https://www.primevideo.com/' },
   disneyplus: { name: 'Disney+', color: '#0063e5', home: 'https://www.disneyplus.com/de-de' },
-  adn: { name: 'ADN', color: '#f92e6a', home: 'https://animationdigitalnetwork.com/de' },
+  /* Blau seit dem neuen Auftritt — abgelesen am Logo (rgb 0,149,255), vorher das alte Pink #f92e6a (16.09.2026). */
+  adn: { name: 'ADN', color: '#0095ff', home: 'https://animationdigitalnetwork.com/de' },
   aniverse: { name: 'Aniverse', color: '#7c3aed', home: 'https://www.aniverse.de/' },
   wow: { name: 'WOW', color: '#00b1ff', home: 'https://www.wowtv.de/' },
   joyn: { name: 'Joyn', color: '#fa1b5a', home: 'https://www.joyn.de/' },
