@@ -2822,6 +2822,8 @@ npm run check:vor-commit
 
 **Ein Generator schreibt mehr als die Datei, wegen der man ihn aufruft.** Am 14.09.2026 habe ich die Prüflisten neu erzeugt und `extension/offene-*.js` committet — `public/data/pruefliste-stand.json`, die dieselben Werkzeuge im selben Zug schreiben, blieb liegen. `tools/extension-listenstand-pruefen.cjs` vergleicht beide Stände, und der Deploy wurde rot („stimmt mit der ausgelieferten überein"), bis der nächste Commit die Datei nachholte. Nach jedem Generatorlauf deshalb `git status` und **alles** stagen, was er geändert hat — nicht nur die erwarteten Pfade.
 
+**Wer einen Handbeleg auf eine andere Kennung umhängt, fährt `check:handbelege` vorher mit.** Das steht nicht in `check:vor-commit` (es braucht den gebauten Datensatz) und bricht den Bau ab, wenn die neue Kennung nicht im Bestand steht — am 16.09.2026 bei drei umgehängten Prime-Belegen (Lauf 35125372002). Entweder die Staffel kommt über `synchro-von-hand.yaml` in den Bestand, oder der Beleg trägt `nichtImBestand: true` mit dem Grund in der Notiz.
+
 **Auch ein reiner Daten-Commit läuft durch `check:logic`.** Am 15.09.2026 gingen im Durchgang
 morgens mehrere Handbeleg-Commits ohne Prüfkette raus; zwei davon (FGO 1–22 bei 21 Folgen,
 Shiboyugi 1–12 bei 11) hoben „Handbelege über der Folgenzahl" von 8 auf 10, und **jeder Deploy
