@@ -2362,6 +2362,7 @@ function main(): void {
       titleId: titleId ?? -1,
       name,
       platform: entry.platform,
+      ...(entry.sender ? { sender: entry.sender } : {}),
       platformUrl,
       buyUrl:
         entry.buyUrl ?? (entry.releaseType === 'disc' ? amazonSearchUrl(name) : undefined),

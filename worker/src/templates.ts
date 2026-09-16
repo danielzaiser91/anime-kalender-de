@@ -1,5 +1,5 @@
 import type { ReleaseEvent } from '../../shared/types.ts'
-import { PLATFORMS, RELEASE_TYPES } from '../../shared/types.ts'
+import { PLATFORMS, RELEASE_TYPES, anbieterName } from '../../shared/types.ts'
 import { formatDate, weekdayName } from '../../shared/time.ts'
 
 function escapeHtml(value: string): string {
@@ -244,7 +244,7 @@ function textSections(ctx: RowContext, events: ReleaseEvent[]): string {
             return (
               `  - ${ev.name}${ev.episode ? ` (Folge ${ev.episode})` : ''}${
                 ev.time ? ` — ${ev.time} Uhr` : ev.releaseType === 'disc' ? ' — im Handel' : ''
-              }, ${PLATFORMS[ev.platform].name}\n` +
+              }, ${anbieterName(ev.platform, ev.sender)}\n` +
               `    Kalender: ${calendarUrl(ctx, ev)}` +
               (watch ? `\n    ${ev.releaseType === 'disc' ? 'Kaufen' : 'Ansehen'}: ${watch}` : '')
             )

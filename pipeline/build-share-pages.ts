@@ -19,7 +19,7 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { PLATFORMS, RELEASE_TYPES, SYNOPSIS_GROUPS, type Release, type Title } from '../shared/types.ts'
+import { PLATFORMS, RELEASE_TYPES, SYNOPSIS_GROUPS, anbieterName, type Release, type Title } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
@@ -56,7 +56,7 @@ function describe(release: Release, title: Title | undefined, today: string): st
     parts.push(
       release.releaseType === 'disc'
         ? `Erscheint am ${when} auf ${release.edition ?? 'DVD und Blu-ray'}.`
-        : `${episode ? `${episode} am ` : 'Ab '}${when}${time} bei ${PLATFORMS[release.platform].name}.`,
+        : `${episode ? `${episode} am ` : 'Ab '}${when}${time} bei ${anbieterName(release.platform, release.sender)}.`,
     )
   }
   if (release.fsk !== undefined) parts.push(`FSK ${release.fsk}.`)
@@ -92,7 +92,7 @@ function body(
   const next = events.find((e) => e.date >= today) ?? events[0]
   const hash = `#/woche?${next ? `d=${next.date}&` : ''}r=${release.slug}`
   const art = RELEASE_TYPES[release.releaseType].short
-  const platform = PLATFORMS[release.platform].name
+  const platform = anbieterName(release.platform, release.sender)
 
   const fakten = [
     `${art} bei ${platform}`,
@@ -288,7 +288,7 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
     daten.releasedEvent = {
       '@type': 'PublicationEvent',
       startDate: next.date,
-      location: { '@type': 'VirtualLocation', name: PLATFORMS[release.platform].name },
+      location: { '@type': 'VirtualLocation', name: anbieterName(release.platform, release.sender) },
     }
   }
 
@@ -322,7 +322,7 @@ function head(release: Release, title: Title | undefined, today: string): string
   const next = events.find((e) => e.date >= today) ?? events[0]
   const url = `${SITE}r/${release.slug}/`
   const image = `${SITE}og/${release.slug}.jpg`
-  const headline = `${release.name} — ${RELEASE_TYPES[release.releaseType].short} bei ${PLATFORMS[release.platform].name}`
+  const headline = `${release.name} — ${RELEASE_TYPES[release.releaseType].short} bei ${anbieterName(release.platform, release.sender)}`
   const description = describe(release, title, today)
   const hash = `#/woche?${next ? `d=${next.date}&` : ''}r=${release.slug}`
 
@@ -445,7 +445,7 @@ const STIL =
 function terminZeile(release: Release, titel: Title | undefined): string {
   const name = esc(release.name || titel?.titleDe || titel?.titleEn || release.slug)
   const datum = release.schedule.firstEpisodeDate.split('-').reverse().join('.')
-  const anbieter = esc(PLATFORMS[release.platform]?.name ?? release.platform)
+  const anbieter = esc(anbieterName(release.platform, release.sender))
   return (
     `      <li><a href="${SITE}r/${release.slug}/" style="color:#7dd3fc;">${name}</a>` +
     ` — ${datum}, ${anbieter}</li>\n`

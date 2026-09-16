@@ -20,7 +20,7 @@ import { readFileSync } from 'node:fs'
 import { titelAus } from './lib/anisearch-titel.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
-import { expandEvents, lastEpisodeDate, istErschienen, titleStatus } from '../shared/logic.ts'
+import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus } from '../shared/logic.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
@@ -4369,6 +4369,42 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const blue = [st('Kyoto', 12, 2017), st('Shimane', 12, 2024), st('Snow', 12, 2024), st('Night', 12, 2025)]
   pruefe('eine lückenhafte Staffelliste belegt kein Fehlen', !reiheFuehrtEsNicht({ format: 'TV', episodes: 25, jpYear: 2011 }, blue, 98, false))
   pruefe('Gegenprobe: dieselbe Liste als vollständig ergäbe den Befund', Boolean(reiheFuehrtEsNicht({ format: 'TV', episodes: 25, jpYear: 2011 }, blue, 48, false)))
+}
+/*
+  **Fernsehen: Sendetage statt Wochentakt** (16.09.2026, Dragon Ball DAIMA bei TOGGO plus).
+  Folge 1 Freitag, 2 und 3 am Wochenende, danach Mo–Fr; Folge 20 am 22.09.
+*/
+{
+  const s = { firstEpisodeDate: '2026-08-28', wochentage: [1, 2, 3, 4, 5] }
+  pruefe('vom Freitag geht der nächste Sendetag auf den Montag', sendeplatz(s, '2026-09-04', 1) === '2026-09-07')
+  pruefe('rückwärts vom Montag auf den Freitag', sendeplatz(s, '2026-09-07', -1) === '2026-09-04')
+  pruefe('ohne Sendetage bleibt es eine Woche', sendeplatz({ firstEpisodeDate: '2026-09-04' }, '2026-09-04', 1) === '2026-09-11')
+  const daima = {
+    slug: 'daima-tv',
+    titleId: 1,
+    name: 'Daima',
+    platform: 'tv',
+    sender: 'TOGGO plus',
+    releaseType: 'weekly',
+    schedule: {
+      firstEpisodeDate: '2026-08-28',
+      time: '21:15',
+      episodeCount: 20,
+      wochentage: [1, 2, 3, 4, 5],
+      observed: { 1: '2026-08-28', 2: '2026-08-29', 3: '2026-08-30', 20: '2026-09-22' },
+    },
+  } as unknown as Parameters<typeof expandEvents>[0]
+  const ev = expandEvents(daima)
+  const tag = (n: number) => ev.find((e) => e.episode === n)?.date
+  pruefe('Folge 4 am ersten Montag', tag(4) === '2026-08-31', tag(4))
+  pruefe('Folge 16 am 16.09., Folge 17 am 17.09.', tag(16) === '2026-09-16' && tag(17) === '2026-09-17', [tag(16), tag(17)])
+  pruefe(
+    'zwischen zwei Stützpunkten des Sendeplans ist nichts geschätzt',
+    !ev.some((e) => e.estimated),
+    ev.filter((e) => e.estimated).map((e) => e.episode),
+  )
+  pruefe('das Ende steht am 22.09.', lastEpisodeDate(daima) === '2026-09-22')
+  pruefe('jedes Ereignis trägt den Sender', ev.every((e) => e.sender === 'TOGGO plus'))
 }
 /* Ein Fernsehtermin wird kein Streaming-Termin (Dragon Ball DAIMA, 16.09.2026). */
 {

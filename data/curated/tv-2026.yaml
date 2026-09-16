@@ -1,0 +1,30 @@
+# Fernsehausstrahlungen mit deutscher Synchro (seit 16.09.2026).
+#
+# Daniel an Dragon Ball DAIMA: „tägliche tv releases sind ein paradebeispiel
+# für eine notwendige erweiterung der webseite um genau das darzustellen".
+# `platform: tv` braucht einen `sender`; `schedule.wochentage` nennt die
+# Sendetage (1 = Montag … 7 = Sonntag), sonst gilt der Wochentakt.
+
+- slug: dragon-ball-daima-toggo-plus
+  anilistId: 170083
+  search: "Dragon Ball Daima"
+  platform: tv
+  sender: TOGGO plus
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-08-28"
+    time: "21:15"
+    episodeCount: 20
+    wochentage: [1, 2, 3, 4, 5]
+    # Folge 1 am Freitag, 2 und 3 am Samstag und Sonntag, danach Mo–Fr
+    # (Anime2You, 28.08.2026); Folge 20 am 22.09. (Anime2You, 07.09.2026).
+    observed:
+      1: "2026-08-28"
+      2: "2026-08-29"
+      3: "2026-08-30"
+      20: "2026-09-22"
+  note: "Wiederholung ab 26.09.2026 samstags und sonntags um 21:15. Die TV-Fassung ist geschnitten."
+  sources:
+    - https://www.anime2you.de/news/1044800/dragon-ball-daima-ab-heute-im-free-tv/
+    - https://www.anime2you.de/news/1047175/toggo-plus-dragon-ball-daima-wiederholung/
+    - https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/

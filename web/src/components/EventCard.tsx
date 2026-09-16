@@ -258,7 +258,7 @@ export function EventCard({
           {event.name}
         </span>
       <span className="flex flex-wrap items-center gap-1">
-        <PlatformBadge platform={event.platform} small />
+        <PlatformBadge platform={event.platform} sender={event.sender} small />
         {fsk !== undefined && <FskBadge fsk={fsk} small />}
       </span>
     </div>

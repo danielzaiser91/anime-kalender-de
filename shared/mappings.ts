@@ -623,6 +623,7 @@ export const PLATFORM_PRIORITY: PlatformId[] = [
   'joyn',
   'rtlplus',
   'youtube',
+  'tv',
   'disc',
   'kino',
 ]

@@ -32,6 +32,8 @@ const HOSTS: Record<PlatformId, string[]> = {
   // die Abwesenheit einer Zuordnung. Eine leere Liste heißt „nicht prüfbar".
   disc: [],
   kino: [],
+  // Ein Sender hat viele Mediatheken; der Termin selbst trägt keine Adresse.
+  tv: [],
   unbekannt: [],
 }
 

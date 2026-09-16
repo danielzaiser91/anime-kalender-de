@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import type { DiscAusgabe, Meldung, Release, ReleaseEvent, StreamLink, Title, VermerkAusgeblieben, WatchLink } from '@shared/types.ts'
 import { bereicheKurz, dubAbdeckung, dubGrenze, dubLuecken, folgenOhneAnbieter } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
-import { PLATFORMS } from '@shared/types.ts'
+import { PLATFORMS, anbieterName } from '@shared/types.ts'
 import { expandEvents, titleStatus, istErschienen, istAusgeblieben, releaseStatus } from '@shared/logic.ts'
 import { naechsteRecherche } from '@shared/recherche-plan.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
@@ -1974,7 +1974,7 @@ function ReleasePille({
       ? t('detail.kaufenBei', { shop: haendlerAus(release.buyUrl ?? release.platformUrl) })
       : /* Ein Stream-Termin nennt den Anbieter wie jede Stream-Pille — nicht den Serientitel, der
            im Kopf steht („Undefeated Bahamut Chronicle" statt „ADN", Daniel, 16.09.2026). */
-        (PLATFORMS[release.platform]?.name ?? kuerzeUmTitel(release.name, titel))
+        (anbieterName(release.platform, release.sender) ?? kuerzeUmTitel(release.name, titel))
   /*
     **Der Kalendereintrag gilt dem nächsten Termin, nicht dem ersten.**
 

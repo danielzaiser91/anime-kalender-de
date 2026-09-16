@@ -39,6 +39,31 @@ function stuetzpunkte(s: Release['schedule']): { episode: number; date: string }
     .sort((a, b) => a.episode - b.episode)
 }
 
+/** ISO-Wochentag eines Datums, 1 = Montag … 7 = Sonntag. */
+function isoWochentag(datum: string): number {
+  const tag = new Date(`${datum}T12:00:00Z`).getUTCDay()
+  return tag === 0 ? 7 : tag
+}
+
+/**
+ * **Einen Sendeplatz weiter (oder zurück).** Ohne `wochentage` ist das eine
+ * Woche; mit Sendetagen der nächste davon — „Dragon Ball DAIMA" bei TOGGO plus
+ * springt vom Freitag auf den Montag.
+ */
+export function sendeplatz(s: Release['schedule'], datum: string, schritte: number): string {
+  const tage = (s.wochentage ?? []).filter((t) => t >= 1 && t <= 7)
+  if (!tage.length) return addDays(datum, 7 * schritte)
+  const richtung = schritte < 0 ? -1 : 1
+  let rest = Math.abs(schritte)
+  let d = datum
+  let guard = 0
+  while (rest > 0 && guard++ < 7 * 400) {
+    d = addDays(d, richtung)
+    if (tage.includes(isoWochentag(d))) rest--
+  }
+  return d
+}
+
 /**
  * Letzter Termin eines Releases im deutschen Dub.
  * Bei `weekly` aus Startdatum + Folgenzahl + Sendepausen berechnet,
@@ -61,7 +86,7 @@ export function lastEpisodeDate(release: Release): string | undefined {
   let produced = anker?.episode ?? first
   let guard = 0
   while (produced < letzte && guard++ < 400) {
-    date = addDays(date, 7)
+    date = sendeplatz(s, date, 1)
     if (!skips.has(date)) produced++
   }
   return date
@@ -201,6 +226,7 @@ export function expandEvents(release: Release): ReleaseEvent[] {
     time: s.time,
     releaseType: release.releaseType,
     platform: release.platform,
+    ...(release.sender ? { sender: release.sender } : {}),
     name: release.name,
     estimated: s.estimated,
   }
@@ -288,6 +314,16 @@ export function expandEvents(release: Release): ReleaseEvent[] {
      * landete auf dem 23.08. -- eine Messung durch eine Ableitung ersetzt,
      * der schlimmste Tausch, den dieses Projekt kennt.
      */
+    /*
+      **Ein Sendeplan ist kein Nachzügler.** Bei festen Sendetagen (Fernsehen)
+      zählt der Plan zwischen zwei Stützpunkten weiter — solange er den zweiten
+      nicht überholt. Ohne das lagen bei Dragon Ball DAIMA die Folgen 4 bis 19
+      alle auf dem 22.09., dem Tag von Folge 20 (16.09.2026).
+    */
+    if (danach && anchor && anchor.episode !== episode && s.wochentage?.length) {
+      const nachPlan = sendeplatz(s, anchor.date, episode - anchor.episode)
+      if (nachPlan <= danach.date) return nachPlan
+    }
     if (danach && anchor && anchor.episode !== episode) {
       /**
        * **Auf den naechsten belegten Termin, nicht in die Mitte.**
@@ -320,12 +356,12 @@ export function expandEvents(release: Release): ReleaseEvent[] {
      * ebenfalls hinter der belegten.
      */
     if (danach && !anchor) {
-      return addDays(danach.date, -7 * (danach.episode - episode))
+      return sendeplatz(s, danach.date, -(danach.episode - episode))
     }
 
     return anchor
-      ? addDays(anchor.date, 7 * (episode - anchor.episode))
-      : addDays(s.firstEpisodeDate, 7 * (episode - first))
+      ? sendeplatz(s, anchor.date, episode - anchor.episode)
+      : sendeplatz(s, s.firstEpisodeDate, episode - first)
   }
 
   const events: ReleaseEvent[] = []
@@ -360,7 +396,10 @@ export function expandEvents(release: Release): ReleaseEvent[] {
       // Gesehen ist gesehen; fortgeschrieben bleibt eine Annahme, auch wenn
       // der Start selbst belegt ist.
       estimated:
-        s.observed?.[episode] || (s.belegtBis && episode <= s.belegtBis.folge && date <= s.belegtBis.am)
+        s.observed?.[episode] ||
+        (s.belegtBis && episode <= s.belegtBis.folge && date <= s.belegtBis.am) ||
+        /* Zwischen zwei Stützpunkten eines Sendeplans ist der Tag belegt, nicht geschätzt. */
+        (s.wochentage?.length && lastAnchor && episode < lastAnchor.episode && !s.estimated)
           ? undefined
           : lastAnchor
             ? true

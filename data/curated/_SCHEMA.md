@@ -13,7 +13,8 @@ Release-Art, FSK, deutscher Titel.
   anilistId: 123456                 # optional; hat Vorrang vor `search`
   malId: 54321                      # optional
   titleDe: Black Torch              # deutscher Titel; sonst nimmt der Build den englischen
-  platform: crunchyroll             # crunchyroll|netflix|primevideo|disneyplus|adn|aniverse|wow|joyn|rtlplus|youtube|disc|kino
+  platform: crunchyroll             # crunchyroll|netflix|primevideo|disneyplus|adn|aniverse|wow|joyn|rtlplus|youtube|disc|kino|tv
+  sender: TOGGO plus                # nur bei platform tv: der Sender
   platformUrl: https://…            # optional; sonst nimmt der Build den AniList-Link
   buyUrl: https://…                 # optional; bei Disc sonst Amazon-Suchlink
   releaseType: weekly               # weekly|batch|movie|disc
@@ -27,6 +28,7 @@ Release-Art, FSK, deutscher Titel.
     episodeCount: 12                # optional; sonst von AniList
     lastEpisodeDate: "2026-09-20"   # optional; sonst berechnet
     skipDates: ["2026-08-15"]       # optional: Sendepausen
+    wochentage: [1, 2, 3, 4, 5]     # optional: feste Sendetage (1 = Mo … 7 = So) statt Wochentakt
     estimated: true                 # true, wenn das Datum abgeleitet statt bestätigt ist
   sources:                          # Pflicht: woher stammt der Termin?
     - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026

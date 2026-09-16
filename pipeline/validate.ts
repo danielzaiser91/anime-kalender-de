@@ -44,6 +44,10 @@ function main(): void {
         errors.push(`${at}: lastEpisodeDate liegt vor firstEpisodeDate`)
     }
 
+    if (e.platform === 'tv' && !e.sender) errors.push(`${at}: platform "tv" braucht einen sender`)
+    for (const t of s?.wochentage ?? []) {
+      if (!Number.isInteger(t) || t < 1 || t > 7) errors.push(`${at}: wochentag "${t}" ist nicht 1 (Mo) bis 7 (So)`)
+    }
     if (e.releaseType === 'disc' && e.platform !== 'disc')
       errors.push(`${at}: releaseType "disc" gehört zu platform "disc"`)
   }

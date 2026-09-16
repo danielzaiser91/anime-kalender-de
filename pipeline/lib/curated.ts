@@ -11,6 +11,8 @@ export interface CuratedEntry {
   malId?: number
   titleDe?: string
   platform: PlatformId
+  /** Nur bei `platform: tv`: der Sender. */
+  sender?: string
   platformUrl?: string
   buyUrl?: string
   releaseType: ReleaseType

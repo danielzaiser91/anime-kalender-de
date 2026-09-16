@@ -14,6 +14,8 @@ export type PlatformId =
   | 'youtube'
   | 'disc'
   | 'kino'
+  /** Fernsehen — der Sender steht in `Release.sender` (16.09.2026). */
+  | 'tv'
   | 'unbekannt'
 
 /**
@@ -77,6 +79,14 @@ export interface Schedule {
   lastEpisodeDate?: string
   /** ISO-Daten, an denen wegen Sendepause keine Folge läuft. */
   skipDates?: string[]
+  /**
+   * **Sendetage statt Wochentakt**, ISO-Nummern 1 = Montag … 7 = Sonntag.
+   *
+   * Fernsehsender zeigen Anime oft täglich: „Dragon Ball DAIMA" lief ab dem
+   * 28.08.2026 bei TOGGO plus montags bis freitags um 21:15 (`[1,2,3,4,5]`).
+   * Fehlt das Feld, folgt jede Folge sieben Tage nach der vorigen.
+   */
+  wochentage?: number[]
   /**
    * Tatsächlich beobachtete Termine einzelner Folgen, `{ "1": "2026-07-04" }`.
    *
@@ -542,6 +552,8 @@ export interface Release {
   /** Anzeigename inklusive Staffel- oder Volume-Angabe. */
   name: string
   platform: PlatformId
+  /** Nur bei `platform: 'tv'`: der Sender, etwa „TOGGO plus“. */
+  sender?: string
   platformUrl?: string
   buyUrl?: string
   releaseType: ReleaseType
@@ -643,6 +655,8 @@ export interface ReleaseEvent {
   episodeCount?: number
   releaseType: ReleaseType
   platform: PlatformId
+  /** Bei `platform: 'tv'` der Sender — siehe `anbieterName()`. */
+  sender?: string
   name: string
   estimated?: boolean
   /**
@@ -813,7 +827,14 @@ export const PLATFORMS: Record<PlatformId, { name: string; color: string; home: 
   youtube: { name: 'YouTube', color: '#ff0000', home: 'https://www.youtube.com/' },
   disc: { name: 'DVD / Blu-ray', color: '#16a34a', home: 'https://www.amazon.de/' },
   kino: { name: 'Kino', color: '#eab308', home: '' },
+  tv: { name: 'TV', color: '#0d9488', home: '' },
   unbekannt: { name: 'Unbekannt', color: '#6b7280', home: '' },
+}
+
+/** Wie ein Anbieter heißt — bei TV der Sender, sonst der Name aus `PLATFORMS`. */
+export function anbieterName(platform: PlatformId, sender?: string): string {
+  if (platform === 'tv' && sender) return sender
+  return PLATFORMS[platform]?.name ?? platform
 }
 
 export const RELEASE_TYPES: Record<

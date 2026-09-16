@@ -182,7 +182,8 @@ export function pruefeErgebnis(
    */
   const nachTitelUndPlattform = new Map<string, Release[]>()
   for (const r of releases) {
-    if (r.titleId < 0 || r.platform === 'disc' || r.schedule.firstEpisodeNumber) continue
+    /* Fernsehen wiederholt dieselben Folgen (Daima: Erstausstrahlung, dann Sa/So) — kein Widerspruch. */
+    if (r.titleId < 0 || r.platform === 'disc' || r.platform === 'tv' || r.schedule.firstEpisodeNumber) continue
     if (!(r.schedule.episodeCount ?? 0)) continue
     const key = `${r.titleId}|${r.platform}`
     const liste = nachTitelUndPlattform.get(key) ?? []

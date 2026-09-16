@@ -1,6 +1,6 @@
 import { useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import { FSK_COLORS, PLATFORMS, RELEASE_TYPES } from '@shared/types.ts'
+import { FSK_COLORS, PLATFORMS, RELEASE_TYPES, anbieterName } from '@shared/types.ts'
 import type { Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 
@@ -124,7 +124,7 @@ export function Chip({
 const PLAKETTE = 'inline-flex items-center justify-center rounded font-semibold leading-none'
 const PLAKETTE_GROESSE = (small?: boolean) => (small ? 'h-4 px-1.5 text-[10px]' : 'h-5 px-2 text-[11px]')
 
-export function PlatformBadge({ platform, small }: { platform: PlatformId; small?: boolean }) {
+export function PlatformBadge({ platform, small, sender }: { platform: PlatformId; small?: boolean; sender?: string }) {
   const p = PLATFORMS[platform]
   return (
     <span
@@ -135,7 +135,7 @@ export function PlatformBadge({ platform, small }: { platform: PlatformId; small
       ].join(' ')}
       style={{ background: `${p.color}22`, color: p.color, boxShadow: `inset 0 0 0 1px ${p.color}55` }}
     >
-      {p.name}
+      {anbieterName(platform, sender)}
     </span>
   )
 }

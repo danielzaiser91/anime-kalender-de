@@ -1,5 +1,5 @@
 import type { ReleaseEvent } from './types.ts'
-import { PLATFORMS, RELEASE_TYPES } from './types.ts'
+import { RELEASE_TYPES, anbieterName } from './types.ts'
 import { addDays, berlinToUtc, toIcsStamp } from './time.ts'
 import { istAusgeblieben } from './logic.ts'
 
@@ -46,7 +46,7 @@ export function eventSummary(ev: ReleaseEvent): string {
 
 export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): string {
   const lines = [
-    `Plattform: ${PLATFORMS[ev.platform].name}`,
+    `Plattform: ${anbieterName(ev.platform, ev.sender)}`,
     `Release-Art: ${RELEASE_TYPES[ev.releaseType].name}`,
   ]
   if (!ev.time) lines.push('Uhrzeit noch nicht bestätigt.')
@@ -71,7 +71,7 @@ function veventBody(ev: ReleaseEvent, opts: IcsOptions): string[] {
 
   lines.push(`SUMMARY:${esc(eventSummary(ev))}`)
   lines.push(`DESCRIPTION:${esc(eventDescription(ev, opts))}`)
-  lines.push(`CATEGORIES:${esc(PLATFORMS[ev.platform].name)}`)
+  lines.push(`CATEGORIES:${esc(anbieterName(ev.platform, ev.sender))}`)
   lines.push('END:VEVENT')
   return lines
 }
@@ -105,7 +105,7 @@ export function googleCalendarUrl(ev: ReleaseEvent, opts: IcsOptions = {}): stri
   }
 
   params.set('details', eventDescription(ev, opts))
-  params.set('location', PLATFORMS[ev.platform].name)
+  params.set('location', anbieterName(ev.platform, ev.sender))
   params.set('ctz', 'Europe/Berlin')
   return `https://calendar.google.com/calendar/render?${params.toString()}`
 }
