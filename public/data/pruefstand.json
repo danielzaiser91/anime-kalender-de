@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-16T12:30:20.509Z",
+ "erzeugtAm": "2026-09-16T12:32:24.914Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -56,8 +56,8 @@
    "name": "Crunchyroll",
    "plattform": "crunchyroll",
    "gemeldet": 0,
-   "gesamt": 8,
-   "offen": 8,
+   "gesamt": 10,
+   "offen": 10,
    "ohneSeite": 0,
    "ziel": "https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist",
    "ziele": [
@@ -80,6 +80,14 @@
     {
      "url": "https://www.crunchyroll.com/de/series/GR2P21J9R/high-school-dxd",
      "titel": "Highschool D×D BorN: Mini-Episoden"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
+     "titel": "Fruits Basket"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GYVD2K1WY/the-promised-neverland",
+     "titel": "The Promised Neverland Staffel 2"
     },
     {
      "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
