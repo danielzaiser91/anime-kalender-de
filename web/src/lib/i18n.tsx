@@ -375,6 +375,8 @@ const TEXTE = {
   'detail.gruppeFilme': 'Filme',
   'detail.reiheKuenftig': 'noch nicht erschienen',
   'detail.folgenKurz': '{n} Fg.',
+  'detail.folgenBereich': 'Fg. {bereich}',
+  'detail.folgenOhneAnbieter': 'Folgen {bereich} führt kein uns bekannter Anbieter auf Deutsch.',
   'detail.werkangaben': 'Zum Werk',
   'detail.faktFsk': 'Altersfreigabe',
   'detail.studio': 'Studio',

@@ -2,7 +2,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { ReactNode } from 'react'
 import type { Meldung, Release, ReleaseEvent, StreamLink, Title, VermerkAusgeblieben, WatchLink } from '@shared/types.ts'
-import { dubAbdeckung, dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
+import { bereicheKurz, dubAbdeckung, dubGrenze, dubLuecken, folgenOhneAnbieter } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, titleStatus, istErschienen, istAusgeblieben, releaseStatus } from '@shared/logic.ts'
@@ -1995,7 +1995,7 @@ function farbeZuAnbieter(name: string): string | undefined {
 
 function gruppiereKaufwege(
   links: WatchLink[],
-): { shop: string; eintraege: { label?: string; url: string; nurFolge?: number }[] }[] {
+): { shop: string; eintraege: { label?: string; url: string; nurFolge?: number; dubRanges?: WatchLink['dubRanges'] }[] }[] {
   const nachHost = new Map<string, WatchLink[]>()
   for (const l of links) {
     let host = l.url
@@ -2028,11 +2028,11 @@ function gruppiereKaufwege(
     const geteilt = liste.map((l) => zerlege(l.name))
     const gemeinsam = geteilt.every((t) => t.length > 1 && t[0] === geteilt[0][0])
     if (liste.length === 1 || !gemeinsam) {
-      return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url, nurFolge: l.nurFolge })) }
+      return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url, nurFolge: l.nurFolge, dubRanges: l.dubRanges })) }
     }
     return {
       shop: geteilt[0][0],
-      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url, nurFolge: l.nurFolge })),
+      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url, nurFolge: l.nurFolge, dubRanges: l.dubRanges })),
     }
   })
 }
@@ -2837,6 +2837,10 @@ export function DetailPanel({
       const raus = expandEvents(release).filter((e) => istErschienen(e)).length
       return raus ? t('detail.folgenKurz', { n: raus }) : ''
     }
+    /* Decken die Bereiche den Titel nicht ab, nennt die Pille sie selbst — „Fg. 1–75" statt
+       „75 Fg." (Dai-DVD-Box, 16.09.2026): Die Zahl allein sagt nicht, welche fehlen. */
+    if (deutsch.length && !dubAbdeckung(s?.dubRanges, title.episodes).vollstaendig)
+      return t('detail.folgenBereich', { bereich: bereicheKurz(deutsch) })
     if (deutsch.length) return t('detail.folgenKurz', { n: dubAbdeckung(s?.dubRanges, title.episodes).belegt })
     const abgeschlossen = title.jpEnd
       ? title.jpEnd < today
@@ -3209,6 +3213,20 @@ export function DetailPanel({
     return (kuenftig[0] ?? vergangen[0])?.note
   }, [releases, today])
 
+  /*
+    **Welche Folgen bei keinem bekannten Anbieter liegen.** Die Dai-DVD-Box enthält 1–75,
+    die Serie hat 100 Folgen; ohne diese Zeile blieb offen, wo 76–100 zu sehen sind
+    (Daniel, 16.09.2026). Gezählt werden alle deutschen Wege — Verweise mit `dub: true`
+    und Bezugswege mit belegten Bereichen; ein Weg ohne Bereiche gilt als vollständig.
+  */
+  const folgenLuecke = useMemo(() => {
+    if (!title || title.format === 'MOVIE') return null
+    const wege = [
+      ...(title.streams ?? []).filter((s) => s.dub === true).map((s) => s.dubRanges),
+      ...(title.watchLinks ?? []).filter((w) => w.dubRanges?.some((r) => r.dub)).map((w) => w.dubRanges),
+    ]
+    return folgenOhneAnbieter(wege, title.episodes)
+  }, [title])
   const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
 
   /** Die vier Werkangaben der Unterzeile — leer heißt: kein Kasten. */
@@ -3839,7 +3857,11 @@ export function DetailPanel({
               }
               kaufausgabe={kaufausgabeZeile}
               hinweis={
-                title.ohneSynchro ? (
+                folgenLuecke ? (
+                  <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                    {t('detail.folgenOhneAnbieter', { bereich: folgenLuecke })}
+                  </p>
+                ) : title.ohneSynchro ? (
                   <>
                     <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
                       {verbindung.verbunden
@@ -4077,11 +4099,12 @@ export function DetailPanel({
                           */
                           unten={(() => {
                             if (g.eintraege[0].nurFolge) return t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
+                            if (g.eintraege[0].dubRanges?.length) return folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges }) || undefined
                             const verweis = (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)
                             return verweis?.dub === true ? folgenAngabeFuer(verweis) || undefined : undefined
                           })()}
                           rechts={
-                            <DubMark dub={(title.streams ?? []).find((x) => x.url === g.eintraege[0].url)?.dub} />
+                            <DubMark dub={g.eintraege[0].dubRanges?.some((r) => r.dub) || (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)?.dub} />
                           }
                         />
                       )),
@@ -4108,8 +4131,11 @@ export function DetailPanel({
                         unten={
                           g.eintraege.length > 1
                             ? t('where.angebote', { count: g.eintraege.length })
-                            : undefined
+                            : g.eintraege[0].dubRanges?.length
+                              ? folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges }) || undefined
+                              : undefined
                         }
+                        rechts={g.eintraege[0].dubRanges?.some((r) => r.dub) ? <DubMark dub /> : undefined}
                         /*
                           Auch hier trägt der Weg die Farbe seines Anbieters —
                           derselbe Grund wie bei den Stream-Wegen darüber. Für

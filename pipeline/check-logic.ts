@@ -53,7 +53,7 @@ import {
 } from './lib/folgenbereiche.ts'
 import { adnAdresseSchaerfen } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
-import { dubGrenze } from '../shared/dub-grenze.ts'
+import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { netflixNeutral, providerName } from '../shared/mappings.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
@@ -4234,6 +4234,16 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const schwach = roh.filter((e) => (e.sources ?? []).length < 2)
   pruefe('jeder Handbeleg einer Synchro nennt zwei Quellen', schwach.length === 0, schwach.map((e) => e.anilistId))
   pruefe('die Handbelege werden gelesen', loadSynchroVonHand().length === roh.length)
+}
+/*
+  Folgen, die kein bekannter Anbieter auf Deutsch führt (Dai: DVD-Box 1–75 von 100).
+*/
+{
+  pruefe('Dai: 76–100 bei keinem Anbieter', folgenOhneAnbieter([[{ from: 1, to: 75, dub: true }]], 100) === '76–100')
+  pruefe('zwei Wege ergänzen sich', folgenOhneAnbieter([[{ from: 1, to: 50, dub: true }], [{ from: 51, to: 100, dub: true }]], 100) === null)
+  pruefe('ein Weg ohne Bereiche gilt als vollständig', folgenOhneAnbieter([[{ from: 1, to: 75, dub: true }], undefined], 100) === null)
+  pruefe('ohne deutschen Weg keine Aussage', folgenOhneAnbieter([], 100) === null)
+  pruefe('Lücken in der Mitte', folgenOhneAnbieter([[{ from: 1, to: 4, dub: true }, { from: 6, to: 12, dub: true }]], 12) === '5')
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

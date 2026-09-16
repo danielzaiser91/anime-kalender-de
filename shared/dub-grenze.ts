@@ -97,3 +97,40 @@ export function dubAbdeckung(
   if (!gesamt) return { belegt, vollstaendig: true }
   return { belegt, vollstaendig: belegt >= gesamt }
 }
+
+/** „1–75", „3, 5–7" — die Kurzform, in der Bereiche angezeigt werden. */
+export function bereicheKurz(ranges: { from: number; to: number }[]): string {
+  return [...ranges]
+    .sort((a, b) => a.from - b.from)
+    .map((r) => (r.from === r.to ? `${r.from}` : `${r.from}–${r.to}`))
+    .join(', ')
+}
+
+/**
+ * **Welche Folgen kein bekannter Anbieter auf Deutsch führt.**
+ *
+ * „Dragon Quest: The Adventure of Dai" hat 100 Folgen; der einzige deutsche Weg, die
+ * DVD-Box bei Animeversand, enthält 1–75 (Daniel, 16.09.2026: „die restlichen 25 bietet
+ * kein uns bekannter anbieter … generische implementierung").
+ *
+ * Übergeben werden die Bereiche **jedes** deutschen Wegs. Ein Weg ohne Bereiche gilt als
+ * vollständig — so, wie `dubAbdeckung()` ihn liest —, und dann fehlt nichts. Rückgabe ist
+ * die Kurzform der fehlenden Folgen oder null.
+ */
+export function folgenOhneAnbieter(
+  wege: (DubBereich[] | undefined)[],
+  gesamt: number | undefined,
+): string | null {
+  if (!gesamt || !wege.length || wege.some((w) => !w?.length)) return null
+  const da = new Set<number>()
+  for (const w of wege) for (const r of w!) if (r.dub) for (let n = r.from; n <= Math.min(r.to, gesamt); n++) da.add(n)
+  if (!da.size) return null
+  const fehlt: { from: number; to: number }[] = []
+  for (let n = 1; n <= gesamt; n++) {
+    if (da.has(n)) continue
+    const letzter = fehlt[fehlt.length - 1]
+    if (letzter && letzter.to === n - 1) letzter.to = n
+    else fehlt.push({ from: n, to: n })
+  }
+  return fehlt.length ? bereicheKurz(fehlt) : null
+}

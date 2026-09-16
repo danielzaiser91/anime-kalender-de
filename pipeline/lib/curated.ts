@@ -53,7 +53,7 @@ export function loadCurated(): CuratedEntry[] {
 export interface CuratedWatch {
   anilistId: number
   title?: string
-  links?: { name: string; url: string; kind: 'stream' | 'buy' }[]
+  links?: { name: string; url: string; kind: 'stream' | 'buy'; dubRanges?: { from: number; to: number; dub: boolean }[] }[]
   /**
    * Echte Adresse fuer eine der bekannten Plattformen.
    *

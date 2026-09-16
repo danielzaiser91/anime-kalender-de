@@ -231,6 +231,15 @@ export interface WatchLink {
    * genauso aus wie einer zur ganzen Serie.
    */
   nurFolge?: number
+  /**
+   * **Welche Folgen dieser Weg auf Deutsch enthält** — von Hand belegt in
+   * `watch-links.yaml`, gleiche Form wie am Stream-Verweis.
+   *
+   * Anlass: Die Dai-DVD-Box bei Animeversand führt „Episoden: 1-75", die Serie hat 100
+   * Folgen. Ohne die Angabe stand an der Pille gar keine Zahl, und dass 76–100 bei
+   * keinem bekannten Anbieter liegen, sagte niemand (Daniel, 16.09.2026).
+   */
+  dubRanges?: Array<{ from: number; to: number; dub: boolean }>
 }
 
 export interface Title {

@@ -136,6 +136,8 @@
     - name: Animeversand
       url: https://www.animeversand.shop/Dragon-Quest-The-Adventure-of-Dai-Staffel-1-Gesamtausgabe-Bundle-12-DVDs/ADV07511
       kind: buy
+      # Produktseite, Eigenschaften: „Episoden: 1-75", Sprachen Deutsch (16.09.2026)
+      dubRanges: [{ from: 1, to: 75, dub: true }]
   sources:
     - https://www.animeversand.shop/Dragon-Quest-The-Adventure-of-Dai-Staffel-1-Gesamtausgabe-Bundle-12-DVDs/ADV07511
     - https://www.synchronkartei.de/serie/53682
