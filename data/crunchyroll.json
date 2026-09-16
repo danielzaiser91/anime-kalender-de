@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-16T11:56:49.569Z",
+  "scrapedAt": "2026-09-16T17:09:48.959Z",
   "window": {
     "from": "2026-09-07",
     "to": "2026-09-27"
@@ -830,7 +830,8 @@
         "2026-08-19",
         "2026-08-26",
         "2026-09-02",
-        "2026-09-09"
+        "2026-09-09",
+        "2026-09-16"
       ],
       "rawTitle": "Clevatess Staffel 2 (Deutsch)",
       "seriesId": "G8DHV78ZM",
@@ -875,6 +876,10 @@
         {
           "date": "2026-09-09",
           "episode": 10
+        },
+        {
+          "date": "2026-09-16",
+          "episode": 11
         }
       ],
       "earliest": {
@@ -1042,7 +1047,8 @@
         "2026-08-19",
         "2026-08-26",
         "2026-09-02",
-        "2026-09-09"
+        "2026-09-09",
+        "2026-09-16"
       ],
       "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
       "seriesId": "GR9P57W96",
@@ -1075,6 +1081,10 @@
         {
           "date": "2026-09-09",
           "episode": 7
+        },
+        {
+          "date": "2026-09-16",
+          "episode": 8
         }
       ],
       "earliest": {
@@ -1093,7 +1103,8 @@
         "2026-08-19",
         "2026-08-26",
         "2026-09-02",
-        "2026-09-09"
+        "2026-09-09",
+        "2026-09-16"
       ],
       "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
       "seriesId": "G0XHWM0D3",
@@ -1126,6 +1137,10 @@
         {
           "date": "2026-09-09",
           "episode": 7
+        },
+        {
+          "date": "2026-09-16",
+          "episode": 8
         }
       ],
       "earliest": {
@@ -1754,6 +1769,36 @@
       "date": "2026-09-14",
       "time": "15:00",
       "episode": 11,
+      "german": true
+    },
+    {
+      "key": "clevatess s2",
+      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV78ZM",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "date": "2026-09-16",
+      "time": "14:00",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "saga of tanya the evil s2",
+      "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
+      "seriesId": "GR9P57W96",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
+      "date": "2026-09-16",
+      "time": "15:30",
+      "episode": 8,
+      "german": true
+    },
+    {
+      "key": "trapped in a dating sim the world of otome games is tough for mobs s2",
+      "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
+      "seriesId": "G0XHWM0D3",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "date": "2026-09-16",
+      "time": "17:30",
+      "episode": 8,
       "german": true
     }
   ]
