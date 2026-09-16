@@ -1915,10 +1915,21 @@ function main(): void {
       const name = providerName(offer.name)
       if (!name) continue
       if (watchLinks.some((w) => w.name === name)) continue
+      /*
+        **Kauf und Leihe sind hier digital — sie gehören zum Streamen, nicht zur Disc.**
+
+        TMDB listet unter `watch/providers` ausschließlich Video-on-Demand-Anbieter.
+        Bis zum 16.09.2026 wurde aus `rent`/`buy` ein `kind: 'buy'`, und damit standen
+        maxdome und freenet meinVOD im Disc-Reiter des Panels (Daniel: „die pills sind
+        falsch als disc eingeordnet, das sind streambare titel"). Die Zugangsart trägt
+        den Unterschied zwischen Abo und Kauf; der Reiter trägt nur, ob man es
+        anschaut oder ins Regal stellt.
+      */
       watchLinks.push({
         name,
         url: info.justwatchUrl,
-        kind: offer.kind === 'flatrate' ? 'stream' : 'buy',
+        kind: 'stream',
+        zugang: offer.kind === 'flatrate' ? 'abo' : 'kauf',
       })
     }
     if (watchLinks.length) {
@@ -6179,6 +6190,13 @@ function main(): void {
    * | „JustWatch TV" fliegt raus | die Eigenwerbung des Dienstes, führt zurück auf justwatch.com |
    * | höchstens vier je Titel | eine Liste von zwölf Amazon-Varianten beantwortet keine Frage |
    */
+  /**
+   * Händler, die bei JustWatch eine **Disc** verkaufen oder verleihen. Alle übrigen
+   * Kauf- und Leihangebote dort sind digital. Belegt an den Anbietern im Bestand vom
+   * 16.09.2026; Videobuster steht hier, weil es vor allem Discs per Post verleiht.
+   */
+  const PHYSISCHE_SHOPS =
+    /amazon dvd|blu-ray|thalia|hugendubel|buecher|zavvi|jpc|zoxs|medimops|verleihshop|behind the tree|videobuster/i
   let jwWege = 0
   {
     const jw = readJson<
@@ -6194,7 +6212,20 @@ function main(): void {
         if (toteAdressen.has(a.url)) continue
         const name = providerName(a.anbieter)
         if (!name || wege.some((w) => w.name === name)) continue
-        wege.push({ name, url: a.url, kind: a.art === 'FLATRATE' || a.art === 'FREE' ? 'stream' : 'buy' })
+        /*
+          JustWatch führt Disc-Händler und Online-Videotheken in derselben Liste. Ein
+          Disc-Händler bleibt ein Kaufweg; alles andere ist digital und zählt zum
+          Streamen — gemessen an 3.279 Kauf- und Leihangeboten im Bestand vom 16.09.2026.
+        */
+        const physisch = PHYSISCHE_SHOPS.test(a.anbieter)
+        wege.push({
+          name,
+          url: a.url,
+          kind: physisch ? 'buy' : 'stream',
+          ...(physisch
+            ? {}
+            : { zugang: a.art === 'FLATRATE' ? 'abo' : a.art === 'FREE' || a.art === 'ADS' ? 'kostenlos' : 'kauf' }),
+        } as WatchLink)
         if (wege.length >= 4) break
       }
       if (!wege.length) continue

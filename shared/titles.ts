@@ -245,6 +245,56 @@ export function reihenVertreter<T extends Pick<Title, 'jpYear' | 'jpSeason' | 'i
  * „Staffel 1" und „Staffel 2" zur Auswahl stehen, wäre das eine Zählung zu
  * viel.
  */
+/**
+ * **Wie die Reihe heißt, wenn der Name ihres ersten Teils einen Teil-Untertitel trägt.**
+ *
+ * Über „Code Geass: Akito the Exiled - The Brightness Falls" stand als Reihenname
+ * „Code Geass: Akito the Exiled - Der zerrissene Wyvern — Arrives" — der Name des
+ * ersten Films. Die Teile-Box darunter konnte deshalb den gemeinsamen Anfang nicht
+ * abziehen, und jeder Eintrag begann mit „Code Geass: Akito the Exiled - …" (Daniel,
+ * 16.09.2026: „titel ganz oben muss nur code geass: Akito the Exiled sein, und unten
+ * … kann dieser teil überall entfernt werden").
+ *
+ * **Gewählt wird der längste Anfang des Kopfnamens, den die Mehrheit der Teile
+ * trägt** — erst der volle Name, dann an jeder Trennstelle kürzer. Drei Riegel, jeder
+ * aus einem Fehlgriff beim Durchmessen über alle 467 Reihen:
+ *
+ * - **Der volle Name ist der erste Kandidat.** Ohne ihn wurde „Demon Slayer: Kimetsu
+ *   no Yaiba" zu „Demon Slayer" — der Untertitel gehört dort zum Werk, nicht zu einem Teil.
+ * - **Die Mehrheit, nicht alle.** Ein einziger Teil mit abweichendem Namen („Code Geass:
+ *   Boukoku no Akito 2 - …", ohne deutschen Titel) hätte sonst „Code Geass" erzwungen.
+ * - **Trennzeichen sind gleichwertig, und ein Wort darf direkt folgen.** „Cat’s Eye –
+ *   Ein Supertrio" und „Cat’s Eye: Ein Supertrio" sind derselbe Name; „Star Wars:
+ *   Visionen Volume 3" trägt „Star Wars: Visionen" ohne Trennzeichen dazwischen. Ohne
+ *   diese beiden Regeln hieß die Anthologie nur noch „Star Wars".
+ *
+ * Gemessen danach: 38 von 467 Reihen bekommen einen kürzeren Namen, alle in der Form
+ * „Reihe: Teil" → „Reihe" (Rurouni Kenshin, Sailor Moon, City Hunter, Resident Evil …).
+ */
+export function reihenAnfang(kopf: string, namen: string[]): string {
+  const vereinheitlicht = (x: string) =>
+    x
+      .toLowerCase()
+      .replace(/[’']/g, "'")
+      .replace(/s*[:–—]s+|s+-s+/g, ' | ')
+      .replace(/s+/g, ' ')
+      .trim()
+  const traegt = (name: string, anfang: string) => {
+    const a = vereinheitlicht(name)
+    const b = vereinheitlicht(anfang)
+    return a === b || a.startsWith(b + ' ')
+  }
+  const kandidaten = [
+    kopf,
+    ...[...kopf.matchAll(/s*[:–—]s|s-s/g)].map((m) => kopf.slice(0, m.index).trim()).reverse(),
+  ]
+  for (const anfang of kandidaten) {
+    if (anfang.split(/s+/).length < 2) continue
+    if (namen.filter((n) => traegt(n, anfang)).length * 2 > namen.length) return anfang
+  }
+  return kopf
+}
+
 export function ohneStaffelEins(name: string): string {
   return eindeutschenStaffel(name)
     .replace(/\s*[–—-]?\s*\(?(Staffel|Season)\s*1\)?\s*$/i, '')

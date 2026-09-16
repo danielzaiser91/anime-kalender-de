@@ -16,6 +16,7 @@ import {
   eindeutschenStaffel,
   hauptstaffeln,
   staffelBeschriftungen,
+  reihenAnfang,
   istStaffel,
   ohneStaffelEins,
   reihenVertreter,
@@ -2515,7 +2516,9 @@ export function DetailPanel({
   const reihenName = useMemo(() => {
     if (!title) return ''
     if (reihe.length < 2) return anzeigeName(title)
-    return ohneStaffelEins(reihenVertreter(reihe.map((m) => ({ ...m, id: m.id }))).name)
+    const kopf = ohneStaffelEins(reihenVertreter(reihe.map((m) => ({ ...m, id: m.id }))).name)
+    /* Der erste Teil nennt oft sich selbst, nicht die Reihe — siehe `reihenAnfang()`. */
+    return reihenAnfang(kopf, reihe.map((m) => m.name))
   }, [reihe, title])
 
   /**
@@ -2679,15 +2682,23 @@ export function DetailPanel({
         genau dieses Versprechen — und zwar an der Stelle, an der jemand
         nachsieht, ob er die Serie kaufen kann.
       */
+      /*
+        **Ein digitaler Kauf ist Streamen, keine Disc.**
+
+        Hier wanderte jeder Weg mit `zugang: 'kauf'` in den Disc-Reiter, auch wenn
+        er als `kind: 'stream'` angelegt war — maxdome und freenet meinVOD standen
+        dadurch unter „Disc" (Daniel, 16.09.2026: „die pills sind falsch als disc
+        eingeordnet, das sind streambare titel"). Der Reiter fragt „anschauen oder
+        ins Regal stellen"; ob das Anschauen Geld kostet, sagt die Zugangsart, und
+        die steht in der Gruppenüberschrift.
+
+        Der Disc-Reiter nimmt deshalb nur noch `kind: 'buy'` — Händler, die einen
+        Datenträger verschicken.
+      */
       streamWege: gruppiereKaufwege(
-        (title?.watchLinks ?? []).filter(
-          (w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art && art !== 'kauf',
-        ),
+        (title?.watchLinks ?? []).filter((w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art),
       ),
       shops: gruppiereKaufwege([
-        ...(title?.watchLinks ?? []).filter(
-          (w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art && art === 'kauf',
-        ),
         /**
          * Kaufwege gehören in die Kauf-Gruppe, nicht in einen zweiten Block.
          *
