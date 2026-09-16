@@ -511,9 +511,30 @@ function suchbegriffAus(name) {
   return worte.join(' ') || (name ?? '')
 }
 
+/*
+  **Die Suchadressen stehen nicht mehr im Datensatz — der Bau legt sie ab.**
+
+  Seit dem 10.09.2026 entfernt `build.ts` Suchverweise von der Seite und
+  schreibt sie nach `data/suchadressen-offen.json`. Diese Schleife las weiter
+  nur `t.streams` und fand dort keine mehr: Die Statusanzeige zeigte
+  „Suchadressen 1" (Yu-Gi-Oh! Capsule Monsters), die Erweiterung kannte die
+  Suche nicht, und auf Amazons Suchseite ohne Treffer stand kein Kasten (Daniel,
+  16.09.2026). Beide lesen jetzt dieselbe Datei.
+*/
+const abgelegteSuchen = new Map()
+try {
+  for (const e of JSON.parse(readFileSync(resolve(wurzel, 'data/suchadressen-offen.json'), 'utf8'))) {
+    if (e.plattform !== 'primevideo' || !e.url) continue
+    if (!abgelegteSuchen.has(e.id)) abgelegteSuchen.set(e.id, [])
+    abgelegteSuchen.get(e.id).push({ platform: 'primevideo', url: e.url })
+  }
+} catch {
+  /* Ohne Datei gibt es keine abgelegten Suchen. */
+}
+
 const suche = {}
 for (const t of titel) {
-  for (const s of t.streams ?? []) {
+  for (const s of [...(t.streams ?? []), ...(abgelegteSuchen.get(t.id) ?? [])]) {
     if (s.platform !== 'primevideo' || !/\/s\?/.test(s.url ?? '')) continue
     if (s.dub !== undefined) continue
     if (!verdaechtig.has(t.id) && (geprueftePrime.ids.has(t.id) || geprueftePrime.adressen.has(s.url))) {

@@ -136,7 +136,8 @@ function baueDom() {
     appendChild(k) { this.kinder.push(k); return k },
     /* Die Ankreuz-Zeile hängt Feld und Text in einem Aufruf ein. */
     append(...neu) { this.kinder.push(...neu) },
-    remove() {},
+    /* Gemerkt, nicht verworfen: Der Takt entfernt den Kasten auf fremden Seiten (16.09.2026). */
+    remove() { this.entfernt = true },
     addEventListener(art, fn) { this.hoerer[art] = fn },
     querySelector(wahl) { return suche(this, wahl) },
     querySelectorAll: () => [],
@@ -169,6 +170,8 @@ const PFADE = [
   { pfad: '/gp/video/storefront', suche: '' },
   { pfad: '/dp/B0DJYJBNWF', suche: '' },
   { pfad: '/s', suche: '?k=Death%20Note%20Relight&i=instant-video' },
+  /* Eine Suche ohne Treffer — dort fehlt Amazons Seitenblock (16.09.2026, Yu-Gi-Oh! Capsule Monsters). */
+  { pfad: '/s', suche: '?k=Death%20Note%20Relight&i=instant-video', leer: true },
   /* Die Stand-Probe vom 14.09.2026 — eigene Liste, eigene Abruf-Antworten (siehe `STAND_LISTE`). */
   { pfad: '/gp/video/storefront', suche: '', stand: true },
 ]
@@ -219,10 +222,12 @@ function baueKarten(mach) {
   ]
 }
 
-for (const { pfad, suche, stand } of PFADE) {
+for (const { pfad, suche, stand, leer } of PFADE) {
   const { mach, body } = baueDom()
+  /* Amazons eigener Satz auf einer leeren Suche — ohne ihn gilt sie als ungelesen. */
+  if (leer) body.innerText = 'Für „Death Note Relight“ wurden keine Ergebnisse gefunden.'
   /* Karten gibt es nur auf der Suchseite — sonst wäre der Kasten dort falsch. */
-  const karten = pfad === '/s' ? baueKarten(mach) : []
+  const karten = pfad === '/s' && !leer ? baueKarten(mach) : []
   /* Der Takt sammelt sich hier; ausgelöst wird er nach dem Laden. */
   const takte = []
   const angehaengt = []
@@ -449,8 +454,12 @@ for (const { pfad, suche, stand } of PFADE) {
   const inhalt = kasten?.querySelector?.('.ak-z-inhalt') ?? null
   const zeilen = inhalt?.kinder?.length ?? 0
   const texte = (inhalt?.kinder ?? []).map((k) => String(k.textContent ?? '').slice(0, 40)).filter(Boolean)
-  console.log('  Kasten:', kasten ? `${zeilen} Zeile(n)` : 'FEHLT')
+  console.log('  Kasten:', kasten ? `${zeilen} Zeile(n)${kasten.entfernt ? ', vom Takt ENTFERNT' : ''}` : 'FEHLT')
   for (const t of texte.slice(0, 4)) console.log('        ·', t)
+  if (leer && !texte.some((t) => /Nicht bei Prime/.test(t))) {
+    console.log('  ⚠ Auf der leeren Suche fehlt „Nicht bei Prime — melden“.')
+    fehlgeschlagen = true
+  }
   if (pfad === '/s' && (!kasten || zeilen === 0)) {
     console.log('  ⚠ Auf der Suchseite bleibt der Kasten leer — der Ablauf steigt vor dem Befund aus.')
     fehlgeschlagen = true

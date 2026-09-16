@@ -238,6 +238,8 @@ async function speicherSchreiben(werte) {
     const sichtbar = document.body?.innerText ?? ''
     const text = `${sichtbar} ${html}`
     lage = {
+      /** Amazons Satz auf einer Suche ohne Treffer — gelesen in `suchTreffer()`. */
+      keineErgebnisse: /keine\s+ergebnisse|no\s+results\s+for/i.test(sichtbar),
       fehlerseite: /keine funktionsf(?:ä|ae)hige Seite|Suchen Sie etwas?/i.test(text),
       regionWeg: /In deiner Region nicht mehr auf Prime Video verf(?:ü|ue)gbar/i.test(text),
       /**
@@ -2324,6 +2326,17 @@ async function speicherSchreiben(werte) {
         zugang: k.getAttribute('data-card-entitlement') ?? '',
         url: k.querySelector('a[href*="/gp/video/detail/"]')?.getAttribute('href') ?? null,
       })),
+      /*
+        **Eine Suche ohne jede Karte, die das selbst sagt, ist gelesen.**
+
+        Ohne Karten galt die Seite als „noch nicht gelesen", für immer: Bei
+        „Yu-Gi-Oh! Capsule Monsters" liefert Prime gar nichts, auch keine
+        Empfehlungen, und der Kasten hätte nie „nicht bei Prime" angeboten
+        (16.09.2026). Nur mit Amazons eigenem Satz, damit eine halb geladene
+        Seite weiter als ungelesen gilt.
+      */
+      leerGemeldet:
+        !karten.length && seitenLage().keineErgebnisse,
     }
   }
 
@@ -2718,7 +2731,7 @@ async function speicherSchreiben(werte) {
       Seite war vielleicht noch nicht fertig. Ein Befund „nichts gefunden"
       beantwortet nicht, ob überhaupt gesucht wurde.
     */
-    if (!gefunden.gesehen) return { art: 'unklar' }
+    if (!gefunden.gesehen && !gefunden.leerGemeldet) return { art: 'unklar' }
 
     /*
       Karten da, aber keine trägt den Namen: Der Titel ist nicht dabei. Das

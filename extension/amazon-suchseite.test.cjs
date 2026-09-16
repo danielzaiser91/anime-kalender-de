@@ -404,6 +404,8 @@ const bau = new Function(
       quelltext.indexOf('  const ERGEBNISLISTE ='),
       quelltext.indexOf('\n', quelltext.indexOf('  const ERGEBNISLISTE =')),
     ),
+    /* `suchTreffer()` fragt die Seitenlage nur nach Amazons Leer-Satz. */
+    'const seitenLage = () => ({ keineErgebnisse: document.keineErgebnisse === true })',
     schneide('suchTreffer'),
     kernQuelle,
     /* Die Staffelnummer im Titel entscheidet seit 3.52 mit — mit ausschneiden. */
@@ -417,11 +419,22 @@ const bau = new Function(
   ].join('\n'),
 )
 
-function werte(gruppen, auftrag) {
+function werte(gruppen, auftrag, keineErgebnisse = false) {
   const knoten = suchDom(gruppen)
-  const { suchTreffer, beurteileTreffer } = bau({ querySelectorAll: () => knoten })
+  const { suchTreffer, beurteileTreffer } = bau({ querySelectorAll: () => knoten, keineErgebnisse })
   const gefunden = suchTreffer()
   return { gefunden, befund: beurteileTreffer(auftrag, gefunden) }
+}
+
+/*
+  **Eine leere Suche, die es selbst sagt, ist ein Befund** (16.09.2026, Yu-Gi-Oh!
+  Capsule Monsters: keine Karte, keine Empfehlung). Ohne Amazons Satz bleibt sie
+  ungelesen — die Seite kann noch laden.
+*/
+{
+  const auftrag = { titel: 'Yu-Gi-Oh! Capsule Monsters', typ: 'TV' }
+  pruefe('leere Suche mit Amazons Satz: kein Treffer', werte([], auftrag, true).befund.art === 'keiner')
+  pruefe('leere Suche ohne den Satz: noch nicht gelesen', werte([], auftrag, false).befund.art === 'unklar')
 }
 
 // Daniels Fall: fünf Empfehlungen, kein Treffer.
