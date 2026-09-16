@@ -3122,7 +3122,18 @@ export function DetailPanel({
     */
     const mitUrteil = (title.streams ?? []).filter((s) => s.dub === true)
     const belegen = mitUrteil.some((s) => s.dubRanges?.length) ? mitUrteil.filter((s) => s.dubRanges?.length) : mitUrteil
-    const abdeckung = belegen.map((s) => dubAbdeckung(s.dubRanges, gesamt))
+    /*
+      Auch Kaufwege mit belegter Spanne zählen — und ein Titel, dessen Synchro nur über
+      Sprechrollen belegt ist, gilt als vollständig: Dort ist keine Spanne bekannt, und
+      „0 von 100" stand über der Dai-Box mit allen 100 Folgen (16.09.2026).
+    */
+    const abdeckung = [
+      ...belegen.map((s) => dubAbdeckung(s.dubRanges, gesamt)),
+      ...(title.watchLinks ?? [])
+        .filter((w) => w.dubRanges?.some((r) => r.dub))
+        .map((w) => dubAbdeckung(w.dubRanges, gesamt)),
+    ]
+    if (!abdeckung.length && hatSynchro) abdeckung.push(dubAbdeckung(undefined, gesamt))
     const vollstaendig = abdeckung.some((a) => a.vollstaendig)
     const belegteFolgen = abdeckung.length ? Math.max(...abdeckung.map((a) => a.belegt)) : 0
 

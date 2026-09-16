@@ -27,7 +27,7 @@ import {
 } from './lib/crunchyroll-dub.ts'
 import { terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { englischAusSynonymen } from './lib/anisearch-titel.ts'
-import { alleTermine } from './lib/crunchyroll-termine.ts'
+import { alleTermine, beobachtungenAusBlock } from './lib/crunchyroll-termine.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
@@ -4758,6 +4758,24 @@ function main(): void {
         `${termineNeu} deutsche Streaming-Termine aus den Crunchyroll-Folgendaten abgeleitet` +
           (termineSchonDa ? ` (${termineSchonDa} hatten schon einen)` : ''),
       )
+
+    /* Vorhandene Wochentermine bekommen die Tage der Folgen, die das Kalenderfenster nicht sah — siehe `beobachtungenAusBlock()`. */
+    const crNachKennung = new Map(crDub.serien.map((s) => [s.seriesId, s]))
+    let folgenDatiert = 0
+    for (const r of releases) {
+      if (r.platform !== 'crunchyroll' || r.releaseType !== 'weekly' || !r.schedule.observed) continue
+      const kennung = /series\/([A-Z0-9]+)/.exec(r.platformUrl ?? '')?.[1]
+      const serie = kennung ? crNachKennung.get(kennung) : undefined
+      if (!serie) continue
+      const erste = r.schedule.firstEpisodeNumber ?? 1
+      const letzte = erste + (r.schedule.episodeCount ?? 0) - 1
+      const neu = Object.entries(beobachtungenAusBlock(serie, r.schedule.observed)).filter(
+        ([n]) => Number(n) >= erste && Number(n) <= letzte,
+      )
+      for (const [n, datum] of neu) r.schedule.observed[Number(n)] = datum
+      folgenDatiert += neu.length
+    }
+    if (folgenDatiert) log(`${folgenDatiert} Crunchyroll-Folgen mit ihrem deutschen Tag nachgetragen (vorher geschätzt)`)
 
     /* Geschrieben wird erst am Ende — nach der letzten Stelle, die entfernt. */
   }

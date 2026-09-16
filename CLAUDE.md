@@ -1977,6 +1977,14 @@ prüft nach seinem Ende nach, ob die Korrektur noch steht. Ein roter
 `check:logic` ist dabei der Freund: Er hat genau diesen Fall gemeldet, zwanzig
 Minuten nachdem er eingetreten war.
 
+**Zweiter Fall, 16.09.2026, und er traf eine Datei, die ich lokal neu erzeugt hatte.**
+`data/disc-ausgaben.json` bekam um 15:21 Uhr neue Felder (Format, Art); ein Nachhol-Lauf,
+der um 15:19 Uhr gestartet war, committete um 16:07 Uhr seinen alten Stand darüber. Der
+Bau danach fand keine Felder, die Disc-Pillen blieben aus — bemerkt erst bei der
+Live-Prüfung. **Vor dem Commit einer Datei aus `QUELLEN` wird `gh run list` gefragt**, ob
+ein Datenlauf läuft; wenn ja, wird nach seinem Ende nachgesehen, ob die eigene Fassung
+noch steht.
+
 **Und deshalb gehört zu jeder Datenkorrektur eine Zusicherung.** Die Korrektur
 allein hält einen Lauf nicht aus; die Zusicherung meldet sich, wenn sie
 verlorengeht. Am selben Tag zweimal bewiesen — beim Kanal-Nein und bei den

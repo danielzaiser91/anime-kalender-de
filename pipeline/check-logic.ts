@@ -90,6 +90,7 @@ import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
 import { ladeTitelDe } from './lib/titel-de.ts'
+import { beobachtungenAusBlock } from './lib/crunchyroll-termine.ts'
 import { artAus, formatAus, kurzAus } from './extract-disc-ausgaben.ts'
 import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
@@ -4302,6 +4303,19 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const f = (n: number) => ev.find((e) => e.episode === n)
   pruefe('Folge 10 vor dem Prüftag ist belegt, nicht geschätzt', f(10)?.estimated === undefined, f(10))
   pruefe('Folge 11 danach bleibt geschätzt', f(11)?.estimated === true, f(11))
+}
+/* Crunchyroll-Folgendaten ergänzen einen Wochentermin nur über einen eindeutig passenden Block (16.09.2026). */
+{
+  const folge = (nummer: number, tag: string) => ({ nummer, guid: `g${nummer}${tag}`, verfuegbarAb: `${tag}T10:00:00Z` })
+  const serie = {
+    url: 'x', seriesId: 'X', katalog: 'de', staffeln: [
+      { name: 'S1', deutscheFolgen: [folge(1, '2026-04-04'), folge(2, '2026-04-11'), folge(9, '2026-05-30')] },
+      { name: 'S2', deutscheFolgen: [folge(1, '2026-10-01'), folge(9, '2026-11-26')] },
+    ],
+  } as unknown as Parameters<typeof beobachtungenAusBlock>[0]
+  const neu = beobachtungenAusBlock(serie, { 9: '2026-05-30' })
+  pruefe('der Block mit derselben beobachteten Folge liefert die übrigen Tage', neu[1] === '2026-04-04' && neu[2] === '2026-04-11' && !neu[9], neu)
+  pruefe('ohne passende Beobachtung kommt nichts', Object.keys(beobachtungenAusBlock(serie, { 9: '2026-05-31' })).length === 0)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

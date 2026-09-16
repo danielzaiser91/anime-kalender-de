@@ -266,3 +266,34 @@ export function alleTermine(serien: CrSerie[], nachUrl: Map<string, Title[]>): C
   for (const serie of serien) raus.push(...termineAusSerie(serie, nachUrl.get(serie.url) ?? []))
   return raus
 }
+
+/**
+ * **Die deutschen Folgendaten des Blocks, der zu einem vorhandenen Wochentermin gehört.**
+ *
+ * Der Kalender sieht nur ein Fenster von acht bis zwölf Wochen; was davor lief, stand als
+ * „geschätzt" da — 97 vergangene Crunchyroll-Termine in 17 Staffeln am 16.09.2026, darunter
+ * Iruma-kun Staffel 4 mit den Folgen 1–8. Der Dub-Bestand kennt diese Tage je Folge.
+ *
+ * Gepaart wird über das, was beide schon teilen: eine beobachtete Folge mit Nummer **und**
+ * Tag. Ein Block gilt nur, wenn jede seiner Folgen, die auch beobachtet ist, am selben Tag
+ * steht, und genau **ein** Block das erfüllt. Gemessen: 17 von 17 Staffeln eindeutig.
+ * Zurück kommen nur Folgen, die noch keine Beobachtung haben — eine Beobachtung schlägt
+ * die Ableitung.
+ */
+export function beobachtungenAusBlock(serie: CrSerie, beobachtet: Record<number, string>): Record<number, string> {
+  if (serie.katalog !== 'de') return {}
+  const gesehen = Object.entries(beobachtet)
+  if (!gesehen.length) return {}
+  const passend = (serie.staffeln ?? []).filter((st) => {
+    const tage = new Map(datierte(st).filter((f) => f.nummer).map((f) => [String(f.nummer), nachBerlin(f.verfuegbarAb!)?.datum]))
+    const gemeinsam = gesehen.filter(([n]) => tage.has(n))
+    return gemeinsam.length > 0 && gemeinsam.every(([n, d]) => tage.get(n) === d)
+  })
+  if (passend.length !== 1) return {}
+  const raus: Record<number, string> = {}
+  for (const f of datierte(passend[0]!)) {
+    const datum = nachBerlin(f.verfuegbarAb!)?.datum
+    if (f.nummer && datum && !beobachtet[f.nummer]) raus[f.nummer] = datum
+  }
+  return raus
+}
