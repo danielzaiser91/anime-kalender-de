@@ -931,7 +931,25 @@ export function ImpressumView() {
               Crunchyroll-Simulcast-Kalender
             </a>
           </li>
-          <li>Termine: aniSearch, Anime2You — Quelle je Eintrag im Detail-Panel verlinkt</li>
+          {/*
+            **aniSearch mit voller Rolle und Link** (16.09.2026).
+
+            Hier stand nur „Termine: aniSearch, Anime2You" — ohne Link und ohne
+            die beiden Angaben, für die wir aniSearch tatsächlich am meisten
+            nutzen: deutsche Titel und Inhaltsangaben. aniSearch hat genau das
+            angemerkt, und der Punkt trifft: Die Quellenseite (#/quellen) führt
+            beides seit Längerem, das Impressum nicht.
+          */}
+          <li>
+            Deutsche Titel, Inhaltsangaben und Bezugsquellen:{' '}
+            <a className="underline" href="https://www.anisearch.de">aniSearch</a>
+          </li>
+          <li>
+            Termine:{' '}
+            <a className="underline" href="https://www.anisearch.de">aniSearch</a>,{' '}
+            <a className="underline" href="https://www.anime2you.de">Anime2You</a> — Quelle je
+            Eintrag im Detail-Panel verlinkt
+          </li>
         </ul>
       </div>
 
