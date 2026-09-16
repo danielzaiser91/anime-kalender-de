@@ -239,6 +239,7 @@ const TEXTE = {
   'where.discGesamt': 'Gesamtausgabe',
   'where.discEinzeln': 'Einzelausgaben',
   'where.discAnzahl': '{n} Ausgaben',
+  'where.discAnzahlEine': '1 Ausgabe',
   'where.titleOne': '1 Eintrag',
   'where.tallyYes': 'deutsche Synchro dort belegt',
   'where.tallyOpen': 'Der Anbieter macht dazu keine öffentliche Angabe.',

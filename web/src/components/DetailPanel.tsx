@@ -185,6 +185,17 @@ function deSeitZeile(
 ): string {
   const e = title.deErstausgabe
   if (!e) return ''
+  /*
+    Liegt das Angebot eines Anbieters mit deutscher Tonspur **vor** diesem Datum, ist es nicht
+    das früheste — „Auf Deutsch seit 28.04.2025" neben „Bei Netflix im Angebot seit 06.03.2024"
+    (Hero Mask, Stichprobe 16.09.2026). Dann steht nur das Angebot da.
+  */
+  const angebot = title.angebotSeit
+  if (
+    !fremd && e.von && angebot?.date && angebot.date < e.von &&
+    (title.streams ?? []).some((s) => s.platform === angebot.platform && s.dub === true)
+  )
+    return ''
   const wann = e.von ? formatDate(e.von) : (e.zeitraum ?? '')
   /*
     **Ohne Datum bleibt der Verlag — er ist die ganze Spur, die es gibt.**
@@ -1668,7 +1679,7 @@ function discPillen(
         <span className="flex flex-col leading-tight">
           <span className="whitespace-nowrap text-[13px] font-medium">{t('where.discEinzeln')}</span>
           <span className="whitespace-nowrap text-[11px] text-slate-500 dark:text-slate-400">
-            {t('where.discAnzahl', { n: einzeln.length })} {offen ? '▴' : '▾'}
+            {einzeln.length === 1 ? t('where.discAnzahlEine') : t('where.discAnzahl', { n: einzeln.length })} {offen ? '▴' : '▾'}
           </span>
         </span>
       </button>,
