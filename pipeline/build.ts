@@ -480,6 +480,35 @@ function schreibeCartoons(): void {
   const titel = eintraege
     .map(alsTitel)
     .sort((a, b) => (b.jpYear ?? 0) - (a.jpYear ?? 0) || a.id - b.id)
+  /*
+    **Handbelege gelten auch hier** (16.09.2026, The Mighty Nein: Daniel fand bei
+    Prime alle acht Folgen auf Deutsch). TMDB nennt nur den Dienst; ein Beleg mit
+    negativer Kennung trägt Adresse und Sprache nach oder nimmt den Weg heraus.
+  */
+  const belege = loadDubChecks().filter((b) => b.anilistId < 0)
+  const nachId = new Map(titel.map((t) => [t.id, t]))
+  let belegt = 0
+  for (const b of belege) {
+    const t = nachId.get(b.anilistId)
+    if (!t) continue
+    if (b.available === false || b.dub === false) {
+      t.streams = t.streams.filter((s) => s.platform !== b.platform)
+      continue
+    }
+    if (b.dub !== true && !b.url) continue
+    let s = t.streams.find((x) => x.platform === b.platform)
+    if (!s) {
+      s = { platform: b.platform as PlatformId, url: '' }
+      t.streams.push(s)
+    }
+    if (b.url) s.url = b.url
+    if (b.dub === true) {
+      s.dub = true
+      if (b.dubRanges?.length) s.dubRanges = b.dubRanges
+      belegt++
+    }
+  }
+  if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)
   writeJson(`${OUT}/cartoons.json`, titel)
   log(`${titel.length} westliche Animationsserien geschrieben`)
 }

@@ -23,6 +23,7 @@ import {
 } from '@shared/titles.ts'
 import {
   loadAllTitles,
+  loadCartoons,
   loadFranchises,
   loadMeldungen,
   loadOhneSynchro,
@@ -706,7 +707,14 @@ function AntwortKasten({
       dasselbe Nein, dazu ein leerer Balken. Es bleibt der Satz, der die Frage
       beantwortet.
     */
-    haupt = T('antwort.ohneTitel')
+    /*
+      **Bei Cartoons ist „noch keine deutsche Fassung" eine Behauptung, die niemand
+      geprüft hat** — TMDB nennt Anbieter, keine Tonspuren, und eine deutsche Fassung
+      ist dort der Normalfall (Daniel an The Mighty Nein, 16.09.2026).
+    */
+    haupt = title.westlich
+      ? T(title.streams.length ? 'antwort.westlichVerfuegbar' : 'antwort.westlichUngeprueft')
+      : T('antwort.ohneTitel')
     /*
       **Auch ein Nein braucht die Gegenstimme.**
 
@@ -1514,14 +1522,15 @@ function kinoDatum(jp: string): string {
   return jahr ?? jp
 }
 
-function jpAngabe(jpStart: string | undefined, jpYear: number | undefined): string | undefined {
+function jpAngabe(jpStart: string | undefined, jpYear: number | undefined, land = 'JP'): string | undefined {
+  /* „JP 2025" stand über The Mighty Nein, einer US-Serie (Daniel, 16.09.2026) — das Land kommt jetzt aus dem Titel. */
   if (jpStart) {
     const [jahr, monat, tag] = jpStart.split('-')
-    if (tag) return `JP ${tag}.${monat}.${jahr}`
-    if (monat) return `JP ${monat}.${jahr}`
-    return `JP ${jahr}`
+    if (tag) return `${land} ${tag}.${monat}.${jahr}`
+    if (monat) return `${land} ${monat}.${jahr}`
+    return `${land} ${jahr}`
   }
-  return jpYear ? `JP ${jpYear}` : undefined
+  return jpYear ? `${land} ${jpYear}` : undefined
 }
 
 /**
@@ -1598,9 +1607,10 @@ function Pille({
   /** Eine Ausgabe ohne deutschen Ton — sichtbar und anklickbar, aber durchgestrichen. */
   durchgestrichen?: boolean
 }) {
+  /* Ohne Adresse (TMDB nennt nur den Dienst) führte `href=""` auf unsere eigene Seite (16.09.2026). */
   return (
     <a
-      href={url}
+      href={url || undefined}
       target="_blank"
       rel="noreferrer noopener"
       title={titel}
@@ -2350,7 +2360,8 @@ function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; data: Data
   useEffect(() => {
     if (!open || !imBild || alle) return
     let alive = true
-    loadAllTitles(data)
+    /* Cartoons tragen TMDB-Genres und -Schlagwörter — verglichen wird mit ihresgleichen (16.09.2026). */
+    ;(title.westlich ? loadCartoons(data) : loadAllTitles(data))
       .then((l) => {
         if (alive) setAlle(l)
       })
@@ -2517,7 +2528,9 @@ export function DetailPanel({
     setSynopsis(undefined)
     loadSynopsis(titleId)
       .then((s) => {
-        if (alive) setSynopsis(s)
+        /* Cartoons tragen ihre Beschreibung im Titel (TMDB) — es gibt für sie keine Gruppendatei. */
+        const inline = data.titleById.get(titleId)?.synopsis
+        if (alive) setSynopsis(s ?? (inline ? { de: inline } : undefined))
       })
       .catch(() => {})
     setAllKeywords(false)
@@ -3436,7 +3449,7 @@ export function DetailPanel({
         title.episodes && title.episodes > 1
           ? `${title.episodes} ${t('detail.episodes')}`
           : undefined,
-        jpAngabe(eigenerTeil?.jpStart, title.jpYear),
+        jpAngabe(eigenerTeil?.jpStart ?? (title.westlich ? title.jpStart : undefined), title.jpYear, title.land),
         title.studios?.[0],
       ].filter(Boolean)
 
@@ -3504,7 +3517,7 @@ export function DetailPanel({
     title?.score !== undefined ? (
       <Tooltip text={t('detail.scoreHint')} seite="oben">
         <span className="inline-flex shrink-0 cursor-help items-baseline gap-1 rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] dark:bg-white/10">
-          <span className="font-normal text-slate-500 dark:text-slate-400">AniList</span>
+          <span className="font-normal text-slate-500 dark:text-slate-400">{title.scoreQuelle === 'tmdb' ? 'TMDB' : 'AniList'}</span>
           {/* Der Stern macht auf einen Blick klar, dass es eine Wertung ist und
               keine Folgenzahl (Daniel, 15.08.2026). */}
           <span className="text-amber-400" aria-hidden="true">
@@ -3843,7 +3856,7 @@ export function DetailPanel({
                 title.episodes && title.episodes > 1
                   ? `${title.episodes} ${t('detail.episodes')}`
                   : undefined,
-                jpAngabe(eigenerTeil?.jpStart, title.jpYear),
+                jpAngabe(eigenerTeil?.jpStart ?? (title.westlich ? title.jpStart : undefined), title.jpYear, title.land),
                 title.studios?.[0],
               ]
                 .filter(Boolean)

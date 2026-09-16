@@ -419,6 +419,8 @@ export interface Title {
   synopsis?: string
   studios?: string[]
   score?: number
+  /** Woher `score` stammt; fehlt = AniList. Cartoons tragen die TMDB-Wertung. */
+  scoreQuelle?: 'tmdb'
   fsk?: Fsk
   dubConfidence: DubConfidence
   /**

@@ -35,7 +35,28 @@ export interface CartoonEintrag {
   netzwerk?: string
   beschreibungDe?: string
   land: string[]
+  studios?: string[]
+  bewertung?: number
+  stimmen?: number
+  banner?: string
+  keywords?: string[]
+  stand?: number
   geholtAm: string
+}
+
+export type Bild = { iso_639_1?: string | null; vote_average?: number; file_path?: string }
+/**
+ * Das beste Bild: höchste Wertung unter Deutsch, Englisch und ohne Sprache;
+ * bei Gleichstand Deutsch vor Englisch vor ohne. Der Standardwert von TMDB
+ * (`poster_path` bei `language=de-DE`) war bei The Mighty Nein ein Schriftzug
+ * auf Schwarz ohne jede Wertung (16.09.2026).
+ */
+export function bestesBild(bilder: Bild[] | undefined, rueckfall?: string | null): string | undefined {
+  const rang = (b: Bild) => (b.iso_639_1 === 'de' ? 2 : b.iso_639_1 === 'en' ? 1 : 0)
+  const beste = [...(bilder ?? [])]
+    .filter((b) => b.file_path)
+    .sort((a, b) => (b.vote_average ?? 0) - (a.vote_average ?? 0) || rang(b) - rang(a))[0]
+  return beste?.file_path ?? rueckfall ?? undefined
 }
 
 /**
@@ -106,13 +127,22 @@ export function alsTitel(e: CartoonEintrag): Title {
     episodes: e.episodes,
     genres: e.genres,
     coverImage: e.cover ? `https://image.tmdb.org/t/p/w342${e.cover}` : undefined,
-    synopsis: undefined,
-    keywords: [],
+    bannerImage: e.banner ? `https://image.tmdb.org/t/p/w1280${e.banner}` : undefined,
+    /* Die Beschreibung lag seit dem 12.09.2026 im Abruf und wurde nie benutzt (16.09.2026). */
+    synopsis: e.beschreibungDe,
+    keywords: e.keywords ?? [],
+    land: e.land?.[0],
+    /* Unter zehn Stimmen ist eine Wertung Zufall. */
+    ...(e.bewertung && (e.stimmen ?? 0) >= 10 ? { score: Math.round(e.bewertung * 10), scoreQuelle: 'tmdb' as const } : {}),
     streams,
     dubConfidence: 'low',
     westlich: true,
     tmdbId: e.tmdbId,
-    /* Der Sender, für den produziert wurde — bei Anime steht dort das Studio. */
-    studios: e.netzwerk ? [e.netzwerk] : undefined,
+    /*
+      **Das Studio ist die Produktionsfirma, nicht der Sender.** Bis zum 16.09.2026
+      stand hier `netzwerk` — „Prime Video" bei The Mighty Nein (Daniel). Ältere
+      Einträge ohne `studios` zeigen keins, bis der Abruf sie neu holt.
+    */
+    studios: e.studios?.length ? e.studios : undefined,
   }
 }

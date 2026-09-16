@@ -611,6 +611,8 @@ const TEXTE = {
   'antwort.kinoMerkenFassungMail': 'Merk dir den Film mit ☆. Sobald es ihn auf Deutsch gibt, schreiben wir an {mail}.',
   'antwort.kinoGemerktFassung': '★ Gemerkt. Du bekommst Bescheid, sobald es ihn auf Deutsch gibt.',
   'antwort.ohneTitel': 'Noch keine deutsche Fassung',
+  'antwort.westlichVerfuegbar': 'In Deutschland verfügbar',
+  'antwort.westlichUngeprueft': 'Deutsche Fassung nicht geprüft',
   'antwort.faktErschienen': 'erschienen',
   'antwort.faktFsk': 'Altersfreigabe',
   // Die drei Angaben, die es zu einer Kaufausgabe wirklich gibt — an der

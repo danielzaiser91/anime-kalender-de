@@ -31,6 +31,7 @@
  */
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { bestesBild, type Bild } from './lib/cartoons.ts'
 
 const TMDB = 'https://api.themoviedb.org/3'
 const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de)'
@@ -64,8 +65,27 @@ export interface CartoonEintrag {
   netzwerk?: string
   beschreibungDe?: string
   land: string[]
+  /** Produktionsfirmen — das Studio. `netzwerk` ist der Sender („Prime Video"), kein Studio. */
+  studios?: string[]
+  /** TMDB-Wertung 0–10 und Zahl der Stimmen. */
+  bewertung?: number
+  stimmen?: number
+  /** Hintergrundbild für den Kopf des Panels. */
+  banner?: string
+  /** TMDB-Schlagwörter — daraus rechnet das Panel ähnliche Titel. */
+  keywords?: string[]
+  /** Stand des Abrufs; ältere Einträge werden neu geholt (siehe `STAND`). */
+  stand?: number
   geholtAm: string
 }
+
+/**
+ * **Stand 2 (16.09.2026)**: Studios, Wertung, Schlagwörter, Hintergrund und das
+ * bestbewertete Poster. Daniel an „The Mighty Nein": Beschreibung, Wertung,
+ * ähnliche Titel fehlten, das Studio hieß „Prime Video", und das Poster war
+ * TMDBs schwarzer Platzhalter. Einträge mit älterem Stand sind sofort fällig.
+ */
+const STAND = 2
 
 async function holeJson(url: string): Promise<unknown> {
   const antwort = await fetch(url, { headers: { 'User-Agent': UA } })
@@ -124,7 +144,7 @@ async function kandidaten(schluessel: string): Promise<number[]> {
 /** Die Einzelheiten je Titel — Name, Anbieter, Beschreibung. */
 async function einzelheiten(tmdbId: number, schluessel: string): Promise<CartoonEintrag | null> {
   const j = (await holeJson(
-    `${TMDB}/tv/${tmdbId}?api_key=${schluessel}&language=de-DE&append_to_response=watch/providers`,
+    `${TMDB}/tv/${tmdbId}?api_key=${schluessel}&language=de-DE&append_to_response=watch/providers,images,keywords&include_image_language=de,en,null`,
   )) as
     | {
         id?: number
@@ -137,6 +157,12 @@ async function einzelheiten(tmdbId: number, schluessel: string): Promise<Cartoon
         overview?: string
         origin_country?: string[]
         networks?: { name?: string }[]
+        production_companies?: { name?: string }[]
+        vote_average?: number
+        vote_count?: number
+        backdrop_path?: string
+        images?: { posters?: Bild[]; backdrops?: Bild[] }
+        keywords?: { results?: { name?: string }[] }
         'watch/providers'?: { results?: Record<string, { flatrate?: { provider_name?: string }[]; buy?: { provider_name?: string }[] }> }
       }
     | null
@@ -164,11 +190,17 @@ async function einzelheiten(tmdbId: number, schluessel: string): Promise<Cartoon
     start: j.first_air_date || undefined,
     episodes: j.number_of_episodes || undefined,
     genres: (j.genres ?? []).map((g) => g.name).filter((n): n is string => Boolean(n)),
-    cover: j.poster_path ?? undefined,
+    cover: bestesBild(j.images?.posters, j.poster_path),
+    banner: bestesBild(j.images?.backdrops, j.backdrop_path),
     anbieterDe: [...new Set(anbieter)],
     netzwerk: j.networks?.[0]?.name,
     beschreibungDe: j.overview || undefined,
     land: j.origin_country ?? [],
+    studios: (j.production_companies ?? []).map((c) => c.name).filter((n): n is string => Boolean(n)),
+    bewertung: j.vote_average || undefined,
+    stimmen: j.vote_count || undefined,
+    keywords: (j.keywords?.results ?? []).map((k) => k.name).filter((n): n is string => Boolean(n)),
+    stand: STAND,
     geholtAm: new Date().toISOString().slice(0, 10),
   }
 }
@@ -193,7 +225,10 @@ async function main(): Promise<void> {
     Anbieter — ein Bestand, der nur wächst, behauptet alte Stände für immer.
   */
   const grenze = new Date(Date.now() - 21 * 864e5).toISOString().slice(0, 10)
-  const faellig = ids.filter((id) => (bestand[String(-id)]?.geholtAm ?? '') < grenze)
+  const faellig = ids.filter((id) => {
+    const e = bestand[String(-id)]
+    return !e || (e.stand ?? 1) < STAND || e.geholtAm < grenze
+  })
   const dran = GRENZE > 0 ? faellig.slice(0, GRENZE) : faellig
   log(`${dran.length} fällig (älter als 21 Tage oder neu)`)
 

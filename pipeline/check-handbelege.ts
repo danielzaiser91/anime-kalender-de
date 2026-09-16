@@ -54,7 +54,11 @@ import yaml from 'js-yaml'
 import type { Title } from '../shared/types.ts'
 
 const roh = readJson<Title[] | Record<string, Title>>(resolve(ROOT, 'public/data/titles.json'), [])
-const titel = Array.isArray(roh) ? roh : Object.values(roh)
+/* Cartoons (negative Kennungen) tragen seit dem 16.09.2026 ebenfalls Handbelege. */
+const titel = [
+  ...(Array.isArray(roh) ? roh : Object.values(roh)),
+  ...readJson<Title[]>(resolve(ROOT, 'public/data/cartoons.json'), []),
+]
 const nachId = new Map(titel.map((t) => [t.id, t]))
 
 const belege = loadDubChecks()
