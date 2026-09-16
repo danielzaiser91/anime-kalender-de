@@ -238,14 +238,6 @@ export function reihenVertreter<T extends Pick<Title, 'jpYear' | 'jpSeason' | 'i
 }
 
 /**
- * Name einer Reihe — ohne den Staffelzusatz der ersten Staffel.
- *
- * Der deutsche Name der ersten Staffel heißt oft schon „… – Staffel 1", weil er
- * aus einer Disc-Ausgabe stammt. Als Überschrift einer Reihe, unter der dann
- * „Staffel 1" und „Staffel 2" zur Auswahl stehen, wäre das eine Zählung zu
- * viel.
- */
-/**
  * **Wie die Reihe heißt, wenn der Name ihres ersten Teils einen Teil-Untertitel trägt.**
  *
  * Über „Code Geass: Akito the Exiled - The Brightness Falls" stand als Reihenname
@@ -271,30 +263,67 @@ export function reihenVertreter<T extends Pick<Title, 'jpYear' | 'jpSeason' | 'i
  * Gemessen danach: 38 von 467 Reihen bekommen einen kürzeren Namen, alle in der Form
  * „Reihe: Teil" → „Reihe" (Rurouni Kenshin, Sailor Moon, City Hunter, Resident Evil …).
  */
-export function reihenAnfang(kopf: string, namen: string[]): string {
+export function reihenAnfang(kopf: string, namen: string[], kopfIstDeutsch = false): string {
   const vereinheitlicht = (x: string) =>
     x
       .toLowerCase()
       .replace(/[’']/g, "'")
-      .replace(/s*[:–—]s+|s+-s+/g, ' | ')
-      .replace(/s+/g, ' ')
+      .replace(/\s*[:–—]\s+|\s+-\s+/g, ' | ')
+      .replace(/\s+/g, ' ')
       .trim()
   const traegt = (name: string, anfang: string) => {
     const a = vereinheitlicht(name)
     const b = vereinheitlicht(anfang)
     return a === b || a.startsWith(b + ' ')
   }
-  const kandidaten = [
-    kopf,
-    ...[...kopf.matchAll(/s*[:–—]s|s-s/g)].map((m) => kopf.slice(0, m.index).trim()).reverse(),
+  const anfaenge = (name: string) => [
+    name,
+    ...[...name.matchAll(/\s*[:–—]\s|\s-\s/g)].map((m) => name.slice(0, m.index).trim()).reverse(),
   ]
-  for (const anfang of kandidaten) {
-    if (anfang.split(/s+/).length < 2) continue
-    if (namen.filter((n) => traegt(n, anfang)).length * 2 > namen.length) return anfang
+  const traeger = (anfang: string) => namen.filter((n) => traegt(n, anfang)).length
+  /* Ein gekürzter Anfang braucht zwei Wörter („Code" ist keine Reihe); ein ganzer Name
+     darf eines haben („Berserk", „K"). */
+  const zuKurz = (anfang: string) => !namen.includes(anfang) && anfang !== kopf && anfang.split(/\s+/).length < 2
+  for (const anfang of anfaenge(kopf)) {
+    if (zuKurz(anfang)) continue
+    if (traeger(anfang) * 2 > namen.length) return anfang
   }
-  return kopf
+  /* Kein Anfang des Kopfes trägt die Mehrheit: Der erste Teil heißt anders als die Reihe
+     („Jujutsu Kaisen PV", „Dragon Warrior" über „Dragon Quest: …"). Dann gilt der Anfang,
+     den die meisten Teile teilen. Ein deutscher Kopfname bleibt aber stehen — „Mila
+     Superstar" kennt hier jeder, „Attack No.1" niemand. Bei Gleichstand gewinnt ein
+     gemeinsamer Anfang gegen den vollen Namen eines einzelnen Teils („Management of
+     Novice Alchemist" statt „…: Mini Anime"), sonst der längere. */
+  if (kopfIstDeutsch) return kopf
+  let bester = ''
+  let besteZahl = 0
+  let besterIstTeil = true
+  for (const anfang of new Set(namen.flatMap(anfaenge))) {
+    if (zuKurz(anfang)) continue
+    const zahl = traeger(anfang)
+    if (zahl * 2 <= namen.length) continue
+    const istTeil = namen.includes(anfang)
+    const besser =
+      zahl > besteZahl ||
+      (zahl === besteZahl && besterIstTeil && !istTeil) ||
+      (zahl === besteZahl && besterIstTeil === istTeil && anfang.length > bester.length)
+    if (besser) {
+      bester = anfang
+      besteZahl = zahl
+      besterIstTeil = istTeil
+    }
+  }
+  return bester || kopf
 }
 
+/**
+ * Name einer Reihe — ohne den Staffelzusatz der ersten Staffel.
+ *
+ * Der deutsche Name der ersten Staffel heißt oft schon „… – Staffel 1", weil er
+ * aus einer Disc-Ausgabe stammt. Als Überschrift einer Reihe, unter der dann
+ * „Staffel 1" und „Staffel 2" zur Auswahl stehen, wäre das eine Zählung zu
+ * viel.
+ */
 export function ohneStaffelEins(name: string): string {
   return eindeutschenStaffel(name)
     .replace(/\s*[–—-]?\s*\(?(Staffel|Season)\s*1\)?\s*$/i, '')

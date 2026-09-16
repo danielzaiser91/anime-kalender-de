@@ -22,7 +22,7 @@ import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, titleStatus } from '../shared/logic.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
-import { hauptstaffeln, staffelBeschriftungen } from '../shared/titles.ts'
+import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import {
   alsEinBlock,
   bestimmeRhythmus,
@@ -4178,6 +4178,39 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('zwei Titel auf demselben TMDB-Film verlieren beide die Zuordnung', raus.has('8888') && raus.has('15197'))
   pruefe('Serie und Film mit gleicher Nummer sind verschiedene Werke', !raus.has('68') && !raus.has('1122'))
   pruefe('Staffeln dürfen sich eine TMDB-Serie teilen', !raus.has('21') && !raus.has('22'))
+}
+
+/*
+  Der Reihenname ist der Anfang, den die Mehrheit der Teile trägt.
+
+  Am 16.09.2026 ausgeliefert und wirkungslos: Beim Einfügen per Heredoc waren alle
+  Backslashes aus den Mustern verschwunden (`s*` statt `\s*`), und `reihenAnfang()` gab
+  stets den Kopfnamen zurück. Keine Zusicherung hat es bemerkt, weil es keine gab.
+*/
+{
+  const akito = [
+    'Code Geass: Akito the Exiled - The Wyvern Arrives',
+    'Code Geass: Akito the Exiled - The Wyvern Divided',
+    'Code Geass: Akito the Exiled - The Brightness Falls',
+    'Code Geass: Akito the Exiled - Memories of Hatred',
+    'Code Geass: Akito the Exiled - To Beloved Ones',
+    'Code Geass: Boukoku no Akito 2 - Hikisakareshi Yokuryuu',
+  ]
+  pruefe('Akito heißt im Kopf nur nach der Reihe', reihenAnfang(akito[0], akito) === 'Code Geass: Akito the Exiled', reihenAnfang(akito[0], akito))
+  const demon = ['Demon Slayer: Kimetsu no Yaiba', 'Demon Slayer: Kimetsu no Yaiba - Mugen Train', 'Demon Slayer: Kimetsu no Yaiba - Entertainment District Arc']
+  pruefe('ein Untertitel, den alle tragen, bleibt stehen', reihenAnfang(demon[0], demon) === demon[0], reihenAnfang(demon[0], demon))
+  const cats = ['Cat’s Eye – Ein Supertrio', "Cat's Eye: Ein Supertrio Staffel 2", 'Cat’s Eye – Ein Supertrio (2025)']
+  pruefe('Gedankenstrich und Doppelpunkt trennen gleich', reihenAnfang(cats[0], cats) === cats[0], reihenAnfang(cats[0], cats))
+  const einzeln = ['One Piece', 'One Piece Film: Red']
+  pruefe('ein abgeschnittenes einzelnes Wort ist kein Reihenname', reihenAnfang('Tokyo: Ghoul A', ['Tokyo: Ghoul A', 'Tokyo: Ghoul B', 'Tokyo: Revengers']) === 'Tokyo: Ghoul A')
+  pruefe('ein ganzer Name aus einem Wort ist einer', reihenAnfang('Berserk', ['Berserk', 'Berserk - Das goldene Zeitalter I', 'Berserk - Das goldene Zeitalter II']) === 'Berserk')
+  const dai = ['Dragon Warrior', 'Dragon Quest: Dai no Daibouken', 'Dragon Quest: The Adventure of Dai', 'Dragon Quest: Dai no Daibouken (1991)', 'Dragon Quest: Dai no Daibouken Buchiyabure!!']
+  pruefe('trägt kaum ein Teil den Kopf, gilt der gemeinsame Anfang', reihenAnfang('Dragon Warrior', dai) === 'Dragon Quest', reihenAnfang('Dragon Warrior', dai))
+  const mila = ['Mila Superstar', 'Attack No.1', 'Attack No.1: Namida no Kaiten Receive', 'Attack No.1: Namida no Sekai Senshuken']
+  pruefe('ein deutscher Kopf bleibt stehen', reihenAnfang('Mila Superstar', mila, true) === 'Mila Superstar')
+  const alch = ['Management of a Novice Alchemist', 'Management of Novice Alchemist: Mini Anime', 'Management of Novice Alchemist: Mini Anime - Onsen']
+  pruefe('bei Gleichstand schlägt der gemeinsame Anfang den Namen eines Teils', reihenAnfang(alch[0], alch) === 'Management of Novice Alchemist', reihenAnfang(alch[0], alch))
+  pruefe('ohne Trennstelle bleibt der Kopf', reihenAnfang(einzeln[0], einzeln) === 'One Piece')
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

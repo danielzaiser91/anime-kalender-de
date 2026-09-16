@@ -2516,10 +2516,12 @@ export function DetailPanel({
   const reihenName = useMemo(() => {
     if (!title) return ''
     if (reihe.length < 2) return anzeigeName(title)
-    const kopf = ohneStaffelEins(reihenVertreter(reihe.map((m) => ({ ...m, id: m.id }))).name)
+    const vertreter = reihenVertreter(reihe.map((m) => ({ ...m, id: m.id })))
+    const kopf = ohneStaffelEins(vertreter.name)
+    const kopfIstDeutsch = data.titleById.get(vertreter.id)?.titleDe === vertreter.name
     /* Der erste Teil nennt oft sich selbst, nicht die Reihe — siehe `reihenAnfang()`. */
-    return reihenAnfang(kopf, reihe.map((m) => m.name))
-  }, [reihe, title])
+    return reihenAnfang(kopf, reihe.map((m) => m.name), kopfIstDeutsch)
+  }, [reihe, title, data])
 
   /**
    * Was diesen Teil von der Reihe unterscheidet — „Staffel 3", „Der Film".
