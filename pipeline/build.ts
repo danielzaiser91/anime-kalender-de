@@ -6188,6 +6188,39 @@ function main(): void {
   }
   if (asWege) log(`${asWege} Bezugswege aus aniSearch für Titel ohne jeden Weg ergänzt`)
 
+  /*
+    **Dieselbe Prüfung ein zweites Mal — nach der letzten Runde, die Wege anlegt.**
+
+    Der Filter gegen tote Adressen steht rund 2.500 Zeilen weiter oben und
+    arbeitet dort richtig. Nur entstehen Bezugswege danach noch dreimal: aus
+    aniSearchs Kanal-Angeboten, aus JustWatch und aus aniSearch für Titel ohne
+    jeden Weg. Was dort neu dazukommt, hat der Filter nie gesehen.
+
+    Gemessen am 16.09.2026: **96 Bezugswege** zeigten auf Adressen, die
+    data/link-check.json als 404 führt — der von Daniel gemeldete seit dem
+    20.08.2026. Er klickte bei „Code Geass" auf „Amazon Prime (Crunchyroll)"
+    und landete auf Amazons Fehlerseite: „fix das generisch."
+
+    Das ist der Fall, den diese Akte unter „Wer unten ergänzt, muss unten auch
+    beurteilen" führt (06.09.2026) — hier zum dritten Mal, diesmal für die
+    Bezugswege. Die frühe Filterung bleibt trotzdem stehen: Ohne sie gälte ein
+    toter Weg zwischenzeitlich als Weg, und die Runden für „Titel ohne jeden
+    Weg" sprängen nicht an.
+  */
+  let toteWegeSpaet = 0
+  for (const title of titles.values()) {
+    if (!title.watchLinks?.length) continue
+    const vorher = title.watchLinks.length
+    title.watchLinks = title.watchLinks.filter((w) => {
+      const status = linkBefunde[w.url]?.status
+      return !(status === 404 || status === 'region')
+    })
+    toteWegeSpaet += vorher - title.watchLinks.length
+    if (!title.watchLinks.length) delete title.watchLinks
+  }
+  if (toteWegeSpaet)
+    log(`${toteWegeSpaet} Bezugswege entfernt, die nach der ersten Prüfung dazukamen und ins Leere führen`)
+
   /**
    * **Prime Video führen wir über amazon.de — `primevideo.com` fliegt raus.**
    *

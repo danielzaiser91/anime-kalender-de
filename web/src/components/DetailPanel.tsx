@@ -921,7 +921,7 @@ function AntwortKasten({
             zwei Reihen brauchen damit etwa 94 px, `4.4rem` gab 70 — bei „Kill
             Blue" lag die vierte Pille abgeschnitten im Rollbereich.
           */}
-          <div className="flex max-h-[6rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
+          <div className="flex max-h-[6rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto overscroll-contain pb-1">
             {pillen}
           </div>
         </div>
@@ -3195,8 +3195,18 @@ export function DetailPanel({
     ) : null
 
   if (!title) {
+    /*
+      **`overscroll-contain`: Am Ende des Panels hört das Scrollen auf.**
+
+      Ohne die Klasse reicht der Browser das Rad an die Seite dahinter weiter,
+      sobald das Panel unten angekommen ist — der Kalender scrollte weg, während
+      das Panel offen stand (Daniel, 16.09.2026: „wenn maus auf detailpanel, dann
+      darf scrollen nur fürs detail panel gelten"). Dieselbe Klasse tragen die
+      zweite Panel-Hülle und die beiden inneren Rollbereiche (Pillen,
+      Reihenliste) — sonst endet ihr Weg im Panel und schiebt es weiter.
+    */
     return (
-      <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-lg overflow-y-auto border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
+      <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-lg overflow-y-auto overscroll-contain border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
         {/*
           **Nachladen statt aufgeben — die Adresse muss teilbar sein.**
 
@@ -3303,7 +3313,7 @@ export function DetailPanel({
           genau die Platzverschwendung, die verschwinden sollte. Auf schmalen
           Schirmen greift weiterhin `w-full`, dort ändert sich nichts.
         */
-        className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col overflow-y-auto border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
+        className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col overflow-y-auto overscroll-contain border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
         role="dialog"
         aria-label={anzeigeName(title)}
       >
@@ -4108,7 +4118,7 @@ export function DetailPanel({
                 zusammen.
               */}
               <div className="relative -mt-1 rounded-xl border border-slate-200 dark:border-white/10">
-              <div className="max-h-[13.5rem] overflow-y-auto p-2">
+              <div className="max-h-[13.5rem] overflow-y-auto overscroll-contain p-2">
                 {(() => {
                   /*
                     **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
