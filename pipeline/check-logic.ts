@@ -96,6 +96,7 @@ import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
+import { releasesAus } from './lib/meldungen.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -4368,6 +4369,27 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const blue = [st('Kyoto', 12, 2017), st('Shimane', 12, 2024), st('Snow', 12, 2024), st('Night', 12, 2025)]
   pruefe('eine lückenhafte Staffelliste belegt kein Fehlen', !reiheFuehrtEsNicht({ format: 'TV', episodes: 25, jpYear: 2011 }, blue, 98, false))
   pruefe('Gegenprobe: dieselbe Liste als vollständig ergäbe den Befund', Boolean(reiheFuehrtEsNicht({ format: 'TV', episodes: 25, jpYear: 2011 }, blue, 48, false)))
+}
+/* Ein Fernsehtermin wird kein Streaming-Termin (Dragon Ball DAIMA, 16.09.2026). */
+{
+  const titel = [{ id: 170083, titleEn: 'Dragon Ball Daima', format: 'TV', episodes: 20 }] as unknown as Parameters<typeof releasesAus>[1]
+  const v = (context: string) =>
+    ({
+      articleTitle: 'Starttermin von »Dragon Ball DAIMA« auf TOGGO plus und RTL+',
+      articleUrl: 'https://www.anime2you.de/news/1039738/',
+      category: 'streaming',
+      platforms: ['rtlplus'],
+      titleId: 170083,
+      dates: [{ iso: '2026-08-28', context }],
+    }) as unknown as Parameters<typeof releasesAus>[0][number]
+  pruefe(
+    'ein Datum im TV-Umfeld wird kein RTL+-Termin',
+    releasesAus([v('TV-Premiere im August 2026 ist ab dem 28. August 2026 jeweils von Montag bis Freitag')], titel, [], '2026-09-16').length === 0,
+  )
+  pruefe(
+    'Gegenprobe: dasselbe Datum ohne TV-Umfeld bleibt ein Termin',
+    releasesAus([v('ab dem 28. August 2026 bei RTL+ abrufbar')], titel, [], '2026-09-16').length === 1,
+  )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

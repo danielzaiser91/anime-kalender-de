@@ -296,6 +296,8 @@ export function meldungenAus(vorschlaege: Vorschlag[], titel: Title[], heute: st
  * - **Nicht raten, welcher Anbieter gemeint ist.** Ohne `platforms` fällt der
  *   Vorschlag durch.
  */
+const TV_UMFELD = /TV-Premiere|Free-TV|im (?:deutschen )?Fernsehen|TV-Ausstrahlung|auf (?:TOGGO plus|SUPER RTL|ProSieben MAXX|RTLZWEI|RTL II|Nicktoons|Nickelodeon|Disney Channel|KiKA)\b/i
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
@@ -309,7 +311,14 @@ export function releasesAus(
 
   for (const v of vorschlaege) {
     if (v.alreadyCurated) continue
-    const tag = (v.dates ?? []).find((d) => d.iso)?.iso
+    /*
+      **Ein Fernsehtermin ist kein Streaming-Termin.** „Dragon Ball DAIMA" lief
+      ab 28.08.2026 im TV bei TOGGO plus, abrufbar bei RTL+ erst ab 25.09. — der
+      Artikel nennt beides, und genommen wurde das erste Datum für RTL+
+      (Daniel, 16.09.2026). Ein Datum, dessen Umfeld vom Fernsehen spricht,
+      gilt deshalb für keinen Anbieter, den wir führen.
+    */
+    const tag = (v.dates ?? []).find((d) => d.iso && !TV_UMFELD.test(d.context ?? ''))?.iso
     if (!tag) continue
 
     /**
