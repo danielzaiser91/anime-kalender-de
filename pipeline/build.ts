@@ -6182,6 +6182,7 @@ function main(): void {
       for (const s of title.streams) {
         if (s.platform !== 'crunchyroll' || s.dub !== true || s.dubRanges?.length || s.sharedWith) continue
         const serie = crDubNachUrl.get(s.url)
+        if (deutscheFolgenNachDemEnde(serie?.staffeln ?? [], title.episodes)) continue
         const nummern = (serie?.staffeln ?? [])
           .flatMap((st) => (st.deutscheFolgen ?? []).map((f) => f.nummer))
           .filter((n): n is number => Number.isInteger(n) && (n as number) > 0)

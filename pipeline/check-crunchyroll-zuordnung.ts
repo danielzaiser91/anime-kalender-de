@@ -558,7 +558,7 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
       },
     ],
   })
-  const spaeter = beurteileJeBlock(tsubasa(true) as never, [mach(4, 'Captain Tsubasa', 52, 'TV')])
+  const spaeter = beurteileJeBlock(tsubasa(true) as never, [mach(4, 'Captain Tsubasa 2018', 52, 'TV')])
   pruefe('deutsche Folgen hinter dem Ende geben der Serie kein Ja', spaeter.length === 0, spaeter)
   const ohneLaufend = beurteileJeBlock(tsubasa(false) as never, [mach(4, 'Captain Tsubasa', 52, 'TV')])
   pruefe('ohne laufende Nummern bleibt die Einzelserien-Regel wie bisher', ohneLaufend.length === 1, ohneLaufend)

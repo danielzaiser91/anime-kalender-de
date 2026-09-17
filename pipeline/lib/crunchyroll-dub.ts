@@ -848,6 +848,8 @@ export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
     if (treffer.length > 1) continue
     const block = treffer[0]
     const deutsch = block.deutscheFolgen?.length ?? block.deutsch ?? 0
+    /* Auch über den Namen nicht, wenn die deutschen Folgen hinter unserem Ende liegen (Captain Tsubasa). */
+    if (deutsch > 0 && deutscheFolgenNachDemEnde([block], titel.episodes)) continue
     if (deutsch > 0) {
       raus.push({
         titleId: titel.id,
