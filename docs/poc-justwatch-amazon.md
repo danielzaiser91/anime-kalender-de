@@ -95,3 +95,23 @@ Befund aus `data/link-check.json` (gemessen) gegen JustWatch (heute). „tot" da
 | kauf | tot | Elainas Reise | [B0C9VSH4XP](https://www.amazon.de/dp/B0C9VSH4XP) | Amazon-Angebot (Crunchyroll Amazon Channel FLATRATE, Crunchyroll Amazon Channel FLATRATE) |
 | prime | lebt | Monster | [B0B649YPX3](https://www.amazon.de/gp/video/detail/B0B649YPX3) | Amazon-Angebot (Amazon Prime Video FLATRATE, Amazon Prime Video FLATRATE, Amazon Prime Video with Ads FLATRATE, Amazon Prime Video with Ads FLATRATE, Amazon Video BUY, Amazon Video BUY) |
 | prime | lebt | Magilumiere Inc. | [B0DDJ1CH7R](https://www.amazon.de/gp/video/detail/B0DDJ1CH7R) | Amazon-Angebot (Amazon Prime Video FLATRATE, Amazon Prime Video FLATRATE, Amazon Prime Video with Ads FLATRATE, Amazon Prime Video with Ads FLATRATE) |
+
+## Gegenprobe der gti-Brücke (17.09.2026, 18:42, Daniels Sitzung)
+
+Neun Fälle aus `daniel-zum-abarbeiten/19-poc-gti.md`, gemessen mit `tools/amazon-kennungen-messen.js`:
+
+- **8 von 8 lebenden Seiten** tragen als `catalogId` genau JustWatchs gti — Kauf, Leihe,
+  Prime und Kanäle (RTL+, Crunchyroll). Zweimal weicht die interne `pageTitleId` von der
+  ASIN unseres Links ab (Cowboy Bebop, Conan Sonnenblumen); die gti stimmt trotzdem.
+  **Verglichen wird deshalb über die gti, nie über die ASIN.**
+- **Tote Seite (Afro Samurai, `B0CGS2DRMV`):** Amazon zeigt „Seite nicht gefunden".
+  JustWatchs gti `ca1b18e0…` leitet auf `/gp/video/detail/0R4CS7G3NT1H60K640P2L18PKH`
+  weiter, eine Seite mit **neuer** gti `6fa106dc…` — derselbe Titel (Serie, 2007,
+  Crunchyroll-Kanal, nur Englisch). Amazon hat den Titel neu angelegt.
+
+**Folgerung:** Der JustWatch-Link `watch.amazon.de/detail?gti=…` ist selbst der haltbare
+Weg: Er führt auch dann auf die aktuelle Seite, wenn Amazon den Titel neu anlegt. Das
+Verfolgen der Weiterleitung geht nur in einer Browsersitzung (robots.txt sperrt Agenten);
+die Brücke braucht es aber nicht — sie kann JustWatchs Adresse als Verweis übernehmen.
+Die Tabelle darüber zeigt, wie oft das zählt: Viele unserer toten Kauf-Links haben bei
+JustWatch weiter ein Amazon-Angebot.

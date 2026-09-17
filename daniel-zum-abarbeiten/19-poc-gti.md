@@ -1,6 +1,6 @@
 # Gegenprobe: führt JustWatchs Amazon-Link auf unsere Seite?
 
-**Stand 17.09.2026:** Zeile 1 ist entschieden: Die Seite nennt als `catalogId` genau JustWatchs gti. Amazon führt je Titel mindestens vier Kennungen (Link-ASIN `B0B8TR93HR`, `pageTitleId` `B0B8TQBBS6`, 26-stellige Adresse, gti). Verglichen wird deshalb die gti.
+**Abgeschlossen 17.09.2026, 18:42:** 8 von 8 lebenden Seiten tragen JustWatchs gti; die tote Seite (Zeile 9) findet ihren Ersatz über JustWatchs Weiterleitung. Ursprünglich: Zeile 1 ist entschieden: Die Seite nennt als `catalogId` genau JustWatchs gti. Amazon führt je Titel mindestens vier Kennungen (Link-ASIN `B0B8TR93HR`, `pageTitleId` `B0B8TQBBS6`, 26-stellige Adresse, gti). Verglichen wird deshalb die gti.
 
 **Für Zeile 2 bis 9:** nur **unseren Link** öffnen, das Skript [`tools/amazon-kennungen-messen.js`](file:///C:/code/ai/anime-kalender-de/tools/amazon-kennungen-messen.js) in die Konsole (F12) einfügen und das Ergebnis aus der Zwischenablage schicken. Sie sagt selbst, ob die Seite die JustWatch-gti einer Zeile trägt. Zeile 9 ist der kritische Fall mit toter ASIN: Dort ist „Seite nicht gefunden" die erwartete Antwort.
 
@@ -26,3 +26,10 @@
 | 4 | /dp/B0FPM4KVVM, pageTitleId B0FPM4KVVM, catalogId = JustWatch-gti | ja |
 | 5 | /dp/B0CKPFDTQQ, pageTitleId B0CKPFDTQQ, catalogId = JustWatch-gti (Crunchyroll-Kanal) | ja |
 | 6 | /dp/B0170N47P8, pageTitleId B0170N47P8, catalogId = JustWatch-gti | ja |
+| 7 | /dp/B0FWY92KD3, pageTitleId **B0FV8PGNQ8** (weicht von der Link-ASIN ab), catalogId = JustWatch-gti | ja |
+| 8 | /dp/B0FPB92278, pageTitleId B0FPB92278, catalogId = JustWatch-gti | ja |
+| 9a | unser Link /dp/B0CGS2DRMV: „Seite nicht gefunden" (erwartet) | — |
+| 9b | JustWatch-Link (gti ca1b18e0…) leitet weiter auf /gp/video/detail/0R4CS7G3NT1H60K640P2L18PKH, pageTitleId B0GVQ26CY4, catalogId **6fa106dc…** | **nein** — Amazon leitet die alte gti auf eine Seite mit neuer gti |
+| 9c | Zielseite von 9b ist Afro Samurai, Staffel 1 (2007), Crunchyroll-Kanal, Wiedergabesprache nur English (Daniels Bild) — derselbe Titel wie unser toter Link (1292) | Weiterleitung trägt |
+
+**Befund Zeile 9:** Für lebende Seiten genügt der gti-Vergleich (6 von 6). Bei einer toten Seite hat Amazon den Titel unter einer neuen gti neu angelegt; JustWatchs alte gti leitet dorthin weiter. Ein reiner Kennungsvergleich findet den Ersatz also nicht, das Verfolgen der Weiterleitung schon — und das geht nur in einer Browsersitzung, nicht aus der Cloud (robots.txt).
