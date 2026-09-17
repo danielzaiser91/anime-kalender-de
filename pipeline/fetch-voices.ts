@@ -87,6 +87,8 @@ async function main(): Promise<void> {
 
   let geschrieben = 0
   let leer = 0
+  /* Wie oft eine leere Antwort belegte Rollen stehen ließ. */
+  let behalten = 0
 
   /**
    * In Blöcken abfragen und nach jedem Block schreiben.
@@ -104,18 +106,35 @@ async function main(): Promise<void> {
       const rollen = gefunden.get(title.id) ?? []
       // Auch das Nichts festhalten — sonst fragt jeder Lauf dieselben Titel
       // erneut ab, bei denen AniList schlicht keine deutschen Stimmen führt.
+      /*
+        **Ein Ausfall löscht keine belegten Rollen** (17.09.2026). Ein gescheitertes
+        AniList-Bündel liefert eine leere Liste; sie über belegte Sprechrollen zu
+        schreiben nähme dem Titel die Auskunft „eine deutsche Fassung gab es".
+      */
+      const pfad = `${OUT}/${title.id}.json`
+      if (!rollen.length && existsSync(pfad)) {
+        try {
+          if ((JSON.parse(readFileSync(pfad, 'utf8')) as VoiceFile).roles?.length) {
+            behalten++
+            continue
+          }
+        } catch {
+          /* Unlesbar — dann darf die leere Fassung sie ersetzen. */
+        }
+      }
       const datei: VoiceFile = {
         titleId: title.id,
         updatedAt: new Date().toISOString(),
         roles: rollen,
       }
-      writeFileSync(`${OUT}/${title.id}.json`, JSON.stringify(datei))
+      writeFileSync(pfad, JSON.stringify(datei))
       if (rollen.length) geschrieben++
       else leer++
     }
     log(`  ${Math.min(i + BLOCK, queue.length)}/${queue.length} — ${geschrieben} mit Stimmen`)
   }
 
+  if (behalten) log(`${behalten} Titel behielten ihre belegten Rollen (leere Antwort verworfen)`)
   const gesamt = readdirSync(OUT).filter((d) => d.endsWith('.json')).length
   /*
     **Gearbeitet ist gearbeitet — auch wenn keine deutsche Stimme dabei war.**

@@ -45,6 +45,12 @@ interface Befund {
   gesamt: number
   /** Davon in Deutschland abrufbar. Null heißt: Der Verweis führt ins Leere. */
   inDE: number
+  /**
+   * **Die Abfrage hat nicht geantwortet** — kein Befund über den Verweis
+   * (17.09.2026). Vorher wurde jeder Fehler (Kontingent, Netz, Teilausfall) als
+   * `inDE: 0` gespeichert, und der Bau entfernte den Verweis daraufhin.
+   */
+  unklar?: true
   geprueftAm: string
   /** Warum nichts abrufbar ist, sofern die Schnittstelle es sagt. */
   grund?: string
@@ -209,6 +215,7 @@ async function main(): Promise<void> {
   log(`YouTube: ${adressen.size} Adressen, ${offen.length} fällig, ${arbeit.length} in diesem Lauf.`)
 
   let geprueft = 0
+  let stoerung = 0
   let leer = 0
   for (const url of arbeit) {
     const typ = art(url)
@@ -229,21 +236,42 @@ async function main(): Promise<void> {
           ? await pruefeVideo(id)
           : { art: 'video', gesamt: 0, inDE: 0, geprueftAm: heute(), grund: 'keine Video-Kennung in der Adresse' }
       }
-      if (typ !== 'kanal' && bestand[url].inDE === 0) leer++
+      if (typ !== 'kanal' && bestand[url].inDE === 0 && !bestand[url].unklar) leer++
     } catch (err) {
       const grund = (err as { grund?: string }).grund ?? (err as Error).message
       // „playlistNotFound" und „videoNotFound" sind Befunde, keine Störungen.
       const weg = /notFound/i.test(grund)
-      bestand[url] = { art: typ, gesamt: 0, inDE: 0, geprueftAm: heute(), grund }
-      if (weg) leer++
-      else warn(`YouTube ${url}: ${grund}`)
+      if (weg) {
+        bestand[url] = { art: typ, gesamt: 0, inDE: 0, geprueftAm: heute(), grund }
+        leer++
+      } else {
+        /*
+          **Eine Störung überschreibt keinen guten Befund** (17.09.2026). Ein
+          Kontingentfehler schrieb bis dahin `inDE: 0`, und der nächste Bau warf
+          den Verweis heraus — ohne dass jemand nachgesehen hätte.
+        */
+        const vorher = bestand[url]
+        if (!vorher || vorher.unklar) bestand[url] = { art: typ, gesamt: 0, inDE: 0, geprueftAm: heute(), grund, unklar: true }
+        stoerung++
+        warn(`YouTube ${url}: ${grund}`)
+      }
     }
     if (++geprueft % 50 === 0) log(`  ${geprueft}/${arbeit.length} — ${leer} ohne abrufbares Video`)
     await sleep(150)
   }
 
+  /*
+    **Plausibilität vor dem Schreiben** (17.09.2026, nach dem Muster von
+    `fetch-justwatch-audio.ts`). Ein Kontingent- oder Netzausfall trifft alle
+    Abfragen gleichzeitig; ohne diesen Riegel stünde danach eine Datei voller
+    Nullbefunde, aus der der Bau Verweise entfernt.
+  */
+  if (geprueft >= 20 && (leer + stoerung) / geprueft > 0.5) {
+    warn(`YouTube: ${leer} ohne Video und ${stoerung} Störungen bei ${geprueft} Abfragen — unplausibel, nichts geschrieben.`)
+    return
+  }
   writeJson(DATEI, bestand)
-  const tot = Object.values(bestand).filter((b) => b.art !== 'kanal' && b.inDE === 0).length
+  const tot = Object.values(bestand).filter((b) => b.art !== 'kanal' && b.inDE === 0 && !b.unklar).length
   log(`YouTube: ${geprueft} geprüft, davon ${leer} ohne abrufbares Video. Im Bestand insgesamt ${tot} tote Verweise.`)
   /*
     Nichts zu prüfen ist der Normalfall, sobald alle Verweise durch sind — und

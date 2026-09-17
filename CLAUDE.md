@@ -2032,6 +2032,34 @@ Artikeln, null davon mit Wochentag davor. Die Gegenprobe steht in `check:logic`.
 Entscheidung von früher gilt unverändert: keine Faustregel als Uhrzeit eintragen. Die
 „00:00 Pacific"-Regel für Netflix-Eigenproduktionen ist keine Angabe über diese Serie.
 
+## Eine Störung ist kein Befund — und ein unplausibler Lauf schreibt nicht
+
+Am 17.09.2026 auf Daniels Frage („die sicherung klingt gut, wie sieht es an unseren anderen
+stellen aus?") alle Abrufe durchgesehen. Drei Wege entfernten Verweise aus einer
+**Nichtauskunft**:
+
+| Lauf | was passierte | jetzt |
+|---|---|---|
+| `check-youtube.ts` | jeder Fehler (Kontingent, Netz, Teilausfall einer Playlist) wurde als `inDE: 0` gespeichert, der Bau entfernte den Verweis | Störung wird `unklar: true`, der alte Befund bleibt; der Bau überspringt `unklar` |
+| `scrape-crunchyroll-dub.ts` | antwortete die Content-API nicht, ersetzte der Fehlersatz den guten Eintrag; der Bau las „keine Staffel" und entfernte | ein Fehlersatz überschreibt keinen guten Eintrag |
+| `fetch-justwatch-audio.ts` | eine verfehlte Namenssuche löschte alle Angebote | die alte Antwort bleibt, `verfehltAm` hält den Fehlgriff fest |
+
+Dazu zwei stille Datenverluste ohne Entfern-Pfad: `fetch-voices.ts` schrieb bei einem
+AniList-Ausfall `roles: []` über belegte Sprechrollen, `fetch-tmdb-titles.ts` ersetzte bei
+einem Fehltreffer die gefundene `tmdbId` — an der JustWatch, die Streaming-Availability-Daten
+und die Trailer hängen.
+
+**Zwei Griffe, die jeder neue Abruf braucht:**
+
+1. **Unterscheide „nicht gefunden" von „nicht gefragt".** Nur das Erste ist ein Befund. Alles
+   andere lässt den alten Stand stehen — mit einem Vermerk, nicht mit einem Wert.
+2. **Ein Mengen-Riegel vor dem Schreiben.** Ändert eine Quelle ihre Schnittstelle, sieht das
+   aus wie „überall nichts". `fetch-justwatch-audio.ts` (25 % leere Treffer, 70 % ohne
+   Treffer) und `check-youtube.ts` (50 % ohne Video) brechen dann ab, ohne zu schreiben; die
+   Grundlinie steht als gemessene Zahl im Kommentar.
+
+Wer einen Abruf baut, beantwortet beide Fragen im Code — nicht im Kopf.
+
 ## Was erzeugt wird, wird auch geprüft
 
 `npm run data:validate` sichert nur `data/curated/*.yaml` — also den Teil, den ohnehin jemand

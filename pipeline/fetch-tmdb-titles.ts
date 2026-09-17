@@ -301,7 +301,17 @@ async function main(): Promise<void> {
   let done = 0
   let withOverview = 0
   for (const title of todo) {
-    cache[title.id] = { ...(await lookup(apiKey, title)), fetchedAt: new Date().toISOString() }
+    const neu = await lookup(apiKey, title)
+    const vorher = cache[title.id]
+    /*
+      **Ein Fehltreffer löscht keine gefundene Zuordnung** (17.09.2026). An `tmdbId`
+      hängen JustWatch, die Streaming-Availability-Daten und die Trailer; eine TMDB-Störung
+      oder ein geänderter Titel nahm ihnen bis dahin den Schlüssel.
+    */
+    cache[title.id] =
+      neu.miss && vorher?.tmdbId
+        ? { ...vorher, fetchedAt: new Date().toISOString() }
+        : { ...neu, fetchedAt: new Date().toISOString() }
     if (cache[title.id].overviewDe) withOverview++
     done++
     if (done % 100 === 0) {

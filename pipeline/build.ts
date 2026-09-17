@@ -3319,7 +3319,10 @@ function main(): void {
 
   const checks = new Map(alleChecks.map((c) => [dubKey(c.anilistId, c.platform), c]))
   /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
-  const youtubeBefunde = readJson<Record<string, { art: string; inDE: number }>>('data/youtube-check.json', {})
+  const youtubeBefunde = readJson<Record<string, { art: string; inDE: number; unklar?: boolean }>>(
+    'data/youtube-check.json',
+    {},
+  )
   /**
    * Der YouTube-Kanal je Adresse, aus `pipeline/check-youtube.mjs`.
    *
@@ -3493,7 +3496,8 @@ function main(): void {
         ytEntfernt++
         return false
       }
-      if (yt && yt.art !== 'kanal' && yt.inDE === 0) {
+      /* `unklar` heißt „die Abfrage hat nicht geantwortet" — kein Grund, einen Verweis zu entfernen (17.09.2026). */
+      if (yt && yt.art !== 'kanal' && yt.inDE === 0 && !yt.unklar) {
         ytEntfernt++
         return false
       }

@@ -4558,6 +4558,30 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     releasesAus([v('ab dem 28. August 2026 bei RTL+ abrufbar')], titel, [], '2026-09-16').length === 1,
   )
 }
+/* Eine Störung ist kein Befund — vier Abrufe, 17.09.2026. */
+{
+  pruefe(
+    'YouTube: eine Störung wird als „unklar" abgelegt und entfernt keinen Verweis',
+    readFileSync('pipeline/check-youtube.ts', 'utf8').includes('unklar: true') &&
+      readFileSync('pipeline/build.ts', 'utf8').includes("yt.inDE === 0 && !yt.unklar"),
+  )
+  pruefe(
+    'YouTube: ein unplausibler Lauf schreibt nicht',
+    readFileSync('pipeline/check-youtube.ts', 'utf8').includes('unplausibel, nichts geschrieben'),
+  )
+  pruefe(
+    'Crunchyroll: ein Fehlersatz überschreibt keinen guten Eintrag',
+    readFileSync('pipeline/scrape-crunchyroll-dub.ts', 'utf8').includes('if (serie.fehler && vorherige && !vorherige.fehler)'),
+  )
+  pruefe(
+    'Sprechrollen: eine leere Antwort löscht keine belegten Rollen',
+    readFileSync('pipeline/fetch-voices.ts', 'utf8').includes('if (!rollen.length && existsSync(pfad))'),
+  )
+  pruefe(
+    'TMDB: ein Fehltreffer behält die gefundene Zuordnung',
+    readFileSync('pipeline/fetch-tmdb-titles.ts', 'utf8').includes('neu.miss && vorher?.tmdbId'),
+  )
+}
 /* Frische JustWatch-Daten entfernen nichts von selbst (17.09.2026). */
 {
   const { jwFrisch } = await import('./lib/jw-handpruefung.ts')

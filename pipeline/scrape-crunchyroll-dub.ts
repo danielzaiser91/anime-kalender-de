@@ -788,6 +788,8 @@ async function main(): Promise<void> {
   }
 
   let ohneDeutsch = 0
+  /* Wie oft ein Fehlersatz einen guten Eintrag stehen ließ. */
+  let gestoert = 0
 
   /** Schreibt den Stand — alles Bekannte plus alles gerade Gelesene. */
   const sichern = () =>
@@ -985,6 +987,18 @@ async function main(): Promise<void> {
       const schon = jeSerie.get(seriesId)
       const serie = schon ? { ...schon, url } : await serieLesen(quelle, url, seriesId, seitenHolen)
       if (!schon) jeSerie.set(seriesId, serie)
+      /*
+        **Ein Fehlersatz überschreibt keinen guten Eintrag** (17.09.2026). Antwortet die
+        Content-API einmal nicht, trug der Eintrag danach keine Staffeln — und der Bau
+        entfernte den Verweis als „deutscher Katalog führt keine Staffel". Der alte Stand
+        bleibt stehen, samt Prüfdatum: So kommt die Serie beim nächsten Lauf gleich wieder dran.
+      */
+      const vorherige = bestand.get(url)
+      if (serie.fehler && vorherige && !vorherige.fehler) {
+        gestoert++
+        melden(i, kurz, vorherige)
+        continue
+      }
       bestand.set(url, serie)
       // Gezählt wird nur, wo die Antwort auch eine ist: „nicht verfügbar" und
       // „keine Auskunft" sind kein „ohne deutsche Tonspur".
@@ -1040,7 +1054,8 @@ async function main(): Promise<void> {
   )
   log(
     `Fertig: ${bestand.size} Adressen im Bestand, ${jeSerie.size} Serien in diesem Lauf gelesen, ` +
-      `${ohneDeutsch} davon ohne deutsche Tonspur`,
+      `${ohneDeutsch} davon ohne deutsche Tonspur` +
+      (gestoert ? `, ${gestoert} Fehlersatz/Fehlersätze verworfen (alter Stand behalten)` : ''),
   )
   if (neuAufgeloest) log(`${neuAufgeloest} Adressen neu in eine Serienkennung aufgelöst, ${ohneKennung} ohne Kennung`)
   log(`${termine} deutsche Folgen mit belegtem Termin aus der Content-API`)
