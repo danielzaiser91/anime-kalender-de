@@ -1434,6 +1434,17 @@ Anime2You-Parser das TV-Premierendatum (28.08., TOGGO plus) an RTL+, wo die Seri
 - **Ein Datum im TV-Umfeld eines Artikels wird kein Streaming-Termin** (`TV_UMFELD` in
   `lib/meldungen.ts`).
 
+## Ein Film hat Termine, keine Folgen
+
+Daniel am 17.09.2026 an „Madoka Magica – Walpurgisnacht: Rising": Über einem deutschen
+Kinostart stand „Erste Folge erscheint am … · Wöchentlich · letzte Folge · 0 von 1 Folgen".
+Dazu: „Meistens kommt Kinofilm wochen vor online streaming, manchmal zeitgleich, manchmal
+streaming zuerst." Seitdem bekommt ein Film mit deutschem Kino- oder Streamtermin den Kasten
+`filmDe` (`filmTermine()` im Detail-Panel): vorn der nächste Termin, daneben der andere
+(„Streamstart noch nicht bekannt", solange keiner da ist), bei gleichem Tag „im Kino und bei
+X". Ein Kinostart, der über 60 Tage zurückliegt und keinen Stream hat, fällt auf die alte
+Auskunft zurück. Die Kalenderkarte zeigt bei Filmen keine Folgennummer.
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim

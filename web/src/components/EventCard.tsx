@@ -190,7 +190,8 @@ export function EventCard({
             <span>{t('card.inStores')}</span>
           ) : null}
           {/* Eine TV-Sichtung zählt unsere Sichtungen, keine Folgen der Serie — keine Angabe statt „Ep 1/1“. */}
-          {event.episode && !event.sichtung && (
+          {/* Ein Film hat keine Folgen — „Ep 1/1“ über einem Kinostart sagt nichts (17.09.2026). */}
+          {event.episode && !event.sichtung && event.releaseType !== 'movie' && (
             <span className="rounded bg-slate-200/70 px-1 tabular-nums dark:bg-white/10">
               {t('card.episode', { n: event.episode })}
               {event.episodeCount ? `/${event.episodeCount}` : ''}

@@ -145,6 +145,18 @@ type Antwort =
       verleih?: string
       fassung?: 'synchro' | 'omu' | 'beides'
     }
+  /**
+   * **Ein Film mit deutschem Kino- oder Streamtermin** (17.09.2026). Kino kommt
+   * meist Wochen vor dem Stream, manchmal zeitgleich, manchmal danach — der Kasten
+   * nennt den nächsten Termin zuerst und den anderen daneben.
+   */
+  | {
+      art: 'filmDe'
+      kino?: { datum: string; raus: boolean }
+      stream?: { datum: string; raus: boolean; anbieter: string }
+      verleih?: string
+      fassung?: 'synchro' | 'omu' | 'beides'
+    }
   | { art: 'ohne'; gesamt?: number }
   /**
    * **Eine Disc ist kein Sendeplan.**
@@ -679,6 +691,51 @@ function AntwortKasten({
           ? T('antwort.kinoDeVerleih', { verleih: antwort.verleih })
           : T('antwort.kinoDeOffen')
     gedaempft = true
+    zaehl = ''
+    fakten = []
+  } else if (antwort.art === 'filmDe') {
+    const kinoText = antwort.kino
+      ? T(antwort.kino.raus ? 'antwort.filmDeKinoSeit' : 'antwort.filmDeKinoAb', { datum: formatDate(antwort.kino.datum) })
+      : undefined
+    const streamText = antwort.stream
+      ? T(antwort.stream.raus ? 'antwort.filmDeStreamSeit' : 'antwort.filmDeStreamAb', {
+          datum: formatDate(antwort.stream.datum),
+          anbieter: antwort.stream.anbieter,
+        })
+      : undefined
+    const gleich = antwort.kino && antwort.stream && antwort.kino.datum === antwort.stream.datum
+    /* Vorn steht der nächste Termin; liegen beide zurück, der jüngere. */
+    const streamZuerst =
+      antwort.stream &&
+      (!antwort.kino ||
+        (antwort.kino.raus && !antwort.stream.raus) ||
+        (antwort.kino.raus === antwort.stream.raus &&
+          (antwort.kino.raus
+            ? antwort.stream.datum > antwort.kino.datum
+            : antwort.stream.datum < antwort.kino.datum)))
+    const fassung = antwort.fassung
+      ? T(
+          antwort.fassung === 'omu'
+            ? 'antwort.kinoFassungOmu'
+            : antwort.fassung === 'synchro'
+              ? 'antwort.kinoFassungSynchro'
+              : 'antwort.kinoFassungBeides',
+        )
+      : undefined
+    if (gleich) {
+      haupt = T(antwort.kino!.raus ? 'antwort.filmDeBeideSeit' : 'antwort.filmDeBeideAb', {
+        datum: formatDate(antwort.kino!.datum),
+        anbieter: antwort.stream!.anbieter,
+      })
+      neben = fassung ?? ''
+    } else {
+      haupt = (streamZuerst ? streamText : kinoText) ?? ''
+      /* Der Verleih steht schon in der Kino-Pille darunter; hier steht, was noch fehlt. */
+      neben = [streamZuerst ? kinoText : (streamText ?? T('antwort.filmDeStreamOffen')), fassung]
+        .filter(Boolean)
+        .join(' · ')
+    }
+    gedaempft = !antwort.kino?.raus && !antwort.stream?.raus
     zaehl = ''
     fakten = []
   } else if (antwort.art === 'film') {
@@ -3208,6 +3265,31 @@ export function DetailPanel({
     const vollstaendig = abdeckung.some((a) => a.vollstaendig)
     const belegteFolgen = abdeckung.length ? Math.max(...abdeckung.map((a) => a.belegt)) : 0
 
+    /*
+      **Kino und Stream eines Films gehören in einen Kasten** (Daniel, 17.09.2026:
+      „Meistens kommt Kinofilm wochen vor online streaming, manchmal zeitgleich,
+      manchmal streaming zuerst"). Vorher stand über einem Kinostart „Erste Folge
+      erscheint … Wöchentlich · 0 von 1 Folgen".
+    */
+    const filmTermine = () => {
+      const start = (r: (typeof releases)[number]) => r.schedule.firstEpisodeDate
+      const kinoRel = releases.filter((r) => r.platform === 'kino' && start(r)).sort((a, b) => start(a)!.localeCompare(start(b)!))[0]
+      const streamRel = releases
+        .filter((r) => r.platform !== 'kino' && r.releaseType !== 'disc' && start(r))
+        .sort((a, b) => start(a)!.localeCompare(start(b)!))[0]
+      if (!kinoRel && !streamRel) return null
+      /* Ein Kinostart, der länger als 60 Tage zurückliegt, ist keine Auskunft mehr. */
+      if (!streamRel && start(kinoRel!)! < addDays(today, -60)) return null
+      return {
+        art: 'filmDe' as const,
+        kino: kinoRel ? { datum: start(kinoRel)!, raus: start(kinoRel)! <= today } : undefined,
+        stream: streamRel
+          ? { datum: start(streamRel)!, raus: start(streamRel)! <= today, anbieter: anbieterName(streamRel.platform, streamRel.sender) }
+          : undefined,
+        verleih: kinoRel?.publisher ?? title.kino?.verleih,
+        fassung: title.kino?.fassung,
+      }
+    }
     if (kuenftig.length > 0) {
       const n = kuenftig[0]!
       /*
@@ -3254,6 +3336,10 @@ export function DetailPanel({
         Dragon Ball DAIMA läuft im TV bis 22.09. und steht ab 25.09. bei RTL+; der
         Kasten nannte „noch 5 bis zum Finale am 25.09." (16.09.2026).
       */
+      if (title.format === 'MOVIE' || releases.find((r) => r.slug === n.releaseSlug)?.releaseType === 'movie') {
+        const film = filmTermine()
+        if (film) return film
+      }
       const derselben = kuenftig.filter((e) => e.releaseSlug === n.releaseSlug)
       return {
         art: 'laeuft' as const,
@@ -3287,6 +3373,9 @@ export function DetailPanel({
         wäre „seit 2019 in japanischen Kinos" keine Auskunft, auf die jemand
         wartet.
       */
+      /* Läuft der Film gerade in deutschen Kinos und ist noch nicht gestreamt, bleibt es die Kino-Auskunft. */
+      const filmDe = !(title.streams ?? []).some((s) => s.dub === true) ? filmTermine() : null
+      if (filmDe) return filmDe
       const jp = title.kino?.jp ?? title.jpStart
       const land = title.land ?? 'JP'
       /*
