@@ -42,9 +42,32 @@ function paar(a, b) {
 
 const eintraege = Object.entries(tmdb).filter(([id, e]) => e?.tmdbId && titel.has(id))
 console.log(`${eintraege.length} gespeicherte Zuordnungen werden geprüft.`)
+/**
+ * **Von Hand geprüft und richtig** (17.09.2026) — Paar aus unserer und TMDBs Kennung.
+ *
+ * Alle zehn sind dasselbe Werk unter einem längeren Namen: TMDB stellt die Reihe voran
+ * („Pokémon 20: Du bist dran!", „Marvel Anime - X-Men") oder führt den deutschen
+ * Untertitel als ganzen Titel („Sekunden in Moll"). Ohne diese Liste meldet der Lauf sie
+ * bei jeder Ausführung erneut, und die acht echten Fehltreffer gingen darin unter.
+ *
+ * Ändert sich die Zuordnung, passt das Paar nicht mehr und der Fall wird wieder gemeldet.
+ */
+const GEPRUEFT = new Set([
+  '2882:21269', // Superbuch ⊂ Das Superbuch - Die Bibel für Kinder
+  '3132:27422', // Christoph Columbus ⊂ The True Adventures of Christopher Columbus
+  '3434:13488', // Bumpety Boo ⊂ Der kleine gelbe Superflitzer
+  '4107:20986', // Gurren Lagann The Movie ⊂ Gurren Lagann - Childhood's End
+  '6919:43146', // X-Men ⊂ Marvel Anime - X-Men
+  '20665:61663', // Shigatsu wa Kimi no Uso ⊂ Sekunden in Moll
+  '98298:436931', // Pokémon: Der Film - Du bist dran! ⊂ Pokémon 20
+  '100744:494407', // Pokémon: Die Macht in uns ⊂ Pokémon 21
+  '101166:553835', // Danmachi ⊂ DanMachi: Arrow of the Orion
+  '114564:662708', // Pokémon: Geheimnisse des Dschungels ⊂ Pokémon 23
+])
 const verdacht = []
 let gefragt = 0
 for (const [id, e] of eintraege) {
+  if (GEPRUEFT.has(`${id}:${e.tmdbId}`)) continue
   const art = e.kind === 'tv' ? 'tv' : 'movie'
   const antwort = await fetch(`https://api.themoviedb.org/3/${art}/${e.tmdbId}?api_key=${KEY}&language=de-DE`)
   if (!antwort.ok) {
