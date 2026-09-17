@@ -5,6 +5,18 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 17.09.2026, 13:50 — durchgesehen, zwei Fehler behoben
+
+**Was läuft korrekt.** Letzter Wachlauf 16.09.2026, 14:36, „unauffällig": 2.771 Titel, 2.011 Urteile, 15 offen. Der heutige Lauf fehlt nicht, er kommt nur spät: GitHub startet den 07:20-UTC-Termin seit Tagen gegen 12:40 UTC. Statusanzeige ohne rote Läufe.
+
+**Was komplett falsch lief.** Die Deltazeilen vom 16.09. wechselten im Minutentakt zwischen „verweise −2" und „+2". In `data/bestand-historie.jsonl` sprang `entferntProtokolliert` bei jedem Bau zwischen 836 und 769: 78 Crunchyroll-Adressen wurden aus aniSearch ergänzt, als belegtes Nein entfernt, im nächsten Lauf vom Gedächtnis gesperrt und deshalb nicht mehr notiert, im übernächsten wieder ergänzt. Behoben in `build.ts` (das Gedächtnis übernimmt gesperrte Einträge); zwei Bauläufe danach stehen beide auf 847.
+
+**Wo echte Lücken waren.** Sechs Joyn-Adressen führte `data/link-check.json` seit dem 20.08. als 404, im Datensatz standen sie trotzdem, ohne Sprachurteil (9 der 13 offenen Verweise). Die späten Ergänzungsrunden legen solche Adressen jetzt nicht mehr an. Übrig bleiben vier Prime-Verweise, die nur über die Erweiterung zu klären sind.
+
+**Wo Verbesserungspotenzial ist.** Die Amazon-Linkprüfung liefert aus der Cloud kaum Befunde (Recherche 17.09. in `status.md`); ihr Abbruch hielt bis heute auch die übrigen Anbieter auf.
+
+---
+
 ## 15.09.2026, 08:35 — durchgesehen, nichts offen
 
 **Was läuft korrekt.** Letzter Lauf 14.09.2026, 16:04, „unauffällig": 2.771 Titel, 1.980 Urteile, 7 offen; über 24 Stunden +8 Urteile, −12 offen. Alle Läufe der Nacht grün, Statusanzeige ohne roten Lauf, Briefkasten leer.
