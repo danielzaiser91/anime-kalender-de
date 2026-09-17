@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-17T13:10:49.235Z",
+  "stand": "2026-09-17T13:15:00.170Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -5159,6 +5159,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-17",
       "letzterWeg": true
+    },
+    {
+      "titleId": 2361,
+      "titel": "Saber Rider und die Star Sheriffs",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/series/GQWH0M1EX/saber-rider-and-the-star-sheriffs",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-17",
+      "letzterWeg": false
     },
     {
       "titleId": 2476,
