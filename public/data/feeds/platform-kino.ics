@@ -6,6 +6,16 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – kino
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:your-name-cineanime-2026@2026-09-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260929
+DTEND;VALUE=DATE:20260930
+SUMMARY:Your Name. (CineAnime)
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nDetails: https://anime-kalender.de/#/release/your-name-cineanime-2026
+CATEGORIES:Kino
+END:VEVENT
+BEGIN:VEVENT
 UID:all-you-need-is-kill-kino@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260929

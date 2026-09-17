@@ -1821,5 +1821,68 @@
       "adn",
       "primevideo"
     ]
+  },
+  "your-name-cineanime-2026": {
+    "tmdbId": 372058,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/movie/372058/watch?locale=DE",
+    "offers": [
+      {
+        "name": "ArthouseCNMA",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Arthouse CNMA Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "Google Play Movies",
+        "kind": "rent"
+      },
+      {
+        "name": "YouTube",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Sky Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Rakuten TV",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "primevideo",
+      "crunchyroll"
+    ]
   }
 }
