@@ -4558,5 +4558,19 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     releasesAus([v('ab dem 28. August 2026 bei RTL+ abrufbar')], titel, [], '2026-09-16').length === 1,
   )
 }
+/* Captain Tsubasa 2018: jede Crunchyroll-Runde, die ein Ja setzt, fragt die laufende Nummer (17.09.2026). */
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'die Katalog-Runden sperren deutsche Folgen hinter dem Titelende',
+    (bau.match(/if \(hinterDemEnde\(kennung, title\)\) continue/g) ?? []).length === 2,
+    'eine der beiden Katalog-Runden (unbeurteilt / jüngerer Katalog) setzt das Ja ohne laufende Nummer',
+  )
+  pruefe(
+    '… ebenso beide Bereichsübertragungen',
+    (bau.match(/if \(deutscheFolgenNachDemEnde\(/g) ?? []).length === 2,
+    'eine Bereichsübertragung schreibt wieder „Fg. 1–39" an Captain Tsubasa 2018',
+  )
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

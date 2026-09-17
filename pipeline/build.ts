@@ -4592,6 +4592,20 @@ function main(): void {
           .filter(([, v]) => v.seriesId)
           .map(([u, v]) => [kernVon(u), v.seriesId as string]),
       )
+      /*
+        Eine Staffel im Katalog kann trotzdem zwei Werke tragen: Captain Tsubasa
+        2018 und „Junior Youth" liegen unter `GZJH3D7G9` in einem Block, deutsch
+        sind nur die laufenden Nummern 53–91 (17.09.2026). Die laufende Nummer
+        aus dem Prüflauf sperrt das Ja. Gemessen über 106 Kandidaten dieser
+        Runde: genau dieser eine Fall. Die breitere Regel „Katalog hat mehr
+        Folgen als der Titel" träfe 24, fast alle zu Recht deutsch (geteilte
+        Cours wie 86 oder Dead Mount Death Play).
+      */
+      const crBloeckeJeKennung = new Map(
+        crDub.serien.filter((s) => s.seriesId).map((s) => [s.seriesId as string, s.staffeln ?? []]),
+      )
+      const hinterDemEnde = (kennung: string, title: Title): boolean =>
+        deutscheFolgenNachDemEnde(crBloeckeJeKennung.get(kennung) ?? [], title.episodes)
       if (nachKennung.size) {
         for (const title of titles.values()) {
           for (const stream of title.streams) {
@@ -4601,6 +4615,7 @@ function main(): void {
             if (!kennung) continue
             const eintrag = nachKennung.get(kennung)
             if (!eintrag || !eintrag.folgen) continue
+            if (hinterDemEnde(kennung, title)) continue
             /*
               **Nur wo die Serie genau ein Werk ist.**
 
@@ -4672,6 +4687,7 @@ function main(): void {
             const eintrag = nachKennung.get(kennung)
             if (!eintrag?.folgen || (eintrag.staffeln ?? 0) !== 1) continue
             if (!(eintrag.audio ?? []).includes('de-DE')) continue
+            if (hinterDemEnde(kennung, title)) continue
             /* Nur wenn der Katalog wirklich jünger ist als die Messung, die das Nein trug. */
             if (katalogStand <= (geprueftJe.get(kennung) ?? '')) continue
             stream.dub = true
