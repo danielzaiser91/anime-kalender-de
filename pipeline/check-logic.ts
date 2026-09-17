@@ -99,6 +99,7 @@ import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus } from './lib/meldungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
+import { staffelNummern } from './lib/staffel-nummern.ts'
 import { namensKern, sendungenAusSeite, titelZuordnen } from './fetch-tv-programm.ts'
 
 let fehler = 0
@@ -3830,22 +3831,15 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
  */
 {
   const quelle = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
-  const anfang = quelle.indexOf('const reihe = staffelnDerAdresse(')
-  const block = anfang >= 0 ? quelle.slice(anfang, anfang + 400) : ''
+  // Seit dem 17.09.2026 entscheidet die Staffelnummer über die Namen der Reihe (staffelNummern), nicht über eine Position.
   pruefe(
-    'die Staffel-über-Franchise-Zuordnung bekommt die gefilterte Liste',
-    anfang >= 0 && /staffelnDerAdresse\([\s\S]*?,\s*true,?\s*\)/.test(block),
-    'ohne den Schalter zeigt reihe.slice(staffelNr - 1) auf eine Nebenausgabe — vier falsche Belege am 10.09.2026',
+    'die Staffel aus der Adresse wird über die Namen der Reihe bestimmt',
+    quelle.includes('staffelNummern(reihe)'),
   )
   pruefe(
-    'und sie greift weiterhin über die Staffelnummer zu',
-    block.includes('reihe.slice(staffelNr - 1)'),
-    'ändert sich der Zugriff, gilt die Zusicherung darüber einer Sache, die es nicht mehr gibt',
-  )
-  pruefe(
-    'staffelnDerAdresse() kennt beide Fassungen',
-    quelle.includes('function staffelnDerAdresse(ids: number[], nurStaffeln = false)'),
-    'wer rechnet, braucht alle Einträge; wer zählt, nur die Staffeln',
+    'kein Zugriff über die Position in der Reihe mehr',
+    !quelle.includes('reihe.slice(staffelNr - 1)'),
+    'eine Nebenausgabe verschiebt den Index — vier falsche Belege am 10.09.2026',
   )
 }
 
@@ -4445,6 +4439,20 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   const hand = { titleId: 158871, platform: 'tv', sender: 'Super RTL' } as Release
   pruefe('ein Handeintrag beim selben Sender gewinnt', releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'A')], titles, [hand]).length === 0)
+}
+/* Meldungsimport: die Staffel aus der Adresse wird über die Namen der Reihe bestimmt (17.09.2026). */
+{
+  const m = (id: number, name: string, jpStart: string, format = 'TV', beiwerk?: boolean) => ({ id, name, jpStart, format, beiwerk })
+  const kamuy = [m(1, 'Golden Kamuy', '2018-04'), m(2, 'Golden Kamuy 2', '2018-10'), m(3, 'Golden Kamuy: OVA', '2018-12', 'OVA', true), m(4, 'Golden Kamuy 3', '2020-10'), m(5, 'Golden Kamuy 4', '2023-10')]
+  pruefe('„Golden Kamuy 4" ist Staffel 4, nicht Folge 13 von Staffel 1 und 2', staffelNummern(kamuy).get(5) === 4 && staffelNummern(kamuy).get(1) === 1)
+  const schleim = [
+    m(10, 'Schleim', '2018-10'), m(11, 'Schleim: Staffel 2', '2021-01'), m(12, 'Schleim-Tagebücher', '2021-04', 'TV', true),
+    m(13, 'Schleim: Staffel 2 — Teil 2', '2021-07'), m(14, 'Schleim: Staffel 3', '2024-04'),
+  ]
+  const n = staffelNummern(schleim)
+  pruefe('beide Teile gehören zu Staffel 2, das Beiwerk nicht', n.get(11) === 2 && n.get(13) === 2 && !n.has(12))
+  pruefe('Staffel 3 hängt nicht an der Folgenzahl', n.get(14) === 3)
+  pruefe('eine Reihe mit nur einer Staffel liefert keine Nummer', staffelNummern([m(20, 'Einzeln', '2020-01')]).size === 0)
 }
 /* Cartoons: ähnliche Titel am Mittel beider Listen, ein gemeinsames Schlagwort ist Pflicht (16.09.2026). */
 {

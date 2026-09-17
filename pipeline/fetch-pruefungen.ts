@@ -29,6 +29,7 @@ import {
 } from './lib/folgenbereiche.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
+import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -354,27 +355,7 @@ const erledigteIds = new Set<number>()
  * die steigt zwar meistens mit der Zeit, aber eben nur meistens.
  */
 const JAHRESZEIT: Record<string, number> = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
-/**
- * **Zwei Fragen, zwei Listen.**
- *
- * `ordneNachStaffelliste()` rechnet über **Folgenzahlen** und braucht deshalb
- * jeden Eintrag der Adresse, auch OVAs und Specials: Der Anbieter zählt sie als
- * Folgen seiner Staffeln mit, und ohne sie geht die Summe nicht auf.
- *
- * Der Block „Eine Staffel gehört ihrem Titel" greift dagegen über
- * `reihe.slice(staffelNr - 1)` zu — er versteht die Liste als **Staffelfolge**.
- * Steht dort eine OVA zwischen Staffel 2 und 3, zeigt „Staffel 4" auf den
- * falschen Eintrag.
- *
- * Genau das ist am 10.09.2026 passiert: Die Prime-Seite `B0D2NL5GYX` (Haikyu!!
- * Staffel 4, 27 Folgen) wurde an 21348, 21698, 107351, 106625 und 111790
- * zugeordnet — deren Summe **ebenfalls** 27 ergibt (1+10+1+13+2), obwohl vier
- * davon zu anderen Staffeln gehören. Vier Belege mussten zurückgenommen werden.
- *
- * `nurStaffeln` gibt die alte, gefilterte Liste zurück — für alle, die zählen
- * statt zu rechnen.
- */
-function staffelnDerAdresse(ids: number[], nurStaffeln = false): Staffeleintrag[] {
+function staffelnDerAdresse(ids: number[]): Staffeleintrag[] {
   /*
     **Bei einem einzigen Titel braucht es keine Folgenzahl.**
 
@@ -426,10 +407,7 @@ function staffelnDerAdresse(ids: number[], nurStaffeln = false): Staffeleintrag[
   const ohneFilme = alle.filter(
     (t) => t.format !== 'MOVIE' || !alle.some((x) => x.format === 'TV' || x.format === 'ONA'),
   )
-  /* Wer über die Staffelnummer indiziert, darf keine Nebenausgabe dazwischen haben. */
-  const serien = ohneFilme.filter((t) => t.format === 'TV' || t.format === 'ONA')
-  const eintraege = nurStaffeln && serien.length ? serien : ohneFilme
-  return eintraege
+  return ohneFilme
     .sort((a, b) => {
       const jahr = (a.jpYear ?? 0) - (b.jpYear ?? 0)
       if (jahr) return jahr
@@ -477,6 +455,12 @@ for (const p of pruefungen) {
   jeAdresse.set(schluessel, [...(jeAdresse.get(schluessel) ?? []), p])
 }
 
+/** Die Reihe je Titel, aus dem gebauten Datensatz. */
+const reiheVon = new Map<number, Reiheneintrag[]>()
+{
+  const reihen = JSON.parse(readFileSync(resolve(ROOT, 'public/data/franchises.json'), 'utf8')) as Record<string, Reiheneintrag[]>
+  for (const r of Object.values(reihen)) for (const m of r) reiheVon.set(m.id, r)
+}
 for (const gruppe of jeAdresse.values()) {
   const p = gruppe[gruppe.length - 1]!
   /**
@@ -638,40 +622,35 @@ for (const gruppe of jeAdresse.values()) {
     }
   }
 
-  if (ids.length === 1) {
+  /*
+    **Die Staffel aus der Adresse entscheidet — über den Namen, nicht über die Summe.**
+
+    Am 17.09.2026 machten Daniels Meldungen aller Staffeln jeden Deploy rot.
+    Zwei Wege führten an den Reihenkopf: Die Erweiterung schickt `titelId` aus
+    dem Auftrag, auch nachdem auf der Seite eine andere Staffel gewählt wurde
+    (Golden Kamuy Staffel 4 landete als „Folgen 1–12" auf Staffel 1 und 2). Und
+    der alte Weg ordnete nur zu, wenn die Folgen glatt aufgingen — Prime führt
+    Schleim Staffel 3 mit 26 Folgen, wir mit 24, also blieb der Beleg am Kopf.
+    Seitdem zählt `staffelBeschriftungen()` (dieselbe Rechnung wie im Panel),
+    ergänzt um Namen wie „Golden Kamuy 4". Lässt sich die Staffel nicht
+    bestimmen, wird die Meldung nicht geschrieben und bleibt im Briefkasten.
+  */
+  {
     const staffelNr = gruppe
       .map((x) => x.staffel)
       .find((n): n is number => typeof n === 'number' && Number.isFinite(n) && n >= 2 && n <= 50)
-    /*
-      Die Folgenzahl der **Staffel**: Bei je-Folge-Meldungen steht `folgen` auf
-      1 und sagt nichts — dann zählt, wie viele Folgen gemeldet wurden.
-    */
-    const folgenZahl = Math.max(
-      ...gruppe.map((x) => (typeof x.folgen === 'number' && Number.isFinite(x.folgen) ? x.folgen : 0)),
-      gruppe.filter((x) => x.folge_nr != null).length,
-    )
-    const kopf = liste.find((x) => x.id === ids[0])
-    const franchise = kopf?.franchiseId ?? ids[0]
-    if (staffelNr && folgenZahl > 0 && franchise) {
-      /* `slice(staffelNr - 1)` zählt Staffeln — Nebenausgaben verschieben den Index. */
-      const reihe = staffelnDerAdresse(
-        liste.filter((x) => (x.franchiseId ?? x.id) === franchise).map((x) => x.id),
-        true,
-      )
-      const gedeckt: number[] = []
-      let rest = folgenZahl
-      for (const eintrag of reihe.slice(staffelNr - 1)) {
-        if (rest <= 0) break
-        gedeckt.push(eintrag.id)
-        rest -= eintrag.folgen
-      }
-      if (gedeckt.length && rest === 0 && !(gedeckt.length === 1 && gedeckt[0] === ids[0])) {
-        log(
-          `Staffel ${staffelNr} von „${kopf?.titleDe ?? kopf?.titleEn ?? ids[0]}" gehört zu ` +
-            `${gedeckt.join(', ')} — ${folgenZahl} Folgen gehen glatt auf`,
-        )
-        ids = gedeckt
+    const reihe = staffelNr ? reiheVon.get(ids[0] ?? -1) : undefined
+    if (staffelNr && reihe) {
+      const nummern = staffelNummern(reihe)
+      const ziel = [...nummern].filter(([, n]) => n === staffelNr).map(([id]) => id)
+      const schonRichtig = ziel.length > 0 && ids.every((id) => ziel.includes(id))
+      if (ziel.length && !schonRichtig) {
+        log(`Staffel ${staffelNr} von ${p.url} gehört zu ${ziel.join(', ')} statt ${ids.join(', ')}`)
+        ids = ziel
         nachStaffelZugeordnet++
+      } else if (!ziel.length && ids.some((id) => nummern.has(id))) {
+        offenGeblieben.push(`${p.url} — Staffel ${staffelNr} in der Reihe nicht zu bestimmen, Meldung bleibt liegen`)
+        continue
       }
     }
   }
