@@ -55,6 +55,7 @@ import { adnAdresseSchaerfen } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
+import { fold as icsFold } from '../shared/ics.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -3644,6 +3645,17 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     linkPruefer.includes('SPERR_SCHWELLE') && linkPruefer.includes('inFolgeUnklar'),
     'gegen eine laufende Sperre zu klopfen bringt keinen Befund und verlängert sie',
   )
+  {
+    /* ICS-Zeilen: höchstens 75 Oktette, Entfalten ergibt den Text (17.09.2026). */
+    const probe = 'DESCRIPTION:Plattform: TOGGO plus\\nRelease-Art: Wöchentlich (Simuldub)\\nDetails – Größe 😀 '.repeat(4)
+    const gefaltet = icsFold(probe)
+    const zeilen = gefaltet.split('\r\n')
+    pruefe(
+      'ICS-Zeilen werden nach Oktetten gefaltet, nicht nach Zeichen',
+      zeilen.every((z) => new TextEncoder().encode(z).length <= 75) && gefaltet.replace(/\r\n /g, '') === probe,
+      'sonst liegen Zeilen mit Umlauten über der Grenze von RFC 5545 (357 Zeilen in all.ics)',
+    )
+  }
   pruefe(
     'fremde Partnerkennungen fliegen aus JustWatch- und Shop-Adressen',
     stripAffiliate('https://www.amazon.de/dp/B01JGOY2JA?tag=movie0c6-21&linkCode=osi&th=1&psc=1') ===

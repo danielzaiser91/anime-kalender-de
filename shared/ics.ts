@@ -9,17 +9,33 @@ function esc(value: string): string {
   return value.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n')
 }
 
-/** Faltet Zeilen auf 75 Oktetts, wie es RFC 5545 verlangt. */
-function fold(line: string): string {
-  if (line.length <= 75) return line
-  const chunks: string[] = [line.slice(0, 75)]
-  let rest = line.slice(75)
-  while (rest.length > 74) {
-    chunks.push(' ' + rest.slice(0, 74))
-    rest = rest.slice(74)
+/**
+ * **RFC 5545 zählt Oktette, nicht Zeichen** (17.09.2026). Die alte Fassung faltete
+ * nach 75 Zeichen; „Wöchentlich" oder ein Gedankenstrich machen daraus 76 und 77
+ * Oktette — 357 von 2.637 Zeilen in `all.ics` lagen über der Grenze. Gefaltet
+ * wird deshalb nach UTF-8-Länge und nur zwischen zwei Zeichen, nie mitten in
+ * einem. Eine Fortsetzungszeile beginnt mit einem Leerzeichen, das mitzählt.
+ */
+const utf8 = new TextEncoder()
+export function fold(line: string): string {
+  if (utf8.encode(line).length <= 75) return line
+  const teile: string[] = []
+  let akt = ''
+  let oktette = 0
+  let grenze = 75
+  for (const zeichen of line) {
+    const n = utf8.encode(zeichen).length
+    if (oktette + n > grenze) {
+      teile.push(akt)
+      akt = ''
+      oktette = 0
+      grenze = 74
+    }
+    akt += zeichen
+    oktette += n
   }
-  if (rest) chunks.push(' ' + rest)
-  return chunks.join('\r\n')
+  teile.push(akt)
+  return teile.map((t, i) => (i ? ' ' + t : t)).join('\r\n')
 }
 
 export interface IcsOptions {
