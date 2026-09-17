@@ -821,6 +821,8 @@ const PROVIDER_NAMES: Record<string, string> = {
   'paramount-plus': 'Paramount+',
   'paramount-plus-apple-tv-channel': 'Paramount+ über Apple TV',
   plutotv: 'Pluto TV',
+  /* JustWatch schreibt „Pluto TV“ mit Leerzeichen — ohne diese Zeile stand „Pluto Tv“ daneben (17.09.2026). */
+  'pluto-tv': 'Pluto TV',
   pokemon: 'Pokémon TV',
   'pokémon': 'Pokémon TV',
   rakuten: 'Rakuten TV',
