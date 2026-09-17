@@ -7065,6 +7065,12 @@ function main(): void {
     */
     {
       const jwAngebote = readJson<Record<string, { angebote?: JwAngebot[] }>>('data/justwatch-audio.json', {})
+      const primeNein = new Set(
+        (readJson<{ verweise?: { titleId?: number; plattform?: string; grund?: string }[] }>('data/verweise-entfernt.json', {})
+          .verweise ?? [])
+          .filter((v) => v.plattform === 'primevideo' && /^belegtes Nein/.test(v.grund ?? ''))
+          .map((v) => v.titleId),
+      )
       let umgestellt = 0
       let wiederbelebt = 0
       for (const title of titles.values()) {
@@ -7082,20 +7088,38 @@ function main(): void {
           continue
         }
         if (prime.length) continue
+        /*
+          Tote Amazon-Adresse: ein geführter Abgang (dort gab es Deutsch) oder eine
+          aniSearch-Adresse, die die Linkprüfung als tot kennt — die legt der Bau gar
+          nicht erst an. Gemessen am 17.09.2026: 158 Titel ohne Prime-Weg mit toter
+          aniSearch-Adresse, 27 davon mit genau einer gti bei JustWatch.
+        */
         const abgang = (title.entfernteStreams ?? []).filter((a) => a.platform === 'primevideo')
-        if (abgang.length !== 1) continue
+        const toteAnisearch = (anisearch[String(title.id)]?.streams ?? [])
+          .map((x) => x.url && stripAffiliate(x.url))
+          .filter((u): u is string => Boolean(u && /amazon\.de\/(?:dp|gp\/video\/detail)\//.test(u) && lautPruefungTot(u)))
+        const alteSeite = abgang.length === 1 ? abgang[0]!.url : abgang.length ? undefined : toteAnisearch[0]
+        if (!alteSeite) continue
         /* Ein Handbeleg ohne Adresse („bei Prime nicht zu finden") gilt der ganzen Plattform und schlägt JustWatch. */
         const handNein = (checksJePlattform.get(dubKey(title.id, 'primevideo')) ?? []).some(
           (c) => !c.url && (c.available === false || c.dub === false),
         )
         if (handNein) continue
-        const wahl = amazonGtiWahl(angebote, abgang[0]!.dub)
+        /* Ein belegtes Nein bei Prime (Gedächtnis der entfernten Verweise) gilt auch hier. */
+        if (primeNein.has(title.id)) continue
+        const wahl = amazonGtiWahl(angebote, abgang[0]?.dub)
         if (!wahl) continue
+        /*
+          Ohne geführten Abgang gab es nie ein Urteil. Dann nur eine Ausgabe, für die
+          JustWatch deutschen Ton nennt — sonst entstünde ein Weg ohne Deutsch (Afro
+          Samurai, Black Cat, A Silent Voice).
+        */
+        if (!abgang.length && !wahl.audio.includes('de')) continue
         const art = angebote.find((a) => a.url?.includes(wahl.gti))?.art
         title.streams.push({
           platform: 'primevideo',
           url: wahl.url,
-          seite: abgang[0]!.url,
+          seite: alteSeite,
           ...(art ? { zugang: art === 'FLATRATE' ? 'abo' : art === 'FREE' || art === 'ADS' ? 'kostenlos' : 'kauf' } : {}),
         } as StreamLink)
         wiederbelebt++
