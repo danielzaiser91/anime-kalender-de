@@ -5784,14 +5784,6 @@
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch, English — Amazon-Seite B073XTSQ38: Film geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
 
-- anilistId: 136
-  title: "Hunter x Hunter"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0BZYQSDN8
-  dub: true
-  checkedAt: '2026-08-24'
-  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), 日本語 — Amazon-Seite B0BZYQSDN8: alle 24 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 1, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 101610
   title: "Seven Days War"
   platform: primevideo
@@ -5872,13 +5864,25 @@
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch — Amazon-Seite B00USID4J8: alle 12 Folgen geprüft, Abos: keine Angabe, Seitenadresse: B00USID8GC, zugang=kauf_oder_leihe"
 
+- anilistId: 163146
+  title: "Blue Lock: Staffel 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0BZYQSDN8
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 14
+      dub: true
+  checkedAt: '2026-09-17'
+  note: "Daniel 17.09.2026: Staffel 2 über das Auswahlfeld derselben Seite, 14 Folgen, alle deutsch"
+
 - anilistId: 137822
   title: "Bluelock"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0BZYQSDN8
   dub: true
   checkedAt: '2026-08-24'
-  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), 日本語 — Amazon-Seite B0BZYQSDN8: alle 24 Folgen geprüft, Abos: crunchyrollde, Seitenadresse: B0DHVD768H, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), 日本語 — Amazon-Seite B0BZYQSDN8: alle 24 Folgen geprüft, Abos: crunchyrollde, Seitenadresse: B0DHVD768H, zugang=abo_und_kauf — Daniel 17.09.2026: die Seite ist Staffel 1 mit 24 Folgen — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
 - anilistId: 126659
   title: "My Hero Academia: World Heroes’ Mission"
@@ -10072,31 +10076,6 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-27 ---
 
-- anilistId: 99699
-  title: "Golden Kamuy"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0CJYLSY3D
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 2
-      dub: false
-      checked: [1, 2]
-    - from: 3
-      to: 3
-      dub: true
-      checked: [3]
-    - from: 4
-      to: 6
-      dub: false
-      checked: [4, 5, 6]
-    - from: 7
-      to: 13
-      dub: true
-      checked: [7, 8, 9, 10, 11, 12, 13]
-  checkedAt: '2026-08-27'
-  note: "Folgen 1–2 ohne deutschen Ton, Folge 3 mit deutschem Ton, Folgen 4–6 ohne deutschen Ton, Folgen 7–13 mit deutschem Ton — Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0CJYLSY3D: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 4, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 1
   title: "Cowboy Bebop"
   platform: primevideo
@@ -10967,14 +10946,6 @@
 
 - anilistId: 99699
   title: "Golden Kamuy"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y
-  dub: true
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite 0QG5UD99TZDIAQSBIEJD3EXG2Y: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 102977
-  title: "Golden Kamuy 2"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y
   dub: true
@@ -15690,15 +15661,15 @@
 - anilistId: 16894
   title: "Kuroko’s Basketball: 2nd Season"
   platform: primevideo
-  url: https://www.amazon.de/dp/B09P9P9YG6
+  url: https://www.amazon.de/dp/B09ZJW8HGH
   dub: true
   checkedAt: '2026-09-16'
   note: "Tonspuren: Deutsch — Amazon-Seite B09ZJW8HGH: alle 25 Folgen geprüft, Abos: keine Angabe, laut Adresse Staffel 2, zugang=kauf"
 
-- anilistId: 99699
-  title: "Golden Kamuy"
+- anilistId: 142343
+  title: "Golden Kamuy 4"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y
+  url: https://www.amazon.de/dp/B0CJYLSY3D
   dub: true
   dubRanges:
     - from: 1
@@ -15711,22 +15682,10 @@
       to: 6
       dub: false
     - from: 7
-      to: 12
+      to: 13
       dub: true
   checkedAt: '2026-09-17'
-  note: "Folgen 1–2 ohne deutschen Ton, Folge 3 mit deutschem Ton, Folgen 4–6 ohne deutschen Ton, Folgen 7–12 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0CJYLSY3D: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 4, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 102977
-  title: "Golden Kamuy 2"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: true
-  checkedAt: '2026-09-17'
-  note: "Folge 1 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0CJYLSY3D: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 4, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  note: "Folgen 1–2 ohne deutschen Ton, Folge 3 mit deutschem Ton, Folgen 4–6 ohne deutschen Ton, Folgen 7–13 mit deutschem Ton — Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0CJYLSY3D: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 4, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — am 17.09. von Staffel 1/2 an Staffel 4 umgehängt (Meldung auf der Seite von Staffel 1 nach Wechsel)"
 
 - anilistId: 151807
   title: "Solo Leveling"
@@ -15777,24 +15736,16 @@
   checkedAt: '2026-09-17'
   note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CJC11GRB: alle 24 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 2, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 116741
-  title: "Die Schleim-Tagebücher"
+- anilistId: 116742
+  title: "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 2 — Teil 2"
   platform: primevideo
   url: https://www.amazon.de/dp/B0CJC11GRB
   dub: true
   checkedAt: '2026-09-17'
   note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CJC11GRB: alle 24 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 2, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 116741
-  title: "Die Schleim-Tagebücher"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CVS8488Z
-  dub: true
-  checkedAt: '2026-09-17'
-  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), 日本語 — Amazon-Seite B0CVS8488Z: alle 24 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 3, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 116742
-  title: "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 2"
+- anilistId: 156822
+  title: "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 3"
   platform: primevideo
   url: https://www.amazon.de/dp/B0CVS8488Z
   dub: true

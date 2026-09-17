@@ -2473,8 +2473,7 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
       noch nicht führt: Berserk 2017 S2, Our Last Crusade S2, Irregular S3). Entschieden wird über die
       Staffelnummer im Namen, nicht über die Folgenzahl — Prime bündelt und teilt
       anders (CLAUDE.md, „Prime schneidet Reihen anders zu").
-      Offen bleibt ein Fall: „Bluelock" trägt Amazons Staffel 2 mit 24 Folgen,
-      unsere Staffel 2 hat 14 — ob die Seite zu Staffel 1 gehört, steht nicht fest.
+      Bluelock (Staffel 1 mit 24 Folgen, früher als Staffel 2 notiert) hat Daniel am 17.09.2026 geklärt.
     */
     const reihen = JSON.parse(readFileSync('public/data/franchises.json', 'utf8')) as Record<
       string,
