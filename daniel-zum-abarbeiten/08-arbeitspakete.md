@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-17 · **12 offene Verweise** in **9 Zeilen**,
+Stand 2026-09-17 · **13 offene Verweise** in **10 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,7 +31,7 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 9
+## Paket 1 — Zeilen 1 bis 10
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -41,6 +41,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 4 | Prime Video | Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs | [Hauptserie](https://www.amazon.de/dp/B0CJRDG5R6) |
 | 5 | Prime Video | Kizuna no Allele | [Hauptserie](https://www.amazon.de/dp/B0BX2L1CQJ) |
 | 6 | Joyn | Astra Lost in Space | [Hauptserie](https://www.joyn.de/serien/astra-lost-in-space) |
-| 7 | Joyn | No Game No Life | [Hauptserie](https://www.joyn.de/serien/no-game-no-life) |
-| 8 | Joyn | Spy × Family | [Code: White](https://www.joyn.de/filme/spy-x-family-code-white) |
-| 9 | Joyn | Detektiv Conan | [Das 1-Million-Dollar-Pentagramm](https://www.joyn.de/filme/detektiv-conan-film-27-das-1-million-dollar-pentagram) |
+| 7 | Prime Video | Golden Kamuy | [2](https://www.amazon.de/dp/B0CGH5WTP4) |
+| 8 | Joyn | No Game No Life | [Hauptserie](https://www.joyn.de/serien/no-game-no-life) |
+| 9 | Joyn | Spy × Family | [Code: White](https://www.joyn.de/filme/spy-x-family-code-white) |
+| 10 | Joyn | Detektiv Conan | [Das 1-Million-Dollar-Pentagramm](https://www.joyn.de/filme/detektiv-conan-film-27-das-1-million-dollar-pentagram) |

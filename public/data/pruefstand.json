@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-17T08:12:41.076Z",
+ "erzeugtAm": "2026-09-17T08:17:11.153Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -9,11 +9,11 @@
    "offen": 6,
    "ohneSeite": 0,
    "suchAdressen": [],
-   "ziel": "https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y",
+   "ziel": "https://www.amazon.de/dp/B0CGH5WTP4",
    "ziele": [
     {
-     "url": "https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y",
-     "titel": "Golden Kamuy"
+     "url": "https://www.amazon.de/dp/B0CGH5WTP4",
+     "titel": "Golden Kamuy 2 (Golden Kamuy Season 2)"
     },
     {
      "url": "https://www.amazon.de/dp/B0G6HF46PV",
@@ -36,7 +36,7 @@
      "titel": "Solo Leveling"
     }
    ],
-   "naechster": "Golden Kamuy"
+   "naechster": "Golden Kamuy 2 (Golden Kamuy Season 2)"
   },
   {
    "name": "Netflix",

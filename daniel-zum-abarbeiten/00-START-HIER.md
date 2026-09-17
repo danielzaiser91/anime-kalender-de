@@ -6,7 +6,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 6 Adressen, 8 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 6 Adressen, 9 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
 Sie zeigt auf jeder Anbieterseite, was dort noch offen ist, liest die Tonspuren und
@@ -14,7 +14,7 @@ schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippe
 
 ## Was das bringt
 
-Von 2772 Titeln zeigen **229** keinen einzigen Bezugsweg,
+Von 2772 Titeln zeigen **230** keinen einzigen Bezugsweg,
 **94** davon mit belegter deutscher Synchro. Für die ist die
 Antwort auf „wo kann ich das sehen?" heute: nirgends bekannt. Jede Meldung von hier
 macht eine davon weniger.
