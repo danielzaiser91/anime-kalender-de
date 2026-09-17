@@ -43,3 +43,5 @@ Der Bau hat 22 tote Amazon-Links über JustWatch ersetzt. Drei davon zum Nachseh
 | Naruto: The Movie – Geheimmission im Land des ewigen Schnees | [öffnen](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d0b6a7ab-204d-6fff-7737-584d42e18d1f) | B0G43M2BNY |
 | Pokémon: Der Film – Weiß: Victini und Zekrom | [öffnen](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8ab27e08-d8ee-b0f9-aa6f-73b8a496e730) | B01ASXCBV4 |
 | My Hero Academia: The Movie – Heroes Rising | [öffnen](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4384f740-fa4a-4a37-b036-362f108481be) | B0DPLC3MW8 |
+
+**Ergebnis (Daniel, 17.09.2026, 19:03):** Naruto richtig (Deutsch ja), MHA Heroes Rising richtig (Deutsch ja), **Pokémon Weiß falsch** — der Link führt auf „Pokémon – Der Film: Schwarz – Victini und Reshiram" (Deutsch ja). JustWatch führt den richtigen Film, sein Amazon-Angebot trägt die gti des Schwester-Films. Ersatz toter Links deshalb abgeschaltet.

@@ -27,7 +27,7 @@ import {
   kapitelImBlock,
   type CrDubData,
 } from './lib/crunchyroll-dub.ts'
-import { amazonGtiWahl, type JwAngebot } from './lib/amazon-gti.ts'
+import { amazonGtiWahl, gtiAus, type JwAngebot } from './lib/amazon-gti.ts'
 import { terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { alleTermine, beobachtungenAusBlock } from './lib/crunchyroll-termine.ts'
@@ -7065,6 +7065,15 @@ function main(): void {
     */
     {
       const jwAngebote = readJson<Record<string, { angebote?: JwAngebot[] }>>('data/justwatch-audio.json', {})
+      const ERSATZ_TOTER_AMAZON_LINKS = false
+      /* Eine gti, die JustWatch bei mehreren Titeln führt, gehört keinem sicher (gemessen: 15). */
+      const gtiTitel = new Map<string, Set<string>>()
+      for (const [id, e] of Object.entries(jwAngebote))
+        for (const a of e.angebote ?? []) {
+          const g = gtiAus(a.url)
+          if (g) gtiTitel.set(g, (gtiTitel.get(g) ?? new Set()).add(id))
+        }
+      const geteilt = (angebote: JwAngebot[]) => angebote.some((a) => (gtiTitel.get(gtiAus(a.url) ?? '')?.size ?? 0) > 1)
       const primeNein = new Set(
         (readJson<{ verweise?: { titleId?: number; plattform?: string; grund?: string }[] }>('data/verweise-entfernt.json', {})
           .verweise ?? [])
@@ -7076,7 +7085,7 @@ function main(): void {
       for (const title of titles.values()) {
         if (tmdbMehrdeutig.has(String(title.id))) continue
         const angebote = jwAngebote[String(title.id)]?.angebote ?? []
-        if (!angebote.length) continue
+        if (!angebote.length || geteilt(angebote)) continue
         const prime = title.streams.filter((s) => s.platform === 'primevideo')
         if (prime.length === 1) {
           const s = prime[0]!
@@ -7088,6 +7097,13 @@ function main(): void {
           continue
         }
         if (prime.length) continue
+        /*
+          **Abgeschaltet am 17.09.2026, 19:05.** Daniels Gegenprobe von drei ersetzten Links:
+          „Pokémon: Der Film – Weiß" führte auf den Schwester-Film „Schwarz". JustWatch führt
+          den richtigen Film, aber sein Amazon-Angebot trägt die gti des anderen. Ohne alte
+          Seite zum Abgleich fällt das nicht auf; 1 von 3 ist zu viel.
+        */
+        if (!ERSATZ_TOTER_AMAZON_LINKS) continue
         /*
           Tote Amazon-Adresse: ein geführter Abgang (dort gab es Deutsch) oder eine
           aniSearch-Adresse, die die Linkprüfung als tot kennt — die legt der Bau gar
