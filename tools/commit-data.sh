@@ -147,6 +147,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       echo "::warning::Der Neuaufbau ist gescheitert. Die Quellen werden trotzdem committet — sie sind der teure Teil, die Erzeugnisse baut der nächste Lauf neu."
       AUFBAU_KAPUTT=1
     fi
+    NEU_GEBAUT=1
 
     # Die Prüflisten gehören zum Aufbau, nicht zum Workflow.
     #
@@ -161,48 +162,52 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && ! npm run data:extension-liste; then
       echo "::warning::Die Prüflisten sind nicht neu entstanden. Sie zählen dann gegen einen älteren Bestand."
     fi
+  fi
+  # Seit dem 17.09.2026 außerhalb des Neuaufbau-Zweigs: nach einem Neuaufbau und
+  # im Bau-Lauf (WARNUNG_STATT_ROT) immer — vorher lief sie dort nur, wenn sich
+  # der Fernstand bewegt hatte.
 
-    # Was der Bestand behauptet, wird hier geprüft — nicht erst beim Deploy.
-    #
-    # **Der Grund ist eine Reihenfolge, die sieben rote Deploys erzeugt hat.**
-    # Die Zusicherungen unten messen den Datenbestand: ob jede Handprüfung im
-    # Datensatz steht, ob die Crunchyroll-Auswertung noch trifft, ob jeder
-    # Verweis eine Zugangsart hat. Sie liefen bisher nur im Deploy — also an
-    # einer Stelle, die den Bestand weder erzeugt noch reparieren kann.
-    #
-    # Wer Code pusht, dessen Wirkung erst der nächste Bau zeigt, bekam deshalb
-    # zwangsläufig einen roten Deploy: Der Datensatz im Repo war der von
-    # vorhin. Von acht roten Läufen der letzten beiden Tage gingen sieben genau
-    # darauf zurück (gemessen am 27.08.2026), und keiner davon war ein Fehler
-    # in dem, was gerade gepusht wurde.
-    #
-    # Hier stehen sie richtig: Dieser Lauf hat den Bestand gerade gebaut. Ist
-    # er kaputt, erreicht er das Repo gar nicht erst — und der Lauf wird rot,
-    # wie es sich gehört, denn hier ist wirklich etwas kaputt.
-    #
-    # Die Quellen bleiben davon unberührt und werden committet. Sie sind der
-    # teure Teil (fremde APIs, Ratenlimits), und an ihnen liegt es nicht.
-    if [ "${AUFBAU_KAPUTT:-0}" != 1 ]; then
-      # Seit dem 17.09.2026 auch check:logic, und im Bau-Lauf gelb statt rot
-      # (WARNUNG_STATT_ROT=1): Die neuen Meldungen werden zurückgenommen und
-      # bleiben im Briefkasten, die Statusanzeige zeigt den Grund. Bis dahin
-      # gingen Belege, die eine Zusicherung verletzen, als Quelle ins Repo und
-      # machten danach jeden Deploy rot.
-      if ! npm run check:bestand > /tmp/bestand-pruefung.txt 2>&1 || ! npm run check:logic >> /tmp/bestand-pruefung.txt 2>&1; then
-        cat /tmp/bestand-pruefung.txt
-        grund="$(grep -m 3 '✖' /tmp/bestand-pruefung.txt | tr -d '\"' | tr -s '[:space:]' ' ')"
-        if [ "${WARNUNG_STATT_ROT:-0}" = 1 ]; then
-          echo "::warning::Der gebaute Bestand verletzt eine Zusicherung. Erzeugnisse und neue Meldungen werden nicht übernommen."
-          git checkout -- data/dub-confirmed.yaml 2>/dev/null || true
-          rm -f data/cache/pruefungen-abhaken.json
-          echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Bestand nicht übernommen: $grund" >> "${GITHUB_ENV:-/dev/null}"
-        else
-          echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
-        fi
-        BESTAND_KAPUTT=1
+  # Was der Bestand behauptet, wird hier geprüft — nicht erst beim Deploy.
+  #
+  # **Der Grund ist eine Reihenfolge, die sieben rote Deploys erzeugt hat.**
+  # Die Zusicherungen unten messen den Datenbestand: ob jede Handprüfung im
+  # Datensatz steht, ob die Crunchyroll-Auswertung noch trifft, ob jeder
+  # Verweis eine Zugangsart hat. Sie liefen bisher nur im Deploy — also an
+  # einer Stelle, die den Bestand weder erzeugt noch reparieren kann.
+  #
+  # Wer Code pusht, dessen Wirkung erst der nächste Bau zeigt, bekam deshalb
+  # zwangsläufig einen roten Deploy: Der Datensatz im Repo war der von
+  # vorhin. Von acht roten Läufen der letzten beiden Tage gingen sieben genau
+  # darauf zurück (gemessen am 27.08.2026), und keiner davon war ein Fehler
+  # in dem, was gerade gepusht wurde.
+  #
+  # Hier stehen sie richtig: Dieser Lauf hat den Bestand gerade gebaut. Ist
+  # er kaputt, erreicht er das Repo gar nicht erst — und der Lauf wird rot,
+  # wie es sich gehört, denn hier ist wirklich etwas kaputt.
+  #
+  # Die Quellen bleiben davon unberührt und werden committet. Sie sind der
+  # teure Teil (fremde APIs, Ratenlimits), und an ihnen liegt es nicht.
+  BESTAND_KAPUTT=0
+  if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && { [ "${NEU_GEBAUT:-0}" = 1 ] || [ "${WARNUNG_STATT_ROT:-0}" = 1 ]; }; then
+    # Seit dem 17.09.2026 auch check:logic, und im Bau-Lauf gelb statt rot
+    # (WARNUNG_STATT_ROT=1): Die neuen Meldungen werden zurückgenommen und
+    # bleiben im Briefkasten, die Statusanzeige zeigt den Grund. Bis dahin
+    # gingen Belege, die eine Zusicherung verletzen, als Quelle ins Repo und
+    # machten danach jeden Deploy rot.
+    if ! npm run check:bestand > /tmp/bestand-pruefung.txt 2>&1 || ! npm run check:logic >> /tmp/bestand-pruefung.txt 2>&1; then
+      cat /tmp/bestand-pruefung.txt
+      grund="$(grep -m 3 '✖' /tmp/bestand-pruefung.txt | tr -d '\"' | tr -s '[:space:]' ' ')"
+      if [ "${WARNUNG_STATT_ROT:-0}" = 1 ]; then
+        echo "::warning::Der gebaute Bestand verletzt eine Zusicherung. Erzeugnisse und neue Meldungen werden nicht übernommen."
+        git checkout -- data/dub-confirmed.yaml 2>/dev/null || true
+        rm -f data/cache/pruefungen-abhaken.json
+        echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Bestand nicht übernommen: $grund" >> "${GITHUB_ENV:-/dev/null}"
       else
-        cat /tmp/bestand-pruefung.txt | tail -3
+        echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
       fi
+      BESTAND_KAPUTT=1
+    else
+      cat /tmp/bestand-pruefung.txt | tail -3
     fi
   fi
 
