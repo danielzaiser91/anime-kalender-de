@@ -4454,6 +4454,19 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('Staffel 3 hängt nicht an der Folgenzahl', n.get(14) === 3)
   pruefe('eine Reihe mit nur einer Staffel liefert keine Nummer', staffelNummern([m(20, 'Einzeln', '2020-01')]).size === 0)
 }
+/* Staffelbeschriftung: ein eigener Name vor „Staffel N" gehört nicht zur Reihe (17.09.2026). */
+{
+  const m = (id: number, name: string, jpStart: string) => ({ id, name, jpStart })
+  const poke = staffelBeschriftungen([m(1, 'Pokémon', '1997'), m(2, 'Pokémon: Schwarz & Weiß Staffel 2', '2012'), m(3, 'PokéOki SEASON 2', '2026')], 'Pokémon')
+  pruefe('„Pokémon: Schwarz & Weiß Staffel 2" ist nicht Pokémon Staffel 2', !poke.has(2) && !poke.has(3))
+  const frieren = staffelBeschriftungen(
+    [m(1, 'Frieren: Nach dem Ende der Reise', '2023'), m(2, 'Frieren: Nach dem Ende der Reise — Season 2', '2026'), m(3, 'Sousou no Frieren 3rd Season', '2028')],
+    'Frieren: Nach dem Ende der Reise',
+  )
+  pruefe('eine Staffel in anderer Sprache behält ihre Nummer', frieren.get(3) === 'Staffel 3' && frieren.get(2) === 'Staffel 2')
+  const blue = staffelBeschriftungen([m(1, 'Bluelock', '2022'), m(2, 'Blue Lock: Staffel 2', '2024')], 'Bluelock')
+  pruefe('„Blue Lock: Staffel 2" gehört zu „Bluelock"', blue.get(2) === 'Staffel 2')
+}
 /* Cartoons: ähnliche Titel am Mittel beider Listen, ein gemeinsames Schlagwort ist Pflicht (16.09.2026). */
 {
   const c = (id: number, keywords: string[]) =>

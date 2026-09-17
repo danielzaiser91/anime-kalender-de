@@ -2819,7 +2819,8 @@ export function DetailPanel({
       zweite Staffel der Hauptserie.
     */
     const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
-    if (istStaffel(title.format) && staffelTeil && rest !== staffelTeil[1]) rest = staffelTeil[1]!
+    /* Nur ein fremder Name (rest === voll) wird gekürzt — „Pokémon: Schwarz & Weiß Staffel 2" behält „Schwarz & Weiß" (17.09.2026). */
+    if (istStaffel(title.format) && staffelTeil && rest === voll && rest !== staffelTeil[1] && staffelBeschriftungen(hauptstaffeln(reihenTeile), reihenName).has(title.id)) rest = staffelTeil[1]!
     /**
      * Bleibt nichts übrig, heißt der Teil wie die Reihe — dann steht auch der
      * volle Name hier, und die Ausgabestelle unterdrückt die Zeile als
@@ -4810,7 +4811,7 @@ export function DetailPanel({
                       den Eintrag von der Hauptserie unterscheidet.
                     */
                     const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
-                    if (istHauptstaffel(m) && staffelTeil && rest !== staffelTeil[1]) rest = staffelTeil[1]!
+                    if (istHauptstaffel(m) && staffelTeil && rest === voll && rest !== staffelTeil[1]) rest = staffelTeil[1]!
                     /* Und die erste Staffel heißt „Staffel 1", ein Teil „Staffel 1 - Teil 2". */
                     const beschriftung = (istHauptstaffel(m) && staffelLabel.get(m.id)) || rest || voll
                     return (

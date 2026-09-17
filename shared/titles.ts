@@ -149,7 +149,29 @@ export function staffelBeschriftungen<T extends { id: number; name: string; jpYe
     const rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
       ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()
       : voll
-    const mitStaffel = /(?:^|\s)Staffel\s+(\d+)(?:\s*-\s*Teil\s+(\d+))?\s*$/i.exec(rest)
+    /*
+      Steht nach dem Reihennamen noch ein eigener Name vor „Staffel N", zählt die
+      Nummer zu diesem Namen, nicht zur Reihe: „Pokémon: Schwarz & Weiß Staffel 2"
+      ist nicht Pokémon Staffel 2 (Daniel, 17.09.2026).
+    */
+    const kern = (x: string) => x.normalize('NFD').replace(/\p{M}|[^\p{L}\p{N}]/gu, '').toLowerCase()
+    const vorStaffel = kern(rest.replace(/Staffel\s+\d+[\s\S]*$/i, ''))
+    const reihenKern = kern(reihenName)
+    /*
+      Beginnt der Name mit dem Reihennamen, darf danach nur „Staffel" stehen („Pokémon:
+      Schwarz & Weiß Staffel 2" ist nicht Pokémon Staffel 2, Daniel 17.09.2026). Beginnt
+      er anders, gilt die Nummer weiter (andere Sprache: „Sousou no Frieren 3rd Season") —
+      außer ein kurzer Name fängt gleich an und ist doch ein anderer („PokéOki SEASON 2").
+    */
+    const eigenerVorsatz =
+      rest !== voll
+        ? vorStaffel !== ''
+        : vorStaffel !== '' &&
+          !vorStaffel.includes(reihenKern) &&
+          !reihenKern.includes(vorStaffel) &&
+          vorStaffel.length <= 10 &&
+          vorStaffel.slice(0, 3) === reihenKern.slice(0, 3)
+    const mitStaffel = eigenerVorsatz ? null : /(?:^|\s)Staffel\s+(\d+)(?:\s*-\s*Teil\s+(\d+))?\s*$/i.exec(rest)
     const nurTeil = /^Teil\s+(\d+)$/i.exec(rest)
     if (mitStaffel) {
       aktuell = Number(mitStaffel[1])
