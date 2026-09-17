@@ -398,7 +398,12 @@ function veraltetTest(schritte) {
   )
   /* Solo Leveling, 15.09.2026: „gemeldet ✓" aus den ersten Sekunden blieb neben dem Melde-Knopf stehen. */
   pruefe('„alles gemeldet" verlangt Antworten von Stand und Briefkasten', /const datenDa = standZiele !== null && briefkastenSeiten !== null/.test(quelle) && /datenDa && Boolean\(abgehakt\)/.test(quelle))
-  pruefe('die Marke aus „alles gemeldet" fällt, sobald er nicht mehr gilt', /if \(!alleDurch && durchFuerPfad === location\.pathname\) durchFuerPfad = null/.test(quelle))
+  pruefe('die Marke aus „alles gemeldet" fällt, sobald er nicht mehr gilt', /if \(!alleDurch && durchFuerPfad === location\.pathname\) \{\s*durchFuerPfad = null/.test(quelle))
+  /* Kuroko, 17.09.2026: eine ungemeldete Staffel im Auswahlfeld hält „alles gemeldet" auf. */
+  pruefe('das Auswahlfeld zählt bei „alles gemeldet" mit', /&& !auswahlOffen/.test(quelle))
+  /* Schleim, 17.09.2026: Nach dem Staffelwechsel blieb der Suchtreffer nicht markiert. */
+  pruefe('die Checkliste markiert auch Staffeln hinter dem Treffer', /const dieseSeite = zurReihe\(k, hier\)/.test(quelle) && /reiheMerken\(erwartet\)/.test(quelle))
+  pruefe('„andere Seite" gilt nicht für eine Staffel desselben Treffers', /!zurReihe\(auftrag\.zielAsin, asin\(\)\)/.test(quelle))
   pruefe('die Listen-Marke liest nur den eigenen Eintrag, nicht die Reihe',kurz.length > 0 && !/staffelnDerSerie|serienGefaehrten/.test(kurz.replace(/\/\*[\s\S]*?\*\//g, '')))
   const leser = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon-leser.js'), 'utf8')
   /*

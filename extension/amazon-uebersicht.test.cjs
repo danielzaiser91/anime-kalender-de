@@ -1404,18 +1404,19 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       */
       pruefe(
         'die Marke hat genau eine Anzeigestelle',
-        (quelle.match(/gemeldetMarke\(true\)/g) ?? []).length === 1,
-        (quelle.match(/gemeldetMarke\(true\)/g) ?? []).length + ' Stellen',
+        /* Seit 17.09.2026 zwei Setzer (alles durch / weiter mit Staffel N), beide über denselben Merker. */
+        (quelle.match(/gemeldetMarke\(true, /g) ?? []).length === 2,
+        (quelle.match(/gemeldetMarke\(true, /g) ?? []).length + ' Stellen',
       )
       pruefe(
         '… und wer sie setzt, merkt sich den Pfad',
         /* Seit 4.20.20 hat „alles gemeldet" einen eigenen Merker (`durchFuerPfad`), der wieder fällt. */
-        /durchFuerPfad = location\.pathname[\s\S]{0,40}gemeldetMarke\(true\)/.test(quelle),
+        (quelle.match(/durchFuerPfad = location\.pathname[\s\S]{0,120}gemeldetMarke\(true, /g) ?? []).length === 2,
         'der Merker wird nicht zusammen mit der Marke gesetzt',
       )
       pruefe(
         'die Marke „gemeldet ✓" wird auch wieder zurückgenommen',
-        /gemeldetMarke\(true\)/.test(quelle) && /gemeldetMarke\(false\)/.test(quelle),
+        /gemeldetMarke\(true, /.test(quelle) && /gemeldetMarke\(false\)/.test(quelle),
         'nur eine der beiden Richtungen gefunden',
       )
       pruefe(

@@ -3156,7 +3156,7 @@ async function speicherSchreiben(werte) {
    * Entfernen und Neubauen je halbe Sekunde wäre genau das Flackern, das am
    * 30.08.2026 abgestellt wurde.
    */
-  function gemeldetMarke(an) {
+  function gemeldetMarke(an, text = 'gemeldet ✓') {
     try {
       /*
         **Sie steht, wo der Knopf stand** — in der Meldezeile, über der Fußzeile
@@ -3171,7 +3171,8 @@ async function speicherSchreiben(werte) {
       const zeile = document.querySelector('.ak-amazon-suchhinweis .ak-z-melden')
       if (!zeile) return
       const da = zeile.querySelector('.ak-such-fertig')
-      if (an && !da) zeile.appendChild(kastenZeile('ak-such-fertig', 'gemeldet ✓'))
+      if (an && !da) zeile.appendChild(kastenZeile('ak-such-fertig', text))
+      else if (an && da.textContent !== text) da.textContent = text
       else if (!an && da) da.remove()
     } catch {
       /* Ohne Kasten gibt es nichts zu markieren. */
@@ -3346,6 +3347,45 @@ async function speicherSchreiben(werte) {
     return k
   }
 
+  /*
+    **Alle Staffeln hinter einem Suchtreffer gehören zu ihm** (Daniel, 17.09.2026,
+    Schleim): Nach dem Wechsel im Auswahlfeld trägt die Adresse eine andere
+    Kennung, und die Checkliste verlor die Markierung des Treffers, von dem man
+    kam. Ein Wechsel im Auswahlfeld lädt die Seite nicht neu — was dieses Skript
+    danach sieht, gehört zur selben Reihe, solange der Serientitel bleibt.
+  */
+  let letzteSeite = null
+  const reiheDesTreffers = new Map()
+
+  /** Gehört die Seite `hier` zum Suchtreffer `treffer` — selbst oder über einen Staffelwechsel? */
+  function zurReihe(treffer, hier) {
+    try {
+      if (!treffer || !hier) return false
+      return String(treffer) === String(hier) || Boolean(reiheDesTreffers.get(String(treffer))?.has(String(hier)))
+    } catch {
+      return String(treffer) === String(hier)
+    }
+  }
+
+  /** Merkt sich Kennungen, die per Auswahlfeld auf einen Treffer folgen. */
+  function reiheMerken(treffer) {
+    try {
+      const hier = String(asin() ?? '')
+      const titel = titelKern(seitenTitel() ?? '')
+      const vorher = letzteSeite
+      letzteSeite = { kennung: hier, titel }
+      if (!vorher || !hier || vorher.kennung === hier || !titel || vorher.titel !== titel) return
+      for (const k of treffer) {
+        if (!zurReihe(k, vorher.kennung)) continue
+        const menge = reiheDesTreffers.get(String(k)) ?? new Set()
+        menge.add(hier)
+        reiheDesTreffers.set(String(k), menge)
+      }
+    } catch {
+      /* Vor der Initialisierung gibt es noch nichts zu merken. */
+    }
+  }
+
   /**
    * „Prime führt diesen Titel nicht" — die Meldung dazu.
    *
@@ -3355,7 +3395,7 @@ async function speicherSchreiben(werte) {
    * geht, und dieselbe Begründung: Ein Verweis, der auf eine Trefferliste
    * ohne den gesuchten Titel führt, kostet einen Klick und liefert nichts.
    */
-  async function nichtBeiPrimeMelden(auftrag, befund, knopf) {
+  async function nichtBeiPrimeMelden(auftrag, befund, knopf, nachher) {
     knopf.disabled = true
     knopf.textContent = 'meldet …'
     try {
@@ -3387,6 +3427,8 @@ async function speicherSchreiben(werte) {
       if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
       await suchAbhaken(auftrag.suchUrl)
       knopf.textContent = 'gemeldet ✓'
+      knopf.classList.add('ak-such-fertig')
+      nachher?.() // sofort neu zeichnen: grüne Marke, keine Suchvorschläge mehr (17.09.2026)
       uebersichtZeichnen()
     } catch (err) {
       knopf.disabled = false
@@ -3430,6 +3472,8 @@ async function speicherSchreiben(werte) {
    * nicht überleben, wohl aber das Umschreiben der Adresse.
    */
   let gemeldetFuerPfad = null
+  /** Text der Marke, wenn noch eine Staffel aussteht — sonst „gemeldet ✓". */
+  let weiterText = null
   /*
     **Die Marke aus „alles gemeldet" hat ihren eigenen Merker (15.09.2026).**
     Solo Leveling: In den ersten Sekunden fehlten Stand und Briefkasten, die
@@ -3731,7 +3775,7 @@ async function speicherSchreiben(werte) {
           */
           istGemeldet(auftrag.suchUrl)
             ? kastenZeile('ak-such-fertig', 'gemeldet ✓')
-            : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
+            : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k, zeichnen)),
         )
         return
       }
@@ -3886,12 +3930,12 @@ async function speicherSchreiben(werte) {
           nicht aus dem Bestand. Der deutsche Titel ist aber der, unter dem Prime
           einen Titel führt, wenn er ihn führt — er steht deshalb zuerst.
         */
-        ...(auftragDe && auftragDe !== jetzigerBegriff
+        ...(!istGemeldet(auftrag.suchUrl) && auftragDe && auftragDe !== jetzigerBegriff
           ? [
               kastenKnopf(`Deutsch suchen: ${auftragDe}`, () => weitersuchen(auftrag, auftragDe)),
             ]
           : []),
-        ...(auftragEn && auftragEn !== jetzigerBegriff
+        ...(!istGemeldet(auftrag.suchUrl) && auftragEn && auftragEn !== jetzigerBegriff
           ? [
               kastenKnopf(`Englisch suchen: ${auftragEn}`, () => weitersuchen(auftrag, auftragEn)),
             ]
@@ -3906,10 +3950,10 @@ async function speicherSchreiben(werte) {
           gibt. Deutsch und Englisch stehen darüber, „Kürzer suchen" darunter;
           beide kommen aus dem Bestand statt aus einer Regel.
         */
-        ...(kurzform && kurzform !== jetzigerBegriff
+        ...(!istGemeldet(auftrag.suchUrl) && kurzform && kurzform !== jetzigerBegriff
           ? [kastenKnopf(`Kürzer suchen: ${kurzform}`, () => weitersuchen(auftrag, kurzform))]
           : []),
-        ...(reihenTreffer && ohneParameter(reihenTreffer.url)
+        ...(!istGemeldet(auftrag.suchUrl) && reihenTreffer && ohneParameter(reihenTreffer.url)
           ? [
               kastenKnopf(
                 `Zur Reihe springen: ${reihenTreffer.titel}`,
@@ -3920,7 +3964,7 @@ async function speicherSchreiben(werte) {
               ),
             ]
           : []),
-        ...(nurTypStreitig
+        ...(!istGemeldet(auftrag.suchUrl) && nurTypStreitig
           ? [
               kastenKnopf(
                 `Als Sammelfassung öffnen: ${befund.treffer[0].titel}`,
@@ -3947,7 +3991,7 @@ async function speicherSchreiben(werte) {
         */
         istGemeldet(auftrag.suchUrl)
           ? kastenZeile('ak-such-fertig', 'gemeldet ✓')
-          : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
+          : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k, zeichnen)),
       )
     }
 
@@ -4008,7 +4052,8 @@ async function speicherSchreiben(werte) {
       Der Kasten bleibt jetzt und sagt, dass diese Seite nicht die angeklickte
       ist. Der Player bleibt ausgenommen — dort gehört kein Hinweis hin.
     */
-    const andereSeite = Boolean(auftrag.zielAsin && auftrag.zielAsin !== asin())
+    if (auftrag.zielAsin) reiheMerken([auftrag.zielAsin])
+    const andereSeite = Boolean(auftrag.zielAsin && !zurReihe(auftrag.zielAsin, asin()))
     /*
       **Eine andere Ausgabe ist etwas anderes als ein fremdes Werk.**
 
@@ -4325,19 +4370,20 @@ async function speicherSchreiben(werte) {
           const erwartet = erwartungZu(suchUrlHier) ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
           if (!erwartet || erwartet.length < 2) return []
           const hier = asin()
+          reiheMerken(erwartet)
           const gruppe = document.createElement('div')
           gruppe.className = 'ak-such-gruppe'
           for (const k of erwartet) {
             /* Der Briefkasten weiß es später, diese Sitzung weiß es sofort. */
             const fertig = (briefkastenSeiten?.has(String(k)) ?? false) || selbstGemeldeteSeiten.has(String(k))
-            const dieseSeite = String(k) === String(hier)
+            const dieseSeite = zurReihe(k, hier)
             const zeile = document.createElement('div')
             zeile.className = 'ak-such-auswahl' + (dieseSeite ? ' ak-such-hier' : '')
             const stand = document.createElement('span')
             stand.className = fertig ? 'ak-such-haken' : 'ak-such-offen'
             stand.textContent = fertig ? '✓' : '○'
             stand.title = fertig ? 'gemeldet' : 'noch offen'
-            zeile.append(stand, document.createTextNode(' ' + k + (dieseSeite ? ' — diese Seite' : '')))
+            zeile.append(stand, document.createTextNode(' ' + k + (String(k) === String(hier) ? ' — diese Seite' : dieseSeite ? ' — diese Reihe' : '')))
             /*
               **Ohne Ankreuzfeld ist die Zeile selbst der Knopf.**
 
@@ -7013,7 +7059,10 @@ async function speicherSchreiben(werte) {
       bei jedem Titel; die Marke wäre zwei Sekunden nach der Meldung wieder weg.
       Der Merker verschwindet mit dem Titel, denn er hängt am Pfad.
     */
-    gemeldetMarke(gemeldetFuerPfad === location.pathname || durchFuerPfad === location.pathname)
+    {
+      const an = gemeldetFuerPfad === location.pathname || durchFuerPfad === location.pathname
+      gemeldetMarke(an, an ? (weiterText ?? 'gemeldet ✓') : undefined)
+    }
 
     /*
       **Solange Adresse und Quelltext verschiedene Staffeln nennen, wird nicht
@@ -8002,9 +8051,25 @@ async function speicherSchreiben(werte) {
       „nicht offen" — genau in den ersten Sekunden nach dem Laden.
     */
     const datenDa = standZiele !== null && briefkastenSeiten !== null
+    /*
+      **Das Auswahlfeld zählt mit** (Daniel, 17.09.2026, Kuroko): Die Prüfliste
+      kannte nur Staffel 1, also galt die Seite nach deren Meldung als fertig —
+      obwohl das Auswahlfeld eine zweite, ungemeldete Staffel anbot.
+    */
+    const auswahlOffen = (() => {
+      try {
+        const zahl = staffelZahl()
+        return Number.isFinite(zahl) && zahl > Object.keys(staffelnDerSerie(listenId)).length
+      } catch {
+        return false
+      }
+    })()
     const alleDurch =
-      datenDa && Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen && !seiteOffen()
-    if (!alleDurch && durchFuerPfad === location.pathname) durchFuerPfad = null
+      datenDa && Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen && !seiteOffen() && !auswahlOffen
+    if (!alleDurch && durchFuerPfad === location.pathname) {
+      durchFuerPfad = null
+      weiterText = null
+    }
 
     /**
      * Alles durch — dann gibt es hier nichts mehr zu tun.
@@ -8061,7 +8126,8 @@ async function speicherSchreiben(werte) {
         Pfad-Merker. Wer die Marke will, setzt ihn — angezeigt wird sie oben.
       */
       durchFuerPfad = location.pathname
-      gemeldetMarke(true)
+      weiterText = null
+      gemeldetMarke(true, 'gemeldet ✓')
       return
     }
 
@@ -8187,10 +8253,17 @@ async function speicherSchreiben(werte) {
         gilt der Grund von oben: Der Knopf verschwindet, die Haken bleiben.
       */
       if (offen > 0) {
-        knopf.style.display = ''
-        knopf.textContent =
+        /*
+          **Eine Zeile statt zwei** (Daniel, 17.09.2026, Schleim): Der Knopf
+          „✓ Staffel 2 gemeldet · weiter mit Staffel 3" stand über der Marke
+          „gemeldet ✓". Die Wegweisung wandert jetzt in die Marke, der Knopf geht.
+        */
+        knopf.style.display = 'none'
+        weiterText =
           `✓ Staffel ${staffelText(jetzigeStaffel)} gemeldet` +
           (weiterMit ? ` · weiter mit Staffel ${weiterMit}` : '')
+        durchFuerPfad = location.pathname
+        gemeldetMarke(true, weiterText)
       } else {
         knopf.style.display = 'none'
       }
