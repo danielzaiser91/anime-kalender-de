@@ -222,7 +222,9 @@ function deSeitZeile(
     (title.streams ?? []).some((s) => s.platform === angebot.platform && s.dub === true)
   )
     return ''
-  const wann = e.von ? formatDate(e.von) : (e.zeitraum ?? '')
+  /* Ein offenes Ende („1996 - ?") steht bei aniSearch für „unbekannt" — gezeigt wird nur der Anfang, in jedem Zweig (Superbuch, Stichprobe 17.09.2026). */
+  const zeitraumOffen = e.zeitraum?.replace(/\s*-\s*\?\s*$/, '')
+  const wann = e.von ? formatDate(e.von) : (zeitraumOffen ?? '')
   /*
     **Ohne Datum bleibt der Verlag — er ist die ganze Spur, die es gibt.**
 
@@ -239,9 +241,8 @@ function deSeitZeile(
       : T('antwort.deSeitFremd', { datum: wann })
   }
   /* Ein Zeitraum („10.1990 - 03.1991") bekommt kein „seit" (Stichprobe 16.09.2026). */
-  if (!e.von && e.zeitraum?.includes('-')) {
-    /* Ein offenes Ende („1996 - ?") steht bei aniSearch für „unbekannt" — gezeigt wird nur der Anfang. */
-    const zeitraum = e.zeitraum.replace(/\s*-\s*\?\s*$/, '')
+  if (!e.von && zeitraumOffen?.includes('-')) {
+    const zeitraum = zeitraumOffen
     return e.publisher
       ? T('antwort.deZeitraumPublisher', { zeitraum, publisher: e.publisher })
       : T('antwort.deZeitraum', { zeitraum })
