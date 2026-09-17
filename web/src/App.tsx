@@ -368,7 +368,7 @@ export default function App() {
             <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
           ))}
 
-        {route.view === 'news' && <NewsView oeffne={(id: number) => navigate({ title: id })} />}
+        {route.view === 'news' && <NewsView data={data} oeffne={(id: number) => navigate({ title: id })} />}
         {route.view === 'abo' && <SubscribeView meta={data.meta} />}
         {route.view === 'newsletter' && <NewsletterView meta={data.meta} data={data} />}
         {route.view === 'quellen' && <SourcesView meta={data.meta} />}

@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { PLATFORMS, type NewsArt, type NewsEintrag, type NewsMeldung, type PlatformId } from '@shared/types.ts'
-import { loadNews } from '../lib/data.ts'
+import { loadNews, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { todayIso, addDays } from '@shared/time.ts'
 
@@ -67,7 +67,136 @@ function datumKurz(iso: string): string {
   return `${t}.${m}.${j}`
 }
 
-export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): React.JSX.Element {
+/*
+  **Wie lange ein Film zurück noch mitläuft.** Ohne belegten letzten Spieltag
+  (`cinemaUntil`, aus dem Kinoprogramm) wissen wir nicht, ob er noch läuft. Vier
+  Wochen nach dem Start deckt die übliche Auswertung ab; die Karte nennt dann den
+  Start, nicht „läuft noch".
+*/
+const KINO_RUECKBLICK_TAGE = 28
+
+/**
+ * **Karussell für Kinofilme, die gerade laufen oder bald starten** (Daniel,
+ * 17.09.2026: „füg oben bei news ein karussel hinzu für aktuell laufende und
+ * kommende kinofilme").
+ *
+ * Quelle sind die Kino-Releases des Datensatzes. Laufende stehen vorn, dann die
+ * kommenden nach Starttermin. Eine Karte öffnet das Detail-Panel.
+ */
+function KinoKarussell({
+  data,
+  oeffne,
+}: {
+  data: Dataset
+  oeffne: (titelId: number) => void
+}): React.JSX.Element | null {
+  const { t } = useLang()
+  const leiste = useRef<HTMLUListElement>(null)
+  const heute = todayIso()
+  const filme = useMemo(() => {
+    const ab = addDays(heute, -KINO_RUECKBLICK_TAGE)
+    const jeTitel = new Map<number, { titelId: number; start: string; bis?: string }>()
+    for (const r of data.releases) {
+      if (r.platform !== 'kino') continue
+      const start = r.schedule?.firstEpisodeDate
+      if (!start) continue
+      if (r.cinemaUntil ? r.cinemaUntil < heute : start < ab) continue
+      const bisher = jeTitel.get(r.titleId)
+      /* Mehrere Kinotermine eines Titels: ein laufender vor einem kommenden, sonst der nähere. */
+      if (bisher) {
+        const lief = bisher.start < heute
+        const laeuft = start < heute
+        const besser = laeuft !== lief ? laeuft : laeuft ? start > bisher.start : start < bisher.start
+        if (!besser) continue
+      }
+      jeTitel.set(r.titleId, { titelId: r.titleId, start, bis: r.cinemaUntil })
+    }
+    const laufend = [...jeTitel.values()].filter((f) => f.start < heute).sort((a, b) => b.start.localeCompare(a.start))
+    const kommend = [...jeTitel.values()].filter((f) => f.start >= heute).sort((a, b) => a.start.localeCompare(b.start))
+    return [...laufend, ...kommend].filter((f) => data.titleById.has(f.titelId))
+  }, [data, heute])
+
+  if (!filme.length) return null
+
+  const blaettern = (richtung: 1 | -1) => {
+    const el = leiste.current
+    if (el) el.scrollBy({ left: richtung * el.clientWidth * 0.8, behavior: 'smooth' })
+  }
+  /* Ohne Jahr, solange es das laufende ist — „ab 26.01." im Januar 2027 wäre sonst mehrdeutig. */
+  const kurz = (iso: string) => (iso.slice(0, 4) === heute.slice(0, 4) ? datumKurz(iso).slice(0, 6) : datumKurz(iso))
+
+  return (
+    <div className="mb-4">
+      <div className="mb-1.5 flex items-center justify-between">
+        <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          {t('news.kino.titel')}
+        </h3>
+        <div className="hidden gap-1 sm:flex">
+          <button
+            type="button"
+            onClick={() => blaettern(-1)}
+            aria-label={t('news.kino.zurueck')}
+            className="rounded border border-slate-300 px-2 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            onClick={() => blaettern(1)}
+            aria-label={t('news.kino.weiter')}
+            className="rounded border border-slate-300 px-2 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+          >
+            ›
+          </button>
+        </div>
+      </div>
+      <ul ref={leiste} data-kino="" className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:thin]">
+        {filme.map((f) => {
+          const titel = data.titleById.get(f.titelId)!
+          const name = titel.titleDe ?? titel.titleEn ?? titel.titleRomaji ?? ''
+          const kommt = f.start >= heute
+          const zeile = kommt
+            ? t('news.kino.ab', { d: kurz(f.start) })
+            : f.bis
+              ? t('news.kino.bis', { d: kurz(f.bis) })
+              : t('news.kino.start', { d: kurz(f.start) })
+          return (
+            <li key={f.titelId} className="w-28 shrink-0 snap-start">
+              <button
+                type="button"
+                onClick={() => oeffne(f.titelId)}
+                className="group flex w-full flex-col gap-1 text-left"
+              >
+                <span className="relative block aspect-[2/3] w-full overflow-hidden rounded bg-slate-200 dark:bg-slate-800">
+                  {titel.coverImage && (
+                    <img
+                      src={titel.coverImage}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                    />
+                  )}
+                  <span
+                    className={`absolute left-1 top-1 rounded px-1 py-px text-[10px] font-semibold ${
+                      kommt ? 'bg-slate-900/80 text-white' : 'bg-rose-600 text-white'
+                    }`}
+                  >
+                    {zeile}
+                  </span>
+                </span>
+                <span className="line-clamp-2 text-xs font-medium text-slate-800 group-hover:underline dark:text-slate-100">
+                  {name}
+                </span>
+              </button>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  )
+}
+
+export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: number) => void }): React.JSX.Element {
   const { t } = useLang()
   const [meldungen, setMeldungen] = useState<NewsEintrag[] | null>(null)
   const [offen, setOffen] = useState<Set<string>>(new Set())
@@ -205,6 +334,7 @@ export function NewsView({ oeffne }: { oeffne: (titelId: number) => void }): Rea
   return (
     <section className="mx-auto w-full max-w-5xl px-3 py-4">
       <h2 className="mb-2 text-lg font-semibold text-slate-800 dark:text-slate-100">{t('news.titel')}</h2>
+      <KinoKarussell data={data} oeffne={oeffne} />
 
       {/* Filterleiste: nur Arten, die wirklich vorkommen — ein leerer Filter ist eine Sackgasse. */}
       {meldungen && meldungen.length > 0 && (

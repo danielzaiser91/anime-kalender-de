@@ -36,6 +36,12 @@ const TEXTE = {
   'view.news': 'News',
   'news.titel': 'Was sich getan hat',
   'news.leer': 'Noch keine Meldungen.',
+  'news.kino.titel': 'Im Kino',
+  'news.kino.ab': 'ab {d}',
+  'news.kino.start': 'Start {d}',
+  'news.kino.bis': 'bis {d}',
+  'news.kino.zurueck': 'Zurück',
+  'news.kino.weiter': 'Weiter',
   'news.heute': 'Heute',
   'news.gestern': 'Gestern',
   // Eine Zeile je Meldung, so kurz wie möglich — die Karte nennt den Titel schon.

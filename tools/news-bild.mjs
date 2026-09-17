@@ -96,7 +96,7 @@ for (const thema of ['dunkel', 'hell']) {
   await seite.locator('header').first().waitFor({ state: 'visible', timeout: 20_000 })
   await seite.waitForTimeout(2500)
 
-  const zeilen = seite.locator('section ul > li > button[type="button"]')
+  const zeilen = seite.locator('section ul:not([data-kino]) > li > button[type="button"]')
   const zahl = await zeilen.count()
   if (!zahl) {
     console.error('keine Meldungszeile gefunden — die Seite ist leer oder der Aufbau hat sich geändert')
@@ -119,7 +119,7 @@ for (const thema of ['dunkel', 'hell']) {
     mehr als eine Meldung hat — das ist zugleich die Prüfung, dass das Attribut
     überhaupt gesetzt wird.
   */
-  const aufklappbar = seite.locator('section ul > li > button[aria-expanded]')
+  const aufklappbar = seite.locator('section ul:not([data-kino]) > li > button[aria-expanded]')
   const wieViele = await aufklappbar.count()
   if (!wieViele) {
     console.error('keine aufklappbare Zeile — die Bündelung greift nicht')
@@ -127,7 +127,7 @@ for (const thema of ['dunkel', 'hell']) {
   } else {
     await aufklappbar.first().click()
     await seite.waitForTimeout(250)
-    const detail = await seite.locator('section ul > li ul li').count()
+    const detail = await seite.locator('section ul:not([data-kino]) > li ul li').count()
     if (detail < 2) {
       console.error(`aufgeklappt stehen nur ${detail} Einzelmeldungen da`)
       schlimm++
