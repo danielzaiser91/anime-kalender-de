@@ -11900,45 +11900,8 @@
   platform: primevideo
   url: https://www.amazon.de/dp/B0FJWFGLQC
   dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: true
-      checked: [1]
-    - from: 2
-      to: 2
-      dub: false
-      checked: [2]
-    - from: 3
-      to: 3
-      dub: true
-      checked: [3]
-    - from: 4
-      to: 4
-      dub: false
-      checked: [4]
-    - from: 5
-      to: 6
-      dub: true
-      checked: [5, 6]
-    - from: 7
-      to: 7
-      dub: false
-      checked: [7]
-    - from: 8
-      to: 9
-      dub: true
-      checked: [8, 9]
-    - from: 10
-      to: 11
-      dub: false
-      checked: [10, 11]
-    - from: 12
-      to: 12
-      dub: true
-      checked: [12]
   checkedAt: '2026-08-31'
-  note: "Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folge 3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–6 mit deutschem Ton, Folge 7 ohne deutschen Ton, Folgen 8–9 mit deutschem Ton, Folgen 10–11 ohne deutschen Ton, Folge 12 mit deutschem Ton — Tonspuren: Deutsch — Amazon-Seite B0FJWFGLQC: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf"
+  note: "Berichtigt 17.09.2026: Bereiche entfernt — die Lücken (2, 4, 7, 10–11) kamen aus leeren Tonspurlisten (vor 4.20.13 als kein Deutsch gemeldet); Daniels Meldungen vom 15., 16. und 17.09. zu derselben Seite messen alle 13 Folgen mit Deutsch. Ursprünglich: Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folge 3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–6 mit deutschem Ton, Folge 7 ohne deutschen Ton, Folgen 8–9 mit deutschem Ton, Folgen 10–11 ohne deutschen Ton, Folge 12 mit deutschem Ton — Tonspuren: Deutsch — Amazon-Seite B0FJWFGLQC: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf"
 
 - anilistId: 139587
   title: "Reincarnated as a Sword"
