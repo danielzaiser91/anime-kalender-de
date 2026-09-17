@@ -3645,6 +3645,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'gegen eine laufende Sperre zu klopfen bringt keinen Befund und verlängert sie',
   )
   pruefe(
+    'späte Ergänzungen legen keine laut Linkprüfung tote Adresse an',
+    (bau.match(/if \(lautPruefungTot\(url\)\) continue/g) ?? []).length >= 2,
+    'sonst stehen 404-Adressen ohne Sprachurteil im Datensatz (sechs Joyn-Verweise, 20.08.–17.09.2026)',
+  )
+  pruefe(
     'das Entfernt-Gedächtnis schreibt gesperrte Verweise mit',
     bau.includes('verweise: [...verweiseEntfernt, ...uebernommen]'),
     'sonst ergänzt jeder zweite Bau die Verweise wieder, die der vorige als belegtes Nein entfernt hat (78 Adressen, 17.09.2026)',

@@ -3335,6 +3335,17 @@ function main(): void {
   const linkBefunde = readJson<
     Record<string, { status: number | string; prime?: boolean; geprueftAm?: string }>
   >('data/link-check.json', {})
+  /*
+    **Eine späte Runde legt keine Adresse an, die die Linkprüfung als tot kennt**
+    (17.09.2026). Der Filter gegen tote Verweise steht weiter unten vor den
+    Ergänzungen aus aniSearch und dem Crunchyroll-Katalog; was dort entsteht,
+    sah er nie. Sechs Joyn-Adressen standen so seit dem 20.08. als 404 in
+    `data/link-check.json` und trotzdem im Datensatz, ohne Sprachurteil.
+  */
+  const lautPruefungTot = (url: string): boolean => {
+    const status = linkBefunde[url]?.status
+    return status === 404 || status === 'region'
+  }
   /** Wie oft der Kanal-Verweis mit dem Crunchyroll-Befund entfallen ist. */
   let kanalMitEntfernt = 0
   /** Welche Anbieter der zuletzt ausgelieferte Stand je Titel mit „DE ✓" führte — für die Abgänge. */
@@ -5681,6 +5692,7 @@ function main(): void {
         const beleg = belegFuer(title.id, ziel, url)
         if (beleg && (beleg.dub !== true || beleg.available === false)) continue
         if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true) continue
+        if (lautPruefungTot(url)) continue
         title.streams.push({ platform: ziel, url })
         vorhanden.add(ziel)
         jeAnbieter[ziel] = (jeAnbieter[ziel] ?? 0) + 1
@@ -5733,6 +5745,7 @@ function main(): void {
       if (toteCrSerien.has(kennung)) continue
       const beleg = belegFuer(title.id, 'crunchyroll', url)
       if (beleg && (beleg.dub !== true || beleg.available === false)) continue
+      if (lautPruefungTot(url)) continue
       title.streams.push({ platform: 'crunchyroll', url })
       crAusKatalog++
     }
