@@ -2972,6 +2972,8 @@ Protokoll, statt rot zu werden. Und ein Messlauf wird erst angestoßen, wenn fes
 dass sein Ergebnis nicht schon anderswo liegt (die Cron-Landmessung stand seit dem 22.08.
 in D1).
 
+**Wer in `build.ts` ändert, was entfernt wird, sucht die Zusicherungen, die das Entfernen festhalten.** `check:cr-zuordnung` läuft erst im Bau (`commit-data.sh`) und hielt „keine tote Crunchyroll-Adresse im Datensatz" fest; der Fix vom 17.09.2026, der US-„nicht verfügbar" nicht mehr als tot wertet, machte den Bau deshalb rot (Lauf 35225087674). Prüfgriff: `grep -rn "<Grund oder Feldname>" pipeline/check-*.ts tools/*-pruefen*` vor dem Push.
+
 **Wer einen Handbeleg auf eine andere Kennung umhängt, fährt `check:handbelege` vorher mit.** Das steht nicht in `check:vor-commit` (es braucht den gebauten Datensatz) und bricht den Bau ab, wenn die neue Kennung nicht im Bestand steht — am 16.09.2026 bei drei umgehängten Prime-Belegen (Lauf 35125372002). Entweder die Staffel kommt über `synchro-von-hand.yaml` in den Bestand, oder der Beleg trägt `nichtImBestand: true` mit dem Grund in der Notiz.
 
 **Auch ein reiner Daten-Commit läuft durch `check:logic`.** Am 15.09.2026 gingen im Durchgang

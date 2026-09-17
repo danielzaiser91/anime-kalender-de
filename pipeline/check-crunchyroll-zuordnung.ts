@@ -410,7 +410,21 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   for (const t of alle) for (const s of t.streams ?? []) {
     if (s.platform === 'crunchyroll') ausgeliefert.add(s.url)
   }
-  const tot = crDub.serien.filter((s) => /nicht mehr verf|404/.test(s.fehler ?? ''))
+  /*
+    Ein US-Befund zählt nicht, wo der deutsche Katalog die Serie mit deutscher Tonspur
+    führt — dieselbe Ausnahme wie `usNeinWiderlegt()` im Bau (17.09.2026).
+  */
+  const deutschImKatalog = new Set(
+    (readJson<{ eintraege?: { id?: string; audio?: string[] }[] }>(resolve(ROOT, 'data/cr-katalog-de.json'), {})
+      .eintraege ?? [])
+      .filter((e) => (e.audio ?? []).includes('de-DE'))
+      .map((e) => e.id ?? ''),
+  )
+  const tot = crDub.serien.filter(
+    (s) =>
+      /nicht mehr verf|404/.test(s.fehler ?? '') &&
+      !(s.katalog !== 'de' && s.seriesId && deutschImKatalog.has(s.seriesId)),
+  )
   const uebrig = tot.filter((s) => ausgeliefert.has(s.url))
   pruefe(
     `keine der ${tot.length} toten Crunchyroll-Adressen steht noch im Datensatz`,
