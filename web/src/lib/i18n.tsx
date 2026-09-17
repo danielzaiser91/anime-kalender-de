@@ -38,6 +38,7 @@ const TEXTE = {
   'news.leer': 'Noch keine Meldungen.',
   'news.kino.titel': 'Im Kino',
   'news.kino.ab': 'ab {d}',
+  'news.kino.am': 'am {d}',
   'news.kino.start': 'Start {d}',
   'news.kino.bis': 'bis {d}',
   'news.kino.zurueck': 'Zurück',

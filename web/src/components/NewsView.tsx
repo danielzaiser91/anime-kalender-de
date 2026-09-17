@@ -155,8 +155,9 @@ function KinoKarussell({
           const titel = data.titleById.get(f.titelId)!
           const name = titel.titleDe ?? titel.titleEn ?? titel.titleRomaji ?? ''
           const kommt = f.start >= heute
+          /* Eine Einzelvorstellung (letzter Spieltag = Start) läuft „am", nicht „ab" (Your Name, CineAnime). */
           const zeile = kommt
-            ? t('news.kino.ab', { d: kurz(f.start) })
+            ? t(f.bis === f.start ? 'news.kino.am' : 'news.kino.ab', { d: kurz(f.start) })
             : f.bis
               ? t('news.kino.bis', { d: kurz(f.bis) })
               : t('news.kino.start', { d: kurz(f.start) })
