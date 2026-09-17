@@ -4394,6 +4394,40 @@ Die Folge stand die ganze Zeit im Log:
    gemessen und sucht den Fehler woanders. **Was noch nicht gemessen ist, gehört
    im Futur oder gar nicht in den Kommentar.**
 
+## Eine falsche TMDB-Kennung verteilt fremde Wege über den ganzen Titel
+
+Daniel am 17.09.2026 an „Your Name.": „appletv pill führt zu #2 (bug? wie ist dieser
+verweis entstanden, symptom eines größeren problems?)". Der Verweis führte zu einem
+anderen Film, und die Kette dahinter beginnt eine Ebene tiefer.
+
+`fetch-tmdb-titles.ts` maß die Titelähnlichkeit gegen den **kürzeren** der beiden Namen.
+„Your Name." steckt vollständig in „Call Me by Your Name" — Ähnlichkeit 1,0, und die
+Kennung 398818 wurde gespeichert. An der Kennung hängt alles Weitere: JustWatch-Angebote,
+Trailer, die Streaming-Availability-Daten und über `justwatchUrl` die Bezugswege. Ein
+einziger Zuordnungsfehler erzeugt damit eine ganze Reihe plausibel aussehender Wege zu
+einem fremden Werk.
+
+Drei Griffe, alle am selben Tag gemessen:
+
+- **Geteilt wird durch den längeren Namen** (`Math.max`), Schwelle 0,75. Bei Gleichstand
+  gewinnt der bekanntere Treffer (`vote_count + popularity`) — der erste Fix landete sonst
+  auf einem leeren Eintrag (553301) statt auf 372058.
+- **Ein Fehltreffer behält die alte Zuordnung.** Vorher ersetzte ein leerer Suchlauf die
+  gefundene `tmdbId`, und mit ihr alles, was daran hängt.
+- **Der Altbestand wird nachgemessen, nicht gehofft.** `tools/tmdb-teilstueck-treffer.mjs`
+  holt zu jeder gespeicherten Kennung die echten Titel und meldet genau dieses Muster
+  (unser Titel ⊂ fremder Titel, fremde Zusatzwörter **vorn**). Über den Bestand: 16
+  Verdachtsfälle, 15 davon legitime Präfixe („Wind Breaker: Staffel 2" ⊂ „Wind Breaker").
+
+**Und ein Befund, der gegen die falsche Kennung entstanden ist, ist hinfällig.**
+`fetch-justwatch-audio.ts` speichert deshalb auch am Fehlschlag die Kennung, gegen die er
+lief, und fragt sofort neu, sobald sie abweicht — sonst hielte ein „nichts gefunden" die
+Wiedervorlage 28 Tage auf, obwohl es einen anderen Film meinte.
+
+**Die Prüffrage bei jedem Verweis, der zum falschen Werk führt:** *Welche Kennung hat ihn
+erzeugt, und wer hängt noch an ihr?* Ein falscher Link ist selten ein Einzelfall — er ist
+das sichtbare Ende einer Zuordnung.
+
 ## Kein Prettier — das Projekt formatiert von Hand
 
 `npx prettier --write` auf eine Datei dieses Projekts formatiert **die ganze
