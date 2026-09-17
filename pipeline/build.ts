@@ -3585,8 +3585,14 @@ function main(): void {
       if (check?.teilBereich) {
         stream.teilBereich = { von: check.teilBereich.von, bis: check.teilBereich.bis }
       }
-      // Eine von Hand gefundene Adresse schlägt jede geratene.
-      if (check?.url) {
+      /*
+        Eine von Hand gefundene Adresse schlägt jede geratene — **außer sie ist tot**.
+        Der 404-Riegel steht wenige Zeilen darüber und prüft die Adresse, die der
+        Verweis **vorher** trug; bei „Your Name." war das die Suchadresse (HTTP 200),
+        und erst hier wurde daraus die gelöschte Seite `B0FLLFC2L6`. Der Beleg kam so
+        an jedem Riegel vorbei (17.09.2026).
+      */
+      if (check?.url && !lautPruefungTot(check.url)) {
         stream.url = check.url
         adressen++
       }
