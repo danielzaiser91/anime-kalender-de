@@ -6557,7 +6557,14 @@ function main(): void {
       const as = anisearch[title.id]?.anisearchId
       title.watchLinks = [
         {
-          name: 'Deutsche Ausgabe bei aniSearch',
+          /*
+            **Der Name behauptet keine Sprachfassung** (Stichprobe 17.09.2026). Er hieß
+            „Deutsche Ausgabe bei aniSearch" und stand bei allen 186 Titeln unter der
+            Überschrift „Noch keine deutsche Fassung" — zwei Sätze, die sich für den
+            Leser widersprechen. Der Sprachblock belegt eine Veröffentlichung hier, nicht
+            ihre Tonspur; ohne Synchro-Marke kann es eine untertitelte Ausgabe sein.
+          */
+          name: 'Ausgabe bei aniSearch',
           url: as ? `https://www.anisearch.de/anime/${as}` : `https://www.anisearch.de/anime/${title.id}`,
           kind: 'buy',
         },

@@ -3337,7 +3337,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'er trägt keine Sprachangabe',
-    !/name: 'Deutsche Ausgabe bei aniSearch'[\s\S]{0,200}dub:/.test(bau),
+    !/name: 'Ausgabe bei aniSearch'[\s\S]{0,200}dub:/.test(bau),
     'der Block sagt, dass es die Ausgabe gab — nicht, in welcher Sprache sie lief',
   )
   pruefe(
