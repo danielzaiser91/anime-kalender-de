@@ -7,6 +7,7 @@ import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { InstallButton } from './InstallPrompt.tsx'
 import { Tooltip, TvZeichen } from './ui.tsx'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
+import { DatumSprung } from './DatumSprung.tsx'
 
 function ThemeToggle() {
   const { t } = useLang()
@@ -43,9 +44,12 @@ export function Header({
   onView,
   onDate,
   einstellungen,
+  termine,
 }: {
   view: ViewId
   date: string
+  /** Termintage für die Datumsauswahl: alle (Bereich) und die gefilterten (Zählung). */
+  termine?: { alle: string[]; sichtbar: string[] }
   /**
    * Der Einstellungsknopf, fertig verdrahtet. Als Element statt als
    * Zustand-und-Rückruf: Der Header soll nicht wissen, was hinter dem Zahnrad
@@ -261,6 +265,7 @@ export function Header({
             >
               →
             </button>
+            {termine && <DatumSprung date={date} termine={termine} onDate={onDate} />}
             <span className="ml-1 text-sm font-medium text-slate-700 dark:text-slate-200">{label}</span>
           </div>
         )}

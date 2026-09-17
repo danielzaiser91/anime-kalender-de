@@ -3281,6 +3281,7 @@ npm run check:panel        # das Detail-Panel, mehrere Titel, beide Themen
 npm run check:ansichten    # alle elf Routen, beide Themen
 npm run check:kasten       # der Hinweiskasten der Erweiterung
 npm run check:leiste       # die Durchlauf-Leiste auf Netflix
+npm run check:datumsprung  # die Datumsauswahl in der Kopfleiste, mit Klick und Sprung
 ```
 
 **Seit dem 07.09.2026 laufen alle vier automatisch** — im Workflow

@@ -179,6 +179,11 @@ export default function App() {
         : [],
     [data, route.filters, today, favorites, tvAus],
   )
+  /* Für die Datumsauswahl: der Bereich aus allen Terminen, die Zählung aus der gefilterten Ansicht. */
+  const termintage = useMemo(
+    () => ({ alle: data ? data.events.map((e) => e.date) : [], sichtbar: events.map((e) => e.date) }),
+    [data, events],
+  )
   const titles = useMemo(() => {
     if (!data) return []
     const basis = allTitles ?? data.titles
@@ -236,6 +241,7 @@ export default function App() {
         onView={setView}
         onDate={(d) => navigate({ date: d })}
         einstellungen={<EinstellungenKnopf offen={einstellungenOffen} setOffen={setEinstellungenOffen} />}
+        termine={termintage}
       />
       <EinstellungenDialog
         offen={einstellungenOffen}

@@ -91,6 +91,7 @@
     "data:cr-katalog": "node pipeline/fetch-cr-katalog.mjs",
     "data:rtlplus:katalog": "node pipeline/fetch-rtlplus-katalog.mjs",
     "check:panel": "node tools/panel-bild.mjs",
+    "check:datumsprung": "node tools/datum-sprung-bild.mjs",
     "check:trailer": "node tools/trailer-dialog-bild.mjs",
     "check:einstellungen": "node tools/einstellungen-bild.mjs",
     "mess:suche": "node tools/such-messung.mjs",
