@@ -4558,6 +4558,15 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     releasesAus([v('ab dem 28. August 2026 bei RTL+ abrufbar')], titel, [], '2026-09-16').length === 1,
   )
 }
+/* Mob Psycho 100 III auf Prime: Lücken aus einer Kanal-Meldung sind kein Beleg (17.09.2026). */
+{
+  const lesen = readFileSync('pipeline/lib/dub-confirmed.ts', 'utf8')
+  pruefe(
+    'Kanal-Belege verlieren beim Einlesen ihre Nein-Bereiche',
+    /const kanalMitLuecken =/.test(lesen) && /dubRanges: eintrag\.dubRanges!\.filter\(\(r\) => r\.dub\)/.test(lesen),
+    'Zickzack-Lücken aus Crunchyroll-Kanal-Seiten erscheinen wieder als „✕ DE" an der Prime-Pille',
+  )
+}
 /* Captain Tsubasa 2018: jede Crunchyroll-Runde, die ein Ja setzt, fragt die laufende Nummer (17.09.2026). */
 {
   const bau = readFileSync('pipeline/build.ts', 'utf8')

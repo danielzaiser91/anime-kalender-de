@@ -135,7 +135,25 @@ export function loadDubChecks(): DubCheck[] {
   const raw = yaml.load(readFileSync(DATEI, 'utf8'))
   if (!Array.isArray(raw)) return []
   const out: DubCheck[] = []
-  for (const item of raw as DubCheck[]) {
+  for (const eintrag of raw as DubCheck[]) {
+    /**
+     * **Eine Lücke aus einer Kanal-Meldung ist ein Nein aus einem Kanal — und das
+     * belegt nichts** (17.09.2026).
+     *
+     * `fetch-pruefungen.ts` lässt eine Kanal-Meldung ohne jedes Deutsch aus, eine
+     * gemischte schreibt es mit allen Bereichen. Auf Prime-Seiten über den
+     * Crunchyroll-Kanal entstanden so Zickzack-Belege: Mob Psycho 100 III „ohne
+     * Deutsch 1, 6, 8, 10", One Punch Man „4, 9", Haikyu!! „18–19, 21, 24–25",
+     * während Crunchyroll und Netflix dieselben Staffeln vollständig deutsch
+     * führen. Gemessen: 10 Belege mit Lücken zwischen deutschen Folgen, 8 davon
+     * Kanal-Titel. Die Lücken fallen hier weg; die Folgen gelten als nicht
+     * erfasst, das Ja bleibt. Die Rohmeldung steht unverändert in der Datei.
+     */
+    const kanalMitLuecken =
+      /Kanal-Titel/.test(eintrag?.note ?? '') &&
+      Boolean(eintrag?.dubRanges?.some((r) => r.dub)) &&
+      Boolean(eintrag?.dubRanges?.some((r) => !r.dub))
+    const item = kanalMitLuecken ? { ...eintrag, dubRanges: eintrag.dubRanges!.filter((r) => r.dub) } : eintrag
     /**
      * Ein halb ausgefüllter Eintrag ist gefährlicher als keiner: Er nimmt den
      * Verweis aus der Prüfliste, ohne etwas zu belegen. Deshalb hier laut
