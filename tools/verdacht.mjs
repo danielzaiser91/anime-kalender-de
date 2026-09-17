@@ -94,8 +94,20 @@ export function verdachtsfaelle(wurzel, plattform) {
     const titel = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
     const folgen = new Map((Array.isArray(titel) ? titel : Object.values(titel)).map((t) => [t.id, t.episodes ?? 0]))
     const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
+    /*
+      Es gilt der jüngste Beleg je Titel und Adresse (Solo Leveling, 17.09.2026):
+      Ein alter Beleg mit Folgen bis 13 hielt den Titel auf der Liste, obwohl drei
+      neuere Meldungen die ganze Staffel belegten — Daniel sollte endlos neu melden.
+    */
+    const juengster = new Map()
     for (const b of belege) {
-      if (b.platform !== plattform || raus.has(b.anilistId)) continue
+      if (b.platform !== plattform) continue
+      const k = `${b.anilistId} ${String(b.url ?? '').replace(/^https?:\/\/(www\.)?/, '').replace(/\/(gp\/video\/detail|dp)\//, '/')}`
+      const alt = juengster.get(k)
+      if (!alt || String(b.checkedAt ?? '') >= String(alt.checkedAt ?? '')) juengster.set(k, b)
+    }
+    for (const b of juengster.values()) {
+      if (raus.has(b.anilistId)) continue
       const n = folgen.get(b.anilistId) ?? 0
       const bis = Math.max(0, ...(b.dubRanges ?? []).map((r) => r.to ?? 0))
       if (n > 0 && bis > n) raus.set(b.anilistId, { anbieterZaehlung: { bis, folgen: n } })

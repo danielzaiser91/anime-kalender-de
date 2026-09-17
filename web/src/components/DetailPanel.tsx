@@ -1862,6 +1862,17 @@ function kuerzeUmTitel(name: string, titel?: string): string {
   return rest
 }
 
+function PillenHuelle({ ziel, children }: { ziel?: string; children: ReactNode }) {
+  const klasse = 'flex min-w-0 flex-col py-0.5 leading-tight'
+  return ziel ? (
+    <a href={ziel} target="_blank" rel="noreferrer noopener" className={klasse}>
+      {children}
+    </a>
+  ) : (
+    <span className={klasse}>{children}</span>
+  )
+}
+
 /**
  * **„Merken" — ein Symbol, ein Wort, zwei Wege dahinter.**
  *
@@ -2073,12 +2084,11 @@ function ReleasePille({
       className="inline-flex max-w-full items-center rounded-full py-1 pl-3 pr-1"
       style={farbe ? { background: `${farbe}1f`, boxShadow: `inset 0 0 0 1px ${farbe}55` } : undefined}
     >
-      <a
-        href={release.buyUrl ?? release.platformUrl ?? '#'}
-        target="_blank"
-        rel="noreferrer noopener"
-        className="flex min-w-0 flex-col py-0.5 leading-tight"
-      >
+      {/*
+        **Ohne Ziel kein Verweis** (Daniel, 17.09.2026, Kino-Pille): `href="#"` öffnete
+        dieselbe Seite in einem neuen Tab. Dann trägt die Pille nur ihre Angaben und „Merken".
+      */}
+      <PillenHuelle ziel={release.buyUrl ?? release.platformUrl}>
         {/*
           Der Serienname steht drei Zeilen höher im Kopf des Panels — ihn in
           jeder Pille zu wiederholen macht sie breit und sagt nichts Neues.
@@ -2112,7 +2122,7 @@ function ReleasePille({
             .filter(Boolean)
             .join(' · ')}
         </span>
-      </a>
+      </PillenHuelle>
       <MerkenKnopf release={release} today={today} farbe={farbe} />
     </span>
   )
