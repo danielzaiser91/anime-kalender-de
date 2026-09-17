@@ -11,8 +11,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260912T130000Z
 DTEND:20260912T133000Z
 SUMMARY:Black Torch – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/black-torch
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/black-torch
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -21,10 +21,10 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260916
 DTEND;VALUE=DATE:20260917
 SUMMARY:Thunder 3 – Folge 11/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
- t noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhy
- thmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/thund
- er-3
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/th
+ under-3
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -35,8 +35,8 @@ DTSTART;VALUE=DATE:20260918
 DTEND;VALUE=DATE:20260919
 SUMMARY:Code Geass: Lelouch of the Rebellion (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/code-ge
- ass-lelouch-of-the-rebellion-2026-09-18
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/code-g
+ eass-lelouch-of-the-rebellion-2026-09-18
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -47,8 +47,8 @@ DTSTART;VALUE=DATE:20260918
 DTEND;VALUE=DATE:20260919
 SUMMARY:Code Geass: Lelouch of the Rebellion R2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/code-ge
- ass-lelouch-of-the-rebellion-r2-2026-09-18
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/code-g
+ eass-lelouch-of-the-rebellion-r2-2026-09-18
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -58,8 +58,8 @@ DTSTART;VALUE=DATE:20260918
 DTEND;VALUE=DATE:20260919
 SUMMARY:Kaiju No. 8: Mission Recon – Der Film (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/kaiju-n
- o8-mission-recon-steelbook
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/kaiju-
+ no8-mission-recon-steelbook
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -68,9 +68,9 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260919T130000Z
 DTEND:20260919T133000Z
 SUMMARY:Black Torch – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
- schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
- ails: https://anime-kalender.de/#/release/black-torch
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/black-torch
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -79,10 +79,10 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260923
 DTEND;VALUE=DATE:20260924
 SUMMARY:Thunder 3 – Folge 12/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
- t noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhy
- thmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/thund
- er-3
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/th
+ under-3
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -91,8 +91,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260929
 DTEND;VALUE=DATE:20260930
 SUMMARY:All You Need is Kill
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/#/release/all-you-need-is-kill-kino
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nDetails: https://anime-kalender.de/#/release/all-you-need-is-kill-kin
+ o
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
@@ -102,8 +103,8 @@ DTSTART;VALUE=DATE:20260930
 DTEND;VALUE=DATE:20261001
 SUMMARY:Dan Da Dan (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-17
- 1018-disc
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1
+ 71018-disc
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -115,8 +116,8 @@ DTEND;VALUE=DATE:20261017
 SUMMARY:Steins\;Gate 0: Polymorpher Valentin - Bittersweet Intermedio (Disc
  )
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/steins-
- gate-0-polymorpher-valentin-bittersweet-intermedio-2026-10-16
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/steins
+ -gate-0-polymorpher-valentin-bittersweet-intermedio-2026-10-16
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -126,8 +127,8 @@ DTSTART;VALUE=DATE:20261016
 DTEND;VALUE=DATE:20261017
 SUMMARY:Steins\;Gate 0 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/steins-
- gate-0-2026-10-16
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/steins
+ -gate-0-2026-10-16
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -137,8 +138,8 @@ DTSTART;VALUE=DATE:20261016
 DTEND;VALUE=DATE:20261017
 SUMMARY:Dr. STONE: Science Future – Teil 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/dr-ston
- e-science-future-part1
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/dr-sto
+ ne-science-future-part1
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -148,8 +149,8 @@ DTSTART;VALUE=DATE:20261016
 DTEND;VALUE=DATE:20261017
 SUMMARY:Dr. Stone: New World (Teil 2) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-16
- 2670-disc
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1
+ 62670-disc
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -159,8 +160,8 @@ DTSTART;VALUE=DATE:20261022
 DTEND;VALUE=DATE:20261023
 SUMMARY:All You Need is Kill (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/all-you
- -need-is-kill-disc
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/all-yo
+ u-need-is-kill-disc
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -170,8 +171,8 @@ DTSTART;VALUE=DATE:20261106
 DTEND;VALUE=DATE:20261107
 SUMMARY:Inazuma Eleven – The Movie: Team Oger Attacks! (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/inazuma
- -eleven-movie-team-oger
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/inazum
+ a-eleven-movie-team-oger
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -181,8 +182,8 @@ DTSTART;VALUE=DATE:20261118
 DTEND;VALUE=DATE:20261119
 SUMMARY:Memories (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/memorie
- s-2026-11-18
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/memori
+ es-2026-11-18
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -192,8 +193,8 @@ DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
 SUMMARY:Kaiju No. 8: Staffel 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-17
- 8754-disc
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1
+ 78754-disc
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR

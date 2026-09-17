@@ -11,9 +11,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260929
 DTEND;VALUE=DATE:20260930
 SUMMARY:Mononoke – The Movie: Chapter III – Der Fluch der Schlange
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
- tigt.\nDetails: https://anime-kalender.de/#/release/mononoke-movie-3-curse
- -of-the-serpent
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht best
+ ätigt.\nDetails: https://anime-kalender.de/#/release/mononoke-movie-3-cur
+ se-of-the-serpent
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -23,8 +23,8 @@ DTSTART;VALUE=DATE:20261002
 DTEND;VALUE=DATE:20261003
 SUMMARY:Chainsaw Man – Staffel 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/chainsa
- w-man-s1-bundle
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/chains
+ aw-man-s1-bundle
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -34,8 +34,8 @@ DTSTART;VALUE=DATE:20261118
 DTEND;VALUE=DATE:20261119
 SUMMARY:Memories (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/memorie
- s-2026-11-18
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/memori
+ es-2026-11-18
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR

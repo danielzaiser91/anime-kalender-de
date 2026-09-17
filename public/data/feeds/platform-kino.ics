@@ -11,8 +11,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260929
 DTEND;VALUE=DATE:20260930
 SUMMARY:All You Need is Kill
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/#/release/all-you-need-is-kill-kino
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nDetails: https://anime-kalender.de/#/release/all-you-need-is-kill-kin
+ o
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
@@ -21,8 +22,8 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261015
 DTEND;VALUE=DATE:20261016
 SUMMARY:A New Dawn
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/#/release/a-new-dawn-kino
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nDetails: https://anime-kalender.de/#/release/a-new-dawn-kino
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
@@ -31,9 +32,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261124
 DTEND;VALUE=DATE:20261125
 SUMMARY:Puella Magi Madoka Magica the Movie – Walpurgisnacht: Rising
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/#/release/madoka-walpurgisnacht-ris
- ing-kino
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nDetails: https://anime-kalender.de/#/release/madoka-walpurgisnacht-ri
+ sing-kino
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
@@ -42,8 +43,8 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270126
 DTEND;VALUE=DATE:20270127
 SUMMARY:Witch on the Holy Night
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/#/release/auto-143103-kino
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nDetails: https://anime-kalender.de/#/release/auto-143103-kino
 CATEGORIES:Kino
 END:VEVENT
 END:VCALENDAR
