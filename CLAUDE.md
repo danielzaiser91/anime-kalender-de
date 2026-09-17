@@ -304,8 +304,10 @@ Zwei Folgen daraus:
     bekannt ist, entscheidet deshalb der Katalog und nicht die Seite.
     **Der Bau hielt sich bis zum 17.09.2026 nicht daran:** 109 Serien trugen `nichtVerfuegbar`
     aus dem US-Lauf vom 21.08., 33 davon führt der deutsche Katalog mit deutscher Tonspur
-    (Death Note, One-Punch Man, InuYasha-Filme). Ihre Verweise wurden entfernt und kamen nie
-    mehr zur Prüfung. Seitdem bleibt ein solcher Verweis offen (`usNeinWiderlegt()`).
+    (u. a. Flowers of Evil, Kokoro Connect, UQ Holder). 14 davon waren nie mit deutschem Zugang
+    geprüft; ihre Verweise wurden entfernt und kamen nie mehr zur Prüfung. Seitdem bleibt ein
+    solcher Verweis offen (`usNeinWiderlegt()`). Gibt es unter anderer Schreibweise schon einen
+    deutschen Befund (19 Fälle), entscheidet der — die breite erste Fassung kostete fünf „DE ✓".
   - **Und er kennt gar keine Filme.** Gemessen am 07.09.2026: Alle 1.589 Einträge in
     `data/cr-katalog-de.json` tragen `typ: "series"`. „Millennium Actress", „Okko und ihre
     Geisterfreunde", „Liz und der Blaue Vogel", „Sin: The Movie", „Cencoroll Connect" und

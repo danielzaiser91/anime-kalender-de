@@ -3259,9 +3259,23 @@ function main(): void {
    * CLAUDE.md sagt es seit dem 22.08.: „Wo eine Serienkennung bekannt ist,
    * entscheidet der Katalog und nicht die Seite." Der Verweis bleibt deshalb
    * ohne Urteil stehen, bis der deutsche Lauf ihn beurteilt.
+   *
+   * **Nur, wenn es noch keinen deutschen Befund gibt.** 19 der 33 sind unter einer
+   * anderen Schreibweise der Adresse längst mit deutschem Zugang geprüft
+   * (`/kiss-him-not-me` neben `/de/kiss-him-not-me`); dort entscheidet dieser
+   * Befund, und die US-Adresse fliegt wie bisher. Der erste Bau mit der breiten
+   * Regel kostete fünf „DE ✓" (Durarara!!, Lupin III. Part 6 …). Übrig bleiben 14.
    */
-  const usNeinWiderlegt = (serie: { nichtVerfuegbar?: boolean; katalog?: string; seriesId?: string | null }): boolean =>
-    Boolean(serie.nichtVerfuegbar && serie.katalog !== 'de' && serie.seriesId && crKatalogDeutsch.has(serie.seriesId))
+  let crDeutschGeprueft: Set<string> | undefined
+  const usNeinWiderlegt = (serie: { nichtVerfuegbar?: boolean; katalog?: string; seriesId?: string | null }): boolean => {
+    if (!serie.nichtVerfuegbar || serie.katalog === 'de' || !serie.seriesId || !crKatalogDeutsch.has(serie.seriesId))
+      return false
+    /* `crDub` wird weiter unten geladen; gerufen wird erst danach. */
+    crDeutschGeprueft ??= new Set(
+      crDub.serien.filter((c) => c.katalog === 'de' && c.seriesId).map((c) => c.seriesId as string),
+    )
+    return !crDeutschGeprueft.has(serie.seriesId)
+  }
 
   /** Was am Ende übrig bleibt und niemand automatisch auflösen kann. */
   const suchOffen: { id: number; titel: string; plattform: string; url: string }[] = []

@@ -420,10 +420,11 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
       .filter((e) => (e.audio ?? []).includes('de-DE'))
       .map((e) => e.id ?? ''),
   )
+  const deutschGeprueft = new Set(crDub.serien.filter((s) => s.katalog === 'de' && s.seriesId).map((s) => s.seriesId))
   const tot = crDub.serien.filter(
     (s) =>
       /nicht mehr verf|404/.test(s.fehler ?? '') &&
-      !(s.katalog !== 'de' && s.seriesId && deutschImKatalog.has(s.seriesId)),
+      !(s.katalog !== 'de' && s.seriesId && deutschImKatalog.has(s.seriesId) && !deutschGeprueft.has(s.seriesId)),
   )
   const uebrig = tot.filter((s) => ausgeliefert.has(s.url))
   pruefe(
