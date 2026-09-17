@@ -1313,7 +1313,11 @@ schrieben daraus „Crunchyroll Fg. 1–39 DE ✓" an die Serie von 2018, deren 
 japanisch laufen. Seitdem speichert `deutscheFolgen` auch `laufend`, nachgetragen aus dem
 Archiv (`tools/cr-laufend-nachtragen.ts`, 24.860 Folgen, keine fehlte), und
 `deutscheFolgenNachDemEnde()` sperrt beide Wege. Über 248 Serien gemessen trifft das genau
-diesen einen Fall.
+diesen einen Fall. **Es waren vier Wege, nicht zwei:** Nach dem ersten Fix stand das Ja weiter
+da, weil auch der Namensabgleich in `beurteileJeBlock`, die zweite Bereichsübertragung und die
+Katalog-Runden in `build.ts` (Kennung mit genau einer Staffel und `de-DE`) es setzten.
+`check:logic` zählt die Sperren. Wer ein Ja für Crunchyroll setzt, sucht vorher jede Stelle mit
+`stream.dub = true` für diese Plattform.
 
 ## Wer eine Abdeckung misst, zählt alle Quellen — nicht die eine, die am Verweis steht
 
