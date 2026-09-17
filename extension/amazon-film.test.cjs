@@ -114,6 +114,8 @@ const film = sandkasten.__ausHydration(fixture)
 pruefe('der Hydration-Block wird gelesen', Boolean(film), film)
 pruefe('die Kennung stimmt', film?.kennung === 'B0H6QYBZFS', film?.kennung)
 pruefe('als Film erkannt', film?.art === 'Movie', film?.art)
+/* gti-Brücke (17.09.2026): Die gti des eigenen Kopfs geht mit, damit der Bau JustWatchs Zuordnung prüfen kann. */
+pruefe('die gti der Seite wird gelesen', film?.gti === 'amzn1.dv.gti.5e42bcf1-8d2c-41cd-a3b6-f1e248c42049', film?.gti)
 pruefe(
   'der Titel steht drin',
   film?.titel === 'Avatar Aang: Der Herr der Elemente',

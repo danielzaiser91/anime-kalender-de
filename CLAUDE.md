@@ -516,10 +516,14 @@ auf eine **neu angelegte** Seite mit neuer gti weiter. Verglichen wird deshalb n
 und der haltbare Link ist JustWatchs Adresse selbst.
 
 Der Bau stellt erst **am Ende** um (`pipeline/lib/amazon-gti.ts`, genau ein Prime-Weg und genau
-eine gti); bis dahin rechnet er mit der ASIN. Sie bleibt als `seite` am Verweis, und alles, was
+eine gti), und **nur, wo die Erweiterung dieselbe gti auf unserer Seite abgelesen hat**
+(`data/amazon-gti-belegt.json`, aus `gti=` in der Notiz seit 4.20.25). Grund: Daniels
+Gegenprobe am selben Abend — JustWatch führt „Pokémon: Der Film – Weiß" richtig, sein
+Amazon-Angebot trägt aber die gti von „Schwarz". Die erste Fassung stellte 198 Verweise
+ungeprüft um und ersetzte 22 tote; beides ist zurückgenommen. Bis dahin rechnet er mit der ASIN. Sie bleibt als `seite` am Verweis, und alles, was
 an ihr hängt, liest sie: Handbelege (`check:handbelege`), Import der Meldungen, Rohfolgen,
-Prüfliste, Wiedervorlage, Linkprüfung. Tote Adressen werden ersetzt, ohne geführten Abgang nur
-bei deutschem Ton laut JustWatch. **Wer eine neue Stelle baut, die Prime-Adressen aus dem
+Prüfliste, Wiedervorlage, Linkprüfung. Der Ersatz toter Adressen ist abgeschaltet (`ERSATZ_TOTER_AMAZON_LINKS`): Ohne alte Seite gibt
+es nichts, woran sich JustWatchs Zuordnung prüfen ließe. **Wer eine neue Stelle baut, die Prime-Adressen aus dem
 Datensatz liest, nimmt `seite ?? url`.**
 
 ### Amazon duldet keinen Agenten — die Prüfliste bleibt deshalb Handarbeit

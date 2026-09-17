@@ -7066,6 +7066,8 @@ function main(): void {
     {
       const jwAngebote = readJson<Record<string, { angebote?: JwAngebot[] }>>('data/justwatch-audio.json', {})
       const ERSATZ_TOTER_AMAZON_LINKS = false
+      const gtiBelegt = readJson<Record<string, string>>('data/amazon-gti-belegt.json', {})
+      let unbelegt = 0
       /* Eine gti, die JustWatch bei mehreren Titeln führt, gehört keinem sicher (gemessen: 15). */
       const gtiTitel = new Map<string, Set<string>>()
       for (const [id, e] of Object.entries(jwAngebote))
@@ -7091,6 +7093,15 @@ function main(): void {
           const s = prime[0]!
           const wahl = amazonGtiWahl(angebote, s.dub)
           if (!wahl || /\/s\?/.test(s.url)) continue
+          /*
+            **Nur belegt** (Daniel, 17.09.2026, nach Pokémon Weiß → Schwarz): Umgestellt wird
+            erst, wenn die Erweiterung auf genau dieser Amazon-Seite dieselbe gti abgelesen hat.
+            `data/amazon-gti-belegt.json` führt ASIN → gti aus den Meldungen.
+          */
+          if (gtiBelegt[adressKern(s.url)] !== wahl.gti) {
+            unbelegt++
+            continue
+          }
           s.seite = s.url
           s.url = wahl.url
           umgestellt++
@@ -7142,6 +7153,7 @@ function main(): void {
       }
       if (umgestellt || wiederbelebt)
         log(`gti-Brücke: ${umgestellt} Prime-Verweise auf JustWatchs Adresse umgestellt, ${wiederbelebt} tote über sie ersetzt`)
+      if (unbelegt) log(`gti-Brücke: ${unbelegt} Prime-Verweise warten auf eine abgelesene gti`)
     }
     let doppelt = 0
     let ausgabenOhneDe = 0

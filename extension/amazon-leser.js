@@ -170,6 +170,12 @@
 
     const seite = {
       kennung,
+      /*
+        **Die gti der Seite** (`catalogId` im eigenen Kopf, 17.09.2026). Der Bau stellt einen
+        Prime-Verweis erst auf JustWatchs gti-Adresse um, wenn sie hier abgelesen wurde —
+        JustWatch ordnete „Pokémon Weiß" die gti von „Schwarz" zu.
+      */
+      gti: /^amzn1\.dv\.gti\./.test(koepfe[kennung]?.catalogId ?? '') ? koepfe[kennung].catalogId : null,
       art: kopf.entityType ?? null,
       /* „season" bei einer Staffel, „movie" bei einem Film, „episode" bei einer Folge. */
       sorte: kopf.titleType ?? null,

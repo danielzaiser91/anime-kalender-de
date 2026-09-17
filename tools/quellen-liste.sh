@@ -70,6 +70,7 @@ QUELLEN=(
   data/qualitaet-verlauf.json
   data/disc-ausgaben.json
   data/prime-zugeordnet.json
+  data/amazon-gti-belegt.json
   data/prime-unzugeordnet.json
   data/cr-vorschlaege.json
   data/adn-vorschlaege.json

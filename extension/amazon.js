@@ -10301,6 +10301,8 @@ async function speicherSchreiben(werte) {
              * die Notiz der Träger: `zugang=kauf` steht maschinenlesbar drin.
              */
             (zugangsart() ? `, zugang=${zugangsart()}` : '') +
+            /* Maschinenlesbar wie `zugang=`: Der Import baut daraus ASIN → gti (gti-Brücke, 17.09.2026). */
+            (gesehen.seite?.gti ? `, gti=${gesehen.seite.gti}` : '') +
             /*
               **Die Regionssperre gehört in die Meldung, auch wenn Folgen übrig sind.**
 

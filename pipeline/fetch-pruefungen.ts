@@ -28,6 +28,7 @@ import {
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
 import { log, ROOT, warn } from './lib/util.ts'
+import { adressKern } from './lib/dub-confirmed.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 
@@ -114,6 +115,31 @@ if (!antwort.ok) {
   process.exit(1)
 }
 const { pruefungen } = (await antwort.json()) as { pruefungen: Pruefung[] }
+
+/*
+  **Welche gti trägt die gemeldete Amazon-Seite?** (gti-Brücke, 17.09.2026)
+  Die Erweiterung schreibt sie seit 4.20.25 als `gti=` in die Notiz. Gesammelt wird
+  unabhängig davon, ob die Meldung ein Urteil ergibt; der Bau stellt einen Verweis nur
+  um, wenn diese gti mit JustWatchs übereinstimmt.
+*/
+{
+  const datei = resolve(ROOT, 'data/amazon-gti-belegt.json')
+  const bisher = existsSync(datei) ? (JSON.parse(readFileSync(datei, 'utf8')) as Record<string, string>) : {}
+  let neu = 0
+  for (const p of pruefungen) {
+    const gti = /\bgti=(amzn1\.dv\.gti\.[0-9a-f-]{36})/.exec(p.notiz ?? '')?.[1]
+    const kennung = String(p.seiten_kennung ?? '').trim()
+    if (p.plattform !== 'primevideo' || !gti || !/^[A-Z0-9]{10,26}$/i.test(kennung)) continue
+    const k = adressKern(`https://www.amazon.de/dp/${kennung}`)
+    if (bisher[k] === gti) continue
+    bisher[k] = gti
+    neu++
+  }
+  if (neu && !TROCKEN) {
+    writeFileSync(datei, JSON.stringify(bisher, null, 2) + '\n')
+    log(`${neu} Amazon-Seiten mit abgelesener gti`)
+  }
+}
 
 if (!pruefungen.length) {
   log('Keine neuen Prüfungen.')

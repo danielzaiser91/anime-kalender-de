@@ -4594,6 +4594,10 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     /s\.seite = s\.url\s+s\.url = wahl\.url/.test(bau),
   )
   pruefe(
+    '… nur, wo die Erweiterung dieselbe gti auf unserer Seite abgelesen hat (Pokémon Weiß → Schwarz)',
+    /if \(gtiBelegt\[adressKern\(s\.url\)\] !== wahl\.gti\)/.test(bau),
+  )
+  pruefe(
     '… und belebt nicht wieder, was ein Handbeleg ohne Adresse für Prime verneint',
     /if \(handNein\) continue/.test(bau),
   )
