@@ -6,7 +6,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 1 Adresse, 27 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 1 Adresse, 5 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 | 5 | [Crunchyroll](07-crunchyroll.md) | 5 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
