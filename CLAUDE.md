@@ -1703,6 +1703,12 @@ Zwei Dinge gehören dazu, und beide sind gemessen:
   wenige Zeilen weiter oben gerade verworfen wurde, steht dort noch nicht. Ohne
   `verweiseEntfernt` legte derselbe Lauf wieder an, was er selbst eben entfernt
   hat — das Flattern entstünde innerhalb einer einzigen Ausführung.
+- **Und ein Nein gilt dem Titel, eine tote Adresse allen** (17.09.2026). Das Gedächtnis
+  schlüsselt „belegtes Nein" nach Titel und Adresse; sonst nahm das Nein zu Princess
+  Principal Kapitel 3 den deutschen Kapiteln 1 und 2 ihre gemeinsame Serienadresse. Und
+  `adressKern()` behält bei YouTube die Kennung (`v`, `list`) — ohne sie hieß jedes Video
+  `youtube.com/watch`, und ein einziges Nein sperrte alle. **Wer einen Adresskern baut,
+  prüft, ob die Kennung im Pfad oder im Parameter steht.**
 - **Und es schreibt auch mit, was es selbst gesperrt hat** (17.09.2026). Bis dahin
   stand in der Datei nur, was der jeweilige Lauf entfernt hatte. Ein gesperrter Verweis
   wurde dadurch nicht mehr entfernt, also nicht mehr notiert, und der übernächste Lauf
