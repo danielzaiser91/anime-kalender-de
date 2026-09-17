@@ -3677,6 +3677,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'sonst trägt Vinland Saga Staffel 2 die Seite von Staffel 1 mit „DE ✓" (17.09.2026)',
   )
   pruefe(
+    'ein Titel ohne jedes Datum trägt keinen Verweis ohne Sprachbeleg',
+    bau.includes('if (title.jpStart || title.jpYear) continue') && bau.includes("title.streams.filter((s) => s.dub === true)"),
+    'sonst stehen unveröffentlichte Kapitel mit „Crunchyroll DE ?" im Datensatz (Princess Principal, 17.09.2026)',
+  )
+  pruefe(
     'späte Ergänzungen legen keine laut Linkprüfung tote Adresse an',
     (bau.match(/if \(lautPruefungTot\(url\)\) continue/g) ?? []).length >= 2,
     'sonst stehen 404-Adressen ohne Sprachurteil im Datensatz (sechs Joyn-Verweise, 20.08.–17.09.2026)',

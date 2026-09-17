@@ -6688,6 +6688,24 @@ function main(): void {
     toter Weg zwischenzeitlich als Weg, und die Runden für „Titel ohne jeden
     Weg" sprängen nicht an.
   */
+  /*
+    **Ein Werk ohne jedes Datum läuft noch nirgends.** Princess Principal: Crown
+    Handler, Kapitel 5 und 6, tragen bei AniList weder Start noch Jahr, standen
+    aber mit „Crunchyroll DE ?" im Datensatz: Crunchyroll führt alle Kapitel
+    unter der Adresse der Reihe, und die Adresse wandert von Titel zu Titel
+    (Stichprobe 17.09.2026). Ein Verweis ohne belegtes Deutsch fällt hier weg;
+    ein angekündigter Titel **mit** Termin bleibt unberührt, denn dessen Seite
+    gibt es beim Anbieter oft schon vor dem Start.
+  */
+  let ohneDatumWeg = 0
+  for (const title of titles.values()) {
+    if (title.jpStart || title.jpYear) continue
+    const vorher = title.streams.length
+    title.streams = title.streams.filter((s) => s.dub === true)
+    ohneDatumWeg += vorher - title.streams.length
+  }
+  if (ohneDatumWeg) log(`${ohneDatumWeg} Verweise ohne Sprachbeleg bei Titeln ohne jedes Datum entfernt`)
+
   let toteWegeSpaet = 0
   for (const title of titles.values()) {
     if (!title.watchLinks?.length) continue
