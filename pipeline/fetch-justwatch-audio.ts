@@ -193,11 +193,23 @@ async function main(): Promise<void> {
     (t.streams ?? []).some((s) => s.dub === undefined) ||
     (!(t.streams ?? []).length && !(t.watchLinks ?? []).length) ||
     (t.watchLinks ?? []).some((w) => /themoviedb.org/.test(w.url ?? ''))
+  /*
+    **Eine berichtigte TMDB-Zuordnung macht den alten Befund wertlos.** Gesucht wird
+    gegen die Kennung; stand dort gestern ein anderer Film, sagt das Ergebnis nichts
+    über diesen. Solche Titel gehen sofort wieder in die Schlange, ohne die Frist
+    abzuwarten (17.09.2026).
+  */
+  const kennungGewechselt = (t: Title) => {
+    const e = bestand[String(t.id)]
+    const jetzt = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
+    return Boolean(e?.tmdbId && jetzt && e.tmdbId !== jetzt)
+  }
   const offen = titles
     .filter((t) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId)
-    .filter((t) => (bestand[String(t.id)]?.geprueftAm ?? '') < grenze)
+    .filter((t) => (bestand[String(t.id)]?.geprueftAm ?? '') < grenze || kennungGewechselt(t))
     .sort(
       (a, b) =>
+        Number(kennungGewechselt(b)) - Number(kennungGewechselt(a)) ||
         Number(dringend(b)) - Number(dringend(a)) ||
         (bestand[String(a.id)]?.geprueftAm ?? '').localeCompare(bestand[String(b.id)]?.geprueftAm ?? ''),
     )
@@ -251,7 +263,18 @@ async function main(): Promise<void> {
           bestand[String(t.id)] = { ...vorher, geprueftAm: todayIso(), verfehltAm: todayIso() }
           verfehlt++
         } else {
-          bestand[String(t.id)] = { geprueftAm: todayIso(), angebote: [], ohneTreffer: true, erstAm: vorher?.erstAm ?? todayIso() }
+          /*
+            Die Kennung gehört auch an den Fehlschlag: Wird die TMDB-Zuordnung später
+            berichtigt, ist dieser Befund hinfällig und die Warteschlange erkennt es
+            daran (Your Name, 17.09.2026 — gesucht wurde gegen „Call Me by Your Name").
+          */
+          bestand[String(t.id)] = {
+            geprueftAm: todayIso(),
+            angebote: [],
+            ohneTreffer: true,
+            tmdbId: erwartet,
+            erstAm: vorher?.erstAm ?? todayIso(),
+          }
           ohneTrefferNeu++
         }
         continue
