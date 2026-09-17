@@ -1067,7 +1067,23 @@ function AntwortKasten({
             breiter; „Final Fantasy VII: Advent Children" mit sieben Wegen brach
             in eine dritte Reihe um, die bei 6rem 11 px in den Rollbereich hing.
           */}
-          <div className="flex max-h-[7.5rem] min-h-[2.1rem] flex-wrap items-start gap-1.5 overflow-y-auto pb-1">
+          {/*
+            **Und seit dem 17.09.2026 rollt hier gar nichts mehr — der Kasten wächst.**
+
+            Die Höchsthöhe ist seit dem 07.09. dreimal nachgezogen worden (4.4 → 6 →
+            7.5rem), jedes Mal auf den Fall, der gerade aufgefallen war. Mit JustWatchs
+            Angeboten je Titel hat ein bekannter Film acht bis dreizehn Wege („Weathering
+            with You": 13), und jede Zahl, die man hier einsetzt, schneidet die nächste
+            Reihe an: Bei „Your Name." ragten 18 px aus dem Kasten, bei 9,25rem waren es
+            27 px eine Reihe weiter.
+
+            Ein Rollbereich **im** Panel, das selbst rollt, ist ohnehin die schlechtere
+            Antwort — auf dem Handy trifft man ihn kaum, und eine halb verdeckte Pille
+            sieht aus wie ein Fehler. Die Wege sind die Kernauskunft dieser Seite; sie
+            stehen jetzt vollständig da. Die Mindesthöhe bleibt, der Kasten springt im
+            Regelfall also weiterhin nicht.
+          */}
+          <div className="flex min-h-[2.1rem] flex-wrap items-start gap-1.5 pb-1">
             {pillen}
           </div>
         </div>
