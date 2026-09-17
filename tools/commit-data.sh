@@ -183,9 +183,25 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # Die Quellen bleiben davon unberührt und werden committet. Sie sind der
     # teure Teil (fremde APIs, Ratenlimits), und an ihnen liegt es nicht.
     if [ "${AUFBAU_KAPUTT:-0}" != 1 ]; then
-      if ! npm run check:bestand; then
-        echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
+      # Seit dem 17.09.2026 auch check:logic, und im Bau-Lauf gelb statt rot
+      # (WARNUNG_STATT_ROT=1): Die neuen Meldungen werden zurückgenommen und
+      # bleiben im Briefkasten, die Statusanzeige zeigt den Grund. Bis dahin
+      # gingen Belege, die eine Zusicherung verletzen, als Quelle ins Repo und
+      # machten danach jeden Deploy rot.
+      if ! npm run check:bestand > /tmp/bestand-pruefung.txt 2>&1 || ! npm run check:logic >> /tmp/bestand-pruefung.txt 2>&1; then
+        cat /tmp/bestand-pruefung.txt
+        grund="$(grep -m 3 '✖' /tmp/bestand-pruefung.txt | tr -d '\"' | tr -s '[:space:]' ' ')"
+        if [ "${WARNUNG_STATT_ROT:-0}" = 1 ]; then
+          echo "::warning::Der gebaute Bestand verletzt eine Zusicherung. Erzeugnisse und neue Meldungen werden nicht übernommen."
+          git checkout -- data/dub-confirmed.yaml 2>/dev/null || true
+          rm -f data/cache/pruefungen-abhaken.json
+          echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Bestand nicht übernommen: $grund" >> "${GITHUB_ENV:-/dev/null}"
+        else
+          echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
+        fi
         BESTAND_KAPUTT=1
+      else
+        cat /tmp/bestand-pruefung.txt | tail -3
       fi
     fi
   fi
@@ -238,7 +254,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   if git push --quiet 2>/dev/null; then
     echo "Gepusht (Versuch $versuch)."
     # Die Quellen sind gesichert — jetzt darf der Lauf scheitern.
-    [ "${BESTAND_KAPUTT:-0}" = 1 ] && exit 1
+    [ "${BESTAND_KAPUTT:-0}" = 1 ] && [ "${WARNUNG_STATT_ROT:-0}" != 1 ] && exit 1
     exit 0
   fi
 

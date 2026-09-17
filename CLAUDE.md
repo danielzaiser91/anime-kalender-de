@@ -2029,6 +2029,16 @@ Seitdem gilt:
 - **Der Deploy hängt jetzt an ihm**, nicht mehr an den Sammlern: Die bauen keinen
   Datensatz mehr, den man ausliefern könnte.
 
+**Und seit dem 17.09.2026 wird auch der Bau nicht mehr durch Daten rot.** Neue
+Handbelege aus dem Briefkasten gehen erst durch `check:logic`, bevor der Bau sie
+sieht; nach dem Bau prüft `commit-data.sh` `check:bestand` **und** `check:logic`.
+Verletzt etwas eine Zusicherung, nimmt der Lauf die neuen Meldungen zurück, sie
+bleiben im Briefkasten (abgehakt wird erst nach dem Commit, `--abhaken-spaeter` /
+`--nur-abhaken`), und die Statusanzeige zeigt den Lauf **gelb** (`warnung`) mit
+Grund — keine Fehlermail. Rot bleibt für Code, also meist für meinen Push. Anlass:
+Nachtmeldungen am Reihenkopf machten drei Deploys rot, weil sie ungeprüft als
+Quelle committet wurden. **Eine gelbe Karte wird behandelt wie eine rote.**
+
 **Der Alarm über stumme Quellen wandert mit.** Ein Sammler, der eine Quelle nicht
 erreicht, ist kein Fehler — dass sie seit Tagen schweigt, schon. `data:check`
 steht deshalb im Bau-Lauf, an der Stelle, die es beurteilen kann.

@@ -127,7 +127,22 @@ jobs:
       - name: Meldungen aus der Erweiterung einarbeiten
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:pruefungen
+        run: npm run data:pruefungen -- --abhaken-spaeter
+
+      # Neue Handbelege werden geprüft, bevor sie in den Bau gehen (17.09.2026).
+      # Verletzt die Prüfung etwas, bleiben alle neuen draußen und im
+      # Briefkasten — der Lauf wird gelb statt rot, der Grund steht in der
+      # Statusanzeige. Vorher machten solche Belege jeden Deploy rot.
+      - name: Neue Handbelege prüfen
+        run: |
+          if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
+          if npm run check:logic > /tmp/logic.txt 2>&1; then exit 0; fi
+          grep '✖' /tmp/logic.txt || true
+          git checkout -- data/dub-confirmed.yaml
+          git checkout -- data/anbieter-staffeln.json 2>/dev/null || true
+          rm -f data/cache/pruefungen-abhaken.json
+          grund="$(grep -m 3 '✖' /tmp/logic.txt | tr -d '\"' | tr -s '[:space:]' ' ')"
+          echo "DATEN_WARNUNG=Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"
 
       # Was der Erweiterung aufgefallen ist, ohne dass jemand die Konsole oeffnet.
       # Bis zum 10.09.2026 stand das nur im Browser-Log — also nirgends, wo es
@@ -208,8 +223,16 @@ jobs:
       # Hier sitzt die Zusicherung über den gebauten Bestand (`check:bestand` in
       # commit-data.sh). Sie darf rot werden — das ist der Sinn dieses Laufs.
       - name: Änderungen committen
+        env:
+          WARNUNG_STATT_ROT: '1'
         run: |
           bash tools/commit-data.sh "chore(data): Bestand neu gebaut"
+
+      # Erst jetzt, wo die Belege im Repo stehen, verschwinden sie aus dem Briefkasten.
+      - name: Meldungen abhaken
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:pruefungen -- --nur-abhaken
 
       # Der Alarm für stumm gewordene Quellen. Er gehört hierher und nicht in
       # den Sammler: Ein Sammler, der eine Quelle nicht erreicht, macht weiter
@@ -230,4 +253,10 @@ jobs:
         if: always()
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
+        run: |
+          z="${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
+          if [ "$z" = ok ] && [ -n "${DATEN_WARNUNG:-}" ]; then
+            bash "$MELDER" warnung "$DATEN_WARNUNG"
+          else
+            bash "$MELDER" "$z"
+          fi

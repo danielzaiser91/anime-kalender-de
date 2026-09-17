@@ -33,7 +33,7 @@ const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 2
 async function main() {
   const laeufe = await (await fetch(WORKER)).json()
   const liste = Array.isArray(laeufe) ? laeufe : (laeufe.laeufe ?? [])
-  const rote = liste.filter((l) => l.zustand === 'fehler')
+  const rote = liste.filter((l) => l.zustand === 'fehler' || l.zustand === 'warnung')
   console.log(`${liste.length} Läufe in der App, ${rote.length} rot`)
   if (!rote.length) return
 

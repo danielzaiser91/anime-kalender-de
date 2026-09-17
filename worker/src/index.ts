@@ -1585,6 +1585,8 @@ async function handleLauf(request: Request, env: Env, ctx?: ExecutionContext): P
      *              die Übersicht, ohne dass jemand sie hätte abnehmen müssen.
      *   fehler   — bleibt stehen, bis ihn jemand abnimmt. Ein roter Lauf, der
      *              von selbst verschwindet, ist schlimmer als keine Anzeige.
+     *   warnung  — durchgelaufen, aber etwas wurde aussortiert (seit 17.09.2026).
+     *              Bleibt stehen wie fehler, ohne Fehlermail.
      *   erledigt — sofort weg. Das setze ich, wenn ich einen Lauf durchgesehen
      *              und weiterverarbeitet habe.
      */
@@ -1616,7 +1618,7 @@ async function handleLauf(request: Request, env: Env, ctx?: ExecutionContext): P
                AND spaeter.zustand = 'ok'
                AND spaeter.gemeldet_am > lauf_status.gemeldet_am
           )
-        ORDER BY (zustand = 'laeuft') DESC, (zustand = 'fehler') DESC, gemeldet_am DESC
+        ORDER BY (zustand = 'laeuft') DESC, (zustand IN ('fehler', 'warnung')) DESC, gemeldet_am DESC
         LIMIT 40`,
     ).all()
     // Die Gelegenheit nutzen: Diese Anfrage kommt aus Daniels Browser, also aus
@@ -1642,8 +1644,8 @@ async function handleLauf(request: Request, env: Env, ctx?: ExecutionContext): P
   const laufId = (daten.lauf_id ?? '').trim()
   const zustand = (daten.zustand ?? '').trim()
   if (!laufId) return antwort({ error: 'lauf_id fehlt' }, 400)
-  if (!['laeuft', 'ok', 'fehler', 'abgebrochen', 'erledigt'].includes(zustand)) {
-    return antwort({ error: 'zustand muss laeuft, ok, fehler, abgebrochen oder erledigt sein' }, 400)
+  if (!['laeuft', 'ok', 'warnung', 'fehler', 'abgebrochen', 'erledigt'].includes(zustand)) {
+    return antwort({ error: 'zustand muss laeuft, ok, warnung, fehler, abgebrochen oder erledigt sein' }, 400)
   }
 
   const jetzt = jetztIso()
