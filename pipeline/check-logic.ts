@@ -3682,6 +3682,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'sonst stehen 404-Adressen ohne Sprachurteil im Datensatz (sechs Joyn-Verweise, 20.08.–17.09.2026)',
   )
   pruefe(
+    'ein US-„nicht verfügbar" entfernt keinen Crunchyroll-Verweis, den der deutsche Katalog führt',
+    bau.includes('if (usNeinWiderlegt(serie)) {') && (bau.match(/usNeinWiderlegt\(s\)/g) ?? []).length >= 2,
+    'sonst fehlen Death Note, One-Punch Man und vier InuYasha-Filme bei Crunchyroll (33 Serien, 17.09.2026)',
+  )
+  pruefe(
     'das Entfernt-Gedächtnis schreibt gesperrte Verweise mit',
     bau.includes('verweise: [...verweiseEntfernt, ...uebernommen]'),
     'sonst ergänzt jeder zweite Bau die Verweise wieder, die der vorige als belegtes Nein entfernt hat (78 Adressen, 17.09.2026)',

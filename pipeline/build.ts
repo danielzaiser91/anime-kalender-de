@@ -3248,6 +3248,20 @@ function main(): void {
       .map((e) => e.id ?? '')
       .filter(Boolean),
   )
+  /**
+   * **Ein „nicht mehr verfügbar" aus dem US-Katalog gilt nicht, wo der deutsche Katalog die Serie führt.**
+   *
+   * Gemessen am 17.09.2026: 109 Serien tragen `nichtVerfuegbar` aus dem Lauf vom
+   * 21.08. mit `katalog: us`; 33 davon führt der deutsche Katalog mit deutscher
+   * Tonspur — Death Note, One-Punch Man, vier InuYasha-Filme. Der Bau entfernte
+   * ihre Verweise trotzdem, und weil sich die Warteschlange des Dub-Laufs aus
+   * den Verweisen bildet, kamen sie nie mehr zur Prüfung mit deutschem Zugang.
+   * CLAUDE.md sagt es seit dem 22.08.: „Wo eine Serienkennung bekannt ist,
+   * entscheidet der Katalog und nicht die Seite." Der Verweis bleibt deshalb
+   * ohne Urteil stehen, bis der deutsche Lauf ihn beurteilt.
+   */
+  const usNeinWiderlegt = (serie: { nichtVerfuegbar?: boolean; katalog?: string; seriesId?: string | null }): boolean =>
+    Boolean(serie.nichtVerfuegbar && serie.katalog !== 'de' && serie.seriesId && crKatalogDeutsch.has(serie.seriesId))
 
   /** Was am Ende übrig bleibt und niemand automatisch auflösen kann. */
   const suchOffen: { id: number; titel: string; plattform: string; url: string }[] = []
@@ -4059,6 +4073,7 @@ function main(): void {
     }
     let belegt = 0
     let verschwunden = 0
+    let usNeinOffen = 0
     /**
      * Was entfernt wurde, und warum — der Datenbestand behält es.
      *
@@ -4124,6 +4139,10 @@ function main(): void {
        * — das ist genau der Fehler, vor dem `CLAUDE.md` warnt.
        */
       const ohneBlock = Boolean(serie.seriesId) && serie.katalog === 'de' && !(serie.staffeln ?? []).length
+      if (usNeinWiderlegt(serie)) {
+        usNeinOffen++
+        continue
+      }
       if (serie.nichtVerfuegbar || ohneBlock) {
         for (const title of nachUrl.get(serie.url) ?? []) {
           const vorher = title.streams.length
@@ -4789,6 +4808,7 @@ function main(): void {
     }
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
+    if (usNeinOffen) log(`${usNeinOffen} Crunchyroll-Serien mit US-„nicht verfügbar" bleiben offen — der deutsche Katalog führt sie`)
     /*
       **Und aus denselben Daten kommen die Termine.**
 
@@ -5618,7 +5638,7 @@ function main(): void {
      * bekommen — und ein Ausschluss über die Kennung kennt keine Frist.
      */
     const toteCrSerien = new Set(
-      crDub.serien.filter((s) => s.nichtVerfuegbar && s.seriesId).map((s) => s.seriesId as string),
+      crDub.serien.filter((s) => s.nichtVerfuegbar && s.seriesId && !usNeinWiderlegt(s)).map((s) => s.seriesId as string),
     )
     /**
      * **Dieselbe Sperre über die Adresse — für alles ohne Kennung.**
@@ -5657,7 +5677,7 @@ function main(): void {
     )
     const toteCrAdressen = new Set([
       ...crDub.serien
-        .filter((s) => s.nichtVerfuegbar || /nicht mehr verf|404/.test(s.fehler ?? ''))
+        .filter((s) => !usNeinWiderlegt(s) && (s.nichtVerfuegbar || /nicht mehr verf|404/.test(s.fehler ?? '')))
         .map((s) => adressKern(s.url)),
       ...Object.entries(crOffeneBefunde)
         .filter(([, b]) => b?.herkunft === 'tot')

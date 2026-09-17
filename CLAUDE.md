@@ -302,6 +302,10 @@ Zwei Folgen daraus:
     im Bestand als `nichtVerfuegbar`, weil die **US-Seite** das Banner zeigte; der deutsche
     Katalog führt beide, „Flowers of Evil" mit 13 deutschen Folgen. Wo eine Serienkennung
     bekannt ist, entscheidet deshalb der Katalog und nicht die Seite.
+    **Der Bau hielt sich bis zum 17.09.2026 nicht daran:** 109 Serien trugen `nichtVerfuegbar`
+    aus dem US-Lauf vom 21.08., 33 davon führt der deutsche Katalog mit deutscher Tonspur
+    (Death Note, One-Punch Man, InuYasha-Filme). Ihre Verweise wurden entfernt und kamen nie
+    mehr zur Prüfung. Seitdem bleibt ein solcher Verweis offen (`usNeinWiderlegt()`).
   - **Und er kennt gar keine Filme.** Gemessen am 07.09.2026: Alle 1.589 Einträge in
     `data/cr-katalog-de.json` tragen `typ: "series"`. „Millennium Actress", „Okko und ihre
     Geisterfreunde", „Liz und der Blaue Vogel", „Sin: The Movie", „Cencoroll Connect" und
