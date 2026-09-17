@@ -814,6 +814,28 @@ Die gemessene Sackgasse bleibt im Werkzeug stehen: Die Icons neben den Titel zu
 rücken kostet mehr Breite, als die frei werdende Zeile einbringt — 35 gekappte
 Titel statt 20.
 
+## Recherche 17.09.2026: Wie werden tote Amazon-Adressen automatisch erkannt?
+
+Anlass: 618 Amazon-Adressen stehen in `data/link-check.json` auf `unklar`. Gemessen:
+
+| Gruppe | Zahl | Stand |
+|---|---|---|
+| Prime-Verweise im Datensatz | 229 | 227 davon mit Handbeleg zur selben ASIN |
+| Kaufwege (meist DVD) | 241 | — |
+| aniSearch-Kandidaten außerhalb des Datensatzes | 148 | nur für Prime-Suchadressen gebraucht, davon gibt es 0 |
+
+Geprüfte Wege:
+
+| Weg | Ergebnis | Urteil |
+|---|---|---|
+| Linkprüfung aus der Cloud | 14.09.: 2 Befunde, dann Sperre | trägt nicht |
+| Linkprüfung von hier | 07.09.: 552 Befunde, Sperre nach ~660 | trägt, aber automatischer Abruf gegen Amazons robots.txt (19 Bots namentlich gesperrt) |
+| primevideo.com als zweiter Host | robots.txt sperrt dieselben KI-Bots; die tote `B0CGRCT6M2` liefert dort 200 mit 1,9 MB | verworfen: kein Tot-Signal |
+| JustWatch (`data/justwatch-audio.json`) | kennt 71 der 229 Prime- und 36 der 241 Kauf-Titel; Kaufangebote tragen `/dp/<ASIN>` (10 Treffer), Prime-Angebote nur `watch.amazon.de/detail?gti=amzn1.dv.gti.<uuid>` | als Lebenszeichen brauchbar, Abdeckung zu klein |
+| Amazon-Seite nennt gti | ja, `amzn1.dv.gti.<uuid>` steht mehrfach im Quelltext (auch für Nachbarn) | Brücke ASIN ↔ JustWatch möglich, eigene gti muss die Erweiterung sicher bestimmen |
+| Amazon PA-API 5 | offiziell, braucht Partnerprogramm mit Umsätzen | verworfen: macht die Seite kommerziell, dann fällt die RTL-TV-Quelle weg |
+| Keepa-API | ASIN-Status für amazon.de, kostenpflichtig (ab ~19 €/Monat) | nur nach Freigabe |
+
 ## Beantwortet 05.09.2026: Welche Pokémon-Folgen Prime nicht führt
 
 Die Frage stand seit dem 30.08.2026 offen und war zuletzt als „Daniel muss die
