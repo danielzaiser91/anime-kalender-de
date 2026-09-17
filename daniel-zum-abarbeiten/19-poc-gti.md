@@ -33,3 +33,13 @@
 | 9c | Zielseite von 9b ist Afro Samurai, Staffel 1 (2007), Crunchyroll-Kanal, Wiedergabesprache nur English (Daniels Bild) — derselbe Titel wie unser toter Link (1292) | Weiterleitung trägt |
 
 **Befund Zeile 9:** Für lebende Seiten genügt der gti-Vergleich (6 von 6). Bei einer toten Seite hat Amazon den Titel unter einer neuen gti neu angelegt; JustWatchs alte gti leitet dorthin weiter. Ein reiner Kennungsvergleich findet den Ersatz also nicht, das Verfolgen der Weiterleitung schon — und das geht nur in einer Browsersitzung, nicht aus der Cloud (robots.txt).
+
+## Gegenprobe der ersetzten Links (seit 17.09.2026, 19:00 live)
+
+Der Bau hat 22 tote Amazon-Links über JustWatch ersetzt. Drei davon zum Nachsehen: den **neuen** Link öffnen und prüfen, ob der richtige Titel mit deutscher Tonspur erscheint.
+
+| Titel | neuer Link | alte (tote) Seite |
+|---|---|---|
+| Naruto: The Movie – Geheimmission im Land des ewigen Schnees | [öffnen](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d0b6a7ab-204d-6fff-7737-584d42e18d1f) | B0G43M2BNY |
+| Pokémon: Der Film – Weiß: Victini und Zekrom | [öffnen](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8ab27e08-d8ee-b0f9-aa6f-73b8a496e730) | B01ASXCBV4 |
+| My Hero Academia: The Movie – Heroes Rising | [öffnen](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4384f740-fa4a-4a37-b036-362f108481be) | B0DPLC3MW8 |

@@ -505,6 +505,23 @@ zwischenspeichern darf, und denen, die aussehen wie Sparpotenzial und keins sind
 `amazon.js` oder `amazon-leser.js` etwas an der Leistung ändern will, liest das zuerst:
 Mehrere der teuer aussehenden Muster sind Reparaturen echter Fehlschläge.
 
+### Prime-Verweise zeigen auf JustWatchs gti-Adresse (17.09.2026)
+
+Amazon führt je Titel mehrere Kennungen: die ASIN im Link, eine interne `pageTitleId`, eine
+26-stellige Adresse und die gti (`amzn1.dv.gti.…`), die im Hydration-Block als `catalogId`
+steht. JustWatch nennt je Angebot `watch.amazon.de/detail?gti=…`. Gemessen in Daniels Sitzung
+(`docs/poc-justwatch-amazon.md`): **8 von 8** lebenden Seiten tragen genau JustWatchs gti,
+zweimal bei abweichender `pageTitleId`. Eine tote Seite (Afro Samurai) leitet über die alte gti
+auf eine **neu angelegte** Seite mit neuer gti weiter. Verglichen wird deshalb nie über die ASIN,
+und der haltbare Link ist JustWatchs Adresse selbst.
+
+Der Bau stellt erst **am Ende** um (`pipeline/lib/amazon-gti.ts`, genau ein Prime-Weg und genau
+eine gti); bis dahin rechnet er mit der ASIN. Sie bleibt als `seite` am Verweis, und alles, was
+an ihr hängt, liest sie: Handbelege (`check:handbelege`), Import der Meldungen, Rohfolgen,
+Prüfliste, Wiedervorlage, Linkprüfung. Tote Adressen werden ersetzt, ohne geführten Abgang nur
+bei deutschem Ton laut JustWatch. **Wer eine neue Stelle baut, die Prime-Adressen aus dem
+Datensatz liest, nimmt `seite ?? url`.**
+
 ### Amazon duldet keinen Agenten — die Prüfliste bleibt deshalb Handarbeit
 
 Am 29.08.2026 gemessen, weil die Frage naheliegt: Ließen sich die 161
