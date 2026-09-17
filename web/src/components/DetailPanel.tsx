@@ -238,9 +238,11 @@ function deSeitZeile(
   }
   /* Ein Zeitraum („10.1990 - 03.1991") bekommt kein „seit" (Stichprobe 16.09.2026). */
   if (!e.von && e.zeitraum?.includes('-')) {
+    /* Ein offenes Ende („1996 - ?") steht bei aniSearch für „unbekannt" — gezeigt wird nur der Anfang. */
+    const zeitraum = e.zeitraum.replace(/\s*-\s*\?\s*$/, '')
     return e.publisher
-      ? T('antwort.deZeitraumPublisher', { zeitraum: e.zeitraum, publisher: e.publisher })
-      : T('antwort.deZeitraum', { zeitraum: e.zeitraum })
+      ? T('antwort.deZeitraumPublisher', { zeitraum, publisher: e.publisher })
+      : T('antwort.deZeitraum', { zeitraum })
   }
   return e.publisher
     ? T('antwort.deSeitPublisher', { datum: wann, publisher: e.publisher })
@@ -3072,7 +3074,9 @@ export function DetailPanel({
   const folgenAngabeFuer = (s: { platform?: string; dubRanges?: StreamLink['dubRanges'] } | undefined): string => {
     if (!title || title.format === 'MOVIE') return ''
     const deutsch = (s?.dubRanges ?? []).filter((r) => r.dub)
-    if (deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1) return t('detail.dubNurEine')
+    /* „nur Fg. 1" nur bei mehr als einer Folge — ein Special mit einer Folge ist vollständig (Stichprobe 17.09.2026). */
+    if (deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1 && (title.episodes ?? 0) !== 1)
+      return t('detail.dubNurEine')
     const luecken = dubLuecken(s?.dubRanges)
     if (luecken) return t('detail.dubLuecken', { n: luecken })
     const grenze = dubGrenze(s?.dubRanges)
@@ -3217,7 +3221,29 @@ export function DetailPanel({
     */
     /* Eine TV-Sichtung zählt Sendungen, keine Folgen der Serie (Pokémon Horizonte: „Alle 2 Folgen", 16.09.2026). */
     const nurWochen = fuerKopf.every((r) => r.releaseType === 'weekly' && !r.tvLetzteSichtung)
-    const gesamt = title.episodes ?? (nurWochen && alleEvents.length > 1 ? alleEvents.length : undefined)
+    /*
+      **Die Releases kennen die Zählung besser als AniList, solange die Staffel läuft.**
+      „Steel Ball Run": AniList führt eine Folge (nur die vorab gezeigte), die
+      Releases belegen Folge 1 und 2–12 — im Kasten stand „1 von 1 Folgen
+      erschienen" neben „Die Folgen 2 bis 12 im Wochentakt" (Stichprobe 17.09.2026).
+      Nur **lückenlos ab Folge 1 aneinandergereihte** Teile zählen, mit belegter
+      Stückzahl: Über den Bestand gemessen hätte eine einfache Höchstzahl acht
+      Titel verfälscht — ADN-Pakete mit OVAs (Wolf's Rain 30 statt 26) und
+      Staffeln mit durchlaufender Zählung (Wistoria 13–24 als „24").
+    */
+    const teile = fuerKopf
+      .filter((r) => r.schedule?.episodeCount && !r.schedule.episodeCountAssumed)
+      .map((r) => {
+        const von = r.schedule!.firstEpisodeNumber ?? 1
+        return { von, bis: von + r.schedule!.episodeCount! - 1 }
+      })
+      .sort((x, y) => x.von - y.von)
+    const aneinander =
+      teile.length > 1 && teile[0]!.von === 1 && teile.every((x, i) => i === 0 || x.von === teile[i - 1]!.bis + 1)
+    const ausReleases = aneinander ? teile[teile.length - 1]!.bis : 0
+    const gesamt =
+      Math.max(title.episodes ?? 0, ausReleases) ||
+      (nurWochen && alleEvents.length > 1 ? alleEvents.length : undefined)
     /*
       **„Alle N Folgen" nur, wenn alle N belegt sind.**
 
