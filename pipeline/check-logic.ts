@@ -4577,6 +4577,16 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     Bei einem Film hat JustWatchs Tonspur genau eine Einheit zu beschreiben — bei einer
     Serie nicht, und dort bleibt sie ohne Beleg (Daniel an maxdome, 17.09.2026).
   */
+  /*
+    Der Handbeleg sagt, welche Sprache die Seite hatte — nicht, dass es sie noch gibt
+    („Your Name.", 17.09.2026: gemeldet am 31.08., Seite seitdem gelöscht).
+  */
+  pruefe(
+    'Handbeleg: eine als tot gemessene Adresse wird nicht wieder angelegt',
+    /if \(check\.available === false\) continue[\s\S]{0,900}?if \(lautPruefungTot\(check\.url\)\) continue/.test(
+      readFileSync('pipeline/build.ts', 'utf8'),
+    ),
+  )
   pruefe(
     'JustWatch: nur bei Filmen wird aus der Tonspur ein Beleg am Bezugsweg',
     readFileSync('pipeline/build.ts', 'utf8').includes("if (title.format !== 'MOVIE') continue") &&

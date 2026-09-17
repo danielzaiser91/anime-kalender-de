@@ -3677,6 +3677,15 @@ function main(): void {
     for (const check of checks.values()) {
       if (check.anilistId !== title.id || !check.url) continue
       if (check.available === false) continue
+      /*
+        **Und eine tote Adresse legt der Beleg genauso wenig an** (17.09.2026). Der
+        Handbeleg sagt, welche Sprache die Seite hatte — nicht, dass es sie noch gibt.
+        Bei „Your Name." hat Daniel am 31.08. auf `B0FLLFC2L6` deutschen Ton gemeldet;
+        Amazon hat die Ausgabe seitdem gelöscht (HTTP 404, gemessen 17.09.), der Block
+        darüber entfernte den Verweis, und dieser legte ihn unmittelbar wieder an —
+        derselbe Widerspruch wie beim `available: false` am 26.08.2026.
+      */
+      if (lautPruefungTot(check.url)) continue
       if (title.streams.some((s) => s.platform === check.platform)) continue
       title.streams.push({ platform: check.platform, url: check.url, dub: check.dub })
       ergaenzt++
