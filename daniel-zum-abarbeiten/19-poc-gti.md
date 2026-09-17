@@ -2,7 +2,7 @@
 
 **Stand 17.09.2026:** Zeile 1 ist entschieden: Die Seite nennt als `catalogId` genau JustWatchs gti. Amazon führt je Titel mindestens vier Kennungen (Link-ASIN `B0B8TR93HR`, `pageTitleId` `B0B8TQBBS6`, 26-stellige Adresse, gti). Verglichen wird deshalb die gti.
 
-**Für Zeile 2 bis 9:** nur **unseren Link** öffnen, das Skript [`tools/amazon-kennungen-messen.js`](file:///C:/code/ai/anime-kalender-de/tools/amazon-kennungen-messen.js) in die Konsole (F12) einfügen und nur die Zeile `kurz` schicken. Sie sagt selbst, ob die Seite die JustWatch-gti einer Zeile trägt. Zeile 9 ist der kritische Fall mit toter ASIN: Dort ist „Seite nicht gefunden" die erwartete Antwort.
+**Für Zeile 2 bis 9:** nur **unseren Link** öffnen, das Skript [`tools/amazon-kennungen-messen.js`](file:///C:/code/ai/anime-kalender-de/tools/amazon-kennungen-messen.js) in die Konsole (F12) einfügen und das Ergebnis aus der Zwischenablage schicken. Sie sagt selbst, ob die Seite die JustWatch-gti einer Zeile trägt. Zeile 9 ist der kritische Fall mit toter ASIN: Dort ist „Seite nicht gefunden" die erwartete Antwort.
 
 | # | Titel | unser Link | JustWatch-Link |
 |---|---|---|---|
@@ -15,3 +15,14 @@
 | 7 | Detektiv Conan: Die Sonnenblumen des Infernos | [B0FWY92KD3](https://www.amazon.de/dp/B0FWY92KD3) | [Amazon Video BUY](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c2b90e12-85ff-afcf-0914-b7cdc28c7f0f) |
 | 8 | Liz und der Blaue Vogel | [B0FPB92278](https://www.amazon.de/dp/B0FPB92278) | [Amazon Video RENT](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e0b92698-9683-46dd-a03e-2caff0878b85) |
 | 9 | Afro Samurai — **unsere ASIN ist tot** | [B0CGS2DRMV](https://www.amazon.de/dp/B0CGS2DRMV) | [Crunchyroll Amazon Channel FLATRATE](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ca1b18e0-a3bf-477f-8e67-ecfe82f1a871) |
+
+## Ergebnisse
+
+| # | Messung (17.09.2026) | gti gleich? |
+|---|---|---|
+| 1 | Link-ASIN B0B8TR93HR, pageTitleId B0B8TQBBS6, catalogId = JustWatch-gti | ja |
+| 2 | /dp/B0GJS98J3L, pageTitleId B0GJS98J3L, catalogId = JustWatch-gti | ja |
+| 3 | /dp/B01HSH3W3E, pageTitleId B01HSH3W3E, catalogId = JustWatch-gti (RTL+-Kanal) | ja |
+| 4 | /dp/B0FPM4KVVM, pageTitleId B0FPM4KVVM, catalogId = JustWatch-gti | ja |
+| 5 | /dp/B0CKPFDTQQ, pageTitleId B0CKPFDTQQ, catalogId = JustWatch-gti (Crunchyroll-Kanal) | ja |
+| 6 | /dp/B0170N47P8, pageTitleId B0170N47P8, catalogId = JustWatch-gti | ja |

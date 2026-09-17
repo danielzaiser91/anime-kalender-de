@@ -10,12 +10,6 @@
   Die Ausgabe landet zusätzlich in der Zwischenablage.
 */
 ;(() => {
-  const html = document.documentElement.outerHTML
-  const zaehle = (re) => {
-    const m = new Map()
-    for (const x of html.matchAll(re)) m.set(x[0], (m.get(x[0]) ?? 0) + 1)
-    return [...m].sort((a, b) => b[1] - a[1]).slice(0, 8)
-  }
   let seite = null
   for (const s of document.querySelectorAll('script[type="application/json"], script:not([src])')) {
     const t = s.textContent
@@ -61,17 +55,20 @@
   ].map((x) => `amzn1.dv.gti.${x}`)
   const eigeneGti = seite?.kennungsFelderImEigenenKopf?.['eigenerKopf.catalogId'] ?? null
   const zeile = ERWARTET.indexOf(eigeneGti) + 1
-  const kurz = `${location.pathname} | pageTitleId ${seite?.pageTitleId ?? '–'} | catalogId ${eigeneGti ?? '–'} | ` +
-    (zeile ? `= JustWatch-gti aus Zeile ${zeile}` : 'keine gti der Liste')
-  const bericht = {
-    kurz,
-    adresse: location.pathname,
-    seite,
-    b0Asins: zaehle(/\bB0[A-Z0-9]{8}\b/g),
-    lange: zaehle(/\b0[A-Z0-9]{25}\b/g),
-    gtis: zaehle(/amzn1\.dv\.gti\.[0-9a-f-]{36}/g),
+  /* Amazons Fehlerseite kommt nicht immer mit 404 — erkannt wird sie am Wortlaut. */
+  const nichtGefunden = !seite && /nicht gefunden|not found/i.test(document.title + ' ' + document.body.innerText.slice(0, 2000))
+  /*
+    Eine Zeile mit festem Präfix, damit sie sich in der Konsole filtern lässt
+    (Daniel, 17.09.2026). Die Adresse steht mit drin, auch nach einer Weiterleitung.
+  */
+  const kurz =
+    `[gti-poc] ${location.pathname} | pageTitleId ${seite?.pageTitleId ?? '–'} | catalogId ${eigeneGti ?? '–'} | ` +
+    (nichtGefunden ? 'Seite nicht gefunden' : zeile ? `= JustWatch-gti aus Zeile ${zeile}` : 'keine gti der Liste')
+  /* Direkt in die Zwischenablage (Daniel, 17.09.2026); `copy()` gibt es nur in der DevTools-Konsole. */
+  try {
+    copy(kurz)
+    console.log('[gti-poc] in der Zwischenablage — einfach einfügen')
+  } catch {
+    console.log(kurz)
   }
-  const text = JSON.stringify(bericht, null, 1)
-  console.log(text)
-  try { copy(text) } catch { /* nur in DevTools verfügbar */ }
 })()
