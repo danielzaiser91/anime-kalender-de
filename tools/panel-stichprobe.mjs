@@ -74,6 +74,7 @@ for (const t of auswahl) {
     if (vonGesamt && folgenBis && Number(folgenBis[1]) > Number(vonGesamt[1])) probleme.push(`„von ${vonGesamt[1]}" neben „bis ${folgenBis[1]}"`)
     if (t.episodes === 1 && /DE nur Fg\. 1/.test(text)) probleme.push('„nur Fg. 1" bei einer einzigen Folge')
     if (/ - \?/.test(text)) probleme.push('offenes Zeitraumende „- ?"')
+    if (/führt ihn bisher/.test(text) && /Kein Anbieter bekannt/.test(text)) probleme.push('„kein Anbieter" doppelt')
     if (/Noch keine deutsche Fassung/.test(text) && /Deutsche Fassung bei/.test(text)) probleme.push('„keine Fassung" neben „Deutsche Fassung bei"')
     if (pillen.some((x) => x.split('\n').slice(1).some((z) => z.trim() === name))) probleme.push('Pillen-Unterzeile wiederholt den Titel')
     if (/kein uns bekannter Anbieter|kennen wir keinen deutschen Anbieter/.test(text) && /fehlt uns eine Angabe/.test(text)) probleme.push('Lücke doppelt genannt')

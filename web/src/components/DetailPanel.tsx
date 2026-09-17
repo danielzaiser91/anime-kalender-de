@@ -3529,6 +3529,8 @@ export function DetailPanel({
     title.streams.length === 0 &&
     (title.watchLinks?.length ?? 0) === 0 &&
     (title.hasVoices || antwort?.art !== 'ohne') &&
+    /* Ein Film ohne Synchro sagt „Kein deutscher Anbieter führt ihn bisher" schon im Kasten (Stichprobe 17.09.2026). */
+    !(antwort?.art === 'film' && !antwort.hatSynchro && !title.hasVoices) &&
     !releases.some(
       (r) =>
         r.platform === 'kino' &&
