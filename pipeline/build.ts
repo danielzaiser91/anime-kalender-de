@@ -6697,7 +6697,7 @@ function main(): void {
   let jwNeu = 0
   {
     const jw = readJson<
-      Record<string, { angebote?: { anbieter: string; art?: string; url?: string }[] }>
+      Record<string, { angebote?: { anbieter: string; art?: string; url?: string; audio?: string[] }[] }>
     >('data/justwatch-audio.json', {})
     const kern = (x: string) => x.toLowerCase().replace(/[^a-z0-9]/g, '')
     for (const title of titles.values()) {
@@ -6750,6 +6750,36 @@ function main(): void {
       }
       if (wege.length) title.watchLinks = wege.sort((x, y) => (x.kind === y.kind ? 0 : x.kind === 'stream' ? -1 : 1))
     }
+    /*
+      **Bei einem Film ist JustWatchs Tonspur eine Aussage über das Werk** (17.09.2026).
+
+      Für Serien gilt sie nicht als Beleg, und das bleibt so: Sie hängt am Titel, unsere
+      Frage hängt an der Folge (07.09.2026). Ein Film hat genau eine Einheit — damit
+      entfällt der Grund. Daniel an „Your Name.": „maxdome hat nachweislich deutsche
+      synchro", während die Pille „DE ?" trug, obwohl JustWatch für dieses Angebot
+      `audio: de` meldet.
+
+      Gewertet wird nur das Angebot **dieses** Anbieters, und nur das Ja: Ein Angebot
+      ohne deutschen Ton kann eine Ausgabe unter mehreren sein, und ein fehlendes „de"
+      bleibt Schweigen. Gemessen: 435 Bezugswege in 231 Filmen.
+    */
+    let jwFilmDe = 0
+    for (const title of titles.values()) {
+      if (title.format !== 'MOVIE') continue
+      if (tmdbMehrdeutig.has(String(title.id))) continue
+      const angebote = jw[String(title.id)]?.angebote ?? []
+      if (!angebote.length) continue
+      for (const w of title.watchLinks ?? []) {
+        if (w.dubRanges?.length) continue
+        const passend = angebote.filter(
+          (a) => kern(a.anbieter).includes(kern(w.name)) || kern(w.name).includes(kern(a.anbieter)),
+        )
+        if (!passend.some((a) => (a.audio ?? []).includes('de'))) continue
+        w.dubRanges = [{ from: 1, to: 1, dub: true }]
+        jwFilmDe++
+      }
+    }
+    if (jwFilmDe) log(`${jwFilmDe} Film-Bezugswege mit deutschem Ton belegt (JustWatch je Angebot)`)
   }
   if (jwNeu) log(`${jwNeu} Bezugswege aus JustWatch bei Titeln ergänzt, die schon Wege hatten`)
   if (jwDirekt)

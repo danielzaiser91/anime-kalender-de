@@ -4573,6 +4573,15 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     Fünf Verweise zeigten auf den Trailer statt auf den Film — bei Your Name auf die
     OmU-Fassung, und der Verweis trug „DE ✓" (Daniel, 17.09.2026).
   */
+  /*
+    Bei einem Film hat JustWatchs Tonspur genau eine Einheit zu beschreiben — bei einer
+    Serie nicht, und dort bleibt sie ohne Beleg (Daniel an maxdome, 17.09.2026).
+  */
+  pruefe(
+    'JustWatch: nur bei Filmen wird aus der Tonspur ein Beleg am Bezugsweg',
+    readFileSync('pipeline/build.ts', 'utf8').includes("if (title.format !== 'MOVIE') continue") &&
+      readFileSync('pipeline/build.ts', 'utf8').includes("(a.audio ?? []).includes('de')"),
+  )
   pruefe(
     'YouTube: ein Trailer-Video ist kein Bezugsweg',
     readFileSync('pipeline/build.ts', 'utf8').includes("b?.kategorie === 'Trailers'") &&
