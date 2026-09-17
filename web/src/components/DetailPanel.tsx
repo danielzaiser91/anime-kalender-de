@@ -3072,11 +3072,10 @@ export function DetailPanel({
     Angaben des Verweises mit derselben Adresse; ohne ihn gilt die Regel des Titels.
   */
   const folgenAngabeFuer = (s: { platform?: string; dubRanges?: StreamLink['dubRanges'] } | undefined): string => {
-    if (!title || title.format === 'MOVIE') return ''
+    /* Ein Werk mit genau einer Folge ist wie ein Film: „1 Fg." sagt nichts (Dr. Stone Ryusui, Stichprobe 17.09.2026). */
+    if (!title || title.format === 'MOVIE' || title.episodes === 1) return ''
     const deutsch = (s?.dubRanges ?? []).filter((r) => r.dub)
-    /* „nur Fg. 1" nur bei mehr als einer Folge — ein Special mit einer Folge ist vollständig (Stichprobe 17.09.2026). */
-    if (deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1 && (title.episodes ?? 0) !== 1)
-      return t('detail.dubNurEine')
+    if (deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1) return t('detail.dubNurEine')
     const luecken = dubLuecken(s?.dubRanges)
     if (luecken) return t('detail.dubLuecken', { n: luecken })
     const grenze = dubGrenze(s?.dubRanges)

@@ -73,6 +73,7 @@ for (const t of auswahl) {
     const folgenBis = /Folgen \d+ bis (\d+)/.exec(text)
     if (vonGesamt && folgenBis && Number(folgenBis[1]) > Number(vonGesamt[1])) probleme.push(`„von ${vonGesamt[1]}" neben „bis ${folgenBis[1]}"`)
     if (t.episodes === 1 && /DE nur Fg\. 1/.test(text)) probleme.push('„nur Fg. 1" bei einer einzigen Folge')
+    if (t.episodes === 1 && /(^|\s)1 Fg\./.test(text)) probleme.push('„1 Fg." bei einem Werk mit einer Folge')
     if (/ - \?/.test(text)) probleme.push('offenes Zeitraumende „- ?"')
     if (/führt ihn bisher/.test(text) && /Kein Anbieter bekannt/.test(text)) probleme.push('„kein Anbieter" doppelt')
     if (/Für Folgen \d+ kennen/.test(text)) probleme.push('„Für Folgen N" mit einer einzigen Folge')
