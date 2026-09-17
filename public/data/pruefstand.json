@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-17T13:15:08.114Z",
+ "erzeugtAm": "2026-09-17T13:32:55.924Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -44,8 +44,8 @@
    "name": "Crunchyroll",
    "plattform": "crunchyroll",
    "gemeldet": 0,
-   "gesamt": 10,
-   "offen": 10,
+   "gesamt": 8,
+   "offen": 8,
    "ohneSeite": 0,
    "ziel": "https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man",
    "ziele": [
@@ -72,14 +72,6 @@
     {
      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
      "titel": "Princess Principal: Crown Handler 3"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-     "titel": null
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-     "titel": null
     },
     {
      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
