@@ -3645,6 +3645,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'gegen eine laufende Sperre zu klopfen bringt keinen Befund und verlängert sie',
   )
   pruefe(
+    'eine Prime-Zuordnung überspringt Adressen, die ein Handbeleg einem anderen Titel zuschreibt',
+    bau.includes('c.anilistId !== eintrag.titleId && adressGleich(c.url, seite)'),
+    'sonst trägt Vinland Saga Staffel 2 die Seite von Staffel 1 mit „DE ✓" (17.09.2026)',
+  )
+  pruefe(
     'späte Ergänzungen legen keine laut Linkprüfung tote Adresse an',
     (bau.match(/if \(lautPruefungTot\(url\)\) continue/g) ?? []).length >= 2,
     'sonst stehen 404-Adressen ohne Sprachurteil im Datensatz (sechs Joyn-Verweise, 20.08.–17.09.2026)',

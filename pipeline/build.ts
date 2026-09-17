@@ -3668,6 +3668,8 @@ function main(): void {
     let adressen = 0
     /** Meldungen, die einen dritten Prime-Verweis angelegt hätten — siehe unten. */
     let uebersprungen = 0
+    /** Zuordnungen, deren Adresse ein Handbeleg einem anderen Titel zuschreibt. */
+    let fremdeAdresse = 0
     for (const [schluessel, eintrag] of Object.entries(roh)) {
       const title = titles.get(eintrag.titleId)
       if (!title) continue
@@ -3729,6 +3731,27 @@ function main(): void {
               ? amazonTitelAdresse(eintrag.asin)
               : null
       if (beleg && (!beleg.url || adressGleich(beleg.url, seite ?? undefined))) continue
+      /*
+        **Gehört die Adresse laut Handbeleg einem anderen Titel, gilt die Meldung nicht ihr.**
+
+        Rohfolgen tragen die Adresse der Prüfliste, nicht die der Seite, auf der
+        gemeldet wurde (die ASIN hier ist die der ersten Folge). Nach einem
+        Staffelwechsel landete so die deutsche Staffel 2 von „Vinland Saga"
+        unter `B0C55SJB1W` — der Seite von Staffel 1, die laut Meldung vom
+        17.09.2026 nur japanischen Ton hat. Im Panel stand „24 Fg. 🇩🇪 ✓" an
+        einer Seite ohne Deutsch. Gemessen: sieben Zuordnungen widersprechen so
+        einem Handbeleg. Übersprungen statt umgebogen — welche Seite die
+        richtige ist, sagt die Rohfolge nicht.
+      */
+      if (
+        seite &&
+        alleChecks.some(
+          (c) => c.platform === plattform && c.url && c.anilistId !== eintrag.titleId && adressGleich(c.url, seite),
+        )
+      ) {
+        fremdeAdresse++
+        continue
+      }
       const deutsch = eintrag.folgen.some((f) => f.sprachen.includes('Deutsch'))
       if (!deutsch) continue
 
@@ -3808,6 +3831,7 @@ function main(): void {
     if (uebersprungen) {
       log(`${uebersprungen} Meldung(en) haetten einen dritten Prime-Verweis angelegt \u2014 uebersprungen`)
     }
+    if (fremdeAdresse) log(`${fremdeAdresse} Zuordnung(en) übersprungen: die Adresse gehört laut Handbeleg einem anderen Titel`)
   }
 
   /**
