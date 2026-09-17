@@ -1,16 +1,17 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-09-16. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-09-17. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-111 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+112 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
+| [Captain Tsubasa](https://anime-kalender.de/#/datenbank?t=100745) | crunchyroll | kein Deutsch | `en, es, fr, it, ja, pt` | [JustWatch](https://www.justwatch.com/de/Serie/Captain-Tsubasa-2018) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-255760) | primevideo | nur Untertitel deutsch | `en, es` | [JustWatch](https://www.justwatch.com/de/Serie/kevin) |
 | [Bat-Fam - Die Superheldenfamilie](https://anime-kalender.de/#/datenbank?t=-225361) | primevideo | 🇩🇪 **Deutsch dabei** | `ar, cs, da, de, el, en, es, fi, fr, he, hi, hu, id, it, ja, ko, ms, nb, nl, pl, pt, ro, sv, th, tr` | [JustWatch](https://www.justwatch.com/de/Serie/bat-fam-die-superheldenfamilie) |
 | [Die glücklichste Familie in Amerika](https://anime-kalender.de/#/datenbank?t=-218510) | primevideo | 🇩🇪 **Deutsch dabei** | `ar, de, en, es, fr, hi, it, ja, pl, pt, th, tr` | [JustWatch](https://www.justwatch.com/de/Serie/1-happy-family-usa) |
@@ -125,12 +126,15 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-252 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+255 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
 | Titel | Angebote laut JustWatch |
 |---|---|
+| [HUNTER×HUNTER](https://anime-kalender.de/#/datenbank?t=136) | [Thalia](https://www.thalia.de/shop/home/artikeldetails/A1057517652) |
+| [Kubo Won’t Let Me Be Invisible](https://anime-kalender.de/#/datenbank?t=148969) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8385a3e4-a577-47ba-b83b-555984bfa921), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.3ad2ee3b-5643-450e-8867-633a5ec5ca73) |
+| [Dusk Beyond the End of the World](https://anime-kalender.de/#/datenbank?t=195153) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Animation Digital Network](https://animationdigitalnetwork.com/de/video/1334-dusk-beyond-the-end-of-the-world/30005-folge-1), [Anime Digital Network Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.32466d79-d505-4816-9cfe-41adaff4075e) |
 | [Mein Bruder, der Minotaurus](https://anime-kalender.de/#/datenbank?t=-316832) | [Apple TV](https://tv.apple.com/de/episode/lorcan-und-der-wahnsinn/umc.cmc.2m341hrww75wvt0oegl05z9kn?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AA0018301001&showId=umc.cmc.2xp2k3if93s921ariv5tlhr1p) 🇩🇪, [Apple TV Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d39f0f59-cd40-4995-9636-c3054a0df9af) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-296756) | [HBO Max](https://www.hbomax.com/de/en/show/a3313dd3-2d1f-4072-8525-1434643403a8/s1/e1-pilot/56393299-c6fa-4114-bb75-5d3696391aa4), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f05f8539-e6cf-4c1b-a39b-68508bd24f5a) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-252105) | [Paramount Plus](https://www.paramountplus.com/shows/golden-axe/video/ALVE01M127YB31ESERTP2H7VF6CY1B/golden-axe-the-legend-of-the-emerald-blade?searchReferral=), [Paramount+ Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6335fa18-3415-4d3f-8d82-6167f901fb06) 🇩🇪, [Paramount Plus Apple TV channel](https://tv.apple.com) |
