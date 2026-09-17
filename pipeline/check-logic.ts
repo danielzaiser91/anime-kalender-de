@@ -4569,6 +4569,15 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'YouTube: ein unplausibler Lauf schreibt nicht',
     readFileSync('pipeline/check-youtube.ts', 'utf8').includes('unplausibel, nichts geschrieben'),
   )
+  /*
+    Fünf Verweise zeigten auf den Trailer statt auf den Film — bei Your Name auf die
+    OmU-Fassung, und der Verweis trug „DE ✓" (Daniel, 17.09.2026).
+  */
+  pruefe(
+    'YouTube: ein Trailer-Video ist kein Bezugsweg',
+    readFileSync('pipeline/build.ts', 'utf8').includes("b?.kategorie === 'Trailers'") &&
+      readFileSync('pipeline/build.ts', 'utf8').includes('ytTrailer.has(stream.url)'),
+  )
   pruefe(
     'Crunchyroll: ein Fehlersatz überschreibt keinen guten Eintrag',
     readFileSync('pipeline/scrape-crunchyroll-dub.ts', 'utf8').includes('if (serie.fehler && vorherige && !vorherige.fehler)'),

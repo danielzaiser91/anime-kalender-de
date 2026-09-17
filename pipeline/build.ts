@@ -3355,15 +3355,33 @@ function main(): void {
    * wurde, heißt: Hier gibt es keinen deutschen Ton zu holen.
    */
   const ytAudio = new Map<string, boolean>()
+  /**
+   * **Ein Trailer ist kein Bezugsweg** (Daniel an „Your Name.", 17.09.2026:
+   * „youtube pill verlinkt dort fälschlicherweise auf trailer, dafür ist trailer
+   * button da").
+   *
+   * YouTube Movies zeigt zum Kaufangebot eines Films dessen Trailer als eigenes
+   * Video; die Adresse trägt deshalb eine `offerId` und sieht wie ein Kaufweg
+   * aus. Gemessen an allen fünf Verweisen mit `kategorie: 'Trailers'` (17.09.2026)
+   * dauert das Video 60 bis 106 Sekunden und heißt „… - Trailer" — bei Your Name
+   * sogar „Trailer (OmU)", also nicht einmal die deutsche Fassung, während der
+   * Verweis „DE ✓" trug.
+   *
+   * Der Film selbst liegt unter einer Adresse, die wir nicht kennen, und
+   * JustWatch führt für diese Titel gar kein YouTube-Angebot. Ein Weg, der auf
+   * den Trailer führt, ist deshalb schlechter als keiner — dieselbe Entscheidung
+   * wie bei den Suchadressen (10.09.2026).
+   */
+  const ytTrailer = new Set<string>()
   for (const [url, b] of Object.entries(
-    readJson<Record<string, { kanal?: string | null; kaufAngebot?: boolean; audioDeutsch?: boolean }>>(
-      'data/youtube-befunde.json',
-      {},
-    ),
+    readJson<
+      Record<string, { kanal?: string | null; kaufAngebot?: boolean; audioDeutsch?: boolean; kategorie?: string }>
+    >('data/youtube-befunde.json', {}),
   )) {
     if (b?.kanal) ytKanal[url] = b.kanal
     if (b?.kaufAngebot === true) ytKauf.add(url)
     if (typeof b?.audioDeutsch === 'boolean') ytAudio.set(url, b.audioDeutsch)
+    if (b?.kategorie === 'Trailers') ytTrailer.add(url)
   }
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
   const linkBefunde = readJson<
@@ -3493,6 +3511,11 @@ function main(): void {
        * Verlinkungen zu Kanälen statt Videos/Playlists direkt streichen").
        */
       if (yt?.art === 'kanal') {
+        ytEntfernt++
+        return false
+      }
+      /* Ein Trailer beantwortet die Frage nicht, wo der Film läuft — siehe `ytTrailer`. */
+      if (ytTrailer.has(stream.url)) {
         ytEntfernt++
         return false
       }
