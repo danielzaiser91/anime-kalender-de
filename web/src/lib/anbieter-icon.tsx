@@ -53,7 +53,13 @@ const DATEI: Record<string, string> = {
   Als Bild, weil es seine eigenen Blautöne trägt (Daniel, 16.09.2026: „bei maxdome fehlt noch
   das icon").
 */
-const BREITE: Record<string, number> = { disneyplus: 1033 / 565, adn: 121 / 44, maxdome: 98 / 44.918 }
+/*
+  rtlplus: die RTL-Wortmarke von simple-icons (drei Kästen) ist 24 × 4,2 — im Quadrat blieb ein
+  Strich (Daniel, 17.09.2026: „rtl+ icon sieht aus wie ein -"). Zugeschnitten auf die Kästen;
+  damit sie nicht die halbe Pille füllt, deckelt `MAX_BREITE` die Breite und die Höhe folgt.
+*/
+const BREITE: Record<string, number> = { disneyplus: 1033 / 565, adn: 121 / 44, maxdome: 98 / 44.918, rtlplus: 24 / 4.222 }
+const MAX_BREITE = 2.8
 
 /**
  * Der Name eines Bezugswegs trägt manchmal den Kanal in Klammern — „Amazon Prime
@@ -85,14 +91,17 @@ const ALS_BILD = new Set(['primevideo', 'maxdome'])
 export function AnbieterIcon({ was, groesse = 14 }: { was: string; groesse?: number }) {
   const datei = anbieterDatei(was)
   if (!datei) return null
+  const verhaeltnis = BREITE[datei] ?? 1
+  const breite = Math.round(groesse * Math.min(verhaeltnis, MAX_BREITE))
+  const hoehe = Math.round(breite / verhaeltnis)
   if (ALS_BILD.has(datei)) {
     return (
       <img
         src={`${import.meta.env.BASE_URL}anbieter/${datei}.svg`}
         alt=""
         aria-hidden
-        width={Math.round(groesse * (BREITE[datei] ?? 1))}
-        height={groesse}
+        width={breite}
+        height={hoehe}
         className={datei === 'primevideo' ? 'shrink-0 rounded-[3px]' : 'shrink-0'}
       />
     )
@@ -103,8 +112,8 @@ export function AnbieterIcon({ was, groesse = 14 }: { was: string; groesse?: num
       aria-hidden
       className="inline-block shrink-0"
       style={{
-        width: Math.round(groesse * (BREITE[datei] ?? 1)),
-        height: groesse,
+        width: breite,
+        height: hoehe,
         backgroundColor: 'currentColor',
         WebkitMaskImage: url,
         maskImage: url,
