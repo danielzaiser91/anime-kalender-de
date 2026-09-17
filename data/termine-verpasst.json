@@ -29,7 +29,7 @@
     "neuErwartet": null,
     "recherche": null,
     "rechercheAm": "2026-09-16T15:28:52.054Z",
-    "geprueftAm": "2026-09-17T01:33:06.254Z",
+    "geprueftAm": "2026-09-17T07:50:21.532Z",
     "newsGeprueftAm": "2026-09-16T09:20:40.440Z"
   },
   {
@@ -46,7 +46,7 @@
     "folgenVerfuegbar": null,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-09-17T01:33:06.254Z",
+    "geprueftAm": "2026-09-17T07:50:21.532Z",
     "newsGeprueftAm": "2026-09-16T09:20:40.440Z",
     "rechercheAm": "2026-09-16T15:28:52.054Z"
   },
@@ -64,7 +64,7 @@
     "folgenVerfuegbar": 25,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-09-17T01:33:06.254Z"
+    "geprueftAm": "2026-09-17T07:50:21.532Z"
   },
   {
     "id": "hana-kimi-s2@2026-09-16",
@@ -80,6 +80,6 @@
     "folgenVerfuegbar": 12,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-09-17T01:33:06.254Z"
+    "geprueftAm": "2026-09-17T07:50:21.532Z"
   }
 ]
