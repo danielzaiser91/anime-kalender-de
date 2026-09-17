@@ -126,13 +126,12 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-255 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+254 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
 | Titel | Angebote laut JustWatch |
 |---|---|
-| [HUNTER×HUNTER](https://anime-kalender.de/#/datenbank?t=136) | [Thalia](https://www.thalia.de/shop/home/artikeldetails/A1057517652) |
 | [Kubo Won’t Let Me Be Invisible](https://anime-kalender.de/#/datenbank?t=148969) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8385a3e4-a577-47ba-b83b-555984bfa921), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.3ad2ee3b-5643-450e-8867-633a5ec5ca73) |
 | [Dusk Beyond the End of the World](https://anime-kalender.de/#/datenbank?t=195153) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Animation Digital Network](https://animationdigitalnetwork.com/de/video/1334-dusk-beyond-the-end-of-the-world/30005-folge-1), [Anime Digital Network Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.32466d79-d505-4816-9cfe-41adaff4075e) |
 | [Mein Bruder, der Minotaurus](https://anime-kalender.de/#/datenbank?t=-316832) | [Apple TV](https://tv.apple.com/de/episode/lorcan-und-der-wahnsinn/umc.cmc.2m341hrww75wvt0oegl05z9kn?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AA0018301001&showId=umc.cmc.2xp2k3if93s921ariv5tlhr1p) 🇩🇪, [Apple TV Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d39f0f59-cd40-4995-9636-c3054a0df9af) 🇩🇪 |
