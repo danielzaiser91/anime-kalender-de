@@ -819,6 +819,10 @@ Die gemessene Sackgasse bleibt im Werkzeug stehen: Die Icons neben den Titel zu
 rücken kostet mehr Breite, als die frei werdende Zeile einbringt — 35 gekappte
 Titel statt 20.
 
+## Recherche 17.09.2026: Veralten die Netflix-Belege „nur Erinnern"?
+
+138 Handbelege (131 vom 22.08.) sagen „Titelseite zeigt nur „Erinnern", keine Folge abspielbar". „Erinnern" kann bei Netflix „kommt bald" heißen, also wäre eine Wiedervorlage denkbar. Gemessen: JustWatch kennt 33 dieser Titel und nennt für **keinen** ein Netflix-Angebot (`data/justwatch-audio.json`, Abrufe ≤ 28 Tage alt). **Entschieden: keine Wiedervorlage.** Neu bewerten, wenn JustWatch für einen dieser Titel ein Netflix-Angebot führt oder Daniel eine Netflix-Ankündigung meldet.
+
 ## Recherche 17.09.2026: Wie werden tote Amazon-Adressen automatisch erkannt?
 
 Anlass: 618 Amazon-Adressen stehen in `data/link-check.json` auf `unklar`. Gemessen:
