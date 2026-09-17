@@ -4394,6 +4394,30 @@ Die Folge stand die ganze Zeit im Log:
    gemessen und sucht den Fehler woanders. **Was noch nicht gemessen ist, gehört
    im Futur oder gar nicht in den Kommentar.**
 
+## Ein Riegel prüft den Wert, den er sieht — nicht den, der gleich daraus wird
+
+Am 17.09.2026 stand ein toter Prime-Link („Your Name.", `B0FLLFC2L6`, HTTP 404 gemessen)
+nach **jedem** Bau wieder im Datensatz. Drei Riegel wurden nacheinander eingebaut — in der
+Ergänzung aus Handbelegen, in der aus den Rohfolgen, in der aus aniSearch —, und keiner
+half. Der Filter für tote Verweise lief längst und ließ den Verweis durch, weil er zu
+diesem Zeitpunkt die **Suchadresse** trug (`amazon.de/s?k=…`, HTTP 200). Erst wenige
+Zeilen weiter ersetzte der Handbeleg sie durch die gelöschte Seite.
+
+**Die Reihenfolge ist der ganze Fehler:** Ein Riegel bewertet den Zustand, den er vorfindet.
+Wird derselbe Wert danach ersetzt, war die Bewertung eine über etwas anderes. Prüffrage bei
+jeder Prüfung mitten in einer Kette: *Ist der Wert, den ich hier prüfe, derselbe, der am Ende
+dasteht?*
+
+**Und drei Fixes aus Vermutungen kosteten mehr als eine Messung.** Gefunden hat es eine
+Ausgabe im Lauf selbst (`console.error` an der Filterstelle, Titel fest verdrahtet, danach
+zurückgenommen) — dieselbe Lehre wie „beim zweiten Fix am selben Symptom wird gemessen".
+
+**Was bleibt, ist eine Prüfung am Ergebnis statt am Quelltext:** `npm run check:tote-adressen`
+(in `check:bestand`) fragt den ausgelieferten Datensatz, ob ein Weg auf eine Adresse mit
+belegtem 404 oder einer Regionssperre führt. Eine Zusicherung über den Quelltext fängt immer
+nur die Stelle, die man schon kennt; diese nennt jede neue. Sie hat sofort einen zweiten Fall
+gefunden, von dem niemand wusste (Fate/Grand Order Solomon auf Netflix).
+
 ## Eine falsche TMDB-Kennung verteilt fremde Wege über den ganzen Titel
 
 Daniel am 17.09.2026 an „Your Name.": „appletv pill führt zu #2 (bug? wie ist dieser
