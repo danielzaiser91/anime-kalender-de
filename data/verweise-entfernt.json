@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-17T14:20:45.682Z",
+  "stand": "2026-09-17T14:26:20.551Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7975,28 +7975,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-17",
       "letzterWeg": false
-    },
-    {
-      "titleId": 137612,
-      "titel": "Princess Principal: Crown Handler 3",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-17",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 186716,
-      "titel": "Princess Principal: Crown Handler - Chapter 4",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-17",
-      "letzterWeg": true
     },
     {
       "titleId": 21,

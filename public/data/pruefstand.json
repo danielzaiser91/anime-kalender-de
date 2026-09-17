@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-17T14:20:52.997Z",
+ "erzeugtAm": "2026-09-17T14:26:27.957Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -44,8 +44,8 @@
    "name": "Crunchyroll",
    "plattform": "crunchyroll",
    "gemeldet": 0,
-   "gesamt": 3,
-   "offen": 3,
+   "gesamt": 5,
+   "offen": 5,
    "ohneSeite": 0,
    "ziel": "https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man",
    "ziele": [
@@ -54,12 +54,20 @@
      "titel": "One Punch Man OVAs"
     },
     {
+     "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+     "titel": null
+    },
+    {
      "url": "https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa",
      "titel": "Captain Tsubasa"
     },
     {
      "url": "https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man",
      "titel": "One Punch Man Season 2 OVAs"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+     "titel": null
     }
    ],
    "naechster": "One Punch Man OVAs"
