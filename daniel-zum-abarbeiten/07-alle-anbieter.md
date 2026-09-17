@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-17 · **6 offene Verweise** in **4 Zeilen**.
+Stand 2026-09-17 · **4 offene Verweise** in **3 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,7 +33,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Crunchyroll](07-crunchyroll.md) | 5 |
+| [Crunchyroll](07-crunchyroll.md) | 3 |
 | [Prime Video](07-primevideo.md) | 1 |
 
 ## Zu prüfen
@@ -41,9 +41,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-03-31 | Classroom of the Elite | [Hauptserie](https://www.amazon.de/dp/B0GGJKGT5P) |
-| 2 | 2021-09-28 | Princess Principal | [Picture Drama](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [Crown Handler - Chapter 1: BUSY EASY MONEY](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) |
-| 3 | 2020-03-27 | One Punch Man | [OVAs](https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man) · [Staffel 2 OVAs](https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man) |
-| 4 | 2019-04-01 | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa](https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa) |
+| 2 | 2020-03-27 | One Punch Man | [OVAs](https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man) · [Staffel 2 OVAs](https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man) |
+| 3 | 2019-04-01 | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa](https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
