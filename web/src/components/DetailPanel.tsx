@@ -130,7 +130,7 @@ type Antwort =
   | { art: 'fertig'; raus?: number; gesamt?: number }
   /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
   | { art: 'teilweise'; raus: number; gesamt: number }
-  | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number }
+  | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number; ohneWeg: boolean }
   /**
    * **Ein angekündigter Kinofilm ohne deutsche Fassung.** `jp` in der Genauigkeit
    * der Quelle (Tag, Monat oder Jahr), `jpRaus` sagt, ob er dort schon läuft.
@@ -742,7 +742,7 @@ function AntwortKasten({
     fakten = []
   } else if (antwort.art === 'film') {
     haupt = antwort.hatSynchro ? T('antwort.filmTitel') : T('antwort.filmOhneTitel')
-    neben = antwort.hatSynchro ? T('antwort.filmNeben') : T('antwort.filmOhneNeben')
+    neben = antwort.hatSynchro ? T('antwort.filmNeben') : antwort.ohneWeg ? T('antwort.filmOhneNeben') : ''
     gedaempft = !antwort.hatSynchro
     zaehl = ''
     /*
@@ -3443,7 +3443,9 @@ export function DetailPanel({
           fassung: title.kino?.fassung,
         }
       }
-      return { art: 'film' as const, hatSynchro, raus, gesamt }
+      /* „Kein deutscher Anbieter führt ihn" nur ohne jeden Weg — Digimon tri. 5 hat sechs Kaufangebote (Stichprobe 17.09.2026). */
+      const ohneWeg = !(title.streams ?? []).length && !(title.watchLinks ?? []).length
+      return { art: 'film' as const, hatSynchro, raus, gesamt, ohneWeg }
     }
     if (hatSynchro && !vollstaendig && gesamt) {
       /*
