@@ -24,6 +24,7 @@ import {
   beurteileJeBlock,
   beurteileNachFolgennummern,
   deutscheFolgenNachDemEnde,
+  kapitelImBlock,
   type CrDubData,
 } from './lib/crunchyroll-dub.ts'
 import { terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
@@ -4512,26 +4513,15 @@ function main(): void {
      */
     {
       let kapitel = 0
-      const normKapitel = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
       const crNachAdresse = new Map(crDub.serien.map((s) => [s.url, s]))
       for (const title of titles.values()) {
-        if (!['MOVIE', 'OVA', 'SPECIAL', 'ONA'].includes(title.format ?? '')) continue
         for (const stream of title.streams) {
           if (stream.platform !== 'crunchyroll' || stream.dub !== undefined) continue
           const serie = crNachAdresse.get(stream.url)
-          if (!serie) continue
-          for (const name of [title.titleRomaji, title.titleEn, title.titleDe]) {
-            const m = /^(.*?)[\s:–-]*(?:chapter|kapitel|part|teil)\s*(\d+)\s*$/i.exec(name ?? '')
-            if (!m) continue
-            const bloecke = (serie.staffeln ?? []).filter((b) => normKapitel(b.name ?? '') === normKapitel(m[1]!))
-            const nr = Number(m[2])
-            if (bloecke.length !== 1 || nr < 1 || nr > bloecke[0]!.folgen) continue
-            const deutsch = (bloecke[0]!.deutscheFolgen ?? []).some((f) => f.nummer === nr)
-            if (!deutsch && serie.katalog !== 'de') break
-            stream.dub = deutsch
-            kapitel++
-            break
-          }
+          const urteil = serie ? kapitelImBlock(serie, title) : undefined
+          if (urteil === undefined) continue
+          stream.dub = urteil
+          kapitel++
         }
       }
       if (kapitel) log(`${kapitel} Kapitel einer Filmreihe über ihre Folge im Block beurteilt`)
@@ -6015,6 +6005,11 @@ function main(): void {
           }
           const serie = crNachUrl.get(stream.url)
           if (!serie) continue
+          const kapitelUrteil = kapitelImBlock(serie, title)
+          if (kapitelUrteil !== undefined) {
+            stream.dub = kapitelUrteil
+            continue
+          }
           for (const urteil of beurteile(serie, [title])) {
             if (urteil.titleId === title.id) stream.dub = urteil.dub
           }

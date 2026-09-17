@@ -4573,8 +4573,15 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'ein Kapitel-Nein entsteht nur aus dem deutschen Katalog',
-    /if \(!deutsch && serie\.katalog !== 'de'\) break/.test(bau),
+    /return deutsch \|\| serie\.katalog === 'de' \? deutsch : undefined/.test(
+      readFileSync('pipeline/lib/crunchyroll-dub.ts', 'utf8'),
+    ),
     'die Kapitel-Runde verneint auch aus dem US-Katalog',
+  )
+  pruefe(
+    '… und läuft auch in der Nachrunde für frisch ergänzte Verweise',
+    (bau.match(/kapitelImBlock\(serie, title\)/g) ?? []).length === 2,
+    'die Princess-Principal-Filme entstehen erst in der aniSearch-Ergänzung und blieben ohne Urteil',
   )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

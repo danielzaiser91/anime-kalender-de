@@ -686,6 +686,31 @@ export function deutscheFolgenNachDemEnde(
   return Math.min(...(laufend as number[])) > folgen
 }
 
+/**
+ * **Ein Kapitel ist eine Folge im Block der Filmreihe** (17.09.2026).
+ *
+ * Crunchyroll führt „Princess Principal: Crown Handler" als **einen** Block mit
+ * vier Folgen („Crown Handler I" bis „IV"), unser Bestand vier Filme „… -
+ * Chapter 1" bis „4". Deutsch sind nur I und II. Zugeordnet wird, wenn der Name
+ * ohne „Chapter N" genau einen Block der Serie benennt und N in dessen
+ * Folgenzahl liegt. Gemessen über den Bestand: genau diese vier Filme. Ein Nein
+ * nur aus dem deutschen Katalog; sonst `undefined`.
+ */
+export function kapitelImBlock(serie: CrSerie, title: Title): boolean | undefined {
+  if (!['MOVIE', 'OVA', 'SPECIAL', 'ONA'].includes(title.format ?? '')) return undefined
+  const norm = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+  for (const name of [title.titleRomaji, title.titleEn, title.titleDe]) {
+    const m = /^(.*?)[\s:–-]*(?:chapter|kapitel|part|teil)\s*(\d+)\s*$/i.exec(name ?? '')
+    if (!m) continue
+    const bloecke = (serie.staffeln ?? []).filter((b) => norm(b.name ?? '') === norm(m[1]!))
+    const nr = Number(m[2])
+    if (bloecke.length !== 1 || nr < 1 || nr > bloecke[0]!.folgen) continue
+    const deutsch = (bloecke[0]!.deutscheFolgen ?? []).some((f) => f.nummer === nr)
+    return deutsch || serie.katalog === 'de' ? deutsch : undefined
+  }
+  return undefined
+}
+
 export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
   const bloecke = serie.staffeln ?? []
   if (!bloecke.length) return []
