@@ -5660,7 +5660,16 @@ function main(): void {
      * nicht mehr an. Ohne SAO II war kein Platz voll, War of Underworld blieb,
      * und die Liste fragte wieder nach Folgen, die Daniel am 06.09. gemessen hat.
      */
-    const NUR_DIESER_TITEL = /^der Anbieter führt |^die Adresse zeigt auf die Reihe/
+    /*
+      „belegtes Nein" gehört seit dem 17.09.2026 dazu: Das Urteil gilt einem
+      Titel, nicht der Adresse. Princess Principal: Kapitel 3 und 4 sind an der
+      Serienadresse nicht deutsch, Kapitel 1 und 2 schon — die Sperre für die
+      Adresse nahm den beiden deutschen Filmen ihren Weg. Ein Geschwister, das
+      die Adresse bekommt, wird selbst beurteilt und bei einem Nein wieder
+      entfernt. Gemessen: außer diesen Filmen kein weiterer Titel betroffen
+      (nach dem YouTube-Fix in `adressKern()`).
+    */
+    const NUR_DIESER_TITEL = /^der Anbieter führt |^die Adresse zeigt auf die Reihe|^belegtes Nein/
     const merkeSchluessel = (e: { titleId?: number; url?: string; grund?: string }) =>
       NUR_DIESER_TITEL.test(e.grund ?? '') ? `${e.titleId}|${adressKern(e.url ?? '')}` : adressKern(e.url ?? '')
     const frueherEntferntRoh = new Set([

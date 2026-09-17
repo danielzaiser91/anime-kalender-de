@@ -4558,6 +4558,28 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     releasesAus([v('ab dem 28. August 2026 bei RTL+ abrufbar')], titel, [], '2026-09-16').length === 1,
   )
 }
+/* Ein YouTube-Nein sperrte alle YouTube-Videos (17.09.2026). */
+{
+  const { adressKern } = await import('./lib/dub-confirmed.ts')
+  pruefe(
+    'zwei YouTube-Videos haben verschiedene Adresskerne',
+    adressKern('https://www.youtube.com/watch?v=YCdMLpCpveY') !== adressKern('https://www.youtube.com/watch?v=Xq4diFCaTR4'),
+    'jedes Video heißt wieder „youtube.com/watch" — ein Nein sperrt alle',
+  )
+  pruefe(
+    '… Zusätze hinter der Kennung zählen nicht',
+    adressKern('https://youtube.com/watch?v=YCdMLpCpveY&t=5') === adressKern('https://www.youtube.com/watch?v=YCdMLpCpveY'),
+  )
+  pruefe(
+    '… und Amazon bleibt bei der ASIN',
+    adressKern('https://www.amazon.de/dp/B0CJRZY5ND?ref_=x') === adressKern('https://www.amazon.de/gp/video/detail/B0CJRZY5ND'),
+  )
+  pruefe(
+    'ein belegtes Nein sperrt im Gedächtnis nur seinen Titel',
+    /NUR_DIESER_TITEL = \/[^\n]*\^belegtes Nein\//.test(readFileSync('pipeline/build.ts', 'utf8')),
+    'Princess Principal: Das Nein zu Kapitel 3 nimmt Kapitel 1 und 2 wieder den Weg',
+  )
+}
 /* Mob Psycho 100 III auf Prime: Lücken aus einer Kanal-Meldung sind kein Beleg (17.09.2026). */
 {
   const lesen = readFileSync('pipeline/lib/dub-confirmed.ts', 'utf8')

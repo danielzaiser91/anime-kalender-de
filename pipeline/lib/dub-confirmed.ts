@@ -127,7 +127,16 @@ export function adressKern(u: string | undefined): string {
     .replace(/\/$/, '')
     .toLowerCase()
   const asin = /\/(?:dp|gp\/video\/detail)\/([a-z0-9]{10,26})/.exec(ohne)?.[1]
-  return asin ? `amazon:${asin}` : ohne
+  if (asin) return `amazon:${asin}`
+  /*
+    Bei YouTube steckt die Kennung im Parameter. Ohne ihn war jede Adresse
+    `youtube.com/watch`, und ein belegtes Nein zu einem Video sperrte im
+    Gedächtnis der entfernten Verweise alle YouTube-Videos aller Titel —
+    gemessen am 17.09.2026: 30 Titel, deren aniSearch-Video nie ergänzt wurde.
+    Groß- und Kleinschreibung zählt in der Kennung.
+  */
+  const yt = /(?:^|\.)youtube\.com\/(?:watch|playlist)$/.test(ohne) ? /[?&](v|list)=([\w-]+)/.exec(u) : null
+  return yt ? `${ohne}?${yt[1]}=${yt[2]}` : ohne
 }
 
 export function loadDubChecks(): DubCheck[] {
