@@ -1674,6 +1674,11 @@ Zwei Dinge gehören dazu, und beide sind gemessen:
   wenige Zeilen weiter oben gerade verworfen wurde, steht dort noch nicht. Ohne
   `verweiseEntfernt` legte derselbe Lauf wieder an, was er selbst eben entfernt
   hat — das Flattern entstünde innerhalb einer einzigen Ausführung.
+- **Und es schreibt auch mit, was es selbst gesperrt hat** (17.09.2026). Bis dahin
+  stand in der Datei nur, was der jeweilige Lauf entfernt hatte. Ein gesperrter Verweis
+  wurde dadurch nicht mehr entfernt, also nicht mehr notiert, und der übernächste Lauf
+  legte ihn wieder an: 78 Crunchyroll-Adressen flatterten von Bau zu Bau (836 ↔ 769
+  Einträge in `data/bestand-historie.jsonl`). Gefunden hat es die Wache, nicht ein Test.
 
 Die ergänzten Verweise tragen sonst **keine** Sprachangabe. Sie sagen „hier
 gibt es das", nicht „auf Deutsch", und füllen damit genau die Warteschlangen,

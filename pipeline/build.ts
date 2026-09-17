@@ -1429,6 +1429,9 @@ function searchableName(name: string | undefined): string | undefined {
   return trimmed || name
 }
 
+/** Wie lange ein belegtes Nein eine Ergänzung aus aniSearch sperrt. */
+const NEIN_GILT_TAGE = 28
+
 interface EntfernterVerweis {
   titleId: number
   titel: string
@@ -5519,7 +5522,6 @@ function main(): void {
      * diesem Feld, und ihr Nein ist entsprechend ungeprüft. Sie kommen damit
      * beim nächsten Bau alle einmal zurück in die Prüfung; das ist gewollt.
      */
-    const NEIN_GILT_TAGE = 28
     const neinGrenze = addDays(todayIso(), -NEIN_GILT_TAGE)
     /**
      * **Manche Gründe gelten der Adresse, manche nur einem Titel an ihr.**
@@ -7232,10 +7234,35 @@ function main(): void {
     schützt und die Nebendatei daneben unbeschädigt lässt, schützt aber nur die
     Hälfte: Wer den Diff nicht durchsieht, committet ein leeres Gedächtnis.
   */
+  /*
+    **Was das Gedächtnis gesperrt hat, schreibt es auch wieder mit.**
+
+    Bis zum 17.09.2026 enthielt die Datei nur, was **dieser** Lauf entfernt hat.
+    Ein Verweis, den aniSearch ergänzt und der Bau als belegtes Nein wieder
+    entfernt, stand danach drin — der nächste Lauf ergänzte ihn deshalb nicht,
+    entfernte ihn also auch nicht, und schrieb ihn nicht mehr. Der übernächste
+    legte ihn wieder an. 78 Crunchyroll-Adressen (One Piece, DearS …) flatterten
+    so von Bau zu Bau, sichtbar in `data/bestand-historie.jsonl` als 836 ↔ 769.
+    Übernommen wird ein alter Eintrag, solange seine Frist läuft, dieser Lauf
+    ihn nicht selbst neu geschrieben hat und kein Verweis mit dieser Adresse im
+    Datensatz steht.
+  */
   if (verweiseEntfernt.length) {
+    const grenze = addDays(todayIso(), -NEIN_GILT_TAGE)
+    const schluessel = (e: { titleId?: number; plattform?: string; url?: string }) =>
+      `${e.titleId}|${e.plattform}|${adressKern(e.url)}`
+    const schonDa = new Set(verweiseEntfernt.map(schluessel))
+    const imBestand = new Set<string>()
+    for (const t of allTitles) for (const st of t.streams ?? []) imBestand.add(adressKern(st.url))
+    const uebernommen = (
+      readJson<{ verweise?: EntfernterVerweis[] }>('data/verweise-entfernt.json', {}).verweise ?? []
+    ).filter(
+      (e) => (e.entferntAm ?? '') >= grenze && !schonDa.has(schluessel(e)) && !imBestand.has(adressKern(e.url)),
+    )
+    if (uebernommen.length) log(`${uebernommen.length} gesperrte Verweise aus dem Gedächtnis übernommen`)
     writeJson(
       'data/verweise-entfernt.json',
-      { stand: new Date().toISOString(), verweise: verweiseEntfernt },
+      { stand: new Date().toISOString(), verweise: [...verweiseEntfernt, ...uebernommen] },
       true,
     )
   }

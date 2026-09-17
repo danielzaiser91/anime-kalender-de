@@ -3645,6 +3645,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'gegen eine laufende Sperre zu klopfen bringt keinen Befund und verlängert sie',
   )
   pruefe(
+    'das Entfernt-Gedächtnis schreibt gesperrte Verweise mit',
+    bau.includes('verweise: [...verweiseEntfernt, ...uebernommen]'),
+    'sonst ergänzt jeder zweite Bau die Verweise wieder, die der vorige als belegtes Nein entfernt hat (78 Adressen, 17.09.2026)',
+  )
+  pruefe(
     'die Amazon-Sperre hält die übrigen Anbieter nicht auf',
     linkPruefer.includes('if (amazonGesperrt && istAmazon)') && !/inFolgeUnklar >= SPERR_SCHWELLE\)[\s\S]{0,200}break/.test(linkPruefer),
     'vom GitHub-Runner sperrt Amazon nach wenigen Abrufen — ein Abbruch ließ seit dem 07.09.2026 alle anderen Verweise ungeprüft',
