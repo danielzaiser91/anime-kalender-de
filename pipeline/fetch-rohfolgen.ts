@@ -429,7 +429,7 @@ async function main(): Promise<void> {
     }
     const treffer = echteId
       ? titles.filter((t) => t.id === echteId)
-      : titles.filter((t) => (t.streams ?? []).some((s) => s.url === url)) ||
+      : titles.filter((t) => (t.streams ?? []).some((s) => s.url === url || s.seite === url)) ||
         []
     /** Kam der Treffer aus dem Bestand selbst — Kennung oder hinterlegte Adresse? */
     const ausBestand = treffer.length === 1

@@ -97,7 +97,7 @@ function main(): void {
         id: t.id,
         titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id),
         plattform: s.platform,
-        url: s.url,
+        url: s.seite ?? s.url,
         geprueftAm: datum,
         tageAlt,
       })

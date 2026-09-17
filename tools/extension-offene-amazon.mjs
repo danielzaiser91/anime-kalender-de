@@ -126,14 +126,28 @@ function kennung(url) {
   return /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(url)?.[1]
 }
 
+/*
+  **Die Prüfliste öffnet die Amazon-Seite, nicht JustWatchs gti-Adresse** (17.09.2026).
+  Seit der gti-Brücke steht die Seite in `seite`. Ist sie laut Linkprüfung tot, hat
+  der Bau den Verweis über JustWatch ersetzt; die Erweiterung erkennt die
+  weitergeleitete Seite noch nicht, also bleibt er vorerst von der Liste.
+*/
+const linkBefunde = JSON.parse(readFileSync(resolve(wurzel, 'data/link-check.json'), 'utf8'))
+const primeSeite = (s) => {
+  if (!s.seite) return s.url
+  const status = linkBefunde[s.seite]?.status
+  return status === 404 || status === 'region' ? undefined : s.seite
+}
+
 /** Alle unsere Einträge je Amazon-Kennung — auch die schon beantworteten. */
 const jeAsin = new Map()
 for (const t of titel) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'primevideo') continue
-    const asin = kennung(s.url)
+    const seite = primeSeite(s)
+    const asin = seite && kennung(seite)
     if (!asin) continue
-    jeAsin.set(asin, [...(jeAsin.get(asin) ?? []), { t, dub: s.dub, url: s.url }])
+    jeAsin.set(asin, [...(jeAsin.get(asin) ?? []), { t, dub: s.dub, url: seite }])
   }
 }
 
@@ -748,7 +762,7 @@ if (ausWeiteren) console.log(`  ${ausWeiteren} zweite Ausgabe(n) aus den Meldung
   gleich, ob die Antwort aus einem Handbeleg oder aus gemeldeten Folgen stammt.
 */
 const bekanntePrimeAdressen = new Set(
-  titel.flatMap((t) => (t.streams ?? []).filter((s) => s.platform === 'primevideo').map((s) => s.url)),
+  titel.flatMap((t) => (t.streams ?? []).filter((s) => s.platform === 'primevideo').flatMap((s) => [s.url, s.seite ?? s.url])),
 )
 for (const [asin, wert] of Object.entries(ERNEUT)) {
   if (offen[asin]) continue

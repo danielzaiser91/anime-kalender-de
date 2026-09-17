@@ -128,6 +128,9 @@ export function adressKern(u: string | undefined): string {
     .toLowerCase()
   const asin = /\/(?:dp|gp\/video\/detail)\/([a-z0-9]{10,26})/.exec(ohne)?.[1]
   if (asin) return `amazon:${asin}`
+  /* JustWatchs Amazon-Adresse trägt die Kennung im Parameter (gti-Brücke, 17.09.2026). */
+  const gti = /[?&]gti=(amzn1\.dv\.gti\.[0-9a-f-]{36})/.exec(u)?.[1]
+  if (gti) return `amazon-gti:${gti}`
   /*
     Bei YouTube steckt die Kennung im Parameter. Ohne ihn war jede Adresse
     `youtube.com/watch`, und ein belegtes Nein zu einem Video sperrte im

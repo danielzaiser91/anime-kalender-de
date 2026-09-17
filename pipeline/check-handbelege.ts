@@ -112,7 +112,12 @@ for (const [k, gruppe] of jeVerweis) {
   const belegAdressen = gruppe.map((b) => b.url).filter((u): u is string => Boolean(u))
   const stream = belegAdressen.length
     ? (t.streams ?? []).find(
-        (s) => s.platform === platform && belegAdressen.some((u) => adressKern(u) === adressKern(s.url)),
+        (s) =>
+          s.platform === platform &&
+          belegAdressen.some(
+            /* Nach der gti-Brücke steht die Amazon-Seite des Belegs in `seite` (17.09.2026). */
+            (u) => adressKern(u) === adressKern(s.url) || (Boolean(s.seite) && adressKern(u) === adressKern(s.seite)),
+          ),
       )
     : (t.streams ?? []).find((s) => s.platform === platform)
   const name = `${idRoh} (${t.titleRomaji ?? '?'}) — ${platform}`
@@ -129,7 +134,13 @@ for (const [k, gruppe] of jeVerweis) {
   }
 
   if (sagtWeg || sagtNein) {
-    if (stream) fehler.push(`${name}: als „${sagtWeg ? 'nicht verfügbar' : 'ohne deutsche Tonspur'}" geprüft, steht aber noch im Datensatz`)
+    /*
+      Ein Nein mit Adresse gilt der alten Seite. Ein über die gti-Brücke ersetzter
+      Verweis zeigt auf eine neue Seite und trägt die alte nur als `seite`.
+    */
+    const nochDa =
+      stream && (!belegAdressen.length || belegAdressen.some((u) => adressKern(u) === adressKern(stream.url)))
+    if (nochDa) fehler.push(`${name}: als „${sagtWeg ? 'nicht verfügbar' : 'ohne deutsche Tonspur'}" geprüft, steht aber noch im Datensatz`)
     else entferntWieVorgesehen++
     continue
   }

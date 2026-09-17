@@ -27,6 +27,7 @@ import {
   kapitelImBlock,
   type CrDubData,
 } from './lib/crunchyroll-dub.ts'
+import { amazonGtiWahl, type JwAngebot } from './lib/amazon-gti.ts'
 import { terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { alleTermine, beobachtungenAusBlock } from './lib/crunchyroll-termine.ts'
@@ -7051,6 +7052,57 @@ function main(): void {
       menge.add(c.anilistId)
       titelJeAdresse.set(k, menge)
     }
+    /*
+      **Prime-Verweise zeigen auf JustWatchs gti-Adresse** (Daniel, 17.09.2026, nach dem
+      PoC in `docs/poc-justwatch-amazon.md`: 8 von 8 lebenden Seiten tragen JustWatchs
+      gti, die tote Afro-Samurai-Seite fand ihren Ersatz über die Weiterleitung).
+
+      Erst hier, am Ende: Bis hierher rechnet der Bau mit der ASIN, an der Handbelege,
+      Gedächtnis und Prüfliste hängen. Die ASIN bleibt als `seite` erhalten. Nur wo
+      JustWatch genau eine gti kennt und der Titel genau einen Prime-Weg hat
+      (`amazonGtiWahl`). Ein Titel ohne lebenden Prime-Weg bekommt seinen Abgang
+      zurück, mit der gti-Adresse und ohne Sprachurteil — Amazon hat ihn neu angelegt.
+    */
+    {
+      const jwAngebote = readJson<Record<string, { angebote?: JwAngebot[] }>>('data/justwatch-audio.json', {})
+      let umgestellt = 0
+      let wiederbelebt = 0
+      for (const title of titles.values()) {
+        if (tmdbMehrdeutig.has(String(title.id))) continue
+        const angebote = jwAngebote[String(title.id)]?.angebote ?? []
+        if (!angebote.length) continue
+        const prime = title.streams.filter((s) => s.platform === 'primevideo')
+        if (prime.length === 1) {
+          const s = prime[0]!
+          const wahl = amazonGtiWahl(angebote, s.dub)
+          if (!wahl || /\/s\?/.test(s.url)) continue
+          s.seite = s.url
+          s.url = wahl.url
+          umgestellt++
+          continue
+        }
+        if (prime.length) continue
+        const abgang = (title.entfernteStreams ?? []).filter((a) => a.platform === 'primevideo')
+        if (abgang.length !== 1) continue
+        /* Ein Handbeleg ohne Adresse („bei Prime nicht zu finden") gilt der ganzen Plattform und schlägt JustWatch. */
+        const handNein = (checksJePlattform.get(dubKey(title.id, 'primevideo')) ?? []).some(
+          (c) => !c.url && (c.available === false || c.dub === false),
+        )
+        if (handNein) continue
+        const wahl = amazonGtiWahl(angebote, abgang[0]!.dub)
+        if (!wahl) continue
+        const art = angebote.find((a) => a.url?.includes(wahl.gti))?.art
+        title.streams.push({
+          platform: 'primevideo',
+          url: wahl.url,
+          seite: abgang[0]!.url,
+          ...(art ? { zugang: art === 'FLATRATE' ? 'abo' : art === 'FREE' || art === 'ADS' ? 'kostenlos' : 'kauf' } : {}),
+        } as StreamLink)
+        wiederbelebt++
+      }
+      if (umgestellt || wiederbelebt)
+        log(`gti-Brücke: ${umgestellt} Prime-Verweise auf JustWatchs Adresse umgestellt, ${wiederbelebt} tote über sie ersetzt`)
+    }
     let doppelt = 0
     let ausgabenOhneDe = 0
     let mehrdeutig = 0
@@ -7073,7 +7125,7 @@ function main(): void {
           if (!c.url || beurteilt.has(adressKern(c.url))) continue
           beurteilt.add(adressKern(c.url))
           if (c.dub !== false) continue
-          if (title.streams.some((s) => adressGleich(s.url, c.url))) continue
+          if (title.streams.some((s) => adressGleich(s.url, c.url) || adressGleich(s.seite, c.url))) continue
           if ((titelJeAdresse.get(adressKern(c.url))?.size ?? 0) > 1) {
             mehrdeutig++
             continue

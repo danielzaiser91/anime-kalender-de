@@ -200,10 +200,10 @@ for (const title of titles) {
     zeile.offen.push({
       titleId: title.id,
       name: anzeigeName(title),
-      url: stream.url,
+      url: stream.seite ?? stream.url,
       datum,
       datumHerkunft: deutsch ? 'deutscher Termin' : title.jpEnd ? 'japanisches Ende' : 'japanisches Jahr',
-      herkunft: herkunftVon(title.id, stream.url),
+      herkunft: herkunftVon(title.id, stream.seite ?? stream.url),
     })
     nachReiheUndPlattform.set(key, zeile)
   }

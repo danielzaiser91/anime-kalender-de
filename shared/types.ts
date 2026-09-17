@@ -141,6 +141,11 @@ export interface StreamLink {
   platform: PlatformId
   url: string
   /**
+   * Die Amazon-Seite (`/dp/<ASIN>`), wenn `url` auf JustWatchs gti-Adresse
+   * umgestellt ist (17.09.2026). An ihr hängen Handbelege und Prüfliste.
+   */
+  seite?: string
+  /**
    * true  — deutsche Synchro dort belegt
    * false — dort ausdrücklich nur Originalton mit Untertiteln
    * fehlt — nicht geprüft

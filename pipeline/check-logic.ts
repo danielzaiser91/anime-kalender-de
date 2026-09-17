@@ -4582,6 +4582,25 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     '… ohne Tonangabe bleibt die Wahl',
     amazonGtiWahl([{ anbieter: 'Amazon Video', art: 'BUY', audio: [], url: g('eeeeeeee') }], true) !== undefined,
   )
+  const { adressKern } = await import('./lib/dub-confirmed.ts')
+  pruefe(
+    'zwei gti-Adressen haben verschiedene Adresskerne',
+    adressKern(g('aaaaaaaa')) !== adressKern(g('bbbbbbbb')),
+    'jede gti-Adresse hieße „watch.amazon.de/detail" — Belege und Gedächtnis verwechselten sie',
+  )
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'die gti-Brücke stellt erst am Ende um und behält die Amazon-Seite',
+    /s\.seite = s\.url\s+s\.url = wahl\.url/.test(bau),
+  )
+  pruefe(
+    '… und belebt nicht wieder, was ein Handbeleg ohne Adresse für Prime verneint',
+    /if \(handNein\) continue/.test(bau),
+  )
+  pruefe(
+    'die Linkprüfung prüft die Amazon-Seite, nicht JustWatchs Adresse',
+    /adressen\.add\(s\.seite \?\? s\.url\)/.test(readFileSync('pipeline/check-links.ts', 'utf8')),
+  )
 }
 /* Your Name – CineAnime: der letzte Spieltag kommt auch über die Veranstaltungsadresse (17.09.2026). */
 pruefe(

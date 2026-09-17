@@ -184,7 +184,8 @@ async function main(): Promise<void> {
    */
   const adressen = new Set<string>(Object.keys(bestand))
   for (const t of titles) {
-    for (const s of t.streams ?? []) if (PRUEFBAR.has(s.platform)) adressen.add(s.url)
+    /* Nach der gti-Brücke steht die Amazon-Seite in `seite`; geprüft wird sie, nicht JustWatchs Adresse. */
+    for (const s of t.streams ?? []) if (PRUEFBAR.has(s.platform)) adressen.add(s.seite ?? s.url)
     /**
      * Auch die Amazon-Adressen aus `watchLinks` — sie sind der Ersatz für die
      * Suchlinks.

@@ -140,18 +140,21 @@ const liste: Array<{
   franchiseId?: number
   jpSeason?: string
   format?: string
-  streams?: Array<{ platform: string; url: string }>
+  streams?: Array<{ platform: string; url: string; seite?: string }>
 }> =
   Array.isArray(titles) ? titles : (titles.titles ?? Object.values(titles))
 
 const nachUrl = new Map<string, number[]>()
 for (const t of liste) {
   for (const s of t.streams ?? []) {
-    if (!s.url) continue
-    const k = schluesselAdresse(s.url)
-    const liste2 = nachUrl.get(k) ?? []
-    liste2.push(t.id)
-    nachUrl.set(k, liste2)
+    /* Die Prüfliste öffnet die Amazon-Seite (`seite`), nicht JustWatchs gti-Adresse (17.09.2026). */
+    for (const u of new Set([s.url, s.seite])) {
+      if (!u) continue
+      const k = schluesselAdresse(u)
+      const liste2 = nachUrl.get(k) ?? []
+      liste2.push(t.id)
+      nachUrl.set(k, liste2)
+    }
   }
 }
 

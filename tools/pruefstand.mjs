@@ -46,7 +46,7 @@ function listeLesen(datei, global) {
 function adresseFuer(plattform, kennung) {
   for (const t of titel) {
     for (const s of t.streams ?? []) {
-      if (s.platform === plattform && (s.url ?? '').includes(kennung)) return s.url
+      if (s.platform === plattform && (s.seite ?? s.url ?? '').includes(kennung)) return s.seite ?? s.url
     }
   }
   return null
@@ -180,7 +180,7 @@ const stand = ANBIETER.map((a) => {
   for (const t of titel) {
     for (const s of t.streams ?? []) {
       if (s.platform !== a.plattform) continue
-      if (a.kennung(s.url ?? '')) gesamt++
+      if (a.kennung(s.seite ?? s.url ?? '')) gesamt++
       else ohneSeite++
     }
   }
