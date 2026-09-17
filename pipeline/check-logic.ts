@@ -4558,6 +4558,22 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     releasesAus([v('ab dem 28. August 2026 bei RTL+ abrufbar')], titel, [], '2026-09-16').length === 1,
   )
 }
+/* Frische JustWatch-Daten entfernen nichts von selbst (17.09.2026). */
+{
+  const { jwFrisch } = await import('./lib/jw-handpruefung.ts')
+  pruefe('eine Antwort von heute ist frisch', jwFrisch({ erstAm: '2026-09-17' }, '2026-09-20'))
+  pruefe('… nach 28 Tagen nicht mehr', !jwFrisch({ erstAm: '2026-09-17' }, '2026-10-15'))
+  pruefe('ein Eintrag vor dem Umbau gilt als bewährt', !jwFrisch({ geprueftAm: '2026-09-09' }, '2026-09-20'))
+  pruefe('ein Eintrag des ersten breiten Laufs (ohne erstAm) gilt als frisch', jwFrisch({ geprueftAm: '2026-09-17' }, '2026-09-20'))
+  const abruf = readFileSync('pipeline/fetch-justwatch-audio.ts', 'utf8')
+  pruefe('eine verfehlte Suche behält die alte Antwort', abruf.includes('verfehltAm: todayIso()'))
+  pruefe('ein unplausibles Ergebnis wird nicht geschrieben', abruf.includes('Ergebnis unplausibel'))
+  pruefe(
+    'Kanal-Gegenprobe und Crunchyroll-Nachprüfung fragen jwFrisch',
+    readFileSync('pipeline/kanal-gegenprobe.ts', 'utf8').includes('jwFrisch(eintrag, heute)') &&
+      (readFileSync('pipeline/fetch-crunchyroll-offene.ts', 'utf8').match(/jwFrisch\(jwEintrag2?, heuteIso\)/g) ?? []).length === 2,
+  )
+}
 /* JustWatch bei Titeln mit Wegen: nur digitale Angebote (17.09.2026). */
 pruefe(
   'JustWatch ergänzt bei Titeln mit Wegen keine Disc-Händler und keine Kinos',

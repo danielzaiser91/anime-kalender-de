@@ -37,6 +37,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { log, warn } from './lib/util.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
+import { handpruefungSchreiben, jwFrisch, type Handpruefung } from './lib/jw-handpruefung.ts'
 
 const ROOT = resolve(import.meta.dirname, '..')
 const TROCKEN = process.argv.includes('--trocken')
@@ -64,7 +65,7 @@ interface Angebot {
 const belege = (yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml'), 'utf8')) ?? []) as Beleg[]
 const jw = JSON.parse(readFileSync(resolve(ROOT, 'data/justwatch-audio.json'), 'utf8')) as Record<
   string,
-  { geprueftAm?: string; angebote?: Angebot[] }
+  { geprueftAm?: string; erstAm?: string; jwPfad?: string; angebote?: Angebot[] }
 >
 
 /**
@@ -154,6 +155,8 @@ const widersprueche: {
   seit: string
 }[] = []
 const gesehen = new Set<string>()
+/** Neins aus frischen JustWatch-Daten — sie gehen erst über Daniels Tisch. */
+const zurHand: Handpruefung[] = []
 let widerspruch = 0
 let ohneQuelle = 0
 
@@ -295,6 +298,19 @@ for (const b of kanalOffen) {
   const anbieter = basis.map((a) => a.anbieter ?? '?').slice(0, 3).join(', ')
   const spuren = [...new Set(basis.flatMap((a) => a.audio ?? []))].join(', ')
   const nurSub = basis.some((a) => (a.untertitel ?? []).some(deutsch))
+  if (jwFrisch(eintrag, heute)) {
+    zurHand.push({
+      titleId: b.anilistId!,
+      titel: b.title ?? String(b.anilistId),
+      plattform: b.platform ?? 'primevideo',
+      ...(b.url ? { url: b.url } : {}),
+      folgerung: `kein Deutsch (Kanal-Meldung + JustWatch: ${anbieter} — Ton ${spuren})`,
+      ...(eintrag?.jwPfad ? { jwPfad: eintrag.jwPfad } : {}),
+      seit: heute,
+    })
+    log(`  ? ${b.anilistId} ${(b.title ?? '').slice(0, 40).padEnd(40)} frische JustWatch-Daten — zur Handprüfung`)
+    continue
+  }
   neu.push(
     [
       `- anilistId: ${b.anilistId}`,
@@ -313,7 +329,8 @@ for (const b of kanalOffen) {
 }
 
 log('')
-log(`${neu.length} belegte Nein, ${widerspruch} Widersprüche, ${ohneQuelle} ohne zweite Quelle.`)
+log(`${neu.length} belegte Nein, ${widerspruch} Widersprüche, ${ohneQuelle} ohne zweite Quelle, ${zurHand.length} zur Handprüfung.`)
+if (!TROCKEN) handpruefungSchreiben('kanal', zurHand, true, heute)
 
 if (!TROCKEN) {
   /*

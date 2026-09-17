@@ -48,6 +48,7 @@
 import type { Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { handpruefungSchreiben, jwFrisch, type Handpruefung } from './lib/jw-handpruefung.ts'
 import { jahrPasst, reiheFuehrtEsNicht as reiheFuehrtEsNichtRein, type CrStaffel } from './lib/cr-reihe.ts'
 
 const DATEI = 'data/crunchyroll-offene.json'
@@ -196,10 +197,24 @@ export async function main(): Promise<void> {
   /* Die aniSearch-Zuordnung — sie kennt zu manchen Werken eine Adresse mit Kennung. */
   const anisearch = readJson<Record<string, unknown>>('data/anisearch.json', {})
   /* JustWatch als zweite Quelle — sie entscheidet, ob eine Adresse ins Leere führt. */
-  const justwatch = readJson<Record<string, { angebote?: { anbieter?: string; url?: string }[] }>>(
-    'data/justwatch-audio.json',
-    {},
-  )
+  const justwatch = readJson<
+    Record<string, { erstAm?: string; geprueftAm?: string; jwPfad?: string; angebote?: { anbieter?: string; url?: string }[] }>
+  >('data/justwatch-audio.json', {})
+  const heuteIso = new Date().toISOString().slice(0, 10)
+  /** Tot laut frischen JustWatch-Daten — erst Daniels Blick, dann entfernt (17.09.2026). */
+  const zurHand: Handpruefung[] = []
+  const zurHandpruefung = (werk: Title, url: string, grund: string, jwPfad?: string): Befund => {
+    zurHand.push({
+      titleId: werk.id,
+      titel: werk.titleDe ?? werk.titleEn ?? werk.titleRomaji ?? String(werk.id),
+      plattform: 'crunchyroll',
+      url,
+      folgerung: `nicht mehr da (${grund})`,
+      ...(jwPfad ? { jwPfad } : {}),
+      seit: heuteIso,
+    })
+    return { herkunft: 'offen', geprueftAm: heute(), grund: `zur Handprüfung: ${grund}` }
+  }
   /**
    * **JustWatch nennt die Adresse, die unser Bestand nicht hat — mit Kennung.**
    *
@@ -271,6 +286,7 @@ export async function main(): Promise<void> {
     return
   }
   writeJson(DATEI, bestand)
+  handpruefungSchreiben('crunchyroll', zurHand, false, heuteIso)
   recordSource('crunchyroll-offene', arbeit.length, undefined, undefined, true)
 
   /**
@@ -451,6 +467,8 @@ export async function main(): Promise<void> {
       const jwEintrag = justwatch[String(werk.id)]
       const anbieter = (jwEintrag?.angebote ?? []).map((a) => String(a?.anbieter ?? ''))
       if (anbieter.length && !anbieter.some((n) => /crunchyroll/i.test(n))) {
+        if (jwFrisch(jwEintrag, heuteIso))
+          return zurHandpruefung(werk, url, `nicht im deutschen Katalog, JustWatch ohne Crunchyroll`, jwEintrag?.jwPfad)
         return {
           herkunft: 'tot',
           geprueftAm: heute(),
@@ -611,6 +629,8 @@ export async function main(): Promise<void> {
       const jwEintrag2 = justwatch[String(werk.id)]
       const anbieter2 = (jwEintrag2?.angebote ?? []).map((a) => String(a?.anbieter ?? ''))
       if (anbieter2.length && !anbieter2.some((n) => /crunchyroll/i.test(n))) {
+        if (jwFrisch(jwEintrag2, heuteIso))
+          return zurHandpruefung(werk, url, `Reihe „${kandidat.titel}", Werk nicht im Katalog, JustWatch ohne Crunchyroll`, jwEintrag2?.jwPfad)
         return {
           herkunft: 'tot',
           seriesId: kandidat.id,

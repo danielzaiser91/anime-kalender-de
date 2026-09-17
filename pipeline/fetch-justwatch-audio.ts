@@ -66,6 +66,10 @@ interface Befund {
   angebote: Angebot[]
   /** Kein Treffer bei JustWatch — festgehalten, damit der Titel nicht täglich neu gesucht wird. */
   ohneTreffer?: boolean
+  /** Erste Antwort von JustWatch zu diesem Titel (seit 17.09.2026) — siehe `jwFrisch()`. */
+  erstAm?: string
+  /** Die letzte Suche fand den Titel nicht; die Angebote stammen von der Antwort davor. */
+  verfehltAm?: string
 }
 
 const SUCHE = `
@@ -209,6 +213,9 @@ async function main(): Promise<void> {
   let getroffen = 0
   let mitDeutsch = 0
   let fehler = 0
+  let leer = 0
+  let verfehlt = 0
+  let ohneTrefferNeu = 0
 
   for (const t of offen.slice(0, limit)) {
     const erwartet = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
@@ -233,8 +240,20 @@ async function main(): Promise<void> {
       const treffer = erwartet
         ? knoten.find((k) => String(k.content.externalIds?.tmdbId ?? '') === String(erwartet))
         : undefined
+      const vorher = bestand[String(t.id)]
       if (!treffer) {
-        bestand[String(t.id)] = { geprueftAm: todayIso(), angebote: [], ohneTreffer: true }
+        /*
+          **Eine verfehlte Suche löscht keine gute Antwort** (17.09.2026). Die Suche geht über
+          den Namen, und ihre Trefferliste schwankt; ohne diesen Zweig verlor ein Titel bei
+          einem Fehlgriff alle Angebote — und mit ihnen seine Wege im Kalender.
+        */
+        if (vorher && !vorher.ohneTreffer && vorher.jwId) {
+          bestand[String(t.id)] = { ...vorher, geprueftAm: todayIso(), verfehltAm: todayIso() }
+          verfehlt++
+        } else {
+          bestand[String(t.id)] = { geprueftAm: todayIso(), angebote: [], ohneTreffer: true, erstAm: vorher?.erstAm ?? todayIso() }
+          ohneTrefferNeu++
+        }
         continue
       }
       const angebote: Angebot[] = (treffer.offers ?? [])
@@ -247,8 +266,11 @@ async function main(): Promise<void> {
         }))
         /* Dasselbe Angebot kommt regelmäßig doppelt — je Auflösung eine Zeile. */
         .filter((a, i, alle) => alle.findIndex((b) => b.anbieter === a.anbieter && b.art === a.art) === i)
+      if (!angebote.length) leer++
       bestand[String(t.id)] = {
         geprueftAm: todayIso(),
+        /* Eine Antwort vor dem Umbau gilt als bewährt und bekommt kein Datum. */
+        ...(vorher && !vorher.ohneTreffer && !vorher.erstAm ? {} : { erstAm: vorher?.erstAm ?? todayIso() }),
         jwId: treffer.id,
         tmdbId: erwartet,
         jwPfad: treffer.content.fullPath,
@@ -263,8 +285,23 @@ async function main(): Promise<void> {
     await sleep(PAUSE_MS)
   }
 
+  log(
+    `JustWatch: ${getroffen} Titel zugeordnet (${leer} ohne Angebot), ${mitDeutsch} davon mit deutscher Tonspur, ` +
+      `${ohneTrefferNeu} ohne Treffer, ${verfehlt} verfehlt (alte Antwort behalten), ${fehler} Fehler.`,
+  )
+  /*
+    **Plausibilität vor dem Schreiben** (17.09.2026). Gemessen am Bestand vor dem Umbau:
+    2 % der Treffer ohne Angebot, 23 % der Suchen ohne Treffer. Ändert JustWatch seine
+    Schnittstelle, sähe das aus wie „überall keine Angebote" — und der Bau nähme den Titeln
+    ohne eigenen Verweis ihre Wege. Dann wird nichts geschrieben; die alte Datei bleibt.
+  */
+  const gefragt = getroffen + ohneTrefferNeu + verfehlt
+  if (gefragt >= 50 && (leer / Math.max(getroffen, 1) > 0.25 || (ohneTrefferNeu + verfehlt) / gefragt > 0.7)) {
+    warn(`JustWatch: Ergebnis unplausibel (${leer} von ${getroffen} Treffern ohne Angebot, ${ohneTrefferNeu + verfehlt} von ${gefragt} ohne Treffer) — nichts geschrieben.`)
+    recordSource('justwatch-audio', 0)
+    return
+  }
   writeJson(DATEI, bestand)
-  log(`JustWatch: ${getroffen} Titel zugeordnet, ${mitDeutsch} davon mit deutscher Tonspur, ${fehler} Fehler.`)
   recordSource('justwatch-audio', getroffen)
   liste(titles, bestand)
 }
