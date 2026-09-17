@@ -4587,6 +4587,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       readFileSync('pipeline/build.ts', 'utf8'),
     ),
   )
+  /*
+    Gegenprobe vom 17.09.2026 (`tools/apple-tonspur-gegenprobe.mjs`): 59 von 59 geprüften
+    Apple-TV-Belegen nennen auf der Anbieterseite selbst eine deutsche Tonspur, dazu zwei
+    von zwei bei maxdome. Kein Widerspruch — die Regel trägt.
+  */
   pruefe(
     'JustWatch: nur bei Filmen wird aus der Tonspur ein Beleg am Bezugsweg',
     readFileSync('pipeline/build.ts', 'utf8').includes("if (title.format !== 'MOVIE') continue") &&
