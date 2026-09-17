@@ -4571,6 +4571,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     (bau.match(/if \(deutscheFolgenNachDemEnde\(/g) ?? []).length === 2,
     'eine Bereichsübertragung schreibt wieder „Fg. 1–39" an Captain Tsubasa 2018',
   )
+  pruefe(
+    'ein Kapitel-Nein entsteht nur aus dem deutschen Katalog',
+    /if \(!deutsch && serie\.katalog !== 'de'\) break/.test(bau),
+    'die Kapitel-Runde verneint auch aus dem US-Katalog',
+  )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

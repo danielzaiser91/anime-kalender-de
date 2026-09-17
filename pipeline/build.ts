@@ -4499,6 +4499,45 @@ function main(): void {
     if (filmbloecke) log(`${filmbloecke} Filme/Specials über ihren eigenen Block in einer Filmreihe belegt`)
 
     /**
+     * **Ein Kapitel ist eine Folge im Block der Filmreihe.**
+     *
+     * Crunchyroll führt „Princess Principal: Crown Handler" als **einen** Block
+     * mit vier Folgen („Crown Handler I" bis „IV"), unser Bestand vier Filme
+     * „… - Chapter 1" bis „4". Deutsch sind nur I und II (17.09.2026, deutscher
+     * Katalog, je Folge). Zugeordnet wird, wenn der Name ohne „Chapter N" genau
+     * einen Block derselben Adresse benennt und N in dessen Folgenzahl liegt.
+     * Gemessen über den Bestand: genau diese vier Filme, das Kurz-OVA „Chapter
+     * 1: BUSY EASY MONEY" fällt zu Recht heraus. Nur aus dem deutschen Katalog
+     * wird daraus ein Nein.
+     */
+    {
+      let kapitel = 0
+      const normKapitel = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+      const crNachAdresse = new Map(crDub.serien.map((s) => [s.url, s]))
+      for (const title of titles.values()) {
+        if (!['MOVIE', 'OVA', 'SPECIAL', 'ONA'].includes(title.format ?? '')) continue
+        for (const stream of title.streams) {
+          if (stream.platform !== 'crunchyroll' || stream.dub !== undefined) continue
+          const serie = crNachAdresse.get(stream.url)
+          if (!serie) continue
+          for (const name of [title.titleRomaji, title.titleEn, title.titleDe]) {
+            const m = /^(.*?)[\s:–-]*(?:chapter|kapitel|part|teil)\s*(\d+)\s*$/i.exec(name ?? '')
+            if (!m) continue
+            const bloecke = (serie.staffeln ?? []).filter((b) => normKapitel(b.name ?? '') === normKapitel(m[1]!))
+            const nr = Number(m[2])
+            if (bloecke.length !== 1 || nr < 1 || nr > bloecke[0]!.folgen) continue
+            const deutsch = (bloecke[0]!.deutscheFolgen ?? []).some((f) => f.nummer === nr)
+            if (!deutsch && serie.katalog !== 'de') break
+            stream.dub = deutsch
+            kapitel++
+            break
+          }
+        }
+      }
+      if (kapitel) log(`${kapitel} Kapitel einer Filmreihe über ihre Folge im Block beurteilt`)
+    }
+
+    /**
      * **Siebte Runde: der Abgleich gegen den vollständigen deutschen Katalog.**
      *
      * `discover/browse` gibt ihn ganz heraus — 1.591 Einträge in 16 Abrufen.
