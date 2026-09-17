@@ -14,9 +14,9 @@
  *
  * Aufruf: npm run data:pruefungen
  */
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import yaml from 'js-yaml'
-import { echteAmazonAdresse } from './lib/amazon-adresse.js'
+import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { dirname, resolve } from 'node:path'
 import {
   beschreibeBereiche,
@@ -302,9 +302,23 @@ for (const t of liste) {
  * Bei allem anderen bleibt die gemeldete Adresse stehen: Sie ist die aus unserem
  * Bestand, und die Pipeline sucht nach ihr.
  */
-function wegAusMeldung(p: { url: string; seiten_kennung?: string | null }): string {
-  if (!p.url.includes('/s?k=')) return p.url
+function wegAusMeldung(p: { url: string; seiten_kennung?: string | null; staffel?: number | null }): string {
   const kennung = String(p.seiten_kennung ?? '').trim()
+  /*
+    **Eine Staffel ab 2 bekommt die Adresse ihrer eigenen Seite** (17.09.2026,
+    Golden Kamuy): Der Staffelwechsel läuft auf der Seite von Staffel 1, die
+    Meldung trägt deren Adresse. Stünde sie im Beleg, zeigte der Weg der
+    zweiten Staffel auf die erste.
+  */
+  if (
+    /amazon\.de/.test(p.url) &&
+    Number(p.staffel) >= 2 &&
+    /^[A-Z0-9]{10,26}$/.test(kennung) &&
+    !p.url.includes(kennung)
+  ) {
+    return amazonTitelAdresse(kennung)
+  }
+  if (!p.url.includes('/s?k=')) return p.url
   if (!/^[A-Z0-9]{8,}$/i.test(kennung)) return p.url
   return `https://www.amazon.de/gp/video/detail/${kennung}`
 }
@@ -344,6 +358,13 @@ let ausSuchadresseZugeordnet = 0
 /** Wie viele Adressen die Meldung selbst zugeordnet hat — der Weg ohne Raten. */
 let ausMeldungZugeordnet = 0
 const offenGeblieben: string[] = []
+/*
+  **Was nach einem Fehler der Erweiterung aussieht, wird sichtbar** (Daniel,
+  17.09.2026: „bau es so, das wir direkt mitbekommen wenn die extension schuld
+  ist"). Nichts davon hält den Import auf; der Lauf wird gelb, und die Liste
+  steht in `data/meldungs-auffaelligkeiten.json`.
+*/
+const auffaellig: string[] = []
 /** Meldungen, deren Adresse unser Datensatz nicht kennt — samt Namensvorschlag. */
 /**
  * Wie der Anbieter seine Staffeln selbst einteilt, je Adresse.
@@ -667,6 +688,12 @@ for (const gruppe of jeAdresse.values()) {
     if (staffelNr && reihe) {
       const nummern = staffelNummern(reihe)
       const ziel = [...nummern].filter(([, n]) => n === staffelNr).map(([id]) => id)
+      for (const tid of ausMeldung) {
+        const n = nummern.get(tid)
+        if (n != null && n !== staffelNr) {
+          auffaellig.push(`Meldung ${gruppe.map((x) => x.id).join(',')}: Titel ${tid} ist Staffel ${n}, die Seite ${p.seiten_kennung ?? p.url} Staffel ${staffelNr}`)
+        }
+      }
       const schonRichtig = ziel.length > 0 && ids.every((id) => ziel.includes(id))
       if (ziel.length && !schonRichtig) {
         log(`Staffel ${staffelNr} von ${p.url} gehört zu ${ziel.join(', ')} statt ${ids.join(', ')}`)
@@ -676,6 +703,18 @@ for (const gruppe of jeAdresse.values()) {
         offenGeblieben.push(`${p.url} — Staffel ${staffelNr} in der Reihe nicht zu bestimmen, Meldung bleibt liegen`)
         continue
       }
+    }
+  }
+
+  /* Folgenzahl der Meldung gegen den Titel — nur grobe Abweichungen, Prime schneidet oft anders zu. */
+  if (ids.length === 1) {
+    const t = liste.find((x) => x.id === ids[0])
+    const gemeldet = Math.max(
+      ...gruppe.map((x) => (typeof x.folgen === 'number' && Number.isFinite(x.folgen) ? x.folgen : 0)),
+      gruppe.filter((x) => x.folge_nr != null).length,
+    )
+    if (t?.episodes && gemeldet > 1 && Math.abs(gemeldet - t.episodes) > Math.max(2, t.episodes * 0.25)) {
+      auffaellig.push(`Meldung ${gruppe.map((x) => x.id).join(',')}: ${gemeldet} Folgen gemeldet, Titel ${t.id} hat ${t.episodes} (${p.seiten_kennung ?? p.url})`)
     }
   }
 
@@ -937,8 +976,15 @@ for (const gruppe of jeAdresse.values()) {
      * gültig, und das ist die richtige Auskunft — die Kanal-Meldung hat ihn ja
      * nicht widerlegt.
      */
+    /*
+      **Eine Kanal-Meldung mit deutschem Ton ist eine Aussage** (Daniel,
+      17.09.2026: „Unsere Meldung per Extension sollte höchste Confidence
+      haben"). Ausgelassen wird nur noch das Nein aus einem Kanal — sonst legt
+      die Prüfliste dieselbe Seite endlos wieder vor.
+    */
     const ohneAussage =
       !weg &&
+      !gruppe.some((x) => x.befund === 'dub') &&
       !echteAmazonAdresse(p) &&
       nachUrl.has(schluesselAdresse(p.url)) &&
       !eigene.length &&
@@ -1273,6 +1319,18 @@ log(
       : ''),
 )
 for (const o of offenGeblieben) warn(o)
+for (const a of auffaellig) warn(`Auffällig: ${a}`)
+if (auffaellig.length && !TROCKEN) {
+  const datei = resolve(ROOT, 'data/meldungs-auffaelligkeiten.json')
+  const grenze = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 10)
+  const bisher = existsSync(datei) ? (JSON.parse(readFileSync(datei, 'utf8')) as { am: string; text: string }[]) : []
+  const neu = [...bisher.filter((x) => x.am >= grenze), ...auffaellig.map((text) => ({ am: heute, text }))]
+  writeFileSync(datei, JSON.stringify(neu, null, 2) + '\n')
+  if (process.env.GITHUB_ENV) {
+    const alt = process.env.DATEN_WARNUNG ? process.env.DATEN_WARNUNG + ' · ' : ''
+    appendFileSync(process.env.GITHUB_ENV, `DATEN_WARNUNG=${alt}${auffaellig.length} Meldung(en) auffällig, siehe data/meldungs-auffaelligkeiten.json\n`)
+  }
+}
 if (TROCKEN) {
   console.log(zeilen.join('\n'))
   log(String(erledigteIds.size) + " Meldungen waeren abgehakt worden (Trockenlauf: der Briefkasten bleibt, wie er ist)")

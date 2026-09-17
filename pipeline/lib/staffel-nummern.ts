@@ -18,5 +18,8 @@ export function staffelNummern(reihe: Reiheneintrag[]): Map<number, number> {
     if (/^\d+$/.test(rest)) return void aus.set(m.id, Number(rest))
     if (i === 0) aus.set(m.id, 1)
   })
+  /* „Final Season" ohne Nummer ist die Staffel nach der letzten bekannten (Golden Kamuy, 17.09.2026). */
+  const finale = haupt.filter((m) => !aus.has(m.id) && /final season|finale staffel/i.test(m.name))
+  if (finale.length === 1) aus.set(finale[0]!.id, Math.max(0, ...aus.values()) + 1)
   return aus
 }

@@ -4442,8 +4442,9 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 /* Meldungsimport: die Staffel aus der Adresse wird über die Namen der Reihe bestimmt (17.09.2026). */
 {
   const m = (id: number, name: string, jpStart: string, format = 'TV', beiwerk?: boolean) => ({ id, name, jpStart, format, beiwerk })
-  const kamuy = [m(1, 'Golden Kamuy', '2018-04'), m(2, 'Golden Kamuy 2', '2018-10'), m(3, 'Golden Kamuy: OVA', '2018-12', 'OVA', true), m(4, 'Golden Kamuy 3', '2020-10'), m(5, 'Golden Kamuy 4', '2023-10')]
+  const kamuy = [m(1, 'Golden Kamuy', '2018-04'), m(2, 'Golden Kamuy 2', '2018-10'), m(3, 'Golden Kamuy: OVA', '2018-12', 'OVA', true), m(4, 'Golden Kamuy 3', '2020-10'), m(5, 'Golden Kamuy 4', '2023-10'), m(6, 'Golden Kamuy: Final Season', '2026-01')]
   pruefe('„Golden Kamuy 4" ist Staffel 4, nicht Folge 13 von Staffel 1 und 2', staffelNummern(kamuy).get(5) === 4 && staffelNummern(kamuy).get(1) === 1)
+  pruefe('„Final Season" ohne Nummer ist die nächste Staffel', staffelNummern(kamuy).get(6) === 5)
   const schleim = [
     m(10, 'Schleim', '2018-10'), m(11, 'Schleim: Staffel 2', '2021-01'), m(12, 'Schleim-Tagebücher', '2021-04', 'TV', true),
     m(13, 'Schleim: Staffel 2 — Teil 2', '2021-07'), m(14, 'Schleim: Staffel 3', '2024-04'),

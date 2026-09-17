@@ -116,6 +116,16 @@ if (trocken) {
   process.exit(0)
 }
 
+/*
+  **Zurückstellen heißt hier löschen** (17.09.2026): Ich habe es als „wieder auf
+  offen setzen" gelesen und drei Meldungen von Daniel gelöscht. Ohne ausdrückliche
+  Bestätigung läuft deshalb nichts.
+*/
+if (!argumente.includes('--wirklich-loeschen')) {
+  console.log('\nDiese Meldungen würden GELÖSCHT, nicht zurückgesetzt. Bestätigen mit --wirklich-loeschen.')
+  process.exit(1)
+}
+
 const antwort = await fetch(BRIEFKASTEN, {
   method: 'DELETE',
   headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': TOKEN },

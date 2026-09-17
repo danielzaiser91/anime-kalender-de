@@ -142,7 +142,7 @@ jobs:
           git checkout -- data/anbieter-staffeln.json 2>/dev/null || true
           rm -f data/cache/pruefungen-abhaken.json
           grund="$(grep -m 3 '✖' /tmp/logic.txt | tr -d '\"' | tr -s '[:space:]' ' ')"
-          echo "DATEN_WARNUNG=Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"
+          echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"
 
       # Was der Erweiterung aufgefallen ist, ohne dass jemand die Konsole oeffnet.
       # Bis zum 10.09.2026 stand das nur im Browser-Log — also nirgends, wo es

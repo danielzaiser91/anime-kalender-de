@@ -10235,6 +10235,15 @@ async function speicherSchreiben(werte) {
           */
           titelId: (() => {
             try {
+              /*
+                **Nach einem Staffelwechsel gilt die Kennung des Auftrags nicht mehr**
+                (17.09.2026, Golden Kamuy): Der Auftrag meint die Seite, von der er
+                kam. Steht jetzt eine andere Kennung in der Adresse, entscheidet der
+                Import über die Staffelnummer.
+              */
+              const hierKennung = String(asin() ?? '')
+              const auftragsSeite = kennungAus(eintrag?.url ?? '') ?? suchauftrag()?.zielAsin ?? null
+              if (hierKennung && auftragsSeite && auftragsSeite !== hierKennung) return null
               if (eintrag?.id != null) return eintrag.id
               const ids = [...new Set((eintrag?.eintraege ?? []).map((e) => e?.id).filter((x) => x != null))]
               if (ids.length === 1) return ids[0]

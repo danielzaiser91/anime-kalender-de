@@ -63,6 +63,7 @@ QUELLEN=(
   # Urteile: Die Angabe gilt der Serie, nicht der Folge.
   data/justwatch-audio.json
   data/kanal-widerspruch.json
+  data/meldungs-auffaelligkeiten.json
   data/tmdb-folgen.json
   data/anbieter-vorschlaege.json
   data/wiedervorlage.json

@@ -788,6 +788,22 @@ Sie ist das Einzige, was Amazon und unser Bestand gemeinsam führen.
 
 ### Bei einem Kanal-Titel ist Amazons Sprachangabe kein Beleg
 
+**Geändert am 17.09.2026 für das Ja:** Daniel: „Unsere Meldung per Extension sollte höchste
+Confidence haben … bau es so, das wir direkt mitbekommen wenn die extension schuld ist."
+Eine Kanal-Meldung **mit** deutschem Ton wird seitdem ein Beleg (`dub: true`, Notiz behält den
+Kanal-Hinweis); ausgelassen wird nur noch das Nein. Sonst legte die Prüfliste dieselbe Seite
+endlos wieder vor (Golden Kamuy). Fehler der Erweiterung sollen stattdessen auffallen:
+`fetch-pruefungen.ts` schreibt Auffälligkeiten (Titel der Meldung passt nicht zur Staffel der
+Seite, Folgenzahl weicht grob ab) nach `data/meldungs-auffaelligkeiten.json` und macht den
+Bau gelb. Der Rest dieses Abschnitts beschreibt, warum das Nein weiter zwei Quellen braucht.
+
+**Und der Beleg nimmt die Seite, auf der gemeldet wurde.** Eine Meldung trägt zwei Adressen:
+`url` ist der Eintrag der Prüfliste (bei einem Staffelwechsel die Seite von Staffel 1),
+`seiten_kennung` die Seite, die wirklich angesehen wurde. Bis zum 17.09.2026 schrieb der
+Import `url`; ab Staffel 2 nimmt er jetzt `seiten_kennung`, und die Staffel bestimmt
+`staffelNummern()` über die Namen der Reihe (auch „Golden Kamuy 4", „Final Season").
+Die Erweiterung schickt `titelId` nach einem Staffelwechsel nicht mehr mit (4.20.24).
+
 Prime Video führt zweierlei unter derselben Oberfläche: eigene Inhalte („In Prime enthalten",
 `benefitId: "Prime"`) und **Kanal-Abos** wie ADN, aniverse oder Crunchyroll, die man dort
 dazubucht. Der Unterschied entscheidet, ob die Tonspur-Angabe etwas taugt.
