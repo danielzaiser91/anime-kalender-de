@@ -35,6 +35,12 @@ const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.work
 const TOKEN = process.env.LAUF_TOKEN ?? ''
 
 /** Eine Zeile aus `prime_folge`, so wie der Worker sie ausliefert. */
+/** Die Seite einer Gruppe — nur wenn alle Folgen dieselbe nennen. */
+function seiteDer(liste: { seiten_kennung?: string | null }[]): string | null {
+  const s = new Set(liste.map((f) => f.seiten_kennung ?? ''))
+  return s.size === 1 ? [...s][0] || null : null
+}
+
 interface Rohfolge {
   id: number
   url: string
@@ -58,6 +64,8 @@ interface Rohfolge {
     ist, wenn ein Titel bei mehreren Anbietern laeuft.
   */
   plattform?: string | null
+  /** Die Seite, auf der gelesen wurde (Migration 030) — `url` ist die Prüflisten-Adresse. */
+  seiten_kennung?: string | null
   /*
     Der Serienname aus der Meldung derselben Adresse — der Worker liefert ihn
     als Unterabfrage mit. Er ist der letzte Anker, wenn unser Bestand die
@@ -308,6 +316,8 @@ async function main(): Promise<void> {
     {
       titleId: number
       asin: string | null
+      /** Die gemeldete Seite, wenn alle Folgen der Gruppe dieselbe nennen. */
+      seite?: string | null
       /*
         **Wer gemeldet hat — bis zum 05.09.2026 stand das Feld nur da.**
 
@@ -700,6 +710,7 @@ async function main(): Promise<void> {
       zugeordnet[schluessel] = {
         titleId: titel.id,
         plattform: liste[0]!.plattform ?? 'primevideo',
+      seite: seiteDer(liste),
         asin: liste[0]!.asin ?? null,
         folgen: [{ unsere: null, sprachen: JSON.parse(liste[0]!.sprachen ?? '[]') as string[] }],
       }
@@ -791,6 +802,7 @@ async function main(): Promise<void> {
       zugeordnet[schluessel] = {
         titleId: titel.id,
         plattform: liste[0]!.plattform ?? 'primevideo',
+      seite: seiteDer(liste),
         asin: liste.find((f) => f.asin)?.asin ?? null,
         folgen: [{ unsere: null, sprachen: JSON.parse([...sprachen][0]!) as string[] }],
       }
@@ -802,6 +814,7 @@ async function main(): Promise<void> {
     zugeordnet[schluessel] = {
       titleId: titel.id,
       plattform: liste[0]!.plattform ?? 'primevideo',
+      seite: seiteDer(liste),
       /* Alle Zeilen einer Adresse stammen von derselben Seite — die erste genügt. */
       asin: liste.find((f) => f.asin)?.asin ?? null,
       folgen: treffend.map((p) => ({

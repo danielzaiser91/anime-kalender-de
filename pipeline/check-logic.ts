@@ -3659,7 +3659,9 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'eine Prime-Zuordnung überspringt Adressen, die ein Handbeleg einem anderen Titel zuschreibt',
-    bau.includes('c.anilistId !== eintrag.titleId && adressGleich(c.url, seite)'),
+    bau.includes('c.platform === plattform && c.url && c.anilistId !== eintrag.titleId') &&
+      bau.includes('seite = amazonTitelAdresse(eintrag.seite)') &&
+      readFileSync('worker/src/index.ts', 'utf8').includes('AND seiten_kennung IS ?3'),
     'sonst trägt Vinland Saga Staffel 2 die Seite von Staffel 1 mit „DE ✓" (17.09.2026)',
   )
   pruefe(

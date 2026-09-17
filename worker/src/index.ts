@@ -2140,7 +2140,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         */
         `SELECT f.id, f.url, f.asin, f.gti, f.nummer, f.titel, f.erschienen, f.dauer_sek,
                 f.sprachen, f.untertitel, f.staffel_text, f.staffel_nr, f.gemeldet_am,
-                f.titel_id, f.plattform,
+                f.titel_id, f.plattform, f.seiten_kennung,
                 (SELECT p.titel FROM pruefung p
                   WHERE p.url = f.url AND p.titel IS NOT NULL
                   ORDER BY p.gemeldet_am DESC LIMIT 1) AS serientitel
@@ -2699,8 +2699,12 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       const plattform = String(daten.plattform ?? 'primevideo')
       const kennungen = rohfolgen.map((f: Record<string, unknown>) => (f.gti ? String(f.gti) : null)).filter(Boolean)
       if (plattform === 'primevideo' || !kennungen.length) {
-        await env.DB.prepare('DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0')
-          .bind(url, plattform)
+        /* Je Seite, nicht nur je Adresse: Staffel 2 unter derselben Prüflisten-Adresse
+           löschte sonst die offenen Folgen von Staffel 1 (Migration 030, 17.09.2026). */
+        await env.DB.prepare(
+          'DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND seiten_kennung IS ?3',
+        )
+          .bind(url, plattform, seitenKennung)
           .run()
       } else {
         await env.DB.batch(
@@ -2721,8 +2725,8 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       env.DB.prepare(
         `INSERT INTO prime_folge (url, asin, gti, nummer, titel, erschienen, dauer_sek,
                                   sprachen, untertitel, staffel_text, staffel_nr, gemeldet_am,
-                                  titel_id, plattform, roh)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15)`,
+                                  titel_id, plattform, roh, seiten_kennung)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16)`,
       ).bind(
         url,
         f.asin ? String(f.asin).slice(0, 40) : null,
@@ -2766,6 +2770,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         String(daten.plattform ?? 'primevideo').slice(0, 20),
         /* Alles Kleine, was die Seite über die Folge sagt — Migration 029. */
         f.roh ? JSON.stringify(f.roh).slice(0, 8000) : null,
+        seitenKennung ? seitenKennung.slice(0, 40) : null,
       ),
     )
     try {

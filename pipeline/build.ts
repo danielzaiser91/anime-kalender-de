@@ -3658,6 +3658,8 @@ function main(): void {
         {
           titleId: number
           asin: string | null
+          /** Die gemeldete Seite (Migration 030), wenn die Rohfolgen sie tragen. */
+          seite?: string | null
           /* Wer gemeldet hat. */
           plattform: string
           folgen: { unsere: number | null; sprachen: string[] }[]
@@ -3722,7 +3724,7 @@ function main(): void {
         sie mitgeschickt worden.
       */
       const gemeldeteAdresse = schluessel.split('#')[0]!
-      const seite =
+      let seite =
         plattform !== 'primevideo'
           ? gemeldeteAdresse
           : /amazon\.[a-z.]+\/(?:dp|gp\/video\/detail)\//i.test(gemeldeteAdresse)
@@ -3743,12 +3745,17 @@ function main(): void {
         einem Handbeleg. Übersprungen statt umgebogen — welche Seite die
         richtige ist, sagt die Rohfolge nicht.
       */
-      if (
-        seite &&
+      const fremdBelegt = (adresse: string | null): boolean =>
+        Boolean(adresse) &&
         alleChecks.some(
-          (c) => c.platform === plattform && c.url && c.anilistId !== eintrag.titleId && adressGleich(c.url, seite),
+          (c) =>
+            c.platform === plattform && c.url && c.anilistId !== eintrag.titleId && adressGleich(c.url, adresse ?? undefined),
         )
-      ) {
+      /* Seit Migration 030 kennt die Rohfolge die gemeldete Seite — dann gilt die Meldung ihr. */
+      if (fremdBelegt(seite) && plattform === 'primevideo' && eintrag.seite) {
+        seite = amazonTitelAdresse(eintrag.seite)
+      }
+      if (fremdBelegt(seite)) {
         fremdeAdresse++
         continue
       }

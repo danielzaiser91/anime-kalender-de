@@ -803,6 +803,13 @@ Bau gelb. Der Rest dieses Abschnitts beschreibt, warum das Nein weiter zwei Quel
 Import `url`; ab Staffel 2 nimmt er jetzt `seiten_kennung`, und die Staffel bestimmt
 `staffelNummern()` über die Namen der Reihe (auch „Golden Kamuy 4", „Final Season").
 Die Erweiterung schickt `titelId` nach einem Staffelwechsel nicht mehr mit (4.20.24).
+**Dasselbe galt für die Rohfolgen** (17.09.2026): Sie lagen im Worker nur unter `url`. Vinland
+Saga Staffel 2 wurde so der Seite von Staffel 1 zugeordnet (`B0C55SJB1W`, nur Japanisch) und
+stand mit „DE ✓" im Panel; das Aufräumen je Adresse löschte außerdem die offenen Folgen der
+zuerst gemeldeten Staffel. Seit Migration 030 trägt `prime_folge` die `seiten_kennung`, der
+Zuordner reicht sie als `seite` durch, und der Bau nimmt sie, wenn ein Handbeleg die Adresse
+einem anderen Titel zuschreibt. Ohne Seitenkennung (Altbestand) wird eine solche Zuordnung
+übersprungen.
 
 Prime Video führt zweierlei unter derselben Oberfläche: eigene Inhalte („In Prime enthalten",
 `benefitId: "Prime"`) und **Kanal-Abos** wie ADN, aniverse oder Crunchyroll, die man dort
