@@ -77,6 +77,7 @@ for (const t of auswahl) {
     if (/ - \?/.test(text)) probleme.push('offenes Zeitraumende „- ?"')
     if (/führt ihn bisher/.test(text) && /Kein Anbieter bekannt/.test(text)) probleme.push('„kein Anbieter" doppelt')
     if (/führt ihn bisher/.test(text) && /🇩🇪/.test(text)) probleme.push('„kein Anbieter" neben Anbieter-Pillen')
+    if (/Finale Folge/.test(text) && /im TV am/.test(text)) probleme.push('„Finale Folge" aus einer TV-Sichtung')
     if (/Für Folgen \d+ kennen/.test(text)) probleme.push('„Für Folgen N" mit einer einzigen Folge')
     const luecke = /Für Folgen? ([\d–, ]+) kennen wir keinen/.exec(text)
     if (luecke && /Wöchentlich/.test(text)) probleme.push(`Lücke „${luecke[1]}" bei laufender Wochenserie (prüfen)`)

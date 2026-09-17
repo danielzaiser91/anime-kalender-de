@@ -120,6 +120,8 @@ type Antwort =
       letzter?: string
       /** Feste Sendetage der Ausgabe (Fernsehen), 1 = Montag. */
       sendetage?: number[]
+      /** Aus dem TV-Programm gesichtet: Zählung und Ende sind unbekannt. */
+      sichtung?: boolean
       /** Der verstrichene Tag, wenn die nächste Folge auf einem Ersatztermin liegt. */
       verschobenVon?: string
       /** Stehen mehrere ausgebliebene Folgen hintereinander, die Nummer der letzten. */
@@ -129,7 +131,7 @@ type Antwort =
     }
   | { art: 'fertig'; raus?: number; gesamt?: number }
   /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
-  | { art: 'teilweise'; raus: number; gesamt: number }
+  | { art: 'teilweise'; raus: number; gesamt: number; restBelegt: boolean }
   | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number; ohneWeg: boolean }
   /**
    * **Ein angekündigter Kinofilm ohne deutsche Fassung.** `jp` in der Genauigkeit
@@ -469,8 +471,14 @@ function AntwortKasten({
       nächste - finale folge, wenn letzte folge der staffel"). `rest` zählt die
       kommende Folge mit; steht nur sie noch aus, ist sie das Finale.
     */
-    const wasKommt = antwort.raus === 0 ? 'erste' : antwort.rest === 1 ? 'finale' : 'naechste'
-    const kopf = e.episode
+    /*
+      Eine TV-Sichtung kennt weder das Ende noch die echte Folgennummer — die Zahl der
+      gesehenen Folgen ist kein Finale (Pokémon Horizonte bei TOGGO plus, Stichprobe
+      17.09.2026: „Finale Folge (Folge 2)" und „Wöchentlich" bei täglicher Sendung).
+    */
+    const wasKommt =
+      antwort.raus === 0 ? 'erste' : antwort.rest === 1 && !antwort.sichtung ? 'finale' : 'naechste'
+    const kopf = e.episode && !antwort.sichtung
       ? T(`antwort.${wasKommt}FolgeNr`, { n: e.episode })
       : T(`antwort.${wasKommt}Folge`)
     /*
@@ -545,7 +553,11 @@ function AntwortKasten({
         zweimal. Was bleibt, ist die Frequenz — und die sagt zusammen mit dem
         Tag oben alles, was „Wöchentlich samstags" sagte.
       */
-      antwort.sendetage?.length ? sendetageText(antwort.sendetage) : T('antwort.rhythmusWoechentlichKurz'),
+      antwort.sendetage?.length
+        ? sendetageText(antwort.sendetage)
+        : antwort.sichtung
+          ? null
+          : T('antwort.rhythmusWoechentlichKurz'),
       /*
         **„Noch X" heißt: X stehen aus — die nächste eingerechnet.**
 
@@ -556,10 +568,10 @@ function AntwortKasten({
         zum Finale" (Daniel, 04.09.2026: „es müsste noch 12 heißen"). Zwölf
         Folgen stehen aus, nicht elf — die nächste ist keine erschienene.
       */
-      antwort.letzter && antwort.rest > 1
+      antwort.letzter && antwort.rest > 1 && !antwort.sichtung
         ? T('antwort.nochFolgen', { count: antwort.rest, datum: formatDate(antwort.letzter) })
         : /* Steht „Finale Folge" schon in der Überschrift, wäre „letzte Folge" hier dieselbe Auskunft zweimal. */
-          antwort.raus === 0
+          antwort.raus === 0 && !antwort.sichtung
           ? T('antwort.letzteFolge')
           : null,
       antwort.verschobenVon && T('antwort.verschobenVon', { datum: formatDate(antwort.verschobenVon) }),
@@ -591,7 +603,7 @@ function AntwortKasten({
       wurde zu „Alle 12 Folgen auf Deutsch", obwohl vier belegt waren.
     */
     haupt = T('antwort.teilweiseZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
-    neben = T('antwort.teilweiseNeben')
+    neben = antwort.restBelegt ? '' : T('antwort.teilweiseNeben')
     anteil = Math.round((antwort.raus / antwort.gesamt) * 100)
     zaehl = ''
   } else if (antwort.art === 'fertig') {
@@ -3309,6 +3321,14 @@ export function DetailPanel({
     if (!abdeckung.length && hatSynchro) abdeckung.push(dubAbdeckung(undefined, gesamt))
     const vollstaendig = abdeckung.some((a) => a.vollstaendig)
     const belegteFolgen = abdeckung.length ? Math.max(...abdeckung.map((a) => a.belegt)) : 0
+    /* Sind die übrigen Folgen als „ohne Deutsch" belegt, fehlt keine Angabe (Gundam GQuuuuuuX, Stichprobe 17.09.2026). */
+    const restBelegt = mitUrteil.some((s) => {
+      const bereiche = s.dubRanges ?? []
+      if (!gesamt || !bereiche.some((b) => !b.dub)) return false
+      const gedeckt = new Set<number>()
+      for (const b of bereiche) for (let n = b.from; n <= Math.min(b.to, gesamt); n++) gedeckt.add(n)
+      return gedeckt.size >= gesamt
+    })
 
     /*
       **Kino und Stream eines Films gehören in einen Kasten** (Daniel, 17.09.2026:
@@ -3394,6 +3414,7 @@ export function DetailPanel({
         gesamt,
         letzter: derselben[derselben.length - 1]?.date,
         sendetage: releases.find((r) => r.slug === n.releaseSlug)?.schedule.wochentage,
+        sichtung: n.sichtung,
         verschobenVon: istAusgeblieben(n)
           ? undefined
           : offen.find((o) => istAusgeblieben(o) && o.episode === n.episode)?.date,
@@ -3452,7 +3473,7 @@ export function DetailPanel({
         Teilweise synchronisiert: Der Kasten nennt die belegte Zahl statt „alle".
         `laeuft` ist der Zustand, der genau das kann — er zeigt „x von y".
       */
-      return { art: 'teilweise' as const, raus: belegteFolgen, gesamt }
+      return { art: 'teilweise' as const, raus: belegteFolgen, gesamt, restBelegt }
     }
     if (hatSynchro || titleStatus(releases, today, title) === 'erschienen') {
       return { art: 'fertig' as const, raus: raus || gesamt, gesamt }
