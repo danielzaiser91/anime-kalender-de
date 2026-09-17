@@ -3640,9 +3640,14 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'sonst macht eine Abwehrseite aus einem gemessenen 404 wieder eine offene Frage',
   )
   pruefe(
-    'der Lauf bricht ab, wenn Amazon in Serie Zwischenseiten schickt',
+    'der Lauf hört bei Amazon auf, wenn Amazon in Serie Zwischenseiten schickt',
     linkPruefer.includes('SPERR_SCHWELLE') && linkPruefer.includes('inFolgeUnklar'),
     'gegen eine laufende Sperre zu klopfen bringt keinen Befund und verlängert sie',
+  )
+  pruefe(
+    'die Amazon-Sperre hält die übrigen Anbieter nicht auf',
+    linkPruefer.includes('if (amazonGesperrt && istAmazon)') && !/inFolgeUnklar >= SPERR_SCHWELLE\)[\s\S]{0,200}break/.test(linkPruefer),
+    'vom GitHub-Runner sperrt Amazon nach wenigen Abrufen — ein Abbruch ließ seit dem 07.09.2026 alle anderen Verweise ungeprüft',
   )
   pruefe(
     'ein Bezugsweg auf dieselbe Adresse wie ein Verweis fliegt raus',

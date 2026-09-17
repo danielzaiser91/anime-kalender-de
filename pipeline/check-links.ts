@@ -276,12 +276,27 @@ async function main(): Promise<void> {
    *
    * Zwanzig in Folge, nicht fünf: Einzelne Zwischenseiten kommen auch im
    * gesunden Betrieb vor, eine Serie von zwanzig ist die Abwehr.
+   *
+   * **Die Sperre gilt Amazon, nicht dem Lauf.** Bis zum 17.09.2026 brach sie die
+   * ganze Schleife ab. Vom GitHub-Runner aus sperrt Amazon fast sofort (14.09.:
+   * nach 41 Adressen), und damit blieben seit dem 07.09. auch alle übrigen
+   * Anbieter ungeprüft — zehn Nicht-Amazon-Befunde in zehn Tagen bei über
+   * tausend fälligen. Seitdem werden nach der Sperre nur die Amazon-Adressen
+   * übersprungen; sie bleiben fällig.
    */
   const SPERR_SCHWELLE = 20
+  const AMAZON = /(^|\.)amazon\./i
   let inFolgeUnklar = 0
+  let amazonGesperrt = false
+  let uebersprungen = 0
   let tot = 0
   let geprueft = 0
   for (const url of arbeit) {
+    const istAmazon = AMAZON.test(new URL(url).hostname)
+    if (amazonGesperrt && istAmazon) {
+      uebersprungen++
+      continue
+    }
     const neu = await pruefe(url)
     /*
       **Eine Nichtauskunft löscht keinen Befund.**
@@ -303,13 +318,10 @@ async function main(): Promise<void> {
     if (!behalten) bestand[url] = neu
     if (neu.status === 'unklar') {
       if (++inFolgeUnklar >= SPERR_SCHWELLE) {
-        warn(
-          `Abbruch nach ${geprueft} Adressen: ${SPERR_SCHWELLE} Zwischenseiten in Folge — Amazon sperrt gerade. ` +
-            `${arbeit.length - geprueft} bleiben fällig und kommen im nächsten Lauf dran.`,
-        )
-        break
+        warn(`${SPERR_SCHWELLE} Zwischenseiten in Folge nach ${geprueft + 1} Adressen — Amazon sperrt gerade, weiter ohne Amazon.`)
+        amazonGesperrt = true
       }
-    } else {
+    } else if (istAmazon) {
       inFolgeUnklar = 0
     }
     /* Gezählt wird, was dieser Lauf gefunden hat — nicht, was schon dastand. */
@@ -321,6 +333,7 @@ async function main(): Promise<void> {
   writeJson(DATEI, bestand)
   const gesamtTot = Object.values(bestand).filter((b) => b.status === 404 || b.status === 'region').length
   log(`Verweise: ${geprueft} geprüft, ${tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
+  if (uebersprungen) log(`${uebersprungen} Amazon-Adressen wegen der Sperre übersprungen — sie bleiben fällig.`)
   if (!geprueft && offen.length) warn('Nichts geprüft, obwohl etwas fällig war — Aufruf prüfen.')
   /* Nichts faellig ist der Normalfall, sobald alle Adressen geprueft sind —
      kein Grund, den Lauf als stumm zu melden (29.08.2026). */

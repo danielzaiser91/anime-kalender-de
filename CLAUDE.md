@@ -5016,6 +5016,12 @@ Deshalb bricht der Lauf jetzt bei **zwanzig Zwischenseiten in Folge** ab
 gesunden Betrieb vor; eine Serie von zwanzig ist die Abwehr. Was übrig bleibt,
 bleibt fällig.
 
+**Und die Sperre stoppt nur Amazon (17.09.2026).** Vom GitHub-Runner aus sperrt Amazon
+nach wenigen Dutzend Abrufen; der alte Abbruch ließ dadurch zehn Tage lang auch alle
+übrigen Anbieter ungeprüft (1.037 fällig, 41 geprüft). Seitdem überspringt der Lauf nach
+der Sperre nur die Amazon-Adressen. Amazon selbst liefert Befunde praktisch nur von einer
+deutschen Leitung (07.09.: 552 gute von hier, 14.09.: 2 aus der Cloud).
+
 **Die allgemeine Form:** Bei einer Quelle mit Bot-Abwehr ist die erste Frage
 nicht „wie schnell darf ich fragen", sondern **„wie viel darf ich in einer
 Sitzung fragen"**. Ein Takt schützt vor Überlast, nicht vor einem Kontingent —
