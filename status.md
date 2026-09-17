@@ -834,7 +834,7 @@ Geprüfte Wege:
 | JustWatch (`data/justwatch-audio.json`) | kennt 71 der 229 Prime- und 36 der 241 Kauf-Titel; Kaufangebote tragen `/dp/<ASIN>` (10 Treffer), Prime-Angebote nur `watch.amazon.de/detail?gti=amzn1.dv.gti.<uuid>` | als Lebenszeichen brauchbar, Abdeckung zu klein |
 | Amazon-Seite nennt gti | ja, `amzn1.dv.gti.<uuid>` steht mehrfach im Quelltext (auch für Nachbarn) | Brücke ASIN ↔ JustWatch möglich, eigene gti muss die Erweiterung sicher bestimmen |
 | Amazon PA-API 5 | offiziell, braucht Partnerprogramm mit Umsätzen | verworfen: macht die Seite kommerziell, dann fällt die RTL-TV-Quelle weg |
-| Keepa-API | ASIN-Status für amazon.de, kostenpflichtig (ab ~19 €/Monat) | nur nach Freigabe |
+| Keepa-API | ab 49 €/Monat für 20 Abfragen je Minute (laut revenuegeeks.com, Keepas Preisseite nicht maschinenlesbar), monatlich kündbar, 1 Abfrage je ASIN; gibt es die ASIN nicht, kommt ein leeres Ergebnis. **Laut Doku keine digitalen Produkte** — Prime Video fällt raus (keepa.com/api-docs/product.html, 17.09.2026) | taugt nur für die 241 Kaufwege; Keepa beschafft seine Daten selbst per Abruf bei Amazon |
 
 ## Beantwortet 05.09.2026: Welche Pokémon-Folgen Prime nicht führt
 
