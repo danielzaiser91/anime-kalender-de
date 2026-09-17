@@ -4187,7 +4187,8 @@ export function DetailPanel({
                   <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
                     {t('detail.folgenOhneAnbieter', { bereich: folgenLuecke })}
                   </p>
-                ) : title.ohneSynchro ? (
+                ) : /* Beim Kinofilm sagt der Kino-Hinweis darunter dasselbe (Daniel, 17.09.2026: „doppelte info"). */
+                title.ohneSynchro && antwort?.art !== 'kino' ? (
                   <>
                     <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
                       {verbindung.verbunden
