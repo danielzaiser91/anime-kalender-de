@@ -51,7 +51,20 @@
       break
     } catch { /* nächster Block */ }
   }
+  /* Die gtis der Gegenprobe (daniel-zum-abarbeiten/19-poc-gti.md), Zeile → JustWatch-gti. */
+  const ERWARTET = [
+    'f094ed7f-41c0-4692-99d8-ae469c2ad935', '124692a7-6dd2-4f93-b099-a60ffc917fbc',
+    'e4aad14d-365a-1308-5e8d-51d225df7177', 'fdd997fe-4acd-4348-a926-a7cda983026d',
+    'eb29c573-fe12-4060-a4b0-3e2d4d9c5acf', '22a9f6dc-01df-9e1a-0ffc-fcc73d2b5778',
+    'c2b90e12-85ff-afcf-0914-b7cdc28c7f0f', 'e0b92698-9683-46dd-a03e-2caff0878b85',
+    'ca1b18e0-a3bf-477f-8e67-ecfe82f1a871',
+  ].map((x) => `amzn1.dv.gti.${x}`)
+  const eigeneGti = seite?.kennungsFelderImEigenenKopf?.['eigenerKopf.catalogId'] ?? null
+  const zeile = ERWARTET.indexOf(eigeneGti) + 1
+  const kurz = `${location.pathname} | pageTitleId ${seite?.pageTitleId ?? '–'} | catalogId ${eigeneGti ?? '–'} | ` +
+    (zeile ? `= JustWatch-gti aus Zeile ${zeile}` : 'keine gti der Liste')
   const bericht = {
+    kurz,
     adresse: location.pathname,
     seite,
     b0Asins: zaehle(/\bB0[A-Z0-9]{8}\b/g),

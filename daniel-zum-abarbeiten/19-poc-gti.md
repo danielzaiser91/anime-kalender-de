@@ -1,8 +1,8 @@
 # Gegenprobe: führt JustWatchs Amazon-Link auf unsere Seite?
 
-Beide Links öffnen und die Seiten vergleichen. Amazon führt denselben Titel unter zwei Kennungsformen (`B0…` und eine 26-stellige), deshalb zählt die **Seite**, nicht die Kennung in der Adresszeile.
+**Stand 17.09.2026:** Zeile 1 ist entschieden: Die Seite nennt als `catalogId` genau JustWatchs gti. Amazon führt je Titel mindestens vier Kennungen (Link-ASIN `B0B8TR93HR`, `pageTitleId` `B0B8TQBBS6`, 26-stellige Adresse, gti). Verglichen wird deshalb die gti.
 
-Antwort je Zeile: `=` (dieselbe Seite: gleicher Titel, gleiche Kaufen-/Abo-Knöpfe), `≠` (andere Seite, z. B. andere Ausgabe oder anderer Kanal), `x` (einer der Links tot).
+**Für Zeile 2 bis 9:** nur **unseren Link** öffnen, das Skript [`tools/amazon-kennungen-messen.js`](file:///C:/code/ai/anime-kalender-de/tools/amazon-kennungen-messen.js) in die Konsole (F12) einfügen und nur die Zeile `kurz` schicken. Sie sagt selbst, ob die Seite die JustWatch-gti einer Zeile trägt. Zeile 9 ist der kritische Fall mit toter ASIN: Dort ist „Seite nicht gefunden" die erwartete Antwort.
 
 | # | Titel | unser Link | JustWatch-Link |
 |---|---|---|---|
