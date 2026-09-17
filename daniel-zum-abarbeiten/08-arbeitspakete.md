@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-17 · **9 offene Verweise** in **3 Zeilen**,
+Stand 2026-09-17 · **10 offene Verweise** in **4 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,10 +31,11 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 3
+## Paket 1 — Zeilen 1 bis 4
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | Prime Video | Classroom of the Elite | [Hauptserie](https://www.amazon.de/dp/B0GGJKGT5P) |
-| 2 | Crunchyroll | One Punch Man | [OVAs](https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man) · [Staffel 2 OVAs](https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man) |
-| 3 | Crunchyroll | Princess Principal | [Picture Drama](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [~Crown Handler~ 1](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [Crown Handler - Chapter 1: BUSY EASY MONEY](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [~Crown Handler~ 2](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [Crown Handler 3](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [Crown Handler - Chapter 4](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) |
+| 1 | Crunchyroll | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa](https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa) |
+| 2 | Prime Video | Classroom of the Elite | [Hauptserie](https://www.amazon.de/dp/B0GGJKGT5P) |
+| 3 | Crunchyroll | One Punch Man | [OVAs](https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man) · [Staffel 2 OVAs](https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man) |
+| 4 | Crunchyroll | Princess Principal | [Picture Drama](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [~Crown Handler~ 1](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [Crown Handler - Chapter 1: BUSY EASY MONEY](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [~Crown Handler~ 2](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [Crown Handler 3](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) · [Crown Handler - Chapter 4](https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal) |
