@@ -23,6 +23,7 @@ import {
   beurteileBlockketten,
   beurteileJeBlock,
   beurteileNachFolgennummern,
+  deutscheFolgenNachDemEnde,
   type CrDubData,
 } from './lib/crunchyroll-dub.ts'
 import { terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
@@ -4236,6 +4237,8 @@ function main(): void {
       if (!nummern.length) continue
       /* Mehr deutsche Folgen als der Titel hat, heißt: Der Block ist nicht seiner. */
       if (title.episodes && nummern[nummern.length - 1]! > title.episodes) continue
+      /* Neu beginnende Nummern: Die laufende Nummer entscheidet (Captain Tsubasa, 17.09.2026). */
+      if (deutscheFolgenNachDemEnde(bloecke, title.episodes)) continue
       const bereiche: { from: number; to: number; dub: boolean }[] = []
       for (const n of nummern) {
         const letzter = bereiche[bereiche.length - 1]

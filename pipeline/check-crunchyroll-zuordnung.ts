@@ -537,6 +537,33 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   pruefe('ein OVA-Block bekommt nichts', special.length === 0, special)
 
   /*
+    **Liegen die deutschen Folgen laufend hinter dem Ende, gehören sie einem späteren Teil.**
+    Captain Tsubasa 2018 (17.09.2026): Block mit Serie 1–52 und „Junior Youth",
+    dessen Nummern neu bei 1 beginnen; deutsch sind laufend 53–91.
+  */
+  const tsubasa = (laufend: boolean) => ({
+    ...mitBloecken,
+    staffeln: [
+      {
+        name: 'Captain Tsubasa 2018',
+        folgen: 52,
+        kacheln: 67,
+        deutsch: 39,
+        fremd: 0,
+        deutscheFolgen: Array.from({ length: 39 }, (_, i) => ({
+          nummer: i + 1,
+          guid: `G${i}`,
+          ...(laufend ? { laufend: 53 + i } : {}),
+        })),
+      },
+    ],
+  })
+  const spaeter = beurteileJeBlock(tsubasa(true) as never, [mach(4, 'Captain Tsubasa', 52, 'TV')])
+  pruefe('deutsche Folgen hinter dem Ende geben der Serie kein Ja', spaeter.length === 0, spaeter)
+  const ohneLaufend = beurteileJeBlock(tsubasa(false) as never, [mach(4, 'Captain Tsubasa', 52, 'TV')])
+  pruefe('ohne laufende Nummern bleibt die Einzelserien-Regel wie bisher', ohneLaufend.length === 1, ohneLaufend)
+
+  /*
     **Aber ein OVA-Block, dessen Zahl exakt aufgeht, bekommt seine Titel.**
 
     Der Namensabgleich findet ihn nie: Unser Titel heißt „Mob Psycho 100 Reigen:

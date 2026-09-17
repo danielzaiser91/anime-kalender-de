@@ -34,6 +34,14 @@ import type { Title } from '../../shared/types.ts'
 export interface CrDeutscheFolge {
   /** Folgennummer, wie Crunchyroll sie führt. Fehlt bei Filmen und Specials. */
   nummer?: number
+  /**
+   * **Laufende Nummer im Block** (`sequence_number`, 17.09.2026). Crunchyroll
+   * beginnt die Folgennummer in einem Block gelegentlich neu: „Captain Tsubasa
+   * 2018" führt die Serie von 2018 (1–52) und „Junior Youth" (Nummern 1–39,
+   * laufend 53–91) unter einer Kennung. Nur die laufende Nummer sagt, dass die
+   * deutschen Folgen hinter dem Ende unserer 52-Folgen-Serie liegen.
+   */
+  laufend?: number
   /** Kennung der deutschen Fassung (`…DEDE`). */
   guid: string
   /** `premium_available_date` der deutschen Fassung, ISO in UTC. */
@@ -660,6 +668,24 @@ export function beurteileNachFolgennummern(serie: CrSerie, unsere: Title[]): Urt
  * Passen zwei Blöcke, wird nichts gesetzt — dann ist die Zuordnung
  * mehrdeutig, und geraten wird nicht.
  */
+/**
+ * **Liegen alle deutschen Folgen hinter dem Ende unseres Titels?**
+ *
+ * Dann gehören sie einem späteren Teil, den Crunchyroll unter derselben
+ * Kennung führt (Captain Tsubasa 2018: deutsch sind laufend 53–91, unsere Serie
+ * hat 52 Folgen). Gemessen am 17.09.2026 über 248 Serien mit genau einem Titel
+ * an der Adresse: genau dieser eine Fall. Ohne laufende Nummern keine Aussage.
+ */
+export function deutscheFolgenNachDemEnde(
+  bloecke: { deutscheFolgen?: CrDeutscheFolge[] }[],
+  folgen: number | undefined,
+): boolean {
+  if (!folgen) return false
+  const laufend = bloecke.flatMap((b) => (b.deutscheFolgen ?? []).map((f) => f.laufend))
+  if (!laufend.length || laufend.some((x) => typeof x !== 'number')) return false
+  return Math.min(...(laufend as number[])) > folgen
+}
+
 export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
   const bloecke = serie.staffeln ?? []
   if (!bloecke.length) return []
@@ -703,7 +729,7 @@ export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
   const serien = unsere.filter((t) => t.format === 'TV' || t.format === 'ONA')
   if (serien.length === 1 && unsere.length === 1) {
     const deutscher = bloecke.find((b) => (b.deutscheFolgen?.length ?? b.deutsch ?? 0) > 0)
-    if (deutscher) {
+    if (deutscher && !deutscheFolgenNachDemEnde(bloecke, serien[0]!.episodes)) {
       return [
         {
           titleId: serien[0]!.id,

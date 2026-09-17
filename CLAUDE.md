@@ -1303,6 +1303,18 @@ Gemessen am 13.09.2026 von Daniel an zwei Titeln, beide mit Bild:
 
 Der Lauf hatte die OVA über ihren eigenen Block beurteilt und ein **Nein** gebucht, obwohl dieselbe Folge im Dub-Block synchronisiert steckt; die Staffel blieb offen, weil er eine Staffel mit genau 12 Folgen suchte. **Vor einem Nein zu einer Nebenausgabe wird deshalb nach einem deutschen Block gesucht, der eine Hauptserie der Reihe um die Nebenausgabe übersteigt**, und eine Staffel darf als Summe aus Werk plus Nebenausgabe derselben Reihe aufgehen (fetch-crunchyroll-offene.ts). Dieselbe Rechnung wie „Der Anbieter zählt kumulativ“ bei Netflix, nur eine Ebene tiefer.
 
+### Eine Folgennummer kann im Block neu beginnen — die laufende Nummer nicht
+
+Captain Tsubasa 2018 (17.09.2026): Crunchyroll führt die Serie von 2018 (1–52) und „Junior
+Youth" unter **einer** Kennung, im selben Block. Junior Youth beginnt bei `episode_number` 1,
+`sequence_number` läuft 53–91 weiter — und genau diese 39 Folgen sind deutsch. Die Regel
+„einzige Serie an der Adresse bekommt die deutschen Folgen" und die Bereichsübertragung
+schrieben daraus „Crunchyroll Fg. 1–39 DE ✓" an die Serie von 2018, deren Folgen dort nur
+japanisch laufen. Seitdem speichert `deutscheFolgen` auch `laufend`, nachgetragen aus dem
+Archiv (`tools/cr-laufend-nachtragen.ts`, 24.860 Folgen, keine fehlte), und
+`deutscheFolgenNachDemEnde()` sperrt beide Wege. Über 248 Serien gemessen trifft das genau
+diesen einen Fall.
+
 ## Wer eine Abdeckung misst, zählt alle Quellen — nicht die eine, die am Verweis steht
 
 Am 14.09.2026 stand die Frage, wie viele deutsche Verweise eine belegte Folgenzahl je Anbieter haben. Meine erste Antwort war „93 von 1.982, 5 %" — gezählt hatte ich nur `dubRanges` am Verweis. Daniel: „guck nochmal genau in bestand ob wir evtl schon mehr wissen als die 5% die du ansprichst." Es waren **66 %**, und der Rest (682) sind abgeschlossene Serien, für die die Folgenzahl des Titels gilt:

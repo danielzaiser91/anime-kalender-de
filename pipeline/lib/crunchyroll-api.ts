@@ -766,7 +766,7 @@ export class CrunchyrollApi extends CrunchyrollSeiten implements CrQuelle {
  * Befund vom 12.08.2026, dass es sogar zwei Wähler-Einträge zur selben Staffel
  * gibt.
  */
-export function staffelAuszaehlen(folgen: { episode_number?: number | null; versions?: { audio_locale: string; guid: string; original?: boolean }[] }[]): {
+export function staffelAuszaehlen(folgen: { episode_number?: number | null; sequence_number?: number; versions?: { audio_locale: string; guid: string; original?: boolean }[] }[]): {
   jeFolge: Map<string, Tonspur>
   deutscheFolgen: CrDeutscheFolge[]
 } {
@@ -777,7 +777,8 @@ export function staffelAuszaehlen(folgen: { episode_number?: number | null; vers
     const schluessel = nummer !== undefined ? `E${nummer}` : `#${i}`
     const ton: Tonspur = hatDeutsch(f.versions) ? 'deutsch' : nurFremdeSynchro(f.versions) ? 'fremd' : 'keine'
     const guid = deutscheKennung(f.versions)
-    if (guid) deutscheFolgen.set(guid, { nummer, guid })
+    const laufend = typeof f.sequence_number === 'number' ? f.sequence_number : undefined
+    if (guid) deutscheFolgen.set(guid, { nummer, guid, ...(laufend !== undefined ? { laufend } : {}) })
     const bisher = jeFolge.get(schluessel)
     if (bisher === 'deutsch') return
     if (bisher === 'fremd' && ton === 'keine') return
