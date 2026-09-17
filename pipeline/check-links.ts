@@ -331,6 +331,20 @@ async function main(): Promise<void> {
     await sleep(700)
   }
 
+  /*
+    **Vor dem Schreiben wird neu eingelesen** (17.09.2026). Der Lauf hält seinen
+    Stand vom Start und schreibt ihn am Ende zurück; läuft daneben ein zweiter,
+    verliert der spätere Schreiber die Befunde des früheren. Genau so sind an
+    diesem Abend 401 Befunde eines Laufs unter 148 eines zweiten verschwunden —
+    derselbe Mechanismus wie bei einem Datenlauf, der auf `main` committet, nur
+    innerhalb einer Datei. Was inzwischen dazukam, bleibt stehen; nur dieser
+    Lauf hat neuere Auskünfte über die Adressen, die er selbst gefragt hat.
+  */
+  const inzwischen = readJson<Bestand>(DATEI, {})
+  for (const [url, b] of Object.entries(inzwischen)) {
+    const eigen = bestand[url]
+    if (!eigen || (b.geprueftAm ?? '') > (eigen.geprueftAm ?? '')) bestand[url] = b
+  }
   writeJson(DATEI, bestand)
   const gesamtTot = Object.values(bestand).filter((b) => b.status === 404 || b.status === 'region').length
   log(`Verweise: ${geprueft} geprüft, ${tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
