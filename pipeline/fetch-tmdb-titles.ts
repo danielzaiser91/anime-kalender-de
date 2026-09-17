@@ -117,7 +117,15 @@ function similarity(a: string, b: string): number {
   if (!wordsA.size || !wordsB.size) return 0
   let shared = 0
   for (const word of wordsA) if (wordsB.has(word)) shared++
-  return shared / Math.min(wordsA.size, wordsB.size)
+  /*
+    **Geteilt wird durch den längeren Titel** (17.09.2026). Vorher stand hier
+    `Math.min`, und damit passte jeder kurze Titel zu 100 % in einen längeren
+    fremden: „Your Name." bekam die Kennung von „Call Me by Your Name" (Daniel,
+    mit Bild — die Apple-TV-Pille führte auf den falschen Film, die Handlung war
+    die falsche, und JustWatch fand den Titel nicht mehr, weil die Kennung nicht
+    passte). Ein Titel muss den anderen **ausfüllen**, nicht nur in ihm vorkommen.
+  */
+  return shared / Math.max(wordsA.size, wordsB.size)
 }
 
 interface SearchHit {
@@ -128,6 +136,9 @@ interface SearchHit {
   original_title?: string
   first_air_date?: string
   release_date?: string
+  /** Wie bekannt der Eintrag ist — der Unterschied zwischen dem Werk und einer leeren Karteileiche. */
+  popularity?: number
+  vote_count?: number
 }
 
 async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
@@ -153,7 +164,7 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
   ) as string[]
   if (!candidates.length) return { miss: true }
 
-  let best: { hit: SearchHit; score: number } | undefined
+  let best: { hit: SearchHit; score: number; gewicht: number } | undefined
 
   for (const query of candidates) {
     const url =
@@ -174,9 +185,18 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
       if (title.jpYear && hitYear && Math.abs(hitYear - title.jpYear) > 1) continue
       const names = [hit.name, hit.title, hit.original_name, hit.original_title].filter(Boolean) as string[]
       const score = Math.max(...names.map((n) => similarity(query, n)), 0)
-      if (score >= 0.6 && (!best || score > best.score)) best = { hit, score }
+      /*
+        **Bei gleichem Namen entscheidet, welcher Eintrag das Werk ist** (17.09.2026).
+        TMDB führt zu „Your Name" einen leeren Eintrag ohne Datum und ohne eine einzige
+        Stimme (553301) neben dem Film mit 12.992 Stimmen (372058). Die Suche nahm den
+        ersten mit passendem Namen und brach ab; jetzt werden alle Schreibweisen geprüft,
+        und bei gleichem Namen gewinnt der bekanntere.
+      */
+      const gewicht = (hit.vote_count ?? 0) + (hit.popularity ?? 0)
+      if (score < 0.75) continue
+      if (!best || score > best.score || (score === best.score && gewicht > best.gewicht))
+        best = { hit, score, gewicht }
     }
-    if (best && best.score >= 0.85) break
   }
 
   if (!best) return { miss: true }
