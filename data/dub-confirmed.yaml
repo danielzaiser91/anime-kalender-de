@@ -15854,3 +15854,37 @@
   dub: true
   checkedAt: '2026-09-17'
   note: "Crunchyroll-Kanal: ohne Kanal-Abo zeigt Amazon keine deutsche Tonspur; JustWatch (07.09.2026) führt für den Crunchyroll Amazon Channel Ton de — auf Daniels Entscheidung vom 17.09.2026 als Beleg übernommen"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-17 ---
+
+- anilistId: 102977
+  title: "Golden Kamuy 2"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CGGJKCT8
+  dub: true
+  checkedAt: '2026-09-17'
+  note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0CGGJKCT8: alle 12 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 2, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — am 17.09.2026 wiederhergestellt (Tonspuren wie Staffel 1 angenommen)"
+
+- anilistId: 110355
+  title: "Golden Kamuy 3"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CHBQ91TK
+  dub: true
+  checkedAt: '2026-09-17'
+  note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0CHBQ91TK: alle 12 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 3, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — am 17.09.2026 wiederhergestellt (Tonspuren wie Staffel 1 angenommen)"
+
+- anilistId: 166521
+  title: "Golden Kamuy: Final Season"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GKFJXSLT
+  dub: true
+  checkedAt: '2026-09-17'
+  note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0GKFJXSLT: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 5, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — am 17.09.2026 wiederhergestellt (Tonspuren wie Staffel 1 angenommen)"
+
+- anilistId: 102977
+  title: "Golden Kamuy 2"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CGH5WTP4
+  dub: true
+  checkedAt: '2026-09-17'
+  note: "Tonspuren: Deutsch, English, Русский, 日本語 — Amazon-Seite B0CGH5WTP4: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
