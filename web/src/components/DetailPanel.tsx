@@ -3569,8 +3569,18 @@ export function DetailPanel({
   */
   const folgenLuecke = useMemo(() => {
     if (!title || title.format === 'MOVIE') return null
+    /*
+      Ein Anbieter mit laufendem deutschen Wochenplan führt jede erschienene Folge — sein
+      Dub-Bestand hinkt nur hinterher. Black Torch: Bestand „1–10", Folge 11 seit dem
+      12.09. im Plan, und im Kasten stand „Für Folgen 11 kennen wir keinen deutschen
+      Anbieter" (Stichprobe 17.09.2026). Ein solcher Weg gilt wie einer ohne Bereiche.
+    */
+    const laufendBei = (plattform: string): boolean => {
+      const r = releaseJePlattform.get(plattform)
+      return r?.releaseType === 'weekly' && releaseStatus(r, today) === 'airing'
+    }
     const wege = [
-      ...(title.streams ?? []).map((s) => (s.dub === true ? s.dubRanges : undefined)),
+      ...(title.streams ?? []).map((s) => (s.dub === true && !laufendBei(s.platform) ? s.dubRanges : undefined)),
       ...(title.watchLinks ?? []).map((w) => w.dubRanges),
     ]
     /*
@@ -3582,7 +3592,7 @@ export function DetailPanel({
     if (antwort?.art === 'teilweise') return null
     const gesamt = antwort?.art === 'laeuft' ? antwort.raus : title.episodes
     return folgenOhneAnbieter(wege, gesamt)
-  }, [title, antwort])
+  }, [title, antwort, releaseJePlattform, today])
   const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
 
   /** Die vier Werkangaben der Unterzeile — leer heißt: kein Kasten. */
@@ -4223,7 +4233,7 @@ export function DetailPanel({
               hinweis={
                 folgenLuecke ? (
                   <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                    {t('detail.folgenOhneAnbieter', { bereich: folgenLuecke })}
+                    {t(/^\d+$/.test(folgenLuecke) ? 'detail.folgeOhneAnbieter' : 'detail.folgenOhneAnbieter', { bereich: folgenLuecke })}
                   </p>
                 ) : /* Beim Kinofilm sagt der Kino-Hinweis darunter dasselbe (Daniel, 17.09.2026: „doppelte info"). */
                 title.ohneSynchro && antwort?.art !== 'kino' ? (

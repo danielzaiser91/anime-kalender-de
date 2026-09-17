@@ -395,6 +395,7 @@ const TEXTE = {
   'detail.folgenKurz': '{n} Fg.',
   'detail.folgenBereich': 'Fg. {bereich}',
   'detail.folgenOhneAnbieter': 'Für Folgen {bereich} kennen wir keinen deutschen Anbieter.',
+  'detail.folgeOhneAnbieter': 'Für Folge {bereich} kennen wir keinen deutschen Anbieter.',
   'detail.werkangaben': 'Zum Werk',
   'detail.faktFsk': 'Altersfreigabe',
   'detail.studio': 'Studio',
