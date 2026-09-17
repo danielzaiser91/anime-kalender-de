@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-17T14:00:44.160Z",
+ "erzeugtAm": "2026-09-17T14:04:37.516Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -44,8 +44,8 @@
    "name": "Crunchyroll",
    "plattform": "crunchyroll",
    "gemeldet": 0,
-   "gesamt": 9,
-   "offen": 9,
+   "gesamt": 5,
+   "offen": 5,
    "ohneSeite": 0,
    "ziel": "https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man",
    "ziele": [
@@ -62,24 +62,8 @@
      "titel": "Captain Tsubasa"
     },
     {
-     "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-     "titel": "Princess Principal: ~Crown Handler~ 1"
-    },
-    {
      "url": "https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man",
      "titel": "One Punch Man Season 2 OVAs"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-     "titel": "Princess Principal: ~Crown Handler~ 2"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-     "titel": "Princess Principal: Crown Handler 3"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-     "titel": null
     },
     {
      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
