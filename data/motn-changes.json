@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 37
+    "2026-09": 39
   },
   "gesehen": {
     "26341901:netflix": {
@@ -4009,7 +4009,107 @@
       "dienst": "disney",
       "am": "2026-09-16",
       "deutsch": false
+    },
+    "new:14824910:disney": {
+      "art": "new",
+      "titel": "Patience",
+      "originalTitel": "Patience",
+      "imdbId": "tt31495377",
+      "tmdbId": "tv/279603",
+      "dienst": "disney",
+      "am": "2026-09-16",
+      "deutsch": true
+    },
+    "new:54199:disney": {
+      "art": "new",
+      "titel": "Campfire Cooking in Another World with My Absurd Skill",
+      "originalTitel": "とんでもスキルで異世界放浪メシ",
+      "imdbId": "tt24229160",
+      "tmdbId": "tv/213402",
+      "dienst": "disney",
+      "am": "2026-09-16",
+      "deutsch": true
+    },
+    "new:26516879:disney": {
+      "art": "new",
+      "titel": "City of Blood",
+      "originalTitel": "City of Blood",
+      "imdbId": "tt32642114",
+      "tmdbId": "tv/332401",
+      "dienst": "disney",
+      "am": "2026-09-16",
+      "deutsch": true
+    },
+    "new:26597924:disney": {
+      "art": "new",
+      "titel": "Minimum Security",
+      "originalTitel": "Surveillant !",
+      "imdbId": "tt44924447",
+      "tmdbId": "tv/299255",
+      "dienst": "disney",
+      "am": "2026-09-16",
+      "deutsch": false
+    },
+    "new:26517282:netflix": {
+      "art": "new",
+      "titel": "Physical 100: Mexico",
+      "originalTitel": "Habilidad física: 100-México",
+      "imdbId": "tt39390479",
+      "tmdbId": "tv/332282",
+      "dienst": "netflix",
+      "am": "2026-09-16",
+      "deutsch": false
+    },
+    "new:25483413:netflix": {
+      "art": "new",
+      "titel": "The Doll",
+      "originalTitel": "Lalka",
+      "imdbId": "tt37578538",
+      "tmdbId": "tv/295089",
+      "dienst": "netflix",
+      "am": "2026-09-16",
+      "deutsch": false
+    },
+    "removed:7907097:disney": {
+      "art": "removed",
+      "titel": "WaPo Elbe",
+      "originalTitel": "WaPo Elbe",
+      "imdbId": "tt20158276",
+      "tmdbId": "tv/220978",
+      "dienst": "disney",
+      "am": "2026-09-16",
+      "deutsch": true
+    },
+    "removed:85485:disney": {
+      "art": "removed",
+      "titel": "WaPo Duisburg",
+      "originalTitel": "WaPo Duisburg",
+      "imdbId": "tt15238980",
+      "tmdbId": "tv/155893",
+      "dienst": "disney",
+      "am": "2026-09-16",
+      "deutsch": false
+    },
+    "removed:61646:disney": {
+      "art": "removed",
+      "titel": "WaPo Bodensee",
+      "originalTitel": "WaPo Bodensee",
+      "imdbId": "tt5896868",
+      "tmdbId": "tv/69751",
+      "dienst": "disney",
+      "am": "2026-09-16",
+      "deutsch": true
+    },
+    "removed:73161:disney": {
+      "art": "removed",
+      "titel": "WaPo Berlin",
+      "originalTitel": "WaPo Berlin",
+      "imdbId": "tt11701822",
+      "tmdbId": "tv/102080",
+      "dienst": "disney",
+      "am": "2026-09-16",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-09-16T09:20:10.531Z"
+  "fetchedAt": "2026-09-17T09:28:47.790Z"
 }
