@@ -68,6 +68,12 @@ for (const t of auswahl) {
     if (teil && new RegExp(`\\b${teil[2]} Fg\\. 🇩🇪 ✓`).test(text)) probleme.push(`„${teil[1]} von ${teil[2]}" neben einer Pille mit allen ${teil[2]}`)
     if (/\b1 Ausgaben\b/.test(text)) probleme.push('„1 Ausgaben"')
     if (/Alle 1 Folgen/.test(text)) probleme.push('„Alle 1 Folgen"')
+    /* Drei Fehlerbilder aus der Stichprobe vom 17.09.2026 (Keim 131). */
+    const vonGesamt = /\d+ von (\d+) Folgen erschienen/.exec(text)
+    const folgenBis = /Folgen \d+ bis (\d+)/.exec(text)
+    if (vonGesamt && folgenBis && Number(folgenBis[1]) > Number(vonGesamt[1])) probleme.push(`„von ${vonGesamt[1]}" neben „bis ${folgenBis[1]}"`)
+    if (t.episodes === 1 && /DE nur Fg\. 1/.test(text)) probleme.push('„nur Fg. 1" bei einer einzigen Folge')
+    if (/ - \?/.test(text)) probleme.push('offenes Zeitraumende „- ?"')
     if (/Noch keine deutsche Fassung/.test(text) && /Deutsche Fassung bei/.test(text)) probleme.push('„keine Fassung" neben „Deutsche Fassung bei"')
     if (pillen.some((x) => x.split('\n').slice(1).some((z) => z.trim() === name))) probleme.push('Pillen-Unterzeile wiederholt den Titel')
     if (/kein uns bekannter Anbieter|kennen wir keinen deutschen Anbieter/.test(text) && /fehlt uns eine Angabe/.test(text)) probleme.push('Lücke doppelt genannt')
