@@ -260,7 +260,17 @@ Zwei Folgen daraus:
   `beta-api.crunchyroll.com` weiter und verlangt `X-Weiche-Token` (GitHub-Secret
   `CR_WEICHE_TOKEN`, Vercel-Env `WEICHE_TOKEN`); `data:cr-offene` nutzt sie, sobald das
   Secret gesetzt ist. Ausliefern: `cd weiche-vercel && npx vercel deploy --prod --token …`
-  (Token in `my_secrets.md`). Vercels Node-Laufzeit will benannte `GET`/`POST`-Handler — ein
+  (Token in `my_secrets.md`). **Das Vercel-Projekt darf nicht mit dem GitHub-Repo verbunden
+  sein** (17.09.2026): Beim Anlegen am 16.09. um 21:31 hat Vercel `cr-weiche` mit
+  `danielzaiser91/anime-kalender-de` verknüpft, ohne Stammverzeichnis. Seitdem hat jeder Push
+  das ganze Repo als Produktion ausgeliefert — über 100 Deployments in 19 Stunden, 75 % der
+  10 GB Deployment-Speicher (Vercel-Mail 15:17), und `cr-weiche.vercel.app` zeigte die
+  Kalender-Seite statt der Funktion: `/api/cr` gab 404, der Nachhol-Lauf 35225541742 fiel auf
+  das Secret zurück. Behoben am selben Tag: Verbindung getrennt, das CLI-Deployment vom
+  16.09. wieder befördert (`POST /v10/projects/<id>/promote/<dpl>` — ein neues Deployment ließ
+  das Tageslimit von 100 nicht mehr zu), 147 Git-Deployments gelöscht. Prüfgriff:
+  `GET /v9/projects/<id>` darf kein `link` tragen.
+  Vercels Node-Laufzeit will benannte `GET`/`POST`-Handler — ein
   `export default` stürzt mit `FUNCTION_INVOCATION_FAILED` ab. `wrangler delete`
   scheitert mit unserem Token („Memberships->Read"); gelöscht wird über
   `DELETE /accounts/<id>/workers/scripts/<name>`, KV anlegen darf das Token nicht.
