@@ -290,6 +290,12 @@ const TEXTE = {
   // 15.08.2026).
   'detail.kaufenBei': 'Kaufen bei {shop}',
   'detail.merken': 'Merken',
+  /* Der Kino-Banner im Detail-Panel (17.09.2026). */
+  'kino.ab': 'Ab {datum} im Kino',
+  'kino.laeuft': 'Läuft im Kino',
+  'kino.laeuftBis': 'Im Kino bis {datum}',
+  'kino.nurAm': 'Nur am {datum} im Kino',
+  'kino.wieder': 'Wiederaufführung',
   'detail.merkenGoogle': 'Google Kalender',
   'detail.merkenIcs': 'Kalenderdatei (.ics)',
   'detail.abDatum': 'ab {d}',

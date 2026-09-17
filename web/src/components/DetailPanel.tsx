@@ -132,7 +132,7 @@ type Antwort =
   | { art: 'fertig'; raus?: number; gesamt?: number }
   /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
   | { art: 'teilweise'; raus: number; gesamt: number; restBelegt: boolean }
-  | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number; ohneWeg: boolean }
+  | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number; ohneWeg: boolean; imKino: boolean }
   /**
    * **Ein angekündigter Kinofilm ohne deutsche Fassung.** `jp` in der Genauigkeit
    * der Quelle (Tag, Monat oder Jahr), `jpRaus` sagt, ob er dort schon läuft.
@@ -154,6 +154,8 @@ type Antwort =
    */
   | {
       art: 'filmDe'
+      /** Gibt es überhaupt einen Weg zum Ansehen? Dann fehlt kein Streamstart. */
+      streamWege?: boolean
       kino?: { datum: string; raus: boolean }
       stream?: { datum: string; raus: boolean; anbieter: string }
       verleih?: string
@@ -746,7 +748,12 @@ function AntwortKasten({
     } else {
       haupt = (streamZuerst ? streamText : kinoText) ?? ''
       /* Der Verleih steht schon in der Kino-Pille darunter; hier steht, was noch fehlt. */
-      neben = [streamZuerst ? kinoText : (streamText ?? T('antwort.filmDeStreamOffen')), fassung]
+      /*
+        „Streamstart noch nicht bekannt" stand über vier Stream-Pillen (Daniel, 17.09.2026,
+        Your Name: Prime, YouTube, Rakuten, maxdome). Wo man den Film sehen kann, steht
+        darunter — dann fehlt kein Termin, sondern nur ein Datum, das niemand vermisst.
+      */
+      neben = [streamZuerst ? kinoText : (streamText ?? (antwort.streamWege ? undefined : T('antwort.filmDeStreamOffen'))), fassung]
         .filter(Boolean)
         .join(' · ')
     }
@@ -755,7 +762,17 @@ function AntwortKasten({
     fakten = []
   } else if (antwort.art === 'film') {
     haupt = antwort.hatSynchro ? T('antwort.filmTitel') : T('antwort.filmOhneTitel')
-    neben = antwort.hatSynchro ? T('antwort.filmNeben') : antwort.ohneWeg ? T('antwort.filmOhneNeben') : ''
+    /*
+      Unter einem Kino-Banner ohne Stream-Weg fehlt genau eine Angabe, und der Leser
+      sucht sie: wann er den Film zu Hause sehen kann (Madoka, 17.09.2026).
+    */
+    neben = antwort.hatSynchro
+      ? T('antwort.filmNeben')
+      : antwort.imKino && !(title.streams ?? []).length
+        ? T('antwort.filmDeStreamOffen')
+        : antwort.ohneWeg
+          ? T('antwort.filmOhneNeben')
+          : ''
     gedaempft = !antwort.hatSynchro
     zaehl = ''
     /*
@@ -1885,6 +1902,76 @@ function PillenHuelle({ ziel, children }: { ziel?: string; children: ReactNode }
     </a>
   ) : (
     <span className={klasse}>{children}</span>
+  )
+}
+
+/**
+ * **Der Kinostart bekommt einen eigenen Banner** (Daniel, 17.09.2026: „ein banner über die
+ * box legen … in diesen banner können alle infos zum kino-ausstrahlungs zeitraum und
+ * startdatum, sowie die kino pill … integriert").
+ *
+ * Er steht zwischen Trailer-Zeile und Antwort-Kasten und ersetzt die Kino-Pille in der
+ * Wegeliste — ein Kinostart ist kein Anbieter unter vielen, sondern ein Termin mit Ende.
+ *
+ * **Die Wiederaufführung ist ein eigener Fall.** „Your Name." lief 2016 im Kino und läuft
+ * am 29.09.2026 erneut; ohne Kennzeichen liest sich das wie ein neuer Film. Als
+ * Wiederaufführung gilt ein Kinostart, der mindestens zwei Jahre nach dem japanischen
+ * Erscheinungsjahr liegt.
+ */
+function KinoBanner({
+  release,
+  title,
+  today,
+  t,
+}: {
+  release: Release
+  title: Title
+  today: string
+  t: (k: string, v?: Record<string, string | number>) => string
+}): React.JSX.Element | null {
+  const start = release.schedule?.firstEpisodeDate
+  if (!start) return null
+  const bis = release.cinemaUntil
+  const laeuft = start <= today && (!bis || bis >= today)
+  const einTag = Boolean(bis && bis === start)
+  const wieder = Boolean(title.jpYear && Number(start.slice(0, 4)) - title.jpYear >= 2)
+  const kopf = einTag
+    ? t('kino.nurAm', { datum: formatDate(start) })
+    : laeuft
+      ? bis
+        ? t('kino.laeuftBis', { datum: formatDate(bis) })
+        : t('kino.laeuft')
+      : t('kino.ab', { datum: formatDate(start) })
+  const unten = [release.publisher, release.fsk ? `FSK ${release.fsk}` : undefined].filter(Boolean).join(' · ')
+  return (
+    <div className="relative overflow-hidden rounded-xl border border-amber-300/60 bg-gradient-to-r from-amber-50 via-amber-50/60 to-rose-50 px-4 py-3 dark:border-amber-400/25 dark:from-amber-500/10 dark:via-amber-500/5 dark:to-rose-500/10">
+      {/* Der Filmstreifen am Rand — schmückt, ohne Platz zu kosten. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 left-0 w-2 bg-[repeating-linear-gradient(180deg,theme(colors.amber.400)_0_6px,transparent_6px_12px)] opacity-70"
+      />
+      <div className="flex items-center gap-3 pl-3">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-amber-400/20 text-xl" aria-hidden>
+          🎬
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm font-semibold text-amber-900 dark:text-amber-200">{kopf}</span>
+            {wieder && (
+              <span className="rounded-full bg-amber-400/25 px-2 py-px text-[10px] font-semibold uppercase tracking-wide text-amber-900 dark:text-amber-200">
+                {t('kino.wieder')}
+              </span>
+            )}
+          </div>
+          {unten && <span className="block truncate text-xs text-amber-800/80 dark:text-amber-200/70">{unten}</span>}
+        </div>
+        <MerkenKnopf release={release} today={today} farbe="#f59e0b" />
+      </div>
+      {/* Die Notiz des Kinostarts gehört hierher, nicht in den Kasten darunter — sonst steht sie neben einer Auskunft, die von etwas anderem handelt. */}
+      {release.note && (
+        <p className="mt-2 pl-3 text-xs leading-relaxed text-amber-900/80 dark:text-amber-100/70">{release.note}</p>
+      )}
+    </div>
   )
 }
 
@@ -3050,14 +3137,30 @@ export function DetailPanel({
     for (const r of releases) if (!je.has(r.platform)) je.set(r.platform, r)
     return je
   }, [releases])
+  /*
+    **Der Kinostart steht im Banner, nicht als Pille** (17.09.2026). Gezeigt wird er,
+    solange er läuft (belegter letzter Spieltag) oder bevorsteht — und bis 60 Tage nach
+    dem Start, solange niemand ein Ende belegt hat.
+  */
+  const kinoRelease = useMemo(
+    () =>
+      releases
+        .filter((r) => r.platform === 'kino' && r.schedule?.firstEpisodeDate)
+        .filter((r) =>
+          r.cinemaUntil ? r.cinemaUntil >= today : r.schedule!.firstEpisodeDate! >= addDays(today, -60),
+        )
+        .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0],
+    [releases, today],
+  )
   const streamReleases = useMemo(
     () =>
       releases.filter(
         (r) =>
           r.releaseType !== 'disc' &&
+          r.slug !== kinoRelease?.slug &&
           !(title?.streams ?? []).some((s) => s.platform === r.platform),
       ),
-    [releases, title],
+    [releases, title, kinoRelease],
   )
 
   /*
@@ -3189,7 +3292,15 @@ export function DetailPanel({
       (title.streams ?? []).some((s) => s.dub === true) ||
       Boolean(title.hasVoices) ||
       (title.watchLinks ?? []).some((w) => w.dubRanges?.some((r) => r.dub))
-    const ohneDisc = releases.filter((r) => r.releaseType !== 'disc')
+    /*
+      **Was der Kino-Banner zeigt, ist für den Kasten erledigt** (17.09.2026). Sonst liest
+      er den Kinotermin als Folge und schreibt „Erste Folge erscheint am … · Wöchentlich ·
+      0 von 1 Folgen" über einen Film — derselbe Fehler wie bei Madoka am selben Tag.
+    */
+    const imKinoBanner = (r: (typeof releases)[number]) =>
+      r.platform === 'kino' &&
+      (r.cinemaUntil ? r.cinemaUntil >= today : (r.schedule?.firstEpisodeDate ?? '') >= addDays(today, -60))
+    const ohneDisc = releases.filter((r) => r.releaseType !== 'disc' && !imKinoBanner(r))
     /*
       **Eine Kaufausgabe beantwortet nicht die Frage „wann kommt es".**
 
@@ -3206,7 +3317,7 @@ export function DetailPanel({
       44 Titel sind betroffen, darunter beide Code-Geass-Staffeln, fünf
       Naruto-Filme und „Mila Superstar".
     */
-    const fuerKopf = ohneDisc.length ? ohneDisc : hatSynchro ? [] : releases
+    const fuerKopf = ohneDisc.length ? ohneDisc : hatSynchro ? [] : releases.filter((r) => !imKinoBanner(r))
     const alleEvents = fuerKopf.flatMap((r) => expandEvents(r))
     const offen = alleEvents.filter((e) => !istErschienen(e))
     /*
@@ -3339,7 +3450,14 @@ export function DetailPanel({
     */
     const filmTermine = () => {
       const start = (r: (typeof releases)[number]) => r.schedule.firstEpisodeDate
-      const kinoRel = releases.filter((r) => r.platform === 'kino' && start(r)).sort((a, b) => start(a)!.localeCompare(start(b)!))[0]
+      /*
+        **Was im Banner steht, steht nicht noch einmal im Kasten** (17.09.2026). „Ab
+        29.09.2026 im Kino" stand nach dem Einbau zweimal untereinander.
+      */
+      const alleKino = releases.filter((r) => r.platform === 'kino' && start(r)).sort((a, b) => start(a)!.localeCompare(start(b)!))
+      const imBanner = (r: (typeof releases)[number]) =>
+        r.cinemaUntil ? r.cinemaUntil >= today : start(r)! >= addDays(today, -60)
+      const kinoRel = alleKino.filter((r) => !imBanner(r))[0]
       const streamRel = releases
         .filter((r) => r.platform !== 'kino' && r.releaseType !== 'disc' && start(r))
         .sort((a, b) => start(a)!.localeCompare(start(b)!))[0]
@@ -3352,6 +3470,10 @@ export function DetailPanel({
         stream: streamRel
           ? { datum: start(streamRel)!, raus: start(streamRel)! <= today, anbieter: anbieterName(streamRel.platform, streamRel.sender) }
           : undefined,
+        streamWege: Boolean(
+          (title.streams ?? []).length ||
+            (title.watchLinks ?? []).some((w) => w.kind === 'stream'),
+        ),
         verleih: kinoRel?.publisher ?? title.kino?.verleih,
         fassung: title.kino?.fassung,
       }
@@ -3465,9 +3587,18 @@ export function DetailPanel({
           fassung: title.kino?.fassung,
         }
       }
-      /* „Kein deutscher Anbieter führt ihn" nur ohne jeden Weg — Digimon tri. 5 hat sechs Kaufangebote (Stichprobe 17.09.2026). */
-      const ohneWeg = !(title.streams ?? []).length && !(title.watchLinks ?? []).length
-      return { art: 'film' as const, hatSynchro, raus, gesamt, ohneWeg }
+      /*
+        „Kein deutscher Anbieter führt ihn" nur ohne jeden Weg — Digimon tri. 5 hat sechs
+        Kaufangebote (Stichprobe 17.09.2026). Und nicht unter einem Kino-Banner: Dort steht
+        der Anbieter, es ist das Kino (Madoka, 17.09.2026).
+      */
+      const imKino = releases.some(
+        (r) =>
+          r.platform === 'kino' &&
+          (r.cinemaUntil ? r.cinemaUntil >= today : (r.schedule?.firstEpisodeDate ?? '') >= addDays(today, -60)),
+      )
+      const ohneWeg = !(title.streams ?? []).length && !(title.watchLinks ?? []).length && !imKino
+      return { art: 'film' as const, hatSynchro, raus, gesamt, ohneWeg, imKino }
     }
     if (hatSynchro && !vollstaendig && gesamt) {
       /*
@@ -3571,7 +3702,12 @@ export function DetailPanel({
     zuletzt erschienene — dieselbe Wahl, die der Kasten für sein Datum trifft.
   */
   const kastenNotiz = useMemo(() => {
-    const mitNotiz = releases.filter((r) => r.note)
+    const mitNotiz = releases.filter(
+      (r) =>
+        r.note &&
+        /* Die Notiz des Kinostarts steht im Banner darüber. */
+        !(r.platform === 'kino' && (r.cinemaUntil ? r.cinemaUntil >= today : (r.schedule?.firstEpisodeDate ?? '') >= addDays(today, -60))),
+    )
     if (!mitNotiz.length) return undefined
     const kuenftig = mitNotiz
       .filter((r) => (r.schedule?.firstEpisodeDate ?? '') >= today)
@@ -4227,6 +4363,15 @@ export function DetailPanel({
             Balken, Zählzeile. Die Gleichheit ist kein Schönheitswunsch —
             ungleich hohe Kästen ließen beim Wechseln des Reihenteils alles
             darunter springen.
+          */}
+          {title && kinoRelease && (
+            <KinoBanner release={kinoRelease} title={title} today={today} t={t as never} />
+          )}
+          {/*
+            **Der Banner trägt die Auskunft — dann schweigt der Kasten** (17.09.2026).
+            Über „Ab 24.11.2026 im Kino" stand „Noch keine deutsche Fassung · Kein deutscher
+            Anbieter führt ihn bisher": zwei Sätze, die einander widersprechen. Wo es außer
+            dem Kinostart nichts zu sagen gibt, bleibt es beim Banner.
           */}
           {antwort && (
             <AntwortKasten
