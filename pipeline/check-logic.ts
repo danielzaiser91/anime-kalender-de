@@ -4558,6 +4558,31 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     releasesAus([v('ab dem 28. August 2026 bei RTL+ abrufbar')], titel, [], '2026-09-16').length === 1,
   )
 }
+/* gti-Brücke: Auswahl der JustWatch-Adresse für einen Prime-Verweis (17.09.2026). */
+{
+  const { amazonGtiWahl } = await import('./lib/amazon-gti.ts')
+  const g = (id: string) => `https://watch.amazon.de/detail?gti=amzn1.dv.gti.${id}-0000-0000-0000-000000000000`
+  const eine = amazonGtiWahl([{ anbieter: 'Amazon Video', art: 'BUY', audio: ['de', 'ja'], url: g('aaaaaaaa') }], true)
+  pruefe('eine gti mit deutschem Ton wird gewählt', eine?.gti === 'amzn1.dv.gti.aaaaaaaa-0000-0000-0000-000000000000')
+  pruefe(
+    'zwei Ausgaben ergeben keine Wahl (Mushi-Shi: Kauf und Aniverse-Kanal)',
+    amazonGtiWahl(
+      [
+        { anbieter: 'Aniverse Amazon Channel', art: 'FLATRATE', audio: ['de', 'ja'], url: g('bbbbbbbb') },
+        { anbieter: 'Amazon Video', art: 'BUY', audio: [], url: g('cccccccc') },
+      ],
+      true,
+    ) === undefined,
+  )
+  pruefe(
+    'ein „DE ✓" zeigt nie auf eine Ausgabe, die JustWatch nur mit anderem Ton kennt (Afro Samurai)',
+    amazonGtiWahl([{ anbieter: 'Crunchyroll Amazon Channel', art: 'FLATRATE', audio: ['en'], url: g('dddddddd') }], true) === undefined,
+  )
+  pruefe(
+    '… ohne Tonangabe bleibt die Wahl',
+    amazonGtiWahl([{ anbieter: 'Amazon Video', art: 'BUY', audio: [], url: g('eeeeeeee') }], true) !== undefined,
+  )
+}
 /* Your Name – CineAnime: der letzte Spieltag kommt auch über die Veranstaltungsadresse (17.09.2026). */
 pruefe(
   'Kino-Releases finden ihren letzten Spieltag auch über die CineStar-Seite in den Quellen',
