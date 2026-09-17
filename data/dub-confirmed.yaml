@@ -15846,3 +15846,11 @@
   available: false
   checkedAt: '2026-09-17'
   note: "Suche auf Prime Video: kein Treffer für diesen Titel, nur Verwandtes (Arifureta: From Commonplace to World's Strongest)"
+
+- anilistId: 105334
+  title: "Fruits Basket"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0G6HF46PV
+  dub: true
+  checkedAt: '2026-09-17'
+  note: "Crunchyroll-Kanal: ohne Kanal-Abo zeigt Amazon keine deutsche Tonspur; JustWatch (07.09.2026) führt für den Crunchyroll Amazon Channel Ton de — auf Daniels Entscheidung vom 17.09.2026 als Beleg übernommen"

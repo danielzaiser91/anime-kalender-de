@@ -1,14 +1,4 @@
 {
   "standAm": "2026-09-15",
-  "faelle": [
-    {
-      "art": "kanal",
-      "titleId": 105334,
-      "titel": "Fruits Basket",
-      "platform": "primevideo",
-      "quelle": "JustWatch 2026-09-07",
-      "ton": "de, en, es, fr, ja, pt, ru",
-      "seit": "2026-09-15"
-    }
-  ]
+  "faelle": []
 }
