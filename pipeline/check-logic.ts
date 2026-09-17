@@ -4558,6 +4558,12 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     releasesAus([v('ab dem 28. August 2026 bei RTL+ abrufbar')], titel, [], '2026-09-16').length === 1,
   )
 }
+/* Your Name – CineAnime: der letzte Spieltag kommt auch über die Veranstaltungsadresse (17.09.2026). */
+pruefe(
+  'Kino-Releases finden ihren letzten Spieltag auch über die CineStar-Seite in den Quellen',
+  /letzterJeVeranstaltung\.get\(veranstaltung\(q\)/.test(readFileSync('pipeline/build.ts', 'utf8')),
+  'eine Einzelvorstellung ohne AniList-Kennung im Abruf stünde vier Wochen lang im Kino-Karussell',
+)
 /* Ein YouTube-Nein sperrte alle YouTube-Videos (17.09.2026). */
 {
   const { adressKern } = await import('./lib/dub-confirmed.ts')

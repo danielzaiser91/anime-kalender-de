@@ -45,6 +45,18 @@
     - https://www.cinestar.de/kino-mainz/veranstaltung-detektiv-conan-film-29-der-gefallene-engel-des-highways-cineanime
     - https://www.fsk.de/freigabensuche/
 
+- slug: your-name-cineanime-2026
+  anilistId: 21519
+  search: "Kimi no Na wa."
+  titleDe: "Your Name. (CineAnime)"
+  platform: kino
+  releaseType: movie
+  publisher: "CineStar CineAnime"
+  note: "Einzelvorstellung im Rahmen von CineAnime, nur an diesem Tag, auf Deutsch. Gezählt am 14.09.2026: 30 deutsche Vorstellungen in 28 CineStar-Kinos."
+  schedule: { firstEpisodeDate: "2026-09-29" }
+  sources:
+    - https://www.cinestar.de/kino-augsburg/veranstaltung-your-name-cineanime
+
 - slug: a-new-dawn-kino
   anilistId: 177132
   search: "Hanarokushou ga Akeru Hi ni"

@@ -7990,17 +7990,28 @@ function main(): void {
    * Irreführung — der Anbieter ist das Kino. Danach ist derselbe Satz die
    * richtige Auskunft.
    */
-  const cinestar = readJson<{ filme?: Record<string, { anilistId?: number; tage?: Record<string, unknown> }> }>(
+  const cinestar = readJson<{
+    filme?: Record<string, { anilistId?: number; detailLink?: string; tage?: Record<string, unknown> }>
+  }>(
     'data/cinestar.json',
     {},
   ).filme
   if (cinestar) {
     const letzterTag = new Map<number, string>()
+    /*
+      Auch über die Veranstaltungsadresse: „Your Name – CineAnime" hat zwei Wörter
+      und bekommt im Abruf keine AniList-Kennung (die Zuordnung verlangt drei). Der
+      kuratierte Kinotermin nennt dieselbe CineStar-Seite als Quelle (17.09.2026).
+    */
+    const veranstaltung = (u: string | undefined) => /\/veranstaltung-([a-z0-9-]+)/.exec(u ?? '')?.[1]
+    const letzterJeVeranstaltung = new Map<string, string>()
     for (const f of Object.values(cinestar)) {
-      if (!f.anilistId) continue
       const tage = Object.keys(f.tage ?? {}).sort()
       const letzter = tage.at(-1)
       if (!letzter) continue
+      const v = veranstaltung(f.detailLink)
+      if (v && letzter > (letzterJeVeranstaltung.get(v) ?? '')) letzterJeVeranstaltung.set(v, letzter)
+      if (!f.anilistId) continue
       // Läuft ein Film in mehreren Fassungen oder Reihen, gewinnt der spätere Tag.
       const bisher = letzterTag.get(f.anilistId)
       if (!bisher || letzter > bisher) letzterTag.set(f.anilistId, letzter)
@@ -8008,7 +8019,10 @@ function main(): void {
     let kinoEnden = 0
     for (const r of releases) {
       if (r.platform !== 'kino') continue
-      const bis = letzterTag.get(r.titleId)
+      const ueberQuelle = (r.sources ?? [])
+        .map((q) => letzterJeVeranstaltung.get(veranstaltung(q) ?? ''))
+        .filter((x): x is string => Boolean(x))
+      const bis = [letzterTag.get(r.titleId), ...ueberQuelle].filter((x): x is string => Boolean(x)).sort().at(-1)
       if (!bis) continue
       r.cinemaUntil = bis
       kinoEnden++
