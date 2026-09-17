@@ -3895,6 +3895,14 @@ function main(): void {
           uebersprungen++
           continue
         }
+        /*
+          **Und keine Adresse, die die Linkprüfung als tot kennt** (17.09.2026). Die
+          gemeldeten Folgen belegen die Sprache der Seite, nicht ihren Fortbestand: Bei
+          „Your Name." hat Amazon die Ausgabe nach Daniels Meldung vom 31.08. gelöscht,
+          und diese Runde legte den 404 nach jedem Bau erneut an — dieselbe Stelle wie
+          bei den Handbelegen eine Runde später.
+        */
+        if (lautPruefungTot(seite)) continue
         title.streams.push({ platform: plattform, url: seite, dub: true })
         ausRoh++
       }
