@@ -2877,6 +2877,15 @@ export function DetailPanel({
    * öffnen, sonst zeigt das Panel „keine Metadaten".
    */
   const [wechselt, setWechselt] = useState(false)
+  /*
+    **Lange Reihen brauchen Reiter, Suche und einen Aufklapper** (Daniel, 17.09.2026, Pokémon
+    mit 112 Teilen: „sehr schwer dort für nutzer gesuchte titel der reihe zu finden").
+    Der Zustand gilt je Reihe und fällt beim Wechsel der Reihe zurück.
+  */
+  const reihenSchluessel = reihenTeile[0]?.id ?? 0
+  const [reiheReiter, setReiheReiter] = useState<{ reihe: number; titel: string } | null>(null)
+  const [reiheSuche, setReiheSuche] = useState<{ reihe: number; text: string }>({ reihe: 0, text: '' })
+  const [reiheOhneOffen, setReiheOhneOffen] = useState<number | null>(null)
 
   /**
    * **Ein Titel, den der Kern nicht kennt, wird nachgeladen.**
@@ -4928,7 +4937,8 @@ export function DetailPanel({
                                 */
                                 const vorsatz = offen ? 'ab ' : ''
                                 const roh = m.deStart
-                                if (!roh) return ''
+                                /* Ohne deutschen Termin steht das Jahr — zum Wiedererkennen, nicht als Termin (Daniel, 17.09.2026). */
+                                if (!roh) return !offen && m.jpYear ? String(m.jpYear) : ''
                                 const [jahr, monat, tag] = roh.split('-')
                                 if (tag) return `${vorsatz}${tag}.${monat}.${jahr}`
                                 if (monat) return `${vorsatz}${monat}.${jahr}`
@@ -4949,15 +4959,74 @@ export function DetailPanel({
                     )
                   }
 
+                  /* Teile ohne deutsche Synchro sind eingeklappt — angekündigte und der gewählte Teil bleiben sichtbar. */
+                  const ohneOffen = reiheOhneOffen === reihenSchluessel
+                  const eingeklappt = (m: FranchiseMember) => Boolean(m.ohneSynchro) && !kuenftig(m) && m.id !== title.id
+                  const zahlOhne = reihenTeile.filter(eingeklappt).length
+                  const sichtbar = (m: FranchiseMember) => ohneOffen || !eingeklappt(m)
+                  const lang = reihenTeile.length >= 15
+                  const suchText = reiheSuche.reihe === reihenSchluessel ? reiheSuche.text.trim() : ''
+                  const suchKern = (x: string) => x.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
+                  const passtSuche = (m: FranchiseMember) =>
+                    !suchText || suchKern(`${m.name} ${m.jpYear ?? ''}`).includes(suchKern(suchText))
+                  const gefiltert = gruppen
+                    .map((g) => ({ ...g, teile: g.teile.filter((m) => passtSuche(m) && (suchText ? true : sichtbar(m))) }))
+                    .filter((g) => g.teile.length > 0)
+                  /* Reiter nur bei langen Reihen ohne laufende Suche; vorausgewählt ist die Gruppe des geöffneten Titels. */
+                  const mitReitern = lang && !suchText && gefiltert.length > 1
+                  const eigeneGruppe = gefiltert.find((g) => g.teile.some((m) => m.id === title.id))?.titel
+                  const aktiverReiter =
+                    reiheReiter?.reihe === reihenSchluessel && gefiltert.some((g) => g.titel === reiheReiter.titel)
+                      ? reiheReiter.titel
+                      : (eigeneGruppe ?? gefiltert[0]?.titel)
+                  const angezeigt = mitReitern ? gefiltert.filter((g) => g.titel === aktiverReiter) : gefiltert
+
                   return (
-                    <div role="tablist" aria-label={t('detail.seriesParts')} className="flex flex-col gap-0.5">
-                      {gruppen.map((g, i) => (
+                    <div className="flex flex-col gap-0.5">
+                      {lang && (
+                        <div className="sticky -top-2 z-10 -mx-2 -mt-2 mb-1 flex flex-col gap-1.5 bg-white/95 px-2 pb-1.5 pt-2 backdrop-blur dark:bg-slate-900/95">
+                          <input
+                            type="search"
+                            value={suchText ? reiheSuche.text : ''}
+                            onChange={(e) => setReiheSuche({ reihe: reihenSchluessel, text: e.target.value })}
+                            placeholder={t('detail.reiheSuche')}
+                            aria-label={t('detail.reiheSuche')}
+                            className="w-full rounded-lg border border-slate-200 bg-transparent px-2.5 py-1 text-xs outline-none focus:border-sky-400 dark:border-white/10"
+                          />
+                          {mitReitern && (
+                            <div role="tablist" className="flex flex-wrap gap-1">
+                              {gefiltert.map((g) => (
+                                <button
+                                  key={g.titel}
+                                  type="button"
+                                  role="tab"
+                                  aria-selected={g.titel === aktiverReiter}
+                                  onClick={() => setReiheReiter({ reihe: reihenSchluessel, titel: g.titel })}
+                                  className={[
+                                    'cursor-pointer rounded-full px-2.5 py-0.5 text-[11px] transition',
+                                    g.titel === aktiverReiter
+                                      ? 'bg-sky-500/20 font-medium text-sky-700 dark:text-sky-200'
+                                      : 'text-slate-500 hover:bg-slate-200/70 dark:text-slate-400 dark:hover:bg-white/10',
+                                  ].join(' ')}
+                                >
+                                  {g.titel} <span className="tabular-nums opacity-70">{g.teile.length}</span>
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      {!angezeigt.length && (
+                        <span className="px-1 py-2 text-xs text-slate-500 dark:text-slate-400">{t('detail.reiheKeinTreffer')}</span>
+                      )}
+                      <div role="tablist" aria-label={t('detail.seriesParts')} className="flex flex-col gap-0.5">
+                      {angezeigt.map((g, i) => (
                         <Fragment key={g.titel}>
                           {/*
                             Die Überschrift der ersten Gruppe steht ohne Linie
                             darüber — dort trennt sie nichts, sie benennt nur.
                           */}
-                          <div
+                          {!mitReitern && <div
                             className={[
                               'flex items-center gap-2',
                               i === 0 ? 'mb-0.5' : 'my-1.5',
@@ -4968,10 +5037,20 @@ export function DetailPanel({
                               {g.titel}
                             </span>
                             <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-                          </div>
+                          </div>}
                           {g.teile.map((m) => zeile(m, kuenftig(m)))}
                         </Fragment>
                       ))}
+                      </div>
+                      {zahlOhne > 0 && !suchText && (
+                        <button
+                          type="button"
+                          onClick={() => setReiheOhneOffen(ohneOffen ? null : reihenSchluessel)}
+                          className="mt-1 cursor-pointer self-start rounded-md px-1.5 py-0.5 text-[11px] text-slate-500 transition hover:bg-slate-200/70 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-200"
+                        >
+                          {ohneOffen ? t('detail.reiheOhneVerbergen') : t('detail.reiheOhneZeigen', { n: zahlOhne })}
+                        </button>
+                      )}
                     </div>
                   )
                 })()}
