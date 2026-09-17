@@ -401,6 +401,14 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
  * 127**, also stimmt es. Diese Zusicherung hält es fest: Ein Umbau, der die
  * Filterung verliert, schickt sonst Besucher auf Fehlerseiten, und niemand
  * merkt es, weil der Datensatz genauso vollständig aussieht.
+ *
+ * **Ausgenommen sind seit dem 17.09.2026 die Fälle, die `usNeinWiderlegt()`
+ * in `build.ts` selbst ausnimmt:** Ein „nicht mehr verfügbar" aus dem
+ * US-Katalog wird nicht als tot behandelt, wenn der deutsche Katalog dieselbe
+ * Serie mit `de-DE` führt (Death Note, One-Punch Man, InuYasha-Filme —
+ * CLAUDE.md, 17.09.2026). Diese Adressen bleiben absichtlich im Datensatz,
+ * bis der deutsche Lauf sie beurteilt hat; dieselbe Ausnahme gehört deshalb
+ * auch in diese Zusicherung.
  */
 {
   const crDub = readJson<CrDubData>(resolve(ROOT, 'data/crunchyroll-dub.json'), { scrapedAt: '', serien: [] })
@@ -410,7 +418,18 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   for (const t of alle) for (const s of t.streams ?? []) {
     if (s.platform === 'crunchyroll') ausgeliefert.add(s.url)
   }
-  const tot = crDub.serien.filter((s) => /nicht mehr verf|404/.test(s.fehler ?? ''))
+  const crKatalogDeutsch = new Set(
+    (readJson<{ eintraege?: { id?: string; audio?: string[]; tonspuren?: string[] }[] }>(
+      resolve(ROOT, 'data/cr-katalog-de.json'),
+      {},
+    ).eintraege ?? [])
+      .filter((e) => (e.audio ?? e.tonspuren ?? []).includes('de-DE'))
+      .map((e) => e.id ?? '')
+      .filter(Boolean),
+  )
+  const usNeinWiderlegt = (serie: CrSerie): boolean =>
+    Boolean(serie.nichtVerfuegbar && serie.katalog !== 'de' && serie.seriesId && crKatalogDeutsch.has(serie.seriesId))
+  const tot = crDub.serien.filter((s) => /nicht mehr verf|404/.test(s.fehler ?? '') && !usNeinWiderlegt(s))
   const uebrig = tot.filter((s) => ausgeliefert.has(s.url))
   pruefe(
     `keine der ${tot.length} toten Crunchyroll-Adressen steht noch im Datensatz`,
