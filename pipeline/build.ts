@@ -6525,7 +6525,8 @@ function main(): void {
         const physisch = PHYSISCHE_SHOPS.test(a.anbieter)
         wege.push({
           name,
-          url: a.url,
+          /* JustWatch hängt an Amazon-Links seine Partnerkennung (`tag=movie0c6-21`). */
+          url: stripAffiliate(a.url),
           kind: physisch ? 'buy' : 'stream',
           ...(physisch
             ? {}
@@ -6578,7 +6579,7 @@ function main(): void {
           (a) => a.url && (kern(a.anbieter).includes(kern(w.name)) || kern(w.name).includes(kern(a.anbieter))),
         )
         if (!treffer?.url || toteAdressen.has(treffer.url)) continue
-        w.url = treffer.url
+        w.url = stripAffiliate(treffer.url)
         jwDirekt++
       }
     }

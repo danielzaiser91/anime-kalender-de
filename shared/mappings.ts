@@ -893,6 +893,9 @@ const PROVIDER_NAMES: Record<string, string> = {
   toggo: 'TOGGO',
   'anime-on-demand': 'Anime on Demand',
   akiba: 'Akiba Pass TV',
+  /* JustWatchs Schreibweisen (17.09.2026): ohne Eintrag wurden daraus „Amazon Dvd / Blu Ray" und „Buecher". */
+  'amazon-dvd-/-blu-ray': 'Amazon (DVD / Blu-ray)',
+  buecher: 'bücher.de',
 }
 
 /**
@@ -974,6 +977,8 @@ export function stripAffiliate(url: string): string {
     }
     // Auch die Pfadform `/dp/<ASIN>/ref=…` trägt gelegentlich noch eine Kennung.
     parsed.pathname = parsed.pathname.replace(/\/ref=[^/]*$/, '')
+    // aniSearch hängt an Shop-Links `?ref=anisearch` — eine Werbekennung wie `tag` (17.09.2026: 44 Akiba-Pass-Links).
+    if (/^anisearch/i.test(parsed.searchParams.get('ref') ?? '')) parsed.searchParams.delete('ref')
     return parsed.toString().replace(/\?$/, '')
   } catch {
     return url

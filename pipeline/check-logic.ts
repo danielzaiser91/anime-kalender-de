@@ -54,7 +54,7 @@ import {
 import { adnAdresseSchaerfen } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
-import { netflixNeutral, providerName } from '../shared/mappings.ts'
+import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -3643,6 +3643,19 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'der Lauf hört bei Amazon auf, wenn Amazon in Serie Zwischenseiten schickt',
     linkPruefer.includes('SPERR_SCHWELLE') && linkPruefer.includes('inFolgeUnklar'),
     'gegen eine laufende Sperre zu klopfen bringt keinen Befund und verlängert sie',
+  )
+  pruefe(
+    'fremde Partnerkennungen fliegen aus JustWatch- und Shop-Adressen',
+    stripAffiliate('https://www.amazon.de/dp/B01JGOY2JA?tag=movie0c6-21&linkCode=osi&th=1&psc=1') ===
+      'https://www.amazon.de/dp/B01JGOY2JA?th=1&psc=1' &&
+      stripAffiliate('https://akibapassshop.de/p/x?ref=anisearch') === 'https://akibapassshop.de/p/x' &&
+      bau.includes('url: stripAffiliate(a.url)'),
+    'sonst verdient JustWatch bzw. aniSearch an Klicks auf unserer Seite (17.09.2026: 55 Adressen)',
+  )
+  pruefe(
+    'JustWatchs Anbieternamen werden nicht verstümmelt',
+    providerName('Amazon DVD / Blu-ray') === 'Amazon (DVD / Blu-ray)' && providerName('Buecher') === 'bücher.de',
+    'sonst steht „Amazon Dvd / Blu Ray" und „Buecher" im Panel',
   )
   pruefe(
     'eine Prime-Zuordnung überspringt Adressen, die ein Handbeleg einem anderen Titel zuschreibt',
