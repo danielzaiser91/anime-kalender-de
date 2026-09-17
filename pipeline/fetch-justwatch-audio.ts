@@ -178,15 +178,25 @@ async function main(): Promise<void> {
     Diese Titel haben einen Weg und fielen deshalb durch beide Bedingungen
     darüber — „hat einen Weg" heißt hier eben nicht „hat ein Ziel".
   */
+  /*
+    **Seit dem 17.09.2026 fragt der Lauf reihum alle Titel** (Daniel: „JustWatch
+    künftig zu allen Titeln fragen"). Gefragt wurden bis dahin nur die drei Lücken
+    darüber — 1.641 von 2.772 Titeln. Ein neues Angebot bei einem Titel, dessen Wege
+    alle beurteilt sind, kam so nie an (Apple TV, maxdome …). Die drei Lücken stehen
+    weiter vorn in der Schlange; ohne TMDB-Kennung wird gar nicht erst gefragt.
+  */
+  const dringend = (t: Title) =>
+    (t.streams ?? []).some((s) => s.dub === undefined) ||
+    (!(t.streams ?? []).length && !(t.watchLinks ?? []).length) ||
+    (t.watchLinks ?? []).some((w) => /themoviedb.org/.test(w.url ?? ''))
   const offen = titles
-    .filter(
-      (t) =>
-        (t.streams ?? []).some((s) => s.dub === undefined) ||
-        (!(t.streams ?? []).length && !(t.watchLinks ?? []).length) ||
-        (t.watchLinks ?? []).some((w) => /themoviedb.org/.test(w.url ?? '')),
-    )
+    .filter((t) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId)
     .filter((t) => (bestand[String(t.id)]?.geprueftAm ?? '') < grenze)
-    .sort((a, b) => (bestand[String(a.id)]?.geprueftAm ?? '').localeCompare(bestand[String(b.id)]?.geprueftAm ?? ''))
+    .sort(
+      (a, b) =>
+        Number(dringend(b)) - Number(dringend(a)) ||
+        (bestand[String(a.id)]?.geprueftAm ?? '').localeCompare(bestand[String(b.id)]?.geprueftAm ?? ''),
+    )
 
   if (!offen.length) {
     log('JustWatch: keine offenen Verweise zur Wiedervorlage.')

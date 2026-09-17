@@ -6667,9 +6667,10 @@ function main(): void {
     Übersicht ist ein Umweg — eine erfundene Anbieteradresse wäre eine Sackgasse.
   */
   let jwDirekt = 0
+  let jwNeu = 0
   {
     const jw = readJson<
-      Record<string, { angebote?: { anbieter: string; url?: string }[] }>
+      Record<string, { angebote?: { anbieter: string; art?: string; url?: string }[] }>
     >('data/justwatch-audio.json', {})
     const kern = (x: string) => x.toLowerCase().replace(/[^a-z0-9]/g, '')
     for (const title of titles.values()) {
@@ -6688,7 +6689,42 @@ function main(): void {
         jwDirekt++
       }
     }
+    /*
+      **Auch Titel mit Wegen bekommen JustWatchs übrige Angebote** (Daniel, 17.09.2026,
+      zu Apple TV). TMDBs Anbieterliste ist dieselbe Datenbasis, aber je Titel teils
+      Wochen alt; JustWatch fragt der Wochenlauf jetzt reihum. Übernommen wird nur,
+      was keine eigene Plattform hat (die haben Verweise mit Sprachurteil) und noch
+      nicht als Weg dasteht — dieselben Regeln wie für Titel ohne jeden Weg.
+    */
+    for (const title of titles.values()) {
+      if (!(title.streams ?? []).length && !(title.watchLinks ?? []).length) continue
+      if (tmdbMehrdeutig.has(String(title.id))) continue
+      const angebote = jw[String(title.id)]?.angebote ?? []
+      if (!angebote.length) continue
+      const wege = title.watchLinks ?? []
+      for (const a of angebote) {
+        if (!a.url || /^justwatch/i.test(a.anbieter) || toteAdressen.has(a.url)) continue
+        if (providerToPlatform(a.anbieter)) continue
+        const name = providerName(a.anbieter)
+        if (!name || wege.some((w) => w.name === name)) continue
+        /*
+          Nur digital. Gemessen am 17.09.2026: 728 der 781 zusätzlichen Wege wären
+          Disc-Händler gewesen (bücher.de, Thalia, Zavvi …) — ohne Angabe zur Ausgabe,
+          Zavvi verkauft UK-Importe. Kinos sind keine Bezugswege.
+        */
+        if (PHYSISCHE_SHOPS.test(a.anbieter) || /kino|cinestar|cinema/i.test(a.anbieter)) continue
+        wege.push({
+          name,
+          url: stripAffiliate(a.url),
+          kind: 'stream',
+          zugang: a.art === 'FLATRATE' ? 'abo' : a.art === 'FREE' || a.art === 'ADS' ? 'kostenlos' : 'kauf',
+        } as WatchLink)
+        jwNeu++
+      }
+      if (wege.length) title.watchLinks = wege.sort((x, y) => (x.kind === y.kind ? 0 : x.kind === 'stream' ? -1 : 1))
+    }
   }
+  if (jwNeu) log(`${jwNeu} Bezugswege aus JustWatch bei Titeln ergänzt, die schon Wege hatten`)
   if (jwDirekt)
     log(`${jwDirekt} Bezugswege zeigen jetzt direkt zum Anbieter statt auf die TMDB-Übersicht`)
 

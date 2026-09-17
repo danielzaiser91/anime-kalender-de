@@ -599,7 +599,10 @@ jobs:
         # Lauf sieben Wochen fuer eine Runde, die alle vier Wochen neu beginnt —
         # er kaeme nie durch. Bei einer Sekunde Pause je Abruf sind 200 Titel gut
         # drei Minuten.
-        run: npm run data:justwatch -- --limit 200
+        # 800 seit dem 17.09.2026: Der Lauf fragt jetzt reihum alle Titel (2.772),
+        # jeder soll alle vier Wochen drankommen — das sind rund 700 je Woche,
+        # etwa eine Viertelstunde bei einer Sekunde Pause.
+        run: npm run data:justwatch -- --limit 800
 
       - name: Fortschritt — Tonspuren laut JustWatch
         continue-on-error: true

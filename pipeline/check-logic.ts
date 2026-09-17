@@ -4558,6 +4558,12 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     releasesAus([v('ab dem 28. August 2026 bei RTL+ abrufbar')], titel, [], '2026-09-16').length === 1,
   )
 }
+/* JustWatch bei Titeln mit Wegen: nur digitale Angebote (17.09.2026). */
+pruefe(
+  'JustWatch ergänzt bei Titeln mit Wegen keine Disc-Händler und keine Kinos',
+  readFileSync('pipeline/build.ts', 'utf8').includes("if (PHYSISCHE_SHOPS.test(a.anbieter) || /kino|cinestar|cinema/i.test(a.anbieter)) continue"),
+  '728 Händlerwege ohne Ausgabe (Zavvi: UK-Importe) stünden wieder im Panel',
+)
 /* gti-Brücke: Auswahl der JustWatch-Adresse für einen Prime-Verweis (17.09.2026). */
 {
   const { amazonGtiWahl } = await import('./lib/amazon-gti.ts')
