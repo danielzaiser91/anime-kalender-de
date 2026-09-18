@@ -185,7 +185,7 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 4. **Auslöser:** stündlicher Cron, `pushVersand()` — je Abo die Favoriten-Termine, die seit `zuletzt` erschienen sind (`istErschienen`). Erster Lauf eines neuen Abos merkt sich nur die Zeit. Ein Push je Abo und Lauf, gebündelt; 404/410 löscht das Abo.
 5. **Oberfläche:** Schalter oben in `#/favoriten` (nur mit Favoriten und wo `PushManager` existiert), Favoriten wandern bei jeder Änderung mit (`web/src/lib/push.ts`). Versteckter Testknopf weiter unter `#/abo?pushtest=1`.
 
-Live-Rundreise 18.09.2026 mit Test-Endpunkt: Anlegen, D1-Zeile, Nachricht (leer), Abmelden, CORS — alles grün. Offen: erster echter Push, sobald eine Favoriten-Folge erscheint. „Jetzt auch bei X" (Entwurf Punkt 4) noch nicht drin.
+Live-Rundreise 18.09.2026 mit Test-Endpunkt: Anlegen, D1-Zeile, Nachricht (leer), Abmelden, CORS — alles grün. „Jetzt auch bei X" aus den News seit 18.09.2026 mit drin (Migration 033, Spalte `gemeldet` gegen stündliche Wiederholung; Text in `worker/src/push-text.ts`, Zusicherung in `check:logic`). Offen: erster echter Push, sobald eine Favoriten-Folge erscheint.
 
 ## Stichprobe 18.09.2026 (Keim 1809): aniSearchs Synchro-Marke fehlte im Panel
 
