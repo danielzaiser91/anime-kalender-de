@@ -44,7 +44,7 @@ for (const t of auswahl) {
   try {
     await p.goto('about:blank')
     await p.goto(`https://anime-kalender.de/#/datenbank?t=${t.id}`, { waitUntil: 'networkidle' })
-    const panel = p.locator('aside[role="dialog"]').last()
+    const panel = p.locator('[data-panel="titel"]').last()
     await panel.waitFor({ timeout: 20000 })
     await p.waitForTimeout(1200)
     const kasten = panel.locator('section').first()

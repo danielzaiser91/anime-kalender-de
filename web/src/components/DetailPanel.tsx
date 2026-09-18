@@ -3979,6 +3979,7 @@ export function DetailPanel({
         <div
           className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col justify-center gap-4 border-l border-slate-200 bg-white p-6 text-center shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
           role="dialog"
+          data-panel="titel"
           aria-label={anzeigeName(title)}
         >
           <p className="text-base font-medium italic text-slate-400 dark:text-slate-500">
@@ -4053,6 +4054,7 @@ export function DetailPanel({
         */
         className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col overflow-y-auto overscroll-contain border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
         role="dialog"
+        data-panel="titel"
         aria-label={anzeigeName(title)}
       >
         {/*

@@ -119,7 +119,7 @@ async function main() {
         erscheinen. Die Datenbank lädt `titles.json` nach — also alle.
       */
       await seite.goto(`http://ak.test/#/datenbank?t=${id}`, { waitUntil: 'networkidle' })
-      const panel = seite.locator('aside[role="dialog"]')
+      const panel = seite.locator('[data-panel="titel"]')
       try {
         await panel.waitFor({ state: 'visible', timeout: 15_000 })
       } catch {
@@ -188,6 +188,17 @@ async function main() {
   console.log('\nAntwort-Kasten je Titel:')
   for (const h of hoehen) {
     console.log(`  ${h.id}: ${h.hoehe} px${h.ueberlauf > 0 ? `  ✕ ${h.ueberlauf} px ragen hinaus` : ''}`)
+  }
+  /*
+    **Kein einziges gemessenes Panel ist ein Fehler, kein „ok"** (18.09.2026). Nach einer
+    Änderung am Panel-Element (aside → div) fand das Werkzeug kein Panel mehr, meldete je
+    Titel „kein Panel" und am Ende trotzdem „alles im Kasten". Gesucht wird seitdem über
+    `data-panel="titel"`, nicht über den Tag-Namen.
+  */
+  if (!hoehen.length) {
+    console.log('\n  ✕ kein einziges Panel gemessen — Selektor oder Seite kaputt')
+    process.exitCode = 1
+    return
   }
   const raus = hoehen.filter((h) => h.ueberlauf > 0)
   const zuKlein = hoehen.filter((h) => h.hoehe < MINDEST)
