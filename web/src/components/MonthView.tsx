@@ -93,7 +93,7 @@ export function MonthView({
                 className={[
                   'mb-1 flex h-5 w-5 cursor-pointer items-center justify-center rounded text-[11px] tabular-nums transition',
                   isToday
-                    ? 'bg-sky-500 font-bold text-white'
+                    ? 'bg-sky-700 font-bold text-white'
                     : 'text-slate-500 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-white/10',
                 ].join(' ')}
               >

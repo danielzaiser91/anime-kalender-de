@@ -316,7 +316,7 @@ export function FilterBar({
         >
           {t('filter.button')}
           {count > 0 && (
-            <span className="rounded-full bg-sky-500 px-1.5 text-[11px] font-bold text-white">{count}</span>
+            <span className="rounded-full bg-sky-700 px-1.5 text-[11px] font-bold text-white">{count}</span>
           )}
           <span aria-hidden="true" className={open ? 'rotate-180 transition' : 'transition'}>
             ▾

@@ -164,8 +164,8 @@ export function Header({
                 className={[
                   'cursor-pointer rounded-lg px-3 py-2 text-sm font-medium text-white transition',
                   verbindung.verbunden
-                    ? 'bg-emerald-600 hover:bg-emerald-500'
-                    : 'bg-sky-500 hover:bg-sky-400',
+                    ? 'bg-emerald-700 hover:bg-emerald-800'
+                    : 'bg-sky-700 hover:bg-sky-800',
                 ].join(' ')}
               >
                 {/* Auf schmalen Schirmen genügt das Symbol — der Knopf ist der

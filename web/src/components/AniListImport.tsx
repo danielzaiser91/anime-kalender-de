@@ -114,7 +114,7 @@ export function AniListImport({ data }: { data: Dataset }) {
         <button
           type="submit"
           disabled={lage?.art === 'laeuft' || !name.trim()}
-          className="cursor-pointer rounded-lg bg-sky-600 px-3 py-1 font-medium text-white transition hover:bg-sky-500 disabled:cursor-default disabled:opacity-50"
+          className="cursor-pointer rounded-lg bg-sky-700 px-3 py-1 font-medium text-white transition hover:bg-sky-800 disabled:cursor-default disabled:opacity-50"
         >
           {t('import.knopf')}
         </button>

@@ -531,7 +531,7 @@ function PushSchalter({ favorites }: { favorites: Set<number> }) {
         aria-pressed={aktiv}
         className={[
           'cursor-pointer rounded-lg px-3 py-1 font-medium transition',
-          aktiv ? 'bg-sky-600 text-white hover:bg-sky-500' : 'border border-slate-300 hover:bg-slate-200/60 dark:border-white/15 dark:hover:bg-white/10',
+          aktiv ? 'bg-sky-700 text-white hover:bg-sky-800' : 'border border-slate-300 hover:bg-slate-200/60 dark:border-white/15 dark:hover:bg-white/10',
         ].join(' ')}
       >
         {aktiv ? `🔔 ${t('push.an')}` : `🔕 ${t('push.aus')}`}

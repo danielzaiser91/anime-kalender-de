@@ -257,7 +257,7 @@ export function Button({
     CLICKABLE,
     size === 'sm' ? 'px-2.5 py-1.5 text-xs' : 'px-3.5 py-2 text-sm',
     variant === 'primary'
-      ? 'bg-sky-500 text-white hover:bg-sky-400'
+      ? 'bg-sky-700 text-white hover:bg-sky-800'
       : variant === 'ghost'
         ? 'text-slate-600 hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-white/10'
         : 'bg-slate-200/70 text-slate-800 hover:bg-slate-300/70 dark:bg-white/10 dark:text-slate-100 dark:hover:bg-white/20',
