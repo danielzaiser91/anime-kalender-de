@@ -6,7 +6,9 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 3 | [Netflix](06-netflix-rest.md) | 1 Titel, 2 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 37 Adressen, 42 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 3 | [Netflix](06-netflix-rest.md) | 1 Titel, 1 Verweis | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 1 Adresse | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
 Sie zeigt auf jeder Anbieterseite, was dort noch offen ist, liest die Tonspuren und
@@ -14,8 +16,8 @@ schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippe
 
 ## Was das bringt
 
-Von 2772 Titeln zeigen **231** keinen einzigen Bezugsweg,
-**96** davon mit belegter deutscher Synchro. Für die ist die
+Von 2772 Titeln zeigen **229** keinen einzigen Bezugsweg,
+**95** davon mit belegter deutscher Synchro. Für die ist die
 Antwort auf „wo kann ich das sehen?" heute: nirgends bekannt. Jede Meldung von hier
 macht eine davon weniger.
 

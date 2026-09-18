@@ -322,6 +322,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-09-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260918T140500Z
+DTEND:20260918T143500Z
+SUMMARY:Pokémon Horizonte
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-09-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260918T150000Z
@@ -332,6 +342,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-09-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260918T150500Z
+DTEND:20260918T153500Z
+SUMMARY:Pokémon Horizonte
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:dragon-ball-daima-toggo-plus@2026-09-18@anime-kalender-de

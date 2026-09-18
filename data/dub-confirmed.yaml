@@ -15919,3 +15919,61 @@
   dub: false
   checkedAt: '2026-09-18'
   note: "Gemessen, nicht von Hand gesehen: Im deutschen Katalog tragen die Folgen der Serie von 2018 (laufende Nummer 1–52) nur ja-JP; de-DE steht erst ab laufender Nummer 53 (Junior Youth, eigener Titel). Siehe CLAUDE.md, Captain Tsubasa 2018."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-18 ---
+
+- anilistId: 109261
+  title: "The Quintessential Quintuplets 2"
+  platform: netflix
+  url: https://www.netflix.com/title/81152346
+  dub: true
+  checkedAt: '2026-09-18'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Die legendäre Bindung – 2000. Tag"
+
+- anilistId: 124080
+  title: "Horimiya"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CHLH4NR6
+  dub: true
+  checkedAt: '2026-09-18'
+  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CHLH4NR6: alle 13 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.23b95e73-f703-49b7-977a-e19fe8dd59ed — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 124080
+  title: "Horimiya"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CG8SW2YQ
+  dub: true
+  checkedAt: '2026-09-18'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CG8SW2YQ: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.0ee2ada2-6f5c-40e3-a5ab-1003356e17fc — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 12413
+  title: "Jormungand"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCF1M3N
+  available: false
+  checkedAt: '2026-09-18'
+  note: "Amazon-Seite B0DNCF1M3N: nur 0 von 12 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.ecb4d3bb-f6e8-7649-d536-244c4f4cf954, regionsperre=laut Seite nicht mehr im Abo"
+
+- anilistId: 21507
+  title: "Mob Psycho 100"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CH8YTK4T
+  dub: true
+  checkedAt: '2026-09-18'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], Español (España), Español (Latinoamérica), Français, Français [Audiodescription], Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CH8YTK4T: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.ae9ee377-db8d-4848-b49e-99cfac5338e7 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 101117
+  title: "Free! Dive to the Future"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJK3GVR1
+  dub: true
+  checkedAt: '2026-09-18'
+  note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0CJK3GVR1: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.836c011c-f3b2-4330-bed4-378483c4e9eb — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21519
+  title: "Your Name. Gestern, heute und für immer"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0HZY7HB8IQJX7YWB81SW44OGCX
+  dub: true
+  checkedAt: '2026-09-18'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite 0HZY7HB8IQJX7YWB81SW44OGCX: alle 1 Folge geprüft, Abos: arthousecnma, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.3004ad12-53d7-4c50-856c-e55711247cd1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"

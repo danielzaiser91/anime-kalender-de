@@ -46,6 +46,26 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-09-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260918T140500Z
+DTEND:20260918T143500Z
+SUMMARY:Pokémon Horizonte
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-09-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260918T150500Z
+DTEND:20260918T153500Z
+SUMMARY:Pokémon Horizonte
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:detektei-layton-katrielles-raetselhafte-faelle-2026-10-22@2026-10-22@an
  ime-kalender-de
 DTSTAMP:20200101T000000Z
