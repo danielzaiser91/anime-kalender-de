@@ -47,12 +47,32 @@ function datenStand(): string {
 
 const buildId = datenStand()
 
+/**
+ * **Die Startdaten laden parallel zum Programm, nicht danach** (18.09.2026, gemessen auf
+ * einem gedrosselten Handy): Die vier JSON-Dateien der ersten Ansicht starteten erst bei
+ * 1.353 ms, nachdem das Bündel (fertig bei 1.162 ms) ausgeführt war. Ein Preload im HTML
+ * holt sie ab dem ersten Byte der Seite. `crossorigin` muss zu `fetch()` passen
+ * (Modus cors), sonst lädt der Browser jede Datei zweimal. Liste = `loadDataset()`.
+ */
+const startdaten = ['meta.json', 'titles-core.json', 'releases.json', 'events.json']
+function datenVorladen() {
+  return {
+    name: 'daten-vorladen',
+    transformIndexHtml(html: string) {
+      const links = startdaten
+        .map((d) => `    <link rel="preload" as="fetch" crossorigin="anonymous" href="${base}data/${d}?v=${buildId}" />`)
+        .join('\n')
+      return html.replace('</head>', `${links}\n  </head>`)
+    },
+  }
+}
+
 export default defineConfig({
   base,
   root: 'web',
   publicDir: '../public',
   define: { __BUILD_ID__: JSON.stringify(buildId) },
-  plugins: [react(), tailwindcss(), cloudflare()],
+  plugins: [react(), tailwindcss(), cloudflare(), datenVorladen()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./web/src', import.meta.url)),
