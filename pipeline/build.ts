@@ -4073,7 +4073,16 @@ function main(): void {
         .map((s) => s.url?.split('?')[0])
         .find((u) => belegt(u)) ??
       ausNotiz()
-    if (!echt) continue
+    /*
+      **Auch hier keine Adresse, die die Linkprüfung als tot kennt** (18.09.2026,
+      Mob Psycho 100 und Horimiya). `ausNotiz()` baut die Adresse aus der Kennung
+      neu (`amazonTitelAdresse`) und fragt dabei nicht nach, ob sie noch lebt.
+      Ein zweiter, per `verweise-von-hand.yaml` angelegter Verweis auf dieselbe
+      — lebende — Kennung wurde danach als Dublette verworfen, und übrig blieb
+      die hier neu eingesetzte tote Adresse. Dieselbe Stelle wie bei den
+      Handbelegen und den Rohfolgen: Der Riegel gehört vor jede Zuweisung.
+    */
+    if (!echt || lautPruefungTot(echt)) continue
     prime.url = echt
     ersetzt++
   }
