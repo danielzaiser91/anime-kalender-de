@@ -3048,7 +3048,21 @@ export function DetailPanel({
     const arten: Zugangsart[] = ['kostenlos', 'abo', 'kauf', 'unbekannt']
     const gruppen = arten.map((art) => ({
       art,
-      plattformen: (title?.streams ?? []).filter((s) => (s.zugang ?? 'abo') === art),
+      /*
+        **Zwei gleiche Wege sind eine Pille** (18.09.2026). Amazon führt manchen Film
+        unter zwei Kennungen mit demselben Angebot („Giovannis Insel": B00TCOTQHS und
+        B00TE2CQLQ, beide Abo, beide DE ✓). 14 Titel zeigten zwei Prime-Pillen, die
+        sich durch nichts unterschieden. Zusammengelegt wird nur, was in Plattform,
+        Zugang, Sprachurteil und Folgenbereich übereinstimmt — sonst sagen die Pillen
+        Verschiedenes und bleiben beide. Im Datensatz stehen weiter beide.
+      */
+      plattformen: (title?.streams ?? [])
+        .filter((s) => (s.zugang ?? 'abo') === art)
+        .filter((s, i, alle) => {
+          const sig = (x: typeof s) =>
+            `${x.platform}|${x.zugang ?? ''}|${x.dub}|${JSON.stringify((x.dubRanges ?? []).filter((r) => r.dub).map((r) => [r.from, r.to]))}`
+          return alle.findIndex((x) => sig(x) === sig(s)) === i
+        }),
       /*
         **Was man ansieht, ist Stream — was man kauft, ist Disc.**
 
