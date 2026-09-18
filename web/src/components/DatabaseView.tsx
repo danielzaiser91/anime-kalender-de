@@ -191,17 +191,10 @@ export function DatabaseView({
           }
 
           return (
+            /* Kein Knopf aus Knöpfen: wie die Kalenderkarte (EventCard, 18.09.2026). */
             <div
               key={main.id}
-              role="button"
-              tabIndex={0}
               onClick={() => onOpenTitle(main.id)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault()
-                  onOpenTitle(main.id)
-                }
-              }}
               className={[
                 'group flex cursor-pointer flex-col overflow-hidden rounded-xl text-left transition',
                 keinDub ? 'border border-dashed' : 'border',
@@ -211,9 +204,19 @@ export function DatabaseView({
                     ? 'border-slate-400/60 hover:border-slate-500 dark:border-white/25 dark:hover:border-white/40'
                     : 'border-slate-200 hover:border-slate-300 dark:border-white/10 dark:hover:border-white/25',
                 keinDub ? 'bg-slate-100/70 hover:shadow-md dark:bg-white/[0.015]' : 'bg-white hover:shadow-lg dark:bg-white/[0.03]',
-                'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
+                'has-[.ak-oeffnen:focus-visible]:ring-2 has-[.ak-oeffnen:focus-visible]:ring-sky-400',
               ].join(' ')}
             >
+              <button
+                type="button"
+                className="ak-oeffnen sr-only"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onOpenTitle(main.id)
+                }}
+              >
+                {t('card.details', { titel: anzeigeName(main) })}
+              </button>
               <div className="relative aspect-[2/3] overflow-hidden bg-slate-200 dark:bg-white/5">
                 {main.coverImage && (
                   <img

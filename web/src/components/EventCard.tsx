@@ -89,16 +89,16 @@ export function EventCard({
   const vergangen = event.date < todayIso()
 
   return (
+    /*
+      **Die Karte ist kein Knopf, sie enthält einen** (18.09.2026, axe „nested-interactive":
+      678 Karten). Als `role="button"` umschloss sie Stern, Auge und Tooltips — für
+      Screenreader ein Knopf aus Knöpfen, dessen innere Bedienelemente nicht erreichbar
+      sind. Die Maus klickt weiter auf die ganze Fläche; Tastatur und Vorlesen gehen über
+      den unsichtbaren Knopf „Details" als erstes Kind, und sein Fokus zieht den Ring der
+      Karte auf.
+    */
     <div
-      role="button"
-      tabIndex={0}
       onClick={onOpen}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          onOpen()
-        }
-      }}
       className={[
         'group relative flex w-full cursor-pointer flex-col gap-1 overflow-hidden rounded-lg border text-left transition',
         /*
@@ -115,7 +115,7 @@ export function EventCard({
           : event.platform === 'tv'
             ? ''
             : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-white/25 dark:hover:bg-white/[0.08]',
-        'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
+        'has-[.ak-oeffnen:focus-visible]:ring-2 has-[.ak-oeffnen:focus-visible]:ring-sky-400',
         /* 78 % statt 60 — zurückgenommen, nicht ausgeblendet (Daniel, 03.09.2026). */
         vergangen && !favorite ? 'opacity-[0.78] transition-opacity hover:opacity-100' : '',
         dense ? 'p-1.5' : 'p-2',
@@ -129,6 +129,16 @@ export function EventCard({
       */
       style={{ borderLeft: `3px solid ${type.color}` }}
     >
+      <button
+        type="button"
+        className="ak-oeffnen sr-only"
+        onClick={(e) => {
+          e.stopPropagation()
+          onOpen()
+        }}
+      >
+        {t('card.details', { titel: event.name })}
+      </button>
       {/*
         **Der Titel steht unter dem Cover, nicht daneben — und das ist keine
         Geschmacksfrage.**

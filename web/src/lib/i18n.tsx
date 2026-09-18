@@ -770,6 +770,7 @@ const TEXTE = {
   'fav.missed': '{count} erschienen',
   'fav.upcoming': '{count} folgen',
   'fav.overview': 'Deine {count} Favoriten',
+  'card.details': 'Details zu {titel}',
   'import.titel': 'Aus deiner AniList-Liste übernehmen',
   'import.platzhalter': 'AniList-Benutzername',
   'import.knopf': 'Übernehmen',
