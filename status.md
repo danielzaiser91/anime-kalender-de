@@ -175,6 +175,18 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 | **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
 
+## Gemessen 18.09.2026: Barrierefreiheit (axe-core, 11 Ansichten × 2 Themen)
+
+`node tools/a11y-pruefen.mjs` nach `vite build`. Befunde, offen:
+
+| Regel | Knoten | Beispiel | Einschätzung |
+|---|---|---|---|
+| color-contrast | 1.558 in 22 | `text-slate-500` (#62748e) auf #f6f7fb: 4,44 statt 4,5 | knapp daneben, fast überall dieselbe Farbe — eine Stelle im Thema, dann Bild prüfen |
+| nested-interactive | 678 in 8 | Kalenderkarte mit fokussierbaren Kindern | Karte als Knopf mit Knöpfen darin; Tastaturbedienung prüfen |
+| label | 2 | ein Eingabefeld ohne Beschriftung | klein |
+| link-in-text-block | 2 | `text-sky-600`-Link im Fließtext, 1,86:1 zum Text | Unterstreichung ergänzen |
+| page-has-heading-one, heading-order, aria-allowed-role | je 2–4 | fehlendes h1, h3 vor h2, `role=dialog` an `aside` | klein |
+
 ## Recherchiert 18.09.2026: Features ähnlicher Seiten, die uns fehlen
 
 Verglichen mit LiveChart, AniChart, animeschedule.net, Simkl, JustWatch, notify.moe, aniSearch (Belege je Punkt im Verlauf der Recherche; LiveChart-FAQ 404, Crunchyroll 403 — dort nur Store-Einträge). Schon vorhanden und nicht erneut vorschlagen: Dunkelmodus, PWA, Tastenkürzel, Trailer, ICS je Anbieter/Genre, Einzeltermin-ICS, Google-Kalender, Newsletter mit Anbieterwahl, Favoriten-Sync.
