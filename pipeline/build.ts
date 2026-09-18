@@ -5117,7 +5117,7 @@ function main(): void {
         Boolean(fruehesteDisc) && (simulcast || nahAmStart) && (!termin.start || fruehesteDisc! > termin.start)
       if (discDatumGilt) {
         const disc = verlage.find((v) => verlagAlsDienst(v) === undefined)
-        title.deErstausgabe = { von: fruehesteDisc!, ...(disc ? { publisher: disc } : {}) }
+        title.deErstausgabe = { von: fruehesteDisc!, ...(disc ? { publisher: disc } : {}), ...(termin.synchro ? { synchro: true } : {}) }
         asDiscDatum++
         asNeu++
         continue
@@ -5126,7 +5126,7 @@ function main(): void {
         const disc = verlage.find((v) => verlagAlsDienst(v) === undefined)
         asSimulcast++
         if (!disc) continue
-        title.deErstausgabe = { publisher: disc }
+        title.deErstausgabe = { publisher: disc, ...(termin.synchro ? { synchro: true } : {}) }
         asNeu++
         continue
       }
@@ -5135,6 +5135,7 @@ function main(): void {
         ...(termin.zeitraum ? { zeitraum: termin.zeitraum } : {}),
         ...(termin.ende ? { bis: termin.ende } : {}),
         ...(termin.publisher ? { publisher: termin.publisher } : {}),
+        ...(termin.synchro ? { synchro: true } : {}),
       }
       asNeu++
     }

@@ -3356,9 +3356,16 @@ export function DetailPanel({
       einer Blu-ray-Gesamtausgabe seit 2020 im Disc-Reiter (Daniel, 16.09.2026). Belegt ist
       sie auch durch die Sprechrollen und durch einen Kaufweg mit deutscher Folgenspanne.
     */
+    /*
+      Und durch aniSearchs Marke „Synchronisiert" am deutschen Block (18.09.2026, Stichprobe
+      1809): „Niklaas: Der Junge aus Flandern" und „Jakobus Nimmersatt" standen als „Noch
+      keine deutsche Fassung" da, während der Kasten daneben ihre deutsche Ausgabe nannte.
+      Gemessen 253 Titel mit Marke ohne jeden anderen Beleg, 180 davon Filme und Specials.
+    */
     const hatSynchro =
       (title.streams ?? []).some((s) => s.dub === true) ||
       Boolean(title.hasVoices) ||
+      Boolean(title.deErstausgabe?.synchro) ||
       (title.watchLinks ?? []).some((w) => w.dubRanges?.some((r) => r.dub))
     /*
       **Was der Kino-Banner zeigt, ist für den Kasten erledigt** (17.09.2026). Sonst liest

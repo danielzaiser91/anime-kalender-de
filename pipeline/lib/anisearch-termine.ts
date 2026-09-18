@@ -67,6 +67,8 @@ export interface AnisearchTermin {
   publisher?: string
   /** Was im Datensatz stand — damit ein Mensch nachlesen kann, woher das Datum kommt. */
   zitat: string
+  /** Der deutsche Block trägt aniSearchs Marke „Synchronisiert" (`dubbed`). */
+  synchro?: boolean
 }
 
 /**
@@ -120,10 +122,12 @@ export function terminAusEintrag(info: { languages?: Sprachblock[] } | undefined
     Ein Datum wird daraus **nicht**: Ohne Jahreszahl bleibt `zeitraum` leer,
     und die Oberfläche schreibt dann den Verlag ohne Zeitangabe.
   */
+  const synchro = de.dubbed === true ? { synchro: true } : {}
   if (!start && !zeitraum) {
-    return de.publisher?.length ? { publisher: de.publisher[0], zitat: roh } : undefined
+    return de.publisher?.length ? { publisher: de.publisher[0], zitat: roh, ...synchro } : undefined
   }
   return {
+    ...synchro,
     ...(start ? { start } : {}),
     ...(zeitraum ? { zeitraum } : {}),
     ...(ende && start && ende > start ? { ende } : {}),

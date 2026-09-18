@@ -57,6 +57,7 @@ import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
 import { newsRss } from './lib/news-rss.ts'
+import { terminAusEintrag } from './lib/anisearch-termine.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
@@ -4934,6 +4935,14 @@ pruefe(
     vorgeladen.length > 0 && JSON.stringify(vorgeladen) === JSON.stringify(geladen),
     `${vorgeladen} / ${geladen}`,
   )
+}
+{
+  /* aniSearchs Synchro-Marke reist mit der Erstausgabe (18.09.2026, Niklaas / Jakobus Nimmersatt). */
+  const mit = terminAusEintrag({ languages: [{ language: 'Deutsch', released: '04.11.2001', dubbed: true }] } as never)
+  const ohne = terminAusEintrag({ languages: [{ language: 'Deutsch', released: '04.11.2001' }] } as never)
+  pruefe('die Synchro-Marke des deutschen Blocks landet an der Erstausgabe, ohne Marke nicht', mit?.synchro === true && ohne?.synchro === undefined)
+  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+  pruefe('… und das Panel zählt sie als Synchro-Beleg', panel.includes('Boolean(title.deErstausgabe?.synchro)'))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -404,6 +404,12 @@ export interface Title {
     bis?: string
     /** Verlag oder Dienst, im Klartext — „Kazé Deutschland", „Crunchyroll". */
     publisher?: string
+    /**
+     * aniSearch trägt am deutschen Block die Marke „Synchronisiert" (18.09.2026). Das ist
+     * das belastbare Signal (917 von 967 Handbelegen tragen sie); ohne sie kann die
+     * Ausgabe auch OmU sein.
+     */
+    synchro?: boolean
   }
   /** Dasselbe für Anime News Network, die Quelle der deutschen Sprechrollen. */
   annId?: number
