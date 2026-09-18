@@ -31,6 +31,7 @@ import { log, ROOT, warn } from './lib/util.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
+import { folgentitelAusNotiz, folgeUeberTitel } from './lib/folgentitel-anker.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -537,6 +538,9 @@ for (const p of pruefungen) {
   jeAdresse.set(schluessel, [...(jeAdresse.get(schluessel) ?? []), p])
 }
 
+/** Wie viele Meldungen der Folgentitel zugeordnet hat — steht am Ende im Protokoll. */
+let ueberFolgentitel = 0
+
 /** Die Reihe je Titel, aus dem gebauten Datensatz. */
 const reiheVon = new Map<number, Reiheneintrag[]>()
 {
@@ -851,12 +855,19 @@ for (const gruppe of jeAdresse.values()) {
   if (anbieterStaffeln && staffeln.length) {
     for (const m of gruppe) {
       if (m.befund === 'weg' || m.folge_nr == null || m.folge_nr < 1) continue
-      const treffer = ordneMeldungZu(
-        { folge: m.folge_nr, staffel: m.staffel },
-        staffeln,
-        anbieterStaffeln,
-      )
+      /*
+        **Zuerst der Folgentitel, dann die Zahl** (18.09.2026, `lib/folgentitel-anker.ts`).
+        Er nennt Titel und Folgennummer direkt; die Rechnung über Staffel und Zählung
+        bleibt der Weg für Meldungen ohne Treffer.
+      */
+      const anker =
+        m.plattform === 'netflix' ? folgeUeberTitel(folgentitelAusNotiz(m.notiz), staffeln.map((x) => x.id)) : null
+      const ankerStaffel = anker ? staffeln.find((x) => x.id === anker.id) : undefined
+      const treffer = ankerStaffel
+        ? { staffel: ankerStaffel, folgeInStaffel: anker!.nr }
+        : ordneMeldungZu({ folge: m.folge_nr, staffel: m.staffel }, staffeln, anbieterStaffeln)
       if (!treffer) continue
+      if (ankerStaffel) ueberFolgentitel++
       const bisher = jeStaffel.get(treffer.staffel.id) ?? []
       bisher.push({ folge: treffer.folgeInStaffel, dub: m.befund === 'dub' })
       jeStaffel.set(treffer.staffel.id, bisher)
@@ -1355,6 +1366,7 @@ log(
   `${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben` +
     (ausMeldungZugeordnet ? `, ${ausMeldungZugeordnet} von der Meldung selbst benannt` : '') +
     (selbstZugeordnet ? `, ${selbstZugeordnet} über den Namen zugeordnet` : '') +
+    (ueberFolgentitel ? `, ${ueberFolgentitel} Folge(n) über den Folgentitel` : '') +
     (ausSuchadresseZugeordnet
       ? `, ${ausSuchadresseZugeordnet} über den Titel in der Suchadresse`
       : '') +

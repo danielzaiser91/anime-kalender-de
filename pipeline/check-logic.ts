@@ -99,6 +99,7 @@ import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus } from './lib/meldungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
+import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { namensKern, sendungenAusSeite, titelZuordnen } from './fetch-tv-programm.ts'
@@ -4809,6 +4810,35 @@ pruefe(
       kapitel('Princess Principal: Crown Handler - Chapter 2') === true &&
       kapitel('Princess Principal: Crown Handler - Chapter 3') === false,
     `${kapitel('Princess Principal: Crown Handler - Chapter 1: BUSY EASY MONEY')}`,
+  )
+}
+{
+  /*
+    Titelanker (18.09.2026): Der Folgentitel nennt Titel und Folgennummer, unabhängig
+    davon, wie der Anbieter zählt. Kulisse nach Jujutsu Kaisen: Netflix meldet
+    „S1 F26", gemeint ist Staffel 2, Folge 2.
+  */
+  const quelle = {
+    kennung: { '1': { anisearchId: 11 }, '2': { anisearchId: 22 } },
+    folgen: {
+      '11': { folgen: [{ nr: 1, de: 'Ryomen Sukuna' }, { nr: 7, de: 'Folge 7' }, { nr: 9, de: 'Doppelt' }] },
+      '22': { folgen: [{ nr: 1, de: 'Der versteckte Schatz' }, { nr: 2, de: 'Der versteckte Schatz, Teil 2' }, { nr: 3, de: 'Doppelt' }] },
+    },
+  }
+  const anker = (notiz: string) => folgeUeberTitel(folgentitelAusNotiz(notiz), [1, 2], quelle)
+  pruefe(
+    'der Folgentitel ordnet eine durchgezählte Meldung ihrem Titel zu',
+    JSON.stringify(anker('Folge 26: Der versteckte Schatz, Teil 2 — Tonspuren: de')) === '{"id":2,"nr":2}',
+    JSON.stringify(anker('Folge 26: Der versteckte Schatz, Teil 2 — Tonspuren: de')),
+  )
+  pruefe(
+    '… Platzhalter und mehrdeutige Folgentitel entscheiden nichts',
+    anker('Folge 7: Folge 7') === null && anker('Folge 9: Doppelt') === null && anker('keine Folge') === null,
+  )
+  const quelltext = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
+  pruefe(
+    '… und der Import fragt ihn vor der Zählung',
+    quelltext.indexOf('folgeUeberTitel(') > 0 && quelltext.indexOf('folgeUeberTitel(') < quelltext.indexOf('ordneMeldungZu({'),
   )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
