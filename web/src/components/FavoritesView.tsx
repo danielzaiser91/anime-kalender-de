@@ -6,6 +6,7 @@ import { addDays, formatDate, todayIso } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { favoritSeit } from '../lib/favorites.ts'
 import { DubMark, PlatformBadge, SectionTitle, StatusBadge } from './ui.tsx'
+import { AniListImport } from './AniListImport.tsx'
 
 /**
  * Die Favoriten-Seite.
@@ -278,16 +279,25 @@ export function FavoritesView({
   )
 
   if (!favorites.size) {
+    /*
+      Der Import steht in beiden Zuständen an derselben Stelle: Nach dem ersten Treffer
+      wechselt die Ansicht von leer auf gefüllt, und an anderer Stelle würde React die
+      Komponente neu anlegen — die Rückmeldung „12 von 84 übernommen" wäre weg.
+    */
     return (
-      <div className="rounded-xl border border-slate-200 p-8 text-center dark:border-white/10">
-        <p className="text-slate-600 dark:text-slate-300">{t('fav.emptyTitle')}</p>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('fav.emptyHint')}</p>
+      <div className="flex flex-col gap-4">
+        <AniListImport data={data} />
+        <div className="rounded-xl border border-slate-200 p-8 text-center dark:border-white/10">
+          <p className="text-slate-600 dark:text-slate-300">{t('fav.emptyTitle')}</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('fav.emptyHint')}</p>
+        </div>
       </div>
     )
   }
 
   return (
     <div className="flex flex-col gap-4">
+      <AniListImport data={data} />
       <Zeitstrahl
         tage={strahl}
         heute={heute}
