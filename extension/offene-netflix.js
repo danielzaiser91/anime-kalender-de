@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_TITEL = {}
+globalThis.AK_OFFENE_TITEL = {"81152346":{"titel":"The Quintessential Quintuplets","asId":13794,"staffeln":[{"nr":1,"id":103572,"name":"The Quintessential Quintuplets","folgen":12,"film":false,"offen":true,"zustand":"melden"},{"nr":2,"id":109261,"name":"The Quintessential Quintuplets 2","folgen":12,"film":false,"offen":true,"zustand":"melden"}]}}

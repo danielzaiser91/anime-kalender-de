@@ -6,18 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Drama
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:lord-of-mysteries-crunchyroll-de-2026-09-10@2026-09-10@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20260910T020000Z
-DTEND:20260910T023000Z
-SUMMARY:Lord of Mysteries
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
- ps://anime-kalender.de/#/release/lord-of-mysteries-crunchyroll-de-2026-09-
- 10
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-09-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260912T093000Z

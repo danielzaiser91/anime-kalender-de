@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-17T21:35:38.765Z",
+ "erzeugtAm": "2026-09-18T00:31:56.640Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -21,13 +21,18 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 376,
+   "gemeldet": 374,
    "gesamt": 376,
-   "offen": 0,
+   "offen": 2,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.netflix.com/title/81152346",
+   "ziele": [
+    {
+     "url": "https://www.netflix.com/title/81152346",
+     "titel": "The Quintessential Quintuplets"
+    }
+   ],
+   "naechster": "The Quintessential Quintuplets"
   },
   {
    "name": "Disney+",

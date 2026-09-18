@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Shounen
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:dragon-ball-daima-toggo-plus@2026-09-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260910T191500Z
-DTEND:20260910T194500Z
-SUMMARY:Dragon Ball DAIMA – Folge 12/20
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/dragon-ball-daima-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:dragon-ball-daima-toggo-plus@2026-09-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260911T191500Z
