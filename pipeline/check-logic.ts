@@ -25,6 +25,8 @@ import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText } from '../worker/src/push-text.ts'
+import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
+import { FSK_COLORS, PLATFORMS } from '../shared/types.ts'
 import {
   alsEinBlock,
   bestimmeRhythmus,
@@ -4969,6 +4971,25 @@ pruefe(
   pruefe('ohne Anlass kein Text — dann kein Push', pushText([], []) === null)
   const push = readFileSync('worker/src/push.ts', 'utf8')
   pruefe('… und der Versand merkt sich gemeldete Anbieter, bevor er beim ersten Lauf aussteigt', push.indexOf('gemeldet = ?2') < push.indexOf('if (!abo.zuletzt) continue'))
+}
+{
+  /* Plaketten lesbar (18.09.2026, Daniels Wahl „hell B, dunkel C“): jede Anbieterfarbe
+     schafft 4,5:1 — hell auf ihrer Tönung über Karte und Seite, dunkel als Fläche. */
+  const schwach: string[] = []
+  for (const [id, p] of Object.entries(PLATFORMS)) {
+    const stil = plakettenStil(p.color)
+    const f = rgb(p.color)
+    const hell = Math.min(...HELLE_GRUENDE.map((g) => kontrast(rgb(stil['--pl-text']!.padEnd(7, '0')), toenung(g, f))))
+    const voll = kontrast(rgb(stil['--pl-voll-text'] === '#fff' ? '#ffffff' : '#111111'), f)
+    if (hell < 4.5 || voll < 4.5) schwach.push(`${id} hell ${hell.toFixed(2)} dunkel ${voll.toFixed(2)}`)
+  }
+  pruefe('jede Anbieter-Plakette hält 4,5:1 in beiden Themen', schwach.length === 0, schwach.join(' · '))
+  const ui = readFileSync('web/src/components/ui.tsx', 'utf8')
+  pruefe('… und die Plakette nutzt diese Farben', ui.includes('style={plakettenStil(p.color)'))
+  /* FSK: Ziffer dunkel bis 12, weiß ab 16 — so hält jede Stufe 4,5:1. */
+  const fskSchwach = Object.entries(FSK_COLORS).filter(([fsk, c]) => kontrast(rgb(Number(fsk) <= 12 ? '#111111' : '#ffffff'), rgb(c)) < 4.5)
+  pruefe('jede FSK-Plakette hält 4,5:1', fskSchwach.length === 0, fskSchwach.map(([f]) => f).join(', '))
+  pruefe('… und die FSK-Plakette wählt die Ziffer so', ui.includes('const dark = fsk <= 12'))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
