@@ -2486,9 +2486,25 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
       const m = /(?:staffel|season)\s*(\d+)|(\d+)(?:st|nd|rd|th)\s+season/i.exec(n)
       return m ? Number(m[1] ?? m[2]) : null
     }
-    const amKopf = (liste as { anilistId?: number; platform?: string; note?: string }[]).filter((b) => {
+    /*
+      **Und die Staffelnummer allein entscheidet es nicht** (18.09.2026). Prime teilt
+      „Berserk" von 1997 (25 Folgen) in zwei Staffeln; „Staffel 2" mit 12 Folgen hing
+      seit dem Umhängen an der CGI-Serie „Berserk: Staffel 2" von 2017 — die Seite
+      trägt `releaseYear: 1998`. Ein Beleg mit `jahrLautSeite`, das zum Reihenkopf
+      passt, hängt dort zu Recht.
+    */
+    const jahrVon = new Map(
+      (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number; jpYear?: number }[]).map(
+        (t) => [t.id, t.jpYear],
+      ),
+    )
+    const amKopf = (
+      liste as { anilistId?: number; platform?: string; note?: string; jahrLautSeite?: number }[]
+    ).filter((b) => {
       const n = Number(/laut Adresse Staffel (\d+)/.exec(b.note ?? '')?.[1] ?? 0)
       if (b.platform !== 'primevideo' || n < 2 || n > 50) return false
+      const kopfJahr = jahrVon.get(b.anilistId ?? -1)
+      if (b.jahrLautSeite && kopfJahr && Math.abs(b.jahrLautSeite - kopfJahr) <= 1) return false
       const r = reiheVon.get(b.anilistId ?? -1) ?? []
       const haupt = r.filter((k) => (k.format === 'TV' || k.format === 'ONA') && !k.beiwerk)
       if (haupt[0]?.id !== b.anilistId || staffelImNamen(haupt[0].name) !== null) return false

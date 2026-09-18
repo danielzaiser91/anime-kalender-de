@@ -11424,6 +11424,10 @@
   platform: primevideo
   url: https://www.amazon.de/dp/B0DGGZSKRM
   dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DGGZSKRM: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf"
 
@@ -12506,14 +12510,18 @@
   checkedAt: '2026-08-28'
   note: "Tonspuren: Deutsch, 日本語, English — Amazon-Seite B0CH8BD664: alle 7 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 97643
-  title: "Berserk: Staffel 2"
+- anilistId: 33
+  title: "Berserk"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0FKZM9J6V
   dub: true
+  dubRanges:
+    - from: 14
+      to: 25
+      dub: true
+  jahrLautSeite: 1998
   checkedAt: '2026-08-30'
-  nichtImBestand: true
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FKZM9J6V: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf — 16.09.2026 von AniList 33 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen — Berserk (2017) Staffel 2 fehlt in MyDubList und im Katalog; Aufnahme über synchro-von-hand.yaml braucht eine zweite Quelle (offen seit 16.09.2026)"
+  note: "18.09.2026 zurück an AniList 33: Prime teilt die Serie von 1997 in zwei Staffeln, diese Seite ist Amazons Staffel 2 = unsere Folgen 14–25 (releaseYear 1998, Folgentitel „Das Grab in Flammen“, „Die Entscheidende Schlacht“). Die CGI-Serie von 2017 hat laut aniSearch keine Synchro-Marke im deutschen Block. — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FKZM9J6V: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf — 16.09.2026 von AniList 33 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen — Berserk (2017) Staffel 2 fehlt in MyDubList und im Katalog; Aufnahme über synchro-von-hand.yaml braucht eine zweite Quelle (offen seit 16.09.2026)"
 
 - anilistId: 97668
   title: "One Punch Man 2"
