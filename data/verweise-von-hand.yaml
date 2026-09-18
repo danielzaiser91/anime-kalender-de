@@ -73,3 +73,18 @@
     Videotitel laut oEmbed „Dragon Ball DAIMA Deutsch | Verschwörung | Folge 1 |
     TOGGO", Kanal TOGGO (@TOGGO). Daniel hat die Folge am 16.09.2026 dort
     gesehen; Folge 2 fand er auf keinem Kanal.
+
+# Berserk (1997): Prime teilt die 25 Folgen in zwei Staffeln. Mit nur einem Weg
+# liest der Bau die Adresse eines Handbelegs als Korrektur der vorhandenen, und
+# der Beleg zu Staffel 2 überschrieb den zu Staffel 1 (18.09.2026). Zwei Wege
+# machen daraus eine Unterscheidung; jeder Beleg färbt dann seine eigene Seite.
+- anilistId: 33
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DGGZSKRM
+  belegtAm: '2026-09-18'
+  beleg: 'Prime-Staffel 1, 13 Folgen (Folgen 1–13 der Serie von 1997), Handbeleg vom 30.08.2026'
+- anilistId: 33
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FKZM9J6V
+  belegtAm: '2026-09-18'
+  beleg: 'Prime-Staffel 2, 12 Folgen, Kopfblock releaseYear 1998, Folgentitel der Eklipse („Das Grab in Flammen“) = Folgen 14–25'

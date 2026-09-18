@@ -3447,8 +3447,22 @@ export function DetailPanel({
         .map((w) => dubAbdeckung(w.dubRanges, gesamt)),
     ]
     if (!abdeckung.length && hatSynchro) abdeckung.push(dubAbdeckung(undefined, gesamt))
-    const vollstaendig = abdeckung.some((a) => a.vollstaendig)
-    const belegteFolgen = abdeckung.length ? Math.max(...abdeckung.map((a) => a.belegt)) : 0
+    /*
+      **Zwei Wege, zwei Hälften — gezählt wird die Vereinigung** (18.09.2026). Prime teilt
+      „Berserk" von 1997 in zwei Staffeln; die Pillen zeigten „Fg. 1–13 ✓" und „Fg. 14–25
+      ✓", der Kasten „13 von 25 Folgen", weil er je Weg das Maximum nahm. Gezählt wird über
+      eine Menge, damit sich überlappende Bereiche zweier Anbieter nicht doppelt zählen.
+    */
+    const vereint = new Set<number>()
+    for (const r of [
+      ...belegen.flatMap((s) => s.dubRanges ?? []),
+      ...(title.watchLinks ?? []).flatMap((w) => w.dubRanges ?? []),
+    ]) {
+      if (!r.dub) continue
+      for (let n = r.from; n <= Math.min(r.to, gesamt ?? r.to); n++) vereint.add(n)
+    }
+    const vollstaendig = abdeckung.some((a) => a.vollstaendig) || Boolean(gesamt && vereint.size >= gesamt)
+    const belegteFolgen = Math.max(0, vereint.size, ...abdeckung.map((a) => a.belegt))
     /* Sind die übrigen Folgen als „ohne Deutsch" belegt, fehlt keine Angabe (Gundam GQuuuuuuX, Stichprobe 17.09.2026). */
     const restBelegt = mitUrteil.some((s) => {
       const bereiche = s.dubRanges ?? []
