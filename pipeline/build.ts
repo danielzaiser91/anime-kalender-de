@@ -8282,6 +8282,7 @@ function main(): void {
     Datensatz. Das Gedächtnis daneben hält fest, wann eine Meldung zum ersten
     Mal wahr war; ohne das rutschte bei jedem Bau alles auf heute.
   */
+  let newsFuerRss: ReturnType<typeof baueNews> | undefined
   {
     const newsHistorie = readJson<NewsHistorie>('data/news-historie.json', { zuerst: {} })
     const meldungen = baueNews(
@@ -8295,7 +8296,7 @@ function main(): void {
       newsHistorie,
     )
     writeJson(`${OUT}/news.json`, meldungen)
-    writeText(`${OUT}/feeds/news.xml`, newsRss(meldungen, process.env.SITE_URL ?? 'https://anime-kalender.de/'))
+    newsFuerRss = meldungen
     writeJson('data/news-historie.json', newsHistorie)
     const jeArt = new Map<string, number>()
     let einzeln = 0
@@ -8316,6 +8317,11 @@ function main(): void {
   // Erst leeren: Genres kommen und gehen, sonst blieben alte Feeds als Leichen
   // im Repository liegen und würden weiter ausgeliefert.
   clearDir(`${OUT}/feeds`)
+  /*
+    Der News-Feed entsteht erst nach dem Leeren des Ordners. Am 18.09.2026 stand er
+    davor — der erste Bau schrieb ihn und löschte ihn zwölf Zeilen später wieder.
+  */
+  if (newsFuerRss) writeText(`${OUT}/feeds/news.xml`, newsRss(newsFuerRss, process.env.SITE_URL ?? 'https://anime-kalender.de/'))
   /**
    * Wie viel Vergangenheit ein Abo mitbringt.
    *

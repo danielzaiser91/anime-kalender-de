@@ -4865,6 +4865,12 @@ pruefe(
     rss.includes('<title>A &amp; B &lt;C&gt;: Kinostart am 29.09.2026</title>') && !rss.includes('<C>'),
     rss.slice(0, 400),
   )
+  const bauQuelle = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    '… und der Bau schreibt ihn nach dem Leeren des Feed-Ordners',
+    bauQuelle.indexOf('feeds/news.xml') > bauQuelle.indexOf('clearDir(`${OUT}/feeds`)'),
+    'am 18.09.2026 löschte clearDir den gerade geschriebenen Feed',
+  )
 }
 {
   /*
