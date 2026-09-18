@@ -2986,7 +2986,14 @@ function angezeigteFolgenSetzen() {
   const gruppen = folgenJeStaffel(alle)
   let wahl = alle
   if (gruppen.size > 1) {
-    const text = document.body?.textContent ?? ''
+    /*
+      **Sichtbar, nicht vorhanden** (18.09.2026). `textContent` enthält auch, was
+      Netflix versteckt vorrendert. Bei „The Quintessential Quintuplets" meldete der
+      erste Klick auf Staffel 1 die Folgen von Staffel 2 — beide Gruppen waren
+      geladen, und die Wahl fiel auf die falsche. `innerText` kennt nur, was auf dem
+      Bildschirm steht; teuer ist es nur hier, wo mehrere Staffeln geladen sind.
+    */
+    const text = document.body?.innerText ?? ''
     let beste = 0
     wahl = null
     for (const gruppe of gruppen.values()) {
@@ -3035,6 +3042,21 @@ function staffelFuerFolge(reihe, f) {
   return null
 }
 
+/** Die Staffel einer geladenen Gruppe, **nur** über Folgenkennungen — ohne Zählung, ohne Raten. */
+function staffelPerKennung(reihe, gruppe) {
+  for (const st of anbieterStaffeln[String(reihe)] ?? []) {
+    if (!Array.isArray(st?.ids) || !st.ids.length) continue
+    const ids = new Set(st.ids.map(Number))
+    if (gruppe.some((f) => ids.has(Number(f.videoId)))) return Number(st.seq)
+  }
+  const m = MELDUNGEN.get(String(reihe))
+  for (const f of gruppe) {
+    const bekannt = m?.jeFolge.get(String(f.videoId))?.staffel
+    if (Number.isFinite(bekannt)) return bekannt
+  }
+  return null
+}
+
 function staffelnDerGruppe(reihe, gruppe) {
   for (const st of anbieterStaffeln[String(reihe)] ?? []) {
     if (!Array.isArray(st?.ids) || !st.ids.length) continue
@@ -3059,12 +3081,29 @@ function staffelnDerGruppe(reihe, gruppe) {
   if (nummern.length) {
     const kleinste = Math.min(...nummern)
     const groesste = Math.max(...nummern)
-    const passend = anbieterAufteilung(reihe)
+    let passend = anbieterAufteilung(reihe)
       .filter(
         (st) =>
           !st.film && st.folgen === gruppe.length && st.erste === kleinste && st.erste + st.folgen - 1 === groesste,
       )
       .map((st) => st.nr)
+    /*
+      **Was eine andere Gruppe schon belegt, ist hier keine Wahl mehr** (18.09.2026).
+      Zwei Staffeln mit je 12 Folgen ab 1 sind über die Zahl nicht zu trennen. Kennt
+      die Erweiterung eine der beiden über ihre Folgenkennungen, bleibt für die
+      andere nur die übrige Nummer.
+    */
+    if (passend.length > 1) {
+      const eigen = String(gruppe[0]?.seasonId ?? '')
+      const belegt = new Set()
+      for (const [k, g] of folgenJeStaffel(DURCHLAUF.alleFolgen ?? [])) {
+        if (k === eigen || !k) continue
+        const s = staffelPerKennung(reihe, g)
+        if (s != null) belegt.add(s)
+      }
+      const rest = passend.filter((n) => !belegt.has(n))
+      if (rest.length) passend = rest
+    }
     if (passend.length) return passend
   }
   /* Im Player nennt Netflix die Staffel selbst. */
@@ -3553,6 +3592,8 @@ async function durchlaufStarten(grenze) {
         rest: DURCHLAUF.randprobe.map((f) => Number(f.nummer)).filter((n) => !gemessen.has(n)),
         deutsch: ersteFolge.deutsch,
         reihe: String(gemeinteReihe()),
+        /* Die Staffel dazu — sonst stand „✓ E1 + E12 geprüft" in jeder Staffel der Reihe (18.09.2026). */
+        seasonId: String(ersteFolge.folge.seasonId ?? ''),
       }
       DURCHLAUF.randOffen = null
     } else {
@@ -4191,8 +4232,19 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.knopf.classList.remove('ak-fertig')
     return
   }
+  /*
+    **Der Knopf nennt die Staffel, die er meint** (Daniel, 18.09.2026: „warum steht im
+    prüfknopf nur e1-e12 statt zusätzliche welche staffel gemeldet wird? das muss dazu
+    stehen … damit ich selbst sehe falls es probleme gibt"). Unbekannt heißt „S?".
+  */
+  const staffelKand = staffelnDerGruppe(gemeinteReihe(), DURCHLAUF.folgen ?? [])
+  const staffelVorn = DURCHLAUF.folgen?.length ? (staffelKand.length === 1 ? `S${staffelKand[0]} · ` : 'S? · ') : ''
   if (!offen) {
-    const ang = DURCHLAUF.angenommen?.reihe === String(gemeinteReihe()) ? DURCHLAUF.angenommen : null
+    const ang =
+      DURCHLAUF.angenommen?.reihe === String(gemeinteReihe()) &&
+      (DURCHLAUF.angenommen.seasonId ?? '') === String(DURCHLAUF.folgen?.[0]?.seasonId ?? '')
+        ? DURCHLAUF.angenommen
+        : null
     /*
       **„angenommen" sagte nicht, was mit den Folgen passiert ist.**
 
@@ -4202,10 +4254,10 @@ function durchlaufKnopfZeigen() {
       markiert?" Genau das: zwei geprüft, der Rest mit demselben Befund
       gemeldet. Der Knopf sagt es jetzt so.
     */
-    DURCHLAUF.knopf.textContent = ang?.rest.length
+    DURCHLAUF.knopf.textContent = staffelVorn + (ang?.rest.length
       ? `✓ E${ang.gemessen.join(' + E')} geprüft: ${ang.deutsch ? 'deutsch' : 'ohne Deutsch'} · ` +
         `E${alsBereiche(ang.rest).join(', ')} ebenfalls ${ang.deutsch ? 'als deutsch' : 'ohne Deutsch'} gemeldet`
-      : `✓ ${DURCHLAUF.folgen.length} Folgen geprüft`
+      : `✓ ${DURCHLAUF.folgen.length} Folgen geprüft`)
     DURCHLAUF.knopf.title =
       (ang?.rest.length
         ? 'Die Folgen dazwischen wurden nicht einzeln geöffnet, sondern mit dem Befund der beiden geprüften gemeldet. Die Notiz der Meldung vermerkt das.\n'
@@ -4336,7 +4388,7 @@ function durchlaufKnopfZeigen() {
       Die Zeilen kommen aus `zustandZeilen()`, derselben Funktion wie im Dialog.
     */
     const geladen = geladeneZustaende() ?? []
-    DURCHLAUF.knopf.textContent = `✓ E${alsBereiche(geladen.map((z) => z.n)).join(', ')} erledigt`
+    DURCHLAUF.knopf.textContent = `${staffelVorn}✓ E${alsBereiche(geladen.map((z) => z.n)).join(', ')} erledigt`
     DURCHLAUF.knopf.title = [
       ...zustandZeilen(geladen),
       'Aus dieser Staffel steht nichts mehr auf der Prüfliste.',
@@ -4367,7 +4419,7 @@ function durchlaufKnopfZeigen() {
   */
   const staffelUnklar =
     auftrag && staffelnDerGruppe(gemeinteReihe(), DURCHLAUF.folgen ?? []).length > 1 ? ' · Staffel unklar' : ''
-  DURCHLAUF.knopf.textContent = auftrag
+  DURCHLAUF.knopf.textContent = staffelVorn + (auftrag
     ? auftrag.length === 1
       ? `▶ Episode ${auftrag[0].nummer} prüfen${staffelUnklar}`
       : `▶ Episoden ${alsBereiche(auftrag.map((f) => Number(f.nummer))).join(', ')} prüfen${staffelUnklar}`
@@ -4394,7 +4446,7 @@ function durchlaufKnopfZeigen() {
         */
         `▶ E${liste[0]?.nummer ?? 1} + E${liste[liste.length - 1]?.nummer ?? offen} prüfen → gilt für ` +
         `E${alsBereiche(liste.map((f) => Number(f.nummer))).join(', ')}`
-      : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
+      : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`)
   const stand =
     offen === DURCHLAUF.folgen.length
       ? `${offen} Folgen sind bekannt. Jede wird kurz geöffnet; das landet in „Weiter ansehen".`

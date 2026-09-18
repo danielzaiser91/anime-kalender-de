@@ -55,6 +55,7 @@ const namen = [
   'durchlaufAuftrag',
   'stichprobeUeberEinenTitel',
   'folgenJeStaffel',
+  'staffelPerKennung',
   'staffelnDerGruppe',
   'zustandDerFolge',
   'geladeneZustaende',
@@ -276,7 +277,8 @@ function mehrere(ausdruck, { seite = '', meldungen = [], stand = { staffel: null
     offeneTitel: { '80090673': HAIKYU },
     stand,
     DURCHLAUF: { folgen: [], alleFolgen: drei, zuletztGeladen: 's2', gemeldet: new Set(), laeuft: false },
-    document: { body: { textContent: seite } },
+    /* Die Erweiterung liest den sichtbaren Text (`innerText`, 18.09.2026); versteckter Text ist hier keiner. */
+    document: { body: { textContent: seite, innerText: seite } },
     gemeinteReihe: () => '80090673',
     imPlayer: () => false,
     meldungen,
