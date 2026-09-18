@@ -39,6 +39,8 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  # Für das Aufräumen der Statusanzeige: `gh run list` liest die Läufe des Repos.
+  actions: read
 
 concurrency:
   group: pages
@@ -268,6 +270,20 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
+
+      # **Überholte rote Läufe verschwinden von selbst** (18.09.2026). „Roter Lauf gesehen,
+      # aber stehen gelassen" war dreimal rückfällig (Rückfall-Register) — das Werkzeug lief
+      # nur, wenn jemand daran dachte. Es nimmt ausschließlich Läufe ab, deren Workflow
+      # danach grün durchlief; ein roter Lauf ohne grünen Nachfolger bleibt sichtbar.
+      - name: Überholte rote Läufe abnehmen
+        if: success()
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
+          node tools/laeufe-aufraeumen.mjs
 
   deploy:
     needs: build

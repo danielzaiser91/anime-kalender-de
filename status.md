@@ -222,7 +222,7 @@ Priorität nach Nutzen fürs Projektziel und Größe:
 | 6 | „Jetzt auch auf Deutsch bei X" (JustWatch Alerts) | M | **erledigt 18.09.2026** als News-Meldung, im RSS und im Newsletter (Abschnitt „Jetzt auch bei“) |
 | 7 | Import einer AniList-/MAL-Liste als Favoriten (Simkl) | M | **AniList erledigt 18.09.2026** (öffentliche Liste, ohne Anmeldung); MAL erledigt am selben Tag über den XML-Export (auch .gz), nur im Browser gelesen |
 | 8 | Saison-Vorschau „kommende Saison mit Synchro" (AniChart) | S–M | **verworfen 18.09.2026** — gemessen: 97 künftige Starts, davon 85 Disc, 6 Filme, 3 Wochenserien, 3 Batches; die Agenda zeigt genau das. Neu bewerten, wenn mehr als 20 künftige Streaming-Starts anstehen |
-| 9 | Abstand OmU → Synchro je Titel als gekennzeichnete Prognose | M | offen |
+| 9 | Abstand OmU → Synchro je Titel als gekennzeichnete Prognose | M | **verworfen 18.09.2026** — kein Anwendungsfall: 0 Releases ohne Datum, 0 geschätzte Wochenserien, 0 Titel „noch nicht in Japan". Neu bewerten, wenn angekündigte Synchros ohne Termin im Bestand auftauchen |
 | 10 | Fortschritt je Folge, lokal | M | **erledigt 18.09.2026** — „gesehen bis Folge n" in der Favoriten-Zeile, „x neu" seither |
 | 11 | Web-Push für Favoriten (notify.moe, LiveChart) | L | **PoC live 18.09.2026** unter `#/abo?pushtest=1` — wartet auf Daniels Test am Handy; FCM akzeptiert die VAPID-Signatur (410 auf erfundenes Abo) |
 | 12 | Discord-Webhook-Kanal | M | 🙋 Außenwirkung, braucht Freigabe |
