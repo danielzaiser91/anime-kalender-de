@@ -176,7 +176,7 @@ export function MonthView({
                   <button
                     type="button"
                     onClick={() => onPickDay(date)}
-                    className="hidden cursor-pointer px-1 text-left text-[11px] text-sky-500 hover:underline sm:block"
+                    className="hidden cursor-pointer px-1 text-left text-[11px] text-sky-700 dark:text-sky-300 hover:underline sm:block"
                   >
                     {t('month.more', { count: dayEvents.length - 4 })}
                   </button>

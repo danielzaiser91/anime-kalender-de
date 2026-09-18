@@ -381,7 +381,7 @@ export function FavoritesView({
             <button
               type="button"
               onClick={() => setTagFilter(null)}
-              className="cursor-pointer text-sky-500 hover:underline"
+              className="cursor-pointer text-sky-700 dark:text-sky-300 hover:underline"
             >
               {t('fav.dayFilter', { datum: formatDate(tagFilter) })} ✕
             </button>
@@ -423,7 +423,7 @@ export function FavoritesView({
               onToggleFavorite(entfernt.id)
               setEntfernt(null)
             }}
-            className="cursor-pointer font-medium text-sky-500 hover:underline"
+            className="cursor-pointer font-medium text-sky-700 dark:text-sky-300 hover:underline"
           >
             {t('fav.undo')}
           </button>
@@ -749,7 +749,7 @@ function TitelZeile({
               <button
                 type="button"
                 onClick={() => onOpen(releases[0].slug)}
-                className="cursor-pointer text-sky-500 hover:underline"
+                className="cursor-pointer text-sky-700 dark:text-sky-300 hover:underline"
               >
                 {t('fav.details')}
               </button>

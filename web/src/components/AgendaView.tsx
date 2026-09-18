@@ -81,13 +81,13 @@ export function AgendaView({
             <span
               className={[
                 'text-sm font-semibold',
-                date === today ? 'text-sky-500 dark:text-sky-300' : 'text-slate-800 dark:text-slate-100',
+                date === today ? 'text-sky-700 dark:text-sky-300' : 'text-slate-800 dark:text-slate-100',
               ].join(' ')}
             >
               {weekdayName(date)}, {formatDateLong(date)}
             </span>
             {date === today && (
-              <span className="rounded bg-sky-500/15 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-500">
+              <span className="rounded bg-sky-500/15 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
                 {t('week.today')}
               </span>
             )}

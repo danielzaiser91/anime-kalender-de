@@ -405,7 +405,7 @@ export function FilterBar({
                 <button
                   type="button"
                   onClick={() => setShowAllProviders((v) => !v)}
-                  className="cursor-pointer text-xs text-sky-500 underline-offset-2 hover:underline"
+                  className="cursor-pointer text-xs text-sky-700 dark:text-sky-300 underline-offset-2 hover:underline"
                 >
                   {showAllProviders
                     ? t('filter.showLess')

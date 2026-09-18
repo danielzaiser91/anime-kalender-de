@@ -248,7 +248,7 @@ export function WeekView({
                 className={[
                   'flex items-baseline justify-between gap-2 border-b px-3 py-2',
                   isToday
-                    ? 'border-sky-400/40 text-sky-500 dark:text-sky-300'
+                    ? 'border-sky-400/40 text-sky-700 dark:text-sky-300'
                     : 'border-slate-200 text-slate-600 dark:border-white/10 dark:text-slate-400',
                 ].join(' ')}
               >

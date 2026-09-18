@@ -356,7 +356,7 @@ function AboEinstellungen({ meta, onWechseln }: { meta: DataMeta; onWechseln: ()
             <button
               type="button"
               onClick={onWechseln}
-              className="cursor-pointer text-sm text-sky-500 underline hover:text-sky-400"
+              className="cursor-pointer text-sm text-sky-700 dark:text-sky-300 underline hover:text-sky-600 dark:hover:text-sky-200"
             >
               {t('news.changeAddress')}
             </button>

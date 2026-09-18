@@ -147,7 +147,7 @@ export function Quellenuebersicht({ title, releases }: { title: Title; releases:
                         href={r.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sky-500 hover:underline"
+                        className="text-sky-700 dark:text-sky-300 hover:underline"
                       >
                         {r.name}
                       </a>

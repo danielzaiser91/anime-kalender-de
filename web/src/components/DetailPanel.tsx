@@ -1138,7 +1138,7 @@ function Meldungen({ titleId }: { titleId: number }) {
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}
-        className="cursor-pointer text-xs text-sky-500 hover:underline"
+        className="cursor-pointer text-xs text-sky-700 dark:text-sky-300 hover:underline"
       >
         {offen ? t('detail.newsHide') : t('detail.newsShow', { count: liste.length })}
       </button>
@@ -5481,7 +5481,7 @@ export function DetailPanel({
                   type="button"
                   onClick={() => setPlotOffen((v) => !v)}
                   aria-expanded={plotOffen}
-                  className="mt-1 cursor-pointer text-xs text-sky-500 hover:underline"
+                  className="mt-1 cursor-pointer text-xs text-sky-700 dark:text-sky-300 hover:underline"
                 >
                   {t(plotOffen ? 'detail.plotLess' : 'detail.plotMore')}
                 </button>
