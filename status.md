@@ -212,7 +212,7 @@ Priorität nach Nutzen fürs Projektziel und Größe:
 | 7 | Import einer AniList-/MAL-Liste als Favoriten (Simkl) | M | **AniList erledigt 18.09.2026** (öffentliche Liste, ohne Anmeldung); MAL offen — braucht API-Client-ID oder XML-Upload |
 | 8 | Saison-Vorschau „kommende Saison mit Synchro" (AniChart) | S–M | **verworfen 18.09.2026** — gemessen: 97 künftige Starts, davon 85 Disc, 6 Filme, 3 Wochenserien, 3 Batches; die Agenda zeigt genau das. Neu bewerten, wenn mehr als 20 künftige Streaming-Starts anstehen |
 | 9 | Abstand OmU → Synchro je Titel als gekennzeichnete Prognose | M | offen |
-| 10 | Fortschritt je Folge, lokal | M | offen |
+| 10 | Fortschritt je Folge, lokal | M | **erledigt 18.09.2026** — „gesehen bis Folge n" in der Favoriten-Zeile, „x neu" seither |
 | 11 | Web-Push für Favoriten (notify.moe, LiveChart) | L | offen — iOS nur bei installierter PWA |
 | 12 | Discord-Webhook-Kanal | M | 🙋 Außenwirkung, braucht Freigabe |
 

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Release, Title } from '@shared/types.ts'
 import { loadAllTitles, type Dataset } from '../lib/data.ts'
-import { istAusgeblieben, lastEpisodeDate, releaseStatus } from '@shared/logic.ts'
+import { istAusgeblieben, istErschienen, lastEpisodeDate, releaseStatus } from '@shared/logic.ts'
 import { addDays, formatDate, todayIso } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { favoritSeit } from '../lib/favorites.ts'
@@ -37,6 +37,8 @@ interface Zeile {
   letzter?: string
   status: 'laufend' | 'abgeschlossen' | 'ohne-termin'
   hatDeutsch: boolean
+  /** Höchste Folgennummer, die laut Kalender schon erschienen ist (nur Wochenserien). */
+  neuesteFolge?: number
 }
 
 export function FavoritesView({
@@ -124,6 +126,16 @@ export function FavoritesView({
     return je
   }, [data.events, favorites])
 
+  /* Für „gesehen bis Folge n": die höchste erschienene Folge je Titel, aus denselben Terminen. */
+  const neuesteFolgeJeTitel = useMemo(() => {
+    const je = new Map<number, number>()
+    for (const e of data.events) {
+      if (!favorites.has(e.titleId) || !e.episode || !istErschienen(e)) continue
+      je.set(e.titleId, Math.max(je.get(e.titleId) ?? 0, e.episode))
+    }
+    return je
+  }, [data.events, favorites])
+
   const zeilen = useMemo<Zeile[]>(() => {
     const raus: Zeile[] = []
     for (const id of favorites) {
@@ -188,11 +200,12 @@ export function FavoritesView({
         letzter,
         status,
         hatDeutsch: (title.streams ?? []).some((s) => s.dub === true),
+        neuesteFolge: neuesteFolgeJeTitel.get(id),
       })
     }
     return raus
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [favorites, data, heute, eventsJeTitel, nachgeladen])
+  }, [favorites, data, heute, eventsJeTitel, nachgeladen, neuesteFolgeJeTitel])
 
   /** Die vierzehn Tage des Zeitstrahls, mit den Folgen je Tag. */
   const strahl = useMemo(() => {
@@ -425,6 +438,61 @@ export function FavoritesView({
   )
 }
 
+/**
+ * **„Gesehen bis Folge n" — was der Nutzer selbst einträgt** (18.09.2026, Feature-Vergleich:
+ * animeschedule.net, Simkl). Daniel am 29.08.2026: „du kannst nicht wissen was nutzer gesehen
+ * haben". Deshalb schätzt die Seite nichts: Wer mag, trägt seine Folge ein, und die Zeile
+ * zählt, wie viele deutsche Folgen seither erschienen sind. Nur im Browser gespeichert.
+ * Die Zahl ist die Folgennummer des Kalenders — derselbe Anbieter, dieselbe Zählung.
+ */
+const GESEHEN = 'gesehenBis'
+function gesehenLesen(): Record<string, number> {
+  try {
+    return JSON.parse(localStorage.getItem(GESEHEN) ?? '{}') as Record<string, number>
+  } catch {
+    return {}
+  }
+}
+
+function Fortschritt({ titelId, neueste }: { titelId: number; neueste: number }) {
+  const { t } = useLang()
+  const [bis, setBis] = useState<number | undefined>(() => gesehenLesen()[titelId])
+  const setzen = (n: number | undefined) => {
+    const alle = gesehenLesen()
+    if (n === undefined) delete alle[titelId]
+    else alle[titelId] = n
+    try {
+      localStorage.setItem(GESEHEN, JSON.stringify(alle))
+    } catch {
+      /* Gesperrter Speicher: dann gilt es nur für diesen Besuch. */
+    }
+    setBis(n)
+  }
+  const neu = bis !== undefined ? Math.max(0, neueste - bis) : 0
+  return (
+    <span className="flex shrink-0 items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+      {neu > 0 && (
+        <span className="rounded bg-sky-500/15 px-1.5 font-medium text-sky-700 dark:text-sky-300">
+          {t('fav.neuSeit', { n: neu })}
+        </span>
+      )}
+      <label className="flex items-center gap-1" title={t('fav.gesehenHinweis', { n: neueste })}>
+        <span className="hidden sm:inline">{t('fav.gesehenBis')}</span>
+        <input
+          type="number"
+          min={0}
+          max={neueste}
+          value={bis ?? ''}
+          placeholder="–"
+          onChange={(e) => setzen(e.target.value === '' ? undefined : Math.min(neueste, Math.max(0, Number(e.target.value))))}
+          aria-label={t('fav.gesehenBis')}
+          className="w-12 rounded border border-slate-300 bg-transparent px-1 py-0.5 text-right tabular-nums dark:border-white/15"
+        />
+      </label>
+    </span>
+  )
+}
+
 function name(t: Title): string {
   return t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id)
 }
@@ -589,6 +657,8 @@ function TitelZeile({
           {zeile.hatDeutsch && <DubMark dub />}
           <StatusBadge status={zeile.status === 'laufend' ? 'airing' : 'abgeschlossen'} small />
         </button>
+
+        {zeile.neuesteFolge !== undefined && <Fortschritt titelId={title.id} neueste={zeile.neuesteFolge} />}
 
         {/* Der nächste Termin steht in der Zeile — dafür kommt man her. */}
         <span className="w-20 shrink-0 text-right text-xs tabular-nums text-slate-500 dark:text-slate-400">
