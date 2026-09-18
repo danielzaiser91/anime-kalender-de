@@ -39,6 +39,7 @@ function CopyField({ value }: { value: string }) {
     <div className="flex gap-2">
       <input
         readOnly
+        aria-label={t('sub.adresse')}
         value={value}
         onFocus={(e) => e.currentTarget.select()}
         className="min-w-0 flex-1 cursor-text rounded-lg border border-slate-300 bg-slate-100 px-2 py-1.5 font-mono text-xs dark:border-white/15 dark:bg-black/30"
@@ -131,7 +132,7 @@ function FavoritenFeed() {
       {!verbunden ? (
         <p className="text-sm text-slate-600 dark:text-slate-300">
           {t('sub.favOhneAbo')}{' '}
-          <a href="#/newsletter" className="text-sky-600 underline-offset-2 hover:underline dark:text-sky-400">
+          <a href="#/newsletter" className="text-sky-600 underline underline-offset-2 dark:text-sky-400">
             {t('sub.favZumNewsletter')}
           </a>
         </p>

@@ -64,6 +64,13 @@ html:not(.dark) {
   --buehne-links: rgba(255, 255, 255, 0.6);
   --buehne-links-mitte: rgba(255, 255, 255, 0.2);
   --buehne-links-aus: rgba(255, 255, 255, 0);
+  /*
+    Nebentext im hellen Thema (18.09.2026, axe-core): slate-500 (#62748e) lag auf unseren
+    hellen Flächen bei 4,12–4,44 statt 4,5. #5b6b84 erreicht auf allen gemessenen Gründen
+    mindestens 4,69 und ist kaum dunkler; slate-600 (7:1) hätte Haupt- und Nebentext
+    angeglichen. Nur hell — im dunklen Thema würde ein dunkleres Grau schlechter.
+  */
+  --color-slate-500: #5b6b84;
 }
 
 /* Dezente Scrollbars, damit die Wochenspalten nicht ausfransen. */

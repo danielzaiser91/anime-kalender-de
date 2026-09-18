@@ -119,9 +119,9 @@ function KinoKarussell({
   return (
     <div className="mb-4">
       <div className="mb-1.5 flex items-center justify-between">
-        <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {t('news.kino.titel')}
-        </h3>
+        </h2>
         <div className="hidden gap-1 sm:flex">
           <button
             type="button"
@@ -304,7 +304,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
   return (
     <section className="mx-auto w-full max-w-5xl px-3 py-4">
       <div className="mb-2 flex items-baseline justify-between gap-3">
-        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">{t('news.titel')}</h2>
+        <h1 className="text-lg font-semibold text-slate-800 dark:text-slate-100">{t('news.titel')}</h1>
         <a href={feedUrl('news.xml')} className="text-xs text-slate-500 underline-offset-2 hover:underline dark:text-slate-400" title={t('news.rssHint')}>
           RSS
         </a>

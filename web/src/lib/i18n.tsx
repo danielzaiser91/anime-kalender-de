@@ -735,6 +735,7 @@ const TEXTE = {
   'sub.intro':
     'Ein Abo statt vieler Einzelklicks: Die Feeds unten aktualisieren sich mit jedem Daten-Update von selbst. Kein Konto, kein Login, keine Freigabe an uns nötig.',
   'sub.favTitel': 'Nur deine Favoriten',
+  'sub.adresse': 'Adresse zum Kopieren',
   'sub.favOhneAbo': 'Deine Favoriten als eigenes Kalender-Abo gibt es mit bestätigtem Newsletter — dort liegen sie auf dem Server.',
   'sub.favZumNewsletter': 'Zum Newsletter',
   'sub.favAnlegen': 'Adresse für meine Favoriten erzeugen',

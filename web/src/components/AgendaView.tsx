@@ -77,7 +77,7 @@ export function AgendaView({
     <div className="flex flex-col gap-6">
       {groups.map(({ date, events: dayEvents }) => (
         <section key={date}>
-          <h3 className="sticky top-0 z-10 mb-2 flex items-baseline gap-2 bg-[#f6f7fb]/90 py-1 backdrop-blur dark:bg-[#0a0e17]/90">
+          <h2 className="sticky top-0 z-10 mb-2 flex items-baseline gap-2 bg-[#f6f7fb]/90 py-1 backdrop-blur dark:bg-[#0a0e17]/90">
             <span
               className={[
                 'text-sm font-semibold',
@@ -92,7 +92,7 @@ export function AgendaView({
               </span>
             )}
             <span className="ml-auto text-xs text-slate-400">{dayEvents.length}</span>
-          </h3>
+          </h2>
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {dayEvents.map((ev) => (
               <EventCard

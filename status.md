@@ -177,7 +177,7 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 ## Gemessen 18.09.2026: Barrierefreiheit (axe-core, 11 Ansichten × 2 Themen)
 
-`node tools/a11y-pruefen.mjs` nach `vite build`. Befunde, offen:
+`node tools/a11y-pruefen.mjs` nach `vite build` (`--kontrast` gruppiert nach Farbpaar). **Behoben am selben Tag:** label, link-in-text-block, page-has-heading-one, heading-order, aria-allowed-role; Nebentext-Grau im hellen Thema #62748e → #5b6b84 (Kontrastfehler 1.558 → 1.123; getestet gegen slate-600, das die Abstufung verflacht hätte). **Offen:** nested-interactive (Kalenderkarten) und Kontrast der Anbieter-Plaketten in Markenfarben — Gestaltungsfrage. Ursprünglicher Befund:
 
 | Regel | Knoten | Beispiel | Einschätzung |
 |---|---|---|---|

@@ -286,6 +286,7 @@ export function FavoritesView({
     */
     return (
       <div className="flex flex-col gap-4">
+        <h1 className="sr-only">{t('view.favoriten')}</h1>
         <AniListImport data={data} />
         <div className="rounded-xl border border-slate-200 p-8 text-center dark:border-white/10">
           <p className="text-slate-600 dark:text-slate-300">{t('fav.emptyTitle')}</p>
@@ -297,6 +298,7 @@ export function FavoritesView({
 
   return (
     <div className="flex flex-col gap-4">
+      <h1 className="sr-only">{t('view.favoriten')}</h1>
       <AniListImport data={data} />
       <Zeitstrahl
         tage={strahl}

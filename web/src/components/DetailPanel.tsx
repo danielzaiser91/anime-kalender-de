@@ -3975,7 +3975,7 @@ export function DetailPanel({
     return (
       <>
         <div className="fixed inset-0 z-30 cursor-pointer bg-black/40 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
-        <aside
+        <div
           className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col justify-center gap-4 border-l border-slate-200 bg-white p-6 text-center shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
           role="dialog"
           aria-label={anzeigeName(title)}
@@ -3992,7 +3992,7 @@ export function DetailPanel({
               {t('detail.close')}
             </Button>
           </div>
-        </aside>
+        </div>
       </>
     )
   }
@@ -4039,7 +4039,7 @@ export function DetailPanel({
   return (
     <>
       <div className="fixed inset-0 z-30 cursor-pointer bg-black/40 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
-      <aside
+      <div
         /*
           Von `max-w-md` (28 rem) auf `max-w-lg` (32 rem) — vier Rem mehr
           (Daniel, 15.08.2026: „evtl die gesamte card paar pixel breiter").
@@ -5585,7 +5585,7 @@ export function DetailPanel({
 
           <Quellenuebersicht title={title} releases={releases} />
         </div>
-      </aside>
+      </div>
     </>
   )
 }
