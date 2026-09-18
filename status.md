@@ -175,6 +175,10 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 | **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
 
+## Gemessen 18.09.2026: Ladeleistung — die Cover waren das Gewicht
+
+`node tools/leistung-messen.mjs` gegen die Live-Seite: Desktop erster Termin nach 0,6 s, LCP 0,63 s, keine langen Tasks; Handy (4× CPU, 1,6 Mbit/s) erster Termin 3,3 s, LCP 1,35 s, zwei lange Tasks (234 ms). Die größten Antworten waren ausnahmslos AniList-Cover in „large“ (bis 660 KB) für 28-px-Vorschauen. **Behoben** mit `web/src/lib/cover.ts` (srcset je Anzeigegröße): Woche 6,3 → 0,5 MB, Datenbank 6,9 → 2,8 MB. Neu messen, wenn die Handy-Zeit bis zum ersten Termin über 4 s steigt.
+
 ## Gemessen 18.09.2026: Barrierefreiheit (axe-core, 11 Ansichten × 2 Themen)
 
 `node tools/a11y-pruefen.mjs` nach `vite build` (`--kontrast` gruppiert nach Farbpaar). **Behoben am selben Tag:** label, link-in-text-block, page-has-heading-one, heading-order, aria-allowed-role; Nebentext-Grau im hellen Thema #62748e → #5b6b84 (Kontrastfehler 1.558 → 1.123; getestet gegen slate-600, das die Abstufung verflacht hätte). **Ebenfalls behoben:** nested-interactive (Kalender- und Datenbankkarten: Karte kein Knopf mehr, unsichtbarer Knopf „Details“ für Tastatur, Fokusring per `:has()`). **Offen:** Kontrast der Anbieter-Plaketten in Markenfarben — Gestaltungsfrage. Ursprünglicher Befund:
