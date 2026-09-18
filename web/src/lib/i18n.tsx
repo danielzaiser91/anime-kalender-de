@@ -772,7 +772,7 @@ const TEXTE = {
   'fav.upcoming': '{count} folgen',
   'fav.overview': 'Deine {count} Favoriten',
   'push.an': 'Benachrichtigungen an',
-  'push.aus': 'Benachrichtigen, wenn eine Folge erscheint',
+  'push.aus': 'Bei neuen Folgen benachrichtigen',
   'push.hinweis': 'Für die Favoriten in diesem Browser, ohne Konto.',
   'fav.gesehenBis': 'gesehen bis',
   'fav.gesehenHinweis': 'Bis zu welcher Folge du geschaut hast — erschienen ist bis Folge {n}. Bleibt nur in diesem Browser.',
