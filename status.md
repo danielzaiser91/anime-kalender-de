@@ -224,7 +224,7 @@ Priorität nach Nutzen fürs Projektziel und Größe:
 | 8 | Saison-Vorschau „kommende Saison mit Synchro" (AniChart) | S–M | **verworfen 18.09.2026** — gemessen: 97 künftige Starts, davon 85 Disc, 6 Filme, 3 Wochenserien, 3 Batches; die Agenda zeigt genau das. Neu bewerten, wenn mehr als 20 künftige Streaming-Starts anstehen |
 | 9 | Abstand OmU → Synchro je Titel als gekennzeichnete Prognose | M | offen |
 | 10 | Fortschritt je Folge, lokal | M | **erledigt 18.09.2026** — „gesehen bis Folge n" in der Favoriten-Zeile, „x neu" seither |
-| 11 | Web-Push für Favoriten (notify.moe, LiveChart) | L | **geplant 18.09.2026** (Entwurf unten), wartet auf einen Zustell-PoC auf Daniels Gerät |
+| 11 | Web-Push für Favoriten (notify.moe, LiveChart) | L | **PoC live 18.09.2026** unter `#/abo?pushtest=1` — wartet auf Daniels Test am Handy; FCM akzeptiert die VAPID-Signatur (410 auf erfundenes Abo) |
 | 12 | Discord-Webhook-Kanal | M | 🙋 Außenwirkung, braucht Freigabe |
 
 Weggelassen, weil kein Ziel: Bewertungen, Community, Zeitzonen.
