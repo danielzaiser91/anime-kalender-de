@@ -67,6 +67,7 @@ const belege = readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')
 const geprueftePrime = (() => {
   const ids = new Set()
   const adressen = new Set()
+  const kennungen = new Set()
   let id = null
   let istPrime = false
   for (const zeile of belege.split('\n')) {
@@ -82,9 +83,16 @@ const geprueftePrime = (() => {
       continue
     }
     const url = istPrime ? /^  url: (\S+)/.exec(zeile) : null
-    if (url) adressen.add(url[1])
+    /* Die Seite, auf der gemeldet wurde, zählt ebenfalls als angesehen — sie steht in der Notiz. */
+    const seite = istPrime ? /Seitenadresse: ([A-Z0-9]{10,26})/.exec(zeile)?.[1] : undefined
+    if (seite) kennungen.add(seite)
+    if (url) {
+      adressen.add(url[1])
+      const k = /(?:\/dp\/|\/detail\/)([A-Z0-9]{10,26})/.exec(url[1])?.[1]
+      if (k) kennungen.add(k)
+    }
   }
-  return { ids, adressen }
+  return { ids, adressen, kennungen }
 })()
 const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
 const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
@@ -251,7 +259,14 @@ for (const [asin, eintraege] of jeAsin) {
   // Ist unter dieser Adresse schon alles beantwortet, gibt es nichts zu tun.
   if (!verdacht && eintraege.every((e) => e.dub !== undefined)) continue
   /* Geprüft ist geprüft — auch wenn kein Urteil daraus wurde (Kanal-Titel). */
-  if (!verdacht && eintraege.every((e) => geprueftePrime.ids.has(e.t?.id ?? e.id))) {
+  /*
+    **Geprüft ist die Adresse, nicht der Titel** (18.09.2026). „Your Name." wurde am
+    31.08. auf einer Seite gemeldet, die Amazon inzwischen gelöscht hat; die neue
+    Ausgabe kam nie auf die Liste, weil der Titel als geprüft galt. Dasselbe bei
+    Horimiya, Jormungand und Mob Psycho 100, deren frühere Meldungen einer
+    Suchadresse galten.
+  */
+  if (!verdacht && eintraege.every((e) => geprueftePrime.kennungen.has(kennung(e.url)))) {
     schonGeprueft++
     continue
   }
