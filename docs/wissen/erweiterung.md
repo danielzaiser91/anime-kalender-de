@@ -1666,3 +1666,7 @@ die Briefkasten-Antwort, und der `fetch`-Mock liefert ein leeres Objekt).
 Wer hier weitermacht, misst zuerst, wo der Ablauf aussteigt: eine Ausgabe je
 Zweig im Takt, nicht ein weiterer Anlauf aus einer Vermutung.
 
+
+## Eine Fehlerseite ist keine Staffel ohne Folgen (19.09.2026)
+
+Auf Amazons 404 („keine funktionsfähige Seite“) stand zuerst richtig „✕ nicht abrufbar — melden“; nach acht Sekunden ohne Folgenreiter griff der Zweig „Diese Staffel führt bei Amazon keine Folgen“ und sperrte den Knopf. Die tote Adresse (Peace Maker Kurogane `B0D59HJGBZ`, laut Linkprüfung 200) ließ sich nicht mehr melden — und gerade dafür gibt es den Knopf: Amazon antwortet der Linkprüfung mit 200, auch wenn Daniel eine 404 sieht. **Jeder Zweig, der den Knopf sperrt, schließt Fehler-, Region- und Nicht-verfügbar-Seiten aus.** Zusicherung in `amazon.test.cjs`, Gegenprobe rot. Behoben in 4.20.28.
