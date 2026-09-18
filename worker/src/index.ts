@@ -3128,8 +3128,8 @@ export default {
         .catch((err) => console.error('[land] fehlgeschlagen', err)),
     )
     ctx.waitUntil(
-      loadEvents(env)
-        .then((ev) => pushVersand(env, now, ev, (e, zeit) => istErschienen(e, zeit)))
+      Promise.all([loadEvents(env), loadWeitereAnbieter(env)])
+        .then(([ev, weitere]) => pushVersand(env, now, ev, (e, zeit) => istErschienen(e, zeit), weitere))
         .then((msg) => console.log(`[push] ${msg}`))
         .catch((err) => console.error('[push] fehlgeschlagen', err)),
     )

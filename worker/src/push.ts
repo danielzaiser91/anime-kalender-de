@@ -1,3 +1,5 @@
+import { pushText, type PushEreignis, type WeitererAnbieter } from './push-text.ts'
+
 /**
  * **Web-Push ohne Nutzlast — der Zustell-PoC** (18.09.2026, Plan in status.md).
  *
@@ -65,42 +67,42 @@ export async function leererPush(env: PushEnv, endpoint: string): Promise<{ stat
  * erste Lauf eines neuen Abos merkt sich nur den Zeitpunkt — sonst käme als Erstes eine
  * Nachricht über alles, was vor dem Abonnieren erschienen ist. Meldet der Push-Dienst 404
  * oder 410, ist das Abo erloschen und wird gelöscht.
+ *
+ * Dazu „Jetzt auch bei X“ aus den News (`weiterer`-Meldungen). Die tragen nur ein Datum,
+ * deshalb merkt sich das Abo in `gemeldet`, was es schon bekommen hat — sonst käme
+ * dieselbe Meldung einen Tag lang jede Stunde. Auch hier gilt: Was beim ersten Lauf
+ * schon da war, wird nur vermerkt, nicht geschickt.
  */
-export interface PushEreignis {
-  titleId: number
-  name: string
-  date: string
-  time?: string
-  episode?: number
-  verpasst?: { erschienenAm?: string }
-}
-
 export async function pushVersand(
   env: PushEnv & { DB: D1Database },
   jetzt: Date,
   ereignisse: PushEreignis[],
   istErschienen: (e: PushEreignis, zeit: Date) => boolean,
+  weitere: WeitererAnbieter[] = [],
 ): Promise<string> {
-  const { results } = await env.DB.prepare('SELECT endpoint, favoriten, zuletzt FROM push_abo').all<{
+  const { results } = await env.DB.prepare('SELECT endpoint, favoriten, zuletzt, gemeldet FROM push_abo').all<{
     endpoint: string
     favoriten: string
     zuletzt: string | null
+    gemeldet: string
   }>()
   let gesendet = 0
   let geloescht = 0
+  const schluessel = (w: WeitererAnbieter) => `${w.id}:${w.anbieter}`
   for (const abo of results ?? []) {
-    if (!abo.zuletzt) {
-      await env.DB.prepare('UPDATE push_abo SET zuletzt = ?1 WHERE endpoint = ?2').bind(jetzt.toISOString(), abo.endpoint).run()
-      continue
-    }
-    const seit = new Date(abo.zuletzt)
     const favoriten = new Set(abo.favoriten.split(',').filter(Boolean).map(Number))
+    const gemeldet = abo.gemeldet ? abo.gemeldet.split('\n') : []
+    const bekannt = new Set(gemeldet)
+    const auchBei = weitere.filter((w) => favoriten.has(w.id) && !bekannt.has(schluessel(w)))
+    const vermerkt = [...gemeldet, ...auchBei.map(schluessel)].slice(-200).join('\n')
+    await env.DB.prepare('UPDATE push_abo SET zuletzt = ?1, gemeldet = ?2 WHERE endpoint = ?3')
+      .bind(jetzt.toISOString(), vermerkt, abo.endpoint)
+      .run()
+    if (!abo.zuletzt) continue
+    const seit = new Date(abo.zuletzt)
     const neu = ereignisse.filter((e) => favoriten.has(e.titleId) && istErschienen(e, jetzt) && !istErschienen(e, seit))
-    await env.DB.prepare('UPDATE push_abo SET zuletzt = ?1 WHERE endpoint = ?2').bind(jetzt.toISOString(), abo.endpoint).run()
-    if (!neu.length) continue
-    const zeile = (e: PushEreignis) => (e.episode ? `${e.name} – Folge ${e.episode}` : e.name)
-    const text =
-      neu.length === 1 ? `Jetzt auf Deutsch: ${zeile(neu[0]!)}` : `${neu.length} neue Folgen: ${neu.slice(0, 3).map(zeile).join(' · ')}`
+    const text = pushText(neu, auchBei)
+    if (!text) continue
     await env.DB.prepare('UPDATE push_abo SET offen = ?1 WHERE endpoint = ?2').bind(text, abo.endpoint).run()
     const antwort = await leererPush(env, abo.endpoint)
     if (antwort.status === 404 || antwort.status === 410) {

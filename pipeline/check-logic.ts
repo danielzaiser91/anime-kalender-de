@@ -24,6 +24,7 @@ import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus }
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
+import { pushText } from '../worker/src/push-text.ts'
 import {
   alsEinBlock,
   bestimmeRhythmus,
@@ -4957,6 +4958,17 @@ pruefe(
   pruefe('„pokemon" bringt den exakten Titel vor den Film', such('pokemon')[0] === 'Pokémon', such('pokemon').join(' / '))
   pruefe('„one pice" findet One Piece, auch wenn ein Keyword die strenge Stufe füllt', such('one pice')[0] === 'One Piece', such('one pice').join(' / '))
   pruefe('ein sinnloser Begriff findet nichts', such('xqzvwkkk').length === 0)
+}
+{
+  /* Web-Push-Text (18.09.2026): eine Sache ausgeschrieben, mehrere gebündelt, nichts → kein Push. */
+  const folge = { titleId: 1, name: 'Frieren', date: '2026-09-18', episode: 3 }
+  const bei = { id: 2, name: 'Dandadan', anbieter: 'Netflix' }
+  pruefe('eine Folge: „Jetzt auf Deutsch: Frieren – Folge 3"', pushText([folge], []) === 'Jetzt auf Deutsch: Frieren – Folge 3', String(pushText([folge], [])))
+  pruefe('ein neuer Anbieter: „Dandadan jetzt auch bei Netflix"', pushText([], [bei]) === 'Dandadan jetzt auch bei Netflix')
+  pruefe('beides zusammen wird gebündelt', pushText([folge], [bei]) === '2 Neuigkeiten: Frieren – Folge 3 · Dandadan (Netflix)', String(pushText([folge], [bei])))
+  pruefe('ohne Anlass kein Text — dann kein Push', pushText([], []) === null)
+  const push = readFileSync('worker/src/push.ts', 'utf8')
+  pruefe('… und der Versand merkt sich gemeldete Anbieter, bevor er beim ersten Lauf aussteigt', push.indexOf('gemeldet = ?2') < push.indexOf('if (!abo.zuletzt) continue'))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
