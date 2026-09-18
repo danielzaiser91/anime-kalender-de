@@ -2212,6 +2212,11 @@ direkt über dem Commit.** `bestand-bauen` (in_progress) committete danach seine
 **Läuft ein Datenlauf oder Bau, wird eine Datei aus `QUELLEN` nicht committet, sondern
 gewartet** — im Hintergrund, bis er fertig ist.
 
+**Seit dem 18.09.2026 hält das eine Maschine fest** (dritter Fall, Rückfall-Register):
+`tools/quellen-commit-wache.sh` hängt als pre-commit-Hook im lokalen Repo (einrichten mit
+`bash tools/quellen-commit-wache.sh --einrichten`) und hält jeden Commit an, der eine Datei aus
+`QUELLEN` enthält, solange ein Lauf außer Deploy, Aussehen und Claude läuft.
+
 **Und deshalb gehört zu jeder Datenkorrektur eine Zusicherung.** Die Korrektur
 allein hält einen Lauf nicht aus; die Zusicherung meldet sich, wenn sie
 verlorengeht. Am selben Tag zweimal bewiesen — beim Kanal-Nein und bei den

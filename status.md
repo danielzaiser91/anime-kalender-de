@@ -175,6 +175,40 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 | **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
 
+## Recherchiert 18.09.2026: Features ähnlicher Seiten, die uns fehlen
+
+Verglichen mit LiveChart, AniChart, animeschedule.net, Simkl, JustWatch, notify.moe, aniSearch (Belege je Punkt im Verlauf der Recherche; LiveChart-FAQ 404, Crunchyroll 403 — dort nur Store-Einträge). Schon vorhanden und nicht erneut vorschlagen: Dunkelmodus, PWA, Tastenkürzel, Trailer, ICS je Anbieter/Genre, Einzeltermin-ICS, Google-Kalender, Newsletter mit Anbieterwahl, Favoriten-Sync.
+
+Priorität nach Nutzen fürs Projektziel und Größe:
+
+| # | Feature | Größe | Stand |
+|---|---|---|---|
+| 1 | „Meine Anbieter" als gemerkte Filterauswahl (JustWatch „My Services") | S | **erledigt 18.09.2026** |
+| 2 | Persönlicher ICS-Feed nur mit meinen Favoriten (Simkl) — Worker erzeugt je Newsletter-Token | M | offen |
+| 3 | RSS-Feed für neue Synchro-Ankündigungen (animeschedule.net), im Bau neben den ICS | S | offen |
+| 4 | Live-Countdown bis zur nächsten Folge, nur bei belegter Uhrzeit (LiveChart) | S | offen |
+| 5 | Erinnerung (VALARM) in der Einzeltermin-ICS; in Sammelfeeds nicht (Spam) | S | offen — `shared/ics.ts` schreibt heute keinen VALARM |
+| 6 | „Jetzt auch auf Deutsch bei X" für gemerkte Titel, als Newsletter-Abschnitt (JustWatch Alerts) | M | offen |
+| 7 | Import einer AniList-/MAL-Liste als Favoriten (Simkl) | M | offen |
+| 8 | Saison-Vorschau „kommende Saison mit Synchro" (AniChart) | S–M | offen |
+| 9 | Abstand OmU → Synchro je Titel als gekennzeichnete Prognose | M | offen |
+| 10 | Fortschritt je Folge, lokal | M | offen |
+| 11 | Web-Push für Favoriten (notify.moe, LiveChart) | L | offen — iOS nur bei installierter PWA |
+| 12 | Discord-Webhook-Kanal | M | 🙋 Außenwirkung, braucht Freigabe |
+
+Weggelassen, weil kein Ziel: Bewertungen, Community, Zeitzonen.
+
+## Gemessen 18.09.2026: Code-Splitting des Detail-Panels lohnt nicht
+
+Hauptbündel 453 KB (138 KB gzip). Das Detail-Panel lazy geladen ergab einen eigenen Teil von 23 KB gzip, das Hauptbündel sank auf 117 KB — 17 %. Dafür würde der Service Worker den nachgeladenen Teil nicht vorab speichern (`sw.js` liest die Assets aus `index.html`), und das Panel ginge offline erst nach dem ersten Öffnen. **Verworfen.** Neu bewerten, wenn das Hauptbündel über 200 KB gzip wächst.
+
+## Recherchiert 18.09.2026: RSI und das Hackathon-Repo aus Daniels Video
+
+- **Google-News:** Dream-RSI (arXiv 2609.14858, 14.09.2026, Google/DeepMind) verbessert den Such-Code des Agenten, nicht das Modell. Kein Skill-Repo.
+- **Hackathon:** Affaan Mustafa gewann den Anthropic × Forum Ventures Hackathon mit **Everything Claude Code** (affaan-m/everything-claude-code, MIT, sehr aktiv). Lernen aus Erfolg/Fehlschlag: Hooks protokollieren jeden Werkzeugaufruf, ein Hintergrund-Agent leitet „Instincts" mit Konfidenz 0,3–0,9 ab, Korrekturen senken sie, `/evolve` macht Skills daraus.
+- **Entscheidung: nicht installieren.** 28 globale Hooks mit Node-Skripten, unsignierte Updates, ein Malware-Klon im Umlauf (dev.to-Audit), und ein zweites Regel-/Memory-System, das mit unserem kollidiert. Übernommen werden zwei Ideen: Konfidenz/Rückfallzähler je Regel und erst reproduzieren, dann schärfen (RED/GREEN aus obra/superpowers). Umgesetzt im Skill `korrektur-schaerft-die-regel`.
+- Weitere Kandidaten: `hookify` (offiziell, Regeln als Regex-Hooks) — vielleicht, erst Hooks lesen; `claude plugin eval` für Rückfall-Tests je Korrektur — offen, kostet Kontingent.
+
 ## Recherchiert 16.09.2026: Quellen für deutsche TV-Sendetermine
 
 Anlass: Dragon Ball DAIMA bei TOGGO plus (Daniel: „tägliche tv releases sind ein paradebeispiel …"). Gemessen je Quelle, Probeabrufe sparsam:
