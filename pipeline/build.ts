@@ -73,6 +73,7 @@ import {
 import { addDays, todayIso } from '../shared/time.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { buildIcs } from '../shared/ics.ts'
+import { newsRss } from './lib/news-rss.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
 import { amazonAdresseRichten, amazonTitelAdresse } from './lib/amazon-adresse.ts'
@@ -8294,6 +8295,7 @@ function main(): void {
       newsHistorie,
     )
     writeJson(`${OUT}/news.json`, meldungen)
+    writeText(`${OUT}/feeds/news.xml`, newsRss(meldungen, process.env.SITE_URL ?? 'https://anime-kalender.de/'))
     writeJson('data/news-historie.json', newsHistorie)
     const jeArt = new Map<string, number>()
     let einzeln = 0

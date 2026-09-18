@@ -56,6 +56,7 @@ import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../sha
 import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
+import { newsRss } from './lib/news-rss.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -4852,6 +4853,18 @@ pruefe(
   )
   const bau = readFileSync('pipeline/build.ts', 'utf8')
   pruefe('… und build.ts setzt sie in keinem Feed', !/buildIcs\([^)]*erinnerung/.test(bau))
+}
+{
+  /* RSS der Nachrichtenseite (18.09.2026): derselbe Satz wie auf der Seite, sauber maskiert. */
+  const rss = newsRss(
+    [{ am: '2026-09-17', titelId: 1, titel: 'A & B <C>', slug: 'a', meldungen: [{ art: 'kino', platform: 'kino', datum: '2026-09-29' }] }] as unknown as Parameters<typeof newsRss>[0],
+    'https://anime-kalender.de/',
+  )
+  pruefe(
+    'der News-Feed maskiert Titel und nennt den Satz der Seite',
+    rss.includes('<title>A &amp; B &lt;C&gt;: Kinostart am 29.09.2026</title>') && !rss.includes('<C>'),
+    rss.slice(0, 400),
+  )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

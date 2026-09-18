@@ -36,6 +36,7 @@ const TEXTE = {
   'view.news': 'News',
   'news.titel': 'Was sich getan hat',
   'news.leer': 'Noch keine Meldungen.',
+  'news.rssHint': 'Diese Meldungen als RSS-Feed, z. B. für einen Feedreader',
   'news.kino.titel': 'Im Kino',
   'news.kino.ab': 'ab {d}',
   'news.kino.am': 'am {d}',
@@ -899,7 +900,8 @@ const TEXTE = {
 export type TranslationKey = keyof typeof TEXTE
 export type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
 
-function translate(key: TranslationKey, params?: Record<string, string | number>): string {
+/** Ohne Hook-Namen: für Code außerhalb von Komponenten, etwa den RSS-Feed im Bau. */
+export function translate(key: TranslationKey, params?: Record<string, string | number>): string {
   const raw: string = TEXTE[key] ?? key
   if (!params) return raw
   return raw.replace(/\{(\w+)\}/g, (match, name: string) =>

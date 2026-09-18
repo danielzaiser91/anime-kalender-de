@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { PLATFORMS, type NewsArt, type NewsEintrag, type NewsMeldung, type PlatformId } from '@shared/types.ts'
-import { loadNews, type Dataset } from '../lib/data.ts'
+import { type NewsArt, type NewsEintrag, type NewsMeldung } from '@shared/types.ts'
+import { feedUrl, loadNews, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { anbieterDerMeldung, datumKurz, newsSatz } from '../lib/news-text.ts'
 import { todayIso, addDays } from '@shared/time.ts'
 
 /**
@@ -56,16 +57,6 @@ const FARBE: Record<NewsArt, string> = {
  */
 const ARTEN: NewsArt[] = ['neu', 'angekuendigt', 'verspaetet', 'kino', 'disc', 'folgen']
 
-/*
-  **Nur die ersten zehn Zeichen sind das Datum.** Manche Meldungen tragen einen
-  vollen Zeitstempel („2026-08-30T15:00:00.000Z"); das Zerlegen an „-" machte
-  daraus „30T15:00:00.000Z.08.2026" in der Tagesüberschrift und in „kam am …"
-  (Daniel, 15.09.2026: „wieso so ein komisches datum format?").
-*/
-function datumKurz(iso: string): string {
-  const [j, m, t] = iso.slice(0, 10).split('-')
-  return `${t}.${m}.${j}`
-}
 
 /*
   **Wie lange ein Film zurück noch mitläuft.** Ohne belegten letzten Spieltag
@@ -247,8 +238,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
     return [...jeTag.entries()].sort((a, b) => b[0].localeCompare(a[0]))
   }, [sichtbar, filter])
 
-  const anbieterName = (m: NewsMeldung): string =>
-    m.platform ? (PLATFORMS[m.platform as PlatformId]?.name ?? m.platform) : (m.anbieter ?? '')
+  const anbieterName = anbieterDerMeldung
 
   /** Die Kurzform für die Übersichtszeile — Stichworte, kein Satz. */
   const kurz = (m: NewsMeldung): string => {
@@ -274,29 +264,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
     }
   }
 
-  /** Der ausführliche Satz — steht nur im aufgeklappten Bereich. */
-  const satz = (m: NewsMeldung): string => {
-    const anbieter = anbieterName(m)
-    const datum = m.datum ? datumKurz(m.datum) : ''
-    switch (m.art) {
-      case 'neu':
-        return anbieter ? t('news.neu', { anbieter }) : t('news.neuOhne')
-      case 'folgen':
-        return m.von === m.bis || m.bis === undefined
-          ? t('news.folge', { von: m.von ?? '', anbieter })
-          : t('news.folgen', { von: m.von ?? '', bis: m.bis, anbieter })
-      case 'angekuendigt':
-        return t('news.angekuendigt', { datum, anbieter })
-      case 'disc':
-        return t('news.disc', { datum })
-      case 'kino':
-        return t('news.kino', { datum })
-      case 'verspaetet':
-        return m.nachgereichtAm
-          ? t('news.nachgereicht', { von: m.von ?? '', datum: datumKurz(m.nachgereichtAm) })
-          : t('news.verspaetet', { von: m.von ?? '', datum })
-    }
-  }
+  const satz = newsSatz
 
   const tagName = (iso: string): string =>
     iso === todayIso() ? t('news.heute') : iso === addDays(todayIso(), -1) ? t('news.gestern') : datumKurz(iso)
@@ -334,7 +302,12 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
 
   return (
     <section className="mx-auto w-full max-w-5xl px-3 py-4">
-      <h2 className="mb-2 text-lg font-semibold text-slate-800 dark:text-slate-100">{t('news.titel')}</h2>
+      <div className="mb-2 flex items-baseline justify-between gap-3">
+        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">{t('news.titel')}</h2>
+        <a href={feedUrl('news.xml')} className="text-xs text-slate-500 underline-offset-2 hover:underline dark:text-slate-400" title={t('news.rssHint')}>
+          RSS
+        </a>
+      </div>
       <KinoKarussell data={data} oeffne={oeffne} />
 
       {/* Filterleiste: nur Arten, die wirklich vorkommen — ein leerer Filter ist eine Sackgasse. */}
