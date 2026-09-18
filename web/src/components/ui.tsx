@@ -193,7 +193,8 @@ export function TvZeichen({ className = 'size-3' }: { className?: string }) {
 
 export function FskBadge({ fsk, small }: { fsk: Fsk; small?: boolean }) {
   const bg = FSK_COLORS[fsk]
-  const dark = fsk === 0 || fsk === 6
+  /* Dunkle Ziffer bis FSK 12: Weiß auf dem FSK-Grün hatte nur 3,6:1, #111 hat 5,3:1 (18.09.2026). */
+  const dark = fsk <= 12
   return mitHinweis(
     `FSK ${fsk}`,
     'oben',
