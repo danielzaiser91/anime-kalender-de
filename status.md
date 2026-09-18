@@ -187,7 +187,7 @@ Priorität nach Nutzen fürs Projektziel und Größe:
 | 2 | Persönlicher ICS-Feed nur mit meinen Favoriten (Simkl) — Worker erzeugt je Newsletter-Token | M | offen |
 | 3 | RSS-Feed für neue Synchro-Ankündigungen (animeschedule.net), im Bau neben den ICS | S | offen |
 | 4 | Live-Countdown bis zur nächsten Folge, nur bei belegter Uhrzeit (LiveChart) | S | offen |
-| 5 | Erinnerung (VALARM) in der Einzeltermin-ICS; in Sammelfeeds nicht (Spam) | S | offen — `shared/ics.ts` schreibt heute keinen VALARM |
+| 5 | Erinnerung (VALARM) in der Einzeltermin-ICS; in Sammelfeeds nicht (Spam) | S | **erledigt 18.09.2026** — 15 min vorher, ohne Uhrzeit 9 Uhr |
 | 6 | „Jetzt auch auf Deutsch bei X" für gemerkte Titel, als Newsletter-Abschnitt (JustWatch Alerts) | M | offen |
 | 7 | Import einer AniList-/MAL-Liste als Favoriten (Simkl) | M | offen |
 | 8 | Saison-Vorschau „kommende Saison mit Synchro" (AniChart) | S–M | offen |

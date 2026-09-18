@@ -42,6 +42,12 @@ export interface IcsOptions {
   /** Basis-URL der Seite, für Links im Termin. */
   siteUrl?: string
   calendarName?: string
+  /**
+   * **Erinnerung vor dem Termin** (18.09.2026, Feature-Vergleich: Simkl, LiveChart).
+   * Nur für Dateien, die jemand ausdrücklich für einen Titel herunterlädt — in den
+   * abonnierten Sammelfeeds wären es hunderte Wecker am Tag.
+   */
+  erinnerung?: boolean
 }
 
 export function eventSummary(ev: ReleaseEvent): string {
@@ -88,6 +94,16 @@ function veventBody(ev: ReleaseEvent, opts: IcsOptions): string[] {
   lines.push(`SUMMARY:${esc(eventSummary(ev))}`)
   lines.push(`DESCRIPTION:${esc(eventDescription(ev, opts))}`)
   lines.push(`CATEGORIES:${esc(anbieterName(ev.platform, ev.sender))}`)
+  if (opts.erinnerung) {
+    /* Mit belegter Uhrzeit 15 Minuten vorher, ohne Uhrzeit um 9 Uhr am Tag selbst. */
+    lines.push(
+      'BEGIN:VALARM',
+      'ACTION:DISPLAY',
+      `DESCRIPTION:${esc(eventSummary(ev))}`,
+      `TRIGGER:${ev.time ? '-PT15M' : 'PT9H'}`,
+      'END:VALARM',
+    )
+  }
   lines.push('END:VEVENT')
   return lines
 }

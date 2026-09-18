@@ -61,7 +61,7 @@ const KEYWORD_PREVIEW = 8
 const PLOT_PREVIEW = 200
 
 function downloadIcs(events: ReleaseEvent[], filename: string): void {
-  const blob = new Blob([buildIcs(events, { calendarName: filename })], {
+  const blob = new Blob([buildIcs(events, { calendarName: filename, erinnerung: true })], {
     type: 'text/calendar;charset=utf-8',
   })
   const url = URL.createObjectURL(blob)

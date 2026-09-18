@@ -55,7 +55,7 @@ import { adnAdresseSchaerfen } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
-import { fold as icsFold } from '../shared/ics.ts'
+import { buildIcs, fold as icsFold } from '../shared/ics.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -4840,6 +4840,18 @@ pruefe(
     '… und der Import fragt ihn vor der Zählung',
     quelltext.indexOf('folgeUeberTitel(') > 0 && quelltext.indexOf('folgeUeberTitel(') < quelltext.indexOf('ordneMeldungZu({'),
   )
+}
+{
+  /* Erinnerung nur in der Einzeldatei, nie in den Sammelfeeds (18.09.2026). */
+  const ev = { id: 'x', name: 'Test', date: '2026-10-01', time: '18:00', platform: 'netflix', releaseType: 'movie', releaseSlug: 'x' } as unknown as Parameters<typeof buildIcs>[0][number]
+  const mit = buildIcs([ev], { erinnerung: true })
+  const ohneZeit = buildIcs([{ ...ev, time: undefined }], { erinnerung: true })
+  pruefe(
+    'die Einzeltermin-ICS trägt eine Erinnerung, die Sammelfeeds nicht',
+    mit.includes('TRIGGER:-PT15M') && ohneZeit.includes('TRIGGER:PT9H') && !buildIcs([ev]).includes('VALARM'),
+  )
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe('… und build.ts setzt sie in keinem Feed', !/buildIcs\([^)]*erinnerung/.test(bau))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
