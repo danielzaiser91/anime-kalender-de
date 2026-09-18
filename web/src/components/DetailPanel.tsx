@@ -8,7 +8,7 @@ import { PLATFORMS, anbieterName } from '@shared/types.ts'
 import { expandEvents, titleStatus, istErschienen, istAusgeblieben, releaseStatus } from '@shared/logic.ts'
 import { naechsteRecherche } from '@shared/recherche-plan.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
-import { addDays, formatDate, monthName, todayIso, weekdayName } from '@shared/time.ts'
+import { addDays, berlinToUtc, formatDate, monthName, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember, Franchises } from '@shared/types.ts'
 import {
@@ -533,6 +533,7 @@ function AntwortKasten({
     ) : (
       <>
         {betont(kopf)} <span className="font-normal text-slate-700 dark:text-slate-300">{mitZeit}</span>
+        {e.time && !e.estimated && <Countdown date={e.date} time={e.time} />}
       </>
     )
     neben = [
@@ -2656,6 +2657,30 @@ function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; data: Data
         </div>
       )}
     </div>
+  )
+}
+
+/**
+ * **Wie lange noch — nur am Tag davor und am Tag selbst, nur mit belegter Uhrzeit**
+ * (18.09.2026, Feature-Vergleich: LiveChart). „Erscheint heute um 17:00" sagt, wann;
+ * „noch 2 Std. 14 Min." sagt, ob man jetzt nachsehen soll. Bei „≈" (fortgeschriebener
+ * Termin) und ohne Uhrzeit steht nichts — ein Countdown auf eine geschätzte Minute
+ * wäre eine erfundene Genauigkeit.
+ */
+function Countdown({ date, time }: { date: string; time: string }) {
+  const [jetzt, setJetzt] = useState(() => Date.now())
+  useEffect(() => {
+    const takt = window.setInterval(() => setJetzt(Date.now()), 30_000)
+    return () => window.clearInterval(takt)
+  }, [])
+  const rest = berlinToUtc(date, time).getTime() - jetzt
+  if (rest <= 0 || rest > 24 * 3600_000) return null
+  const std = Math.floor(rest / 3600_000)
+  const min = Math.floor((rest % 3600_000) / 60_000)
+  return (
+    <span className="ml-1 whitespace-nowrap rounded bg-sky-500/10 px-1.5 text-xs font-medium tabular-nums text-sky-700 dark:text-sky-300">
+      {std ? `noch ${std} Std. ${min} Min.` : `noch ${Math.max(1, min)} Min.`}
+    </span>
   )
 }
 
