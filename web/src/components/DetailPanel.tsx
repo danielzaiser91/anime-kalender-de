@@ -3203,11 +3203,23 @@ export function DetailPanel({
     wüssten wir sie nicht. Ein Bezugsweg („Amazon Prime (Crunchyroll)") erbt die
     Angaben des Verweises mit derselben Adresse; ohne ihn gilt die Regel des Titels.
   */
-  const folgenAngabeFuer = (s: { platform?: string; dubRanges?: StreamLink['dubRanges'] } | undefined): string => {
+  const folgenAngabeFuer = (
+    s: { platform?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges'] } | undefined,
+  ): string => {
     /* Ein Werk mit genau einer Folge ist wie ein Film: „1 Fg." sagt nichts (Dr. Stone Ryusui, Stichprobe 17.09.2026). */
     if (!title || title.format === 'MOVIE' || title.episodes === 1) return ''
     const deutsch = (s?.dubRanges ?? []).filter((r) => r.dub)
-    if (deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1) return t('detail.dubNurEine')
+    /*
+      **„nur" nur, wo der Weg wirklich nur diese Folge enthält** (18.09.2026). Bei Date a
+      Live auf YouTube stimmte es — dort liegt ein einzelnes Video. Bei „Monster" auf
+      Netflix (74 Folgen, belegt ist Folge 1) behauptete es eine Lücke, die niemand
+      gemessen hat; dort steht jetzt der Bereich („Fg. 1") wie bei jedem anderen
+      Teilbeleg.
+    */
+    const einzelneFolge =
+      s?.nurFolge != null || (/youtube\.com\/watch\?/.test(s?.url ?? '') && !/[?&]list=/.test(s?.url ?? ''))
+    if (einzelneFolge && deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1)
+      return t('detail.dubNurEine')
     const luecken = dubLuecken(s?.dubRanges)
     if (luecken) return t('detail.dubLuecken', { n: luecken })
     const grenze = dubGrenze(s?.dubRanges)
@@ -4672,7 +4684,7 @@ export function DetailPanel({
                           */
                           unten={(() => {
                             if (g.eintraege[0].nurFolge) return t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
-                            if (g.eintraege[0].dubRanges?.length) return folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges }) || undefined
+                            if (g.eintraege[0].dubRanges?.length) return folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges, url: g.eintraege[0].url, nurFolge: g.eintraege[0].nurFolge }) || undefined
                             const verweis = (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)
                             return verweis?.dub === true ? folgenAngabeFuer(verweis) || undefined : undefined
                           })()}

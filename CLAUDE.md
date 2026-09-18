@@ -4400,6 +4400,26 @@ Die Folge stand die ganze Zeit im Log:
    gemessen und sucht den Fehler woanders. **Was noch nicht gemessen ist, gehört
    im Futur oder gar nicht in den Kommentar.**
 
+## Die Linkprüfung maß Amazons Shop-Adresse, nicht die Video-Seite
+
+Am 18.09.2026 stand der Bau rot: `check:tote-adressen` fand Horimiya und Mob Psycho 100 mit
+Adressen, die als tot belegt waren — eine Stunde, nachdem Daniel beide Seiten besucht und
+gemeldet hatte. `/dp/B0CH8YTK4T` antwortet mit 404 „Seite wurde nicht gefunden",
+`/gp/video/detail/B0CH8YTK4T` mit „Mob Psycho 100 – Staffel 1 ansehen". Amazon führt viele
+Prime-Titel **nur** als Video-Seite.
+
+Gemessen an einer Zufallsstichprobe der 403 als tot geführten `/dp/`-Adressen: **11 von 11**
+erreichbaren lebten unter der Video-Adresse. Der Bau hatte die zugehörigen Verweise über Wochen
+entfernt — lokal nachgemessen kamen danach 39 Prime-Verweise und rund 218 Kaufwege zurück.
+
+Seitdem prüft `check-links.ts` einen `/dp/`-404 an der Video-Seite derselben Kennung nach —
+**nur als zweiten Versuch**, denn DVDs und Blu-rays gibt es nur unter `/dp/`. Die alten Befunde
+sind auf `unklar` zurückgestuft.
+
+**Die Prüffrage bei jedem Befund „tot":** *Habe ich die Seite gefragt, die ein Besucher öffnet —
+oder eine andere Form derselben Kennung?* Ein Anbieter mit zwei Adressformen antwortet nicht für
+beide gleich.
+
 ## Ein Riegel prüft den Wert, den er sieht — nicht den, der gleich daraus wird
 
 Am 17.09.2026 stand ein toter Prime-Link („Your Name.", `B0FLLFC2L6`, HTTP 404 gemessen)
