@@ -2562,6 +2562,8 @@ steht in `docs/d1-migrationen-nachgetragen-2026-09-10.sql`.
 cd worker && npx wrangler d1 migrations apply anime-kalender --remote -c wrangler.toml
 ```
 
+**Gemessen am 18.09.2026: `migrations list/apply` scheitert von hier mit „account is not valid or not authorized [code: 7403]“, `d1 execute` klappt mit demselben Konto.** Migration 031 lief deshalb über `execute --file` plus Buchung wie unten.
+
 **Und wenn eine Migration doch einmal von Hand laufen muss** — weil sie einen
 Sonderfall hat, den der Mechanismus nicht kann —, gehört die Buchung in
 denselben Handgriff:
