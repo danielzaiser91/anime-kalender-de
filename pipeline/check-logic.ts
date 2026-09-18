@@ -4602,6 +4602,22 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     (11 von 11 Stichproben, 18.09.2026). Ein 404 unter `/dp/` entscheidet erst nach der
     Video-Seite derselben Kennung — und nur dann, denn DVDs gibt es nur unter `/dp/`.
   */
+  /* Mob Psycho 100 II / III — Daniels Meldungen blieben liegen (18.09.2026). */
+  {
+    const reihe = [
+      { id: 1, name: 'Mob Psycho 100', format: 'TV', jpYear: 2016 },
+      { id: 2, name: 'Mob Psycho 100 II', format: 'TV', jpYear: 2019 },
+      { id: 3, name: 'Mob Psycho 100 III', format: 'TV', jpYear: 2022 },
+    ] as unknown as Parameters<typeof staffelNummern>[0]
+    const n = staffelNummern(reihe)
+    pruefe('Staffelnummern: römische Ziffern im Namen zählen', n.get(2) === 2 && n.get(3) === 3, JSON.stringify([...n]))
+  }
+  /* Netflix führt alle Staffeln unter einer Adresse — Quintuplets S1 ging am 18.09.2026 in S2 auf. */
+  pruefe(
+    'Meldungen: Netflix-Gruppen trennen nach Staffel, der Staffelblock verlangt eine einzige',
+    /p\.plattform === 'netflix' && typeof p\.staffel === 'number'/.test(readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')) &&
+      /staffelnDerGruppe\.size === 1/.test(readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')),
+  )
   pruefe(
     'Linkprüfung: ein Amazon-404 unter /dp/ wird an der Video-Seite gegengeprüft',
     /const video = erst\.status === 404 \? videoAdresse\(url\) : undefined/.test(

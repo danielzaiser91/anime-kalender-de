@@ -525,7 +525,15 @@ for (const p of pruefungen) {
     Folgen-Meldungen einer Reihe, und für die ist die Bündelung der Zweck dieser
     Gruppe.
   */
-  const schluessel = `${p.plattform}\u0000${p.url}\u0000${p.seiten_kennung ?? ''}`
+  /*
+    **Bei Netflix trennt die Staffel, wo sie bekannt ist** (18.09.2026). Netflix führt
+    alle Staffeln unter einer Adresse und hat keine Seitenkennung je Staffel; ohne
+    diesen Zusatz landeten Staffel 1 und 2 von „The Quintessential Quintuplets" in
+    einer Gruppe und damit in **einem** Beleg. Eine Meldung ohne Staffel bleibt bei den
+    übrigen ihrer Adresse — für sie ist die Bündelung weiter der Zweck.
+  */
+  const staffelTeil = p.plattform === 'netflix' && typeof p.staffel === 'number' ? `\u0000S${p.staffel}` : ''
+  const schluessel = `${p.plattform}\u0000${p.url}\u0000${p.seiten_kennung ?? ''}${staffelTeil}`
   jeAdresse.set(schluessel, [...(jeAdresse.get(schluessel) ?? []), p])
 }
 
@@ -710,9 +718,22 @@ for (const gruppe of jeAdresse.values()) {
     bestimmen, wird die Meldung nicht geschrieben und bleibt im Briefkasten.
   */
   {
-    const staffelNr = gruppe
-      .map((x) => x.staffel)
-      .find((n): n is number => typeof n === 'number' && Number.isFinite(n) && n >= 2 && n <= 50)
+    /*
+      **Nur, wenn die ganze Gruppe eine Staffel meint** (18.09.2026). Eine Gruppe ist
+      alles zu einer Adresse; bei Prime ist das eine Staffel, bei Netflix die ganze
+      Reihe. „The Quintessential Quintuplets" wurde mit S1 und S2 gemeldet, beide unter
+      `/title/81152346` — der Block nahm die erste Staffelnummer ab 2 für alle 24
+      Meldungen und hängte sie an Staffel 2. Staffel 1 war danach abgehakt und stand
+      nirgends. Mehrere Staffeln verteilt der Weg über die Anbieterstaffeln weiter
+      unten, je Meldung.
+    */
+    const staffelnDerGruppe = new Set(
+      gruppe.map((x) => x.staffel).filter((n): n is number => typeof n === 'number' && Number.isFinite(n)),
+    )
+    const staffelNr =
+      staffelnDerGruppe.size === 1
+        ? [...staffelnDerGruppe].find((n) => n >= 2 && n <= 50)
+        : undefined
     const reihe = staffelNr ? reiheVon.get(ids[0] ?? -1) : undefined
     if (staffelNr && reihe) {
       const nummern = staffelNummern(reihe)

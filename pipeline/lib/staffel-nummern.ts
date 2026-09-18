@@ -16,6 +16,9 @@ export function staffelNummern(reihe: Reiheneintrag[]): Map<number, number> {
     if (b) return void aus.set(m.id, Number(b[1]))
     const rest = m.name.startsWith(kopf) ? m.name.slice(kopf.length).trim() : ''
     if (/^\d+$/.test(rest)) return void aus.set(m.id, Number(rest))
+    /* Römisch wie „Mob Psycho 100 II" / „III" (18.09.2026: Daniels Meldungen blieben sonst liegen). */
+    const roemisch: Record<string, number> = { II: 2, III: 3, IV: 4, V: 5, VI: 6, VII: 7, VIII: 8, IX: 9, X: 10 }
+    if (roemisch[rest.toUpperCase()]) return void aus.set(m.id, roemisch[rest.toUpperCase()]!)
     if (i === 0) aus.set(m.id, 1)
   })
   /* „Final Season" ohne Nummer ist die Staffel nach der letzten bekannten (Golden Kamuy, 17.09.2026). */
