@@ -15977,3 +15977,70 @@
   dub: true
   checkedAt: '2026-09-18'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite 0HZY7HB8IQJX7YWB81SW44OGCX: alle 1 Folge geprüft, Abos: arthousecnma, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.3004ad12-53d7-4c50-856c-e55711247cd1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-18 ---
+
+- anilistId: 109261
+  title: "The Quintessential Quintuplets 2"
+  platform: netflix
+  url: https://www.netflix.com/title/81152346
+  dub: true
+  checkedAt: '2026-09-18'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Der Schwesternkrieg, zweite Halbzeit"
+
+- anilistId: 103572
+  title: "The Quintessential Quintuplets"
+  platform: netflix
+  url: https://www.netflix.com/title/81152346
+  dub: true
+  checkedAt: '2026-09-18'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Die legendäre Bindung – 2000. Tag"
+
+- anilistId: 101338
+  title: "Mob Psycho 100 II"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CHN2GVS3
+  dub: true
+  checkedAt: '2026-09-18'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], Español (España), Español (Latinoamérica), Français, Français [Audiodescription], Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CHN2GVS3: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.b18ad541-389f-4a2c-bfc7-480b19af4001 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 140439
+  title: "Mob Psycho 100 III"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJRZY5ND
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: false
+      checked: [1]
+    - from: 2
+      to: 5
+      dub: true
+      checked: [2, 3, 4, 5]
+    - from: 6
+      to: 6
+      dub: false
+      checked: [6]
+    - from: 7
+      to: 7
+      dub: true
+      checked: [7]
+    - from: 8
+      to: 8
+      dub: false
+      checked: [8]
+    - from: 9
+      to: 9
+      dub: true
+      checked: [9]
+    - from: 10
+      to: 10
+      dub: false
+      checked: [10]
+    - from: 11
+      to: 12
+      dub: true
+      checked: [11, 12]
+  checkedAt: '2026-09-18'
+  note: "Folge 1 ohne deutschen Ton, Folgen 2–5 mit deutschem Ton, Folge 6 ohne deutschen Ton, Folge 7 mit deutschem Ton, Folge 8 ohne deutschen Ton, Folge 9 mit deutschem Ton, Folge 10 ohne deutschen Ton, Folgen 11–12 mit deutschem Ton — Tonspuren: Deutsch, English, English [Audio Description], Español (España), Español (Latinoamérica), Français, Italiano, Italiano [descrizione audio], Português (Brasil), Русский, 日本語 — Amazon-Seite B0CJRZY5ND: alle 12 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 3, zugang=abo, gti=amzn1.dv.gti.0cfa91b9-b58a-46eb-98a2-be846b6687c7 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
