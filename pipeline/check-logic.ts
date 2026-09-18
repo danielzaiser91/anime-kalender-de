@@ -61,7 +61,7 @@ import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
 import { gruppiereNachAusgabe, findeStaffel, folgenKern, ordneZu } from '../shared/folgen-zuordnung.ts'
 import { netflixAdresseTaugt } from '../shared/netflix-adresse-pruefung.ts'
-import { beurteile } from './lib/crunchyroll-dub.ts'
+import { beurteile, kapitelImBlock } from './lib/crunchyroll-dub.ts'
 import {
   bucketLand,
   hauptStaffeln,
@@ -4762,6 +4762,26 @@ pruefe(
     '… und läuft auch in der Nachrunde für frisch ergänzte Verweise',
     (bau.match(/kapitelImBlock\(serie, title\)/g) ?? []).length === 2,
     'die Princess-Principal-Filme entstehen erst in der aniSearch-Ergänzung und blieben ohne Urteil',
+  )
+  /* Hinter der Kapitelnummer darf ein Untertitel stehen (Crown Handler Kapitel 1, 18.09.2026). */
+  const serie = {
+    katalog: 'de',
+    staffeln: [
+      {
+        name: 'Princess Principal: Crown Handler',
+        folgen: 4,
+        deutscheFolgen: [{ nummer: 1 }, { nummer: 2 }],
+      },
+    ],
+  } as unknown as Parameters<typeof kapitelImBlock>[0]
+  const kapitel = (name: string) =>
+    kapitelImBlock(serie, { format: 'OVA', titleRomaji: name } as unknown as Parameters<typeof kapitelImBlock>[1])
+  pruefe(
+    'ein Kapitel mit Untertitel findet seine Folge im Block',
+    kapitel('Princess Principal: Crown Handler - Chapter 1: BUSY EASY MONEY') === true &&
+      kapitel('Princess Principal: Crown Handler - Chapter 2') === true &&
+      kapitel('Princess Principal: Crown Handler - Chapter 3') === false,
+    `${kapitel('Princess Principal: Crown Handler - Chapter 1: BUSY EASY MONEY')}`,
   )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

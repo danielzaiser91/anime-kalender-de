@@ -8571,10 +8571,10 @@
 - anilistId: 146066
   title: "Classroom of the Elite: Staffel 3"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GGJKGT5P
+  url: https://www.amazon.de/gp/video/detail/B0G75LX98H
   dub: true
   checkedAt: '2026-08-25'
-  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), 日本語, Русский — Amazon-Seite B0GGJKGT5P: alle 13 Folgen geprüft, Abos: crunchyrollde, Seitenadresse: B0G75LX98H, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — 16.09.2026 von AniList 98659 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen"
+  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), 日本語, Русский — Amazon-Seite B0GGJKGT5P: alle 13 Folgen geprüft, Abos: crunchyrollde, Seitenadresse: B0G75LX98H, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — 16.09.2026 von AniList 98659 (Reihenkopf) umgehängt: die Adresse nennt Amazons Staffel, und genau ein Titel der Reihe trägt diese Staffelnummer im Namen — 18.09.2026: Adresse von B0GGJKGT5P auf B0G75LX98H gestellt; laut Kopfblock ist B0GGJKGT5P „Season 1“ (2017), B0G75LX98H „Classroom of the Elite Staffel 3“ (2024)"
 
 - anilistId: 14075
   title: "Blast of Tempest"
@@ -15885,3 +15885,37 @@
   dub: true
   checkedAt: '2026-09-17'
   note: "Tonspuren: Deutsch, English (US), Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0CJRDG5R6: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# Crunchyroll-Verweise ohne Urteil, am 18.09.2026 im deutschen Katalog nachgemessen
+# (anonymes Token von hier, country DE; Staffelliste und discover/search).
+- anilistId: 21416
+  title: "One Punch Man OVAs"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man
+  available: false
+  checkedAt: '2026-09-18'
+  note: "Gemessen, nicht von Hand gesehen: Der deutsche Katalog führt unter G63K98PZ6 Staffel 1–3 und ein Rückblick-Special, keine OVAs; die Suche nach „One Punch Man OVA“ findet nur die Serie. Der Verweis führt zur Serie, nicht zu diesem Titel."
+
+- anilistId: 108945
+  title: "One Punch Man Season 2 OVAs"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man
+  available: false
+  checkedAt: '2026-09-18'
+  note: "Gemessen, nicht von Hand gesehen: wie bei den OVAs der ersten Staffel — G63K98PZ6 führt im deutschen Katalog keine OVA-Blöcke, die Suche findet nur die Serie."
+
+- anilistId: 100519
+  title: "Princess Principal Picture Drama"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal
+  available: false
+  checkedAt: '2026-09-18'
+  note: "Gemessen, nicht von Hand gesehen: GEXH3W414 führt im deutschen Katalog nur die Serie (12 Folgen) und Crown Handler (4 Kapitel), keine Picture Dramas; die Suche findet nur die Serie."
+
+- anilistId: 100745
+  title: "Captain Tsubasa (2018)"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa
+  dub: false
+  checkedAt: '2026-09-18'
+  note: "Gemessen, nicht von Hand gesehen: Im deutschen Katalog tragen die Folgen der Serie von 2018 (laufende Nummer 1–52) nur ja-JP; de-DE steht erst ab laufender Nummer 53 (Junior Youth, eigener Titel). Siehe CLAUDE.md, Captain Tsubasa 2018."

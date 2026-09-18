@@ -700,7 +700,13 @@ export function kapitelImBlock(serie: CrSerie, title: Title): boolean | undefine
   if (!['MOVIE', 'OVA', 'SPECIAL', 'ONA'].includes(title.format ?? '')) return undefined
   const norm = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
   for (const name of [title.titleRomaji, title.titleEn, title.titleDe]) {
-    const m = /^(.*?)[\s:–-]*(?:chapter|kapitel|part|teil)\s*(\d+)\s*$/i.exec(name ?? '')
+    /*
+      Hinter der Nummer darf ein Untertitel stehen: AniList führt Kapitel 1 als
+      „Princess Principal: Crown Handler - Chapter 1: BUSY EASY MONEY", Kapitel 2 ohne.
+      Das alte Muster verlangte die Nummer am Ende, Kapitel 1 blieb dadurch ohne Urteil,
+      obwohl Crunchyroll dort de-DE führt (18.09.2026).
+    */
+    const m = /^(.*?)[\s:–-]*(?:chapter|kapitel|part|teil)\s*(\d+)(?:\s*[:：–-].*)?\s*$/i.exec(name ?? '')
     if (!m) continue
     const bloecke = (serie.staffeln ?? []).filter((b) => norm(b.name ?? '') === norm(m[1]!))
     const nr = Number(m[2])
