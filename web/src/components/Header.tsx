@@ -1,4 +1,5 @@
 import type React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { RELEASE_TYPES } from '@shared/types.ts'
 import type { ReleaseType } from '@shared/types.ts'
 import { VIEWS, type ViewId } from '../lib/router.ts'
@@ -193,10 +194,7 @@ export function Header({
           (13.08.2026), und ein waagrechter Rollbalken über der kompletten Seite
           fällt niemandem als Navigationsproblem auf.
         */}
-        <nav
-          className="flex max-w-full gap-0.5 overflow-x-auto rounded-lg bg-slate-200/60 p-0.5 dark:bg-white/5"
-          aria-label="Ansicht"
-        >
+        <ReiterLeiste aktiv={view}>
           {VIEWS.filter((v) => v.inNav).map((v) => {
             const kurz = KURZ_IM_NAV[v.id]
             return (
@@ -223,7 +221,7 @@ export function Header({
               </button>
             )
           })}
-        </nav>
+        </ReiterLeiste>
 
         {isCalendar && (
           <div className="flex items-center gap-1">
@@ -299,5 +297,55 @@ export function Legend() {
         </span>
       </Tooltip>
     </div>
+  )
+}
+
+/**
+ * **Die Reiterleiste sagt, dass sie weitergeht** (18.09.2026, Handy-Bilder). Mit sieben
+ * Reitern passt sie auf 375 px nicht mehr; „Wo?" und „News" standen unsichtbar rechts
+ * außerhalb, ohne Hinweis. Solange rechts noch etwas kommt, blendet ein Verlauf den Rand
+ * aus, und der aktive Reiter wird ins Bild gerollt — sonst stand man auf „News" und sah
+ * den Reiter dazu nicht.
+ */
+function ReiterLeiste({ aktiv, children }: { aktiv: string; children: React.ReactNode }) {
+  const ref = useRef<HTMLElement | null>(null)
+  const [mehrRechts, setMehrRechts] = useState(false)
+  const [mehrLinks, setMehrLinks] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const messen = () => {
+      setMehrRechts(el.scrollLeft + el.clientWidth < el.scrollWidth - 2)
+      setMehrLinks(el.scrollLeft > 2)
+    }
+    messen()
+    el.addEventListener('scroll', messen, { passive: true })
+    window.addEventListener('resize', messen)
+    return () => {
+      el.removeEventListener('scroll', messen)
+      window.removeEventListener('resize', messen)
+    }
+  }, [])
+  useEffect(() => {
+    const knopf = ref.current?.querySelector<HTMLElement>('[aria-current="true"]')
+    knopf?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+  }, [aktiv])
+  return (
+    <nav
+      ref={ref}
+      className={[
+        'flex max-w-full gap-0.5 overflow-x-auto rounded-lg bg-slate-200/60 p-0.5 dark:bg-white/5',
+        mehrRechts && mehrLinks
+          ? '[mask-image:linear-gradient(to_right,transparent,black_2.5rem,black_calc(100%-2.5rem),transparent)]'
+          : mehrRechts
+            ? '[mask-image:linear-gradient(to_right,black_calc(100%-2.5rem),transparent)]'
+            : mehrLinks
+              ? '[mask-image:linear-gradient(to_right,transparent,black_2.5rem)]'
+              : '',
+      ].join(' ')}
+      aria-label="Ansicht"
+    >
+      {children}
+    </nav>
   )
 }
