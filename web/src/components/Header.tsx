@@ -95,7 +95,13 @@ export function Header({
     if (view === 'agenda') return t('nav.from', { date: formatDateLong(date) })
     const monday = startOfWeek(date)
     const sunday = addDays(monday, 6)
-    return `${formatDateLong(monday).replace(/ \d{4}$/, '')} – ${formatDateLong(sunday)}`
+    /* Den Monat nur einmal nennen (18.09.2026): „14. September – 20. September 2026“ brach
+       auf dem Handy auf zwei Zeilen, „14.–20. September 2026“ passt in eine. */
+    const [y1, m1, d1] = monday.split('-').map(Number)
+    const [y2, m2, d2] = sunday.split('-').map(Number)
+    if (y1 !== y2) return `${formatDateLong(monday)} – ${formatDateLong(sunday)}`
+    if (m1 !== m2) return `${d1}. ${monthName(m1 - 1)} – ${d2}. ${monthName(m2 - 1)} ${y2}`
+    return `${d1}.–${d2}. ${monthName(m2 - 1)} ${y2}`
   })()
 
   return (
