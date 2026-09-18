@@ -836,7 +836,13 @@ Bau gelb. Der Rest dieses Abschnitts beschreibt, warum das Nein weiter zwei Quel
 
 **Und der Beleg nimmt die Seite, auf der gemeldet wurde.** Eine Meldung trägt zwei Adressen:
 `url` ist der Eintrag der Prüfliste (bei einem Staffelwechsel die Seite von Staffel 1),
-`seiten_kennung` die Seite, die wirklich angesehen wurde. Bis zum 17.09.2026 schrieb der
+`seiten_kennung` die Seite, die wirklich angesehen wurde — **für neue Meldungen**. Im
+**Altbestand** vor dem 17.09. gilt das nicht verlässlich, gemessen am 18.09.2026: Bei
+Arifureta und Babylon war die „Seitenadresse" in der Notiz richtig und die `url` fremd, bei
+Clannad genau umgekehrt (Seitenadresse = veraltete Startseite nach einem Staffelwechsel).
+Eine Massenumstellung auf die Seitenadresse hätte Clannad und After Story von richtig auf
+falsch gedreht. Welche Kennung stimmt, entscheidet dort nur der Titel im Kopfblock der
+Seite (`tools/prime-geteilte-adressen.mjs`, misst und schreibt nichts). Bis zum 17.09.2026 schrieb der
 Import `url`; ab Staffel 2 nimmt er jetzt `seiten_kennung`, und die Staffel bestimmt
 `staffelNummern()` über die Namen der Reihe (auch „Golden Kamuy 4", „Final Season").
 Die Erweiterung schickt `titelId` nach einem Staffelwechsel nicht mehr mit (4.20.24).
