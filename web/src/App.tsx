@@ -364,6 +364,7 @@ export default function App() {
               onToggleFavorite={toggle}
               onToggleHidden={toggleHidden}
               onOpenTitle={(id) => navigate({ title: id, release: undefined })}
+              gesucht={Boolean(route.filters.search.trim())}
             />
           ) : (
             <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />

@@ -57,6 +57,7 @@ import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
 import { newsRss } from './lib/news-rss.ts'
+import { sucheZweistufig } from '../web/src/lib/search.ts'
 import { terminAusEintrag } from './lib/anisearch-termine.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
@@ -4943,6 +4944,19 @@ pruefe(
   pruefe('die Synchro-Marke des deutschen Blocks landet an der Erstausgabe, ohne Marke nicht', mit?.synchro === true && ohne?.synchro === undefined)
   const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
   pruefe('… und das Panel zählt sie als Synchro-Beleg', panel.includes('Boolean(title.deErstausgabe?.synchro)'))
+}
+{
+  /* Suche nach Treffergüte (18.09.2026): exakter Titel vorn, Tippfehler findet, Keyword-Treffer blockiert nicht. */
+  const liste = [
+    { n: 'Pokémon: Der Film', k: [] },
+    { n: 'Pokémon', k: [] },
+    { n: 'Spice and Wolf', k: ['someone'] },
+    { n: 'One Piece', k: [] },
+  ]
+  const such = (q: string) => sucheZweistufig(liste, q, (x) => [x.n, ...x.k], (x) => [x.n]).map((x) => x.n)
+  pruefe('„pokemon" bringt den exakten Titel vor den Film', such('pokemon')[0] === 'Pokémon', such('pokemon').join(' / '))
+  pruefe('„one pice" findet One Piece, auch wenn ein Keyword die strenge Stufe füllt', such('one pice')[0] === 'One Piece', such('one pice').join(' / '))
+  pruefe('ein sinnloser Begriff findet nichts', such('xqzvwkkk').length === 0)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

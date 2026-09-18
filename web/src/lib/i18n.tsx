@@ -206,6 +206,7 @@ const TEXTE = {
 
   'db.count': '{count} Anime mit belegter deutscher Synchro',
   'db.sort': 'Sortierung',
+  'db.sortRelevanz': 'Beste Treffer',
   'db.sortTitle': 'Titel A–Z',
   'db.sortYear': 'Jahr (neu zuerst)',
   'db.sortScore': 'Bewertung',

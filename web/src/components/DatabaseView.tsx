@@ -51,6 +51,7 @@ export function DatabaseView({
   onToggleFavorite,
   onToggleHidden,
   onOpenTitle,
+  gesucht,
 }: {
   data: Dataset
   titles: Title[]
@@ -66,12 +67,16 @@ export function DatabaseView({
   onToggleFavorite: (id: number) => void
   onToggleHidden: (id: number) => void
   onOpenTitle: (id: number) => void
+  /** Ist eine Suche aktiv, kommen die Titel nach Treffergüte sortiert (lib/search.ts). */
+  gesucht?: boolean
 }) {
   const { t } = useLang()
   const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
-  const [sort, setSort] = useState<'titel' | 'jahr' | 'score'>('titel')
+  const [gewaehlt, setSort] = useState<'relevanz' | 'titel' | 'jahr' | 'score'>()
+  /* Beim Suchen gilt die Treffergüte, bis jemand selbst eine andere Sortierung wählt. */
+  const sort = gewaehlt ?? (gesucht ? 'relevanz' : 'titel')
 
   const anzahlOhne = useMemo(() => titles.filter((tt) => tt.ohneSynchro).length, [titles])
 
@@ -80,6 +85,7 @@ export function DatabaseView({
       ? groupByFranchise(titles)
       : titles.map((tt) => ({ main: tt, members: [tt] }))
 
+    if (sort === 'relevanz') return base
     if (sort === 'titel') base.sort((a, b) => anzeigeName(a.main).localeCompare(anzeigeName(b.main), 'de'))
     else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
     else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
@@ -143,6 +149,7 @@ export function DatabaseView({
             onChange={(e) => setSort(e.target.value as typeof sort)}
             className="cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5"
           >
+            {gesucht && <option value="relevanz">{t('db.sortRelevanz')}</option>}
             <option value="titel">{t('db.sortTitle')}</option>
             <option value="jahr">{t('db.sortYear')}</option>
             <option value="score">{t('db.sortScore')}</option>
