@@ -209,7 +209,7 @@ Priorität nach Nutzen fürs Projektziel und Größe:
 | 4 | Live-Countdown bis zur nächsten Folge, nur bei belegter Uhrzeit (LiveChart) | S | **erledigt 18.09.2026** — im Antwort-Kasten des Panels, ab 24 h vorher |
 | 5 | Erinnerung (VALARM) in der Einzeltermin-ICS; in Sammelfeeds nicht (Spam) | S | **erledigt 18.09.2026** — 15 min vorher, ohne Uhrzeit 9 Uhr |
 | 6 | „Jetzt auch auf Deutsch bei X" (JustWatch Alerts) | M | **erledigt 18.09.2026** als News-Meldung, im RSS und im Newsletter (Abschnitt „Jetzt auch bei“) |
-| 7 | Import einer AniList-/MAL-Liste als Favoriten (Simkl) | M | **AniList erledigt 18.09.2026** (öffentliche Liste, ohne Anmeldung); MAL offen — braucht API-Client-ID oder XML-Upload |
+| 7 | Import einer AniList-/MAL-Liste als Favoriten (Simkl) | M | **AniList erledigt 18.09.2026** (öffentliche Liste, ohne Anmeldung); MAL erledigt am selben Tag über den XML-Export (auch .gz), nur im Browser gelesen |
 | 8 | Saison-Vorschau „kommende Saison mit Synchro" (AniChart) | S–M | **verworfen 18.09.2026** — gemessen: 97 künftige Starts, davon 85 Disc, 6 Filme, 3 Wochenserien, 3 Batches; die Agenda zeigt genau das. Neu bewerten, wenn mehr als 20 künftige Streaming-Starts anstehen |
 | 9 | Abstand OmU → Synchro je Titel als gekennzeichnete Prognose | M | offen |
 | 10 | Fortschritt je Folge, lokal | M | **erledigt 18.09.2026** — „gesehen bis Folge n" in der Favoriten-Zeile, „x neu" seither |

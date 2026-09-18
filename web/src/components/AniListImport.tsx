@@ -19,6 +19,31 @@ const ABFRAGE = `query ($u: String) {
   }
 }`
 
+/**
+ * **MyAnimeList ohne Schnittstelle: die Exportdatei** (18.09.2026). MALs API verlangt eine
+ * Client-Kennung; der Listen-Export („Export My List") liefert dagegen eine XML-Datei, meist
+ * gzip-gepackt. Sie wird nur im Browser gelesen. Zugeordnet wird über `malId`, die fast
+ * jeder unserer Titel trägt. Übernommen wird wie bei AniList: Watching, Plan to Watch, On-Hold.
+ */
+const MAL_STATUS = new Set(['Watching', 'Plan to Watch', 'On-Hold'])
+
+async function malIdsAusDatei(datei: File): Promise<{ ids: number[]; gesamt: number }> {
+  let text: string
+  if (datei.name.endsWith('.gz')) {
+    const strom = datei.stream().pipeThrough(new DecompressionStream('gzip'))
+    text = await new Response(strom).text()
+  } else {
+    text = await datei.text()
+  }
+  const xml = new DOMParser().parseFromString(text, 'application/xml')
+  const eintraege = [...xml.getElementsByTagName('anime')]
+  const ids = eintraege
+    .filter((a) => MAL_STATUS.has(a.getElementsByTagName('my_status')[0]?.textContent?.trim() ?? ''))
+    .map((a) => Number(a.getElementsByTagName('series_animedb_id')[0]?.textContent))
+    .filter((n) => Number.isFinite(n) && n > 0)
+  return { ids, gesamt: eintraege.length }
+}
+
 export function AniListImport({ data }: { data: Dataset }) {
   const { t } = useLang()
   const [name, setName] = useState('')
@@ -54,6 +79,21 @@ export function AniListImport({ data }: { data: Dataset }) {
     }
   }
 
+  const malUebernehmen = async (datei: File | undefined) => {
+    if (!datei) return
+    setLage({ art: 'laeuft' })
+    try {
+      const { ids, gesamt } = await malIdsAusDatei(datei)
+      if (!gesamt) throw new Error(t('import.malLeer'))
+      const nachMal = new Map((await loadAllTitles(data)).filter((x) => x.malId).map((x) => [x.malId!, x.id]))
+      const treffer = [...new Set(ids.map((m) => nachMal.get(m)).filter((x): x is number => x !== undefined))]
+      favoritenErgaenzen(treffer)
+      setLage({ art: 'fertig', treffer: treffer.length, gesamt: ids.length })
+    } catch (e) {
+      setLage({ art: 'fehler', text: e instanceof Error && e.message ? e.message : t('import.malLeer') })
+    }
+  }
+
   return (
     <details className="rounded-xl border border-slate-200 p-3 text-sm dark:border-white/10">
       <summary className="cursor-pointer text-slate-600 dark:text-slate-300">{t('import.titel')}</summary>
@@ -79,6 +119,15 @@ export function AniListImport({ data }: { data: Dataset }) {
           {t('import.knopf')}
         </button>
       </form>
+      <label className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
+        {t('import.mal')}
+        <input
+          type="file"
+          accept=".xml,.gz,application/xml,application/gzip"
+          onChange={(e) => void malUebernehmen(e.target.files?.[0])}
+          className="max-w-full text-xs file:mr-2 file:cursor-pointer file:rounded-lg file:border-0 file:bg-slate-200 file:px-2 file:py-1 dark:file:bg-white/10"
+        />
+      </label>
       <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
         {lage?.art === 'fertig'
           ? t('import.ergebnis', { treffer: lage.treffer, gesamt: lage.gesamt })
