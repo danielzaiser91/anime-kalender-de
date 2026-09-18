@@ -45,7 +45,7 @@ const FARBE: Record<NewsArt, string> = {
   neu: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
   folgen: 'bg-sky-500/15 text-sky-700 dark:text-sky-300',
   angekuendigt: 'bg-violet-500/15 text-violet-700 dark:text-violet-300',
-  disc: 'bg-amber-500/15 text-amber-700 dark:text-amber-300',
+  disc: 'bg-amber-500/15 text-amber-800 dark:text-amber-300',
   kino: 'bg-rose-500/15 text-rose-700 dark:text-rose-300',
   verspaetet: 'bg-slate-500/15 text-slate-700 dark:text-slate-300',
 }

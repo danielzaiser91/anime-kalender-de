@@ -620,7 +620,7 @@ function Zeitstrahl({
                   !d.anzahl
                     ? 'bg-slate-200/60 text-transparent dark:bg-white/5'
                     : vergangen
-                      ? 'bg-amber-500/20 text-amber-700 dark:text-amber-300'
+                      ? 'bg-amber-500/20 text-amber-800 dark:text-amber-300'
                       : istHeute
                         ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
                         : 'bg-sky-500/20 text-sky-700 dark:text-sky-300',
