@@ -1,6 +1,6 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-17. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-18. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
@@ -56,32 +56,32 @@ Stand: 2026-09-17. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 5 |
-| adn-catalog | 2.9 Tage her | 116 |
-| anilist-voices | 2.9 Tage her | 0 |
-| anime-offline-database | 2.9 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 38 |
+| adn-catalog | 3.9 Tage her | 116 |
+| anilist-voices | 3.9 Tage her | 0 |
+| anime-offline-database | 3.9 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 37 |
 | anisearch | 1.0 Tage her | 3182 |
-| anisearch-folgen | 2.9 Tage her | 15 |
-| ann-voices | 2.9 Tage her | 8876 |
-| cartoons | 0.5 Tage her | 905 |
-| cinestar | 2.9 Tage her | 1 |
-| cr-einzelwerke | 15.0 Tage her | 9 |
-| cr-filmbloecke | 15.0 Tage her | 6 |
+| anisearch-folgen | 3.9 Tage her | 15 |
+| ann-voices | 3.9 Tage her | 8876 |
+| cartoons | 1.0 Tage her | 0 |
+| cinestar | 3.9 Tage her | 1 |
+| cr-einzelwerke | 15.9 Tage her | 9 |
+| cr-filmbloecke | 15.9 Tage her | 6 |
 | crunchyroll | 0.0 Tage her | 17 |
-| crunchyroll-dub | 0.0 Tage her | 1096 |
+| crunchyroll-dub | 0.8 Tage her | 1100 |
 | crunchyroll-neu | 0.0 Tage her | 56 |
-| crunchyroll-offene | 0.6 Tage her | 0 |
-| fsk | 2.9 Tage her | 3 |
-| justwatch-audio | 0.5 Tage her | 819 |
-| link-check | 2.9 Tage her | 41 |
-| motn | 15.0 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 10 |
-| rohfolgen | 0.0 Tage her | 0 |
-| tmdb-folgen | 2.9 Tage her | 837 |
-| tmdb-kino | 2.9 Tage her | 4 |
-| tmdb-titles | 2.9 Tage her | 400 |
+| crunchyroll-offene | 1.6 Tage her | 0 |
+| fsk | 3.9 Tage her | 3 |
+| justwatch-audio | 0.6 Tage her | 1 |
+| link-check | 0.2 Tage her | 450 |
+| motn | 16.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 4 |
+| rohfolgen | 1.0 Tage her | 0 |
+| tmdb-folgen | 3.9 Tage her | 837 |
+| tmdb-kino | 3.9 Tage her | 4 |
+| tmdb-titles | 0.6 Tage her | 3 |
 | trailer | 1.0 Tage her | 0 |
-| tv-programm | 0.1 Tage her | 293 |
-| vorfaelle | 0.0 Tage her | 0 |
-| wikidata-titel | 1.1 Tage her | 29 |
-| youtube-check | 2.9 Tage her | 0 |
+| tv-programm | 0.1 Tage her | 297 |
+| vorfaelle | 0.1 Tage her | 0 |
+| wikidata-titel | 2.1 Tage her | 29 |
+| youtube-check | 3.9 Tage her | 0 |

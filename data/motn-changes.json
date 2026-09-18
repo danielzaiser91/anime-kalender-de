@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 39
+    "2026-09": 41
   },
   "gesehen": {
     "26341901:netflix": {
@@ -4109,7 +4109,47 @@
       "dienst": "disney",
       "am": "2026-09-16",
       "deutsch": true
+    },
+    "new:26597894:netflix": {
+      "art": "new",
+      "titel": "Not a Stranger",
+      "originalTitel": "Seni Tanıyorum",
+      "imdbId": "tt39397536",
+      "tmdbId": "tv/320760",
+      "dienst": "netflix",
+      "am": "2026-09-17",
+      "deutsch": false
+    },
+    "new:25803738:netflix": {
+      "art": "new",
+      "titel": "Plastic Beauty",
+      "originalTitel": "ダウンタイム",
+      "imdbId": "tt37884325",
+      "tmdbId": "tv/298008",
+      "dienst": "netflix",
+      "am": "2026-09-17",
+      "deutsch": false
+    },
+    "new:26597990:netflix": {
+      "art": "new",
+      "titel": "Monster: The Lizzie Borden Story",
+      "originalTitel": "Monster: The Lizzie Borden Story",
+      "imdbId": "tt13207736",
+      "tmdbId": "tv/299939",
+      "dienst": "netflix",
+      "am": "2026-09-17",
+      "deutsch": false
+    },
+    "new:26598206:netflix": {
+      "art": "new",
+      "titel": "The Fixers",
+      "originalTitel": "黑白清道夫",
+      "imdbId": "tt39495239",
+      "tmdbId": "tv/312663",
+      "dienst": "netflix",
+      "am": "2026-09-17",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-17T09:28:47.790Z"
+  "fetchedAt": "2026-09-18T09:02:48.392Z"
 }
