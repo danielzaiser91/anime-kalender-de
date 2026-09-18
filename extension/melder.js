@@ -3101,6 +3101,16 @@ function staffelnDerGruppe(reihe, gruppe) {
         const s = staffelPerKennung(reihe, g)
         if (s != null) belegt.add(s)
       }
+      /*
+        Auch ohne geladene zweite Gruppe: Kennt der Briefkasten Folgen einer Staffel,
+        die **nicht** in dieser Gruppe stehen, ist diese Gruppe nicht jene Staffel
+        (Quintuplets, 18.09.2026: frisch geladen lag nur Staffel 1 vor, der Knopf zeigte
+        „S?", obwohl Staffel 2 über ihre Kennungen belegt war).
+      */
+      const hier = new Set(gruppe.map((f) => String(f.videoId)))
+      for (const [id, info] of MELDUNGEN.get(String(reihe))?.jeFolge ?? []) {
+        if (!hier.has(id) && Number.isFinite(info?.staffel)) belegt.add(info.staffel)
+      }
       const rest = passend.filter((n) => !belegt.has(n))
       if (rest.length) passend = rest
     }
