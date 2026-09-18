@@ -7124,7 +7124,22 @@ function main(): void {
         }
       }
       suchAdressen++
-      suchOffen.push({ id: title.id, titel: name, plattform: stream.platform, url: stream.url })
+      /*
+        Trägt der Titel beim selben Anbieter schon eine Titelseite, ist die Frage
+        beantwortet — die Suche fällt weg, ohne auf der Liste zu landen (18.09.2026:
+        fünf Suchen blieben offen, nachdem ihre Seiten in `verweise-von-hand.yaml`
+        standen).
+      */
+      const hatSeite = title.streams.some((s) => {
+        if (s === stream || s.platform !== stream.platform) return false
+        try {
+          const v = new URL(s.url)
+          return !(/\/search(\/|$)|^\/s$/.test(v.pathname) || v.searchParams.has('k') || v.searchParams.has('q'))
+        } catch {
+          return false
+        }
+      })
+      if (!hatSeite) suchOffen.push({ id: title.id, titel: name, plattform: stream.platform, url: stream.url })
       return false
     })
   }

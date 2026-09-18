@@ -88,3 +88,33 @@
   url: https://www.amazon.de/gp/video/detail/B0FKZM9J6V
   belegtAm: '2026-09-18'
   beleg: 'Prime-Staffel 2, 12 Folgen, Kopfblock releaseYear 1998, Folgentitel der Eklipse („Das Grab in Flammen“) = Folgen 14–25'
+
+# Suchadressen aufgelöst (18.09.2026). Jede Seite einzeln abgerufen und am
+# Kopfblock bestätigt — Titel, Staffel, Jahr; Kandidaten aus aniSearch und
+# JustWatch. Ein Eintrag urteilt nicht über die Sprache: Die kommt aus der
+# Meldung mit der Erweiterung.
+- anilistId: 124080
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CHLH4NR6
+  belegtAm: '2026-09-18'
+  beleg: 'Kopfblock „Horimiya (Simuldub)“, Staffel 1, 2021; aniSearch nennt dieselbe Seite, JustWatchs gti führt ebenfalls dorthin'
+- anilistId: 12413
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCF1M3N
+  belegtAm: '2026-09-18'
+  beleg: 'Kopfblock „Jormungand“, Staffel 1, 2012; Staffelauswahl der Seite: Staffel 1 = B0DNCF1M3N, Staffel 2 = B0DNCGXVNT'
+- anilistId: 13331
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCGXVNT
+  belegtAm: '2026-09-18'
+  beleg: 'Kopfblock „Jormungand“, Staffel 2, 2012 — Perfect Order ist die zweite Staffel (2012); Adresse aus der Staffelauswahl der Staffel-1-Seite'
+- anilistId: 21507
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CH8YTK4T
+  belegtAm: '2026-09-18'
+  beleg: 'Kopfblock „Mob Psycho 100 - Staffel 1“, 2016; aniSearch nennt dieselbe Seite'
+- anilistId: 21519
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0HZY7HB8IQJX7YWB81SW44OGCX
+  belegtAm: '2026-09-18'
+  beleg: 'Kopfblock „Your Name. - Gestern, heute und für immer“, Movie; Ziel von JustWatchs gti 3004ad12…, die alte Seite B0FLLFC2L6 ist gelöscht (404)'
