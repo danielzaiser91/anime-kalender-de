@@ -5,6 +5,7 @@ import { absoluteFeedUrl, loadAllTitles, loadOhneSynchro, type Dataset } from '.
 import { useLang } from '../lib/i18n.tsx'
 import { favoritenErgaenzen, useFavorites } from '../lib/favorites.ts'
 import {
+  favoritenFeedAdresse,
   getSyncToken,
   ladeEinstellungen,
   speichereEinstellungen,
@@ -109,6 +110,54 @@ function PlatformToggleList({
   )
 }
 
+/**
+ * **Nur deine Favoriten** — der persönliche Feed. Braucht ein bestätigtes Newsletter-Abo,
+ * denn nur dort liegen die Favoriten auf dem Server.
+ */
+function FavoritenFeed() {
+  const { t } = useLang()
+  const { verbunden } = useNewsletterVerbindung()
+  const [url, setUrl] = useState<string>()
+  const [fehler, setFehler] = useState<string>()
+  const holen = (neu: boolean) => {
+    const token = getSyncToken()
+    if (!token) return
+    setFehler(undefined)
+    favoritenFeedAdresse(token, neu).then(setUrl, (e: Error) => setFehler(e.message))
+  }
+  return (
+    <Card>
+      <SectionTitle>{t('sub.favTitel')}</SectionTitle>
+      {!verbunden ? (
+        <p className="text-sm text-slate-600 dark:text-slate-300">
+          {t('sub.favOhneAbo')}{' '}
+          <a href="#/newsletter" className="text-sky-600 underline-offset-2 hover:underline dark:text-sky-400">
+            {t('sub.favZumNewsletter')}
+          </a>
+        </p>
+      ) : url ? (
+        <>
+          <CopyField value={url} />
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Button href={url.replace(/^https?:/, 'webcal:')} size="sm">
+              {t('sub.favAbonnieren')}
+            </Button>
+            <Button onClick={() => holen(true)} size="sm">
+              {t('sub.favNeu')}
+            </Button>
+          </div>
+          <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{t('sub.favHinweis')}</p>
+        </>
+      ) : (
+        <Button onClick={() => holen(false)} size="sm">
+          {t('sub.favAnlegen')}
+        </Button>
+      )}
+      {fehler && <p className="mt-2 text-xs text-rose-600 dark:text-rose-400">{fehler}</p>}
+    </Card>
+  )
+}
+
 export function SubscribeView({ meta }: { meta: DataMeta }) {
   const { t } = useLang()
   const [platform, setPlatform] = useState<PlatformId | 'all'>('all')
@@ -143,6 +192,8 @@ export function SubscribeView({ meta }: { meta: DataMeta }) {
           </Button>
         </div>
       </Card>
+
+      <FavoritenFeed />
 
       <Card>
         <SectionTitle>{t('sub.how')}</SectionTitle>

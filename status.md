@@ -184,7 +184,7 @@ Priorität nach Nutzen fürs Projektziel und Größe:
 | # | Feature | Größe | Stand |
 |---|---|---|---|
 | 1 | „Meine Anbieter" als gemerkte Filterauswahl (JustWatch „My Services") | S | **erledigt 18.09.2026** |
-| 2 | Persönlicher ICS-Feed nur mit meinen Favoriten (Simkl) — Worker erzeugt je Newsletter-Token | M | offen |
+| 2 | Persönlicher ICS-Feed nur mit meinen Favoriten (Simkl) — Worker erzeugt je Newsletter-Token | M | **erledigt 18.09.2026** — eigene Feed-Kennung (Migration 031), `/feed/favoriten.ics`, Karte auf der Kalender-Abo-Seite |
 | 3 | RSS-Feed für neue Synchro-Ankündigungen (animeschedule.net), im Bau neben den ICS | S | **erledigt 18.09.2026** — `data/feeds/news.xml`, Link auf der News-Seite |
 | 4 | Live-Countdown bis zur nächsten Folge, nur bei belegter Uhrzeit (LiveChart) | S | **erledigt 18.09.2026** — im Antwort-Kasten des Panels, ab 24 h vorher |
 | 5 | Erinnerung (VALARM) in der Einzeltermin-ICS; in Sammelfeeds nicht (Spam) | S | **erledigt 18.09.2026** — 15 min vorher, ohne Uhrzeit 9 Uhr |

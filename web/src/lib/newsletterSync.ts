@@ -335,3 +335,20 @@ async function alsJson<T>(res: Response): Promise<T> {
     throw new Error('Der Newsletter-Dienst hat unerwartet geantwortet.')
   }
 }
+
+/**
+ * Die Adresse des persönlichen Kalender-Feeds (nur Favoriten). Ein 404 löscht hier
+ * **nichts**: Ist der Worker noch nicht ausgeliefert, antwortet er auf die neue Route
+ * genauso — und das ist kein erloschenes Abo (CLAUDE.md, „Der Worker läuft dem
+ * Web-Client immer hinterher").
+ */
+export async function favoritenFeedAdresse(token: string, neu = false): Promise<string> {
+  const res = await fetch(`${WORKER_URL}/feed-token`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, neu }),
+  })
+  const body = (await res.json().catch(() => ({}))) as { ok?: boolean; feedToken?: string; error?: string }
+  if (!res.ok || !body.feedToken) throw new Error(body.error ?? 'Feed-Adresse nicht verfügbar')
+  return `${WORKER_URL}/feed/favoriten.ics?k=${encodeURIComponent(body.feedToken)}`
+}

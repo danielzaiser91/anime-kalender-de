@@ -12,6 +12,7 @@
  */
 import type { Release, ReleaseEvent } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
+import { buildIcs } from '../../shared/ics.ts'
 import { sendMail, type MailEnv } from './mail.ts'
 import { checkAllSites, confirmOutages } from './monitor.ts'
 import {
@@ -746,6 +747,62 @@ async function handleUnsubscribe(request: Request, env: Env): Promise<Response> 
     return page('Nichts zu tun', 'Zu diesem Link gibt es kein Abo mehr — vermutlich schon abgemeldet.', env.SITE_URL)
   }
   return page('Abgemeldet', 'Deine Adresse wurde gelöscht. Du bekommst keine Mails mehr von uns.', env.SITE_URL)
+}
+
+/**
+ * **Persönlicher Kalender-Feed: nur die Termine der eigenen Favoriten** (18.09.2026,
+ * Feature-Vergleich: Simkl). Die Sammelfeeds tragen hunderte Termine; wer drei Titel
+ * verfolgt, will drei im Kalender.
+ *
+ * Die Adresse trägt `feed_token`, nicht den Abgleich-Schlüssel: Sie liegt dauerhaft bei
+ * einem fremden Kalenderdienst, und wer sie sieht, soll damit nur lesen können
+ * (Migration 031). `POST /feed-token` gibt sie aus, mit `neu: true` wird sie ersetzt —
+ * die alte Adresse ist danach tot.
+ */
+async function handleFeedToken(request: Request, env: Env): Promise<Response> {
+  let payload: { token?: string; neu?: boolean }
+  try {
+    payload = await request.json()
+  } catch {
+    return json(env, { error: 'Ungültige Anfrage.' }, 400)
+  }
+  const token = (payload.token ?? '').trim()
+  if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+  if (!(await schluesselErneuert(env, token))) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
+  const row = await env.DB.prepare("SELECT feed_token FROM subscribers WHERE pref_token = ?1 AND status = 'active'")
+    .bind(token)
+    .first<{ feed_token: string | null }>()
+  if (!row) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
+  let feed = row.feed_token
+  if (!feed || payload.neu) {
+    feed = crypto.randomUUID()
+    await env.DB.prepare("UPDATE subscribers SET feed_token = ?1 WHERE pref_token = ?2 AND status = 'active'")
+      .bind(feed, token)
+      .run()
+  }
+  return json(env, { ok: true, feedToken: feed })
+}
+
+async function handleFavoritenFeed(request: Request, env: Env): Promise<Response> {
+  const k = (new URL(request.url).searchParams.get('k') ?? '').trim()
+  const text = (body: string, status: number) =>
+    new Response(body, { status, headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
+  if (!k) return text('Die Adresse ist unvollständig.', 400)
+  const row = await env.DB.prepare("SELECT favorites FROM subscribers WHERE feed_token = ?1 AND status = 'active'")
+    .bind(k)
+    .first<{ favorites: string | null }>()
+  if (!row) return text('Zu dieser Adresse gibt es kein aktives Abo mehr.', 404)
+  const favoriten = parseIdList(row.favorites)
+  const events = (await loadEvents(env)).filter((e) => favoriten.has(e.titleId))
+  const ics = buildIcs(events, { siteUrl: env.SITE_URL, calendarName: 'Anime-Kalender DE – Meine Favoriten' })
+  return new Response(ics, {
+    headers: {
+      'Content-Type': 'text/calendar; charset=utf-8',
+      'Content-Disposition': 'inline; filename="favoriten.ics"',
+      'Cache-Control': 'public, max-age=900',
+      ...cors(env),
+    },
+  })
 }
 
 async function loadEvents(env: Env): Promise<ReleaseEvent[]> {
@@ -2840,6 +2897,11 @@ export default {
         if (request.method === 'GET') return handleFavoritesGet(request, env)
         if (request.method !== 'POST') return json(env, { error: 'GET oder POST erwartet' }, 405)
         return handleFavorites(request, env)
+      case '/feed-token':
+        if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
+        return handleFeedToken(request, env)
+      case '/feed/favoriten.ics':
+        return handleFavoritenFeed(request, env)
       case '/restore':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
         return handleRestore(request, env)

@@ -732,6 +732,13 @@ const TEXTE = {
   'sub.title': 'Kalender abonnieren',
   'sub.intro':
     'Ein Abo statt vieler Einzelklicks: Die Feeds unten aktualisieren sich mit jedem Daten-Update von selbst. Kein Konto, kein Login, keine Freigabe an uns nötig.',
+  'sub.favTitel': 'Nur deine Favoriten',
+  'sub.favOhneAbo': 'Deine Favoriten als eigenes Kalender-Abo gibt es mit bestätigtem Newsletter — dort liegen sie auf dem Server.',
+  'sub.favZumNewsletter': 'Zum Newsletter',
+  'sub.favAnlegen': 'Adresse für meine Favoriten erzeugen',
+  'sub.favAbonnieren': 'Im Kalender abonnieren',
+  'sub.favNeu': 'Neue Adresse (alte wird ungültig)',
+  'sub.favHinweis': 'Wer diese Adresse kennt, sieht deine Favoriten. Neue Favoriten erscheinen beim nächsten Abruf deines Kalenders.',
   'sub.pick': 'Feed wählen',
   'sub.all': 'Alles',
   'sub.copy': 'kopieren',
