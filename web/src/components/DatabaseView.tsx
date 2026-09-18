@@ -5,6 +5,7 @@ import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.t
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { coverBild } from '../lib/cover.ts'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Toggle } from './ui.tsx'
 import { useShare } from '../lib/share.ts'
 
@@ -220,7 +221,7 @@ export function DatabaseView({
               <div className="relative aspect-[2/3] overflow-hidden bg-slate-200 dark:bg-white/5">
                 {main.coverImage && (
                   <img
-                    src={main.coverImage}
+                    {...coverBild(main.coverImage, 262, '(min-width: 1280px) min(17vw, 262px), (min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw')}
                     alt=""
                     loading="lazy"
                     className={[

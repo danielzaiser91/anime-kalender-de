@@ -3,6 +3,7 @@ import { RELEASE_TYPES } from '@shared/types.ts'
 import { todayIso } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { coverBild } from '../lib/cover.ts'
 import { useShare } from '../lib/share.ts'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon,
   Tooltip,
@@ -172,7 +173,7 @@ export function EventCard({
       */}
       <div className="flex w-full gap-2">
         {cover && !dense && (
-          <img src={cover} alt="" loading="lazy" className="h-10 w-7 shrink-0 rounded object-cover" />
+          <img {...coverBild(cover, 28)} alt="" loading="lazy" className="h-10 w-7 shrink-0 rounded object-cover" />
         )}
         <div className="flex min-w-0 flex-1 flex-col gap-1">
         {/* Umbrechend, weil die Reihe je nach Titel bis zu sechs Dinge trägt:

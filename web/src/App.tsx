@@ -13,6 +13,7 @@ import { Header, Legend } from './components/Header.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
 import { NewsView } from './components/NewsView.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
+import { coverBild } from './lib/cover.ts'
 import { FilterBar } from './components/FilterBar.tsx'
 import { Toggle } from './components/ui.tsx'
 import { WeekView } from './components/WeekView.tsx'
@@ -123,7 +124,8 @@ export default function App() {
     const to = addDays(from, 13)
     const urls = data.events
       .filter((e) => e.date >= from && e.date <= to)
-      .map((e) => data.titleById.get(e.titleId)?.coverImage)
+      /* Dieselbe Größe, die die Wochenkarte lädt (lib/cover.ts) — sonst fehlt offline genau sie. */
+      .map((e) => coverBild(data.titleById.get(e.titleId)?.coverImage, 28).src)
       .filter((url): url is string => Boolean(url))
     cacheCoversForOffline(urls)
   }, [data, today])

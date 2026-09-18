@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { type NewsArt, type NewsEintrag, type NewsMeldung } from '@shared/types.ts'
 import { feedUrl, loadNews, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { coverBild } from '../lib/cover.ts'
 import { anbieterDerMeldung, datumKurz, newsSatz } from '../lib/news-text.ts'
 import { todayIso, addDays } from '@shared/time.ts'
 
@@ -162,7 +163,7 @@ function KinoKarussell({
                 <span className="relative block aspect-[2/3] w-full overflow-hidden rounded bg-slate-200 dark:bg-slate-800">
                   {titel.coverImage && (
                     <img
-                      src={titel.coverImage}
+                      {...coverBild(titel.coverImage, 150)}
                       alt=""
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform group-hover:scale-105"
@@ -374,7 +375,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                     className="flex w-full items-center gap-2.5 py-1.5 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
                   >
                     {e.cover ? (
-                      <img src={e.cover} alt="" loading="lazy" className="h-14 w-10 shrink-0 rounded object-cover" />
+                      <img {...coverBild(e.cover, 40)} alt="" loading="lazy" className="h-14 w-10 shrink-0 rounded object-cover" />
                     ) : (
                       <span className="h-14 w-10 shrink-0 rounded bg-slate-200 dark:bg-slate-800" />
                     )}

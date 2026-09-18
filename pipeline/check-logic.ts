@@ -57,6 +57,7 @@ import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
 import { newsRss } from './lib/news-rss.ts'
+import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
@@ -4905,6 +4906,21 @@ pruefe(
   )
   const idx = readFileSync('worker/src/index.ts', 'utf8')
   pruefe('… und der Versand verschickt auch eine Mail, die nur das enthält', idx.includes('!neuMitSynchro.length && !auchBei.length'))
+}
+{
+  /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */
+  const gross = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-a.png'
+  const alt = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b2-b.png'
+  const tmdb = 'https://image.tmdb.org/t/p/w342/c.jpg'
+  pruefe(
+    'eine Wochenkarte lädt AniLists kleinstes Cover, nie ein größeres als gespeichert',
+    coverBild(gross, 28).src?.includes('/cover/small/') === true &&
+      coverBild(alt, 300).src?.includes('/cover/medium/') === true &&
+      !coverBild(alt, 300).srcSet?.includes('/large/') &&
+      coverBild(tmdb, 28).src?.includes('/w92/') === true &&
+      !coverBild(tmdb, 400).srcSet?.includes('w500'),
+    JSON.stringify([coverBild(gross, 28), coverBild(alt, 300), coverBild(tmdb, 28)]),
+  )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

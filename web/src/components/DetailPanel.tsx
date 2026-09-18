@@ -34,6 +34,7 @@ import {
   type Voices,
 } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { coverBild } from '../lib/cover.ts'
 import { aehnlicheTitel } from '../lib/aehnlich.ts'
 import { useShare } from '../lib/share.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
@@ -2621,7 +2622,7 @@ function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; data: Data
                   >
                     {v.title.coverImage ? (
                       <img
-                        src={v.title.coverImage}
+                        {...coverBild(v.title.coverImage, 88)}
                         alt=""
                         loading="lazy"
                         className="h-full w-[88px] shrink-0 rounded-md object-cover shadow-sm"
@@ -5155,7 +5156,7 @@ export function DetailPanel({
                         >
                           {m.cover && (
                             <img
-                              src={m.cover}
+                              {...coverBild(m.cover, 24)}
                               alt=""
                               loading="lazy"
                               className="h-full w-full object-cover"
