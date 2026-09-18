@@ -54,6 +54,8 @@ for (const t of auswahl) {
     const probleme = []
     const deStreams = (t.streams ?? []).filter((s) => s.dub === true).length
     if (/Noch keine deutsche Fassung/.test(text) && (deStreams || t.hasVoices)) probleme.push('„keine Fassung" trotz Beleg')
+    /* Stichprobe 1809 (18.09.2026): aniSearchs Synchro-Marke ist ebenfalls ein Beleg. */
+    if (/Noch keine deutsche Fassung/.test(text) && t.deErstausgabe?.synchro) probleme.push('„keine Fassung" trotz aniSearch-Synchro-Marke')
     const alle = /Alle (\d+) Folgen/.exec(text)
     if (alle && t.episodes && Number(alle[1]) !== t.episodes) probleme.push(`„Alle ${alle[1]}" bei ${t.episodes} Folgen`)
     for (const m of text.matchAll(/(\d+) Fg\./g)) if (t.episodes && Number(m[1]) > t.episodes) probleme.push(`Pille ${m[1]} Fg. > ${t.episodes}`)
