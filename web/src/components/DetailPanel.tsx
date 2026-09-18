@@ -2535,7 +2535,11 @@ function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; data: Data
   const { t, tGenre, tKeyword } = useLang()
   const [open, setOpen] = useState(true)
   const [imBild, setImBild] = useState(false)
-  const [alle, setAlle] = useState<Title[] | undefined>()
+  /* Die Vergleichsliste gehört zu ihrer Art (Anime oder Cartoon): Wechselt das Panel ohne
+     Neumontage von einem zum anderen, wäre die alte Liste die falsche (18.09.2026). */
+  const westlich = Boolean(title.westlich)
+  const [geladen, setGeladen] = useState<{ westlich: boolean; liste: Title[] } | undefined>()
+  const alle = geladen?.westlich === westlich ? geladen.liste : undefined
   const bereich = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -2552,17 +2556,17 @@ function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; data: Data
     if (!open || !imBild || alle) return
     let alive = true
     /* Cartoons tragen TMDB-Genres und -Schlagwörter — verglichen wird mit ihresgleichen (16.09.2026). */
-    ;(title.westlich ? loadCartoons(data) : loadAllTitles(data))
-      .then((l) => {
-        if (alive) setAlle(l)
+    ;(westlich ? loadCartoons(data) : loadAllTitles(data))
+      .then((liste) => {
+        if (alive) setGeladen({ westlich, liste })
       })
       .catch(() => {
-        if (alive) setAlle([])
+        if (alive) setGeladen({ westlich, liste: [] })
       })
     return () => {
       alive = false
     }
-  }, [open, imBild, alle, data])
+  }, [open, imBild, alle, data, westlich])
 
   const vorschlaege = useMemo(() => (open && alle ? aehnlicheTitel(title, alle) : []), [open, alle, title])
   const merkmalName = (m: string) => (m.startsWith('g:') ? tGenre(m.slice(2)) : tKeyword(m.slice(2)))
