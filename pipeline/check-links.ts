@@ -123,7 +123,38 @@ const NICHT_IN_REGION = /In deiner Region nicht mehr auf Prime Video verfügbar/
 const NICHT_GEFUNDEN = /keine funktionsfähige Seite auf unserer Website|Seite wurde nicht gefunden/i
 const PRODUKTSEITE = /dp-container|productTitle|av-detail-section|\|\s*Prime Video/i
 
+/**
+ * **Amazon wird unter der Video-Adresse gefragt, nicht unter `/dp/`** (18.09.2026).
+ *
+ * Viele Prime-Titel gibt es nur als Video-Seite: `/dp/B0CH8YTK4T` antwortet mit
+ * 404 „Seite wurde nicht gefunden", `/gp/video/detail/B0CH8YTK4T` mit „Mob Psycho
+ * 100 – Staffel 1 ansehen". Gemessen an zwölf zufälligen der 403 als tot geführten
+ * `/dp/`-Adressen: elf von elf erreichbaren lebten unter der Video-Adresse. Der Bau
+ * hat die zugehörigen Verweise über Wochen als tot entfernt. Gefunden hat es
+ * `check:tote-adressen`, als Horimiya und Mob Psycho 100 — eine Stunde zuvor von
+ * Daniel gemeldet — als tot im Datensatz standen.
+ *
+ * **Aber nur als zweiter Versuch.** Unter `/dp/` liegen auch DVDs und Blu-rays, und
+ * die gibt es nur dort — sie unter der Video-Adresse zu fragen, gäbe den
+ * umgekehrten Fehler. Erst die Adresse, wie sie im Bestand steht; antwortet sie
+ * mit „nicht gefunden", entscheidet die Video-Seite derselben Kennung.
+ *
+ * Gespeichert wird der Befund unter der Adresse, wie sie im Bestand steht.
+ */
+function videoAdresse(url: string): string | undefined {
+  const asin = /amazon\.de\/dp\/([A-Z0-9]{10})(?:[/?#]|$)/.exec(url)?.[1]
+  return asin ? `https://www.amazon.de/gp/video/detail/${asin}` : undefined
+}
+
 async function pruefe(url: string): Promise<Befund> {
+  const erst = await pruefeEinmal(url)
+  const video = erst.status === 404 ? videoAdresse(url) : undefined
+  if (!video) return erst
+  const zweit = await pruefeEinmal(video)
+  return zweit.status === 404 ? erst : zweit
+}
+
+async function pruefeEinmal(url: string): Promise<Befund> {
   try {
     const res = await fetch(url, {
       redirect: 'follow',

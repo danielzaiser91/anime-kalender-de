@@ -4597,6 +4597,17 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     Der Handbeleg sagt, welche Sprache die Seite hatte — nicht, dass es sie noch gibt
     („Your Name.", 17.09.2026: gemeldet am 31.08., Seite seitdem gelöscht).
   */
+  /*
+    Amazon führt viele Prime-Titel nur als Video-Seite; `/dp/` antwortet dort mit 404
+    (11 von 11 Stichproben, 18.09.2026). Ein 404 unter `/dp/` entscheidet erst nach der
+    Video-Seite derselben Kennung — und nur dann, denn DVDs gibt es nur unter `/dp/`.
+  */
+  pruefe(
+    'Linkprüfung: ein Amazon-404 unter /dp/ wird an der Video-Seite gegengeprüft',
+    /const video = erst\.status === 404 \? videoAdresse\(url\) : undefined/.test(
+      readFileSync('pipeline/check-links.ts', 'utf8'),
+    ),
+  )
   pruefe(
     'Handbeleg: eine als tot gemessene Adresse wird nicht wieder angelegt',
     /if \(check\.available === false\) continue[\s\S]{0,900}?if \(lautPruefungTot\(check\.url\)\) continue/.test(
