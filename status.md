@@ -197,7 +197,7 @@ Live-Rundreise 18.09.2026 mit Test-Endpunkt: Anlegen, D1-Zeile, Nachricht (leer)
 
 ## Gemessen 18.09.2026: Barrierefreiheit (axe-core, 11 Ansichten × 2 Themen)
 
-`node tools/a11y-pruefen.mjs` nach `vite build` (`--kontrast` gruppiert nach Farbpaar). **Behoben am selben Tag:** label, link-in-text-block, page-has-heading-one, heading-order, aria-allowed-role; Nebentext-Grau im hellen Thema #62748e → #5b6b84 (Kontrastfehler 1.558 → 1.123; getestet gegen slate-600, das die Abstufung verflacht hätte). **Ebenfalls behoben:** nested-interactive (Kalender- und Datenbankkarten: Karte kein Knopf mehr, unsichtbarer Knopf „Details“ für Tastatur, Fokusring per `:has()`). **Offen:** Kontrast der Anbieter-Plaketten in Markenfarben — Gestaltungsfrage. Ursprünglicher Befund:
+`node tools/a11y-pruefen.mjs` nach `vite build` (`--kontrast` gruppiert nach Farbpaar). **Behoben am selben Tag:** label, link-in-text-block, page-has-heading-one, heading-order, aria-allowed-role; Nebentext-Grau im hellen Thema #62748e → #5b6b84 (Kontrastfehler 1.558 → 1.123; getestet gegen slate-600, das die Abstufung verflacht hätte). **Ebenfalls behoben:** nested-interactive (Kalender- und Datenbankkarten: Karte kein Knopf mehr, unsichtbarer Knopf „Details“ für Tastatur, Fokusring per `:has()`). **Behoben 18.09.2026 (Daniels Wahl „hell B, dunkel C“):** Anbieter-Plaketten — hell Tönung mit nachgedunkelter Schrift (≥ 4,5:1 auf Weiß und Seitengrund), dunkel Markenfarbe als Fläche mit Weiß/#111 (`plakettenStil` in `ui.tsx`); danach kein Anbieter-Farbpaar mehr im axe-Befund. Ursprünglicher Befund:
 
 | Regel | Knoten | Beispiel | Einschätzung |
 |---|---|---|---|

@@ -124,6 +124,44 @@ export function Chip({
 const PLAKETTE = 'inline-flex items-center justify-center rounded font-semibold leading-none'
 const PLAKETTE_GROESSE = (small?: boolean) => (small ? 'h-4 px-1.5 text-[10px]' : 'h-5 px-2 text-[11px]')
 
+/*
+  **Plakettenfarben mit lesbarem Kontrast** (Daniel, 18.09.2026: „hell B, dunkel C“).
+  Die Markenfarbe als Schrift auf ihrer eigenen blassen Tönung lag im hellen Thema bei
+  allen Anbietern unter 4,5:1 (Prime 2,2, Kino 1,7). Hell bleibt die Tönung, die Schrift
+  wird nur so weit Richtung Schwarz gemischt, bis sie auf Tönung über Weiß **und** über
+  dem Seitengrund 4,5:1 hält. Dunkel wird die Markenfarbe zur Fläche, Schrift weiß oder
+  fast schwarz — was mehr Kontrast hat. Einmal je Farbe gerechnet, nicht je Plakette.
+*/
+const rgb = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16))
+const kanal = (c: number) => ((c /= 255) <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
+const helligkeit = ([r, g, b]: number[]) => 0.2126 * kanal(r!) + 0.7152 * kanal(g!) + 0.0722 * kanal(b!)
+const kontrast = (a: number[], b: number[]) => {
+  const [x, y] = [helligkeit(a), helligkeit(b)]
+  return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05)
+}
+const mische = (a: number[], b: number[], t: number) => a.map((v, i) => Math.round(v * (1 - t) + b[i]! * t))
+const alsHex = (c: number[]) => '#' + c.map((v) => v.toString(16).padStart(2, '0')).join('')
+const plakettenFarben = new Map<string, Record<string, string>>()
+export function plakettenStil(farbe: string): Record<string, string> {
+  let stil = plakettenFarben.get(farbe)
+  if (stil) return stil
+  const f = rgb(farbe)
+  const toenungen = [[255, 255, 255], [246, 247, 251]].map((grund) => mische(grund, f, 0x22 / 255))
+  let schrift = f
+  for (let t = 0; t <= 1 && toenungen.some((g) => kontrast(schrift, g) < 4.5); t += 0.02) schrift = mische(f, [0, 0, 0], t)
+  const weiss = [255, 255, 255]
+  const fast = [17, 17, 17]
+  stil = {
+    '--pl-bg': `${farbe}22`,
+    '--pl-text': alsHex(schrift),
+    '--pl-rand': `${farbe}55`,
+    '--pl-voll': farbe,
+    '--pl-voll-text': kontrast(weiss, f) >= kontrast(fast, f) ? '#fff' : '#111',
+  }
+  plakettenFarben.set(farbe, stil)
+  return stil
+}
+
 export function PlatformBadge({ platform, small, sender }: { platform: PlatformId; small?: boolean; sender?: string }) {
   const p = PLATFORMS[platform]
   return (
@@ -131,9 +169,11 @@ export function PlatformBadge({ platform, small, sender }: { platform: PlatformI
       className={[
         PLAKETTE,
         'gap-1 uppercase tracking-wide',
+        'bg-(--pl-bg) text-(--pl-text) shadow-[inset_0_0_0_1px_var(--pl-rand)]',
+        'dark:bg-(--pl-voll) dark:text-(--pl-voll-text) dark:shadow-none',
         PLAKETTE_GROESSE(small),
       ].join(' ')}
-      style={{ background: `${p.color}22`, color: p.color, boxShadow: `inset 0 0 0 1px ${p.color}55` }}
+      style={plakettenStil(p.color) as React.CSSProperties}
     >
       {platform === 'tv' && <TvZeichen />}
       {anbieterName(platform, sender)}
