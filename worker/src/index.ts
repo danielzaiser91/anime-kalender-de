@@ -28,7 +28,8 @@ import {
   type ReleaseLink,
 } from './templates.ts'
 import { Ereignisse, ereignisSenden } from './ereignisse.ts'
-import { leererPush, type PushEnv } from './push.ts'
+import { leererPush, pushVersand, type PushEnv } from './push.ts'
+import { istErschienen } from '../../shared/logic.ts'
 
 /**
  * **Was gemeldet wurde, ist sofort gemeldet — auch für die Übersicht.**
@@ -2955,6 +2956,38 @@ export default {
         const antwort = await leererPush(env, endpoint)
         return json(env, { ok: antwort.status >= 200 && antwort.status < 300, ...antwort })
       }
+      case '/push/abo': {
+        /* Abo anlegen oder Favoriten nachführen. Kein Konto: der Endpunkt ist der Schlüssel. */
+        if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
+        if (!(await imRahmen(env, 'push-abo', 300, 60))) return json(env, { error: 'Zu viele Anfragen.' }, 429)
+        let body: { subscription?: { endpoint?: string }; favoriten?: number[]; abmelden?: boolean }
+        try {
+          body = await request.json()
+        } catch {
+          return json(env, { error: 'Ungültige Anfrage.' }, 400)
+        }
+        const endpoint = body.subscription?.endpoint ?? ''
+        if (!/^https:\/\//.test(endpoint) || endpoint.length > 1000) return json(env, { error: 'Kein gültiges Abo.' }, 400)
+        if (body.abmelden) {
+          await env.DB.prepare('DELETE FROM push_abo WHERE endpoint = ?1').bind(endpoint).run()
+          return json(env, { ok: true, abgemeldet: true })
+        }
+        const favoriten = cleanIdList(body.favoriten) ?? ''
+        await env.DB.prepare(
+          `INSERT INTO push_abo (endpoint, favoriten, erstellt) VALUES (?1, ?2, ?3)
+           ON CONFLICT(endpoint) DO UPDATE SET favoriten = excluded.favoriten`,
+        )
+          .bind(endpoint, favoriten, new Date().toISOString())
+          .run()
+        return json(env, { ok: true })
+      }
+      case '/push/nachricht': {
+        /* Der Service Worker holt beim Push den Text ab — einmal, danach ist er weg. */
+        const endpoint = new URL(request.url).searchParams.get('endpoint') ?? ''
+        const zeile = await env.DB.prepare('SELECT offen FROM push_abo WHERE endpoint = ?1').bind(endpoint).first<{ offen: string | null }>()
+        if (zeile?.offen) await env.DB.prepare('UPDATE push_abo SET offen = NULL WHERE endpoint = ?1').bind(endpoint).run()
+        return json(env, { text: zeile?.offen ?? null })
+      }
       case '/feed-token':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
         return handleFeedToken(request, env)
@@ -3093,6 +3126,12 @@ export default {
             .run(),
         )
         .catch((err) => console.error('[land] fehlgeschlagen', err)),
+    )
+    ctx.waitUntil(
+      loadEvents(env)
+        .then((ev) => pushVersand(env, now, ev, (e, zeit) => istErschienen(e, zeit)))
+        .then((msg) => console.log(`[push] ${msg}`))
+        .catch((err) => console.error('[push] fehlgeschlagen', err)),
     )
     ctx.waitUntil(
       runMonitor(env, now)

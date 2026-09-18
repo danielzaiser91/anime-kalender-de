@@ -305,17 +305,33 @@ self.addEventListener('message', (event) => {
 })
 
 /*
-  **Web-Push, Zustell-PoC (18.09.2026).** Der Worker schickt Pushes ohne Nutzlast
-  (keine Verschlüsselung nötig); was angezeigt wird, steht hier fest, bis der
-  eigentliche Dienst den Text vom Worker abholt. Plan in status.md.
+  **Web-Push (18.09.2026, Zustellung in Edge belegt).** Der Worker schickt Pushes ohne
+  Nutzlast (keine Verschlüsselung nötig). Den Text holt dieser Service Worker beim
+  Empfang selbst ab — über den Endpunkt seines Abos. Ohne Text (Test-Push, Abruf
+  gescheitert) bleibt es bei der neutralen Meldung; eine Benachrichtigung muss laut
+  Vorgabe der Browser auf jeden Push folgen.
 */
+const PUSH_WORKER = 'https://newsletter.animekalender.workers.dev'
 self.addEventListener('push', (event) => {
   event.waitUntil(
-    self.registration.showNotification('Anime-Kalender DE', {
-      body: 'Test: Benachrichtigungen kommen an.',
-      icon: '/icons/icon-192.png',
-      tag: 'push-test',
-    }),
+    (async () => {
+      let text = 'Test: Benachrichtigungen kommen an.'
+      try {
+        const abo = await self.registration.pushManager.getSubscription()
+        if (abo) {
+          const res = await fetch(`${PUSH_WORKER}/push/nachricht?endpoint=${encodeURIComponent(abo.endpoint)}`)
+          const antwort = await res.json()
+          if (antwort.text) text = antwort.text
+        }
+      } catch {
+        /* Kein Text abrufbar — dann die neutrale Meldung. */
+      }
+      await self.registration.showNotification('Anime-Kalender DE', {
+        body: text,
+        icon: '/icons/icon-192.png',
+        tag: 'folgen',
+      })
+    })(),
   )
 })
 

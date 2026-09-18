@@ -7,6 +7,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { favoritSeit } from '../lib/favorites.ts'
 import { DubMark, PlatformBadge, SectionTitle, StatusBadge } from './ui.tsx'
 import { AniListImport } from './AniListImport.tsx'
+import { pushAktivGemerkt, pushAusschalten, pushEinschalten, pushFavoritenNachfuehren, pushMoeglich } from '../lib/push.ts'
 
 /**
  * Die Favoriten-Seite.
@@ -312,6 +313,7 @@ export function FavoritesView({
   return (
     <div className="flex flex-col gap-4">
       <h1 className="sr-only">{t('view.favoriten')}</h1>
+      <PushSchalter favorites={favorites} />
       <AniListImport data={data} />
       <Zeitstrahl
         tage={strahl}
@@ -490,6 +492,52 @@ function Fortschritt({ titelId, neueste }: { titelId: number; neueste: number })
         />
       </label>
     </span>
+  )
+}
+
+/**
+ * **„Benachrichtigen, wenn eine gemerkte Folge erscheint"** (18.09.2026). Zustellung am
+ * selben Tag in Edge belegt. Nur sichtbar, wo der Browser Push kann; die Favoriten
+ * wandern bei jeder Änderung mit.
+ */
+function PushSchalter({ favorites }: { favorites: Set<number> }) {
+  const { t } = useLang()
+  const [aktiv, setAktiv] = useState(pushAktivGemerkt)
+  const [lage, setLage] = useState('')
+  const liste = [...favorites].sort((a, b) => a - b).join(',')
+  useEffect(() => {
+    if (aktiv) void pushFavoritenNachfuehren(liste ? liste.split(',').map(Number) : [])
+  }, [aktiv, liste])
+  if (!pushMoeglich()) return null
+  const umschalten = async () => {
+    setLage('')
+    try {
+      if (aktiv) {
+        await pushAusschalten()
+        setAktiv(false)
+      } else {
+        await pushEinschalten([...favorites])
+        setAktiv(true)
+      }
+    } catch (e) {
+      setLage(e instanceof Error ? e.message : String(e))
+    }
+  }
+  return (
+    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 p-3 text-sm dark:border-white/10">
+      <button
+        type="button"
+        onClick={() => void umschalten()}
+        aria-pressed={aktiv}
+        className={[
+          'cursor-pointer rounded-lg px-3 py-1 font-medium transition',
+          aktiv ? 'bg-sky-600 text-white hover:bg-sky-500' : 'border border-slate-300 hover:bg-slate-200/60 dark:border-white/15 dark:hover:bg-white/10',
+        ].join(' ')}
+      >
+        {aktiv ? `🔔 ${t('push.an')}` : `🔕 ${t('push.aus')}`}
+      </button>
+      <span className="text-xs text-slate-500 dark:text-slate-400">{lage || t('push.hinweis')}</span>
+    </div>
   )
 }
 

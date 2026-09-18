@@ -56,3 +56,57 @@ export async function leererPush(env: PushEnv, endpoint: string): Promise<{ stat
   })
   return { status: res.status, text: (await res.text()).slice(0, 300) }
 }
+
+/**
+ * **Der stündliche Versand** (18.09.2026, Zustellung am selben Tag in Edge belegt).
+ *
+ * Je Abo: Folgen der Favoriten, die seit dem letzten Lauf erschienen sind (`istErschienen`
+ * mit belegter Uhrzeit, sonst 23:59). Höchstens ein Push je Abo und Lauf, gebündelt. Der
+ * erste Lauf eines neuen Abos merkt sich nur den Zeitpunkt — sonst käme als Erstes eine
+ * Nachricht über alles, was vor dem Abonnieren erschienen ist. Meldet der Push-Dienst 404
+ * oder 410, ist das Abo erloschen und wird gelöscht.
+ */
+export interface PushEreignis {
+  titleId: number
+  name: string
+  date: string
+  time?: string
+  episode?: number
+  verpasst?: { erschienenAm?: string }
+}
+
+export async function pushVersand(
+  env: PushEnv & { DB: D1Database },
+  jetzt: Date,
+  ereignisse: PushEreignis[],
+  istErschienen: (e: PushEreignis, zeit: Date) => boolean,
+): Promise<string> {
+  const { results } = await env.DB.prepare('SELECT endpoint, favoriten, zuletzt FROM push_abo').all<{
+    endpoint: string
+    favoriten: string
+    zuletzt: string | null
+  }>()
+  let gesendet = 0
+  let geloescht = 0
+  for (const abo of results ?? []) {
+    if (!abo.zuletzt) {
+      await env.DB.prepare('UPDATE push_abo SET zuletzt = ?1 WHERE endpoint = ?2').bind(jetzt.toISOString(), abo.endpoint).run()
+      continue
+    }
+    const seit = new Date(abo.zuletzt)
+    const favoriten = new Set(abo.favoriten.split(',').filter(Boolean).map(Number))
+    const neu = ereignisse.filter((e) => favoriten.has(e.titleId) && istErschienen(e, jetzt) && !istErschienen(e, seit))
+    await env.DB.prepare('UPDATE push_abo SET zuletzt = ?1 WHERE endpoint = ?2').bind(jetzt.toISOString(), abo.endpoint).run()
+    if (!neu.length) continue
+    const zeile = (e: PushEreignis) => (e.episode ? `${e.name} – Folge ${e.episode}` : e.name)
+    const text =
+      neu.length === 1 ? `Jetzt auf Deutsch: ${zeile(neu[0]!)}` : `${neu.length} neue Folgen: ${neu.slice(0, 3).map(zeile).join(' · ')}`
+    await env.DB.prepare('UPDATE push_abo SET offen = ?1 WHERE endpoint = ?2').bind(text, abo.endpoint).run()
+    const antwort = await leererPush(env, abo.endpoint)
+    if (antwort.status === 404 || antwort.status === 410) {
+      await env.DB.prepare('DELETE FROM push_abo WHERE endpoint = ?1').bind(abo.endpoint).run()
+      geloescht++
+    } else if (antwort.status < 300) gesendet++
+  }
+  return `${results?.length ?? 0} Abos, ${gesendet} Pushes, ${geloescht} erloschen`
+}
