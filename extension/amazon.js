@@ -7792,8 +7792,23 @@ async function speicherSchreiben(werte) {
       /*
         Kein Reiter **und** keine Folgenzahl: Dann führt die Staffel bei Amazon
         nichts — anders als eine Seite, die nur noch lädt.
+
+        **Eine Fehlerseite ist keine Staffel ohne Folgen** (Daniel, 19.09.2026,
+        Peace Maker Kurogane `B0D59HJGBZ`, mit zwei Bildern): Auf Amazons 404
+        stand erst richtig „✕ nicht abrufbar — melden", nach acht Sekunden
+        sprang der Knopf auf das gesperrte „führt keine Folgen" — die tote
+        Adresse ließ sich nicht mehr melden. Auf einer Fehler-, Region- oder
+        Nicht-verfügbar-Seite gilt deshalb der Melde-Knopf darunter.
       */
-      if (!hatFolgenReiter && !seitenLage().folgenLautSeite && !istFilmSeite() && Date.now() - letzterFortschritt > 8000) {
+      if (
+        !hatFolgenReiter &&
+        !fehlerseite &&
+        !nichtAbrufbar &&
+        !regionWeg &&
+        !seitenLage().folgenLautSeite &&
+        !istFilmSeite() &&
+        Date.now() - letzterFortschritt > 8000
+      ) {
         notiere('staffel-ohne-folgen', { gelesen: gesehen?.jeFolge?.size ?? 0 })
         knopf.disabled = true
         knopf.textContent = 'Diese Staffel führt bei Amazon keine Folgen'
