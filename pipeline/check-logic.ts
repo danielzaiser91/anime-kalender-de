@@ -4866,5 +4866,24 @@ pruefe(
     rss.slice(0, 400),
   )
 }
+{
+  /*
+    „Jetzt auch bei Anbieter X" (18.09.2026): Der erste Bau mit dem neuen Gedächtnis
+    meldet den Bestand nicht; ein später hinzukommender Anbieter wird gemeldet; ein
+    Titel, der erstmals Synchro bekommt, nicht doppelt.
+  */
+  const t = (id: number, platforms: string[]): Title =>
+    ({ id, franchiseId: id, slug: `t-${id}`, titleEn: `T${id}`, keywords: [], genres: [],
+       streams: platforms.map((p) => ({ platform: p, url: `https://x/${p}`, dub: true })) }) as unknown as Title
+  const hist: NewsHistorie = { zuerst: {} }
+  const erster = baueNews([t(1, ['netflix'])], [], [], [], hist)
+  const zweiter = baueNews([t(1, ['netflix', 'crunchyroll']), t(2, ['netflix', 'adn'])], [], [], [], hist)
+  const neuBei = zweiter.flatMap((e) => e.meldungen.filter((m) => m.art === 'neu').map((m) => `${e.titelId}:${m.platform}`))
+  pruefe(
+    'ein weiterer Anbieter mit Synchro wird gemeldet, der Bestand beim Säen nicht',
+    erster.length === 0 && neuBei.join(',') === '1:crunchyroll',
+    `${erster.length} / ${neuBei.join(',')}`,
+  )
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

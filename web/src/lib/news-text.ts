@@ -28,6 +28,7 @@ export function newsSatz(m: NewsMeldung): string {
   const datum = m.datum ? datumKurz(m.datum) : ''
   switch (m.art) {
     case 'neu':
+      if (m.weiterer) return t('news.auchBei', { anbieter })
       return anbieter ? t('news.neu', { anbieter }) : t('news.neuOhne')
     case 'folgen':
       return m.von === m.bis || m.bis === undefined

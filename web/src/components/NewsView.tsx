@@ -246,6 +246,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
     const datum = m.datum ? datumKurz(m.datum) : ''
     switch (m.art) {
       case 'neu':
+        if (m.weiterer) return t('news.kurz.auchBei', { anbieter })
         return anbieter ? t('news.kurz.neu', { anbieter }) : t('news.art.neu')
       case 'folgen':
         return m.bis !== undefined && m.bis !== m.von

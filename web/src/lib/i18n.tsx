@@ -54,6 +54,8 @@ const TEXTE = {
   'news.art.kino': 'Im Kino',
   'news.art.verspaetet': 'Nicht erschienen',
   'news.neu': 'Erstmals mit deutscher Synchro bei {anbieter}',
+  'news.auchBei': 'Jetzt auch auf Deutsch bei {anbieter}',
+  'news.kurz.auchBei': 'auch bei {anbieter}',
   'news.neuOhne': 'Erstmals mit deutscher Synchro',
   'news.folge': 'Folge {von} auf Deutsch bei {anbieter}',
   'news.folgen': 'Folgen {von}–{bis} auf Deutsch bei {anbieter}',

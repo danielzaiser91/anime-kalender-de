@@ -35,6 +35,14 @@ const HOECHSTENS = 400
 export interface NewsHistorie {
   /** Meldungsschlüssel → Tag, an dem die Meldung zum ersten Mal dastand. */
   zuerst: Record<string, string>
+  /**
+   * **Titel und Anbieter mit belegter Synchro → Tag, an dem wir das zuerst sahen**
+   * (18.09.2026). Getrennt von `zuerst`, weil es nicht altern darf: Fiele ein Eintrag
+   * nach 400 Tagen heraus, meldete der nächste Bau den Anbieter als neu. Beim ersten
+   * Bau mit diesem Feld wird der ganze Bestand als alt eingetragen (`'0000-00-00'`),
+   * sonst stünden an einem Tag zweitausend „neue" Anbieter auf der Seite.
+   */
+  anbieter?: Record<string, string>
 }
 
 interface NeuerTitel {
@@ -89,6 +97,32 @@ export function baueNews(
       ...kopf(t),
       platform: anbieter,
     })
+  }
+
+  /*
+    1b. **Jetzt auch bei einem weiteren Anbieter auf Deutsch** (18.09.2026,
+    Feature-Vergleich: JustWatch-Watchlist-Alerts). „Wo läuft es" ist bei den meisten
+    Titeln die eigentliche Frage; ein neuer Weg zur Synchro ist deshalb eine Nachricht.
+    Gemeldet wird nur ein **weiterer** Anbieter — der erste ist schon Meldung 1.
+    YouTube bleibt draußen: Dort ist es oft ein einzelnes Probevideo, keine Serie.
+  */
+  const saeen = historie.anbieter === undefined
+  const anbieterSeit = (historie.anbieter ??= {})
+  for (const t of titles) {
+    const wege = new Set(
+      t.streams.filter((s) => s.dub === true && s.platform !== 'youtube').map((s) => s.platform),
+    )
+    for (const p of wege) {
+      const k = `${t.id}:${p}`
+      if (!(k in anbieterSeit)) anbieterSeit[k] = saeen ? '0000-00-00' : heute
+    }
+    for (const p of wege) {
+      const seit = anbieterSeit[`${t.id}:${p}`]!
+      if (seit < grenze) continue
+      const frueher = [...wege].some((q) => q !== p && anbieterSeit[`${t.id}:${q}`]! < seit)
+      if (!frueher) continue
+      roh.push({ schluessel: `anbieter:${t.id}:${p}`, fallback: seit, art: 'neu', ...kopf(t), platform: p, weiterer: true })
+    }
   }
 
   /* 2. Neue deutsche Folgen — je Serie und Tag eine Meldung, nicht je Folge. */

@@ -909,6 +909,8 @@ export interface NewsMeldung {
   art: NewsArt
   platform?: PlatformId
   anbieter?: string
+  /** Bei `neu`: ein weiterer Anbieter, nicht die erste Synchro des Titels (18.09.2026). */
+  weiterer?: boolean
   /** Der Termin, um den es geht (angekündigt, Disc, Kino, verpasst). */
   datum?: string
   /** Erste betroffene Folge — bei `folgen` der Anfang des Bereichs. */
