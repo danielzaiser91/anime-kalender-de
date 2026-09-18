@@ -147,8 +147,15 @@ export function WeekView({
       // Die Kopfleiste klebt oben und würde die Karte sonst verdecken.
       const header = document.querySelector('header')
       const offset = (header?.getBoundingClientRect().height ?? 0) + LEAD_PX
+      /*
+        Ist die Zielkarte die erste ihres Tages, gilt der Tagesanfang als Ziel: Sonst
+        schnitt die Kopfleiste „FR · heute" halb ab (Handy-Bild, 18.09.2026).
+      */
+      const tag = el.closest('section')
+      const ersteKarte = tag?.querySelector('.ak-oeffnen')?.parentElement
+      const ziel = tag && (ersteKarte === el || el.contains(ersteKarte ?? null)) ? tag : el
       window.scrollTo({
-        top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - offset),
+        top: Math.max(0, ziel.getBoundingClientRect().top + window.scrollY - offset),
         // Wer Bewegung abgestellt hat, bekommt keine — und im versteckten Tab
         // liefe eine weiche Bewegung ohnehin nicht.
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
