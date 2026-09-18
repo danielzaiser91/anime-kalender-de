@@ -175,6 +175,17 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 | **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
 
+## Geplant 18.09.2026: Web-Push für Favoriten (Feature-Vergleich Nr. 11)
+
+**Entwurf, nicht gebaut.** Grund: Die Zustellung lässt sich hier nicht belegen — Chromium in Playwright hat keinen Zugang zu Googles Push-Dienst; der PoC braucht ein echtes Gerät (Daniels Handy mit installierter PWA, iOS stellt nur installiert zu, seit Safari 16.4).
+
+1. **Push ohne Nutzlast.** Ohne Payload entfällt die Verschlüsselung nach RFC 8291; nötig ist nur ein VAPID-JWT (ES256), das der Worker mit `crypto.subtle` signiert. Der Service Worker holt beim `push`-Ereignis den Text selbst (`GET /push/nachricht?e=<hash>`).
+2. **Schlüssel:** VAPID-Paar lokal erzeugen; öffentlicher Schlüssel als `VITE_VAPID_PUBLIC`, privater als Worker-Secret.
+3. **D1:** `push_abo(endpoint, favoriten, erstellt, zuletzt_gesendet, offen_text)`; Favoriten wandern bei jeder Änderung mit (wie `/favorites`).
+4. **Auslöser:** stündlicher Cron — je Abo die Termine seiner Favoriten, die seit dem letzten Lauf erschienen sind (`istErschienen`, nur belegte Uhrzeit), plus „Jetzt auch bei X". Höchstens ein Push je Abo und Lauf, gebündelt.
+5. **Oberfläche:** Knopf „Benachrichtigen" in der Favoriten-Ansicht, nur wenn `PushManager` da ist; Abmelden jederzeit. Kein Konto nötig.
+6. **PoC zuerst:** ein Test-Endpunkt, der genau einen leeren Push an ein Abo schickt; Daniel abonniert auf dem Handy, bestätigt den Empfang. Erst dann der Rest.
+
 ## Stichprobe 18.09.2026 (Keim 1809): aniSearchs Synchro-Marke fehlte im Panel
 
 50 Panels live, Regeln 0 Befunde — beim Lesen der Textliste drei Widersprüche: Niklaas, Jakobus Nimmersatt („Noch keine deutsche Fassung" neben der deutschen Ausgabe). Ursache: `deErstausgabe` übernahm aniSearchs `dubbed` nicht, der Film-Zweig kannte nur Streams, Sprechrollen, Kaufwege. **Behoben:** `deErstausgabe.synchro`, gemessen 253 betroffene Titel (180 Filme/Specials/OVAs); live bestätigt 12:09. Nebenbei: Die Stichprobe fand das Panel nach dem `aside`→`div`-Umbau nicht mehr — Werkzeuge suchen jetzt `data-panel="titel"`, `check:panel` wird bei 0 Messungen rot. Nächste Stichprobe mit neuem Keim.
@@ -213,7 +224,7 @@ Priorität nach Nutzen fürs Projektziel und Größe:
 | 8 | Saison-Vorschau „kommende Saison mit Synchro" (AniChart) | S–M | **verworfen 18.09.2026** — gemessen: 97 künftige Starts, davon 85 Disc, 6 Filme, 3 Wochenserien, 3 Batches; die Agenda zeigt genau das. Neu bewerten, wenn mehr als 20 künftige Streaming-Starts anstehen |
 | 9 | Abstand OmU → Synchro je Titel als gekennzeichnete Prognose | M | offen |
 | 10 | Fortschritt je Folge, lokal | M | **erledigt 18.09.2026** — „gesehen bis Folge n" in der Favoriten-Zeile, „x neu" seither |
-| 11 | Web-Push für Favoriten (notify.moe, LiveChart) | L | offen — iOS nur bei installierter PWA |
+| 11 | Web-Push für Favoriten (notify.moe, LiveChart) | L | **geplant 18.09.2026** (Entwurf unten), wartet auf einen Zustell-PoC auf Daniels Gerät |
 | 12 | Discord-Webhook-Kanal | M | 🙋 Außenwirkung, braucht Freigabe |
 
 Weggelassen, weil kein Ziel: Bewertungen, Community, Zeitzonen.
