@@ -303,3 +303,23 @@ self.addEventListener('message', (event) => {
     }),
   )
 })
+
+/*
+  **Web-Push, Zustell-PoC (18.09.2026).** Der Worker schickt Pushes ohne Nutzlast
+  (keine Verschlüsselung nötig); was angezeigt wird, steht hier fest, bis der
+  eigentliche Dienst den Text vom Worker abholt. Plan in status.md.
+*/
+self.addEventListener('push', (event) => {
+  event.waitUntil(
+    self.registration.showNotification('Anime-Kalender DE', {
+      body: 'Test: Benachrichtigungen kommen an.',
+      icon: '/icons/icon-192.png',
+      tag: 'push-test',
+    }),
+  )
+})
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+  event.waitUntil(self.clients.openWindow('/#/favoriten'))
+})

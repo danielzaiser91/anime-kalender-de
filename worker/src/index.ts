@@ -28,6 +28,7 @@ import {
   type ReleaseLink,
 } from './templates.ts'
 import { Ereignisse, ereignisSenden } from './ereignisse.ts'
+import { leererPush, type PushEnv } from './push.ts'
 
 /**
  * **Was gemeldet wurde, ist sofort gemeldet — auch für die Übersicht.**
@@ -51,7 +52,7 @@ async function briefkastenCacheLeeren(request: Request): Promise<void> {
 
 export { Ereignisse }
 
-export interface Env extends MailEnv {
+export interface Env extends MailEnv, PushEnv {
   DB: D1Database
   /**
    * Der Push-Kanal zur Statusanzeige. Optional: Ohne das Binding läuft alles
@@ -2933,6 +2934,27 @@ export default {
         if (request.method === 'GET') return handleFavoritesGet(request, env)
         if (request.method !== 'POST') return json(env, { error: 'GET oder POST erwartet' }, 405)
         return handleFavorites(request, env)
+      case '/push/schluessel':
+        /* Der öffentliche VAPID-Schlüssel — der Client braucht ihn zum Abonnieren. */
+        return json(env, { schluessel: env.VAPID_PUBLIC ?? null })
+      case '/push/test': {
+        /*
+          Zustell-PoC (18.09.2026): schickt genau einen leeren Push an das übergebene
+          Abo zurück. Kein Speichern, gedeckelt auf 20 Versuche je Stunde insgesamt.
+        */
+        if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
+        if (!(await imRahmen(env, 'push-test', 20, 60))) return json(env, { error: 'Zu viele Versuche, bitte später.' }, 429)
+        let body: { subscription?: { endpoint?: string } }
+        try {
+          body = await request.json()
+        } catch {
+          return json(env, { error: 'Ungültige Anfrage.' }, 400)
+        }
+        const endpoint = body.subscription?.endpoint ?? ''
+        if (!endpoint) return json(env, { error: 'Kein Abo übergeben.' }, 400)
+        const antwort = await leererPush(env, endpoint)
+        return json(env, { ok: antwort.status >= 200 && antwort.status < 300, ...antwort })
+      }
       case '/feed-token':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
         return handleFeedToken(request, env)

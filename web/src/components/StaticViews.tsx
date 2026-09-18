@@ -20,6 +20,7 @@ import {
 import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
 import { InstallFooterOffer } from './InstallPrompt.tsx'
 import { Button, SectionTitle } from './ui.tsx'
+import { PushTest } from './PushTest.tsx'
 
 const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
 const CONTACT_EMAIL = 'danielzaiser91@googlemail.com'
@@ -195,6 +196,7 @@ export function SubscribeView({ meta }: { meta: DataMeta }) {
       </Card>
 
       <FavoritenFeed />
+      <PushTest />
 
       <Card>
         <SectionTitle>{t('sub.how')}</SectionTitle>
