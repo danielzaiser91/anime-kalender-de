@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_AMAZON = {"B0GGJKGT5P":{"titel":"Classroom of the Elite","url":"https://www.amazon.de/dp/B0GGJKGT5P","eintraege":[{"id":98659,"name":"Classroom of the Elite","folgen":12,"offen":true,"asId":12495},{"id":146066,"name":"Classroom of the Elite: Staffel 3 (Classroom of the Elite Season 3)","folgen":13,"offen":false,"asId":17185}]}}
+globalThis.AK_OFFENE_AMAZON = {}

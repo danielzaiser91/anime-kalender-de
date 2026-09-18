@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-18T04:42:29.612Z",
+  "stand": "2026-09-18T05:24:02.989Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4677,17 +4677,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 21416,
-      "titel": "One Punch Man OVAs",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close",
-      "seriesId": null,
-      "grund": "Videokennung GPWU8KM42 gibt es nicht mehr",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-18",
-      "letzterWeg": true
-    },
-    {
       "titleId": 98495,
       "titel": "Free! -Timeless Medley- The Bond",
       "plattform": "crunchyroll",
@@ -4727,17 +4716,6 @@
       "url": "https://www.crunchyroll.com/de/free-iwatobi-swim-club",
       "seriesId": null,
       "grund": "die Adresse zeigt auf die Reihe „Free! - Iwatobi Swim Club\", das MOVIE steht nicht im deutschen Katalog, und JustWatch nennt 3 Anbieter ohne Crunchyroll (Akibapass, Buecher)",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-18",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 108945,
-      "titel": "One Punch Man Season 2 OVAs",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang",
-      "seriesId": null,
-      "grund": "Videokennung G9DU9E4QG gibt es nicht mehr",
       "geprueftAm": null,
       "entferntAm": "2026-09-18",
       "letzterWeg": true
@@ -6371,6 +6349,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 100745,
+      "titel": "Captain Tsubasa",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-18",
+      "letzterWeg": false
+    },
+    {
       "titleId": 100749,
       "titel": "Mirai: Das Mädchen aus der Zukunft",
       "plattform": "crunchyroll",
@@ -7889,6 +7878,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-18",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -7955,6 +7955,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-18",
+      "letzterWeg": true
+    },
+    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -7975,6 +7986,28 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-18",
       "letzterWeg": false
+    },
+    {
+      "titleId": 21416,
+      "titel": "One Punch Man OVAs",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close",
+      "seriesId": null,
+      "grund": "Videokennung GPWU8KM42 gibt es nicht mehr",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-18",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 108945,
+      "titel": "One Punch Man Season 2 OVAs",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang",
+      "seriesId": null,
+      "grund": "Videokennung G9DU9E4QG gibt es nicht mehr",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-18",
+      "letzterWeg": true
     },
     {
       "titleId": 21,
