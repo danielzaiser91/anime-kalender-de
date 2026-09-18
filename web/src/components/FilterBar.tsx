@@ -154,6 +154,63 @@ function Suchfeld({
   )
 }
 
+/**
+ * **„Meine Anbieter" — die eigenen Abos als ein Klick** (18.09.2026, autonomer Modus).
+ *
+ * Aus dem Feature-Vergleich mit JustWatch („My Services"): Wer Netflix und Crunchyroll
+ * hat, wählt beide bei jedem Besuch neu aus. Gespeichert wird im Browser, nicht in der
+ * Adresse — eine Vorliebe ist keine Ansicht, und ein geteilter Link soll beim Empfänger
+ * nicht still dessen Abos filtern. Deshalb auch kein automatisch gesetzter Filter: Der
+ * Knopf zeigt an, dass es die Auswahl gibt, und setzt sie erst auf Klick.
+ */
+const MEINE_ANBIETER = 'meineAnbieter'
+
+function meineAnbieterLesen(verfuegbar: PlatformId[]): PlatformId[] {
+  try {
+    const roh = JSON.parse(localStorage.getItem(MEINE_ANBIETER) ?? '[]') as unknown
+    return Array.isArray(roh) ? verfuegbar.filter((p) => roh.includes(p)) : []
+  } catch {
+    return []
+  }
+}
+
+function MeineAnbieter({
+  aktuell,
+  verfuegbar,
+  setzen,
+}: {
+  aktuell: PlatformId[]
+  verfuegbar: PlatformId[]
+  setzen: (platforms: PlatformId[]) => void
+}) {
+  const { t } = useLang()
+  const [gemerkt, setGemerkt] = useState(() => meineAnbieterLesen(verfuegbar))
+  const gleich = gemerkt.length === aktuell.length && gemerkt.every((p) => aktuell.includes(p))
+  const merken = () => {
+    try {
+      localStorage.setItem(MEINE_ANBIETER, JSON.stringify(aktuell))
+    } catch {
+      /* Gesperrter Speicher: dann gilt die Auswahl nur für diesen Besuch. */
+    }
+    setGemerkt([...aktuell])
+  }
+  const knopf =
+    'cursor-pointer rounded-full border border-dashed border-slate-400/70 px-2.5 py-0.5 text-xs text-slate-600 transition hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-white/10'
+  if (gemerkt.length && !gleich)
+    return (
+      <button type="button" className={knopf} onClick={() => setzen(gemerkt)} title={gemerkt.map((p) => PLATFORMS[p].name).join(', ')}>
+        ★ {t('filter.meineAnbieter')}
+      </button>
+    )
+  if (aktuell.length && !gleich)
+    return (
+      <button type="button" className={knopf} onClick={merken}>
+        ☆ {t('filter.meineAnbieterMerken')}
+      </button>
+    )
+  return null
+}
+
 export function FilterBar({
   meta,
   filters,
@@ -312,6 +369,11 @@ export function FilterBar({
 
           <div className="grid gap-4 p-3 sm:grid-cols-2 xl:grid-cols-3">
           <Group label={t('filter.platform')} modus={modusVon2('platforms', filters.platforms.length)}>
+            <MeineAnbieter
+              aktuell={filters.platforms}
+              verfuegbar={meta.platforms}
+              setzen={(platforms) => set({ platforms })}
+            />
             {meta.platforms.map((p: PlatformId) => (
               <Chip
                 key={p}

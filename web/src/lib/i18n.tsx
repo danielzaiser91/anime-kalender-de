@@ -154,6 +154,8 @@ const TEXTE = {
   'filter.button': 'Filter',
   'filter.reset': 'zurücksetzen',
   'filter.platform': 'Plattform',
+  'filter.meineAnbieter': 'Meine Anbieter',
+  'filter.meineAnbieterMerken': 'Als meine Anbieter merken',
   'filter.provider': 'Bezugsquelle ({count} Anbieter)',
   'filter.releaseType': 'Release-Art',
   'filter.status': 'Status',
