@@ -7,7 +7,6 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
 | 3 | [Netflix](06-netflix-rest.md) | 1 Titel, 2 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
-| 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 5 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
 Sie zeigt auf jeder Anbieterseite, was dort noch offen ist, liest die Tonspuren und
