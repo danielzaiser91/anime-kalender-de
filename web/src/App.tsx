@@ -168,11 +168,21 @@ export default function App() {
     **Die westlichen Serien kommen immer** — sie sind standardmäßig sichtbar
     (Daniel, 12.09.2026). Geholt werden sie trotzdem erst hier und nicht beim
     Start: 372 KB, die der Kalender für seine erste Ansicht nicht braucht.
+
+    **Und nur, wo sie gezeigt werden** (18.09.2026, Leistungsmessung): Keiner der 906
+    Cartoons hat einen Termin, die Kalenderansichten brauchen sie also gar nicht — sie
+    luden trotzdem 244 KB nach jedem Start. Gebraucht werden sie in den Titel-Listen und
+    wenn jemand einen Cartoon direkt öffnet, dessen Titel noch nicht bekannt ist.
   */
+  const brauchtCartoons =
+    route.view === 'datenbank' ||
+    route.view === 'wo' ||
+    route.view === 'favoriten' ||
+    (route.title !== undefined && !!data && !data.titleById.has(route.title))
   useEffect(() => {
-    if (!data || cartoons) return
+    if (!data || cartoons || !brauchtCartoons) return
     loadCartoons(data).then(setCartoons)
-  }, [data, cartoons])
+  }, [data, cartoons, brauchtCartoons])
 
   const events = useMemo(
     () =>
