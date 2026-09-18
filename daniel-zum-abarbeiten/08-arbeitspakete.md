@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-18 · **33 offene Verweise** in **24 Zeilen**,
+Stand 2026-09-19 · **32 offene Verweise** in **23 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -41,26 +41,25 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 4 | Prime Video | To Love-Ru: Trouble | [Hauptserie](https://www.amazon.de/dp/B0CHQ3NF3M) |
 | 5 | Prime Video | Air Gear | [Hauptserie](https://www.amazon.de/dp/B0FM72YMNZ) |
 | 6 | Prime Video | Bakuman. | [Hauptserie](https://www.amazon.de/dp/B091FT1NCC) |
-| 7 | Prime Video | Peace Maker Kurogane | [Hauptserie](https://www.amazon.de/dp/B0D59HJGBZ) |
-| 8 | Prime Video | Rosario + Vampire | [Capu2](https://www.amazon.de/dp/B09C53B6BQ) |
-| 9 | Prime Video | Demon King Daimao — Daimao | [Demon King Daimao](https://www.amazon.de/dp/B08V14MGSB) |
-| 10 | Prime Video | Yamada-kun to 7-nin no Majo (ONA) | [Yamada-kun & the 7 Witches](https://www.amazon.de/dp/B0DHDGYJK5) |
-| 11 | Prime Video | Die rothaarige Schneeprinzessin | [Staffel 2](https://www.amazon.de/dp/B0CVBLNC3X) |
-| 12 | Prime Video | Infinite Stratos | [2](https://www.amazon.de/dp/B0D35ZN948) |
-| 13 | Prime Video | The Familiar of Zero | [3: “Rondo” of Princesses](https://www.amazon.de/dp/B0CHDFY1LD) |
-| 14 | Prime Video | Konosuba: God’s Blessing on This Wonderful World! | [Hauptserie](https://www.amazon.de/dp/B09JYM181Y) |
-| 15 | Prime Video | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.amazon.de/dp/B0CHL1TMC2) · [Der Killer in ihren Augen](https://www.amazon.de/dp/B074ZRCX91) · [Das Phantom der Baker Street](https://www.amazon.de/dp/B0751KL252) · [Lupin III. vs Detektiv Conan: The Special](https://www.amazon.de/dp/B0916V7VFR) |
-| 16 | Prime Video | Haikyu!! | [An Land vs. In der Luft / Der ”Weg” des Balls](https://www.amazon.de/dp/B09192P17W) |
-| 17 | Prime Video | Pokémon | [Der Film - Weiß: Victini und Zekrom](https://www.amazon.de/dp/B01ASXCBV4) · [Der Film - Schwarz: Victini und Reshiram](https://www.amazon.de/dp/B01ASYLFJW) |
-| 18 | Prime Video | Naruto | [Die Geheimmission - Rettet das Dorf Takigakure](https://www.amazon.de/dp/B0DK9XXZYV) · [The Movie - Geheimmission im Land des ewigen Schnees](https://www.amazon.de/dp/B0G43M2BNY) |
-| 19 | Prime Video | Lupin III.: Teil 1 | [Lupin III: Der Höllentrip](https://www.amazon.de/dp/B0CK5BDPM8) · [Lupin III.: Der Schatz des Harimao](https://www.amazon.de/dp/B0FWXB2BKG) |
-| 20 | Prime Video | Patema Inverted: Beginning of the Day | [Patema Inverted](https://www.amazon.de/dp/B0CMHJ7FCB) |
+| 7 | Prime Video | Rosario + Vampire | [Capu2](https://www.amazon.de/dp/B09C53B6BQ) |
+| 8 | Prime Video | Demon King Daimao — Daimao | [Demon King Daimao](https://www.amazon.de/dp/B08V14MGSB) |
+| 9 | Prime Video | Yamada-kun to 7-nin no Majo (ONA) | [Yamada-kun & the 7 Witches](https://www.amazon.de/dp/B0DHDGYJK5) |
+| 10 | Prime Video | Die rothaarige Schneeprinzessin | [Staffel 2](https://www.amazon.de/dp/B0CVBLNC3X) |
+| 11 | Prime Video | Infinite Stratos | [2](https://www.amazon.de/dp/B0D35ZN948) |
+| 12 | Prime Video | The Familiar of Zero | [3: “Rondo” of Princesses](https://www.amazon.de/dp/B0CHDFY1LD) |
+| 13 | Prime Video | Konosuba: God’s Blessing on This Wonderful World! | [Hauptserie](https://www.amazon.de/dp/B09JYM181Y) |
+| 14 | Prime Video | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.amazon.de/dp/B0CHL1TMC2) · [Der Killer in ihren Augen](https://www.amazon.de/dp/B074ZRCX91) · [Das Phantom der Baker Street](https://www.amazon.de/dp/B0751KL252) · [Lupin III. vs Detektiv Conan: The Special](https://www.amazon.de/dp/B0916V7VFR) |
+| 15 | Prime Video | Haikyu!! | [An Land vs. In der Luft / Der ”Weg” des Balls](https://www.amazon.de/dp/B09192P17W) |
+| 16 | Prime Video | Pokémon | [Der Film - Weiß: Victini und Zekrom](https://www.amazon.de/dp/B01ASXCBV4) · [Der Film - Schwarz: Victini und Reshiram](https://www.amazon.de/dp/B01ASYLFJW) |
+| 17 | Prime Video | Naruto | [Die Geheimmission - Rettet das Dorf Takigakure](https://www.amazon.de/dp/B0DK9XXZYV) · [The Movie - Geheimmission im Land des ewigen Schnees](https://www.amazon.de/dp/B0G43M2BNY) |
+| 18 | Prime Video | Lupin III.: Teil 1 | [Lupin III: Der Höllentrip](https://www.amazon.de/dp/B0CK5BDPM8) · [Lupin III.: Der Schatz des Harimao](https://www.amazon.de/dp/B0FWXB2BKG) |
+| 19 | Prime Video | Patema Inverted: Beginning of the Day | [Patema Inverted](https://www.amazon.de/dp/B0CMHJ7FCB) |
+| 20 | Prime Video | Psycho-Pass | [The Movie](https://www.amazon.de/dp/B0FWXSTJ3K) |
 
-## Paket 2 — Zeilen 21 bis 24
+## Paket 2 — Zeilen 21 bis 23
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 21 | Prime Video | Psycho-Pass | [The Movie](https://www.amazon.de/dp/B0FWXSTJ3K) |
-| 22 | Prime Video | Black Butler | [Book of the Atlantic](https://www.amazon.de/dp/B0FDH5B38D) |
-| 23 | Prime Video | Final Fantasy VII: Advent Children | [Hauptserie](https://www.amazon.de/dp/B00FYUILJ8) |
-| 24 | Prime Video | Robotic Angel | [Hauptserie](https://www.amazon.de/dp/B00H39Z6Q4) |
+| 21 | Prime Video | Black Butler | [Book of the Atlantic](https://www.amazon.de/dp/B0FDH5B38D) |
+| 22 | Prime Video | Final Fantasy VII: Advent Children | [Hauptserie](https://www.amazon.de/dp/B00FYUILJ8) |
+| 23 | Prime Video | Robotic Angel | [Hauptserie](https://www.amazon.de/dp/B00H39Z6Q4) |

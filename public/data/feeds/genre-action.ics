@@ -6,27 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Action
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-09-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260911T150000Z
-DTEND:20260911T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 19/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:dragon-ball-daima-toggo-plus@2026-09-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260911T191500Z
-DTEND:20260911T194500Z
-SUMMARY:Dragon Ball DAIMA – Folge 13/20
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/dragon-ball-daima-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:black-torch@2026-09-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260912T130000Z
