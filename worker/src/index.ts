@@ -10,7 +10,8 @@
  *
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
-import type { Release, ReleaseEvent } from '../../shared/types.ts'
+import type { PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
+import { anbieterName } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { buildIcs } from '../../shared/ics.ts'
 import { sendMail, type MailEnv } from './mail.ts'
@@ -849,6 +850,37 @@ async function loadReihen(env: Env): Promise<Reihen> {
   }
 }
 
+/**
+ * „Jetzt auch bei X" aus der Nachrichtenseite: je Titel und weiterem Anbieter ein Eintrag
+ * mit dem Tag der Meldung. Fehlt die Datei, bleibt der Versand wie bisher.
+ */
+async function loadWeitereAnbieter(env: Env): Promise<{ id: number; name: string; anbieter: string; am: string }[]> {
+  const url = new URL('data/news.json', env.SITE_URL).toString()
+  try {
+    const res = await fetch(url, { cf: { cacheTtl: 900 } } as RequestInit)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const eintraege = (await res.json()) as {
+      am: string
+      titelId: number
+      titel: string
+      meldungen: { art: string; platform?: string; weiterer?: boolean; teilId?: number; teil?: string }[]
+    }[]
+    return eintraege.flatMap((e) =>
+      e.meldungen
+        .filter((m) => m.art === 'neu' && m.weiterer && m.platform)
+        .map((m) => ({
+          id: m.teilId ?? e.titelId,
+          name: m.teil ? `${e.titel} – ${m.teil}` : e.titel,
+          anbieter: anbieterName(m.platform as PlatformId),
+          am: e.am.slice(0, 10),
+        })),
+    )
+  } catch (err) {
+    console.error('News nicht abrufbar', err)
+    return []
+  }
+}
+
 async function loadNeuMitSynchro(env: Env): Promise<NeuMitSynchro[]> {
   const url = new URL('data/neu-mit-synchro.json', env.SITE_URL).toString()
   try {
@@ -909,6 +941,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
   const allEvents = await loadEvents(env)
   const links = await loadReleaseLinks(env)
   const alleNeu = await loadNeuMitSynchro(env)
+  const weitereAnbieter = await loadWeitereAnbieter(env)
   const reihen = await loadReihen(env)
   const log: string[] = []
 
@@ -996,6 +1029,8 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
           )
         : []
       const neuMitSynchro = [...eigene, ...ausReihe.map((n) => ({ ...n, ausReihe: true }))]
+      /* Ein weiterer Anbieter für einen gemerkten Titel, seit der letzten Mail (18.09.2026). */
+      const auchBei = weitereAnbieter.filter((w) => favorites.has(w.id) && (!seit || w.am > seit))
 
       /**
        * Ohne Termine **und** ohne Neuzugang gibt es nichts zu erzählen.
@@ -1004,7 +1039,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
        * angekündigte Synchro ohne Termin hätte damit nie eine Mail ausgelöst,
        * und genau die ist die Nachricht, auf die jemand monatelang wartet.
        */
-      if (!events.length && !neuMitSynchro.length) continue
+      if (!events.length && !neuMitSynchro.length && !auchBei.length) continue
 
       const base = (env.WORKER_URL || '').replace(/\/$/, '')
       const unsubUrl = `${base}/unsubscribe?token=${sub.unsub_token}`
@@ -1030,6 +1065,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
         rhythmusUrl,
         links,
         neuMitSynchro,
+        auchBei,
       })
       try {
         await sendMail(env, { to: sub.email, ...mail, unsubscribeUrl: unsubUrl })

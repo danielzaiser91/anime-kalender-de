@@ -301,6 +301,11 @@ export interface DigestOptions {
   rhythmusUrl?: string
   /** Gemerkte Titel, die seit der letzten Mail eine Synchro bekommen haben. */
   neuMitSynchro?: NeuMitSynchro[]
+  /**
+   * Gemerkte Titel, deren Synchro seit der letzten Mail bei einem **weiteren** Anbieter
+   * läuft (18.09.2026, aus `news.json`, Meldungen mit `weiterer`).
+   */
+  auchBei?: { id: number; name: string; anbieter: string }[]
 }
 
 export function digestMail(
@@ -325,6 +330,7 @@ export function digestMail(
   const mine = events.filter((e) => favorites.has(e.titleId))
   const rest = events.filter((e) => !favorites.has(e.titleId))
   const neu = options.neuMitSynchro ?? []
+  const auchBei = options.auchBei ?? []
   /*
     **Zwei Sorten Neuzugang, und der Unterschied gehört in den Betreff.**
 
@@ -349,6 +355,10 @@ export function digestMail(
         : neu.length === 1
           ? `${neu[0].name} bekommt eine deutsche Synchro`
           : `${neu.length} Neuzugänge zu deinen gemerkten Titeln`
+      : auchBei.length > 0 && mine.length === 0 && events.length === 0
+        ? auchBei.length === 1
+          ? `${auchBei[0].name} jetzt auch bei ${auchBei[0].anbieter}`
+          : `${auchBei.length} Favoriten jetzt bei weiteren Anbietern`
       : mine.length > 0
         ? `${mine.length} ${mine.length === 1 ? 'Folge' : 'Folgen'} deiner Favoriten${
             rest.length ? ` und ${rest.length} weitere Releases` : ''
@@ -409,7 +419,20 @@ export function digestMail(
        ${neuAusReihe.map(eintrag).join('')}`
     : ''
 
-  let body = neuBlock + reihenBlock
+  /* Ein weiterer Weg zu einer Synchro, die es schon gab — kleiner als „Endlich". */
+  const auchBlock = auchBei.length
+    ? `<p style="margin:${neu.length ? '22px' : '0'} 0 6px;padding-bottom:6px;border-bottom:2px solid #a78bfa;color:#a78bfa;font-weight:700;font-size:15px;letter-spacing:.03em;">
+         📺 Jetzt auch bei
+       </p>
+       ${auchBei
+         .map(
+           (a) =>
+             `<p style="margin:0 0 6px;color:#cbd5e1;font-size:14px;"><a href="${siteUrl}#/datenbank?t=${a.id}" style="color:#e2e8f0;font-weight:700;text-decoration:none;">${a.name}</a> — jetzt auch auf Deutsch bei ${a.anbieter}</p>`,
+         )
+         .join('')}`
+    : ''
+
+  let body = neuBlock + reihenBlock + auchBlock
   if (mine.length > 0) {
     body += heading('★ Deine Favoriten', '#fbbf24') + dateSections(ctx, mine, true)
   }
@@ -469,6 +492,9 @@ export function digestMail(
           )
           .join('\n') +
         '\n\n'
+      : '') +
+    (auchBei.length > 0
+      ? `JETZT AUCH BEI\n\n${auchBei.map((a) => `* ${a.name} — jetzt auch auf Deutsch bei ${a.anbieter}\n  ${siteUrl}#/datenbank?t=${a.id}`).join('\n')}\n\n`
       : '') +
     (mine.length > 0 ? `DEINE FAVORITEN\n\n${textSections(ctx, mine)}\n\n` : '') +
     (rest.length > 0 ? `${mine.length > 0 ? 'WEITERE RELEASES\n\n' : ''}${textSections(ctx, rest)}\n\n` : '') +

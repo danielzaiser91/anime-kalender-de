@@ -57,6 +57,7 @@ import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
 import { newsRss } from './lib/news-rss.ts'
+import { digestMail } from '../worker/src/templates.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -4890,6 +4891,20 @@ pruefe(
     erster.length === 0 && neuBei.join(',') === '1:crunchyroll',
     `${erster.length} / ${neuBei.join(',')}`,
   )
+}
+{
+  /* Newsletter: „Jetzt auch bei X" trägt allein eine Mail, mit eigenem Betreff (18.09.2026). */
+  const m = digestMail([], 'daily', 'https://anime-kalender.de/', 'https://x/u', {
+    favorites: new Set([1]),
+    auchBei: [{ id: 1, name: 'Frieren', anbieter: 'Netflix' }],
+  })
+  pruefe(
+    'ein weiterer Anbieter eines Favoriten steht im Newsletter',
+    m.subject === 'Frieren jetzt auch bei Netflix' && m.text.includes('JETZT AUCH BEI') && m.html.includes('auf Deutsch bei Netflix'),
+    m.subject,
+  )
+  const idx = readFileSync('worker/src/index.ts', 'utf8')
+  pruefe('… und der Versand verschickt auch eine Mail, die nur das enthält', idx.includes('!neuMitSynchro.length && !auchBei.length'))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
