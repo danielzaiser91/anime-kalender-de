@@ -1670,3 +1670,7 @@ Zweig im Takt, nicht ein weiterer Anlauf aus einer Vermutung.
 ## Eine Fehlerseite ist keine Staffel ohne Folgen (19.09.2026)
 
 Auf Amazons 404 („keine funktionsfähige Seite“) stand zuerst richtig „✕ nicht abrufbar — melden“; nach acht Sekunden ohne Folgenreiter griff der Zweig „Diese Staffel führt bei Amazon keine Folgen“ und sperrte den Knopf. Die tote Adresse (Peace Maker Kurogane `B0D59HJGBZ`, laut Linkprüfung 200) ließ sich nicht mehr melden — und gerade dafür gibt es den Knopf: Amazon antwortet der Linkprüfung mit 200, auch wenn Daniel eine 404 sieht. **Jeder Zweig, der den Knopf sperrt, schließt Fehler-, Region- und Nicht-verfügbar-Seiten aus.** Zusicherung in `amazon.test.cjs`, Gegenprobe rot. Behoben in 4.20.28.
+
+## Der Stand muss vollständig sein — die Erweiterung zählt, was fehlt, als erledigt (19.09.2026)
+
+`?stand=1` schickte nur `ziele.slice(0, 25)`, die Erweiterung hält in `fertig()` alles für erledigt, was dort nicht steht. Bei 37 offenen Titeln zeigte sie „25 offen“, die Statusanzeige 36, und ein eben gemeldeter Titel stand unter „erledigt“, während ein anderer nachrückte (Zähler 25 → 24 → 25). Der Worker schickt jetzt alle Ziele; Zusicherung in `check:logic`. Und: Auf einer gemeldeten toten Seite gibt es keine Staffel-Checkliste, die „alles gemeldet“ zeigen könnte — dort steht die Marke „gemeldet ✓“ (4.20.29).

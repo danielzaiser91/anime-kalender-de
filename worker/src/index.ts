@@ -2150,7 +2150,16 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
             ? a.suchAdressen.filter((u) => !schonGemeldet.has(u)).length
             : (a.ohneSeite ?? 0),
           ziel: alleZiele[0]?.url ?? null,
-          ziele: alleZiele.slice(0, 25),
+          /*
+            **Alle Ziele, nicht die ersten 25** (19.09.2026). Die Erweiterung hält
+            für erledigt, was hier nicht steht (`fertig()` → `standZiele`). Mit
+            `slice(0, 25)` zeigte sie bei 37 offenen Titeln „25 offen", die
+            Statusanzeige 36 — und Peace Maker Kurogane, eben gemeldet, rückte
+            nach dem Abzug aus der Liste und ein anderer Titel nach (Daniel: „25
+            ist kurz auf 24 gesprungen, jetzt steht wieder 25"). Selbst 384 Ziele
+            wären nur einige Dutzend KB.
+          */
+          ziele: alleZiele,
         }
       })
       return antwort({ anbieter, erzeugtAm: new Date().toISOString() })

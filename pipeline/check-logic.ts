@@ -4991,5 +4991,10 @@ pruefe(
   pruefe('jede FSK-Plakette hält 4,5:1', fskSchwach.length === 0, fskSchwach.map(([f]) => f).join(', '))
   pruefe('… und die FSK-Plakette wählt die Ziffer so', ui.includes('const dark = fsk <= 12'))
 }
+{
+  /* Peace Maker Kurogane, 19.09.2026: Die Erweiterung zählt als erledigt, was im Stand fehlt — der Stand muss vollständig sein. */
+  const idx = readFileSync('worker/src/index.ts', 'utf8')
+  pruefe('der Prüfstand liefert alle Ziele, nicht einen Ausschnitt', idx.includes('ziele: alleZiele,') && !/ziele: alleZiele\.slice/.test(idx))
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

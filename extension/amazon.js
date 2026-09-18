@@ -7648,9 +7648,16 @@ async function speicherSchreiben(werte) {
           weil es durch die checkbox box schon klar ist das alles gemeldet wurde."
           Ein Knopf, der nichts auslöst, ist Fläche ohne Handlung; die Haken in
           der Zeile darüber stehen ohnehin da und sagen dasselbe genauer.
+
+          **Auf einer toten Seite gibt es diese Haken nicht** (Daniel, 19.09.2026,
+          Peace Maker Kurogane: „nach reload ist der meldeknopf weg, obwohl dort
+          gemeldet stehen müsste"). Eine 404 hat keine Staffeln, also keine
+          Checkliste — und der Merker „eben gemeldet" hängt an der Sitzung, nach
+          dem Neuladen ist er weg. Hier sagt es deshalb die Marke.
         */
         knopf.style.display = 'none'
         knopf.disabled = true
+        gemeldetMarke(true)
         return
       }
       /**
