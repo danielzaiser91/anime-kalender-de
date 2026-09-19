@@ -220,3 +220,13 @@
   url: https://www.amazon.de/dp/B0GX7VDJK3
   belegtAm: '2026-09-19'
   beleg: 'dieselbe Prime-Staffel wie Stardust Crusaders, Folgen 25–48 (Meldung 4785)'
+
+# Diamond is Unbreakable (21450): Prime-Staffel 3 der JoJo-Sammelseite, Folge 1 „Jōtarō Kūjō! Trifft
+# Jōsuke Higashikata“ (prime_folge, 19.09.2026). Mit nur einem Weg las der Bau den Handbeleg als
+# Korrektur von B0CGQ71TKG; als eigener Verweis steht die Seite daneben.
+- anilistId: 21450
+  title: "JoJo's Bizarre Adventure: Diamond Is Unbreakable"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GXK7RJFW
+  belegtAm: '2026-09-19'
+  beleg: 'Prime-Staffel 3 der JoJo-Sammelseite, 39 Folgen = unsere 39; Folge 1 „Jōtarō Kūjō! Trifft Jōsuke Higashikata“'
