@@ -11075,8 +11075,9 @@
   title: "Grisaia Phantom Trigger: The Animation"
   platform: primevideo
   url: https://www.amazon.de/dp/B0DMMT9B67
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: 日本語 — Amazon-Seite B0DMMT9B67: alle 13 Folgen geprüft, Abos: crunchyrollde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  dub: false
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0DMMT9B67: alle 13 Folgen, Abos: crunchyrollde (Kanal, Amazons Nein allein kein Beleg; Daniel im Durchgang 19.09.2026 erneut: kein Deutsch). Zweiter Beleg: Crunchyroll-API DE-Katalog, Serie GW4HM7WWV, 0 von 13 Folgen deutsch (06.09.2026)."
 
 - anilistId: 103354
   title: "Have a NIce Day"

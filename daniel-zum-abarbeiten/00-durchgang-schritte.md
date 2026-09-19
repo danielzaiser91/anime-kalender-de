@@ -18,7 +18,7 @@ Kurzschrift: `1` ja/deutsch · `0` nein · `x` gibt es dort nicht.
 
 ## C · Prime-Wege ohne Sprachurteil (4)
 
-Frage je Link: Steht bei den Sprachen/Audio **Deutsch**? `1` / `0` / `x` (Seite tot).
+Handgriff je Link: in der Erweiterung „melden“ drücken (nicht im Chat antworten).
 3. **Fushigi Yûgi New OVA** — [öffnen](https://www.amazon.de/dp/B0CJZH535R)
 4. **Haikyu!!** — [öffnen](https://www.amazon.de/dp/B0D4K9PV2F)
 5. **Grisaia Phantom Trigger: The Animation** — [öffnen](https://www.amazon.de/dp/B0DMMT9B67)
