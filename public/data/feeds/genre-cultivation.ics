@@ -50,7 +50,18 @@ UID:auto-176496-tv-prosieben-maxx@2026-09-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T215500Z
 DTEND:20260925T222500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 2/2
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 2/3
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-176496-tv-prosieben-maxx@2026-09-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T221500Z
+DTEND:20260925T224500Z
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 3/3
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
  xx

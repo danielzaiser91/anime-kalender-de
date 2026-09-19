@@ -117,6 +117,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-09-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260919T221000Z
+DTEND:20260919T224000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-20#134@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260920T021500Z
@@ -233,7 +243,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#1@anime-kalender-de
+UID:auto-15-tv-prosieben-maxx@2026-09-26#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260926T034500Z
 DTEND:20260926T041500Z
@@ -243,7 +253,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#2@anime-kalender-de
+UID:auto-15-tv-prosieben-maxx@2026-09-26#3@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260926T041000Z
 DTEND:20260926T044000Z
@@ -253,7 +263,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#3@anime-kalender-de
+UID:auto-15-tv-prosieben-maxx@2026-09-26#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260926T043500Z
 DTEND:20260926T050500Z
@@ -263,7 +273,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#4@anime-kalender-de
+UID:auto-15-tv-prosieben-maxx@2026-09-26#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260926T050000Z
 DTEND:20260926T053000Z
@@ -273,7 +283,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#5@anime-kalender-de
+UID:auto-15-tv-prosieben-maxx@2026-09-26#6@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260926T052500Z
 DTEND:20260926T055500Z
