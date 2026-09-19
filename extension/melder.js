@@ -1722,6 +1722,63 @@ function knopfEntfernen() {
   }
 }
 
+/**
+ * Auf `/browse` nach einem Listenklick: „nicht bei Netflix“ anbieten. Gibt `true` zurück,
+ * wenn der Knopf steht — dann hat `knopfZeigen()` nichts weiter zu tun.
+ */
+function browseWegKnopf() {
+  /*
+    **Leitet ein Auftrag aus der Liste auf `/browse` um, gibt es den Titel dort nicht.**
+
+    Daniel am 19.09.2026 an „Bakugan“ (81659233): „der titel ist nicht bei
+    netflix, der link wird auf homepage weitergeleitet, aber extension hätte
+    … meldung nicht bei netflix möglich sein“ müssen. Der Kasten zeigte nur
+    „alles gemeldet“. Derselbe Befund wie „als tot melden“ in der Liste,
+    jetzt dort angeboten, wo er auffällt — solange der Klick keine Minute her ist.
+  */
+  if (/^\/(?:[a-z-]+\/)?browse\b/.test(location.pathname)) {
+    const auftrag = (() => {
+      try {
+        return zuletztGeoeffnet?.id &&
+          !zuletztGeoeffnet.verbraucht &&
+          offeneTitel[zuletztGeoeffnet.id] !== undefined &&
+          Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000
+          ? zuletztGeoeffnet
+          : null
+      } catch {
+        return null
+      }
+    })()
+    if (auftrag) {
+      /* Ein Melde-Knopf der vorigen Titelseite trägt `melden` als Hörer — weg damit. */
+      if (knopf && !knopf.dataset.weg) knopfEntfernen()
+      if (!knopf) {
+        knopf = document.createElement('button')
+        knopf.className = 'ak-melder'
+        netflixKasten().querySelector('.ak-z-melden')?.appendChild(knopf)
+      }
+      const titel = offeneTitel[auftrag.id]?.titel ?? String(auftrag.id)
+      if (knopf.dataset.weg !== String(auftrag.id)) {
+        knopf.dataset.weg = String(auftrag.id)
+        knopf.disabled = false
+        knopf.textContent = `✕ „${titel}“ nicht bei Netflix — melden`
+        knopf.title = `Netflix hat /title/${auftrag.id} auf die Startseite umgeleitet: den Titel gibt es dort nicht.`
+        knopf.onclick = async () => {
+          knopf.disabled = true
+          knopf.textContent = 'meldet …'
+          const r = await totMelden(auftrag.id, titel)
+          knopf.textContent = r.ok ? `✓ „${titel}“ als nicht bei Netflix gemeldet` : r.text
+          if (r.ok) zuletztGeoeffnet = { ...zuletztGeoeffnet, verbraucht: true }
+        }
+      }
+      return true
+    }
+    /* Nach der Meldung bleibt das Ergebnis stehen, bis die Seite gewechselt wird. */
+    if (knopf?.dataset?.weg) return true
+  }
+  return false
+}
+
 function knopfZeigen() {
   /*
     **Im Player zeichnet `playerZeigen()`, sonst niemand.**
@@ -1740,6 +1797,8 @@ function knopfZeigen() {
     return
   }
   const { spuren, reihe } = stand
+  /* Der „nicht bei Netflix“-Knopf von `/browse` hat auf keiner anderen Seite etwas verloren. */
+  if (knopf?.dataset?.weg && !/\/browse\b/.test(location.pathname)) knopfEntfernen()
   // Zweite Sicherung an der Stelle, die tatsächlich in die Seite schreibt: Wer
   // hier ankommt, ohne dass der Titel gesucht ist, hat einen Weg gefunden, den
   // niemand vorgesehen hat.
@@ -1756,6 +1815,7 @@ function knopfZeigen() {
     der Knopf nur, wo ohnehin niemand meldet — auf der Startseite und überall,
     wo keine Titelkennung in der Adresse steht.
   */
+  if (browseWegKnopf()) return
   if (!istGesucht()) {
     const aufTitelseite = /^\/(title|watch)\/\d+/.test(location.pathname)
     if (!aufTitelseite) {
