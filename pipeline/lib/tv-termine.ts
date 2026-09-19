@@ -20,7 +20,8 @@
  */
 import type { Release, Title } from '../../shared/types.ts'
 import { TVDE_SENDER, type TvSendung } from '../fetch-tv-programm.ts'
-import { folgenKern, type WikiFolge } from './wikipedia-folgen.ts'
+import type { WikiFolge } from './wikipedia-folgen.ts'
+import { folgenKern } from '../../shared/folgen-zuordnung.ts'
 
 export type WikiListen = Record<string, { seite: string; folgen: WikiFolge[] }>
 

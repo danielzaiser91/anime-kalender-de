@@ -54,10 +54,12 @@ export interface Zuordnung {
  * Anbieter schreiben Folgentitel unterschiedlich: „1. Ende und Anfang" gegen
  * „Ende und Anfang", „Folge 01 – Ein aufblühender Tauchstart" gegen „Ein
  * aufblühender Tauchstart". Die führende Nummer fällt weg, ebenso alles, was
- * kein Buchstabe oder keine Ziffer ist.
+ * kein Buchstabe oder keine Ziffer ist. Und „(3)" ist „Teil 3" — tv.de schreibt
+ * „Tödlicher Zauber (3)", die Wikipedia „Tödlicher Zauber – Teil 3" (19.09.2026).
  */
 export function folgenKern(t: string | null | undefined): string {
   return (t ?? '')
+    .replace(/\((\d+)\)/g, ' teil $1')
     .toLowerCase()
     .replace(/^\s*(?:folge\s*)?\d+\s*[.:–-]\s*/, '')
     .replace(/[^a-z0-9äöüß]/g, '')

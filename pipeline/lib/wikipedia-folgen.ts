@@ -8,6 +8,7 @@
  * und `Episodenlisteneintrag2`, beide mit denselben Feldern. Gemessen an Dragon Ball
  * Super: 131 von 131 Folgen mit deutschem Titel und Datum.
  *
+ * Verglichen werden Titel über `folgenKern` aus `shared/folgen-zuordnung.ts`.
  * Hier steht nur das Zerlegen, ohne Netz — `fetch-wikipedia-folgen.ts` holt, und
  * `check-logic.ts` prüft es an einem Ausschnitt.
  */
@@ -73,11 +74,52 @@ export function folgenAusWikitext(text: string): WikiFolge[] {
   return aus
 }
 
-/** Vergleichsform eines Folgentitels: Satzzeichen, Striche und Groß-/Kleinschreibung zählen nicht. */
-export const folgenKern = (s: string): string =>
-  s
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/ß/g, 'ss')
-    .replace(/[^a-z0-9]+/g, '')
+/**
+ * **Episodenlisten als Tabelle** (Detektiv Conan, 19.09.2026): je Zeile japanische und
+ * deutsche Nummer, deutscher Titel, Originaltitel, Erstausstrahlung Japan und deutschsprachig.
+ * Gelesen werden nur Tabellen mit einer Spalte „Deutscher Titel". Die Nummer ist die erste
+ * Zahlenzelle (japanische Zählung, wie AniList), der Titel die erste Zelle danach, die
+ * deutsche Erstausstrahlung die letzte Datumszelle — nur wenn es zwei gibt, sonst ist
+ * unklar, welches Land sie meint. Eine Zelle mit `rowspan` gilt für die folgenden Zeilen
+ * mit (Conan teilt japanische Doppelfolgen in zwei deutsche).
+ */
+export function folgenAusTabellen(text: string): WikiFolge[] {
+  const aus: WikiFolge[] = []
+  for (const tabelle of text.split(/^\{\|/m).slice(1)) {
+    const koerper = tabelle.split(/^\|\}/m)[0]!
+    if (!/Deutscher Titel/i.test(koerper.split(/^\|-/m).slice(0, 3).join(''))) continue
+    const offen = new Map<number, { inhalt: string; rest: number }>()
+    for (const zeile of koerper.split(/^\|-.*$/m).slice(1)) {
+      const roh = zeile
+        .split('\n')
+        .filter((l) => l.startsWith('|') && !l.startsWith('|+'))
+        .flatMap((l) => l.slice(1).split('||'))
+      if (!roh.length) continue
+      const zellen: string[] = []
+      const uebernehmen = () => {
+        while (offen.has(zellen.length)) {
+          const o = offen.get(zellen.length)!
+          if (--o.rest <= 0) offen.delete(zellen.length)
+          zellen.push(o.inhalt)
+        }
+      }
+      for (const r of roh) {
+        uebernehmen()
+        const m = /^([^|[{]*=[^|[{]*)\|(?!\|)(.*)$/s.exec(r)
+        const inhalt = bereinigen(m ? m[2]! : r)
+        const spannt = Number(/rowspan\s*=\s*"?(\d+)/i.exec(m?.[1] ?? '')?.[1] ?? 1)
+        if (spannt > 1) offen.set(zellen.length, { inhalt, rest: spannt - 1 })
+        zellen.push(inhalt)
+      }
+      uebernehmen()
+      const zahlen = zellen.findIndex((z) => !/^\d+$/.test(z))
+      if (zahlen < 1) continue
+      const nr = Number(zellen[0])
+      const dt = zellen[zahlen]!
+      const daten = zellen.slice(zahlen + 1).map(wikiDatum).filter((d): d is string => Boolean(d))
+      if (!dt) continue
+      aus.push({ nr, ...(zahlen > 1 ? { st: Number(zellen[1]) } : {}), dt, ...(daten.length >= 2 ? { ead: daten.at(-1)! } : {}) })
+    }
+  }
+  return aus
+}

@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-09-19T11:34:57.029Z",
+  "geholtAm": "2026-09-19T11:53:39.628Z",
   "titel": {
     "21": {
       "seite": "One Piece (Anime)/Episodenliste",
@@ -7940,6 +7940,6109 @@
           "st": 54,
           "dt": "Ein heißer Weg",
           "ead": "2000-08-23"
+        }
+      ]
+    },
+    "235": {
+      "seite": "Detektiv Conan/Episodenliste",
+      "folgen": [
+        {
+          "nr": 1,
+          "st": 1,
+          "dt": "Die tödliche Perlenkette",
+          "ead": "2002-04-10"
+        },
+        {
+          "nr": 2,
+          "st": 2,
+          "dt": "Kleiner Mann ganz groß",
+          "ead": "2002-04-11"
+        },
+        {
+          "nr": 3,
+          "st": 3,
+          "dt": "Die Doppelgängerin",
+          "ead": "2002-04-12"
+        },
+        {
+          "nr": 4,
+          "st": 4,
+          "dt": "Auf Schatzsuche",
+          "ead": "2002-04-15"
+        },
+        {
+          "nr": 5,
+          "st": 5,
+          "dt": "Explosion im Express",
+          "ead": "2002-04-16"
+        },
+        {
+          "nr": 6,
+          "st": 6,
+          "dt": "Mord am Valentinstag",
+          "ead": "2002-04-17"
+        },
+        {
+          "nr": 7,
+          "st": 7,
+          "dt": "Späte Rache",
+          "ead": "2002-04-18"
+        },
+        {
+          "nr": 8,
+          "st": 8,
+          "dt": "Die Strafe des Himmels",
+          "ead": "2002-04-19"
+        },
+        {
+          "nr": 9,
+          "st": 9,
+          "dt": "Die Konkurrenz schläft nicht",
+          "ead": "2002-04-22"
+        },
+        {
+          "nr": 10,
+          "st": 10,
+          "dt": "Fair Play",
+          "ead": "2002-04-23"
+        },
+        {
+          "nr": 11,
+          "st": 11,
+          "dt": "Mord bei Mondschein – Teil 1",
+          "ead": "2002-04-24"
+        },
+        {
+          "nr": 11,
+          "st": 12,
+          "dt": "Mord bei Mondschein – Teil 2",
+          "ead": "2002-04-25"
+        },
+        {
+          "nr": 12,
+          "st": 13,
+          "dt": "Der Schein trügt",
+          "ead": "2002-04-26"
+        },
+        {
+          "nr": 13,
+          "st": 14,
+          "dt": "Masamis Armbanduhr",
+          "ead": "2002-04-29"
+        },
+        {
+          "nr": 14,
+          "st": 15,
+          "dt": "Eine mörderische Zahl",
+          "ead": "2002-04-30"
+        },
+        {
+          "nr": 15,
+          "st": 16,
+          "dt": "Der Tote im Badezimmer",
+          "ead": "2002-05-01"
+        },
+        {
+          "nr": 16,
+          "st": 17,
+          "dt": "Vier Verdächtige und ein Todesfall",
+          "ead": "2002-05-02"
+        },
+        {
+          "nr": 17,
+          "st": 18,
+          "dt": "Eine Nacht im Kaufhaus",
+          "ead": "2002-05-03"
+        },
+        {
+          "nr": 18,
+          "st": 19,
+          "dt": "Die Kapsel im Zitronentee",
+          "ead": "2002-05-06"
+        },
+        {
+          "nr": 19,
+          "st": 20,
+          "dt": "Verräterische Blüten",
+          "ead": "2002-05-07"
+        },
+        {
+          "nr": 20,
+          "st": 21,
+          "dt": "Eine gespenstische Entdeckung",
+          "ead": "2002-05-08"
+        },
+        {
+          "nr": 21,
+          "st": 22,
+          "dt": "Der geheimnisvolle Löwenhund",
+          "ead": "2002-05-09"
+        },
+        {
+          "nr": 22,
+          "st": 23,
+          "dt": "Das Albtraumschiff – Teil 1",
+          "ead": "2002-05-10"
+        },
+        {
+          "nr": 23,
+          "st": 24,
+          "dt": "Das Albtraumschiff – Teil 2",
+          "ead": "2002-05-13"
+        },
+        {
+          "nr": 24,
+          "st": 25,
+          "dt": "Die Frau ohne Gedächtnis",
+          "ead": "2002-05-14"
+        },
+        {
+          "nr": 25,
+          "st": 26,
+          "dt": "Abgetaucht",
+          "ead": "2002-05-15"
+        },
+        {
+          "nr": 26,
+          "st": 27,
+          "dt": "Mordfall John",
+          "ead": "2002-05-16"
+        },
+        {
+          "nr": 27,
+          "st": 28,
+          "dt": "Mord unter Freunden – Teil 1",
+          "ead": "2002-05-17"
+        },
+        {
+          "nr": 28,
+          "st": 29,
+          "dt": "Mord unter Freunden – Teil 2",
+          "ead": "2002-05-21"
+        },
+        {
+          "nr": 29,
+          "st": 30,
+          "dt": "Klimaschock",
+          "ead": "2002-05-22"
+        },
+        {
+          "nr": 30,
+          "st": 31,
+          "dt": "Ein wasserdichtes Alibi",
+          "ead": "2002-05-23"
+        },
+        {
+          "nr": 31,
+          "st": 32,
+          "dt": "Tatort TV-Show",
+          "ead": "2002-05-24"
+        },
+        {
+          "nr": 32,
+          "st": 33,
+          "dt": "Rans geheimnisvolles Date",
+          "ead": "2002-05-27"
+        },
+        {
+          "nr": 33,
+          "st": 34,
+          "dt": "Der Schatz der Erfahrung",
+          "ead": "2002-05-28"
+        },
+        {
+          "nr": 34,
+          "st": 35,
+          "dt": "Die Mumie im Wald – Teil 1",
+          "ead": "2002-05-29"
+        },
+        {
+          "nr": 35,
+          "st": 36,
+          "dt": "Die Mumie im Wald – Teil 2",
+          "ead": "2002-05-30"
+        },
+        {
+          "nr": 36,
+          "st": 37,
+          "dt": "Ein Ass im Ärmel",
+          "ead": "2002-05-31"
+        },
+        {
+          "nr": 37,
+          "st": 38,
+          "dt": "Der Kaktusblütenmord",
+          "ead": "2002-06-03"
+        },
+        {
+          "nr": 38,
+          "st": 39,
+          "dt": "Feuer und Flamme",
+          "ead": "2002-06-04"
+        },
+        {
+          "nr": 39,
+          "st": 40,
+          "dt": "Geld stinkt nicht – Teil 1",
+          "ead": "2002-06-05"
+        },
+        {
+          "nr": 40,
+          "st": 41,
+          "dt": "Geld stinkt nicht – Teil 2",
+          "ead": "2002-06-06"
+        },
+        {
+          "nr": 41,
+          "st": 42,
+          "dt": "Die zerschnittene Flagge",
+          "ead": "2002-06-07"
+        },
+        {
+          "nr": 42,
+          "st": 43,
+          "dt": "Spiel mir das Lied vom Tod",
+          "ead": "2002-06-10"
+        },
+        {
+          "nr": 43,
+          "st": 44,
+          "dt": "Besuch von den Eltern",
+          "ead": "2002-06-11"
+        },
+        {
+          "nr": 44,
+          "st": 45,
+          "dt": "Ein Unglück kommt selten allein",
+          "ead": "2002-06-12"
+        },
+        {
+          "nr": 45,
+          "st": 46,
+          "dt": "Geschenktes Alibi",
+          "ead": "2002-06-13"
+        },
+        {
+          "nr": 46,
+          "st": 47,
+          "dt": "Mediziner unter sich",
+          "ead": "2002-06-14"
+        },
+        {
+          "nr": 47,
+          "st": 48,
+          "dt": "Der Mondscheinspringer",
+          "ead": "2002-06-17"
+        },
+        {
+          "nr": 48,
+          "st": 49,
+          "dt": "Der Giftmord – Teil 1",
+          "ead": "2002-06-18"
+        },
+        {
+          "nr": 49,
+          "st": 50,
+          "dt": "Der Giftmord – Teil 2",
+          "ead": "2002-06-19"
+        },
+        {
+          "nr": 50,
+          "st": 51,
+          "dt": "Der verschwundene Bibliothekar",
+          "ead": "2002-06-20"
+        },
+        {
+          "nr": 51,
+          "st": 52,
+          "dt": "Sport ist Mord",
+          "ead": "2002-06-21"
+        },
+        {
+          "nr": 52,
+          "st": 53,
+          "dt": "Der Nebelkobold – Teil 1",
+          "ead": "2002-06-24"
+        },
+        {
+          "nr": 52,
+          "st": 54,
+          "dt": "Der Nebelkobold – Teil 2",
+          "ead": "2002-06-25"
+        },
+        {
+          "nr": 53,
+          "st": 55,
+          "dt": "Wie angelt man sich ein Opfer",
+          "ead": "2002-06-26"
+        },
+        {
+          "nr": 54,
+          "st": 56,
+          "dt": "Fatale Verwechslung",
+          "ead": "2002-06-27"
+        },
+        {
+          "nr": 55,
+          "st": 57,
+          "dt": "Mord nach Fahrplan",
+          "ead": "2002-06-28"
+        },
+        {
+          "nr": 56,
+          "st": 58,
+          "dt": "Wie du ihr, so ich dir",
+          "ead": "2002-07-01"
+        },
+        {
+          "nr": 57,
+          "st": 59,
+          "dt": "Rache für Sherlock Holmes – Teil 1",
+          "ead": "2002-07-02"
+        },
+        {
+          "nr": 58,
+          "st": 60,
+          "dt": "Rache für Sherlock Holmes – Teil 2",
+          "ead": "2002-07-03"
+        },
+        {
+          "nr": 59,
+          "st": 61,
+          "dt": "Lästiger kleiner Zeuge",
+          "ead": "2002-07-04"
+        },
+        {
+          "nr": 60,
+          "st": 62,
+          "dt": "Die Schmetterlingsfrau",
+          "ead": "2002-07-05"
+        },
+        {
+          "nr": 61,
+          "st": 63,
+          "dt": "Der Fluch der Suigun – Teil 1",
+          "ead": "2002-07-08"
+        },
+        {
+          "nr": 62,
+          "st": 64,
+          "dt": "Der Fluch der Suigun – Teil 2",
+          "ead": "2002-07-09"
+        },
+        {
+          "nr": 63,
+          "st": 65,
+          "dt": "Das Monster Gomera",
+          "ead": "2002-07-10"
+        },
+        {
+          "nr": 64,
+          "st": 66,
+          "dt": "Fingerabdrücke hoch drei",
+          "ead": "2002-07-11"
+        },
+        {
+          "nr": 65,
+          "st": 67,
+          "dt": "Viele Krabben und ein Wal",
+          "ead": "2002-07-12"
+        },
+        {
+          "nr": 66,
+          "st": 68,
+          "dt": "Mord im Dunkeln",
+          "ead": "2002-07-15"
+        },
+        {
+          "nr": 67,
+          "st": 69,
+          "dt": "Cherchez la femme",
+          "ead": "2002-07-16"
+        },
+        {
+          "nr": 68,
+          "st": 70,
+          "dt": "Der Baron der Nacht – Teil 1",
+          "ead": "2002-07-17"
+        },
+        {
+          "nr": 69,
+          "st": 71,
+          "dt": "Der Baron der Nacht – Teil 2",
+          "ead": "2002-07-18"
+        },
+        {
+          "nr": 70,
+          "st": 72,
+          "dt": "Der Baron der Nacht – Teil 3",
+          "ead": "2002-07-19"
+        },
+        {
+          "nr": 71,
+          "st": 73,
+          "dt": "Gift im Energy-Drink",
+          "ead": "2002-07-22"
+        },
+        {
+          "nr": 72,
+          "st": 74,
+          "dt": "Yuzo und seine Brüder",
+          "ead": "2002-07-23"
+        },
+        {
+          "nr": 73,
+          "st": 75,
+          "dt": "SOS per Flaschenpost",
+          "ead": "2002-07-24"
+        },
+        {
+          "nr": 74,
+          "st": 76,
+          "dt": "Jinnai, der Todesengel",
+          "ead": "2002-07-25"
+        },
+        {
+          "nr": 75,
+          "st": 77,
+          "dt": "Der Kredithai",
+          "ead": "2002-07-26"
+        },
+        {
+          "nr": 76,
+          "st": 78,
+          "dt": "Meisterdieb 1412 – Teil 1",
+          "ead": "2002-07-29"
+        },
+        {
+          "nr": 76,
+          "st": 79,
+          "dt": "Meisterdieb 1412 – Teil 2",
+          "ead": "2002-07-30"
+        },
+        {
+          "nr": 77,
+          "st": 80,
+          "dt": "Späte Sühne – Teil 1",
+          "ead": "2002-07-31"
+        },
+        {
+          "nr": 78,
+          "st": 81,
+          "dt": "Späte Sühne – Teil 2",
+          "ead": "2002-08-01"
+        },
+        {
+          "nr": 79,
+          "st": 82,
+          "dt": "Ba-Ba-Banküberfall",
+          "ead": "2002-08-02"
+        },
+        {
+          "nr": 80,
+          "st": 83,
+          "dt": "Der vertikale Knoten",
+          "ead": "2002-08-05"
+        },
+        {
+          "nr": 81,
+          "st": 84,
+          "dt": "Gefährliche Töne – Teil 1",
+          "ead": "2002-08-06"
+        },
+        {
+          "nr": 82,
+          "st": 85,
+          "dt": "Gefährliche Töne – Teil 2",
+          "ead": "2002-08-07"
+        },
+        {
+          "nr": 83,
+          "st": 86,
+          "dt": "Wahn oder Wirklichkeit",
+          "ead": "2002-08-08"
+        },
+        {
+          "nr": 84,
+          "st": 87,
+          "dt": "Mord auf der Skihütte – Teil 1",
+          "ead": "2002-08-09"
+        },
+        {
+          "nr": 85,
+          "st": 88,
+          "dt": "Mord auf der Skihütte – Teil 2",
+          "ead": "2002-08-12"
+        },
+        {
+          "nr": 86,
+          "st": 89,
+          "dt": "Wettlauf gegen die Zeit",
+          "ead": "2002-08-13"
+        },
+        {
+          "nr": 87,
+          "st": 90,
+          "dt": "Die verhängnisvolle Skizze",
+          "ead": "2002-08-14"
+        },
+        {
+          "nr": 88,
+          "st": 91,
+          "dt": "Der Tanz der Vampire – Teil 1",
+          "ead": "2002-08-16"
+        },
+        {
+          "nr": 89,
+          "st": 92,
+          "dt": "Der Tanz der Vampire – Teil 2",
+          "ead": "2002-08-19"
+        },
+        {
+          "nr": 90,
+          "st": 93,
+          "dt": "Tödlicher Duft",
+          "ead": "2002-08-20"
+        },
+        {
+          "nr": 91,
+          "st": 94,
+          "dt": "Ein Bankräuber im Krankenhaus",
+          "ead": "2002-08-21"
+        },
+        {
+          "nr": 92,
+          "st": 95,
+          "dt": "Auf der Suche nach Fox – Teil 1",
+          "ead": "2002-08-22"
+        },
+        {
+          "nr": 93,
+          "st": 96,
+          "dt": "Auf der Suche nach Fox – Teil 2",
+          "ead": "2002-08-23"
+        },
+        {
+          "nr": 94,
+          "st": 97,
+          "dt": "Schneeweiß wie der Tod",
+          "ead": "2002-08-26"
+        },
+        {
+          "nr": 95,
+          "st": 98,
+          "dt": "Kogoros Rendezvous",
+          "ead": "2002-08-27"
+        },
+        {
+          "nr": 96,
+          "st": 99,
+          "dt": "Mord ist keine Hexerei – Teil 1",
+          "ead": "2002-08-28"
+        },
+        {
+          "nr": 96,
+          "st": 100,
+          "dt": "Mord ist keine Hexerei – Teil 2",
+          "ead": "2002-08-29"
+        },
+        {
+          "nr": 96,
+          "st": 101,
+          "dt": "Der Onkel aus Brasilien – Teil 1",
+          "ead": "2002-08-30"
+        },
+        {
+          "nr": 96,
+          "st": 102,
+          "dt": "Der Onkel aus Brasilien – Teil 2",
+          "ead": "2002-09-02"
+        },
+        {
+          "nr": 97,
+          "st": 103,
+          "dt": "Erstens kommt es anders …",
+          "ead": "2003-02-11"
+        },
+        {
+          "nr": 98,
+          "st": 104,
+          "dt": "Der Keramikkünstler-Fall – Teil 1",
+          "ead": "2003-02-12"
+        },
+        {
+          "nr": 99,
+          "st": 105,
+          "dt": "Der Keramikkünstler-Fall – Teil 2",
+          "ead": "2003-02-13"
+        },
+        {
+          "nr": 100,
+          "st": 106,
+          "dt": "Die erste Liebe vergisst man nie – Teil 1",
+          "ead": "2003-02-14"
+        },
+        {
+          "nr": 101,
+          "st": 107,
+          "dt": "Die erste Liebe vergisst man nie – Teil 2",
+          "ead": "2003-02-17"
+        },
+        {
+          "nr": 102,
+          "st": 108,
+          "dt": "Eifersucht – Teil 1",
+          "ead": "2003-02-18"
+        },
+        {
+          "nr": 103,
+          "st": 109,
+          "dt": "Eifersucht – Teil 2",
+          "ead": "2003-02-19"
+        },
+        {
+          "nr": 104,
+          "st": 110,
+          "dt": "Das Spukhaus der Goblins – Teil 1",
+          "ead": "2003-02-20"
+        },
+        {
+          "nr": 105,
+          "st": 111,
+          "dt": "Das Spukhaus der Goblins – Teil 2",
+          "ead": "2003-02-21"
+        },
+        {
+          "nr": 106,
+          "st": 112,
+          "dt": "Mord mit Blitzlicht",
+          "ead": "2003-02-24"
+        },
+        {
+          "nr": 107,
+          "st": 113,
+          "dt": "Das Grab im Garten – Teil 1",
+          "ead": "2003-02-25"
+        },
+        {
+          "nr": 108,
+          "st": 114,
+          "dt": "Das Grab im Garten – Teil 2",
+          "ead": "2003-02-26"
+        },
+        {
+          "nr": 109,
+          "st": 115,
+          "dt": "Schneller als die Polizei erlaubt",
+          "ead": "2003-02-27"
+        },
+        {
+          "nr": 110,
+          "st": 116,
+          "dt": "Mord à la Carte – Teil 1",
+          "ead": "2003-02-28"
+        },
+        {
+          "nr": 111,
+          "st": 117,
+          "dt": "Mord à la Carte – Teil 2",
+          "ead": "2003-03-03"
+        },
+        {
+          "nr": 112,
+          "st": 118,
+          "dt": "Nächtlicher Spuk in der Schule",
+          "ead": "2003-03-04"
+        },
+        {
+          "nr": 113,
+          "st": 119,
+          "dt": "Die Strömung bringt es an den Tag",
+          "ead": "2003-03-05"
+        },
+        {
+          "nr": 114,
+          "st": 120,
+          "dt": "Der Biss der Seeschlange – Teil 1",
+          "ead": "2003-03-06"
+        },
+        {
+          "nr": 115,
+          "st": 121,
+          "dt": "Der Biss der Seeschlange – Teil 2",
+          "ead": "2003-03-07"
+        },
+        {
+          "nr": 116,
+          "st": 122,
+          "dt": "Wo ist Nintaro Shinmei? – Teil 1",
+          "ead": "2003-03-10"
+        },
+        {
+          "nr": 117,
+          "st": 123,
+          "dt": "Wo ist Nintaro Shinmei? – Teil 2",
+          "ead": "2003-03-11"
+        },
+        {
+          "nr": 118,
+          "st": 124,
+          "dt": "Der Serienmörder von Osaka – Teil 1",
+          "ead": "2003-03-12"
+        },
+        {
+          "nr": 118,
+          "st": 125,
+          "dt": "Der Serienmörder von Osaka – Teil 2",
+          "ead": "2003-03-13"
+        },
+        {
+          "nr": 119,
+          "st": 126,
+          "dt": "Im falschen Film",
+          "ead": "2003-03-14"
+        },
+        {
+          "nr": 120,
+          "st": 127,
+          "dt": "Angriff der Killerwespen",
+          "ead": "2003-03-17"
+        },
+        {
+          "nr": 121,
+          "st": 128,
+          "dt": "Das versiegelte Badezimmer – Teil 1",
+          "ead": "2003-03-18"
+        },
+        {
+          "nr": 122,
+          "st": 129,
+          "dt": "Das versiegelte Badezimmer – Teil 2",
+          "ead": "2003-03-19"
+        },
+        {
+          "nr": 123,
+          "st": 130,
+          "dt": "Zahlenspiele",
+          "ead": "2003-03-20"
+        },
+        {
+          "nr": 124,
+          "st": 131,
+          "dt": "Der mysteriöse Scharfschütze – Teil 1",
+          "ead": "2003-03-21"
+        },
+        {
+          "nr": 125,
+          "st": 132,
+          "dt": "Der mysteriöse Scharfschütze – Teil 2",
+          "ead": "2003-03-24"
+        },
+        {
+          "nr": 126,
+          "st": 133,
+          "dt": "Mord im Theater – Teil 1",
+          "ead": "2003-03-25"
+        },
+        {
+          "nr": 127,
+          "st": 134,
+          "dt": "Mord im Theater – Teil 2",
+          "ead": "2003-03-26"
+        },
+        {
+          "nr": 128,
+          "st": 135,
+          "dt": "Der Milliardenraub",
+          "ead": "2003-03-27"
+        },
+        {
+          "nr": 129,
+          "st": 136,
+          "dt": "Den Männern in Schwarz auf der Spur – Teil 1",
+          "ead": "2003-03-28"
+        },
+        {
+          "nr": 129,
+          "st": 137,
+          "dt": "Den Männern in Schwarz auf der Spur – Teil 2",
+          "ead": "2003-03-31"
+        },
+        {
+          "nr": 129,
+          "st": 138,
+          "dt": "Den Männern in Schwarz auf der Spur – Teil 3",
+          "ead": "2003-04-01"
+        },
+        {
+          "nr": 129,
+          "st": 139,
+          "dt": "Den Männern in Schwarz auf der Spur – Teil 4",
+          "ead": "2003-04-02"
+        },
+        {
+          "nr": 130,
+          "st": 140,
+          "dt": "Schüsse im Stadion – Teil 1",
+          "ead": "2003-04-03"
+        },
+        {
+          "nr": 131,
+          "st": 141,
+          "dt": "Schüsse im Stadion – Teil 2",
+          "ead": "2003-04-04"
+        },
+        {
+          "nr": 132,
+          "st": 142,
+          "dt": "Tödlicher Zauber – Teil 1",
+          "ead": "2003-04-07"
+        },
+        {
+          "nr": 133,
+          "st": 143,
+          "dt": "Tödlicher Zauber – Teil 2",
+          "ead": "2003-04-08"
+        },
+        {
+          "nr": 134,
+          "st": 144,
+          "dt": "Tödlicher Zauber – Teil 3",
+          "ead": "2003-04-09"
+        },
+        {
+          "nr": 135,
+          "st": 145,
+          "dt": "Ein rabenschwarzer Mord",
+          "ead": "2003-04-10"
+        },
+        {
+          "nr": 136,
+          "st": 146,
+          "dt": "Das Geheimnis des alten Schlosses – Teil 1",
+          "ead": "2003-04-11"
+        },
+        {
+          "nr": 137,
+          "st": 147,
+          "dt": "Das Geheimnis des alten Schlosses – Teil 2",
+          "ead": "2003-04-14"
+        },
+        {
+          "nr": 138,
+          "st": 148,
+          "dt": "Schattenspiele – Teil 1",
+          "ead": "2003-04-15"
+        },
+        {
+          "nr": 139,
+          "st": 149,
+          "dt": "Schattenspiele – Teil 2",
+          "ead": "2003-04-16"
+        },
+        {
+          "nr": 140,
+          "st": 150,
+          "dt": "Ayumi in Gefahr",
+          "ead": "2003-04-17"
+        },
+        {
+          "nr": 141,
+          "st": 151,
+          "dt": "Mord in einem verschlossenen Zimmer – Teil 1",
+          "ead": "2003-04-22"
+        },
+        {
+          "nr": 142,
+          "st": 152,
+          "dt": "Mord in einem verschlossenen Zimmer – Teil 2",
+          "ead": "2003-04-23"
+        },
+        {
+          "nr": 143,
+          "st": 153,
+          "dt": "Nachtaufnahmen",
+          "ead": "2003-04-24"
+        },
+        {
+          "nr": 144,
+          "st": 154,
+          "dt": "Mord im Speisewagen – Teil 1",
+          "ead": "2003-04-25"
+        },
+        {
+          "nr": 145,
+          "st": 155,
+          "dt": "Mord im Speisewagen – Teil 2",
+          "ead": "2003-04-28"
+        },
+        {
+          "nr": 146,
+          "st": 156,
+          "dt": "Bei Anruf Mord – Teil 1",
+          "ead": "2003-04-29"
+        },
+        {
+          "nr": 147,
+          "st": 157,
+          "dt": "Bei Anruf Mord – Teil 2",
+          "ead": "2003-04-30"
+        },
+        {
+          "nr": 148,
+          "st": 158,
+          "dt": "Tod in der Straßenbahn",
+          "ead": "2003-05-02"
+        },
+        {
+          "nr": 149,
+          "st": 159,
+          "dt": "Verräterische Pose",
+          "ead": "2003-05-05"
+        },
+        {
+          "nr": 150,
+          "st": 160,
+          "dt": "Ungleiche Schwestern – Teil 1",
+          "ead": "2003-05-06"
+        },
+        {
+          "nr": 151,
+          "st": 161,
+          "dt": "Ungleiche Schwestern – Teil 2",
+          "ead": "2003-05-07"
+        },
+        {
+          "nr": 152,
+          "st": 162,
+          "dt": "Dunkle Geschäfte",
+          "ead": "2003-05-08"
+        },
+        {
+          "nr": 153,
+          "st": 163,
+          "dt": "Die Liebe, der Strand und der Tod – Teil 1",
+          "ead": "2003-05-09"
+        },
+        {
+          "nr": 154,
+          "st": 164,
+          "dt": "Die Liebe, der Strand und der Tod – Teil 2",
+          "ead": "2003-05-12"
+        },
+        {
+          "nr": 155,
+          "st": 165,
+          "dt": "Ein Käfer kommt selten allein",
+          "ead": "2003-05-13"
+        },
+        {
+          "nr": 156,
+          "st": 166,
+          "dt": "Takagis großer Auftritt – Teil 1",
+          "ead": "2003-05-14"
+        },
+        {
+          "nr": 157,
+          "st": 167,
+          "dt": "Takagis großer Auftritt – Teil 2",
+          "ead": "2003-05-15"
+        },
+        {
+          "nr": 158,
+          "st": 168,
+          "dt": "Stille auf der Ringlinie",
+          "ead": "2003-05-16"
+        },
+        {
+          "nr": 159,
+          "st": 169,
+          "dt": "Der Fluch der Pagode – Teil 1",
+          "ead": "2003-05-19"
+        },
+        {
+          "nr": 160,
+          "st": 170,
+          "dt": "Der Fluch der Pagode – Teil 2",
+          "ead": "2003-05-20"
+        },
+        {
+          "nr": 161,
+          "st": 171,
+          "dt": "Was geschah in Zimmer 8?",
+          "ead": "2003-05-21"
+        },
+        {
+          "nr": 162,
+          "st": 172,
+          "dt": "Mord an Bord – Teil 1",
+          "ead": "2003-05-22"
+        },
+        {
+          "nr": 162,
+          "st": 173,
+          "dt": "Mord an Bord – Teil 2",
+          "ead": "2003-05-23"
+        },
+        {
+          "nr": 163,
+          "st": 174,
+          "dt": "Sonne, Mond und Sterne – Teil 1",
+          "ead": "2003-05-26"
+        },
+        {
+          "nr": 164,
+          "st": 175,
+          "dt": "Sonne, Mond und Sterne – Teil 2",
+          "ead": "2003-05-27"
+        },
+        {
+          "nr": 165,
+          "st": 176,
+          "dt": "Die verschwundenen Kinder",
+          "ead": "2003-05-28"
+        },
+        {
+          "nr": 166,
+          "st": 177,
+          "dt": "Die Spinnenkönigin – Teil 1",
+          "ead": "2003-05-30"
+        },
+        {
+          "nr": 167,
+          "st": 178,
+          "dt": "Die Spinnenkönigin – Teil 2",
+          "ead": "2003-06-02"
+        },
+        {
+          "nr": 168,
+          "st": 179,
+          "dt": "Die Spinnenkönigin – Teil 3",
+          "ead": "2003-06-03"
+        },
+        {
+          "nr": 169,
+          "st": 180,
+          "dt": "Der Kuss der Venus",
+          "ead": "2003-06-04"
+        },
+        {
+          "nr": 170,
+          "st": 181,
+          "dt": "Dunkel war’s … – Teil 1",
+          "ead": "2003-06-05"
+        },
+        {
+          "nr": 171,
+          "st": 182,
+          "dt": "Dunkel war’s … – Teil 2",
+          "ead": "2003-06-06"
+        },
+        {
+          "nr": 172,
+          "st": 183,
+          "dt": "Mysteriöse Buchstaben – Teil 1",
+          "ead": "2004-09-07"
+        },
+        {
+          "nr": 173,
+          "st": 184,
+          "dt": "Mysteriöse Buchstaben – Teil 2",
+          "ead": "2004-09-08"
+        },
+        {
+          "nr": 174,
+          "st": 185,
+          "dt": "Rache verjährt nicht – Teil 1",
+          "ead": "2004-09-09"
+        },
+        {
+          "nr": 174,
+          "st": 186,
+          "dt": "Rache verjährt nicht – Teil 2",
+          "ead": "2004-09-10"
+        },
+        {
+          "nr": 174,
+          "st": 187,
+          "dt": "Rache verjährt nicht – Teil 3",
+          "ead": "2004-09-13"
+        },
+        {
+          "nr": 174,
+          "st": 188,
+          "dt": "Rache verjährt nicht – Teil 4",
+          "ead": "2004-09-14"
+        },
+        {
+          "nr": 175,
+          "st": 189,
+          "dt": "Ein Toter und vier Täter",
+          "ead": "2004-09-15"
+        },
+        {
+          "nr": 176,
+          "st": 190,
+          "dt": "Wiedersehen mit den Männern in Schwarz – Teil 1",
+          "ead": "2004-09-16"
+        },
+        {
+          "nr": 177,
+          "st": 191,
+          "dt": "Wiedersehen mit den Männern in Schwarz – Teil 2",
+          "ead": "2004-09-17"
+        },
+        {
+          "nr": 178,
+          "st": 192,
+          "dt": "Wiedersehen mit den Männern in Schwarz – Teil 3",
+          "ead": "2004-09-20"
+        },
+        {
+          "nr": 179,
+          "st": 193,
+          "dt": "Unfall? Niemals!",
+          "ead": "2004-09-21"
+        },
+        {
+          "nr": 180,
+          "st": 194,
+          "dt": "Spiel mir das Lied vom Tod – Teil 1",
+          "ead": "2004-09-22"
+        },
+        {
+          "nr": 181,
+          "st": 195,
+          "dt": "Spiel mir das Lied vom Tod – Teil 2",
+          "ead": "2004-09-23"
+        },
+        {
+          "nr": 182,
+          "st": 196,
+          "dt": "Notruf von oben",
+          "ead": "2004-09-24"
+        },
+        {
+          "nr": 183,
+          "st": 197,
+          "dt": "Der geheimnisvolle Kunde",
+          "ead": "2004-10-04"
+        },
+        {
+          "nr": 184,
+          "st": 198,
+          "dt": "Das Haus der 200 Masken – Teil 1",
+          "ead": "2004-10-05"
+        },
+        {
+          "nr": 184,
+          "st": 199,
+          "dt": "Das Haus der 200 Masken – Teil 2",
+          "ead": "2004-10-06"
+        },
+        {
+          "nr": 185,
+          "st": 200,
+          "dt": "Der ermordete Detektiv – Teil 1",
+          "ead": "2004-10-07"
+        },
+        {
+          "nr": 186,
+          "st": 201,
+          "dt": "Der ermordete Detektiv – Teil 2",
+          "ead": "2004-10-08"
+        },
+        {
+          "nr": 187,
+          "st": 202,
+          "dt": "Ein Mord aus Eifersucht",
+          "ead": "2004-10-11"
+        },
+        {
+          "nr": 188,
+          "st": 203,
+          "dt": "Der Weg des Drachen – Teil 1",
+          "ead": "2004-10-12"
+        },
+        {
+          "nr": 189,
+          "st": 204,
+          "dt": "Der Weg des Drachen – Teil 2",
+          "ead": "2004-10-13"
+        },
+        {
+          "nr": 190,
+          "st": 205,
+          "dt": "Mord in der ersten Reihe – Teil 1",
+          "ead": "2004-10-14"
+        },
+        {
+          "nr": 191,
+          "st": 206,
+          "dt": "Mord in der ersten Reihe – Teil 2",
+          "ead": "2004-10-15"
+        },
+        {
+          "nr": 192,
+          "st": 207,
+          "dt": "Die letzte Fahrt vom Chef – Teil 1",
+          "ead": "2004-10-25"
+        },
+        {
+          "nr": 193,
+          "st": 208,
+          "dt": "Die letzte Fahrt vom Chef – Teil 2",
+          "ead": "2004-10-26"
+        },
+        {
+          "nr": 194,
+          "st": 209,
+          "dt": "Die geheimnisvolle Spieluhr – Teil 1",
+          "ead": "2004-10-27"
+        },
+        {
+          "nr": 195,
+          "st": 210,
+          "dt": "Die geheimnisvolle Spieluhr – Teil 2",
+          "ead": "2004-10-28"
+        },
+        {
+          "nr": 196,
+          "st": 211,
+          "dt": "Rans erster Fall",
+          "ead": "2004-10-29"
+        },
+        {
+          "nr": 197,
+          "st": 212,
+          "dt": "Die letzte Ausfahrt – Teil 1",
+          "ead": "2004-11-02"
+        },
+        {
+          "nr": 198,
+          "st": 213,
+          "dt": "Die letzte Ausfahrt – Teil 2",
+          "ead": "2004-11-03"
+        },
+        {
+          "nr": 199,
+          "st": 214,
+          "dt": "Kogoro unter Verdacht – Teil 1",
+          "ead": "2004-11-04"
+        },
+        {
+          "nr": 200,
+          "st": 215,
+          "dt": "Kogoro unter Verdacht – Teil 2",
+          "ead": "2004-11-05"
+        },
+        {
+          "nr": 201,
+          "st": 216,
+          "dt": "Der 10. Passagier – Teil 1",
+          "ead": "2004-11-15"
+        },
+        {
+          "nr": 202,
+          "st": 217,
+          "dt": "Der 10. Passagier – Teil 2",
+          "ead": "2004-11-16"
+        },
+        {
+          "nr": 203,
+          "st": 218,
+          "dt": "Die Flügel des Ikarus – Teil 1",
+          "ead": "2004-11-17"
+        },
+        {
+          "nr": 204,
+          "st": 219,
+          "dt": "Die Flügel des Ikarus – Teil 2",
+          "ead": "2004-11-18"
+        },
+        {
+          "nr": 205,
+          "st": 220,
+          "dt": "Der verliebte Kommissar – Teil 1",
+          "ead": "2004-11-19"
+        },
+        {
+          "nr": 206,
+          "st": 221,
+          "dt": "Der verliebte Kommissar – Teil 2",
+          "ead": "2004-11-22"
+        },
+        {
+          "nr": 207,
+          "st": 222,
+          "dt": "Umgekehrte falsche Fährte",
+          "ead": "2004-11-23"
+        },
+        {
+          "nr": 208,
+          "st": 223,
+          "dt": "Der Zorn der Berggöttin – Teil 1",
+          "ead": "2004-11-24"
+        },
+        {
+          "nr": 208,
+          "st": 224,
+          "dt": "Der Zorn der Berggöttin – Teil 2",
+          "ead": "2004-11-25"
+        },
+        {
+          "nr": 209,
+          "st": 225,
+          "dt": "99 Serpentinen",
+          "ead": "2004-11-26"
+        },
+        {
+          "nr": 210,
+          "st": 226,
+          "dt": "Der fünffarbige See – Teil 1",
+          "ead": "2004-12-06"
+        },
+        {
+          "nr": 211,
+          "st": 227,
+          "dt": "Der fünffarbige See – Teil 2",
+          "ead": "2004-12-07"
+        },
+        {
+          "nr": 212,
+          "st": 228,
+          "dt": "Der Wald, die Bären, die Jäger – Teil 1",
+          "ead": "2004-12-08"
+        },
+        {
+          "nr": 213,
+          "st": 229,
+          "dt": "Der Wald, die Bären, die Jäger – Teil 2",
+          "ead": "2004-12-09"
+        },
+        {
+          "nr": 214,
+          "st": 230,
+          "dt": "Der Fall der Hundert-Yen-Münze",
+          "ead": "2004-12-10"
+        },
+        {
+          "nr": 215,
+          "st": 231,
+          "dt": "Die Bucht der Rache – Teil 1",
+          "ead": "2004-12-13"
+        },
+        {
+          "nr": 216,
+          "st": 232,
+          "dt": "Die Bucht der Rache – Teil 2",
+          "ead": "2004-12-14"
+        },
+        {
+          "nr": 217,
+          "st": 233,
+          "dt": "Megures Geheimnis – Teil 1",
+          "ead": "2004-12-15"
+        },
+        {
+          "nr": 218,
+          "st": 234,
+          "dt": "Megures Geheimnis – Teil 2",
+          "ead": "2004-12-16"
+        },
+        {
+          "nr": 219,
+          "st": 235,
+          "dt": "Der junge Meisterdieb – Teil 1",
+          "ead": "2004-12-17"
+        },
+        {
+          "nr": 219,
+          "st": 236,
+          "dt": "Der junge Meisterdieb – Teil 2",
+          "ead": "2004-12-20"
+        },
+        {
+          "nr": 219,
+          "st": 237,
+          "dt": "Der junge Meisterdieb – Teil 3",
+          "ead": "2004-12-21"
+        },
+        {
+          "nr": 219,
+          "st": 238,
+          "dt": "Der junge Meisterdieb – Teil 4",
+          "ead": "2004-12-22"
+        },
+        {
+          "nr": 220,
+          "st": 239,
+          "dt": "Nichts als Lügen – Teil 1",
+          "ead": "2004-12-23"
+        },
+        {
+          "nr": 221,
+          "st": 240,
+          "dt": "Nichts als Lügen – Teil 2",
+          "ead": "2004-12-27"
+        },
+        {
+          "nr": 222,
+          "st": 241,
+          "dt": "Der Pfeil der Sirene – Teil 1",
+          "ead": "2004-12-28"
+        },
+        {
+          "nr": 223,
+          "st": 242,
+          "dt": "Der Pfeil der Sirene – Teil 2",
+          "ead": "2004-12-29"
+        },
+        {
+          "nr": 224,
+          "st": 243,
+          "dt": "Der Pfeil der Sirene – Teil 3",
+          "ead": "2004-12-30"
+        },
+        {
+          "nr": 225,
+          "st": 244,
+          "dt": "Kein Fall für Conan?",
+          "ead": "2005-01-03"
+        },
+        {
+          "nr": 226,
+          "st": 245,
+          "dt": "Die Kampfspiel-Falle – Teil 1",
+          "ead": "2005-01-04"
+        },
+        {
+          "nr": 227,
+          "st": 246,
+          "dt": "Die Kampfspiel-Falle – Teil 2",
+          "ead": "2005-01-05"
+        },
+        {
+          "nr": 228,
+          "st": 247,
+          "dt": "Mord im Töpferkurs – Teil 1",
+          "ead": "2005-01-07"
+        },
+        {
+          "nr": 229,
+          "st": 248,
+          "dt": "Mord im Töpferkurs – Teil 2",
+          "ead": "2005-01-10"
+        },
+        {
+          "nr": 230,
+          "st": 249,
+          "dt": "Bombenstimmung – Teil 1",
+          "ead": "2005-01-11"
+        },
+        {
+          "nr": 231,
+          "st": 250,
+          "dt": "Bombenstimmung – Teil 2",
+          "ead": "2005-01-12"
+        },
+        {
+          "nr": 232,
+          "st": 251,
+          "dt": "Sturz aus dem Mietshaus",
+          "ead": "2005-01-13"
+        },
+        {
+          "nr": 233,
+          "st": 252,
+          "dt": "Arthur, Conan und Doyle – Teil 1",
+          "ead": "2005-01-14"
+        },
+        {
+          "nr": 234,
+          "st": 253,
+          "dt": "Arthur, Conan und Doyle – Teil 2",
+          "ead": "2005-01-17"
+        },
+        {
+          "nr": 235,
+          "st": 254,
+          "dt": "Mord im Weinkeller",
+          "ead": "2006-03-06"
+        },
+        {
+          "nr": 236,
+          "st": 255,
+          "dt": "Der weiße Sand von Shirahama – Teil 1",
+          "ead": "2006-03-07"
+        },
+        {
+          "nr": 237,
+          "st": 256,
+          "dt": "Der weiße Sand von Shirahama – Teil 2",
+          "ead": "2006-03-08"
+        },
+        {
+          "nr": 238,
+          "st": 257,
+          "dt": "Tod eines Sensationsreporters – Teil 1",
+          "ead": "2006-03-09"
+        },
+        {
+          "nr": 239,
+          "st": 258,
+          "dt": "Tod eines Sensationsreporters – Teil 2",
+          "ead": "2006-03-10"
+        },
+        {
+          "nr": 240,
+          "st": 259,
+          "dt": "Mord im Shinkansen – Teil 1",
+          "ead": "2006-03-13"
+        },
+        {
+          "nr": 241,
+          "st": 260,
+          "dt": "Mord im Shinkansen – Teil 2",
+          "ead": "2006-03-14"
+        },
+        {
+          "nr": 242,
+          "st": 261,
+          "dt": "Genta im Unglück",
+          "ead": "2006-03-15"
+        },
+        {
+          "nr": 243,
+          "st": 262,
+          "dt": "Kogoros Doppelgänger – Teil 1",
+          "ead": "2006-03-16"
+        },
+        {
+          "nr": 244,
+          "st": 263,
+          "dt": "Kogoros Doppelgänger – Teil 2",
+          "ead": "2006-03-17"
+        },
+        {
+          "nr": 245,
+          "st": 264,
+          "dt": "Der steinerne Kreisel",
+          "ead": "2006-03-20"
+        },
+        {
+          "nr": 246,
+          "st": 265,
+          "dt": "Gefangen im Netz – Teil 1",
+          "ead": "2006-03-21"
+        },
+        {
+          "nr": 247,
+          "st": 266,
+          "dt": "Gefangen im Netz – Teil 2",
+          "ead": "2006-03-22"
+        },
+        {
+          "nr": 248,
+          "st": 267,
+          "dt": "Alibi aus dem Wald",
+          "ead": "2006-03-23"
+        },
+        {
+          "nr": 249,
+          "st": 268,
+          "dt": "Die Geheimnisse der Stars – Teil 1",
+          "ead": "2006-03-24"
+        },
+        {
+          "nr": 250,
+          "st": 269,
+          "dt": "Die Geheimnisse der Stars – Teil 2",
+          "ead": "2006-03-27"
+        },
+        {
+          "nr": 251,
+          "st": 270,
+          "dt": "Tragödie auf der Okusu-Ranch",
+          "ead": "2006-03-28"
+        },
+        {
+          "nr": 252,
+          "st": 271,
+          "dt": "Das Bild des Entführers",
+          "ead": "2006-03-29"
+        },
+        {
+          "nr": 253,
+          "st": 272,
+          "dt": "Love-Story im Polizeihauptquartier 4 – Teil 1",
+          "ead": "2006-03-30"
+        },
+        {
+          "nr": 254,
+          "st": 273,
+          "dt": "Love-Story im Polizeihauptquartier 4 – Teil 2",
+          "ead": "2006-03-31"
+        },
+        {
+          "nr": 255,
+          "st": 274,
+          "dt": "Mord in Dichterkreisen – Teil 1",
+          "ead": "2006-04-03"
+        },
+        {
+          "nr": 256,
+          "st": 275,
+          "dt": "Mord in Dichterkreisen – Teil 2",
+          "ead": "2006-04-04"
+        },
+        {
+          "nr": 257,
+          "st": 276,
+          "dt": "Eine seltsame Strafe",
+          "ead": "2006-04-05"
+        },
+        {
+          "nr": 258,
+          "st": 277,
+          "dt": "Der Mann aus Chicago – Teil 1",
+          "ead": "2006-04-06"
+        },
+        {
+          "nr": 259,
+          "st": 278,
+          "dt": "Der Mann aus Chicago – Teil 2",
+          "ead": "2006-04-07"
+        },
+        {
+          "nr": 260,
+          "st": 279,
+          "dt": "Das schwankende Restaurant",
+          "ead": "2006-04-10"
+        },
+        {
+          "nr": 261,
+          "st": 280,
+          "dt": "Grusellegende von einer Winternacht – Teil 1",
+          "ead": "2006-04-11"
+        },
+        {
+          "nr": 262,
+          "st": 281,
+          "dt": "Grusellegende von einer Winternacht – Teil 2",
+          "ead": "2006-04-12"
+        },
+        {
+          "nr": 263,
+          "st": 282,
+          "dt": "Geheimnisse in Osaka – Teil 1",
+          "ead": "2006-04-13"
+        },
+        {
+          "nr": 263,
+          "st": 283,
+          "dt": "Geheimnisse in Osaka – Teil 2",
+          "ead": "2006-04-18"
+        },
+        {
+          "nr": 263,
+          "st": 284,
+          "dt": "Geheimnisse in Osaka – Teil 3",
+          "ead": "2006-04-19"
+        },
+        {
+          "nr": 263,
+          "st": 285,
+          "dt": "Geheimnisse in Osaka – Teil 4",
+          "ead": "2006-04-20"
+        },
+        {
+          "nr": 264,
+          "st": 286,
+          "dt": "Kampf im Gericht – Teil 1",
+          "ead": "2006-04-21"
+        },
+        {
+          "nr": 265,
+          "st": 287,
+          "dt": "Kampf im Gericht – Teil 2",
+          "ead": "2006-04-24"
+        },
+        {
+          "nr": 266,
+          "st": 288,
+          "dt": "Mörderischer Valentinstag – Teil 1",
+          "ead": "2006-04-25"
+        },
+        {
+          "nr": 267,
+          "st": 289,
+          "dt": "Mörderischer Valentinstag – Teil 2",
+          "ead": "2006-04-26"
+        },
+        {
+          "nr": 268,
+          "st": 290,
+          "dt": "Mörderischer Valentinstag – Teil 3",
+          "ead": "2006-04-27"
+        },
+        {
+          "nr": 269,
+          "st": 291,
+          "dt": "Die verschwundene Uhr – Teil 1",
+          "ead": "2006-04-28"
+        },
+        {
+          "nr": 270,
+          "st": 292,
+          "dt": "Die verschwundene Uhr – Teil 2",
+          "ead": "2006-05-02"
+        },
+        {
+          "nr": 271,
+          "st": 293,
+          "dt": "Eine ungewöhnliche Nachricht – Teil 1",
+          "ead": "2006-05-03"
+        },
+        {
+          "nr": 272,
+          "st": 294,
+          "dt": "Eine ungewöhnliche Nachricht – Teil 2",
+          "ead": "2006-05-04"
+        },
+        {
+          "nr": 273,
+          "st": 295,
+          "dt": "Oma verzweifelt gesucht",
+          "ead": "2006-05-05"
+        },
+        {
+          "nr": 274,
+          "st": 296,
+          "dt": "Das Geheimnis des Spukhauses – Teil 1",
+          "ead": "2006-05-08"
+        },
+        {
+          "nr": 275,
+          "st": 297,
+          "dt": "Das Geheimnis des Spukhauses – Teil 2",
+          "ead": "2006-05-09"
+        },
+        {
+          "nr": 276,
+          "st": 298,
+          "dt": "Verlorene Notizen",
+          "ead": "2006-05-10"
+        },
+        {
+          "nr": 277,
+          "st": 299,
+          "dt": "Englischlehrerin unter Verdacht – Teil 1",
+          "ead": "2006-05-11"
+        },
+        {
+          "nr": 278,
+          "st": 300,
+          "dt": "Englischlehrerin unter Verdacht – Teil 2",
+          "ead": "2006-05-12"
+        },
+        {
+          "nr": 279,
+          "st": 301,
+          "dt": "Der falsche Fan – Teil 1",
+          "ead": "2006-05-15"
+        },
+        {
+          "nr": 280,
+          "st": 302,
+          "dt": "Der falsche Fan – Teil 2",
+          "ead": "2006-05-16"
+        },
+        {
+          "nr": 281,
+          "st": 303,
+          "dt": "Kleine Augenzeugen",
+          "ead": "2006-05-17"
+        },
+        {
+          "nr": 282,
+          "st": 304,
+          "dt": "Der mysteriöse Steingarten – Teil 1",
+          "ead": "2006-05-18"
+        },
+        {
+          "nr": 283,
+          "st": 305,
+          "dt": "Der mysteriöse Steingarten – Teil 2",
+          "ead": "2006-05-19"
+        },
+        {
+          "nr": 284,
+          "st": 306,
+          "dt": "Déjà-vu im Regen – Teil 1",
+          "ead": "2006-05-22"
+        },
+        {
+          "nr": 285,
+          "st": 307,
+          "dt": "Déjà-vu im Regen – Teil 2",
+          "ead": "2006-05-23"
+        },
+        {
+          "nr": 286,
+          "st": 308,
+          "dt": "Mord in New York – Teil 1",
+          "ead": "2006-05-24"
+        },
+        {
+          "nr": 287,
+          "st": 309,
+          "dt": "Mord in New York – Teil 2",
+          "ead": "2006-05-26"
+        },
+        {
+          "nr": 288,
+          "st": 310,
+          "dt": "Mord in New York – Teil 3",
+          "ead": "2006-05-29"
+        },
+        {
+          "nr": 289,
+          "st": 311,
+          "dt": "Wo ist Mitsuhiko? – Teil 1",
+          "ead": "2006-05-30"
+        },
+        {
+          "nr": 290,
+          "st": 312,
+          "dt": "Wo ist Mitsuhiko? – Teil 2",
+          "ead": "2006-05-31"
+        },
+        {
+          "nr": 291,
+          "st": 313,
+          "dt": "Die Todesinsel – Teil 1",
+          "ead": "2006-06-01"
+        },
+        {
+          "nr": 292,
+          "st": 314,
+          "dt": "Die Todesinsel – Teil 2",
+          "ead": "2006-06-02"
+        },
+        {
+          "nr": 293,
+          "st": 315,
+          "dt": "Die Todesinsel – Teil 3",
+          "ead": "2006-06-06"
+        },
+        {
+          "nr": 294,
+          "st": 316,
+          "dt": "Die Entführung – Teil 1",
+          "ead": "2006-06-07"
+        },
+        {
+          "nr": 295,
+          "st": 317,
+          "dt": "Die Entführung – Teil 2",
+          "ead": "2006-06-08"
+        },
+        {
+          "nr": 296,
+          "st": 318,
+          "dt": "Schreck auf dem Hausboot",
+          "ead": "2006-06-09"
+        },
+        {
+          "nr": 297,
+          "st": 319,
+          "dt": "Showdown im Gericht – Teil 1",
+          "ead": "2006-06-12"
+        },
+        {
+          "nr": 298,
+          "st": 320,
+          "dt": "Showdown im Gericht – Teil 2",
+          "ead": "2006-06-13"
+        },
+        {
+          "nr": 299,
+          "st": 321,
+          "dt": "Der schmale Grat der Freundschaft – Teil 1",
+          "ead": "2006-06-14"
+        },
+        {
+          "nr": 300,
+          "st": 322,
+          "dt": "Der schmale Grat der Freundschaft – Teil 2",
+          "ead": "2006-06-16"
+        },
+        {
+          "nr": 301,
+          "st": 325,
+          "dt": "Parade in Gefahr – Teil 1",
+          "ead": "2006-06-21"
+        },
+        {
+          "nr": 302,
+          "st": 326,
+          "dt": "Parade in Gefahr – Teil 2",
+          "ead": "2006-06-22"
+        },
+        {
+          "nr": 303,
+          "st": 331,
+          "dt": "Das Opfer, das wiederkam",
+          "ead": "2006-06-23"
+        },
+        {
+          "nr": 304,
+          "st": 327,
+          "dt": "Eine Stadt als Geisel – Teil 1",
+          "ead": "2006-06-26"
+        },
+        {
+          "nr": 304,
+          "st": 328,
+          "dt": "Eine Stadt als Geisel – Teil 2",
+          "ead": "2006-06-27"
+        },
+        {
+          "nr": 304,
+          "st": 329,
+          "dt": "Eine Stadt als Geisel – Teil 3",
+          "ead": "2006-06-28"
+        },
+        {
+          "nr": 304,
+          "st": 330,
+          "dt": "Eine Stadt als Geisel – Teil 4",
+          "ead": "2006-06-29"
+        },
+        {
+          "nr": 305,
+          "st": 323,
+          "dt": "Unbemerkt verdächtig – Teil 1",
+          "ead": "2006-06-19"
+        },
+        {
+          "nr": 306,
+          "st": 324,
+          "dt": "Unbemerkt verdächtig – Teil 2",
+          "ead": "2006-06-20"
+        },
+        {
+          "nr": 307,
+          "st": 332,
+          "dt": "Der stumm zurückgelassene Beweis – Teil 1",
+          "ead": "2006-06-30"
+        },
+        {
+          "nr": 308,
+          "st": 333,
+          "dt": "Der stumm zurückgelassene Beweis – Teil 2",
+          "ead": "2006-07-03"
+        },
+        {
+          "nr": 309,
+          "st": 334,
+          "dt": "Der stumm zurückgelassene Beweis – Teil 3",
+          "ead": "2018-10-19"
+        },
+        {
+          "nr": 310,
+          "st": 335,
+          "dt": "Der stumm zurückgelassene Beweis – Teil 4",
+          "ead": "2018-10-19"
+        },
+        {
+          "nr": 311,
+          "st": 336,
+          "dt": "Der stumm zurückgelassene Beweis – Teil 5",
+          "ead": "2018-10-19"
+        },
+        {
+          "nr": 312,
+          "st": 337,
+          "dt": "Die vom Sonnenuntergang eingefärbten Puppen – Teil 1",
+          "ead": "2018-10-22"
+        },
+        {
+          "nr": 313,
+          "st": 338,
+          "dt": "Die vom Sonnenuntergang eingefärbten Puppen – Teil 2",
+          "ead": "2018-10-23"
+        },
+        {
+          "nr": 314,
+          "st": 339,
+          "dt": "Die Aussichtsplattform mit dem kaputten Zaun",
+          "ead": "2018-10-24"
+        },
+        {
+          "nr": 315,
+          "st": 340,
+          "dt": "Ein Platz an der Sonne",
+          "ead": "2018-10-25"
+        },
+        {
+          "nr": 316,
+          "st": 341,
+          "dt": "Der beschmutzte Maskenheld – Teil 1",
+          "ead": "2018-10-26"
+        },
+        {
+          "nr": 317,
+          "st": 342,
+          "dt": "Der beschmutzte Maskenheld – Teil 2",
+          "ead": "2018-10-29"
+        },
+        {
+          "nr": 318,
+          "st": 343,
+          "dt": "Das glückbringende Zigarettenetui – Teil 1",
+          "ead": "2018-10-30"
+        },
+        {
+          "nr": 319,
+          "st": 344,
+          "dt": "Das glückbringende Zigarettenetui – Teil 2",
+          "ead": "2018-10-31"
+        },
+        {
+          "nr": 320,
+          "st": 345,
+          "dt": "Ninjakunst: Die Alibi-Erschaffungs-Technik",
+          "ead": "2018-11-01"
+        },
+        {
+          "nr": 321,
+          "st": 346,
+          "dt": "Der verschwundene Fluchtwagen des Entführers – Teil 1",
+          "ead": "2018-11-02"
+        },
+        {
+          "nr": 322,
+          "st": 347,
+          "dt": "Der verschwundene Fluchtwagen des Entführers – Teil 2",
+          "ead": "2018-11-05"
+        },
+        {
+          "nr": 323,
+          "st": 348,
+          "dt": "Heiji Hattori in Lebensgefahr – Teil 1",
+          "ead": "2018-11-06"
+        },
+        {
+          "nr": 324,
+          "st": 349,
+          "dt": "Heiji Hattori in Lebensgefahr – Teil 2",
+          "ead": "2018-11-07"
+        },
+        {
+          "nr": 325,
+          "st": 350,
+          "dt": "Das rote Pferd in den Flammen – Teil 1",
+          "ead": "2018-11-08"
+        },
+        {
+          "nr": 326,
+          "st": 351,
+          "dt": "Das rote Pferd in den Flammen – Teil 2",
+          "ead": "2018-11-09"
+        },
+        {
+          "nr": 327,
+          "st": 352,
+          "dt": "Das rote Pferd in den Flammen – Teil 3",
+          "ead": "2018-11-12"
+        },
+        {
+          "nr": 328,
+          "st": 353,
+          "dt": "Das Rätsel des Geburtstagsweins",
+          "ead": "2018-11-13"
+        },
+        {
+          "nr": 329,
+          "st": 354,
+          "dt": "Freundschaft, die sich nicht mit Geld kaufen lässt – Teil 1",
+          "ead": "2018-11-14"
+        },
+        {
+          "nr": 330,
+          "st": 355,
+          "dt": "Freundschaft, die sich nicht mit Geld kaufen lässt – Teil 2",
+          "ead": "2018-11-15"
+        },
+        {
+          "nr": 331,
+          "st": 356,
+          "dt": "Das verdächtig scharfe Curry – Teil 1",
+          "ead": "2018-11-16"
+        },
+        {
+          "nr": 332,
+          "st": 357,
+          "dt": "Das verdächtig scharfe Curry – Teil 2",
+          "ead": "2018-11-19"
+        },
+        {
+          "nr": 333,
+          "st": 358,
+          "dt": "Zwei ähnliche Prinzessinnen – Teil 1",
+          "ead": "2018-11-20"
+        },
+        {
+          "nr": 334,
+          "st": 359,
+          "dt": "Zwei ähnliche Prinzessinnen – Teil 2",
+          "ead": "2018-11-21"
+        },
+        {
+          "nr": 335,
+          "st": 360,
+          "dt": "Das Geheimnis des Toto-Filmentwicklungsstudios – Teil 1",
+          "ead": "2018-11-22"
+        },
+        {
+          "nr": 336,
+          "st": 361,
+          "dt": "Das Geheimnis des Toto-Filmentwicklungsstudios – Teil 2",
+          "ead": "2018-11-26"
+        },
+        {
+          "nr": 337,
+          "st": 362,
+          "dt": "Die wahren Umstände eines Sturzes",
+          "ead": "2018-11-27"
+        },
+        {
+          "nr": 338,
+          "st": 363,
+          "dt": "Die vier Porsches – Teil 1",
+          "ead": "2018-11-28"
+        },
+        {
+          "nr": 339,
+          "st": 364,
+          "dt": "Die vier Porsches – Teil 2",
+          "ead": "2018-11-29"
+        },
+        {
+          "nr": 340,
+          "st": 365,
+          "dt": "Das in der Toilette versteckte Geheimnis – Teil 1",
+          "ead": "2018-11-30"
+        },
+        {
+          "nr": 341,
+          "st": 366,
+          "dt": "Das in der Toilette versteckte Geheimnis – Teil 2",
+          "ead": "2018-12-03"
+        },
+        {
+          "nr": 342,
+          "st": 367,
+          "dt": "Die Huis-Ten-Bosch-Braut – Teil 1",
+          "ead": "2018-12-04"
+        },
+        {
+          "nr": 342,
+          "st": 368,
+          "dt": "Die Huis-Ten-Bosch-Braut – Teil 2",
+          "ead": "2018-12-05"
+        },
+        {
+          "nr": 343,
+          "st": 369,
+          "dt": "Die Supermarktfalle – Teil 1",
+          "ead": "2018-12-06"
+        },
+        {
+          "nr": 344,
+          "st": 370,
+          "dt": "Die Supermarktfalle – Teil 2",
+          "ead": "2018-12-07"
+        },
+        {
+          "nr": 345,
+          "st": 371,
+          "dt": "Direkte Konfrontation: Zwei Mysterien in einer Vollmondnacht – Teil 1",
+          "ead": "2018-12-10"
+        },
+        {
+          "nr": 345,
+          "st": 372,
+          "dt": "Direkte Konfrontation: Zwei Mysterien in einer Vollmondnacht – Teil 2",
+          "ead": "2018-12-11"
+        },
+        {
+          "nr": 345,
+          "st": 373,
+          "dt": "Direkte Konfrontation: Zwei Mysterien in einer Vollmondnacht – Teil 3",
+          "ead": "2018-12-12"
+        },
+        {
+          "nr": 345,
+          "st": 374,
+          "dt": "Direkte Konfrontation: Zwei Mysterien in einer Vollmondnacht – Teil 4",
+          "ead": "2018-12-13"
+        },
+        {
+          "nr": 345,
+          "st": 375,
+          "dt": "Direkte Konfrontation: Zwei Mysterien in einer Vollmondnacht – Teil 5",
+          "ead": "2018-12-14"
+        },
+        {
+          "nr": 346,
+          "st": 376,
+          "dt": "Das Zeichen auf dem Hintern – Teil 1",
+          "ead": "2018-12-17"
+        },
+        {
+          "nr": 347,
+          "st": 377,
+          "dt": "Das Zeichen auf dem Hintern – Teil 2",
+          "ead": "2018-12-18"
+        },
+        {
+          "nr": 348,
+          "st": 378,
+          "dt": "Die Liebe, der Geist und das Welterbe – Teil 1",
+          "ead": "2018-12-19"
+        },
+        {
+          "nr": 349,
+          "st": 379,
+          "dt": "Die Liebe, der Geist und das Welterbe – Teil 2",
+          "ead": "2018-12-20"
+        },
+        {
+          "nr": 350,
+          "st": 380,
+          "dt": "Das vergessene Handy – Teil 1",
+          "ead": "2018-12-21"
+        },
+        {
+          "nr": 351,
+          "st": 381,
+          "dt": "Das vergessene Handy – Teil 2",
+          "ead": "2018-12-27"
+        },
+        {
+          "nr": 352,
+          "st": 382,
+          "dt": "Tragödie beim Angelwettbewerb – Teil 1",
+          "ead": "2018-12-28"
+        },
+        {
+          "nr": 353,
+          "st": 383,
+          "dt": "Tragödie beim Angelwettbewerb – Teil 2",
+          "ead": "2019-01-02"
+        },
+        {
+          "nr": 354,
+          "st": 384,
+          "dt": "Der kleine Auftraggeber – Teil 1",
+          "ead": "2019-01-03"
+        },
+        {
+          "nr": 355,
+          "st": 385,
+          "dt": "Der kleine Auftraggeber – Teil 2",
+          "ead": "2019-01-04"
+        },
+        {
+          "nr": 356,
+          "st": 386,
+          "dt": "Kaito Kids wundersamer Freiluftspaziergang – Teil 1",
+          "ead": "2019-01-07"
+        },
+        {
+          "nr": 356,
+          "st": 387,
+          "dt": "Kaito Kids wundersamer Freiluftspaziergang – Teil 2",
+          "ead": "2019-01-08"
+        },
+        {
+          "nr": 357,
+          "st": 388,
+          "dt": "Ihr Freund ist eine Frühlingsillusion",
+          "ead": "2019-01-09"
+        },
+        {
+          "nr": 358,
+          "st": 389,
+          "dt": "Love-Story im Polizeihauptquartier 5 – Teil 1",
+          "ead": "2019-01-10"
+        },
+        {
+          "nr": 359,
+          "st": 390,
+          "dt": "Love-Story im Polizeihauptquartier 5 – Teil 2",
+          "ead": "2019-01-11"
+        },
+        {
+          "nr": 360,
+          "st": 391,
+          "dt": "Ein mysteriöser Hirschkäfer im Frühling",
+          "ead": "2019-01-14"
+        },
+        {
+          "nr": 361,
+          "st": 392,
+          "dt": "Die Spukgeschichte der Teitan-Oberschule – Teil 1",
+          "ead": "2019-01-15"
+        },
+        {
+          "nr": 362,
+          "st": 393,
+          "dt": "Die Spukgeschichte der Teitan-Oberschule – Teil 2",
+          "ead": "2019-01-16"
+        },
+        {
+          "nr": 363,
+          "st": 394,
+          "dt": "Großstadtkrähen",
+          "ead": "2019-01-17"
+        },
+        {
+          "nr": 364,
+          "st": 395,
+          "dt": "Der Synchronizitäts-Fall – Teil 1",
+          "ead": "2019-01-18"
+        },
+        {
+          "nr": 365,
+          "st": 396,
+          "dt": "Der Synchronizitäts-Fall – Teil 2",
+          "ead": "2019-01-21"
+        },
+        {
+          "nr": 366,
+          "st": 397,
+          "dt": "Tragödie auf dem überschaubaren Kai – Teil 1",
+          "ead": "2019-01-22"
+        },
+        {
+          "nr": 367,
+          "st": 398,
+          "dt": "Tragödie auf dem überschaubaren Kai – Teil 2",
+          "ead": "2019-01-23"
+        },
+        {
+          "nr": 368,
+          "st": 399,
+          "dt": "Das Lebkuchenhaus, in dem die Hexe wohnt",
+          "ead": "2019-01-24"
+        },
+        {
+          "nr": 369,
+          "st": 400,
+          "dt": "Das Mysterium um den glücklichen Mann",
+          "ead": "2019-01-25"
+        },
+        {
+          "nr": 370,
+          "st": 401,
+          "dt": "Das Videospiel auf der Flucht",
+          "ead": "2019-01-28"
+        },
+        {
+          "nr": 371,
+          "st": 402,
+          "dt": "Die stille Route – Teil 1",
+          "ead": "2019-01-29"
+        },
+        {
+          "nr": 372,
+          "st": 403,
+          "dt": "Die stille Route – Teil 2",
+          "ead": "2019-01-30"
+        },
+        {
+          "nr": 373,
+          "st": 404,
+          "dt": "Die Giftspinnenfalle",
+          "ead": "2019-01-31"
+        },
+        {
+          "nr": 374,
+          "st": 405,
+          "dt": "Der Code aus Sternen und Zigaretten – Teil 1",
+          "ead": "2019-02-01"
+        },
+        {
+          "nr": 375,
+          "st": 406,
+          "dt": "Der Code aus Sternen und Zigaretten – Teil 2",
+          "ead": "2019-02-04"
+        },
+        {
+          "nr": 376,
+          "st": 407,
+          "dt": "Tod um 15 Uhr",
+          "ead": "2019-02-05"
+        },
+        {
+          "nr": 377,
+          "st": 408,
+          "dt": "Die Momotaro-Rätseltour – Teil 1",
+          "ead": "2019-02-06"
+        },
+        {
+          "nr": 378,
+          "st": 409,
+          "dt": "Die Momotaro-Rätseltour – Teil 2",
+          "ead": "2019-02-07"
+        },
+        {
+          "nr": 379,
+          "st": 410,
+          "dt": "Eine heiße Quelle, Schnee und ein langärmliger Kimono – Teil 1",
+          "ead": "2019-02-08"
+        },
+        {
+          "nr": 380,
+          "st": 411,
+          "dt": "Eine heiße Quelle, Schnee und ein langärmliger Kimono – Teil 2",
+          "ead": "2019-02-11"
+        },
+        {
+          "nr": 381,
+          "st": 412,
+          "dt": "Wer gewinnt den Krimi-Wettstreit? – Teil 1",
+          "ead": "2019-02-12"
+        },
+        {
+          "nr": 382,
+          "st": 413,
+          "dt": "Wer gewinnt den Krimi-Wettstreit? – Teil 2",
+          "ead": "2019-02-13"
+        },
+        {
+          "nr": 383,
+          "st": 414,
+          "dt": "Der Teufel im Koshien-Stadion – Teil 1",
+          "ead": "2019-02-14"
+        },
+        {
+          "nr": 383,
+          "st": 415,
+          "dt": "Der Teufel im Koshien-Stadion – Teil 2",
+          "ead": "2019-02-15"
+        },
+        {
+          "nr": 383,
+          "st": 416,
+          "dt": "Der Teufel im Koshien-Stadion – Teil 3",
+          "ead": "2019-02-18"
+        },
+        {
+          "nr": 383,
+          "st": 417,
+          "dt": "Der Teufel im Koshien-Stadion – Teil 4",
+          "ead": "2019-02-19"
+        },
+        {
+          "nr": 384,
+          "st": 418,
+          "dt": "Das Ziel ist Kogoro Mori",
+          "ead": "2019-02-20"
+        },
+        {
+          "nr": 385,
+          "st": 419,
+          "dt": "Die Dissonanz der Stradivari – Teil 1",
+          "ead": "2019-02-21"
+        },
+        {
+          "nr": 386,
+          "st": 420,
+          "dt": "Die Dissonanz der Stradivari – Teil 2",
+          "ead": "2019-02-22"
+        },
+        {
+          "nr": 387,
+          "st": 421,
+          "dt": "Die Dissonanz der Stradivari – Teil 3",
+          "ead": "2019-02-25"
+        },
+        {
+          "nr": 388,
+          "st": 422,
+          "dt": "Kogoro, betrunken in Satsuma – Teil 1",
+          "ead": "2019-02-26"
+        },
+        {
+          "nr": 389,
+          "st": 423,
+          "dt": "Kogoro, betrunken in Satsuma – Teil 2",
+          "ead": "2019-02-27"
+        },
+        {
+          "nr": 390,
+          "st": 424,
+          "dt": "Love-Story im Polizeihauptquartier 6 – Teil 1",
+          "ead": "2019-02-28"
+        },
+        {
+          "nr": 391,
+          "st": 425,
+          "dt": "Love-Story im Polizeihauptquartier 6 – Teil 2",
+          "ead": "2019-03-01"
+        },
+        {
+          "nr": 392,
+          "st": 426,
+          "dt": "Die geheimnisvollen 20 Zentimeter Größenunterschied",
+          "ead": "2019-03-04"
+        },
+        {
+          "nr": 393,
+          "st": 427,
+          "dt": "Ein Entführungsfall … wie es scheint",
+          "ead": "2019-03-05"
+        },
+        {
+          "nr": 394,
+          "st": 428,
+          "dt": "Das große Abenteuer im sonderbaren Anwesen – Teil 1",
+          "ead": "2019-03-06"
+        },
+        {
+          "nr": 395,
+          "st": 429,
+          "dt": "Das große Abenteuer im sonderbaren Anwesen – Teil 2",
+          "ead": "2019-03-07"
+        },
+        {
+          "nr": 396,
+          "st": 430,
+          "dt": "Das große Abenteuer im sonderbaren Anwesen – Teil 3",
+          "ead": "2019-03-08"
+        },
+        {
+          "nr": 397,
+          "st": 431,
+          "dt": "Die große Versuchung",
+          "ead": "2019-03-11"
+        },
+        {
+          "nr": 398,
+          "st": 432,
+          "dt": "Die Anfrage einer seltsamen Familie – Teil 1",
+          "ead": "2019-03-12"
+        },
+        {
+          "nr": 399,
+          "st": 433,
+          "dt": "Die Anfrage einer seltsamen Familie – Teil 2",
+          "ead": "2019-03-13"
+        },
+        {
+          "nr": 400,
+          "st": 434,
+          "dt": "Ran hat einen Verdacht",
+          "ead": "2022-10-31"
+        },
+        {
+          "nr": 401,
+          "st": 435,
+          "dt": "Juwelendieb auf frischer Tat ertappt – Teil 1",
+          "ead": "2022-11-01"
+        },
+        {
+          "nr": 402,
+          "st": 436,
+          "dt": "Juwelendieb auf frischer Tat ertappt – Teil 2",
+          "ead": "2022-11-02"
+        },
+        {
+          "nr": 403,
+          "st": 437,
+          "dt": "Die mysteriöse Residenz der Engel – Teil 1",
+          "ead": "2022-11-03"
+        },
+        {
+          "nr": 404,
+          "st": 438,
+          "dt": "Die mysteriöse Residenz der Engel – Teil 2",
+          "ead": "2022-11-04"
+        },
+        {
+          "nr": 405,
+          "st": 439,
+          "dt": "Der Mann, der den Krankenwagen holte",
+          "ead": "2022-11-07"
+        },
+        {
+          "nr": 406,
+          "st": 440,
+          "dt": "Conans und Heijis Schlussfolgerungsmagie – Teil 1",
+          "ead": "2022-11-08"
+        },
+        {
+          "nr": 407,
+          "st": 441,
+          "dt": "Conans und Heijis Schlussfolgerungsmagie – Teil 2",
+          "ead": "2022-11-09"
+        },
+        {
+          "nr": 408,
+          "st": 442,
+          "dt": "Conans und Heijis Schlussfolgerungsmagie – Teil 3",
+          "ead": "2022-11-10"
+        },
+        {
+          "nr": 409,
+          "st": 443,
+          "dt": "Bühnenstück und Entführung simultan – Teil 1",
+          "ead": "2022-11-11"
+        },
+        {
+          "nr": 410,
+          "st": 444,
+          "dt": "Bühnenstück und Entführung simultan – Teil 2",
+          "ead": "2022-11-14"
+        },
+        {
+          "nr": 411,
+          "st": 445,
+          "dt": "Geheimcode-Überraschung am Shinto-Schrein – Teil 1",
+          "ead": "2022-11-15"
+        },
+        {
+          "nr": 412,
+          "st": 446,
+          "dt": "Geheimcode-Überraschung am Shinto-Schrein – Teil 2",
+          "ead": "2022-11-16"
+        },
+        {
+          "nr": 413,
+          "st": 447,
+          "dt": "Das Rätsel um das halbperfekte Verbrechen",
+          "ead": "2022-11-17"
+        },
+        {
+          "nr": 414,
+          "st": 448,
+          "dt": "Die Detective Boys auf der Jagd nach dem blauen Vogel",
+          "ead": "2022-11-18"
+        },
+        {
+          "nr": 415,
+          "st": 449,
+          "dt": "Der böse Geist, der an Butsumetsu-Tagen umgeht – Teil 1",
+          "ead": "2022-11-21"
+        },
+        {
+          "nr": 416,
+          "st": 450,
+          "dt": "Der böse Geist, der an Butsumetsu-Tagen umgeht – Teil 2",
+          "ead": "2022-11-22"
+        },
+        {
+          "nr": 417,
+          "st": 451,
+          "dt": "Der böse Geist, der an Butsumetsu-Tagen umgeht – Teil 3",
+          "ead": "2022-11-23"
+        },
+        {
+          "nr": 418,
+          "st": 452,
+          "dt": "Das Haus mit Mansarde in Beika",
+          "ead": "2022-11-24"
+        },
+        {
+          "nr": 419,
+          "st": 453,
+          "dt": "Das Schwert der achtköpfigen Riesenschlange – Teil 1",
+          "ead": "2022-11-25"
+        },
+        {
+          "nr": 420,
+          "st": 454,
+          "dt": "Das Schwert der achtköpfigen Riesenschlange – Teil 2",
+          "ead": "2022-11-28"
+        },
+        {
+          "nr": 421,
+          "st": 455,
+          "dt": "Ginkgofarbene erste Liebe – Teil 1",
+          "ead": "2022-11-29"
+        },
+        {
+          "nr": 422,
+          "st": 456,
+          "dt": "Ginkgofarbene erste Liebe – Teil 2",
+          "ead": "2022-11-30"
+        },
+        {
+          "nr": 423,
+          "st": 457,
+          "dt": "Die Detective Boys und die vier Raupenbrüder",
+          "ead": "2022-12-01"
+        },
+        {
+          "nr": 424,
+          "st": 458,
+          "dt": "Nachricht von einem Pierrot",
+          "ead": "2022-12-02"
+        },
+        {
+          "nr": 425,
+          "st": 459,
+          "dt": "Black Impact! Die Schwarze Organisation in greifbarer Nähe – Teil 1",
+          "ead": "2022-12-05"
+        },
+        {
+          "nr": 425,
+          "st": 460,
+          "dt": "Black Impact! Die Schwarze Organisation in greifbarer Nähe – Teil 2",
+          "ead": "2022-12-06"
+        },
+        {
+          "nr": 425,
+          "st": 461,
+          "dt": "Black Impact! Die Schwarze Organisation in greifbarer Nähe – Teil 3",
+          "ead": "2022-12-07"
+        },
+        {
+          "nr": 425,
+          "st": 462,
+          "dt": "Black Impact! Die Schwarze Organisation in greifbarer Nähe – Teil 4",
+          "ead": "2022-12-08"
+        },
+        {
+          "nr": 425,
+          "st": 463,
+          "dt": "Black Impact! Die Schwarze Organisation in greifbarer Nähe – Teil 5",
+          "ead": "2022-12-09"
+        },
+        {
+          "nr": 426,
+          "st": 464,
+          "dt": "Ein Liebesbrief an Ran",
+          "ead": "2022-12-12"
+        },
+        {
+          "nr": 427,
+          "st": 465,
+          "dt": "Großes Geheimnis auf dem Schulweg – Teil 1",
+          "ead": "2022-12-13"
+        },
+        {
+          "nr": 428,
+          "st": 466,
+          "dt": "Großes Geheimnis auf dem Schulweg – Teil 2",
+          "ead": "2022-12-14"
+        },
+        {
+          "nr": 429,
+          "st": 467,
+          "dt": "Die Zwei, die nicht mehr zurückkönnen – Teil 1",
+          "ead": "2022-12-15"
+        },
+        {
+          "nr": 430,
+          "st": 468,
+          "dt": "Die Zwei, die nicht mehr zurückkönnen – Teil 2",
+          "ead": "2022-12-16"
+        },
+        {
+          "nr": 431,
+          "st": 469,
+          "dt": "Love-Story im Polizeihauptquartier 7 – Teil 1",
+          "ead": "2022-12-19"
+        },
+        {
+          "nr": 432,
+          "st": 470,
+          "dt": "Love-Story im Polizeihauptquartier 7 – Teil 2",
+          "ead": "2022-12-20"
+        },
+        {
+          "nr": 433,
+          "st": 471,
+          "dt": "Conan, ein seltsames Kind",
+          "ead": "2022-12-21"
+        },
+        {
+          "nr": 434,
+          "st": 472,
+          "dt": "Cœurs Bravourstück",
+          "ead": "2022-12-22"
+        },
+        {
+          "nr": 435,
+          "st": 473,
+          "dt": "Interview mit Fokus auf den Detective Boys – Teil 1",
+          "ead": "2022-12-23"
+        },
+        {
+          "nr": 436,
+          "st": 474,
+          "dt": "Interview mit Fokus auf den Detective Boys – Teil 2",
+          "ead": "2022-12-27"
+        },
+        {
+          "nr": 437,
+          "st": 475,
+          "dt": "Aya Ueto und Shinichi – Das Versprechen von vor vier Jahren",
+          "ead": "2022-12-28"
+        },
+        {
+          "nr": 438,
+          "st": 476,
+          "dt": "Die Rückverfolgung der Fisch-Nachrichten",
+          "ead": "2022-12-29"
+        },
+        {
+          "nr": 439,
+          "st": 477,
+          "dt": "Und von mir aus können sie alle sterben",
+          "ead": "2022-12-30"
+        },
+        {
+          "nr": 440,
+          "st": 478,
+          "dt": "Superextremer Autostunt",
+          "ead": "2023-01-02"
+        },
+        {
+          "nr": 441,
+          "st": 479,
+          "dt": "Das letzte „Ah“",
+          "ead": "2023-01-03"
+        },
+        {
+          "nr": 442,
+          "st": 480,
+          "dt": "Der Mann, der von einem Stahlträger aufgehalten wurde",
+          "ead": "2023-01-04"
+        },
+        {
+          "nr": 443,
+          "st": 481,
+          "dt": "Seufzer beim Muschelnsammeln – Teil 1",
+          "ead": "2023-01-05"
+        },
+        {
+          "nr": 444,
+          "st": 482,
+          "dt": "Seufzer beim Muschelnsammeln – Teil 2",
+          "ead": "2023-01-06"
+        },
+        {
+          "nr": 445,
+          "st": 483,
+          "dt": "Das Geheimnis der Russisch Blauen",
+          "ead": "2023-01-09"
+        },
+        {
+          "nr": 446,
+          "st": 484,
+          "dt": "Das versiegelte Fenster – Teil 1",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 447,
+          "st": 485,
+          "dt": "Das versiegelte Fenster – Teil 2",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 448,
+          "st": 486,
+          "dt": "Der Meguro-Makrelenhechtvorfall",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 449,
+          "st": 487,
+          "dt": "Love-Story im Polizeihauptquartier – Die falsche Hochzeit (Teil 1)",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 449,
+          "st": 488,
+          "dt": "Love-Story im Polizeihauptquartier – Die falsche Hochzeit (Teil 2)",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 450,
+          "st": 489,
+          "dt": "Trick versus Magic – Teil 1",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 451,
+          "st": 490,
+          "dt": "Trick versus Magic – Teil 2",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 452,
+          "st": 491,
+          "dt": "Das Phantom des Konpira-Theaters (Teil 1)",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 452,
+          "st": 492,
+          "dt": "Das Phantom des Konpira-Theaters (Teil 2)",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 453,
+          "st": 493,
+          "dt": "Eine Vorpremiere voller Schicksal und Freundschaft",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 454,
+          "st": 494,
+          "dt": "Das umgedrehte Ende – Teil 1",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 455,
+          "st": 495,
+          "dt": "Das umgedrehte Ende – Teil 2",
+          "ead": "2025-07-24"
+        },
+        {
+          "nr": 456,
+          "st": 496,
+          "dt": "Der Krimi, den ich liebte",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 457,
+          "st": 497,
+          "dt": "Sonokos rotes Taschentuch – Teil 1",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 458,
+          "st": 498,
+          "dt": "Sonokos rotes Taschentuch – Teil 2",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 459,
+          "st": 499,
+          "dt": "Ein mysteriöser Prinzipienreiter",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 460,
+          "st": 500,
+          "dt": "Das große Manöver der 1-B",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 461,
+          "st": 501,
+          "dt": "Die verschwundene Seite",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 462,
+          "st": 502,
+          "dt": "Der Schatten der Schwarzen Organisation: Ein kleiner Augenzeuge",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 463,
+          "st": 503,
+          "dt": "Der Schatten der Schwarzen Organisation: Eine sonderbare Beleuchtung",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 464,
+          "st": 504,
+          "dt": "Der Schatten der Schwarzen Organisation: Ein mysteriös hohes Honorar",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 465,
+          "st": 505,
+          "dt": "Der Schatten der Schwarzen Organisation: Eine Sternschnuppe aus Perlen",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 466,
+          "st": 506,
+          "dt": "Der unzerbrechliche Schneemann – Teil 1",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 467,
+          "st": 507,
+          "dt": "Der unzerbrechliche Schneemann – Teil 2",
+          "ead": "2025-08-21"
+        },
+        {
+          "nr": 468,
+          "st": 508,
+          "dt": "Der mysteriöse Fall am Teich",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 469,
+          "st": 509,
+          "dt": "Kaito Kid und die vier Meisterwerke – Teil 1",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 470,
+          "st": 510,
+          "dt": "Kaito Kid und die vier Meisterwerke – Teil 2",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 471,
+          "st": 511,
+          "dt": "Mietwagen außer Kontrolle!",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 472,
+          "st": 512,
+          "dt": "Die Abenteuer des jungen Shinichi Kudo – Teil 1",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 473,
+          "st": 513,
+          "dt": "Die Abenteuer des jungen Shinichi Kudo – Teil 2",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 474,
+          "st": 514,
+          "dt": "Die Liebe der Rechtsanwältin Eri Kisaki",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 475,
+          "st": 515,
+          "dt": "Der Pechvogel-Grand-Prix",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 476,
+          "st": 516,
+          "dt": "Gentas Killerschuss – Teil 1",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 477,
+          "st": 517,
+          "dt": "Gentas Killerschuss – Teil 2",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 478,
+          "st": 518,
+          "dt": "Real 30 Minutes",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 479,
+          "st": 519,
+          "dt": "Drei Tage mit Heiji Hattori (Teil 1)",
+          "ead": "2025-09-18"
+        },
+        {
+          "nr": 479,
+          "st": 520,
+          "dt": "Drei Tage mit Heiji Hattori (Teil 2)",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 479,
+          "st": 521,
+          "dt": "Drei Tage mit Heiji Hattori (Teil 3)",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 479,
+          "st": 522,
+          "dt": "Drei Tage mit Heiji Hattori (Teil 4)",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 480,
+          "st": 523,
+          "dt": "Gelbes Alibi",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 481,
+          "st": 524,
+          "dt": "Das Messer der Waldhexe – Teil 1",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 482,
+          "st": 525,
+          "dt": "Das Messer der Waldhexe – Teil 2",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 483,
+          "st": 526,
+          "dt": "Der verschwundene Polizist",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 484,
+          "st": 527,
+          "dt": "Wo das schwarze Foto ist – Teil 1",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 485,
+          "st": 528,
+          "dt": "Wo das schwarze Foto ist – Teil 2",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 486,
+          "st": 529,
+          "dt": "Von rechts nach links: Winkekatzen",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 487,
+          "st": 530,
+          "dt": "Love-Story im Polizeihauptquartier 8 – Der linke Ringfinger (Teil 1)",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 487,
+          "st": 531,
+          "dt": "Love-Story im Polizeihauptquartier 8 – Der linke Ringfinger (Teil 2)",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 488,
+          "st": 532,
+          "dt": "Der Teufel im Fernsehstudio (Teil 1)",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 488,
+          "st": 533,
+          "dt": "Der Teufel im Fernsehstudio (Teil 2)",
+          "ead": "2025-10-16"
+        },
+        {
+          "nr": 489,
+          "dt": "—"
+        },
+        {
+          "nr": 490,
+          "dt": "—"
+        },
+        {
+          "nr": 491,
+          "dt": "—"
+        },
+        {
+          "nr": 492,
+          "dt": "—"
+        },
+        {
+          "nr": 493,
+          "dt": "—"
+        },
+        {
+          "nr": 494,
+          "dt": "—"
+        },
+        {
+          "nr": 495,
+          "dt": "—"
+        },
+        {
+          "nr": 496,
+          "dt": "—"
+        },
+        {
+          "nr": 497,
+          "dt": "—"
+        },
+        {
+          "nr": 498,
+          "dt": "—"
+        },
+        {
+          "nr": 499,
+          "dt": "—"
+        },
+        {
+          "nr": 500,
+          "dt": "—"
+        },
+        {
+          "nr": 501,
+          "dt": "—"
+        },
+        {
+          "nr": 502,
+          "dt": "—"
+        },
+        {
+          "nr": 503,
+          "dt": "—"
+        },
+        {
+          "nr": 504,
+          "dt": "—"
+        },
+        {
+          "nr": 505,
+          "dt": "—"
+        },
+        {
+          "nr": 506,
+          "dt": "—"
+        },
+        {
+          "nr": 507,
+          "dt": "—"
+        },
+        {
+          "nr": 508,
+          "dt": "—"
+        },
+        {
+          "nr": 509,
+          "dt": "—"
+        },
+        {
+          "nr": 510,
+          "dt": "—"
+        },
+        {
+          "nr": 511,
+          "dt": "—"
+        },
+        {
+          "nr": 512,
+          "dt": "—"
+        },
+        {
+          "nr": 513,
+          "dt": "—"
+        },
+        {
+          "nr": 514,
+          "dt": "—"
+        },
+        {
+          "nr": 515,
+          "dt": "—"
+        },
+        {
+          "nr": 516,
+          "dt": "—"
+        },
+        {
+          "nr": 517,
+          "dt": "—"
+        },
+        {
+          "nr": 518,
+          "dt": "—"
+        },
+        {
+          "nr": 519,
+          "dt": "—"
+        },
+        {
+          "nr": 520,
+          "dt": "—"
+        },
+        {
+          "nr": 521,
+          "dt": "—"
+        },
+        {
+          "nr": 522,
+          "dt": "—"
+        },
+        {
+          "nr": 523,
+          "dt": "—"
+        },
+        {
+          "nr": 524,
+          "dt": "—"
+        },
+        {
+          "nr": 525,
+          "dt": "—"
+        },
+        {
+          "nr": 526,
+          "dt": "—"
+        },
+        {
+          "nr": 527,
+          "dt": "—"
+        },
+        {
+          "nr": 528,
+          "dt": "—"
+        },
+        {
+          "nr": 529,
+          "dt": "—"
+        },
+        {
+          "nr": 530,
+          "dt": "—"
+        },
+        {
+          "nr": 531,
+          "dt": "—"
+        },
+        {
+          "nr": 532,
+          "dt": "—"
+        },
+        {
+          "nr": 533,
+          "dt": "—"
+        },
+        {
+          "nr": 534,
+          "dt": "—"
+        },
+        {
+          "nr": 535,
+          "dt": "—"
+        },
+        {
+          "nr": 536,
+          "dt": "—"
+        },
+        {
+          "nr": 537,
+          "dt": "—"
+        },
+        {
+          "nr": 538,
+          "dt": "—"
+        },
+        {
+          "nr": 539,
+          "dt": "—"
+        },
+        {
+          "nr": 540,
+          "dt": "—"
+        },
+        {
+          "nr": 541,
+          "dt": "—"
+        },
+        {
+          "nr": 542,
+          "dt": "—"
+        },
+        {
+          "nr": 543,
+          "dt": "—"
+        },
+        {
+          "nr": 544,
+          "dt": "—"
+        },
+        {
+          "nr": 545,
+          "dt": "—"
+        },
+        {
+          "nr": 546,
+          "dt": "—"
+        },
+        {
+          "nr": 547,
+          "dt": "—"
+        },
+        {
+          "nr": 548,
+          "dt": "—"
+        },
+        {
+          "nr": 549,
+          "dt": "—"
+        },
+        {
+          "nr": 550,
+          "dt": "—"
+        },
+        {
+          "nr": 551,
+          "dt": "—"
+        },
+        {
+          "nr": 552,
+          "dt": "—"
+        },
+        {
+          "nr": 553,
+          "dt": "—"
+        },
+        {
+          "nr": 554,
+          "dt": "—"
+        },
+        {
+          "nr": 555,
+          "dt": "—"
+        },
+        {
+          "nr": 556,
+          "dt": "—"
+        },
+        {
+          "nr": 557,
+          "dt": "—"
+        },
+        {
+          "nr": 558,
+          "dt": "—"
+        },
+        {
+          "nr": 559,
+          "dt": "—"
+        },
+        {
+          "nr": 560,
+          "dt": "—"
+        },
+        {
+          "nr": 561,
+          "dt": "—"
+        },
+        {
+          "nr": 562,
+          "dt": "—"
+        },
+        {
+          "nr": 563,
+          "dt": "—"
+        },
+        {
+          "nr": 564,
+          "dt": "—"
+        },
+        {
+          "nr": 565,
+          "dt": "—"
+        },
+        {
+          "nr": 566,
+          "dt": "—"
+        },
+        {
+          "nr": 567,
+          "dt": "—"
+        },
+        {
+          "nr": 568,
+          "dt": "—"
+        },
+        {
+          "nr": 569,
+          "dt": "—"
+        },
+        {
+          "nr": 570,
+          "dt": "—"
+        },
+        {
+          "nr": 571,
+          "dt": "—"
+        },
+        {
+          "nr": 572,
+          "dt": "—"
+        },
+        {
+          "nr": 573,
+          "dt": "—"
+        },
+        {
+          "nr": 574,
+          "dt": "—"
+        },
+        {
+          "nr": 575,
+          "dt": "—"
+        },
+        {
+          "nr": 576,
+          "dt": "—"
+        },
+        {
+          "nr": 577,
+          "dt": "—"
+        },
+        {
+          "nr": 578,
+          "dt": "—"
+        },
+        {
+          "nr": 579,
+          "dt": "—"
+        },
+        {
+          "nr": 580,
+          "dt": "—"
+        },
+        {
+          "nr": 581,
+          "dt": "—"
+        },
+        {
+          "nr": 582,
+          "dt": "—"
+        },
+        {
+          "nr": 583,
+          "dt": "—"
+        },
+        {
+          "nr": 584,
+          "dt": "—"
+        },
+        {
+          "nr": 585,
+          "dt": "—"
+        },
+        {
+          "nr": 586,
+          "dt": "—"
+        },
+        {
+          "nr": 587,
+          "dt": "—"
+        },
+        {
+          "nr": 588,
+          "dt": "—"
+        },
+        {
+          "nr": 589,
+          "dt": "—"
+        },
+        {
+          "nr": 590,
+          "dt": "—"
+        },
+        {
+          "nr": 591,
+          "dt": "—"
+        },
+        {
+          "nr": 592,
+          "dt": "—"
+        },
+        {
+          "nr": 593,
+          "dt": "—"
+        },
+        {
+          "nr": 594,
+          "dt": "—"
+        },
+        {
+          "nr": 595,
+          "dt": "—"
+        },
+        {
+          "nr": 596,
+          "dt": "—"
+        },
+        {
+          "nr": 597,
+          "dt": "—"
+        },
+        {
+          "nr": 598,
+          "dt": "—"
+        },
+        {
+          "nr": 599,
+          "dt": "—"
+        },
+        {
+          "nr": 600,
+          "dt": "—"
+        },
+        {
+          "nr": 601,
+          "dt": "—"
+        },
+        {
+          "nr": 602,
+          "dt": "—"
+        },
+        {
+          "nr": 603,
+          "dt": "—"
+        },
+        {
+          "nr": 604,
+          "dt": "—"
+        },
+        {
+          "nr": 605,
+          "dt": "—"
+        },
+        {
+          "nr": 606,
+          "dt": "—"
+        },
+        {
+          "nr": 607,
+          "dt": "—"
+        },
+        {
+          "nr": 608,
+          "dt": "—"
+        },
+        {
+          "nr": 609,
+          "dt": "—"
+        },
+        {
+          "nr": 610,
+          "dt": "—"
+        },
+        {
+          "nr": 611,
+          "dt": "—"
+        },
+        {
+          "nr": 612,
+          "dt": "—"
+        },
+        {
+          "nr": 613,
+          "dt": "—"
+        },
+        {
+          "nr": 614,
+          "dt": "—"
+        },
+        {
+          "nr": 615,
+          "dt": "—"
+        },
+        {
+          "nr": 616,
+          "dt": "—"
+        },
+        {
+          "nr": 617,
+          "dt": "—"
+        },
+        {
+          "nr": 618,
+          "dt": "—"
+        },
+        {
+          "nr": 619,
+          "dt": "—"
+        },
+        {
+          "nr": 620,
+          "dt": "—"
+        },
+        {
+          "nr": 621,
+          "dt": "—"
+        },
+        {
+          "nr": 622,
+          "dt": "—"
+        },
+        {
+          "nr": 623,
+          "dt": "—"
+        },
+        {
+          "nr": 624,
+          "dt": "—"
+        },
+        {
+          "nr": 625,
+          "dt": "—"
+        },
+        {
+          "nr": 626,
+          "dt": "—"
+        },
+        {
+          "nr": 627,
+          "dt": "—"
+        },
+        {
+          "nr": 628,
+          "dt": "—"
+        },
+        {
+          "nr": 629,
+          "dt": "—"
+        },
+        {
+          "nr": 630,
+          "dt": "—"
+        },
+        {
+          "nr": 631,
+          "dt": "—"
+        },
+        {
+          "nr": 632,
+          "dt": "—"
+        },
+        {
+          "nr": 633,
+          "dt": "—"
+        },
+        {
+          "nr": 634,
+          "dt": "—"
+        },
+        {
+          "nr": 635,
+          "dt": "—"
+        },
+        {
+          "nr": 636,
+          "dt": "—"
+        },
+        {
+          "nr": 637,
+          "dt": "—"
+        },
+        {
+          "nr": 638,
+          "dt": "—"
+        },
+        {
+          "nr": 639,
+          "dt": "—"
+        },
+        {
+          "nr": 640,
+          "dt": "—"
+        },
+        {
+          "nr": 641,
+          "dt": "—"
+        },
+        {
+          "nr": 642,
+          "dt": "—"
+        },
+        {
+          "nr": 643,
+          "dt": "—"
+        },
+        {
+          "nr": 644,
+          "dt": "—"
+        },
+        {
+          "nr": 645,
+          "dt": "—"
+        },
+        {
+          "nr": 646,
+          "dt": "—"
+        },
+        {
+          "nr": 647,
+          "dt": "—"
+        },
+        {
+          "nr": 648,
+          "dt": "—"
+        },
+        {
+          "nr": 649,
+          "dt": "—"
+        },
+        {
+          "nr": 650,
+          "dt": "—"
+        },
+        {
+          "nr": 651,
+          "dt": "—"
+        },
+        {
+          "nr": 652,
+          "dt": "—"
+        },
+        {
+          "nr": 653,
+          "dt": "—"
+        },
+        {
+          "nr": 654,
+          "dt": "—"
+        },
+        {
+          "nr": 655,
+          "dt": "—"
+        },
+        {
+          "nr": 656,
+          "dt": "—"
+        },
+        {
+          "nr": 657,
+          "dt": "—"
+        },
+        {
+          "nr": 658,
+          "dt": "—"
+        },
+        {
+          "nr": 659,
+          "dt": "—"
+        },
+        {
+          "nr": 660,
+          "dt": "—"
+        },
+        {
+          "nr": 661,
+          "dt": "—"
+        },
+        {
+          "nr": 662,
+          "dt": "—"
+        },
+        {
+          "nr": 663,
+          "dt": "—"
+        },
+        {
+          "nr": 664,
+          "dt": "—"
+        },
+        {
+          "nr": 665,
+          "dt": "—"
+        },
+        {
+          "nr": 666,
+          "dt": "—"
+        },
+        {
+          "nr": 667,
+          "dt": "—"
+        },
+        {
+          "nr": 668,
+          "dt": "—"
+        },
+        {
+          "nr": 669,
+          "dt": "—"
+        },
+        {
+          "nr": 670,
+          "dt": "—"
+        },
+        {
+          "nr": 671,
+          "dt": "—"
+        },
+        {
+          "nr": 672,
+          "dt": "—"
+        },
+        {
+          "nr": 673,
+          "dt": "—"
+        },
+        {
+          "nr": 674,
+          "dt": "—"
+        },
+        {
+          "nr": 675,
+          "dt": "—"
+        },
+        {
+          "nr": 676,
+          "dt": "—"
+        },
+        {
+          "nr": 677,
+          "dt": "—"
+        },
+        {
+          "nr": 678,
+          "dt": "—"
+        },
+        {
+          "nr": 679,
+          "dt": "—"
+        },
+        {
+          "nr": 680,
+          "dt": "—"
+        },
+        {
+          "nr": 681,
+          "dt": "—"
+        },
+        {
+          "nr": 682,
+          "dt": "—"
+        },
+        {
+          "nr": 683,
+          "dt": "—"
+        },
+        {
+          "nr": 684,
+          "dt": "—"
+        },
+        {
+          "nr": 685,
+          "dt": "—"
+        },
+        {
+          "nr": 686,
+          "dt": "—"
+        },
+        {
+          "nr": 687,
+          "dt": "—"
+        },
+        {
+          "nr": 688,
+          "dt": "—"
+        },
+        {
+          "nr": 689,
+          "dt": "—"
+        },
+        {
+          "nr": 690,
+          "dt": "—"
+        },
+        {
+          "nr": 691,
+          "dt": "—"
+        },
+        {
+          "nr": 692,
+          "dt": "—"
+        },
+        {
+          "nr": 693,
+          "dt": "—"
+        },
+        {
+          "nr": 694,
+          "dt": "—"
+        },
+        {
+          "nr": 695,
+          "dt": "—"
+        },
+        {
+          "nr": 696,
+          "dt": "—"
+        },
+        {
+          "nr": 697,
+          "dt": "—"
+        },
+        {
+          "nr": 698,
+          "dt": "—"
+        },
+        {
+          "nr": 699,
+          "dt": "—"
+        },
+        {
+          "nr": 700,
+          "dt": "—"
+        },
+        {
+          "nr": 701,
+          "dt": "—"
+        },
+        {
+          "nr": 702,
+          "dt": "—"
+        },
+        {
+          "nr": 703,
+          "dt": "—"
+        },
+        {
+          "nr": 704,
+          "dt": "—"
+        },
+        {
+          "nr": 705,
+          "dt": "—"
+        },
+        {
+          "nr": 706,
+          "dt": "—"
+        },
+        {
+          "nr": 707,
+          "dt": "—"
+        },
+        {
+          "nr": 708,
+          "dt": "—"
+        },
+        {
+          "nr": 709,
+          "dt": "—"
+        },
+        {
+          "nr": 710,
+          "dt": "—"
+        },
+        {
+          "nr": 711,
+          "dt": "—"
+        },
+        {
+          "nr": 712,
+          "dt": "—"
+        },
+        {
+          "nr": 713,
+          "dt": "—"
+        },
+        {
+          "nr": 714,
+          "dt": "—"
+        },
+        {
+          "nr": 715,
+          "dt": "—"
+        },
+        {
+          "nr": 716,
+          "dt": "—"
+        },
+        {
+          "nr": 717,
+          "dt": "—"
+        },
+        {
+          "nr": 718,
+          "dt": "—"
+        },
+        {
+          "nr": 719,
+          "dt": "—"
+        },
+        {
+          "nr": 720,
+          "dt": "—"
+        },
+        {
+          "nr": 721,
+          "dt": "—"
+        },
+        {
+          "nr": 722,
+          "dt": "—"
+        },
+        {
+          "nr": 723,
+          "dt": "—"
+        },
+        {
+          "nr": 724,
+          "dt": "—"
+        },
+        {
+          "nr": 725,
+          "dt": "—"
+        },
+        {
+          "nr": 726,
+          "dt": "—"
+        },
+        {
+          "nr": 727,
+          "dt": "—"
+        },
+        {
+          "nr": 728,
+          "dt": "—"
+        },
+        {
+          "nr": 729,
+          "dt": "—"
+        },
+        {
+          "nr": 730,
+          "dt": "—"
+        },
+        {
+          "nr": 731,
+          "dt": "—"
+        },
+        {
+          "nr": 732,
+          "dt": "—"
+        },
+        {
+          "nr": 733,
+          "dt": "—"
+        },
+        {
+          "nr": 734,
+          "dt": "—"
+        },
+        {
+          "nr": 735,
+          "dt": "—"
+        },
+        {
+          "nr": 736,
+          "dt": "—"
+        },
+        {
+          "nr": 737,
+          "dt": "—"
+        },
+        {
+          "nr": 738,
+          "dt": "—"
+        },
+        {
+          "nr": 739,
+          "dt": "—"
+        },
+        {
+          "nr": 740,
+          "dt": "—"
+        },
+        {
+          "nr": 741,
+          "dt": "—"
+        },
+        {
+          "nr": 742,
+          "dt": "—"
+        },
+        {
+          "nr": 743,
+          "dt": "—"
+        },
+        {
+          "nr": 744,
+          "dt": "—"
+        },
+        {
+          "nr": 745,
+          "dt": "—"
+        },
+        {
+          "nr": 746,
+          "dt": "—"
+        },
+        {
+          "nr": 747,
+          "dt": "—"
+        },
+        {
+          "nr": 748,
+          "dt": "—"
+        },
+        {
+          "nr": 749,
+          "dt": "—"
+        },
+        {
+          "nr": 750,
+          "dt": "—"
+        },
+        {
+          "nr": 751,
+          "dt": "—"
+        },
+        {
+          "nr": 752,
+          "dt": "—"
+        },
+        {
+          "nr": 753,
+          "dt": "—"
+        },
+        {
+          "nr": 754,
+          "dt": "—"
+        },
+        {
+          "nr": 755,
+          "dt": "—"
+        },
+        {
+          "nr": 756,
+          "dt": "—"
+        },
+        {
+          "nr": 757,
+          "dt": "—"
+        },
+        {
+          "nr": 758,
+          "dt": "—"
+        },
+        {
+          "nr": 759,
+          "dt": "—"
+        },
+        {
+          "nr": 760,
+          "dt": "—"
+        },
+        {
+          "nr": 761,
+          "dt": "—"
+        },
+        {
+          "nr": 762,
+          "dt": "—"
+        },
+        {
+          "nr": 763,
+          "dt": "—"
+        },
+        {
+          "nr": 764,
+          "dt": "—"
+        },
+        {
+          "nr": 765,
+          "dt": "—"
+        },
+        {
+          "nr": 766,
+          "dt": "—"
+        },
+        {
+          "nr": 767,
+          "dt": "—"
+        },
+        {
+          "nr": 768,
+          "dt": "—"
+        },
+        {
+          "nr": 769,
+          "dt": "—"
+        },
+        {
+          "nr": 770,
+          "dt": "—"
+        },
+        {
+          "nr": 771,
+          "dt": "—"
+        },
+        {
+          "nr": 772,
+          "dt": "—"
+        },
+        {
+          "nr": 773,
+          "dt": "—"
+        },
+        {
+          "nr": 774,
+          "dt": "—"
+        },
+        {
+          "nr": 775,
+          "dt": "—"
+        },
+        {
+          "nr": 776,
+          "dt": "—"
+        },
+        {
+          "nr": 777,
+          "dt": "—"
+        },
+        {
+          "nr": 778,
+          "dt": "—"
+        },
+        {
+          "nr": 779,
+          "dt": "—"
+        },
+        {
+          "nr": 780,
+          "dt": "—"
+        },
+        {
+          "nr": 781,
+          "dt": "—"
+        },
+        {
+          "nr": 782,
+          "dt": "—"
+        },
+        {
+          "nr": 783,
+          "dt": "—"
+        },
+        {
+          "nr": 784,
+          "dt": "—"
+        },
+        {
+          "nr": 785,
+          "dt": "—"
+        },
+        {
+          "nr": 786,
+          "dt": "—"
+        },
+        {
+          "nr": 787,
+          "dt": "—"
+        },
+        {
+          "nr": 788,
+          "dt": "—"
+        },
+        {
+          "nr": 789,
+          "dt": "—"
+        },
+        {
+          "nr": 790,
+          "dt": "—"
+        },
+        {
+          "nr": 791,
+          "dt": "—"
+        },
+        {
+          "nr": 792,
+          "dt": "—"
+        },
+        {
+          "nr": 793,
+          "dt": "—"
+        },
+        {
+          "nr": 794,
+          "dt": "—"
+        },
+        {
+          "nr": 795,
+          "dt": "—"
+        },
+        {
+          "nr": 796,
+          "dt": "—"
+        },
+        {
+          "nr": 797,
+          "dt": "—"
+        },
+        {
+          "nr": 798,
+          "dt": "—"
+        },
+        {
+          "nr": 799,
+          "dt": "—"
+        },
+        {
+          "nr": 800,
+          "dt": "—"
+        },
+        {
+          "nr": 801,
+          "dt": "—"
+        },
+        {
+          "nr": 802,
+          "dt": "—"
+        },
+        {
+          "nr": 803,
+          "dt": "—"
+        },
+        {
+          "nr": 804,
+          "dt": "—"
+        },
+        {
+          "nr": 805,
+          "dt": "—"
+        },
+        {
+          "nr": 806,
+          "dt": "—"
+        },
+        {
+          "nr": 807,
+          "dt": "—"
+        },
+        {
+          "nr": 808,
+          "dt": "—"
+        },
+        {
+          "nr": 809,
+          "dt": "—"
+        },
+        {
+          "nr": 810,
+          "dt": "—"
+        },
+        {
+          "nr": 811,
+          "dt": "—"
+        },
+        {
+          "nr": 812,
+          "dt": "—"
+        },
+        {
+          "nr": 813,
+          "dt": "—"
+        },
+        {
+          "nr": 814,
+          "dt": "—"
+        },
+        {
+          "nr": 815,
+          "dt": "—"
+        },
+        {
+          "nr": 816,
+          "dt": "—"
+        },
+        {
+          "nr": 817,
+          "dt": "—"
+        },
+        {
+          "nr": 818,
+          "dt": "—"
+        },
+        {
+          "nr": 819,
+          "dt": "—"
+        },
+        {
+          "nr": 820,
+          "dt": "—"
+        },
+        {
+          "nr": 821,
+          "dt": "—"
+        },
+        {
+          "nr": 822,
+          "dt": "—"
+        },
+        {
+          "nr": 823,
+          "dt": "—"
+        },
+        {
+          "nr": 824,
+          "dt": "—"
+        },
+        {
+          "nr": 825,
+          "dt": "—"
+        },
+        {
+          "nr": 826,
+          "dt": "—"
+        },
+        {
+          "nr": 827,
+          "dt": "—"
+        },
+        {
+          "nr": 828,
+          "dt": "—"
+        },
+        {
+          "nr": 829,
+          "dt": "—"
+        },
+        {
+          "nr": 830,
+          "dt": "—"
+        },
+        {
+          "nr": 831,
+          "dt": "—"
+        },
+        {
+          "nr": 832,
+          "dt": "—"
+        },
+        {
+          "nr": 833,
+          "dt": "—"
+        },
+        {
+          "nr": 834,
+          "dt": "—"
+        },
+        {
+          "nr": 835,
+          "dt": "—"
+        },
+        {
+          "nr": 836,
+          "dt": "—"
+        },
+        {
+          "nr": 837,
+          "dt": "—"
+        },
+        {
+          "nr": 838,
+          "dt": "—"
+        },
+        {
+          "nr": 839,
+          "dt": "—"
+        },
+        {
+          "nr": 840,
+          "dt": "—"
+        },
+        {
+          "nr": 841,
+          "dt": "—"
+        },
+        {
+          "nr": 842,
+          "dt": "—"
+        },
+        {
+          "nr": 843,
+          "dt": "—"
+        },
+        {
+          "nr": 844,
+          "dt": "—"
+        },
+        {
+          "nr": 845,
+          "dt": "—"
+        },
+        {
+          "nr": 846,
+          "dt": "—"
+        },
+        {
+          "nr": 847,
+          "dt": "—"
+        },
+        {
+          "nr": 848,
+          "dt": "—"
+        },
+        {
+          "nr": 849,
+          "dt": "—"
+        },
+        {
+          "nr": 850,
+          "dt": "—"
+        },
+        {
+          "nr": 851,
+          "dt": "—"
+        },
+        {
+          "nr": 852,
+          "dt": "—"
+        },
+        {
+          "nr": 853,
+          "dt": "—"
+        },
+        {
+          "nr": 854,
+          "dt": "—"
+        },
+        {
+          "nr": 855,
+          "dt": "—"
+        },
+        {
+          "nr": 856,
+          "dt": "—"
+        },
+        {
+          "nr": 857,
+          "dt": "—"
+        },
+        {
+          "nr": 858,
+          "dt": "—"
+        },
+        {
+          "nr": 859,
+          "dt": "—"
+        },
+        {
+          "nr": 860,
+          "dt": "—"
+        },
+        {
+          "nr": 861,
+          "dt": "—"
+        },
+        {
+          "nr": 862,
+          "dt": "—"
+        },
+        {
+          "nr": 863,
+          "dt": "—"
+        },
+        {
+          "nr": 864,
+          "dt": "—"
+        },
+        {
+          "nr": 865,
+          "dt": "—"
+        },
+        {
+          "nr": 866,
+          "dt": "—"
+        },
+        {
+          "nr": 867,
+          "dt": "—"
+        },
+        {
+          "nr": 868,
+          "dt": "—"
+        },
+        {
+          "nr": 869,
+          "dt": "—"
+        },
+        {
+          "nr": 870,
+          "dt": "—"
+        },
+        {
+          "nr": 871,
+          "dt": "—"
+        },
+        {
+          "nr": 872,
+          "dt": "—"
+        },
+        {
+          "nr": 873,
+          "dt": "—"
+        },
+        {
+          "nr": 874,
+          "dt": "—"
+        },
+        {
+          "nr": 875,
+          "dt": "—"
+        },
+        {
+          "nr": 876,
+          "dt": "—"
+        },
+        {
+          "nr": 877,
+          "dt": "—"
+        },
+        {
+          "nr": 878,
+          "dt": "—"
+        },
+        {
+          "nr": 879,
+          "dt": "—"
+        },
+        {
+          "nr": 880,
+          "dt": "—"
+        },
+        {
+          "nr": 881,
+          "dt": "—"
+        },
+        {
+          "nr": 882,
+          "dt": "—"
+        },
+        {
+          "nr": 883,
+          "dt": "—"
+        },
+        {
+          "nr": 884,
+          "dt": "—"
+        },
+        {
+          "nr": 885,
+          "dt": "—"
+        },
+        {
+          "nr": 886,
+          "dt": "—"
+        },
+        {
+          "nr": 887,
+          "dt": "—"
+        },
+        {
+          "nr": 888,
+          "dt": "—"
+        },
+        {
+          "nr": 889,
+          "dt": "—"
+        },
+        {
+          "nr": 890,
+          "dt": "—"
+        },
+        {
+          "nr": 891,
+          "dt": "—"
+        },
+        {
+          "nr": 892,
+          "dt": "—"
+        },
+        {
+          "nr": 893,
+          "dt": "—"
+        },
+        {
+          "nr": 894,
+          "dt": "—"
+        },
+        {
+          "nr": 895,
+          "dt": "—"
+        },
+        {
+          "nr": 896,
+          "dt": "—"
+        },
+        {
+          "nr": 897,
+          "dt": "—"
+        },
+        {
+          "nr": 898,
+          "dt": "—"
+        },
+        {
+          "nr": 899,
+          "dt": "—"
+        },
+        {
+          "nr": 900,
+          "dt": "—"
+        },
+        {
+          "nr": 901,
+          "dt": "—"
+        },
+        {
+          "nr": 902,
+          "dt": "—"
+        },
+        {
+          "nr": 903,
+          "dt": "—"
+        },
+        {
+          "nr": 904,
+          "dt": "—"
+        },
+        {
+          "nr": 905,
+          "dt": "—"
+        },
+        {
+          "nr": 906,
+          "dt": "—"
+        },
+        {
+          "nr": 907,
+          "dt": "—"
+        },
+        {
+          "nr": 908,
+          "dt": "—"
+        },
+        {
+          "nr": 909,
+          "dt": "—"
+        },
+        {
+          "nr": 910,
+          "dt": "—"
+        },
+        {
+          "nr": 911,
+          "dt": "—"
+        },
+        {
+          "nr": 912,
+          "dt": "—"
+        },
+        {
+          "nr": 913,
+          "dt": "—"
+        },
+        {
+          "nr": 914,
+          "dt": "—"
+        },
+        {
+          "nr": 915,
+          "dt": "—"
+        },
+        {
+          "nr": 916,
+          "dt": "—"
+        },
+        {
+          "nr": 917,
+          "dt": "—"
+        },
+        {
+          "nr": 918,
+          "dt": "—"
+        },
+        {
+          "nr": 919,
+          "dt": "—"
+        },
+        {
+          "nr": 920,
+          "dt": "—"
+        },
+        {
+          "nr": 921,
+          "dt": "—"
+        },
+        {
+          "nr": 922,
+          "dt": "—"
+        },
+        {
+          "nr": 923,
+          "dt": "—"
+        },
+        {
+          "nr": 924,
+          "dt": "—"
+        },
+        {
+          "nr": 925,
+          "dt": "—"
+        },
+        {
+          "nr": 926,
+          "dt": "—"
+        },
+        {
+          "nr": 927,
+          "dt": "—"
+        },
+        {
+          "nr": 928,
+          "dt": "—"
+        },
+        {
+          "nr": 929,
+          "dt": "—"
+        },
+        {
+          "nr": 930,
+          "dt": "—"
+        },
+        {
+          "nr": 931,
+          "dt": "—"
+        },
+        {
+          "nr": 932,
+          "dt": "—"
+        },
+        {
+          "nr": 933,
+          "dt": "—"
+        },
+        {
+          "nr": 934,
+          "dt": "—"
+        },
+        {
+          "nr": 935,
+          "dt": "—"
+        },
+        {
+          "nr": 936,
+          "dt": "—"
+        },
+        {
+          "nr": 937,
+          "dt": "—"
+        },
+        {
+          "nr": 938,
+          "dt": "—"
+        },
+        {
+          "nr": 939,
+          "dt": "—"
+        },
+        {
+          "nr": 940,
+          "dt": "—"
+        },
+        {
+          "nr": 941,
+          "dt": "—"
+        },
+        {
+          "nr": 942,
+          "dt": "—"
+        },
+        {
+          "nr": 943,
+          "dt": "—"
+        },
+        {
+          "nr": 944,
+          "dt": "—"
+        },
+        {
+          "nr": 945,
+          "dt": "—"
+        },
+        {
+          "nr": 946,
+          "dt": "—"
+        },
+        {
+          "nr": 947,
+          "dt": "—"
+        },
+        {
+          "nr": 948,
+          "dt": "—"
+        },
+        {
+          "nr": 949,
+          "dt": "—"
+        },
+        {
+          "nr": 950,
+          "dt": "—"
+        },
+        {
+          "nr": 951,
+          "dt": "—"
+        },
+        {
+          "nr": 952,
+          "dt": "—"
+        },
+        {
+          "nr": 953,
+          "dt": "—"
+        },
+        {
+          "nr": 954,
+          "dt": "—"
+        },
+        {
+          "nr": 955,
+          "dt": "—"
+        },
+        {
+          "nr": 956,
+          "dt": "—"
+        },
+        {
+          "nr": 957,
+          "dt": "—"
+        },
+        {
+          "nr": 958,
+          "dt": "—"
+        },
+        {
+          "nr": 959,
+          "dt": "—"
+        },
+        {
+          "nr": 960,
+          "dt": "—"
+        },
+        {
+          "nr": 961,
+          "dt": "—"
+        },
+        {
+          "nr": 962,
+          "dt": "—"
+        },
+        {
+          "nr": 963,
+          "dt": "—"
+        },
+        {
+          "nr": 964,
+          "dt": "—"
+        },
+        {
+          "nr": 965,
+          "dt": "—"
+        },
+        {
+          "nr": 966,
+          "dt": "—"
+        },
+        {
+          "nr": 967,
+          "dt": "—"
+        },
+        {
+          "nr": 968,
+          "dt": "—"
+        },
+        {
+          "nr": 969,
+          "dt": "—"
+        },
+        {
+          "nr": 970,
+          "dt": "—"
+        },
+        {
+          "nr": 971,
+          "dt": "—"
+        },
+        {
+          "nr": 972,
+          "dt": "—"
+        },
+        {
+          "nr": 973,
+          "dt": "—"
+        },
+        {
+          "nr": 974,
+          "dt": "—"
+        },
+        {
+          "nr": 975,
+          "dt": "—"
+        },
+        {
+          "nr": 976,
+          "dt": "—"
+        },
+        {
+          "nr": 977,
+          "dt": "—"
+        },
+        {
+          "nr": 978,
+          "dt": "—"
+        },
+        {
+          "nr": 979,
+          "dt": "—"
+        },
+        {
+          "nr": 980,
+          "dt": "—"
+        },
+        {
+          "nr": 981,
+          "dt": "—"
+        },
+        {
+          "nr": 982,
+          "dt": "—"
+        },
+        {
+          "nr": 983,
+          "dt": "—"
+        },
+        {
+          "nr": 984,
+          "dt": "—"
+        },
+        {
+          "nr": 985,
+          "dt": "—"
+        },
+        {
+          "nr": 986,
+          "dt": "—"
+        },
+        {
+          "nr": 987,
+          "dt": "—"
+        },
+        {
+          "nr": 988,
+          "dt": "—"
+        },
+        {
+          "nr": 989,
+          "dt": "—"
+        },
+        {
+          "nr": 990,
+          "dt": "—"
+        },
+        {
+          "nr": 991,
+          "dt": "—"
+        },
+        {
+          "nr": 992,
+          "dt": "—"
+        },
+        {
+          "nr": 993,
+          "dt": "—"
+        },
+        {
+          "nr": 994,
+          "dt": "—"
+        },
+        {
+          "nr": 995,
+          "dt": "—"
+        },
+        {
+          "nr": 996,
+          "dt": "—"
+        },
+        {
+          "nr": 997,
+          "dt": "—"
+        },
+        {
+          "nr": 998,
+          "dt": "—"
+        },
+        {
+          "nr": 999,
+          "dt": "—"
+        },
+        {
+          "nr": 1000,
+          "dt": "—"
+        },
+        {
+          "nr": 1001,
+          "dt": "—"
+        },
+        {
+          "nr": 1002,
+          "dt": "—"
+        },
+        {
+          "nr": 1003,
+          "dt": "—"
+        },
+        {
+          "nr": 1004,
+          "dt": "—"
+        },
+        {
+          "nr": 1005,
+          "dt": "—"
+        },
+        {
+          "nr": 1006,
+          "dt": "—"
+        },
+        {
+          "nr": 1007,
+          "dt": "—"
+        },
+        {
+          "nr": 1008,
+          "dt": "—"
+        },
+        {
+          "nr": 1009,
+          "dt": "—"
+        },
+        {
+          "nr": 1010,
+          "dt": "—"
+        },
+        {
+          "nr": 1011,
+          "dt": "—"
+        },
+        {
+          "nr": 1012,
+          "dt": "—"
+        },
+        {
+          "nr": 1013,
+          "dt": "—"
+        },
+        {
+          "nr": 1014,
+          "dt": "—"
+        },
+        {
+          "nr": 1015,
+          "dt": "—"
+        },
+        {
+          "nr": 1016,
+          "dt": "—"
+        },
+        {
+          "nr": 1017,
+          "dt": "—"
+        },
+        {
+          "nr": 1018,
+          "dt": "—"
+        },
+        {
+          "nr": 1019,
+          "dt": "—"
+        },
+        {
+          "nr": 1020,
+          "dt": "—"
+        },
+        {
+          "nr": 1021,
+          "dt": "—"
+        },
+        {
+          "nr": 1022,
+          "dt": "—"
+        },
+        {
+          "nr": 1023,
+          "dt": "—"
+        },
+        {
+          "nr": 1024,
+          "dt": "—"
+        },
+        {
+          "nr": 1025,
+          "dt": "—"
+        },
+        {
+          "nr": 1026,
+          "dt": "—"
+        },
+        {
+          "nr": 1027,
+          "dt": "—"
+        },
+        {
+          "nr": 1028,
+          "dt": "—"
+        },
+        {
+          "nr": 1029,
+          "dt": "—"
+        },
+        {
+          "nr": 1030,
+          "dt": "—"
+        },
+        {
+          "nr": 1031,
+          "dt": "—"
+        },
+        {
+          "nr": 1032,
+          "dt": "—"
+        },
+        {
+          "nr": 1033,
+          "dt": "—"
+        },
+        {
+          "nr": 1034,
+          "dt": "—"
+        },
+        {
+          "nr": 1035,
+          "dt": "—"
+        },
+        {
+          "nr": 1036,
+          "dt": "—"
+        },
+        {
+          "nr": 1037,
+          "dt": "—"
+        },
+        {
+          "nr": 1038,
+          "dt": "—"
+        },
+        {
+          "nr": 1039,
+          "dt": "—"
+        },
+        {
+          "nr": 1040,
+          "dt": "—"
+        },
+        {
+          "nr": 1041,
+          "dt": "—"
+        },
+        {
+          "nr": 1042,
+          "dt": "—"
+        },
+        {
+          "nr": 1043,
+          "dt": "—"
+        },
+        {
+          "nr": 1044,
+          "dt": "—"
+        },
+        {
+          "nr": 1045,
+          "dt": "—"
+        },
+        {
+          "nr": 1046,
+          "dt": "—"
+        },
+        {
+          "nr": 1047,
+          "dt": "—"
+        },
+        {
+          "nr": 1048,
+          "dt": "—"
+        },
+        {
+          "nr": 1049,
+          "dt": "—"
+        },
+        {
+          "nr": 1050,
+          "dt": "—"
+        },
+        {
+          "nr": 1051,
+          "dt": "—"
+        },
+        {
+          "nr": 1052,
+          "dt": "—"
+        },
+        {
+          "nr": 1053,
+          "dt": "—"
+        },
+        {
+          "nr": 1054,
+          "dt": "—"
+        },
+        {
+          "nr": 1055,
+          "dt": "—"
+        },
+        {
+          "nr": 1056,
+          "dt": "—"
+        },
+        {
+          "nr": 1057,
+          "dt": "—"
+        },
+        {
+          "nr": 1058,
+          "dt": "—"
+        },
+        {
+          "nr": 1059,
+          "dt": "—"
+        },
+        {
+          "nr": 1060,
+          "dt": "—"
+        },
+        {
+          "nr": 1061,
+          "dt": "—"
+        },
+        {
+          "nr": 1062,
+          "dt": "—"
+        },
+        {
+          "nr": 1063,
+          "dt": "—"
+        },
+        {
+          "nr": 1064,
+          "dt": "—"
+        },
+        {
+          "nr": 1065,
+          "dt": "—"
+        },
+        {
+          "nr": 1066,
+          "dt": "—"
+        },
+        {
+          "nr": 1067,
+          "dt": "—"
+        },
+        {
+          "nr": 1068,
+          "dt": "—"
+        },
+        {
+          "nr": 1069,
+          "dt": "—"
+        },
+        {
+          "nr": 1070,
+          "dt": "—"
+        },
+        {
+          "nr": 1071,
+          "dt": "—"
+        },
+        {
+          "nr": 1072,
+          "dt": "—"
+        },
+        {
+          "nr": 1073,
+          "dt": "—"
+        },
+        {
+          "nr": 1074,
+          "dt": "—"
+        },
+        {
+          "nr": 1075,
+          "dt": "—"
+        },
+        {
+          "nr": 1076,
+          "dt": "—"
+        },
+        {
+          "nr": 1077,
+          "dt": "—"
+        },
+        {
+          "nr": 1078,
+          "dt": "—"
+        },
+        {
+          "nr": 1079,
+          "dt": "—"
+        },
+        {
+          "nr": 1080,
+          "dt": "—"
+        },
+        {
+          "nr": 1081,
+          "dt": "—"
+        },
+        {
+          "nr": 1082,
+          "dt": "—"
+        },
+        {
+          "nr": 1083,
+          "dt": "—"
+        },
+        {
+          "nr": 1084,
+          "dt": "—"
+        },
+        {
+          "nr": 1085,
+          "dt": "—"
+        },
+        {
+          "nr": 1086,
+          "dt": "—"
+        },
+        {
+          "nr": 1087,
+          "dt": "—"
+        },
+        {
+          "nr": 1088,
+          "dt": "—"
+        },
+        {
+          "nr": 1089,
+          "dt": "—"
+        },
+        {
+          "nr": 1090,
+          "dt": "—"
+        },
+        {
+          "nr": 1091,
+          "dt": "—"
+        },
+        {
+          "nr": 1092,
+          "dt": "—"
+        },
+        {
+          "nr": 1093,
+          "dt": "—"
+        },
+        {
+          "nr": 1094,
+          "dt": "—"
+        },
+        {
+          "nr": 1095,
+          "dt": "—"
+        },
+        {
+          "nr": 1096,
+          "dt": "—"
+        },
+        {
+          "nr": 1097,
+          "dt": "—"
+        },
+        {
+          "nr": 1098,
+          "dt": "—"
+        },
+        {
+          "nr": 1099,
+          "dt": "—"
+        },
+        {
+          "nr": 1100,
+          "dt": "—"
+        },
+        {
+          "nr": 1101,
+          "dt": "—"
+        },
+        {
+          "nr": 1102,
+          "dt": "—"
+        },
+        {
+          "nr": 1103,
+          "dt": "—"
+        },
+        {
+          "nr": 1104,
+          "dt": "—"
+        },
+        {
+          "nr": 1105,
+          "dt": "—"
+        },
+        {
+          "nr": 1106,
+          "dt": "—"
+        },
+        {
+          "nr": 1107,
+          "dt": "—"
+        },
+        {
+          "nr": 1108,
+          "dt": "—"
+        },
+        {
+          "nr": 1109,
+          "dt": "—"
+        },
+        {
+          "nr": 1110,
+          "dt": "—"
+        },
+        {
+          "nr": 1111,
+          "dt": "—"
+        },
+        {
+          "nr": 1112,
+          "dt": "—"
+        },
+        {
+          "nr": 1113,
+          "dt": "—"
+        },
+        {
+          "nr": 1114,
+          "dt": "—"
+        },
+        {
+          "nr": 1115,
+          "dt": "—"
+        },
+        {
+          "nr": 1116,
+          "dt": "—"
+        },
+        {
+          "nr": 1117,
+          "dt": "—"
+        },
+        {
+          "nr": 1118,
+          "dt": "—"
+        },
+        {
+          "nr": 1119,
+          "dt": "—"
+        },
+        {
+          "nr": 1120,
+          "dt": "—"
+        },
+        {
+          "nr": 1121,
+          "dt": "—"
+        },
+        {
+          "nr": 1122,
+          "dt": "—"
+        },
+        {
+          "nr": 1123,
+          "dt": "—"
+        },
+        {
+          "nr": 1124,
+          "dt": "—"
+        },
+        {
+          "nr": 1125,
+          "dt": "—"
+        },
+        {
+          "nr": 1126,
+          "dt": "—"
+        },
+        {
+          "nr": 1127,
+          "dt": "—"
+        },
+        {
+          "nr": 1128,
+          "dt": "—"
+        },
+        {
+          "nr": 1129,
+          "dt": "—"
+        },
+        {
+          "nr": 1130,
+          "dt": "—"
+        },
+        {
+          "nr": 1131,
+          "dt": "—"
+        },
+        {
+          "nr": 1132,
+          "dt": "—"
+        },
+        {
+          "nr": 1133,
+          "dt": "—"
+        },
+        {
+          "nr": 1134,
+          "dt": "—"
+        },
+        {
+          "nr": 1135,
+          "dt": "—"
+        },
+        {
+          "nr": 1136,
+          "dt": "—"
+        },
+        {
+          "nr": 1137,
+          "dt": "—"
+        },
+        {
+          "nr": 1138,
+          "dt": "—"
+        },
+        {
+          "nr": 1139,
+          "dt": "—"
+        },
+        {
+          "nr": 1140,
+          "dt": "—"
+        },
+        {
+          "nr": 1141,
+          "dt": "—"
+        },
+        {
+          "nr": 1142,
+          "dt": "—"
+        },
+        {
+          "nr": 1143,
+          "dt": "—"
+        },
+        {
+          "nr": 1144,
+          "dt": "—"
+        },
+        {
+          "nr": 1145,
+          "dt": "—"
+        },
+        {
+          "nr": 1146,
+          "dt": "—"
+        },
+        {
+          "nr": 1147,
+          "dt": "—"
+        },
+        {
+          "nr": 1148,
+          "dt": "—"
+        },
+        {
+          "nr": 1149,
+          "dt": "—"
+        },
+        {
+          "nr": 1150,
+          "dt": "—"
+        },
+        {
+          "nr": 1151,
+          "dt": "—"
+        },
+        {
+          "nr": 1152,
+          "dt": "—"
+        },
+        {
+          "nr": 1153,
+          "dt": "—"
+        },
+        {
+          "nr": 1154,
+          "dt": "—"
+        },
+        {
+          "nr": 1155,
+          "dt": "—"
+        },
+        {
+          "nr": 1156,
+          "dt": "—"
+        },
+        {
+          "nr": 1157,
+          "dt": "—"
+        },
+        {
+          "nr": 1158,
+          "dt": "—"
+        },
+        {
+          "nr": 1159,
+          "dt": "—"
+        },
+        {
+          "nr": 1160,
+          "dt": "—"
+        },
+        {
+          "nr": 1161,
+          "dt": "—"
+        },
+        {
+          "nr": 1162,
+          "dt": "—"
+        },
+        {
+          "nr": 1163,
+          "dt": "—"
+        },
+        {
+          "nr": 1164,
+          "dt": "—"
+        },
+        {
+          "nr": 1165,
+          "dt": "—"
+        },
+        {
+          "nr": 1166,
+          "dt": "—"
+        },
+        {
+          "nr": 1167,
+          "dt": "—"
+        },
+        {
+          "nr": 1168,
+          "dt": "—"
+        },
+        {
+          "nr": 1169,
+          "dt": "—"
+        },
+        {
+          "nr": 1170,
+          "dt": "—"
+        },
+        {
+          "nr": 1171,
+          "dt": "—"
+        },
+        {
+          "nr": 1172,
+          "dt": "—"
+        },
+        {
+          "nr": 1173,
+          "dt": "—"
+        },
+        {
+          "nr": 1174,
+          "dt": "—"
+        },
+        {
+          "nr": 1175,
+          "dt": "—"
+        },
+        {
+          "nr": 1176,
+          "dt": "—"
+        },
+        {
+          "nr": 1177,
+          "dt": "—"
+        },
+        {
+          "nr": 1178,
+          "dt": "—"
+        },
+        {
+          "nr": 1179,
+          "dt": "—"
+        },
+        {
+          "nr": 1180,
+          "dt": "—"
+        },
+        {
+          "nr": 1181,
+          "dt": "—"
+        },
+        {
+          "nr": 1182,
+          "dt": "—"
+        },
+        {
+          "nr": 1183,
+          "dt": "—"
+        },
+        {
+          "nr": 1184,
+          "dt": "—"
+        },
+        {
+          "nr": 1185,
+          "dt": "—"
+        },
+        {
+          "nr": 1186,
+          "dt": "—"
+        },
+        {
+          "nr": 1187,
+          "dt": "—"
+        },
+        {
+          "nr": 1188,
+          "dt": "—"
+        },
+        {
+          "nr": 1189,
+          "dt": "—"
+        },
+        {
+          "nr": 1190,
+          "dt": "—"
+        },
+        {
+          "nr": 1191,
+          "dt": "—"
+        },
+        {
+          "nr": 1192,
+          "dt": "—"
+        },
+        {
+          "nr": 1193,
+          "dt": "—"
+        },
+        {
+          "nr": 1194,
+          "dt": "—"
+        },
+        {
+          "nr": 1195,
+          "dt": "—"
+        },
+        {
+          "nr": 1196,
+          "dt": "—"
+        },
+        {
+          "nr": 1197,
+          "dt": "—"
+        },
+        {
+          "nr": 1198,
+          "dt": "—"
+        },
+        {
+          "nr": 1199,
+          "dt": "—"
+        },
+        {
+          "nr": 1200,
+          "dt": "—"
+        },
+        {
+          "nr": 1201,
+          "dt": "—"
+        },
+        {
+          "nr": 1202,
+          "dt": "—"
+        },
+        {
+          "nr": 1203,
+          "dt": "—"
+        },
+        {
+          "nr": 1204,
+          "dt": "—"
+        },
+        {
+          "nr": 1205,
+          "dt": "—"
+        },
+        {
+          "nr": 1206,
+          "dt": "—"
+        },
+        {
+          "nr": 1207,
+          "dt": "—"
+        },
+        {
+          "nr": 1208,
+          "dt": "—"
+        },
+        {
+          "nr": 1209,
+          "dt": "—"
+        },
+        {
+          "nr": 1210,
+          "dt": "—"
+        },
+        {
+          "nr": 1211,
+          "dt": "—"
+        },
+        {
+          "nr": 1212,
+          "dt": "—"
+        },
+        {
+          "nr": 1213,
+          "dt": "—"
         }
       ]
     },

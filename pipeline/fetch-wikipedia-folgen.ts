@@ -24,7 +24,7 @@
  */
 import { readJson, writeJson, log, warn } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
-import { folgenAusWikitext, type WikiFolge } from './lib/wikipedia-folgen.ts'
+import { folgenAusTabellen, folgenAusWikitext, type WikiFolge } from './lib/wikipedia-folgen.ts'
 import type { TvSendung } from './fetch-tv-programm.ts'
 
 const UA = 'anime-kalender-de/1.0 (https://anime-kalender.de; ein Abruf je Seite und Tag)'
@@ -81,7 +81,9 @@ for (const [id, liste] of namen) {
       const w = await wikitext(k)
       abrufe++
       await warte(1000)
-      const folgen = w ? folgenAusWikitext(w.text) : []
+      /* Erst die Vorlagen, sonst die Tabellenform (Detektiv Conan). */
+      const vorlagen = w ? folgenAusWikitext(w.text) : []
+      const folgen = vorlagen.length || !w ? vorlagen : folgenAusTabellen(w.text)
       if (!w || !folgen.length) continue
       ergebnis.titel[String(id)] = { seite: w.seite, folgen }
       log(`Wikipedia ${w.seite}: ${folgen.length} Folge(n), ${folgen.filter((f) => f.ead).length} mit deutscher EA`)

@@ -110,7 +110,7 @@ import { releasesAus } from './lib/meldungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
-import { folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
+import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
@@ -4528,6 +4528,29 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const wf = folgenAusWikitext(wikiText)
   pruefe('Wikipedia: Vorlage gelesen, Verweis und Auszeichnung entfernt', wf.length === 3 && wf[0]?.dt === 'Enteis wilder Kampfschrei!' && wf[0]?.ead === '2024-09-04', wf[0])
   pruefe('Wikipedia: ausgeschriebener Monat', wikiDatum('4. September 2017') === '2017-09-04' && wikiDatum('12. März 2003') === '2003-03-12')
+  /* Tabellenform (Detektiv Conan): japanische Nummer vorn, rowspan gilt für die Folgezeile. */
+  const tabelle = [
+    '{| class="wikitable"',
+    '! Nr. !! Deutscher Titel',
+    '|-',
+    '| rowspan="2"| 132',
+    '| 142',
+    "| style=\"x\"| '''Tödlicher Zauber – Teil&nbsp;1'''",
+    '| 25. Jan. 1999',
+    '| 7. Apr. 2003',
+    '|-',
+    '| 143',
+    "| style=\"x\"| '''Tödlicher Zauber – Teil&nbsp;2'''",
+    '| 1. Feb. 1999',
+    '|}',
+  ].join('\n')
+  const tf = folgenAusTabellen(tabelle)
+  pruefe(
+    'Wikipedia-Tabelle: rowspan trägt die japanische Nummer in die nächste Zeile',
+    tf.length === 2 && tf[1]?.nr === 132 && tf[1]?.st === 143 && tf[0]?.ead === '2003-04-07' && tf[1]?.ead === undefined,
+    tf,
+  )
+  pruefe('„Tödlicher Zauber (2)" ist „Tödlicher Zauber – Teil 2"', folgenKern('Tödlicher Zauber (2)') === folgenKern(tf[1]?.dt ?? ''))
   const wiki = { '158871': { seite: 'Pokémon (Anime)/Horizonte', folgen: wf } }
   const mitNr = releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'Enteis wilder Kampfschrei'), s('2026-09-16T16:05:00+02:00', 'Titel 2 wilder Kampfschrei!')], titles, [], wiki)
   pruefe(
