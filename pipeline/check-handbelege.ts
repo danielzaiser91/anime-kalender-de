@@ -108,23 +108,37 @@ for (const [k, gruppe] of jeVerweis) {
    *
    * Ohne Adresse im Beleg bleibt es beim alten Weg: Dann gilt er der ganzen
    * Plattform, und genau so wirkt er auch im Bau.
+   *
+   * **Und die Adressen mehrerer Belege dürfen sich dabei nicht vermischen.**
+   * „A Silent Voice" trug am 19.09.2026 zwei Prime-Belege: einen `available:
+   * false` zu einer alten `dp/…`-Adresse, daneben einen „Kanal-Nein ohne
+   * Urteil" zur aktuellen `watch.amazon.de/detail?gti=…`-Adresse — beide mit
+   * `anilistId:platform` als Schlüssel in derselben Gruppe. Ein gemeinsamer
+   * `belegAdressen`-Topf ließ die Suche nach dem Stream für **jede** Adresse
+   * der Gruppe treffen, nicht nur für die, die tatsächlich „weg" sagt — der
+   * aktuelle (unbeurteilte) Stream traf die gesuchte Adresse des anderen
+   * Belegs, und die Prüfung meldete einen Widerspruch, den es nicht gab. Die
+   * Adressuche läuft deshalb nur über die Belege, die den jeweiligen Befund
+   * tragen.
    */
-  const belegAdressen = gruppe.map((b) => b.url).filter((u): u is string => Boolean(u))
-  const stream = belegAdressen.length
-    ? (t.streams ?? []).find(
-        (s) =>
-          s.platform === platform &&
-          belegAdressen.some(
-            /* Nach der gti-Brücke steht die Amazon-Seite des Belegs in `seite` (17.09.2026). */
-            (u) => adressKern(u) === adressKern(s.url) || (Boolean(s.seite) && adressKern(u) === adressKern(s.seite)),
-          ),
-      )
-    : (t.streams ?? []).find((s) => s.platform === platform)
+  const findStream = (adressen: string[]) =>
+    adressen.length
+      ? (t.streams ?? []).find(
+          (s) =>
+            s.platform === platform &&
+            adressen.some(
+              /* Nach der gti-Brücke steht die Amazon-Seite des Belegs in `seite` (17.09.2026). */
+              (u) => adressKern(u) === adressKern(s.url) || (Boolean(s.seite) && adressKern(u) === adressKern(s.seite)),
+            ),
+        )
+      : (t.streams ?? []).find((s) => s.platform === platform)
   const name = `${idRoh} (${t.titleRomaji ?? '?'}) — ${platform}`
 
-  const sagtJa = gruppe.some((b) => b.dub === true || (b.dubRanges ?? []).some((r) => r.dub))
-  const sagtNein = gruppe.some((b) => b.dub === false)
-  const sagtWeg = gruppe.some((b) => b.available === false)
+  const jaGruppe = gruppe.filter((b) => b.dub === true || (b.dubRanges ?? []).some((r) => r.dub))
+  const wegNeinGruppe = gruppe.filter((b) => b.dub === false || b.available === false)
+  const sagtJa = jaGruppe.length > 0
+  const sagtNein = wegNeinGruppe.some((b) => b.dub === false)
+  const sagtWeg = wegNeinGruppe.some((b) => b.available === false)
 
   // Widersprüchliche Belege sind kein Pipeline-Fehler, sondern ein Hinweis auf
   // Bereiche. Sie werden gezählt, nicht gemeldet.
@@ -138,14 +152,16 @@ for (const [k, gruppe] of jeVerweis) {
       Ein Nein mit Adresse gilt der alten Seite. Ein über die gti-Brücke ersetzter
       Verweis zeigt auf eine neue Seite und trägt die alte nur als `seite`.
     */
-    const nochDa =
-      stream && (!belegAdressen.length || belegAdressen.some((u) => adressKern(u) === adressKern(stream.url)))
+    const wegNeinAdressen = wegNeinGruppe.map((b) => b.url).filter((u): u is string => Boolean(u))
+    const nochDa = Boolean(findStream(wegNeinAdressen))
     if (nochDa) fehler.push(`${name}: als „${sagtWeg ? 'nicht verfügbar' : 'ohne deutsche Tonspur'}" geprüft, steht aber noch im Datensatz`)
     else entferntWieVorgesehen++
     continue
   }
 
   if (!sagtJa) continue
+  const jaAdressen = jaGruppe.map((b) => b.url).filter((u): u is string => Boolean(u))
+  const stream = findStream(jaAdressen)
   if (!stream) {
     // Kein Fehler der Rangfolge: Der Verweis kann aus einem anderen Grund
     // fehlen (Anbieter nicht geführt, Titel umsortiert). Trotzdem sichtbar.
