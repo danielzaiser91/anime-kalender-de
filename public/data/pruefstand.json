@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-19T21:27:40.478Z",
+ "erzeugtAm": "2026-09-19T23:17:38.311Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -9,10 +9,10 @@
    "offen": 1,
    "ohneSeite": 0,
    "suchAdressen": [],
-   "ziel": "https://www.amazon.de/dp/B0CJC2JNPM",
+   "ziel": "https://www.amazon.de/dp/B0F9FWKDXT",
    "ziele": [
     {
-     "url": "https://www.amazon.de/dp/B0CJC2JNPM",
+     "url": "https://www.amazon.de/dp/B0F9FWKDXT",
      "titel": "JoJo’s Bizarre Adventure: Diamond Is Unbreakable (JoJo's Bizarre Adventure: Diamond is Unbreakable)"
     }
    ],

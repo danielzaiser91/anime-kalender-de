@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-19 · **0 offene Verweise** in **0 Zeilen**,
+Stand 2026-09-20 · **0 offene Verweise** in **0 Zeilen**,
 aufgeteilt in **0 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in

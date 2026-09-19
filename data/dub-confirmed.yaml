@@ -16574,3 +16574,13 @@
   available: false
   checkedAt: '2026-09-19'
   note: "Prime-Suche zeigt nur „Trigun“, kein Jormungand (Daniel im Durchgang, 19.09.2026)."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-20 ---
+
+- anilistId: 21450
+  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJC2JNPM
+  available: false
+  checkedAt: '2026-09-19'
+  note: "Aus der Prüfliste gemeldet: nachgesehen, den Titel gibt es bei Prime Video nicht"

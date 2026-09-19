@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Politics
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-09-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260912T093000Z
-DTEND:20260912T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 19/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-09-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260912T160000Z
-DTEND:20260912T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:clevatess-s2@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T120000Z
