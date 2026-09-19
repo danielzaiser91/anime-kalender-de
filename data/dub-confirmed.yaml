@@ -16351,3 +16351,12 @@
   available: false
   checkedAt: '2026-09-19'
   note: "Amazon-Seite B01LZHQI1P: alle 0 Folgen geprüft, Abos: keine Angabe"
+
+# Daniel im Durchgang 19.09.2026: netflix.com/title/81659233 leitet auf die Startseite um —
+# der Titel steht dort nicht. `dub: false` entfernt den Verweis.
+- anilistId: 177166
+  title: "Bakugan"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-09-19'
+  note: "Nicht bei Netflix: /title/81659233 leitet auf /browse um (Daniel, 19.09.2026)."

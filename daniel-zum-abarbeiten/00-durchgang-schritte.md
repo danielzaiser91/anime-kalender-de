@@ -1,57 +1,42 @@
-# Durchgang 18.09.2026 — vorbereitete Schritte
+# Durchgang 19.09.2026, 19:05 — alle Schritte vorbereitet
 
-Vorher von mir erledigt (kein Schritt für Daniel): Crunchyroll ohne Urteil 5 → 0,
-Suchadressen 5 → 0 (Seiten am Kopfblock bestätigt), Kanal-Widersprüche 0,
-Classroom of the Elite S1/S3 und Free! S1/S3 entwirrt. Die gti-Gegenprobe
-(`19-poc-gti.md`) ist überholt — die ersetzten Links gibt es seit dem Rückbau nicht mehr.
-Die beiden Anzeigefragen (doppelte Prime-Pillen, „DE nur Fg. 1") entscheide ich selbst.
+Kurzschrift: `1` ja/deutsch · `0` nein · `x` gibt es dort nicht.
 
-Offen für Daniel: **1 Handgriff Erweiterung, 1 Netflix-Titel, 5 Prime-Seiten.**
+## A · Netflix-Prüfliste (1)
 
-## 1 · Erweiterung neu laden
+1. **Bakugan (2023), 26 Folgen** — [Bei Netflix öffnen](https://www.netflix.com/title/81659233)
+   Handgriff: Knopf der Erweiterung „▶ E1 + E26 prüfen → gilt für E1–26".
+   Frage: Meldet die Erweiterung danach „✓ gemeldet"?
+   → ja: Briefkasten prüfen, Beleg steht. → nein/anderer Text: Bild erbitten.
 
-- Handgriff: `chrome://extensions` → Anime-Kalender → ↻ (Neu laden). Version danach 4.20.25.
-- Warum: Erst 4.20.25 schreibt `gti=` in die Notiz; ohne das bleibt die gti-Brücke leer.
-- Antwort egal („ok"). Ich tue nichts, außer beim nächsten Schritt weiterzumachen.
+## B · Suchadresse (1)
 
-## 2 · Netflix — The Quintessential Quintuplets, Staffel 1 und 2
+2. **Jormungand: Perfect Order** (unser Titel 13331) bei Prime Video — die Titelseite suchen:
+   [Prime-Suche öffnen](https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video)
+   Frage: Adresse der Video-Seite (`/gp/video/detail/…`) hier einfügen — oder `x`, wenn es sie nicht gibt.
+   → Adresse: in `18-suchadressen.md` eintragen, Bau zieht sie. → x: als „nicht vorhanden" buchen.
 
-- Link: [Bei Netflix öffnen](https://www.netflix.com/title/81152346?ak=1)
-- Handgriff: Unten rechts im Kasten steht der Prüfknopf für die angezeigte Staffel
-  (Randprobe, z. B. „▶ E1 + E12 prüfen → gilt für E1-12"). Klicken, dann Staffel 2 wählen
-  und denselben Knopf noch einmal.
-- Erwartet danach: „✓ … deutsch" oder „✕ kein Deutsch" je Staffel.
-- Mit der Antwort: Briefkasten ansehen (`?gemeldet=`), Meldungen zu 81152346 zählen.
+## C · Prime-Wege ohne Sprachurteil (4)
 
-## 3 · Prime — Horimiya
+Frage je Link: Steht bei den Sprachen/Audio **Deutsch**? `1` / `0` / `x` (Seite tot).
+3. **Fushigi Yûgi New OVA** — [öffnen](https://www.amazon.de/dp/B0CJZH535R)
+4. **Haikyu!!** — [öffnen](https://www.amazon.de/dp/B0D4K9PV2F)
+5. **Grisaia Phantom Trigger: The Animation** — [öffnen](https://www.amazon.de/dp/B0DMMT9B67)
+6. **Edens Zero: Season 2** — [öffnen](https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P)
+   → `1`/`0`: Handbeleg in `data/dub-confirmed.yaml`. → `x`: Weg als tot melden.
 
-- Link: [Bei Prime öffnen](https://www.amazon.de/gp/video/detail/B0CHLH4NR6)
-- Handgriff: Unten rechts der Kasten mit „🇩🇪 Deutsch · 13 Folgen · Staffel 1 · … · melden"
-  (oder „✕ kein Deutsch … melden") — den Knopf klicken.
-- Mit der Antwort: Briefkasten ansehen, Meldung zu B0CHLH4NR6.
+## D · JustWatch-Kandidaten (14)
 
-## 4 · Prime — Jormungand, beide Staffeln
+Liste mit Links: `docs/prime-kandidaten-justwatch.md`. Je Zeile: stimmt der Titel, steht Deutsch?
+Antwort `ok` / `falscher Titel` / `kein Deutsch`, gern mehrere auf einmal („1 ok, 2 ok, 3 kein Deutsch").
+7–20: Zeilen 1–14 der Tabelle.
+→ ok: Adresse als Prime-Weg mit `dub: true` übernehmen. → sonst: verwerfen, Grund notieren.
 
-- Link: [Bei Prime öffnen](https://www.amazon.de/gp/video/detail/B0DNCF1M3N)
-- Handgriff: Staffel 1 melden; dann im Auswahlfeld „Staffel 2" wählen (das ist *Perfect
-  Order*, `B0DNCGXVNT`) und dort ebenfalls melden.
-- Mit der Antwort: Briefkasten, zwei Meldungen (B0DNCF1M3N, B0DNCGXVNT).
+## E · Amazon-Messskript
 
-## 5 · Prime — Mob Psycho 100
+21. `node tools/prime-geteilte-adressen.mjs` im Ordner anime-kalender-de ausführen (69 Abrufe),
+    Ausgabe hier einfügen. → je Fall nach Seitentitel korrigieren.
 
-- Link: [Bei Prime öffnen](https://www.amazon.de/gp/video/detail/B0CH8YTK4T)
-- Handgriff: Melde-Knopf im Kasten unten rechts.
+## F · Entscheidung
 
-## 6 · Prime — Free! Dive to the Future (Staffel 3)
-
-- Link: [Bei Prime öffnen](https://www.amazon.de/gp/video/detail/B0CJK3GVR1)
-- Handgriff: Melde-Knopf. Laut anonymem Abruf Crunchyroll-Kanal mit Deutsch.
-
-## 7 · Prime — Your Name. (neue Ausgabe)
-
-- Link: [Bei Prime öffnen](https://www.amazon.de/gp/video/detail/0HZY7HB8IQJX7YWB81SW44OGCX)
-- Handgriff: Der Kasten zeigt „1 Film melden" o. ä. — klicken.
-
-## Ende
-
-Stand in `status.md` nachtragen, Prüfliste ist dann leer bis auf Kanal-Fälle.
+22. „kostenlos" auch auf Kalenderkarten/Datenbank (+ Filter)? „Premiere" auch auf Kalenderkarten?
