@@ -4003,5 +4003,14 @@
       "sagt": "2026-09-29",
       "stand": "aktuell"
     }
+  ],
+  "auto-165159-tv-toggo-plus": [
+    {
+      "url": "https://plus.rtl.de/tv-programm",
+      "name": "plus.rtl.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-09-19",
+      "stand": "aktuell"
+    }
   ]
 }

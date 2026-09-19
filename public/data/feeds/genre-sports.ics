@@ -6,6 +6,28 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Sports
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:auto-165159-tv-toggo-plus@2026-09-19#1@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260919
+DTEND;VALUE=DATE:20260920
+SUMMARY:Beyblade X
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release
+ /auto-165159-tv-toggo-plus
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-165159-tv-toggo-plus@2026-09-19#2@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260919
+DTEND;VALUE=DATE:20260920
+SUMMARY:Beyblade X
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release
+ /auto-165159-tv-toggo-plus
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-09-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260925
