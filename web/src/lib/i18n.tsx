@@ -575,7 +575,7 @@ const TEXTE = {
   'antwort.rhythmusWoechentlich': 'Wöchentlich {tag}s',
   // „freitags", nicht „Frs" — siehe DetailPanel. Kleingeschrieben, weil es ein
   // Adverb ist: „wöchentlich freitags".
-  'antwort.nochFolgen': 'noch {count} bis zum Finale am {datum}',
+  'antwort.nochFolgen': 'noch {count} Folgen bis zum Finale am {datum}',
   'antwort.letzteFolge': 'letzte Folge',
   'antwort.erschienenZahl': '{raus} von {gesamt} Folgen erschienen',
   // Dieselbe Zeile, aber ohne die vordere Zahl: Die steht hervorgehoben
@@ -665,6 +665,9 @@ const TEXTE = {
   'trailer.ansehen': 'Trailer anschauen',
   'trailer.ansehenFremd': 'Trailer auf {sprache}',
   'trailer.nochKeinDeutscher': 'Einen deutschen Trailer haben wir noch nicht gefunden.',
+  'trailer.ohne': 'Trailer',
+  'trailer.keinerGefunden': 'Einen Trailer haben wir noch nicht gefunden.',
+  'trailer.suchen': 'Auf YouTube suchen',
   'trailer.sprache.en': 'Englisch',
   'trailer.sprache.ja': 'Japanisch',
   'trailer.ueberschrift': 'Trailer für {titel}',

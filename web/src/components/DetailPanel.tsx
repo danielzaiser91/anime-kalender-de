@@ -577,7 +577,8 @@ function AntwortKasten({
         Folgen stehen aus, nicht elf — die nächste ist keine erschienene.
       */
       antwort.letzter && antwort.rest > 1 && !antwort.sichtung
-        ? T('antwort.nochFolgen', { count: antwort.rest, datum: formatDate(antwort.letzter) })
+        ? /* „noch 2 Folgen …" (Daniel, 19.09.2026) — Einzahl gibt es hier nicht: bei einer steht „letzte Folge". */
+          T('antwort.nochFolgen', { count: antwort.rest, datum: formatDate(antwort.letzter) })
         : /* Steht „Finale Folge" schon in der Überschrift, wäre „letzte Folge" hier dieselbe Auskunft zweimal. */
           antwort.raus === 0 && !antwort.sichtung
           ? T('antwort.letzteFolge')
@@ -1457,11 +1458,17 @@ function DiscZeichen() {
  * - **Der Dialog schließt auch mit Escape und einem Klick daneben.** Ein X
  *   allein ist auf dem Handy weit weg vom Daumen.
  */
+/*
+  **Ein Kinofilm ohne gefundenen Trailer bekommt die Pille trotzdem** (Daniel, 19.09.2026, an
+  Madoka „Walpurgisnacht": „trailer pill anzeigen, beim öffnen kein video embedden, sondern
+  hinweis wir haben keinen gefunden + button ‚auf youtube suchen'"). Nur für Filme, die im Kino
+  laufen oder kommen — dort wird ein Trailer gesucht, und er erscheint oft erst Wochen vorher.
+*/
 function TrailerKino({
   trailer,
   titel,
 }: {
-  trailer: { video: string; titel: string; sprache: 'de' | 'en' | 'ja' }
+  trailer?: { video: string; titel: string; sprache: 'de' | 'en' | 'ja' }
   titel: string
 }) {
   const { t } = useLang()
@@ -1486,10 +1493,11 @@ function TrailerKino({
     schon auf der Seite steht.
   */
   const SPRACHNAME = { en: 'trailer.sprache.en', ja: 'trailer.sprache.ja' } as const
-  const fremd = trailer.sprache === 'en' || trailer.sprache === 'ja'
-  const deutsch = !fremd
-  const spracheName = fremd ? t(SPRACHNAME[trailer.sprache as 'en' | 'ja']) : ''
-  const knopfText = deutsch ? t('trailer.ansehen') : t('trailer.ansehenFremd', { sprache: spracheName })
+  const fremd = trailer?.sprache === 'en' || trailer?.sprache === 'ja'
+  const deutsch = Boolean(trailer) && !fremd
+  const spracheName = fremd ? t(SPRACHNAME[trailer!.sprache as 'en' | 'ja']) : ''
+  const knopfText = !trailer ? t('trailer.ohne') : deutsch ? t('trailer.ansehen') : t('trailer.ansehenFremd', { sprache: spracheName })
+  const suche = `https://www.youtube.com/results?search_query=${encodeURIComponent(`${titel} Trailer deutsch`)}`
 
   /*
     Escape schließt, und solange der Dialog steht, scrollt die Seite darunter
@@ -1520,7 +1528,7 @@ function TrailerKino({
       <button
         type="button"
         onClick={() => setOffen(true)}
-        title={deutsch ? undefined : t('trailer.nochKeinDeutscher')}
+        title={deutsch ? undefined : trailer ? t('trailer.nochKeinDeutscher') : t('trailer.keinerGefunden')}
         className={[
           'group inline-flex shrink-0 items-center gap-1.5 rounded-full border py-1 pl-1 pr-3 text-xs font-semibold transition',
           deutsch
@@ -1577,20 +1585,22 @@ function TrailerKino({
                   er soll es lesen können, ohne mit der Maus zu suchen. Auf
                   einem Touchgerät gibt es den Tooltip ohnehin nicht.
                 */}
-                {!deutsch && (
+                {trailer && !deutsch && (
                   <span className="ml-2 font-normal text-slate-400">
                     · {spracheName} — {t('trailer.nochKeinDeutscher')}
                   </span>
                 )}
               </h2>
-              <a
-                href={`https://www.youtube.com/watch?v=${trailer.video}`}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-xs font-medium text-slate-200 transition hover:border-white/40 hover:bg-white/10 hover:text-white"
-              >
-                {t('trailer.beiYoutube')} ↗
-              </a>
+              {trailer && (
+                <a
+                  href={`https://www.youtube.com/watch?v=${trailer.video}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-xs font-medium text-slate-200 transition hover:border-white/40 hover:bg-white/10 hover:text-white"
+                >
+                  {t('trailer.beiYoutube')} ↗
+                </a>
+              )}
               <button
                 type="button"
                 onClick={() => setOffen(false)}
@@ -1600,13 +1610,29 @@ function TrailerKino({
                 ✕
               </button>
             </div>
-            <iframe
-              src={`https://www.youtube-nocookie.com/embed/${trailer.video}?autoplay=1&rel=0`}
-              title={trailer.titel || t('trailer.ueberschrift', { titel })}
-              allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen"
-              allowFullScreen
-              className="min-h-0 flex-1 border-0 bg-black"
-            />
+            {trailer ? (
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${trailer.video}?autoplay=1&rel=0`}
+                title={trailer.titel || t('trailer.ueberschrift', { titel })}
+                allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen"
+                allowFullScreen
+                className="min-h-0 flex-1 border-0 bg-black"
+              />
+            ) : (
+              <div className="grid min-h-0 flex-1 place-items-center bg-black p-6 text-center">
+                <div className="flex max-w-md flex-col items-center gap-4">
+                  <p className="text-sm leading-relaxed text-slate-300">{t('trailer.keinerGefunden')}</p>
+                  <a
+                    href={suche}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="rounded-full bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-500"
+                  >
+                    {t('trailer.suchen')} ↗
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>,
           document.body,
@@ -4466,7 +4492,7 @@ export function DetailPanel({
                 Anbietern.** Er beantwortet eine andere Frage als „wo kann ich
                 das sehen" — nämlich „will ich das überhaupt".
               */}
-              {title.trailer && <TrailerKino trailer={title.trailer} titel={anzeigeName(title)} />}
+              {(title.trailer || kinoRelease) && <TrailerKino trailer={title.trailer} titel={anzeigeName(title)} />}
               <AniSearchVerweis title={title} />
             </div>
             {/*

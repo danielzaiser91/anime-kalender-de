@@ -359,9 +359,13 @@ jobs:
 
       - name: Deutsche Trailer zu Anime-Filmen
         continue-on-error: true
+        # TMDB_API_KEY fehlte bis 19.09.2026: Weg 3 (TMDBs Videoliste, auch der
+        # englische/japanische Rückfall) lief in der Cloud nie — „0 deutsche über
+        # TMDB, 0 fremdsprachig". Madoka „Walpurgisnacht" hat dort fünf Trailer.
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: npm run data:trailer
 
       # Nicht mehr direkt auf main: Der Fund geht als Pull Request ein und wird

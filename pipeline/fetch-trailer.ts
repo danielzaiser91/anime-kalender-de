@@ -64,6 +64,12 @@ import { recordSource } from './lib/health.ts'
 const KANAELE = [
   { name: 'KinoCheck Anime', uploads: 'UUDzr05xghFB7lhSJqUVPPlg' },
   { name: 'KinoCheck', uploads: 'UUOL10n-as9dXO2qtjjFUQbQ' },
+  /*
+    **Der deutsche Verleih selbst** (19.09.2026). Crunchyroll bringt die meisten Anime-Filme
+    ins deutsche Kino und lädt den Synchro-Trailer auf seinen eigenen Kanal — bei „Detektiv
+    Conan Film 29" „| Offizieller Trailer – Synchro", den KinoCheck nicht führt.
+  */
+  { name: 'Crunchyroll Deutschland', uploads: 'UU9yobUXOa4WNswj_JLZf8Lg' },
 ]
 const KINOCHECK = 'https://api.kinocheck.de'
 const TMDB = 'https://api.themoviedb.org/3'
@@ -82,6 +88,7 @@ interface Titel {
 interface TmdbEintrag {
   tmdbId?: number
   kind?: string
+  nameDe?: string
 }
 
 interface Video {
@@ -118,8 +125,15 @@ export interface TrailerEintrag {
  * Filmname steht vorn, danach kommt immer „Trailer". Alles ab dort ist
  * Beiwerk des Kanals und gehört nicht in den Vergleich.
  */
+/*
+  **Was vor „Trailer" steht — ohne „Teaser", „Offizieller", „Finaler".** Die erste Fassung
+  schnitt genau am Wort „Trailer"; „DETEKTIV CONAN: Der gefallene Engel des Highways Teaser
+  Trailer Deutsch" (KinoCheck Anime) ergab dadurch „… highways teaser" und traf nicht, obwohl
+  der Trailer seit Wochen im Index lag (Daniel, 19.09.2026: „obwohl der aktuell läuft und es
+  trailer geben sollte").
+*/
 function filmteilVon(videoTitel: string): string {
-  const vor = videoTitel.split(/\bTrailer\b/i)[0] ?? ''
+  const vor = videoTitel.split(/\b(?:(?:offizielle[rs]?|official|finale[rs]?|final|erste[rs]?|zweite[rs]?|neue[rs]?)\s+)*(?:teaser[\s-]*)?(?:trailer|teaser)\b/i)[0] ?? ''
   return normal(vor)
 }
 
@@ -146,8 +160,16 @@ function jahrAus(videoTitel: string): number | undefined {
 }
 
 /** Nennt der Videotitel eine deutsche Fassung? */
+/* „Synchro" ist Crunchyrolls Wort für die deutsche Fassung; „OmU" bleibt draußen. */
 function istDeutsch(videoTitel: string): boolean {
-  return /\b(german|deutsch)\b/i.test(videoTitel)
+  return /\b(german|deutsch|synchro)\b/i.test(videoTitel) && !/\bomu\b/i.test(videoTitel)
+}
+
+/** Synchro-Trailer vor vollem Trailer vor Teaser — bei Gleichstand der jüngste. */
+function rang(videoTitel: string): number {
+  if (/\bsynchro\b/i.test(videoTitel)) return 0
+  if (/\bteaser\b/i.test(videoTitel)) return 2
+  return 1
 }
 
 function heute(): string {
@@ -212,8 +234,9 @@ async function kanalIndex(schluessel: string): Promise<Video[]> {
  * den international gebräuchlichen Namen, und der ist mal unser deutscher, mal
  * unser englischer.
  */
-function ausIndex(titel: Titel, index: Video[]): TrailerEintrag | null {
-  const namen = new Set([titel.titleDe, titel.titleEn, titel.titleRomaji].filter(Boolean).map((n) => normal(n!)))
+function ausIndex(titel: Titel, index: Video[], tmdbName?: string): TrailerEintrag | null {
+  /* TMDBs deutscher Name zählt mit: „Detektiv Conan Film 29: …" steht so beim Verleih, bei uns ohne „Film 29". */
+  const namen = new Set([titel.titleDe, titel.titleEn, titel.titleRomaji, tmdbName].filter(Boolean).map((n) => normal(n!)))
   if (!namen.size) return null
 
   const treffer = index.filter((v) => {
@@ -235,8 +258,8 @@ function ausIndex(titel: Titel, index: Video[]): TrailerEintrag | null {
   })
   if (!treffer.length) return null
 
-  /* Mehrere Trailer zu einem Film: der jüngste ist der vollständigste. */
-  const juengster = treffer.sort((a, b) => b.am.localeCompare(a.am))[0]!
+  /* Mehrere Trailer zu einem Film: Synchro vor Trailer vor Teaser, dann der jüngste. */
+  const juengster = treffer.sort((a, b) => rang(a.titel) - rang(b.titel) || b.am.localeCompare(a.am))[0]!
   return { video: juengster.video, titel: juengster.titel, sprache: 'de', herkunft: 'kanal', gefundenAm: heute() }
 }
 
@@ -366,7 +389,7 @@ async function main(): Promise<void> {
   if (!schluessel) warn('Kein YOUTUBE_API_KEY — kein Kanalindex und keine Adressprüfung.')
 
   for (const titel of dran) {
-    const fund = ausIndex(titel, index)
+    const fund = ausIndex(titel, index, tmdb[String(titel.id)]?.nameDe)
     if (fund) {
       bestand[String(titel.id)] = fund
       ausKanal++
