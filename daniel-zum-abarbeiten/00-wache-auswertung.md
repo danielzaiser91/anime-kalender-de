@@ -5,6 +5,16 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 19.09.2026, 23:55 — durchgesehen, nichts offen
+
+**Was läuft korrekt.** Letzter Wachlauf 19.09.2026, 13:55, „unauffällig": 2.772 Titel, 2.065 Urteile, 4 offen; über 24 Stunden +1 Urteil, −38 offen. Am Abend kamen im Durchgang rund 40 Belege dazu (JustWatch-Kandidaten, JoJo, Grisaia); die nächste Wache zeigt sie.
+
+**Die Verlustzeile ist gewollt.** „19.09., 01:20 verweise −37, ohneUrteil −37": die 37 toten aniSearch-Adressen der Prime-Prüfliste, im nächtlichen Durchgang als „weg“ gemeldet; für 14 davon kamen JustWatch-Kandidaten, die heute Abend gemeldet und gebucht wurden (`docs/prime-kandidaten-justwatch.md`).
+
+**Wo es heute hakte.** Drei Bauläufe wurden rot, alle an `check:handbelege`, alle aus demselben Grund: Die Prüfung verglich bei mehreren Belegen je Titel und Anbieter den falschen Weg. Behoben (137b10e4, 8c657081), Statusanzeige geräumt.
+
+---
+
 ## 17.09.2026, 13:50 — durchgesehen, zwei Fehler behoben
 
 **Was läuft korrekt.** Letzter Wachlauf 16.09.2026, 14:36, „unauffällig": 2.771 Titel, 2.011 Urteile, 15 offen. Der heutige Lauf fehlt nicht, er kommt nur spät: GitHub startet den 07:20-UTC-Termin seit Tagen gegen 12:40 UTC. Statusanzeige ohne rote Läufe.
