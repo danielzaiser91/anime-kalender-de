@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-19T17:30:14.124Z",
+  "stand": "2026-09-19T17:56:17.978Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7077,13 +7077,24 @@
     {
       "titleId": 144932,
       "titel": "Edens Zero: Season 2",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0D956JD5Y",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-19",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 144932,
+      "titel": "Edens Zero: Season 2",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1035",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-09-19",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 141391,
@@ -7922,6 +7933,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-19",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -7952,7 +7974,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-09-19",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 144533,
@@ -7981,6 +8003,17 @@
       "titel": "Gushing over Magical Girls",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1121",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-19",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
