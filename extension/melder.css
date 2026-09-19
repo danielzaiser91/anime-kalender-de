@@ -1244,6 +1244,20 @@
 .ak-box[hidden] {
   display: none;
 }
+/* Versions-Fähnchen oben links am Rahmen (Daniel, 19.09.2026) — für Bildschirmfotos. */
+.ak-box[data-version]::before {
+  content: 'v' attr(data-version);
+  position: absolute;
+  top: -9px;
+  left: 10px;
+  padding: 1px 6px;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 4px;
+  background: #111;
+  color: rgb(255 255 255 / 60%);
+  font: 600 10px/1.3 system-ui, sans-serif;
+  pointer-events: none;
+}
 
 /*
   **Die Debug-Zeile steht unter einer Trennlinie** (Daniel, 10.09.2026: „pack

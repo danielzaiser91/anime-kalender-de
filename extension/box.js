@@ -68,6 +68,17 @@ function akBox(kennung, fuerAdresse) {
   kasten = document.createElement('div')
   kasten.className = 'ak-box ' + kennung
   kasten.dataset.fuerAdresse = fuerAdresse
+  /*
+    **Die Version steht am Kasten** (Daniel, 19.09.2026: „so kannst du dir bei
+    screenshots auch der version sicher sein"). Als Datenattribut, gezeichnet per
+    `::before` — ein Kind-Element würde `:has(> :not(:empty))` füllen und einen
+    sonst leeren Kasten sichtbar machen.
+  */
+  try {
+    kasten.dataset.version = chrome.runtime.getManifest().version
+  } catch {
+    /* Nach einem Neuladen der Erweiterung ist der alte Kontext tot — dann ohne Fähnchen. */
+  }
   for (const klasse of ['ak-z-titel', 'ak-z-inhalt', 'ak-z-melden']) {
     const zeile = document.createElement('div')
     zeile.className = klasse

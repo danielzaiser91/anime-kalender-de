@@ -32,6 +32,7 @@ import { fileURLToPath } from 'node:url'
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const css = readFileSync(join(wurzel, 'extension/melder.css'), 'utf8')
 const quelle = readFileSync(join(wurzel, 'extension/amazon.js'), 'utf8')
+const version = JSON.parse(readFileSync(join(wurzel, 'extension/manifest.json'), 'utf8')).version
 const ziel = process.argv[2] ?? join(wurzel, 'docs/melder-kasten.png')
 
 /*
@@ -104,7 +105,7 @@ const seite = `<!doctype html><meta charset="utf-8">
   ${amazonRegeln}
   ${css}
 </style>
-<div class="ak-box ak-amazon-suchhinweis">
+<div class="ak-box ak-amazon-suchhinweis" data-version="${version}">
   <div class="ak-z-titel">
     <span class="ak-z-titel-text">Is This a Zombie? · 12 Folgen</span>
     <button type="button" class="ak-z-weg">✕</button>
