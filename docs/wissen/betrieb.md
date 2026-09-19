@@ -794,3 +794,7 @@ Nach einem Push auf `web/src` habe ich „live" gemeldet — der Deploy lief noc
 ### Teilen-Seiten gibt es für Termine (`/r/`) und für Titel (`/t/`) (19.09.2026)
 
 Der Link-Knopf im Detail-Panel teilte `/r/<Titel-Slug>/` — eine Seite, die es für keinen Titel gab, denn unter `/r/` liegen nur Termine. Und ein offener Titel schrieb keinen Pfad in die Adressleiste, geteilt wurde `/#/woche?t=…` mit Startseiten-Vorschau (Hash erreicht keinen Crawler). Seitdem: `build-share-pages.ts` legt je Titel aus `titles.json` `dist/t/<slug>/index.html` an (2.774 Seiten, 26 MB in `dist`, nichts im Repo), Vorschaubild ist das AniList-Banner (große Karte), sonst das Cover (kleine Karte); eigene Bilder wären ~170 MB im Repo. Das Panel setzt den Pfad selbst (`syncSharePath`), weil nur es den Titel sicher hat. `404.html` leitet `/r|t/<…>-<id>/` auf `#/woche?t=<id>` um — für die toten Links, die schon geteilt wurden, und für Titel ohne Synchro (keine eigene Seite).
+
+### `git commit -am` nimmt keine neuen Dateien mit (19.09.2026)
+
+`web/src/lib/tv-angabe.ts` war neu, der Commit lief mit `-am` — importiert, aber nicht eingecheckt. Lokal grün (die Datei lag ja da), in der CI hätte der Bau am Import gescheitert; Deploy wurde vom Nachreich-Commit abgelöst, der schon angestoßene Bestandsbau musste abgebrochen werden. Griff: Vor jedem `-am` die `??`-Zeilen in `git status --short` ansehen — steht dort eine neue Datei, gehört sie mit `git add` dazu.
