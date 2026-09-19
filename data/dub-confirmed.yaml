@@ -16545,3 +16545,38 @@
   dub: true
   checkedAt: '2026-09-19'
   note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Folgen 25–48 gehören zu diesem Eintrag, 1–24 zu Stardust Crusaders (20474). Abos: crunchyrollde (Meldung 4785)."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-19 ---
+
+- anilistId: 20474
+  title: "JoJo’s Bizarre Adventure: Stardust Crusaders"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CG7S59KL
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 25
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    - from: 26
+      to: 26
+      dub: false
+      checked: [26]
+  checkedAt: '2026-09-19'
+  note: "Folgen 1–25 mit deutschem Ton, Folge 26 ohne deutschen Ton — Tonspuren: Français, 日本語 — Amazon-Seite B0CH1GVRKK: alle 26 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 1, zugang=abo, gti=amzn1.dv.gti.575d2e03-ea02-4669-93ae-5f9079eafff2, ausgaben=2 (Zugangsart gilt nur für diese) — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20474
+  title: "JoJo’s Bizarre Adventure: Stardust Crusaders"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GX7VDJK3
+  dub: true
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.9d8140b1-06b0-475b-a27f-4674b7179571, ausgaben=2 (Zugangsart gilt nur für diese) — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20474
+  title: "JoJo’s Bizarre Adventure: Stardust Crusaders"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GXK7RJFW
+  dub: true
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GXK7RJFW: alle 39 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 3, zugang=abo, gti=amzn1.dv.gti.e39b876a-34a9-4453-af4b-afc0d0ae2182, ausgaben=2 (Zugangsart gilt nur für diese) — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"

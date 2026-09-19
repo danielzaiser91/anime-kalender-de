@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-09-19T19:34:05.241Z",
+ "erzeugtAm": "2026-09-19T20:59:37.927Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 736,
-   "gesamt": 739,
-   "offen": 3,
+   "gesamt": 740,
+   "offen": 4,
    "ohneSeite": 0,
    "suchAdressen": [],
    "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3fa85b3-9fd1-4c50-89ce-13e8d5953f92",
@@ -17,6 +17,10 @@
     },
     {
      "url": "https://www.amazon.de/dp/B0CG7S59KL",
+     "titel": "JoJo’s Bizarre Adventure: Stardust Crusaders (JoJo's Bizarre Adventure: Stardust Crusaders)"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0GX7VDJK3",
      "titel": "JoJo’s Bizarre Adventure: Stardust Crusaders (JoJo's Bizarre Adventure: Stardust Crusaders)"
     },
     {
@@ -52,17 +56,21 @@
    "name": "Suchadressen",
    "plattform": "suchadressen",
    "gemeldet": 0,
-   "gesamt": 1,
-   "offen": 1,
+   "gesamt": 2,
+   "offen": 2,
    "ohneSeite": 0,
-   "ziel": "https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video",
+   "ziel": "https://www.amazon.de/s?k=JoJo's%20Bizarre%20Adventure%3A%20Golden%20Wind&i=instant-video",
    "ziele": [
+    {
+     "url": "https://www.amazon.de/s?k=JoJo's%20Bizarre%20Adventure%3A%20Golden%20Wind&i=instant-video",
+     "titel": "JoJo’s Bizarre Adventure: Golden Wind"
+    },
     {
      "url": "https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video",
      "titel": "Jormungand: Perfect Order"
     }
    ],
-   "naechster": "Jormungand: Perfect Order"
+   "naechster": "JoJo’s Bizarre Adventure: Golden Wind"
   }
  ]
 }
