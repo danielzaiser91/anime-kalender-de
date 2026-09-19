@@ -11,6 +11,7 @@ import type {
 import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import type { Dataset } from './data.ts'
 import { sucheZweistufig } from './search.ts'
+import { kostenloseFolgen } from './kostenlos.ts'
 import { synonymeFuer } from './data.ts'
 
 /**
@@ -68,6 +69,11 @@ export interface FilterState extends FilterLists {
    * nicht auffindbar (eingeführt 10.08.2026).
    */
   availableOnly: boolean
+  /**
+   * Nur Titel mit kostenlosen Folgen (TOGGO, YouTube). Daniel im Durchgang,
+   * 19.09.2026: „kostenlos“ nur als Filter, kein Etikett auf Karten oder in der Datenbank.
+   */
+  kostenlosOnly: boolean
   /** Mindest-Vertrauensstufe der Dub-Angabe (nur Datenbank-Ansicht). */
   minConfidence: DubConfidence
   /**
@@ -126,6 +132,7 @@ export const EMPTY_FILTERS: FilterState = {
   confirmedOnly: false,
   favoritesOnly: false,
   availableOnly: false,
+  kostenlosOnly: false,
   minConfidence: 'low',
   modus: {},
 }
@@ -190,6 +197,7 @@ export function activeFilterCount(f: FilterState): number {
     (f.confirmedOnly ? 1 : 0) +
     (f.favoritesOnly ? 1 : 0) +
     (f.availableOnly ? 1 : 0) +
+    (f.kostenlosOnly ? 1 : 0) +
     (f.minConfidence !== 'low' ? 1 : 0)
   )
 }
@@ -250,6 +258,7 @@ export function releaseMatches(
   if (f.releaseTypes.length && !f.releaseTypes.includes(release.releaseType)) return false
   if (f.years.length && !f.years.includes(release.year)) return false
   if (f.confirmedOnly && release.schedule.estimated) return false
+  if (f.kostenlosOnly && (!title || !kostenloseFolgen(title))) return false
 
   if (f.fsk.length) {
     if (release.fsk === undefined) return false
@@ -310,6 +319,7 @@ export function filterTitles(
      * draußen, was nur auf Disc erscheint oder nur zu kaufen ist. Über die
      * Synchro sagt er weiterhin nichts; das tut die Kennzeichnung am Anbieter.
      */
+    if (f.kostenlosOnly && !kostenloseFolgen(t)) return false
     if (f.availableOnly) {
       const stream =
         t.streams.length > 0 ||

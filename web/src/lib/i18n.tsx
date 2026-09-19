@@ -710,6 +710,8 @@ const TEXTE = {
   'detail.source': 'Quelle',
   'detail.whyNoTime': 'Warum steht hier keine Uhrzeit?',
   'filter.available': 'stream verfügbar',
+  'filter.kostenlos': 'nur kostenlos',
+  'filter.kostenlosHint': 'Nur Titel mit kostenlosen Folgen, etwa bei TOGGO oder YouTube.',
   'filter.availableHint':
     'Filtert Ergebnisse auf bestätigte Streaming-Verfügbarkeit.',
   'detail.estimatedDate': 'geschätzter Termin',

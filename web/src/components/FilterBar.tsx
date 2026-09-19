@@ -295,6 +295,15 @@ export function FilterBar({
           {favoriteCount > 0 && <span className="opacity-60">({favoriteCount})</span>}
         </Chip>
 
+        <Chip
+          active={filters.kostenlosOnly}
+          onClick={() => set({ kostenlosOnly: !filters.kostenlosOnly })}
+          color="#10b981"
+          title={t('filter.kostenlosHint')}
+        >
+          {t('filter.kostenlos')}
+        </Chip>
+
         {/* Nur in der Datenbank sinnvoll: In den Kalenderansichten hat ohnehin
             alles einen Termin, dort wäre der Schalter wirkungslos. */}
         {showConfidence && (
