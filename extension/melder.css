@@ -106,6 +106,21 @@
   font: inherit;
 }
 .ak-suche:focus { outline: none; border-color: #58a6ff; }
+/*
+  Amazons eigene Regeln für `input` setzen einen weißen Hintergrund, `color: inherit`
+  blieb hellgrau — getippter Text war kaum lesbar (Daniel, 19.09.2026, mit Bild).
+  Beides fest und mit Vorrang.
+*/
+.ak-dialog input.ak-suche,
+.ak-dialog input.ak-suche:focus {
+  background: #0b0e13 !important;
+  color: #e6edf3 !important;
+  -webkit-text-fill-color: #e6edf3;
+}
+.ak-dialog input.ak-suche::placeholder {
+  color: rgb(230 237 243 / 45%);
+  -webkit-text-fill-color: rgb(230 237 243 / 45%);
+}
 
 .ak-zu {
   border: 0;

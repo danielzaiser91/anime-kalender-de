@@ -2143,6 +2143,35 @@ async function speicherSchreiben(werte) {
     }
   }
 
+  /*
+    **Ein Klick auf eine JustWatch-Adresse nimmt den Auftrag mit.**
+
+    `watch.amazon.de/detail?gti=…` leitet auf eine Seite mit eigener ASIN um
+    (`?ref_=atv_dl_rdr`), und die gti im Kopf dieser Seite ist eine **andere**
+    als JustWatchs (Air Gear: 66c97aeb… gegen 4825705e…, 19.09.2026). Weder
+    Adresse noch Seite verraten also, welcher Auftrag gemeint war. Der Klick in
+    der Prüfliste weiß es: Er merkt sich die Kennung für zwei Minuten, und die
+    Zielseite übernimmt sie — aber nur, wenn sie wirklich aus einer
+    Weiterleitung kommt.
+  */
+  const GTI_SPRUNG = 'ak-prime-gti-sprung'
+  function gtiSprungMerken(kennung) {
+    try {
+      sessionStorage.setItem(GTI_SPRUNG, JSON.stringify({ kennung, zeit: Date.now() }))
+    } catch {
+      /* Ohne Speicher bleibt nur die Zuordnung über die Seite. */
+    }
+  }
+  function gtiSprung() {
+    try {
+      if (!/[?&]ref_=atv_dl_rdr\b/.test(location.search)) return null
+      const a = JSON.parse(sessionStorage.getItem(GTI_SPRUNG) ?? 'null')
+      return a && Date.now() - a.zeit < 120000 ? a.kennung : null
+    } catch {
+      return null
+    }
+  }
+
   function suchauftrag() {
     try {
       const roh = sessionStorage.getItem(SUCH_SCHLUESSEL)
@@ -5879,6 +5908,10 @@ async function speicherSchreiben(werte) {
       verweis.href = e.url
       verweis.textContent = e.titel
       if (asinEintrag === listenId) verweis.textContent = `▸ ${e.titel}`
+      /* JustWatch-Adresse: Der Auftrag reist über die Weiterleitung mit (siehe `gtiSprung`). */
+      if (String(asinEintrag).startsWith('amzn1.dv.gti.')) {
+        verweis.addEventListener('click', () => gtiSprungMerken(asinEintrag))
+      }
       zeile.appendChild(verweis)
 
       /**
@@ -6309,6 +6342,8 @@ async function speicherSchreiben(werte) {
     } catch {
       /* `gesehen` noch nicht angelegt. */
     }
+    const sprung = gtiSprung()
+    if (sprung && liste[sprung]) return sprung
     if (bisher && liste[bisher]) return bisher
     /**
      * Nach einem **Neuladen** auf einer Staffel-Seite hilft `bisher` nicht mehr.
