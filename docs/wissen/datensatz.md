@@ -293,3 +293,7 @@ Daniel: TOGGO (nicht TOGGO plus) und YouTube sind kostenlose Wege; der Titel sol
 ### TV-Pille: Folge, Tag, Uhrzeit, Premiere oder Wiederholung (19.09.2026)
 
 Daniel: „im tv muss auch sagen welche folge an dem termin kommt + uhrzeit ist wichtig" und „premiere bzw wiederholung". `web/src/lib/tv-angabe.ts` nennt den nächsten Sendetermin („Fg. 19 · Mo 21:15 · Premiere"), sonst den letzten („zuletzt …"). Sichtungen zu verschiedenen Zeiten tragen jetzt `schedule.zeiten` je Folge. **Premiere** heißt: vor dem Sendetag keine deutsche Veröffentlichung — weder laut Folgenliste (`ersteDeutsch` aus Wikipedia-`EAD` bzw. RTL+-Start; ohne das hieß Dragon Ball Folge 1 von 1999 auf ProSieben MAXX „Premiere") noch im Streaming (Termine des Anbieters, sonst seine belegten Bereiche, `dub: true` ohne Bereich = alles). Disc zählt nicht.
+
+### Pillen: neutral mit Markenstreifen, ✓ auf der Ecke, Premiere als Fähnchen (19.09.2026)
+
+Drei Entscheidungen Daniels aus Entwürfen (je drei bis vier Varianten, dunkel und hell): Fläche neutral, Markenfarbe nur im Zeichen und als 3-px-Streifen links (vorher „rot auf rot"); der Synchro-Beleg als grünes ✓ auf der oberen rechten Ecke mit Tooltip, unbelegte ohne Zeichen („DE ✓" kostete ~35 px je Pille); „Premiere" als Fähnchen auf der oberen Kante (kostet keine Breite). Leitsatz: verfügbaren Platz wirksam nutzen. Die Pillenreihen haben dafür `gap-y-2.5` — Ecke und Fähnchen ragen über die Kante. `DubMark` („🇩🇪 ✓") bleibt in Favoriten und „Wo sehen?".

@@ -5124,7 +5124,7 @@ pruefe(
   /* TOGGO (Daniel, 19.09.2026): „toggo ist immer DE, immer, ausnahmslos" — und die Pillen einer Zeile sind gleich hoch. */
   const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
   pruefe('ein TOGGO-Weg trägt immer „DE ✓"', /istToggo\(g\.eintraege\[0\]\.url\) \|\|\s*g\.eintraege\[0\]\.dubRanges/.test(panel))
-  pruefe('die Pillen einer Zeile strecken sich auf gleiche Höhe', panel.includes('flex min-h-[2.1rem] flex-wrap items-stretch gap-1.5 pb-1'))
+  pruefe('die Pillen einer Zeile strecken sich auf gleiche Höhe', panel.includes('flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5'))
 }
 {
   /* TOGGO-Fenster (19.09.2026, gemessen an Daima und Boruto): die Pille rechnet beim Anzeigen. */

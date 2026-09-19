@@ -43,7 +43,6 @@ import { FORMAT_DE } from '@shared/mappings.ts'
 import {
   Button,
   Chip,
-  DubMark,
   ReihenStern,
   Tooltip,
   FavoriteStar,
@@ -1176,12 +1175,12 @@ function AntwortKasten({
             Regelfall also weiterhin nicht.
           */}
           {/* `items-stretch`: Eine Pille ohne zweite Zeile wird so hoch wie ihre Nachbarn (Daniel, 19.09.2026, TOGGO neben RTL+). */}
-          <div className="flex min-h-[2.1rem] flex-wrap items-stretch gap-1.5 pb-1">
+          <div className="flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5 gap-y-2.5 pb-1 pt-1">
             {mitBereichen ? (
               <div className="flex w-full flex-col gap-2.5">
                 <div className="flex flex-col gap-1.5 rounded-lg bg-emerald-500/[0.07] p-2 ring-1 ring-inset ring-emerald-600/25 dark:ring-emerald-400/30">
                   <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">{kostenlosKopf}</span>
-                  <div className="flex flex-wrap items-stretch gap-1.5">{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
+                  <div className="flex flex-wrap items-stretch gap-x-1.5 gap-y-2.5">{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
                 </div>
                 {(['abo', 'kauf', 'tv', 'unbekannt', 'sonst'] as const).map((g) => {
                   const teil = pillen.filter((p) => gruppeVon(p) === g)
@@ -1191,7 +1190,7 @@ function AntwortKasten({
                       {g !== 'sonst' && (
                         <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">{T(`bereich.${g}`)}</span>
                       )}
-                      <div className="flex flex-wrap items-stretch gap-1.5">{teil}</div>
+                      <div className="flex flex-wrap items-stretch gap-x-1.5 gap-y-2.5">{teil}</div>
                     </div>
                   )
                 })}
@@ -1472,6 +1471,25 @@ function VermerkAuskunft({
         <p key={i}>{z}</p>
       ))}
     </div>
+  )
+}
+
+/*
+  **Der DE-Beleg als Häkchen auf der Ecke** (Daniel, 19.09.2026, aus vier Entwürfen: „nur das
+  häkchen oben rechts … bei hover tooltip"). „DE ✓" kostete rund 35 px je Pille; unbelegte
+  Wege tragen gar kein Zeichen mehr — der Tooltip sagt, was das Häkchen heißt.
+*/
+function DubEcke({ dub }: { dub?: boolean }) {
+  const { t } = useLang()
+  if (dub !== true) return null
+  return (
+    <span className="absolute -right-1 -top-1.5 z-10">
+      <Tooltip text={t('detail.dubYes')} seite="oben">
+        <span className="grid size-4 place-items-center rounded-full bg-emerald-500 text-[9px] font-black leading-none text-white ring-2 ring-white dark:ring-[#0f1b2e]">
+          ✓
+        </span>
+      </Tooltip>
+    </span>
   )
 }
 
@@ -1869,7 +1887,7 @@ function Pille({
       rel="noreferrer noopener"
       title={titel}
       className={[
-        'inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 transition',
+        'relative inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 transition',
         durchgestrichen ? 'opacity-70' : '',
         farbe
           ? `${PILLE_MARKE} hover:brightness-95 dark:hover:brightness-125`
@@ -2361,9 +2379,18 @@ function ReleasePille({
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
   return (
     <span
-      className={`inline-flex max-w-full items-center rounded-full py-1 pl-3 pr-1 ${farbe ? PILLE_MARKE : ''}`}
+      className={`relative inline-flex max-w-full items-center rounded-full py-1 pl-3 pr-1 ${tvText?.premiere ? 'mt-2' : ''} ${farbe ? PILLE_MARKE : ''}`}
       style={marke(farbe)}
     >
+      {tvText?.premiere && (
+        /*
+          **Premiere als Fähnchen auf der Kante** (Daniel, 19.09.2026: „zu unauffällig", aus vier
+          Entwürfen gewählt) — leuchtet und kostet keine Breite.
+        */
+        <span className="absolute -top-2 left-3 z-10 rounded-md bg-gradient-to-r from-fuchsia-600 to-amber-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(217,70,239,.7)]">
+          ✦ Premiere
+        </span>
+      )}
       {/*
         **Ohne Ziel kein Verweis** (Daniel, 17.09.2026, Kino-Pille): `href="#"` öffnete
         dieselbe Seite in einem neuen Tab. Dann trägt die Pille nur ihre Angaben und „Merken".
@@ -2388,12 +2415,6 @@ function ReleasePille({
             </span>
           )}
           <span className="truncate">{kurzerName}</span>
-          {tvText?.premiere && (
-            /* Eine deutsche Erstausstrahlung ist das Ereignis — sie soll auffallen (Daniel, 19.09.2026). */
-            <span className="shrink-0 rounded-full bg-gradient-to-r from-fuchsia-600 to-amber-500 px-2 py-0.5 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[0_0_10px_rgba(217,70,239,.7)] ring-1 ring-white/40">
-              ✦ Premiere
-            </span>
-          )}
         </span>
         <span className="truncate text-[11px] text-slate-500 dark:text-slate-400">
           {/*
@@ -4846,7 +4867,7 @@ export function DetailPanel({
                         }
                         rechts={
                           <>
-                            <DubMark dub={s.dub} />
+                            <DubEcke dub={s.dub} />
                             <MerkenKnopf
                               release={releaseJePlattform.get(s.platform)}
                               today={today}
@@ -4990,7 +5011,7 @@ export function DetailPanel({
                             return verweis?.dub === true ? folgenAngabeFuer(verweis) || undefined : undefined
                           })()}
                           rechts={
-                            <DubMark
+                            <DubEcke
                               dub={
                                 istToggo(g.eintraege[0].url) ||
                                 g.eintraege[0].dubRanges?.some((r) => r.dub) ||
@@ -5037,7 +5058,7 @@ export function DetailPanel({
                               ? folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges }) || undefined
                               : undefined
                         }
-                        rechts={g.eintraege[0].dubRanges?.some((r) => r.dub) ? <DubMark dub /> : undefined}
+                        rechts={g.eintraege[0].dubRanges?.some((r) => r.dub) ? <DubEcke dub /> : undefined}
                         /*
                           Auch hier trägt der Weg die Farbe seines Anbieters —
                           derselbe Grund wie bei den Stream-Wegen darüber. Für
