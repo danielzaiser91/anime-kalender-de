@@ -175,6 +175,16 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 | **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
 
+## Geplant 19.09.2026: Deutsche Folgendaten und TV-Folgennummern (Recherche `docs/recherche-tv-quellen-2026-09-19.md`)
+
+**Gebaut (19.09.2026):** tv.de als zweite TV-Quelle (`fetch-tv-programm.ts`, einmal am Tag, nur Kategorie Anime) — ProSieben MAXX mit Dragon Ball Super, One Piece, Conan, Solo Leveling, Gachiakuta u. a.
+
+**Offen, nach Priorität:**
+1. **Folgennummern für TV-Sichtungen** aus den de.wikipedia-Episodenlisten (MediaWiki-API, CC BY-SA mit Namensnennung): Titelabgleich Folgentitel ↔ deutscher Episodentitel. Heute zählt `tv-termine.ts` gesichtete Titel als „Folge 1, 2 …" — bei Beyblade X wurde daraus „Erste Folge heute". Gemessen von der Recherche: Dragon Ball Super 131/131 Folgen mit deutschem Titel und Datum, alle 14 EPG-Titel passten wörtlich.
+2. **Deutsche Erstausstrahlung je Folge** aus denselben Listen, wo aniSearch Lücken hat.
+3. **RTL+-Folgenseiten** für RTL-Serien ohne Wikipedia-Liste (Beyblade X ab Folge 66); `uploadDate` ist nur bei neuen Folgen die Erstveröffentlichung.
+4. **Nachtblöcke** auf tv.de stehen nur auf den Detailseiten („weitere Sendetermine") — ein Abruf je gesichteter Sendung, falls nötig.
+
 ## Aufgenommen 19.09.2026, 03:25: TOGGO-Pillen (Daniel, mit zwei Bildern an Dragon Ball Daima) — noch nicht umgesetzt
 
 Anlass: Auf toggo.de (`/sammlung/alle-formate/serien/dragon-ball-daima-vse446`) stehen nur noch die Folgen 14–18 („Neu“, ab 12, je 22:37 Min.), im Panel steht die Pille „TOGGO DE ?“.
