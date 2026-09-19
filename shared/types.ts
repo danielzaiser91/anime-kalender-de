@@ -669,7 +669,8 @@ export interface Release {
    */
   automatisch?: boolean
   /**
-   * Letzter Tag, an dem die Reihe im TV-Programm gesichtet wurde (`pipeline/lib/tv-termine.ts`).
+   * Letzter Tag, an dem die Reihe im TV-Programm gesichtet wurde (`pipeline/lib/tv-termine.ts`)
+   * — oder, bei einem RTL+-Wochentermin, der Tag der jüngsten Folge (`rtlplusWochentermine`).
    * Die Quelle kennt kein Ende; bis sieben Tage danach gilt die Reihe als laufend.
    */
   tvLetzteSichtung?: string

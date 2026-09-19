@@ -19,6 +19,8 @@
  * Zu jeder Folge gibt es zusätzlich eine `…/video/embed/…`-Adresse ohne Daten — sie zählt nicht.
  */
 import { folgenKern } from '../../shared/folgen-zuordnung.ts'
+import { addDays } from '../../shared/time.ts'
+import type { Release, Title } from '../../shared/types.ts'
 
 export type RtlVideo = { video: string; titel: string; ab?: string; staffel?: number; folge?: number }
 export type RtlFolge = { nr: number; st: number; staffel: number; dt: string; ab?: string }
@@ -96,4 +98,73 @@ export function durchzaehlen(videos: RtlVideo[]): RtlFolge[] {
     versatz += Math.max(...liste.map((v) => v.folge!))
   }
   return aus.sort((a, b) => a.nr - b.nr)
+}
+
+/**
+ * **Eine RTL+-Staffel, die gerade wöchentlich wächst, wird ein Termin** (19.09.2026).
+ *
+ * Beyblade X Staffel 3 kam freitags auf RTL+ auf Deutsch, Folge 1 am 05.06.2026 bis
+ * Folge 17 am 18.09. — der Kalender wusste davon nichts. Ein Termin entsteht nur, wenn
+ * alles davon gemessen ist:
+ *
+ * - die jüngste Staffel hat mindestens drei Folgen, jede an einem eigenen Tag, im
+ *   Abstand ganzer Wochen (± 1 Tag) — ein Wochentakt, keine Paketlieferung; eine
+ *   fehlende Folge (RTL+ führt S3 F2 nicht) darf eine Woche Lücke lassen;
+ * - die letzte Folge ist höchstens 14 Tage alt (die Staffel läuft noch);
+ * - der RTL+-Weg des Titels trägt `dub: true` (Synchro belegt);
+ * - es gibt noch keinen RTL+-Termin für den Titel (ein gepflegter gewinnt).
+ *
+ * Das Ende kennt RTL+ nicht. Wie bei einer TV-Sichtung (`tvLetzteSichtung`) gilt die Reihe
+ * bis sieben Tage nach der letzten Folge als laufend, und Termine gibt es nur für
+ * erschienene Folgen — keine Folge 18 am 25.09., solange sie niemand gesehen hat.
+ */
+export function rtlplusWochentermine(
+  listen: Record<string, { programm: string; folgen: RtlFolge[] }>,
+  titles: Map<number, Title>,
+  vorhanden: Release[],
+  heute: string,
+): Release[] {
+  const aus: Release[] = []
+  for (const [id, { programm, folgen }] of Object.entries(listen)) {
+    const title = titles.get(Number(id))
+    if (!title || vorhanden.some((r) => r.titleId === title.id && r.platform === 'rtlplus')) continue
+    if (!title.streams?.some((s) => s.platform === 'rtlplus' && s.dub === true)) continue
+    const staffel = Math.max(0, ...folgen.map((f) => f.staffel))
+    const reihe = folgen.filter((f) => f.staffel === staffel && f.ab).sort((a, b) => a.nr - b.nr)
+    const tage = reihe.map((f) => f.ab!)
+    const woechentlich =
+      reihe.length >= 3 &&
+      tage.every((d, i) => {
+        if (i === 0) return true
+        const abstand = (Date.parse(d) - Date.parse(tage[i - 1]!)) / 864e5
+        /* Eine fehlende Folge (bei RTL+ S3 F2) verdoppelt den Abstand — erlaubt sind ganze Wochen. */
+        const wochen = Math.round(abstand / 7)
+        return wochen >= 1 && Math.abs(abstand - 7 * wochen) <= 1
+      })
+    const letzte = tage.at(-1)
+    if (!woechentlich || !letzte || letzte < addDays(heute, -14)) continue
+    const erste = reihe[0]!
+    const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? programm
+    aus.push({
+      slug: `auto-${title.id}-rtlplus-staffel-${staffel}`,
+      titleId: title.id,
+      name: `${name} Staffel ${staffel}`,
+      platform: 'rtlplus',
+      platformUrl: `https://plus.rtl.de/${programm}`,
+      releaseType: 'weekly',
+      schedule: {
+        firstEpisodeDate: erste.ab!,
+        ...(erste.nr > 1 ? { firstEpisodeNumber: erste.nr } : {}),
+        episodeCount: reihe.at(-1)!.nr - erste.nr + 1,
+        observed: Object.fromEntries(reihe.map((f) => [f.nr, f.ab!])),
+      },
+      tvLetzteSichtung: letzte,
+      folgenBelegt: true,
+      year: Number(erste.ab!.slice(0, 4)),
+      herkunft: `Automatisch aus den Folgenseiten von RTL+: Staffel ${staffel}, ${reihe.length} Folgen im Wochentakt, zuletzt am ${letzte}. Ein Ende nennt RTL+ nicht.`,
+      sources: [`https://plus.rtl.de/${programm}`],
+      automatisch: true,
+    })
+  }
+  return aus
 }

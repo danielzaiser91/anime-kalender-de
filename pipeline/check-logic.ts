@@ -111,7 +111,7 @@ import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
-import { durchzaehlen, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
+import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
@@ -4587,6 +4587,24 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'eine TV-Sichtung mit Folgenliste zeigt ihre Nummern, eine ohne nicht',
     mitNr[0] !== undefined && halb[0] !== undefined && expandEvents(mitNr[0]).every((e) => !e.sichtung) && expandEvents(halb[0]).every((e) => e.sichtung),
   )
+  /* RTL+-Wochentermin (19.09.2026): nur gemessener Wochentakt, nur laufend, nur mit belegter Synchro. */
+  {
+    const bx = { id: 165159, titleDe: 'Beyblade X', streams: [{ platform: 'rtlplus', url: 'x', dub: true }] } as unknown as Title
+    const f = (nr: number, ab: string) => ({ nr, st: nr - 100, staffel: 3, dt: `F${nr}`, ab })
+    const liste = { '165159': { programm: 'beyblade-x-p_9519', folgen: [f(101, '2026-06-05'), f(103, '2026-06-12'), f(104, '2026-06-26'), f(105, '2026-07-03')] } }
+    const tm = new Map([[165159, bx]])
+    const w = rtlplusWochentermine(liste, tm, [], '2026-07-05')
+    pruefe(
+      'RTL+-Wochentermin: Folge 101–105 mit Wochenlücke, nur gesehene Folgen, offenes Ende',
+      w.length === 1 && w[0]!.schedule.firstEpisodeNumber === 101 && expandEvents(w[0]!).map((e) => e.episode).join(',') === '101,103,104,105' && w[0]!.tvLetzteSichtung === '2026-07-03',
+      w[0] && expandEvents(w[0]).map((e) => `${e.episode}@${e.date}`),
+    )
+    pruefe('RTL+-Wochentermin: eine Staffel ohne neue Folge seit 14 Tagen ist keiner', rtlplusWochentermine(liste, tm, [], '2026-07-20').length === 0)
+    const paket = { '165159': { programm: 'p', folgen: [f(101, '2026-06-05'), f(102, '2026-06-05'), f(103, '2026-06-05')] } }
+    pruefe('RTL+-Wochentermin: drei Folgen an einem Tag sind kein Wochentakt', rtlplusWochentermine(paket, tm, [], '2026-06-06').length === 0)
+    const ohneDub = new Map([[165159, { ...bx, streams: [{ platform: 'rtlplus', url: 'x' }] } as unknown as Title]])
+    pruefe('RTL+-Wochentermin: ohne belegte Synchro am RTL+-Weg keiner', rtlplusWochentermine(liste, ohneDub, [], '2026-07-05').length === 0)
+  }
   const hand = { titleId: 158871, platform: 'tv', sender: 'Super RTL' } as Release
   pruefe('ein Handeintrag beim selben Sender gewinnt', releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'A')], titles, [hand]).length === 0)
 }

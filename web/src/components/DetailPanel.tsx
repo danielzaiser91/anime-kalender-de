@@ -2322,7 +2322,10 @@ function ReleasePille({
               der nächste Sendetag, sonst die letzte Sichtung — „im TV am 23.09." über einer
               Reihe, die am 21.09. beginnt, las sich wie der erste Termin (19.09.2026).
             */
-            release.tvLetzteSichtung
+            release.tvLetzteSichtung && release.platform !== 'tv'
+              ? /* RTL+-Wochentermin: die jüngste Folge, nicht „im TV". */
+                t('detail.neuAm', { d: formatDate(release.tvLetzteSichtung) })
+              : release.tvLetzteSichtung
               ? t('detail.tvGesehen', {
                   d: formatDate(
                     Object.values(release.schedule?.observed ?? {})
@@ -3377,6 +3380,12 @@ export function DetailPanel({
     const grenze = dubGrenze(s?.dubRanges)
     if (grenze) return t(grenze.schluessel, { n: grenze.n })
     const release = s?.platform ? releaseJePlattform.get(s.platform) : undefined
+    /*
+      Ein RTL+-Wochentermin setzt mitten in der Serie ein (Beyblade X ab Folge 101); die
+      erschienenen zu zählen ergäbe „16 Fg." bei 115 Folgen auf RTL+ (19.09.2026).
+    */
+    if (release?.tvLetzteSichtung && release.platform !== 'tv' && releaseStatus(release, today) === 'airing')
+      return t('detail.neuAm', { d: formatDate(release.tvLetzteSichtung) })
     if (release?.releaseType === 'weekly' && releaseStatus(release, today) === 'airing') {
       const raus = expandEvents(release).filter((e) => istErschienen(e)).length
       return raus ? t('detail.folgenKurz', { n: raus }) : ''

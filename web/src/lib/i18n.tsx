@@ -307,6 +307,7 @@ const TEXTE = {
   'detail.abDatum': 'ab {d}',
   'detail.seitDatum': 'seit {d}',
   'detail.tvGesehen': 'im TV am {d}',
+  'detail.neuAm': 'neue Folge {d}',
   // Der Bereich „Release-Termine für deutsche Synchro" ist am 16.09.2026 entfallen:
   // Was er trug, steht im Antwort-Kasten darüber (Status in Worten), am Cover (FSK)
   // oder nirgends mehr („Erscheinungstermin: unbekannt" war eine Nicht-Auskunft).

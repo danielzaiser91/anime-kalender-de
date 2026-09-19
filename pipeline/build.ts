@@ -86,6 +86,7 @@ import {
   type Vorschlag,
 } from './lib/meldungen.ts'
 import { releasesAusTvProgramm, type WikiListen } from './lib/tv-termine.ts'
+import { rtlplusWochentermine, type RtlFolge } from './lib/rtlplus-folgen.ts'
 import type { TvSendung } from './fetch-tv-programm.ts'
 import {
   KEYWORD_BLOCKLIST,
@@ -2940,6 +2941,15 @@ function main(): void {
     },
   )
   releases.push(...ausTv)
+  /* RTL+-Staffeln, die gerade wöchentlich wachsen (Beyblade X, 19.09.2026). */
+  const ausRtl = rtlplusWochentermine(
+    readJson<{ titel?: Record<string, { programm: string; folgen: RtlFolge[] }> }>('data/rtlplus-folgen.json', {}).titel ?? {},
+    titles,
+    releases,
+    todayIso(),
+  )
+  releases.push(...ausRtl)
+  if (ausRtl.length) log(`${ausRtl.length} RTL+-Wochentermine: ${ausRtl.map((r) => r.name).join(', ')}`)
   if (ausTv.length) log(`${ausTv.length} TV-Termine aus dem RTL+-Programm: ${ausTv.map((r) => `${r.name} (${r.sender})`).join(', ')}`)
 
   quellenPflegen(releases)
