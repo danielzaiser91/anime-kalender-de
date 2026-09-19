@@ -26,6 +26,7 @@ import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/ti
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
+import { kostenlosEtikett, kostenloseFolgen } from '../web/src/lib/kostenlos.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
 import { FSK_COLORS, PLATFORMS } from '../shared/types.ts'
 import {
@@ -5165,6 +5166,22 @@ pruefe(
   pruefe('tv.de: nur Anime, Zeichentrick fällt heraus', g.length === 2 && g.every((x) => x.titel !== 'SpongeBob'), JSON.stringify(g.map((x) => x.titel)))
   pruefe('tv.de: nach Mitternacht ist der nächste Tag', g[1]?.start === '2026-09-20T00:55:00+02:00', g[1]?.start)
   pruefe('tv.de: Folgentitel und Zeichen stimmen', g[1]?.folge === 'Zou & Co' && g[0]?.titel === 'Dragon Ball Super', JSON.stringify(g[1]))
+}
+{
+  /* Kostenlos-Etikett (Daniel, 19.09.2026): TOGGO zählt offene Fenster, ein Video eine Folge. */
+  const jetzt = '2026-09-19T15:00'
+  const toggo = { name: 'TOGGO', url: 'https://www.toggo.de/x/serien/y-vse1', kind: 'stream', zugang: 'kostenlos', toggo: [
+    { staffel: 1, von: 1, bis: 30, ab: '2026-01-01T00:00', ende: '2026-12-31T23:59' },
+    { staffel: 2, von: 1, bis: 5, ab: '2026-01-01T00:00', ende: '2026-09-01T00:00' },
+  ] } as never
+  const k = kostenloseFolgen({ watchLinks: [toggo] }, jetzt)
+  pruefe('kostenlos: nur offene TOGGO-Fenster zählen', k?.frei === 30 && !k.unbekannt, k)
+  pruefe('kostenlos: 30 von 293 ist teilweise', kostenlosEtikett(k, 293) === 'teil' && kostenlosEtikett(k, 30) === 'ganz')
+  const yt = { name: 'YouTube', url: 'https://www.youtube.com/watch?v=abc', kind: 'stream', zugang: 'kostenlos' } as never
+  pruefe('kostenlos: ein einzelnes Video ist eine Folge', kostenloseFolgen({ watchLinks: [yt] }, jetzt)?.frei === 1)
+  const liste = { name: 'YouTube', url: 'https://www.youtube.com/playlist?list=x', kind: 'stream', zugang: 'kostenlos' } as never
+  pruefe('kostenlos: ohne Zahl „auch kostenlos", nie „teilweise"', kostenlosEtikett(kostenloseFolgen({ watchLinks: [toggo, liste] }, jetzt), 293) === 'auch')
+  pruefe('kostenlos: kein freier Weg, kein Etikett', kostenloseFolgen({ watchLinks: [], streams: [] }, jetzt) === undefined)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -597,6 +597,10 @@ const TEXTE = {
   */
   'antwort.teilweiseZahl': '{raus} von {gesamt} Folgen auf Deutsch',
   'antwort.teilweiseNeben': 'Für die übrigen fehlt uns eine Angabe',
+  'kostenlos.ganz': 'kostenlos',
+  'kostenlos.teil': 'teilweise kostenlos',
+  'kostenlos.auch': 'auch kostenlos',
+  'kostenlos.zahl': '{frei} von {von} Folgen',
   // Steht unter der Überschrift bei Titeln, zu denen wir keinen eigenen Termin
   // haben — 1.985 Stück. „Seit" statt „erschienen am": aniSearch nennt die
   // deutsche Erstveröffentlichung, oft eine DVD, und bei einem Simuldub sogar

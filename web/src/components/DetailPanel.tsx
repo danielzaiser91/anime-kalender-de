@@ -52,6 +52,7 @@ import {
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { AnbieterIcon, anbieterDatei } from '../lib/anbieter-icon.tsx'
 import { toggoAngabe } from '../lib/toggo.ts'
+import { kostenlosEtikett, kostenloseFolgen } from '../lib/kostenlos.ts'
 
 const KEYWORD_PREVIEW = 8
 /**
@@ -1016,6 +1017,40 @@ function AntwortKasten({
       )}
 
       {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
+      {(() => {
+        /*
+          **Kostenlos, teilweise kostenlos oder auch kostenlos** (Daniel, 19.09.2026). Verglichen
+          wird mit den Folgen, die es auf Deutsch gibt — bei einer laufenden Staffel mit den
+          erschienenen. Regeln in `lib/kostenlos.ts`.
+        */
+        const k = kostenloseFolgen(title)
+        const deutsch =
+          title.format === 'MOVIE' || title.episodes === 1
+            ? 1
+            : antwort.art === 'fertig'
+              ? antwort.gesamt
+              : antwort.art === 'teilweise' || antwort.art === 'laeuft'
+                ? antwort.raus
+                : undefined
+        /* Ohne Gesamtzahl (laufende Serie): die meisten belegt deutschen Folgen eines Anbieters —
+           Beyblade X: Disney+ 100, TOGGO frei 117. */
+        const belegtMax = Math.max(
+          0,
+          ...(title.streams ?? []).map((s) =>
+            (s.dubRanges ?? []).filter((r) => r.dub).reduce((n, r) => n + r.to - r.from + 1, 0),
+          ),
+        )
+        const etikett = kostenlosEtikett(k, deutsch || belegtMax || undefined)
+        if (!etikett) return null
+        return (
+          <p className="mt-1 flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+            <span className="rounded-full bg-emerald-600/10 px-2 py-px font-semibold text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300">
+              {T(`kostenlos.${etikett}`)}
+            </span>
+            {etikett === 'teil' && T('kostenlos.zahl', { frei: k!.frei!, von: (deutsch || belegtMax)! })}
+          </p>
+        )
+      })()}
       {angebotSeit && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{angebotSeit}</p>}
       {kaufausgabe && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{kaufausgabe}</p>}
       {hinweis}

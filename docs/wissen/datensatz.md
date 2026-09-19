@@ -286,3 +286,6 @@ belegtem 404 oder einer Regionssperre führt. Eine Zusicherung über den Quellte
 nur die Stelle, die man schon kennt; diese nennt jede neue. Sie hat sofort einen zweiten Fall
 gefunden, von dem niemand wusste (Fate/Grand Order Solomon auf Netflix).
 
+### „kostenlos", „teilweise kostenlos", „auch kostenlos" (19.09.2026)
+
+Daniel: TOGGO (nicht TOGGO plus) und YouTube sind kostenlose Wege; der Titel soll zeigen, ob er ganz oder teilweise frei zu sehen ist. `web/src/lib/kostenlos.ts` zählt je kostenlosem Weg: TOGGO die jetzt offenen Fenster, ein einzelnes Video eine Folge, sonst die deutschen Folgenbereiche; ohne Zahl ist der Weg „unbekannt". Wege werden nicht addiert (dieselben Folgen?), der größte gilt. Verglichen wird mit den deutschen Folgen der Kopfzeile, bei laufenden Serien ohne Gesamtzahl mit der größten belegten Zahl eines Anbieters (Beyblade X: Disney+ 100 gegen TOGGO 117 → „kostenlos"). **Ein Weg ohne Zahl macht nie „teilweise"** — er könnte den Rest abdecken; dann steht „auch kostenlos". Das Etikett steht als eigene Zeile im Kasten; eine eigene Gruppe „Kostenlos" gibt es bewusst nicht, die Zugangsart steht seit dem 03.09.2026 an der Pille.
