@@ -119,9 +119,9 @@
 - anilistId: 857
   title: "Air Gear"
   platform: primevideo
-  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.66c97aeb-db50-4b80-9691-ddbb8ddeed91
+  url: https://www.amazon.de/gp/video/detail/0L8OEXAMVVVVJF4LJA0B8D1BIP
   belegtAm: '2026-09-19'
-  beleg: 'JustWatch-gti; Seite zeigt „Air Gear – Staffel 1“, 2007, In Prime enthalten, deutsche Sprecher (Konrad Bösherz, Rubina Nath) (Daniel im Durchgang, Bild)'
+  beleg: 'JustWatch-gti; Seite zeigt „Air Gear – Staffel 1“, 2007, In Prime enthalten, deutsche Sprecher (Konrad Bösherz, Rubina Nath) (Daniel im Durchgang, Bild); gemeldete Seite 0L8OEXAMVVVVJF4LJA0B8D1BIP (JustWatch-gti 66c97aeb…), Meldung 4736: Staffel 1, 26 Folgen deutsch'
 
 # JustWatch-Kandidaten auf die Prüfliste (19.09.2026, Daniel: „pack lieber auf prüfliste“).
 # Die Zuordnung ist JustWatchs; Titel und Staffel bestätigt erst die Meldung der Erweiterung.
@@ -215,3 +215,12 @@
   url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.2b4f6080-5781-4c1d-9fb8-c5b84c3c7531
   belegtAm: '2026-09-19'
   beleg: 'JustWatch nennt diese Prime-Adresse für den Titel; Identität und Sprache per Meldung der Erweiterung'
+
+# Urteile ohne Folgenmeldung zurückgenommen (Daniel, 19.09.2026): Die Adresse bleibt, die Sprache
+# kommt aus der Meldung der Erweiterung. Magilumiere 1 und 2 laufen über watch-links.yaml.
+- anilistId: 20474
+  title: "JoJo no Kimyou na Bouken: Stardust Crusaders"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CG7S59KL
+  belegtAm: '2026-08-25'
+  beleg: 'Amazons Staffel 3 der JoJo-Sammelseite ist Stardust Crusaders mit 48 Folgen, beide Teile (24 + 24 Egypt-hen 20799); Daniel, 25.08.2026'
