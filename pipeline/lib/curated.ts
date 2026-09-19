@@ -20,6 +20,13 @@ export interface CuratedEntry {
   publisher?: string
   edition?: string
   note?: string
+  /**
+   * **Was an einer Fassung geschnitten ist — und wo es steht** (Daniel, 19.09.2026, an
+   * Dragon Ball Daima: „es fehlt ein link zur quelle … oder wir listen selbst auf
+   * (ausklappbar) was geschnitten wird"). Die Notiz sagt, dass geschnitten ist; `was`
+   * zählt auf, was die Quellen nennen, `quellen` führt zu ihnen. Im Panel aufklappbar.
+   */
+  schnitt?: { was: string[]; quellen: string[] }
   /** Warum der Eintrag so aussieht — für uns; erscheint nicht auf der Seite (siehe `Release.herkunft`). */
   herkunft?: string
   /**

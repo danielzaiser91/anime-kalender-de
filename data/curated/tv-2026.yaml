@@ -24,6 +24,13 @@
       3: "2026-08-30"
       20: "2026-09-22"
   note: "Wiederholung ab 26.09.2026 samstags und sonntags um 21:15. Die TV-Fassung ist geschnitten."
+  schnitt:
+    was:
+      - "Mr. Popo ist aus dem Bild entfernt: Szenen mit ihm gekürzt, das Bild herangezoomt oder durch ein Standbild ersetzt."
+      - "Seine Stimme ist weiter zu hören."
+    quellen:
+      - https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/
+      - https://mein-mmo.de/dragon-ball-daima-deutsch-synchro-mr-popo/
   sources:
     - https://www.anime2you.de/news/1044800/dragon-ball-daima-ab-heute-im-free-tv/
     - https://www.anime2you.de/news/1047175/toggo-plus-dragon-ball-daima-wiederholung/

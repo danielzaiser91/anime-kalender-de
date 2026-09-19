@@ -578,6 +578,13 @@ export interface Release {
   /** Ein Hinweis für Besucher — steht im Detail-Panel und auf der Teilen-Seite. */
   note?: string
   /**
+   * **Was an einer Fassung geschnitten ist — und wo es steht** (Daniel, 19.09.2026, an
+   * Dragon Ball Daima: „es fehlt ein link zur quelle … oder wir listen selbst auf
+   * (ausklappbar) was geschnitten wird"). Die Notiz sagt, dass geschnitten ist; `was`
+   * zählt auf, was die Quellen nennen, `quellen` führt zu ihnen. Im Panel aufklappbar.
+   */
+  schnitt?: { was: string[]; quellen: string[] }
+  /**
    * **Warum der Eintrag so aussieht — für uns, nicht für Besucher.**
    *
    * Daniel am 13.09.2026 zu „Zum Start am 19.08.2026 standen die Folgen 1 bis 3

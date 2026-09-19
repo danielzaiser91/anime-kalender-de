@@ -295,6 +295,7 @@ function AntwortKasten({
   disc = [],
   wegeHinweis,
   notiz,
+  schnitt,
   angebotSeit,
   kaufausgabe,
   hinweis,
@@ -345,6 +346,7 @@ function AntwortKasten({
    * angekündigt — der Tag steht noch nicht fest."
    */
   notiz?: string
+  schnitt?: Release['schnitt']
   /**
    * **„Im Angebot seit" — die einzige Angabe, die der frühere Terminblock allein trug.**
    *
@@ -1006,6 +1008,27 @@ function AntwortKasten({
         <p className="mt-1.5 text-[11px] leading-snug text-amber-600 dark:text-amber-400/90">
           {notiz}
         </p>
+      )}
+      {schnitt && (
+        <details className="mt-1 text-[11px] leading-snug text-amber-700 dark:text-amber-300/90">
+          <summary className="cursor-pointer select-none font-medium hover:underline">Was geschnitten ist</summary>
+          <ul className="mt-1 list-disc space-y-0.5 pl-4">
+            {schnitt.was.map((w) => (
+              <li key={w}>{w}</li>
+            ))}
+          </ul>
+          <p className="mt-1 text-slate-500 dark:text-slate-400">
+            Quellen:{' '}
+            {schnitt.quellen.map((q, i) => (
+              <span key={q}>
+                {i > 0 && ' · '}
+                <a href={q} target="_blank" rel="noopener noreferrer" className="underline hover:text-sky-700 dark:hover:text-sky-300">
+                  {new URL(q).hostname.replace(/^www\./, '')}
+                </a>
+              </span>
+            ))}
+          </p>
+        </details>
       )}
       </div>
       {pillen.length === 0 && wegeHinweis && (
@@ -3808,7 +3831,7 @@ export function DetailPanel({
     const vergangen = mitNotiz
       .filter((r) => (r.schedule?.firstEpisodeDate ?? '') < today)
       .sort((a, b) => (b.schedule?.firstEpisodeDate ?? '').localeCompare(a.schedule?.firstEpisodeDate ?? ''))
-    return (kuenftig[0] ?? vergangen[0])?.note
+    return kuenftig[0] ?? vergangen[0]
   }, [releases, today])
 
   /*
@@ -4475,7 +4498,8 @@ export function DetailPanel({
               t={t}
               today={today}
               wegeHinweis={wegeHinweis}
-              notiz={kastenNotiz}
+              notiz={kastenNotiz?.note}
+              schnitt={kastenNotiz?.schnitt}
               angebotSeit={
                 /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
                    Auskunft mehr („Auf Deutsch seit 28.12.2023 · Netflix, Inc." über „Bei Netflix im

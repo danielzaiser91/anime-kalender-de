@@ -2433,6 +2433,7 @@ function main(): void {
       publisher: entry.publisher,
       edition: entry.edition,
       note: entry.note,
+      ...(entry.schnitt ? { schnitt: entry.schnitt } : {}),
       herkunft: entry.herkunft ?? durchzaehlungHinweis,
       disputedDates: entry.disputedDates,
       schedule,

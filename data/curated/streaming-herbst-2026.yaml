@@ -58,6 +58,13 @@
   # geschnitten (Mr.-Popo-Szenen durch Standbilder ersetzt, manime.de 30.08.);
   # ob RTL+ dieselbe Fassung zeigt, ist nicht bekannt.
   note: "Die TV-Fassung bei TOGGO plus ist geschnitten; ob RTL+ dieselbe zeigt, ist nicht bekannt."
+  schnitt:
+    was:
+      - "Mr. Popo ist aus dem Bild entfernt: Szenen mit ihm gekürzt, das Bild herangezoomt oder durch ein Standbild ersetzt."
+      - "Seine Stimme ist weiter zu hören."
+    quellen:
+      - https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/
+      - https://mein-mmo.de/dragon-ball-daima-deutsch-synchro-mr-popo/
   sources:
     - https://www.anime2you.de/news/1039738/dragon-ball-daima-toggo-rtl-starttermin/
     - https://www.anime2you.de/news/1047175/toggo-plus-dragon-ball-daima-wiederholung/
