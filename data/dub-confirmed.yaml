@@ -16385,3 +16385,13 @@
   dub: true
   checkedAt: '2026-09-19'
   note: "Deutsch laut Daniel im Durchgang (Film 2004, aniverse-Kanal plus Leihen/Kaufen HD). Kanal-Ja zählt als Beleg (seit 17.09.2026)."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-19 ---
+
+- anilistId: 857
+  title: "Air Gear"
+  platform: primevideo
+  url: https://www.amazon.de/dp/0L8OEXAMVVVVJF4LJA0B8D1BIP
+  dub: true
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite 0L8OEXAMVVVVJF4LJA0B8D1BIP: alle 26 Folgen geprüft, Abos: Prime, aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.4825705e-aa8e-4aee-95d3-82f94649bb23"
