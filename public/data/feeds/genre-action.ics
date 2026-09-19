@@ -141,6 +141,16 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1419@2026-09-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260917T070000Z
+DTEND:20260917T073000Z
+SUMMARY:SERVAMP
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1419
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:dragon-ball-daima-toggo-plus@2026-09-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260917T191500Z
