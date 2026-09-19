@@ -6336,14 +6336,20 @@ async function speicherSchreiben(werte) {
       Melde-Knopf). `gesehen` entsteht weiter unten — beim ersten Aufruf gibt es
       ihn noch nicht, der Takt fragt später erneut.
     */
+    /*
+      Der Klick zuerst: JustWatch führt manche Seite unter zwei gtis, und die
+      Kopf-gti der Seite traf dann den **anderen**, schon gemeldeten Eintrag —
+      der angeklickte blieb offen und war nicht meldbar (Yu-Gi-Oh! 5D’s,
+      Yamada-kun, 19.09.2026).
+    */
+    const sprung = gtiSprung()
+    if (sprung && liste[sprung]) return sprung
     try {
       const gti = gesehen?.seite?.gti
       if (gti && liste[gti]) return gti
     } catch {
       /* `gesehen` noch nicht angelegt. */
     }
-    const sprung = gtiSprung()
-    if (sprung && liste[sprung]) return sprung
     if (bisher && liste[bisher]) return bisher
     /**
      * Nach einem **Neuladen** auf einer Staffel-Seite hilft `bisher` nicht mehr.
