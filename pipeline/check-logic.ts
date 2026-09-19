@@ -5034,5 +5034,10 @@ pruefe(
   const news = readFileSync('pipeline/lib/news.ts', 'utf8')
   pruefe('„Neu auf Deutsch" verlangt einen deutschen Stream oder einen erreichten Termin', news.includes('if (!anbieter && !erreicht) continue'))
 }
+{
+  /* Beyblade X (19.09.2026): eine automatische TV-Sichtung verdrängt keinen belegten deutschen Stream. */
+  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+  pruefe('eine automatische TV-Sichtung bestimmt den Kasten nicht, wenn die Synchro schon gestreamt wird', panel.includes("!(hatSynchro && r.platform === 'tv' && r.automatisch)"))
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

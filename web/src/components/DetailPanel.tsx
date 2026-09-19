@@ -3464,7 +3464,20 @@ export function DetailPanel({
     const imKinoBanner = (r: (typeof releases)[number]) =>
       r.platform === 'kino' &&
       (r.cinemaUntil ? r.cinemaUntil >= today : (r.schedule?.firstEpisodeDate ?? '') >= addDays(today, -60))
-    const ohneDisc = releases.filter((r) => r.releaseType !== 'disc' && !imKinoBanner(r))
+    /*
+      **Eine TV-Sichtung ist keine Erstausstrahlung, wenn es die Synchro schon gibt**
+      (Daniel, 19.09.2026, an „Beyblade X": „wir sagen heute erscheint die erste folge? … warum
+      weiß unsere seite nicht das es bereits mindestens 2 staffeln komplett synchronisiert
+      gibt?"). Das RTL+-TV-Programm zeigte zwei Sendungen bei TOGGO plus; der automatische
+      Import machte daraus „Folge 1 und 2 am 19.09." — ohne Folgennummern, denn das Programm
+      nennt keine. Der Kasten nahm den Termin als Antwort, zählte 0 erschienene Folgen und
+      blendete deshalb **alle** Stream-Pillen aus (Netflix, Disney+, RTL+). Dasselbe Muster wie
+      die Kaufausgabe darunter: Gibt es einen belegten deutschen Stream, ist er die Antwort; die
+      Sichtung steht als TV-Pille daneben. Ein Handeintrag (`automatisch` fehlt) bleibt Termin.
+    */
+    const ohneDisc = releases.filter(
+      (r) => r.releaseType !== 'disc' && !imKinoBanner(r) && !(hatSynchro && r.platform === 'tv' && r.automatisch),
+    )
     /*
       **Eine Kaufausgabe beantwortet nicht die Frage „wann kommt es".**
 
