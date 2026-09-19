@@ -2443,3 +2443,7 @@ geirrt. Erst wenn die Quelle **jünger** ist, lohnt die Suche nach einem Fehler.
 
 `check:quellen` gehört bewusst nicht zu `check:vor-commit`: Ein solcher Befund
 macht keinen Lauf rot, und das ist richtig so.
+
+### aniSearchs Amazon-Links veralten — JustWatchs nicht (19.09.2026)
+
+Daniels Prüfliste-Durchgang in der Nacht zum 19.09.2026: **37 von 37** Prime-Adressen, die nur aniSearch kannte (Partnerlinks `tag=anisearch.de-21`, sieben noch im Format `exec/obidos/ASIN/…`), waren bei Amazon tot. JustWatch kannte zu **20** davon eine aktuelle, andere Prime-Adresse; bei 12 führte aniSearch selbst eine zweite, lebende Kennung im Prime-Kanal (Crunchyroll/Aniverse), die wir nie verwendet hatten. **Einordnung:** aniSearch ist eine gute Quelle für „gibt es das auf Deutsch", eine schwache für die aktuelle Amazon-Adresse. JustWatch pflegt Adressen laufend, übernommen wird trotzdem nur mit Gegenprobe (Pokémon Weiß/Schwarz, 17.09.2026). Folge: Eine aniSearch-Amazon-Adresse ohne jede weitere Bestätigung ist vor der Prüfung verdächtig, nicht neutral.
