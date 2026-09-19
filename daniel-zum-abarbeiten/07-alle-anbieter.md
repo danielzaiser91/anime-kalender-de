@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-19 · **0 offene Verweise** in **0 Zeilen**.
+Stand 2026-09-19 · **2 offene Verweise** in **2 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,11 +33,15 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
+| [Prime Video](07-primevideo.md) | 2 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
+| 1 | 2024-12-20 | Magilumiere Inc. | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DDJ1CH7R) |
+| 2 | 2014-09-13 | JoJo’s Bizarre Adventure | [Stardust Crusaders](https://www.amazon.de/dp/B0CG7S59KL) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
+- **Prime Video:** Prime Video nennt die Tonspuren erst auf der Produktseite, und die ist ohne Anmeldung unvollständig.
