@@ -16511,3 +16511,20 @@
   dub: true
   checkedAt: '2026-09-19'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite 0P72BTIWCDL2994TEPEHXP27LF: alle 1 Folge geprüft, Abos: aniversede, rtlde, wowfictionde, zugang=abo_und_kauf, gti=amzn1.dv.gti.a998437d-aa08-4fdb-b6a3-9baa7169fff3 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# Kanal-Nein ohne Urteil (19.09.2026): Die Seite zeigt keinen deutschen Ton, aber beim
+# Kanal-Titel ist Amazons Angabe kein Beleg. Der Eintrag nimmt sie nur aus der Prüfliste,
+# damit sie nicht endlos wiederkommt.
+- anilistId: 20954
+  title: "A Silent Voice"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: Spanisch, Italienisch, Japanisch — Amazon-Seite 0K5Q5WHX1ZIVEF4W5VEMGXET8W, Abos: crunchyrollde (Meldung 4738) — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 3972
+  title: "Yu-Gi-Oh! 5D's"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3fa85b3-9fd1-4c50-89ce-13e8d5953f92
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: Japanisch, Englisch — Amazon-Seite 0OV3F3UGXALW1REIMXVUP0SY36, Crunchyroll-Kanal, Staffel 1 mit 64 und Staffel 2 mit 90 Folgen (Meldungen 4749/4750) — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg. Deutsch läuft über die Prime-Ausgabe (gti 1dbc472c…)."
