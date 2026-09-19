@@ -57,6 +57,7 @@
   schedule: { firstEpisodeDate: "2026-09-29" }
   sources:
     - https://www.cinestar.de/kino-augsburg/veranstaltung-your-name-cineanime
+    - https://www.kinoheld.de/film/your-name-gestern-heute-und-fuer-immer
 
 - slug: a-new-dawn-kino
   anilistId: 177132
