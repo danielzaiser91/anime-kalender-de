@@ -1,162 +1,17 @@
 {
- "erzeugtAm": "2026-09-18T22:43:03.643Z",
+ "erzeugtAm": "2026-09-19T01:20:44.891Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 731,
-   "gesamt": 768,
-   "offen": 37,
+   "gesamt": 731,
+   "offen": 0,
    "ohneSeite": 0,
    "suchAdressen": [],
-   "ziel": "https://www.amazon.de/dp/B00FYUILJ8",
-   "ziele": [
-    {
-     "url": "https://www.amazon.de/dp/B00FYUILJ8",
-     "titel": "Final Fantasy VII: Advent Children"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0G43M2BNY",
-     "titel": "Naruto: The Movie - Geheimmission im Land des ewigen Schnees (Naruto the Movie: Ninja Clash in the Land of Snow)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B00H39Z6Q4",
-     "titel": "Robotic Angel (Metropolis)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0DK9XXZYV",
-     "titel": "Naruto: Die Geheimmission - Rettet das Dorf Takigakure (Naruto: The Lost Story - Mission: Protect the Waterfall Village)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CHL1TMC2",
-     "titel": "Detektiv Conan: Der Magier des letzten Jahrhunderts (Detective Conan: The Last Wizard of the Century)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0FM72YMNZ",
-     "titel": "Air Gear"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B074ZRCX91",
-     "titel": "Detektiv Conan: Der Killer in ihren Augen (Detective Conan: Captured in Her Eyes)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0751KL252",
-     "titel": "Detektiv Conan: Das Phantom der Baker Street (Detective Conan: The Phantom of Baker Street)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0FWXB2BKG",
-     "titel": "Lupin III.: Der Schatz des Harimao (Lupin the 3rd: The Pursuit of Harimao's Treasure)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CK5BDPM8",
-     "titel": "Lupin III: Der Höllentrip (Lupin the 3rd: Voyage to Danger)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0FLDDPRVL",
-     "titel": "Yu-Gi-Oh! Der Film (Yu-Gi-Oh! The Movie: Pyramid of Light)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0DMHSFLGQ",
-     "titel": "Georgie (Lady Georgie)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CHQ3NF3M",
-     "titel": "To Love-Ru: Trouble (To Love Ru)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CHDFY1LD",
-     "titel": "The Familiar of Zero 3: “Rondo” of Princesses (The Familiar of Zero: \"Rondo\" of Princesses)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B07FBCRKK1",
-     "titel": "Yu-Gi-Oh! 5D’s (Yu-Gi-Oh! 5D's)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B09C53B6BQ",
-     "titel": "Rosario + Vampire Capu2"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B01M0SP5H8",
-     "titel": "Yuna & Stitch (Stitch!)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0916V7VFR",
-     "titel": "Lupin III. vs Detektiv Conan: The Special (Lupin the 3rd Vs Detective Conan)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B01LZHQI1P",
-     "titel": "Yuna & Stitch Staffel 2 (Stitch! ~The Mischievous Alien's Great Adventure~)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CPST368C",
-     "titel": "Yu-Gi-Oh!: Bonds Beyond Time (Yu-Gi-Oh! 3D: Bonds Beyond Time)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B08V14MGSB",
-     "titel": "Demon King Daimao"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B091FT1NCC",
-     "titel": "Bakuman."
-    },
-    {
-     "url": "https://www.amazon.de/dp/B06XZV1Y7R",
-     "titel": "Naruto Shippuden: The Movie 4 - The Lost Tower (Naruto Shippuden the Movie: The Lost Tower)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B01ASXCBV4",
-     "titel": "Pokémon: Der Film - Weiß: Victini und Zekrom (Pokémon the Movie: White—Victini and Zekrom)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B071G3LJZX",
-     "titel": "Naruto Shippuden: The Movie 5 - Blood Prison (Naruto Shippuden the Movie: Blood Prison)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B01ASYLFJW",
-     "titel": "Pokémon: Der Film - Schwarz: Victini und Reshiram (Pokémon the Movie: Black—Victini and Reshiram)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CMHJ7FCB",
-     "titel": "Patema Inverted"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0FMQPD48Q",
-     "titel": "Road to Ninja: Naruto the Movie"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0D35ZN948",
-     "titel": "Infinite Stratos 2"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0FWXSTJ3K",
-     "titel": "Psycho-Pass: The Movie"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0DHDGYJK5",
-     "titel": "Yamada-kun & the 7 Witches (Yamada and the Seven Witches)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B082QV9TK8",
-     "titel": "A Silent Voice"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B09JYM181Y",
-     "titel": "Konosuba: God’s Blessing on This Wonderful World! (KONOSUBA -God's blessing on this wonderful world!)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CVBLNC3X",
-     "titel": "Die rothaarige Schneeprinzessin: Staffel 2 (Snow White with the Red Hair Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0FDH5B38D",
-     "titel": "Black Butler: Book of the Atlantic"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B09192P17W",
-     "titel": "Haikyu!! To the Top"
-    }
-   ],
-   "naechster": "Final Fantasy VII: Advent Children"
+   "ziel": null,
+   "ziele": [],
+   "naechster": null
   },
   {
    "name": "Netflix",
