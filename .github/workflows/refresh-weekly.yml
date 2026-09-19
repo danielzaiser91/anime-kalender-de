@@ -468,6 +468,14 @@ jobs:
           SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
         run: npm run data:kinoheld
 
+      # IMDb-Kennungen über Wikidata (MAL-Kennung → IMDb), eine SPARQL-Abfrage. IMDb selbst
+      # verbietet automatisches Auslesen; Wikidata ist CC0.
+      - name: IMDb-Kennungen über Wikidata
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:imdb
+
       - name: RTL+-Folgen für TV-Serien ohne Episodenliste
         continue-on-error: true
         env:

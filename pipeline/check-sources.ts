@@ -67,6 +67,8 @@ const FRISTEN: Record<string, number> = {
     Verweise beurteilt, holt er nichts mehr und meldet trotzdem seinen Bestand.
   */
   'crunchyroll-offene': 9,
+  // Wöchentlich, eine Wikidata-Abfrage (19.09.2026).
+  'wikidata-imdb': 9,
   // Wöchentlich, wie der Lauf, der sie füllt.
   'youtube-check': 9,
   // Wöchentlich, 400 Titel je Lauf gegen 60 Tage Wiedervorlage.

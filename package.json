@@ -94,6 +94,7 @@
     "data:rtlplus:folgen": "tsx pipeline/fetch-rtlplus-folgen.ts",
     "data:toggo": "tsx pipeline/fetch-toggo.ts",
     "data:kinoheld": "tsx pipeline/fetch-kinoheld.ts",
+    "data:imdb": "tsx pipeline/fetch-wikidata-imdb.ts",
     "data:wikipedia-folgen": "tsx pipeline/fetch-wikipedia-folgen.ts",
     "check:panel": "node tools/panel-bild.mjs",
     "check:datumsprung": "node tools/datum-sprung-bild.mjs",
