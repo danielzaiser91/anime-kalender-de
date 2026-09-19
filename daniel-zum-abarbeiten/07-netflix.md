@@ -1,6 +1,6 @@
 # Netflix: was noch zu prüfen ist
 
-Stand 2026-09-18 · **1 offene Verweise** in **1 Zeilen**.
+Stand 2026-09-19 · **1 offene Verweise** in **1 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -9,4 +9,4 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-09-18 | The Quintessential Quintuplets | [Hauptserie](https://www.netflix.com/title/81152346) |
+| 1 | 2024-01-08 | Bakugan: Spieler des Schicksals | [Bakugan](https://www.netflix.com/title/81659233) |

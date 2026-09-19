@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-19T12:24:06.656Z",
+ "erzeugtAm": "2026-09-19T12:44:12.013Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -17,12 +17,17 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 376,
-   "gesamt": 376,
-   "offen": 0,
+   "gesamt": 377,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.netflix.com/title/81659233",
+   "ziele": [
+    {
+     "url": "https://www.netflix.com/title/81659233",
+     "titel": "Bakugan"
+    }
+   ],
+   "naechster": "Bakugan"
   },
   {
    "name": "Disney+",
