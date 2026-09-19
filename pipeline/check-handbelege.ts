@@ -138,8 +138,19 @@ for (const [k, gruppe] of jeVerweis) {
       Ein Nein mit Adresse gilt der alten Seite. Ein über die gti-Brücke ersetzter
       Verweis zeigt auf eine neue Seite und trägt die alte nur als `seite`.
     */
+    /*
+      Gezählt werden nur die Adressen der Belege, die Nein sagen. Ein Eintrag ohne
+      Urteil zu einer anderen Seite (Kanal-Nein, abgelegt) machte sonst das alte
+      „nicht verfügbar“ zu einer Aussage über den neuen Weg (A Silent Voice,
+      19.09.2026: B082QV9TK8 weg, gti-Seite über den Crunchyroll-Kanal).
+    */
+    const neinAdressen = gruppe
+      .filter((b) => b.available === false || b.dub === false)
+      .map((b) => b.url)
+      .filter((u): u is string => Boolean(u))
+    const pruefAdressen = neinAdressen.length ? neinAdressen : belegAdressen
     const nochDa =
-      stream && (!belegAdressen.length || belegAdressen.some((u) => adressKern(u) === adressKern(stream.url)))
+      stream && (!pruefAdressen.length || pruefAdressen.some((u) => adressKern(u) === adressKern(stream.url)))
     if (nochDa) fehler.push(`${name}: als „${sagtWeg ? 'nicht verfügbar' : 'ohne deutsche Tonspur'}" geprüft, steht aber noch im Datensatz`)
     else entferntWieVorgesehen++
     continue
