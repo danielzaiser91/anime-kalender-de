@@ -16380,3 +16380,12 @@
   dub: true
   checkedAt: '2026-09-19'
   note: "Tonspuren je Folge: alle 12 Folgen Deutsch (Diagnosebericht der Erweiterung 4.20.34 von Daniels Sitzung, 19.09.2026, zaehlstand.jeFolge). Abos: animedigitalde, aniversede — Kanal-Ja zählt als Beleg (seit 17.09.2026)."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-19 ---
+
+- anilistId: 120892
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Grisaia%3A%20Phantom%20Trigger%20THE%20ANIMATION%20-%20Stargazer&i=instant-video
+  available: false
+  checkedAt: '2026-09-19'
+  note: "Suche auf Prime Video: kein einziger Treffer"

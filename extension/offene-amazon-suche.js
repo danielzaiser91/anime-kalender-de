@@ -1,1 +1,1 @@
-globalThis.AK_PRIME_SUCHE = {"https://www.amazon.de/s?k=Grisaia%3A%20Phantom%20Trigger%20THE%20ANIMATION%20-%20Stargazer&i=instant-video":{"titel":"Grisaia: Phantom Trigger THE ANIMATION - Stargazer","suchbegriff":"Grisaia Phantom Trigger Stargazer","suchbegriffEn":null,"id":120892,"folgen":1,"jahr":2020,"asId":null,"vorschlag":true}}
+globalThis.AK_PRIME_SUCHE = {}
