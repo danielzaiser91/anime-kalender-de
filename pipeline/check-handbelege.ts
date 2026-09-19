@@ -87,6 +87,10 @@ for (const b of belege) {
   jeVerweis.set(k, [...(jeVerweis.get(k) ?? []), b])
 }
 
+/** Nur diese Zeilen sagen etwas — eine reine Adresse ohne Urteil zählt hier nicht mit. */
+const aussage = (b: { dub?: boolean; available?: boolean }) =>
+  typeof b.dub === 'boolean' || typeof b.available === 'boolean'
+
 const fehler: string[] = []
 let bestaetigt = 0
 let entferntWieVorgesehen = 0
@@ -108,8 +112,20 @@ for (const [k, gruppe] of jeVerweis) {
    *
    * Ohne Adresse im Beleg bleibt es beim alten Weg: Dann gilt er der ganzen
    * Plattform, und genau so wirkt er auch im Bau.
+   *
+   * **Eine Adresse ohne Urteil darf die Suche nicht auf sich ziehen.** Die
+   * JoJo-Sammelseite B0CG7S59KL trägt neben den Staffel-Belegen eine eigene
+   * Zeile, die nur beschreibt, dass sie „kein eigener Titel" ist — ohne
+   * `dub`/`available`. Zählte ihre Adresse mit, fand `find()` im Datensatz
+   * bevorzugt den Sammelseiten-Stream (zu Recht ohne `dub`) statt des
+   * belegten `B0GX7VDJK3`, und meldete „dub=undefined" für einen Verweis, der
+   * tatsächlich bestätigt ist (19.09.2026, Stardust Crusaders/20474). Gibt es
+   * mindestens eine Zeile mit Urteil, zählen nur deren Adressen.
    */
-  const belegAdressen = gruppe.map((b) => b.url).filter((u): u is string => Boolean(u))
+  const geurteilt = gruppe.filter(aussage)
+  const belegAdressen = (geurteilt.length ? geurteilt : gruppe)
+    .map((b) => b.url)
+    .filter((u): u is string => Boolean(u))
   const stream = belegAdressen.length
     ? (t.streams ?? []).find(
         (s) =>
@@ -273,8 +289,6 @@ if (verwaisteBelege) {
  *   erzeugte 26 Meldungen über Belege, die gar nicht konkurrieren.
  */
 {
-  const aussage = (b: { dub?: boolean; available?: boolean }) =>
-    typeof b.dub === 'boolean' || typeof b.available === 'boolean'
   const jeSchluessel = new Map<string, { checkedAt?: string }[]>()
   for (const b of rohBelege) {
     if (!aussage(b)) continue
