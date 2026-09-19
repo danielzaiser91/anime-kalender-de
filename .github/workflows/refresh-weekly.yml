@@ -456,6 +456,15 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:rtlplus:katalog
 
+      # Staffel, Nummer und RTL+-Start je Folge für TV-Serien ohne Wikipedia-Liste
+      # (Beyblade X). ~100 Video-Teilkarten (~170 MB), dazu Staffel- und einmal je
+      # Folge die Folgenseite. Nach dem Katalog, weil er die Serienadressen liefert.
+      - name: RTL+-Folgen für TV-Serien ohne Episodenliste
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:rtlplus:folgen
+
       - name: Fortschritt — YouTube-Verweise auf Titel, Kanal und Kaufangebot
         continue-on-error: true
         env:

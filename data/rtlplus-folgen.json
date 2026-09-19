@@ -1,0 +1,1622 @@
+{
+  "geholtAm": "2026-09-19T12:00:50.505Z",
+  "titel": {
+    "165159": {
+      "programm": "beyblade-x-p_9519",
+      "videos": [
+        {
+          "video": "wachsende-kraft-c_2111739",
+          "titel": "Wachsende Kraft",
+          "ab": "2026-09-18",
+          "staffel": 3,
+          "folge": 17
+        },
+        {
+          "video": "wechseln-oder-auflosen-c_2111461",
+          "titel": "Wechseln oder auflösen",
+          "ab": "2026-09-04",
+          "staffel": 3,
+          "folge": 15
+        },
+        {
+          "video": "blick-in-die-zukunft-c_2090251",
+          "titel": "Blick in die Zukunft",
+          "ab": "2026-08-28",
+          "staffel": 3,
+          "folge": 14
+        },
+        {
+          "video": "zukunfts-profis-c_2117078",
+          "titel": "Zukunfts-Profis",
+          "ab": "2026-09-11",
+          "staffel": 3,
+          "folge": 16
+        },
+        {
+          "video": "die-wahl-des-phonix-c_2083461",
+          "titel": "Die Wahl des Phönix",
+          "ab": "2026-08-21",
+          "staffel": 3,
+          "folge": 13
+        },
+        {
+          "video": "beycrafterin-gegen-beycrafter-c_2073900",
+          "titel": "Beycrafterin gegen Beycrafter",
+          "ab": "2026-08-14",
+          "staffel": 3,
+          "folge": 12
+        },
+        {
+          "video": "profi-bladende-c_2072596",
+          "titel": "Profi-Bladende",
+          "ab": "2026-08-07",
+          "staffel": 3,
+          "folge": 11
+        },
+        {
+          "video": "signal-zum-gegenangriff-c_2057169",
+          "titel": "Signal zum Gegenangriff",
+          "ab": "2026-07-31",
+          "staffel": 3,
+          "folge": 10
+        },
+        {
+          "video": "ende-des-schrecklichen-drachen-c_2049612",
+          "titel": "Ende des schrecklichen Drachen",
+          "ab": "2026-07-24",
+          "staffel": 3,
+          "folge": 9
+        },
+        {
+          "video": "retter-von-xenon-city-c_2048202",
+          "titel": "Retter von Xenon City",
+          "ab": "2026-07-17",
+          "staffel": 3,
+          "folge": 8
+        },
+        {
+          "video": "der-getrubte-phonix-c_2043249",
+          "titel": "Der getrübte Phönix",
+          "ab": "2026-07-10",
+          "staffel": 3,
+          "folge": 7
+        },
+        {
+          "video": "als-super-champions-c_2026062",
+          "titel": "Als Super-Champions",
+          "ab": "2026-07-03",
+          "staffel": 3,
+          "folge": 6
+        },
+        {
+          "video": "herausforderung-aus-der-zukunft-c_2019656",
+          "titel": "Herausforderung aus der Zukunft",
+          "ab": "2026-06-26",
+          "staffel": 3,
+          "folge": 5
+        },
+        {
+          "video": "wolf-und-sonne-c_2008532",
+          "titel": "Wolf und Sonne",
+          "ab": "2026-06-19",
+          "staffel": 3,
+          "folge": 4
+        },
+        {
+          "video": "bey-der-zukunft-c_2005922",
+          "titel": "Bey der Zukunft",
+          "ab": "2026-06-12",
+          "staffel": 3,
+          "folge": 3
+        },
+        {
+          "video": "vernichtung-c_2003177",
+          "titel": "Vernichtung",
+          "ab": "2026-06-05",
+          "staffel": 3,
+          "folge": 1
+        },
+        {
+          "video": "unbesiegbar-c_1448556",
+          "titel": "Unbesiegbar",
+          "ab": "2025-10-03",
+          "staffel": 2,
+          "folge": 10
+        },
+        {
+          "video": "die-mehrfarbige-prufung-c_1448555",
+          "titel": "Die Mehrfarbige Prüfung",
+          "ab": "2025-10-03",
+          "staffel": 2,
+          "folge": 9
+        },
+        {
+          "video": "bladerin-s-c_1441219",
+          "titel": "Bladerin S",
+          "ab": "2025-09-26",
+          "staffel": 2,
+          "folge": 8
+        },
+        {
+          "video": "das-dreifach-battle-geht-weiter-c_1441217",
+          "titel": "Das Dreifach-Battle geht weiter!",
+          "ab": "2025-09-26",
+          "staffel": 2,
+          "folge": 7
+        },
+        {
+          "video": "dreifaches-blading-battle-c_1433917",
+          "titel": "Dreifaches-Blading Battle",
+          "ab": "2025-09-19",
+          "staffel": 2,
+          "folge": 6
+        },
+        {
+          "video": "der-plan-der-sterne-c_1433916",
+          "titel": "Der Plan der Sterne",
+          "ab": "2025-09-19",
+          "staffel": 2,
+          "folge": 5
+        },
+        {
+          "video": "der-nachste-bey-timeshift-c_1426147",
+          "titel": "Der nächste Bey Timeshift",
+          "ab": "2025-09-12",
+          "staffel": 2,
+          "folge": 4
+        },
+        {
+          "video": "weg-der-entschlossenheit-c_1426131",
+          "titel": "Weg der Entschlossenheit",
+          "ab": "2025-09-12",
+          "staffel": 2,
+          "folge": 3
+        },
+        {
+          "video": "anzeichen-einer-neuen-ara-c_1419788",
+          "titel": "Anzeichen einer neuen Ära",
+          "ab": "2025-09-05",
+          "staffel": 2,
+          "folge": 2
+        },
+        {
+          "video": "neustart-c_1419787",
+          "titel": "Neustart",
+          "ab": "2025-09-05",
+          "staffel": 2,
+          "folge": 1
+        },
+        {
+          "video": "sternverschlinger-c_1938099",
+          "titel": "Sternverschlinger",
+          "ab": "2026-04-24",
+          "staffel": 2,
+          "folge": 49
+        },
+        {
+          "video": "supernova-c_1924253",
+          "titel": "Supernova",
+          "ab": "2026-04-17",
+          "staffel": 2,
+          "folge": 48
+        },
+        {
+          "video": "niemals-besiegt-c_1920427",
+          "titel": "Niemals besiegt",
+          "ab": "2026-04-10",
+          "staffel": 2,
+          "folge": 47
+        },
+        {
+          "video": "das-grosse-sterne-battle-finale-c_1692942",
+          "titel": "Das große Sterne-Battle-Finale",
+          "ab": "2026-04-03",
+          "staffel": 2,
+          "folge": 46
+        },
+        {
+          "video": "shiroboshi-damals-c_1692943",
+          "titel": "Shiroboshi, damals",
+          "ab": "2026-03-27",
+          "staffel": 2,
+          "folge": 45
+        },
+        {
+          "video": "fuchse-verzaubern-tanukis-verhexen-c_1692830",
+          "titel": "Füchse verzaubern, Tanukis verhexen",
+          "ab": "2026-02-27",
+          "staffel": 2,
+          "folge": 44
+        },
+        {
+          "video": "team-mystic-c_1713263",
+          "titel": "Team Mystic",
+          "ab": "2026-02-20",
+          "staffel": 2,
+          "folge": 43
+        },
+        {
+          "video": "super-champion-herausforderer-auswahlmatch-c_1699131",
+          "titel": "Super Champion Herausforderer-Auswahlmatch",
+          "ab": "2026-02-13",
+          "staffel": 2,
+          "folge": 42
+        },
+        {
+          "video": "uberraschende-herausforderung-c_1693919",
+          "titel": "Überraschende Herausforderung",
+          "ab": "2026-02-06",
+          "staffel": 2,
+          "folge": 41
+        },
+        {
+          "video": "traum-match-c_1684739",
+          "titel": "Traum-Match",
+          "ab": "2026-01-30",
+          "staffel": 2,
+          "folge": 40
+        },
+        {
+          "video": "neunschwanziger-fuchs-c_1684737",
+          "titel": "Neunschwänziger Fuchs",
+          "ab": "2026-01-30",
+          "staffel": 2,
+          "folge": 39
+        },
+        {
+          "video": "was-getan-werden-muss-c_1680804",
+          "titel": "Was getan werden muss",
+          "ab": "2026-01-23",
+          "staffel": 2,
+          "folge": 38
+        },
+        {
+          "video": "bladende-seele-c_1680805",
+          "titel": "Bladende Seele",
+          "ab": "2026-01-23",
+          "staffel": 2,
+          "folge": 37
+        },
+        {
+          "video": "das-battle-der-beycraftenden-c_1679893",
+          "titel": "Das Battle der Beycraftenden",
+          "ab": "2026-01-23",
+          "staffel": 2,
+          "folge": 33
+        },
+        {
+          "video": "pop-gegen-fluch-c_1680803",
+          "titel": "Pop gegen Fluch",
+          "ab": "2026-01-23",
+          "staffel": 2,
+          "folge": 34
+        },
+        {
+          "video": "der-pfad-des-schrecklichen-drachens-c_1642153",
+          "titel": "Der Pfad des schrecklichen Drachens",
+          "ab": "2026-01-23",
+          "staffel": 2,
+          "folge": 36
+        },
+        {
+          "video": "das-phoenix-battle-c_1642152",
+          "titel": "Das Phoenix-Battle",
+          "ab": "2026-01-23",
+          "staffel": 2,
+          "folge": 35
+        },
+        {
+          "video": "partner-c_1623143",
+          "titel": "Partner",
+          "ab": "2025-12-19",
+          "staffel": 2,
+          "folge": 32
+        },
+        {
+          "video": "multi-magische-entscheidung-c_1623142",
+          "titel": "Multi-Magische Entscheidung",
+          "ab": "2025-12-19",
+          "staffel": 2,
+          "folge": 31
+        },
+        {
+          "video": "aufs-ganze-gehen-c_1612638",
+          "titel": "Aufs Ganze gehen",
+          "ab": "2025-12-12",
+          "staffel": 2,
+          "folge": 30
+        },
+        {
+          "video": "der-beharrliche-c_1612637",
+          "titel": "Der Beharrliche",
+          "ab": "2025-12-12",
+          "staffel": 2,
+          "folge": 29
+        },
+        {
+          "video": "der-konig-und-die-konigin-c_1611260",
+          "titel": "Der König und die Königin",
+          "ab": "2025-12-05",
+          "staffel": 2,
+          "folge": 28
+        },
+        {
+          "video": "anpassung-c_1611258",
+          "titel": "Anpassung",
+          "ab": "2025-12-05",
+          "staffel": 2,
+          "folge": 27
+        },
+        {
+          "video": "blauer-drache-und-schrecklicher-drache-c_1589783",
+          "titel": "Blauer Drache und Schrecklicher Drache",
+          "ab": "2025-11-28",
+          "staffel": 2,
+          "folge": 26
+        },
+        {
+          "video": "weisse-sterne-c_1589782",
+          "titel": "Weiße Sterne",
+          "ab": "2025-11-28",
+          "staffel": 2,
+          "folge": 25
+        },
+        {
+          "video": "ruckkehr-des-ritters-c_1579959",
+          "titel": "Rückkehr des Ritters",
+          "ab": "2025-11-21",
+          "staffel": 2,
+          "folge": 24
+        },
+        {
+          "video": "verflucht-c_1579958",
+          "titel": "Verflucht",
+          "ab": "2025-11-21",
+          "staffel": 2,
+          "folge": 23
+        },
+        {
+          "video": "das-sterne-battle-c_1491914",
+          "titel": "Das Sterne-Battle",
+          "ab": "2025-11-14",
+          "staffel": 2,
+          "folge": 22
+        },
+        {
+          "video": "labyrinth-aus-ratseln-und-angst-c_1491913",
+          "titel": "Labyrinth aus Rätseln und Angst",
+          "ab": "2025-11-14",
+          "staffel": 2,
+          "folge": 21
+        },
+        {
+          "video": "an-diesen-ort-c_1489653",
+          "titel": "An diesen Ort",
+          "ab": "2025-11-07",
+          "staffel": 2,
+          "folge": 20
+        },
+        {
+          "video": "schrecklicher-drache-c_1489652",
+          "titel": "Schrecklicher Drache",
+          "ab": "2025-11-07",
+          "staffel": 2,
+          "folge": 19
+        },
+        {
+          "video": "schattige-unterwelt-c_1473752",
+          "titel": "Schattige Unterwelt",
+          "ab": "2025-10-31",
+          "staffel": 2,
+          "folge": 18
+        },
+        {
+          "video": "hell-und-dunkel-c_1473749",
+          "titel": "Hell und dunkel",
+          "ab": "2025-10-31",
+          "staffel": 2,
+          "folge": 17
+        },
+        {
+          "video": "der-silberne-wolf-c_1470315",
+          "titel": "Der silberne Wolf",
+          "ab": "2025-10-24",
+          "staffel": 2,
+          "folge": 16
+        },
+        {
+          "video": "etwas-fesselndes-c_1470313",
+          "titel": "Etwas Fesselndes",
+          "ab": "2025-10-24",
+          "staffel": 2,
+          "folge": 15
+        },
+        {
+          "video": "erster-flug-c_1463743",
+          "titel": "Erster Flug",
+          "ab": "2025-10-17",
+          "staffel": 2,
+          "folge": 14
+        },
+        {
+          "video": "formloser-schatten-c_1463741",
+          "titel": "Formloser Schatten",
+          "ab": "2025-10-17",
+          "staffel": 2,
+          "folge": 13
+        },
+        {
+          "video": "der-manju-clan-c_1456320",
+          "titel": "Der Manju-Clan",
+          "ab": "2025-10-10",
+          "staffel": 2,
+          "folge": 12
+        },
+        {
+          "video": "die-renommierte-bey-academy-c_1456319",
+          "titel": "Die renommierte Bey Academy",
+          "ab": "2025-10-10",
+          "staffel": 2,
+          "folge": 11
+        },
+        {
+          "video": "stolz-c_5303",
+          "titel": "Stolz",
+          "ab": "2025-01-31",
+          "staffel": 1,
+          "folge": 18
+        },
+        {
+          "video": "beytime-shift-c_5298",
+          "titel": "Bey Timeshift",
+          "ab": "2025-01-31",
+          "staffel": 1,
+          "folge": 17
+        },
+        {
+          "video": "die-edle-aufgabe-c_3881",
+          "titel": "Die edle Aufgabe",
+          "ab": "2025-01-24",
+          "staffel": 1,
+          "folge": 16
+        },
+        {
+          "video": "ratsel-und-beys-c_3743",
+          "titel": "Rätsel und Beys",
+          "ab": "2025-01-24",
+          "staffel": 1,
+          "folge": 15
+        },
+        {
+          "video": "jaxons-ubung-c_5583",
+          "titel": "Jaxons Übung",
+          "ab": "2025-01-24",
+          "staffel": 1,
+          "folge": 14
+        },
+        {
+          "video": "der-erste-fan-c_5441",
+          "titel": "Der erste Fan",
+          "ab": "2025-01-17",
+          "staffel": 1,
+          "folge": 13
+        },
+        {
+          "video": "das-letzte-battle-c_5294",
+          "titel": "Das letzte Battle",
+          "ab": "2025-01-17",
+          "staffel": 1,
+          "folge": 12
+        },
+        {
+          "video": "wardens-prufung-c_5291",
+          "titel": "Wardens Prüfung",
+          "ab": "2025-01-10",
+          "staffel": 1,
+          "folge": 11
+        },
+        {
+          "video": "die-welt-der-profis-c_4462",
+          "titel": "Die Welt der Profis",
+          "ab": "2025-01-10",
+          "staffel": 1,
+          "folge": 10
+        },
+        {
+          "video": "beycrafter-c_4458",
+          "titel": "Beycrafter",
+          "ab": "2025-01-03",
+          "staffel": 1,
+          "folge": 9
+        },
+        {
+          "video": "die-maske-und-der-konig-c_4453",
+          "titel": "Die Maske und der König",
+          "ab": "2025-01-03",
+          "staffel": 1,
+          "folge": 8
+        },
+        {
+          "video": "team-zooganic-c_4448",
+          "titel": "Team Zooganic",
+          "ab": "2024-12-13",
+          "staffel": 1,
+          "folge": 7
+        },
+        {
+          "video": "die-zwei-x-c_1269397",
+          "titel": "Die zwei X",
+          "ab": "2025-06-20",
+          "staffel": 1,
+          "folge": 50
+        },
+        {
+          "video": "der-grosste-spass-aller-zeiten-c_1269398",
+          "titel": "Der größte Spaß aller Zeiten",
+          "ab": "2025-06-20",
+          "staffel": 1,
+          "folge": 51
+        },
+        {
+          "video": "etwas-aussergewohnliches-c_1269166",
+          "titel": "Etwas Außergewöhnliches",
+          "ab": "2025-06-13",
+          "staffel": 1,
+          "folge": 49
+        },
+        {
+          "video": "der-nana-iro-showdown-c_1269066",
+          "titel": "Der Nana-iro Showdown",
+          "ab": "2025-06-06",
+          "staffel": 1,
+          "folge": 48
+        },
+        {
+          "video": "auszeit-c_1269076",
+          "titel": "Auszeit",
+          "ab": "2025-05-30",
+          "staffel": 1,
+          "folge": 46
+        },
+        {
+          "video": "battle-an-der-spitze-c_1269196",
+          "titel": "Battle an der Spitze",
+          "ab": "2025-05-30",
+          "staffel": 1,
+          "folge": 47
+        },
+        {
+          "video": "familie-damals-c_1339982",
+          "titel": "Familie, damals",
+          "ab": "2025-05-23",
+          "staffel": 1,
+          "folge": 44
+        },
+        {
+          "video": "du-damals-c_1463463",
+          "titel": "Du, damals",
+          "ab": "2025-05-23",
+          "staffel": 1,
+          "folge": 45
+        },
+        {
+          "video": "pendragon-damals-c_1339969",
+          "titel": "Pendragon, damals",
+          "ab": "2025-05-16",
+          "staffel": 1,
+          "folge": 43
+        },
+        {
+          "video": "xyz-c_1339994",
+          "titel": "XYZ",
+          "ab": "2025-05-09",
+          "staffel": 1,
+          "folge": 42
+        },
+        {
+          "video": "die-drei-masken-c_1340002",
+          "titel": "Die drei Masken",
+          "ab": "2025-05-09",
+          "staffel": 1,
+          "folge": 41
+        },
+        {
+          "video": "der-beste-blader-c_1339979",
+          "titel": "Der beste Blader",
+          "ab": "2025-05-02",
+          "staffel": 1,
+          "folge": 39
+        },
+        {
+          "video": "die-andere-maske-c_1339987",
+          "titel": "Die andere Maske",
+          "ab": "2025-05-02",
+          "staffel": 1,
+          "folge": 40
+        },
+        {
+          "video": "ruckkehr-der-konigin-c_1340000",
+          "titel": "Rückkehr der Königin",
+          "ab": "2025-04-25",
+          "staffel": 1,
+          "folge": 38
+        },
+        {
+          "video": "der-traumwettbewerb-c_1044600",
+          "titel": "Der Traumwettbewerb",
+          "ab": "2025-04-11",
+          "staffel": 1,
+          "folge": 35
+        },
+        {
+          "video": "bladerschaft-c_1044693",
+          "titel": "Bladerschaft",
+          "ab": "2025-04-11",
+          "staffel": 1,
+          "folge": 36
+        },
+        {
+          "video": "unser-versprechen-c_294754",
+          "titel": "Unser Versprechen",
+          "ab": "2025-04-04",
+          "staffel": 1,
+          "folge": 33
+        },
+        {
+          "video": "der-regenbogengast-c_1044567",
+          "titel": "Der Regenbogengast",
+          "ab": "2025-04-04",
+          "staffel": 1,
+          "folge": 34
+        },
+        {
+          "video": "neuer-partner-c_1045608",
+          "titel": "Neuer Partner",
+          "ab": "2025-03-28",
+          "staffel": 1,
+          "folge": 32
+        },
+        {
+          "video": "mein-team-c_1048809",
+          "titel": "Mein Team",
+          "ab": "2025-03-28",
+          "staffel": 1,
+          "folge": 31
+        },
+        {
+          "video": "ratsel-und-pop-c_1050819",
+          "titel": "Rätsel und Pop",
+          "ab": "2025-03-21",
+          "staffel": 1,
+          "folge": 30
+        },
+        {
+          "video": "maske-und-fleischbrotchen-c_1049640",
+          "titel": "Maske und Fleischbrötchen",
+          "ab": "2025-03-14",
+          "staffel": 1,
+          "folge": 29
+        },
+        {
+          "video": "der-konig-und-der-phonix-c_1050727",
+          "titel": "Der König und der Phönix",
+          "ab": "2025-03-14",
+          "staffel": 1,
+          "folge": 28
+        },
+        {
+          "video": "das-ende-der-beharrlichkeit-c_1045011",
+          "titel": "Das Ende der Beharrlichkeit",
+          "ab": "2025-03-07",
+          "staffel": 1,
+          "folge": 27
+        },
+        {
+          "video": "einladung-c_1049061",
+          "titel": "Einladung",
+          "ab": "2025-03-07",
+          "staffel": 1,
+          "folge": 26
+        },
+        {
+          "video": "die-ankunft-des-schnellsten-c_1048366",
+          "titel": "Die Ankunft des Schnellsten",
+          "ab": "2025-02-28",
+          "staffel": 1,
+          "folge": 24
+        },
+        {
+          "video": "der-beweis-des-schnellsten-c_1058810",
+          "titel": "Der Beweis des Schnellsten",
+          "ab": "2025-02-28",
+          "staffel": 1,
+          "folge": 25
+        },
+        {
+          "video": "treues-herz-c_1058454",
+          "titel": "Treues Herz",
+          "ab": "2025-02-21",
+          "staffel": 1,
+          "folge": 23
+        },
+        {
+          "video": "pop-produktion-c_1058824",
+          "titel": "Pop Produktion",
+          "ab": "2025-02-14",
+          "staffel": 1,
+          "folge": 21
+        },
+        {
+          "video": "schwarz-und-weiss-c_1059133",
+          "titel": "Schwarz und weiß",
+          "ab": "2025-02-14",
+          "staffel": 1,
+          "folge": 22
+        },
+        {
+          "video": "zip-und-zoom-c_1058432",
+          "titel": "Zip und Zoom!",
+          "ab": "2025-02-07",
+          "staffel": 1,
+          "folge": 19
+        },
+        {
+          "video": "erinnerungen-an-sushi-c_1058433",
+          "titel": "Erinnerungen an Sushi",
+          "ab": "2025-02-07",
+          "staffel": 1,
+          "folge": 20
+        },
+        {
+          "video": "bey-sponsor-c_4435",
+          "titel": "Bey Sponsor",
+          "ab": "2024-12-13",
+          "staffel": 1,
+          "folge": 4
+        },
+        {
+          "video": "zum-x-c_4438",
+          "titel": "Zum X",
+          "ab": "2024-12-13",
+          "staffel": 1,
+          "folge": 5
+        },
+        {
+          "video": "der-dschungel-der-lowen-c_4443",
+          "titel": "Der Dschungel der Löwen",
+          "ab": "2024-12-13",
+          "staffel": 1,
+          "folge": 6
+        },
+        {
+          "video": "x-c_4275",
+          "titel": "X",
+          "ab": "2024-12-06",
+          "staffel": 1,
+          "folge": 1
+        },
+        {
+          "video": "team-persona-c_4284",
+          "titel": "Team Persona",
+          "ab": "2024-12-06",
+          "staffel": 1,
+          "folge": 3
+        },
+        {
+          "video": "multi-magischer-hinterhalt-c_4280",
+          "titel": "Multi-Magischer Hinterhalt",
+          "ab": "2024-12-06",
+          "staffel": 1,
+          "folge": 2
+        }
+      ],
+      "folgen": [
+        {
+          "nr": 1,
+          "st": 1,
+          "staffel": 1,
+          "dt": "X",
+          "ab": "2024-12-06"
+        },
+        {
+          "nr": 2,
+          "st": 2,
+          "staffel": 1,
+          "dt": "Multi-Magischer Hinterhalt",
+          "ab": "2024-12-06"
+        },
+        {
+          "nr": 3,
+          "st": 3,
+          "staffel": 1,
+          "dt": "Team Persona",
+          "ab": "2024-12-06"
+        },
+        {
+          "nr": 4,
+          "st": 4,
+          "staffel": 1,
+          "dt": "Bey Sponsor",
+          "ab": "2024-12-13"
+        },
+        {
+          "nr": 5,
+          "st": 5,
+          "staffel": 1,
+          "dt": "Zum X",
+          "ab": "2024-12-13"
+        },
+        {
+          "nr": 6,
+          "st": 6,
+          "staffel": 1,
+          "dt": "Der Dschungel der Löwen",
+          "ab": "2024-12-13"
+        },
+        {
+          "nr": 7,
+          "st": 7,
+          "staffel": 1,
+          "dt": "Team Zooganic",
+          "ab": "2024-12-13"
+        },
+        {
+          "nr": 8,
+          "st": 8,
+          "staffel": 1,
+          "dt": "Die Maske und der König",
+          "ab": "2025-01-03"
+        },
+        {
+          "nr": 9,
+          "st": 9,
+          "staffel": 1,
+          "dt": "Beycrafter",
+          "ab": "2025-01-03"
+        },
+        {
+          "nr": 10,
+          "st": 10,
+          "staffel": 1,
+          "dt": "Die Welt der Profis",
+          "ab": "2025-01-10"
+        },
+        {
+          "nr": 11,
+          "st": 11,
+          "staffel": 1,
+          "dt": "Wardens Prüfung",
+          "ab": "2025-01-10"
+        },
+        {
+          "nr": 12,
+          "st": 12,
+          "staffel": 1,
+          "dt": "Das letzte Battle",
+          "ab": "2025-01-17"
+        },
+        {
+          "nr": 13,
+          "st": 13,
+          "staffel": 1,
+          "dt": "Der erste Fan",
+          "ab": "2025-01-17"
+        },
+        {
+          "nr": 14,
+          "st": 14,
+          "staffel": 1,
+          "dt": "Jaxons Übung",
+          "ab": "2025-01-24"
+        },
+        {
+          "nr": 15,
+          "st": 15,
+          "staffel": 1,
+          "dt": "Rätsel und Beys",
+          "ab": "2025-01-24"
+        },
+        {
+          "nr": 16,
+          "st": 16,
+          "staffel": 1,
+          "dt": "Die edle Aufgabe",
+          "ab": "2025-01-24"
+        },
+        {
+          "nr": 17,
+          "st": 17,
+          "staffel": 1,
+          "dt": "Bey Timeshift",
+          "ab": "2025-01-31"
+        },
+        {
+          "nr": 18,
+          "st": 18,
+          "staffel": 1,
+          "dt": "Stolz",
+          "ab": "2025-01-31"
+        },
+        {
+          "nr": 19,
+          "st": 19,
+          "staffel": 1,
+          "dt": "Zip und Zoom!",
+          "ab": "2025-02-07"
+        },
+        {
+          "nr": 20,
+          "st": 20,
+          "staffel": 1,
+          "dt": "Erinnerungen an Sushi",
+          "ab": "2025-02-07"
+        },
+        {
+          "nr": 21,
+          "st": 21,
+          "staffel": 1,
+          "dt": "Pop Produktion",
+          "ab": "2025-02-14"
+        },
+        {
+          "nr": 22,
+          "st": 22,
+          "staffel": 1,
+          "dt": "Schwarz und weiß",
+          "ab": "2025-02-14"
+        },
+        {
+          "nr": 23,
+          "st": 23,
+          "staffel": 1,
+          "dt": "Treues Herz",
+          "ab": "2025-02-21"
+        },
+        {
+          "nr": 24,
+          "st": 24,
+          "staffel": 1,
+          "dt": "Die Ankunft des Schnellsten",
+          "ab": "2025-02-28"
+        },
+        {
+          "nr": 25,
+          "st": 25,
+          "staffel": 1,
+          "dt": "Der Beweis des Schnellsten",
+          "ab": "2025-02-28"
+        },
+        {
+          "nr": 26,
+          "st": 26,
+          "staffel": 1,
+          "dt": "Einladung",
+          "ab": "2025-03-07"
+        },
+        {
+          "nr": 27,
+          "st": 27,
+          "staffel": 1,
+          "dt": "Das Ende der Beharrlichkeit",
+          "ab": "2025-03-07"
+        },
+        {
+          "nr": 28,
+          "st": 28,
+          "staffel": 1,
+          "dt": "Der König und der Phönix",
+          "ab": "2025-03-14"
+        },
+        {
+          "nr": 29,
+          "st": 29,
+          "staffel": 1,
+          "dt": "Maske und Fleischbrötchen",
+          "ab": "2025-03-14"
+        },
+        {
+          "nr": 30,
+          "st": 30,
+          "staffel": 1,
+          "dt": "Rätsel und Pop",
+          "ab": "2025-03-21"
+        },
+        {
+          "nr": 31,
+          "st": 31,
+          "staffel": 1,
+          "dt": "Mein Team",
+          "ab": "2025-03-28"
+        },
+        {
+          "nr": 32,
+          "st": 32,
+          "staffel": 1,
+          "dt": "Neuer Partner",
+          "ab": "2025-03-28"
+        },
+        {
+          "nr": 33,
+          "st": 33,
+          "staffel": 1,
+          "dt": "Unser Versprechen",
+          "ab": "2025-04-04"
+        },
+        {
+          "nr": 34,
+          "st": 34,
+          "staffel": 1,
+          "dt": "Der Regenbogengast",
+          "ab": "2025-04-04"
+        },
+        {
+          "nr": 35,
+          "st": 35,
+          "staffel": 1,
+          "dt": "Der Traumwettbewerb",
+          "ab": "2025-04-11"
+        },
+        {
+          "nr": 36,
+          "st": 36,
+          "staffel": 1,
+          "dt": "Bladerschaft",
+          "ab": "2025-04-11"
+        },
+        {
+          "nr": 38,
+          "st": 38,
+          "staffel": 1,
+          "dt": "Rückkehr der Königin",
+          "ab": "2025-04-25"
+        },
+        {
+          "nr": 39,
+          "st": 39,
+          "staffel": 1,
+          "dt": "Der beste Blader",
+          "ab": "2025-05-02"
+        },
+        {
+          "nr": 40,
+          "st": 40,
+          "staffel": 1,
+          "dt": "Die andere Maske",
+          "ab": "2025-05-02"
+        },
+        {
+          "nr": 41,
+          "st": 41,
+          "staffel": 1,
+          "dt": "Die drei Masken",
+          "ab": "2025-05-09"
+        },
+        {
+          "nr": 42,
+          "st": 42,
+          "staffel": 1,
+          "dt": "XYZ",
+          "ab": "2025-05-09"
+        },
+        {
+          "nr": 43,
+          "st": 43,
+          "staffel": 1,
+          "dt": "Pendragon, damals",
+          "ab": "2025-05-16"
+        },
+        {
+          "nr": 44,
+          "st": 44,
+          "staffel": 1,
+          "dt": "Familie, damals",
+          "ab": "2025-05-23"
+        },
+        {
+          "nr": 45,
+          "st": 45,
+          "staffel": 1,
+          "dt": "Du, damals",
+          "ab": "2025-05-23"
+        },
+        {
+          "nr": 46,
+          "st": 46,
+          "staffel": 1,
+          "dt": "Auszeit",
+          "ab": "2025-05-30"
+        },
+        {
+          "nr": 47,
+          "st": 47,
+          "staffel": 1,
+          "dt": "Battle an der Spitze",
+          "ab": "2025-05-30"
+        },
+        {
+          "nr": 48,
+          "st": 48,
+          "staffel": 1,
+          "dt": "Der Nana-iro Showdown",
+          "ab": "2025-06-06"
+        },
+        {
+          "nr": 49,
+          "st": 49,
+          "staffel": 1,
+          "dt": "Etwas Außergewöhnliches",
+          "ab": "2025-06-13"
+        },
+        {
+          "nr": 50,
+          "st": 50,
+          "staffel": 1,
+          "dt": "Die zwei X",
+          "ab": "2025-06-20"
+        },
+        {
+          "nr": 51,
+          "st": 51,
+          "staffel": 1,
+          "dt": "Der größte Spaß aller Zeiten",
+          "ab": "2025-06-20"
+        },
+        {
+          "nr": 52,
+          "st": 1,
+          "staffel": 2,
+          "dt": "Neustart",
+          "ab": "2025-09-05"
+        },
+        {
+          "nr": 53,
+          "st": 2,
+          "staffel": 2,
+          "dt": "Anzeichen einer neuen Ära",
+          "ab": "2025-09-05"
+        },
+        {
+          "nr": 54,
+          "st": 3,
+          "staffel": 2,
+          "dt": "Weg der Entschlossenheit",
+          "ab": "2025-09-12"
+        },
+        {
+          "nr": 55,
+          "st": 4,
+          "staffel": 2,
+          "dt": "Der nächste Bey Timeshift",
+          "ab": "2025-09-12"
+        },
+        {
+          "nr": 56,
+          "st": 5,
+          "staffel": 2,
+          "dt": "Der Plan der Sterne",
+          "ab": "2025-09-19"
+        },
+        {
+          "nr": 57,
+          "st": 6,
+          "staffel": 2,
+          "dt": "Dreifaches-Blading Battle",
+          "ab": "2025-09-19"
+        },
+        {
+          "nr": 58,
+          "st": 7,
+          "staffel": 2,
+          "dt": "Das Dreifach-Battle geht weiter!",
+          "ab": "2025-09-26"
+        },
+        {
+          "nr": 59,
+          "st": 8,
+          "staffel": 2,
+          "dt": "Bladerin S",
+          "ab": "2025-09-26"
+        },
+        {
+          "nr": 60,
+          "st": 9,
+          "staffel": 2,
+          "dt": "Die Mehrfarbige Prüfung",
+          "ab": "2025-10-03"
+        },
+        {
+          "nr": 61,
+          "st": 10,
+          "staffel": 2,
+          "dt": "Unbesiegbar",
+          "ab": "2025-10-03"
+        },
+        {
+          "nr": 62,
+          "st": 11,
+          "staffel": 2,
+          "dt": "Die renommierte Bey Academy",
+          "ab": "2025-10-10"
+        },
+        {
+          "nr": 63,
+          "st": 12,
+          "staffel": 2,
+          "dt": "Der Manju-Clan",
+          "ab": "2025-10-10"
+        },
+        {
+          "nr": 64,
+          "st": 13,
+          "staffel": 2,
+          "dt": "Formloser Schatten",
+          "ab": "2025-10-17"
+        },
+        {
+          "nr": 65,
+          "st": 14,
+          "staffel": 2,
+          "dt": "Erster Flug",
+          "ab": "2025-10-17"
+        },
+        {
+          "nr": 66,
+          "st": 15,
+          "staffel": 2,
+          "dt": "Etwas Fesselndes",
+          "ab": "2025-10-24"
+        },
+        {
+          "nr": 67,
+          "st": 16,
+          "staffel": 2,
+          "dt": "Der silberne Wolf",
+          "ab": "2025-10-24"
+        },
+        {
+          "nr": 68,
+          "st": 17,
+          "staffel": 2,
+          "dt": "Hell und dunkel",
+          "ab": "2025-10-31"
+        },
+        {
+          "nr": 69,
+          "st": 18,
+          "staffel": 2,
+          "dt": "Schattige Unterwelt",
+          "ab": "2025-10-31"
+        },
+        {
+          "nr": 70,
+          "st": 19,
+          "staffel": 2,
+          "dt": "Schrecklicher Drache",
+          "ab": "2025-11-07"
+        },
+        {
+          "nr": 71,
+          "st": 20,
+          "staffel": 2,
+          "dt": "An diesen Ort",
+          "ab": "2025-11-07"
+        },
+        {
+          "nr": 72,
+          "st": 21,
+          "staffel": 2,
+          "dt": "Labyrinth aus Rätseln und Angst",
+          "ab": "2025-11-14"
+        },
+        {
+          "nr": 73,
+          "st": 22,
+          "staffel": 2,
+          "dt": "Das Sterne-Battle",
+          "ab": "2025-11-14"
+        },
+        {
+          "nr": 74,
+          "st": 23,
+          "staffel": 2,
+          "dt": "Verflucht",
+          "ab": "2025-11-21"
+        },
+        {
+          "nr": 75,
+          "st": 24,
+          "staffel": 2,
+          "dt": "Rückkehr des Ritters",
+          "ab": "2025-11-21"
+        },
+        {
+          "nr": 76,
+          "st": 25,
+          "staffel": 2,
+          "dt": "Weiße Sterne",
+          "ab": "2025-11-28"
+        },
+        {
+          "nr": 77,
+          "st": 26,
+          "staffel": 2,
+          "dt": "Blauer Drache und Schrecklicher Drache",
+          "ab": "2025-11-28"
+        },
+        {
+          "nr": 78,
+          "st": 27,
+          "staffel": 2,
+          "dt": "Anpassung",
+          "ab": "2025-12-05"
+        },
+        {
+          "nr": 79,
+          "st": 28,
+          "staffel": 2,
+          "dt": "Der König und die Königin",
+          "ab": "2025-12-05"
+        },
+        {
+          "nr": 80,
+          "st": 29,
+          "staffel": 2,
+          "dt": "Der Beharrliche",
+          "ab": "2025-12-12"
+        },
+        {
+          "nr": 81,
+          "st": 30,
+          "staffel": 2,
+          "dt": "Aufs Ganze gehen",
+          "ab": "2025-12-12"
+        },
+        {
+          "nr": 82,
+          "st": 31,
+          "staffel": 2,
+          "dt": "Multi-Magische Entscheidung",
+          "ab": "2025-12-19"
+        },
+        {
+          "nr": 83,
+          "st": 32,
+          "staffel": 2,
+          "dt": "Partner",
+          "ab": "2025-12-19"
+        },
+        {
+          "nr": 84,
+          "st": 33,
+          "staffel": 2,
+          "dt": "Das Battle der Beycraftenden",
+          "ab": "2026-01-23"
+        },
+        {
+          "nr": 85,
+          "st": 34,
+          "staffel": 2,
+          "dt": "Pop gegen Fluch",
+          "ab": "2026-01-23"
+        },
+        {
+          "nr": 86,
+          "st": 35,
+          "staffel": 2,
+          "dt": "Das Phoenix-Battle",
+          "ab": "2026-01-23"
+        },
+        {
+          "nr": 87,
+          "st": 36,
+          "staffel": 2,
+          "dt": "Der Pfad des schrecklichen Drachens",
+          "ab": "2026-01-23"
+        },
+        {
+          "nr": 88,
+          "st": 37,
+          "staffel": 2,
+          "dt": "Bladende Seele",
+          "ab": "2026-01-23"
+        },
+        {
+          "nr": 89,
+          "st": 38,
+          "staffel": 2,
+          "dt": "Was getan werden muss",
+          "ab": "2026-01-23"
+        },
+        {
+          "nr": 90,
+          "st": 39,
+          "staffel": 2,
+          "dt": "Neunschwänziger Fuchs",
+          "ab": "2026-01-30"
+        },
+        {
+          "nr": 91,
+          "st": 40,
+          "staffel": 2,
+          "dt": "Traum-Match",
+          "ab": "2026-01-30"
+        },
+        {
+          "nr": 92,
+          "st": 41,
+          "staffel": 2,
+          "dt": "Überraschende Herausforderung",
+          "ab": "2026-02-06"
+        },
+        {
+          "nr": 93,
+          "st": 42,
+          "staffel": 2,
+          "dt": "Super Champion Herausforderer-Auswahlmatch",
+          "ab": "2026-02-13"
+        },
+        {
+          "nr": 94,
+          "st": 43,
+          "staffel": 2,
+          "dt": "Team Mystic",
+          "ab": "2026-02-20"
+        },
+        {
+          "nr": 95,
+          "st": 44,
+          "staffel": 2,
+          "dt": "Füchse verzaubern, Tanukis verhexen",
+          "ab": "2026-02-27"
+        },
+        {
+          "nr": 96,
+          "st": 45,
+          "staffel": 2,
+          "dt": "Shiroboshi, damals",
+          "ab": "2026-03-27"
+        },
+        {
+          "nr": 97,
+          "st": 46,
+          "staffel": 2,
+          "dt": "Das große Sterne-Battle-Finale",
+          "ab": "2026-04-03"
+        },
+        {
+          "nr": 98,
+          "st": 47,
+          "staffel": 2,
+          "dt": "Niemals besiegt",
+          "ab": "2026-04-10"
+        },
+        {
+          "nr": 99,
+          "st": 48,
+          "staffel": 2,
+          "dt": "Supernova",
+          "ab": "2026-04-17"
+        },
+        {
+          "nr": 100,
+          "st": 49,
+          "staffel": 2,
+          "dt": "Sternverschlinger",
+          "ab": "2026-04-24"
+        },
+        {
+          "nr": 101,
+          "st": 1,
+          "staffel": 3,
+          "dt": "Vernichtung",
+          "ab": "2026-06-05"
+        },
+        {
+          "nr": 103,
+          "st": 3,
+          "staffel": 3,
+          "dt": "Bey der Zukunft",
+          "ab": "2026-06-12"
+        },
+        {
+          "nr": 104,
+          "st": 4,
+          "staffel": 3,
+          "dt": "Wolf und Sonne",
+          "ab": "2026-06-19"
+        },
+        {
+          "nr": 105,
+          "st": 5,
+          "staffel": 3,
+          "dt": "Herausforderung aus der Zukunft",
+          "ab": "2026-06-26"
+        },
+        {
+          "nr": 106,
+          "st": 6,
+          "staffel": 3,
+          "dt": "Als Super-Champions",
+          "ab": "2026-07-03"
+        },
+        {
+          "nr": 107,
+          "st": 7,
+          "staffel": 3,
+          "dt": "Der getrübte Phönix",
+          "ab": "2026-07-10"
+        },
+        {
+          "nr": 108,
+          "st": 8,
+          "staffel": 3,
+          "dt": "Retter von Xenon City",
+          "ab": "2026-07-17"
+        },
+        {
+          "nr": 109,
+          "st": 9,
+          "staffel": 3,
+          "dt": "Ende des schrecklichen Drachen",
+          "ab": "2026-07-24"
+        },
+        {
+          "nr": 110,
+          "st": 10,
+          "staffel": 3,
+          "dt": "Signal zum Gegenangriff",
+          "ab": "2026-07-31"
+        },
+        {
+          "nr": 111,
+          "st": 11,
+          "staffel": 3,
+          "dt": "Profi-Bladende",
+          "ab": "2026-08-07"
+        },
+        {
+          "nr": 112,
+          "st": 12,
+          "staffel": 3,
+          "dt": "Beycrafterin gegen Beycrafter",
+          "ab": "2026-08-14"
+        },
+        {
+          "nr": 113,
+          "st": 13,
+          "staffel": 3,
+          "dt": "Die Wahl des Phönix",
+          "ab": "2026-08-21"
+        },
+        {
+          "nr": 114,
+          "st": 14,
+          "staffel": 3,
+          "dt": "Blick in die Zukunft",
+          "ab": "2026-08-28"
+        },
+        {
+          "nr": 115,
+          "st": 15,
+          "staffel": 3,
+          "dt": "Wechseln oder auflösen",
+          "ab": "2026-09-04"
+        },
+        {
+          "nr": 116,
+          "st": 16,
+          "staffel": 3,
+          "dt": "Zukunfts-Profis",
+          "ab": "2026-09-11"
+        },
+        {
+          "nr": 117,
+          "st": 17,
+          "staffel": 3,
+          "dt": "Wachsende Kraft",
+          "ab": "2026-09-18"
+        }
+      ]
+    }
+  }
+}

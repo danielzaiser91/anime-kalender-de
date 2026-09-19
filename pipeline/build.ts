@@ -2926,7 +2926,18 @@ function main(): void {
     tvProgramm,
     titles,
     releases,
-    readJson<{ titel?: WikiListen }>('data/wikipedia-folgen.json', {}).titel ?? {},
+    {
+      /* RTL+ nur, wo die Wikipedia keine Liste hat (Beyblade X, 19.09.2026). */
+      ...Object.fromEntries(
+        Object.entries(
+          readJson<{ titel?: Record<string, { programm: string; folgen: WikiListen[string]['folgen'] }> }>(
+            'data/rtlplus-folgen.json',
+            {},
+          ).titel ?? {},
+        ).map(([id, x]) => [id, { seite: 'den Folgenseiten von RTL+', url: `https://plus.rtl.de/${x.programm}`, folgen: x.folgen }]),
+      ),
+      ...(readJson<{ titel?: WikiListen }>('data/wikipedia-folgen.json', {}).titel ?? {}),
+    },
   )
   releases.push(...ausTv)
   if (ausTv.length) log(`${ausTv.length} TV-Termine aus dem RTL+-Programm: ${ausTv.map((r) => `${r.name} (${r.sender})`).join(', ')}`)

@@ -23,11 +23,19 @@ import { TVDE_SENDER, type TvSendung } from '../fetch-tv-programm.ts'
 import type { WikiFolge } from './wikipedia-folgen.ts'
 import { folgenKern } from '../../shared/folgen-zuordnung.ts'
 
-export type WikiListen = Record<string, { seite: string; folgen: WikiFolge[] }>
+/**
+ * Folgenlisten je Titel. Ohne `url` ist `seite` eine Wikipedia-Seite; mit `url` stammt die
+ * Liste von anderswo (RTL+, 19.09.2026) und `seite` ist der Name, unter dem sie genannt wird.
+ */
+export type WikiListen = Record<string, { seite: string; url?: string; folgen: WikiFolge[] }>
 
-/** Folgentitel → Nummer in der Serie; ein Titel, der zweimal vorkommt, ordnet nichts zu. */
-function nummernNachTitel(folgen: WikiFolge[]): Map<string, number> {
-  const erste = Math.min(...folgen.map((f) => f.nr))
+/**
+ * Folgentitel → Nummer in der Serie; ein Titel, der zweimal vorkommt, ordnet nichts zu.
+ * `relativ`: gezählt ab der ersten Folge der Liste (Wikipedia-Seiten zählen teils
+ * franchiseweit); eine RTL+-Liste zählt schon selbst ab Staffel 1 Folge 1.
+ */
+function nummernNachTitel(folgen: WikiFolge[], relativ: boolean): Map<string, number> {
+  const erste = relativ ? Math.min(...folgen.map((f) => f.nr)) : 1
   const aus = new Map<string, number>()
   const doppelt = new Set<string>()
   for (const f of folgen) {
@@ -72,7 +80,7 @@ export function releasesAusTvProgramm(
     const title = titles.get(erste.titleId)!
     /* Nummern aus der Episodenliste — nur wenn jede Sichtung darin steht. */
     const wikiListe = wiki[String(erste.titleId)]
-    const nummern = wikiListe?.folgen.length ? nummernNachTitel(wikiListe.folgen) : undefined
+    const nummern = wikiListe?.folgen.length ? nummernNachTitel(wikiListe.folgen, !wikiListe.url) : undefined
     const zugeordnet = liste.map((s) => (s.folge ? nummern?.get(folgenKern(s.folge)) : undefined))
     const mitWiki = zugeordnet.every((x) => x !== undefined)
     const observed: Record<number, string> = {}
@@ -114,8 +122,10 @@ export function releasesAusTvProgramm(
       year: Number(erste.start.slice(0, 4)),
       ...(() => {
         const tvde = TVDE_NACH_NAME.get(erste.sender.toLowerCase())
-        const nr = mitWiki ? ' Folgennummern aus der Episodenliste der Wikipedia.' : ''
-        const wikiQuelle = mitWiki ? [`https://de.wikipedia.org/wiki/${encodeURI(wikiListe!.seite.replace(/ /g, '_'))}`] : []
+        const nr = !mitWiki ? '' : ` Folgennummern aus ${wikiListe!.url ? wikiListe!.seite : 'der Episodenliste der Wikipedia'}.`
+        const wikiQuelle = !mitWiki
+          ? []
+          : [wikiListe!.url ?? `https://de.wikipedia.org/wiki/${encodeURI(wikiListe!.seite.replace(/ /g, '_'))}`]
         return tvde
           ? {
               herkunft: `Automatisch aus dem TV-Programm von tv.de (${liste.length} Sendungen gesichtet).${nr}`,

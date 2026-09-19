@@ -111,6 +111,7 @@ import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
+import { durchzaehlen, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
@@ -4566,6 +4567,22 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   const halb = releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'Titel 2 wilder Kampfschrei!'), s('2026-09-16T16:05:00+02:00', 'Unbekannt')], titles, [], wiki)
   pruefe('Wikipedia: fehlt ein Titel in der Liste, wird für die ganze Reihe gezählt', halb[0]?.schedule.firstEpisodeNumber === undefined && halb[0]?.schedule.episodeCount === 2, halb[0]?.schedule)
+  /* RTL+-Folgen (19.09.2026): Sitemap ohne Einbettungen, Zuordnung über den Titel, Zählung über Staffeln. */
+  const url = (pfad: string, titel: string, datum: string) =>
+    `<url><loc>https://plus.rtl.de/beyblade-x-p_9519/video/${pfad}</loc><video:video><video:title>${titel}</video:title><video:publication_date>${datum}T00:00:00.000Z</video:publication_date></video:video></url>`
+  const rv = videosAusSitemap(
+    url('eins-c_1', 'Eins', '2024-12-06') + url('embed/eins-c_1', 'Eins', '2024-12-06') + url('schluss-c_2', 'Schluss', '2025-03-01') + url('neu-c_3', 'Wechseln &amp; auflösen', '2026-09-04'),
+    new Map([['beyblade-x-p_9519', 165159]]),
+  )
+  pruefe('RTL+-Sitemap: die Einbettungsadresse zählt nicht, Zeichen werden entschlüsselt', rv.length === 3 && rv[2]?.titel === 'Wechseln & auflösen', rv)
+  zuordnen(rv, staffelEintraege('"Staffel 1 • Folge 1 • Eins","Staffel 1 • Folge 51 • Schluss","Staffel 3 • Folge 15 • Wechseln &amp; auflösen"'))
+  pruefe('RTL+: ohne Staffel 2 wird Staffel 3 nicht geraten', durchzaehlen(rv).map((f) => f.nr).join(',') === '1,51', durchzaehlen(rv))
+  rv.push({ titleId: 165159, video: 'mitte-c_4', titel: 'Mitte', staffel: 2, folge: 49 })
+  pruefe(
+    'RTL+: Staffel 3 Folge 15 ist Folge 115 — die Länge einer Staffel ist ihre höchste Nummer',
+    durchzaehlen(rv).find((f) => f.staffel === 3)?.nr === 115,
+    durchzaehlen(rv),
+  )
   const hand = { titleId: 158871, platform: 'tv', sender: 'Super RTL' } as Release
   pruefe('ein Handeintrag beim selben Sender gewinnt', releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'A')], titles, [hand]).length === 0)
 }

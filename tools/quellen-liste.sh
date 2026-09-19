@@ -214,6 +214,9 @@ QUELLEN=(
   # Folgennummern und deutsche Erstausstrahlung aus den Episodenlisten der de.wikipedia,
   # für die im TV-Programm gesichteten Titel (19.09.2026, `pipeline/fetch-wikipedia-folgen.ts`).
   data/wikipedia-folgen.json
+  # Staffel, Nummer und RTL+-Start je Folge für TV-Serien ohne Wikipedia-Liste
+  # (19.09.2026, `pipeline/fetch-rtlplus-folgen.ts`, wöchentlich).
+  data/rtlplus-folgen.json
   # Die Neuzugänge der Streaming Availability API, ein Abruf am Tag gegen ein
   # Monatskontingent von 1.000. Ohne diese Zeile war der teuerste Lauf im
   # Projekt der einzige ohne Gedächtnis.
