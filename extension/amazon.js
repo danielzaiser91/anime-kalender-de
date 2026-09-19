@@ -3093,7 +3093,48 @@ async function speicherSchreiben(werte) {
         })() ?? liste[id]
       const auftrag = suchauftrag() ?? {
         asId: listenEintrag?.eintraege?.find((e) => e?.asId)?.asId,
+        malId: listenEintrag?.eintraege?.find((e) => e?.malId)?.malId,
+        imdb: listenEintrag?.eintraege?.find((e) => e?.imdb)?.imdb,
         titel: listenEintrag?.titel,
+      }
+      /*
+        **„Nachschlagen: MAL IMDb“ — eine schmale Zeile über der Fußzeile** (Daniel,
+        19.09.2026, Entwurf B). Für Staffel- und Teilfragen, die aniSearch allein nicht
+        beantwortet (Grisaia Stargazer, Fushigi Yugi OVA). Die Kennungen kommen aus der
+        Prüfliste; IMDb über Wikidata, abgerufen wird IMDb nie.
+      */
+      {
+        const ziele = [
+          auftrag?.malId ? ['MAL', 'https://myanimelist.net/anime/' + auftrag.malId] : null,
+          auftrag?.imdb ? ['IMDb', 'https://www.imdb.com/title/' + auftrag.imdb + '/'] : null,
+        ].filter(Boolean)
+        const signatur = ziele.map((z) => z[1]).join(' ')
+        let zeile = kasten.querySelector('.ak-nachschlagen')
+        if (!ziele.length) {
+          zeile?.remove()
+        } else if (!zeile || zeile.dataset.signatur !== signatur) {
+          if (!zeile) {
+            zeile = document.createElement('div')
+            zeile.className = 'ak-nachschlagen'
+            const fuss = kasten.querySelector('.ak-such-fuss')
+            if (fuss) kasten.insertBefore(zeile, fuss)
+            else kasten.appendChild(zeile)
+          }
+          zeile.dataset.signatur = signatur
+          const vorn = document.createElement('span')
+          vorn.textContent = 'Nachschlagen:'
+          zeile.replaceChildren(
+            vorn,
+            ...ziele.map(([text, adresse]) => {
+              const a = document.createElement('a')
+              a.href = adresse
+              a.target = '_blank'
+              a.rel = 'noopener noreferrer'
+              a.textContent = text
+              return a
+            }),
+          )
+        }
       }
       /*
         Die Adresse wird bei jedem Zeichnen neu bestimmt und nur bei einer Änderung

@@ -111,6 +111,20 @@
   blieb hellgrau — getippter Text war kaum lesbar (Daniel, 19.09.2026, mit Bild).
   Beides fest und mit Vorrang.
 */
+/* „Nachschlagen: MAL IMDb“ über der Fußzeile (Daniel, 19.09.2026, Entwurf B). Amazons Regeln
+   für `a` setzen Farbe und Unterstreichung — deshalb mit Vorrang. */
+.ak-box .ak-nachschlagen {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 2px;
+  color: #8b949e;
+  font: 12px/1.4 system-ui, sans-serif;
+}
+.ak-box .ak-nachschlagen a {
+  color: #79c0ff !important;
+  text-decoration: underline;
+}
 .ak-dialog input.ak-suche,
 .ak-dialog input.ak-suche:focus {
   background: #0b0e13 !important;

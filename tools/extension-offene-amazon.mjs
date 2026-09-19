@@ -96,6 +96,24 @@ const geprueftePrime = (() => {
   return { ids, adressen, kennungen }
 })()
 const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
+/*
+  **Nachschlagen: MAL und IMDb je Auftrag** (Daniel, 19.09.2026, Entwurf B). Die MAL-Kennung
+  steht am Titel, die IMDb-Kennung kommt über Wikidata (`data/imdb-ids.json`). Der Kasten
+  zeigt daraus die Zeile „Nachschlagen: MAL IMDb“ — für Staffel- und Teilfragen wie Grisaia
+  Stargazer oder Fushigi Yugi OVA.
+*/
+const imdbIds = (() => {
+  try {
+    return JSON.parse(readFileSync(resolve(wurzel, 'data/imdb-ids.json'), 'utf8'))
+  } catch {
+    return {}
+  }
+})()
+function nachschlag(t) {
+  if (!t?.malId) return {}
+  const imdb = imdbIds[String(t.malId)]
+  return { malId: t.malId, ...(imdb ? { imdb } : {}) }
+}
 const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
 
 /**
@@ -307,6 +325,7 @@ for (const [asin, eintraege] of jeAsin) {
       offen: e.dub === undefined || Boolean(verdaechtig.get(e.t.id)),
       /* Für den Gegencheck: aniSearch führt zu jedem Titel die Sprachfassungen. */
       ...(e.t.anisearchId ? { asId: e.t.anisearchId } : {}),
+      ...nachschlag(e.t),
     })),
   }
 }
@@ -609,6 +628,7 @@ for (const t of titel) {
       */
       jahr: Number.isFinite(t.jpYear) ? t.jpYear : null,
       asId: anisearch[String(t.id)]?.anisearchId ?? null,
+      ...nachschlag(t),
     }
   }
 }
@@ -658,6 +678,7 @@ try {
       folgen: v.folgen,
       jahr: Number.isFinite(t?.jpYear) ? t.jpYear : null,
       asId: anisearch[String(v.id)]?.anisearchId ?? null,
+      ...nachschlag(t),
       vorschlag: true,
       /*
         **Warum dieser Vorschlag wackelig ist — im Klartext bis zum Kasten.**
