@@ -131,7 +131,17 @@ function kennung(url) {
     103 Verweise noch kein Urteil tragen. Die Antwort war zu 29 Faellen
     „Kanal-Titel, schon angesehen" — und zu vier Faellen diese Zeile hier.
   */
-  return /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(url)?.[1]
+  return (
+    /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(url)?.[1] ??
+    /*
+      **Und JustWatchs Form `watch.amazon.de/detail?gti=…`** (19.09.2026). Sie leitet
+      auf eine Seite mit eigener Kennung weiter; die Erweiterung findet den Auftrag
+      dort über die gti, die die Seite im Hydration-Block nennt (`listenSchluessel`).
+      Ohne diese Zeile standen solche Verweise auf keiner Liste — Edens Zero S2 und
+      die JustWatch-Kandidaten zeigten keinen Melde-Knopf.
+    */
+    /[?&]gti=(amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(url)?.[1]
+  )
 }
 
 /*

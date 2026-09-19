@@ -6279,6 +6279,19 @@ async function speicherSchreiben(werte) {
     const ausAdresse = asinAusAdresse()
     if (ausAdresse && liste[ausAdresse]) return ausAdresse
     if (liste[id]) return id
+    /*
+      **Ein Auftrag unter JustWatchs gti.** `watch.amazon.de/detail?gti=…` leitet
+      auf eine Seite mit eigener Kennung weiter; die Adresse nennt die gti danach
+      nicht mehr, der Hydration-Block schon (Edens Zero S2, 19.09.2026: kein
+      Melde-Knopf). `gesehen` entsteht weiter unten — beim ersten Aufruf gibt es
+      ihn noch nicht, der Takt fragt später erneut.
+    */
+    try {
+      const gti = gesehen?.seite?.gti
+      if (gti && liste[gti]) return gti
+    } catch {
+      /* `gesehen` noch nicht angelegt. */
+    }
     if (bisher && liste[bisher]) return bisher
     /**
      * Nach einem **Neuladen** auf einer Staffel-Seite hilft `bisher` nicht mehr.
