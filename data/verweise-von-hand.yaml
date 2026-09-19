@@ -137,12 +137,7 @@
   url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.d7c875aa-05e6-43fa-a666-22e6eb54c33b
   belegtAm: '2026-09-19'
   beleg: 'JustWatch nennt diese Prime-Adresse für den Titel, einer von 2 Links; Identität und Sprache per Meldung der Erweiterung'
-- anilistId: 3972
-  title: "Yu-Gi-Oh! 5D's"
-  platform: primevideo
-  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.ccbb84cf-4288-48d7-a43e-e916648351d3
-  belegtAm: '2026-09-19'
-  beleg: 'JustWatch nennt diese Prime-Adresse für den Titel, einer von 3 Links; Identität und Sprache per Meldung der Erweiterung'
+# Entfernt 19.09.2026, doppelt: Yu-Gi-Oh! 5D’s: leitet auf dieselbe Seite wie gti 1dbc472c… (0R9YBE7IZ53JEOV1GISIWI1XHV, Meldung 4754) (Diagnosebericht Daniel).
 - anilistId: 3972
   title: "Yu-Gi-Oh! 5D's"
   platform: primevideo
@@ -179,12 +174,7 @@
   url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.0ab6a7ab-1804-c22a-ec45-a45654c26263
   belegtAm: '2026-09-19'
   beleg: 'JustWatch nennt diese Prime-Adresse für den Titel; Identität und Sprache per Meldung der Erweiterung'
-- anilistId: 20966
-  title: "Yamada-kun & the 7 Witches"
-  platform: primevideo
-  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.18857412-67bb-4be6-8b32-3cce7230dcc5
-  belegtAm: '2026-09-19'
-  beleg: 'JustWatch nennt diese Prime-Adresse für den Titel, einer von 2 Links; Identität und Sprache per Meldung der Erweiterung'
+# Entfernt 19.09.2026, doppelt: Yamada-kun: leitet auf dieselbe Seite wie gti 8395764e… (0GLVDDY266OLQKA1OCWMOZ1JNP, Meldung 4748) (Diagnosebericht Daniel).
 - anilistId: 20966
   title: "Yamada-kun & the 7 Witches"
   platform: primevideo
