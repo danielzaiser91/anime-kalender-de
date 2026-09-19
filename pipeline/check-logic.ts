@@ -4583,6 +4583,10 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     durchzaehlen(rv).find((f) => f.staffel === 3)?.nr === 115,
     durchzaehlen(rv),
   )
+  pruefe(
+    'eine TV-Sichtung mit Folgenliste zeigt ihre Nummern, eine ohne nicht',
+    mitNr[0] !== undefined && halb[0] !== undefined && expandEvents(mitNr[0]).every((e) => !e.sichtung) && expandEvents(halb[0]).every((e) => e.sichtung),
+  )
   const hand = { titleId: 158871, platform: 'tv', sender: 'Super RTL' } as Release
   pruefe('ein Handeintrag beim selben Sender gewinnt', releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'A')], titles, [hand]).length === 0)
 }

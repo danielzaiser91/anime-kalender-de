@@ -673,6 +673,11 @@ export interface Release {
    * Die Quelle kennt kein Ende; bis sieben Tage danach gilt die Reihe als laufend.
    */
   tvLetzteSichtung?: string
+  /**
+   * Die Folgennummern einer TV-Sichtung stammen aus einer Folgenliste (Wikipedia, RTL+) und
+   * sind echt — nicht unsere Zählung der gesehenen Titel (19.09.2026). Das Ende bleibt offen.
+   */
+  folgenBelegt?: boolean
 }
 
 export interface ReleaseEvent {
@@ -689,7 +694,7 @@ export interface ReleaseEvent {
   platform: PlatformId
   /** Bei `platform: 'tv'` der Sender — siehe `anbieterName()`. */
   sender?: string
-  /** Stammt aus einer TV-Sichtung (`tvLetzteSichtung`) — die Folgennummer ist dann nur unsere Zählung. */
+  /** TV-Sichtung ohne Folgenliste (`tvLetzteSichtung` ohne `folgenBelegt`) — die Folgennummer ist dann nur unsere Zählung. */
   sichtung?: boolean
   name: string
   estimated?: boolean

@@ -122,8 +122,10 @@ type Antwort =
       letzter?: string
       /** Feste Sendetage der Ausgabe (Fernsehen), 1 = Montag. */
       sendetage?: number[]
-      /** Aus dem TV-Programm gesichtet: Zählung und Ende sind unbekannt. */
+      /** Aus dem TV-Programm gesichtet, ohne Folgenliste: die Nummer ist nur unsere Zählung. */
       sichtung?: boolean
+      /** Aus dem TV-Programm gesichtet: das Ende ist unbekannt, auch wenn die Nummern stimmen. */
+      offenesEnde?: boolean
       /** Der verstrichene Tag, wenn die nächste Folge auf einem Ersatztermin liegt. */
       verschobenVon?: string
       /** Stehen mehrere ausgebliebene Folgen hintereinander, die Nummer der letzten. */
@@ -483,8 +485,19 @@ function AntwortKasten({
       gesehenen Folgen ist kein Finale (Pokémon Horizonte bei TOGGO plus, Stichprobe
       17.09.2026: „Finale Folge (Folge 2)" und „Wöchentlich" bei täglicher Sendung).
     */
-    const wasKommt =
-      antwort.raus === 0 ? 'erste' : antwort.rest === 1 && !antwort.sichtung ? 'finale' : 'naechste'
+    /*
+      Und „Erste Folge" nur, wenn es Folge 1 ist: Beyblade X setzte am 19.09.2026 bei TOGGO plus
+      mit Folge 115 ein, und der Kasten sagte „Erste Folge heute" (Daniel).
+    */
+    const wasKommt = antwort.offenesEnde
+      ? !antwort.sichtung && e.episode === 1
+        ? 'erste'
+        : 'naechste'
+      : antwort.raus === 0
+        ? 'erste'
+        : antwort.rest === 1
+          ? 'finale'
+          : 'naechste'
     const kopf = e.episode && !antwort.sichtung
       ? T(`antwort.${wasKommt}FolgeNr`, { n: e.episode })
       : T(`antwort.${wasKommt}Folge`)
@@ -563,7 +576,7 @@ function AntwortKasten({
       */
       antwort.sendetage?.length
         ? sendetageText(antwort.sendetage)
-        : antwort.sichtung
+        : antwort.offenesEnde
           ? null
           : T('antwort.rhythmusWoechentlichKurz'),
       /*
@@ -576,11 +589,11 @@ function AntwortKasten({
         zum Finale" (Daniel, 04.09.2026: „es müsste noch 12 heißen"). Zwölf
         Folgen stehen aus, nicht elf — die nächste ist keine erschienene.
       */
-      antwort.letzter && antwort.rest > 1 && !antwort.sichtung
+      antwort.letzter && antwort.rest > 1 && !antwort.offenesEnde
         ? /* „noch 2 Folgen …" (Daniel, 19.09.2026) — Einzahl gibt es hier nicht: bei einer steht „letzte Folge". */
           T('antwort.nochFolgen', { count: antwort.rest, datum: formatDate(antwort.letzter) })
         : /* Steht „Finale Folge" schon in der Überschrift, wäre „letzte Folge" hier dieselbe Auskunft zweimal. */
-          antwort.raus === 0 && !antwort.sichtung
+          antwort.raus === 0 && !antwort.offenesEnde
           ? T('antwort.letzteFolge')
           : null,
       antwort.verschobenVon && T('antwort.verschobenVon', { datum: formatDate(antwort.verschobenVon) }),
@@ -3739,6 +3752,7 @@ export function DetailPanel({
         letzter: derselben[derselben.length - 1]?.date,
         sendetage: releases.find((r) => r.slug === n.releaseSlug)?.schedule.wochentage,
         sichtung: n.sichtung,
+        offenesEnde: Boolean(releases.find((r) => r.slug === n.releaseSlug)?.tvLetzteSichtung),
         verschobenVon: istAusgeblieben(n)
           ? undefined
           : offen.find((o) => istAusgeblieben(o) && o.episode === n.episode)?.date,

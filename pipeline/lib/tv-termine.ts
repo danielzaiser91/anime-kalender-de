@@ -119,6 +119,7 @@ export function releasesAusTvProgramm(
         observed,
       },
       tvLetzteSichtung: berlinTag(liste[liste.length - 1]!.start),
+      ...(mitWiki ? { folgenBelegt: true } : {}),
       year: Number(erste.start.slice(0, 4)),
       ...(() => {
         const tvde = TVDE_NACH_NAME.get(erste.sender.toLowerCase())
