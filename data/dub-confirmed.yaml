@@ -8719,8 +8719,9 @@
   title: "Edens Zero: Season 2"
   platform: primevideo
   url: https://www.amazon.de/dp/B0D956JD5Y
-  checkedAt: '2026-08-25'
-  note: "Tonspuren: Français, 日本語 — Amazon-Seite B0D956JD5Y: alle 25 Folgen geprüft, Abos: animedigitalde, aniversede, Seitenadresse: 0KXOMCNFCKPTA6Z6HNIJ0ESQ9P, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  dub: false
+  checkedAt: '2026-09-19'
+  note: "Seite 0KXOMCNFCKPTA6Z6HNIJ0ESQ9P zeigt am 19.09.2026 „In Prime enthalten“ (kein Kanal mehr), Wiedergabesprachen: Français, 日本語 (Daniel im Durchgang, Bild). Damit ist Amazons eigene Angabe ein Beleg. Früher (25.08.2026) über die Kanäle animedigitalde/aniversede, 25 Folgen."
 
 - anilistId: 3784
   title: "Evangelion: 2.22 - You Can (Not) Advance."
