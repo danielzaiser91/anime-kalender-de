@@ -14,5 +14,5 @@ hinter einem /dp/ kann eine DVD liegen.
 
 - Anbieter: **primevideo** · unser Titel 13331
 - war verlinkt als: <https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video>
-- **Antwort:** x (Daniel, 19.09.2026: Prime-Suche zeigt nur „Trigun", kein Jormungand)
+- **Antwort:** 
 

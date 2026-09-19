@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-19T16:55:58.626Z",
+  "stand": "2026-09-19T17:30:14.124Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4916,7 +4916,18 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-09-19",
-      "letzterWeg": false
+      "letzterWeg": true
+    },
+    {
+      "titleId": 381,
+      "titel": "Fushigi Yûgi New OVA: The Mysterious Play",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CJYMLW6W",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-19",
+      "letzterWeg": true
     },
     {
       "titleId": 481,
@@ -7119,6 +7130,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 145740,
+      "titel": "Grisaia Phantom Trigger",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DMMT9B67",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-19",
+      "letzterWeg": true
+    },
+    {
       "titleId": 145815,
       "titel": "I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills",
       "plattform": "adn",
@@ -7867,6 +7889,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 177166,
+      "titel": "Bakugan",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81659233",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-19",
+      "letzterWeg": true
+    },
+    {
       "titleId": 185515,
       "titel": "2.5 Dimensional Seduction",
       "plattform": "primevideo",
@@ -7887,17 +7920,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-19",
       "letzterWeg": false
-    },
-    {
-      "titleId": 137612,
-      "titel": "Princess Principal: Crown Handler 3",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-19",
-      "letzterWeg": true
     },
     {
       "titleId": 128223,
@@ -7959,17 +7981,6 @@
       "titel": "Gushing over Magical Girls",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1121",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-19",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 186716,
-      "titel": "Princess Principal: Crown Handler - Chapter 4",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,

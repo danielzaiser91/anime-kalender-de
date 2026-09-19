@@ -26,3 +26,4 @@ nicht. Drei Fälle, drei Handgriffe:
 |---|---|---|---|---|---|
 | primevideo | https://www.amazon.de/dp/B0DJB5NGNK | Captain Tsubasa 2018 - Elementary School | dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0D2M355W6 | Captain Tsubasa 2018 - Junior High School | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CH6KQBJR | Fushigi Yugi OVA | kein_dub | — | Titel von Hand suchen |
