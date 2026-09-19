@@ -182,9 +182,9 @@ Anlass: Auf toggo.de (`/sammlung/alle-formate/serien/dragon-ball-daima-vse446`) 
 1. ✅ **Pillen gleich hoch** (19.09.2026): Pillenzeile `items-stretch`.
 2. ✅ **Farbe** (19.09.2026): TOGGO und TOGGO plus in `#ec6400`, abgelesen aus „Toggo Logo 10.2019.svg“/„Toggo plus Logo 10.2019.svg“ (Commons, gemeinfrei, Marke). **Kein Zeichen:** TOGGO hat kein Bildzeichen, das Logo ist der Schriftzug und stünde neben dem Namen doppelt (Regel wie bei maxdome).
 3. ✅ **Immer „DE ✓“** (19.09.2026), Zusicherung in `check:logic`.
-4. **Abrufzeitraum — Stand der Recherche 19.09.2026:** Kein offizieller Zeitraum gefunden. TOGGO-App-Beschreibung: Inhalte „aus Lizenzgründen nur für begrenzte Zeit“ verfügbar; 7 Tage gelten laut App-Store-Text nur für Offline-Downloads. Beobachtet: Daima am 19.09. Folgen 14–18 auf toggo.de (einen Tag nach Folge 18), fernsehserien.de listete kurz vorher 13–17 → rollendes Fenster von fünf Folgen, bei Mo–Fr-Ausstrahlung also rund eine Woche.
-5. ◐ **Angabe in der Pille** (19.09.2026): zweite Zeile „nur die neuesten Folgen“. Welche Folgen genau („Folgen 14–18“) braucht den Abruf aus Punkt 6.
-6. **TOGGO-Abruf — wartet auf Daniels Entscheidung.** Die Seite ist eine JavaScript-Anwendung, Daten von `production-n.toggo.de/api`. Deren `robots.txt`: `User-agent: * / Disallow: /` und darunter `Allow /api/` **ohne Doppelpunkt** — formal ungültig, gemeint offenbar „API erlaubt“, wörtlich alles gesperrt. `toggo.de/robots.txt` sperrt nur einzelne Seiten. Nutzungsbedingungen (`toggo.de/nutzungsbedingungen`) nur im Browser lesbar, noch nicht gelesen.
+4. ✅ **Abrufzeitraum gemessen** (19.09.2026, TOGGO-Schnittstelle): Daima — jede Folge **genau 7 Tage** nach der TV-Ausstrahlung frei (`catchup`); Boruto — 30 von 292 Folgen frei bis 31.12.2026 (`fvod`). Ein fester Satz stimmt also nicht für alle.
+5. ✅ **Angabe in der Pille, aktuell** (19.09.2026): „Fg. 14–18 · je 7 Tage“ bzw. „30 Folgen · bis 31.12.“, beim Anzeigen gerechnet (`web/src/lib/toggo.ts`).
+6. ✅ **TOGGO-Abruf** (19.09.2026, Daniels Entscheidung „ja, direkt bauen“ trotz widersprüchlicher robots.txt der API): `pipeline/fetch-toggo.ts`, täglich in „Täglich — alle Quellen“, `data/toggo.json` in der Quellenliste; der Bau hängt die Fenster als `toggo` an den TOGGO-Weg.
 
 ## Geplant 19.09.2026: Tote aniSearch-Adressen bei Prime — JustWatch als Kandidat, nicht als Ersatz
 

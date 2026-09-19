@@ -264,6 +264,13 @@ export interface WatchLink {
    * keinem bekannten Anbieter liegen, sagte niemand (Daniel, 16.09.2026).
    */
   dubRanges?: Array<{ from: number; to: number; dub: boolean }>
+  /**
+   * **Nur TOGGO: wann welche Folgen kostenlos abrufbar sind** (19.09.2026, `pipeline/fetch-toggo.ts`).
+   * Blöcke aufeinanderfolgender Folgen mit gleichem Fenster; `ab`/`bis` in Berliner Ortszeit.
+   * Ob eine Folge *jetzt* abrufbar ist, rechnet die Oberfläche — der Datensatz ist bis zu einem
+   * Tag alt, und bei Daima schließt jeden Abend ein Fenster.
+   */
+  toggo?: Array<{ staffel: number; von: number; bis: number; ab: string; ende: string }>
 }
 
 export interface Title {

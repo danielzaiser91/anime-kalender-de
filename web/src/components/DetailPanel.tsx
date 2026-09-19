@@ -51,6 +51,7 @@ import {
 } from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { AnbieterIcon, anbieterDatei } from '../lib/anbieter-icon.tsx'
+import { toggoAngabe } from '../lib/toggo.ts'
 
 const KEYWORD_PREVIEW = 8
 /**
@@ -2305,10 +2306,9 @@ function ReleasePille({
   stünde neben dem Namen doppelt (wie bei maxdome, `anbieter-icon.tsx`).
 
   **TOGGO zeigt ausschließlich deutsche Fassungen** (Daniel: „toggo ist immer DE, immer,
-  ausnahmslos") — der Weg trägt deshalb „DE ✓" ohne Urteil je Folge. Und toggo.de hält nur
-  die jüngsten Folgen bereit: Am 19.09.2026 standen bei Daima die Folgen 14–18, einen Tag nach
-  Folge 18 (Screenshot Daniel; fernsehserien.de listete zuvor 13–17). Einen offiziellen
-  Zeitraum nennt TOGGO nicht, nur „aus Lizenzgründen nur für begrenzte Zeit".
+  ausnahmslos") — der Weg trägt deshalb „DE ✓" ohne Urteil je Folge. Welche Folgen gerade
+  abrufbar sind, steht in der zweiten Zeile — aus den Fenstern je Folge, die
+  `pipeline/fetch-toggo.ts` täglich holt (`web/src/lib/toggo.ts`).
 */
 const TOGGO_ORANGE = '#ec6400'
 const istToggo = (url: string | undefined) => /(^|\.)toggo\.de$/i.test((() => { try { return new URL(url ?? '').hostname } catch { return '' } })())
@@ -4778,7 +4778,8 @@ export function DetailPanel({
                             darüber schon lange versprach: „DE ?", die ehrliche Antwort.
                           */
                           unten={(() => {
-                            if (istToggo(g.eintraege[0].url)) return t('detail.toggoNeueste')
+                            if (istToggo(g.eintraege[0].url))
+                              return toggoAngabe((title.watchLinks ?? []).find((w) => w.url === g.eintraege[0].url)?.toggo)
                             if (g.eintraege[0].nurFolge) return t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
                             if (g.eintraege[0].dubRanges?.length) return folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges, url: g.eintraege[0].url, nurFolge: g.eintraege[0].nurFolge }) || undefined
                             const verweis = (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)

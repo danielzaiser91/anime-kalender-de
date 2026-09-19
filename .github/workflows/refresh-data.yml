@@ -264,6 +264,14 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Was bei Netflix, Prime und Disney+ neu ist"
 
+      - name: TOGGO — welche Folgen gerade abrufbar sind
+        # Je TOGGO-Weg die Folgen mit ihrem freien Fenster (bei Daima sieben Tage nach
+        # der Ausstrahlung, bei Boruto bis Jahresende). Ein Abruf je Serie, 1,5 s Abstand.
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:toggo
+
       - name: Nachrichtenlage bei Anime2You prüfen
         # Erzeugt nur Vorschläge für die Kuratierung, keine Termine.
         continue-on-error: true

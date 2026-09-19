@@ -207,6 +207,10 @@ QUELLEN=(
   # und der Katalog führt weit mehr als die 40 Verweise, die wir bis dahin
   # hatten. Ohne diese Zeile wäre der Lauf in jedem CI-Durchgang umsonst.
   data/rtlplus-katalog.json
+  # TOGGO: welche Folgen gerade kostenlos abrufbar sind, je Folge mit Fenster (19.09.2026,
+  # `pipeline/fetch-toggo.ts`). Täglich geholt — ohne diese Zeile stünde jeden Tag der
+  # Stand der letzten lokalen Messung in der Pille.
+  data/toggo.json
   # Die Neuzugänge der Streaming Availability API, ein Abruf am Tag gegen ein
   # Monatskontingent von 1.000. Ohne diese Zeile war der teuerste Lauf im
   # Projekt der einzige ohne Gedächtnis.

@@ -25,6 +25,7 @@ import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText } from '../worker/src/push-text.ts'
+import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
 import { FSK_COLORS, PLATFORMS } from '../shared/types.ts'
 import {
@@ -5001,6 +5002,20 @@ pruefe(
   const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
   pruefe('ein TOGGO-Weg trägt immer „DE ✓"', /istToggo\(g\.eintraege\[0\]\.url\) \|\|\s*g\.eintraege\[0\]\.dubRanges/.test(panel))
   pruefe('die Pillen einer Zeile strecken sich auf gleiche Höhe', panel.includes('flex min-h-[2.1rem] flex-wrap items-stretch gap-1.5 pb-1'))
+}
+{
+  /* TOGGO-Fenster (19.09.2026, gemessen an Daima und Boruto): die Pille rechnet beim Anzeigen. */
+  const daima = [14, 15, 16, 17, 18].map((f, i) => ({ staffel: 1, von: f, bis: f, ab: `2026-09-${14 + i}T21:37`, ende: `2026-09-${21 + i}T21:15` }))
+  pruefe('Daima am 19.09. abends: Fg. 14–18 · je 7 Tage', toggoAngabe(daima, '2026-09-19T22:00') === 'Fg. 14–18 · je 7 Tage', String(toggoAngabe(daima, '2026-09-19T22:00')))
+  pruefe('… am 22.09. abends ist Folge 14 raus', toggoAngabe(daima, '2026-09-22T00:00') === 'Fg. 15–18 · je 7 Tage', String(toggoAngabe(daima, '2026-09-22T00:00')))
+  const boruto = [{ staffel: 1, von: 1, bis: 30, ab: '2026-01-01T00:00', ende: '2026-12-31T23:59' }]
+  pruefe('Boruto: Fg. 1–30 · bis 31.12.', toggoAngabe(boruto, '2026-09-19T12:00') === 'Fg. 1–30 · bis 31.12.', String(toggoAngabe(boruto, '2026-09-19T12:00')))
+  pruefe('ohne offenes Fenster: gerade keine Folge', toggoAngabe(boruto, '2027-01-02T00:00') === 'gerade keine Folge')
+  const borutoEcht = [1, 52, 103, 154, 205, 256].map((v, i) => ({ staffel: i + 1, von: v, bis: v + 4, ab: '2026-01-01T00:00', ende: '2026-12-31T23:59' }))
+  pruefe('verstreute Folgen werden gezählt: 30 Folgen · bis 31.12.', toggoAngabe(borutoEcht, '2026-09-19T12:00') === '30 Folgen · bis 31.12.', String(toggoAngabe(borutoEcht, '2026-09-19T12:00')))
+  pruefe('ohne Fenster keine Angabe', toggoAngabe(undefined) === undefined)
+  const quellen = readFileSync('tools/quellen-liste.sh', 'utf8')
+  pruefe('die TOGGO-Datei steht in der Quellenliste (sonst wirft der Reset den Abruf weg)', quellen.includes('data/toggo.json'))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
