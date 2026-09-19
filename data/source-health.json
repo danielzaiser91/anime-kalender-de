@@ -10,8 +10,8 @@
     "lastCount": 37
   },
   "crunchyroll": {
-    "lastOk": "2026-09-19T11:13:41.640Z",
-    "lastRun": "2026-09-19T11:13:41.640Z",
+    "lastOk": "2026-09-19T11:27:40.452Z",
+    "lastRun": "2026-09-19T11:27:40.452Z",
     "lastCount": 15
   },
   "anisearch": {
@@ -145,8 +145,13 @@
     "lastCount": 29
   },
   "tv-programm": {
-    "lastOk": "2026-09-19T11:13:44.630Z",
-    "lastRun": "2026-09-19T11:13:44.630Z",
+    "lastOk": "2026-09-19T11:28:52.122Z",
+    "lastRun": "2026-09-19T11:28:52.122Z",
     "lastCount": 279
+  },
+  "tv-de": {
+    "lastOk": "2026-09-19T11:28:52.122Z",
+    "lastRun": "2026-09-19T11:28:52.122Z",
+    "lastCount": 41
   }
 }
