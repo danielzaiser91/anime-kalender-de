@@ -2304,9 +2304,19 @@ function ReleasePille({
           */}
           {[
             zweite,
-            /* Bei einer TV-Sichtung ist das Datum unsere erste Sichtung, kein Start — genannt wird die letzte. */
+            /*
+              Bei einer TV-Sichtung ist das Datum unsere erste Sichtung, kein Start. Genannt wird
+              der nächste Sendetag, sonst die letzte Sichtung — „im TV am 23.09." über einer
+              Reihe, die am 21.09. beginnt, las sich wie der erste Termin (19.09.2026).
+            */
             release.tvLetzteSichtung
-              ? t('detail.tvGesehen', { d: formatDate(release.tvLetzteSichtung) })
+              ? t('detail.tvGesehen', {
+                  d: formatDate(
+                    Object.values(release.schedule?.observed ?? {})
+                      .filter((d) => d >= today)
+                      .sort()[0] ?? release.tvLetzteSichtung,
+                  ),
+                })
               : datum && t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) }),
           ]
             .filter(Boolean)
