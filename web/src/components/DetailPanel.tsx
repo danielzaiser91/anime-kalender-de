@@ -549,7 +549,19 @@ function AntwortKasten({
       </>
     ) : (
       <>
-        {betont(kopf)} <span className="font-normal text-slate-700 dark:text-slate-300">{mitZeit}</span>
+        {betont(kopf)}{' '}
+        <span className="font-normal text-slate-700 dark:text-slate-300">
+          {/* „heute" in eigener Farbe (Daniel, 19.09.2026) — der Tag entscheidet, ob man jetzt nachsieht. */}
+          {rel && rel === T('antwort.relHeute') && mitZeit.includes(rel) ? (
+            <>
+              {mitZeit.slice(0, mitZeit.indexOf(rel))}
+              <span className="font-semibold text-emerald-700 dark:text-emerald-400">{rel}</span>
+              {mitZeit.slice(mitZeit.indexOf(rel) + rel.length)}
+            </>
+          ) : (
+            mitZeit
+          )}
+        </span>
         {e.time && !e.estimated && <Countdown date={e.date} time={e.time} />}
       </>
     )
