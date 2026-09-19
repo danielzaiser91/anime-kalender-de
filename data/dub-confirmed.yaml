@@ -6247,8 +6247,9 @@
   title: "Fushigi Yûgi New OVA: The Mysterious Play"
   platform: primevideo
   url: https://www.amazon.de/dp/B0CJYMLW6W
-  checkedAt: '2026-08-24'
-  note: "Tonspuren: English, 日本語 — Amazon-Seite B0CJYMLW6W: alle 9 Folgen geprüft, Abos: crunchyrollde, Seitenadresse: B0CJZH535R, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  dub: false
+  checkedAt: '2026-09-19'
+  note: "Prime „Fushigi Yugi OVA“ (Crunchyroll-Kanal) = Staffel 1 TV-Serie 52 Folgen, Staffel 2 beide OVAs 3+6 = 9 Folgen (Daniel, Durchgang 19.09.2026). Amazons Sprachangabe ist beim Kanal kein Beleg; Beleg ist die Crunchyroll-API (DE-Katalog, Serie GRWE2W42R, 0 von 9 Folgen deutsch, gemessen 06.09.2026). Deutsch gibt es nur auf DVD (2005)."
 
 - anilistId: 5630
   title: "Eden of the East"
