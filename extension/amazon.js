@@ -1139,6 +1139,13 @@ async function speicherSchreiben(werte) {
         lokalAbgehakt: Object.keys(erledigt[listenId]?.staffeln ?? {}),
         fertigLaut: fertig(listenId),
       })),
+      /*
+        Alle gtis im Quelltext der Seite — für die Frage, ob JustWatchs gti dort
+        irgendwo steht, auch wenn der Kopf eine andere trägt (19.09.2026, Air Gear).
+      */
+      gtisImQuelltext: sicher(() => [
+        ...new Set(String(seitenHtml() ?? '').match(/amzn1\.dv\.gti\.[0-9a-f-]{36}/g) ?? []),
+      ].slice(0, 80)),
       erzeugtAm: new Date().toISOString(),
       version: chrome?.runtime?.getManifest?.()?.version ?? 'unbekannt',
       adresse: location.href,
