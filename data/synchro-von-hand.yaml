@@ -23,3 +23,19 @@
   sources:
     - https://en.wikipedia.org/wiki/Yu-Gi-Oh!_Capsule_Monsters
     - https://www.fernsehserien.de/yu-gi-oh/episodenguide/staffel-6/3762
+
+# Aus dem TOGGO-Katalog (19.09.2026): TOGGO zeigt nur deutsche Fassungen (Daniel). Von 252
+# TOGGO-Serien fehlten nur diese zwei im Bestand; MyDubList kennt beide nicht.
+- anilistId: 166062
+  title: 'Beyblade Burst QuadStrike'
+  belegtAm: '2026-09-19'
+  sources:
+    - https://www.toggo.de/beyblade-x-pty605/serien/beyblade-burst-quadstrike-vse372
+    - https://www.fernsehserien.de/beyblade-burst/episodenguide/staffel-7/37666
+
+- anilistId: 177166
+  title: 'Bakugan'
+  belegtAm: '2026-09-19'
+  sources:
+    - https://www.toggo.de/bakugan/serien/bakugan-vse273
+    - https://www.fernsehserien.de/bakugan-2023

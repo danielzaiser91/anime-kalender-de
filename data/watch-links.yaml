@@ -172,3 +172,27 @@
     - https://www.toggo.de/sammlung/alle-formate/serien/dragon-ball-daima-vse446
     - https://www.youtube.com/watch?v=Ck7fc3OiRak
     - https://www.anime2you.de/news/1044800/dragon-ball-daima-ab-heute-im-free-tv/
+
+# TOGGO-Katalog (19.09.2026): Staffel 7 der Burst-Reihe; TOGGO führt nur diese Staffel
+# (Daniel, mit Bild). Deutsch ab 18.10.2024 (YouTube) und 19.10.2024 (Super RTL).
+- anilistId: 166062
+  title: 'Beyblade Burst QuadStrike'
+  links:
+    - name: TOGGO
+      url: https://www.toggo.de/beyblade-x-pty605/serien/beyblade-burst-quadstrike-vse372
+      kind: stream
+  sources:
+    - https://www.toggo.de/beyblade-x-pty605/serien/beyblade-burst-quadstrike-vse372
+    - https://www.fernsehserien.de/beyblade-burst/episodenguide/staffel-7/37666
+
+# TOGGO-Katalog (19.09.2026): der Neustart von 2023 („Bakugan suchen Schutz auf der Erde");
+# deutsche TV-Premiere bei Super RTL laut fernsehserien.de.
+- anilistId: 177166
+  title: 'Bakugan'
+  links:
+    - name: TOGGO
+      url: https://www.toggo.de/bakugan/serien/bakugan-vse273
+      kind: stream
+  sources:
+    - https://www.toggo.de/bakugan/serien/bakugan-vse273
+    - https://www.fernsehserien.de/bakugan-2023
