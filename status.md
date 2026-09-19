@@ -175,6 +175,17 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 | **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
 
+## Aufgenommen 19.09.2026, 03:25: TOGGO-Pillen (Daniel, mit zwei Bildern an Dragon Ball Daima) — noch nicht umgesetzt
+
+Anlass: Auf toggo.de (`/sammlung/alle-formate/serien/dragon-ball-daima-vse446`) stehen nur noch die Folgen 14–18 („Neu“, ab 12, je 22:37 Min.), im Panel steht die Pille „TOGGO DE ?“.
+
+1. **Pillen gleich hoch:** Eine Pille ohne zweite Zeile (TOGGO) wird auf die Höhe der übrigen gestreckt.
+2. **TOGGO- und TOGGO-plus-Pille in eigener Farbe mit eigenem Zeichen** — heute neutral bzw. im TV-Grün.
+3. **TOGGO ist immer Deutsch:** Die Pille zeigt ausnahmslos „DE ✓“ statt „DE ?“ (Daniel: „toggo ist immer DE, immer, ausnahmslos“).
+4. **Abrufzeitraum recherchieren:** Wie lange hält TOGGO Folgen bereit (7 Tage nach Ausstrahlung? die letzten x Folgen?) — per Webrecherche, Quelle festhalten.
+5. **Die Angabe in die Pille** („nur die letzten 5 Folgen“ o. ä.) und **aktuell halten**.
+6. **TOGGO-Abruf prüfen:** Vorher API-Doku, robots.txt, Nutzungsbedingungen, Netzwerkverkehr der Seite (Skill `netzwerkverkehr-statt-scraping`); erst dann entscheiden, ob gebaut wird.
+
 ## Geplant 19.09.2026: Tote aniSearch-Adressen bei Prime — JustWatch als Kandidat, nicht als Ersatz
 
 **Befund (19.09.2026, 02:25, Daniels Durchgang):** Die 37 Titel der Prime-Prüfliste stammen alle aus aniSearchs Amazon-Partnerlinks; Daniel fand die ersten sechs als Amazon-404. Daniels Frage: „unter dieser kennung garantiert nix, aber es bedeutet nicht zwangsläufig das amazon diesen titel nicht führt“. Gemessen gegen `data/justwatch-audio.json`: **20** der 36 haben bei JustWatch ein Prime-Angebot unter **anderer** Adresse (`watch.amazon.de/detail?gti=…`), **7** kein Prime-Angebot (geprüft 16./17.09.), **9** kennt JustWatch nicht.
