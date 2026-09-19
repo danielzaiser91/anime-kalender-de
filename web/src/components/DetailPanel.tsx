@@ -2322,8 +2322,8 @@ function ReleasePille({
   release: Release
   titel?: string
   today: string
-  /** Bei TV: „Fg. 16 · heute 21:15 · Premiere" (`lib/tv-angabe.ts`). */
-  tvText?: string
+  /** Bei TV: „Fg. 16 · heute 21:15" und ob es eine Premiere ist (`lib/tv-angabe.ts`). */
+  tvText?: { text: string; premiere: boolean }
 }) {
   const { t } = useLang()
   /*
@@ -2382,6 +2382,12 @@ function ReleasePille({
           )}
           {release.releaseType !== 'disc' && <AnbieterIcon was={/^TOGGO/i.test(release.sender ?? '') ? 'toggo' : release.platform} />}
           <span className="truncate">{kurzerName}</span>
+          {tvText?.premiere && (
+            /* Eine deutsche Erstausstrahlung ist das Ereignis — sie soll auffallen (Daniel, 19.09.2026). */
+            <span className="shrink-0 rounded-full bg-gradient-to-r from-fuchsia-600 to-amber-500 px-2 py-0.5 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[0_0_10px_rgba(217,70,239,.7)] ring-1 ring-white/40">
+              ✦ Premiere
+            </span>
+          )}
         </span>
         <span className="truncate text-[11px] opacity-80" style={farbe ? { color: farbe } : undefined}>
           {/*
@@ -2399,7 +2405,7 @@ function ReleasePille({
               Reihe, die am 21.09. beginnt, las sich wie der erste Termin (19.09.2026).
             */
             tvText
-              ? tvText
+              ? tvText.text
               : release.tvLetzteSichtung && release.platform !== 'tv'
               ? /* RTL+-Wochentermin: die jüngste Folge, nicht „im TV". */
                 t('detail.neuAm', { d: formatDate(release.tvLetzteSichtung) })
@@ -5530,6 +5536,37 @@ export function DetailPanel({
                       ? reiheReiter.titel
                       : (eigeneGruppe ?? gefiltert[0]?.titel)
                   const angezeigt = mitReitern ? gefiltert.filter((g) => g.titel === aktiverReiter) : gefiltert
+                  /*
+                    **Ein Schalter in der Leiste statt einer Zeile unter der Liste** (Daniel,
+                    19.09.2026: „ohne deutsche synchro ausblenden zeile entfernen und stattdessen
+                    toggle oben in die leiste … default toggle state auf ausgeblendet").
+                  */
+                  const ohneSchalter =
+                    zahlOhne > 0 && !suchText ? (
+                      <label className="ml-auto inline-flex shrink-0 cursor-pointer items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
+                        <input
+                          type="checkbox"
+                          className="sr-only"
+                          checked={!ohneOffen}
+                          onChange={() => setReiheOhneOffen(ohneOffen ? null : reihenSchluessel)}
+                        />
+                        <span
+                          aria-hidden="true"
+                          className={[
+                            'relative h-3.5 w-6 rounded-full transition',
+                            ohneOffen ? 'bg-slate-300 dark:bg-white/20' : 'bg-sky-500',
+                          ].join(' ')}
+                        >
+                          <span
+                            className={[
+                              'absolute top-0.5 size-2.5 rounded-full bg-white shadow transition-all',
+                              ohneOffen ? 'left-0.5' : 'left-3',
+                            ].join(' ')}
+                          />
+                        </span>
+                        {t('detail.reiheOhneSchalter', { n: zahlOhne })}
+                      </label>
+                    ) : null
 
                   return (
                     <div className="flex flex-col gap-0.5">
@@ -5543,6 +5580,8 @@ export function DetailPanel({
                             aria-label={t('detail.reiheSuche')}
                             className="w-full rounded-lg border border-slate-200 bg-transparent px-2.5 py-1 text-xs outline-none focus:border-sky-400 dark:border-white/10"
                           />
+                          {(mitReitern || ohneSchalter) && (
+                            <div className="flex flex-wrap items-center gap-1">
                           {mitReitern && (
                             <div role="tablist" className="flex flex-wrap gap-1">
                               {gefiltert.map((g) => (
@@ -5564,8 +5603,12 @@ export function DetailPanel({
                               ))}
                             </div>
                           )}
+                          {ohneSchalter}
+                            </div>
+                          )}
                         </div>
                       )}
+                      {!lang && ohneSchalter && <div className="mb-1 flex">{ohneSchalter}</div>}
                       {!angezeigt.length && (
                         <span className="px-1 py-2 text-xs text-slate-500 dark:text-slate-400">{t('detail.reiheKeinTreffer')}</span>
                       )}
@@ -5592,15 +5635,6 @@ export function DetailPanel({
                         </Fragment>
                       ))}
                       </div>
-                      {zahlOhne > 0 && !suchText && (
-                        <button
-                          type="button"
-                          onClick={() => setReiheOhneOffen(ohneOffen ? null : reihenSchluessel)}
-                          className="mt-1 cursor-pointer self-start rounded-md px-1.5 py-0.5 text-[11px] text-slate-500 transition hover:bg-slate-200/70 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-200"
-                        >
-                          {ohneOffen ? t('detail.reiheOhneVerbergen') : t('detail.reiheOhneZeigen', { n: zahlOhne })}
-                        </button>
-                      )}
                     </div>
                   )
                 })()}

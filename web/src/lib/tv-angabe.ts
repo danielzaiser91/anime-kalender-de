@@ -47,14 +47,18 @@ export function istPremiere(
 
 const TAG = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
 
-/** „Fg. 16 · heute 21:15 · Premiere" — oder `undefined`, wenn es keinen Termin gibt. */
+/**
+ * „Fg. 16 · heute 21:15" plus `premiere` — oder `undefined`, wenn es keinen Termin gibt.
+ * „Premiere" ist ein eigenes Abzeichen an der Pille (Daniel, 19.09.2026: „zu unauffällig"),
+ * „Wiederholung" steht im Text.
+ */
 export function tvAngabe(
   release: Release,
   title: Title,
   releases: Release[],
   heute: string,
   jetztZeit: string,
-): string | undefined {
+): { text: string; premiere: boolean } | undefined {
   if (release.platform !== 'tv') return undefined
   const termine = expandEvents(release)
   const kommend = termine.find((e) => e.date > heute || (e.date === heute && (e.time ?? '99') >= jetztZeit))
@@ -66,10 +70,11 @@ export function tvAngabe(
       : kommend && Date.parse(e.date) - Date.parse(heute) < 6.5 * 864e5
         ? TAG[new Date(`${e.date}T12:00:00Z`).getUTCDay()]!
         : `${e.date.slice(8, 10)}.${e.date.slice(5, 7)}.`
+  const premiere = Boolean(e.episode && !e.sichtung && istPremiere(e.episode, e.date, title, releases, release.ersteDeutsch))
   const teile = [
     e.episode && !e.sichtung ? `Fg. ${e.episode}` : undefined,
     [kommend ? '' : 'zuletzt', tag, e.time].filter(Boolean).join(' '),
-    e.episode && !e.sichtung ? (istPremiere(e.episode, e.date, title, releases, release.ersteDeutsch) ? 'Premiere' : 'Wiederholung') : undefined,
+    e.episode && !e.sichtung && !premiere ? 'Wiederholung' : undefined,
   ]
-  return teile.filter(Boolean).join(' · ')
+  return { text: teile.filter(Boolean).join(' · '), premiere }
 }
