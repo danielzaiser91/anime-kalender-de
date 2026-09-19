@@ -4605,6 +4605,18 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     const ohneDub = new Map([[165159, { ...bx, streams: [{ platform: 'rtlplus', url: 'x' }] } as unknown as Title]])
     pruefe('RTL+-Wochentermin: ohne belegte Synchro am RTL+-Weg keiner', rtlplusWochentermine(liste, ohneDub, [], '2026-07-05').length === 0)
   }
+  /* Staffelwechsel (19.09.2026): Folge 14 einer durchgezählten Liste ist bei 12 Folgen Staffel 2, Folge 2. */
+  {
+    const s1 = { id: 151807, franchiseId: 151807, format: 'TV', episodes: 12, jpYear: 2024, jpSeason: 'WINTER', titleDe: 'Solo Leveling' } as Title
+    const s2 = { id: 176496, franchiseId: 151807, format: 'TV', episodes: 13, jpYear: 2025, jpSeason: 'WINTER', titleDe: 'Solo Leveling: Arise' } as Title
+    const liste = { '151807': { seite: 'TMDB', url: 'x', folgen: Array.from({ length: 25 }, (_, i) => ({ nr: i + 1, dt: `Titel ${i + 1}` })) } }
+    const sl = (folge: string) => ({ titleId: 151807, titel: 'Solo Leveling', folge, sender: 'ProSieben MAXX', start: '2026-09-25T23:55:00+02:00', ende: '', gesehenAm: '' })
+    const tm = new Map([[151807, s1], [176496, s2]])
+    const w = releasesAusTvProgramm([sl('Titel 14')], tm, [], liste)
+    pruefe('TV-Sichtung: Folge 14 bei 12 Folgen wandert als Folge 2 in Staffel 2', w[0]?.titleId === 176496 && w[0]?.schedule.firstEpisodeNumber === 2, w[0] && { id: w[0].titleId, s: w[0].schedule })
+    const quer = releasesAusTvProgramm([sl('Titel 12'), sl('Titel 14')], tm, [], liste)
+    pruefe('TV-Sichtung: über zwei Staffeln verteilt wird nicht zugeordnet, sondern gezählt', quer[0]?.titleId === 151807 && !quer[0]?.folgenBelegt, quer[0] && { id: quer[0].titleId, s: quer[0].schedule })
+  }
   const hand = { titleId: 158871, platform: 'tv', sender: 'Super RTL' } as Release
   pruefe('ein Handeintrag beim selben Sender gewinnt', releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'A')], titles, [hand]).length === 0)
 }

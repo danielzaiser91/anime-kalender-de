@@ -2462,6 +2462,8 @@ Das TV-Programm (RTL+, tv.de) nennt nur Folgentitel. Die Episodenlisten der de.w
 
 **robots.txt:** `User-agent: *` mit `Disallow: /w/` und `Disallow: /api/` — damit sind `api.php` und die Suche gesperrt (die Recherche vom selben Morgen hatte „robots ohne Claude-Sperre“ notiert und nur die namentlichen Blöcke gelesen). `/wiki/<Seite>?action=raw` liegt unter `/wiki/` und liefert denselben Wikitext; gesucht wird deshalb über feste Seitennamen statt über die Suche. Abruf: `pipeline/fetch-wikipedia-folgen.ts`, Auswertung: `pipeline/lib/tv-termine.ts`.
 
+**Reihenfolge der Listen:** Wikipedia vor RTL+ vor TMDB (`data/tmdb-folgen.json`, deutsche Titel über Staffeln durchgezählt, Staffel 0 zählt nicht). TMDB-Titel sind oft andere Übersetzungen als die des Senders — bei Eyeshield 21 passten 0 von 5 —, deshalb gilt eine Liste nur, wenn **jede** Sichtung darin steht. Und eine Nummer über der Folgenzahl unseres Titels gehört in eine spätere Staffel: ProSieben MAXX „Solo Leveling“ mit TMDB-Folge 14 ist „Arise from the Shadow“ Folge 2 (unser „Solo Leveling“ hat 12).
+
 **Zwei Fallen:** Die Pokémon-Liste zählt über das ganze Franchise (Horizonte beginnt bei 1235) — gezählt wird deshalb ab der ersten Folge der Seite. Und echte Nummern haben Lücken (Super RTL: werktags 78–80, samstags 127); `expandEvents` legt für eine TV-Sichtung deshalb nur Termine für gesichtete Folgen an, sonst lägen 46 erfundene Folgen auf dem Samstag.
 
 ### RTL+ kennt Staffel und Nummer — aber an drei Stellen verteilt (19.09.2026)

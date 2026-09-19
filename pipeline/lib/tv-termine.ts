@@ -58,6 +58,35 @@ const slugTeil = (s: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
+const JAHRESZEIT: Record<string, number> = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
+
+/**
+ * **Eine Nummer jenseits der Staffel gehört in die nächste** (19.09.2026). ProSieben MAXX
+ * zeigt „Solo Leveling" mit „Das war dir wohl nicht bewusst" — bei TMDB Folge 14 einer
+ * durchgezählten Liste, unser Titel „Solo Leveling" hat aber 12 Folgen: Es ist Staffel 2
+ * („Arise from the Shadow"), Folge 2. Gesucht wird in den TV-Staffeln derselben Reihe
+ * (`franchiseId`), nach Ausstrahlung sortiert. Passen nicht alle Nummern in eine Staffel,
+ * gibt es keine Zuordnung — lieber zählen als eine Staffel raten.
+ */
+function spaetereStaffel(
+  title: Title,
+  von: number,
+  bis: number,
+  titles: Map<number, Title>,
+): { title: Title; versatz: number } | undefined {
+  const reihe = [...titles.values()]
+    .filter((t) => t.franchiseId === title.franchiseId && t.format === 'TV' && t.episodes)
+    .sort((a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0) || (JAHRESZEIT[a.jpSeason ?? ''] ?? 0) - (JAHRESZEIT[b.jpSeason ?? ''] ?? 0))
+  const start = reihe.findIndex((t) => t.id === title.id)
+  if (start < 0) return undefined
+  let versatz = 0
+  for (const t of reihe.slice(start)) {
+    if (von - versatz <= t.episodes!) return bis - versatz <= t.episodes! ? { title: t, versatz } : undefined
+    versatz += t.episodes!
+  }
+  return undefined
+}
+
 export function releasesAusTvProgramm(
   sendungen: TvSendung[],
   titles: Map<number, Title>,
@@ -77,17 +106,25 @@ export function releasesAusTvProgramm(
   for (const liste of gruppen.values()) {
     liste.sort((a, b) => a.start.localeCompare(b.start))
     const erste = liste[0]!
-    const title = titles.get(erste.titleId)!
+    let title = titles.get(erste.titleId)!
     /* Nummern aus der Episodenliste — nur wenn jede Sichtung darin steht. */
     const wikiListe = wiki[String(erste.titleId)]
     const nummern = wikiListe?.folgen.length ? nummernNachTitel(wikiListe.folgen, !wikiListe.url) : undefined
     const zugeordnet = liste.map((s) => (s.folge ? nummern?.get(folgenKern(s.folge)) : undefined))
-    const mitWiki = zugeordnet.every((x) => x !== undefined)
+    let mitWiki = zugeordnet.every((x) => x !== undefined)
+    let versatz = 0
+    if (mitWiki && title.episodes && Math.max(...(zugeordnet as number[])) > title.episodes) {
+      const platz = spaetereStaffel(title, Math.min(...(zugeordnet as number[])), Math.max(...(zugeordnet as number[])), titles)
+      if (platz && !belegt.has(`${platz.title.id}|${erste.sender.toLowerCase()}`)) {
+        title = platz.title
+        versatz = platz.versatz
+      } else mitWiki = false
+    }
     const observed: Record<number, string> = {}
     let n = 0
     let ab = 1
     if (mitWiki) {
-      liste.forEach((s, i) => (observed[zugeordnet[i]!] ??= berlinTag(s.start)))
+      liste.forEach((s, i) => (observed[zugeordnet[i]! - versatz] ??= berlinTag(s.start)))
       const nrn = Object.keys(observed).map(Number)
       ab = Math.min(...nrn)
       n = Math.max(...nrn) - ab + 1
@@ -105,8 +142,8 @@ export function releasesAusTvProgramm(
     const zeiten = new Set(liste.map((s) => berlinZeit(s.start)))
     const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? erste.titel
     aus.push({
-      slug: `auto-${erste.titleId}-tv-${slugTeil(erste.sender)}`,
-      titleId: erste.titleId,
+      slug: `auto-${title.id}-tv-${slugTeil(erste.sender)}`,
+      titleId: title.id,
       name,
       platform: 'tv',
       sender: erste.sender,

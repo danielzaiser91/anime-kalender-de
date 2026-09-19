@@ -2928,6 +2928,27 @@ function main(): void {
     titles,
     releases,
     {
+      /*
+        TMDB zuletzt: deutsche Folgentitel, über Staffeln durchgezählt (Staffel 0 = Specials
+        zählt nicht). Bei Solo Leveling die einzige Liste; bei Eyeshield 21 passten 0 von 5
+        TV-Titeln — dann bleibt es beim Zählen (19.09.2026).
+      */
+      ...Object.fromEntries(
+        Object.entries(
+          readJson<Record<string, { tmdbId: number; folgen: { s: number; e: number; titel?: string }[] }>>('data/tmdb-folgen.json', {}),
+        ).map(([id, x]) => [
+          id,
+          {
+            seite: 'TMDB',
+            url: `https://www.themoviedb.org/tv/${x.tmdbId}`,
+            folgen: x.folgen
+              .filter((f) => f.s >= 1)
+              .sort((a, b) => a.s - b.s || a.e - b.e)
+              .map((f, i) => ({ nr: i + 1, dt: f.titel ?? '' }))
+              .filter((f) => f.dt && !/^(folge|episode) \d+$/i.test(f.dt)),
+          },
+        ]),
+      ),
       /* RTL+ nur, wo die Wikipedia keine Liste hat (Beyblade X, 19.09.2026). */
       ...Object.fromEntries(
         Object.entries(
