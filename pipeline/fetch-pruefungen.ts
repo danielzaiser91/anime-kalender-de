@@ -738,6 +738,35 @@ for (const gruppe of jeAdresse.values()) {
       staffelnDerGruppe.size === 1
         ? [...staffelnDerGruppe].find((n) => n >= 2 && n <= 50)
         : undefined
+    /*
+      **Staffel 1 nach einem Wechsel auf einer Sammelseite gehört nicht dem Auftrag.**
+      (19.09.2026, JoJo): Der Auftrag galt „Stardust Crusaders“ auf der Sammelseite
+      B0CG7S59KL; gemeldet wurde auch Prime-Staffel 1 (Teil 1, Seite B0CH1GVRKK). Der
+      Block unten greift erst ab Staffel 2, also landete Teil 1 als Beleg auf Stardust
+      Crusaders. Erkennbar ist der Fall daran, dass die gemeldete Seite eine andere
+      ist als die Auftragsadresse und der Auftragstitel in seiner Reihe nicht Staffel 1
+      ist. Dann bleibt die Meldung liegen — eine Prime-Einzelseite („Staffel 1“ jeder
+      Fortsetzung, etwa Motto To Love-Ru) trägt ihre eigene Adresse und fällt nicht darunter.
+    */
+    {
+      const kennungDerAdresse = /amazon\.de\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,26})/.exec(p.url)?.[1]
+      const seite = String(p.seiten_kennung ?? '')
+      const reihe1 = reiheVon.get(ids[0] ?? -1)
+      if (
+        staffelnDerGruppe.size === 1 &&
+        staffelnDerGruppe.has(1) &&
+        kennungDerAdresse &&
+        seite &&
+        seite !== kennungDerAdresse &&
+        reihe1
+      ) {
+        const nr = staffelNummern(reihe1).get(ids[0]!)
+        if (nr != null && nr !== 1) {
+          offenGeblieben.push(`${p.url} — Staffel 1 der Seite ${seite} gehört nicht zum Auftragstitel ${ids[0]} (Staffel ${nr}), Meldung bleibt liegen`)
+          continue
+        }
+      }
+    }
     const reihe = staffelNr ? reiheVon.get(ids[0] ?? -1) : undefined
     if (staffelNr && reihe) {
       const nummern = staffelNummern(reihe)
@@ -749,6 +778,18 @@ for (const gruppe of jeAdresse.values()) {
         }
       }
       const schonRichtig = ziel.length > 0 && ids.every((id) => ziel.includes(id))
+      /*
+        **Die Folgenzahl muss zur Zielstaffel passen** (19.09.2026, JoJo): Prime-Staffel 3
+        der Sammelseite (Diamond is Unbreakable, 39 Folgen) wäre nach unserer Zählung
+        „Staffel 3“ = Battle in Egypt mit 24 geworden. Weicht die gemeldete Zahl um mehr
+        als die Hälfte ab, gilt die Nummer nicht — die Meldung bleibt liegen.
+      */
+      const gemeldetZahl = Math.max(0, ...gruppe.map((x) => (typeof x.folgen === 'number' ? x.folgen : 0)))
+      const zielFolgen = ziel.map((id) => liste.find((x) => x.id === id)?.episodes ?? 0).reduce((a, b) => a + b, 0)
+      if (ziel.length && gemeldetZahl && zielFolgen && (gemeldetZahl > zielFolgen * 1.5 || gemeldetZahl < zielFolgen / 1.5)) {
+        offenGeblieben.push(`${p.url} — Staffel ${staffelNr}: ${gemeldetZahl} Folgen gemeldet, Zielstaffel ${ziel.join(', ')} hat ${zielFolgen}, Meldung bleibt liegen`)
+        continue
+      }
       if (ziel.length && !schonRichtig) {
         log(`Staffel ${staffelNr} von ${p.url} gehört zu ${ziel.join(', ')} statt ${ids.join(', ')}`)
         ids = ziel
