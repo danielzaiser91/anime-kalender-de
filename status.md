@@ -175,6 +175,14 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 | **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
 
+## Geplant 19.09.2026: Tote aniSearch-Adressen bei Prime — JustWatch als Kandidat, nicht als Ersatz
+
+**Befund (19.09.2026, 02:25, Daniels Durchgang):** Die 37 Titel der Prime-Prüfliste stammen alle aus aniSearchs Amazon-Partnerlinks; Daniel fand die ersten sechs als Amazon-404. Daniels Frage: „unter dieser kennung garantiert nix, aber es bedeutet nicht zwangsläufig das amazon diesen titel nicht führt“. Gemessen gegen `data/justwatch-audio.json`: **20** der 36 haben bei JustWatch ein Prime-Angebot unter **anderer** Adresse (`watch.amazon.de/detail?gti=…`), **7** kein Prime-Angebot (geprüft 16./17.09.), **9** kennt JustWatch nicht.
+
+**Bleibt:** „nicht abrufbar“ melden ist richtig — es widerlegt nur diese Adresse. Kein automatischer Ersatz: `ERSATZ_TOTER_AMAZON_LINKS` in `build.ts` bleibt aus (17.09.2026, Pokémon Weiß trug bei JustWatch die gti von Schwarz).
+
+**Plan:** (1) Nach einem `weg` an einer aniSearch-Adresse, für die JustWatch genau eine Prime-gti kennt, führt die Prüfliste (`tools/extension-offene-amazon.mjs`, Prüfstand im Worker) die JustWatch-Adresse als **Kandidaten** unter demselben Titel. (2) Die Erweiterung muss auf der Zielseite (nach Weiterleitung von `watch.amazon.de`) den Auftrag erkennen — sie liest die gti seit 4.20.25 in die Notiz. (3) Stimmt die abgelesene gti mit JustWatchs überein, gilt der Kandidat als belegt (`amazon-gti-belegt.json`, bisher ASIN → gti; hier Titel → gti). (4) Titel ohne JustWatch-Treffer bekommen nach `weg` eine Prime-Suchadresse (Suchadressen-Liste). (5) Titel mit JustWatch „kein Prime“ bleiben beim `weg`. PoC zuerst: die 20 Kandidaten als Liste mit Links, Daniel prüft drei, erst dann bauen.
+
 ## Gebaut 18.09.2026: Web-Push für Favoriten (Feature-Vergleich Nr. 11)
 
 **Live seit 18.09.2026 abends.** Zustellung vorher belegt (14:28, Edge/Windows, Daniels Bestätigung). Bauweise:
