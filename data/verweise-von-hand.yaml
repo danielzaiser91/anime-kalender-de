@@ -52,17 +52,11 @@
     Folgenmeldungen vom 10.09.2026 nennen 25 mit deutschem Ton und zwei ohne.
     Der Titel hatte bis dahin keinen einzigen Prime-Verweis.
 
-- anilistId: 20464
-  title: "Haikyu!!"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0D4K9PV2F
-  belegtAm: '2026-09-13'
-  beleg: >-
-    Die Rohfolgen dieser Seite tragen die Titel der ersten Staffel („Ende und
-    Anfang“, „Der Volleyballclub der Karasuno-Oberschule“ …), Prime führt 26
-    Folgen: unsere erste Staffel hat 25, die OVA „Lev ist hier!“ (20884) eine,
-    die Summe geht exakt auf. Kanal-Titel (ADN), 26 Meldungen vom 10.09.2026
-    ohne Sprachurteil.
+# Entfernt 19.09.2026: B0D4K9PV2F stand hier als Seite der ersten Staffel (20464).
+# Widerlegt: Die Seite öffnet Staffel 2 (Daniel im Durchgang, Staffel-Dropdown
+# und Erweiterung „Staffel 2“), Folge 1 ist „Let's go! Tokyo!“; der Handbeleg in
+# dub-confirmed.yaml ordnet sie seit dem 15.09. zu Recht 20992 zu. Staffel 1 hat
+# ihren eigenen Prime-Weg (0Q6QUJIEW346VMM87OG648DPND).
 
 - anilistId: 170083
   title: 'Dragon Ball Daima'
