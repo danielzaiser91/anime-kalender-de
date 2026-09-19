@@ -398,6 +398,21 @@ danach immer noch, ist es ein echter Widerspruch; vorher ist es eine Verwechslun
 Der praktische Griff dazu: Die **Kennung** vergleichen, nicht den Titel und nicht die Nummer.
 Sie ist das Einzige, was Amazon und unser Bestand gemeinsam führen.
 
+### „Wiedergabesprachen“ auf der Titelseite ist die Vereinigung aller Folgen
+
+Daniel am 19.09.2026 im Durchgang: „bei wiedergabesprache steht deutsch selbst wenn nur eine
+folge deutsch hat.“ Der Kasten unter „Details“ nennt jede Sprache, die **irgendeine** Folge der
+Seite hat. Daraus folgt:
+
+- **Film** (ein Stück): Die Angabe ist ein Beleg, in beide Richtungen.
+- **Serie, Deutsch fehlt**: Beleg für „kein Deutsch“ — keine Folge hat es (Edens Zero S2).
+- **Serie, Deutsch steht da**: **kein** Beleg für die ganze Staffel. Übernommen wird nur die
+  Adresse (`verweise-von-hand.yaml`); das Urteil kommt aus der Meldung der Erweiterung, die
+  jede Folge einzeln liest und `dubRanges` schreibt. Air Gear war kurz als ganze Serie
+  „deutsch“ gebucht und wurde zurückgenommen.
+
+Beim Kanal-Titel gilt zusätzlich der Abschnitt darunter.
+
 ### Bei einem Kanal-Titel ist Amazons Sprachangabe kein Beleg
 
 **Geändert am 17.09.2026 für das Ja:** Daniel: „Unsere Meldung per Extension sollte höchste
