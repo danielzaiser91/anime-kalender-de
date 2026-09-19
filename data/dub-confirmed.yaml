@@ -10384,13 +10384,15 @@
   checkedAt: '2026-08-27'
   note: "Suche auf Prime Video: kein einziger Treffer"
 
+# Berichtigt 19.09.2026: B0GXK7RJFW ist Diamond is Unbreakable (Folge 1 „Jōtarō Kūjō! Trifft
+# Jōsuke Higashikata“, Daniel mit Bild), nicht Golden Wind. Golden Wind ist B0G1ZD14D3 (Folge 37
+# „Sein Name ist Diavolo“ laut prime_folge, Meldung vom 19.09.2026) — dort ohne Deutsch, Kanal.
 - anilistId: 102883
   title: "JoJo’s Bizarre Adventure: Golden Wind"
   platform: primevideo
-  url: https://www.amazon.de/dp/B0GXK7RJFW
-  dub: true
-  checkedAt: '2026-08-27'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GXK7RJFW: alle 39 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 4, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  url: https://www.amazon.de/dp/B0G1ZD14D3
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: Français, 日本語 — Amazon-Seite B0G1ZD14D3: alle 39 Folgen geprüft, Prime-Staffel 4 der JoJo-Sammelseite, Abos: crunchyrollde (Meldung 4787) — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
 - anilistId: 14719
   title: "JoJo’s Bizarre Adventure"
