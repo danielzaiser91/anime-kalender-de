@@ -6974,12 +6974,8 @@
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch — Amazon-Seite B07ZWDVZPF: alle 10 Folgen geprüft, Abos: Prime, aniversede, Seitenadresse: B07ZWNNNGX, zugang=abo_und_kauf"
 
-- anilistId: 14719
-  title: "JoJo’s Bizarre Adventure"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0G1ZD14D3
-  checkedAt: '2026-08-25'
-  note: "Tonspuren: Français, 日本語 — Amazon-Seite B0G1ZD14D3: alle 39 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 5, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+# Entfernt 19.09.2026: B0G1ZD14D3 stand hier an Teil 1 (14719, 26 Folgen). Die Seite hat 39 Folgen —
+# Diamond is Unbreakable oder Golden Wind (JoJo-Durchgang, Meldung 4787).
 
 - anilistId: 415
   title: "Meine Nachbarn die Yamadas"
@@ -16528,3 +16524,22 @@
   url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3fa85b3-9fd1-4c50-89ce-13e8d5953f92
   checkedAt: '2026-09-19'
   note: "Tonspuren: Japanisch, Englisch — Amazon-Seite 0OV3F3UGXALW1REIMXVUP0SY36, Crunchyroll-Kanal, Staffel 1 mit 64 und Staffel 2 mit 90 Folgen (Meldungen 4749/4750) — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg. Deutsch läuft über die Prime-Ausgabe (gti 1dbc472c…)."
+
+# JoJo bei Prime (Durchgang 19.09.2026, Sammelseite B0CG7S59KL): Prime-Staffel 2 ist Stardust
+# Crusaders in beiden Teilen, 48 Folgen = 20474 (24) + 20799 (24), alle mit deutschem Ton
+# (Meldung 4785, Crunchyroll-Kanal; Kanal-Ja zählt seit 17.09.2026).
+- anilistId: 20474
+  title: "JoJo’s Bizarre Adventure: Stardust Crusaders"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GX7VDJK3
+  dub: true
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Folgen 1–24 gehören zu diesem Eintrag, 25–48 zu Battle in Egypt (20799). Abos: crunchyrollde (Meldung 4785)."
+
+- anilistId: 20799
+  title: "JoJo’s Bizarre Adventure: Stardust Crusaders - Battle in Egypt"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GX7VDJK3
+  dub: true
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Folgen 25–48 gehören zu diesem Eintrag, 1–24 zu Stardust Crusaders (20474). Abos: crunchyrollde (Meldung 4785)."

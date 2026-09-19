@@ -211,6 +211,12 @@
 - anilistId: 20474
   title: "JoJo no Kimyou na Bouken: Stardust Crusaders"
   platform: primevideo
-  url: https://www.amazon.de/dp/B0CG7S59KL
-  belegtAm: '2026-08-25'
-  beleg: 'Amazons Staffel 3 der JoJo-Sammelseite ist Stardust Crusaders mit 48 Folgen, beide Teile (24 + 24 Egypt-hen 20799); Daniel, 25.08.2026'
+  url: https://www.amazon.de/dp/B0GX7VDJK3
+  belegtAm: '2026-09-19'
+  beleg: 'Prime-Staffel 2 der JoJo-Sammelseite B0CG7S59KL: Stardust Crusaders mit 48 Folgen = 24 + 24 Battle in Egypt (Meldung 4785). Die Sammelseite selbst stand hier vorher und ist kein Titel.'
+- anilistId: 20799
+  title: "JoJo no Kimyou na Bouken: Stardust Crusaders - Egypt-hen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GX7VDJK3
+  belegtAm: '2026-09-19'
+  beleg: 'dieselbe Prime-Staffel wie Stardust Crusaders, Folgen 25–48 (Meldung 4785)'
