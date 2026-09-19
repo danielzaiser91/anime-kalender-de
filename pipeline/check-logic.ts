@@ -116,7 +116,7 @@ import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia
 import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
-import { namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
+import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -5192,6 +5192,15 @@ pruefe(
   pruefe('Wiederholung: Folge 1 steht auf YouTube', !istPremiere(1, '2026-09-16', daima, [rtl]))
   pruefe('Wiederholung: nach dem RTL+-Termin der Folge', !istPremiere(1, '2026-10-01', { ...daima, streams: [] } as Title, [rtl]))
   pruefe('Wiederholung: lief laut Episodenliste schon früher auf Deutsch', !istPremiere(16, '2026-09-16', daima, [rtl], { 16: '2025-05-01' }))
+}
+{
+  /* tv.de „Bald im TV" (19.09.2026): die Nacht, die auf keiner Tagesseite steht. */
+  const e = (id: string, titel: string, zeit: string) =>
+    `<img src="x" alt="ProSieben MAXX" title="ProSieben MAXX"><a class="ellipsize" href="/sendung/dbs/x,${id}/" title="${titel}">${titel}</a>\n<span class="time">${zeit}</span>`
+  const html = 'Bald im TV</span>' + e('1', 'Dragon Ball Super: Das Zeichen der Wende!', 'Morgen, 00:30 - 01:00 Uhr') + e('2', 'Dragon Ball Super: Finale', '21.09., 23:50 - 00:15 Uhr')
+  const b = baldImTv(html, '2026-09-19', 'Dragon Ball Super')
+  pruefe('„Bald im TV": Morgen 00:30 ist der nächste Tag', b[0]?.start === '2026-09-20T00:30:00+02:00' && b[0]?.folge === 'Das Zeichen der Wende!', b[0])
+  pruefe('„Bald im TV": ein Ende nach Mitternacht liegt am Folgetag', b[1]?.start.startsWith('2026-09-21T23:50') && b[1]?.ende.startsWith('2026-09-22T00:15'), b[1])
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

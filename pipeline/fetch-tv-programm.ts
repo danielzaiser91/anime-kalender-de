@@ -155,6 +155,48 @@ export function tvDeSendungen(html: string, tag: string): { start: string; ende:
   return roh.map((r, i) => ({ ...r, ende: roh[i + 1]?.start ?? r.start }))
 }
 
+/**
+ * **„Bald im TV" auf einer tv.de-Detailseite** (19.09.2026). Die Tagesseiten zeigen die Nacht
+ * nicht: ProSieben MAXX am 19.09. endete um 22:10, der 20.09. begann um 04:15 — dazwischen
+ * liefen zehn Folgen Dragon Ball Super (00:30–04:15), die wir nie gesehen hatten. Die
+ * Detailseite einer Sendung listet alle kommenden Termine der Reihe beim Sender, Nacht
+ * inklusive: „Morgen, 00:30 - 01:00 Uhr", „21.09., 17:05 - 17:30 Uhr".
+ * `titel` ist der Reihenname vom Tagesplan — der Eintrag heißt „Reihe: Folgentitel".
+ */
+export function baldImTv(
+  html: string,
+  heute: string,
+  titel: string,
+): { start: string; ende: string; titel: string; folge?: string; kennung: string; sender: string }[] {
+  const aus: { start: string; ende: string; titel: string; folge?: string; kennung: string; sender: string }[] = []
+  const abschnitt = html.split('Bald im TV')[1] ?? ''
+  const re =
+    /alt="([^"]+)"[\s\S]{0,400}?href="\/sendung\/[^"]*,(\d+)\/"[^>]*>([^<]*)<\/a>\s*<span class="time">([^<]+)<\/span>/g
+  for (const m of abschnitt.matchAll(re)) {
+    const zeit = /^\s*(?:(Heute|Morgen|Übermorgen)|(\d{2})\.(\d{2})\.)\s*,\s*(\d{2}):(\d{2})\s*-\s*(\d{2}):(\d{2})/.exec(entities(m[4]!))
+    if (!zeit) continue
+    let tag = heute
+    if (zeit[1] === 'Morgen') tag = tagDanach(heute)
+    else if (zeit[1] === 'Übermorgen') tag = tagDanach(tagDanach(heute))
+    else if (zeit[2]) {
+      const jahr = Number(heute.slice(0, 4)) + (Number(zeit[3]) < Number(heute.slice(5, 7)) - 6 ? 1 : 0)
+      tag = `${jahr}-${zeit[3]}-${zeit[2]}`
+    }
+    const endTag = `${zeit[6]}${zeit[7]}` < `${zeit[4]}${zeit[5]}` ? tagDanach(tag) : tag
+    const voll = entities(m[3]!).trim()
+    const folge = voll.startsWith(`${titel}: `) ? voll.slice(titel.length + 2).trim() : undefined
+    aus.push({
+      start: `${tag}T${zeit[4]}:${zeit[5]}:00${berlinVersatz(tag)}`,
+      ende: `${endTag}T${zeit[6]}:${zeit[7]}:00${berlinVersatz(endTag)}`,
+      titel,
+      ...(folge ? { folge } : {}),
+      kennung: m[2]!,
+      sender: entities(m[1]!).trim(),
+    })
+  }
+  return aus
+}
+
 function entities(s: string): string {
   return s
     .replace(/&amp;/g, '&')
@@ -273,6 +315,46 @@ export async function main(): Promise<void> {
       }
       await new Promise((ok) => setTimeout(ok, 1500))
     }
+  }
+  /* Nachtblöcke: je gesichteter Reihe und Sender einmal die Detailseite mit „Bald im TV". */
+  if (tvdeFaellig) {
+    const reihen = new Map<string, { slug: string; kennung: string; titel: string; titleId: number; sender: string }>()
+    for (const [k, v] of Object.entries(bestand)) {
+      const m = /^tvde_([^+]+)\+(\d+)$/.exec(k)
+      if (!m || v.start.slice(0, 10) < heute) continue
+      reihen.set(`${m[1]}|${v.titleId}`, { slug: m[1]!, kennung: m[2]!, titel: v.titel, titleId: v.titleId, sender: v.sender })
+    }
+    let nacht = 0
+    for (const r of reihen.values()) {
+      try {
+        const antwort = await fetch(`https://tv.de/sendung/r/s,${r.kennung}/`, {
+          headers: { 'User-Agent': 'anime-kalender-de (https://anime-kalender.de; einmal am Tag, nur Anime)' },
+        })
+        if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
+        tvdeSeiten++
+        for (const s of baldImTv(await antwort.text(), heute, r.titel)) {
+          if (s.sender !== r.sender) continue
+          const kennung = `tvde_${r.slug}+${s.kennung}`
+          if (!bestand[kennung]) {
+            neu++
+            nacht++
+          }
+          bestand[kennung] = {
+            titleId: r.titleId,
+            titel: r.titel,
+            ...(s.folge ? { folge: s.folge } : {}),
+            sender: r.sender,
+            start: s.start,
+            ende: s.ende,
+            gesehenAm: bestand[kennung]?.gesehenAm ?? heute,
+          }
+        }
+      } catch (err) {
+        warn(`tv.de Detailseite ${r.titel}: ${err instanceof Error ? err.message : String(err)}`)
+      }
+      await new Promise((ok) => setTimeout(ok, 1500))
+    }
+    log(`tv.de: ${reihen.size} Detailseiten für die Nacht, ${nacht} Sendungen neu.`)
   }
   log(`tv.de: ${tvdeSeiten} Seiten, ${tvde} Anime-Sendungen aus dem Bestand.`)
 
