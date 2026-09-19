@@ -2247,7 +2247,7 @@ function ReleasePille({
               {medium}
             </span>
           )}
-          {release.releaseType !== 'disc' && <AnbieterIcon was={release.platform} />}
+          {release.releaseType !== 'disc' && <AnbieterIcon was={/^TOGGO/i.test(release.sender ?? '') ? 'toggo' : release.platform} />}
           <span className="truncate">{kurzerName}</span>
         </span>
         <span className="truncate text-[11px] opacity-80" style={farbe ? { color: farbe } : undefined}>
@@ -2302,8 +2302,8 @@ function ReleasePille({
 /*
   **TOGGO** (Daniel, 19.09.2026, an Dragon Ball Daima). Die Farbe ist abgelesen: „Toggo Logo
   10.2019.svg" und „Toggo plus Logo 10.2019.svg" bei Wikimedia Commons (gemeinfrei, Marke),
-  beide #ec6400/#ec6500. Ein Bildzeichen hat TOGGO nicht — das Logo ist der Schriftzug und
-  stünde neben dem Namen doppelt (wie bei maxdome, `anbieter-icon.tsx`).
+  beide #ec6400/#ec6500. Das Zeichen ist das nachgebaute App-Symbol (`public/anbieter/toggo.svg`,
+  siehe `anbieter-icon.tsx`).
 
   **TOGGO zeigt ausschließlich deutsche Fassungen** (Daniel: „toggo ist immer DE, immer,
   ausnahmslos") — der Weg trägt deshalb „DE ✓" ohne Urteil je Folge. Welche Folgen gerade

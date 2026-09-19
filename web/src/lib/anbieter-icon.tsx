@@ -33,6 +33,8 @@ const DATEI: Record<string, string> = {
   adn: 'adn',
   maxdome: 'maxdome',
   'animation digital network': 'adn',
+  toggo: 'toggo',
+  'toggo plus': 'toggo',
 }
 
 /**
@@ -86,7 +88,12 @@ export function anbieterDatei(was: string): string | undefined {
  * weißem Zeichen) trägt seine Farbe selbst — als Maske würde es zu einer blauen
  * Fläche, deshalb kommt es als `<img>`.
  */
-const ALS_BILD = new Set(['primevideo', 'maxdome'])
+/*
+  toggo: TOGGO hat kein freies Bildzeichen, nur den Schriftzug. Nachgebaut ist das App-Symbol
+  (orange Fläche, weißer Schriftzug) aus „Toggo Logo 10.2019.svg" (Commons, gemeinfrei) —
+  Daniel, 19.09.2026: „toggo icon". Als Bild, weil es Fläche und Schrift in zwei Farben trägt.
+*/
+const ALS_BILD = new Set(['primevideo', 'maxdome', 'toggo'])
 
 export function AnbieterIcon({ was, groesse = 14 }: { was: string; groesse?: number }) {
   const datei = anbieterDatei(was)
