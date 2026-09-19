@@ -60,7 +60,7 @@ const DATEI: Record<string, string> = {
   Strich (Daniel, 17.09.2026: „rtl+ icon sieht aus wie ein -"). Zugeschnitten auf die Kästen;
   damit sie nicht die halbe Pille füllt, deckelt `MAX_BREITE` die Breite und die Höhe folgt.
 */
-const BREITE: Record<string, number> = { disneyplus: 1033 / 565, adn: 121 / 44, maxdome: 98 / 44.918, rtlplus: 24 / 4.222 }
+const BREITE: Record<string, number> = { disneyplus: 1033 / 565, adn: 121 / 44, maxdome: 98 / 44.918, rtlplus: 35 / 9 }
 const MAX_BREITE = 2.8
 
 /**
@@ -93,7 +93,13 @@ export function anbieterDatei(was: string): string | undefined {
   (orange Fläche, weißer Schriftzug) aus „Toggo Logo 10.2019.svg" (Commons, gemeinfrei) —
   Daniel, 19.09.2026: „toggo icon". Als Bild, weil es Fläche und Schrift in zwei Farben trägt.
 */
-const ALS_BILD = new Set(['primevideo', 'maxdome', 'toggo'])
+/*
+  youtube, rtlplus, toggo (19.09.2026, Daniel: „youtube icon auf youtube hat weißes play symbol,
+  toggo sieht anders aus, rtl+ hat farben"): mehrfarbig nachgezeichnet — YouTube die rote Fläche
+  mit weißem Play (Form wie simple-icons), RTL+ drei Kästen in Pink, Violett, Grün mit Plus,
+  TOGGO das Haus im orangen Kreis. Farben nach Daniels Bildern abgeschätzt.
+*/
+const ALS_BILD = new Set(['primevideo', 'maxdome', 'toggo', 'youtube', 'rtlplus'])
 
 export function AnbieterIcon({ was, groesse = 14 }: { was: string; groesse?: number }) {
   const datei = anbieterDatei(was)

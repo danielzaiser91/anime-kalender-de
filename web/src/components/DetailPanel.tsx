@@ -1475,16 +1475,22 @@ function VermerkAuskunft({
   )
 }
 
+/*
+  **Pillen: neutrale Fläche, Markenstreifen links** (Daniel, 19.09.2026: „rot auf rot, orange auf
+  orange ist nicht so gut"; aus drei Entwürfen gewählt). Die Markenfarbe steht nur noch im
+  Zeichen und als 3-px-Streifen links (`--marke`); Schrift in der Standardfarbe.
+*/
+const PILLE_MARKE =
+  'bg-white text-slate-800 shadow-[inset_0_0_0_1px_rgba(15,23,42,.12),inset_3px_0_0_var(--marke)] dark:bg-[#162238] dark:text-slate-100 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08),inset_3px_0_0_var(--marke)]'
+const marke = (farbe?: string) => (farbe ? ({ '--marke': farbe } as React.CSSProperties) : undefined)
+
 function WegPille({ name, farbe, hinweis }: { name: string; farbe?: string; hinweis: string }) {
   return (
     <span
-      className="inline-flex max-w-full shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 opacity-60"
-      style={farbe ? { background: `${farbe}14`, boxShadow: `inset 0 0 0 1px ${farbe}44` } : undefined}
+      className={`inline-flex max-w-full shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 opacity-60 ${farbe ? PILLE_MARKE : ''}`}
+      style={marke(farbe)}
     >
-      <span
-        className="truncate text-[13px] font-medium line-through"
-        style={farbe ? { color: farbe } : undefined}
-      >
+      <span className="truncate text-[13px] font-medium line-through">
         {name}
       </span>
       <Tooltip text={hinweis} seite="oben">
@@ -1866,10 +1872,10 @@ function Pille({
         'inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 transition',
         durchgestrichen ? 'opacity-70' : '',
         farbe
-          ? 'hover:brightness-95 dark:hover:brightness-125'
+          ? `${PILLE_MARKE} hover:brightness-95 dark:hover:brightness-125`
           : 'border border-slate-200 hover:bg-slate-100/60 dark:border-white/10 dark:hover:bg-white/5',
       ].join(' ')}
-      style={farbe ? { background: `${farbe}1f`, boxShadow: `inset 0 0 0 1px ${farbe}55` } : undefined}
+      style={marke(farbe)}
     >
       {icon && (
         <span className="flex shrink-0 items-center" style={farbe ? { color: farbe } : undefined}>
@@ -1879,7 +1885,6 @@ function Pille({
       <span className="flex flex-col leading-tight">
         <span
           className={`whitespace-nowrap text-[13px] font-medium ${durchgestrichen ? 'line-through' : ''}`}
-          style={farbe ? { color: farbe } : undefined}
         >
           {name}
         </span>
@@ -1892,8 +1897,7 @@ function Pille({
         */}
         {unten && (
           <span
-            className={`whitespace-nowrap text-[11px] ${farbe ? 'opacity-80' : 'text-slate-500 dark:text-slate-400'}`}
-            style={farbe ? { color: farbe } : undefined}
+            className="whitespace-nowrap text-[11px] text-slate-500 dark:text-slate-400"
           >
             {unten}
           </span>
@@ -2138,7 +2142,7 @@ function KinoBanner({
             {t('kino.tickets')} ↗
           </a>
         )}
-        <MerkenKnopf release={release} today={today} farbe="#f59e0b" />
+        <MerkenKnopf release={release} today={today} />
       </div>
       {/* Die Notiz des Kinostarts gehört hierher, nicht in den Kasten darunter — sonst steht sie neben einer Auskunft, die von etwas anderem handelt. */}
       {release.note && (
@@ -2159,11 +2163,9 @@ function KinoBanner({
 function MerkenKnopf({
   release,
   today,
-  farbe,
 }: {
   release?: Release
   today: string
-  farbe?: string
 }) {
   const { t } = useLang()
   const [merkenOffen, setMerkenOffen] = useState(false)
@@ -2220,8 +2222,7 @@ function MerkenKnopf({
             setMerkenOffen(true)
           }}
           aria-expanded={merkenOffen}
-          className="flex h-7 cursor-pointer items-center gap-1 rounded-full px-2 text-[11px] font-medium transition hover:brightness-95 dark:hover:brightness-125"
-          style={farbe ? { background: `${farbe}33`, color: farbe } : undefined}
+          className="flex h-7 cursor-pointer items-center gap-1 rounded-full bg-slate-500/10 px-2 text-[11px] font-medium text-slate-700 transition hover:bg-slate-500/20 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15"
         >
           {/*
             Gezeichnet, nicht als Zeichen: Ein 🗓-Emoji kam in der
@@ -2360,8 +2361,8 @@ function ReleasePille({
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
   return (
     <span
-      className="inline-flex max-w-full items-center rounded-full py-1 pl-3 pr-1"
-      style={farbe ? { background: `${farbe}1f`, boxShadow: `inset 0 0 0 1px ${farbe}55` } : undefined}
+      className={`inline-flex max-w-full items-center rounded-full py-1 pl-3 pr-1 ${farbe ? PILLE_MARKE : ''}`}
+      style={marke(farbe)}
     >
       {/*
         **Ohne Ziel kein Verweis** (Daniel, 17.09.2026, Kino-Pille): `href="#"` öffnete
@@ -2374,13 +2375,18 @@ function ReleasePille({
           Übrig bleibt, was die Ausgaben unterscheidet: „Vol. 3" statt
           „DAN DA DAN (Staffel 2) – Vol. 3".
         */}
-        <span className="flex min-w-0 items-center gap-1.5 text-[13px] font-medium" style={farbe ? { color: farbe } : undefined}>
+        <span className="flex min-w-0 items-center gap-1.5 text-[13px] font-medium">
           {medium && (
             <span className="shrink-0 rounded bg-black/10 px-1 py-px text-[10px] uppercase tracking-wide dark:bg-white/15">
               {medium}
             </span>
           )}
-          {release.releaseType !== 'disc' && <AnbieterIcon was={/^TOGGO/i.test(release.sender ?? '') ? 'toggo' : release.platform} />}
+          {release.releaseType !== 'disc' && (
+            /* Das Zeichen trägt die Markenfarbe, die Schrift nicht mehr (Variante A, 19.09.2026). */
+            <span className="flex shrink-0" style={farbe ? { color: farbe } : undefined}>
+              <AnbieterIcon was={/^TOGGO/i.test(release.sender ?? '') ? 'toggo' : release.platform} />
+            </span>
+          )}
           <span className="truncate">{kurzerName}</span>
           {tvText?.premiere && (
             /* Eine deutsche Erstausstrahlung ist das Ereignis — sie soll auffallen (Daniel, 19.09.2026). */
@@ -2389,7 +2395,7 @@ function ReleasePille({
             </span>
           )}
         </span>
-        <span className="truncate text-[11px] opacity-80" style={farbe ? { color: farbe } : undefined}>
+        <span className="truncate text-[11px] text-slate-500 dark:text-slate-400">
           {/*
             **„ab" oder „seit" — ein nacktes Datum sagt beides.**
 
@@ -2423,7 +2429,7 @@ function ReleasePille({
             .join(' · ')}
         </span>
       </PillenHuelle>
-      <MerkenKnopf release={release} today={today} farbe={farbe} />
+      <MerkenKnopf release={release} today={today} />
     </span>
   )
 }
@@ -4844,7 +4850,6 @@ export function DetailPanel({
                             <MerkenKnopf
                               release={releaseJePlattform.get(s.platform)}
                               today={today}
-                              farbe={PLATFORMS[s.platform].color}
                             />
                           </>
                         }
