@@ -6206,6 +6206,23 @@ async function speicherSchreiben(werte) {
     id = await new Promise((fertig) => {
       const bis = Date.now() + 5 * 60 * 1000
       const takt = setInterval(() => {
+        /*
+          **Auch beim Warten gehört die Prüfliste in den Kasten.** Auf einer
+          Suchseite gibt es nie eine Kennung; der Takt weiter unten, der den Knopf
+          sonst einsetzt, läuft dort gar nicht an. Nach „Nicht bei Prime — melden“
+          stand der Kasten deshalb ohne Weg zur nächsten Aufgabe da (Daniel,
+          19.09.2026: „wo ist der button für die liste?“).
+        */
+        try {
+          const mitte = document.querySelector('.ak-amazon-suchhinweis .ak-such-fuss-mitte')
+          if (mitte && !imPlayer() && uebersichtKnopf.parentElement !== mitte) {
+            uebersichtKnopf.classList.add('ak-uebersicht-innen')
+            mitte.appendChild(uebersichtKnopf)
+          }
+          uebersichtZeichnen()
+        } catch {
+          /* Ohne Kasten bleibt der Knopf, wo er ist. */
+        }
         const jetzt = asin()
         if (jetzt || Date.now() > bis) {
           clearInterval(takt)
