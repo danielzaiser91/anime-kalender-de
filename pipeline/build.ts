@@ -5197,6 +5197,26 @@ function main(): void {
     }
   }
 
+  /*
+    **Erste deutsche Ausstrahlung aus der Wikipedia-Episodenliste** (19.09.2026). Titel mit
+    eigenem Termin bekommen von aniSearch kein Datum (siehe oben) — eine TV-Sichtung ist aber
+    kein Starttermin. Dragon Ball, One Piece, Conan, Dragon Ball Super, Pokémon Horizonte und
+    Daima standen deshalb ohne „Auf Deutsch seit". Die Liste nennt je Folge `EAD`; die früheste
+    gilt, wenn der Titel noch keine Angabe hat.
+  */
+  {
+    const wiki = readJson<{ titel?: Record<string, { folgen: { ead?: string }[] }> }>('data/wikipedia-folgen.json', {}).titel ?? {}
+    let ausWiki = 0
+    for (const [id, liste] of Object.entries(wiki)) {
+      const title = titles.get(Number(id))
+      const erste = liste.folgen.map((f) => f.ead).filter((d): d is string => Boolean(d)).sort()[0]
+      if (!title || title.deErstausgabe || !erste) continue
+      title.deErstausgabe = { von: erste, quelle: 'wikipedia' }
+      ausWiki++
+    }
+    if (ausWiki) log(`${ausWiki} deutsche Erstausstrahlungen aus Wikipedia-Episodenlisten`)
+  }
+
   /**
    * Deutsche Tonspuren von der Streaming Availability API — nur Netflix.
    *

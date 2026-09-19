@@ -419,6 +419,8 @@ export interface Title {
      * Ausgabe auch OmU sein.
      */
     synchro?: boolean
+    /** Woher das Datum stammt, wenn nicht von aniSearch (19.09.2026: Wikipedia-Episodenliste). */
+    quelle?: 'wikipedia'
   }
   /** Dasselbe für Anime News Network, die Quelle der deutschen Sprechrollen. */
   annId?: number

@@ -621,6 +621,7 @@ const TEXTE = {
   'antwort.deVerlag': 'Deutsche Fassung bei {publisher}',
   'antwort.deVerlagFremd': 'aniSearch nennt eine deutsche Ausgabe bei {publisher}',
   'antwort.deSeitQuelle': 'Deutsche Erstveröffentlichung laut aniSearch — wir haben dazu keinen eigenen Termin gemessen.',
+  'antwort.deSeitWikipedia': 'Deutsche Erstausstrahlung laut Episodenliste der Wikipedia.',
   'antwort.filmTitel': 'Auf Deutsch verfügbar',
   'antwort.filmNeben': 'Deutsche Synchronfassung',
   'antwort.filmOhneTitel': 'Noch keine deutsche Fassung',

@@ -709,7 +709,9 @@ function AntwortKasten({
       Übernahme in `build.ts` überspringt jeden Titel mit Termin.
     */
     neben = deSeitZeile(title, T)
-    nebenTitel = title.deErstausgabe ? T('antwort.deSeitQuelle') : undefined
+    nebenTitel = title.deErstausgabe
+      ? T(title.deErstausgabe.quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : 'antwort.deSeitQuelle')
+      : undefined
     zaehl = ''
   } else if (antwort.art === 'disc') {
     const rel = relativ(antwort.datum)
@@ -888,7 +890,9 @@ function AntwortKasten({
       Fremdquelle sagt. Beides zusammen ist die ehrliche Auskunft.
     */
     neben = deSeitZeile(title, T, true)
-    nebenTitel = title.deErstausgabe ? T('antwort.deSeitQuelle') : undefined
+    nebenTitel = title.deErstausgabe
+      ? T(title.deErstausgabe.quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : 'antwort.deSeitQuelle')
+      : undefined
     gedaempft = true
     zaehl = ''
   }
