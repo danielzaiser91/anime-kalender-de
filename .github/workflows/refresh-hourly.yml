@@ -40,6 +40,11 @@ on:
     # gleichzeitig auf dieselben Server.
     - cron: '23 * * * *'
   workflow_dispatch:
+    inputs:
+      tvde:
+        description: 'tv.de heute noch einmal holen (sonst einmal am Tag), samt Nachtblöcken'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -184,7 +189,7 @@ jobs:
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:tv-programm
+        run: npm run data:tv-programm -- ${{ inputs.tvde && '--tvde' || '' }}
 
       - name: Fortschritt — Crunchyroll-Kalender lesen
         continue-on-error: true
