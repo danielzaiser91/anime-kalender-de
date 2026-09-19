@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import type { ReactNode } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 import type { DiscAusgabe, Meldung, Release, ReleaseEvent, StreamLink, Title, VermerkAusgeblieben, WatchLink } from '@shared/types.ts'
 import { bereicheKurz, dubAbdeckung, dubGrenze, dubLuecken, folgenOhneAnbieter } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
@@ -303,7 +303,10 @@ function AntwortKasten({
   angebotSeit,
   kaufausgabe,
   hinweis,
+  pillenGruppen = new Map(),
 }: {
+  /** Bereich je Pillen-Schlüssel (`key`) — nur gebraucht, wenn es einen kostenlosen Weg gibt. */
+  pillenGruppen?: Map<string, 'frei' | 'abo' | 'kauf' | 'tv' | 'unbekannt'>
   antwort: Antwort
   title: Title
   t: (k: never, v?: Record<string, string | number>) => string
@@ -415,6 +418,39 @@ function AntwortKasten({
   const aktivDisc = beides ? zeigeDisc : streamPillen.length === 0
   const pillen = aktivDisc ? disc : streamPillen
   const T = t as unknown as (k: string, v?: Record<string, string | number>) => string
+  /*
+    **Kostenlos ist ein eigener Bereich** (Daniel, 19.09.2026: „trenn die bereiche, sodass es
+    besser visuell sichtbar ist"; aus drei Entwürfen in drei Szenarien gewählt: der grüne
+    Block). Das kehrt die Entscheidung vom 03.09.2026 um, die Zugangsart nur an der Pille zu
+    nennen — ausdrücklich gewünscht. Gegliedert wird nur, wenn es einen kostenlosen Weg gibt;
+    sonst bleibt die Reihe wie sie war. Ob „kostenlos" oder „teilweise kostenlos":
+    `lib/kostenlos.ts`, verglichen mit den deutschen Folgen (laufend: den erschienenen; ohne
+    Gesamtzahl: den meisten belegten eines Anbieters — Beyblade X: Disney+ 100, TOGGO 117).
+  */
+  const gruppeVon = (p: ReactNode) => pillenGruppen.get(String((p as ReactElement)?.key ?? '')) ?? 'sonst'
+  const mitBereichen = !aktivDisc && pillen.some((p) => gruppeVon(p) === 'frei')
+  const kostenlosKopf = (() => {
+    if (!mitBereichen) return undefined
+    const k = kostenloseFolgen(title)
+    const deutsch =
+      title.format === 'MOVIE' || title.episodes === 1
+        ? 1
+        : antwort.art === 'fertig'
+          ? antwort.gesamt
+          : antwort.art === 'teilweise' || antwort.art === 'laeuft'
+            ? antwort.raus
+            : undefined
+    const belegtMax = Math.max(
+      0,
+      ...(title.streams ?? []).map((s) =>
+        (s.dubRanges ?? []).filter((r) => r.dub).reduce((n, r) => n + r.to - r.from + 1, 0),
+      ),
+    )
+    const von = deutsch || belegtMax || undefined
+    return kostenlosEtikett(k, von) === 'teil'
+      ? `${T('kostenlos.teil')} · ${T('kostenlos.zahl', { frei: k!.frei!, von: von! })}`
+      : T('kostenlos.ganz')
+  })()
 
   /** Relative Angabe zuerst — niemand rechnet gern nach, welcher Tag der 25. ist. */
   const relativ = (datum: string): string => {
@@ -1017,40 +1053,6 @@ function AntwortKasten({
       )}
 
       {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
-      {(() => {
-        /*
-          **Kostenlos, teilweise kostenlos oder auch kostenlos** (Daniel, 19.09.2026). Verglichen
-          wird mit den Folgen, die es auf Deutsch gibt — bei einer laufenden Staffel mit den
-          erschienenen. Regeln in `lib/kostenlos.ts`.
-        */
-        const k = kostenloseFolgen(title)
-        const deutsch =
-          title.format === 'MOVIE' || title.episodes === 1
-            ? 1
-            : antwort.art === 'fertig'
-              ? antwort.gesamt
-              : antwort.art === 'teilweise' || antwort.art === 'laeuft'
-                ? antwort.raus
-                : undefined
-        /* Ohne Gesamtzahl (laufende Serie): die meisten belegt deutschen Folgen eines Anbieters —
-           Beyblade X: Disney+ 100, TOGGO frei 117. */
-        const belegtMax = Math.max(
-          0,
-          ...(title.streams ?? []).map((s) =>
-            (s.dubRanges ?? []).filter((r) => r.dub).reduce((n, r) => n + r.to - r.from + 1, 0),
-          ),
-        )
-        const etikett = kostenlosEtikett(k, deutsch || belegtMax || undefined)
-        if (!etikett) return null
-        return (
-          <p className="mt-1 flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-            <span className="rounded-full bg-emerald-600/10 px-2 py-px font-semibold text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300">
-              {T(`kostenlos.${etikett}`)}
-            </span>
-            {etikett === 'teil' && T('kostenlos.zahl', { frei: k!.frei!, von: (deutsch || belegtMax)! })}
-          </p>
-        )
-      })()}
       {angebotSeit && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{angebotSeit}</p>}
       {kaufausgabe && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{kaufausgabe}</p>}
       {hinweis}
@@ -1172,7 +1174,28 @@ function AntwortKasten({
           */}
           {/* `items-stretch`: Eine Pille ohne zweite Zeile wird so hoch wie ihre Nachbarn (Daniel, 19.09.2026, TOGGO neben RTL+). */}
           <div className="flex min-h-[2.1rem] flex-wrap items-stretch gap-1.5 pb-1">
-            {pillen}
+            {mitBereichen ? (
+              <div className="flex w-full flex-col gap-2.5">
+                <div className="flex flex-col gap-1.5 rounded-lg bg-emerald-500/[0.07] p-2 ring-1 ring-inset ring-emerald-600/25 dark:ring-emerald-400/30">
+                  <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">{kostenlosKopf}</span>
+                  <div className="flex flex-wrap items-stretch gap-1.5">{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
+                </div>
+                {(['abo', 'kauf', 'tv', 'unbekannt', 'sonst'] as const).map((g) => {
+                  const teil = pillen.filter((p) => gruppeVon(p) === g)
+                  if (!teil.length) return null
+                  return (
+                    <div key={g} className="flex flex-col gap-1.5 px-2">
+                      {g !== 'sonst' && (
+                        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">{T(`bereich.${g}`)}</span>
+                      )}
+                      <div className="flex flex-wrap items-stretch gap-1.5">{teil}</div>
+                    </div>
+                  )
+                })}
+              </div>
+            ) : (
+              pillen
+            )}
           </div>
         </div>
       )}
@@ -4648,6 +4671,17 @@ export function DetailPanel({
           */}
           {antwort && (
             <AntwortKasten
+              pillenGruppen={
+                new Map([
+                  ...sortiertNachZugang.flatMap(({ art, plattformen, streamWege }) =>
+                    [
+                      ...plattformen.map((x) => x.platform as string),
+                      ...streamWege.map((g) => `sw-${g.shop}-${g.eintraege[0].url}`),
+                    ].map((k) => [k, art === 'kostenlos' ? 'frei' : art] as const),
+                  ),
+                  ...streamReleases.map((r) => [r.slug, r.platform === 'tv' ? 'tv' : 'abo'] as const),
+                ])
+              }
               antwort={antwort}
               title={title}
               t={t}
