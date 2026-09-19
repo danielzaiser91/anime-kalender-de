@@ -2962,15 +2962,6 @@ function main(): void {
     },
   )
   releases.push(...ausTv)
-  /* RTL+-Staffeln, die gerade wöchentlich wachsen (Beyblade X, 19.09.2026). */
-  const ausRtl = rtlplusWochentermine(
-    readJson<{ titel?: Record<string, { programm: string; folgen: RtlFolge[] }> }>('data/rtlplus-folgen.json', {}).titel ?? {},
-    titles,
-    releases,
-    todayIso(),
-  )
-  releases.push(...ausRtl)
-  if (ausRtl.length) log(`${ausRtl.length} RTL+-Wochentermine: ${ausRtl.map((r) => r.name).join(', ')}`)
   if (ausTv.length) log(`${ausTv.length} TV-Termine aus dem RTL+-Programm: ${ausTv.map((r) => `${r.name} (${r.sender})`).join(', ')}`)
 
   quellenPflegen(releases)
@@ -6370,6 +6361,21 @@ function main(): void {
     }
     if (crBereiche) log(`${crBereiche} Crunchyroll-Verweise mit ihren deutschen Folgen aus dem Bestand`)
   }
+
+  /*
+    RTL+-Staffeln, die gerade wöchentlich wachsen (Beyblade X, 19.09.2026). Erst hier: Die
+    Bedingung „Synchro am RTL+-Weg belegt" liest `dub`, und das steht erst nach den
+    Handbelegen fest (der erste Bau fand deshalb nichts). Und so kann der Termin nicht
+    selbst als Beleg in `dubByTitle` einfließen.
+  */
+  const ausRtl = rtlplusWochentermine(
+    readJson<{ titel?: Record<string, { programm: string; folgen: RtlFolge[] }> }>('data/rtlplus-folgen.json', {}).titel ?? {},
+    titles,
+    releases,
+    todayIso(),
+  )
+  releases.push(...ausRtl)
+  if (ausRtl.length) log(`${ausRtl.length} RTL+-Wochentermine: ${ausRtl.map((r) => r.name).join(', ')}`)
 
   let belegtBisGesetzt = 0
   for (const release of releases) {
