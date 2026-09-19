@@ -4026,5 +4026,68 @@
       "sagt": "2026-09-19",
       "stand": "aktuell"
     }
+  ],
+  "auto-235-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sender/prosieben-maxx/",
+      "name": "tv.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-09-20",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-21175-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sender/prosieben-maxx/",
+      "name": "tv.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-09-21",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-21-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sender/prosieben-maxx/",
+      "name": "tv.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-09-21",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-223-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sender/prosieben-maxx/",
+      "name": "tv.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-09-24",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-178025-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sender/prosieben-maxx/",
+      "name": "tv.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-151807-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sender/prosieben-maxx/",
+      "name": "tv.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-15-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sender/prosieben-maxx/",
+      "name": "tv.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-09-26",
+      "stand": "aktuell"
+    }
   ]
 }
