@@ -279,8 +279,9 @@ Anlass: Dragon Ball DAIMA bei TOGGO plus (Daniel: „tägliche tv releases sind 
 | toggo.de, nick.de | — | — | kein Programmendpunkt | verworfen |
 | iptv-org/epg | Werkzeug, holt bei MagentaTV | 2 Tage | keine Rechte an den Daten | verworfen |
 | presseportal.de RSS (z. B. ProSieben MAXX) | RSS | Ankündigungen | „kann grundsätzlich redaktionell frei verwendet werden" | nutzbar für Starttermine |
+| prosiebenmaxx.de/tv-programm (19.09.2026) | — | — | leitet auf `joyn.de/live-tv/prosieben-maxx` um; keine eigene robots.txt, die Daten liegen bei Joyn (`Disallow: /`) | verworfen — kein erlaubter Weg zum 7MAXX-Programm |
 
-Nicht geprüft: Programmzeitschriften (Daten von Drittanbietern), DVB-EIT über eigenen Empfänger (Hardware). Beleg DAIMA über RTL+: 16.09. 21:15–21:35 „Degesu", 27.09. (So) „Glorio", 30.09. nicht mehr im Plan.
+Nicht geprüft: Programmzeitschriften (Daten von Drittanbietern), DVB-EIT über eigenen Empfänger (Hardware). **Anlass 19.09.2026:** Dragon Ball Super läuft auf 7MAXX (Folge 116–121 am 20.09. nachts, laut fernsehserien.de) und fehlt bei uns, weil die RTL-Programmseite nur die RTL-Gruppe führt. Daniel fragt zugleich nach einer besseren Quelle für deutsche Folgendaten (aniSearch führt sie nur lückenhaft, z. B. Beyblade X nur bis Folge 65). Beleg DAIMA über RTL+: 16.09. 21:15–21:35 „Degesu", 27.09. (So) „Glorio", 30.09. nicht mehr im Plan.
 
 ## Recherchiert 13.09.2026: Kinostarts der 112 angekündigten Anime-Filme
 
