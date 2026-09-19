@@ -6410,6 +6410,15 @@ function main(): void {
   releases.push(...ausRtl)
   if (ausRtl.length) log(`${ausRtl.length} RTL+-Wochentermine: ${ausRtl.map((r) => r.name).join(', ')}`)
 
+  /* kinoheld-Adressen aus der Suche (`fetch-kinoheld.ts`) — der Kino-Banner verlinkt sie. */
+  {
+    const kinoheld = readJson<Record<string, string>>('data/kinoheld.json', {})
+    for (const r of releases) {
+      const adresse = kinoheld[r.slug]
+      if (r.platform === 'kino' && adresse && !(r.sources ?? []).includes(adresse)) r.sources = [...(r.sources ?? []), adresse]
+    }
+  }
+
   let belegtBisGesetzt = 0
   for (const release of releases) {
     if (release.releaseType !== 'weekly') continue

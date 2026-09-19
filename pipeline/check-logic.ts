@@ -115,6 +115,7 @@ import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
 import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
+import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
@@ -5207,6 +5208,12 @@ pruefe(
   const eh = (yaml.load(readFileSync('data/erstausgabe-von-hand.yaml', 'utf8')) ?? []) as { anilistId?: number; von?: string; sources?: string[] }[]
   pruefe('Erstausgabe von Hand: Tagesdatum und Quelle je Eintrag', eh.every((e) => e.anilistId && /^\d{4}-\d{2}-\d{2}$/.test(e.von ?? '') && (e.sources?.length ?? 0) > 0))
   pruefe('Beheneko: deutsch seit dem Disc-Start 12.09.2025, nicht seit dem Untertitel-Start', eh.some((e) => e.anilistId === 176158 && e.von === '2025-09-12'))
+}
+{
+  /* kinoheld über die Suche (19.09.2026): nur ein Slug, der alle Titelwörter trägt. */
+  const treffer = 'x kinoheld.de%2Ffilm%2Fthe-witch y kinoheld.de/film/your-name-gestern-heute-und-fuer-immer z'
+  pruefe('kinoheld: der passende Slug, nicht der erste', passendeAdresse(treffer, ['Your Name.']) === 'https://www.kinoheld.de/film/your-name-gestern-heute-und-fuer-immer')
+  pruefe('kinoheld: ein fremder Film wird nicht übernommen', passendeAdresse(treffer, ['Witch on the Holy Night']) === undefined)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

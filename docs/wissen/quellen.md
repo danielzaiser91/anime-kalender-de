@@ -2481,3 +2481,7 @@ ProSieben MAXX am 19.09.2026: Die Tagesseite endet um 22:10, die des 20.09. begi
 ### aniSearchs deutscher Block kann der Untertitel-Start sein — samt Synchro-Marke (19.09.2026)
 
 Beheneko: aniSearch führt „Deutsch 23.04.–14.05.2025, AniMoon, synchronisiert"; AniMoon selbst kündigt die Synchro „exklusiv auf DVD & Blu-ray" an, Vol. 1 am 12.09.2025, Prime Video hatte nur Untertitel. Eine allgemeine Regel (Zeitraum vor der ersten Disc → Untertitel) wurde gemessen und verworfen: von 8 Treffern sind mindestens 2 echte TV-Premieren mit Synchro (Pokémon Schwarz & Weiß Staffel 2 2012/13, Yu-Gi-Oh! Zexal II 2014/15). Korrigiert wird deshalb einzeln in `data/erstausgabe-von-hand.yaml` (Quelle Pflicht, `check:logic` prüft sie).
+
+### kinoheld-Adressen über DuckDuckGo — Google, Bing, Brave sperren ihre Suche (19.09.2026)
+
+kinoheld sperrt Agenten (`Disallow: /`), deshalb stand jede Filmadresse von Hand im Kinotermin, und fehlende blieben mit „sobald es sie gibt" liegen — ungeprüft; bei „Your Name" gab es sie längst (Daniel fand sie als ersten Google-Treffer). Das eingebaute Suchwerkzeug findet kinoheld nicht einmal dort. robots.txt der Suchmaschinen, gelesen 19.09.2026: Google, Bing, Brave `Disallow: /search`; **`html.duckduckgo.com`: `Allow: /`** — und es findet die Your-Name-Seite. `pipeline/fetch-kinoheld.ts` sucht wöchentlich für jeden Kinotermin ohne Adresse und übernimmt nur einen Slug, der alle Titelwörter trägt. Stand 19.09.: All You Need Is Kill, Madoka Walpurgisnacht, Witch on the Holy Night noch ohne kinoheld-Seite.

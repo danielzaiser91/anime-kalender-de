@@ -459,6 +459,14 @@ jobs:
       # Staffel, Nummer und RTL+-Start je Folge für TV-Serien ohne Wikipedia-Liste
       # (Beyblade X). ~100 Video-Teilkarten (~170 MB), dazu Staffel- und einmal je
       # Folge die Folgenseite. Nach dem Katalog, weil er die Serienadressen liefert.
+      # kinoheld sperrt Agenten; die Filmadresse kommt aus der DuckDuckGo-Suche (robots erlaubt),
+      # nur für Kinotermine ohne Adresse, 3 s Abstand.
+      - name: kinoheld-Adressen für Kinotermine suchen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:kinoheld
+
       - name: RTL+-Folgen für TV-Serien ohne Episodenliste
         continue-on-error: true
         env:

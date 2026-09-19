@@ -213,6 +213,8 @@ QUELLEN=(
   # `pipeline/fetch-toggo.ts`). Täglich geholt — ohne diese Zeile stünde jeden Tag der
   # Stand der letzten lokalen Messung in der Pille.
   data/toggo.json
+  # kinoheld-Adressen für Kinotermine, über DuckDuckGo gefunden (19.09.2026, wöchentlich).
+  data/kinoheld.json
   # Folgennummern und deutsche Erstausstrahlung aus den Episodenlisten der de.wikipedia,
   # für die im TV-Programm gesichteten Titel (19.09.2026, `pipeline/fetch-wikipedia-folgen.ts`).
   data/wikipedia-folgen.json
