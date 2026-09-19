@@ -157,14 +157,32 @@ for (const [k, gruppe] of jeVerweis) {
   }
 
   if (!sagtJa) continue
-  if (!stream) {
+  /*
+    Ebenso beim Ja: Es gilt dem Weg seiner eigenen Adresse. Ein Eintrag ohne Urteil
+    zu einer anderen Seite desselben Titels (JoJo-Sammelseite B0CG7S59KL neben
+    B0GX7VDJK3, 19.09.2026) lieferte sonst den falschen Weg zum Vergleich.
+  */
+  const jaAdressen = gruppe
+    .filter((b) => b.dub === true || (b.dubRanges ?? []).some((r) => r.dub))
+    .map((b) => b.url)
+    .filter((u): u is string => Boolean(u))
+  const jaStream = jaAdressen.length
+    ? ((t.streams ?? []).find(
+        (s) =>
+          s.platform === platform &&
+          jaAdressen.some(
+            (u) => adressKern(u) === adressKern(s.url) || (Boolean(s.seite) && adressKern(u) === adressKern(s.seite)),
+          ),
+      ) ?? stream)
+    : stream
+  if (!jaStream) {
     // Kein Fehler der Rangfolge: Der Verweis kann aus einem anderen Grund
     // fehlen (Anbieter nicht geführt, Titel umsortiert). Trotzdem sichtbar.
     uneindeutig++
     continue
   }
-  if (stream.dub !== true) {
-    fehler.push(`${name}: von Hand als deutsch geprüft, im Datensatz steht dub=${String(stream.dub)}`)
+  if (jaStream.dub !== true) {
+    fehler.push(`${name}: von Hand als deutsch geprüft, im Datensatz steht dub=${String(jaStream.dub)}`)
     continue
   }
   bestaetigt++
