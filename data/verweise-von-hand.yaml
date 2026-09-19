@@ -230,3 +230,13 @@
   url: https://www.amazon.de/dp/B0GXK7RJFW
   belegtAm: '2026-09-19'
   beleg: 'Prime-Staffel 3 der JoJo-Sammelseite, 39 Folgen = unsere 39; Folge 1 „Jōtarō Kūjō! Trifft Jōsuke Higashikata“'
+
+# Golden Wind (102883): Prime-Staffel 4 der JoJo-Sammelseite, Folge 37 „Sein Name ist Diavolo“
+# (prime_folge). Nur über den Crunchyroll-Kanal, ohne deutschen Ton — der Weg steht ohne Urteil,
+# damit keine Suchadresse nach etwas sucht, das längst gefunden ist.
+- anilistId: 102883
+  title: "JoJo's Bizarre Adventure: Golden Wind"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0G1ZD14D3
+  belegtAm: '2026-09-19'
+  beleg: 'Prime-Staffel 4 der JoJo-Sammelseite, 39 Folgen = unsere 39; Folgentitel „Sein Name ist Diavolo“, „Leise erklingt das Requiem“'

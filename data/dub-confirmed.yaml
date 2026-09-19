@@ -16559,3 +16559,18 @@
   checkedAt: '2026-09-19'
   note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.9d8140b1-06b0-475b-a27f-4674b7179571, ausgaben=2 (Zugangsart gilt nur für diese) — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
+# Durchgang 19.09.2026, Rest: angesehen, ohne Urteil oder nicht vorhanden.
+- anilistId: 20474
+  title: "JoJo’s Bizarre Adventure: Stardust Crusaders"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CG7S59KL
+  checkedAt: '2026-09-19'
+  note: "Sammelseite der JoJo-Reihe, kein eigener Titel: Staffel für Staffel gemeldet (Meldungen 4759–4787) und bei den Titeln belegt — Teil 1 B0CH1GVRKK, Stardust Crusaders B0GX7VDJK3, Diamond is Unbreakable B0GXK7RJFW, Golden Wind B0G1ZD14D3."
+
+- anilistId: 13331
+  title: "Jormungand: Perfect Order"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video
+  available: false
+  checkedAt: '2026-09-19'
+  note: "Prime-Suche zeigt nur „Trigun“, kein Jormungand (Daniel im Durchgang, 19.09.2026)."

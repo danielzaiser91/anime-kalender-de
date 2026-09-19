@@ -88,7 +88,8 @@ const geprueftePrime = (() => {
     if (seite) kennungen.add(seite)
     if (url) {
       adressen.add(url[1])
-      const k = /(?:\/dp\/|\/detail\/)([A-Z0-9]{10,26})/.exec(url[1])?.[1]
+      /* Dieselbe Kennung wie `kennung()` unten — auch die ?gti=-Form (19.09.2026). */
+      const k = kennung(url[1])
       if (k) kennungen.add(k)
     }
   }
