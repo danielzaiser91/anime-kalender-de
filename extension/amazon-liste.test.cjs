@@ -50,7 +50,10 @@ for (const k of schluessel) {
     Kleinbuchstaben und Punkten. Weichen die drei Stellen voneinander ab, steht
     ein Auftrag in der Liste, den die Seite nie wiedererkennt.
   */
-  const ausAdresse = /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(url)?.[1]
+  /* Vierte Form seit 19.09.2026: JustWatchs `watch.amazon.de/detail?gti=…`. */
+  const ausAdresse =
+    /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(url)?.[1] ??
+    /[?&]gti=(amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(url)?.[1]
   if (ausAdresse !== k) abweichend.push({ schluessel: k, ausAdresse, url: url.slice(-46) })
 }
 pruefe(

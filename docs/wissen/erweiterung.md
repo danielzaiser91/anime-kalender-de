@@ -1674,3 +1674,13 @@ Auf Amazons 404 („keine funktionsfähige Seite“) stand zuerst richtig „✕
 ## Der Stand muss vollständig sein — die Erweiterung zählt, was fehlt, als erledigt (19.09.2026)
 
 `?stand=1` schickte nur `ziele.slice(0, 25)`, die Erweiterung hält in `fertig()` alles für erledigt, was dort nicht steht. Bei 37 offenen Titeln zeigte sie „25 offen“, die Statusanzeige 36, und ein eben gemeldeter Titel stand unter „erledigt“, während ein anderer nachrückte (Zähler 25 → 24 → 25). Der Worker schickt jetzt alle Ziele; Zusicherung in `check:logic`. Und: Auf einer gemeldeten toten Seite gibt es keine Staffel-Checkliste, die „alles gemeldet“ zeigen könnte — dort steht die Marke „gemeldet ✓“ (4.20.29).
+
+### Eine neue Schlüsselform wird gegen eine Liste geprüft, die sie schon enthält
+
+Am 19.09.2026 bekam die Prime-Prüfliste JustWatchs Form `watch.amazon.de/detail?gti=…`
+(Liste und Erweiterung nachgezogen). `check:extension` lief lokal grün — die lokale
+`offene-amazon.js` trug noch keinen solchen Schlüssel. Erst der Bau schrieb sie hinein, und
+`amazon-liste.test.cjs` mit einer eigenen, dritten Kopie des Ausdrucks machte jeden Deploy
+rot; live blieb der alte Stand, die Erweiterung meldete „Prime-Liste veraltet“. Wer die Form
+eines Schlüssels ändert, sucht **alle** Kopien des Ausdrucks
+(`grep -rn "amzn1\\.dv\\.gti" extension tools`) und fährt die Prüfung nach dem ersten Bau.
