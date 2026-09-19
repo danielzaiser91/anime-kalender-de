@@ -4145,5 +4145,21 @@
       "sagt": "2026-09-26",
       "stand": "aktuell"
     }
+  ],
+  "auto-176496-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sender/prosieben-maxx/",
+      "name": "tv.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.themoviedb.org/tv/127532",
+      "name": "themoviedb.org",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    }
   ]
 }
