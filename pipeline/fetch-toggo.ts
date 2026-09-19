@@ -28,6 +28,7 @@
 import { readJson, writeJson, log, warn } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse, type ToggoSerie } from './lib/toggo-serien.ts'
+import { namenIndex, titelZuordnen } from './fetch-tv-programm.ts'
 
 const API = 'https://production-n.toggo.de/api/assetstore/vod/asset'
 const UA = 'anime-kalender-de (https://anime-kalender.de; ein Abruf je Serie und Tag)'
@@ -63,10 +64,13 @@ const liste = Array.isArray(titles) ? titles : titles.titles
 const jeSerie = new Map<string, number[]>()
 const adressen = new Map<number, string>()
 
-/* Figurenseiten (`…-pty605`) über die Serienliste der Schnittstelle auflösen — ein Abruf. */
-const mitFigur = liste.filter((t) => (t.watchLinks ?? []).some((w) => figurAusAdresse(w.url ?? '')))
+/*
+  Die Serienliste der Schnittstelle — ein Abruf. Sie löst Figurenseiten (`…-pty605`) auf und
+  findet TOGGO-Serien zu Titeln, für die wir gar keinen TOGGO-Weg kannten (19.09.2026:
+  13 von 24 zuordenbaren, darunter Pokémon Horizonte und vier Bakugan-Staffeln).
+*/
 let serien: ToggoSerie[] = []
-if (mitFigur.length) {
+{
   try {
     const r = await fetch(`${API}?expand=false&filter=type[series]&size=500`, { headers: { 'User-Agent': UA } })
     if (!r.ok) throw new Error(`HTTP ${r.status}`)
@@ -101,6 +105,27 @@ for (const t of liste) {
   }
 }
 if (adressen.size) log(`TOGGO: ${adressen.size} Figurenseite(n) auf die Serienseite aufgelöst`)
+
+/* Katalog: jede Serie, die eindeutig zu genau einem Titel passt und umgekehrt. */
+{
+  const namen = namenIndex()
+  const jeTitel = new Map<number, ToggoSerie[]>()
+  for (const s of serien) {
+    const id = titelZuordnen(s.titel, namen)
+    if (id) jeTitel.set(id, [...(jeTitel.get(id) ?? []), s])
+  }
+  const schonDa = new Set([...jeSerie.values()].flat())
+  let neu = 0
+  for (const [id, treffer] of jeTitel) {
+    /* Zwei Serien für einen Titel (Pokémon Reisen + Meister-Reisen) — lieber keine als eine halbe. */
+    if (treffer.length !== 1 || schonDa.has(id)) continue
+    const s = treffer[0]!
+    jeSerie.set(s.id, [...new Set([...(jeSerie.get(s.id) ?? []), id])])
+    adressen.set(id, serienAdresse(s.figuren[0], s))
+    neu++
+  }
+  if (neu) log(`TOGGO: ${neu} Titel über den Katalog gefunden`)
+}
 
 const ergebnis: ToggoDatei = { geholtAm: new Date().toISOString(), titel: {} }
 let fehler = 0

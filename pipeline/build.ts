@@ -7610,11 +7610,17 @@ function main(): void {
         if (letzter && letzter.staffel === f.staffel && letzter.bis === f.folge - 1 && letzter.ab === f.ab && letzter.ende === f.bis) letzter.bis = f.folge
         else bloecke.push({ staffel: f.staffel, von: f.folge, bis: f.folge, ab: f.ab, ende: f.bis })
       }
+      const adresse = toggo[String(t.id)]?.adresse
+      /*
+        Kein TOGGO-Weg bekannt, aber die Serie steht im TOGGO-Katalog und hat gerade freie
+        Folgen: Weg anlegen. TOGGO zeigt nur deutsche Fassungen (Daniel, 19.09.2026).
+      */
+      if (adresse && folgen.length && !(t.watchLinks ?? []).some((w) => /(^|\.)toggo\.de\//i.test(w.url.replace(/^https?:\/\//, ''))))
+        (t.watchLinks ??= []).push({ name: 'TOGGO', url: adresse, kind: 'stream', zugang: 'kostenlos' })
       for (const w of t.watchLinks ?? []) {
         if (!/(^|\.)toggo\.de\//i.test(w.url.replace(/^https?:\/\//, ''))) continue
-        /* Figurenseite → Serienseite (Beyblade X, Daniel 19.09.2026). */
-        const adresse = toggo[String(t.id)]?.adresse
-        if (adresse && /-pty\d+\/?$/i.test(w.url)) w.url = adresse
+        /* Figuren- oder Übersichtsseite → Serienseite (Beyblade X, Daniel 19.09.2026). */
+        if (adresse && /toggo\.de\/[a-z0-9-]+\/?$/i.test(w.url)) w.url = adresse
         w.toggo = bloecke
         mitFenster++
       }

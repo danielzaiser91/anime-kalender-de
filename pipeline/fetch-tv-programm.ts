@@ -170,6 +170,29 @@ export function titelZuordnen(sendung: string, namen: Map<string, number>): numb
   return namen.get(kern) ?? namen.get(kern.replace(/ die serie$/, ''))
 }
 
+/**
+ * Name → Titel-ID über alle Schreibweisen des Bestands (deutsch, englisch, romaji, Synonyme).
+ * Ein Name, der zwei Titeln gehört, ordnet nichts zu. Auch `fetch-toggo.ts` nutzt ihn.
+ */
+export function namenIndex(): Map<string, number> {
+  const roh = readJson<Title[] | Record<string, Title>>('public/data/titles.json', [])
+  const titles = (Array.isArray(roh) ? roh : Object.values(roh)) as (Title & { ohneSynchro?: boolean })[]
+  const synonyme = readJson<Record<string, string[]>>('public/data/synonyme.json', {})
+  const namen = new Map<string, number>()
+  const doppelt = new Set<string>()
+  for (const t of titles) {
+    if (t.ohneSynchro) continue
+    for (const n of [t.titleDe, t.titleEn, t.titleRomaji, ...(synonyme[String(t.id)] ?? [])]) {
+      const k = namensKern(n)
+      if (k.length < 4) continue
+      if (namen.has(k) && namen.get(k) !== t.id) doppelt.add(k)
+      namen.set(k, t.id)
+    }
+  }
+  for (const k of doppelt) namen.delete(k)
+  return namen
+}
+
 export async function main(): Promise<void> {
   /* Fällt eine Quelle aus, arbeitet die andere weiter — gemeldet wird trotzdem. */
   let sendungen: ReturnType<typeof sendungenAusSeite> = []
@@ -188,22 +211,7 @@ export async function main(): Promise<void> {
     }
   }
 
-  const roh = readJson<Title[] | Record<string, Title>>('public/data/titles.json', [])
-  const titles = (Array.isArray(roh) ? roh : Object.values(roh)) as (Title & { ohneSynchro?: boolean })[]
-  const synonyme = readJson<Record<string, string[]>>('public/data/synonyme.json', {})
-  const namen = new Map<string, number>()
-  const doppelt = new Set<string>()
-  for (const t of titles) {
-    if (t.ohneSynchro) continue
-    for (const n of [t.titleDe, t.titleEn, t.titleRomaji, ...(synonyme[String(t.id)] ?? [])]) {
-      const k = namensKern(n)
-      if (k.length < 4) continue
-      if (namen.has(k) && namen.get(k) !== t.id) doppelt.add(k)
-      namen.set(k, t.id)
-    }
-  }
-  /* Ein Name, der zwei Titeln gehört, ordnet nichts zu. */
-  for (const k of doppelt) namen.delete(k)
+  const namen = namenIndex()
 
   const datei = readJson<{ sendungen?: Record<string, TvSendung>; tvdeGeholtAm?: string }>(DATEI, {})
   const bestand = datei.sendungen ?? {}

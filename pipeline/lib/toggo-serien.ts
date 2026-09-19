@@ -24,4 +24,5 @@ export function serieFuerFigur(serien: ToggoSerie[], figur: string, namen: (stri
   return treffer.length === 1 ? treffer[0] : undefined
 }
 
-export const serienAdresse = (figur: string, serie: ToggoSerie) => `https://www.toggo.de/${figur}/serien/${serie.uname}`
+export const serienAdresse = (figur: string | undefined, serie: ToggoSerie) =>
+  `https://www.toggo.de/${figur ? `${figur}/` : ''}serien/${serie.uname}`
