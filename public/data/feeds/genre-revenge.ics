@@ -51,7 +51,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#1@anime-kalender-de
+UID:auto-178025-tv-prosieben-maxx@2026-09-25#16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260925
 DTEND;VALUE=DATE:20260926
@@ -62,7 +62,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#2@anime-kalender-de
+UID:auto-178025-tv-prosieben-maxx@2026-09-25#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260925
 DTEND;VALUE=DATE:20260926
@@ -73,7 +73,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#3@anime-kalender-de
+UID:auto-178025-tv-prosieben-maxx@2026-09-25#18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260925
 DTEND;VALUE=DATE:20260926

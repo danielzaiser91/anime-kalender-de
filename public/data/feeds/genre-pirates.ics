@@ -6,7 +6,7 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Pirates
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-21#1@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-21#770@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260921
 DTEND;VALUE=DATE:20260922
@@ -17,7 +17,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-21#2@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-21#771@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260921
 DTEND;VALUE=DATE:20260922
@@ -28,7 +28,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-22#3@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-22#772@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260922
 DTEND;VALUE=DATE:20260923
@@ -39,7 +39,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-22#4@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-22#773@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260922
 DTEND;VALUE=DATE:20260923
@@ -50,7 +50,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#5@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-23#765@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260923
 DTEND;VALUE=DATE:20260924
@@ -61,7 +61,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#6@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-23#766@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260923
 DTEND;VALUE=DATE:20260924
@@ -72,7 +72,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#7@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-23#774@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260923
 DTEND;VALUE=DATE:20260924
@@ -83,7 +83,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#8@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-23#775@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260923
 DTEND;VALUE=DATE:20260924
@@ -94,7 +94,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-24#9@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-24#776@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260924
 DTEND;VALUE=DATE:20260925
@@ -105,7 +105,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-24#10@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-24#777@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260924
 DTEND;VALUE=DATE:20260925
@@ -116,7 +116,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-25#11@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-25#778@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260925
 DTEND;VALUE=DATE:20260926
@@ -127,7 +127,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-25#12@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-25#779@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260925
 DTEND;VALUE=DATE:20260926
