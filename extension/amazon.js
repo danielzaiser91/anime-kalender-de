@@ -127,6 +127,8 @@ async function speicherSchreiben(werte) {
    * `seitenHtml()`** — nie `innerHTML` direkt.
    */
   const HTML_FRIST_MS = 2000
+  /* „N Staffel(n)" als Anzahl: Zahl und Wort auf einer Zeile, keine Zahl dahinter (siehe `seitenLage`). */
+  const STAFFEL_ANZAHL = /(\d+)[  ]*Staffeln?\b(?![  ]*\d)/
   let htmlZwischenspeicher = null
   let htmlGelesenAm = 0
   /**
@@ -276,13 +278,20 @@ async function speicherSchreiben(werte) {
        * Der sichtbare Text ist um ein Vielfaches kleiner, und der Kopf steht
        * darin vor allen Kacheln. Findet sich nichts, gilt eine Staffel — die
        * Annahme, mit der jede Seite ohne Auswahlfeld richtig liegt.
+       *
+       * **Zahl und Wort auf derselben Zeile, und keine Zahl dahinter.** Bei
+       * „Grisaia Phantom Trigger" steht das Altersfeld „18" als letzte Zeile
+       * vor der Überschrift „Staffel 1"; `\s*` lief über den Zeilenumbruch und
+       * las „18 Staffel" — die Erweiterung verlangte „weiter mit Staffel 2" für
+       * eine Serie mit einer Staffel (Daniel, 19.09.2026, Diagnosebericht:
+       * `staffelZahl: 18`). „Staffel 1" ist eine Überschrift, keine Anzahl.
        */
       staffelZahl:
-        Number(/(\d+)\s*Staffeln?\b/.exec(sichtbar)?.[1]) ||
+        Number(STAFFEL_ANZAHL.exec(sichtbar)?.[1]) ||
         // Rückfall auf den Quelltext, solange die Seite noch nichts gerendert
         // hat. Der Singular gehört dabei dazu: Ohne ihn übersprang die Suche
         // „1 Staffel" im Kopf und lief bis zur nächsten Empfehlungskachel.
-        Number(/(\d+)\s*Staffeln?\b/.exec(html)?.[1]) ||
+        Number(STAFFEL_ANZAHL.exec(html)?.[1]) ||
         1,
       /**
        * Welche **einzelnen Folgen** den Regionshinweis in ihrer Kachel tragen.

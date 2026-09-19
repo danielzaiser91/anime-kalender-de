@@ -11071,8 +11071,10 @@
   checkedAt: '2026-08-28'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DHDFTY68: alle 13 Folgen geprüft, Abos: aniversede, crunchyrollde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 99470
-  title: "Grisaia Phantom Trigger: The Animation"
+# Umgehängt 19.09.2026 von 99470 (Film 2019) auf 145740 (TV 2025, 13 Folgen): Die Seite ist
+# die Fernsehserie, 13 Folgen, Jahr 2025 (Daniel im Durchgang, Bild der Seite).
+- anilistId: 145740
+  title: "Grisaia Phantom Trigger"
   platform: primevideo
   url: https://www.amazon.de/dp/B0DMMT9B67
   dub: false
@@ -13343,8 +13345,11 @@
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch — Amazon-Seite B09JV7CC61: alle 12 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 120892
-  title: "Grisaia Phantom Trigger"
+# Umgehängt 19.09.2026 von 120892 (Stargazer, 2020) auf 99470: Die Prime-Kachel heißt
+# „Grisaia Phantom Trigger The Animation", 2019, 1 Std. 31 Min. (Daniel im Durchgang). Deutsch
+# gibt es laut aniSearch nur für THE ANIMATION (KSM, Blu-ray 18.02.2021), Stargazer blieb aus.
+- anilistId: 99470
+  title: "Grisaia Phantom Trigger: The Animation"
   platform: primevideo
   url: https://www.amazon.de/dp/B0GX7DVSXM
   dub: true
