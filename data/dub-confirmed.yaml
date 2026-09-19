@@ -16368,3 +16368,12 @@
   dub: false
   checkedAt: '2026-09-19'
   note: "Nicht bei Netflix: /title/81659233 leitet auf /browse um (Daniel, 19.09.2026)."
+
+# JustWatch-Kandidaten, Durchgang 19.09.2026 — Daniel hat Titel und Sprachen auf der Seite gesehen.
+- anilistId: 317
+  title: "Final Fantasy VII: Advent Children"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.c6aad0b3-be42-32dc-6efa-5c489c3d9fef
+  dub: true
+  checkedAt: '2026-09-19'
+  note: "Wiedergabesprachen: Deutsch, Español (España), 日本語 — Film 2005, Leihen/Kaufen HD, kein Kanal (Daniel im Durchgang, Bild)."
