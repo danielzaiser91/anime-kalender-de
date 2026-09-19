@@ -112,6 +112,7 @@ import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
 import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
+import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
@@ -4616,6 +4617,22 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     pruefe('TV-Sichtung: Folge 14 bei 12 Folgen wandert als Folge 2 in Staffel 2', w[0]?.titleId === 176496 && w[0]?.schedule.firstEpisodeNumber === 2, w[0] && { id: w[0].titleId, s: w[0].schedule })
     const quer = releasesAusTvProgramm([sl('Titel 12'), sl('Titel 14')], tm, [], liste)
     pruefe('TV-Sichtung: über zwei Staffeln verteilt wird nicht zugeordnet, sondern gezählt', quer[0]?.titleId === 151807 && !quer[0]?.folgenBelegt, quer[0] && { id: quer[0].titleId, s: quer[0].schedule })
+  }
+  /* TOGGO: Figurenseite → Serienseite über den Namen (Daniel, 19.09.2026). */
+  {
+    const serien = [
+      { id: 'VSE359', uname: 'beyblade-x-vse359', titel: 'BEYBLADE X', figuren: ['beyblade-x-pty605'] },
+      { id: 'VSE372', uname: 'beyblade-burst-quadstrike-vse372', titel: 'BEYBLADE BURST QUADSTRIKE', figuren: ['beyblade-x-pty605'] },
+    ]
+    const figur = figurAusAdresse('https://www.toggo.de/beyblade-x-pty605')
+    const s = figur ? serieFuerFigur(serien, figur, ['Beyblade X']) : undefined
+    pruefe(
+      'TOGGO: die Figurenseite führt über den Namen zur Serienseite',
+      s !== undefined && serienAdresse(figur!, s) === 'https://www.toggo.de/beyblade-x-pty605/serien/beyblade-x-vse359',
+      s,
+    )
+    pruefe('TOGGO: eine Folgenseite ist keine Figurenseite', figurAusAdresse('https://www.toggo.de/yu-gi-oh-pty647/folge/ins-spiel-gezogen-vep24158') === undefined)
+    pruefe('TOGGO: ohne Namensgleichheit keine Serie', serieFuerFigur(serien, 'beyblade-x-pty605', ['Beyblade']) === undefined)
   }
   const hand = { titleId: 158871, platform: 'tv', sender: 'Super RTL' } as Release
   pruefe('ein Handeintrag beim selben Sender gewinnt', releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'A')], titles, [hand]).length === 0)

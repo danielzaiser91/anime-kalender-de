@@ -7594,7 +7594,9 @@ function main(): void {
     bis 31.12.2026 (ein Block), Daima fünf Folgen mit je eigenem 7-Tage-Fenster (fünf Blöcke).
   */
   {
-    const toggo = readJson<{ titel?: Record<string, { folgen: { staffel: number; folge: number; ab: string; bis: string }[] }> }>(
+    const toggo = readJson<{
+      titel?: Record<string, { adresse?: string; folgen: { staffel: number; folge: number; ab: string; bis: string }[] }>
+    }>(
       'data/toggo.json',
       {},
     ).titel ?? {}
@@ -7610,6 +7612,9 @@ function main(): void {
       }
       for (const w of t.watchLinks ?? []) {
         if (!/(^|\.)toggo\.de\//i.test(w.url.replace(/^https?:\/\//, ''))) continue
+        /* Figurenseite → Serienseite (Beyblade X, Daniel 19.09.2026). */
+        const adresse = toggo[String(t.id)]?.adresse
+        if (adresse && /-pty\d+\/?$/i.test(w.url)) w.url = adresse
         w.toggo = bloecke
         mitFenster++
       }
