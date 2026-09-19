@@ -531,9 +531,12 @@ export function Toggle({
   label: string
   hint?: string
 }) {
-  return mitHinweis(
-    hint,
-    'unten',
+  /*
+    **Ein Hinweis ist gekennzeichnet** (Daniel, 19.09.2026: „entsprechend kennzeichnen dass es
+    bei hover (oder touch auf mobile) ein tooltip gibt"). Er hängt an einem eigenen ⓘ neben
+    dem Schalter — Antippen zeigt ihn, ohne umzuschalten.
+  */
+  const schalter = (
     <label className={`inline-flex items-center gap-2 text-sm ${CLICKABLE}`}>
       <input
         type="checkbox"
@@ -556,7 +559,21 @@ export function Toggle({
         />
       </span>
       <span className="text-slate-600 dark:text-slate-300">{label}</span>
-    </label>,
+    </label>
+  )
+  if (!hint) return schalter
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      {schalter}
+      <Tooltip text={hint} seite="unten">
+        <span
+          aria-label={hint}
+          className="grid size-4 cursor-help place-items-center rounded-full border border-slate-400 text-[10px] font-semibold leading-none text-slate-500 dark:border-slate-500 dark:text-slate-400"
+        >
+          i
+        </span>
+      </Tooltip>
+    </span>
   )
 }
 
@@ -619,6 +636,7 @@ export function Tooltip({
   const [offen, setOffen] = useState(false)
   const anker = useRef<HTMLSpanElement>(null)
   const blase = useRef<HTMLSpanElement>(null)
+  const zuTimer = useRef<number>(undefined)
   /**
    * Kennung, mit der der Auslöser auf seine Blase zeigt.
    *
@@ -682,6 +700,12 @@ export function Tooltip({
       onMouseLeave={() => setOffen(false)}
       onFocus={() => setOffen(true)}
       onBlur={() => setOffen(false)}
+      /* Auf dem Handy gibt es kein Überfahren: Antippen zeigt die Blase drei Sekunden (19.09.2026). */
+      onTouchStart={() => {
+        setOffen(true)
+        window.clearTimeout(zuTimer.current)
+        zuTimer.current = window.setTimeout(() => setOffen(false), 3000)
+      }}
     >
       <span
         tabIndex={0}

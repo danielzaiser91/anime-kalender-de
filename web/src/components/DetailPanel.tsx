@@ -2216,6 +2216,7 @@ function MerkenKnopf({
   if (!ev || !release) return null
   return (
       <span className="relative ml-2 shrink-0">
+        <Tooltip text={t('detail.merkenTitel')} seite="oben">
         <button
           type="button"
           ref={knopf}
@@ -2240,7 +2241,9 @@ function MerkenKnopf({
             setMerkenOffen(true)
           }}
           aria-expanded={merkenOffen}
-          className="flex h-7 cursor-pointer items-center gap-1 rounded-full bg-slate-500/10 px-2 text-[11px] font-medium text-slate-700 transition hover:bg-slate-500/20 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15"
+          /* Nur das Symbol, rund (Daniel, 19.09.2026, Entwurf K3) — ~24 px statt ~80 px, gut tippbar. */
+          aria-label={t('detail.merkenTitel')}
+          className="grid size-7 shrink-0 cursor-pointer place-items-center rounded-full bg-slate-500/10 text-slate-700 transition hover:bg-slate-500/20 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15"
         >
           {/*
             Gezeichnet, nicht als Zeichen: Ein 🗓-Emoji kam in der
@@ -2248,12 +2251,13 @@ function MerkenKnopf({
             (gesehen am 25.08.2026 in beiden Themen). Ein Pfad hängt an keiner
             Schrift.
           */}
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="16" rx="2" />
-            <path d="M8 3v4M16 3v4M3 10h18M12 14v4M10 16h4" />
+          {/* Kalender mit Plus (Entwurf S1): „in den Kalender übernehmen". */}
+          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+            <path d="M3 9.5h18M8 2.5v4M16 2.5v4M12 12.5v5M9.5 15h5" />
           </svg>
-          {t('detail.merken')}
         </button>
+        </Tooltip>
         {merkenOffen &&
           createPortal(
             <>

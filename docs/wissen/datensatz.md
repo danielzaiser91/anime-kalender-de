@@ -297,3 +297,7 @@ Daniel: „im tv muss auch sagen welche folge an dem termin kommt + uhrzeit ist 
 ### Pillen: neutral mit Markenstreifen, ✓ auf der Ecke, Premiere als Fähnchen (19.09.2026)
 
 Drei Entscheidungen Daniels aus Entwürfen (je drei bis vier Varianten, dunkel und hell): Fläche neutral, Markenfarbe nur im Zeichen und als 3-px-Streifen links (vorher „rot auf rot"); der Synchro-Beleg als grünes ✓ auf der oberen rechten Ecke mit Tooltip, unbelegte ohne Zeichen („DE ✓" kostete ~35 px je Pille); „Premiere" als Fähnchen auf der oberen Kante (kostet keine Breite). Leitsatz: verfügbaren Platz wirksam nutzen. Die Pillenreihen haben dafür `gap-y-2.5` — Ecke und Fähnchen ragen über die Kante. `DubMark` („🇩🇪 ✓") bleibt in Favoriten und „Wo sehen?".
+
+### „TV-Ausstrahlungen anzeigen" — ausgeschaltet bleiben Premieren (19.09.2026)
+
+Der Schalter hieß „TV-Sendungen zeigen" und blendete alles Fernsehen aus. Daniel: umbenennen, Premieren bleiben sichtbar, der Zusatz in einen gekennzeichneten Tooltip. Der Filter in `App.tsx` fragt je TV-Termin `istPremiere` (`lib/tv-angabe.ts`). Der Hinweis hängt an einem eigenen ⓘ neben dem Schalter (Antippen zeigt ihn, ohne umzuschalten); `Tooltip` öffnet auf dem Handy jetzt beim Antippen für drei Sekunden — vorher nur bei Maus und Fokus. Der Kalender-Knopf an den Pillen ist nur noch ein rundes Symbol (Kalender mit Plus, Entwurf K3/S1) mit eigenem Tooltip statt `title`.

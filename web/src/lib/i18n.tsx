@@ -124,8 +124,8 @@ const TEXTE = {
   'legend.estimatedShort': 'geschätzter Termin',
   'legend.tv': 'TV-Ausstrahlung',
   'legend.tvHint': 'Läuft im Fernsehen — gestrichelt umrandet, mit Sendernamen.',
-  'legend.tvZeigen': 'TV-Sendungen zeigen',
-  'legend.tvZeigenHint': 'Blendet Fernsehausstrahlungen im Kalender ein oder aus. Die Wahl merkt sich dieser Browser.',
+  'legend.tvZeigen': 'TV-Ausstrahlungen anzeigen',
+  'legend.tvZeigenHint': 'Premieren werden weiterhin angezeigt.',
   'legend.estimated':
     'Geschätzter Termin — aus dem bisherigen Wochenrhythmus fortgeschrieben. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
   /*
@@ -295,7 +295,7 @@ const TEXTE = {
   // gemeint ist aber der Termin der deutschen Synchronfassung (Daniel,
   // 15.08.2026).
   'detail.kaufenBei': 'Kaufen bei {shop}',
-  'detail.merken': 'Merken',
+  'detail.merkenTitel': 'In den Kalender übernehmen',
   /* Der Kino-Banner im Detail-Panel (17.09.2026). */
   'kino.ab': 'Ab {datum} im Kino',
   'kino.laeuft': 'Läuft im Kino',
