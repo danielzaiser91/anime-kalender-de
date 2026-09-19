@@ -3078,28 +3078,42 @@ async function speicherSchreiben(werte) {
         Wo sie fehlt, bleibt es beim Suchverweis ueber den Namen — besser als
         nichts, und derselbe Weg wie bisher.
       */
-      const listenEintrag = liste[id]
+      /*
+        Der Auftrag kann unter einer anderen Kennung stehen als die Seite — seit
+        4.20.35 unter JustWatchs gti (To Love-Ru, 19.09.2026: kein aniSearch-Knopf).
+        `listenId` entsteht weiter unten; beim ersten Zeichnen gibt es ihn noch nicht.
+      */
+      const listenEintrag =
+        (() => {
+          try {
+            return listenId ? liste[listenId] : undefined
+          } catch {
+            return undefined
+          }
+        })() ?? liste[id]
       const auftrag = suchauftrag() ?? {
         asId: listenEintrag?.eintraege?.find((e) => e?.asId)?.asId,
         titel: listenEintrag?.titel,
       }
-      if (rechts && !rechts.firstChild) {
-        if (auftrag?.asId) {
-          rechts.appendChild(
-            kastenVerweis('aniSearch', 'https://www.anisearch.de/anime/' + auftrag.asId + '/episodes'),
-          )
-        } else if (auftrag?.titel) {
-          /*
-            Gesucht wird mit dem **Kern** des Titels: „Kizumonogatari III:
-            Kaltes Blut — Teil 3" findet nichts, „Kizumonogatari" findet beide
-            Filme. Und über `/search?q=` — `/anime/index?text=` ist der Filter
-            des Index und antwortet von außen mit „Suchanfrage ist ungültig".
-          */
-          const suchBegriff = auftrag.titel.split(/[:—–-]/)[0].trim() || auftrag.titel
-          rechts.appendChild(
-            kastenVerweis('aniSearch', 'https://www.anisearch.de/search?q=' + encodeURIComponent(suchBegriff)),
-          )
-        }
+      /*
+        Die Adresse wird bei jedem Zeichnen neu bestimmt und nur bei einer Änderung
+        getauscht: Beim ersten Zeichnen ist der Auftrag oft noch unbekannt (Suchverweis),
+        einen Takt später steht die aniSearch-Kennung fest.
+      */
+      const ziel = auftrag?.asId
+        ? 'https://www.anisearch.de/anime/' + auftrag.asId + '/episodes'
+        : auftrag?.titel
+          ? /*
+              Gesucht wird mit dem **Kern** des Titels: „Kizumonogatari III:
+              Kaltes Blut — Teil 3" findet nichts, „Kizumonogatari" findet beide
+              Filme. Und über `/search?q=` — `/anime/index?text=` ist der Filter
+              des Index und antwortet von außen mit „Suchanfrage ist ungültig".
+            */
+            'https://www.anisearch.de/search?q=' +
+            encodeURIComponent(auftrag.titel.split(/[:—–-]/)[0].trim() || auftrag.titel)
+          : null
+      if (rechts && ziel && rechts.firstChild?.href !== ziel) {
+        rechts.replaceChildren(kastenVerweis('aniSearch', ziel))
       }
     } catch {
       /* Ohne Auftrag kein Verweis — die Fußzeile behält ihre beiden anderen Plätze. */

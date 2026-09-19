@@ -27,9 +27,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | **Erledigt am 18.09.2026: Jormungand-Einträge aus `verweise-von-hand.yaml` genommen** | — | Beide Prime-Seiten nicht mehr im Abo, kein Kauf, nicht in der Suche. |
 | **Durchgang 19.09.2026 abgeschlossen** | — | Stand 23:08: Netflix, Suchadressen, Prime ohne Urteil, 14 JustWatch-Kandidaten und JoJo gemeldet und eingearbeitet. Offen bleibt ein Prime-Auftrag: Diamond is Unbreakable unter B0CJC2JNPM (JustWatch-Weg, ungesehen). Nächster Durchgang mit `/ai-daniel-todos`. |
 | **Queue: Meldung auf JustWatch-gti-Seiten ordnet sich nicht selbst zu (19.09.2026)** | 3 | Die Prüfliste führt `watch.amazon.de/detail?gti=…` (4.20.33); Amazon leitet auf eine Seite mit eigener ASIN weiter, deren Kopf-gti eine **andere** ist (Air Gear: JustWatch 66c97aeb…, Seite 4825705e…) — vermutlich Serie gegen Staffel. Die Meldung kommt deshalb als „Staffel nicht im Bestand“ an. Übergang: nach jeder Meldung die Seiten-ASIN aus D1 in `verweise-von-hand.yaml` eintragen (Werkzeug im Durchgang). Dauerhaft: alle gtis des Hydration-Blocks lesen und gegen die Liste halten, oder die Meldung unter der Auftragsadresse schicken. Edens Zero S2 (0KXOMC…, Auftrag B0D956JD5Y) ist derselbe Fall. |
-| **Queue: Erweiterung zeigt zu wenig für Staffel-/OVA-Entscheidungen (Daniel, 19.09.2026)** | 3 | Fushigi Yugi OVA (Prime Staffel 1 = TV-Serie, Staffel 2 = beide OVAs) und Grisaia Stargazer (IMDb: Teil 3 von „Grisaia: Phantom Trigger“ 2019–2020; Prime-Film 2019 = Teile 1+2 „SORD“/„Soul Speed“; Deutsch nur für THE ANIMATION, KSM 2021) — Daniel musste es selbst über aniSearch, IMDb und MAL klären. Im Kasten fehlen: Werkaufbau (Teile, Jahr, Folgen), Links zu MAL/IMDb, aniSearch-Titelseite statt Suche (Stargazer hat keine eigene aniSearch-Seite). Dazu prüfen, ob IMDb als Quelle taugt (robots.txt, Nutzungsbedingungen, IMDb-Datensätze sind nur nichtkommerziell; Wikidata führt IMDb-Kennungen). Nach dem Durchgang. |
-| **Queue: Erweiterung auf der Amazon-Suchseite unsichtbar (Daniel, 19.09.2026)** | 2 | Suchadresse „Jormungand: Perfect Order" (`amazon.de/s?k=…&i=instant-video`): keine Erweiterung, kein „nicht vorhanden"-Knopf. Suchaufträge sollten dort einen Kasten zeigen. Nach dem Durchgang. |
-| **Queue: Filter „nur kostenlos" (Daniel, 19.09.2026)** | 2 | Entscheidung im Durchgang: kostenlos nur als Filter in der Filterleiste, kein Etikett auf Karten/Datenbank; „Premiere" bleibt nur im Panel. Grundlage `web/src/lib/kostenlos.ts`. |
+| **Queue: Erweiterung zeigt zu wenig für Staffel-/OVA-Entscheidungen (Daniel, 19.09.2026)** | 3 | Erledigt: aniSearch-Knopf auch auf JustWatch-Seiten (4.20.38), IMDb-Recherche (Abschnitt „Recherche 19.09.2026: IMDb und MAL“). Offen: MAL-Link im Kasten — **erst Entwurf zeigen**, der Fuß ist nach Daniels Vorgaben austariert; IMDb-Kennung über Wikidata (P4086 → P345) holen und verlinken. |
 | **Offen: 26 Prime-Adressen, die mehrere verschiedene Titel tragen (52 Belege)** | 3 | Gefunden am 18.09.2026 beim Nachmessen von Berserk: Vor dem 17.09. schrieb der Import die Adresse aus dem Prüflisten-Eintrag statt der besuchten Seite. Drei sichtbare Fälle sind korrigiert (Arifureta S3 und Babylon zeigten auf „Eine fröhliche Familie“, Edens Zero S2 auf Clannad After Story). Weder `url` noch die „Seitenadresse“ der Notiz ist im Altbestand verlässlich — bei Clannad war es genau umgekehrt wie bei Arifureta. **Nächster Schritt:** `node tools/prime-geteilte-adressen.mjs` morgen früh fahren (69 Abrufe; heute hat Amazon schon ~470 gesehen, gestern sperrte es bei ~550), dann je Fall nach Seitentitel korrigieren. |
 | **Erledigt am 17.09.2026: Panel-Stichprobe nach dem Umbau-Abend** | 1 | Zwei Läufe à 50 Panels (Keime 4711 und 8123, der zweite nach dem Fix und auf frischem Stand). Ein Befund: Die Pille „Deutsche Ausgabe bei aniSearch" stand bei **allen 186** Titeln mit dieser Pille unter „Noch keine deutsche Fassung" — sie heißt jetzt „Ausgabe bei aniSearch", denn der Sprachblock belegt eine Veröffentlichung, keine Tonspur. Danach 0 Befunde. Die Texte wurden gelesen, nicht nur gezählt (die Zahl allein hat am 16.09. vier Fehlerarten übersehen). |
 | **Erledigt am 17.09.2026: Gegenprobe der Film-Belege aus JustWatch** | 2 | 664 Wege in 269 Filmen sind an einem Abend auf „DE ✓" gesprungen, allein aus JustWatchs Tonspur je Angebot — deshalb vor dem Stehenlassen gegengeprüft. `tools/apple-tonspur-gegenprobe.mjs` liest die Tonspurzeile direkt aus Apples HTML („Deutsch (Deutschland) (AAC), Japanisch (Japan) (AAC)", ohne Anmeldung, ohne Browser): von 200 Apple-Belegen 60 gleichmäßig über den Bestand geprüft, **59 bestätigt, 0 widersprochen**, einer ohne Sprachliste. Dazu maxdome 2/2 im Browser. maxdome, MagentaTV und Rakuten laden per JavaScript nach und brauchen den Browser. |
@@ -945,6 +943,22 @@ Zwei Nebenwirkungen gehören dazu:
 Die gemessene Sackgasse bleibt im Werkzeug stehen: Die Icons neben den Titel zu
 rücken kostet mehr Breite, als die frei werdende Zeile einbringt — 35 gekappte
 Titel statt 20.
+
+## Recherche 19.09.2026: IMDb und MAL als Hilfe für Staffel-/Teil-Entscheidungen
+
+Anlass: Grisaia Stargazer und Fushigi Yugi OVA — Daniel musste den Werkaufbau selbst über
+aniSearch, IMDb und MAL klären.
+
+- **IMDb: nur verlinken, nie abrufen.** `imdb.com/robots.txt` (gelesen 19.09.2026) beginnt mit:
+  „Use of any device, tool, or process designed to data mine or scrape the content using
+  automated means is prohibited without prior written permission from IMDb.“ Die Datensätze
+  unter datasets.imdbws.com sind nur für nichtkommerzielle Nutzung lizenziert. Neu bewerten nur
+  mit schriftlicher Erlaubnis oder Lizenz.
+- **Die IMDb-Kennung gibt es trotzdem legal:** Wikidata führt sie als P345 und die MAL-Kennung als
+  P4086 (CC0, SPARQL-Abfrage). Damit wird aus unserer `malId` ein IMDb-Link, ohne IMDb anzufassen.
+  Noch nicht gebaut.
+- **MAL:** `malId` steht für fast jeden Titel schon im Datensatz (aus AniList `idMal`). MALs
+  robots.txt sperrt die Titelseiten nicht; gebraucht wird ohnehin nur der Link.
 
 ## Recherche 17.09.2026: Veralten die Netflix-Belege „nur Erinnern"?
 
