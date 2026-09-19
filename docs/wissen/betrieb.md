@@ -790,3 +790,7 @@ fragen.
 ### „Live" heißt: Deploy grün und im ausgelieferten Bundle nachgesehen (19.09.2026)
 
 Nach einem Push auf `web/src` habe ich „live" gemeldet — der Deploy lief noch, Daniel sah die alte Fassung und fragte, wo das neue Etikett sei. Ein Push ist kein Deploy. Vor „live": `gh run watch` auf „Deploy auf GitHub Pages" für genau diesen Commit, dann das Bundle holen (`curl -s https://anime-kalender.de/ | grep -oE 'assets/index-[A-Za-z0-9_-]+\.js'`) und darin nach einem neuen Text suchen. Bei Daten-Änderungen genügt der grüne Bau plus Deploy.
+
+### Teilen-Seiten gibt es für Termine (`/r/`) und für Titel (`/t/`) (19.09.2026)
+
+Der Link-Knopf im Detail-Panel teilte `/r/<Titel-Slug>/` — eine Seite, die es für keinen Titel gab, denn unter `/r/` liegen nur Termine. Und ein offener Titel schrieb keinen Pfad in die Adressleiste, geteilt wurde `/#/woche?t=…` mit Startseiten-Vorschau (Hash erreicht keinen Crawler). Seitdem: `build-share-pages.ts` legt je Titel aus `titles.json` `dist/t/<slug>/index.html` an (2.774 Seiten, 26 MB in `dist`, nichts im Repo), Vorschaubild ist das AniList-Banner (große Karte), sonst das Cover (kleine Karte); eigene Bilder wären ~170 MB im Repo. Das Panel setzt den Pfad selbst (`syncSharePath`), weil nur es den Titel sicher hat. `404.html` leitet `/r|t/<…>-<id>/` auf `#/woche?t=<id>` um — für die toten Links, die schon geteilt wurden, und für Titel ohne Synchro (keine eigene Seite).

@@ -152,9 +152,14 @@ export function buildHash(route: AppRoute): string {
  * genau diesen Pfad in die Adresse — ohne Neuladen, die App läuft weiter.
  * Wer die Adresse dann kopiert, teilt automatisch die Fassung mit Vorschau.
  */
-function syncSharePath(release: string | undefined): void {
+export function syncSharePath(release: string | undefined, titelSlug?: string): void {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '')
-  const target = release ? `${base}/r/${encodeURIComponent(release)}/` : `${base}/`
+  /* Ein offener Titel ohne Termin hat seit dem 19.09.2026 eine eigene Seite unter `/t/`. */
+  const target = release
+    ? `${base}/r/${encodeURIComponent(release)}/`
+    : titelSlug
+      ? `${base}/t/${encodeURIComponent(titelSlug)}/`
+      : `${base}/`
   if (window.location.pathname === target) return
   // Nur innerhalb der eigenen Seite umschreiben. Läuft die App aus einem
   // Unterverzeichnis, das nicht zum Muster passt, bleibt der Pfad unangetastet.

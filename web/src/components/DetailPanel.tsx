@@ -37,6 +37,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { aehnlicheTitel } from '../lib/aehnlich.ts'
 import { useShare } from '../lib/share.ts'
+import { syncSharePath } from '../lib/router.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import {
@@ -93,7 +94,8 @@ function ShareIcon({ slug, name }: { slug: string; name: string }) {
     <Tooltip text={t('detail.shareHint')} seite="unten">
       <button
         type="button"
-        onClick={() => share(slug, name)}
+        /* Titel-Seite `/t/`, nicht `/r/` — dort liegen nur Termine (toter Link, Daniel 19.09.2026). */
+        onClick={() => share(slug, name, 't')}
         aria-label={t('detail.share')}
         className="cursor-pointer rounded p-1 text-lg leading-none text-slate-400 transition hover:bg-slate-500/10 hover:text-sky-400"
       >
@@ -2873,6 +2875,7 @@ function Countdown({ date, time }: { date: string; time: string }) {
 export function DetailPanel({
   data,
   titleId,
+  terminOffen = false,
   favorites,
   hidden,
   onToggleFavorite,
@@ -2883,6 +2886,8 @@ export function DetailPanel({
 }: {
   data: Dataset
   titleId: number
+  /** Über einen Termin geöffnet — dann gehört die Adresse dem Termin (`/r/`). */
+  terminOffen?: boolean
   favorites: Set<number>
   hidden: Set<number>
   onToggleFavorite: (id: number) => void
@@ -2895,6 +2900,17 @@ export function DetailPanel({
   const verbindung = useNewsletterVerbindung()
   const today = todayIso()
   const title: Title | undefined = data.titleById.get(titleId)
+  /*
+    **Ein offener Titel bekommt seinen Teilen-Pfad `/t/<slug>/`** (19.09.2026). Bis dahin
+    schrieb nur ein offener Termin einen Pfad in die Adressleiste; wer bei einem Titel die
+    Adresse kopierte, teilte `/#/woche?t=…` und Discord zeigte die Startseiten-Vorschau
+    (Daniel, an Boruto). Hier und nicht in `App.tsx`: Nur das Panel hat den Titel sicher —
+    `titleById` wird beim Nachladen erweitert, ohne dass ein Effekt davon erfährt.
+  */
+  useEffect(() => {
+    /* Cartoons (negative Kennung) und Titel ohne Synchro haben keine Titel-Seite. */
+    if (!terminOffen && title?.slug && title.id > 0 && !title.ohneSynchro) syncSharePath(undefined, title.slug)
+  }, [terminOffen, title?.slug, title?.id, title?.ohneSynchro])
   /**
    * Der leere Rückfall braucht ein `useMemo`, sonst ist er bei jedem Durchlauf
    * ein neues Array — und jeder Hook, der `releases` als Abhängigkeit führt,

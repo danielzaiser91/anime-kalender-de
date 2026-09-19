@@ -5,18 +5,19 @@ import { useCallback, useState } from 'react'
  * Nur diese Seite existiert als echte Datei und trägt deshalb ein eigenes
  * Vorschaubild — alles hinter dem `#` erreicht weder Server noch Crawler.
  */
-export function shareUrl(slug: string): string {
-  return new URL(`${import.meta.env.BASE_URL}r/${slug}/`, window.location.origin).toString()
+export function shareUrl(slug: string, art: 'r' | 't' = 'r'): string {
+  return new URL(`${import.meta.env.BASE_URL}${art}/${slug}/`, window.location.origin).toString()
 }
 
 export function useShare(): {
-  share: (slug: string, title: string) => Promise<void>
+  /** `art`: `r` = Termin-Seite, `t` = Titel-Seite (19.09.2026). */
+  share: (slug: string, title: string, art?: 'r' | 't') => Promise<void>
   copiedSlug: string | undefined
 } {
   const [copiedSlug, setCopiedSlug] = useState<string>()
 
-  const share = useCallback(async (slug: string, title: string) => {
-    const url = shareUrl(slug)
+  const share = useCallback(async (slug: string, title: string, art: 'r' | 't' = 'r') => {
+    const url = shareUrl(slug, art)
     // Auf Mobilgeräten das Teilen-Menü des Systems, sonst in die Zwischenablage.
     if (navigator.share) {
       try {

@@ -433,8 +433,94 @@ function main(): void {
   schreibeUebersicht(releases, titleById, today, before, after, ROOT_TAG)
   schreibeStartseite(releases, titleById, today, template, ROOT_TAG)
 
-  log(`${releases.length} Teilen-Seiten, Übersicht und Startseite geschrieben`)
-  writeSitemap(releases)
+  const alleTitel = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
+  const titelListe = (Array.isArray(alleTitel) ? alleTitel : alleTitel.titles).filter((t) => t.slug)
+  for (const t of titelListe) {
+    const dir = resolve(DIST, 't', t.slug)
+    mkdirSync(dir, { recursive: true })
+    const seite = (before + titelKopf(t) + after).replace(
+      ROOT_TAG,
+      `<div id="root">${titelInhalt(t, synopses[String(t.id)]?.de, jeTitel.get(t.id) ?? [])}</div>`,
+    )
+    writeFileSync(resolve(dir, 'index.html'), seite, 'utf8')
+  }
+
+  log(`${releases.length} Teilen-Seiten, ${titelListe.length} Titel-Seiten, Übersicht und Startseite geschrieben`)
+  writeSitemap(releases, titelListe)
+}
+
+/*
+  **Eine Teilen-Seite je Titel** (19.09.2026). Der Link-Knopf im Detail-Panel teilte
+  `/r/<Titel-Slug>/` — diese Seite gab es für keinen Titel, denn unter `/r/` liegen nur
+  Termine (Daniel: „warum toter link, wenn ich in boruto kachel das link icon nutze").
+  Und wer die Adresse aus der Leiste kopierte, bekam die Startseiten-Vorschau, weil ein
+  geöffneter Titel keinen eigenen Pfad hatte. Jetzt: `/t/<slug>/` für jeden Titel.
+  Vorschaubild ist das Banner von AniList (breit, große Karte), ohne Banner das Cover
+  (kleine Karte) — eigene Bilder für 2.774 Titel wären rund 170 MB im Repo.
+*/
+function titelName(t: Title): string {
+  return t.titleDe ?? t.titleEn ?? t.titleRomaji ?? t.slug
+}
+
+function titelBeschreibung(t: Title): string {
+  const wege = (t.streams ?? []).filter((s) => s.dub === true).map((s) => PLATFORMS[s.platform].name)
+  const teile = [
+    wege.length ? `Auf Deutsch bei ${[...new Set(wege)].join(', ')}.` : 'Mit deutscher Synchronisation.',
+    t.episodes && t.format !== 'MOVIE' ? `${t.episodes} Folgen.` : null,
+    t.genres?.length ? t.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ') + '.' : null,
+  ]
+  return teile.filter(Boolean).join(' ')
+}
+
+function titelKopf(t: Title): string {
+  const url = `${SITE}t/${t.slug}/`
+  const name = titelName(t)
+  const headline = `${name} — auf Deutsch`
+  const description = titelBeschreibung(t)
+  const bild = t.bannerImage ?? t.coverImage
+  const gross = Boolean(t.bannerImage)
+  return `    <title>${esc(headline)}</title>
+    <meta name="description" content="${esc(description)}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Anime-Kalender DE" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:title" content="${esc(headline)}" />
+    <meta property="og:description" content="${esc(description)}" />
+${bild ? `    <meta property="og:image" content="${esc(bild)}" />
+    <meta property="og:image:alt" content="${esc(name)}" />
+` : ''}    <meta name="twitter:card" content="${gross ? 'summary_large_image' : 'summary'}" />
+    <meta name="twitter:title" content="${esc(headline)}" />
+    <meta name="twitter:description" content="${esc(description)}" />
+${bild ? `    <meta name="twitter:image" content="${esc(bild)}" />
+` : ''}    <link rel="canonical" href="${url}" />
+    <script>
+      if (!location.hash) location.hash = ${JSON.stringify(`#/woche?t=${t.id}`)};
+    </script>`
+}
+
+function titelInhalt(t: Title, synopsis: string | undefined, eigene: Release[]): string {
+  const name = titelName(t)
+  const wege = (t.streams ?? []).filter((s) => s.dub === true)
+  const liste = (zeilen: string[]) => `<ul style="margin:0 0 1.5rem;padding-left:1.2rem;">\n        ${zeilen.join('\n        ')}\n      </ul>`
+  return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
+      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(name)}</h1>
+      <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(titelBeschreibung(t))}</p>
+      ${synopsis ? `<p style="margin:0 0 1.5rem;">${esc(synopsis)}</p>` : ''}
+      ${
+        wege.length
+          ? `<h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Wo ${esc(name)} auf Deutsch läuft</h2>\n      ` +
+            liste(wege.map((s) => `<li><a href="${esc(s.url)}" rel="nofollow" style="color:#7dd3fc;">${esc(PLATFORMS[s.platform].name)}</a></li>`))
+          : ''
+      }
+      ${
+        eigene.length
+          ? `<h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Termine</h2>\n      ` +
+            liste(eigene.map((r) => `<li><a href="${esc(SITE)}r/${esc(r.slug)}/" style="color:#7dd3fc;">${esc(r.name)}</a></li>`))
+          : ''
+      }
+      <p><a href="${esc(SITE + '#/woche?t=' + t.id)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
+    </article>`
 }
 
 /** Gemeinsamer Rahmen für die beiden vorgerenderten Seiten. */
@@ -618,7 +704,7 @@ function schreibeStartseite(
  * bekommt eine Suchmaschine nie zu sehen, sie würde für jede dieser Adressen
  * dieselbe Startseite indexieren.
  */
-function writeSitemap(releases: Release[]): void {
+function writeSitemap(releases: Release[], titel: Title[] = []): void {
   // Die Übersicht gehört dazu: Sie ist der Einstieg zu allen Teilen-Seiten.
   const today = todayIso()
   const urls = [
@@ -631,6 +717,7 @@ function writeSitemap(releases: Release[]): void {
       // Ein laufender Simuldub ändert sich wöchentlich, ein Disc-Termin steht.
       changefreq: r.releaseType === 'weekly' ? 'weekly' : 'monthly',
     })),
+    ...titel.map((t) => ({ loc: `${SITE}t/${t.slug}/`, priority: '0.6', changefreq: 'weekly' })),
   ]
 
   const xml =

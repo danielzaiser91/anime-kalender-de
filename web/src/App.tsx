@@ -397,6 +397,7 @@ export default function App() {
         <DetailPanel
           data={data}
           titleId={openTitleId}
+          terminOffen={Boolean(route.release)}
           favorites={favorites}
           hidden={hidden}
           onToggleFavorite={toggle}

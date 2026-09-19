@@ -48,5 +48,13 @@
       </p>
       <a href="/">Zum Kalender</a>
     </main>
+    <script>
+      /*
+        Bis zum 19.09.2026 teilte der Link-Knopf im Panel /r/<Titel-Slug>/ — eine Seite, die es
+        nie gab. Solche Links enden auf die AniList-Kennung; sie führen jetzt zum Titel.
+      */
+      var m = /^\/[rt]\/[a-z0-9-]+-(\d+)\/?$/.exec(location.pathname)
+      if (m) location.replace('/#/woche?t=' + m[1])
+    </script>
   </body>
 </html>
