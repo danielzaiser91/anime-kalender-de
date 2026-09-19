@@ -1,22 +1,22 @@
 {
   "adn": {
-    "lastOk": "2026-09-18T09:02:46.356Z",
-    "lastRun": "2026-09-18T09:02:46.356Z",
-    "lastCount": 5
+    "lastOk": "2026-09-19T08:50:07.755Z",
+    "lastRun": "2026-09-19T08:50:07.755Z",
+    "lastCount": 6
   },
   "anime2you": {
-    "lastOk": "2026-09-18T09:03:16.938Z",
-    "lastRun": "2026-09-18T09:03:16.938Z",
+    "lastOk": "2026-09-19T08:50:37.044Z",
+    "lastRun": "2026-09-19T08:50:37.044Z",
     "lastCount": 37
   },
   "crunchyroll": {
-    "lastOk": "2026-09-19T06:02:44.566Z",
-    "lastRun": "2026-09-19T06:02:44.566Z",
-    "lastCount": 15
+    "lastOk": "2026-09-19T08:48:53.915Z",
+    "lastRun": "2026-09-19T08:48:53.915Z",
+    "lastCount": 17
   },
   "anisearch": {
-    "lastOk": "2026-09-18T09:03:18.797Z",
-    "lastRun": "2026-09-18T09:03:18.797Z",
+    "lastOk": "2026-09-19T08:50:38.768Z",
+    "lastRun": "2026-09-19T08:50:38.768Z",
     "lastCount": 3182
   },
   "adn-catalog": {
@@ -25,8 +25,8 @@
     "lastCount": 116
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-09-17T13:13:43.296Z",
-    "lastRun": "2026-09-17T13:13:43.296Z",
+    "lastOk": "2026-09-19T08:49:14.951Z",
+    "lastRun": "2026-09-19T08:49:14.951Z",
     "lastCount": 1100
   },
   "anime-offline-database": {
@@ -60,9 +60,9 @@
     "lastCount": 3
   },
   "motn-changes": {
-    "lastOk": "2026-09-18T09:02:48.393Z",
-    "lastRun": "2026-09-18T09:02:48.393Z",
-    "lastCount": 4
+    "lastOk": "2026-09-19T08:50:09.438Z",
+    "lastRun": "2026-09-19T08:50:09.438Z",
+    "lastCount": 1
   },
   "motn": {
     "lastOk": "2026-09-02T08:52:21.656Z",
@@ -125,18 +125,18 @@
     "lastCount": 0
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-09-18T09:01:48.858Z",
-    "lastRun": "2026-09-18T09:01:48.858Z",
-    "lastCount": 56
+    "lastOk": "2026-09-19T08:48:59.460Z",
+    "lastRun": "2026-09-19T08:48:59.460Z",
+    "lastCount": 57
   },
   "cartoons": {
-    "lastOk": "2026-09-18T09:03:28.692Z",
-    "lastRun": "2026-09-18T09:03:28.692Z",
+    "lastOk": "2026-09-19T08:50:46.521Z",
+    "lastRun": "2026-09-19T08:50:46.521Z",
     "lastCount": 0
   },
   "trailer": {
-    "lastOk": "2026-09-18T09:06:40.379Z",
-    "lastRun": "2026-09-18T09:06:40.379Z",
+    "lastOk": "2026-09-19T08:53:50.182Z",
+    "lastRun": "2026-09-19T08:53:50.182Z",
     "lastCount": 0
   },
   "wikidata-titel": {

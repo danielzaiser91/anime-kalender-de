@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-18. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-19. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-67 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+68 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -49,39 +49,39 @@ Stand: 2026-09-18. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Erste »A Wild Last Boss Appeared!«-Staffel erscheint auf Blu-ray](https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/) |
 | 2026-11-19, 2026-11 (Monat) | disc | – unklar | [»Kubo Won’t Let Me Be Invisible« erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1044503/kubo-wont-let-me-be-invisible-blu-ray-komplettbox/) |
 
-… und 27 weitere.
+… und 28 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 5 |
-| adn-catalog | 3.9 Tage her | 116 |
-| anilist-voices | 3.9 Tage her | 0 |
-| anime-offline-database | 3.9 Tage her | 8876 |
+| adn | 0.0 Tage her | 6 |
+| adn-catalog | 4.9 Tage her | 116 |
+| anilist-voices | 4.9 Tage her | 0 |
+| anime-offline-database | 4.9 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 37 |
 | anisearch | 1.0 Tage her | 3182 |
-| anisearch-folgen | 3.9 Tage her | 15 |
-| ann-voices | 3.9 Tage her | 8876 |
+| anisearch-folgen | 4.9 Tage her | 15 |
+| ann-voices | 4.9 Tage her | 8876 |
 | cartoons | 1.0 Tage her | 0 |
-| cinestar | 3.9 Tage her | 1 |
-| cr-einzelwerke | 15.9 Tage her | 9 |
-| cr-filmbloecke | 15.9 Tage her | 6 |
+| cinestar | 4.9 Tage her | 1 |
+| cr-einzelwerke | 16.9 Tage her | 9 |
+| cr-filmbloecke | 16.9 Tage her | 6 |
 | crunchyroll | 0.0 Tage her | 17 |
-| crunchyroll-dub | 0.8 Tage her | 1100 |
-| crunchyroll-neu | 0.0 Tage her | 56 |
-| crunchyroll-offene | 1.6 Tage her | 0 |
-| fsk | 3.9 Tage her | 3 |
-| justwatch-audio | 0.6 Tage her | 1 |
-| link-check | 0.2 Tage her | 450 |
-| motn | 16.0 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 4 |
-| rohfolgen | 1.0 Tage her | 0 |
-| tmdb-folgen | 3.9 Tage her | 837 |
-| tmdb-kino | 3.9 Tage her | 4 |
-| tmdb-titles | 0.6 Tage her | 3 |
+| crunchyroll-dub | 0.0 Tage her | 1100 |
+| crunchyroll-neu | 0.0 Tage her | 57 |
+| crunchyroll-offene | 2.5 Tage her | 0 |
+| fsk | 4.9 Tage her | 3 |
+| justwatch-audio | 1.6 Tage her | 1 |
+| link-check | 1.2 Tage her | 450 |
+| motn | 17.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 1 |
+| rohfolgen | 2.0 Tage her | 0 |
+| tmdb-folgen | 4.9 Tage her | 837 |
+| tmdb-kino | 4.9 Tage her | 4 |
+| tmdb-titles | 1.6 Tage her | 3 |
 | trailer | 1.0 Tage her | 0 |
-| tv-programm | 0.1 Tage her | 297 |
+| tv-programm | 0.1 Tage her | 279 |
 | vorfaelle | 0.1 Tage her | 0 |
-| wikidata-titel | 2.1 Tage her | 29 |
-| youtube-check | 3.9 Tage her | 0 |
+| wikidata-titel | 3.0 Tage her | 29 |
+| youtube-check | 4.9 Tage her | 0 |

@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 41
+    "2026-09": 43
   },
   "gesehen": {
     "26341901:netflix": {
@@ -4149,7 +4149,17 @@
       "dienst": "netflix",
       "am": "2026-09-17",
       "deutsch": false
+    },
+    "new:26517499:netflix": {
+      "art": "new",
+      "titel": "The Scandal",
+      "originalTitel": "스캔들",
+      "imdbId": "tt36347588",
+      "tmdbId": "tv/275102",
+      "dienst": "netflix",
+      "am": "2026-09-18",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-18T09:02:48.392Z"
+  "fetchedAt": "2026-09-19T08:50:09.437Z"
 }
