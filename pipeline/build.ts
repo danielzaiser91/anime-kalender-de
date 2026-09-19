@@ -85,7 +85,7 @@ import {
   releasesAus,
   type Vorschlag,
 } from './lib/meldungen.ts'
-import { releasesAusTvProgramm } from './lib/tv-termine.ts'
+import { releasesAusTvProgramm, type WikiListen } from './lib/tv-termine.ts'
 import type { TvSendung } from './fetch-tv-programm.ts'
 import {
   KEYWORD_BLOCKLIST,
@@ -2922,7 +2922,12 @@ function main(): void {
   const tvProgramm = Object.values(
     readJson<{ sendungen?: Record<string, TvSendung> }>('data/tv-programm.json', {}).sendungen ?? {},
   )
-  const ausTv = releasesAusTvProgramm(tvProgramm, titles, releases)
+  const ausTv = releasesAusTvProgramm(
+    tvProgramm,
+    titles,
+    releases,
+    readJson<{ titel?: WikiListen }>('data/wikipedia-folgen.json', {}).titel ?? {},
+  )
   releases.push(...ausTv)
   if (ausTv.length) log(`${ausTv.length} TV-Termine aus dem RTL+-Programm: ${ausTv.map((r) => `${r.name} (${r.sender})`).join(', ')}`)
 

@@ -272,6 +272,15 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:toggo
 
+      - name: Wikipedia — Folgennummern für das TV-Programm
+        # Das TV-Programm nennt nur Folgentitel; die Episodenlisten der de.wikipedia die
+        # Nummer dazu. Nur für im Programm gesichtete Titel, über /wiki/…?action=raw
+        # (robots.txt sperrt /w/), ein Abruf je Seite, 1 s Abstand.
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:wikipedia-folgen
+
       - name: Nachrichtenlage bei Anime2You prüfen
         # Erzeugt nur Vorschläge für die Kuratierung, keine Termine.
         continue-on-error: true

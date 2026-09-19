@@ -5,8 +5,13 @@
  * läuft. Die Quelle nennt je Sendung Tag, Uhrzeit und Folgentitel — **keine
  * Folgennummer und kein Ende**. Deshalb:
  *
- * - Jeder **neue Folgentitel** zählt als nächste Folge; eine Wiederholung
- *   desselben Titels zählt nicht noch einmal.
+ * - Steht die Reihe in einer **Wikipedia-Episodenliste** und findet sich dort jeder
+ *   gesichtete Folgentitel wieder, gilt deren Nummer (19.09.2026; gemessen: 32 von 32
+ *   Titeln wörtlich gleich). Gezählt wird ab der ersten Folge der Seite — die
+ *   Pokémon-Liste zählt über das ganze Franchise (Horizonte beginnt bei 1235).
+ * - Sonst zählt jeder **neue Folgentitel** als nächste Folge; eine Wiederholung
+ *   desselben Titels zählt nicht noch einmal. Eine halbe Zuordnung gibt es nicht:
+ *   Fehlt ein Titel in der Liste, wird für die ganze Reihe gezählt.
  * - Kein Termin wird fortgeschrieben. Die Reihe gilt als laufend, solange die
  *   letzte Sichtung höchstens sieben Tage zurückliegt (`tvLetzteSichtung`,
  *   ausgewertet in `releaseStatus()`).
@@ -15,6 +20,23 @@
  */
 import type { Release, Title } from '../../shared/types.ts'
 import { TVDE_SENDER, type TvSendung } from '../fetch-tv-programm.ts'
+import { folgenKern, type WikiFolge } from './wikipedia-folgen.ts'
+
+export type WikiListen = Record<string, { seite: string; folgen: WikiFolge[] }>
+
+/** Folgentitel → Nummer in der Serie; ein Titel, der zweimal vorkommt, ordnet nichts zu. */
+function nummernNachTitel(folgen: WikiFolge[]): Map<string, number> {
+  const erste = Math.min(...folgen.map((f) => f.nr))
+  const aus = new Map<string, number>()
+  const doppelt = new Set<string>()
+  for (const f of folgen) {
+    const k = folgenKern(f.dt)
+    if (aus.has(k)) doppelt.add(k)
+    aus.set(k, f.nr - erste + 1)
+  }
+  for (const k of doppelt) aus.delete(k)
+  return aus
+}
 
 /* Quelle je Sender: die RTL-Gruppe aus dem RTL+-Programm, alle übrigen aus tv.de (19.09.2026). */
 const TVDE_NACH_NAME = new Map(Object.entries(TVDE_SENDER).map(([slug, name]) => [name.toLowerCase(), slug]))
@@ -31,6 +53,7 @@ export function releasesAusTvProgramm(
   sendungen: TvSendung[],
   titles: Map<number, Title>,
   vorhanden: Release[],
+  wiki: WikiListen = {},
 ): Release[] {
   const belegt = new Set(
     vorhanden.filter((r) => r.platform === 'tv').map((r) => `${r.titleId}|${(r.sender ?? '').toLowerCase()}`),
@@ -46,15 +69,28 @@ export function releasesAusTvProgramm(
     liste.sort((a, b) => a.start.localeCompare(b.start))
     const erste = liste[0]!
     const title = titles.get(erste.titleId)!
-    /* Neue Folgentitel in Sendereihenfolge; ohne Folgentitel zählt jeder Sendetag. */
+    /* Nummern aus der Episodenliste — nur wenn jede Sichtung darin steht. */
+    const wikiListe = wiki[String(erste.titleId)]
+    const nummern = wikiListe?.folgen.length ? nummernNachTitel(wikiListe.folgen) : undefined
+    const zugeordnet = liste.map((s) => (s.folge ? nummern?.get(folgenKern(s.folge)) : undefined))
+    const mitWiki = zugeordnet.every((x) => x !== undefined)
     const observed: Record<number, string> = {}
-    const gesehen = new Set<string>()
     let n = 0
-    for (const s of liste) {
-      const schluessel = s.folge ?? `tag:${berlinTag(s.start)}`
-      if (gesehen.has(schluessel)) continue
-      gesehen.add(schluessel)
-      observed[++n] = berlinTag(s.start)
+    let ab = 1
+    if (mitWiki) {
+      liste.forEach((s, i) => (observed[zugeordnet[i]!] ??= berlinTag(s.start)))
+      const nrn = Object.keys(observed).map(Number)
+      ab = Math.min(...nrn)
+      n = Math.max(...nrn) - ab + 1
+    } else {
+      /* Neue Folgentitel in Sendereihenfolge; ohne Folgentitel zählt jeder Sendetag. */
+      const gesehen = new Set<string>()
+      for (const s of liste) {
+        const schluessel = s.folge ?? `tag:${berlinTag(s.start)}`
+        if (gesehen.has(schluessel)) continue
+        gesehen.add(schluessel)
+        observed[++n] = berlinTag(s.start)
+      }
     }
     /* Die Uhrzeit nur, wenn alle Sendungen um dieselbe liefen. */
     const zeiten = new Set(liste.map((s) => berlinZeit(s.start)))
@@ -69,6 +105,7 @@ export function releasesAusTvProgramm(
       schedule: {
         firstEpisodeDate: berlinTag(erste.start),
         ...(zeiten.size === 1 ? { time: [...zeiten][0] } : {}),
+        ...(ab > 1 ? { firstEpisodeNumber: ab } : {}),
         episodeCount: n,
         observed,
       },
@@ -76,14 +113,16 @@ export function releasesAusTvProgramm(
       year: Number(erste.start.slice(0, 4)),
       ...(() => {
         const tvde = TVDE_NACH_NAME.get(erste.sender.toLowerCase())
+        const nr = mitWiki ? ' Folgennummern aus der Episodenliste der Wikipedia.' : ''
+        const wikiQuelle = mitWiki ? [`https://de.wikipedia.org/wiki/${encodeURI(wikiListe!.seite.replace(/ /g, '_'))}`] : []
         return tvde
           ? {
-              herkunft: `Automatisch aus dem TV-Programm von tv.de (${liste.length} Sendungen gesichtet).`,
-              sources: [`https://tv.de/sender/${tvde}/`],
+              herkunft: `Automatisch aus dem TV-Programm von tv.de (${liste.length} Sendungen gesichtet).${nr}`,
+              sources: [`https://tv.de/sender/${tvde}/`, ...wikiQuelle],
             }
           : {
-              herkunft: `Automatisch aus dem TV-Programm von RTL+ (${liste.length} Sendungen gesichtet).`,
-              sources: ['https://plus.rtl.de/tv-programm'],
+              herkunft: `Automatisch aus dem TV-Programm von RTL+ (${liste.length} Sendungen gesichtet).${nr}`,
+              sources: ['https://plus.rtl.de/tv-programm', ...wikiQuelle],
             }
       })(),
       automatisch: true,

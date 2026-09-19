@@ -180,8 +180,9 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 **Gebaut (19.09.2026):** tv.de als zweite TV-Quelle (`fetch-tv-programm.ts`, einmal am Tag, nur Kategorie Anime) — ProSieben MAXX mit Dragon Ball Super, One Piece, Conan, Solo Leveling, Gachiakuta u. a.
 
 **Offen, nach Priorität:**
-1. **Folgennummern für TV-Sichtungen** aus den de.wikipedia-Episodenlisten (MediaWiki-API, CC BY-SA mit Namensnennung): Titelabgleich Folgentitel ↔ deutscher Episodentitel. Heute zählt `tv-termine.ts` gesichtete Titel als „Folge 1, 2 …" — bei Beyblade X wurde daraus „Erste Folge heute". Gemessen von der Recherche: Dragon Ball Super 131/131 Folgen mit deutschem Titel und Datum, alle 14 EPG-Titel passten wörtlich.
-2. **Deutsche Erstausstrahlung je Folge** aus denselben Listen, wo aniSearch Lücken hat.
+1. ~~Folgennummern für TV-Sichtungen~~ **gebaut 19.09.2026:** `fetch-wikipedia-folgen.ts` (täglich, über `/wiki/…?action=raw`, weil robots `/w/` sperrt) → `data/wikipedia-folgen.json`; `tv-termine.ts` nimmt die Nummern, wenn jede Sichtung in der Liste steht. 32/32 Titel passten. Ohne Liste: Conan (eigene Tabelle), Solo Leveling, Eyeshield 21, Beyblade X.
+2. **Deutsche Erstausstrahlung je Folge** aus denselben Listen, wo aniSearch Lücken hat — die Daten (`ead`) liegen seit 19.09.2026 in `data/wikipedia-folgen.json`, bisher nur für TV-gesichtete Titel geholt.
+2a. **Detektiv Conan:** Die Episodenliste ist eine eigene Tabelle (DE-Nummer ≠ JP-Nummer), kein Vorlagen-Eintrag — eigener Leser nötig.
 3. **RTL+-Folgenseiten** für RTL-Serien ohne Wikipedia-Liste (Beyblade X ab Folge 66); `uploadDate` ist nur bei neuen Folgen die Erstveröffentlichung.
 4. **Nachtblöcke** auf tv.de stehen nur auf den Detailseiten („weitere Sendetermine") — ein Abruf je gesichteter Sendung, falls nötig.
 

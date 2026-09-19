@@ -110,6 +110,7 @@ import { releasesAus } from './lib/meldungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
+import { folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
@@ -4520,6 +4521,28 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'eine gesichtete Reihe läuft eine Woche nach der letzten Sichtung noch',
     tv[0] !== undefined && titleStatus([tv[0]], '2026-09-24') === 'airing' && titleStatus([tv[0]], '2026-09-25') !== 'airing',
   )
+  /* Wikipedia-Nummern (19.09.2026): gezählt ab der ersten Folge der Seite, nur bei vollständiger Zuordnung. */
+  const wikiText = [1235, 1236, 1237]
+    .map((nr, i) => `{{Episodenlisteneintrag2\n| NR_ST = ${i + 1}\n| NR_GES = ${nr}\n| DT = [[Entei|Enteis]] ''wilder'' Kampfschrei!<ref>x</ref>\n| EAD = ${i + 4}. Sep. 2024\n}}`.replace('Enteis', i === 0 ? 'Enteis' : `Titel ${i}`))
+    .join('\n')
+  const wf = folgenAusWikitext(wikiText)
+  pruefe('Wikipedia: Vorlage gelesen, Verweis und Auszeichnung entfernt', wf.length === 3 && wf[0]?.dt === 'Enteis wilder Kampfschrei!' && wf[0]?.ead === '2024-09-04', wf[0])
+  pruefe('Wikipedia: ausgeschriebener Monat', wikiDatum('4. September 2017') === '2017-09-04' && wikiDatum('12. März 2003') === '2003-03-12')
+  const wiki = { '158871': { seite: 'Pokémon (Anime)/Horizonte', folgen: wf } }
+  const mitNr = releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'Enteis wilder Kampfschrei'), s('2026-09-16T16:05:00+02:00', 'Titel 2 wilder Kampfschrei!')], titles, [], wiki)
+  pruefe(
+    'Wikipedia: Folgentitel ergibt die Nummer in der Serie, nicht im Franchise',
+    mitNr[0]?.schedule.observed?.[1] === '2026-09-15' && mitNr[0]?.schedule.observed?.[3] === '2026-09-16' && mitNr[0]?.schedule.episodeCount === 3,
+    mitNr[0]?.schedule,
+  )
+  const luecke = releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'Enteis wilder Kampfschrei'), s('2026-09-16T16:05:00+02:00', 'Titel 2 wilder Kampfschrei!')], titles, [], wiki)[0]
+  pruefe(
+    'Wikipedia: eine Lücke zwischen gesichteten Folgen wird nicht mit Terminen aufgefüllt',
+    luecke !== undefined && expandEvents(luecke).map((e) => e.episode).join(',') === '1,3',
+    luecke && expandEvents(luecke).map((e) => `${e.episode}@${e.date}`),
+  )
+  const halb = releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'Titel 2 wilder Kampfschrei!'), s('2026-09-16T16:05:00+02:00', 'Unbekannt')], titles, [], wiki)
+  pruefe('Wikipedia: fehlt ein Titel in der Liste, wird für die ganze Reihe gezählt', halb[0]?.schedule.firstEpisodeNumber === undefined && halb[0]?.schedule.episodeCount === 2, halb[0]?.schedule)
   const hand = { titleId: 158871, platform: 'tv', sender: 'Super RTL' } as Release
   pruefe('ein Handeintrag beim selben Sender gewinnt', releasesAusTvProgramm([s('2026-09-15T16:05:00+02:00', 'A')], titles, [hand]).length === 0)
 }

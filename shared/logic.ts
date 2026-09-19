@@ -369,6 +369,13 @@ export function expandEvents(release: Release): ReleaseEvent[] {
 
   const events: ReleaseEvent[] = []
   for (let episode = first; episode <= last; episode++) {
+    /*
+      **Eine TV-Sichtung kennt nur die gesichteten Folgen** (19.09.2026). Seit die Nummern
+      aus der Wikipedia-Episodenliste kommen, hat die Zählung Lücken: Super RTL zeigte
+      Pokémon Horizonte werktags Folge 78–80 und samstags Folge 127. Aufgefüllt hätte
+      diese Schleife 46 Folgen auf den Samstag gelegt, die niemand gesendet hat.
+    */
+    if (release.tvLetzteSichtung && !s.observed?.[episode]) continue
     const date = dateOf(episode)
     if (skips.has(date)) continue
     /**
