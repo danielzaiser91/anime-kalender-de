@@ -4160,7 +4160,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const titel = (id: number, franchiseId: number, name: string): Title =>
     ({ id, franchiseId, slug: `t-${id}`, titleEn: name, streams: [], keywords: [], genres: [] }) as unknown as Title
   const kopfT = titel(1, 1, 'Reihe')
-  const teilT = titel(2, 1, 'Reihe Specials')
+  /* Mit deutschem Stream: „Neu auf Deutsch“ verlangt seit dem 19.09.2026, dass Deutsch an dem Tag zu sehen ist. */
+  const teilT = { ...titel(2, 1, 'Reihe Specials'), streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/X', dub: true }] } as unknown as Title
   const historie: NewsHistorie = { zuerst: {} }
   const raus = baueNews(
     [kopfT, teilT],
@@ -5027,6 +5028,11 @@ pruefe(
   /* Conan „Der gefallene Engel des Highways“ (19.09.2026): ein Kinostart wird keine „Ausgabe bei aniSearch“. */
   const bau = readFileSync('pipeline/build.ts', 'utf8')
   pruefe('ein deutscher Sprachblock auf dem Kinotermin legt keinen Disc-Weg an', /if \(imKino\) continue\s*const as = anisearch\[title\.id\]\?\.anisearchId/.test(bau))
+}
+{
+  /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */
+  const news = readFileSync('pipeline/lib/news.ts', 'utf8')
+  pruefe('„Neu auf Deutsch" verlangt einen deutschen Stream oder einen erreichten Termin', news.includes('if (!anbieter && !erreicht) continue'))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

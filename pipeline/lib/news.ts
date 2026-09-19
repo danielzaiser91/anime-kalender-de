@@ -85,14 +85,27 @@ export function baueNews(
 
   const kopf = (t: Title) => ({ titel: t })
 
-  /* 1. Erstmals mit deutscher Synchro. */
+  /*
+    1. Erstmals mit deutscher Synchro — **aber erst, wenn man sie an dem Tag auch sehen kann**
+    (Daniel, 19.09.2026, an „Witch on the Holy Night": „neu auf deutsch … sollten nur titel
+    bekommen die an dem tag auch deutsch sind, hier ist es eher eine ankündigung"). Die Synchro
+    war belegt, der Kinostart ist aber erst am 26.01.2027 — das sagt die Meldung „Im Kino" schon.
+    Sichtbar ist Deutsch mit einem Stream mit deutscher Tonspur oder mit einem erreichten Termin
+    (Kino, Disc, TV); die Meldung trägt dann dieses Datum, nicht den Tag, an dem wir die Synchro
+    fanden.
+  */
   for (const n of neuMitSynchro) {
     const t = nachId.get(n.id)
     if (!t) continue
     const anbieter = t.streams.find((s) => s.dub === true)?.platform
+    const erreicht = releases
+      .filter((r) => r.titleId === t.id && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
+      .map((r) => r.schedule!.firstEpisodeDate!)
+      .sort()[0]
+    if (!anbieter && !erreicht) continue
     roh.push({
       schluessel: `neu:${t.id}`,
-      fallback: n.seit,
+      fallback: anbieter || !erreicht || erreicht < n.seit ? n.seit : erreicht,
       art: 'neu',
       ...kopf(t),
       platform: anbieter,
