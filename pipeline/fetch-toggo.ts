@@ -117,11 +117,15 @@ if (adressen.size) log(`TOGGO: ${adressen.size} Figurenseite(n) auf die Seriense
   const schonDa = new Set([...jeSerie.values()].flat())
   let neu = 0
   for (const [id, treffer] of jeTitel) {
-    /* Zwei Serien für einen Titel (Pokémon Reisen + Meister-Reisen) — lieber keine als eine halbe. */
-    if (treffer.length !== 1 || schonDa.has(id)) continue
-    const s = treffer[0]!
-    jeSerie.set(s.id, [...new Set([...(jeSerie.get(s.id) ?? []), id])])
-    adressen.set(id, serienAdresse(s.figuren[0], s))
+    /*
+      Mehrere Serien für einen Titel: TOGGO teilt „Pokémon Reisen" (unsere 136 Folgen) in
+      Reisen (Staffel 23) und Meister-Reisen (Staffel 24). Alle werden geholt und die Folgen
+      zusammengeführt; verlinkt wird die erste. Überschneiden sich Staffeln, gilt die zuerst
+      geholte Folge (19.09.2026).
+    */
+    if (schonDa.has(id)) continue
+    for (const s of treffer) jeSerie.set(s.id, [...new Set([...(jeSerie.get(s.id) ?? []), id])])
+    adressen.set(id, serienAdresse(treffer[0]!.figuren[0], treffer[0]!))
     neu++
   }
   if (neu) log(`TOGGO: ${neu} Titel über den Katalog gefunden`)
@@ -160,7 +164,14 @@ for (const [serie, ids] of jeSerie) {
       const bis = Math.max(...fenster.map((x) => x[1]))
       folgen.push({ staffel: f.season_no ?? 1, folge: f.episode_no, ab: ortszeit(ab), bis: ortszeit(bis) })
     }
-    for (const id of ids) ergebnis.titel[String(id)] = { serie, ...(adressen.has(id) ? { adresse: adressen.get(id)! } : {}), folgen }
+    for (const id of ids) {
+      const da = ergebnis.titel[String(id)]
+      if (da) {
+        /* Zweite Serie desselben Titels: Folgen anhängen, die es noch nicht gibt. */
+        const schluessel = new Set(da.folgen.map((f) => `${f.staffel}|${f.folge}`))
+        da.folgen.push(...folgen.filter((f) => !schluessel.has(`${f.staffel}|${f.folge}`)))
+      } else ergebnis.titel[String(id)] = { serie, ...(adressen.has(id) ? { adresse: adressen.get(id)! } : {}), folgen }
+    }
     log(`TOGGO ${serie}: ${folgen.length} Folge(n) mit Fenster`)
   } catch (err) {
     fehler++
