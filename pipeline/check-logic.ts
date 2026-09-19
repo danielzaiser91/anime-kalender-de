@@ -27,6 +27,7 @@ import { verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../web/src/lib/kostenlos.ts'
+import { istPremiere } from '../web/src/lib/tv-angabe.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
 import { FSK_COLORS, PLATFORMS } from '../shared/types.ts'
 import {
@@ -5182,6 +5183,15 @@ pruefe(
   const liste = { name: 'YouTube', url: 'https://www.youtube.com/playlist?list=x', kind: 'stream', zugang: 'kostenlos' } as never
   pruefe('kostenlos: ohne Zahl „auch kostenlos", nie „teilweise"', kostenlosEtikett(kostenloseFolgen({ watchLinks: [toggo, liste] }, jetzt), 293) === 'auch')
   pruefe('kostenlos: kein freier Weg, kein Etikett', kostenloseFolgen({ watchLinks: [], streams: [] }, jetzt) === undefined)
+}
+{
+  /* Premiere/Wiederholung (Daniel, 19.09.2026) — Daima: YouTube nur Folge 1, RTL+ ab 25.09. */
+  const daima = { id: 170083, streams: [{ platform: 'youtube', url: 'y', dub: true, dubRanges: [{ from: 1, to: 1, dub: true }, { from: 2, to: 20, dub: false }] }] } as unknown as Title
+  const rtl = { slug: 'd-rtl', titleId: 170083, name: 'D', platform: 'rtlplus', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-09-25', episodeCount: 20 }, sources: ['x'] } as unknown as Release
+  pruefe('Premiere: Folge 16 vor dem RTL+-Start', istPremiere(16, '2026-09-16', daima, [rtl]))
+  pruefe('Wiederholung: Folge 1 steht auf YouTube', !istPremiere(1, '2026-09-16', daima, [rtl]))
+  pruefe('Wiederholung: nach dem RTL+-Termin der Folge', !istPremiere(1, '2026-10-01', { ...daima, streams: [] } as Title, [rtl]))
+  pruefe('Wiederholung: lief laut Episodenliste schon früher auf Deutsch', !istPremiere(16, '2026-09-16', daima, [rtl], { 16: '2025-05-01' }))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

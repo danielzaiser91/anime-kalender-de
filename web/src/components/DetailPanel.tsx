@@ -52,7 +52,8 @@ import {
 } from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { AnbieterIcon, anbieterDatei } from '../lib/anbieter-icon.tsx'
-import { toggoAngabe } from '../lib/toggo.ts'
+import { jetztBerlin, toggoAngabe } from '../lib/toggo.ts'
+import { tvAngabe } from '../lib/tv-angabe.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../lib/kostenlos.ts'
 
 const KEYWORD_PREVIEW = 8
@@ -2316,10 +2317,13 @@ function ReleasePille({
   release,
   titel,
   today,
+  tvText,
 }: {
   release: Release
   titel?: string
   today: string
+  /** Bei TV: „Fg. 16 · heute 21:15 · Premiere" (`lib/tv-angabe.ts`). */
+  tvText?: string
 }) {
   const { t } = useLang()
   /*
@@ -2394,7 +2398,9 @@ function ReleasePille({
               der nächste Sendetag, sonst die letzte Sichtung — „im TV am 23.09." über einer
               Reihe, die am 21.09. beginnt, las sich wie der erste Termin (19.09.2026).
             */
-            release.tvLetzteSichtung && release.platform !== 'tv'
+            tvText
+              ? tvText
+              : release.tvLetzteSichtung && release.platform !== 'tv'
               ? /* RTL+-Wochentermin: die jüngste Folge, nicht „im TV". */
                 t('detail.neuAm', { d: formatDate(release.tvLetzteSichtung) })
               : release.tvLetzteSichtung
@@ -4987,7 +4993,13 @@ export function DetailPanel({
                   )
                   .concat(
                     streamReleases.map((r) => (
-                      <ReleasePille key={r.slug} release={r} titel={anzeigeName(title)} today={today} />
+                      <ReleasePille
+                        key={r.slug}
+                        release={r}
+                        titel={anzeigeName(title)}
+                        today={today}
+                        tvText={tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16))}
+                      />
                     )),
                   )}
                 /*

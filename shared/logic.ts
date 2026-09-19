@@ -399,6 +399,8 @@ export function expandEvents(release: Release): ReleaseEvent[] {
     if (s.lastEpisodeDate && date > s.lastEpisodeDate) break
     events.push({
       ...base,
+      /* Lief eine TV-Sichtung zu verschiedenen Zeiten, trägt jede Folge ihre eigene. */
+      ...(s.zeiten?.[episode] ? { time: s.zeiten[episode] } : {}),
       id: `${release.slug}@${date}`,
       date,
       episode,

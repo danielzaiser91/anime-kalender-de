@@ -111,6 +111,14 @@ export function releasesAusTvProgramm(
     const wikiListe = wiki[String(erste.titleId)]
     const nummern = wikiListe?.folgen.length ? nummernNachTitel(wikiListe.folgen, !wikiListe.url) : undefined
     const zugeordnet = liste.map((s) => (s.folge ? nummern?.get(folgenKern(s.folge)) : undefined))
+    /* Erste deutsche Veröffentlichung je Folgentitel (EAD bzw. RTL+-Start) — für „Premiere/Wiederholung". */
+    const erstJeKern = new Map(
+      (wikiListe?.folgen ?? []).flatMap((f) => {
+        const d = f.ead ?? (f as { ab?: string }).ab
+        return d ? [[folgenKern(f.dt), d.slice(0, 10)] as const] : []
+      }),
+    )
+    const ersteDeutsch: Record<number, string> = {}
     let mitWiki = zugeordnet.every((x) => x !== undefined)
     let versatz = 0
     if (mitWiki && title.episodes && Math.max(...(zugeordnet as number[])) > title.episodes) {
@@ -121,10 +129,18 @@ export function releasesAusTvProgramm(
       } else mitWiki = false
     }
     const observed: Record<number, string> = {}
+    const zeitJeFolge: Record<number, string> = {}
     let n = 0
     let ab = 1
     if (mitWiki) {
-      liste.forEach((s, i) => (observed[zugeordnet[i]! - versatz] ??= berlinTag(s.start)))
+      liste.forEach((s, i) => {
+        const nr = zugeordnet[i]! - versatz
+        if (observed[nr]) return
+        observed[nr] = berlinTag(s.start)
+        zeitJeFolge[nr] = berlinZeit(s.start)
+        const erst = s.folge ? erstJeKern.get(folgenKern(s.folge)) : undefined
+        if (erst) ersteDeutsch[nr] = erst
+      })
       const nrn = Object.keys(observed).map(Number)
       ab = Math.min(...nrn)
       n = Math.max(...nrn) - ab + 1
@@ -136,6 +152,7 @@ export function releasesAusTvProgramm(
         if (gesehen.has(schluessel)) continue
         gesehen.add(schluessel)
         observed[++n] = berlinTag(s.start)
+        zeitJeFolge[n] = berlinZeit(s.start)
       }
     }
     /* Die Uhrzeit nur, wenn alle Sendungen um dieselbe liefen. */
@@ -150,13 +167,15 @@ export function releasesAusTvProgramm(
       releaseType: 'weekly',
       schedule: {
         firstEpisodeDate: berlinTag(erste.start),
-        ...(zeiten.size === 1 ? { time: [...zeiten][0] } : {}),
+        /* Eine Uhrzeit für alle, sonst je Folge (Daniel, 19.09.2026: „uhrzeit ist wichtig"). */
+        ...(zeiten.size === 1 ? { time: [...zeiten][0] } : { zeiten: zeitJeFolge }),
         ...(ab > 1 ? { firstEpisodeNumber: ab } : {}),
         episodeCount: n,
         observed,
       },
       tvLetzteSichtung: berlinTag(liste[liste.length - 1]!.start),
       ...(mitWiki ? { folgenBelegt: true } : {}),
+      ...(mitWiki && Object.keys(ersteDeutsch).length ? { ersteDeutsch } : {}),
       year: Number(erste.start.slice(0, 4)),
       ...(() => {
         const tvde = TVDE_NACH_NAME.get(erste.sender.toLowerCase())

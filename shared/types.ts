@@ -98,6 +98,8 @@ export interface Schedule {
    * Was hier steht, ist im Kalender gesehen worden und schlägt jede Rechnung.
    */
   observed?: Record<number, string>
+  /** Uhrzeit je Folge, wenn eine TV-Sichtung zu verschiedenen Zeiten lief (19.09.2026). */
+  zeiten?: Record<number, string>
   /**
    * **Bis zu welcher Folge der Anbieter belegt liefert — und an welchem Tag das geprüft wurde.**
    *
@@ -679,6 +681,11 @@ export interface Release {
    * sind echt — nicht unsere Zählung der gesehenen Titel (19.09.2026). Das Ende bleibt offen.
    */
   folgenBelegt?: boolean
+  /**
+   * Erste deutsche Veröffentlichung je Folge aus der Folgenliste (Wikipedia `EAD`, RTL+
+   * `uploadDate`) — liegt sie vor dem Sendetag, ist die TV-Sendung eine Wiederholung.
+   */
+  ersteDeutsch?: Record<number, string>
 }
 
 export interface ReleaseEvent {
