@@ -782,3 +782,7 @@ Abfrage", sondern **„wie oft läuft sie, und liest sie jedes Mal dasselbe?"** 
 Index beantwortet die erste Frage. Die zweite beantwortet nur, wer aufhört zu
 fragen.
 
+
+## Nach der Prüfkette nur die erzeugten Bilder zurücksetzen, nicht ganz `docs/` (19.09.2026)
+
+`check:vor-commit`, `check:ansichten` und `check:panel` schreiben `docs/*.png` neu. Wer danach `git checkout -- docs` und `git clean -fq docs/` fährt, verwirft auch, was gerade von Hand in `docs/wissen/` ergänzt wurde oder als neue Datei unter `docs/` liegt — am 19.09.2026 zweimal passiert (ein Abschnitt in `quellen.md`, beinahe die Kandidatenliste). Zurückgesetzt wird nur `git checkout -- "docs/*.png"` und `git clean -fq docs/ -e wissen -e "*.md"`; Wissens-Einträge werden **vor** der Prüfkette committet.
