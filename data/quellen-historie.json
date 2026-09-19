@@ -1149,12 +1149,26 @@
       "gesehenAm": "2026-09-19",
       "sagt": "2026-08-25",
       "stand": "aktuell"
+    },
+    {
+      "url": "https://www.kinoheld.de/film/sen-to-chihiro-no-kamikakushi",
+      "name": "kinoheld.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-08-25",
+      "stand": "aktuell"
     }
   ],
   "a-new-dawn-kino": [
     {
       "url": "https://www.anime2you.de/news/1036946/a-new-dawn-deutscher-kinostart/",
       "name": "anime2you.de",
+      "gesehenAm": "2026-09-19",
+      "sagt": "2026-10-15",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.kinoheld.de/film/a-new-dawn",
+      "name": "kinoheld.de",
       "gesehenAm": "2026-09-19",
       "sagt": "2026-10-15",
       "stand": "aktuell"
