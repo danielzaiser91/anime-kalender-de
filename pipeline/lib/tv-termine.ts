@@ -14,7 +14,10 @@
  *   gewinnt; er kennt die Folgennummern.
  */
 import type { Release, Title } from '../../shared/types.ts'
-import type { TvSendung } from '../fetch-tv-programm.ts'
+import { TVDE_SENDER, type TvSendung } from '../fetch-tv-programm.ts'
+
+/* Quelle je Sender: die RTL-Gruppe aus dem RTL+-Programm, alle übrigen aus tv.de (19.09.2026). */
+const TVDE_NACH_NAME = new Map(Object.entries(TVDE_SENDER).map(([slug, name]) => [name.toLowerCase(), slug]))
 
 const berlinTag = (iso: string) => iso.slice(0, 10)
 const berlinZeit = (iso: string) => iso.slice(11, 16)
@@ -71,9 +74,19 @@ export function releasesAusTvProgramm(
       },
       tvLetzteSichtung: berlinTag(liste[liste.length - 1]!.start),
       year: Number(erste.start.slice(0, 4)),
-      herkunft: `Automatisch aus dem TV-Programm von RTL+ (${liste.length} Sendungen gesichtet).`,
+      ...(() => {
+        const tvde = TVDE_NACH_NAME.get(erste.sender.toLowerCase())
+        return tvde
+          ? {
+              herkunft: `Automatisch aus dem TV-Programm von tv.de (${liste.length} Sendungen gesichtet).`,
+              sources: [`https://tv.de/sender/${tvde}/`],
+            }
+          : {
+              herkunft: `Automatisch aus dem TV-Programm von RTL+ (${liste.length} Sendungen gesichtet).`,
+              sources: ['https://plus.rtl.de/tv-programm'],
+            }
+      })(),
       automatisch: true,
-      sources: ['https://plus.rtl.de/tv-programm'],
     })
   }
   return aus

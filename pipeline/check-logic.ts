@@ -111,7 +111,7 @@ import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
-import { namensKern, sendungenAusSeite, titelZuordnen } from './fetch-tv-programm.ts'
+import { namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -5038,6 +5038,19 @@ pruefe(
   /* Beyblade X (19.09.2026): eine automatische TV-Sichtung verdrängt keinen belegten deutschen Stream. */
   const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
   pruefe('eine automatische TV-Sichtung bestimmt den Kasten nicht, wenn die Synchro schon gestreamt wird', panel.includes("!(hatSynchro && r.platform === 'tv' && r.automatisch)"))
+}
+{
+  /* tv.de (19.09.2026): nur „Animeserie", Tageswechsel nach Mitternacht, Ende = nächster Beginn. */
+  const eintrag = (zeit: string, id: string, reihe: string, folge: string, art: string) =>
+    `<section class="tw-flex tw-flex-row x"><span class="tw-uppercase y">${zeit}</span><a href="/sendung/r/s,${id}/"><header><h3 class="z"> ${reihe}<span class="w">: ${folge}</span> </h3></header><span class="max-sm:tw-hidden tw-text-body-2">${art}</span></a></section>`
+  const seite =
+    eintrag('23:40', '1', 'Dragon Ball Super', 'Finale', 'Animeserie') +
+    eintrag('00:30', '2', 'SpongeBob', 'Quallen', 'Zeichentrickserie') +
+    eintrag('00:55', '3', 'One Piece', 'Zou &amp; Co', 'Animeserie')
+  const g = tvDeSendungen(seite, '2026-09-19')
+  pruefe('tv.de: nur Anime, Zeichentrick fällt heraus', g.length === 2 && g.every((x) => x.titel !== 'SpongeBob'), JSON.stringify(g.map((x) => x.titel)))
+  pruefe('tv.de: nach Mitternacht ist der nächste Tag', g[1]?.start === '2026-09-20T00:55:00+02:00', g[1]?.start)
+  pruefe('tv.de: Folgentitel und Zeichen stimmen', g[1]?.folge === 'Zou & Co' && g[0]?.titel === 'Dragon Ball Super', JSON.stringify(g[1]))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

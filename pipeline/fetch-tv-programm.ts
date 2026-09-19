@@ -89,26 +89,103 @@ export function sendungenAusSeite(html: string): { start: string; ende: string; 
 }
 
 /** Ordnet einen Sendungstitel einem Titel des Bestands zu — nur wörtlich. */
+/*
+  **Zweite Programmquelle: tv.de** (19.09.2026, `docs/recherche-tv-quellen-2026-09-19.md`).
+  Das RTL+-Programm kennt nur die RTL-Gruppe; „Dragon Ball Super" läuft aber auf ProSieben MAXX
+  (Daniel, 19.09.2026: „warum führen wir die nicht?"). Dessen eigene Programmseite leitet auf
+  Joyn um (robots `Disallow: /`); tv.de zeigt alle großen Sender rund 14 Tage voraus, robots
+  `User-agent: * Allow: /`, die AGB verbieten automatisierten Abruf nicht. Auflagen aus der
+  Recherche: nur Anime aus unserem Bestand übernehmen, Zeit und Folgentitel, keine Inhaltstexte,
+  tv.de als Quelle nennen, einmal täglich.
+
+  Ein Programmtag läuft bei tv.de von etwa 05:00 bis 05:00 — die Nacht auf den 20.09. steht auf
+  der Seite vom 19.09. Sinkt die Uhrzeit gegenüber der vorigen Sendung, ist der nächste
+  Kalendertag erreicht. Das Ende ist der Beginn der nächsten Sendung.
+
+  **Nur, was tv.de selbst als Anime führt.** Der Namensabgleich allein ordnete im Probelauf
+  (19.09.2026) Disneys „Alice im Wunderland" unserem Anime gleichen Namens zu und KiKAs neuere
+  Fassungen von „Nils Holgersson" und „Belle und Sebastian" den alten Anime-Serien. Die Zeile
+  unter dem Titel („Animeserie", „Zeichentrickserie", …) entscheidet.
+
+  **Bekannte Lücke:** Nachtblöcke fehlen auf den Tagesseiten (Dragon Ball Super, Folge 116–121
+  in der Nacht zum 20.09.); sie stehen nur auf den Detailseiten unter „weitere Sendetermine".
+*/
+export const TVDE_SENDER: Record<string, string> = {
+  'prosieben-maxx': 'ProSieben MAXX',
+  nickelodeon: 'Nickelodeon',
+  kika: 'KiKA',
+  'disney-channel': 'Disney Channel',
+}
+
+/** Berliner Zeitversatz eines Tages als „+02:00". */
+function berlinVersatz(tag: string): string {
+  const teil = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', timeZoneName: 'shortOffset' })
+    .formatToParts(new Date(`${tag}T12:00:00Z`))
+    .find((x) => x.type === 'timeZoneName')?.value ?? 'GMT+1'
+  const m = /GMT([+-])(\d+)/.exec(teil)
+  return m ? `${m[1]}${m[2]!.padStart(2, '0')}:00` : '+01:00'
+}
+
+const tagDanach = (tag: string) => new Date(Date.parse(`${tag}T12:00:00Z`) + 864e5).toISOString().slice(0, 10)
+
+export function tvDeSendungen(html: string, tag: string): { start: string; ende: string; titel: string; folge?: string; kennung: string }[] {
+  const roh: { start: string; titel: string; folge?: string; kennung: string }[] = []
+  let datum = tag
+  let vorher = -1
+  for (const block of html.split(/<section class="tw-flex tw-flex-row/).slice(1)) {
+    const zeit = /tw-uppercase[^>]*>(\d{2}):(\d{2})<\/span>/.exec(block)
+    const link = /href="\/sendung\/[^"]*,(\d+)\/"/.exec(block)
+    const kopf = /<h3[^>]*>([\s\S]*?)<\/h3>/.exec(block)
+    const art = /<\/header>\s*<span[^>]*>([^<]*)<\/span>/.exec(block)?.[1] ?? ''
+    if (!zeit || !link || !kopf) continue
+    const minuten = Number(zeit[1]) * 60 + Number(zeit[2])
+    if (vorher >= 0 && minuten < vorher) datum = tagDanach(datum)
+    vorher = minuten
+    if (!/anime/i.test(art)) continue
+    const innen = kopf[1]!
+    const reihe = innen.replace(/<span[\s\S]*$/, '').replace(/<[^>]+>/g, '').trim()
+    const zusatz = /<span[^>]*>([\s\S]*?)<\/span>/.exec(innen)?.[1]?.replace(/<[^>]+>/g, '').replace(/^\s*:\s*/, '').trim()
+    roh.push({
+      start: `${datum}T${zeit[1]}:${zeit[2]}:00${berlinVersatz(datum)}`,
+      titel: entities(reihe),
+      ...(zusatz ? { folge: entities(zusatz) } : {}),
+      kennung: link[1]!,
+    })
+  }
+  return roh.map((r, i) => ({ ...r, ende: roh[i + 1]?.start ?? r.start }))
+}
+
+function entities(s: string): string {
+  return s
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;|&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ')
+}
+
 export function titelZuordnen(sendung: string, namen: Map<string, number>): number | undefined {
   const kern = namensKern(sendung)
   return namen.get(kern) ?? namen.get(kern.replace(/ die serie$/, ''))
 }
 
 export async function main(): Promise<void> {
+  /* Fällt eine Quelle aus, arbeitet die andere weiter — gemeldet wird trotzdem. */
+  let sendungen: ReturnType<typeof sendungenAusSeite> = []
   const r = await fetch('https://plus.rtl.de/tv-programm', { headers: { 'User-Agent': UA, 'Accept-Language': 'de-DE' } })
   if (!r.ok) {
     warn(`RTL+-Programm: HTTP ${r.status}`)
     recordSource('tv-programm', 0, `HTTP ${r.status}`)
     process.exitCode = 1
-    return
-  }
-  const sendungen = sendungenAusSeite(await r.text())
-  log(`${sendungen.length} Sendungen im RTL+-Programm.`)
-  if (!sendungen.length) {
-    warn('Keine Sendung gelesen — hat RTL+ die Seite umgebaut?')
-    recordSource('tv-programm', 0, 'keine Sendung gelesen')
-    process.exitCode = 1
-    return
+  } else {
+    sendungen = sendungenAusSeite(await r.text())
+    log(`${sendungen.length} Sendungen im RTL+-Programm.`)
+    if (!sendungen.length) {
+      warn('Keine Sendung gelesen — hat RTL+ die Seite umgebaut?')
+      recordSource('tv-programm', 0, 'keine Sendung gelesen')
+      process.exitCode = 1
+    }
   }
 
   const roh = readJson<Title[] | Record<string, Title>>('public/data/titles.json', [])
@@ -128,7 +205,8 @@ export async function main(): Promise<void> {
   /* Ein Name, der zwei Titeln gehört, ordnet nichts zu. */
   for (const k of doppelt) namen.delete(k)
 
-  const bestand = readJson<{ sendungen?: Record<string, TvSendung> }>(DATEI, {}).sendungen ?? {}
+  const datei = readJson<{ sendungen?: Record<string, TvSendung>; tvdeGeholtAm?: string }>(DATEI, {})
+  const bestand = datei.sendungen ?? {}
   const heute = new Date().toISOString().slice(0, 10)
   let neu = 0
   for (const s of sendungen) {
@@ -147,14 +225,62 @@ export async function main(): Promise<void> {
     }
     log(`  ${SENDER[code] ?? code} ${s.start.slice(0, 16)} ${s.titel}${s.folge ? ` — ${s.folge}` : ''} → ${titleId}`)
   }
+  /*
+    tv.de: gestern (für die Nacht auf heute) bis in sieben Tagen, je Sender und Tag ein Abruf —
+    und nur **einmal am Tag** (Auflage aus der Recherche), obwohl dieser Lauf stündlich startet.
+  */
+  let tvde = 0
+  let tvdeSeiten = 0
+  const tvdeFaellig = datei.tvdeGeholtAm !== heute || process.argv.includes('--tvde')
+  if (!tvdeFaellig) log(`tv.de heute schon geholt (${datei.tvdeGeholtAm}) — übersprungen.`)
+  for (let d = -1; tvdeFaellig && d <= 7; d++) {
+    const tag = new Date(Date.now() + d * 864e5).toISOString().slice(0, 10)
+    const [j, m, t] = tag.split('-')
+    for (const [slug, name] of Object.entries(TVDE_SENDER)) {
+      try {
+        const antwort = await fetch(`https://tv.de/sender/${slug}/${t}.${m}.${j}/`, {
+          headers: { 'User-Agent': 'anime-kalender-de (https://anime-kalender.de; einmal am Tag, nur Anime)' },
+        })
+        if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
+        tvdeSeiten++
+        for (const s of tvDeSendungen(await antwort.text(), tag)) {
+          const titleId = titelZuordnen(s.titel, namen)
+          if (!titleId) continue
+          const kennung = `tvde_${slug}+${s.kennung}`
+          if (!bestand[kennung]) neu++
+          tvde++
+          bestand[kennung] = {
+            titleId,
+            titel: s.titel,
+            ...(s.folge ? { folge: s.folge } : {}),
+            sender: name,
+            start: s.start,
+            ende: s.ende,
+            gesehenAm: bestand[kennung]?.gesehenAm ?? heute,
+          }
+          log(`  ${name} ${s.start.slice(0, 16)} ${s.titel}${s.folge ? ` — ${s.folge}` : ''} → ${titleId} (tv.de)`)
+        }
+      } catch (err) {
+        warn(`tv.de ${slug} ${tag}: ${err instanceof Error ? err.message : String(err)}`)
+      }
+      await new Promise((ok) => setTimeout(ok, 1500))
+    }
+  }
+  log(`tv.de: ${tvdeSeiten} Seiten, ${tvde} Anime-Sendungen aus dem Bestand.`)
+
   /* 120 Tage reichen für jede Staffel; ältere Sendungen fallen heraus. */
   const grenze = new Date(Date.now() - 120 * 864e5).toISOString().slice(0, 10)
   for (const [k, v] of Object.entries(bestand)) if (v.start.slice(0, 10) < grenze) delete bestand[k]
 
   log(`${neu} neue Anime-Sendungen, ${Object.keys(bestand).length} im Bestand.`)
   if (TROCKEN) return
-  writeJson(DATEI, { geholtAm: new Date().toISOString(), sendungen: bestand })
-  recordSource('tv-programm', sendungen.length)
+  writeJson(DATEI, {
+    geholtAm: new Date().toISOString(),
+    tvdeGeholtAm: tvdeSeiten ? heute : datei.tvdeGeholtAm,
+    sendungen: bestand,
+  })
+  if (sendungen.length) recordSource('tv-programm', sendungen.length)
+  if (tvdeFaellig) recordSource('tv-de', tvde, tvdeSeiten ? undefined : 'keine Seite gelesen', tvdeSeiten, tvdeSeiten > 0)
 }
 
 if (process.argv[1]?.replace(/\\/g, '/').endsWith('pipeline/fetch-tv-programm.ts')) await main()
