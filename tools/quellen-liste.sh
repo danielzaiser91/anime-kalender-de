@@ -18,6 +18,8 @@ QUELLEN=(
   data/wikidata-titel.json
   data/titel-de.yaml
   data/synchro-von-hand.yaml
+  # „Auf Deutsch seit" von Hand, wo aniSearchs Datum den Untertitel-Start meint (19.09.2026).
+  data/erstausgabe-von-hand.yaml
   data/termine-verpasst.json
   data/tonspur-verdacht.json
   data/motn-tonspur.json

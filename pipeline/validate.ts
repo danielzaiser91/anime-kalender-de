@@ -68,7 +68,7 @@ function main(): void {
    * Geprüft wird nur, ob sich die Datei lesen lässt — der Inhalt hat seine
    * eigenen Prüfungen an der Stelle, die ihn benutzt.
    */
-  for (const datei of ['data/dub-confirmed.yaml', 'data/watch-links.yaml', 'data/synchro-von-hand.yaml']) {
+  for (const datei of ['data/dub-confirmed.yaml', 'data/watch-links.yaml', 'data/synchro-von-hand.yaml', 'data/erstausgabe-von-hand.yaml']) {
     const pfad = resolve(ROOT, datei)
     if (!existsSync(pfad)) continue
     try {

@@ -1,0 +1,16 @@
+# Deutsche Erstausgabe von Hand — wo aniSearchs Datum nicht die Synchro meint (19.09.2026).
+#
+# aniSearch führt am deutschen Block manchmal den Start mit Untertiteln (Stream) samt
+# Synchro-Marke; eine allgemeine Regel lässt sich daraus nicht bauen — dieselbe Form haben
+# echte TV-Premieren mit Synchro (Pokémon Schwarz & Weiß Staffel 2, Yu-Gi-Oh! Zexal II).
+# Ein Eintrag hier ersetzt „Auf Deutsch seit" und braucht mindestens eine Quelle.
+
+# Synchro exklusiv auf DVD/Blu-ray (AniMoon, „exklusiv auf DVD & Blu-ray"), Vol. 1 am
+# 12.09.2025; aniSearchs 23.04.–14.05.2025 ist der Start mit Untertiteln bei Prime Video.
+- anilistId: 176158
+  title: 'Beheneko: Ich bin ein mächtiger Behemoth und lebe als Kätzchen bei einer Elfe'
+  von: '2025-09-12'
+  publisher: 'AniMoon Publishing GmbH'
+  sources:
+    - https://x.com/AniMoonAnime/status/1925946111379870000
+    - https://animoon-publishing.de/products/beheneko-vol-1

@@ -2477,3 +2477,7 @@ Daniel fand Beyblade Burst QuadStrike auf TOGGO (Staffel 7), bei uns stand „No
 ### tv.de-Tagesseiten lassen die Nacht aus — die Detailseite nicht (19.09.2026)
 
 ProSieben MAXX am 19.09.2026: Die Tagesseite endet um 22:10, die des 20.09. beginnt um 04:15; nachgeladen wird nichts (Netzwerkverkehr im Browser gelesen: nur das HTML). Dazwischen liefen zehn Folgen Dragon Ball Super. Die Detailseite jeder Sendung führt unter „Bald im TV" alle kommenden Termine der Reihe beim Sender, Nacht inklusive, mit „Reihe: Folgentitel" und „Morgen, 00:30 - 01:00 Uhr" bzw. „21.09., 17:05 - 17:30 Uhr". `baldImTv()` in `pipeline/fetch-tv-programm.ts` liest sie, einmal täglich je gesichteter Reihe und Sender (Stand 19.09.: 7 Abrufe).
+
+### aniSearchs deutscher Block kann der Untertitel-Start sein — samt Synchro-Marke (19.09.2026)
+
+Beheneko: aniSearch führt „Deutsch 23.04.–14.05.2025, AniMoon, synchronisiert"; AniMoon selbst kündigt die Synchro „exklusiv auf DVD & Blu-ray" an, Vol. 1 am 12.09.2025, Prime Video hatte nur Untertitel. Eine allgemeine Regel (Zeitraum vor der ersten Disc → Untertitel) wurde gemessen und verworfen: von 8 Treffern sind mindestens 2 echte TV-Premieren mit Synchro (Pokémon Schwarz & Weiß Staffel 2 2012/13, Yu-Gi-Oh! Zexal II 2014/15). Korrigiert wird deshalb einzeln in `data/erstausgabe-von-hand.yaml` (Quelle Pflicht, `check:logic` prüft sie).

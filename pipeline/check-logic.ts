@@ -5202,5 +5202,11 @@ pruefe(
   pruefe('„Bald im TV": Morgen 00:30 ist der nächste Tag', b[0]?.start === '2026-09-20T00:30:00+02:00' && b[0]?.folge === 'Das Zeichen der Wende!', b[0])
   pruefe('„Bald im TV": ein Ende nach Mitternacht liegt am Folgetag', b[1]?.start.startsWith('2026-09-21T23:50') && b[1]?.ende.startsWith('2026-09-22T00:15'), b[1])
 }
+{
+  /* „Auf Deutsch seit" von Hand (19.09.2026): jeder Eintrag mit Tagesdatum und Quelle; Beheneko bleibt beim Disc-Start. */
+  const eh = (yaml.load(readFileSync('data/erstausgabe-von-hand.yaml', 'utf8')) ?? []) as { anilistId?: number; von?: string; sources?: string[] }[]
+  pruefe('Erstausgabe von Hand: Tagesdatum und Quelle je Eintrag', eh.every((e) => e.anilistId && /^\d{4}-\d{2}-\d{2}$/.test(e.von ?? '') && (e.sources?.length ?? 0) > 0))
+  pruefe('Beheneko: deutsch seit dem Disc-Start 12.09.2025, nicht seit dem Untertitel-Start', eh.some((e) => e.anilistId === 176158 && e.von === '2025-09-12'))
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

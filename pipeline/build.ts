@@ -5215,6 +5215,19 @@ function main(): void {
       ausWiki++
     }
     if (ausWiki) log(`${ausWiki} deutsche Erstausstrahlungen aus Wikipedia-Episodenlisten`)
+
+    /* Von Hand, wo aniSearchs Datum nicht die Synchro meint (`data/erstausgabe-von-hand.yaml`). */
+    const vonHand = (yaml.load(readFileSync(resolve(ROOT, 'data/erstausgabe-von-hand.yaml'), 'utf8')) ?? []) as {
+      anilistId?: number
+      von?: string
+      publisher?: string
+      sources?: string[]
+    }[]
+    for (const e of vonHand) {
+      const title = e.anilistId ? titles.get(e.anilistId) : undefined
+      if (!title || !e.von || !e.sources?.length) continue
+      title.deErstausgabe = { von: e.von, ...(e.publisher ? { publisher: e.publisher } : {}), synchro: true }
+    }
   }
 
   /**
