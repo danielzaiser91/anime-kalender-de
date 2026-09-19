@@ -8,67 +8,61 @@ X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260916
-DTEND;VALUE=DATE:20260917
+DTSTART:20260916T140500Z
+DTEND:20260916T143500Z
 SUMMARY:Pokémon Horizonte – Folge 78/127
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nUhr
- zeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/
- auto-158871-tv-super-rtl
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-158871-tv-toggo-plus@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260916
-DTEND;VALUE=DATE:20260917
+DTSTART:20260916T150500Z
+DTEND:20260916T153500Z
 SUMMARY:Pokémon Horizonte – Folge 78/127
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release
- /auto-158871-tv-toggo-plus
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-09-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260917
-DTEND;VALUE=DATE:20260918
+DTSTART:20260917T140500Z
+DTEND:20260917T143500Z
 SUMMARY:Pokémon Horizonte – Folge 79/127
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nUhr
- zeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/
- auto-158871-tv-super-rtl
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-158871-tv-toggo-plus@2026-09-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260917
-DTEND;VALUE=DATE:20260918
+DTSTART:20260917T150500Z
+DTEND:20260917T153500Z
 SUMMARY:Pokémon Horizonte – Folge 79/127
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release
- /auto-158871-tv-toggo-plus
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-09-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
+DTSTART:20260918T140500Z
+DTEND:20260918T143500Z
 SUMMARY:Pokémon Horizonte – Folge 80/127
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nUhr
- zeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/
- auto-158871-tv-super-rtl
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-158871-tv-toggo-plus@2026-09-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
+DTSTART:20260918T150500Z
+DTEND:20260918T153500Z
 SUMMARY:Pokémon Horizonte – Folge 80/127
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release
- /auto-158871-tv-toggo-plus
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
@@ -85,45 +79,41 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-09-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260919
-DTEND;VALUE=DATE:20260920
+DTSTART:20260919T110000Z
+DTEND:20260919T113000Z
 SUMMARY:Pokémon Horizonte – Folge 127/127
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nUhr
- zeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/
- auto-158871-tv-super-rtl
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-158871-tv-toggo-plus@2026-09-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260919
-DTEND;VALUE=DATE:20260920
+DTSTART:20260919T120000Z
+DTEND:20260919T123000Z
 SUMMARY:Pokémon Horizonte – Folge 127/127
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release
- /auto-158871-tv-toggo-plus
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-165159-tv-toggo-plus@2026-09-19#115@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260919
-DTEND;VALUE=DATE:20260920
+DTSTART:20260919T182500Z
+DTEND:20260919T185500Z
 SUMMARY:Beyblade X – Folge 115/116
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release
- /auto-165159-tv-toggo-plus
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-165159-tv-toggo-plus
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-165159-tv-toggo-plus@2026-09-19#116@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260919
-DTEND;VALUE=DATE:20260920
+DTSTART:20260919T184500Z
+DTEND:20260919T191500Z
 SUMMARY:Beyblade X – Folge 116/116
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release
- /auto-165159-tv-toggo-plus
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-165159-tv-toggo-plus
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT

@@ -84,23 +84,41 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-09-24#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260924
-DTEND;VALUE=DATE:20260925
+DTSTART:20260924T151000Z
+DTEND:20260924T154000Z
 SUMMARY:Dragon Ball – Folge 1/4
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-223-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-09-24#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260924
-DTEND;VALUE=DATE:20260925
+DTSTART:20260924T153500Z
+DTEND:20260924T160500Z
 SUMMARY:Dragon Ball – Folge 2/4
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-223-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-09-25#3@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T151000Z
+DTEND:20260925T154000Z
+SUMMARY:Dragon Ball – Folge 3/4
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-09-25#4@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T153500Z
+DTEND:20260925T160500Z
+SUMMARY:Dragon Ball – Folge 4/4
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -114,28 +132,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/st
  eel-ball-run-2nd-3rd-stage
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-25#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Dragon Ball – Folge 3/4
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-223-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-25#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Dragon Ball – Folge 4/4
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-223-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-09-26@anime-kalender-de

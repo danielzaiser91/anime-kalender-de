@@ -179,23 +179,73 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-20#134@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260920
-DTEND;VALUE=DATE:20260921
+DTSTART:20260920T021500Z
+DTEND:20260920T024500Z
 SUMMARY:Detektiv Conan – Folge 134/143
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-20#135@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260920
-DTEND;VALUE=DATE:20260921
+DTSTART:20260920T024000Z
+DTEND:20260920T031000Z
 SUMMARY:Detektiv Conan – Folge 135/143
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21175-tv-prosieben-maxx@2026-09-21#126@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260921T150500Z
+DTEND:20260921T153500Z
+SUMMARY:Dragon Ball Super – Folge 126/131
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21175-tv-prosieben-max
+ x
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21175-tv-prosieben-maxx@2026-09-21#127@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260921T153000Z
+DTEND:20260921T160000Z
+SUMMARY:Dragon Ball Super – Folge 127/131
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21175-tv-prosieben-max
+ x
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-09-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260921T155500Z
+DTEND:20260921T162500Z
+SUMMARY:Detektiv Conan – Folge 139/143
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-21#770@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260921T162500Z
+DTEND:20260921T165500Z
+SUMMARY:One Piece – Folge 770/779
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-21#771@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260921T165000Z
+DTEND:20260921T172000Z
+SUMMARY:One Piece – Folge 771/779
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -209,58 +259,55 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-21@anime-kalender-de
+UID:auto-21175-tv-prosieben-maxx@2026-09-22#128@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260921
-DTEND;VALUE=DATE:20260922
-SUMMARY:Detektiv Conan – Folge 139/143
+DTSTART:20260922T150500Z
+DTEND:20260922T153500Z
+SUMMARY:Dragon Ball Super – Folge 128/131
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-21175-tv-prosieben-max
+ x
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21175-tv-prosieben-maxx@2026-09-21#126@anime-kalender-de
+UID:auto-21175-tv-prosieben-maxx@2026-09-22#129@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260921
-DTEND;VALUE=DATE:20260922
-SUMMARY:Dragon Ball Super – Folge 126/131
+DTSTART:20260922T153500Z
+DTEND:20260922T160500Z
+SUMMARY:Dragon Ball Super – Folge 129/131
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21175-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-21175-tv-prosieben-max
+ x
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21175-tv-prosieben-maxx@2026-09-21#127@anime-kalender-de
+UID:auto-235-tv-prosieben-maxx@2026-09-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260921
-DTEND;VALUE=DATE:20260922
-SUMMARY:Dragon Ball Super – Folge 127/131
+DTSTART:20260922T160000Z
+DTEND:20260922T163000Z
+SUMMARY:Detektiv Conan – Folge 140/143
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21175-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-21#770@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-22#772@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260921
-DTEND;VALUE=DATE:20260922
-SUMMARY:One Piece – Folge 770/779
+DTSTART:20260922T162500Z
+DTEND:20260922T165500Z
+SUMMARY:One Piece – Folge 772/779
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-21#771@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-22#773@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260921
-DTEND;VALUE=DATE:20260922
-SUMMARY:One Piece – Folge 771/779
+DTSTART:20260922T165000Z
+DTEND:20260922T172000Z
+SUMMARY:One Piece – Folge 773/779
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -274,58 +321,75 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-22@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-23#765@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260922
-DTEND;VALUE=DATE:20260923
-SUMMARY:Detektiv Conan – Folge 140/143
+DTSTART:20260923T022500Z
+DTEND:20260923T025500Z
+SUMMARY:One Piece – Folge 765/779
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21175-tv-prosieben-maxx@2026-09-22#128@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-23#766@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260922
-DTEND;VALUE=DATE:20260923
-SUMMARY:Dragon Ball Super – Folge 128/131
+DTSTART:20260923T025000Z
+DTEND:20260923T032000Z
+SUMMARY:One Piece – Folge 766/779
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21175-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21175-tv-prosieben-maxx@2026-09-22#129@anime-kalender-de
+UID:auto-21175-tv-prosieben-maxx@2026-09-23#130@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260922
-DTEND;VALUE=DATE:20260923
-SUMMARY:Dragon Ball Super – Folge 129/131
+DTSTART:20260923T150500Z
+DTEND:20260923T153500Z
+SUMMARY:Dragon Ball Super – Folge 130/131
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21175-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-21175-tv-prosieben-max
+ x
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-22#772@anime-kalender-de
+UID:auto-21175-tv-prosieben-maxx@2026-09-23#131@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260922
-DTEND;VALUE=DATE:20260923
-SUMMARY:One Piece – Folge 772/779
+DTSTART:20260923T153000Z
+DTEND:20260923T160000Z
+SUMMARY:Dragon Ball Super – Folge 131/131
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-21175-tv-prosieben-max
+ x
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-22#773@anime-kalender-de
+UID:auto-235-tv-prosieben-maxx@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260922
-DTEND;VALUE=DATE:20260923
-SUMMARY:One Piece – Folge 773/779
+DTSTART:20260923T155500Z
+DTEND:20260923T162500Z
+SUMMARY:Detektiv Conan – Folge 141/143
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-23#774@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260923T162000Z
+DTEND:20260923T165000Z
+SUMMARY:One Piece – Folge 774/779
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-23#775@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260923T165000Z
+DTEND:20260923T172000Z
+SUMMARY:One Piece – Folge 775/779
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -341,135 +405,147 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260923
-DTEND;VALUE=DATE:20260924
-SUMMARY:Detektiv Conan – Folge 141/143
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21175-tv-prosieben-maxx@2026-09-23#130@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260923
-DTEND;VALUE=DATE:20260924
-SUMMARY:Dragon Ball Super – Folge 130/131
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21175-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21175-tv-prosieben-maxx@2026-09-23#131@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260923
-DTEND;VALUE=DATE:20260924
-SUMMARY:Dragon Ball Super – Folge 131/131
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21175-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#765@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260923
-DTEND;VALUE=DATE:20260924
-SUMMARY:One Piece – Folge 765/779
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#766@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260923
-DTEND;VALUE=DATE:20260924
-SUMMARY:One Piece – Folge 766/779
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#774@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260923
-DTEND;VALUE=DATE:20260924
-SUMMARY:One Piece – Folge 774/779
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#775@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260923
-DTEND;VALUE=DATE:20260924
-SUMMARY:One Piece – Folge 775/779
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260924
-DTEND;VALUE=DATE:20260925
-SUMMARY:Detektiv Conan – Folge 142/143
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-24#776@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260924
-DTEND;VALUE=DATE:20260925
-SUMMARY:One Piece – Folge 776/779
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-24#777@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260924
-DTEND;VALUE=DATE:20260925
-SUMMARY:One Piece – Folge 777/779
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-09-24#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260924
-DTEND;VALUE=DATE:20260925
+DTSTART:20260924T151000Z
+DTEND:20260924T154000Z
 SUMMARY:Dragon Ball – Folge 1/4
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-223-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-09-24#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260924
-DTEND;VALUE=DATE:20260925
+DTSTART:20260924T153500Z
+DTEND:20260924T160500Z
 SUMMARY:Dragon Ball – Folge 2/4
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-223-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-09-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260924T160000Z
+DTEND:20260924T163000Z
+SUMMARY:Detektiv Conan – Folge 142/143
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-24#776@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260924T162500Z
+DTEND:20260924T165500Z
+SUMMARY:One Piece – Folge 776/779
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-24#777@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260924T165000Z
+DTEND:20260924T172000Z
+SUMMARY:One Piece – Folge 777/779
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-09-25#3@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T151000Z
+DTEND:20260925T154000Z
+SUMMARY:Dragon Ball – Folge 3/4
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-09-25#4@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T153500Z
+DTEND:20260925T160500Z
+SUMMARY:Dragon Ball – Folge 4/4
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-09-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T155500Z
+DTEND:20260925T162500Z
+SUMMARY:Detektiv Conan – Folge 143/143
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-25#778@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T162500Z
+DTEND:20260925T165500Z
+SUMMARY:One Piece – Folge 778/779
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-25#779@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T165000Z
+DTEND:20260925T172000Z
+SUMMARY:One Piece – Folge 779/779
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-178025-tv-prosieben-maxx@2026-09-25#16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T202500Z
+DTEND:20260925T205500Z
+SUMMARY:Gachiakuta – Folge 16/18
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-178025-tv-prosieben-maxx@2026-09-25#17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T205500Z
+DTEND:20260925T212500Z
+SUMMARY:Gachiakuta – Folge 17/18
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-178025-tv-prosieben-maxx@2026-09-25#18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T212500Z
+DTEND:20260925T215500Z
+SUMMARY:Gachiakuta – Folge 18/18
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-176496-tv-prosieben-maxx@2026-09-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T215500Z
+DTEND:20260925T222500Z
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 2/2
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
+ xx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -484,102 +560,53 @@ DESCRIPTION:Plattform: RTL+\nRelease-Art: Katalogtitel\nUhrzeit noch nicht
 CATEGORIES:RTL+
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-25@anime-kalender-de
+UID:auto-15-tv-prosieben-maxx@2026-09-26#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Detektiv Conan – Folge 143/143
+DTSTART:20260926T034500Z
+DTEND:20260926T041500Z
+SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-25#778@anime-kalender-de
+UID:auto-15-tv-prosieben-maxx@2026-09-26#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:One Piece – Folge 778/779
+DTSTART:20260926T041000Z
+DTEND:20260926T044000Z
+SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-25#779@anime-kalender-de
+UID:auto-15-tv-prosieben-maxx@2026-09-26#3@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:One Piece – Folge 779/779
+DTSTART:20260926T043500Z
+DTEND:20260926T050500Z
+SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-25#3@anime-kalender-de
+UID:auto-15-tv-prosieben-maxx@2026-09-26#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Dragon Ball – Folge 3/4
+DTSTART:20260926T050000Z
+DTEND:20260926T053000Z
+SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-223-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-25#4@anime-kalender-de
+UID:auto-15-tv-prosieben-maxx@2026-09-26#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Dragon Ball – Folge 4/4
+DTSTART:20260926T052500Z
+DTEND:20260926T055500Z
+SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-223-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Gachiakuta – Folge 16/18
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-178025-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Gachiakuta – Folge 17/18
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-178025-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Gachiakuta – Folge 18/18
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-178025-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-176496-tv-prosieben-maxx@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 2/2
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-176496-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -592,61 +619,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#1@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260926
-DTEND;VALUE=DATE:20260927
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-15-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#2@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260926
-DTEND;VALUE=DATE:20260927
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-15-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260926
-DTEND;VALUE=DATE:20260927
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-15-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260926
-DTEND;VALUE=DATE:20260927
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-15-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#5@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260926
-DTEND;VALUE=DATE:20260927
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-15-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-171018-disc@2026-09-30@anime-kalender-de

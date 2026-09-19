@@ -19,67 +19,71 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-20#134@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260920
-DTEND;VALUE=DATE:20260921
+DTSTART:20260920T021500Z
+DTEND:20260920T024500Z
 SUMMARY:Detektiv Conan – Folge 134/143
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-20#135@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260920
-DTEND;VALUE=DATE:20260921
+DTSTART:20260920T024000Z
+DTEND:20260920T031000Z
 SUMMARY:Detektiv Conan – Folge 135/143
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260921
-DTEND;VALUE=DATE:20260922
+DTSTART:20260921T155500Z
+DTEND:20260921T162500Z
 SUMMARY:Detektiv Conan – Folge 139/143
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260922
-DTEND;VALUE=DATE:20260923
+DTSTART:20260922T160000Z
+DTEND:20260922T163000Z
 SUMMARY:Detektiv Conan – Folge 140/143
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260923
-DTEND;VALUE=DATE:20260924
+DTSTART:20260923T155500Z
+DTEND:20260923T162500Z
 SUMMARY:Detektiv Conan – Folge 141/143
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260924
-DTEND;VALUE=DATE:20260925
+DTSTART:20260924T160000Z
+DTEND:20260924T163000Z
 SUMMARY:Detektiv Conan – Folge 142/143
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-09-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T155500Z
+DTEND:20260925T162500Z
+SUMMARY:Detektiv Conan – Folge 143/143
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -93,17 +97,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/st
  eel-ball-run-2nd-3rd-stage
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Detektiv Conan – Folge 143/143
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-235-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:mononoke-movie-3-curse-of-the-serpent@2026-09-29@anime-kalender-de

@@ -19,23 +19,21 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-165159-tv-toggo-plus@2026-09-19#115@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260919
-DTEND;VALUE=DATE:20260920
+DTSTART:20260919T182500Z
+DTEND:20260919T185500Z
 SUMMARY:Beyblade X – Folge 115/116
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release
- /auto-165159-tv-toggo-plus
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-165159-tv-toggo-plus
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-165159-tv-toggo-plus@2026-09-19#116@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260919
-DTEND;VALUE=DATE:20260920
+DTSTART:20260919T184500Z
+DTEND:20260919T191500Z
 SUMMARY:Beyblade X – Folge 116/116
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release
- /auto-165159-tv-toggo-plus
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-165159-tv-toggo-plus
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
@@ -53,56 +51,51 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-09-26#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260926
-DTEND;VALUE=DATE:20260927
+DTSTART:20260926T034500Z
+DTEND:20260926T041500Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-15-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-09-26#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260926
-DTEND;VALUE=DATE:20260927
+DTSTART:20260926T041000Z
+DTEND:20260926T044000Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-15-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-09-26#3@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260926
-DTEND;VALUE=DATE:20260927
+DTSTART:20260926T043500Z
+DTEND:20260926T050500Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-15-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-09-26#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260926
-DTEND;VALUE=DATE:20260927
+DTSTART:20260926T050000Z
+DTEND:20260926T053000Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-15-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-09-26#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260926
-DTEND;VALUE=DATE:20260927
+DTSTART:20260926T052500Z
+DTEND:20260926T055500Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/rel
- ease/auto-15-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
