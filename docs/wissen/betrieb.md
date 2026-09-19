@@ -786,3 +786,7 @@ fragen.
 ## Nach der Prüfkette nur die erzeugten Bilder zurücksetzen, nicht ganz `docs/` (19.09.2026)
 
 `check:vor-commit`, `check:ansichten` und `check:panel` schreiben `docs/*.png` neu. Wer danach `git checkout -- docs` und `git clean -fq docs/` fährt, verwirft auch, was gerade von Hand in `docs/wissen/` ergänzt wurde oder als neue Datei unter `docs/` liegt — am 19.09.2026 zweimal passiert (ein Abschnitt in `quellen.md`, beinahe die Kandidatenliste). Zurückgesetzt wird nur `git checkout -- "docs/*.png"` und `git clean -fq docs/ -e wissen -e "*.md"`; Wissens-Einträge werden **vor** der Prüfkette committet.
+
+### „Live" heißt: Deploy grün und im ausgelieferten Bundle nachgesehen (19.09.2026)
+
+Nach einem Push auf `web/src` habe ich „live" gemeldet — der Deploy lief noch, Daniel sah die alte Fassung und fragte, wo das neue Etikett sei. Ein Push ist kein Deploy. Vor „live": `gh run watch` auf „Deploy auf GitHub Pages" für genau diesen Commit, dann das Bundle holen (`curl -s https://anime-kalender.de/ | grep -oE 'assets/index-[A-Za-z0-9_-]+\.js'`) und darin nach einem neuen Text suchen. Bei Daten-Änderungen genügt der grüne Bau plus Deploy.
