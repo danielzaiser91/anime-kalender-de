@@ -1526,7 +1526,7 @@ function main(): void {
           episodesEstimated?: boolean
           /** Der Titel je Sprache — hier steht der deutsche Name des Werks. */
           /* `publisher` und `status` tragen den Bezugsweg aus dem deutschen Block — siehe unten. */
-          languages?: { language?: string; title?: string; status?: string; publisher?: string[] }[]
+          languages?: { language?: string; title?: string; status?: string; released?: string; publisher?: string[] }[]
           /** Weitere Namen, ohne Sprachkennzeichen — für die Suche (`synonyme.json`). */
           synonyms?: string[]
         }
@@ -6566,6 +6566,24 @@ function main(): void {
       )
       if (!block?.publisher?.length) continue
       if (!['Abgeschlossen', 'Abgebrochen', 'Laufend'].includes(String(block.status))) continue
+      /*
+        **Ein Kinostart ist keine Ausgabe** (Daniel, 19.09.2026, „Detektiv Conan: Der gefallene
+        Engel des Highways“: „diese disc pill führt auf die titelseite … ich seh dort auch keine
+        disc“). aniSearchs deutscher Block trug „Laufend, 25.08.2026, Crunchyroll“ — das ist der
+        Kinostart mit dem Verleih, und der Bau machte daraus „Ausgabe bei aniSearch“ unter Disc.
+        Liegt das Datum des Blocks auf einem Kinotermin desselben Titels (±3 Tage), ist es keine.
+      */
+      const blockTag = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(String(block.released ?? ''))
+      const blockIso = blockTag ? `${blockTag[3]}-${blockTag[2]}-${blockTag[1]}` : undefined
+      const imKino =
+        blockIso &&
+        releases.some(
+          (r) =>
+            r.titleId === title.id &&
+            r.platform === 'kino' &&
+            Math.abs(Date.parse(r.schedule.firstEpisodeDate) - Date.parse(blockIso)) <= 3 * 86_400_000,
+        )
+      if (imKino) continue
       const as = anisearch[title.id]?.anisearchId
       title.watchLinks = [
         {

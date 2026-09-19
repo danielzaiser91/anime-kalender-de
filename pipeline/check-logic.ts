@@ -5017,5 +5017,10 @@ pruefe(
   const quellen = readFileSync('tools/quellen-liste.sh', 'utf8')
   pruefe('die TOGGO-Datei steht in der Quellenliste (sonst wirft der Reset den Abruf weg)', quellen.includes('data/toggo.json'))
 }
+{
+  /* Conan „Der gefallene Engel des Highways“ (19.09.2026): ein Kinostart wird keine „Ausgabe bei aniSearch“. */
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe('ein deutscher Sprachblock auf dem Kinotermin legt keinen Disc-Weg an', /if \(imKino\) continue\s*const as = anisearch\[title\.id\]\?\.anisearchId/.test(bau))
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
