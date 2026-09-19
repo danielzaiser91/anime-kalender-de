@@ -166,7 +166,7 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nUh
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-20#1@anime-kalender-de
+UID:auto-235-tv-prosieben-maxx@2026-09-20#134@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260920
 DTEND;VALUE=DATE:20260921
@@ -177,7 +177,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-20#2@anime-kalender-de
+UID:auto-235-tv-prosieben-maxx@2026-09-20#135@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260920
 DTEND;VALUE=DATE:20260921
