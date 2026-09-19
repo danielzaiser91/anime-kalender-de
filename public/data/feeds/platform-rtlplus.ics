@@ -6,6 +6,17 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – rtlplus
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:auto-165159-rtlplus-staffel-3@2026-09-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260918
+DTEND;VALUE=DATE:20260919
+SUMMARY:Beyblade X Staffel 3 – Folge 117/117
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-
+ 165159-rtlplus-staffel-3
+CATEGORIES:RTL+
+END:VEVENT
+BEGIN:VEVENT
 UID:dragon-ball-daima-rtlplus@2026-09-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260925
