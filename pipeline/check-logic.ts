@@ -3177,9 +3177,16 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     !bau.includes('if (checks.has(dubKey(title.id, ziel))) continue'),
     'wer geprüft hat, dass es dort auf Deutsch läuft, hat den besten Grund geliefert, den Weg anzulegen',
   )
+  /*
+    Seit dem 19.09.2026 zählt auch aniSearchs Anbietername `primevideo-channel-…`
+    als Video-Beleg. Die Zusicherung fängt weiterhin, worum es ihr geht: Eine
+    Shop-Adresse (`amazon-de`, `prime-video`) ohne Prime-Befund kommt nicht als
+    Stream in den Bestand — die Ausnahme darf nur am Kanal-Namen hängen.
+  */
   pruefe(
     'bei Amazon zählt nur, was als Video belegt ist',
-    bau.includes("if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true) continue"),
+    bau.includes("if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true && !kanalSeite) continue") &&
+      bau.includes("const kanalSeite = (quelle.provider ?? '').startsWith('primevideo-channel-')"),
     'hinter /dp/ kann eine DVD liegen — eine Disc als Stream wäre schlimmer als kein Weg',
   )
   /*
@@ -4995,6 +5002,15 @@ pruefe(
   /* Peace Maker Kurogane, 19.09.2026: Die Erweiterung zählt als erledigt, was im Stand fehlt — der Stand muss vollständig sein. */
   const idx = readFileSync('worker/src/index.ts', 'utf8')
   pruefe('der Prüfstand liefert alle Ziele, nicht einen Ausschnitt', idx.includes('ziele: alleZiele,') && !/ziele: alleZiele\.slice/.test(idx))
+}
+{
+  /* Prime-Kanal-Seiten aus aniSearch (19.09.2026): der Anbietername ist der Beleg „Video-Seite, keine DVD". */
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'eine aniSearch-Kanal-Seite wird ohne Prime-Befund der Linkprüfung als Weg angelegt',
+    /const kanalSeite = \(quelle\.provider \?\? ''\)\.startsWith\('primevideo-channel-'\)/.test(bau) &&
+      /linkBefunde\[url\]\?\.prime !== true && !kanalSeite\) continue/.test(bau),
+  )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

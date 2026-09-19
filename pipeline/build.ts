@@ -5876,7 +5876,19 @@ function main(): void {
         */
         const beleg = belegFuer(title.id, ziel, url)
         if (beleg && (beleg.dub !== true || beleg.available === false)) continue
-        if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true) continue
+        /*
+          **Eine Kanal-Seite trägt ihren Beleg im Namen** (19.09.2026). Der Riegel
+          verlangt, dass die Linkprüfung eine Prime-Video-Seite bestätigt hat —
+          hinter einem `/dp/` kann eine DVD liegen. aniSearch kennzeichnet aber
+          `primevideo-channel-<kanal>-de` selbst als Seite im Prime-Kanal; genau
+          diese Frage ist damit beantwortet. Anlass: In Daniels Durchgang in der
+          Nacht zum 19.09. waren 37 von 37 aniSearch-Shop-Adressen tot; zu zwölf
+          davon führt aniSearch eine Kanal-Seite, die Linkprüfung sagte „unklar",
+          und nach dem Entfernen der toten standen elf Titel ohne jeden Prime-Weg.
+          Der Weg kommt ohne Sprachurteil und landet damit auf der Prüfliste.
+        */
+        const kanalSeite = (quelle.provider ?? '').startsWith('primevideo-channel-')
+        if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true && !kanalSeite) continue
         if (lautPruefungTot(url)) continue
         title.streams.push({ platform: ziel, url })
         vorhanden.add(ziel)
