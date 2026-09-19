@@ -1108,7 +1108,8 @@ function AntwortKasten({
             stehen jetzt vollständig da. Die Mindesthöhe bleibt, der Kasten springt im
             Regelfall also weiterhin nicht.
           */}
-          <div className="flex min-h-[2.1rem] flex-wrap items-start gap-1.5 pb-1">
+          {/* `items-stretch`: Eine Pille ohne zweite Zeile wird so hoch wie ihre Nachbarn (Daniel, 19.09.2026, TOGGO neben RTL+). */}
+          <div className="flex min-h-[2.1rem] flex-wrap items-stretch gap-1.5 pb-1">
             {pillen}
           </div>
         </div>
@@ -2220,7 +2221,8 @@ function ReleasePille({
     Vergangenes ist kein Angebot, sondern ein Fehlgriff.
   */
   const datum = release.schedule?.firstEpisodeDate
-  const farbe = PLATFORMS[release.platform]?.color
+  /* Ein TOGGO-Sender trägt TOGGOs Orange, nicht das allgemeine TV-Grün (Daniel, 19.09.2026). */
+  const farbe = /^TOGGO/i.test(release.sender ?? '') ? TOGGO_ORANGE : PLATFORMS[release.platform]?.color
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
   return (
     <span
@@ -2296,6 +2298,21 @@ function ReleasePille({
  * irgendwo: „Amazon DVD / Blu-ray" ist ein Kaufweg, kein Prime-Angebot, und
  * soll die Prime-Farbe nicht erben.
  */
+/*
+  **TOGGO** (Daniel, 19.09.2026, an Dragon Ball Daima). Die Farbe ist abgelesen: „Toggo Logo
+  10.2019.svg" und „Toggo plus Logo 10.2019.svg" bei Wikimedia Commons (gemeinfrei, Marke),
+  beide #ec6400/#ec6500. Ein Bildzeichen hat TOGGO nicht — das Logo ist der Schriftzug und
+  stünde neben dem Namen doppelt (wie bei maxdome, `anbieter-icon.tsx`).
+
+  **TOGGO zeigt ausschließlich deutsche Fassungen** (Daniel: „toggo ist immer DE, immer,
+  ausnahmslos") — der Weg trägt deshalb „DE ✓" ohne Urteil je Folge. Und toggo.de hält nur
+  die jüngsten Folgen bereit: Am 19.09.2026 standen bei Daima die Folgen 14–18, einen Tag nach
+  Folge 18 (Screenshot Daniel; fernsehserien.de listete zuvor 13–17). Einen offiziellen
+  Zeitraum nennt TOGGO nicht, nur „aus Lizenzgründen nur für begrenzte Zeit".
+*/
+const TOGGO_ORANGE = '#ec6400'
+const istToggo = (url: string | undefined) => /(^|\.)toggo\.de$/i.test((() => { try { return new URL(url ?? '').hostname } catch { return '' } })())
+
 function farbeZuAnbieter(name: string): string | undefined {
   /*
     **„Amazon Prime" steht nicht in `PLATFORMS`** — dort heißt der Anbieter
@@ -2312,6 +2329,7 @@ function farbeZuAnbieter(name: string): string | undefined {
     Hausfarbe, nicht geraten.
   */
   if (name === 'aniSearch') return '#f0a500'
+  if (name === 'TOGGO') return TOGGO_ORANGE
   /*
     **Die Hausfarben der Shops, die keine Plattform bei uns sind.**
 
@@ -4760,13 +4778,20 @@ export function DetailPanel({
                             darüber schon lange versprach: „DE ?", die ehrliche Antwort.
                           */
                           unten={(() => {
+                            if (istToggo(g.eintraege[0].url)) return t('detail.toggoNeueste')
                             if (g.eintraege[0].nurFolge) return t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
                             if (g.eintraege[0].dubRanges?.length) return folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges, url: g.eintraege[0].url, nurFolge: g.eintraege[0].nurFolge }) || undefined
                             const verweis = (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)
                             return verweis?.dub === true ? folgenAngabeFuer(verweis) || undefined : undefined
                           })()}
                           rechts={
-                            <DubMark dub={g.eintraege[0].dubRanges?.some((r) => r.dub) || (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)?.dub} />
+                            <DubMark
+                              dub={
+                                istToggo(g.eintraege[0].url) ||
+                                g.eintraege[0].dubRanges?.some((r) => r.dub) ||
+                                (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)?.dub
+                              }
+                            />
                           }
                         />
                       )),

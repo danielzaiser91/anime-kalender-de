@@ -179,12 +179,12 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 Anlass: Auf toggo.de (`/sammlung/alle-formate/serien/dragon-ball-daima-vse446`) stehen nur noch die Folgen 14–18 („Neu“, ab 12, je 22:37 Min.), im Panel steht die Pille „TOGGO DE ?“.
 
-1. **Pillen gleich hoch:** Eine Pille ohne zweite Zeile (TOGGO) wird auf die Höhe der übrigen gestreckt.
-2. **TOGGO- und TOGGO-plus-Pille in eigener Farbe mit eigenem Zeichen** — heute neutral bzw. im TV-Grün.
-3. **TOGGO ist immer Deutsch:** Die Pille zeigt ausnahmslos „DE ✓“ statt „DE ?“ (Daniel: „toggo ist immer DE, immer, ausnahmslos“).
-4. **Abrufzeitraum recherchieren:** Wie lange hält TOGGO Folgen bereit (7 Tage nach Ausstrahlung? die letzten x Folgen?) — per Webrecherche, Quelle festhalten.
-5. **Die Angabe in die Pille** („nur die letzten 5 Folgen“ o. ä.) und **aktuell halten**.
-6. **TOGGO-Abruf prüfen:** Vorher API-Doku, robots.txt, Nutzungsbedingungen, Netzwerkverkehr der Seite (Skill `netzwerkverkehr-statt-scraping`); erst dann entscheiden, ob gebaut wird.
+1. ✅ **Pillen gleich hoch** (19.09.2026): Pillenzeile `items-stretch`.
+2. ✅ **Farbe** (19.09.2026): TOGGO und TOGGO plus in `#ec6400`, abgelesen aus „Toggo Logo 10.2019.svg“/„Toggo plus Logo 10.2019.svg“ (Commons, gemeinfrei, Marke). **Kein Zeichen:** TOGGO hat kein Bildzeichen, das Logo ist der Schriftzug und stünde neben dem Namen doppelt (Regel wie bei maxdome).
+3. ✅ **Immer „DE ✓“** (19.09.2026), Zusicherung in `check:logic`.
+4. **Abrufzeitraum — Stand der Recherche 19.09.2026:** Kein offizieller Zeitraum gefunden. TOGGO-App-Beschreibung: Inhalte „aus Lizenzgründen nur für begrenzte Zeit“ verfügbar; 7 Tage gelten laut App-Store-Text nur für Offline-Downloads. Beobachtet: Daima am 19.09. Folgen 14–18 auf toggo.de (einen Tag nach Folge 18), fernsehserien.de listete kurz vorher 13–17 → rollendes Fenster von fünf Folgen, bei Mo–Fr-Ausstrahlung also rund eine Woche.
+5. ◐ **Angabe in der Pille** (19.09.2026): zweite Zeile „nur die neuesten Folgen“. Welche Folgen genau („Folgen 14–18“) braucht den Abruf aus Punkt 6.
+6. **TOGGO-Abruf — wartet auf Daniels Entscheidung.** Die Seite ist eine JavaScript-Anwendung, Daten von `production-n.toggo.de/api`. Deren `robots.txt`: `User-agent: * / Disallow: /` und darunter `Allow /api/` **ohne Doppelpunkt** — formal ungültig, gemeint offenbar „API erlaubt“, wörtlich alles gesperrt. `toggo.de/robots.txt` sperrt nur einzelne Seiten. Nutzungsbedingungen (`toggo.de/nutzungsbedingungen`) nur im Browser lesbar, noch nicht gelesen.
 
 ## Geplant 19.09.2026: Tote aniSearch-Adressen bei Prime — JustWatch als Kandidat, nicht als Ersatz
 
