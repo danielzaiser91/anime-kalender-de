@@ -5819,6 +5819,16 @@ function main(): void {
     ])
     let wegeErgaenzt = 0
     const jeAnbieter: Record<string, number> = {}
+    /*
+      **Wo eine Kanal-Seite hängen bleibt** (19.09.2026). Der erste Fix für die Prime-Kanal-
+      Seiten (Riegel „Linkprüfung bestätigt Prime") legte keine einzige an — auch drei nicht,
+      die die Linkprüfung bestätigt hat. Statt den nächsten Riegel zu raten, zählt der Bau je
+      Grund mit und schreibt es ins Protokoll.
+    */
+    const kanalHalt: Record<string, number> = {}
+    const kanalGrund = (quelle: { provider?: string }, grund: string) => {
+      if ((quelle.provider ?? '').startsWith('primevideo-channel-')) kanalHalt[grund] = (kanalHalt[grund] ?? 0) + 1
+    }
     for (const title of titles.values()) {
       const quellen = anisearch[title.id]?.streams ?? []
       if (!quellen.length) continue
@@ -5848,8 +5858,18 @@ function main(): void {
             ? netflixTitelAdresse((quelle.url ?? '').split('?')[0])
             : (quelle.url ?? '').split('?')[0]
         if (!ziel || !url) continue
-        if (vorhanden.has(ziel)) continue
-        if (bekannt.has(adressKern(url)) || frueherEntfernt.has(adressKern(url), title.id)) continue
+        if (vorhanden.has(ziel)) {
+          kanalGrund(quelle, 'Titel hat schon einen Prime-Weg')
+          continue
+        }
+        if (bekannt.has(adressKern(url))) {
+          kanalGrund(quelle, 'Adresse bekannt (Weg, entfernter Weg oder Bezugsweg)')
+          continue
+        }
+        if (frueherEntfernt.has(adressKern(url), title.id)) {
+          kanalGrund(quelle, 'Gedächtnis entfernter Verweise')
+          continue
+        }
         if (ziel === 'crunchyroll') {
           /* Die Kennung entscheidet, nicht die Schreibweise der Adresse — siehe `toteCrSerien`. */
           const kennung = /\/series\/([A-Z0-9]+)/.exec(url)?.[1]
@@ -5875,7 +5895,10 @@ function main(): void {
           bejahenden Handbelegen), die Änderung ist also so eng wie ihr Anlass.
         */
         const beleg = belegFuer(title.id, ziel, url)
-        if (beleg && (beleg.dub !== true || beleg.available === false)) continue
+        if (beleg && (beleg.dub !== true || beleg.available === false)) {
+          kanalGrund(quelle, 'verneinender Handbeleg')
+          continue
+        }
         /*
           **Eine Kanal-Seite trägt ihren Beleg im Namen** (19.09.2026). Der Riegel
           verlangt, dass die Linkprüfung eine Prime-Video-Seite bestätigt hat —
@@ -5889,7 +5912,9 @@ function main(): void {
         */
         const kanalSeite = (quelle.provider ?? '').startsWith('primevideo-channel-')
         if (ziel === 'primevideo' && linkBefunde[url]?.prime !== true && !kanalSeite) continue
+        if (lautPruefungTot(url)) kanalGrund(quelle, 'laut Linkprüfung tot')
         if (lautPruefungTot(url)) continue
+        kanalGrund(quelle, 'angelegt')
         title.streams.push({ platform: ziel, url })
         vorhanden.add(ziel)
         jeAnbieter[ziel] = (jeAnbieter[ziel] ?? 0) + 1
@@ -5903,6 +5928,8 @@ function main(): void {
         .join(', ')
       log(`${wegeErgaenzt} Anbieter-Verweise aus aniSearch ergänzt (${verteilung})`)
     }
+    if (Object.keys(kanalHalt).length)
+      log(`Prime-Kanal-Seiten aus aniSearch: ${Object.entries(kanalHalt).map(([k, v]) => `${k} ${v}`).join(' · ')}`)
 
     /*
       **Der deutsche Crunchyroll-Katalog legt Verweise an, nicht nur richtige Adressen.**
