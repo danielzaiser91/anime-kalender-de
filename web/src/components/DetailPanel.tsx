@@ -1887,7 +1887,7 @@ function Pille({
       rel="noreferrer noopener"
       title={titel}
       className={[
-        'relative inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 transition',
+        'relative inline-flex shrink-0 items-center gap-2 rounded-full py-1.5 pl-3 pr-4 transition',
         durchgestrichen ? 'opacity-70' : '',
         farbe
           ? `${PILLE_MARKE} hover:brightness-95 dark:hover:brightness-125`
@@ -2181,9 +2181,15 @@ function KinoBanner({
 function MerkenKnopf({
   release,
   today,
+  farbe,
 }: {
   release?: Release
   today: string
+  /**
+   * Mit Farbe: Eckknopf unten rechts an der Pille, Rand und Symbol in der Markenfarbe
+   * (Daniel, 19.09.2026, Entwurf A2). Ohne: rund in der Zeile (Kino-Banner).
+   */
+  farbe?: string
 }) {
   const { t } = useLang()
   const [merkenOffen, setMerkenOffen] = useState(false)
@@ -2215,7 +2221,7 @@ function MerkenKnopf({
   const ev = kuenftige[0]
   if (!ev || !release) return null
   return (
-      <span className="relative ml-2 shrink-0">
+      <span className={farbe ? 'absolute -bottom-1.5 -right-1.5 z-10' : 'relative ml-2 shrink-0'}>
         <Tooltip text={t('detail.merkenTitel')} seite="oben">
         <button
           type="button"
@@ -2243,7 +2249,12 @@ function MerkenKnopf({
           aria-expanded={merkenOffen}
           /* Nur das Symbol, rund (Daniel, 19.09.2026, Entwurf K3) — ~24 px statt ~80 px, gut tippbar. */
           aria-label={t('detail.merkenTitel')}
-          className="grid size-7 shrink-0 cursor-pointer place-items-center rounded-full bg-slate-500/10 text-slate-700 transition hover:bg-slate-500/20 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15"
+          className={
+            farbe
+              ? 'grid size-[22px] shrink-0 cursor-pointer place-items-center rounded-full bg-white transition hover:brightness-110 dark:bg-[#162238]'
+              : 'grid size-7 shrink-0 cursor-pointer place-items-center rounded-full bg-slate-500/10 text-slate-700 transition hover:bg-slate-500/20 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15'
+          }
+          style={farbe ? { color: farbe, boxShadow: `0 0 0 1px ${farbe}` } : undefined}
         >
           {/*
             Gezeichnet, nicht als Zeichen: Ein 🗓-Emoji kam in der
@@ -2251,10 +2262,9 @@ function MerkenKnopf({
             (gesehen am 25.08.2026 in beiden Themen). Ein Pfad hängt an keiner
             Schrift.
           */}
-          {/* Kalender mit Plus (Entwurf S1): „in den Kalender übernehmen". */}
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
-            <path d="M3 9.5h18M8 2.5v4M16 2.5v4M12 12.5v5M9.5 15h5" />
+          {/* Google Material Symbols „calendar_add_on" (Apache 2.0) — Daniels Wahl vom 19.09.2026. */}
+          <svg viewBox="0 -960 960 960" className={farbe ? 'size-3.5' : 'size-4'} fill="currentColor" aria-hidden="true">
+            <path d="M700-200h-90q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h90v-90q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v90h90q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5h-90v90q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63-12.82 0-21.32-8.63Q700-97.25 700-110v-90Zm-520 40q-24 0-42-18t-18-42v-540q0-24 18-42t42-18h65v-28q0-13.6 9-22.8 9-9.2 23.02-9.2t23.5 9.2Q310-861.6 310-848v28h260v-28q0-13.6 9-22.8 9-9.2 23.02-9.2t23.5 9.2Q635-861.6 635-848v28h65q24 0 42 18t18 42v269q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63-12.82 0-21.32-8.63-8.5-8.62-8.5-21.37v-79H180v350h290q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H180Zm0-470h520v-130H180v130Zm0 0v-130 130Z" />
           </svg>
         </button>
         </Tooltip>
@@ -2383,7 +2393,7 @@ function ReleasePille({
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
   return (
     <span
-      className={`relative inline-flex max-w-full items-center rounded-full py-1 pl-3 pr-1 ${tvText?.premiere ? 'mt-2' : ''} ${farbe ? PILLE_MARKE : ''}`}
+      className={`relative inline-flex max-w-full items-center rounded-full py-1 pl-3 pr-4 ${tvText?.premiere ? 'mt-2' : ''} ${farbe ? PILLE_MARKE : ''}`}
       style={marke(farbe)}
     >
       {tvText?.premiere && (
@@ -2454,7 +2464,7 @@ function ReleasePille({
             .join(' · ')}
         </span>
       </PillenHuelle>
-      <MerkenKnopf release={release} today={today} />
+      <MerkenKnopf release={release} today={today} farbe={farbe} />
     </span>
   )
 }
@@ -4875,6 +4885,7 @@ export function DetailPanel({
                             <MerkenKnopf
                               release={releaseJePlattform.get(s.platform)}
                               today={today}
+                              farbe={PLATFORMS[s.platform].color}
                             />
                           </>
                         }
