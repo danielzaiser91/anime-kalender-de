@@ -6710,6 +6710,14 @@ function main(): void {
         const name = providerName(a.anbieter)
         if (!name || wege.some((w) => w.name === name)) continue
         /*
+          **Ein Kino ist kein Bezugsweg** (Daniel, 19.09.2026: Cinestar führte nach Leipzig,
+          Filmspiegel nach Essen). JustWatch kennzeichnet Kinoangebote selbst mit `art: CINEMA`
+          (gemessen: Cinestar 3, UCI 2, Filmspiegel 1) — das ist sicherer als eine Namensliste,
+          die „Netzkino" (ein Streamingdienst) mitgeschluckt hat. Die Spielzeiten stehen im
+          Kinobanner, bundesweit über kinoheld.
+        */
+        if (a.art === 'CINEMA') continue
+        /*
           JustWatch führt Disc-Händler und Online-Videotheken in derselben Liste. Ein
           Disc-Händler bleibt ein Kaufweg; alles andere ist digital und zählt zum
           Streamen — gemessen an 3.279 Kauf- und Leihangeboten im Bestand vom 16.09.2026.
@@ -6799,7 +6807,7 @@ function main(): void {
           Disc-Händler gewesen (bücher.de, Thalia, Zavvi …) — ohne Angabe zur Ausgabe,
           Zavvi verkauft UK-Importe. Kinos sind keine Bezugswege.
         */
-        if (PHYSISCHE_SHOPS.test(a.anbieter) || /kino|cinestar|cinema/i.test(a.anbieter)) continue
+        if (PHYSISCHE_SHOPS.test(a.anbieter) || a.art === 'CINEMA') continue
         wege.push({
           name,
           url: stripAffiliate(a.url),

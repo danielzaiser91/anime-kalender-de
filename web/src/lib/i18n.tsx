@@ -665,6 +665,7 @@ const TEXTE = {
   'trailer.ansehen': 'Trailer anschauen',
   'trailer.ansehenFremd': 'Trailer auf {sprache}',
   'trailer.nochKeinDeutscher': 'Einen deutschen Trailer haben wir noch nicht gefunden.',
+  'kino.tickets': 'Kinos & Tickets',
   'trailer.ohne': 'Trailer',
   'trailer.keinerGefunden': 'Einen Trailer haben wir noch nicht gefunden.',
   'trailer.suchen': 'Auf YouTube suchen',

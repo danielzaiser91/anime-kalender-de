@@ -2012,6 +2012,14 @@ function KinoBanner({
         : t('kino.laeuft')
       : t('kino.ab', { datum: formatDate(start) })
   const unten = [release.publisher, release.fsk ? `FSK ${release.fsk}` : undefined].filter(Boolean).join(' · ')
+  /*
+    **Kinos und Spielzeiten — bundesweit, nicht ein Kino** (Daniel, 19.09.2026: Die Cinestar-Pille
+    führte nach Leipzig, Filmspiegel nach Essen; „nutzer können aus allen städten deutschlands
+    kommen, lieber kinoheld … da ist kein spezielles kino ausgewählt"). Die Adresse steht als Beleg
+    am Kinotermin; kinoheld sperrt Agenten (`robots.txt: Disallow: /`), abgeleitet oder geprüft wird
+    sie deshalb nicht, sondern von Hand hinterlegt. Nach dem Ende des Kinolaufs fällt der Knopf weg.
+  */
+  const kinoheld = !bis || bis >= today ? release.sources?.find((q) => /^https:\/\/www\.kinoheld\.de\/film\//.test(q)) : undefined
   return (
     <div className="relative overflow-hidden rounded-xl border border-amber-300/60 bg-gradient-to-r from-amber-50 via-amber-50/60 to-rose-50 px-4 py-3 dark:border-amber-400/25 dark:from-amber-500/10 dark:via-amber-500/5 dark:to-rose-500/10">
       {/* Der Filmstreifen am Rand — schmückt, ohne Platz zu kosten. */}
@@ -2034,6 +2042,16 @@ function KinoBanner({
           </div>
           {unten && <span className="block truncate text-xs text-amber-800/80 dark:text-amber-200/70">{unten}</span>}
         </div>
+        {kinoheld && (
+          <a
+            href={kinoheld}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="shrink-0 rounded-full border border-amber-400/50 px-3 py-1 text-xs font-semibold text-amber-900 transition hover:bg-amber-400/15 dark:text-amber-200"
+          >
+            {t('kino.tickets')} ↗
+          </a>
+        )}
         <MerkenKnopf release={release} today={today} farbe="#f59e0b" />
       </div>
       {/* Die Notiz des Kinostarts gehört hierher, nicht in den Kasten darunter — sonst steht sie neben einer Auskunft, die von etwas anderem handelt. */}

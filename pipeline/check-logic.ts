@@ -4687,8 +4687,14 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 /* JustWatch bei Titeln mit Wegen: nur digitale Angebote (17.09.2026). */
 pruefe(
   'JustWatch ergänzt bei Titeln mit Wegen keine Disc-Händler und keine Kinos',
-  readFileSync('pipeline/build.ts', 'utf8').includes("if (PHYSISCHE_SHOPS.test(a.anbieter) || /kino|cinestar|cinema/i.test(a.anbieter)) continue"),
+  readFileSync('pipeline/build.ts', 'utf8').includes("if (PHYSISCHE_SHOPS.test(a.anbieter) || a.art === 'CINEMA') continue"),
   '728 Händlerwege ohne Ausgabe (Zavvi: UK-Importe) stünden wieder im Panel',
+)
+/* Kinos erkennt JustWatch selbst (art CINEMA) — auch bei Titeln ohne Weg (Cinestar Leipzig, Filmspiegel Essen; 19.09.2026). */
+pruefe(
+  'kein JustWatch-Kinoangebot wird zum Bezugsweg, auch bei Titeln ohne jeden Weg',
+  (readFileSync('pipeline/build.ts', 'utf8').match(/a\.art === 'CINEMA'\) continue/g) ?? []).length >= 2,
+  'die Pille führte zu einer Vorstellung in einer einzelnen Stadt',
 )
 /* gti-Brücke: Auswahl der JustWatch-Adresse für einen Prime-Verweis (17.09.2026). */
 {
