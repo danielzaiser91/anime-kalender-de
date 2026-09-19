@@ -1,5 +1,5 @@
 /**
- * **kinoheld-Adressen für Kinotermine über DuckDuckGo** (19.09.2026).
+ * **kinoheld-Adressen für Kinotermine über die Websuche** (19.09.2026).
  *
  * Der Kino-Banner verlinkt kinoheld („Kinos & Tickets"), weil dort kein bestimmtes Kino
  * vorausgewählt ist (Daniel, 19.09.2026). kinoheld selbst sperrt Agenten (`robots.txt:
@@ -7,8 +7,12 @@
  * stand deshalb jede Adresse von Hand im Kinotermin, und fehlende blieben liegen: „Your
  * Name" hatte eine, bei uns stand „sobald es sie gibt".
  *
- * **Woher:** die HTML-Suche von DuckDuckGo (`html.duckduckgo.com/robots.txt`: `Allow: /`;
- * Google, Bing und Brave sperren `/search`, gelesen 19.09.2026). Übernommen wird eine
+ * **Woher:** Google-Treffer über Serper (`SERPER_API_KEY`, 2.500 Gratisabfragen, Daniel
+ * 19.09.2026) — Serper fand „All You Need Is Kill", das DuckDuckGo und Tavily nicht kannten.
+ * Ohne Schlüssel die HTML-Suche von DuckDuckGo (`html.duckduckgo.com/robots.txt`: `Allow: /`;
+ * Google, Bing und Brave sperren `/search` für Programme, gelesen 19.09.2026). Google führt
+ * kinoheld teils mit internem Port (`kinoheld.de:7081/film/…`); übernommen wird die Adresse
+ * ohne Port. Übernommen wird eine
  * Adresse `kinoheld.de/film/<slug>` nur, wenn jedes Wort des Filmtitels (ab drei Buchstaben)
  * im Slug steht — „Your Name." passt auf `your-name-gestern-heute-und-fuer-immer`, ein
  * fremder Film nicht.
@@ -39,7 +43,7 @@ export function slugWoerter(name: string): string[] {
 
 /** Die erste kinoheld-Filmadresse im Suchergebnis, deren Slug alle Titelwörter trägt. */
 export function passendeAdresse(html: string, namen: string[]): string | undefined {
-  const slugs = [...html.matchAll(/kinoheld\.de(?:%2F|\/)film(?:%2F|\/)([a-z0-9-]+)/g)].map((m) => m[1]!)
+  const slugs = [...html.matchAll(/kinoheld\.de(?::\d+)?(?:%2F|\/)film(?:%2F|\/)([a-z0-9-]+)/g)].map((m) => m[1]!)
   for (const slug of slugs) {
     const teile = new Set(slug.split('-'))
     if (namen.some((n) => slugWoerter(n).length > 0 && slugWoerter(n).every((w) => teile.has(w))))
@@ -69,13 +73,23 @@ if (process.argv[1]?.endsWith('fetch-kinoheld.ts')) {
     const t = titles.get(r.titleId)
     const namen = [...new Set([r.name, t?.titleDe, t?.titleEn].filter((x): x is string => Boolean(x)))]
     try {
-      const antwort = await fetch('https://html.duckduckgo.com/html/', {
-        method: 'POST',
-        headers: { 'User-Agent': UA, 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ q: `kinoheld ${namen[0]}` }),
-      })
+      const serper = process.env.SERPER_API_KEY
+      const antwort = serper
+        ? await fetch('https://google.serper.dev/search', {
+            method: 'POST',
+            headers: { 'X-API-KEY': serper, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ q: `kinoheld ${namen[0]}`, gl: 'de', hl: 'de', num: 10 }),
+          })
+        : await fetch('https://html.duckduckgo.com/html/', {
+            method: 'POST',
+            headers: { 'User-Agent': UA, 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ q: `kinoheld ${namen[0]}` }),
+          })
       if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
-      const adresse = passendeAdresse(await antwort.text(), namen)
+      const text = serper
+        ? ((await antwort.json()) as { organic?: { link?: string }[] }).organic?.map((o) => o.link ?? '').join(' ') ?? ''
+        : await antwort.text()
+      const adresse = passendeAdresse(text, namen)
       if (adresse) {
         bestand[r.slug] = adresse
         gefunden++

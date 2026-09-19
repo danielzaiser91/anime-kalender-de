@@ -465,6 +465,7 @@ jobs:
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
         run: npm run data:kinoheld
 
       - name: RTL+-Folgen für TV-Serien ohne Episodenliste

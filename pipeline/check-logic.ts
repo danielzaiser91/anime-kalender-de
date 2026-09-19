@@ -5214,6 +5214,11 @@ pruefe(
   const treffer = 'x kinoheld.de%2Ffilm%2Fthe-witch y kinoheld.de/film/your-name-gestern-heute-und-fuer-immer z'
   pruefe('kinoheld: der passende Slug, nicht der erste', passendeAdresse(treffer, ['Your Name.']) === 'https://www.kinoheld.de/film/your-name-gestern-heute-und-fuer-immer')
   pruefe('kinoheld: ein fremder Film wird nicht übernommen', passendeAdresse(treffer, ['Witch on the Holy Night']) === undefined)
+  pruefe(
+    'kinoheld: Googles interner Port fällt weg',
+    passendeAdresse('https://www.kinoheld.de:7081/film/all-you-need-is-kill-6a8799c948a36', ['All You Need Is Kill']) ===
+      'https://www.kinoheld.de/film/all-you-need-is-kill-6a8799c948a36',
+  )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
