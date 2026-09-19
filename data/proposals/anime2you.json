@@ -1,6 +1,23 @@
 {
-  "scrapedAt": "2026-09-18T09:03:16.940Z",
+  "scrapedAt": "2026-09-19T08:50:37.046Z",
   "proposals": [
+    {
+      "articleTitle": "Vier Dezember-Neuheiten 2026 bei Anime Planet vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1051840/ksm-dezember-2026-anime-planet/",
+      "publishedAt": "2026-09-18",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-10",
+          "context": "r fassen nachfolgend alle Details zusammen. Vier Blu-ray-Neuheiten Am 10. Dezember 2026 erscheint unter anderem eine neue Komplettbox von »D"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix nimmt ersten »Demon Slayer: Infinity Castle«-Film ins Programm",
       "articleUrl": "https://www.anime2you.de/news/1049975/demon-slayer-infinity-castle-bald-auf-netflix/",

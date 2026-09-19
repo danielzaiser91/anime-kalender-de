@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-09-18T09:02:46.357Z",
+  "scrapedAt": "2026-09-19T08:50:07.756Z",
   "window": {
-    "from": "2026-08-04",
-    "to": "2026-12-02"
+    "from": "2026-08-05",
+    "to": "2026-12-03"
   },
   "shows": [
     {
@@ -961,6 +961,172 @@
           "duration": 1417,
           "title": "Der lang gehegte Wunsch des Mädchens",
           "image": "https://image.animationdigitalnetwork.com/license/saibahamut/tv/web/eps12_320x180.jpg"
+        }
+      ],
+      "batch": true
+    },
+    {
+      "showId": 1419,
+      "title": "SERVAMP",
+      "originalTitle": "サーヴァンプ",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/1419",
+      "episodes": [
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32489-folge-1",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 1,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Mahiru und Kuro",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps1_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 2,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32490-folge-2",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 2,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Tsubaki",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps2_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 3,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32491-folge-3",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 3,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Über eine nicht eingetretene Zukunft",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps3_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 4,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32492-folge-4",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 4,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Sakuya",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps4_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 5,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32493-folge-5",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 5,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Ich bin erwachsen, dies ist die Gesellschaft",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps5_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 6,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32494-folge-6",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 6,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Engel oder Teufel?",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps6_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 7,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32495-folge-7",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 7,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Denn ich bin …",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps7_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 8,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32496-folge-8",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 8,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Am Anfang war die Tat",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps8_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 9,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32497-folge-9",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 9,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Das ist nicht meine Schuld",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps9_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 10,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32498-folge-10",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 10,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Lawless",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps10_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 11,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32499-folge-11",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 11,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Dass du mir nicht vergibst",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps11_320x180.jpg"
+        },
+        {
+          "date": "2026-09-17",
+          "time": "09:00",
+          "episode": 12,
+          "url": "https://animationdigitalnetwork.com/de/video/1419-servamp/32500-folge-12",
+          "season": "1",
+          "seasonReference": "servamp_tv",
+          "order": 12,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Wenn man ganz einfach darüber nachdenkt",
+          "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps12_320x180.jpg"
         }
       ],
       "batch": true
