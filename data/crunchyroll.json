@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-19T11:27:40.451Z",
+  "scrapedAt": "2026-09-19T14:32:54.338Z",
   "window": {
     "from": "2026-09-07",
     "to": "2026-09-27"
@@ -500,7 +500,8 @@
         "2026-08-22",
         "2026-08-29",
         "2026-09-05",
-        "2026-09-12"
+        "2026-09-12",
+        "2026-09-19"
       ],
       "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
       "seriesId": "G6NVG970Y",
@@ -565,6 +566,10 @@
         {
           "date": "2026-09-12",
           "episode": 22
+        },
+        {
+          "date": "2026-09-19",
+          "episode": 23
         }
       ],
       "earliest": {
@@ -765,7 +770,8 @@
         "2026-08-22",
         "2026-08-29",
         "2026-09-05",
-        "2026-09-12"
+        "2026-09-12",
+        "2026-09-19"
       ],
       "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
       "seriesId": "GT00377907",
@@ -814,6 +820,10 @@
         {
           "date": "2026-09-12",
           "episode": 11
+        },
+        {
+          "date": "2026-09-19",
+          "episode": 12
         }
       ],
       "earliest": {
@@ -1844,6 +1854,26 @@
       "date": "2026-09-19",
       "time": "13:00",
       "episode": 3,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-09-19",
+      "time": "14:00",
+      "episode": 23,
+      "german": true
+    },
+    {
+      "key": "black torch s1",
+      "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
+      "seriesId": "GT00377907",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "date": "2026-09-19",
+      "time": "15:00",
+      "episode": 12,
       "german": true
     }
   ]
