@@ -14,5 +14,5 @@ hinter einem /dp/ kann eine DVD liegen.
 
 - Anbieter: **crunchyroll** · unser Titel 212888
 - war verlinkt als: <https://www.crunchyroll.com>
-- **Antwort:** x (Daniel, 20.09.2026: Crunchyroll-Suche „Overgeared" findet nur eine fremde Folge, keine Serienseite; Start am 27.09.2026) 
+- **Antwort:** 
 

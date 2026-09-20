@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_DISNEY = {"5ecc8b00-79fd-4c1a-81ed-f44260ef38d4":{"titel":"SNOWBALL EARTH","url":"https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4","staffeln":[{"nr":1,"id":196144,"name":"SNOWBALL EARTH","folgen":13,"film":false,"offen":true}]}}
+globalThis.AK_OFFENE_DISNEY = {}

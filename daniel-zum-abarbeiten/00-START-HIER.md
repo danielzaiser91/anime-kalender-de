@@ -6,9 +6,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 1 Adresse, 5 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 | 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 1 Adresse | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
-| 7 | [Disney+](07-disneyplus.md) | 1 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
 Sie zeigt auf jeder Anbieterseite, was dort noch offen ist, liest die Tonspuren und

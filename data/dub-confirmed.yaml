@@ -16632,3 +16632,51 @@
   nichtImBestand: true
   checkedAt: '2026-09-20'
   note: "Crunchyroll-Suche ohne Serienseite (Daniel, 20.09.2026). Titel läuft bei uns unter „ohne Synchro“, Start der Reihe 27.09.2026."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-20 ---
+
+- anilistId: 21450
+  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F9FWKDXT
+  dub: true
+  checkedAt: '2026-09-20'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0F9FWKDXT: alle 39 Folgen geprüft, Abos: animedigitalde, zugang=abo, gti=amzn1.dv.gti.3c4e30f8-6290-4ee6-b30d-e4e8a72b607d — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21450
+  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F9FWKDXT
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-09-20'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0F4V6JFH9: nur 48 von 71 Folgen geladen — Rest ungeprüft, Abos: animedigitalde, laut Adresse Staffel 1, zugang=abo, gti=amzn1.dv.gti.89943e43-c4ae-4f79-802f-9387359a5b34, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21450
+  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F4KCHZBR
+  available: false
+  checkedAt: '2026-09-20'
+  note: "Amazon-Seite B0F4KCHZBR: nur 0 von 2 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, laut Adresse Staffel 2, gti=amzn1.dv.gti.743ea777-81f5-4213-a794-4ec035fa3f75, regionsperre=laut Seite nicht mehr im Abo"
+
+- anilistId: 196144
+  title: "SNOWBALL EARTH"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: true
+      checked: [1, 2]
+    - from: 3
+      to: 13
+      dub: false
+      checked: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-09-20'
+  note: "Folgen 1–2 mit deutschem Ton, Folgen 3–13 ohne deutschen Ton — Tonspuren: en, es-419, ja, pt-BR"
