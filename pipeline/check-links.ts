@@ -347,16 +347,23 @@ async function main(): Promise<void> {
    * Bis heute brach der Lauf Amazon endgültig ab, und der Rest blieb für den
    * nächsten Anlauf liegen. Gemessen ist inzwischen beides, was dafür fehlte:
    * Sie kommt nach rund 670 Abrufen (668 am 07.09., 669 am 20.09., beide bei
-   * 700 ms), und sie ist **nach fünfzehn Minuten wieder offen** — eine Probe an
-   * einer lebenden und einer toten Adresse kam mit vollem Inhalt und mit 404
-   * zurück. Also: warten, weitermachen, und die zwanzig Adressen aus der
+   * 700 ms). Also: warten, weitermachen, und die zwanzig Adressen aus der
    * Sperrphase hinten wieder anhängen, damit die Sperre keine Lücke hinterlässt.
    *
-   * Nach `--sperren` Sperren in einem Lauf wird Amazon doch übersprungen; dann
-   * hilft Warten offenbar nicht mehr, und die Adressen bleiben fällig.
+   * **Wie lange gewartet werden muss, ist gemessen — und es ist mehr, als man
+   * denkt.** Der Lauf vom 20.09.2026, 14:20 bis 15:16, mit 3 s Takt und 15 min
+   * Pause kam nach der ersten Sperre nur noch 20, 20, 20 und 91 Abrufe weit.
+   * Daraus folgt zweierlei: Der **Takt** ist nicht die Stellschraube (700 ms
+   * brachten 669 Abrufe, 3 s brachten 20), sondern die **Menge je Zeitfenster**;
+   * und eine Viertelstunde Ruhe stellt das Kontingent nicht wieder her. Deshalb
+   * steht die Pause auf einer Stunde und der Lauf gibt nach zwei Sperren auf,
+   * statt Amazon weiter zu reizen.
+   *
+   * Nach `--sperren` Sperren in einem Lauf wird Amazon übersprungen; die
+   * Adressen bleiben fällig und kommen im nächsten Schub dran.
    */
-  const SPERR_PAUSE = zahl('--sperrpause', 900) * 1000
-  const MAX_SPERREN = zahl('--sperren', 3)
+  const SPERR_PAUSE = zahl('--sperrpause', 3600) * 1000
+  const MAX_SPERREN = zahl('--sperren', 2)
   let sperren = 0
   const nachgeholt = new Set<string>()
   let unklarFolge: string[] = []

@@ -2295,13 +2295,20 @@ einer Sperre bleibt die Leitung für Serienabrufe heiß, auch wenn ein einzelner
 Abruf voll beantwortet wird. Wer die Sperre also prüfen will, muss sie mit einer
 kleinen **Serie** prüfen, nicht mit einem Griff.
 
-Der Lauf wartet deshalb `--sperrpause` (Standard 15 min), hängt die zwanzig
-Adressen aus der Sperrphase hinten wieder an und macht weiter; erst nach drei
-Sperren wird Amazon übersprungen. Dazu `--pause` für den Takt und ein
-Zufallsanteil von ±30 %, weil ein exakt gleichmäßiger Takt für sich schon ein
-Bot-Merkmal ist. Beim Zumachen meldet der Lauf **Abrufe und Takt** — daraus
-entscheidet sich über mehrere Läufe, ob die Grenze an der Menge oder am Tempo
-hängt.
+**Und langsamer laufen hilft nicht — gemessen an demselben Nachmittag.** Der
+Lauf von 14:20 bis 15:16 fuhr mit 3 s Takt und 15 min Pause und kam nach der
+ersten Sperre auf **20, 20, 20 und 91** Abrufe. Gegenüber 669 Abrufen bei 700 ms
+am selben Tag heißt das: Die Stellschraube ist nicht das Tempo, sondern die
+**Menge je Zeitfenster**, und eine Viertelstunde Ruhe stellt das Kontingent
+nicht wieder her. Praktisch: **ein Schub von höchstens rund 600 Amazon-Adressen,
+dann Stunden Ruhe.**
+
+Der Lauf wartet deshalb `--sperrpause` (Standard 60 min), hängt die zwanzig
+Adressen aus der Sperrphase hinten wieder an und macht weiter; nach zwei
+Sperren wird Amazon übersprungen, statt es weiter zu reizen. Dazu `--pause` für
+den Takt und ein Zufallsanteil von ±30 %, weil ein exakt gleichmäßiger Takt für
+sich schon ein Bot-Merkmal ist. Beim Zumachen meldet der Lauf **Abrufe und
+Takt** — die Messzeile, aus der die Zahlen oben stammen.
 
 **Der Ausweichweg ist gemessen, nicht vermutet.** Für den Fall, dass Warten
 nicht reicht: `tavily_extract` holt dieselben Seiten über fremde IPs und
