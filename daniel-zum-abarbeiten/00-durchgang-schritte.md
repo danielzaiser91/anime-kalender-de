@@ -1,42 +1,36 @@
-# Durchgang 19.09.2026, 19:05 — alle Schritte vorbereitet
+# Durchgang 20.09.2026, 12:15 — alle Schritte vorbereitet
 
-Kurzschrift: `1` ja/deutsch · `0` nein · `x` gibt es dort nicht.
+Gemessen aus `extension/offene-*.js` und `public/data/pruefstand.json`: Amazon 1, Disney+ 1,
+Suchadressen 1, dazu zwei Punkte aus `status.md`.
 
-## A · Netflix-Prüfliste (1)
+## A · Prüfliste (3)
 
-1. **Bakugan (2023), 26 Folgen** — [Bei Netflix öffnen](https://www.netflix.com/title/81659233)
-   Handgriff: Knopf der Erweiterung „▶ E1 + E26 prüfen → gilt für E1–26".
-   Frage: Meldet die Erweiterung danach „✓ gemeldet"?
-   → ja: Briefkasten prüfen, Beleg steht. → nein/anderer Text: Bild erbitten.
+1. **JoJo's Bizarre Adventure: Diamond Is Unbreakable** — zweite Prime-Adresse
+   [B0F9FWKDXT](https://www.amazon.de/dp/B0F9FWKDXT), 39 Folgen.
+   Vorwissen: Die deutsche Staffel läuft über B0GXK7RJFW (Prime-Staffel 3 der Sammelseite,
+   gestern belegt). Diese Adresse kam über JustWatch dazu und ist ungesehen.
+   Handgriff: über die **Prüfliste** öffnen (der Klick trägt den Auftrag mit), dann „melden".
+   → deutsch: Beleg wandert an 21450. → keine Folgen: „nicht da" drücken.
 
-## B · Suchadresse (1)
+2. **SNOWBALL EARTH** (Disney+, 13 Folgen, 2026) —
+   [bei Disney+ öffnen](https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4)
+   Vorwissen: einziger Weg, den wir zu dem Titel führen; kein Sprachurteil.
+   Handgriff: Seite öffnen, Kasten der Erweiterung abwarten, „melden".
 
-2. **Jormungand: Perfect Order** (unser Titel 13331) bei Prime Video — die Titelseite suchen:
-   [Prime-Suche öffnen](https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video)
-   Frage: Adresse der Video-Seite (`/gp/video/detail/…`) hier einfügen — oder `x`, wenn es sie nicht gibt.
-   → Adresse: in `18-suchadressen.md` eintragen, Bau zieht sie. → x: als „nicht vorhanden" buchen.
+3. **Overgeared** (bei uns „Temppal: Item no Chikara", ONA, Start 27.09.2026) — Suchadresse
+   zeigt nur auf `crunchyroll.com`.
+   Vorwissen: Crunchyroll hat bisher nur Nachrichten zum Titel (Trailer 19.09.2026), eine
+   Serienseite habe ich nicht gefunden. Der Titel läuft bei uns unter „ohne Synchro".
+   Antwort: Adresse der Serienseite — oder `x`, wenn es dort noch keine gibt.
 
-## C · Prime-Wege ohne Sprachurteil (4)
+## B · Messskript (1)
 
-Handgriff je Link: in der Erweiterung „melden“ drücken (nicht im Chat antworten).
-3. **Fushigi Yûgi New OVA** — [öffnen](https://www.amazon.de/dp/B0CJZH535R)
-4. **Haikyu!!** — [öffnen](https://www.amazon.de/dp/B0D4K9PV2F)
-5. **Grisaia Phantom Trigger: The Animation** — [öffnen](https://www.amazon.de/dp/B0DMMT9B67)
-6. **Edens Zero: Season 2** — [öffnen](https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P)
-   → `1`/`0`: Handbeleg in `data/dub-confirmed.yaml`. → `x`: Weg als tot melden.
+4. `node tools/prime-geteilte-adressen.mjs` im Ordner anime-kalender-de, etwa zwei Minuten
+   (26 Adressen, die mehrere Titel tragen; das Skript misst und schreibt nichts). Ausgabe einfügen.
 
-## D · JustWatch-Kandidaten (14)
+## C · Entscheidung (1)
 
-Liste mit Links: `docs/prime-kandidaten-justwatch.md`. Je Zeile: stimmt der Titel, steht Deutsch?
-Antwort `ok` / `falscher Titel` / `kein Deutsch`, gern mehrere auf einmal („1 ok, 2 ok, 3 kein Deutsch").
-7–20: Zeilen 1–14 der Tabelle.
-→ ok: Adresse als Prime-Weg mit `dub: true` übernehmen. → sonst: verwerfen, Grund notieren.
-
-## E · Amazon-Messskript
-
-21. `node tools/prime-geteilte-adressen.mjs` im Ordner anime-kalender-de ausführen (69 Abrufe),
-    Ausgabe hier einfügen. → je Fall nach Seitentitel korrigieren.
-
-## F · Entscheidung
-
-22. „kostenlos" auch auf Kalenderkarten/Datenbank (+ Filter)? „Premiere" auch auf Kalenderkarten?
+5. **472 Amazon-Verweise ohne Linkbefund.** Aus der Cloud sperrt Amazon nach wenigen Dutzend
+   Abrufen, ein Massenabruf von deinem Rechner verstößt gegen die Nutzungsbedingungen.
+   Wahl: (a) so lassen — tote Links fallen auf, wenn jemand sie meldet; (b) die betroffenen
+   Titel nach und nach auf die Prüfliste nehmen; (c) etwas anderes.

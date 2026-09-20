@@ -5803,6 +5803,18 @@ async function speicherSchreiben(werte) {
   }
   uebersichtZeichnen()
 
+  /*
+    **`?ak=liste` klappt die Prüfliste beim Laden auf** (Daniel, 20.09.2026: „wenn ich
+    prüflisten link anklicken muss, dann link mich wenigstens dorthin wo sie auftaucht, je
+    weniger manuell ich machen muss desto besser"). Damit führt ein Link aus dem Chat direkt
+    zur Liste, statt erst auf eine Seite mit Knopf und dann in die Liste.
+  */
+  try {
+    if (/[?&]ak=liste\b/.test(location.search) && !imPlayer()) dialogUmschalten()
+  } catch {
+    /* Ohne Dialog bleibt der Knopf — er tut dasselbe, nur mit einem Klick mehr. */
+  }
+
   function dialogUmschalten() {
     if (dialog) {
       dialog.remove()
