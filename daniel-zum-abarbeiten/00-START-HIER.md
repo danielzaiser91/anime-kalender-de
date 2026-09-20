@@ -6,7 +6,8 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 1 Adresse | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
+| 1 | Prime Video — Suchseiten | 2 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
+| 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 3 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
 Sie zeigt auf jeder Anbieterseite, was dort noch offen ist, liest die Tonspuren und
