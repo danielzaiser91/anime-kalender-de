@@ -16584,3 +16584,21 @@
   available: false
   checkedAt: '2026-09-19'
   note: "Aus der Prüfliste gemeldet: nachgesehen, den Titel gibt es bei Prime Video nicht"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-20 ---
+
+- anilistId: 100745
+  title: "Captain Tsubasa"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DJB5NGNK
+  dub: true
+  checkedAt: '2026-09-15'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DJB5NGNK: alle 14 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf"
+
+- anilistId: 100745
+  title: "Captain Tsubasa"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D2M355W6
+  dub: true
+  checkedAt: '2026-09-15'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D2M355W6: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf"
