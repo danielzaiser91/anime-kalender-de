@@ -210,8 +210,34 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
     const block = nachDatum[i]!
     const folgen = datierte(block)
 
-    /* Riegel 2: die Folgenzahl geht exakt auf, oder die ganze Serie fällt. */
-    if (folgen.length !== titel.episodes) return []
+    /*
+      Riegel 2: die Folgenzahl geht exakt auf, oder die ganze Serie fällt.
+
+      **Ausnahme: eine Staffel, die gerade läuft** (Daniel, 20.09.2026, „Das Band der
+      Unterwelt"): Dort sind 21 von 24 Folgen deutsch, die 21. kam am Vortag. Der Riegel
+      ließ solche Staffeln komplett durchfallen — im Kalender stand nichts, obwohl jede
+      erschienene Folge ihren Tag trägt. Erlaubt ist der Fall nur unter drei Bedingungen:
+      die datierten Folgen sind **lückenlos ab 1**, es fehlen welche zum Ende hin, und die
+      letzte liegt höchstens 21 Tage zurück. Dann ist es kein fremder Block, sondern eine
+      Staffel mittendrin; `lastEpisodeDate` bleibt offen, und die Fortschreibung rechnet
+      die restlichen Folgen weiter.
+    */
+    const nummern = folgen
+      .map((f) => Number(f.nummer))
+      .filter((n) => Number.isFinite(n) && n >= 1)
+      .sort((a, b) => a - b)
+    const lueckenlosAb1 =
+      nummern.length === folgen.length && nummern[0] === 1 && nummern[nummern.length - 1] === nummern.length
+    const juengste = folgen
+      .map((f) => String(f.verfuegbarAb).slice(0, 10))
+      .sort()
+      .pop()
+    const frisch = Boolean(
+      juengste && Date.now() - Date.parse(juengste + 'T00:00:00Z') < 21 * 24 * 3600 * 1000,
+    )
+    const laufend =
+      lueckenlosAb1 && Boolean(titel.episodes) && folgen.length < titel.episodes! && frisch
+    if (folgen.length !== titel.episodes && !laufend) return []
     /* Und mindestens die Hälfte des Blocks ist datiert, sonst ist es kein Verlauf. */
     if (folgen.length < (block.deutsch ?? folgen.length) / 2) return []
 
@@ -237,10 +263,12 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
         gesetztes Ende schneidet echte Folgen ab. Fehlen Daten, rechnet die
         Terminlogik lieber weiter, als die Staffel zu schließen.
       */
-      lastEpisodeDate: folgen.length === (block.deutsch ?? folgen.length) ? daten[daten.length - 1] : undefined,
+      lastEpisodeDate:
+        !laufend && folgen.length === (block.deutsch ?? folgen.length) ? daten[daten.length - 1] : undefined,
       /* Eine Uhrzeit nur, wenn alle Folgen dieselbe tragen — sonst ist sie geraten. */
       time: zeiten.size === 1 ? [...zeiten][0] : undefined,
-      episodeCount: folgen.length,
+      /* Bei einer laufenden Staffel zählt, was sie haben wird — sonst endet der Kalender mittendrin. */
+      episodeCount: laufend ? titel.episodes! : folgen.length,
       rhythmus: messeRhythmus(daten),
       blockName: block.name,
       datiert: folgen.length,
