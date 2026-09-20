@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-19. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-20. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-68 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+69 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -32,6 +32,7 @@ Stand: 2026-09-19. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10-20, 2026-10 (Monat) | netflix | – unklar | [Netflix-Termin von »Cyberpunk: Edgerunners II« steht fest + Teaser](https://www.anime2you.de/news/1043405/cyberpunk-edgerunners-2-netflix-termin/) |
 | 2026-10-30, 2026-10 (Monat) | disc | – unklar | [Erste »DAN DA DAN«-Staffel erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1039547/dan-da-dan-staffel-1-blu-ray-komplettbox/) |
 | 2026-10-16, 2026-10 (Monat) | crunchyroll, disc | – unklar | [Design der Blu-ray-Box der vierten »Rent-A-Girlfriend«-Staffel + Extras](https://www.anime2you.de/news/1039040/rent-a-girlfriend-staffel-4-box-design/) |
+| 2026-10-02 | crunchyroll | – unklar | [Crunchyroll kündigt zwei neue Simulcast-Lizenzen an](https://www.anime2you.de/news/1052014/crunchyroll-cat-and-the-dragon-staffel-2-und-mehr/) |
 | 2026-10-03 | netflix | ✅ zugesagt | [Netflix entfernt »Kuromukuro« aus seinem Programm](https://www.anime2you.de/news/1048297/netflix-entfernt-kuromukuro/) |
 | 2026-10-17 | crunchyroll, adn | – unklar | [Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer](https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/) |
 | 2026-10-22 | disc | – unklar | [Sieben Blu-ray-Neuheiten ab sofort bei Anime Planet vorbestellbar](https://www.anime2you.de/news/1043419/anime-planet-oktober-november-2026-vorbestellung/) |
@@ -47,41 +48,43 @@ Stand: 2026-09-19. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Fantasy-Donghua »Lord of Mysteries« erscheint auf Blu-ray](https://www.anime2you.de/news/1044052/lord-of-mysteries-erscheint-auf-blu-ray/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [»Miss Kobayashi’s Dragon Maid« erscheint als Steelbook-Edition](https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Erste »A Wild Last Boss Appeared!«-Staffel erscheint auf Blu-ray](https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/) |
-| 2026-11-19, 2026-11 (Monat) | disc | – unklar | [»Kubo Won’t Let Me Be Invisible« erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1044503/kubo-wont-let-me-be-invisible-blu-ray-komplettbox/) |
 
-… und 28 weitere.
+… und 29 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 6 |
-| adn-catalog | 4.9 Tage her | 116 |
-| anilist-voices | 4.9 Tage her | 0 |
-| anime-offline-database | 4.9 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 37 |
+| adn-catalog | 5.9 Tage her | 116 |
+| anilist-voices | 5.9 Tage her | 0 |
+| anime-offline-database | 5.9 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 36 |
 | anisearch | 1.0 Tage her | 3182 |
-| anisearch-folgen | 4.9 Tage her | 15 |
-| ann-voices | 4.9 Tage her | 8876 |
+| anisearch-folgen | 5.9 Tage her | 15 |
+| ann-voices | 5.9 Tage her | 8876 |
 | cartoons | 1.0 Tage her | 0 |
-| cinestar | 4.9 Tage her | 1 |
-| cr-einzelwerke | 16.9 Tage her | 9 |
-| cr-filmbloecke | 16.9 Tage her | 6 |
+| cinestar | 5.9 Tage her | 1 |
+| cr-einzelwerke | 18.0 Tage her | 9 |
+| cr-filmbloecke | 18.0 Tage her | 6 |
 | crunchyroll | 0.0 Tage her | 17 |
 | crunchyroll-dub | 0.0 Tage her | 1100 |
-| crunchyroll-neu | 0.0 Tage her | 57 |
-| crunchyroll-offene | 2.5 Tage her | 0 |
-| fsk | 4.9 Tage her | 3 |
-| justwatch-audio | 1.6 Tage her | 1 |
-| link-check | 1.2 Tage her | 450 |
-| motn | 17.0 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 1 |
-| rohfolgen | 2.0 Tage her | 0 |
-| tmdb-folgen | 4.9 Tage her | 837 |
-| tmdb-kino | 4.9 Tage her | 4 |
-| tmdb-titles | 1.6 Tage her | 3 |
+| crunchyroll-neu | 0.0 Tage her | 62 |
+| crunchyroll-offene | 3.6 Tage her | 0 |
+| fsk | 5.9 Tage her | 3 |
+| justwatch-audio | 2.6 Tage her | 1 |
+| link-check | 2.2 Tage her | 450 |
+| motn | 18.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 0 |
+| rohfolgen | 0.6 Tage her | 0 |
+| tmdb-folgen | 5.9 Tage her | 837 |
+| tmdb-kino | 5.9 Tage her | 4 |
+| tmdb-titles | 2.6 Tage her | 3 |
+| toggo | 0.0 Tage her | 25 |
 | trailer | 1.0 Tage her | 0 |
-| tv-programm | 0.1 Tage her | 279 |
+| tv-de | 0.3 Tage her | 48 |
+| tv-programm | 0.1 Tage her | 264 |
 | vorfaelle | 0.1 Tage her | 0 |
-| wikidata-titel | 3.0 Tage her | 29 |
-| youtube-check | 4.9 Tage her | 0 |
+| wikidata-titel | 4.1 Tage her | 29 |
+| wikipedia-folgen | 0.0 Tage her | 7 |
+| youtube-check | 5.9 Tage her | 0 |
