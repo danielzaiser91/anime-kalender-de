@@ -2705,7 +2705,24 @@ console.log('\nVerpasster Termin:')
     termine.find((e) => e.episode === 7)?.date === '2026-09-13',
     termine.find((e) => e.episode === 7)?.date,
   )
-  /* Gegenprobe: Ohne recherchierten Ersatztermin wird nichts verschoben. */
+  /*
+    **Gegenprobe: Ohne recherchierten Ersatztermin wird nichts verschoben** —
+    und das ist keine Nachlässigkeit, sondern gemessen.
+
+    Am 20.09.2026 habe ich genau hier das Gegenteil eingebaut: Ein offener
+    Ausfall sollte die Folge und alles dahinter um einen Sendeplatz schieben,
+    weil „ein Anbieter keine Folge überspringt, er liefert sie später". Der Satz
+    stimmt, der Schluss daraus nicht. Crunchyroll hat an diesem Tag die Folgen
+    **9 und 10 zusammen** nachgereicht; am 27.09. kommt Folge 11. Daniel:
+    „folge 9 und folge 10 sind heute erschienen … am 27.09. kommt folge 11."
+    Der Präzedenzfall stand in unserer eigenen Recherchenotiz zu derselben
+    Serie: 2024 hat Crunchyroll die Synchro-Folgen 19–25 der zweiten Staffel
+    verschoben und **gesammelt** nachgereicht.
+
+    Ein Ausfall sagt also nichts darüber, ob der Anbieter verschiebt oder
+    aufholt. Beides kommt vor, und geraten wird keines von beidem: Der Plan
+    bleibt stehen, bis eine Beobachtung ihn korrigiert.
+  */
   const ohneErsatz = expandEvents({
     ...release,
     schedule: {
