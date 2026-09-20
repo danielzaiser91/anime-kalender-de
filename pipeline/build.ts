@@ -7850,10 +7850,21 @@ function main(): void {
    * Ein verlorener Titel faellt nicht auf: Der Termin bleibt stehen, das
    * Detail-Panel sagt "keine Metadaten". So hat Daniel es am 23.08. entdeckt,
    * nicht der Lauf.
+   *
+   * **Ein Titel hinter dem Toggle ist kein verlorener Titel.** Am 20.09.2026
+   * verwarf der Crunchyroll-Abgleich (Zeile ~2412) im selben Lauf zwei
+   * geschätzte Starttermine, deren Fenster keine deutsche Folge zeigte
+   * (Black Clover Staffel 2, Die Tagebücher der Apothekerin Staffel 3) — beide
+   * dadurch ohne Release, ohne Sprecher, mit japanischem Start in der Zukunft
+   * also zu Recht `verschoben`. Zwei echte, unabhängige Widerlegungen in
+   * einem Lauf sind kein Cache-Symptom, und die Titel stehen weiterhin in
+   * `ohne-synchro.json` — nur eben nicht mehr in `titles.json`. Ohne diesen
+   * Abgleich brach der Bau ab, obwohl nichts verloren war.
    */
   {
-    /** Ein einzelner Wegfall ist erklaerbar, mehrere sind ein Symptom. */
+    /** Ein einzelner ungeklärter Wegfall ist erklaerbar, mehrere sind ein Symptom. */
     const ERLAUBTER_VERLUST = 1
+    const verschobenIds = new Set(verschoben.map((t) => t.id))
     let vorher: number[] = []
     try {
       const alt = readJson<Title[] | Record<string, Title>>('public/data/titles.json', [])
@@ -7864,19 +7875,24 @@ function main(): void {
     if (vorher.length) {
       const jetzt = new Set(slim.map((t) => t.id))
       const verloren = vorher.filter((id) => !jetzt.has(id))
-      if (verloren.length > ERLAUBTER_VERLUST) {
+      const erklaert = verloren.filter((id) => verschobenIds.has(id))
+      const ungeklaert = verloren.filter((id) => !verschobenIds.has(id))
+      if (ungeklaert.length > ERLAUBTER_VERLUST) {
         warn(
-          `ABBRUCH: ${verloren.length} Titel wuerden aus dem Datensatz fallen ` +
+          `ABBRUCH: ${ungeklaert.length} Titel wuerden aus dem Datensatz fallen ` +
             `(${vorher.length} → ${slim.length}).`,
         )
-        warn(`   Betroffen: ${verloren.slice(0, 10).join(', ')}`)
+        warn(`   Betroffen: ${ungeklaert.slice(0, 10).join(', ')}`)
         warn(
           '   Meist ist der lokale data/cache/ aelter als der des letzten Laufs. Datenlaeufe gehoeren nach GitHub — siehe CLAUDE.md.',
         )
         process.exit(1)
       }
-      if (verloren.length) {
-        warn(`${verloren.length} Titel faellt aus dem Datensatz: ${verloren.join(', ')}`)
+      if (erklaert.length) {
+        warn(`${erklaert.length} Titel hinter den Toggle verschoben, statt verloren: ${erklaert.join(', ')}`)
+      }
+      if (ungeklaert.length) {
+        warn(`${ungeklaert.length} Titel faellt aus dem Datensatz: ${ungeklaert.join(', ')}`)
       }
     }
   }
