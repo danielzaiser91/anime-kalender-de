@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-09-20T09:29:37.847Z",
+ "erzeugtAm": "2026-09-20T10:01:57.909Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 741,
-   "gesamt": 742,
-   "offen": 1,
+   "gemeldet": 740,
+   "gesamt": 743,
+   "offen": 3,
    "ohneSeite": 0,
    "suchAdressen": [],
    "ziel": "https://www.amazon.de/dp/B0F9FWKDXT",
@@ -14,6 +14,14 @@
     {
      "url": "https://www.amazon.de/dp/B0F9FWKDXT",
      "titel": "JoJo’s Bizarre Adventure: Diamond Is Unbreakable (JoJo's Bizarre Adventure: Diamond is Unbreakable)"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0F5J5JTSL",
+     "titel": "KonoSuba: God’s Blessing on This Wonderful World! 2 (KONOSUBA -God's blessing on this wonderful world! 2)"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0FVFT9MQF",
+     "titel": "KonoSuba: God’s Blessing on This Wonderful World! 2 (KONOSUBA -God's blessing on this wonderful world! 2)"
     }
    ],
    "naechster": "JoJo’s Bizarre Adventure: Diamond Is Unbreakable (JoJo's Bizarre Adventure: Diamond is Unbreakable)"
