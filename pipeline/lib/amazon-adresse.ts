@@ -42,11 +42,27 @@ export function echteAmazonAdresse(p: {
  * über diese beiden Funktionen.
  */
 export function amazonTitelAdresse(kennung: string): string {
-  return kennung.length > 10
-    ? `https://www.amazon.de/gp/video/detail/${kennung}`
-    : `https://www.amazon.de/dp/${kennung}`
+  return `https://www.amazon.de/gp/video/detail/${kennung}`
 }
 
+/**
+ * **Auch die zehnstellige ASIN gehört unter `/gp/video/detail/`** (20.09.2026).
+ *
+ * Bis hierher galt `/dp/` für kurze ASINs als in Ordnung — gemessen ist es das
+ * nicht. Stichprobe über fünfzehn Prime-Verweise, die im Bestand als „lebt"
+ * geführt wurden: **sieben von fünfzehn** antworteten unter ihrer eigenen
+ * `/dp/`-Adresse mit 404 „Seite wurde nicht gefunden". Dieselben fünfzehn
+ * ASINs unter `/gp/video/detail/`: **fünfzehn von fünfzehn** mit voller
+ * Titelseite, auch die acht, deren `/dp/`-Form lebt.
+ *
+ * Der Befund in `link-check.json` verdeckte das, weil die Prüfung bei einem 404
+ * still auf die Video-Adresse ausweicht und den Erfolg unter der alten Adresse
+ * bucht. Im Kalender stand damit ein grüner Verweis, der Besucher auf eine
+ * Fehlerseite schickte — hochgerechnet rund 300 von 643.
+ *
+ * Gilt für **Prime Video**. Discs und andere Shop-Artikel gibt es nur unter
+ * `/dp/`; ihre Verweise laufen nicht durch diese Funktion.
+ */
 export function amazonAdresseRichten(url: string): string {
-  return url.replace(/^(https?:\/\/(?:www\.)?amazon\.de)\/dp\/([A-Z0-9]{11,32})(?=[/?#]|$)/i, '$1/gp/video/detail/$2')
+  return url.replace(/^(https?:\/\/(?:www\.)?amazon\.de)\/dp\/([A-Z0-9]{10,32})(?=[/?#]|$)/i, '$1/gp/video/detail/$2')
 }

@@ -236,7 +236,8 @@ console.log('\nSuchadressen behaupten kein Angebot:')
   pruefe(
     'aus Suchadresse und Notiz wird die Titelseite',
     echteAmazonAdresse({ plattform: 'primevideo', url: suche, notiz: 'Amazon-Seite B000W9GBW6: 26 Folgen geprüft' }) ===
-      'https://www.amazon.de/dp/B000W9GBW6',
+      /* Auch die zehnstellige ASIN unter der Video-Adresse — gemessen am 20.09.2026, siehe amazon-adresse.ts. */
+      'https://www.amazon.de/gp/video/detail/B000W9GBW6',
   )
   /*
     Prime Video führt neben zehnstelligen ASINs auch GTIs mit 26 Zeichen — und

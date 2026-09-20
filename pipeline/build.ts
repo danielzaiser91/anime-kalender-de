@@ -7740,6 +7740,23 @@ function main(): void {
     }
     if (mitFenster) log(`${mitFenster} TOGGO-Weg(e) mit Abruffenstern je Folge`)
   }
+  let gerichtet = 0
+  for (const t of allTitles) {
+    for (const s of t.streams ?? []) {
+      if (s.platform !== 'primevideo') continue
+      const neu = amazonAdresseRichten(s.url)
+      if (neu !== s.url) gerichtet++
+      s.url = neu
+    }
+  }
+  for (const r of releases) {
+    if (r.platform !== 'primevideo' || !r.platformUrl) continue
+    const neu = amazonAdresseRichten(r.platformUrl)
+    if (neu !== r.platformUrl) gerichtet++
+    r.platformUrl = neu
+  }
+  if (gerichtet) log(`${gerichtet} Prime-Verweise auf die Video-Adresse gerichtet`)
+
   const slim = allTitles.map((t) => {
     const ausAnisearch = anisearch[t.id]?.descriptionDe
     const ausTmdb = tmdbTitles[t.id]
@@ -8515,6 +8532,21 @@ function main(): void {
     if (kinoEnden) log(`${kinoEnden} Kino-Release(s) mit belegtem letzten Spieltag`)
   }
 
+  /*
+    **Prime-Verweise gehen unter die Video-Adresse — einmal für alle, zum Schluss.**
+
+    Die Adressen kommen aus sechs Quellen (AniList, JustWatch, MOTN, Meldungen,
+    Handpflege, Kanal-Gegenprobe), und jede hat ihre eigene Schreibweise. Eine
+    Stichprobe am 20.09.2026 zeigte, was das kostet: Sieben von fünfzehn
+    `/dp/`-Verweisen mit Befund „lebt" antworteten selbst mit 404, weil die
+    Prüfung bei einem 404 still auf die Video-Adresse ausweicht und den Erfolg
+    unter der alten bucht. Fünfzehn von fünfzehn lebten unter
+    `/gp/video/detail/`.
+
+    Deshalb hier, hinter allen Quellen: Was als Prime-Video-Weg im Datensatz
+    steht, trägt die Video-Adresse. Discs und Shop-Artikel laufen über
+    `watchLinks` mit eigener Plattform und bleiben unberührt.
+  */
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
 

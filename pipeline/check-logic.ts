@@ -3043,10 +3043,18 @@ console.log('\nPrime: eine GTI steht nie unter /dp/:')
     amazonAdresseRichten('https://www.amazon.de/dp/0Q6QUJIEW346VMM87OG648DPND') ===
       'https://www.amazon.de/gp/video/detail/0Q6QUJIEW346VMM87OG648DPND',
   )
+  /*
+    **Auch die ASIN gehört unter die Video-Adresse** — umgeschrieben am
+    20.09.2026, nachdem hier das Gegenteil stand. Sieben von fünfzehn
+    Prime-Verweisen mit Befund „lebt" antworteten unter ihrer eigenen
+    `/dp/`-Adresse mit 404; dieselben fünfzehn ASINs lieferten unter
+    `/gp/video/detail/` fünfzehnmal die volle Titelseite.
+  */
   pruefe(
-    'eine ASIN bleibt unter /dp/',
-    amazonAdresseRichten('https://www.amazon.de/dp/B0D4K9PV2F') === 'https://www.amazon.de/dp/B0D4K9PV2F' &&
-      amazonTitelAdresse('B0D4K9PV2F') === 'https://www.amazon.de/dp/B0D4K9PV2F',
+    'eine ASIN gehoert unter die Video-Adresse',
+    amazonAdresseRichten('https://www.amazon.de/dp/B0D4K9PV2F') ===
+      'https://www.amazon.de/gp/video/detail/B0D4K9PV2F' &&
+      amazonTitelAdresse('B0D4K9PV2F') === 'https://www.amazon.de/gp/video/detail/B0D4K9PV2F',
   )
   pruefe(
     'der Bau baut keine /dp/-Adresse mehr von Hand',
