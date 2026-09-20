@@ -240,3 +240,35 @@
   url: https://www.amazon.de/dp/B0G1ZD14D3
   belegtAm: '2026-09-19'
   beleg: 'Prime-Staffel 4 der JoJo-Sammelseite, 39 Folgen = unsere 39; Folgentitel „Sein Name ist Diavolo“, „Leise erklingt das Requiem“'
+
+# Briefkasten aufgeräumt (20.09.2026): fünf Meldungen lagen seit Tagen ohne Zuordnung.
+# Captain Tsubasa (2018): Prime führt die 52 Folgen in Bögen — „Elementary School“ (14) und
+# „Junior High School“ (12) sind eigene Seiten derselben Serie (Meldungen 4551, 4553, beide deutsch).
+- anilistId: 100745
+  title: "Captain Tsubasa (2018)"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DJB5NGNK
+  belegtAm: '2026-09-20'
+  beleg: 'Prime-Bogen „Elementary School“ der Serie von 2018, 14 Folgen, deutsch (Meldung 4551)'
+- anilistId: 100745
+  title: "Captain Tsubasa (2018)"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D2M355W6
+  belegtAm: '2026-09-20'
+  beleg: 'Prime-Bogen „Junior High School“ derselben Serie, 12 Folgen, deutsch (Meldung 4553)'
+
+# KonoSuba 2 (21699): Prime führt sie als Staffel 2 unter der Reihe von Staffel 1, je Ausgabe mit
+# eigener Seite. Ohne eigenen Verweis blieb die Meldung liegen („Staffel 2 in der Reihe nicht zu
+# bestimmen“) — unsere Staffelzählung kennt 21699 nicht als Nummer 2.
+- anilistId: 21699
+  title: "KonoSuba 2"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F5J5JTSL
+  belegtAm: '2026-09-20'
+  beleg: 'Prime-Staffel 2 der KonoSuba-Reihe (Crunchyroll-Kanal), 10 Folgen = unsere zehn (Meldung 4741, deutsch)'
+- anilistId: 21699
+  title: "KonoSuba 2"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FVFT9MQF
+  belegtAm: '2026-09-20'
+  beleg: 'Prime-Staffel 2 derselben Reihe, Ausgabe „Free with Ads“, 10 Folgen (Meldung 4746, deutsch)'
