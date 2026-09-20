@@ -1,6 +1,23 @@
 {
-  "scrapedAt": "2026-09-19T08:50:37.046Z",
+  "scrapedAt": "2026-09-20T09:21:54.419Z",
   "proposals": [
+    {
+      "articleTitle": "Crunchyroll kündigt zwei neue Simulcast-Lizenzen an",
+      "articleUrl": "https://www.anime2you.de/news/1052014/crunchyroll-cat-and-the-dragon-staffel-2-und-mehr/",
+      "publishedAt": "2026-09-19",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-02",
+          "context": "ki«, die den »Nikko Kegon Falls«-Handlungsstrang adaptiert und ab dem 2. Oktober 2026 im japanischen Originalton mit deutschen Untertiteln v"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Vier Dezember-Neuheiten 2026 bei Anime Planet vorbestellbar",
       "articleUrl": "https://www.anime2you.de/news/1051840/ksm-dezember-2026-anime-planet/",
