@@ -2285,9 +2285,15 @@ inzwischen gemessen ist, wie lange sie hält. Der vierte lokale Schub machte um
 13:59 nach **669 Abrufen** zu (07.09.: 668, beide bei 700 ms Takt — so dicht
 beieinander, dass ein Mengenkontingent näher liegt als eine Taktgrenze). Die
 Probe um **14:16**, fünfzehn Minuten später: `gp/video/detail/B0GXK7RJFW` kam
-mit 2.002.277 Zeichen und vollem Produktinhalt, `dp/B0CGS2DRMV` mit 404. Die
-Sperre war also schon wieder offen, während der nächste Schub noch bis 14:45
-warten sollte.
+mit 2.002.277 Zeichen und vollem Produktinhalt, `dp/B0CGS2DRMV` mit 404.
+
+**Eine Einzelprobe belegt aber keine Freigabe — das ist der eigentliche Befund
+dieses Tages.** Der Lauf, der um 14:20 mit 3 s Takt startete, machte nach
+**zwanzig** Amazon-Abrufen wieder zu. Zwei Abrufe kommen durch, zwanzig nicht:
+Amazon misst offensichtlich die Serie, nicht die einzelne Anfrage, und nach
+einer Sperre bleibt die Leitung für Serienabrufe heiß, auch wenn ein einzelner
+Abruf voll beantwortet wird. Wer die Sperre also prüfen will, muss sie mit einer
+kleinen **Serie** prüfen, nicht mit einem Griff.
 
 Der Lauf wartet deshalb `--sperrpause` (Standard 15 min), hängt die zwanzig
 Adressen aus der Sperrphase hinten wieder an und macht weiter; erst nach drei
