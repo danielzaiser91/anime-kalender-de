@@ -45,6 +45,21 @@ const zahl = (name: string, fallback: number) => {
 }
 const ALTER = zahl('--alter', 30)
 const LIMIT = zahl('--limit', 0)
+/**
+ * **Takt zwischen zwei Abrufen, in Millisekunden** (`--pause`, Standard 700).
+ *
+ * Er ist einstellbar, weil noch nicht belegt ist, woran Amazons Abwehr hängt:
+ * am **Takt** (dann hilft langsamer) oder an der **Menge je Zeitfenster** (dann
+ * hilft nur eine lange Pause zwischen Blöcken). Zwei Läufe mit 700 ms kamen auf
+ * 668 (07.09.2026) und 669 Adressen (20.09.2026) — so dicht beieinander, dass
+ * eine Mengengrenze näher liegt als eine Taktgrenze. Der Lauf meldet deshalb
+ * beim Zumachen, wie viele **Amazon**-Abrufe er bei welchem Takt geschafft hat;
+ * daraus wird die Antwort gemessen statt geraten.
+ *
+ * Dazu kommt ein Zufallsanteil von ±30 %: Ein exakt gleichmäßiger Takt ist für
+ * sich genommen schon ein Bot-Merkmal.
+ */
+const PAUSE = zahl('--pause', 700)
 
 interface Befund {
   /** HTTP-Status, oder ein Wort, wenn es gar nicht erst dazu kam. */
@@ -326,17 +341,40 @@ async function main(): Promise<void> {
    */
   const SPERR_SCHWELLE = 20
   const AMAZON = /(^|\.)amazon\./i
+  /**
+   * **Die Sperre wird ausgesessen, nicht umgangen** (20.09.2026).
+   *
+   * Bis heute brach der Lauf Amazon endgültig ab, und der Rest blieb für den
+   * nächsten Anlauf liegen. Gemessen ist inzwischen beides, was dafür fehlte:
+   * Sie kommt nach rund 670 Abrufen (668 am 07.09., 669 am 20.09., beide bei
+   * 700 ms), und sie ist **nach fünfzehn Minuten wieder offen** — eine Probe an
+   * einer lebenden und einer toten Adresse kam mit vollem Inhalt und mit 404
+   * zurück. Also: warten, weitermachen, und die zwanzig Adressen aus der
+   * Sperrphase hinten wieder anhängen, damit die Sperre keine Lücke hinterlässt.
+   *
+   * Nach `--sperren` Sperren in einem Lauf wird Amazon doch übersprungen; dann
+   * hilft Warten offenbar nicht mehr, und die Adressen bleiben fällig.
+   */
+  const SPERR_PAUSE = zahl('--sperrpause', 900) * 1000
+  const MAX_SPERREN = zahl('--sperren', 3)
+  let sperren = 0
+  const nachgeholt = new Set<string>()
+  let unklarFolge: string[] = []
   let inFolgeUnklar = 0
   let amazonGesperrt = false
   let uebersprungen = 0
   let tot = 0
   let geprueft = 0
-  for (const url of arbeit) {
+  /* Messgröße für die Sperrschwelle: nur Amazon zählt, denn nur Amazon sperrt. */
+  let amazonAbrufe = 0
+  for (let i = 0; i < arbeit.length; i++) {
+    const url = arbeit[i]
     const istAmazon = AMAZON.test(new URL(url).hostname)
     if (amazonGesperrt && istAmazon) {
       uebersprungen++
       continue
     }
+    if (istAmazon) amazonAbrufe++
     const neu = await pruefe(url)
     /*
       **Eine Nichtauskunft löscht keinen Befund.**
@@ -357,17 +395,34 @@ async function main(): Promise<void> {
       neu.status === 'unklar' && altStatus !== undefined && altStatus !== 'unklar'
     if (!behalten) bestand[url] = neu
     if (neu.status === 'unklar') {
+      if (istAmazon) unklarFolge.push(url)
       if (++inFolgeUnklar >= SPERR_SCHWELLE) {
-        warn(`${SPERR_SCHWELLE} Zwischenseiten in Folge nach ${geprueft + 1} Adressen — Amazon sperrt gerade, weiter ohne Amazon.`)
-        amazonGesperrt = true
+        /* Die Zahl, an der sich Takt gegen Menge entscheidet — je Lauf eine Zeile. */
+        warn(`Sperrschwelle gemessen: ${amazonAbrufe} Amazon-Abrufe bei ${PAUSE} ms Takt.`)
+        if (++sperren > MAX_SPERREN) {
+          warn(`${sperren - 1} Sperren in einem Lauf — weiter ohne Amazon, der Rest bleibt fällig.`)
+          amazonGesperrt = true
+        } else {
+          /* Die Adressen aus der Sperrphase sind ungeprüft, nicht unbrauchbar. */
+          const wieder = unklarFolge.filter((u) => !nachgeholt.has(u))
+          wieder.forEach((u) => nachgeholt.add(u))
+          arbeit.push(...wieder)
+          warn(
+            `Amazon sperrt (Sperre ${sperren} von ${MAX_SPERREN}) — ${SPERR_PAUSE / 60000} min Pause, ${wieder.length} Adressen kommen danach erneut dran.`,
+          )
+          await sleep(SPERR_PAUSE)
+        }
+        inFolgeUnklar = 0
+        unklarFolge = []
       }
     } else if (istAmazon) {
       inFolgeUnklar = 0
+      unklarFolge = []
     }
     /* Gezählt wird, was dieser Lauf gefunden hat — nicht, was schon dastand. */
     if (neu.status === 404 || neu.status === 'region') tot++
     if (++geprueft % 100 === 0) log(`  ${geprueft}/${arbeit.length} — ${tot} unbrauchbar`)
-    await sleep(700)
+    await sleep(Math.round(PAUSE * (0.7 + Math.random() * 0.6)))
   }
 
   /*
