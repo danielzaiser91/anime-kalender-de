@@ -5197,13 +5197,7 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-23 ---
 
-- anilistId: 146493
-  title: "Ragna Crimson"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0DMDWHYBC
-  dub: true
-  checkedAt: '2026-08-23'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0DMDWHYBC: alle 24 Folgen geprüft, Abos: Prime, aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, Seitenadresse: B0DJQ2B2D7"
+# Entfernt 20.09.2026: Beide Kandidaten zeigen „Akatsuki no Yona“ — für Ragna Crimson belegt die Seite nichts (Messung tools/prime-geteilte-adressen.mjs).
 
 - anilistId: 123899
   title: "Sing a Bit of Harmony"
@@ -6320,10 +6314,11 @@
 - anilistId: 117612
   title: "How a Realist Hero Rebuilt the Kingdom"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B00WDK307K
+  url: https://www.amazon.de/gp/video/detail/B0G1DT86QJ
   dub: true
   checkedAt: '2026-08-24'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B00WDK307K: alle 21 Folgen geprüft, Abos: keine Angabe, Seitenadresse: B0G1DT86QJ, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0G1DT86QJ: alle 21 Folgen geprüft, Abos: keine Angabe, Seitenadresse: B0G1DT86QJ, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
+  hinweis: "Adresse am 20.09.2026 berichtigt: Die Seite der Meldung ist „How a Realist Hero Rebuilt the Kingdom S02“; die gespeicherte Adresse führt zu „Wickie und die starken Männer“ (Messung tools/prime-geteilte-adressen.mjs)."
 
 - anilistId: 18617
   title: "Girls und Panzer: Der Film"
@@ -8680,13 +8675,7 @@
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B08F5BMCTB: Film geprüft, Abos: keine Angabe, Seitenadresse: B08F5FV3H8, zugang=kauf_oder_leihe"
 
-- anilistId: 133898
-  title: "Dragon Ball Super: Super Hero"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GZ8FGFL8
-  dub: true
-  checkedAt: '2026-08-25'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GZ8FGFL8: Film geprüft, Abos: crunchyrollde, rtlde, FVOD, Seitenadresse: 0P6DJDDASQK51O1AWRC54MET5U, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+# Entfernt 20.09.2026: Beide Kandidaten zeigen „Dragon Ball Super: Broly“ — für „Super Hero“ belegt die Seite nichts (Messung tools/prime-geteilte-adressen.mjs).
 
 - anilistId: 144932
   title: "Edens Zero: Season 2"
@@ -8715,10 +8704,11 @@
 - anilistId: 21361
   title: "Granblue Fantasy: The Animation"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0FM2CDBWL
+  url: https://www.amazon.de/gp/video/detail/0O59G87GV5BELGUFJKLQQAGHP4
   dub: false
   checkedAt: '2026-08-25'
-  note: "Tonspuren: 日本語 — Amazon-Seite B0FM2CDBWL: alle 13 Folgen geprüft, Abos: keine Angabe, Seitenadresse: 0O59G87GV5BELGUFJKLQQAGHP4, zugang=kauf_oder_leihe"
+  note: "Tonspuren: 日本語 — Amazon-Seite 0O59G87GV5BELGUFJKLQQAGHP4: alle 13 Folgen geprüft, Abos: keine Angabe, Seitenadresse: 0O59G87GV5BELGUFJKLQQAGHP4, zugang=kauf_oder_leihe"
+  hinweis: "Adresse am 20.09.2026 berichtigt: Seitentitel „GRANBLUE FANTASY: The Animation“; die gespeicherte Adresse ist Evangelion 1.11 (Messung tools/prime-geteilte-adressen.mjs)."
 
 - anilistId: 145064
   title: "Jujutsu Kaisen: Staffel 2"
@@ -8776,13 +8766,7 @@
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), Türkçe, हिन्दी, ไทย, 日本語, 日本語 [音声による説明 — Amazon-Seite B0DH5DX1TR: Film geprüft, Abos: Prime, Seitenadresse: B0DH5XMZYX, zugang=abo_und_kauf"
 
-- anilistId: 1412
-  title: "Lupin III.: Part 1"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0DH5DX1TR
-  dub: true
-  checkedAt: '2026-08-25'
-  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), Türkçe, हिन्दी, ไทย, 日本語, 日本語 [音声による説明 — Amazon-Seite B0DH5DX1TR: Film geprüft, Abos: Prime, Seitenadresse: 0IIJ1FYSH4XM57T316F31JSKCN, zugang=abo_und_kauf"
+# Entfernt 20.09.2026: Die gespeicherte Adresse ist „Look Back“, die gemeldete Seite der Cagliostro-Film — beides nicht die Serie von 1971 (Messung tools/prime-geteilte-adressen.mjs).
 
 - anilistId: 154924
   title: "Lupin III. vs. Ein Supertrio: Cat’s Eye"
@@ -8795,10 +8779,11 @@
 - anilistId: 97619
   title: "Lupin III.: Goemon Ishikawa, der es Blut regnen lässt"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0B8TCYLRS
+  url: https://www.amazon.de/gp/video/detail/0PII3AKFPJN4Q6DTSMIKCQO6CU
   dub: true
   checkedAt: '2026-08-25'
-  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), العربية, हिन्दी, ไทย, 中文, 日本語, 日本語 [音声による説明 — Amazon-Seite B0B8TCYLRS: Film geprüft, Abos: Prime, Seitenadresse: 0PII3AKFPJN4Q6DTSMIKCQO6CU, zugang=abo_und_kauf"
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), العربية, हिन्दी, ไทย, 中文, 日本語, 日本語 [音声による説明 — Amazon-Seite 0PII3AKFPJN4Q6DTSMIKCQO6CU: Film geprüft, Abos: Prime, Seitenadresse: 0PII3AKFPJN4Q6DTSMIKCQO6CU, zugang=abo_und_kauf"
+  hinweis: "Adresse am 20.09.2026 berichtigt: Seitentitel „Lupin III.: Goemon Ishikawa, der es Blut regnen lässt“; die gespeicherte Adresse ist „Lupin III. vs. Ein Supertrio“ (Messung tools/prime-geteilte-adressen.mjs)."
 
 - anilistId: 104252
   title: "Demon Lord, Retry!"
@@ -9002,18 +8987,20 @@
 - anilistId: 103871
   title: "Zombie Land Saga"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GZL7MBG1
+  url: https://www.amazon.de/gp/video/detail/0JGAZGWGB8P5U7ATA79IKTYIF8
   dub: true
   checkedAt: '2026-08-25'
-  note: "Tonspuren: Deutsch, English, Русский, 日本語 — Amazon-Seite B0GZL7MBG1: alle 12 Folgen geprüft, Abos: crunchyrollde, Seitenadresse: 0JGAZGWGB8P5U7ATA79IKTYIF8, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  note: "Tonspuren: Deutsch, English, Русский, 日本語 — Amazon-Seite 0JGAZGWGB8P5U7ATA79IKTYIF8: alle 12 Folgen geprüft, Abos: crunchyrollde, Seitenadresse: 0JGAZGWGB8P5U7ATA79IKTYIF8, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  hinweis: "Adresse am 20.09.2026 berichtigt: Seitentitel „Zombie Land Saga – Staffel 1“; die gespeicherte Adresse ist ein Fairy-Tail-Teil (Messung tools/prime-geteilte-adressen.mjs)."
 
 - anilistId: 103222
   title: "Magical Girl Spec Ops Asuka"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GZL7MBG1
+  url: https://www.amazon.de/gp/video/detail/0I8UZXM92IXRYUU0Z8TR0TY4AE
   dub: true
   checkedAt: '2026-08-25'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GZL7MBG1: alle 12 Folgen geprüft, Abos: crunchyrollde, Seitenadresse: 0I8UZXM92IXRYUU0Z8TR0TY4AE, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite 0I8UZXM92IXRYUU0Z8TR0TY4AE: alle 12 Folgen geprüft, Abos: crunchyrollde, Seitenadresse: 0I8UZXM92IXRYUU0Z8TR0TY4AE, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  hinweis: "Adresse am 20.09.2026 berichtigt: Seitentitel „Magical Girl Spec-Ops Asuka“; die gespeicherte Adresse ist ein Fairy-Tail-Teil (Messung tools/prime-geteilte-adressen.mjs)."
 
 - anilistId: 97986
   title: "Made in Abyss"
@@ -9109,10 +9096,11 @@
 - anilistId: 110364
   title: "Pac-Man und die Geisterabenteuer"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0FFRD3ZRL
+  url: https://www.amazon.de/gp/video/detail/B0CC2XXCZG
   dub: true
   checkedAt: '2026-08-25'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0FFRD3ZRL: alle 26 Folgen geprüft, Abos: Prime, FVOD, Seitenadresse: B0CC2XXCZG, laut Adresse Staffel 2, zugang=abo_und_kauf"
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CC2XXCZG: alle 26 Folgen geprüft, Abos: Prime, FVOD, Seitenadresse: B0CC2XXCZG, laut Adresse Staffel 2, zugang=abo_und_kauf"
+  hinweis: "Adresse am 20.09.2026 berichtigt: Seitentitel „PAC-MAN und die Geisterabenteuer“, Staffel 2; die gespeicherte Adresse ist „New Panty & Stocking“ (Messung tools/prime-geteilte-adressen.mjs)."
 
 - anilistId: 5114
   title: "Fullmetal Alchemist: Brotherhood"
