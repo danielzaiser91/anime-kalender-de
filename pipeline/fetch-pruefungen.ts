@@ -795,8 +795,29 @@ for (const gruppe of jeAdresse.values()) {
         ids = ziel
         nachStaffelZugeordnet++
       } else if (!ziel.length && ids.some((id) => nummern.has(id))) {
-        offenGeblieben.push(`${p.url} — Staffel ${staffelNr} in der Reihe nicht zu bestimmen, Meldung bleibt liegen`)
-        continue
+        /*
+          **Die Seite der Staffel kennt den Titel, auch wenn die Zählung ihn nicht kennt.**
+
+          Unsere Staffelnamen ergeben nicht immer eine Nummer: „KonoSuba 2" trägt die Zwei,
+          „KonoSuba: God's Blessing on This Wonderful World! 2" aber erst am Ende eines
+          langen Namens, und `staffelNummern()` findet sie dort nicht. Die Meldung lag
+          deshalb seit dem 19.09.2026 im Briefkasten, obwohl der Weg zur Staffel-2-Seite
+          von Hand eingetragen war. Steht `seiten_kennung` als Verweis an genau einem
+          Titel, ist die Frage beantwortet (20.09.2026).
+        */
+        const kennung = String(p.seiten_kennung ?? '').trim()
+        const ausSeite = /^[A-Z0-9]{10,26}$/.test(kennung)
+          ? (nachUrl.get(schluesselAdresse(amazonTitelAdresse(kennung))) ?? [])
+          : []
+        const eindeutig = [...new Set(ausSeite)]
+        if (eindeutig.length === 1) {
+          log(`Staffel ${staffelNr} von ${p.url}: Seite ${kennung} gehört zu ${eindeutig[0]}`)
+          ids = eindeutig
+          nachStaffelZugeordnet++
+        } else {
+          offenGeblieben.push(`${p.url} — Staffel ${staffelNr} in der Reihe nicht zu bestimmen, Meldung bleibt liegen`)
+          continue
+        }
       }
     }
   }
