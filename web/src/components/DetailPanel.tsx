@@ -1066,6 +1066,7 @@ function AntwortKasten({
         <VermerkAuskunft
           vermerk={antwort.vermerk}
           ausgeblieben={istAusgeblieben(antwort.haupt)}
+          episode={antwort.haupt.episode}
           anbieter={PLATFORMS[antwort.haupt.platform]?.name ?? antwort.haupt.platform}
           anbieterUrl={(title.streams ?? []).find((s) => s.platform === antwort.haupt.platform)?.url}
           today={today}
@@ -1373,6 +1374,7 @@ function Meldungen({ titleId }: { titleId: number }) {
 function VermerkAuskunft({
   vermerk,
   ausgeblieben,
+  episode,
   anbieter,
   anbieterUrl,
   today,
@@ -1380,11 +1382,27 @@ function VermerkAuskunft({
 }: {
   vermerk: VermerkAusgeblieben
   ausgeblieben: boolean
+  episode?: number
   anbieter: string
   anbieterUrl?: string
   today: string
   T: (k: string, v?: Record<string, string | number>) => string
 }) {
+  /*
+    **Ein Ersatztermin beendet den Ausfall nicht** (Daniel, 20.09.2026, mit
+    Bild): Bei „You and I Are Polar Opposites" Staffel 2 stand nur noch
+    „Nächste Folge (Folge 8) erscheint am 27.09., verschoben vom 13.09." — kein
+    Wort darüber, dass die Folge seit zwei Wochen aussteht und wir weiter
+    nachsehen. Sein Auftrag: „entsprechend muss eine ausfallnotiz im detail
+    panel stehen".
+
+    `ausgeblieben` gilt dem **Termin**, den die Überschrift zeigt; `offen` gilt
+    der **Folge**. Die Auskunft darunter gehört der Folge, also hängt sie an
+    `offen`. Was die Überschrift schon sagt, steht hier nicht noch einmal: der
+    Termin selbst.
+  */
+  const offen = !vermerk.erschienenAm
+  const ueberfaellig = offen && !ausgeblieben
   const link = 'text-sky-700 underline decoration-sky-700/30 underline-offset-2 hover:decoration-sky-700 dark:text-sky-300 dark:decoration-sky-300/30'
   const [vor, nach] = T('antwort.vermerkPruefen', { anbieter: '\u0000' }).split('\u0000')
   const zeilen: ReactNode[] = []
@@ -1409,7 +1427,7 @@ function VermerkAuskunft({
     return T('antwort.naechsteVoraussichtlich', { tag: vorn, zeit })
   }
   const planZeile = (): string | null => {
-    if (!ausgeblieben) return null
+    if (!offen) return null
     const naechste = naechsteSuche()
     if (vermerk.rechercheAm) {
       return naechste
@@ -1418,7 +1436,16 @@ function VermerkAuskunft({
     }
     return naechste ? T('antwort.vermerkRechercheStart', { naechste }) : null
   }
-  if (ausgeblieben) {
+  /* Die Überschrift nennt nur den neuen Termin — dass die Folge seit dem alten aussteht, steht hier. */
+  if (ueberfaellig && vermerk.erwartetAm) {
+    zeilen.push(
+      T('antwort.vermerkUeberfaellig', {
+        n: episode ?? '',
+        datum: formatDate(String(vermerk.erwartetAm).slice(0, 10)),
+      }),
+    )
+  }
+  if (offen) {
     zeilen.push(
       <>
         {vor}
@@ -1446,7 +1473,7 @@ function VermerkAuskunft({
         </>,
       )
     }
-  } else if (ausgeblieben && vermerk.newsGeprueftAm) {
+  } else if (offen && vermerk.newsGeprueftAm) {
     zeilen.push(T('antwort.vermerkNewsLeerStand', { wann: zeitpunktText(vermerk.newsGeprueftAm, today, T) }))
   }
   if (vermerk.recherche) {
@@ -1463,11 +1490,13 @@ function VermerkAuskunft({
         )}
       </>,
     )
-  } else if (ausgeblieben && vermerk.rechercheAm) {
+  } else if (offen && vermerk.rechercheAm) {
     zeilen.push(T('antwort.vermerkRechercheLeer', { datum: formatDate(vermerk.rechercheAm.slice(0, 10)) }))
   }
   const plan = planZeile()
   if (plan) zeilen.push(plan)
+  /* Zum Schluss, was der Leser mitnehmen soll: Der Termin oben ist eine Annahme, und wir bleiben dran. */
+  if (ueberfaellig) zeilen.push(T('antwort.vermerkAnnahme'))
   if (!zeilen.length) return null
   return (
     <div className="mt-2 space-y-0.5 border-t border-slate-200/70 pt-1.5 text-[11px] leading-snug text-slate-600 dark:border-white/10 dark:text-slate-300">

@@ -558,6 +558,10 @@ const TEXTE = {
   'antwort.vermerkQuelle': 'Quelle',
   'antwort.vermerkRechercheLeer': 'Auch in weiteren News und auf Social Media haben wir bis zum {datum} nichts dazu gefunden.',
   // „Offen kommunizieren" (Daniel, 15.09.2026): je Stufe, wann zuletzt und wann als Nächstes.
+  // Die Folge hat einen neuen Termin, ist aber weiterhin überfällig (Daniel,
+  // 20.09.2026): „entsprechend muss eine ausfallnotiz im detail panel stehen".
+  'antwort.vermerkUeberfaellig': 'Folge {n} war für den {datum} angekündigt und ist bis heute nicht erschienen.',
+  'antwort.vermerkAnnahme': 'Der Termin oben ist unsere Annahme — ändert sich etwas, tragen wir ihn nach.',
   'antwort.vermerkNaechsterBlick': 'Der nächste Blick folgt in wenigen Stunden.',
   'antwort.vermerkNewsLeerStand': 'Anime2You meldet bisher keine Verschiebung (Stand: {wann}, nächster Abgleich morgen früh).',
   'antwort.vermerkRechercheZuletzt': 'Zuletzt gesucht: {wann}. Nächste Suche {naechste}.',
