@@ -2706,6 +2706,48 @@ console.log('\nVerpasster Termin:')
     termine.find((e) => e.episode === 7)?.date,
   )
   /*
+    **Zwei offene Ausfälle drängen sich nicht auf denselben Tag** (20.09.2026).
+
+    „You and I Are Polar Opposites" Staffel 2: Folge 8 fiel am 13.09. aus (kein
+    Ersatztermin), Folge 9 am 20.09. (Ersatztermin 27.09. aus einer Meldung).
+    Folge 8 wurde zwischen ihre Nachbarn gerechnet und landete dadurch auf
+    demselben 27.09. wie Folge 9 — zwei geschätzte Folgen an einem Tag, keine
+    davon belegt. Ein Mehrfachstart ist möglich, aber er wird beobachtet, nicht
+    gerechnet.
+  */
+  const zweiAusfaelle = expandEvents({
+    ...release,
+    schedule: {
+      ...release.schedule,
+      episodeCount: 10,
+      observed: { 7: '2026-09-06' },
+      verpasst: {
+        8: { erwartetAm: '2026-09-13T08:30:00.000Z' },
+        9: { erwartetAm: '2026-09-20T08:30:00.000Z', neuErwartet: '2026-09-27T08:30:00.000Z' },
+      },
+    },
+  }).filter((e) => e.estimated)
+  pruefe(
+    'nach zwei Ausfaellen steht Folge 8 am 27.09. und Folge 9 eine Woche spaeter',
+    zweiAusfaelle.find((e) => e.episode === 8)?.date === '2026-09-27' &&
+      zweiAusfaelle.find((e) => e.episode === 9)?.date === '2026-10-04',
+    zweiAusfaelle.map((e) => `${e.date} Fg. ${e.episode}`),
+  )
+  pruefe(
+    'und kein fortgeschriebener Tag traegt zwei Folgen',
+    new Set(zweiAusfaelle.map((e) => e.date)).size === zweiAusfaelle.length,
+    zweiAusfaelle.map((e) => `${e.date} Fg. ${e.episode}`),
+  )
+  /*
+    Gegenprobe: Ein **beobachteter** Mehrfachstart bleibt unangetastet — Mushoku
+    Tensei Staffel 3 begann am 19.08.2026 mit drei Folgen an einem Tag.
+  */
+  const dreiAmTag = expandEvents({
+    ...release,
+    schedule: { ...release.schedule, observed: { 1: '2026-08-19', 2: '2026-08-19', 3: '2026-08-19' } },
+  }).filter((e) => e.date === '2026-08-19')
+  pruefe('ein beobachteter Mehrfachstart bleibt stehen', dreiAmTag.length === 3, dreiAmTag.map((e) => e.episode))
+  /*
     **Gegenprobe: Ohne recherchierten Ersatztermin wird nichts verschoben** —
     und das ist keine Nachlässigkeit, sondern gemessen.
 

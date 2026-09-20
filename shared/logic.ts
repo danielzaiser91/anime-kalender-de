@@ -460,6 +460,40 @@ export function expandEvents(release: Release): ReleaseEvent[] {
   events.sort((a, b) => (a.date === b.date ? (a.episode ?? 0) - (b.episode ?? 0) : a.date < b.date ? -1 : 1))
 
   /**
+   * **Zwei fortgeschriebene Folgen landen nicht auf demselben Tag.**
+   *
+   * Belegte Mehrfachstarts gibt es wirklich — Mushoku Tensei Staffel 3 begann
+   * mit drei Folgen an einem Tag, und `observed` trägt das. Eine **Rechnung**
+   * darf so etwas aber nicht behaupten.
+   *
+   * Der reale Fall (Daniel, 20.09.2026, mit drei Bildern): „You and I Are Polar
+   * Opposites" Staffel 2 hatte zwei offene Ausfälle — Folge 8 vom 13.09. ohne
+   * Ersatztermin, Folge 9 vom 20.09. mit recherchiertem Ersatztermin 27.09.
+   * Folge 8 wurde zwischen ihren Nachbarn eingerechnet und landete dadurch auf
+   * demselben 27.09. wie Folge 9. Zwei Folgen an einem Tag, beide geschätzt,
+   * keine davon belegt — und der Kalender hatte am 20.09. bereits „Folge 8
+   * kommt heute" neben „Folge 9 ist nicht erschienen" gezeigt.
+   *
+   * Aufgelöst wird nach Folgennummer: Die niedrigere behält den Tag, die höhere
+   * rückt einen Sendeplatz weiter. Angefasst wird nur Fortgeschriebenes;
+   * Beobachtetes und Ausfallvermerke bleiben, wo sie sind.
+   */
+  for (const ev of events.filter((e) => e.estimated).sort((a, b) => (a.episode ?? 0) - (b.episode ?? 0))) {
+    let schutz = 0
+    while (
+      schutz++ < 60 &&
+      events.some((a) => a !== ev && a.date === ev.date && (a.episode ?? 0) < (ev.episode ?? 0))
+    ) {
+      const weiter = sendeplatz(s, ev.date, 1)
+      /* Hinter einem belegten Ende wird nichts mehr angesetzt — dort gilt der Abbruch von oben. */
+      if (s.lastEpisodeDate && weiter > s.lastEpisodeDate) break
+      ev.date = weiter
+      ev.id = `${release.slug}@${weiter}`
+    }
+  }
+  events.sort((a, b) => (a.date === b.date ? (a.episode ?? 0) - (b.episode ?? 0) : a.date < b.date ? -1 : 1))
+
+  /**
    * Mehrere Folgen an einem Tag brauchen unterscheidbare Kennungen.
    *
    * Der Wochentakt ist ein guter Vorgabewert, aber Abweichungen sind der
