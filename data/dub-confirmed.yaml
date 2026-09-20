@@ -16602,3 +16602,21 @@
   dub: true
   checkedAt: '2026-09-15'
   note: "Tonspuren: Deutsch — Amazon-Seite B0D2M355W6: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-20 ---
+
+- anilistId: 21699
+  title: "KonoSuba: God’s Blessing on This Wonderful World! 2"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F5J5JTSL
+  dub: true
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0F5J5JTSL: alle 10 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.820b07dc-64a8-4607-a7b5-43c69f28201b — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21699
+  title: "KonoSuba: God’s Blessing on This Wonderful World! 2"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FVFT9MQF
+  dub: true
+  checkedAt: '2026-09-19'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FVFT9MQF: alle 10 Folgen geprüft, Abos: freewithads, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.f10e9407-eb88-4a1f-9e17-e2c04e88411f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
