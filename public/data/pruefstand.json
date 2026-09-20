@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-09-20T19:04:52.506Z",
+ "erzeugtAm": "2026-09-20T19:35:37.148Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 739,
-   "gesamt": 741,
-   "offen": 2,
+   "gesamt": 742,
+   "offen": 3,
    "ohneSeite": 2,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Lupin%20the%203rd&i=instant-video",
@@ -21,6 +21,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GGJKGT5P",
      "titel": "Classroom of the Elite"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CG7KDCTS",
+     "titel": "JoJo’s Bizarre Adventure: Golden Wind (JoJo's Bizarre Adventure: Golden Wind)"
     }
    ],
    "naechster": "Haikyu!! Karasuno vs. Shiratorizawa (HAIKYU!! 3rd Season)"

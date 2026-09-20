@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-20T19:04:47.366Z",
+  "stand": "2026-09-20T19:35:29.757Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7298,7 +7298,7 @@
       "titleId": 158559,
       "titel": "2.5 Dimensional Seduction",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/s?k=2.5%20Dimensional%20Seduction&i=instant-video",
+      "url": "https://www.amazon.de/dp/B0CW1MQVYB",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7955,6 +7955,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-20",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8021,6 +8032,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-20",
+      "letzterWeg": true
+    },
+    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8041,6 +8063,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-20",
       "letzterWeg": false
+    },
+    {
+      "titleId": 158559,
+      "titel": "2.5 Dimensional Seduction",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/s?k=2.5%20Dimensional%20Seduction&i=instant-video",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-20",
+      "letzterWeg": true
     },
     {
       "titleId": 21416,
