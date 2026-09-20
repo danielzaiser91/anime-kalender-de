@@ -297,6 +297,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-09-19@anime-kalen
+ der-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260919T160000Z
+DTEND:20260919T163000Z
+SUMMARY:Das Band der Unterwelt – Folge 21/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/das-band-der-unterwelt-crunchy
+ roll-de-2026-04-04
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-165159-tv-toggo-plus@2026-09-19#115@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260919T182500Z
@@ -901,6 +913,19 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-09-26@anime-kalen
+ der-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260926T160000Z
+DTEND:20260926T163000Z
+SUMMARY:Das Band der Unterwelt – Folge 22/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/das-band-der-unterwelt-crunchy
+ roll-de-2026-04-04
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:i-parry-everything-2026-09-28@2026-09-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260928
@@ -1079,6 +1104,19 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-03@anime-kalen
+ der-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T160000Z
+DTEND:20261003T163000Z
+SUMMARY:Das Band der Unterwelt – Folge 23/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/das-band-der-unterwelt-crunchy
+ roll-de-2026-04-04
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:black-clover-s2-crunchyroll@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261003
@@ -1168,6 +1206,19 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/st
  eel-ball-run-2nd-3rd-stage
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-10@anime-kalen
+ der-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261010T160000Z
+DTEND:20261010T163000Z
+SUMMARY:Das Band der Unterwelt – Folge 24/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/das-band-der-unterwelt-crunchy
+ roll-de-2026-04-04
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:black-clover-s2-crunchyroll@2026-10-10@anime-kalender-de
