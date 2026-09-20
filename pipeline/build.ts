@@ -5000,8 +5000,38 @@ function main(): void {
         Ableitung — und ein zweites Release derselben Plattform würde
         behaupten, es gäbe die Staffel zweimal.
       */
-      if (releases.some((r) => r.titleId === t.titleId && r.platform === 'crunchyroll')) {
-        termineSchonDa++
+      const vorhanden = releases.filter((r) => r.titleId === t.titleId && r.platform === 'crunchyroll')
+      if (vorhanden.length) {
+        /*
+          **Ein gemessener Wochentakt schlägt den Aufnahmetag** (Daniel, 20.09.2026, „Das Band
+          der Unterwelt"): Die Serie kam als Katalogtitel herein — ein Eintrag vom 04.04.2026,
+          `available-from`, alles an einem Tag. Ihre deutsche Fassung erscheint seitdem Folge
+          für Folge; Folge 21 lief am 19.09., im Kalender stand nichts. Crunchyrolls
+          Simulcast-Kalender kennt solche Titel nicht, die Folgendaten schon.
+
+          Ersetzt wird nur der **Termin**, nicht der Eintrag: Der Slug bleibt, damit die
+          Adresse nicht wandert (CLAUDE.md, „Ein Slug ist eine Adresse").
+        */
+        const sammel = vorhanden.find(
+          (r) =>
+            r.schedule?.firstEpisodeDate === r.schedule?.lastEpisodeDate &&
+            (r.dateMeaning === 'available-from' || r.releaseType === 'batch'),
+        )
+        if (t.rhythmus !== 'weekly' || !sammel || vorhanden.length > 1) {
+          termineSchonDa++
+          continue
+        }
+        sammel.releaseType = 'weekly'
+        sammel.dateMeaning = undefined
+        sammel.schedule = {
+          ...sammel.schedule,
+          firstEpisodeDate: t.firstEpisodeDate,
+          lastEpisodeDate: t.lastEpisodeDate,
+          time: t.time ?? sammel.schedule?.time,
+          episodeCount: t.episodeCount,
+        }
+        sammel.herkunft = `Deutsche Fassung bei Crunchyroll — ${t.datiert} Folgen mit belegtem Termin (Block „${t.blockName}"), Sammeldatum ersetzt`
+        termineNeu++
         continue
       }
       const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? `Titel ${t.titleId}`
