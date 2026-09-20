@@ -2739,6 +2739,31 @@ console.log('\nVerpasster Termin:')
     zweiAusfaelle.map((e) => `${e.date} Fg. ${e.episode}`),
   )
   /*
+    **Beide Ausfalltage nennen dieselbe Folge — die ausstehende.**
+
+    Am zweiten Tag stand „Ep 9/13 nicht erschienen", obwohl sieben Folgen
+    erschienen waren und damit die achte fehlte (Daniel, 20.09.2026, mit zwei
+    Bildern). Die Nummer im Vermerk ist die der damaligen Fortschreibung; gilt
+    wird, was die Beobachtungen hergeben.
+  */
+  const ausfallTage = expandEvents({
+    ...release,
+    schedule: {
+      ...release.schedule,
+      episodeCount: 10,
+      observed: { 7: '2026-09-06' },
+      verpasst: {
+        8: { erwartetAm: '2026-09-13T08:30:00.000Z' },
+        9: { erwartetAm: '2026-09-20T08:30:00.000Z', neuErwartet: '2026-09-27T08:30:00.000Z' },
+      },
+    },
+  }).filter((e) => Boolean(e.verpasst))
+  pruefe(
+    'beide Ausfalltage nennen Folge 8 — die naechste ausstehende',
+    ausfallTage.length === 2 && ausfallTage.every((e) => e.episode === 8),
+    ausfallTage.map((e) => `${e.date} Fg. ${e.episode}`),
+  )
+  /*
     Gegenprobe: Ein **beobachteter** Mehrfachstart bleibt unangetastet — Mushoku
     Tensei Staffel 3 begann am 19.08.2026 mit drei Folgen an einem Tag.
   */

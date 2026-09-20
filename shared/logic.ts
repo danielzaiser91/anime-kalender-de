@@ -441,10 +441,34 @@ export function expandEvents(release: Release): ReleaseEvent[] {
     durchgestrichen, mit der Auskunft daneben. Der Eintrag entsteht nur, wenn
     die Folge inzwischen woanders liegt; sonst steht er schon in der Schleife.
   */
+  /**
+   * **Ausgefallen ist immer die nächste ausstehende Folge.**
+   *
+   * Der Vermerk trägt die Nummer, die in der Fortschreibung an diesem Tag
+   * stand — und die stimmt nicht mehr, sobald davor schon etwas ausgefallen
+   * ist. „You and I Are Polar Opposites" Staffel 2: Am 13.09.2026 kam Folge 8
+   * nicht, am 20.09. wieder nichts, und der Kalender schrieb an den zweiten Tag
+   * „Ep 9/13 nicht erschienen". Erschienen waren zu dem Zeitpunkt sieben
+   * Folgen; ausgeblieben ist also zum zweiten Mal die **achte** (Daniel,
+   * 20.09.2026, mit zwei Bildern: „richtig müsste eig sein 8/13 ist in dieser
+   * spalte und durchgestrichen als nicht erschienen markiert").
+   *
+   * Gerechnet wird aus den Beobachtungen: die höchste Folge, die vor diesem Tag
+   * wirklich da war, plus eins. Ohne Beobachtungen bleibt die Nummer des
+   * Vermerks stehen — dann gibt es nichts Besseres.
+   */
+  const ausstehendAm = (tag: string, fallback: number): number => {
+    const davor = Object.entries(s.observed ?? {})
+      .filter(([, datum]) => datum && datum < tag)
+      .map(([nr]) => Number(nr))
+      .filter((n) => Number.isFinite(n))
+    return davor.length ? Math.max(...davor) + 1 : fallback
+  }
+
   for (const [nr, v] of Object.entries(s.verpasst ?? {})) {
     if (!v?.erwartetAm || v.erschienenAm) continue
     const alterTag = String(v.erwartetAm).slice(0, 10)
-    const episode = Number(nr)
+    const episode = ausstehendAm(alterTag, Number(nr))
     if (events.some((e) => e.date === alterTag && e.episode === episode)) continue
     if (s.lastEpisodeDate && alterTag > s.lastEpisodeDate) continue
     events.push({
