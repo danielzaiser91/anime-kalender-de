@@ -16620,3 +16620,15 @@
   dub: true
   checkedAt: '2026-09-19'
   note: "Tonspuren: Deutsch — Amazon-Seite B0FVFT9MQF: alle 10 Folgen geprüft, Abos: freewithads, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.f10e9407-eb88-4a1f-9e17-e2c04e88411f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# Overgeared („Temppal: Item no Chikara", ONA, Start 27.09.2026): Der Verweis zeigte nur auf
+# crunchyroll.com. Die Suche dort findet am 20.09.2026 keine Serienseite (Daniel, Bild) —
+# Crunchyroll hat bisher nur Nachrichten zum Titel. Der Weg wird gestrichen, bis es eine Seite gibt.
+- anilistId: 212888
+  title: "Temppal: Item no Chikara (Overgeared)"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com
+  available: false
+  nichtImBestand: true
+  checkedAt: '2026-09-20'
+  note: "Crunchyroll-Suche ohne Serienseite (Daniel, 20.09.2026). Titel läuft bei uns unter „ohne Synchro“, Start der Reihe 27.09.2026."
