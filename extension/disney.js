@@ -1057,6 +1057,51 @@
     setTimeout(() => window.postMessage({ marke: MARKE_STEUER, frageListe: true }, '*'), 2500)
   }
 
+  /**
+   * **Der Diagnosebericht — hier, nicht am `document` vorbei.**
+   *
+   * „Bericht laden" schickte bisher nur ein `ak-report`-Ereignis; den Empfänger
+   * dafür gibt es in `amazon.js` und `melder.js`, auf einer Disney-Seite läuft
+   * aber keins von beiden. Der Knopf tat deshalb nichts (Daniel, 20.09.2026:
+   * „bericht laden klick macht nix").
+   */
+  function disneyBericht() {
+    const sicher = (f) => {
+      try {
+        return f()
+      } catch (e) {
+        return `FEHLER: ${e?.message ?? e}`
+      }
+    }
+    return {
+      erzeugtAm: new Date().toISOString(),
+      version: sicher(() => chrome.runtime.getManifest().version),
+      adresse: location.href,
+      eintrag: sicher(() => (eintrag ? { titel: eintrag.titel, url: eintrag.url, staffeln: eintrag.staffeln } : null)),
+      folgen: sicher(() =>
+        folgen.slice(0, 60).map((f) => ({ staffel: f.staffel, nummer: f.nummer, titel: f.titel, sprachen: f.sprachen })),
+      ),
+      folgenGesamt: sicher(() => folgen.length),
+      gemeldet: sicher(() => [...gemeldeteNummern].slice(0, 80)),
+      seite: sicher(() => ({ titel: document.title, kennung: kennung(location.href) })),
+    }
+  }
+
+  try {
+    document.addEventListener('ak-report', () => {
+      const daten = JSON.stringify(disneyBericht(), null, 2)
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(new Blob([daten], { type: 'application/json' }))
+      a.download = `anime-kalender-disney-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      console.log('[Anime-Kalender] Disney+-Diagnosebericht heruntergeladen.')
+    })
+  } catch {
+    /* Ohne document gibt es nichts zu berichten. */
+  }
+
   void briefkastenHolen().then(zeigeUebersicht)
   pruefeAdresse()
   setInterval(pruefeAdresse, 1000)

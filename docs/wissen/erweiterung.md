@@ -1684,3 +1684,11 @@ Am 19.09.2026 bekam die Prime-Prüfliste JustWatchs Form `watch.amazon.de/detail
 rot; live blieb der alte Stand, die Erweiterung meldete „Prime-Liste veraltet“. Wer die Form
 eines Schlüssels ändert, sucht **alle** Kopien des Ausdrucks
 (`grep -rn "amzn1\\.dv\\.gti" extension tools`) und fährt die Prüfung nach dem ersten Bau.
+
+### Ein Ereignis am `document` erreicht nur den Melder, der auf dieser Seite läuft
+
+„Bericht laden" schickt `ak-report` an das `document`. Den Empfänger dafür gab es in `amazon.js`
+und in `melder.js` (Netflix) — auf einer Disney+-Seite läuft keins von beiden, und der Knopf tat
+nichts (Daniel, 20.09.2026: „bericht laden klick macht nix"). Seit 4.20.43 hat `disney.js` seinen
+eigenen Empfänger und seinen eigenen Bericht. **Prüffrage bei jedem gemeinsamen Bedienelement aus
+`box.js`: Wer hört auf der Seite zu, auf der es steht?**
