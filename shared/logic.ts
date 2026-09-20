@@ -23,9 +23,33 @@ function stuetzpunkte(s: Release['schedule']): { episode: number; date: string }
     steht nicht hier, sondern am Ereignis: Was hinter dem letzten Stützpunkt
     liegt, trägt weiterhin `estimated`.
   */
+  /*
+    **Und ohne Ersatztermin rückt die Folge einen Sendeplatz weiter.**
+
+    Findet die Recherche keinen neuen Termin, stand die Folge bis zum
+    20.09.2026 weiter auf ihrem alten Tag — und die Fortschreibung zählte
+    daneben munter hoch. Mushoku Tensei Staffel 3: Folge 9 kam am 13.09. nicht,
+    also setzte der Kalender für den 20.09. **Folge 10** an. Um 17:09 Uhr stand
+    im Panel gleichzeitig „Folge 9 ist nicht erschienen" und „9 von 14 Folgen
+    erschienen" — die neun war Folge 10, deren Termin gerade verstrichen war.
+    Daniel mit zwei Bildern: „folge 9 ist nicht erschienen und 9/14 … und 9 ist
+    erschienen." Erschienen war an diesem Tag Folge 9, genau eine Woche später
+    als geplant.
+
+    Ein Anbieter überspringt keine Folge, er liefert sie später. Ein offener
+    Ausfall schiebt deshalb sich selbst **und alles dahinter** um einen
+    Sendeplatz. Das ist eine Fortschreibung, keine Messung: Das Ereignis trägt
+    weiterhin `estimated`, und sobald der Prüflauf den Ausfall schließt oder
+    einen echten Ersatztermin findet, schlägt dieser die Annahme.
+  */
   const ausRecherche = Object.entries(s.verpasst ?? {})
-    .filter(([, v]) => v?.neuErwartet && !v.erschienenAm)
-    .map(([episode, v]) => ({ episode: Number(episode), date: String(v!.neuErwartet).slice(0, 10) }))
+    .filter(([, v]) => v && !v.erschienenAm)
+    .map(([episode, v]) => ({
+      episode: Number(episode),
+      date: v!.neuErwartet
+        ? String(v!.neuErwartet).slice(0, 10)
+        : sendeplatz(s, String(v!.erwartetAm).slice(0, 10), 1),
+    }))
   const beobachtet = Object.entries(s.observed ?? {}).map(([episode, date]) => ({
     episode: Number(episode),
     date,

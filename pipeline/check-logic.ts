@@ -2705,7 +2705,21 @@ console.log('\nVerpasster Termin:')
     termine.find((e) => e.episode === 7)?.date === '2026-09-13',
     termine.find((e) => e.episode === 7)?.date,
   )
-  /* Gegenprobe: Ohne recherchierten Ersatztermin wird nichts verschoben. */
+  /*
+    **Ohne recherchierten Ersatztermin rückt die Folge einen Sendeplatz weiter.**
+
+    Hier stand bis zum 20.09.2026 das Gegenteil: „ohne recherchierten
+    Ersatztermin bleibt der Plan, wie er war". Widerlegt an derselben Serie, mit
+    der dieser Abschnitt anfängt. Mushoku Tensei Staffel 3, Folge 9 kam am 13.09.
+    nicht; die Recherche fand keinen Ersatztermin, und der Kalender setzte für
+    den 20.09. **Folge 10** an. Um 17:09 Uhr stand im Panel „Folge 9 ist nicht
+    erschienen" neben „9 von 14 Folgen erschienen" — erschienen war an dem Tag
+    Folge 9, eine Woche später als geplant.
+
+    Ein Anbieter überspringt keine Folge, er liefert sie später. Die Annahme
+    bleibt als solche gekennzeichnet (`estimated`), und eine Beobachtung oder ein
+    recherchierter Termin schlägt sie.
+  */
   const ohneErsatz = expandEvents({
     ...release,
     schedule: {
@@ -2714,10 +2728,21 @@ console.log('\nVerpasster Termin:')
     },
   })
   pruefe(
-    'ohne recherchierten Ersatztermin bleibt der Plan, wie er war',
-    ohneErsatz.filter((e) => e.episode === 6).length === 1 &&
-      ohneErsatz.find((e) => e.episode === 7)?.date === '2026-09-06',
+    'ohne Ersatztermin steht die Folge am naechsten Sendeplatz, der alte Tag bleibt als Ausfall',
+    ohneErsatz.filter((e) => e.episode === 6).length === 2 &&
+      ohneErsatz.some((e) => e.episode === 6 && e.date === '2026-09-06' && !e.verpasst) &&
+      ohneErsatz.some((e) => e.episode === 6 && e.date === '2026-08-30' && e.verpasst),
+    ohneErsatz.filter((e) => e.episode === 6).map((e) => e.date + (e.verpasst ? ' (verpasst)' : '')),
+  )
+  pruefe(
+    'und die Folge danach rueckt mit — Folge 7 am 13.09., nicht am 06.09.',
+    ohneErsatz.find((e) => e.episode === 7)?.date === '2026-09-13',
     ohneErsatz.find((e) => e.episode === 7)?.date,
+  )
+  pruefe(
+    'der angenommene Ersatztermin ist als Fortschreibung gekennzeichnet',
+    ohneErsatz.find((e) => e.episode === 6 && e.date === '2026-09-06')?.estimated === true,
+    ohneErsatz.find((e) => e.episode === 6 && e.date === '2026-09-06')?.estimated,
   )
   /*
     Daniel am 13.09.2026: Kalender „⚠ nicht erschienen", Panel „8 von 13
