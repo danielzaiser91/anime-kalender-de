@@ -4168,5 +4168,14 @@
       "sagt": "2026-09-25",
       "stand": "aktuell"
     }
+  ],
+  "auto-5027-tv-disney-channel": [
+    {
+      "url": "https://tv.de/sender/disney-channel/",
+      "name": "tv.de",
+      "gesehenAm": "2026-09-20",
+      "sagt": "2026-09-27",
+      "stand": "aktuell"
+    }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-19T23:17:30.529Z",
+  "stand": "2026-09-20T01:22:32.225Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7856,6 +7856,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 196144,
+      "titel": "SNOWBALL EARTH",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GT00371869/snowball-earth",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-20",
+      "letzterWeg": false
+    },
+    {
       "titleId": 197824,
       "titel": "Farming Life in Another World 2",
       "plattform": "adn",
@@ -7933,6 +7944,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-20",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -7992,6 +8014,17 @@
       "titel": "Gushing over Magical Girls",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1121",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-20",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,

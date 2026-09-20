@@ -1287,6 +1287,36 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-09-27#1@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260927T125500Z
+DTEND:20260927T132500Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-5027-tv-disney-channel
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-09-27#2@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260927T132000Z
+DTEND:20260927T135000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-5027-tv-disney-channel
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-09-27#3@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260927T135000Z
+DTEND:20260927T142000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-5027-tv-disney-channel
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
 UID:mushoku-tensei-s3@2026-09-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260927T150000Z
