@@ -12,8 +12,7 @@ DTSTART:20260913T083000Z
 DTEND:20260913T090000Z
 SUMMARY:⚠ nicht erschienen: You and I Are Polar Opposites – Staffel 2 
  – Folge 8/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
  s2
 CATEGORIES:Crunchyroll
@@ -126,8 +125,7 @@ DTSTART:20260920T083000Z
 DTEND:20260920T090000Z
 SUMMARY:⚠ nicht erschienen: You and I Are Polar Opposites – Staffel 2 
  – Folge 9/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
  s2
 CATEGORIES:Crunchyroll
@@ -178,11 +176,23 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-09-27@anime-kalender-de
+UID:you-and-i-are-polar-opposites-s2@2026-09-27#8@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260927T083000Z
 DTEND:20260927T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 10/13
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 8/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
+ s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-09-27#9@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260927T083000Z
+DTEND:20260927T090000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 9/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
@@ -271,7 +281,7 @@ UID:you-and-i-are-polar-opposites-s2@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T083000Z
 DTEND:20261004T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 11/13
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 10/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
@@ -328,7 +338,7 @@ UID:you-and-i-are-polar-opposites-s2@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T083000Z
 DTEND:20261011T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 12/13
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 11/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
@@ -420,7 +430,7 @@ UID:you-and-i-are-polar-opposites-s2@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T083000Z
 DTEND:20261018T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 12/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
@@ -448,6 +458,18 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1
  84591-disc
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261025T093000Z
+DTEND:20261025T100000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
+ s2
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-147103-netflix@2026-10-25@anime-kalender-de
