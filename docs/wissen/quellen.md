@@ -2318,6 +2318,18 @@ und allen 24 Folgentiteln zurück, die tote als „404 page not found"
 nicht der Normalweg. Die Cloud ist keine: Vom GitHub-Runner sperrt Amazon nach
 wenigen Dutzend Abrufen.
 
+**Der Probelauf über zehn unserer „unklar"-Adressen zeigt aber auch die Grenze**
+(20.09.2026, während Amazon uns gesperrt hatte): Alle zehn `/dp/`-Adressen kamen
+als „404 page not found" zurück — und die Gegenprobe über die **Video**-Adresse
+derselben ASINs lieferte für zwei von drei volle Seiten (Space Dandy mit 24
+Folgentiteln, Anti-Magic Academy mit deutscher Tonspur), für die dritte „Error
+fetching content". Zweierlei folgt daraus: Der Befund ist plausibel, denn
+`/dp/` ist bei Prime-Titeln regelmäßig tot, während die Video-Seite lebt. Und
+**Tavily hat seine eigene Nichtauskunft** — „Error fetching content" ist
+dasselbe wie unser `unklar` und darf keinen Befund setzen. Ob Tavilys 404
+wirklich Amazons 404 ist, muss an denselben Adressen über eine freie Leitung
+gegengeprüft werden, bevor daraus Befunde im Bestand werden.
+
 **Und die Sperre stoppt nur Amazon (17.09.2026).** Vom GitHub-Runner aus sperrt Amazon
 nach wenigen Dutzend Abrufen; der alte Abbruch ließ dadurch zehn Tage lang auch alle
 übrigen Anbieter ungeprüft (1.037 fällig, 41 geprüft). Seitdem überspringt der Lauf nach
