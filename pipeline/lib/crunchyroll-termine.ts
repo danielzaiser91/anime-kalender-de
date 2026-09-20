@@ -154,6 +154,23 @@ function messeRhythmus(daten: string[]): 'weekly' | 'batch' {
  * @param serie   Ein Eintrag aus `data/crunchyroll-dub.json`.
  * @param unsere  Unsere Titel, die auf `serie.url` zeigen.
  */
+/**
+ * **Was die Ableitung verwirft, wird gezählt — nicht verschwiegen.**
+ *
+ * Am 20.09.2026 fiel Daniel auf, dass „Das Band der Unterwelt" im Kalender fehlte: Riegel 2
+ * („die Folgenzahl geht exakt auf") ließ die Staffel durchfallen, ohne dass irgendwo eine Zahl
+ * davon erzählte. Seitdem legt jeder Verwerfungsgrund hier seinen Fall ab; `build.ts` schreibt
+ * die Liste nach `data/termine-ausgelassen.json` und nennt die Summe im Lauf
+ * (Skill `stille-ausfaelle-verhindern`).
+ */
+export type Ausgelassen = { grund: string; serie: string; titel?: number; zahl?: string }
+export const ausgelassen: Ausgelassen[] = []
+
+function verwirf(grund: string, serie: CrSerie, titel?: number, zahl?: string): CrTermin[] {
+  ausgelassen.push({ grund, serie: serie.url, ...(titel ? { titel } : {}), ...(zahl ? { zahl } : {}) })
+  return []
+}
+
 export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
   /* Nur der deutsche Katalog trägt deutsche Termine — ein US-Lauf sagt nichts. */
   if (serie.katalog !== 'de') return []
@@ -172,7 +189,8 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
     const stream = t.streams.find((x) => x.platform === 'crunchyroll' && x.url === serie.url)
     return stream?.dub === true && typeof t.episodes === 'number' && t.episodes > 0
   })
-  if (kandidaten.length !== bloecke.length) return []
+  if (kandidaten.length !== bloecke.length)
+    return verwirf('Blöcke und Titel verschieden viele', serie, undefined, `${bloecke.length} Blöcke, ${kandidaten.length} Titel`)
 
   /*
     **Zugeordnet wird chronologisch und paarweise — und nur, wenn jedes Paar
@@ -237,9 +255,11 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
     )
     const laufend =
       lueckenlosAb1 && Boolean(titel.episodes) && folgen.length < titel.episodes! && frisch
-    if (folgen.length !== titel.episodes && !laufend) return []
+    if (folgen.length !== titel.episodes && !laufend)
+      return verwirf('Folgenzahl geht nicht auf', serie, titel.id, `${folgen.length} datiert, ${titel.episodes} laut Bestand`)
     /* Und mindestens die Hälfte des Blocks ist datiert, sonst ist es kein Verlauf. */
-    if (folgen.length < (block.deutsch ?? folgen.length) / 2) return []
+    if (folgen.length < (block.deutsch ?? folgen.length) / 2)
+      return verwirf('zu wenige Folgen datiert', serie, titel.id, `${folgen.length} von ${block.deutsch ?? '?'}`)
 
     const punkte = folgen
       .map((f) => nachBerlin(f.verfuegbarAb!))
@@ -250,7 +270,8 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
     const daten = punkte.map((p) => p.datum)
     /* Riegel 3: keine deutsche Fassung vor ihrer japanischen Ausstrahlung. */
     const jahr = Number(daten[0]!.slice(0, 4))
-    if (titel.jpYear && jahr < titel.jpYear) return []
+    if (titel.jpYear && jahr < titel.jpYear)
+      return verwirf('deutscher Termin vor der japanischen Ausstrahlung', serie, titel.id, `${jahr} gegen ${titel.jpYear}`)
 
     const zeiten = new Set(punkte.map((p) => p.zeit))
     raus.push({

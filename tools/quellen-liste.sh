@@ -217,6 +217,8 @@ QUELLEN=(
   data/kinoheld.json
   # IMDb-Kennungen über Wikidata, MAL → IMDb (19.09.2026, wöchentlich).
   data/imdb-ids.json
+  # Was die Crunchyroll-Terminableitung verworfen hat (20.09.2026, Skill stille-ausfaelle-verhindern).
+  data/termine-ausgelassen.json
   # Folgennummern und deutsche Erstausstrahlung aus den Episodenlisten der de.wikipedia,
   # für die im TV-Programm gesichteten Titel (19.09.2026, `pipeline/fetch-wikipedia-folgen.ts`).
   data/wikipedia-folgen.json

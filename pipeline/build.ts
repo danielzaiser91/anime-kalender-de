@@ -30,7 +30,7 @@ import {
 import { amazonGtiWahl, gtiAus, type JwAngebot } from './lib/amazon-gti.ts'
 import { terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { englischAusSynonymen } from './lib/anisearch-titel.ts'
-import { alleTermine, beobachtungenAusBlock } from './lib/crunchyroll-termine.ts'
+import { alleTermine, ausgelassen as termineAusgelassen, beobachtungenAusBlock } from './lib/crunchyroll-termine.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
@@ -5074,6 +5074,26 @@ function main(): void {
         sources: [adresse ?? 'https://www.crunchyroll.com/de'],
       })
       termineNeu++
+    }
+    /*
+      **Was die Ableitung verworfen hat, wird sichtbar** (Daniel, 20.09.2026): Riegel, die
+      eine Serie stumm durchfallen lassen, kosten Termine, die niemand vermisst — „Das Band
+      der Unterwelt" fehlte ein halbes Jahr. Die Gründe stehen ab jetzt in einer Datei, die
+      Zahl im Lauf (Skill `stille-ausfaelle-verhindern`).
+    */
+    if (termineAusgelassen.length) {
+      const jeGrund = new Map<string, number>()
+      for (const a of termineAusgelassen) jeGrund.set(a.grund, (jeGrund.get(a.grund) ?? 0) + 1)
+      writeJson('data/termine-ausgelassen.json', {
+        erzeugtAm: new Date().toISOString(),
+        jeGrund: Object.fromEntries(jeGrund),
+        faelle: termineAusgelassen.slice(0, 400),
+      })
+      log(
+        `Terminableitung übersprungen: ${termineAusgelassen.length} Serien — ` +
+          [...jeGrund].map(([g, n]) => `${n}× ${g}`).join(', ') +
+          ' (data/termine-ausgelassen.json)',
+      )
     }
     if (termineNeu || termineSchonDa)
       log(
