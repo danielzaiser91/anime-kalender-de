@@ -298,11 +298,25 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
       time: zeiten.size === 1 ? [...zeiten][0] : undefined,
       /* Bei einer laufenden Staffel zählt, was sie haben wird — sonst endet der Kalender mittendrin. */
       episodeCount: laufend ? titel.episodes! : folgen.length,
-      beobachtet: Object.fromEntries(
-        folgen
+      /*
+        **Nur Nummern, die zu dieser Staffel gehören.** Crunchyrolls Blöcke zählen teils über
+        die ganze Reihe durch (Staffel 2 beginnt bei 13), unser Release zählt ab 1. Ungeprüft
+        übernommen, ergaben sich Beobachtungen hinter dem Staffelende — acht Zusicherungen
+        brachen den Bau ab (20.09.2026, Lauf 35507532910: „letzter Termin liegt vor der
+        frühesten belegten Beobachtung"). Gesetzt wird deshalb nur, was bei 1 anfängt und die
+        Folgenzahl nicht überschreitet.
+      */
+      beobachtet: (() => {
+        const paare = folgen
           .map((f) => [Number(f.nummer), nachBerlin(f.verfuegbarAb!)?.datum] as const)
-          .filter((p): p is readonly [number, string] => Number.isFinite(p[0]) && p[0] >= 1 && Boolean(p[1])),
-      ),
+          .filter((p): p is readonly [number, string] => Number.isFinite(p[0]) && p[0] >= 1 && Boolean(p[1]))
+        const nummernMenge = paare.map(([n]) => n)
+        const passt =
+          nummernMenge.length > 0 &&
+          Math.min(...nummernMenge) === 1 &&
+          Math.max(...nummernMenge) <= (laufend ? titel.episodes! : folgen.length)
+        return passt ? Object.fromEntries(paare) : {}
+      })(),
       rhythmus: messeRhythmus(daten),
       blockName: block.name,
       datiert: folgen.length,
