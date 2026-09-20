@@ -5,6 +5,18 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 20.09.2026, 21:25 — durchgesehen, nichts offen
+
+**Was läuft korrekt.** Wachlauf vom 20.09.2026, 14:23, „unauffällig": 2.775 Titel, 2.090 Urteile, **4 offen**; über 24 Stunden +3 Titel und +25 Urteile. Briefkasten leer, Statusanzeige ohne roten Lauf, die Liste der ungeklärten Meldungen steht bei zwei Adressen.
+
+**Die vier Auffälligkeiten sind meine eigenen Korrekturen.** Alle vier melden „primevideo: Synchro-Belege weniger" und stammen aus dem Durchgang vom 19./20.09.: zurückgenommene Belege ohne Urteil (JoJo-Sammelseiten, Fushigi Yuugi, Edens Zero Staffel 2) und drei Belege, die das Messskript `prime-geteilte-adressen.mjs` als „belegt gar nichts" ausgewiesen hat. Kein Verlust, sondern gelöschte Behauptungen.
+
+**Wo echte Risiken waren.** Einer, und die Wache konnte ihn nicht sehen, weil nichts verloren ging: Rund 300 von 643 Prime-Verweisen standen unter `amazon.de/dp/<ASIN>` und antworteten dort mit 404, während unser Linkbefund „lebt" lautete — die Prüfung weicht bei einem 404 still auf die Video-Adresse aus und bucht den Erfolg unter der alten Adresse. Gemessen an fünfzehn Verweisen: sieben tot unter `/dp/`, fünfzehn von fünfzehn lebendig unter `/gp/video/detail/`. Behoben, der Bau richtet die Adressen jetzt zum Schluss.
+
+**Wo Verbesserungspotenzial ist.** Die Zeile „Von den Ableitungen verworfen" steht seit ihrer Einführung unverändert bei 210 und 54 — sie meldet also zuverlässig, sagt aber noch nichts darüber, ob die 264 Serien zu Recht durchfallen. Eine Stichprobe darüber steht aus.
+
+---
+
 ## 19.09.2026, 23:55 — durchgesehen, nichts offen
 
 **Was läuft korrekt.** Letzter Wachlauf 19.09.2026, 13:55, „unauffällig": 2.772 Titel, 2.065 Urteile, 4 offen; über 24 Stunden +1 Urteil, −38 offen. Am Abend kamen im Durchgang rund 40 Belege dazu (JustWatch-Kandidaten, JoJo, Grisaia); die nächste Wache zeigt sie.
