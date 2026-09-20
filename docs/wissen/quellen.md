@@ -2326,9 +2326,13 @@ Folgentiteln, Anti-Magic Academy mit deutscher Tonspur), für die dritte „Erro
 fetching content". Zweierlei folgt daraus: Der Befund ist plausibel, denn
 `/dp/` ist bei Prime-Titeln regelmäßig tot, während die Video-Seite lebt. Und
 **Tavily hat seine eigene Nichtauskunft** — „Error fetching content" ist
-dasselbe wie unser `unklar` und darf keinen Befund setzen. Ob Tavilys 404
-wirklich Amazons 404 ist, muss an denselben Adressen über eine freie Leitung
-gegengeprüft werden, bevor daraus Befunde im Bestand werden.
+dasselbe wie unser `unklar` und darf keinen Befund setzen.
+
+**Die Gegenprobe ist inzwischen gemacht: zehn von zehn** (20.09.2026, 20:55,
+nach drei Stunden Ruhe über die freie Leitung). Alle zehn `/dp/`-Adressen
+antworteten mit HTTP 404 und 2.299 Zeichen — genau das, was Tavily gemeldet
+hatte. Tavilys „404 page not found" ist damit Amazons 404, und der Dienst taugt
+als Rückfallebene für Befunde.
 
 **Und die Sperre stoppt nur Amazon (17.09.2026).** Vom GitHub-Runner aus sperrt Amazon
 nach wenigen Dutzend Abrufen; der alte Abbruch ließ dadurch zehn Tage lang auch alle
