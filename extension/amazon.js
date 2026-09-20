@@ -3575,6 +3575,13 @@ async function speicherSchreiben(werte) {
   /** Text der Marke, wenn noch eine Staffel aussteht — sonst „gemeldet ✓". */
   let weiterText = null
   /*
+    **Die Wegweisung gilt der Seite, auf der sie entstand** (Daniel, 20.09.2026, JoJo): Nach
+    der Meldung zu Staffel 1 stand „✓ Staffel 1 gemeldet" noch da, als er auf Staffel 2 einer
+    anderen Seite meldete — der Text ist ein `let` und wurde beim Wechsel nicht zurückgesetzt.
+    Die Meldung selbst war richtig (Staffel 2, Eintrag 4816), nur die Marke log.
+  */
+  let weiterTextPfad = null
+  /*
     **Die Marke aus „alles gemeldet" hat ihren eigenen Merker (15.09.2026).**
     Solo Leveling: In den ersten Sekunden fehlten Stand und Briefkasten, die
     Rechnung hielt den Titel wegen einer lokalen Meldung von 11:07 für erledigt
@@ -7215,7 +7222,8 @@ async function speicherSchreiben(werte) {
     */
     {
       const an = gemeldetFuerPfad === location.pathname || durchFuerPfad === location.pathname
-      gemeldetMarke(an, an ? (weiterText ?? 'gemeldet ✓') : undefined)
+      const wegweisung = weiterTextPfad === location.pathname ? weiterText : null
+      gemeldetMarke(an, an ? (wegweisung ?? 'gemeldet ✓') : undefined)
     }
 
     /*
@@ -8438,6 +8446,7 @@ async function speicherSchreiben(werte) {
         weiterText =
           `✓ Staffel ${staffelText(jetzigeStaffel)} gemeldet` +
           (weiterMit ? ` · weiter mit Staffel ${weiterMit}` : '')
+        weiterTextPfad = location.pathname
         durchFuerPfad = location.pathname
         gemeldetMarke(true, weiterText)
       } else {
