@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_AMAZON = {}
+globalThis.AK_OFFENE_AMAZON = {"B0D544CDK6":{"titel":"Haikyu!! Karasuno vs. Shiratorizawa (HAIKYU!! 3rd Season)","url":"https://www.amazon.de/gp/video/detail/B0D544CDK6","eintraege":[{"id":21698,"name":"Haikyu!! Karasuno vs. Shiratorizawa (HAIKYU!! 3rd Season)","folgen":10,"offen":true,"asId":11209,"malId":32935}]},"B0GGJKGT5P":{"titel":"Classroom of the Elite","url":"https://www.amazon.de/gp/video/detail/B0GGJKGT5P","eintraege":[{"id":98659,"name":"Classroom of the Elite","folgen":12,"offen":true,"asId":12495,"malId":35507}]}}
