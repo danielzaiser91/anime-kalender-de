@@ -119,6 +119,14 @@ const NICHT_IN_REGION = /In deiner Region nicht mehr auf Prime Video verfügbar/
  * Gemessen an zwei Adressen: die tote Seite ist 2.299 Zeichen lang und trägt
  * keines der Merkmale, die lebende (`B0DML22FHP`, „Date A Live") 936.253 mit
  * allen.
+ *
+ * **Und ein Einzelabruf einer wirklich toten Seite liefert echtes 404** — die
+ * 200er-Leerseite ist Abwehr unter Last, nicht der Normalfall (20.09.2026,
+ * Daniels Frage „die 404/leere seite, liefert doch auch 200 oder nicht?"):
+ * `/dp/B0CGS2DRMV` → 404, Titel „Seite wurde nicht gefunden", beide Muster
+ * greifen wie erwartet; `/gp/video/detail/B0GXK7RJFW` → 200 mit Produktseite.
+ * Daraus folgt für die Auswertung: 404 und 200-mit-Produktseite sind Befunde,
+ * 200 ohne Produktseite ist keiner.
  */
 const NICHT_GEFUNDEN = /keine funktionsfähige Seite auf unserer Website|Seite wurde nicht gefunden/i
 const PRODUKTSEITE = /dp-container|productTitle|av-detail-section|\|\s*Prime Video/i
