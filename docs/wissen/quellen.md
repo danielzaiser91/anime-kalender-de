@@ -2276,10 +2276,34 @@ unterscheidet nicht zwischen lebenden und toten ASINs.
   gemessen, bei keinem einzigen erfolgreich — und wieder ausgebaut. Die Sperre
   ist zeitlich, nicht anfragebezogen.
 
-Deshalb bricht der Lauf jetzt bei **zwanzig Zwischenseiten in Folge** ab
+Deshalb hält der Lauf bei **zwanzig Zwischenseiten in Folge** an
 (`SPERR_SCHWELLE` in `pipeline/check-links.ts`). Einzelne kommen auch im
-gesunden Betrieb vor; eine Serie von zwanzig ist die Abwehr. Was übrig bleibt,
-bleibt fällig.
+gesunden Betrieb vor; eine Serie von zwanzig ist die Abwehr.
+
+**Seit dem 20.09.2026 wird die Sperre ausgesessen statt abgebrochen** — weil
+inzwischen gemessen ist, wie lange sie hält. Der vierte lokale Schub machte um
+13:59 nach **669 Abrufen** zu (07.09.: 668, beide bei 700 ms Takt — so dicht
+beieinander, dass ein Mengenkontingent näher liegt als eine Taktgrenze). Die
+Probe um **14:16**, fünfzehn Minuten später: `gp/video/detail/B0GXK7RJFW` kam
+mit 2.002.277 Zeichen und vollem Produktinhalt, `dp/B0CGS2DRMV` mit 404. Die
+Sperre war also schon wieder offen, während der nächste Schub noch bis 14:45
+warten sollte.
+
+Der Lauf wartet deshalb `--sperrpause` (Standard 15 min), hängt die zwanzig
+Adressen aus der Sperrphase hinten wieder an und macht weiter; erst nach drei
+Sperren wird Amazon übersprungen. Dazu `--pause` für den Takt und ein
+Zufallsanteil von ±30 %, weil ein exakt gleichmäßiger Takt für sich schon ein
+Bot-Merkmal ist. Beim Zumachen meldet der Lauf **Abrufe und Takt** — daraus
+entscheidet sich über mehrere Läufe, ob die Grenze an der Menge oder am Tempo
+hängt.
+
+**Der Ausweichweg ist gemessen, nicht vermutet.** Für den Fall, dass Warten
+nicht reicht: `tavily_extract` holt dieselben Seiten über fremde IPs und
+unterscheidet die beiden Fälle richtig — die lebende Video-Seite kam mit Titel
+und allen 24 Folgentiteln zurück, die tote als „404 page not found"
+(20.09.2026). Das kostet Tavily-Kontingent und ist deshalb die Rückfallebene,
+nicht der Normalweg. Die Cloud ist keine: Vom GitHub-Runner sperrt Amazon nach
+wenigen Dutzend Abrufen.
 
 **Und die Sperre stoppt nur Amazon (17.09.2026).** Vom GitHub-Runner aus sperrt Amazon
 nach wenigen Dutzend Abrufen; der alte Abbruch ließ dadurch zehn Tage lang auch alle
