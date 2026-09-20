@@ -31,6 +31,7 @@ import { amazonGtiWahl, gtiAus, type JwAngebot } from './lib/amazon-gti.ts'
 import { terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { alleTermine, ausgelassen as termineAusgelassen, beobachtungenAusBlock } from './lib/crunchyroll-termine.ts'
+import { meldeAnClaude } from './lib/meldung.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
@@ -5084,11 +5085,28 @@ function main(): void {
     if (termineAusgelassen.length) {
       const jeGrund = new Map<string, number>()
       for (const a of termineAusgelassen) jeGrund.set(a.grund, (jeGrund.get(a.grund) ?? 0) + 1)
+      const vorher = readJson<{ jeGrund?: Record<string, number> }>('data/termine-ausgelassen.json', {})
       writeJson('data/termine-ausgelassen.json', {
         erzeugtAm: new Date().toISOString(),
         jeGrund: Object.fromEntries(jeGrund),
         faelle: termineAusgelassen.slice(0, 400),
       })
+      /*
+        **Ein Zuwachs geht in den Posteingang** (Daniel, 20.09.2026): eine Datei, die niemand
+        öffnet, ist keine Meldung. `~/.claude/hooks/posteingang.js` liest
+        `data/meldungen-an-claude.jsonl` und nennt neue Zeilen beim nächsten Prompt.
+      */
+      const gestiegen = [...jeGrund].filter(([g, n]) => n > (vorher.jeGrund?.[g] ?? 0))
+      if (gestiegen.length && Object.keys(vorher.jeGrund ?? {}).length) {
+        meldeAnClaude(
+          'bestand-bauen',
+          'warnung',
+          `Terminableitung verwirft mehr: ${gestiegen
+            .map(([g, n]) => `${g} ${vorher.jeGrund?.[g] ?? 0} → ${n}`)
+            .join(', ')}`,
+          'data/termine-ausgelassen.json',
+        )
+      }
       log(
         `Terminableitung übersprungen: ${termineAusgelassen.length} Serien — ` +
           [...jeGrund].map(([g, n]) => `${n}× ${g}`).join(', ') +

@@ -219,6 +219,8 @@ QUELLEN=(
   data/imdb-ids.json
   # Was die Crunchyroll-Terminableitung verworfen hat (20.09.2026, Skill stille-ausfaelle-verhindern).
   data/termine-ausgelassen.json
+  # Posteingang: Meldungen der Läufe an Claude (20.09.2026, Hook posteingang.js).
+  data/meldungen-an-claude.jsonl
   # Folgennummern und deutsche Erstausstrahlung aus den Episodenlisten der de.wikipedia,
   # für die im TV-Programm gesichteten Titel (19.09.2026, `pipeline/fetch-wikipedia-folgen.ts`).
   data/wikipedia-folgen.json
