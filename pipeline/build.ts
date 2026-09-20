@@ -5030,6 +5030,7 @@ function main(): void {
           lastEpisodeDate: t.lastEpisodeDate,
           time: t.time ?? sammel.schedule?.time,
           episodeCount: t.episodeCount,
+          observed: beobachtungenZusammenfuehren(t.beobachtet, sammel.schedule?.observed),
         }
         sammel.herkunft = `Deutsche Fassung bei Crunchyroll — ${t.datiert} Folgen mit belegtem Termin (Block „${t.blockName}"), Sammeldatum ersetzt`
         termineNeu++
@@ -5061,6 +5062,8 @@ function main(): void {
           lastEpisodeDate: t.lastEpisodeDate,
           time: t.time,
           episodeCount: t.episodeCount,
+          /* Die gemessenen Tage je Folge — sonst rechnet die Fortschreibung an Pausen vorbei. */
+          ...(Object.keys(t.beobachtet).length ? { observed: t.beobachtet } : {}),
         },
         /*
           **„Im Angebot seit“, wenn alles an einem Tag kam.** Bei einem

@@ -81,6 +81,14 @@ export interface CrTermin {
   blockName: string
   /** Wie viele der deutschen Folgen ein Datum tragen. */
   datiert: number
+  /**
+   * Die gemessenen Tage je Folgennummer — Grundlage für `schedule.observed`.
+   *
+   * Ohne sie rechnet die Fortschreibung stur im Wochenabstand ab dem Start und trifft Pausen
+   * nicht: „Das Band der Unterwelt" endete so am 12.09.2026, obwohl Folge 21 am 19.09. lief
+   * (Daniel, 20.09.2026).
+   */
+  beobachtet: Record<number, string>
 }
 
 /**
@@ -290,6 +298,11 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
       time: zeiten.size === 1 ? [...zeiten][0] : undefined,
       /* Bei einer laufenden Staffel zählt, was sie haben wird — sonst endet der Kalender mittendrin. */
       episodeCount: laufend ? titel.episodes! : folgen.length,
+      beobachtet: Object.fromEntries(
+        folgen
+          .map((f) => [Number(f.nummer), nachBerlin(f.verfuegbarAb!)?.datum] as const)
+          .filter((p): p is readonly [number, string] => Number.isFinite(p[0]) && p[0] >= 1 && Boolean(p[1])),
+      ),
       rhythmus: messeRhythmus(daten),
       blockName: block.name,
       datiert: folgen.length,
