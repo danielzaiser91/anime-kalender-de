@@ -7863,7 +7863,22 @@ function main(): void {
     }
     if (vorher.length) {
       const jetzt = new Set(slim.map((t) => t.id))
-      const verloren = vorher.filter((id) => !jetzt.has(id))
+      /**
+       * Wer hinter den Toggle verschoben wurde, ist kein Verlust.
+       *
+       * `schreibeOhneSynchro` (unten) traegt jeden Titel aus `verschoben`
+       * nachweislich in `ohne-synchro.json` nach — das ist genau die
+       * Zusicherung aus dem 17.08.2026-Fix ("Ein Vorfilter verschiebt, er
+       * loescht nicht"). Ohne diesen Ausschluss meldete der Riegel am
+       * 21.09.2026 einen Abbruch fuer "Black Clover 2nd Season" (195604)
+       * und "Kusuriya no Hitorigoto 3rd Season" (195516): Ihr einziges
+       * Release (ein unbestaetigter Crunchyroll-Termin) fiel im selben Lauf
+       * weg, die japanische Ausstrahlung steht noch aus — beide wanderten
+       * korrekt hinter den Toggle, und der Bau brach trotzdem ab, obwohl
+       * nichts verloren ging.
+       */
+      const hinterToggle = new Set(verschoben.map((t) => t.id))
+      const verloren = vorher.filter((id) => !jetzt.has(id) && !hinterToggle.has(id))
       if (verloren.length > ERLAUBTER_VERLUST) {
         warn(
           `ABBRUCH: ${verloren.length} Titel wuerden aus dem Datensatz fallen ` +
