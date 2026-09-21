@@ -1547,6 +1547,16 @@ console.log('\nStreaming Availability API:')
     schluesselAdresse('https://www.netflix.com/title/80040118') !==
       schluesselAdresse('https://www.netflix.com/title/80040119'),
   )
+  /* Seit der Bau Prime-Verweise unter /gp/video/detail/ führt (21.09.2026, Lupin III. Part 6). */
+  pruefe(
+    'Amazon unter /dp/ und /gp/video/detail/ ist dieselbe Seite',
+    schluesselAdresse('https://www.amazon.de/dp/B0D3WCX3WH') ===
+      schluesselAdresse('https://www.amazon.de/gp/video/detail/B0D3WCX3WH?ref_=atv_dp_season_select_s6'),
+  )
+  pruefe(
+    'zwei Amazon-Kennungen bleiben verschieden',
+    schluesselAdresse('https://www.amazon.de/dp/B0D3WCX3WH') !== schluesselAdresse('https://www.amazon.de/dp/B0DTN9NW75'),
+  )
 
   /**
    * **Zwei Amazon-Suchen sind nicht dieselbe Adresse.**

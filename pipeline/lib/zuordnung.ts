@@ -45,6 +45,15 @@ export function schluesselAdresse(url: string): string {
    * Der Fehler lag latent seit es Suchadressen gibt; erst die erste Meldung
    * gegen eine von ihnen hat ihn ausgelöst.
    */
+  /*
+    **Eine Amazon-Kennung ist eine Seite, gleich unter welchem Pfad** (21.09.2026). Seit der Bau
+    jeden Prime-Verweis unter `/gp/video/detail/` führt, trugen Meldungen unter `/dp/` einen
+    anderen Schlüssel als ihr Verweis — Lupin III. Part 6 (B0D3WCX3WH) fand seinen Titel nicht
+    und landete mit zwei Namensvorschlägen bei den Meldungen ohne Zuordnung. Dieselbe
+    Gleichsetzung wie `adressKern()` in `dub-confirmed.ts`.
+  */
+  const amazon = /^amazon\.de\/(?:dp|gp\/video\/detail)\/([a-z0-9]{10,26})(?:\/|$)/.exec(ohne)?.[1]
+  if (amazon) return `amazon.de/gp/video/detail/${amazon}`
   /* Amazon schreibt das Leerzeichen mal als %20, mal als + — beides derselbe Begriff. */
   const begriff = /[?&]k=([^&#]+)/.exec(url)?.[1]?.replace(/\+/g, ' ')
   return begriff && /\/s$/.test(ohne) ? `${ohne}?k=${decodeURIComponent(begriff).toLowerCase()}` : ohne
