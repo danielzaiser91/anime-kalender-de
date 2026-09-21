@@ -215,6 +215,8 @@ cd worker && npx wrangler d1 migrations apply anime-kalender --remote -c wrangle
 
 **Gemessen am 18.09.2026: `migrations list/apply` scheitert von hier mit „account is not valid or not authorized [code: 7403]“, `d1 execute` klappt mit demselben Konto.** Migration 031 lief deshalb über `execute --file` plus Buchung wie unten.
 
+**Am 21.09.2026 scheiterte auch `d1 execute` mit 7403** — die angemeldete Wrangler-Sitzung trug nicht mehr. Mit dem API-Token „anime-kalender-deploy" aus `my_secrets.md` (Abschnitt Newsletter) ging dieselbe Abfrage sofort: `export CLOUDFLARE_API_TOKEN=…` vor den Aufruf. Das ist der verlässlichere Weg, weil er nicht an einer Browser-Anmeldung hängt, die still abläuft.
+
 **Und wenn eine Migration doch einmal von Hand laufen muss** — weil sie einen
 Sonderfall hat, den der Mechanismus nicht kann —, gehört die Buchung in
 denselben Handgriff:
