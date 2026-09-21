@@ -967,6 +967,8 @@ export function providerKind(provider: string): 'stream' | 'buy' {
  * 2000ern und leitet nur noch weiter.
  */
 export function stripAffiliate(url: string): string {
+  /* aniSearch führt `amazon.de/dpB0FF89XLBR` — ohne Schrägstrich nach `dp` (21.09.2026, ein Fall). */
+  url = url.replace(/(amazon\.[a-z.]+\/dp)([A-Z0-9]{10})(?=[/?#]|$)/i, '$1/$2')
   const obidos = /^https?:\/\/(?:www\.)?amazon\.([a-z.]+)\/exec\/obidos\/ASIN\/([A-Z0-9]{10})/i.exec(url)
   if (obidos) return `https://www.amazon.${obidos[1]}/dp/${obidos[2]}`
   // Fremde Landespfade fliegen hier ebenfalls raus — siehe `netflixNeutral`.

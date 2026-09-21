@@ -3909,6 +3909,17 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'sonst verdient JustWatch bzw. aniSearch an Klicks auf unserer Seite (17.09.2026: 55 Adressen)',
   )
   pruefe(
+    'aniSearchs `/dpB0…` ohne Schrägstrich wird repariert',
+    stripAffiliate('https://www.amazon.de/dpB0FF89XLBR?tag=anisearch.de-21') === 'https://www.amazon.de/dp/B0FF89XLBR' &&
+      stripAffiliate('https://www.amazon.de/dp/B0FF89XLBR') === 'https://www.amazon.de/dp/B0FF89XLBR',
+    'sonst führt der Aniverse-Weg von 171018 ins Leere (21.09.2026)',
+  )
+  pruefe(
+    'ein Kanal mit Amazon-Adresse heißt „Amazon Prime (Kanal)"',
+    bau.includes('w.name = `Amazon Prime (${kanal})`'),
+    '„ADN" mit Amazon-Adresse bei Super Cube (21.09.2026)',
+  )
+  pruefe(
     'JustWatchs Anbieternamen werden nicht verstümmelt',
     providerName('Amazon DVD / Blu-ray') === 'Amazon (DVD / Blu-ray)' && providerName('Buecher') === 'bücher.de',
     'sonst steht „Amazon Dvd / Blu Ray" und „Buecher" im Panel',

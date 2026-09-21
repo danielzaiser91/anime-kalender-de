@@ -7873,6 +7873,7 @@ function main(): void {
     if (mitFenster) log(`${mitFenster} TOGGO-Weg(e) mit Abruffenstern je Folge`)
   }
   let gerichtet = 0
+  let kanalBenannt = 0
   for (const t of allTitles) {
     for (const s of t.streams ?? []) {
       if (s.platform !== 'primevideo') continue
@@ -7896,7 +7897,22 @@ function main(): void {
       if (neu !== w.url) gerichtet++
       w.url = neu
     }
+    /*
+      **Ein Kanal mit Amazon-Adresse heißt „Amazon Prime (Kanal)"** (21.09.2026). aniSearch
+      führt Kanäle teils unter dem Anbieter selbst (`anime-digital-network-(de)`, `aniverse`,
+      `pokémon-(de)`), TMDB als „Anime Digital Network Amazon Channel". Bei „Super Cube" stand
+      so eine zweite Pille „ADN", die zu Amazon führte (Daniel mit Bild). Gemessen am selben
+      Tag: 16 solche Wege, gegen 600 richtig benannte „Amazon Prime (…)".
+    */
+    for (const w of t.watchLinks ?? []) {
+      if (w.kind !== 'stream' || !/(^|\.)amazon\.de\//i.test(w.url.replace(/^https?:\/\//, '')) || /^amazon/i.test(w.name))
+        continue
+      const kanal = / Amazon Channel$/i.test(w.name) ? providerName(w.name.replace(/ Amazon Channel$/i, '')) : w.name
+      w.name = `Amazon Prime (${kanal})`
+      kanalBenannt++
+    }
   }
+  if (kanalBenannt) log(`${kanalBenannt} Kanal-Wege mit Amazon-Adresse als „Amazon Prime (Kanal)" benannt`)
   for (const r of releases) {
     if (r.platform !== 'primevideo' || !r.platformUrl) continue
     const neu = amazonAdresseRichten(r.platformUrl)
