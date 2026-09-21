@@ -2303,6 +2303,11 @@ am selben Tag heißt das: Die Stellschraube ist nicht das Tempo, sondern die
 nicht wieder her. Praktisch: **ein Schub von höchstens rund 600 Amazon-Adressen,
 dann Stunden Ruhe.**
 
+Die Reihe dazu, alle bei 700 ms Takt: 669 Abrufe nach langer Ruhe (20.09., 13:59),
+301 nach 2¾ Stunden (18:07), 284 nach drei Stunden (21:25), **600 ohne Sperre**
+nach neun Stunden (21.09., 07:10). Damit waren alle 2.159 Amazon-Adressen
+gemessen; „unklar" stand danach bei null.
+
 Der Lauf wartet deshalb `--sperrpause` (Standard 60 min), hängt die zwanzig
 Adressen aus der Sperrphase hinten wieder an und macht weiter; nach zwei
 Sperren wird Amazon übersprungen, statt es weiter zu reizen. Dazu `--pause` für
