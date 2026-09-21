@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-21 · **2 offene Verweise** in **2 Zeilen**,
+Stand 2026-09-21 · **3 offene Verweise** in **3 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,9 +31,10 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 2
+## Paket 1 — Zeilen 1 bis 3
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | Prime Video | Beyblade | [Metal Fury](https://www.amazon.de/gp/video/detail/B09B6754YZ) |
 | 2 | Prime Video | Classroom of the Elite | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GGJKGT5P) |
+| 3 | Crunchyroll | Dragon Ball | [Z: Resurrection ‚F‘](https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f) |

@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-21T10:07:07.827Z",
+  "stand": "2026-09-21T15:38:40.831Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -5439,7 +5439,7 @@
       "titleId": 10015,
       "titel": "Yu-Gi-Oh! Zexal",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/B01EKI0SQ8",
+      "url": "https://www.amazon.de/dp/B07FBGYPR6",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -5571,7 +5571,7 @@
       "titleId": 18507,
       "titel": "Free! Iwatobi Swim Club",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CGVS29ZD",
+      "url": "https://www.amazon.de/dp/B0CHN14W48",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -5819,6 +5819,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-21",
       "letzterWeg": true
+    },
+    {
+      "titleId": 20778,
+      "titel": "Dragon Ball Z: Resurrection ‚F‘",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002920/dragon-ball-movies-dragon-ball-z-resurrection-f",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-21",
+      "letzterWeg": false
     },
     {
       "titleId": 21057,
@@ -6943,6 +6954,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 123802,
+      "titel": "The Saint’s Magic Power Is Omnipotent",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DHYH7HJ6",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-21",
+      "letzterWeg": false
+    },
+    {
       "titleId": 145564,
       "titel": "Abenteuer auf dem Eis",
       "plattform": "youtube",
@@ -7955,6 +7977,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-21",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8021,6 +8054,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-21",
+      "letzterWeg": true
+    },
+    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8038,6 +8082,28 @@
       "url": "https://www.netflix.com/title/80987039",
       "seriesId": null,
       "grund": "der Anbieter führt 23 + 25 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-21",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 10015,
+      "titel": "Yu-Gi-Oh! Zexal",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B01EKI0SQ8",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-21",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 18507,
+      "titel": "Free! Iwatobi Swim Club",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CGVS29ZD",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-09-21",
       "letzterWeg": false
