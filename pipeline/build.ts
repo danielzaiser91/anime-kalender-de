@@ -3490,9 +3490,27 @@ function main(): void {
     if (b?.kategorie === 'Trailers') ytTrailer.add(url)
   }
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
-  const linkBefunde = readJson<
+  const linkBefundeRoh = readJson<
     Record<string, { status: number | string; prime?: boolean; geprueftAm?: string }>
   >('data/link-check.json', {})
+  /*
+    **Ein Befund gehört der Seite, nicht ihrer Schreibweise** (21.09.2026). Seit Prime-Verweise
+    unter `/gp/video/detail/` ausgeliefert werden, misst die Linkprüfung auch diese Form; der Bau
+    trägt aus seinen Quellen aber oft noch `/dp/`. „Haikyu!! Karasuno vs. Shiratorizawa" war
+    unter der Video-Adresse als „in Deutschland nicht abrufbar" gemessen, galt unter `/dp/` als
+    unbekannt, blieb im Datensatz — und `check:tote-adressen` brach den Bau ab (Lauf
+    35619070607). Der exakte Treffer gewinnt weiter; sonst zählt der jüngste Befund derselben
+    Seite (`adressKern`). So bleiben alle zehn Nachschlagestellen, wie sie sind.
+  */
+  const befundJeKern = new Map<string, (typeof linkBefundeRoh)[string]>()
+  for (const [u, b] of Object.entries(linkBefundeRoh)) {
+    const k = adressKern(u)
+    const alt = befundJeKern.get(k)
+    if (!alt || (b.geprueftAm ?? '') > (alt.geprueftAm ?? '')) befundJeKern.set(k, b)
+  }
+  const linkBefunde = new Proxy(linkBefundeRoh, {
+    get: (o, k) => (typeof k === 'string' ? (o[k] ?? befundJeKern.get(adressKern(k))) : undefined),
+  })
   /*
     **Eine späte Runde legt keine Adresse an, die die Linkprüfung als tot kennt**
     (17.09.2026). Der Filter gegen tote Verweise steht weiter unten vor den

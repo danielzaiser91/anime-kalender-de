@@ -3123,6 +3123,17 @@ console.log('\nPrime: die Zugangsart der Seite kommt aus der Meldung:')
   )
 }
 
+/* Linkbefunde gehören der Seite, nicht der Schreibweise (21.09.2026, Haikyu!! Karasuno vs. Shiratorizawa). */
+console.log('\nLinkprüfung: ein Befund wird auch über die Kennung gefunden:')
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'linkBefunde fällt auf den Befund derselben Seite zurück',
+    /befundJeKern\.get\(adressKern\(k\)\)/.test(bau),
+    'der Rückfall über adressKern fehlt — /dp/ und /gp/video/detail/ finden ihre Befunde nicht gegenseitig',
+  )
+}
+
 console.log('\nPrime: der Zusatzkanal kommt aus der Notiz der Meldung:')
 {
   const { kanalAusNotiz } = await import('./lib/amazon-adresse.ts')
