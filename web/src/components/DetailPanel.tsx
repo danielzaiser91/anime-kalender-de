@@ -3535,8 +3535,19 @@ export function DetailPanel({
       | { platform?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges']; dub?: boolean }
       | undefined,
   ): string => {
+    /*
+      **Alle Releases des Anbieters zusammen** (21.09.2026, Steel Ball Run). Netflix führt Folge 1
+      als eigenes Release (19.03.) und die Folgen 2–12 als Wochenserie ab 25.09.; AniList kennt nur
+      die erste. Die Pille zählte ein Release und hielt das Werk für einfolgig — sie blieb leer
+      (Daniel mit Bild: „warum steht in der pill nicht wieviele folgen auf netflix … sind").
+    */
+    const anbieterReleases = s?.platform ? releases.filter((r) => r.platform === s.platform) : []
+    const folgenLautReleases = Math.max(
+      0,
+      ...anbieterReleases.map((r) => (r.schedule?.firstEpisodeNumber ?? 1) - 1 + (r.schedule?.episodeCount ?? 1)),
+    )
     /* Ein Werk mit genau einer Folge ist wie ein Film: „1 Fg." sagt nichts (Dr. Stone Ryusui, Stichprobe 17.09.2026). */
-    if (!title || title.format === 'MOVIE' || title.episodes === 1) return ''
+    if (!title || title.format === 'MOVIE' || (title.episodes === 1 && folgenLautReleases <= 1)) return ''
     const deutsch = (s?.dubRanges ?? []).filter((r) => r.dub)
     /*
       **„nur" nur, wo der Weg wirklich nur diese Folge enthält** (18.09.2026). Bei Date a
@@ -3562,6 +3573,11 @@ export function DetailPanel({
       return t('detail.neuAm', { d: formatDate(release.tvLetzteSichtung) })
     if (release?.releaseType === 'weekly' && releaseStatus(release, today) === 'airing') {
       const raus = expandEvents(release).filter((e) => istErschienen(e)).length
+      return raus ? t('detail.folgenKurz', { n: raus }) : ''
+    }
+    /* Mehrere Releases, eines davon als Wochenserie: gezählt wird, was bei diesem Anbieter schon da ist. */
+    if (anbieterReleases.length > 1 && anbieterReleases.some((r) => r.releaseType === 'weekly')) {
+      const raus = anbieterReleases.flatMap((r) => expandEvents(r)).filter((e) => istErschienen(e)).length
       return raus ? t('detail.folgenKurz', { n: raus }) : ''
     }
     /* Decken die Bereiche den Titel nicht ab, nennt die Pille sie selbst — „Fg. 1–75" statt
