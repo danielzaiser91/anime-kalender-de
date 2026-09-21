@@ -272,3 +272,20 @@
   url: https://www.amazon.de/dp/B0FVFT9MQF
   belegtAm: '2026-09-20'
   beleg: 'Prime-Staffel 2 derselben Reihe, Ausgabe „Free with Ads“, 10 Folgen (Meldung 4746, deutsch)'
+
+# Lupin III. Part 6 (134623): Prime führt Part 6 zweimal. Als „Staffel 6" auf der Sammelseite von
+# Part 1 (B0DTN9NW75, „2 Staffeln"), mit eigener Staffelseite — dort 25 Folgen, genau unsere 25
+# (Daniels Bild, 21.09.2026). Und als eigener Eintrag im Crunchyroll-Kanal, drei Staffeln = Cours.
+# Ohne eigenen Verweis blieb die Meldung zur Staffel 6 ohne Titel liegen.
+- anilistId: 134623
+  title: "Lupin III. Part 6"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D3WCX3WH
+  belegtAm: '2026-09-21'
+  beleg: 'Staffelseite „Lupin III. - Part 6", 25 Folgen = unsere 25, Kauf (Daniels Meldung vom 21.09.2026, deutsch)'
+- anilistId: 134623
+  title: "Lupin III. Part 6"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJJKGFGW
+  belegtAm: '2026-09-21'
+  beleg: 'Crunchyroll-Kanal „LUPIN III. PART 6", Staffel 1 von 3 (Tavily-Abruf 21.09.2026); Sprachurteil über die Kanal-Gegenprobe'
