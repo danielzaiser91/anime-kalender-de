@@ -16561,12 +16561,24 @@
   checkedAt: '2026-09-21'
   available: false
   note: "Kopf der JoJo-Sammelseite (Crunchyroll-Kanal), kein eigener Weg zu Golden Wind — Staffel 4 liegt unter B0G1ZD14D3"
+# Berichtigt 21.09.2026: B0CG7S59KL ist ein Kopf der JoJo-Sammelseite und führt keine Folgen
+# („Diese Staffel führt bei Amazon keine Folgen", Daniel mit Bild). Der Beleg ohne Urteil ließ
+# ihn als Prime-Weg stehen — bei Stardust Crusaders als Stream, bei Battle in Egypt als
+# Bezugsweg „Amazon Prime (Crunchyroll)". Beide Staffeln liegen unter B0GX7VDJK3.
 - anilistId: 20474
   title: "JoJo’s Bizarre Adventure: Stardust Crusaders"
   platform: primevideo
   url: https://www.amazon.de/dp/B0CG7S59KL
-  checkedAt: '2026-09-19'
-  note: "Sammelseite der JoJo-Reihe, kein eigener Titel: Staffel für Staffel gemeldet (Meldungen 4759–4787) und bei den Titeln belegt — Teil 1 B0CH1GVRKK, Stardust Crusaders B0GX7VDJK3, Diamond is Unbreakable B0GXK7RJFW, Golden Wind B0G1ZD14D3."
+  checkedAt: '2026-09-21'
+  available: false
+  note: "Kopf der JoJo-Sammelseite, führt keine Folgen — Stardust Crusaders liegt unter B0GX7VDJK3 (Teil 1 B0CH1GVRKK, Diamond is Unbreakable B0GXK7RJFW, Golden Wind B0G1ZD14D3)"
+- anilistId: 20799
+  title: "JoJo’s Bizarre Adventure: Stardust Crusaders - Battle in Egypt"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CG7S59KL
+  checkedAt: '2026-09-21'
+  available: false
+  note: "Kopf der JoJo-Sammelseite, führt keine Folgen — Battle in Egypt liegt als zweite Hälfte von Staffel 2 unter B0GX7VDJK3"
 
 - anilistId: 13331
   title: "Jormungand: Perfect Order"
