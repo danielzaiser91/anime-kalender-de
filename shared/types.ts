@@ -168,6 +168,12 @@ export interface StreamLink {
   /** Was es kostet — siehe `shared/zugangsart.ts`. */
   zugang?: Zugangsart
   /**
+   * Der Zusatzkanal, über den dieser Prime-Weg läuft („Crunchyroll", „aniverse") — nur, wo
+   * die Meldung genau einen Kanal und kein „In Prime enthalten" nennt. Die Pille schreibt
+   * ihn in Klammern hinter den Anbieter, denn ohne ihn liest sich der Weg wie Prime selbst.
+   */
+  kanal?: string
+  /**
    * Wie viele unserer Einträge diese eine Adresse bedient.
    *
    * Fehlt, wenn es nur einer ist. Steht dort eine Zahl, führt die Plattform

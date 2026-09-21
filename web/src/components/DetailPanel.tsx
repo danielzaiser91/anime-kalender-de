@@ -4876,7 +4876,7 @@ export function DetailPanel({
                     return (
                       <Pille
                         key={s.platform}
-                        name={PLATFORMS[s.platform].name}
+                        name={s.kanal ? `${PLATFORMS[s.platform].name} (${s.kanal})` : PLATFORMS[s.platform].name}
                         farbe={PLATFORMS[s.platform].color}
                         icon={<AnbieterIcon was={s.platform} />}
                         url={s.url}

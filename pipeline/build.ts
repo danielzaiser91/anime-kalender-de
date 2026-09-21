@@ -77,7 +77,7 @@ import { buildIcs } from '../shared/ics.ts'
 import { newsRss } from './lib/news-rss.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
-import { amazonAdresseRichten, amazonTitelAdresse } from './lib/amazon-adresse.ts'
+import { amazonAdresseRichten, amazonTitelAdresse, kanalAusNotiz } from './lib/amazon-adresse.ts'
 import { netflixAdresseTaugt } from '../shared/netflix-adresse-pruefung.ts'
 import {
   meldungenAus,
@@ -3620,6 +3620,11 @@ function main(): void {
       if (check && typeof check.dub === 'boolean') {
         stream.dub = check.dub
         geprueft++
+      }
+      /* Der Zusatzkanal gehört zur Adresse — er steht in der Notiz der Meldung dieser Seite. */
+      if (stream.platform === 'primevideo') {
+        const kanal = kanalAusNotiz(check?.note)
+        if (kanal) stream.kanal = kanal
       }
       // Die Handprüfung hat Vorrang; wo sie schweigt, spricht YouTube selbst.
       if (stream.dub === undefined && stream.platform === 'youtube') {

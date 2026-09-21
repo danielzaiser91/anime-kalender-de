@@ -3081,6 +3081,23 @@ console.log('\nCrunchyroll: nur ein verstrichener Start wird mangels Kalenderein
   )
 }
 
+console.log('\nPrime: der Zusatzkanal kommt aus der Notiz der Meldung:')
+{
+  const { kanalAusNotiz } = await import('./lib/amazon-adresse.ts')
+  pruefe(
+    'genau ein Kanal ergibt seinen Namen',
+    kanalAusNotiz('Tonspuren: Deutsch — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Abos: crunchyrollde, zugang=abo') ===
+      'Crunchyroll',
+  )
+  pruefe(
+    '„In Prime enthalten" braucht keinen Kanal',
+    kanalAusNotiz('Abos: Prime, aniversede, Seitenadresse') === undefined,
+  )
+  pruefe('mehrere Kanäle ergeben keinen einzelnen Namen', kanalAusNotiz('Abos: animedigitalde, aniversede, zugang') === undefined)
+  pruefe('zwei Kennungen desselben Kanals zählen als einer', kanalAusNotiz('Abos: prosiebenfun, prosiebende, zugang') === 'ProSieben FUN')
+  pruefe('ohne Abos-Angabe kein Kanal', kanalAusNotiz('Abos: keine Angabe, zugang') === undefined)
+}
+
 console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 {
   const bau = readFileSync('pipeline/build.ts', 'utf8')

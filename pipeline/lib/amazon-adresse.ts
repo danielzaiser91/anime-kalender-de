@@ -66,3 +66,51 @@ export function amazonTitelAdresse(kennung: string): string {
 export function amazonAdresseRichten(url: string): string {
   return url.replace(/^(https?:\/\/(?:www\.)?amazon\.de)\/dp\/([A-Z0-9]{10,32})(?=[/?#]|$)/i, '$1/gp/video/detail/$2')
 }
+
+/**
+ * **Welcher Zusatzkanal hinter einem Prime-Weg steht — aus der Notiz der Meldung.**
+ *
+ * Die Erweiterung liest die Abos einer Seite aus deren eigenen Daten und schreibt sie in die
+ * Notiz („Abos: crunchyrollde, zugang=abo"). Die Pille zeigte bis zum 21.09.2026 trotzdem nur
+ * „Prime Video": Bei JoJo Stardust Crusaders stand der richtige Crunchyroll-Kanal-Weg ohne
+ * Hinweis neben einem JustWatch-Bezugsweg „Amazon Prime (Crunchyroll)" (Daniel mit Bild:
+ * „warum steht bei der pill die zur korrekten seite führt nicht (crunchyroll) im label?").
+ *
+ * Gegenprobe vor dem Bau, am selben Tag: An allen sieben Adressen, die unsere Meldungen und
+ * JustWatchs Bezugswege gemeinsam kennen, nannten beide denselben Kanal. Ein Vergleich je
+ * Titel sah neun Widersprüche — die betrafen jeweils eine andere Ausgabe desselben Titels.
+ * Der Kanal gehört zur Adresse.
+ *
+ * Nur bei genau einem Kanal und ohne „Prime": Was in Prime enthalten ist, braucht kein
+ * Zusatzabo, und bei mehreren Kanälen hilft ein einzelner Name nicht weiter.
+ */
+const KANAL_NAMEN: Record<string, string> = {
+  crunchyrollde: 'Crunchyroll',
+  aniversede: 'aniverse',
+  animedigitalde: 'ADN',
+  prosiebenfun: 'ProSieben FUN',
+  prosiebende: 'ProSieben FUN',
+  midnightfactoryde: 'Midnight Factory',
+  rtlde: 'RTL+',
+  pokemonde: 'Pokémon',
+  zdfschatzkistede: 'ZDF Schatzkiste',
+  amasiade: 'Amasia+',
+  flimmerkistetvde: 'Flimmerkiste',
+  kixi: 'KIXI',
+  ardplusde: 'ARD Plus',
+  arthousecnma: 'Arthouse CNMA',
+  cinemixplusde: 'Cinemix+',
+  maxde: 'HBO Max',
+}
+
+export function kanalAusNotiz(notiz: string | null | undefined): string | undefined {
+  const abos = /Abos: ([^—"]+)/.exec(notiz ?? '')?.[1]
+  if (!abos || /\bPrime\b/.test(abos)) return undefined
+  const namen = new Set(
+    abos
+      .split(/[,\s]+/)
+      .map((k) => KANAL_NAMEN[k.trim()])
+      .filter((n): n is string => Boolean(n)),
+  )
+  return namen.size === 1 ? [...namen][0] : undefined
+}
