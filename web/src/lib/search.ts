@@ -196,11 +196,23 @@ export function sucheZweistufig<T>(
     wenn kein Titel wörtlich passt — sonst hinge an „frieren" eine Liste ähnlicher Namen.
   */
   const ganz = suchwoerter.join(' ')
+  /*
+    **Zusammengeschrieben ist dasselbe wie getrennt** (21.09.2026). „sandland" traf „Sand Land:
+    The Series" nicht als Titel, weil dort ein Leerzeichen steht; die unscharfe Stufe füllte die
+    Liste dann mit 38 Klangverwandten (Daniel: „wieso so viele treffer wenn ich nach sandland
+    suche?"). Verglichen wird deshalb auch ohne Leer- und Satzzeichen — erst ab vier Zeichen,
+    darunter steckt ein Begriff in zu vielen Namen.
+  */
+  const kompakt = (s: string) => s.replace(/[^\p{L}\p{N}]+/gu, '')
+  const ganzKompakt = suchwoerter.join('')
+  const kompaktZaehlt = ganzKompakt.length >= 4
   const bewertet: { item: T; rang: number; abstand: number }[] = []
   for (const item of quelle) {
     const namen = titel(item).map(normalize)
-    if (namen.some((n) => n === ganz)) bewertet.push({ item, rang: 0, abstand: 0 })
-    else if (namen.some((n) => n.startsWith(ganz))) bewertet.push({ item, rang: 1, abstand: 0 })
+    const namenKompakt = kompaktZaehlt ? namen.map(kompakt) : []
+    if (namen.some((n) => n === ganz) || namenKompakt.some((n) => n === ganzKompakt)) bewertet.push({ item, rang: 0, abstand: 0 })
+    else if (namen.some((n) => n.startsWith(ganz)) || namenKompakt.some((n) => n.startsWith(ganzKompakt)))
+      bewertet.push({ item, rang: 1, abstand: 0 })
     else if (trifftGenau(suchwoerter, titel(item))) bewertet.push({ item, rang: 2, abstand: keinWortanfang(suchwoerter, titel(item)) * 1000 + kuerzesterName(suchwoerter, titel(item)) })
     else if (trifftUngefaehr(suchwoerter, titel(item))) bewertet.push({ item, rang: 3, abstand: tippAbstand(suchwoerter, titel(item)) })
     else if (trifftGenau(suchwoerter, genau(item))) bewertet.push({ item, rang: 4, abstand: 0 })

@@ -79,6 +79,22 @@ console.log('\nDie strenge Stufe bleibt streng:')
   pruefe('sinnloser Begriff liefert nichts', leer.length === 0, leer.length)
 }
 
+/*
+  **Zusammengeschrieben ist dasselbe wie getrennt** (21.09.2026). „sandland" fand „Sand Land:
+  The Series" nicht als Titel — dort steht ein Leerzeichen —, und die unscharfe Stufe füllte
+  die Liste mit 38 Klangverwandten: Sandplanet, Badlands, Sanda, Dragon Ball Z über „Sandai"
+  (Daniel mit Bild: „wieso so viele treffer wenn ich nach sandland suche?").
+*/
+console.log('\nZusammengeschriebene Titel:')
+{
+  const SAND_LAND = 175642
+  const s = suche('sandland')
+  pruefe('„sandland" findet Sand Land auf Platz 1', s[0]?.id === SAND_LAND, s.slice(0, 3).map((t) => t.titleEn))
+  pruefe('„sandland" liefert keine Klangverwandten', s.length < 5, s.length)
+  const o = suche('onepiece')
+  pruefe('„onepiece" findet One Piece auf Platz 1', /^one piece/i.test(o[0]?.titleEn ?? o[0]?.titleRomaji ?? ''), o.slice(0, 3).map((t) => t.titleEn))
+}
+
 console.log('\nLaufzeit (die Suche läuft bei jedem Tastendruck):')
 {
   const start = process.hrtime.bigint()
