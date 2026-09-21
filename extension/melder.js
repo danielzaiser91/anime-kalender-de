@@ -4904,6 +4904,25 @@ async function dialogOeffnen() {
     kopf.appendChild(selbst)
   }
 
+  /*
+    **Wiedervorlage als eigener Filter** (Daniel, 21.09.2026: „in der prüfliste sollte es einen
+    reiter oder filter und entsprechende farbliche kennzeichnung für wiedervorlage geben").
+    Zeigt nur die gelb markierten Zeilen — auch die schon gemeldeten, damit sichtbar bleibt,
+    was von der Wiedervorlage durch ist.
+  */
+  const wiedervorlagen = eintraege.filter(([, e]) => e.wiedervorlage).length
+  if (wiedervorlagen) {
+    const filter = document.createElement('button')
+    filter.className = 'ak-umschalter ak-wv-filter'
+    filter.textContent = `↻ Wiedervorlage (${wiedervorlagen})`
+    filter.title = 'Nur Titel zeigen, die erneut gemeldet werden sollen'
+    filter.addEventListener('click', () => {
+      const an = kasten.classList.toggle('ak-nur-wiedervorlage')
+      filter.classList.toggle('ak-wv-an', an)
+    })
+    kopf.appendChild(filter)
+  }
+
   if (eintraege.length - nochOffen > 0) {
     const umschalter = document.createElement('button')
     umschalter.className = 'ak-umschalter'
@@ -4964,6 +4983,11 @@ async function dialogOeffnen() {
     const zeile = document.createElement('div')
     zeile.className = 'ak-zeile'
     zeile.dataset.suchtext = eintrag.titel.toLowerCase()
+    /* Wiedervorlage: gelb wie ihre ↻-Pillen, Grund im Tooltip (Daniel, 21.09.2026). */
+    if (eintrag.wiedervorlage) {
+      zeile.classList.add('ak-wiedervorlage')
+      zeile.title = eintrag.wiedervorlage
+    }
 
     const link = document.createElement('a')
     link.className = 'ak-titel'

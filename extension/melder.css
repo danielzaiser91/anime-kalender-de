@@ -1863,3 +1863,16 @@
   text-align: left;
   white-space: pre-line;
 }
+
+/* Wiedervorlage (21.09.2026): gelb wie die ↻-Pillen — „hier sieht jemand noch einmal hin". */
+.ak-zeile.ak-wiedervorlage {
+  box-shadow: inset 3px 0 0 #d29922;
+  background: rgba(210, 153, 34, 0.06);
+}
+.ak-zeile.ak-wiedervorlage .ak-titel { color: #e3b341; }
+.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt.ak-wiedervorlage .ak-titel { color: #e3b341; }
+.ak-wv-filter { border-color: rgba(210, 153, 34, 0.5); color: #d29922; }
+.ak-wv-filter.ak-wv-an { background: rgba(210, 153, 34, 0.18); color: #f0c35a; border-color: #d29922; }
+/* Filter an: nur Wiedervorlagen, erledigt oder nicht. */
+.ak-kasten.ak-nur-wiedervorlage .ak-zeile:not(.ak-wiedervorlage) { display: none; }
+.ak-kasten.ak-nur-wiedervorlage .ak-zeile.ak-wiedervorlage.ak-abgehakt { display: block; }
