@@ -1,0 +1,15 @@
+# Titel, die Daniel ausdrücklich erneut melden will (nicht `wiedervorlage.json` — die erzeugt ein Lauf nach Alter) — sie kommen zurück auf die Prüfliste der
+# Erweiterung und fallen von selbst heraus, sobald eine Meldung nach `seit` angekommen ist
+# (`tools/verdacht.mjs`).
+#
+# 21.09.2026: Netflix-Handbelege, die nur einzelne Folgen nennen (meist Folge 1, bei Dr. STONE
+# Folge 24, bei Stone Wars Folge 11), während MOTN alle Folgen als deutsch führt. Daniel:
+# „pack alle auf die prüfliste, ich melde sie erneut … evtl ist es ja ein bug in der extension".
+- { anilistId: 97986, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 1, MOTN alle 13 deutsch' }
+- { anilistId: 99088, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 1, MOTN alle 8 deutsch' }
+- { anilistId: 105333, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 24, MOTN alle 24 deutsch' }
+- { anilistId: 106625, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 1, MOTN alle 13 deutsch' }
+- { anilistId: 107660, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 1, MOTN alle 12 deutsch' }
+- { anilistId: 113538, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 1–2, MOTN alle 12 deutsch' }
+- { anilistId: 113936, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 11, MOTN alle 11 deutsch' }
+- { anilistId: 135806, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 1, MOTN alle 13 deutsch' }

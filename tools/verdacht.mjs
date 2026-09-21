@@ -115,6 +115,22 @@ export function verdachtsfaelle(wurzel, plattform) {
   } catch {
     /* Ohne Titel oder Belege gibt es nichts zu vergleichen. */
   }
+  /**
+   * **Vierte Quelle: von Hand erbetene Wiedervorlage** (`data/erneut-melden.yaml`, 21.09.2026).
+   * Ein Eintrag gilt, bis eine Meldung nach seinem `seit` angekommen ist — dann trägt der neue
+   * Beleg die Antwort, und der Titel fällt von selbst heraus.
+   */
+  try {
+    const liste = yaml.load(readFileSync(resolve(wurzel, 'data/erneut-melden.yaml'), 'utf8')) ?? []
+    const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
+    for (const w of liste) {
+      if (w.platform !== plattform || raus.has(w.anilistId)) continue
+      const neuer = belege.some((b) => b.anilistId === w.anilistId && b.platform === plattform && String(b.checkedAt ?? '') >= w.seit)
+      if (!neuer) raus.set(w.anilistId, { wiedervorlage: w.grund, seit: w.seit })
+    }
+  } catch {
+    /* Ohne Datei keine Wiedervorlage. */
+  }
   return raus
 }
 
@@ -125,6 +141,7 @@ export function verdachtHinweis(v) {
     Deutsch", eine zweite Quelle findet welches. Der Satz muss sagen, was zu tun
     ist — mit Kanal-Abo nachsehen.
   */
+  if (v.wiedervorlage) return `Wiedervorlage: ${v.wiedervorlage} — bitte alle Folgen melden`
   if (v.anbieterZaehlung) {
     return (
       `Zuordnung: Der Beleg nennt Folgen bis ${v.anbieterZaehlung.bis}, unser Titel hat ${v.anbieterZaehlung.folgen} — ` +

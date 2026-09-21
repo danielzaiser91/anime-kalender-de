@@ -260,6 +260,7 @@ QUELLEN=(
   extension/offene-amazon-stand.js
   extension/offene-amazon-suche.js
   extension/offene-netflix.js
+  data/erneut-melden.yaml
   extension/offene-disney.js
   # Die zweite Hälfte desselben Generatorschritts (21.09.2026). Die Prüflisten oben
   # standen hier, ihre ausgelieferte Prüfsumme nicht. Bewegte sich der Fernstand
