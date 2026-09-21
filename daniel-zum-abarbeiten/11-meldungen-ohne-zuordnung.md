@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-09-20
+Stand: 2026-09-21
 
 ## Was hier zu tun ist
 
@@ -24,5 +24,4 @@ nicht. Drei Fälle, drei Handgriffe:
 
 | Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |
 |---|---|---|---|---|---|
-| primevideo | https://www.amazon.de/dp/B0DJB5NGNK | Captain Tsubasa 2018 - Elementary School | dub | — | Titel von Hand suchen |
-| primevideo | https://www.amazon.de/dp/B0D2M355W6 | Captain Tsubasa 2018 - Junior High School | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0D3WCX3WH | Lupin III. - Part | dub | [Lupin III.: Part 1](https://anilist.co/anime/1412)<br>[Lupin III. Part 6](https://anilist.co/anime/134623) | Vorschlag bestätigen, dann Adresse eintragen |

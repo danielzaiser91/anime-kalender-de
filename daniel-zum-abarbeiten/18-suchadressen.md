@@ -23,9 +23,10 @@ hinter einem /dp/ kann eine DVD liegen.
 - aniSearch nennt: <https://www.amazon.de/dp/B0BXRJK131?tag=anisearch.de-21> — passt das?
 - **Antwort:** 
 
-## Lupin III.: Part 1
+## Fairy Tail
 
-- Anbieter: **primevideo** · unser Titel 1412
-- war verlinkt als: <https://www.amazon.de/s?k=Lupin%20the%203rd&i=instant-video>
+- Anbieter: **primevideo** · unser Titel 6702
+- war verlinkt als: <https://www.amazon.de/s?k=Fairy%20Tail&i=instant-video>
+- aniSearch nennt: <https://www.amazon.de/dp/B0CHBX8CM2?tag=anisearch.de-21> — passt das?
 - **Antwort:** 
 
