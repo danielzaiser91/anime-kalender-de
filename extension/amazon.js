@@ -6547,6 +6547,8 @@ async function speicherSchreiben(werte) {
     fuerAdresse: null,
     sprachen: new Set(),
     nummern: new Set(),
+    /* Je Folge ihre eigene Kennung — zählt, wo Amazon Nummern doppelt vergibt (siehe `geladeneFolgen`). */
+    kennungen: new Set(),
     gesamt: null,
     jeFolge: new Map(),
     /* Folgen, die hier nicht abrufbar sind — sie zählen weder mit noch dagegen. */
@@ -6832,6 +6834,7 @@ async function speicherSchreiben(werte) {
       }
       if (Number.isFinite(f.nummer)) {
         gesehen.nummern.add(f.nummer)
+        if (f.kennung) gesehen.kennungen.add(f.kennung)
         /*
           Die ganze Folge, nicht zwei Felder daraus: Titel, Beschreibung,
           Laufzeit, Erscheinungsdatum, FSK, Zugänge. Der Leser liest sie aus
@@ -7083,7 +7086,14 @@ async function speicherSchreiben(werte) {
    * Wechselerkennung rechtzeitig gegriffen hat.
    */
   function geladeneFolgen() {
-    if (!gesehen.gesamt) return gesehen.nummern.size
+    /*
+      **Gezählt werden Folgen, nicht Nummern** (21.09.2026). Auf der Crunchyroll-Kanal-Seite von
+      „Lupin III. Part 6" vergibt Amazon die Nummern 3 und 7 doppelt und lässt 1 und 6 aus: zwölf
+      Folgen, zehn verschiedene Nummern — der Knopf zeigte „10 Folgen" (Daniel mit Bild). Jede
+      Folge bringt ihre eigene Kennung (`titleID`) mit; die Nummern bleiben der Rückfall.
+    */
+    const gelesen = Math.max(gesehen.nummern.size, gesehen.kennungen?.size ?? 0)
+    if (!gesehen.gesamt) return gelesen
     /*
       **Prime nummeriert bis 40 und hat 39 Folgen — die Lücke ist echt.**
 
@@ -7102,7 +7112,7 @@ async function speicherSchreiben(werte) {
       was gelesen wurde — höchstens aber so viel, wie die Staffel hat. Bei JoJo
       sind das 38 von 39, bei Detektiv Conan bleiben es die drei echten Folgen.
     */
-    return Math.min(gesehen.nummern.size, gesehen.gesamt)
+    return Math.min(gelesen, gesehen.gesamt)
   }
 
   /**
