@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-21 · **4 offene Verweise** in **3 Zeilen**.
+Stand 2026-09-21 · **2 offene Verweise** in **2 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,15 +33,14 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Prime Video](07-primevideo.md) | 4 |
+| [Prime Video](07-primevideo.md) | 2 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-03-31 | Classroom of the Elite | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GGJKGT5P) |
-| 2 | 2023-12-05 | Lupin III. Teil 6 | [Hauptserie](https://www.amazon.de/gp/video/detail/B0D3WCX3WH) · [Hauptserie](https://www.amazon.de/gp/video/detail/B0CJJKGFGW) |
-| 3 | 2012-04-01 | Beyblade | [Metal Fury](https://www.amazon.de/gp/video/detail/B09B6754YZ) |
+| 2 | 2012-04-01 | Beyblade | [Metal Fury](https://www.amazon.de/gp/video/detail/B09B6754YZ) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
