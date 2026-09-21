@@ -7848,6 +7848,19 @@ function main(): void {
       const kanal = kanalJeAdresse.get(adressKern(s.url))
       if (kanal) s.kanal = kanal
     }
+    /*
+      **Und die Bezugswege zum Ansehen ebenso** (21.09.2026). JustWatchs „Amazon Prime
+      (Aniverse)" und Verwandte standen unter `/dp/` — bei „The Legend of Hei" eine 404-Seite,
+      während dieselbe Kennung unter der Video-Adresse lebt (Daniel mit Bild). Gegenprobe an
+      fünf Kanal-Wegen: fünfmal lebendig unter `/gp/video/detail/`, einmal tot unter `/dp/`.
+      Betroffen waren 597 Wege. Kaufwege (`kind: 'buy'`) bleiben: Eine DVD gibt es nur unter `/dp/`.
+    */
+    for (const w of t.watchLinks ?? []) {
+      if (w.kind !== 'stream' || !/amazon\.de\/dp\//i.test(w.url)) continue
+      const neu = amazonAdresseRichten(w.url)
+      if (neu !== w.url) gerichtet++
+      w.url = neu
+    }
   }
   for (const r of releases) {
     if (r.platform !== 'primevideo' || !r.platformUrl) continue
