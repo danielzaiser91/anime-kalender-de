@@ -1730,3 +1730,8 @@ setzt jetzt `DURCHLAUF.abbruch`. Und liegen zwei unserer Titel in einer Netflix-
 TO THE TOP: E1–13 und E14–25), gilt die Stichprobe zuerst für den vorderen, der andere folgt im
 nächsten Lauf auf derselben Seite — statt 25 Einzelprüfungen (Daniel: „alles durchgehen sollte den
 schnellen weg gehen").
+
+**Und ein Lauf gehört einem Tab (4.20.51).** `chrome.storage.local` teilen alle Tabs: Mit dem
+Merker „Lauf aktiv" dort sprang ein zweiter Netflix-Tab, in dem Daniel „Heroes" sah, zu Pluto
+und meldete (die Meldung selbst war richtig, E1–8 deutsch). Zustand, der zu **einem** Tab gehört,
+steht in `sessionStorage` — er übersteht Neuladen und Seitenwechsel, erreicht aber keinen anderen Tab.
