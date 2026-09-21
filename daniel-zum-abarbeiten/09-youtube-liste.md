@@ -1,6 +1,6 @@
 # YouTube: was die Prüfung gefunden hat
 
-Stand: 2026-09-14 · geprüft über YouTubes oEmbed-Schnittstelle
+Stand: 2026-09-21 · geprüft über YouTubes oEmbed-Schnittstelle
 (Titel und Kanal je Video, ohne Schlüssel und ohne Kontingent).
 
 Eingetragen wurde nur, wo der **Videotitel die Sprache benennt**. Was hier steht,
@@ -40,6 +40,11 @@ verschwindet, ist eine Entscheidung, keine Messung.
 
 | Unser Titel | Verweis |
 |---|---|
+| Tokyo Godfathers | [öffnen](https://www.youtube.com/watch?v=jderzQDdDHc) |
+| Onigamiden: Legend of the Millennium Dragon | [öffnen](https://www.youtube.com/watch?v=W8YuJXFKZ-k) |
+| Pokémon: Der Film - Volcanion und das mechanische Wunderwerk | [öffnen](https://www.youtube.com/watch?v=9A22nfAK1V4) |
+| Your Name. Gestern, heute und für immer | [öffnen](https://www.youtube.com/watch?v=duoOTzpeWSE) |
+| Fireworks: Alles eine Frage der Zeit | [öffnen](https://www.youtube.com/watch?v=RXD_V4p2iiA) |
 
 ## Ohne Hinweis auf die Sprache
 
