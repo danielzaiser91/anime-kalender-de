@@ -2705,6 +2705,15 @@ function main(): void {
   // im Angebot liegen und deshalb in keinem Kalenderfenster mehr auftauchen.
   // Er läuft selten; fehlt die Datei, ändert sich nichts.
   const adnKatalog = readJson<AdnData>('data/adn-catalog.json', leer)
+  /* Eine Katalogzuordnung muss den Namen tragen, nicht nur ein Werkwort — siehe `WERKWOERTER`
+     in lib/adn.ts. Der Katalog wird nur alle paar Wochen neu nachgeschlagen; bis dahin
+     fängt der Bau die falschen Zuordnungen selbst ab. */
+  for (const show of adnKatalog.shows) {
+    const t = show.anilistId ? titles.get(show.anilistId) : undefined
+    if (!t || passtZuSerie(show, { title: { romaji: t.titleRomaji, english: t.titleEn, native: t.titleNative } })) continue
+    log(`ADN-Katalog ${show.showId} („${show.title}“) gehört nicht zu AniList ${t.id} („${t.titleRomaji}“) — Zuordnung verworfen`)
+    show.anilistId = undefined
+  }
   const adn: AdnData = {
     ...adnKalender,
     shows: [
@@ -5604,11 +5613,8 @@ function main(): void {
     }
   })()
   const katalogKennung = new Map<number, number>()
-    for (const s of readJson<AdnData>('data/adn-catalog.json', {
-      scrapedAt: '',
-      window: { from: '', to: '' },
-      shows: [],
-    }).shows) {
+    // Derselbe Katalog wie oben, samt den dort verworfenen Zuordnungen.
+    for (const s of adnKatalog.shows) {
       if (s.anilistId && !katalogKennung.has(s.anilistId)) katalogKennung.set(s.anilistId, s.showId)
     }
     /**

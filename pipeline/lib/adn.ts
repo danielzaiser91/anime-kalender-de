@@ -414,9 +414,19 @@ export function passtZuSerie(show: AdnName, media: TrefferTitel): boolean {
   const ihre = woerterVon(
     [media.title.romaji, media.title.english, media.title.native].filter(Boolean).join(' '),
   )
-  for (const wort of unsere) if (ihre.has(wort)) return true
+  for (const wort of unsere) if (ihre.has(wort) && !WERKWOERTER.has(wort)) return true
   return false
 }
+
+/**
+ * **Ein Werkwort ist kein Name.** „One Piece - Der Film" (ADN 882) und „Girls und
+ * Panzer der Film" (AniList 18617) teilen nur „film" — und der Katalog ordnete den
+ * One-Piece-Film genau so dem fremden Titel zu; im Bestand stand deshalb ein
+ * One-Piece-Link an Girls und Panzer (gemessen 21.09.2026). Gegenprobe am selben
+ * Tag über alle 89 Katalogzuordnungen im Bestand: Ohne diese Wörter fällt genau
+ * dieser eine Fall heraus, alle 15, die an einem einzigen Wort hängen, stimmen.
+ */
+const WERKWOERTER = new Set(['film', 'films', 'movie', 'movies', 'season', 'saison', 'staffel', 'part', 'teil', 'episode', 'special', 'specials'])
 
 /**
  * Wie gut ein Treffer passt — nicht nur, ob er passt.

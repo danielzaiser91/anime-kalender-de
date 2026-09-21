@@ -1318,6 +1318,20 @@ console.log('\nStreaming Availability API:')
     zuordnungen.length === 1 && zuordnungen[0].titleId === 21700,
     zuordnungen.map((z) => z.titleId),
   )
+  /* 21.09.2026: ADN 882 „One Piece - Der Film" lag auf AniList 18617 „Girls und Panzer der
+     Film" — geteilt war nur „film". Ein Werkwort ist kein Name. */
+  pruefe(
+    'ein geteiltes Werkwort macht keine Zuordnung',
+    !passtZuSerie(
+      { title: 'One Piece - Der Film', originalTitle: 'One Piece Movie 1' },
+      { title: { romaji: 'Girls und Panzer Movie', english: 'Girls und Panzer der Film' } },
+    ) &&
+      passtZuSerie(
+        { title: 'Clannad: The Movie' },
+        { title: { romaji: 'Clannad Movie', english: 'Clannad: The Motion Picture' } },
+      ),
+    'film/movie allein trägt keine Zuordnung, der Name daneben schon',
+  )
 
   /**
    * Grenze 5 — ein Kanal im fremden Abo ist nicht der Katalog des Anbieters.
