@@ -57,7 +57,7 @@ import {
   ordneNachStaffelliste,
   verteileAufStaffeln,
 } from './lib/folgenbereiche.ts'
-import { adnAdresseSchaerfen } from './lib/adn-sprachen.ts'
+import { adnAdresseSchaerfen, adnFolgenAdresse } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
@@ -3294,6 +3294,23 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     }) === undefined,
     'eine Folgen-Id der alten Ablage gehört nicht an eine neue Serienkennung',
   )
+  {
+    /* 21.09.2026: animationdigitalnetwork.de leitet auf die Startseite um. Ein Folgenverweis
+       dorthin bekommt die Adresse, die ADN selbst zu genau dieser Folge ausgibt — nie eine gebaute. */
+    const archiv = leeresArchiv()
+    const eigene = 'https://animationdigitalnetwork.com/de/video/1141-the-testament-of-sister-new-devil/25604-ova-11'
+    nimmSerieAuf(archiv, '1141', [{ id: 25604, url: eigene, languages: ['vde'] }])
+    pruefe(
+      'ein Folgenverweis auf die alte ADN-Domain bekommt ADNs eigene Adresse',
+      adnFolgenAdresse('https://animationdigitalnetwork.de/video/the-testament-of-sister-new-devil/25604-ova-11', archiv) === eigene,
+      'die alte Domain führt zur Startseite',
+    )
+    pruefe(
+      'eine Folge, die das Archiv nicht kennt, bleibt stehen',
+      adnFolgenAdresse('https://animationdigitalnetwork.de/video/clannad/12851-folge-24', archiv) === undefined,
+      'ohne ADNs eigene Adresse wird keine gebaut',
+    )
+  }
   pruefe(
     'ohne Kennung und ohne Staffel passiert nichts',
     adnAdresseSchaerfen('https://animationdigitalnetwork.de/video/haikyuu', {}) === undefined,

@@ -45,7 +45,7 @@ import {
   type AdnBlock,
   type AdnData,
 } from './lib/adn.ts'
-import { adnAdresseSchaerfen, beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
+import { adnAdresseSchaerfen, adnFolgenAdresse, beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
@@ -2000,9 +2000,25 @@ function main(): void {
   // Einen Link je Anbieter liefert TMDB nicht, nur eine Übersichtsseite für
   // die Region. Also zeigt jede Zeile den Anbieternamen und führt dorthin —
   // besser als ein erfundener Deeplink, der ins Leere geht.
+  /*
+    **Ein Special unter der Kennung einer TV-Serie erbt deren Anbieter nicht.**
+
+    TMDB legt OVAs und Specials oft als „Staffel 0" der Hauptserie ab; die Anbieterliste
+    gilt dann für die Serie. „The Testament of Sister New Devil Burst: Basara Tojos äußerst
+    friedlicher Alltag" (OVA, TMDB tv/64163) bekam so eine Akibapass-Pille auf die
+    TMDB-Seite — Akibapass führt nur die zwölf Folgen der ersten Staffel (Daniel,
+    21.09.2026, mit Bildschirmfoto). Gemessen am selben Tag: drei solche Fälle im Bestand
+    (21489, 8465, 1335), alle OVA/Special neben einer TV-Serie derselben Kennung.
+  */
+  const tvJeTmdb = new Set<string>()
+  for (const title of titles.values()) {
+    const info = tmdbTitles[title.id]
+    if (info?.tmdbId && title.format === 'TV') tvJeTmdb.add(`${info.kind}${info.tmdbId}`)
+  }
   for (const title of titles.values()) {
     const info = tmdbTitles[title.id]
     if (!info?.offers?.length || !info.justwatchUrl) continue
+    if (title.format !== 'TV' && tvJeTmdb.has(`${info.kind}${info.tmdbId}`)) continue
     const watchLinks = title.watchLinks ?? []
     for (const offer of info.offers) {
       if (providerToPlatform(offer.name)) continue
@@ -5706,7 +5722,7 @@ function main(): void {
     /* Der Release-Slug zuerst — er stammt aus der laufenden Zuordnung; die Datei
        ist für die Titel, zu denen es kein Release gibt. */
     const staffel = ausSlug?.staffel ?? adnStaffeln[titleId]
-    const neu = adnAdresseSchaerfen(stream.url, { kennung, staffel })
+    const neu = adnFolgenAdresse(stream.url, adnArchiv) ?? adnAdresseSchaerfen(stream.url, { kennung, staffel })
     if (!neu) return false
     stream.url = neu
     return true
@@ -5714,6 +5730,19 @@ function main(): void {
 
 
   const adnArchiv = ladeAdnArchiv({ pflegen: true })
+  {
+    // Folgenverweise auf die alte Domain — Begründung an `adnFolgenAdresse`.
+    let umgestellt = 0
+    for (const title of titles.values())
+      for (const stream of title.streams) {
+        if (stream.platform !== 'adn') continue
+        const neu = adnFolgenAdresse(stream.url, adnArchiv)
+        if (!neu) continue
+        stream.url = neu
+        umgestellt++
+      }
+    if (umgestellt) log(`${umgestellt} ADN-Folgenverweise von animationdigitalnetwork.de auf ADNs eigene Adresse umgestellt`)
+  }
   if (adnArchiv.serien.size) {
     let adnJa = 0
     let adnNein = 0

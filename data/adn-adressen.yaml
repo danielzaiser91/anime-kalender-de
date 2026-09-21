@@ -65,3 +65,13 @@
 # je Angebot eine **kanonische** Adresse, und bei ADN steckt die Serienkennung
 # darin.
 21158: 1181 # High Speed! Free! Starting Days (vde, vostde)
+# --- Gemessen am 21.09.2026 über `/show/<id>` (X-Target-Distribution: de) ----
+#
+# Der Katalog ordnet diese drei Filme falschen AniList-Titeln zu (882 → 18617
+# „Girls und Panzer der Film", 904 → 8184, 924 → 2679). Die alten Adressen im
+# Bestand zeigten auf `animationdigitalnetwork.de/video/<slug>`, und diese Domain
+# leitet auf die Startseite um (Daniel, 21.09.2026). Belegt über den Slug: Die
+# kanonische Adresse aus `/show/<id>` trägt wörtlich denselben Namensteil.
+459: 882 # One Piece • Le Film — 882-one-piece-le-film (vde, vostde)
+460: 904 # One Piece Film 2 — 904-one-piece-film-aventure-de-lile-de-lhorloge (vde, vostde)
+2107: 924 # One Piece Film 8 — 924-one-piece-film-episode-alabasta-les-pirates-et-la-princesse-du-desert (vde, vostde)

@@ -67,6 +67,8 @@ const ARCHIV_DIR = resolve(ROOT, 'data/adn-raw')
 interface ArchivFolge {
   vde: boolean
   season: string | null
+  /** Die Adresse, die ADN selbst zu dieser Folge ausgibt — `…/de/video/<show>-<slug>/<id>-…`. */
+  url?: string
 }
 
 interface ArchivSerie {
@@ -125,6 +127,7 @@ export function nimmSerieAuf(archiv: AdnArchiv, showId: string, videos: AdnRohVi
     serie.folgen.set(id, {
       vde: (video.languages ?? []).includes('vde'),
       season: video.season ?? null,
+      url: video.url,
     })
     archiv.folgeZuSerie.set(id, showId)
     if (!serie.slug) serie.slug = slugAus(video.show?.url)
@@ -199,6 +202,7 @@ export function ladeAdnArchiv(optionen: { pflegen?: boolean } = {}): AdnArchiv {
 
 export interface AdnRohVideo {
   id?: number
+  url?: string
   languages?: string[]
   season?: string | null
   show?: { url?: string }
@@ -311,6 +315,28 @@ export function adnAdresseSchaerfen(
   const namensteil = adresse.showId && adresse.slug ? `-${adresse.slug}` : ''
   const neu = `https://animationdigitalnetwork.com/de/video/${kennung}${namensteil}${staffel ? `?s=${staffel}` : ''}`
   return neu === url ? undefined : neu
+}
+
+/**
+ * **Die alte Domain `animationdigitalnetwork.de` leitet auf die Startseite um.**
+ *
+ * Daniel am 21.09.2026 zu „The Testament of Sister New Devil Burst": „adn link wird
+ * zu homepage weitergeleitet (effektiv 404)". aniSearch führt solche Folgenverweise
+ * (`…de/video/the-testament-of-sister-new-devil/25604-ova-11`), und
+ * `adnAdresseSchaerfen` lässt einen Folgenverweis absichtlich stehen — so blieben
+ * elf davon im Bestand, alle mit toter Adresse.
+ *
+ * Die Folgenkennung ist dieselbe geblieben: Alle elf stehen im Archiv, jeweils mit
+ * der Adresse, die ADN selbst ausgibt (`…com/de/video/1141-the-testament-of-sister-new-devil/25604-ova-11`).
+ * Genau die wird übernommen — keine gebaute, sondern die von ADN gelieferte.
+ */
+export function adnFolgenAdresse(url: string, archiv: AdnArchiv): string | undefined {
+  if (!/^https?:\/\/(?:www\.)?animationdigitalnetwork\.de\//.test(url)) return undefined
+  const { videoId } = zerlegeAdnAdresse(url)
+  if (!videoId) return undefined
+  const showId = archiv.folgeZuSerie.get(videoId)
+  const neu = showId ? archiv.serien.get(showId)?.folgen.get(videoId)?.url : undefined
+  return neu && neu !== url ? neu : undefined
 }
 
 /**
