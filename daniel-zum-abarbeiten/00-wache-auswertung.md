@@ -13,7 +13,9 @@ wiederkehrt.
 
 **Wo echte Risiken waren.** Einer, und die Wache konnte ihn nicht sehen, weil nichts verloren ging: Rund 300 von 643 Prime-Verweisen standen unter `amazon.de/dp/<ASIN>` und antworteten dort mit 404, während unser Linkbefund „lebt" lautete — die Prüfung weicht bei einem 404 still auf die Video-Adresse aus und bucht den Erfolg unter der alten Adresse. Gemessen an fünfzehn Verweisen: sieben tot unter `/dp/`, fünfzehn von fünfzehn lebendig unter `/gp/video/detail/`. Behoben, der Bau richtet die Adressen jetzt zum Schluss.
 
-**Wo Verbesserungspotenzial ist.** Die Zeile „Von den Ableitungen verworfen" steht seit ihrer Einführung unverändert bei 210 und 54 — sie meldet also zuverlässig, sagt aber noch nichts darüber, ob die 264 Serien zu Recht durchfallen. Eine Stichprobe darüber steht aus.
+**Die 264 verworfenen Ableitungen kosten keine Termine** (nachgemessen am 21.09.2026, 06:57). 33 der Fälle betreffen Serien mit einer gerade laufenden Staffel; für neun davon ist die letzte beobachtete Folge mit Crunchyrolls deutschen Folgen verglichen worden — Re:Zero S4 13/13, Tanya S2 8/8, Classroom of the Elite S4 16/16, Slime S4 20/20, Rent-a-Girlfriend S5 12/12, Iruma-kun S4 23/23, Trapped in a Dating Sim S2 8/8, Skeleton Knight S2 11/11, Black Clover S2 startet erst. Neun von neun ohne Lücke: Der Simulcast-Kalender liefert die Beobachtungen ohnehin, die Ableitung aus der Serienseite ist ein Zusatzweg für Folgen vor dem Kalenderfenster.
+
+**Nachtrag, 21.09.2026, 06:55 — zwei rote Bauläufe in der Nacht.** 22:34 und 01:17 brach der Bau ab, weil zwei Titel aus dem Datensatz gefallen wären: Black Clover S2 (Start 03.10.) und die Apothekerin S3 (Start 01.10.). Der Riegel „kein deutscher Eintrag bei Crunchyroll — verworfen" galt auch künftigen Starts, und das Kalenderfenster reicht zwei Wochen voraus. Behoben (verworfen wird nur ein Start, der schon war), Zusicherung in `check:logic`, der Bau danach grün. Die Statusanzeige war bereits leer.
 
 ---
 
