@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-20. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-21. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-69 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+70 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -16,7 +16,7 @@ Stand: 2026-09-20. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-09-29, 2026-09 (Monat) | netflix | ✅ zugesagt | [Neuer Netflix-Trailer zur »LEGO One Piece«-Miniserie](https://www.anime2you.de/news/1043281/netflix-lego-one-piece-neuer-trailer/) |
 | 2026-09 (Monat) | netflix | – unklar | [Netflix: Alle Anime-Neuzugänge im September 2026](https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/) |
 | 2026-09 (Monat) | crunchyroll | ✅ zugesagt | [Deutsche Synchro von Teil 2 der vierten »Re:ZERO«-Staffel startet später](https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/) |
-| 2026-09-20 | ? | – unklar | [Anime Planet startet große »End of Summer«-Rabattaktion](https://www.anime2you.de/news/1048476/anime-planet-end-of-summer-rabattaktion/) |
+| 2026-09-25 | netflix | – unklar | [Netflix kündigt fünf Anime-Simulcasts für Herbst 2026 an](https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/) |
 | 2026-09-28 | netflix | – unklar | [Netflix nimmt ersten »Demon Slayer: Infinity Castle«-Film ins Programm](https://www.anime2you.de/news/1049975/demon-slayer-infinity-castle-bald-auf-netflix/) |
 | 2026-09-29 | netflix | – unklar | [Netflix-Termin des dritten »Mononoke«-Films + Trailer](https://www.anime2you.de/news/1042775/dritter-mononoke-film-netflix-termin/) |
 | 2026-09-30 | netflix | – unklar | [Netflix entfernt acht Anime-Titel aus seinem Programm](https://www.anime2you.de/news/1045817/netflix-entfernt-quintuplets-und-mehr/) |
@@ -49,42 +49,42 @@ Stand: 2026-09-20. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [»Miss Kobayashi’s Dragon Maid« erscheint als Steelbook-Edition](https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Erste »A Wild Last Boss Appeared!«-Staffel erscheint auf Blu-ray](https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/) |
 
-… und 29 weitere.
+… und 30 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 6 |
-| adn-catalog | 5.9 Tage her | 116 |
-| anilist-voices | 5.9 Tage her | 0 |
-| anime-offline-database | 5.9 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 36 |
-| anisearch | 1.0 Tage her | 3182 |
-| anisearch-folgen | 5.9 Tage her | 15 |
-| ann-voices | 5.9 Tage her | 8876 |
-| cartoons | 1.0 Tage her | 0 |
-| cinestar | 5.9 Tage her | 1 |
-| cr-einzelwerke | 18.0 Tage her | 9 |
-| cr-filmbloecke | 18.0 Tage her | 6 |
+| adn-catalog | 6.9 Tage her | 116 |
+| anilist-voices | 6.9 Tage her | 0 |
+| anime-offline-database | 6.9 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 35 |
+| anisearch | 2.0 Tage her | 0 |
+| anisearch-folgen | 6.9 Tage her | 15 |
+| ann-voices | 6.9 Tage her | 8876 |
+| cartoons | 1.0 Tage her | 3 |
+| cinestar | 7.0 Tage her | 1 |
+| cr-einzelwerke | 19.0 Tage her | 9 |
+| cr-filmbloecke | 19.0 Tage her | 6 |
 | crunchyroll | 0.0 Tage her | 17 |
 | crunchyroll-dub | 0.0 Tage her | 1100 |
-| crunchyroll-neu | 0.0 Tage her | 62 |
-| crunchyroll-offene | 3.6 Tage her | 0 |
-| fsk | 5.9 Tage her | 3 |
-| justwatch-audio | 2.6 Tage her | 1 |
-| link-check | 2.2 Tage her | 450 |
-| motn | 18.0 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 0 |
+| crunchyroll-neu | 0.0 Tage her | 68 |
+| crunchyroll-offene | 4.6 Tage her | 0 |
+| fsk | 7.0 Tage her | 3 |
+| justwatch-audio | 3.6 Tage her | 1 |
+| link-check | 0.2 Tage her | 600 |
+| motn | 19.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 1 |
 | rohfolgen | 0.6 Tage her | 0 |
-| tmdb-folgen | 5.9 Tage her | 837 |
-| tmdb-kino | 5.9 Tage her | 4 |
-| tmdb-titles | 2.6 Tage her | 3 |
+| tmdb-folgen | 6.9 Tage her | 837 |
+| tmdb-kino | 7.0 Tage her | 4 |
+| tmdb-titles | 3.7 Tage her | 3 |
 | toggo | 0.0 Tage her | 25 |
 | trailer | 1.0 Tage her | 0 |
-| tv-de | 0.3 Tage her | 48 |
-| tv-programm | 0.1 Tage her | 264 |
+| tv-de | 0.4 Tage her | 52 |
+| tv-programm | 0.1 Tage her | 282 |
 | vorfaelle | 0.1 Tage her | 0 |
-| wikidata-titel | 4.1 Tage her | 29 |
+| wikidata-titel | 5.1 Tage her | 29 |
 | wikipedia-folgen | 0.0 Tage her | 7 |
-| youtube-check | 5.9 Tage her | 0 |
+| youtube-check | 6.9 Tage her | 0 |

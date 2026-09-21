@@ -1,6 +1,40 @@
 {
-  "scrapedAt": "2026-09-20T09:21:54.419Z",
+  "scrapedAt": "2026-09-21T10:00:01.168Z",
   "proposals": [
+    {
+      "articleTitle": "Netflix kündigt fünf Anime-Simulcasts für Herbst 2026 an",
+      "articleUrl": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/",
+      "publishedAt": "2026-09-20",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-09-25",
+          "context": "tails nachfolgend zusammen. Fünf Simulcasts im Herbst 2026 Bereits am 25. September 2026 startet die weltweit gleichzeitige Veröffentlichung"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Die Königin der 1000 Jahre« erscheint als Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1052189/die-koenigin-der-1000-jahre-blu-ray-komplettbox/",
+      "publishedAt": "2026-09-20",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "lu-ray-Komplettbox veröffentlichen wird. Wir fassen zusammen. Release im Dezember 2026 Die Komplettbox von »Die Königin der 1000 Jahre«, die"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Crunchyroll kündigt zwei neue Simulcast-Lizenzen an",
       "articleUrl": "https://www.anime2you.de/news/1052014/crunchyroll-cat-and-the-dragon-staffel-2-und-mehr/",
