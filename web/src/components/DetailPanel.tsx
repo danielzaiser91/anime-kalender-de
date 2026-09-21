@@ -4804,7 +4804,7 @@ export function DetailPanel({
                 new Map([
                   ...sortiertNachZugang.flatMap(({ art, plattformen, streamWege }) =>
                     [
-                      ...plattformen.map((x) => x.platform as string),
+                      ...plattformen.map((x) => `${x.platform}|${x.url}`),
                       ...streamWege.map((g) => `sw-${g.shop}-${g.eintraege[0].url}`),
                     ].map((k) => [k, art === 'kostenlos' ? 'frei' : art] as const),
                   ),
@@ -4891,7 +4891,13 @@ export function DetailPanel({
                     const folgenAngabe = folgenAngabeFuer(s)
                     return (
                       <Pille
-                        key={s.platform}
+                        /*
+                          Anbieter **und** Adresse (21.09.2026): Mit `key={s.platform}` trugen zwei
+                          Prime-Pillen denselben Schlüssel, und beim Umschalten auf „Disc" blieb eine
+                          als verwaister Knoten stehen — Lupin III. Part 6 zeigte die Kanal-Pille
+                          unter „Disc" (Daniel mit Bild: „das ist keine disc").
+                        */
+                        key={`${s.platform}|${s.url}`}
                         name={s.kanal ? `${PLATFORMS[s.platform].name} (${s.kanal})` : PLATFORMS[s.platform].name}
                         farbe={PLATFORMS[s.platform].color}
                         icon={<AnbieterIcon was={s.platform} />}
