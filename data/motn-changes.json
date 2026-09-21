@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 45
+    "2026-09": 47
   },
   "gesehen": {
     "26341901:netflix": {
@@ -4159,7 +4159,17 @@
       "dienst": "netflix",
       "am": "2026-09-18",
       "deutsch": false
+    },
+    "new:21772325:netflix": {
+      "art": "new",
+      "titel": "Sai",
+      "originalTitel": "災",
+      "imdbId": "tt36260294",
+      "tmdbId": "tv/278715",
+      "dienst": "netflix",
+      "am": "2026-09-20",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-20T09:19:48.721Z"
+  "fetchedAt": "2026-09-21T09:57:59.474Z"
 }
