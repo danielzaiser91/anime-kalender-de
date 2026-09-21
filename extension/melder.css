@@ -257,11 +257,11 @@
   color: #6e9e78;
   font-weight: 500;
 }
-/* Erneut zu melden: ein Urteil, dem eine zweite Quelle widerspricht — gelb wie die
-   uneinheitliche Stichprobe, denn beides heißt „hier sieht jemand hin". */
+/* Erneut zu melden: ein Urteil, dem eine zweite Quelle widerspricht. Blau seit 21.09.2026 —
+   gelb bleibt der uneinheitlichen Stichprobe, damit „Wiedervorlage" für sich erkennbar ist. */
 .ak-folge > .ak-folge.ak-erneut {
-  color: #d29922;
-  border-color: #d29922;
+  color: #79c0ff;
+  border-color: #58a6ff;
 }
 /* Eine Staffel, die ganz durch ist, tritt als Ganzes zurück. */
 .ak-folge.ak-fertig {
@@ -1864,15 +1864,6 @@
   white-space: pre-line;
 }
 
-/* Wiedervorlage (21.09.2026): gelb wie die ↻-Pillen — „hier sieht jemand noch einmal hin". */
-.ak-zeile.ak-wiedervorlage {
-  box-shadow: inset 3px 0 0 #d29922;
-  background: rgba(210, 153, 34, 0.06);
-}
-.ak-zeile.ak-wiedervorlage .ak-titel { color: #e3b341; }
-.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt.ak-wiedervorlage .ak-titel { color: #e3b341; }
-.ak-wv-filter { border-color: rgba(210, 153, 34, 0.5); color: #d29922; }
-.ak-wv-filter.ak-wv-an { background: rgba(210, 153, 34, 0.18); color: #f0c35a; border-color: #d29922; }
-/* Filter an: nur Wiedervorlagen, erledigt oder nicht. */
-.ak-kasten.ak-nur-wiedervorlage .ak-zeile:not(.ak-wiedervorlage) { display: none; }
-.ak-kasten.ak-nur-wiedervorlage .ak-zeile.ak-wiedervorlage.ak-abgehakt { display: block; }
+/* Wiedervorlage (21.09.2026): blau — Daniel: „das icon für wiedervorlage bei den episoden …
+   mach die blau oder so, dann ist es ok und keine seperate liste für wiedervorlage ist notwendig". */
+.ak-zeile.ak-wiedervorlage { box-shadow: inset 3px 0 0 #58a6ff; }

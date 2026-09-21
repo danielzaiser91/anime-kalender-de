@@ -5000,23 +5000,11 @@ async function dialogOeffnen() {
   }
 
   /*
-    **Wiedervorlage als eigener Filter** (Daniel, 21.09.2026: „in der prüfliste sollte es einen
-    reiter oder filter und entsprechende farbliche kennzeichnung für wiedervorlage geben").
-    Zeigt nur die gelb markierten Zeilen — auch die schon gemeldeten, damit sichtbar bleibt,
-    was von der Wiedervorlage durch ist.
+    Einen eigenen Filter für Wiedervorlagen gab es kurz (4.20.46–4.20.49). Er wirkte gegen
+    „gemeldet ausblenden" und erzeugte Zwischenzustände; Daniel: „die toggle führen zu diesen
+    komischen zuständen". Die Wiedervorlage ist jetzt nur noch Farbe: blaue ↻-Pillen, blauer
+    Streifen an der Zeile.
   */
-  const wiedervorlagen = eintraege.filter(([, e]) => e.wiedervorlage).length
-  if (wiedervorlagen) {
-    const filter = document.createElement('button')
-    filter.className = 'ak-umschalter ak-wv-filter'
-    filter.textContent = `↻ Wiedervorlage (${wiedervorlagen})`
-    filter.title = 'Nur Titel zeigen, die erneut gemeldet werden sollen'
-    filter.addEventListener('click', () => {
-      const an = kasten.classList.toggle('ak-nur-wiedervorlage')
-      filter.classList.toggle('ak-wv-an', an)
-    })
-    kopf.appendChild(filter)
-  }
 
   if (eintraege.length - nochOffen > 0) {
     const umschalter = document.createElement('button')
