@@ -141,7 +141,7 @@ export function verdachtHinweis(v) {
     Deutsch", eine zweite Quelle findet welches. Der Satz muss sagen, was zu tun
     ist — mit Kanal-Abo nachsehen.
   */
-  if (v.wiedervorlage) return `Wiedervorlage: ${v.wiedervorlage} — bitte alle Folgen melden`
+  if (v.wiedervorlage) return `Wiedervorlage: ${v.wiedervorlage} — bitte erneut melden`
   if (v.anbieterZaehlung) {
     return (
       `Zuordnung: Der Beleg nennt Folgen bis ${v.anbieterZaehlung.bis}, unser Titel hat ${v.anbieterZaehlung.folgen} — ` +
