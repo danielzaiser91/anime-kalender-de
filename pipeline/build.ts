@@ -3056,16 +3056,25 @@ function main(): void {
       : []
     for (const e of eintraege) {
       if (!e.anilistId || !e.platform || !e.url) continue
-      if (lautPruefungTot(e.url)) continue
+      /*
+        **`link-check.json` kennt Prime-Adressen nur unter ihrer gerichteten Form**
+        (`/gp/video/detail/…`, siehe `amazonAdresseRichten`) — diese Datei trägt sie
+        als `/dp/…`. Ungerichtet geprüft fand `lautPruefungTot` nie einen Treffer,
+        und genau die Adresse, die den Bau am 21.09.2026 abbrechen ließ
+        (Haikyu!! Karasuno vs. Shiratorizawa, B0D544CDK6), wäre unter diesem Riegel
+        unverändert wieder angelegt worden.
+      */
+      const url = e.platform === 'primevideo' ? amazonAdresseRichten(e.url) : e.url
+      if (lautPruefungTot(url)) continue
       const title = titles.get(e.anilistId)
       if (!title) {
         warn(`verweise-von-hand: Titel ${e.anilistId} steht nicht im Bestand`)
         continue
       }
-      if ((title.streams ?? []).some((s) => adressGleich(s.url, e.url!))) continue
+      if ((title.streams ?? []).some((s) => adressGleich(s.url, url))) continue
       title.streams = [
         ...(title.streams ?? []),
-        { platform: e.platform as PlatformId, url: e.url } as StreamLink,
+        { platform: e.platform as PlatformId, url } as StreamLink,
       ]
       vonHand++
     }
