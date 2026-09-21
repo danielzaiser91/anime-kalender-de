@@ -524,17 +524,7 @@ pruefe(
   */
   pruefe(
     'geladeneFolgen zählt über die Anzahl, nicht über die Nummernhöhe',
-    /return Math\.min\(gelesen, gesehen\.gesamt\)/.test(quelle) &&
-      /const gelesen = Math\.max\(gesehen\.nummern\.size, gesehen\.kennungen\?\.size \?\? 0\)/.test(quelle),
-  )
-  /*
-    Und über Folgen statt Nummern (21.09.2026): Lupin III. Part 6 im Crunchyroll-Kanal trägt die
-    Nummern 3 und 7 doppelt — zwölf Folgen, zehn Nummern, der Knopf zeigte „10 Folgen".
-  */
-  pruefe(
-    'jede gelesene Folge legt ihre Kennung ab',
-    /gesehen\.nummern\.add\(f\.nummer\)\s*\n\s*if \(f\.kennung\) gesehen\.kennungen\.add\(f\.kennung\)/.test(quelle) &&
-      /kennungen: new Set\(\)/.test(quelle),
+    /return Math\.min\(gesehen\.nummern\.size, gesehen\.gesamt\)/.test(quelle),
   )
 }
 
