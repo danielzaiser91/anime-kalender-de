@@ -3093,6 +3093,19 @@ function main(): void {
    * machen darf.
    */
   const alleChecks = loadDubChecks()
+  /*
+    **Der Zusatzkanal hängt an der Adresse, nicht am Sprachurteil** (21.09.2026). Gelesen
+    wird er aus dem jüngsten Beleg der Adresse, der Abos nennt — auch aus einem ohne
+    Urteil. Genau die Kanal-Pillen ohne Urteil (ein Kanal-Nein wird bewusst nicht
+    übernommen) brauchen den Hinweis am meisten; Golden Wind stand nach dem ersten
+    Anlauf als nacktes „Prime Video" da, obwohl die Meldung „Abos: crunchyrollde" trug.
+  */
+  const kanalJeAdresse = new Map<string, string | undefined>()
+  for (const c of [...alleChecks].sort((a, b) => (b.checkedAt ?? '').localeCompare(a.checkedAt ?? ''))) {
+    if (c.platform !== 'primevideo' || !c.url || !/Abos: /.test(c.note ?? '')) continue
+    const k = adressKern(c.url)
+    if (!kanalJeAdresse.has(k)) kanalJeAdresse.set(k, kanalAusNotiz(c.note))
+  }
   const checksJePlattform = new Map<string, DubCheck[]>()
   for (const c of alleChecks) {
     /*
@@ -3620,11 +3633,6 @@ function main(): void {
       if (check && typeof check.dub === 'boolean') {
         stream.dub = check.dub
         geprueft++
-      }
-      /* Der Zusatzkanal gehört zur Adresse — er steht in der Notiz der Meldung dieser Seite. */
-      if (stream.platform === 'primevideo') {
-        const kanal = kanalAusNotiz(check?.note)
-        if (kanal) stream.kanal = kanal
       }
       // Die Handprüfung hat Vorrang; wo sie schweigt, spricht YouTube selbst.
       if (stream.dub === undefined && stream.platform === 'youtube') {
@@ -7779,6 +7787,9 @@ function main(): void {
       const neu = amazonAdresseRichten(s.url)
       if (neu !== s.url) gerichtet++
       s.url = neu
+      /* Hier, hinter allen Quellen, trifft der Kanal auch Wege, deren Adresse spät entsteht. */
+      const kanal = kanalJeAdresse.get(adressKern(s.url))
+      if (kanal) s.kanal = kanal
     }
   }
   for (const r of releases) {
