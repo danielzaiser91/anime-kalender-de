@@ -2499,15 +2499,41 @@ const DURCHLAUF = {
  */
 let selbstAn = false
 
-/** Aus dem Speicher, damit die Wahl das Neuladen überlebt. */
-void speicherLesen('netflixSelbst')
+/**
+ * **Ein Knopf, kein Schalter** (Daniel, 21.09.2026: „selbsttätig ist scheinbar ein toggle?
+ * wieso? … button zum anstoßen ist doch besser"). Der Schalter blieb an und startete danach auf
+ * jedem Listentitel, den Daniel besuchte. Jetzt stößt „▶ alle durchgehen" **einen** Lauf an;
+ * gemerkt wird nur, dass er läuft, weil jede Netflix-Seite das Skript neu startet. Er endet von
+ * selbst: nichts mehr offen, Abbruch, Störung, Obergrenze — und spätestens nach zwei Stunden.
+ */
+const LAUF_HOECHSTENS_MS = 2 * 60 * 60 * 1000
+void speicherLesen('netflixLauf')
   .then((x) => {
-    selbstAn = Boolean(x?.netflixSelbst)
+    const seit = Number(x?.netflixLauf)
+    selbstAn = Number.isFinite(seit) && seit > 0 && Date.now() - seit < LAUF_HOECHSTENS_MS
     if (selbstAn) void vielleichtSelbstStarten()
   })
   .catch(() => {
-    /* Ohne Speicher bleibt er aus — die vorsichtige Seite. */
+    /* Ohne Speicher läuft nichts — die vorsichtige Seite. */
   })
+
+function laufBeenden(grund) {
+  if (!selbstAn) return
+  selbstAn = false
+  void speicherSchreiben({ netflixLauf: null }).catch(() => {})
+  console.log(`[Anime-Kalender] Durchgang beendet — ${grund}`)
+}
+
+function laufStarten() {
+  selbstAn = true
+  selbstGezaehlt = 0
+  selbstVersucht = null
+  selbstUebersprungen.clear()
+  void speicherSchreiben({ netflixLauf: Date.now() }).catch(() => {})
+  dialogSchliessen()
+  if (titelDerAdresse() && offeneTitel[String(gemeinteReihe())] !== undefined) void vielleichtSelbstStarten()
+  else selbstWeiter()
+}
 
 /**
  * **Startet den Durchgang, wenn hier wirklich etwas zu holen ist.**
@@ -2528,12 +2554,9 @@ const selbstUebersprungen = new Set()
 
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
 function selbstWeiter() {
-  if (selbstGezaehlt >= SELBST_HOECHSTENS) return
+  if (selbstGezaehlt >= SELBST_HOECHSTENS) return laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
   const naechster = naechsterAuftrag()
-  if (!naechster) {
-    console.log('[Anime-Kalender] Selbsttätig: kein offener Auftrag mehr.')
-    return
-  }
+  if (!naechster) return laufBeenden('kein offener Auftrag mehr')
   selbstGezaehlt++
   console.log(
     `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
@@ -3754,15 +3777,12 @@ async function durchlaufStarten(grenze) {
     kein Grund weiterzumachen (bei `M7…` hilft ohnehin nur, andere Tabs zu
     schließen).
   */
+  if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
+    laufBeenden(DURCHLAUF.abbruch ? 'abgebrochen' : `Störung ${DURCHLAUF.stoerung}`)
+  }
   if (DURCHLAUF.selbst && selbstAn && !DURCHLAUF.abbruch && !DURCHLAUF.stoerung) {
-    if (selbstGezaehlt >= SELBST_HOECHSTENS) {
-      console.log(
-        `[Anime-Kalender] Selbsttätig: ${SELBST_HOECHSTENS} Titel geschafft — Schluss für diese Sitzung. ` +
-          'Neu laden, wenn es weitergehen soll.',
-      )
-    } else {
-      selbstWeiter()
-    }
+    if (selbstGezaehlt >= SELBST_HOECHSTENS) laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
+    else selbstWeiter()
   }
   if (DURCHLAUF.stoerung) {
     /*
@@ -4907,33 +4927,26 @@ async function dialogOeffnen() {
    * Wer nachsehen will, klappt sie auf.
    */
   /*
-    **Der Schalter für den selbsttätigen Durchgang.**
+    **Der Knopf für den Durchgang über alle offenen Titel.**
 
     Er steht hier und nicht am Titel: Er gilt für alle Aufträge, nicht für einen.
-    Angeschaltet öffnet die Erweiterung von allein jede Folge eines Auftrags, den
-    Daniel gerade besucht — bei Netflix ist das eine echte Wiedergabesitzung und
-    landet in „Weiter ansehen". Deshalb ist er **aus**, bis jemand ihn anschaltet
-    (Daniel hat den Weg am 01.09.2026 freigegeben: „ja soll sie").
+    Jede geprüfte Folge ist bei Netflix eine echte Wiedergabesitzung und landet in
+    „Weiter ansehen" (Weg freigegeben am 01.09.2026). Bis zum 21.09.2026 war es ein
+    Schalter, der an blieb — siehe `laufStarten()`.
   */
   {
     const selbst = document.createElement('button')
     selbst.className = 'ak-umschalter' + (selbstAn ? ' ak-selbst-an' : '')
-    selbst.textContent = selbstAn ? 'selbsttätig: an' : 'selbsttätig: aus'
+    selbst.textContent = selbstAn ? '⏹ Durchgang beenden' : '▶ alle durchgehen'
     selbst.title = selbstAn
-      ? 'Aus. Dann wird nur noch auf Klick geprüft.'
-      : 'An. Die Erweiterung geht jeden besuchten Auftrag von allein durch — ' +
-        'jede Folge wird kurz geöffnet und landet in „Weiter ansehen".'
-    selbst.addEventListener('click', async () => {
-      selbstAn = !selbstAn
-      selbst.textContent = selbstAn ? 'selbsttätig: an' : 'selbsttätig: aus'
-      selbst.classList.toggle('ak-selbst-an', selbstAn)
-      try {
-        await speicherSchreiben({ netflixSelbst: selbstAn })
-      } catch {
-        /* Ohne Speicher gilt die Wahl für diese Sitzung. */
-      }
-      /* Sofort greifen, nicht erst beim nächsten Takt. */
-      if (selbstAn) void vielleichtSelbstStarten()
+      ? 'Beendet den laufenden Durchgang. Escape bricht die gerade laufende Prüfung ab.'
+      : 'Geht alle offenen Titel nacheinander durch — jede geprüfte Folge wird kurz geöffnet und ' +
+        'landet in „Weiter ansehen". Endet von selbst, wenn nichts mehr offen ist.'
+    selbst.addEventListener('click', () => {
+      if (selbstAn) {
+        laufBeenden('von Hand')
+        dialogSchliessen()
+      } else laufStarten()
     })
     kopf.appendChild(selbst)
   }
