@@ -197,6 +197,13 @@ gewartet** — im Hintergrund, bis er fertig ist.
 `bash tools/quellen-commit-wache.sh --einrichten`) und hält jeden Commit an, der eine Datei aus
 `QUELLEN` enthält, solange ein Lauf außer Deploy, Aussehen und Claude läuft.
 
+**Vierter Fall, 21.09.2026 — ausgelöst von einem Commit, der gar keine Quelle anfasste.** Während
+`bestand-bauen` lief, ging eine Doku-Änderung auf `main`. Der Fernstand hatte sich bewegt, der Lauf
+nahm den Rettungsweg und spielte die Erweiterungslisten zurück (in `QUELLEN`), ihre ausgelieferte
+Prüfsumme `public/data/pruefliste-stand.json` aber nicht (nicht in `QUELLEN`). Der Deploy wurde rot
+(Lauf 35567600545). Seitdem stehen beide Hälften des Generatorschritts in `tools/quellen-liste.sh`.
+**Was ein Schritt zusammen schreibt, steht zusammen in `QUELLEN` — oder gar nicht.**
+
 **Und deshalb gehört zu jeder Datenkorrektur eine Zusicherung.** Die Korrektur
 allein hält einen Lauf nicht aus; die Zusicherung meldet sich, wenn sie
 verlorengeht. Am selben Tag zweimal bewiesen — beim Kanal-Nein und bei den
