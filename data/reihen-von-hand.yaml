@@ -1,0 +1,13 @@
+# Teile einer Reihe, die AniList nicht miteinander verbindet.
+#
+# Die Reihenbildung folgt AniLists Beziehungen (siehe FRANCHISE_RELATIONS in shared/mappings.ts).
+# Fehlt dort eine Kante, zerfällt eine Reihe in zwei, und im Panel fehlen Teile. Jeder Eintrag
+# hier verbindet die genannten Titel zu einer Reihe — nur mit Grund, und nur, wo die Lücke bei
+# AniList liegt und nicht bei uns.
+
+# Danganronpa 3 lief 2016 in zwei parallelen Hälften, Future Arc und Despair Arc, dazu das
+# Finale Hope Arc. AniList verbindet Despair Arc mit dem ersten Danganronpa (PREQUEL) und Future
+# Arc mit Hope Arc (SEQUEL), aber nicht die beiden Hälften miteinander (abgefragt 21.09.2026).
+# Die Reihe zerfiel dadurch in zwei; Daniel: „hat dieser anime keine 2. staffel?"
+- ids: [21509, 21825]
+  grund: 'Danganronpa 3: Future Arc und Despair Arc sind die zwei Hälften derselben Staffel'

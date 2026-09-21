@@ -87,6 +87,7 @@ QUELLEN=(
   data/adn-adressen.yaml
   data/rtlplus-adressen.yaml
   data/verweise-von-hand.yaml
+  data/reihen-von-hand.yaml
   data/adn-staffelzuordnung.yaml
   data/curated-ids.json
   data/source-health.json

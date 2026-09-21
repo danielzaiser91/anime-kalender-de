@@ -1757,6 +1757,29 @@ function main(): void {
     }
   }
 
+  /*
+    **Wo AniList eine Kante vergessen hat, verbindet `data/reihen-von-hand.yaml`** (21.09.2026).
+    Danganronpa 3 zerfiel in zwei Reihen, weil AniList Future Arc und Despair Arc nicht
+    miteinander verbindet — im Panel fehlten zwei Teile.
+  */
+  {
+    const datei = resolve(ROOT, 'data/reihen-von-hand.yaml')
+    const eintraege = existsSync(datei)
+      ? ((yaml.load(readFileSync(datei, 'utf8')) as Array<{ ids?: number[] }> | null) ?? [])
+      : []
+    let verbunden = 0
+    for (const e of eintraege) {
+      const ids = (e.ids ?? []).filter((id) => titles.has(id))
+      for (const id of ids.slice(1)) {
+        parent.set(id, parent.get(id) ?? id)
+        parent.set(ids[0]!, parent.get(ids[0]!) ?? ids[0]!)
+        union(ids[0]!, id)
+        verbunden++
+      }
+    }
+    if (verbunden) log(`${verbunden} Reihen-Verbindung(en) aus data/reihen-von-hand.yaml`)
+  }
+
   for (const title of titles.values()) title.franchiseId = find(title.id)
   // Der Crossover erbt die Reihe seines ersten Elternteils, ohne sie zu verbinden.
   for (const [id, ersterElternteil] of echteCrossover) {
