@@ -35,6 +35,6 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | Prime Video | Beyblade | [Metal Fury](https://www.amazon.de/gp/video/detail/B09B6754YZ) |
-| 2 | Prime Video | Classroom of the Elite | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GGJKGT5P) |
+| 1 | Prime Video | Classroom of the Elite | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GGJKGT5P) |
+| 2 | Crunchyroll | Demon King Daimao — Daimao | [Demon King Daimao](https://www.crunchyroll.com/series/GRGG58V1R/demon-king-daimao) |
 | 3 | Crunchyroll | Dragon Ball | [Z: Resurrection ‚F‘](https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f) |

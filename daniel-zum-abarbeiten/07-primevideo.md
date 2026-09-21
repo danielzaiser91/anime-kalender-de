@@ -1,6 +1,6 @@
 # Prime Video: was noch zu prüfen ist
 
-Stand 2026-09-21 · **2 offene Verweise** in **2 Zeilen**.
+Stand 2026-09-21 · **1 offene Verweise** in **1 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -10,4 +10,3 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-03-31 | Classroom of the Elite | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GGJKGT5P) |
-| 2 | 2012-04-01 | Beyblade | [Metal Fury](https://www.amazon.de/gp/video/detail/B09B6754YZ) |

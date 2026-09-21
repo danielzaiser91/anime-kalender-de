@@ -1,20 +1,16 @@
 {
- "erzeugtAm": "2026-09-21T16:26:43.348Z",
+ "erzeugtAm": "2026-09-21T16:43:09.275Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 739,
-   "gesamt": 742,
-   "offen": 3,
+   "gemeldet": 741,
+   "gesamt": 743,
+   "offen": 2,
    "ohneSeite": 0,
    "suchAdressen": [],
-   "ziel": "https://www.amazon.de/gp/video/detail/B09B6754YZ",
+   "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90",
    "ziele": [
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B09B6754YZ",
-     "titel": "Beyblade: Metal Fury"
-    },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90",
      "titel": "A Silent Voice"
@@ -24,7 +20,7 @@
      "titel": "Classroom of the Elite"
     }
    ],
-   "naechster": "Beyblade: Metal Fury"
+   "naechster": "A Silent Voice"
   },
   {
    "name": "Netflix",
@@ -52,17 +48,21 @@
    "name": "Crunchyroll",
    "plattform": "crunchyroll",
    "gemeldet": 0,
-   "gesamt": 1,
-   "offen": 1,
+   "gesamt": 2,
+   "offen": 2,
    "ohneSeite": 0,
-   "ziel": "https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f",
+   "ziel": "https://www.crunchyroll.com/series/GRGG58V1R/demon-king-daimao",
    "ziele": [
+    {
+     "url": "https://www.crunchyroll.com/series/GRGG58V1R/demon-king-daimao",
+     "titel": "Demon King Daimao"
+    },
     {
      "url": "https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f",
      "titel": "Dragon Ball Z: Resurrection ‚F‘"
     }
    ],
-   "naechster": "Dragon Ball Z: Resurrection ‚F‘"
+   "naechster": "Demon King Daimao"
   },
   {
    "name": "Suchadressen",

@@ -16765,3 +16765,29 @@
   dub: true
   checkedAt: '2026-09-21'
   note: "Tonspuren: Deutsch — Amazon-Seite B0FR1FLYS2: alle 1 Folge geprüft, Abos: cinemixplusde, zugang=abo_und_kauf, gti=amzn1.dv.gti.18b83256-a558-424b-beb0-9f6bcffb0fe5 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-21 ---
+
+- anilistId: 10370
+  title: "Beyblade: Metal Fury"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09B6754YZ
+  dub: true
+  checkedAt: '2026-09-21'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B09B6754YZ: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.4e711ed0-033e-4b9e-8c31-cbee1fae3bc8"
+
+- anilistId: 10370
+  title: "Beyblade: Metal Fury"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09B5HXN6K
+  dub: true
+  checkedAt: '2026-09-21'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B09B5HXN6K: alle 13 Folgen geprüft, Abos: Prime, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.119b43cb-30b9-470e-9839-ae207fca31e7"
+
+- anilistId: 10370
+  title: "Beyblade: Metal Fury"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09B7YVGZ5
+  dub: true
+  checkedAt: '2026-09-21'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B09B7YVGZ5: nur 12 von 13 Folgen geladen — Rest ungeprüft, Abos: Prime, laut Adresse Staffel 3, zugang=abo, gti=amzn1.dv.gti.5c56f22d-dd85-454e-97df-69eacf454052, regionsperre=laut Seite nicht mehr im Abo"

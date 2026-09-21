@@ -33,8 +33,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Prime Video](07-primevideo.md) | 2 |
-| [Crunchyroll](07-crunchyroll.md) | 1 |
+| [Crunchyroll](07-crunchyroll.md) | 2 |
+| [Prime Video](07-primevideo.md) | 1 |
 
 ## Zu prüfen
 
@@ -42,7 +42,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 |---|---|---|---|
 | 1 | 2026-03-31 | Classroom of the Elite | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GGJKGT5P) |
 | 2 | 2015-04-18 | Dragon Ball | [Z: Resurrection ‚F‘](https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f) |
-| 3 | 2012-04-01 | Beyblade | [Metal Fury](https://www.amazon.de/gp/video/detail/B09B6754YZ) |
+| 3 | 2010-11-25 | Demon King Daimao — Daimao | [Demon King Daimao](https://www.crunchyroll.com/series/GRGG58V1R/demon-king-daimao) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
