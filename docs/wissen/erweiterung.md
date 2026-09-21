@@ -1692,3 +1692,16 @@ und in `melder.js` (Netflix) — auf einer Disney+-Seite läuft keins von beiden
 nichts (Daniel, 20.09.2026: „bericht laden klick macht nix"). Seit 4.20.43 hat `disney.js` seinen
 eigenen Empfänger und seinen eigenen Bericht. **Prüffrage bei jedem gemeinsamen Bedienelement aus
 `box.js`: Wer hört auf der Seite zu, auf der es steht?**
+
+## Eine Kachel auf der Seite ist noch keine Folge in Amazons Daten
+
+Lupin III. Part 6 im Crunchyroll-Kanal, Staffel 1 (21.09.2026): Die Seite zeigt „12 Folgen" und
+zwölf Kacheln, der Knopf „10 Folgen". Daniels Bericht: Amazons eigene Daten nennen `episodeCount`
+10 und liefern zehn Folgen (Nummern 2–5 und 7–12); zu den Kacheln „Das Abenteuer der
+Transkontinentalen Eisenbahn" und „Untold Stories" kommt nichts — keine Kennung, keine Tonspuren.
+Der Knopf zeigt, worüber er etwas weiß, und das ist richtig so.
+
+Ein erster Fix hatte auf doppelte Nummern in den Daten getippt und über Folgenkennungen gezählt
+(4.20.44). Der Bericht widerlegte das beim ersten Blick: Auch die Kennungen waren zehn. Die Zeilen
+sind wieder heraus (4.20.45). **Bei einer abweichenden Zahl zuerst den Bericht lesen**
+(`zaehlstand.gesamt`, `zaehlstand.nummern` gegen `seite.folgenImDom`), nicht aus dem Bild raten.
