@@ -826,7 +826,14 @@ window.addEventListener('message', (e) => {
       Ende. Was Netflix zwischendurch anzeigt, ändert den Auftrag nicht.
     */
     if (DURCHLAUF.laeuft) return
-    const hier = String(gemeinteReihe() ?? '')
+    /*
+      **Verglichen wird mit der Adresse, nicht mit `gemeinteReihe()`** (21.09.2026). Der Leser
+      schickt `fuerReihe` = Kennung aus der Adresse. `gemeinteReihe()` fällt auf `stand.reihe`
+      zurück, und das setzt nur der Player: Nach dem selbsttätigen Sprung von Beastars zu
+      Haikyu!! stand dort noch Beastars, die Haikyu!!-Liste wurde als fremd verworfen, der Knopf
+      blieb aus und die Automatik hing (Daniel mit Bericht).
+    */
+    const hier = String(titelDerAdresse() ?? gemeinteReihe() ?? '')
     const neu =
       e.data.fuerReihe && hier && String(e.data.fuerReihe) !== hier
         ? []
@@ -838,6 +845,8 @@ window.addEventListener('message', (e) => {
     const dazu = neu.find((f) => !bekannt.has(f.videoId))
     if (dazu) DURCHLAUF.zuletztGeladen = dazu.seasonId ?? null
     DURCHLAUF.alleFolgen = neu
+    /* Für welche Seite die Liste gilt — der Titelwechsel in `pfadPruefen` löscht nur eine fremde. */
+    DURCHLAUF.listeFuer = hier
     angezeigteFolgenSetzen()
     void durchlaufStandLaden(gemeinteReihe()).then(durchlaufKnopfZeigen)
     durchlaufKnopfZeigen()
@@ -2514,6 +2523,27 @@ void speicherLesen('netflixSelbst')
  *   sobald der vorige fertig ist.
  */
 let selbstVersucht = null
+/** Titel, die die Automatik in dieser Sitzung übersprungen hat — sonst pendelt sie zwischen ihnen. */
+const selbstUebersprungen = new Set()
+
+/** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
+function selbstWeiter() {
+  if (selbstGezaehlt >= SELBST_HOECHSTENS) return
+  const naechster = naechsterAuftrag()
+  if (!naechster) {
+    console.log('[Anime-Kalender] Selbsttätig: kein offener Auftrag mehr.')
+    return
+  }
+  selbstGezaehlt++
+  console.log(
+    `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
+      `(${selbstGezaehlt}/${SELBST_HOECHSTENS})`,
+  )
+  /* Wie ein Klick aus der Liste — damit die Zielseite den Auftrag erbt. */
+  void speicherSchreiben({ zuletztGeoeffnet: { id: String(naechster), zeit: Date.now() } })
+  zuletztGeoeffnet = { id: String(naechster), zeit: Date.now() }
+  gehe(`/title/${naechster}`)
+}
 
 /**
  * **Wie viele Titel dieser Sitzung selbsttätig durchlaufen wurden.**
@@ -2540,6 +2570,7 @@ function naechsterAuftrag() {
   const hier = String(gemeinteReihe() ?? '')
   for (const [kennung, eintrag] of Object.entries(offeneTitel)) {
     if (kennung === hier) continue
+    if (selbstUebersprungen.has(kennung)) continue
     if (istErledigt(kennung, 'tot')) continue
     const offen = (eintrag?.staffeln ?? []).filter((st) => st.offen)
     if (!offen.length) continue
@@ -2559,6 +2590,22 @@ async function vielleichtSelbstStarten() {
   if (selbstVersucht === reihe) return
   if (!DURCHLAUF.folgen.length) return
   selbstVersucht = reihe
+  /*
+    **Nur eine eindeutige Staffel wird selbsttätig geprüft** (21.09.2026). Bei Beastars zeigte
+    Netflix Staffel 2 vorausgewählt; drei unserer Staffeln haben je 12 Folgen, der Knopf stand
+    auf „S?", und die Automatik prüfte Staffel 2 statt der offenen Staffel 1. Von Hand sieht
+    Daniel das „S?" und wählt selbst — die Automatik überspringt den Titel und sagt es.
+  */
+  const kandidaten = staffelnDerGruppe(reihe, DURCHLAUF.folgen)
+  if (kandidaten.length !== 1) {
+    console.log(
+      `[Anime-Kalender] Selbsttätig: ${offeneTitel[String(reihe)]?.titel ?? reihe} übersprungen — ` +
+        'die angezeigte Staffel ist nicht eindeutig (S?). Bitte von Hand die offene Staffel wählen.',
+    )
+    selbstUebersprungen.add(String(reihe))
+    selbstWeiter()
+    return
+  }
   console.log('[Anime-Kalender] Selbsttätiger Durchgang startet …')
   DURCHLAUF.selbst = true
   await durchlaufStarten(RAND)
@@ -3714,20 +3761,7 @@ async function durchlaufStarten(grenze) {
           'Neu laden, wenn es weitergehen soll.',
       )
     } else {
-      const naechster = naechsterAuftrag()
-      if (naechster) {
-        selbstGezaehlt++
-        console.log(
-          `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
-            `(${selbstGezaehlt}/${SELBST_HOECHSTENS})`,
-        )
-        /* Wie ein Klick aus der Liste — damit die Zielseite den Auftrag erbt. */
-        void speicherSchreiben({ zuletztGeoeffnet: { id: String(naechster), zeit: Date.now() } })
-        zuletztGeoeffnet = { id: String(naechster), zeit: Date.now() }
-        gehe(`/title/${naechster}`)
-      } else {
-        console.log('[Anime-Kalender] Selbsttätig: kein offener Auftrag mehr.')
-      }
+      selbstWeiter()
     }
   }
   if (DURCHLAUF.stoerung) {
@@ -5371,6 +5405,11 @@ async function dialogOeffnen() {
  * Genau daran ist der Netzwerk-Mitschnitt zweimal gescheitert (NSES-UHX,
  * 22.08.2026). An fremden Seiten wird nichts ersetzt, was sie selbst aufrufen.
  */
+/** Kennung der Titelseite aus der Adresse — `/title/123` oder `?jbv=123`; sonst null. */
+function titelDerAdresse() {
+  return /\/title\/(\d+)/.exec(location.pathname)?.[1] ?? new URLSearchParams(location.search).get('jbv') ?? null
+}
+
 let letzterPfad = location.pathname
 function pfadPruefen() {
   if (location.pathname === letzterPfad) return
@@ -5402,6 +5441,21 @@ function pfadPruefen() {
     stellt `stoerung()` dort neu fest.
   */
   DURCHLAUF.stoerung = null
+  /*
+    **Eine andere Titelseite heißt: der Stand der vorigen gilt nicht mehr** (21.09.2026).
+    `stand` setzt nur der Player. Ohne diese Zeilen trug die Haikyu!!-Seite Beastars' Reihe
+    und Folgenliste, und nichts passte zusammen. Während eines Durchlaufs bleibt alles, wie es
+    ist — dort springt die Seite absichtlich zwischen Player und Übersicht.
+  */
+  const titelHier = titelDerAdresse()
+  if (titelHier && !imPlayer() && !DURCHLAUF.laeuft && String(stand.reihe ?? '') !== titelHier) {
+    stand = { spuren: null, reihe: titelHier, folge: null, folgeNr: null, staffel: null, staffeln: null, serientitel: null, titel: '' }
+    /* Kam die Liste der neuen Seite schon vor diesem Takt an, bleibt sie. */
+    if (String(DURCHLAUF.listeFuer ?? '') !== titelHier) {
+      DURCHLAUF.alleFolgen = []
+      angezeigteFolgenSetzen()
+    }
+  }
   durchlaufKnopfZeigen()
 }
 window.addEventListener('popstate', pfadPruefen)

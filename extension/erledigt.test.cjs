@@ -352,7 +352,9 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   const von = quelle.indexOf('  videoAbdrehen(false)\n  DURCHLAUF.laeuft = false')
   const block = von < 0 ? '' : quelle.slice(von, von + 1800)
 
-  pruefe('nach dem Durchgang wird weitergegangen', /naechsterAuftrag\(\)/.test(block))
+  /* Seit 21.09.2026 springt `selbstWeiter()` — dieselbe Funktion nutzt das Überspringen bei „S?". */
+  const weiter = quelle.slice(quelle.indexOf('function selbstWeiter()'), quelle.indexOf('function selbstWeiter()') + 1200)
+  pruefe('nach dem Durchgang wird weitergegangen', /selbstWeiter\(\)/.test(block) && /naechsterAuftrag\(\)/.test(weiter))
   pruefe(
     'aber nur nach einem selbsttaetigen, nicht nach einem Klick',
     /DURCHLAUF\.selbst && selbstAn/.test(block),
@@ -364,11 +366,15 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   pruefe('es gibt eine Obergrenze je Sitzung', /selbstGezaehlt >= SELBST_HOECHSTENS/.test(block))
   pruefe(
     'die Zielseite erbt den Auftrag, wie bei einem Klick',
-    /zuletztGeoeffnet: \{ id: String\(naechster\)/.test(block),
+    /zuletztGeoeffnet: \{ id: String\(naechster\)/.test(weiter),
   )
 
   /* Die Auswahl selbst: Was abgehakt ist, wird uebersprungen. */
   const wahl = quelle.slice(quelle.indexOf('function naechsterAuftrag()'))
+  pruefe('ein uebersprungener Titel (S?) wird nicht wieder angesteuert', /selbstUebersprungen\.has\(kennung\)/.test(wahl))
+  pruefe('selbsttaetig nur bei eindeutiger Staffel', /kandidaten\.length !== 1/.test(quelle) && /staffelnDerGruppe\(reihe, DURCHLAUF\.folgen\)/.test(quelle))
+  pruefe('die Folgenliste wird gegen die Adresse verglichen', /titelDerAdresse\(\) \?\? gemeinteReihe\(\)/.test(quelle))
+  pruefe('ein Titelwechsel verwirft den Player-Stand der vorigen Seite', /String\(stand\.reihe \?\? ''\) !== titelHier/.test(quelle))
   pruefe('ein toter Verweis wird uebersprungen', /istErledigt\(kennung, 'tot'\)/.test(wahl))
   pruefe(
     'ein vollstaendig abgehakter Titel ebenso',

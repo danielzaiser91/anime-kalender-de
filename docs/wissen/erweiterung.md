@@ -1705,3 +1705,19 @@ Ein erster Fix hatte auf doppelte Nummern in den Daten getippt und über Folgenk
 (4.20.44). Der Bericht widerlegte das beim ersten Blick: Auch die Kennungen waren zehn. Die Zeilen
 sind wieder heraus (4.20.45). **Bei einer abweichenden Zahl zuerst den Bericht lesen**
 (`zaehlstand.gesamt`, `zaehlstand.nummern` gegen `seite.folgenImDom`), nicht aus dem Bild raten.
+
+### Die Automatik hing nach dem Sprung zum nächsten Titel — `stand` setzt nur der Player (21.09.2026)
+
+Selbsttätiger Durchgang: Beastars geprüft, dann `gehe('/title/80090673')` zu Haikyu!! — und
+Stillstand, kein Knopf. Der Bericht (Konsole: `document.dispatchEvent(new CustomEvent('ak-report'))`,
+der Kasten ging nicht auf) zeigte `adresse: /title/80090673`, aber `stand.reihe: 81054847` und
+eine Folgenliste von Beastars. `stand` kommt nur aus dem Player (`ak-spuren`); auf einer Titelseite
+blieb die Reihe der vorigen Seite stehen, und die neue Folgenliste wurde gegen `gemeinteReihe()`
+(= Beastars) verglichen und als fremd verworfen. Seitdem vergleicht der Empfänger mit der Kennung
+der **Adresse** (`titelDerAdresse()`), und `pfadPruefen` verwirft den alten Stand beim
+Titelwechsel — die Folgenliste nur, wenn sie nicht schon zur neuen Seite gehört (`listeFuer`).
+
+Im selben Bericht der zweite Fehler: Die Automatik prüfte bei Beastars die von Netflix
+vorausgewählte **Staffel 2**, während Staffel 1 offen war. Drei unserer Staffeln haben je
+12 Folgen, der Knopf zeigte „S?". Die Automatik startet seitdem nur bei eindeutiger Staffel und
+überspringt den Titel sonst mit Hinweis in der Konsole (`selbstUebersprungen`).
