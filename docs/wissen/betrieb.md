@@ -814,3 +814,11 @@ Belegt am 21.09.2026 an Golden Wind: drei Vermutungen falsch, das Protokoll zeig
 Lauf, dass eine Prime-Suche erst nach dem Belegfilter in die ausgetragene Adresse umgesetzt wurde
 (`prime.url = echt`). Dieselbe Klasse Fehler wie am 26.08. und 17.09.2026: **Jede Zuweisung einer
 Adresse fragt den Beleg zu genau dieser Adresse** — nicht nur der Hauptfilter.
+
+### Wer einen Oberflächentext umbenennt, sucht ihn in `tools/` (21.09.2026)
+
+Commit 077c99ed (19.09.2026) benannte „TV-Sendungen zeigen" in „TV-Ausstrahlungen anzeigen" um;
+`tools/tv-schalter-pruefen.mjs` wartete weiter auf den alten Text. „Aussehen prüfen" war danach
+**zwei Tage lang bei jedem Push rot** (19.09. 14:55 bis 21.09.) — rund zwanzig Fehlermails, und
+keine Wachphase hat hingesehen. Die Playwright-Prüfungen suchen Knöpfe über ihren **Text**. Vor dem
+Commit einer geänderten i18n-Zeile deshalb: `grep -rn "<alter Text>" tools/ pipeline/check-*`.

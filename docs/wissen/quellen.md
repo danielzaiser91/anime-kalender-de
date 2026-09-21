@@ -900,6 +900,21 @@ antwortet, ist die Schnittstelle: `gw.api.animationdigitalnetwork.com/show/<id>`
 mit `X-Target-Distribution: de` gibt Titel, Sprachen (`vde`/`vostde`) und die
 kanonische Adresse heraus.
 
+**Nachtrag 21.09.2026 — im Browser ist die alte Domain doch tot.** Der 403 sagte
+nichts, der Schluss oben stimmt insoweit. Aber Daniel hat den Folgenverweis von
+„Sister New Devil Burst" (`animationdigitalnetwork.de/video/…/25604-ova-11`) im
+Browser geöffnet: Weiterleitung auf die Startseite. Für ein Skript sind beide
+Domains gleich stumm; entscheiden kann das nur ein Browser. Seitdem stellt der Bau
+jeden Folgenverweis auf der alten Domain auf die Adresse um, die ADN selbst im
+Archiv zu genau dieser Folge ausgibt (`adnFolgenAdresse`), und Slug-Verweise
+bekommen ihre Kennung wie bisher über den Katalog oder `data/adn-adressen.yaml`.
+
+**Der Katalog kann einen Film einem fremden Titel zuordnen.** Gemessen am
+21.09.2026: 882 („One Piece • Le Film") → AniList 18617 (Girls und Panzer der
+Film), 904 → 8184, 924 → 2679. Die drei One-Piece-Filme im Bestand (459, 460,
+2107) blieben deshalb auf der alten Domain, bis `adn-adressen.yaml` sie von Hand
+bekam.
+
 **Und `/show?limit=100` ist keine Katalogabfrage.** Sie liefert 96 Serien und
 meldet dabei `total: 252`; über drei Seiten gesammelt sind es 184 eindeutige.
 Die Zahl 96 als „der deutsche Katalog" zu lesen, hat am selben Vormittag vier
