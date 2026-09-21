@@ -6,9 +6,8 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 1 | Prime Video — Suchseiten | 2 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
-| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 4 Adressen, 6 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 3 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
+| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 3 Adressen, 5 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 2 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
 | 5 | [Crunchyroll](07-crunchyroll.md) | 1 Verweis | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.

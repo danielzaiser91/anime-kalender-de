@@ -16731,3 +16731,37 @@
   checkedAt: '2026-09-21'
   zweiteQuelle: "JustWatch 2026-09-16: Crunchyroll Amazon Channel — Ton en, es, ja, pt, ru, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-21 ---
+
+- anilistId: 134623
+  title: "Lupin III. Part 6"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJJKGFGW
+  dub: true
+  checkedAt: '2026-09-21'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CJJKGFGW: nur 10 von 10 Folgen geladen — Rest ungeprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.7b54065e-38d7-44d3-aadd-fc0ff58e8848, ausgaben=2 (Zugangsart gilt nur für diese) — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 134623
+  title: "Lupin III. Part 6"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0G1YGDZ7L
+  dub: true
+  checkedAt: '2026-09-21'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0G1YGDZ7L: alle 12 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.641f9e1f-1990-403f-80fe-952b95a032db — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 133898
+  title: "Dragon Ball Super: Super Hero"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0BXRJK131
+  dub: true
+  checkedAt: '2026-09-21'
+  note: "Tonspuren: Deutsch, Català, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), Português (Portugal), 中文, 日本語 — Amazon-Seite B0BXRJK131: alle 1 Folge geprüft, Abos: crunchyrollde, rtlde, zugang=abo_und_kauf, gti=amzn1.dv.gti.b7e226ee-ce27-4f7b-bc33-0723bca5ac99 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 101344
+  title: "Made in Abyss: Gefährten der Dämmerung"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FR1FLYS2
+  dub: true
+  checkedAt: '2026-09-21'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FR1FLYS2: alle 1 Folge geprüft, Abos: cinemixplusde, zugang=abo_und_kauf, gti=amzn1.dv.gti.18b83256-a558-424b-beb0-9f6bcffb0fe5 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
