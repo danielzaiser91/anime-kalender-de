@@ -8,6 +8,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Toggle } from './ui.tsx'
 import { useShare } from '../lib/share.ts'
+import type { DbSort } from '../lib/router.ts'
 
 const PAGE_SIZE = 60
 
@@ -52,6 +53,8 @@ export function DatabaseView({
   onToggleHidden,
   onOpenTitle,
   gesucht,
+  gewaehlt,
+  onSortChange,
 }: {
   data: Dataset
   titles: Title[]
@@ -69,14 +72,17 @@ export function DatabaseView({
   onOpenTitle: (id: number) => void
   /** Ist eine Suche aktiv, kommen die Titel nach Treffergüte sortiert (lib/search.ts). */
   gesucht?: boolean
+  /** Sortierung aus der Adresse (`?sort=`); ohne Wahl gilt die Vorgabe unten. */
+  gewaehlt?: DbSort
+  onSortChange: (next: DbSort) => void
 }) {
   const { t } = useLang()
   const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
-  const [gewaehlt, setSort] = useState<'relevanz' | 'titel' | 'jahr' | 'score'>()
   /* Beim Suchen gilt die Treffergüte, bis jemand selbst eine andere Sortierung wählt. */
-  const sort = gewaehlt ?? (gesucht ? 'relevanz' : 'titel')
+  /* `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
+  const sort = (gewaehlt === 'relevanz' && !gesucht ? undefined : gewaehlt) ?? (gesucht ? 'relevanz' : 'titel')
 
   const anzahlOhne = useMemo(() => titles.filter((tt) => tt.ohneSynchro).length, [titles])
 
@@ -146,7 +152,7 @@ export function DatabaseView({
           {t('db.sort')}
           <select
             value={sort}
-            onChange={(e) => setSort(e.target.value as typeof sort)}
+            onChange={(e) => onSortChange(e.target.value as DbSort)}
             className="cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5"
           >
             {gesucht && <option value="relevanz">{t('db.sortRelevanz')}</option>}

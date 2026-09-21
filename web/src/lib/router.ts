@@ -53,7 +53,12 @@ export interface AppRoute {
   release?: string
   title?: number
   filters: FilterState
+  /** Gewählte Sortierung der Datenbank — in der Adresse, damit ein geteilter Link sie mitnimmt (21.09.2026). */
+  sort?: DbSort
 }
+
+export type DbSort = 'relevanz' | 'titel' | 'jahr' | 'score'
+const DB_SORTS: readonly DbSort[] = ['relevanz', 'titel', 'jahr', 'score']
 
 /**
  * Kurzname je Listenfeld in der Adresse. Der Ausschluss bekommt denselben
@@ -117,6 +122,7 @@ export function parseHash(hash: string): AppRoute {
     release: params.get('r') ?? undefined,
     title: params.get('t') ? Number(params.get('t')) : undefined,
     filters,
+    sort: DB_SORTS.find((s) => s === params.get('sort')),
   }
 }
 
@@ -134,6 +140,7 @@ export function buildHash(route: AppRoute): string {
   if (route.date !== todayIso()) params.set('d', route.date)
   if (route.release) params.set('r', route.release)
   if (route.title) params.set('t', String(route.title))
+  if (route.sort) params.set('sort', route.sort)
 
   const query = params.toString()
   return `#/${route.view}${query ? `?${query}` : ''}`
