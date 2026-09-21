@@ -1,6 +1,6 @@
 # Suchadressen — welcher Titel steckt dahinter?
 
-_Stand 2026-09-20 · 3 offen_
+_Stand 2026-09-21 · 3 offen_
 
 Diese Verweise führten auf eine **Suche** statt auf eine Titelseite und sind
 deshalb von der Seite verschwunden. Was hier steht, ist die Frage danach, wo

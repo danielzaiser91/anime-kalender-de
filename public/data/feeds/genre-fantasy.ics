@@ -629,7 +629,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-24#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T151000Z
 DTEND:20260924T154000Z
-SUMMARY:Dragon Ball – Folge 1/4
+SUMMARY:Dragon Ball – Folge 1/6
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -639,7 +639,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-24#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T153500Z
 DTEND:20260924T160500Z
-SUMMARY:Dragon Ball – Folge 2/4
+SUMMARY:Dragon Ball – Folge 2/6
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -681,7 +681,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-25#3@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T151000Z
 DTEND:20260925T154000Z
-SUMMARY:Dragon Ball – Folge 3/4
+SUMMARY:Dragon Ball – Folge 3/6
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -691,7 +691,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-25#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T153500Z
 DTEND:20260925T160500Z
-SUMMARY:Dragon Ball – Folge 4/4
+SUMMARY:Dragon Ball – Folge 4/6
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -816,6 +816,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-09-28#5@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260928T151000Z
+DTEND:20260928T154000Z
+SUMMARY:Dragon Ball – Folge 5/6
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-09-28#6@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260928T153500Z
+DTEND:20260928T160500Z
+SUMMARY:Dragon Ball – Folge 6/6
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:i-parry-everything-2026-09-28@2026-09-28@anime-kalender-de
