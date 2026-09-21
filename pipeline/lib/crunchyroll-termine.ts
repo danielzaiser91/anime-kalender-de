@@ -276,7 +276,11 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
     if (!punkte.length) return []
 
     const daten = punkte.map((p) => p.datum)
-    /* Riegel 3: keine deutsche Fassung vor ihrer japanischen Ausstrahlung. */
+    /*
+      Riegel 3: keine deutsche Fassung vor ihrer japanischen Ausstrahlung. Er fängt auch
+      Crunchyrolls Platzhalter: „The Dungeon of Black Company" (2021) trägt bei jeder Folge
+      `2001-01-02T07:59:00Z` (gemeldet über den Posteingang, 21.09.2026).
+    */
     const jahr = Number(daten[0]!.slice(0, 4))
     if (titel.jpYear && jahr < titel.jpYear)
       return verwirf('deutscher Termin vor der japanischen Ausstrahlung', serie, titel.id, `${jahr} gegen ${titel.jpYear}`)
