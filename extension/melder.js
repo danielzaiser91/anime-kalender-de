@@ -2519,20 +2519,29 @@ let selbstAn = false
  * selbst: nichts mehr offen, Abbruch, Störung, Obergrenze — und spätestens nach zwei Stunden.
  */
 const LAUF_HOECHSTENS_MS = 2 * 60 * 60 * 1000
-void speicherLesen('netflixLauf')
-  .then((x) => {
-    const seit = Number(x?.netflixLauf)
-    selbstAn = Number.isFinite(seit) && seit > 0 && Date.now() - seit < LAUF_HOECHSTENS_MS
-    if (selbstAn) void vielleichtSelbstStarten()
-  })
-  .catch(() => {
-    /* Ohne Speicher läuft nichts — die vorsichtige Seite. */
-  })
+/*
+  **Der Lauf gehört dem Tab, der ihn gestartet hat** (21.09.2026). In 4.20.48–4.20.50 stand der
+  Merker in `chrome.storage.local` — den teilen alle Tabs. Daniel sah in einem zweiten Tab
+  „Heroes", und dieser Tab sprang zu Pluto und meldete dort. `sessionStorage` hat jeder Tab für
+  sich, und es übersteht Neuladen und Seitenwechsel innerhalb von netflix.com.
+*/
+const LAUF_SCHLUESSEL = 'ak-netflix-lauf'
+try {
+  const seit = Number(sessionStorage.getItem(LAUF_SCHLUESSEL))
+  selbstAn = Number.isFinite(seit) && seit > 0 && Date.now() - seit < LAUF_HOECHSTENS_MS
+} catch {
+  /* Ohne Speicher läuft nichts — die vorsichtige Seite. */
+}
+if (selbstAn) setTimeout(() => void vielleichtSelbstStarten(), 0)
 
 function laufBeenden(grund) {
   if (!selbstAn) return
   selbstAn = false
-  void speicherSchreiben({ netflixLauf: null }).catch(() => {})
+  try {
+    sessionStorage.removeItem(LAUF_SCHLUESSEL)
+  } catch {
+    /* Dann endet er spätestens mit dem Tab. */
+  }
   console.log(`[Anime-Kalender] Durchgang beendet — ${grund}`)
 }
 
@@ -2541,7 +2550,11 @@ function laufStarten() {
   selbstGezaehlt = 0
   selbstVersucht = null
   selbstUebersprungen.clear()
-  void speicherSchreiben({ netflixLauf: Date.now() }).catch(() => {})
+  try {
+    sessionStorage.setItem(LAUF_SCHLUESSEL, String(Date.now()))
+  } catch {
+    /* Ohne Speicher gilt der Lauf bis zum nächsten Neuladen. */
+  }
   dialogSchliessen()
   if (titelDerAdresse() && offeneTitel[String(gemeinteReihe())] !== undefined) void vielleichtSelbstStarten()
   else selbstWeiter()

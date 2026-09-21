@@ -377,6 +377,10 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   pruefe('bleibt auf der Seite etwas offen, laeuft die Automatik dort weiter', /durchlaufOffen\(\)\.length && selbstRundenHier < 3/.test(quelle))
   pruefe('kein offener Auftrag mehr beendet den Lauf', /if \(!naechster\) return laufBeenden\(/.test(weiter))
   pruefe('Abbruch oder Stoerung beenden den Lauf', /\(DURCHLAUF\.abbruch \|\| DURCHLAUF\.stoerung\)\) \{\s*laufBeenden/.test(quelle))
+  pruefe(
+    'der Lauf gehoert dem Tab, der ihn startet (sessionStorage, nicht chrome.storage)',
+    /sessionStorage\.setItem\(LAUF_SCHLUESSEL/.test(quelle) && !/netflixLauf/.test(quelle),
+  )
   pruefe('kein dauerhafter Schalter mehr', !/netflixSelbst/.test(quelle) && /▶ alle durchgehen/.test(quelle))
   pruefe('ein uebersprungener Titel (S?) wird nicht wieder angesteuert', /selbstUebersprungen\.has\(kennung\)/.test(wahl))
   pruefe('selbsttaetig nur bei eindeutiger Staffel', /kandidaten\.length !== 1/.test(quelle) && /staffelnDerGruppe\(reihe, DURCHLAUF\.folgen\)/.test(quelle))
