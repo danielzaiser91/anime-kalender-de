@@ -3081,6 +3081,23 @@ console.log('\nCrunchyroll: nur ein verstrichener Start wird mangels Kalenderein
   )
 }
 
+/*
+  **Wo eine Suchadresse zur Titelseite wird, fragt der Bau den Beleg zu genau dieser Seite**
+  (21.09.2026, Golden Wind: B0CG7KDCTS kam als Ersatz einer Prime-Suche zurück, obwohl ein
+  Handbeleg ihn mit `available: false` ausgetragen hatte).
+*/
+console.log('\nPrime: ein ersetzter Suchlink respektiert das belegte Nein:')
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const stelle = bau.indexOf('    prime.url = echt\n')
+  const davor = bau.slice(Math.max(0, stelle - 1500), stelle)
+  pruefe(
+    'vor der Zuweisung steht der Beleg zur neuen Adresse',
+    stelle > 0 && /belegFuer\(title\.id, 'primevideo', echt/.test(davor) && /available === false/.test(davor),
+    'der Riegel gegen ein belegtes „nicht verfügbar" fehlt vor `prime.url = echt`',
+  )
+}
+
 console.log('\nPrime: der Zusatzkanal kommt aus der Notiz der Meldung:')
 {
   const { kanalAusNotiz } = await import('./lib/amazon-adresse.ts')

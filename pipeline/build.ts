@@ -4143,6 +4143,18 @@ function main(): void {
       Handbelegen und den Rohfolgen: Der Riegel gehört vor jede Zuweisung.
     */
     if (!echt || lautPruefungTot(echt)) continue
+    /*
+      **Und keine Adresse, die ein Handbeleg als nicht verfügbar führt** (21.09.2026).
+      Golden Wind stand mit einer Prime-Suche im Bestand; der Belegfilter weiter oben lief
+      über die Suchadresse und fand nichts. Erst hier wurde daraus B0CG7KDCTS — der Kopf
+      der JoJo-Sammelseite, den ein Handbeleg am selben Morgen mit `available: false`
+      ausgetragen hatte. `check:handbelege` brach den Bau ab (Lauf 35566086288), und
+      gefunden hat es eine Instrumentierung, die jede Änderung an den Streams des Titels
+      mitschrieb. Dritte Stelle dieser Art nach dem 26.08. und dem 17.09.2026: Jede
+      Zuweisung einer Adresse fragt den Beleg zu genau dieser Adresse.
+    */
+    const belegZurAdresse = belegFuer(title.id, 'primevideo', echt, 2)
+    if (belegZurAdresse?.available === false || belegZurAdresse?.dub === false) continue
     prime.url = echt
     ersetzt++
   }
