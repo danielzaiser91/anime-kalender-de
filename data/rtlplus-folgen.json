@@ -1,15 +1,15 @@
 {
-  "geholtAm": "2026-09-19T12:00:50.505Z",
+  "geholtAm": "2026-09-21T11:53:44.870Z",
   "titel": {
     "165159": {
       "programm": "beyblade-x-p_9519",
       "videos": [
         {
-          "video": "wachsende-kraft-c_2111739",
-          "titel": "Wachsende Kraft",
-          "ab": "2026-09-18",
+          "video": "zukunfts-profis-c_2117078",
+          "titel": "Zukunfts-Profis",
+          "ab": "2026-09-11",
           "staffel": 3,
-          "folge": 17
+          "folge": 16
         },
         {
           "video": "wechseln-oder-auflosen-c_2111461",
@@ -19,18 +19,18 @@
           "folge": 15
         },
         {
+          "video": "wachsende-kraft-c_2111739",
+          "titel": "Wachsende Kraft",
+          "ab": "2026-09-18",
+          "staffel": 3,
+          "folge": 17
+        },
+        {
           "video": "blick-in-die-zukunft-c_2090251",
           "titel": "Blick in die Zukunft",
           "ab": "2026-08-28",
           "staffel": 3,
           "folge": 14
-        },
-        {
-          "video": "zukunfts-profis-c_2117078",
-          "titel": "Zukunfts-Profis",
-          "ab": "2026-09-11",
-          "staffel": 3,
-          "folge": 16
         },
         {
           "video": "die-wahl-des-phonix-c_2083461",

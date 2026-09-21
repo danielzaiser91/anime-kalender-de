@@ -16713,3 +16713,21 @@
   dub: true
   checkedAt: '2026-09-21'
   note: "Tonspuren: Deutsch — Amazon-Seite B0D3WCX3WH: alle 25 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 6, zugang=kauf, gti=amzn1.dv.gti.53679c8a-8a99-494f-b6c8-d824e9b5f38c"
+
+# --- Kanal-Meldungen mit zweiter Quelle belegt, 2026-09-21 ---
+- anilistId: 18507
+  title: "Free! Iwatobi Swim Club"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CHN14W48
+  dub: false
+  checkedAt: '2026-09-21'
+  zweiteQuelle: "Handbeleg crunchyroll 2026-08-23: kein deutscher Ton"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und der Handbeleg beim Anbieter des Kanals für denselben Titel."
+- anilistId: 123802
+  title: "The Saint’s Magic Power Is Omnipotent"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DHYH7HJ6
+  dub: false
+  checkedAt: '2026-09-21'
+  zweiteQuelle: "JustWatch 2026-09-16: Crunchyroll Amazon Channel — Ton en, es, ja, pt, ru, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
