@@ -913,7 +913,9 @@ bekommen ihre Kennung wie bisher über den Katalog oder `data/adn-adressen.yaml`
 21.09.2026: 882 („One Piece • Le Film") → AniList 18617 (Girls und Panzer der
 Film), 904 → 8184, 924 → 2679. Die drei One-Piece-Filme im Bestand (459, 460,
 2107) blieben deshalb auf der alten Domain, bis `adn-adressen.yaml` sie von Hand
-bekam.
+bekam — und „Girls und Panzer der Film" trug einen One-Piece-Link, weil beide nur
+„film" teilten. Seitdem zählt ein Werkwort (`WERKWOERTER` in `lib/adn.ts`) nicht als
+gemeinsamer Name, und der Bau verwirft solche Katalogzuordnungen selbst.
 
 **Und `/show?limit=100` ist keine Katalogabfrage.** Sie liefert 96 Serien und
 meldet dabei `total: 252`; über drei Seiten gesammelt sind es 184 eindeutige.
