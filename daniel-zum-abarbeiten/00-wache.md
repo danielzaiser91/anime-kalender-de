@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 20.09.2026 um 14:23 Uhr
+**Unauffällig** · zuletzt 21.09.2026 um 16:10 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -15,51 +15,37 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 2 Titel ohne Synchro-Beleg; primevideo: 2 Synchro-Belege weniger
-- primevideo: 1 Synchro-Belege weniger
-- 1 Urteile verloren; primevideo: 1 Synchro-Belege weniger
-- 2 Urteile verloren; primevideo: 2 Synchro-Belege weniger
+- primevideo: 2 Synchro-Belege weniger
+- 1 Urteile verloren (2 weitere sind begründet entfernt); 2 Titel ohne Synchro-Beleg; primevideo: 3 Synchro-Belege weniger
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-34 Läufe in den letzten 1 Tagen (458 insgesamt)
+14 Läufe in den letzten 1 Tagen (473 insgesamt)
 
-19.09., 12:24  Bestand — zusammenführ   releases +1, termine +16
-19.09., 12:44  Bestand — zusammenführ   titel +2, verweise +1, ohneUrteil +1
-19.09., 15:26  Bestand — zusammenführ   termine +12
-19.09., 17:30  Bestand — zusammenführ   verweise -3, mitUrteil +1, ohneUrteil -4
-19.09., 17:56  Bestand — zusammenführ   verweise +17, mitUrteil +2, ohneUrteil +15
-19.09., 18:11  Bestand — zusammenführ   mitUrteil -2, ohneUrteil +2, titelMitSynchro -2
-            ⚠  2 Titel ohne Synchro-Beleg; primevideo: 2 Synchro-Belege weniger
-19.09., 19:05  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1
-19.09., 19:30  Bestand — zusammenführ   verweise +8, mitUrteil +20, ohneUrteil -12, titelMitSynchro +2
-19.09., 19:34  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2
-19.09., 20:59  Bestand — zusammenführ   verweise +1, mitUrteil +2, ohneUrteil -1
-19.09., 21:02  Bestand — zusammenführ   verweise +1, mitUrteil -1, ohneUrteil +2
-            ⚠  primevideo: 1 Synchro-Belege weniger
-19.09., 21:07  Bestand — zusammenführ   verweise +1, ohneUrteil +1
-20.09., 01:22  Bestand — zusammenführ   titel +1, verweise +1, ohneUrteil +1, releases +1, termine +3
-20.09., 10:01  Bestand — zusammenführ   verweise +1, mitUrteil -1, ohneUrteil +2
-            ⚠  1 Urteile verloren; primevideo: 1 Synchro-Belege weniger
-20.09., 10:06  Bestand — zusammenführ   mitUrteil +2, ohneUrteil -2
-20.09., 11:01  Bestand — zusammenführ   mitUrteil +2, ohneUrteil -2, titelMitSynchro +1
-20.09., 11:08  Bestand — zusammenführ   releases +2, termine +60
-20.09., 11:18  Bestand — zusammenführ   verweise -2, mitUrteil -2
-            ⚠  2 Urteile verloren; primevideo: 2 Synchro-Belege weniger
-20.09., 11:23  Bestand — zusammenführ   termine +14
+20.09., 14:47  Bestand — zusammenführ   termine +2
+20.09., 15:20  Bestand — zusammenführ   termine +2
+20.09., 16:11  Bestand — zusammenführ   termine -1
+20.09., 19:04  Bestand — zusammenführ   mitUrteil -2, ohneUrteil +2
+            ⚠  primevideo: 2 Synchro-Belege weniger
+20.09., 19:35  Bestand — zusammenführ   verweise +1, ohneUrteil +1
+21.09., 04:56  Bestand — zusammenführ   termine +3
+21.09., 06:01  Bestand — zusammenführ   verweise -2, mitUrteil -3, ohneUrteil +1, titelMitSynchro -2
+            ⚠  1 Urteile verloren (2 weitere sind begründet entfernt); 2 Titel ohne Synchro-Beleg; primevideo: 3 Synchro-Belege weniger
+21.09., 06:14  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1
+21.09., 06:35  Bestand — zusammenführ   termine +2
 
-Stand jetzt: 2775 Titel, 2090 Urteile, 4 offen
-Über den Zeitraum: Titel +3, Urteile +25, offen 0
+Stand jetzt: 2775 Titel, 2086 Urteile, 7 offen
+Über den Zeitraum: Titel 0, Urteile -4, offen +3
 
-⚠  4 Lauf/Läufe mit Auffälligkeiten — siehe oben.
+⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
 
 ```
 Briefkasten: 0 Meldungen auf 0 Adressen (—)
-Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 2 Adressen
+Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 3 Adressen
 Nichts im Briefkasten — nichts zu prüfen.
 ```
 
@@ -79,6 +65,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 21.09.2026 16:10 | 2775 / 2086 / 7 | Titel 0, Urteile -4, offen +3 | unauffällig |
 | 20.09.2026 14:23 | 2775 / 2090 / 4 | Titel +3, Urteile +25, offen 0 | unauffällig |
 | 19.09.2026 13:55 | 2772 / 2065 / 4 | Titel 0, Urteile +1, offen -38 | unauffällig |
 | 18.09.2026 14:14 | 2772 / 2064 / 42 | Titel 0, Urteile +23, offen +37 | unauffällig |
