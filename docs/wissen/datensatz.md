@@ -165,6 +165,19 @@ der nie klickt, prüft grundsätzlich nicht, was hinter einer Interaktion liegt 
 und hier war genau die die Anforderung. Dasselbe Werkzeug misst die Zeilenhöhe
 gegen eine Obergrenze, denn Dichte ist hier die Sache selbst und kein Stilwunsch.
 
+## Wer die Schreibweise von Adressen im Bestand ändert, prüft jeden Vergleich
+
+Am 20.09.2026 richtete der Bau alle Prime-Verweise von `/dp/` auf `/gp/video/detail/` — belegt
+richtig, 283 Verweise führten vorher auf eine Fehlerseite. Am nächsten Morgen fand der Einleser
+eine Meldung nicht mehr: `schluesselAdresse()` in `pipeline/lib/zuordnung.ts` behandelte beide
+Pfade als verschiedene Seiten, und Lupin III. Part 6 lag mit zwei Namensvorschlägen bei den
+Meldungen ohne Zuordnung. `adressKern()` im Bau setzte beide längst gleich; die zweite
+Normalisierung kannte das nicht.
+
+**Prüfgriff vor jeder Umstellung einer Adressform:** `grep -rn "adressKern\|schluesselAdresse\|kennung(" pipeline tools extension`
+— jede Funktion, die Adressen vergleicht, muss beide Formen gleichsetzen, und eine Zusicherung
+hält es fest.
+
 ## Ein Slug ist eine Adresse, und Adressen dürfen nicht wandern
 
 Aus `Release.slug` wird `/r/<slug>/` — eine echte Datei im Bauwerk, in der Sitemap, in
