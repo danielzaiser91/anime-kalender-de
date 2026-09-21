@@ -800,3 +800,17 @@ Der Link-Knopf im Detail-Panel teilte `/r/<Titel-Slug>/` — eine Seite, die es 
 ### `git commit -am` nimmt keine neuen Dateien mit (19.09.2026)
 
 `web/src/lib/tv-angabe.ts` war neu, der Commit lief mit `-am` — importiert, aber nicht eingecheckt. Lokal grün (die Datei lag ja da), in der CI hätte der Bau am Import gescheitert; Deploy wurde vom Nachreich-Commit abgelöst, der schon angestoßene Bestandsbau musste abgebrochen werden. Griff: Vor jedem `-am` die `??`-Zeilen in `git status --short` ansehen — steht dort eine neue Datei, gehört sie mit `git add` dazu.
+
+### Woher kommt ein Verweis? — `tools/streams-verfolgen.mjs`
+
+`check:handbelege` meldet einen Weg, der laut Beleg gar nicht mehr da sein dürfte, und der Bau hat
+über ein Dutzend Stellen, die `title.streams` anfassen. Statt die Ursache zu erraten, schreibt
+`node tools/streams-verfolgen.mjs <AniList-Id> [Plattform]` jede Änderung an den Streams dieses
+Titels mit Zeile in `build.ts` mit. Er baut lokal (mit altem Cache bricht der Bau am Ende ab, das
+Protokoll entsteht vorher), setzt danach die Erzeugnisse zurück und verweigert den Start, wenn in
+`public/data`, `data` oder `daniel-zum-abarbeiten` uncommittete Arbeit liegt.
+
+Belegt am 21.09.2026 an Golden Wind: drei Vermutungen falsch, das Protokoll zeigte beim ersten
+Lauf, dass eine Prime-Suche erst nach dem Belegfilter in die ausgetragene Adresse umgesetzt wurde
+(`prime.url = echt`). Dieselbe Klasse Fehler wie am 26.08. und 17.09.2026: **Jede Zuweisung einer
+Adresse fragt den Beleg zu genau dieser Adresse** — nicht nur der Hauptfilter.
