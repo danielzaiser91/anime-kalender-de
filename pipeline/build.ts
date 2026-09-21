@@ -2405,10 +2405,25 @@ function main(): void {
           }
         }
         sources.push(CR_CALENDAR_URL)
-      } else if (entry.schedule.estimated && crunchyroll.window && overlapsWindow(schedule, crunchyroll.window)) {
+      } else if (
+        entry.schedule.estimated &&
+        crunchyroll.window &&
+        overlapsWindow(schedule, crunchyroll.window) &&
+        (schedule.firstEpisodeDate ?? '') <= todayIso()
+      ) {
         // Die Serie müsste im abgesuchten Zeitraum laufen, und der Kalender
         // führt dort keine deutsche Folge. Dann gibt es die Synchro nicht —
         // ein erfundener Sendeplan wäre schlimmer als gar keiner.
+        //
+        // **Aber nur für einen Start, der schon war** (21.09.2026). Das
+        // Kalenderfenster reicht zwei Wochen in die Zukunft, und Crunchyroll
+        // trägt deutsche Termine oft erst kurz vorher ein. In der Nacht zum
+        // 21.09. brachen deshalb zwei Bauläufe ab: „Black Clover" Staffel 2
+        // (Start 03.10.) und „Die Tagebücher der Apothekerin" Staffel 3 (Start
+        // 01.10.) standen noch nicht im Kalender, wurden verworfen und fielen
+        // aus dem Datensatz. Ein künftiger Termin, den noch niemand zeigt, ist
+        // nicht widerlegt — er bleibt als Schätzung stehen, bis der Kalender
+        // ihn bestätigt oder sein Tag ohne Eintrag verstreicht.
         warn(
           `"${entry.slug}": kein deutscher Eintrag bei Crunchyroll im Zeitraum ` +
             `${crunchyroll.window.from}…${crunchyroll.window.to} (Start ${schedule.firstEpisodeDate}) — verworfen`,

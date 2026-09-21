@@ -3062,6 +3062,25 @@ console.log('\nPrime: eine GTI steht nie unter /dp/:')
   )
 }
 
+/*
+  **Ein künftiger Termin, den der Kalender noch nicht zeigt, ist nicht widerlegt**
+  (21.09.2026). Der Riegel „kein deutscher Eintrag bei Crunchyroll — verworfen"
+  galt jedem geschätzten Start im Kalenderfenster, und das Fenster reicht zwei
+  Wochen in die Zukunft. Black Clover Staffel 2 und die Apothekerin Staffel 3
+  fielen dadurch aus dem Datensatz; zwei Bauläufe brachen ab.
+*/
+console.log('\nCrunchyroll: nur ein verstrichener Start wird mangels Kalendereintrag verworfen:')
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const stelle = bau.indexOf('kein deutscher Eintrag bei Crunchyroll im Zeitraum')
+  const davor = bau.slice(Math.max(0, stelle - 2500), stelle)
+  pruefe(
+    'der Riegel prueft, ob der Start schon war',
+    stelle > 0 && /firstEpisodeDate \?\? ''\) <= todayIso\(\)/.test(davor),
+    'die Bedingung „Start liegt nicht in der Zukunft" fehlt vor der Verwerfung',
+  )
+}
+
 console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 {
   const bau = readFileSync('pipeline/build.ts', 'utf8')
