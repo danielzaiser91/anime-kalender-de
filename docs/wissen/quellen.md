@@ -415,6 +415,21 @@ Beim Kanal-Titel gilt zusätzlich der Abschnitt darunter.
 
 ### Bei einem Kanal-Titel ist Amazons Sprachangabe kein Beleg
 
+**Der Kopf einer Sammelseite ist kein Weg zu einer Staffel** (21.09.2026). Golden Wind trug zwei
+Prime-Pillen, die identisch aussahen: B0G1ZD14D3 und B0CG7KDCTS. Daniels Klicktest: Auf
+B0CG7KDCTS springt die Auswahl „Staffel 4" auf B0G1ZD14D3, dort bleibt die Kennung stehen.
+B0CG7KDCTS ist also der Kopf der JoJo-Sammelseite, der die neueste Staffel vorwählt — eine
+fünfte Staffel würde er morgen zeigen. Beide Diagnoseberichte trugen **dieselben Folgen-GTIs**
+(`gtisImQuelltext`) in derselben Reihenfolge; das ist das eindeutige Merkmal, denn eine Folgen-GTI
+gehört genau einer Folge. Die Kopfadresse kam aus aniSearch und trägt jetzt `available: false`.
+
+**Eine generische Zusammenlegung über die Folgen-GTIs trägt derzeit nicht.** Gemessen am selben
+Tag über `prime_folge` (GTI und `seiten_kennung` je gemeldeter Folge): Außer Golden Wind teilte
+sich genau ein Seitenpaar Folgen, und das waren zwei Bögen mit zwei gemeinsamen Folgen, keine
+doppelte Staffel. Doppelte Adressen entstehen aus Fremdquellen, deren Seite niemand meldet — dort
+hat der Bau keine GTIs zum Vergleichen. Neu bewerten, sobald die Erweiterung auf einer Fremdseite
+selbst meldet, dass sie dieselben Folgen zeigt wie eine schon gemeldete.
+
 **Geändert am 17.09.2026 für das Ja:** Daniel: „Unsere Meldung per Extension sollte höchste
 Confidence haben … bau es so, das wir direkt mitbekommen wenn die extension schuld ist."
 Eine Kanal-Meldung **mit** deutschem Ton wird seitdem ein Beleg (`dub: true`, Notiz behält den
