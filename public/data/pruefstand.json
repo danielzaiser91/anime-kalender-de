@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-21T17:37:00.170Z",
+ "erzeugtAm": "2026-09-21T19:39:12.110Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -25,9 +25,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 368,
+   "gemeldet": 372,
    "gesamt": 376,
-   "offen": 8,
+   "offen": 4,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/80090673",
    "ziele": [
@@ -36,24 +36,8 @@
      "titel": "Haikyu!!"
     },
     {
-     "url": "https://www.netflix.com/title/80193163",
-     "titel": "Made in Abyss"
-    },
-    {
      "url": "https://www.netflix.com/title/81046193",
      "titel": "Dr. Stone"
-    },
-    {
-     "url": "https://www.netflix.com/title/81054847",
-     "titel": "Beastars"
-    },
-    {
-     "url": "https://www.netflix.com/title/81281344",
-     "titel": "Pluto"
-    },
-    {
-     "url": "https://www.netflix.com/title/81499847",
-     "titel": "Uncle from Another World"
     }
    ],
    "naechster": "Haikyu!!"

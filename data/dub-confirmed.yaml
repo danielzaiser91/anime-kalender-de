@@ -16791,3 +16791,68 @@
   dub: true
   checkedAt: '2026-09-21'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B09B7YVGZ5: nur 12 von 13 Folgen geladen — Rest ungeprüft, Abos: Prime, laut Adresse Staffel 3, zugang=abo, gti=amzn1.dv.gti.5c56f22d-dd85-454e-97df-69eacf454052, regionsperre=laut Seite nicht mehr im Abo"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-21 ---
+
+- anilistId: 107660
+  title: "Beastars"
+  platform: netflix
+  url: https://www.netflix.com/title/81054847
+  dub: true
+  checkedAt: '2026-09-21'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 14 und 23, dazwischen nicht geprüft — Folge 23: Verteile deine Schuppen"
+
+- anilistId: 114194
+  title: "Beastars Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/81054847
+  dub: true
+  dubRanges:
+    - from: 2
+      to: 11
+      dub: true
+      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+  checkedAt: '2026-09-21'
+  note: "Folgen 2–11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 14 und 23, dazwischen nicht geprüft — Folge 23: Verteile deine Schuppen"
+
+- anilistId: 97986
+  title: "Made in Abyss"
+  platform: netflix
+  url: https://www.netflix.com/title/80193163
+  dub: true
+  checkedAt: '2026-09-21'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Die Herausforderer"
+
+- anilistId: 135806
+  title: "Uncle from Another World"
+  platform: netflix
+  url: https://www.netflix.com/title/81499847
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-09-21'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 12: Die wahre Gestalt des Fluchs"
+
+- anilistId: 135806
+  title: "Uncle from Another World"
+  platform: netflix
+  url: https://www.netflix.com/title/81499847
+  dub: true
+  dubRanges:
+    - from: 13
+      to: 13
+      dub: true
+      checked: [13]
+  checkedAt: '2026-09-21'
+  note: "Folge 13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Die Herausforderer"
+
+- anilistId: 99088
+  title: "Pluto"
+  platform: netflix
+  url: https://www.netflix.com/title/81281344
+  dub: true
+  checkedAt: '2026-09-21'
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Folge 8"
