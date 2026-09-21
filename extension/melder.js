@@ -744,6 +744,18 @@ function ausWeiterleitung() {
 }
 
 function gemeinteReihe() {
+  /*
+    **Auf einer Titelseite ist die Adresse die Reihe** (21.09.2026, zweiter Bericht). Das
+    Zurücksetzen in `pfadPruefen` hielt nicht: Der Leser schickt auf der Titelseite weiter die
+    Spuren des zuletzt gespielten Players, und Made in Abyss stand danach wieder unter Haikyu!!.
+    Die Adresse ist die Quelle, die nicht veraltet.
+  */
+  const hierTitel = !imPlayer() ? titelDerAdresse() : null
+  if (hierTitel && String(stand.reihe ?? '') !== hierTitel) {
+    if (offeneTitel[hierTitel] !== undefined) return hierTitel
+    const umgeleitet = netflixWeiterleitungen?.[hierTitel]
+    if (umgeleitet && offeneTitel[String(umgeleitet)] !== undefined) return umgeleitet
+  }
   if (stand.reihe && offeneTitel[String(stand.reihe)] !== undefined) return stand.reihe
   /* Eine gemerkte Weiterleitung gilt ohne Frist — sie ändert sich nicht. */
   try {
@@ -2551,6 +2563,9 @@ function laufStarten() {
 let selbstVersucht = null
 /** Titel, die die Automatik in dieser Sitzung übersprungen hat — sonst pendelt sie zwischen ihnen. */
 const selbstUebersprungen = new Set()
+/** Wie oft die Automatik auf derselben Seite nacheinander lief. */
+let selbstRundenSeite = ''
+let selbstRundenHier = 0
 
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
 function selbstWeiter() {
@@ -3055,7 +3070,26 @@ function stichprobeUeberEinenTitel(zuTun) {
       (Number.isFinite(st.erste) ? st.erste : 1) === erste &&
       Number(st.folgen) === sortiert.length,
   )
-  return passend.length === 1 ? sortiert : null
+  if (passend.length === 1) return sortiert
+  /*
+    **Zwei Titel in einer Netflix-Staffel: erst der eine, dann der andere** (21.09.2026).
+    Haikyu!! TO THE TOP liegt bei Netflix als Staffel 4 mit E1–25 = unsere zwei Einträge E1–13
+    und E14–25. Die Stichprobe galt nur für genau einen Titel, also wurden alle 25 einzeln
+    geprüft. Daniel: „alles durchgehen sollte den schnellen weg gehen … nur wenn letzte und
+    erste nicht gleiche sprache haben sollte es auf jede einzelne melden umsteigen."
+    Beginnt ein offener Eintrag genau bei der ersten offenen Folge, gilt die Stichprobe für
+    ihn; der Rest kommt im nächsten Lauf dran.
+  */
+  const vorn = (eintrag.staffeln ?? []).filter(
+    (st) =>
+      !st.film &&
+      st.zustand !== 'belegt' &&
+      kandidaten.has(Number(st.nr)) &&
+      (Number.isFinite(st.erste) ? st.erste : 1) === erste &&
+      Number(st.folgen) >= 3 &&
+      Number(st.folgen) < sortiert.length,
+  )
+  return vorn.length === 1 ? sortiert.slice(0, Number(vorn[0].folgen)) : null
 }
 
 /** Je Netflix-Staffel eine Gruppe — der Leser sammelt alle, die angeklickt wurden. */
@@ -3781,7 +3815,14 @@ async function durchlaufStarten(grenze) {
     laufBeenden(DURCHLAUF.abbruch ? 'abgebrochen' : `Störung ${DURCHLAUF.stoerung}`)
   }
   if (DURCHLAUF.selbst && selbstAn && !DURCHLAUF.abbruch && !DURCHLAUF.stoerung) {
-    if (selbstGezaehlt >= SELBST_HOECHSTENS) laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
+    /* Zwei Titel in einer Netflix-Staffel: der zweite kommt auf derselben Seite dran (höchstens dreimal). */
+    const seite = String(titelDerAdresse() ?? '')
+    selbstRundenHier = selbstRundenSeite === seite ? selbstRundenHier + 1 : 1
+    selbstRundenSeite = seite
+    if (durchlaufOffen().length && selbstRundenHier < 3) {
+      selbstVersucht = null
+      setTimeout(() => void vielleichtSelbstStarten(), 1500)
+    } else if (selbstGezaehlt >= SELBST_HOECHSTENS) laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
     else selbstWeiter()
   }
   if (DURCHLAUF.stoerung) {
@@ -4201,8 +4242,15 @@ function durchlaufKnopfZeigen() {
           auftrag: durchlaufAuftrag()?.map((f) => f.nummer) ?? null,
           shift: e.shiftKey,
         }
+        /*
+          **Im Lauf bricht der Klick ab — der Knopf sagt „abbrechen"** (21.09.2026). Bis 4.20.48
+          verwarf er den Klick („läuft schon"), und Daniel stand vor einem Knopf, der
+          abbrechen anbot und nichts tat. Ein zweiter Start bleibt ausgeschlossen.
+        */
         if (DURCHLAUF.laeuft) {
-          console.warn('[Anime-Kalender] Klick verworfen — läuft schon:', zustand)
+          DURCHLAUF.abbruch = true
+          console.log('[Anime-Kalender] Abbruch per Knopf:', zustand)
+          durchlaufKnopfZeigen()
           return
         }
         /* Ist alles gemeldet, tut ein Klick nichts — der Rechtsklick bleibt. */

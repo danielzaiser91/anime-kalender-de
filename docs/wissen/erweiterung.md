@@ -1721,3 +1721,12 @@ Im selben Bericht der zweite Fehler: Die Automatik prüfte bei Beastars die von 
 vorausgewählte **Staffel 2**, während Staffel 1 offen war. Drei unserer Staffeln haben je
 12 Folgen, der Knopf zeigte „S?". Die Automatik startet seitdem nur bei eindeutiger Staffel und
 überspringt den Titel sonst mit Hinweis in der Konsole (`selbstUebersprungen`).
+
+**Zweiter Bericht am selben Abend (4.20.48):** Das Zurücksetzen in `pfadPruefen` hielt nicht — der
+Leser schickt auf der Titelseite weiter die Spuren des zuletzt gespielten Players, und Made in Abyss
+stand wieder unter Haikyu!!. Seitdem gilt in `gemeinteReihe()` auf einer Titelseite die Adresse vor
+`stand.reihe`. Im selben Zug: Der Knopf „abbrechen" verwarf jeden Klick im Lauf („läuft schon") — er
+setzt jetzt `DURCHLAUF.abbruch`. Und liegen zwei unserer Titel in einer Netflix-Staffel (Haikyu!!
+TO THE TOP: E1–13 und E14–25), gilt die Stichprobe zuerst für den vorderen, der andere folgt im
+nächsten Lauf auf derselben Seite — statt 25 Einzelprüfungen (Daniel: „alles durchgehen sollte den
+schnellen weg gehen").

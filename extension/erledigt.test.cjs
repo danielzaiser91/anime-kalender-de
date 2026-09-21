@@ -372,6 +372,9 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   /* Die Auswahl selbst: Was abgehakt ist, wird uebersprungen. */
   const wahl = quelle.slice(quelle.indexOf('function naechsterAuftrag()'))
   /* 21.09.2026: Knopf statt Schalter — ein Lauf endet von selbst. */
+  pruefe('im Lauf bricht ein Klick ab, statt verworfen zu werden', /if \(DURCHLAUF\.laeuft\) \{\s*DURCHLAUF\.abbruch = true/.test(quelle))
+  pruefe('auf der Titelseite gilt die Adresse vor dem alten Player-Stand', /const hierTitel = !imPlayer\(\) \? titelDerAdresse\(\) : null/.test(quelle))
+  pruefe('bleibt auf der Seite etwas offen, laeuft die Automatik dort weiter', /durchlaufOffen\(\)\.length && selbstRundenHier < 3/.test(quelle))
   pruefe('kein offener Auftrag mehr beendet den Lauf', /if \(!naechster\) return laufBeenden\(/.test(weiter))
   pruefe('Abbruch oder Stoerung beenden den Lauf', /\(DURCHLAUF\.abbruch \|\| DURCHLAUF\.stoerung\)\) \{\s*laufBeenden/.test(quelle))
   pruefe('kein dauerhafter Schalter mehr', !/netflixSelbst/.test(quelle) && /▶ alle durchgehen/.test(quelle))

@@ -379,9 +379,14 @@ pruefe(
 )
 
 const mitOvaOffen = stichprobe(KONOSUBA('melden'))
+/*
+  Bis 21.09.2026: zwei Titel in einer Staffel → jede Folge einzeln (E1–11). Seitdem gilt Daniels
+  Regel „schneller Weg, einzeln nur bei abweichender Sprache": zuerst die Stichprobe über den
+  vorderen Titel (E1–10), die OVA kommt im nächsten Lauf für sich — also weiterhin einzeln.
+*/
 pruefe(
-  'OVA ebenfalls offen: zwei Titel in einer Staffel, also jede Folge einzeln',
-  JSON.stringify(mitOvaOffen[0]) === JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) && mitOvaOffen[1] === null,
+  'OVA ebenfalls offen: erst Stichprobe über E1–10, die OVA danach für sich',
+  mitOvaOffen[0] === null && JSON.stringify(mitOvaOffen[1]) === JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
   mitOvaOffen,
 )
 
