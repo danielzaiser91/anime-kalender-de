@@ -3531,7 +3531,9 @@ export function DetailPanel({
     Angaben des Verweises mit derselben Adresse; ohne ihn gilt die Regel des Titels.
   */
   const folgenAngabeFuer = (
-    s: { platform?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges'] } | undefined,
+    s:
+      | { platform?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges']; dub?: boolean }
+      | undefined,
   ): string => {
     /* Ein Werk mit genau einer Folge ist wie ein Film: „1 Fg." sagt nichts (Dr. Stone Ryusui, Stichprobe 17.09.2026). */
     if (!title || title.format === 'MOVIE' || title.episodes === 1) return ''
@@ -3567,6 +3569,15 @@ export function DetailPanel({
     if (deutsch.length && !dubAbdeckung(s?.dubRanges, title.episodes).vollstaendig)
       return t('detail.folgenBereich', { bereich: bereicheKurz(deutsch) })
     if (deutsch.length) return t('detail.folgenKurz', { n: dubAbdeckung(s?.dubRanges, title.episodes).belegt })
+    /*
+      **Ohne Sprachbeleg keine Titelzahl** (21.09.2026). Regel 4 war an 1.982 deutschen
+      Verweisen gemessen — für einen Weg ohne Urteil schrieb sie trotzdem die Folgen des
+      Titels hin. Golden Wind: zwei Prime-Pillen über den Crunchyroll-Kanal, dort nur
+      Französisch und Japanisch, und beide zeigten „39 Fg." unter „Alle 39 Folgen auf
+      Deutsch" (Daniel mit Bild: „wieso tauchen diese 2 prime pills auf, obwohl sie keine
+      deutsche synchro haben?"). Eine Zahl am Weg braucht einen Beleg an genau diesem Weg.
+    */
+    if (s && s.dub !== true) return ''
     const abgeschlossen = title.jpEnd
       ? title.jpEnd < today
       : Boolean(title.jpYear && title.jpYear < Number(today.slice(0, 4)))

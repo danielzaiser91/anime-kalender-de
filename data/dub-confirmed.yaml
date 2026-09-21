@@ -16548,6 +16548,19 @@
   note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.9d8140b1-06b0-475b-a27f-4674b7179571, ausgaben=2 (Zugangsart gilt nur für diese) — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
 # Durchgang 19.09.2026, Rest: angesehen, ohne Urteil oder nicht vorhanden.
+
+# Golden Wind (102883): B0CG7KDCTS ist der Kopf der JoJo-Sammelseite, kein Weg zu Golden Wind. Er
+# öffnet die Reihe mit der neuesten Staffel vorgewählt — heute Staffel 4 —, und ein Klick auf
+# „Staffel 4" im Auswahlmenü springt auf B0G1ZD14D3 (Daniel mit Bild, 21.09.2026). Auf
+# B0G1ZD14D3 bleibt die Kennung stehen. Die Adresse kam aus aniSearch und stand als zweite,
+# identisch aussehende Prime-Pille neben der richtigen.
+- anilistId: 102883
+  title: "JoJo’s Bizarre Adventure: Golden Wind"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CG7KDCTS
+  checkedAt: '2026-09-21'
+  available: false
+  note: "Kopf der JoJo-Sammelseite (Crunchyroll-Kanal), kein eigener Weg zu Golden Wind — Staffel 4 liegt unter B0G1ZD14D3"
 - anilistId: 20474
   title: "JoJo’s Bizarre Adventure: Stardust Crusaders"
   platform: primevideo
