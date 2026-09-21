@@ -3108,6 +3108,21 @@ console.log('\nPrime: ein ersetzter Suchlink respektiert das belegte Nein:')
   )
 }
 
+/* Gemessene Zugangsart je Seite schlägt JustWatch je Titel (21.09.2026, 111 falsche Pillen). */
+console.log('\nPrime: die Zugangsart der Seite kommt aus der Meldung:')
+{
+  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  pruefe(
+    'die Hauptschleife fragt zuerst die gemessene Zugangsart',
+    /s\.zugang = gemessen \?\? zugangsart\(/.test(bau),
+    'die Zugangsart aus der Meldung wird nicht mehr zuerst gefragt',
+  )
+  pruefe(
+    'die Nachtragsschleife ebenso',
+    /zugangJeAdresse\.get\(adressKern\(s\.url\)\) : undefined\) \?\? zugangsart\(s\.platform, undefined, s\.url\)/.test(bau),
+  )
+}
+
 console.log('\nPrime: der Zusatzkanal kommt aus der Notiz der Meldung:')
 {
   const { kanalAusNotiz } = await import('./lib/amazon-adresse.ts')

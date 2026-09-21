@@ -3101,10 +3101,24 @@ function main(): void {
     Anlauf als nacktes „Prime Video" da, obwohl die Meldung „Abos: crunchyrollde" trug.
   */
   const kanalJeAdresse = new Map<string, string | undefined>()
+  /*
+    **Und die Zugangsart, die die Erweiterung auf genau dieser Seite gemessen hat** (21.09.2026).
+    Sie stand in jeder Meldung („zugang=kauf") und wurde nie gelesen; die Pille nahm JustWatchs
+    Angabe je Titel oder die Vorgabe „Prime = Abo". Gemessen über 700 Prime-Seiten mit Angabe:
+    111 zeigten die falsche Zugangsart — 46 als Kauf, obwohl im Abo, 65 als Abo, obwohl nur zu
+    kaufen oder zu leihen. Lupin III. Part 6 stand als Abo da, Daniels Bild zeigte „Als
+    Kauftitel verfügbar". JustWatch spricht über den Titel, die Meldung über die Ausgabe.
+  */
+  const zugangJeAdresse = new Map<string, 'abo' | 'kauf'>()
   for (const c of [...alleChecks].sort((a, b) => (b.checkedAt ?? '').localeCompare(a.checkedAt ?? ''))) {
-    if (c.platform !== 'primevideo' || !c.url || !/Abos: /.test(c.note ?? '')) continue
+    if (c.platform !== 'primevideo' || !c.url) continue
     const k = adressKern(c.url)
-    if (!kanalJeAdresse.has(k)) kanalJeAdresse.set(k, kanalAusNotiz(c.note))
+    if (/Abos: /.test(c.note ?? '') && !kanalJeAdresse.has(k)) kanalJeAdresse.set(k, kanalAusNotiz(c.note))
+    const z = /zugang=([a-z_]+)/.exec(c.note ?? '')?.[1]
+    if (z && !zugangJeAdresse.has(k)) {
+      if (z === 'abo' || z === 'abo_und_kauf') zugangJeAdresse.set(k, 'abo')
+      else if (z === 'kauf' || z === 'kauf_oder_leihe') zugangJeAdresse.set(k, 'kauf')
+    }
   }
   const checksJePlattform = new Map<string, DubCheck[]>()
   for (const c of alleChecks) {
@@ -4018,7 +4032,9 @@ function main(): void {
       // Der YouTube-Kanal entscheidet über Kauf oder kostenlos — siehe
       // `zugangsart()`. Er steht in den Befunden, nicht im Verweis selbst.
       const kanal = s.platform === 'youtube' ? ytKanal[s.url] : undefined
-      s.zugang = zugangsart(s.platform, undefined, s.url, jwArt(s.platform), kanal, ytKauf.has(s.url))
+      /* Auf der Seite gemessen schlägt JustWatch je Titel — siehe `zugangJeAdresse`. */
+      const gemessen = s.platform === 'primevideo' ? zugangJeAdresse.get(adressKern(s.url)) : undefined
+      s.zugang = gemessen ?? zugangsart(s.platform, undefined, s.url, jwArt(s.platform), kanal, ytKauf.has(s.url))
     }
     for (const w of title.watchLinks ?? []) {
       w.zugang = zugangsart(w.name, w.kind, w.url, jwArt(providerToPlatform(w.name) as PlatformId))
@@ -6835,7 +6851,7 @@ function main(): void {
   for (const title of titles.values()) {
     for (const s of title.streams ?? []) {
       if (s.zugang) continue
-      s.zugang = zugangsart(s.platform, undefined, s.url)
+      s.zugang = (s.platform === 'primevideo' ? zugangJeAdresse.get(adressKern(s.url)) : undefined) ?? zugangsart(s.platform, undefined, s.url)
       nachgetragen++
     }
     for (const w of title.watchLinks ?? []) {
