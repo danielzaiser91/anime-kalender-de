@@ -178,6 +178,7 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 | Frage | Messung |
 |---|---|
+| Fate/stay night UBW (19603/20792): Soll MOTNs „alle deutsch" einen Handbeleg schlagen, der nur Folge 1 prüfte? | 21.09.2026: `data/motn.json` tt3621796 — Netflix 25 gelistet, 25 deutsch, `seit: 2026-08-06`. Handbeleg vom 22.08. nur Folge 1 (`dubRanges 1–1`) → Panel „1 von 13 … für die übrigen fehlt uns eine Angabe". Dazu müssten MOTNs 25 auf zwei AniList-Einträge verteilt werden (Netflix: Teil 1 und 2 je 13). 06.08.2026 ist MOTNs „im Angebot seit", kein Erscheinungsdatum. **Szenarien gemessen 21.09.2026** (Handbelege mit `dubRanges` gegen `ordneShowsZu`): Hand teilweise und MOTN belegt alles deutsch (übernehmbar) 8 (BEASTARS, Dr. STONE, Stone Wars, Haikyu TO THE TOP 1+2, Isekai Oji-san …) · Hand teilweise, MOTN nicht alles deutsch 18 (ULTRAMAN, Kuromukuro, Pokémon …) · Hand teilweise, keine andere Quelle 37 — **darunter Fate UBW selbst**: MOTN zählt 25 Folgen, AniList 13+13, deshalb keine Zuordnung · Hand vollständig 69 · Widerspruch (Hand Nein, MOTN alles deutsch) 0. |
 
 ### Warten auf Feedback
 
