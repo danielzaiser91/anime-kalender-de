@@ -3009,6 +3009,21 @@ function main(): void {
     }
   }
 
+  /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
+  const linkBefunde = readJson<
+    Record<string, { status: number | string; prime?: boolean; geprueftAm?: string }>
+  >('data/link-check.json', {})
+  /*
+    **Eine späte Runde legt keine Adresse an, die die Linkprüfung als tot kennt**
+    (17.09.2026, dritter Fall 21.09.2026 bei `verweise-von-hand.yaml`). Diese
+    Definition steht deshalb vor der ersten Stelle, die eine Adresse anlegt —
+    nicht dahinter.
+  */
+  const lautPruefungTot = (url: string): boolean => {
+    const status = linkBefunde[url]?.status
+    return status === 404 || status === 'region'
+  }
+
   /**
    * **Verweise, die kein Sammellauf findet — von Hand belegt.**
    *
@@ -3041,6 +3056,7 @@ function main(): void {
       : []
     for (const e of eintraege) {
       if (!e.anilistId || !e.platform || !e.url) continue
+      if (lautPruefungTot(e.url)) continue
       const title = titles.get(e.anilistId)
       if (!title) {
         warn(`verweise-von-hand: Titel ${e.anilistId} steht nicht im Bestand`)
@@ -3465,21 +3481,6 @@ function main(): void {
     if (b?.kaufAngebot === true) ytKauf.add(url)
     if (typeof b?.audioDeutsch === 'boolean') ytAudio.set(url, b.audioDeutsch)
     if (b?.kategorie === 'Trailers') ytTrailer.add(url)
-  }
-  /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
-  const linkBefunde = readJson<
-    Record<string, { status: number | string; prime?: boolean; geprueftAm?: string }>
-  >('data/link-check.json', {})
-  /*
-    **Eine späte Runde legt keine Adresse an, die die Linkprüfung als tot kennt**
-    (17.09.2026). Der Filter gegen tote Verweise steht weiter unten vor den
-    Ergänzungen aus aniSearch und dem Crunchyroll-Katalog; was dort entsteht,
-    sah er nie. Sechs Joyn-Adressen standen so seit dem 20.08. als 404 in
-    `data/link-check.json` und trotzdem im Datensatz, ohne Sprachurteil.
-  */
-  const lautPruefungTot = (url: string): boolean => {
-    const status = linkBefunde[url]?.status
-    return status === 404 || status === 'region'
   }
   /** Wie oft der Kanal-Verweis mit dem Crunchyroll-Befund entfallen ist. */
   let kanalMitEntfernt = 0
