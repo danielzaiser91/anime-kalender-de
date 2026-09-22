@@ -2043,6 +2043,13 @@ function main(): void {
         url: info.justwatchUrl,
         kind: 'stream',
         zugang: offer.kind === 'flatrate' ? 'abo' : 'kauf',
+        /*
+          Gekennzeichnet beim Anlegen, nicht erst am Ende: `pruefeErgebnis()` läuft vor den
+          JustWatch-Runden, die eine direkte Adresse einsetzen (und die Kennzeichnung dann löschen).
+          Der Bestandslauf vom 22.09.2026 17:33 brach mit 1.172 ungekennzeichneten Wegen ab, weil die
+          Kennzeichnung erst nach der Prüfung kam.
+        */
+        ueberTmdb: true,
       })
     }
     if (watchLinks.length) {
@@ -7187,6 +7194,7 @@ function main(): void {
         )
         if (!treffer?.url || toteAdressen.has(treffer.url)) continue
         w.url = stripAffiliate(treffer.url)
+        delete w.ueberTmdb
         jwDirekt++
       }
     }
@@ -7308,6 +7316,7 @@ function main(): void {
           .find(Boolean)
         if (!magenta) continue
         w.url = `https://www.videoload.de/${magenta[1]}`
+        delete w.ueberTmdb
         videoloadDirekt++
       }
       /* Neben einem direkten Weg desselben Anbieters ist der TMDB-Weg doppelt (Videoload von Hand). */
