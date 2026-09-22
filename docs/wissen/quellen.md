@@ -2595,3 +2595,9 @@ kinoheld sperrt Agenten (`Disallow: /`), deshalb stand jede Filmadresse von Hand
 (Meldung 4738)" wurde zu „crunchyrollde (meldung 4738)" und passte auf kein JustWatch-Angebot; die
 Probe fiel auf alle Angebote zurück und fand bei A Silent Voice maxdomes `de` — ein Widerspruch, den
 das Kanal-Angebot (`es, it, ja`) nie hatte. `kanal-gegenprobe.ts` wirft Klammerzusätze seitdem weg.
+
+**Ein Handbeleg nur mit Adresse ist kein neutraler Vermerk (22.09.2026).** Die Prime-Prüfliste
+(`extension-offene-amazon.mjs`, „geprüft ist die Adresse") liest jede Adresse aus
+`dub-confirmed.yaml` als angesehen und lässt sie weg — Fairy Tail fiel so von der Liste, bevor
+jemand die Sprache geprüft hatte. Einen Weg belegt man in `verweise-von-hand.yaml` (`belegtAm`),
+ein Urteil in `dub-confirmed.yaml` — nie beides in einem urteilslosen Handbeleg.

@@ -96,3 +96,11 @@ Urteil: offen ist, was `unbekannt` ist oder einen Verdacht trägt.
 
 Aufwand grob: PoC 1–2 Tage, Umbau insgesamt eine bis zwei Wochen, gestaffelt, ohne dass die Seite
 zwischendurch schlechter wird.
+
+## PoC — Messungen
+
+**Rohmeldungen in D1, 22.09.2026 (4.433 Zeilen):** 1.563 (35 %) sind Staffelurteile ohne
+Folgennummer, davon 1.395 von Prime; 912 Netflix-Zeilen sind Randproben-Annahmen (nur am Notiztext
+„ANGENOMMEN" erkennbar); alle 315 `weg`-Meldungen sind staffelweit — eine einzelne gesperrte Folge
+lässt sich heute nicht melden. Folge für Stufe 1: Prime muss je Folge melden; bis dahin gelten
+Staffelurteile im PoC als `art: abgeleitet` für alle Folgen der Anbieter-Staffel.
