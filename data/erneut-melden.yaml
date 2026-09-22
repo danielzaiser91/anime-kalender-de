@@ -2,6 +2,12 @@
 # Erweiterung und fallen von selbst heraus, sobald eine Meldung nach `seit` angekommen ist
 # (`tools/verdacht.mjs`).
 #
+# Nach jedem neuen Eintrag die Listen **und** den Prüfstand neu erzeugen — sonst steht er nur in
+# der Erweiterung, nicht in der Status-App (22.09.2026: nur die drei `extension-offene-*`
+# gefahren, `tools/pruefstand.mjs` vergessen). Alle Schritte in einem:
+#   node tools/extension-offene-liste.mjs && node tools/extension-offene-amazon.mjs \
+#     && node tools/extension-offene-disney.mjs && node tools/pruefstand.mjs
+#
 # 21.09.2026: Netflix-Handbelege, die nur einzelne Folgen nennen (meist Folge 1, bei Dr. STONE
 # Folge 24, bei Stone Wars Folge 11), während MOTN alle Folgen als deutsch führt. Daniel:
 # „pack alle auf die prüfliste, ich melde sie erneut … evtl ist es ja ein bug in der extension".
