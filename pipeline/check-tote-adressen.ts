@@ -45,6 +45,12 @@ for (const b of belege) {
   const k = kern(b.url)
   if (String(b.checkedAt ?? '') > (handGesehen.get(k) ?? '')) handGesehen.set(k, String(b.checkedAt ?? ''))
 }
+/* Von Hand bestätigte Wege (`verweise-von-hand.yaml`, `belegtAm`) zählen genauso (22.09.2026). */
+for (const v of ((yaml.load(readFileSync('data/verweise-von-hand.yaml', 'utf8')) ?? []) as { url?: string; belegtAm?: string }[])) {
+  if (!v?.url || !v.belegtAm) continue
+  const k = kern(v.url)
+  if (String(v.belegtAm) > (handGesehen.get(k) ?? '')) handGesehen.set(k, String(v.belegtAm))
+}
 const tot = (url?: string): boolean => {
   if (!url) return false
   const b = befunde[url]
