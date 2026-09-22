@@ -2420,7 +2420,7 @@ function ReleasePille({
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
   return (
     <span
-      className={`relative inline-flex max-w-full items-center ${tv ? 'blase-links rounded-md pl-5' : 'rounded-full pl-3'} ${farbe ? 'blase-rechts' : ''} py-1 pr-4 ${tvText?.premiere ? 'mt-2' : ''} ${farbe ? PILLE_MARKE : ''}`}
+      className={`relative inline-flex max-w-full items-center ${tv ? 'blase-links rounded-md pl-5' : 'rounded-full pl-3'} ${farbe ? 'blase-rechts' : ''} py-1 pr-4 ${tvText?.premiere ? 'mt-2 pt-3' : ''} ${farbe ? PILLE_MARKE : ''}`}
       style={marke(farbe)}
     >
       {tv && (
@@ -2464,7 +2464,7 @@ function ReleasePille({
           Es steht links neben dem Namen, rechts der Blase — aber mit seiner Unterkante auf der
           Oberkante der Pille, sonst ragt es in die Namenszeile.
         */
-        <span className={`absolute bottom-full mb-[3px] ${tv ? 'left-6' : 'left-3'} z-10`}>
+        <span className={`absolute -top-[11px] ${tv ? 'left-[22px]' : 'left-[10px]'} z-10`}>
           <Tooltip text={t('tv.premiereHinweis')} seite="oben">
             <span className="block rounded-md bg-gradient-to-r from-fuchsia-600 to-amber-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(217,70,239,.7)]">
               ✦ Premiere
