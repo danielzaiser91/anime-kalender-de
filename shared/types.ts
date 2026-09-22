@@ -175,7 +175,7 @@ export interface StreamLink {
   kanal?: string
   /**
    * **Nur Joyn: wann welche Folge abrufbar ist, gerechnet aus den ProSieben-MAXX-Terminen**
-   * (22.09.2026). Joyn stellt jede Folge zur Sendezeit online und hält die letzten 20, höchstens
+   * (22.09.2026). Joyn stellt jede Folge mit dem Sendeende online und hält die letzten 20, höchstens
    * bis zum 29. Tag danach (docs/wissen/quellen.md). Ob eine Folge *jetzt* abrufbar ist, rechnet
    * die Oberfläche; die Angabe ist abgeleitet, deshalb mit „≈".
    */

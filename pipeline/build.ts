@@ -8056,7 +8056,7 @@ function main(): void {
     **Joyn: Abruffenster je Folge aus den ProSieben-MAXX-Terminen** (22.09.2026).
 
     Joyn selbst lesen wir nicht (Impressum: TDM-Vorbehalt nach § 44b). Gemessen an der
-    Dragon-Ball-Super-Seite (Folgen 108–127, docs/wissen/quellen.md): Eine Folge ist zur Sendezeit
+    Dragon-Ball-Super-Seite (Folgen 108–127, docs/wissen/quellen.md): Eine Folge ist mit dem Sendeende
     auf ProSieben MAXX online und fällt heraus, wenn die Folge 20 Nummern später zu Ende gesendet
     ist, spätestens am 29. Tag nach der Ausstrahlung um 23:59. Daraus und aus den tv.de-Sichtungen
     (`releasesAusTvProgramm`, Nummern über die Wikipedia-Liste) entstehen die Fenster.
@@ -8092,7 +8092,11 @@ function main(): void {
         /* Nachfolger +20 gesendet: Ende mit dessen Sendeende (gemessen: je 25 Minuten nach Beginn). */
         const nachfolger = start.get(nr + 20)
         const ende = nachfolger && plusMinuten(nachfolger, 25) < frist ? plusMinuten(nachfolger, 25) : frist
-        fenster.push({ nr, ab, ende })
+        /*
+          Abrufbar ab dem **Sendeende**, nicht dem Sendebeginn: Joyns `airdate` ist der TV-Termin.
+          Gemessen 22.09.2026 (Daniel): 128 lief 17:05–17:30, fehlte um 17:25 und 17:28, war um 17:31 da.
+        */
+        fenster.push({ nr, ab: plusMinuten(ab, 25), ende })
       }
       if (!fenster.length) continue
       joyn.fenster = fenster

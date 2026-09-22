@@ -2689,3 +2689,8 @@ Joyn-Pille keine Folgenzahl mehr (vorher die des ganzen Titels, bei DBS „131 F
 rent/subscription), paramount, mubi, curiosity, wow (addon), plutotv, crunchyroll, rtl, zee5. Für die
 „(über TMDB)"-Pillen taugt MOTN damit nur bei **Apple TV** (9) und **Paramount+** (4); Google Play, YouTube,
 maxdome, MagentaTV, Sky Store, Rakuten, freenet, Kino On Demand, Shahid, Videoload führt es nicht.
+**Messpunkt 22.09.2026 17:31 (Daniel, von Hand):** 108 um 17:30 weg — exakt mit dem Sendeende von 128
+(20er-Fenster bestätigt). 128 (7MAXX 17:05–17:30) fehlte um 17:25 und 17:28, war um 17:31 da: **abrufbar ab
+Sendeende**, nicht ab Sendebeginn — Joyns `airdate` ist der TV-Termin. Adresse
+`3-128-bis-zum-bitteren-ende-vegetas-stolz-bpah02evn044` (Schema bestätigt, mit Kennung). Die Pille rechnet
+seitdem Beginn = Sendebeginn + 25 Minuten.
