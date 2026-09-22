@@ -2669,3 +2669,7 @@ Angebote ohne erlaubten Weg zur Adresse — offen, ob sie gekennzeichnet über T
 23:59 Uhr** (16/16). Ausnahme 108–111 (03./04.09., die ersten zwei Sendetage): Ende nach genau 19 Tagen
 zur Uhrzeit. Daraus lässt sich das Fenster aus den tv.de-Sichtungen rechnen, mit „≈" gekennzeichnet;
 Daniel prüft die Ausnahme am 22.09. um 17:30 (Folge 108 soll wegfallen).
+**Nachtrag, gleiche Messung:** Die Enden von 108–111 liegen exakt auf dem Sendeende der Folge **+20**
+(108 → 22.09. 17:30 = Ende 128; 109 → 18:00 = Ende 129; 110/111 → 23.09. 17:30/17:55 = Ende 130/131).
+Vermutete Regel: **rollendes Fenster von 20 Folgen**, höchstens bis Sendetag + 29 (23:59) — ab 112 gibt es
+keine Folge +20 mehr (131 ist das Finale), dort greift die Frist. Beleg steht aus (Daniel, 22.09. 17:30).
