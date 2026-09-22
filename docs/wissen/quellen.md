@@ -2683,3 +2683,9 @@ Fg. 128 ab 17:05". Gegenprobe gegen die Joyn-Messung: 126/127 Beginn und Ende 4/
 zwischen 0 und 5 Uhr gelten nicht als Start (Nachtblock 20.09. = Wiederholung von 116–125) — deshalb fehlen
 Folgen, deren Erstausstrahlung vor dem Beginn unseres tv.de-Verlaufs (19.09.) lag. Ohne Fenster zeigt eine
 Joyn-Pille keine Folgenzahl mehr (vorher die des ganzen Titels, bei DBS „131 Fg.").
+
+**MOTN kennt für Deutschland 13 Dienste** (`/v4/countries/de`, gemessen 22.09.2026, 1 Anfrage; Kontingent
+456/1000 im September): netflix, prime (addon/buy/rent/free/subscription), disney, hbo, apple (addon/buy/
+rent/subscription), paramount, mubi, curiosity, wow (addon), plutotv, crunchyroll, rtl, zee5. Für die
+„(über TMDB)"-Pillen taugt MOTN damit nur bei **Apple TV** (9) und **Paramount+** (4); Google Play, YouTube,
+maxdome, MagentaTV, Sky Store, Rakuten, freenet, Kino On Demand, Shahid, Videoload führt es nicht.
