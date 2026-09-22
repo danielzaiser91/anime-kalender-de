@@ -2601,3 +2601,29 @@ das Kanal-Angebot (`es, it, ja`) nie hatte. `kanal-gegenprobe.ts` wirft Klammerz
 `dub-confirmed.yaml` als angesehen und lässt sie weg — Fairy Tail fiel so von der Liste, bevor
 jemand die Sprache geprüft hatte. Einen Weg belegt man in `verweise-von-hand.yaml` (`belegtAm`),
 ein Urteil in `dub-confirmed.yaml` — nie beides in einem urteilslosen Handbeleg.
+
+## Joyn: nicht selbst auslesen — JustWatch liefert die Adressen (22.09.2026)
+
+Anlass: Daniel fand Dragon Ball Super kostenlos bei Joyn (ProSieben-MAXX-Folgen 108–127 seit
+03.09.2026) und bat, Joyn als Quelle für Verweise zu prüfen.
+
+**Gemessen:**
+- `www.joyn.de/robots.txt` sperrt nur `/suche` und `/play/`; Serienseiten sind erlaubt, und
+  `sitemap.series.0.xml` führt rund 2.000 deutsche Serien. `api.joyn.de/robots.txt`: `Disallow: /`.
+- Die Serienseite trägt je Folge Nummer, Staffel, Online-Datum (`airdate`), Ablaufdatum
+  (`endsAt`) und Lizenz (`AVOD` kostenlos, `SVOD` Joyn Plus); `languages` ist leer.
+- **Impressum, wörtlich:** „Eine Nutzung aller auf dieser Website … eingestellten Inhalte … für
+  Text und Data Mining im Sinne des §44b UrhG bleibt ausdrücklich vorbehalten." Die AGB verbieten
+  Rippen und geschäftliche Nutzung, nennen Crawler aber nicht.
+
+**Entscheidung:** Kein eigener Abruf bei Joyn, aus demselben Grund wie bei der ARD Mediathek
+(TDM-Vorbehalt). Neu bewerten nur mit einer Erlaubnis von Joyn.
+
+**Der erlaubte Weg lag schon im Haus:** `data/justwatch-audio.json` nannte 81 Joyn-Adressen
+(64 „Joyn" ADS, 17 „Joyn Plus" FLATRATE), im Datensatz standen 2. `providerToPlatform` machte
+„Joyn" zur eigenen Plattform, und die JustWatch-Runden übersprangen solche Angebote, ohne dass
+jemand einen Verweis anlegte. Seit dem 22.09.2026 legt `build.ts` sie an (38 Titel), mit der
+Zugangsart aus JustWatch (`joynZugang`: TMDB kennt keine Werbefinanzierung).
+Stichprobe 7 Seiten: 6 leben, Lizenz wie bei JustWatch; der Film „Ame & Yuki" lieferte 404
+(räumt die Linkprüfung ab). Joyn zeigt oft nur ein rollendes Fenster (Frieren: 5 Folgen).
+Was JustWatch nicht kennt (Dragon Ball Super), kommt über `verweise-von-hand.yaml`.

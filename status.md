@@ -304,7 +304,7 @@ Anlass: Dragon Ball DAIMA bei TOGGO plus (Daniel: „tägliche tv releases sind 
 | rtl2.de `/tv-programm/<datum>` | schema.org | 7 Tage | robots frei; AGB „nur privat, nicht kommerziell" | nutzbar wie oben, zurzeit kein Anime |
 | ARD Mediathek (KiKA) | `preloadedState` | 8 Tage, mit Folgennummer | robots sperrt `claudebot` namentlich, TDM-Vorbehalt nach § 44b(3) | verworfen |
 | programm-api.ard.de | — | — | robots `Disallow: /` | verworfen |
-| ProSieben MAXX / Joyn | GraphQL `api.joyn.de` | — | robots `Disallow: /` | verworfen |
+| ProSieben MAXX / Joyn | GraphQL `api.joyn.de`; Serienseiten `www.joyn.de/serien/*` (22.09.2026: robots erlaubt, Folgen mit `airdate`/`endsAt`) | ~30 Tage je Folge | robots `api` `Disallow: /`; **Impressum: TDM-Vorbehalt nach § 44b** | verworfen — Verweise kommen über JustWatch (docs/wissen/quellen.md) |
 | toggo.de, nick.de | — | — | kein Programmendpunkt | verworfen |
 | iptv-org/epg | Werkzeug, holt bei MagentaTV | 2 Tage | keine Rechte an den Daten | verworfen |
 | presseportal.de RSS (z. B. ProSieben MAXX) | RSS | Ankündigungen | „kann grundsätzlich redaktionell frei verwendet werden" | nutzbar für Starttermine |

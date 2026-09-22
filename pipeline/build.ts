@@ -13,7 +13,7 @@ import {
 } from './lib/crunchyroll.ts'
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
-import { zugangsart } from '../shared/zugangsart.ts'
+import { zugangsart, type Zugangsart } from '../shared/zugangsart.ts'
 import { adressGleich, adressKern, dubKey, loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
 import { ladeTitelDe } from './lib/titel-de.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
@@ -3108,6 +3108,61 @@ function main(): void {
   if (vonHand) log(`${vonHand} Verweise aus data/verweise-von-hand.yaml ergänzt`)
 
   /**
+   * **Joyn-Angebote von JustWatch werden Joyn-Verweise** (22.09.2026).
+   *
+   * `providerToPlatform` ordnet „Joyn" und „Joyn Plus" der eigenen Plattform `joyn` zu. Die
+   * JustWatch-Runden unten überspringen solche Angebote, weil ein Verweis mit Sprachurteil sie
+   * trägt — nur legte für Joyn niemand einen an. Gemessen am 22.09.2026: JustWatch nennt 81
+   * Joyn-Adressen, im Datensatz standen 2. Naruto, Detektiv Conan, Frieren, Solo Leveling,
+   * My Hero Academia waren dort nicht zu finden, obwohl kostenlos abrufbar.
+   *
+   * Joyn selbst taugt nicht als Quelle: Das Impressum behält Text- und Data-Mining nach § 44b
+   * UrhG ausdrücklich vor, `api.joyn.de` sperrt per robots.txt alles. JustWatch ist der
+   * erlaubte Weg (docs/wissen/quellen.md).
+   *
+   * Stichprobe am selben Tag, 7 Seiten: 6 leben, die Lizenz stimmt mit JustWatch überein
+   * (ADS = kostenlos, Joyn Plus = Abo); der Film „Ame & Yuki" lieferte 404. Tote Adressen
+   * nimmt die Linkprüfung weiter unten heraus (`linkBefunde`), sobald sie gemessen sind.
+   * Joyn zeigt oft nur ein rollendes Fenster (Frieren: 5 Folgen) — der Verweis sagt „läuft
+   * dort", nicht „alle Folgen".
+   *
+   * Ein Special unter der TMDB-Kennung einer TV-Serie erbt deren Angebote nicht (`tvJeTmdb`).
+   */
+  let joynVonJw = 0
+  /*
+    Adresse → Zugang, aus JustWatchs `art`. TMDB kennt nur flatrate/rent/buy, keine
+    Werbefinanzierung, und `joyn` steht in der Abo-Liste von `zugangsart()` — ohne diese Karte
+    stünde jeder kostenlose Joyn-Titel als „Abo" da (Angels of Death: JustWatch ADS, Pille „abo").
+  */
+  const joynZugang = new Map<string, Zugangsart>()
+  {
+    const jw = readJson<Record<string, { angebote?: { anbieter: string; art?: string; url?: string }[] }>>(
+      'data/justwatch-audio.json',
+      {},
+    )
+    for (const b of Object.values(jw))
+      for (const x of b.angebote ?? []) {
+        if (!x.url || providerToPlatform(x.anbieter) !== 'joyn') continue
+        /* Kostenlos schlägt Abo: Dieselbe Seite steht bei JustWatch oft als „Joyn" und „Joyn Plus". */
+        if (x.art === 'ADS' || x.art === 'FREE') joynZugang.set(x.url, 'kostenlos')
+        else if (!joynZugang.has(x.url)) joynZugang.set(x.url, 'abo')
+      }
+    for (const title of titles.values()) {
+      if ((title.streams ?? []).some((s) => s.platform === 'joyn')) continue
+      if (tmdbMehrdeutig.has(String(title.id))) continue
+      const info = tmdbTitles[title.id]
+      if (title.format !== 'TV' && info && tvJeTmdb.has(`${info.kind}${info.tmdbId}`)) continue
+      const a = (jw[String(title.id)]?.angebote ?? []).find(
+        (x) => x.url && providerToPlatform(x.anbieter) === 'joyn' && !toteAdressen.has(x.url),
+      )
+      if (!a?.url) continue
+      title.streams = [...(title.streams ?? []), { platform: 'joyn', url: a.url } as StreamLink]
+      joynVonJw++
+    }
+  }
+  if (joynVonJw) log(`${joynVonJw} Joyn-Verweise aus JustWatch ergänzt`)
+
+  /**
    * Was ein Mensch nachgesehen hat, schlägt jede Ableitung.
    *
    * Für YouTube, Netflix, Prime Video, RTL+ und Joyn gibt es keine Quelle, die
@@ -4124,7 +4179,12 @@ function main(): void {
       // `zugangsart()`. Er steht in den Befunden, nicht im Verweis selbst.
       const kanal = s.platform === 'youtube' ? ytKanal[s.url] : undefined
       /* Auf der Seite gemessen schlägt JustWatch je Titel — siehe `zugangJeAdresse`. */
-      const gemessen = s.platform === 'primevideo' ? zugangJeAdresse.get(adressKern(s.url)) : undefined
+      const gemessen =
+        s.platform === 'primevideo'
+          ? zugangJeAdresse.get(adressKern(s.url))
+          : s.platform === 'joyn'
+            ? joynZugang.get(s.url)
+            : undefined
       s.zugang = gemessen ?? zugangsart(s.platform, undefined, s.url, jwArt(s.platform), kanal, ytKauf.has(s.url))
     }
     for (const w of title.watchLinks ?? []) {

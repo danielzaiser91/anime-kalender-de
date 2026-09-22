@@ -547,6 +547,7 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - Eine Suchadresse ist ein Auftrag, kein Angebot — auch beim Schreiben
 - JustWatch ist die zweite Quelle, die dieses Projekt lange gesucht hat
 - Ein „Widerspruch" zwischen Quelle und Handprüfung ist oft ein Zeitversatz
+- Joyn: nicht selbst auslesen — JustWatch liefert die Adressen (22.09.2026)
 
 ### [Betrieb: Läufe, Worker, Git, Prüfungen](docs/wissen/betrieb.md)
 
