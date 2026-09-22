@@ -91,8 +91,13 @@ function spaetereStaffel(
  * Hängt jedem TV-Termin seine Sendungen ab gestern an — auch den von Hand gepflegten, denn die
  * Frage „läuft das gerade, bis wann?" beantwortet nur das Programm (22.09.2026).
  */
-export function sendungenAnhaengen(releases: Release[], sendungen: TvSendung[], gestern: string, wiki: WikiListen = {}): void {
-  const jeTermin = new Map<string, TvSendung[]>()
+export function sendungenAnhaengen(
+  releases: Release[],
+  sendungen: (TvSendung & { kennung?: string })[],
+  gestern: string,
+  wiki: WikiListen = {},
+): void {
+  const jeTermin = new Map<string, (TvSendung & { kennung?: string })[]>()
   for (const s of sendungen) {
     if (berlinTag(s.ende) < gestern) continue
     const k = `${s.titleId}|${s.sender.toLowerCase()}`
@@ -113,7 +118,19 @@ export function sendungenAnhaengen(releases: Release[], sendungen: TvSendung[], 
       .sort((a, b) => a.start.localeCompare(b.start))
       .map((s) => {
         const nr = s.folge ? nummern?.get(folgenKern(s.folge)) : undefined
-        return { start: s.start.slice(0, 16), ende: s.ende.slice(0, 16), ...(s.folge ? { folge: s.folge } : {}), ...(nr ? { nr } : {}) }
+        /*
+          Die Detailseite der Sendung bei tv.de. `/sendung/r/s,<kennung>/` leitet per 301 auf die
+          sprechende Adresse weiter — gemessen am 22.09.2026 an One Piece 23.09. 18:20
+          („Zou muss verteidigt werden!"), Ziel mit Titel, Sendezeit und Sender.
+        */
+        const url = s.kennung ? `https://tv.de/sendung/r/s,${s.kennung}/` : undefined
+        return {
+          start: s.start.slice(0, 16),
+          ende: s.ende.slice(0, 16),
+          ...(s.folge ? { folge: s.folge } : {}),
+          ...(nr ? { nr } : {}),
+          ...(url ? { url } : {}),
+        }
       })
   }
 }

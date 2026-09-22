@@ -3013,9 +3013,10 @@ function main(): void {
 
   // --- Termine aus dem TV-Programm (RTL+) -------------------------------------
   // Nach den Handeinträgen: Ein gepflegter TV-Termin kennt die Folgennummern und gewinnt.
-  const tvProgramm = Object.values(
+  /* Der Schlüssel „tvde_<sender>+<kennung>" trägt die tv.de-Kennung der Sendung — für den Link zum Programm. */
+  const tvProgramm = Object.entries(
     readJson<{ sendungen?: Record<string, TvSendung> }>('data/tv-programm.json', {}).sendungen ?? {},
-  )
+  ).map(([k, s]) => ({ ...s, kennung: /^tvde_[^+]+\+(\d+)$/.exec(k)?.[1] }))
   const tvFolgenListen: WikiListen = {
       /*
         TMDB zuletzt: deutsche Folgentitel, über Staffeln durchgezählt (Staffel 0 = Specials

@@ -77,7 +77,7 @@ export function tvAngabe(
   releases: Release[],
   heute: string,
   jetztZeit: string,
-): { text: string; premiere: boolean; laeuft?: TvLaeuft } | undefined {
+): { text: string; premiere: boolean; laeuft?: TvLaeuft; programm?: string } | undefined {
   if (release.platform !== 'tv') return undefined
   const termine = expandEvents(release)
   const jetzt = `${heute}T${jetztZeit}`
@@ -113,11 +113,14 @@ export function tvAngabe(
     ]
     text = (laufend && kommend ? 'Nächste: ' : '') + teile.filter(Boolean).join(' · ')
   }
-  if (!laufend) return { text, premiere }
+  /* Das Fernseh-Zeichen führt ins Programm, zur laufenden Sendung, sonst zur nächsten (22.09.2026). */
+  const programm = (laufend ?? (kommend && sendungZu(kommend)))?.url
+  if (!laufend) return { text, premiere, ...(programm ? { programm } : {}) }
   const nr = laufend.nr ?? (laufEvent ? nummer(laufEvent) : undefined)
   return {
     text: kommend ? text : '',
     premiere,
+    ...(programm ? { programm } : {}),
     laeuft: {
       text: [nr ? `Fg. ${nr}` : undefined, laufend.folge].filter(Boolean).join(' · '),
       anteil: Math.min(1, Math.max(0, (minuten(jetzt) - minuten(laufend.start)) / (minuten(laufend.ende) - minuten(laufend.start) || 1))),

@@ -295,15 +295,13 @@ export default function App() {
             {isCalendar && (
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Legend />
-                <Toggle
-                  checked={!tvAus}
-                  onChange={(an: boolean) => setTvAus(!an)}
-                  label={t('legend.tvZeigen')}
-                  hint={t('legend.tvZeigenHint')}
-                />
-                <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                  {t('legend.count', { count: events.length })}
-                  <span className="hidden sm:inline"> · {t('legend.keys')}</span>
+                {/* Schalter rechts neben der Terminzahl, ohne Hinweis (Daniel, 22.09.2026). */}
+                <span className="flex items-center gap-3">
+                  <Toggle checked={!tvAus} onChange={(an: boolean) => setTvAus(!an)} label={t('legend.tvZeigen')} />
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                    {t('legend.count', { count: events.length })}
+                    <span className="hidden sm:inline"> · {t('legend.keys')}</span>
+                  </span>
                 </span>
               </div>
             )}

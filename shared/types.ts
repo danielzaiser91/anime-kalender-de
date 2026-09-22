@@ -709,7 +709,7 @@ export interface Release {
    * es läuft wegen werbepause … einfach im fernsehprogramm gucken bis wann es angesetzt ist".
    * One Piece am 22.09.2026: 18:25–18:50, dann 18:50–19:20. Berliner Ortszeit „YYYY-MM-DDTHH:MM".
    */
-  sendungen?: Array<{ start: string; ende: string; folge?: string; nr?: number }>
+  sendungen?: Array<{ start: string; ende: string; folge?: string; nr?: number; url?: string }>
   /**
    * Die Folgennummern einer TV-Sichtung stammen aus einer Folgenliste (Wikipedia, RTL+) und
    * sind echt — nicht unsere Zählung der gesehenen Titel (19.09.2026). Das Ende bleibt offen.

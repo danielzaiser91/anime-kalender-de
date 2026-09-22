@@ -125,7 +125,6 @@ const TEXTE = {
   'legend.tv': 'TV-Ausstrahlung',
   'legend.tvHint': 'Läuft im Fernsehen — gestrichelt umrandet, mit Sendernamen.',
   'legend.tvZeigen': 'TV',
-  'legend.tvZeigenHint': 'Premieren werden weiterhin angezeigt.',
   'legend.estimated':
     'Geschätzter Termin — aus dem bisherigen Wochenrhythmus fortgeschrieben. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
   /*
@@ -730,6 +729,7 @@ const TEXTE = {
   // Fähnchen „Premiere" an TV-Pille und Kalender-Kachel (Daniel, 22.09.2026: Tooltip, „nicht verpassen").
   'tv.premiereHinweis': 'Erstmals auf Deutsch, im TV. Nicht verpassen!',
   'tv.laeuft': 'Läuft',
+  'tv.imProgramm': 'Im TV-Programm',
   // Der Anbieter führt den Titel, die Adresse kennt nur TMDB — der Klick landet dort (22.09.2026).
   'detail.ueberTmdb': '{name} (über TMDB)',
   'detail.dubUnknown': 'Der Anbieter macht dazu keine öffentliche Angabe.',

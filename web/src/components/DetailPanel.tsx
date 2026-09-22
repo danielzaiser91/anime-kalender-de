@@ -2430,11 +2430,28 @@ function ReleasePille({
           („keine dynamische anbieter farbe"). So hebt sich die Pille von den Streaming-Anbietern ab,
           ohne Breite zu kosten.
         */
-        <span
-          aria-hidden
-          className="absolute -left-1.5 -top-1.5 z-10 grid size-[22px] place-items-center rounded-full bg-white text-slate-500 ring-1 ring-slate-300 dark:bg-[#162238] dark:text-slate-300 dark:ring-slate-500"
-        >
-          <TvZeichen />
+        <span className="absolute -left-1.5 -top-1.5 z-10">
+          {tvText?.programm ? (
+            /* Führt zur laufenden, sonst zur nächsten Sendung im tv.de-Programm (Daniel, 22.09.2026). */
+            <Tooltip text={t('tv.imProgramm')} seite="oben">
+              <a
+                href={tvText.programm}
+                target="_blank"
+                rel="noopener"
+                aria-label={t('tv.imProgramm')}
+                className="grid size-[22px] place-items-center rounded-full bg-white text-slate-500 ring-1 ring-slate-300 transition hover:text-sky-600 hover:ring-sky-400 dark:bg-[#162238] dark:text-slate-300 dark:ring-slate-500 dark:hover:text-sky-300"
+              >
+                <TvZeichen />
+              </a>
+            </Tooltip>
+          ) : (
+            <span
+              aria-hidden
+              className="grid size-[22px] place-items-center rounded-full bg-white text-slate-500 ring-1 ring-slate-300 dark:bg-[#162238] dark:text-slate-300 dark:ring-slate-500"
+            >
+              <TvZeichen />
+            </span>
+          )}
         </span>
       )}
       {tvText?.premiere && (
@@ -2482,22 +2499,19 @@ function ReleasePille({
             volle Titel im Tooltip. Der Balken zeigt die verstrichene Sendezeit laut Programm.
           */
           <>
-            <span
-              className="line-clamp-2 max-w-72 text-[11px] text-slate-500 dark:text-slate-400"
-              title={[t('tv.laeuft'), tvText.laeuft.text].filter(Boolean).join(' · ')}
-            >
-              <span className="font-semibold text-emerald-600 dark:text-emerald-400">{t('tv.laeuft')}</span>
-              {tvText.laeuft.text ? ` · ${tvText.laeuft.text}` : ''}
-            </span>
+            <LangMitTooltip text={[t('tv.laeuft'), tvText.laeuft.text].filter(Boolean).join(' · ')}>
+              <span className="line-clamp-2 max-w-72 text-[11px] text-slate-500 dark:text-slate-400">
+                <span className="font-semibold text-emerald-600 dark:text-emerald-400">{t('tv.laeuft')}</span>
+                {tvText.laeuft.text ? ` · ${tvText.laeuft.text}` : ''}
+              </span>
+            </LangMitTooltip>
             <span aria-hidden className="my-0.5 block h-[3px] w-full max-w-72 overflow-hidden rounded bg-slate-200 dark:bg-white/10">
               <span className="block h-full rounded bg-emerald-500" style={{ width: `${Math.round(tvText.laeuft.anteil * 100)}%` }} />
             </span>
           </>
         )}
-        <span
-          className={`${tvText ? 'line-clamp-2 max-w-72' : 'truncate'} text-[11px] text-slate-500 dark:text-slate-400`}
-          title={tvText?.text || undefined}
-        >
+        <LangMitTooltip text={tvText?.text ?? ''}>
+        <span className={`${tvText ? 'line-clamp-2 max-w-72' : 'truncate'} text-[11px] text-slate-500 dark:text-slate-400`}>
           {/*
             **„ab" oder „seit" — ein nacktes Datum sagt beides.**
 
@@ -2530,9 +2544,27 @@ function ReleasePille({
             .filter(Boolean)
             .join(' · ')}
         </span>
+        </LangMitTooltip>
       </PillenHuelle>
       <MerkenKnopf release={release} today={today} farbe={farbe} />
     </span>
+  )
+}
+
+/**
+ * **Der volle Text im Tooltip — nur, wo zwei Zeilen ihn abschneiden können** (Daniel, 22.09.2026:
+ * „falls 2 zeilen immer noch nicht reichen sollten dann ... und tooltip"). Die Schwelle ist grob:
+ * Bei `max-w-72` und 11 px passen rund 45 Zeichen in eine Zeile. Ein kürzerer Text bekommt keinen
+ * Tooltip, denn der würde nur wiederholen, was dasteht. Eigene Komponente statt `title`: keine
+ * Standard-Tooltips des Browsers (12.08.2026).
+ */
+function LangMitTooltip({ text, children }: { text: string; children: ReactNode }) {
+  return text.length > 90 ? (
+    <Tooltip text={text} seite="oben">
+      {children}
+    </Tooltip>
+  ) : (
+    <>{children}</>
   )
 }
 

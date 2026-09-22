@@ -5479,8 +5479,8 @@ pruefe(
     tvLetzteSichtung: '2026-09-23',
     sendungen: [
       { start: '2026-09-22T18:25', ende: '2026-09-22T18:50', folge: 'Eine legendäre Reise', nr: 772 },
-      { start: '2026-09-22T18:50', ende: '2026-09-22T19:20', folge: 'Erneuter Albtraum', nr: 773 },
-      { start: '2026-09-23T04:25', ende: '2026-09-23T04:50', folge: 'Nekomamushi', nr: 765 },
+      { start: '2026-09-22T18:50', ende: '2026-09-22T19:20', folge: 'Erneuter Albtraum', nr: 773, url: 'https://tv.de/sendung/r/s,773/' },
+      { start: '2026-09-23T04:25', ende: '2026-09-23T04:50', folge: 'Nekomamushi', nr: 765, url: 'https://tv.de/sendung/r/s,765/' },
     ],
     sources: ['x'],
   } as unknown as Release
@@ -5489,6 +5489,7 @@ pruefe(
   pruefe('TV: neben „läuft" steht die nächste Sendung', laeuft?.text === 'Nächste: Fg. 765 · Mi 04:25', laeuft)
   const danach = tvAngabe(tv, op, [tv], '2026-09-22', '19:20')
   pruefe('TV: mit dem Programmende läuft nichts mehr', !danach?.laeuft && danach?.text === 'Fg. 765 · Mi 04:25 · Nekomamushi', danach)
+  pruefe('TV: das Zeichen führt zur laufenden Sendung, danach zur nächsten', laeuft?.programm?.endsWith('s,773/') === true && danach?.programm?.endsWith('s,765/') === true)
 }
 {
   /* tv.de „Bald im TV" (19.09.2026): die Nacht, die auf keiner Tagesseite steht. */
