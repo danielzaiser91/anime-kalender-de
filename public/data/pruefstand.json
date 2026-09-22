@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-22T07:41:54.991Z",
+ "erzeugtAm": "2026-09-22T07:50:50.967Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -25,29 +25,21 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 372,
+   "gemeldet": 375,
    "gesamt": 376,
-   "offen": 4,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/80090673",
+   "ziel": "https://www.netflix.com/title/81046193",
    "ziele": [
-    {
-     "url": "https://www.netflix.com/title/80090673",
-     "titel": "Haikyu!!",
-     "staffeln": [
-      4
-     ]
-    },
     {
      "url": "https://www.netflix.com/title/81046193",
      "titel": "Dr. Stone",
      "staffeln": [
-      1,
       2
      ]
     }
    ],
-   "naechster": "Haikyu!!"
+   "naechster": "Dr. Stone"
   },
   {
    "name": "Disney+",
