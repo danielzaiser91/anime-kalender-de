@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-21. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-22. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-70 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+74 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -20,6 +20,7 @@ Stand: 2026-09-21. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-09-28 | netflix | – unklar | [Netflix nimmt ersten »Demon Slayer: Infinity Castle«-Film ins Programm](https://www.anime2you.de/news/1049975/demon-slayer-infinity-castle-bald-auf-netflix/) |
 | 2026-09-29 | netflix | – unklar | [Netflix-Termin des dritten »Mononoke«-Films + Trailer](https://www.anime2you.de/news/1042775/dritter-mononoke-film-netflix-termin/) |
 | 2026-09-30 | netflix | – unklar | [Netflix entfernt acht Anime-Titel aus seinem Programm](https://www.anime2you.de/news/1045817/netflix-entfernt-quintuplets-und-mehr/) |
+| 2026-10 (Monat) | adn | – unklar | [ADN nimmt »86 EIGHTY-SIX« in sein Programm auf](https://www.anime2you.de/news/1052781/86-eighty-six-bald-auf-adn/) |
 | 2026-10-27, 2026-10 (Monat) | kino | ✅ zugesagt | [Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«](https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/) |
 | 2026-10-09, 2026-10 (Monat) | ? | ✅ zugesagt | [Deutscher Synchro-Trailer zu »Avatar: Die sieben Häfen« + Visual](https://www.anime2you.de/news/1048545/avatar-die-sieben-haefen-deutscher-trailer/) |
 | 2026-10-03, 2026-10 (Monat) | primevideo | – unklar | [Prime Video zeigt »Seven Knights of Marronnier Kingdom« im Simulcast](https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/) |
@@ -47,44 +48,46 @@ Stand: 2026-09-21. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-19, 2026-11 (Monat) | disc | – unklar | [Neue Film-Komplettbox zu »Naruto Shippuden« angekündigt](https://www.anime2you.de/news/1044519/naruto-shippuden-neue-film-komplettbox/) |
 | 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Fantasy-Donghua »Lord of Mysteries« erscheint auf Blu-ray](https://www.anime2you.de/news/1044052/lord-of-mysteries-erscheint-auf-blu-ray/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [»Miss Kobayashi’s Dragon Maid« erscheint als Steelbook-Edition](https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/) |
-| 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Erste »A Wild Last Boss Appeared!«-Staffel erscheint auf Blu-ray](https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/) |
 
-… und 30 weitere.
+… und 34 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 6 |
-| adn-catalog | 6.9 Tage her | 116 |
-| anilist-voices | 6.9 Tage her | 0 |
-| anime-offline-database | 6.9 Tage her | 8876 |
+| adn-catalog | 0.9 Tage her | 117 |
+| anilist-voices | 0.9 Tage her | 0 |
+| anime-offline-database | 0.9 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 35 |
-| anisearch | 2.0 Tage her | 0 |
-| anisearch-folgen | 6.9 Tage her | 15 |
-| ann-voices | 6.9 Tage her | 8876 |
-| cartoons | 1.0 Tage her | 3 |
-| cinestar | 7.0 Tage her | 1 |
-| cr-einzelwerke | 19.0 Tage her | 9 |
-| cr-filmbloecke | 19.0 Tage her | 6 |
+| anisearch | 3.0 Tage her | 0 |
+| anisearch-folgen | 0.9 Tage her | 2623 |
+| ann-voices | 0.9 Tage her | 8876 |
+| cartoons | 1.0 Tage her | 0 |
+| cinestar | 0.9 Tage her | 1 |
+| cr-einzelwerke | 20.0 Tage her | 9 |
+| cr-filmbloecke | 20.0 Tage her | 6 |
 | crunchyroll | 0.0 Tage her | 17 |
 | crunchyroll-dub | 0.0 Tage her | 1100 |
-| crunchyroll-neu | 0.0 Tage her | 68 |
-| crunchyroll-offene | 4.6 Tage her | 0 |
-| fsk | 7.0 Tage her | 3 |
-| justwatch-audio | 3.6 Tage her | 1 |
-| link-check | 0.2 Tage her | 600 |
-| motn | 19.0 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 1 |
-| rohfolgen | 0.6 Tage her | 0 |
-| tmdb-folgen | 6.9 Tage her | 837 |
-| tmdb-kino | 7.0 Tage her | 4 |
-| tmdb-titles | 3.7 Tage her | 3 |
+| crunchyroll-neu | 0.0 Tage her | 69 |
+| crunchyroll-offene | 0.9 Tage her | 0 |
+| fsk | 0.9 Tage her | 3 |
+| justwatch-audio | 0.9 Tage her | 5 |
+| kinoheld | 0.9 Tage her | 1 |
+| link-check | 0.9 Tage her | 295 |
+| motn | 20.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 0 |
+| rohfolgen | 0.1 Tage her | 0 |
+| rtlplus-folgen | 0.9 Tage her | 1 |
+| tmdb-folgen | 0.9 Tage her | 851 |
+| tmdb-kino | 0.9 Tage her | 4 |
+| tmdb-titles | 0.9 Tage her | 400 |
 | toggo | 0.0 Tage her | 25 |
 | trailer | 1.0 Tage her | 0 |
-| tv-de | 0.4 Tage her | 52 |
-| tv-programm | 0.1 Tage her | 282 |
-| vorfaelle | 0.1 Tage her | 0 |
-| wikidata-titel | 5.1 Tage her | 29 |
+| tv-de | 0.3 Tage her | 50 |
+| tv-programm | 0.1 Tage her | 291 |
+| vorfaelle | 0.0 Tage her | 0 |
+| wikidata-imdb | 0.9 Tage her | 4742 |
+| wikidata-titel | 6.1 Tage her | 0 |
 | wikipedia-folgen | 0.0 Tage her | 7 |
-| youtube-check | 6.9 Tage her | 0 |
+| youtube-check | 7.9 Tage her | 0 |

@@ -1,6 +1,82 @@
 {
-  "scrapedAt": "2026-09-21T12:03:58.427Z",
+  "scrapedAt": "2026-09-22T09:21:53.365Z",
   "proposals": [
+    {
+      "articleTitle": "Netflix zeigt »Bride of the Barrier Master« im Simulcast + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1052617/netflix-bride-of-the-barrier-master-simulcast/",
+      "publishedAt": "2026-09-21",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "chirinka«) gesichert hat. Einen Teaser findet ihr weiter unten. Start im Januar 2027 »Bride of the Barrier Master« startet im Januar 2027 im"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ADN nimmt »86 EIGHTY-SIX« in sein Programm auf",
+      "articleUrl": "https://www.anime2you.de/news/1052781/86-eighty-six-bald-auf-adn/",
+      "publishedAt": "2026-09-21",
+      "category": "streaming",
+      "platforms": [
+        "adn"
+      ],
+      "dates": [
+        {
+          "month": "2026-10",
+          "context": "nime-Adaption von »86 EIGHTY-SIX« gesichert hat. Wir fassen zusammen. Ab Oktober 2026 verfügbar »86 EIGHTY-SIX« wird voraussichtlich im Okto"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Digimon Adventure 02« erscheint als Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1052231/digimon-adventure-02-blu-ray-komplettbox/",
+      "publishedAt": "2026-09-21",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-10",
+          "context": "ember 2026 »Digimon Adventure 02« erscheint nach aktueller Planung am 10. Dezember 2026 in einer Komplettbox, die alle 50 Folgen mit deutsch"
+        },
+        {
+          "month": "2026-12",
+          "context": "einer Blu-ray-Komplettbox in den Handel. Wir fassen zusammen. Release im Dezember 2026 »Digimon Adventure 02« erscheint nach aktueller Planu"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Anime-Klassiker »Peter Pan« erscheint als Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1052215/peter-pan-erscheint-als-blu-ray-komplettbox/",
+      "publishedAt": "2026-09-21",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-10",
+          "context": "e Details zusammen. Release im Dezember 2026 »Peter Pan« erscheint am 10. Dezember 2026 in einer Blu-ray-Komplettbox, die alle 41 Episoden m"
+        },
+        {
+          "month": "2026-12",
+          "context": "auf Blu-ray in den Handel. Wir fassen alle Details zusammen. Release im Dezember 2026 »Peter Pan« erscheint am 10. Dezember 2026 in einer B"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix kündigt fünf Anime-Simulcasts für Herbst 2026 an",
       "articleUrl": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/",
