@@ -5048,7 +5048,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 pruefe(
   'eine jüngere Handprüfung derselben Adresse schlägt einen 404/region-Linkbefund',
   readFileSync('pipeline/build.ts', 'utf8').includes("if ((befund === 404 || befund === 'region') && !handSticht)") &&
-    readFileSync('pipeline/check-tote-adressen.ts', 'utf8').includes('handGesehen'),
+    readFileSync('pipeline/check-tote-adressen.ts', 'utf8').includes('handGesehen') &&
+    readFileSync('pipeline/build.ts', 'utf8').includes("(vonHandBelegtAm.get(adressKern(stream.url)) ?? '') > linkAm"),
 )
 /* 22.09.2026: „Abos: crunchyrollde (Meldung 4738)" — der Klammerzusatz verdarb den Kanalnamen. */
 pruefe(

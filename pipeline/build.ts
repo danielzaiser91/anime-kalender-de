@@ -3080,15 +3080,18 @@ function main(): void {
    * denselben Adresskern wie überall.
    */
   let vonHand = 0
+  /** Adresskern → `belegtAm` der von Hand bestätigten Wege (für `handSticht`, 22.09.2026). */
+  const vonHandBelegtAm = new Map<string, string>()
   {
     const roh = existsSync(resolve(ROOT, 'data/verweise-von-hand.yaml'))
       ? yaml.load(readFileSync(resolve(ROOT, 'data/verweise-von-hand.yaml'), 'utf8'))
       : []
     const eintraege = Array.isArray(roh)
-      ? (roh as Array<{ anilistId?: number; platform?: string; url?: string; beleg?: string }>)
+      ? (roh as Array<{ anilistId?: number; platform?: string; url?: string; beleg?: string; belegtAm?: string }>)
       : []
     for (const e of eintraege) {
       if (!e.anilistId || !e.platform || !e.url) continue
+      if (e.belegtAm) vonHandBelegtAm.set(adressKern(e.url), String(e.belegtAm))
       const title = titles.get(e.anilistId)
       if (!title) {
         warn(`verweise-von-hand: Titel ${e.anilistId} steht nicht im Bestand`)
@@ -3716,10 +3719,12 @@ function main(): void {
         dieselbe Seite zwei Tage später mit Staffel 2–9 zum Kauf. Gilt nur, wenn der Beleg genau
         diese Adresse nennt, jünger ist und die Seite nicht selbst als weg meldet.
       */
+      const linkAm = String(linkBefunde[stream.url]?.geprueftAm ?? '')
       const handSticht =
-        Boolean(check?.url && adressGleich(check.url, stream.url)) &&
         check?.available !== false &&
-        String(check?.checkedAt ?? '') > String(linkBefunde[stream.url]?.geprueftAm ?? '')
+        ((Boolean(check?.url && adressGleich(check.url, stream.url)) && String(check?.checkedAt ?? '') > linkAm) ||
+          /* Ein von Hand bestätigter Weg (`verweise-von-hand.yaml`) — der Lader kennt Belege ohne Urteil nicht. */
+          (vonHandBelegtAm.get(adressKern(stream.url)) ?? '') > linkAm)
       if ((befund === 404 || befund === 'region') && !handSticht) {
         totEntfernt++
         abgaenge.push({ ...stream, entferntAm: linkBefunde[stream.url]?.geprueftAm ?? todayIso() })
