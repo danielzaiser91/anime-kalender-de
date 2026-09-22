@@ -3708,13 +3708,23 @@ function main(): void {
         zeigt ihn als Vermerk statt als Verweis; anklickbar ist er nicht mehr,
         denn dort ist nichts.
       */
+      const check = belegFuer(title.id, stream.platform, stream.url, title.streams.filter((x) => x.platform === stream.platform).length)
       const befund = linkBefunde[stream.url]?.status
-      if (befund === 404 || befund === 'region') {
+      /*
+        **Eine jüngere Handprüfung derselben Adresse schlägt den Linkbefund** (22.09.2026). Die
+        Linkprüfung sah bei Fairy Tail nur Staffel 1 („region") und entfernte den Weg; Daniel sah
+        dieselbe Seite zwei Tage später mit Staffel 2–9 zum Kauf. Gilt nur, wenn der Beleg genau
+        diese Adresse nennt, jünger ist und die Seite nicht selbst als weg meldet.
+      */
+      const handSticht =
+        Boolean(check?.url && adressGleich(check.url, stream.url)) &&
+        check?.available !== false &&
+        String(check?.checkedAt ?? '') > String(linkBefunde[stream.url]?.geprueftAm ?? '')
+      if ((befund === 404 || befund === 'region') && !handSticht) {
         totEntfernt++
         abgaenge.push({ ...stream, entferntAm: linkBefunde[stream.url]?.geprueftAm ?? todayIso() })
         return false
       }
-      const check = belegFuer(title.id, stream.platform, stream.url, title.streams.filter((x) => x.platform === stream.platform).length)
       if (check?.available === false) {
         entfernt++
         abgaenge.push({ ...stream, entferntAm: check.checkedAt ?? todayIso() })

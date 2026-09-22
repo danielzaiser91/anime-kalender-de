@@ -5044,6 +5044,12 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       (readFileSync('pipeline/fetch-crunchyroll-offene.ts', 'utf8').match(/jwFrisch\(jwEintrag2?, heuteIso\)/g) ?? []).length === 2,
   )
 }
+/* 22.09.2026: Fairy Tail — die Linkprüfung sah nur Staffel 1 („region"), Daniel zwei Tage später Staffel 2–9 zum Kauf. */
+pruefe(
+  'eine jüngere Handprüfung derselben Adresse schlägt einen 404/region-Linkbefund',
+  readFileSync('pipeline/build.ts', 'utf8').includes("if ((befund === 404 || befund === 'region') && !handSticht)") &&
+    readFileSync('pipeline/check-tote-adressen.ts', 'utf8').includes('handGesehen'),
+)
 /* 22.09.2026: „Abos: crunchyrollde (Meldung 4738)" — der Klammerzusatz verdarb den Kanalnamen. */
 pruefe(
   'die Kanal-Gegenprobe wirft Klammerzusätze aus dem Abo-Namen',

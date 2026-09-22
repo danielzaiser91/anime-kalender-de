@@ -19,6 +19,7 @@
  * Aufruf: npx tsx pipeline/check-tote-adressen.ts
  */
 import { readFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 import type { Title } from '../shared/types.ts'
 
 const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | { titles: Title[] }
@@ -28,10 +29,28 @@ const befunde = JSON.parse(readFileSync('data/link-check.json', 'utf8')) as Reco
   { status: number | string; geprueftAm?: string }
 >
 
+/*
+  Eine jüngere Handprüfung derselben Adresse, die die Seite nicht als weg meldet, schlägt den
+  Linkbefund — dieselbe Ausnahme wie im Bau (`handSticht`, 22.09.2026, Fairy Tail bei Prime).
+*/
+const belege = (yaml.load(readFileSync('data/dub-confirmed.yaml', 'utf8')) ?? []) as {
+  url?: string
+  available?: boolean
+  checkedAt?: string
+}[]
+const kern = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/(gp\/video\/detail|dp)\//, '/').replace(/[?#].*$/, '')
+const handGesehen = new Map<string, string>()
+for (const b of belege) {
+  if (!b.url || b.available === false) continue
+  const k = kern(b.url)
+  if (String(b.checkedAt ?? '') > (handGesehen.get(k) ?? '')) handGesehen.set(k, String(b.checkedAt ?? ''))
+}
 const tot = (url?: string): boolean => {
   if (!url) return false
-  const s = befunde[url]?.status
-  return s === 404 || s === 'region'
+  const b = befunde[url]
+  const s = b?.status
+  if (!(s === 404 || s === 'region')) return false
+  return !((handGesehen.get(kern(url)) ?? '') > String(b?.geprueftAm ?? ''))
 }
 
 const treffer: string[] = []
