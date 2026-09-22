@@ -2661,3 +2661,11 @@ TMDBs Partner-Export ist also vollständiger als unsere Abfrage. TMDBs API (`wat
 den Anbieter, keine Adresse; die Übersichtsseite scheidet aus: robots.txt sperrt `Claude-User`,
 `ClaudeBot` u. a. mit `Disallow: /`. Die 244 entfallenden Pillen sind damit sehr wahrscheinlich echte
 Angebote ohne erlaubten Weg zur Adresse — offen, ob sie gekennzeichnet über TMDB zurückkommen.
+
+**Joyn-Fenster bei ProSieben-MAXX-Anime** (gemessen 22.09.2026 an der Dragon-Ball-Super-Seite von
+15:41 Uhr, Folgen 108–127, einmaliger Abruf vor Kenntnis des TDM-Vorbehalts): Jede Folge ist bei Joyn
+**genau zur Sendezeit auf 7MAXX** online (`airdate`, deckungsgleich mit tv.de: 126/127 am 21.09.
+17:05/17:30). Ende ab Folge 112 (ausgestrahlt ab 09.09.) ausnahmslos am **29. Tag nach der Ausstrahlung,
+23:59 Uhr** (16/16). Ausnahme 108–111 (03./04.09., die ersten zwei Sendetage): Ende nach genau 19 Tagen
+zur Uhrzeit. Daraus lässt sich das Fenster aus den tv.de-Sichtungen rechnen, mit „≈" gekennzeichnet;
+Daniel prüft die Ausnahme am 22.09. um 17:30 (Folge 108 soll wegfallen).
