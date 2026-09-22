@@ -374,14 +374,14 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   /* 21.09.2026: Knopf statt Schalter — ein Lauf endet von selbst. */
   pruefe('im Lauf bricht ein Klick ab, statt verworfen zu werden', /if \(DURCHLAUF\.laeuft\) \{\s*DURCHLAUF\.abbruch = true/.test(quelle))
   pruefe('auf der Titelseite gilt die Adresse vor dem alten Player-Stand', /const hierTitel = !imPlayer\(\) \? titelDerAdresse\(\) : null/.test(quelle))
-  pruefe('bleibt auf der Seite etwas offen, laeuft die Automatik dort weiter', /\(durchlaufOffen\(\)\.length \|\| nochStaffel\) && selbstRundenHier < 6/.test(quelle))
+  pruefe('bleibt auf der Seite etwas offen, laeuft die Automatik dort weiter', /\(angezeigteStaffelHatOffenes\(\) \|\| nochStaffel\) && selbstRundenHier < 6/.test(quelle))
   pruefe('kein offener Auftrag mehr beendet den Lauf', /if \(!naechster\) return laufBeenden\(/.test(weiter))
   pruefe('Abbruch oder Stoerung beenden den Lauf', /\(DURCHLAUF\.abbruch \|\| DURCHLAUF\.stoerung\)\) \{\s*laufBeenden/.test(quelle))
   pruefe(
     'der Lauf gehoert dem Tab, der ihn startet (sessionStorage, nicht chrome.storage)',
     /sessionStorage\.setItem\(LAUF_SCHLUESSEL/.test(quelle) && !/netflixLauf/.test(quelle),
   )
-  pruefe('ohne offene Folge auf der Seite springt die Automatik weiter', /if \(!durchlaufOffen\(\)\.length\) \{\s*selbstUebersprungen\.add/.test(quelle))
+  pruefe('ohne offene Folge auf der Seite springt die Automatik weiter', /if \(!hierOffen\) \{\s*selbstUebersprungen\.add/.test(quelle) && /await durchlaufStandLaden\(reihe\)\s*\/\*\s*\*\*Die Automatik/.test(quelle))
   pruefe(
     'die Automatik waehlt die offene Staffel im Netflix-Auswahlfeld',
     /\[data-uia="episode-selector"\] button\[data-uia="dropdown-toggle"\]/.test(quelle) &&
@@ -392,7 +392,7 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
     'der Wechsel nur bei Listen in Netflix-Zaehlung',
     /if \(eintrag\?\.laut !== 'anbieter-gerechnet'\) return null/.test(quelle),
   )
-  pruefe('eine weitere offene Staffel haelt die Automatik auf der Seite', /durchlaufOffen\(\)\.length \|\| nochStaffel/.test(quelle))
+  pruefe('eine weitere offene Staffel haelt die Automatik auf der Seite', /angezeigteStaffelHatOffenes\(\) \|\| nochStaffel/.test(quelle))
   pruefe('kein dauerhafter Schalter mehr', !/netflixSelbst/.test(quelle) && /▶ alle durchgehen/.test(quelle))
   pruefe('ein uebersprungener Titel (S?) wird nicht wieder angesteuert', /selbstUebersprungen\.has\(kennung\)/.test(wahl))
   pruefe('selbsttaetig nur bei eindeutiger Staffel', /kandidaten\.length !== 1/.test(quelle) && /staffelnDerGruppe\(reihe, DURCHLAUF\.folgen\)/.test(quelle))

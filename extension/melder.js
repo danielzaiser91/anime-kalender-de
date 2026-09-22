@@ -2582,6 +2582,18 @@ const selbstUebersprungen = new Set()
 let selbstRundenSeite = ''
 let selbstRundenHier = 0
 
+/**
+ * **Ist auf der angezeigten Staffel noch etwas zu tun?** — nach demselben Zustand je Folge, den
+ * der Durchlauf benutzt (`geladeneZustaende()`). `durchlaufOffen()` zählt im Bestand belegte
+ * Folgen als offen; bei Dr. STONE Staffel 3 (✓ belegt) begann die Automatik deshalb einen Lauf,
+ * der nichts fand und still endete (Daniel, 22.09.2026: „startet … aber nix passiert").
+ */
+function angezeigteStaffelHatOffenes() {
+  const zustaende = geladeneZustaende()
+  if (!zustaende) return durchlaufOffen().length > 0
+  return zustaende.some((z) => z.zustand !== 'gemeldet')
+}
+
 /** Ein laufender Staffelwechsel der Automatik: `{ reihe, nr, seit, bis }` oder null. */
 let selbstStaffelWechsel = null
 /** Schon versuchte Staffeln je Reihe — `"<reihe>:<nr>"`, damit kein Wechsel im Kreis läuft. */
@@ -2704,6 +2716,8 @@ async function vielleichtSelbstStarten() {
     } else if (angezeigteNetflixStaffel() !== wechsel.nr || Date.now() - wechsel.seit < 2000) return
   }
   selbstVersucht = reihe
+  /* Erst den Stand holen, dann entscheiden — sonst sieht eine längst gemeldete Staffel offen aus. */
+  await durchlaufStandLaden(reihe)
   /*
     **Die Automatik wählt die offene Staffel selbst** (Daniel, 22.09.2026: „füg hinzu das die
     automatik die auswahl im staffel feld wechseln kann"). Zeigt Netflix eine Staffel ohne offene
@@ -2715,7 +2729,7 @@ async function vielleichtSelbstStarten() {
   const gewaehlt = wechsel && angezeigteNetflixStaffel() === wechsel.nr ? wechsel.nr : null
   selbstStaffelWechsel = null
   const anzeigeKandidaten = staffelnDerGruppe(reihe, DURCHLAUF.folgen)
-  const hierOffen = durchlaufOffen().length > 0
+  const hierOffen = angezeigteStaffelHatOffenes()
   if (!gewaehlt && (!hierOffen || anzeigeKandidaten.length !== 1)) {
     const ziel = naechsteOffeneNetflixStaffel(reihe)
     if (ziel != null && (await netflixStaffelWaehlen(ziel))) {
@@ -2737,7 +2751,7 @@ async function vielleichtSelbstStarten() {
     den Durchgang auf „Uncle from Another World", dort war alles gemeldet — `durchlaufStarten()`
     fand nichts, kehrte zurück, und der Knopf tat sichtbar nichts.
   */
-  if (!durchlaufOffen().length) {
+  if (!hierOffen) {
     selbstUebersprungen.add(String(reihe))
     selbstWeiter()
     return
@@ -2758,8 +2772,15 @@ async function vielleichtSelbstStarten() {
   if (angezeigt != null) selbstStaffelnVersucht.add(`${reihe}:${angezeigt}`)
   console.log('[Anime-Kalender] Selbsttätiger Durchgang startet …')
   DURCHLAUF.selbst = true
+  DURCHLAUF.gesamt = 0
   await durchlaufStarten(RAND)
   DURCHLAUF.selbst = false
+  /* Fand der Durchlauf nichts zu tun, kam er nie bis zum Weitergehen — dann hier weiter. */
+  if (!DURCHLAUF.gesamt && selbstAn) {
+    console.log('[Anime-Kalender] Selbsttätig: hier nichts zu prüfen — weiter.')
+    selbstUebersprungen.add(String(reihe))
+    selbstWeiter()
+  }
 }
 
 /** Der Speicherplatz je Reihe — eine Reihe, eine Liste gemeldeter Kennungen. */
@@ -3933,7 +3954,7 @@ async function durchlaufStarten(grenze) {
     selbstRundenSeite = seite
     /* Oder eine andere Staffel dieses Titels ist noch offen — dann wechselt der nächste Anlauf dorthin. */
     const nochStaffel = naechsteOffeneNetflixStaffel(gemeinteReihe()) != null
-    if ((durchlaufOffen().length || nochStaffel) && selbstRundenHier < 6) {
+    if ((angezeigteStaffelHatOffenes() || nochStaffel) && selbstRundenHier < 6) {
       selbstVersucht = null
       setTimeout(() => void vielleichtSelbstStarten(), 1500)
     } else if (selbstGezaehlt >= SELBST_HOECHSTENS) laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
