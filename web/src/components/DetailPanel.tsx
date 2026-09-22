@@ -1907,6 +1907,8 @@ function Pille({
       title={titel}
       className={[
         'relative inline-flex shrink-0 items-center gap-2 rounded-full py-1.5 pl-3 pr-4 transition',
+        /* Blase oben rechts (DE-Häkchen) — Abstand über `blase-rechts` (styles.css). */
+        rechts ? 'blase-rechts' : '',
         durchgestrichen ? 'opacity-70' : '',
         farbe
           ? `${PILLE_MARKE} hover:brightness-95 dark:hover:brightness-125`
@@ -2418,7 +2420,7 @@ function ReleasePille({
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
   return (
     <span
-      className={`relative inline-flex max-w-full items-center ${tv ? 'rounded-md pl-5' : 'rounded-full pl-3'} py-1 pr-4 ${tvText?.premiere ? 'mt-2' : ''} ${farbe ? PILLE_MARKE : ''}`}
+      className={`relative inline-flex max-w-full items-center ${tv ? 'blase-links rounded-md pl-5' : 'rounded-full pl-3'} ${farbe ? 'blase-rechts' : ''} py-1 pr-4 ${tvText?.premiere ? 'mt-2' : ''} ${farbe ? PILLE_MARKE : ''}`}
       style={marke(farbe)}
     >
       {tv && (

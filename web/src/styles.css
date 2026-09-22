@@ -168,3 +168,16 @@ html.dark select option {
   background-color: #1e293b;
   color: #e2e8f0;
 }
+
+/*
+  **Luft für Blasen, die über die Kante einer Pille ragen** (Daniel, 22.09.2026: „mach das im css
+  generisch, sodass sie vielleicht bubble left oder bubble right bekommen"). Fernseh-Blase oben links,
+  DE-Häkchen oben rechts, Kalender-Blase unten rechts: Ohne Abstand stieß die Blase der einen Pille
+  an die der Nachbarpille. Die Pille trägt die Klasse der Seite, auf der ihre Blase sitzt.
+*/
+@utility blase-links {
+  margin-left: 0.5rem;
+}
+@utility blase-rechts {
+  margin-right: 0.375rem;
+}

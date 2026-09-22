@@ -2702,3 +2702,7 @@ genau (Chihiro, Der Junge und der Reiher, FF VII Advent Children, 5 Centimeters 
 Totto-chan, Kaguya); daneben 371 „Cardcaptor Sakura: The Movie - Die Reise nach Hongkong" nur ähnlich
 (YouTube: „Cardcaptor Sakura: The Movie") — nicht übernehmen, Liste zum Nachsehen. Kontingent: 100 Suchen
 = ein ganzer Tag (10.000 Einheiten); ein Lauf müsste über mehrere Tage verteilen.
+**Messpunkt 22.09.2026 18:28 (Daniel, Bild der Serienseite):** Joyn schreibt an 110 „Noch bis 17:30 online“, an
+111 „Noch bis 17:55 online“ — gemeint ist der 23.09., das Sendeende von 130 bzw. 131 (Folge +20). Deckt sich
+minutengenau mit der Vorhersage. Die Pille ergänzt seitdem die 19 Folgen vor der ersten sicheren Sichtung
+(sonst stand „≈ Fg. 126–129", abrufbar waren 110–129); Probe gegen 17:25/17:31/18:27: 108–127, 109–128, 110–129.

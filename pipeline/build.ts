@@ -8114,6 +8114,27 @@ function main(): void {
         */
         fenster.push({ nr, ab: plusMinuten(ab, 25), ende })
       }
+      /*
+        **Die 19 Folgen vor der ersten sicheren Sichtung** (Daniel, 22.09.2026: „die Folgen in der pill
+        sind falsch" — „≈ Fg. 126–129", bei Joyn standen 110–129). Joyn hält die letzten 20 Folgen
+        (bestätigt 22.09. 17:30: 108 fiel mit dem Sendeende von 128). Premieren laufen in
+        Nummernfolge, also sind die 19 davor schon ausgestrahlt — wann genau, wissen wir nicht, wenn
+        es vor unserem tv.de-Verlauf lag. Beginn ist dann „vor der ersten sicheren Sichtung", Ende
+        das Sendeende von Folge +20, sonst höchstens 29 Tage nach der ersten sicheren Sichtung
+        (obere Grenze; die Pille schreibt ohnehin „≈").
+      */
+      const erste = Math.min(...start.keys())
+      const ersteAb = start.get(erste)
+      if (ersteAb) {
+        const obergrenze = `${plusTage(ersteAb.slice(0, 10), 29)}T23:59`
+        const davor = `${plusTage(ersteAb.slice(0, 10), -1)}T00:00`
+        for (let nr = Math.max(1, erste - 19); nr < erste; nr++) {
+          const nachfolger = start.get(nr + 20)
+          const ende = nachfolger && plusMinuten(nachfolger, 25) < obergrenze ? plusMinuten(nachfolger, 25) : obergrenze
+          fenster.push({ nr, ab: davor, ende })
+        }
+        fenster.sort((a, b) => a.nr - b.nr)
+      }
       if (!fenster.length) continue
       joyn.fenster = fenster
       joynFenster++
