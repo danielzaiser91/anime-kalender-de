@@ -2650,3 +2650,14 @@ deutschland … katalog durchstöbert, wir können annehmen das alle de sind, bi
 gegenteil beweisen"). Nachgerechnet am Datensatz vom 22.09.2026 (mit Staffelform): 143 Videoload-Wege direkt,
 145 als deutsch gesetzt, 247 TMDB-Wege entfallen; danach ohne jeden Weg nur 137612 (Princess
 Principal: Crown Handler 3).
+
+**Warum JustWatch Videoload nicht nennt, TMDB aber schon** (gemessen 22.09.2026 an „Ame & Yuki",
+TMDB movie/110420): TMDBs Übersichtsseite führt je Anbieter einen JustWatch-Weiterleitungslink
+(`click.justwatch.com/a?cx=…&r=<Anbieteradresse>`, Klicktyp `jw-content-partner-export-api`) — mit
+Videoload und genau der aus MagentaTV abgeleiteten Adresse. Die öffentliche JustWatch-Schnittstelle
+(`apis.justwatch.com/graphql`, `offers(country: DE, platform: …)`) liefert Videoload weder für WEB
+noch ANDROID_TV noch IOS; Joyn fehlte am 22.09. ebenfalls (am 16.09. noch da, Seite inzwischen 404).
+TMDBs Partner-Export ist also vollständiger als unsere Abfrage. TMDBs API (`watch/providers`) nennt nur
+den Anbieter, keine Adresse; die Übersichtsseite scheidet aus: robots.txt sperrt `Claude-User`,
+`ClaudeBot` u. a. mit `Disallow: /`. Die 244 entfallenden Pillen sind damit sehr wahrscheinlich echte
+Angebote ohne erlaubten Weg zur Adresse — offen, ob sie gekennzeichnet über TMDB zurückkommen.
