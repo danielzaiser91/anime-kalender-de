@@ -91,6 +91,14 @@ export function EventCard({
     Grund, warum jemand die Woche überhaupt aufschlägt.
   */
   const vergangen = event.date < todayIso()
+  /*
+    **Ein TV-Termin nennt nur die Folge, keine Gesamtzahl** (Daniel, 23.09.2026: „dabei reicht es
+    wenn ohne von angezeigt wird, also Flg 3 bzw Ep 3"). tv.de zeigt rund zwei Wochen voraus; der
+    Eintrag von „Solo Leveling: Arise from the Shadow" kannte deshalb nur die Folgen 2 und 3 und
+    schrieb „Ep 3/3" bei einer Serie mit 13. Die Nummer selbst stammt aus der Episodenliste und
+    ist echt — sie bleibt, die erfundene Gesamtzahl geht.
+  */
+  const gesamtFolgen = event.platform === 'tv' ? undefined : event.episodeCount
 
   const kachel = (
     /*
@@ -208,7 +216,7 @@ export function EventCard({
           {event.episode && !event.sichtung && event.releaseType !== 'movie' && (
             <span className="rounded bg-slate-200/70 px-1 tabular-nums dark:bg-white/10">
               {t('card.episode', { n: event.episode })}
-              {event.episodeCount ? `/${event.episodeCount}` : ''}
+              {gesamtFolgen ? `/${gesamtFolgen}` : ''}
             </span>
           )}
           {event.estimated && !event.verpasst && (
