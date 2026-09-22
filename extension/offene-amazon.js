@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_AMAZON = {"amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90":{"erneut":"Wiedervorlage: Die Meldung sagt „kein Deutsch\", JustWatch 2026-09-16 findet deutschen Ton — bei einem Kanal-Titel zeigt Prime ohne Abo keine deutsche Tonspur, bitte mit Abo gegenprüfen","titel":"A Silent Voice","url":"https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90","eintraege":[{"id":20954,"name":"A Silent Voice","folgen":1,"offen":true,"asId":9981,"malId":28851,"imdb":"tt5323662"}]}}
+globalThis.AK_OFFENE_AMAZON = {}
