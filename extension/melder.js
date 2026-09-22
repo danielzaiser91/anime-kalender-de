@@ -2745,7 +2745,13 @@ async function vielleichtSelbstStarten() {
   selbstStaffelWechsel = null
   const anzeigeKandidaten = staffelnDerGruppe(reihe, DURCHLAUF.folgen)
   const hierOffen = angezeigteStaffelHatOffenes()
-  if (!gewaehlt && (!hierOffen || anzeigeKandidaten.length !== 1)) {
+  /*
+    Auch nach einem eigenen Wechsel: Ist die gewählte Staffel schon gemeldet (die Liste führt sie
+    bis zur Übernahme weiter als offen), die nächste versuchen — bei Dr. STONE sprang die Automatik
+    auf Staffel 1, fand dort nichts und übersprang den Titel, obwohl Staffel 2 offen war (22.09.2026).
+    `selbstStaffelnVersucht` verhindert den Kreis.
+  */
+  if (!hierOffen || (!gewaehlt && anzeigeKandidaten.length !== 1)) {
     const ziel = naechsteOffeneNetflixStaffel(reihe)
     if (ziel != null && (await netflixStaffelWaehlen(ziel))) {
       selbstStaffelWechsel = { reihe: String(reihe), nr: ziel, seit: Date.now(), bis: Date.now() + 10000 }

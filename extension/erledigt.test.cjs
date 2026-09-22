@@ -401,6 +401,10 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
     'die Durchlauf-Leiste zieht in den Kasten der aktuellen Seite um',
     /if \(ziel && DURCHLAUF\.leiste\.parentElement !== ziel\) ziel\.appendChild\(DURCHLAUF\.leiste\)/.test(quelle),
   )
+  pruefe(
+    'eine selbst gewaehlte, schon gemeldete Staffel fuehrt zum naechsten Wechsel',
+    /if \(!hierOffen \|\| \(!gewaehlt && anzeigeKandidaten\.length !== 1\)\) \{/.test(quelle),
+  )
   pruefe('kein dauerhafter Schalter mehr', !/netflixSelbst/.test(quelle) && /▶ alle durchgehen/.test(quelle))
   pruefe('ein uebersprungener Titel (S?) wird nicht wieder angesteuert', /selbstUebersprungen\.has\(kennung\)/.test(wahl))
   pruefe('selbsttaetig nur bei eindeutiger Staffel', /kandidaten\.length !== 1/.test(quelle) && /staffelnDerGruppe\(reihe, DURCHLAUF\.folgen\)/.test(quelle))
