@@ -2046,19 +2046,26 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       const seit = stand.erzeugtAm ?? null
       const { results: jemals } = seit
         ? await env.DB.prepare(
-            `SELECT DISTINCT plattform, url FROM pruefung
+            `SELECT DISTINCT plattform, url, staffel FROM pruefung
              WHERE url IS NOT NULL AND url != '' AND gemeldet_am > ?1`,
           )
             .bind(seit)
-            .all<{ plattform: string; url: string }>()
+            .all<{ plattform: string; url: string; staffel: number | null }>()
         : await env.DB.prepare(
-            `SELECT DISTINCT plattform, url FROM pruefung WHERE url IS NOT NULL AND url != ''`,
-          ).all<{ plattform: string; url: string }>()
+            `SELECT DISTINCT plattform, url, staffel FROM pruefung WHERE url IS NOT NULL AND url != ''`,
+          ).all<{ plattform: string; url: string; staffel: number | null }>()
       const jeGemeldet = new Map<string, Set<string>>()
+      /** Je Adresse die Staffeln, zu denen seit dem Prüfstand gemeldet wurde (22.09.2026). */
+      const staffelnGemeldet = new Map<string, Set<number>>()
       for (const r of jemals ?? []) {
         const dazu = jeGemeldet.get(r.plattform) ?? new Set<string>()
         dazu.add(r.url)
         jeGemeldet.set(r.plattform, dazu)
+        if (typeof r.staffel === 'number') {
+          const st = staffelnGemeldet.get(r.url) ?? new Set<number>()
+          st.add(r.staffel)
+          staffelnGemeldet.set(r.url, st)
+        }
       }
 
       const anbieter = (stand.anbieter ?? []).map((roh) => {
@@ -2070,7 +2077,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
           gemeldet: number
           ohneSeite?: number
           suchAdressen?: string[]
-          ziele?: { url: string; titel: string }[]
+          ziele?: { url: string; titel: string; staffeln?: number[] }[]
         }
         const unterwegs = gemeldeteAdressen.get(a.plattform) ?? new Set<string>()
         /*
@@ -2081,7 +2088,18 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
           noch etwas aus (siehe oben).
         */
         const schonGemeldet = jeGemeldet.get(a.plattform) ?? new Set<string>()
-        const offeneZiele = (a.ziele ?? []).filter((z) => !schonGemeldet.has(z.url))
+        /*
+          **Nennt das Ziel seine offenen Staffeln, ist es erst erledigt, wenn jede gemeldet ist**
+          (22.09.2026). Sonst verschwand Dr. STONE nach der Meldung von Staffel 1 bis zur nächsten
+          Übernahme aus der Prüfliste, obwohl Staffel 2 offen war. Ziele ohne Staffelangabe bleiben
+          bei der Adresse.
+        */
+        const offeneZiele = (a.ziele ?? []).filter((z) => {
+          if (!schonGemeldet.has(z.url)) return true
+          if (!z.staffeln?.length) return false
+          const gemeldet = staffelnGemeldet.get(z.url)
+          return !z.staffeln.every((nr) => gemeldet?.has(nr))
+        })
         /**
          * **Eine Suchadresse ist auch ein Ziel.**
          *

@@ -114,8 +114,13 @@ pruefe(
   lieber ein Ziel zu wenig zeigen als eins, das längst erledigt ist.
 */
 pruefe(
-  quelle.includes("SELECT DISTINCT plattform, url FROM pruefung WHERE url IS NOT NULL AND url != ''`,"),
+  quelle.includes("SELECT DISTINCT plattform, url, staffel FROM pruefung WHERE url IS NOT NULL AND url != ''`,"),
   'ohne Zeitstempel gilt weiterhin die alte, strengere Rechnung',
+)
+/* 22.09.2026: Ein Ziel mit offenen Staffeln ist erst erledigt, wenn jede gemeldet ist. */
+pruefe(
+  quelle.includes('return !z.staffeln.every((nr) => gemeldet?.has(nr))'),
+  'ein Ziel mit Staffelangabe verschwindet erst, wenn jede seiner Staffeln gemeldet ist',
 )
 
 console.log(fehler ? `\n${fehler} Fehler` : '\nalles grün')

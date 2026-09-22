@@ -203,7 +203,19 @@ const stand = ANBIETER.map((a) => {
       als erledigt. Die Datei bleibt trotzdem klein — ein Ziel sind rund
       hundert Zeichen.
     */
-    .map(([schluessel, wert]) => ({ url: a.ziel(schluessel, wert), titel: wert?.titel ?? null }))
+    .map(([schluessel, wert]) => {
+      /*
+        **Die offenen Staffeln gehören ans Ziel** (22.09.2026). Der Worker strich ein Ziel, sobald
+        unter seiner Adresse irgendetwas gemeldet war — Dr. STONE verschwand nach Staffel 1 aus der
+        Prüfliste, obwohl Staffel 2 offen war. Nur Listen in Netflix-Zählung: Dort ist `nr` dieselbe
+        Zahl, die der Player als `staffel` meldet.
+      */
+      const staffeln =
+        wert?.laut === 'anbieter-gerechnet'
+          ? [...new Set((wert.staffeln ?? []).filter((st) => st.offen && !st.film).map((st) => Number(st.nr)))].filter(Number.isFinite)
+          : []
+      return { url: a.ziel(schluessel, wert), titel: wert?.titel ?? null, ...(staffeln.length ? { staffeln } : {}) }
+    })
     .filter((z) => z.url)
 
   /*
