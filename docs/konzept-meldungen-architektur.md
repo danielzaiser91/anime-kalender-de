@@ -146,7 +146,20 @@ Higurashi (42), JoJo (63), Bungo Stray Dogs (24), Dr. STONE (24), Haikyu!! (59),
 Cardcaptor Sakura (21), Detektiv Conan (15). Dort fehlen die deutschen Folgentitel bei aniSearch und
 TMDB, oder Prime schneidet die Staffel anders. Das ist kein Zuordnungsfehler, sondern eine Lücke in
 den Ankern — und sie entscheidet sich erst in Stufe 3, wo sich zeigt, ob eine Folge ohne Nummer die
-Anzeige überhaupt stört. **Offen in Stufe 2:** die Pill-Achse (welcher Verweis), eine Liste für die offenen
+Anzeige überhaupt stört.
+
+**Stufe 3, Urteil je Folge (22.09.2026, `tools/poc-urteil/urteil-folge.ts`, schreibt nichts):** Quellen sind
+die Rohfolgen über `data/folgen-zuordnung.json` und die Meldungen mit Folgennummer; je (Titel, Anbieter,
+Folge) gilt die jüngste, am selben Tag gemessen vor angenommen. Ergebnis: **3.356 Urteile je Folge**,
+verglichen mit `dubRanges` bzw. `dub` des heutigen Datensatzes — **2.794 gleich, 167 abweichend**, der
+Rest ohne Weg dieses Anbieters (395) oder heute unbekannt (59).
+
+**Die Abweichungen sind erklärt und widerlegen das Modell nicht:** 122 der 167 stammen von einer
+Kanal-Seite (Yu-Gi-Oh! 5D's 42, JoJo Golden Wind 37, We Never Learn 13, …) — leere Tonspuren ohne
+Kanal-Abo, im Modell „unbekannt + Prüfliste mit Abo prüfen", nicht „kein Deutsch". 21 sind Fairy Tail,
+wo die heutige Meldung absichtlich noch nicht im Bestand steht. Es bleiben **24 Folgen in fünf Reihen**
+(Captain Tsubasa 7, Trapped in a Dating Sim 3, Slime 3, My Hero Academia 4, …), die einzeln anzusehen
+sind, bevor Stufe 3 den Bau übernimmt. **Offen in Stufe 2:** die Pill-Achse (welcher Verweis), eine Liste für die offenen
 Folgen zum Nachprüfen, Detektiv Conan ohne Kandidat.
 
 **Schlüssel ist die Folgenkennung der Plattform, nicht die gemeldete Adresse** (22.09.2026). Yamada-kun
