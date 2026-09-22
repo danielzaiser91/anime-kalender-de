@@ -52,6 +52,7 @@ import {
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { AnbieterIcon, anbieterDatei } from '../lib/anbieter-icon.tsx'
 import { jetztBerlin, toggoAngabe } from '../lib/toggo.ts'
+import { joynAngabe } from '../lib/joyn.ts'
 import { tvAngabe } from '../lib/tv-angabe.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../lib/kostenlos.ts'
 
@@ -3522,9 +3523,14 @@ export function DetailPanel({
   */
   const folgenAngabeFuer = (
     s:
-      | { platform?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges']; dub?: boolean }
+      | { platform?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges']; dub?: boolean; fenster?: StreamLink['fenster'] }
       | undefined,
   ): string => {
+    /*
+      **Joyn: nur das gerechnete Fenster, nie die Folgenzahl des Titels** (Daniel, 22.09.2026). Joyn hält
+      ein rollendes Fenster; bei Dragon Ball Super stand sonst „131 Fg.“, abrufbar waren 20.
+    */
+    if (s?.platform === 'joyn') return joynAngabe(s.fenster) ?? ''
     /*
       **Alle Releases des Anbieters zusammen** (21.09.2026, Steel Ball Run). Netflix führt Folge 1
       als eigenes Release (19.03.) und die Folgen 2–12 als Wochenserie ab 25.09.; AniList kennt nur

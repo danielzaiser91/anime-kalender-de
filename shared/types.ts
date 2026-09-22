@@ -174,6 +174,13 @@ export interface StreamLink {
    */
   kanal?: string
   /**
+   * **Nur Joyn: wann welche Folge abrufbar ist, gerechnet aus den ProSieben-MAXX-Terminen**
+   * (22.09.2026). Joyn stellt jede Folge zur Sendezeit online und hält die letzten 20, höchstens
+   * bis zum 29. Tag danach (docs/wissen/quellen.md). Ob eine Folge *jetzt* abrufbar ist, rechnet
+   * die Oberfläche; die Angabe ist abgeleitet, deshalb mit „≈".
+   */
+  fenster?: FolgenFenster[]
+  /**
    * Wie viele unserer Einträge diese eine Adresse bedient.
    *
    * Fehlt, wenn es nur einer ist. Steht dort eine Zahl, führt die Plattform
@@ -284,6 +291,13 @@ export interface WatchLink {
    * Tag alt, und bei Daima schließt jeden Abend ein Fenster.
    */
   toggo?: Array<{ staffel: number; von: number; bis: number; ab: string; ende: string }>
+}
+
+/** Ein Abruffenster je Folge (Joyn, 22.09.2026): ab/ende in Berliner Ortszeit „YYYY-MM-DDTHH:MM". */
+export interface FolgenFenster {
+  nr: number
+  ab: string
+  ende: string
 }
 
 export interface Title {

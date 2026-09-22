@@ -2677,3 +2677,9 @@ keine Folge +20 mehr (131 ist das Finale), dort greift die Frist. Beleg steht au
 `/serien/dragon-ball-super-dpp50bwivlve/3-107-f-will-rache-eine-ueberaus-tueckische-falle` (entspricht dem
 vorhergesagten Schema), am 22.09. HTTP 404. Widerlegt „29 Tage für alle"; passt zu „20er-Fenster" und
 ebenso zu „19 Tage bei den frühen Folgen" — beide sagen den 21.09. voraus, unterscheiden sich erst später.
+**Gebaut 22.09.2026:** `build.ts` hängt an den Joyn-Weg `fenster` (je Folge ab/ende aus den tv.de-Sichtungen
+von ProSieben MAXX, Nummern über Wikipedia); `web/src/lib/joyn.ts` rechnet beim Anzeigen „≈ Fg. 126–127 ·
+Fg. 128 ab 17:05". Gegenprobe gegen die Joyn-Messung: 126/127 Beginn und Ende 4/4 gleich. Erstsichtungen
+zwischen 0 und 5 Uhr gelten nicht als Start (Nachtblock 20.09. = Wiederholung von 116–125) — deshalb fehlen
+Folgen, deren Erstausstrahlung vor dem Beginn unseres tv.de-Verlaufs (19.09.) lag. Ohne Fenster zeigt eine
+Joyn-Pille keine Folgenzahl mehr (vorher die des ganzen Titels, bei DBS „131 Fg.").
