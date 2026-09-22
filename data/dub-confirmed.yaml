@@ -16914,3 +16914,11 @@
   dub: true
   checkedAt: '2026-09-22'
   note: "Daniel mit Bild: Audio Japanese, Deutsch — die alte Adresse /watch/GG1U2ZJNQ/… ist 404"
+
+- anilistId: 6702
+  title: "Fairy Tail"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CHBX8CM2
+  available: false
+  checkedAt: '2026-09-22'
+  note: "Daniel mit Bild: „In deiner Region nicht mehr auf Prime Video verfügbar“ — die von aniSearch genannte Seite (Season 1 Part 1, 1–48) ist in Deutschland nicht abrufbar"
