@@ -5462,6 +5462,18 @@ pruefe(
   const liste = { name: 'YouTube', url: 'https://www.youtube.com/playlist?list=x', kind: 'stream', zugang: 'kostenlos' } as never
   pruefe('kostenlos: ohne Zahl „auch kostenlos", nie „teilweise"', kostenlosEtikett(kostenloseFolgen({ watchLinks: [toggo, liste] }, jetzt), 293) === 'auch')
   pruefe('kostenlos: kein freier Weg, kein Etikett', kostenloseFolgen({ watchLinks: [], streams: [] }, jetzt) === undefined)
+  /*
+    **Gezählt werden Folgen, nicht Wege** (Daniel, 22.09.2026): Daima hat Folge 1 auf YouTube und
+    16–20 bei TOGGO — das sind sechs, nicht fünf. Zeigen zwei Wege dieselbe Folge, zählt sie einmal.
+  */
+  const jetztDaima = '2026-09-22T23:30'
+  const toggoDaima = { name: 'TOGGO', url: 'https://www.toggo.de/x/serien/y-vse446', kind: 'stream', zugang: 'kostenlos', toggo: [
+    { staffel: 1, von: 16, bis: 20, ab: '2026-09-16T21:37', ende: '2026-09-29T21:15' },
+  ] } as never
+  const ytFolge = (nr: number) =>
+    ({ name: 'YouTube', url: 'https://www.youtube.com/playlist?list=x', kind: 'stream', zugang: 'kostenlos', dubRanges: [{ from: nr, to: nr, dub: true }] }) as never
+  pruefe('kostenlos: YouTube Fg. 1 und TOGGO 16–20 sind sechs Folgen', kostenloseFolgen({ watchLinks: [ytFolge(1), toggoDaima] }, jetztDaima)?.frei === 6)
+  pruefe('kostenlos: eine Folge bei zwei Anbietern zählt einmal', kostenloseFolgen({ watchLinks: [ytFolge(16), toggoDaima] }, jetztDaima)?.frei === 5)
 }
 {
   /* Premiere/Wiederholung (Daniel, 19.09.2026) — Daima: YouTube nur Folge 1, RTL+ ab 25.09. */

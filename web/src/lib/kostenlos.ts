@@ -11,9 +11,12 @@
  * - Folgenbereiche mit deutscher Fassung (`dubRanges`): ihre Folgen;
  * - sonst: unbekannt — es gibt den Weg, aber keine Zahl.
  *
- * Wege werden nicht addiert, sondern der größte gilt: Ob TOGGO und YouTube dieselben
- * Folgen zeigen, wissen wir nicht, und eine Summe könnte „alle" behaupten, wo es nicht
- * stimmt.
+ * **Gezählt werden die Folgen, nicht die Wege** (Daniel, 22.09.2026: „folge 1 bei youtube, und
+ * 5 folgen bei toggo ergibt 6"). Bis dahin galt der größte Weg allein — aus Sorge, zwei Wege
+ * könnten dieselbe Folge zeigen und die Summe „alle" behaupten. Die Sorge löst die Vereinigung
+ * sauber: Wo wir Nummern kennen (TOGGO-Fenster, `nurFolge`, `dubRanges`), zählt jede Folge genau
+ * einmal, auch wenn zwei Anbieter sie führen. Nur ein Einzelvideo ohne Nummer zählt blind als eine
+ * Folge — dort ist die Nummer unbekannt, aber die Menge ist es nicht.
  */
 import type { StreamLink, WatchLink } from '@shared/types.ts'
 import { jetztBerlin } from './toggo.ts'
@@ -22,11 +25,16 @@ export type Kostenlos = { frei?: number; unbekannt: boolean }
 
 const einVideo = (url: string) => /youtube\.com\/watch\?/.test(url) && !/[?&]list=/.test(url)
 
-function zahlFuer(w: Partial<WatchLink & StreamLink>, jetzt: string): number | undefined {
-  if (w.toggo) return w.toggo.filter((b) => b.ab <= jetzt && jetzt < b.ende).reduce((n, b) => n + b.bis - b.von + 1, 0)
-  if (w.nurFolge != null || einVideo(w.url ?? '')) return 1
+/** Die Folgennummern eines Weges — `'eine'`, wenn es genau eine ist, deren Nummer wir nicht kennen. */
+function folgenFuer(w: Partial<WatchLink & StreamLink>, jetzt: string): number[] | 'eine' | undefined {
+  if (w.toggo) {
+    const offen = w.toggo.filter((b) => b.ab <= jetzt && jetzt < b.ende)
+    return offen.flatMap((b) => Array.from({ length: b.bis - b.von + 1 }, (_, i) => b.von + i))
+  }
+  if (w.nurFolge != null) return [w.nurFolge]
   const deutsch = (w.dubRanges ?? []).filter((r) => r.dub)
-  if (deutsch.length) return deutsch.reduce((n, r) => n + r.to - r.from + 1, 0)
+  if (deutsch.length) return deutsch.flatMap((r) => Array.from({ length: r.to - r.from + 1 }, (_, i) => r.from + i))
+  if (einVideo(w.url ?? '')) return 'eine'
   return undefined
 }
 
@@ -39,13 +47,16 @@ export function kostenloseFolgen(
     ...(title.watchLinks ?? []).filter((w) => w.kind === 'stream' && w.zugang === 'kostenlos'),
     ...(title.streams ?? []).filter((s) => s.zugang === 'kostenlos' && s.dub !== false),
   ]
-  let frei: number | undefined
+  const nummern = new Set<number>()
+  let ohneNummer = 0
   let unbekannt = false
   for (const w of wege) {
-    const n = zahlFuer(w, jetzt)
-    if (n === undefined) unbekannt = true
-    else if (n > 0) frei = Math.max(frei ?? 0, n)
+    const f = folgenFuer(w, jetzt)
+    if (f === undefined) unbekannt = true
+    else if (f === 'eine') ohneNummer++
+    else for (const n of f) nummern.add(n)
   }
+  const frei = nummern.size + ohneNummer
   return frei || unbekannt ? { ...(frei ? { frei } : {}), unbekannt } : undefined
 }
 
