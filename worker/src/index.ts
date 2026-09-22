@@ -2661,10 +2661,35 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
   }
 
   const url = String(daten.url ?? '').trim()
-  const befund = String(daten.befund ?? '').trim()
   if (!url) return antwort({ error: 'url fehlt' }, 400)
-  if (!['dub', 'kein_dub', 'weg'].includes(befund)) {
-    return antwort({ error: 'befund muss dub, kein_dub oder weg sein' }, 400)
+  /*
+    **Stufe 1 des neuen Modells: Verfügbarkeit und Sprache getrennt** (22.09.2026,
+    docs/konzept-meldungen-architektur.md). Die Erweiterung schickt `vorhanden`, `ton_de`, `art`;
+    ältere Fassungen schicken nur `befund`. Beides wird angenommen, und das jeweils andere abgeleitet:
+    `befund` braucht der heutige Einleser.
+    **Befristet:** Die Ableitung von `befund` entfällt, sobald Stufe 2 den Einleser ersetzt; die
+    Annahme des alten `befund` entfällt, sobald alle Erweiterungen ≥ 4.21.0 melden.
+  */
+  let vorhanden = daten.vorhanden != null ? String(daten.vorhanden).trim() : ''
+  let tonDe = daten.ton_de != null ? String(daten.ton_de).trim() : ''
+  let art = daten.art != null ? String(daten.art).trim() : ''
+  let befund = String(daten.befund ?? '').trim()
+  if (vorhanden) {
+    if (!['ja', 'nein'].includes(vorhanden)) return antwort({ error: 'vorhanden muss ja oder nein sein' }, 400)
+    if (vorhanden === 'nein') tonDe = 'unbekannt'
+    if (!['ja', 'nein', 'unbekannt'].includes(tonDe)) return antwort({ error: 'ton_de muss ja, nein oder unbekannt sein' }, 400)
+    /* Eine vorhandene Folge ohne Sprachauskunft ist eine Störung, keine Beobachtung (Szenario 10). */
+    if (vorhanden === 'ja' && tonDe === 'unbekannt') return antwort({ error: 'vorhanden ja braucht ton_de ja oder nein' }, 400)
+    if (!art) art = 'gemessen'
+    if (!['gemessen', 'angenommen'].includes(art)) return antwort({ error: 'art muss gemessen oder angenommen sein' }, 400)
+    befund = vorhanden === 'nein' ? 'weg' : tonDe === 'ja' ? 'dub' : 'kein_dub'
+  } else {
+    if (!['dub', 'kein_dub', 'weg'].includes(befund)) {
+      return antwort({ error: 'befund muss dub, kein_dub oder weg sein' }, 400)
+    }
+    vorhanden = befund === 'weg' ? 'nein' : 'ja'
+    tonDe = befund === 'weg' ? 'unbekannt' : befund === 'dub' ? 'ja' : 'nein'
+    art = /ANGENOMMEN/.test(String(daten.notiz ?? '')) ? 'angenommen' : 'gemessen'
   }
 
   /**
@@ -2717,8 +2742,8 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
       02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
     */
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -2776,6 +2801,10 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
        * real passiert, vier falsche Belege). Ein Wort im Titel entscheidet es.
        */
       daten.folge ? String(daten.folge).slice(0, 200) : null,
+      /* Stufe 1 (22.09.2026): Verfügbarkeit, Sprache, gemessen oder angenommen — getrennt. */
+      vorhanden,
+      tonDe,
+      art,
     )
     .run()
 
