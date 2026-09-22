@@ -831,3 +831,8 @@ Prüfliste, obwohl Staffel 2 offen war, und die Automatik fand den Titel nicht m
 `tools/pruefstand.mjs` je Netflix-Ziel die offenen Staffeln mit (`staffeln: [1, 2]`, nur bei
 Listen in Netflix-Zählung, wo `nr` = die Staffel, die der Player meldet), und der Worker streicht
 erst, wenn `pruefung.staffel` jede davon enthält. Ziele ohne Staffelangabe bleiben bei der Adresse.
+
+**Und den Prüfstand nicht lokal neu erzeugen, solange der Briefkasten Unübernommenes hält.**
+`tools/pruefstand.mjs` setzt `erzeugtAm` auf jetzt; der Worker zählt nur Meldungen danach. Am
+22.09.2026 standen dadurch Haikyu!! und Dr. STONE S1 wieder als offen, obwohl beide im Briefkasten
+lagen — bis zur nächsten Übernahme. Wer die Datei lokal braucht, committet sie erst nach dem Datenlauf.
