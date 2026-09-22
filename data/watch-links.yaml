@@ -197,7 +197,7 @@
     - https://www.toggo.de/bakugan/serien/bakugan-vse273
     - https://www.fernsehserien.de/bakugan-2023
 
-# Videoload (22.09.2026): JustWatch findet den Titel nicht, also gibt es keine MagentaTV-Kennung
+# Videoload (22.09.2026): JustWatch findet diese drei Titel nicht, also gibt es keine MagentaTV-Kennung
 # zum Ableiten — Adresse von Daniel über die Videoload-Suche.
 - anilistId: 132420
   title: 'Girls und Panzer das Finale - Part 4'
@@ -207,3 +207,19 @@
       kind: stream
   sources:
     - https://www.videoload.de/film/girls-und-panzer-das-finale-part-4/GN_MV022103480000
+- anilistId: 1361
+  title: 'Final Fantasy: The Spirits Within'
+  links:
+    - name: Videoload
+      url: https://www.videoload.de/film/final-fantasy-die-maechte-in-dir/GN_MV006127180000
+      kind: stream
+  sources:
+    - https://www.videoload.de/film/final-fantasy-die-maechte-in-dir/GN_MV006127180000
+- anilistId: 101344
+  title: 'Made in Abyss: Wandering Twilight'
+  links:
+    - name: Videoload
+      url: https://www.videoload.de/film/made-in-abyss-gefaehrten-der-daemmerung/GN_MV016700610000
+      kind: stream
+  sources:
+    - https://www.videoload.de/film/made-in-abyss-gefaehrten-der-daemmerung/GN_MV016700610000

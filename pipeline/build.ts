@@ -2965,6 +2965,27 @@ function main(): void {
       `${adnAdded} ADN-Releases aus ${adnBloecke} Staffelblöcken ergänzt (${adn.shows.length} Serien gefunden)`,
     )
 
+  /**
+   * **Ist der Teil selbst der Eintrag, gehört seine Nummer in den Namen** (22.09.2026).
+   *
+   * `werkTitel()` schneidet „– Teil N" ab, damit ein Block nicht wie das Werk heißt. Führt AniList
+   * den Teil aber als eigenen Eintrag („Girls und Panzer das Finale - Part 4", „BEASTARS Final
+   * Season Part 2"), ist die Nummer der Name des Werks. Gemessen am selben Tag: 20 Titel verloren
+   * sie, darunter zweimal „Pretty Guardian Sailor Moon Eternal: Der Film" und zweimal „Beastars
+   * Letzte Staffel" — zwei Einträge, ein Name. Anlass: Teil 4 von Girls und Panzer: Das Finale
+   * hieß ohne Nummer neben „Teil 1" bis „Teil 3" (Daniel an der Videoload-Suche).
+   */
+  let teilNamen = 0
+  for (const title of titles.values()) {
+    if (!title.titleDe) continue
+    const quelle = [title.titleEn, title.titleRomaji].find((s) => /(?:part|teil|vol\.?|volume)\s*\d+\s*$/i.test(s ?? ''))
+    const nr = quelle?.match(/(\d+)\s*$/)?.[1]
+    if (!nr || new RegExp(`\\b${nr}\\b`).test(title.titleDe)) continue
+    title.titleDe = `${title.titleDe} – Teil ${nr}`
+    teilNamen++
+  }
+  if (teilNamen) log(`${teilNamen} deutsche Namen um ihre Teilnummer ergänzt (der Teil ist der Eintrag)`)
+
   // --- Termine aus den Nachrichtenquellen ------------------------------------
   // Der letzte Schritt vor der Auswertung, und mit Absicht der letzte: Was aus
   // `data/curated/`, Crunchyroll oder ADN schon da ist, gewinnt gegen den Bot.
