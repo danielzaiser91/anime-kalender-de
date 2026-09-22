@@ -381,6 +381,7 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
     'der Lauf gehoert dem Tab, der ihn startet (sessionStorage, nicht chrome.storage)',
     /sessionStorage\.setItem\(LAUF_SCHLUESSEL/.test(quelle) && !/netflixLauf/.test(quelle),
   )
+  pruefe('ohne offene Folge auf der Seite springt die Automatik weiter', /if (!durchlaufOffen().length) {s*selbstUebersprungen.add/.test(quelle))
   pruefe('kein dauerhafter Schalter mehr', !/netflixSelbst/.test(quelle) && /▶ alle durchgehen/.test(quelle))
   pruefe('ein uebersprungener Titel (S?) wird nicht wieder angesteuert', /selbstUebersprungen\.has\(kennung\)/.test(wahl))
   pruefe('selbsttaetig nur bei eindeutiger Staffel', /kandidaten\.length !== 1/.test(quelle) && /staffelnDerGruppe\(reihe, DURCHLAUF\.folgen\)/.test(quelle))

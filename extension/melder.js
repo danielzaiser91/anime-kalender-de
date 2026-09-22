@@ -2647,6 +2647,16 @@ async function vielleichtSelbstStarten() {
     auf „S?", und die Automatik prüfte Staffel 2 statt der offenen Staffel 1. Von Hand sieht
     Daniel das „S?" und wählt selbst — die Automatik überspringt den Titel und sagt es.
   */
+  /*
+    **Nichts offen auf dieser Seite: weiter, nicht still stehen** (22.09.2026). Daniel startete
+    den Durchgang auf „Uncle from Another World", dort war alles gemeldet — `durchlaufStarten()`
+    fand nichts, kehrte zurück, und der Knopf tat sichtbar nichts.
+  */
+  if (!durchlaufOffen().length) {
+    selbstUebersprungen.add(String(reihe))
+    selbstWeiter()
+    return
+  }
   const kandidaten = staffelnDerGruppe(reihe, DURCHLAUF.folgen)
   if (kandidaten.length !== 1) {
     console.log(
