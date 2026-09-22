@@ -2605,7 +2605,7 @@ function angezeigteStaffelHatOffenes() {
   return zustaende.some((z) => z.zustand !== 'gemeldet')
 }
 
-/** Ein laufender Staffelwechsel der Automatik: `{ reihe, nr, seit, bis }` oder null. */
+/** Ein laufender Staffelwechsel der Automatik: `{ reihe, nr, seit, bis, vorherErste }` oder null. */
 let selbstStaffelWechsel = null
 /** Schon versuchte Staffeln je Reihe — `"<reihe>:<nr>"`, damit kein Wechsel im Kreis läuft. */
 const selbstStaffelnVersucht = new Set()
@@ -2728,7 +2728,17 @@ async function vielleichtSelbstStarten() {
     if (Date.now() > wechsel.bis) {
       console.log(`[Anime-Kalender] Selbsttätig: Staffel ${wechsel.nr} ließ sich nicht öffnen — weiter.`)
       selbstStaffelWechsel = null
-    } else if (angezeigteNetflixStaffel() !== wechsel.nr || Date.now() - wechsel.seit < 2000) return
+    } else if (
+      angezeigteNetflixStaffel() !== wechsel.nr ||
+      Date.now() - wechsel.seit < 2000 ||
+      /*
+        **Und bis die Folgenliste gewechselt hat** (22.09.2026). Das Auswahlfeld zeigte schon
+        „Staffel 2", die Liste war noch die von Staffel 1 — die Automatik sah nichts Offenes und
+        beendete den Durchgang.
+      */
+      String(DURCHLAUF.folgen[0]?.videoId ?? '') === wechsel.vorherErste
+    )
+      return
   }
   selbstVersucht = reihe
   /* Erst den Stand holen, dann entscheiden — sonst sieht eine längst gemeldete Staffel offen aus. */
@@ -2754,7 +2764,13 @@ async function vielleichtSelbstStarten() {
   if (!hierOffen || (!gewaehlt && anzeigeKandidaten.length !== 1)) {
     const ziel = naechsteOffeneNetflixStaffel(reihe)
     if (ziel != null && (await netflixStaffelWaehlen(ziel))) {
-      selbstStaffelWechsel = { reihe: String(reihe), nr: ziel, seit: Date.now(), bis: Date.now() + 10000 }
+      selbstStaffelWechsel = {
+        reihe: String(reihe),
+        nr: ziel,
+        seit: Date.now(),
+        bis: Date.now() + 10000,
+        vorherErste: String(DURCHLAUF.folgen[0]?.videoId ?? ''),
+      }
       selbstStaffelnVersucht.add(`${reihe}:${ziel}`)
       selbstVersucht = null
       console.log(`[Anime-Kalender] Selbsttätig: wechsle zu Staffel ${ziel} …`)
@@ -2773,6 +2789,17 @@ async function vielleichtSelbstStarten() {
     fand nichts, kehrte zurück, und der Knopf tat sichtbar nichts.
   */
   if (!hierOffen) {
+    /* Diagnose (22.09.2026): Warum hier übersprungen wird, steht mit dem ganzen Zustand in der Konsole. */
+    console.log('[Anime-Kalender] Selbsttätig: hier nichts offen — übersprungen', {
+      reihe: String(reihe),
+      angezeigt: angezeigteNetflixStaffel(),
+      gewaehlt,
+      kandidaten: anzeigeKandidaten,
+      folgen: DURCHLAUF.folgen.length,
+      ersteFolge: DURCHLAUF.folgen[0]?.videoId ?? null,
+      geladeneStaffeln: [...folgenJeStaffel(DURCHLAUF.alleFolgen ?? []).values()].map((g) => g.length),
+      versucht: [...selbstStaffelnVersucht],
+    })
     selbstUebersprungen.add(String(reihe))
     selbstWeiter()
     return
