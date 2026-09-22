@@ -2627,3 +2627,25 @@ Zugangsart aus JustWatch (`joynZugang`: TMDB kennt keine Werbefinanzierung).
 Stichprobe 7 Seiten: 6 leben, Lizenz wie bei JustWatch; der Film „Ame & Yuki" lieferte 404
 (räumt die Linkprüfung ab). Joyn zeigt oft nur ein rollendes Fenster (Frieren: 5 Folgen).
 Was JustWatch nicht kennt (Dragon Ball Super), kommt über `verweise-von-hand.yaml`.
+
+## Kein Weg auf eine Datenbank — Videoload über die MagentaTV-Kennung (22.09.2026)
+
+Daniel an „Ame & Yuki": „videoload linkt auf tmdb, das ist falsch, es muss direkt zum anbieter
+linken." Gemessen: 389 Pillen bei 202 Titeln zeigten auf themoviedb.org (Videoload 146, YouTube
+100, Google Play 97, freenet 10, Apple TV 9, maxdome 9 …). JustWatch hatte alle 202 geprüft und
+nannte keinen dieser Anbieter dafür. Videoload kommt bei JustWatch gar nicht vor, den Dienst gibt
+es aber (Wolfskinder dort mit Deutsch, Daniel mit Bild).
+
+**Videoload und MagentaTV teilen die Gracenote-Kennung** (`GN_MV…`), die Adresse ist dieselbe bis
+auf die Domain. 136 von 146 Videoload-Pillen ließen sich so richten. Videoload ist eine
+Browser-Anwendung und antwortet auch auf erfundene Kennungen mit HTTP 200 — prüfbar nur von Hand:
+4 von 4 richtig (Daniel). Keine robots.txt (die Adresse liefert die Anwendung).
+
+Alles Übrige, was auf TMDB zeigte, entfällt; `pruefung.ts` bricht den Bau ab, wenn ein Bezugsweg
+wieder auf themoviedb.org zeigt.
+
+**Videoload gilt als deutsch** wie Joyn (Daniel, 22.09.2026: „.de als domain, telekom
+deutschland … katalog durchstöbert, wir können annehmen das alle de sind, bis wir irgendwann ein
+gegenteil beweisen"). Nachgerechnet am Datensatz vom 22.09.2026: 136 Videoload-Wege direkt,
+138 als deutsch gesetzt, 254 TMDB-Wege entfallen; danach ohne jeden Weg nur 137612 (Princess
+Principal: Crown Handler 3).

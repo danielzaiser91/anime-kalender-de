@@ -203,5 +203,10 @@ export function pruefeErgebnis(
     }
   }
 
+  /* Ein Bezugsweg führt zum Anbieter, nie auf eine Datenbank (Daniel, 22.09.2026: Videoload → TMDB). */
+  for (const t of titles.values())
+    for (const w of t.watchLinks ?? [])
+      if (/themoviedb\.org/.test(w.url)) fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB statt zum Anbieter`)
+
   return { fehler, warnungen }
 }

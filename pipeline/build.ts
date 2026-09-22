@@ -7140,9 +7140,10 @@ function main(): void {
     verteilt auf 364 Titel. Von den zehn, die JustWatch schon kennt, ließen sich
     16 von 20 Wegen ersetzen.
 
-    Ersetzt wird nur, was zum selben Anbieter gehört; wo JustWatch schweigt,
-    bleibt die Übersichtsseite stehen, bis der Lauf sie eingeholt hat. Eine
-    Übersicht ist ein Umweg — eine erfundene Anbieteradresse wäre eine Sackgasse.
+    Ersetzt wird nur, was zum selben Anbieter gehört. **Überholt am 22.09.2026:**
+    Bis dahin blieb die Übersichtsseite stehen, wo JustWatch schwieg. Seitdem fällt
+    sie weg (Videoload über die MagentaTV-Kennung ausgenommen) — siehe den Block
+    „Kein Weg auf eine Datenbank" weiter unten.
   */
   let jwDirekt = 0
   let jwNeu = 0
@@ -7235,6 +7236,62 @@ function main(): void {
   if (jwNeu) log(`${jwNeu} Bezugswege aus JustWatch bei Titeln ergänzt, die schon Wege hatten`)
   if (jwDirekt)
     log(`${jwDirekt} Bezugswege zeigen jetzt direkt zum Anbieter statt auf die TMDB-Übersicht`)
+
+  /**
+   * **Kein Weg auf eine Datenbank — Videoload über die MagentaTV-Kennung, der Rest fällt weg.**
+   *
+   * Daniel am 22.09.2026 an „Ame & Yuki": „videoload linkt auf tmdb, das ist falsch, es muss
+   * direkt zum anbieter linken." Das kehrt die Entscheidung vom 16.09.2026 um („wo JustWatch
+   * schweigt, bleibt die Übersichtsseite stehen").
+   *
+   * Gemessen am selben Tag: 389 Pillen bei 202 Titeln zeigten auf themoviedb.org (Videoload 146,
+   * YouTube 100, Google Play 97, …). JustWatch hatte alle 202 Titel geprüft und nannte **keinen**
+   * dieser Anbieter dafür — Videoload führt es gar nicht, obwohl es den Dienst gibt.
+   *
+   * **Videoload und MagentaTV sind derselbe Telekom-Katalog mit derselben Gracenote-Kennung:**
+   * `magenta.tv/film/ame-and-yuki-die-wolfskinder/GN_MV026220360000` ↔
+   * `videoload.de/film/ame-and-yuki-die-wolfskinder/GN_MV026220360000`. So ließen sich 136 der
+   * 146 Videoload-Pillen richten. Die Seite ist eine Browser-Anwendung und antwortet auch auf
+   * erfundene Kennungen mit 200 — belegt hat es deshalb Daniel von Hand, 4 von 4 (Wolfskinder,
+   * Der Junge und der Reiher, Cowboy Bebop: Der Film, Final Fantasy VII: Advent Children).
+   * **Videoload gilt als deutsch** — dieselbe Regel wie bei Joyn. Daniel am 22.09.2026:
+   * „videoload hat .de als domain, und es ist telekom deutschland, und ich hab katalog
+   * durchstöbert, wir können annehmen das alle de sind, bis wir irgendwann ein gegenteil
+   * beweisen." Ein Weg mit eigener Angabe (`dubRanges`) behält sie.
+   *
+   * Was danach noch auf TMDB zeigt, fällt weg: Eine direkte Adresse kennt keine Quelle, und eine
+   * Suche beim Anbieter ist schlechter als kein Weg (docs/wissen/quellen.md).
+   */
+  let videoloadDirekt = 0
+  let videoloadDeutsch = 0
+  let datenbankWege = 0
+  {
+    const jwAlle = readJson<Record<string, { angebote?: { url?: string }[] }>>('data/justwatch-audio.json', {})
+    for (const title of titles.values()) {
+      const wege = title.watchLinks
+      if (!wege?.length) continue
+      for (const w of wege) {
+        if (w.name !== 'Videoload' || !/themoviedb\.org/.test(w.url)) continue
+        const magenta = [...wege.map((x) => x.url), ...(jwAlle[String(title.id)]?.angebote ?? []).map((a) => a.url ?? '')]
+          .map((u) => /magenta\.tv\/(film|serie)\/([^/?#]+)\/(GN_[A-Z0-9_]+)/i.exec(u))
+          .find(Boolean)
+        if (!magenta) continue
+        w.url = `https://www.videoload.de/${magenta[1]}/${magenta[2]}/${magenta[3]}`
+        videoloadDirekt++
+      }
+      const vorher = wege.length
+      title.watchLinks = wege.filter((w) => !/themoviedb\.org/.test(w.url))
+      datenbankWege += vorher - title.watchLinks.length
+      for (const w of title.watchLinks) {
+        if (w.name !== 'Videoload' || w.dubRanges?.length) continue
+        w.dubRanges = [{ from: 1, to: title.format === 'MOVIE' ? 1 : Math.max(1, title.episodes ?? 1), dub: true }]
+        videoloadDeutsch++
+      }
+    }
+  }
+  if (videoloadDirekt) log(`${videoloadDirekt} Videoload-Wege über die MagentaTV-Kennung direkt verlinkt`)
+  if (videoloadDeutsch) log(`${videoloadDeutsch} Videoload-Wege als deutsch gesetzt — deutscher Anbieter`)
+  if (datenbankWege) log(`${datenbankWege} Wege ohne direkte Anbieteradresse entfernt (zeigten auf TMDB)`)
 
   /**
    * **Und dieselbe Frage an aniSearch — sie kennt Wege, die JustWatch nicht hat.**
