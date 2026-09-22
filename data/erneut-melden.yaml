@@ -13,3 +13,9 @@
 - { anilistId: 113538, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 1–2, MOTN alle 12 deutsch' }
 - { anilistId: 113936, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 11, MOTN alle 11 deutsch' }
 - { anilistId: 135806, platform: netflix, seit: '2026-09-21', grund: 'Beleg nennt nur Folge 1, MOTN alle 13 deutsch' }
+#
+# 22.09.2026: je Anbieter ein Testtitel für Erweiterung 4.21.0 (Stufe 1 des Meldemodells:
+# vorhanden / ton_de / art). Fällt mit der ersten Meldung heraus.
+- { anilistId: 99088, platform: netflix, seit: '2026-09-22', grund: 'Test Erweiterung 4.21.0' }
+- { anilistId: 20966, platform: primevideo, seit: '2026-09-22', grund: 'Test Erweiterung 4.21.0' }
+- { anilistId: 196144, platform: disneyplus, seit: '2026-09-22', grund: 'Test Erweiterung 4.21.0' }
