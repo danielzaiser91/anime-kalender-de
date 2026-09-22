@@ -16925,3 +16925,29 @@
   checkedAt: '2026-09-22'
   zweiteQuelle: "JustWatch 2026-09-16: Crunchyroll Amazon Channel — Ton es, it, ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-22 ---
+
+- anilistId: 99088
+  title: "Pluto"
+  platform: netflix
+  url: https://www.netflix.com/title/81281344
+  dub: true
+  checkedAt: '2026-09-22'
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Folge 8"
+
+- anilistId: 20966
+  title: "Yamada-kun & the 7 Witches"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.8395764e-78be-4174-a913-6803849052a1
+  dub: true
+  checkedAt: '2026-09-22'
+  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite 0MY1VYPXTFXO9HOFFH3EW85UOX: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.8395764e-78be-4174-a913-6803849052a1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20966
+  title: "Yamada-kun & the 7 Witches"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H16J2S3P
+  dub: true
+  checkedAt: '2026-09-22'
+  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0H16J2S3P: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.8395764e-78be-4174-a913-6803849052a1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
