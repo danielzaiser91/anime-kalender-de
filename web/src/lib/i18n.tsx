@@ -294,6 +294,8 @@ const TEXTE = {
   // gemeint ist aber der Termin der deutschen Synchronfassung (Daniel,
   // 15.08.2026).
   'detail.kaufenBei': 'Kaufen bei {shop}',
+  /* Disc-Termin ohne Shop-Adresse — die Pille verspricht dann keinen Klick (23.09.2026). */
+  'detail.kaufausgabe': 'Kaufausgabe',
   'detail.merkenTitel': 'In den Kalender übernehmen',
   /* Der Kino-Banner im Detail-Panel (17.09.2026). */
   'kino.ab': 'Ab {datum} im Kino',

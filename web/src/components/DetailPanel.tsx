@@ -2396,7 +2396,16 @@ function ReleasePille({
   const medium = mediumAus(release.edition)
   const kurzerName =
     release.releaseType === 'disc'
-      ? t('detail.kaufenBei', { shop: haendlerAus(release.buyUrl ?? release.platformUrl) })
+      ? /*
+          **Ohne Adresse kein Händler** (Daniel, 23.09.2026: „was ist das für eine pill ‚kaufen bei
+          shop', man kann die pill nicht anklicken, sie leitet nirgendwohin"). `haendlerAus`
+          antwortete auf ein fehlendes Ziel mit „Shop", und die Pille versprach einen Klick, den es
+          nicht gab — bei Dragon Ball Z kennt aniSearch nur den Termin, keinen Shop. Dann nennt die
+          Pille schlicht, was sie ist; Termin und Merken-Knopf bleiben.
+        */
+        release.buyUrl || release.platformUrl
+        ? t('detail.kaufenBei', { shop: haendlerAus(release.buyUrl ?? release.platformUrl) })
+        : t('detail.kaufausgabe')
       : /* Ein Stream-Termin nennt den Anbieter wie jede Stream-Pille — nicht den Serientitel, der
            im Kopf steht („Undefeated Bahamut Chronicle" statt „ADN", Daniel, 16.09.2026). */
         (anbieterName(release.platform, release.sender) ?? kuerzeUmTitel(release.name, titel))
@@ -5700,14 +5709,24 @@ export function DetailPanel({
                                   `jpStart` bleibt im Datensatz — die Reihe
                                   wird danach sortiert.
                                 */
-                                const vorsatz = offen ? 'ab ' : ''
-                                const roh = m.deStart
-                                /* Ohne deutschen Termin steht das Jahr — zum Wiedererkennen, nicht als Termin (Daniel, 17.09.2026). */
-                                if (!roh) return !offen && m.jpYear ? String(m.jpYear) : ''
-                                const [jahr, monat, tag] = roh.split('-')
-                                if (tag) return `${vorsatz}${tag}.${monat}.${jahr}`
-                                if (monat) return `${vorsatz}${monat}.${jahr}`
-                                return `${vorsatz}${jahr}`
+                                /*
+                                  **In der Reihenliste steht das japanische Erscheinungsjahr**
+                                  (Daniel, 23.09.2026: „da sollte jp release year stehen vom
+                                  anime, also 1989"). Die Liste ordnet die Teile einer Reihe
+                                  zeitlich ein — dafür ist das Jahr des Anime die stabile Angabe.
+                                  Vorher stand hier der deutsche Termin, und bei Dragon Ball Z war
+                                  das der Disc-Kauftermin 20.11.2026 zwischen „1986" und „1996".
+
+                                  Ein kommender Teil behält sein „ab", denn dort ist der deutsche
+                                  Termin die Auskunft, auf die jemand wartet.
+                                */
+                                if (offen && m.deStart) {
+                                  const [jahr, monat, tag] = m.deStart.split('-')
+                                  if (tag) return `ab ${tag}.${monat}.${jahr}`
+                                  if (monat) return `ab ${monat}.${jahr}`
+                                  return `ab ${jahr}`
+                                }
+                                return m.jpYear ? String(m.jpYear) : m.deStart ? m.deStart.slice(0, 4) : ''
                               })(),
                               m.episodes ? t('detail.folgenKurz', { n: m.episodes }) : '',
                             ]
