@@ -146,3 +146,32 @@ braucht die Achsen Seite und Folge, und Aktualität muss gegen Gewicht abgewogen
 | 9 | Laufende Staffel, spätere Folgen noch nicht erschienen | — | offen |
 | 10 | Störung statt Auskunft (Fehlerseite, 403, leere Tonspurliste) | — | offen |
 | 11 | Nicht sicher zuordenbar (mehrere unserer Titel) | Dr. STONE S3 | offen |
+
+## Regel über allen Szenarien: Überstimmung der eigenen Aussage (Daniel, 22.09.2026)
+
+Wann immer im Kalender nicht mehr die eigene Aussage (höchste Wertigkeit) steht, sondern die einer
+anderen Quelle — auch als „vermutlich" (≈) —, dann:
+
+1. **sofort auf die Nachprüfliste**, mit Grund (welche Quelle, was sie sagt, seit wann);
+2. **Protokoll** jeder Überstimmung (Folge, eigene Aussage, fremde Aussage, Zeitpunkt, angewandte Regel);
+3. **Eichung**: Die Nachprüfung bestätigt oder widerlegt die fremde Quelle; jede Quelle führt eine
+   Trefferquote (bestätigt / widerlegt). Die Gewichte in der Tabelle oben sind nur Startwerte und
+   werden durch gemessene Trefferquoten ersetzt.
+
+## Szenario 1 — Stand der Besprechung (22.09.2026)
+
+Unterschieden wird **Wechsel** (die Quelle sagte zu dieser Folge vorher „kein Deutsch" und jetzt
+„Deutsch" — glaubhaft) von **Erstaussage** (erste Aussage der Quelle zu dieser Folge — weniger
+glaubhaft). Heute führen einen Verlauf nur die eigenen Meldungen (D1) und ADN
+(`adn-vde-historie.json`); MOTN nur teilweise (`motn-changes.json` hält neue Titel, keine
+Sprachwechsel), JustWatch, aniSearch und der Crunchyroll-Katalog gar nicht. **Voraussetzung:**
+Stufe 1 speichert jeden Abruf jeder Quelle als eigene Beobachtung.
+
+| neue Quelle sagt „Deutsch" | als Wechsel | als Erstaussage |
+|---|---|---|
+| eigene neue Messung | Deutsch, bestätigt | Deutsch, bestätigt |
+| Randprobe, Anbieter-Schnittstelle | Deutsch, bestätigt | Deutsch, bestätigt |
+| MOTN | Deutsch + Nachprüfliste | ≈ Deutsch + Nachprüfliste |
+| JustWatch, aniSearch | ≈ Deutsch + Nachprüfliste | bleibt „kein Deutsch", nur Nachprüfliste |
+
+Offen: Daniels Bestätigung dieser Fassung.
