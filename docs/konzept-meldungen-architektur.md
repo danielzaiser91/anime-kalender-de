@@ -269,3 +269,9 @@ Beleg" und die Kanal-Gegenprobe entfallen im neuen Modell (nachzuziehen in `CLAU
 einzeln prüfen · 6 Anzeigeregel oben · 7 Sperre gilt nur den eigenen Folgen · 8 aniSearch nur
 Gesamturteil · 9 neue Folge erbt nichts · 10 Störung ist keine Beobachtung · 11 unsicher Zuordenbares
 bleibt unzugeordnet, eigene Zuordnungsliste.
+
+**PoC nach dem neuen Modell, Ebene (a) (22.09.2026, `tools/poc-urteil/urteil-pill.mjs`):** Urteil je Pill
+aus der jüngsten eigenen Prüfung. 409 Pills mit eigener Prüfung; von den 320, die heute im Datensatz
+stehen, stimmen **311 (97 %)** überein. Die 9 Abweichungen sind alle erklärt: 5 Kanal-Nein (gewollte
+Modelländerung), 1 Fairy Tail (heutige Meldung, gewollt), 3 gemischte Folgen (Das Band der Unterwelt,
+One Piece, Medalist) — brauchen das Urteil je Folge. Keine Abweichung widerlegt das Modell.
