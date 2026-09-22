@@ -47,6 +47,7 @@ on:
           - data:katalog
           - data:trailer
           - data:cartoons
+          - data:youtube:kauf
       grenze:
         description: 'Höchstzahl Titel (nur wo der Lauf --limit kennt)'
         required: false
@@ -120,7 +121,7 @@ jobs:
               # `--katalog` haengt die Titel hinter dem Toggle hinten an — 11.607
               # mit aniSearch-Kennung, von denen noch keiner geholt wurde.
               npm run "$LAUF" -- --limit "$GRENZE" ${{ inputs.katalog && '--katalog' || '' }} ;;
-            data:tmdb-folgen|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:cr-dub|data:justwatch)
+            data:tmdb-folgen|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:cr-dub|data:justwatch|data:youtube:kauf)
               npm run "$LAUF" -- --limit "$GRENZE" ;;
             *)
               npm run "$LAUF" ;;

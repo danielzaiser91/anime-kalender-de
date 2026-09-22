@@ -7304,14 +7304,26 @@ function main(): void {
    * Zuerst die direkte Adresse, erst dann der gekennzeichnete Umweg.
    */
   let videoloadDirekt = 0
+  let youtubeDirekt = 0
   let videoloadDeutsch = 0
   let datenbankWege = 0
   {
     const jwAlle = readJson<Record<string, { angebote?: { url?: string }[] }>>('data/justwatch-audio.json', {})
+    /* YouTube-Kaufangebote aus `fetch-youtube-kauf.ts` — nur genaue Treffer („YouTube Movies", gleicher Titel). */
+    const ytKaufListe = readJson<Record<string, { video?: string }>>('data/youtube-kauf.json', {})
     for (const title of titles.values()) {
       const wege = title.watchLinks
       if (!wege?.length) continue
       for (const w of wege) {
+        const ytVideo = ytKaufListe[String(title.id)]?.video
+        if (w.name === 'YouTube' && ytVideo && /themoviedb\.org/.test(w.url)) {
+          w.url = `https://www.youtube.com/watch?v=${ytVideo}`
+          /* Ein Video von „YouTube Movies" ist Kauf oder Leihe (`zugangsart.ts`), auch wo TMDB „Abo" meldete. */
+          w.zugang = 'kauf'
+          delete w.ueberTmdb
+          youtubeDirekt++
+          continue
+        }
         if (w.name !== 'Videoload' || !/themoviedb\.org/.test(w.url)) continue
         /*
           Film: `magenta.tv/film/<slug>/GN_MV…`. Serie: `magenta.tv/serie/<slug>/staffel-1/GN_SEASON_…`
@@ -7342,6 +7354,7 @@ function main(): void {
     }
   }
   if (videoloadDirekt) log(`${videoloadDirekt} Videoload-Wege über die MagentaTV-Kennung direkt verlinkt`)
+  if (youtubeDirekt) log(`${youtubeDirekt} YouTube-Wege direkt zum Kaufangebot verlinkt (data/youtube-kauf.json)`)
   if (videoloadDeutsch) log(`${videoloadDeutsch} Videoload-Wege als deutsch gesetzt — deutscher Anbieter`)
   if (datenbankWege) log(`${datenbankWege} Wege ohne direkte Anbieteradresse als „über TMDB" gekennzeichnet`)
 

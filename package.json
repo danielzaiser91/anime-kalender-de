@@ -68,6 +68,7 @@
     "data:netflix-rest": "node pipeline/list-netflix-rest.mjs",
     "data:extension-liste": "tsx pipeline/vorschlaege-anbieter.ts && tsx pipeline/wiedervorlage.ts && node tools/extension-offene-liste.mjs && node tools/extension-offene-amazon.mjs && node tools/extension-offene-disney.mjs && node tools/pruefstand.mjs",
     "data:youtube:report": "node pipeline/report-youtube.mjs",
+    "data:youtube:kauf": "tsx pipeline/fetch-youtube-kauf.ts",
     "data:rtlplus": "node pipeline/check-rtlplus.mjs",
     "data:rtlplus:report": "node pipeline/report-rtlplus.mjs",
     "data:motn:changes": "tsx pipeline/fetch-motn-changes.ts",

@@ -2706,3 +2706,11 @@ Totto-chan, Kaguya); daneben 371 „Cardcaptor Sakura: The Movie - Die Reise nac
 111 „Noch bis 17:55 online“ — gemeint ist der 23.09., das Sendeende von 130 bzw. 131 (Folge +20). Deckt sich
 minutengenau mit der Vorhersage. Die Pille ergänzt seitdem die 19 Folgen vor der ersten sicheren Sichtung
 (sonst stand „≈ Fg. 126–129", abrufbar waren 110–129); Probe gegen 17:25/17:31/18:27: 108–127, 109–128, 110–129.
+**Gebaut 22.09.2026:** `pipeline/fetch-youtube-kauf.ts` (`npm run data:youtube:kauf`, täglich in „Täglich — alle
+Quellen", 30 Suchen) → `data/youtube-kauf.json`; `build.ts` setzt für genaue Treffer die Adresse
+`youtube.com/watch?v=<id>`, Zugang „Kauf", ohne „(über TMDB)". Ähnliche Treffer werden festgehalten, nicht verlinkt.
+**MOTN für Apple TV/Paramount+ geprüft und verworfen** (22.09.2026, 3 Anfragen): Für die 12 Titel mit „Apple TV
+(über TMDB)" bzw. „Paramount+ (über TMDB)" lieferte `/v4/shows/<tmdb>?country=de` bei 1361 (Final Fantasy: Die
+Mächte in Dir) nur Netflix und Prime, bei 2418 (Sword of the Stranger) und 2543 (Robin Hood) gar keine
+Angebote. MOTN kennt diese Apple-Angebote nicht; die Pillen bleiben „über TMDB". Neu bewerten, wenn MOTN
+Apple-Leihangebote für Deutschland führt oder JustWatch diese Titel findet.

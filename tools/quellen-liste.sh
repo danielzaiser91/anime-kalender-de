@@ -161,6 +161,9 @@ QUELLEN=(
   # Videos in Deutschland überhaupt abrufbar sind. Ohne diese Zeile würfe der
   # Reset sie weg, und der nächste Lauf befragte dieselben 513 Adressen erneut.
   data/youtube-check.json
+  # YouTube-Kaufangebote je Film (fetch-youtube-kauf.ts, 22.09.2026): Eine Suche kostet 100
+  # Einheiten; ohne diese Zeile fragte der nächste Lauf alle Filme erneut ab.
+  data/youtube-kauf.json
   # Antwortstatus je Anbieter-Adresse. Ohne diese Zeile fängt der nächste
   # Lauf wieder bei null an und klopft 945 fremde Seiten erneut ab.
   data/link-check.json

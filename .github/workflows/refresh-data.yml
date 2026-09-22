@@ -377,6 +377,15 @@ jobs:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: npm run data:trailer
 
+      # YouTube-Kaufangebote für Filme, die TMDB nur „über TMDB" kennt (22.09.2026). 30 Suchen
+      # = 3.000 der 10.000 Tageseinheiten; die übrigen YouTube-Läufe brauchen je Aufruf eine.
+      - name: YouTube-Kaufangebote direkt verlinken
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: npm run data:youtube:kauf -- --limit 30
+
       # Nicht mehr direkt auf main: Der Fund geht als Pull Request ein und wird
       # nur gemergt, wenn er sich sauber einfügt. Sonst bleibt der Zweig stehen,
       # und „Claude — Daten-PR zusammenführen" löst den Konflikt mit Blick auf
