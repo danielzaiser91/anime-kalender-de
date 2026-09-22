@@ -431,6 +431,22 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
       q.includes('st.ausserhalb && st.name'),
     )
   }
+  {
+    /*
+      **Jede Rohfolge trägt ihre Beobachtung** (Stufe 1, Migration 035). Am
+      22.09.2026 kamen 8 Netflix-Rohfolgen mit leerem `vorhanden`/`ton_de` an —
+      die Meldung trug beides, die Rohfolge daneben nicht.
+    */
+    for (const datei of ['melder.js', 'disney.js']) {
+      const q = readFileSync(`${__dirname}/${datei}`, 'utf8')
+      const bloecke = q.split('rohfolgen: [').slice(1).map((b) => b.slice(0, b.search(/\n\s*\],/)))
+      pruefe(
+        `${datei}: jede Rohfolge trägt vorhanden/ton_de (${bloecke.length} Stellen)`,
+        bloecke.length > 0 && bloecke.every((b) => /\.\.\.beobachtung\(|vorhanden:/.test(b)),
+        bloecke.map((b) => b.slice(0, 80)),
+      )
+    }
+  }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')
   process.exit(schlecht ? 1 : 0)

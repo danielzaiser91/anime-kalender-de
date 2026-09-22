@@ -4121,6 +4121,8 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
               titel: f.titel ?? null,
               staffelText: f.seasonId != null ? String(f.seasonId) : null,
               staffelNr: staffelDerFolge ?? null,
+              /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
+              ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
               roh: {
                 liste: f.felder ?? null,
                 angenommen: !gemessen.has(Number(f.nummer)),
@@ -4247,6 +4249,8 @@ async function durchlaufMelden(folge, echte, deutsch) {
             sprachen: echte.map((x) => `${x.code}|${x.name}`),
             staffelText: folge.seasonId != null ? String(folge.seasonId) : null,
             staffelNr: staffelDerFolge ?? null,
+            /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
+            ...beobachtung(true, deutsch),
             /*
               **Alles, was die Folge über sich sagt** (Daniel, 11.09.2026: „alle
               folgen maximal mögliche infos sammeln"). Aus der Folgenliste und —

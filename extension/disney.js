@@ -869,6 +869,9 @@
                 titel: r.titel || null,
                 sprachen: r.sprachen ?? [],
                 staffelNr: Number.isFinite(r.staffel) ? r.staffel : null,
+                /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
+                vorhanden: 'ja',
+                ton_de: r.sprachen.includes('de') ? 'ja' : 'nein',
               },
             ],
           }),
