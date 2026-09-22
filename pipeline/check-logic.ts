@@ -5495,6 +5495,10 @@ pruefe(
   const danach = tvAngabe(tv, op, [tv], '2026-09-22', '19:20')
   pruefe('TV: mit dem Programmende läuft nichts mehr', !danach?.laeuft && danach?.text === 'Fg. 765 · Mi 04:25 · Nekomamushi', danach)
   pruefe('TV: das Zeichen führt zur laufenden Sendung, danach zur nächsten', laeuft?.programm?.endsWith('s,773/') === true && danach?.programm?.endsWith('s,765/') === true)
+  pruefe(
+    'TV: ohne kommenden Termin keine Angabe — und damit keine Pille (22.09.2026)',
+    tvAngabe(tv, op, [tv], '2026-09-24', '12:00') === undefined,
+  )
 }
 {
   /* tv.de „Bald im TV" (19.09.2026): die Nacht, die auf keiner Tagesseite steht. */

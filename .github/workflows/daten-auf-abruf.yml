@@ -56,6 +56,8 @@ on:
           - data:trailer
           - data:cartoons
           - data:youtube:kauf
+          # TOGGO-Fenster; läuft zusätzlich als Zeitplan um 21:05 UTC (22.09.2026).
+          - data:toggo
       grenze:
         description: 'Höchstzahl Titel (nur wo der Lauf --limit kennt)'
         required: false

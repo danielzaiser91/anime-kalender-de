@@ -87,8 +87,15 @@ export function tvAngabe(
   const sendungZu = (e: ReleaseEvent) => sendungen.find((s) => s.start === `${e.date}T${e.time ?? ''}`)
   const nummer = (e: ReleaseEvent) => (e.episode && !e.sichtung ? e.episode : sendungZu(e)?.nr)
   const kommend = termine.find((e) => e.date > heute || (e.date === heute && (e.time ?? '99') > jetztZeit))
-  const e: ReleaseEvent | undefined = kommend ?? termine.at(-1)
-  if (!e && !laufend) return undefined
+  /*
+    **Ohne kommenden Termin gibt es nichts zu sagen** (Daniel, 22.09.2026: „es ist ein
+    Fernsehtermin in der vergangenheit, niemand kann in die vergangenheit reisen und dort die
+    folge gucken … also weg damit"). Vorher nannte die Pille den letzten Termin mit „zuletzt";
+    das beantwortet die Frage „wo kann ich das sehen" nicht. Die Pille entfällt damit ganz —
+    der Aufrufer zeigt einen TV-Weg nur, solange `tvAngabe` etwas liefert.
+  */
+  if (!kommend && !laufend) return undefined
+  const e: ReleaseEvent | undefined = kommend
   const laufEvent = laufend && termine.find((x) => `${x.date}T${x.time ?? ''}` === laufend.start)
   /* Premiere gilt der Folge, von der die Pille zuerst spricht — der laufenden, sonst der nächsten. */
   const bezug = laufEvent || e

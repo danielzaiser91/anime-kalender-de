@@ -3602,9 +3602,15 @@ export function DetailPanel({
         (r) =>
           r.releaseType !== 'disc' &&
           r.slug !== kinoRelease?.slug &&
-          !(title?.streams ?? []).some((s) => s.platform === r.platform),
+          !(title?.streams ?? []).some((s) => s.platform === r.platform) &&
+          /*
+            Ein Fernsehtermin, der vorbei ist, ist kein Weg zur Folge (Daniel, 22.09.2026):
+            „niemand kann in die vergangenheit reisen und dort die folge gucken". Eine TV-Pille
+            steht deshalb nur, solange eine Sendung läuft oder eine kommt.
+          */
+          (r.platform !== 'tv' || !title || Boolean(tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16)))),
       ),
-    [releases, title, kinoRelease],
+    [releases, title, kinoRelease, today],
   )
 
   /*
