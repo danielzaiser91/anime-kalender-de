@@ -122,7 +122,17 @@ und schreibt `data/folgen-zuordnung.json`: je `plattform:kennung` Titel, Folge, 
 Kandidaten. Frühere Zuordnungen bleiben stehen, wenn ein Lauf keinen Titel mehr findet. Erster Stand:
 5.271 Folgen, 2.471 mit Titel und Folge, 1.478 nur Titel, 341 offen, 980 ohne Kandidat, 1 strittig.
 `check:logic` stellt Yamada-kun (zwei Adressen), Vinland Saga (Anker schlägt Auftrag), das Festhalten und
-die Suchadresse nach. **Offen in Stufe 2:** die Pill-Achse (welcher Verweis), eine Liste für die offenen
+die Suchadresse nach.
+
+**Zweiter Schnitt, gleicher Abend: Namen und Reihe.** Trifft kein Anker, kommen die übrigen Titel der
+Reihe dazu (`franchiseId`), dazu der Serienname aus der Meldung derselben Adresse (`?rohfolgen=1&namen=1`)
+und der Suchbegriff eines Suchauftrags — jeweils ganze Reihe, der Anker entscheidet die Staffel. Dazu
+führt `folgenKern()` „ō" auf „o" zurück (Prime „Tōtsuki", aniSearch „Totsuki"). Stand: **3.423 mit Titel
+und Folge (65 %)**, 1.303 nur Titel, 390 offen, 153 ohne Kandidat, 2 strittig. Stichprobe: Food Wars
+B0CK66ZZ8G (Meldung „Food Wars!", keine Adresse im Bestand) verteilt sich 11 + 11 auf Third Plate und
+Totsuki Train, 2 offen; Schneeprinzessin B0FVLKDZQ5 12 von 13; Digimon Frontier (Suchauftrag) 42 von 50;
+Chibi Maruko-chan 52 von 52; Captain Tsubasa B0GXPFJJZK 12 auf 2018 (F25–52), 38 auf Junior Youth.
+Werkzeug für solche Stichproben: `tools/poc-urteil/stichprobe-adresse.ts <export> <adressteil> …`. **Offen in Stufe 2:** die Pill-Achse (welcher Verweis), eine Liste für die offenen
 Folgen zum Nachprüfen, Detektiv Conan ohne Kandidat.
 
 **Schlüssel ist die Folgenkennung der Plattform, nicht die gemeldete Adresse** (22.09.2026). Yamada-kun

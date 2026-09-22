@@ -2308,6 +2308,11 @@ console.log('\nStatus: ein belegter Verweis schlägt das Enddatum')
   pruefe('was nicht passt, bleibt offen statt geraten', fremd[0].unsere === null && fremd[0].grund === 'offen')
 
   pruefe('der Folgenkern wirft die führende Nummer weg', folgenKern('1. Ende und Anfang') === folgenKern('Ende und Anfang'))
+  pruefe(
+    'der Folgenkern führt „ō" auf „o" zurück, Umlaute bleiben (Food Wars „Tōtsuki", 22.09.2026)',
+    folgenKern('Vorwärts mit der Tōtsuki-Bahn') === folgenKern('Vorwärts mit der Totsuki-Bahn') &&
+      folgenKern('Vorwärts') !== folgenKern('Vorwarts'),
+  )
 }
 
 /*

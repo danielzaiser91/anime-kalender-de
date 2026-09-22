@@ -61,6 +61,16 @@ export function folgenKern(t: string | null | undefined): string {
   return (t ?? '')
     .replace(/\((\d+)\)/g, ' teil $1')
     .toLowerCase()
+    /*
+      Längungs- und Akzentzeichen auf den Grundvokal, Umlaute bleiben: Prime schreibt „Tōtsuki",
+      aniSearch „Totsuki" — ohne das wurde aus dem einen „ttsuki" und die Folge fand ihren Anker
+      nicht (Food Wars B0CJQPBXM4, 22.09.2026).
+    */
+    .replace(/[āáàâ]/g, 'a')
+    .replace(/[ēéèê]/g, 'e')
+    .replace(/[īíìî]/g, 'i')
+    .replace(/[ōóòô]/g, 'o')
+    .replace(/[ūúùû]/g, 'u')
     .replace(/^\s*(?:folge\s*)?\d+\s*[.:–-]\s*/, '')
     .replace(/[^a-z0-9äöüß]/g, '')
 }

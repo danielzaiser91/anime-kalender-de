@@ -2258,6 +2258,18 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         Beobachtungen neu berechnet, nicht aus den noch offenen. Ohne `roh` (Menge); fortsetzbar
         über `nach` wie unten. Gemessen am 22.09.2026: 10.976 Zeilen, drei Seiten.
       */
+      /*
+        **`&namen=1`: der Serienname je gemeldeter Adresse** (22.09.2026). 980 Folgen hatten keinen
+        Kandidaten — die Adresse steht nicht im Bestand, `titel_id` fehlt. Die Meldung zur selben
+        Adresse nennt die Reihe aber („Food Wars!" für B0CK66ZZ8G, 552 Folgen). Eine Abfrage mit
+        GROUP BY, keine Unterabfrage je Zeile (Kontingent, siehe betrieb.md).
+      */
+      if (new URL(request.url).searchParams.get('namen') === '1') {
+        const { results } = await env.DB.prepare(
+          `SELECT url, MAX(titel) AS titel FROM pruefung WHERE titel IS NOT NULL AND url IS NOT NULL GROUP BY url`,
+        ).all()
+        return antwort({ namen: results ?? [] })
+      }
       if (new URL(request.url).searchParams.get('alle') === '1') {
         const { results } = await env.DB.prepare(
           `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,

@@ -15,7 +15,8 @@
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { adressIndex, ordneFolgenZu, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
+import { adressIndex, ankerAdresse, ordneFolgenZu, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
+import { namenIndex, titelZuordnen } from './fetch-tv-programm.ts'
 import type { AsFolgeRoh, TmdbFolge } from '../shared/folgen-zuordnung.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -46,9 +47,27 @@ async function holen(): Promise<Beobachtung[] | null> {
   }
 }
 
+/** Serienname je gemeldeter Adresse aus den Meldungen (`?rohfolgen=1&namen=1`). */
+async function namenHolen(): Promise<Map<string, string>> {
+  const aus = new Map<string, string>()
+  if (!TOKEN) return aus
+  const r = await fetch(`${WORKER}/pruefung?rohfolgen=1&namen=1&token=${encodeURIComponent(TOKEN)}`)
+  if (!r.ok) {
+    warn(`Namen: Worker antwortet ${r.status} — ohne Namen weiter.`)
+    return aus
+  }
+  for (const n of ((await r.json()) as { namen: { url: string; titel: string }[] }).namen) {
+    const k = ankerAdresse(n.url)
+    if (k) aus.set(k, n.titel)
+  }
+  return aus
+}
+
 async function main() {
   const beobachtungen = await holen()
   if (!beobachtungen) return
+  const namenJeAdresse = await namenHolen()
+  const namen = namenIndex()
   const roh = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titel = new Map((Array.isArray(roh) ? roh : roh.titles).map((t) => [t.id, t]))
   /* Frühere Zuordnungen: der heutige Einleser (je Adresse) und die Belege. */
@@ -67,6 +86,8 @@ async function main() {
       asFolgen: readJson<Record<string, { folgen: AsFolgeRoh[] }>>('data/anisearch-folgen.json', {}),
       asKennung: readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}),
       jeAdresse: adressIndex(titel, frueher),
+      namenJeAdresse,
+      nameZuTitel: (n) => titelZuordnen(n, namen),
     },
     bisher,
   )

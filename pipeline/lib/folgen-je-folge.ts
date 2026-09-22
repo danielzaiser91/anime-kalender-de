@@ -62,6 +62,39 @@ export interface Kontext {
   asKennung: Record<string, { anisearchId?: number }>
   /** Adresskern → Titel, aus Wegen des Bestands und früheren Zuordnungen. */
   jeAdresse: Map<string, Set<number>>
+  /** Adresskern → Serienname aus der Meldung zu dieser Adresse (`?rohfolgen=1&namen=1`). */
+  namenJeAdresse?: Map<string, string>
+  /** Name → Titel über alle Schreibweisen des Bestands (`namenIndex`/`titelZuordnen`). */
+  nameZuTitel?: (name: string) => number | undefined
+}
+
+/**
+ * **Ein Name ist ein Kandidat für die ganze Reihe, nicht für einen Titel** (22.09.2026). 980 Folgen
+ * hatten keinen Kandidaten: Die Adresse stand nicht im Bestand, `titel_id` fehlte. Die Meldung
+ * nennt aber die Reihe („Food Wars!" für B0CK66ZZ8G mit 552 Folgen aus mehreren Staffeln), ein
+ * Suchauftrag trägt sie im Suchbegriff („amazon.de/s?k=Digimon%20Frontier"). Der Name trifft den
+ * Reihenkopf; welche Staffel es ist, entscheidet danach der Anker — deshalb die ganze Reihe.
+ */
+function namensKandidaten(url: string, k: Kontext, reihen: Map<number, number[]>): number[] {
+  if (!k.nameZuTitel) return []
+  const namen = [k.namenJeAdresse?.get(ankerAdresse(url)), (() => {
+    try {
+      const such = /[?&]k=([^&#]+)/.exec(url)?.[1]
+      return such ? decodeURIComponent(such.replace(/\+/g, ' ')) : undefined
+    } catch {
+      return undefined
+    }
+  })()]
+  const aus = new Set<number>()
+  for (const n of namen) {
+    if (!n) continue
+    /* „Die komplette Serie", „Staffel 3" und Ähnliches hängt am Namen, nicht an der Reihe. */
+    const id = k.nameZuTitel(n) ?? k.nameZuTitel(n.replace(/\s*[-–:]\s*(die komplette serie|staffel \d+|season \d+).*$/i, ''))
+    if (!id) continue
+    const f = k.titel.get(id)?.franchiseId ?? id
+    for (const t of reihen.get(f) ?? [id]) aus.add(t)
+  }
+  return [...aus]
 }
 
 /**
@@ -115,6 +148,12 @@ export function ordneFolgenZu(
     return a
   }
 
+  const reihen = new Map<number, number[]>()
+  for (const t of k.titel.values()) {
+    const f = t.franchiseId ?? t.id
+    reihen.set(f, [...(reihen.get(f) ?? []), t.id])
+  }
+
   const jeFolge = new Map<string, Beobachtung[]>()
   for (const b of beobachtungen) {
     const kennung = b.asin ?? b.gti
@@ -131,12 +170,33 @@ export function ordneFolgenZu(
       if (b.titel_id != null && k.titel.has(b.titel_id)) kandidaten.add(b.titel_id)
       for (const id of k.jeAdresse.get(ankerAdresse(b.url)) ?? []) kandidaten.add(id)
     }
-    const treffer: { id: number; folge: number; grund: 'datum' | 'titel' }[] = []
-    for (const id of kandidaten) {
-      const a = anker(id)
-      if (!a) continue
-      const [p] = ordneZu([{ nummer: jung.nummer, titel: jung.titel, datum: jung.erschienen?.slice(0, 10) ?? null, minuten: null }], a)
-      if (p?.unsere != null && (p.grund === 'datum' || p.grund === 'titel')) treffer.push({ id, folge: p.unsere, grund: p.grund })
+    const ankerTreffer = (ids: Iterable<number>) => {
+      const t: { id: number; folge: number; grund: 'datum' | 'titel' }[] = []
+      for (const id of ids) {
+        const a = anker(id)
+        if (!a) continue
+        const [p] = ordneZu([{ nummer: jung.nummer, titel: jung.titel, datum: jung.erschienen?.slice(0, 10) ?? null, minuten: null }], a)
+        if (p?.unsere != null && (p.grund === 'datum' || p.grund === 'titel')) t.push({ id, folge: p.unsere, grund: p.grund })
+      }
+      return t
+    }
+    let treffer = ankerTreffer(kandidaten)
+    /*
+      **Trifft kein Anker, kommt die Reihe dazu** — erst dann, weil ein Name ganze Reihen mitbringt.
+      Food Wars B0CJQPBXM4 „Vorwärts mit der Tōtsuki-Bahn" (Staffel 3) hing am 22.09.2026 als
+      „einziger Kandidat" an Staffel 4, weil ein Auftrag dorthin zeigte; die Reihe hätte den Anker
+      gehabt. Der einzige Kandidat gilt erst, wenn auch die Reihe nichts trifft.
+    */
+    const vorher = new Set(kandidaten)
+    if (!treffer.length) {
+      const reihe = new Set<number>()
+      for (const b of liste) for (const id of namensKandidaten(b.url, k, reihen)) if (!kandidaten.has(id)) reihe.add(id)
+      for (const id of kandidaten) {
+        const f = k.titel.get(id)?.franchiseId ?? id
+        for (const t of reihen.get(f) ?? []) if (!kandidaten.has(t)) reihe.add(t)
+      }
+      treffer = ankerTreffer(reihe)
+      if (!vorher.size) for (const id of reihe) kandidaten.add(id)
     }
     let z: FolgenZuordnung
     if (treffer.length === 1) z = { titel: treffer[0]!.id, folge: treffer[0]!.folge, grund: treffer[0]!.grund, gesehen: jung.gemeldet_am }
