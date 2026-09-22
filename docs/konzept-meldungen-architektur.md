@@ -97,6 +97,26 @@ Urteil: offen ist, was `unbekannt` ist oder einen Verdacht trägt.
 Aufwand grob: PoC 1–2 Tage, Umbau insgesamt eine bis zwei Wochen, gestaffelt, ohne dass die Seite
 zwischendurch schlechter wird.
 
+## Umsetzung
+
+**Stufe 1 — umgesetzt am 22.09.2026 (Worker 47bfb526 + Erweiterung 4.21.0).**
+- `pruefung` hat `vorhanden` / `ton_de` / `art` (Migration 034), `prime_folge` hat `vorhanden` / `ton_de`
+  (Migration 035). Der Worker leitet `befund` für den heutigen Einleser daraus ab; eine alte Meldung
+  bekommt die Felder abgeleitet (`ANGENOMMEN` in der Notiz → `art: angenommen`). `vorhanden: ja` mit
+  `ton_de: unbekannt` weist er als Störung ab (400).
+- Netflix: Die Randprobe meldet ihre zwei abgespielten Folgen `gemessen`, den Rest `angenommen`.
+- Disney+: jede Folge einzeln abgefragt, immer `gemessen`.
+- Prime: Die Staffelmeldung bleibt, aber jede Rohfolge trägt `vorhanden` und `ton_de`. **Gesperrte
+  Folgen gehen jetzt mit** (`vorhanden: nein`); bis 4.20 fielen sie weg. `?rohfolgen=1` lässt sie aus,
+  bis Stufe 2 den Zuordner ersetzt. Eine eigene Briefkasten-Zeile je Prime-Folge braucht es nicht:
+  `prime_folge` ist bereits die Beobachtung je Folge.
+- Live gemessen mit Testmeldungen an `example.invalid` (alt, neu, weg, Störung, Prime mit gesperrter
+  Folge); Testzeilen gelöscht.
+- **Befristet:** `befund` annehmen und ableiten entfällt, sobald Stufe 2 den Einleser ersetzt und keine
+  Erweiterung unter 4.21.0 mehr meldet.
+
+**Stufe 2 — offen:** gespeicherte Zuordnungstabelle (Beobachtung → Titel × Folge × Pill), neu berechenbar.
+
 ## PoC — Messungen
 
 **Rohmeldungen in D1, 22.09.2026 (4.433 Zeilen):** 1.563 (35 %) sind Staffelurteile ohne
