@@ -810,7 +810,7 @@ function staffelnBereinigen(folgen) {
   return folgen.map((f) => (f.staffel == null ? f : { ...f, staffel: null }))
 }
 
-window.addEventListener('message', (e) => {
+function nachrichtEmpfangen(e) {
   if (e.source === window && e.data?.marke === 'ak-folgenliste') {
     /*
       Die Liste gilt für eine Reihe. Passt sie nicht zur Seite, gehört sie
@@ -837,7 +837,17 @@ window.addEventListener('message', (e) => {
       Die Liste, mit der ein Durchlauf begonnen hat, gilt deshalb bis zu seinem
       Ende. Was Netflix zwischendurch anzeigt, ändert den Auftrag nicht.
     */
-    if (DURCHLAUF.laeuft) return
+    /*
+      **Aber sie geht nicht verloren** (22.09.2026). Netflix lud bei Dr. STONE während des Laufs
+      über Staffel 1 schon Staffel 2 (nach der Rückkehr aus dem Player wählt es selbst eine), die
+      Liste wurde hier verworfen — und als die Automatik danach selbst auf Staffel 2 wechselte, kam
+      sie aus Netflix' Zwischenspeicher ohne neue Nachricht. Die Erweiterung blieb auf Staffel 1.
+      Die letzte Liste wird deshalb aufgehoben und nach dem Lauf übernommen.
+    */
+    if (DURCHLAUF.laeuft) {
+      DURCHLAUF.listeNachLauf = e.data
+      return
+    }
     /*
       **Verglichen wird mit der Adresse, nicht mit `gemeinteReihe()`** (21.09.2026). Der Leser
       schickt `fuerReihe` = Kennung aus der Adresse. `gemeinteReihe()` fällt auf `stand.reihe`
@@ -909,7 +919,8 @@ window.addEventListener('message', (e) => {
     funde.push(e.data)
     void fundSchicken(e.data)
   }
-})
+}
+window.addEventListener('message', nachrichtEmpfangen)
 
 /**
  * Was Netflix im Hintergrund lädt, einmal je Adresse an den Kalender melden.
@@ -3934,6 +3945,12 @@ async function durchlaufStarten(grenze) {
   videoAbdrehen(false)
   DURCHLAUF.laeuft = false
   durchlaufFlagSetzen(false)
+  /* Was der Leser während des Laufs schickte, jetzt übernehmen (siehe `nachrichtEmpfangen`). */
+  if (DURCHLAUF.listeNachLauf) {
+    const liste = DURCHLAUF.listeNachLauf
+    DURCHLAUF.listeNachLauf = null
+    nachrichtEmpfangen({ source: window, data: liste })
+  }
   durchlaufKnopfZeigen()
   /*
     **Und weiter zum nächsten Auftrag — das ist der Unterschied zwischen

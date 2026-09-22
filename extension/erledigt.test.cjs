@@ -393,6 +393,10 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
     /if \(eintrag\?\.laut !== 'anbieter-gerechnet'\) return null/.test(quelle),
   )
   pruefe('eine weitere offene Staffel haelt die Automatik auf der Seite', /angezeigteStaffelHatOffenes\(\) \|\| nochStaffel/.test(quelle))
+  pruefe(
+    'eine Folgenliste waehrend des Laufs wird aufgehoben und danach uebernommen',
+    /DURCHLAUF\.listeNachLauf = e\.data/.test(quelle) && /nachrichtEmpfangen\(\{ source: window, data: liste \}\)/.test(quelle),
+  )
   pruefe('kein dauerhafter Schalter mehr', !/netflixSelbst/.test(quelle) && /▶ alle durchgehen/.test(quelle))
   pruefe('ein uebersprungener Titel (S?) wird nicht wieder angesteuert', /selbstUebersprungen\.has\(kennung\)/.test(wahl))
   pruefe('selbsttaetig nur bei eindeutiger Staffel', /kandidaten\.length !== 1/.test(quelle) && /staffelnDerGruppe\(reihe, DURCHLAUF\.folgen\)/.test(quelle))
