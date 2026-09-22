@@ -404,8 +404,8 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   pruefe('ein Titelwechsel verwirft den Player-Stand der vorigen Seite', /String\(stand\.reihe \?\? ''\) !== titelHier/.test(quelle))
   pruefe('ein toter Verweis wird uebersprungen', /istErledigt\(kennung, 'tot'\)/.test(wahl))
   pruefe(
-    'ein vollstaendig abgehakter Titel ebenso',
-    /kuerzel\.every\(\(k\) => kuerzelErledigt\(kennung, k\)\)/.test(wahl),
+    'ein fertiger Titel ebenso — nach fertig(), derselben Rechnung wie der Dialog (22.09.2026)',
+    /if \(fertig\(kennung, eintrag\)\) continue/.test(wahl),
   )
   pruefe('und die Seite, auf der man schon steht', /kennung === hier/.test(wahl))
 }

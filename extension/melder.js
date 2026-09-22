@@ -2703,9 +2703,13 @@ function naechsterAuftrag() {
     if (istErledigt(kennung, 'tot')) continue
     const offen = (eintrag?.staffeln ?? []).filter((st) => st.offen)
     if (!offen.length) continue
-    /* Was vollständig abgehakt ist, braucht keinen Besuch. */
-    const kuerzel = empfohleneFolgen(eintrag)
-    if (kuerzel.length && kuerzel.every((k) => kuerzelErledigt(kennung, k))) continue
+    /*
+      **Offen ist, was die Prüfliste offen zeigt** — `fertig()`, dieselbe Rechnung wie Dialog und
+      Knopfzahl (Worker-Stand). Bis 4.20.55 entschied hier der lokale Abhak-Speicher: Haikyu!!
+      war dort seit einem abgebrochenen Lauf abgehakt, der Dialog zeigte es offen, und die
+      Automatik meldete „kein offener Auftrag mehr" (Daniel, 22.09.2026).
+    */
+    if (fertig(kennung, eintrag)) continue
     return kennung
   }
   return null
