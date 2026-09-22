@@ -181,8 +181,19 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
 
   useEffect(() => {
     const onChange = () => setRoute(parseHash(window.location.hash))
+    /*
+      **Auch `popstate`, nicht nur `hashchange`** (Daniel, 22.09.2026: „beim pfeil zurück … url
+      ändert sich, aber webseite bleibt so"). `syncSharePath` schreibt nach jedem Hash-Wechsel den
+      Pfad auf `/r/<slug>/` um. Zwei Verlaufseinträge unterscheiden sich dann nicht nur im Hash,
+      sondern auch im Pfad — beim Zurückgehen feuert der Browser dafür kein `hashchange`, nur
+      `popstate`. Feuern beide, setzt React denselben Zustand zweimal; das kostet nichts.
+    */
     window.addEventListener('hashchange', onChange)
-    return () => window.removeEventListener('hashchange', onChange)
+    window.addEventListener('popstate', onChange)
+    return () => {
+      window.removeEventListener('hashchange', onChange)
+      window.removeEventListener('popstate', onChange)
+    }
   }, [])
 
   useEffect(() => {
