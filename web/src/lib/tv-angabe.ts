@@ -45,6 +45,8 @@ export function istPremiere(
   return true
 }
 
+const minuten = (hhmm: string) => Number(hhmm.slice(0, 2)) * 60 + Number(hhmm.slice(3, 5))
+
 const TAG = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
 
 /**
@@ -61,11 +63,26 @@ export function tvAngabe(
 ): { text: string; premiere: boolean } | undefined {
   if (release.platform !== 'tv') return undefined
   const termine = expandEvents(release)
-  const kommend = termine.find((e) => e.date > heute || (e.date === heute && (e.time ?? '99') >= jetztZeit))
+  /*
+    **Läuft sie gerade, sagt die Pille das** (Daniel, 22.09.2026: „solange sie läuft soll die pill
+    da stehen und läuft gerade stehen"). Eine Sendung dauert bis zum nächsten Termin desselben
+    Tages, höchstens 25 Minuten — gemessen an Dragon Ball Super auf ProSieben MAXX, das Joyn mit
+    Sendebeginn + 25 Minuten online stellt; One Piece läuft dort 18:25 und 18:50.
+  */
+  const jetzt = minuten(jetztZeit)
+  const laufend = termine.find((e, i) => {
+    if (e.date !== heute || !e.time) return false
+    const start = minuten(e.time)
+    const folgt = termine[i + 1]
+    const ende = Math.min(start + 25, folgt?.date === heute && folgt.time ? minuten(folgt.time) : Infinity)
+    return start <= jetzt && jetzt < ende
+  })
+  const kommend = laufend ?? termine.find((e) => e.date > heute || (e.date === heute && (e.time ?? '99') >= jetztZeit))
   const e: ReleaseEvent | undefined = kommend ?? termine.at(-1)
   if (!e) return undefined
-  const tag =
-    e.date === heute
+  const tag = laufend
+    ? 'läuft gerade'
+    : e.date === heute
       ? 'heute'
       : kommend && Date.parse(e.date) - Date.parse(heute) < 6.5 * 864e5
         ? TAG[new Date(`${e.date}T12:00:00Z`).getUTCDay()]!
@@ -73,7 +90,7 @@ export function tvAngabe(
   const premiere = Boolean(e.episode && !e.sichtung && istPremiere(e.episode, e.date, title, releases, release.ersteDeutsch))
   const teile = [
     e.episode && !e.sichtung ? `Fg. ${e.episode}` : undefined,
-    [kommend ? '' : 'zuletzt', tag, e.time].filter(Boolean).join(' '),
+    [kommend ? '' : 'zuletzt', tag, laufend ? undefined : e.time].filter(Boolean).join(' '),
     e.episode && !e.sichtung && !premiere ? 'Wiederholung' : undefined,
   ]
   return { text: teile.filter(Boolean).join(' · '), premiere }
