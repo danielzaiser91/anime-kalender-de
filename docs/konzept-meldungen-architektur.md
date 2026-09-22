@@ -135,7 +135,7 @@ braucht die Achsen Seite und Folge, und Aktualität muss gegen Gewicht abgewogen
 
 | # | Szenario | Beispiel | gewünschtes Verhalten |
 |---|---|---|---|
-| 1 | Synchro kommt später: früher „kein Deutsch" gemessen, jetzt sagt eine Quelle „Deutsch" | Kill Blue | offen |
+| 1 | Synchro kommt später: früher „kein Deutsch" gemessen, jetzt sagt eine Quelle „Deutsch" | Kill Blue | **festgelegt 22.09.2026**, siehe unten |
 | 2 | Synchro oder Titel verschwindet: früher „Deutsch", jetzt „kein Deutsch" / „nicht verfügbar" | Lizenzende | offen |
 | 3 | Schwache Quelle widerspricht starker zur selben Zeit | MOTN gegen Meldung | offen |
 | 4 | Kanal-Nein: Kanal-Seite ohne Abo zeigt kein Deutsch, andere Quelle Deutsch | A Silent Voice | offen |
@@ -175,3 +175,13 @@ Stufe 1 speichert jeden Abruf jeder Quelle als eigene Beobachtung.
 | JustWatch, aniSearch | ≈ Deutsch + Nachprüfliste | bleibt „kein Deutsch", nur Nachprüfliste |
 
 Offen: Daniels Bestätigung dieser Fassung.
+
+**Ergänzungen (Daniel, 22.09.2026):**
+- **Die Nachprüfliste nennt ihren Grund:** Quelle, deren Aussage, eigene Aussage mit Datum, Art
+  (Wechsel/Erstaussage), seit wann, bisherige Trefferquote der Quelle.
+- **Startgewicht Crunchyroll-Lauf: 90** — direkt unter der eigenen Messung, über ADN (80) und Randprobe
+  (70). „vertraue ich unserem Crunchyroll Lauf sehr viel mehr als den anderen Quellen."
+- **Szenario 1 bestätigt** in der Fassung: eigene neue Messung, Randprobe, ADN, Crunchyroll → Deutsch
+  (+ Nachprüfung, außer bei eigener Messung); MOTN → Wechsel: Deutsch, Erstaussage: ≈ Deutsch;
+  JustWatch/aniSearch → Wechsel: ≈ Deutsch, Erstaussage: bleibt „kein Deutsch"; jede Abweichung von der
+  eigenen Messung auf die Nachprüfliste und ins Protokoll.
