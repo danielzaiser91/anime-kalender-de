@@ -1535,26 +1535,11 @@ const PILLE_MARKE =
   'bg-white text-slate-800 shadow-[inset_0_0_0_1px_rgba(15,23,42,.12),inset_3px_0_0_var(--marke)] dark:bg-[#162238] dark:text-slate-100 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08),inset_3px_0_0_var(--marke)]'
 const marke = (farbe?: string) => (farbe ? ({ '--marke': farbe } as React.CSSProperties) : undefined)
 
-function WegPille({ name, farbe, hinweis }: { name: string; farbe?: string; hinweis: string }) {
-  return (
-    <span
-      className={`inline-flex max-w-full shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 opacity-60 ${farbe ? PILLE_MARKE : ''}`}
-      style={marke(farbe)}
-    >
-      <span className="truncate text-[13px] font-medium line-through">
-        {name}
-      </span>
-      <Tooltip text={hinweis} seite="oben">
-        <span
-          className="cursor-help rounded-full border border-current px-1 text-[10px] leading-tight text-slate-500 dark:text-slate-400"
-          aria-label={hinweis}
-        >
-          ?
-        </span>
-      </Tooltip>
-    </span>
-  )
-}
+/*
+  Die Pille „nicht mehr abrufbar" (durchgestrichen) ist seit dem 22.09.2026 aus der Oberfläche
+  genommen (Daniel: „war nette idee, aber brauchen wir vorerst nicht"). Die Abgänge bleiben als
+  `entfernteStreams` im Bestand.
+*/
 
 /**
  * **Die Silberscheibe für aniSearch-Disc-Wege.**
@@ -5000,16 +4985,6 @@ export function DetailPanel({
                           t(a.untertitelDe ? 'detail.ausgabeNurUt' : 'detail.ausgabeOhneDe'),
                         ].join(' · ')}
                         titel={t('detail.ausgabeTitel', { anbieter: PLATFORMS[a.platform]?.name ?? a.platform })}
-                      />
-                    )),
-                  )
-                  .concat(
-                    (title.entfernteStreams ?? []).map((s) => (
-                      <WegPille
-                        key={`weg-${s.platform}-${s.url}`}
-                        name={PLATFORMS[s.platform]?.name ?? s.platform}
-                        farbe={PLATFORMS[s.platform]?.color}
-                        hinweis={t('detail.gone', { d: formatDate(s.entferntAm ?? '') })}
                       />
                     )),
                   )

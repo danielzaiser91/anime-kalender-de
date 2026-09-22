@@ -136,7 +136,7 @@ braucht die Achsen Seite und Folge, und Aktualität muss gegen Gewicht abgewogen
 | # | Szenario | Beispiel | gewünschtes Verhalten |
 |---|---|---|---|
 | 1 | Synchro kommt später: früher „kein Deutsch" gemessen, jetzt sagt eine Quelle „Deutsch" | Kill Blue | **festgelegt 22.09.2026**, siehe unten |
-| 2 | Synchro oder Titel verschwindet: früher „Deutsch", jetzt „kein Deutsch" / „nicht verfügbar" | Lizenzende | offen |
+| 2 | Synchro oder Titel verschwindet: früher „Deutsch", jetzt „kein Deutsch" / „nicht verfügbar" | Lizenzende | **festgelegt 22.09.2026**, siehe unten |
 | 3 | Schwache Quelle widerspricht starker zur selben Zeit | MOTN gegen Meldung | offen |
 | 4 | Kanal-Nein: Kanal-Seite ohne Abo zeigt kein Deutsch, andere Quelle Deutsch | A Silent Voice | offen |
 | 5 | Angenommen (Randprobe) gegen gemessen (Einzelfolge) | — | offen |
@@ -185,3 +185,25 @@ Offen: Daniels Bestätigung dieser Fassung.
   (+ Nachprüfung, außer bei eigener Messung); MOTN → Wechsel: Deutsch, Erstaussage: ≈ Deutsch;
   JustWatch/aniSearch → Wechsel: ≈ Deutsch, Erstaussage: bleibt „kein Deutsch"; jede Abweichung von der
   eigenen Messung auf die Nachprüfliste und ins Protokoll.
+
+## Szenario 2 — festgelegt (Daniel, 22.09.2026)
+
+Vorher „Deutsch" gemessen, jetzt sagt eine Quelle „kein Deutsch" / „nicht verfügbar":
+
+| Quelle | Verhalten |
+|---|---|
+| eigene neue Messung | übernommen |
+| Crunchyroll-Lauf, ADN | **übernommen + Nachprüfung** |
+| Linkprüfung 404 — **nur wenn vorher 200** | **übernommen + Nachprüfung** |
+| alle anderen (MOTN, JustWatch, aniSearch, Kanal-Nein …) | **nicht übernommen + Nachprüfung** |
+
+„Nicht mehr abrufbar" bleibt als Angabe im Bestand; die durchgestrichenen Pills dazu entfallen in der
+Oberfläche vorerst („war nette idee, aber brauchen wir vorerst nicht").
+
+## Gewichte sind Handarbeit, keine Automatik (Daniel, 22.09.2026)
+
+Die Tabellen je Szenario legen fest, **welcher Quelle in welchem Fall vertraut wird** — von Hand.
+Es gibt **keine** Gewichtslogik, die sich selbst verschiebt. Die Trefferquoten aus den Nachprüfungen
+werden **wöchentlich** ausgewertet; danach entscheidet Daniel, ob eine Quelle in einem Szenario mehr
+Vertrauen bekommt, und die Tabelle wird geändert. Die Zahlen oben (100, 95, 90 …) sind damit nur noch
+eine Rangfolge zur Orientierung.

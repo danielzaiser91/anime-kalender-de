@@ -327,7 +327,6 @@ const TEXTE = {
   'detail.linkStream': 'ansehen',
   'detail.linkBuy': 'kaufen oder leihen',
 
-  'detail.gone': 'nicht mehr abrufbar, geprüft am {d}',
   'detail.ausgabeKanal': '{kanal}-Kanal',
   'detail.ausgabeAndere': 'andere Ausgabe',
   'detail.ausgabeOhneDe': 'ohne DE',
