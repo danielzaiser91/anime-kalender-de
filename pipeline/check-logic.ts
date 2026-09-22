@@ -3024,6 +3024,17 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
     'fetch-pruefungen vergleicht neue Belege mit den vorhandenen',
     /const vorhanden = new Set\(/.test(abholung) && /!vorhanden\.has\(JSON\.stringify\(eintrag\)\)/.test(abholung),
   )
+  /* 22.09.2026: Haikyu!! TO THE TOP — Netflix-Staffel 4 ohne Zahl in unseren Titeln blieb liegen. */
+  pruefe(
+    'eine Netflix-Staffel ohne Nummer in unserer Reihe wird über Netflix\' Aufteilung verteilt',
+    /bekannt\.some\(\(st\) => st\.seq === staffelNr\)/.test(abholung),
+    'sonst bleiben Meldungen wie Haikyu!! TO THE TOP im Briefkasten liegen',
+  )
+  pruefe(
+    'die Notiz eines Belegs stammt aus den Meldungen seines Titels',
+    /notizJeStaffel\.get\(id\) \?\? p\.notiz/.test(abholung),
+    'sonst trägt jeder Titel einer Adresse die Randprobe der letzten Meldung',
+  )
 }
 
 console.log('\nJapanischer Start: so genau wie die Quelle, und angekündigte Titel frisch:')

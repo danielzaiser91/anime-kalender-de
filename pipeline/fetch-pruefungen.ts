@@ -810,10 +810,23 @@ for (const gruppe of jeAdresse.values()) {
           ? (nachUrl.get(schluesselAdresse(amazonTitelAdresse(kennung))) ?? [])
           : []
         const eindeutig = [...new Set(ausSeite)]
+        /*
+          **Kennt die Adresse Netflix' eigene Staffelaufteilung, verteilt die weiter unten**
+          (22.09.2026). Haikyu!! TO THE TOP ist bei Netflix „Staffel 4" (E1–13, E14–25, OVA
+          E26–27); unsere Titel heißen „To the Top" ohne Zahl, `staffelNummern()` findet keine 4,
+          und 25 Meldungen blieben liegen — obwohl `anbieter-staffeln.json` die Aufteilung kennt
+          und `ordneMeldungZu()` genau damit am 10.09.2026 richtig zugeordnet hatte.
+        */
+        const netflixKennung = /netflix\.com\/title\/(\d+)/.exec(p.url)?.[1]
+        const bekannt = netflixKennung
+          ? ((anbieterStruktur[netflixKennung] as { staffeln?: { seq: number }[] } | undefined)?.staffeln ?? [])
+          : []
         if (eindeutig.length === 1) {
           log(`Staffel ${staffelNr} von ${p.url}: Seite ${kennung} gehört zu ${eindeutig[0]}`)
           ids = eindeutig
           nachStaffelZugeordnet++
+        } else if (bekannt.some((st) => st.seq === staffelNr)) {
+          log(`Staffel ${staffelNr} von ${p.url}: über Netflix' Staffelaufteilung verteilt`)
         } else {
           offenGeblieben.push(`${p.url} — Staffel ${staffelNr} in der Reihe nicht zu bestimmen, Meldung bleibt liegen`)
           continue
@@ -914,6 +927,12 @@ for (const gruppe of jeAdresse.values()) {
    * die ganze Reihe, danach über die Folgenzahlen verteilt.
    */
   const jeStaffel = new Map<number, Array<{ folge: number; dub: boolean }>>()
+  /*
+    **Die Notiz gehört der Meldung ihres Titels** (22.09.2026). Zwei Randproben unter einer
+    Adresse (Haikyu!! TO THE TOP E1–13 und E14–25) bekamen beide die Notiz der letzten Meldung —
+    „gemessen: Folge 14 und 25" stand auch am Titel, dessen Ränder 1 und 13 waren.
+  */
+  const notizJeStaffel = new Map<number, string>()
   if (anbieterStaffeln && staffeln.length) {
     for (const m of gruppe) {
       if (m.befund === 'weg' || m.folge_nr == null || m.folge_nr < 1) continue
@@ -933,6 +952,7 @@ for (const gruppe of jeAdresse.values()) {
       const bisher = jeStaffel.get(treffer.staffel.id) ?? []
       bisher.push({ folge: treffer.folgeInStaffel, dub: m.befund === 'dub' })
       jeStaffel.set(treffer.staffel.id, bisher)
+      if (m.notiz) notizJeStaffel.set(treffer.staffel.id, m.notiz)
     }
   }
 
@@ -1253,7 +1273,7 @@ for (const gruppe of jeAdresse.values()) {
       verteilbar ? `Anbieter zählt durch, hier auf die Staffel umgerechnet` : '',
       sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '',
       widersprueche.length ? `Widersprüchliche Meldungen zu Folge ${widersprueche.join(', ')}` : '',
-      p.notiz ?? '',
+      notizJeStaffel.get(id) ?? p.notiz ?? '',
     ]
       .filter(Boolean)
       .join(' — ')
