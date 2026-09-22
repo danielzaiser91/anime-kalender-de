@@ -144,6 +144,20 @@ beide Adresskerne: Amazon-Suchadressen fielen auf „amazon.de/s" zusammen, `wat
 verlor die gti — beide sammelten Dutzende fremde Titel als Kandidaten. **Der Adresskern muss die gti
 behalten und Suchadressen verwerfen**, auch im späteren Bau.
 
+**Gegenprobe (22.09.2026):** Von den 2.471 eindeutigen Folgen stimmen 1.497 mit dem Auftrag überein, 801
+hatten keinen, **173 widersprechen ihm**, alle an Staffelgrenzen (Captain Tsubasa 2018 ↔ Junior Youth,
+Vinland Saga → Staffel 2, JoJo Diamond Is Unbreakable → Teil 1/2, Classroom of the Elite, Fruits Basket
+→ Staffel 3, Saekano, Danganronpa 3, Takagi-san, KonoSuba, Haikyu!!). Stichprobe an fünf Paaren: In jedem
+Fall trifft der Folgentitel wörtlich die Folge der **anderen** Staffel, und die Prime-Seite führt diese
+Staffel (Vinland Saga `B0C55SJB1W` „Sklaven", „Ketils Hof" = Staffel 2 F1–2; Fruits Basket `B0GDFC7BL6` =
+Staffel 3; Captain Tsubasa `B0GXPFJJZK` Nr. 53 „A New Challenge" = Junior Youth F1). Bei JoJo und
+Captain Tsubasa Junior Youth lief der Auftrag über eine Suchadresse, die auf die falsche Staffel führte.
+**Der Anker schlägt den Auftrag.** Im Bestand stehen diese Seiten bereits richtig, aber nicht von selbst:
+`prime-zugeordnet.json` führt B0C55SJB1W unter 136430 und B0GDFC7BL6 unter 124194 (Fruits Basket am
+16.09.2026 von Hand umgehängt), B0GXPFJJZK dagegen noch unter 100745; die Belege dazu hat eine
+Handzuordnung vom 15.09.2026 auf 163024 berichtigt. Der Anker je Folge hätte alle drei ohne Handarbeit
+richtig gesetzt.
+
 ## PoC — Messungen
 
 **Rohmeldungen in D1, 22.09.2026 (4.433 Zeilen):** 1.563 (35 %) sind Staffelurteile ohne
