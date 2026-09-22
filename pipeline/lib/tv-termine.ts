@@ -87,6 +87,37 @@ function spaetereStaffel(
   return undefined
 }
 
+/**
+ * Hängt jedem TV-Termin seine Sendungen ab gestern an — auch den von Hand gepflegten, denn die
+ * Frage „läuft das gerade, bis wann?" beantwortet nur das Programm (22.09.2026).
+ */
+export function sendungenAnhaengen(releases: Release[], sendungen: TvSendung[], gestern: string, wiki: WikiListen = {}): void {
+  const jeTermin = new Map<string, TvSendung[]>()
+  for (const s of sendungen) {
+    if (berlinTag(s.ende) < gestern) continue
+    const k = `${s.titleId}|${s.sender.toLowerCase()}`
+    jeTermin.set(k, [...(jeTermin.get(k) ?? []), s])
+  }
+  for (const r of releases) {
+    if (r.platform !== 'tv') continue
+    const liste = jeTermin.get(`${r.titleId}|${(r.sender ?? '').toLowerCase()}`)
+    if (!liste?.length) continue
+    /*
+      Die Folgennummer je Sendung über den Folgentitel — auch dort, wo nicht jede Sendung in der
+      Liste steht und der Termin deshalb nur zählt (One Piece 22.09.2026: 12 von 14 gefunden).
+      Ein Titel ohne Treffer bleibt ohne Nummer; geraten wird nicht.
+    */
+    const eigene = wiki[String(r.titleId)]
+    const nummern = eigene?.folgen.length ? nummernNachTitel(eigene.folgen, !eigene.url) : undefined
+    r.sendungen = liste
+      .sort((a, b) => a.start.localeCompare(b.start))
+      .map((s) => {
+        const nr = s.folge ? nummern?.get(folgenKern(s.folge)) : undefined
+        return { start: s.start.slice(0, 16), ende: s.ende.slice(0, 16), ...(s.folge ? { folge: s.folge } : {}), ...(nr ? { nr } : {}) }
+      })
+  }
+}
+
 export function releasesAusTvProgramm(
   sendungen: TvSendung[],
   titles: Map<number, Title>,

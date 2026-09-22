@@ -2377,7 +2377,7 @@ function ReleasePille({
   titel?: string
   today: string
   /** Bei TV: „Fg. 16 · heute 21:15" und ob es eine Premiere ist (`lib/tv-angabe.ts`). */
-  tvText?: { text: string; premiere: boolean }
+  tvText?: ReturnType<typeof tvAngabe>
 }) {
   const { t } = useLang()
   /*
@@ -2475,7 +2475,29 @@ function ReleasePille({
           )}
           <span className="truncate">{kurzerName}</span>
         </span>
-        <span className="truncate text-[11px] text-slate-500 dark:text-slate-400">
+        {tvText?.laeuft && (
+          /*
+            **Was gerade läuft, mit Folge und Fortschritt** (Daniel, 22.09.2026, Variante C2 aus
+            drei Entwürfen): Folgentitel auf höchstens zwei Zeilen, reicht das nicht, „…" und der
+            volle Titel im Tooltip. Der Balken zeigt die verstrichene Sendezeit laut Programm.
+          */
+          <>
+            <span
+              className="line-clamp-2 max-w-72 text-[11px] text-slate-500 dark:text-slate-400"
+              title={[t('tv.laeuft'), tvText.laeuft.text].filter(Boolean).join(' · ')}
+            >
+              <span className="font-semibold text-emerald-600 dark:text-emerald-400">{t('tv.laeuft')}</span>
+              {tvText.laeuft.text ? ` · ${tvText.laeuft.text}` : ''}
+            </span>
+            <span aria-hidden className="my-0.5 block h-[3px] w-full max-w-72 overflow-hidden rounded bg-slate-200 dark:bg-white/10">
+              <span className="block h-full rounded bg-emerald-500" style={{ width: `${Math.round(tvText.laeuft.anteil * 100)}%` }} />
+            </span>
+          </>
+        )}
+        <span
+          className={`${tvText ? 'line-clamp-2 max-w-72' : 'truncate'} text-[11px] text-slate-500 dark:text-slate-400`}
+          title={tvText?.text || undefined}
+        >
           {/*
             **„ab" oder „seit" — ein nacktes Datum sagt beides.**
 

@@ -87,7 +87,7 @@ import {
   releasesAus,
   type Vorschlag,
 } from './lib/meldungen.ts'
-import { releasesAusTvProgramm, type WikiListen } from './lib/tv-termine.ts'
+import { releasesAusTvProgramm, sendungenAnhaengen, type WikiListen } from './lib/tv-termine.ts'
 import { rtlplusWochentermine, type RtlFolge } from './lib/rtlplus-folgen.ts'
 import type { TvSendung } from './fetch-tv-programm.ts'
 import {
@@ -3016,11 +3016,7 @@ function main(): void {
   const tvProgramm = Object.values(
     readJson<{ sendungen?: Record<string, TvSendung> }>('data/tv-programm.json', {}).sendungen ?? {},
   )
-  const ausTv = releasesAusTvProgramm(
-    tvProgramm,
-    titles,
-    releases,
-    {
+  const tvFolgenListen: WikiListen = {
       /*
         TMDB zuletzt: deutsche Folgentitel, über Staffeln durchgezählt (Staffel 0 = Specials
         zählt nicht). Bei Solo Leveling die einzige Liste; bei Eyeshield 21 passten 0 von 5
@@ -3052,9 +3048,10 @@ function main(): void {
         ).map(([id, x]) => [id, { seite: 'den Folgenseiten von RTL+', url: `https://plus.rtl.de/${x.programm}`, folgen: x.folgen }]),
       ),
       ...(readJson<{ titel?: WikiListen }>('data/wikipedia-folgen.json', {}).titel ?? {}),
-    },
-  )
+  }
+  const ausTv = releasesAusTvProgramm(tvProgramm, titles, releases, tvFolgenListen)
   releases.push(...ausTv)
+  sendungenAnhaengen(releases, tvProgramm, addDays(todayIso(), -1), tvFolgenListen)
   if (ausTv.length) log(`${ausTv.length} TV-Termine aus dem RTL+-Programm: ${ausTv.map((r) => `${r.name} (${r.sender})`).join(', ')}`)
 
   quellenPflegen(releases)

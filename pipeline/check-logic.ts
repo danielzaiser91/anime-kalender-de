@@ -27,7 +27,7 @@ import { verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../web/src/lib/kostenlos.ts'
-import { istPremiere } from '../web/src/lib/tv-angabe.ts'
+import { istPremiere, tvAngabe } from '../web/src/lib/tv-angabe.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
 import { FSK_COLORS, PLATFORMS } from '../shared/types.ts'
 import {
@@ -5461,6 +5461,29 @@ pruefe(
   pruefe('Wiederholung: Folge 1 steht auf YouTube', !istPremiere(1, '2026-09-16', daima, [rtl]))
   pruefe('Wiederholung: nach dem RTL+-Termin der Folge', !istPremiere(1, '2026-10-01', { ...daima, streams: [] } as Title, [rtl]))
   pruefe('Wiederholung: lief laut Episodenliste schon früher auf Deutsch', !istPremiere(16, '2026-09-16', daima, [rtl], { 16: '2025-05-01' }))
+}
+{
+  /*
+    „Läuft" kommt aus dem Programmende, nicht aus einer festen Dauer (Daniel, 22.09.2026: „wegen
+    werbepause"). One Piece auf ProSieben MAXX: 18:50–19:20 — um 19:17 läuft sie noch.
+  */
+  const op = { id: 21, streams: [] } as unknown as Title
+  const tv = {
+    slug: 'auto-21-tv-prosieben-maxx', titleId: 21, name: 'One Piece', platform: 'tv', sender: 'ProSieben MAXX', releaseType: 'weekly',
+    schedule: { firstEpisodeDate: '2026-09-22', episodeCount: 3, observed: { 1: '2026-09-22', 2: '2026-09-22', 3: '2026-09-23' }, zeiten: { 1: '18:25', 2: '18:50', 3: '04:25' } },
+    tvLetzteSichtung: '2026-09-23',
+    sendungen: [
+      { start: '2026-09-22T18:25', ende: '2026-09-22T18:50', folge: 'Eine legendäre Reise', nr: 772 },
+      { start: '2026-09-22T18:50', ende: '2026-09-22T19:20', folge: 'Erneuter Albtraum', nr: 773 },
+      { start: '2026-09-23T04:25', ende: '2026-09-23T04:50', folge: 'Nekomamushi', nr: 765 },
+    ],
+    sources: ['x'],
+  } as unknown as Release
+  const laeuft = tvAngabe(tv, op, [tv], '2026-09-22', '19:17')
+  pruefe('TV: läuft bis zum Programmende, nicht 25 Minuten', laeuft?.laeuft?.text === 'Fg. 773 · Erneuter Albtraum', laeuft)
+  pruefe('TV: neben „läuft" steht die nächste Sendung', laeuft?.text === 'Nächste: Fg. 765 · Mi 04:25', laeuft)
+  const danach = tvAngabe(tv, op, [tv], '2026-09-22', '19:20')
+  pruefe('TV: mit dem Programmende läuft nichts mehr', !danach?.laeuft && danach?.text === 'Fg. 765 · Mi 04:25 · Nekomamushi', danach)
 }
 {
   /* tv.de „Bald im TV" (19.09.2026): die Nacht, die auf keiner Tagesseite steht. */

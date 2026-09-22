@@ -45,14 +45,31 @@ export function istPremiere(
   return true
 }
 
-const minuten = (hhmm: string) => Number(hhmm.slice(0, 2)) * 60 + Number(hhmm.slice(3, 5))
-
 const TAG = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
+
+/** Was die Pille zu einer laufenden Sendung sagt — Folge, Titel und wie weit sie ist. */
+export interface TvLaeuft {
+  /** „Fg. 1093 · Erneuter Albtraum – …", ohne das Wort „Läuft". */
+  text: string
+  /** 0 … 1, Anteil der verstrichenen Sendezeit laut Programm. */
+  anteil: number
+  /** Programmende „HH:MM". */
+  bis: string
+}
+
+/** Minuten seit 1970 für eine Berliner Ortszeit „YYYY-MM-DDTHH:MM" — nur zum Vergleichen. */
+const minuten = (lokal: string) => Date.parse(`${lokal}:00Z`) / 60_000
 
 /**
  * „Fg. 16 · heute 21:15" plus `premiere` — oder `undefined`, wenn es keinen Termin gibt.
  * „Premiere" ist ein eigenes Abzeichen an der Pille (Daniel, 19.09.2026: „zu unauffällig"),
  * „Wiederholung" steht im Text.
+ *
+ * **Läuft eine Sendung, kommt `laeuft` dazu, und der Text nennt die nächste** (Daniel, 22.09.2026:
+ * „es muss beides angezeigt werden, also was vorher dort stand + läuft gerade"). Beginn und Ende
+ * stammen aus dem Programm (`release.sendungen`), nicht aus einer Rechnung: „anhand von
+ * episodenlänge + sendestart nicht ausmachen wie lang es läuft wegen werbepause". One Piece am
+ * 22.09.2026 lief 18:25–18:50 und 18:50–19:20 — eine feste Dauer hätte die zweite um 19:15 beendet.
  */
 export function tvAngabe(
   release: Release,
@@ -60,40 +77,53 @@ export function tvAngabe(
   releases: Release[],
   heute: string,
   jetztZeit: string,
-): { text: string; premiere: boolean } | undefined {
+): { text: string; premiere: boolean; laeuft?: TvLaeuft } | undefined {
   if (release.platform !== 'tv') return undefined
   const termine = expandEvents(release)
-  /*
-    **Läuft sie gerade, sagt die Pille das** (Daniel, 22.09.2026: „solange sie läuft soll die pill
-    da stehen und läuft gerade stehen"). Eine Sendung dauert bis zum nächsten Termin desselben
-    Tages, höchstens 25 Minuten — gemessen an Dragon Ball Super auf ProSieben MAXX, das Joyn mit
-    Sendebeginn + 25 Minuten online stellt; One Piece läuft dort 18:25 und 18:50.
-  */
-  const jetzt = minuten(jetztZeit)
-  const laufend = termine.find((e, i) => {
-    if (e.date !== heute || !e.time) return false
-    const start = minuten(e.time)
-    const folgt = termine[i + 1]
-    const ende = Math.min(start + 25, folgt?.date === heute && folgt.time ? minuten(folgt.time) : Infinity)
-    return start <= jetzt && jetzt < ende
-  })
-  const kommend = laufend ?? termine.find((e) => e.date > heute || (e.date === heute && (e.time ?? '99') >= jetztZeit))
+  const jetzt = `${heute}T${jetztZeit}`
+  const sendungen = release.sendungen ?? []
+  const laufend = sendungen.find((s) => s.start <= jetzt && jetzt < s.ende)
+  /* Die Sendung zum Termin: gleicher Tag, gleiche Uhrzeit — daher kommen Folgentitel und Nummer. */
+  const sendungZu = (e: ReleaseEvent) => sendungen.find((s) => s.start === `${e.date}T${e.time ?? ''}`)
+  const nummer = (e: ReleaseEvent) => (e.episode && !e.sichtung ? e.episode : sendungZu(e)?.nr)
+  const kommend = termine.find((e) => e.date > heute || (e.date === heute && (e.time ?? '99') > jetztZeit))
   const e: ReleaseEvent | undefined = kommend ?? termine.at(-1)
-  if (!e) return undefined
-  const tag = laufend
-    ? 'läuft gerade'
-    : e.date === heute
-      ? 'heute'
-      : kommend && Date.parse(e.date) - Date.parse(heute) < 6.5 * 864e5
-        ? TAG[new Date(`${e.date}T12:00:00Z`).getUTCDay()]!
-        : `${e.date.slice(8, 10)}.${e.date.slice(5, 7)}.`
-  const premiere = Boolean(e.episode && !e.sichtung && istPremiere(e.episode, e.date, title, releases, release.ersteDeutsch))
-  const teile = [
-    e.episode && !e.sichtung ? `Fg. ${e.episode}` : undefined,
-    [kommend ? '' : 'zuletzt', tag, laufend ? undefined : e.time].filter(Boolean).join(' '),
-    e.episode && !e.sichtung && !premiere ? 'Wiederholung' : undefined,
-  ]
-  return { text: teile.filter(Boolean).join(' · '), premiere }
+  if (!e && !laufend) return undefined
+  const laufEvent = laufend && termine.find((x) => `${x.date}T${x.time ?? ''}` === laufend.start)
+  /* Premiere gilt der Folge, von der die Pille zuerst spricht — der laufenden, sonst der nächsten. */
+  const bezug = laufEvent || e
+  const premiere = Boolean(
+    bezug?.episode && !bezug.sichtung && istPremiere(bezug.episode, bezug.date, title, releases, release.ersteDeutsch),
+  )
+  let text = ''
+  if (e) {
+    const tag =
+      e.date === heute
+        ? 'heute'
+        : kommend && Date.parse(e.date) - Date.parse(heute) < 6.5 * 864e5
+          ? TAG[new Date(`${e.date}T12:00:00Z`).getUTCDay()]!
+          : `${e.date.slice(8, 10)}.${e.date.slice(5, 7)}.`
+    const nr = nummer(e)
+    const teile = [
+      nr ? `Fg. ${nr}` : undefined,
+      [kommend ? '' : 'zuletzt', tag, e.time].filter(Boolean).join(' '),
+      e.episode && !e.sichtung && !premiere && !laufend ? 'Wiederholung' : undefined,
+      /* Ohne laufende Sendung trägt die Zeile den Folgentitel der nächsten. */
+      !laufend && kommend ? sendungZu(e)?.folge : undefined,
+    ]
+    text = (laufend && kommend ? 'Nächste: ' : '') + teile.filter(Boolean).join(' · ')
+  }
+  if (!laufend) return { text, premiere }
+  const nr = laufend.nr ?? (laufEvent ? nummer(laufEvent) : undefined)
+  return {
+    text: kommend ? text : '',
+    premiere,
+    laeuft: {
+      text: [nr ? `Fg. ${nr}` : undefined, laufend.folge].filter(Boolean).join(' · '),
+      anteil: Math.min(1, Math.max(0, (minuten(jetzt) - minuten(laufend.start)) / (minuten(laufend.ende) - minuten(laufend.start) || 1))),
+      bis: laufend.ende.slice(11, 16),
+    },
+  }
 }
 
 /**

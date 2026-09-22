@@ -108,6 +108,14 @@ Anime2You-Parser das TV-Premierendatum (28.08., TOGGO plus) an RTL+, wo die Seri
   Sendetage.
 - **Ein Datum im TV-Umfeld eines Artikels wird kein Streaming-Termin** (`TV_UMFELD` in
   `lib/meldungen.ts`).
+- **Wie lange eine Sendung läuft, sagt das Programm, nicht die Folgenlänge** (22.09.2026). Die
+  erste Fassung von „läuft gerade" rechnete mit Beginn + 25 Minuten. One Piece lief auf
+  ProSieben MAXX aber 18:25–18:50 und 18:50–19:20; die Werbepause verschiebt das Ende (Daniel:
+  „einfach im fernsehprogramm gucken bis wann es angesetzt ist"). tv.de liefert `ende` und den
+  Folgentitel je Sendung. `sendungenAnhaengen()` hängt sie ab gestern an jeden TV-Termin, auch an
+  von Hand gepflegte. Die Folgennummer kommt je Sendung über den Folgentitel aus der Folgenliste,
+  auch wo der Termin sonst nur zählt, weil nicht jede Sendung in der Liste steht (One Piece: 12
+  von 14).
 
 ## Ein Film hat Termine, keine Folgen
 
