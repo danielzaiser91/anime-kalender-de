@@ -2134,9 +2134,18 @@ console.log('\nWerktitel gegen Teiltitel')
     JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8')) as unknown
   const roh = lies('public/data/titles.json') as Title[] | Record<string, Title>
   const alleTitel = Array.isArray(roh) ? roh : Object.values(roh)
-  const mitTeilnummer = alleTitel.filter((t) =>
-    /[–—-]\s*(staffel|season|vol\.?|teil|part)\s*\d+\s*$/i.test(t.titleDe ?? ""),
-  )
+  /*
+    **Ausgenommen: Der Eintrag ist selbst der Teil** (22.09.2026). Führt AniList „Girls und Panzer das
+    Finale - Part 4" oder „BEASTARS Final Season Part 2" als eigenen Eintrag, ist die Nummer der Name
+    des Werks — ohne sie hießen zwei Einträge gleich (Sailor Moon Eternal Teil 1 und 2). Die Regel
+    gilt dem Yu-Gi-Oh-Fall: ein Titel für die ganze Serie mit dem Namen eines Blocks.
+  */
+  const nummerImEintrag = (t: Title, nr: string) =>
+    [t.titleEn, t.titleRomaji].some((s) => new RegExp(`(part|teil|vol\\.?|volume)\\s*${nr}\\s*$`, 'i').test(s ?? ''))
+  const mitTeilnummer = alleTitel.filter((t) => {
+    const m = /[–—-]\s*(staffel|season|vol\.?|teil|part)\s*(\d+)\s*$/i.exec(t.titleDe ?? '')
+    return m && !nummerImEintrag(t, m[2]!)
+  })
   pruefe(
     'kein Titel traegt die Nummer eines seiner Teile im Namen',
     mitTeilnummer.length === 0,
