@@ -138,9 +138,9 @@ braucht die Achsen Seite und Folge, und Aktualität muss gegen Gewicht abgewogen
 | 1 | Synchro kommt später: früher „kein Deutsch" gemessen, jetzt sagt eine Quelle „Deutsch" | Kill Blue | **festgelegt 22.09.2026**, siehe unten |
 | 2 | Synchro oder Titel verschwindet: früher „Deutsch", jetzt „kein Deutsch" / „nicht verfügbar" | Lizenzende | **festgelegt 22.09.2026**, siehe unten |
 | 3 | Schwache Quelle widerspricht starker zur selben Zeit | MOTN gegen Meldung | **festgelegt 22.09.2026**, siehe unten |
-| 4 | Kanal-Nein: Kanal-Seite ohne Abo zeigt kein Deutsch, andere Quelle Deutsch | A Silent Voice | offen |
+| 4 | Kanal-Nein: Kanal-Seite ohne Abo zeigt kein Deutsch, andere Quelle Deutsch | A Silent Voice | **festgelegt 22.09.2026** |
 | 5 | Angenommen (Randprobe) gegen gemessen (Einzelfolge) | — | offen |
-| 6 | Zwei Ausgaben beim selben Anbieter mit verschiedenem Stand | Digimon Tamers | offen |
+| 6 | Zwei Ausgaben beim selben Anbieter mit verschiedenem Stand | Digimon Tamers | **Anzeige festgelegt 22.09.2026** |
 | 7 | Teilweise nicht verfügbar (Staffel oder Folgen gesperrt) | Fairy Tail, Arifureta | offen |
 | 8 | Keine Beobachtung, nur Katalogangabe | aniSearch-Marke | offen |
 | 9 | Laufende Staffel, spätere Folgen noch nicht erschienen | — | offen |
@@ -214,3 +214,19 @@ Zwei frische Aussagen widersprechen sich, **weniger als 3 Tage** auseinander (da
 Szenario 1 oder 2): Anzeige bleibt bei der stärkeren (eigene Messung), Nachprüfung mit Vermerk
 „Widerspruch zur selben Zeit" und beiden Aussagen samt Datum. Ausnahme wie in Szenario 2:
 Crunchyroll-Lauf, ADN, 404 nach vorher 200 werden übernommen + Nachprüfung.
+
+## Szenario 4 — festgelegt (Daniel, 22.09.2026)
+
+Kanal-Ja → Deutsch wie eine Messung. Kanal-Nein allein → **unbekannt** (nicht „kein Deutsch") +
+Prüfliste „mit Abo prüfen". Kanal-Nein + Crunchyroll-Lauf „kein Deutsch" (beim Crunchyroll-Kanal) oder
+JustWatch ohne `de` für genau dieses Kanal-Angebot → kein Deutsch. Kanal-Nein + Crunchyroll-Lauf, ADN
+oder MOTN „Deutsch" → Deutsch + Nachprüfung. Kanal-Nein + nur JustWatch/aniSearch „Deutsch" → ≈ Deutsch
++ Nachprüfung.
+
+## Szenario 6 (Anzeige) — festgelegt (Daniel, 22.09.2026)
+
+Hat ein Anbieter mehr als einen Verweis für eine Serie, werden **alle** Pills gezeigt — auch die der
+Ausgabe ohne Deutsch (Beispiel Digimon Tamers, Prime: Kaufseite mit, zweite Ausgabe ohne Deutsch).
+Führen verschiedene Adressen auf **dasselbe Kernziel** (dieselben Folgen unter anderer Kennung), gibt
+es nur **eine** Pill, die des Kernziels. Das gilt nur, wenn **mindestens eine** dieser Pills Deutsch
+hat; hat keine Deutsch, wird keine gezeigt — im Datenbestand bleibt alles unverändert.
