@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 21.09.2026 um 16:10 Uhr
+**Unauffällig** · zuletzt 22.09.2026 um 14:37 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -15,38 +15,37 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- primevideo: 2 Synchro-Belege weniger
-- 1 Urteile verloren (2 weitere sind begründet entfernt); 2 Titel ohne Synchro-Beleg; primevideo: 3 Synchro-Belege weniger
+- 1 Urteile verloren; adn: 1 Synchro-Belege weniger
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-14 Läufe in den letzten 1 Tagen (473 insgesamt)
+16 Läufe in den letzten 1 Tagen (489 insgesamt)
 
-20.09., 14:47  Bestand — zusammenführ   termine +2
-20.09., 15:20  Bestand — zusammenführ   termine +2
-20.09., 16:11  Bestand — zusammenführ   termine -1
-20.09., 19:04  Bestand — zusammenführ   mitUrteil -2, ohneUrteil +2
-            ⚠  primevideo: 2 Synchro-Belege weniger
-20.09., 19:35  Bestand — zusammenführ   verweise +1, ohneUrteil +1
-21.09., 04:56  Bestand — zusammenführ   termine +3
-21.09., 06:01  Bestand — zusammenführ   verweise -2, mitUrteil -3, ohneUrteil +1, titelMitSynchro -2
-            ⚠  1 Urteile verloren (2 weitere sind begründet entfernt); 2 Titel ohne Synchro-Beleg; primevideo: 3 Synchro-Belege weniger
-21.09., 06:14  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1
-21.09., 06:35  Bestand — zusammenführ   termine +2
+21.09., 15:38  Bestand — zusammenführ   verweise -2, mitUrteil -2, termine +1
+21.09., 16:26  Bestand — zusammenführ   verweise +4, mitUrteil +5, ohneUrteil -1, titelMitSynchro +1
+21.09., 16:43  Bestand — zusammenführ   verweise +2, mitUrteil +2, titelMitSynchro +1
+21.09., 16:49  Bestand — zusammenführ   verweise -1, mitUrteil -1, releases -1, termine -1
+            ⚠  1 Urteile verloren; adn: 1 Synchro-Belege weniger
+22.09., 01:45  Bestand — zusammenführ   termine +5
+22.09., 07:50  Bestand — zusammenführ   termine +2
+22.09., 08:02  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2
+22.09., 08:12  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2
+22.09., 08:59  Bestand — zusammenführ   verweise +1, ohneUrteil +1
+22.09., 09:29  Bestand — zusammenführ   releases +2, termine +13
 
-Stand jetzt: 2775 Titel, 2086 Urteile, 7 offen
-Über den Zeitraum: Titel 0, Urteile -4, offen +3
+Stand jetzt: 2775 Titel, 2092 Urteile, 3 offen
+Über den Zeitraum: Titel 0, Urteile +8, offen -4
 
-⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
+⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 0 Meldungen auf 0 Adressen (—)
+Briefkasten: 24 Meldungen auf 24 Adressen (primevideo 24)
 Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 3 Adressen
-Nichts im Briefkasten — nichts zu prüfen.
+24 Adresse(n) noch nicht gelistet — Nachzügler, solange der Briefkasten unter 60 bleibt.
 ```
 
 ## Von den Ableitungen verworfen
@@ -55,8 +54,9 @@ Serien, für die keine Termine entstanden — je Grund, mit der Veränderung sei
 (`data/termine-ausgelassen.json`, Skill `stille-ausfaelle-verhindern`).
 
 ```
- 210  Blöcke und Titel verschieden viele
+ 209  Blöcke und Titel verschieden viele
   54  Folgenzahl geht nicht auf
+   1  deutscher Termin vor der japanischen Ausstrahlung
 ```
 
 ## Tagebuch
@@ -65,6 +65,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 22.09.2026 14:37 | 2775 / 2092 / 3 | Titel 0, Urteile +8, offen -4 | unauffällig |
 | 21.09.2026 16:10 | 2775 / 2086 / 7 | Titel 0, Urteile -4, offen +3 | unauffällig |
 | 20.09.2026 14:23 | 2775 / 2090 / 4 | Titel +3, Urteile +25, offen 0 | unauffällig |
 | 19.09.2026 13:55 | 2772 / 2065 / 4 | Titel 0, Urteile +1, offen -38 | unauffällig |
