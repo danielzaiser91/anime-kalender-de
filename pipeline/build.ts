@@ -6749,26 +6749,6 @@ function main(): void {
     .sort((a, b) => (a.date === b.date ? (a.time ?? '99') .localeCompare(b.time ?? '99') : a.date.localeCompare(b.date)))
 
   /**
-   * Gegenprobe, bevor irgendetwas geschrieben wird.
-   *
-   * Sie steht hier und nicht in `validate.ts`, weil dort nur die kuratierten
-   * Dateien geprüft werden — also ausgerechnet der Teil, den ohnehin ein Mensch
-   * durchdacht hat. Der Fehler vom 12.08.2026 (196 erfundene Termine) entstand
-   * vollständig in diesem Skript und wäre dort nie aufgefallen.
-   *
-   * Ein Widerspruch bricht den Lauf ab. Das kostet im schlimmsten Fall eine
-   * Nacht ohne frische Daten — ein Kalender, der eine Folge ankündigt, die es
-   * nicht gibt, kostet das Vertrauen in jeden anderen Termin.
-   */
-  const pruefung = pruefeErgebnis(releases, events, titles, todayIso())
-  for (const w of pruefung.warnungen) warn(w)
-  if (pruefung.fehler.length) {
-    for (const f of pruefung.fehler) console.error('  ✖', f)
-    console.error(`\n${pruefung.fehler.length} Widersprüche im erzeugten Datensatz — nichts geschrieben.`)
-    process.exit(1)
-  }
-
-  /**
    * Titel, deren japanische Ausstrahlung noch gar nicht begonnen hat, gehören
    * hinter den Toggle „Anime ohne deutsche Synchro".
    *
@@ -7328,6 +7308,36 @@ function main(): void {
   if (videoloadDirekt) log(`${videoloadDirekt} Videoload-Wege über die MagentaTV-Kennung direkt verlinkt`)
   if (videoloadDeutsch) log(`${videoloadDeutsch} Videoload-Wege als deutsch gesetzt — deutscher Anbieter`)
   if (datenbankWege) log(`${datenbankWege} Wege ohne direkte Anbieteradresse als „über TMDB" gekennzeichnet`)
+
+  /**
+   * Gegenprobe, bevor irgendetwas geschrieben wird.
+   *
+   * Sie steht hier und nicht in `validate.ts`, weil dort nur die kuratierten
+   * Dateien geprüft werden — also ausgerechnet der Teil, den ohnehin ein Mensch
+   * durchdacht hat. Der Fehler vom 12.08.2026 (196 erfundene Termine) entstand
+   * vollständig in diesem Skript und wäre dort nie aufgefallen.
+   *
+   * Ein Widerspruch bricht den Lauf ab. Das kostet im schlimmsten Fall eine
+   * Nacht ohne frische Daten — ein Kalender, der eine Folge ankündigt, die es
+   * nicht gibt, kostet das Vertrauen in jeden anderen Termin.
+   *
+   * **Steht erst hier, nicht direkt nach `expandEvents`.** Die TMDB-Kennzeichnung
+   * der Bezugswege (`ueberTmdb`, Block „Kein Weg auf eine Datenbank" oben) läuft
+   * erst an dieser Stelle der Pipeline. Bis zum 22.09.2026 rief dieser Aufruf
+   * gleich nach den Terminen, also bevor die Kennzeichnung passiert war — jeder
+   * TMDB-Bezugsweg im Bestand (1.172 an dem Tag) verletzte die Zusicherung aus
+   * `pruefung.ts`, ohne dass ein einziger davon wirklich unbelegt war. Releases
+   * und Termine ändern sich zwischen der alten und dieser Stelle nicht mehr,
+   * geprüft wird also weiterhin derselbe Stand — nur die Bezugswege sind jetzt
+   * fertig.
+   */
+  const pruefung = pruefeErgebnis(releases, events, titles, todayIso())
+  for (const w of pruefung.warnungen) warn(w)
+  if (pruefung.fehler.length) {
+    for (const f of pruefung.fehler) console.error('  ✖', f)
+    console.error(`\n${pruefung.fehler.length} Widersprüche im erzeugten Datensatz — nichts geschrieben.`)
+    process.exit(1)
+  }
 
   /**
    * **Und dieselbe Frage an aniSearch — sie kennt Wege, die JustWatch nicht hat.**
