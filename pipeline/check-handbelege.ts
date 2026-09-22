@@ -173,7 +173,12 @@ for (const [k, gruppe] of jeVerweis) {
           jaAdressen.some(
             (u) => adressKern(u) === adressKern(s.url) || (Boolean(s.seite) && adressKern(u) === adressKern(s.seite)),
           ),
-      ) ?? stream)
+        /*
+          Kein Rückfall auf einen fremden Weg (22.09.2026): Fairy Tails Ja-Beleg zu B0GZL7MBG1
+          wurde mit dem neuen, urteilslosen Weg B0CHBX8CM2 verglichen, und der Bau wurde rot. Der
+          Bau selbst wendet einen Beleg zu einer fremden Ausgabe nicht an (`belegFuer`, Punkt 3).
+        */
+      ) ?? null)
     : stream
   if (!jaStream) {
     // Kein Fehler der Rangfolge: Der Verweis kann aus einem anderen Grund
