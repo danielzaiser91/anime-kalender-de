@@ -33,7 +33,7 @@ import {
   type Synopsis,
   type Voices,
 } from '../lib/data.ts'
-import { useLang } from '../lib/i18n.tsx'
+import { translate, useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { aehnlicheTitel } from '../lib/aehnlich.ts'
 import { useShare } from '../lib/share.ts'
@@ -2526,7 +2526,9 @@ function ReleasePille({
 const TOGGO_ORANGE = '#ec6400'
 const istToggo = (url: string | undefined) => /(^|\.)toggo\.de$/i.test((() => { try { return new URL(url ?? '').hostname } catch { return '' } })())
 
-function farbeZuAnbieter(name: string): string | undefined {
+function farbeZuAnbieter(voll: string): string | undefined {
+  /* „maxdome (über TMDB)" trägt die Farbe von maxdome (22.09.2026). */
+  const name = voll.replace(/\s*\(über TMDB\)$/, '')
   /*
     **„Amazon Prime" steht nicht in `PLATFORMS`** — dort heißt der Anbieter
     „Prime Video". Seit der Umbenennung am 07.09.2026 („das kanalabo ist
@@ -2591,6 +2593,8 @@ function gruppiereKaufwege(
     } catch {
       // Keine gültige Adresse — dann steht der Eintrag eben für sich allein.
     }
+    /* Alle Wege über TMDB teilen sich einen Host — gruppiert wird dort nach Anbieter (22.09.2026). */
+    if (l.ueberTmdb) host = `tmdb|${l.name}`
     const liste = nachHost.get(host) ?? []
     liste.push(l)
     nachHost.set(host, liste)
@@ -2615,7 +2619,8 @@ function gruppiereKaufwege(
     const geteilt = liste.map((l) => zerlege(l.name))
     const gemeinsam = geteilt.every((t) => t.length > 1 && t[0] === geteilt[0][0])
     if (liste.length === 1 || !gemeinsam) {
-      return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url, nurFolge: l.nurFolge, dubRanges: l.dubRanges })) }
+      /* Die Adresse ist TMDBs Übersicht, nicht der Anbieter — das steht an der Pille (Daniel, 22.09.2026). */
+      return { shop: liste[0].ueberTmdb ? translate('detail.ueberTmdb', { name: liste[0].name }) : liste[0].name, eintraege: liste.map((l) => ({ url: l.url, nurFolge: l.nurFolge, dubRanges: l.dubRanges })) }
     }
     return {
       shop: geteilt[0][0],

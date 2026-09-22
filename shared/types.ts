@@ -242,6 +242,11 @@ export interface WatchLink {
   /** Ansehen oder erwerben — Streams stehen in der Oberfläche zuerst. */
   kind: 'stream' | 'buy'
   /**
+   * Die Adresse ist TMDBs Übersichtsseite, nicht der Anbieter (22.09.2026). TMDB nennt den Anbieter,
+   * aber keine Adresse; die Pille schreibt dann „(über TMDB)" hinter den Namen.
+   */
+  ueberTmdb?: true
+  /**
    * Was es kostet: nichts, ein Abo, oder Geld pro Titel.
    *
    * `kind` trennt Ansehen von Erwerben, aber nicht Abo von kostenlos — und für

@@ -7280,8 +7280,12 @@ function main(): void {
    * durchstöbert, wir können annehmen das alle de sind, bis wir irgendwann ein gegenteil
    * beweisen." Ein Weg mit eigener Angabe (`dubRanges`) behält sie.
    *
-   * Was danach noch auf TMDB zeigt, fällt weg: Eine direkte Adresse kennt keine Quelle, und eine
-   * Suche beim Anbieter ist schlechter als kein Weg (docs/wissen/quellen.md).
+   * **Was danach noch auf TMDB zeigt, bleibt — gekennzeichnet** (`ueberTmdb`, Pille „… (über TMDB)").
+   * Die Angebote sind echt: TMDBs Liste ist JustWatchs Partner-Export und vollständiger als unsere
+   * JustWatch-Abfrage; nur die Adresse gibt TMDBs API nicht heraus, und die Übersichtsseite sperrt
+   * Claude per robots.txt (docs/wissen/quellen.md). Daniel am 22.09.2026: „anbieter info haben wir,
+   * also das als ersten weg umsetzen … youtube im label lassen, aber in klammern (über tmdb)".
+   * Zuerst die direkte Adresse, erst dann der gekennzeichnete Umweg.
    */
   let videoloadDirekt = 0
   let videoloadDeutsch = 0
@@ -7305,9 +7309,14 @@ function main(): void {
         w.url = `https://www.videoload.de/${magenta[1]}`
         videoloadDirekt++
       }
-      const vorher = wege.length
-      title.watchLinks = wege.filter((w) => !/themoviedb\.org/.test(w.url))
-      datenbankWege += vorher - title.watchLinks.length
+      /* Neben einem direkten Weg desselben Anbieters ist der TMDB-Weg doppelt (Videoload von Hand). */
+      const direkt = new Set(wege.filter((w) => !/themoviedb\.org/.test(w.url)).map((w) => w.name))
+      title.watchLinks = wege.filter((w) => !/themoviedb\.org/.test(w.url) || !direkt.has(w.name))
+      for (const w of title.watchLinks) {
+        if (!/themoviedb\.org/.test(w.url)) continue
+        w.ueberTmdb = true
+        datenbankWege++
+      }
       for (const w of title.watchLinks) {
         if (w.name !== 'Videoload' || w.dubRanges?.length) continue
         w.dubRanges = [{ from: 1, to: title.format === 'MOVIE' ? 1 : Math.max(1, title.episodes ?? 1), dub: true }]
@@ -7317,7 +7326,7 @@ function main(): void {
   }
   if (videoloadDirekt) log(`${videoloadDirekt} Videoload-Wege über die MagentaTV-Kennung direkt verlinkt`)
   if (videoloadDeutsch) log(`${videoloadDeutsch} Videoload-Wege als deutsch gesetzt — deutscher Anbieter`)
-  if (datenbankWege) log(`${datenbankWege} Wege ohne direkte Anbieteradresse entfernt (zeigten auf TMDB)`)
+  if (datenbankWege) log(`${datenbankWege} Wege ohne direkte Anbieteradresse als „über TMDB" gekennzeichnet`)
 
   /**
    * **Und dieselbe Frage an aniSearch — sie kennt Wege, die JustWatch nicht hat.**

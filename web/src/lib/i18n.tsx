@@ -727,6 +727,8 @@ const TEXTE = {
   'detail.hiddenNote': 'Dieser Titel ist von dir ausgeblendet. Bis du ihn wieder einblendest, wird hier nichts gezeigt.',
   'detail.noMeta': 'Zu diesem Eintrag liegen keine Metadaten vor.',
   'detail.dubYes': 'Deutsche Synchro hier belegt',
+  // Der Anbieter führt den Titel, die Adresse kennt nur TMDB — der Klick landet dort (22.09.2026).
+  'detail.ueberTmdb': '{name} (über TMDB)',
   'detail.dubUnknown': 'Der Anbieter macht dazu keine öffentliche Angabe.',
   // Bleibt vergleichsweise lang: Hier hängt eine Kaufentscheidung dran, und der
   // Leser kann den Unterschied nicht selbst herleiten.

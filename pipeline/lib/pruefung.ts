@@ -203,10 +203,11 @@ export function pruefeErgebnis(
     }
   }
 
-  /* Ein Bezugsweg führt zum Anbieter, nie auf eine Datenbank (Daniel, 22.09.2026: Videoload → TMDB). */
+  /* Ein Weg auf TMDB trägt seine Kennzeichnung — sonst liest er sich als Anbieteradresse (Daniel, 22.09.2026). */
   for (const t of titles.values())
     for (const w of t.watchLinks ?? [])
-      if (/themoviedb\.org/.test(w.url)) fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB statt zum Anbieter`)
+      if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)
+        fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB, ohne als „über TMDB" gekennzeichnet zu sein`)
 
   return { fehler, warnungen }
 }
