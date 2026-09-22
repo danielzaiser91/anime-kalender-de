@@ -5044,6 +5044,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       (readFileSync('pipeline/fetch-crunchyroll-offene.ts', 'utf8').match(/jwFrisch\(jwEintrag2?, heuteIso\)/g) ?? []).length === 2,
   )
 }
+/* 22.09.2026: „Abos: crunchyrollde (Meldung 4738)" — der Klammerzusatz verdarb den Kanalnamen. */
+pruefe(
+  'die Kanal-Gegenprobe wirft Klammerzusätze aus dem Abo-Namen',
+  readFileSync('pipeline/kanal-gegenprobe.ts', 'utf8').includes(".map((a) => a.replace(/\\s*\\(.*?\\)\\s*/g, '').trim()"),
+)
 /* JustWatch bei Titeln mit Wegen: nur digitale Angebote (17.09.2026). */
 pruefe(
   'JustWatch ergänzt bei Titeln mit Wegen keine Disc-Händler und keine Kinos',
