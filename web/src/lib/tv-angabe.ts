@@ -78,3 +78,20 @@ export function tvAngabe(
   ]
   return { text: teile.filter(Boolean).join(' · '), premiere }
 }
+
+/**
+ * **Ist dieser Kalendertermin eine TV-Premiere?** (22.09.2026) — dieselbe Frage, die der
+ * TV-Schalter stellt („ausgeschaltet bleiben Premieren sichtbar") und die das Fähnchen an der
+ * Kachel beantwortet. Eine Sichtung ohne Folgennummer ist nie eine.
+ */
+export function tvPremiere(
+  e: ReleaseEvent,
+  data: { titleById: Map<number, Title>; releasesByTitle: Map<number, Release[]>; releaseBySlug: Map<string, Release> },
+): boolean {
+  if (e.platform !== 'tv' || !e.episode || e.sichtung) return false
+  const titel = data.titleById.get(e.titleId)
+  return Boolean(
+    titel &&
+      istPremiere(e.episode, e.date, titel, data.releasesByTitle.get(e.titleId) ?? [], data.releaseBySlug.get(e.releaseSlug)?.ersteDeutsch),
+  )
+}

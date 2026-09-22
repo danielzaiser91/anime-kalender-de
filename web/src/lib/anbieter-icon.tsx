@@ -35,6 +35,12 @@ const DATEI: Record<string, string> = {
   'animation digital network': 'adn',
   toggo: 'toggo',
   'toggo plus': 'toggo',
+  /*
+    Für ProSieben MAXX gibt es kein freies Zeichen; genommen ist das ProSieben-„7" von simple-icons
+    (CC0) — dieselbe Senderfamilie (22.09.2026, Daniel wählte Entwurf B).
+  */
+  prosieben: 'prosieben',
+  'prosieben maxx': 'prosieben',
 }
 
 /**

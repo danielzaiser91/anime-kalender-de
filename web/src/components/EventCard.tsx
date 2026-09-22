@@ -19,6 +19,7 @@ export function EventCard({
   onToggleHidden,
   onOpen,
   dense,
+  premiere,
 }: {
   event: ReleaseEvent
   title?: Title
@@ -29,6 +30,8 @@ export function EventCard({
   onToggleHidden?: () => void
   onOpen: () => void
   dense?: boolean
+  /** TV-Premiere (`tvPremiere()`): Fähnchen auf der oberen Kante. */
+  premiere?: boolean
 }) {
   const { t } = useLang()
   const { share, copiedSlug } = useShare()
@@ -89,7 +92,7 @@ export function EventCard({
   */
   const vergangen = event.date < todayIso()
 
-  return (
+  const kachel = (
     /*
       **Die Karte ist kein Knopf, sie enthält einen** (18.09.2026, axe „nested-interactive":
       678 Karten). Als `role="button"` umschloss sie Stern, Auge und Tooltips — für
@@ -285,6 +288,24 @@ export function EventCard({
         <PlatformBadge platform={event.platform} sender={event.sender} small />
         {fsk !== undefined && <FskBadge fsk={fsk} small />}
       </span>
+    </div>
+  )
+  if (!premiere) return kachel
+  /*
+    **Premiere als Fähnchen auf der Kante** (Daniel, 22.09.2026, Entwurf P2) — dasselbe Zeichen wie an
+    der TV-Pille im Panel. Die Kachel schneidet mit `overflow-hidden` ab, das Fähnchen sitzt deshalb
+    auf einer Hülle darüber.
+  */
+  return (
+    <div className="relative mt-3">
+      <span className="absolute -top-3 left-3 z-10">
+        <Tooltip text={t('tv.premiereHinweis')} seite="oben">
+          <span className="block rounded-md bg-gradient-to-r from-fuchsia-600 to-amber-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(217,70,239,.7)]">
+            ✦ Premiere
+          </span>
+        </Tooltip>
+      </span>
+      {kachel}
     </div>
   )
 }

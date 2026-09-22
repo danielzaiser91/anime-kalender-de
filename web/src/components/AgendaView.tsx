@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
+import { tvPremiere } from '../lib/tv-angabe.ts'
 import { formatDateLong, todayIso, weekdayName } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { EventCard } from './EventCard.tsx'
@@ -100,6 +101,7 @@ export function AgendaView({
                 event={ev}
                 title={data.titleById.get(ev.titleId)}
                 fsk={data.releaseBySlug.get(ev.releaseSlug)?.fsk}
+        premiere={tvPremiere(ev, data)}
                 favorite={favorites.has(ev.titleId)}
                 hidden={hidden.has(ev.titleId)}
                 onToggleFavorite={ev.titleId > 0 ? () => onToggleFavorite(ev.titleId) : undefined}

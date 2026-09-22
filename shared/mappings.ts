@@ -882,6 +882,11 @@ const PROVIDER_NAMES: Record<string, string> = {
   'shahid-vip': 'Shahid VIP',
   default: '',
   'amazon-uk': '',
+  /*
+    „AD tv" ist Abu Dhabi TV (`adtv.ae`, arabisches Angebot) — JustWatch führt es im deutschen
+    Katalog, bei uns stand es als „Ad Tv · kostenlos" an Eyeshield 21 (Daniel, 22.09.2026).
+  */
+  'ad-tv': '',
   amazon: 'Amazon',
   maxdome: 'maxdome',
   'sky-store': 'Sky Store',

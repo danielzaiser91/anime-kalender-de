@@ -4321,6 +4321,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     providerName('wetv') === '' && providerName('iq') === '',
     'sie liefern in Deutschland nichts aus',
   )
+  pruefe(
+    'AD tv (Abu Dhabi TV) ist kein Bezugsweg',
+    providerName('AD tv') === '',
+    'JustWatch führt es im deutschen Katalog, adtv.ae ist ein arabisches Angebot (22.09.2026)',
+  )
   /*
     **Nachtrag vom selben Tag, zweite Runde** (Daniel: „für paar sek war chibi
     theatre unter specials eingeordnet, dann wieder in hauptserie", „wu mian ren

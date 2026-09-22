@@ -7,7 +7,7 @@ import { filterEvents, filterTitles, toggleValue, type FilterState } from './lib
 import { useFavorites, useHidden } from './lib/favorites.ts'
 import { speicherSichern, useNewsletterSync } from './lib/newsletterSync.ts'
 import { useRoute, type ViewId } from './lib/router.ts'
-import { istPremiere } from './lib/tv-angabe.ts'
+import { tvPremiere } from './lib/tv-angabe.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header, Legend } from './components/Header.tsx'
@@ -192,19 +192,7 @@ export default function App() {
             /* Ausgeschaltet bleiben Premieren sichtbar (Daniel, 19.09.2026). */
             (e) => {
               if (!tvAus || e.platform !== 'tv') return true
-              const titel = data.titleById.get(e.titleId)
-              return Boolean(
-                titel &&
-                  e.episode &&
-                  !e.sichtung &&
-                  istPremiere(
-                    e.episode,
-                    e.date,
-                    titel,
-                    data.releasesByTitle.get(e.titleId) ?? [],
-                    data.releaseBySlug.get(e.releaseSlug)?.ersteDeutsch,
-                  ),
-              )
+              return tvPremiere(e, data)
             },
           )
         : [],

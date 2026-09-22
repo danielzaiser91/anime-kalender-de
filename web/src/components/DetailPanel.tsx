@@ -2408,20 +2408,44 @@ function ReleasePille({
   */
   const datum = release.schedule?.firstEpisodeDate
   /* Ein TOGGO-Sender trägt TOGGOs Orange, nicht das allgemeine TV-Grün (Daniel, 19.09.2026). */
-  const farbe = /^TOGGO/i.test(release.sender ?? '') ? TOGGO_ORANGE : PLATFORMS[release.platform]?.color
+  const farbe = /^TOGGO/i.test(release.sender ?? '')
+    ? TOGGO_ORANGE
+    : /^ProSieben MAXX$/i.test(release.sender ?? '')
+      ? /* Die Farbe, die Joyn selbst für ProSieben MAXX führt (`accentColor`, 22.09.2026). */
+        PROSIEBEN_MAXX_ROT
+      : PLATFORMS[release.platform]?.color
+  const tv = release.platform === 'tv'
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
   return (
     <span
-      className={`relative inline-flex max-w-full items-center rounded-full py-1 pl-3 pr-4 ${tvText?.premiere ? 'mt-2' : ''} ${farbe ? PILLE_MARKE : ''}`}
+      className={`relative inline-flex max-w-full items-center ${tv ? 'rounded-md pl-5' : 'rounded-full pl-3'} py-1 pr-4 ${tvText?.premiere ? 'mt-2' : ''} ${farbe ? PILLE_MARKE : ''}`}
       style={marke(farbe)}
     >
+      {tv && (
+        /*
+          **Fernsehen erkennt man am Fernseher** (Daniel, 22.09.2026): eckige Pille, dazu ein Fernseher
+          als Blase oben links (unten links war „schlecht") — neutral grau, nie in der Senderfarbe
+          („keine dynamische anbieter farbe"). So hebt sich die Pille von den Streaming-Anbietern ab,
+          ohne Breite zu kosten.
+        */
+        <span
+          aria-hidden
+          className="absolute -left-1.5 -top-1.5 z-10 grid size-[22px] place-items-center rounded-full bg-white text-slate-500 ring-1 ring-slate-300 dark:bg-[#162238] dark:text-slate-300 dark:ring-slate-500"
+        >
+          <TvZeichen />
+        </span>
+      )}
       {tvText?.premiere && (
         /*
           **Premiere als Fähnchen auf der Kante** (Daniel, 19.09.2026: „zu unauffällig", aus vier
           Entwürfen gewählt) — leuchtet und kostet keine Breite.
         */
-        <span className="absolute -top-2 left-3 z-10 rounded-md bg-gradient-to-r from-fuchsia-600 to-amber-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(217,70,239,.7)]">
-          ✦ Premiere
+        <span className={`absolute -top-2 ${tv ? 'left-6' : 'left-3'} z-10`}>
+          <Tooltip text={t('tv.premiereHinweis')} seite="oben">
+            <span className="block rounded-md bg-gradient-to-r from-fuchsia-600 to-amber-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(217,70,239,.7)]">
+              ✦ Premiere
+            </span>
+          </Tooltip>
         </span>
       )}
       {/*
@@ -2444,7 +2468,7 @@ function ReleasePille({
           {release.releaseType !== 'disc' && (
             /* Das Zeichen trägt die Markenfarbe, die Schrift nicht mehr (Variante A, 19.09.2026). */
             <span className="flex shrink-0" style={farbe ? { color: farbe } : undefined}>
-              <AnbieterIcon was={/^TOGGO/i.test(release.sender ?? '') ? 'toggo' : release.platform} />
+              <AnbieterIcon was={tv ? (release.sender ?? '') : release.platform} />
             </span>
           )}
           <span className="truncate">{kurzerName}</span>
@@ -2525,6 +2549,17 @@ function ReleasePille({
   `pipeline/fetch-toggo.ts` täglich holt (`web/src/lib/toggo.ts`).
 */
 const TOGGO_ORANGE = '#ec6400'
+const PROSIEBEN_MAXX_ROT = '#d21e00'
+
+/** Ein neutraler Fernseher (Umriss, Form wie Tabler „device-tv") — kennzeichnet TV-Pillen. */
+function TvZeichen() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" width={14} height={14} className="size-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M16 3l-4 4l-4-4" />
+    </svg>
+  )
+}
 const istToggo = (url: string | undefined) => /(^|\.)toggo\.de$/i.test((() => { try { return new URL(url ?? '').hostname } catch { return '' } })())
 
 function farbeZuAnbieter(voll: string): string | undefined {

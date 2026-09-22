@@ -1,5 +1,5 @@
 /**
- * Prüft den Schalter „TV-Ausstrahlungen anzeigen" über dem Kalender (16.09.2026,
+ * Prüft den Schalter „TV" (bis 22.09.2026 „TV-Ausstrahlungen anzeigen") über dem Kalender (16.09.2026,
  * umbenannt 19.09.2026 — der alte Text ließ diese Prüfung zwei Tage lang rot):
  * Wochenansicht aus `dist/`, einmal mit, einmal ohne TV-Termine — und nach dem
  * Neuladen muss die Wahl noch gelten.
@@ -27,14 +27,14 @@ await seite.route('**/*', async (route) => {
 
 const tvKacheln = () => seite.locator('text=/^(TOGGO PLUS|SUPER RTL|RTLZWEI)$/i').count()
 await seite.goto('http://ak.test/#/woche')
-await seite.waitForSelector('text=TV-Ausstrahlungen anzeigen', { timeout: 30000 })
+await seite.getByLabel('TV', { exact: true }).waitFor({ state: 'attached', timeout: 30000 })
 await seite.waitForTimeout(1500)
 const vorher = await tvKacheln()
-await seite.getByText('TV-Ausstrahlungen anzeigen').click()
+await seite.getByLabel('TV', { exact: true }).evaluate((e) => e.click())
 await seite.waitForTimeout(800)
 const aus = await tvKacheln()
 await seite.reload()
-await seite.waitForSelector('text=TV-Ausstrahlungen anzeigen', { timeout: 30000 })
+await seite.getByLabel('TV', { exact: true }).waitFor({ state: 'attached', timeout: 30000 })
 await seite.waitForTimeout(1500)
 const nachNeuladen = await tvKacheln()
 await browser.close()
