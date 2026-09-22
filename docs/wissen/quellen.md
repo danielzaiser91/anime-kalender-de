@@ -2673,3 +2673,7 @@ Daniel prüft die Ausnahme am 22.09. um 17:30 (Folge 108 soll wegfallen).
 (108 → 22.09. 17:30 = Ende 128; 109 → 18:00 = Ende 129; 110/111 → 23.09. 17:30/17:55 = Ende 130/131).
 Vermutete Regel: **rollendes Fenster von 20 Folgen**, höchstens bis Sendetag + 29 (23:59) — ab 112 gibt es
 keine Folge +20 mehr (131 ist das Finale), dort greift die Frist. Beleg steht aus (Daniel, 22.09. 17:30).
+**Messpunkt 107** (Daniel, 22.09.2026 16:48, Google-Vorschau + Aufruf): online am 02.09.2026, Adresse
+`/serien/dragon-ball-super-dpp50bwivlve/3-107-f-will-rache-eine-ueberaus-tueckische-falle` (entspricht dem
+vorhergesagten Schema), am 22.09. HTTP 404. Widerlegt „29 Tage für alle"; passt zu „20er-Fenster" und
+ebenso zu „19 Tage bei den frühen Folgen" — beide sagen den 21.09. voraus, unterscheiden sich erst später.
