@@ -130,3 +130,19 @@ Beobachtung schlägt eine neuere (Kill Blue: Synchro kam später; Das Band der U
 **Ausgaben**: zwei Prime-Seiten eines Titels vermischt (Digimon Tamers), (3) **Staffel statt Titel**:
 „nicht verfügbar" einer Staffel gilt dem Titel (Arifureta, Goblin Slayer 2). Folgerung: Das Urteil
 braucht die Achsen Seite und Folge, und Aktualität muss gegen Gewicht abgewogen werden.
+
+## Szenarien — gewünschtes Verhalten (wird mit Daniel festgelegt, bevor eine Regel gewählt wird)
+
+| # | Szenario | Beispiel | gewünschtes Verhalten |
+|---|---|---|---|
+| 1 | Synchro kommt später: früher „kein Deutsch" gemessen, jetzt sagt eine Quelle „Deutsch" | Kill Blue | offen |
+| 2 | Synchro oder Titel verschwindet: früher „Deutsch", jetzt „kein Deutsch" / „nicht verfügbar" | Lizenzende | offen |
+| 3 | Schwache Quelle widerspricht starker zur selben Zeit | MOTN gegen Meldung | offen |
+| 4 | Kanal-Nein: Kanal-Seite ohne Abo zeigt kein Deutsch, andere Quelle Deutsch | A Silent Voice | offen |
+| 5 | Angenommen (Randprobe) gegen gemessen (Einzelfolge) | — | offen |
+| 6 | Zwei Ausgaben beim selben Anbieter mit verschiedenem Stand | Digimon Tamers | offen |
+| 7 | Teilweise nicht verfügbar (Staffel oder Folgen gesperrt) | Fairy Tail, Arifureta | offen |
+| 8 | Keine Beobachtung, nur Katalogangabe | aniSearch-Marke | offen |
+| 9 | Laufende Staffel, spätere Folgen noch nicht erschienen | — | offen |
+| 10 | Störung statt Auskunft (Fehlerseite, 403, leere Tonspurliste) | — | offen |
+| 11 | Nicht sicher zuordenbar (mehrere unserer Titel) | Dr. STONE S3 | offen |
