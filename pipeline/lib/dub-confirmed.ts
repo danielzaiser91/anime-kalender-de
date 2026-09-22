@@ -139,7 +139,13 @@ export function adressKern(u: string | undefined): string {
     Groß- und Kleinschreibung zählt in der Kennung.
   */
   const yt = /(?:^|\.)youtube\.com\/(?:watch|playlist)$/.test(ohne) ? /[?&](v|list)=([\w-]+)/.exec(u) : null
-  return yt ? `${ohne}?${yt[1]}=${yt[2]}` : ohne
+  if (yt) return `${ohne}?${yt[1]}=${yt[2]}`
+  /*
+    Dasselbe bei Partnerlinks: bücher.de läuft über `awin1.com/pclick.php?p=<Produkt>`. Ohne den
+    Parameter teilten sich acht Titel einen Kern (gemessen am 22.09.2026).
+  */
+  const awin = /(?:^|\.)awin1\.com\/pclick\.php$/.test(ohne) ? /[?&]p=(\d+)/.exec(u) : null
+  return awin ? `${ohne}?p=${awin[1]}` : ohne
 }
 
 export function loadDubChecks(): DubCheck[] {

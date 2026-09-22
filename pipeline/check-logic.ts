@@ -5153,6 +5153,11 @@ pruefe(
     adressKern('https://www.amazon.de/dp/B0CJRZY5ND?ref_=x') === adressKern('https://www.amazon.de/gp/video/detail/B0CJRZY5ND'),
   )
   pruefe(
+    '… und ein bücher.de-Partnerlink behält sein Produkt (22.09.2026: acht Titel teilten sich einen Kern)',
+    adressKern('https://www.awin1.com/pclick.php?p=43811262955&a=400165&m=14584') !==
+      adressKern('https://www.awin1.com/pclick.php?p=43811274045&a=400165&m=14584'),
+  )
+  pruefe(
     'ein belegtes Nein sperrt im Gedächtnis nur seinen Titel',
     /NUR_DIESER_TITEL = \/[^\n]*\^belegtes Nein\//.test(readFileSync('pipeline/build.ts', 'utf8')),
     'Princess Principal: Das Nein zu Kapitel 3 nimmt Kapitel 1 und 2 wieder den Weg',

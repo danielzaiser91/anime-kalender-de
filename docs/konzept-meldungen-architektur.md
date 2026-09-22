@@ -123,6 +123,27 @@ zwischendurch schlechter wird.
 `fetch-rohfolgen.ts` gruppiert heute je Adresse und führt dieselbe Staffel so zweimal. Stufe 2 fasst über
 `asin` (Prime) bzw. `gti` (Netflix/Disney+) zusammen, und die jüngste Beobachtung gewinnt.
 
+**Gemessen an allen `prime_folge`-Zeilen (22.09.2026, 10.976 Zeilen):** 5.271 verschiedene Plattform-Folgen,
+930 davon mehrfach gemeldet, 798 unter mehreren Adressen. Eine Folgennummer widerspricht sich nie, die
+Anbieter-Staffelnummer 410-mal. 39 Folgen tragen **zwei verschiedene `titel_id`**, und zwar in vier Fällen:
+„Is This a Zombie?“ (8841) und „…of the Dead“ (10790), Hamatora (20711) und Re:␣Hamatora (21003), zwei
+gti-Seiten (102060/113653), jeweils über Suchaufträge auf derselben Prime-Seite; dazu bei Netflix dieselbe
+Folgenkennung unter 80193163 und 81499847 (97986/135806). **Folgerung:** Die `titel_id` einer Meldung
+beschreibt den Auftrag, nicht die Folge. Die Zuordnung je Folge entscheidet über Anker (Folgentitel,
+Nummer gegen Folgenzahl), `titel_id` ist nur ein Kandidat. Widersprechen sich zwei Kandidaten ohne
+entscheidenden Anker, bleibt die Folge unzugeordnet (Szenario 11).
+
+**Stufe 2, dritter Schnitt (22.09.2026), je Plattform-Folge** (`tools/poc-urteil/zuordnung-folge.ts`,
+schreibt nichts): Kandidaten = alle `titel_id` der Folge + Titel mit Weg zur Adresse + frühere Zuordnung
+(`prime-zugeordnet.json`, `dub-confirmed.yaml`); je Kandidat `ordneZu` gegen aniSearch- bzw. TMDB-Anker.
+Von 5.271 Folgen: **47 % eindeutig** (2.471), 28 % nur dem Titel zuzuordnen (1.478, ein Kandidat, kein
+Anker trifft — Folgennummer offen), 6 % offen (341, mehrere Kandidaten, kein Anker: JoJo, Dr. STONE,
+KonoSuba 1/2, Haikyu!!, Captain Tsubasa, Edens Zero/Clannad), 19 % ohne Kandidat (980, vor allem Detektiv
+Conan an Adressen, die nicht mehr im Datensatz stehen), 1 strittig. Zwei Messfehler des ersten Laufs,
+beide Adresskerne: Amazon-Suchadressen fielen auf „amazon.de/s" zusammen, `watch.amazon.de/detail?gti=…`
+verlor die gti — beide sammelten Dutzende fremde Titel als Kandidaten. **Der Adresskern muss die gti
+behalten und Suchadressen verwerfen**, auch im späteren Bau.
+
 ## PoC — Messungen
 
 **Rohmeldungen in D1, 22.09.2026 (4.433 Zeilen):** 1.563 (35 %) sind Staffelurteile ohne
