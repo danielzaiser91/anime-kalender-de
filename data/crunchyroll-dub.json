@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-21T11:46:35.996Z",
+  "scrapedAt": "2026-09-22T09:19:09.822Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -58489,7 +58489,7 @@
       "seriesId": "G8DHV7WJP",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-15",
+      "geprueftAm": "2026-09-22",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -58504,151 +58504,157 @@
             {
               "nummer": 1,
               "guid": "GWDU850W3",
-              "verfuegbarAb": "2022-04-22T01:00:00Z",
-              "laufend": 1
+              "laufend": 1,
+              "verfuegbarAb": "2022-04-22T01:00:00Z"
             },
             {
               "nummer": 2,
               "guid": "GMKUX8NPX",
-              "verfuegbarAb": "2022-05-06T01:00:00Z",
-              "laufend": 2
+              "laufend": 2,
+              "verfuegbarAb": "2022-05-06T01:00:00Z"
             },
             {
               "nummer": 3,
               "guid": "GMKUX8ZX2",
-              "verfuegbarAb": "2022-05-13T01:00:00Z",
-              "laufend": 3
+              "laufend": 3,
+              "verfuegbarAb": "2022-05-13T01:00:00Z"
             },
             {
               "nummer": 4,
               "guid": "GK9U3584X",
-              "verfuegbarAb": "2022-05-20T01:00:00Z",
-              "laufend": 4
+              "laufend": 4,
+              "verfuegbarAb": "2022-05-20T01:00:00Z"
             },
             {
               "nummer": 5,
               "guid": "G9DUE17QX",
-              "verfuegbarAb": "2022-05-27T01:00:00Z",
-              "laufend": 5
+              "laufend": 5,
+              "verfuegbarAb": "2022-05-27T01:00:00Z"
             },
             {
               "nummer": 6,
               "guid": "GJWU25313",
-              "verfuegbarAb": "2022-06-03T01:00:00Z",
-              "laufend": 6
+              "laufend": 6,
+              "verfuegbarAb": "2022-06-03T01:00:00Z"
             },
             {
               "nummer": 7,
               "guid": "G9DUE131Z",
-              "verfuegbarAb": "2022-06-10T01:00:00Z",
-              "laufend": 7
+              "laufend": 7,
+              "verfuegbarAb": "2022-06-10T01:00:00Z"
             },
             {
               "nummer": 8,
               "guid": "G2XU084W2",
-              "verfuegbarAb": "2022-06-17T01:00:00Z",
-              "laufend": 8
+              "laufend": 8,
+              "verfuegbarAb": "2022-06-17T01:00:00Z"
             },
             {
               "nummer": 9,
               "guid": "GQJUGP5ZK",
-              "verfuegbarAb": "2022-06-24T01:00:00Z",
-              "laufend": 9
+              "laufend": 9,
+              "verfuegbarAb": "2022-06-24T01:00:00Z"
             },
             {
               "nummer": 10,
               "guid": "GWDU8WVNN",
-              "verfuegbarAb": "2022-07-01T01:00:00Z",
-              "laufend": 10
+              "laufend": 10,
+              "verfuegbarAb": "2022-07-01T01:00:00Z"
             },
             {
               "nummer": 11,
               "guid": "G50UZ9DZ9",
-              "verfuegbarAb": "2022-07-08T01:00:00Z",
-              "laufend": 11
+              "laufend": 11,
+              "verfuegbarAb": "2022-07-08T01:00:00Z"
             },
             {
               "nummer": 12,
               "guid": "GN7UD9DQ3",
-              "verfuegbarAb": "2022-07-15T01:00:00Z",
-              "laufend": 12
+              "laufend": 12,
+              "verfuegbarAb": "2022-07-15T01:00:00Z"
             }
           ]
         },
         {
           "name": "Staffel 2",
           "staffelId": "GS00377992JAJP",
-          "folgen": 11,
-          "kacheln": 11,
-          "deutsch": 11,
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
               "nummer": 1,
               "guid": "GE00377993DEDE",
-              "verfuegbarAb": "2026-07-04T11:30:00Z",
-              "laufend": 1
+              "laufend": 1,
+              "verfuegbarAb": "2026-07-04T11:30:00Z"
             },
             {
               "nummer": 2,
               "guid": "GE00377994DEDE",
-              "verfuegbarAb": "2026-07-13T13:00:00Z",
-              "laufend": 2
+              "laufend": 2,
+              "verfuegbarAb": "2026-07-13T13:00:00Z"
             },
             {
               "nummer": 3,
               "guid": "GE00377995DEDE",
-              "verfuegbarAb": "2026-07-20T13:00:00Z",
-              "laufend": 3
+              "laufend": 3,
+              "verfuegbarAb": "2026-07-20T13:00:00Z"
             },
             {
               "nummer": 4,
               "guid": "GE00377996DEDE",
-              "verfuegbarAb": "2026-07-27T13:00:00Z",
-              "laufend": 4
+              "laufend": 4,
+              "verfuegbarAb": "2026-07-27T13:00:00Z"
             },
             {
               "nummer": 5,
               "guid": "GE00377997DEDE",
-              "verfuegbarAb": "2026-08-03T13:00:00Z",
-              "laufend": 5
+              "laufend": 5,
+              "verfuegbarAb": "2026-08-03T13:00:00Z"
             },
             {
               "nummer": 6,
               "guid": "GE00377998DEDE",
-              "verfuegbarAb": "2026-08-10T13:00:00Z",
-              "laufend": 6
+              "laufend": 6,
+              "verfuegbarAb": "2026-08-10T13:00:00Z"
             },
             {
               "nummer": 7,
               "guid": "GE00377999DEDE",
-              "verfuegbarAb": "2026-08-17T13:00:00Z",
-              "laufend": 7
+              "laufend": 7,
+              "verfuegbarAb": "2026-08-17T13:00:00Z"
             },
             {
               "nummer": 8,
               "guid": "GE00378000DEDE",
-              "verfuegbarAb": "2026-08-24T13:00:00Z",
-              "laufend": 8
+              "laufend": 8,
+              "verfuegbarAb": "2026-08-24T13:00:00Z"
             },
             {
               "nummer": 9,
               "guid": "GE00378001DEDE",
-              "verfuegbarAb": "2026-08-31T13:00:00Z",
-              "laufend": 9
+              "laufend": 9,
+              "verfuegbarAb": "2026-08-31T13:00:00Z"
             },
             {
               "nummer": 10,
               "guid": "GE00378002DEDE",
-              "verfuegbarAb": "2026-09-07T13:00:00Z",
-              "laufend": 10
+              "laufend": 10,
+              "verfuegbarAb": "2026-09-07T13:00:00Z"
             },
             {
               "nummer": 11,
               "guid": "GE00378003DEDE",
-              "verfuegbarAb": "2026-09-14T13:00:00Z",
-              "laufend": 11
+              "laufend": 11,
+              "verfuegbarAb": "2026-09-14T13:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GE00378004DEDE",
+              "laufend": 12,
+              "verfuegbarAb": "2026-09-21T13:00:00Z"
             }
           ]
         }
@@ -155329,7 +155335,7 @@
       "seriesId": "G8DHV7WJP",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-15",
+      "geprueftAm": "2026-09-22",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -155344,151 +155350,157 @@
             {
               "nummer": 1,
               "guid": "GWDU850W3",
-              "verfuegbarAb": "2022-04-22T01:00:00Z",
-              "laufend": 1
+              "laufend": 1,
+              "verfuegbarAb": "2022-04-22T01:00:00Z"
             },
             {
               "nummer": 2,
               "guid": "GMKUX8NPX",
-              "verfuegbarAb": "2022-05-06T01:00:00Z",
-              "laufend": 2
+              "laufend": 2,
+              "verfuegbarAb": "2022-05-06T01:00:00Z"
             },
             {
               "nummer": 3,
               "guid": "GMKUX8ZX2",
-              "verfuegbarAb": "2022-05-13T01:00:00Z",
-              "laufend": 3
+              "laufend": 3,
+              "verfuegbarAb": "2022-05-13T01:00:00Z"
             },
             {
               "nummer": 4,
               "guid": "GK9U3584X",
-              "verfuegbarAb": "2022-05-20T01:00:00Z",
-              "laufend": 4
+              "laufend": 4,
+              "verfuegbarAb": "2022-05-20T01:00:00Z"
             },
             {
               "nummer": 5,
               "guid": "G9DUE17QX",
-              "verfuegbarAb": "2022-05-27T01:00:00Z",
-              "laufend": 5
+              "laufend": 5,
+              "verfuegbarAb": "2022-05-27T01:00:00Z"
             },
             {
               "nummer": 6,
               "guid": "GJWU25313",
-              "verfuegbarAb": "2022-06-03T01:00:00Z",
-              "laufend": 6
+              "laufend": 6,
+              "verfuegbarAb": "2022-06-03T01:00:00Z"
             },
             {
               "nummer": 7,
               "guid": "G9DUE131Z",
-              "verfuegbarAb": "2022-06-10T01:00:00Z",
-              "laufend": 7
+              "laufend": 7,
+              "verfuegbarAb": "2022-06-10T01:00:00Z"
             },
             {
               "nummer": 8,
               "guid": "G2XU084W2",
-              "verfuegbarAb": "2022-06-17T01:00:00Z",
-              "laufend": 8
+              "laufend": 8,
+              "verfuegbarAb": "2022-06-17T01:00:00Z"
             },
             {
               "nummer": 9,
               "guid": "GQJUGP5ZK",
-              "verfuegbarAb": "2022-06-24T01:00:00Z",
-              "laufend": 9
+              "laufend": 9,
+              "verfuegbarAb": "2022-06-24T01:00:00Z"
             },
             {
               "nummer": 10,
               "guid": "GWDU8WVNN",
-              "verfuegbarAb": "2022-07-01T01:00:00Z",
-              "laufend": 10
+              "laufend": 10,
+              "verfuegbarAb": "2022-07-01T01:00:00Z"
             },
             {
               "nummer": 11,
               "guid": "G50UZ9DZ9",
-              "verfuegbarAb": "2022-07-08T01:00:00Z",
-              "laufend": 11
+              "laufend": 11,
+              "verfuegbarAb": "2022-07-08T01:00:00Z"
             },
             {
               "nummer": 12,
               "guid": "GN7UD9DQ3",
-              "verfuegbarAb": "2022-07-15T01:00:00Z",
-              "laufend": 12
+              "laufend": 12,
+              "verfuegbarAb": "2022-07-15T01:00:00Z"
             }
           ]
         },
         {
           "name": "Staffel 2",
           "staffelId": "GS00377992JAJP",
-          "folgen": 11,
-          "kacheln": 11,
-          "deutsch": 11,
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
               "nummer": 1,
               "guid": "GE00377993DEDE",
-              "verfuegbarAb": "2026-07-04T11:30:00Z",
-              "laufend": 1
+              "laufend": 1,
+              "verfuegbarAb": "2026-07-04T11:30:00Z"
             },
             {
               "nummer": 2,
               "guid": "GE00377994DEDE",
-              "verfuegbarAb": "2026-07-13T13:00:00Z",
-              "laufend": 2
+              "laufend": 2,
+              "verfuegbarAb": "2026-07-13T13:00:00Z"
             },
             {
               "nummer": 3,
               "guid": "GE00377995DEDE",
-              "verfuegbarAb": "2026-07-20T13:00:00Z",
-              "laufend": 3
+              "laufend": 3,
+              "verfuegbarAb": "2026-07-20T13:00:00Z"
             },
             {
               "nummer": 4,
               "guid": "GE00377996DEDE",
-              "verfuegbarAb": "2026-07-27T13:00:00Z",
-              "laufend": 4
+              "laufend": 4,
+              "verfuegbarAb": "2026-07-27T13:00:00Z"
             },
             {
               "nummer": 5,
               "guid": "GE00377997DEDE",
-              "verfuegbarAb": "2026-08-03T13:00:00Z",
-              "laufend": 5
+              "laufend": 5,
+              "verfuegbarAb": "2026-08-03T13:00:00Z"
             },
             {
               "nummer": 6,
               "guid": "GE00377998DEDE",
-              "verfuegbarAb": "2026-08-10T13:00:00Z",
-              "laufend": 6
+              "laufend": 6,
+              "verfuegbarAb": "2026-08-10T13:00:00Z"
             },
             {
               "nummer": 7,
               "guid": "GE00377999DEDE",
-              "verfuegbarAb": "2026-08-17T13:00:00Z",
-              "laufend": 7
+              "laufend": 7,
+              "verfuegbarAb": "2026-08-17T13:00:00Z"
             },
             {
               "nummer": 8,
               "guid": "GE00378000DEDE",
-              "verfuegbarAb": "2026-08-24T13:00:00Z",
-              "laufend": 8
+              "laufend": 8,
+              "verfuegbarAb": "2026-08-24T13:00:00Z"
             },
             {
               "nummer": 9,
               "guid": "GE00378001DEDE",
-              "verfuegbarAb": "2026-08-31T13:00:00Z",
-              "laufend": 9
+              "laufend": 9,
+              "verfuegbarAb": "2026-08-31T13:00:00Z"
             },
             {
               "nummer": 10,
               "guid": "GE00378002DEDE",
-              "verfuegbarAb": "2026-09-07T13:00:00Z",
-              "laufend": 10
+              "laufend": 10,
+              "verfuegbarAb": "2026-09-07T13:00:00Z"
             },
             {
               "nummer": 11,
               "guid": "GE00378003DEDE",
-              "verfuegbarAb": "2026-09-14T13:00:00Z",
-              "laufend": 11
+              "laufend": 11,
+              "verfuegbarAb": "2026-09-14T13:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GE00378004DEDE",
+              "laufend": 12,
+              "verfuegbarAb": "2026-09-21T13:00:00Z"
             }
           ]
         }
