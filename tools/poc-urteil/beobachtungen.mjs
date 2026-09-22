@@ -42,6 +42,7 @@ for (const z of zeilen) {
     vorhanden: weg ? 'nein' : 'ja',
     tonDe: weg ? 'unbekannt' : z.befund === 'dub' ? 'ja' : 'nein',
     zeitpunkt: z.gemeldet_am,
+    notiz: z.notiz ?? null,
     ref: `pruefung:${z.id}`,
   })
 }

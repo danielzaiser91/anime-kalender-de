@@ -104,3 +104,21 @@ Folgennummer, davon 1.395 von Prime; 912 Netflix-Zeilen sind Randproben-Annahmen
 „ANGENOMMEN" erkennbar); alle 315 `weg`-Meldungen sind staffelweit — eine einzelne gesperrte Folge
 lässt sich heute nicht melden. Folge für Stufe 1: Prime muss je Folge melden; bis dahin gelten
 Staffelurteile im PoC als `art: abgeleitet` für alle Folgen der Anbieter-Staffel.
+
+**Stufe 2, erster Schnitt (22.09.2026), nur über die Adresse:** von 4.433 Rohmeldungen 57 % eindeutig
+(1.889 über Weg oder frühere Zuordnung aus `dub-confirmed.yaml`, 632 mit `titel_id` aus der Meldung),
+25 % mehrdeutig (1.122 — mehrere unserer Titel an derselben Adresse, braucht Anbieter-Staffel und
+Folge), 18 % ohne jeden Anker (790, vor allem Prime: die Seite von damals steht nicht mehr im
+Datensatz — gti-Brücke, neue ASINs). **Folgerung:** Eine Beobachtung muss ihren Titel beim
+Zuordnen festhalten (Stufe 2 ist eine eigene, gespeicherte Tabelle), sonst verliert sie ihn, sobald
+sich der Weg ändert.
+
+**Stufe 2, zweiter Schnitt (22.09.2026), mehrdeutige Adressen:** Mit dem Folgentitel-Anker und
+`ordneMeldungZu` gegen Netflix' Staffelaufteilung löst der PoC 358 von 410 mehrdeutigen
+Netflix-Meldungen (211 über den Folgentitel). Disney+ (157) fehlt eine Staffelaufteilung als Datei,
+Prime-Staffelurteile ohne Folge (33) sind grundsätzlich nicht auflösbar. **Befund mit Gewicht:** Die
+Reihenfolge der Titel an einer Adresse (japanische Ausstrahlung, im PoC wie im Einleser
+`staffelnDerAdresse`) liegt dort falsch, wo ein Special zwischen zwei Staffeln lief, der Anbieter es
+aber hinten anhängt — Dr. STONE: Ryusui (2022) vor New World (2023), Netflix führt es als Folge 23
+von Staffel 3. Ohne Folgentitel landet S3 F1 beim Special. Die Prüfliste der Erweiterung ordnet
+dieselbe Staffel richtig — zwei Zuordnungen, zwei Ergebnisse (Zweifel 9).
