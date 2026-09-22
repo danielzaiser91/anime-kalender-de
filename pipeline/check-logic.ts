@@ -3030,6 +3030,14 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
     /bekannt\.some\(\(st\) => st\.seq === staffelNr\)/.test(abholung),
     'sonst bleiben Meldungen wie Haikyu!! TO THE TOP im Briefkasten liegen',
   )
+  {
+    const bauQuelle = readFileSync('pipeline/build.ts', 'utf8')
+    pruefe(
+      'eine mit „gibt es dort nicht" beantwortete Suchfrage kommt nicht wieder',
+      (bauQuelle.match(/!beantworteteSuchen\.has\(`\$\{title\.id\}\|\$\{stream\.platform\}`\)/g) ?? []).length === 2,
+      'sonst führt die Suchadressen-Pille auf Crunchyrolls Startseite (Overgeared, 22.09.2026)',
+    )
+  }
   pruefe(
     'die Notiz eines Belegs stammt aus den Meldungen seines Titels',
     /notizJeStaffel\.get\(id\) \?\? p\.notiz/.test(abholung),

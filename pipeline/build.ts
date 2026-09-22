@@ -3413,6 +3413,10 @@ function main(): void {
 
   /** Was am Ende übrig bleibt und niemand automatisch auflösen kann. */
   const suchOffen: { id: number; titel: string; plattform: string; url: string }[] = []
+  /** Titel und Anbieter, zu denen ein Handbeleg „gibt es dort nicht" sagt. */
+  const beantworteteSuchen = new Set(
+    alleChecks.filter((c) => c.available === false).map((c) => `${c.anilistId}|${c.platform}`),
+  )
 
   let ohnePfad = 0
   let ohnePfadWeg = 0
@@ -3441,7 +3445,13 @@ function main(): void {
         Adresse auf, soll sie kommen dürfen.
       */
       ohnePfadWeg++
-      suchOffen.push({ id: title.id, titel: name, plattform: stream.platform, url: stream.url })
+      /*
+        **Eine beantwortete Frage kommt nicht wieder** (22.09.2026). Overgeared stand weiter als
+        Suchadresse in der Statusanzeige und führte auf Crunchyrolls Startseite, obwohl Daniel am
+        20.09. geantwortet hatte: „dort gibt es keine Serienseite" (`available: false`).
+      */
+      if (!beantworteteSuchen.has(`${title.id}|${stream.platform}`))
+        suchOffen.push({ id: title.id, titel: name, plattform: stream.platform, url: stream.url })
       return false
     })
   }
@@ -7475,7 +7485,8 @@ function main(): void {
           return false
         }
       })
-      if (!hatSeite) suchOffen.push({ id: title.id, titel: name, plattform: stream.platform, url: stream.url })
+      if (!hatSeite && !beantworteteSuchen.has(`${title.id}|${stream.platform}`))
+        suchOffen.push({ id: title.id, titel: name, plattform: stream.platform, url: stream.url })
       return false
     })
   }
