@@ -8,6 +8,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 |---|---|---|---|---|
 | 2 | [Prime Video — Titelseiten](07-primevideo.md) | 3 Adressen, 3 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 | 3 | [Netflix](06-netflix-rest.md) | 1 Titel, 0 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 5 | [Crunchyroll](07-crunchyroll.md) | 1 Verweis | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 7 | [Disney+](07-disneyplus.md) | 1 Titel, 0 Verweise | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.

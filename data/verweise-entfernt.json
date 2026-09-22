@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-22T13:32:02.404Z",
+  "stand": "2026-09-22T16:11:43.335Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -2808,7 +2808,7 @@
     },
     {
       "titleId": 155211,
-      "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth IV",
+      "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth IV – Teil 2",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/G6DQN9KGR/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
       "seriesId": "G6DQN9KGR",
@@ -3171,7 +3171,7 @@
     },
     {
       "titleId": 155168,
-      "titel": "The Devil Is a Part-Timer! II",
+      "titel": "The Devil Is a Part-Timer! II – Teil 2",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GR75Z5KKY/the-devil-is-a-part-timer",
       "seriesId": "GR75Z5KKY",
@@ -4249,7 +4249,7 @@
     },
     {
       "titleId": 21364,
-      "titel": "Gate",
+      "titel": "Gate – Teil 2",
       "plattform": "crunchyroll",
       "url": "http://www.crunchyroll.com/de/gate",
       "seriesId": "GRGG9PN7R",
@@ -7988,6 +7988,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-22",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8047,6 +8058,17 @@
       "titel": "Gushing over Magical Girls",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1121",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-22",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,

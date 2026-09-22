@@ -9,4 +9,4 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2015-04-18 | Dragon Ball | [Z: Resurrection ‚F‘](https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f) |
+| 1 | 2025-07-17 | Sword Art Online | [Alicization - War of Underworld – Teil 2](https://www.crunchyroll.com/de/sword-art-online) |
