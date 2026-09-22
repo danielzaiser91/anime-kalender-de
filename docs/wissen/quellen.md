@@ -2694,3 +2694,11 @@ maxdome, MagentaTV, Sky Store, Rakuten, freenet, Kino On Demand, Shahid, Videolo
 Sendeende**, nicht ab Sendebeginn — Joyns `airdate` ist der TV-Termin. Adresse
 `3-128-bis-zum-bitteren-ende-vegetas-stolz-bpah02evn044` (Schema bestätigt, mit Kennung). Die Pille rechnet
 seitdem Beginn = Sendebeginn + 25 Minuten.
+
+**YouTube-Kaufangebote direkt über die YouTube Data API** (PoC 22.09.2026, 8 Suchen à 100 Einheiten):
+Alle 100 „YouTube (über TMDB)"-Pillen sind Filme. `search?type=video&regionCode=DE&q=<deutscher Titel>`
+liefert das Kauf-/Leihangebot als Video des Kanals **„YouTube Movies"** mit dem deutschen Titel. 7 von 8
+genau (Chihiro, Der Junge und der Reiher, FF VII Advent Children, 5 Centimeters per Second, Nausicaä,
+Totto-chan, Kaguya); daneben 371 „Cardcaptor Sakura: The Movie - Die Reise nach Hongkong" nur ähnlich
+(YouTube: „Cardcaptor Sakura: The Movie") — nicht übernehmen, Liste zum Nachsehen. Kontingent: 100 Suchen
+= ein ganzer Tag (10.000 Einheiten); ein Lauf müsste über mehrere Tage verteilen.
