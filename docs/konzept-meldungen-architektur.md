@@ -117,6 +117,12 @@ zwischendurch schlechter wird.
 
 **Stufe 2 — offen:** gespeicherte Zuordnungstabelle (Beobachtung → Titel × Folge × Pill), neu berechenbar.
 
+**Schlüssel ist die Folgenkennung der Plattform, nicht die gemeldete Adresse** (22.09.2026). Yamada-kun
+(20966) kam zweimal an, einmal über `watch.amazon.de/detail?gti=…`, einmal über
+`amazon.de/gp/video/detail/B0H16J2S3P`. Das ergab 24 `prime_folge`-Zeilen mit denselben zwölf Folgen-ASINs.
+`fetch-rohfolgen.ts` gruppiert heute je Adresse und führt dieselbe Staffel so zweimal. Stufe 2 fasst über
+`asin` (Prime) bzw. `gti` (Netflix/Disney+) zusammen, und die jüngste Beobachtung gewinnt.
+
 ## PoC — Messungen
 
 **Rohmeldungen in D1, 22.09.2026 (4.433 Zeilen):** 1.563 (35 %) sind Staffelurteile ohne
