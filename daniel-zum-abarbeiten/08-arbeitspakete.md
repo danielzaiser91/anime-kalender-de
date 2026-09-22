@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-22 · **3 offene Verweise** in **3 Zeilen**,
+Stand 2026-09-22 · **1 offene Verweise** in **1 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,10 +31,8 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 3
+## Paket 1 — Zeilen 1 bis 1
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | Prime Video | Classroom of the Elite | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GGJKGT5P) |
-| 2 | Crunchyroll | Demon King Daimao — Daimao | [Demon King Daimao](https://www.crunchyroll.com/series/GRGG58V1R/demon-king-daimao) |
-| 3 | Crunchyroll | Dragon Ball | [Z: Resurrection ‚F‘](https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f) |
+| 1 | Crunchyroll | Dragon Ball | [Z: Resurrection ‚F‘](https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f) |

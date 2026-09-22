@@ -16864,3 +16864,45 @@
   dub: false
   checkedAt: '2026-09-22'
   note: "Daniel mit Bild der Crunchyroll-Seite: Audio: Japanese, Untertitel: English — keine deutsche Tonspur"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-22 ---
+
+- anilistId: 105333
+  title: "Dr. Stone"
+  platform: netflix
+  url: https://www.netflix.com/title/81046193
+  dub: true
+  checkedAt: '2026-09-22'
+  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 24, dazwischen nicht geprüft — Folge 24: Folge 24"
+
+- anilistId: 106625
+  title: "Haikyu!! To the Top"
+  platform: netflix
+  url: https://www.netflix.com/title/80090673
+  dub: true
+  checkedAt: '2026-09-22'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Der zweite Tag"
+
+- anilistId: 113538
+  title: "Haikyu!! To the Top Cour 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80090673
+  dub: true
+  checkedAt: '2026-09-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 14 und 25, dazwischen nicht geprüft — Folge 25: Der versprochene Ort"
+
+- anilistId: 113936
+  title: "Dr. Stone: Stone Wars"
+  platform: netflix
+  url: https://www.netflix.com/title/81046193
+  dub: true
+  checkedAt: '2026-09-22'
+  note: "Folgen 1–11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 11, dazwischen nicht geprüft — Folge 11: Folge 11"
+
+- anilistId: 98659
+  title: "Classroom of the Elite"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GGJKGT5P
+  dub: true
+  checkedAt: '2026-09-22'
+  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), Русский, 日本語 — Amazon-Seite B0GGJKGT5P: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.fa347b8c-f8a3-4078-9123-7c247774616c — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"

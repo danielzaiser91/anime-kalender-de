@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-09-22T07:50:50.967Z",
+ "erzeugtAm": "2026-09-22T08:02:37.137Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 741,
+   "gemeldet": 742,
    "gesamt": 743,
-   "offen": 2,
+   "offen": 1,
    "ohneSeite": 0,
    "suchAdressen": [],
    "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90",
@@ -14,10 +14,6 @@
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90",
      "titel": "A Silent Voice"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GGJKGT5P",
-     "titel": "Classroom of the Elite"
     }
    ],
    "naechster": "A Silent Voice"
@@ -25,21 +21,13 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 375,
+   "gemeldet": 376,
    "gesamt": 376,
-   "offen": 1,
+   "offen": 0,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/81046193",
-   "ziele": [
-    {
-     "url": "https://www.netflix.com/title/81046193",
-     "titel": "Dr. Stone",
-     "staffeln": [
-      2
-     ]
-    }
-   ],
-   "naechster": "Dr. Stone"
+   "ziel": null,
+   "ziele": [],
+   "naechster": null
   },
   {
    "name": "Disney+",
@@ -56,41 +44,33 @@
    "name": "Crunchyroll",
    "plattform": "crunchyroll",
    "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
+   "gesamt": 1,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": "https://www.crunchyroll.com/series/GRGG58V1R/demon-king-daimao",
+   "ziel": "https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f",
    "ziele": [
-    {
-     "url": "https://www.crunchyroll.com/series/GRGG58V1R/demon-king-daimao",
-     "titel": "Demon King Daimao"
-    },
     {
      "url": "https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f",
      "titel": "Dragon Ball Z: Resurrection ‚F‘"
     }
    ],
-   "naechster": "Demon King Daimao"
+   "naechster": "Dragon Ball Z: Resurrection ‚F‘"
   },
   {
    "name": "Suchadressen",
    "plattform": "suchadressen",
    "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
+   "gesamt": 1,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": "https://www.crunchyroll.com",
+   "ziel": "https://www.amazon.de/s?k=Fairy%20Tail&i=instant-video",
    "ziele": [
-    {
-     "url": "https://www.crunchyroll.com",
-     "titel": "Overgeared"
-    },
     {
      "url": "https://www.amazon.de/s?k=Fairy%20Tail&i=instant-video",
      "titel": "Fairy Tail"
     }
    ],
-   "naechster": "Overgeared"
+   "naechster": "Fairy Tail"
   }
  ]
 }

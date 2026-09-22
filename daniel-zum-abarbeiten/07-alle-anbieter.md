@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-22 · **3 offene Verweise** in **3 Zeilen**.
+Stand 2026-09-22 · **1 offene Verweise** in **1 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,18 +33,14 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Crunchyroll](07-crunchyroll.md) | 2 |
-| [Prime Video](07-primevideo.md) | 1 |
+| [Crunchyroll](07-crunchyroll.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-03-31 | Classroom of the Elite | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GGJKGT5P) |
-| 2 | 2015-04-18 | Dragon Ball | [Z: Resurrection ‚F‘](https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f) |
-| 3 | 2010-11-25 | Demon King Daimao — Daimao | [Demon King Daimao](https://www.crunchyroll.com/series/GRGG58V1R/demon-king-daimao) |
+| 1 | 2015-04-18 | Dragon Ball | [Z: Resurrection ‚F‘](https://www.crunchyroll.com/watch/GG1U2ZJNQ/dragon-ball-z-resurrection-f) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
 - **Crunchyroll:** Der Simulcast-Kalender führt nur laufende Staffeln. Für Katalogtitel sagt er nichts — Fehlen ist dort kein Gegenbeweis.
-- **Prime Video:** Prime Video nennt die Tonspuren erst auf der Produktseite, und die ist ohne Anmeldung unvollständig.
