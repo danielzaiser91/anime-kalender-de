@@ -122,3 +122,11 @@ Reihenfolge der Titel an einer Adresse (japanische Ausstrahlung, im PoC wie im E
 aber hinten anhängt — Dr. STONE: Ryusui (2022) vor New World (2023), Netflix führt es als Folge 23
 von Staffel 3. Ohne Folgentitel landet S3 F1 beim Special. Die Prüfliste der Erweiterung ordnet
 dieselbe Staffel richtig — zwei Zuordnungen, zwei Ergebnisse (Zweifel 9).
+
+**Stufe 3, erster Schnitt (22.09.2026), ein Urteil je Titel × Anbieter** (`tools/poc-urteil/urteil.mjs`,
+höchstes Gewicht, dann jüngstes): 589 Urteile. Von 421 vergleichbaren stimmen 390 mit dem heutigen
+Datensatz überein; 31 widersprechen, alle in drei Mustern — (1) **Zeit**: eine ältere gemessene
+Beobachtung schlägt eine neuere (Kill Blue: Synchro kam später; Das Band der Unterwelt), (2)
+**Ausgaben**: zwei Prime-Seiten eines Titels vermischt (Digimon Tamers), (3) **Staffel statt Titel**:
+„nicht verfügbar" einer Staffel gilt dem Titel (Arifureta, Goblin Slayer 2). Folgerung: Das Urteil
+braucht die Achsen Seite und Folge, und Aktualität muss gegen Gewicht abgewogen werden.
