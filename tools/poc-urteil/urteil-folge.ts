@@ -13,6 +13,7 @@
  * Aufruf: npx tsx tools/poc-urteil/urteil-folge.ts <pruefung.json> <prime_folge.json>
  */
 import { readFileSync } from 'node:fs'
+import { adressKern } from '../../pipeline/lib/dub-confirmed.ts'
 import type { Title } from '../../shared/types.ts'
 
 interface PruefZeile {
@@ -27,6 +28,7 @@ interface PruefZeile {
   art: string | null
   befund: string | null
   notiz: string | null
+  abos: string | null
 }
 interface FolgenZeile {
   plattform: string
@@ -55,7 +57,7 @@ const KANAL = /crunchyroll|aniverse|animedigital|pokemon|prosieben|kixi|midnight
 const kanalAdresse = new Set(
   (lies(process.argv[2]!)[0].results as { url: string; abos: string | null }[])
     .filter((z) => KANAL.test(z.abos ?? ''))
-    .map((z) => z.url),
+    .map((z) => adressKern(z.url)),
 )
 
 const RANG: Record<string, number> = { gemessen: 3, abgeleitet: 2, angenommen: 1 }
@@ -89,7 +91,7 @@ for (const f of folgen) {
     rang: RANG.gemessen!,
     vorhanden,
     tonDe,
-    kanal: tonDe === 'nein' && kanalAdresse.has(f.url),
+    kanal: tonDe === 'nein' && kanalAdresse.has(adressKern(f.url)),
   })
 }
 /* Alte Meldungen tragen nur `befund` — Migration 034 hat die Felder nicht nachgetragen. */
@@ -109,6 +111,8 @@ for (const p of pruef) {
       rang: RANG[p.art ?? (/ANGENOMMEN/.test(p.notiz ?? '') ? 'angenommen' : 'gemessen')] ?? 2,
       vorhanden: v.vorhanden,
       tonDe: v.tonDe,
+      /* Ein Nein von einer Kanal-Seite ist auch in der Meldung keine Auskunft — nicht nur in der Rohfolge. */
+      kanal: v.tonDe === 'nein' && KANAL.test(p.abos ?? ''),
     })
   }
 }
@@ -148,3 +152,14 @@ console.log(`${jeFolge.size} Urteile je Titel × Anbieter × Folge\n`)
 for (const [k, v] of [...matrix].sort((a, b) => b[1] - a[1])) console.log(String(v).padStart(6), k)
 console.log(`\n${[...abweichung.values()].reduce((a, b) => a + b.n, 0)} abweichende Folgen in ${abweichung.size} Gruppen, die größten 15:`)
 for (const [g, e] of [...abweichung].sort((a, b) => b[1].n - a[1].n).slice(0, 15)) console.log(String(e.n).padStart(5), g, '·', e.bsp)
+/* Mit --einzeln: die Abweichungen ohne Kanal-Nein, Folge für Folge — die Fälle zum Ansehen. */
+if (process.argv.includes('--einzeln')) {
+  console.log('\nOhne Kanal-Nein, einzeln:')
+  for (const [k, b] of jeFolge) {
+    const [id, anbieter, folge] = k.split('|')
+    const neu = urteil(b)
+    const alt = heute(Number(id), anbieter, Number(folge))
+    if (neu === alt || alt.startsWith('kein Weg') || alt === 'Titel nicht im Bestand' || b.kanal) continue
+    console.log(`  ${titel.get(Number(id))?.titleDe ?? id} (${id}) · ${anbieter} · F${folge} · PoC ${neu} (${b.tag}, ${b.rang === 3 ? 'gemessen' : b.rang === 2 ? 'abgeleitet' : 'angenommen'}) ← heute ${alt}`)
+  }
+}

@@ -154,12 +154,16 @@ Folge) gilt die jüngste, am selben Tag gemessen vor angenommen. Ergebnis: **3.3
 verglichen mit `dubRanges` bzw. `dub` des heutigen Datensatzes — **2.794 gleich, 167 abweichend**, der
 Rest ohne Weg dieses Anbieters (395) oder heute unbekannt (59).
 
-**Die Abweichungen sind erklärt und widerlegen das Modell nicht:** 122 der 167 stammen von einer
-Kanal-Seite (Yu-Gi-Oh! 5D's 42, JoJo Golden Wind 37, We Never Learn 13, …) — leere Tonspuren ohne
-Kanal-Abo, im Modell „unbekannt + Prüfliste mit Abo prüfen", nicht „kein Deutsch". 21 sind Fairy Tail,
-wo die heutige Meldung absichtlich noch nicht im Bestand steht. Es bleiben **24 Folgen in fünf Reihen**
-(Captain Tsubasa 7, Trapped in a Dating Sim 3, Slime 3, My Hero Academia 4, …), die einzeln anzusehen
-sind, bevor Stufe 3 den Bau übernimmt. **Offen in Stufe 2:** die Pill-Achse (welcher Verweis), eine Liste für die offenen
+**Die Abweichungen sind vollständig erklärt:** **146 von 167 sind Kanal-Seiten** (Yu-Gi-Oh! 5D's 42,
+JoJo Golden Wind 37, We Never Learn 13, Captain Tsubasa 7, Slime 3, …) — leere Tonspuren ohne Kanal-Abo,
+im Modell „unbekannt + Prüfliste mit Abo prüfen", nicht „kein Deutsch". Die übrigen **21 sind Fairy Tail**,
+wo die Meldung vom 22.09.2026 absichtlich noch nicht im Bestand steht. **Keine einzige ungeklärte
+Abweichung.**
+
+Zwei Dinge hat erst die Einzelliste gezeigt (`--einzeln`): Das Kanal-Merkmal muss an der **Meldung**
+hängen, nicht nur an der Rohfolge — bei Captain Tsubasa, Haikyu!!, Slime und Trapped in a Dating Sim
+stammte das Nein aus `pruefung`, während die Rohfolge leere Tonspuren trug und ohnehin als Störung
+ausschied. Und eine Rohfolge ohne Tonspuren ist keine Beobachtung, sondern eine Störung (Szenario 10). **Offen in Stufe 2:** die Pill-Achse (welcher Verweis), eine Liste für die offenen
 Folgen zum Nachprüfen, Detektiv Conan ohne Kandidat.
 
 **Schlüssel ist die Folgenkennung der Plattform, nicht die gemeldete Adresse** (22.09.2026). Yamada-kun
