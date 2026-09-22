@@ -506,26 +506,30 @@ function veraltetTest(schritte) {
 {
   const fs = require('node:fs')
   const worker = fs.readFileSync(require('node:path').resolve(__dirname, '../worker/src/index.ts'), 'utf8')
-  const m = /\[([^\]]*)\]\.includes\(befund\)/.exec(worker)
-  const erlaubt = m ? m[1].split(',').map((s) => s.trim().replace(/^'|'$/g, '')) : []
   const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
-  /**
-   * Alle Zeichenketten der `befund:`-Zuweisung, nicht nur die eines
-   * zweistelligen Fragezeichen-Ausdrucks.
-   *
-   * Das frühere Muster verlangte genau `befund: x ? 'a' : 'b'`. Als am
-   * 24.08.2026 ein dritter Fall dazukam — `weg` für einen toten Verweis —,
-   * traf es nicht mehr, `benutzt` blieb leer, und die Zusicherung meldete
-   * einen Fehler, wo keiner war. Ein Muster, das an der Zahl der Zweige hängt,
-   * bricht beim nächsten Zweig.
-   */
-  const zuweisung = /befund:([^,]*(?:,(?![\s\S]{0,40}:)[^,]*)*)/.exec(leser)?.[1] ?? ''
-  const benutzt = [...zuweisung.matchAll(/'([^']+)'/g)].map((x) => x[1])
-  pruefe(
-    `die gemeldeten Befunde stehen in der Worker-Liste [${erlaubt.join(', ')}]`,
-    erlaubt.length > 0 && benutzt.length > 0 && benutzt.every((b) => erlaubt.includes(b)),
-    benutzt,
-  )
+  /*
+    **Seit Stufe 1 (22.09.2026) meldet der Leser `vorhanden` / `ton_de` / `art`
+    statt `befund`.** Dieselbe Frage je Feld: steht jeder Wert, den amazon.js
+    schreibt, in der Liste, die der Worker annimmt?
+  */
+  for (const [feld, variable] of [['vorhanden', 'vorhanden'], ['ton_de', 'tonDe'], ['art', 'art']]) {
+    const mw = new RegExp(`\\[([^\\]]*)\\]\\.includes\\(${variable}\\)`).exec(worker)
+    const zul = mw ? mw[1].split(',').map((s) => s.trim().replace(/^'|'$/g, '')) : []
+    /* `art` heißt auch der Befund der Suchseite (`art: 'genau'`) — gezählt wird nur das `art` eines Meldungsobjekts, also nach `vorhanden:`. */
+    const muster = feld === 'art' ? /vorhanden:[^}]*?\bart: '[^']+'/g : new RegExp(`\\b${feld}:[^,\\n]*`, 'g')
+    const werte = [...leser.matchAll(muster)].flatMap((z) =>
+      feld === 'art'
+        ? [/\bart: '([^']+)'/.exec(z[0])[1]]
+        : [...z[0].matchAll(/'([^']+)'/g)].map((x) => x[1]),
+    )
+    pruefe(
+      `die gemeldeten Werte für ${feld} stehen in der Worker-Liste [${zul.join(', ')}]`,
+      zul.length > 0 && werte.length > 0 && werte.every((w) => zul.includes(w)),
+      werte,
+    )
+  }
+  /* Und das alte Feld geht nicht mehr raus — zwei Angaben derselben Sache liefen auseinander. */
+  pruefe("amazon.js schickt kein `befund: '…'` mehr", !/(?<!`)\bbefund: '/.test(leser))
 }
 
 /**

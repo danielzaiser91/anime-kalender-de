@@ -782,7 +782,9 @@
           plattform: 'disneyplus',
           url: e.url,
           titelId: titelIdFuer(e.staffeln, null),
-          befund: 'weg',
+          /* Stufe 1 des Meldemodells: Verfügbarkeit und Sprache getrennt (22.09.2026). */
+          vorhanden: 'nein',
+          art: 'gemessen',
           titel: e.titel,
           serientitel: e.titel,
           notiz: 'Disney+ meldet: nicht in deinem Gebiet verfügbar',
@@ -834,7 +836,10 @@
             /* Welches Werk gemeint ist — der Auftrag weiß es, die Adresse nicht. */
             titelId: titelIdFuer(eintrag.staffeln, r.staffel ?? null),
             sprachen: r.sprachen,
-            befund: r.sprachen.includes('de') ? 'dub' : 'kein_dub',
+            /* Jede Folge ist einzeln abgefragt — gemessen, nie angenommen. */
+            vorhanden: 'ja',
+            ton_de: r.sprachen.includes('de') ? 'ja' : 'nein',
+            art: 'gemessen',
             titel: eintrag.titel,
             folge: r.titel || null,
             folge_nr: r.nummer,

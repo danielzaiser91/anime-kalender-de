@@ -1249,7 +1249,7 @@ async function melden({ automatisch = false } = {}) {
         /* Welches Werk gemeint ist — der Auftrag weiß es, die Adresse nicht. */
         titelId: titelIdFuer(gemeinteReihe(), stand.staffel ?? null),
         sprachen: echte.map((s) => `${s.code}|${s.name}`),
-        befund: ohneFolge ? 'weg' : deutsch ? 'dub' : 'kein_dub',
+        ...beobachtung(!ohneFolge, deutsch),
         titel: (stand.titel || '').replace(/\s*-\s*Netflix\s*$/i, '').trim() || null,
         // Die laufende Folge als Beleg, nie als Ersatz fuer die Reihe.
         folge: stand.folge,
@@ -3934,7 +3934,10 @@ async function durchlaufStarten(grenze) {
       (a, b) => a.folge.nummer - b.folge.nummer,
     )
     if (ersteFolge.deutsch === letzteFolge.deutsch) {
-      await randMelden(DURCHLAUF.randprobe, ersteFolge, letzteFolge.folge.nummer)
+      await randMelden(DURCHLAUF.randprobe, ersteFolge, letzteFolge.folge.nummer, [
+        ersteFolge.folge.nummer,
+        letzteFolge.folge.nummer,
+      ])
       /*
         **Die Annahme gehört an den Knopf, nicht nur in die Notiz.** Daniel am
         11.09.2026: „wenn es dazu führt das e2-e25 als dub true gekennzeichnet
@@ -4029,6 +4032,23 @@ async function durchlaufStarten(grenze) {
   }
 }
 
+/**
+ * **Was eine Meldung beobachtet hat — Verfügbarkeit, Sprache und Art getrennt.**
+ *
+ * Stufe 1 des Meldemodells (docs/konzept-meldungen-architektur.md, 22.09.2026).
+ * Das alte `befund` warf „weg" und „kein Deutsch" in ein Feld, und ob eine Folge
+ * gemessen oder aus der Randprobe angenommen war, stand nur in der Notiz. Der
+ * Worker leitet `befund` für den heutigen Einleser aus diesen drei Feldern ab.
+ *
+ * `deutsch` bleibt bei `vorhanden: false` ungenutzt — eine Folge, die es nicht
+ * gibt, hat keine Tonspur.
+ */
+function beobachtung(vorhanden, deutsch, angenommen = false) {
+  return vorhanden
+    ? { vorhanden: 'ja', ton_de: deutsch ? 'ja' : 'nein', art: angenommen ? 'angenommen' : 'gemessen' }
+    : { vorhanden: 'nein', art: 'gemessen' }
+}
+
 /** Eine Folge des Durchlaufs melden — dieselbe Route wie eine Handmeldung. */
 /**
  * **Eine ganze Staffel aus zwei Messungen melden — als Annahme gekennzeichnet.**
@@ -4042,8 +4062,10 @@ async function durchlaufStarten(grenze) {
  * letzte test ausreicht." Seine Entscheidung — aber sie muss im Datensatz
  * ablesbar bleiben, sonst sieht eine Annahme später aus wie eine Messung.
  */
-async function randMelden(folgen, befund, bisNummer) {
+async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?.nummer]) {
   /* `bisNummer` steht nur noch in der Notiz — gefiltert wird von den Aufrufern. */
+  /* Welche Folgen wirklich abgespielt wurden; nur die gehen als `gemessen` raus. */
+  const gemessen = new Set(gemessenNr.map(Number))
   const { token } = await chrome.storage.sync.get('token')
   if (!token) return 0
   const reihe = gemeinteReihe()
@@ -4070,7 +4092,7 @@ async function randMelden(folgen, befund, bisNummer) {
           plattform: 'netflix',
           url: `https://www.netflix.com/title/${reihe}`,
           sprachen: befund.echte.map((x) => `${x.code}|${x.name}`),
-          befund: befund.deutsch ? 'dub' : 'kein_dub',
+          ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
           titel: stand.serientitel ?? null,
           folge: f.videoId,
           folge_nr: f.nummer,
@@ -4101,7 +4123,7 @@ async function randMelden(folgen, befund, bisNummer) {
               staffelNr: staffelDerFolge ?? null,
               roh: {
                 liste: f.felder ?? null,
-                angenommen: f.nummer !== folgen[0].nummer && f.nummer !== bisNummer,
+                angenommen: !gemessen.has(Number(f.nummer)),
               },
             },
           ],
@@ -4168,7 +4190,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
         plattform: 'netflix',
         url: `https://www.netflix.com/title/${gemeinteReihe()}`,
         sprachen: echte.map((s) => `${s.code}|${s.name}`),
-        befund: deutsch ? 'dub' : 'kein_dub',
+        ...beobachtung(true, deutsch),
         /*
           **Der Player kennt bei einem Film keinen Serientitel.**
 
@@ -5846,7 +5868,7 @@ setInterval(() => void standHolen(), 5 * 60 * 1000)
  * `fetch-pruefungen.ts` bevorzugt die Kennung aus der Meldung vor jeder
  * Rekonstruktion über die Adresse.
  *
- * `befund: 'weg'` ist derselbe wie beim toten Verweis, und das ist richtig:
+ * `vorhanden: 'nein'` (beim Worker `befund: 'weg'`) ist derselbe wie beim toten Verweis, und das ist richtig:
  * Der Bau macht daraus `available: false` und entfernt den Verweis — beim
  * gemeldeten Titel, nicht bei seinen Geschwistern.
  */
@@ -5863,7 +5885,7 @@ async function staffelWegMelden(reihe, st, titelId, titel) {
         titelId,
         staffel: Number(st.nr) || null,
         sprachen: [],
-        befund: 'weg',
+        ...beobachtung(false),
         titel: titel || null,
         notiz: `Netflix führt Staffel ${st.nr} nicht — die Reihe läuft dort, diese Staffel nicht. Aus der Prüfliste je Staffel gemeldet.`,
       }),
@@ -5890,7 +5912,7 @@ async function totMelden(id, titel) {
         url: `https://www.netflix.com/title/${id}`,
         titelId: titelIdFuer(id, null),
         sprachen: [],
-        befund: 'weg',
+        ...beobachtung(false),
         titel: titel || null,
         notiz: 'Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um',
       }),

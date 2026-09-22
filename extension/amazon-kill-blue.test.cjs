@@ -297,24 +297,34 @@ setTimeout(() => {
 
   const nachNr = new Map(gemeldet.map((m) => [m.koerper.folge_nr, m.koerper]))
   pruefe(
-    'Folge 1 wird als dub gemeldet',
-    nachNr.get(1)?.befund === 'dub',
-    nachNr.get(1)?.befund,
+    'Folge 1 wird mit ton_de ja gemeldet (Stufe 1)',
+    nachNr.get(1)?.ton_de === 'ja' && nachNr.get(1)?.vorhanden === 'ja' && nachNr.get(1)?.art === 'gemessen',
+    nachNr.get(1),
   )
   pruefe(
-    'Folge 4 wird als dub gemeldet',
-    nachNr.get(4)?.befund === 'dub',
-    nachNr.get(4)?.befund,
+    'Folge 4 wird mit ton_de ja gemeldet (Stufe 1)',
+    nachNr.get(4)?.ton_de === 'ja' && nachNr.get(4)?.vorhanden === 'ja' && nachNr.get(4)?.art === 'gemessen',
+    nachNr.get(4),
   )
   pruefe(
-    'Folge 5 wird als kein_dub gemeldet',
-    nachNr.get(5)?.befund === 'kein_dub',
-    nachNr.get(5)?.befund,
+    'Folge 5 wird mit ton_de nein gemeldet (Stufe 1)',
+    nachNr.get(5)?.ton_de === 'nein' && nachNr.get(5)?.vorhanden === 'ja' && nachNr.get(5)?.art === 'gemessen',
+    nachNr.get(5),
   )
   pruefe(
-    'Folge 12 wird als kein_dub gemeldet',
-    nachNr.get(12)?.befund === 'kein_dub',
-    nachNr.get(12)?.befund,
+    'Folge 12 wird mit ton_de nein gemeldet (Stufe 1)',
+    nachNr.get(12)?.ton_de === 'nein' && nachNr.get(12)?.vorhanden === 'ja' && nachNr.get(12)?.art === 'gemessen',
+    nachNr.get(12),
+  )
+  /* Stufe 1 je Folge: jede Rohfolge sagt, ob es sie gibt und ob sie Deutsch hat (22.09.2026). */
+  const roh = gemeldet[0]?.koerper?.rohfolgen ?? []
+  pruefe(
+    'die Rohfolgen tragen vorhanden und ton_de',
+    roh.length === 12 &&
+      roh.every((r) => r.vorhanden === 'ja') &&
+      roh.find((r) => r.nummer === 1)?.ton_de === 'ja' &&
+      roh.find((r) => r.nummer === 5)?.ton_de === 'nein',
+    roh.map((r) => `${r.nummer}:${r.vorhanden}/${r.ton_de}`),
   )
   pruefe(
     'jede Meldung trägt ihre eigenen Sprachen',
@@ -355,8 +365,8 @@ setTimeout(() => {
   setTimeout(() => {
     const nrn = leer.gemeldet.map((m) => m.koerper.folge_nr).sort((a, b) => a - b)
     pruefe('leere Tonspurlisten: Folgen 5–12 gehen einzeln raus, 1–4 gar nicht', JSON.stringify(nrn) === JSON.stringify([5, 6, 7, 8, 9, 10, 11, 12]), nrn)
-    const je = new Map(leer.gemeldet.map((m) => [m.koerper.folge_nr, m.koerper.befund]))
-    pruefe('leere Tonspurlisten: Folge 5 dub, Folge 12 kein_dub', je.get(5) === 'dub' && je.get(12) === 'kein_dub', [je.get(5), je.get(12)])
+    const je = new Map(leer.gemeldet.map((m) => [m.koerper.folge_nr, m.koerper.ton_de]))
+    pruefe('leere Tonspurlisten: Folge 5 Deutsch, Folge 12 nicht', je.get(5) === 'ja' && je.get(12) === 'nein', [je.get(5), je.get(12)])
     ergebnis()
   }, 0)
 }, 0)

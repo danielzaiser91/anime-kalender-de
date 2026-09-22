@@ -2274,6 +2274,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
                   ORDER BY p.gemeldet_am DESC LIMIT 1) AS serientitel
            FROM prime_folge f
           WHERE f.uebernommen = 0 AND f.id > ?1
+            AND (f.vorhanden IS NULL OR f.vorhanden <> 'nein')
           ORDER BY f.id
           LIMIT 5000`,
       )
@@ -2281,7 +2282,11 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         .all()
       /* Die Gesamtzahl getrennt: Eine Abfrage mit LIMIT beantwortet eine andere
          Frage als die gestellte — das hat am 26.08.2026 zwei Einträge gekostet. */
-      const gesamt = await env.DB.prepare('SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0').first<{ n: number }>()
+      /* Gesperrte Folgen (`vorhanden = 'nein'`, Migration 035) liest erst Stufe 2 — bis dahin
+         sähe der Zuordner ihre leeren Tonspuren als „kein Deutsch". Entfällt mit Stufe 2. */
+      const gesamt = await env.DB.prepare(
+        "SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0 AND (vorhanden IS NULL OR vorhanden <> 'nein')",
+      ).first<{ n: number }>()
       const zeilen = (results ?? []) as { id: number }[]
       return antwort({
         folgen: zeilen,
@@ -2882,8 +2887,8 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       env.DB.prepare(
         `INSERT INTO prime_folge (url, asin, gti, nummer, titel, erschienen, dauer_sek,
                                   sprachen, untertitel, staffel_text, staffel_nr, gemeldet_am,
-                                  titel_id, plattform, roh, seiten_kennung)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16)`,
+                                  titel_id, plattform, roh, seiten_kennung, vorhanden, ton_de)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)`,
       ).bind(
         url,
         f.asin ? String(f.asin).slice(0, 40) : null,
@@ -2928,6 +2933,9 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         /* Alles Kleine, was die Seite über die Folge sagt — Migration 029. */
         f.roh ? JSON.stringify(f.roh).slice(0, 8000) : null,
         seitenKennung ? seitenKennung.slice(0, 40) : null,
+        /* Stufe 1 je Folge — Migration 035. Nur die bekannten Werte, sonst leer. */
+        ['ja', 'nein'].includes(String(f.vorhanden)) ? String(f.vorhanden) : null,
+        ['ja', 'nein', 'unbekannt'].includes(String(f.ton_de)) ? String(f.ton_de) : null,
       ),
     )
     try {

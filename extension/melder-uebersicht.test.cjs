@@ -418,7 +418,7 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
       'er meldet titelgenau, nicht über die Adresse',
       fn.includes('titelId,') && fn.includes('staffel: Number(st.nr)'),
     )
-    pruefe('und mit demselben Befund wie ein toter Verweis', fn.includes("befund: 'weg'"))
+    pruefe('und mit demselben Befund wie ein toter Verweis', fn.includes('...beobachtung(false)'))
     pruefe('er fragt einmal nach, bevor er streicht', q.includes("weg.dataset.sicher !== 'ja'"))
     /*
       **Und was über die Zählung des Anbieters hinausgeht, trägt seinen Namen.**

@@ -3508,7 +3508,8 @@ async function speicherSchreiben(werte) {
         body: JSON.stringify({
           plattform: 'primevideo',
           url: auftrag.suchUrl,
-          befund: 'weg',
+          vorhanden: 'nein',
+          art: 'gemessen',
           titel: auftrag.titel,
           /* Woher die Auskunft stammt — Suchseite oder geöffnete Titelseite. */
           notiz:
@@ -10291,16 +10292,20 @@ async function speicherSchreiben(werte) {
           sprachen: teil ? teil.sprachen : sprachen,
           /* Ohne Mischung bleibt das Feld leer — dann gilt der Befund der Staffel. */
           folge_nr: teil ? teil.folgeNr : undefined,
-          /**
-           * `dub` / `kein_dub` — nicht `ja` / `nein`.
-           *
-           * Die erste Fassung schickte `ja`, und der Worker antwortete mit
-           * HTTP 400 (Daniel, 23.08.2026, beim ersten Klick auf „Digimon
-           * Tamers"). Die gültigen Werte stehen in `worker/src/index.ts`:
-           * `['dub', 'kein_dub', 'weg']`. Sie waren nachzulesen, nicht zu
-           * erraten.
-           */
-          befund: nichtAbrufbar ? 'weg' : (teil ? teil.deutsch : deutsch) ? 'dub' : 'kein_dub',
+          /*
+            Die gültigen Werte stehen in `worker/src/index.ts` — nachlesen, nicht
+            erraten: Die erste Fassung schickte `befund: 'ja'` und bekam HTTP 400
+            (Digimon Tamers, 23.08.2026).
+          */
+          /*
+            **Stufe 1 des Meldemodells: Verfügbarkeit und Sprache getrennt** (22.09.2026,
+            docs/konzept-meldungen-architektur.md). Der Worker leitet daraus das alte
+            `befund` (`weg` / `dub` / `kein_dub`) für den heutigen Einleser ab. Prime
+            liest jede Folge einzeln aus der Seite — gemessen, nie angenommen.
+          */
+          ...(nichtAbrufbar
+            ? { vorhanden: 'nein', art: 'gemessen' }
+            : { vorhanden: 'ja', ton_de: (teil ? teil.deutsch : deutsch) ? 'ja' : 'nein', art: 'gemessen' }),
           /**
            * Kennen wir den Titel nicht, wird er von der Seite gelesen.
            *
@@ -10437,7 +10442,28 @@ async function speicherSchreiben(werte) {
               return null
             }
           })(),
-          rohfolgen: [...(gesehen.metaJeFolge ?? new Map()).values()].map((f) => ({
+          /*
+            **Gesperrte Folgen gehen mit — als `vorhanden: 'nein'`.**
+
+            Bis 4.20 fielen sie hier ganz heraus (`gesehen.gesperrt`), und mit ihnen die
+            Beobachtung „diese Folge gibt es bei Prime nicht". Das neue Urteil je Folge
+            braucht sie. Der heutige Zuordner sieht sie nicht: `?rohfolgen=1` lässt sie
+            aus, bis Stufe 2 ihn ersetzt (Migration 035).
+
+            `ton_de` ist `unbekannt`, wenn die Folge keine Tonspuren nennt — leer heißt
+            „nicht gezeigt", nicht „kein Deutsch" (Captain Tsubasa, 15.09.2026).
+          */
+          rohfolgen: [
+            ...[...(gesehen.metaJeFolge ?? new Map()).values()].map((f) => ({ f, vorhanden: 'ja' })),
+            ...[...(gesehen.gesperrt ?? new Map()).values()].map((f) => ({ f, vorhanden: 'nein' })),
+          ].map(({ f, vorhanden }) => ({
+            vorhanden,
+            ton_de:
+              vorhanden === 'nein' || !(f.sprachen ?? []).length
+                ? 'unbekannt'
+                : f.sprachen.some((x) => /deutsch|german/i.test(x))
+                  ? 'ja'
+                  : 'nein',
             asin: f.kennung ?? null,
             gti: f.gti ?? null,
             nummer: f.nummer ?? null,
