@@ -2637,15 +2637,16 @@ nannte keinen dieser Anbieter dafür. Videoload kommt bei JustWatch gar nicht vo
 es aber (Wolfskinder dort mit Deutsch, Daniel mit Bild).
 
 **Videoload und MagentaTV teilen die Gracenote-Kennung** (`GN_MV…`), die Adresse ist dieselbe bis
-auf die Domain. 136 von 146 Videoload-Pillen ließen sich so richten. Videoload ist eine
+auf die Domain. 143 von 146 Videoload-Pillen ließen sich so richten. Videoload ist eine
 Browser-Anwendung und antwortet auch auf erfundene Kennungen mit HTTP 200 — prüfbar nur von Hand:
-4 von 4 richtig (Daniel). Keine robots.txt (die Adresse liefert die Anwendung).
+4 von 4 Filmen richtig (Daniel). Serien tragen `/serie/<slug>/staffel-1/GN_SEASON_…` — Evangelion von Hand belegt;
+ohne den Staffelteil liefen 7 Serien als „ohne Kennung“ durch. Keine robots.txt (die Adresse liefert die Anwendung).
 
 Alles Übrige, was auf TMDB zeigte, entfällt; `pruefung.ts` bricht den Bau ab, wenn ein Bezugsweg
 wieder auf themoviedb.org zeigt.
 
 **Videoload gilt als deutsch** wie Joyn (Daniel, 22.09.2026: „.de als domain, telekom
 deutschland … katalog durchstöbert, wir können annehmen das alle de sind, bis wir irgendwann ein
-gegenteil beweisen"). Nachgerechnet am Datensatz vom 22.09.2026: 136 Videoload-Wege direkt,
-138 als deutsch gesetzt, 254 TMDB-Wege entfallen; danach ohne jeden Weg nur 137612 (Princess
+gegenteil beweisen"). Nachgerechnet am Datensatz vom 22.09.2026 (mit Staffelform): 143 Videoload-Wege direkt,
+145 als deutsch gesetzt, 247 TMDB-Wege entfallen; danach ohne jeden Weg nur 137612 (Princess
 Principal: Crown Handler 3).

@@ -7272,11 +7272,16 @@ function main(): void {
       if (!wege?.length) continue
       for (const w of wege) {
         if (w.name !== 'Videoload' || !/themoviedb\.org/.test(w.url)) continue
+        /*
+          Film: `magenta.tv/film/<slug>/GN_MV…`. Serie: `magenta.tv/serie/<slug>/staffel-1/GN_SEASON_…`
+          — der Staffelteil geht mit (Evangelion von Hand belegt, 22.09.2026; Videoload schreibt
+          selbst auf `staffel-01` um). Ohne ihn liefen die 7 Serien als „ohne Kennung" durch.
+        */
         const magenta = [...wege.map((x) => x.url), ...(jwAlle[String(title.id)]?.angebote ?? []).map((a) => a.url ?? '')]
-          .map((u) => /magenta\.tv\/(film|serie)\/([^/?#]+)\/(GN_[A-Z0-9_]+)/i.exec(u))
+          .map((u) => /magenta\.tv\/((?:film|serie)\/[^/?#]+(?:\/staffel-\d+)?\/GN_[A-Z0-9_]+)/i.exec(u))
           .find(Boolean)
         if (!magenta) continue
-        w.url = `https://www.videoload.de/${magenta[1]}/${magenta[2]}/${magenta[3]}`
+        w.url = `https://www.videoload.de/${magenta[1]}`
         videoloadDirekt++
       }
       const vorher = wege.length
