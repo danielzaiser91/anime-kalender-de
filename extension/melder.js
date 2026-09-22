@@ -4328,6 +4328,16 @@ function durchlaufKnopfZeigen() {
     schutzflaecheZeigen(false)
     return
   }
+  /*
+    **Die Leiste gehört in den Kasten dieser Seite** (22.09.2026). Der Kasten entsteht je Adresse
+    neu (`akBox(…, location.pathname)`); nach dem selbsttätigen Sprung zu Haikyu!! hing die Leiste
+    noch am Kasten der vorigen Seite. Weil `DURCHLAUF.knopf` gesetzt blieb, wurde sie nicht neu
+    gebaut — der Lauf meldete, ohne dass ein Knopf zu sehen war (Daniel mit Bericht).
+  */
+  if (DURCHLAUF.leiste) {
+    const ziel = netflixKasten().querySelector('.ak-z-melden')
+    if (ziel && DURCHLAUF.leiste.parentElement !== ziel) ziel.appendChild(DURCHLAUF.leiste)
+  }
   if (!DURCHLAUF.knopf) {
     /*
       **Beide Knöpfe in einer Zeile, nicht an zwei Bildschirmrändern.**

@@ -822,3 +822,12 @@ Commit 077c99ed (19.09.2026) benannte „TV-Sendungen zeigen" in „TV-Ausstrahl
 **zwei Tage lang bei jedem Push rot** (19.09. 14:55 bis 21.09.) — rund zwanzig Fehlermails, und
 keine Wachphase hat hingesehen. Die Playwright-Prüfungen suchen Knöpfe über ihren **Text**. Vor dem
 Commit einer geänderten i18n-Zeile deshalb: `grep -rn "<alter Text>" tools/ pipeline/check-*`.
+
+### Ein Ziel ist erst erledigt, wenn jede seiner offenen Staffeln gemeldet ist (22.09.2026)
+
+Der Worker (`?stand=1`) strich ein Ziel, sobald unter seiner Adresse nach `pruefstand.erzeugtAm`
+**irgendetwas** gemeldet war. Dr. STONE verschwand nach der Meldung von Staffel 1 aus der
+Prüfliste, obwohl Staffel 2 offen war, und die Automatik fand den Titel nicht mehr. Seitdem schickt
+`tools/pruefstand.mjs` je Netflix-Ziel die offenen Staffeln mit (`staffeln: [1, 2]`, nur bei
+Listen in Netflix-Zählung, wo `nr` = die Staffel, die der Player meldet), und der Worker streicht
+erst, wenn `pruefung.staffel` jede davon enthält. Ziele ohne Staffelangabe bleiben bei der Adresse.
