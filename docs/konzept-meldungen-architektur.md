@@ -230,3 +230,42 @@ Ausgabe ohne Deutsch (Beispiel Digimon Tamers, Prime: Kaufseite mit, zweite Ausg
 Führen verschiedene Adressen auf **dasselbe Kernziel** (dieselben Folgen unter anderer Kennung), gibt
 es nur **eine** Pill, die des Kernziels. Das gilt nur, wenn **mindestens eine** dieser Pills Deutsch
 hat; hat keine Deutsch, wird keine gezeigt — im Datenbestand bleibt alles unverändert.
+
+## Das Modell nach der Besprechung (22.09.2026) — ersetzt die Gewichtstabellen oben
+
+**Ziel:** Der Kalender zeigt je Folge und Anbieter, was der Anbieter selbst einem normalen Nutzer
+zeigt. Weiß das niemand aus eigener Prüfung, zeigt er die beste Vermutung der zuständigsten Quelle —
+gekennzeichnet — und legt sie zur Prüfung vor. Jede Prüfung eicht die Quellen; über Gewichte entscheidet
+Daniel wöchentlich von Hand.
+
+**Drei Grundregeln**
+1. **Urteil je Folge und je Anbieter-Verweis (Pill).** Eine Messung gilt für die gemessene Folge; eine neue
+   Folge erbt nichts.
+2. **Zwei Ebenen.** (a) Eigene Prüfung beim Anbieter vorhanden → sie gilt (die jüngste; gemessen vor
+   angenommen), auch ein Kanal-Nein, denn es ist das, was der Anbieter Nutzern ohne Abo zeigt. Andere
+   Quellen ändern die Anzeige nicht, sie lösen Nachprüfung aus. Einzige Ausnahme: echtes 404 nach vorher
+   200 (Auskunft des Anbieters selbst). (b) Keine eigene Prüfung → es gilt die **für diese Lage
+   zuständigste** Quelle (Crunchyroll-Lauf für Crunchyroll und Crunchyroll-Kanal, ADN für ADN); sonst die
+   anbieterbezogenen Quellen (MOTN, JustWatch) gleichrangig, bei Gleichstand **≈ Ja** + Prüfliste.
+3. **Eine Quelle zählt nur, worüber sie etwas weiß.** Crunchyroll-Lauf und ADN sprechen nur für ihren
+   Katalog; aniSearch sagt nichts über einen Anbieter und zählt nur fürs **Gesamturteil der Folge**
+   (Ja, sobald eine Pill Ja/≈ Ja sagt; ohne Pill aus den titelbezogenen Quellen).
+
+**Dokumentation (nicht im Algorithmus):** Je Quelle × Anbieter × Folge wird festgehalten, **wann eine
+Aussage zuerst auftauchte, wann sie sich änderte** (nicht jeder gleiche Abruf), dazu die angekündigten
+Erscheinungstermine JP und DE mit Uhrzeit. So lässt sich später auswerten, ob eine Quelle eine
+Sprachfassung behauptet, bevor es sie geben kann.
+
+**Statistik:** Jede Nachprüfung zählt je Quelle × Anbieter × (vor/nach Erscheinen) bestätigt oder
+widerlegt; Auswertung wöchentlich.
+
+**Wiedervorlage:** Eigene Prüfungen verfallen für die Nachprüfung nach 180 Tagen.
+
+**Folgen für bestehende Regeln:** Die Projektregel „Bei einem Kanal-Titel ist Amazons Sprachangabe kein
+Beleg" und die Kanal-Gegenprobe entfallen im neuen Modell (nachzuziehen in `CLAUDE.md` und
+`docs/wissen/quellen.md`, sobald umgebaut wird).
+
+**Szenarien 5–11 ergeben sich daraus:** 5 Messung gilt je Folge, Widerspruch zur Randprobe → Staffel
+einzeln prüfen · 6 Anzeigeregel oben · 7 Sperre gilt nur den eigenen Folgen · 8 aniSearch nur
+Gesamturteil · 9 neue Folge erbt nichts · 10 Störung ist keine Beobachtung · 11 unsicher Zuordenbares
+bleibt unzugeordnet, eigene Zuordnungsliste.
