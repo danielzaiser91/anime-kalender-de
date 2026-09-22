@@ -481,21 +481,21 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-21#770@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-21#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260921T162500Z
 DTEND:20260921T165500Z
-SUMMARY:One Piece – Folge 770/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-21#771@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-21#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260921T165000Z
 DTEND:20260921T172000Z
-SUMMARY:One Piece – Folge 771/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -533,21 +533,21 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-22#772@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-22#3@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260922T162500Z
 DTEND:20260922T165500Z
-SUMMARY:One Piece – Folge 772/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-22#773@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-22#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260922T165000Z
 DTEND:20260922T172000Z
-SUMMARY:One Piece – Folge 773/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -563,21 +563,21 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#765@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-23#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T022500Z
 DTEND:20260923T025500Z
-SUMMARY:One Piece – Folge 765/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#766@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-23#6@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T025000Z
 DTEND:20260923T032000Z
-SUMMARY:One Piece – Folge 766/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -661,21 +661,21 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#774@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-23#7@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T162000Z
 DTEND:20260923T165000Z
-SUMMARY:One Piece – Folge 774/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#775@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-23#8@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T165000Z
 DTEND:20260923T172000Z
-SUMMARY:One Piece – Folge 775/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -696,7 +696,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-24#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T151000Z
 DTEND:20260924T154000Z
-SUMMARY:Dragon Ball – Folge 1/6
+SUMMARY:Dragon Ball – Folge 1/8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -706,27 +706,27 @@ UID:auto-223-tv-prosieben-maxx@2026-09-24#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T153500Z
 DTEND:20260924T160500Z
-SUMMARY:Dragon Ball – Folge 2/6
+SUMMARY:Dragon Ball – Folge 2/8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-24#776@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-24#9@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T162500Z
 DTEND:20260924T165500Z
-SUMMARY:One Piece – Folge 776/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-24#777@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-24#10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T165000Z
 DTEND:20260924T172000Z
-SUMMARY:One Piece – Folge 777/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -748,7 +748,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-25#3@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T151000Z
 DTEND:20260925T154000Z
-SUMMARY:Dragon Ball – Folge 3/6
+SUMMARY:Dragon Ball – Folge 3/8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -758,27 +758,27 @@ UID:auto-223-tv-prosieben-maxx@2026-09-25#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T153500Z
 DTEND:20260925T160500Z
-SUMMARY:Dragon Ball – Folge 4/6
+SUMMARY:Dragon Ball – Folge 4/8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-25#778@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-25#11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T162500Z
 DTEND:20260925T165500Z
-SUMMARY:One Piece – Folge 778/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-25#779@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-25#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T165000Z
 DTEND:20260925T172000Z
-SUMMARY:One Piece – Folge 779/779
+SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -929,7 +929,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-28#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T151000Z
 DTEND:20260928T154000Z
-SUMMARY:Dragon Ball – Folge 5/6
+SUMMARY:Dragon Ball – Folge 5/8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -939,9 +939,29 @@ UID:auto-223-tv-prosieben-maxx@2026-09-28#6@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T153500Z
 DTEND:20260928T160500Z
-SUMMARY:Dragon Ball – Folge 6/6
+SUMMARY:Dragon Ball – Folge 6/8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-28#13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260928T162500Z
+DTEND:20260928T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-28#14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260928T165000Z
+DTEND:20260928T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -954,6 +974,26 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/i-parr
  y-everything-2026-09-28
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-09-29#7@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260929T151000Z
+DTEND:20260929T154000Z
+SUMMARY:Dragon Ball – Folge 7/8
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-09-29#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260929T153500Z
+DTEND:20260929T160500Z
+SUMMARY:Dragon Ball – Folge 8/8
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:all-you-need-is-kill-kino@2026-09-29@anime-kalender-de
