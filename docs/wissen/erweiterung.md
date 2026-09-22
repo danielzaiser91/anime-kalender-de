@@ -1745,3 +1745,21 @@ nach dem Klick `ul[data-uia="dropdown-menu"][role=menu]` mit `li[data-uia="dropd
 Text „Staffel 1  (24 Folgen)" … und „Alle Folgen anzeigen". Die Automatik wechselt nur bei Listen
 in Netflix-Zählung (`laut: 'anbieter-gerechnet'`), wartet, bis das Feld die Zielstaffel zeigt,
 und merkt sich je Titel, welche Staffeln sie schon hatte.
+
+## Zurück auf die Prüfliste: ein Aufruf, `tools/erneut-melden.mjs`
+
+Daniel am 22.09.2026: „vereinfach das, sodass du nur an einer stelle sagen musst welche einträge
+wieder auf die prüfliste sollen, und lass den mechanismus alle abhängigkeiten automatisch machen".
+Anlass: Drei Testtitel standen in `data/erneut-melden.yaml` und in den Erweiterungslisten, aber
+nicht in der Status-App — `tools/pruefstand.mjs` war nicht gefahren.
+
+Die Kette hat vier Glieder: YAML → `extension/offene-*.js` samt Standdateien → `public/data/pruefstand.json`
+→ Commit, Push, Deploy. **Eingabe ist nur noch die Kennung:**
+`node tools/erneut-melden.mjs 99088 20966:primevideo --grund "…"` (ohne Anbieter: bei jedem mit
+Verweis). Das Skript fährt die Kette, prüft, dass jeder Eintrag in Liste **und** Prüfstand steht,
+nimmt bei einem Fehlschlag alles zurück und pusht. `check:wiedervorlage` (in `check:vor-commit`)
+fängt eine YAML-Zeile, die ohne das Skript hineinkam.
+
+Grenze, gemessen an Dr. Stone: Stone Wars: Ein Titel mit Beleg **von heute** ist erst morgen
+erneut vorlegbar — Belege tragen nur das Datum, und `checkedAt >= seit` gilt dann schon. Das
+Skript sagt das ausdrücklich.

@@ -402,7 +402,7 @@ Was darin läuft, in dieser Reihenfolge:
 
 ```
 data:validate · check:logic · check:workflows · typecheck · check:worker
-check:hooks · check:extension · check:zugangsart · build
+check:hooks · check:extension · check:wiedervorlage · check:zugangsart · build
 ```
 
 **Jedes `tsc` hier braucht `--noEmit`, und die Skripte setzen es.** Ohne das legt `tsc -b`
@@ -484,6 +484,7 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - Die Gegenprobe fällt — fünf Mängel einer Kulisse, keiner zu erraten
 - Der fünfte `let`-Zugriff vor der Deklaration — gefangen vom Sandkasten
 - Ein Helfer im Modulscope ist eine `function`, keine `const`-Pfeilfunktion
+- Zurück auf die Prüfliste: ein Aufruf, `tools/erneut-melden.mjs`
 
 ### [Datenquellen und ihre Grenzen](docs/wissen/quellen.md)
 
