@@ -16921,3 +16921,13 @@
   url: https://www.amazon.de/gp/video/detail/B0CHBX8CM2
   checkedAt: '2026-09-22'
   note: "Daniel mit Bildern: Staffel 1 „In deiner Region nicht mehr auf Prime Video verfügbar“, Staffel 2–9 und 100 mit Shop-Symbol (zum Kauf). Adresse der Serie belegt, Sprache nicht geprüft"
+
+# --- Kanal-Meldungen mit zweiter Quelle belegt, 2026-09-22 ---
+- anilistId: 20954
+  title: "A Silent Voice"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90
+  dub: false
+  checkedAt: '2026-09-22'
+  zweiteQuelle: "JustWatch 2026-09-16: Crunchyroll Amazon Channel — Ton es, it, ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
