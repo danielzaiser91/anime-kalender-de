@@ -4369,7 +4369,11 @@ function durchlaufKnopfZeigen() {
   */
   if (DURCHLAUF.leiste) {
     const ziel = netflixKasten().querySelector('.ak-z-melden')
-    if (ziel && DURCHLAUF.leiste.parentElement !== ziel) ziel.appendChild(DURCHLAUF.leiste)
+    if (ziel && DURCHLAUF.leiste.parentElement !== ziel) {
+      ziel.appendChild(DURCHLAUF.leiste)
+      /* Die Debug-Zeile (Bericht, Ruhemodus) entsteht sonst nur beim ersten Bau — sie zieht mit (22.09.2026). */
+      netflixDebugZeile(netflixKasten())
+    }
   }
   if (!DURCHLAUF.knopf) {
     /*

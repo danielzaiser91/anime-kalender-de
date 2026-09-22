@@ -399,7 +399,7 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   )
   pruefe(
     'die Durchlauf-Leiste zieht in den Kasten der aktuellen Seite um',
-    /if \(ziel && DURCHLAUF\.leiste\.parentElement !== ziel\) ziel\.appendChild\(DURCHLAUF\.leiste\)/.test(quelle),
+    /if \(ziel && DURCHLAUF\.leiste\.parentElement !== ziel\) \{\s*ziel\.appendChild\(DURCHLAUF\.leiste\)[\s\S]{0,200}?netflixDebugZeile\(netflixKasten\(\)\)/.test(quelle),
   )
   pruefe(
     'eine selbst gewaehlte, schon gemeldete Staffel fuehrt zum naechsten Wechsel',
