@@ -2639,7 +2639,7 @@ es aber (Wolfskinder dort mit Deutsch, Daniel mit Bild).
 **Videoload und MagentaTV teilen die Gracenote-Kennung** (`GN_MV…`), die Adresse ist dieselbe bis
 auf die Domain. 143 von 146 Videoload-Pillen ließen sich so richten. Videoload ist eine
 Browser-Anwendung und antwortet auch auf erfundene Kennungen mit HTTP 200 — prüfbar nur von Hand:
-4 von 4 Filmen richtig (Daniel). Serien tragen `/serie/<slug>/staffel-1/GN_SEASON_…` — Evangelion von Hand belegt;
+4 von 4 Filmen richtig (Daniel). Serien tragen `/serie/<slug>/staffel-1/GN_SEASON_…` — alle 7 von Hand belegt, alle deutsch (Daniel);
 ohne den Staffelteil liefen 7 Serien als „ohne Kennung“ durch. Keine robots.txt (die Adresse liefert die Anwendung).
 
 Alles Übrige, was auf TMDB zeigte, entfällt; `pruefung.ts` bricht den Bau ab, wenn ein Bezugsweg
