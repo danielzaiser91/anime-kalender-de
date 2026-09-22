@@ -163,7 +163,19 @@ Abweichung.**
 Zwei Dinge hat erst die Einzelliste gezeigt (`--einzeln`): Das Kanal-Merkmal muss an der **Meldung**
 hängen, nicht nur an der Rohfolge — bei Captain Tsubasa, Haikyu!!, Slime und Trapped in a Dating Sim
 stammte das Nein aus `pruefung`, während die Rohfolge leere Tonspuren trug und ohnehin als Störung
-ausschied. Und eine Rohfolge ohne Tonspuren ist keine Beobachtung, sondern eine Störung (Szenario 10). **Offen in Stufe 2:** die Pill-Achse (welcher Verweis), eine Liste für die offenen
+ausschied. Und eine Rohfolge ohne Tonspuren ist keine Beobachtung, sondern eine Störung (Szenario 10).
+
+**Stufe 3 — im Bau seit dem 22.09.2026, der Datensatz liest sie noch nicht.** `pipeline/lib/urteil-je-folge.ts`
+(`urteileJeFolge`, reine Funktion) und `pipeline/fetch-urteile.ts` (`npm run data:urteile`, Schritt im
+Bestandslauf) schreiben `data/urteile.json`: je `titel|anbieter|folge` das Urteil, seine Art und sein Tag,
+bei Kanal-Nein der Grund `kanal-ohne-abo`. Quellen sind alle Beobachtungen aus D1 — Rohfolgen über die
+Zuordnung aus Stufe 2 und Meldungen mit Folgennummer (Worker `?alle=1`, ausgeliefert 0f9ba244). Erster
+Stand: **3.228 Urteile aus 7.893 Beobachtungen — 2.784 deutsch, 408 unbekannt (Kanal ohne Abo), 36 kein
+Deutsch.** `check:logic` hält Kanal-Nein, die jüngste Beobachtung, gemessen vor Randprobe und „gesperrt
+heißt nicht verfügbar" fest.
+
+**Als Nächstes in Stufe 3/4:** die Pill-Achse (welcher Verweis gehört zur Folge), die Nachprüfliste aus
+`unbekannt` und Widersprüchen, und dann der Bau, der `dub` aus den Urteilen setzt statt an 26 Stellen. **Offen in Stufe 2:** die Pill-Achse (welcher Verweis), eine Liste für die offenen
 Folgen zum Nachprüfen, Detektiv Conan ohne Kandidat.
 
 **Schlüssel ist die Folgenkennung der Plattform, nicht die gemeldete Adresse** (22.09.2026). Yamada-kun

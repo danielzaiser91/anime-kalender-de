@@ -2483,6 +2483,24 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       26.08.2026 verdeckten 558 Disney-Meldungen eine frische Prime-Meldung
       vollständig, und die Suche danach ging zweimal ins Leere.
     */
+    /*
+      **`?alle=1&nach=<id>`: jede Meldung, auch übernommene — für Stufe 3** (22.09.2026). Das Urteil
+      je Folge wird aus allen Beobachtungen neu gerechnet, nicht aus den 500 offenen. Seitenweise wie
+      bei den Rohfolgen; gemessen am 22.09.2026: 4.467 Zeilen, eine Seite.
+    */
+    if (sucheP.get('alle') === '1') {
+      const nach = Number(sucheP.get('nach') ?? 0)
+      const { results } = await env.DB.prepare(
+        `SELECT id, plattform, url, befund, folge_nr, staffel, teil_von, teil_bis, titel_id, notiz,
+                abos, gemeldet_am, vorhanden, ton_de, art
+           FROM pruefung WHERE id > ?1 ORDER BY id LIMIT 5000`,
+      )
+        .bind(Number.isFinite(nach) ? nach : 0)
+        .all()
+      const zeilen = (results ?? []) as { id: number }[]
+      return antwort({ pruefungen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null })
+    }
+
     const nurPlattform = sucheP.get('plattform')
     const abfrage = nurPlattform
       ? `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,

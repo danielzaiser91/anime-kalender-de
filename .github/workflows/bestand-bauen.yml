@@ -176,6 +176,14 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:folgen-zuordnung
 
+      # Stufe 3 (22.09.2026): das Urteil je Titel x Anbieter x Folge aus allen Beobachtungen.
+      # Der Bau liest die Datei noch nicht.
+      - name: Urteile je Folge berechnen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:urteile
+
       - name: Datensatz bauen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}

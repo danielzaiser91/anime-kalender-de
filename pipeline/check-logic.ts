@@ -5556,5 +5556,28 @@ pruefe(
   pruefe('Stufe 2: eine frühere Zuordnung bleibt stehen', z['primevideo:ALT0000001']?.titel === 3 && z['primevideo:ALT0000001']?.folge === 5)
   pruefe('Stufe 2: eine Suchadresse ist kein Anker', ankerAdresse('https://www.amazon.de/s?k=JoJo') === '' && ankerAdresse('https://www.amazon.de/dp/B0C55SJB1W') !== '')
 }
+{
+  /*
+    Stufe 3, Urteil je Folge (22.09.2026). Nachgestellt: das Nein einer Kanal-Seite ist unbekannt,
+    nicht „kein Deutsch"; die jüngste Beobachtung gilt; am selben Tag schlägt gemessen die Randprobe.
+  */
+  const { urteileJeFolge } = await import('./lib/urteil-je-folge.ts')
+  type UB = Parameters<typeof urteileJeFolge>[0][number]
+  const b = (folge: number, tonDe: string, tag: string, art: UB['art'] = 'gemessen', kanal = false): UB => ({
+    titel: 1, anbieter: 'primevideo', folge, vorhanden: 'ja', tonDe, tag, art, kanal,
+  })
+  const u = urteileJeFolge([
+    b(1, 'nein', '2026-09-15', 'gemessen', true),
+    b(2, 'ja', '2026-09-01'),
+    b(2, 'nein', '2026-09-10'),
+    b(3, 'nein', '2026-09-10', 'angenommen'),
+    b(3, 'ja', '2026-09-10', 'gemessen'),
+    { titel: 1, anbieter: 'primevideo', folge: 4, vorhanden: 'nein', tonDe: 'unbekannt', tag: '2026-09-10', art: 'gemessen' },
+  ])
+  pruefe('Stufe 3: Kanal-Nein ist unbekannt, nicht „kein Deutsch"', u['1|primevideo|1']?.urteil === 'unbekannt' && u['1|primevideo|1']?.grund === 'kanal-ohne-abo', u['1|primevideo|1'])
+  pruefe('Stufe 3: die jüngste Beobachtung gilt', u['1|primevideo|2']?.urteil === 'kein deutsch')
+  pruefe('Stufe 3: am selben Tag schlägt gemessen die Randprobe', u['1|primevideo|3']?.urteil === 'deutsch')
+  pruefe('Stufe 3: gesperrt heißt nicht verfügbar', u['1|primevideo|4']?.urteil === 'nicht verfügbar')
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

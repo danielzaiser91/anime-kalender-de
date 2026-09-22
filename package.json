@@ -88,6 +88,7 @@
     "check:qualitaet": "tsx pipeline/check-qualitaet.ts",
     "data:rohfolgen": "tsx pipeline/fetch-rohfolgen.ts",
     "data:folgen-zuordnung": "tsx pipeline/fetch-folgen-zuordnung.ts",
+    "data:urteile": "tsx pipeline/fetch-urteile.ts",
     "data:disc-ausgaben": "tsx pipeline/extract-disc-ausgaben.ts",
     "data:start-liste": "tsx pipeline/report-start.ts",
     "data:cr-einzelwerke": "node pipeline/fetch-cr-einzelwerke.mjs",
