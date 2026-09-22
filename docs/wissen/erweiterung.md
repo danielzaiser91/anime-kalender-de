@@ -1735,3 +1735,13 @@ schnellen weg gehen").
 Merker „Lauf aktiv" dort sprang ein zweiter Netflix-Tab, in dem Daniel „Heroes" sah, zu Pluto
 und meldete (die Meldung selbst war richtig, E1–8 deutsch). Zustand, der zu **einem** Tab gehört,
 steht in `sessionStorage` — er übersteht Neuladen und Seitenwechsel, erreicht aber keinen anderen Tab.
+
+### Die Automatik wählt die Staffel im Netflix-Auswahlfeld (22.09.2026, 4.20.53)
+
+Gemessen auf Dr. STONE mit zwei Konsolen-Skripten, die Daniel ausgeführt hat (das erste klickte
+blind und schloss mit Escape die Übersicht — Messskripte klicken nur, was vorher gemessen ist):
+Auslöser `[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]` mit Text „Staffel 3",
+nach dem Klick `ul[data-uia="dropdown-menu"][role=menu]` mit `li[data-uia="dropdown-menu-item"]`,
+Text „Staffel 1  (24 Folgen)" … und „Alle Folgen anzeigen". Die Automatik wechselt nur bei Listen
+in Netflix-Zählung (`laut: 'anbieter-gerechnet'`), wartet, bis das Feld die Zielstaffel zeigt,
+und merkt sich je Titel, welche Staffeln sie schon hatte.

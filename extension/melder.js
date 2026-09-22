@@ -2550,6 +2550,8 @@ function laufStarten() {
   selbstGezaehlt = 0
   selbstVersucht = null
   selbstUebersprungen.clear()
+  selbstStaffelnVersucht.clear()
+  selbstStaffelWechsel = null
   try {
     sessionStorage.setItem(LAUF_SCHLUESSEL, String(Date.now()))
   } catch {
@@ -2579,6 +2581,59 @@ const selbstUebersprungen = new Set()
 /** Wie oft die Automatik auf derselben Seite nacheinander lief. */
 let selbstRundenSeite = ''
 let selbstRundenHier = 0
+
+/** Ein laufender Staffelwechsel der Automatik: `{ reihe, nr, seit, bis }` oder null. */
+let selbstStaffelWechsel = null
+/** Schon versuchte Staffeln je Reihe — `"<reihe>:<nr>"`, damit kein Wechsel im Kreis läuft. */
+const selbstStaffelnVersucht = new Set()
+
+/** Welche Staffel Netflix' Auswahlfeld gerade zeigt — die Zahl aus „Staffel 3" / „Teil 2", sonst null. */
+function angezeigteNetflixStaffel() {
+  const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
+  const treffer = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(knopf?.textContent ?? '')
+  return treffer ? Number(treffer[1]) : null
+}
+
+/** Die erste offene Staffel der Prüfliste, die es im Auswahlfeld gibt und die noch nicht versucht wurde. */
+function naechsteOffeneNetflixStaffel(reihe) {
+  const eintrag = offeneTitel[String(reihe)]
+  /* Nur wo die Liste in Netflix' eigenen Staffeln rechnet, ist unser „nr" dieselbe Zahl wie im Auswahlfeld. */
+  if (eintrag?.laut !== 'anbieter-gerechnet') return null
+  const hier = angezeigteNetflixStaffel()
+  const nummern = [
+    ...new Set(
+      (eintrag?.staffeln ?? [])
+        .filter((st) => st.offen && !st.film && st.zustand !== 'belegt')
+        .map((st) => Number(st.nr))
+        .filter(Number.isFinite),
+    ),
+  ].sort((a, b) => a - b)
+  return nummern.find((nr) => nr !== hier && !selbstStaffelnVersucht.has(`${reihe}:${nr}`)) ?? null
+}
+
+/** Im Auswahlfeld „Staffel N" anklicken. true, wenn der Eintrag da war und geklickt wurde. */
+async function netflixStaffelWaehlen(nr) {
+  const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
+  if (!knopf) return false
+  if (knopf.getAttribute('aria-expanded') !== 'true') knopf.click()
+  for (let i = 0; i < 20; i++) {
+    const eintraege = [...document.querySelectorAll('[data-uia="dropdown-menu"] li[data-uia="dropdown-menu-item"]')]
+    if (eintraege.length) {
+      const ziel = eintraege.find((li) => {
+        const t = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(li.textContent ?? '')
+        return t && Number(t[1]) === nr
+      })
+      if (!ziel) {
+        knopf.click()
+        return false
+      }
+      ziel.click()
+      return true
+    }
+    await new Promise((r) => setTimeout(r, 100))
+  }
+  return false
+}
 
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
 function selbstWeiter() {
@@ -2640,7 +2695,37 @@ async function vielleichtSelbstStarten() {
   if (!reihe || offeneTitel[String(reihe)] === undefined) return
   if (selbstVersucht === reihe) return
   if (!DURCHLAUF.folgen.length) return
+  /* Läuft gerade ein Staffelwechsel, warten, bis Netflix die neue Staffel zeigt und der Leser sie hat. */
+  const wechsel = selbstStaffelWechsel?.reihe === String(reihe) ? selbstStaffelWechsel : null
+  if (wechsel) {
+    if (Date.now() > wechsel.bis) {
+      console.log(`[Anime-Kalender] Selbsttätig: Staffel ${wechsel.nr} ließ sich nicht öffnen — weiter.`)
+      selbstStaffelWechsel = null
+    } else if (angezeigteNetflixStaffel() !== wechsel.nr || Date.now() - wechsel.seit < 2000) return
+  }
   selbstVersucht = reihe
+  /*
+    **Die Automatik wählt die offene Staffel selbst** (Daniel, 22.09.2026: „füg hinzu das die
+    automatik die auswahl im staffel feld wechseln kann"). Zeigt Netflix eine Staffel ohne offene
+    Folge oder eine, die nicht eindeutig ist („S?"), wird im Auswahlfeld die nächste offene Staffel
+    der Prüfliste gewählt — gemessen am 22.09.2026 auf Dr. STONE: Auslöser
+    `[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]`, Einträge
+    `li[data-uia="dropdown-menu-item"]` mit „Staffel N (M Folgen)".
+  */
+  const gewaehlt = wechsel && angezeigteNetflixStaffel() === wechsel.nr ? wechsel.nr : null
+  selbstStaffelWechsel = null
+  const anzeigeKandidaten = staffelnDerGruppe(reihe, DURCHLAUF.folgen)
+  const hierOffen = durchlaufOffen().length > 0
+  if (!gewaehlt && (!hierOffen || anzeigeKandidaten.length !== 1)) {
+    const ziel = naechsteOffeneNetflixStaffel(reihe)
+    if (ziel != null && (await netflixStaffelWaehlen(ziel))) {
+      selbstStaffelWechsel = { reihe: String(reihe), nr: ziel, seit: Date.now(), bis: Date.now() + 10000 }
+      selbstStaffelnVersucht.add(`${reihe}:${ziel}`)
+      selbstVersucht = null
+      console.log(`[Anime-Kalender] Selbsttätig: wechsle zu Staffel ${ziel} …`)
+      return
+    }
+  }
   /*
     **Nur eine eindeutige Staffel wird selbsttätig geprüft** (21.09.2026). Bei Beastars zeigte
     Netflix Staffel 2 vorausgewählt; drei unserer Staffeln haben je 12 Folgen, der Knopf stand
@@ -2658,7 +2743,8 @@ async function vielleichtSelbstStarten() {
     return
   }
   const kandidaten = staffelnDerGruppe(reihe, DURCHLAUF.folgen)
-  if (kandidaten.length !== 1) {
+  /* Selbst gewählt heißt: Die Staffel ist bekannt, auch wenn die Folgenzahlen mehrdeutig sind. */
+  if (kandidaten.length !== 1 && !(gewaehlt && kandidaten.includes(gewaehlt))) {
     console.log(
       `[Anime-Kalender] Selbsttätig: ${offeneTitel[String(reihe)]?.titel ?? reihe} übersprungen — ` +
         'die angezeigte Staffel ist nicht eindeutig (S?). Bitte von Hand die offene Staffel wählen.',
@@ -2667,6 +2753,9 @@ async function vielleichtSelbstStarten() {
     selbstWeiter()
     return
   }
+  /* Diese Staffel ist ab jetzt versucht — sonst wechselt der nächste Anlauf wieder hierher. */
+  const angezeigt = angezeigteNetflixStaffel()
+  if (angezeigt != null) selbstStaffelnVersucht.add(`${reihe}:${angezeigt}`)
   console.log('[Anime-Kalender] Selbsttätiger Durchgang startet …')
   DURCHLAUF.selbst = true
   await durchlaufStarten(RAND)
@@ -3838,11 +3927,13 @@ async function durchlaufStarten(grenze) {
     laufBeenden(DURCHLAUF.abbruch ? 'abgebrochen' : `Störung ${DURCHLAUF.stoerung}`)
   }
   if (DURCHLAUF.selbst && selbstAn && !DURCHLAUF.abbruch && !DURCHLAUF.stoerung) {
-    /* Zwei Titel in einer Netflix-Staffel: der zweite kommt auf derselben Seite dran (höchstens dreimal). */
+    /* Zwei Titel in einer Netflix-Staffel: der zweite kommt auf derselben Seite dran oder eine weitere Staffel (höchstens sechs Anläufe je Seite). */
     const seite = String(titelDerAdresse() ?? '')
     selbstRundenHier = selbstRundenSeite === seite ? selbstRundenHier + 1 : 1
     selbstRundenSeite = seite
-    if (durchlaufOffen().length && selbstRundenHier < 3) {
+    /* Oder eine andere Staffel dieses Titels ist noch offen — dann wechselt der nächste Anlauf dorthin. */
+    const nochStaffel = naechsteOffeneNetflixStaffel(gemeinteReihe()) != null
+    if ((durchlaufOffen().length || nochStaffel) && selbstRundenHier < 6) {
       selbstVersucht = null
       setTimeout(() => void vielleichtSelbstStarten(), 1500)
     } else if (selbstGezaehlt >= SELBST_HOECHSTENS) laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
