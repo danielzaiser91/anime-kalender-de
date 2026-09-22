@@ -2458,8 +2458,13 @@ function ReleasePille({
         /*
           **Premiere als Fähnchen auf der Kante** (Daniel, 19.09.2026: „zu unauffällig", aus vier
           Entwürfen gewählt) — leuchtet und kostet keine Breite.
+
+          **Auf der Kante, nicht darin** (Daniel, 22.09.2026: „premiere label überdeckt toggo,
+          platzier es am kachelrand" und „nicht rechts, sondern links, aber rechts vom tv icon"):
+          Es steht links neben dem Namen, rechts der Blase — aber mit seiner Unterkante auf der
+          Oberkante der Pille, sonst ragt es in die Namenszeile.
         */
-        <span className={`absolute -top-2 ${tv ? 'left-6' : 'left-3'} z-10`}>
+        <span className={`absolute bottom-full mb-[3px] ${tv ? 'left-6' : 'left-3'} z-10`}>
           <Tooltip text={t('tv.premiereHinweis')} seite="oben">
             <span className="block rounded-md bg-gradient-to-r from-fuchsia-600 to-amber-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(217,70,239,.7)]">
               ✦ Premiere
@@ -2542,7 +2547,18 @@ function ReleasePille({
               : datum && t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) }),
           ]
             .filter(Boolean)
-            .join(' · ')}
+            .join(' · ')
+            /* Tag und Uhrzeit farbig, der Rest bleibt grau (Daniel, 22.09.2026). Ohne TV-Angabe
+               trennt der Platzhalter nichts, und der Text bleibt ein Stück. */
+            .split(tvText?.zeit || KEIN_TRENNER)
+            .flatMap((teil, i) => [
+              i ? (
+                <span key={`z${i}`} className="font-medium text-sky-700 dark:text-sky-300">
+                  {tvText?.zeit}
+                </span>
+              ) : null,
+              teil,
+            ])}
         </span>
         </LangMitTooltip>
       </PillenHuelle>
@@ -2550,6 +2566,9 @@ function ReleasePille({
     </span>
   )
 }
+
+/** Ein Trennzeichen, das in keinem Text vorkommt — dann bleibt der Text ein Stück. */
+const KEIN_TRENNER = '\u0001'
 
 /**
  * **Der volle Text im Tooltip — nur, wo zwei Zeilen ihn abschneiden können** (Daniel, 22.09.2026:

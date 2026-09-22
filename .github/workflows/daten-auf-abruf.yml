@@ -17,6 +17,14 @@
 name: Datenlauf auf Abruf
 
 on:
+  # **Abends noch einmal TOGGO** (22.09.2026): Das freie Fenster einer Folge öffnet sich rund zwei
+  # Minuten nach ihrem Sendeende — Dragon Ball DAIMA läuft 21:15–21:35 auf TOGGO plus, Folge 20 war
+  # ab 21:37 abrufbar. Der Tageslauf holt TOGGO um 06:17, also stand am Abend eine Folge zu wenig in
+  # der Pille (Daniel, 22.09.2026: „bei toggo pill 16-20"). 21:05 UTC sind 23:05 im Sommer und 22:05
+  # im Winter — beides nach dem Sendeende. Ohne Eingaben läuft genau dieser eine Abruf.
+  schedule:
+    - cron: '5 21 * * *'
+
   workflow_dispatch:
     inputs:
       lauf:
@@ -113,8 +121,8 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
           set -euo pipefail
-          LAUF='${{ inputs.lauf }}'
-          GRENZE='${{ inputs.grenze }}'
+          LAUF='${{ inputs.lauf || 'data:toggo' }}'
+          GRENZE='${{ inputs.grenze || '300' }}'
           # Nicht jeder Lauf kennt --limit; die, die es nicht tun, bekommen es nicht.
           case "$LAUF" in
             data:anisearch)

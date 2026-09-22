@@ -77,7 +77,7 @@ export function tvAngabe(
   releases: Release[],
   heute: string,
   jetztZeit: string,
-): { text: string; premiere: boolean; laeuft?: TvLaeuft; programm?: string } | undefined {
+): { text: string; premiere: boolean; laeuft?: TvLaeuft; programm?: string; zeit?: string } | undefined {
   if (release.platform !== 'tv') return undefined
   const termine = expandEvents(release)
   const jetzt = `${heute}T${jetztZeit}`
@@ -96,6 +96,12 @@ export function tvAngabe(
     bezug?.episode && !bezug.sichtung && istPremiere(bezug.episode, bezug.date, title, releases, release.ersteDeutsch),
   )
   let text = ''
+  /*
+    **Tag und Uhrzeit werden farbig hervorgehoben** (Daniel, 22.09.2026, ProSieben-MAXX-Pille).
+    Sie stehen mitten im Text; damit die Oberfläche sie einfärben kann, kommen sie zusätzlich als
+    eigene Angabe zurück. Der Text selbst bleibt unverändert — daran hängen die Zusicherungen.
+  */
+  let zeit: string | undefined
   if (e) {
     const tag =
       e.date === heute
@@ -104,9 +110,10 @@ export function tvAngabe(
           ? TAG[new Date(`${e.date}T12:00:00Z`).getUTCDay()]!
           : `${e.date.slice(8, 10)}.${e.date.slice(5, 7)}.`
     const nr = nummer(e)
+    zeit = [kommend ? '' : 'zuletzt', tag, e.time].filter(Boolean).join(' ')
     const teile = [
       nr ? `Fg. ${nr}` : undefined,
-      [kommend ? '' : 'zuletzt', tag, e.time].filter(Boolean).join(' '),
+      zeit,
       e.episode && !e.sichtung && !premiere && !laufend ? 'Wiederholung' : undefined,
       /* Ohne laufende Sendung trägt die Zeile den Folgentitel der nächsten. */
       !laufend && kommend ? sendungZu(e)?.folge : undefined,
@@ -115,12 +122,13 @@ export function tvAngabe(
   }
   /* Das Fernseh-Zeichen führt ins Programm, zur laufenden Sendung, sonst zur nächsten (22.09.2026). */
   const programm = (laufend ?? (kommend && sendungZu(kommend)))?.url
-  if (!laufend) return { text, premiere, ...(programm ? { programm } : {}) }
+  if (!laufend) return { text, premiere, ...(programm ? { programm } : {}), ...(zeit ? { zeit } : {}) }
   const nr = laufend.nr ?? (laufEvent ? nummer(laufEvent) : undefined)
   return {
     text: kommend ? text : '',
     premiere,
     ...(programm ? { programm } : {}),
+    ...(kommend && zeit ? { zeit } : {}),
     laeuft: {
       text: [nr ? `Fg. ${nr}` : undefined, laufend.folge].filter(Boolean).join(' · '),
       anteil: Math.min(1, Math.max(0, (minuten(jetzt) - minuten(laufend.start)) / (minuten(laufend.ende) - minuten(laufend.start) || 1))),
