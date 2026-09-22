@@ -2590,3 +2590,8 @@ Beheneko: aniSearch führt „Deutsch 23.04.–14.05.2025, AniMoon, synchronisie
 ### kinoheld-Adressen über DuckDuckGo — Google, Bing, Brave sperren ihre Suche (19.09.2026)
 
 kinoheld sperrt Agenten (`Disallow: /`), deshalb stand jede Filmadresse von Hand im Kinotermin, und fehlende blieben mit „sobald es sie gibt" liegen — ungeprüft; bei „Your Name" gab es sie längst (Daniel fand sie als ersten Google-Treffer). Das eingebaute Suchwerkzeug findet kinoheld nicht einmal dort. robots.txt der Suchmaschinen, gelesen 19.09.2026: Google, Bing, Brave `Disallow: /search`; **`html.duckduckgo.com`: `Allow: /`** — und es findet die Your-Name-Seite. `pipeline/fetch-kinoheld.ts` sucht wöchentlich für jeden Kinotermin ohne Adresse und übernimmt nur einen Slug, der alle Titelwörter trägt. Nachtrag 19.09.2026: Mit Serper (Google-Treffer, `SERPER_API_KEY`) fand der Abruf „All You Need Is Kill" (`/film/all-you-need-is-kill`), das DuckDuckGo und Tavily nicht kannten — Serper ist seitdem der erste Weg, DuckDuckGo der Rückfall. Google führt kinoheld auch unter `/movie/<slug>-<kennung>` und mit internem Port `:7081`; gemeint ist die `/film/`-Seite. Madoka und Witch on the Holy Night noch ohne Seite.
+
+**Ein Klammerzusatz im Abo-Namen verdarb die Kanal-Gegenprobe (22.09.2026).** „Abos: crunchyrollde
+(Meldung 4738)" wurde zu „crunchyrollde (meldung 4738)" und passte auf kein JustWatch-Angebot; die
+Probe fiel auf alle Angebote zurück und fand bei A Silent Voice maxdomes `de` — ein Widerspruch, den
+das Kanal-Angebot (`es, it, ja`) nie hatte. `kanal-gegenprobe.ts` wirft Klammerzusätze seitdem weg.
