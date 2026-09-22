@@ -381,7 +381,7 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
     'der Lauf gehoert dem Tab, der ihn startet (sessionStorage, nicht chrome.storage)',
     /sessionStorage\.setItem\(LAUF_SCHLUESSEL/.test(quelle) && !/netflixLauf/.test(quelle),
   )
-  pruefe('ohne offene Folge auf der Seite springt die Automatik weiter', /if \(!hierOffen\) \{\s*selbstUebersprungen\.add/.test(quelle) && /await durchlaufStandLaden\(reihe\)\s*\/\*\s*\*\*Die Automatik/.test(quelle))
+  pruefe('ohne offene Folge auf der Seite springt die Automatik weiter', /if \(!hierOffen\) \{[\s\S]{0,900}?selbstUebersprungen\.add\(String\(reihe\)\)\s*selbstWeiter\(\)/.test(quelle) && /await durchlaufStandLaden\(reihe\)\s*\/\*\s*\*\*Die Automatik/.test(quelle))
   pruefe(
     'die Automatik waehlt die offene Staffel im Netflix-Auswahlfeld',
     /\[data-uia="episode-selector"\] button\[data-uia="dropdown-toggle"\]/.test(quelle) &&
