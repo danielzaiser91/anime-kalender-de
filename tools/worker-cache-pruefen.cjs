@@ -123,5 +123,10 @@ pruefe(
   'ein Ziel mit Staffelangabe verschwindet erst, wenn jede seiner Staffeln gemeldet ist',
 )
 
+pruefe(
+  quelle.includes("for (const r of [...(jemals ?? []), ...(results ?? []).filter((x) => x.url)])"),
+  'eine unübernommene Meldung zählt als gemeldet, unabhängig vom Prüfstand-Zeitstempel',
+)
+
 console.log(fehler ? `\n${fehler} Fehler` : '\nalles grün')
 process.exit(fehler ? 1 : 0)

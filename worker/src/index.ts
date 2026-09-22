@@ -1978,8 +1978,8 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
      */
     if (new URL(request.url).searchParams.get('stand') === '1') return ausCache(async () => {
       const { results } = await env.DB.prepare(
-        `SELECT plattform, url FROM pruefung WHERE uebernommen = 0`,
-      ).all<{ plattform: string; url: string }>()
+        `SELECT plattform, url, staffel FROM pruefung WHERE uebernommen = 0`,
+      ).all<{ plattform: string; url: string; staffel: number | null }>()
       const gemeldeteAdressen = new Map<string, Set<string>>()
       for (const r of results ?? []) {
         if (!r.url) continue
@@ -2057,7 +2057,13 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       const jeGemeldet = new Map<string, Set<string>>()
       /** Je Adresse die Staffeln, zu denen seit dem Prüfstand gemeldet wurde (22.09.2026). */
       const staffelnGemeldet = new Map<string, Set<number>>()
-      for (const r of jemals ?? []) {
+      /*
+        **Was noch im Briefkasten liegt, ist nie übernommen — es zählt immer** (22.09.2026). Der
+        Zeitstempel allein trägt nicht: Ein lokal neu erzeugter Prüfstand setzte `erzeugtAm` auf
+        jetzt, und Haikyu!! stand wieder als offen, obwohl alle 25 Meldungen unübernommen im
+        Briefkasten lagen (Daniel: „dann änder das in prüfliste").
+      */
+      for (const r of [...(jemals ?? []), ...(results ?? []).filter((x) => x.url)]) {
         const dazu = jeGemeldet.get(r.plattform) ?? new Set<string>()
         dazu.add(r.url)
         jeGemeldet.set(r.plattform, dazu)
