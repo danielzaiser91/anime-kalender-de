@@ -2728,7 +2728,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-09-22",
-      "sagt": "2026-06-27",
+      "sagt": "2026-04-11",
       "stand": "aktuell"
     }
   ],
@@ -4175,6 +4175,24 @@
       "name": "tv.de",
       "gesehenAm": "2026-09-22",
       "sagt": "2026-09-27",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-1313-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1052231/digimon-adventure-02-blu-ray-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-22",
+      "sagt": "2026-12-10",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-1638-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1052215/peter-pan-erscheint-als-blu-ray-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-22",
+      "sagt": "2026-12-10",
       "stand": "aktuell"
     }
   ]
