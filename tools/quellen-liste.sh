@@ -72,6 +72,7 @@ QUELLEN=(
   data/qualitaet-verlauf.json
   data/disc-ausgaben.json
   data/prime-zugeordnet.json
+  data/folgen-zuordnung.json
   data/amazon-gti-belegt.json
   data/justwatch-handpruefung.json
   daniel-zum-abarbeiten/20-justwatch-handpruefung.md

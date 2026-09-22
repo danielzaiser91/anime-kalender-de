@@ -2252,6 +2252,23 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         return antwort({ probe: results ?? [] })
       }
       const nach = Number(new URL(request.url).searchParams.get('nach') ?? 0)
+      /*
+        **`&alle=1`: jede Beobachtung, auch übernommene und gesperrte — für Stufe 2** (22.09.2026,
+        `docs/konzept-meldungen-architektur.md`). Die Zuordnung je Plattform-Folge wird aus allen
+        Beobachtungen neu berechnet, nicht aus den noch offenen. Ohne `roh` (Menge); fortsetzbar
+        über `nach` wie unten. Gemessen am 22.09.2026: 10.976 Zeilen, drei Seiten.
+      */
+      if (new URL(request.url).searchParams.get('alle') === '1') {
+        const { results } = await env.DB.prepare(
+          `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
+                  seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen
+             FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT 5000`,
+        )
+          .bind(Number.isFinite(nach) ? nach : 0)
+          .all()
+        const zeilen = (results ?? []) as { id: number }[]
+        return antwort({ folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null })
+      }
       const { results } = await env.DB.prepare(
         /*
           **Der Serienname kommt aus der Meldung derselben Adresse.**

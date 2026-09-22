@@ -115,7 +115,15 @@ zwischendurch schlechter wird.
 - **Befristet:** `befund` annehmen und ableiten entfällt, sobald Stufe 2 den Einleser ersetzt und keine
   Erweiterung unter 4.21.0 mehr meldet.
 
-**Stufe 2 — offen:** gespeicherte Zuordnungstabelle (Beobachtung → Titel × Folge × Pill), neu berechenbar.
+**Stufe 2 — erster Schnitt gebaut am 22.09.2026, der Bau liest ihn noch nicht.** `pipeline/lib/folgen-je-folge.ts`
+(`ordneFolgenZu`) ordnet jede Beobachtung je Plattform-Folge zu, `pipeline/fetch-folgen-zuordnung.ts`
+(`npm run data:folgen-zuordnung`, Schritt im Bestandslauf) holt alle Zeilen über `?rohfolgen=1&alle=1`
+und schreibt `data/folgen-zuordnung.json`: je `plattform:kennung` Titel, Folge, Grund, bei offen die
+Kandidaten. Frühere Zuordnungen bleiben stehen, wenn ein Lauf keinen Titel mehr findet. Erster Stand:
+5.271 Folgen, 2.471 mit Titel und Folge, 1.478 nur Titel, 341 offen, 980 ohne Kandidat, 1 strittig.
+`check:logic` stellt Yamada-kun (zwei Adressen), Vinland Saga (Anker schlägt Auftrag), das Festhalten und
+die Suchadresse nach. **Offen in Stufe 2:** die Pill-Achse (welcher Verweis), eine Liste für die offenen
+Folgen zum Nachprüfen, Detektiv Conan ohne Kandidat.
 
 **Schlüssel ist die Folgenkennung der Plattform, nicht die gemeldete Adresse** (22.09.2026). Yamada-kun
 (20966) kam zweimal an, einmal über `watch.amazon.de/detail?gti=…`, einmal über

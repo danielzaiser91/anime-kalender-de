@@ -168,6 +168,14 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:rohfolgen
 
+      # Stufe 2 (22.09.2026): jede Beobachtung je Plattform-Folge zuordnen und festhalten.
+      # Der Bau liest die Datei noch nicht — sie ist bis Stufe 3 ein Messwert.
+      - name: Folgen je Plattform-Folge zuordnen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:folgen-zuordnung
+
       - name: Datensatz bauen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
