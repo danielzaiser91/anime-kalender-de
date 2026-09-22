@@ -57,7 +57,9 @@
   # alle 20 Folgen erst ab dem 25.09. (beide Artikel). Die TV-Fassung ist
   # geschnitten (Mr.-Popo-Szenen durch Standbilder ersetzt, manime.de 30.08.);
   # ob RTL+ dieselbe Fassung zeigt, ist nicht bekannt.
-  note: "Die TV-Fassung bei TOGGO plus ist geschnitten; ob RTL+ dieselbe zeigt, ist nicht bekannt."
+  # Zusammengefasst als „TOGGO" (Daniel, 22.09.2026): Geschnitten ist es bei TOGGO plus und in
+  # der TOGGO-App. Was RTL+ ab dem 25.09. zeigt, wird dann geprüft — bis dahin steht dazu nichts.
+  note: "Die TV-Fassung bei TOGGO ist geschnitten."
   schnitt:
     was:
       - "Mr. Popo ist aus dem Bild entfernt: Szenen mit ihm gekürzt, das Bild herangezoomt oder durch ein Standbild ersetzt."
