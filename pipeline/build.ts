@@ -3116,7 +3116,7 @@ function main(): void {
       ? yaml.load(readFileSync(resolve(ROOT, 'data/verweise-von-hand.yaml'), 'utf8'))
       : []
     const eintraege = Array.isArray(roh)
-      ? (roh as Array<{ anilistId?: number; platform?: string; url?: string; beleg?: string; belegtAm?: string }>)
+      ? (roh as Array<{ anilistId?: number; platform?: string; url?: string; beleg?: string; belegtAm?: string; zugang?: Zugangsart }>)
       : []
     for (const e of eintraege) {
       if (!e.anilistId || !e.platform || !e.url) continue
@@ -3129,7 +3129,7 @@ function main(): void {
       if ((title.streams ?? []).some((s) => adressGleich(s.url, e.url!))) continue
       title.streams = [
         ...(title.streams ?? []),
-        { platform: e.platform as PlatformId, url: e.url } as StreamLink,
+        { platform: e.platform as PlatformId, url: e.url, ...(e.zugang ? { zugang: e.zugang } : {}) } as StreamLink,
       ]
       vonHand++
     }
@@ -3169,11 +3169,18 @@ function main(): void {
       'data/justwatch-audio.json',
       {},
     )
+    /*
+      Ein Joyn-Weg von Hand bringt seine Zugangsart mit (`verweise-von-hand.yaml`, Feld `zugang`) —
+      Dragon Ball Super stand sonst als „Abo" da, obwohl die Folgen kostenlos sind (22.09.2026).
+      Die Karte gilt vor JustWatch: `zugangsart()` setzt sonst später „abo".
+    */
+    for (const t of titles.values())
+      for (const st of t.streams ?? []) if (st.platform === 'joyn' && st.zugang) joynZugang.set(st.url, st.zugang)
     for (const b of Object.values(jw))
       for (const x of b.angebote ?? []) {
         if (!x.url || providerToPlatform(x.anbieter) !== 'joyn') continue
         /* Kostenlos schlägt Abo: Dieselbe Seite steht bei JustWatch oft als „Joyn" und „Joyn Plus". */
-        if (x.art === 'ADS' || x.art === 'FREE') joynZugang.set(x.url, 'kostenlos')
+        if (x.art === 'ADS' || x.art === 'FREE') { if (!joynZugang.has(x.url) || joynZugang.get(x.url) === 'abo') joynZugang.set(x.url, 'kostenlos') }
         else if (!joynZugang.has(x.url)) joynZugang.set(x.url, 'abo')
       }
     for (const title of titles.values()) {
