@@ -5648,7 +5648,6 @@ export function DetailPanel({
                   /* Teile ohne deutsche Synchro sind eingeklappt — angekündigte und der gewählte Teil bleiben sichtbar. */
                   const ohneOffen = reiheOhneOffen === reihenSchluessel
                   const eingeklappt = (m: FranchiseMember) => Boolean(m.ohneSynchro) && !kuenftig(m) && m.id !== title.id
-                  const zahlOhne = reihenTeile.filter(eingeklappt).length
                   const sichtbar = (m: FranchiseMember) => ohneOffen || !eingeklappt(m)
                   const lang = reihenTeile.length >= 15
                   const suchText = reiheSuche.reihe === reihenSchluessel ? reiheSuche.text.trim() : ''
@@ -5666,6 +5665,16 @@ export function DetailPanel({
                       ? reiheReiter.titel
                       : (eigeneGruppe ?? gefiltert[0]?.titel)
                   const angezeigt = mitReitern ? gefiltert.filter((g) => g.titel === aktiverReiter) : gefiltert
+                  /*
+                    **Die Zahl am Schalter gilt dem Reiter, nicht der Reihe** (Daniel, 22.09.2026:
+                    „auf hauptserie reiter gibt es keine ohne synchro, also soll toggle auch nicht
+                    angezeigt werden dort … die zahl der anzahl der ohne synchro unter diesem reiter
+                    entsprechen"). Gezählt wird in der ungefilterten Gruppe — die Filterung blendet
+                    genau diese Teile ja aus.
+                  */
+                  const zahlOhne = (
+                    mitReitern ? (gruppen.find((g) => g.titel === aktiverReiter)?.teile ?? []) : reihenTeile
+                  ).filter(eingeklappt).length
                   /*
                     **Ein Schalter in der Leiste statt einer Zeile unter der Liste** (Daniel,
                     19.09.2026: „ohne deutsche synchro ausblenden zeile entfernen und stattdessen
