@@ -16,7 +16,7 @@ import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { adressIndex, ankerAdresse, ordneFolgenZu, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
-import { namenIndex, titelZuordnen } from './fetch-tv-programm.ts'
+import { namenIndex, namensKern, titelZuordnen } from './fetch-tv-programm.ts'
 import type { AsFolgeRoh, TmdbFolge } from '../shared/folgen-zuordnung.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -68,6 +68,22 @@ async function main() {
   if (!beobachtungen) return
   const namenJeAdresse = await namenHolen()
   const namen = namenIndex()
+  /*
+    **Ein Name aus der Meldung ist oft der Anfang unseres Titels, nicht sein Ganzes** (22.09.2026):
+    „Hell Mode" gegen „Hell Mode: The Hardcore Gamer …", „Das Dschungelbuch" gegen „… Die Serie".
+    Beginnt ein Name genau einen Titel, zählt er; bei mehreren bleibt es beim Nein — die Reihe wird
+    ohnehin über den Anker aufgelöst.
+  */
+  const kerne = [...namen.entries()]
+  const nameZuTitel = (n: string): number | undefined => {
+    const genau = titelZuordnen(n, namen)
+    if (genau) return genau
+    const k = namensKern(n)
+    if (k.length < 6) return undefined
+    const anfang = kerne.filter(([kern]) => kern.startsWith(k))
+    const ids = new Set(anfang.map(([, id]) => id))
+    return ids.size === 1 ? [...ids][0] : undefined
+  }
   const roh = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titel = new Map((Array.isArray(roh) ? roh : roh.titles).map((t) => [t.id, t]))
   /* Frühere Zuordnungen: der heutige Einleser (je Adresse) und die Belege. */
@@ -87,7 +103,7 @@ async function main() {
       asKennung: readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}),
       jeAdresse: adressIndex(titel, frueher),
       namenJeAdresse,
-      nameZuTitel: (n) => titelZuordnen(n, namen),
+      nameZuTitel,
     },
     bisher,
   )
