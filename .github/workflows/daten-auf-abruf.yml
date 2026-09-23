@@ -56,6 +56,11 @@ on:
           - data:trailer
           - data:cartoons
           - data:youtube:kauf
+          # Abrufbarkeit der YouTube-Verweise in Deutschland. Läuft sonst nur im
+          # Wochenlauf; auf Abruf gebraucht, wenn die Quelle als stumm gemeldet wird
+          # (23.09.2026, Issue #215: Der Riegel hatte neun Tage lang nichts geschrieben,
+          # und ohne einen Lauf bleibt `lastOk` alt, auch wenn der Fehler behoben ist).
+          - data:youtube
           # TOGGO-Fenster; läuft zusätzlich als Zeitplan um 21:05 UTC (22.09.2026).
           - data:toggo
       grenze:
