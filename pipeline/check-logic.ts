@@ -24,7 +24,7 @@ import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus }
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
-import { pushText } from '../worker/src/push-text.ts'
+import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../web/src/lib/kostenlos.ts'
 import { istPremiere, tvAngabe } from '../web/src/lib/tv-angabe.ts'
@@ -1667,6 +1667,37 @@ console.log('\nStreaming Availability API:')
       { from: 156, to: 171, dub: false },
       { from: 1, to: 155, dub: true },
     ])?.n === 155)
+}
+
+/**
+ * **Wohin der Klick auf eine Benachrichtigung führt** (23.09.2026).
+ *
+ * Daniel bekam eine Meldung zu „Clevatess" und landete auf der Favoritenansicht statt beim
+ * Titel. Bei genau einer Meldung ist das Ziel eindeutig, und die Route kann es.
+ */
+{
+  console.log('\nZiel einer Push-Benachrichtigung')
+
+  const folge = { titleId: 186468, name: 'Clevatess', date: '2026-09-23', episode: 13 }
+  pruefe(
+    'eine einzelne Folge führt zu ihrem Panel, am Tag der Folge',
+    pushZiel([folge], []) === '#/woche?d=2026-09-23&t=186468',
+    pushZiel([folge], []),
+  )
+  pruefe(
+    'mehrere Meldungen führen zur Favoritenansicht',
+    pushZiel([folge, { ...folge, titleId: 1, name: 'Anderer' }], []) === '#/favoriten',
+  )
+  pruefe(
+    'ein einzelner neuer Anbieter führt zum Titel',
+    pushZiel([], [{ id: 21175, name: 'Dragon Ball Super', anbieter: 'Joyn' }]) === '#/woche?t=21175',
+  )
+  pruefe(
+    'Folge und Anbieter zusammen führen zur Favoritenansicht',
+    pushZiel([folge], [{ id: 21175, name: 'Dragon Ball Super', anbieter: 'Joyn' }]) === '#/favoriten',
+  )
+  /* Ohne Meldung gibt es keinen Push — das Ziel bleibt trotzdem beantwortbar. */
+  pruefe('ohne Meldung die Favoritenansicht', pushZiel([], []) === '#/favoriten')
 }
 
 /**

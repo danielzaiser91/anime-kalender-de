@@ -3101,9 +3101,15 @@ export default {
       case '/push/nachricht': {
         /* Der Service Worker holt beim Push den Text ab — einmal, danach ist er weg. */
         const endpoint = new URL(request.url).searchParams.get('endpoint') ?? ''
-        const zeile = await env.DB.prepare('SELECT offen FROM push_abo WHERE endpoint = ?1').bind(endpoint).first<{ offen: string | null }>()
-        if (zeile?.offen) await env.DB.prepare('UPDATE push_abo SET offen = NULL WHERE endpoint = ?1').bind(endpoint).run()
-        return json(env, { text: zeile?.offen ?? null })
+        const zeile = await env.DB.prepare('SELECT offen, offen_ziel FROM push_abo WHERE endpoint = ?1')
+          .bind(endpoint)
+          .first<{ offen: string | null; offen_ziel: string | null }>()
+        if (zeile?.offen)
+          await env.DB.prepare('UPDATE push_abo SET offen = NULL, offen_ziel = NULL WHERE endpoint = ?1')
+            .bind(endpoint)
+            .run()
+        /* Das Ziel steht seit dem 23.09.2026 daneben: Eine einzelne Meldung öffnet ihr Panel. */
+        return json(env, { text: zeile?.offen ?? null, ziel: zeile?.offen_ziel ?? null })
       }
       case '/feed-token':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)

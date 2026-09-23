@@ -316,12 +316,19 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     (async () => {
       let text = 'Test: Benachrichtigungen kommen an.'
+      /*
+        **Das Ziel kommt mit dem Text** (Daniel, 23.09.2026: „klick drauf öffnet nicht
+        clevates detail panel in wochenansicht sondern .../#/favoriten"). Bei einer einzelnen
+        Meldung nennt der Worker die Route des Titels; sonst bleibt es bei den Favoriten.
+      */
+      let ziel = '/#/favoriten'
       try {
         const abo = await self.registration.pushManager.getSubscription()
         if (abo) {
           const res = await fetch(`${PUSH_WORKER}/push/nachricht?endpoint=${encodeURIComponent(abo.endpoint)}`)
           const antwort = await res.json()
           if (antwort.text) text = antwort.text
+          if (antwort.ziel) ziel = antwort.ziel.startsWith('#') ? `/${antwort.ziel}` : antwort.ziel
         }
       } catch {
         /* Kein Text abrufbar — dann die neutrale Meldung. */
@@ -330,6 +337,7 @@ self.addEventListener('push', (event) => {
         body: text,
         icon: '/icons/icon-192.png',
         tag: 'folgen',
+        data: { ziel },
       })
     })(),
   )
@@ -337,5 +345,26 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close()
-  event.waitUntil(self.clients.openWindow('/#/favoriten'))
+  const ziel = event.notification.data?.ziel || '/#/favoriten'
+  event.waitUntil(
+    (async () => {
+      /*
+        **Ein offenes Fenster wird benutzt, kein zweites geöffnet** (23.09.2026). Wer die Seite
+        ohnehin offen hat, bekam bisher ein weiteres Fenster daneben. Und ein bereits offener
+        Tab springt nur dann auf den Titel, wenn ihm der Hash gesetzt wird — ein `focus()`
+        allein ändert die Route nicht.
+      */
+      const fenster = await self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+      const eigenes = fenster.find((f) => new URL(f.url).origin === self.location.origin)
+      if (eigenes) {
+        try {
+          await eigenes.navigate(ziel)
+        } catch {
+          /* Manche Browser verbieten navigate() — dann bleibt der Fokus, besser als nichts. */
+        }
+        return eigenes.focus()
+      }
+      return self.clients.openWindow(ziel)
+    })(),
+  )
 })

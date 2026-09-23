@@ -30,3 +30,23 @@ export function pushText(folgen: PushEreignis[], auchBei: WeitererAnbieter[]): s
   return `${kopf}: ${teile.slice(0, 3).map((t) => t.kurz).join(' · ')}`
 }
 
+
+/**
+ * **Wohin der Klick auf die Benachrichtigung führt** (Daniel, 23.09.2026: „klick drauf
+ * öffnet nicht clevates detail panel in wochenansicht sondern .../#/favoriten").
+ *
+ * Der Service Worker öffnete bis dahin fest die Favoritenansicht. Bei einer einzelnen
+ * Meldung ist das eine Station zu viel: Gemeint ist genau dieser Titel, und die Route
+ * kennt ihn — `?t=<id>` öffnet sein Panel in jeder Ansicht, `?d=<datum>` stellt die Woche
+ * auf den Tag der Folge.
+ *
+ * Bei mehreren Meldungen bleibt es bei der Favoritenansicht: Dort stehen sie alle.
+ */
+export function pushZiel(folgen: PushEreignis[], auchBei: WeitererAnbieter[]): string {
+  if (folgen.length === 1 && !auchBei.length) {
+    const e = folgen[0]!
+    return `#/woche?d=${e.date}&t=${e.titleId}`
+  }
+  if (!folgen.length && auchBei.length === 1) return `#/woche?t=${auchBei[0]!.id}`
+  return '#/favoriten'
+}

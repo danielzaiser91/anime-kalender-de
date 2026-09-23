@@ -1,4 +1,4 @@
-import { pushText, type PushEreignis, type WeitererAnbieter } from './push-text.ts'
+import { pushText, pushZiel, type PushEreignis, type WeitererAnbieter } from './push-text.ts'
 
 /**
  * **Web-Push ohne Nutzlast — der Zustell-PoC** (18.09.2026, Plan in status.md).
@@ -103,7 +103,10 @@ export async function pushVersand(
     const neu = ereignisse.filter((e) => favoriten.has(e.titleId) && istErschienen(e, jetzt) && !istErschienen(e, seit))
     const text = pushText(neu, auchBei)
     if (!text) continue
-    await env.DB.prepare('UPDATE push_abo SET offen = ?1 WHERE endpoint = ?2').bind(text, abo.endpoint).run()
+    /* Text und Ziel gehören zusammen — der Service Worker holt beides in einem Zug ab. */
+    await env.DB.prepare('UPDATE push_abo SET offen = ?1, offen_ziel = ?2 WHERE endpoint = ?3')
+      .bind(text, pushZiel(neu, auchBei), abo.endpoint)
+      .run()
     const antwort = await leererPush(env, abo.endpoint)
     if (antwort.status === 404 || antwort.status === 410) {
       await env.DB.prepare('DELETE FROM push_abo WHERE endpoint = ?1').bind(abo.endpoint).run()
