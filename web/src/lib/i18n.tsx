@@ -425,6 +425,9 @@ const TEXTE = {
   'detail.gruppeFilme': 'Filme',
   'detail.reiheSuche': 'In der Reihe suchen',
   'detail.reiheOhneSchalter': '{n} ohne Synchro ausblenden',
+  // Am Abzeichen in der Reihenliste — das Zeichen selbst ist 🇩🇪 ✕, der Satz
+  // steht im Hinweis. „Bisher" fehlt bewusst: Wir wissen nicht, ob eine kommt.
+  'detail.reiheOhneSynchro': 'Keine deutsche Synchro',
   'detail.reiheKeinTreffer': 'Kein Teil passt',
   'detail.reiheKuenftig': 'noch nicht erschienen',
   'detail.folgenKurz': '{n} Fg.',

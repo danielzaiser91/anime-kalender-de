@@ -5595,6 +5595,8 @@ export function DetailPanel({
                   const zeile = (m: FranchiseMember, offen: boolean) => {
                     const gewaehlt = m.id === title.id
                     const gemerkt = favorites.has(m.id)
+                    /* `offen` heißt hier „noch nicht erschienen" — dort ist eine fehlende Synchro kein Befund. */
+                    const ohneDe = Boolean(m.ohneSynchro) && !offen
                     /*
                       **Gezeigt wird der unterscheidende Teil, nicht der ganze
                       Name.** Der Reihenname steht zwei Zeilen höher; ihn hier
@@ -5691,9 +5693,33 @@ export function DetailPanel({
                           )}
                         </span>
                         <span className="flex min-w-0 flex-1 items-baseline gap-2">
+                          {/*
+                            **Ohne deutsche Synchro steht vor dem Namen, nicht dahinter** (Daniel,
+                            23.09.2026: „dieser in der reihe hat keine synchro, das muss sichtbar sein
+                            bevor man ihn anklickt"). „Super Dragon Ball Heroes" sah in der Reihe von
+                            Dragon Ball Super aus wie jeder andere Teil; den Unterschied erfuhr man
+                            erst nach dem Klick.
+
+                            Vier Entwürfe an der echten Liste, Daniels Wahl: Rot mit Fahne und Kreuz,
+                            dazu der gedämpfte Name. Rot heißt auf dieser Seite sonst „Fehler" — hier
+                            heißt es „gibt es nicht auf Deutsch", und genau das ist die Auskunft, um
+                            die es geht.
+
+                            Künftige Teile tragen es nicht: Bei ihnen steht „ab <Datum>", und eine
+                            fehlende Synchro ist dort kein Befund, sondern der Normalzustand.
+                          */}
+                          {ohneDe && (
+                            <span
+                              title={t('detail.reiheOhneSynchro')}
+                              className="shrink-0 rounded border border-rose-400/50 bg-rose-500/15 px-1.5 py-px text-[9px] font-extrabold leading-tight tracking-wider text-rose-600 dark:text-rose-400"
+                            >
+                              🇩🇪 ✕
+                            </span>
+                          )}
                           <span
                             className={[
                               'min-w-0 truncate text-sm leading-tight',
+                              ohneDe ? 'opacity-75' : '',
                               gewaehlt
                                 ? 'font-medium text-sky-700 dark:text-sky-300'
                                 : 'text-slate-700 dark:text-slate-200',
