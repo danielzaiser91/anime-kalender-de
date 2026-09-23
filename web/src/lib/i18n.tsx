@@ -398,6 +398,22 @@ const TEXTE = {
   // Normalfall. „1–1" wäre richtig gerechnet und trotzdem verwirrend.
   'detail.dubNurEine': '✓ DE nur Fg. 1',
   'detail.dubUntilTitel': 'Deutscher Ton bis Folge {n}',
+  // **Das Label sagt, was es auf Deutsch gibt** (Daniel, 23.09.2026: „de in fokus und
+  // nicht de in tooltip"). Vorher nannte es die Lücke — „✕ DE 5–7" —, also das, was
+  // fehlt. Wer vor der Pille steht, will aber wissen, was er bekommt, und bei mehr als
+  // einem Wechsel wird die Lücken-Form ohnehin unübersichtlich.
+  'detail.dubDe': '✓ DE {bereiche}',
+  // Ab drei Bereichen bliebe die Pille nicht mehr schmal. Die Zahl sagt, dass da noch
+  // etwas kommt; die vollständige Aufzählung steht im Hinweis daneben.
+  'detail.dubDeMehr': '✓ DE {bereiche} +{n} Bereiche',
+  // Der Hinweis, zeilenweise (Daniel, 23.09.2026: „im tooltip nicht in selbe zeile
+  // sondern untereinander, also zeilenumbruch vor nicht im angebot").
+  'detail.dubKopfVon': '{n} von {m} Folgen auf Deutsch',
+  'detail.dubKopf': '{n} Folgen auf Deutsch',
+  'detail.dubOhneTonZeile': 'Ohne deutschen Ton: {bereiche}',
+  // „Nicht im Angebot" statt „nicht erfasst": Bei bekannter Folgenzahl ist das die
+  // Aussage, die der Leser braucht — dort gibt es sie nicht, nicht einmal untertitelt.
+  'detail.dubNichtImAngebot': 'Nicht im Angebot: {bereiche}',
   'detail.dubFromTitel': 'Deutscher Ton ab Folge {n}',
   'detail.genres': 'Genres',
   'detail.seriesPartsCount': '{count} Teile in dieser Reihe',

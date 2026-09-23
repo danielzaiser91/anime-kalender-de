@@ -59,7 +59,7 @@ import {
 } from './lib/folgenbereiche.ts'
 import { adnAdresseSchaerfen, adnFolgenAdresse } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
-import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
+import { bereicheGekuerzt, bereicheKurz, dubBild, dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
@@ -1676,6 +1676,60 @@ console.log('\nStreaming Availability API:')
  * 26.08.2026 hatte Disney+ sieben Folgen, davon vier deutsch. Nur altert so ein Befund bei
  * einer laufenden Serie im Wochentakt, und die Anbieterfrist von 180 Tagen sah ihn nicht an.
  */
+/**
+ * **Das Bild eines Wegs: deutsch, ohne Ton, nicht im Angebot.**
+ *
+ * Daniel am 23.09.2026: „damit tooltip jegliche kombination an de/nicht de korrekt
+ * kommuniziert, darf er nicht so generisch implementiert sein". Die Fälle, die das Panel
+ * treffen muss, sind wild — One Piece bei Netflix hat alle drei Zustände.
+ */
+{
+  console.log('\nWas ein Weg auf Deutsch führt')
+
+  /* One Piece bei Netflix, von Hand geprüft (23.09.2026): 1–130 deutsch, 1089–1178 ohne
+     deutschen Ton, dazwischen führt Netflix die Serie gar nicht. */
+  const op = dubBild(
+    [
+      { from: 1, to: 130, dub: true },
+      { from: 1089, to: 1178, dub: false },
+    ],
+    1178,
+  )
+  pruefe('One Piece: die deutschen Folgen stehen vorn',
+    bereicheKurz(op!.deutsch) === '1–130' && op!.deutscheFolgen === 130, op)
+  pruefe('One Piece: 131–1088 sind nicht im Angebot, nicht etwa ohne Ton',
+    bereicheKurz(op!.ohneTon) === '1089–1178' && bereicheKurz(op!.nichtImAngebot) === '131–1088', op)
+
+  /* Der wilde Fall aus den Entwürfen: vier deutsche Bereiche, verstreut. */
+  const wild = dubBild(
+    [
+      { from: 1, to: 2, dub: true },
+      { from: 4, to: 4, dub: true },
+      { from: 21, to: 21, dub: true },
+      { from: 22, to: 300, dub: false },
+      { from: 1003, to: 1200, dub: true },
+    ],
+    1200,
+  )
+  pruefe('wilder Fall: alle deutschen Bereiche, in der richtigen Reihenfolge',
+    bereicheKurz(wild!.deutsch) === '1–2, 4, 21, 1003–1200' && wild!.deutscheFolgen === 202, wild)
+  pruefe('wilder Fall: die Lücken zwischen den Bereichen sind nicht im Angebot',
+    bereicheKurz(wild!.nichtImAngebot) === '3, 5–20, 301–1002', wild)
+
+  /* Das Label bleibt schmal: zwei Bereiche, dahinter die Zahl der übrigen. */
+  const kurz = bereicheGekuerzt(wild!.deutsch)
+  pruefe('das Label kürzt ab dem dritten Bereich',
+    kurz.text === '1–2, 4' && kurz.rest === 2, kurz)
+  pruefe('zwei Bereiche werden nicht gekürzt',
+    bereicheGekuerzt([{ from: 1, to: 8 }, { from: 10, to: 11 }]).rest === 0)
+
+  /* Ohne bekannte Folgenzahl bleibt der dritte Zustand unbekannt — geraten wird nicht. */
+  pruefe('ohne Folgenzahl keine Aussage über Nichtvorhandenes',
+    dubBild([{ from: 1, to: 8, dub: true }, { from: 9, to: 11, dub: false }], undefined)!.nichtImAngebot.length === 0)
+  pruefe('ohne Bereiche gibt es kein Bild',
+    dubBild(undefined, 12) === null && dubBild([], 12) === null)
+}
+
 {
   console.log('\nWiedervorlage: wann ein Sprachbeleg wieder zur Frage wird')
 

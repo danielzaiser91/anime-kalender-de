@@ -107,6 +107,70 @@ export function dubAbdeckung(
   return { belegt, vollstaendig: belegt >= gesamt }
 }
 
+/** Die drei Zustände eines Wegs, jeder als Folgenbereiche. */
+export interface DubBild {
+  /** Folgen mit deutschem Ton. */
+  deutsch: { from: number; to: number }[]
+  /** Folgen, die dort liegen, aber nur fremdsprachig. */
+  ohneTon: { from: number; to: number }[]
+  /** Folgen, die der Anbieter gar nicht führt — nur bekannt, wenn die Folgenzahl es ist. */
+  nichtImAngebot: { from: number; to: number }[]
+  /** Wie viele Folgen deutschen Ton haben. */
+  deutscheFolgen: number
+}
+
+/**
+ * **Was es auf Deutsch gibt — und was sonst noch bekannt ist.**
+ *
+ * Die Bereiche kennen drei Zustände, nicht zwei: deutsch (`dub: true`), ohne deutschen Ton
+ * (`dub: false`) und **nicht erfasst** — eine Folge, über die kein Bereich etwas sagt. Bei
+ * bekannter Folgenzahl ist der dritte Zustand „führt der Anbieter nicht".
+ *
+ * One Piece auf Netflix zeigt, warum das drei sein müssen (Daniels Handprüfung, 23.09.2026):
+ * 1–130 deutsch, 1089–1178 ohne deutschen Ton, 131–1088 stehen dort gar nicht. Wer nur
+ * „deutsch" und „nicht deutsch" kennt, macht aus den fehlenden 958 Folgen eine Aussage, die
+ * niemand gemessen hat.
+ *
+ * **Die Reihenfolge der Rückgabe ist die Reihenfolge der Wichtigkeit** (Daniel, 23.09.2026:
+ * „die ‚nicht vorhanden' und ‚nicht de' teile, sind weniger interessant, als was es
+ * tatsächlich auf de gibt, entsprechend de in fokus und nicht de in tooltip"). Das Label
+ * zeigt `deutsch`, der Hinweis daneben den Rest.
+ */
+export function dubBild(ranges: DubBereich[] | undefined, gesamt: number | undefined): DubBild | null {
+  if (!ranges?.length) return null
+  const deutsch = ranges.filter((r) => r.dub).sort((a, b) => a.from - b.from)
+  const ohneTon = ranges.filter((r) => !r.dub).sort((a, b) => a.from - b.from)
+  const deutscheFolgen = deutsch.reduce((n, r) => n + Math.max(0, r.to - r.from + 1), 0)
+  const nichtImAngebot: { from: number; to: number }[] = []
+  if (gesamt) {
+    const erfasst = new Set<number>()
+    for (const r of ranges) for (let n = r.from; n <= Math.min(r.to, gesamt); n++) erfasst.add(n)
+    for (let n = 1; n <= gesamt; n++) {
+      if (erfasst.has(n)) continue
+      const letzter = nichtImAngebot[nichtImAngebot.length - 1]
+      if (letzter && letzter.to === n - 1) letzter.to = n
+      else nichtImAngebot.push({ from: n, to: n })
+    }
+  }
+  return { deutsch, ohneTon, nichtImAngebot, deutscheFolgen }
+}
+
+/**
+ * Bereiche für ein schmales Label: die ersten, und wie viele noch kommen.
+ *
+ * „1–2, 4" plus `rest: 2` statt einer Aufzählung, die die Pille sprengt. Wer alle braucht,
+ * findet sie im Hinweis daneben — dort steht ohnehin, wie viele Folgen es sind.
+ */
+export function bereicheGekuerzt(
+  bereiche: { from: number; to: number }[],
+  hoechstens = 2,
+): { text: string; rest: number } {
+  return {
+    text: bereicheKurz(bereiche.slice(0, hoechstens)),
+    rest: Math.max(0, bereiche.length - hoechstens),
+  }
+}
+
 /** „1–75", „3, 5–7" — die Kurzform, in der Bereiche angezeigt werden. */
 export function bereicheKurz(ranges: { from: number; to: number }[]): string {
   return [...ranges]

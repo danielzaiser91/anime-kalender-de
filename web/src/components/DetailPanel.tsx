@@ -2,7 +2,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { ReactElement, ReactNode } from 'react'
 import type { DiscAusgabe, Meldung, Release, ReleaseEvent, StreamLink, Title, VermerkAusgeblieben, WatchLink } from '@shared/types.ts'
-import { bereicheKurz, dubAbdeckung, dubGrenze, dubLuecken, folgenOhneAnbieter } from '@shared/dub-grenze.ts'
+import { bereicheGekuerzt, bereicheKurz, dubAbdeckung, dubBild, dubGrenze, dubLuecken, folgenOhneAnbieter } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS, anbieterName } from '@shared/types.ts'
 import { expandEvents, titleStatus, istErschienen, istAusgeblieben, releaseStatus } from '@shared/logic.ts'
@@ -3656,6 +3656,41 @@ export function DetailPanel({
     wüssten wir sie nicht. Ein Bezugsweg („Amazon Prime (Crunchyroll)") erbt die
     Angaben des Verweises mit derselben Adresse; ohne ihn gilt die Regel des Titels.
   */
+  /**
+   * **Der Hinweis an der Pille: zeilenweise, Deutsch zuerst** (Daniel, 23.09.2026: „im
+   * tooltip nicht in selbe zeile sondern untereinander, also zeilenumbruch vor nicht im
+   * angebot").
+   *
+   * Drei Mengen, drei Zeilen, und keine davon steht da, wenn sie leer ist: wie viele Folgen
+   * auf Deutsch (und wovon), welche das sind, welche nur fremdsprachig dort liegen, und
+   * welche der Anbieter gar nicht führt. Deckt ein Weg alles auf Deutsch ab, sagt das
+   * Häkchen daneben schon alles — dann bleibt der Hinweis leer.
+   */
+  const dubZeilen = (s: { dubRanges?: StreamLink['dubRanges'] }): string[] => {
+    const bild = dubBild(s.dubRanges, title?.episodes)
+    if (!bild?.deutsch.length || (!bild.ohneTon.length && !bild.nichtImAngebot.length)) {
+      const grenze = dubGrenze(s.dubRanges)
+      return [
+        dubLuecken(s.dubRanges) ? t('detail.dubLueckenTitel') : '',
+        grenze
+          ? t(grenze.schluessel === 'detail.dubUntil' ? 'detail.dubUntilTitel' : 'detail.dubFromTitel', {
+              n: grenze.n,
+            })
+          : '',
+      ].filter(Boolean)
+    }
+    return [
+      title?.episodes
+        ? t('detail.dubKopfVon', { n: bild.deutscheFolgen, m: title.episodes })
+        : t('detail.dubKopf', { n: bild.deutscheFolgen }),
+      bereicheKurz(bild.deutsch),
+      bild.ohneTon.length ? t('detail.dubOhneTonZeile', { bereiche: bereicheKurz(bild.ohneTon) }) : '',
+      bild.nichtImAngebot.length
+        ? t('detail.dubNichtImAngebot', { bereiche: bereicheKurz(bild.nichtImAngebot) })
+        : '',
+    ].filter(Boolean)
+  }
+
   const folgenAngabeFuer = (
     s:
       | { platform?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges']; dub?: boolean; fenster?: StreamLink['fenster'] }
@@ -3691,6 +3726,18 @@ export function DetailPanel({
       s?.nurFolge != null || (/youtube\.com\/watch\?/.test(s?.url ?? '') && !/[?&]list=/.test(s?.url ?? ''))
     if (einzelneFolge && deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1)
       return t('detail.dubNurEine')
+    /*
+      **Gemischt heißt: das Label nennt die deutschen Folgen** (Daniel, 23.09.2026: „de in
+      fokus und nicht de in tooltip"). Vorher stand dort die Lücke („✕ DE 5–7") oder die
+      Grenze („✓ DE 1–155"). Beide beantworten nur einen Teil der Frage, und die Lücken-Form
+      stellt sogar das Fehlende nach vorn. Bei drei Bereichen und mehr kürzt die Pille; der
+      Hinweis daneben zählt alle auf.
+    */
+    const bild = dubBild(s?.dubRanges, title.episodes)
+    if (bild?.ohneTon.length && bild.deutsch.length) {
+      const { text: bereiche, rest } = bereicheGekuerzt(bild.deutsch)
+      return rest ? t('detail.dubDeMehr', { bereiche, n: rest }) : t('detail.dubDe', { bereiche })
+    }
     const luecken = dubLuecken(s?.dubRanges)
     if (luecken) return t('detail.dubLuecken', { n: luecken })
     const grenze = dubGrenze(s?.dubRanges)
@@ -4996,14 +5043,6 @@ export function DetailPanel({
                 */
                 stream={sortiertNachZugang.flatMap(({ plattformen }) =>
                   plattformen.map((s) => {
-                    const grenze = dubGrenze(s.dubRanges)
-                    /*
-                      Lücken mitten in der Staffel kann `dubGrenze` nicht: Sie
-                      kennt nur „ab" und „bis". Bei „Hensuki" (1–4 und 6–12
-                      deutsch, 5 nicht) meldete sie „bis Folge 4" und unterschlug
-                      acht Folgen.
-                    */
-                    const luecken = dubLuecken(s.dubRanges)
                     /*
                       **Was da ist, nicht was fehlt.**
 
@@ -5054,15 +5093,7 @@ export function DetailPanel({
                         */
                         titel={
                           [
-                            luecken ? t('detail.dubLueckenTitel') : '',
-                            grenze
-                              ? t(
-                                  grenze.schluessel === 'detail.dubUntil'
-                                    ? 'detail.dubUntilTitel'
-                                    : 'detail.dubFromTitel',
-                                  { n: grenze.n },
-                                )
-                              : '',
+                            ...dubZeilen(s),
                             s.teilBereich
                               ? t('detail.teilBereichTitel', {
                                   von: s.teilBereich.von,
@@ -5074,7 +5105,7 @@ export function DetailPanel({
                               : '',
                           ]
                             .filter(Boolean)
-                            .join(' · ') || undefined
+                            .join('\n') || undefined
                         }
                         rechts={
                           <>
