@@ -29,7 +29,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | **Erledigt am 23.09.2026: Ein Crunchyroll-Block deckt zwei unserer Titel** | 2 | `beurteileTeilblock()` belegt einen restlos deutschen Block, dessen Name genau einen Titel der Adresse trifft und dessen Folgenzahl diesen Titel plus seinen „Teil 2"/„Cour 2" exakt deckt. Warum nicht über die Blockkette: Die bricht ab, sobald ein anderer Block der Adresse unvollständig deutsch ist — bei SAO ist das „Alicization" (25 Folgen, 24 deutsch). **PoC vor der Umsetzung:** Eine reine Summenregel trifft 271 Blöcke, fast alle zufällig (Film + Serie); mit Namens- und Teilbedingung bleiben 8 Treffer, 0 Widersprüche — 7 davon bestätigen vorhandene Urteile (Haikyu!! To the Top, Dead Mount Death Play, Ancient Magus’ Bride S2, Space Dandy, Kokoro Connect, Monster-Mädchen, Chunibyo), der achte ist SAO WoU Teil 2. Acht Zusicherungen in `check:cr-zuordnung`, darunter fünf Gegenproben. |
 | **Erledigt am 23.09.2026: Premiere-Fähnchen verschob die Kalenderkachel** | 1 | Gemessen in der Wochenansicht: 18 px über einer Kachel mit Fähnchen, 6 px überall sonst. Die Hülle in `EventCard.tsx` trug `mt-3`, obwohl das Fähnchen `absolute` steht und im Fluss keinen Platz braucht. Jetzt `relative` ohne Abstand, Fähnchen `-top-1.5` — es ragt genau 6 px hoch, füllt den Zwischenraum und überlappt die Kachel darüber um 0 px. Am nachgebauten Fall im Browser gemessen; der Bestand führt zurzeit keine TV-Premiere. |
 | **Erledigt am 23.09.2026: Ohne deutsche Synchro in der Reihenliste sichtbar** | 2 | Vier Varianten an der echten Liste von Dragon Ball Super gebaut und als Bild vorgelegt (Daniel: „benutz echte daten, echte detail panel, und benutz mehr farbliche unterscheidung"). Seine Wahl: D — rotes Abzeichen 🇩🇪 ✕ vor dem Namen, Name auf 75 % gedämpft. Künftige Teile tragen es nicht, dort steht „ab <Datum>". Beide Themen im Bild geprüft. |
-| **Offen (Daniel, 23.09.2026, 00:17): Wo lassen sich die Dragon-Ball-Titel streamen?** | 3 | Recherche für Dragon Ball (223), Z (813), GT, Z Kai, Z Kai: The Final Chapters, Super (21175) und die Filme: Gibt es wirklich nirgends einen deutschen Stream? Zu prüfen sind Crunchyroll, ADN, Prime (auch Kanäle), Netflix, Disney+, RTL+, TOGGO, Joyn, MagentaTV/Videoload, YouTube-Kauf, Apple, Google Play, MOTN und JustWatch. Ergebnis mit Adressen und Datum in `docs/wissen/quellen.md`, gefundene Wege über `verweise-von-hand.yaml` in den Bestand. Daniels Anlass: „ich will sicher sein, dass es wirklich nirgendwo zu streamen ist". |
+| **Erledigt am 23.09.2026: Wo lassen sich die Dragon-Ball-Titel streamen?** | 3 | Antwort: Die Klassiker (Dragon Ball, Z, GT, Z Kai, Final Chapters) gibt es nirgends im Stream — JustWatch nennt nur Kauf und Verleih. Deutsche Wege haben sechs der 44 Titel. Ursache für die Lücke waren fehlende und eine falsche TMDB-Kennung, beide behoben. Vollständige Messung im Abschnitt „Recherchiert 23.09.2026" weiter unten. Offen bleibt Super Dragon Ball Heroes — JustWatch hat gedrosselt, die Antwort kommt mit dem nächsten regulären Lauf. |
 | **Erledigt am 22.09.2026: Lauf „Bestand — zusammenführen und bauen" (35748165978) brach mit 1172 Widersprüchen ab** | 1 | Ursache: `pruefeErgebnis()` in `pipeline/build.ts` stand bei Zeile 6763, direkt nach `expandEvents` — die heutige Prüfung „ein TMDB-Weg trägt `ueberTmdb`" (Commit a62d33d) lief damit **vor** dem Block „Kein Weg auf eine Datenbank", der diese Kennzeichnung erst bei Zeile ~7291 setzt. Keiner der 1172 Wege war unbelegt, nur die Reihenfolge stimmte nicht. Fix in PR #208 (Issue #207): Prüfaufruf hinter die Kennzeichnung verschoben; `releases`/`events` ändern sich zwischen beiden Stellen nicht. `check:vor-commit` grün, `data:build` lokal nicht reproduzierbar (kein `data/cache`). **Zu prüfen bleibt:** nächster Remote-Lauf von „Bestand — zusammenführen und bauen" sollte grün durchlaufen. |
 | **Meldemodell in vier Stufen (docs/konzept-meldungen-architektur.md)** | 13 | Stufe 1 am 22.09.2026 umgesetzt: Worker + Migrationen 034/035 live, Erweiterung 4.21.0 meldet `vorhanden`/`ton_de`/`art`, Prime schickt gesperrte Folgen mit. **Offen:** Daniel testet 4.21.0 (je eine Meldung Netflix, Prime, Disney+); danach Stufe 2 (Zuordnungstabelle), 3 (Urteil nach dem Modell), 4 (Anzeige). Fairy-Tail-S2-Meldungen (24, B0GZJ6DXCS) liegen bis Stufe 2 im Briefkasten. |
 | **Erledigt am 21.09.2026: ADN-Katalog ordnete Filme fremden AniList-Titeln zu** | 2 | 882 „One Piece - Der Film" → 18617 „Girls und Panzer der Film" (geteilt nur „film"): im Bestand stand ein One-Piece-Link an Girls und Panzer. `passtZuSerie` ignoriert jetzt Werkwörter, der Bau verwirft solche Katalogzuordnungen. Gegenprobe über 89 Zuordnungen im Bestand: nur dieser eine fällt heraus. Die drei One-Piece-Filme (459/460/2107) über `adn-adressen.yaml`. |
@@ -201,6 +201,50 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 |---|---|
 
 | **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
+
+## Recherchiert 23.09.2026: Wo lassen sich die Dragon-Ball-Titel auf Deutsch sehen?
+
+Daniels Auftrag vom 23.09.2026: „ich will sicher sein, dass es wirklich nirgendwo zu streamen
+ist." Gemessen wurde gegen den eigenen Bestand und alle Quellen, die wir führen — ohne neue
+Abrufe bei Anbietern, die wir nicht ohnehin fragen.
+
+**Der Bestand kennt 44 Dragon-Ball-Titel.** Einen deutschen Weg haben davon sechs:
+
+| Titel | Weg |
+|---|---|
+| Dragon Ball Super (131 Fg.) | Disney+, Prime Video, ADN, Joyn |
+| Dragon Ball DAIMA (20 Fg.) | YouTube (nur Folge 1); Netflix führt alle 20 **ohne** deutschen Ton (Daniels Handprüfung) |
+| Dragon Ball Z: Kampf der Götter | Amazon Video (Leihe, Tonspur de/ja belegt) |
+| Dragon Ball Z: Resurrection ‚F' | Crunchyroll, Prime Video |
+| Dragon Ball Super: Broly | Crunchyroll, Prime Video, Disney+ |
+| Dragon Ball Super: Super Hero | Crunchyroll, Prime Video, Disney+ |
+
+**Die Klassiker gibt es nirgends im Stream.** Für Dragon Ball (153), Dragon Ball Z (291),
+Dragon Ball GT (64), Dragon Ball Z Kai (97) und The Final Chapters (69) nennt JustWatch
+ausschließlich Kauf und Verleih:
+
+- Dragon Ball: Amazon DVD/Blu-ray, Hugendubel, Medimops, Thalia, ZOXS, Zavvi
+- Dragon Ball Z: dieselben Händler (6 Angebote, alle BUY)
+- Z Kai und The Final Chapters: Zavvi (BUY), Videobuster (RENT)
+- GT: Thalia (BUY)
+- Die 17 Filme und Specials: teils Videobuster (RENT), teils gar kein Angebot
+
+Dazu führt `data/disc-ausgaben.json` zu 31 der 44 Titel deutsche Disc-Ausgaben — die laufende
+Blu-ray-Neuauflage von Dragon Ball Z (Box 4 von 10) ist darunter.
+
+**Zwei Ursachen, die die Recherche überhaupt erst möglich gemacht haben**, beide am selben Tag
+behoben: Vier der Titel (Z, Z Kai, The Final Chapters, Super Dragon Ball Heroes) hatten keine
+TMDB-Kennung — ohne sie fragt JustWatch nie. Und „Dragon Ball Super" trug die Kennung der für
+2026 angekündigten Beerus-Serie, weshalb JustWatch dort „kein Treffer" meldete, obwohl vier
+Anbieter die Serie führen. Beides steht jetzt in `data/tmdb-von-hand.yaml`.
+
+**Offen:** Super Dragon Ball Heroes (56 Folgen, keine deutsche Synchro bekannt) — die
+JustWatch-Antwort steht noch aus, weil die Quelle nach drei Läufen in zehn Minuten gedrosselt
+hat (siehe `docs/wissen/quellen.md`). Sie kommt mit dem nächsten regulären Lauf.
+
+**Bewertung:** Für die Klassiker ist „kein deutscher Stream" damit kein Erfassungsmangel,
+sondern die Antwort. Die Seite sagt das bereits über „Für Folgen … kennen wir keinen deutschen
+Anbieter"; die Disc-Ausgaben stehen als eigene Pillen daneben.
 
 ## Geplant 19.09.2026: Deutsche Folgendaten und TV-Folgennummern (Recherche `docs/recherche-tv-quellen-2026-09-19.md`)
 
