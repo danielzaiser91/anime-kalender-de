@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-23T09:32:07.103Z",
+ "erzeugtAm": "2026-09-23T11:35:04.476Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -39,22 +39,6 @@
    "ziel": null,
    "ziele": [],
    "naechster": null
-  },
-  {
-   "name": "Crunchyroll",
-   "plattform": "crunchyroll",
-   "gemeldet": 0,
-   "gesamt": 1,
-   "offen": 1,
-   "ohneSeite": 0,
-   "ziel": "https://www.crunchyroll.com/de/sword-art-online",
-   "ziele": [
-    {
-     "url": "https://www.crunchyroll.com/de/sword-art-online",
-     "titel": "Sword Art Online: Alicization - War of Underworld – Teil 2"
-    }
-   ],
-   "naechster": "Sword Art Online: Alicization - War of Underworld – Teil 2"
   }
  ]
 }
