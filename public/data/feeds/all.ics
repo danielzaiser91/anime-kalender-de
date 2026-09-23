@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:dragon-ball-daima-toggo-plus@2026-09-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260915T191500Z
-DTEND:20260915T194500Z
-SUMMARY:Dragon Ball DAIMA – Folge 15/20
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/dragon-ball-daima-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:clevatess-s2@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T120000Z
@@ -953,8 +943,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-09-23#7@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260923T162000Z
-DTEND:20260923T165000Z
+DTSTART:20260923T162500Z
+DTEND:20260923T165500Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
@@ -998,7 +988,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-24#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T151000Z
 DTEND:20260924T154000Z
-SUMMARY:Dragon Ball – Folge 1/8
+SUMMARY:Dragon Ball – Folge 1/9
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -1008,7 +998,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-24#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T153500Z
 DTEND:20260924T160500Z
-SUMMARY:Dragon Ball – Folge 2/8
+SUMMARY:Dragon Ball – Folge 2/9
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -1060,7 +1050,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-25#3@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T151000Z
 DTEND:20260925T154000Z
-SUMMARY:Dragon Ball – Folge 3/8
+SUMMARY:Dragon Ball – Folge 3/9
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -1070,7 +1060,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-25#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T153500Z
 DTEND:20260925T160500Z
-SUMMARY:Dragon Ball – Folge 4/8
+SUMMARY:Dragon Ball – Folge 4/9
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -1360,7 +1350,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-28#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T151000Z
 DTEND:20260928T154000Z
-SUMMARY:Dragon Ball – Folge 5/8
+SUMMARY:Dragon Ball – Folge 5/9
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -1370,7 +1360,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-28#6@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T153500Z
 DTEND:20260928T160500Z
-SUMMARY:Dragon Ball – Folge 6/8
+SUMMARY:Dragon Ball – Folge 6/9
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -1421,7 +1411,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-29#7@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T151000Z
 DTEND:20260929T154000Z
-SUMMARY:Dragon Ball – Folge 7/8
+SUMMARY:Dragon Ball – Folge 7/9
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -1431,7 +1421,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-29#8@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T153500Z
 DTEND:20260929T160500Z
-SUMMARY:Dragon Ball – Folge 8/8
+SUMMARY:Dragon Ball – Folge 8/9
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -1444,6 +1434,26 @@ DTEND:20260929T162500Z
 SUMMARY:Detektiv Conan – Folge 145/145
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-29#15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260929T162500Z
+DTEND:20260929T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-09-29#16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260929T165000Z
+DTEND:20260929T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -1510,6 +1520,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T150500Z
+DTEND:20260930T153500Z
+SUMMARY:Dragon Ball – Folge 9/9
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:trapped-in-a-dating-sim-s2@2026-09-30@anime-kalender-de
