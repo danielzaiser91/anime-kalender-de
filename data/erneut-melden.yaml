@@ -22,4 +22,6 @@
 # vorhanden / ton_de / art). Fällt mit der ersten Meldung heraus.
 - { anilistId: 99088, platform: netflix, seit: '2026-09-22', grund: 'Test Erweiterung 4.21.0' }
 - { anilistId: 20966, platform: primevideo, seit: '2026-09-22', grund: 'Test Erweiterung 4.21.0' }
-- { anilistId: 196144, platform: disneyplus, seit: '2026-09-22', grund: 'Test Erweiterung 4.21.0' }
+# 23.09.2026 entfernt: Disney+ meldet alle 13 Folgen seit dem 20.09. — der Briefkasten ist voll,
+# deshalb gibt es auf der Seite keinen Knopf, und der Testeintrag blieb als Dauergast auf der Liste.
+# Die Felder aus Stufe 1 sind über Netflix (PLUTO) und Prime (Yamada-kun) belegt.

@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-23T00:47:30.404Z",
+ "erzeugtAm": "2026-09-23T05:26:10.537Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -32,18 +32,13 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 36,
+   "gemeldet": 37,
    "gesamt": 37,
-   "offen": 1,
+   "offen": 0,
    "ohneSeite": 0,
-   "ziel": "https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4",
-   "ziele": [
-    {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4",
-     "titel": "SNOWBALL EARTH"
-    }
-   ],
-   "naechster": "SNOWBALL EARTH"
+   "ziel": null,
+   "ziele": [],
+   "naechster": null
   },
   {
    "name": "Crunchyroll",
