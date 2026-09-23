@@ -263,11 +263,24 @@ async function main(): Promise<void> {
   /*
     **Plausibilität vor dem Schreiben** (17.09.2026, nach dem Muster von
     `fetch-justwatch-audio.ts`). Ein Kontingent- oder Netzausfall trifft alle
-    Abfragen gleichzeitig; ohne diesen Riegel stünde danach eine Datei voller
-    Nullbefunde, aus der der Bau Verweise entfernt.
+    Abfragen gleichzeitig als Fehler; ohne diesen Riegel stünde danach eine
+    Datei voller Nullbefunde, aus der der Bau Verweise entfernt.
+
+    Die beiden Zähler messen Verschiedenes, und nur einer davon ist ein
+    Ausfall: `stoerung` sind Abfragen, auf die die API gar nicht geantwortet
+    hat (Kontingent, Netz). `leer` sind **beantwortete** Abfragen, die
+    „in Deutschland gesperrt" ergeben haben — für Anime auf YouTube der
+    Normalfall, nicht der Ausnahmefall. Gemessen am Bestand vor diesem Fix:
+    362 von 514 Verweisen (70 %) sind dauerhaft gesperrt. Der ursprüngliche
+    Riegel bei 50 % auf `leer + stoerung` schrieb deshalb seit seiner
+    Einführung keinen einzigen Lauf mehr — er hielt den echten, unveränderten
+    Bestand jede Woche für unplausibel (Bau-Lauf 35855024971, `youtube-check`
+    seit 9 Tagen als „stumm" gemeldet, obwohl der Lauf lief und 514 Adressen
+    beantwortet bekam).
   */
-  if (geprueft >= 20 && (leer + stoerung) / geprueft > 0.5) {
-    warn(`YouTube: ${leer} ohne Video und ${stoerung} Störungen bei ${geprueft} Abfragen — unplausibel, nichts geschrieben.`)
+  if (geprueft >= 20 && stoerung / geprueft > 0.5) {
+    warn(`YouTube: ${stoerung} Störungen bei ${geprueft} Abfragen — unplausibel, nichts geschrieben.`)
+    recordSource('youtube-check', 0, `${stoerung} Störungen bei ${geprueft} Abfragen`)
     return
   }
   writeJson(DATEI, bestand)
