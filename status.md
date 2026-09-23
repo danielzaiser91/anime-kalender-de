@@ -4909,3 +4909,17 @@ Betroffen sind 40 Angebote (24 Prime, 9 Crunchyroll, 7 Disney+), darunter One Pi
 Disney+ und Dragon Ball Super: Broly, wo wir nur Crunchyroll und Prime zeigen. **Ursprünglich
 notiert als:** — die Daten liegen seit dem 16.09.2026
 vor.
+
+### Gemessen 23.09.2026, 20:40: Stufe 4, Schritt 2 hätte heute nichts zu tun
+
+Zwei Messungen gegen `data/urteile.json` (3.356 Urteile, 222 Wege):
+
+- **Wege, die ein Nein-Urteil entfernen würde: 0.** Kein Weg trägt ausschließlich
+  „kein deutsch" — die 36 Nein-Urteile sitzen alle an Wegen, die auch deutsche Folgen haben.
+- **Wege ohne Bereiche, deren Urteil ein gemischtes Bild zeigt: 0.** Alle 18 Wege mit
+  gemischtem Urteil führen bereits `dubRanges`.
+
+Der Grund ist keine Lücke im Modell, sondern seine Datenbasis: Die Urteile entstehen aus den
+D1-Meldungen der Erweiterung, und die sind vollständig eingearbeitet. Schritt 2 lohnt erst,
+wenn neue Beobachtungen hereinkommen — also nach dem nächsten Melde-Durchgang oder wenn
+Stufe 1 mehr liefert.
