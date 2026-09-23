@@ -2706,6 +2706,61 @@ async function netflixStaffelWaehlen(nr) {
   return false
 }
 
+/**
+ * **Was Netflix' Staffelmenü anbietet — Nummer, Folgenzahl, Wortlaut.**
+ *
+ * Die Einträge stehen erst im DOM, wenn das Menü offen ist; wer es hier öffnet, schließt es
+ * wieder. Gemessen am 22.09.2026 auf Dr. STONE: „Staffel N (M Folgen)".
+ */
+async function netflixStaffelnImMenue() {
+  const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
+  if (!knopf) return []
+  const warOffen = knopf.getAttribute('aria-expanded') === 'true'
+  if (!warOffen) knopf.click()
+  let eintraege = []
+  for (let i = 0; i < 20 && !eintraege.length; i++) {
+    eintraege = [...document.querySelectorAll('[data-uia="dropdown-menu"] li[data-uia="dropdown-menu-item"]')]
+    if (!eintraege.length) await new Promise((r) => setTimeout(r, 100))
+  }
+  const raus = eintraege.map((li) => {
+    const text = (li.textContent ?? '').trim()
+    const nr = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(text)
+    const folgen = /(\d+)\s*(?:Folgen|Folge|Episoden|Episode|Episodes)\b/i.exec(text)
+    return { text, nr: nr ? Number(nr[1]) : null, folgen: folgen ? Number(folgen[1]) : null }
+  })
+  if (!warOffen) knopf.click()
+  return raus
+}
+
+/**
+ * **Die offene Staffel über ihre Folgenzahl im Menü finden** (Daniel, 24.09.2026, mit Bericht:
+ * „bis baki hanma geöffnet wurde, die extension hat nicht auf staffel 2 gewechselt").
+ *
+ * Netflix öffnete Baki Hanma auf Staffel 1 (12 Folgen, bei uns belegt), offen war unsere Staffel 2
+ * mit 27 Folgen. Der Wechsel lief bisher nur bei Titeln, die die Prüfliste in Netflix-Staffeln
+ * rechnet (`naechsteOffeneNetflixStaffel`). Hier entscheidet die Folgenzahl — aber nur, wenn sie
+ * auf beiden Seiten genau einmal vorkommt. Zwei Staffeln mit derselben Zahl (JoJo: zweimal 39)
+ * bleiben ungewählt; die Reihenfolge wäre eine Vermutung.
+ */
+async function netflixStaffelPerFolgenzahl(reihe) {
+  const eintraege = await netflixStaffelnImMenue()
+  const angezeigt = angezeigteNetflixStaffel()
+  const eigene = anbieterAufteilung(reihe).filter((st) => !st.film && st.folgen > 0)
+  const offene = (offeneTitel[String(reihe)]?.staffeln ?? []).filter(
+    (st) => st.offen && !st.film && st.zustand !== 'belegt',
+  )
+  for (const st of offene) {
+    const n = Number(st.folgen)
+    if (eigene.filter((e) => e.folgen === n).length !== 1) continue
+    const treffer = eintraege.filter((e) => e.folgen === n && e.nr != null)
+    if (treffer.length !== 1) continue
+    const nr = treffer[0].nr
+    if (nr === angezeigt || selbstStaffelnVersucht.has(`${reihe}:${nr}`)) continue
+    return { nr, unsere: Number(st.nr), eintraege }
+  }
+  return { nr: null, unsere: null, eintraege }
+}
+
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
 function selbstWeiter() {
   if (selbstGezaehlt >= SELBST_HOECHSTENS) return laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
@@ -2834,6 +2889,8 @@ async function vielleichtSelbstStarten() {
     auf Staffel 1, fand dort nichts und übersprang den Titel, obwohl Staffel 2 offen war (22.09.2026).
     `selbstStaffelnVersucht` verhindert den Kreis.
   */
+  /* Was das Staffelmenü anbot — für die Spur, falls der Titel übersprungen wird. */
+  let menueFuerSpur = null
   if (!hierOffen || (!gewaehlt && anzeigeKandidaten.length !== 1)) {
     const ziel = naechsteOffeneNetflixStaffel(reihe)
     if (ziel != null && (await netflixStaffelWaehlen(ziel))) {
@@ -2848,6 +2905,23 @@ async function vielleichtSelbstStarten() {
       selbstVersucht = null
       console.log(`[Anime-Kalender] Selbsttätig: wechsle zu Staffel ${ziel} …`)
       return
+    }
+    if (ziel == null) {
+      const perZahl = await netflixStaffelPerFolgenzahl(reihe)
+      menueFuerSpur = perZahl.eintraege
+      if (perZahl.nr != null && (await netflixStaffelWaehlen(perZahl.nr))) {
+        selbstStaffelWechsel = {
+          reihe: String(reihe),
+          nr: perZahl.nr,
+          seit: Date.now(),
+          bis: Date.now() + 10000,
+          vorherErste: String(DURCHLAUF.folgen[0]?.videoId ?? ''),
+        }
+        selbstStaffelnVersucht.add(`${reihe}:${perZahl.nr}`)
+        selbstVersucht = null
+        spur('wechsle nach Folgenzahl', { reihe: String(reihe), nach: perZahl.nr, unsere: perZahl.unsere })
+        return
+      }
     }
   }
   /*
@@ -2879,6 +2953,7 @@ async function vielleichtSelbstStarten() {
       folgen: DURCHLAUF.folgen.length,
       gemeldet: DURCHLAUF.gemeldet?.size ?? null,
       kandidaten: anzeigeKandidaten,
+      menue: (menueFuerSpur ?? []).map((e) => e.text),
     })
     selbstUebersprungen.add(String(reihe))
     selbstWeiter()
@@ -2930,6 +3005,7 @@ async function vielleichtSelbstStarten() {
       von: nummernHier.length ? Math.min(...nummernHier) : null,
       bis: nummernHier.length ? Math.max(...nummernHier) : null,
       eigene: eigene.map((st) => `${st.nr}:${st.erste}+${st.folgen}`),
+      menue: (menueFuerSpur ?? []).map((e) => e.text),
     })
     selbstUebersprungen.add(String(reihe))
     selbstWeiter()

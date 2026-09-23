@@ -89,6 +89,54 @@ pruefe('bei einer eigenen Staffel erst Netflix-Staffel 1 versuchen', wechsel > 0
 pruefe('… nur einmal je Titel', /!selbstStaffelnVersucht\.has\(`\$\{reihe\}:1`\)/.test(start))
 pruefe('die Spur nennt Staffel und Nummernbereich', /angezeigt: angezeigtJetzt,[\s\S]{0,200}von:/.test(start))
 
+/* Baki Hanma (24.09.2026): die offene Staffel über ihre Folgenzahl im Menü finden. */
+const menuTeile = ['anbieterAufteilung', 'netflixStaffelPerFolgenzahl'].map(schneide)
+pruefe('Menüwahl auffindbar', menuTeile.every(Boolean))
+async function perZahl({ staffeln, menue, angezeigt = 1 }) {
+  const kontext = {
+    anbieterStaffeln: {},
+    offeneTitel: { 1: { titel: 'Test', staffeln } },
+    selbstStaffelnVersucht: new Set(),
+    angezeigteNetflixStaffel: () => angezeigt,
+    netflixStaffelnImMenue: async () => menue,
+    ergebnis: null,
+  }
+  vm.createContext(kontext)
+  vm.runInContext(menuTeile.join('\n\n') + '\nergebnis = netflixStaffelPerFolgenzahl(1)', kontext)
+  return (await kontext.ergebnis)?.nr ?? null
+}
+const eintrag = (nr, folgen) => ({ text: `Staffel ${nr} (${folgen} Folgen)`, nr, folgen })
+;(async () => {
+  pruefe(
+    'Baki Hanma: Staffel 1 belegt, Staffel 2 (27) offen → Netflix-Staffel 2',
+    (await perZahl({
+      staffeln: [
+        { nr: 1, folgen: 12, film: false, offen: false, zustand: 'belegt' },
+        { nr: 2, folgen: 27, film: false, offen: true, zustand: 'erneut' },
+      ],
+      menue: [eintrag(1, 12), eintrag(2, 27)],
+    })) === 2,
+  )
+  pruefe(
+    'JoJo: zweimal 39 Folgen → keine Wahl',
+    (await perZahl({
+      staffeln: [
+        { nr: 4, folgen: 39, film: false, offen: true, zustand: 'erneut' },
+        { nr: 5, folgen: 39, film: false, offen: true, zustand: 'erneut' },
+      ],
+      menue: [eintrag(3, 39), eintrag(4, 39)],
+    })) === null,
+  )
+  pruefe(
+    'keine passende Folgenzahl im Menü → keine Wahl',
+    (await perZahl({
+      staffeln: [{ nr: 2, folgen: 27, film: false, offen: true, zustand: 'erneut' }],
+      menue: [eintrag(1, 12), eintrag(2, 13)],
+    })) === null,
+  )
+  schluss()
+})()
+
 const pfad = schneide('pfadPruefen')
 pruefe('pfadPruefen leert beim Titelwechsel auch die angezeigte Liste', /DURCHLAUF\.folgen = \[\]/.test(pfad))
 
@@ -99,9 +147,12 @@ const arbeiter = rand.slice(rand.indexOf('const arbeiter'), rand.indexOf('await 
 pruefe('kein Abhaken im Speicher innerhalb der Arbeiter', !/merkeErledigt/.test(arbeiter))
 pruefe('Abhaken folgt nach dem Melden', rand.indexOf('await merkeErledigt') > rand.indexOf('await Promise.all'))
 
-console.log('')
-if (fehler.length) {
-  console.error(`${fehler.length} Zusicherung(en) gerissen.`)
-  process.exit(1)
+/* Der Schluss wartet auf die asynchronen Fälle der Menüwahl. */
+function schluss() {
+  console.log('')
+  if (fehler.length) {
+    console.error(`${fehler.length} Zusicherung(en) gerissen.`)
+    process.exit(1)
+  }
+  console.log('Alle Zusicherungen zum Durchgang halten.')
 }
-console.log('Alle Zusicherungen zum Durchgang halten.')
