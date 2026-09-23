@@ -753,7 +753,13 @@ export function Tooltip({
             }
             className={[
               'pointer-events-none fixed z-50 w-max max-w-[min(20rem,80vw)]',
-              'rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',
+              /*
+                `whitespace-pre-line`: Der Hinweis an einer Anbieter-Pille hat seit dem
+                23.09.2026 mehrere Zeilen („8 von 11 Folgen auf Deutsch", die Bereiche, „Ohne
+                deutschen Ton: …"). React rendert ein `\n` sonst als Leerzeichen, und die drei
+                Auskünfte kleben aneinander. Einzeilige Hinweise ändert es nicht.
+              */
+              'whitespace-pre-line rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',
               'bg-slate-900 text-slate-100 shadow-xl ring-1 ring-white/15',
               'dark:bg-slate-800 dark:ring-white/10',
               pos ? 'animate-[hinweisEin_.15s_ease-out]' : '',

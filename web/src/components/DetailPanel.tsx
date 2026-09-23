@@ -1908,13 +1908,20 @@ function Pille({
   /** Eine Ausgabe ohne deutschen Ton — sichtbar und anklickbar, aber durchgestrichen. */
   durchgestrichen?: boolean
 }) {
-  /* Ohne Adresse (TMDB nennt nur den Dienst) führte `href=""` auf unsere eigene Seite (16.09.2026). */
-  return (
+  /*
+    **Der Hinweis kommt aus `ui.tsx`, nicht vom Browser** (Daniel, 12.08.2026: „keine default
+    web tooltips … überall nutzen"). Die Pille war die letzte Stelle mit einem nackten
+    `title`-Attribut; seit dem 23.09.2026 hat der Hinweis mehrere Zeilen, und der graue
+    Systemkasten setzt sie zwar um, sieht aber anders aus als jeder andere Hinweis der Seite.
+
+    Der Tooltip hüllt die Pille in zwei `span` — deshalb trägt die Hülle `shrink-0`, sonst
+    schrumpft die Pille im Flex-Container der Pillenreihe.
+  */
+  const pille = (
     <a
       href={url || undefined}
       target="_blank"
       rel="noreferrer noopener"
-      title={titel}
       className={[
         'relative inline-flex shrink-0 items-center gap-2 rounded-full py-1.5 pl-3 pr-4 transition',
         /* Blase oben rechts (DE-Häkchen) — Abstand über `blase-rechts` (styles.css). */
@@ -1954,6 +1961,13 @@ function Pille({
       </span>
       {rechts && <span className="ml-auto flex shrink-0 items-center gap-1">{rechts}</span>}
     </a>
+  )
+  return titel ? (
+    <Tooltip text={titel} seite="oben">
+      {pille}
+    </Tooltip>
+  ) : (
+    pille
   )
 }
 
