@@ -1293,33 +1293,33 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-09-27#1@anime-kalender-de
+UID:auto-8964-tv-disney-channel@2026-09-27#27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260927T125500Z
 DTEND:20260927T132500Z
-SUMMARY:Yuna & Stitch
+SUMMARY:Yuna & Stitch Staffel 3 – Folge 27/29
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-5027-tv-disney-channel
+ \nDetails: https://anime-kalender.de/#/release/auto-8964-tv-disney-channel
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-09-27#2@anime-kalender-de
+UID:auto-8964-tv-disney-channel@2026-09-27#28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260927T132000Z
 DTEND:20260927T135000Z
-SUMMARY:Yuna & Stitch
+SUMMARY:Yuna & Stitch Staffel 3 – Folge 28/29
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-5027-tv-disney-channel
+ \nDetails: https://anime-kalender.de/#/release/auto-8964-tv-disney-channel
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-09-27#3@anime-kalender-de
+UID:auto-8964-tv-disney-channel@2026-09-27#29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260927T135000Z
 DTEND:20260927T142000Z
-SUMMARY:Yuna & Stitch
+SUMMARY:Yuna & Stitch Staffel 3 – Folge 29/29
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-5027-tv-disney-channel
+ \nDetails: https://anime-kalender.de/#/release/auto-8964-tv-disney-channel
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
@@ -1376,23 +1376,25 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-28#13@anime-kalender-de
+UID:auto-183423-tv-prosieben-maxx@2026-09-28#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T162500Z
 DTEND:20260928T165500Z
-SUMMARY:One Piece
+SUMMARY:One Piece Log: Fish-Man Island Saga
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-183423-tv-prosieben-ma
+ xx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-28#14@anime-kalender-de
+UID:auto-183423-tv-prosieben-maxx@2026-09-28#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T165000Z
 DTEND:20260928T172000Z
-SUMMARY:One Piece
+SUMMARY:One Piece Log: Fish-Man Island Saga
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-183423-tv-prosieben-ma
+ xx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -1437,7 +1439,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-29#15@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T162500Z
 DTEND:20260929T165500Z
@@ -1447,13 +1449,14 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-29#16@anime-kalender-de
+UID:auto-183423-tv-prosieben-maxx@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T165000Z
 DTEND:20260929T172000Z
-SUMMARY:One Piece
+SUMMARY:One Piece Log: Fish-Man Island Saga
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-183423-tv-prosieben-ma
+ xx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT

@@ -955,23 +955,25 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-28#13@anime-kalender-de
+UID:auto-183423-tv-prosieben-maxx@2026-09-28#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T162500Z
 DTEND:20260928T165500Z
-SUMMARY:One Piece
+SUMMARY:One Piece Log: Fish-Man Island Saga
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-183423-tv-prosieben-ma
+ xx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-28#14@anime-kalender-de
+UID:auto-183423-tv-prosieben-maxx@2026-09-28#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T165000Z
 DTEND:20260928T172000Z
-SUMMARY:One Piece
+SUMMARY:One Piece Log: Fish-Man Island Saga
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-183423-tv-prosieben-ma
+ xx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -1006,7 +1008,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-29#15@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T162500Z
 DTEND:20260929T165500Z
@@ -1016,13 +1018,14 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-29#16@anime-kalender-de
+UID:auto-183423-tv-prosieben-maxx@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T165000Z
 DTEND:20260929T172000Z
-SUMMARY:One Piece
+SUMMARY:One Piece Log: Fish-Man Island Saga
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+ \nDetails: https://anime-kalender.de/#/release/auto-183423-tv-prosieben-ma
+ xx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
