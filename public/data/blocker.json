@@ -1,1 +1,1 @@
-{"erzeugtAm":"2026-09-23T17:50:49.993Z","eintraege":[]}
+{"erzeugtAm":"2026-09-23T18:10:00.000Z","eintraege":[{"art":"quelle-stumm","titel":"Beispiel: aniSearch liefert nichts mehr","text":"Seit 4,1 Tagen ohne Ergebnis — HTTP 423. Der Bestand wird weiter gebaut; diese Quelle fehlt darin.","seit":"2026-09-19T08:50:38.768Z","quelle":"anisearch"},{"art":"hand","titel":"Beispiel: Worker-Migration wartet auf einen Zugang","text":"So sieht ein Handeintrag aus data/blocker-von-hand.yaml aus — für alles, was kein Lauf von selbst bemerkt.","seit":"2026-09-23T18:00:00.000Z"}]}
