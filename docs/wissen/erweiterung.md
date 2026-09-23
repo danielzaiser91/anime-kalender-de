@@ -1763,3 +1763,24 @@ fängt eine YAML-Zeile, die ohne das Skript hineinkam.
 Grenze, gemessen an Dr. Stone: Stone Wars: Ein Titel mit Beleg **von heute** ist erst morgen
 erneut vorlegbar — Belege tragen nur das Datum, und `checkedAt >= seit` gilt dann schon. Das
 Skript sagt das ausdrücklich.
+
+## Der Durchgang entscheidet mit der Liste der eigenen Seite (24.09.2026)
+
+Nach einem sauber gemeldeten Titel sprang die Automatik durch vier weitere, ohne eine Folge zu
+öffnen. Die Spur im Bericht (seit 4.21.4) zeigte den Grund in einer Zeile je Titel: „Staffel nicht
+eindeutig", keine Kandidaten, drei Sekunden für vier Titel. Zwei Lehren:
+
+- **Eine leere Liste setzt die angezeigte nicht zurück.** `angezeigteFolgenSetzen()` kehrt bei
+  leerer `alleFolgen` sofort zurück, `DURCHLAUF.folgen` bleibt stehen. Wer beim Titelwechsel nur
+  `alleFolgen` leert, lässt die Folgen des vorigen Titels in der Anzeige. `pfadPruefen` leert
+  deshalb beide, und `vielleichtSelbstStarten()` entscheidet erst, wenn `listeFuer` die Adresse
+  trägt (höchstens 20 s, dann Spur „keine Folgenliste").
+- **Eine einzige eigene Staffel ist eindeutig, auch wenn Netflix anders teilt.** Naruto (220),
+  Shippuden (500), Boruto (293) und Beelzebub (60, bei Netflix 48) scheiterten am Abgleich über
+  die Folgenzahl. Passen die Nummern der Netflix-Gruppe in unsere Staffel, gehört sie dazu. Die
+  Ausnahme ist eine spätere Netflix-Staffel, die wieder bei der ersten Nummer beginnt.
+
+Dazu: Die Randprobe meldet sechs Folgen gleichzeitig. Nacheinander brauchten 52 Meldungen acht
+Sekunden. Der Worker löscht und schreibt je Folge (`folge_nr`, `gti`), die Anfragen stören sich
+nicht; das Abhaken im lokalen Speicher bleibt der Reihe nach, weil es liest und schreibt.
+Zusicherungen: `extension/durchgang-fremde-liste.test.cjs`.

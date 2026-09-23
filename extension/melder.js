@@ -2632,6 +2632,9 @@ function laufStarten() {
  *   sobald der vorige fertig ist.
  */
 let selbstVersucht = null
+/** Seit wann die Automatik auf dieser Seite auf die Folgenliste wartet. */
+let selbstWartet = null
+const SELBST_LISTE_WARTEN = 20000
 /** Titel, die die Automatik in dieser Sitzung übersprungen hat — sonst pendelt sie zwischen ihnen. */
 const selbstUebersprungen = new Set()
 /** Wie oft die Automatik auf derselben Seite nacheinander lief. */
@@ -2766,7 +2769,32 @@ async function vielleichtSelbstStarten() {
   const reihe = gemeinteReihe()
   if (!reihe || offeneTitel[String(reihe)] === undefined) return
   if (selbstVersucht === reihe) return
-  if (!DURCHLAUF.folgen.length) return
+  /*
+    **Entschieden wird erst mit der Folgenliste dieser Seite** (Daniel, 23.09.2026, mit Bericht:
+    „nach shaman king ist er wieder durch alle weiteren titel der prüfliste gesprungen … aber
+    nichts gemeldet"). Die Spur zeigte vier Titel in drei Sekunden, jeder mit „Staffel nicht
+    eindeutig" und keinem Kandidaten: Beim Sprung lagen noch die 52 Folgen von Shaman King in
+    `DURCHLAUF.folgen`, und die passten zu keinem der neuen Titel. `pfadPruefen` leerte nur
+    `alleFolgen`; `angezeigteFolgenSetzen()` lässt eine leere Liste aber stehen, wie sie ist.
+
+    `listeFuer` setzt allein der Leser, wenn die Liste dieser Adresse ankommt. Ein Film baut
+    seine Liste selbst und trägt die Kennung der Adresse.
+  */
+  const seiteHier = String(titelDerAdresse() ?? '')
+  const filmHier =
+    DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film && String(DURCHLAUF.folgen[0].videoId) === seiteHier
+  if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier)) {
+    /* Kommt die Liste nicht, hängt der Durchgang nicht still auf dieser Seite. */
+    if (selbstWartet?.seite !== seiteHier) selbstWartet = { seite: seiteHier, seit: Date.now() }
+    else if (Date.now() - selbstWartet.seit > SELBST_LISTE_WARTEN) {
+      spur('keine Folgenliste', { reihe: String(reihe), folgen: DURCHLAUF.folgen.length, listeFuer: DURCHLAUF.listeFuer ?? null })
+      selbstWartet = null
+      selbstUebersprungen.add(String(reihe))
+      selbstWeiter()
+    }
+    return
+  }
+  selbstWartet = null
   /* Läuft gerade ein Staffelwechsel, warten, bis Netflix die neue Staffel zeigt und der Leser sie hat. */
   const wechsel = selbstStaffelWechsel?.reihe === String(reihe) ? selbstStaffelWechsel : null
   if (wechsel) {
@@ -3516,6 +3544,26 @@ function staffelnDerGruppe(reihe, gruppe) {
     }
     if (passend.length) return passend
   }
+  /*
+    **Führen wir nur eine Staffel, gehört jede passende Netflix-Gruppe zu ihr** (23.09.2026).
+    Naruto (220 Folgen), Shippuden (500), Boruto (293) und Beelzebub (60, bei Netflix 48) standen
+    auf der Prüfliste mit genau einer Staffel. Netflix teilt sie anders oder führt weniger Folgen,
+    der Abgleich über die Folgenzahl fand nichts, der Knopf zeigte „S?" und die Automatik
+    übersprang alle vier.
+
+    Sicher ist die Zuordnung, solange die Nummern der Gruppe in unsere Staffel passen. Ausnahme:
+    Eine spätere Netflix-Staffel, die wieder bei der ersten Nummer anfängt — dort hieße „E1"
+    nicht unsere Folge 1.
+  */
+  const eigene = anbieterAufteilung(reihe).filter((st) => !st.film && st.folgen > 0)
+  if (eigene.length === 1 && nummern.length) {
+    const st = eigene[0]
+    const kleinste = Math.min(...nummern)
+    const groesste = Math.max(...nummern)
+    const angezeigt = imPlayer() ? null : angezeigteNetflixStaffel()
+    const faengtNeuAn = kleinste === st.erste && angezeigt != null && angezeigt > 1
+    if (kleinste >= st.erste && groesste <= st.erste + st.folgen - 1 && !faengtNeuAn) return [st.nr]
+  }
   /* Im Player nennt Netflix die Staffel selbst. */
   if (imPlayer() && Number.isFinite(Number(stand.staffel))) return [Number(stand.staffel)]
   return []
@@ -4125,95 +4173,109 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
   if (!token) return 0
   const reihe = gemeinteReihe()
   let gemeldet = 0
-  for (const f of folgen) {
-    /*
-      **Eine Randprobe kann ueber Staffelgrenzen laufen — die Folge weiss, wohin.**
+  /*
+    **Sechs Meldungen gleichzeitig statt eine nach der anderen** (Daniel, 23.09.2026: „da stand
+    8 sekunden lang 2/2, warum dauert es 8 sekunden bis gemeldet wird?"). Die Randprobe über
+    Shaman King schickte 52 Meldungen, jede wartete auf die Antwort der vorigen — rund 150 ms
+    je Anfrage. Die Folgen sind voneinander unabhängig; der Worker führt je Adresse und Folge
+    einen eigenen Eintrag. Das Abhaken im lokalen Speicher bleibt danach der Reihe nach, weil es
+    liest und schreibt.
+  */
+  const warteschlange = [...folgen]
+  const abhaken = []
+  const arbeiter = async () => {
+    for (let f = warteschlange.shift(); f; f = warteschlange.shift()) {
+      /*
+        **Eine Randprobe kann ueber Staffelgrenzen laufen — die Folge weiss, wohin.**
 
-      `befund` ist die Messung *einer* Folge; ihre Staffel gilt nicht fuer alle
-      uebrigen. Bei Dorohedoro (24 Folgen, zwei Staffeln) landeten so 1, 12 und
-      13 in Staffel 1 und der Rest in Staffel 2 — die Reihenfolge, in der der
-      Player sie gemeldet hat, nicht die des Anbieters (31.08.2026). Seit 4.9.0
-      traegt jede Folge ihre eigene Staffel; die schlaegt beide Rueckfaelle.
-    */
-    /* Aus der Zuordnung der Folge, nicht aus der Ladereihenfolge — siehe staffelFuerFolge(). */
-    const staffelRoh = staffelFuerFolge(reihe, f)
-    /* Eine Nummer, die in diese Staffel nicht passt, geht nicht als solche raus. */
-    const staffelDerFolge = staffelGeprueft(reihe, f.nummer, staffelRoh)
-    try {
-      const antwort = await fetch(WORKER, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-        body: JSON.stringify({
-          plattform: 'netflix',
-          url: `https://www.netflix.com/title/${reihe}`,
-          sprachen: befund.echte.map((x) => `${x.code}|${x.name}`),
-          ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
-          titel: stand.serientitel ?? null,
-          folge: f.videoId,
-          folge_nr: f.nummer,
-          staffel: staffelDerFolge,
-          titelId: titelIdFuer(reihe, staffelDerFolge),
-          staffeln: ohneKennungen(stand.staffeln),
-          serientitel: stand.serientitel ?? null,
-          notiz:
-            /*
-              **Die Notiz ist der einzige Weg, auf dem die Annahme ankommt.**
-
-              Ein eigenes Feld verwirft der Worker — er nimmt nur, was er kennt.
-              Die Notiz reicht er dagegen unverändert bis in
-              `dub-confirmed.yaml` durch, und dort muss stehen, dass hier
-              zwei Folgen gemessen und der Rest angenommen wurde. Sonst sieht
-              eine Annahme später aus wie eine Messung.
-            */
-            `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, ` +
-            `dazwischen nicht geprüft` +
-            (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : ``),
-          /* Auch eine abgeleitete Folge bringt ihren Titel und ihre Felder mit — für die Zuordnung. */
-          rohfolgen: [
-            {
-              gti: f.videoId != null ? String(f.videoId) : null,
-              nummer: f.nummer ?? null,
-              titel: f.titel ?? null,
-              staffelText: f.seasonId != null ? String(f.seasonId) : null,
-              staffelNr: staffelDerFolge ?? null,
-              /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
-              ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
-              roh: {
-                liste: f.felder ?? null,
-                angenommen: !gemessen.has(Number(f.nummer)),
-              },
-            },
-          ],
-        }),
-      })
-      if (antwort.ok) {
-        gemeldet++
-        DURCHLAUF.gemeldet.add(f.videoId)
-        frischGemeldetNetflix.add(String(reihe))
-        /* Abgeleitet zählt wie gemessen (Daniel, 11.09.2026) — mit demselben Datum. */
-        meldungenMerken(reihe, [
-          {
-            nummer: f.nummer,
-            staffel: staffelDerFolge,
-            staffelBekannt: staffelDerFolge != null,
+        `befund` ist die Messung *einer* Folge; ihre Staffel gilt nicht fuer alle
+        uebrigen. Bei Dorohedoro (24 Folgen, zwei Staffeln) landeten so 1, 12 und
+        13 in Staffel 1 und der Rest in Staffel 2 — die Reihenfolge, in der der
+        Player sie gemeldet hat, nicht die des Anbieters (31.08.2026). Seit 4.9.0
+        traegt jede Folge ihre eigene Staffel; die schlaegt beide Rueckfaelle.
+      */
+      /* Aus der Zuordnung der Folge, nicht aus der Ladereihenfolge — siehe staffelFuerFolge(). */
+      const staffelRoh = staffelFuerFolge(reihe, f)
+      /* Eine Nummer, die in diese Staffel nicht passt, geht nicht als solche raus. */
+      const staffelDerFolge = staffelGeprueft(reihe, f.nummer, staffelRoh)
+      try {
+        const antwort = await fetch(WORKER, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+          body: JSON.stringify({
+            plattform: 'netflix',
+            url: `https://www.netflix.com/title/${reihe}`,
+            sprachen: befund.echte.map((x) => `${x.code}|${x.name}`),
+            ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
+            titel: stand.serientitel ?? null,
             folge: f.videoId,
-            am: new Date().toISOString(),
-          },
-        ])
-        /*
-          **Auch die Abhakliste bekommt es mit.**
+            folge_nr: f.nummer,
+            staffel: staffelDerFolge,
+            titelId: titelIdFuer(reihe, staffelDerFolge),
+            staffeln: ohneKennungen(stand.staffeln),
+            serientitel: stand.serientitel ?? null,
+            notiz:
+              /*
+                **Die Notiz ist der einzige Weg, auf dem die Annahme ankommt.**
 
-          Sie speist die Bereiche im Dialog. Ohne diesen Eintrag stand dort
-          nach einer Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 |
-          offen: E3-60" — die Meldungen waren raus, nur wusste die Anzeige
-          nichts davon (Daniel, 26.08.2026).
-        */
-        await merkeErledigt(reihe, staffelDerFolge, f.nummer)
+                Ein eigenes Feld verwirft der Worker — er nimmt nur, was er kennt.
+                Die Notiz reicht er dagegen unverändert bis in
+                `dub-confirmed.yaml` durch, und dort muss stehen, dass hier
+                zwei Folgen gemessen und der Rest angenommen wurde. Sonst sieht
+                eine Annahme später aus wie eine Messung.
+              */
+              `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, ` +
+              `dazwischen nicht geprüft` +
+              (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : ``),
+            /* Auch eine abgeleitete Folge bringt ihren Titel und ihre Felder mit — für die Zuordnung. */
+            rohfolgen: [
+              {
+                gti: f.videoId != null ? String(f.videoId) : null,
+                nummer: f.nummer ?? null,
+                titel: f.titel ?? null,
+                staffelText: f.seasonId != null ? String(f.seasonId) : null,
+                staffelNr: staffelDerFolge ?? null,
+                /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
+                ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
+                roh: {
+                  liste: f.felder ?? null,
+                  angenommen: !gemessen.has(Number(f.nummer)),
+                },
+              },
+            ],
+          }),
+        })
+        if (antwort.ok) {
+          gemeldet++
+          DURCHLAUF.gemeldet.add(f.videoId)
+          frischGemeldetNetflix.add(String(reihe))
+          /* Abgeleitet zählt wie gemessen (Daniel, 11.09.2026) — mit demselben Datum. */
+          meldungenMerken(reihe, [
+            {
+              nummer: f.nummer,
+              staffel: staffelDerFolge,
+              staffelBekannt: staffelDerFolge != null,
+              folge: f.videoId,
+              am: new Date().toISOString(),
+            },
+          ])
+          /*
+            **Auch die Abhakliste bekommt es mit.**
+
+            Sie speist die Bereiche im Dialog. Ohne diesen Eintrag stand dort
+            nach einer Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 |
+            offen: E3-60" — die Meldungen waren raus, nur wusste die Anzeige
+            nichts davon (Daniel, 26.08.2026).
+          */
+          abhaken.push([staffelDerFolge, f.nummer])
+        }
+      } catch {
+        /* Eine verlorene Meldung hält die übrigen nicht auf. */
       }
-    } catch {
-      /* Eine verlorene Meldung hält die übrigen nicht auf. */
     }
   }
+  await Promise.all(Array.from({ length: Math.min(6, folgen.length) }, arbeiter))
+  for (const [staffel, nummer] of abhaken) await merkeErledigt(reihe, staffel, nummer)
   await durchlaufStandSchreiben(reihe)
   console.log(`[Anime-Kalender] ${gemeldet} Folge(n) aus der Randprobe gemeldet.`)
   return gemeldet
@@ -5797,11 +5859,16 @@ function pfadPruefen() {
   const titelHier = titelDerAdresse()
   if (titelHier && !imPlayer() && !DURCHLAUF.laeuft && String(stand.reihe ?? '') !== titelHier) {
     stand = { spuren: null, reihe: titelHier, folge: null, folgeNr: null, staffel: null, staffeln: null, serientitel: null, titel: '' }
-    /* Kam die Liste der neuen Seite schon vor diesem Takt an, bleibt sie. */
-    if (String(DURCHLAUF.listeFuer ?? '') !== titelHier) {
-      DURCHLAUF.alleFolgen = []
-      angezeigteFolgenSetzen()
-    }
+  }
+  /*
+    Kam die Liste der neuen Seite schon vor diesem Takt an, bleibt sie. Sonst verschwindet sie
+    ganz, unabhängig vom Player-Stand. `angezeigteFolgenSetzen()`
+    lässt `DURCHLAUF.folgen` bei leerer Liste stehen — so trug Naruto die Folgen von Shaman King
+    (23.09.2026).
+  */
+  if (titelHier && !imPlayer() && !DURCHLAUF.laeuft && String(DURCHLAUF.listeFuer ?? '') !== titelHier) {
+    DURCHLAUF.alleFolgen = []
+    DURCHLAUF.folgen = []
   }
   durchlaufKnopfZeigen()
 }

@@ -290,7 +290,9 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   )
   pruefe(
     `${name} hakt nicht mit einer erratenen Staffel ab`,
-    /merkeErledigt\([^;\n]*staffelDerFolge/.test(block),
+    /merkeErledigt\([^;\n]*staffelDerFolge/.test(block) ||
+      /* Randprobe seit 24.09.2026: erst parallel melden, dann der Reihe nach abhaken. */
+      (/abhaken\.push\(\[staffelDerFolge,/.test(block) && /of abhaken\) await merkeErledigt\(reihe, staffel,/.test(block)),
   )
 }
 

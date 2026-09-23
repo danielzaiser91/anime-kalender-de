@@ -487,6 +487,7 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - Der fünfte `let`-Zugriff vor der Deklaration — gefangen vom Sandkasten
 - Ein Helfer im Modulscope ist eine `function`, keine `const`-Pfeilfunktion
 - Zurück auf die Prüfliste: ein Aufruf, `tools/erneut-melden.mjs`
+- Der Durchgang entscheidet mit der Liste der eigenen Seite (24.09.2026)
 
 ### [Datenquellen und ihre Grenzen](docs/wissen/quellen.md)
 
