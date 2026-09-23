@@ -1534,17 +1534,25 @@ function playerAuftragOffen() {
  */
 function seiteGehtUnsAn() {
   if (imPlayer()) return playerAuftragOffen()
-  const hier =
-    /\/title\/(\d+)/.exec(location.pathname)?.[1] ?? new URLSearchParams(location.search).get('jbv') ?? null
-  if (!hier) return true
-  if (offeneTitel[hier] !== undefined) return true
-  const weiter = netflixWeiterleitungen?.[hier]
-  if (weiter && offeneTitel[String(weiter)] !== undefined) return true
-  return Boolean(
-    zuletztGeoeffnet?.id &&
-      offeneTitel[zuletztGeoeffnet.id] !== undefined &&
-      Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000,
-  )
+  /*
+    **Auf einer Titelseite bleibt der Kasten — auch ohne Auftrag** (Daniel, 23.09.2026:
+    „extension taucht kurz auf und verschwindet sofort, kann das daniel todo also nicht
+    machen").
+
+    Vorher entschied diese Funktion über den **ganzen** Kasten, und auf einer Titelseite ohne
+    Eintrag in der Prüfliste hieß das: Der Sekundentakt zeichnete ihn (für den
+    Prüflisten-Knopf) und versteckte ihn gleich wieder. Genau das Blinken, das die Regel vom
+    06.09.2026 verhindern sollte — „wenn 0 einträge, dann prüfliste button trotzdem anzeigen
+    mit ‚alles gemeldet'". Seit alle 376 Netflix-Wege ein Urteil haben, ist die Liste leer,
+    und der Fall trifft **jede** Netflix-Titelseite.
+
+    Die Trennlinie liegt jetzt dort, wo sie hingehört: Der **Kasten** ist der Zugang zur
+    Prüfliste und bleibt auf jeder Seite außerhalb des Players. Die **Melde-Elemente** hängen
+    weiter an `istGesucht()` und erscheinen nur mit Auftrag — „i am just watching something,
+    there should be no elements from the extension on screen" (30.08.2026) gilt dem Player,
+    und der ist oben abgefangen.
+  */
+  return true
 }
 
 /**
@@ -5819,8 +5827,9 @@ setInterval(() => {
   }
   /* Und über allem: ob der Kasten auf dieser Seite überhaupt etwas zu suchen hat. */
   try {
+    /* Entfernt statt versteckt: Ein versteckter Kasten kam beim nächsten Zeichnen zurück. */
     const kasten = document.querySelector('.ak-netflix-kasten')
-    if (kasten) kasten.hidden = !seiteGehtUnsAn()
+    if (kasten && !seiteGehtUnsAn()) kasten.remove()
   } catch {
     /* Im Zweifel bleibt er, wie er ist — lieber ein Kasten zu viel als ein toter Takt. */
   }

@@ -148,13 +148,31 @@ function seite(adresse, { reihe = null, offene = {}, zuletzt = null } = {}) {
 const LISTE = { 80090673: { staffeln: [] } }
 pruefe('auf der Stöberseite bleibt der Kasten — dort sitzt der Weg zur Prüfliste', seite('/browse', { offene: LISTE }) === true)
 pruefe('im Player einer fremden Serie verschwindet er', seite('/watch/70111779', { reihe: '70136130', offene: LISTE }) === false)
-pruefe('auf der Titelseite einer fremden Serie verschwindet er', seite('/title/70136130', { offene: LISTE }) === false)
-pruefe(
-  'auch wenn der Stand noch die Reihe der vorigen Seite trägt',
-  seite('/title/70136130', { reihe: '80090673', offene: LISTE }) === false,
-)
+/*
+  **Abgelöst am 23.09.2026: außerhalb des Players bleibt der Kasten stehen.**
+
+  Die Regel vom 11.09.2026 galt einem Kasten, der auf einer fremden Titelseite als leerer
+  Rahmen mit Debug-Zeile zurückblieb — dort verschwanden damals auch Melde-Knopf, Leiste
+  **und** Prüflisten-Knopf einzeln. Seit dem 06.09.2026 steht der Prüflisten-Knopf aber auch
+  bei null Aufträgen („wenn 0 einträge, dann prüfliste button trotzdem anzeigen mit ‚alles
+  gemeldet'"), der Kasten ist also nie mehr leer.
+
+  Beide Regeln zusammen ergaben ein Blinken: Der Sekundentakt zeichnete den Kasten für den
+  Prüflisten-Knopf und versteckte ihn sofort wieder. Seit alle 376 Netflix-Wege ein Urteil
+  haben, ist die Liste leer, und das traf **jede** Netflix-Titelseite. Daniel am 23.09.2026:
+  „extension taucht kurz auf und verschwindet sofort, kann das daniel todo also nicht machen."
+
+  Die Trennlinie liegt jetzt am Ort: Im Player bleibt es beim Auftrag — „i am just watching
+  something, there should be no elements from the extension on screen" (30.08.2026). Außerhalb
+  ist der Kasten der Zugang zur Prüfliste und bleibt; die Melde-Elemente hängen weiter an
+  `istGesucht()` und erscheinen nur mit Auftrag.
+*/
+pruefe('auf der Titelseite einer fremden Serie bleibt der Kasten — er trägt den Weg zur Prüfliste',
+  seite('/title/70136130', { offene: LISTE }) === true)
 pruefe('auf der Titelseite einer Serie der Liste bleibt er', seite('/title/80090673', { offene: LISTE }) === true)
-pruefe('ein geöffnetes Overlay zählt wie die Titelseite', seite('/browse?jbv=70136130', { offene: LISTE }) === false)
+pruefe('ein geöffnetes Overlay zählt wie die Titelseite', seite('/browse?jbv=70136130', { offene: LISTE }) === true)
+/* Im Player gilt weiterhin der Auftrag — die Zusicherungen dafür stehen oben. */
+pruefe('im Player einer fremden Serie bleibt er weg', seite('/watch/70111779', { reihe: '70136130', offene: LISTE }) === false)
 
 console.log('')
 if (fehler.length) {

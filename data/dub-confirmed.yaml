@@ -16949,3 +16949,17 @@
   dub: true
   checkedAt: '2026-09-22'
   note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0H16J2S3P: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.8395764e-78be-4174-a913-6803849052a1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# Dragon Ball DAIMA bei Netflix: alle 20 Folgen stehen dort, keine mit deutschem
+# Ton (Daniel, 23.09.2026, an netflix.com/title/81943491 von Hand durchgesehen:
+# „alle 20 folgen sind dort, keine hat de"). JustWatch führt das Angebot seit dem
+# 07.09.2026 ohne Sprachangabe — die Frage war also offen, nicht beantwortet.
+#
+# Am 25.09.2026 startet die Serie bei RTL+; ob Netflix dann nachzieht, steht im
+# Kalender-Todo desselben Tages.
+- anilistId: 170083
+  title: Dragon Ball DAIMA
+  platform: netflix
+  dub: false
+  checkedAt: '2026-09-23'
+  note: 20 von 20 Folgen im Angebot, keine mit deutscher Tonspur.
