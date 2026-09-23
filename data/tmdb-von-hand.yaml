@@ -1,0 +1,56 @@
+# TMDB-Kennungen, die der Namensabgleich nicht oder falsch findet.
+#
+# `pipeline/fetch-tmdb-titles.ts` sucht bei TMDB nach Name und Jahr. Zwei Fälle gehen dabei
+# schief, beide am 23.09.2026 an den Dragon-Ball-Titeln gemessen:
+#
+# 1. **Gar kein Treffer.** TMDB schreibt „Dragonball Z" in einem Wort; unsere Schreibweisen
+#    treffen den Eintrag nicht. Ohne Kennung fragt weder TMDB noch JustWatch je nach Wegen —
+#    und genau das war die Lücke bei einer der bekanntesten Reihen überhaupt.
+# 2. **Der falsche Treffer.** „Dragon Ball Super" (2015) trug 312359 — das ist
+#    „ドラゴンボール超 ビルス", die für 2026 angekündigte Serie, die bei uns als eigener Titel
+#    steht. Die Jahresprüfung im Abruf greift nur, wenn der Treffer ein Datum hat; ein noch
+#    undatierter Eintrag kommt an ihr vorbei.
+#
+# Jeder Eintrag nennt die Kennung, die an der Quelle nachgesehen wurde, und warum sie nötig ist.
+# Eine Kennung wird **nie** geraten: Sie stammt aus der TMDB-Suche selbst (search/tv), abgelesen
+# am angegebenen Tag.
+
+- anilistId: 21175
+  tmdbId: 62715
+  kind: tv
+  titel: Dragon Ball Super
+  geprueftAm: '2026-09-23'
+  grund: >-
+    Der Abruf hatte 312359 („ドラゴンボール超 ビルス", 2026) eingetragen — das ist die
+    angekündigte Beerus-Serie, bei uns AniList 206814. JustWatch fand unter dieser Kennung
+    kein einziges Angebot, obwohl die Serie bei Disney+, Prime, ADN und Joyn läuft.
+
+- anilistId: 813
+  tmdbId: 12971
+  kind: tv
+  titel: Dragon Ball Z
+  geprueftAm: '2026-09-23'
+  grund: TMDB führt die Serie als „Dragonball Z" in einem Wort; der Namensabgleich fand sie nie.
+
+- anilistId: 6033
+  tmdbId: 61709
+  kind: tv
+  titel: Dragon Ball Z Kai
+  geprueftAm: '2026-09-23'
+  grund: >-
+    Dieselbe Schreibweise („Dragonball Z Kai"). TMDB führt Kai und The Final Chapters als eine
+    Serie mit mehreren Staffeln; beide unserer Titel zeigen deshalb auf dieselbe Kennung.
+
+- anilistId: 20635
+  tmdbId: 61709
+  kind: tv
+  titel: 'Dragon Ball Z Kai: The Final Chapters'
+  geprueftAm: '2026-09-23'
+  grund: Die zweite Hälfte derselben TMDB-Serie — siehe 6033.
+
+- anilistId: 102352
+  tmdbId: 80020
+  kind: tv
+  titel: Super Dragon Ball Heroes
+  geprueftAm: '2026-09-23'
+  grund: TMDB schreibt „Super Dragonball Heroes"; ohne Kennung blieb der Titel ohne jede Quelle.

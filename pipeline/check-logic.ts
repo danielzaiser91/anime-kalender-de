@@ -1669,6 +1669,62 @@ console.log('\nStreaming Availability API:')
 }
 
 /**
+ * **Von Hand nachgesehene TMDB-Kennungen** (23.09.2026).
+ *
+ * An `tmdbId` hängen die JustWatch-Abfrage, die Anbieterlisten und die Trailer. Eine falsche
+ * Kennung verteilt fremde Wege über den ganzen Titel, eine fehlende lässt ihn unsichtbar —
+ * „Dragon Ball Z" hatte keine, „Dragon Ball Super" die der für 2026 angekündigten
+ * Beerus-Serie. Beide stehen jetzt in `data/tmdb-von-hand.yaml`, und die Datei wird hier
+ * gegen den Bestand gehalten.
+ */
+{
+  console.log('\nTMDB-Kennungen von Hand')
+
+  const vomBand = (datei: string) =>
+    readFileSync(new URL('../' + datei, import.meta.url), 'utf8')
+  const roh = yaml.load(vomBand('data/tmdb-von-hand.yaml')) as
+    | { anilistId: number; tmdbId: number; kind?: string; grund?: string; geprueftAm?: string }[]
+    | null
+  const eintraege = roh ?? []
+  pruefe('die Datei enthält Einträge', eintraege.length > 0, eintraege.length)
+  pruefe(
+    'jeder Eintrag nennt AniList-Kennung, TMDB-Kennung, Grund und Prüfdatum',
+    eintraege.every((e) => e.anilistId > 0 && e.tmdbId > 0 && Boolean(e.grund) && /^\d{4}-\d{2}-\d{2}$/.test(e.geprueftAm ?? '')),
+    eintraege.filter((e) => !e.grund || !e.geprueftAm),
+  )
+  pruefe(
+    'keine AniList-Kennung steht zweimal darin',
+    new Set(eintraege.map((e) => e.anilistId)).size === eintraege.length,
+  )
+  /*
+    Dieselbe TMDB-Kennung an zwei Titeln ist erlaubt und kommt vor: TMDB führt „Dragon Ball Z
+    Kai" und dessen „Final Chapters" als eine Serie, unser Bestand trennt sie. Erlaubt ist das
+    nur innerhalb derselben Reihe — sonst wandern Wege zu einem fremden Werk.
+  */
+  const jeTmdb = new Map<number, number[]>()
+  for (const e of eintraege) jeTmdb.set(e.tmdbId, [...(jeTmdb.get(e.tmdbId) ?? []), e.anilistId])
+  /*
+    **Beide Bestände zählen.** „Super Dragon Ball Heroes" hat keine deutsche Synchro und steht
+    deshalb in `ohne-synchro.json` — eine TMDB-Kennung braucht es trotzdem, denn genau dort
+    beantwortet sie die Frage „gibt es das irgendwo?".
+  */
+  const imBestand = [
+    ...(JSON.parse(vomBand('public/data/titles.json')) as Title[]),
+    ...(JSON.parse(vomBand('public/data/ohne-synchro.json')) as Title[]),
+  ]
+  const bestand = new Map(imBestand.map((t) => [t.id, t]))
+  const fremdGeteilt = [...jeTmdb.values()]
+    .filter((ids) => ids.length > 1)
+    .filter((ids) => new Set(ids.map((id) => bestand.get(id)?.franchiseId ?? `solo-${id}`)).size > 1)
+  pruefe('eine geteilte TMDB-Kennung bleibt in ihrer Reihe', fremdGeteilt.length === 0, fremdGeteilt)
+  pruefe(
+    'jede AniList-Kennung steht im Bestand',
+    eintraege.every((e) => bestand.has(e.anilistId)),
+    eintraege.filter((e) => !bestand.has(e.anilistId)).map((e) => e.anilistId),
+  )
+}
+
+/**
  * **Wie schnell ein „ohne deutschen Ton" wieder zur Frage wird.**
  *
  * Anlass ist eine Falschaussage, die vier Wochen auf der Seite stand (Daniel, 23.09.2026:

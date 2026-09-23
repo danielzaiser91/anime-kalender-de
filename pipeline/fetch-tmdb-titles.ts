@@ -17,6 +17,8 @@ import type { Fsk, PlatformId, Title } from '../shared/types.ts'
 import { loadEnv, fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { readOffers, type TmdbOffer } from './lib/tmdb.ts'
 import { recordSource } from './lib/health.ts'
+import { readFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 
 const args = process.argv.slice(2)
 const FORCE = args.includes('--force')
@@ -288,6 +290,34 @@ async function main(): Promise<void> {
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const cache = readJson<Record<string, TmdbTitle>>(CACHE_PATH, {})
 
+  /*
+    **Von Hand nachgesehene Kennungen gewinnen — und werden nie überschrieben.**
+
+    Der Namensabgleich hat zwei blinde Flecken, beide am 23.09.2026 an den Dragon-Ball-Titeln
+    gemessen: TMDB schreibt „Dragonball Z" in einem Wort (kein Treffer, also nie eine Kennung,
+    also weder TMDB-Wege noch JustWatch-Abfrage), und ein Treffer **ohne Datum** kommt an der
+    Jahresprüfung vorbei — so trug „Dragon Ball Super" (2015) die Kennung der für 2026
+    angekündigten Beerus-Serie.
+
+    Die Einträge stehen mit Grund und Prüfdatum in `data/tmdb-von-hand.yaml`.
+  */
+  const vonHand = yaml.load(readFileSync('data/tmdb-von-hand.yaml', 'utf8')) as
+    | { anilistId: number; tmdbId: number; kind?: 'tv' | 'movie' }[]
+    | null
+  let gesetzt = 0
+  for (const e of vonHand ?? []) {
+    if (!e?.anilistId || !e.tmdbId) continue
+    const alt = cache[e.anilistId]
+    if (alt?.tmdbId === e.tmdbId) continue
+    cache[e.anilistId] = { ...alt, tmdbId: e.tmdbId, kind: e.kind ?? alt?.kind ?? 'tv', fetchedAt: new Date().toISOString() }
+    gesetzt++
+  }
+  if (gesetzt) {
+    writeJson(CACHE_PATH, cache)
+    log(`${gesetzt} Kennung(en) aus data/tmdb-von-hand.yaml gesetzt`)
+  }
+  const handIds = new Set((vonHand ?? []).map((e) => e.anilistId))
+
   /**
    * Ältestes zuerst — und was noch nie geholt wurde, ganz nach vorn.
    *
@@ -306,6 +336,8 @@ async function main(): Promise<void> {
       Frist auf ihren zweiten Versuch gewartet.
     */
     .filter((t) => {
+      /* Was von Hand steht, wird nicht neu gesucht — sonst gewinnt der Fehltreffer wieder. */
+      if (handIds.has(t.id)) return false
       if (FORCE || !cache[t.id]) return true
       const e = cache[t.id]!
       const frist = e.tmdbId ? grenze : new Date(Date.now() - 7 * 86400_000).toISOString()
