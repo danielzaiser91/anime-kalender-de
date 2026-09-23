@@ -1,36 +1,78 @@
-# Durchgang 20.09.2026, 12:15 — alle Schritte vorbereitet
+# Durchgang 23.09.2026, 07:35 — fertige Schritte
 
-Gemessen aus `extension/offene-*.js` und `public/data/pruefstand.json`: Amazon 1, Disney+ 1,
-Suchadressen 1, dazu zwei Punkte aus `status.md`.
+Gemessen vorher: Prüfstand kennt nur zwei offene Einträge, und **keiner davon ist ein
+Meldeauftrag für Daniel** — Amazon/Fairy Tail wartet auf Stufe 2, Crunchyroll hat keinen
+Melder (meine Arbeit, `status.md`). Der Durchgang besteht deshalb aus Entscheidungen.
 
-## A · Prüfliste (3)
+## 1 · Erweiterung neu laden (Handgriff, 10 Sekunden)
 
-1. **JoJo's Bizarre Adventure: Diamond Is Unbreakable** — zweite Prime-Adresse
-   [B0F9FWKDXT](https://www.amazon.de/dp/B0F9FWKDXT), 39 Folgen.
-   Vorwissen: Die deutsche Staffel läuft über B0GXK7RJFW (Prime-Staffel 3 der Sammelseite,
-   gestern belegt). Diese Adresse kam über JustWatch dazu und ist ungesehen.
-   Handgriff: über die **Prüfliste** öffnen (der Klick trägt den Auftrag mit), dann „melden".
-   → deutsch: Beleg wandert an 21450. → keine Folgen: „nicht da" drücken.
+Stand: Erweiterung 4.21.1 liegt seit gestern im Repo (`extension/manifest.json`), Daniel
+hat noch 4.21.0 geladen. Neu: Jede Rohfolge trägt `vorhanden`/`ton_de` (Netflix, Disney+).
 
-2. **SNOWBALL EARTH** (Disney+, 13 Folgen, 2026) —
-   [bei Disney+ öffnen](https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4)
-   Vorwissen: einziger Weg, den wir zu dem Titel führen; kein Sprachurteil.
-   Handgriff: Seite öffnen, Kasten der Erweiterung abwarten, „melden".
+Frage: `chrome://extensions` öffnen, bei „Anime-Kalender" auf Neu laden — steht danach
+4.21.1 unter dem Namen?
 
-3. **Overgeared** (bei uns „Temppal: Item no Chikara", ONA, Start 27.09.2026) — Suchadresse
-   zeigt nur auf `crunchyroll.com`.
-   Vorwissen: Crunchyroll hat bisher nur Nachrichten zum Titel (Trailer 19.09.2026), eine
-   Serienseite habe ich nicht gefunden. Der Titel läuft bei uns unter „ohne Synchro".
-   Antwort: Adresse der Serienseite — oder `x`, wenn es dort noch keine gibt.
+Antwort → ich tue: nichts einzutragen, nur bestätigen. Bei „Version steht nicht da": nach
+dem Ordner fragen, aus dem die Erweiterung geladen ist.
 
-## B · Messskript (1)
+## 2 · „Fish-Man Island Saga" — eigener Titel oder One Piece?
 
-4. `node tools/prime-geteilte-adressen.mjs` im Ordner anime-kalender-de, etwa zwei Minuten
-   (26 Adressen, die mehrere Titel tragen; das Skript misst und schreibt nichts). Ausgabe einfügen.
+Fakten: tv.de führt am 28./29.09. vier Sendungen unter „One Piece" (titleId 21), deren
+Folgentitel mit „Fish-Man Island Saga: …" beginnen. Unser Bestand hat dafür einen eigenen
+Titel: **183423 „One Piece Log: Fish-Man Island Saga"**, 21 Folgen, JP 2024. Das ist die
+Neuauflage (Log-Reihe), nicht die durchlaufende Serie.
 
-## C · Entscheidung (1)
+Frage: Sollen diese Sendungen auf 183423 laufen statt auf One Piece?
 
-5. **472 Amazon-Verweise ohne Linkbefund.** Aus der Cloud sperrt Amazon nach wenigen Dutzend
-   Abrufen, ein Massenabruf von deinem Rechner verstößt gegen die Nutzungsbedingungen.
-   Wahl: (a) so lassen — tote Links fallen auf, wenn jemand sie meldet; (b) die betroffenen
-   Titel nach und nach auf die Prüfliste nehmen; (c) etwas anderes.
+- **ja** → `pipeline/lib/tv-termine.ts`: Sendungen, deren Folgentitel mit dem Namen eines
+  anderen Titels derselben Reihe beginnen, gehen an diesen Titel. Zusicherung dazu, dann
+  Bestandslauf.
+- **nein** → Zeile in `status.md` als bewusst verworfen, mit Begründung.
+
+## 3 · Nachtwiederholung kennzeichnen?
+
+Fakten: ProSieben MAXX zeigt One Piece abends der Reihe nach (22.09.: Fg. 772, 773) und
+nachts ältere Folgen (23.09. 04:25: Fg. 765, 04:50: Fg. 766). Die Pille nennt dann
+„Nächste: Fg. 765 · Mi 04:25" — sachlich richtig, sieht aber nach Rücksprung aus.
+
+Frage: Soll an einer Sendung, deren Folgennummer unter der zuletzt gelaufenen liegt,
+„Wiederholung" stehen?
+
+- **ja** → `tvAngabe` vergleicht mit der höchsten bereits gesendeten Nummer und hängt das
+  Wort an; Zusicherung in `check:logic`.
+- **nein** → Zeile in `status.md`, Punkt zu.
+
+## 4 · Disc-Termin mit der aniSearch-Ausgabe verknüpfen?
+
+Fakten: Der Termin 20.11.2026 bei Dragon Ball Z stammt aus einer Anime2You-Meldung
+(Release `auto-813-disc`, keine Adresse). Die passende Ausgabe steht in
+`data/disc-ausgaben.json` als „Dragon Ball Z – Box 04/10 (Uncut) [Blu-ray]" mit dem
+Platzhalterdatum 31.12.2026 und der Adresse
+`https://www.anisearch.de/article/167249,dragon-ball-z-box-04-10-uncut-blu-ray`.
+
+Frage: Soll der Termin die Ausgabe übernehmen — also Name („Box 04/10") und aniSearch-Link
+an der Pille, Termin weiterhin aus der Meldung?
+
+- **ja** → Zuordnung im Bau über Titel + nächstliegendes Ausgabedatum, Zusicherung, dass
+  kein fremder Titel zugeordnet wird.
+- **nein** → Pille bleibt „Kaufausgabe" ohne Ziel.
+
+## 5 · JustWatch-Abgleich für Titel ohne Treffer verbessern?
+
+Fakten: 646 Titel haben bei JustWatch keinen Treffer, 17 davon verlieren dadurch Wege, die
+sonst über JustWatch kämen. Ursache ist die Namenssuche (Schreibweisen, Untertitel).
+
+Frage: Soll ich daran arbeiten (Messung, dann besserer Abgleich), oder bleibt es liegen?
+
+- **ja** → eigener Punkt in `status.md`, Messung zuerst.
+- **nein** → Punkt streichen.
+
+## 6 · Fairy Tail S1 — bis Stufe 2 liegen lassen?
+
+Fakten: 24 Meldungen zu Fairy Tail S2 (`B0GZJ6DXCS`) liegen im Briefkasten und warten auf
+die Zuordnungstabelle. Fairy Tail S1 steht als einziger Meldeauftrag bei Amazon offen.
+
+Frage: Bleibt es dabei, dass du Fairy Tail erst nach Stufe 2 meldest?
+
+- **ja** → nichts tun, Punkt bleibt als 🟡 mit Grund.
+- **nein** → ich lege den Auftrag mit Link vor.

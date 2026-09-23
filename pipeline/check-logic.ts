@@ -111,7 +111,7 @@ import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus } from './lib/meldungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
-import { releasesAusTvProgramm } from './lib/tv-termine.ts'
+import { releasesAusTvProgramm, sendungNeuZuordnen } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
 import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
@@ -4781,6 +4781,38 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     [],
   )
   pruefe('eine Wiederholung zählt nicht als neue Folge', tv[0]?.schedule.episodeCount === 2, tv[0]?.schedule)
+  {
+    /*
+      **Der Folgentitel entscheidet, welcher Ausgabe eine Sendung gehört** (23.09.2026). tv.de nennt
+      die Reihe: Vier Sendungen liefen unter „One Piece", ihre Folgentitel („Fish-Man Island Saga: …")
+      stehen aber nur in der Liste der Neuauflage 183423 und in keiner Folge von One Piece.
+    */
+    const reihe = new Map<number, Title>([
+      [21, { id: 21, titleDe: 'One Piece', franchiseId: 21 } as Title],
+      [183423, { id: 183423, titleDe: 'One Piece Log: Fish-Man Island Saga', franchiseId: 21 } as Title],
+      [999, { id: 999, titleDe: 'Fremde Reihe', franchiseId: 999 } as Title],
+    ])
+    const listen = {
+      '21': { seite: 'Wikipedia', folgen: [{ nr: 1, dt: 'Ich bin Ruffy, der Mann, der Piratenkönig wird' }] },
+      '183423': { seite: 'aniSearch', url: 'x', folgen: [{ nr: 1, dt: 'Der Neuanfang! Die Wiedervereinigung der Strohhüte!' }] },
+      '999': { seite: 'Wikipedia', folgen: [{ nr: 1, dt: 'Etwas ganz anderes' }] },
+    }
+    const sendung = {
+      titleId: 21,
+      titel: 'One Piece',
+      folge: 'Fish-Man Island Saga: Der Neuanfang - Die Wiedervereinigung der Strohhüte',
+      sender: 'ProSieben MAXX',
+      start: '2026-09-28T18:25:00+02:00',
+      ende: '2026-09-28T18:50:00+02:00',
+      gesehenAm: '2026-09-23',
+    }
+    const neu = sendungNeuZuordnen([sendung], reihe, listen)
+    pruefe('TV: die Sendung geht an den Titel, dessen Liste ihren Folgentitel führt', neu[0]?.titleId === 183423, neu[0]?.titleId)
+    const eigen = sendungNeuZuordnen([{ ...sendung, folge: 'One Piece: Ich bin Ruffy, der Mann, der Piratenkönig wird' }], reihe, listen)
+    pruefe('TV: was in der eigenen Liste steht, bleibt beim eigenen Titel', eigen[0]?.titleId === 21)
+    const fremd = sendungNeuZuordnen([{ ...sendung, folge: 'Irgendwas: Etwas ganz anderes' }], reihe, listen)
+    pruefe('TV: ein Titel aus einer fremden Reihe zieht nichts zu sich', fremd[0]?.titleId === 21)
+  }
   pruefe('verschiedene Uhrzeiten: keine Uhrzeit behauptet', tv[0]?.schedule.time === undefined)
   pruefe('die letzte Sichtung trägt auch die Wiederholung', tv[0]?.tvLetzteSichtung === '2026-09-17')
   pruefe(

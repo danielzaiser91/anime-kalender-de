@@ -3018,6 +3018,23 @@ function main(): void {
     readJson<{ sendungen?: Record<string, TvSendung> }>('data/tv-programm.json', {}).sendungen ?? {},
   ).map(([k, s]) => ({ ...s, kennung: /^tvde_[^+]+\+(\d+)$/.exec(k)?.[1] }))
   const tvFolgenListen: WikiListen = {
+    /*
+      **aniSearch-Folgentitel als Grundstock** (23.09.2026). Ohne sie hat ein Titel ohne
+      Wikipedia-Liste gar keine Folgennamen — „One Piece Log: Fish-Man Island Saga" (183423)
+      zum Beispiel, dessen vier Sendungen am 28./29.09.2026 unter One Piece liefen. Steht
+      weiter unten eine bessere Liste (TMDB, RTL+, Wikipedia), gewinnt sie: Sie kommt später.
+    */
+    ...Object.fromEntries(
+      Object.entries(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})).flatMap(([id, x]) => {
+        const folgen = x.anisearchId
+          ? (readJson<Record<string, { folgen?: { nr: number; de?: string; datum?: string }[] }>>('data/anisearch-folgen.json', {})[
+              String(x.anisearchId)
+            ]?.folgen ?? [])
+          : []
+        const mit = folgen.filter((f) => f.de).map((f) => ({ nr: f.nr, dt: f.de!, ...(f.datum ? { ead: f.datum.slice(0, 10) } : {}) }))
+        return mit.length ? [[id, { seite: 'aniSearch', url: `https://www.anisearch.de/anime/${x.anisearchId}/episodes`, folgen: mit }] as const] : []
+      }),
+    ),
       /*
         TMDB zuletzt: deutsche Folgentitel, über Staffeln durchgezählt (Staffel 0 = Specials
         zählt nicht). Bei Solo Leveling die einzige Liste; bei Eyeshield 21 passten 0 von 5

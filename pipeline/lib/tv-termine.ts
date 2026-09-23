@@ -135,12 +135,52 @@ export function sendungenAnhaengen(
   }
 }
 
+/**
+ * **Eine Sendung gehört dem Titel, dessen Folgenliste ihren Folgentitel führt** (23.09.2026).
+ *
+ * tv.de nennt die Reihe, nicht die Ausgabe: Am 28./29.09.2026 liefen vier Folgen unter
+ * „One Piece", deren Folgentitel mit „Fish-Man Island Saga: …" beginnen. Das ist die Neuauflage
+ * (AniList 183423, 21 Folgen, 2024), nicht die durchlaufende Serie. Gemessen: Alle vier
+ * Folgentitel stehen wortgleich in der Liste von 183423 und in keiner Folge von One Piece.
+ *
+ * Umgehängt wird nur, wenn es eindeutig ist: Die Liste des gemeldeten Titels kennt den Titel
+ * **nicht**, genau ein anderer Titel derselben Reihe kennt ihn, und beide haben eine Liste.
+ * Sonst bleibt die Sendung, wo sie ist — eine geratene Zuordnung ist schlimmer als keine.
+ */
+export function sendungNeuZuordnen(
+  sendungen: TvSendung[],
+  titles: Map<number, Title>,
+  wiki: WikiListen = {},
+): TvSendung[] {
+  const kerne = new Map<number, Set<string>>()
+  const kern = (id: number) => {
+    if (!kerne.has(id)) kerne.set(id, new Set((wiki[String(id)]?.folgen ?? []).map((f) => folgenKern(f.dt)).filter((k) => k.length >= 6)))
+    return kerne.get(id)!
+  }
+  /* Reihe → ihre Titel, damit nur Geschwister als Kandidaten in Frage kommen. */
+  const reihe = new Map<number, number[]>()
+  for (const t of titles.values()) {
+    const f = t.franchiseId ?? t.id
+    reihe.set(f, [...(reihe.get(f) ?? []), t.id])
+  }
+  return sendungen.map((s) => {
+    const folge = s.folge ? folgenKern(s.folge.replace(/^[^:]{3,60}:\s*/, '')) : ''
+    if (!folge || folge.length < 6) return s
+    const eigene = kern(s.titleId)
+    if (!eigene.size || eigene.has(folge)) return s
+    const t = titles.get(s.titleId)
+    const geschwister = (reihe.get(t?.franchiseId ?? s.titleId) ?? []).filter((id) => id !== s.titleId && kern(id).has(folge))
+    return geschwister.length === 1 ? { ...s, titleId: geschwister[0]! } : s
+  })
+}
+
 export function releasesAusTvProgramm(
   sendungen: TvSendung[],
   titles: Map<number, Title>,
   vorhanden: Release[],
   wiki: WikiListen = {},
 ): Release[] {
+  sendungen = sendungNeuZuordnen(sendungen, titles, wiki)
   const belegt = new Set(
     vorhanden.filter((r) => r.platform === 'tv').map((r) => `${r.titleId}|${(r.sender ?? '').toLowerCase()}`),
   )
