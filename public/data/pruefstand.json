@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-23T20:36:16.095Z",
+ "erzeugtAm": "2026-09-23T22:07:54.322Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -37,9 +37,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 371,
+   "gemeldet": 366,
    "gesamt": 376,
-   "offen": 5,
+   "offen": 10,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/70205012",
    "ziele": [
@@ -52,8 +52,24 @@
      "titel": "Naruto Shippuden"
     },
     {
+     "url": "https://www.netflix.com/title/80001305",
+     "titel": "Cowboy Bebop"
+    },
+    {
+     "url": "https://www.netflix.com/title/80179831",
+     "titel": "JoJo’s Bizarre Adventure"
+    },
+    {
+     "url": "https://www.netflix.com/title/81033445",
+     "titel": "Neon Genesis Evangelion"
+    },
+    {
      "url": "https://www.netflix.com/title/81080523",
      "titel": "Boruto: Naruto Next Generations"
+    },
+    {
+     "url": "https://www.netflix.com/title/81236338",
+     "titel": "Baki Hanma"
     },
     {
      "url": "https://www.netflix.com/title/81239555",
