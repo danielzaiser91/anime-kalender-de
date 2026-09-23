@@ -2714,3 +2714,29 @@ Quellen", 30 Suchen) → `data/youtube-kauf.json`; `build.ts` setzt für genaue 
 Mächte in Dir) nur Netflix und Prime, bei 2418 (Sword of the Stranger) und 2543 (Robin Hood) gar keine
 Angebote. MOTN kennt diese Apple-Angebote nicht; die Pillen bleiben „über TMDB". Neu bewerten, wenn MOTN
 Apple-Leihangebote für Deutschland führt oder JustWatch diese Titel findet.
+
+## Ein Befund über eine laufende Serie altert im Wochentakt (23.09.2026)
+
+Disney+ zeigte bei „Though I Am an Inept Villainess" die Folgen 1–8 auf Deutsch, 9–11 nur
+japanisch. Unsere Pille behauptete „✕ DE 5–7" — das Gegenteil (Daniel: „gerade geprüft").
+
+**Der Befund war richtig gemessen.** Die Erweiterung hatte am 26.08.2026 sieben Folgen
+gesehen, davon vier mit deutschem Ton. Beides stimmte an diesem Tag. Vier Wochen später
+hatte die Synchro aufgeschlossen, und aus einer Momentaufnahme war eine Falschaussage
+geworden, ohne dass sich an unserem Datensatz etwas geändert hatte.
+
+**Die Unterscheidung, um die es geht:** Ein Beleg „hier gibt es deutschen Ton" wird mit der
+Zeit höchstens ungenau — eine Lizenz läuft aus, selten. Ein Beleg „hier gibt es **keinen**
+deutschen Ton" über die zuletzt erschienenen Folgen einer **laufenden** Serie wird von jeder
+neuen Synchrofolge widerlegt. Das sind zwei verschiedene Halbwertszeiten, und die
+Wiedervorlage kannte nur eine: 180 Tage für Disney+, Netflix und Prime.
+
+Seitdem: `fristFuer()` in `pipeline/lib/wiedervorlage-frist.ts` gibt einem solchen Beleg
+**14 Tage**, danach steht er wieder in der Prüfliste der Erweiterung. Nur bei den Anbietern
+mit Handprüfung — Crunchyroll, ADN und YouTube messen bei jedem Lauf nach. Gegenprobe gegen
+den Bestand vor der Korrektur: genau ein Weg kommt zusätzlich auf die Liste, der betroffene,
+28 Tage alt.
+
+**Prüffrage bei jedem neuen Sprachbefund: Woran würde ich merken, dass er nicht mehr gilt?**
+Bei einer abgeschlossenen Serie an nichts Bestimmtem — dafür ist die lange Frist da. Bei
+einer laufenden am nächsten Sendetermin.
