@@ -553,6 +553,7 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - TV-Sendetermine und deutsche Folgendaten: Recherche vom 19.09.2026 in `docs/recherche-tv-quellen-2026-09-19.md` — gebaut ist tv.de; vor jeder Suche nach einer Programmquelle lesen
 - Kein Weg auf eine Datenbank — Videoload über die MagentaTV-Kennung (22.09.2026)
 - Ein Befund über eine laufende Serie altert im Wochentakt (23.09.2026)
+- JustWatch drosselt nach mehreren Läufen kurz hintereinander (23.09.2026)
 
 ### [Betrieb: Läufe, Worker, Git, Prüfungen](docs/wissen/betrieb.md)
 

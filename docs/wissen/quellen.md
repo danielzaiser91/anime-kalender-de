@@ -2740,3 +2740,21 @@ den Bestand vor der Korrektur: genau ein Weg kommt zusätzlich auf die Liste, de
 **Prüffrage bei jedem neuen Sprachbefund: Woran würde ich merken, dass er nicht mehr gilt?**
 Bei einer abgeschlossenen Serie an nichts Bestimmtem — dafür ist die lange Frist da. Bei
 einer laufenden am nächsten Sendetermin.
+
+## JustWatch drosselt nach mehreren Läufen kurz hintereinander (23.09.2026)
+
+Um einen einzelnen Titel schnell nachzufragen, liefen drei Abrufe in zehn Minuten: 60, dann
+400, dann 500 Titel. Der dritte bekam **HTTP 429** — 400 von 500 Abfragen abgewiesen, und der
+Plausibilitätsriegel verwarf den Lauf („1 von 9 Treffern ohne Angebot, 91 von 100 ohne
+Treffer — nichts geschrieben"). Kein Schaden am Bestand, aber auch kein Ergebnis, und die
+Quelle ist danach für eine Weile unbrauchbar.
+
+**Die Ursache war kein Kontingent, sondern die Ungeduld:** Der gesuchte Titel stand in der
+Warteschlange hinten, und statt auf den regulären Lauf zu warten, wurde die Grenze dreimal
+erhöht. Die Schlange sortiert nach Dringlichkeit und Alter — wer einen bestimmten Titel
+vorziehen will, hat dafür kein Mittel, und drei Läufe sind keins.
+
+**Praktische Folge:** Ein JustWatch-Lauf je Tag genügt, mehr als einer je Stunde reißt das
+Limit. Braucht ein einzelner Titel eine Antwort, ist der richtige Weg, ihn in der
+Warteschlange nach vorn zu bringen (`kennungGewechselt`, `dringend`) — nicht, den ganzen Lauf
+größer zu machen.
