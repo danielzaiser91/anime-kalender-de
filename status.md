@@ -4812,3 +4812,13 @@ Seite, und die Erweiterung liest bereits Netzwerkantworten mit.
 Vorteil gegenüber Netflix: Amazon nennt die Tonspur **je Folge** und das nötige Abo **je
 Staffel** — ein einziger Seitenaufruf trägt also deutlich mehr als bei Netflix, wo Daniel je
 Folge klicken muss.
+
+### Anbieterdurchgang Dragon Ball (23.09.2026, ab 16:40)
+
+Grundlage: `docs/recherche-streaming-anbieter-de-2026-09-23.md`, 90 Anbieter in der
+Arbeitsliste, rückwärts durchgegangen (Daniel: „geh sie rückwärts durch, weil alles was du
+getestet hast hab ich schon getestet").
+
+| Rang | Anbieter | Ergebnis |
+|---|---|---|
+| 134 | KiKA | **Daniel selbst geprüft** (Bild, 23.09.2026): Suche nach „dragon ball" findet nur Tanoshii-Videos, keine Serie. Raus — aber die Mediathek ist durchsuchbar und für **andere** Titel ein Kandidat. |
