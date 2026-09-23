@@ -9,4 +9,4 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2025-07-17 | Sword Art Online | [Alicization - War of Underworld – Teil 2](https://www.crunchyroll.com/de/sword-art-online) |
+| 1 | 2026-06-26 | Snowball Earth | [Hauptserie](https://www.crunchyroll.com/series/GT00371869/snowball-earth) |

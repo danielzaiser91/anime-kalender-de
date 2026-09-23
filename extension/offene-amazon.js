@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_AMAZON = {"B0CHBX8CM2":{"titel":"Fairy Tail","url":"https://www.amazon.de/gp/video/detail/B0CHBX8CM2","eintraege":[{"id":6702,"name":"Fairy Tail","folgen":175,"offen":true,"asId":5476,"malId":6702,"imdb":"tt1528406"}]}}
+globalThis.AK_OFFENE_AMAZON = {}
