@@ -60,6 +60,7 @@ import {
 import { adnAdresseSchaerfen, adnFolgenAdresse } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
+import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
 import { newsRss } from './lib/news-rss.ts'
@@ -1665,6 +1666,40 @@ console.log('\nStreaming Availability API:')
       { from: 156, to: 171, dub: false },
       { from: 1, to: 155, dub: true },
     ])?.n === 155)
+}
+
+/**
+ * **Wie schnell ein „ohne deutschen Ton" wieder zur Frage wird.**
+ *
+ * Anlass ist eine Falschaussage, die vier Wochen auf der Seite stand (Daniel, 23.09.2026:
+ * „gerade geprüft: Disney+ zeigt de 1-8. 9-11 sind jp"). Gemessen war sie richtig — am
+ * 26.08.2026 hatte Disney+ sieben Folgen, davon vier deutsch. Nur altert so ein Befund bei
+ * einer laufenden Serie im Wochentakt, und die Anbieterfrist von 180 Tagen sah ihn nicht an.
+ */
+{
+  console.log('\nWiedervorlage: wann ein Sprachbeleg wieder zur Frage wird')
+
+  const ohneTon = [
+    { from: 1, to: 4, dub: true },
+    { from: 5, to: 7, dub: false },
+  ]
+
+  pruefe('laufende Serie, Folgen ohne Ton: kurze Frist',
+    fristFuer('disneyplus', true, ohneTon) === FRIST_LAUFEND_OHNE_TON)
+  pruefe('abgeschlossene Serie behält die Anbieterfrist',
+    fristFuer('disneyplus', false, ohneTon) === FRISTEN.disneyplus)
+  pruefe('laufende Serie ganz auf Deutsch behält die Anbieterfrist',
+    fristFuer('disneyplus', true, [{ from: 1, to: 8, dub: true }]) === FRISTEN.disneyplus)
+  pruefe('ohne Bereiche bleibt es bei der Anbieterfrist',
+    fristFuer('netflix', true, undefined) === FRISTEN.netflix)
+  /*
+    Crunchyroll und ADN holen ihre Sprachangaben bei jedem Lauf neu — eine Wiedervorlage
+    wäre dort doppelte Arbeit, auch bei einer laufenden Serie mit Folgen ohne Ton.
+  */
+  pruefe('selbst prüfende Anbieter kommen gar nicht auf die Liste',
+    fristFuer('crunchyroll', true, ohneTon) === undefined && fristFuer('adn', true, ohneTon) === undefined)
+  pruefe('die kurze Frist ist kürzer als jede Anbieterfrist',
+    Object.values(FRISTEN).every((f) => f > FRIST_LAUFEND_OHNE_TON))
 }
 
 /**

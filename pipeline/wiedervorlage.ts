@@ -19,7 +19,9 @@
  *
  * **Die Frist ist nach Anbieter verschieden**, weil sich die Angebote
  * verschieden schnell ändern. Wer ein Abo-Angebot führt, verliert Lizenzen;
- * ein Kauftitel bleibt kaufbar.
+ * ein Kauftitel bleibt kaufbar. Eine kurze Frist gilt für Belege, die einer
+ * **laufenden** Serie eine Folge ohne deutschen Ton bescheinigen — die
+ * Begründung steht in `lib/wiedervorlage-frist.ts`.
  *
  * Aufruf: `npx tsx pipeline/wiedervorlage.ts [--frist TAGE]`
  *
@@ -29,25 +31,12 @@
  */
 import { readFileSync } from 'node:fs'
 import { log, readJson, writeJson } from './lib/util.ts'
-import type { PlatformId, Title } from '../shared/types.ts'
+import { titleStatus } from '../shared/logic.ts'
+import { fristFuer } from './lib/wiedervorlage-frist.ts'
+import type { PlatformId, Release, Title } from '../shared/types.ts'
 
 const args = process.argv.slice(2)
 const FRIST_ARG = Number(args[args.indexOf('--frist') + 1])
-
-/**
- * Nach wie vielen Tagen ein Beleg wieder zur Frage wird.
- *
- * Crunchyroll und ADN fehlen hier: Deren Bestand wird ohnehin laufend gegen die
- * Quelle gehalten, eine zweite Wiedervorlage wäre doppelte Arbeit.
- */
-const FRISTEN: Partial<Record<PlatformId, number>> = {
-  primevideo: 180,
-  netflix: 180,
-  disneyplus: 180,
-  rtlplus: 270,
-  joyn: 270,
-  /* YouTube prüft `check-youtube.ts` je Lauf gegen die Data API. */
-}
 
 interface Fällig {
   id: number
@@ -60,7 +49,15 @@ interface Fällig {
 
 function main(): void {
   const titles = readJson<Title[]>('public/data/titles.json', [])
+  const releases = readJson<Release[]>('public/data/releases.json', [])
   const yaml = readFileSync('data/dub-confirmed.yaml', 'utf8')
+
+  const jeTitel = new Map<number, Release[]>()
+  for (const r of releases) {
+    const bisher = jeTitel.get(r.titleId)
+    if (bisher) bisher.push(r)
+    else jeTitel.set(r.titleId, [r])
+  }
 
   /*
     Aus der YAML wird je Titel und Plattform das jüngste Prüfdatum gelesen.
@@ -82,8 +79,10 @@ function main(): void {
   const faellig: Fällig[] = []
 
   for (const t of titles) {
+    /* Der Status kommt aus `shared/logic.ts` — nie selbst nachgebaut (CLAUDE.md). */
+    const laeuft = titleStatus(jeTitel.get(t.id) ?? [], undefined, t) === 'airing'
     for (const s of t.streams ?? []) {
-      const frist = FRIST_ARG || FRISTEN[s.platform]
+      const frist = FRIST_ARG || fristFuer(s.platform, laeuft, s.dubRanges)
       if (!frist) continue
       const datum = geprueft.get(`${t.id}|${s.platform}`)
       /*

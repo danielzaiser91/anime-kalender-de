@@ -9545,15 +9545,17 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 4
+      to: 8
       dub: true
-      checked: [1, 2, 3, 4]
-    - from: 5
-      to: 7
+    - from: 9
+      to: 11
       dub: false
-      checked: [5, 6, 7]
-  checkedAt: '2026-08-26'
-  note: "Folgen 1–4 mit deutschem Ton, Folgen 5–7 ohne deutschen Ton — Tonspuren: ja"
+  checkedAt: '2026-09-23'
+  note: >-
+    Von Hand geprüft: Folgen 1–8 mit deutschem Ton, 9–11 nur japanisch.
+    Ersetzt den Erweiterungs-Befund vom 26.08.2026 („1–4 deutsch, 5–7 ohne"),
+    der zu einem Zeitpunkt entstand, als erst sieben Folgen online waren — die
+    Synchro hat seitdem nachgezogen.
 
 - anilistId: 184642
   title: "Star Wars: Visionen Volume 3"
