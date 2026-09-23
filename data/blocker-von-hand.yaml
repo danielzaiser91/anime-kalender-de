@@ -1,0 +1,13 @@
+# Was das Projekt gerade aufhält — von Hand eingetragen.
+#
+# Diese Einträge erscheinen im Blocker-Bereich der Statusanzeige, zusammen mit den Quellen, die
+# von selbst verstummt sind. Hier steht, was kein Lauf bemerken kann: eine Sperre bei einem
+# Anbieter, eine offene Anfrage, ein Zugang, auf den gewartet wird.
+#
+# Daniel am 23.09.2026: „sowas muss immer für mich sichtbar sein, dafür ist die status app
+# gedacht … solche kritischen blocker sind unbedingt dort anzuzeigen."
+#
+# Ein erledigter Eintrag wird **gelöscht**, nicht abgehakt — die Datei zeigt den Jetzt-Stand.
+# Jeder Eintrag nennt `titel`, `text` und möglichst `seit` (ISO-Datum).
+
+[]

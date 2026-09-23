@@ -13,7 +13,9 @@
  * Aufruf: npx tsx pipeline/check-sources.ts [--max-age 4]
  */
 import { readSourceHealth } from './lib/health.ts'
-import { log, warn } from './lib/util.ts'
+import { readFileSync } from 'node:fs'
+import yaml from 'js-yaml'
+import { log, warn, writeJson } from './lib/util.ts'
 
 const args = process.argv.slice(2)
 const index = args.indexOf('--max-age')
@@ -169,13 +171,72 @@ function main(): void {
     }
   }
 
+  /*
+    **Eine stumme Quelle warnt, sie blockiert nicht** (Daniel, 23.09.2026: „jede gültige quelle
+    soll normal durchlaufen können ohne blockiert zu werden").
+
+    Vorher endete dieser Schritt mit Fehler, und damit war der ganze Bestandslauf rot — der
+    Datensatz war da, committet und geprüft, nur ausgeliefert wurde er nicht. Vier Tage lang
+    hat eine Sperre bei aniSearch so die Arbeit von zwanzig anderen Quellen aufgehalten.
+
+    Gemeldet wird trotzdem, und zwar sichtbar: `public/data/blocker.json` wird mit der Seite
+    ausgeliefert, und die Statusanzeige zeigt daraus einen eigenen Bereich. Daniel: „solche
+    kritischen blocker sind unbedingt dort anzuzeigen."
+  */
+  schreibeBlocker(
+    stale.map((name) => ({
+      art: 'quelle-stumm' as const,
+      titel: `${name} liefert nichts mehr`,
+      text:
+        `Seit ${daysSince(health[name]?.lastOk).toFixed(1)} Tagen ohne Ergebnis` +
+        (health[name]?.lastError ? ` — ${health[name]!.lastError}` : '') +
+        '. Der Bestand wird weiter gebaut; diese Quelle fehlt darin.',
+      seit: health[name]?.lastOk,
+      quelle: name,
+    })),
+  )
+
   if (stale.length) {
     console.error(
       `\nStumme Quellen: ${stale.join(', ')}. ` +
-        'Vermutlich hat sich dort der Seitenaufbau geändert — Selektoren prüfen.',
+        'Sie stehen als Blocker in der Statusanzeige; der Lauf geht weiter.',
     )
-    process.exit(1)
   }
+}
+
+/** Ein Eintrag im Blocker-Bereich der Statusanzeige. */
+interface Blocker {
+  art: 'quelle-stumm' | 'hand'
+  titel: string
+  text: string
+  seit?: string
+  quelle?: string
+}
+
+/**
+ * **Was das Projekt gerade aufhält — an einer Stelle, die immer sichtbar ist.**
+ *
+ * Die Datei wird mit der Seite ausgeliefert und von der Statusanzeige gelesen. Handeinträge
+ * aus `data/blocker-von-hand.yaml` kommen dazu: Dinge, die kein Lauf bemerken kann (eine
+ * Sperre, eine offene Anfrage, ein wartender Zugang).
+ *
+ * Sie wird bei **jedem** Lauf neu geschrieben, auch wenn nichts anliegt — sonst bliebe ein
+ * behobener Blocker für immer stehen (dieselbe Falle wie bei `suchadressen-offen.json`,
+ * 14.09.2026).
+ */
+function schreibeBlocker(ausQuellen: Blocker[]): void {
+  let vonHand: Blocker[] = []
+  try {
+    const roh = yaml.load(readFileSync('data/blocker-von-hand.yaml', 'utf8')) as
+      | { titel: string; text: string; seit?: string }[]
+      | null
+    vonHand = (roh ?? []).map((e) => ({ art: 'hand' as const, titel: e.titel, text: e.text, seit: e.seit }))
+  } catch {
+    /* Ohne Datei gibt es keine Handeinträge — das ist der Normalfall. */
+  }
+  const alle = [...vonHand, ...ausQuellen]
+  writeJson('public/data/blocker.json', { erzeugtAm: new Date().toISOString(), eintraege: alle })
+  log(alle.length ? `${alle.length} Blocker in public/data/blocker.json` : 'keine Blocker')
 }
 
 main()
