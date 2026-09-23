@@ -56,6 +56,7 @@ const namen = [
   'stichprobeUeberEinenTitel',
   'folgenJeStaffel',
   'staffelPerKennung',
+  'rechnetInNetflixStaffeln',
   'staffelnDerGruppe',
   'zustandDerFolge',
   'geladeneZustaende',

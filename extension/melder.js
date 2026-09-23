@@ -2583,6 +2583,39 @@ function laufBeenden(grund) {
     /* Dann endet er spätestens mit dem Tab. */
   }
   console.log(`[Anime-Kalender] Durchgang beendet — ${grund}`)
+  /*
+    **Das Ende gehört in den Kasten** (Daniel, 24.09.2026, mit Bild: „bleibt hier stehen, wieso?").
+    Der Durchgang war fertig — JoJo übersprungen, danach nichts mehr offen —, sichtbar war nur,
+    dass nichts mehr geschah.
+  */
+  if (grund !== 'von Hand') {
+    durchgangEnde = { grund, uebersprungen: [...selbstUebersprungen].filter((r) => !fertigeTitel.has(r)) }
+    durchgangEndeZeigen()
+  }
+}
+
+/** Wie der letzte Durchgang endete — steht im Kasten, bis der nächste startet. */
+let durchgangEnde = null
+/** Titel, die der Durchgang abgeschlossen hat (nicht übersprungen). */
+const fertigeTitel = new Set()
+
+function durchgangEndeZeigen() {
+  try {
+    const zeile = netflixKasten().querySelector('.ak-z-melden')
+    if (!zeile) return
+    let el = zeile.querySelector('.ak-durchgang-ende')
+    if (!durchgangEnde) return el?.remove()
+    if (!el) {
+      el = document.createElement('div')
+      el.className = 'ak-hinweis ak-durchgang-ende'
+      zeile.appendChild(el)
+    }
+    const namen = durchgangEnde.uebersprungen.map((r) => offeneTitel[r]?.titel ?? r)
+    el.textContent = `Durchgang fertig${namen.length ? ` · übersprungen: ${namen.join(', ')}` : ''}`
+    el.title = durchgangEnde.grund
+  } catch {
+    /* Eine Anzeige darf den Takt nicht aufhalten. */
+  }
 }
 
 function laufStarten() {
@@ -2606,6 +2639,11 @@ function laufStarten() {
   selbstVersucht = null
   selbstUebersprungen.clear()
   selbstStaffelnVersucht.clear()
+  selbstStaffelnBesucht.clear()
+  selbstStaffelnGeprueft.clear()
+  durchgangEnde = null
+  fertigeTitel.clear()
+  durchgangEndeZeigen()
   selbstStaffelWechsel = null
   try {
     sessionStorage.setItem(LAUF_SCHLUESSEL, String(Date.now()))
@@ -2657,8 +2695,43 @@ function angezeigteStaffelHatOffenes() {
 let selbstStaffelWechsel = null
 /** Schon versuchte Staffeln je Reihe — `"<reihe>:<nr>"`, damit kein Wechsel im Kreis läuft. */
 const selbstStaffelnVersucht = new Set()
+/**
+ * **Welche Menü-Staffeln der Durchgang je Titel schon angesehen und welche er fertig geprüft hat**
+ * (24.09.2026). Schlüssel `reihe:m:<Menütext>`. Besucht heißt: nicht noch einmal hinwechseln.
+ * Geprüft heißt: ein Lauf dort hat nichts mehr gemeldet — ein weiterer brächte nichts.
+ */
+const selbstStaffelnBesucht = new Set()
+const selbstStaffelnGeprueft = new Set()
+/** Höchstens so viele Läufe auf einer Seite — Shippuden hat bei Netflix 21 Staffeln. */
+const SELBST_RUNDEN_JE_TITEL = 40
 
 /** Welche Staffel Netflix' Auswahlfeld gerade zeigt — die Zahl aus „Staffel 3" / „Teil 2", sonst null. */
+/** Was Netflix' Staffelauswahl gerade zeigt — „Staffel 2" oder ein Name wie „Golden Wind". */
+function angezeigterNetflixName() {
+  const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
+  return (knopf?.textContent ?? '').trim() || null
+}
+
+/** Menüeintrag und Auswahlknopf auf einen Nenner: ohne Folgenzahl, ohne Groß/klein. */
+function menueSchluessel(text) {
+  return String(text ?? '')
+    .replace(/\(?\s*\d+\s*(?:Folgen|Folge|Episoden|Episode|Episodes)\s*\)?/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+}
+
+/**
+ * **Rechnen unsere Staffelnummern für diese Reihe in Netflix' Staffeln?**
+ *
+ * Nur dann ist die Staffel, die der Player nennt, dieselbe Zahl wie unsere. Bei JoJo ist
+ * „Golden Wind" Netflix-Staffel 4 und bei uns Staffel 5; die Zahl des Players machte daraus
+ * „Diamond Is Unbreakable" (24.09.2026).
+ */
+function rechnetInNetflixStaffeln(reihe) {
+  return (anbieterStaffeln[String(reihe)] ?? []).length > 0 || offeneTitel[String(reihe)]?.laut === 'anbieter-gerechnet'
+}
+
 function angezeigteNetflixStaffel() {
   const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
   const treffer = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(knopf?.textContent ?? '')
@@ -2683,7 +2756,8 @@ function naechsteOffeneNetflixStaffel(reihe) {
 }
 
 /** Im Auswahlfeld „Staffel N" anklicken. true, wenn der Eintrag da war und geklickt wurde. */
-async function netflixStaffelWaehlen(nr) {
+/** `ziel` ist eine Staffelnummer oder der Text eines Menüeintrags. */
+async function netflixStaffelWaehlen(ziel) {
   const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
   if (!knopf) return false
   if (knopf.getAttribute('aria-expanded') !== 'true') knopf.click()
@@ -2691,8 +2765,9 @@ async function netflixStaffelWaehlen(nr) {
     const eintraege = [...document.querySelectorAll('[data-uia="dropdown-menu"] li[data-uia="dropdown-menu-item"]')]
     if (eintraege.length) {
       const ziel = eintraege.find((li) => {
+        if (typeof ziel === 'string') return (li.textContent ?? '').trim() === ziel
         const t = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(li.textContent ?? '')
-        return t && Number(t[1]) === nr
+        return t && Number(t[1]) === ziel
       })
       if (!ziel) {
         knopf.click()
@@ -2730,35 +2805,6 @@ async function netflixStaffelnImMenue() {
   })
   if (!warOffen) knopf.click()
   return raus
-}
-
-/**
- * **Die offene Staffel über ihre Folgenzahl im Menü finden** (Daniel, 24.09.2026, mit Bericht:
- * „bis baki hanma geöffnet wurde, die extension hat nicht auf staffel 2 gewechselt").
- *
- * Netflix öffnete Baki Hanma auf Staffel 1 (12 Folgen, bei uns belegt), offen war unsere Staffel 2
- * mit 27 Folgen. Der Wechsel lief bisher nur bei Titeln, die die Prüfliste in Netflix-Staffeln
- * rechnet (`naechsteOffeneNetflixStaffel`). Hier entscheidet die Folgenzahl — aber nur, wenn sie
- * auf beiden Seiten genau einmal vorkommt. Zwei Staffeln mit derselben Zahl (JoJo: zweimal 39)
- * bleiben ungewählt; die Reihenfolge wäre eine Vermutung.
- */
-async function netflixStaffelPerFolgenzahl(reihe) {
-  const eintraege = await netflixStaffelnImMenue()
-  const angezeigt = angezeigteNetflixStaffel()
-  const eigene = anbieterAufteilung(reihe).filter((st) => !st.film && st.folgen > 0)
-  const offene = (offeneTitel[String(reihe)]?.staffeln ?? []).filter(
-    (st) => st.offen && !st.film && st.zustand !== 'belegt',
-  )
-  for (const st of offene) {
-    const n = Number(st.folgen)
-    if (eigene.filter((e) => e.folgen === n).length !== 1) continue
-    const treffer = eintraege.filter((e) => e.folgen === n && e.nr != null)
-    if (treffer.length !== 1) continue
-    const nr = treffer[0].nr
-    if (nr === angezeigt || selbstStaffelnVersucht.has(`${reihe}:${nr}`)) continue
-    return { nr, unsere: Number(st.nr), eintraege }
-  }
-  return { nr: null, unsere: null, eintraege }
 }
 
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
@@ -2857,7 +2903,7 @@ async function vielleichtSelbstStarten() {
       console.log(`[Anime-Kalender] Selbsttätig: Staffel ${wechsel.nr} ließ sich nicht öffnen — weiter.`)
       selbstStaffelWechsel = null
     } else if (
-      angezeigteNetflixStaffel() !== wechsel.nr ||
+      (wechsel.nr != null && angezeigteNetflixStaffel() !== wechsel.nr) ||
       Date.now() - wechsel.seit < 2000 ||
       /*
         **Und bis die Folgenliste gewechselt hat** (22.09.2026). Das Auswahlfeld zeigte schon
@@ -2879,153 +2925,75 @@ async function vielleichtSelbstStarten() {
     `[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]`, Einträge
     `li[data-uia="dropdown-menu-item"]` mit „Staffel N (M Folgen)".
   */
-  const gewaehlt = wechsel && angezeigteNetflixStaffel() === wechsel.nr ? wechsel.nr : null
   selbstStaffelWechsel = null
-  const anzeigeKandidaten = staffelnDerGruppe(reihe, DURCHLAUF.folgen)
-  const hierOffen = angezeigteStaffelHatOffenes()
   /*
-    Auch nach einem eigenen Wechsel: Ist die gewählte Staffel schon gemeldet (die Liste führt sie
-    bis zur Übernahme weiter als offen), die nächste versuchen — bei Dr. STONE sprang die Automatik
-    auf Staffel 1, fand dort nichts und übersprang den Titel, obwohl Staffel 2 offen war (22.09.2026).
-    `selbstStaffelnVersucht` verhindert den Kreis.
+    **Jede Staffel im Menü einmal — was dort offen ist, wird geprüft** (Daniel, 24.09.2026: „man
+    kann die extension einfach alle staffeln durchgehen und melden lassen wenn möglich (wenn nicht
+    bereits getan), das geht schneller und ist sowieso das ziel alles zu melden").
+
+    Bis 4.21.7 suchte die Automatik die eine richtige Staffel — über die Prüfliste, die Folgenzahl
+    im Menü, zuletzt Netflix-Staffel 1 — und übersprang den Titel, sobald die angezeigte keiner
+    unserer Staffeln eindeutig zuzuordnen war (Naruto, Baki Hanma, JoJo). Die Zuordnung braucht
+    sie nicht: Eine unklare Meldung geht ohne Staffel und ohne `titelId` hinaus, und
+    `fetch-pruefungen.ts` ordnet sie über den Folgentitel allen Titeln der Adresse zu (PoC
+    18.09.2026: 466 Treffer, alle eindeutig).
+
+    Ein Lauf, der etwas gemeldet hat, darf auf derselben Staffel noch einmal — unter einer
+    Netflix-Staffel können zwei unserer Titel liegen. Einer, der nichts gemeldet hat, macht sie
+    fertig (`selbstStaffelnGeprueft`); sonst drehte eine uneinheitliche Randprobe endlos.
   */
-  /* Was das Staffelmenü anbot — für die Spur, falls der Titel übersprungen wird. */
-  let menueFuerSpur = null
-  if (!hierOffen || (!gewaehlt && anzeigeKandidaten.length !== 1)) {
+  const hier = `${reihe}:m:${menueSchluessel(angezeigterNetflixName())}`
+  selbstStaffelnBesucht.add(hier)
+  if (selbstStaffelnGeprueft.has(hier) || !angezeigteStaffelHatOffenes()) {
     const ziel = naechsteOffeneNetflixStaffel(reihe)
-    if (ziel != null && (await netflixStaffelWaehlen(ziel))) {
+    const eintraege = ziel == null ? await netflixStaffelnImMenue() : []
+    const naechster = eintraege.find((e) => !selbstStaffelnBesucht.has(`${reihe}:m:${menueSchluessel(e.text)}`))
+    const wahl = ziel ?? naechster?.text ?? null
+    if (wahl != null && (await netflixStaffelWaehlen(wahl))) {
       selbstStaffelWechsel = {
         reihe: String(reihe),
-        nr: ziel,
+        nr: ziel ?? naechster?.nr ?? null,
         seit: Date.now(),
         bis: Date.now() + 10000,
         vorherErste: String(DURCHLAUF.folgen[0]?.videoId ?? ''),
       }
-      selbstStaffelnVersucht.add(`${reihe}:${ziel}`)
+      if (ziel != null) selbstStaffelnVersucht.add(`${reihe}:${ziel}`)
+      else selbstStaffelnBesucht.add(`${reihe}:m:${menueSchluessel(naechster.text)}`)
       selbstVersucht = null
-      console.log(`[Anime-Kalender] Selbsttätig: wechsle zu Staffel ${ziel} …`)
+      spur('nächste Staffel', { reihe: String(reihe), nach: wahl })
       return
     }
-    if (ziel == null) {
-      const perZahl = await netflixStaffelPerFolgenzahl(reihe)
-      menueFuerSpur = perZahl.eintraege
-      if (perZahl.nr != null && (await netflixStaffelWaehlen(perZahl.nr))) {
-        selbstStaffelWechsel = {
-          reihe: String(reihe),
-          nr: perZahl.nr,
-          seit: Date.now(),
-          bis: Date.now() + 10000,
-          vorherErste: String(DURCHLAUF.folgen[0]?.videoId ?? ''),
-        }
-        selbstStaffelnVersucht.add(`${reihe}:${perZahl.nr}`)
-        selbstVersucht = null
-        spur('wechsle nach Folgenzahl', { reihe: String(reihe), nach: perZahl.nr, unsere: perZahl.unsere })
-        return
-      }
-    }
-  }
-  /*
-    **Nur eine eindeutige Staffel wird selbsttätig geprüft** (21.09.2026). Bei Beastars zeigte
-    Netflix Staffel 2 vorausgewählt; drei unserer Staffeln haben je 12 Folgen, der Knopf stand
-    auf „S?", und die Automatik prüfte Staffel 2 statt der offenen Staffel 1. Von Hand sieht
-    Daniel das „S?" und wählt selbst — die Automatik überspringt den Titel und sagt es.
-  */
-  /*
-    **Nichts offen auf dieser Seite: weiter, nicht still stehen** (22.09.2026). Daniel startete
-    den Durchgang auf „Uncle from Another World", dort war alles gemeldet — `durchlaufStarten()`
-    fand nichts, kehrte zurück, und der Knopf tat sichtbar nichts.
-  */
-  if (!hierOffen) {
-    /* Diagnose (22.09.2026): Warum hier übersprungen wird, steht mit dem ganzen Zustand in der Konsole. */
-    console.log('[Anime-Kalender] Selbsttätig: hier nichts offen — übersprungen', {
+    fertigeTitel.add(String(reihe))
+    spur('Titel fertig', {
       reihe: String(reihe),
-      angezeigt: angezeigteNetflixStaffel(),
-      gewaehlt,
-      kandidaten: anzeigeKandidaten,
-      folgen: DURCHLAUF.folgen.length,
-      ersteFolge: DURCHLAUF.folgen[0]?.videoId ?? null,
-      geladeneStaffeln: [...folgenJeStaffel(DURCHLAUF.alleFolgen ?? []).values()].map((g) => g.length),
-      versucht: [...selbstStaffelnVersucht],
-    })
-    spur('nichts offen', {
-      reihe: String(reihe),
-      angezeigt: angezeigteNetflixStaffel(),
-      folgen: DURCHLAUF.folgen.length,
+      angezeigt: angezeigterNetflixName(),
+      menue: eintraege.map((e) => e.text),
       gemeldet: DURCHLAUF.gemeldet?.size ?? null,
-      kandidaten: anzeigeKandidaten,
-      menue: (menueFuerSpur ?? []).map((e) => e.text),
     })
     selbstUebersprungen.add(String(reihe))
     selbstWeiter()
     return
   }
-  const kandidaten = staffelnDerGruppe(reihe, DURCHLAUF.folgen)
-  /* Selbst gewählt heißt: Die Staffel ist bekannt, auch wenn die Folgenzahlen mehrdeutig sind. */
-  if (kandidaten.length !== 1 && !(gewaehlt && kandidaten.includes(gewaehlt))) {
-    console.log(
-      `[Anime-Kalender] Selbsttätig: ${offeneTitel[String(reihe)]?.titel ?? reihe} übersprungen — ` +
-        'die angezeigte Staffel ist nicht eindeutig (S?). Bitte von Hand die offene Staffel wählen.',
-    )
-    /*
-      **Bei einer einzigen eigenen Staffel auf Netflix-Staffel 1 wechseln, statt aufzugeben**
-      (Daniel, 24.09.2026, mit Bericht: „naruto wurde wieder übersprungen. die anderen 2 dafür
-      nicht"). Netflix öffnet eine Reihe auf ihrer **letzten** Staffel — bei Shippuden Staffel 21
-      mit den Folgen 480–500. Dort passen die Nummern, bei Naruto nicht (die Spur zeigte keinen
-      Kandidaten). Ob Netflix dort neu zu zählen beginnt oder über unsere Folgenzahl hinaus zählt:
-      Staffel 1 beginnt in beiden Fällen mit unserer ersten Folge.
-    */
-    const eigene = anbieterAufteilung(reihe).filter((st) => !st.film && st.folgen > 0)
-    const angezeigtJetzt = angezeigteNetflixStaffel()
-    if (
-      eigene.length === 1 &&
-      angezeigtJetzt != null &&
-      angezeigtJetzt > 1 &&
-      !selbstStaffelnVersucht.has(`${reihe}:1`) &&
-      (await netflixStaffelWaehlen(1))
-    ) {
-      selbstStaffelWechsel = {
-        reihe: String(reihe),
-        nr: 1,
-        seit: Date.now(),
-        bis: Date.now() + 10000,
-        vorherErste: String(DURCHLAUF.folgen[0]?.videoId ?? ''),
-      }
-      selbstStaffelnVersucht.add(`${reihe}:1`)
-      selbstVersucht = null
-      spur('wechsle zu Netflix-Staffel 1', { reihe: String(reihe), angezeigt: angezeigtJetzt })
-      return
-    }
-    const nummernHier = DURCHLAUF.folgen.map((f) => Number(f.nummer)).filter(Number.isFinite)
-    spur('Staffel nicht eindeutig', {
-      reihe: String(reihe),
-      kandidaten,
-      gewaehlt,
-      angezeigt: angezeigtJetzt,
-      folgen: nummernHier.length,
-      von: nummernHier.length ? Math.min(...nummernHier) : null,
-      bis: nummernHier.length ? Math.max(...nummernHier) : null,
-      eigene: eigene.map((st) => `${st.nr}:${st.erste}+${st.folgen}`),
-      menue: (menueFuerSpur ?? []).map((e) => e.text),
-    })
-    selbstUebersprungen.add(String(reihe))
-    selbstWeiter()
-    return
-  }
-  /* Diese Staffel ist ab jetzt versucht — sonst wechselt der nächste Anlauf wieder hierher. */
   const angezeigt = angezeigteNetflixStaffel()
   if (angezeigt != null) selbstStaffelnVersucht.add(`${reihe}:${angezeigt}`)
-  spur('Durchlauf startet', { reihe: String(reihe), folgen: DURCHLAUF.folgen.length })
+  spur('Durchlauf startet', {
+    reihe: String(reihe),
+    staffel: angezeigterNetflixName(),
+    folgen: DURCHLAUF.folgen.length,
+    kandidaten: staffelnDerGruppe(reihe, DURCHLAUF.folgen),
+  })
   console.log('[Anime-Kalender] Selbsttätiger Durchgang startet …')
+  const vorher = DURCHLAUF.gemeldet?.size ?? 0
   DURCHLAUF.selbst = true
   DURCHLAUF.gesamt = 0
   await durchlaufStarten(RAND)
   DURCHLAUF.selbst = false
+  if ((DURCHLAUF.gemeldet?.size ?? 0) === vorher) selbstStaffelnGeprueft.add(hier)
   /* Fand der Durchlauf nichts zu tun, kam er nie bis zum Weitergehen — dann hier weiter. */
   if (!DURCHLAUF.gesamt && selbstAn) {
     spur('Durchlauf fand nichts', { reihe: String(reihe), folgen: DURCHLAUF.folgen.length })
-    console.log('[Anime-Kalender] Selbsttätig: hier nichts zu prüfen — weiter.')
-    selbstUebersprungen.add(String(reihe))
-    selbstWeiter()
+    selbstVersucht = null
+    setTimeout(() => void vielleichtSelbstStarten(), 500)
   }
 }
 
@@ -3578,7 +3546,11 @@ function staffelFuerFolge(reihe, f) {
   const gruppe = (DURCHLAUF.alleFolgen ?? DURCHLAUF.folgen).filter((x) => String(x.seasonId ?? '') === kennung)
   const kandidaten = staffelnDerGruppe(reihe, gruppe.length ? gruppe : [f])
   if (kandidaten.length === 1) return kandidaten[0]
-  if (String(stand.folge ?? '') === String(f.videoId) && Number.isFinite(Number(stand.staffel))) {
+  if (
+    rechnetInNetflixStaffeln(reihe) &&
+    String(stand.folge ?? '') === String(f.videoId) &&
+    Number.isFinite(Number(stand.staffel))
+  ) {
     const zeigt = Number(stand.staffel)
     if (!kandidaten.length || kandidaten.includes(zeigt)) return zeigt
   }
@@ -3679,8 +3651,9 @@ function staffelnDerGruppe(reihe, gruppe) {
     const faengtNeuAn = kleinste === st.erste && angezeigt != null && angezeigt > 1
     if (kleinste >= st.erste && groesste <= st.erste + st.folgen - 1 && !faengtNeuAn) return [st.nr]
   }
-  /* Im Player nennt Netflix die Staffel selbst. */
-  if (imPlayer() && Number.isFinite(Number(stand.staffel))) return [Number(stand.staffel)]
+  /* Im Player nennt Netflix die Staffel selbst — in Netflix' Zählung. */
+  if (rechnetInNetflixStaffeln(reihe) && imPlayer() && Number.isFinite(Number(stand.staffel)))
+    return [Number(stand.staffel)]
   return []
 }
 
@@ -4227,9 +4200,8 @@ async function durchlaufStarten(grenze) {
     const seite = String(titelDerAdresse() ?? '')
     selbstRundenHier = selbstRundenSeite === seite ? selbstRundenHier + 1 : 1
     selbstRundenSeite = seite
-    /* Oder eine andere Staffel dieses Titels ist noch offen — dann wechselt der nächste Anlauf dorthin. */
-    const nochStaffel = naechsteOffeneNetflixStaffel(gemeinteReihe()) != null
-    if ((angezeigteStaffelHatOffenes() || nochStaffel) && selbstRundenHier < 6) {
+    /* Ob hier noch etwas offen ist oder eine andere Staffel dran ist, entscheidet der nächste Anlauf. */
+    if (selbstRundenHier < SELBST_RUNDEN_JE_TITEL) {
       selbstVersucht = null
       setTimeout(() => void vielleichtSelbstStarten(), 1500)
     } else if (selbstGezaehlt >= SELBST_HOECHSTENS) laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
@@ -4793,6 +4765,7 @@ function durchlaufKnopfZeigen() {
     const kasten = netflixKasten()
     kasten.querySelector('.ak-z-melden')?.appendChild(DURCHLAUF.leiste)
     netflixDebugZeile(kasten)
+    durchgangEndeZeigen()
     schutzflaecheZeigen(true)
   }
   /**

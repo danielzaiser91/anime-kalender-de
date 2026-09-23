@@ -33,7 +33,7 @@ const schneide = (name) => {
 }
 
 /* 1. Staffelzuordnung bei einer einzigen eigenen Staffel. */
-const teile = ['anbieterAufteilung', 'folgenJeStaffel', 'staffelPerKennung', 'staffelnDerGruppe'].map(schneide)
+const teile = ['anbieterAufteilung', 'rechnetInNetflixStaffeln', 'folgenJeStaffel', 'staffelPerKennung', 'staffelnDerGruppe'].map(schneide)
 pruefe('Funktionen der Staffelzuordnung auffindbar', teile.every(Boolean))
 
 function kandidaten({ staffeln, nummern, angezeigt = null }) {
@@ -82,60 +82,56 @@ pruefe('vielleichtSelbstStarten prüft, wem die Liste gehört', riegel > 0)
 pruefe('… bevor es über Staffeln entscheidet', riegel > 0 && riegel < start.indexOf('staffelnDerGruppe('))
 pruefe('… und gibt nach einer Frist auf, statt still zu hängen', /spur\('keine Folgenliste'/.test(start))
 
-/* Naruto (24.09.2026): Netflix öffnet die letzte Staffel — erst auf Staffel 1 wechseln, dann aufgeben. */
-const wechsel = start.indexOf('netflixStaffelWaehlen(1)')
-const aufgeben = start.indexOf("spur('Staffel nicht eindeutig'")
-pruefe('bei einer eigenen Staffel erst Netflix-Staffel 1 versuchen', wechsel > 0 && wechsel < aufgeben)
-pruefe('… nur einmal je Titel', /!selbstStaffelnVersucht\.has\(`\$\{reihe\}:1`\)/.test(start))
-pruefe('die Spur nennt Staffel und Nummernbereich', /angezeigt: angezeigtJetzt,[\s\S]{0,200}von:/.test(start))
+/*
+  Seit 24.09.2026 (Daniel: „man kann die extension einfach alle staffeln durchgehen und melden
+  lassen"): kein Überspringen wegen unklarer Staffel mehr, stattdessen jede Menü-Staffel einmal.
+*/
+pruefe('kein Überspringen wegen unklarer Staffel', !/Staffel nicht eindeutig/.test(start))
+pruefe('die nächste unbesuchte Staffel im Menü wird gewählt', /eintraege\.find\(\(e\) => !selbstStaffelnBesucht\.has/.test(start))
+pruefe('ein Lauf ohne neue Meldung macht die Staffel fertig', /=== vorher\) selbstStaffelnGeprueft\.add\(hier\)/.test(start))
+const wahlCode = schneide('netflixStaffelWaehlen')
+pruefe('die Staffelwahl nimmt auch einen Menütext', /typeof ziel === 'string'/.test(wahlCode))
 
-/* Baki Hanma (24.09.2026): die offene Staffel über ihre Folgenzahl im Menü finden. */
-const menuTeile = ['anbieterAufteilung', 'netflixStaffelPerFolgenzahl'].map(schneide)
-pruefe('Menüwahl auffindbar', menuTeile.every(Boolean))
-async function perZahl({ staffeln, menue, angezeigt = 1 }) {
+/* Menüeintrag und Auswahlknopf müssen denselben Schlüssel ergeben. */
+const schluesselCode = schneide('menueSchluessel')
+const menueSchluessel = new Function(schluesselCode + '\nreturn menueSchluessel')()
+pruefe('„Staffel 2 (27 Folgen)" und „Staffel 2" sind dieselbe', menueSchluessel('Staffel 2 (27 Folgen)') === menueSchluessel('Staffel 2'))
+pruefe('„Golden Wind" bleibt „golden wind"', menueSchluessel(' Golden Wind ') === 'golden wind')
+pruefe('zwei Staffeln bleiben verschieden', menueSchluessel('Staffel 1') !== menueSchluessel('Staffel 11'))
+
+/*
+  JoJo (24.09.2026): „Golden Wind" ist Netflix-Staffel 4, bei uns Staffel 5. Die Zahl des Players
+  darf in unserer Zählung nicht gelten — sonst ginge die Meldung an „Diamond Is Unbreakable".
+*/
+const fuerFolge = ['anbieterAufteilung', 'rechnetInNetflixStaffeln', 'folgenJeStaffel', 'staffelPerKennung', 'staffelnDerGruppe', 'staffelFuerFolge'].map(schneide)
+function staffelVomPlayer({ netflixZaehlung = false }) {
+  const f = { nummer: 1, videoId: 9001, seasonId: 'gw' }
   const kontext = {
-    anbieterStaffeln: {},
-    offeneTitel: { 1: { titel: 'Test', staffeln } },
-    selbstStaffelnVersucht: new Set(),
-    angezeigteNetflixStaffel: () => angezeigt,
-    netflixStaffelnImMenue: async () => menue,
+    MELDUNGEN: new Map(),
+    /* Gespeicherte Anbieter-Staffeln heißen: unsere Zählung ist Netflix'. */
+    anbieterStaffeln: netflixZaehlung ? { 1: [{ seq: 3, folgen: 39 }, { seq: 4, folgen: 39 }] } : {},
+    offeneTitel: {
+      1: {
+        titel: 'JoJo',
+        staffeln: [
+          { nr: 4, folgen: 39, film: false, offen: true },
+          { nr: 5, folgen: 39, film: false, offen: true },
+        ],
+      },
+    },
+    DURCHLAUF: { alleFolgen: Array.from({ length: 39 }, (_, i) => ({ nummer: i + 1, videoId: 9001 + i, seasonId: 'gw' })) },
+    stand: { staffel: 4, folge: 9001 },
+    imPlayer: () => true,
+    angezeigteNetflixStaffel: () => null,
+    f,
     ergebnis: null,
   }
   vm.createContext(kontext)
-  vm.runInContext(menuTeile.join('\n\n') + '\nergebnis = netflixStaffelPerFolgenzahl(1)', kontext)
-  return (await kontext.ergebnis)?.nr ?? null
+  vm.runInContext(fuerFolge.join('\n\n') + '\nergebnis = staffelFuerFolge(1, f)', kontext)
+  return kontext.ergebnis
 }
-const eintrag = (nr, folgen) => ({ text: `Staffel ${nr} (${folgen} Folgen)`, nr, folgen })
-;(async () => {
-  pruefe(
-    'Baki Hanma: Staffel 1 belegt, Staffel 2 (27) offen → Netflix-Staffel 2',
-    (await perZahl({
-      staffeln: [
-        { nr: 1, folgen: 12, film: false, offen: false, zustand: 'belegt' },
-        { nr: 2, folgen: 27, film: false, offen: true, zustand: 'erneut' },
-      ],
-      menue: [eintrag(1, 12), eintrag(2, 27)],
-    })) === 2,
-  )
-  pruefe(
-    'JoJo: zweimal 39 Folgen → keine Wahl',
-    (await perZahl({
-      staffeln: [
-        { nr: 4, folgen: 39, film: false, offen: true, zustand: 'erneut' },
-        { nr: 5, folgen: 39, film: false, offen: true, zustand: 'erneut' },
-      ],
-      menue: [eintrag(3, 39), eintrag(4, 39)],
-    })) === null,
-  )
-  pruefe(
-    'keine passende Folgenzahl im Menü → keine Wahl',
-    (await perZahl({
-      staffeln: [{ nr: 2, folgen: 27, film: false, offen: true, zustand: 'erneut' }],
-      menue: [eintrag(1, 12), eintrag(2, 13)],
-    })) === null,
-  )
-  schluss()
-})()
+pruefe('JoJo in unserer Zählung: die Player-Staffel 4 gilt nicht → ohne Staffel', staffelVomPlayer({}) === null)
+pruefe('in Netflix-Zählung gilt sie weiter', staffelVomPlayer({ netflixZaehlung: true }) === 4)
 
 const pfad = schneide('pfadPruefen')
 pruefe('pfadPruefen leert beim Titelwechsel auch die angezeigte Liste', /DURCHLAUF\.folgen = \[\]/.test(pfad))
@@ -156,3 +152,5 @@ function schluss() {
   }
   console.log('Alle Zusicherungen zum Durchgang halten.')
 }
+
+schluss()

@@ -376,25 +376,26 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   /* 21.09.2026: Knopf statt Schalter — ein Lauf endet von selbst. */
   pruefe('im Lauf bricht ein Klick ab, statt verworfen zu werden', /if \(DURCHLAUF\.laeuft\) \{\s*DURCHLAUF\.abbruch = true/.test(quelle))
   pruefe('auf der Titelseite gilt die Adresse vor dem alten Player-Stand', /const hierTitel = !imPlayer\(\) \? titelDerAdresse\(\) : null/.test(quelle))
-  pruefe('bleibt auf der Seite etwas offen, laeuft die Automatik dort weiter', /\(angezeigteStaffelHatOffenes\(\) \|\| nochStaffel\) && selbstRundenHier < 6/.test(quelle))
+  /* Seit 24.09.2026 fragt jeder Anlauf selbst, ob hier noch etwas offen ist oder die nächste Staffel dran ist. */
+  pruefe('nach einem Lauf fragt die Automatik auf der Seite erneut', /if \(selbstRundenHier < SELBST_RUNDEN_JE_TITEL\) \{/.test(quelle))
   pruefe('kein offener Auftrag mehr beendet den Lauf', /if \(!naechster\) return laufBeenden\(/.test(weiter))
   pruefe('Abbruch oder Stoerung beenden den Lauf', /\(DURCHLAUF\.abbruch \|\| DURCHLAUF\.stoerung\)\) \{\s*laufBeenden/.test(quelle))
   pruefe(
     'der Lauf gehoert dem Tab, der ihn startet (sessionStorage, nicht chrome.storage)',
     /sessionStorage\.setItem\(LAUF_SCHLUESSEL/.test(quelle) && !/netflixLauf/.test(quelle),
   )
-  pruefe('ohne offene Folge auf der Seite springt die Automatik weiter', /if \(!hierOffen\) \{[\s\S]{0,900}?selbstUebersprungen\.add\(String\(reihe\)\)\s*selbstWeiter\(\)/.test(quelle) && /await durchlaufStandLaden\(reihe\)\s*\/\*\s*\*\*Die Automatik/.test(quelle))
+  pruefe('ohne offene Folge und ohne weitere Staffel springt die Automatik weiter', /if \(selbstStaffelnGeprueft\.has\(hier\) \|\| !angezeigteStaffelHatOffenes\(\)\) \{[\s\S]{0,1800}?selbstUebersprungen\.add\(String\(reihe\)\)\s*selbstWeiter\(\)/.test(quelle) && /await durchlaufStandLaden\(reihe\)\s*\/\*\s*\*\*Die Automatik/.test(quelle))
   pruefe(
     'die Automatik waehlt die offene Staffel im Netflix-Auswahlfeld',
     /\[data-uia="episode-selector"\] button\[data-uia="dropdown-toggle"\]/.test(quelle) &&
       /li\[data-uia="dropdown-menu-item"\]/.test(quelle) &&
-      /await netflixStaffelWaehlen\(ziel\)/.test(quelle),
+      /await netflixStaffelWaehlen\(wahl\)/.test(quelle),
   )
   pruefe(
     'der Wechsel nur bei Listen in Netflix-Zaehlung',
     /if \(eintrag\?\.laut !== 'anbieter-gerechnet'\) return null/.test(quelle),
   )
-  pruefe('eine weitere offene Staffel haelt die Automatik auf der Seite', /angezeigteStaffelHatOffenes\(\) \|\| nochStaffel/.test(quelle))
+  pruefe('jede Staffel im Menue wird einmal besucht', /eintraege\.find\(\(e\) => !selbstStaffelnBesucht\.has/.test(quelle))
   pruefe(
     'eine Folgenliste waehrend des Laufs wird aufgehoben und danach uebernommen',
     /DURCHLAUF\.listeNachLauf = e\.data/.test(quelle) && /nachrichtEmpfangen\(\{ source: window, data: liste \}\)/.test(quelle),
@@ -404,13 +405,17 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
     /if \(ziel && DURCHLAUF\.leiste\.parentElement !== ziel\) \{\s*ziel\.appendChild\(DURCHLAUF\.leiste\)[\s\S]{0,200}?netflixDebugZeile\(netflixKasten\(\)\)/.test(quelle),
   )
   pruefe(
-    'eine selbst gewaehlte, schon gemeldete Staffel fuehrt zum naechsten Wechsel',
-    /if \(!hierOffen \|\| \(!gewaehlt && anzeigeKandidaten\.length !== 1\)\) \{/.test(quelle),
+    'eine Staffel, auf der ein Lauf nichts meldete, ist fertig',
+    /if \(\(DURCHLAUF\.gemeldet\?\.size \?\? 0\) === vorher\) selbstStaffelnGeprueft\.add\(hier\)/.test(quelle),
   )
   pruefe('nach dem Staffelwechsel wird auf die neue Folgenliste gewartet', quelle.includes("String(DURCHLAUF.folgen[0]?.videoId ?? '') === wechsel.vorherErste"))
   pruefe('kein dauerhafter Schalter mehr', !/netflixSelbst/.test(quelle) && /▶ alle durchgehen/.test(quelle))
   pruefe('ein uebersprungener Titel (S?) wird nicht wieder angesteuert', /selbstUebersprungen\.has\(kennung\)/.test(wahl))
-  pruefe('selbsttaetig nur bei eindeutiger Staffel', /kandidaten\.length !== 1/.test(quelle) && /staffelnDerGruppe\(reihe, DURCHLAUF\.folgen\)/.test(quelle))
+  /* Seit 24.09.2026 geprüft statt übersprungen — die Zahl des Players zählt nur in Netflix' Zählung. */
+  pruefe(
+    'eine unklare Staffel wird geprueft, nicht uebersprungen',
+    !/Staffel nicht eindeutig/.test(quelle) && /rechnetInNetflixStaffeln\(reihe\) &&\s*String\(stand\.folge/.test(quelle),
+  )
   pruefe('die Folgenliste wird gegen die Adresse verglichen', /titelDerAdresse\(\) \?\? gemeinteReihe\(\)/.test(quelle))
   pruefe('ein Titelwechsel verwirft den Player-Stand der vorigen Seite', /String\(stand\.reihe \?\? ''\) !== titelHier/.test(quelle))
   pruefe('ein toter Verweis wird uebersprungen', /istErledigt\(kennung, 'tot'\)/.test(wahl))

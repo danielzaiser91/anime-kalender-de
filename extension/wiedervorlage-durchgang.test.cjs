@@ -38,6 +38,7 @@ const namen = [
   'folgeZustand',
   'folgenJeStaffel',
   'staffelPerKennung',
+  'rechnetInNetflixStaffeln',
   'staffelnDerGruppe',
   'zustandDerFolge',
   'geladeneZustaende',

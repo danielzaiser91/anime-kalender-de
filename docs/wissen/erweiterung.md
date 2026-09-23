@@ -1784,3 +1784,31 @@ Dazu: Die Randprobe meldet sechs Folgen gleichzeitig. Nacheinander brauchten 52 
 Sekunden. Der Worker löscht und schreibt je Folge (`folge_nr`, `gti`), die Anfragen stören sich
 nicht; das Abhaken im lokalen Speicher bleibt der Reihe nach, weil es liest und schreibt.
 Zusicherungen: `extension/durchgang-fremde-liste.test.cjs`.
+
+## Der Durchgang besucht jede Staffel — die Zuordnung macht der Zuordner (24.09.2026)
+
+Bis 4.21.7 suchte die Automatik je Titel die eine richtige Netflix-Staffel (über die Prüfliste,
+dann die Folgenzahl im Menü, dann Netflix-Staffel 1) und übersprang den Titel, wenn die angezeigte
+keiner unserer Staffeln eindeutig zuzuordnen war. Naruto, Baki Hanma und JoJo fielen so durch.
+Daniel: „man kann die extension einfach alle staffeln durchgehen und melden lassen wenn möglich
+(wenn nicht bereits getan), das geht schneller und ist sowieso das ziel alles zu melden".
+
+Seit 4.21.8 prüft sie die angezeigte Staffel, wenn dort etwas offen ist, und geht danach jede
+noch nicht besuchte Staffel im Menü durch (`selbstStaffelnBesucht`, Schlüssel über
+`menueSchluessel()`, weil Menüeintrag „Staffel 2 (27 Folgen)" und Knopf „Staffel 2" sich
+unterscheiden). Ein Lauf ohne neue Meldung macht die Staffel fertig (`selbstStaffelnGeprueft`),
+sonst drehte eine uneinheitliche Randprobe endlos.
+
+**Warum das ohne Zuordnung in der Erweiterung trägt:** `fetch-pruefungen.ts` ordnet
+Netflix-Meldungen über den Folgentitel zu (`lib/folgentitel-anker.ts`, PoC 18.09.2026: 466
+Treffer, alle eindeutig). Das gilt aber nur unter den Titeln, die die Meldung zulässt: Eine
+mitgeschickte `titelId` legt sie fest. **Die Staffelzahl des Players ist Netflix' Zählung.** Bei
+JoJo ist „Golden Wind" Netflix-Staffel 4 und bei uns Staffel 5; `staffelFuerFolge()` machte daraus
+unsere 4, „Diamond Is Unbreakable", und die `titelId` hätte dem Zuordner den richtigen Titel
+entzogen. Die Player-Zahl gilt deshalb nur noch, wo unsere Zählung Netflix' ist
+(`rechnetInNetflixStaffeln()`: gespeicherte Anbieter-Staffeln oder `laut: anbieter-gerechnet`).
+Sonst geht eine unklare Meldung ohne Staffel und ohne `titelId` hinaus.
+
+Das Ende des Durchgangs steht im Kasten („Durchgang fertig · übersprungen: …"), nicht nur in der
+Konsole — Daniel hielt das stille Ende für ein Hängen.
+
