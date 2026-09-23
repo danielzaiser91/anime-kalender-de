@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 22.09.2026 um 14:37 Uhr
+**Unauffällig** · zuletzt 23.09.2026 um 14:45 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -15,27 +15,24 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 1 Urteile verloren; adn: 1 Synchro-Belege weniger
+- 1 Urteile verloren; primevideo: 1 Synchro-Belege weniger
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-16 Läufe in den letzten 1 Tagen (489 insgesamt)
+22 Läufe in den letzten 1 Tagen (511 insgesamt)
 
-21.09., 15:38  Bestand — zusammenführ   verweise -2, mitUrteil -2, termine +1
-21.09., 16:26  Bestand — zusammenführ   verweise +4, mitUrteil +5, ohneUrteil -1, titelMitSynchro +1
-21.09., 16:43  Bestand — zusammenführ   verweise +2, mitUrteil +2, titelMitSynchro +1
-21.09., 16:49  Bestand — zusammenführ   verweise -1, mitUrteil -1, releases -1, termine -1
-            ⚠  1 Urteile verloren; adn: 1 Synchro-Belege weniger
-22.09., 01:45  Bestand — zusammenführ   termine +5
-22.09., 07:50  Bestand — zusammenführ   termine +2
-22.09., 08:02  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2
-22.09., 08:12  Bestand — zusammenführ   verweise -1, mitUrteil +1, ohneUrteil -2
-22.09., 08:59  Bestand — zusammenführ   verweise +1, ohneUrteil +1
-22.09., 09:29  Bestand — zusammenführ   releases +2, termine +13
+22.09., 16:11  Bestand — zusammenführ   verweise +39, mitUrteil +38, ohneUrteil +1, titelMitSynchro +2
+22.09., 16:48  Bestand — zusammenführ   verweise -1, mitUrteil -1
+            ⚠  1 Urteile verloren; primevideo: 1 Synchro-Belege weniger
+23.09., 00:47  Bestand — zusammenführ   termine +3
+23.09., 05:45  Bestand — zusammenführ   releases +1
+23.09., 06:12  Bestand — zusammenführ   termine +2
+23.09., 09:32  Bestand — zusammenführ   releases +1, termine +1
+23.09., 11:35  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1
 
-Stand jetzt: 2775 Titel, 2092 Urteile, 3 offen
-Über den Zeitraum: Titel 0, Urteile +8, offen -4
+Stand jetzt: 2775 Titel, 2130 Urteile, 3 offen
+Über den Zeitraum: Titel 0, Urteile +38, offen 0
 
 ⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
@@ -65,6 +62,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 23.09.2026 14:45 | 2775 / 2130 / 3 | Titel 0, Urteile +38, offen 0 | unauffällig |
 | 22.09.2026 14:37 | 2775 / 2092 / 3 | Titel 0, Urteile +8, offen -4 | unauffällig |
 | 21.09.2026 16:10 | 2775 / 2086 / 7 | Titel 0, Urteile -4, offen +3 | unauffällig |
 | 20.09.2026 14:23 | 2775 / 2090 / 4 | Titel +3, Urteile +25, offen 0 | unauffällig |
