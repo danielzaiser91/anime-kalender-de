@@ -61,6 +61,7 @@ import { adnAdresseSchaerfen, adnFolgenAdresse } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { bereicheGekuerzt, bereicheKurz, dubBild, dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { riegelGreift } from './lib/youtube-riegel.ts'
+import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
@@ -1698,6 +1699,33 @@ console.log('\nStreaming Availability API:')
   )
   /* Ohne Meldung gibt es keinen Push — das Ziel bleibt trotzdem beantwortbar. */
   pruefe('ohne Meldung die Favoritenansicht', pushZiel([], []) === '#/favoriten')
+}
+
+/**
+ * **Ein „weg" für eine Staffel streicht nicht den ganzen Weg** (Daniel, 23.09.2026).
+ *
+ * Prime führt Fairy Tail unter einer Adresse: Staffel 1 regionsgesperrt, 2 bis 9 zum Kauf.
+ */
+{
+  console.log('\nWann ein „weg" die ganze Adresse entwertet')
+
+  const m = (befund: string, staffel?: number) => ({ befund, staffel: staffel ?? null })
+
+  pruefe('ohne Staffelangabe gilt es der ganzen Seite', wegGiltGanzerAdresse([m('weg')], 9))
+  pruefe('bei einem einzigen Titel an der Adresse ebenso', wegGiltGanzerAdresse([m('weg', 1)], 1))
+  pruefe(
+    'Fairy Tail: „weg" für Staffel 1 lässt die Adresse stehen',
+    !wegGiltGanzerAdresse([m('dub', 2), m('weg', 1)], 9),
+  )
+  pruefe(
+    'sind alle Staffeln weg, ist auch die Adresse weg',
+    wegGiltGanzerAdresse([m('weg', 1), m('weg', 2), m('weg', 3)], 3),
+  )
+  pruefe(
+    'eine jüngere Fundmeldung hebt das „weg" auf',
+    !wegGiltGanzerAdresse([m('weg'), m('dub', 1)], 1),
+  )
+  pruefe('ohne Meldungen gibt es nichts zu entwerten', !wegGiltGanzerAdresse([], 3))
 }
 
 /**

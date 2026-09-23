@@ -15,6 +15,7 @@
  * Aufruf: npm run data:pruefungen
  */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import yaml from 'js-yaml'
 import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { dirname, resolve } from 'node:path'
@@ -862,7 +863,14 @@ for (const gruppe of jeAdresse.values()) {
    * Ein Nachschlagen ist eine Momentaufnahme. Die jüngere ist die bessere.
    */
   const jueng = [...gruppe].sort((a, b) => (a.gemeldet_am < b.gemeldet_am ? -1 : 1))
-  const weg = jueng[jueng.length - 1]?.befund === 'weg' ? jueng[jueng.length - 1] : undefined
+  /*
+    **Ein „weg" für eine Staffel streicht nicht den ganzen Weg** (Daniel, 23.09.2026).
+
+    Prime führt Fairy Tail unter einer Adresse: Staffel 1 regionsgesperrt, 2 bis 9 zum Kauf.
+    Eine Meldung zu Staffel 1 als letzte hätte den ganzen Prime-Weg entfernt. Die Regel steht
+    in `lib/weg-entwerten.ts` und ist dort zugesichert.
+  */
+  const weg = wegGiltGanzerAdresse(jueng, ids.length) ? jueng[jueng.length - 1] : undefined
 
   const meldungen = gruppe
     .filter((x) => x.befund !== 'weg' && x.folge_nr != null)
