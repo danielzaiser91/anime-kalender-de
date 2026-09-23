@@ -554,6 +554,7 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - Kein Weg auf eine Datenbank — Videoload über die MagentaTV-Kennung (22.09.2026)
 - Ein Befund über eine laufende Serie altert im Wochentakt (23.09.2026)
 - JustWatch drosselt nach mehreren Läufen kurz hintereinander (23.09.2026)
+- aniSearch weist unsere Kennung ab, nicht unsere Leitung (23.09.2026)
 
 ### [Betrieb: Läufe, Worker, Git, Prüfungen](docs/wissen/betrieb.md)
 
@@ -581,6 +582,7 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - Die Erweiterung zählt zweistellig — und hinten
 - Eine Unterabfrage ohne Index kostet das Tageskontingent
 - Der Auslöser war die Unterabfrage — die Ursache war der Takt
+- wrangler braucht `--config wrangler.toml` — sonst sieht es aus wie ein Rechteproblem (23.09.2026)
 
 ### [Bau und Anzeige](docs/wissen/datensatz.md)
 

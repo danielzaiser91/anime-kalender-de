@@ -2758,3 +2758,29 @@ vorziehen will, hat dafür kein Mittel, und drei Läufe sind keins.
 Limit. Braucht ein einzelner Titel eine Antwort, ist der richtige Weg, ihn in der
 Warteschlange nach vorn zu bringen (`kennungGewechselt`, `dringend`) — nicht, den ganzen Lauf
 größer zu machen.
+
+## aniSearch weist unsere Kennung ab, nicht unsere Leitung (23.09.2026)
+
+Vier Tage lang lieferte `data:anisearch` nichts, und die Schweigen-Prüfung machte jeden
+Bestandslauf rot. Die naheliegende Erklärung — aniSearch sperrt die GitHub-Runner — trägt
+nicht. Gemessen von Daniels Anschluss, an denselben Kennungen aus dem Protokoll:
+
+| Abruf | Kennung | Ergebnis |
+|---|---|---|
+| eigene Probe, 7 Adressen im 1,5-s-Takt | Chrome-Kennung | 6 × HTTP 200 |
+| `fetch-anisearch.ts --limit 15` | `anime-kalender.de/1.0 (+…)` | 4 × HTTP 423, dann `fetch failed` |
+| Gegenprobe, dieselbe Adresse, Minuten später | alle Kennungen | `ConnectTimeoutError` |
+
+Zwei Dinge stehen damit fest: Die **423 hängen an der Kennung** — dieselbe IP, dieselbe
+Minute, einmal mit und einmal ohne Antwort. Und **nach einigen Versuchen sperrt aniSearch die
+IP ganz**, auch die von Daniels Anschluss.
+
+Die ehrliche Kennung ist eine bewusste Entscheidung vom 09.08.2026 (eine gefälschte
+Browser-Kennung nimmt dem Betreiber die Möglichkeit, den Verursacher anzuschreiben, statt ihn
+auszusperren). Sie zu tauschen ist deshalb keine technische Kleinigkeit, sondern die Umkehr
+dieser Entscheidung — sie gehört Daniel vorgelegt. Ein Mittelweg wäre, beides in eine Zeile zu
+setzen: Browser-Signatur **und** Projektkennung mit Kontaktadresse.
+
+**Solange die Sperre steht, wird nicht abgerufen** — jeder Versuch verlängert sie. Und: Der
+Bestandslauf bricht zurzeit an einer gesperrten Fremdquelle ab, obwohl der Bestand in Ordnung
+ist; ob die Schweigen-Prüfung dafür nur warnen soll, ist offen (Issue #214).

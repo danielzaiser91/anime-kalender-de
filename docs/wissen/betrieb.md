@@ -836,3 +836,29 @@ erst, wenn `pruefung.staffel` jede davon enthält. Ziele ohne Staffelangabe blei
 `tools/pruefstand.mjs` setzt `erzeugtAm` auf jetzt; der Worker zählt nur Meldungen danach. Am
 22.09.2026 standen dadurch Haikyu!! und Dr. STONE S1 wieder als offen, obwohl beide im Briefkasten
 lagen — bis zur nächsten Übernahme. Wer die Datei lokal braucht, committet sie erst nach dem Datenlauf.
+
+## wrangler braucht `--config wrangler.toml` — sonst sieht es aus wie ein Rechteproblem (23.09.2026)
+
+In `status.md` stand seit dem 27.08.2026, die Worker-Migration 016 warte auf D1-Rechte:
+`wrangler d1 migrations apply` scheitere an einem OAuth-Token ohne D1-Berechtigung. Nachgesehen
+am 23.09.2026 — es fehlt nichts:
+
+```
+cd worker
+npx wrangler d1 migrations list DB --remote --config wrangler.toml
+→ ✅ No migrations to apply!
+```
+
+Ohne `--config` sucht wrangler eine `wrangler.jsonc`, findet die `wrangler.toml` dieses Projekts
+nicht und meldet:
+
+```
+X [ERROR] Couldn't find a D1 DB with the name or binding 'DB' in your wrangler.jsonc file.
+```
+
+Das liest sich wie ein fehlendes Recht und ist ein fehlender Schalter. Am selben Tag ist darüber
+Migration 036 (`offen_ziel`) angewandt und der Worker ausgeliefert worden.
+
+**Die allgemeine Form:** Eine Fehlermeldung über eine fehlende Ressource sagt nicht, dass sie
+fehlt — sie sagt, dass das Werkzeug sie nicht gefunden hat. Vier Wochen lang galt hier eine
+Aufgabe als blockiert, die es nie war.
