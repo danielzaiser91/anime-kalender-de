@@ -82,6 +82,13 @@ pruefe('vielleichtSelbstStarten prüft, wem die Liste gehört', riegel > 0)
 pruefe('… bevor es über Staffeln entscheidet', riegel > 0 && riegel < start.indexOf('staffelnDerGruppe('))
 pruefe('… und gibt nach einer Frist auf, statt still zu hängen', /spur\('keine Folgenliste'/.test(start))
 
+/* Naruto (24.09.2026): Netflix öffnet die letzte Staffel — erst auf Staffel 1 wechseln, dann aufgeben. */
+const wechsel = start.indexOf('netflixStaffelWaehlen(1)')
+const aufgeben = start.indexOf("spur('Staffel nicht eindeutig'")
+pruefe('bei einer eigenen Staffel erst Netflix-Staffel 1 versuchen', wechsel > 0 && wechsel < aufgeben)
+pruefe('… nur einmal je Titel', /!selbstStaffelnVersucht\.has\(`\$\{reihe\}:1`\)/.test(start))
+pruefe('die Spur nennt Staffel und Nummernbereich', /angezeigt: angezeigtJetzt,[\s\S]{0,200}von:/.test(start))
+
 const pfad = schneide('pfadPruefen')
 pruefe('pfadPruefen leert beim Titelwechsel auch die angezeigte Liste', /DURCHLAUF\.folgen = \[\]/.test(pfad))
 

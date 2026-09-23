@@ -2891,7 +2891,46 @@ async function vielleichtSelbstStarten() {
       `[Anime-Kalender] Selbsttätig: ${offeneTitel[String(reihe)]?.titel ?? reihe} übersprungen — ` +
         'die angezeigte Staffel ist nicht eindeutig (S?). Bitte von Hand die offene Staffel wählen.',
     )
-    spur('Staffel nicht eindeutig', { reihe: String(reihe), kandidaten, gewaehlt })
+    /*
+      **Bei einer einzigen eigenen Staffel auf Netflix-Staffel 1 wechseln, statt aufzugeben**
+      (Daniel, 24.09.2026, mit Bericht: „naruto wurde wieder übersprungen. die anderen 2 dafür
+      nicht"). Netflix öffnet eine Reihe auf ihrer **letzten** Staffel — bei Shippuden Staffel 21
+      mit den Folgen 480–500. Dort passen die Nummern, bei Naruto nicht (die Spur zeigte keinen
+      Kandidaten). Ob Netflix dort neu zu zählen beginnt oder über unsere Folgenzahl hinaus zählt:
+      Staffel 1 beginnt in beiden Fällen mit unserer ersten Folge.
+    */
+    const eigene = anbieterAufteilung(reihe).filter((st) => !st.film && st.folgen > 0)
+    const angezeigtJetzt = angezeigteNetflixStaffel()
+    if (
+      eigene.length === 1 &&
+      angezeigtJetzt != null &&
+      angezeigtJetzt > 1 &&
+      !selbstStaffelnVersucht.has(`${reihe}:1`) &&
+      (await netflixStaffelWaehlen(1))
+    ) {
+      selbstStaffelWechsel = {
+        reihe: String(reihe),
+        nr: 1,
+        seit: Date.now(),
+        bis: Date.now() + 10000,
+        vorherErste: String(DURCHLAUF.folgen[0]?.videoId ?? ''),
+      }
+      selbstStaffelnVersucht.add(`${reihe}:1`)
+      selbstVersucht = null
+      spur('wechsle zu Netflix-Staffel 1', { reihe: String(reihe), angezeigt: angezeigtJetzt })
+      return
+    }
+    const nummernHier = DURCHLAUF.folgen.map((f) => Number(f.nummer)).filter(Number.isFinite)
+    spur('Staffel nicht eindeutig', {
+      reihe: String(reihe),
+      kandidaten,
+      gewaehlt,
+      angezeigt: angezeigtJetzt,
+      folgen: nummernHier.length,
+      von: nummernHier.length ? Math.min(...nummernHier) : null,
+      bis: nummernHier.length ? Math.max(...nummernHier) : null,
+      eigene: eigene.map((st) => `${st.nr}:${st.erste}+${st.folgen}`),
+    })
     selbstUebersprungen.add(String(reihe))
     selbstWeiter()
     return
