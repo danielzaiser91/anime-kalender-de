@@ -2258,7 +2258,12 @@ async function merkeErledigt(id, staffel, folge) {
       reicht — bei durchgezählten Reihen ist das die Antwort, ohne zu raten.
     */
     const alle = offeneTitel[String(id)]?.staffeln ?? []
-    const treffer = alle.find((x) => {
+    /*
+      Nur bei durchgezählten Reihen verrät die Nummer die Staffel. Bei JoJo beginnt jede bei 1 —
+      eine Meldung ohne Staffel aus „Golden Wind" hakte E1–26 in Staffel 1 und E27–39 in
+      „Diamond Is Unbreakable" ab (24.09.2026). Dann lieber gar nicht; der Worker-Stand weiß es.
+    */
+    const treffer = !zaehltDurch(id) ? null : alle.find((x) => {
       const von = x.erste ?? 1
       return folge >= von && folge < von + (x.folgen ?? 0)
     })
@@ -2611,7 +2616,10 @@ function durchgangEndeZeigen() {
       zeile.appendChild(el)
     }
     const namen = durchgangEnde.uebersprungen.map((r) => offeneTitel[r]?.titel ?? r)
-    el.textContent = `Durchgang fertig${namen.length ? ` · übersprungen: ${namen.join(', ')}` : ''}`
+    const regulaer = durchgangEnde.grund === 'kein offener Auftrag mehr' || durchgangEnde.grund.endsWith('geschafft')
+    el.textContent =
+      (regulaer ? 'Durchgang fertig' : `Durchgang abgebrochen · ${durchgangEnde.grund}`) +
+      (namen.length ? ` · übersprungen: ${namen.join(', ')}` : '')
     el.title = durchgangEnde.grund
   } catch {
     /* Eine Anzeige darf den Takt nicht aufhalten. */
@@ -2728,6 +2736,20 @@ function menueSchluessel(text) {
  * „Golden Wind" Netflix-Staffel 4 und bei uns Staffel 5; die Zahl des Players machte daraus
  * „Diamond Is Unbreakable" (24.09.2026).
  */
+/**
+ * **Netflix' eigene Staffelzahl für den Zuordner — wo unsere offen bleibt** (Daniel, 24.09.2026:
+ * „es kann sein das andere titel nur nummern als titel haben, da wäre es ohne staffel unmöglich
+ * korrekt zuzuordnen").
+ *
+ * `ordneMeldungZu()` in `pipeline/lib/folgenbereiche.ts` liest `staffel` in Netflix' Zählung,
+ * sobald die Meldung Netflix' Staffelliste (`staffeln`) trägt: `anbieter.seq === meldung.staffel`.
+ * Ohne Liste läse er sie als unsere — dann lieber keine.
+ */
+function netflixStaffelFuerZuordner() {
+  const nr = Number(stand.staffel)
+  return Number.isFinite(nr) && Array.isArray(stand.staffeln) && stand.staffeln.length ? nr : null
+}
+
 function rechnetInNetflixStaffeln(reihe) {
   return (anbieterStaffeln[String(reihe)] ?? []).length > 0 || offeneTitel[String(reihe)]?.laut === 'anbieter-gerechnet'
 }
@@ -2764,16 +2786,21 @@ async function netflixStaffelWaehlen(ziel) {
   for (let i = 0; i < 20; i++) {
     const eintraege = [...document.querySelectorAll('[data-uia="dropdown-menu"] li[data-uia="dropdown-menu-item"]')]
     if (eintraege.length) {
-      const ziel = eintraege.find((li) => {
+      /*
+        `treffer`, nicht `ziel`: Eine Konstante gleichen Namens verdeckte ab 4.21.8 den Parameter,
+        der Vergleich griff auf sie vor ihrer Belegung zu, und jeder Wechsel warf einen Fehler — die
+        Automatik stand bei JoJo still, das Menü offen (Daniel, 24.09.2026).
+      */
+      const treffer = eintraege.find((li) => {
         if (typeof ziel === 'string') return (li.textContent ?? '').trim() === ziel
         const t = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(li.textContent ?? '')
         return t && Number(t[1]) === ziel
       })
-      if (!ziel) {
+      if (!treffer) {
         knopf.click()
         return false
       }
-      ziel.click()
+      treffer.click()
       return true
     }
     await new Promise((r) => setTimeout(r, 100))
@@ -2864,7 +2891,24 @@ function naechsterAuftrag() {
   return null
 }
 
+/**
+ * **Ein Fehler im Durchgang endet sichtbar, nicht still** (24.09.2026). Der Fehler in
+ * `netflixStaffelWaehlen` verschwand im `.catch(() => {})` des Takts; `selbstVersucht` blieb
+ * gesetzt, jeder weitere Anlauf kehrte sofort zurück, und die Automatik stand ohne Hinweis.
+ * Jetzt steht er in der Spur, und der Durchgang endet mit seinem Wortlaut im Kasten.
+ */
 async function vielleichtSelbstStarten() {
+  try {
+    await selbstStartenSchritt()
+  } catch (e) {
+    const text = String(e?.message ?? e)
+    spur('Fehler', { text })
+    console.error('[Anime-Kalender] Durchgang abgebrochen:', e)
+    laufBeenden(`Fehler: ${text}`)
+  }
+}
+
+async function selbstStartenSchritt() {
   if (!selbstAn || DURCHLAUF.laeuft) return
   if (!/^\/(?:de-de\/)?title\//.test(location.pathname)) return
   const reihe = gemeinteReihe()
@@ -3817,6 +3861,14 @@ async function durchlaufStarten(grenze) {
   }
   const titelseite = location.pathname
   const reihe = gemeinteReihe()
+  /*
+    **Der Staffelname aus Netflix' Menü geht mit jeder Meldung hinaus** (Daniel, 24.09.2026: „die
+    extension sollte immer einfach das label mitschicken das an der staffel hängt, ohne dem haben
+    normale nutzer auch keine ahnung wozu es gehört, nicht nur der zuordner"). „Golden Wind" sagt
+    jedem, welche JoJo-Staffel gemeint ist; „S4" sagt es nur, wer Netflix' Zählung kennt. Hier
+    festgehalten, weil der Player kein Staffelmenü zeigt.
+  */
+  DURCHLAUF.staffelLabel = angezeigterNetflixName()
   if (!DURCHLAUF.uebergangen) await durchlaufStandLaden(reihe)
   DURCHLAUF.uebergangen = false
   const alleOffen = durchlaufOffen()
@@ -4297,7 +4349,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
             titel: stand.serientitel ?? null,
             folge: f.videoId,
             folge_nr: f.nummer,
-            staffel: staffelDerFolge,
+            staffel: staffelDerFolge ?? netflixStaffelFuerZuordner(),
             titelId: titelIdFuer(reihe, staffelDerFolge),
             staffeln: ohneKennungen(stand.staffeln),
             serientitel: stand.serientitel ?? null,
@@ -4313,15 +4365,16 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
               */
               `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, ` +
               `dazwischen nicht geprüft` +
-              (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : ``),
+              (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : ``) +
+              (DURCHLAUF.staffelLabel ? ` — Netflix: ${DURCHLAUF.staffelLabel}` : ''),
             /* Auch eine abgeleitete Folge bringt ihren Titel und ihre Felder mit — für die Zuordnung. */
             rohfolgen: [
               {
                 gti: f.videoId != null ? String(f.videoId) : null,
                 nummer: f.nummer ?? null,
                 titel: f.titel ?? null,
-                staffelText: f.seasonId != null ? String(f.seasonId) : null,
-                staffelNr: staffelDerFolge ?? null,
+                staffelText: DURCHLAUF.staffelLabel ?? (f.seasonId != null ? String(f.seasonId) : null),
+                staffelNr: staffelDerFolge ?? netflixStaffelFuerZuordner(),
                 /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
                 ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
                 roh: {
@@ -4422,11 +4475,13 @@ async function durchlaufMelden(folge, echte, deutsch) {
           Meldung zu Folge 1 kein Feld, und die Pipeline schlug sie der
           falschen Staffel zu.
         */
-        staffel: staffelDerFolge,
+        staffel: staffelDerFolge ?? netflixStaffelFuerZuordner(),
         titelId: titelIdFuer(gemeinteReihe(), staffelDerFolge),
         staffeln: ohneKennungen(stand.staffeln),
         serientitel: stand.serientitel ?? null,
-        notiz: `Durchlauf: Folge ${folge.nummer}${folge.titel ? ` — ${folge.titel}` : ''}`,
+        notiz:
+          `Durchlauf: Folge ${folge.nummer}${folge.titel ? `: ${folge.titel}` : ''}` +
+          (DURCHLAUF.staffelLabel ? ` — Netflix: ${DURCHLAUF.staffelLabel}` : ''),
         /*
           **Die Rohfolge — sammeln und zuordnen sind getrennt.**
 
@@ -4451,8 +4506,8 @@ async function durchlaufMelden(folge, echte, deutsch) {
             nummer: folge.nummer ?? null,
             titel: folge.titel ?? null,
             sprachen: echte.map((x) => `${x.code}|${x.name}`),
-            staffelText: folge.seasonId != null ? String(folge.seasonId) : null,
-            staffelNr: staffelDerFolge ?? null,
+            staffelText: DURCHLAUF.staffelLabel ?? (folge.seasonId != null ? String(folge.seasonId) : null),
+            staffelNr: staffelDerFolge ?? netflixStaffelFuerZuordner(),
             /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
             ...beobachtung(true, deutsch),
             /*

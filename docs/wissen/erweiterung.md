@@ -1812,3 +1812,25 @@ Sonst geht eine unklare Meldung ohne Staffel und ohne `titelId` hinaus.
 Das Ende des Durchgangs steht im Kasten („Durchgang fertig · übersprungen: …"), nicht nur in der
 Konsole — Daniel hielt das stille Ende für ein Hängen.
 
+**Nachtrag 4.21.9 (24.09.2026), drei Lehren aus dem JoJo-Durchgang:**
+
+- **Ein umbenannter Parameter trifft eine gleichnamige Konstante.** `netflixStaffelWaehlen(nr)`
+  wurde zu `(ziel)`, im Rumpf stand schon `const ziel = eintraege.find(…)`. Der Vergleich im
+  Rückruf griff auf die Konstante vor ihrer Belegung zu, jeder Wechsel warf `Cannot access 'ziel'
+  before initialization`. Der Takt schluckte den Fehler (`.catch(() => {})`), `selbstVersucht`
+  blieb gesetzt, und die Automatik stand still, das Menü offen. Seitdem endet ein Fehler im
+  Durchgang sichtbar (`vielleichtSelbstStarten` als Hülle um `selbstStartenSchritt`, Spur
+  „Fehler", Kasten „Durchgang abgebrochen"), und `durchgang-fremde-liste.test.cjs` führt die Wahl
+  mit Daniels echten Menüeinträgen aus.
+- **Der Zuordner liest `staffel` in Netflix' Zählung, sobald die Meldung Netflix' Staffelliste
+  trägt** (`ordneMeldungZu`: `anbieter.seq === meldung.staffel`). Bei Titeln, deren Folgen nur
+  Nummern als Titel haben, ist das der einzige Weg (Daniel). Bei unklarer eigener Staffel geht
+  deshalb Netflix' Zahl mit — nur zusammen mit der Liste (`netflixStaffelFuerZuordner`), ohne
+  `titelId`.
+- **Der Staffelname aus dem Menü geht mit jeder Meldung hinaus** — in der Notiz („— Netflix:
+  Golden Wind") und als `staffelText`. Dabei gemessen: Die Notiz der Einzelmeldung lautete
+  „Folge 3 — Titel", und `folgentitelAusNotiz()` liest nur „Folge 3: Titel" — der Anker hat
+  Einzelmeldungen nie erkannt, nur Randproben. Das Format ist jetzt dasselbe.
+- Lokales Abhaken ohne Staffel rät nur noch bei durchgezählten Reihen (`merkeErledigt`); bei JoJo
+  hakte es sonst Folgen in Staffel 1 und „Diamond Is Unbreakable" ab.
+

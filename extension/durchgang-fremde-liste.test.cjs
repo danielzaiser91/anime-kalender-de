@@ -76,7 +76,7 @@ pruefe(
 )
 
 /* 2. Die Automatik wartet auf die Liste dieser Seite. */
-const start = schneide('vielleichtSelbstStarten')
+const start = schneide('selbstStartenSchritt')
 const riegel = start.indexOf("String(DURCHLAUF.listeFuer ?? '') !== seiteHier")
 pruefe('vielleichtSelbstStarten prüft, wem die Liste gehört', riegel > 0)
 pruefe('… bevor es über Staffeln entscheidet', riegel > 0 && riegel < start.indexOf('staffelnDerGruppe('))
@@ -91,6 +91,37 @@ pruefe('die nächste unbesuchte Staffel im Menü wird gewählt', /eintraege\.fin
 pruefe('ein Lauf ohne neue Meldung macht die Staffel fertig', /=== vorher\) selbstStaffelnGeprueft\.add\(hier\)/.test(start))
 const wahlCode = schneide('netflixStaffelWaehlen')
 pruefe('die Staffelwahl nimmt auch einen Menütext', /typeof ziel === 'string'/.test(wahlCode))
+
+/*
+  JoJo (24.09.2026): Die Wahl selbst ausführen, mit den Menüeinträgen aus Daniels Bild. In 4.21.8
+  verdeckte eine Konstante `ziel` den Parameter — jeder Wechsel warf, und niemand sah es.
+*/
+async function waehleIm(menue, ziel) {
+  const geklickt = []
+  const lis = menue.map((text) => ({ textContent: text, click: () => geklickt.push(text) }))
+  const knopf = { getAttribute: () => 'false', click: () => geklickt.push('knopf') }
+  const kontext = {
+    document: {
+      querySelector: () => knopf,
+      querySelectorAll: () => lis,
+    },
+    setTimeout,
+    ergebnis: null,
+  }
+  vm.createContext(kontext)
+  vm.runInContext(`${wahlCode}\nergebnis = netflixStaffelWaehlen(${JSON.stringify(ziel)})`, kontext)
+  return { ok: await kontext.ergebnis, geklickt }
+}
+const JOJO_MENUE = [
+  'Phantom Blood/Battle Tendency(26 Folgen)',
+  'Stardust Crusaders(48 Folgen)',
+  'Diamond Is Unbreakable(39 Folgen)',
+  'Golden Wind(39 Folgen)',
+  'Stone Ocean(38 Folgen)',
+]
+const nachTextOk = waehleIm(JOJO_MENUE, 'Diamond Is Unbreakable(39 Folgen)')
+const nachNummerOk = waehleIm(['Staffel 1 (12 Folgen)', 'Staffel 2 (27 Folgen)'], 2)
+const nichtDa = waehleIm(JOJO_MENUE, 'Gibt es nicht')
 
 /* Menüeintrag und Auswahlknopf müssen denselben Schlüssel ergeben. */
 const schluesselCode = schneide('menueSchluessel')
@@ -153,4 +184,24 @@ function schluss() {
   console.log('Alle Zusicherungen zum Durchgang halten.')
 }
 
-schluss()
+;(async () => {
+  const text = await nachTextOk
+  pruefe('JoJo: Wahl über den Menütext klickt „Diamond Is Unbreakable"', text.ok === true && text.geklickt.includes('Diamond Is Unbreakable(39 Folgen)'), text)
+  const nummer = await nachNummerOk
+  pruefe('Baki Hanma: Wahl über die Nummer klickt „Staffel 2"', nummer.ok === true && nummer.geklickt.includes('Staffel 2 (27 Folgen)'), nummer)
+  const fehlt = await nichtDa
+  pruefe('ohne passenden Eintrag: false und das Menü wieder zu', fehlt.ok === false && fehlt.geklickt.filter((x) => x === 'knopf').length === 2, fehlt)
+  pruefe('„Golden Wind(39 Folgen)" und der Knopf „Golden Wind" ergeben denselben Schlüssel', menueSchluessel('Golden Wind(39 Folgen)') === menueSchluessel('Golden Wind'))
+  /* Staffelname und Netflix-Staffelzahl gehen mit (24.09.2026). */
+  const melden = schneide('durchlaufMelden') + schneide('randMelden')
+  pruefe('beide Melder hängen den Staffelnamen an die Notiz', (melden.match(/` — Netflix: \$\{DURCHLAUF\.staffelLabel\}`/g) ?? []).length === 2)
+  pruefe('die Einzelmeldung schreibt „Folge N: Titel", die Form, die der Anker liest', /`Durchlauf: Folge \$\{folge\.nummer\}\$\{folge\.titel \? `: \$\{folge\.titel\}`/.test(melden))
+  pruefe('unklare Staffel: Netflix-Zahl nur mit Netflix-Liste', (melden.match(/staffel: staffelDerFolge \?\? netflixStaffelFuerZuordner\(\)/g) ?? []).length === 2)
+  const zuordnerZahl = new Function('stand', schneide('netflixStaffelFuerZuordner') + '\nreturn netflixStaffelFuerZuordner()')
+  pruefe('mit Liste: Netflix-Staffel 4', zuordnerZahl({ staffel: 4, staffeln: [{ seq: 4 }] }) === 4)
+  pruefe('ohne Liste: keine Zahl', zuordnerZahl({ staffel: 4, staffeln: null }) === null)
+  /* Ein Fehler im Durchgang endet sichtbar. */
+  const huelle = schneide('vielleichtSelbstStarten')
+  pruefe('ein Fehler im Durchgang landet in Spur und Kasten', /spur\('Fehler'/.test(huelle) && /laufBeenden\(`Fehler: /.test(huelle))
+  schluss()
+})()
