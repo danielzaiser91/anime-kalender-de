@@ -19,6 +19,9 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 ### In Arbeit
 
 | Aufgabe | SP | Notiz |
+| **Offen (23.09.2026): aniSearch weist unsere Kennung ab (Issue #214)** | 3 | Gemessen von Daniels Leitung: Dieselben Adressen antworten mit Chrome-Kennung 6 × HTTP 200, mit der Projekt-Kennung `anime-kalender.de/1.0 (+…)` 4 × HTTP 423 — danach sperrt aniSearch die IP ganz (Connect-Timeout). Es ist also keine Runner-Sperre. Die ehrliche Kennung ist eine bewusste Entscheidung vom 09.08.2026; sie zu tauschen gehört Daniel vorgelegt. **Bis dahin nicht abrufen** — jeder Versuch verlängert die Sperre. Zweite Hälfte: Eine gesperrte Fremdquelle macht zurzeit den ganzen Bestandslauf rot („Quellen auf Schweigen prüfen"), obwohl der Bestand in Ordnung ist. |
+| **Erledigt am 23.09.2026: Push-Klick führte immer zur Favoritenliste** | 2 | Daniel zur Clevatess-Meldung: „klick drauf öffnet nicht clevates detail panel in wochenansicht". Der Service Worker hatte kein Ziel — die Nachricht trug keins. Jetzt legt der Worker es daneben (`pushZiel()`, Migration 036 `offen_ziel`, angewandt und ausgeliefert): bei genau einer Meldung `#/woche?d=…&t=…`, sonst die Favoriten. Der Klick benutzt außerdem ein offenes Fenster und setzt dort die Route. Zu prüfen bleibt der nächste echte Push. |
+| **Erledigt am 23.09.2026: Netflix-Kasten blinkte auf jeder Titelseite (4.21.2)** | 2 | Seit dem 06.09. zeichnet der Sekundentakt den Kasten für den Prüflisten-Knopf, seit dem 11.09. versteckt ihn derselbe Takt ohne Auftrag. Sichtbar wurde es, als alle 376 Netflix-Wege ein Urteil hatten und die Prüfliste leer war. Die Trennlinie liegt jetzt am Ort: Player nur mit Auftrag, außerhalb bleibt der Kasten. |
 | **Beobachten (23.09.2026): aniSearch sperrt seit mind. vier Tagen (HTTP 423) — Bau-Lauf 35843146640 rot** | 1 | Vier Tage in Folge (20.–23.09.) bricht `npm run data:anisearch` sofort mit `HTTP 423` auf den ersten Kennungen ab, danach `fetch failed` für den Rest des Laufs — kein Selektorfehler (keine Codeänderung an den beteiligten Dateien seit über zehn Tagen), sondern eine Sperre bei aniSearch selbst, wie schon am 09./10.08.2026. `check-sources.ts` bricht deshalb zu Recht den Bau-Lauf ab (Issue #214) — solange die Sperre steht, wird das bei **jedem** künftigen Lauf von „Bestand — zusammenführen und bauen" wieder passieren, andere Quellen liefern aber weiter über die Sammel-Läufe. Nichts zu reparieren, kein PR. Zu prüfen bleibt: nächster `npm run data:check` — steht `anisearch: ok` wieder im Protokoll? |
 | **Erledigt am 23.09.2026: Disney+ behauptete „✕ DE 5–7" bei „Though I Am an Inept Villainess"** | 2 | Daniels Handprüfung: 1–8 deutsch, 9–11 japanisch. Der Befund war nicht falsch gemessen, sondern alt — die Erweiterung sah am 26.08.2026 sieben Folgen, davon vier deutsch, und die Synchro hat seitdem aufgeschlossen. Die Wiedervorlage fragt bei Disney+ erst nach 180 Tagen; für einen `dub: false`-Bereich bei einer **laufenden** Serie gelten jetzt 14 (`pipeline/lib/wiedervorlage-frist.ts`, Zusicherungen in `check:logic`). Gegenprobe gegen den Stand davor: genau dieser eine Weg kommt zusätzlich auf die Prüfliste. |
 | **Erledigt am 23.09.2026: Label und Hinweis der Pille bei gemischten Bereichen** | 3 | Daniel: „de in fokus und nicht de in tooltip", Hinweis „untereinander". Das Label nennt jetzt die deutschen Bereiche („✓ DE 1–8", ab dem dritten Bereich gekürzt mit „+N Bereiche") statt der Lücke; der Hinweis hat vier Zeilen: wie viele Folgen auf Deutsch, welche, „Ohne deutschen Ton: …", „Nicht im Angebot: …". `dubBild()` in `shared/dub-grenze.ts` trennt die drei Zustände, Zusicherungen mit One Piece und dem wilden Fall. |
@@ -1936,11 +1939,14 @@ Seite über Dinge, die dort nicht entscheidbar sind. Analyse, Belege und der Pla
 Schritten stehen in [docs/prime-erfassung-neu.md](docs/prime-erfassung-neu.md). Nächster
 Schritt: Prüfliste um staffel/folgenTitel/erstesDatum erweitern.
 
-**Worker-Migration 016 wartet auf D1-Rechte.** `teil_von`/`teil_bis` sind im Code, in der
-Migration und in der Erweiterung fertig; `wrangler d1 migrations apply` scheitert an einem
-OAuth-Token ohne D1-Berechtigung (27.08.2026). Bis Daniel `npx wrangler login` neu ausführt,
-bleibt der Worker undeployt — er würde sonst in Spalten schreiben, die es nicht gibt. Die
-übrige Kette ist harmlos: Der alte Worker ignoriert die zusätzlichen Felder.
+**Erledigt (gemessen 23.09.2026): Worker-Migration 016 und die D1-Rechte.** Der Punkt stand
+seit dem 27.08.2026 als „wartet auf `npx wrangler login`". Nachgesehen mit
+`npx wrangler d1 migrations list DB --remote --config wrangler.toml`: „No migrations to
+apply" — alle Migrationen bis 035 sind längst angewandt, der Zugriff funktioniert. Am selben
+Tag ist darüber Migration 036 (`offen_ziel`) angewandt und der Worker ausgeliefert worden.
+**Der Aufruf braucht `--config wrangler.toml`**, sonst sucht wrangler eine `wrangler.jsonc`
+und meldet „Couldn't find a D1 DB with the name or binding 'DB'" — das sieht wie ein
+Rechteproblem aus und ist keins.
 
 **Zwei Netflix-Verweise ohne Titelseite.** Nach der Vereinheitlichung der Adressformen und
 dem Auflösen der Wunschadressen (27.08.2026) bleiben zwei: `netflix.com/DetectiveConanMovies`
