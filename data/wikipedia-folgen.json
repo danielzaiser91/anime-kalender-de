@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-09-22T09:20:51.925Z",
+  "geholtAm": "2026-09-23T09:21:17.439Z",
   "titel": {
     "21": {
       "seite": "One Piece (Anime)/Episodenliste",
@@ -15779,37 +15779,44 @@
         {
           "nr": 14,
           "st": 14,
-          "dt": "Tabu"
+          "dt": "Tabu",
+          "ead": "2026-09-14"
         },
         {
           "nr": 15,
           "st": 15,
-          "dt": "Das dritte Auge"
+          "dt": "Das dritte Auge",
+          "ead": "2026-09-15"
         },
         {
           "nr": 16,
           "st": 16,
-          "dt": "Degesu"
+          "dt": "Degesu",
+          "ead": "2026-09-16"
         },
         {
           "nr": 17,
           "st": 17,
-          "dt": "Gomah"
+          "dt": "Gomah",
+          "ead": "2026-09-17"
         },
         {
           "nr": 18,
           "st": 18,
-          "dt": "Erwachen"
+          "dt": "Erwachen",
+          "ead": "2026-09-18"
         },
         {
           "nr": 19,
           "st": 19,
-          "dt": "Betrug"
+          "dt": "Betrug",
+          "ead": "2026-09-21"
         },
         {
           "nr": 20,
           "st": 20,
-          "dt": "Maximum"
+          "dt": "Maximum",
+          "ead": "2026-09-22"
         }
       ]
     },
