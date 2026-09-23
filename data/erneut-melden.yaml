@@ -25,3 +25,18 @@
 # 23.09.2026 entfernt: Disney+ meldet alle 13 Folgen seit dem 20.09. — der Briefkasten ist voll,
 # deshalb gibt es auf der Seite keinen Knopf, und der Testeintrag blieb als Dauergast auf der Liste.
 # Die Felder aus Stufe 1 sind über Netflix (PLUTO) und Prime (Yamada-kun) belegt.
+- { anilistId: 1735, platform: netflix, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 97938, platform: netflix, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 20, platform: netflix, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 9513, platform: netflix, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 119675, platform: netflix, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 527, platform: primevideo, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 481, platform: primevideo, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 20, platform: primevideo, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 1564, platform: primevideo, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 1565, platform: primevideo, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 1735, platform: disneyplus, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 269, platform: disneyplus, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 481, platform: disneyplus, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 20, platform: disneyplus, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }
+- { anilistId: 21175, platform: disneyplus, seit: '2026-09-23', grund: "Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026)" }

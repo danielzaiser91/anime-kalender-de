@@ -1,39 +1,105 @@
 {
- "erzeugtAm": "2026-09-23T18:24:31.733Z",
+ "erzeugtAm": "2026-09-23T18:45:59.427Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 743,
+   "gemeldet": 738,
    "gesamt": 743,
-   "offen": 0,
+   "offen": 5,
    "ohneSeite": 0,
    "suchAdressen": [],
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.amazon.de/gp/video/detail/B07VP6VPVR",
+   "ziele": [
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B07VP6VPVR",
+     "titel": "Naruto"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B07FB4D9KM",
+     "titel": "Yu-Gi-Oh!"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CJQDVS5H",
+     "titel": "Pokémon"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B017CL1NBE",
+     "titel": "Pokémon Advanced Generation (Pokémon the Series: Ruby and Sapphire)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B07PGC5Z88",
+     "titel": "Pokémon: Diamant & Perl (Pokémon the Series: Diamond and Pearl)"
+    }
+   ],
+   "naechster": "Naruto"
   },
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 376,
+   "gemeldet": 371,
    "gesamt": 376,
-   "offen": 0,
+   "offen": 5,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.netflix.com/title/70205012",
+   "ziele": [
+    {
+     "url": "https://www.netflix.com/title/70205012",
+     "titel": "Naruto"
+    },
+    {
+     "url": "https://www.netflix.com/title/80000603",
+     "titel": "Naruto Shippuden"
+    },
+    {
+     "url": "https://www.netflix.com/title/81080523",
+     "titel": "Boruto: Naruto Next Generations"
+    },
+    {
+     "url": "https://www.netflix.com/title/81239555",
+     "titel": "Shaman King (2021)",
+     "staffeln": [
+      1
+     ]
+    },
+    {
+     "url": "https://www.netflix.com/title/81253271",
+     "titel": "Beelzebub"
+    }
+   ],
+   "naechster": "Naruto"
   },
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 42,
+   "gemeldet": 37,
    "gesamt": 42,
-   "offen": 0,
+   "offen": 5,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.disneyplus.com/browse/entity-bc2dae95-23e6-45dc-8177-066425b10fa0",
+   "ziele": [
+    {
+     "url": "https://www.disneyplus.com/browse/entity-bc2dae95-23e6-45dc-8177-066425b10fa0",
+     "titel": "Naruto"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/bleach/6g48QKlgQdWK",
+     "titel": "Bleach"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-870b9187-690d-4a9e-8704-b48564b31322",
+     "titel": "Yu-Gi-Oh!"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-ef04e263-4751-486c-9001-616f2adf09ba",
+     "titel": "Naruto Shippuden"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-ceb1fd76-acbe-4269-a1f3-532614807772",
+     "titel": "Dragon Ball Super"
+    }
+   ],
+   "naechster": "Naruto"
   },
   {
    "name": "Crunchyroll",
