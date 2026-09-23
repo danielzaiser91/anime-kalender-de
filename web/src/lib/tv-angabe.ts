@@ -20,11 +20,33 @@ export function istPremiere(
   title: Title,
   releases: Release[],
   ersteDeutsch?: Record<number, string>,
+  /** Uhrzeit des Termins, um den es geht — trennt zwei Sendungen desselben Tages. */
+  zeit?: string,
 ): boolean {
   /* Lief sie schon früher auf Deutsch (Wikipedia-EAD, RTL+-Start), ist es eine Wiederholung —
      Dragon Ball Folge 1 auf ProSieben MAXX 2026 ist nicht deren Premiere (1999). */
   const erst = ersteDeutsch?.[folge]
   if (erst && erst < datum) return false
+  /*
+    **Und eine Nachtwiederholung ist eine Wiederholung** (Daniel, 23.09.2026: „ja").
+
+    Die Prüfung darunter fragt nur das Streaming ab. Sendet derselbe Sender dieselbe Folge
+    noch einmal — One Piece läuft auf ProSieben MAXX abends und in derselben Nacht um 04:25 —,
+    stand an beiden Terminen „Premiere", weil im Streaming nichts dazugekommen war. Gefragt
+    wird deshalb auch der eigene Sendeplan: Lief die Folge an einem früheren Termin, ist der
+    zweite keine Premiere.
+  */
+  const frueherImTv = releases
+    .filter((r) => r.platform === 'tv')
+    .some((r) =>
+      expandEvents(r).some(
+        (e) =>
+          e.episode === folge &&
+          !e.sichtung &&
+          (e.date < datum || (e.date === datum && zeit !== undefined && (e.time ?? '') < zeit)),
+      ),
+    )
+  if (frueherImTv) return false
   const plattformen = new Set([
     ...(title.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform as string),
     ...releases.filter((r) => r.platform !== 'tv' && r.releaseType !== 'disc').map((r) => r.platform as string),
@@ -100,7 +122,9 @@ export function tvAngabe(
   /* Premiere gilt der Folge, von der die Pille zuerst spricht — der laufenden, sonst der nächsten. */
   const bezug = laufEvent || e
   const premiere = Boolean(
-    bezug?.episode && !bezug.sichtung && istPremiere(bezug.episode, bezug.date, title, releases, release.ersteDeutsch),
+    bezug?.episode &&
+      !bezug.sichtung &&
+      istPremiere(bezug.episode, bezug.date, title, releases, release.ersteDeutsch, bezug.time),
   )
   let text = ''
   /*
@@ -157,6 +181,13 @@ export function tvPremiere(
   const titel = data.titleById.get(e.titleId)
   return Boolean(
     titel &&
-      istPremiere(e.episode, e.date, titel, data.releasesByTitle.get(e.titleId) ?? [], data.releaseBySlug.get(e.releaseSlug)?.ersteDeutsch),
+      istPremiere(
+        e.episode,
+        e.date,
+        titel,
+        data.releasesByTitle.get(e.titleId) ?? [],
+        data.releaseBySlug.get(e.releaseSlug)?.ersteDeutsch,
+        e.time,
+      ),
   )
 }

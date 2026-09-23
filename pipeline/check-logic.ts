@@ -5725,6 +5725,38 @@ pruefe(
   pruefe('Wiederholung: Folge 1 steht auf YouTube', !istPremiere(1, '2026-09-16', daima, [rtl]))
   pruefe('Wiederholung: nach dem RTL+-Termin der Folge', !istPremiere(1, '2026-10-01', { ...daima, streams: [] } as Title, [rtl]))
   pruefe('Wiederholung: lief laut Episodenliste schon früher auf Deutsch', !istPremiere(16, '2026-09-16', daima, [rtl], { 16: '2025-05-01' }))
+  /*
+    **Nachtwiederholung** (Daniel, 23.09.2026). ProSieben MAXX zeigt One Piece abends und in
+    derselben Nacht noch einmal; im Streaming ändert sich dazwischen nichts, also hielt die
+    Prüfung beide Termine für Premieren.
+  */
+  /* Zwei Sendeplätze desselben Senders, dieselbe Folge — so legt der Bau Nachtwiederholungen an. */
+  const tvTermin = (slug: string, datum: string, uhr: string): Release =>
+    ({
+      slug,
+      titleId: 21,
+      name: 'One Piece',
+      platform: 'tv',
+      releaseType: 'weekly',
+      sender: 'ProSieben MAXX',
+      schedule: { firstEpisodeDate: datum, time: uhr, episodeCount: 1, firstEpisodeNumber: 1093 },
+      sources: ['x'],
+    }) as unknown as Release
+  const abends = tvTermin('op-abend', '2026-09-22', '18:25')
+  const nachts = tvTermin('op-nacht', '2026-09-23', '04:25')
+  const ohneStream = { id: 21, streams: [] } as unknown as Title
+  pruefe(
+    'Premiere: die erste Ausstrahlung am Abend',
+    istPremiere(1093, '2026-09-22', ohneStream, [abends, nachts], undefined, '18:25'),
+  )
+  pruefe(
+    'Wiederholung: dieselbe Folge in der Nacht danach',
+    !istPremiere(1093, '2026-09-23', ohneStream, [abends, nachts], undefined, '04:25'),
+  )
+  pruefe(
+    'Eine andere Folge in derselben Nacht bleibt Premiere',
+    istPremiere(1094, '2026-09-23', ohneStream, [abends, nachts], undefined, '04:25'),
+  )
 }
 {
   /*
