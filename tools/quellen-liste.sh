@@ -275,9 +275,6 @@ QUELLEN=(
   # rot („stimmt mit der ausgelieferten überein", Lauf 35567600545).
   public/data/pruefliste-stand.json
   public/data/pruefstand.json
-  # Die Blocker-Anzeige der Statusanzeige (23.09.2026) — sie entsteht im selben
-  # Schritt wie die Schweigen-Pruefung und gehoert deshalb in dieselbe Rettung.
-  public/data/blocker.json
   daniel-zum-abarbeiten/08-arbeitspakete.md
   # Die Listen je Anbieter — sieben Dateien, die `data:dub-checks` bei jedem Lauf
   # neu schreibt und die bis zum 29.08.2026 keine einzige Zeile hier hatten.
