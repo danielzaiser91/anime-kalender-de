@@ -7268,6 +7268,22 @@ function main(): void {
     const jw = readJson<
       Record<string, { ohneTreffer?: boolean; angebote?: { anbieter: string; art: string; url?: string; audio?: string[] }[] }>
     >('data/justwatch-audio.json', {})
+    /**
+     * **Eine Handprüfung hat das letzte Wort** (Lauf 35900967510, 23.09.2026).
+     *
+     * Der erste Anlauf dieser Runde legte vier Wege an, die jemand von Hand geprüft und
+     * verneint hatte: Free! und Free!: Eternal Summer bei Crunchyroll („ohne deutsche
+     * Tonspur"), AIR GEAR Special und Girls und Panzer Specials bei Prime („nicht
+     * verfügbar"). `check:handbelege` hat den Bau dafür zu Recht rot gemacht — genau dafür
+     * gibt es die Prüfung.
+     *
+     * JustWatch weiß, was ein Anbieter **listet**. Wer nachgesehen hat, weiß, was dort
+     * wirklich läuft. Bei einem Widerspruch gewinnt das Nachsehen.
+     */
+    const handNein = new Set<string>()
+    for (const b of loadDubChecks()) {
+      if (b.dub === false || b.available === false) handNein.add(`${b.anilistId}|${b.platform}`)
+    }
     let ergaenzt = 0
     for (const title of titles.values()) {
       const b = jw[String(title.id)]
@@ -7290,6 +7306,7 @@ function main(): void {
         if (/Amazon Channel/i.test(a.anbieter)) continue
         const plattform = plattformVon(a.anbieter)
         if (!plattform || vorhanden.has(plattform)) continue
+        if (handNein.has(`${title.id}|${plattform}`)) continue
         title.streams = [
           ...(title.streams ?? []),
           {
