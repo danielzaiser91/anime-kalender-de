@@ -9742,20 +9742,16 @@
   platform: netflix
   dub: true
   dubRanges:
-    - from: 1
-      to: 1
-      dub: true
-      checked: [1]
-    - from: 2
-      to: 33
-      dub: false
-      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]
-    - from: 34
-      to: 61
-      dub: true
-      checked: [34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]
-  checkedAt: '2026-08-26'
-  note: "Folge 1 mit deutschem Ton, Folgen 2–33 ohne deutschen Ton, Folgen 34–61 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1124 und 1173, dazwischen nicht geprüft — Folge 1173: Folge 1173"
+    - { from: 1, to: 130, dub: true }
+    - { from: 1089, to: 1178, dub: false }
+  checkedAt: '2026-09-23'
+  note: >-
+    Daniel am 23.09.2026 von Hand durchgesehen: Deutsch haben die Sagas East Blue (1–61),
+    Ankunft Grand Line (62–77), Drum (78–92) und Alabasta (93–130). Danach springt die
+    Folgenauswahl direkt auf 1089 — die Folgen 131 bis 1088 stehen bei Netflix gar nicht,
+    1089 bis 1178 stehen dort ohne deutschen Ton. Ersetzt die Randprobe vom 26.08.2026
+    („Folge 1 deutsch, 2–33 nicht, 34–61 deutsch"), die aus zwei gemessenen Folgen (1124,
+    1173) hochgerechnet war und die deutschen Sagas falsch zerschnitten hat.
 
 - anilistId: 392
   title: "Yū Yū Hakusho"
