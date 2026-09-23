@@ -1631,6 +1631,18 @@ console.log('\nStreaming Availability API:')
     dubGrenze([{ from: 1, to: 24, dub: false }]) === null)
   pruefe('ohne Bereiche bleibt es still',
     dubGrenze(undefined) === null && dubGrenze([]) === null)
+  /*
+    One Piece auf Netflix (Daniel, 23.09.2026: „deutsch bis folge 1??"): Folge 1 deutsch,
+    2–33 nicht, 34–61 wieder deutsch. Eine „bis"-Grenze wäre hier falsch.
+  */
+  pruefe(
+    'zweimal umgeschlagen: keine Grenze, die Lücken sagen es',
+    dubGrenze([
+      { from: 1, to: 1, dub: true },
+      { from: 2, to: 33, dub: false },
+      { from: 34, to: 61, dub: true },
+    ]) === null,
+  )
 
   // Black Clover auf Netflix: 1–155 deutsch, 156–171 nicht.
   const bc = dubGrenze([

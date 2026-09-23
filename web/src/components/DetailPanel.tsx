@@ -431,9 +431,16 @@ function AntwortKasten({
     Gesamtzahl: den meisten belegten eines Anbieters — Beyblade X: Disney+ 100, TOGGO 117).
   */
   const gruppeVon = (p: ReactNode) => pillenGruppen.get(String((p as ReactElement)?.key ?? '')) ?? 'sonst'
-  const mitBereichen = !aktivDisc && pillen.some((p) => gruppeVon(p) === 'frei')
+  /*
+    **Die Bereiche stehen immer** (Daniel, 23.09.2026: „diese condition gefällt mir nicht, änder
+    das, sodass es immer bereichsüberschriften gibt, konsistenz ist wichtig"). Bis dahin gliederte
+    das Panel nur, wenn es einen kostenlosen Weg gab — bei Gachiakuta stand „Kostenlos / Abo / TV",
+    bei One Piece lagen Netflix, ADN und die TV-Pille ohne Überschrift beieinander. Zwei Panels,
+    zwei Ordnungen, und beim zweiten sah es nach Fehler aus.
+  */
+  const mitBereichen = !aktivDisc && pillen.length > 0
   const kostenlosKopf = (() => {
-    if (!mitBereichen) return undefined
+    if (!mitBereichen || !pillen.some((p) => gruppeVon(p) === 'frei')) return undefined
     const k = kostenloseFolgen(title)
     const deutsch =
       title.format === 'MOVIE' || title.episodes === 1
@@ -1184,10 +1191,13 @@ function AntwortKasten({
           <div className="flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5 gap-y-2.5 pb-1 pt-1">
             {mitBereichen ? (
               <div className="flex w-full flex-col gap-2.5">
-                <div className="flex flex-col gap-1.5 rounded-lg bg-emerald-500/[0.07] p-2 ring-1 ring-inset ring-emerald-600/25 dark:ring-emerald-400/30">
-                  <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">{kostenlosKopf}</span>
-                  <div className="flex flex-wrap items-stretch gap-x-1.5 gap-y-2.5">{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
-                </div>
+{/* Der grüne Block nur, wo es wirklich etwas umsonst gibt — sonst wäre er eine leere Behauptung. */}
+                {pillen.some((p) => gruppeVon(p) === 'frei') && (
+                  <div className="flex flex-col gap-1.5 rounded-lg bg-emerald-500/[0.07] p-2 ring-1 ring-inset ring-emerald-600/25 dark:ring-emerald-400/30">
+                    <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">{kostenlosKopf}</span>
+                    <div className="flex flex-wrap items-stretch gap-x-1.5 gap-y-2.5">{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
+                  </div>
+                )}
                 {(['abo', 'kauf', 'tv', 'unbekannt', 'sonst'] as const).map((g) => {
                   const teil = pillen.filter((p) => gruppeVon(p) === g)
                   if (!teil.length) return null

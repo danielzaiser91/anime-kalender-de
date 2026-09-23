@@ -29,6 +29,15 @@ export function dubGrenze(
   const sortiert = [...ranges].sort((a, b) => a.from - b.from)
   const mitDeutsch = sortiert.filter((r) => r.dub)
   if (!mitDeutsch.length || mitDeutsch.length === sortiert.length) return null
+  /*
+    **Eine Grenze gibt es nur, wenn der Ton genau einmal umschlägt** (Daniel, 23.09.2026:
+    „deutsch bis folge 1??"). One Piece auf Netflix: Folge 1 deutsch, 2–33 nicht, 34–61 wieder
+    deutsch. Der erste deutsche Block endet bei 1 — „Deutscher Ton bis Folge 1" ist dann eine
+    Falschaussage, denn ab 34 gibt es ihn wieder. Bei mehreren Wechseln beantwortet die
+    Lücken-Aufzählung (`dubLuecken`) dieselbe Frage richtig, und die steht daneben.
+  */
+  const wechsel = sortiert.filter((r, i) => i > 0 && r.dub !== sortiert[i - 1]!.dub).length
+  if (wechsel > 1) return null
   // Fängt es mit Deutsch an, ist die Grenze das Ende des ersten deutschen
   // Blocks; fängt es ohne an, ist sie dessen Anfang.
   return sortiert[0]!.dub

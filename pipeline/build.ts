@@ -87,7 +87,7 @@ import {
   releasesAus,
   type Vorschlag,
 } from './lib/meldungen.ts'
-import { releasesAusTvProgramm, sendungenAnhaengen, type WikiListen } from './lib/tv-termine.ts'
+import { releasesAusTvProgramm, sendungNeuZuordnen, sendungenAnhaengen, type WikiListen } from './lib/tv-termine.ts'
 import { rtlplusWochentermine, type RtlFolge } from './lib/rtlplus-folgen.ts'
 import type { TvSendung } from './fetch-tv-programm.ts'
 import {
@@ -3067,9 +3067,15 @@ function main(): void {
       ),
       ...(readJson<{ titel?: WikiListen }>('data/wikipedia-folgen.json', {}).titel ?? {}),
   }
-  const ausTv = releasesAusTvProgramm(tvProgramm, titles, releases, tvFolgenListen)
+  /*
+    Erst umhängen, dann beides füttern: Die Termine entstehen aus den zugeordneten Sendungen, und
+    dieselben Sendungen hängen danach an den Terminen. Mit den Rohdaten bekam „One Piece Log:
+    Fish-Man Island Saga" am 23.09.2026 zwar ein Release, aber keine einzige Sendung.
+  */
+  const tvZugeordnet = sendungNeuZuordnen(tvProgramm, titles, tvFolgenListen)
+  const ausTv = releasesAusTvProgramm(tvZugeordnet, titles, releases, tvFolgenListen)
   releases.push(...ausTv)
-  sendungenAnhaengen(releases, tvProgramm, addDays(todayIso(), -1), tvFolgenListen)
+  sendungenAnhaengen(releases, tvZugeordnet, addDays(todayIso(), -1), tvFolgenListen)
   if (ausTv.length) log(`${ausTv.length} TV-Termine aus dem RTL+-Programm: ${ausTv.map((r) => `${r.name} (${r.sender})`).join(', ')}`)
 
   quellenPflegen(releases)
