@@ -1579,6 +1579,27 @@ function seiteGehtUnsAn() {
  * Zeitpunkt seines Setzens und gilt nach einer Viertelstunde als tot; ein
  * Durchlauf über eine ganze Staffel dauert Minuten, nicht Stunden.
  */
+/**
+ * **Was der Durchgang unterwegs entschieden hat — für den Diagnosebericht.**
+ *
+ * Daniel am 23.09.2026: „ich hab nur gesehen wie es von titel zu titel gesprungen ist, der
+ * player wurde nie geöffnet … ich glaub die extension hat nix gemeldet." Der Bericht zeigte
+ * die Lage der letzten Seite, aber nicht, **warum** die Automatik jede übersprungen hat — das
+ * stand nur in der Konsole, und die war beim Berichtschreiben längst weitergescrollt.
+ *
+ * Zwanzig Einträge reichen für einen Durchgang über zwanzig Titel; mehr hält die Automatik
+ * ohnehin nicht durch (`SELBST_HOECHSTENS`).
+ */
+const DURCHGANG_SPUR = []
+function spur(was, dazu) {
+  try {
+    DURCHGANG_SPUR.push({ zeit: new Date().toISOString(), was, ...(dazu ?? {}) })
+    if (DURCHGANG_SPUR.length > 20) DURCHGANG_SPUR.shift()
+  } catch {
+    /* Eine Diagnose darf nie im Weg stehen. */
+  }
+}
+
 const DURCHLAUF_FLAG = 'ak-durchlauf-laeuft'
 /** Länger als jeder echte Durchlauf, kurz genug, dass ein Absturz nicht nachwirkt. */
 const DURCHLAUF_FLAG_MAX_MS = 15 * 60 * 1000
@@ -2824,6 +2845,13 @@ async function vielleichtSelbstStarten() {
       geladeneStaffeln: [...folgenJeStaffel(DURCHLAUF.alleFolgen ?? []).values()].map((g) => g.length),
       versucht: [...selbstStaffelnVersucht],
     })
+    spur('nichts offen', {
+      reihe: String(reihe),
+      angezeigt: angezeigteNetflixStaffel(),
+      folgen: DURCHLAUF.folgen.length,
+      gemeldet: DURCHLAUF.gemeldet?.size ?? null,
+      kandidaten: anzeigeKandidaten,
+    })
     selbstUebersprungen.add(String(reihe))
     selbstWeiter()
     return
@@ -2835,6 +2863,7 @@ async function vielleichtSelbstStarten() {
       `[Anime-Kalender] Selbsttätig: ${offeneTitel[String(reihe)]?.titel ?? reihe} übersprungen — ` +
         'die angezeigte Staffel ist nicht eindeutig (S?). Bitte von Hand die offene Staffel wählen.',
     )
+    spur('Staffel nicht eindeutig', { reihe: String(reihe), kandidaten, gewaehlt })
     selbstUebersprungen.add(String(reihe))
     selbstWeiter()
     return
@@ -2842,6 +2871,7 @@ async function vielleichtSelbstStarten() {
   /* Diese Staffel ist ab jetzt versucht — sonst wechselt der nächste Anlauf wieder hierher. */
   const angezeigt = angezeigteNetflixStaffel()
   if (angezeigt != null) selbstStaffelnVersucht.add(`${reihe}:${angezeigt}`)
+  spur('Durchlauf startet', { reihe: String(reihe), folgen: DURCHLAUF.folgen.length })
   console.log('[Anime-Kalender] Selbsttätiger Durchgang startet …')
   DURCHLAUF.selbst = true
   DURCHLAUF.gesamt = 0
@@ -2849,6 +2879,7 @@ async function vielleichtSelbstStarten() {
   DURCHLAUF.selbst = false
   /* Fand der Durchlauf nichts zu tun, kam er nie bis zum Weitergehen — dann hier weiter. */
   if (!DURCHLAUF.gesamt && selbstAn) {
+    spur('Durchlauf fand nichts', { reihe: String(reihe), folgen: DURCHLAUF.folgen.length })
     console.log('[Anime-Kalender] Selbsttätig: hier nichts zu prüfen — weiter.')
     selbstUebersprungen.add(String(reihe))
     selbstWeiter()
@@ -6136,6 +6167,14 @@ function nfBericht() {
       }
     }),
     zuletztGeoeffnet: sicher(() => zuletztGeoeffnet),
+    /* Warum die Automatik jede Seite übersprungen oder geprüft hat (23.09.2026). */
+    durchgang: sicher(() => ({
+      laeuft: selbstAn,
+      gezaehlt: selbstGezaehlt,
+      uebersprungen: [...selbstUebersprungen],
+      staffelnVersucht: [...selbstStaffelnVersucht],
+      spur: DURCHGANG_SPUR,
+    })),
     listeGesamt: sicher(() => Object.keys(offeneTitel).length),
     /* Was der Leser sieht — er kennt die GraphQL-Antworten. */
     /*
