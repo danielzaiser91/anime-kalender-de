@@ -38,7 +38,8 @@
  *
  *     npx tsx pipeline/fetch-justwatch-audio.ts [--limit 50] [--alter 28]
  */
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { todayIso } from '../shared/time.ts'
@@ -143,7 +144,25 @@ async function main(): Promise<void> {
   */
   const nurCartoons = args.includes('--nur-cartoons')
   const cartoons = readJson<Title[]>('public/data/cartoons.json', [])
-  const titles = nurCartoons ? cartoons : [...readJson<Title[]>('public/data/titles.json', []), ...cartoons]
+  /*
+    **Wer von Hand eine TMDB-Kennung bekommen hat, wird auch gefragt** (23.09.2026).
+
+    Titel ohne belegte deutsche Synchro liegen hinter dem Toggle (`ohne-synchro.json`, über
+    15.000 Stück) und stehen zu Recht nicht in der Warteschlange — für sie ist JustWatch
+    keine Sprachquelle, sondern eine Suche ins Blaue. Anders bei den wenigen, denen jemand
+    von Hand eine TMDB-Kennung gegeben hat: Genau dort lautet die offene Frage „gibt es das
+    irgendwo auf Deutsch?", und genau die beantwortet JustWatch. Anlass ist „Super Dragon
+    Ball Heroes" aus Daniels Dragon-Ball-Recherche.
+  */
+  const handKennungen = new Set(
+    ((yaml.load(readFileSync('data/tmdb-von-hand.yaml', 'utf8')) as { anilistId: number }[] | null) ?? []).map(
+      (e) => e.anilistId,
+    ),
+  )
+  const ausDemToggle = readJson<Title[]>('public/data/ohne-synchro.json', []).filter((t) => handKennungen.has(t.id))
+  const titles = nurCartoons
+    ? cartoons
+    : [...readJson<Title[]>('public/data/titles.json', []), ...cartoons, ...ausDemToggle]
   const tmdb = readJson<Record<string, { tmdbId?: number }>>('data/tmdb-titles.json', {})
   const bestand = readJson<Record<string, Befund>>(DATEI, {})
 
@@ -204,9 +223,32 @@ async function main(): Promise<void> {
     const jetzt = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
     return Boolean(e?.tmdbId && jetzt && e.tmdbId !== jetzt)
   }
+  /*
+    **Ein Fehlschlag ohne gespeicherte Kennung ist nicht beweiskräftig** (23.09.2026).
+
+    Seit dem 17.09.2026 schreibt jeder „ohne Treffer" die Kennung mit, gegen die gesucht
+    wurde — die Wechselprüfung darüber erkennt einen berichtigten Titel daran. Ältere
+    Fehlschläge haben dieses Feld nicht, und genau dort steckte der Fall: „Dragon Ball Super"
+    kam als „ohne Treffer" zurück, weil die Kennung auf die für 2026 angekündigte
+    Beerus-Serie zeigte. Mit der berichtigten Kennung hätte er trotzdem 28 Tage gewartet.
+
+    Solche Befunde werden deshalb **fällig**, aber nicht **dringend**: Es sind 638 Stück, und
+    die Schlange soll dadurch nicht vor den echten Wechseln stehen. Der Zweig erledigt sich
+    von selbst, sobald jeder Befund seine Kennung trägt.
+  */
+  const fehlschlagOhneKennung = (t: Title) => {
+    const e = bestand[String(t.id)]
+    const jetzt = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
+    return Boolean(e?.ohneTreffer && !e.tmdbId && jetzt)
+  }
   const offen = titles
     .filter((t) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId)
-    .filter((t) => (bestand[String(t.id)]?.geprueftAm ?? '') < grenze || kennungGewechselt(t))
+    .filter(
+      (t) =>
+        (bestand[String(t.id)]?.geprueftAm ?? '') < grenze ||
+        kennungGewechselt(t) ||
+        fehlschlagOhneKennung(t),
+    )
     .sort(
       (a, b) =>
         Number(kennungGewechselt(b)) - Number(kennungGewechselt(a)) ||
