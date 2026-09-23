@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-23T18:03:04.624Z",
+ "erzeugtAm": "2026-09-23T18:24:31.733Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -27,8 +27,8 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 37,
-   "gesamt": 37,
+   "gemeldet": 42,
+   "gesamt": 42,
    "offen": 0,
    "ohneSeite": 0,
    "ziel": null,
