@@ -4897,5 +4897,14 @@ FLATRATE/ADS mit **belegter deutscher Tonspur** stehen nicht als Weg im Datensat
 Prime Video, 9 bei Crunchyroll, 7 bei Disney+. Darunter bekannte Titel: One Piece bei Disney+,
 Naruto Shippuden und Trigun bei Prime, Chunibyo bei Crunchyroll. Aufgefallen bei Dragon Ball
 Super: Broly, wo JustWatch Disney+ und RTL+ nennt und der Bestand nur Crunchyroll und Prime
-führt. **Zu klären: warum der Bau sie nicht übernimmt** — die Daten liegen seit dem 16.09.2026
+führt. **Geklärt am 23.09.2026, 20:05: kein Fehler, sondern eine Regel.** Der Bau legt
+JustWatch-Wege nur bei Titeln an, die **gar keinen** Weg haben — im Kommentar in `build.ts`:
+„wo schon einer steht, ist die Frage beantwortet, und unsere Adresse ist die geprüfte". Die
+Regel entstand gegen Listen von zwölf Amazon-Varianten. Offen ist damit eine Entscheidung,
+keine Reparatur: Soll ein **Abo**-Angebot mit belegter deutscher Tonspur auch dazukommen,
+wenn der Titel schon Wege hat? Vorschlag: ja, aber nur FLATRATE/ADS mit `audio` inklusive
+`de`, nur Anbieter, die wir als Plattform führen, höchstens zwei zusätzliche je Titel.
+Betroffen sind 40 Angebote (24 Prime, 9 Crunchyroll, 7 Disney+), darunter One Piece bei
+Disney+ und Dragon Ball Super: Broly, wo wir nur Crunchyroll und Prime zeigen. **Ursprünglich
+notiert als:** — die Daten liegen seit dem 16.09.2026
 vor.
