@@ -28,6 +28,7 @@
  * Aufruf: npm run data:anisearch [-- --limit 250]
  */
 import { gzipSync } from 'node:zlib'
+import { KENNUNG } from './lib/kennung.ts'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
@@ -82,7 +83,12 @@ const MAX_FAILURES = 5
  * Variante: Sie nimmt dem Betreiber die Möglichkeit, den Verursacher
  * anzuschreiben, statt ihn auszusperren.
  */
-const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)'
+/*
+  **Browser-Signatur plus Projektkennung** (Daniel, 23.09.2026). aniSearch weist die nackte
+  Projektkennung seit dem 19.09.2026 mit HTTP 423 ab; die Begründung und die Messung stehen
+  in `lib/kennung.ts`.
+*/
+const UA = KENNUNG
 const IDS_URL =
   'https://github.com/manami-project/anime-offline-database/releases/latest/download/anime-offline-database-minified.json'
 

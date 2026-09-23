@@ -27,9 +27,15 @@
  * tragen (Daniel: „erstmal alle ab 2015, danach den rest").
  */
 import { titelAus, type Titelherkunft } from './lib/anisearch-titel.ts'
+import { KENNUNG } from './lib/kennung.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 
-const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)'
+/*
+  **Browser-Signatur plus Projektkennung** (Daniel, 23.09.2026). aniSearch weist die nackte
+  Projektkennung seit dem 19.09.2026 mit HTTP 423 ab; die Begründung und die Messung stehen
+  in `lib/kennung.ts`.
+*/
+const UA = KENNUNG
 /*
   Sechs Sekunden, wie `fetch-anisearch.ts` — aniSearchs dokumentierte Grenze sind zehn Anfragen je
   Minute. Mit zwei Sekunden lief dieser Abruf dreimal darüber, und am 16.09.2026 antwortete

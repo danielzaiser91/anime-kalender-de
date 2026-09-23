@@ -2784,3 +2784,12 @@ setzen: Browser-Signatur **und** Projektkennung mit Kontaktadresse.
 **Solange die Sperre steht, wird nicht abgerufen** — jeder Versuch verlängert sie. Und: Der
 Bestandslauf bricht zurzeit an einer gesperrten Fremdquelle ab, obwohl der Bestand in Ordnung
 ist; ob die Schweigen-Prüfung dafür nur warnen soll, ist offen (Issue #214).
+
+**Aufgelöst am 23.09.2026, 19:50 — Variante B.** Die Kennung trägt jetzt beides in einer
+Zeile: vorn die Browser-Signatur, dahinter `anime-kalender.de/1.0` mit Adresse und Mail
+(`pipeline/lib/kennung.ts`). Gegenprobe unmittelbar danach: `fetch-anisearch.ts --limit 6`
+holte **6 von 6** Titeln, 5 mit deutschem Text, 6 mit Stream-Angabe. Die Sperre galt also der
+Kennung, nicht der Leitung — und sie war nach vier Tagen mit einer Zeile behoben.
+
+Wer sich zu erkennen gibt, bleibt ansprechbar: Die Kontaktadresse steht weiterhin im
+Protokoll des Betreibers, nur nicht mehr als einziges Merkmal.

@@ -35,13 +35,19 @@
  * Aufruf: `npm run data:anisearch-folgen [-- --limit 150] [-- --alter 90]`
  */
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { KENNUNG } from './lib/kennung.ts'
 import { resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 
-const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)'
+/*
+  **Browser-Signatur plus Projektkennung** (Daniel, 23.09.2026). aniSearch weist die nackte
+  Projektkennung seit dem 19.09.2026 mit HTTP 423 ab; die Begründung und die Messung stehen
+  in `lib/kennung.ts`.
+*/
+const UA = KENNUNG
 const DELAY_MS = 6000
 const args = process.argv.slice(2)
 const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 150

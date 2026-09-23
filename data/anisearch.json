@@ -230528,7 +230528,8 @@
           "dubbed": true,
           "released": "02.10.2021 - 19.03.2022",
           "publisher": [
-            "Crunchyroll"
+            "Crunchyroll",
+            "Animation Digital Network (DE)"
           ]
         },
         {
@@ -230548,7 +230549,8 @@
           "dubbed": true,
           "released": "02.10.2021 - 19.03.2022",
           "publisher": [
-            "Crunchyroll"
+            "Crunchyroll",
+            "Animation Digital Network"
           ]
         },
         {
@@ -230602,10 +230604,10 @@
       ],
       "synonyms": [
         "86 2nd Part",
-        "86: Eighty Six - Part 2 Alle anzeigen"
+        "86: Eighty Six - Part 2"
       ]
     },
-    "fetchedAt": "2026-08-22T04:55:40.111Z"
+    "fetchedAt": "2026-09-23T17:47:29.789Z"
   },
   "131646": {
     "anisearchId": 16105,
@@ -231349,10 +231351,10 @@
       ],
       "synonyms": [
         "Kakkou no Iinazuke",
-        "The Cuckoo’s Fiancée Alle anzeigen"
+        "The Cuckoo’s Fiancée"
       ]
     },
-    "fetchedAt": "2026-08-22T04:56:15.302Z"
+    "fetchedAt": "2026-09-23T17:47:35.993Z"
   },
   "132193": {
     "anisearchId": 16625,
@@ -231615,7 +231617,7 @@
         "Sexy Cosplay Doll"
       ]
     },
-    "fetchedAt": "2026-08-22T04:56:29.521Z"
+    "fetchedAt": "2026-09-23T17:47:42.180Z"
   },
   "132473": {
     "anisearchId": 16200,
@@ -262553,6 +262555,67 @@
     },
     "fetchedAt": "2026-08-22T08:37:32.281Z"
   },
+  "166062": {
+    "anisearchId": 18751,
+    "descriptionDe": "Anmerkung:\nDie Staffel wurde ausschließlich für den westlichen Markt produziert. Im November 2023 lud die Lizenzagentur ADK Emotions zwar eine japanische Version von Folge 20 öffentlich auf Vimeo hoch, allerdings wurde sie einige Stunden später wieder entfernt.",
+    "streams": [
+      {
+        "provider": "youtube",
+        "url": "https://www.youtube.com/playlist?list=PLsMUsmCgO8cMVyDyCMQv7H2tvnQhWpXMT"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Beyblade Burst QuadStrike",
+          "status": "Zukünftig",
+          "released": "?"
+        },
+        {
+          "language": "Englisch",
+          "title": "Beyblade Burst QuadStrike",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.04.2023 - 07.08.2023"
+        },
+        {
+          "language": "Deutsch",
+          "title": "Beyblade Burst QuadStrike",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "27.04.2024 - 19.10.2024"
+        },
+        {
+          "language": "Spanisch",
+          "title": "Beyblade Burst QuadStrike",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.08.2023 - 19.01.2024"
+        },
+        {
+          "language": "Französisch",
+          "title": "Beyblade Burst QuadStrike",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "21.05.2023 - ?"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 23,
+      "studios": [
+        "OLM, Inc."
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Beyblade Burst 7",
+        "Beyblade Burst Season 7",
+        "Beyblade Burst Staffel 7"
+      ]
+    },
+    "fetchedAt": "2026-09-23T17:47:17.421Z"
+  },
   "166104": {
     "anisearchId": 18453,
     "descriptionDe": "Auf Anfrage seiner ehemaligen Lehrerin aus der Mittelstufe, Frau Yanagi, soll Nasa einen Kurs im Programmieren an einer reinen Mädchen-Oberschule abhalten. Nachdem allerdings die Damen herausgefunden haben, dass Nasa verheiratet ist, wollen sie ihn eher in Beziehungsfragen um Rat bitten, anstatt Programmieren zu lernen. Obendrein verunsichert es ein wenig seine Ehefrau Tsukasa, dass er täglich von Oberschülerinnen umringt ist. \n\nQuelle: www.anisearch.de/anime/18453",
@@ -272948,6 +273011,65 @@
       ]
     },
     "fetchedAt": "2026-08-25T05:02:23.832Z"
+  },
+  "177166": {
+    "anisearchId": 18824,
+    "streams": [
+      {
+        "provider": "rtl-plus",
+        "url": "https://plus.rtl.de/video-tv/serien/bakugan-982370/staffel-1-982371"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Bakugan",
+          "titleNative": "爆丸",
+          "status": "Pausiert",
+          "released": "05.08.2023 - ?"
+        },
+        {
+          "language": "Englisch",
+          "title": "Bakugan",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.08.2023 - 08.01.2024",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Bakugan",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.10.2023 - 16.08.2024"
+        },
+        {
+          "language": "Spanisch",
+          "title": "Bakugan",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "11.12.2023 - ?"
+        }
+      ],
+      "format": "Web",
+      "episodes": 26,
+      "runtimeMinutes": 23,
+      "season": "Sommer 2023",
+      "studios": [
+        "TMS Entertainment Co., Ltd."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "Bakugan (2023)",
+        "Bakugan 3.0",
+        "Bakugan Battle Clan (爆丸バトルクラン)",
+        "Bakugan: Revolution"
+      ]
+    },
+    "fetchedAt": "2026-09-23T17:47:23.590Z"
   },
   "177191": {
     "anisearchId": 19242,
@@ -287078,6 +287200,133 @@
       ]
     },
     "fetchedAt": "2026-09-06T06:32:37.535Z"
+  },
+  "196144": {
+    "anisearchId": 20768,
+    "descriptionDe": "Im Jahre 2025 griff der erste intergalaktische Kaiju die Erde an – und das war nur der Anfang. Immer mehr dieser aus einer fremden Galaxie stammenden Ungeheuer stürmten auf den Planeten und ein Krieg um das Überleben der Menschheit entbrannte. Um dieser Bedrohung entgegenzutreten, hatten die verschiedenen Nationen ihre besten Leute und Technologien zusammengetragen. Am Ende wurde der jugendliche Tetsuo Yabusame als Pilot des riesigen Kampfroboters Yukio in den Weltraum zur alles entscheidenden Schlacht entsandt. Doch die Übermacht war schier überwältigend und der Krieg endete mit einer Niederlage der Menschen.\n\nTetsuo driftete seitdem acht Jahre lang im Kälteschlaf durch das All, bis seine Rettungskapsel schließlich wieder auf der Erde eintrifft. Die Welt, die er nun vorfindet, ist allerdings nicht diejenige, die er bisher kannte: Die Städte liegen in Trümmern und die Landschaft ist trotz des meteorologischen Sommers unter einer dicken Decke aus Eis und Schnee begraben. Sein letztes Versprechen an Yukio, eines Tages echte Freunde zu finden, hat er aber noch nicht aufgegeben. Daher macht er sich auf die Suche nach Antworten und Überlebenden. \n\nQuelle: www.anisearch.de/anime/20768",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GT00371869/snowball-earth"
+      },
+      {
+        "provider": "disneyplus",
+        "url": "https://www.disneyplus.com/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Snowball Earth",
+          "titleNative": "スノウボールアース",
+          "status": "Abgeschlossen",
+          "released": "03.04.2026 - 26.06.2026"
+        },
+        {
+          "language": "Englisch",
+          "title": "Snowball Earth",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.04.2026 - 26.06.2026",
+          "publisher": [
+            "Muse Communication Co.,Ltd.",
+            "Crunchyroll",
+            "The Walt Disney Company"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Snowball Earth",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.04.2026 - 26.06.2026",
+          "publisher": [
+            "Crunchyroll",
+            "The Walt Disney Company"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Snowball Earth",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.04.2026 - 26.06.2026",
+          "publisher": [
+            "Crunchyroll",
+            "The Walt Disney Company"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Snowball Earth",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.04.2026 - 26.06.2026",
+          "publisher": [
+            "Crunchyroll",
+            "The Walt Disney Company"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Snowball Earth",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.04.2026 - 26.06.2026",
+          "publisher": [
+            "Crunchyroll",
+            "The Walt Disney Company"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 23,
+      "season": "Frühling 2026",
+      "studios": [
+        "Studio KAI Inc."
+      ],
+      "staff": [
+        {
+          "name": "Yuuhirou TSUJITSUGU",
+          "role": "Original Work"
+        },
+        {
+          "name": "Munehisa SAKAI",
+          "role": "Direction"
+        },
+        {
+          "name": "Toshiya KOUNO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Hiroaki TSUTSUMI"
+        },
+        {
+          "name": "Tatsuya KATOU"
+        },
+        {
+          "name": "Yuki KANESAKA"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/snowballearth_o"
+        },
+        {
+          "name": "Snowballearth",
+          "url": "https://snowballearth.net/"
+        },
+        {
+          "name": "Snowballearth",
+          "url": "https://snowballearth.net/en/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-09-23T17:47:11.247Z"
   },
   "196935": {
     "anisearchId": 20808,
