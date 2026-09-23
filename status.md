@@ -4822,3 +4822,48 @@ getestet hast hab ich schon getestet").
 | Rang | Anbieter | Ergebnis |
 |---|---|---|
 | 134 | KiKA | **Daniel selbst geprüft** (Bild, 23.09.2026): Suche nach „dragon ball" findet nur Tanoshii-Videos, keine Serie. Raus — aber die Mediathek ist durchsuchbar und für **andere** Titel ein Kandidat. |
+
+### Ergebnis des Anbieterdurchgangs (23.09.2026, 16:40–16:50)
+
+Statt 90 Kataloge einzeln zu durchsuchen, beantwortet **eine** Abfrage die Frage für alle bei
+JustWatch gelisteten Anbieter: Volltextsuche nach sechs Schreibweisen („Dragon Ball",
+„Dragonball", „Dragon Ball Z", „Dragon Ball GT", „Dragon Ball Kai", „Son Goku"), je 40 Treffer,
+mit **allen** Angeboten und Tonspuren. Ergebnis: 34 Dragon-Ball-Titel, **23 Anbieter** mit
+mindestens einem Angebot.
+
+**Die vier Hauptserien haben bei keinem einzigen Anbieter einen Stream:**
+
+| Serie | Angebote |
+|---|---|
+| Dragon Ball (1986) | Amazon DVD/Blu-ray, Zavvi, Thalia — **nur Kauf** |
+| Dragonball Z (1996) | Zavvi, Hugendubel, Medimops, Amazon DVD/Blu-ray, Thalia — **nur Kauf** |
+| Dragonball Z Kai (2009) | Zavvi (Kauf), Videobuster (Leihe) |
+| Dragonball GT (1996) | Thalia — **nur Kauf** |
+
+**Zwei weitere Aggregatoren bestätigen das unabhängig:** kino.de („Derzeit leider keine
+Streamingangebote verfügbar") und Plex, das einen eigenen Gratiskatalog hat und für Dragonball Z
+sagt: „Dieser Titel ist derzeit nirgendwo verfügbar."
+
+**Wo es Dragon Ball im Stream gibt — und das sind nur die neueren Titel:**
+
+| Titel | Anbieter mit deutschem Ton |
+|---|---|
+| Dragonball Super (131 Fg.) | ADN, ADN Amazon Channel, Disney+ |
+| Dragonball Super: Broly | Disney+, Crunchyroll, **RTL+** |
+| Dragonball Super: Super Hero | Disney+, Crunchyroll, **RTL+** |
+| Dragonball Z: Resurrection ‚F' | Crunchyroll (auch werbefinanziert), Amazon Video (Leihe), maxdome Store, Freenet meinVOD |
+| Dragonball Z: Kampf der Götter | Amazon Video, **maxdome Store**, **Apple TV Store**, **MagentaTV**, Freenet meinVOD, Videobuster — alle Leihe, Tonspur `de` belegt |
+| Dragon Ball DAIMA | Netflix (Tonspur laut Daniels Handprüfung ohne Deutsch), Crunchyroll (ja/en, kein de) |
+| Dragonball Evolution (Realfilm) | Disney+ (de), dazu Leihe bei Apple, Amazon, MagentaTV, Videobuster |
+
+**Neu für unseren Bestand** sind damit RTL+ (Broly, Super Hero) und die digitalen Leihwege für
+die Filme (maxdome Store, Apple TV Store, MagentaTV, Freenet meinVOD, Amazon Video) — bei
+„Kampf der Götter" führten wir bisher nur YouTube.
+
+**Was der Durchgang nicht abdeckt:** Anbieter, deren Katalog JustWatch und Plex nicht
+indexieren — die Mediatheken und linearen Gratiskanäle. Geprüft wurden davon ARD Mediathek
+(Suche ohne Treffer), KiKA (Daniel, mit Bild), Kixi (reines Kinderprogramm), Joyn (nur Super,
+Folgen 110–129) und Pluto TV (zwei Anime-Kanäle, kein Dragon Ball). Offen bleiben ZDF, 3sat,
+Funk, TELE 5, DF1, ServusTV On, Sat.1 und Discovery+ — bei allen liegt die Wahrscheinlichkeit
+nahe null, weil die TV-Rechte an Dragon Ball bei ProSiebenSat.1 liegen und damit in Joyn
+landen.
