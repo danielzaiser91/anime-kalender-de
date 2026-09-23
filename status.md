@@ -19,6 +19,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 ### In Arbeit
 
 | Aufgabe | SP | Notiz |
+| **Offen (ab 24.09.2026): Joyn-Weg für „Dragon Ball" aufnehmen** | 2 | Die erste Serie läuft ab dem 24.09.2026 Mo–Fr ab 17:10 in Doppelfolgen auf ProSieben MAXX; die Folgen stehen danach kostenlos in der Joyn-Mediathek (rollendes Fenster, wie bei Dragon Ball Super die Folgen 110–129). Sobald die erste Folge dort steht: Weg für AniList 223 eintragen und das Fenster pflegen. Dasselbe für Z Kai, sobald es wieder läuft. Belege im Rechercheabschnitt vom 23.09.2026. |
 | **Offen (23.09.2026): aniSearch weist unsere Kennung ab (Issue #214)** | 3 | Gemessen von Daniels Leitung: Dieselben Adressen antworten mit Chrome-Kennung 6 × HTTP 200, mit der Projekt-Kennung `anime-kalender.de/1.0 (+…)` 4 × HTTP 423 — danach sperrt aniSearch die IP ganz (Connect-Timeout). Es ist also keine Runner-Sperre. Die ehrliche Kennung ist eine bewusste Entscheidung vom 09.08.2026; sie zu tauschen gehört Daniel vorgelegt. **Bis dahin nicht abrufen** — jeder Versuch verlängert die Sperre. Zweite Hälfte: Eine gesperrte Fremdquelle macht zurzeit den ganzen Bestandslauf rot („Quellen auf Schweigen prüfen"), obwohl der Bestand in Ordnung ist. |
 | **Erledigt am 23.09.2026: Push-Klick führte immer zur Favoritenliste** | 2 | Daniel zur Clevatess-Meldung: „klick drauf öffnet nicht clevates detail panel in wochenansicht". Der Service Worker hatte kein Ziel — die Nachricht trug keins. Jetzt legt der Worker es daneben (`pushZiel()`, Migration 036 `offen_ziel`, angewandt und ausgeliefert): bei genau einer Meldung `#/woche?d=…&t=…`, sonst die Favoriten. Der Klick benutzt außerdem ein offenes Fenster und setzt dort die Route. Zu prüfen bleibt der nächste echte Push. |
 | **Erledigt am 23.09.2026: Netflix-Kasten blinkte auf jeder Titelseite (4.21.2)** | 2 | Seit dem 06.09. zeichnet der Sekundentakt den Kasten für den Prüflisten-Knopf, seit dem 11.09. versteckt ihn derselbe Takt ohne Auftrag. Sichtbar wurde es, als alle 376 Netflix-Wege ein Urteil hatten und die Prüfliste leer war. Die Trennlinie liegt jetzt am Ort: Player nur mit Auftrag, außerhalb bleibt der Kasten. |
@@ -245,6 +246,39 @@ hat (siehe `docs/wissen/quellen.md`). Sie kommt mit dem nächsten regulären Lau
 **Bewertung:** Für die Klassiker ist „kein deutscher Stream" damit kein Erfassungsmangel,
 sondern die Antwort. Die Seite sagt das bereits über „Für Folgen … kennen wir keinen deutschen
 Anbieter"; die Disc-Ausgaben stehen als eigene Pillen daneben.
+
+### Nachtrag 23.09.2026, 14:30: echte Anbietersuche im Web (Daniels Auftrag)
+
+Der Teil oben war ein Abgleich unserer eigenen Quellen — Daniel wollte die Suche nach Anbietern:
+„mach echte web search, gründlich, und such nach anbietern die die hauptserie von dragon ball
+anbieten". Gesucht und **live geprüft**, nicht aus dem Bestand gelesen:
+
+| Geprüft | Wie | Ergebnis |
+|---|---|---|
+| JustWatch DE, Serienseiten von Dragon Ball, Dragonball Z, Z Kai, GT | Browser, 23.09.2026 | jeweils „nicht im Stream verfügbar" — nur DVD/Blu-ray (Amazon, Zavvi, Thalia, Hugendubel, Medimops, ZOXS), Z Kai zusätzlich Videobuster (Leihe) |
+| Crunchyroll | CMS-Pfad mit unserem DE-Zugangspaket (`/DE/M2/-`) | Dragon Ball, Z, Z Kai, GT, Movies: **0 Blöcke**; DAIMA: 1 Block, Tonspur nur `ja-JP`. Gegenprobe mit einer echten DE-Serie: 1 Block mit `de-DE`, erfundene Kennung: 0 |
+| Joyn | Suche auf joyn.de, 23.09.2026 | nur **Dragon Ball Super**, Folgen 110–129 (rollendes Fenster) |
+| Pluto TV DE | Kanalliste über `api.pluto.tv/v2/channels` | 192 Kanäle, davon zwei Anime-Kanäle (Pluto TV Anime #370, Akiba Anime #374) — kein Dragon-Ball-Angebot |
+| fernsehserien.de | Abruf | nennt für DBZ Crunchyroll, Crunchyroll-Kanal bei Prime, maxdome, Prime Video Shop — gegen die Messungen oben **veraltet** |
+| Anime on Demand | Recherche | seit 08.12.2021 eingestellt, Inhalte zu Crunchyroll gewandert |
+
+**Der Fund, den keine unserer Quellen kannte:** Die erste Serie läuft **ab dem 24.09.2026**
+Montag bis Freitag ab 17:10 in Doppelfolgen auf ProSieben MAXX, und die Folgen stehen danach
+**kostenlos in der Joyn-Mediathek** — so lief es schon ab dem 26.11.2025 (damals 18:05) und
+ebenso bei Dragon Ball Z Kai. Joyn hält dabei ein rollendes Fenster, wie bei Dragon Ball Super
+zu sehen (dort stehen zurzeit die Folgen 110–129).
+
+Damit ist der deutsche Streaming-Weg für die Hauptserien die **Joyn-Mediathek begleitend zur
+Ausstrahlung** — kein Abo, kein Kauf, aber auch kein vollständiger Katalog: Wer eine bestimmte
+Folge sucht, findet sie nur im laufenden Fenster.
+
+**Zu tun:** Sobald die ersten Folgen auf Joyn stehen (ab 24.09.2026), den Joyn-Weg für
+„Dragon Ball" (AniList 223) aufnehmen und das Fenster wie bei Super pflegen. Dasselbe für
+Z Kai prüfen, sobald es wieder läuft.
+
+**Nicht abschließend geprüft:** Netflix, Disney+ und Prime Video digital — dort kommt man ohne
+Anmeldung nicht an die Sprachangaben. Für Prime nennen Suchtreffer Titelseiten
+(`primevideo.com/-/de/detail/…`), die Sprachfassung steht dort aber nur hinter dem Login.
 
 ## Geplant 19.09.2026: Deutsche Folgendaten und TV-Folgennummern (Recherche `docs/recherche-tv-quellen-2026-09-19.md`)
 
