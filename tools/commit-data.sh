@@ -196,7 +196,17 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # machten danach jeden Deploy rot.
     if ! npm run check:bestand > /tmp/bestand-pruefung.txt 2>&1 || ! npm run check:logic >> /tmp/bestand-pruefung.txt 2>&1; then
       cat /tmp/bestand-pruefung.txt
-      grund="$(grep -m 3 '✖' /tmp/bestand-pruefung.txt | tr -d '\"' | tr -s '[:space:]' ' ')"
+      # Die sechs Prüfungen in `check:bestand` melden über `warn()` (Zeichen
+      # `⚠`) oder mit `✗` (U+2717); nur `check-logic.ts` und `build.ts`
+      # selbst nutzen `✖` (U+2716). Ein Muster, das nur `✖` sucht, findet bei
+      # jedem `check:bestand`-Fehlschlag keinen Treffer — `grep` beendet sich
+      # dann mit Exit-Code 1, und unter `set -euo pipefail` reißt das diese
+      # einfache Zuweisung mit: kein `if`/`&&`/`||`-Kontext, den `set -e`
+      # ausnimmt. Das Skript brach dadurch ab, bevor es die
+      # `WARNUNG_STATT_ROT`-Behandlung darunter erreichte (21.09.2026, Lauf
+      # 35566086288, ausgelöst von `check:handbelege`). `|| true` fängt außerdem
+      # den Fall ab, in dem keines der drei Zeichen vorkommt.
+      grund="$(grep -m 3 -E '✖|✗|⚠' /tmp/bestand-pruefung.txt | tr -d '\"' | tr -s '[:space:]' ' ')" || true
       if [ "${WARNUNG_STATT_ROT:-0}" = 1 ]; then
         echo "::warning::Der gebaute Bestand verletzt eine Zusicherung. Erzeugnisse und neue Meldungen werden nicht übernommen."
         git checkout -- data/dub-confirmed.yaml 2>/dev/null || true
