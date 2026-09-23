@@ -23,6 +23,7 @@ import {
   beurteileBlockketten,
   beurteileJeBlock,
   beurteileNachFolgennummern,
+  beurteileTeilblock,
   deutscheFolgenNachDemEnde,
   kapitelImBlock,
   type CrDubData,
@@ -4720,6 +4721,33 @@ function main(): void {
       }
     }
     if (ketten) log(`${ketten} weitere über Blockketten belegt (ein Block deckt mehrere Staffeln)`)
+
+    /*
+      **Fünfte Runde: ein Block, den ein Titel und sein zweiter Teil zusammen füllen.**
+
+      Die Kette oben bricht ab, sobald **ein** Block der Adresse unvollständig deutsch ist —
+      bei Sword Art Online ist das „Alicization" (25 Folgen, 24 deutsch), und deshalb blieb
+      „War of Underworld – Teil 2" ohne Urteil, obwohl sein Block restlos deutsch ist.
+      `beurteileTeilblock` sieht jeden Block für sich an und verlangt Blocknamen, Teil-Namen
+      und exakte Summe zugleich; gemessen am 23.09.2026: acht Treffer, sieben davon
+      Bestätigungen vorhandener Urteile, kein Widerspruch.
+    */
+    let teilbloecke = 0
+    for (const { serie, titel: gruppe } of nachSerienId.values()) {
+      const offene = [...gruppe.values()].filter((t) =>
+        t.streams.some((s) => s.platform === 'crunchyroll' && s.dub === undefined),
+      )
+      if (!offene.length) continue
+      /* Gerechnet wird über **alle** Einträge der Adresse — der erste Teil hat oft schon ein Urteil. */
+      for (const urteil of beurteileTeilblock(serie, [...gruppe.values()])) {
+        const title = titles.get(urteil.titleId)
+        const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
+        if (!stream || stream.dub !== undefined) continue
+        stream.dub = urteil.dub
+        teilbloecke++
+      }
+    }
+    if (teilbloecke) log(`${teilbloecke} weitere über Teilblöcke belegt (Titel plus zweiter Teil füllen einen Block)`)
 
     /**
      * **Ein deutscher Block, den keiner unserer Titel führt — das Special.**

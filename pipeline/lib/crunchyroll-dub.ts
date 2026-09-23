@@ -717,6 +717,76 @@ export function kapitelImBlock(serie: CrSerie, title: Title): boolean | undefine
   return undefined
 }
 
+/**
+ * **Ein Block, den unser Titel und sein zweiter Teil zusammen füllen.**
+ *
+ * „Sword Art Online Alicization War of Underworld" führt bei Crunchyroll 23 deutsche Folgen.
+ * Bei uns sind das zwei Einträge: War of Underworld (12) und dessen Teil 2 (11). Keiner der
+ * anderen Wege fand Teil 2 — der Name des Blocks trifft nur den ersten, eine Blockkette
+ * scheitert an der Adresse (dort liegt auch „Alicization" mit 25 Folgen, von denen 24 deutsch
+ * sind, und die Kette bricht bei jedem unvollständigen Block ab). Teil 2 stand deshalb ohne
+ * Sprachurteil als Crunchyroll-Aufgabe in der Statusanzeige, obwohl es dort keinen Melder gibt
+ * (Daniel, 23.09.2026).
+ *
+ * **Die Regel ist bewusst eng.** Eine bloße Summe zweier aufeinanderfolgender Titel trifft im
+ * Bestand 271 Blöcke, und fast alle davon zufällig — ein Film plus eine Serie ergeben auch 13.
+ * Gefordert sind deshalb vier Dinge zugleich:
+ *
+ * 1. Der Block ist **restlos deutsch** und zählt von 1 durch.
+ * 2. Genau **ein** Titel der Adresse trägt den Namen des Blocks.
+ * 3. Genau **ein weiterer** Titel derselben Adresse trägt denselben Namen mit Zusatz —
+ *    „… – Teil 2", „… Cour 2", „… OVAs".
+ * 4. Beide zusammen ergeben **exakt** die Folgenzahl des Blocks.
+ *
+ * Gemessen am 23.09.2026 über den ganzen Bestand: acht Treffer, kein Widerspruch. Sieben davon
+ * hatten bereits über andere Wege ein „deutsch" — die Regel bestätigt sie also, statt Neues zu
+ * behaupten (Haikyu!! To the Top, Dead Mount Death Play, Ancient Magus' Bride Staffel 2, Space
+ * Dandy, Kokoro Connect, Interviews mit Monster-Mädchen, Chunibyo Heart Throb). Der achte ist
+ * der Fall, um den es geht.
+ */
+export function beurteileTeilblock(serie: CrSerie, unsere: Title[]): Urteil[] {
+  if (serie.katalog !== 'de' || unsere.length < 2) return []
+  const kurz = (t: string | undefined | null): string =>
+    (t ?? '')
+      .toLowerCase()
+      .replace(/\((german dub|dt\. opening|deutscher dub)\)/g, '')
+      .replace(/[^a-z0-9]/g, '')
+  const namen = (t: Title): string[] => [t.titleRomaji, t.titleEn, t.titleDe].filter(Boolean).map((n) => kurz(n))
+
+  const raus: Urteil[] = []
+  for (const block of serie.staffeln ?? []) {
+    const dt = (block.deutscheFolgen ?? [])
+      .map((f) => f.nummer)
+      .filter((n): n is number => typeof n === 'number' && Number.isFinite(n))
+      .sort((a, b) => a - b)
+    if (!dt.length || (block.fremd ?? 0) > 0) continue
+    if (typeof block.folgen === 'number' && block.folgen !== dt.length) continue
+    if (dt[0] !== 1 || dt[dt.length - 1] !== dt.length) continue
+
+    const bn = kurz(block.name)
+    /* Ein kurzer Blockname („OVAs", „Season 1") trifft zu viele — dafür gibt es andere Wege. */
+    if (bn.length < 8) continue
+
+    const kopf = unsere.filter((t) => namen(t).includes(bn))
+    if (kopf.length !== 1) continue
+    const erster = kopf[0]!
+    const weitere = unsere.filter((t) => t !== erster && namen(t).some((n) => n.startsWith(bn) && n.length > bn.length))
+    if (weitere.length !== 1) continue
+    const zweiter = weitere[0]!
+    if (!erster.episodes || !zweiter.episodes) continue
+    if (erster.episodes + zweiter.episodes !== dt.length) continue
+
+    for (const t of [erster, zweiter]) {
+      raus.push({
+        titleId: t.id,
+        dub: true,
+        grund: `Block „${block.name}" ist mit ${dt.length} Folgen restlos deutsch und deckt ${erster.episodes} + ${zweiter.episodes} unserer Folgen`,
+      })
+    }
+  }
+  return raus
+}
+
 export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
   const bloecke = serie.staffeln ?? []
   if (!bloecke.length) return []

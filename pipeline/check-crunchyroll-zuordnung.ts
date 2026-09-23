@@ -22,7 +22,7 @@
  *
  * Aufruf: npm run check:cr-zuordnung
  */
-import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSerie, type CrDubData, beurteileJeBlock } from './lib/crunchyroll-dub.ts'
+import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSerie, type CrDubData, beurteileJeBlock, beurteileTeilblock } from './lib/crunchyroll-dub.ts'
 import { termineAusSerie } from './lib/crunchyroll-termine.ts'
 import { readJson, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
@@ -870,6 +870,102 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
     'aus dem US-Katalog kommt kein deutscher Termin',
     termineAusSerie({ ...sammel, katalog: 'us' } as CrSerie, [crTitel(1, 3, 2020)]).length === 0,
   )
+}
+
+/**
+ * **Ein Block, den ein Titel und sein zweiter Teil zusammen füllen** (23.09.2026).
+ *
+ * Der reale Fall: „Sword Art Online Alicization War of Underworld" führt 23 deutsche Folgen,
+ * bei uns sind das War of Underworld (12) und Teil 2 (11). Die Gefahr ist dieselbe wie bei
+ * jeder Summenregel — zwei beliebige Titel, deren Folgenzahlen zufällig passen. Deshalb hier
+ * die Gegenproben, nicht nur der Treffer.
+ */
+{
+  console.log('\nEin Block, den ein Titel und sein zweiter Teil füllen')
+
+  const macheSerie = (bloecke: unknown[]) =>
+    ({
+      url: 'https://www.crunchyroll.com/de/series/TEST/sword-art-online',
+      seriesId: 'TEST',
+      quelle: 'api' as const,
+      katalog: 'de' as const,
+      geprueftAm: '2026-09-23',
+      deutschImAngebot: true,
+      staffeln: bloecke,
+    }) as never
+
+  const folgen = (n: number) => Array.from({ length: n }, (_, i) => ({ nummer: i + 1, deutsch: true }))
+  const wou = {
+    name: 'Sword Art Online Alicization War of Underworld',
+    folgen: 23,
+    kacheln: 23,
+    deutsch: 23,
+    fremd: 0,
+    deutscheFolgen: folgen(23),
+  }
+  /* An derselben Adresse liegt ein unvollständiger Block — daran scheitert die Blockkette. */
+  const alicization = {
+    name: 'Sword Art Online Alicization',
+    folgen: 25,
+    kacheln: 25,
+    deutsch: 24,
+    fremd: 1,
+    deutscheFolgen: folgen(24),
+  }
+  const teil = (id: number, name: string, ep: number) =>
+    ({ id, titleRomaji: name, titleEn: name, titleDe: name, episodes: ep, format: 'TV', streams: [] }) as never
+
+  const wouTitel = [
+    teil(108759, 'Sword Art Online: Alicization - War of Underworld', 12),
+    teil(114308, 'Sword Art Online: Alicization - War of Underworld – Teil 2', 11),
+  ]
+
+  const urteile = beurteileTeilblock(macheSerie([alicization, wou]), wouTitel)
+  pruefe(
+    'beide Teile bekommen ihr Urteil, obwohl ein anderer Block unvollständig ist',
+    urteile.length === 2 && urteile.every((u) => u.dub === true),
+    urteile,
+  )
+  pruefe(
+    'die Blockkette scheitert an genau diesem Fall — darum gibt es die Regel',
+    beurteileBlockketten(macheSerie([alicization, wou]), wouTitel).length === 0,
+  )
+
+  /* Gegenprobe 1: Die Summe stimmt, aber der zweite Titel gehört nicht zum Block. */
+  const fremderZweiter = beurteileTeilblock(macheSerie([wou]), [
+    teil(1, 'Sword Art Online: Alicization - War of Underworld', 12),
+    teil(2, 'Attack on Titan Final Season', 11),
+  ])
+  pruefe('ein fremder Titel mit passender Folgenzahl bekommt nichts', fremderZweiter.length === 0, fremderZweiter)
+
+  /* Gegenprobe 2: Die Summe geht nicht auf. */
+  const summeDaneben = beurteileTeilblock(macheSerie([wou]), [
+    teil(1, 'Sword Art Online: Alicization - War of Underworld', 12),
+    teil(2, 'Sword Art Online: Alicization - War of Underworld – Teil 2', 12),
+  ])
+  pruefe('geht die Summe nicht auf, bleibt der Block unzugeordnet', summeDaneben.length === 0, summeDaneben)
+
+  /* Gegenprobe 3: Der Block ist nicht restlos deutsch. */
+  const halberBlock = beurteileTeilblock(macheSerie([{ ...wou, deutsch: 20, fremd: 3, deutscheFolgen: folgen(20) }]), wouTitel)
+  pruefe('ein Block mit fremdsprachigen Folgen belegt nichts', halberBlock.length === 0, halberBlock)
+
+  /* Gegenprobe 4: Zwei Anwärter auf den zweiten Teil sind mehrdeutig. */
+  const zweiKandidaten = beurteileTeilblock(macheSerie([wou]), [
+    ...wouTitel,
+    teil(3, 'Sword Art Online: Alicization - War of Underworld – Recap', 11),
+  ])
+  pruefe('zwei mögliche zweite Teile sind mehrdeutig', zweiKandidaten.length === 0, zweiKandidaten)
+
+  /* Gegenprobe 5: Ein kurzer Blockname („OVAs") trifft zu viele — dafür gibt es andere Wege. */
+  const kurzerName = beurteileTeilblock(macheSerie([{ name: 'OVAs', folgen: 2, kacheln: 2, deutsch: 2, fremd: 0, deutscheFolgen: folgen(2) }]), [
+    teil(1, 'OVAs', 1),
+    teil(2, 'OVAs 2', 1),
+  ])
+  pruefe('ein kurzer Blockname belegt nichts', kurzerName.length === 0, kurzerName)
+
+  /* Nur der deutsche Katalog zählt — der US-Katalog sagt nichts über unsere Tonspur. */
+  const usKatalog = beurteileTeilblock({ ...(macheSerie([wou]) as object), katalog: 'us' } as never, wouTitel)
+  pruefe('der US-Katalog belegt nichts', usKatalog.length === 0, usKatalog)
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
