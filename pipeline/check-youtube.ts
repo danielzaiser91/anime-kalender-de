@@ -21,6 +21,7 @@
  * Aufruf: npx tsx pipeline/check-youtube.ts [--alter 30] [--limit 200]
  */
 import { readFileSync } from 'node:fs'
+import { riegelGreift } from './lib/youtube-riegel.ts'
 import type { Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
@@ -171,6 +172,7 @@ async function pruefeVideo(id: string): Promise<Befund> {
   }
 }
 
+
 async function main(): Promise<void> {
   if (!KEY) {
     warn('YOUTUBE_API_KEY fehlt — ohne Schlüssel lässt sich nichts prüfen.')
@@ -265,9 +267,20 @@ async function main(): Promise<void> {
     `fetch-justwatch-audio.ts`). Ein Kontingent- oder Netzausfall trifft alle
     Abfragen gleichzeitig; ohne diesen Riegel stünde danach eine Datei voller
     Nullbefunde, aus der der Bau Verweise entfernt.
+
+    **Gezählt werden nur Störungen** (23.09.2026, Issue #215). Der Riegel zählte auch `leer`
+    mit — das sind **beantwortete** Abfragen mit dem Ergebnis „in Deutschland gesperrt", und
+    das ist bei Anime auf YouTube der Normalfall: 362 von 514 Verweisen (70 %) stehen so schon
+    im Bestand. Der Lauf vom 21.09.2026 maß 363 von 514 — derselbe Zustand, und trotzdem hielt
+    ihn der Riegel für unplausibel und schrieb nichts. Da dieser Zweig auch `recordSource()`
+    überspringt, fror `lastOk` ein, und nach neun Tagen brach der Bestandslauf an der
+    Schweigen-Prüfung ab (Lauf 35855024971).
+
+    Eine Störung ist das Gegenteil davon: keine Antwort. Genau davor schützt der Riegel, und
+    nur die zählt er jetzt.
   */
-  if (geprueft >= 20 && (leer + stoerung) / geprueft > 0.5) {
-    warn(`YouTube: ${leer} ohne Video und ${stoerung} Störungen bei ${geprueft} Abfragen — unplausibel, nichts geschrieben.`)
+  if (riegelGreift(geprueft, stoerung)) {
+    warn(`YouTube: ${stoerung} Störungen bei ${geprueft} Abfragen — unplausibel, nichts geschrieben.`)
     return
   }
   writeJson(DATEI, bestand)

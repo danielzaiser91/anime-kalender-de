@@ -60,6 +60,7 @@ import {
 import { adnAdresseSchaerfen, adnFolgenAdresse } from './lib/adn-sprachen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { bereicheGekuerzt, bereicheKurz, dubBild, dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
+import { riegelGreift } from './lib/youtube-riegel.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
@@ -1666,6 +1667,27 @@ console.log('\nStreaming Availability API:')
       { from: 156, to: 171, dub: false },
       { from: 1, to: 155, dub: true },
     ])?.n === 155)
+}
+
+/**
+ * **Der YouTube-Riegel zählt Störungen, nicht gesperrte Videos** (23.09.2026, Issue #215).
+ *
+ * „In Deutschland gesperrt" ist bei Anime auf YouTube der Normalfall — 70 Prozent der
+ * Verweise stehen so im Bestand. Der Riegel zählte sie wie Ausfälle und verwarf damit den
+ * Lauf vom 21.09.2026, der exakt denselben Zustand gemessen hatte wie der Bestand. Weil
+ * dieser Zweig auch `recordSource()` überspringt, meldete die Schweigen-Prüfung neun Tage
+ * später einen Ausfall und brach den Bestandslauf ab.
+ */
+{
+  console.log('\nYouTube: wann ein Lauf nichts schreiben darf')
+
+  /* Die realen Zahlen des Laufs vom 21.09.2026: 514 Abfragen, 363 gesperrt, keine Störung. */
+  pruefe('ein Lauf mit lauter gesperrten Videos schreibt', !riegelGreift(514, 0))
+  pruefe('ein echter Ausfall hält den Lauf an', riegelGreift(514, 400))
+  pruefe('knapp unter der Hälfte schreibt noch', !riegelGreift(100, 50))
+  pruefe('knapp darüber nicht mehr', riegelGreift(100, 51))
+  /* Unter zwanzig Abfragen sagt der Anteil nichts — dann wird geschrieben. */
+  pruefe('eine winzige Stichprobe löst den Riegel nicht aus', !riegelGreift(10, 10))
 }
 
 /**
