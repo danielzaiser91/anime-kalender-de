@@ -2565,6 +2565,21 @@ function laufBeenden(grund) {
 }
 
 function laufStarten() {
+  /*
+    **Ein Durchgang ohne Auftrag schließt nicht stillschweigend den Dialog** (Daniel,
+    23.09.2026, mit Bild: „alle durchgehen klick schließt die prüfliste, nichts wird
+    gemeldet").
+
+    Die Funktion schloss den Dialog als Erstes und suchte danach den nächsten Auftrag. Fand
+    sie keinen, endete der Lauf mit einer Zeile in der Konsole — sichtbar war nur, dass die
+    Liste zuging. Genau so sah es aus, als die Erweiterung noch den alten Prüfstand hielt:
+    fünf frisch aufgelegte Titel galten ihr als gemeldet.
+
+    Jetzt wird zuerst gefragt und nur gestartet, wenn es etwas zu holen gibt. Der Rückgabewert
+    sagt dem Knopf, was er anzeigen soll.
+  */
+  const hierAuftrag = Boolean(titelDerAdresse()) && offeneTitel[String(gemeinteReihe())] !== undefined
+  if (!hierAuftrag && !naechsterAuftrag()) return false
   selbstAn = true
   selbstGezaehlt = 0
   selbstVersucht = null
@@ -2577,8 +2592,9 @@ function laufStarten() {
     /* Ohne Speicher gilt der Lauf bis zum nächsten Neuladen. */
   }
   dialogSchliessen()
-  if (titelDerAdresse() && offeneTitel[String(gemeinteReihe())] !== undefined) void vielleichtSelbstStarten()
+  if (hierAuftrag) void vielleichtSelbstStarten()
   else selbstWeiter()
+  return true
 }
 
 /**
@@ -5231,7 +5247,21 @@ async function dialogOeffnen() {
       if (selbstAn) {
         laufBeenden('von Hand')
         dialogSchliessen()
-      } else laufStarten()
+        return
+      }
+      if (laufStarten()) return
+      /*
+        Kein Auftrag: Der Dialog bleibt offen und sagt es. Meist hält die Erweiterung dann
+        einen älteren Prüfstand — ein Neuladen der Seite holt ihn.
+      */
+      const vorher = selbst.textContent
+      selbst.textContent = 'nichts offen — Seite neu laden'
+      selbst.title = 'Die Liste hält gerade keinen offenen Auftrag. Nach einem Neuladen der Seite ist der Prüfstand frisch.'
+      selbst.disabled = true
+      setTimeout(() => {
+        selbst.textContent = vorher
+        selbst.disabled = false
+      }, 5000)
     })
     kopf.appendChild(selbst)
   }
