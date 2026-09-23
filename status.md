@@ -4867,3 +4867,35 @@ Folgen 110–129) und Pluto TV (zwei Anime-Kanäle, kein Dragon Ball). Offen ble
 Funk, TELE 5, DF1, ServusTV On, Sat.1 und Discovery+ — bei allen liegt die Wahrscheinlichkeit
 nahe null, weil die TV-Rechte an Dragon Ball bei ProSiebenSat.1 liegen und damit in Joyn
 landen.
+
+### Lizenzlage Dragon Ball in Deutschland (recherchiert 23.09.2026)
+
+- **Rechteinhaber:** Toei Animation (Produktion, Japan).
+- **Deutsche Disc-Rechte:** Crunchyroll GmbH, vormals KAZÉ Anime. Sie bringen die Blu-ray-Boxen
+  heraus — „Dragon Ball Z Blu-ray Box 1" mit den Folgen 1–35 erschien am 23.02.2024
+  (crunchyroll-vertrieb.de/product/av1002).
+- **TV-Rechte:** ProSiebenSat.1 / ProSieben MAXX. Die erste Serie läuft dort ab 24.09.2026
+  erneut, Z Kai lief ebenso; die Folgen landen danach in Joyns Mediathek.
+- **Streamingrechte in Deutschland:** bei niemandem sichtbar. Crunchyroll führt Dragon Ball,
+  Z, Z Kai und GT im englischsprachigen Raum (USA, Kanada, Australien, Neuseeland), im
+  deutschen Katalog liefert der CMS-Pfad für alle vier **0 Blöcke**.
+- **Wer die deutschen Streamingrechte hält, ist nicht belegt.** Die Fachpresse vermutet
+  ProSiebenSat.1 und schreibt das auch als Vermutung („aber die Lizenzen liegen aktuell wohl
+  immer noch bei ProSieben (?), wie es aussieht", playcentral.de). Eine offizielle Bestätigung
+  gibt es nicht — hier steht deshalb Vermutung, nicht Befund.
+- **ADN hat 18 Dragon-Ball-Filme exklusiv, aber nur in Frankreich.** Der Anbieter hat
+  gegenüber GamePro bestätigt: „Die Filme werden nicht auf ADN Deutschland verfügbar sein."
+
+**Der Widerspruch, der die Lage erklärt:** Dieselbe Firma, die in Deutschland die Discs
+verkauft (Crunchyroll GmbH), darf die Serien hier nicht streamen. Disc-, TV- und Streamingrechte
+sind getrennt vergeben, und das Streamingfenster ist in Deutschland offenbar gar nicht besetzt.
+
+### Nebenbefund: 40 belegte deutsche Abo-Wege fehlen im Bestand (23.09.2026)
+
+Gemessen über `data/justwatch-audio.json` gegen `public/data/titles.json`: 40 Angebote vom Typ
+FLATRATE/ADS mit **belegter deutscher Tonspur** stehen nicht als Weg im Datensatz — 24 bei
+Prime Video, 9 bei Crunchyroll, 7 bei Disney+. Darunter bekannte Titel: One Piece bei Disney+,
+Naruto Shippuden und Trigun bei Prime, Chunibyo bei Crunchyroll. Aufgefallen bei Dragon Ball
+Super: Broly, wo JustWatch Disney+ und RTL+ nennt und der Bestand nur Crunchyroll und Prime
+führt. **Zu klären: warum der Bau sie nicht übernimmt** — die Daten liegen seit dem 16.09.2026
+vor.
