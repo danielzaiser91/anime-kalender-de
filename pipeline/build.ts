@@ -8473,7 +8473,21 @@ function main(): void {
     }
     if (vorher.length) {
       const jetzt = new Set(slim.map((t) => t.id))
-      const verloren = vorher.filter((id) => !jetzt.has(id))
+      /**
+       * **Wer hinter den Toggle verschoben wurde, ist kein Verlust** (PR #187, Issue #186).
+       *
+       * `schreibeOhneSynchro` trägt jeden Titel aus `verschoben` nachweislich in
+       * `ohne-synchro.json` nach — genau die Zusicherung aus dem Fix vom 17.08.2026 („Ein
+       * Vorfilter verschiebt, er löscht nicht"). Der Riegel kannte sie nicht: Am 21.09.2026
+       * verloren „Black Clover 2nd Season" (195604) und „Kusuriya no Hitorigoto 3rd Season"
+       * (195516) ihren einzigen, unbestätigten Crunchyroll-Termin, wanderten korrekt hinter
+       * den Toggle — und der Bau brach ab, obwohl nichts verloren war (Lauf 35550446358).
+       *
+       * Der Pull Request lag seit dem 21.09. offen und ließ sich nach den Änderungen vom
+       * 23.09. nicht mehr sauber zusammenführen; die Zeile steht deshalb direkt hier.
+       */
+      const hinterToggle = new Set(verschoben.map((t) => t.id))
+      const verloren = vorher.filter((id) => !jetzt.has(id) && !hinterToggle.has(id))
       if (verloren.length > ERLAUBTER_VERLUST) {
         warn(
           `ABBRUCH: ${verloren.length} Titel wuerden aus dem Datensatz fallen ` +
