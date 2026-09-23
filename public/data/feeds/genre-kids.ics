@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Kids
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260916T140500Z
-DTEND:20260916T143500Z
-SUMMARY:Pokémon Horizonte – Folge 78/127
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260916T150500Z
-DTEND:20260916T153500Z
-SUMMARY:Pokémon Horizonte – Folge 78/127
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-09-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260917T140500Z

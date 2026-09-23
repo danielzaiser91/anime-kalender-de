@@ -6,28 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Shounen
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:dragon-ball-daima-toggo-plus@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260916T191500Z
-DTEND:20260916T194500Z
-SUMMARY:Dragon Ball DAIMA – Folge 16/20
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/dragon-ball-daima-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:thunder-3@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260916
-DTEND;VALUE=DATE:20260917
-SUMMARY:Thunder 3 – Folge 11/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
- rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/th
- under-3
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:dragon-ball-daima-toggo-plus@2026-09-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260917T191500Z

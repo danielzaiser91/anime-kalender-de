@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-23T22:07:54.322Z",
+ "erzeugtAm": "2026-09-23T23:53:02.508Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -37,53 +37,13 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 366,
+   "gemeldet": 376,
    "gesamt": 376,
-   "offen": 10,
+   "offen": 0,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/70205012",
-   "ziele": [
-    {
-     "url": "https://www.netflix.com/title/70205012",
-     "titel": "Naruto"
-    },
-    {
-     "url": "https://www.netflix.com/title/80000603",
-     "titel": "Naruto Shippuden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80001305",
-     "titel": "Cowboy Bebop"
-    },
-    {
-     "url": "https://www.netflix.com/title/80179831",
-     "titel": "JoJo’s Bizarre Adventure"
-    },
-    {
-     "url": "https://www.netflix.com/title/81033445",
-     "titel": "Neon Genesis Evangelion"
-    },
-    {
-     "url": "https://www.netflix.com/title/81080523",
-     "titel": "Boruto: Naruto Next Generations"
-    },
-    {
-     "url": "https://www.netflix.com/title/81236338",
-     "titel": "Baki Hanma"
-    },
-    {
-     "url": "https://www.netflix.com/title/81239555",
-     "titel": "Shaman King (2021)",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81253271",
-     "titel": "Beelzebub"
-    }
-   ],
-   "naechster": "Naruto"
+   "ziel": null,
+   "ziele": [],
+   "naechster": null
   },
   {
    "name": "Disney+",

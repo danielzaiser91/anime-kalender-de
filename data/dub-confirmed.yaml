@@ -16963,3 +16963,105 @@
   dub: false
   checkedAt: '2026-09-23'
   note: 20 von 20 Folgen im Angebot, keine mit deutscher Tonspur.
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-24 ---
+
+- anilistId: 119675
+  title: "Shaman King (2021)"
+  platform: netflix
+  url: https://www.netflix.com/title/81239555
+  dub: true
+  checkedAt: '2026-09-23'
+  note: "Folgen 1–52 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 52, dazwischen nicht geprüft — Folge 52: Schamanenkönig: Am Ende ein Gott"
+
+- anilistId: 9513
+  title: "Beelzebub"
+  platform: netflix
+  url: https://www.netflix.com/title/81253271
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 48
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48]
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–48 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 48, dazwischen nicht geprüft — Folge 48: Ich bin der Vater"
+
+- anilistId: 1735
+  title: "Naruto Shippuden"
+  platform: netflix
+  url: https://www.netflix.com/title/80000603
+  dub: true
+  dubRanges:
+    - from: 480
+      to: 500
+      dub: true
+      checked: [480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500]
+  checkedAt: '2026-09-24'
+  note: "Folgen 480–500 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 480 und 500, dazwischen nicht geprüft — Folge 499: Das Ende der geheimen Mission"
+
+- anilistId: 97938
+  title: "Boruto: Naruto Next Generations"
+  platform: netflix
+  url: https://www.netflix.com/title/81080523
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 15
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 15, dazwischen nicht geprüft — Folge 15: Neue Pfade"
+
+- anilistId: 20
+  title: "Naruto"
+  platform: netflix
+  url: https://www.netflix.com/title/70205012
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Sonderbericht: Live aus dem Wald des Schreckens"
+
+- anilistId: 1
+  title: "Cowboy Bebop"
+  platform: netflix
+  url: https://www.netflix.com/title/80001305
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Die letzte Mission"
+
+- anilistId: 30
+  title: "Neon Genesis Evangelion"
+  platform: netflix
+  url: https://www.netflix.com/title/81033445
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Sei gut zu dir selbst!"
+
+- anilistId: 146646
+  title: "Baki Hanma: Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/81236338
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–27 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 27, dazwischen nicht geprüft — Folge 26: Dress"
+
+- anilistId: 102883
+  title: "JoJo’s Bizarre Adventure: Golden Wind"
+  platform: netflix
+  url: https://www.netflix.com/title/80179831
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–39 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 39, dazwischen nicht geprüft — Folge 39: Der schlafende Sklave"
+
+- anilistId: 21450
+  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
+  platform: netflix
+  url: https://www.netflix.com/title/80179831
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–39 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 39, dazwischen nicht geprüft — Folge 39: Auf Wiedersehen, Moriō – Das Herz aus Gold — Netflix: Diamond Is Unbreakable"

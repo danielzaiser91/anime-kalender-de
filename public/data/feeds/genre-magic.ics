@@ -6,67 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Magic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:clevatess-s2@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260916T120000Z
-DTEND:20260916T123000Z
-SUMMARY:Clevatess – Staffel 2 – Folge 11/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/clevatess-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260916T133000Z
-DTEND:20260916T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260916T140000Z
-DTEND:20260916T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 14/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/cr-GRGG9798R
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:trapped-in-a-dating-sim-s2@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260916T153000Z
-DTEND:20260916T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:tomb-raider-king@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260916T172500Z
-DTEND:20260916T175500Z
-SUMMARY:Tomb Raider King – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/tomb-raider-king
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:dragon-ball-daima-toggo-plus@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260916T191500Z
-DTEND:20260916T194500Z
-SUMMARY:Dragon Ball DAIMA – Folge 16/20
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/dragon-ball-daima-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:dragon-ball-daima-toggo-plus@2026-09-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260917T191500Z
