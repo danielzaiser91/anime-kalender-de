@@ -2847,7 +2847,18 @@ async function netflixStaffelnImMenue() {
     return { text, nr: nr ? Number(nr[1]) : null, folgen: folgen ? Number(folgen[1]) : null }
   })
   if (!warOffen) knopf.click()
-  return raus
+  /* „Alle Folgen anzeigen" ist keine Staffel — der Durchgang wechselt nur zwischen echten (Daniel, 24.09.2026). */
+  return raus.filter((e) => !istAlleFolgenEintrag(e.text))
+}
+
+/**
+ * **Netflix' Menüeintrag „Alle Folgen anzeigen" ist keine Staffel** (Daniel, 24.09.2026: „beim
+ * staffel wechsel verhalten der extension diesen eintrag ignorieren"). Er zeigt alle Staffeln
+ * untereinander; nachgeladen wird dort erst beim Scrollen, und die angezeigte Liste ist keine
+ * einzelne Staffel mehr.
+ */
+function istAlleFolgenEintrag(text) {
+  return /^\s*(?:alle folgen|all episodes)/i.test(String(text ?? ''))
 }
 
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
@@ -3004,7 +3015,8 @@ async function selbstStartenSchritt() {
   */
   const hier = `${reihe}:m:${menueSchluessel(angezeigterNetflixName())}`
   selbstStaffelnBesucht.add(hier)
-  if (selbstStaffelnGeprueft.has(hier) || !angezeigteStaffelHatOffenes()) {
+  /* Steht das Menü auf „Alle Folgen anzeigen", zuerst zu einer echten Staffel wechseln. */
+  if (istAlleFolgenEintrag(angezeigterNetflixName()) || selbstStaffelnGeprueft.has(hier) || !angezeigteStaffelHatOffenes()) {
     const ziel = naechsteOffeneNetflixStaffel(reihe)
     const eintraege = ziel == null ? await netflixStaffelnImMenue() : []
     const naechster = eintraege.find((e) => !selbstStaffelnBesucht.has(`${reihe}:m:${menueSchluessel(e.text)}`))

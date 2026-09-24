@@ -227,6 +227,12 @@ function schluss() {
   pruefe('JoJo: Netflix-Staffel 2 bei gespeicherter Netflix-Liste → keine titelId', titelId({ gespeichert: true }) === null)
   pruefe('ohne gespeicherte Netflix-Liste gilt unsere Zählung → 20474', titelId({ gespeichert: false }) === 20474)
   pruefe('Prüfliste in Netflix-Zählung → Staffel 2 bleibt zuordenbar', titelId({ gespeichert: true, laut: 'anbieter-gerechnet' }) === 20474)
+  /* „Alle Folgen anzeigen" ist keine Staffel (24.09.2026). */
+  const alle = new Function(schneide('istAlleFolgenEintrag') + '\nreturn istAlleFolgenEintrag')()
+  pruefe('„Alle Folgen anzeigen" wird erkannt', alle('Alle Folgen anzeigen') && alle(' All episodes'))
+  pruefe('echte Staffeln nicht', !alle('Golden Wind(39 Folgen)') && !alle('Staffel 2 (27 Folgen)'))
+  pruefe('das Menü liefert ihn nicht als Staffel', /return raus\.filter\(\(e\) => !istAlleFolgenEintrag\(e\.text\)\)/.test(schneide('netflixStaffelnImMenue')))
+  pruefe('steht er angezeigt, wechselt der Durchgang zuerst weg', /if \(istAlleFolgenEintrag\(angezeigterNetflixName\(\)\) \|\|/.test(start))
   /* Ein Fehler im Durchgang endet sichtbar. */
   const huelle = schneide('vielleichtSelbstStarten')
   pruefe('ein Fehler im Durchgang landet in Spur und Kasten', /spur\('Fehler'/.test(huelle) && /laufBeenden\(`Fehler: /.test(huelle))
