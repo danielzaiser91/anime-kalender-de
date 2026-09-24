@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-24 · **1 offene Verweise** in **1 Zeilen**,
+Stand 2026-09-24 · **2 offene Verweise** in **2 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,8 +31,9 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 1
+## Paket 1 — Zeilen 1 bis 2
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | Crunchyroll | Snowball Earth | [Hauptserie](https://www.crunchyroll.com/series/GT00371869/snowball-earth) |
+| 2 | Crunchyroll | Saga of Tanya the Evil | [Hauptserie](http://www.crunchyroll.com/de/saga-of-tanya-the-evil) |

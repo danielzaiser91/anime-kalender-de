@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-24T05:10:21.006Z",
+  "stand": "2026-09-24T10:11:03.359Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -5315,17 +5315,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 5231,
-      "titel": "Inazuma Eleven",
-      "plattform": "youtube",
-      "url": "https://www.youtube.com/playlist?list=PLQVzkO9r_ci1DzCZEg8_O4sOAbCQlZRWa",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-24",
-      "letzterWeg": true
-    },
-    {
       "titleId": 5300,
       "titel": "Natsume’s Book of Friends: Staffel 2",
       "plattform": "crunchyroll",
@@ -7922,6 +7911,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 196840,
+      "titel": "I Want You to Show Me Your Panties with a Disgusted Face Returns",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1395-i-want-you-to-show-me-your-panties-with-a-disgusted-face-returns",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-24",
+      "letzterWeg": true
+    },
+    {
       "titleId": 199588,
       "titel": "Gals Can’t Be Kind to Otaku!?",
       "plattform": "crunchyroll",
@@ -7986,6 +7986,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-24",
       "letzterWeg": false
+    },
+    {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-24",
+      "letzterWeg": true
     },
     {
       "titleId": 128223,
@@ -8054,6 +8065,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-24",
+      "letzterWeg": true
+    },
+    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8074,6 +8096,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-24",
       "letzterWeg": false
+    },
+    {
+      "titleId": 5231,
+      "titel": "Inazuma Eleven",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLQVzkO9r_ci1DzCZEg8_O4sOAbCQlZRWa",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-24",
+      "letzterWeg": true
     },
     {
       "titleId": 20778,

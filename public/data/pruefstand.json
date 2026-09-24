@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-24T08:29:58.741Z",
+ "erzeugtAm": "2026-09-24T10:11:11.678Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -108,14 +108,18 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 37,
-   "gesamt": 42,
-   "offen": 5,
+   "gesamt": 43,
+   "offen": 6,
    "ohneSeite": 0,
    "ziel": "https://www.disneyplus.com/browse/entity-bc2dae95-23e6-45dc-8177-066425b10fa0",
    "ziele": [
     {
      "url": "https://www.disneyplus.com/browse/entity-bc2dae95-23e6-45dc-8177-066425b10fa0",
      "titel": "Naruto"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-cdb8e29b-7fb0-4142-9966-3b1125246df0",
+     "titel": "One Piece"
     },
     {
      "url": "https://www.disneyplus.com/de-de/series/bleach/6g48QKlgQdWK",
@@ -140,17 +144,21 @@
    "name": "Crunchyroll",
    "plattform": "crunchyroll",
    "gemeldet": 0,
-   "gesamt": 1,
-   "offen": 1,
+   "gesamt": 2,
+   "offen": 2,
    "ohneSeite": 0,
-   "ziel": "https://www.crunchyroll.com/series/GT00371869/snowball-earth",
+   "ziel": "http://www.crunchyroll.com/de/saga-of-tanya-the-evil",
    "ziele": [
+    {
+     "url": "http://www.crunchyroll.com/de/saga-of-tanya-the-evil",
+     "titel": "Saga of Tanya the Evil"
+    },
     {
      "url": "https://www.crunchyroll.com/series/GT00371869/snowball-earth",
      "titel": "Snowball Earth"
     }
    ],
-   "naechster": "Snowball Earth"
+   "naechster": "Saga of Tanya the Evil"
   }
  ]
 }
