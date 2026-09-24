@@ -47,7 +47,14 @@ import { istErschienen } from '../../shared/logic.ts'
 async function briefkastenCacheLeeren(request: Request): Promise<void> {
   const basis = new URL(request.url)
   basis.search = ''
-  const wege = ['?zaehlen=1', '?zaehlen=1&nummern=1', '?stand=1']
+  /*
+    **`?stand=1` wird nicht mehr verworfen, er läuft nach seiner Minute von selbst ab** (24.09.2026).
+    Jede Meldung verwarf ihn, und am Tag des Melde-Durchgangs rechnete der Worker ihn 1.834-mal neu —
+    mit der Abfrage, die 9,2 Millionen Zeilen las und das Tageskontingent aufbrauchte. Die eigene
+    Meldung überbrückt die Erweiterung ohnehin selbst (`frischGemeldetNetflix`); für alle anderen
+    ist der Stand höchstens eine Minute alt.
+  */
+  const wege = ['?zaehlen=1', '?zaehlen=1&nummern=1']
   await Promise.all(wege.map((w) => caches.default.delete(new Request(basis.toString() + w, { method: 'GET' }))))
 }
 

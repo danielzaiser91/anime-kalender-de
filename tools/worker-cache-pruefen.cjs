@@ -51,7 +51,17 @@ const listeRoh = quelle.match(/const wege = \[([^\]]+)\]/)
 pruefe(!!listeRoh, 'Verwerfen-Liste gefunden')
 const wege = listeRoh ? [...listeRoh[1].matchAll(/'([^']+)'/g)].map((m) => m[1]) : []
 
+/*
+  **Eine Ausnahme mit Grund** (24.09.2026): `?stand=1` hält nur eine Minute und wird absichtlich
+  nicht verworfen. Verworfen je Meldung, rechnete ihn der Worker am Tag des Melde-Durchgangs
+  1.834-mal neu und brauchte damit das D1-Tageskontingent auf.
+*/
+const LAEUFT_SELBST_AB = new Set(['stand=1'])
 for (const endpunkt of umhuellt) {
+  if (LAEUFT_SELBST_AB.has(endpunkt)) {
+    pruefe(!wege.some((w) => w.includes(endpunkt)), `«${endpunkt}» läuft nach seiner Frist ab und wird nicht verworfen`)
+    continue
+  }
   pruefe(
     wege.some((w) => w.includes(endpunkt)),
     `«${endpunkt}» wird beim Schreiben verworfen`,
