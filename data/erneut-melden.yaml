@@ -73,3 +73,4 @@
 - { anilistId: 136880, platform: netflix, seit: '2026-09-24', grund: "Test Netflix-Durchgang 4.22.1 (24.09.2026)" }
 - { anilistId: 127720, platform: netflix, seit: '2026-09-24', grund: "Test Netflix-Durchgang 4.22.1 (24.09.2026)" }
 - { anilistId: 20992, platform: netflix, seit: '2026-09-24', grund: "Test Netflix-Durchgang 4.22.1 (24.09.2026)" }
+- { anilistId: 11771, platform: netflix, seit: '2026-09-24', grund: "Abschlusstest Netflix-Durchgang 4.21.12 (24.09.2026)" }

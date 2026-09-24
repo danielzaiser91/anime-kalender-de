@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-24T16:06:43.031Z",
+ "erzeugtAm": "2026-09-24T16:11:13.080Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -37,9 +37,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 356,
+   "gemeldet": 355,
    "gesamt": 376,
-   "offen": 20,
+   "offen": 21,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/70302573",
    "ziele": [
@@ -67,6 +67,10 @@
      "staffeln": [
       1
      ]
+    },
+    {
+     "url": "https://www.netflix.com/title/80063153",
+     "titel": "Kuroko’s Basketball: 1st Season"
     },
     {
      "url": "https://www.netflix.com/title/80090673",

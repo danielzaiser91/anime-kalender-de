@@ -60,7 +60,19 @@ function luecken(id, plattform) {
     .filter((s) => s.platform === plattform)
     .flatMap((s) => [s.url, s.seite].filter(Boolean))
   const liste = lies(ANBIETER[plattform].liste)
-  if (!liste.includes(String(id)) && !urls.some((u) => liste.includes(u))) fehlt.push(ANBIETER[plattform].liste)
+  /*
+    **Auch unter der Kennung des Anbieters** (24.09.2026). Hat Netflix seine Staffeln einmal
+    gemeldet, führt die Liste den Titel mit Netflix' Staffeln — ohne unsere AniList-Kennung, nur
+    unter `"80063153"`. Kuroko stand so auf der Liste, und die Prüfung meldete „fehlt", bis jede
+    neue Eintragung scheiterte.
+  */
+  const anbieterKennungen = urls.map((u) => /\/title\/(\d+)/.exec(u)?.[1]).filter(Boolean)
+  if (
+    !liste.includes(String(id)) &&
+    !urls.some((u) => liste.includes(u)) &&
+    !anbieterKennungen.some((k) => liste.includes(`"${k}"`))
+  )
+    fehlt.push(ANBIETER[plattform].liste)
   const stand = JSON.parse(lies('public/data/pruefstand.json')).anbieter.find((a) => a.plattform === plattform)
   if (!(stand?.ziele ?? []).some((z) => urls.includes(z.url))) fehlt.push('public/data/pruefstand.json')
   return fehlt
@@ -163,6 +175,26 @@ lauf('npm run check:vor-commit')
 lauf(`git add ${DATEIEN.join(' ')}`)
 const nachricht = `Prüfliste: ${neu.map((n) => `${name(n.id)} (${n.plattform})`).join(', ')} erneut melden\n\nGrund: ${grund}. Erzeugt von tools/erneut-melden.mjs.`
 execSync('git commit -q -F -', { cwd: wurzel, input: nachricht, stdio: ['pipe', 'inherit', 'inherit'] })
-lauf('git pull -q --rebase --autostash')
+/*
+  **Ein Bestandslauf dazwischen ist kein Abbruchgrund** (24.09.2026). Zwischen Erzeugen und Push
+  committete ein Lauf neue Listen; das Rebase blieb mit Konflikten in `offene-netflix.js` und
+  `pruefstand.json` stehen. Beides ist erzeugt: den Stand des Laufs nehmen, auf ihm neu erzeugen,
+  weiter. Nur ein Konflikt in der YAML selbst braucht einen Menschen.
+*/
+try {
+  execSync('git pull -q --rebase --autostash', { cwd: wurzel, stdio: 'inherit' })
+} catch {
+  const konflikte = execSync('git diff --name-only --diff-filter=U', { cwd: wurzel, encoding: 'utf8' }).split('\n').filter(Boolean)
+  if (!konflikte.length || konflikte.includes(YAML) || konflikte.some((d) => !DATEIEN.includes(d))) {
+    console.error(`Rebase mit Konflikten in: ${konflikte.join(', ') || '(unbekannt)'} — bitte von Hand lösen.`)
+    process.exit(1)
+  }
+  /* Im Rebase ist „ours" der Stand, auf den gesetzt wird — der des Bestandslaufs. */
+  execSync(`git checkout --ours -- ${konflikte.join(' ')}`, { cwd: wurzel })
+  erzeugen()
+  execSync(`git add ${DATEIEN.join(' ')}`, { cwd: wurzel })
+  execSync('git rebase --continue', { cwd: wurzel, stdio: 'inherit', env: { ...process.env, GIT_EDITOR: 'true' } })
+  console.log(`Konflikt mit einem Bestandslauf gelöst: ${konflikte.join(', ')} neu erzeugt.`)
+}
 lauf('git push -q')
 console.log('Gepusht — die Status-App zeigt die Titel nach dem Deploy.')
