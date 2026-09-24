@@ -760,6 +760,15 @@ Dazu am selben Abend: `?stand=1` wird beim Schreiben nicht mehr verworfen (hält
 Rohfolge (`prime_folge (gti)`, 280.000) an. **Nach dem Einspielen mit `d1 insights` nachmessen**
 — die Wirkung ist bis dahin geschätzt, nicht gemessen.
 
+Zweite Runde am selben Abend, aus der vollständigen Liste (`--limit 25`, Summe 11,1 Mio. Zeilen):
+Jede Meldung zählte danach alle offenen Meldungen nach (`COUNT(*)`, 560.000 Zeilen, Ergebnis las
+niemand) — entfernt. Jede Meldung schickt außerdem ein Ereignis „pruefung", und die Status-App holte
+darauf auch die Läufe neu; dazu fragte sie während eines Laufs alle 5 Sekunden, auch bei stehendem
+Push-Kanal, und ein hängender „läuft"-Eintrag hielt das stundenlang am Laufen (2.313 Abrufe,
+714.000 Zeilen). Beides in `C:\code\ai\__assets\tools\lauf-status\index.html` behoben; greift
+nach einem Neustart der App. **Merksatz: Ein Ereignis je Schreibzugriff ist ein Lesezugriff je
+Zuhörer** — wer Ereignisse sendet, prüft, was die Empfänger darauf abfragen.
+
 ### Der Auslöser war die Unterabfrage — die Ursache war der Takt
 
 Nachdem der Index lag, blieb die Frage, ob das Kontingent damit sicher ist. Die
