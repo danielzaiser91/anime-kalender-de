@@ -754,6 +754,12 @@ Außerdem nimmt D1 bei aufgebrauchtem Kontingent **auch keine Migration** an —
 erst nach Mitternacht UTC. Und `fetch-pruefungen.ts` beendet den Bestandslauf bei HTTP 5xx seitdem
 gelb statt rot.
 
+Dazu am selben Abend: `?stand=1` wird beim Schreiben nicht mehr verworfen (hält 60 s, Ausnahme in
+`tools/worker-cache-pruefen.cjs`), und Migration 038 legt Indizes für die Status-App
+(`lauf_status (workflow, zustand, gemeldet_am)`, 886.000 Zeilen am Tag) und das Löschen je
+Rohfolge (`prime_folge (gti)`, 280.000) an. **Nach dem Einspielen mit `d1 insights` nachmessen**
+— die Wirkung ist bis dahin geschätzt, nicht gemessen.
+
 ### Der Auslöser war die Unterabfrage — die Ursache war der Takt
 
 Nachdem der Index lag, blieb die Frage, ob das Kontingent damit sicher ist. Die
