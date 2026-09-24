@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-23. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-24. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-81 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+82 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -20,6 +20,7 @@ Stand: 2026-09-23. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-09-28 | netflix | – unklar | [Netflix nimmt ersten »Demon Slayer: Infinity Castle«-Film ins Programm](https://www.anime2you.de/news/1049975/demon-slayer-infinity-castle-bald-auf-netflix/) |
 | 2026-09-29 | netflix | – unklar | [Netflix-Termin des dritten »Mononoke«-Films + Trailer](https://www.anime2you.de/news/1042775/dritter-mononoke-film-netflix-termin/) |
 | 2026-09-30 | netflix | – unklar | [Netflix entfernt acht Anime-Titel aus seinem Programm](https://www.anime2you.de/news/1045817/netflix-entfernt-quintuplets-und-mehr/) |
+| 2026-10 (Monat) | netflix | – unklar | [Netflix: Alle Anime-Neuzugänge im Oktober 2026](https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/) |
 | 2026-10-20, 2026-10 (Monat) | netflix | – unklar | [Netflix enthüllt neuen Teaser zu »Cyberpunk: Edgerunners II«](https://www.anime2you.de/news/1053081/cyberpunk-edgerunners-ii-sneak-peek-teaser/) |
 | 2026-10 (Monat) | adn | – unklar | [ADN nimmt »86 EIGHTY-SIX« in sein Programm auf](https://www.anime2you.de/news/1052781/86-eighty-six-bald-auf-adn/) |
 | 2026-10-27, 2026-10 (Monat) | kino | ✅ zugesagt | [Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«](https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/) |
@@ -47,47 +48,46 @@ Stand: 2026-09-23. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11 (Monat) | crunchyroll, disc | – unklar | [Blu-ray-Termin der zweiten Staffel von »As a Reincarnated Aristocrat«](https://www.anime2you.de/news/1046924/as-a-reincarnated-aristocrat-staffel-2-disc-termin/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [»A Silent Voice« erscheint als Steelbook-Edition auf Blu-ray](https://www.anime2you.de/news/1044326/a-silent-voice-steelbook-edition/) |
 | 2026-11-20, 2026-11 (Monat) | crunchyroll, disc | – unklar | [Termin der vierten Blu-ray-Box von »Dragon Ball Z« + Design](https://www.anime2you.de/news/1044034/dragon-ball-z-box-4-termin/) |
-| 2026-11-06, 2026-11 (Monat) | disc | – unklar | [Disc-Termin des zweiten Parts von »Tougen Anki« + Design](https://www.anime2you.de/news/1044545/tougen-anki-part-2-disc-termin/) |
 
-… und 41 weitere.
+… und 42 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 6 |
-| adn-catalog | 1.9 Tage her | 117 |
-| anilist-voices | 1.9 Tage her | 0 |
-| anime-offline-database | 1.9 Tage her | 8876 |
+| adn-catalog | 2.9 Tage her | 117 |
+| anilist-voices | 2.9 Tage her | 0 |
+| anime-offline-database | 2.9 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 34 |
-| anisearch | 4.0 Tage her | 0 |
-| anisearch-folgen | 1.9 Tage her | 2623 |
-| ann-voices | 1.9 Tage her | 8876 |
-| cartoons | 1.0 Tage her | 1 |
-| cinestar | 1.9 Tage her | 1 |
-| cr-einzelwerke | 21.0 Tage her | 9 |
-| cr-filmbloecke | 21.0 Tage her | 6 |
+| anisearch | 0.6 Tage her | 6 |
+| anisearch-folgen | 2.9 Tage her | 2623 |
+| ann-voices | 2.9 Tage her | 8876 |
+| cartoons | 1.0 Tage her | 0 |
+| cinestar | 2.9 Tage her | 1 |
+| cr-einzelwerke | 0.9 Tage her | 0 |
+| cr-filmbloecke | 0.9 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 17 |
-| crunchyroll-dub | 1.0 Tage her | 1100 |
-| crunchyroll-neu | 0.0 Tage her | 69 |
-| crunchyroll-offene | 1.9 Tage her | 0 |
-| fsk | 1.9 Tage her | 3 |
-| justwatch-audio | 1.9 Tage her | 5 |
-| kinoheld | 1.9 Tage her | 1 |
-| link-check | 1.9 Tage her | 295 |
-| motn | 21.0 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 2 |
-| rohfolgen | 0.7 Tage her | 0 |
-| rtlplus-folgen | 1.9 Tage her | 1 |
-| tmdb-folgen | 1.9 Tage her | 851 |
-| tmdb-kino | 1.9 Tage her | 4 |
-| tmdb-titles | 1.9 Tage her | 400 |
+| crunchyroll-dub | 0.0 Tage her | 1100 |
+| crunchyroll-neu | 0.0 Tage her | 73 |
+| crunchyroll-offene | 2.9 Tage her | 0 |
+| fsk | 2.9 Tage her | 3 |
+| justwatch-audio | 0.9 Tage her | 0 |
+| kinoheld | 2.9 Tage her | 1 |
+| link-check | 2.9 Tage her | 295 |
+| motn | 22.0 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 9 |
+| rohfolgen | 0.2 Tage her | 164 |
+| rtlplus-folgen | 2.9 Tage her | 1 |
+| tmdb-folgen | 2.9 Tage her | 851 |
+| tmdb-kino | 2.9 Tage her | 4 |
+| tmdb-titles | 0.9 Tage her | 1 |
 | toggo | 0.0 Tage her | 25 |
-| trailer | 1.0 Tage her | 2 |
-| tv-de | 0.4 Tage her | 49 |
-| tv-programm | 0.1 Tage her | 291 |
-| vorfaelle | 0.1 Tage her | 0 |
-| wikidata-imdb | 1.9 Tage her | 4742 |
-| wikidata-titel | 7.1 Tage her | 0 |
+| trailer | 1.0 Tage her | 0 |
+| tv-de | 0.2 Tage her | 43 |
+| tv-programm | 0.2 Tage her | 287 |
+| vorfaelle | 0.2 Tage her | 0 |
+| wikidata-imdb | 2.9 Tage her | 4742 |
+| wikidata-titel | 8.1 Tage her | 0 |
 | wikipedia-folgen | 0.0 Tage her | 7 |
-| youtube-check | 8.9 Tage her | 0 |
+| youtube-check | 0.9 Tage her | 514 |

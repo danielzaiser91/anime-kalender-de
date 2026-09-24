@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 51
+    "2026-09": 53
   },
   "gesehen": {
     "26341901:netflix": {
@@ -4189,7 +4189,97 @@
       "dienst": "netflix",
       "am": "2026-09-22",
       "deutsch": false
+    },
+    "new:37267:disney": {
+      "art": "new",
+      "titel": "Star Wars Blips",
+      "originalTitel": "Star Wars Blips",
+      "imdbId": "tt11281500",
+      "tmdbId": "tv/105106",
+      "dienst": "disney",
+      "am": "2026-09-23",
+      "deutsch": false
+    },
+    "new:922:disney": {
+      "art": "new",
+      "titel": "A Discovery of Witches",
+      "originalTitel": "A Discovery of Witches",
+      "imdbId": "tt2177461",
+      "tmdbId": "tv/77236",
+      "dienst": "disney",
+      "am": "2026-09-23",
+      "deutsch": true
+    },
+    "new:24973688:disney": {
+      "art": "new",
+      "titel": "Locker Diaries: ZOMBIES",
+      "originalTitel": "Locker Diaries: ZOMBIES",
+      "imdbId": "tt39931234",
+      "tmdbId": "tv/313973",
+      "dienst": "disney",
+      "am": "2026-09-23",
+      "deutsch": true
+    },
+    "new:6075527:disney": {
+      "art": "new",
+      "titel": "A Sign of Affection",
+      "originalTitel": "ゆびさきと恋々",
+      "imdbId": "tt30024091",
+      "tmdbId": "tv/230059",
+      "dienst": "disney",
+      "am": "2026-09-23",
+      "deutsch": true
+    },
+    "new:3036:disney": {
+      "art": "new",
+      "titel": "The Rising of the Shield Hero",
+      "originalTitel": "盾の勇者の成り上がり",
+      "imdbId": "tt9529546",
+      "tmdbId": "tv/83095",
+      "dienst": "disney",
+      "am": "2026-09-23",
+      "deutsch": true
+    },
+    "new:26518149:netflix": {
+      "art": "new",
+      "titel": "Habeas Corpus",
+      "originalTitel": "Habeas Corpus",
+      "imdbId": "tt39369819",
+      "tmdbId": "tv/308963",
+      "dienst": "netflix",
+      "am": "2026-09-23",
+      "deutsch": false
+    },
+    "new:25483143:netflix": {
+      "art": "new",
+      "titel": "Wonka's The Golden Ticket",
+      "originalTitel": "Wonka's The Golden Ticket",
+      "imdbId": "tt36258621",
+      "tmdbId": "tv/286940",
+      "dienst": "netflix",
+      "am": "2026-09-23",
+      "deutsch": false
+    },
+    "removed:4038799:netflix": {
+      "art": "removed",
+      "titel": "Lioness",
+      "originalTitel": "Lioness",
+      "imdbId": "tt13111078",
+      "tmdbId": "tv/113962",
+      "dienst": "netflix",
+      "am": "2026-09-24",
+      "deutsch": true
+    },
+    "removed:16244989:disney": {
+      "art": "removed",
+      "titel": "Hyper Knife",
+      "originalTitel": "하이퍼나이프",
+      "imdbId": "tt35378081",
+      "tmdbId": "tv/245079",
+      "dienst": "disney",
+      "am": "2026-09-23",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-23T09:20:26.513Z"
+  "fetchedAt": "2026-09-24T09:20:42.317Z"
 }
