@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-24T05:10:29.204Z",
+ "erzeugtAm": "2026-09-24T08:29:58.741Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -37,13 +37,72 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 376,
+   "gemeldet": 366,
    "gesamt": 376,
-   "offen": 0,
+   "offen": 10,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.netflix.com/title/80050063",
+   "ziele": [
+    {
+     "url": "https://www.netflix.com/title/80050063",
+     "titel": "The Seven Deadly Sins"
+    },
+    {
+     "url": "https://www.netflix.com/title/80063153",
+     "titel": "Kuroko’s Basketball: 1st Season"
+    },
+    {
+     "url": "https://www.netflix.com/title/80090673",
+     "titel": "Haikyu!!",
+     "staffeln": [
+      1
+     ]
+    },
+    {
+     "url": "https://www.netflix.com/title/80206326",
+     "titel": "Es war einmal … das Leben"
+    },
+    {
+     "url": "https://www.netflix.com/title/80987039",
+     "titel": "Mushoku Tensei: Jobless Reincarnation",
+     "staffeln": [
+      1
+     ]
+    },
+    {
+     "url": "https://www.netflix.com/title/80991903",
+     "titel": "Dorohedoro",
+     "staffeln": [
+      1
+     ]
+    },
+    {
+     "url": "https://www.netflix.com/title/81054847",
+     "titel": "Beastars",
+     "staffeln": [
+      1
+     ]
+    },
+    {
+     "url": "https://www.netflix.com/title/81091393",
+     "titel": "Demon Slayer: Kimetsu no Yaiba"
+    },
+    {
+     "url": "https://www.netflix.com/title/81239555",
+     "titel": "Shaman King (2021)",
+     "staffeln": [
+      1
+     ]
+    },
+    {
+     "url": "https://www.netflix.com/title/81278456",
+     "titel": "Jujutsu Kaisen",
+     "staffeln": [
+      1
+     ]
+    }
+   ],
+   "naechster": "The Seven Deadly Sins"
   },
   {
    "name": "Disney+",
