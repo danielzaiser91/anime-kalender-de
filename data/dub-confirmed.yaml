@@ -17159,3 +17159,240 @@
   dub: true
   checkedAt: '2026-09-24'
   note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, en|Englisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 24, dazwischen nicht geprüft — Folge 23: Der Ursprung des blinden Folgens: Teil 2 — Netflix: Staffel 1"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-24 ---
+
+- anilistId: 113415
+  title: "Jujutsu Kaisen"
+  platform: netflix
+  url: https://www.netflix.com/title/81278456
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, en|Englisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 24, dazwischen nicht geprüft — Folge 23: Der Ursprung des blinden Folgens: Teil 2 — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 9941
+  title: "Tiger & Bunny"
+  platform: netflix
+  url: https://www.netflix.com/title/80039972
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 25: Ewige Unsterblichkeit — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 21507
+  title: "Mob Psycho 100"
+  platform: netflix
+  url: https://www.netflix.com/title/80179798
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], ru|Russisch, it|Italienisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Mob und Reigen — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 127619
+  title: "Aggretsuko: Staffel 4"
+  platform: netflix
+  url: https://www.netflix.com/title/80198505
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, yue|Kantonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 9: Unbefugter Zugriff — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 101571
+  title: "Aggretsuko"
+  platform: netflix
+  url: https://www.netflix.com/title/80198505
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, yue|Kantonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 8: Der „Selbstzahl-Prinz“ — Netflix: Staffel 4"
+
+- anilistId: 100891
+  title: "Kengan Ashura"
+  platform: netflix
+  url: https://www.netflix.com/title/80992228
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Vater und Sohn — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 146638
+  title: "Kengan Ashura: Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80992228
+  dub: true
+  dubRanges:
+    - from: 13
+      to: 28
+      dub: true
+      checked: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+  checkedAt: '2026-09-24'
+  note: "Folgen 13–28 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 13 und 28, dazwischen nicht geprüft — Folge 27: Sieg — Netflix: Staffel 1: Teil 1"
+
+- anilistId: 105333
+  title: "Dr. Stone"
+  platform: netflix
+  url: https://www.netflix.com/title/81046193
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 24, dazwischen nicht geprüft — Folge 23: Folge 23 — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 114236
+  title: "Fire Force Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/81143589
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 24, dazwischen nicht geprüft — Folge 24: Erschütterndes Omen — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 105310
+  title: "Fire Force"
+  platform: netflix
+  url: https://www.netflix.com/title/81143589
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 24, dazwischen nicht geprüft — Folge 24: Brennende Vergangenheit — Netflix: Season 2"
+
+- anilistId: 101348
+  title: "Vinland Saga"
+  platform: netflix
+  url: https://www.netflix.com/title/81249833
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 24, dazwischen nicht geprüft — Folge 24: Folge 24 — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 127399
+  title: "Record of Ragnarok"
+  platform: netflix
+  url: https://www.netflix.com/title/81281579
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 10: Der größte Verlierer — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 14813
+  title: "My Teen Romantic Comedy SNAFU"
+  platform: netflix
+  url: https://www.netflix.com/title/81465193
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Und so fand ihr Fest kein Ende. — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 11757
+  title: "Sword Art Online"
+  platform: netflix
+  url: https://www.netflix.com/title/70302573
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 25: Der Weltensamen — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 10087
+  title: "Fate/Zero"
+  platform: netflix
+  url: https://www.netflix.com/title/70304256
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Bankett des Todes — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 19603
+  title: "Fate/Stay Night: Unlimited Blade Works"
+  platform: netflix
+  url: https://www.netflix.com/title/80040330
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Die letzte Entscheidung — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 20464
+  title: "Haikyu!!"
+  platform: netflix
+  url: https://www.netflix.com/title/80090673
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 25: Der dritte Tag — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 20992
+  title: "Haikyu!! Zweite Staffel"
+  platform: netflix
+  url: https://www.netflix.com/title/80090673
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 25: Kriegserklärung — Netflix: Haikyu!! Staffel 4"
+
+- anilistId: 14719
+  title: "JoJo’s Bizarre Adventure"
+  platform: netflix
+  url: https://www.netflix.com/title/80179831
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Der Gottgewordene — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 100663
+  title: "Ultraman"
+  platform: netflix
+  url: https://www.netflix.com/title/80231373
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Der wahre Ultraman — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 127720
+  title: "Mushoku Tensei: Jobless Reincarnation Cour 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80987039
+  dub: true
+  dubRanges:
+    - from: 12
+      to: 23
+      dub: true
+      checked: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+  checkedAt: '2026-09-24'
+  note: "Folgen 12–23 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 12 und 23, dazwischen nicht geprüft — Folge 23: Folge 23 — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 20574
+  title: "Hi Score Girl"
+  platform: netflix
+  url: https://www.netflix.com/title/80997338
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Runde 12 — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 136880
+  title: "Beastars Letzte Staffel – Teil 1"
+  platform: netflix
+  url: https://www.netflix.com/title/81054847
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 10: Bambi ist gesund und munter — Netflix: Alle Folgen anzeigen"
+
+- anilistId: 20725
+  title: "Kuroko’s Basketball: 3rd Season"
+  platform: netflix
+  url: https://www.netflix.com/title/80063153
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 25: Versteh das nicht falsch"
+
+- anilistId: 20725
+  title: "Kuroko’s Basketball: 3rd Season"
+  platform: netflix
+  available: false
+  checkedAt: '2026-09-24'
+  note: "Der Anbieter führt unter dieser Adresse nur 3 Staffel(n); diese ist nicht darunter"
+
+- anilistId: 16894
+  title: "Kuroko’s Basketball: 2nd Season"
+  platform: netflix
+  url: https://www.netflix.com/title/80063153
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 24: Ich werde ganz sicher nicht verlieren"
+
+- anilistId: 21170
+  title: "Assassination Classroom II"
+  platform: netflix
+  url: https://www.netflix.com/title/80045948
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 19
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–19 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 19: 19. Stunde: Zeit im Weltall — Netflix: Staffel 2"

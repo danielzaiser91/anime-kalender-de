@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-24T17:42:50.217Z",
+ "erzeugtAm": "2026-09-24T19:22:32.403Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -37,52 +37,22 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 350,
+   "gemeldet": 367,
    "gesamt": 376,
-   "offen": 26,
+   "offen": 9,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/70302573",
+   "ziel": "https://www.netflix.com/title/80045948",
    "ziele": [
     {
-     "url": "https://www.netflix.com/title/70302573",
-     "titel": "Sword Art Online",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/70304256",
-     "titel": "Fate/Zero"
-    },
-    {
-     "url": "https://www.netflix.com/title/80039972",
-     "titel": "Tiger & Bunny",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/80040330",
-     "titel": "Fate/Stay Night: Unlimited Blade Works",
-     "staffeln": [
-      1
-     ]
-    },
-    {
      "url": "https://www.netflix.com/title/80045948",
-     "titel": "Assassination Classroom"
+     "titel": "Assassination Classroom",
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/80063153",
      "titel": "Kuroko’s Basketball: 1st Season"
-    },
-    {
-     "url": "https://www.netflix.com/title/80090673",
-     "titel": "Haikyu!!",
-     "staffeln": [
-      1,
-      2
-     ]
     },
     {
      "url": "https://www.netflix.com/title/80135674",
@@ -96,36 +66,8 @@
      ]
     },
     {
-     "url": "https://www.netflix.com/title/80179798",
-     "titel": "Mob Psycho 100",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/80179831",
-     "titel": "JoJo’s Bizarre Adventure",
-     "staffeln": [
-      1
-     ]
-    },
-    {
      "url": "https://www.netflix.com/title/80193163",
      "titel": "Made in Abyss",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/80198505",
-     "titel": "Aggretsuko",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/80231373",
-     "titel": "Ultraman",
      "staffeln": [
       1
      ]
@@ -141,27 +83,6 @@
      "url": "https://www.netflix.com/title/80992228",
      "titel": "Kengan Ashura",
      "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/80997338",
-     "titel": "Hi Score Girl",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81046193",
-     "titel": "Dr. Stone",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81054847",
-     "titel": "Beastars",
-     "staffeln": [
       3
      ]
     },
@@ -170,39 +91,11 @@
      "titel": "The Rising of the Shield Hero"
     },
     {
-     "url": "https://www.netflix.com/title/81143589",
-     "titel": "Fire Force",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81249833",
-     "titel": "Vinland Saga",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81281579",
-     "titel": "Record of Ragnarok",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81465193",
-     "titel": "My Teen Romantic Comedy SNAFU",
-     "staffeln": [
-      1
-     ]
-    },
-    {
      "url": "https://www.netflix.com/title/81564905",
      "titel": "Meine ganz besondere Hochzeit"
     }
    ],
-   "naechster": "Sword Art Online"
+   "naechster": "Assassination Classroom"
   },
   {
    "name": "Disney+",
