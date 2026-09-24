@@ -384,18 +384,19 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
     'der Lauf gehoert dem Tab, der ihn startet (sessionStorage, nicht chrome.storage)',
     /sessionStorage\.setItem\(LAUF_SCHLUESSEL/.test(quelle) && !/netflixLauf/.test(quelle),
   )
-  pruefe('ohne offene Folge und ohne weitere Staffel springt die Automatik weiter', /selbstStaffelnGeprueft\.has\(hier\) \|\| !angezeigteStaffelHatOffenes\(\)\) \{[\s\S]{0,1800}?selbstUebersprungen\.add\(String\(reihe\)\)\s*selbstWeiter\(\)/.test(quelle) && /await durchlaufStandLaden\(reihe\)\s*\/\*\s*\*\*Die Automatik/.test(quelle))
+  /* Seit 4.22.0: erst alles laden, dann je Staffel prüfen; ist keine mehr offen, kommt der nächste Titel. */
+  pruefe('ohne offene Staffel springt die Automatik weiter', /fertigeTitel\.add\(String\(reihe\)\)[\s\S]{0,400}?selbstUebersprungen\.add\(String\(reihe\)\)\s*selbstWeiter\(\)/.test(quelle) && /selbstGesammelt\.has\(String\(reihe\)\)[\s\S]{0,400}?await durchlaufStandLaden\(reihe\)/.test(quelle))
   pruefe(
-    'die Automatik waehlt die offene Staffel im Netflix-Auswahlfeld',
+    'die Automatik waehlt „Alle Folgen anzeigen" im Netflix-Auswahlfeld',
     /\[data-uia="episode-selector"\] button\[data-uia="dropdown-toggle"\]/.test(quelle) &&
       /li\[data-uia="dropdown-menu-item"\]/.test(quelle) &&
-      /await netflixStaffelWaehlen\(wahl\)/.test(quelle),
+      /await netflixStaffelWaehlen\(istAlleFolgenEintrag\)/.test(quelle),
   )
   pruefe(
     'der Wechsel nur bei Listen in Netflix-Zaehlung',
     /if \(eintrag\?\.laut !== 'anbieter-gerechnet'\) return null/.test(quelle),
   )
-  pruefe('jede Staffel im Menue wird einmal besucht', /eintraege\.find\(\(e\) => !selbstStaffelnBesucht\.has/.test(quelle))
+  pruefe('jede geladene Staffel wird geprueft', /for \(const \[seasonId, gruppe\] of folgenJeStaffel\(DURCHLAUF\.alleFolgen/.test(quelle))
   pruefe(
     'eine Folgenliste waehrend des Laufs wird aufgehoben und danach uebernommen',
     /DURCHLAUF\.listeNachLauf = e\.data/.test(quelle) && /nachrichtEmpfangen\(\{ source: window, data: liste \}\)/.test(quelle),
@@ -406,9 +407,9 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   )
   pruefe(
     'eine Staffel, auf der ein Lauf nichts meldete, ist fertig',
-    /if \(\(DURCHLAUF\.gemeldet\?\.size \?\? 0\) === vorher\) selbstStaffelnGeprueft\.add\(hier\)/.test(quelle),
+    /if \(\(DURCHLAUF\.gemeldet\?\.size \?\? 0\) === vorher\) selbstStaffelnGeprueft\.add\(schluessel\)/.test(quelle),
   )
-  pruefe('nach dem Staffelwechsel wird auf die neue Folgenliste gewartet', quelle.includes("String(DURCHLAUF.folgen[0]?.videoId ?? '') === wechsel.vorherErste"))
+  pruefe('vor dem Pruefen wird gewartet, bis nichts mehr nachlaedt', /leserLaedtNach === 0 && Date\.now\(\) - \(DURCHLAUF\.listeGeaendertAm \?\? 0\) > 3000/.test(quelle))
   pruefe('kein dauerhafter Schalter mehr', !/netflixSelbst/.test(quelle) && /▶ alle durchgehen/.test(quelle))
   pruefe('ein uebersprungener Titel (S?) wird nicht wieder angesteuert', /selbstUebersprungen\.has\(kennung\)/.test(wahl))
   /* Seit 24.09.2026 geprüft statt übersprungen — die Zahl des Players zählt nur in Netflix' Zählung. */

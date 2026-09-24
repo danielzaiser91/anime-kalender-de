@@ -563,13 +563,38 @@
   /** 40 Runden × 50 Folgen — reicht für 2.000 und verhindert eine Endlosschleife. */
   const NACHLADE_RUNDEN = 40
 
-  let laedtNach = false
+  /*
+    **Je Staffel nachladen, eine nach der anderen** (24.09.2026). Bis 4.21.12 stand hier ein
+    Riegel `laedtNach`: Lud die Seite eine zweite Staffel, während die erste noch nachlud, wurde
+    die zweite übergangen. Und die Position für das Nachladen war `folgenliste.size` — die Zahl
+    **aller** geladenen Folgen, nicht die dieser Staffel. In „Alle Folgen anzeigen" (JoJo, fünf
+    Staffeln) blieben deshalb zwei Staffeln bei 30 Folgen stehen, und bei Shaman King begann der
+    Durchgang mit 30 von 52.
+  */
+  let nachladeKette = Promise.resolve()
+  const nachladeOffen = new Set()
 
-  async function folgenNachladen(seasonId, bekannt) {
-    if (laedtNach || !Number.isFinite(seasonId)) return
-    laedtNach = true
+  function folgenNachladen(seasonId) {
+    if (!Number.isFinite(seasonId) || nachladeOffen.has(seasonId)) return
+    nachladeOffen.add(seasonId)
+    verlaufSenden()
+    nachladeKette = nachladeKette
+      .then(() => staffelNachladen(seasonId))
+      .finally(() => {
+        nachladeOffen.delete(seasonId)
+        verlaufSenden()
+      })
+  }
+
+  function folgenDerStaffel(seasonId) {
+    let n = 0
+    for (const f of folgenliste.values()) if (Number(f.seasonId) === seasonId) n++
+    return n
+  }
+
+  async function staffelNachladen(seasonId) {
     try {
-      let stand = bekannt
+      let stand = folgenDerStaffel(seasonId)
       for (let runde = 0; runde < NACHLADE_RUNDEN; runde++) {
         await new Promise((r) => setTimeout(r, NACHLADE_PAUSE_MS))
         const antwort = await fetch(GRAPHQL, {
@@ -594,16 +619,14 @@
           }),
         })
         const daten = await antwort.json()
-        const vorher = folgenliste.size
         lesFolgenliste(daten, true)
         /* Kommt nichts Neues, ist die Staffel vollständig. */
-        if (folgenliste.size === vorher) break
-        stand = folgenliste.size
+        const jetzt = folgenDerStaffel(seasonId)
+        if (jetzt === stand) break
+        stand = jetzt
       }
     } catch {
       /* Ein Fehlschlag lässt die Liste unvollständig — der Knopf sagt es. */
-    } finally {
-      laedtNach = false
     }
   }
 
@@ -612,6 +635,8 @@
     window.postMessage(
       {
         marke: 'ak-leserverlauf',
+        /* Wie viele Staffeln noch nachladen — der Durchgang wartet, bis es null sind. */
+        nachladen: nachladeOffen.size,
         verlauf: herkunft.map((h) => ({
           typ: h.typ,
           seasonId: h.seasonId ?? null,
@@ -739,7 +764,7 @@
     */
     if (!ausNachladen && gefunden.length >= 30) {
       const seasonId = daten?.data?.videos?.[0]?.videoId ?? daten?.data?.videos?.videoId
-      void folgenNachladen(Number(seasonId), folgenliste.size)
+      folgenNachladen(Number(seasonId))
     }
   }
 

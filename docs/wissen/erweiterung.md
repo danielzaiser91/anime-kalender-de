@@ -1856,3 +1856,24 @@ Die Prüfliste rechnet in unseren, solange sie nicht `anbieter-gerechnet` ist. `
 bekam die `titelId` unserer Staffel 2, die Folgen 40–48 gehören zu „Battle in Egypt". In diesem
 Fall gibt es jetzt keine `titelId` mehr, der Zuordner entscheidet über den Folgentitel.
 
+## Erst alles laden, dann Staffel für Staffel — ohne Menüwechsel (4.22.0, 24.09.2026)
+
+Der Abschlusstest mit 4.21.12 (zehn Titel) lief, war aber langsam und zeigte drei Fehler, die
+alle am Staffelwechsel im Menü hingen: JJK wählte „Staffel 2" zweimal und blieb stehen, Kuroko
+prüfte die angezeigte Netflix-Staffel 3 statt der offenen Staffel 1, Shaman King startete mit 30
+von 52 Folgen und prüfte deshalb Folge für Folge statt erste und letzte.
+
+**Die Ursache der 30er-Schnitte lag im Leser, nicht bei Netflix:** `folgenNachladen()` nahm als
+Position `folgenliste.size` — alle geladenen Folgen der Seite, nicht die der Staffel — und ein
+Riegel `laedtNach` übersprang jede zweite Staffel, solange die erste noch nachlud. Jetzt: eine
+Warteschlange je Staffel, gezählt über `folgenDerStaffel(seasonId)`.
+
+**Der Durchgang (Daniels Vorschlag):** Hat eine Reihe mehrere Staffeln, wählt `selbstSammeln()`
+einmal „Alle Folgen anzeigen" und scrollt je Takt ans Seitenende, bis so viele Staffeln geladen
+sind wie im Menü, der Leser nichts mehr nachlädt (`leserLaedtNach`, aus dem Abrufverlauf) und die
+Liste drei Sekunden ruht; nach 40 Sekunden geht es mit dem weiter, was da ist (Spur
+„gesammelt"). Danach prüft `selbstStartenSchritt()` jede Staffel mit offenen Folgen über
+`DURCHLAUF.folgen = gruppe` — die Leser-Liste bleibt über die Player-Besuche hinweg erhalten, das
+Menü wird nicht mehr angefasst. Die Menü-Logik (`menueSchluessel`, `naechsteOffeneNetflixStaffel`,
+Wechsel-Warten) ist entfernt.
+

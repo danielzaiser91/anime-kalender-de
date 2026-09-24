@@ -192,6 +192,8 @@ let anbieterStaffeln = {}
 let letzteHerkunft = null
 /** Der ganze Abrufverlauf des Lesers in Kurzform (seit 24.09.2026, für „Alle Folgen anzeigen"). */
 let leserVerlauf = null
+/** Wie viele Staffeln der Leser gerade nachlädt (24.09.2026). */
+let leserLaedtNach = 0
 
 /** Die Staffeln eines Titels — was der Anbieter sagte, sonst was wir wissen. */
 /**
@@ -825,6 +827,7 @@ function staffelnBereinigen(folgen) {
 function nachrichtEmpfangen(e) {
   if (e.source === window && e.data?.marke === 'ak-leserverlauf') {
     if (Array.isArray(e.data.verlauf)) leserVerlauf = e.data.verlauf
+    leserLaedtNach = Number(e.data.nachladen) || 0
     return
   }
   if (e.source === window && e.data?.marke === 'ak-folgenliste') {
@@ -882,6 +885,7 @@ function nachrichtEmpfangen(e) {
     const bekannt = new Set((DURCHLAUF.alleFolgen ?? []).map((f) => f.videoId))
     const dazu = neu.find((f) => !bekannt.has(f.videoId))
     if (dazu) DURCHLAUF.zuletztGeladen = dazu.seasonId ?? null
+    if (neu.length !== (DURCHLAUF.alleFolgen ?? []).length) DURCHLAUF.listeGeaendertAm = Date.now()
     DURCHLAUF.alleFolgen = neu
     /* Für welche Seite die Liste gilt — der Titelwechsel in `pfadPruefen` löscht nur eine fremde. */
     DURCHLAUF.listeFuer = hier
@@ -2662,13 +2666,12 @@ function laufStarten() {
   selbstGezaehlt = 0
   selbstVersucht = null
   selbstUebersprungen.clear()
-  selbstStaffelnVersucht.clear()
-  selbstStaffelnBesucht.clear()
   selbstStaffelnGeprueft.clear()
+  selbstGesammelt.clear()
+  selbstSammelStand = null
   durchgangEnde = null
   fertigeTitel.clear()
   durchgangEndeZeigen()
-  selbstStaffelWechsel = null
   try {
     sessionStorage.setItem(LAUF_SCHLUESSEL, String(Date.now()))
   } catch {
@@ -2715,34 +2718,21 @@ function angezeigteStaffelHatOffenes() {
   return zustaende.some((z) => z.zustand !== 'gemeldet')
 }
 
-/** Ein laufender Staffelwechsel der Automatik: `{ reihe, nr, seit, bis, vorherErste }` oder null. */
-let selbstStaffelWechsel = null
-/** Schon versuchte Staffeln je Reihe — `"<reihe>:<nr>"`, damit kein Wechsel im Kreis läuft. */
-const selbstStaffelnVersucht = new Set()
 /**
- * **Welche Menü-Staffeln der Durchgang je Titel schon angesehen und welche er fertig geprüft hat**
- * (24.09.2026). Schlüssel `reihe:m:<Menütext>`. Besucht heißt: nicht noch einmal hinwechseln.
- * Geprüft heißt: ein Lauf dort hat nichts mehr gemeldet — ein weiterer brächte nichts.
+ * **Welche Staffeln (Netflix-Kennung) der Durchgang fertig geprüft hat** (24.09.2026), Schlüssel
+ * `reihe:g:<seasonId>`. Fertig heißt: nichts offen, oder ein Lauf dort hat nichts mehr gemeldet.
  */
-const selbstStaffelnBesucht = new Set()
 const selbstStaffelnGeprueft = new Set()
+/** Reihen, deren Staffeln vollständig geladen sind, und der Stand des laufenden Sammelns. */
+const selbstGesammelt = new Set()
+let selbstSammelStand = null
 /** Höchstens so viele Läufe auf einer Seite — Shippuden hat bei Netflix 21 Staffeln. */
 const SELBST_RUNDEN_JE_TITEL = 40
 
-/** Welche Staffel Netflix' Auswahlfeld gerade zeigt — die Zahl aus „Staffel 3" / „Teil 2", sonst null. */
 /** Was Netflix' Staffelauswahl gerade zeigt — „Staffel 2" oder ein Name wie „Golden Wind". */
 function angezeigterNetflixName() {
   const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
   return (knopf?.textContent ?? '').trim() || null
-}
-
-/** Menüeintrag und Auswahlknopf auf einen Nenner: ohne Folgenzahl, ohne Groß/klein. */
-function menueSchluessel(text) {
-  return String(text ?? '')
-    .replace(/\(?\s*\d+\s*(?:Folgen|Folge|Episoden|Episode|Episodes)\s*\)?/gi, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase()
 }
 
 /**
@@ -2770,31 +2760,15 @@ function rechnetInNetflixStaffeln(reihe) {
   return (anbieterStaffeln[String(reihe)] ?? []).length > 0 || offeneTitel[String(reihe)]?.laut === 'anbieter-gerechnet'
 }
 
+/** Welche Staffel Netflix' Auswahlfeld gerade zeigt — die Zahl aus „Staffel 3" / „Teil 2", sonst null. */
 function angezeigteNetflixStaffel() {
   const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
   const treffer = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(knopf?.textContent ?? '')
   return treffer ? Number(treffer[1]) : null
 }
 
-/** Die erste offene Staffel der Prüfliste, die es im Auswahlfeld gibt und die noch nicht versucht wurde. */
-function naechsteOffeneNetflixStaffel(reihe) {
-  const eintrag = offeneTitel[String(reihe)]
-  /* Nur wo die Liste in Netflix' eigenen Staffeln rechnet, ist unser „nr" dieselbe Zahl wie im Auswahlfeld. */
-  if (eintrag?.laut !== 'anbieter-gerechnet') return null
-  const hier = angezeigteNetflixStaffel()
-  const nummern = [
-    ...new Set(
-      (eintrag?.staffeln ?? [])
-        .filter((st) => st.offen && !st.film && st.zustand !== 'belegt')
-        .map((st) => Number(st.nr))
-        .filter(Number.isFinite),
-    ),
-  ].sort((a, b) => a - b)
-  return nummern.find((nr) => nr !== hier && !selbstStaffelnVersucht.has(`${reihe}:${nr}`)) ?? null
-}
-
 /** Im Auswahlfeld „Staffel N" anklicken. true, wenn der Eintrag da war und geklickt wurde. */
-/** `ziel` ist eine Staffelnummer oder der Text eines Menüeintrags. */
+/** `ziel` ist eine Staffelnummer, der Text eines Menüeintrags oder eine Prüffunktion über den Text. */
 async function netflixStaffelWaehlen(ziel) {
   const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
   if (!knopf) return false
@@ -2808,6 +2782,7 @@ async function netflixStaffelWaehlen(ziel) {
         Automatik stand bei JoJo still, das Menü offen (Daniel, 24.09.2026).
       */
       const treffer = eintraege.find((li) => {
+        if (typeof ziel === 'function') return ziel((li.textContent ?? '').trim())
         if (typeof ziel === 'string') return (li.textContent ?? '').trim() === ziel
         const t = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(li.textContent ?? '')
         return t && Number(t[1]) === ziel
@@ -2968,107 +2943,113 @@ async function selbstStartenSchritt() {
   }
   selbstWartet = null
   /* Läuft gerade ein Staffelwechsel, warten, bis Netflix die neue Staffel zeigt und der Leser sie hat. */
-  const wechsel = selbstStaffelWechsel?.reihe === String(reihe) ? selbstStaffelWechsel : null
-  if (wechsel) {
-    if (Date.now() > wechsel.bis) {
-      console.log(`[Anime-Kalender] Selbsttätig: Staffel ${wechsel.nr} ließ sich nicht öffnen — weiter.`)
-      selbstStaffelWechsel = null
-    } else if (
-      (wechsel.nr != null && angezeigteNetflixStaffel() !== wechsel.nr) ||
-      Date.now() - wechsel.seit < 2000 ||
-      /*
-        **Und bis die Folgenliste gewechselt hat** (22.09.2026). Das Auswahlfeld zeigte schon
-        „Staffel 2", die Liste war noch die von Staffel 1 — die Automatik sah nichts Offenes und
-        beendete den Durchgang.
-      */
-      String(DURCHLAUF.folgen[0]?.videoId ?? '') === wechsel.vorherErste
-    )
-      return
-  }
+  /*
+    **Erst alles laden, dann Staffel für Staffel prüfen** (Daniel, 24.09.2026: „alle folgen … dort
+    kannst du direkt für alle staffeln alle 1. und letzte url holen + alle infos zu allen episoden,
+    und dann alle 1. und letzte jeder staffel direkt hintereinander prüfen, ohne … staffel zu
+    wechseln").
+
+    Bis 4.21.12 wechselte die Automatik Staffel für Staffel im Menü: je Wechsel zwei Sekunden
+    Warten auf die neue Liste, dazu Fehler, die an genau diesem Wechsel hingen — ein verdeckter
+    Parameter (4.21.8), eine Staffel zweimal gewählt (JJK), Shaman King mit 30 von 52 Folgen
+    gestartet. Jetzt: Hat die Reihe mehrere Staffeln, wählt sie einmal „Alle Folgen anzeigen" und
+    scrollt, bis Netflix jede Staffel geladen hat; der Leser lädt je Staffel nach. Erst wenn die
+    Liste steht (nichts lädt nach, drei Sekunden keine Änderung), prüft sie jede Staffel mit
+    offenen Folgen — über `DURCHLAUF.folgen`, ohne das Menü noch einmal anzufassen.
+  */
   selbstVersucht = reihe
-  /* Erst den Stand holen, dann entscheiden — sonst sieht eine längst gemeldete Staffel offen aus. */
-  await durchlaufStandLaden(reihe)
-  /*
-    **Die Automatik wählt die offene Staffel selbst** (Daniel, 22.09.2026: „füg hinzu das die
-    automatik die auswahl im staffel feld wechseln kann"). Zeigt Netflix eine Staffel ohne offene
-    Folge oder eine, die nicht eindeutig ist („S?"), wird im Auswahlfeld die nächste offene Staffel
-    der Prüfliste gewählt — gemessen am 22.09.2026 auf Dr. STONE: Auslöser
-    `[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]`, Einträge
-    `li[data-uia="dropdown-menu-item"]` mit „Staffel N (M Folgen)".
-  */
-  selbstStaffelWechsel = null
-  /*
-    **Jede Staffel im Menü einmal — was dort offen ist, wird geprüft** (Daniel, 24.09.2026: „man
-    kann die extension einfach alle staffeln durchgehen und melden lassen wenn möglich (wenn nicht
-    bereits getan), das geht schneller und ist sowieso das ziel alles zu melden").
-
-    Bis 4.21.7 suchte die Automatik die eine richtige Staffel — über die Prüfliste, die Folgenzahl
-    im Menü, zuletzt Netflix-Staffel 1 — und übersprang den Titel, sobald die angezeigte keiner
-    unserer Staffeln eindeutig zuzuordnen war (Naruto, Baki Hanma, JoJo). Die Zuordnung braucht
-    sie nicht: Eine unklare Meldung geht ohne Staffel und ohne `titelId` hinaus, und
-    `fetch-pruefungen.ts` ordnet sie über den Folgentitel allen Titeln der Adresse zu (PoC
-    18.09.2026: 466 Treffer, alle eindeutig).
-
-    Ein Lauf, der etwas gemeldet hat, darf auf derselben Staffel noch einmal — unter einer
-    Netflix-Staffel können zwei unserer Titel liegen. Einer, der nichts gemeldet hat, macht sie
-    fertig (`selbstStaffelnGeprueft`); sonst drehte eine uneinheitliche Randprobe endlos.
-  */
-  const hier = `${reihe}:m:${menueSchluessel(angezeigterNetflixName())}`
-  selbstStaffelnBesucht.add(hier)
-  /* Steht das Menü auf „Alle Folgen anzeigen", zuerst zu einer echten Staffel wechseln. */
-  if (istAlleFolgenEintrag(angezeigterNetflixName()) || selbstStaffelnGeprueft.has(hier) || !angezeigteStaffelHatOffenes()) {
-    const ziel = naechsteOffeneNetflixStaffel(reihe)
-    const eintraege = ziel == null ? await netflixStaffelnImMenue() : []
-    const naechster = eintraege.find((e) => !selbstStaffelnBesucht.has(`${reihe}:m:${menueSchluessel(e.text)}`))
-    const wahl = ziel ?? naechster?.text ?? null
-    if (wahl != null && (await netflixStaffelWaehlen(wahl))) {
-      selbstStaffelWechsel = {
-        reihe: String(reihe),
-        nr: ziel ?? naechster?.nr ?? null,
-        seit: Date.now(),
-        bis: Date.now() + 10000,
-        vorherErste: String(DURCHLAUF.folgen[0]?.videoId ?? ''),
-      }
-      if (ziel != null) selbstStaffelnVersucht.add(`${reihe}:${ziel}`)
-      else selbstStaffelnBesucht.add(`${reihe}:m:${menueSchluessel(naechster.text)}`)
+  if (!selbstGesammelt.has(String(reihe))) {
+    const fertig = await selbstSammeln(reihe)
+    if (!fertig) {
       selbstVersucht = null
-      spur('nächste Staffel', { reihe: String(reihe), nach: wahl })
       return
     }
-    fertigeTitel.add(String(reihe))
-    spur('Titel fertig', {
+  }
+  /* Der Stand erst nach dem Sammeln — sonst fragte jeder Takt des Wartens den Worker. */
+  await durchlaufStandLaden(reihe)
+  for (const [seasonId, gruppe] of folgenJeStaffel(DURCHLAUF.alleFolgen ?? [])) {
+    const schluessel = `${reihe}:g:${seasonId}`
+    if (selbstStaffelnGeprueft.has(schluessel)) continue
+    DURCHLAUF.folgen = gruppe
+    if (!angezeigteStaffelHatOffenes()) {
+      selbstStaffelnGeprueft.add(schluessel)
+      continue
+    }
+    spur('Durchlauf startet', {
       reihe: String(reihe),
-      angezeigt: angezeigterNetflixName(),
-      menue: eintraege.map((e) => e.text),
-      gemeldet: DURCHLAUF.gemeldet?.size ?? null,
+      seasonId,
+      folgen: gruppe.length,
+      von: gruppe[0]?.nummer ?? null,
+      bis: gruppe[gruppe.length - 1]?.nummer ?? null,
+      kandidaten: staffelnDerGruppe(reihe, gruppe),
     })
-    selbstUebersprungen.add(String(reihe))
-    selbstWeiter()
+    console.log('[Anime-Kalender] Selbsttätiger Durchgang startet …')
+    const vorher = DURCHLAUF.gemeldet?.size ?? 0
+    DURCHLAUF.selbst = true
+    DURCHLAUF.gesamt = 0
+    await durchlaufStarten(RAND)
+    DURCHLAUF.selbst = false
+    /* Ein Lauf ohne neue Meldung macht die Staffel fertig — sonst drehte eine uneinheitliche Randprobe endlos. */
+    if ((DURCHLAUF.gemeldet?.size ?? 0) === vorher) selbstStaffelnGeprueft.add(schluessel)
+    /* Fand der Durchlauf nichts zu tun, kam er nie bis zum Weitergehen — dann hier weiter. */
+    if (!DURCHLAUF.gesamt && selbstAn) {
+      selbstStaffelnGeprueft.add(schluessel)
+      selbstVersucht = null
+      setTimeout(() => void vielleichtSelbstStarten(), 300)
+    }
     return
   }
-  const angezeigt = angezeigteNetflixStaffel()
-  if (angezeigt != null) selbstStaffelnVersucht.add(`${reihe}:${angezeigt}`)
-  spur('Durchlauf startet', {
+  fertigeTitel.add(String(reihe))
+  spur('Titel fertig', {
     reihe: String(reihe),
-    staffel: angezeigterNetflixName(),
-    folgen: DURCHLAUF.folgen.length,
-    kandidaten: staffelnDerGruppe(reihe, DURCHLAUF.folgen),
+    staffeln: [...folgenJeStaffel(DURCHLAUF.alleFolgen ?? []).values()].map((g) => g.length),
+    gemeldet: DURCHLAUF.gemeldet?.size ?? null,
   })
-  console.log('[Anime-Kalender] Selbsttätiger Durchgang startet …')
-  const vorher = DURCHLAUF.gemeldet?.size ?? 0
-  DURCHLAUF.selbst = true
-  DURCHLAUF.gesamt = 0
-  await durchlaufStarten(RAND)
-  DURCHLAUF.selbst = false
-  if ((DURCHLAUF.gemeldet?.size ?? 0) === vorher) selbstStaffelnGeprueft.add(hier)
-  /* Fand der Durchlauf nichts zu tun, kam er nie bis zum Weitergehen — dann hier weiter. */
-  if (!DURCHLAUF.gesamt && selbstAn) {
-    spur('Durchlauf fand nichts', { reihe: String(reihe), folgen: DURCHLAUF.folgen.length })
-    selbstVersucht = null
-    setTimeout(() => void vielleichtSelbstStarten(), 500)
-  }
+  selbstUebersprungen.add(String(reihe))
+  selbstWeiter()
 }
 
+/**
+ * **Alle Staffeln der Seite laden, bevor geprüft wird** (24.09.2026). Gibt `true`, wenn die
+ * Liste steht; sonst kommt der nächste Takt wieder hierher.
+ *
+ * Mit Staffelmenü: einmal „Alle Folgen anzeigen" wählen, dann bei jedem Takt ans Seitenende
+ * scrollen — Netflix lädt die Staffeln dort erst beim Scrollen (Daniels zweiter Bericht: langsam
+ * gescrollt, alle fünf JoJo-Staffeln vollständig). Fertig ist die Liste, wenn so viele Staffeln
+ * da sind wie im Menü, der Leser nichts mehr nachlädt und sie sich drei Sekunden nicht geändert
+ * hat. Nach 40 Sekunden wird mit dem geprüft, was da ist — die Spur sagt, was fehlte.
+ */
+async function selbstSammeln(reihe) {
+  const hier = String(reihe)
+  if (selbstSammelStand?.reihe !== hier) {
+    selbstSammelStand = { reihe: hier, seit: Date.now(), menue: await netflixStaffelnImMenue(), alleGewaehlt: false }
+  }
+  const stand = selbstSammelStand
+  const mehrere = stand.menue.length > 1
+  if (mehrere && !stand.alleGewaehlt) {
+    stand.alleGewaehlt = istAlleFolgenEintrag(angezeigterNetflixName()) || (await netflixStaffelWaehlen(istAlleFolgenEintrag))
+    if (!stand.alleGewaehlt) spur('„Alle Folgen anzeigen" nicht wählbar', { reihe: hier, menue: stand.menue.map((e) => e.text) })
+    return false
+  }
+  const gruppen = folgenJeStaffel(DURCHLAUF.alleFolgen ?? [])
+  const genugStaffeln = !mehrere || !stand.alleGewaehlt || gruppen.size >= stand.menue.length
+  const ruhig = leserLaedtNach === 0 && Date.now() - (DURCHLAUF.listeGeaendertAm ?? 0) > 3000
+  const abgelaufen = Date.now() - stand.seit > 40000
+  if (!(genugStaffeln && ruhig) && !abgelaufen) {
+    if (mehrere && stand.alleGewaehlt) window.scrollTo(0, document.documentElement.scrollHeight)
+    return false
+  }
+  if (mehrere) window.scrollTo(0, 0)
+  spur('gesammelt', {
+    reihe: hier,
+    staffeln: [...gruppen.values()].map((g) => g.length),
+    menue: stand.menue.map((e) => e.folgen),
+    abgelaufen,
+  })
+  selbstGesammelt.add(hier)
+  selbstSammelStand = null
+  return true
+}
 /** Der Speicherplatz je Reihe — eine Reihe, eine Liste gemeldeter Kennungen. */
 /**
  * **Folgennummern als Bereiche — „1-10, 12" statt zwölf Kästchen.**
@@ -6410,7 +6391,8 @@ function nfBericht() {
       laeuft: selbstAn,
       gezaehlt: selbstGezaehlt,
       uebersprungen: [...selbstUebersprungen],
-      staffelnVersucht: [...selbstStaffelnVersucht],
+      staffelnGeprueft: [...selbstStaffelnGeprueft],
+      gesammelt: [...selbstGesammelt],
       spur: DURCHGANG_SPUR,
     })),
     listeGesamt: sicher(() => Object.keys(offeneTitel).length),

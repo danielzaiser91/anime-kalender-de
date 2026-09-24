@@ -87,8 +87,9 @@ pruefe('… und gibt nach einer Frist auf, statt still zu hängen', /spur\('kein
   lassen"): kein Überspringen wegen unklarer Staffel mehr, stattdessen jede Menü-Staffel einmal.
 */
 pruefe('kein Überspringen wegen unklarer Staffel', !/Staffel nicht eindeutig/.test(start))
-pruefe('die nächste unbesuchte Staffel im Menü wird gewählt', /eintraege\.find\(\(e\) => !selbstStaffelnBesucht\.has/.test(start))
-pruefe('ein Lauf ohne neue Meldung macht die Staffel fertig', /=== vorher\) selbstStaffelnGeprueft\.add\(hier\)/.test(start))
+/* Seit 4.22.0 (Daniel: „alle folgen … dann alle 1. und letzte jeder staffel direkt hintereinander prüfen"). */
+pruefe('erst sammeln, dann je Staffel prüfen', /await selbstSammeln\(reihe\)/.test(start) && /for \(const \[seasonId, gruppe\] of folgenJeStaffel\(DURCHLAUF\.alleFolgen/.test(start))
+pruefe('ein Lauf ohne neue Meldung macht die Staffel fertig', /=== vorher\) selbstStaffelnGeprueft\.add\(schluessel\)/.test(start))
 const wahlCode = schneide('netflixStaffelWaehlen')
 pruefe('die Staffelwahl nimmt auch einen Menütext', /typeof ziel === 'string'/.test(wahlCode))
 
@@ -123,12 +124,43 @@ const nachTextOk = waehleIm(JOJO_MENUE, 'Diamond Is Unbreakable(39 Folgen)')
 const nachNummerOk = waehleIm(['Staffel 1 (12 Folgen)', 'Staffel 2 (27 Folgen)'], 2)
 const nichtDa = waehleIm(JOJO_MENUE, 'Gibt es nicht')
 
-/* Menüeintrag und Auswahlknopf müssen denselben Schlüssel ergeben. */
-const schluesselCode = schneide('menueSchluessel')
-const menueSchluessel = new Function(schluesselCode + '\nreturn menueSchluessel')()
-pruefe('„Staffel 2 (27 Folgen)" und „Staffel 2" sind dieselbe', menueSchluessel('Staffel 2 (27 Folgen)') === menueSchluessel('Staffel 2'))
-pruefe('„Golden Wind" bleibt „golden wind"', menueSchluessel(' Golden Wind ') === 'golden wind')
-pruefe('zwei Staffeln bleiben verschieden', menueSchluessel('Staffel 1') !== menueSchluessel('Staffel 11'))
+/*
+  Sammeln (4.22.0): fertig erst, wenn so viele Staffeln da sind wie im Menü, der Leser nichts
+  nachlädt und die Liste drei Sekunden ruht — oder nach 40 Sekunden mit dem, was da ist.
+*/
+const sammelCode = schneide('selbstSammeln')
+async function sammle({ menue = 5, gruppen = 5, nachladen = 0, ruhe = 5000, alter = 1000, alleGewaehlt = true }) {
+  const kontext = {
+    DURCHLAUF: {
+      alleFolgen: Array.from({ length: gruppen }, (_, g) => ({ nummer: 1, videoId: g + 1, seasonId: `s${g}` })),
+      listeGeaendertAm: Date.now() - ruhe,
+    },
+    leserLaedtNach: nachladen,
+    selbstSammelStand: { reihe: '1', seit: Date.now() - alter, menue: Array.from({ length: menue }, (_, i) => ({ text: `Staffel ${i + 1}`, folgen: 10 })), alleGewaehlt },
+    selbstGesammelt: new Set(),
+    gescrollt: 0,
+    window: { scrollTo: () => kontext.gescrollt++ },
+    document: { documentElement: { scrollHeight: 5000 } },
+    spur: () => {},
+    istAlleFolgenEintrag: () => false,
+    angezeigterNetflixName: () => 'Alle Folgen anzeigen',
+    netflixStaffelWaehlen: async () => true,
+    netflixStaffelnImMenue: async () => [],
+    folgenJeStaffel: new Function(schneide('folgenJeStaffel') + '\nreturn folgenJeStaffel')(),
+    ergebnis: null,
+  }
+  vm.createContext(kontext)
+  vm.runInContext(`${sammelCode}\nergebnis = selbstSammeln('1')`, kontext)
+  return { fertig: await kontext.ergebnis, gescrollt: kontext.gescrollt }
+}
+const sammelFaelle = [
+  ['alle fünf Staffeln da, Leser ruhig → fertig', sammle({}), (e) => e.fertig === true],
+  ['drei von fünf Staffeln → weiter scrollen', sammle({ gruppen: 3 }), (e) => e.fertig === false && e.gescrollt === 1],
+  ['Leser lädt noch nach → warten', sammle({ nachladen: 1 }), (e) => e.fertig === false],
+  ['Liste eben geändert → warten', sammle({ ruhe: 500 }), (e) => e.fertig === false],
+  ['nach 40 s mit dem, was da ist', sammle({ gruppen: 3, alter: 41000 }), (e) => e.fertig === true],
+  ['eine Staffel ohne Menü: ruhig → fertig', sammle({ menue: 0, gruppen: 1 }), (e) => e.fertig === true],
+]
 
 /*
   JoJo (24.09.2026): „Golden Wind" ist Netflix-Staffel 4, bei uns Staffel 5. Die Zahl des Players
@@ -191,7 +223,6 @@ function schluss() {
   pruefe('Baki Hanma: Wahl über die Nummer klickt „Staffel 2"', nummer.ok === true && nummer.geklickt.includes('Staffel 2 (27 Folgen)'), nummer)
   const fehlt = await nichtDa
   pruefe('ohne passenden Eintrag: false und das Menü wieder zu', fehlt.ok === false && fehlt.geklickt.filter((x) => x === 'knopf').length === 2, fehlt)
-  pruefe('„Golden Wind(39 Folgen)" und der Knopf „Golden Wind" ergeben denselben Schlüssel', menueSchluessel('Golden Wind(39 Folgen)') === menueSchluessel('Golden Wind'))
   /* Staffelname und Netflix-Staffelzahl gehen mit (24.09.2026). */
   const melden = schneide('durchlaufMelden') + schneide('randMelden')
   pruefe('beide Melder hängen den Staffelnamen an die Notiz', (melden.match(/` — Netflix: \$\{DURCHLAUF\.staffelLabel\}`/g) ?? []).length === 2)
@@ -232,7 +263,15 @@ function schluss() {
   pruefe('„Alle Folgen anzeigen" wird erkannt', alle('Alle Folgen anzeigen') && alle(' All episodes'))
   pruefe('echte Staffeln nicht', !alle('Golden Wind(39 Folgen)') && !alle('Staffel 2 (27 Folgen)'))
   pruefe('das Menü liefert ihn nicht als Staffel', /return raus\.filter\(\(e\) => !istAlleFolgenEintrag\(e\.text\)\)/.test(schneide('netflixStaffelnImMenue')))
-  pruefe('steht er angezeigt, wechselt der Durchgang zuerst weg', /if \(istAlleFolgenEintrag\(angezeigterNetflixName\(\)\) \|\|/.test(start))
+  pruefe('das Sammeln wählt ihn gezielt', /await netflixStaffelWaehlen\(istAlleFolgenEintrag\)/.test(schneide('selbstSammeln')))
+  for (const [name, laeuft, ok] of sammelFaelle) {
+    const e = await laeuft
+    pruefe(`Sammeln: ${name}`, ok(e), e)
+  }
+  /* Leser: je Staffel nachladen, nicht über alle gezählt. */
+  const leser = readFileSync(resolve(__dirname, 'leser.js'), 'utf8')
+  pruefe('der Leser zählt je Staffel nach', /const jetzt = folgenDerStaffel\(seasonId\)/.test(leser) && !/folgenNachladen\(Number\(seasonId\), folgenliste\.size\)/.test(leser))
+  pruefe('der Leser übergeht keine zweite Staffel', !/if \(laedtNach \|\|/.test(leser) && /nachladeKette = nachladeKette/.test(leser))
   /* Ein Fehler im Durchgang endet sichtbar. */
   const huelle = schneide('vielleichtSelbstStarten')
   pruefe('ein Fehler im Durchgang landet in Spur und Kasten', /spur\('Fehler'/.test(huelle) && /laufBeenden\(`Fehler: /.test(huelle))
