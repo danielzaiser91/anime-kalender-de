@@ -2603,6 +2603,8 @@ function laufBeenden(grund) {
   if (!selbstAn) return
   selbstAn = false
   DURCHLAUF.mehrfach = null
+  /* Sonst stand der letzte Zählerstand („⏹ 6/6 — abbrechen") weiter am Knopf (Daniel, 24.09.2026). */
+  durchlaufKnopfZeigen()
   try {
     sessionStorage.removeItem(LAUF_SCHLUESSEL)
   } catch {
@@ -2817,26 +2819,57 @@ function angezeigterNetflixName() {
 }
 
 /**
+ * **Netflix' Staffelnummer einer Gruppe — über die Folgenkennungen, nicht über die Folgenzahl**
+ * (24.09.2026). Die Staffelliste des Players (`stand.staffeln`, gespeichert in `anbieterStaffeln`)
+ * trägt je Staffel die Kennungen ihrer Folgen. Liegt eine Folge der Gruppe darin, ist die Nummer
+ * sicher. Die Folgenzahl ist es nicht: Meine ganz besondere Hochzeit hat zwei Netflix-Staffeln zu
+ * je 13 Folgen.
+ */
+function netflixSeqFuerGruppe(reihe, gruppe) {
+  for (const liste of [anbieterStaffeln[String(reihe)], stand.staffeln]) {
+    for (const st of Array.isArray(liste) ? liste : []) {
+      if (!Array.isArray(st?.ids) || !st.ids.length) continue
+      const ids = new Set(st.ids.map(Number))
+      if (gruppe.some((f) => ids.has(Number(f.videoId)))) return Number(st.seq)
+    }
+  }
+  return null
+}
+
+/**
+ * **Was eine Netflix-Meldung als Staffel und Titel mitgibt — nur, was sicher ist** (24.09.2026).
+ *
+ * - `staffel`: Trägt die Meldung Netflix' Staffelliste, liest der Zuordner die Zahl in Netflix'
+ *   Zählung (`ordneMeldungZu`). Dann gilt nur Netflix' Nummer aus den Folgenkennungen. Ohne Liste
+ *   geht unsere Nummer nur mit, wenn wir an der Adresse genau eine Staffel führen.
+ * - `titelId`: Eine Kennung legt fest, unter welchen Titeln der Zuordner sucht. Sicher ist sie nur
+ *   bei genau einem Titel an der Adresse — alles andere entscheidet er über den Folgentitel. Die
+ *   Zuordnung über die Folgenzahl gab bei Meine ganz besondere Hochzeit Netflix-Staffel 1 (13
+ *   Folgen) die Kennung unserer Staffel 2 (13 Folgen).
+ */
+function meldeZiel(reihe, folge) {
+  const eigene = (offeneTitel[String(reihe)]?.staffeln ?? []).filter((st) => !st.film)
+  const ids = [...new Set(eigene.map((st) => st.id).filter((x) => x != null))]
+  const titelId = ids.length === 1 ? ids[0] : null
+  const gruppe = (DURCHLAUF.alleFolgen ?? DURCHLAUF.folgen).filter(
+    (f) => String(f.seasonId ?? '') === String(folge?.seasonId ?? ''),
+  )
+  const mitListe = Array.isArray(stand.staffeln) && stand.staffeln.length > 0
+  const staffel = mitListe
+    ? netflixSeqFuerGruppe(reihe, gruppe.length ? gruppe : [folge])
+    : eigene.length === 1
+      ? Number(eigene[0].nr)
+      : null
+  return { staffel, titelId }
+}
+
+/**
  * **Rechnen unsere Staffelnummern für diese Reihe in Netflix' Staffeln?**
  *
  * Nur dann ist die Staffel, die der Player nennt, dieselbe Zahl wie unsere. Bei JoJo ist
  * „Golden Wind" Netflix-Staffel 4 und bei uns Staffel 5; die Zahl des Players machte daraus
  * „Diamond Is Unbreakable" (24.09.2026).
  */
-/**
- * **Netflix' eigene Staffelzahl für den Zuordner — wo unsere offen bleibt** (Daniel, 24.09.2026:
- * „es kann sein das andere titel nur nummern als titel haben, da wäre es ohne staffel unmöglich
- * korrekt zuzuordnen").
- *
- * `ordneMeldungZu()` in `pipeline/lib/folgenbereiche.ts` liest `staffel` in Netflix' Zählung,
- * sobald die Meldung Netflix' Staffelliste (`staffeln`) trägt: `anbieter.seq === meldung.staffel`.
- * Ohne Liste läse er sie als unsere — dann lieber keine.
- */
-function netflixStaffelFuerZuordner() {
-  const nr = Number(stand.staffel)
-  return Number.isFinite(nr) && Array.isArray(stand.staffeln) && stand.staffeln.length ? nr : null
-}
-
 function rechnetInNetflixStaffeln(reihe) {
   return (anbieterStaffeln[String(reihe)] ?? []).length > 0 || offeneTitel[String(reihe)]?.laut === 'anbieter-gerechnet'
 }
@@ -3648,7 +3681,13 @@ function folgenJeStaffel(folgen) {
 function angezeigteFolgenSetzen() {
   const alle = DURCHLAUF.alleFolgen ?? []
   /* Ein Film baut seine Liste selbst (durchlaufFilmAuftrag) — ohne Leserliste bleibt sie, wie sie ist. */
-  if (DURCHLAUF.laeuft || !alle.length) return false
+  /*
+    **Im Durchgang bleibt die gewählte Staffel stehen** (24.09.2026). Der Durchgang setzt
+    `DURCHLAUF.folgen` auf die Staffel, die er prüfen will, und `durchlaufStarten()` wartet danach
+    noch auf den Worker. In dieser Pause schrieb eine Leser-Nachricht die sichtbare Staffel darüber:
+    Bei Meine ganz besondere Hochzeit meldete der Lauf „Staffel 2" die Folgen von Staffel 1.
+  */
+  if (DURCHLAUF.laeuft || DURCHLAUF.selbst || DURCHLAUF.mehrfach || !alle.length) return false
   const gruppen = folgenJeStaffel(alle)
   let wahl = alle
   if (gruppen.size > 1) {
@@ -4472,8 +4511,8 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
             titel: stand.serientitel ?? null,
             folge: f.videoId,
             folge_nr: f.nummer,
-            staffel: staffelDerFolge ?? netflixStaffelFuerZuordner(),
-            titelId: titelIdFuer(reihe, staffelDerFolge),
+            staffel: meldeZiel(reihe, f).staffel,
+            titelId: meldeZiel(reihe, f).titelId,
             staffeln: ohneKennungen(stand.staffeln),
             serientitel: stand.serientitel ?? null,
             notiz:
@@ -4497,7 +4536,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
                 nummer: f.nummer ?? null,
                 titel: f.titel ?? null,
                 staffelText: DURCHLAUF.staffelLabel ?? (f.seasonId != null ? String(f.seasonId) : null),
-                staffelNr: staffelDerFolge ?? netflixStaffelFuerZuordner(),
+                staffelNr: meldeZiel(reihe, f).staffel,
                 /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
                 ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
                 roh: {
@@ -4598,8 +4637,8 @@ async function durchlaufMelden(folge, echte, deutsch) {
           Meldung zu Folge 1 kein Feld, und die Pipeline schlug sie der
           falschen Staffel zu.
         */
-        staffel: staffelDerFolge ?? netflixStaffelFuerZuordner(),
-        titelId: titelIdFuer(gemeinteReihe(), staffelDerFolge),
+        staffel: meldeZiel(gemeinteReihe(), folge).staffel,
+        titelId: meldeZiel(gemeinteReihe(), folge).titelId,
         staffeln: ohneKennungen(stand.staffeln),
         serientitel: stand.serientitel ?? null,
         notiz:
@@ -4630,7 +4669,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
             titel: folge.titel ?? null,
             sprachen: echte.map((x) => `${x.code}|${x.name}`),
             staffelText: DURCHLAUF.staffelLabel ?? (folge.seasonId != null ? String(folge.seasonId) : null),
-            staffelNr: staffelDerFolge ?? netflixStaffelFuerZuordner(),
+            staffelNr: meldeZiel(gemeinteReihe(), folge).staffel,
             /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
             ...beobachtung(true, deutsch),
             /*

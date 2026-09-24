@@ -227,10 +227,35 @@ function schluss() {
   const melden = schneide('durchlaufMelden') + schneide('randMelden')
   pruefe('beide Melder hängen den Staffelnamen an die Notiz', (melden.match(/` — Netflix: \$\{DURCHLAUF\.staffelLabel\}`/g) ?? []).length === 2)
   pruefe('die Einzelmeldung schreibt „Folge N: Titel", die Form, die der Anker liest', /`Durchlauf: Folge \$\{folge\.nummer\}\$\{folge\.titel \? `: \$\{folge\.titel\}`/.test(melden))
-  pruefe('unklare Staffel: Netflix-Zahl nur mit Netflix-Liste', (melden.match(/staffel: staffelDerFolge \?\? netflixStaffelFuerZuordner\(\)/g) ?? []).length === 2)
-  const zuordnerZahl = new Function('stand', schneide('netflixStaffelFuerZuordner') + '\nreturn netflixStaffelFuerZuordner()')
-  pruefe('mit Liste: Netflix-Staffel 4', zuordnerZahl({ staffel: 4, staffeln: [{ seq: 4 }] }) === 4)
-  pruefe('ohne Liste: keine Zahl', zuordnerZahl({ staffel: 4, staffeln: null }) === null)
+  /*
+    Meine ganz besondere Hochzeit (24.09.2026): Staffel und titelId nur, was sicher ist —
+    Netflix' Nummer über die Folgenkennungen, titelId nur bei genau einem Titel an der Adresse.
+  */
+  pruefe('beide Melder nehmen Staffel und Titel aus meldeZiel', (melden.match(/staffel: meldeZiel\(/g) ?? []).length === 2 && (melden.match(/titelId: meldeZiel\(/g) ?? []).length === 2)
+  const zielCode = ['netflixSeqFuerGruppe', 'meldeZiel'].map(schneide).join('\n\n')
+  function ziel({ eigene, staffelnPlayer = null, gespeichert = undefined, folge }) {
+    const kontext = {
+      offeneTitel: { 1: { staffeln: eigene } },
+      anbieterStaffeln: gespeichert ? { 1: gespeichert } : {},
+      stand: { staffeln: staffelnPlayer },
+      DURCHLAUF: { alleFolgen: [11, 12, 13].map((v) => ({ videoId: v, seasonId: 'S1' })).concat([21, 22].map((v) => ({ videoId: v, seasonId: 'S2' }))) },
+      folge,
+      ergebnis: null,
+    }
+    vm.createContext(kontext)
+    vm.runInContext(`${zielCode}\nergebnis = meldeZiel(1, folge)`, kontext)
+    return kontext.ergebnis
+  }
+  const HOCHZEIT = [{ nr: 1, id: 147103, folgen: 12 }, { nr: 2, id: 169441, folgen: 13 }]
+  const NETFLIX = [{ seq: 1, ids: [11, 12, 13] }, { seq: 2, ids: [21, 22] }]
+  const h1 = ziel({ eigene: HOCHZEIT, staffelnPlayer: NETFLIX, folge: { videoId: 12, seasonId: 'S1' } })
+  pruefe('Hochzeit: Netflix-Staffel 1 bleibt 1, keine titelId', h1.staffel === 1 && h1.titelId === null, h1)
+  const h2 = ziel({ eigene: HOCHZEIT, staffelnPlayer: [{ seq: 1 }, { seq: 2 }], gespeichert: NETFLIX, folge: { videoId: 21, seasonId: 'S2' } })
+  pruefe('Kennungen aus der gespeicherten Liste, wenn der Player keine nennt', h2.staffel === 2, h2)
+  const ohne = ziel({ eigene: HOCHZEIT, staffelnPlayer: [{ seq: 1 }, { seq: 2 }], folge: { videoId: 12, seasonId: 'S1' } })
+  pruefe('ohne Kennungen: keine Staffelzahl', ohne.staffel === null, ohne)
+  const eine = ziel({ eigene: [{ nr: 1, id: 20, folgen: 220 }], folge: { videoId: 12, seasonId: 'S1' } })
+  pruefe('eine eigene Staffel ohne Netflix-Liste: unsere 1 und ihre titelId', eine.staffel === 1 && eine.titelId === 20, eine)
   /*
     Stardust (24.09.2026): Netflix-Staffel 2 darf nicht unsere Staffel 2 treffen, sobald Netflix'
     Liste gespeichert ist und die Prüfliste in unserer Zählung rechnet.
