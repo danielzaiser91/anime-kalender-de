@@ -1834,14 +1834,20 @@ Konsole — Daniel hielt das stille Ende für ein Hängen.
 - Lokales Abhaken ohne Staffel rät nur noch bei durchgezählten Reihen (`merkeErledigt`); bei JoJo
   hakte es sonst Folgen in Staffel 1 und „Diamond Is Unbreakable" ab.
 
-## „Alle Folgen anzeigen" bringt keine eigene Abfrage — das Menü bleibt (24.09.2026)
+## „Alle Folgen anzeigen" lädt jede Staffel einzeln nach — das Menü bleibt vorerst (24.09.2026)
 
 Gemessen mit dem Abrufverlauf aus 4.21.10 an JoJo: Die Ansicht „Alle Folgen anzeigen" lädt jede
-Netflix-Staffel über dieselbe `data.videos`-Abfrage wie das Menü, nur alle auf einmal — und
-bricht dabei bei 30 Folgen je Staffel ab (Diamond Is Unbreakable 30 von 39, Stone Ocean 30 von
-38; über das Menü kamen alle). Andere Antworten mit Folgen waren nur Empfehlungsleisten
-(`unifiedEntities`, `playbackEntities`). Daniels Vorschlag, den Durchgang immer über diese
-Ansicht laufen zu lassen, spart deshalb nichts; der Durchgang bleibt beim Menü.
+Netflix-Staffel über dieselbe `data.videos`-Abfrage wie das Menü, nur alle auf einmal, je
+Staffel mit eigener Kennung. Nachgeladen wird beim Scrollen: Beim ersten Versuch kamen
+Diamond Is Unbreakable und Stone Ocean mit 30 Folgen an, beim zweiten mit langsamem Scrollen alle
+fünf vollständig (26, 48, 39, 39, 38). **Die 30er-Schnitte lagen am Scrollen, nicht an Netflix**
+— meine erste Deutung „bricht bei 30 ab" war falsch und stand kurz so in dieser Datei. Andere
+Antworten mit Folgen waren nur Empfehlungsleisten (`unifiedEntities`, `playbackEntities`).
+
+Folge für den Durchgang: Die Ansicht liefert alles auf einer Seite, braucht aber vollständiges
+Nachladen je Staffel und einen Durchgang über Gruppen statt über die angezeigte Staffel
+(`angezeigteFolgenSetzen` wählt heute die sichtbarste Gruppe). Der Menüweg läuft seit 4.21.9;
+die Ansicht wird erst gebaut, wenn der Menüweg wieder Probleme macht.
 
 **Und die Staffelzahl hat zwei Zählungen.** Sobald ein Titel einmal gemeldet wurde, liegt
 Netflix' Staffelliste in `anbieterStaffeln`, und `staffelnDerGruppe` rechnet in Netflix-Staffeln.
