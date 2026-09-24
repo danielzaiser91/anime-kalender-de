@@ -2712,6 +2712,56 @@ let selbstRundenHier = 0
  * Folgen als offen; bei Dr. STONE Staffel 3 (✓ belegt) begann die Automatik deshalb einen Lauf,
  * der nichts fand und still endete (Daniel, 22.09.2026: „startet … aber nix passiert").
  */
+/** Zeigt die Seite Netflix' „Alle Folgen anzeigen"? Nur auf der Titelseite, nicht mitten im Lauf. */
+function alleStaffelnAnsicht() {
+  return !DURCHLAUF.laeuft && !imPlayer() && istAlleFolgenEintrag(angezeigterNetflixName())
+}
+
+/** Die geladenen Staffeln mit offenen Folgen, je Netflix-Kennung — `[seasonId, gruppe][]`. */
+function offeneGruppen() {
+  const vorher = DURCHLAUF.folgen
+  const raus = []
+  try {
+    for (const [seasonId, gruppe] of folgenJeStaffel(DURCHLAUF.alleFolgen ?? [])) {
+      DURCHLAUF.folgen = gruppe
+      if (angezeigteStaffelHatOffenes()) raus.push([seasonId, gruppe])
+    }
+  } finally {
+    DURCHLAUF.folgen = vorher
+  }
+  return raus
+}
+
+/**
+ * **Alle offenen Staffeln nacheinander — der Knopf in „Alle Folgen anzeigen"** (24.09.2026).
+ * Dieselbe Schleife wie beim Durchgang, nur von Hand: je Staffel erste und letzte Folge. Gezählt
+ * wird über alle Staffeln (`DURCHLAUF.mehrfach`), zwei je Staffel; prüft eine Staffel mehr, wächst
+ * die Gesamtzahl mit.
+ */
+async function alleStaffelnPruefen() {
+  const offen = offeneGruppen()
+  if (!offen.length || DURCHLAUF.laeuft) return
+  const m = { gesamt: offen.length * 2, fertig: 0, abbruch: false }
+  DURCHLAUF.mehrfach = m
+  try {
+    for (const [, gruppe] of offen) {
+      if (m.abbruch || DURCHLAUF.stoerung) break
+      DURCHLAUF.folgen = gruppe
+      if (!angezeigteStaffelHatOffenes()) {
+        m.gesamt -= 2
+        continue
+      }
+      await durchlaufStarten(RAND)
+      m.fertig += DURCHLAUF.fertig ?? 0
+      m.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - 2)
+      if (DURCHLAUF.abbruch) break
+    }
+  } finally {
+    DURCHLAUF.mehrfach = null
+    durchlaufKnopfZeigen()
+  }
+}
+
 function angezeigteStaffelHatOffenes() {
   const zustaende = geladeneZustaende()
   if (!zustaende) return durchlaufOffen().length > 0
@@ -4744,10 +4794,17 @@ function durchlaufKnopfZeigen() {
           verwarf er den Klick („läuft schon"), und Daniel stand vor einem Knopf, der
           abbrechen anbot und nichts tat. Ein zweiter Start bleibt ausgeschlossen.
         */
-        if (DURCHLAUF.laeuft) {
+        if (DURCHLAUF.laeuft || DURCHLAUF.mehrfach) {
           DURCHLAUF.abbruch = true
+          /* Zwischen zwei Staffeln läuft kein Durchlauf — der Abbruch muss dann an die Schleife. */
+          if (DURCHLAUF.mehrfach) DURCHLAUF.mehrfach.abbruch = true
           console.log('[Anime-Kalender] Abbruch per Knopf:', zustand)
           durchlaufKnopfZeigen()
+          return
+        }
+        /* „Alle Folgen anzeigen": alle offenen Staffeln nacheinander (24.09.2026). */
+        if (alleStaffelnAnsicht()) {
+          void alleStaffelnPruefen()
           return
         }
         /* Ist alles gemeldet, tut ein Klick nichts — der Rechtsklick bleibt. */
@@ -4879,7 +4936,7 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.knopf.classList.remove('ak-fertig')
     return
   }
-  if (DURCHLAUF.laeuft) {
+  if (DURCHLAUF.laeuft || DURCHLAUF.mehrfach) {
     /*
       **Abbrechen lohnt erst ab drei Folgen.**
 
@@ -4891,15 +4948,41 @@ function durchlaufKnopfZeigen() {
       Bei zwei Folgen ist der Lauf vorbei, bevor jemand den Knopf trifft — ein
       klickbarer Abbruch verspricht dann etwas, das er nicht mehr einlösen kann.
     */
-    const lohntAbbruch = DURCHLAUF.gesamt > 2
+    const lohntAbbruch = DURCHLAUF.gesamt > 2 || Boolean(DURCHLAUF.mehrfach)
+    /* Über alle Staffeln gezählt, wenn „Alle Staffeln" läuft (24.09.2026). */
+    const m = DURCHLAUF.mehrfach
+    /* Zwischen zwei Staffeln steckt der letzte Lauf schon in `m` — nicht doppelt zählen. */
+    const imLauf = DURCHLAUF.laeuft
+    const fertig = (m?.fertig ?? 0) + (imLauf || !m ? DURCHLAUF.fertig : 0)
+    const gesamt = m ? m.gesamt + (imLauf ? Math.max(0, DURCHLAUF.gesamt - 2) : 0) : DURCHLAUF.gesamt
     DURCHLAUF.knopf.textContent = lohntAbbruch
-      ? `⏹ ${DURCHLAUF.fertig}/${DURCHLAUF.gesamt} — abbrechen`
-      : `${DURCHLAUF.fertig}/${DURCHLAUF.gesamt} — läuft`
+      ? `⏹ ${fertig}/${gesamt} — abbrechen`
+      : `${fertig}/${gesamt} — läuft`
     DURCHLAUF.knopf.title = lohntAbbruch
       ? 'Läuft — jede Folge wird kurz geöffnet und wieder verlassen. Escape bricht ab.'
       : 'Läuft — gleich fertig.'
     DURCHLAUF.knopf.disabled = !lohntAbbruch
     DURCHLAUF.knopf.classList.remove('ak-fertig')
+    return
+  }
+  /*
+    **In „Alle Folgen anzeigen" spricht der Knopf für alle Staffeln** (Daniel, 24.09.2026, mit
+    Bild: „befindet man sich auf alle folgen anzeigen muss das button label was anderes zeigen … das
+    0/2 passt nicht, eigentlich müsste er die 2 durch 2*(anzahl staffeln - (bereits gemeldete
+    staffeln)) ersetzen. und entsprechend alle durchgehen und melden"). Er zeigte die Staffel,
+    deren Titel am häufigsten sichtbar war — in dieser Ansicht sind es alle.
+  */
+  if (alleStaffelnAnsicht()) {
+    const gruppen = folgenJeStaffel(DURCHLAUF.alleFolgen ?? []).size
+    const offen = offeneGruppen().length
+    DURCHLAUF.knopf.textContent = offen
+      ? `Alle Staffeln · ▶ ${offen * 2} Folgen prüfen (${offen} von ${gruppen} Staffeln offen)`
+      : `Alle Staffeln · ✓ ${gruppen} Staffeln gemeldet`
+    DURCHLAUF.knopf.title = offen
+      ? 'Prüft je offene Staffel die erste und die letzte Folge und meldet den Rest mit demselben Befund.'
+      : 'Alles gemeldet.'
+    DURCHLAUF.knopf.disabled = !offen
+    DURCHLAUF.knopf.classList.toggle('ak-fertig', !offen)
     return
   }
   /*

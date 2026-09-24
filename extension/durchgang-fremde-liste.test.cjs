@@ -272,6 +272,42 @@ function schluss() {
   const leser = readFileSync(resolve(__dirname, 'leser.js'), 'utf8')
   pruefe('der Leser zählt je Staffel nach', /const jetzt = folgenDerStaffel\(seasonId\)/.test(leser) && !/folgenNachladen\(Number\(seasonId\), folgenliste\.size\)/.test(leser))
   pruefe('der Leser übergeht keine zweite Staffel', !/if \(laedtNach \|\|/.test(leser) && /nachladeKette = nachladeKette/.test(leser))
+  /*
+    „Alle Folgen anzeigen" von Hand (24.09.2026): der Knopf prüft alle offenen Staffeln
+    nacheinander und zählt 2 je offene Staffel.
+  */
+  {
+    const code = ['folgenJeStaffel', 'offeneGruppen', 'alleStaffelnPruefen'].map(schneide).join('\n\n')
+    const kontext = {
+      DURCHLAUF: {
+        laeuft: false,
+        folgen: [],
+        alleFolgen: ['a', 'b', 'c'].flatMap((s) => [1, 2, 3].map((n) => ({ nummer: n, videoId: `${s}${n}`, seasonId: s }))),
+      },
+      offen: new Set(['a', 'c']),
+      gelaufen: [],
+      stand: [],
+      RAND: -1,
+      angezeigteStaffelHatOffenes: () => kontext.offen.has(kontext.DURCHLAUF.folgen[0]?.seasonId),
+      durchlaufStarten: async () => {
+        kontext.stand.push(kontext.DURCHLAUF.mehrfach?.gesamt)
+        kontext.gelaufen.push(kontext.DURCHLAUF.folgen[0].seasonId)
+        kontext.DURCHLAUF.fertig = 2
+        kontext.DURCHLAUF.gesamt = 2
+      },
+      durchlaufKnopfZeigen: () => {},
+      ergebnis: null,
+    }
+    vm.createContext(kontext)
+    vm.runInContext(`${code}\nergebnis = alleStaffelnPruefen()`, kontext)
+    await kontext.ergebnis
+    pruefe('„Alle Staffeln": nur die offenen Staffeln laufen, nacheinander', kontext.gelaufen.join() === 'a,c', kontext.gelaufen)
+    pruefe('… gezählt 2 je offene Staffel', kontext.stand[0] === 4, kontext.stand)
+    pruefe('… und danach ist der Mehrfachlauf wieder aus', kontext.DURCHLAUF.mehrfach === null)
+    const knopf = schneide('durchlaufKnopfZeigen')
+    pruefe('der Knopf beschriftet „Alle Staffeln" mit 2 × offene Staffeln', /Alle Staffeln · ▶ \$\{offen \* 2\} Folgen prüfen/.test(knopf))
+    pruefe('der Klick startet in dieser Ansicht alle Staffeln', /if \(alleStaffelnAnsicht\(\)\) \{\s*void alleStaffelnPruefen\(\)/.test(quelle))
+  }
   /* Ein Fehler im Durchgang endet sichtbar. */
   const huelle = schneide('vielleichtSelbstStarten')
   pruefe('ein Fehler im Durchgang landet in Spur und Kasten', /spur\('Fehler'/.test(huelle) && /laufBeenden\(`Fehler: /.test(huelle))
