@@ -734,6 +734,26 @@ das der Betrieb braucht — an diesem Tag rund vierzig Abfragen zur Fehlersuche.
 Für wiederholte Messungen gehört das Ergebnis in eine Datei, nicht in die
 zwanzigste Abfrage.
 
+### Zweiter Ausfall, 24.09.2026: der Melde-Durchgang und ein Index, der fehlte
+
+Um 19:45 war das Tageskontingent wieder weg. Diesmal zeigte `wrangler d1 insights` den Täter
+sofort (liest Analysedaten, **nicht** die Datenbank — kostet also kein Kontingent):
+
+```
+CLOUDFLARE_API_TOKEN=… npx wrangler d1 insights anime-kalender --config wrangler.toml \
+  --sort-type sum --sort-by reads --timePeriod 1d --limit 8 --json
+```
+
+`SELECT DISTINCT plattform, url, staffel FROM pruefung WHERE … gemeldet_am > ?1` (Prüfstand,
+`?stand=1`) lief 1.834-mal und las **9,2 Millionen** Zeilen. Der Cache davor hält, bis jemand
+schreibt — und der Melde-Durchgang schrieb an diesem Tag rund tausend Meldungen, jede verwarf ihn.
+Ohne Index auf `gemeldet_am` las jede Neuberechnung die ganze Tabelle. Migration 037 legt einen
+deckenden Index an. **Der Cache schützt nur, solange selten geschrieben wird;** wer einen
+Schreibstrom plant (Durchgang, Massenmeldung), prüft vorher die Abfragen hinter dem Cache.
+Außerdem nimmt D1 bei aufgebrauchtem Kontingent **auch keine Migration** an — der Index kommt
+erst nach Mitternacht UTC. Und `fetch-pruefungen.ts` beendet den Bestandslauf bei HTTP 5xx seitdem
+gelb statt rot.
+
 ### Der Auslöser war die Unterabfrage — die Ursache war der Takt
 
 Nachdem der Index lag, blieb die Frage, ob das Kontingent damit sicher ist. Die

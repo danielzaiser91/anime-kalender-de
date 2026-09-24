@@ -586,6 +586,7 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - Die Erweiterung zählt zweistellig — und hinten
 - Eine Unterabfrage ohne Index kostet das Tageskontingent
 - Der Auslöser war die Unterabfrage — die Ursache war der Takt
+- Zweiter Ausfall (24.09.2026): der Melde-Durchgang und ein fehlender Index — `wrangler d1 insights` zeigt den Täter
 - wrangler braucht `--config wrangler.toml` — sonst sieht es aus wie ein Rechteproblem (23.09.2026)
 
 ### [Bau und Anzeige](docs/wissen/datensatz.md)
