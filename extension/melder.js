@@ -180,6 +180,8 @@ function titelIdFuer(reihe, staffelNr) {
 let anbieterStaffeln = {}
 /** Wo der Leser die Folgen gefunden hat — nur für den Diagnosebericht. */
 let letzteHerkunft = null
+/** Der ganze Abrufverlauf des Lesers in Kurzform (seit 24.09.2026, für „Alle Folgen anzeigen"). */
+let leserVerlauf = null
 
 /** Die Staffeln eines Titels — was der Anbieter sagte, sonst was wir wissen. */
 /**
@@ -811,6 +813,10 @@ function staffelnBereinigen(folgen) {
 }
 
 function nachrichtEmpfangen(e) {
+  if (e.source === window && e.data?.marke === 'ak-leserverlauf') {
+    if (Array.isArray(e.data.verlauf)) leserVerlauf = e.data.verlauf
+    return
+  }
   if (e.source === window && e.data?.marke === 'ak-folgenliste') {
     /*
       Die Liste gilt für eine Reihe. Passt sie nicht zur Seite, gehört sie
@@ -6392,6 +6398,21 @@ function nfBericht() {
       beiden Welten nicht, siehe den Kommentar dort.
     */
     leser: sicher(() => letzteHerkunft ?? 'noch keine Folgenliste gesehen'),
+    leserVerlauf: sicher(() => leserVerlauf),
+    /* Welche Staffeln die Seite bisher geladen hat — je Netflix-Staffelkennung. */
+    geladen: sicher(() =>
+      [...folgenJeStaffel(DURCHLAUF.alleFolgen ?? []).entries()].map(([seasonId, g]) => {
+        const n = g.map((f) => Number(f.nummer)).filter(Number.isFinite)
+        return {
+          seasonId,
+          anzahl: g.length,
+          von: n.length ? Math.min(...n) : null,
+          bis: n.length ? Math.max(...n) : null,
+          ersterTitel: g[0]?.titel ?? null,
+        }
+      }),
+    ),
+    staffelMenue: sicher(() => angezeigterNetflixName()),
   }
 }
 

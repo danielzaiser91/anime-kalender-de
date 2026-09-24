@@ -607,6 +607,25 @@
     }
   }
 
+  /** Der ganze Abrufverlauf in Kurzform — für den Diagnosebericht, unabhängig davon, ob Folgen neu waren. */
+  function verlaufSenden() {
+    window.postMessage(
+      {
+        marke: 'ak-leserverlauf',
+        verlauf: herkunft.map((h) => ({
+          typ: h.typ,
+          seasonId: h.seasonId ?? null,
+          anzahl: h.anzahl,
+          episoden: h.episoden ?? null,
+          von: h.nummern?.[0] ?? null,
+          titel: h.titel?.[0] ?? null,
+          anfang: h.anzahl ? undefined : h.anfang,
+        })),
+      },
+      '*',
+    )
+  }
+
   function lesFolgenliste(daten, ausNachladen) {
     /*
       Nur auf einer Titelseite. Auf der Startseite und im Player kommen
@@ -643,6 +662,26 @@
      * `text()` noch nicht eingehakt war), dann eine Suche über den ganzen
      * Baum, die zu viel fand. Die Diagnose hat beides aufgelöst.
      */
+    /*
+      **Auch Antworten mit Folgen, die nicht `data.videos` heißen, gehören in den Verlauf**
+      (24.09.2026). Daniel schlug vor, den Durchgang immer über Netflix' Menüeintrag „Alle Folgen
+      anzeigen" laufen zu lassen. Ob diese Ansicht eine eigene Abfrage schickt, war nicht zu sehen:
+      Der Leser verwirft alles außer `data.videos`, und der Bericht trug nur die letzten drei
+      Abrufe. Gezählt wird hier nur — übernommen wird weiterhin nichts davon.
+    */
+    if (daten?.data && !daten.data.videos) {
+      try {
+        const text = JSON.stringify(daten)
+        const episoden = (text.match(/"__typename":"Episode"/g) ?? []).length
+        if (episoden) {
+          herkunft.push({ typ: Object.keys(daten.data).join(','), anzahl: 0, episoden, anfang: text.slice(0, 300) })
+          if (herkunft.length > 40) herkunft.shift()
+          verlaufSenden()
+        }
+      } catch {
+        /* Diagnose, kein Abbruch. */
+      }
+    }
     const gefunden = daten?.data?.videos ? sammleFolgen(daten.data.videos, [], 0) : []
     if (gefunden.length) {
       herkunft.push({
@@ -662,6 +701,7 @@
         anfang: JSON.stringify(daten).slice(0, 600),
       })
       if (herkunft.length > 40) herkunft.shift()
+      verlaufSenden()
     }
     if (!gefunden.length) return
     let neu = 0

@@ -56,6 +56,8 @@ const Blob = function () {}
 const URL = { createObjectURL: () => '' }
 
 const gesendet = []
+/* Gezählt werden Folgenlisten — der Abrufverlauf für den Bericht (24.09.2026) ist keine Meldung. */
+const folgenlisten = () => gesendet.filter((m) => m.marke !== 'ak-leserverlauf')
 
 /*
   Eine Zusicherung, die zählt statt sofort abzubrechen.
@@ -182,7 +184,7 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
   /* Ein zweiter Aufruf mit denselben Folgen meldet nichts Neues. */
   gesendet.length = 0
   lesFolgenliste(antwort)
-  pruefe('dieselbe Liste löst keine zweite Meldung aus', gesendet.length === 0, gesendet.length)
+  pruefe('dieselbe Liste löst keine zweite Meldung aus', folgenlisten().length === 0, folgenlisten().length)
 
   /* Eine andere Staffel kommt dazu, statt die erste zu ersetzen. */
   lesFolgenliste({
@@ -318,8 +320,8 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
   })
   pruefe(
     'unifiedEntities liefert keine Folgen',
-    gesendet.length === 0,
-    gesendet.map((m) => m.folgen?.map((f) => f.titel)),
+    folgenlisten().length === 0,
+    folgenlisten().map((m) => m.folgen?.map((f) => f.titel)),
   )
 
   /* Und die echte Staffelliste kommt weiterhin an. */
