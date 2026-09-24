@@ -3001,9 +3001,11 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     }
   }
 
-  const offen2 = await env.DB.prepare('SELECT COUNT(*) AS n FROM pruefung WHERE uebernommen = 0').first<{
-    n: number
-  }>()
+  /*
+    Bis zum 24.09.2026 zählte hier jede Meldung alle offenen Meldungen nach (`COUNT(*) … WHERE
+    uebernommen = 0`) und schickte die Zahl zurück. Kein Melder las sie; an jenem Tag waren es
+    1.904 Zählungen und 560.000 gelesene Zeilen — ein Zehntel des Tageskontingents.
+  */
   /*
     **Die Anzeige erfährt es sofort, nicht beim nächsten Nachfragen.**
 
@@ -3011,7 +3013,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     Sie hat ihre Arbeit getan, sobald die Meldung in der Datenbank steht.
   */
   ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(daten.plattform ?? 'unbekannt') }))
-  return antwort({ ok: true, befund, offen: offen2?.n ?? 0 })
+  return antwort({ ok: true, befund })
 }
 
 export default {
