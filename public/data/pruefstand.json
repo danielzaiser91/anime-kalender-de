@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-24T15:21:11.417Z",
+ "erzeugtAm": "2026-09-24T15:57:29.640Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -37,70 +37,25 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 365,
+   "gemeldet": 374,
    "gesamt": 376,
-   "offen": 11,
+   "offen": 2,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/80039972",
+   "ziel": "https://www.netflix.com/title/80063153",
    "ziele": [
-    {
-     "url": "https://www.netflix.com/title/80039972",
-     "titel": "Tiger & Bunny"
-    },
     {
      "url": "https://www.netflix.com/title/80063153",
      "titel": "Kuroko’s Basketball: 1st Season"
     },
     {
-     "url": "https://www.netflix.com/title/80090673",
-     "titel": "Haikyu!!",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/80179798",
-     "titel": "Mob Psycho 100"
-    },
-    {
-     "url": "https://www.netflix.com/title/80198505",
-     "titel": "Aggretsuko",
-     "staffeln": [
-      1
-     ]
-    },
-    {
      "url": "https://www.netflix.com/title/80992228",
-     "titel": "Kengan Ashura"
-    },
-    {
-     "url": "https://www.netflix.com/title/81046193",
-     "titel": "Dr. Stone",
+     "titel": "Kengan Ashura",
      "staffeln": [
-      1
+      3
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81143589",
-     "titel": "Fire Force"
-    },
-    {
-     "url": "https://www.netflix.com/title/81249833",
-     "titel": "Vinland Saga",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81281579",
-     "titel": "Record of Ragnarok"
-    },
-    {
-     "url": "https://www.netflix.com/title/81465193",
-     "titel": "My Teen Romantic Comedy SNAFU"
     }
    ],
-   "naechster": "Tiger & Bunny"
+   "naechster": "Kuroko’s Basketball: 1st Season"
   },
   {
    "name": "Disney+",
