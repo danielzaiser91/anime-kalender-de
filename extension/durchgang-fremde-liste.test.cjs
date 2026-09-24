@@ -262,7 +262,7 @@ function schluss() {
   const alle = new Function(schneide('istAlleFolgenEintrag') + '\nreturn istAlleFolgenEintrag')()
   pruefe('„Alle Folgen anzeigen" wird erkannt', alle('Alle Folgen anzeigen') && alle(' All episodes'))
   pruefe('echte Staffeln nicht', !alle('Golden Wind(39 Folgen)') && !alle('Staffel 2 (27 Folgen)'))
-  pruefe('das Menü liefert ihn nicht als Staffel', /return raus\.filter\(\(e\) => !istAlleFolgenEintrag\(e\.text\)\)/.test(schneide('netflixStaffelnImMenue')))
+  pruefe('das Menü liefert ihn nicht als Staffel', /raus\.filter\(\(e\) => !istAlleFolgenEintrag\(e\.text\)\)/.test(schneide('netflixStaffelnImMenue')))
   pruefe('das Sammeln wählt ihn gezielt', /await netflixStaffelWaehlen\(istAlleFolgenEintrag\)/.test(schneide('selbstSammeln')))
   for (const [name, laeuft, ok] of sammelFaelle) {
     const e = await laeuft
@@ -288,7 +288,9 @@ function schluss() {
       gelaufen: [],
       stand: [],
       RAND: -1,
-      angezeigteStaffelHatOffenes: () => kontext.offen.has(kontext.DURCHLAUF.folgen[0]?.seasonId),
+      gruppeOffen: (_reihe, gruppe) => kontext.offen.has(gruppe[0]?.seasonId),
+      gemeinteReihe: () => '1',
+      netflixStaffelnImMenue: async () => [],
       durchlaufStarten: async () => {
         kontext.stand.push(kontext.DURCHLAUF.mehrfach?.gesamt)
         kontext.gelaufen.push(kontext.DURCHLAUF.folgen[0].seasonId)
@@ -307,6 +309,39 @@ function schluss() {
     const knopf = schneide('durchlaufKnopfZeigen')
     pruefe('der Knopf beschriftet „Alle Staffeln" mit 2 × offene Staffeln', /Alle Staffeln · ▶ \$\{offen \* 2\} Folgen prüfen/.test(knopf))
     pruefe('der Klick startet in dieser Ansicht alle Staffeln', /if \(alleStaffelnAnsicht\(\)\) \{\s*void alleStaffelnPruefen\(\)/.test(quelle))
+  }
+  /*
+    Offen oder nicht — über die Folgenkennungen (24.09.2026). Meine ganz besondere Hochzeit:
+    Netflix-Staffel 1 hat 13 Folgen, unsere 12; die Folgenzahl hielt sie für unsere belegte
+    Staffel 2. Jetzt zählt nur, ob ihre Folgen seit der Wiedervorlage gemeldet sind.
+  */
+  {
+    const code = schneide('gruppeOffen')
+    const SEIT = '2026-09-24T16:11:12.558Z'
+    function offen({ meldungen = {}, staffeln = [{ nr: 1, offen: true, zustand: 'erneut', seit: SEIT }] }) {
+      const kontext = {
+        offeneTitel: { 1: { staffeln } },
+        MELDUNGEN: new Map([['1', { jeFolge: new Map(Object.entries(meldungen).map(([id, am]) => [id, { am }])) }]]),
+        DURCHLAUF: { gemeldet: new Set() },
+        gruppe: [{ videoId: 11 }, { videoId: 12 }, { videoId: 13 }],
+        ergebnis: null,
+      }
+      vm.createContext(kontext)
+      vm.runInContext(`${code}\nergebnis = gruppeOffen(1, gruppe)`, kontext)
+      return kontext.ergebnis
+    }
+    pruefe('Hochzeit: Folgen nur im August gemeldet, Wiedervorlage heute → offen', offen({ meldungen: { 11: '2026-08-22', 12: '2026-08-22', 13: '2026-08-22' } }) === true)
+    pruefe('alle Folgen nach der Wiedervorlage gemeldet → fertig', offen({ meldungen: { 11: '2026-09-24T17:00:00Z', 12: '2026-09-24T17:00:00Z', 13: '2026-09-24T17:00:00Z' } }) === false)
+    pruefe('eine Folge ohne Meldung → offen', offen({ meldungen: { 11: '2026-09-24T17:00:00Z', 12: '2026-09-24T17:00:00Z' } }) === true)
+    pruefe('ohne offene Staffel beim Titel → nie offen', offen({ staffeln: [{ nr: 1, offen: false }] }) === false)
+    pruefe('ohne Wiedervorlage: gemeldet ist gemeldet, egal wann', offen({ staffeln: [{ nr: 1, offen: true, zustand: 'melden' }], meldungen: { 11: '2026-08-22', 12: '2026-08-22', 13: '2026-08-22' } }) === false)
+    pruefe('der Durchgang fragt gruppeOffen, nicht die Zuordnung', /if \(!gruppeOffen\(reihe, gruppe\)\)/.test(start) && /DURCHLAUF\.erzwungen = true/.test(start))
+    pruefe('ein erzwungener Lauf prüft die ganze Gruppe', /const alleOffen = erzwungen \? \[\.\.\.DURCHLAUF\.folgen\] : durchlaufOffen\(\)/.test(schneide('durchlaufStarten')))
+    pruefe('der Zähler läuft je Titel über alle Staffeln', /DURCHLAUF\.mehrfach = \{ reihe: String\(reihe\), gesamt: offeneGruppen\(\)\.length \* 2/.test(start))
+    const label = new Function('letztesMenue', schneide('gruppenLabel') + '\nreturn gruppenLabel')
+    const menue = [{ text: 'Staffel 1  (13 Folgen)', folgen: 13 }, { text: 'Staffel 2  (12 Folgen)', folgen: 12 }]
+    pruefe('Staffelname aus dem Menü über die Folgenzahl', label(menue)(Array(12).fill({})) === 'Staffel 2')
+    pruefe('zwei gleich lange Staffeln → kein Name', label([...menue, { text: 'Staffel 3 (12 Folgen)', folgen: 12 }])(Array(12).fill({})) === null)
   }
   /* Ein Fehler im Durchgang endet sichtbar. */
   const huelle = schneide('vielleichtSelbstStarten')

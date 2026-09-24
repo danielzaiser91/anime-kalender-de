@@ -1614,7 +1614,7 @@ const DURCHGANG_SPUR = []
 function spur(was, dazu) {
   try {
     DURCHGANG_SPUR.push({ zeit: new Date().toISOString(), was, ...(dazu ?? {}) })
-    if (DURCHGANG_SPUR.length > 20) DURCHGANG_SPUR.shift()
+    if (DURCHGANG_SPUR.length > 60) DURCHGANG_SPUR.shift()
   } catch {
     /* Eine Diagnose darf nie im Weg stehen. */
   }
@@ -2602,6 +2602,7 @@ if (selbstAn) setTimeout(() => void vielleichtSelbstStarten(), 0)
 function laufBeenden(grund) {
   if (!selbstAn) return
   selbstAn = false
+  DURCHLAUF.mehrfach = null
   try {
     sessionStorage.removeItem(LAUF_SCHLUESSEL)
   } catch {
@@ -2717,19 +2718,45 @@ function alleStaffelnAnsicht() {
   return !DURCHLAUF.laeuft && !imPlayer() && istAlleFolgenEintrag(angezeigterNetflixName())
 }
 
+/**
+ * **Ist diese Netflix-Staffel noch zu melden? Entschieden über die Folgenkennungen, nicht über
+ * die Zuordnung** (24.09.2026). Bisher entschied `angezeigteStaffelHatOffenes()`, und das rechnet
+ * über `staffelnDerGruppe` — über die Folgenzahl. Bei „Meine ganz besondere Hochzeit" hat Netflix'
+ * Staffel 1 13 Folgen (mit Sonderfolge), unsere 12; die Zahl passte zu unserer Staffel 2 (13,
+ * belegt), und die offene Staffel 1 wurde nie geprüft. Kuroko: drei Staffeln zu je 25, dasselbe.
+ *
+ * Jetzt: Hat der Titel offene Staffeln, ist eine Netflix-Staffel offen, solange eine ihrer Folgen
+ * keine Meldung hat — oder, bei einer Wiedervorlage, keine seit dem frühesten `seit`. Wohin die
+ * Meldung gehört, entscheidet danach der Zuordner über den Folgentitel.
+ */
+function gruppeOffen(reihe, gruppe) {
+  const offene = (offeneTitel[String(reihe)]?.staffeln ?? []).filter((st) => st.offen && !st.film)
+  if (!offene.length || !gruppe.length) return false
+  const seit = offene.map((st) => st.seit).filter(Boolean).sort()[0] ?? null
+  const m = MELDUNGEN.get(String(reihe))
+  return gruppe.some((f) => {
+    const am = m?.jeFolge.get(String(f.videoId))?.am
+    if (am === undefined) return !DURCHLAUF.gemeldet?.has(f.videoId)
+    return Boolean(seit) && !(am && am > seit)
+  })
+}
+
 /** Die geladenen Staffeln mit offenen Folgen, je Netflix-Kennung — `[seasonId, gruppe][]`. */
 function offeneGruppen() {
-  const vorher = DURCHLAUF.folgen
-  const raus = []
-  try {
-    for (const [seasonId, gruppe] of folgenJeStaffel(DURCHLAUF.alleFolgen ?? [])) {
-      DURCHLAUF.folgen = gruppe
-      if (angezeigteStaffelHatOffenes()) raus.push([seasonId, gruppe])
-    }
-  } finally {
-    DURCHLAUF.folgen = vorher
-  }
-  return raus
+  const reihe = gemeinteReihe()
+  return [...folgenJeStaffel(DURCHLAUF.alleFolgen ?? [])].filter(([, gruppe]) => gruppeOffen(reihe, gruppe))
+}
+
+/**
+ * **Der Staffelname zu einer Gruppe — aus dem Menü, nicht aus der Anzeige** (24.09.2026). Im
+ * Durchgang steht die Anzeige auf „Alle Folgen anzeigen" oder, nach jedem Player-Besuch, auf
+ * Netflix' Vorgabe; der angezeigte Name gehörte dann zu einer anderen Staffel. Eindeutig ist der
+ * Menüeintrag, dessen Folgenzahl genau einmal passt — sonst keiner.
+ */
+function gruppenLabel(gruppe) {
+  const passend = (letztesMenue ?? []).filter((e) => e.folgen === gruppe.length)
+  if (passend.length !== 1) return null
+  return passend[0].text.replace(/\s*\(?\s*\d+\s*(?:Folgen|Folge|Episoden|Episode|Episodes)\s*\)?\s*$/i, '').trim() || null
 }
 
 /**
@@ -2741,16 +2768,20 @@ function offeneGruppen() {
 async function alleStaffelnPruefen() {
   const offen = offeneGruppen()
   if (!offen.length || DURCHLAUF.laeuft) return
-  const m = { gesamt: offen.length * 2, fertig: 0, abbruch: false }
+  const reihe = gemeinteReihe()
+  const m = { reihe: String(reihe), gesamt: offen.length * 2, fertig: 0, abbruch: false }
   DURCHLAUF.mehrfach = m
   try {
+    /* Die Staffelnamen für die Meldungen — im Player gibt es kein Menü. */
+    await netflixStaffelnImMenue()
     for (const [, gruppe] of offen) {
       if (m.abbruch || DURCHLAUF.stoerung) break
       DURCHLAUF.folgen = gruppe
-      if (!angezeigteStaffelHatOffenes()) {
+      if (!gruppeOffen(reihe, gruppe)) {
         m.gesamt -= 2
         continue
       }
+      DURCHLAUF.erzwungen = true
       await durchlaufStarten(RAND)
       m.fertig += DURCHLAUF.fertig ?? 0
       m.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - 2)
@@ -2873,8 +2904,14 @@ async function netflixStaffelnImMenue() {
   })
   if (!warOffen) knopf.click()
   /* „Alle Folgen anzeigen" ist keine Staffel — der Durchgang wechselt nur zwischen echten (Daniel, 24.09.2026). */
-  return raus.filter((e) => !istAlleFolgenEintrag(e.text))
+  const staffeln = raus.filter((e) => !istAlleFolgenEintrag(e.text))
+  /* Gemerkt für `gruppenLabel()` — im Player gibt es kein Menü. */
+  if (staffeln.length) letztesMenue = staffeln
+  return staffeln
 }
+
+/** Die zuletzt gelesenen Menüeinträge der Seite (Staffeln mit Folgenzahl). */
+let letztesMenue = null
 
 /**
  * **Netflix' Menüeintrag „Alle Folgen anzeigen" ist keine Staffel** (Daniel, 24.09.2026: „beim
@@ -3017,11 +3054,22 @@ async function selbstStartenSchritt() {
   }
   /* Der Stand erst nach dem Sammeln — sonst fragte jeder Takt des Wartens den Worker. */
   await durchlaufStandLaden(reihe)
+  /*
+    **Gezählt wird je Titel, über alle seine Staffeln** (Daniel, 24.09.2026: „im label steht 4
+    folgen melden, aber wenn er in player wechselt, steht 0/2, obwohl es 0/4 für den titel … sein
+    müsste"). Derselbe Zähler wie beim Knopf „Alle Staffeln".
+  */
+  if (DURCHLAUF.mehrfach?.reihe !== String(reihe)) {
+    DURCHLAUF.mehrfach = { reihe: String(reihe), gesamt: offeneGruppen().length * 2, fertig: 0, abbruch: false }
+  }
+  const zaehler = DURCHLAUF.mehrfach
+  /* Ein Klick zwischen zwei Staffeln bricht ab — dort läuft kein Durchlauf, der es sähe. */
+  if (zaehler.abbruch) return laufBeenden('abgebrochen')
   for (const [seasonId, gruppe] of folgenJeStaffel(DURCHLAUF.alleFolgen ?? [])) {
     const schluessel = `${reihe}:g:${seasonId}`
     if (selbstStaffelnGeprueft.has(schluessel)) continue
     DURCHLAUF.folgen = gruppe
-    if (!angezeigteStaffelHatOffenes()) {
+    if (!gruppeOffen(reihe, gruppe)) {
       selbstStaffelnGeprueft.add(schluessel)
       continue
     }
@@ -3037,8 +3085,11 @@ async function selbstStartenSchritt() {
     const vorher = DURCHLAUF.gemeldet?.size ?? 0
     DURCHLAUF.selbst = true
     DURCHLAUF.gesamt = 0
+    DURCHLAUF.erzwungen = true
     await durchlaufStarten(RAND)
     DURCHLAUF.selbst = false
+    zaehler.fertig += DURCHLAUF.fertig ?? 0
+    zaehler.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - 2)
     /* Ein Lauf ohne neue Meldung macht die Staffel fertig — sonst drehte eine uneinheitliche Randprobe endlos. */
     if ((DURCHLAUF.gemeldet?.size ?? 0) === vorher) selbstStaffelnGeprueft.add(schluessel)
     /* Fand der Durchlauf nichts zu tun, kam er nie bis zum Weitergehen — dann hier weiter. */
@@ -3049,6 +3100,7 @@ async function selbstStartenSchritt() {
     }
     return
   }
+  DURCHLAUF.mehrfach = null
   fertigeTitel.add(String(reihe))
   spur('Titel fertig', {
     reihe: String(reihe),
@@ -3927,10 +3979,22 @@ async function durchlaufStarten(grenze) {
     jedem, welche JoJo-Staffel gemeint ist; „S4" sagt es nur, wer Netflix' Zählung kennt. Hier
     festgehalten, weil der Player kein Staffelmenü zeigt.
   */
-  DURCHLAUF.staffelLabel = angezeigterNetflixName()
+  /* In „Alle Folgen anzeigen" und im Durchgang nennt die Anzeige nicht die Staffel dieser Gruppe. */
+  const angezeigt = angezeigterNetflixName()
+  DURCHLAUF.staffelLabel =
+    DURCHLAUF.selbst || DURCHLAUF.mehrfach || istAlleFolgenEintrag(angezeigt) ? gruppenLabel(DURCHLAUF.folgen) : angezeigt
   if (!DURCHLAUF.uebergangen) await durchlaufStandLaden(reihe)
   DURCHLAUF.uebergangen = false
-  const alleOffen = durchlaufOffen()
+  /*
+    **Erzwungen: die ganze Gruppe, erste und letzte Folge** (24.09.2026). Der Durchgang hat über
+    `gruppeOffen()` entschieden, dass diese Netflix-Staffel dran ist. Die Rechnung über
+    `durchlaufAuftrag()` sähe über die Folgenzahl womöglich eine andere, belegte Staffel und fände
+    nichts zu tun (Meine ganz besondere Hochzeit).
+  */
+  const erzwungen = DURCHLAUF.erzwungen
+  DURCHLAUF.erzwungen = false
+  if (erzwungen) DURCHLAUF.stichprobe = null
+  const alleOffen = erzwungen ? [...DURCHLAUF.folgen] : durchlaufOffen()
   /**
    * **Der Auftrag entscheidet, sonst die Ränder.**
    *
@@ -3943,7 +4007,7 @@ async function durchlaufStarten(grenze) {
    * fest, wenn die letzte gemeldet wird. Bei uneinheitlichem Ergebnis fragt die
    * Leiste nach der Grenze.
    */
-  const ausAuftrag = durchlaufAuftrag()
+  const ausAuftrag = erzwungen ? null : durchlaufAuftrag()
   /* Deckt der Auftrag genau einen Titel, ist die Stichprobe über dessen Folgen gezogen — nicht über alle offenen. */
   const basis = DURCHLAUF.stichprobe ?? alleOffen
   const offen = ausAuftrag
