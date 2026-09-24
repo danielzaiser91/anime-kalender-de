@@ -145,7 +145,17 @@ function titelIdFuer(reihe, staffelNr) {
   try {
     const staffeln = offeneTitel[String(reihe)]?.staffeln ?? []
     if (!staffeln.length) return null
-    if (staffelNr != null) {
+    /*
+      **Eine Staffelzahl in Netflix' Zählung trifft unsere Liste nicht** (24.09.2026). Nach der
+      ersten Meldung eines Titels liegt Netflix' Staffelliste in `anbieterStaffeln`, und
+      `staffelnDerGruppe` rechnet ab dann in Netflix-Staffeln. Die Prüfliste zählt aber in unseren,
+      solange sie nicht `anbieter-gerechnet` ist. Bei JoJo ist „Stardust Crusaders" Netflix-Staffel 2
+      (48 Folgen) — die 2 traf hier unsere Staffel 2, und die Folgen 40–48 gingen mit deren
+      `titelId` hinaus, obwohl sie zu „Battle in Egypt" gehören. Dann lieber keine: Der Zuordner
+      prüft ohne `titelId` alle Titel der Adresse und entscheidet über den Folgentitel.
+    */
+    const gemischt = (anbieterStaffeln[String(reihe)] ?? []).length > 0 && offeneTitel[String(reihe)]?.laut !== 'anbieter-gerechnet'
+    if (staffelNr != null && !gemischt) {
       /*
         **Nicht der erste Eintrag der Staffel, sondern der offene.** Bei Haikyu!!
         steht unter Netflix' Staffel 1 zuerst die Hauptstaffel (belegt) und dann

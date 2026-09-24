@@ -200,6 +200,33 @@ function schluss() {
   const zuordnerZahl = new Function('stand', schneide('netflixStaffelFuerZuordner') + '\nreturn netflixStaffelFuerZuordner()')
   pruefe('mit Liste: Netflix-Staffel 4', zuordnerZahl({ staffel: 4, staffeln: [{ seq: 4 }] }) === 4)
   pruefe('ohne Liste: keine Zahl', zuordnerZahl({ staffel: 4, staffeln: null }) === null)
+  /*
+    Stardust (24.09.2026): Netflix-Staffel 2 darf nicht unsere Staffel 2 treffen, sobald Netflix'
+    Liste gespeichert ist und die Prüfliste in unserer Zählung rechnet.
+  */
+  const titelIdCode = schneide('titelIdFuer')
+  function titelId({ gespeichert, laut }) {
+    const kontext = {
+      anbieterStaffeln: gespeichert ? { 1: [{ seq: 1, folgen: 26 }, { seq: 2, folgen: 48 }] } : {},
+      offeneTitel: {
+        1: {
+          laut,
+          staffeln: [
+            { nr: 1, id: 14719, folgen: 26 },
+            { nr: 2, id: 20474, folgen: 24 },
+            { nr: 3, id: 20799, folgen: 24 },
+          ],
+        },
+      },
+      ergebnis: null,
+    }
+    vm.createContext(kontext)
+    vm.runInContext(`${titelIdCode}\nergebnis = titelIdFuer(1, 2)`, kontext)
+    return kontext.ergebnis
+  }
+  pruefe('JoJo: Netflix-Staffel 2 bei gespeicherter Netflix-Liste → keine titelId', titelId({ gespeichert: true }) === null)
+  pruefe('ohne gespeicherte Netflix-Liste gilt unsere Zählung → 20474', titelId({ gespeichert: false }) === 20474)
+  pruefe('Prüfliste in Netflix-Zählung → Staffel 2 bleibt zuordenbar', titelId({ gespeichert: true, laut: 'anbieter-gerechnet' }) === 20474)
   /* Ein Fehler im Durchgang endet sichtbar. */
   const huelle = schneide('vielleichtSelbstStarten')
   pruefe('ein Fehler im Durchgang landet in Spur und Kasten', /spur\('Fehler'/.test(huelle) && /laufBeenden\(`Fehler: /.test(huelle))

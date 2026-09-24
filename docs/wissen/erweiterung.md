@@ -1834,3 +1834,19 @@ Konsole — Daniel hielt das stille Ende für ein Hängen.
 - Lokales Abhaken ohne Staffel rät nur noch bei durchgezählten Reihen (`merkeErledigt`); bei JoJo
   hakte es sonst Folgen in Staffel 1 und „Diamond Is Unbreakable" ab.
 
+## „Alle Folgen anzeigen" bringt keine eigene Abfrage — das Menü bleibt (24.09.2026)
+
+Gemessen mit dem Abrufverlauf aus 4.21.10 an JoJo: Die Ansicht „Alle Folgen anzeigen" lädt jede
+Netflix-Staffel über dieselbe `data.videos`-Abfrage wie das Menü, nur alle auf einmal — und
+bricht dabei bei 30 Folgen je Staffel ab (Diamond Is Unbreakable 30 von 39, Stone Ocean 30 von
+38; über das Menü kamen alle). Andere Antworten mit Folgen waren nur Empfehlungsleisten
+(`unifiedEntities`, `playbackEntities`). Daniels Vorschlag, den Durchgang immer über diese
+Ansicht laufen zu lassen, spart deshalb nichts; der Durchgang bleibt beim Menü.
+
+**Und die Staffelzahl hat zwei Zählungen.** Sobald ein Titel einmal gemeldet wurde, liegt
+Netflix' Staffelliste in `anbieterStaffeln`, und `staffelnDerGruppe` rechnet in Netflix-Staffeln.
+Die Prüfliste rechnet in unseren, solange sie nicht `anbieter-gerechnet` ist. `titelIdFuer()`
+übersetzte die Netflix-Zahl über unsere Liste: Stardust Crusaders (Netflix-Staffel 2, 48 Folgen)
+bekam die `titelId` unserer Staffel 2, die Folgen 40–48 gehören zu „Battle in Egypt". In diesem
+Fall gibt es jetzt keine `titelId` mehr, der Zuordner entscheidet über den Folgentitel.
+
