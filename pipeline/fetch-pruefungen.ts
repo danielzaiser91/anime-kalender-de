@@ -114,6 +114,20 @@ if (process.argv.includes('--nur-abhaken')) {
 const antwort = await fetch(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
 if (!antwort.ok) {
   warn(`Prüfungen nicht abrufbar: HTTP ${antwort.status}`)
+  /*
+    **Ein nicht erreichbarer Briefkasten ist eine Störung, kein Befund** (24.09.2026). Ab 19:45
+    antwortete der Worker mit HTTP 500 — D1s Tageskontingent an gelesenen Zeilen war aufgebraucht,
+    bis Mitternacht UTC. Mit Exit 1 wäre jeder Bestandslauf bis dahin rot geworden, obwohl nichts
+    am Bestand falsch war. Die Meldungen bleiben im Briefkasten und kommen mit dem nächsten Lauf;
+    die Statusanzeige wird gelb und nennt den Grund.
+  */
+  if (antwort.status >= 500) {
+    if (process.env.GITHUB_ENV) {
+      const alt = process.env.DATEN_WARNUNG ? process.env.DATEN_WARNUNG + ' · ' : ''
+      appendFileSync(process.env.GITHUB_ENV, `DATEN_WARNUNG=${alt}Briefkasten nicht erreichbar (HTTP ${antwort.status}) — Meldungen kommen mit dem nächsten Lauf\n`)
+    }
+    process.exit(0)
+  }
   process.exit(1)
 }
 const { pruefungen } = (await antwort.json()) as { pruefungen: Pruefung[] }

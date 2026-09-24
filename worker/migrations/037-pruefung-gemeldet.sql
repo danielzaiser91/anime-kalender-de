@@ -1,0 +1,12 @@
+-- Prüfstand: „Welche Adressen wurden seit dem Prüfstand gemeldet?" (24.09.2026)
+--
+-- SELECT DISTINCT plattform, url, staffel FROM pruefung WHERE … AND gemeldet_am > ?1
+-- lief am 24.09.2026 1.834-mal und las jedes Mal die ganze Tabelle — 9,2 Millionen Zeilen,
+-- das Tageskontingent des kostenlosen Plans liegt bei fünf. Ab 19:45 antwortete der Worker auf
+-- jeden Datenbank-Endpunkt mit „exceeded D1's free tier daily row read limit".
+--
+-- Der Takt kam vom Melde-Durchgang: Jede Meldung verwirft den Cache des Prüfstands, und die
+-- nächste Abfrage rechnete neu. Die vorhandenen Indizes beginnen mit `url` bzw. `uebernommen`
+-- und helfen einer Abfrage nur über `gemeldet_am` nicht. Dieser deckt sie ganz ab: Gelesen wird
+-- nur noch, was seit dem Prüfstand gemeldet wurde.
+CREATE INDEX IF NOT EXISTS pruefung_gemeldet ON pruefung (gemeldet_am, plattform, url, staffel);
