@@ -4229,5 +4229,21 @@
       "sagt": "2026-10-02",
       "stand": "aktuell"
     }
+  ],
+  "auto-112153-tv-toggo-plus": [
+    {
+      "url": "https://plus.rtl.de/tv-programm",
+      "name": "plus.rtl.de",
+      "gesehenAm": "2026-09-24",
+      "sagt": "2026-09-24",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anisearch.de/anime/14596/episodes",
+      "name": "anisearch.de",
+      "gesehenAm": "2026-09-24",
+      "sagt": "2026-09-24",
+      "stand": "aktuell"
+    }
   ]
 }

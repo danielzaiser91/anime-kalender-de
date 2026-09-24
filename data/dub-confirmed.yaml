@@ -17065,3 +17065,18 @@
   dub: true
   checkedAt: '2026-09-24'
   note: "Folgen 1–39 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 39, dazwischen nicht geprüft — Folge 39: Auf Wiedersehen, Moriō – Das Herz aus Gold — Netflix: Diamond Is Unbreakable"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-24 ---
+
+- anilistId: 119675
+  title: "Shaman King (2021)"
+  platform: netflix
+  url: https://www.netflix.com/title/81239555
+  dub: true
+  dubRanges:
+    - from: 51
+      to: 52
+      dub: true
+      checked: [51, 52]
+  checkedAt: '2026-09-23'
+  note: "Folgen 51–52 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 52, dazwischen nicht geprüft — Folge 52: Schamanenkönig: Am Ende ein Gott"
