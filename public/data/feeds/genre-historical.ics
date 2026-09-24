@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Historical
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:yu-gi-oh-komplettbox-ksm@2026-09-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260917
-DTEND;VALUE=DATE:20260918
-SUMMARY:Yu-Gi-Oh! – Komplettbox (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/yu-gi-
- oh-komplettbox-ksm
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00378078@2026-09-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260919T160000Z

@@ -6,46 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Action
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-1419@2026-09-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260917T070000Z
-DTEND:20260917T073000Z
-SUMMARY:SERVAMP
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1419
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-09-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260917T140500Z
-DTEND:20260917T143500Z
-SUMMARY:Pokémon Horizonte – Folge 79/127
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-09-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260917T150500Z
-DTEND:20260917T153500Z
-SUMMARY:Pokémon Horizonte – Folge 79/127
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:dragon-ball-daima-toggo-plus@2026-09-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260917T191500Z
-DTEND:20260917T194500Z
-SUMMARY:Dragon Ball DAIMA – Folge 17/20
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/dragon-ball-daima-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-09-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260918T140500Z
