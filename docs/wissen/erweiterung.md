@@ -1877,3 +1877,14 @@ Liste drei Sekunden ruht; nach 40 Sekunden geht es mit dem weiter, was da ist (S
 Menü wird nicht mehr angefasst. Die Menü-Logik (`menueSchluessel`, `naechsteOffeneNetflixStaffel`,
 Wechsel-Warten) ist entfernt.
 
+**Nachtrag 4.22.2 (24.09.2026): „Offen" entscheiden die Folgenkennungen, nicht die Zuordnung.**
+Im Test mit 4.22.1 blieben zwei offene Staffeln ungeprüft. Meine ganz besondere Hochzeit: Netflix'
+Staffel 1 hat 13 Folgen (mit Sonderfolge), unsere 12 — die Folgenzahl ordnete sie unserer belegten
+Staffel 2 (13) zu. Kuroko: drei Staffeln zu je 25. `gruppeOffen()` fragt deshalb nur noch, ob jede
+Folge der Netflix-Staffel eine Meldung hat (bei einer Wiedervorlage: seit deren `seit`); der
+Durchlauf prüft eine so gewählte Gruppe erzwungen (erste + letzte). Kehrseite, bewusst: Hat ein
+Titel eine Wiedervorlage, werden auch seine belegten Netflix-Staffeln neu gemeldet — das ist
+Daniels Ziel („sowieso das ziel alles zu melden"), und pro Staffel kostet es rund fünf Sekunden.
+Der Staffelname in der Meldung kommt aus dem Menüeintrag mit passender Folgenzahl
+(`gruppenLabel()`), nicht aus der Anzeige.
+
