@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-24T11:41:25.770Z",
+ "erzeugtAm": "2026-09-24T15:21:11.417Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -37,19 +37,15 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 357,
+   "gemeldet": 365,
    "gesamt": 376,
-   "offen": 19,
+   "offen": 11,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/80039972",
    "ziele": [
     {
      "url": "https://www.netflix.com/title/80039972",
      "titel": "Tiger & Bunny"
-    },
-    {
-     "url": "https://www.netflix.com/title/80050063",
-     "titel": "The Seven Deadly Sins"
     },
     {
      "url": "https://www.netflix.com/title/80063153",
@@ -74,24 +70,6 @@
      ]
     },
     {
-     "url": "https://www.netflix.com/title/80206326",
-     "titel": "Es war einmal … das Leben"
-    },
-    {
-     "url": "https://www.netflix.com/title/80987039",
-     "titel": "Mushoku Tensei: Jobless Reincarnation",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/80991903",
-     "titel": "Dorohedoro",
-     "staffeln": [
-      1
-     ]
-    },
-    {
      "url": "https://www.netflix.com/title/80992228",
      "titel": "Kengan Ashura"
     },
@@ -103,37 +81,12 @@
      ]
     },
     {
-     "url": "https://www.netflix.com/title/81054847",
-     "titel": "Beastars",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81091393",
-     "titel": "Demon Slayer: Kimetsu no Yaiba"
-    },
-    {
      "url": "https://www.netflix.com/title/81143589",
      "titel": "Fire Force"
     },
     {
-     "url": "https://www.netflix.com/title/81239555",
-     "titel": "Shaman King (2021)",
-     "staffeln": [
-      1
-     ]
-    },
-    {
      "url": "https://www.netflix.com/title/81249833",
      "titel": "Vinland Saga",
-     "staffeln": [
-      1
-     ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81278456",
-     "titel": "Jujutsu Kaisen",
      "staffeln": [
       1
      ]

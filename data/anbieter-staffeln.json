@@ -296,6 +296,64 @@
   ],
   "gemeldetAm": "2026-08-22"
  },
+ "80050063": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 24,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 4,
+    "erste": 1
+   },
+   {
+    "seq": 3,
+    "name": "St. 3",
+    "folgen": 24,
+    "erste": 1
+   },
+   {
+    "seq": 4,
+    "name": "St. 4",
+    "folgen": 24,
+    "erste": 1
+   },
+   {
+    "seq": 5,
+    "name": "St. 5",
+    "folgen": 24,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-09-24"
+ },
+ "80063153": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 25,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 25,
+    "erste": 1
+   },
+   {
+    "seq": 3,
+    "name": "St. 3",
+    "folgen": 25,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-09-24"
+ },
  "80090673": {
   "staffeln": [
    {
@@ -634,6 +692,17 @@
   ],
   "gemeldetAm": "2026-08-23"
  },
+ "80206326": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 26,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-09-24"
+ },
  "80221272": {
   "staffeln": [
    {
@@ -746,7 +815,7 @@
     "erste": 1
    }
   ],
-  "gemeldetAm": "2026-09-02"
+  "gemeldetAm": "2026-09-24"
  },
  "80991903": {
   "staffeln": [
@@ -763,7 +832,7 @@
     "erste": 13
    }
   ],
-  "gemeldetAm": "2026-09-12"
+  "gemeldetAm": "2026-09-24"
  },
  "80992137": {
   "staffeln": [
@@ -961,7 +1030,7 @@
     "erste": 1
    }
   ],
-  "gemeldetAm": "2026-09-21"
+  "gemeldetAm": "2026-09-24"
  },
  "81054851": {
   "staffeln": [
@@ -1101,6 +1170,41 @@
     "name": "St. 21",
     "folgen": 7,
     "erste": 287
+   }
+  ],
+  "gemeldetAm": "2026-09-24"
+ },
+ "81091393": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 26,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 7,
+    "erste": 1
+   },
+   {
+    "seq": 3,
+    "name": "St. 3",
+    "folgen": 11,
+    "erste": 1
+   },
+   {
+    "seq": 4,
+    "name": "St. 4",
+    "folgen": 11,
+    "erste": 1
+   },
+   {
+    "seq": 5,
+    "name": "St. 5",
+    "folgen": 8,
+    "erste": 1
    }
   ],
   "gemeldetAm": "2026-09-24"
@@ -1310,7 +1414,7 @@
     "erste": 48
    }
   ],
-  "gemeldetAm": "2026-08-31"
+  "gemeldetAm": "2026-09-24"
  },
  "81280998": {
   "staffeln": [
