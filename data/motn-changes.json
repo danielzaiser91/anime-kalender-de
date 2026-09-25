@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 53
+    "2026-09": 55
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1287,7 +1287,7 @@
       "imdbId": "tt4604612",
       "tmdbId": "tv/71769",
       "dienst": "prime",
-      "am": "2026-08-18",
+      "am": "2026-09-25",
       "deutsch": false
     },
     "removed:14626123:prime": {
@@ -1807,7 +1807,7 @@
       "imdbId": "tt7995922",
       "tmdbId": "tv/72926",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-09-25",
       "deutsch": false
     },
     "removed:2036:netflix": {
@@ -2377,7 +2377,7 @@
       "imdbId": "tt11192306",
       "tmdbId": "tv/95057",
       "dienst": "prime",
-      "am": "2026-09-02",
+      "am": "2026-09-25",
       "deutsch": true
     },
     "removed:56951:prime": {
@@ -3177,7 +3177,7 @@
       "imdbId": "tt14060708",
       "tmdbId": "tv/112738",
       "dienst": "prime",
-      "am": "2026-09-04",
+      "am": "2026-09-25",
       "deutsch": true
     },
     "removed:26343276:prime": {
@@ -3187,7 +3187,7 @@
       "imdbId": "tt38346228",
       "tmdbId": "tv/331731",
       "dienst": "prime",
-      "am": "2026-09-04",
+      "am": "2026-09-25",
       "deutsch": true
     },
     "removed:83:prime": {
@@ -3197,7 +3197,7 @@
       "imdbId": "tt0185906",
       "tmdbId": "tv/4613",
       "dienst": "prime",
-      "am": "2026-09-04",
+      "am": "2026-09-25",
       "deutsch": true
     },
     "removed:16695716:prime": {
@@ -4279,7 +4279,247 @@
       "dienst": "disney",
       "am": "2026-09-23",
       "deutsch": false
+    },
+    "new:77269:prime": {
+      "art": "new",
+      "titel": "Flug in die Hölle",
+      "originalTitel": "Flug in die Hölle",
+      "imdbId": "tt0258578",
+      "tmdbId": "tv/73926",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": true
+    },
+    "new:39338:prime": {
+      "art": "new",
+      "titel": "Avocado Toast",
+      "originalTitel": "Avocado Toast",
+      "imdbId": "tt10006418",
+      "tmdbId": "tv/104279",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "new:2111:prime": {
+      "art": "new",
+      "titel": "Sanctuary",
+      "originalTitel": "Sanctuary",
+      "imdbId": "tt0965394",
+      "tmdbId": "tv/1310",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": true
+    },
+    "new:1842:prime": {
+      "art": "new",
+      "titel": "Top Gear",
+      "originalTitel": "Top Gear",
+      "imdbId": "tt0163503",
+      "tmdbId": "tv/4498",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "new:26597015:prime": {
+      "art": "new",
+      "titel": "Cathedrals",
+      "originalTitel": "Catedrales",
+      "imdbId": "tt44600168",
+      "tmdbId": "tv/330302",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "new:26342160:prime": {
+      "art": "new",
+      "titel": "A Love Other Than Yours",
+      "originalTitel": "너 말고 다른 연애",
+      "imdbId": "tt43736405",
+      "tmdbId": "tv/314939",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": true
+    },
+    "new:26344268:prime": {
+      "art": "new",
+      "titel": "LOL Next",
+      "originalTitel": "LOL Next",
+      "imdbId": "tt38956012",
+      "tmdbId": "tv/331586",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": true
+    },
+    "new:25483264:prime": {
+      "art": "new",
+      "titel": "Neagley",
+      "originalTitel": "Neagley",
+      "imdbId": "tt33539520",
+      "tmdbId": "tv/273207",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": true
+    },
+    "new:26342927:netflix": {
+      "art": "new",
+      "titel": "My Sad Dead",
+      "originalTitel": "Mis muertos tristes",
+      "imdbId": "tt37158600",
+      "tmdbId": "tv/310290",
+      "dienst": "netflix",
+      "am": "2026-09-24",
+      "deutsch": false
+    },
+    "new:26518031:netflix": {
+      "art": "new",
+      "titel": "Delusion",
+      "originalTitel": "ภาพลวงตาย",
+      "imdbId": "tt39749747",
+      "tmdbId": "tv/331979",
+      "dienst": "netflix",
+      "am": "2026-09-24",
+      "deutsch": false
+    },
+    "new:26598817:netflix": {
+      "art": "new",
+      "titel": "Shaque: Trust No One",
+      "originalTitel": "Shaque: Trust No One",
+      "imdbId": "tt35929525",
+      "tmdbId": "tv/285147",
+      "dienst": "netflix",
+      "am": "2026-09-24",
+      "deutsch": false
+    },
+    "new:25245936:netflix": {
+      "art": "new",
+      "titel": "A Different World",
+      "originalTitel": "A Different World",
+      "imdbId": "tt33081352",
+      "tmdbId": "tv/305357",
+      "dienst": "netflix",
+      "am": "2026-09-24",
+      "deutsch": false
+    },
+    "removed:1096:prime": {
+      "art": "removed",
+      "titel": "The Young Pope",
+      "originalTitel": "The Young Pope",
+      "imdbId": "tt3655448",
+      "tmdbId": "tv/62699",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:13008:prime": {
+      "art": "removed",
+      "titel": "Freezing",
+      "originalTitel": "フリージング",
+      "imdbId": "tt1909463",
+      "tmdbId": "tv/38441",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:27969:prime": {
+      "art": "removed",
+      "titel": "Stalk",
+      "originalTitel": "Stalk",
+      "imdbId": "tt10133370",
+      "tmdbId": "tv/100604",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": true
+    },
+    "removed:34920:prime": {
+      "art": "removed",
+      "titel": "Vienna Crime Squad",
+      "originalTitel": "SOKO Donau",
+      "imdbId": "tt0461004",
+      "tmdbId": "tv/41349",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:11701:prime": {
+      "art": "removed",
+      "titel": "Infinite Stratos",
+      "originalTitel": "IS＜インフィニット・ストラトス＞",
+      "imdbId": "tt1929675",
+      "tmdbId": "tv/46025",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:40916:prime": {
+      "art": "removed",
+      "titel": "Pistols 'n' Petticoats",
+      "originalTitel": "Pistols 'n' Petticoats",
+      "imdbId": "tt0060016",
+      "tmdbId": "tv/7383",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:11354:prime": {
+      "art": "removed",
+      "titel": "KissXSis",
+      "originalTitel": "kiss×sis",
+      "imdbId": "tt1634209",
+      "tmdbId": "tv/45998",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:5048:prime": {
+      "art": "removed",
+      "titel": "Sledge Hammer!",
+      "originalTitel": "Sledge Hammer!",
+      "imdbId": "tt0090525",
+      "tmdbId": "tv/520",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:5997:prime": {
+      "art": "removed",
+      "titel": "The Loch",
+      "originalTitel": "The Loch",
+      "imdbId": "tt6734482",
+      "tmdbId": "tv/72061",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:25370637:prime": {
+      "art": "removed",
+      "titel": "The Way Out",
+      "originalTitel": "The Way Out",
+      "imdbId": "tt42832367",
+      "tmdbId": "tv/321007",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:485:prime": {
+      "art": "removed",
+      "titel": "Banshee",
+      "originalTitel": "Banshee",
+      "imdbId": "tt2017109",
+      "tmdbId": "tv/41727",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": true
+    },
+    "removed:13400604:prime": {
+      "art": "removed",
+      "titel": "LOL: Last One Laughing Germany - Halloween Special",
+      "originalTitel": "LOL: Last One Laughing - Halloween Special",
+      "imdbId": "tt34161421",
+      "tmdbId": "tv/274864",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-24T09:20:42.317Z"
+  "fetchedAt": "2026-09-25T09:38:40.943Z"
 }
