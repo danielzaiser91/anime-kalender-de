@@ -473,9 +473,63 @@
     "ohneTreffer": true,
     "geprueftAm": "2026-09-24"
   },
+  "114564": {
+    "video": "r7LPBAFn-MA",
+    "titel": "Pokémon – Der Film: Geheimnisse des Dschungels",
+    "geprueftAm": "2026-09-25"
+  },
+  "119321": {
+    "video": "oa8e9stmJIg",
+    "titel": "Aya und die Hexe",
+    "geprueftAm": "2026-09-25"
+  },
+  "125838": {
+    "video": "KzrS9O8k0kw",
+    "titel": "The House of the Lost on the Cape",
+    "geprueftAm": "2026-09-25"
+  },
+  "126289": {
+    "video": "qwjdmO0Dd6Y",
+    "titel": "Deep Sea",
+    "geprueftAm": "2026-09-25"
+  },
+  "136302": {
+    "aehnlich": [
+      {
+        "video": "gPOlMDaMkG0",
+        "titel": "Goodbye, Don Glees!"
+      }
+    ],
+    "geprueftAm": "2026-09-25"
+  },
+  "137310": {
+    "video": "XPyTibPqLBw",
+    "titel": "Digimon Adventure 02 - The Beginning",
+    "geprueftAm": "2026-09-25"
+  },
   "141166": {
     "video": "DYJoRSgoK2I",
     "titel": "Speckles – Die Abenteuer eines Dinosauriers",
     "geprueftAm": "2026-09-24"
+  },
+  "145739": {
+    "video": "zW9ba1ZRNOY",
+    "titel": "Lonely Castle in the Mirror",
+    "geprueftAm": "2026-09-25"
+  },
+  "161441": {
+    "video": "I9kSAX9v4Iw",
+    "titel": "Resident Evil: Death Island",
+    "geprueftAm": "2026-09-25"
+  },
+  "162904": {
+    "video": "cYjCXuUip90",
+    "titel": "Totto-chan: Das kleine Mädchen am Fenster",
+    "geprueftAm": "2026-09-25"
+  },
+  "202420": {
+    "video": "cvP_jeBiAHA",
+    "titel": "Rotschühchen und die sieben Zwerge",
+    "geprueftAm": "2026-09-25"
   }
 }

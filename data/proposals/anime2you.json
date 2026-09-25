@@ -1,6 +1,67 @@
 {
-  "scrapedAt": "2026-09-24T09:23:05.867Z",
+  "scrapedAt": "2026-09-25T09:41:13.144Z",
   "proposals": [
+    {
+      "articleTitle": "In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm",
+      "articleUrl": "https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/",
+      "publishedAt": "2026-09-24",
+      "category": "kino",
+      "platforms": [
+        "kino"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-27",
+          "context": "t im Oktober 2026 »Rascal Does Not Dream of a Dear Friend« startet am 27. Oktober 2026 im japanischen Originalton mit deutschen Untertiteln"
+        },
+        {
+          "month": "2026-10",
+          "context": "s«) gezeigt wird. Nachfolgend findet ihr alle Einzelheiten. Kinostart im Oktober 2026 »Rascal Does Not Dream of a Dear Friend« startet am 27"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Design der Blu-ray-Komplettbox von »Failure Frame«",
+      "articleUrl": "https://www.anime2you.de/news/1052976/failure-frame-blu-ray-design/",
+      "publishedAt": "2026-09-24",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "die Ausstattung fest. Ein Produktbild findet ihr unten. Disc-Release im November 2026 Die Komplettbox von »Failure Frame«, die alle zwölf F"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Deutscher Kinostart des neuen »Madoka Magica«-Films + Poster",
+      "articleUrl": "https://www.anime2you.de/news/1053546/madoka-magica-film-deutscher-kinostart/",
+      "publishedAt": "2026-09-24",
+      "category": "kino",
+      "platforms": [
+        "crunchyroll",
+        "kino"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-24",
+          "context": "la Magi Madoka Magica – Der Film: Walpurgisnacht: Rising« wird ab dem 24. November 2026 in der japanischen Originalvertonung mit deutschen U"
+        },
+        {
+          "month": "2026-11",
+          "context": "ierten »Madoka Magica«-Films enthüllt. Wir fassen zusammen. Kinostart im November 2026 Der Sequel-Film mit dem Titel »Puella Magi Madoka Mag"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix: Alle Anime-Neuzugänge im Oktober 2026",
       "articleUrl": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
