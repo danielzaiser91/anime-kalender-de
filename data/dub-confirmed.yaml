@@ -15187,11 +15187,11 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 10
+      to: 12
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  checkedAt: '2026-09-13'
-  note: "Staffel 2 bei Prime, 10 Folgen, alle mit deutschem Ton (Daniel, 13.09.2026). Die Seite ist die, die aniSearch nennt; bisher stand hier nur eine Prime-Suchadresse."
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-09-25'
+  note: "Staffel 2 bei Prime, alle 12 Folgen mit deutschem Ton (Daniel, 25.09.2026: „korrekt sind 12, hab es gerade geprüft“; am 13.09.2026 waren es 10). Die Seite ist die, die aniSearch nennt."
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-13 ---
 
