@@ -17554,3 +17554,891 @@
   dub: true
   checkedAt: '2026-09-24'
   note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Meine Form des Glücks"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-25 ---
+
+- anilistId: 20725
+  title: "Kuroko’s Basketball: 3rd Season"
+  platform: netflix
+  url: https://www.netflix.com/title/80063153
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 25: So oft du möchtest"
+
+- anilistId: 11771
+  title: "Kuroko’s Basketball: 1st Season"
+  platform: netflix
+  url: https://www.netflix.com/title/80063153
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 24
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24]
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 25: Versteh das nicht falsch"
+
+- anilistId: 20725
+  title: "Kuroko’s Basketball: 3rd Season"
+  platform: netflix
+  available: false
+  checkedAt: '2026-09-25'
+  note: "Der Anbieter führt unter dieser Adresse nur 3 Staffel(n); diese ist nicht darunter"
+
+- anilistId: 16894
+  title: "Kuroko’s Basketball: 2nd Season"
+  platform: netflix
+  url: https://www.netflix.com/title/80063153
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 25: Nicht mehr aufzuhalten"
+
+- anilistId: 108465
+  title: "Mushoku Tensei: Jobless Reincarnation"
+  platform: netflix
+  url: https://www.netflix.com/title/80987039
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 23, dazwischen nicht geprüft — Folge 10: Folge 10 — Netflix: Staffel 1"
+
+- anilistId: 127720
+  title: "Mushoku Tensei: Jobless Reincarnation Cour 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80987039
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 23, dazwischen nicht geprüft — Folge 23: Folge 23 — Netflix: Staffel 1"
+
+- anilistId: 146065
+  title: "Mushoku Tensei: Jobless Reincarnation"
+  platform: netflix
+  url: https://www.netflix.com/title/80987039
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 13: Ich will es sagen — Netflix: Staffel 2"
+
+- anilistId: 166873
+  title: "Mushoku Tensei: Jobless Reincarnation - Staffel 2 Cour 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80987039
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 25: Nachfolge — Netflix: Staffel 2"
+
+- anilistId: 100891
+  title: "Kengan Ashura"
+  platform: netflix
+  url: https://www.netflix.com/title/80992228
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Vater und Sohn"
+
+- anilistId: 146638
+  title: "Kengan Ashura: Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80992228
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 28, dazwischen nicht geprüft — Folge 9: Überlegenheit — Netflix: Staffel 2"
+
+- anilistId: 169692
+  title: "Kengan Ashura: Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80992228
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–16 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 28, dazwischen nicht geprüft — Folge 28: Finale — Netflix: Staffel 2"
+
+- anilistId: 190327
+  title: "Steel Ball Run: Jojo’s Bizarre Adventure"
+  platform: netflix
+  url: https://www.netflix.com/title/82116553
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], uk|Ukrainisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, ko|Koreanisch, pt-BR|Portugiesisch (Brasilien), ro|Rumänisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), ta|Tamil, te|Telugu, th|Thailändisch — Durchlauf: Folge 1: STEEL BALL RUN — Netflix: PHASE 1"
+
+- anilistId: 190327
+  title: "Steel Ball Run: Jojo’s Bizarre Adventure"
+  platform: netflix
+  url: https://www.netflix.com/title/82116553
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], uk|Ukrainisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, ko|Koreanisch, pt-BR|Portugiesisch (Brasilien), ro|Rumänisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), ta|Tamil, te|Telugu, th|Thailändisch — Durchlauf: Folge 2: Bitte an Mountain Tim — Netflix: PHASE 1"
+
+- anilistId: 20
+  title: "Naruto"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07VP6VPVR
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07VP6VPVR: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo, gti=amzn1.dv.gti.08b61f95-8ff0-99ca-db1c-d15b6475bf51"
+
+- anilistId: 20
+  title: "Naruto"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07VP6VPVR
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CWDYLZ1S: nur 19 von 19 Folgen geladen — Rest ungeprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.d4c1fc6d-9a01-4499-b864-c261198c82c9"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJQDVS5H
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CJQDVS5H: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.c74b80ce-5aec-49c2-994f-d5d9940815cc — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CGMVVT8X
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CGMVVT8X: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.c4581951-891b-4ee6-9fae-d5c05767c30a — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJLR7CLT
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CJLR7CLT: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.08b8c8e6-92cd-40cc-96a6-cee8adec300d — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CMCSGG5B
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CMCSGG5B: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.af865b83-8059-4c79-a958-1680f23c008b — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CN9PNHTV
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CN9PNHTV: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.b563ad05-0518-49ef-8e01-7277cebada99 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DBRBR4LW
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DBRBR4LW: alle 10 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.92985ddf-6219-4055-b57f-30c0bbf4d148 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCF1MFZ
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCF1MFZ: alle 10 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.4eb27aeb-d01a-5b32-154c-ad864e47eabd — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCF3BHW
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCF3BHW: alle 10 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.00b27aec-42b8-6b22-98c9-ebd1255723e3 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCGCVN6
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCGCVN6: alle 11 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.14b91051-2bf1-d4e3-2fe3-d56558aa1f22 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCLBMLQ
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCLBMLQ: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.46b911cd-9540-a6a7-c4b4-819c49347923 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCH2FW4
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCH2FW4: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.3cb9102f-02d7-5d1c-d0d3-d630e2a2177f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCG8746
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCG8746: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.34b9102f-c0e4-40cd-d7c0-3f3c91c764ef — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCGPP9Z
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCGPP9Z: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.8ab91075-267d-496e-ee8b-5c5374772e96 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCGKCG9
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCGKCG9: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.eab9104b-6fb3-ac44-96b8-df7c00098886 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCF1H62
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCF1H62: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.82b9103b-c597-a66c-4e4a-154cd79a4700 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DJ1JR29D
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DJ1JR29D: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.c7f10904-0483-4ab1-8b80-da660bb5ad92 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCGP14M
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCGP14M: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.0eb90fa6-26e5-477e-4e5b-317ebb2f0dfe — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCGNSP4
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCGNSP4: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.deb911d0-0c60-92d8-f89a-3c70ae1078e1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CVG5M4FP
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CVG5M4FP: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.55d74e6c-ff43-4933-aeed-b4a3099e5964 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CX3JT43W
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CX3JT43W: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.08b4de23-eb91-4539-8c32-bf4125c1f72f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CVNHPVBS
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CVNHPVBS: alle 14 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.bb93659c-d141-4ad1-8e20-f9b9873148dc — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CW97DG21
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CW97DG21: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.ed66c61b-71e6-485b-a1fa-c42b8629e1e5 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CXGMWR2X
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CXGMWR2X: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.670f549d-08b3-458d-8e7b-08a963a5491a — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CVHJ47BP
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CVHJ47BP: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.67b1c7fd-c1db-42f0-b2a2-2640d773a2ca — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CWB4VLSB
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CWB4VLSB: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.3fc8a65b-876e-4b45-a64e-a3e83df1cc76 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CY142C1B
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CY142C1B: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.1bc43024-6e9b-4bf2-94ce-45f234363cef — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CVQHBYT6
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CVQHBYT6: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.9ecf32d8-7651-46a5-8bd0-9a11ee4d5440 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CVMSTW44
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CVMSTW44: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.a2b9d3d3-461a-4067-9ca9-ddec4155827f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CWPKJ5YM
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CWPKJ5YM: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.f5d7178d-c629-4a66-a73f-c81ea012dd33 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CVWZXGJT
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CVWZXGJT: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.9b3566b4-9364-4e1a-b332-270bde27ebc2 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CV4GB8CD
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CV4GB8CD: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.724450ec-1d4c-4f10-8781-a9143c6482cf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CXKV9K66
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CXKV9K66: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.3fe1d060-6662-48df-b98d-0739edf03d93 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CW4QLFJQ
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CW4QLFJQ: alle 11 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.36e97ff9-5587-4d57-bb86-5da8df7bff12 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNC3HYS1
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNC3HYS1: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.3cb6b296-b123-8fda-a013-70533d2dcd87 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCG8GT9
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCG8GT9: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.d0b6b2e0-fa78-7842-47c3-de511ba7650e — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNC578GM
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNC578GM: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.30b6b2e1-120a-65d6-b111-080b47558a9a — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNC2D7PS
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNC2D7PS: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.f8b6b2e1-2326-703a-c77f-b058ec3b8970 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNC2FD5M
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNC2FD5M: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.6cb6afc7-1d79-0514-a1d1-260e5976d137 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNBZ67NK
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNBZ67NK: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.7eb6c192-351b-385e-71a7-0bd3624437dc — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNC1WZKP
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNC1WZKP: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.b2b6b2e1-029c-2583-f3d3-1733fc1b539a — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNC458FN
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNC458FN: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.eab6b9f8-15f1-b2c0-03e8-08862c1dc0b0 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNC92R9S
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNC92R9S: alle 11 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.3eb6b2e1-01b0-aaca-fe92-5cff6e31d1d0 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNC3V2CW
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNC3V2CW: alle 11 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.52b6afde-987f-aea3-cfb6-e3bfdc334518 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNC5TR2F
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNC5TR2F: alle 11 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.04b6afe3-4e47-79b9-7506-2a6e71fb014e — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNC1RLQN
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNC1RLQN: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.56b6b2e0-fc6c-1836-8017-a28177faf324 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CNGQNN2P
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CNGQNN2P: alle 11 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.cdb3c87a-2573-4e96-bfa5-ba500f88fc05 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CH3DCVW6
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CH3DCVW6: alle 11 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.907fe398-7e24-487c-8fa9-9986ae3e0008 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJP92569
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CJP92569: alle 11 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.b9c4a8a2-d704-45a4-b75b-bcc0bce8b816 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJSYBV2D
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CJSYBV2D: alle 10 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.a3a557b4-290c-4029-8cf0-006746480d4a — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CGZY983N
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CGZY983N: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.0eb91062-30c8-6cfe-ec68-56931e5c0d23 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CM453B26
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CM453B26: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.70b91043-033e-23e7-e182-fc63b82817f1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CLLNHKGX
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CLLNHKGX: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.cab91058-178b-33f4-21d6-f85b6c59806b — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CH3SN9L1
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CH3SN9L1: alle 12 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.5cb914ce-0d4f-33be-f433-75c8f7d69c77 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNDB2PLM
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNDB2PLM: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.4ab807d7-83f6-c3d9-cb33-3e55d5b37f3e — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNDBKNMQ
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNDBKNMQ: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.14b67e51-d6e2-f7b4-1fe7-7d7254abeca9 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNDB4Y9V
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0DNDB4Y9V: alle 14 Folgen geprüft, Abos: Prime, pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.92b6e7f7-4b56-a792-d459-29b44b13e0a0"
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNDB9PCP
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNDB9PCP: alle 14 Folgen geprüft, Abos: pokemonde, zugang=abo_und_kauf, gti=amzn1.dv.gti.b4b80652-7e8d-aaaf-3cde-0812b9c7984f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CL1NBE
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CL1NBE: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.1ea9f6d0-76b8-9990-d8b0-2328d372829a"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CH1JFI
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CH1JFI: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.f0a9f6e3-1579-535a-ec0e-72eb3bd284b1"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CH6DCM
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CH6DCM: alle 14 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.18a9f6c5-efea-5a54-f8a8-c916d45165b9"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CH5H4W
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CH5H4W: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.7ca9f6c2-cc30-3ae3-f17f-c82dd554db58"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CH39Z6
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CH39Z6: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.2ca9f6df-8f6f-0a09-4018-c98ed3924fa8"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CH5LB6
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CH5LB6: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.82a9f6cf-c603-9436-b3cb-aee6b35128bc"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CH1WW8
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CH1WW8: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.f0a9f6c3-e156-6694-9d0e-a4556b48411f"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CGYZAA
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CGYZAA: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.66a9f6d6-66bf-a00e-a5bd-f01787dfae40"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CH6SRM
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CH6SRM: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.a2a9f6d8-3bb7-da64-4c35-a4e7926a130b"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CHELFS
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CHELFS: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.f6a9f6d1-3ad8-d2e6-5e06-95215e8393b6"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CH12YG
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CH12YG: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.58a9f6db-3a43-4e3a-caf3-1737a52f08cd"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CH5DXC
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CH5DXC: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.02a9f6d4-7734-5d06-2055-14a2f0199e0b"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CH0TJA
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CH0TJA: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.20a9f6d3-3699-af25-bfb9-5c5079e026e1"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CGXXDU
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CGXXDU: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.8aa9f6c3-3cca-d852-ea8a-e8f382a34f54"
+
+- anilistId: 1564
+  title: "Pokémon Advanced Generation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B017CGXP6K
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B017CGXP6K: alle 11 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.70a9f6b1-7c54-349e-0a3f-133fe13f04ec"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PGC5Z88
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PGC5Z88: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.56b4b7b8-c871-3fec-07ad-bffcf3860980"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PM8J6QZ
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PM8J6QZ: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.20b4b950-06ff-1b5b-354a-5ff7d7a3f430"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PGB22P9
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PGB22P9: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.16b4b7b8-cf70-781e-2ecc-7904ff452f2e"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PGB3KD1
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PGB3KD1: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.e4b4b7b8-c9b9-a1e9-cdac-75ff3a2790da"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PGC61J4
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PGC61J4: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.f0b4b7b8-ce48-6a3e-6b84-6bd975b770e1"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07NQZ59B6
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07NQZ59B6: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.7eb4db89-a8da-4222-b359-b71a01ad263b"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PGC6F5Z
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PGC6F5Z: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.fcb4b7b8-d172-d389-91f5-3237f31ad845"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PH21BHR
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PH21BHR: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.12b4af63-6bf5-2592-4775-bfac46664c59"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PGC67KM
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PGC67KM: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.76b4b7b8-cfd3-c77c-b523-cb4ab0a25efa"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PVLLB6Y
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PVLLB6Y: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.d0b4d186-25f4-0fb4-342a-5b4cbb98026f"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PMN5SJ1
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PMN5SJ1: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.14b4c000-116d-22b9-9b3c-4ce4b7b4d293"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PKS9RWS
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PKS9RWS: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.0ab4b7b8-ca90-1129-a358-3d9343b6e814"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PN6FZKL
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PN6FZKL: alle 11 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.44b4b950-07df-ede5-8ee0-55b483765f1d"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07NQZ4Z3W
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07NQZ4Z3W: alle 11 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.7cb4db89-a1ac-5039-85f3-4bbe143dc0d0"
+
+- anilistId: 1565
+  title: "Pokémon: Diamant & Perl"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07PGC6RCW
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07PGC6RCW: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.d2b4b7b8-ce6f-a37d-1086-138722819835"
+
+- anilistId: 481
+  title: "Yu-Gi-Oh!"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07FB4D9KM
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07FB4D9KM: alle 40 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.94b238ab-4016-1446-5ebd-0e2eca791da1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 481
+  title: "Yu-Gi-Oh!"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07F9JLVDQ
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07F9JLVDQ: alle 48 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.b8b236b8-6b6f-2549-8c24-36ea1cab6c21 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 481
+  title: "Yu-Gi-Oh!"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07FB4HLKM
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07FB4HLKM: alle 47 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.8eb238ab-361a-b33d-783a-5ec3c21e3ab0 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 481
+  title: "Yu-Gi-Oh!"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CZTFBSZX
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CZTFBSZX: alle 52 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.a7cabe0d-0e59-4499-8f79-2aa3946e44fe — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 481
+  title: "Yu-Gi-Oh!"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0C7GQSHYT
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0C7GQSHYT: alle 25 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.40b586ef-5605-9a6c-ae79-1fcf363a2a19"
+
+- anilistId: 481
+  title: "Yu-Gi-Oh!"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0C7GPTB8S
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0C7GPTB8S: alle 24 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.06b586f0-4391-7a05-7e97-31d7c96ba973"
+
+- anilistId: 20
+  title: "Naruto"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-bc2dae95-23e6-45dc-8177-066425b10fa0
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 54
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54]
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–54 mit deutschem Ton — Tonspuren: de, ja"
