@@ -150,6 +150,16 @@ function welt() {
 }
 
 {
+  /* Daniels Bericht vom 25.09.2026: Nach dem Melden ist der Knopf versteckt und trägt weiter „trage ein …". */
+  const w = welt()
+  const k = w.kontext
+  vm.runInContext('primeLaufStarten()', k)
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
+  w.zeige('trage ein …', 4000, false)
+  pruefe('versteckter Knopf mit „trage ein …": gemeldet, weiter zu Staffel 1', k.location.href.endsWith('B0CWDYLZ1S'), k.location.href)
+}
+
+{
   const w = welt()
   const k = w.kontext
   vm.runInContext('primeLaufStarten()', k)

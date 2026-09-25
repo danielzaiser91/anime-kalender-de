@@ -11041,12 +11041,17 @@ async function speicherSchreiben(werte) {
     const ruhig = jetzt - primeSeite.textSeit >= PRIME_RUHE_MS
     const sichtbar = knopf.isConnected && knopf.style.display !== 'none'
     const bietetMelden = sichtbar && !knopf.disabled && /melden$/.test(text)
-    if (sendetGerade || /^(sende|trage ein|meldet|hole Zugang)/.test(text)) return
-    if (/^Kein Token/.test(text)) return primeLaufBeenden(lauf, 'kein Token in den Optionen')
+    /*
+      Nur der **sichtbare** Knopf spricht. Nach dem Melden versteckt ihn die Erweiterung und zeigt die
+      grüne Marke — auf dem versteckten Knopf bleibt „trage ein …" stehen, und der Durchgang wartete
+      darauf für immer (Daniels Bericht, 25.09.2026, Naruto S9).
+    */
+    if (sendetGerade || (sichtbar && /^(sende|trage ein|meldet|hole Zugang)/.test(text))) return
+    if (sichtbar && /^Kein Token/.test(text)) return primeLaufBeenden(lauf, 'kein Token in den Optionen')
 
     const geklickt = lauf.geklickt[hier]
     if (geklickt) {
-      if (/^(Fehler|Nicht erreichbar)/.test(text)) return primeSeiteFertig(lauf, hier, text)
+      if (sichtbar && /^(Fehler|Nicht erreichbar)/.test(text)) return primeSeiteFertig(lauf, hier, text)
       if (!ruhig) return
       if (!bietetMelden) return primeSeiteFertig(lauf, hier, 'gemeldet')
       /* Der Knopf bietet nach dem Klick wieder „melden" an: Die Meldung kam nicht durch. */
