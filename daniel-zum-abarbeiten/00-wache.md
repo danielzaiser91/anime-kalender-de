@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**Unauffällig** · zuletzt 24.09.2026 um 14:43 Uhr
+**Unauffällig** · zuletzt 25.09.2026 um 14:46 Uhr
 
 Diese Datei schreibt der Workflow [`delta-wache.yml`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels
@@ -13,35 +13,24 @@ Disney-Meldungen wurden zu einem einzigen Eintrag abgehakt, 216
 One-Piece-Meldungen verschwanden ganz. Gefunden hat es Daniel, weil ihm eine Zahl
 komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
-## Was aufgefallen ist
-
-- 1 Titel ohne Synchro-Beleg
-
 ## Bestand — die letzten 24 Stunden
 
 ```
-9 Läufe in den letzten 1 Tagen (520 insgesamt)
+7 Läufe in den letzten 1 Tagen (527 insgesamt)
 
-23.09., 17:20  Bestand — zusammenführ   termine +1
-23.09., 18:03  Bestand — zusammenführ   verweise +2, mitUrteil +2
-23.09., 18:24  Bestand — zusammenführ   verweise +23, mitUrteil +23, titelMitSynchro +6
-23.09., 23:52  Bestand — zusammenführ   titel +1
-24.09., 05:10  Bestand — zusammenführ   releases +1, termine +6
-24.09., 10:11  Bestand — zusammenführ   verweise +1, mitUrteil -1, ohneUrteil +2, titelMitSynchro -1, releases -1
-            ⚠  1 Titel ohne Synchro-Beleg
+25.09., 01:45  Bestand — zusammenführ   releases +1, termine +9
+25.09., 08:03  Bestand — zusammenführ   termine +3
 
 Stand jetzt: 2776 Titel, 2154 Urteile, 5 offen
-Über den Zeitraum: Titel +1, Urteile +24, offen +2
-
-⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
+Über den Zeitraum: Titel 0, Urteile 0, offen 0
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 214 Meldungen auf 214 Adressen (primevideo 24, netflix 190)
+Briefkasten: 37 Meldungen auf 37 Adressen (primevideo 24, netflix 13)
 Liste daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md: 3 Adressen
-214 Adresse(n) noch nicht gelistet — Nachzügler, solange der Briefkasten unter 60 bleibt.
+24 Adresse(n) noch nicht gelistet — Nachzügler, solange der Briefkasten unter 60 bleibt.
 ```
 
 ## Von den Ableitungen verworfen
@@ -61,6 +50,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 25.09.2026 14:46 | 2776 / 2154 / 5 | Titel 0, Urteile 0, offen 0 | unauffällig |
 | 24.09.2026 14:43 | 2776 / 2154 / 5 | Titel +1, Urteile +24, offen +2 | unauffällig |
 | 23.09.2026 14:45 | 2775 / 2130 / 3 | Titel 0, Urteile +38, offen 0 | unauffällig |
 | 22.09.2026 14:37 | 2775 / 2092 / 3 | Titel 0, Urteile +8, offen -4 | unauffällig |
