@@ -62,6 +62,8 @@ async function speicherSchreiben(werte) {
 }
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
+/* Höchstens so viele Meldungen je Anfrage nimmt der Worker an (PRUEFUNG_STAPEL_HOECHSTENS). */
+const MELDE_STAPEL = 10
 
 /**
  * Audiodeskription ist keine Synchronfassung.
@@ -4475,79 +4477,92 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
   const reihe = gemeinteReihe()
   let gemeldet = 0
   /*
-    **Sechs Meldungen gleichzeitig statt eine nach der anderen** (Daniel, 23.09.2026: „da stand
-    8 sekunden lang 2/2, warum dauert es 8 sekunden bis gemeldet wird?"). Die Randprobe über
-    Shaman King schickte 52 Meldungen, jede wartete auf die Antwort der vorigen — rund 150 ms
-    je Anfrage. Die Folgen sind voneinander unabhängig; der Worker führt je Adresse und Folge
-    einen eigenen Eintrag. Das Abhaken im lokalen Speicher bleibt danach der Reihe nach, weil es
-    liest und schreibt.
+    **Zehn Folgen je Anfrage statt einer** (Daniel, 25.09.2026: „alles gebündelt senden, statt
+    jede erste letzte einer staffel zu senden, weil das senden so lange dauert"). Bis 4.22.3
+    ging je Folge eine Anfrage raus, sechs gleichzeitig. Der Worker nimmt seit heute einen
+    `stapel` an, höchstens zehn je Anfrage (sein D1-Limit, siehe PRUEFUNG_STAPEL_HOECHSTENS).
+    Gemessen am 25.09.2026: zehn Meldungen einzeln nacheinander 1.740 ms, als Stapel 371 ms.
+    Die Stapel gehen gleichzeitig raus; das Abhaken im lokalen Speicher bleibt danach der
+    Reihe nach, weil es liest und schreibt.
   */
-  const warteschlange = [...folgen]
   const abhaken = []
-  const arbeiter = async () => {
-    for (let f = warteschlange.shift(); f; f = warteschlange.shift()) {
-      /*
-        **Eine Randprobe kann ueber Staffelgrenzen laufen — die Folge weiss, wohin.**
+  const meldungen = folgen.map((f) => {
+    /*
+      **Eine Randprobe kann ueber Staffelgrenzen laufen — die Folge weiss, wohin.**
 
-        `befund` ist die Messung *einer* Folge; ihre Staffel gilt nicht fuer alle
-        uebrigen. Bei Dorohedoro (24 Folgen, zwei Staffeln) landeten so 1, 12 und
-        13 in Staffel 1 und der Rest in Staffel 2 — die Reihenfolge, in der der
-        Player sie gemeldet hat, nicht die des Anbieters (31.08.2026). Seit 4.9.0
-        traegt jede Folge ihre eigene Staffel; die schlaegt beide Rueckfaelle.
-      */
-      /* Aus der Zuordnung der Folge, nicht aus der Ladereihenfolge — siehe staffelFuerFolge(). */
-      const staffelRoh = staffelFuerFolge(reihe, f)
-      /* Eine Nummer, die in diese Staffel nicht passt, geht nicht als solche raus. */
-      const staffelDerFolge = staffelGeprueft(reihe, f.nummer, staffelRoh)
+      `befund` ist die Messung *einer* Folge; ihre Staffel gilt nicht fuer alle
+      uebrigen. Bei Dorohedoro (24 Folgen, zwei Staffeln) landeten so 1, 12 und
+      13 in Staffel 1 und der Rest in Staffel 2 — die Reihenfolge, in der der
+      Player sie gemeldet hat, nicht die des Anbieters (31.08.2026). Seit 4.9.0
+      traegt jede Folge ihre eigene Staffel; die schlaegt beide Rueckfaelle.
+    */
+    /* Aus der Zuordnung der Folge, nicht aus der Ladereihenfolge — siehe staffelFuerFolge(). */
+    const staffelRoh = staffelFuerFolge(reihe, f)
+    /* Eine Nummer, die in diese Staffel nicht passt, geht nicht als solche raus. */
+    const staffelDerFolge = staffelGeprueft(reihe, f.nummer, staffelRoh)
+    const ziel = meldeZiel(reihe, f)
+    return {
+      f,
+      staffelDerFolge,
+      daten: {
+        plattform: 'netflix',
+        url: `https://www.netflix.com/title/${reihe}`,
+        sprachen: befund.echte.map((x) => `${x.code}|${x.name}`),
+        ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
+        titel: stand.serientitel ?? null,
+        folge: f.videoId,
+        folge_nr: f.nummer,
+        staffel: ziel.staffel,
+        titelId: ziel.titelId,
+        staffeln: ohneKennungen(stand.staffeln),
+        serientitel: stand.serientitel ?? null,
+        notiz:
+          /*
+            **Die Notiz ist der einzige Weg, auf dem die Annahme ankommt.**
+
+            Ein eigenes Feld verwirft der Worker — er nimmt nur, was er kennt.
+            Die Notiz reicht er dagegen unverändert bis in
+            `dub-confirmed.yaml` durch, und dort muss stehen, dass hier
+            zwei Folgen gemessen und der Rest angenommen wurde. Sonst sieht
+            eine Annahme später aus wie eine Messung.
+          */
+          `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, ` +
+          `dazwischen nicht geprüft` +
+          (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : ``) +
+          (DURCHLAUF.staffelLabel ? ` — Netflix: ${DURCHLAUF.staffelLabel}` : ''),
+        /* Auch eine abgeleitete Folge bringt ihren Titel und ihre Felder mit — für die Zuordnung. */
+        rohfolgen: [
+          {
+            gti: f.videoId != null ? String(f.videoId) : null,
+            nummer: f.nummer ?? null,
+            titel: f.titel ?? null,
+            staffelText: DURCHLAUF.staffelLabel ?? (f.seasonId != null ? String(f.seasonId) : null),
+            staffelNr: ziel.staffel,
+            /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
+            ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
+            roh: {
+              liste: f.felder ?? null,
+              angenommen: !gemessen.has(Number(f.nummer)),
+            },
+          },
+        ],
+      },
+    }
+  })
+  const stapel = []
+  for (let i = 0; i < meldungen.length; i += MELDE_STAPEL) stapel.push(meldungen.slice(i, i + MELDE_STAPEL))
+  await Promise.all(
+    stapel.map(async (teil) => {
       try {
         const antwort = await fetch(WORKER, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-          body: JSON.stringify({
-            plattform: 'netflix',
-            url: `https://www.netflix.com/title/${reihe}`,
-            sprachen: befund.echte.map((x) => `${x.code}|${x.name}`),
-            ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
-            titel: stand.serientitel ?? null,
-            folge: f.videoId,
-            folge_nr: f.nummer,
-            staffel: meldeZiel(reihe, f).staffel,
-            titelId: meldeZiel(reihe, f).titelId,
-            staffeln: ohneKennungen(stand.staffeln),
-            serientitel: stand.serientitel ?? null,
-            notiz:
-              /*
-                **Die Notiz ist der einzige Weg, auf dem die Annahme ankommt.**
-
-                Ein eigenes Feld verwirft der Worker — er nimmt nur, was er kennt.
-                Die Notiz reicht er dagegen unverändert bis in
-                `dub-confirmed.yaml` durch, und dort muss stehen, dass hier
-                zwei Folgen gemessen und der Rest angenommen wurde. Sonst sieht
-                eine Annahme später aus wie eine Messung.
-              */
-              `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, ` +
-              `dazwischen nicht geprüft` +
-              (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : ``) +
-              (DURCHLAUF.staffelLabel ? ` — Netflix: ${DURCHLAUF.staffelLabel}` : ''),
-            /* Auch eine abgeleitete Folge bringt ihren Titel und ihre Felder mit — für die Zuordnung. */
-            rohfolgen: [
-              {
-                gti: f.videoId != null ? String(f.videoId) : null,
-                nummer: f.nummer ?? null,
-                titel: f.titel ?? null,
-                staffelText: DURCHLAUF.staffelLabel ?? (f.seasonId != null ? String(f.seasonId) : null),
-                staffelNr: meldeZiel(reihe, f).staffel,
-                /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
-                ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
-                roh: {
-                  liste: f.felder ?? null,
-                  angenommen: !gemessen.has(Number(f.nummer)),
-                },
-              },
-            ],
-          }),
+          body: JSON.stringify({ stapel: teil.map((m) => m.daten) }),
         })
-        if (antwort.ok) {
+        if (!antwort.ok) return
+        const { ergebnisse = [] } = await antwort.json()
+        teil.forEach(({ f, staffelDerFolge }, i) => {
+          if (!ergebnisse[i]?.ok) return
           gemeldet++
           DURCHLAUF.gemeldet.add(f.videoId)
           frischGemeldetNetflix.add(String(reihe))
@@ -4570,13 +4585,12 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
             nichts davon (Daniel, 26.08.2026).
           */
           abhaken.push([staffelDerFolge, f.nummer])
-        }
+        })
       } catch {
-        /* Eine verlorene Meldung hält die übrigen nicht auf. */
+        /* Ein verlorener Stapel hält die übrigen nicht auf. */
       }
-    }
-  }
-  await Promise.all(Array.from({ length: Math.min(6, folgen.length) }, arbeiter))
+    }),
+  )
   for (const [staffel, nummer] of abhaken) await merkeErledigt(reihe, staffel, nummer)
   await durchlaufStandSchreiben(reihe)
   console.log(`[Anime-Kalender] ${gemeldet} Folge(n) aus der Randprobe gemeldet.`)

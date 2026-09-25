@@ -1810,6 +1810,8 @@ async function handleLauf(request: Request, env: Env, ctx?: ExecutionContext): P
  * CORS ist hier offen wie bei `/lauf`: Die Erweiterung läuft auf
  * `netflix.com`, nicht auf unserer Seite. Geschrieben wird nur mit Token.
  */
+const PRUEFUNG_STAPEL_HOECHSTENS = 10
+
 async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
   const offen = {
     'Content-Type': 'application/json',
@@ -2580,6 +2582,43 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     daten = (await request.json()) as Record<string, unknown>
   } catch {
     return antwort({ error: 'Kein gültiges JSON' }, 400)
+  }
+
+  /*
+    **Ein Stapel: mehrere Meldungen in einer Anfrage** (Daniel, 25.09.2026: „alles gebündelt
+    senden, statt jede erste letzte einer staffel zu senden, weil das senden so lange dauert").
+    Die Randprobe einer Netflix-Staffel schickte je Folge eine Anfrage — 25 Folgen, 25 Rundreisen.
+
+    Jedes Element läuft durch genau denselben Weg wie eine Einzelmeldung (derselbe Handler,
+    gleichzeitig), damit es keine zweite Fassung der Annahme gibt. Ein Ereignis für alle.
+
+    **Höchstens 10 je Stapel:** Der kostenlose Plan erlaubt 50 D1-Abfragen je Aufruf, jede
+    Anweisung in einem `batch` zählt einzeln (developers.cloudflare.com/d1/platform/limits,
+    gelesen 25.09.2026). Eine Netflix-Meldung mit einer Rohfolge braucht 4.
+  */
+  if (Array.isArray(daten.stapel)) {
+    const stapel = daten.stapel as unknown[]
+    if (!stapel.length || stapel.length > PRUEFUNG_STAPEL_HOECHSTENS) {
+      return antwort({ error: `stapel braucht 1 bis ${PRUEFUNG_STAPEL_HOECHSTENS} Meldungen` }, 400)
+    }
+    const ergebnisse = await Promise.all(
+      stapel.map(async (einzeln) => {
+        if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) return { ok: false, status: 400 }
+        const r = await handlePruefung(
+          new Request(request.url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+            body: JSON.stringify(einzeln),
+          }),
+          env,
+        )
+        const inhalt = (await r.json().catch(() => ({}))) as { befund?: string }
+        return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status }
+      }),
+    )
+    const erste = stapel[0] as Record<string, unknown>
+    ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(erste?.plattform ?? 'unbekannt') }))
+    return antwort({ ok: true, ergebnisse })
   }
 
   /**

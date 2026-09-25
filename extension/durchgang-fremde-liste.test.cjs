@@ -199,11 +199,12 @@ pruefe('in Netflix-Zählung gilt sie weiter', staffelVomPlayer({ netflixZaehlung
 const pfad = schneide('pfadPruefen')
 pruefe('pfadPruefen leert beim Titelwechsel auch die angezeigte Liste', /DURCHLAUF\.folgen = \[\]/.test(pfad))
 
-/* 3. Randprobe: parallel melden, danach der Reihe nach abhaken. */
+/* 3. Randprobe: in Stapeln zu zehn melden (25.09.2026), danach der Reihe nach abhaken. */
 const rand = schneide('randMelden')
-pruefe('randMelden meldet über mehrere Arbeiter', /Promise\.all\(Array\.from\(\{ length: Math\.min\(6/.test(rand))
-const arbeiter = rand.slice(rand.indexOf('const arbeiter'), rand.indexOf('await Promise.all'))
-pruefe('kein Abhaken im Speicher innerhalb der Arbeiter', !/merkeErledigt/.test(arbeiter))
+pruefe('randMelden schickt Stapel zu MELDE_STAPEL', /i \+= MELDE_STAPEL/.test(rand) && /stapel: teil\.map\(\(m\) => m\.daten\)/.test(rand))
+pruefe('ein Stapel hakt nur ab, was der Worker einzeln bestätigt', /if \(!ergebnisse\[i\]\?\.ok\) return/.test(rand))
+const senden = rand.slice(rand.indexOf('const stapel = []'), rand.indexOf('for (const [staffel, nummer] of abhaken)'))
+pruefe('kein Abhaken im Speicher während des Sendens', senden.length > 0 && !/merkeErledigt/.test(senden))
 pruefe('Abhaken folgt nach dem Melden', rand.indexOf('await merkeErledigt') > rand.indexOf('await Promise.all'))
 
 /* Der Schluss wartet auf die asynchronen Fälle der Menüwahl. */
@@ -231,7 +232,13 @@ function schluss() {
     Meine ganz besondere Hochzeit (24.09.2026): Staffel und titelId nur, was sicher ist —
     Netflix' Nummer über die Folgenkennungen, titelId nur bei genau einem Titel an der Adresse.
   */
-  pruefe('beide Melder nehmen Staffel und Titel aus meldeZiel', (melden.match(/staffel: meldeZiel\(/g) ?? []).length === 2 && (melden.match(/titelId: meldeZiel\(/g) ?? []).length === 2)
+  pruefe(
+    'beide Melder nehmen Staffel und Titel aus meldeZiel',
+    /staffel: meldeZiel\(/.test(schneide('durchlaufMelden')) &&
+      /titelId: meldeZiel\(/.test(schneide('durchlaufMelden')) &&
+      /const ziel = meldeZiel\(reihe, f\)/.test(schneide('randMelden')) &&
+      /staffel: ziel\.staffel,[\s\S]*titelId: ziel\.titelId/.test(schneide('randMelden')),
+  )
   const zielCode = ['netflixSeqFuerGruppe', 'meldeZiel'].map(schneide).join('\n\n')
   function ziel({ eigene, staffelnPlayer = null, gespeichert = undefined, folge }) {
     const kontext = {

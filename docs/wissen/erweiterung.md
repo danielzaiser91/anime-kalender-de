@@ -1888,3 +1888,7 @@ Daniels Ziel („sowieso das ziel alles zu melden"), und pro Staffel kostet es r
 Der Staffelname in der Meldung kommt aus dem Menüeintrag mit passender Folgenzahl
 (`gruppenLabel()`), nicht aus der Anzeige.
 
+
+## Randprobe in Stapeln zu zehn (25.09.2026, 4.22.4)
+
+`POST /pruefung` nimmt `{ stapel: [...] }` mit höchstens 10 Meldungen an. Jede läuft durch denselben Handler wie eine Einzelmeldung, die Antwort ist `{ ok, ergebnisse: [{ ok, befund }] }` in derselben Reihenfolge. Die Grenze setzt der kostenlose Plan mit 50 D1-Abfragen je Aufruf, wobei jede Anweisung in einem `batch` einzeln zählt. Eine Netflix-Meldung mit Rohfolge braucht 4: `DELETE` und `INSERT` in `pruefung`, dazu `DELETE` und `INSERT` in `prime_folge`. Gemessen am 25.09.2026 an einer Testadresse, die danach gelöscht wurde: 10 Meldungen einzeln nacheinander 1.740 ms, als Stapel 371 ms, ein 11er-Stapel ergibt 400. `randMelden` schickt seine Stapel gleichzeitig ab. `durchlaufMelden` meldet weiter einzeln, weil dort je Folge gemessen wird.
