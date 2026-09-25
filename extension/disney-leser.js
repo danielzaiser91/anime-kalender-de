@@ -256,6 +256,29 @@
   }
 
 
+  /*
+    **Ein abgebrochener Abruf wird wiederholt — und scheitert er endgültig, heißt das nicht „fertig".**
+
+    Daniel am 25.09.2026, mit vier Fehlern „Nachladen abgebrochen: TypeError: Failed to fetch" aus
+    `chrome://extensions`. Im Briefkasten standen danach Naruto Shippuden mit 112 von rund 500 und
+    Yu-Gi-Oh! mit 144 von rund 224 Folgen: `allesHolen()` meldete im `finally` jedes Mal
+    `vollstaendig`, und der Knopf meldete den Ausschnitt wie eine ganze Staffel. Ein HTTP-Fehler stieg
+    genauso still aus (`return`). Jetzt: drei Wiederholungen mit wachsender Pause, danach ein Fehler,
+    den `allesHolen()` als Hindernis meldet.
+  */
+  const WIEDERHOLEN_MS = [1000, 3000, 8000]
+  async function mitWiederholung(was, abruf) {
+    for (let versuch = 0; ; versuch++) {
+      try {
+        return await abruf()
+      } catch (fehler) {
+        if (versuch >= WIEDERHOLEN_MS.length) throw new Error(`${was}: ${fehler?.message ?? fehler}`)
+        console.log(`[Anime-Kalender] ${was}: ${fehler?.message ?? fehler} — neuer Versuch`)
+        await new Promise((ok) => setTimeout(ok, WIEDERHOLEN_MS[versuch]))
+      }
+    }
+  }
+
   async function staffelHolen(staffel) {
     let gesehen = 0
     let weiter = true
@@ -270,14 +293,13 @@
       const nach = gesehen
         ? `after=${encodeURIComponent(btoa(JSON.stringify({ offset: gesehen })))}&`
         : ''
-      const antwort = await altFetch(`${EXPLORE}${staffel.id}?${nach}limit=24`, {
-        headers: leseKopf(),
+      const daten = await mitWiederholung(`Staffel ${staffel.name} ab ${gesehen}`, async () => {
+        const antwort = await altFetch(`${EXPLORE}${staffel.id}?${nach}limit=24`, {
+          headers: leseKopf(),
+        })
+        if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
+        return antwort.json()
       })
-      if (!antwort.ok) {
-        console.warn(`[Anime-Kalender] Staffel ${staffel.name}: HTTP ${antwort.status}`)
-        return
-      }
-      const daten = await antwort.json()
       const stueck = daten?.data?.season?.items ?? []
       /*
         Der Name gehoert an die Folge, nicht nur an die Staffel.
@@ -321,6 +343,7 @@
     }
     holtGerade = true
     console.log(`[Anime-Kalender] hole ${staffeln.length} Staffeln: ${staffeln.map((s) => s.name + ' (' + s.gesamt + ')').join(', ')}`)
+    let abgebrochen = null
     try {
       for (const staffel of [...staffeln]) {
         await staffelHolen(staffel)
@@ -328,10 +351,13 @@
       }
       console.log(`[Anime-Kalender] ${folgen.size} Folgen beisammen`)
     } catch (fehler) {
-      console.warn('[Anime-Kalender] Nachladen abgebrochen:', fehler)
+      abgebrochen = fehler
+      /* `log`, nicht `warn`: Der Fehler steht im Kasten, nicht als Fehler der Erweiterung. */
+      console.log('[Anime-Kalender] Nachladen abgebrochen:', fehler?.message ?? fehler)
     } finally {
       holtGerade = false
-      melde(true)
+      if (abgebrochen) melde(false, `Nachladen abgebrochen bei ${folgen.size} Folgen — Seite neu laden`)
+      else melde(true)
     }
   }
 

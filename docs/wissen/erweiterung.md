@@ -1917,3 +1917,7 @@ Suchaufträge überspringt der Durchgang; welcher Treffer gemeint ist, entscheid
 - **Folgen: Der Quelltext trägt höchstens 24.** 20 Seiten vollständig, 11 Staffeln mit mehr als 24 Folgen nicht (Rest liegt im zweiten Abschnitt).
 - **Signal für „unvollständig": `episodePages` mit mehr als einem Abschnitt (`tokensAus`) trennt 31 von 31 richtig.** `episodeCount` taugt nicht: Naruto S1 nennt 20, hat 19 (der Knopf meldete ebenfalls 19).
 - Folgerung: Staffeln mit einem Abschnitt im Hintergrund lesen, größere wie bisher öffnen. Im Lauf vom 25.09. wären das rund 88 von 102 Seiten ohne Navigation gewesen.
+
+## Disney+: abgebrochenes Nachladen hieß „vollständig" (25.09.2026, 4.22.10)
+
+Daniel sah in `chrome://extensions` viermal „Nachladen abgebrochen: TypeError: Failed to fetch" (`disney-leser.js`, `allesHolen`). Im Briefkasten standen danach Naruto Shippuden mit 112 von rund 500 und Yu-Gi-Oh! mit 144 von rund 224 Folgen, One Piece mit 405. `allesHolen()` rief im `finally` immer `melde(true)`, und ein HTTP-Fehler stieg in `staffelHolen()` still mit `return` aus; der Knopf meldete den Ausschnitt dann wie die ganze Staffel. Seit 4.22.10 wiederholt `mitWiederholung()` jeden Abruf dreimal (1, 3, 8 s); scheitert er endgültig, meldet der Leser ein Hindernis mit der Zahl der gesammelten Folgen statt „vollständig". Die Ursache der Abbrüche selbst ist nicht gemessen; der Test `disney-nachladen.test.cjs` spielt beide Fälle nach (vorübergehend, endgültig, HTTP 429).
