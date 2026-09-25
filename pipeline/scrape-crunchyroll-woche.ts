@@ -17,13 +17,17 @@
  * gelegentlich „*erscheint am <Tag>. <Monat>". Die `Column-N`-Kennungen taugen nicht als
  * Wochentag (`Column-1` kommt doppelt vor, die Katalogtitel stehen in `Column-15`).
  *
- * **Was dieser Lauf nicht tut:** zuordnen oder bauen. Er schreibt `data/crunchyroll-woche.json`;
- * die Zuordnung über die Serienkennung macht der Bau (PoC: `tools/crunchyroll-woche-poc.mjs`).
+ * **Was dieser Lauf tut:** Er liest den Artikel, entscheidet nach der Regel in `entscheiden()`,
+ * welche künftigen Synchro-Folgen übernommen werden, und schreibt alles nach
+ * `data/crunchyroll-woche.json`. Der Bau hängt die übernommenen Folgen als Beobachtungen an den
+ * Kalendereintrag (`build.ts`). Abweichungen gehen als Vorfall an den Worker.
  *
  * Aufruf: npx tsx pipeline/scrape-crunchyroll-woche.ts [--adresse <Artikel>] [--head]
  */
 import { chromium } from 'playwright'
-import { log, writeJson } from './lib/util.ts'
+import { normalizeTitle, type CrunchyrollData } from './lib/crunchyroll.ts'
+import { todayIso } from '../shared/time.ts'
+import { log, readJson, warn, writeJson } from './lib/util.ts'
 
 const args = process.argv.slice(2)
 const HEADED = args.includes('--head')
@@ -49,6 +53,14 @@ export interface WochenEintrag {
   abweichend: boolean
 }
 
+/** Eine Folge, die der Bau als Beobachtung an den Kalendereintrag `key` hängt. */
+export interface WochenFolge {
+  key: string
+  seriesId: string | null
+  episode: number
+  date: string
+}
+
 export interface WochenProgramm {
   geholtAm: string
   artikel: string
@@ -56,6 +68,93 @@ export interface WochenProgramm {
   /** Montag der Woche, ISO. */
   wocheAb: string
   eintraege: WochenEintrag[]
+  /** Nach der Regel übernommen — siehe `entscheiden()`. */
+  uebernommen: WochenFolge[]
+  /** Künftige Synchro-Zeilen, die nicht anschließen: gemeldet, nicht übernommen. */
+  abweichungen: { titel: string; seriesId: string | null; von: number; bis: number; datum: string; grund: string }[]
+  /** Künftige Synchro-Zeilen ohne passenden Kalendereintrag. */
+  ohneEintrag: string[]
+}
+
+/**
+ * **Die Regel (Daniel, 25.09.2026: „passt so").** Das Wochenprogramm wird von Hand gepflegt und
+ * lag im PoC einmal eine Folge daneben (Schleim S4: „Folge 22" am 25.09., gemessen 21). Deshalb:
+ *
+ * - nur **künftige** Synchro-Zeilen (Datum nach heute);
+ * - nur an einen vorhandenen Kalendereintrag mit derselben Serienkennung;
+ * - nur, wenn die erste Folge an die letzte beobachtete anschließt (+1) **und** das Datum nach
+ *   deren Datum liegt — sonst ist es eine Abweichung, die gemeldet und nicht übernommen wird;
+ * - schon Beobachtetes (gleiche Folge, gleicher Tag) wird still übergangen.
+ *
+ * Gemessenes überstimmt das Wochenprogramm nie: Die Beobachtung wird nur **angehängt**.
+ */
+export function entscheiden(
+  eintraege: WochenEintrag[],
+  kalender: CrunchyrollData['german'],
+  heute: string,
+): Pick<WochenProgramm, 'uebernommen' | 'abweichungen' | 'ohneEintrag'> {
+  const uebernommen: WochenFolge[] = []
+  const abweichungen: WochenProgramm['abweichungen'] = []
+  const ohneEintrag: string[] = []
+  for (const e of eintraege) {
+    if (e.sprache !== 'de' || e.datum <= heute) continue
+    /*
+      Erst über den Titel, dann über die Kennung: Das Wochenprogramm schreibt „Das Band der
+      Unterwelt", der Kalender führt den englischen Namen. Die Kennung zählt aber nur, wenn sie
+      genau einen Eintrag trifft — eine Kennung ist ein Franchise, keine Staffel (CLAUDE.md).
+    */
+    let key = normalizeTitle(e.titel)
+    if (!kalender[key] && e.seriesId) {
+      const gleich = Object.keys(kalender).filter((k) => kalender[k].seriesId === e.seriesId)
+      if (gleich.length === 1) key = gleich[0]
+    }
+    const eintrag = kalender[key]
+    if (!eintrag || (e.seriesId && eintrag.seriesId && eintrag.seriesId !== e.seriesId)) {
+      ohneEintrag.push(`${e.titel} (${e.seriesId ?? '?'}) Folge ${e.von}${e.bis !== e.von ? `–${e.bis}` : ''} am ${e.datum}`)
+      continue
+    }
+    const beob = (eintrag.observations ?? []).filter((o) => o.episode && o.episode > 0)
+    if (beob.some((o) => o.episode === e.von && o.date === e.datum)) continue
+    const letzte = [...beob].sort((a, b) => (a.episode ?? 0) - (b.episode ?? 0)).at(-1)
+    if (letzte && (e.von !== (letzte.episode ?? 0) + 1 || e.datum <= letzte.date)) {
+      abweichungen.push({
+        titel: e.titel,
+        seriesId: e.seriesId,
+        von: e.von,
+        bis: e.bis,
+        datum: e.datum,
+        grund: `Kalender: zuletzt Folge ${letzte.episode} am ${letzte.date}`,
+      })
+      continue
+    }
+    for (let f = e.von; f <= e.bis; f++) uebernommen.push({ key, seriesId: e.seriesId, episode: f, date: e.datum })
+  }
+  return { uebernommen, abweichungen, ohneEintrag }
+}
+
+/** Abweichungen als Vorfall an den Worker — die Status-App zeigt sie; ein Vorfall je Zeile und Tag. */
+async function abweichungenMelden(abw: WochenProgramm['abweichungen'], artikel: string): Promise<void> {
+  const token = process.env.LAUF_TOKEN
+  if (!token || !abw.length) return
+  const worker = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
+  for (const a of abw) {
+    try {
+      await fetch(`${worker}/vorfall`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({
+          plattform: 'crunchyroll',
+          art: 'wochenprogramm',
+          url: `${artikel}#${a.seriesId ?? a.titel}-${a.von}`,
+          reihe: a.seriesId ?? undefined,
+          folge_nr: a.von,
+          text: `Wochenprogramm: ${a.titel} Folge ${a.von}${a.bis !== a.von ? `–${a.bis}` : ''} am ${a.datum} — nicht übernommen (${a.grund})`,
+        }),
+      })
+    } catch (err) {
+      warn(`Vorfall nicht gemeldet: ${(err as Error).message}`)
+    }
+  }
 }
 
 const MONATE: Record<string, number> = {
@@ -168,10 +267,15 @@ async function main(): Promise<void> {
         })
       }
     }
-    const programm: WochenProgramm = { geholtAm: new Date().toISOString(), artikel, ueberschrift: roh.ueberschrift, wocheAb, eintraege }
+    const kalender = readJson<CrunchyrollData>('data/crunchyroll.json', { scrapedAt: '', german: {}, slots: [] }).german
+    const entschieden = entscheiden(eintraege, kalender, todayIso())
+    const programm: WochenProgramm = { geholtAm: new Date().toISOString(), artikel, ueberschrift: roh.ueberschrift, wocheAb, eintraege, ...entschieden }
     writeJson('data/crunchyroll-woche.json', programm)
     const de = eintraege.filter((e) => e.sprache === 'de')
     log(`${roh.ueberschrift}: ${eintraege.length} Zeilen, davon ${de.length} Synchro (${de.filter((e) => e.abweichend).length} mit eigenem Datum)`)
+    log(`Übernommen: ${entschieden.uebernommen.length} Folgen · Abweichungen: ${entschieden.abweichungen.length} · ohne Kalendereintrag: ${entschieden.ohneEintrag.length}`)
+    for (const a of entschieden.abweichungen) warn(`Wochenprogramm weicht ab: ${a.titel} Folge ${a.von} am ${a.datum} — ${a.grund}`)
+    await abweichungenMelden(entschieden.abweichungen, artikel)
   } finally {
     await browser.close()
   }

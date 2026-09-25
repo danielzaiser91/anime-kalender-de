@@ -204,3 +204,29 @@ export function durchlaufendeZaehlung(
 export function crunchyrollSeriesId(url: string | undefined): string | undefined {
   return url ? (/\/series\/([A-Z0-9]+)/i.exec(url)?.[1] ?? undefined) : undefined
 }
+
+/** Eine vom Wochenprogramm übernommene Folge (`data/crunchyroll-woche.json`, `uebernommen`). */
+export interface WochenFolgeRoh {
+  key: string
+  seriesId: string | null
+  episode: number
+  date: string
+}
+
+/**
+ * Hängt die übernommenen Wochenprogramm-Folgen als Beobachtungen an die Kalendereinträge
+ * (25.09.2026). Nur **anhängen**: Eine Folge, die schon beobachtet ist, bleibt, wie sie ist, und
+ * ein Eintrag mit anderer Serienkennung wird nicht angefasst. Gibt die Zahl der angehängten zurück.
+ */
+export function wocheAnhaengen(german: Record<string, CrunchyrollEntry>, folgen: WochenFolgeRoh[]): number {
+  let n = 0
+  for (const f of folgen) {
+    const eintrag = german[f.key]
+    if (!eintrag || (f.seriesId && eintrag.seriesId && f.seriesId !== eintrag.seriesId)) continue
+    const beob = eintrag.observations ?? []
+    if (beob.some((o) => o.episode === f.episode)) continue
+    eintrag.observations = [...beob, { date: f.date, episode: f.episode }].sort((a, b) => a.date.localeCompare(b.date))
+    n++
+  }
+  return n
+}

@@ -5951,5 +5951,51 @@ pruefe(
   pruefe('Ankündigung: nur der Monat — „Oktober 2026", bis Monatsende bevorstehend', ankuendigungZeile(psyren, T, '2026-10-20').includes('antwort.omuAb(Oktober 2026)'), ankuendigungZeile(psyren, T, '2026-10-20'))
   pruefe('Ankündigung: ohne Synchro-Angabe heißt „offen"', ankuendigungZeile(a.get(187402)!, T, '2026-09-25').endsWith('antwort.synchroOffen'))
 }
+{
+  /*
+    Crunchyrolls Wochenprogramm (25.09.2026, Regel mit Daniel): nur künftige Synchro-Folgen, nur
+    mit Anschluss an die letzte beobachtete, nie gegen Gemessenes. Die Fälle sind die des PoC.
+  */
+  const { entscheiden } = await import('./scrape-crunchyroll-woche.ts')
+  const { wocheAnhaengen } = await import('./lib/crunchyroll.ts')
+  type E = Parameters<typeof entscheiden>[0][number]
+  const zeile = (titel: string, seriesId: string, von: number, bis: number, datum: string, sprache = 'de'): E => ({
+    titel, seriesId, sprache, von, bis, datum, zeit: '17:00', abweichend: false,
+  })
+  const eintrag = (seriesId: string, obs: [number, string][]) => ({
+    time: '17:00', weekday: 0, dates: obs.map((o) => o[1]), rawTitle: '', seriesId,
+    observations: obs.map(([episode, date]) => ({ episode, date })),
+  })
+  const kalender = {
+    'hana kimi s2': eintrag('GT00365568', [[8, '2026-09-02'], [9, '2026-09-09']]),
+    'meine wiedergeburt als schleim in einer anderen welt s4': eintrag('GYZJ43JMR', [[20, '2026-09-18'], [21, '2026-09-25']]),
+    'daemons of the shadow realm': eintrag('GT00371630', [[21, '2026-09-19']]),
+    'franchise a s1': eintrag('GMEHRFACH', [[1, '2026-09-01']]),
+    'franchise a s2': eintrag('GMEHRFACH', [[1, '2026-09-08']]),
+  }
+  const heute = '2026-09-25'
+  const r = entscheiden(
+    [
+      zeile('Hana-Kimi Staffel 2', 'GT00365568', 10, 12, '2026-10-02'),
+      zeile('Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4', 'GYZJ43JMR', 23, 23, '2026-10-02'),
+      zeile('Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4', 'GYZJ43JMR', 22, 22, '2026-09-25'),
+      zeile('Das Band der Unterwelt', 'GT00371630', 22, 22, '2026-09-26'),
+      zeile('Franchise A Staffel 3', 'GMEHRFACH', 1, 1, '2026-10-01'),
+      zeile('Hana-Kimi Staffel 2', 'GT00365568', 13, 13, '2026-10-09', 'ja'),
+    ],
+    kalender,
+    heute,
+  )
+  const hk = r.uebernommen.filter((f) => f.key === 'hana kimi s2').map((f) => f.episode)
+  pruefe('Wochenprogramm: nachgereichtes Paket mit Anschluss wird übernommen (Hana-Kimi 10–12)', hk.join() === '10,11,12', r.uebernommen)
+  pruefe('Wochenprogramm: Lücke zur letzten Folge ist eine Abweichung, keine Übernahme (Schleim 23 nach 21)', r.abweichungen.some((a) => a.von === 23) && !r.uebernommen.some((f) => f.episode === 23))
+  pruefe('Wochenprogramm: vergangene oder heutige Zeilen bleiben unberührt (Schleim „22" am 25.09.)', !r.uebernommen.some((f) => f.episode === 22 && f.key.includes('schleim')) && !r.abweichungen.some((a) => a.von === 22))
+  pruefe('Wochenprogramm: anderer Name, eindeutige Kennung — über die Kennung zugeordnet', r.uebernommen.some((f) => f.key === 'daemons of the shadow realm' && f.episode === 22))
+  pruefe('Wochenprogramm: Kennung mit mehreren Staffeln entscheidet nicht', r.ohneEintrag.some((x) => x.startsWith('Franchise A')) && !r.uebernommen.some((f) => f.seriesId === 'GMEHRFACH'))
+  pruefe('Wochenprogramm: Untertitel-Zeilen werden nie übernommen', !r.uebernommen.some((f) => f.episode === 13))
+  const n = wocheAnhaengen(kalender as never, [...r.uebernommen, { key: 'hana kimi s2', seriesId: 'GT00365568', episode: 9, date: '2026-10-02' }])
+  const hana = kalender['hana kimi s2'].observations
+  pruefe('Anhängen: gemessene Folge 9 bleibt am 09.09., neue kommen dazu', n === r.uebernommen.length && hana.find((o) => o.episode === 9)?.date === '2026-09-09' && hana.some((o) => o.episode === 12 && o.date === '2026-10-02'), hana)
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

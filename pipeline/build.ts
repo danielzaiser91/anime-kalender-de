@@ -11,6 +11,7 @@ import {
   type CrunchyrollData,
   type CrunchyrollEntry,
 } from './lib/crunchyroll.ts'
+import { wocheAnhaengen, type WochenFolgeRoh } from './lib/crunchyroll.ts'
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
@@ -2104,6 +2105,14 @@ function main(): void {
     german: {},
     slots: [],
   })
+  /*
+    **Kommende Synchro-Folgen aus Crunchyrolls Wochenprogramm** (25.09.2026). Der Kalender führt
+    sie nicht; `scrape-crunchyroll-woche.ts` hat nach der mit Daniel festgelegten Regel entschieden,
+    welche anschließen. Sie werden nur **angehängt** — eine gemessene Folge bleibt, wie sie ist.
+  */
+  const woche = readJson<{ uebernommen?: WochenFolgeRoh[] }>('data/crunchyroll-woche.json', {})
+  const wocheAngehaengt = wocheAnhaengen(crunchyroll.german, woche.uebernommen ?? [])
+  if (wocheAngehaengt) log(`Wochenprogramm: ${wocheAngehaengt} kommende Synchro-Folgen an den Crunchyroll-Kalender gehängt`)
   const crBySeriesId = new Map<string, CrunchyrollEntry>()
   for (const entry of Object.values(crunchyroll.german)) {
     if (entry.seriesId) crBySeriesId.set(entry.seriesId, entry)

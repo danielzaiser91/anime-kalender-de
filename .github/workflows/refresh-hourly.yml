@@ -176,6 +176,15 @@ jobs:
         # Drei Wochen genügen stündlich; der Wochenlauf schaut weiter zurück.
         run: npx tsx pipeline/scrape-crunchyroll.ts --weeks 3
 
+      # Kommende Synchro-Folgen stehen nur im Wochenprogramm (gemessen 25.09.2026: der Kalender
+      # führt sie nicht). Direkt hinter dem Kalender, weil die Anschlussprüfung dessen Stand braucht;
+      # Abweichungen gehen als Vorfall an den Worker, daher das Token.
+      - name: Crunchyroll-Wochenprogramm lesen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npx tsx pipeline/scrape-crunchyroll-woche.ts
+
       # Ein geschätzter Termin, an dem nichts erschien, darf nicht stehen bleiben,
       # als wäre er eingetreten. Läuft direkt hinter dem Kalender-Abruf, weil er
       # dessen Beobachtungen braucht.
