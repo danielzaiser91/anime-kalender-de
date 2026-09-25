@@ -680,6 +680,13 @@ const TEXTE = {
   'antwort.kinoMerkenFassungMail': 'Merk dir den Film mit ☆. Sobald es ihn auf Deutsch gibt, schreiben wir an {mail}.',
   'antwort.kinoGemerktFassung': '★ Gemerkt. Du bekommst Bescheid, sobald es ihn auf Deutsch gibt.',
   'antwort.ohneTitel': 'Noch keine deutsche Fassung',
+  // Angekündigter Simulcast (data/ankuendigungen.yaml, 25.09.2026) — kurz, der Kasten ist klein.
+  'antwort.synchroAngekuendigt': 'Deutsche Synchro angekündigt',
+  'antwort.omuAb': 'mit Untertiteln ab {wann}',
+  'antwort.omuSeit': 'mit Untertiteln seit {wann}',
+  'antwort.synchroTerminOffen': 'Synchro-Termin offen',
+  'antwort.synchroOffen': 'Synchro offen',
+  'antwort.ankuendigungQuelle': 'Laut {anbieter}, Stand {datum}',
   'antwort.westlichVerfuegbar': 'In Deutschland verfügbar',
   'antwort.westlichUngeprueft': 'Deutsche Fassung nicht geprüft',
   'antwort.faktErschienen': 'erschienen',

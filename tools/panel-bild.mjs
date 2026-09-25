@@ -125,11 +125,26 @@ async function main() {
       } catch {
         /*
           Kein Panel heißt fast immer: Der Titel steht nicht im Hauptbestand,
-          sondern in `ohne-synchro.json`. Das ist kein Fehler des Werkzeugs —
-          es sagt es und geht weiter.
+          sondern in `ohne-synchro.json`. Seit dem 25.09.2026 legt das Werkzeug
+          dann den Schalter „Anime ohne deutsche Synchro" um — wie Daniel es für
+          sein Bild von Magic Knight Rayearth (2026) getan hat — und versucht es
+          erneut. Erst wenn auch das nichts öffnet, sagt es das und geht weiter.
         */
-        console.log(`  – ${id}: kein Panel (Titel nicht im Hauptbestand?)`)
-        break
+        let offen = false
+        const schalter = seite.getByLabel('Anime ohne deutsche Synchro')
+        if (await schalter.count()) {
+          await schalter.first().check({ force: true })
+          try {
+            await panel.waitFor({ state: 'visible', timeout: 15_000 })
+            offen = true
+          } catch {
+            /* Auch dort nicht — dann gibt es den Titel nicht. */
+          }
+        }
+        if (!offen) {
+          console.log(`  – ${id}: kein Panel (weder im Hauptbestand noch unter „ohne Synchro")`)
+          break
+        }
       }
       /* Der Kasten ist die erste `section` im Panel — die Antwort auf „wann, wie weit, wo". */
       const kasten = panel.locator('section').first()

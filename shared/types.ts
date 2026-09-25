@@ -447,6 +447,23 @@ export interface Title {
     /** Woher das Datum stammt, wenn nicht von aniSearch (19.09.2026: Wikipedia-Episodenliste). */
     quelle?: 'wikipedia'
   }
+  /**
+   * **Ein angekündigter Simulcast — kein Termin, keine deutsche Fassung** (25.09.2026,
+   * `data/ankuendigungen.yaml`). Daniel an Magic Knight Rayearth (2026): Das Panel sagte „Noch
+   * keine deutsche Fassung" und verschwieg, dass Crunchyroll den Titel ab dem 07.10. zeigt und
+   * die Synchro schon angekündigt hat. Steht nur im Antwortkasten; der OmU-Start ist nie ein
+   * Kalendertermin.
+   */
+  ankuendigung?: {
+    platform: PlatformId
+    /** Start mit Untertiteln: ISO-Tag oder, wo nur der Monat genannt ist, `JJJJ-MM`. */
+    omuAb: string
+    /** `angekuendigt`: die Quelle nennt eine deutsche Fassung (Termin offen). `offen`: sie nennt keine. */
+    synchro: 'angekuendigt' | 'offen'
+    quellen: string[]
+    /** Datum der Quelle. */
+    stand: string
+  }
   /** Dasselbe für Anime News Network, die Quelle der deutschen Sprechrollen. */
   annId?: number
   /** Jahr der japanischen Erstausstrahlung. */

@@ -36,8 +36,14 @@
   # kennzeichnen statt weglassen" ist der Grund, warum es diesen Kalender gibt
   # (Daniel, 04.09.2026: „warum führen wir keine staffel 2 und haben auch nicht
   # diese info auf der webseite?").
-  note: "Crunchyroll zeigt die Staffel ab dem 03.10.2026 im Simulcast mit Untertiteln. Eine deutsche Fassung ist noch nicht angekündigt — das Datum ist der Start mit Untertiteln."
+  # **25.09.2026: Die Synchro ist angekündigt.** Crunchyrolls Artikel „Crunchyroll kündigt die
+  # deutschen Synchros für Herbst 2026 an" (15.09.2026) führt Black Clover Staffel 2, das
+  # Lineup nennt „OmU: 3. Oktober, DE: TBA". Der alte Satz „Eine deutsche Fassung ist noch
+  # nicht angekündigt" war seit dem 15.09. falsch.
+  note: "Crunchyroll zeigt die Staffel ab dem 03.10.2026 mit Untertiteln. Die deutsche Synchro ist angekündigt, ihr Termin noch offen — das Datum ist der Start mit Untertiteln."
   sources:
+    - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026
+    - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026
     - https://www.anime2you.de/news/1047190/black-clover-second-season-termin/
     - https://www.crunchyroll.com/news/latest/2026/6/15/black-clover-season-2-anime-october-2026-release-date-director
     - https://www.crunchyroll.com/de/news/latest/2026/6/15/black-clover-staffel-2-premiere-oktober-2026
@@ -55,11 +61,13 @@
   # aus dem Anime2You-Artikel das Datum der TV-Premiere (TOGGO plus, Mo–Fr 21:15,
   # 28.08.–22.09.) und hängte es an RTL+. Auf RTL+ und in der TOGGO-App stehen
   # alle 20 Folgen erst ab dem 25.09. (beide Artikel). Die TV-Fassung ist
-  # geschnitten (Mr.-Popo-Szenen durch Standbilder ersetzt, manime.de 30.08.);
-  # ob RTL+ dieselbe Fassung zeigt, ist nicht bekannt.
+  # geschnitten (Mr.-Popo-Szenen durch Standbilder ersetzt, manime.de 30.08.).
+  # **RTL+ zeigt dieselbe geschnittene Fassung** — Daniel hat RTL+ am 25.09.2026 dafür gebucht
+  # und nachgesehen: „selbe zensur wie toggo". Vorher stand hier „ob RTL+ dieselbe Fassung
+  # zeigt, ist nicht bekannt".
   # Zusammengefasst als „TOGGO" (Daniel, 22.09.2026): Geschnitten ist es bei TOGGO plus und in
-  # der TOGGO-App. Was RTL+ ab dem 25.09. zeigt, wird dann geprüft — bis dahin steht dazu nichts.
-  note: "Die TV-Fassung bei TOGGO ist geschnitten."
+  # der TOGGO-App — und seit Daniels Prüfung vom 25.09.2026 belegt auch bei RTL+.
+  note: "Geschnitten wie bei TOGGO."
   schnitt:
     was:
       - "Mr. Popo ist aus dem Bild entfernt: Szenen mit ihm gekürzt, das Bild herangezoomt oder durch ein Standbild ersetzt."

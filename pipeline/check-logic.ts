@@ -5933,5 +5933,23 @@ pruefe(
   pruefe('Stufe 3: am selben Tag schlägt gemessen die Randprobe', u['1|primevideo|3']?.urteil === 'deutsch')
   pruefe('Stufe 3: gesperrt heißt nicht verfügbar', u['1|primevideo|4']?.urteil === 'nicht verfügbar')
 }
+{
+  /*
+    Angekündigte Simulcasts (25.09.2026, Daniel an Magic Knight Rayearth 2026): Die Datei lädt,
+    jede Zeile ist belegt, und die Zeile im Panel sagt „ab" vor und „seit" nach dem Start.
+  */
+  const { ankuendigungenLaden } = await import('./lib/ankuendigungen.ts')
+  const { ankuendigungZeile } = await import('../shared/ankuendigung.ts')
+  const a = ankuendigungenLaden(process.cwd())
+  const ray = a.get(178868)
+  pruefe('Ankündigung: Rayearth (2026) — Crunchyroll ab 07.10., Synchro angekündigt', ray?.platform === 'crunchyroll' && ray.omuAb === '2026-10-07' && ray.synchro === 'angekuendigt', ray)
+  pruefe('Ankündigung: jede Zeile trägt eine Quellenadresse', [...a.values()].every((x) => x.quellen.length && x.quellen.every((q) => q.startsWith('https://'))))
+  const T = (k: string, v?: Record<string, string | number>) => `${k}${v?.wann ? `(${v.wann})` : ''}`
+  pruefe('Ankündigung: vor dem Start „ab"', ankuendigungZeile(ray!, T, '2026-09-25') === 'Crunchyroll · antwort.omuAb(07.10.2026) · antwort.synchroTerminOffen', ankuendigungZeile(ray!, T, '2026-09-25'))
+  pruefe('Ankündigung: am Starttag „seit"', ankuendigungZeile(ray!, T, '2026-10-07').includes('antwort.omuSeit(07.10.2026)'))
+  const psyren = a.get(204011)!
+  pruefe('Ankündigung: nur der Monat — „Oktober 2026", bis Monatsende bevorstehend', ankuendigungZeile(psyren, T, '2026-10-20').includes('antwort.omuAb(Oktober 2026)'), ankuendigungZeile(psyren, T, '2026-10-20'))
+  pruefe('Ankündigung: ohne Synchro-Angabe heißt „offen"', ankuendigungZeile(a.get(187402)!, T, '2026-09-25').endsWith('antwort.synchroOffen'))
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

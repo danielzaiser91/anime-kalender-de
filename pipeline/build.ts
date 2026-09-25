@@ -12,6 +12,7 @@ import {
   type CrunchyrollEntry,
 } from './lib/crunchyroll.ts'
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
+import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { zugangsart, type Zugangsart } from '../shared/zugangsart.ts'
 import { adressGleich, adressKern, dubKey, loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
@@ -210,6 +211,10 @@ const verpassteTermine = readJson<
 
 
 const OUT = 'public/data'
+/* Angekündigte Simulcasts fürs Panel — siehe `pipeline/lib/ankuendigungen.ts`. Ein Fehler in der Datei bricht hier ab. */
+const ANKUENDIGUNGEN = ankuendigungenLaden(process.cwd())
+const mitAnkuendigung = <T extends { id: number }>(t: T): T =>
+  ANKUENDIGUNGEN.has(t.id) ? { ...t, ankuendigung: ANKUENDIGUNGEN.get(t.id) } : t
 /** Deutsche Sprechrollen, eine Datei je Titel — gefüllt von `data:voices`. */
 const VOICES_DIR = `${OUT}/voices`
 const KEYWORD_MIN_RANK = 55
@@ -742,7 +747,7 @@ function schreibeOhneSynchro(
   const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id))
   const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
 
-  writeJson(`${OUT}/ohne-synchro.json`, alle)
+  writeJson(`${OUT}/ohne-synchro.json`, alle.map(mitAnkuendigung))
   log(
     `Ohne deutsche Synchro: ${alle.length} Titel (aus ${eintraege.length} im AniList-Katalog` +
       (nachgetragen.length ? `, ${nachgetragen.length} aus dem Hauptbestand nachgetragen)` : ')'),
@@ -8846,7 +8851,7 @@ function main(): void {
     }
   }
 
-  writeJson(`${OUT}/titles.json`, slim)
+  writeJson(`${OUT}/titles.json`, slim.map(mitAnkuendigung))
 
   /*
     **Weitere Namen für die Suche — eine eigene Datei, geladen erst in der Datenbank.**

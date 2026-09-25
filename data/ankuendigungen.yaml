@@ -1,0 +1,73 @@
+# Angekündigte Simulcasts: wann ein Titel startet und ob eine deutsche Synchro angekündigt ist.
+#
+# **Wofür das gut ist** (Daniel, 25.09.2026, an Magic Knight Rayearth 2026): Das Detail-Panel
+# sagte „Noch keine deutsche Fassung" — und verschwieg, dass Crunchyroll den Titel ab dem 07.10.
+# zeigt und eine deutsche Synchro schon angekündigt hat. „es ist wichtig wichtigste infos auf
+# einen blick zu vermitteln … wir dienen den nutzern als informationsquelle."
+#
+# **Liegt bewusst nicht in `data/curated/`:** Der Bau liest dort jede Datei als Termine
+# (`pipeline/lib/curated.ts`).
+#
+# **Was hier steht, ist kein Termin.** Ein Eintrag erzeugt keinen Kalendertermin und keinen
+# Synchro-Beleg; er erscheint nur im Antwortkasten des Panels. Der OmU-Start ist nicht der
+# deutsche Start — Crunchyroll nennt die Synchro-Termine erst später („DE: TBA").
+#
+# Felder:
+#   anilistId   unser Titel
+#   titel       nur zur Lesbarkeit
+#   platform    Anbieter des Simulcasts
+#   omuAb       Start mit Untertiteln: „JJJJ-MM-TT", oder „JJJJ-MM", wo nur der Monat genannt ist
+#   synchro     angekuendigt (die Quelle nennt eine deutsche Fassung) | offen (sie nennt keine)
+#   quellen     wo es steht
+#   stand       Datum der Quelle
+#
+# **Zuordnung belegt über Name und Starttermin**, nicht über den Namen allein: Jeder Titel
+# unten trägt bei uns denselben Japan-Start wie im Artikel (±1 Tag, JP gegen Simulcast), außer
+# Black Clover S2 und Apothekerin S3, bei uns ohne Tag, dort gilt der exakte Staffelname.
+# Ausgelassen, weil der Termin nicht passt oder fehlt: „Dreamland" (114466, ohne Start),
+# „Paw & Palaces" (166443, Start 03.12.2025), die ältere Ace-of-the-Diamond-Staffel (177634).
+#
+# **Handpflege ist die Übergangslösung.** Die automatische Quelle ist Crunchyrolls
+# Season-Lineup-Artikel (je Titel „OmU: <Datum>" und „DE: TBA"); sein Abruf steht in status.md.
+
+# Kurzformen für `quellen`, damit nicht jede Zeile dieselben Adressen trägt.
+quellen:
+  lineup: https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026
+  synchros: https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026
+
+# --- Crunchyroll, Herbst 2026 (Lineup und Synchro-Artikel vom 15.09.2026) -------------------
+eintraege:
+
+  - { anilistId: 195604, titel: "Black Clover Staffel 2", platform: crunchyroll, omuAb: "2026-10-03", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 195516, titel: "Die Tagebücher der Apothekerin Staffel 3", platform: crunchyroll, omuAb: "2026-10-02", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 212888, titel: "Overgeared", platform: crunchyroll, omuAb: "2026-09-27", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 205909, titel: "Firefly Wedding", platform: crunchyroll, omuAb: "2026-10-09", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 178868, titel: "Magic Knight Rayearth (2026)", platform: crunchyroll, omuAb: "2026-10-07", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 204389, titel: "A Wild Last Boss Appeared! Staffel 2", platform: crunchyroll, omuAb: "2026-09-26", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 191788, titel: "Aoashi Staffel 2", platform: crunchyroll, omuAb: "2026-10-04", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 185756, titel: "As a Reincarnated Aristocrat … Staffel 3", platform: crunchyroll, omuAb: "2026-09-27", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 204011, titel: "PSYREN", platform: crunchyroll, omuAb: "2026-10", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 186541, titel: "Reborn as a Space Mercenary", platform: crunchyroll, omuAb: "2026-10-04", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 152677, titel: "The Detective Is Already Dead Staffel 2", platform: crunchyroll, omuAb: "2026-10-07", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 212503, titel: "The Iceblade Sorcerer Shall Rule the World II", platform: crunchyroll, omuAb: "2026-10-08", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+  - { anilistId: 195571, titel: "The Vermilion Mask", platform: crunchyroll, omuAb: "2026-10-10", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup, synchros] }
+
+  - { anilistId: 199007, titel: "#I'm Looking For a Zombie", platform: crunchyroll, omuAb: "2026-10-03", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 172192, titel: "A Returner's Magic Should Be Special Staffel 2", platform: crunchyroll, omuAb: "2026-10-07", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 187402, titel: "A Tale of the Secret Saint", platform: crunchyroll, omuAb: "2026-10-03", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 213658, titel: "Ace of the Diamond act II -Second Season-", platform: crunchyroll, omuAb: "2026-10-11", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 198727, titel: "Chitose Is in the Ramune Bottle 2nd Cour", platform: crunchyroll, omuAb: "2026-10-13", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 179876, titel: "DARK MACHINE THE ANIMATION", platform: crunchyroll, omuAb: "2026-10-13", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 200455, titel: "Even Though I'm a Super Timid Noble Girl …", platform: crunchyroll, omuAb: "2026-10-04", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 206401, titel: "FX Fighter Kurumi-chan", platform: crunchyroll, omuAb: "2026-10-01", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 207191, titel: "Hello, I am a Witch and my Crush Wants me to Make a Love Potion!", platform: crunchyroll, omuAb: "2026-10-05", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 199426, titel: "HOTEL INHUMANS Staffel 2", platform: crunchyroll, omuAb: "2026-10-04", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 169581, titel: "Magical Explorer", platform: crunchyroll, omuAb: "2026-10-03", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 180894, titel: "Romelia War Chronicle", platform: crunchyroll, omuAb: "2026-10-03", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 176314, titel: "Sasaki and Peeps Staffel 2", platform: crunchyroll, omuAb: "2026-10-07", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 209219, titel: "So What's Wrong with Getting Reborn as a Goblin?", platform: crunchyroll, omuAb: "2026-10-05", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 207329, titel: "The Laid-Off Cheat-Granting Mage Enjoys a Second Lease on Life", platform: crunchyroll, omuAb: "2026-10-06", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 199068, titel: "The Prince of Tennis II U-17 WORLD CUP: Final Member Selection Match", platform: crunchyroll, omuAb: "2026-09-30", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 211778, titel: "The World's Strongest Witch", platform: crunchyroll, omuAb: "2026-10-07", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 202079, titel: "Uncle's Obsession with Cute Things", platform: crunchyroll, omuAb: "2026-10-04", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+  - { anilistId: 209562, titel: "VERTEX FORCE", platform: crunchyroll, omuAb: "2026-10-03", synchro: offen, stand: "2026-09-15", quellen: [lineup] }

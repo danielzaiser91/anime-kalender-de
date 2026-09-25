@@ -2793,3 +2793,30 @@ Kennung, nicht der Leitung — und sie war nach vier Tagen mit einer Zeile behob
 
 Wer sich zu erkennen gibt, bleibt ansprechbar: Die Kontaktadresse steht weiterhin im
 Protokoll des Betreibers, nur nicht mehr als einziges Merkmal.
+
+## Angekündigte Crunchyroll-Serien stehen nur in den Season-Artikeln (25.09.2026)
+
+Anlass: Daniel fand Magic Knight Rayearth (2026) auf Crunchyrolls Startseite („Die Serienpremiere läuft am 07.10"), unser Panel sagte nur „Noch keine deutsche Fassung". Ergebnis: `data/ankuendigungen.yaml` (32 Titel) und eine Zeile im Antwortkasten.
+
+**Was die Schnittstelle hergibt, gemessen mit dem anonymen Token (Katalog DE):**
+
+- `/content/v2/cms/series/GT00383994?locale=de-DE` trägt `availability_status: "coming_soon"`, `availability_notes: "Die Serienpremiere läuft am 07.10"`, `season_tags: ["Herbst-2026"]`, `keywords: ["fall-2026", …]`, `episode_count: 0`. Die Auskunft steht also da — aber nur, wer die Kennung schon kennt, kommt an sie.
+- **Keine Liste führt angekündigte Serien:** `discover/browse?type=series&sort_by=newly_added` über 1.000 Serien: 0 × `coming_soon`. `discover/browse?seasonal_tag=fall-2026`: 2 Serien (beide schon laufend). `discover/search` findet keinen der sechs von Daniel genannten Titel. Die Serien-Sitemap (`/sitemaps/series/M.xml`) führt nur das Rayearth von 1994.
+- Die Startseite ohne Anmeldung lädt nur `discover/browse?…is_simulcast=true` (beliebte Simulcasts); den Bereich mit Premieren gibt es erst im angemeldeten Konto.
+
+**Die Quelle sind Crunchyrolls Season-Artikel** (`/de/news/seasonal-lineup/…`), zweimal je Season:
+
+- „Crunchyroll Anime-Lineup der Herbst-Season 2026" (15.09.2026): je Titel `OmU: <Datum>` und bei angekündigter Synchro `DE: TBA`, dazu Studio und Verfügbarkeit.
+- „Crunchyroll kündigt die deutschen Synchros für Herbst 2026 an" (15.09.2026): die Liste der Synchro-Titel, ohne Termine.
+- Die Seiten sind serverseitig gerendert (Next.js), der Text steht im HTML. robots.txt sperrt `*/search`, nicht `/news`. Die deutsche News-Sitemap (`/sitemaps/news/de-DE/latest.xml`) nennt nur Artikel der letzten Tage; die Season-Artikel findet man über die Kategorie `/de/news/seasonal-lineup`.
+
+**Zuordnung:** 31 von 34 Titeln über Name **und** Japan-Start (±1 Tag), Rayearth (2026) über den Start 07.10.2026 (der Namensvergleich traf zuerst die Serie von 1994). Ausgelassen: Dreamland (114466, ohne Start), Paw & Palaces (166443, Start 03.12.2025), die ältere Ace-of-the-Diamond-Staffel.
+
+**Befund nebenbei:** Black Clover Staffel 2 trug seit dem 15.09. den Hinweis „Eine deutsche Fassung ist noch nicht angekündigt" — am selben Tag hatte Crunchyroll sie angekündigt. Die Season-Artikel waren nie Teil eines Laufs.
+
+**Offen:** Den Lineup-Artikel je Season automatisch lesen (Titelblöcke mit `OmU:` und `DE:`), statt ihn von Hand zu übertragen. Bis dahin ist `data/ankuendigungen.yaml` Handpflege.
+
+## RTL+: Dragon Ball Daima steht in keiner Programm-Sitemap (25.09.2026)
+
+Alle 212 Teilkarten von `programs.sitemap.xml` plus `programs.updated_48h.sitemap.xml` durchsucht (400 ms Takt): Unter „dragon-ball" stehen nur die Filme Broly (`p_182056`) und Super Hero (`p_182055`), Daima nicht — obwohl Daniel es am selben Tag dort mit Abo gesehen hat. Die Sitemaps sind also nicht vollständig; ein Titel ohne Sitemap-Eintrag ist kein Beleg, dass RTL+ ihn nicht führt. Für den Daima-Termin war die Adresse nicht nötig (Eintrag `dragon-ball-daima-rtlplus` in `streaming-herbst-2026.yaml`).
+

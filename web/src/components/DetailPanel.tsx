@@ -7,6 +7,7 @@ import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS, anbieterName } from '@shared/types.ts'
 import { expandEvents, titleStatus, istErschienen, istAusgeblieben, releaseStatus, bereicheMitTermin } from '@shared/logic.ts'
 import { naechsteRecherche } from '@shared/recherche-plan.ts'
+import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { addDays, berlinToUtc, formatDate, monthName, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -885,9 +886,18 @@ function AntwortKasten({
       geprüft hat** — TMDB nennt Anbieter, keine Tonspuren, und eine deutsche Fassung
       ist dort der Normalfall (Daniel an The Mighty Nein, 16.09.2026).
     */
+    /*
+      **Ein angekündigter Simulcast gehört in die Antwort** (Daniel an Magic Knight Rayearth 2026,
+      25.09.2026: „dann sollte im detail panel stehen, für wann genau das angekündigt ist … wichtigste
+      infos auf einen blick"). Ist eine Synchro angekündigt, ist das die Antwort auf die Frage des
+      Kastens; der OmU-Start und der offene Termin stehen darunter.
+    */
+    const ankuendigung = title.westlich ? undefined : title.ankuendigung
     haupt = title.westlich
       ? T(title.streams.length ? 'antwort.westlichVerfuegbar' : 'antwort.westlichUngeprueft')
-      : T('antwort.ohneTitel')
+      : ankuendigung?.synchro === 'angekuendigt'
+        ? T('antwort.synchroAngekuendigt')
+        : T('antwort.ohneTitel')
     /*
       **Auch ein Nein braucht die Gegenstimme.**
 
@@ -901,11 +911,14 @@ function AntwortKasten({
       Der Kasten sagt weiter, was **wir** belegen können — und darunter, was die
       Fremdquelle sagt. Beides zusammen ist die ehrliche Auskunft.
     */
-    neben = deSeitZeile(title, T, true)
-    nebenTitel = title.deErstausgabe
-      ? T(title.deErstausgabe.quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : 'antwort.deSeitQuelle')
-      : undefined
-    gedaempft = true
+    neben = ankuendigung ? ankuendigungZeile(ankuendigung, T) : deSeitZeile(title, T, true)
+    nebenTitel = ankuendigung
+      ? T('antwort.ankuendigungQuelle', { anbieter: PLATFORMS[ankuendigung.platform]?.name ?? ankuendigung.platform, datum: formatDate(ankuendigung.stand) })
+      : title.deErstausgabe
+        ? T(title.deErstausgabe.quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : 'antwort.deSeitQuelle')
+        : undefined
+    /* Eine angekündigte Synchro ist eine Nachricht, kein Nein — der Kasten steht dann nicht gedämpft. */
+    gedaempft = ankuendigung?.synchro !== 'angekuendigt'
     zaehl = ''
   }
 
