@@ -62,12 +62,12 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-147103-netflix@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261025
-DTEND;VALUE=DATE:20261026
+DTSTART:20261025T080000Z
+DTEND:20261025T083000Z
 SUMMARY:Meine ganz besondere Hochzeit
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-147103-n
- etflix
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
+ chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
+ etails: https://anime-kalender.de/#/release/auto-147103-netflix
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT

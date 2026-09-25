@@ -53,12 +53,12 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-21516-netflix@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261003
-DTEND;VALUE=DATE:20261004
+DTSTART:20261003T080000Z
+DTEND:20261003T083000Z
 SUMMARY:Kuromukuro
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-21516-ne
- tflix
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
+ chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
+ etails: https://anime-kalender.de/#/release/auto-21516-netflix
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
