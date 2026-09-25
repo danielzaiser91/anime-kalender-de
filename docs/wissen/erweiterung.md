@@ -1892,3 +1892,15 @@ Der Staffelname in der Meldung kommt aus dem Menüeintrag mit passender Folgenza
 ## Randprobe in Stapeln zu zehn (25.09.2026, 4.22.4)
 
 `POST /pruefung` nimmt `{ stapel: [...] }` mit höchstens 10 Meldungen an. Jede läuft durch denselben Handler wie eine Einzelmeldung, die Antwort ist `{ ok, ergebnisse: [{ ok, befund }] }` in derselben Reihenfolge. Die Grenze ist eine Größengrenze. Das in der Cloudflare-Doku genannte Limit von 50 D1-Abfragen je Aufruf (kostenloser Plan, jede `batch`-Anweisung einzeln) greift hier nachweislich nicht: Eine Prime-Meldung vom 19.09.2026 schrieb 90 Rohfolgen in einem Aufruf, also rund 93 Anweisungen. Zuerst hatte ich die Grenze aus der Doku abgeleitet und nicht gemessen; der Blick in `prime_folge` hat das widerlegt. Ein `INSERT … ON CONFLICT` (2 statt 4 Anweisungen) lohnt deshalb nicht: Größere Stapel bringen kaum etwas, und es bräuchte einen Ausdrucksindex samt Bereinigung der vorhandenen Dubletten. Eine Netflix-Meldung mit Rohfolge braucht 4: `DELETE` und `INSERT` in `pruefung`, dazu `DELETE` und `INSERT` in `prime_folge`. Gemessen am 25.09.2026 an einer Testadresse, die danach gelöscht wurde: 10 Meldungen einzeln nacheinander 1.740 ms, als Stapel 371 ms, ein 11er-Stapel ergibt 400. `randMelden` schickt seine Stapel gleichzeitig ab. `durchlaufMelden` meldet weiter einzeln, weil dort je Folge gemessen wird.
+
+## Prime-Durchgang: Staffelseiten statt Player (25.09.2026, 4.22.7)
+
+„▶ alle durchgehen" gibt es seit 4.22.7 auch in der Prime-Prüfliste. Prime braucht dafür keinen Player: Die Tonspuren stehen auf der Staffelseite, und der Meldeknopf liest sie selbst. Der Durchgang (`primeSchritt()` in `amazon.js`) klickt den Meldeknopf, sobald er „… melden" anbietet und die Beschriftung 2,5 s stillsteht. Danach lädt er die nächste Staffel als eigene Seite.
+
+Die Staffeln stammen aus `seasons` im Quelltext. Gemessen am 25.09.2026 an Naruto (B07VP6VPVR, öffentliche Seite, ein Abruf): neun Einträge, `seasonId` ist die ASIN der Staffelseite, `seasonLink` ist `/gp/video/detail/<ASIN>?ref_=atv_dp_season_select_sN`. Der Leser gibt sie als `gesehen.seite.staffeln[].kennung` weiter. Auf Staffelseiten, die nicht selbst auf der Liste stehen, erscheint der Knopf über `serieBekannt()`.
+
+Suchaufträge überspringt der Durchgang; welcher Treffer gemeint ist, entscheidet Daniel. Hängt eine Seite eine Minute, wird sie übersprungen. Das Ende steht im Dialog, der Verlauf im Bericht unter `durchgang`. Zwei Fallen, beide im Sandkasten gefunden (`amazon-durchgang.test.cjs`):
+
+- Nach `location.href = …` läuft der Takt auf der alten Seite weiter, bis der Browser sie verlässt. Ohne Sperre (`primeVerlassen`) sprang der Durchgang zweimal und ließ eine Staffel aus.
+- Die Amazon-Sandkästen stellen die Uhr je `setInterval` um 500 ms vor. Ein zusätzliches Intervall ließ in `amazon-uebersicht.test.cjs` die Zeit doppelt so schnell laufen. Der Durchgang taktet deshalb über eine `setTimeout`-Kette.
+

@@ -1148,6 +1148,8 @@ async function speicherSchreiben(werte) {
       ].slice(0, 80)),
       erzeugtAm: new Date().toISOString(),
       version: chrome?.runtime?.getManifest?.()?.version ?? 'unbekannt',
+      /* Der Durchgang und wie der letzte endete — die Spur überlebt den Seitenwechsel. */
+      durchgang: sicher(() => ({ lauf: primeLaufLesen(), ende: primeLaufEndeLesen() })),
       adresse: location.href,
       zustand: {
         id: sicher(() => id),
@@ -5777,6 +5779,13 @@ async function speicherSchreiben(werte) {
     const suchen = suchOffen().length
     const gesamt = offen + suchen
     uebersichtKnopf.classList.toggle('ak-fertig', !gesamt)
+    if (primeLaufLesen()) {
+      setz(uebersichtKnopf, 'textContent', `⏹ Durchgang läuft · ${offen} offen`)
+      setz(uebersichtKnopf, 'title', 'Liste öffnen — dort lässt sich der Durchgang beenden')
+      void standPruefen()
+      if (dialog) dialogFuellen()
+      return
+    }
     /*
       Beide Zahlen getrennt, weil sie verschiedene Arbeit meinen: Eine
       Titelseite liest die Erweiterung selbst, eine Suchadresse verlangt, den
@@ -5964,6 +5973,40 @@ async function speicherSchreiben(werte) {
       zeichnen()
     })
     kopf.appendChild(zuruecksetzen)
+
+    /* Der Durchgang über alle offenen Titel — siehe primeLaufStarten(). */
+    const durchgang = document.createElement('button')
+    const laeuft = Boolean(primeLaufLesen())
+    durchgang.className = 'ak-umschalter' + (laeuft ? ' ak-selbst-an' : '')
+    durchgang.type = 'button'
+    durchgang.textContent = laeuft ? '⏹ Durchgang beenden' : '▶ alle durchgehen'
+    durchgang.title = laeuft
+      ? 'Beendet den laufenden Durchgang.'
+      : 'Öffnet jede Staffel der offenen Titel und meldet, was der Knopf anbietet. Suchaufträge bleiben offen.'
+    durchgang.addEventListener('click', () => {
+      const lauf = primeLaufLesen()
+      if (lauf) {
+        primeLaufBeenden(lauf, 'von Hand')
+        letzteSignatur = null
+        dialogFuellen()
+        return
+      }
+      if (primeLaufStarten()) return
+      durchgang.textContent = 'nichts offen'
+      durchgang.disabled = true
+    })
+    kopf.appendChild(durchgang)
+
+    const ende = primeLaufEndeLesen()
+    if (ende) {
+      const zeile = document.createElement('div')
+      zeile.className = 'ak-hinweis ak-durchgang-ende'
+      zeile.textContent =
+        (ende.grund === 'nichts mehr offen' ? 'Durchgang fertig' : `Durchgang beendet · ${ende.grund}`) +
+        (ende.uebersprungen?.length ? ` · übersprungen: ${ende.uebersprungen.join(', ')}` : '') +
+        (ende.suchen ? ` · ${ende.suchen} Suchaufträge von Hand` : '')
+      kasten.appendChild(zeile)
+    }
 
     const inhalt = document.createElement('div')
     inhalt.className = 'ak-liste'
@@ -10813,4 +10856,237 @@ async function speicherSchreiben(werte) {
       zeichnen()
     }, 1200)
   })
+
+  // --- Durchgang über die Prüfliste ------------------------------------------
+
+  /*
+    **„▶ alle durchgehen" auch für Prime** (Daniel, 25.09.2026: „naruto … hat 9 staffeln, ein
+    alles-durchgehen button würde das stark erleichtern"). Prime braucht dafür keinen Player: Die
+    Tonspuren stehen auf der Staffelseite, und der Meldeknopf liest sie selbst. Der Durchgang tut
+    also nur, was Daniel von Hand tut — Staffelseite öffnen, warten, bis der Knopf „… melden"
+    anbietet, klicken, nächste Staffel.
+
+    - **Der Knopf entscheidet, nicht der Durchgang.** Er klickt nur, wenn der Meldeknopf von sich
+      aus „… melden" anbietet und die Beschriftung 2,5 s still steht (Ladezustände wechseln
+      schneller). Was der Knopf als gemeldet zeigt, wird übersprungen.
+    - **Staffeln aus dem Quelltext der Seite.** `seasons` führt jede Staffel mit eigener ASIN
+      (gemessen am 25.09.2026 an Naruto, B07VP6VPVR: neun Einträge, `seasonId` = ASIN der
+      Staffelseite, `seasonLink` = `/gp/video/detail/<ASIN>?ref_=atv_dp_season_select_sN`). Die
+      Seite wird neu geladen statt über das Auswahlfeld gewechselt — der Wechsel im Feld hat in
+      dieser Datei ein Dutzend Sonderfälle.
+    - **Nur Titel mit eigener Titelseite** (Daniel, 25.09.2026: „nur normales melden …
+      suchaufträge … mehrere treffer oder keine"). Suchaufträge brauchen eine Entscheidung,
+      welcher Treffer gemeint ist; sie bleiben offen und stehen am Ende im Dialog.
+    - **Der Lauf gehört dem Tab** (`sessionStorage`, wie bei Netflix) und endet spätestens nach
+      zwei Stunden.
+  */
+  const PRIME_LAUF = 'ak-prime-lauf'
+  const PRIME_LAUF_ENDE = 'ak-prime-lauf-ende'
+  const PRIME_LAUF_HOECHSTENS_MS = 2 * 60 * 60 * 1000
+  const PRIME_SEITE_HOECHSTENS_MS = 60_000
+  const PRIME_RUHE_MS = 2500
+
+  function primeLaufLesen() {
+    try {
+      const lauf = JSON.parse(sessionStorage.getItem(PRIME_LAUF) ?? 'null')
+      if (!lauf || Date.now() - lauf.seit > PRIME_LAUF_HOECHSTENS_MS) return null
+      return lauf
+    } catch {
+      return null
+    }
+  }
+
+  function primeLaufSchreiben(lauf) {
+    try {
+      sessionStorage.setItem(PRIME_LAUF, JSON.stringify(lauf))
+    } catch {
+      /* Ohne Speicher endet der Lauf mit der nächsten Seite. */
+    }
+  }
+
+  function primeLaufEndeLesen() {
+    try {
+      return JSON.parse(sessionStorage.getItem(PRIME_LAUF_ENDE) ?? 'null')
+    } catch {
+      return null
+    }
+  }
+
+  function primeSpur(lauf, was, daten = {}) {
+    lauf.spur = [...(lauf.spur ?? []), { t: new Date().toISOString(), was, ...daten }].slice(-60)
+    notiere(`durchgang-${was}`, daten)
+  }
+
+  /** Titel mit eigener Titelseite, die dieser Lauf noch nicht hatte — in der Reihenfolge des Dialogs. */
+  function primeNaechsterTitel(lauf) {
+    return Object.keys(liste)
+      .filter(
+        (a) =>
+          !fertig(a) &&
+          /\/detail\//.test(String(liste[a]?.url ?? '')) &&
+          !lauf.fertig.includes(a),
+      )
+      .sort((a, b) => String(liste[a].titel).localeCompare(String(liste[b].titel), 'de'))[0]
+  }
+
+  function primeLaufStarten() {
+    const lauf = {
+      seit: Date.now(),
+      titel: null,
+      plan: null,
+      fertig: [],
+      uebersprungen: [],
+      geklickt: {},
+      neugeladen: {},
+      spur: [],
+    }
+    const hier = liste[listenId] && /\/detail\//.test(location.pathname) ? listenId : null
+    if (!hier && !primeNaechsterTitel(lauf)) return false
+    try {
+      sessionStorage.removeItem(PRIME_LAUF_ENDE)
+    } catch {
+      /* Dann steht das alte Ende noch da, bis der Lauf endet. */
+    }
+    primeSpur(lauf, 'start', { hier })
+    if (hier) {
+      lauf.titel = hier
+      primeLaufSchreiben(lauf)
+    } else {
+      primeZumTitel(lauf, primeNaechsterTitel(lauf))
+    }
+    if (dialog) dialogUmschalten()
+    uebersichtZeichnen()
+    return true
+  }
+
+  function primeLaufBeenden(lauf, grund) {
+    primeSpur(lauf, 'ende', { grund })
+    try {
+      sessionStorage.removeItem(PRIME_LAUF)
+      sessionStorage.setItem(
+        PRIME_LAUF_ENDE,
+        JSON.stringify({
+          grund,
+          uebersprungen: lauf.uebersprungen,
+          suchen: suchOffen().length,
+          spur: lauf.spur,
+        }),
+      )
+    } catch {
+      /* Ohne Speicher endet er trotzdem — der Takt findet keinen Lauf mehr. */
+    }
+    letzteSignatur = null
+    uebersichtZeichnen()
+    if (grund !== 'von Hand' && !dialog) dialogUmschalten()
+  }
+
+  function primeZumTitel(lauf, schluessel) {
+    if (!schluessel) return primeLaufBeenden(lauf, 'nichts mehr offen')
+    lauf.titel = schluessel
+    lauf.plan = null
+    primeSpur(lauf, 'titel', { schluessel, titel: liste[schluessel]?.titel ?? null })
+    primeLaufSchreiben(lauf)
+    primeGehe(liste[schluessel].url)
+  }
+
+  /*
+    **Nach dem Sprung ist diese Seite fertig — auch wenn sie noch eine Weile lebt.** Zwischen
+    `location.href = …` und dem Verlassen der Seite läuft der Takt weiter; im Sandkasten sprang der
+    Durchgang deshalb zweimal und ließ eine Staffel aus (amazon-durchgang.test.cjs, 25.09.2026).
+  */
+  let primeVerlassen = false
+  function primeGehe(ziel) {
+    primeVerlassen = true
+    if (ziel) location.href = ziel
+    else location.reload()
+  }
+
+  /** Die Seite ist durch — nächste Staffel desselben Titels, sonst der nächste Titel. */
+  function primeSeiteFertig(lauf, hier, grund) {
+    primeSpur(lauf, 'seite', { hier, grund })
+    if (!lauf.plan) {
+      const staffeln = [...(gesehen?.seite?.staffeln ?? [])]
+        .filter((s) => s?.kennung)
+        .sort((a, b) => (a.nummer ?? 0) - (b.nummer ?? 0))
+      lauf.plan = staffeln.map((s) => String(s.kennung)).filter((k) => k !== hier)
+      primeSpur(lauf, 'plan', { staffeln: staffeln.map((s) => `${s.nummer}:${s.kennung}`) })
+    }
+    /* Vor dem Sprung aus dem Plan: Leitet Amazon auf eine andere ASIN um, käme dieselbe sonst wieder dran. */
+    const weiter = lauf.plan.shift()
+    if (weiter) {
+      primeLaufSchreiben(lauf)
+      primeGehe(`https://www.amazon.de/gp/video/detail/${weiter}`)
+      return
+    }
+    if (lauf.titel && !lauf.fertig.includes(lauf.titel)) lauf.fertig.push(lauf.titel)
+    primeZumTitel(lauf, primeNaechsterTitel(lauf))
+  }
+
+  /** Zustand der gerade offenen Seite — lebt nur, solange die Seite lebt. */
+  let primeSeite = null
+
+  function primeSchritt() {
+    const lauf = primeLaufLesen()
+    if (!lauf || primeVerlassen) return
+    if (imPlayer() || !/\/detail\//.test(location.pathname) || !verbindungLebt()) return
+    const hier = String(asin() ?? '')
+    if (!hier) return
+    const jetzt = Date.now()
+    if (primeSeite?.hier !== hier) primeSeite = { hier, start: jetzt, text: null, textSeit: jetzt }
+    const text = String(knopf.textContent ?? '').trim()
+    if (text !== primeSeite.text) {
+      primeSeite.text = text
+      primeSeite.textSeit = jetzt
+    }
+    const ruhig = jetzt - primeSeite.textSeit >= PRIME_RUHE_MS
+    const sichtbar = knopf.isConnected && knopf.style.display !== 'none'
+    const bietetMelden = sichtbar && !knopf.disabled && /melden$/.test(text)
+    if (sendetGerade || /^(sende|trage ein|meldet|hole Zugang)/.test(text)) return
+    if (/^Kein Token/.test(text)) return primeLaufBeenden(lauf, 'kein Token in den Optionen')
+
+    const geklickt = lauf.geklickt[hier]
+    if (geklickt) {
+      if (/^(Fehler|Nicht erreichbar)/.test(text)) return primeSeiteFertig(lauf, hier, text)
+      if (!ruhig) return
+      if (!bietetMelden) return primeSeiteFertig(lauf, hier, 'gemeldet')
+      /* Der Knopf bietet nach dem Klick wieder „melden" an: Die Meldung kam nicht durch. */
+      if (jetzt - geklickt > 10_000) return primeSeiteFertig(lauf, hier, `nach dem Klick wieder: ${text}`)
+      return
+    }
+    if (!ruhig) return
+    if (sichtbar && text.startsWith('↻') && !lauf.neugeladen[hier]) {
+      lauf.neugeladen[hier] = true
+      primeSpur(lauf, 'neuladen', { hier, text })
+      primeLaufSchreiben(lauf)
+      primeGehe(null)
+      return
+    }
+    if (bietetMelden) {
+      lauf.geklickt[hier] = jetzt
+      primeSpur(lauf, 'klick', { hier, text })
+      primeLaufSchreiben(lauf)
+      knopf.click()
+      return
+    }
+    /* Kein Angebot: schon gemeldet, oder die Seite gehört nicht zum Auftrag. Kurz warten, weil
+       der Knopf in den ersten Sekunden noch lädt. */
+    if (jetzt - primeSeite.start > 6000 && (!sichtbar || /gemeldet/.test(text))) {
+      return primeSeiteFertig(lauf, hier, sichtbar ? text : 'kein Knopf')
+    }
+    if (jetzt - primeSeite.start > PRIME_SEITE_HOECHSTENS_MS) {
+      const nr = (gesehen?.seite?.staffeln ?? []).find((s) => String(s?.kennung) === hier)?.nummer
+      lauf.uebersprungen.push(`${liste[lauf.titel]?.titel ?? lauf.titel ?? '?'} · ${nr ? `Staffel ${nr}` : hier}`)
+      return primeSeiteFertig(lauf, hier, `Knopf blieb bei: ${text || '(leer)'}`)
+    }
+  }
+  /*
+    Eine `setTimeout`-Kette statt `setInterval`: Die Sandkästen der Amazon-Tests zählen Intervalle
+    als Takt und stellen je Intervall die Uhr vor — ein zusätzliches verschob dort jede
+    zeitabhängige Zusicherung (amazon-uebersicht.test.cjs, 25.09.2026).
+  */
+  function primeTakt() {
+    primeSchritt()
+    setTimeout(primeTakt, 1000)
+  }
+  setTimeout(primeTakt, 1000)
 })()
