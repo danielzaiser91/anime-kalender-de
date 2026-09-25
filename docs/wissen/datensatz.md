@@ -322,3 +322,16 @@ Drei Entscheidungen Daniels aus Entwürfen (je drei bis vier Varianten, dunkel u
 ### „TV-Ausstrahlungen anzeigen" — ausgeschaltet bleiben Premieren (19.09.2026)
 
 Der Schalter hieß „TV-Sendungen zeigen" und blendete alles Fernsehen aus. Daniel: umbenennen, Premieren bleiben sichtbar, der Zusatz in einen gekennzeichneten Tooltip. Der Filter in `App.tsx` fragt je TV-Termin `istPremiere` (`lib/tv-angabe.ts`). Der Hinweis hängt an einem eigenen ⓘ neben dem Schalter (Antippen zeigt ihn, ohne umzuschalten); `Tooltip` öffnet auf dem Handy jetzt beim Antippen für drei Sekunden — vorher nur bei Maus und Fokus. Der Kalender-Knopf an den Pillen sitzt als runder Eckknopf unten rechts, Rand und Symbol in der Markenfarbe (Google Material „calendar_add_on", Apache 2.0; Entwurf A2 — die erste Umsetzung als Symbol in der Pille war ein Missverständnis der Auswahl), mit eigenem Tooltip statt `title`; ohne Farbe (Kino-Banner) bleibt er rund in der Zeile.
+
+## Ein Beleg über eine laufende Serie endet am Prüftag — der Wochenplan läuft weiter (25.09.2026)
+
+„Vom Landei zum Schwertheiligen II": Beleg Prime 1–10 vom 13.09.2026, danach Folge 11 und 12 im
+Wochentakt. Die Woche zeigte „Ep 12/12", das Detail-Panel „10 von 12 Folgen auf Deutsch — für die
+übrigen fehlt uns eine Angabe". Zwei Leitungen für eine Frage: die Woche rechnet mit dem
+Terminplan, das Panel nur mit dem Beleg. `bereicheMitTermin()` (`shared/logic.ts`) ergänzt belegte
+deutsche Bereiche um die erschienenen Folgen (`istErschienen`) eines Wochen-Releases desselben
+Anbieters — ein Wochen-Release in diesem Kalender ist ein deutsches —, außer ein Beleg sagt für die
+Folge etwas anderes. Auf dem Bestand änderte das zwei Wege (Landei II, Ascendance of a Bookworm).
+Die Wiedervorlage für laufende Serien (`wiedervorlage-frist.ts`) greift nur bei `dub: false`; eine
+deutsche Lücke hinter dem Beleg schließt jetzt der Terminplan.
+

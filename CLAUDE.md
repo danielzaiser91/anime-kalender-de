@@ -610,4 +610,5 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - Ein Skript, das beim Laden arbeitet, darf nicht importiert werden
 - Ein neues Feld ist erst eingebaut, wenn es am Ziel angekommen ist
 - Ein Riegel prüft den Wert, den er sieht — nicht den, der gleich daraus wird
+- Ein Beleg über eine laufende Serie endet am Prüftag — der Wochenplan läuft weiter (25.09.2026)
 
