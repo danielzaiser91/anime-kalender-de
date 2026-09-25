@@ -142,6 +142,9 @@ QUELLEN=(
   # von gestern stammt — und genau das Datum ist die Angabe, die sonst nirgends
   # steht (Crunchyroll nennt nur den Termin der Originalfassung).
   data/crunchyroll-neu.json
+  # Crunchyrolls Wochenprogramm — die einzige Quelle für kommende Synchro-Folgen
+  # (der Simulcast-Kalender führt sie nicht, gemessen 25.09.2026).
+  data/crunchyroll-woche.json
   # Gesichtete Anime-Sendungen im TV-Programm von RTL+ — die Seite zeigt nur
   # den laufenden Tag, das Gedächtnis entsteht erst hier (16.09.2026).
   data/tv-programm.json

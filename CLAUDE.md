@@ -569,6 +569,7 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - Angekündigte Crunchyroll-Serien stehen nur in den Season-Artikeln (25.09.2026)
 - RTL+: Dragon Ball Daima steht in keiner Programm-Sitemap (25.09.2026)
 - News-Quellen im Vergleich: was früher, besser oder anders ist (25.09.2026)
+- PoC: Crunchyrolls Wochenprogramm gegen den Bestand (25.09.2026)
 
 ### [Betrieb: Läufe, Worker, Git, Prüfungen](docs/wissen/betrieb.md)
 

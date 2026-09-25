@@ -2837,3 +2837,15 @@ Daniels Auftrag: weitere News-Quellen prüfen, angebunden wird nur, was früher,
 
 **Schwelle für eine Neubewertung:** Eine Quelle wird angebunden, sobald sie in einem Monat mindestens eine für uns relevante Meldung bringt, die weder im Bestand noch in den Anime2You-Vorschlägen steht. manime.de lag mit einer (Daima-Zensur) knapp darunter, zu selten für einen eigenen Lauf.
 
+## PoC: Crunchyrolls Wochenprogramm gegen den Bestand (25.09.2026)
+
+Leser: `pipeline/scrape-crunchyroll-woche.ts` (Playwright, weil Cloudflare `curl` nur 14 KB ohne Artikel gibt), Vergleich: `tools/crunchyroll-woche-poc.mjs`. Artikel „Wochenprogramm vom 21. bis 27. September", gelesen am 25.09.2026 gegen 22 Uhr.
+
+- **51 Zeilen, 16 Synchro.** Zuordnung über die Serienkennung im Link, bei mehreren Titeln einer Kennung über die Staffelzahl im Artikeltitel: **16 von 16 eindeutig.**
+- **11 der 16 tragen Folgen, die unser Bestand nicht kennt** — 6 davon Wochenfolgen dieser Woche (26./27.09.), die ohnehin anstehen; die wertvollen sind die drei nachgereichten Pakete mit eigenem Datum (Hana-Kimi S2 10–12 am 02.10., Polar Opposites S2 8–11 am 04.10., Mushoku Tensei S3 11–12 am 04.10.) und **Re:ZERO S4 Folge 14 am 23.09.**, die unser Kalenderabruf gar nicht geführt hat (Gegenprobe `data/crunchyroll-dub.json`, 21.09.: Synchro bei Folge 13 vom 09.09.).
+- **Eine Zeile ist falsch:** Schleim S4 „Folge 22" am 25.09. Gegenprobe: Synchro-Folge 20 am 18.09. (Stand 19.09.), der Kalender nennt Folge 21 am 25.09. — das Wochenprogramm liegt eine Folge daneben. Es wird von Hand gepflegt.
+- Die Wochentage stehen nicht in den `Column-N`-Kennungen (`Column-1` doppelt, Katalogtitel in `Column-15`), sondern als Überschrift in Dokumentreihenfolge. Synchro erkennt man an `deutschland-flagge.png`, OmU an `japan-flag.png`.
+- `page.evaluate` unter `tsx` warf „__name is not defined": esbuild setzt in benannte Funktionen einen Helfer ein. Abhilfe: `page.addInitScript('window.__name = (f) => f')`.
+
+**Folgerung für den Einbau:** Das Wochenprogramm darf **Termine in der Zukunft ergänzen**, aber keine gemessene Folge überstimmen, und eine Zeile, deren erste Folge nicht an unsere letzte gemessene anschließt, wird nicht übernommen, sondern gemeldet (der Schleim-Fall).
+
