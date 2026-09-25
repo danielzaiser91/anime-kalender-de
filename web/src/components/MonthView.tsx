@@ -167,7 +167,9 @@ export function MonthView({
                       />
                     )}
                     {favorites.has(ev.titleId) && <span aria-hidden="true">★</span>}
-                    {ev.time && <span className="tabular-nums opacity-80">{ev.time}</span>}
+                    {ev.time && (
+                      <span className="tabular-nums opacity-80">{ev.timeEstimated ? `≈ ${ev.time}` : ev.time}</span>
+                    )}
                     <span className="truncate">{ev.name}</span>
                   </button>
                   ),

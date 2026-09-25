@@ -72,6 +72,7 @@ export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): strin
     `Release-Art: ${RELEASE_TYPES[ev.releaseType].name}`,
   ]
   if (!ev.time) lines.push('Uhrzeit noch nicht bestätigt.')
+  if (ev.timeEstimated) lines.push('Uhrzeit voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.')
   if (ev.estimated)
     lines.push('Geschätzter Termin, aus dem bisherigen Wochenrhythmus fortgeschrieben.')
   if (opts.siteUrl) lines.push(`Details: ${opts.siteUrl}#/release/${ev.releaseSlug}`)

@@ -570,7 +570,7 @@ function AntwortKasten({
       ? T('antwort.erscheintRelativ', { rel, tag: weekdayName(e.date), datum: formatDate(e.date) })
       : T('antwort.erscheintDatum', { tag: weekdayName(e.date), datum: formatDate(e.date) })
     const mitZeit = e.time
-      ? T('antwort.erscheintUmZeit', { termin: termin.replace(/\.$/, ''), zeit: e.time })
+      ? T('antwort.erscheintUmZeit', { termin: termin.replace(/\.$/, ''), zeit: e.timeEstimated ? `≈ ${e.time}` : e.time })
       : termin
     /*
       **Ist die nächste Folge ausgeblieben, sagt der Kasten das zuerst** (Daniel,
@@ -590,7 +590,11 @@ function AntwortKasten({
         <span className="font-normal text-slate-700 dark:text-slate-300">
           {', '}
           {e.time
-            ? T('antwort.angekuendigtFuerZeit', { tag: weekdayName(e.date), datum: formatDate(e.date), zeit: e.time })
+            ? T('antwort.angekuendigtFuerZeit', {
+                tag: weekdayName(e.date),
+                datum: formatDate(e.date),
+                zeit: e.timeEstimated ? `≈ ${e.time}` : e.time,
+              })
             : T('antwort.angekuendigtFuer', { tag: weekdayName(e.date), datum: formatDate(e.date) })}
         </span>
       </>
@@ -609,7 +613,7 @@ function AntwortKasten({
             mitZeit
           )}
         </span>
-        {e.time && !e.estimated && <Countdown date={e.date} time={e.time} />}
+        {e.time && !e.estimated && !e.timeEstimated && <Countdown date={e.date} time={e.time} />}
       </>
     )
     neben = [

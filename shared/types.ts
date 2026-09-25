@@ -730,6 +730,11 @@ export interface ReleaseEvent {
   date: string
   /** "HH:MM" in Europe/Berlin, falls bekannt. */
   time?: string
+  /**
+   * Die Uhrzeit ist die übliche des Anbieters, nicht belegt (25.09.2026): Netflix nennt für
+   * Katalogtitel keine, veröffentlicht Anime aber um 17:00 JST = 08:00 UTC. Angezeigt mit „≈".
+   */
+  timeEstimated?: boolean
   episode?: number
   episodeCount?: number
   releaseType: ReleaseType

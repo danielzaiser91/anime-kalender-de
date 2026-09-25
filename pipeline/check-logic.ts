@@ -203,6 +203,22 @@ console.log('Sendeplan gegen belegtes Ende:')
     schedule: { firstEpisodeDate: '2026-01-07' },
   })
   pruefe('ohne episodeCount genau ein Termin', einzeln.length === 1, einzeln.length)
+
+  /*
+    Netflix ohne belegte Uhrzeit: 08:00 UTC, als geschätzt gekennzeichnet (25.09.2026, Steel Ball
+    Run — Tudum „5 p.m. JST", Daniel sah Folge 2 um 09:35 noch nicht, um 10:11 schon).
+  */
+  const netflix = expandEvents({
+    ...release,
+    slug: 'sbr',
+    platform: 'netflix',
+    schedule: { firstEpisodeDate: '2026-09-25', episodeCount: 7 },
+  })
+  pruefe('Netflix im Sommer: ≈ 10:00', netflix[0]?.time === '10:00' && netflix[0]?.timeEstimated === true, netflix[0])
+  pruefe('Netflix im Winter: ≈ 09:00 (06.11.2026)', netflix[6]?.date === '2026-11-06' && netflix[6]?.time === '09:00', netflix[6])
+  const belegt = expandEvents({ ...release, slug: 'nf2', platform: 'netflix', schedule: { firstEpisodeDate: '2026-09-25', time: '17:30' } })
+  pruefe('eine belegte Netflix-Uhrzeit bleibt und gilt nicht als geschätzt', belegt[0]?.time === '17:30' && !belegt[0]?.timeEstimated, belegt[0])
+  pruefe('andere Anbieter ohne Uhrzeit bleiben ohne', einzeln[0]?.time === undefined && !einzeln[0]?.timeEstimated, einzeln[0])
 }
 
 console.log('\nRhythmus:')

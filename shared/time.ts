@@ -33,6 +33,19 @@ function zoneOffsetMinutes(utcDate: Date): number {
   return (asUtc - utcDate.getTime()) / 60000
 }
 
+/**
+ * Eine UTC-Uhrzeit an einem Tag als Berliner Ortszeit: "2026-09-25" + "08:00" → "10:00",
+ * "2026-11-06" + "08:00" → "09:00". Für feste Weltzeiten wie Netflix' Anime-Starts
+ * (17:00 JST = 08:00 UTC).
+ */
+export function utcZeitInBerlin(date: string, utcZeit: string): string {
+  const [y, m, d] = date.split('-').map(Number)
+  const [hh, mm] = utcZeit.split(':').map(Number)
+  const punkt = new Date(Date.UTC(y, m - 1, d, hh, mm))
+  const minuten = (((hh * 60 + mm + zoneOffsetMinutes(punkt)) % 1440) + 1440) % 1440
+  return `${String(Math.floor(minuten / 60)).padStart(2, '0')}:${String(minuten % 60).padStart(2, '0')}`
+}
+
 /** "2026-08-13" + "17:30" (Berliner Ortszeit) → echter UTC-Zeitpunkt. */
 export function berlinToUtc(date: string, time = '00:00'): Date {
   const [y, m, d] = date.split('-').map(Number)

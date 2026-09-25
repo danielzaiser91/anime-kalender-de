@@ -205,8 +205,9 @@ export function EventCard({
                   ? 'tabular-nums text-rose-600/70 line-through dark:text-rose-400/70'
                   : 'tabular-nums text-slate-700 dark:text-slate-200'
               }
+              title={event.timeEstimated ? t('card.zeitVoraussichtlich') : undefined}
             >
-              {event.time}
+              {event.timeEstimated ? `≈ ${event.time}` : event.time}
             </span>
           ) : event.releaseType === 'disc' ? (
             <span>{t('card.inStores')}</span>

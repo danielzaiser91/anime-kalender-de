@@ -33,6 +33,10 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
 - **Kein Termin ohne `sources`.** `npm run data:validate` bricht sonst ab, und das ist Absicht.
 - **Keine erfundenen Uhrzeiten.** Ist die Uhrzeit nicht belegt, bleibt `time` leer — die
   Oberfläche schreibt dann „Zeit offen". Das ist besser als eine plausible Falschangabe.
+  **Einzige Ausnahme, auf Daniels Wunsch (25.09.2026): Netflix.** Netflix nennt für Katalogtitel
+  keine Uhrzeit, veröffentlicht Anime aber um 17:00 JST = 08:00 UTC (Tudum zu Steel Ball Run;
+  Daniel sah Folge 2 um 09:35 noch nicht, um 10:11 schon). `expandEvents` setzt diese Zeit dort,
+  wo keine belegt ist, als `timeEstimated` — angezeigt mit „≈", ohne Countdown.
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
   `episodeCountAssumed`. Beides erscheint im UI als `≈`.

@@ -192,6 +192,7 @@ const TEXTE = {
   'status.unbekannt': 'Termin unbekannt',
 
   'card.inStores': 'im Handel',
+  'card.zeitVoraussichtlich': 'Voraussichtlich — Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit',
   'card.episode': 'Ep {n}',
   'pwa.title': 'Auf den Startbildschirm legen',
   'pwa.pitch': 'Öffnet sich wie eine App, im Vollbild, und läuft auch ohne Verbindung.',
