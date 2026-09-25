@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-09-21
+Stand: 2026-09-25
 
 ## Was hier zu tun ist
 
@@ -24,4 +24,4 @@ nicht. Drei Fälle, drei Handgriffe:
 
 | Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |
 |---|---|---|---|---|---|
-| primevideo | https://www.amazon.de/dp/B0D3WCX3WH | Lupin III. - Part | dub | [Lupin III.: Part 1](https://anilist.co/anime/1412)<br>[Lupin III. Part 6](https://anilist.co/anime/134623) | Vorschlag bestätigen, dann Adresse eintragen |
+| netflix | https://www.netflix.com/title/80135674 | My Hero Academia — Der Anbieter führt 7 Staffel(n), unser Datensatz nur 2 an dieser Adresse — uns fehlen Verweise, und ohne sie ist keine Zuordnung sicher | St.1/Flg.1 dub, St.1/Flg.6 dub, St.1/Flg.2 dub, St.1/Flg.4 dub, St.1/Flg.3 dub, St.1/Flg.5 dub, St.1/Flg.7 dub, St.1/Flg.8 dub, St.1/Flg.10 dub, St.1/Flg.11 dub, St.1/Flg.9 dub, St.1/Flg.12 dub, St.1/Flg.13 dub | [My Hero Academia](https://anilist.co/anime/21459)<br>[My Hero Academia Staffel 6](https://anilist.co/anime/139630) | Vorschlag bestätigen, dann Adresse eintragen |

@@ -17396,3 +17396,34 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
   checkedAt: '2026-09-24'
   note: "Folgen 1–19 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 19: 19. Stunde: Zeit im Weltall — Netflix: Staffel 2"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-25 ---
+
+- anilistId: 21170
+  title: "Assassination Classroom II"
+  platform: netflix
+  url: https://www.netflix.com/title/80045948
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 25: 25. Stunde: Zeit für die Zukunft — Netflix: Staffel 2"
+
+- anilistId: 20755
+  title: "Assassination Classroom"
+  platform: netflix
+  url: https://www.netflix.com/title/80045948
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–22 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 22, dazwischen nicht geprüft — Folge 22: Nagisas Zeit — Netflix: Staffel 1"
+
+- anilistId: 21856
+  title: "My Hero Academia 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  dub: false
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: false
+      checked: [1, 2, 3, 4, 5, 6, 8, 9, 12]
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], pl|Polnisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, zh|Mandarin, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 15 und 39, dazwischen nicht geprüft — Folge 22: Erzittert, Herausforderer!"

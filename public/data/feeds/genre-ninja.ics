@@ -16,6 +16,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-16870-tv-prosieben-maxx@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T181500Z
+DTEND:20261002T184500Z
+SUMMARY:The Last: Naruto the Movie
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-16870-tv-prosieben-max
+ x
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:naruto-shippuden-the-movie-5-blood-prison-2026-11-19@2026-11-19@anime-k
  alender-de
 DTSTAMP:20200101T000000Z

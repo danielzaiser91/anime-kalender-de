@@ -196,6 +196,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-16870-tv-prosieben-maxx@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T181500Z
+DTEND:20261002T184500Z
+SUMMARY:The Last: Naruto the Movie
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-16870-tv-prosieben-max
+ x
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:my-love-story-with-yamada-kun-vol2@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261002

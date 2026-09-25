@@ -1,13 +1,13 @@
 # Was zu tun ist
 
-Stand: 2026-09-24 — **erzeugt aus dem ausgelieferten Datensatz**,
+Stand: 2026-09-25 — **erzeugt aus dem ausgelieferten Datensatz**,
 nicht von Hand gepflegt. Wer hier eine Zahl ändert, ändert sie am
 falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
 | 2 | [Prime Video — Titelseiten](07-primevideo.md) | 5 Adressen, 1 Verweis | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 3 | [Netflix](06-netflix-rest.md) | 9 Titel, 0 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 3 | [Netflix](06-netflix-rest.md) | 8 Titel, 0 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 5 | [Crunchyroll](07-crunchyroll.md) | 2 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 7 | [Disney+](07-disneyplus.md) | 6 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 

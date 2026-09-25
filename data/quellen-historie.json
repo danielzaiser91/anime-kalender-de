@@ -4245,5 +4245,14 @@
       "sagt": "2026-09-24",
       "stand": "aktuell"
     }
+  ],
+  "auto-16870-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sender/prosieben-maxx/",
+      "name": "tv.de",
+      "gesehenAm": "2026-09-25",
+      "sagt": "2026-10-02",
+      "stand": "aktuell"
+    }
   ]
 }

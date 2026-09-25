@@ -141,7 +141,7 @@ UID:auto-178025-tv-prosieben-maxx@2026-09-25#16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T202500Z
 DTEND:20260925T205500Z
-SUMMARY:Gachiakuta – Folge 16/18
+SUMMARY:Gachiakuta – Folge 16/21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
  xx
@@ -152,7 +152,7 @@ UID:auto-178025-tv-prosieben-maxx@2026-09-25#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T205500Z
 DTEND:20260925T212500Z
-SUMMARY:Gachiakuta – Folge 17/18
+SUMMARY:Gachiakuta – Folge 17/21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
  xx
@@ -163,7 +163,7 @@ UID:auto-178025-tv-prosieben-maxx@2026-09-25#18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T212500Z
 DTEND:20260925T215500Z
-SUMMARY:Gachiakuta – Folge 18/18
+SUMMARY:Gachiakuta – Folge 18/21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
  xx
@@ -177,6 +177,49 @@ DTEND:20260929T165500Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261001T162500Z
+DTEND:20261001T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-178025-tv-prosieben-maxx@2026-10-02#19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T203500Z
+DTEND:20261002T210500Z
+SUMMARY:Gachiakuta – Folge 19/21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-178025-tv-prosieben-maxx@2026-10-02#20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T210500Z
+DTEND:20261002T213500Z
+SUMMARY:Gachiakuta – Folge 20/21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-178025-tv-prosieben-maxx@2026-10-02#21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T213500Z
+DTEND:20261002T220500Z
+SUMMARY:Gachiakuta – Folge 21/21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
+ xx
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
