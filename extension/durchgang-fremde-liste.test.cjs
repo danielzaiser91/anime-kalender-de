@@ -367,6 +367,10 @@ function schluss() {
     pruefe('eine Folge ohne Meldung → offen', offen({ meldungen: { 11: '2026-09-24T17:00:00Z', 12: '2026-09-24T17:00:00Z' } }) === true)
     pruefe('ohne offene Staffel beim Titel → nie offen', offen({ staffeln: [{ nr: 1, offen: false }] }) === false)
     pruefe('ohne Wiedervorlage: gemeldet ist gemeldet, egal wann', offen({ staffeln: [{ nr: 1, offen: true, zustand: 'melden' }], meldungen: { 11: '2026-08-22', 12: '2026-08-22', 13: '2026-08-22' } }) === false)
+    /* Steel Ball Run (25.09.2026): ONA mit einer Folge → in der Liste `film: true`, sonst nichts. */
+    const film = { nr: 1, offen: true, film: true, zustand: 'erneut', seit: '2026-09-25' }
+    pruefe('nur ein offener Film-Eintrag → trotzdem offen', offen({ staffeln: [film] }) === true)
+    pruefe('Film neben einer Serienstaffel zählt nicht mit', offen({ staffeln: [film, { nr: 2, offen: false }] }) === false)
     pruefe('der Durchgang fragt gruppeOffen, nicht die Zuordnung', /if \(!gruppeOffen\(reihe, gruppe\)\)/.test(start) && /DURCHLAUF\.erzwungen = true/.test(start))
     pruefe('ein erzwungener Lauf prüft die ganze Gruppe', /const alleOffen = erzwungen \? \[\.\.\.DURCHLAUF\.folgen\] : durchlaufOffen\(\)/.test(schneide('durchlaufStarten')))
     pruefe('der Zähler läuft je Titel über alle Staffeln', /DURCHLAUF\.mehrfach = \{ reihe: String\(reihe\), gesamt: offeneGruppen\(\)\.length \* 2/.test(start))

@@ -2734,7 +2734,15 @@ function alleStaffelnAnsicht() {
  * Meldung gehört, entscheidet danach der Zuordner über den Folgentitel.
  */
 function gruppeOffen(reihe, gruppe) {
-  const offene = (offeneTitel[String(reihe)]?.staffeln ?? []).filter((st) => st.offen && !st.film)
+  /*
+    **Filme zählen nur, wo der Titel nichts anderes hat.** Neben einer Serie ist ein Film Beiwerk
+    an derselben Adresse. Steht er allein, ist er die Sache selbst: Steel Ball Run (ONA, bei uns
+    eine Folge) kam als `film: true` auf die Liste, und der Durchgang meldete „fertig", ohne den
+    Player zu öffnen (Daniel, 25.09.2026).
+  */
+  const alle = offeneTitel[String(reihe)]?.staffeln ?? []
+  const serien = alle.filter((st) => !st.film)
+  const offene = (serien.length ? serien : alle).filter((st) => st.offen)
   if (!offene.length || !gruppe.length) return false
   const seit = offene.map((st) => st.seit).filter(Boolean).sort()[0] ?? null
   const m = MELDUNGEN.get(String(reihe))
@@ -2850,7 +2858,10 @@ function netflixSeqFuerGruppe(reihe, gruppe) {
  *   Folgen) die Kennung unserer Staffel 2 (13 Folgen).
  */
 function meldeZiel(reihe, folge) {
-  const eigene = (offeneTitel[String(reihe)]?.staffeln ?? []).filter((st) => !st.film)
+  /* Filme nur, wo der Titel nichts anderes hat — wie in gruppeOffen() (Steel Ball Run). */
+  const alle = offeneTitel[String(reihe)]?.staffeln ?? []
+  const serien = alle.filter((st) => !st.film)
+  const eigene = serien.length ? serien : alle
   const ids = [...new Set(eigene.map((st) => st.id).filter((x) => x != null))]
   const titelId = ids.length === 1 ? ids[0] : null
   const gruppe = (DURCHLAUF.alleFolgen ?? DURCHLAUF.folgen).filter(
