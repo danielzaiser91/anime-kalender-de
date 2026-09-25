@@ -41,6 +41,8 @@
  * der Startadresse noch zu sehen.
  */
 ;(() => {
+  /* Nur im Hauptfenster und in den Frames des Prime-Durchgangs — siehe amazon.js. */
+  if (window.top && window !== window.top && window.name !== 'ak-durchgang') return
   const MARKE = 'ak-amazon-folgen'
 
   /**

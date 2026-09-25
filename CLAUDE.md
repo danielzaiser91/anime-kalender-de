@@ -496,6 +496,8 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - „Alle Folgen anzeigen" lädt jede Staffel einzeln nach — das Menü bleibt vorerst (24.09.2026)
 - Erst alles laden, dann Staffel für Staffel — ohne Menüwechsel (4.22.0, 24.09.2026)
 - Prime-Durchgang: Staffelseiten statt Player, Suchaufträge bleiben Handarbeit (4.22.7, 25.09.2026)
+- Disney+: abgebrochenes Nachladen hieß „vollständig" (4.22.10, 25.09.2026)
+- Prime-Durchgang in Frames statt per Navigation (4.23.0, 25.09.2026)
 
 ### [Datenquellen und ihre Grenzen](docs/wissen/quellen.md)
 

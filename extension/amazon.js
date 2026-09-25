@@ -30,6 +30,13 @@
  */
 ;(async () => {
 
+/*
+  **In Frames läuft die Erweiterung nur in unseren eigenen** (25.09.2026). Das Manifest lädt sie
+  seit dem Prime-Durchgang mit `all_frames`, damit sie in dessen Staffel-Frames arbeitet; Amazon
+  bettet aber auch Werbung und Messung in Frames ein. Erkannt wird unser Frame am Namen.
+*/
+if (window.top && window !== window.top && window.name !== 'ak-durchgang') return
+
 /**
  * Lebt die Verbindung zur Erweiterung noch?
  *
@@ -6733,6 +6740,18 @@ async function speicherSchreiben(werte) {
     /* Ohne Nachrichtenweg (Sandkasten) bleibt es beim ersten Schnappschuss. */
   }
   window.addEventListener('message', (e) => {
+    /*
+      Die Antwort eines Durchgangs-Frames (siehe `primeFrameErgebnis()`). Hier und nicht in einem
+      eigenen Hörer: Die Amazon-Sandkästen der Tests führen genau einen `message`-Hörer, ein zweiter
+      verdrängte den Leser (amazon-kill-blue.test.cjs, 25.09.2026).
+    */
+    if (e?.data?.marke === 'ak-prime-frame') {
+      if (e.origin === location.origin && !IM_FRAME) {
+        const el = [...primeFrames.keys()].find((x) => x.contentWindow === e.source)
+        if (el) primeFrameErgebnis(el, e.data)
+      }
+      return
+    }
     /**
      * **Eine späte Antwort des vorigen Titels gehört nicht in diesen Zählstand.**
      *
@@ -10868,31 +10887,39 @@ async function speicherSchreiben(werte) {
   // --- Durchgang über die Prüfliste ------------------------------------------
 
   /*
-    **„▶ alle durchgehen" auch für Prime** (Daniel, 25.09.2026: „naruto … hat 9 staffeln, ein
-    alles-durchgehen button würde das stark erleichtern"). Prime braucht dafür keinen Player: Die
-    Tonspuren stehen auf der Staffelseite, und der Meldeknopf liest sie selbst. Der Durchgang tut
-    also nur, was Daniel von Hand tut — Staffelseite öffnen, warten, bis der Knopf „… melden"
-    anbietet, klicken, nächste Staffel.
+    **„▶ alle durchgehen" für Prime — Staffeln in unsichtbaren Frames** (25.09.2026).
 
-    - **Der Knopf entscheidet, nicht der Durchgang.** Er klickt nur, wenn der Meldeknopf von sich
-      aus „… melden" anbietet und die Beschriftung 1 s still steht (Ladezustände wechseln
-      schneller). Ob die Meldung ankam, sagt der Handler selbst (`letzteMeldung`). Was der Knopf als gemeldet zeigt, wird übersprungen.
-    - **Staffeln aus dem Quelltext der Seite.** `seasons` führt jede Staffel mit eigener ASIN
-      (gemessen am 25.09.2026 an Naruto, B07VP6VPVR: neun Einträge, `seasonId` = ASIN der
-      Staffelseite, `seasonLink` = `/gp/video/detail/<ASIN>?ref_=atv_dp_season_select_sN`). Die
-      Seite wird neu geladen statt über das Auswahlfeld gewechselt — der Wechsel im Feld hat in
-      dieser Datei ein Dutzend Sonderfälle.
-    - **Nur Titel mit eigener Titelseite** (Daniel, 25.09.2026: „nur normales melden …
-      suchaufträge … mehrere treffer oder keine"). Suchaufträge brauchen eine Entscheidung,
-      welcher Treffer gemeint ist; sie bleiben offen und stehen am Ende im Dialog.
-    - **Der Lauf gehört dem Tab** (`sessionStorage`, wie bei Netflix) und endet spätestens nach
-      zwei Stunden.
+    Daniel: „naruto … hat 9 staffeln, ein alles-durchgehen button würde das stark erleichtern".
+    Prime braucht keinen Player: Die Tonspuren stehen auf der Staffelseite, und der Meldeknopf liest
+    sie selbst.
+
+    **Bis 4.22.9 navigierte der Durchgang die sichtbare Seite** von Staffel zu Staffel. Gemessen am
+    ersten Lauf (102 Seiten): rund 10 s je Seite, die Hälfte davon Laden, und Daniel: „das ist kaum
+    zumutbar". Jetzt steuert die sichtbare Seite nur noch; jede Staffel lädt in einem unsichtbaren
+    Frame derselben Domain (`x-frame-options: SAMEORIGIN`, gemessen), bis zu drei gleichzeitig. Im
+    Frame läuft dieselbe Erweiterung mit demselben Knopf — kein zweiter Meldeweg, und Staffeln über
+    24 Folgen lädt der Leser dort nach wie auf einer geöffneten Seite. Der Weg „Staffel per Abruf
+    lesen" wurde im PoC gemessen (Ton 31/31) und verworfen, weil er eine zweite Fassung der Meldung
+    gebraucht hätte (docs/wissen/erweiterung.md).
+
+    - **Der Knopf entscheidet, nicht der Durchgang.** Der Frame klickt nur, wenn der Meldeknopf
+      „… melden" anbietet und die Beschriftung 1 s stillsteht; das Ergebnis kommt aus dem
+      Meldehandler (`letzteMeldung`), nicht aus dem Knopftext.
+    - **Staffeln aus dem Quelltext** (`seasons`, jede mit eigener ASIN — gemessen an Naruto). Der
+      erste Frame eines Titels liefert die Liste, danach laufen die übrigen parallel.
+    - **Nur Titel mit eigener Titelseite** (Daniel: „nur normales melden … suchaufträge").
+    - **Der Lauf gehört dem Tab** (`sessionStorage`) und endet spätestens nach zwei Stunden. Die
+      Frames teilen ihn (gleiche Herkunft), schreiben ihn aber nie.
   */
   const PRIME_LAUF = 'ak-prime-lauf'
   const PRIME_LAUF_ENDE = 'ak-prime-lauf-ende'
   const PRIME_LAUF_HOECHSTENS_MS = 2 * 60 * 60 * 1000
   const PRIME_SEITE_HOECHSTENS_MS = 60_000
+  const PRIME_FRAME_HOECHSTENS_MS = 90_000
   const PRIME_RUHE_MS = 1000
+  const PRIME_FRAMES = 3
+  const PRIME_FRAME_NAME = 'ak-durchgang'
+  const IM_FRAME = Boolean(window.top) && window !== window.top
 
   function primeLaufLesen() {
     try {
@@ -10908,7 +10935,7 @@ async function speicherSchreiben(werte) {
     try {
       sessionStorage.setItem(PRIME_LAUF, JSON.stringify(lauf))
     } catch {
-      /* Ohne Speicher endet der Lauf mit der nächsten Seite. */
+      /* Ohne Speicher endet der Lauf mit dem nächsten Takt. */
     }
   }
 
@@ -10921,34 +10948,36 @@ async function speicherSchreiben(werte) {
   }
 
   function primeSpur(lauf, was, daten = {}) {
-    lauf.spur = [...(lauf.spur ?? []), { t: new Date().toISOString(), was, ...daten }].slice(-60)
+    lauf.spur = [...(lauf.spur ?? []), { t: new Date().toISOString(), was, ...daten }].slice(-80)
     notiere(`durchgang-${was}`, daten)
   }
 
   /** Titel mit eigener Titelseite, die dieser Lauf noch nicht hatte — in der Reihenfolge des Dialogs. */
   function primeNaechsterTitel(lauf) {
     return Object.keys(liste)
-      .filter(
-        (a) =>
-          !fertig(a) &&
-          /\/detail\//.test(String(liste[a]?.url ?? '')) &&
-          !lauf.fertig.includes(a),
-      )
+      .filter((a) => !fertig(a) && /\/detail\//.test(String(liste[a]?.url ?? '')) && !lauf.fertig.includes(a))
       .sort((a, b) => String(liste[a].titel).localeCompare(String(liste[b].titel), 'de'))[0]
   }
+
+  // --- Die Steuerung: sichtbare Seite --------------------------------------------
+
+  /** Offene Frames dieser Seite: Element → { kennung, start }. */
+  const primeFrames = new Map()
 
   function primeLaufStarten() {
     const lauf = {
       seit: Date.now(),
       titel: null,
-      plan: null,
+      plan: [],
+      planBekannt: false,
+      staffelNr: {},
+      laufend: [],
       fertig: [],
       uebersprungen: [],
-      geklickt: {},
-      neugeladen: {},
       spur: [],
     }
-    const hier = liste[listenId] && /\/detail\//.test(location.pathname) ? listenId : null
+    /* Steht die Seite auf einem offenen Titel der Liste, fängt der Lauf mit ihm an. */
+    const hier = liste[listenId] && !fertig(listenId) && /\/detail\//.test(String(liste[listenId]?.url ?? '')) ? listenId : null
     if (!hier && !primeNaechsterTitel(lauf)) return false
     try {
       sessionStorage.removeItem(PRIME_LAUF_ENDE)
@@ -10956,29 +10985,23 @@ async function speicherSchreiben(werte) {
       /* Dann steht das alte Ende noch da, bis der Lauf endet. */
     }
     primeSpur(lauf, 'start', { hier })
-    if (hier) {
-      lauf.titel = hier
-      primeLaufSchreiben(lauf)
-    } else {
-      primeZumTitel(lauf, primeNaechsterTitel(lauf))
-    }
+    if (hier) primeTitelBeginnen(lauf, hier)
+    primeLaufSchreiben(lauf)
     if (dialog) dialogUmschalten()
+    primeKoordinieren()
     uebersichtZeichnen()
     return true
   }
 
   function primeLaufBeenden(lauf, grund) {
     primeSpur(lauf, 'ende', { grund })
+    for (const el of primeFrames.keys()) el.remove()
+    primeFrames.clear()
     try {
       sessionStorage.removeItem(PRIME_LAUF)
       sessionStorage.setItem(
         PRIME_LAUF_ENDE,
-        JSON.stringify({
-          grund,
-          uebersprungen: lauf.uebersprungen,
-          suchen: suchOffen().length,
-          spur: lauf.spur,
-        }),
+        JSON.stringify({ grund, uebersprungen: lauf.uebersprungen, suchen: suchOffen().length, spur: lauf.spur }),
       )
     } catch {
       /* Ohne Speicher endet er trotzdem — der Takt findet keinen Lauf mehr. */
@@ -10988,126 +11011,181 @@ async function speicherSchreiben(werte) {
     if (grund !== 'von Hand' && !dialog) dialogUmschalten()
   }
 
-  function primeZumTitel(lauf, schluessel) {
-    if (!schluessel) return primeLaufBeenden(lauf, 'nichts mehr offen')
+  function primeTitelBeginnen(lauf, schluessel) {
     lauf.titel = schluessel
-    lauf.plan = null
+    lauf.plan = [kennungAus(liste[schluessel].url)].filter(Boolean)
+    lauf.planBekannt = false
+    lauf.staffelNr = {}
     primeSpur(lauf, 'titel', { schluessel, titel: liste[schluessel]?.titel ?? null })
-    primeLaufSchreiben(lauf)
-    primeGehe(liste[schluessel].url)
   }
 
-  /*
-    **Nach dem Sprung ist diese Seite fertig — auch wenn sie noch eine Weile lebt.** Zwischen
-    `location.href = …` und dem Verlassen der Seite läuft der Takt weiter; im Sandkasten sprang der
-    Durchgang deshalb zweimal und ließ eine Staffel aus (amazon-durchgang.test.cjs, 25.09.2026).
-  */
-  let primeVerlassen = false
-  function primeGehe(ziel) {
-    primeVerlassen = true
-    if (ziel) location.href = ziel
-    else location.reload()
+  function primeFrameOeffnen(lauf, kennung) {
+    const el = document.createElement('iframe')
+    el.name = PRIME_FRAME_NAME
+    el.src = `https://www.amazon.de/gp/video/detail/${kennung}`
+    /* Kein Vorschauvideo mit Ton aus einem Frame, den niemand sieht. */
+    el.allow = "autoplay 'none'"
+    el.tabIndex = -1
+    el.setAttribute('aria-hidden', 'true')
+    el.className = 'ak-durchgang-frame'
+    /*
+      Im Bild, aber unsichtbar und ohne Mausziel: Ein Frame außerhalb des Bildes kann Chrome im
+      Zeichnen drosseln, und die Seite darin soll laden wie eine geöffnete.
+    */
+    el.style.cssText =
+      'position:fixed;left:0;top:0;width:1280px;height:900px;opacity:0;pointer-events:none;border:0;z-index:-1'
+    document.body.appendChild(el)
+    primeFrames.set(el, { kennung, start: Date.now() })
+    lauf.laufend.push(kennung)
+    primeSpur(lauf, 'frame', { kennung })
   }
 
-  /** Die Seite ist durch — nächste Staffel desselben Titels, sonst der nächste Titel. */
-  function primeSeiteFertig(lauf, hier, grund) {
-    primeSpur(lauf, 'seite', { hier, grund })
-    if (!lauf.plan) {
-      const staffeln = [...(gesehen?.seite?.staffeln ?? [])]
-        .filter((s) => s?.kennung)
-        .sort((a, b) => (a.nummer ?? 0) - (b.nummer ?? 0))
-      lauf.plan = staffeln.map((s) => String(s.kennung)).filter((k) => k !== hier)
+  /** Ein Frame ist fertig — Ergebnis eintragen, Plan ergänzen, weiter. */
+  function primeFrameErgebnis(el, daten) {
+    const f = primeFrames.get(el)
+    if (!f) return
+    primeFrames.delete(el)
+    el.remove()
+    const lauf = primeLaufLesen()
+    if (!lauf) return
+    lauf.laufend = lauf.laufend.filter((k) => k !== f.kennung)
+    primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null })
+    if (/kein Token/.test(String(daten.grund ?? ''))) return primeLaufBeenden(lauf, 'kein Token in den Optionen')
+    if (!lauf.planBekannt) {
+      const staffeln = [...(daten.staffeln ?? [])].sort((a, b) => (a.nummer ?? 0) - (b.nummer ?? 0))
+      for (const s of staffeln) lauf.staffelNr[s.kennung] = s.nummer ?? null
+      lauf.plan.push(
+        ...staffeln
+          .map((s) => String(s.kennung))
+          .filter((k) => k !== f.kennung && k !== daten.hier && !lauf.plan.includes(k)),
+      )
+      lauf.planBekannt = true
       primeSpur(lauf, 'plan', { staffeln: staffeln.map((s) => `${s.nummer}:${s.kennung}`) })
     }
-    /* Vor dem Sprung aus dem Plan: Leitet Amazon auf eine andere ASIN um, käme dieselbe sonst wieder dran. */
-    const weiter = lauf.plan.shift()
-    if (weiter) {
-      primeLaufSchreiben(lauf)
-      primeGehe(`https://www.amazon.de/gp/video/detail/${weiter}`)
-      return
+    if (!daten.ok) {
+      const nr = lauf.staffelNr[f.kennung]
+      lauf.uebersprungen.push(`${liste[lauf.titel]?.titel ?? '?'} · ${nr ? `Staffel ${nr}` : f.kennung}`)
     }
-    if (lauf.titel && !lauf.fertig.includes(lauf.titel)) lauf.fertig.push(lauf.titel)
-    primeZumTitel(lauf, primeNaechsterTitel(lauf))
+    primeLaufSchreiben(lauf)
+    primeKoordinieren()
   }
 
-  /** Zustand der gerade offenen Seite — lebt nur, solange die Seite lebt. */
-  let primeSeite = null
-
-  function primeSchritt() {
+  function primeKoordinieren() {
     const lauf = primeLaufLesen()
-    if (!lauf || primeVerlassen) return
-    if (imPlayer() || !/\/detail\//.test(location.pathname) || !verbindungLebt()) return
+    if (!lauf) {
+      for (const el of primeFrames.keys()) el.remove()
+      primeFrames.clear()
+      return
+    }
+    const jetzt = Date.now()
+    const haengend = [...primeFrames].filter(([, f]) => jetzt - f.start > PRIME_FRAME_HOECHSTENS_MS)
+    for (const [el] of haengend) primeFrameErgebnis(el, { ok: false, grund: 'Frame antwortet nicht' })
+    if (haengend.length) return
+    /* Nach einem Neuladen der sichtbaren Seite sind ihre Frames weg — deren Staffeln kommen zurück in den Plan. */
+    const offen = new Set([...primeFrames.values()].map((f) => f.kennung))
+    const verwaist = lauf.laufend.filter((k) => !offen.has(k))
+    if (verwaist.length) {
+      lauf.plan.unshift(...verwaist)
+      lauf.laufend = lauf.laufend.filter((k) => offen.has(k))
+    }
+    if (!lauf.titel) {
+      const naechster = primeNaechsterTitel(lauf)
+      if (!naechster) return primeLaufBeenden(lauf, 'nichts mehr offen')
+      primeTitelBeginnen(lauf, naechster)
+    }
+    /* Bis die Staffelliste da ist, genau ein Frame — sie kommt mit dem ersten. */
+    const grenze = lauf.planBekannt ? PRIME_FRAMES : 1
+    while (primeFrames.size < grenze && lauf.plan.length) primeFrameOeffnen(lauf, lauf.plan.shift())
+    if (!primeFrames.size && !lauf.plan.length) {
+      if (!lauf.fertig.includes(lauf.titel)) lauf.fertig.push(lauf.titel)
+      lauf.titel = null
+      primeLaufSchreiben(lauf)
+      return primeKoordinieren()
+    }
+    primeLaufSchreiben(lauf)
+  }
+
+  // --- Der Automat: im Frame -----------------------------------------------------
+
+  /** Zustand dieser einen Frame-Seite — lebt nur, solange sie lebt. */
+  const frameZustand = { start: Date.now(), text: null, textSeit: Date.now(), geklickt: null, fertig: false }
+
+  function frameFertig(ok, grund) {
+    if (frameZustand.fertig) return
+    frameZustand.fertig = true
+    const staffeln = (gesehen?.seite?.staffeln ?? [])
+      .filter((s) => s?.kennung)
+      .map((s) => ({ kennung: String(s.kennung), nummer: s.nummer ?? null }))
+    window.parent.postMessage(
+      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln },
+      location.origin,
+    )
+  }
+
+  function frameSchritt() {
+    if (frameZustand.fertig) return
+    if (!verbindungLebt()) return frameFertig(false, 'Erweiterung neu geladen')
+    const jetzt = Date.now()
+    const text = String(knopf.textContent ?? '').trim()
+    if (text !== frameZustand.text) {
+      frameZustand.text = text
+      frameZustand.textSeit = jetzt
+    }
+    if (jetzt - frameZustand.start > PRIME_SEITE_HOECHSTENS_MS) {
+      return frameFertig(false, `Knopf blieb bei: ${text || '(leer)'}`)
+    }
     const hier = String(asin() ?? '')
     if (!hier) return
-    const jetzt = Date.now()
-    if (primeSeite?.hier !== hier) {
-      primeSeite = { hier, start: jetzt, text: null, textSeit: jetzt }
-      /* Ein Klick aus einem früheren Leben dieser Seite (Neuladen, Update) hat hier keine Antwort mehr. */
-      if (lauf.geklickt[hier]) {
-        delete lauf.geklickt[hier]
-        primeLaufSchreiben(lauf)
-      }
-    }
-    const text = String(knopf.textContent ?? '').trim()
-    if (text !== primeSeite.text) {
-      primeSeite.text = text
-      primeSeite.textSeit = jetzt
-    }
-    const ruhig = jetzt - primeSeite.textSeit >= PRIME_RUHE_MS
+    const ruhig = jetzt - frameZustand.textSeit >= PRIME_RUHE_MS
     const sichtbar = knopf.isConnected && knopf.style.display !== 'none'
     const bietetMelden = sichtbar && !knopf.disabled && /melden$/.test(text)
     /*
       Nur der **sichtbare** Knopf spricht. Nach dem Melden versteckt ihn die Erweiterung und zeigt die
-      grüne Marke — auf dem versteckten Knopf bleibt „trage ein …" stehen, und der Durchgang wartete
-      darauf für immer (Daniels Bericht, 25.09.2026, Naruto S9).
+      grüne Marke — auf dem versteckten Knopf bleibt „trage ein …" stehen (Daniels Bericht,
+      25.09.2026, Naruto S9: der Durchgang wartete darauf für immer).
     */
     if (sendetGerade || (sichtbar && /^(sende|trage ein|meldet|hole Zugang)/.test(text))) return
-    if (sichtbar && /^Kein Token/.test(text)) return primeLaufBeenden(lauf, 'kein Token in den Optionen')
-
-    const geklickt = lauf.geklickt[hier]
-    if (geklickt) {
-      /* Das Ergebnis kommt aus dem Meldehandler (`letzteMeldung`), nicht aus dem Knopftext. */
+    if (sichtbar && /^Kein Token/.test(text)) return frameFertig(false, 'kein Token')
+    if (frameZustand.geklickt) {
       const m = letzteMeldung
-      if (m?.pfad === location.pathname && m.am >= geklickt) {
-        return primeSeiteFertig(lauf, hier, m.ok ? 'gemeldet' : `Fehler: ${text}`)
-      }
+      if (m && m.am >= frameZustand.geklickt) return frameFertig(m.ok, m.ok ? 'gemeldet' : `Fehler: ${text}`)
       /* Der Handler kann ohne Senden aussteigen (Stand sagt: schon gemeldet) — dann gibt es keine. */
-      if (jetzt - geklickt > 15_000) return primeSeiteFertig(lauf, hier, `keine Rückmeldung: ${text}`)
+      if (jetzt - frameZustand.geklickt > 15_000) return frameFertig(false, `keine Rückmeldung: ${text}`)
       return
     }
     if (!ruhig) return
-    if (sichtbar && text.startsWith('↻') && !lauf.neugeladen[hier]) {
-      lauf.neugeladen[hier] = true
-      primeSpur(lauf, 'neuladen', { hier, text })
-      primeLaufSchreiben(lauf)
-      primeGehe(null)
-      return
+    if (sichtbar && text.startsWith('↻')) {
+      const schluessel = `ak-frame-neu-${hier}`
+      try {
+        if (!sessionStorage.getItem(schluessel)) {
+          sessionStorage.setItem(schluessel, '1')
+          location.reload()
+          return
+        }
+      } catch {
+        /* Ohne Speicher kein zweiter Versuch. */
+      }
+      return frameFertig(false, text)
     }
     if (bietetMelden) {
-      lauf.geklickt[hier] = jetzt
-      primeSpur(lauf, 'klick', { hier, text })
-      primeLaufSchreiben(lauf)
+      frameZustand.geklickt = jetzt
       knopf.click()
       return
     }
-    /* Kein Angebot: schon gemeldet, oder die Seite gehört nicht zum Auftrag. Kurz warten, weil
-       der Knopf in den ersten Sekunden noch lädt. */
-    if (jetzt - primeSeite.start > 4000 && (!sichtbar || /gemeldet/.test(text))) {
-      return primeSeiteFertig(lauf, hier, sichtbar ? text : 'kein Knopf')
-    }
-    if (jetzt - primeSeite.start > PRIME_SEITE_HOECHSTENS_MS) {
-      const nr = (gesehen?.seite?.staffeln ?? []).find((s) => String(s?.kennung) === hier)?.nummer
-      lauf.uebersprungen.push(`${liste[lauf.titel]?.titel ?? lauf.titel ?? '?'} · ${nr ? `Staffel ${nr}` : hier}`)
-      return primeSeiteFertig(lauf, hier, `Knopf blieb bei: ${text || '(leer)'}`)
+    /* Kein Angebot: schon gemeldet. Kurz warten, weil der Knopf in den ersten Sekunden noch lädt. */
+    if (jetzt - frameZustand.start > 4000 && (!sichtbar || /gemeldet/.test(text))) {
+      return frameFertig(true, sichtbar ? text : 'kein Knopf')
     }
   }
+
   /*
     Eine `setTimeout`-Kette statt `setInterval`: Die Sandkästen der Amazon-Tests zählen Intervalle
     als Takt und stellen je Intervall die Uhr vor — ein zusätzliches verschob dort jede
     zeitabhängige Zusicherung (amazon-uebersicht.test.cjs, 25.09.2026).
   */
   function primeTakt() {
-    primeSchritt()
+    if (IM_FRAME) frameSchritt()
+    else primeKoordinieren()
     setTimeout(primeTakt, 500)
   }
   setTimeout(primeTakt, 500)

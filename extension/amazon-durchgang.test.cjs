@@ -1,6 +1,9 @@
 /**
- * Der Prime-Durchgang (25.09.2026) im Sandkasten: derselbe Code wie in `amazon.js`, die Seite
- * nachgebaut — Meldeknopf, Staffelliste aus dem Quelltext, Prüfliste, Tab-Speicher.
+ * Der Prime-Durchgang (25.09.2026) im Sandkasten: derselbe Code wie in `amazon.js`, die Umgebung
+ * nachgebaut — Meldeknopf, Frames, Prüfliste, Tab-Speicher, Uhr.
+ *
+ * Zwei Teile, wie im Code: die **Steuerung** auf der sichtbaren Seite (öffnet Frames, führt den
+ * Plan) und der **Automat** im Frame (wartet auf den Knopf, klickt, meldet das Ergebnis zurück).
  *
  * Gespielt wird Naruto, wie Daniel es vorgelegt hat: Die Prüfliste führt Staffel 9
  * (B07VP6VPVR), die Seite nennt neun Staffeln mit eigener ASIN (gemessen am 25.09.2026).
@@ -24,26 +27,36 @@ console.log('Prime-Durchgang im Sandkasten\n')
 pruefe('Block in amazon.js gefunden', von > 0 && bis > von)
 
 const NARUTO = ['B0CWDYLZ1S', 'B0F3SHHVC2', 'B0DX7JQY9R', 'B0FBJWV6MJ', 'B0DX1XQ1W1', 'B0F5J96BX2', 'B0F9Z35RH6', 'B0FBKHYWCF', 'B07VP6VPVR']
+const STAFFELN = NARUTO.map((kennung, i) => ({ kennung, nummer: i + 1 }))
 
-/** Eine Sandkasten-Welt; `seite(asin)` simuliert das Neuladen einer Seite im selben Tab. */
-function welt() {
-  const speicher = new Map()
-  const w = {
-    uhr: 1_000_000,
-    geklickt: 0,
-    neugeladen: 0,
-    kontext: null,
+function neuerSpeicher() {
+  const m = new Map()
+  return {
+    getItem: (k) => (m.has(k) ? m.get(k) : null),
+    setItem: (k, v) => m.set(k, String(v)),
+    removeItem: (k) => m.delete(k),
   }
+}
+
+/** Eine Sandkasten-Welt. `imFrame` wählt, welche Seite gespielt wird. */
+function welt({ imFrame = false, speicher = neuerSpeicher() } = {}) {
+  const w = { uhr: 1_000_000, geklickt: 0, neugeladen: 0, frames: [], gepostet: [] }
+  const fenster = {}
+  fenster.top = imFrame ? {} : fenster
+  fenster.parent = { postMessage: (d) => w.gepostet.push(d) }
   const kontext = {
-    Date: class extends Date { static now() { return w.uhr } },
+    Date: class extends Date {
+      static now() {
+        return w.uhr
+      }
+    },
     JSON,
     String,
     Boolean,
-    sessionStorage: {
-      getItem: (k) => (speicher.has(k) ? speicher.get(k) : null),
-      setItem: (k, v) => speicher.set(k, String(v)),
-      removeItem: (k) => speicher.delete(k),
-    },
+    Number,
+    Object,
+    window: fenster,
+    sessionStorage: speicher,
     liste: {
       B07VP6VPVR: { titel: 'Naruto', url: 'https://www.amazon.de/gp/video/detail/B07VP6VPVR' },
       B07FB4D9KM: { titel: 'Yu-Gi-Oh!', url: 'https://www.amazon.de/gp/video/detail/B07FB4D9KM' },
@@ -51,175 +64,185 @@ function welt() {
     },
     fertig: () => false,
     listenId: 'B07VP6VPVR',
-    gesehen: { seite: { staffeln: NARUTO.map((kennung, i) => ({ kennung, nummer: i + 1 })) } },
+    kennungAus: (url) => /\/detail\/([A-Z0-9]+)/.exec(url)?.[1] ?? null,
+    gesehen: { seite: { staffeln: STAFFELN } },
     knopf: { textContent: '', style: { display: '' }, disabled: false, isConnected: true, click: () => w.geklickt++ },
     sendetGerade: false,
     letzteMeldung: null,
-    imPlayer: () => false,
     verbindungLebt: () => true,
-    aktuell: 'B07VP6VPVR',
-    asin: () => kontext.aktuell,
-    location: {
-      pathname: '/gp/video/detail/B07VP6VPVR',
-      href: 'https://www.amazon.de/gp/video/detail/B07VP6VPVR',
-      reload: () => w.neugeladen++,
+    asin: () => 'B07VP6VPVR',
+    location: { origin: 'https://www.amazon.de', reload: () => w.neugeladen++ },
+    document: {
+      createElement: () => ({
+        style: {},
+        setAttribute() {},
+        contentWindow: {},
+        entfernt: false,
+        remove() {
+          this.entfernt = true
+        },
+      }),
+      body: { appendChild: (el) => w.frames.push(el) },
     },
     notiere: () => {},
     suchOffen: () => ['s'],
     dialog: null,
     dialogUmschalten: () => {},
     uebersichtZeichnen: () => {},
-    dialogFuellen: () => {},
     letzteSignatur: null,
-    seitenTitel: () => 'Naruto',
   }
   vm.createContext(kontext)
   vm.runInContext(block, kontext)
   w.kontext = kontext
-  /** Seitenwechsel: neuer Skriptlauf, gleicher Tab-Speicher. */
-  w.seite = (asin) => {
-    kontext.aktuell = asin
-    kontext.location.pathname = `/gp/video/detail/${asin}`
-    vm.runInContext('primeSeite = null; primeVerlassen = false', kontext)
+  w.lauf = () => vm.runInContext('primeLaufLesen()', kontext)
+  w.ende = () => vm.runInContext('primeLaufEndeLesen()', kontext)
+  w.offen = () => w.frames.filter((f) => !f.entfernt)
+  /** Ein Frame meldet sein Ergebnis — so, wie `frameFertig()` es schickt. */
+  w.ergebnis = (el, daten) => {
+    kontext.__el = el
+    kontext.__daten = { ok: true, grund: 'gemeldet', staffeln: [], ...daten }
+    vm.runInContext('primeFrameErgebnis(__el, __daten)', kontext)
   }
-  /** Knopf zeigt `text` für `ms`, der Takt läuft jede Sekunde. */
+  w.takt = (ms = 500) => {
+    w.uhr += ms
+    vm.runInContext(imFrame ? 'frameSchritt()' : 'primeKoordinieren()', kontext)
+  }
+  /** Knopf zeigt `text` für `ms`, der Frame-Takt läuft alle 500 ms. */
   w.zeige = (text, ms, sichtbar = true) => {
     kontext.knopf.textContent = text
     kontext.knopf.style.display = sichtbar ? '' : 'none'
-    for (let t = 0; t <= ms; t += 1000) {
-      vm.runInContext('primeSchritt()', kontext)
-      w.uhr += 1000
-    }
+    for (let t = 0; t <= ms; t += 500) w.takt(t ? 500 : 0)
   }
-  /** Der Meldehandler meldet sein Ergebnis — so, wie amazon.js es in `letzteMeldung` ablegt. */
-  w.antwort = (ok) => {
-    kontext.letzteMeldung = { pfad: kontext.location.pathname, ok, am: w.uhr }
-  }
-  w.lauf = () => vm.runInContext('primeLaufLesen()', kontext)
-  w.ende = () => vm.runInContext('primeLaufEndeLesen()', kontext)
   return w
 }
 
+const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
+
+/* ---- Steuerung ---- */
 {
   const w = welt()
   const k = w.kontext
-  pruefe('Start auf Naruto S9: der Lauf gehört diesem Titel', vm.runInContext('primeLaufStarten()', k) === true && w.lauf().titel === 'B07VP6VPVR')
+  pruefe('Start auf Naruto S9: der Lauf beginnt mit diesem Titel', vm.runInContext('primeLaufStarten()', k) === true && w.lauf().titel === 'B07VP6VPVR')
+  pruefe('bis die Staffelliste da ist: genau ein Frame, die Staffel der Liste', w.offen().length === 1 && kennung(w.offen()[0]) === 'B07VP6VPVR', w.offen().map(kennung))
+  pruefe('der Frame trägt unseren Namen und spielt nichts ab', w.offen()[0].name === 'ak-durchgang' && /autoplay 'none'/.test(w.offen()[0].allow))
 
-  w.zeige('Folgen werden geladen …', 1000)
-  w.zeige('Staffel wechselt — einen Moment', 1000)
-  pruefe('wechselnde Ladezustände: kein Klick', w.geklickt === 0)
+  w.ergebnis(w.offen()[0], { hier: 'B07VP6VPVR', staffeln: STAFFELN })
+  pruefe('mit der Staffelliste: drei Frames gleichzeitig, Staffel 1–3', w.offen().map(kennung).join() === NARUTO.slice(0, 3).join(), w.offen().map(kennung))
+  pruefe('der Plan hält die übrigen fünf', w.lauf().plan.length === 5, w.lauf().plan)
 
-  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 0)
-  pruefe('„melden" gerade erst erschienen: noch kein Klick', w.geklickt === 0)
-  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
-  pruefe('„melden" steht still: genau ein Klick', w.geklickt === 1)
+  w.ergebnis(w.offen()[1], { ok: false, grund: 'Knopf blieb bei: Staffel wechselt — einen Moment' })
+  pruefe('ein Fehlschlag wird mit Staffelnummer übersprungen', w.lauf().uebersprungen.join() === 'Naruto · Staffel 2', w.lauf().uebersprungen)
+  pruefe('… und sofort rückt die nächste Staffel nach', w.offen().length === 3 && w.offen().map(kennung).includes(NARUTO[3]))
 
-  k.sendetGerade = true
-  w.zeige('sende 12 Folgen …', 2000)
-  w.zeige('gemeldet ✓', 0)
-  pruefe('solange der Handler sendet: keine Bewegung', k.location.href.endsWith('B07VP6VPVR'), k.location.href)
-  w.antwort(true)
-  k.sendetGerade = false
-  w.zeige('gemeldet ✓', 0)
-  pruefe('nach der Bestätigung: weiter zu Staffel 1', k.location.href === 'https://www.amazon.de/gp/video/detail/B0CWDYLZ1S', k.location.href)
-  pruefe('der Plan enthält die übrigen sieben Staffeln', w.lauf().plan.length === 7, w.lauf().plan)
+  /* Ein Frame, der nie antwortet: nach 90 s entfernt. */
+  const stumm = w.offen()[0]
+  w.takt(91_000)
+  pruefe('stumme Frames fliegen nach 90 s raus (hier alle drei, sie starteten zugleich)', stumm.entfernt && w.lauf().uebersprungen.length === 4, w.lauf().uebersprungen)
 
-  w.seite('B0CWDYLZ1S')
-  w.zeige('✓ Staffel 1 gemeldet · weiter mit Staffel 2', 8000)
-  pruefe('schon gemeldete Staffel: kein Klick, weiter zu Staffel 2', w.geklickt === 1 && k.location.href.endsWith('B0F3SHHVC2'), k.location.href)
-
-  w.seite('B0F3SHHVC2')
-  w.zeige('↻ Seite neu laden', 3000)
-  pruefe('„↻" lädt die Seite einmal neu', w.neugeladen === 1)
-  w.seite('B0F3SHHVC2')
-  w.zeige('↻ Seite neu laden', 3000)
-  pruefe('… und nicht ein zweites Mal', w.neugeladen === 1)
-
-  w.seite('B0F3SHHVC2')
-  w.zeige('Staffel wechselt — einen Moment', 61_000)
-  pruefe('hängt der Knopf eine Minute: Staffel übersprungen, weiter mit Staffel 3', k.location.href.endsWith('B0DX7JQY9R') && w.lauf().uebersprungen.length === 1, w.lauf().uebersprungen)
-
-  /* Staffeln 3–8: jeweils ohne Knopf (nichts anzubieten). */
-  for (const asin of NARUTO.slice(2, 8)) {
-    w.seite(asin)
-    w.zeige('', 7000, false)
-  }
-  pruefe('nach der letzten Staffel: nächster Titel mit eigener Titelseite', k.location.href === 'https://www.amazon.de/gp/video/detail/B07FB4D9KM', k.location.href)
+  while (w.offen().length && w.lauf()?.titel === 'B07VP6VPVR') w.ergebnis(w.offen()[0], {})
+  pruefe('nach der letzten Naruto-Staffel: nächster Titel mit Titelseite, ein Frame', w.lauf().titel === 'B07FB4D9KM' && w.offen().length === 1 && kennung(w.offen()[0]) === 'B07FB4D9KM')
   pruefe('Naruto gilt im Lauf als fertig', w.lauf().fertig.includes('B07VP6VPVR'))
 
-  k.gesehen = { seite: { staffeln: [] } }
-  w.seite('B07FB4D9KM')
-  w.zeige('🇩🇪 Deutsch · 26 Folgen · Staffel 1 · melden', 3000)
-  w.antwort(true)
-  w.zeige('gemeldet ✓', 0)
+  w.ergebnis(w.offen()[0], { hier: 'B07FB4D9KM', staffeln: [] })
   pruefe('Titel ohne Staffelliste: eine Seite, dann Ende', w.lauf() === null)
   const ende = w.ende()
-  pruefe('Suchaufträge werden nicht angesteuert — der Lauf endet mit „nichts mehr offen"', ende?.grund === 'nichts mehr offen', ende)
-  pruefe('das Ende nennt die übersprungene Staffel und die Suchaufträge', ende?.uebersprungen?.length === 1 && ende?.suchen === 1, ende)
+  pruefe('Suchaufträge werden nie geöffnet — Ende mit „nichts mehr offen"', ende?.grund === 'nichts mehr offen', ende)
+  pruefe('das Ende nennt die übersprungenen Staffeln und die Suchaufträge', ende?.uebersprungen?.length === 4 && ende?.suchen === 1, ende)
+  pruefe('insgesamt geöffnet: 9 Naruto-Seiten + 1 Yu-Gi-Oh!, keine doppelt', w.frames.length === 10 && new Set(w.frames.map(kennung)).size === 10, w.frames.map(kennung))
 }
 
 {
-  /* Daniels Bericht vom 25.09.2026: Nach dem Melden ist der Knopf versteckt und trägt weiter „trage ein …". */
+  /* Die sichtbare Seite wird neu geladen: ihre Frames sind weg, der Lauf nicht. */
+  const speicher = neuerSpeicher()
+  const a = welt({ speicher })
+  vm.runInContext('primeLaufStarten()', a.kontext)
+  a.ergebnis(a.offen()[0], { hier: 'B07VP6VPVR', staffeln: STAFFELN })
+  const b = welt({ speicher })
+  b.takt()
+  pruefe('nach dem Neuladen: die laufenden Staffeln kommen zurück und öffnen neu', b.offen().map(kennung).join() === NARUTO.slice(0, 3).join(), b.offen().map(kennung))
+}
+
+{
   const w = welt()
+  vm.runInContext('primeLaufStarten()', w.kontext)
+  w.ergebnis(w.offen()[0], { ok: false, grund: 'kein Token' })
+  pruefe('ohne Token endet der Lauf sofort und schließt alle Frames', w.lauf() === null && w.ende()?.grund === 'kein Token in den Optionen' && !w.offen().length, w.ende())
+}
+
+{
+  const w = welt()
+  w.kontext.listenId = 'irgendwas'
+  vm.runInContext('primeLaufStarten()', w.kontext)
+  pruefe('Start außerhalb eines Listentitels: erster Titel mit Titelseite, nicht die Suche', kennung(w.offen()[0]) === 'B07VP6VPVR', w.offen().map(kennung))
+}
+
+/* ---- Verdrahtung ---- */
+{
+  const manifest = JSON.parse(readFileSync(__dirname + '/manifest.json', 'utf8'))
+  const amazon = manifest.content_scripts.filter((c) => c.js.includes('amazon.js') || c.js.includes('amazon-leser.js'))
+  pruefe('Manifest: Leser und Melder laufen auch in Frames', amazon.length === 2 && amazon.every((c) => c.all_frames === true))
+  const waechter = "window.top && window !== window.top && window.name !== 'ak-durchgang') return"
+  pruefe('… aber nur in unseren (Name), nicht in Amazons Werbe-Frames', quelle.includes(waechter) && readFileSync(__dirname + '/amazon-leser.js', 'utf8').includes(waechter))
+  pruefe('die Frame-Antwort läuft über den einen message-Hörer', /if \(e\?\.data\?\.marke === 'ak-prime-frame'\)/.test(quelle) && (quelle.match(/addEventListener\('message'/g) ?? []).length === 1)
+}
+
+/* ---- Automat im Frame ---- */
+{
+  const w = welt({ imFrame: true })
   const k = w.kontext
-  vm.runInContext('primeLaufStarten()', k)
-  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
-  w.antwort(true)
+  w.zeige('Folgen werden geladen …', 500)
+  w.zeige('Staffel wechselt — einen Moment', 500)
+  pruefe('Frame: wechselnde Ladezustände, kein Klick', w.geklickt === 0)
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 0)
+  pruefe('Frame: „melden" gerade erschienen, noch kein Klick', w.geklickt === 0)
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
+  pruefe('Frame: „melden" steht still, genau ein Klick', w.geklickt === 1)
+  k.sendetGerade = true
+  w.zeige('sende …', 1000)
+  pruefe('Frame: solange gesendet wird, keine Antwort', !w.gepostet.length)
+  k.letzteMeldung = { pfad: '/x', ok: true, am: w.uhr }
+  k.sendetGerade = false
   w.zeige('trage ein …', 0, false)
-  pruefe('versteckter Knopf mit „trage ein …": der Handler sagt gemeldet, weiter zu Staffel 1', k.location.href.endsWith('B0CWDYLZ1S'), k.location.href)
+  const d = w.gepostet[0]
+  pruefe('Frame: der Handler sagt gemeldet, die Antwort geht an die Seite', d?.marke === 'ak-prime-frame' && d.ok === true && d.grund === 'gemeldet', d)
+  pruefe('Frame: die Antwort trägt die Staffelliste', d?.staffeln?.length === 9 && d.staffeln[0].kennung === NARUTO[0], d?.staffeln)
+  w.zeige('trage ein …', 3000, false)
+  pruefe('Frame: nur eine Antwort je Seite', w.gepostet.length === 1)
 }
 
 {
-  /* Eine Meldung von einer anderen Seite gilt hier nicht. */
-  const w = welt()
-  const k = w.kontext
-  vm.runInContext('primeLaufStarten()', k)
-  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
-  k.letzteMeldung = { pfad: '/gp/video/detail/ANDERE', ok: true, am: w.uhr }
-  w.zeige('trage ein …', 10_000, false)
-  pruefe('Meldung einer anderen Seite: kein Weitergehen', k.location.href.endsWith('B07VP6VPVR'), k.location.href)
-  w.zeige('trage ein …', 6000, false)
-  pruefe('ohne Rückmeldung nach 15 s: weiter zu Staffel 1', k.location.href.endsWith('B0CWDYLZ1S'), k.location.href)
+  const w = welt({ imFrame: true })
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
+  w.zeige('trage ein …', 16_000, false)
+  pruefe('Frame: Klick ohne Rückmeldung — nach 15 s als nicht gemeldet', w.gepostet[0]?.ok === false && /keine Rückmeldung/.test(w.gepostet[0].grund), w.gepostet[0])
 }
 
 {
-  /* Neuladen nach dem Klick (Update der Erweiterung): Der Klick gehört dem alten Seitenleben. */
-  const w = welt()
-  const k = w.kontext
-  vm.runInContext('primeLaufStarten()', k)
-  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
-  w.seite('B07VP6VPVR')
-  w.zeige('Folgen werden geladen …', 0)
-  pruefe('neues Seitenleben: der alte Klick ist vergessen', !w.lauf().geklickt.B07VP6VPVR)
-  w.zeige('✓ Staffel 9 gemeldet · weiter mit Staffel 1', 5000)
-  pruefe('… und die gemeldete Seite wird regulär verlassen', k.location.href.endsWith('B0CWDYLZ1S'), k.location.href)
+  const w = welt({ imFrame: true })
+  w.zeige('✓ Staffel 1 gemeldet · weiter mit Staffel 2', 5000)
+  pruefe('Frame: schon gemeldete Staffel — kein Klick, als erledigt zurück', w.geklickt === 0 && w.gepostet[0]?.ok === true, w.gepostet[0])
 }
 
 {
-  const w = welt()
-  const k = w.kontext
-  vm.runInContext('primeLaufStarten()', k)
-  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
-  w.antwort(false)
-  w.zeige('Fehler: 500 — nochmal', 0)
-  pruefe('Fehler beim Melden: Seite fertig, der Lauf geht weiter', k.location.href.endsWith('B0CWDYLZ1S'), k.location.href)
+  const w = welt({ imFrame: true })
+  w.zeige('Staffel wechselt — einen Moment', 61_000)
+  pruefe('Frame: hängt der Knopf eine Minute, geht „nicht gemeldet" zurück', w.gepostet[0]?.ok === false && /Knopf blieb bei/.test(w.gepostet[0].grund), w.gepostet[0])
 }
 
 {
-  const w = welt()
-  const k = w.kontext
-  vm.runInContext('primeLaufStarten()', k)
-  w.zeige('Kein Token — Rechtsklick aufs Symbol, dann Optionen', 1000)
-  pruefe('ohne Token endet der Lauf sofort', w.lauf() === null && w.ende()?.grund === 'kein Token in den Optionen', w.ende())
+  const speicher = neuerSpeicher()
+  const a = welt({ imFrame: true, speicher })
+  a.zeige('↻ Seite neu laden', 1000)
+  pruefe('Frame: „↻" lädt einmal neu', a.neugeladen === 1 && !a.gepostet.length)
+  const b = welt({ imFrame: true, speicher })
+  b.zeige('↻ Seite neu laden', 1500)
+  pruefe('Frame: … beim zweiten Mal nicht, sondern „nicht gemeldet"', b.neugeladen === 0 && b.gepostet[0]?.ok === false, b.gepostet[0])
 }
 
 {
-  const w = welt()
-  const k = w.kontext
-  k.listenId = 'irgendwas'
-  k.location.pathname = '/s'
-  vm.runInContext('primeLaufStarten()', k)
-  pruefe('Start außerhalb einer Titelseite: Sprung zum ersten Titel mit Titelseite, nicht zur Suche', k.location.href === 'https://www.amazon.de/gp/video/detail/B07VP6VPVR', k.location.href)
+  const w = welt({ imFrame: true })
+  w.zeige('Kein Token — Rechtsklick aufs Symbol, dann Optionen', 1500)
+  pruefe('Frame: ohne Token kommt „kein Token" zurück', w.gepostet[0]?.grund === 'kein Token', w.gepostet[0])
 }
 
 console.log('')

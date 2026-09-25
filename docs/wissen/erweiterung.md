@@ -1921,3 +1921,17 @@ Suchaufträge überspringt der Durchgang; welcher Treffer gemeint ist, entscheid
 ## Disney+: abgebrochenes Nachladen hieß „vollständig" (25.09.2026, 4.22.10)
 
 Daniel sah in `chrome://extensions` viermal „Nachladen abgebrochen: TypeError: Failed to fetch" (`disney-leser.js`, `allesHolen`). Im Briefkasten standen danach Naruto Shippuden mit 112 von rund 500 und Yu-Gi-Oh! mit 144 von rund 224 Folgen, One Piece mit 405. `allesHolen()` rief im `finally` immer `melde(true)`, und ein HTTP-Fehler stieg in `staffelHolen()` still mit `return` aus; der Knopf meldete den Ausschnitt dann wie die ganze Staffel. Seit 4.22.10 wiederholt `mitWiederholung()` jeden Abruf dreimal (1, 3, 8 s); scheitert er endgültig, meldet der Leser ein Hindernis mit der Zahl der gesammelten Folgen statt „vollständig". Die Ursache der Abbrüche selbst ist nicht gemessen; der Test `disney-nachladen.test.cjs` spielt beide Fälle nach (vorübergehend, endgültig, HTTP 429).
+
+## Prime-Durchgang in Frames statt per Navigation (25.09.2026, 4.23.0)
+
+Nach dem PoC oben stand der Plan, den Aufbau der Meldung aus dem Klick-Handler zu lösen und Staffeln per Abruf zu lesen. Beim Lesen des Handlers zeigte sich der Preis: Die Meldung entsteht aus zehn Hilfsfunktionen, die alle aus der geöffneten Seite lesen (`gesehen`, `seitenHtml()`, `document.body.innerText`); ein Abrufweg hätte davon eine zweite Fassung gebraucht. Gemessen am selben Tag: Die Staffelseite sendet `x-frame-options: SAMEORIGIN`, lässt sich also in einem Frame von `www.amazon.de` laden. Darin läuft dieselbe Erweiterung mit demselben Knopf.
+
+Seit 4.23.0 steuert die sichtbare Seite nur noch (`primeKoordinieren()`): Der erste Frame eines Titels liefert die Staffelliste, danach laufen bis zu drei Frames gleichzeitig. Im Frame wartet `frameSchritt()` auf den Knopf, klickt und schickt das Ergebnis per `postMessage` zurück. Das Manifest lädt Leser und Melder mit `all_frames`; beide steigen in fremden Frames sofort aus (`window.name !== 'ak-durchgang'`), weil Amazon auch Werbung in Frames einbettet. Staffeln über 24 Folgen lädt der Leser im Frame nach wie auf einer geöffneten Seite. Der Navigationscode (`primeSeiteFertig`, `primeGehe`) ist entfernt.
+
+Zwei Fallen beim Einbau, beide in `npm run check:extension` gefunden:
+
+- Die älteren Amazon-Sandkästen kennen kein `window.top`; `window !== window.top` galt dort als Frame. Deshalb prüft die Sperre zuerst, ob `window.top` existiert.
+- Dieselben Sandkästen merken sich genau einen `message`-Hörer. Ein zweiter für die Frame-Antworten verdrängte den des Lesers (`amazon-kill-blue.test.cjs`). Die Frame-Antwort läuft jetzt über den bestehenden Hörer.
+
+Offen bis zum ersten echten Lauf: wie schnell drei Frames wirklich sind, und ob Chrome die Frames drosselt, wenn der Tab länger als fünf Minuten im Hintergrund liegt (intensive Timer-Drosselung).
+
