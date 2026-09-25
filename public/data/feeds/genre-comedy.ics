@@ -6,40 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Comedy
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260918T150000Z
-DTEND:20260918T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 20/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:the-quintessential-quintuplets-2026-09-18@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:The Quintessential Quintuplets (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/the-qu
- intessential-quintuplets-2026-09-18
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:the-quintessential-quintuplets-2-2026-09-18@2026-09-18@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:The Quintessential Quintuplets 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/the-qu
- intessential-quintuplets-2-2026-09-18
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-09-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260919T120000Z
@@ -219,7 +185,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260920T140000Z
 DTEND:20260920T143000Z
 SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 33/33
+ Love You Staffel 3 – Folge 33/34
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
@@ -637,18 +603,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-09-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260927T083000Z
-DTEND:20260927T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 8/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
- s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-8964-tv-disney-channel@2026-09-27#27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260927T125000Z
@@ -677,6 +631,17 @@ SUMMARY:Yuna & Stitch Staffel 3 – Folge 29/29
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-8964-tv-disney-channel
 CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GNVHKN933@2026-09-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260927T140000Z
+DTEND:20260927T143000Z
+SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
+ Love You Staffel 3 – Folge 34/34
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/cr-GNVHKN933
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-09-28#5@anime-kalender-de
@@ -792,17 +757,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-09-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260930T160000Z
-DTEND:20260930T163000Z
-SUMMARY:⚠ nicht erschienen: Hana-Kimi – Staffel 2 – Folge 11/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-171018-disc@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260930
@@ -895,6 +849,36 @@ SUMMARY:Dragon Ball – Folge 13/13
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-02#10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T160000Z
+DTEND:20261002T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-02#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T160000Z
+DTEND:20261002T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-02#12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T160000Z
+DTEND:20261002T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-02@anime-kalender-de
@@ -998,26 +982,47 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-04@anime-kalender-de
+UID:you-and-i-are-polar-opposites-s2@2026-10-04#8@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T083000Z
 DTEND:20261004T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 9/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 8/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
  s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-07@anime-kalender-de
+UID:you-and-i-are-polar-opposites-s2@2026-10-04#9@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261007T160000Z
-DTEND:20261007T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/hana-kimi-s2
+DTSTART:20261004T083000Z
+DTEND:20261004T090000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 9/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
+ s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-10-04#10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T083000Z
+DTEND:20261004T090000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 10/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
+ s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-10-04#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T083000Z
+DTEND:20261004T090000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 11/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
+ s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1030,6 +1035,17 @@ SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 –
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261009T160000Z
+DTEND:20261009T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1062,7 +1078,7 @@ UID:you-and-i-are-polar-opposites-s2@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T083000Z
 DTEND:20261011T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 10/13
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 12/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
@@ -1080,17 +1096,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/from-b
  ureaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261014T160000Z
-DTEND:20261014T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-10-16@anime-kalender-de
@@ -1214,7 +1219,7 @@ UID:you-and-i-are-polar-opposites-s2@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T083000Z
 DTEND:20261018T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 11/13
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
@@ -1257,18 +1262,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T093000Z
-DTEND:20261025T100000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 12/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
- s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:black-clover-s2-crunchyroll@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261031
@@ -1278,18 +1271,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
  e/black-clover-s2-crunchyroll
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T093000Z
-DTEND:20261101T100000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
- s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

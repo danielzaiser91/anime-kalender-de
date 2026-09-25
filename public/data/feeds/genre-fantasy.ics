@@ -6,72 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Fantasy
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260918T140500Z
-DTEND:20260918T143500Z
-SUMMARY:Pokémon Horizonte – Folge 80/127
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260918T150000Z
-DTEND:20260918T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 20/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260918T150500Z
-DTEND:20260918T153500Z
-SUMMARY:Pokémon Horizonte – Folge 80/127
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:the-ancient-magus-bride-staffel-2-2026-09-18@2026-09-18@anime-kalender-
- de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:The Ancient Magus’ Bride: Staffel 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/the-an
- cient-magus-bride-staffel-2-2026-09-18
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:the-ancient-magus-bride-staffel-2-cour-2-2026-09-18@2026-09-18@anime-ka
- lender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:The Ancient Magus’ Bride Staffel 2 (Teil 2) (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/the-an
- cient-magus-bride-staffel-2-cour-2-2026-09-18
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:as-a-reincarnated-aristocrat-s1-vol2@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:As a Reincarnated Aristocrat – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/as-a-r
- eincarnated-aristocrat-s1-vol2
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-09-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260919T093000Z
@@ -784,17 +718,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260927T150000Z
-DTEND:20260927T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-09-28#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T151000Z
@@ -1140,13 +1063,22 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-04@anime-kalender-de
+UID:mushoku-tensei-s3@2026-10-04#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T150000Z
+DTEND:20261004T153000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-10-04#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T150000Z
 DTEND:20261004T153000Z
 SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT

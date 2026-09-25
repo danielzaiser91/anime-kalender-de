@@ -11,7 +11,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260920T140000Z
 DTEND:20260920T143000Z
 SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 33/33
+ Love You Staffel 3 – Folge 33/34
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
@@ -37,14 +37,14 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-27@anime-kalender-de
+UID:cr-GNVHKN933@2026-09-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260927T150000Z
-DTEND:20260927T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
+DTSTART:20260927T140000Z
+DTEND:20260927T143000Z
+SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
+ Love You Staffel 3 – Folge 34/34
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -59,13 +59,22 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-04@anime-kalender-de
+UID:mushoku-tensei-s3@2026-10-04#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T150000Z
+DTEND:20261004T153000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-10-04#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T150000Z
 DTEND:20261004T153000Z
 SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT

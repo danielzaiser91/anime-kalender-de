@@ -6,30 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Mythology
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:the-ancient-magus-bride-staffel-2-2026-09-18@2026-09-18@anime-kalender-
- de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:The Ancient Magus’ Bride: Staffel 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/the-an
- cient-magus-bride-staffel-2-2026-09-18
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:the-ancient-magus-bride-staffel-2-cour-2-2026-09-18@2026-09-18@anime-ka
- lender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:The Ancient Magus’ Bride Staffel 2 (Teil 2) (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/the-an
- cient-magus-bride-staffel-2-cour-2-2026-09-18
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:your-name-cineanime-2026@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260929

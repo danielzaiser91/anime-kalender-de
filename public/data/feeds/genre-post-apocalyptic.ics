@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Post-Apocalyptic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:my-hero-academia-s7-vol3@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:My Hero Academia – Staffel 7 – Vol. 3 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-her
- o-academia-s7-vol3
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-09-21#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260921T162500Z

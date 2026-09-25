@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Gore
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:my-hero-academia-s7-vol3@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:My Hero Academia – Staffel 7 – Vol. 3 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-her
- o-academia-s7-vol3
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:mushoku-tensei-s3@2026-09-20#9@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260920T150000Z
@@ -81,17 +70,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
  xx
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260927T150000Z
-DTEND:20260927T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:all-you-need-is-kill-kino@2026-09-29@anime-kalender-de
@@ -162,13 +140,22 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-04@anime-kalender-de
+UID:mushoku-tensei-s3@2026-10-04#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T150000Z
+DTEND:20261004T153000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-10-04#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T150000Z
 DTEND:20261004T153000Z
 SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT

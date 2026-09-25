@@ -6,52 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Politics
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260918T150000Z
-DTEND:20260918T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 20/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:code-geass-lelouch-of-the-rebellion-2026-09-18@2026-09-18@anime-kalende
- r-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:Code Geass: Lelouch of the Rebellion (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/code-g
- eass-lelouch-of-the-rebellion-2026-09-18
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:code-geass-lelouch-of-the-rebellion-r2-2026-09-18@2026-09-18@anime-kale
- nder-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:Code Geass: Lelouch of the Rebellion R2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/code-g
- eass-lelouch-of-the-rebellion-r2-2026-09-18
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:as-a-reincarnated-aristocrat-s1-vol2@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:As a Reincarnated Aristocrat – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/as-a-r
- eincarnated-aristocrat-s1-vol2
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-09-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260919T093000Z

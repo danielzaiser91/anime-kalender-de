@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-25T20:37:32.124Z",
+ "erzeugtAm": "2026-09-25T22:36:44.655Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -49,16 +49,12 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 39,
+   "gemeldet": 40,
    "gesamt": 43,
-   "offen": 4,
+   "offen": 3,
    "ohneSeite": 0,
-   "ziel": "https://www.disneyplus.com/de-de/series/bleach/6g48QKlgQdWK",
+   "ziel": "https://www.disneyplus.com/browse/entity-870b9187-690d-4a9e-8704-b48564b31322",
    "ziele": [
-    {
-     "url": "https://www.disneyplus.com/de-de/series/bleach/6g48QKlgQdWK",
-     "titel": "Bleach"
-    },
     {
      "url": "https://www.disneyplus.com/browse/entity-870b9187-690d-4a9e-8704-b48564b31322",
      "titel": "Yu-Gi-Oh!"
@@ -72,7 +68,7 @@
      "titel": "Dragon Ball Super"
     }
    ],
-   "naechster": "Bleach"
+   "naechster": "Yu-Gi-Oh!"
   },
   {
    "name": "Crunchyroll",

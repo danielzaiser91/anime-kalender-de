@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Martial Arts
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:dragon-ball-daima-toggo-plus@2026-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260918T191500Z
-DTEND:20260918T194500Z
-SUMMARY:Dragon Ball DAIMA – Folge 18/20
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/dragon-ball-daima-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21175-tv-prosieben-maxx@2026-09-20#116@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260919T223000Z

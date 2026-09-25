@@ -18442,3 +18442,31 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54]
   checkedAt: '2026-09-25'
   note: "Folgen 1–54 mit deutschem Ton — Tonspuren: de, ja"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-26 ---
+
+- anilistId: 20
+  title: "Naruto"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-bc2dae95-23e6-45dc-8177-066425b10fa0
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 57
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–57 mit deutschem Ton — Tonspuren: de, ja"
+
+- anilistId: 269
+  title: "Bleach"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/series/bleach/6g48QKlgQdWK
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 51
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–51 mit deutschem Ton — Tonspuren: de, en, es-419, fr-FR, ja, pt-BR"
