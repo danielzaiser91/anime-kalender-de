@@ -17427,3 +17427,130 @@
       checked: [1, 2, 3, 4, 5, 6, 8, 9, 12]
   checkedAt: '2026-09-24'
   note: "Folgen 1–12 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], pl|Polnisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, zh|Mandarin, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 15 und 39, dazwischen nicht geprüft — Folge 22: Erzittert, Herausforderer!"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-25 ---
+
+- anilistId: 21856
+  title: "My Hero Academia 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  dub: false
+  dubRanges:
+    - from: 7
+      to: 25
+      dub: false
+      checked: [7, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+  checkedAt: '2026-09-24'
+  note: "Folgen 7–25 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], pl|Polnisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, zh|Mandarin, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 15 und 39, dazwischen nicht geprüft — Folge 39: Encounter"
+
+- anilistId: 100166
+  title: "My Hero Academia 3"
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  dub: false
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], fr|Französisch, es|Spanisch (Lateinamerika), en|Englisch, zh|Mandarin, pt-BR|Portugiesisch (Brasilien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 41 und 65, dazwischen nicht geprüft — Folge 65: Unbesiegbar"
+
+- anilistId: 104276
+  title: "My Hero Academia 4"
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  dub: false
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], fr|Französisch, es|Spanisch (Lateinamerika), en|Englisch, zh-TW|Mandarin (Guoyu), pt-BR|Portugiesisch (Brasilien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 66 und 90, dazwischen nicht geprüft — Folge 90: Neuanfang"
+
+- anilistId: 117193
+  title: "My Hero Academia 5"
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  dub: false
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 93 und 117, dazwischen nicht geprüft — Folge 117: Der Himmel, weit und kobaltblau"
+
+- anilistId: 139630
+  title: "My Hero Academia Staffel 6"
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 120 und 144, dazwischen nicht geprüft — Folge 144: Verbinden und verbinden"
+
+- anilistId: 163139
+  title: "My Hero Academia: Season 7"
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  dub: false
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–21 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 146 und 170, dazwischen nicht geprüft — Folge 169: Das Ego eines Mädchens"
+
+- anilistId: 100876
+  title: "Kakegurui ××"
+  platform: netflix
+  url: https://www.netflix.com/title/80175351
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Das Null-Mädchen"
+
+- anilistId: 98314
+  title: "Kakegurui: Das Leben ist ein Spiel"
+  platform: netflix
+  url: https://www.netflix.com/title/80175351
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Eine triebhafte Spielerin"
+
+- anilistId: 97986
+  title: "Made in Abyss"
+  platform: netflix
+  url: https://www.netflix.com/title/80193163
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Die Herausforderer — Netflix: Made in Abyss: Staffel 1"
+
+- anilistId: 114745
+  title: "Made in Abyss: Die Goldene Stadt der sengenden Sonne"
+  platform: netflix
+  url: https://www.netflix.com/title/80193163
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Gold — Netflix: Die Goldene Stadt der sengenden Sonne"
+
+- anilistId: 99263
+  title: "The Rising of the Shield Hero"
+  platform: netflix
+  url: https://www.netflix.com/title/81058649
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 25: The Rising of The Shield Hero — Netflix: Staffel 1"
+
+- anilistId: 111321
+  title: "The Rising of the Shield Hero: Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/81058649
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Blumenopfer der Erinnerungen — Netflix: Staffel 2"
+
+- anilistId: 169441
+  title: "Meine ganz besondere Hochzeit: Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/81564905
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Wenn der Frühling erwacht"
+
+- anilistId: 147103
+  title: "Meine ganz besondere Hochzeit"
+  platform: netflix
+  url: https://www.netflix.com/title/81564905
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 12: Licht im Dunkeln"
+
+- anilistId: 167486
+  title: "Meine ganz besondere Hochzeit: Meine Form des Glücks"
+  platform: netflix
+  url: https://www.netflix.com/title/81564905
+  dub: true
+  checkedAt: '2026-09-24'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Meine Form des Glücks"

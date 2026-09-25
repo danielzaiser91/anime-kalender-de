@@ -487,7 +487,7 @@ UID:auto-112153-tv-toggo-plus@2026-09-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T191500Z
 DTEND:20260924T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 1/1
+SUMMARY:Pokémon Reisen: Die Serie – Folge 1/2
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
 CATEGORIES:TOGGO plus
@@ -553,6 +553,16 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-09-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260925T191500Z
+DTEND:20260925T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 2/2
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-09-26#2@anime-kalender-de
