@@ -2592,9 +2592,12 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     Jedes Element läuft durch genau denselben Weg wie eine Einzelmeldung (derselbe Handler,
     gleichzeitig), damit es keine zweite Fassung der Annahme gibt. Ein Ereignis für alle.
 
-    **Höchstens 10 je Stapel:** Der kostenlose Plan erlaubt 50 D1-Abfragen je Aufruf, jede
-    Anweisung in einem `batch` zählt einzeln (developers.cloudflare.com/d1/platform/limits,
-    gelesen 25.09.2026). Eine Netflix-Meldung mit einer Rohfolge braucht 4.
+    **Höchstens 10 je Stapel — eine Größengrenze, kein gemessenes Limit.** Die Doku nennt 50
+    D1-Abfragen je Aufruf im kostenlosen Plan, jede `batch`-Anweisung einzeln gezählt
+    (developers.cloudflare.com/d1/platform/limits, gelesen 25.09.2026). Das greift hier nicht:
+    Eine Prime-Meldung vom 19.09.2026 schrieb 90 Rohfolgen in einem Aufruf, also rund 93
+    Anweisungen (gezählt in `prime_folge`, 25.09.2026). Eine Netflix-Meldung braucht 4. Die
+    Erweiterung schickt mehrere Stapel gleichzeitig, deshalb bringt eine höhere Grenze wenig.
   */
   if (Array.isArray(daten.stapel)) {
     const stapel = daten.stapel as unknown[]

@@ -4480,7 +4480,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
     **Zehn Folgen je Anfrage statt einer** (Daniel, 25.09.2026: „alles gebündelt senden, statt
     jede erste letzte einer staffel zu senden, weil das senden so lange dauert"). Bis 4.22.3
     ging je Folge eine Anfrage raus, sechs gleichzeitig. Der Worker nimmt seit heute einen
-    `stapel` an, höchstens zehn je Anfrage (sein D1-Limit, siehe PRUEFUNG_STAPEL_HOECHSTENS).
+    `stapel` an, höchstens zehn je Anfrage (Größengrenze, siehe PRUEFUNG_STAPEL_HOECHSTENS).
     Gemessen am 25.09.2026: zehn Meldungen einzeln nacheinander 1.740 ms, als Stapel 371 ms.
     Die Stapel gehen gleichzeitig raus; das Abhaken im lokalen Speicher bleibt danach der
     Reihe nach, weil es liest und schreibt.
