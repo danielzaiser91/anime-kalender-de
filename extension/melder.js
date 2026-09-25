@@ -2777,11 +2777,19 @@ function gruppenLabel(gruppe) {
  * wird über alle Staffeln (`DURCHLAUF.mehrfach`), zwei je Staffel; prüft eine Staffel mehr, wächst
  * die Gesamtzahl mit.
  */
+/*
+  **Eine Staffel mit einer Folge ist eine Prüfung, nicht zwei** (Daniel, 25.09.2026, Steel Ball
+  Run: zwei Phasen zu je einer Folge, der Zähler lief 0/4 → 1/4 → 2/4 und endete).
+*/
+function randPruefungen(gruppe) {
+  return Math.min(2, gruppe.length)
+}
+
 async function alleStaffelnPruefen() {
   const offen = offeneGruppen()
   if (!offen.length || DURCHLAUF.laeuft) return
   const reihe = gemeinteReihe()
-  const m = { reihe: String(reihe), gesamt: offen.length * 2, fertig: 0, abbruch: false }
+  const m = { reihe: String(reihe), gesamt: offen.reduce((n, [, g]) => n + randPruefungen(g), 0), fertig: 0, abbruch: false }
   DURCHLAUF.mehrfach = m
   try {
     /* Die Staffelnamen für die Meldungen — im Player gibt es kein Menü. */
@@ -2790,13 +2798,13 @@ async function alleStaffelnPruefen() {
       if (m.abbruch || DURCHLAUF.stoerung) break
       DURCHLAUF.folgen = gruppe
       if (!gruppeOffen(reihe, gruppe)) {
-        m.gesamt -= 2
+        m.gesamt -= randPruefungen(gruppe)
         continue
       }
       DURCHLAUF.erzwungen = true
       await durchlaufStarten(RAND)
       m.fertig += DURCHLAUF.fertig ?? 0
-      m.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - 2)
+      m.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - randPruefungen(gruppe))
       if (DURCHLAUF.abbruch) break
     }
   } finally {
@@ -3106,7 +3114,7 @@ async function selbstStartenSchritt() {
     müsste"). Derselbe Zähler wie beim Knopf „Alle Staffeln".
   */
   if (DURCHLAUF.mehrfach?.reihe !== String(reihe)) {
-    DURCHLAUF.mehrfach = { reihe: String(reihe), gesamt: offeneGruppen().length * 2, fertig: 0, abbruch: false }
+    DURCHLAUF.mehrfach = { reihe: String(reihe), gesamt: offeneGruppen().reduce((n, [, g]) => n + randPruefungen(g), 0), fertig: 0, abbruch: false }
   }
   const zaehler = DURCHLAUF.mehrfach
   /* Ein Klick zwischen zwei Staffeln bricht ab — dort läuft kein Durchlauf, der es sähe. */
@@ -3135,7 +3143,7 @@ async function selbstStartenSchritt() {
     await durchlaufStarten(RAND)
     DURCHLAUF.selbst = false
     zaehler.fertig += DURCHLAUF.fertig ?? 0
-    zaehler.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - 2)
+    zaehler.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - randPruefungen(gruppe))
     /* Ein Lauf ohne neue Meldung macht die Staffel fertig — sonst drehte eine uneinheitliche Randprobe endlos. */
     if ((DURCHLAUF.gemeldet?.size ?? 0) === vorher) selbstStaffelnGeprueft.add(schluessel)
     /* Fand der Durchlauf nichts zu tun, kam er nie bis zum Weitergehen — dann hier weiter. */

@@ -309,7 +309,7 @@ function schluss() {
     nacheinander und zählt 2 je offene Staffel.
   */
   {
-    const code = ['folgenJeStaffel', 'offeneGruppen', 'alleStaffelnPruefen'].map(schneide).join('\n\n')
+    const code = ['folgenJeStaffel', 'offeneGruppen', 'randPruefungen', 'alleStaffelnPruefen'].map(schneide).join('\n\n')
     const kontext = {
       DURCHLAUF: {
         laeuft: false,
@@ -373,7 +373,8 @@ function schluss() {
     pruefe('Film neben einer Serienstaffel zählt nicht mit', offen({ staffeln: [film, { nr: 2, offen: false }] }) === false)
     pruefe('der Durchgang fragt gruppeOffen, nicht die Zuordnung', /if \(!gruppeOffen\(reihe, gruppe\)\)/.test(start) && /DURCHLAUF\.erzwungen = true/.test(start))
     pruefe('ein erzwungener Lauf prüft die ganze Gruppe', /const alleOffen = erzwungen \? \[\.\.\.DURCHLAUF\.folgen\] : durchlaufOffen\(\)/.test(schneide('durchlaufStarten')))
-    pruefe('der Zähler läuft je Titel über alle Staffeln', /DURCHLAUF\.mehrfach = \{ reihe: String\(reihe\), gesamt: offeneGruppen\(\)\.length \* 2/.test(start))
+    pruefe('eine Staffel mit einer Folge zählt eine Prüfung', /return Math\.min\(2, gruppe\.length\)/.test(schneide('randPruefungen')))
+    pruefe('der Zähler läuft je Titel über alle Staffeln', /DURCHLAUF\.mehrfach = \{ reihe: String\(reihe\), gesamt: offeneGruppen\(\)\.reduce\(\(n, \[, g\]\) => n \+ randPruefungen\(g\), 0\)/.test(start))
     const label = new Function('letztesMenue', schneide('gruppenLabel') + '\nreturn gruppenLabel')
     const menue = [{ text: 'Staffel 1  (13 Folgen)', folgen: 13 }, { text: 'Staffel 2  (12 Folgen)', folgen: 12 }]
     pruefe('Staffelname aus dem Menü über die Folgenzahl', label(menue)(Array(12).fill({})) === 'Staffel 2')
