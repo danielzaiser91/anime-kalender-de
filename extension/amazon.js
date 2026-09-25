@@ -3560,6 +3560,12 @@ async function speicherSchreiben(werte) {
    * bevor es irgendetwas berechnet.
    */
   let sendetGerade = false
+  /**
+   * **Wie die letzte Meldung dieser Seite ausging — der Haken für den Durchgang** (25.09.2026).
+   * Er las bis 4.22.8 den Knopftext und wartete auf Ruhe; das kostete je Staffel rund fünf der
+   * gemessenen zehn Sekunden und hing einmal ganz, weil der versteckte Knopf „trage ein …" behielt.
+   */
+  let letzteMeldung = null
 
   /**
    * **Für welchen Pfad eine Meldung durchgegangen ist.**
@@ -10625,6 +10631,7 @@ async function speicherSchreiben(werte) {
        * kommen." Der Erfolg zeigt sich am Ergebnis, nicht an einer Zwischenzeile.
        */
       if (!antwort.ok) knopf.textContent = `Fehler ${antwort.status}`
+      letzteMeldung = { pfad: location.pathname, ok: antwort.ok, am: Date.now() }
       /**
        * Abgehakt wird erst, wenn die Meldung wirklich angekommen ist.
        *
@@ -10824,6 +10831,7 @@ async function speicherSchreiben(werte) {
       }
     } catch (err) {
       knopf.textContent = `Nicht erreichbar: ${err.message}`
+      letzteMeldung = { pfad: location.pathname, ok: false, am: Date.now() }
       /*
         **Ein Befund, der nicht ankommt, ist verlorene Arbeit.** Bis zum
         10.09.2026 stand das nur am Knopf — und war weg, sobald Daniel die Seite
@@ -10867,8 +10875,8 @@ async function speicherSchreiben(werte) {
     anbietet, klicken, nächste Staffel.
 
     - **Der Knopf entscheidet, nicht der Durchgang.** Er klickt nur, wenn der Meldeknopf von sich
-      aus „… melden" anbietet und die Beschriftung 2,5 s still steht (Ladezustände wechseln
-      schneller). Was der Knopf als gemeldet zeigt, wird übersprungen.
+      aus „… melden" anbietet und die Beschriftung 1 s still steht (Ladezustände wechseln
+      schneller). Ob die Meldung ankam, sagt der Handler selbst (`letzteMeldung`). Was der Knopf als gemeldet zeigt, wird übersprungen.
     - **Staffeln aus dem Quelltext der Seite.** `seasons` führt jede Staffel mit eigener ASIN
       (gemessen am 25.09.2026 an Naruto, B07VP6VPVR: neun Einträge, `seasonId` = ASIN der
       Staffelseite, `seasonLink` = `/gp/video/detail/<ASIN>?ref_=atv_dp_season_select_sN`). Die
@@ -10884,7 +10892,7 @@ async function speicherSchreiben(werte) {
   const PRIME_LAUF_ENDE = 'ak-prime-lauf-ende'
   const PRIME_LAUF_HOECHSTENS_MS = 2 * 60 * 60 * 1000
   const PRIME_SEITE_HOECHSTENS_MS = 60_000
-  const PRIME_RUHE_MS = 2500
+  const PRIME_RUHE_MS = 1000
 
   function primeLaufLesen() {
     try {
@@ -11032,7 +11040,14 @@ async function speicherSchreiben(werte) {
     const hier = String(asin() ?? '')
     if (!hier) return
     const jetzt = Date.now()
-    if (primeSeite?.hier !== hier) primeSeite = { hier, start: jetzt, text: null, textSeit: jetzt }
+    if (primeSeite?.hier !== hier) {
+      primeSeite = { hier, start: jetzt, text: null, textSeit: jetzt }
+      /* Ein Klick aus einem früheren Leben dieser Seite (Neuladen, Update) hat hier keine Antwort mehr. */
+      if (lauf.geklickt[hier]) {
+        delete lauf.geklickt[hier]
+        primeLaufSchreiben(lauf)
+      }
+    }
     const text = String(knopf.textContent ?? '').trim()
     if (text !== primeSeite.text) {
       primeSeite.text = text
@@ -11051,11 +11066,13 @@ async function speicherSchreiben(werte) {
 
     const geklickt = lauf.geklickt[hier]
     if (geklickt) {
-      if (sichtbar && /^(Fehler|Nicht erreichbar)/.test(text)) return primeSeiteFertig(lauf, hier, text)
-      if (!ruhig) return
-      if (!bietetMelden) return primeSeiteFertig(lauf, hier, 'gemeldet')
-      /* Der Knopf bietet nach dem Klick wieder „melden" an: Die Meldung kam nicht durch. */
-      if (jetzt - geklickt > 10_000) return primeSeiteFertig(lauf, hier, `nach dem Klick wieder: ${text}`)
+      /* Das Ergebnis kommt aus dem Meldehandler (`letzteMeldung`), nicht aus dem Knopftext. */
+      const m = letzteMeldung
+      if (m?.pfad === location.pathname && m.am >= geklickt) {
+        return primeSeiteFertig(lauf, hier, m.ok ? 'gemeldet' : `Fehler: ${text}`)
+      }
+      /* Der Handler kann ohne Senden aussteigen (Stand sagt: schon gemeldet) — dann gibt es keine. */
+      if (jetzt - geklickt > 15_000) return primeSeiteFertig(lauf, hier, `keine Rückmeldung: ${text}`)
       return
     }
     if (!ruhig) return
@@ -11075,7 +11092,7 @@ async function speicherSchreiben(werte) {
     }
     /* Kein Angebot: schon gemeldet, oder die Seite gehört nicht zum Auftrag. Kurz warten, weil
        der Knopf in den ersten Sekunden noch lädt. */
-    if (jetzt - primeSeite.start > 6000 && (!sichtbar || /gemeldet/.test(text))) {
+    if (jetzt - primeSeite.start > 4000 && (!sichtbar || /gemeldet/.test(text))) {
       return primeSeiteFertig(lauf, hier, sichtbar ? text : 'kein Knopf')
     }
     if (jetzt - primeSeite.start > PRIME_SEITE_HOECHSTENS_MS) {
@@ -11091,7 +11108,7 @@ async function speicherSchreiben(werte) {
   */
   function primeTakt() {
     primeSchritt()
-    setTimeout(primeTakt, 1000)
+    setTimeout(primeTakt, 500)
   }
-  setTimeout(primeTakt, 1000)
+  setTimeout(primeTakt, 500)
 })()

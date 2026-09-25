@@ -54,6 +54,7 @@ function welt() {
     gesehen: { seite: { staffeln: NARUTO.map((kennung, i) => ({ kennung, nummer: i + 1 })) } },
     knopf: { textContent: '', style: { display: '' }, disabled: false, isConnected: true, click: () => w.geklickt++ },
     sendetGerade: false,
+    letzteMeldung: null,
     imPlayer: () => false,
     verbindungLebt: () => true,
     aktuell: 'B07VP6VPVR',
@@ -90,6 +91,10 @@ function welt() {
       w.uhr += 1000
     }
   }
+  /** Der Meldehandler meldet sein Ergebnis — so, wie amazon.js es in `letzteMeldung` ablegt. */
+  w.antwort = (ok) => {
+    kontext.letzteMeldung = { pfad: kontext.location.pathname, ok, am: w.uhr }
+  }
   w.lauf = () => vm.runInContext('primeLaufLesen()', kontext)
   w.ende = () => vm.runInContext('primeLaufEndeLesen()', kontext)
   return w
@@ -104,15 +109,18 @@ function welt() {
   w.zeige('Staffel wechselt — einen Moment', 1000)
   pruefe('wechselnde Ladezustände: kein Klick', w.geklickt === 0)
 
-  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1000)
-  pruefe('„melden" erst seit einer Sekunde: noch kein Klick', w.geklickt === 0)
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 0)
+  pruefe('„melden" gerade erst erschienen: noch kein Klick', w.geklickt === 0)
   w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
   pruefe('„melden" steht still: genau ein Klick', w.geklickt === 1)
 
   k.sendetGerade = true
   w.zeige('sende 12 Folgen …', 2000)
+  w.zeige('gemeldet ✓', 0)
+  pruefe('solange der Handler sendet: keine Bewegung', k.location.href.endsWith('B07VP6VPVR'), k.location.href)
+  w.antwort(true)
   k.sendetGerade = false
-  w.zeige('gemeldet ✓', 3000)
+  w.zeige('gemeldet ✓', 0)
   pruefe('nach der Bestätigung: weiter zu Staffel 1', k.location.href === 'https://www.amazon.de/gp/video/detail/B0CWDYLZ1S', k.location.href)
   pruefe('der Plan enthält die übrigen sieben Staffeln', w.lauf().plan.length === 7, w.lauf().plan)
 
@@ -142,7 +150,8 @@ function welt() {
   k.gesehen = { seite: { staffeln: [] } }
   w.seite('B07FB4D9KM')
   w.zeige('🇩🇪 Deutsch · 26 Folgen · Staffel 1 · melden', 3000)
-  w.zeige('gemeldet ✓', 3000)
+  w.antwort(true)
+  w.zeige('gemeldet ✓', 0)
   pruefe('Titel ohne Staffelliste: eine Seite, dann Ende', w.lauf() === null)
   const ende = w.ende()
   pruefe('Suchaufträge werden nicht angesteuert — der Lauf endet mit „nichts mehr offen"', ende?.grund === 'nichts mehr offen', ende)
@@ -155,8 +164,35 @@ function welt() {
   const k = w.kontext
   vm.runInContext('primeLaufStarten()', k)
   w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
-  w.zeige('trage ein …', 4000, false)
-  pruefe('versteckter Knopf mit „trage ein …": gemeldet, weiter zu Staffel 1', k.location.href.endsWith('B0CWDYLZ1S'), k.location.href)
+  w.antwort(true)
+  w.zeige('trage ein …', 0, false)
+  pruefe('versteckter Knopf mit „trage ein …": der Handler sagt gemeldet, weiter zu Staffel 1', k.location.href.endsWith('B0CWDYLZ1S'), k.location.href)
+}
+
+{
+  /* Eine Meldung von einer anderen Seite gilt hier nicht. */
+  const w = welt()
+  const k = w.kontext
+  vm.runInContext('primeLaufStarten()', k)
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
+  k.letzteMeldung = { pfad: '/gp/video/detail/ANDERE', ok: true, am: w.uhr }
+  w.zeige('trage ein …', 10_000, false)
+  pruefe('Meldung einer anderen Seite: kein Weitergehen', k.location.href.endsWith('B07VP6VPVR'), k.location.href)
+  w.zeige('trage ein …', 6000, false)
+  pruefe('ohne Rückmeldung nach 15 s: weiter zu Staffel 1', k.location.href.endsWith('B0CWDYLZ1S'), k.location.href)
+}
+
+{
+  /* Neuladen nach dem Klick (Update der Erweiterung): Der Klick gehört dem alten Seitenleben. */
+  const w = welt()
+  const k = w.kontext
+  vm.runInContext('primeLaufStarten()', k)
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
+  w.seite('B07VP6VPVR')
+  w.zeige('Folgen werden geladen …', 0)
+  pruefe('neues Seitenleben: der alte Klick ist vergessen', !w.lauf().geklickt.B07VP6VPVR)
+  w.zeige('✓ Staffel 9 gemeldet · weiter mit Staffel 1', 5000)
+  pruefe('… und die gemeldete Seite wird regulär verlassen', k.location.href.endsWith('B0CWDYLZ1S'), k.location.href)
 }
 
 {
@@ -164,7 +200,8 @@ function welt() {
   const k = w.kontext
   vm.runInContext('primeLaufStarten()', k)
   w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 3000)
-  w.zeige('Fehler: 500 — nochmal', 1000)
+  w.antwort(false)
+  w.zeige('Fehler: 500 — nochmal', 0)
   pruefe('Fehler beim Melden: Seite fertig, der Lauf geht weiter', k.location.href.endsWith('B0CWDYLZ1S'), k.location.href)
 }
 
