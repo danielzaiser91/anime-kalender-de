@@ -178,6 +178,31 @@ export function WeekView({
     jump()
   }, [days, monday, today, landingId])
 
+  /*
+    **„heute" in der Kopfleiste scrollt, auch wenn die Woche schon die laufende ist** (Daniel,
+    25.09.2026). Der Sprung oben geschieht einmal je Ankunft; dieser auf Zuruf, auf jeder
+    Bildschirmbreite. Ziel ist dieselbe Karte — der nächste anstehende Termin von heute —, sonst
+    der Kopf des heutigen Tages.
+  */
+  useEffect(() => {
+    const zuHeute = () => {
+      const karte = landingRef.current
+      const tag = document.querySelector<HTMLElement>('[data-heute="1"]')
+      const ziel = karte ?? tag
+      if (!ziel) return
+      const header = document.querySelector('header')
+      const offset = (header?.getBoundingClientRect().height ?? 0) + LEAD_PX
+      window.scrollTo({
+        top: Math.max(0, ziel.getBoundingClientRect().top + window.scrollY - offset),
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      })
+    }
+    /* Kam der Klick aus einer anderen Woche, steht die neue erst nach dem Zeichnen. */
+    const spaeter = () => window.setTimeout(zuHeute, 50)
+    window.addEventListener('ak-zu-heute', spaeter)
+    return () => window.removeEventListener('ak-zu-heute', spaeter)
+  }, [])
+
   // Verlässt man die Woche mit heute, darf beim nächsten Besuch wieder
   // gesprungen werden.
   useEffect(() => {
@@ -237,6 +262,7 @@ export function WeekView({
           return (
             <section
               key={date}
+              data-heute={isToday ? '1' : undefined}
               aria-label={`${weekdayName(date)}, ${formatDate(date)}`}
               className={[
                 'flex min-h-40 flex-col rounded-xl border transition',

@@ -247,15 +247,23 @@ export function Header({
               Stelle im Kalender (Daniel, 24.08.2026). Der Rahmen bleibt, damit
               die Leiste nicht springt.
             */}
+            {/*
+              **In der Woche bleibt „heute" klickbar und scrollt zum heutigen Tag** (Daniel,
+              25.09.2026: „auf handy zB kann man hoch und runter scrollen, und ist dann nicht
+              unbedingt bei heute"). Die Wochenansicht hört auf `ak-zu-heute`.
+            */}
             <button
               type="button"
-              onClick={() => onDate(todayIso())}
-              disabled={heuteSichtbar}
+              onClick={() => {
+                onDate(todayIso())
+                if (view === 'woche') window.dispatchEvent(new Event('ak-zu-heute'))
+              }}
+              disabled={heuteSichtbar && view !== 'woche'}
               aria-current={heuteSichtbar ? 'date' : undefined}
-              title={heuteSichtbar ? t('nav.todayHere') : t('nav.todayGo')}
+              title={heuteSichtbar ? (view === 'woche' ? t('nav.todayScroll') : t('nav.todayHere')) : t('nav.todayGo')}
               className={
                 heuteSichtbar
-                  ? 'cursor-default rounded-lg border border-sky-500/40 bg-sky-500/10 px-2.5 py-1.5 text-sm font-medium text-sky-700 dark:text-sky-300'
+                  ? `${view === 'woche' ? 'cursor-pointer hover:bg-sky-500/20' : 'cursor-default'} rounded-lg border border-sky-500/40 bg-sky-500/10 px-2.5 py-1.5 text-sm font-medium text-sky-700 dark:text-sky-300`
                   : 'cursor-pointer rounded-lg border border-transparent px-2.5 py-1.5 text-sm font-medium transition hover:bg-slate-200/60 dark:hover:bg-white/10'
               }
             >

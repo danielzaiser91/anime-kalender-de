@@ -91,6 +91,7 @@ const TEXTE = {
   'nav.today': 'heute',
   'nav.todayHere': 'Der heutige Tag ist schon zu sehen',
   'nav.todayGo': 'Zum heutigen Tag springen',
+  'nav.todayScroll': 'Zum nächsten Termin von heute scrollen',
   'nav.back': 'zurück',
   'sprung.oeffnen': 'Zu einem Datum springen',
   'sprung.termine': '{n} Termine',
