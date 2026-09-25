@@ -207,6 +207,7 @@ Punkte, die nur bei Gelegenheit auftauchen und dann kurz geprüft werden. Daniel
 
 | Aufgabe | Notiz |
 |---|---|
+| **Prime-Durchgang 4.22.7 — erster echter Lauf (25.09.2026)** | „▶ alle durchgehen" in der Prime-Prüfliste, Sandkasten grün (`amazon-durchgang.test.cjs`). Offen ist der erste Lauf in Daniels Konto mit Naruto (9 Staffeln); danach den Bericht (`durchgang.lauf.spur`) gegen die Meldungen im Briefkasten halten. Dazu am selben Tag: Netflix-Randprobe in Stapeln zu zehn (4.22.4), Film-Einträge im Durchgang (4.22.5, Steel Ball Run gemeldet), Zähler je Staffel mit einer Folge (4.22.6) |
 
 | **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
 
