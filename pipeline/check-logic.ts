@@ -20,7 +20,7 @@ import { readFileSync } from 'node:fs'
 import { titelAus } from './lib/anisearch-titel.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
-import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus } from '../shared/logic.ts'
+import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin } from '../shared/logic.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
@@ -219,6 +219,26 @@ console.log('Sendeplan gegen belegtes Ende:')
   const belegt = expandEvents({ ...release, slug: 'nf2', platform: 'netflix', schedule: { firstEpisodeDate: '2026-09-25', time: '17:30' } })
   pruefe('eine belegte Netflix-Uhrzeit bleibt und gilt nicht als geschätzt', belegt[0]?.time === '17:30' && !belegt[0]?.timeEstimated, belegt[0])
   pruefe('andere Anbieter ohne Uhrzeit bleiben ohne', einzeln[0]?.time === undefined && !einzeln[0]?.timeEstimated, einzeln[0])
+
+  /*
+    Vom Landei zum Schwertheiligen II (25.09.2026): Beleg 1–10 vom 13.09., danach 11 und 12 im
+    Wochentakt — das Panel zählt die erschienenen Folgen des deutschen Wochenplans mit.
+  */
+  const landei = {
+    ...release,
+    slug: 'landei-2',
+    platform: 'primevideo' as const,
+    schedule: { firstEpisodeDate: '2026-07-10', time: '18:00', episodeCount: 12 },
+  }
+  const nachFolge12 = new Date('2026-09-25T17:00:00Z')
+  const vorFolge12 = new Date('2026-09-25T13:00:00Z')
+  const beleg = [{ from: 1, to: 10, dub: true }]
+  pruefe('Landei II: nach Folge 12 zählen 1–12', JSON.stringify(bereicheMitTermin(beleg, [landei], 'primevideo', nachFolge12)) === '[{"from":1,"to":12,"dub":true}]', bereicheMitTermin(beleg, [landei], 'primevideo', nachFolge12))
+  pruefe('… vor 18:00 erst 1–11', JSON.stringify(bereicheMitTermin(beleg, [landei], 'primevideo', vorFolge12)) === '[{"from":1,"to":11,"dub":true}]', bereicheMitTermin(beleg, [landei], 'primevideo', vorFolge12))
+  const mitNein = [{ from: 1, to: 10, dub: true }, { from: 11, to: 11, dub: false }]
+  pruefe('ein Beleg „ohne Ton" bleibt stehen', JSON.stringify(bereicheMitTermin(mitNein, [landei], 'primevideo', nachFolge12)) === '[{"from":1,"to":10,"dub":true},{"from":11,"to":11,"dub":false},{"from":12,"to":12,"dub":true}]', bereicheMitTermin(mitNein, [landei], 'primevideo', nachFolge12))
+  pruefe('ohne belegte Bereiche bleibt es beim Panel-eigenen Zählen', bereicheMitTermin(undefined, [landei], 'primevideo', nachFolge12) === undefined)
+  pruefe('ein anderer Anbieter ergänzt nichts', JSON.stringify(bereicheMitTermin(beleg, [landei], 'netflix', nachFolge12)) === JSON.stringify(beleg))
 }
 
 console.log('\nRhythmus:')

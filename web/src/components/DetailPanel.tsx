@@ -5,7 +5,7 @@ import type { DiscAusgabe, Meldung, Release, ReleaseEvent, StreamLink, Title, Ve
 import { bereicheGekuerzt, bereicheKurz, dubAbdeckung, dubBild, dubGrenze, dubLuecken, folgenOhneAnbieter } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS, anbieterName } from '@shared/types.ts'
-import { expandEvents, titleStatus, istErschienen, istAusgeblieben, releaseStatus } from '@shared/logic.ts'
+import { expandEvents, titleStatus, istErschienen, istAusgeblieben, releaseStatus, bereicheMitTermin } from '@shared/logic.ts'
 import { naechsteRecherche } from '@shared/recherche-plan.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { addDays, berlinToUtc, formatDate, monthName, todayIso, weekdayName } from '@shared/time.ts'
@@ -3123,7 +3123,21 @@ export function DetailPanel({
   const { t, tGenre, tKeyword } = useLang()
   const verbindung = useNewsletterVerbindung()
   const today = todayIso()
-  const title: Title | undefined = data.titleById.get(titleId)
+  const titelRoh: Title | undefined = data.titleById.get(titleId)
+  /*
+    **Belegte Bereiche plus erschienene Folgen des deutschen Wochenplans** (25.09.2026,
+    `bereicheMitTermin`): Sonst zählte das Panel bei einer laufenden Serie nur den Beleg vom
+    Prüftag — „10 von 12" neben „Ep 12/12" in der Woche (Vom Landei zum Schwertheiligen II).
+  */
+  const title = useMemo(() => {
+    if (!titelRoh?.streams?.length) return titelRoh
+    const rels = data.releasesByTitle.get(titelRoh.id) ?? []
+    if (!rels.some((r) => r.releaseType === 'weekly')) return titelRoh
+    return {
+      ...titelRoh,
+      streams: titelRoh.streams.map((s) => ({ ...s, dubRanges: bereicheMitTermin(s.dubRanges, rels, s.platform) })),
+    }
+  }, [titelRoh, data])
   /*
     **Ein offener Titel bekommt seinen Teilen-Pfad `/t/<slug>/`** (19.09.2026). Bis dahin
     schrieb nur ein offener Termin einen Pfad in die Adressleiste; wer bei einem Titel die

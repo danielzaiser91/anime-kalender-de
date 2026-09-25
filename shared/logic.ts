@@ -557,3 +557,54 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
 
   return events
 }
+
+/**
+ * **Belegte Bereiche plus die seither erschienenen Folgen des deutschen Wochenplans** (25.09.2026).
+ *
+ * „Vom Landei zum Schwertheiligen II": Daniel belegte am 13.09.2026 die Folgen 1–10 bei Prime,
+ * danach liefen 11 und 12 im Wochentakt. Die Wochenansicht zählte die Termine (Ep 12/12), das
+ * Detail-Panel nur den Beleg („10 von 12 Folgen auf Deutsch, für die übrigen fehlt uns eine
+ * Angabe") — Daniel prüfte nach: 12 sind richtig.
+ *
+ * Ein Wochen-Release in diesem Kalender ist ein deutsches; seine erschienenen Folgen
+ * (`istErschienen`) gelten deshalb für den Weg desselben Anbieters als deutsch — außer ein Beleg
+ * sagt für eine Folge etwas anderes (ein Bereich mit `dub: false` oder ein schon belegter). Nur
+ * Wege mit belegten deutschen Bereichen werden ergänzt; ohne Bereiche zählt das Panel die
+ * erschienenen Folgen ohnehin selbst.
+ */
+export function bereicheMitTermin(
+  bereiche: Array<{ from: number; to: number; dub: boolean }> | undefined,
+  releases: Release[],
+  plattform: string,
+  jetzt: Date = new Date(),
+): Array<{ from: number; to: number; dub: boolean }> | undefined {
+  if (!bereiche?.some((b) => b.dub)) return bereiche
+  const gedeckt = new Set<number>()
+  for (const b of bereiche) for (let n = b.from; n <= b.to; n++) gedeckt.add(n)
+  const neu = [
+    ...new Set(
+      releases
+        .filter((r) => r.platform === plattform && r.releaseType === 'weekly')
+        .flatMap((r) => expandEvents(r))
+        .filter((e) => typeof e.episode === 'number' && istErschienen(e, jetzt))
+        .map((e) => e.episode as number)
+        .filter((n) => !gedeckt.has(n)),
+    ),
+  ].sort((a, b) => a - b)
+  if (!neu.length) return bereiche
+  const dazu: Array<{ from: number; to: number; dub: boolean }> = []
+  for (const n of neu) {
+    const letzter = dazu[dazu.length - 1]
+    if (letzter && letzter.to === n - 1) letzter.to = n
+    else dazu.push({ from: n, to: n, dub: true })
+  }
+  /* Direkt anschließende Bereiche zusammenziehen: 1–10 und 11–12 werden 1–12. */
+  const alle = [...bereiche.map((b) => ({ ...b })), ...dazu].sort((a, b) => a.from - b.from)
+  const raus: typeof alle = []
+  for (const b of alle) {
+    const vor = raus[raus.length - 1]
+    if (vor && vor.dub === b.dub && vor.to + 1 >= b.from) vor.to = Math.max(vor.to, b.to)
+    else raus.push(b)
+  }
+  return raus
+}
