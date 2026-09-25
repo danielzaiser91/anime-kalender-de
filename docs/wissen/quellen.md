@@ -2820,3 +2820,20 @@ Anlass: Daniel fand Magic Knight Rayearth (2026) auf Crunchyrolls Startseite (�
 
 Alle 212 Teilkarten von `programs.sitemap.xml` plus `programs.updated_48h.sitemap.xml` durchsucht (400 ms Takt): Unter „dragon-ball" stehen nur die Filme Broly (`p_182056`) und Super Hero (`p_182055`), Daima nicht — obwohl Daniel es am selben Tag dort mit Abo gesehen hat. Die Sitemaps sind also nicht vollständig; ein Titel ohne Sitemap-Eintrag ist kein Beleg, dass RTL+ ihn nicht führt. Für den Daima-Termin war die Adresse nicht nötig (Eintrag `dragon-ball-daima-rtlplus` in `streaming-herbst-2026.yaml`).
 
+## News-Quellen im Vergleich: was früher, besser oder anders ist (25.09.2026)
+
+Daniels Auftrag: weitere News-Quellen prüfen, angebunden wird nur, was früher, besser oder anders ist als unser Bestand. Gemessen am 25.09.2026, je Quelle ein Abruf.
+
+| Quelle | Stand | Befund | Anbinden? |
+|---|---|---|---|
+| Anime2You (3 RSS-Feeds, schon angebunden) | aktiv | 113 Vorschläge 06.12.2025–24.09.2026, **103 nie eingearbeitet** (u. a. „25 Blu-ray-Termine verschoben", „30 Blu-ray-Termine verschoben"). Die Crunchyroll-Herbst-Ankündigung vom 15.09. steht **nicht** darin | läuft; Vorschläge einarbeiten ist der größte Hebel |
+| Crunchyroll DE, Season-Artikel (`/de/news/seasonal-lineup`) | aktiv | Lineup mit `OmU:`/`DE: TBA` je Titel und eigener Synchro-Artikel; führte zu 32 Ankündigungen, darunter 13 Synchros, die bei uns fehlten | **ja** (von Hand übertragen, automatisch offen) |
+| Crunchyroll DE, Wochenprogramm (selber Bereich) | wöchentlich aktualisiert | nennt nachgereichte Synchro-Pakete mit Datum: Hana-Kimi S2 Folge 10–12 am 02.10., You and I Are Polar Opposites S2 Folge 8–11 am 04.10., Mushoku Tensei S3 Folge 11–12 am 04.10. — bei uns endet der Stand bei Folge 9, 7 bzw. 10 | **wahrscheinlich**; erst prüfen, ob der Simulcast-Kalender (`scrape-crunchyroll.ts`) die Pakete vor dem Termin führt |
+| Crunchyroll DE, Einzelmeldungen (`/de/news/announcements`) | aktiv | Synchro-Starts (Sound! Euphonium S1, Fruits Basket, Jaadugar, Hana-Kimi S2) alle schon im Bestand über die Crunchyroll-Automatik | nein |
+| manime.de (`/feed/`, robots.txt erlaubt alles) | aktiv | 10 Artikel in 6 Wochen, 2 zu Anime-Streaming (beide Daima); der Zensur-Artikel war dort zuerst | nein, zu selten |
+| Anime News Network (`/all/rss.xml`) | aktiv | 175 Artikel/Woche, US-bezogen (englische Synchros, US-Preise, Trailer); keine deutsche Streaming-Auskunft | nein |
+| animenachrichten.de (`/feed/`) | still seit 28.03.2025 | — | nein |
+| aniSearch-News, peppermint anime, KAZÉ, Crunchyroll-RSS | kein nutzbarer Feed (404 oder leer) | aniSearch-Daten nutzen wir schon direkt | nein |
+
+**Schwelle für eine Neubewertung:** Eine Quelle wird angebunden, sobald sie in einem Monat mindestens eine für uns relevante Meldung bringt, die weder im Bestand noch in den Anime2You-Vorschlägen steht. manime.de lag mit einer (Daima-Zensur) knapp darunter, zu selten für einen eigenen Lauf.
+

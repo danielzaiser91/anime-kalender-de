@@ -568,6 +568,7 @@ Diese Datei war bis zum 18.09.2026 auf 338 KB gewachsen und wurde in jeder Sitzu
 - aniSearch weist unsere Kennung ab, nicht unsere Leitung (23.09.2026)
 - Angekündigte Crunchyroll-Serien stehen nur in den Season-Artikeln (25.09.2026)
 - RTL+: Dragon Ball Daima steht in keiner Programm-Sitemap (25.09.2026)
+- News-Quellen im Vergleich: was früher, besser oder anders ist (25.09.2026)
 
 ### [Betrieb: Läufe, Worker, Git, Prüfungen](docs/wissen/betrieb.md)
 
