@@ -133,11 +133,19 @@ const belegtAm = (() => {
     return new Map()
   }
 })()
-const ERZEUGT = new Date().toISOString()
 function zustandVon(e) {
   if (e.dub === undefined) return { zustand: 'melden' }
-  /* Seit wann: Eine Meldung danach löst das „erneut“ ab, eine ältere nicht. */
-  if (verdaechtig.has(e.t.id)) return { zustand: 'erneut', seit: ERZEUGT }
+  /*
+    Seit wann: Eine Meldung danach löst das „erneut“ ab, eine ältere nicht.
+    Maßgeblich ist das `seit` des Falls, nicht die Erzeugung der Liste — sonst
+    zählt eine Meldung, die schon vor dem Neubau kam, nicht mehr, und der Titel
+    steht auf ↻, bis der Zuordner den Beleg geschrieben hat (My Hero Academia
+    S1, 25.09.2026: gemeldet am 24., Liste neu erzeugt am 25.).
+    Ein Fall ohne Datum (Anbieter-Zählung) wird von jeder Meldung abgelöst:
+    Er braucht nur die Folgentitel, und die bringt jede Meldung mit.
+  */
+  const fall = verdaechtig.get(e.t.id)
+  if (fall) return { zustand: 'erneut', seit: fall.seit ?? null }
   return { zustand: 'belegt', am: belegtAm.get(e.t.id) ?? null }
 }
 
