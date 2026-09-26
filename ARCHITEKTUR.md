@@ -16,7 +16,7 @@ Pages; erzeugt wird es von einer Pipeline, die mehrmals täglich als GitHub Acti
 Quellen (Crunchyroll, ADN, AniList, TMDB, aniSearch, Anime2You)
    ↓  Actions: stündlich / täglich / wöchentlich
 data/cache/, data/anisearch.json, data/curated/*.yaml   ← Rohdaten, im Repo
-   ↓  pipeline/build.ts
+   ↓  pipeline/build.ts (Phasen in pipeline/bau/NN-*.ts)
 public/data/*.json                                       ← ausgeliefert
    ↓  vite build
 dist/                                                    ← GitHub Pages

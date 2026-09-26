@@ -71,7 +71,8 @@ Zusicherung, die meldet, wenn sie verlorengeht.
   Repo-Größe sind drei verschiedene Dinge; ein neues Feld kommt nur nach `titles.json`, wenn die
   Mehrheit der Besucher es braucht, sonst als eigene, nachgeladene Datei.
 - `data/curated/*.yaml` (Handarbeit, **jede Datei dort wird als Termine gelesen**) + `data/cache/*`
-  (APIs, nicht im Repo) → `pipeline/build.ts` → `public/data/*` (wird mit committet).
+  (APIs, nicht im Repo) → `pipeline/build.ts` (Phasen: `pipeline/bau/`) → `public/data/*`
+  (wird mit committet).
 - `shared/` wird von Pipeline, Web-App **und** Worker importiert — nichts mit Node-APIs oder DOM.
 - Status (`airing`/`abgeschlossen`/`tba`/`unbekannt`) nur über `shared/logic.ts` berechnen, nie
   nachbauen: `lastEpisodeDate` ist meist nicht gesetzt. Ein Anbieter-Verweis gehört zum Release
