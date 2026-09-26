@@ -36,12 +36,18 @@ const TYPEN = {
   '.webmanifest': 'application/manifest+json',
 }
 
+/** Löscht den Baum samt Verwaltungseintrag — warum nicht `git worktree remove`: `bau-vergleich.mjs`. */
+function entferneBaum(baum) {
+  rmSync(baum, { recursive: true, force: true })
+  git('worktree', 'prune')
+}
+
 /** Baut `sha` mit dem Datenbestand von `basisSha`; liefert das `dist/`-Verzeichnis. */
 function baue(sha, basisSha) {
   const ziel = path.join(ABLAGE, `dist-${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}`)
   if (existsSync(path.join(ziel, 'index.html'))) return ziel
   const baum = path.join(ABLAGE, `baum-${sha.slice(0, 12)}`)
-  if (existsSync(baum)) git('worktree', 'remove', '--force', baum)
+  entferneBaum(baum)
   git('worktree', 'add', '--quiet', '--detach', baum, sha)
   try {
     symlinkSync(path.join(WURZEL, 'node_modules'), path.join(baum, 'node_modules'), 'junction')
@@ -55,7 +61,7 @@ function baue(sha, basisSha) {
     if (lauf.status !== 0) throw new Error(`vite build ${sha.slice(0, 12)} gescheitert:\n${lauf.stderr.slice(-2000)}`)
     return ziel
   } finally {
-    git('worktree', 'remove', '--force', baum)
+    entferneBaum(baum)
   }
 }
 
@@ -75,7 +81,9 @@ function starteBrowser() {
 
 async function rendere(dist, ids) {
   const browser = await starteBrowser()
-  const seite = await browser.newPage({ viewport: { width: 560, height: 1200 } })
+  // Hoch genug, dass jeder nachgeladene Teil im Bild liegt: Bei 1200 stand „Ähnliche Titel" von
+  // 20520 genau an der Unterkante und lud je Lauf mal, mal nicht — auf beiden Ständen.
+  const seite = await browser.newPage({ viewport: { width: 560, height: 8000 } })
   await seite.clock.install({ time: UHR })
   await seite.route('**/*', async (route) => {
     const url = new URL(route.request().url())
@@ -94,6 +102,14 @@ async function rendere(dist, ids) {
     try {
       await panel.waitFor({ state: 'visible', timeout: 15_000 })
       await seite.waitForLoadState('networkidle')
+      // Nachgeladene Teile (Ähnliche Titel, Stimmen, Staffeln) kommen nach `networkidle` — ohne
+      // dieses Warten stand je Lauf mal die Liste, mal „Wird geladen …" im Vergleich. Bleibt ein
+      // Teil hängen, wird trotzdem verglichen; dann steht der Unterschied im Ergebnis.
+      await seite
+        .waitForFunction(() => !document.querySelector('[data-panel="titel"]')?.textContent?.includes('Wird geladen'), null, {
+          timeout: 10_000,
+        })
+        .catch(() => {})
       ergebnis[id] = await panel.evaluate((el) => el.outerHTML)
     } catch {
       ergebnis[id] = '<kein Panel>'

@@ -78,12 +78,22 @@ function ersatzCache(ort, basisSha) {
   writeFileSync(join(ort, 'dub-confidence.json'), JSON.stringify(confidence))
 }
 
+/**
+ * Löscht den Baum samt Verwaltungseintrag. Nicht `git worktree remove`: unter Windows lässt es die
+ * node_modules-Junction samt Ordner liegen, und der nächste `worktree add` scheitert daran.
+ * `rmSync` folgt der Junction nicht, das echte node_modules bleibt.
+ */
+function entferneBaum(baum) {
+  rmSync(baum, { recursive: true, force: true })
+  git('worktree', 'prune')
+}
+
 /** Baut den Code von `sha` auf dem Bestand von `basisSha`; liefert das Verzeichnis mit allem Geschriebenen. */
 function baue(sha, basisSha) {
   const ziel = join(ABLAGE, `${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}`)
   if (existsSync(join(ziel, '_protokoll.txt'))) return ziel
   const baum = join(ABLAGE, `baum-${sha.slice(0, 12)}`)
-  if (existsSync(baum)) git('worktree', 'remove', '--force', baum)
+  entferneBaum(baum)
   git('worktree', 'add', '--quiet', '--detach', baum, sha)
   const imBaum = (...args) => execFileSync('git', ['-C', baum, ...args], { encoding: 'utf8', maxBuffer: 1 << 28 })
   try {
@@ -117,7 +127,7 @@ function baue(sha, basisSha) {
     writeFileSync(join(ziel, '_protokoll.txt'), `exit ${lauf.status}\n${glatt(lauf.stdout)}\n--- stderr\n${glatt(lauf.stderr)}`)
     return ziel
   } finally {
-    git('worktree', 'remove', '--force', baum)
+    entferneBaum(baum)
   }
 }
 
