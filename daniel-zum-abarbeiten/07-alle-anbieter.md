@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-26 · **2 offene Verweise** in **2 Zeilen**.
+Stand 2026-09-26 · **0 offene Verweise** in **0 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,15 +33,11 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Crunchyroll](07-crunchyroll.md) | 2 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-06-26 | Snowball Earth | [Hauptserie](https://www.crunchyroll.com/series/GT00371869/snowball-earth) |
-| 2 | 2017-03-31 | Saga of Tanya the Evil | [Hauptserie](http://www.crunchyroll.com/de/saga-of-tanya-the-evil) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
-- **Crunchyroll:** Der Simulcast-Kalender führt nur laufende Staffeln. Für Katalogtitel sagt er nichts — Fehlen ist dort kein Gegenbeweis.

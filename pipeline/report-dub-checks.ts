@@ -22,7 +22,7 @@
  *
  * Aufruf: npm run data:dub-checks
  */
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeText } from './lib/util.ts'
 import { loadDubChecks, dubKey } from './lib/dub-confirmed.ts'
@@ -370,6 +370,28 @@ for (const [platform, zeilenDesAnbieters] of jeAnbieter) {
     '',
   ].join('\n')
   writeText(name, text)
+}
+/*
+  **Ein Anbieter ohne offene Verweise bekommt trotzdem seine Datei neu.**
+
+  Die Schleife oben schreibt nur Anbieter mit Zeilen. Fiel einer auf null, blieb seine alte
+  Datei stehen — `07-disneyplus.md` nannte am 26.09.2026 noch Snowball Earth vom 20.09., und
+  Daniel wurde danach auf eine längst beantwortete Seite geschickt.
+*/
+for (const platform of Object.keys(PLATFORMS) as PlatformId[]) {
+  const name = `daniel-zum-abarbeiten/07-${platform}.md`
+  if (dateiJeAnbieter.has(platform) || !existsSync(resolve(ROOT, name))) continue
+  writeText(
+    name,
+    [
+      `# ${PLATFORMS[platform].name}: was noch zu prüfen ist`,
+      '',
+      `Stand ${heute} · **nichts offen**.`,
+      '',
+      'Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**.',
+      '',
+    ].join('\n'),
+  )
 }
 log(`Je Anbieter geschrieben: ${[...dateiJeAnbieter.values()].length} Dateien`)
 log(`Prüfliste geschrieben: ${zuPruefen.length} Zeilen, ${offenGesamt} offene Verweise`)

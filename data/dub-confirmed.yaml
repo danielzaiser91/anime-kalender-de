@@ -16682,15 +16682,15 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 2
+      to: 6
       dub: true
-      checked: [1, 2]
-    - from: 3
+      checked: [1, 2, 3, 4, 5, 6]
+    - from: 7
       to: 13
       dub: false
-      checked: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-  checkedAt: '2026-09-20'
-  note: "Folgen 1–2 mit deutschem Ton, Folgen 3–13 ohne deutschen Ton — Tonspuren: en, es-419, ja, pt-BR"
+      checked: [7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-09-26'
+  note: "Daniel im Chat: deutsche Synchro bis Folge 6. Vorher (20.09.2026, Erweiterung) Folgen 1–2 — die Synchro erscheint wöchentlich"
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-21 ---
 
@@ -18678,3 +18678,22 @@
   dub: true
   checkedAt: '2026-09-26'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0DNZ2CZN9: alle 16 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.422f7607-1c80-4c15-87a6-05854f7b47ab"
+
+# ---------------------------------------------------------------------------
+# Prüfung vom 26.09.2026 (Daniel im Chat)
+# ---------------------------------------------------------------------------
+- anilistId: 21613
+  title: "Saga of Tanya the Evil"
+  platform: crunchyroll
+  url: http://www.crunchyroll.com/de/saga-of-tanya-the-evil
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Daniel: Staffel 1 komplett mit deutscher Synchro"
+
+- anilistId: 196144
+  title: "SNOWBALL EARTH"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/series/GT00371869/snowball-earth
+  dub: false
+  checkedAt: '2026-09-26'
+  note: "Daniel: keine deutsche Synchro"
