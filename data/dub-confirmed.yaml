@@ -18697,3 +18697,53 @@
   dub: false
   checkedAt: '2026-09-26'
   note: "Daniel: keine deutsche Synchro"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-26 ---
+
+- anilistId: 198113
+  title: "Kill Blue"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GTN94C9M
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GTN94C9M: alle 12 Folgen geprüft, Abos: FVOD, animedigitalde, aniversede, crunchyrollde, zugang=abo, gti=amzn1.dv.gti.a0209c33-42ce-4dad-92bb-0a8d2ab9b024 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 198113
+  title: "Kill Blue"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GTN94C9M
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GVSG9NN1: alle 12 Folgen geprüft, Abos: FVOD, animedigitalde, aniversede, crunchyrollde, zugang=abo, gti=amzn1.dv.gti.a0209c33-42ce-4dad-92bb-0a8d2ab9b024 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 108511
+  title: "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJC11GRB
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CJC11GRB: alle 24 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.e61ea435-04cd-4822-9626-eefbcbd6d30f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 116742
+  title: "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJC11GRB
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CJC11GRB: alle 24 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.e61ea435-04cd-4822-9626-eefbcbd6d30f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 156822
+  title: "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 3"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CVS8488Z
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), 日本語 — Amazon-Seite B0CVS8488Z: alle 24 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.2138a7da-f72f-4a2e-82d7-085254cf3ed8 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 198113
+  title: "Kill Blue"
+  platform: netflix
+  url: https://www.netflix.com/title/82757009
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es|Spanisch (Lateinamerika), en|Englisch, pt-BR|Portugiesisch (Brasilien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 7: Dokidoki Double Date"

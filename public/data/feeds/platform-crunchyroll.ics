@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – crunchyroll
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-09-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260919T093000Z
-DTEND:20260919T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 20/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GG5H5XQ7D@2026-09-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260919T110000Z
@@ -209,9 +198,8 @@ UID:cr-G6793XKZY@2026-09-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260926T093000Z
 DTEND:20260926T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 20/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -221,8 +209,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260926T110000Z
 DTEND:20260926T113000Z
 SUMMARY:Kaiju No. 8 Narumi's Week at Work – Folge 4/4
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-GG5H5XQ7D
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -232,8 +219,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260926T120000Z
 DTEND:20260926T123000Z
 SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 24/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -397,7 +383,7 @@ UID:cr-G6793XKZY@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261003T093000Z
 DTEND:20261003T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 22/24
+SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 21/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-G6793XKZY
@@ -599,7 +585,7 @@ UID:cr-G6793XKZY@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261010T093000Z
 DTEND:20261010T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 23/24
+SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 22/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-G6793XKZY
@@ -749,7 +735,7 @@ UID:cr-G6793XKZY@2026-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261017T093000Z
 DTEND:20261017T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 24/24
+SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 23/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-G6793XKZY
@@ -822,6 +808,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
  e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-G6793XKZY@2026-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261024T093000Z
+DTEND:20261024T100000Z
+SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 24/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

@@ -31519,6 +31519,21 @@
     "art": "gemessen",
     "tag": "2026-09-26"
   },
+  "102060|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-05"
+  },
+  "113653|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-05"
+  },
+  "14629|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-05"
+  },
   "33|netflix|1": {
     "urteil": "kein deutsch",
     "art": "angenommen",
@@ -31642,6 +31657,11 @@
   "33|netflix|25": {
     "urteil": "kein deutsch",
     "art": "angenommen",
+    "tag": "2026-09-06"
+  },
+  "116756|netflix|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
     "tag": "2026-09-06"
   },
   "20594|netflix|2": {
@@ -31784,6 +31804,37 @@
     "art": "gemessen",
     "tag": "2026-09-09"
   },
+  "5460|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-09"
+  },
+  "10389|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-09"
+  },
+  "15813|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-09"
+  },
+  "5998|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-09"
+  },
+  "19115|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-09"
+  },
+  "103631|primevideo|1": {
+    "urteil": "unbekannt",
+    "art": "gemessen",
+    "tag": "2026-09-10",
+    "grund": "kanal-ohne-abo"
+  },
   "107351|netflix|11": {
     "urteil": "deutsch",
     "art": "gemessen",
@@ -31833,6 +31884,11 @@
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-09-12"
+  },
+  "101478|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-15"
   },
   "20464|primevideo|1": {
     "urteil": "deutsch",
@@ -32247,6 +32303,117 @@
     "art": "angenommen",
     "tag": "2026-09-18"
   },
+  "21519|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-18"
+  },
+  "20954|primevideo|1": {
+    "urteil": "unbekannt",
+    "art": "gemessen",
+    "tag": "2026-09-22",
+    "grund": "kanal-ohne-abo"
+  },
+  "21425|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "1365|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "317|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "1363|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "781|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "1438|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "6115|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "13667|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "522|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "20514|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "9917|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "10740|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "12477|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "442|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "1894|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "10589|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "6951|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "594|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "1434|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "8246|primevideo|1": {
+    "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
   "196144|disneyplus|3": {
     "urteil": "kein deutsch",
     "art": "gemessen",
@@ -32256,6 +32423,16 @@
     "urteil": "kein deutsch",
     "art": "gemessen",
     "tag": "2026-09-20"
+  },
+  "133898|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-21"
+  },
+  "101344|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-21"
   },
   "135806|netflix|1": {
     "urteil": "deutsch",
