@@ -14,6 +14,10 @@
  *     der alten Stelle steht danach `const { aus… } = <funktion>({ ein… })`. Neu zugewiesene
  *     Eingaben (`ändert`) werden gemeldet und müssen von Hand zurückgegeben werden.
  *
+ *   jsx <quelle> <von> <bis> <ziel> <Komponente>
+ *     Vollständige JSX-Kinder in den Zeilen von–bis werden eine Komponente; ihre freien
+ *     Variablen werden Props (Typen vom Typprüfer). Hooks bleiben, wo sie sind.
+ *
  *   aufraeumen <datei…>
  *     Nur unbenutzte Importe entfernen.
  *
@@ -198,6 +202,13 @@ const aufModulebene = (d) => {
   return !p || ts.isSourceFile(p)
 }
 
+/** Den Rumpf auf zwei Leerzeichen Einzug bringen, relativ zueinander unverändert. */
+function eingerueckt(koerper) {
+  const einzug = Math.min(...koerper.filter((z) => z.trim()).map((z) => z.match(/^ */)[0].length))
+  const weg = Math.max(0, einzug - 2)
+  return koerper.map((z) => (z.trim() ? z.slice(weg) : z)).join('\n')
+}
+
 /** Innerste Funktion um die Zeilen von–bis und die Namen, die der Abschnitt mit ihr teilt. */
 function schnittstelle(quelle, pruefer, von, bis) {
   const zeile = (pos) => quelle.getLineAndCharacterOfPosition(pos).line + 1
@@ -304,7 +315,7 @@ function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
     ? `{ ${namen.join(', ')} }: {\n${namen.map((n) => `  ${n}: ${ein.get(n)}`).join('\n')}\n}`
     : ''
   const rueckgabe = aus.size ? `\n  return { ${[...aus].join(', ')} }` : ''
-  const rumpf = `export ${istAsync ? 'async ' : ''}function ${funktion}(${signatur}) {\n${zeilen.slice(von - 1, bis).join('\n')}${rueckgabe}\n}`
+  const rumpf = `export ${istAsync ? 'async ' : ''}function ${funktion}(${signatur}) {\n${eingerueckt(zeilen.slice(von - 1, bis))}${rueckgabe}\n}`
 
   // Typnamen in der Signatur brauchen ihre Importe genauso wie der Rumpf.
   const typBezeichner = [...ein.values()].flatMap((t) => t.match(/[A-Za-z_$][\w$]*/g) ?? [])
@@ -331,9 +342,52 @@ function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
   if (aendert.size) console.warn(`⚠ weist neu zu: ${[...aendert].join(', ')} — Rückgabe von Hand ergänzen`)
 }
 
+
+/** Die Zeilen von–bis (vollständige JSX-Kinder) werden eine eigene Komponente mit Props. */
+function verschiebeJsx(quellPfad, von, bis, zielPfad, name) {
+  const { pruefer, quelle } = programm(quellPfad)
+  const { ein, aendert, aus, benutzt, hatReturn } = schnittstelle(quelle, pruefer, von, bis)
+  const zeilen = quelle.getFullText().split('\n')
+  const text = zeilen.slice(von - 1, bis).join('\n')
+  const probe = ts.createSourceFile('probe.tsx', `const x = (<>\n${text}\n</>)`, 99, true, ts.ScriptKind.TSX)
+  if (probe.parseDiagnostics.length) throw new Error('Die Zeilen sind keine vollständigen JSX-Kinder.')
+  if (aendert.size || aus.size || hatReturn) throw new Error('Der Abschnitt weist zu, liefert Werte oder enthält `return`.')
+  if (/\buse[A-Z]\w*\(/.test(text)) throw new Error('Der Abschnitt ruft einen Hook — der bleibt in der Komponente.')
+  const typImporte = typenAufloesen(ein, zielPfad)
+  const namen = [...ein.keys()]
+  if (namen.some((n) => n === 'key' || n === 'ref')) throw new Error('Eine Eingabe heißt key oder ref.')
+  for (const [n, t] of ein) if (t.length > 300) console.warn(`⚠ langer Typ für ${n} (${t.length} Zeichen)`)
+  const signatur = namen.length
+    ? `{ ${namen.join(', ')} }: {\n${namen.map((n) => `  ${n}: ${ein.get(n)}`).join('\n')}\n}`
+    : ''
+  const koerper = eingerueckt(zeilen.slice(von - 1, bis)).split('\n').map((z) => (z.trim() ? `    ${z}` : z))
+  const rumpf = `export function ${name}(${signatur}) {\n  return (\n    <>\n${koerper.join('\n')}\n    </>\n  )\n}`
+  const typBezeichner = [...ein.values()].flatMap((t) => t.match(/[A-Za-z_$][\w$]*/g) ?? [])
+  const gebraucht = new Set([...benutzt, ...typBezeichner])
+  anhaengen(zielPfad, [...importsaetze(quellPfad, importe(quelle), gebraucht, zielPfad), ...typImporte], rumpf)
+
+  const einrueck = zeilen[von - 1].match(/^\s*/)[0]
+  const einzeilig = `${einrueck}<${name}${namen.map((n) => ` ${n}={${n}}`).join('')} />`
+  const aufruf =
+    einzeilig.length <= 120
+      ? einzeilig
+      : `${einrueck}<${name}\n${namen.map((n) => `${einrueck}  ${n}={${n}}`).join('\n')}\n${einrueck}/>`
+  const neu = [...zeilen.slice(0, von - 1), aufruf, ...zeilen.slice(bis)]
+  const letzterImport = [...quelle.statements].reverse().find(ts.isImportDeclaration)
+  const importZeile = letzterImport ? quelle.getLineAndCharacterOfPosition(letzterImport.end).line + 1 : 0
+  neu.splice(importZeile, 0, `import { ${name} } from '${spezifizierer(quellPfad, zielPfad)}'`)
+  writeFileSync(quellPfad, neu.join('\n'))
+  importeAufraeumen(quellPfad)
+  importeAufraeumen(zielPfad)
+  console.log(`<${name}>: ${bis - von + 1} Zeilen nach ${zielPfad}`)
+  console.log(`  Props: ${namen.join(', ') || '—'}`)
+}
+
 if (modus === 'namen' && args.length === 3) verschiebeNamen(resolve(args[0]), resolve(args[1]), args[2].split(','))
 else if (modus === 'abschnitt' && args.length === 5)
   verschiebeAbschnitt(resolve(args[0]), Number(args[1]), Number(args[2]), resolve(args[3]), args[4])
+else if (modus === 'jsx' && args.length === 5)
+  verschiebeJsx(resolve(args[0]), Number(args[1]), Number(args[2]), resolve(args[3]), args[4])
 else if (modus === 'aufraeumen' && args.length) for (const d of args) importeAufraeumen(resolve(d))
 else {
   console.error('Aufruf: modul-umzug.mjs aufraeumen <datei…> |')
