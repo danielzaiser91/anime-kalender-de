@@ -1935,3 +1935,7 @@ Zwei Fallen beim Einbau, beide in `npm run check:extension` gefunden:
 
 Offen bis zum ersten echten Lauf: wie schnell drei Frames wirklich sind, und ob Chrome die Frames drosselt, wenn der Tab länger als fünf Minuten im Hintergrund liegt (intensive Timer-Drosselung).
 
+**Erster echter Lauf, 26.09.2026 (Diagnosebericht 07:57):** vier Titel (Monster, Fullmetal Alchemist: Brotherhood, Hunter × Hunter, Shaman King), 21 Seiten, alle „gemeldet“, 07:46:39–07:48:20 UTC — **101 s, knapp 5 s je Seite**, bei drei Frames gleichzeitig. Daniel hatte den Tab dabei im Hintergrund; gedrosselt hat Chrome in diesen zwei Minuten nicht spürbar. Alle vier Adressen standen danach im Briefkasten (`?zaehlen=1`, Feld `gemeldet`).
+
+Trotzdem hielt Daniel den Lauf für hängend, aus zwei Gründen, die beide an der sichtbaren Seite lagen: Der Knopf zeigte die ganze Zeit „⏹ Durchgang läuft · 4 offen“ (die Frames melden in eigenen Dokumenten, die Zahl bewegte sich nie), und nach dem Ende stand an jedem Titel „nur auf diesem Rechner“, weil die Seite den Briefkasten vom Start behielt. Seit 4.23.1 steht am Knopf „⏹ Titel n/m · k Seiten gemeldet“, neu gezeichnet nach jeder Seite, und das Ende holt den Briefkasten erzwungen neu. **Merksatz:** Wer Arbeit in unsichtbare Frames verlegt, muss ihren Fortschritt auf der sichtbaren Seite zeigen — sonst sieht ein laufender Automat aus wie ein stehender.
+
