@@ -3,65 +3,40 @@
  *
  * Ein Bild je Release (1200×630, das von allen Diensten erwartete Format) mit
  * Cover, Titel, Termin, Uhrzeit, Plattform und FSK — plus ein Standardbild für
- * Links ohne Release.
+ * Links ohne Release. Das Aussehen steht in `lib/og-karte.ts`.
  *
- * Gerendert wird über SVG → PNG mit sharp. Das Cover kommt vom AniList-CDN und
- * wird lokal zwischengespeichert, damit wiederholte Läufe nicht jedes Mal
- * hundert Bilder nachladen.
+ * Das Cover kommt vom AniList-CDN und wird lokal zwischengespeichert, damit
+ * wiederholte Läufe nicht jedes Mal hundert Bilder nachladen.
  *
  * Aufruf: npm run data:og   [-- --force]
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import sharp from 'sharp'
-import type { OverlayOptions } from 'sharp'
 import { PLATFORMS, RELEASE_TYPES, type Release, type Title } from '../shared/types.ts'
 import { expandEvents, releaseStatus } from '../shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson, warn } from './lib/util.ts'
+import { zeichneKarte } from './lib/og-karte.ts'
 
-const FORCE = process.argv.includes('--force')
-const W = 1200
-const H = 630
 const OUT_DIR = resolve(ROOT, 'public/og')
 const COVER_CACHE = resolve(ROOT, 'data/cache/covers')
 
-/** In SVG dürfen diese fünf Zeichen nicht roh vorkommen. */
-function esc(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
-}
-
 /**
- * Zeilenumbruch von Hand: SVG kann keinen Textfluss. Die Breite wird über eine
- * Zeichenbreiten-Schätzung ermittelt — genau genug für Überschriften, und es
- * spart eine Schriftmetrik-Bibliothek.
+ * **Fassung des Aussehens.** Ohne sie würde ein neues Design nur neue Releases erreichen — der
+ * Lauf überspringt vorhandene Bilder. Weicht die gespeicherte Fassung ab, zeichnet er einmal alle
+ * neu (27.09.2026: Poster-Gestaltung). Bei jeder Änderung an `og-karte.ts` hochzählen.
  */
-function wrap(text: string, maxChars: number, maxLines: number): string[] {
-  const words = text.split(/\s+/)
-  const lines: string[] = []
-  let current = ''
-  for (const word of words) {
-    const candidate = current ? `${current} ${word}` : word
-    if (candidate.length > maxChars && current) {
-      lines.push(current)
-      current = word
-      if (lines.length === maxLines) break
-    } else {
-      current = candidate
-    }
-  }
-  if (lines.length < maxLines && current) lines.push(current)
-  if (lines.length === maxLines && words.join(' ').length > lines.join(' ').length) {
-    lines[maxLines - 1] = lines[maxLines - 1].replace(/.{1}$/, '…')
-  }
-  return lines
-}
+const FASSUNG = 'poster-1'
+const FASSUNG_DATEI = resolve(OUT_DIR, 'fassung.txt')
+const FORCE =
+  process.argv.includes('--force') || !existsSync(FASSUNG_DATEI) || readFileSync(FASSUNG_DATEI, 'utf8').trim() !== FASSUNG
+
+/** Nur diese Slugs zeichnen (`--nur a,b`) — für Stichproben, ohne die übrigen anzufassen. */
+const NUR = (() => {
+  const i = process.argv.indexOf('--nur')
+  return i >= 0 ? new Set(process.argv[i + 1]?.split(',')) : undefined
+})()
 
 async function loadCover(url: string | undefined): Promise<Buffer | undefined> {
   if (!url) return undefined
@@ -80,141 +55,29 @@ async function loadCover(url: string | undefined): Promise<Buffer | undefined> {
   }
 }
 
-interface CardData {
-  title: string
-  subtitle?: string
-  lines: { label: string; value: string }[]
-  badges: { text: string; color: string }[]
-  accent: string
-  footer: string
-}
-
-const COVER_W = 400
-
-/** Hintergrund: kommt UNTER das Cover, darf es also nicht überdecken. */
-function background(accent: string): string {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
-  <defs>
-    <radialGradient id="glow" cx="18%" cy="12%" r="90%">
-      <stop offset="0%" stop-color="${accent}" stop-opacity="0.28"/>
-      <stop offset="100%" stop-color="#0a0e17" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <rect width="${W}" height="${H}" fill="#0a0e17"/>
-  <rect width="${W}" height="${H}" fill="url(#glow)"/>
-</svg>`
-}
 
 /**
- * Breite eines Zeichens grob geschätzt. Ohne Schriftmetrik gibt es keinen
- * exakten Wert; 0,52 der Schriftgröße trifft eine gemischte deutsche Zeile
- * nah genug, um Überlauf zu vermeiden.
+ * Datum und Uhrzeit des Termins. **Ohne künftigen Termin ist das Datum der Start, keine „nächste
+ * Folge"** — die alte Fassung schrieb „Nächste Folge: Fr, 31.01.2025" über eine längst
+ * abgeschlossene Staffel (27.09.2026). Eine Uhrzeit steht dann auch nicht mehr da. Ein Katalogtitel
+ * ist „im Angebot seit", nicht „erschienen am" (`dateMeaning`).
  */
-function fitChars(widthPx: number, fontSize: number): number {
-  return Math.max(8, Math.floor(widthPx / (fontSize * 0.52)))
-}
-
-function card(data: CardData, hasCover: boolean): string {
-  const textX = hasCover ? COVER_W + 56 : 72
-  const textW = W - textX - 56
-
-  // Erst mit großer Schrift versuchen; passt der Titel nicht in zwei Zeilen,
-  // eine Stufe kleiner werden statt ihn abzuschneiden.
-  let titleSize = 50
-  let titleLines = wrap(data.title, fitChars(textW, titleSize), 2)
-  if (titleLines.join(' ').length < data.title.length) {
-    titleSize = 38
-    titleLines = wrap(data.title, fitChars(textW, titleSize), 3)
-  }
-  let y = 132 - (titleLines.length - 1) * 10
-
-  const parts: string[] = []
-  parts.push(`<rect x="0" y="0" width="10" height="${H}" fill="${data.accent}"/>`)
-  if (hasCover) {
-    // Weicher Übergang vom Cover in den Hintergrund, damit die Kante nicht
-    // wie ein aufgeklebtes Rechteck wirkt.
-    parts.push(
-      `<rect x="${COVER_W - 90}" y="0" width="90" height="${H}" fill="url(#fade)"/>`,
-    )
-  }
-
-  for (const line of titleLines) {
-    parts.push(
-      `<text x="${textX}" y="${y}" font-family="Segoe UI, Arial, sans-serif" font-size="${titleSize}" font-weight="700" fill="#ffffff">${esc(line)}</text>`,
-    )
-    y += titleSize + 10
-  }
-
-  if (data.subtitle) {
-    y += 4
-    parts.push(
-      `<text x="${textX}" y="${y}" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#8fa0bd">${esc(
-        wrap(data.subtitle, fitChars(textW, 24), 1)[0] ?? '',
-      )}</text>`,
-    )
-    y += 34
-  }
-
-  y += 22
-  let badgeX = textX
-  for (const badge of data.badges) {
-    const width = badge.text.length * 13 + 28
-    parts.push(
-      `<rect x="${badgeX}" y="${y - 24}" width="${width}" height="36" rx="8" fill="${badge.color}22" stroke="${badge.color}88"/>`,
-      `<text x="${badgeX + 14}" y="${y}" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="600" fill="${badge.color}">${esc(badge.text)}</text>`,
-    )
-    badgeX += width + 12
-  }
-  y += 56
-
-  for (const line of data.lines) {
-    parts.push(
-      `<text x="${textX}" y="${y}" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#7c8aa5">${esc(line.label)}</text>`,
-      `<text x="${textX + 168}" y="${y}" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" fill="#dbe3f2">${esc(line.value)}</text>`,
-    )
-    y += 38
-  }
-
-  parts.push(
-    `<text x="${textX}" y="${H - 46}" font-family="Segoe UI, Arial, sans-serif" font-size="21" fill="#66748f">${esc(data.footer)}</text>`,
-  )
-
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
-  <defs>
-    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#0a0e17" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0e17" stop-opacity="1"/>
-    </linearGradient>
-  </defs>
-  ${parts.join('\n  ')}
-</svg>`
-}
-
-/**
- * Reihenfolge der Ebenen ist entscheidend: Hintergrund, dann das Cover,
- * dann erst Text und Verlauf. Läge das Text-SVG mit deckendem Hintergrund
- * darüber, verschwände das Cover darunter — genau dieser Fehler ist beim
- * ersten Anlauf passiert.
- */
-async function renderCard(data: CardData, cover: Buffer | undefined, file: string): Promise<void> {
-  const layers: OverlayOptions[] = [
-    { input: Buffer.from(background(data.accent)), top: 0, left: 0 },
+function terminZeilen(release: Release, events: ReturnType<typeof expandEvents>, today: string): { label: string; value: string }[] {
+  const kommend = events.find((e) => e.date >= today)
+  const termin = kommend ?? events[0]
+  if (!termin) return []
+  const woechentlich = release.releaseType === 'weekly'
+  const zeilen = [
+    {
+      label: release.dateMeaning === 'available-from' ? 'Im Angebot seit' : kommend ? (woechentlich ? 'Nächste Folge' : 'Termin') : woechentlich ? 'Erste Folge' : 'Erschienen',
+      value: `${weekdayName(termin.date, true)}, ${formatDate(termin.date)}`,
+    },
   ]
-
-  if (cover) {
-    const coverPng = await sharp(cover)
-      .resize(COVER_W, H, { fit: 'cover', position: 'attention' })
-      .png()
-      .toBuffer()
-    layers.push({ input: coverPng, top: 0, left: 0 })
+  if (kommend) {
+    const zeit = kommend.time ? `${kommend.time} Uhr` : release.releaseType === 'disc' ? 'im Handel' : 'noch offen'
+    zeilen.push({ label: 'Uhrzeit', value: zeit })
   }
-
-  layers.push({ input: Buffer.from(card(data, !!cover)), top: 0, left: 0 })
-
-  await sharp({ create: { width: W, height: H, channels: 4, background: '#0a0e17' } })
-    .composite(layers)
-    .jpeg({ quality: 82, mozjpeg: true })
-    .toFile(file)
+  return zeilen
 }
 
 async function main(): Promise<void> {
@@ -227,23 +90,22 @@ async function main(): Promise<void> {
 
   // --- Standardbild für Links ohne Release ---------------------------------
   const defaultFile = resolve(OUT_DIR, 'default.jpg')
-  if (FORCE || !existsSync(defaultFile)) {
-    await renderCard(
+  if (NUR ? NUR.has('default') : FORCE || !existsSync(defaultFile)) {
+    await zeichneKarte(
       {
         title: 'Anime-Kalender DE',
-        subtitle: 'Jede Woche auf einen Blick, was mit deutscher Synchro erscheint',
+        subtitle: 'Alles mit deutscher Synchro, Woche für Woche',
         lines: [
-          { label: 'Anime', value: `${titles.length}+ mit belegter Synchro` },
+          { label: 'Anime', value: `${readJson<{ titleCount: number }>('public/data/meta.json', { titleCount: 0 }).titleCount.toLocaleString('de-DE')} mit Synchro` },
           { label: 'Termine', value: 'Streaming, Disc, Kino' },
-          { label: 'Export', value: 'Google Calendar & ICS-Abo' },
+          { label: 'Abo', value: 'Kalender und Newsletter' },
         ],
         badges: [
           { text: 'Crunchyroll', color: PLATFORMS.crunchyroll.color },
           { text: 'Netflix', color: PLATFORMS.netflix.color },
           { text: 'Prime Video', color: PLATFORMS.primevideo.color },
         ],
-        accent: '#38bdf8',
-        footer: 'anime-kalender-de',
+        accent: '#ff5a36',
       },
       undefined,
       defaultFile,
@@ -255,29 +117,14 @@ async function main(): Promise<void> {
   let written = 0
   for (const release of releases) {
     const file = resolve(OUT_DIR, `${release.slug}.jpg`)
-    if (!FORCE && existsSync(file)) continue
+    if (NUR ? !NUR.has(release.slug) : !FORCE && existsSync(file)) continue
 
     const title = titleById.get(release.titleId)
     const events = expandEvents(release)
-    const next = events.find((e) => e.date >= today) ?? events[0]
     const type = RELEASE_TYPES[release.releaseType]
     const status = releaseStatus(release, today)
 
-    const lines: { label: string; value: string }[] = []
-    if (next) {
-      lines.push({
-        label: release.releaseType === 'weekly' ? 'Nächste Folge' : 'Termin',
-        value: `${weekdayName(next.date, true)}, ${formatDate(next.date)}`,
-      })
-      lines.push({
-        label: 'Uhrzeit',
-        value: next.time
-          ? `${next.time} Uhr`
-          : release.releaseType === 'disc'
-            ? 'im Handel'
-            : 'noch offen',
-      })
-    }
+    const lines = terminZeilen(release, events, today)
     if (release.releaseType === 'weekly' && release.schedule.episodeCount) {
       /*
         **„Folgen: x von y" ist eine Fortschrittsangabe — also zählt sie, was
@@ -315,14 +162,13 @@ async function main(): Promise<void> {
     if (release.fsk !== undefined) badges.push({ text: `FSK ${release.fsk}`, color: '#e2e8f0' })
     if (status === 'airing') badges.push({ text: 'Läuft', color: '#34d399' })
 
-    await renderCard(
+    await zeichneKarte(
       {
         title: release.name,
         subtitle: title?.titleRomaji !== release.name ? title?.titleRomaji : undefined,
         lines,
         badges,
         accent: type.color,
-        footer: 'anime-kalender-de · alles mit deutscher Synchro',
       },
       await loadCover(title?.coverImage),
       file,
@@ -331,6 +177,7 @@ async function main(): Promise<void> {
   }
 
   log(`${written} Vorschaubilder erzeugt, ${releases.length} Releases insgesamt`)
+  if (!NUR) writeFileSync(FASSUNG_DATEI, `${FASSUNG}\n`)
 }
 
 main().catch((err) => {

@@ -387,3 +387,21 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   Fonts — ein Abruf dort übermittelt die IP-Adresse.
 - Die Handy-Leiste liegt per Portal am `body` (unter `backdrop-filter` bezöge sich `fixed` sonst auf
   die Kopfleiste); die Seite hält unter `md` unten Platz für sie frei.
+
+## Link-Vorschau im Poster-Stil (27.09.2026)
+
+`pipeline/build-og.ts` zeichnet die 1200×630-Bilder jetzt wie die Seite (`lib/og-karte.ts`): Cover
+links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. Zu wissen:
+
+- **Schriften:** Pango (in sharp) liest weder WOFF noch eine eigene fontconfig-Datei — beides fällt
+  lautlos auf eine Ersatzschrift zurück. `lib/og-schriften.ts` packt die WOFF aus `@fontsource` in
+  TTF um und gibt jedem Schnitt einen eigenen Familiennamen („AKfett"): Pango hält je Familie nur
+  den zuerst geladenen Schnitt, „Manrope 600" kam sonst als 800 heraus.
+- **Fassung:** `public/og/fassung.txt`. Weicht sie von `FASSUNG` ab, zeichnet der nächste
+  Bestandslauf alle Bilder neu — sonst erreichte ein neues Aussehen nur neue Releases. Bei jeder
+  Änderung an `og-karte.ts` hochzählen. Stichproben lokal: `npx tsx pipeline/build-og.ts --nur
+  default,<slug>` (danach `git checkout public/og`).
+- **Inhalt:** ohne künftigen Termin „Erste Folge"/„Erschienen" statt „Nächste Folge", Katalogtitel
+  „Im Angebot seit"; das Standardbild zählt aus `meta.json` (vorher 504 aus `titles-core`).
+- Titelseiten (`/t/…`) behalten Banner oder Cover von AniList: eigene Bilder für 2.777 Titel wären
+  rund 170 MB zusätzlich im Repo (899 Release-Bilder = 54 MB).
