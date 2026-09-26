@@ -26,7 +26,6 @@ export const TEXTE_KALENDER = {
   'kal.einTermin': '1 Termin',
   'kal.termine': '{n} Termine',
   'kal.keinTermin': 'Kein Termin an diesem Tag.',
-  'kal.nurTv': 'Nur im Fernsehen.',
   'kal.nichtsGefiltert': 'Nichts für diese Filter.',
   'kal.imTv': 'Im Fernsehen',
   'kal.keineAusstrahlung': 'Keine Ausstrahlung.',

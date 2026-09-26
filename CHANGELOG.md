@@ -8,6 +8,17 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Neue Gestaltung: der Kalender als Poster-Wand
+
+Die Woche zeigt jeden Tag als Zeile mit großen Covern, das Fernsehen steht in einem eigenen Kasten
+daneben. Staffelstarts und jetzt auch Staffelfinale sind doppelt so breit. Der Monat zeigt je Tag
+die Cover; wer darauf zeigt, sieht Titel, Uhrzeit und Folge, „+3“ klappt den ganzen Tag auf.
+
+Oben stehen nur noch Kalender, Datenbank und News. Agenda, Favoriten und „Wo sehen?“ sind
+entfallen: Der Filter kann „Nur Favoriten“ und jeden Anbieter, „gesehen bis Folge …“ steht jetzt im
+Detail-Panel eines Favoriten. Kalender-Abo, Newsletter und Push liegen hinter einem Knopf mit
+Kalender und Glocke. Alte Links führen weiter an die passende Stelle.
+
 ### Woher wir künftig wissen, ob Netflix eine deutsche Tonspur hat
 
 Bei Netflix, Prime Video und Disney+ stand hinter jedem Verweis ein „🇩🇪 ?" — keiner der drei

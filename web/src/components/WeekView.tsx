@@ -174,8 +174,8 @@ function PosterRaster({
   const gruppen = buendeleTermine(tag.stream, (ev) => !!ev.verpasst || !!art(ev))
   return (
     <div className="grid grid-cols-2 content-start gap-x-3 gap-y-5 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-x-3.5 lg:min-h-[250px]">
-      {tag.stream.length === 0 && (
-        <p className="col-span-full pt-1 text-sm text-ak-sehr-leise">{t(p.gefiltert ? 'kal.nichtsGefiltert' : tag.tv.length ? 'kal.nurTv' : 'kal.keinTermin')}</p>
+      {tag.stream.length === 0 && (p.gefiltert || !tag.tv.length) && (
+        <p className="col-span-full pt-1 text-sm text-ak-sehr-leise">{t(p.gefiltert ? 'kal.nichtsGefiltert' : 'kal.keinTermin')}</p>
       )}
       {gruppen.map(([ev, ...weitere]) => {
         const bis = p.favorites.has(ev.titleId) ? gesehen[ev.titleId] : undefined

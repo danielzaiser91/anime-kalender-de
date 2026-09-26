@@ -136,7 +136,9 @@ function ZelleHandy({ tag, stream, tv, p, heute, t }: ZellProps) {
       <TagesZahl tag={tag} heute={heute} />
       {stream.slice(0, 2).map((ev) => {
         const cover = p.data.titleById.get(ev.titleId)?.coverImage
-        return cover ? <img key={ev.id} {...coverBild(cover, 22)} alt="" loading="lazy" className="h-8 w-[22px] rounded-[5px] object-cover" /> : null
+        const a = art(ev, p.data)
+        const ring = a === 'start' ? ' ring-2 ring-ak-akzent' : a === 'finale' ? ' ring-2 ring-ak-finale' : ''
+        return cover ? <img key={ev.id} {...coverBild(cover, 22)} alt="" loading="lazy" className={`h-8 w-[22px] rounded-[5px] object-cover${ring}`} /> : null
       })}
       {stream.length > 2 && <span className="text-[10px] font-extrabold text-ak-text">+{stream.length - 2}</span>}
       {tv.length > 0 && (

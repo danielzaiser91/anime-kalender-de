@@ -371,7 +371,10 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   von 22 px wären kein Touch-Ziel.
 - **Zählung** je Tag und Monat: „8 Termine · 9 im TV“ (`zaehlung()`); Termine sind alles außer
   Fernsehen, also auch Disc und Kino. Eine Null entfällt, der leere Tag sagt „Kein Termin an diesem
-  Tag.“ bzw. „Nur im Fernsehen.“
+  Tag.“, ein Tag nur mit Fernsehen sagt nichts extra — der Kasten daneben sagt es.
+- **Tailwind v4 erzeugt `pt-[calc((100%-0.75rem)*0.75)]` nicht — lautlos, ohne Warnung** (gemessen
+  26.09.2026 im gebauten CSS). Verschachtelte `calc` stehen deshalb als eigene Klasse in `styles.css`
+  (`.ak-breit-cover`); nach jeder arbiträren Klasse im gebauten CSS nachsehen, ob sie angekommen ist.
 - **Vergangenes** dimmt nur Bilder (`.ak-vorbei`), Text wechselt auf `--ak-leise` — `opacity` am
   ganzen Tag drückte jeden Text unter 4,5:1 (axe, 26.09.2026).
 - **Schwebekarten** (`Schwebe.tsx`) stehen nie über der Kopfleiste oder dem Auslöser und rollen

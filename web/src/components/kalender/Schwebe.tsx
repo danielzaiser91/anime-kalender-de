@@ -36,33 +36,10 @@ export function Schwebe({
   const pos = useKartenPosition(offen, anker, karte)
   const zeigen = art !== 'klick'
 
-  useEffect(() => {
-    if (!offen) return
-    const schliessen = () => {
-      setFest(false)
-      setOffen(false)
-    }
-    const draussen = (e: MouseEvent) => {
-      const ziel = e.target as Node
-      if (!anker.current?.contains(ziel) && !karte.current?.contains(ziel)) schliessen()
-    }
-    const taste = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return
-      schliessen()
-      stumm.current = true
-      anker.current?.querySelector<HTMLElement>('button')?.focus()
-    }
-    /* Die Karte steht `fixed` — rollt die Seite, gehört sie nicht mehr zu ihrem Auslöser. */
-    const rollen = (e: Event) => !karte.current?.contains(e.target as Node) && schliessen()
-    document.addEventListener('mousedown', draussen)
-    document.addEventListener('keydown', taste)
-    window.addEventListener('scroll', rollen, true)
-    return () => {
-      document.removeEventListener('mousedown', draussen)
-      document.removeEventListener('keydown', taste)
-      window.removeEventListener('scroll', rollen, true)
-    }
-  }, [offen])
+  useSchliessen(offen, anker, karte, stumm, () => {
+    setFest(false)
+    setOffen(false)
+  })
 
   /* Per Klick geöffnet, bekommt die Karte den Fokus: Sie hängt am Ende des `body`, mit Tab käme man nie hinein. */
   useEffect(() => {
@@ -156,4 +133,43 @@ function useKartenPosition(
     else setPos({ left, top: Math.max(decke, a.top - luft - hoehe), maxHeight: platzOben })
   }, [offen, anker, karte])
   return pos
+}
+
+/** Schließt bei Klick daneben, Escape und Rollen der Seite; Escape gibt den Fokus an den Auslöser zurück. */
+function useSchliessen(
+  offen: boolean,
+  anker: React.RefObject<HTMLSpanElement | null>,
+  karte: React.RefObject<HTMLDivElement | null>,
+  stumm: React.RefObject<boolean>,
+  schliessen: () => void,
+) {
+  const zu = useRef(schliessen)
+  zu.current = schliessen
+  useEffect(() => {
+    if (!offen) return
+    const draussen = (e: MouseEvent) => {
+      const ziel = e.target as Node
+      if (!anker.current?.contains(ziel) && !karte.current?.contains(ziel)) zu.current()
+    }
+    const taste = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      zu.current()
+      const knopf = anker.current?.querySelector<HTMLElement>('button')
+      /* Liegt der Fokus schon dort, kommt kein Fokus-Ereignis — dann darf nichts verschluckt werden. */
+      if (knopf && document.activeElement !== knopf) {
+        stumm.current = true
+        knopf.focus()
+      }
+    }
+    /* Die Karte steht `fixed` — rollt die Seite, gehört sie nicht mehr zu ihrem Auslöser. */
+    const rollen = (e: Event) => !karte.current?.contains(e.target as Node) && zu.current()
+    document.addEventListener('mousedown', draussen)
+    document.addEventListener('keydown', taste)
+    window.addEventListener('scroll', rollen, true)
+    return () => {
+      document.removeEventListener('mousedown', draussen)
+      document.removeEventListener('keydown', taste)
+      window.removeEventListener('scroll', rollen, true)
+    }
+  }, [offen, anker, karte, stumm])
 }
