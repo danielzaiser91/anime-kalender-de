@@ -350,3 +350,17 @@ Aufklapper („4 weitere bis 07:25", inline, wie bei den News).
 - Am heutigen Tag wird je Farbfeld (vorbei / kommt) gebündelt, der nächste Termin bleibt sichtbar;
   liegt das Sprungziel eingeklappt, trägt die erste Karte den Anker.
 - Zusicherung: `check:logic`, „Bündel: …".
+
+## Auf dem Handy steht die Navigation unten (26.09.2026)
+
+Mit sieben Reitern lief die Leiste oben auf 375 px über den Rand („Favoriten" abgeschnitten, „Wo?"
+und „News" nur durch Wischen erreichbar), und Titel-, Reiter- und Datumszeile nahmen zusammen ein
+Viertel des Schirms. Unter `sm` steht die Navigation deshalb als feste Leiste unten
+(`HandyNavigation`, Symbol plus Kurzwort, „Datenbank" dort als „Anime"); oben entfällt die
+Reiterzeile. Zu wissen:
+
+- **Per Portal am `body`** — unter der Kopfleiste mit `backdrop-filter` bezöge sich `fixed` sonst auf
+  die Kopfleiste.
+- **Was unten schwebt, rückt darüber:** Die Seite hat unter `sm` unten Platz für die Leiste
+  (samt `safe-area-inset-bottom`), der Rückgängig-Streifen der Favoriten steht bei `bottom-20`.
+- Das Panel (z-40) und sein Schleier (z-30) liegen über der Leiste (z-20).

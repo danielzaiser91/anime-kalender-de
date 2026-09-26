@@ -253,7 +253,7 @@ export default function App() {
     : ''
 
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex min-h-full flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] sm:pb-0">
       <Header
         view={route.view}
         date={route.date}

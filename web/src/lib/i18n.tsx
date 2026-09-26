@@ -34,6 +34,8 @@ const TEXTE = {
   // Kurzform für schmale Schirme: Mit dem fünften Reiter passte die Leiste bei
   // 375 px nicht mehr in eine Zeile und schob die Seite waagrecht auf.
   'view.wo.short': 'Wo?',
+  // Unten auf dem Handy hat ein Reiter ein Siebtel von 375 px — „Datenbank“ passt nicht.
+  'view.datenbank.short': 'Anime',
   'view.news': 'News',
   'news.titel': 'Was sich getan hat',
   'news.leer': 'Noch keine Meldungen.',

@@ -9,6 +9,7 @@ import { InstallButton } from './InstallPrompt.tsx'
 import { Tooltip, TvZeichen } from './ui.tsx'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { DatumSprung } from './DatumSprung.tsx'
+import { HandyNavigation } from './HandyNavigation.tsx'
 
 function ThemeToggle() {
   const { t } = useLang()
@@ -193,14 +194,10 @@ export function Header({
         </div>
 
         {/*
-          `max-w-full overflow-x-auto` ist die Reißleine, nicht der Normalfall:
-          Fünf Reiter passen mit den Kurzformen unten auch auf 375 px. Käme ein
-          sechster dazu, rollt die Leiste, statt die ganze Seite waagrecht
-          aufzuschieben — genau das passierte beim Reiter „Wo sehen?"
-          (13.08.2026), und ein waagrechter Rollbalken über der kompletten Seite
-          fällt niemandem als Navigationsproblem auf.
+          Ab `sm`; darunter steht die Navigation unten (`HandyNavigation`). `overflow-x-auto` bleibt
+          die Reißleine: Lieber rollt die Leiste, als dass die ganze Seite waagrecht aufgeht.
         */}
-        <ReiterLeiste aktiv={view}>
+        <ReiterLeiste aktiv={view} onView={onView}>
           {VIEWS.filter((v) => v.inNav).map((v) => {
             const kurz = KURZ_IM_NAV[v.id]
             return (
@@ -321,7 +318,7 @@ export function Legend() {
  * aus, und der aktive Reiter wird ins Bild gerollt — sonst stand man auf „News" und sah
  * den Reiter dazu nicht.
  */
-function ReiterLeiste({ aktiv, children }: { aktiv: string; children: React.ReactNode }) {
+function ReiterLeiste({ aktiv, onView, children }: { aktiv: ViewId; onView: (v: ViewId) => void; children: React.ReactNode }) {
   const ref = useRef<HTMLElement | null>(null)
   const [mehrRechts, setMehrRechts] = useState(false)
   const [mehrLinks, setMehrLinks] = useState(false)
@@ -345,10 +342,12 @@ function ReiterLeiste({ aktiv, children }: { aktiv: string; children: React.Reac
     knopf?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
   }, [aktiv])
   return (
+    <>
+    <HandyNavigation aktiv={aktiv} onView={onView} />
     <nav
       ref={ref}
       className={[
-        'flex max-w-full gap-0.5 overflow-x-auto rounded-lg bg-slate-200/60 p-0.5 dark:bg-white/5',
+        'hidden max-w-full gap-0.5 overflow-x-auto rounded-lg bg-slate-200/60 p-0.5 sm:flex dark:bg-white/5',
         mehrRechts && mehrLinks
           ? '[mask-image:linear-gradient(to_right,transparent,black_2.5rem,black_calc(100%-2.5rem),transparent)]'
           : mehrRechts
@@ -361,5 +360,6 @@ function ReiterLeiste({ aktiv, children }: { aktiv: string; children: React.Reac
     >
       {children}
     </nav>
+    </>
   )
 }

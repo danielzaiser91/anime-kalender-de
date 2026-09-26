@@ -415,7 +415,7 @@ export function FavoritesView({
         es nicht.
       */}
       {entfernt && (
-        <div className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm shadow-lg dark:border-white/15 dark:bg-slate-900">
+        <div className="fixed bottom-20 left-1/2 z-50 sm:bottom-4 flex -translate-x-1/2 items-center gap-3 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm shadow-lg dark:border-white/15 dark:bg-slate-900">
           <span className="text-slate-700 dark:text-slate-200">{t('fav.removed', { name: entfernt.name })}</span>
           <button
             type="button"
