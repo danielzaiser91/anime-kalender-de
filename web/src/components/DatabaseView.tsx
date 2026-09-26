@@ -4,7 +4,7 @@ import { titleStatus } from '@shared/logic.ts'
 import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { useLang } from '../lib/i18n.tsx'
+import { useLang, type Translate } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Toggle } from './ui.tsx'
 import { useShare } from '../lib/share.ts'
@@ -135,12 +135,7 @@ export function DatabaseView({
           Schalter verhindern soll (aufgefallen bei der Sichtprüfung, 13.08.2026).
         */}
         <span>
-          {ohneSynchro && anzahlOhne > 0
-            ? t('db.countSplit', {
-                mit: (titles.length - anzahlOhne).toLocaleString('de-DE'),
-                ohne: anzahlOhne.toLocaleString('de-DE'),
-              })
-            : t('db.count', { count: titles.length.toLocaleString('de-DE') })}
+          {zaehlText(titles, ohneSynchro ? anzahlOhne : 0, t)}
         </span>
         <Toggle
           checked={grouped}
@@ -361,4 +356,16 @@ export function DatabaseView({
       )}
     </div>
   )
+}
+
+/**
+ * „2.777 Anime und 913 westliche Serien mit belegter deutscher Synchro" — die Datenbank führt
+ * seit dem 12.09.2026 auch Cartoons, der Seitenfuß zählt nur Anime. Unter einer Zahl zusammen
+ * hießen alle 3.690 „Anime", und Fuß und Datenbank widersprachen sich (26.09.2026).
+ */
+function zaehlText(titles: Title[], ohne: number, t: Translate): string {
+  const westlich = titles.filter((tt) => tt.westlich && !tt.ohneSynchro).length
+  const zahl = (n: number) => n.toLocaleString('de-DE')
+  const mit = t(westlich ? 'db.countMitWestlich' : 'db.count', { count: zahl(titles.length - ohne - westlich), westlich: zahl(westlich) })
+  return ohne ? `${mit} · ${t('db.countOhne', { ohne: zahl(ohne) })}` : mit
 }

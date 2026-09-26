@@ -198,7 +198,8 @@ const TEXTE = {
     'Fasst alle Staffeln, Filme und Specials einer Reihe zu einer Kachel zusammen. Gezeigt wird die erste Staffel, die übrigen stehen in ihrer Detailansicht.',
   // Titel ohne belegte deutsche Synchro — der Schalter, seine Begründung und
   // die Kennzeichnung an der Kachel. Eingeführt 13.08.2026.
-  'db.countSplit': '{mit} mit belegter deutscher Synchro · {ohne} ohne',
+  'db.countMitWestlich': '{count} Anime und {westlich} westliche Serien mit belegter deutscher Synchro',
+  'db.countOhne': '{ohne} ohne',
   'db.withoutDub': 'Anime ohne deutsche Synchro',
   'db.withoutDubHint':
     'Holt zusätzlich alle Anime, zu denen wir keine deutsche Synchro kennen. Der Schalter beginnt bei jedem Aufruf wieder aus.',
