@@ -81,6 +81,26 @@ Zusicherung, die meldet, wenn sie verlorengeht.
 - Newsletter-Worker (`worker/`) optional; DSGVO-Pflichten (Double-Opt-in, Abmeldelink, Impressum,
   Datenschutz) nie entfernen.
 
+## Codegestalt: Neues bekommt eine eigene Funktion
+
+Anlass: `main()` in `build.ts` hatte 7.809 Zeilen, `DetailPanel` 3.125 — jede Ergänzung war klein.
+
+- **Nicht anbauen, herauslösen:** Keine Zeilen in eine Funktion über 80 oder eine Datei über 800
+  Zeilen; Neues wird eigene Funktion bzw. eigenes Modul. `check:umfang` (steckt in `build`) misst
+  die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`,
+  angehoben wird nie. `--liste` zeigt die größten Stellen.
+- **Daten sichtbar übergeben:** Eingaben als Parameter, Ergebnisse als Rückgabe — nicht über
+  geteilte `let`-Variablen einer großen Funktion. Wo Reihenfolge zählt, steht sie in den Aufrufen.
+- **Vor dem Schreiben suchen:** vorhandene Helfer in `pipeline/lib/`, `shared/`, `web/src/lib/`.
+- **Kommentare sagen warum, in ein bis drei Zeilen.** Anlass, Datum, Laufkennung und Chronik gehören
+  in den Commit oder nach `docs/wissen/` (ein Verweis genügt). Wer einen Abschnitt anfasst, kürzt
+  dessen Chronik mit.
+- **Umbau und Verhaltensänderung nie im selben Commit.** Ein Umbau von `build.ts` beweist
+  Gleichheit: `node tools/bau-vergleich.mjs` (Ausgabe byte-gleich zu `origin/main`); Ein- und
+  Ausgaben eines Abschnitts nennt `node tools/abschnitt-schnittstelle.mjs <datei> <von> <bis>`.
+  Vorgehen: Skill `zerlegen`.
+- **Wegwerfskripte gehören ins Scratchpad**, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
+
 ## Keine Information zweimal
 
 Prüffrage vor jeder Zeile in der Oberfläche: Steht das schon auf demselben Bildschirm? Dann
