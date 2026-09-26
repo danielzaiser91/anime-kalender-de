@@ -41,7 +41,7 @@ import { todayIso, addDays } from '@shared/time.ts'
  * Aufklappen: Die Übersicht beantwortet „ist etwas passiert", das Detail
  * „was genau".
  */
-const FARBE: Record<NewsArt, string> = {
+export const NEWS_FARBE: Record<NewsArt, string> = {
   neu: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
   folgen: 'bg-sky-500/15 text-sky-700 dark:text-sky-300',
   angekuendigt: 'bg-violet-500/15 text-violet-700 dark:text-violet-300',
@@ -333,7 +333,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
               onClick={() => setFilter(filter === a ? null : a)}
               className={`rounded-full px-2.5 py-1 text-xs transition ${
                 filter === a ? 'ring-2 ring-slate-400 dark:ring-slate-500' : 'hover:brightness-95'
-              } ${FARBE[a]}`}
+              } ${NEWS_FARBE[a]}`}
             >
               {t(`news.art.${a}`)} <span className="tabular-nums">{jeArt.get(a)}</span>
             </button>
@@ -416,7 +416,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                       {/* Zeile 3: die Arten als Chips, mit Teil davor die Kurzform. */}
                       <span className="flex min-w-0 items-center gap-1">
                         {arten.map(([a, n]) => (
-                          <span key={a} className={`shrink-0 rounded px-1.5 py-px text-[11px] ${FARBE[a]}`}>
+                          <span key={a} className={`shrink-0 rounded px-1.5 py-px text-[11px] ${NEWS_FARBE[a]}`}>
                             {t(`news.art.${a}`)}
                             {n > 1 && <span className="ml-1 tabular-nums">{n}</span>}
                           </span>
@@ -450,7 +450,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                             onClick={() => oeffne(m.teilId ?? e.titelId)}
                             className="flex w-full items-center gap-2 rounded py-1 pr-1 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
                           >
-                            <span className={`shrink-0 rounded px-1.5 py-0.5 text-[11px] ${FARBE[m.art]}`}>
+                            <span className={`shrink-0 rounded px-1.5 py-0.5 text-[11px] ${NEWS_FARBE[m.art]}`}>
                               {t(`news.art.${m.art}`)}
                             </span>
                             {m.teil && m.teil !== e.titel && (

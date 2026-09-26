@@ -405,3 +405,14 @@ links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. Zu wi
   „Im Angebot seit"; das Standardbild zählt aus `meta.json` (vorher 504 aus `titles-core`).
 - Titelseiten (`/t/…`) behalten Banner oder Cover von AniList: eigene Bilder für 2.777 Titel wären
   rund 170 MB zusätzlich im Repo (899 Release-Bilder = 54 MB).
+
+## Neuigkeiten im Detail-Panel (27.09.2026)
+
+Daniel: News eines Titels direkt im Panel sehen und zur Quelle springen. `detail/neuigkeiten.tsx`
+zeigt die Meldungen aus `news.json` für die **ganze Reihe** (Teil = `teilId ?? titelId`), neueste
+zuerst, drei sichtbar. Satz und Farbe wie auf der News-Seite (`newsSatz`, `NEWS_FARBE`).
+
+- **Quelle:** Meldungen tragen keine Adresse. Genommen wird der jüngste Beleg (`quellen`,
+  `gesehenAm`) des Releases der Meldung, sonst `sources[0]`, sonst `platformUrl`; „neu auf Deutsch"
+  ohne Release führt zur Serie beim Anbieter (`streams[].url`).
+- Meldungen zu einem anderen Teil nennen ihn (`teil`, sonst der Name des Kopfs).
