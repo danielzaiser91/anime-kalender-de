@@ -92,18 +92,35 @@ export function KartenKopf({ event, ueberholt, t, gesamtFolgen, share, copiedSlu
             </span>
           </Tooltip>
         )}
-        <span className="ml-auto flex shrink-0 items-center gap-0.5">
-          <ShareIcon
-            onShare={() => share(event.releaseSlug, event.name)}
-            copied={copiedSlug === event.releaseSlug}
-            size="sm"
-          />
-          {onToggleHidden && <HideEye hidden={false} onToggle={onToggleHidden} size="sm" />}
-          {onToggleFavorite && (
-            <FavoriteStar active={!!favorite} onToggle={onToggleFavorite} size="sm" />
-          )}
-        </span>
+        <KartenKnoepfe
+          teilen={() => share(event.releaseSlug, event.name)}
+          kopiert={copiedSlug === event.releaseSlug}
+          {...{ onToggleHidden, onToggleFavorite, favorite }}
+        />
       </div>
     </>
+  )
+}
+
+/**
+ * Teilen und Ausblenden erscheinen erst beim Zeigen oder im Fokus — an jeder Karte der Woche
+ * sichtbar waren sie Rauschen. Nur auf Geräten mit Zeiger: Auf Touch gibt es kein Zeigen, dort
+ * bleiben sie stehen. Der Stern bleibt immer; er ist die Handlung, für die man die Woche aufschlägt.
+ */
+function KartenKnoepfe({ teilen, kopiert, onToggleHidden, onToggleFavorite, favorite }: {
+  teilen: () => void
+  kopiert: boolean
+  onToggleHidden: (() => void) | undefined
+  onToggleFavorite: (() => void) | undefined
+  favorite: boolean | undefined
+}) {
+  return (
+    <span className="ml-auto flex shrink-0 items-center gap-0.5">
+      <span className="flex items-center gap-0.5 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0">
+        <ShareIcon onShare={teilen} copied={kopiert} size="sm" />
+        {onToggleHidden && <HideEye hidden={false} onToggle={onToggleHidden} size="sm" />}
+      </span>
+      {onToggleFavorite && <FavoriteStar active={!!favorite} onToggle={onToggleFavorite} size="sm" />}
+    </span>
   )
 }
