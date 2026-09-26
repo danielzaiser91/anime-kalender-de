@@ -914,3 +914,16 @@ Erster Lauf von `bau-vergleich`/`panel-vergleich` auf Daniels Rechner (PR #242):
   Fensters und lud auf **beiden** Ständen je Lauf mal, mal nicht (je 3 Läufe gemessen). Das
   Werkzeug rendert jetzt 8000 px hoch und wartet, bis im Panel kein „Wird geladen" mehr steht
   (höchstens 10 s, danach wird trotzdem verglichen).
+
+## Zwei Sitzungen in einem Arbeitsverzeichnis: vor jedem Commit den Zweig prüfen (26.09.2026)
+
+Am 26.09.2026 liefen zwei Claude-Sitzungen in `C:\code\ai\anime-kalender-de`. Die eine checkte für
+ein Review den PR-Zweig `claude/epic-goldberg-nfgn9c` (PR #242) aus; die andere committete und pushte
+danach drei Commits, ohne es zu merken — sie landeten auf dem PR-Zweig statt auf `main` und kamen erst
+mit dem Merge an. `git status` vor dem Commit reicht dafür nicht: Es zeigt den Zweig zwar in der ersten
+Zeile, aber `--short` (so wie hier üblich) lässt genau diese Zeile weg.
+
+**Regel:** Arbeitet eine zweite Sitzung im selben Ordner, vor jedem Commit
+`git branch --show-current` — steht dort nicht `main`, nicht committen, sondern die andere Sitzung
+fragen. Geteilte Dateien vorher absprechen; fremde, nicht committete Änderungen nie mit stagen
+(`git add <eigene Dateien>`, kein `git add -A`), beim Pull `--autostash`.
