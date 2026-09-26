@@ -111,7 +111,7 @@ function TagZeile({
       className={[
         'grid grid-cols-1 gap-x-6 gap-y-3 border-t border-ak-linie py-5 lg:py-6',
         zeigeTv ? 'lg:grid-cols-[110px_minmax(0,1fr)_300px]' : 'lg:grid-cols-[110px_minmax(0,1fr)]',
-        vorbei ? 'opacity-[0.62] transition-opacity hover:opacity-100' : '',
+        vorbei ? 'ak-vorbei' : '',
       ].join(' ')}
     >
       <TagKopf tag={tag} heute={heute} tvAn={p.tvAn} />
@@ -136,7 +136,7 @@ function TagZeile({
 
 function TagKopf({ tag, heute, tvAn }: { tag: Tag; heute: boolean; tvAn: boolean }) {
   const { t } = useLang()
-  const farbe = heute ? 'text-ak-akzent-text' : 'text-ak-text'
+  const farbe = heute ? 'text-ak-akzent-text' : 'ak-titel text-ak-text'
   return (
     <div className="flex items-baseline gap-3 lg:flex-col lg:items-start lg:gap-1">
       <h2 className={`text-[13px] font-bold uppercase tracking-[0.12em] ${farbe}`}>

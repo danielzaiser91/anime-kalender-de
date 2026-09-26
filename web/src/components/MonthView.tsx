@@ -75,7 +75,7 @@ function MonatsZelle({ tag, p, heute, vorbei, t }: { tag: Tag; p: MonatProps; he
       className={[
         'flex min-h-[74px] flex-col gap-1.5 rounded-xl p-1.5 sm:min-h-[150px] sm:gap-2 sm:p-2.5',
         heute ? 'bg-ak-heute ring-1 ring-ak-akzent ring-inset' : 'bg-ak-flaeche ring-1 ring-ak-linie ring-inset',
-        vorbei ? 'opacity-[0.62] transition-opacity hover:opacity-100' : '',
+        vorbei ? 'ak-vorbei' : '',
       ].join(' ')}
     >
       <button
@@ -84,7 +84,7 @@ function MonatsZelle({ tag, p, heute, vorbei, t }: { tag: Tag; p: MonatProps; he
         aria-label={t('kal.tagOeffnen', { datum: formatDate(tag.date) })}
         className="flex cursor-pointer items-baseline gap-1.5 self-start rounded-md text-left hover:underline"
       >
-        <span className={`font-display text-sm font-bold sm:text-lg ${heute ? 'text-ak-akzent-text' : 'text-ak-text'}`}>
+        <span className={`font-display text-sm font-bold sm:text-lg ${heute ? 'text-ak-akzent-text' : 'ak-titel text-ak-text'}`}>
           {Number(tag.date.slice(8))}
         </span>
         {heute && <span className="hidden text-[11px] font-bold uppercase tracking-[0.08em] text-ak-akzent-text sm:inline">{t('week.today')}</span>}

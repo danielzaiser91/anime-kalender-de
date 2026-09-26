@@ -52,7 +52,7 @@ export function PosterKarte(p: PosterKarteProps) {
         'group relative flex min-w-0 cursor-pointer flex-col gap-1.5 rounded-xl outline-none',
         'has-[.ak-oeffnen:focus-visible]:ring-2 has-[.ak-oeffnen:focus-visible]:ring-ak-akzent has-[.ak-oeffnen:focus-visible]:ring-offset-4 has-[.ak-oeffnen:focus-visible]:ring-offset-ak-grund',
         breit ? 'col-span-2' : '',
-        p.vorbei && !p.favorite ? 'opacity-[0.55] transition-opacity hover:opacity-100' : '',
+        p.vorbei && !p.favorite ? 'ak-vorbei' : '',
       ].join(' ')}
     >
       <button
@@ -68,7 +68,7 @@ export function PosterKarte(p: PosterKarteProps) {
       <PosterCover {...p} breit={breit} />
       <span
         className={[
-          'line-clamp-2 text-sm font-bold leading-snug',
+          'ak-titel line-clamp-2 text-sm font-bold leading-snug',
           ueberholt ? 'text-ak-sehr-leise line-through decoration-rose-500/60' : 'text-ak-text',
         ].join(' ')}
       >

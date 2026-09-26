@@ -72,7 +72,7 @@ function TvZeile({
   const premiere = tvPremiere(ev, data)
   const letzte = weitere[weitere.length - 1]?.time
   return (
-    <li data-tv-zeile className={vorbei ? 'opacity-60' : ''}>
+    <li data-tv-zeile className={vorbei ? 'ak-vorbei' : ''}>
       <button
         type="button"
         data-schliesst
@@ -86,7 +86,7 @@ function TvZeile({
         )}
         <span className="font-bold tabular-nums text-ak-tv">{ev.time ?? '–'}</span>
         <span className="flex min-w-0 flex-col">
-          <span className="font-semibold text-ak-text">
+          <span className="ak-titel font-semibold text-ak-text">
             {ev.name}
             {premiere && (
               <span className="ml-1.5 inline-block rounded-full bg-[#e14d8a] px-1.5 align-[1px] text-[10px] font-extrabold uppercase tracking-wider text-[#0d0f14]">
