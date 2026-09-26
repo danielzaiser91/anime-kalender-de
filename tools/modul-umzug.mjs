@@ -192,6 +192,12 @@ function verschiebeNamen(quellPfad, zielPfad, namen) {
   console.log(`${wanderNamen.length} Deklaration(en) nach ${zielPfad}: ${wanderNamen.join(', ')}`)
 }
 
+const aufModulebene = (d) => {
+  let p = d.parent
+  while (p && !ts.isFunctionLike(p) && !ts.isSourceFile(p)) p = p.parent
+  return !p || ts.isSourceFile(p)
+}
+
 /** Innerste Funktion um die Zeilen von–bis und die Namen, die der Abschnitt mit ihr teilt. */
 function schnittstelle(quelle, pruefer, von, bis) {
   const zeile = (pos) => quelle.getLineAndCharacterOfPosition(pos).line + 1
@@ -225,7 +231,8 @@ function schnittstelle(quelle, pruefer, von, bis) {
       const d = sym?.declarations?.[0]
       const variabel =
         d && (ts.isVariableDeclaration(d) || ts.isParameter(d) || ts.isBindingElement(d) || ts.isFunctionDeclaration(d))
-      if (variabel && d !== huelle && d.getSourceFile() === quelle && d.pos >= huelle.pos && d.end <= huelle.end) {
+      // Eingabe ist alles, was eine umschließende Funktion deklariert — nicht die Modulebene.
+      if (variabel && d !== huelle && d.getSourceFile() === quelle && !aufModulebene(d)) {
         const dz = zeile(d.getStart(quelle))
         if (z >= von && z <= bis && (dz < von || dz > bis)) {
           const typ = pruefer.getTypeAtLocation(d.name ?? d)
