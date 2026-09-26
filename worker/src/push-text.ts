@@ -40,7 +40,8 @@ export function pushText(folgen: PushEreignis[], auchBei: WeitererAnbieter[]): s
  * kennt ihn — `?t=<id>` öffnet sein Panel in jeder Ansicht, `?d=<datum>` stellt die Woche
  * auf den Tag der Folge.
  *
- * Bei mehreren Meldungen bleibt es bei der Favoritenansicht: Dort stehen sie alle.
+ * Bei mehreren Meldungen führt er in die Woche mit dem Filter „Nur Favoriten“ (seit dem
+ * 26.09.2026; den Favoriten-Reiter gibt es nicht mehr): Dort stehen sie alle.
  */
 export function pushZiel(folgen: PushEreignis[], auchBei: WeitererAnbieter[]): string {
   if (folgen.length === 1 && !auchBei.length) {
@@ -48,5 +49,5 @@ export function pushZiel(folgen: PushEreignis[], auchBei: WeitererAnbieter[]): s
     return `#/woche?d=${e.date}&t=${e.titleId}`
   }
   if (!folgen.length && auchBei.length === 1) return `#/woche?t=${auchBei[0]!.id}`
-  return '#/favoriten'
+  return '#/woche?fav=1'
 }

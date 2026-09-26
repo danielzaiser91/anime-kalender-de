@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Bildet die Hauptansichten ab — Woche, Monat, Agenda, Datenbank, „Wo sehen?".
+ * Bildet die Hauptansichten ab — Woche, Monat, Datenbank, News und die festen Seiten.
  *
  * Das Gegenstück zu `panel-bild.mjs`, das nur das Detail-Panel kennt. Der
  * Kalender ist das Kernstück der Seite und war bis zum 03.09.2026 nie
@@ -10,7 +10,7 @@
  * **Ohne Server**, wie das Panel-Werkzeug: `page.route()` beantwortet jede
  * Anfrage aus `dist/`, gerendert wird also genau das, was ausgeliefert wird.
  *
- * Aufruf: node tools/ansicht-bild.mjs [<ansicht> …]   (Vorgabe: alle fünf)
+ * Aufruf: node tools/ansicht-bild.mjs [<ansicht> …]   (Vorgabe: alle)
  *         npm run check:ansichten
  *
  * Ergebnis: `docs/ansicht-<name>-<hell|dunkel>.png`, dazu je Ansicht die Zahl
@@ -37,10 +37,7 @@ const DIST = path.join(WURZEL, 'dist')
 const ALLE = [
   'woche',
   'monat',
-  'agenda',
   'datenbank',
-  'favoriten',
-  'wo',
   'news',
   'abo',
   'newsletter',

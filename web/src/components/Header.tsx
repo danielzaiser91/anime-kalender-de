@@ -1,365 +1,120 @@
-import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { RELEASE_TYPES } from '@shared/types.ts'
-import type { ReleaseType } from '@shared/types.ts'
-import { VIEWS, type ViewId } from '../lib/router.ts'
-import { addDays, addMonths, formatDateLong, monthName, startOfWeek, todayIso } from '@shared/time.ts'
+import type { ViewId } from '../lib/router.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
+import { useThema } from '../lib/thema.ts'
 import { InstallButton } from './InstallPrompt.tsx'
-import { Tooltip, TvZeichen } from './ui.tsx'
-import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
-import { DatumSprung } from './DatumSprung.tsx'
+import { Suchfeld } from './Suchfeld.tsx'
+import { HandyNavigation } from './HandyNavigation.tsx'
+import { AboMenue } from './kalender/AboMenue.tsx'
+import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen, ZahnradZeichen } from './kalender/Zeichen.tsx'
 
-function ThemeToggle() {
-  const { t } = useLang()
-  const toggle = () => {
-    const root = document.documentElement
-    const dark = root.classList.toggle('dark')
-    localStorage.setItem('theme', dark ? 'dark' : 'light')
-    root.style.colorScheme = dark ? 'dark' : 'light'
-  }
-  return (
-    <Tooltip text={t('nav.theme')}>
-      <button
-        type="button"
-        onClick={toggle}
-        aria-label={t('nav.theme')}
-        className="cursor-pointer rounded-lg px-2.5 py-2 text-sm transition hover:bg-slate-200/60 dark:hover:bg-white/10"
-      >
-        <span className="hidden dark:inline">☀️</span>
-        <span className="dark:hidden">🌙</span>
-      </button>
-    </Tooltip>
-  )
+/** Die drei Bereiche der Seite. Woche und Monat sind beide „Kalender". */
+export const BEREICHE: { id: 'kalender' | 'datenbank' | 'news'; ziel: ViewId }[] = [
+  { id: 'kalender', ziel: 'woche' },
+  { id: 'datenbank', ziel: 'datenbank' },
+  { id: 'news', ziel: 'news' },
+]
+
+export function bereichVon(view: ViewId): 'kalender' | 'datenbank' | 'news' | undefined {
+  if (view === 'woche' || view === 'monat') return 'kalender'
+  if (view === 'datenbank' || view === 'news') return view
+  return undefined
 }
 
+const RUND = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
 
-/** Reiter, die auf schmalen Schirmen eine kürzere Beschriftung tragen. */
-const KURZ_IM_NAV: Partial<Record<ViewId, TranslationKey>> = {
-  wo: 'view.wo.short',
-}
-
+/**
+ * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema
+ * und Einstellungen. Sie klebt oben und rollt mit (Daniel, 26.09.2026). Auf dem Handy wandern die
+ * Bereiche und das Zahnrad nach unten, die Suche klappt unter der Leiste auf.
+ */
 export function Header({
   view,
-  date,
   onView,
-  onDate,
+  onStart,
+  suche,
+  setSuche,
+  favorites,
   einstellungen,
-  termine,
 }: {
   view: ViewId
-  date: string
-  /** Termintage für die Datumsauswahl: alle (Bereich) und die gefilterten (Zählung). */
-  termine?: { alle: string[]; sichtbar: string[] }
-  /**
-   * Der Einstellungsknopf, fertig verdrahtet. Als Element statt als
-   * Zustand-und-Rückruf: Der Header soll nicht wissen, was hinter dem Zahnrad
-   * liegt — er gibt ihm nur seinen Platz neben dem Thema-Umschalter.
-   */
-  einstellungen?: React.ReactNode
   onView: (v: ViewId) => void
-  onDate: (d: string) => void
+  onStart: () => void
+  suche: string
+  setSuche: (s: string) => void
+  favorites: Set<number>
+  einstellungen: () => void
 }) {
   const { t } = useLang()
-  const isCalendar = view === 'woche' || view === 'monat' || view === 'agenda'
-  const step = view === 'monat' ? 'month' : view === 'agenda' ? 'agenda' : 'week'
-
-  const shift = (dir: number) => {
-    if (step === 'month') onDate(addMonths(date, dir))
-    else if (step === 'agenda') onDate(addDays(date, dir * 14))
-    else onDate(addDays(date, dir * 7))
-  }
-
-  const verbindung = useNewsletterVerbindung()
-
-  /**
-   * Liegt der heutige Tag im gerade sichtbaren Zeitraum?
-   *
-   * Danach richtet sich, ob der „heute"-Knopf noch etwas zu tun hat. Die
-   * Frage ist je Ansicht eine andere: In der Wochenansicht zählt die Woche,
-   * im Monat der Monat, in der Agenda der Tag selbst — sie beginnt bei
-   * einem Datum und läuft vorwärts.
-   */
-  const heuteSichtbar = (() => {
-    const heute = todayIso()
-    if (view === 'monat') return heute.slice(0, 7) === date.slice(0, 7)
-    if (view === 'agenda') return heute === date
-    return startOfWeek(heute) === startOfWeek(date)
-  })()
-
-  const label = (() => {
-    if (view === 'monat') {
-      const [y, m] = date.split('-').map(Number)
-      return `${monthName(m - 1)} ${y}`
-    }
-    if (view === 'agenda') return t('nav.from', { date: formatDateLong(date) })
-    const monday = startOfWeek(date)
-    const sunday = addDays(monday, 6)
-    /* Den Monat nur einmal nennen (18.09.2026): „14. September – 20. September 2026“ brach
-       auf dem Handy auf zwei Zeilen, „14.–20. September 2026“ passt in eine. */
-    const [y1, m1, d1] = monday.split('-').map(Number)
-    const [y2, m2, d2] = sunday.split('-').map(Number)
-    if (y1 !== y2) return `${formatDateLong(monday)} – ${formatDateLong(sunday)}`
-    if (m1 !== m2) return `${d1}. ${monthName(m1 - 1)} – ${d2}. ${monthName(m2 - 1)} ${y2}`
-    return `${d1}.–${d2}. ${monthName(m2 - 1)} ${y2}`
-  })()
-
+  const [sucheAuf, setSucheAuf] = useState(false)
+  const eingabe = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    if (sucheAuf) eingabe.current?.focus()
+  }, [sucheAuf])
+  const aktiv = bereichVon(view)
+  const feld = 'h-11 w-full rounded-full border border-ak-rand bg-ak-flaeche pr-4 pl-10 text-sm text-ak-text placeholder:text-ak-sehr-leise focus:border-ak-akzent focus:outline-none'
   return (
-    <header className="sticky top-0 z-20 border-b border-slate-200 bg-[#f6f7fb]/85 backdrop-blur dark:border-white/10 dark:bg-[#0a0e17]/85">
-      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-3 gap-y-2 px-4 py-2.5">
-        {/*
-          Auf dem Handy bilden Titel und Symbole eine gemeinsame erste Zeile —
-          sonst kostet jede Schaltfläche eine eigene Reihe und die Kopfleiste
-          frisst den halben Bildschirm. Ab `sm` löst sich diese Hülle per
-          `display: contents` auf; dann liegen Titel und Symbolgruppe direkt in
-          der Kopfzeile, und `order-last` schiebt die Gruppe wieder nach rechts.
-        */}
-        <div className="flex w-full items-center gap-2 sm:contents">
-          <button
-            type="button"
-            onClick={() => {
-              onView('woche')
-              onDate(todayIso())
-            }}
-            className="flex min-w-0 cursor-pointer items-center gap-2 text-left"
-          >
-            <span className="text-xl" aria-hidden="true">
-              📺
-            </span>
-            <span className="min-w-0">
-              <span className="block truncate text-sm font-bold leading-tight text-slate-900 dark:text-white">
-                {t('app.title')}
-              </span>
-              <span className="block truncate text-[11px] leading-tight text-slate-500 dark:text-slate-400">
-                {t('app.subtitle')}
-              </span>
-            </span>
+    <header className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
+      <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6 lg:px-10">
+        <button type="button" onClick={onStart} aria-label={t('kopf.startseite')} className="flex min-w-0 cursor-pointer items-center gap-2.5 text-ak-text">
+          <LogoZeichen groesse={32} />
+          <span className="truncate font-display text-base font-bold tracking-[-0.01em] sm:text-xl">
+            anime<span className="text-ak-akzent">·</span>kalender
+          </span>
+        </button>
+        <nav aria-label={t('nav.bereich')} className="hidden gap-6 text-[15px] font-semibold md:flex">
+          {BEREICHE.map((b) => (
+            <button
+              key={b.id}
+              type="button"
+              onClick={() => onView(b.id === 'kalender' && aktiv === 'kalender' ? view : b.ziel)}
+              aria-current={aktiv === b.id ? 'page' : undefined}
+              className={[
+                'cursor-pointer border-b-2 py-2 transition',
+                aktiv === b.id ? 'border-ak-akzent text-ak-text' : 'border-transparent text-ak-leise hover:text-ak-text',
+              ].join(' ')}
+            >
+              {t(b.id === 'kalender' ? 'nav.kalender' : (`view.${b.id}` as TranslationKey))}
+            </button>
+          ))}
+        </nav>
+        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+          <label className="relative hidden w-64 lg:block xl:w-72">
+            <span className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-ak-leise"><SuchZeichen /></span>
+            <Suchfeld wert={suche} setzen={setSuche} platzhalter={t('kopf.suche')} className={feld} />
+          </label>
+          <button type="button" onClick={() => setSucheAuf(!sucheAuf)} aria-expanded={sucheAuf} aria-label={t('kopf.sucheOeffnen')} className={`${RUND} lg:hidden`}>
+            <SuchZeichen />
           </button>
-
-          <div className="ml-auto flex shrink-0 items-center gap-1 sm:order-last">
-            <InstallButton />
-            <button
-              type="button"
-              onClick={() => onView('abo')}
-              className="hidden cursor-pointer rounded-lg px-2.5 py-2 text-sm text-slate-600 transition hover:bg-slate-200/60 sm:block dark:text-slate-300 dark:hover:bg-white/10"
-            >
-              {t('view.abo')}
-            </button>
-            {/*
-              Der Knopf zeigt, ob ein Newsletter hinterlegt ist.
-
-              Ohne diese Auskunft blieb der auffälligste Knopf im Kopf stumm:
-              Er sah bei einem Abonnenten genauso aus wie bei jemandem, der noch
-              nie davon gehört hat, und lud damit dauerhaft zu etwas ein, das
-              längst erledigt ist (Daniel, 15.08.2026). Verbunden heißt jetzt
-              grün mit Häkchen, dazu die hinterlegte Adresse im Hovertext.
-            */}
-            <Tooltip
-              text={
-                !verbindung.verbunden
-                  ? t('view.newsletter')
-                  : verbindung.mail
-                    ? t('news.connectedAs', { mail: verbindung.mail })
-                    : t('news.connectedNoMail')
-              }
-            >
-              <button
-                type="button"
-                onClick={() => onView('newsletter')}
-                aria-label={t('view.newsletter')}
-                className={[
-                  'cursor-pointer rounded-lg px-3 py-2 text-sm font-medium text-white transition',
-                  verbindung.verbunden
-                    ? 'bg-emerald-700 hover:bg-emerald-800'
-                    : 'bg-sky-700 hover:bg-sky-800',
-                ].join(' ')}
-              >
-                {/* Auf schmalen Schirmen genügt das Symbol — der Knopf ist der
-                    auffälligste im Kopf, seine Bedeutung geht nicht verloren. */}
-                <span className="sm:hidden" aria-hidden="true">
-                  ✉
-                </span>
-                <span className="hidden sm:inline">{t('view.newsletter')}</span>
-                {verbindung.verbunden && (
-                  <span className="ml-1.5" aria-hidden="true">
-                    ✓
-                  </span>
-                )}
-              </button>
-            </Tooltip>
-            {einstellungen}
-            <ThemeToggle />
-          </div>
+          <InstallButton />
+          <AboMenue onView={onView} favorites={favorites} />
+          <ThemaKnopf />
+          <button type="button" onClick={einstellungen} aria-label={t('einstellungen.titel')} title={t('einstellungen.titel')} className={`${RUND} hidden md:flex`}>
+            <ZahnradZeichen />
+          </button>
         </div>
-
-        {/*
-          `max-w-full overflow-x-auto` ist die Reißleine, nicht der Normalfall:
-          Fünf Reiter passen mit den Kurzformen unten auch auf 375 px. Käme ein
-          sechster dazu, rollt die Leiste, statt die ganze Seite waagrecht
-          aufzuschieben — genau das passierte beim Reiter „Wo sehen?"
-          (13.08.2026), und ein waagrechter Rollbalken über der kompletten Seite
-          fällt niemandem als Navigationsproblem auf.
-        */}
-        <ReiterLeiste aktiv={view}>
-          {VIEWS.filter((v) => v.inNav).map((v) => {
-            const kurz = KURZ_IM_NAV[v.id]
-            return (
-              <button
-                key={v.id}
-                type="button"
-                onClick={() => onView(v.id)}
-                aria-current={view === v.id}
-                className={[
-                  'shrink-0 cursor-pointer whitespace-nowrap rounded-md px-2 py-1.5 text-sm font-medium transition sm:px-3',
-                  view === v.id
-                    ? 'bg-white text-slate-900 shadow-sm dark:bg-white/15 dark:text-white'
-                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white',
-                ].join(' ')}
-              >
-                {kurz ? (
-                  <>
-                    <span className="sm:hidden">{t(kurz)}</span>
-                    <span className="hidden sm:inline">{t(`view.${v.id}` as TranslationKey)}</span>
-                  </>
-                ) : (
-                  t(`view.${v.id}` as TranslationKey)
-                )}
-              </button>
-            )
-          })}
-        </ReiterLeiste>
-
-        {isCalendar && (
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => shift(-1)}
-              aria-label={t('nav.back')}
-              className="cursor-pointer rounded-lg px-2.5 py-1.5 text-sm transition hover:bg-slate-200/60 dark:hover:bg-white/10"
-            >
-              ←
-            </button>
-            {/*
-              Der Knopf sagt, ob er noch etwas zu tun hat.
-
-              Sind wir schon beim heutigen Tag, ist er ausgegraut und
-              abgeschaltet — sonst klickt man zur Sicherheit und verliert seine
-              Stelle im Kalender (Daniel, 24.08.2026). Der Rahmen bleibt, damit
-              die Leiste nicht springt.
-            */}
-            {/*
-              **In der Woche bleibt „heute" klickbar und scrollt zum heutigen Tag** (Daniel,
-              25.09.2026: „auf handy zB kann man hoch und runter scrollen, und ist dann nicht
-              unbedingt bei heute"). Die Wochenansicht hört auf `ak-zu-heute`.
-            */}
-            <button
-              type="button"
-              onClick={() => {
-                onDate(todayIso())
-                if (view === 'woche') window.dispatchEvent(new Event('ak-zu-heute'))
-              }}
-              disabled={heuteSichtbar && view !== 'woche'}
-              aria-current={heuteSichtbar ? 'date' : undefined}
-              title={heuteSichtbar ? (view === 'woche' ? t('nav.todayScroll') : t('nav.todayHere')) : t('nav.todayGo')}
-              className={
-                heuteSichtbar
-                  ? `${view === 'woche' ? 'cursor-pointer hover:bg-sky-500/20' : 'cursor-default'} rounded-lg border border-sky-500/40 bg-sky-500/10 px-2.5 py-1.5 text-sm font-medium text-sky-700 dark:text-sky-300`
-                  : 'cursor-pointer rounded-lg border border-transparent px-2.5 py-1.5 text-sm font-medium transition hover:bg-slate-200/60 dark:hover:bg-white/10'
-              }
-            >
-              {t('nav.today')}
-            </button>
-            <button
-              type="button"
-              onClick={() => shift(1)}
-              aria-label={t('nav.forward')}
-              className="cursor-pointer rounded-lg px-2.5 py-1.5 text-sm transition hover:bg-slate-200/60 dark:hover:bg-white/10"
-            >
-              →
-            </button>
-            {termine && <DatumSprung date={date} termine={termine} onDate={onDate} />}
-            <span className="ml-1 text-sm font-medium text-slate-700 dark:text-slate-200">{label}</span>
-          </div>
-        )}
-
       </div>
+      {sucheAuf && (
+        <div className="mx-auto max-w-[1600px] px-4 pb-3 lg:hidden">
+          <label className="relative block">
+            <span className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-ak-leise"><SuchZeichen /></span>
+            <Suchfeld wert={suche} setzen={setSuche} platzhalter={t('kopf.suche')} className={feld} eingabe={eingabe} />
+          </label>
+        </div>
+      )}
+      <HandyNavigation aktiv={aktiv} onView={onView} kalender={aktiv === 'kalender' ? view : 'woche'} einstellungen={einstellungen} />
     </header>
   )
 }
 
-export function Legend() {
-  const { t, tRelease } = useLang()
+/** Auf dem Handy steht der Schalter in den Einstellungen — sonst passt der Name nicht mehr in die Leiste. */
+function ThemaKnopf() {
+  const { t } = useLang()
+  const [dunkel, umschalten] = useThema()
+  const label = t(dunkel ? 'kopf.hell' : 'kopf.dunkel')
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-slate-500 dark:text-slate-400">
-      <span className="font-semibold uppercase tracking-wider">{t('legend.colour')}</span>
-      {(Object.keys(RELEASE_TYPES) as ReleaseType[]).map((type) => (
-        <Tooltip key={type} text={tRelease(type, 'hint')}>
-          <span className="inline-flex items-center gap-1.5">
-            <span className="h-2.5 w-1 rounded-sm" style={{ background: RELEASE_TYPES[type].color }} />
-            {tRelease(type)}
-          </span>
-        </Tooltip>
-      ))}
-      <Tooltip text={t('legend.tvHint')}>
-        <span className="inline-flex items-center gap-1.5 text-teal-700 dark:text-teal-300">
-          <TvZeichen /> {t('legend.tv')}
-        </span>
-      </Tooltip>
-      <Tooltip text={t('legend.estimated')}>
-        <span className="inline-flex items-center gap-1.5">
-          <span className="text-amber-500">≈</span> {t('legend.estimatedShort')}
-        </span>
-      </Tooltip>
-    </div>
-  )
-}
-
-/**
- * **Die Reiterleiste sagt, dass sie weitergeht** (18.09.2026, Handy-Bilder). Mit sieben
- * Reitern passt sie auf 375 px nicht mehr; „Wo?" und „News" standen unsichtbar rechts
- * außerhalb, ohne Hinweis. Solange rechts noch etwas kommt, blendet ein Verlauf den Rand
- * aus, und der aktive Reiter wird ins Bild gerollt — sonst stand man auf „News" und sah
- * den Reiter dazu nicht.
- */
-function ReiterLeiste({ aktiv, children }: { aktiv: string; children: React.ReactNode }) {
-  const ref = useRef<HTMLElement | null>(null)
-  const [mehrRechts, setMehrRechts] = useState(false)
-  const [mehrLinks, setMehrLinks] = useState(false)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const messen = () => {
-      setMehrRechts(el.scrollLeft + el.clientWidth < el.scrollWidth - 2)
-      setMehrLinks(el.scrollLeft > 2)
-    }
-    messen()
-    el.addEventListener('scroll', messen, { passive: true })
-    window.addEventListener('resize', messen)
-    return () => {
-      el.removeEventListener('scroll', messen)
-      window.removeEventListener('resize', messen)
-    }
-  }, [])
-  useEffect(() => {
-    const knopf = ref.current?.querySelector<HTMLElement>('[aria-current="true"]')
-    knopf?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
-  }, [aktiv])
-  return (
-    <nav
-      ref={ref}
-      className={[
-        'flex max-w-full gap-0.5 overflow-x-auto rounded-lg bg-slate-200/60 p-0.5 dark:bg-white/5',
-        mehrRechts && mehrLinks
-          ? '[mask-image:linear-gradient(to_right,transparent,black_2.5rem,black_calc(100%-2.5rem),transparent)]'
-          : mehrRechts
-            ? '[mask-image:linear-gradient(to_right,black_calc(100%-2.5rem),transparent)]'
-            : mehrLinks
-              ? '[mask-image:linear-gradient(to_right,transparent,black_2.5rem)]'
-              : '',
-      ].join(' ')}
-      aria-label="Ansicht"
-    >
-      {children}
-    </nav>
+    <button type="button" onClick={umschalten} aria-label={label} title={label} className={`${RUND} hidden md:flex`}>
+      {dunkel ? <SonnenZeichen /> : <MondZeichen />}
+    </button>
   )
 }

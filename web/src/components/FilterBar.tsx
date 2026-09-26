@@ -1,216 +1,14 @@
-import { useEffect, useState } from 'react'
-import type { DataMeta, Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
-import { PLATFORMS, RELEASE_TYPES } from '@shared/types.ts'
-import { modusVon, type ModusFeld,
-  EMPTY_FILTERS,
-  activeFilterCount,
-  filterMode,
-  toggleFilter,
-  type FilterState,
-  type ListKey,
-} from '../lib/filters.ts'
+import { useState } from 'react'
+import type { DataMeta } from '@shared/types.ts'
+import { EMPTY_FILTERS, activeFilterCount, type FilterState } from '../lib/filters.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { Chip } from './ui.tsx'
-
-const FSK_OPTIONS: Fsk[] = [0, 6, 12, 16, 18]
-const STATUS_OPTIONS: ReleaseStatus[] = ['airing', 'tba', 'abgeschlossen', 'erschienen', 'unbekannt']
-const KEYWORD_PREVIEW = 24
+import { FilterDetailsFeld } from './FilterDetails.tsx'
 
 /**
- * **Der UND/ODER-Schalter einer Kategorie.**
- *
- * Er erscheint erst ab der zweiten gewählten Pill: Bei einer einzigen bewirkt er
- * nichts, und ein Schalter ohne Wirkung ist Rauschen an einer Stelle, an der
- * ohnehin viel steht.
- *
- * „egal" statt „ODER" — das trifft, was die Einstellung meint, und liest sich
- * ohne Nachdenken: Wer Netflix und Prime wählt, will „irgendwo davon" (egal
- * welches) oder „auf beiden" (alle).
+ * Die Filterleiste der Datenbank. Gesucht wird seit dem 26.09.2026 im Kopf der Seite — ein zweites
+ * Suchfeld hier stünde doppelt auf demselben Bildschirm.
  */
-function ModusSchalter({
-  wert,
-  setzen,
-}: {
-  wert: 'und' | 'oder'
-  setzen: (w: 'und' | 'oder') => void
-}) {
-  const knopf = (w: 'und' | 'oder', text: string, titel: string) => (
-    <button
-      type="button"
-      onClick={() => setzen(w)}
-      title={titel}
-      aria-pressed={wert === w}
-      className={
-        'rounded px-1.5 py-px text-[9px] font-semibold uppercase tracking-wider transition ' +
-        (wert === w
-          ? 'bg-slate-600 text-slate-100'
-          : 'text-slate-500 hover:text-slate-300')
-      }
-    >
-      {text}
-    </button>
-  )
-  return (
-    <span className="ml-1 inline-flex items-center gap-px rounded bg-slate-800/70 p-px">
-      {knopf('oder', 'egal', 'Mindestens eines der gewählten')}
-      {knopf('und', 'alle', 'Alle gewählten zusammen')}
-    </span>
-  )
-}
-
-function Group({
-  label,
-  children,
-  modus,
-}: {
-  label: string
-  children: React.ReactNode
-  /** Nur bei Kategorien, in denen ein Titel mehrere Werte tragen kann. */
-  modus?: { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <span className="flex items-center text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-        {label}
-        {modus && modus.anzahl > 1 ? <ModusSchalter wert={modus.wert} setzen={modus.setzen} /> : null}
-      </span>
-      <div className="flex flex-wrap gap-1.5">{children}</div>
-    </div>
-  )
-}
-
-const STATUS_LABEL_KEY = {
-  airing: 'status.airing',
-  abgeschlossen: 'status.abgeschlossen',
-  tba: 'status.tba',
-  erschienen: 'status.erschienen',
-  unbekannt: 'status.unbekannt',
-} as const
-
-/**
- * **Die Eingabe muss laufen, auch wenn die Suche nicht hinterherkommt.**
- *
- * Jeder Tastendruck schrieb direkt in `filters.search` — und daran hängt die
- * Filterung über 2.771 Titel samt allem, was sie zeichnet. Bei schneller
- * Eingabe blockierte das den Haupt-Thread zwischen zwei Anschlägen, und die
- * Tastatur verschluckte Zeichen (Daniel, 12.09.2026: „ich hab gerade was
- * gesucht und es hat extrem gelaggt, sodass tastatur eingaben verschluckt
- * wurden … mach ein input buffer rein, sodass die suche erst anfängt wenn
- * mindestens x ms nix eingegeben wurde").
- *
- * **Zwei Zustände statt einem:** Das Feld zeigt sofort, was getippt wurde —
- * daran darf nie etwas hängen. Gesucht wird erst, wenn `RUHE_MS`
- * vergangen sind, ohne dass eine weitere Taste kam.
- *
- * Die Zahl ist ein Kompromiss, kein Zufall: Deutlich darunter bündelt sie
- * nichts mehr (ein geübter Tipper schlägt alle 120 bis 200 ms an), deutlich
- * darüber fühlt sich die Seite träge an, weil die Trefferliste der Eingabe
- * sichtbar nachläuft.
- */
-const RUHE_MS = 250
-
-function Suchfeld({
-  wert,
-  setzen,
-  platzhalter,
-}: {
-  wert: string
-  setzen: (s: string) => void
-  platzhalter: string
-}) {
-  const [getippt, setGetippt] = useState(wert)
-
-  /*
-    **Von außen geänderte Suche schlägt die eigene Anzeige.** „Filter
-    zurücksetzen" und der Einstieg über eine Adresse mit Suchbegriff setzen
-    `filters.search`, ohne dass hier jemand tippt — ohne diesen Abgleich
-    stünde danach der alte Text im Feld.
-  */
-  useEffect(() => {
-    setGetippt(wert)
-  }, [wert])
-
-  /*
-    Der Weckruf wird bei jedem Anschlag neu gestellt; erst wenn einer
-    durchläuft, geht der Begriff nach oben. Das Aufräumen in der Rückgabe ist
-    der eigentliche Mechanismus, nicht nur Hygiene.
-  */
-  useEffect(() => {
-    if (getippt === wert) return
-    const uhr = setTimeout(() => setzen(getippt), RUHE_MS)
-    return () => clearTimeout(uhr)
-    /* `setzen` ist bei jedem Rendern eine neue Funktion — es gehört nicht in die Liste. */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getippt, wert])
-
-  return (
-    <input
-      type="search"
-      value={getippt}
-      onChange={(e) => setGetippt(e.target.value)}
-      placeholder={platzhalter}
-      className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:border-sky-400 focus:outline-none dark:border-white/15 dark:bg-white/5 dark:text-slate-100"
-    />
-  )
-}
-
-/**
- * **„Meine Anbieter" — die eigenen Abos als ein Klick** (18.09.2026, autonomer Modus).
- *
- * Aus dem Feature-Vergleich mit JustWatch („My Services"): Wer Netflix und Crunchyroll
- * hat, wählt beide bei jedem Besuch neu aus. Gespeichert wird im Browser, nicht in der
- * Adresse — eine Vorliebe ist keine Ansicht, und ein geteilter Link soll beim Empfänger
- * nicht still dessen Abos filtern. Deshalb auch kein automatisch gesetzter Filter: Der
- * Knopf zeigt an, dass es die Auswahl gibt, und setzt sie erst auf Klick.
- */
-const MEINE_ANBIETER = 'meineAnbieter'
-
-function meineAnbieterLesen(verfuegbar: PlatformId[]): PlatformId[] {
-  try {
-    const roh = JSON.parse(localStorage.getItem(MEINE_ANBIETER) ?? '[]') as unknown
-    return Array.isArray(roh) ? verfuegbar.filter((p) => roh.includes(p)) : []
-  } catch {
-    return []
-  }
-}
-
-function MeineAnbieter({
-  aktuell,
-  verfuegbar,
-  setzen,
-}: {
-  aktuell: PlatformId[]
-  verfuegbar: PlatformId[]
-  setzen: (platforms: PlatformId[]) => void
-}) {
-  const { t } = useLang()
-  const [gemerkt, setGemerkt] = useState(() => meineAnbieterLesen(verfuegbar))
-  const gleich = gemerkt.length === aktuell.length && gemerkt.every((p) => aktuell.includes(p))
-  const merken = () => {
-    try {
-      localStorage.setItem(MEINE_ANBIETER, JSON.stringify(aktuell))
-    } catch {
-      /* Gesperrter Speicher: dann gilt die Auswahl nur für diesen Besuch. */
-    }
-    setGemerkt([...aktuell])
-  }
-  const knopf =
-    'cursor-pointer rounded-full border border-dashed border-slate-400/70 px-2.5 py-0.5 text-xs text-slate-600 transition hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-white/10'
-  if (gemerkt.length && !gleich)
-    return (
-      <button type="button" className={knopf} onClick={() => setzen(gemerkt)} title={gemerkt.map((p) => PLATFORMS[p].name).join(', ')}>
-        ★ {t('filter.meineAnbieter')}
-      </button>
-    )
-  if (aktuell.length && !gleich)
-    return (
-      <button type="button" className={knopf} onClick={merken}>
-        ☆ {t('filter.meineAnbieterMerken')}
-      </button>
-    )
-  return null
-}
-
 export function FilterBar({
   meta,
   filters,
@@ -224,73 +22,15 @@ export function FilterBar({
   showConfidence: boolean
   favoriteCount: number
 }) {
-  const { t, tGenre, tKeyword, tRelease } = useLang()
+  const { t } = useLang()
   const [open, setOpen] = useState(false)
-  const [genreQuery, setGenreQuery] = useState('')
-  const [keywordQuery, setKeywordQuery] = useState('')
-  const [allKeywords, setAllKeywords] = useState(false)
-  const [showAllProviders, setShowAllProviders] = useState(false)
-  // Auswahlmodus: Ein Klick auf ein Tag wählt es — oder verbietet es.
-  const [mode, setMode] = useState<'include' | 'exclude'>('include')
   const count = activeFilterCount(filters)
-
   const set = (patch: Partial<FilterState>) => onChange({ ...filters, ...patch })
-  /**
-   * Der UND/ODER-Schalter einer Kategorie — nur für Felder, in denen ein Titel
-   * mehrere Werte tragen kann. Status und FSK sind einwertig und bekommen
-   * deshalb keinen (siehe `ModusFeld` in `filters.ts`).
-   */
-  const modusVon2 = (feld: ModusFeld, anzahl: number) => ({
-    anzahl,
-    wert: modusVon(filters, feld),
-    setzen: (w: 'und' | 'oder') => set({ modus: { ...filters.modus, [feld]: w } }),
-  })
-
-  /** Ein Klick auf ein Tag — der Modus entscheidet, auf welche Seite es geht. */
-  const pick = <K extends ListKey>(key: K, value: FilterState[K][number]) =>
-    onChange(toggleFilter(filters, key, value, mode))
-
-  /** Zustand eines Tags für die Darstellung. */
-  const chipState = <K extends ListKey>(key: K, value: FilterState[K][number]) => {
-    const state = filterMode(filters, key, value)
-    return { active: state === 'include', excluded: state === 'exclude' }
-  }
-
-  const sortedGenres = meta.genres
-    .slice()
-    .sort((a, b) => tGenre(a).localeCompare(tGenre(b), 'de'))
-  const visibleGenres = genreQuery
-    ? sortedGenres.filter((g) => tGenre(g).toLowerCase().includes(genreQuery.toLowerCase()))
-    : sortedGenres
-
-  const sortedKeywords = meta.keywords
-    .slice()
-    .sort((a, b) => tKeyword(a).localeCompare(tKeyword(b), 'de'))
-  const matchingKeywords = keywordQuery
-    ? sortedKeywords.filter((k) => tKeyword(k).toLowerCase().includes(keywordQuery.toLowerCase()))
-    : sortedKeywords
-  // Gewählte und ausgeschlossene Keywords bleiben immer sichtbar, sonst könnte
-  // man ein Verbot setzen und es anschließend nicht mehr finden.
-  const setKeywords = [...filters.keywords, ...filters.excluded.keywords]
-  const previewKeywords = [
-    ...setKeywords,
-    ...matchingKeywords.filter((k) => !setKeywords.includes(k)).slice(0, KEYWORD_PREVIEW),
-  ]
-  const shownKeywords = allKeywords || keywordQuery ? matchingKeywords : previewKeywords
-  const hiddenKeywordCount = matchingKeywords.length - previewKeywords.length
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white/70 dark:border-white/10 dark:bg-white/[0.03]">
+    <div className="rounded-2xl border border-ak-rand bg-ak-flaeche">
       <div className="flex flex-wrap items-center gap-2 p-2">
-        <div className="relative min-w-52 flex-1">
-          <Suchfeld wert={filters.search} setzen={(search) => set({ search })} platzhalter={t('filter.search')} />
-        </div>
-
-        <Chip
-          active={filters.favoritesOnly}
-          onClick={() => set({ favoritesOnly: !filters.favoritesOnly })}
-          color="#fbbf24"
-        >
+        <Chip active={filters.favoritesOnly} onClick={() => set({ favoritesOnly: !filters.favoritesOnly })} color="#fbbf24">
           ★ {t('filter.favourites')}
           {favoriteCount > 0 && <span className="opacity-60">({favoriteCount})</span>}
         </Chip>
@@ -304,8 +44,7 @@ export function FilterBar({
           {t('filter.kostenlos')}
         </Chip>
 
-        {/* Nur in der Datenbank sinnvoll: In den Kalenderansichten hat ohnehin
-            alles einen Termin, dort wäre der Schalter wirkungslos. */}
+        {/* Nur in der Datenbank sinnvoll: Im Kalender hat ohnehin alles einen Termin. */}
         {showConfidence && (
           <Chip
             active={filters.availableOnly}
@@ -321,12 +60,10 @@ export function FilterBar({
           type="button"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
-          className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10"
+          className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-ak-rand px-3 py-1.5 text-sm font-semibold text-ak-text transition hover:bg-ak-flaeche-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-ak-akzent"
         >
           {t('filter.button')}
-          {count > 0 && (
-            <span className="rounded-full bg-sky-700 px-1.5 text-[11px] font-bold text-white">{count}</span>
-          )}
+          {count > 0 && <span className="rounded-full bg-ak-akzent px-1.5 text-[11px] font-bold text-ak-auf-akzent">{count}</span>}
           <span aria-hidden="true" className={open ? 'rotate-180 transition' : 'transition'}>
             ▾
           </span>
@@ -336,7 +73,7 @@ export function FilterBar({
           <button
             type="button"
             onClick={() => onChange({ ...EMPTY_FILTERS })}
-            className="cursor-pointer rounded-lg px-2.5 py-2 text-sm text-slate-500 underline-offset-2 hover:underline dark:text-slate-400"
+            className="cursor-pointer rounded-lg px-2.5 py-2 text-sm text-ak-leise underline-offset-2 hover:underline"
           >
             {t('filter.reset')}
           </button>
@@ -344,203 +81,8 @@ export function FilterBar({
       </div>
 
       {open && (
-        <div className="animate-fade-in border-t border-slate-200 dark:border-white/10">
-          {/* Der Umschalter steht über den Tags, nicht neben jedem einzelnen:
-              Wer etwas ausschließen will, will meist mehreres ausschließen. */}
-          <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-3 py-2 dark:border-white/10">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-              {t('filter.mode')}
-            </span>
-            <div className="inline-flex overflow-hidden rounded-lg border border-slate-300 dark:border-white/15">
-              {(['include', 'exclude'] as const).map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  onClick={() => setMode(m)}
-                  aria-pressed={mode === m}
-                  className={[
-                    'cursor-pointer px-3 py-1 text-xs font-medium transition',
-                    mode === m
-                      ? m === 'exclude'
-                        ? 'bg-rose-500 text-white'
-                        : 'bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900'
-                      : 'text-slate-600 hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-white/10',
-                  ].join(' ')}
-                >
-                  {m === 'exclude' ? `⊘ ${t('filter.modeExclude')}` : t('filter.modeInclude')}
-                </button>
-              ))}
-            </div>
-            <span className="text-[11px] text-slate-500 dark:text-slate-400">
-              {t(mode === 'exclude' ? 'filter.modeExcludeHint' : 'filter.modeIncludeHint')}
-            </span>
-          </div>
-
-          <div className="grid gap-4 p-3 sm:grid-cols-2 xl:grid-cols-3">
-          <Group label={t('filter.platform')} modus={modusVon2('platforms', filters.platforms.length)}>
-            <MeineAnbieter
-              aktuell={filters.platforms}
-              verfuegbar={meta.platforms}
-              setzen={(platforms) => set({ platforms })}
-            />
-            {meta.platforms.map((p: PlatformId) => (
-              <Chip
-                key={p}
-                color={PLATFORMS[p].color}
-                {...chipState('platforms', p)}
-                onClick={() => pick('platforms', p)}
-              >
-                {PLATFORMS[p].name}
-              </Chip>
-            ))}
-          </Group>
-
-          {/* Bezugsquellen nur in der Datenbank: In den Kalenderansichten geht es
-              um Termine, und ein Termin liegt immer auf einer der bekannten
-              Plattformen — dort wäre die Gruppe leer. */}
-          {showConfidence && meta.providers.length > 0 && (
-            <Group label={t('filter.provider', { count: meta.providers.length })} modus={modusVon2('providers', filters.providers.length)}>
-              {meta.providers.slice(0, showAllProviders ? undefined : 12).map((name: string) => (
-                <Chip
-                  key={name}
-                  color="#34d399"
-                  {...chipState('providers', name)}
-                  onClick={() => pick('providers', name)}
-                >
-                  {name}
-                </Chip>
-              ))}
-              {meta.providers.length > 12 && (
-                <button
-                  type="button"
-                  onClick={() => setShowAllProviders((v) => !v)}
-                  className="cursor-pointer text-xs text-sky-700 dark:text-sky-300 underline-offset-2 hover:underline"
-                >
-                  {showAllProviders
-                    ? t('filter.showLess')
-                    : t('filter.showMore', { count: meta.providers.length })}
-                </button>
-              )}
-            </Group>
-          )}
-
-          <Group label={t('filter.releaseType')} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
-            {(Object.keys(RELEASE_TYPES) as ReleaseType[]).map((type) => (
-              <Chip
-                key={type}
-                color={RELEASE_TYPES[type].color}
-                title={tRelease(type, 'hint')}
-                {...chipState('releaseTypes', type)}
-                onClick={() => pick('releaseTypes', type)}
-              >
-                {tRelease(type)}
-              </Chip>
-            ))}
-          </Group>
-
-          <Group label={t('filter.status')}>
-            {STATUS_OPTIONS.map((s) => (
-              <Chip
-                key={s}
-                {...chipState('statuses', s)}
-                onClick={() => pick('statuses', s)}
-              >
-                {t(STATUS_LABEL_KEY[s])}
-              </Chip>
-            ))}
-          </Group>
-
-          <Group label={t('filter.fsk')}>
-            {FSK_OPTIONS.map((f) => (
-              <Chip
-                key={f}
-                {...chipState('fsk', f)}
-                onClick={() => pick('fsk', f)}
-              >
-                {t('filter.fskFrom', { n: f })}
-              </Chip>
-            ))}
-          </Group>
-
-          <Group label={t('filter.year')} modus={modusVon2('years', filters.years.length)}>
-            {meta.years.map((y) => (
-              <Chip
-                key={y}
-                {...chipState('years', y)}
-                onClick={() => pick('years', y)}
-              >
-                {y}
-              </Chip>
-            ))}
-          </Group>
-
-          <Group label={t('filter.confidence')}>
-            <Chip
-              active={filters.confirmedOnly}
-              onClick={() => set({ confirmedOnly: !filters.confirmedOnly })}
-              title={t('filter.confirmedOnlyHint')}
-            >
-              {t('filter.confirmedOnly')}
-            </Chip>
-            {showConfidence &&
-              (['low', 'normal', 'high', 'very-high'] as const).map((c, i) => (
-                <Chip
-                  key={c}
-                  active={filters.minConfidence === c}
-                  onClick={() => set({ minConfidence: c })}
-                >
-                  {i === 0 ? t('filter.source') : t('filter.sources', { n: i + 1 })}
-                </Chip>
-              ))}
-          </Group>
-
-          <div className="sm:col-span-2 xl:col-span-1">
-            <Group label={t('filter.genre')} modus={modusVon2('genres', filters.genres.length)}>
-              <input
-                type="search"
-                value={genreQuery}
-                onChange={(e) => setGenreQuery(e.target.value)}
-                placeholder={t('filter.genreSearch')}
-                className="mb-1.5 w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-xs dark:border-white/15 dark:bg-white/5"
-              />
-              {visibleGenres.map((g) => (
-                <Chip
-                  key={g}
-                  {...chipState('genres', g)}
-                  onClick={() => pick('genres', g)}
-                >
-                  {tGenre(g)}
-                </Chip>
-              ))}
-            </Group>
-          </div>
-
-          <div className="sm:col-span-2">
-            <Group label={t('filter.keywords', { count: meta.keywords.length })} modus={modusVon2('keywords', filters.keywords.length)}>
-              <input
-                type="search"
-                value={keywordQuery}
-                onChange={(e) => setKeywordQuery(e.target.value)}
-                placeholder={t('filter.keywordSearch')}
-                className="mb-1.5 w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-xs dark:border-white/15 dark:bg-white/5"
-              />
-              {shownKeywords.map((k) => (
-                <Chip
-                  key={k}
-                  {...chipState('keywords', k)}
-                  onClick={() => pick('keywords', k)}
-                >
-                  {tKeyword(k)}
-                </Chip>
-              ))}
-              {!keywordQuery && hiddenKeywordCount > 0 && (
-                <Chip onClick={() => setAllKeywords((v) => !v)}>
-                  {allKeywords ? t('filter.showLess') : `(…) ${t('filter.showMore', { count: matchingKeywords.length })}`}
-                </Chip>
-              )}
-            </Group>
-          </div>
-          </div>
+        <div className="animate-fade-in border-t border-ak-linie">
+          <FilterDetailsFeld meta={meta} filters={filters} onChange={onChange} showConfidence={showConfidence} />
         </div>
       )}
     </div>

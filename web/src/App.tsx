@@ -1,28 +1,24 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
 import type { Dataset } from './lib/data.ts'
-import { EinstellungenDialog, EinstellungenKnopf, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
+import { EinstellungenDialog, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadDataset, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
 import { filterEvents, filterTitles, toggleValue, type FilterState } from './lib/filters.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
 import { speicherSichern, useNewsletterSync } from './lib/newsletterSync.ts'
+import { usePushNachfuehren } from './lib/push-nachfuehren.ts'
 import { useRoute, type ViewId } from './lib/router.ts'
 import { tvPremiere } from './lib/tv-angabe.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
-import { Header, Legend } from './components/Header.tsx'
+import { Header } from './components/Header.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
 import { NewsView } from './components/NewsView.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
 import { coverBild } from './lib/cover.ts'
 import { FilterBar } from './components/FilterBar.tsx'
-import { Toggle } from './components/ui.tsx'
-import { WeekView } from './components/WeekView.tsx'
-import { MonthView } from './components/MonthView.tsx'
-import { AgendaView } from './components/AgendaView.tsx'
-import { FavoritesView } from './components/FavoritesView.tsx'
+import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
 import { DatabaseView } from './components/DatabaseView.tsx'
-import { WhereView } from './components/WhereView.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
 import {
   DatenschutzView,
@@ -35,11 +31,32 @@ import {
 
 function Spinner({ label }: { label: string }) {
   return (
-    <div className="flex h-64 flex-col items-center justify-center gap-3 text-sm text-slate-500">
-      <span className="size-6 animate-spin rounded-full border-2 border-slate-400 border-t-transparent" />
+    <div className="flex h-64 flex-col items-center justify-center gap-3 text-sm text-ak-leise">
+      <span className="size-6 animate-spin rounded-full border-2 border-ak-leise border-t-transparent" />
       {label}
     </div>
   )
+}
+
+/** Eine Wahl, die im Browser bleibt statt in der Adresse — wer einen Link teilt, teilt nicht seine Vorlieben. */
+function useGemerkterSchalter(schluessel: string, lesen: () => boolean): [boolean, (an: boolean) => void] {
+  const [wert, setWert] = useState(lesen)
+  useEffect(() => {
+    try {
+      localStorage.setItem(schluessel, wert ? '1' : '0')
+    } catch {
+      /* Gesperrte Site-Daten: Die Wahl gilt dann für diese Sitzung. */
+    }
+  }, [schluessel, wert])
+  return [wert, setWert]
+}
+
+function tvAusGespeichert(): boolean {
+  try {
+    return localStorage.getItem('tvAus') === '1'
+  } catch {
+    return false
+  }
 }
 
 export default function App() {
@@ -47,63 +64,27 @@ export default function App() {
   const [data, setData] = useState<Dataset>()
   const [allTitles, setAllTitles] = useState<Title[]>()
   const [error, setError] = useState<string>()
-  // Vorgabe: aus. Wer die Datenbank öffnet, sucht meist einen bestimmten Titel,
-  // und der steht dann unter seinem eigenen Namen da statt unter dem der Reihe
-  // (Daniels Entscheidung, 12.08.2026). Wer bündeln will, schaltet es ein — die
-  // Wahl bleibt gespeichert.
+  // Vorgabe aus: Wer die Datenbank öffnet, sucht meist einen bestimmten Titel (Daniel, 12.08.2026).
   const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') === '1')
-  /**
-   * Titel ohne deutsche Synchro mitzeigen — bewusst **nicht** gespeichert.
-   *
-   * Weder im Verlauf noch in der Adresse, weder in `localStorage` noch in den
-   * Filtern der Route. Der Schalter beginnt bei jedem Aufruf aus (Daniels
-   * ausdrückliche Vorgabe, 13.08.2026: „not remembered upon reload, to prevent
-   * them from showing up always"). Der Grund liegt auf der Hand: Der Kalender
-   * beantwortet die Frage nach deutschen Fassungen. Titel ohne eine solche sind
-   * ein Werkzeug zum Merken, kein Teil der Antwort — sie dauerhaft einzublenden
-   * würde die Aussage der Seite verwässern.
-   */
+  /*
+    Titel ohne deutsche Synchro mitzeigen — bewusst **nicht** gespeichert (Daniel, 13.08.2026: „not
+    remembered upon reload"): Sie sind ein Werkzeug zum Merken, kein Teil der Antwort der Seite.
+  */
   const [zeigeOhneSynchro, setZeigeOhneSynchro] = useState(false)
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
   const [cartoons, setCartoons] = useState<Title[]>()
-  /*
-    **Standardmäßig aus** (Daniel, 12.09.2026) — die Cartoons sind also
-    sichtbar, bis jemand sie wegschaltet. Gespeichert im Browser, nicht in
-    der Adresse: Wer einen Link teilt, teilt nicht seine Vorlieben mit.
-  */
-  const [cartoonsAus, setCartoonsAus] = useState(cartoonsAusGespeichert)
+  /* Standardmäßig aus, die Cartoons also sichtbar (Daniel, 12.09.2026). */
+  const [cartoonsAus, setCartoonsAus] = useGemerkterSchalter(CARTOONS_AUS, cartoonsAusGespeichert)
   const [einstellungenOffen, setEinstellungenOffen] = useState(false)
-  /* TV-Termine ausblenden (Daniel, 16.09.2026) — wie die Cartoons im Browser gemerkt, nicht in der Adresse. */
-  const [tvAus, setTvAus] = useState(() => {
-    try {
-      return localStorage.getItem('tvAus') === '1'
-    } catch {
-      return false
-    }
-  })
-  useEffect(() => {
-    try {
-      localStorage.setItem('tvAus', tvAus ? '1' : '0')
-    } catch {
-      /* Gesperrte Site-Daten: Die Wahl gilt dann für diese Sitzung. */
-    }
-  }, [tvAus])
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(CARTOONS_AUS, cartoonsAus ? '1' : '0')
-    } catch {
-      /* Gesperrte Site-Daten: Die Wahl gilt dann für diese Sitzung. */
-    }
-  }, [cartoonsAus])
+  /* TV-Termine ausblenden (Daniel, 16.09.2026). */
+  const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
   const [route, navigate] = useRoute()
   const { favorites, toggle } = useFavorites()
   const { hidden, toggle: toggleHidden } = useHidden()
-  // Hält die im Newsletter hinterlegten Favoriten aktuell — sitzt hier oben,
-  // damit es unabhängig von der geöffneten Ansicht greift.
+  // Hält Newsletter und Push aktuell — hier oben, damit es unabhängig von der geöffneten Ansicht greift.
   useNewsletterSync(favorites)
-  // Bittet den Browser einmalig, den lokalen Speicher nicht selbst zu räumen.
-  // Ohne das löscht iOS-Safari die Merkliste nach sieben Tagen ohne Besuch.
+  usePushNachfuehren(favorites)
+  // Bittet den Browser einmalig, den lokalen Speicher nicht selbst zu räumen (iOS-Safari: sieben Tage).
   useEffect(speicherSichern, [])
   const today = todayIso()
 
@@ -117,69 +98,37 @@ export default function App() {
     localStorage.setItem('groupSeasons', grouped ? '1' : '0')
   }, [grouped])
 
-  // Cover der aktuellen und nächsten Woche für unterwegs sichern. Erst wenn
-  // die Daten stehen — vorher weiß niemand, welche Bilder gebraucht werden.
+  // Cover der aktuellen und nächsten Woche für unterwegs sichern — dieselbe Größe wie die Kachel.
   useEffect(() => {
     if (!data) return
     const from = startOfWeek(today)
     const to = addDays(from, 13)
     const urls = data.events
       .filter((e) => e.date >= from && e.date <= to)
-      /* Dieselbe Größe, die die Wochenkarte lädt (lib/cover.ts) — sonst fehlt offline genau sie. */
-      .map((e) => coverBild(data.titleById.get(e.titleId)?.coverImage, 28).src)
+      .map((e) => coverBild(data.titleById.get(e.titleId)?.coverImage, 160).src)
       .filter((url): url is string => Boolean(url))
     cacheCoversForOffline(urls)
   }, [data, today])
 
-  // Wochen- und Monatssprünge per Tastatur, solange kein Textfeld den Fokus hat.
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const el = document.activeElement
-      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement)
-        return
-      if (route.release || route.title) return
-      const isMonth = route.view === 'monat'
-      if (e.key === 'ArrowLeft') navigate({ date: isMonth ? addMonths(route.date, -1) : addDays(route.date, -7) })
-      else if (e.key === 'ArrowRight') navigate({ date: isMonth ? addMonths(route.date, 1) : addDays(route.date, 7) })
-      else if (e.key.toLowerCase() === 't') navigate({ date: todayIso() })
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [route, navigate])
+  useTastenSpruenge(route, navigate)
 
-  // Die vollständige Titelliste kommt erst, wenn sie gebraucht wird — für die
-  // Datenbank und für „Wo sehen?". Beide zeigen den ganzen Bestand; der
-  // Kalender-Kern führt nur die gut hundert Titel mit Termin.
+  // Die vollständige Titelliste kommt erst mit der Datenbank; der Kalender führt nur die Titel mit Termin.
   useEffect(() => {
-    if (!data || allTitles || (route.view !== 'datenbank' && route.view !== 'wo')) return
+    if (!data || allTitles || route.view !== 'datenbank') return
     /* Die Synonyme kommen mit — erst danach steht die Liste, damit die Suche sie kennt. */
     Promise.all([loadAllTitles(data), loadSynonyme()])
       .then(([alle]) => setAllTitles(alle))
       .catch(() => setAllTitles(data.titles))
   }, [data, allTitles, route.view])
 
-  // Die Titel ohne Synchro kommen erst über die Leitung, wenn jemand sie sehen
-  // will — und dann genau einmal. Ausschalten wirft sie nicht weg.
+  // Die Titel ohne Synchro kommen erst, wenn jemand sie sehen will — und dann genau einmal.
   useEffect(() => {
     if (!data || !zeigeOhneSynchro || ohneSynchro) return
     loadOhneSynchro(data).then(setOhneSynchro)
   }, [data, zeigeOhneSynchro, ohneSynchro])
 
-  /*
-    **Die westlichen Serien kommen immer** — sie sind standardmäßig sichtbar
-    (Daniel, 12.09.2026). Geholt werden sie trotzdem erst hier und nicht beim
-    Start: 372 KB, die der Kalender für seine erste Ansicht nicht braucht.
-
-    **Und nur, wo sie gezeigt werden** (18.09.2026, Leistungsmessung): Keiner der 906
-    Cartoons hat einen Termin, die Kalenderansichten brauchen sie also gar nicht — sie
-    luden trotzdem 244 KB nach jedem Start. Gebraucht werden sie in den Titel-Listen und
-    wenn jemand einen Cartoon direkt öffnet, dessen Titel noch nicht bekannt ist.
-  */
-  const brauchtCartoons =
-    route.view === 'datenbank' ||
-    route.view === 'wo' ||
-    route.view === 'favoriten' ||
-    (route.title !== undefined && !!data && !data.titleById.has(route.title))
+  /* Cartoons haben keinen Termin; geladen werden sie nur für die Datenbank und für einen direkt geöffneten Cartoon (18.09.2026). */
+  const brauchtCartoons = route.view === 'datenbank' || (route.title !== undefined && !!data && !data.titleById.has(route.title))
   useEffect(() => {
     if (!data || cartoons || !brauchtCartoons) return
     loadCartoons(data).then(setCartoons)
@@ -190,10 +139,7 @@ export default function App() {
       data
         ? filterEvents(data, route.filters, today, favorites).filter(
             /* Ausgeschaltet bleiben Premieren sichtbar (Daniel, 19.09.2026). */
-            (e) => {
-              if (!tvAus || e.platform !== 'tv') return true
-              return tvPremiere(e, data)
-            },
+            (e) => !tvAus || e.platform !== 'tv' || tvPremiere(e, data),
           )
         : [],
     [data, route.filters, today, favorites, tvAus],
@@ -207,7 +153,6 @@ export default function App() {
     if (!data) return []
     const basis = allTitles ?? data.titles
     const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
-    /* Der Schalter in den Einstellungen blendet sie aus — standardmäßig sind sie da. */
     const quelle = !cartoonsAus && cartoons ? [...mitOhne, ...cartoons] : mitOhne
     return filterTitles(quelle, data, route.filters, today, favorites)
   }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites])
@@ -220,13 +165,19 @@ export default function App() {
 
   const setFilters = (filters: FilterState) => navigate({ filters })
   const setView = (view: ViewId) => navigate({ view, release: undefined, title: undefined })
+  /* Gesucht wird in Kalender und Datenbank; von anderen Seiten aus führt die Suche in die Datenbank. */
+  const setSuche = (search: string) =>
+    navigate({
+      filters: { ...route.filters, search },
+      ...(['woche', 'monat', 'datenbank'].includes(route.view) || !search ? {} : { view: 'datenbank' as ViewId }),
+    })
 
   if (error) {
     return (
       <div className="mx-auto max-w-lg p-8 text-center">
         <h1 className="text-lg font-semibold text-red-400">{t('app.loadError')}</h1>
-        <p className="mt-2 text-sm text-slate-400">{error}</p>
-        <p className="mt-4 text-xs text-slate-500">
+        <p className="mt-2 text-sm text-ak-leise">{error}</p>
+        <p className="mt-4 text-xs text-ak-leise">
           {t('app.loadHint')} <code>npm run data:all</code>
         </p>
       </div>
@@ -235,32 +186,18 @@ export default function App() {
 
   if (!data) return <Spinner label={t('app.loading')} />
 
-  const isCalendar = route.view === 'woche' || route.view === 'monat' || route.view === 'agenda'
-  const showFilters = isCalendar || route.view === 'datenbank' || route.view === 'wo'
-  /**
-   * Name der Ansicht für die unsichtbare Überschrift — leer heißt: keine setzen.
-   *
-   * Ausgeschrieben statt über `t(\`view.${route.view}\`)` zusammengesetzt: Die
-   * Ansichtsliste enthält auch `quellen`, und dafür gibt es keinen Text. Ein
-   * dynamischer Schlüssel verdeckt das nur, bis er zur Laufzeit ins Leere greift.
-   */
-  const ansichtsName =
-    route.view === 'woche' ? t('view.woche')
-    : route.view === 'monat' ? t('view.monat')
-    : route.view === 'agenda' ? t('view.agenda')
-    : route.view === 'datenbank' ? t('view.datenbank')
-    : route.view === 'wo' ? t('view.wo')
-    : ''
+  const kalender = route.view === 'woche' || route.view === 'monat'
 
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex min-h-full flex-col pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0">
       <Header
         view={route.view}
-        date={route.date}
         onView={setView}
-        onDate={(d) => navigate({ date: d })}
-        einstellungen={<EinstellungenKnopf offen={einstellungenOffen} setOffen={setEinstellungenOffen} />}
-        termine={termintage}
+        onStart={() => navigate({ view: 'woche', date: todayIso(), release: undefined, title: undefined })}
+        suche={route.filters.search}
+        setSuche={setSuche}
+        favorites={favorites}
+        einstellungen={() => setEinstellungenOffen(true)}
       />
       <EinstellungenDialog
         offen={einstellungenOffen}
@@ -269,124 +206,53 @@ export default function App() {
         setCartoonsAus={setCartoonsAus}
       />
 
-      <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-4">
-        {/*
-          Eine Überschrift, die keiner sieht und viele brauchen.
+      <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-6 sm:px-6 lg:px-10">
+        {kalender && (
+          <KalenderBereich
+            data={data}
+            route={route}
+            navigate={navigate}
+            events={events}
+            favorites={favorites}
+            hidden={hidden}
+            onToggleFavorite={toggle}
+            onToggleHidden={toggleHidden}
+            tvAn={!tvAus}
+            setTvAn={(an) => setTvAus(!an)}
+            termine={termintage}
+          />
+        )}
 
-          Kalender, Datenbank und „Wo sehen?" hatten am 20.08.2026 **keine
-          einzige** Überschrift — kein `h1`, gar nichts. Wer die Seite vorgelesen
-          bekommt, hat damit keinen einzigen Sprungpunkt, und für Suchmaschinen
-          fehlt die Angabe, worum es auf dieser Ansicht geht.
-
-          Nur für diese drei: Die festen Seiten (Newsletter, Abo, Datenschutz)
-          bringen ihre eigene Überschrift mit, und zwei `h1` auf einer Seite
-          wären keine Verbesserung, sondern ein zweiter Fehler.
-        */}
-        {ansichtsName && <h1 className="sr-only">{`Anime-Kalender DE — ${ansichtsName}`}</h1>}
-        {showFilters && (
-          <div className="mb-4 flex flex-col gap-2">
-            <FilterBar
-              meta={data.meta}
-              filters={route.filters}
-              onChange={setFilters}
-              showConfidence={route.view === 'datenbank'}
-              favoriteCount={favorites.size}
-            />
-            {isCalendar && (
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <Legend />
-                {/* Schalter rechts neben der Terminzahl, ohne Hinweis (Daniel, 22.09.2026). */}
-                <span className="flex items-center gap-3">
-                  <Toggle checked={!tvAus} onChange={(an: boolean) => setTvAus(!an)} label={t('legend.tvZeigen')} />
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                    {t('legend.count', { count: events.length })}
-                    <span className="hidden sm:inline"> · {t('legend.keys')}</span>
-                  </span>
-                </span>
-              </div>
+        {route.view === 'datenbank' && (
+          <>
+            {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
+            <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
+            <div className="mb-4">
+              <FilterBar meta={data.meta} filters={route.filters} onChange={setFilters} showConfidence favoriteCount={favorites.size} />
+            </div>
+            {allTitles ? (
+              <DatabaseView
+                data={data}
+                titles={titles}
+                grouped={grouped}
+                onGroupedChange={setGrouped}
+                ohneSynchro={zeigeOhneSynchro}
+                onOhneSynchroChange={setZeigeOhneSynchro}
+                ohneSynchroLaedt={zeigeOhneSynchro && !ohneSynchro}
+                favorites={favorites}
+                hidden={hidden}
+                onToggleFavorite={toggle}
+                onToggleHidden={toggleHidden}
+                onOpenTitle={(id) => navigate({ title: id, release: undefined })}
+                gesucht={Boolean(route.filters.search.trim())}
+                gewaehlt={route.sort}
+                onSortChange={(sort) => navigate({ sort })}
+              />
+            ) : (
+              <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
             )}
-          </div>
+          </>
         )}
-
-        {route.view === 'woche' && (
-          <WeekView
-            data={data}
-            events={events}
-            anchorDate={route.date}
-            favorites={favorites}
-            hidden={hidden}
-            onToggleFavorite={toggle}
-            onToggleHidden={toggleHidden}
-            onOpen={(release) => navigate({ release, title: undefined })}
-          />
-        )}
-
-        {route.view === 'monat' && (
-          <MonthView
-            events={events}
-            anchorDate={route.date}
-            favorites={favorites}
-            hidden={hidden}
-            onOpen={(release) => navigate({ release, title: undefined })}
-            onPickDay={(d) => navigate({ view: 'woche', date: d })}
-          />
-        )}
-
-        {route.view === 'agenda' && (
-          <AgendaView
-            data={data}
-            events={events}
-            anchorDate={route.date}
-            favorites={favorites}
-            hidden={hidden}
-            onToggleFavorite={toggle}
-            onToggleHidden={toggleHidden}
-            onOpen={(release) => navigate({ release, title: undefined })}
-          />
-        )}
-
-        {route.view === 'favoriten' && (
-          <FavoritesView
-            data={data}
-            favorites={favorites}
-            onToggleFavorite={toggle}
-            onOpen={(release) => navigate({ release, title: undefined })}
-          />
-        )}
-
-        {route.view === 'datenbank' &&
-          (allTitles ? (
-            <DatabaseView
-              data={data}
-              titles={titles}
-              grouped={grouped}
-              onGroupedChange={setGrouped}
-              ohneSynchro={zeigeOhneSynchro}
-              onOhneSynchroChange={setZeigeOhneSynchro}
-              ohneSynchroLaedt={zeigeOhneSynchro && !ohneSynchro}
-              favorites={favorites}
-              hidden={hidden}
-              onToggleFavorite={toggle}
-              onToggleHidden={toggleHidden}
-              onOpenTitle={(id) => navigate({ title: id, release: undefined })}
-              gesucht={Boolean(route.filters.search.trim())}
-              gewaehlt={route.sort}
-              onSortChange={(sort) => navigate({ sort })}
-            />
-          ) : (
-            <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
-          ))}
-
-        {route.view === 'wo' &&
-          (allTitles ? (
-            <WhereView
-              titles={titles}
-              gesamt={data.meta.titleCount}
-              onOpenTitle={(id) => navigate({ title: id, release: undefined })}
-            />
-          ) : (
-            <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
-          ))}
 
         {route.view === 'news' && <NewsView data={data} oeffne={(id: number) => navigate({ title: id })} />}
         {route.view === 'abo' && <SubscribeView meta={data.meta} />}
@@ -411,18 +277,9 @@ export default function App() {
           onToggleHidden={toggleHidden}
           onClose={() => navigate({ release: undefined, title: undefined })}
           /*
-            **Ein Wechsel in der Reihe führt auf dieselbe Adressform wie ein
-            Klick im Kalender.**
-
-            Vorher hieß ein Kalenderklick `?r=ghost-in-the-shell-2026` (über den
-            Release-Slug, weil die Teilen-Seiten unter `/r/<slug>/` liegen) und
-            ein Reihenwechsel `?t=177699` — zwei Adressen für dieselbe Ansicht
-            (Daniel, 03.09.2026: „wieso?"). Wer die zweite teilt, teilt eine
-            Adresse ohne eigene Vorschau.
-
-            Hat der Titel ein Release, gewinnt dessen Slug. Hat er keins — ein
-            Teil ohne deutschen Termin —, bleibt die Kennung; es gibt dann keinen
-            Slug, den man nehmen könnte.
+            Ein Wechsel in der Reihe führt auf dieselbe Adressform wie ein Klick im Kalender: Hat der
+            Titel ein Release, gewinnt dessen Slug (eigene Teilen-Seite), sonst bleibt die Kennung
+            (Daniel, 03.09.2026: zwei Adressen für dieselbe Ansicht — „wieso?").
           */
           onOpenTitle={(id) => {
             const slug = data?.releases.find((r) => r.titleId === id)?.slug
@@ -439,4 +296,22 @@ export default function App() {
       )}
     </div>
   )
+}
+
+/** Wochen- und Monatssprünge per Tastatur (← → T), solange kein Textfeld den Fokus hat. */
+function useTastenSpruenge(route: ReturnType<typeof useRoute>[0], navigate: ReturnType<typeof useRoute>[1]) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = document.activeElement
+      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) return
+      if (route.release || route.title) return
+      if (route.view !== 'woche' && route.view !== 'monat') return
+      const isMonth = route.view === 'monat'
+      if (e.key === 'ArrowLeft') navigate({ date: isMonth ? addMonths(route.date, -1) : addDays(route.date, -7) })
+      else if (e.key === 'ArrowRight') navigate({ date: isMonth ? addMonths(route.date, 1) : addDays(route.date, 7) })
+      else if (e.key.toLowerCase() === 't') navigate({ date: todayIso() })
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [route, navigate])
 }

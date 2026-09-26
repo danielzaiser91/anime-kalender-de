@@ -319,9 +319,9 @@ self.addEventListener('push', (event) => {
       /*
         **Das Ziel kommt mit dem Text** (Daniel, 23.09.2026: „klick drauf öffnet nicht
         clevates detail panel in wochenansicht sondern .../#/favoriten"). Bei einer einzelnen
-        Meldung nennt der Worker die Route des Titels; sonst bleibt es bei den Favoriten.
+        Meldung nennt der Worker die Route des Titels; sonst die Woche mit „Nur Favoriten“.
       */
-      let ziel = '/#/favoriten'
+      let ziel = '/#/woche?fav=1'
       try {
         const abo = await self.registration.pushManager.getSubscription()
         if (abo) {
@@ -345,7 +345,7 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close()
-  const ziel = event.notification.data?.ziel || '/#/favoriten'
+  const ziel = event.notification.data?.ziel || '/#/woche?fav=1'
   event.waitUntil(
     (async () => {
       /*

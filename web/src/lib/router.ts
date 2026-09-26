@@ -13,10 +13,7 @@ import { todayIso } from '@shared/time.ts'
 export type ViewId =
   | 'woche'
   | 'monat'
-  | 'agenda'
   | 'datenbank'
-  | 'favoriten'
-  | 'wo'
   | 'news'
   | 'abo'
   | 'newsletter'
@@ -24,26 +21,31 @@ export type ViewId =
   | 'impressum'
   | 'datenschutz'
 
-export const VIEWS: { id: ViewId; label: string; inNav: boolean }[] = [
-  { id: 'woche', label: 'Woche', inNav: true },
-  { id: 'monat', label: 'Monat', inNav: true },
-  { id: 'agenda', label: 'Agenda', inNav: true },
-  { id: 'datenbank', label: 'Datenbank', inNav: true },
-  { id: 'favoriten', label: 'Favoriten', inNav: true },
-  { id: 'wo', label: 'Wo sehen?', inNav: true },
-  /*
-    **News gehört in die Leiste, nicht in den Fuß** (Daniel, 12.09.2026: „a news
-    section for the website, where all our news regarding dubs … are published
-    in a bite-sized format"). Wer wissen will, was sich getan hat, soll nicht
-    erst scrollen.
-  */
-  { id: 'news', label: 'News', inNav: true },
-  { id: 'abo', label: 'Kalender-Abo', inNav: false },
-  { id: 'newsletter', label: 'Newsletter', inNav: false },
-  { id: 'quellen', label: 'Quellen', inNav: false },
-  { id: 'impressum', label: 'Impressum', inNav: false },
-  { id: 'datenschutz', label: 'Datenschutz', inNav: false },
+/** Alle Ansichten; die Navigation (Kalender · Datenbank · News) steht in `Header.tsx`. */
+export const VIEWS: { id: ViewId; label: string }[] = [
+  { id: 'woche', label: 'Woche' },
+  { id: 'monat', label: 'Monat' },
+  { id: 'datenbank', label: 'Datenbank' },
+  { id: 'news', label: 'News' },
+  { id: 'abo', label: 'Kalender-Abo' },
+  { id: 'newsletter', label: 'Newsletter' },
+  { id: 'quellen', label: 'Quellen' },
+  { id: 'impressum', label: 'Impressum' },
+  { id: 'datenschutz', label: 'Datenschutz' },
 ]
+
+/**
+ * **Adressen der entfallenen Reiter** (26.09.2026): Agenda, Favoriten und „Wo sehen?" gibt es nicht
+ * mehr, ihre Adressen sind aber veröffentlicht — geteilte Links und Push-Nachrichten, die bis zum
+ * Umbau `#/favoriten` trugen. Sie führen dorthin, wo dieselbe Frage jetzt beantwortet wird.
+ * Entfernen, wenn keine vor dem 26.09.2026 verschickte Push-Nachricht mehr geöffnet wird
+ * (frühestens 31.12.2026).
+ */
+const ALTE_ANSICHTEN: Record<string, { view: ViewId; favoriten?: true; verfuegbar?: true }> = {
+  agenda: { view: 'woche' },
+  favoriten: { view: 'woche', favoriten: true },
+  wo: { view: 'datenbank', verfuegbar: true },
+}
 
 export interface AppRoute {
   view: ViewId
@@ -102,7 +104,8 @@ export function parseHash(hash: string): AppRoute {
   const raw = hash.replace(/^#\/?/, '')
   const [pathPart, queryPart] = raw.split('?')
   const params = new URLSearchParams(queryPart ?? '')
-  const view = (VIEWS.find((v) => v.id === pathPart)?.id ?? 'woche') as ViewId
+  const alt = ALTE_ANSICHTEN[pathPart]
+  const view = (alt?.view ?? VIEWS.find((v) => v.id === pathPart)?.id ?? 'woche') as ViewId
 
   const filters: FilterState = {
     ...EMPTY_FILTERS,
@@ -110,8 +113,8 @@ export function parseHash(hash: string): AppRoute {
     excluded: readLists(params, 'x'),
     search: params.get('q') ?? '',
     confirmedOnly: params.get('sicher') === '1',
-    favoritesOnly: params.get('fav') === '1',
-    availableOnly: params.get('wo') === '1',
+    favoritesOnly: params.get('fav') === '1' || !!alt?.favoriten,
+    availableOnly: params.get('wo') === '1' || !!alt?.verfuegbar,
     kostenlosOnly: params.get('frei') === '1',
     minConfidence: (params.get('conf') as DubConfidence) ?? 'low',
   }
@@ -180,7 +183,14 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
   const [route, setRoute] = useState<AppRoute>(() => parseHash(window.location.hash))
 
   useEffect(() => {
-    const onChange = () => setRoute(parseHash(window.location.hash))
+    const onChange = () => {
+      const neu = parseHash(window.location.hash)
+      /* Eine alte Adresse wird in der Leiste gleich zur neuen — sonst teilt man sie weiter. */
+      if (ALTE_ANSICHTEN[window.location.hash.replace(/^#\/?/, '').split('?')[0]])
+        history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(neu))
+      setRoute(neu)
+    }
+    onChange()
     /*
       **Auch `popstate`, nicht nur `hashchange`** (Daniel, 22.09.2026: „beim pfeil zurück … url
       ändert sich, aber webseite bleibt so"). `syncSharePath` schreibt nach jedem Hash-Wechsel den

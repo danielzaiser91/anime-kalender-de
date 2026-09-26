@@ -317,7 +317,7 @@ Daniel: „im tv muss auch sagen welche folge an dem termin kommt + uhrzeit ist 
 
 ### Pillen: neutral mit Markenstreifen, ✓ auf der Ecke, Premiere als Fähnchen (19.09.2026)
 
-Drei Entscheidungen Daniels aus Entwürfen (je drei bis vier Varianten, dunkel und hell): Fläche neutral, Markenfarbe nur im Zeichen und als 3-px-Streifen links (vorher „rot auf rot"); der Synchro-Beleg als grünes ✓ auf der oberen rechten Ecke mit Tooltip, unbelegte ohne Zeichen („DE ✓" kostete ~35 px je Pille); „Premiere" als Fähnchen auf der oberen Kante (kostet keine Breite). Leitsatz: verfügbaren Platz wirksam nutzen. Die Pillenreihen haben dafür `gap-y-2.5` — Ecke und Fähnchen ragen über die Kante. `DubMark` („🇩🇪 ✓") bleibt in Favoriten und „Wo sehen?".
+Drei Entscheidungen Daniels aus Entwürfen (je drei bis vier Varianten, dunkel und hell): Fläche neutral, Markenfarbe nur im Zeichen und als 3-px-Streifen links (vorher „rot auf rot"); der Synchro-Beleg als grünes ✓ auf der oberen rechten Ecke mit Tooltip, unbelegte ohne Zeichen („DE ✓" kostete ~35 px je Pille); „Premiere" als Fähnchen auf der oberen Kante (kostet keine Breite). Leitsatz: verfügbaren Platz wirksam nutzen. Die Pillenreihen haben dafür `gap-y-2.5` — Ecke und Fähnchen ragen über die Kante. `DubMark` („🇩🇪 ✓") stand danach nur noch in Favoriten und „Wo sehen?" — beide entfielen am 26.09.2026.
 
 ### „TV-Ausstrahlungen anzeigen" — ausgeschaltet bleiben Premieren (19.09.2026)
 
@@ -335,3 +335,55 @@ Folge etwas anderes. Auf dem Bestand änderte das zwei Wege (Landei II, Ascendan
 Die Wiedervorlage für laufende Serien (`wiedervorlage-frist.ts`) greift nur bei `dub: false`; eine
 deutsche Lücke hinter dem Beleg schließt jetzt der Terminplan.
 
+
+## Poster-Gestaltung: Kalender, Kopfleiste, Navigation (26.09.2026)
+
+Aus drei Prototypen hat Daniel am 26.09.2026 Richtung B „Poster“ gewählt (Leinwand
+https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommentiert. Umgesetzt:
+
+- **Navigation: Kalender (Woche ⇄ Monat) · Datenbank · News.** Agenda, Favoriten und „Wo sehen?“
+  sind entfallen: die Woche ist schon eine Tagesliste, „Nur Favoriten“ und die Anbieter-Chips im
+  Filter beantworten die beiden anderen. Alte Adressen (`#/agenda`, `#/favoriten`, `#/wo`) leiten in
+  `lib/router.ts` weiter und werden in der Leiste umgeschrieben (`ALTE_ANSICHTEN`); Push-Nachrichten
+  führen seitdem auf `#/woche?fav=1`.
+- **Umzüge:** „gesehen bis Folge N“ steht im Detail-Panel eines Favoriten (`detail/fortschritt.tsx`,
+  unter dem Antwortkasten). „N neu“ steht nur an der Kachel der neuesten **erschienenen** Folge
+  (`neuesteErschienen()`, ohne Fernsehen, das eigene Nummern zählt; Zusicherung „Neu: …“). Der
+  Push-Schalter sitzt im Abo-Menü, das Nachführen der Favoriten beim
+  Push-Dienst in `App` (`usePushNachfuehren`, vorher nur bei geöffneter Favoriten-Ansicht), der
+  AniList-Import unter „Nur Favoriten“ im Filterfeld.
+- **Kopfleiste** klebt oben: Logo (das Favicon-Symbol), Suche (gilt für Kalender und Datenbank,
+  von anderen Seiten führt sie in die Datenbank), Abo-Knopf nur mit Kalender- und Glockensymbol,
+  Hell/Dunkel, Zahnrad. Auf dem Handy unten Kalender · Datenbank · News · Einstellungen; Hell/Dunkel
+  dort im Einstellungsdialog, sonst passte der Name nicht in die Leiste.
+- **Woche:** je Tag eine Zeile — Tag, Cover-Raster (`repeat(auto-fill, minmax(128px, 1fr))`, auf
+  dem Handy genau zwei Spalten, immer in Zeitreihenfolge — `grid-flow-dense` würfelte sie durcheinander,
+  eine Lücke vor einer breiten Kachel wird hingenommen), rechts „Im Fernsehen“. Der TV-Kasten füllt absolut die Zeilenhöhe
+  und scrollt darin; bricht die Poster-Reihe um, wird er mit ihr höher.
+- **Staffelstart und Staffelfinale** nehmen zwei Spalten ein, das Cover füllt die Breite, der Text
+  steht wie bei jeder Kachel darunter (Daniel: kein geteiltes Cover/Text). `istStaffelfinale()`:
+  wöchentlich, nicht TV, nicht `available-from`, `episode === episodeCount`, kein
+  `episodeCountAssumed`. Zusicherungen: `check:logic`, „Staffelstart: …“, „Staffelfinale: …“.
+- **Monat:** Cover ohne Text; Zeigen nennt Titel, Zeit und Folge (`kalender/Schwebe.tsx`), Klick
+  öffnet das Panel. „+N“ klappt alle Termine des Tages auf, die TV-Zeile zeigt beim Zeigen (und
+  per Klick) die Ausstrahlungen. Ein Klick auf die Tageszahl springt in der Woche zu diesem Tag
+  (`lib/ziel-tag.ts`). Unter `sm` ist die ganze Zelle ein Knopf, der den Tag aufklappt — Cover
+  von 22 px wären kein Touch-Ziel.
+- **Zählung** je Tag und Monat: „8 Termine · 9 im TV“ (`zaehlung()`); Termine sind alles außer
+  Fernsehen, also auch Disc und Kino. Eine Null entfällt, der leere Tag sagt „Kein Termin an diesem
+  Tag.“, ein Tag nur mit Fernsehen sagt nichts extra — der Kasten daneben sagt es.
+- **Tailwind v4 erzeugt `pt-[calc((100%-0.75rem)*0.75)]` nicht — lautlos, ohne Warnung** (gemessen
+  26.09.2026 im gebauten CSS). Verschachtelte `calc` stehen deshalb als eigene Klasse in `styles.css`
+  (`.ak-breit-cover`); nach jeder arbiträren Klasse im gebauten CSS nachsehen, ob sie angekommen ist.
+- **Vergangenes** dimmt nur Bilder (`.ak-vorbei`), Text wechselt auf `--ak-leise` — `opacity` am
+  ganzen Tag drückte jeden Text unter 4,5:1 (axe, 26.09.2026).
+- **Schwebekarten** (`Schwebe.tsx`) stehen nie über der Kopfleiste oder dem Auslöser und rollen
+  in sich; per Klick geöffnet bekommen sie den Fokus, Escape schließt und gibt ihn zurück.
+- **Wiederholungen** eines Tages bündelt weiter `buendeleTermine()`: im TV-Kasten „+2 bis 18:50“
+  (Klick nennt die Zeiten), bei Streaming „+N Folgen“; nie über Sender hinweg, ausgebliebene Termine
+  und Premieren nie eingeklappt. Zusicherung: `check:logic`, „Bündel: …“.
+- **Farben und Schriften:** Variablen `--ak-*` je Thema in `styles.css`, in Tailwind `bg-ak-grund`,
+  `text-ak-leise` usw.; Unbounded und Manrope selbst gehostet (`@fontsource`), nicht über Google
+  Fonts — ein Abruf dort übermittelt die IP-Adresse.
+- Die Handy-Leiste liegt per Portal am `body` (unter `backdrop-filter` bezöge sich `fixed` sonst auf
+  die Kopfleiste); die Seite hält unter `md` unten Platz für sie frei.

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useLang } from '../lib/i18n.tsx'
-import { Tooltip } from './ui.tsx'
+import { useThema } from '../lib/thema.ts'
 
 /**
  * **Die Einstellungen — ein Zahnrad, ein Dialog, eine Liste von Schaltern.**
@@ -29,29 +29,6 @@ export function cartoonsAusGespeichert(): boolean {
     /* Privater Modus oder gesperrte Site-Daten: dann eben die Vorgabe. */
     return false
   }
-}
-
-export function EinstellungenKnopf({
-  offen,
-  setOffen,
-}: {
-  offen: boolean
-  setOffen: (next: boolean) => void
-}) {
-  const { t } = useLang()
-  return (
-    <Tooltip text={t('einstellungen.titel')}>
-      <button
-        type="button"
-        onClick={() => setOffen(!offen)}
-        aria-label={t('einstellungen.titel')}
-        aria-expanded={offen}
-        className="cursor-pointer rounded-lg px-2.5 py-2 text-sm transition hover:bg-slate-200/60 dark:hover:bg-white/10"
-      >
-        ⚙️
-      </button>
-    </Tooltip>
-  )
 }
 
 export function EinstellungenDialog({
@@ -94,40 +71,53 @@ export function EinstellungenDialog({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-4 shadow-2xl dark:border-white/15 dark:bg-slate-900"
+        className="w-full max-w-md rounded-3xl border border-ak-rand bg-ak-flaeche p-5 text-ak-text shadow-2xl"
       >
         <div className="mb-3 flex items-center gap-3">
-          <h2 className="flex-1 text-base font-bold text-slate-900 dark:text-white">
+          <h2 className="flex-1 font-display text-lg font-bold">
             {t('einstellungen.titel')}
           </h2>
           <button
             type="button"
             onClick={schliessen}
             aria-label={t('einstellungen.schliessen')}
-            className="grid h-8 w-8 place-items-center rounded-full text-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
+            className="grid h-9 w-9 cursor-pointer place-items-center rounded-full text-lg text-ak-leise transition hover:bg-ak-flaeche-2 hover:text-ak-text"
           >
             ✕
           </button>
         </div>
 
-        <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-3 transition hover:bg-slate-50 dark:border-white/10 dark:hover:bg-white/5">
+        <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-ak-rand p-3 transition hover:bg-ak-flaeche-2">
           <input
             type="checkbox"
             checked={cartoonsAus}
             onChange={(e) => setCartoonsAus(e.target.checked)}
-            className="mt-0.5 h-4 w-4 shrink-0 accent-sky-500"
+            className="mt-0.5 h-4 w-4 shrink-0 accent-[#ff5a36]"
           />
           <span className="min-w-0">
-            <span className="block text-sm font-medium text-slate-800 dark:text-slate-100">
+            <span className="block text-sm font-semibold">
               {t('einstellungen.cartoonsAus')}
             </span>
-            <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-slate-400">
+            <span className="mt-0.5 block text-xs leading-snug text-ak-leise">
               {t('einstellungen.cartoonsAusHinweis')}
             </span>
           </span>
         </label>
+        <ThemaZeile />
       </div>
     </div>,
     document.body,
+  )
+}
+
+/** Hell/Dunkel — auf dem Handy nur hier, am Rechner zusätzlich als Knopf im Kopf. */
+function ThemaZeile() {
+  const { t } = useLang()
+  const [dunkel, umschalten] = useThema()
+  return (
+    <label className="mt-2 flex cursor-pointer items-center gap-3 rounded-2xl border border-ak-rand p-3 transition hover:bg-ak-flaeche-2 md:hidden">
+      <input type="checkbox" checked={!dunkel} onChange={umschalten} className="h-4 w-4 shrink-0 accent-[#ff5a36]" />
+      <span className="text-sm font-semibold">{t('kopf.hell')}</span>
+    </label>
   )
 }

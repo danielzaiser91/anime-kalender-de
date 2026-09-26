@@ -100,7 +100,7 @@ import {
   durchlaufendeZaehlung,
   DURCHZAEHLUNG_UNKLAR,
 } from './lib/crunchyroll.ts'
-import type { Release, Title } from '../shared/types.ts'
+import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
@@ -115,6 +115,9 @@ import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus } from './lib/meldungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
+import { buendeleTermine } from '../web/src/lib/buendel.ts'
+import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
+import { neuesteErschienen } from '../web/src/lib/gesehen.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm, sendungNeuZuordnen } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
@@ -1724,19 +1727,19 @@ console.log('\nStreaming Availability API:')
     pushZiel([folge], []),
   )
   pruefe(
-    'mehrere Meldungen führen zur Favoritenansicht',
-    pushZiel([folge, { ...folge, titleId: 1, name: 'Anderer' }], []) === '#/favoriten',
+    'mehrere Meldungen führen zur Woche mit „Nur Favoriten“',
+    pushZiel([folge, { ...folge, titleId: 1, name: 'Anderer' }], []) === '#/woche?fav=1',
   )
   pruefe(
     'ein einzelner neuer Anbieter führt zum Titel',
     pushZiel([], [{ id: 21175, name: 'Dragon Ball Super', anbieter: 'Joyn' }]) === '#/woche?t=21175',
   )
   pruefe(
-    'Folge und Anbieter zusammen führen zur Favoritenansicht',
-    pushZiel([folge], [{ id: 21175, name: 'Dragon Ball Super', anbieter: 'Joyn' }]) === '#/favoriten',
+    'Folge und Anbieter zusammen führen zur Woche mit „Nur Favoriten“',
+    pushZiel([folge], [{ id: 21175, name: 'Dragon Ball Super', anbieter: 'Joyn' }]) === '#/woche?fav=1',
   )
   /* Ohne Meldung gibt es keinen Push — das Ziel bleibt trotzdem beantwortbar. */
-  pruefe('ohne Meldung die Favoritenansicht', pushZiel([], []) === '#/favoriten')
+  pruefe('ohne Meldung die Woche mit „Nur Favoriten“', pushZiel([], []) === '#/woche?fav=1')
 }
 
 /**
@@ -6027,6 +6030,60 @@ pruefe(
   const n = wocheAnhaengen(kalender as never, [...r.uebernommen, { key: 'hana kimi s2', seriesId: 'GT00365568', episode: 9, date: '2026-10-02' }])
   const hana = kalender['hana kimi s2'].observations
   pruefe('Anhängen: gemessene Folge 9 bleibt am 09.09., neue kommen dazu', n === r.uebernommen.length && hana.find((o) => o.episode === 9)?.date === '2026-09-09' && hana.some((o) => o.episode === 12 && o.date === '2026-10-02'), hana)
+}
+{
+  /* Wochenansicht (26.09.2026): Wiederholungen je Tag werden gebündelt — aber nie über Sender hinweg, und was eine eigene Auskunft trägt, bleibt sichtbar. */
+  const t = (id: string, titleId: number, sender: string, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
+    ({ id, releaseSlug: id, titleId, date: '2026-09-26', releaseType: 'weekly', platform: 'tv', sender, name: `T${titleId}`, ...extra }) as ReleaseEvent
+  const g = buendeleTermine(
+    [
+      t('a', 1, 'prosieben-maxx'),
+      t('b', 2, 'super-rtl'),
+      t('c', 1, 'prosieben-maxx'),
+      t('d', 1, 'toggo-plus'),
+      t('e', 1, 'prosieben-maxx', { verpasst: { erwartetAm: '2026-09-26' } }),
+      t('f', 1, 'prosieben-maxx', { episode: 9 }),
+    ],
+    (ev) => !!ev.verpasst || ev.episode === 9,
+  ).map((x) => x.map((e) => e.id).join(''))
+  pruefe('Bündel: gleicher Titel und Sender am selben Tag unter dem ersten Termin', g[0] === 'ac', g)
+  pruefe('Bündel: anderer Sender bleibt eigene Karte', g.includes('d') && g.includes('b'), g)
+  pruefe('Bündel: ausgebliebener Termin und Premiere werden nie eingeklappt', g.includes('e') && g.includes('f'), g)
+}
+{
+  /* Staffelstart im Raster (26.09.2026): nur die erste Folge eines wöchentlichen Releases, nach Nummer gezählt. */
+  const rel = (slug: string, extra: Partial<Release> = {}): Release =>
+    ({ slug, titleId: 1, name: slug, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-01' }, ...extra }) as Release
+  const data = {
+    releaseBySlug: new Map([
+      ['w', rel('w')],
+      ['teil2', rel('teil2', { schedule: { firstEpisodeDate: '2026-10-01', firstEpisodeNumber: 13 } })],
+      ['katalog', rel('katalog', { dateMeaning: 'available-from' })],
+    ]),
+  }
+  const ev = (releaseSlug: string, episode: number, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
+    ({ id: `${releaseSlug}${episode}`, releaseSlug, titleId: 1, date: '2026-10-01', releaseType: 'weekly', platform: 'crunchyroll', name: 'X', episode, ...extra }) as ReleaseEvent
+  pruefe('Staffelstart: Folge 1 eines wöchentlichen Releases', istStaffelstart(ev('w', 1), data))
+  pruefe('Staffelstart: Folge 2 ist keiner', !istStaffelstart(ev('w', 2), data))
+  pruefe('Staffelstart: geteilter Start zählt ab firstEpisodeNumber', istStaffelstart(ev('teil2', 13), data) && !istStaffelstart(ev('teil2', 1), data))
+  pruefe('Staffelstart: „im Angebot seit" ist kein Start', !istStaffelstart(ev('katalog', 1), data))
+  pruefe('Staffelstart: Fernsehen fragt tvPremiere(), nicht diese Regel', !istStaffelstart(ev('w', 1, { platform: 'tv' }), data))
+  /* Staffelfinale (26.09.2026): letzte Folge nur bei belegter Folgenzahl — eine geratene macht kein Finale. */
+  data.releaseBySlug.set('geraten', rel('geraten', { schedule: { firstEpisodeDate: '2026-10-01', episodeCountAssumed: true } }))
+  pruefe('Staffelfinale: Folge 12/12 eines wöchentlichen Releases', istStaffelfinale(ev('w', 12, { episodeCount: 12 }), data))
+  pruefe('Staffelfinale: Folge 11/12 ist keins', !istStaffelfinale(ev('w', 11, { episodeCount: 12 }), data))
+  pruefe('Staffelfinale: ohne Folgenzahl keins', !istStaffelfinale(ev('w', 12), data))
+  pruefe('Staffelfinale: geratene Folgenzahl macht kein Finale', !istStaffelfinale(ev('geraten', 12, { episodeCount: 12 }), data))
+  pruefe('Staffelfinale: „im Angebot seit" ist keins', !istStaffelfinale(ev('katalog', 12, { episodeCount: 12 }), data))
+  pruefe('Staffelfinale: Fernsehen ist keins', !istStaffelfinale(ev('w', 12, { episodeCount: 12, platform: 'tv' }), data))
+}
+{
+  /* „N neu" (26.09.2026): gezählt wird nur Erschienenes, und Fernsehen zählt eigene Folgennummern. */
+  const f = (episode: number, date: string, extra: Record<string, unknown> = {}) => ({ titleId: 7, episode, date, platform: 'crunchyroll', ...extra })
+  const termine = [f(8, '2026-09-20'), f(9, '2026-09-26', { time: '18:00' }), f(10, '2026-10-03'), f(40, '2026-09-21', { platform: 'tv' })]
+  pruefe('Neu: künftige Folge zählt nicht', neuesteErschienen(termine, 7, '2026-09-26', '12:00') === 8)
+  pruefe('Neu: heute nach der Uhrzeit erschienen', neuesteErschienen(termine, 7, '2026-09-26', '18:00') === 9)
+  pruefe('Neu: Fernsehen zählt nicht mit', neuesteErschienen(termine, 7, '2026-10-10', '00:00') === 10)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

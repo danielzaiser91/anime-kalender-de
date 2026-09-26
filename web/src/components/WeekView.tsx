@@ -1,334 +1,212 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
-import { tvPremiere } from '../lib/tv-angabe.ts'
+import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
 import { addDays, formatDate, nowHhMm, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
-import { EventCard } from './EventCard.tsx'
+import { useSprungZuHeute } from '../lib/woche-sprung.ts'
+import { useZielTag } from '../lib/ziel-tag.ts'
+import { buendeleTermine } from '../lib/buendel.ts'
+import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
+import { PosterKarte, type KartenArt } from './kalender/PosterKarte.tsx'
+import { TvKasten } from './kalender/TvKasten.tsx'
+import { zaehlung } from './kalender/Marken.tsx'
 
-/**
- * Unterhalb dieser Breite steht ein Tag als einzelne senkrechte Spalte —
- * dieselbe Grenze wie Tailwinds `sm:`. Nur dort ist der Sprung sinnvoll:
- * Auf breiten Schirmen liegen die sieben Tage nebeneinander und man sieht
- * ohnehin alles.
- */
-const SINGLE_COLUMN = '(max-width: 639px)'
+/** Ohne Uhrzeit hinter alles mit — ziffernbasiert, damit jede Kollation es hinten einsortiert. */
+const OHNE_UHRZEIT = '99:99'
 
-/**
- * Wie viel vom Vorherigen über der nächsten Folge sichtbar bleibt. Ohne diesen
- * Rest sähe die Seite aus, als begänne der Tag hier — der Vorlauf verrät, dass
- * oben noch etwas ist.
- */
-const LEAD_PX = 30
-
-/** Trennt Termine mit belegter Uhrzeit von denen ohne — mit Uhrzeit zuerst. */
-function splitByTime(events: ReleaseEvent[]): { timed: ReleaseEvent[]; untimed: ReleaseEvent[] } {
-  const timed = events
-    .filter((e) => e.time)
-    .sort((a, b) => a.time!.localeCompare(b.time!))
-  const untimed = events.filter((e) => !e.time).sort((a, b) => a.name.localeCompare(b.name, 'de'))
-  return { timed, untimed }
+export interface Tag {
+  date: string
+  stream: ReleaseEvent[]
+  tv: ReleaseEvent[]
+  /** Für den Sprung zu heute: Streaming-Termine mit und ohne Uhrzeit. */
+  timed: ReleaseEvent[]
+  untimed: ReleaseEvent[]
 }
 
-/**
- * Zwei Farbfelder im heutigen Tag: Vorbei ist grau, was noch kommt bleibt blau.
- *
- * Der blaue Rahmen markiert den ganzen Tag — dadurch sah auch der Vormittag
- * noch so aus, als stünde er bevor. Die Grenze zwischen beiden Feldern sagt
- * jetzt ohne ein einziges Wort, wo die Gegenwart liegt.
- */
-function TimeBand({ past, children }: { past?: boolean; children: React.ReactNode }) {
-  return (
-    <div
-      className={[
-        '-mx-1 flex flex-col gap-1.5 rounded-lg px-1 py-1.5',
-        past
-          ? 'bg-slate-400/[0.14] opacity-70 dark:bg-black/25'
-          : 'bg-sky-400/[0.10] dark:bg-sky-400/[0.08]',
-      ].join(' ')}
-    >
-      {children}
-    </div>
-  )
+function nachZeit(a: ReleaseEvent, b: ReleaseEvent): number {
+  return (a.time ?? OHNE_UHRZEIT).localeCompare(b.time ?? OHNE_UHRZEIT) || a.name.localeCompare(b.name, 'de')
 }
 
-export function WeekView({
-  data,
-  events,
-  anchorDate,
-  favorites,
-  hidden,
-  onToggleFavorite,
-  onToggleHidden,
-  onOpen,
-}: {
+export function tageDerWoche(events: ReleaseEvent[], monday: string): Tag[] {
+  const byDate = new Map<string, ReleaseEvent[]>()
+  for (const ev of events) byDate.set(ev.date, [...(byDate.get(ev.date) ?? []), ev])
+  return Array.from({ length: 7 }, (_, i) => {
+    const date = addDays(monday, i)
+    const alle = (byDate.get(date) ?? []).slice().sort(nachZeit)
+    const stream = alle.filter((e) => e.platform !== 'tv')
+    return {
+      date,
+      stream,
+      tv: alle.filter((e) => e.platform === 'tv'),
+      timed: stream.filter((e) => e.time),
+      untimed: stream.filter((e) => !e.time),
+    }
+  })
+}
+
+export interface WocheProps {
   data: Dataset
   events: ReleaseEvent[]
   anchorDate: string
   favorites: Set<number>
   hidden: Set<number>
+  tvAn: boolean
+  gefiltert: boolean
   onToggleFavorite: (titleId: number) => void
   onToggleHidden: (titleId: number) => void
   onOpen: (slug: string, date: string) => void
-}) {
+}
+
+/**
+ * Die Poster-Woche (26.09.2026): je Tag eine Zeile — links der Tag, in der Mitte die Streaming-
+ * Termine als Cover, rechts das Fernsehen. Auf dem Handy stehen die Teile untereinander, genau zwei
+ * Cover je Zeile.
+ */
+export function WeekView(p: WocheProps) {
   const { t } = useLang()
   const today = todayIso()
-  const monday = startOfWeek(anchorDate)
-
-  const days = useMemo(() => {
-    const byDate = new Map<string, ReleaseEvent[]>()
-    for (const ev of events) {
-      const list = byDate.get(ev.date)
-      if (list) list.push(ev)
-      else byDate.set(ev.date, [ev])
-    }
-    return Array.from({ length: 7 }, (_, i) => {
-      const date = addDays(monday, i)
-      return { date, ...splitByTime(byDate.get(date) ?? []) }
-    })
-  }, [events, monday])
-
-  const total = days.reduce((sum, d) => sum + d.timed.length + d.untimed.length, 0)
-
-  // Die aktuelle Uhrzeit trennt im heutigen Tag Vergangenes von Kommendem.
-  // Einmal je Minute nachziehen, damit die Grenze nicht stehen bleibt.
-  const [now, setNow] = useState(nowHhMm)
-  useEffect(() => {
-    const id = window.setInterval(() => setNow(nowHhMm()), 60_000)
-    return () => window.clearInterval(id)
-  }, [])
-
-  /**
-   * Der Termin von heute, bei dem der Blick landen soll: der nächste, der noch
-   * aussteht. Ist der Tag schon durch, wird es der letzte — dann steht der
-   * jüngste Eintrag oben statt der Vormittag von vor zehn Stunden.
-   */
-  const landingId = useMemo(() => {
-    const day = days.find((d) => d.date === today)
-    if (!day?.timed.length) return undefined
-    return (day.timed.find((e) => e.time! >= now) ?? day.timed[day.timed.length - 1]).id
-  }, [days, today, now])
-
-  const landingRef = useRef<HTMLDivElement | null>(null)
-  /** Für welche Woche schon gesprungen wurde — verhindert erneutes Springen. */
-  const jumpedFor = useRef<string | undefined>(undefined)
-
-  /**
-   * Beim Blättern in eine andere Woche sofort an den Anfang.
-   *
-   * Ohne das landet man nach dem Wechsel irgendwo in der Mitte des neuen
-   * Zeitraums — auf dem Handy sogar bei Donnerstag, weil die vorige Woche
-   * dort gerade so weit gescrollt war. Ohne Animation, weil das kein Weg
-   * ist, den man mitverfolgen will, sondern ein Zustandswechsel.
-   *
-   * Die Woche mit heute ist ausgenommen: Dort übernimmt der Sprung zur
-   * nächsten Folge, und beides gleichzeitig wäre ein Ruckeln.
-   */
-  const previousMonday = useRef(monday)
-  useEffect(() => {
-    if (previousMonday.current === monday) return
-    previousMonday.current = monday
-    if (days.some((d) => d.date === today)) return
-    window.scrollTo({ top: 0, behavior: 'auto' })
-  }, [monday, days, today])
-
-  useEffect(() => {
-    const showsToday = days.some((d) => d.date === today)
-    if (!showsToday || !landingId) return
-    // Einmal je Ankunft. Wer innerhalb der Woche filtert, blättert oder eine
-    // Karte öffnet, soll nicht wieder nach unten gerissen werden.
-    if (jumpedFor.current === monday) return
-    if (!window.matchMedia(SINGLE_COLUMN).matches) return
-
-    const el = landingRef.current
-    if (!el) return
-    jumpedFor.current = monday
-
-    const jump = () => {
-      // Die Kopfleiste klebt oben und würde die Karte sonst verdecken.
-      const header = document.querySelector('header')
-      const offset = (header?.getBoundingClientRect().height ?? 0) + LEAD_PX
-      /*
-        Ist die Zielkarte die erste ihres Tages, gilt der Tagesanfang als Ziel: Sonst
-        schnitt die Kopfleiste „FR · heute" halb ab (Handy-Bild, 18.09.2026).
-      */
-      const tag = el.closest('section')
-      const ersteKarte = tag?.querySelector('.ak-oeffnen')?.parentElement
-      const ziel = tag && (ersteKarte === el || el.contains(ersteKarte ?? null)) ? tag : el
-      window.scrollTo({
-        top: Math.max(0, ziel.getBoundingClientRect().top + window.scrollY - offset),
-        // Wer Bewegung abgestellt hat, bekommt keine — und im versteckten Tab
-        // liefe eine weiche Bewegung ohnehin nicht.
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-      })
-    }
-
-    // Im Hintergrund geöffnet? Dann läuft die weiche Bewegung nicht, und der
-    // Sprung ginge lautlos verloren — die Seite stünde beim Hinschauen oben.
-    // Also warten, bis wirklich jemand hinsieht.
-    if (document.hidden) {
-      const onVisible = () => {
-        if (document.hidden) return
-        document.removeEventListener('visibilitychange', onVisible)
-        jump()
-      }
-      document.addEventListener('visibilitychange', onVisible)
-      return () => document.removeEventListener('visibilitychange', onVisible)
-    }
-    jump()
-  }, [days, monday, today, landingId])
-
-  /*
-    **„heute" in der Kopfleiste scrollt, auch wenn die Woche schon die laufende ist** (Daniel,
-    25.09.2026). Der Sprung oben geschieht einmal je Ankunft; dieser auf Zuruf, auf jeder
-    Bildschirmbreite. Ziel ist dieselbe Karte — der nächste anstehende Termin von heute —, sonst
-    der Kopf des heutigen Tages.
-  */
-  useEffect(() => {
-    const zuHeute = () => {
-      const karte = landingRef.current
-      const tag = document.querySelector<HTMLElement>('[data-heute="1"]')
-      const ziel = karte ?? tag
-      if (!ziel) return
-      const header = document.querySelector('header')
-      const offset = (header?.getBoundingClientRect().height ?? 0) + LEAD_PX
-      window.scrollTo({
-        top: Math.max(0, ziel.getBoundingClientRect().top + window.scrollY - offset),
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-      })
-    }
-    /* Kam der Klick aus einer anderen Woche, steht die neue erst nach dem Zeichnen. */
-    const spaeter = () => window.setTimeout(zuHeute, 50)
-    window.addEventListener('ak-zu-heute', spaeter)
-    return () => window.removeEventListener('ak-zu-heute', spaeter)
-  }, [])
-
-  // Verlässt man die Woche mit heute, darf beim nächsten Besuch wieder
-  // gesprungen werden.
-  useEffect(() => {
-    if (!days.some((d) => d.date === today)) jumpedFor.current = undefined
-  }, [days, today])
-
-  const card = (ev: ReleaseEvent) => {
-    const inner = (
-      <EventCard
-        event={ev}
-        title={data.titleById.get(ev.titleId)}
-        fsk={data.releaseBySlug.get(ev.releaseSlug)?.fsk}
-        premiere={tvPremiere(ev, data)}
-        favorite={favorites.has(ev.titleId)}
-        hidden={hidden.has(ev.titleId)}
-        onToggleFavorite={ev.titleId > 0 ? () => onToggleFavorite(ev.titleId) : undefined}
-        onToggleHidden={ev.titleId > 0 ? () => onToggleHidden(ev.titleId) : undefined}
-        onOpen={() => onOpen(ev.releaseSlug, ev.date)}
-      />
-    )
-    // Nur die Zielkarte bekommt eine Hülle — die braucht der Sprung als Anker.
-    return ev.id === landingId ? (
-      <div key={ev.id} ref={landingRef}>
-        {inner}
-      </div>
-    ) : (
-      <div key={ev.id}>{inner}</div>
-    )
-  }
-
-  /**
-   * Heute in Farbfeldern: erst das Vorbei-Feld, dann das Kommt-Feld.
-   *
-   * Auch wenn nur eine Hälfte existiert, bekommt sie ihr Feld — gerade dann
-   * trägt die Farbe die ganze Aussage. Durchgehend grau heißt „für heute ist
-   * Schluss", durchgehend blau „alles steht noch bevor". Ohne das sah ein
-   * abgelaufener Tag genauso aus wie ein bevorstehender, und genau daran ist
-   * die erste Fassung gescheitert.
-   */
-  const renderToday = (timed: ReleaseEvent[]) => {
-    const past = timed.filter((e) => e.time! < now)
-    const upcoming = timed.filter((e) => e.time! >= now)
-    return (
-      <>
-        {past.length > 0 && <TimeBand past>{past.map(card)}</TimeBand>}
-        {upcoming.length > 0 && <TimeBand>{upcoming.map(card)}</TimeBand>}
-      </>
-    )
-  }
+  const monday = startOfWeek(p.anchorDate)
+  const days = useMemo(() => tageDerWoche(p.events, monday), [p.events, monday])
+  const { landingId, landingRef, now } = useSprungZuHeute({ days, today, monday })
+  useZielTag(days.map((d) => d.date))
+  const total = days.reduce((s, d) => s + d.stream.length + d.tv.length, 0)
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
-        {days.map(({ date, timed, untimed }) => {
-          const isToday = date === today
-          const isPast = date < today
-          return (
-            <section
-              key={date}
-              data-heute={isToday ? '1' : undefined}
-              aria-label={`${weekdayName(date)}, ${formatDate(date)}`}
-              className={[
-                'flex min-h-40 flex-col rounded-xl border transition',
-                isToday
-                  ? 'border-sky-400/70 bg-sky-400/[0.06] shadow-[0_0_0_1px_rgba(56,189,248,.25)]'
-                  : 'border-slate-200 bg-white/70 dark:border-white/10 dark:bg-white/[0.02]',
-                isPast && !isToday ? 'opacity-60' : '',
-              ].join(' ')}
-            >
-              <header
-                className={[
-                  'flex items-baseline justify-between gap-2 border-b px-3 py-2',
-                  isToday
-                    ? 'border-sky-400/40 text-sky-700 dark:text-sky-300'
-                    : 'border-slate-200 text-slate-600 dark:border-white/10 dark:text-slate-400',
-                ].join(' ')}
-              >
-                {/*
-                  `h2` statt `span`: Der Tag ist die Überschrift seiner Spalte.
-                  Am Aussehen ändert das nichts — Tailwind setzt Überschriften
-                  auf `font-size: inherit` zurück, die Klassen bestimmen es
-                  weiterhin allein. Es ändert, wer die Seite überhaupt
-                  durchqueren kann: Die Kalenderansicht hatte am 20.08.2026
-                  **keine einzige** Überschrift, also auch keinen Sprungpunkt
-                  für jemanden, der sie vorgelesen bekommt.
-                */}
-                <h2 className="text-xs font-semibold uppercase tracking-wider">
-                  {weekdayName(date, true)}
-                  {isToday && <span className="ml-1 normal-case tracking-normal">· {t('week.today')}</span>}
-                </h2>
-                <span className="text-xs tabular-nums opacity-80">{formatDate(date).slice(0, 5)}</span>
-              </header>
-
-              <div className="flex flex-1 flex-col gap-1.5 p-2">
-                {timed.length === 0 && untimed.length === 0 ? (
-                  <p className="m-auto text-xs text-slate-400 dark:text-slate-600">{t('week.nothing')}</p>
-                ) : (
-                  <>
-                    {/*
-                      **Keine Überschriften mehr — die Kachel sagt es selbst.**
-
-                      „MIT UHRZEIT" und „UHRZEIT OFFEN" standen in jeder Spalte, an
-                      der die Woche beides trug: bei sieben Spalten bis zu
-                      vierzehn Zeilen für eine Angabe, die an jeder Kachel schon
-                      steht — als Uhrzeit oder als „im Handel". Seit dem
-                      03.09.2026 trennt die Strichart der linken Linie
-                      (durchgezogen / gepunktet), und die Legende erklärt sie
-                      einmal für die ganze Seite statt vierzehnmal.
-
-                      Die Reihenfolge bleibt: erst die mit Uhrzeit, chronologisch.
-                    */}
-                    {isToday ? renderToday(timed) : timed.map(card)}
-                    {untimed.map(card)}
-                  </>
-                )}
-              </div>
-            </section>
-          )
-        })}
-      </div>
-
+    <div className="flex flex-col">
+      {days.map((tag) => (
+        <TagZeile key={tag.date} tag={tag} p={p} today={today} now={now} landingId={landingId} landingRef={landingRef} />
+      ))}
       {total === 0 && (
-        <p className="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500 dark:border-white/15 dark:text-slate-400">
-          {t('week.empty')}
-        </p>
+        <p className="rounded-2xl border border-dashed border-ak-rand p-8 text-center text-sm text-ak-leise">{t('week.empty')}</p>
       )}
     </div>
   )
+}
+
+function TagZeile({
+  tag,
+  p,
+  today,
+  now,
+  landingId,
+  landingRef,
+}: {
+  tag: Tag
+  p: WocheProps
+  today: string
+  now: string
+  landingId?: string
+  landingRef: React.RefObject<HTMLDivElement | null>
+}) {
+  const heute = tag.date === today
+  const vorbei = tag.date < today
+  /* Ausgeschaltet bleiben Premieren sichtbar (Daniel, 19.09.2026) — dann steht der Kasten nur für sie da. */
+  const zeigeTv = p.tvAn || tag.tv.length > 0
+  return (
+    <section
+      data-datum={tag.date}
+      data-heute={heute ? '1' : undefined}
+      aria-label={`${weekdayName(tag.date)}, ${formatDate(tag.date)}`}
+      className={[
+        'grid grid-cols-1 gap-x-6 gap-y-3 border-t border-ak-linie py-5 lg:py-6',
+        zeigeTv ? 'lg:grid-cols-[110px_minmax(0,1fr)_300px]' : 'lg:grid-cols-[110px_minmax(0,1fr)]',
+        vorbei ? 'ak-vorbei' : '',
+      ].join(' ')}
+    >
+      <TagKopf tag={tag} heute={heute} tvAn={p.tvAn} />
+      <PosterRaster tag={tag} p={p} heute={heute} now={now} landingId={landingId} landingRef={landingRef} />
+      {zeigeTv && (
+        <div className="relative lg:min-h-0">
+          <div className="lg:absolute lg:inset-0 lg:overflow-y-auto lg:rounded-2xl">
+            <TvKasten
+              termine={tag.tv}
+              data={p.data}
+              hidden={p.hidden}
+              vorbeiBis={heute ? now : vorbei ? '99:99' : undefined}
+              onOpen={(ev) => p.onOpen(ev.releaseSlug, ev.date)}
+            />
+          </div>
+        </div>
+      )}
+    </section>
+  )
+}
+
+function TagKopf({ tag, heute, tvAn }: { tag: Tag; heute: boolean; tvAn: boolean }) {
+  const { t } = useLang()
+  const farbe = heute ? 'text-ak-akzent-text' : 'ak-titel text-ak-text'
+  return (
+    <div className="flex items-baseline gap-3 lg:flex-col lg:items-start lg:gap-1">
+      <h2 className={`text-[13px] font-bold uppercase tracking-[0.12em] ${farbe}`}>
+        {weekdayName(tag.date, true)}
+        {heute && <span> · {t('week.today')}</span>}
+      </h2>
+      <span className={`order-first font-display text-3xl leading-none font-bold lg:order-none lg:text-[44px] ${farbe}`}>
+        {Number(tag.date.slice(8))}
+      </span>
+      <span className="ml-auto text-xs text-ak-leise lg:ml-0">
+          {zaehlung(tag.stream.length, tvAn ? tag.tv.length : 0, t)}
+      </span>
+    </div>
+  )
+}
+
+function PosterRaster({
+  tag,
+  p,
+  heute,
+  now,
+  landingId,
+  landingRef,
+}: {
+  tag: Tag
+  p: WocheProps
+  heute: boolean
+  now: string
+  landingId?: string
+  landingRef: React.RefObject<HTMLDivElement | null>
+}) {
+  const { t } = useLang()
+  const gesehen = gesehenLesen()
+  const art = (ev: ReleaseEvent): KartenArt | undefined =>
+    istStaffelstart(ev, p.data) ? 'start' : istStaffelfinale(ev, p.data) ? 'finale' : undefined
+  const gruppen = buendeleTermine(tag.stream, (ev) => !!ev.verpasst || !!art(ev))
+  return (
+    <div className="grid grid-cols-2 content-start gap-x-3 gap-y-5 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-x-3.5 lg:min-h-[250px]">
+      {tag.stream.length === 0 && (p.gefiltert || !tag.tv.length) && (
+        <p className="col-span-full pt-1 text-sm text-ak-sehr-leise">{t(p.gefiltert ? 'kal.nichtsGefiltert' : 'kal.keinTermin')}</p>
+      )}
+      {gruppen.map(([ev, ...weitere]) => {
+        const bis = p.favorites.has(ev.titleId) ? gesehen[ev.titleId] : undefined
+        return (
+          <PosterKarte
+            key={ev.id}
+            event={ev}
+            title={p.data.titleById.get(ev.titleId)}
+            art={art(ev)}
+            weitere={weitere.length}
+            favorite={p.favorites.has(ev.titleId)}
+            hidden={p.hidden.has(ev.titleId)}
+            vorbei={heute && !!ev.time && ev.time < now}
+            neu={neuAnKarte(p, bis, ev.titleId, weitere.at(-1)?.episode ?? ev.episode)}
+            anker={[ev, ...weitere].some((e) => e.id === landingId) ? (landingRef as React.Ref<HTMLElement>) : undefined}
+            onToggleFavorite={ev.titleId > 0 ? () => p.onToggleFavorite(ev.titleId) : undefined}
+            onToggleHidden={ev.titleId > 0 ? () => p.onToggleHidden(ev.titleId) : undefined}
+            onOpen={() => p.onOpen(ev.releaseSlug, ev.date)}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
+/**
+ * „N neu" steht nur an der Karte der neuesten erschienenen Folge — dieselbe Zahl wie im Panel.
+ * Künftige Folgen tragen keine Marke: Was nicht erschienen ist, ist nicht neu.
+ */
+function neuAnKarte(p: WocheProps, bis: number | undefined, titelId: number, folge: number | undefined): number {
+  if (bis === undefined || !folge) return 0
+  const neueste = neuesteErschienen(p.data.events, titelId, todayIso(), nowHhMm())
+  return folge === neueste ? neuSeitGesehen(bis, neueste) : 0
 }

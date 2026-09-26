@@ -43,6 +43,7 @@ import { TermineAbschnitt } from './detail/abschnitte.tsx'
 import { ReihenListe } from './detail/reihen-liste.tsx'
 import { AntwortBereich } from './detail/antwort-bereich.tsx'
 import { PanelKopf } from './detail/kopf.tsx'
+import { Fortschritt } from './detail/fortschritt.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
 
@@ -1293,6 +1294,7 @@ export function DetailPanel({
             setDiscOffen={setDiscOffen}
             discReleases={discReleases}
           />
+          {favorites.has(title.id) && <Fortschritt data={data} titelId={title.id} />}
           {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
