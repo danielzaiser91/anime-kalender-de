@@ -5792,8 +5792,19 @@ async function speicherSchreiben(werte) {
     const suchen = suchOffen().length
     const gesamt = offen + suchen
     uebersichtKnopf.classList.toggle('ak-fertig', !gesamt)
-    if (primeLaufLesen()) {
-      setz(uebersichtKnopf, 'textContent', `⏹ Durchgang läuft · ${offen} offen`)
+    const lauf = primeLaufLesen()
+    if (lauf) {
+      /*
+        **Der Fortschritt steht am Knopf, nicht die Zahl der offenen Titel.**
+
+        Die Frames melden in eigenen Dokumenten; diese Seite erfährt davon erst, wenn der
+        Briefkasten wieder abgefragt ist. „4 offen" stand deshalb den ganzen Lauf über still,
+        und Daniel hielt ihn für hängend, während er in 100 s alle vier Titel durchging
+        (26.09.2026, Bericht 07:47).
+      */
+      const gesamt = Math.max(lauf.titelGesamt ?? 0, lauf.fertig.length + (lauf.titel ? 1 : 0))
+      const nr = Math.min(lauf.fertig.length + 1, gesamt)
+      setz(uebersichtKnopf, 'textContent', `⏹ Titel ${nr}/${gesamt} · ${lauf.seiten ?? 0} Seiten gemeldet`)
       setz(uebersichtKnopf, 'title', 'Liste öffnen — dort lässt sich der Durchgang beenden')
       void standPruefen()
       if (dialog) dialogFuellen()
@@ -10975,6 +10986,8 @@ async function speicherSchreiben(werte) {
       fertig: [],
       uebersprungen: [],
       spur: [],
+      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && /\/detail\//.test(String(liste[a]?.url ?? ''))).length,
+      seiten: 0,
     }
     /* Steht die Seite auf einem offenen Titel der Liste, fängt der Lauf mit ihm an. */
     const hier = liste[listenId] && !fertig(listenId) && /\/detail\//.test(String(liste[listenId]?.url ?? '')) ? listenId : null
@@ -11009,6 +11022,15 @@ async function speicherSchreiben(werte) {
     letzteSignatur = null
     uebersichtZeichnen()
     if (grund !== 'von Hand' && !dialog) dialogUmschalten()
+    /*
+      Der Briefkasten dieser Seite stammt vom Start — was die Frames gemeldet haben, fehlt darin.
+      Ohne frischen Abruf zeigte die Liste danach „nur auf diesem Rechner" und dieselbe Zahl
+      offener Titel wie vorher, obwohl alles angekommen war (26.09.2026).
+    */
+    void Promise.resolve(briefkastenHolen(true)).then(() => {
+      letzteSignatur = null
+      uebersichtZeichnen()
+    })
   }
 
   function primeTitelBeginnen(lauf, schluessel) {
@@ -11050,6 +11072,7 @@ async function speicherSchreiben(werte) {
     if (!lauf) return
     lauf.laufend = lauf.laufend.filter((k) => k !== f.kennung)
     primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null })
+    if (daten.ok) lauf.seiten = (lauf.seiten ?? 0) + 1
     if (/kein Token/.test(String(daten.grund ?? ''))) return primeLaufBeenden(lauf, 'kein Token in den Optionen')
     if (!lauf.planBekannt) {
       const staffeln = [...(daten.staffeln ?? [])].sort((a, b) => (a.nummer ?? 0) - (b.nummer ?? 0))
@@ -11068,6 +11091,7 @@ async function speicherSchreiben(werte) {
     }
     primeLaufSchreiben(lauf)
     primeKoordinieren()
+    uebersichtZeichnen()
   }
 
   function primeKoordinieren() {

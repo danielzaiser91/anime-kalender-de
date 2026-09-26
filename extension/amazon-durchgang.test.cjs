@@ -40,7 +40,7 @@ function neuerSpeicher() {
 
 /** Eine Sandkasten-Welt. `imFrame` wählt, welche Seite gespielt wird. */
 function welt({ imFrame = false, speicher = neuerSpeicher() } = {}) {
-  const w = { uhr: 1_000_000, geklickt: 0, neugeladen: 0, frames: [], gepostet: [] }
+  const w = { uhr: 1_000_000, geklickt: 0, neugeladen: 0, frames: [], gepostet: [], briefkasten: 0, gezeichnet: 0 }
   const fenster = {}
   fenster.top = imFrame ? {} : fenster
   fenster.parent = { postMessage: (d) => w.gepostet.push(d) }
@@ -88,7 +88,11 @@ function welt({ imFrame = false, speicher = neuerSpeicher() } = {}) {
     suchOffen: () => ['s'],
     dialog: null,
     dialogUmschalten: () => {},
-    uebersichtZeichnen: () => {},
+    uebersichtZeichnen: () => w.gezeichnet++,
+    briefkastenHolen: () => {
+      w.briefkasten++
+      return Promise.resolve()
+    },
     letzteSignatur: null,
   }
   vm.createContext(kontext)
@@ -142,12 +146,15 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   while (w.offen().length && w.lauf()?.titel === 'B07VP6VPVR') w.ergebnis(w.offen()[0], {})
   pruefe('nach der letzten Naruto-Staffel: nächster Titel mit Titelseite, ein Frame', w.lauf().titel === 'B07FB4D9KM' && w.offen().length === 1 && kennung(w.offen()[0]) === 'B07FB4D9KM')
   pruefe('Naruto gilt im Lauf als fertig', w.lauf().fertig.includes('B07VP6VPVR'))
+  pruefe('der Knopf kennt den Fortschritt: 2 Titel mit Titelseite, 5 Seiten gemeldet (26.09.2026)', w.lauf().titelGesamt === 2 && w.lauf().seiten === 5, w.lauf())
+  pruefe('… und wird nach jeder Seite neu gezeichnet', w.gezeichnet >= 9, w.gezeichnet)
 
   w.ergebnis(w.offen()[0], { hier: 'B07FB4D9KM', staffeln: [] })
   pruefe('Titel ohne Staffelliste: eine Seite, dann Ende', w.lauf() === null)
   const ende = w.ende()
   pruefe('Suchaufträge werden nie geöffnet — Ende mit „nichts mehr offen"', ende?.grund === 'nichts mehr offen', ende)
   pruefe('das Ende nennt die übersprungenen Staffeln und die Suchaufträge', ende?.uebersprungen?.length === 4 && ende?.suchen === 1, ende)
+  pruefe('am Ende holt die Seite den Briefkasten neu — sonst „nur auf diesem Rechner“ (26.09.2026)', w.briefkasten === 1, w.briefkasten)
   pruefe('insgesamt geöffnet: 9 Naruto-Seiten + 1 Yu-Gi-Oh!, keine doppelt', w.frames.length === 10 && new Set(w.frames.map(kennung)).size === 10, w.frames.map(kennung))
 }
 
