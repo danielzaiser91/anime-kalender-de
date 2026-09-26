@@ -18,7 +18,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { titelAus } from './lib/anisearch-titel.ts'
-import { bauQuelltext } from './lib/bau-quelltext.ts'
+import { bauQuelltext, panelQuelltext } from './lib/quelltext.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin } from '../shared/logic.ts'
@@ -4552,7 +4552,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 {
   const bau = bauQuelltext()
   const katalog = readFileSync('pipeline/lib/anilist.ts', 'utf8')
-  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+  const panel = panelQuelltext()
 
   pruefe(
     'ein deutscher Block ohne Titel geht an den Geschwistertitel',
@@ -5655,7 +5655,7 @@ pruefe(
   const mit = terminAusEintrag({ languages: [{ language: 'Deutsch', released: '04.11.2001', dubbed: true }] } as never)
   const ohne = terminAusEintrag({ languages: [{ language: 'Deutsch', released: '04.11.2001' }] } as never)
   pruefe('die Synchro-Marke des deutschen Blocks landet an der Erstausgabe, ohne Marke nicht', mit?.synchro === true && ohne?.synchro === undefined)
-  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+  const panel = panelQuelltext()
   pruefe('… und das Panel zählt sie als Synchro-Beleg', panel.includes('Boolean(title.deErstausgabe?.synchro)'))
 }
 {
@@ -5708,7 +5708,7 @@ pruefe(
 }
 {
   /* TOGGO (Daniel, 19.09.2026): „toggo ist immer DE, immer, ausnahmslos" — und die Pillen einer Zeile sind gleich hoch. */
-  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+  const panel = panelQuelltext()
   pruefe('ein TOGGO-Weg trägt immer „DE ✓"', /istToggo\(g\.eintraege\[0\]\.url\) \|\|\s*g\.eintraege\[0\]\.dubRanges/.test(panel))
   pruefe('die Pillen einer Zeile strecken sich auf gleiche Höhe', panel.includes('flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5'))
 }
@@ -5738,7 +5738,7 @@ pruefe(
 }
 {
   /* Beyblade X (19.09.2026): eine automatische TV-Sichtung verdrängt keinen belegten deutschen Stream. */
-  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+  const panel = panelQuelltext()
   pruefe('eine automatische TV-Sichtung bestimmt den Kasten nicht, wenn die Synchro schon gestreamt wird', panel.includes("!(hatSynchro && r.platform === 'tv' && r.automatisch)"))
 }
 {
