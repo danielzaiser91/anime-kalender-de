@@ -181,6 +181,10 @@ const TEXTE = {
 
   'week.nothing': 'nichts',
   'week.today': 'heute',
+  // Zähler unter einer Karte, die weitere Termine desselben Titels am selben Tag einklappt.
+  'week.buendel': '{n} weitere bis {zeit}',
+  'week.buendelOhneZeit': '{n} weitere',
+  'week.buendelZu': 'einklappen',
   'week.empty':
     'In dieser Woche liegt kein Termin, der zu den Filtern passt. Mit ← → springst du durch die Wochen.',
   'month.more': '+{count} weitere',

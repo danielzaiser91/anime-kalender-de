@@ -6,6 +6,8 @@ import { addDays, formatDate, startOfWeek, todayIso, weekdayName } from '@shared
 import { useLang } from '../lib/i18n.tsx'
 import { EventCard } from './EventCard.tsx'
 import { useSprungZuHeute } from '../lib/woche-sprung.ts'
+import { buendeleTermine } from '../lib/buendel.ts'
+import { TerminBuendel } from './TerminBuendel.tsx'
 
 /** Trennt Termine mit belegter Uhrzeit von denen ohne — mit Uhrzeit zuerst. */
 function splitByTime(events: ReleaseEvent[]): { timed: ReleaseEvent[]; untimed: ReleaseEvent[] } {
@@ -78,7 +80,7 @@ export function WeekView({
 
   const { landingId, landingRef, now } = useSprungZuHeute({ days, today, monday })
 
-  const card = (ev: ReleaseEvent) => {
+  const card = (ev: ReleaseEvent, anker: boolean) => {
     const inner = (
       <EventCard
         event={ev}
@@ -93,7 +95,7 @@ export function WeekView({
       />
     )
     // Nur die Zielkarte bekommt eine Hülle — die braucht der Sprung als Anker.
-    return ev.id === landingId ? (
+    return anker ? (
       <div key={ev.id} ref={landingRef}>
         {inner}
       </div>
@@ -101,6 +103,9 @@ export function WeekView({
       <div key={ev.id}>{inner}</div>
     )
   }
+
+  const liste = (termine: ReleaseEvent[]) =>
+    buendeleTermine(termine, (ev) => !!ev.verpasst || tvPremiere(ev, data)).map((g) => <TerminBuendel key={g[0].id} termine={g} ankerId={landingId} karte={card} />)
 
   /**
    * Heute in Farbfeldern: erst das Vorbei-Feld, dann das Kommt-Feld.
@@ -116,8 +121,8 @@ export function WeekView({
     const upcoming = timed.filter((e) => e.time! >= now)
     return (
       <>
-        {past.length > 0 && <TimeBand past>{past.map(card)}</TimeBand>}
-        {upcoming.length > 0 && <TimeBand>{upcoming.map(card)}</TimeBand>}
+        {past.length > 0 && <TimeBand past>{liste(past)}</TimeBand>}
+        {upcoming.length > 0 && <TimeBand>{liste(upcoming)}</TimeBand>}
       </>
     )
   }
@@ -183,8 +188,8 @@ export function WeekView({
 
                       Die Reihenfolge bleibt: erst die mit Uhrzeit, chronologisch.
                     */}
-                    {isToday ? renderToday(timed) : timed.map(card)}
-                    {untimed.map(card)}
+                    {isToday ? renderToday(timed) : liste(timed)}
+                    {liste(untimed)}
                   </>
                 )}
               </div>

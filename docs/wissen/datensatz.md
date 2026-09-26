@@ -335,3 +335,18 @@ Folge etwas anderes. Auf dem Bestand änderte das zwei Wege (Landei II, Ascendan
 Die Wiedervorlage für laufende Serien (`wiedervorlage-frist.ts`) greift nur bei `dub: false`; eine
 deutsche Lücke hinter dem Beleg schließt jetzt der Terminplan.
 
+
+## Wiederholungen eines Tages stehen gebündelt in der Woche (26.09.2026)
+
+Die Wochenansicht zeigte am 26.09.2026 Eyeshield 21 fünfmal untereinander (ProSieben MAXX, 05:45
+bis 07:25), One Piece viermal an einem Mittwoch — die wenigen Neustarts der Woche gingen darin
+unter. Seitdem fasst `buendeleTermine()` (`web/src/lib/buendel.ts`) je Tag die Termine desselben
+Titels beim selben Anbieter und Sender zusammen: die erste Karte bleibt, darunter der Zähler als
+Aufklapper („4 weitere bis 07:25", inline, wie bei den News).
+
+- **Nie über Sender hinweg** — Pokémon auf SUPER RTL und auf TOGGO plus sind zwei Auskünfte.
+- **Nie eingeklappt:** ausgebliebene Termine (`verpasst`) und TV-Premieren (`tvPremiere()`); beide
+  tragen eine eigene Auskunft, die hinter dem Zähler verschwände.
+- Am heutigen Tag wird je Farbfeld (vorbei / kommt) gebündelt, der nächste Termin bleibt sichtbar;
+  liegt das Sprungziel eingeklappt, trägt die erste Karte den Anker.
+- Zusicherung: `check:logic`, „Bündel: …".

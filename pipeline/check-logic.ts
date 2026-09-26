@@ -100,7 +100,7 @@ import {
   durchlaufendeZaehlung,
   DURCHZAEHLUNG_UNKLAR,
 } from './lib/crunchyroll.ts'
-import type { Release, Title } from '../shared/types.ts'
+import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
@@ -115,6 +115,7 @@ import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus } from './lib/meldungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
+import { buendeleTermine } from '../web/src/lib/buendel.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm, sendungNeuZuordnen } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
@@ -6027,6 +6028,25 @@ pruefe(
   const n = wocheAnhaengen(kalender as never, [...r.uebernommen, { key: 'hana kimi s2', seriesId: 'GT00365568', episode: 9, date: '2026-10-02' }])
   const hana = kalender['hana kimi s2'].observations
   pruefe('Anhängen: gemessene Folge 9 bleibt am 09.09., neue kommen dazu', n === r.uebernommen.length && hana.find((o) => o.episode === 9)?.date === '2026-09-09' && hana.some((o) => o.episode === 12 && o.date === '2026-10-02'), hana)
+}
+{
+  /* Wochenansicht (26.09.2026): Wiederholungen je Tag werden gebündelt — aber nie über Sender hinweg, und was eine eigene Auskunft trägt, bleibt sichtbar. */
+  const t = (id: string, titleId: number, sender: string, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
+    ({ id, releaseSlug: id, titleId, date: '2026-09-26', releaseType: 'weekly', platform: 'tv', sender, name: `T${titleId}`, ...extra }) as ReleaseEvent
+  const g = buendeleTermine(
+    [
+      t('a', 1, 'prosieben-maxx'),
+      t('b', 2, 'super-rtl'),
+      t('c', 1, 'prosieben-maxx'),
+      t('d', 1, 'toggo-plus'),
+      t('e', 1, 'prosieben-maxx', { verpasst: { erwartetAm: '2026-09-26' } }),
+      t('f', 1, 'prosieben-maxx', { episode: 9 }),
+    ],
+    (ev) => !!ev.verpasst || ev.episode === 9,
+  ).map((x) => x.map((e) => e.id).join(''))
+  pruefe('Bündel: gleicher Titel und Sender am selben Tag unter dem ersten Termin', g[0] === 'ac', g)
+  pruefe('Bündel: anderer Sender bleibt eigene Karte', g.includes('d') && g.includes('b'), g)
+  pruefe('Bündel: ausgebliebener Termin und Premiere werden nie eingeklappt', g.includes('e') && g.includes('f'), g)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
