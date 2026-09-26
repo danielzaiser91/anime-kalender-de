@@ -369,6 +369,14 @@ function haendlerAus(url?: string): string {
   }
 }
 
+/**
+ * Führt die Pille zu einem Shop? aniSearch ist keiner: Ein Disc-Termin mit aniSearch-Ausgabe
+ * (Dragon Ball Z Box 4, 26.09.2026) verlinkt dorthin, heißt aber weiter „Kaufausgabe".
+ */
+function hatShop(release: Release): boolean {
+  return Boolean(release.buyUrl || (release.platformUrl && !/anisearch\./i.test(release.platformUrl)))
+}
+
 export function ReleasePille({
   release,
   titel,
@@ -405,7 +413,7 @@ export function ReleasePille({
           nicht gab — bei Dragon Ball Z kennt aniSearch nur den Termin, keinen Shop. Dann nennt die
           Pille schlicht, was sie ist; Termin und Merken-Knopf bleiben.
         */
-        release.buyUrl || release.platformUrl
+        hatShop(release)
         ? t('detail.kaufenBei', { shop: haendlerAus(release.buyUrl ?? release.platformUrl) })
         : t('detail.kaufausgabe')
       : /* Ein Stream-Termin nennt den Anbieter wie jede Stream-Pille — nicht den Serientitel, der

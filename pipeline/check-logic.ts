@@ -5947,6 +5947,25 @@ pruefe(
 }
 {
   /*
+    Disc-Termin aus den News ↔ aniSearch-Ausgabe (Daniel, 26.09.2026, an Amazons Seite bestätigt):
+    Dragon Ball Z Box 4 am 20.11.2026 ist die neue Uncut-Box, nicht die DVD-Box 04/10 von 2011.
+  */
+  const { ausgabeZumDiscTermin } = await import('./lib/disc-termin.ts')
+  const dbz = [
+    { edition: 'Dragon Ball Z - Box 04/10 (Uncut) [Blu-ray]', datum: '2026-12-31', url: 'https://www.anisearch.de/article/167249,dragon-ball-z-box-04-10-uncut-blu-ray', format: 'Blu-ray', kurz: 'Box 04/10 (Uncut)' },
+    { edition: 'Dragon Ball Z - Box 04/10 (Uncut)', datum: '2026-12-31', url: 'https://www.anisearch.de/article/167248,dragon-ball-z-box-04-10-uncut', format: 'DVD', kurz: 'Box 04/10 (Uncut)' },
+    { edition: 'Dragon Ball Z - Box 03/10 (Uncut) [Blu-ray]', datum: '2024-08-16', url: 'https://www.anisearch.de/article/163441,x', format: 'Blu-ray', kurz: 'Box 03/10 (Uncut)' },
+    { edition: 'Dragonball Z - Box 04/10', datum: '2010-06-25', url: 'https://www.anisearch.de/article/12190,x', format: 'DVD', kurz: 'Box 04/10' },
+  ]
+  const termin = { datum: '2026-11-20', hinweise: ['https://www.anime2you.de/news/1044034/dragon-ball-z-box-4-termin/'] }
+  const a = ausgabeZumDiscTermin(termin, dbz)
+  pruefe('Disc-Termin: DBZ Box 4 trifft die Uncut-Box, Blu-ray als Ziel, beide Formate im Namen', a?.edition === 'Box 04/10 (Uncut) · Blu-ray + DVD' && a.url.includes('167249'), a)
+  pruefe('Disc-Termin: die DVD-Box 04/10 von 2010 ist eine andere Ware', ausgabeZumDiscTermin(termin, dbz.slice(3)) === null)
+  pruefe('Disc-Termin: ohne Nummer in der Meldung keine Verknüpfung', ausgabeZumDiscTermin({ datum: '2026-11-20', hinweise: ['https://www.anime2you.de/news/1/dragon-ball-z-termin/'] }, dbz) === null)
+  pruefe('Disc-Termin: eine andere Nummer trifft nicht (Box 3 ≠ Box 4)', ausgabeZumDiscTermin({ datum: '2026-11-20', hinweise: ['…/dragon-ball-z-box-3-termin/'] }, dbz.slice(0, 2)) === null)
+}
+{
+  /*
     Angekündigte Simulcasts (25.09.2026, Daniel an Magic Knight Rayearth 2026): Die Datei lädt,
     jede Zeile ist belegt, und die Zeile im Panel sagt „ab" vor und „seit" nach dem Start.
   */

@@ -1,5 +1,6 @@
 import { readJson, log } from '../lib/util.ts'
 import { adressKern } from '../lib/dub-confirmed.ts'
+import { ausgabeZumDiscTermin, type DiscAusgabe } from '../lib/disc-termin.ts'
 import { zugangsart } from '../../shared/zugangsart.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
@@ -23,79 +24,7 @@ export function ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdr
     `slim`, **null** kamen an). Dazwischen liegt genau ein richtiger Platz.
   */
 
-  /**
-   * **Deutsche Disc-Ausgaben aus dem aniSearch-Archiv.**
-   *
-   * Für einen Anime von 2002 ist „Kein Anbieter bekannt" richtig und trotzdem
-   * eine Sackgasse: Er lief nie bei einem Streamingdienst, es gab ihn auf DVD.
-   * Am 29.08.2026 stand das bei **1.041 Titeln**, 693 davon mit belegter
-   * deutscher Synchro.
-   *
-   * `extract-disc-ausgaben.ts` liest die Ausgaben aus dem Archiv, das der
-   * aniSearch-Lauf ohnehin anlegt — kein zusätzlicher Abruf. 584 Titel haben
-   * eine deutsche Ausgabe, **176 davon zeigen sonst keinen einzigen Weg**.
-   *
-   * **Ohne Sprachaussage.** Eine deutsche Disc kann untertitelt sein; im Archiv
-   * steht wörtlich „Saber Marionette J (OmU)". Der Eintrag ist deshalb ein
-   * `watchLink` vom Typ `buy` wie jeder andere und trägt kein `dub`.
-   *
-   * **Die Stelle im Bau entscheidet mit — sie steht deshalb hier hinten.**
-   * Beim ersten Einbau am 29.08.2026 lief der Block **vor** den Bereinigungen:
-   * Er sah 176 wegelose Titel, die Crunchyroll-Bereinigung machte danach
-   * weitere wegelos, und die gingen leer aus. Gemessen kamen 87 statt 176 an.
-   * Dieselbe Reihenfolge-Falle wie bei der Zugangsart darunter, und dieselbe
-   * Antwort: Wer den Endzustand braucht, läuft am Ende.
-   *
-   * **Und nur, wo sonst nichts steht** (so bis 16.09.2026, siehe unten). Wer einen Stream hat, braucht keinen
-   * Hinweis auf eine womöglich vergriffene DVD von 2005 — der Verweis wäre dort
-   * Rauschen statt Auskunft.
-   */
-  {
-    const discAusgaben = readJson<Record<string, { edition: string; datum: string; url?: string }[]>>(
-      'data/disc-ausgaben.json',
-      {},
-    )
-    let discWege = 0
-    for (const title of titles.values()) {
-      /*
-        **Überholt am 16.09.2026: auch neben anderen Wegen.** Der Riegel „nur, wo
-        sonst nichts steht" stammt aus der Zeit vor dem Disc-Reiter. Seit Stream
-        und Disc getrennt stehen, ist eine Disc kein Rauschen neben einem Stream.
-        Anlass: „Dragon Quest: The Adventure of Dai" zeigte nur die Animeversand-DVD
-        (Folgen 1–75), während aniSearch vier Blu-ray-Boxen und ein Komplettset von
-        Kazé führt — dazu der Hinweis, 76–100 biete niemand an (Daniel, mit Bild).
-        Gemessen: 1.073 Titel mit belegter deutscher Disc-Ausgabe und einem anderen
-        Weg bekamen bisher keine.
-      */
-      if ((title.watchLinks ?? []).some((w) => w.name === 'aniSearch')) continue
-      const ausgaben = discAusgaben[String(title.id)]
-      if (!ausgaben?.length) continue
-      const erste = ausgaben[0]!
-      title.watchLinks = [
-        ...(title.watchLinks ?? []),
-        {
-          /*
-            **Der Name ist konstant, die Zahl nicht.** Die „Wo?"-Ansicht buendelt
-            ueber den Anbieternamen; „aniSearch — 6 Disc-Ausgaben" und
-            „aniSearch — 2 Disc-Ausgaben" waeren dort zwei verschiedene
-            Anbieter, und aus 176 Titeln wuerden Dutzende Einzelgruppen.
-            Beinahe eingebaut am 29.08.2026, gefangen beim Nachlesen.
-          */
-          /*
-            **Das Wort „Disc" ist weg, das Zeichen sagt es besser.** Daniel am
-            07.09.2026: „füg ein cd icon links in die pill statt disc zu
-            schreiben. einfach icon + anisearch". Die Pille trägt seither ein
-            Silberscheiben-Zeichen; der Name nennt nur noch die Quelle.
-          */
-          name: 'aniSearch',
-          url: erste.url ?? `https://www.anisearch.de/anime/${title.id}`,
-          kind: 'buy',
-        },
-      ]
-      discWege++
-    }
-    if (discWege) log(`${discWege} Titel haben jetzt ihre deutsche Disc-Ausgabe als Bezugsweg`)
-  }
+  ergaenzeDiscWege(titles, releases)
 
   /**
    * **Zweite Stufe: die deutsche Veröffentlichung aus dem Sprachblock.**
@@ -214,4 +143,92 @@ export function ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdr
   if (nachgetragen) {
     log(`${nachgetragen} Verweis(e) nachträglich mit Zugangsart versehen — sie entstanden nach der Hauptrunde`)
   }
+}
+
+/**
+ * **Deutsche Disc-Ausgaben aus dem aniSearch-Archiv.**
+ *
+ * Für einen Anime von 2002 ist „Kein Anbieter bekannt" richtig und trotzdem
+ * eine Sackgasse: Er lief nie bei einem Streamingdienst, es gab ihn auf DVD.
+ * Am 29.08.2026 stand das bei **1.041 Titeln**, 693 davon mit belegter
+ * deutscher Synchro.
+ *
+ * `extract-disc-ausgaben.ts` liest die Ausgaben aus dem Archiv, das der
+ * aniSearch-Lauf ohnehin anlegt — kein zusätzlicher Abruf. 584 Titel haben
+ * eine deutsche Ausgabe, **176 davon zeigen sonst keinen einzigen Weg**.
+ *
+ * **Ohne Sprachaussage.** Eine deutsche Disc kann untertitelt sein; im Archiv
+ * steht wörtlich „Saber Marionette J (OmU)". Der Eintrag ist deshalb ein
+ * `watchLink` vom Typ `buy` wie jeder andere und trägt kein `dub`.
+ *
+ * **Die Stelle im Bau entscheidet mit — sie steht deshalb hier hinten.**
+ * Beim ersten Einbau am 29.08.2026 lief der Block **vor** den Bereinigungen:
+ * Er sah 176 wegelose Titel, die Crunchyroll-Bereinigung machte danach
+ * weitere wegelos, und die gingen leer aus. Gemessen kamen 87 statt 176 an.
+ * Dieselbe Reihenfolge-Falle wie bei der Zugangsart darunter, und dieselbe
+ * Antwort: Wer den Endzustand braucht, läuft am Ende.
+ *
+ * **Und nur, wo sonst nichts steht** (so bis 16.09.2026, siehe unten). Wer einen Stream hat, braucht keinen
+ * Hinweis auf eine womöglich vergriffene DVD von 2005 — der Verweis wäre dort
+ * Rauschen statt Auskunft.
+ */
+function ergaenzeDiscWege(titles: Map<number, Title>, releases: Release[]) {
+  const discAusgaben = readJson<Record<string, DiscAusgabe[]>>(
+    'data/disc-ausgaben.json',
+    {},
+  )
+  let discWege = 0
+  for (const title of titles.values()) {
+    /*
+      **Überholt am 16.09.2026: auch neben anderen Wegen.** Der Riegel „nur, wo
+      sonst nichts steht" stammt aus der Zeit vor dem Disc-Reiter. Seit Stream
+      und Disc getrennt stehen, ist eine Disc kein Rauschen neben einem Stream.
+      Anlass: „Dragon Quest: The Adventure of Dai" zeigte nur die Animeversand-DVD
+      (Folgen 1–75), während aniSearch vier Blu-ray-Boxen und ein Komplettset von
+      Kazé führt — dazu der Hinweis, 76–100 biete niemand an (Daniel, mit Bild).
+      Gemessen: 1.073 Titel mit belegter deutscher Disc-Ausgabe und einem anderen
+      Weg bekamen bisher keine.
+    */
+    if ((title.watchLinks ?? []).some((w) => w.name === 'aniSearch')) continue
+    const ausgaben = discAusgaben[String(title.id)]
+    if (!ausgaben?.length) continue
+    const erste = ausgaben[0]!
+    title.watchLinks = [
+      ...(title.watchLinks ?? []),
+      {
+        /*
+          **Der Name ist konstant, die Zahl nicht.** Die „Wo?"-Ansicht buendelt
+          ueber den Anbieternamen; „aniSearch — 6 Disc-Ausgaben" und
+          „aniSearch — 2 Disc-Ausgaben" waeren dort zwei verschiedene
+          Anbieter, und aus 176 Titeln wuerden Dutzende Einzelgruppen.
+          Beinahe eingebaut am 29.08.2026, gefangen beim Nachlesen.
+        */
+        /*
+          **Das Wort „Disc" ist weg, das Zeichen sagt es besser.** Daniel am
+          07.09.2026: „füg ein cd icon links in die pill statt disc zu
+          schreiben. einfach icon + anisearch". Die Pille trägt seither ein
+          Silberscheiben-Zeichen; der Name nennt nur noch die Quelle.
+        */
+        name: 'aniSearch',
+        url: erste.url ?? `https://www.anisearch.de/anime/${title.id}`,
+        kind: 'buy',
+      },
+    ]
+    discWege++
+  }
+  if (discWege) log(`${discWege} Titel haben jetzt ihre deutsche Disc-Ausgabe als Bezugsweg`)
+
+  /* Ein Disc-Termin aus den News bekommt Namen und Ziel seiner Ausgabe — siehe `lib/disc-termin.ts`. */
+  let verknuepft = 0
+  for (const r of releases) {
+    if (r.releaseType !== 'disc' || !r.automatisch || r.edition || r.buyUrl || r.platformUrl) continue
+    const datum = r.schedule?.firstEpisodeDate
+    if (!datum) continue
+    const a = ausgabeZumDiscTermin({ datum, hinweise: [...(r.sources ?? []), r.herkunft ?? ''] }, discAusgaben[String(r.titleId)] ?? [])
+    if (!a) continue
+    r.edition = a.edition
+    r.platformUrl = a.url
+    verknuepft++
+  }
+  log(`${verknuepft} Disc-Termin(e) aus den News mit ihrer aniSearch-Ausgabe verknüpft`)
 }
