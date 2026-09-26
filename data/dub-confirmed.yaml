@@ -18514,3 +18514,167 @@
       checked: [50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]
   checkedAt: '2026-09-25'
   note: "Folgen 1–48 mit deutschem Ton, Folge 49 ohne deutschen Ton, Folgen 50–61 mit deutschem Ton — Tonspuren: de, en, es-ES, fr-FR, ja"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-26 ---
+
+- anilistId: 21
+  title: "One Piece"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-cdb8e29b-7fb0-4142-9966-3b1125246df0
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 3
+      dub: true
+      checked: [1, 2, 3]
+    - from: 4
+      to: 24
+      dub: false
+      checked: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+    - from: 25
+      to: 45
+      dub: true
+      checked: [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45]
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–3 mit deutschem Ton, Folgen 4–24 ohne deutschen Ton, Folgen 25–45 mit deutschem Ton — Tonspuren: fr-FR — Widersprüchliche Meldungen zu Folge 4, 5, 6, 7, 8, 9, 11, 12, 10, 13, 14, 15, 16, 18, 17, 19, 20, 21, 22, 23, 24"
+
+- anilistId: 481
+  title: "Yu-Gi-Oh!"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-870b9187-690d-4a9e-8704-b48564b31322
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 49
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–49 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, pt-BR"
+
+- anilistId: 19
+  title: "Monster"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B649YPX3
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B649YPX3: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.e443b305-d690-4bb0-84b6-baa5b87ce843"
+
+- anilistId: 19
+  title: "Monster"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0BZX9QNZP
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, 日本語, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0BZX9QNZP: alle 12 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.022341d4-d53d-4e8d-a6f5-955e7499bfd4"
+
+- anilistId: 19
+  title: "Monster"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B649YPX3
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0BZX7NJFY: alle 12 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.aa854962-24b8-4452-90ef-309d12d80822"
+
+- anilistId: 19
+  title: "Monster"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0BZRL9ZKS
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0BZRL9ZKS: alle 12 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.79e65ee6-2f22-4dba-8482-21c0dd78b577"
+
+- anilistId: 19
+  title: "Monster"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CGMFMSSN
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0CGMFMSSN: alle 13 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.79309b15-8a59-4846-89c9-e66dcb95e0aa"
+
+- anilistId: 19
+  title: "Monster"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0C9TS8VMS
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0C9TS8VMS: alle 13 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.291940f5-d93f-4916-b5c2-e9c3edbf7608"
+
+- anilistId: 19
+  title: "Monster"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CY7NK3RS
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CY7NK3RS: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.e443b305-d690-4bb0-84b6-baa5b87ce843"
+
+- anilistId: 5114
+  title: "Fullmetal Alchemist: Brotherhood"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DKB7T66K
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DKB7T66K: alle 34 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.26b737ad-2d50-1be7-54ca-3556ac2ede24 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 5114
+  title: "Fullmetal Alchemist: Brotherhood"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DKB7T66K
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DJZVDYLS: alle 34 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.e6b737ac-3aed-2147-410b-e2b8085d879c — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 11061
+  title: "Hunter × Hunter"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GTDSP1Q1
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0GTDSP1Q1: alle 26 Folgen geprüft, Abos: Prime, aniversede, rtlde, zugang=abo_und_kauf, gti=amzn1.dv.gti.97f9e9f6-23df-4264-b206-048645fd9ed4"
+
+- anilistId: 11061
+  title: "Hunter × Hunter"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FWX91KYM
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FWX91KYM: alle 24 Folgen geprüft, Abos: aniversede, rtlde, zugang=abo_und_kauf, gti=amzn1.dv.gti.5eb8d1c9-2541-9a78-ee97-825acb1a0558 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 11061
+  title: "Hunter × Hunter"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0C7LZGJHK
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0C7LZGJHK: alle 32 Folgen geprüft, Abos: Prime, aniversede, rtlde, zugang=abo_und_kauf, gti=amzn1.dv.gti.54b72603-a4e0-a8c3-5ca4-49efda6072cc"
+
+- anilistId: 11061
+  title: "Hunter × Hunter"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GQR7L5JH
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0GQR7L5JH: alle 30 Folgen geprüft, Abos: Prime, aniversede, rtlde, zugang=abo_und_kauf, gti=amzn1.dv.gti.c81aaa48-93f1-49ee-88b8-e8dbf7869f84"
+
+- anilistId: 11061
+  title: "Hunter × Hunter"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DGTDMFRS
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DGTDMFRS: alle 36 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.e5195aec-edcf-4ac5-a107-bd42f491d09c — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 154
+  title: "Shaman King"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DYF8BKVP
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DYF8BKVP: alle 16 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.2505f097-bbc5-49fd-ba99-5984b6ee71af"
+
+- anilistId: 154
+  title: "Shaman King"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DYF8BKVP
+  dub: true
+  checkedAt: '2026-09-26'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0DNZ2CZN9: alle 16 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.422f7607-1c80-4c15-87a6-05854f7b47ab"

@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_DISNEY = {"870b9187-690d-4a9e-8704-b48564b31322":{"wiedervorlage":"Wiedervorlage: Deutsch belegt, aber ohne Folgenbereiche — Stufe 4 braucht Beobachtungen je Folge (23.09.2026) — bitte erneut melden","titel":"Yu-Gi-Oh!","url":"https://www.disneyplus.com/browse/entity-870b9187-690d-4a9e-8704-b48564b31322","staffeln":[{"nr":1,"id":481,"name":"Yu-Gi-Oh!","folgen":224,"film":false,"offen":true}]}}
+globalThis.AK_OFFENE_DISNEY = {}
