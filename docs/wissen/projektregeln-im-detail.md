@@ -261,9 +261,20 @@ Zeilen; Anlass und Verlauf gehören in den Commit oder hierher.
 
 **Umbauen, ohne etwas zu ändern.** `tools/bau-vergleich.mjs` baut Basis und Kandidat je in einem
 eigenen Worktree mit einem nachgebildeten Cache und vergleicht alles, was der Bau schreibt. Ein
-reiner Umbau ist erst fertig, wenn das „gleich" meldet. Einige Zusicherungen in `check:logic` lesen
-den Bau als Text und prüfen die Reihenfolge von Marken — sie lesen deshalb alle Bau-Module in
-Aufrufreihenfolge (`bauQuelltext()`).
+reiner Umbau ist erst fertig, wenn das „gleich" meldet. Für `web/src` tut dasselbe
+`tools/panel-vergleich.mjs`: beide Stände bauen, das Detail-Panel für 80 feste Titel bei stehender
+Uhr rendern, HTML vergleichen. Verschoben wird mit `tools/modul-umzug.mjs` (Namen, Abschnitte,
+JSX-Blöcke), das Parameter und Importe aus dem Typprüfer ableitet — von Hand verschobener Code
+verliert zu leicht eine Neuzuweisung oder eine Reihenfolge. Einige Zusicherungen in `check:logic`
+lesen Quelltext und prüfen die Reihenfolge von Marken; sie lesen deshalb alle Module in
+Aufrufreihenfolge (`bauQuelltext()`, `panelQuelltext()`, `workerQuelltext()`).
+
+**Stand nach dem ersten Umbau (26.09.2026):** `build.ts` 9.286 → 109 Zeilen, `main()` 7.809 → 90;
+die Phasen liegen in `pipeline/bau/` (größte Funktion 619 Zeilen). `DetailPanel.tsx` 6.237 →
+1.478, Teile in `web/src/components/detail/`. `handlePruefung` 1.244 → rund 70 (die Hälfte davon
+Kommentar), Teile in `worker/src/pruefung-*.ts`. Jeder Schritt bau- bzw. panelgleich
+nachgewiesen. Offen, bewusst: `extension/amazon.js` (11.225 Zeilen, eine Hülle ohne Bündler) —
+zerlegen, wenn dort ohnehin gearbeitet wird.
 
 ## Keine Information zweimal
 

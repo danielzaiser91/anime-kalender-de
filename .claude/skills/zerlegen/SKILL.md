@@ -1,6 +1,6 @@
 ---
 name: zerlegen
-description: Eine übergroße Funktion oder Datei in diesem Repo sicher zerlegen (build.ts, DetailPanel, Worker, Erweiterung). Nutzen, wenn check:umfang rot ist, wenn Neues in eine Funktion über 80 / Datei über 800 Zeilen soll, oder wenn ein Umbau ohne Verhaltensänderung ansteht.
+description: Eine übergroße Funktion, Komponente oder Datei in diesem Repo sicher zerlegen (Bau-Phasen, DetailPanel, Worker, Erweiterung). Nutzen, wenn check:umfang rot ist, wenn Neues in eine Funktion über 80 / Datei über 800 Zeilen soll, oder wenn ein Umbau ohne Verhaltensänderung ansteht.
 ---
 
 # Zerlegen ohne Verhaltensänderung
@@ -11,45 +11,51 @@ dasselbe tut wie vorher. Umbau und Verhaltensänderung stehen nie im selben Comm
 ## 1. Stelle wählen
 
 - `node tools/umfang-pruefen.mjs --liste` zeigt die größten Funktionen und Dateien.
-- Nahtstellen sind vorhandene Abschnittsmarken (`// --- Releases aufbauen ---`) oder
-  `**fette**` Blockkommentare. Von hinten anfangen: Abschnitte am Ende lesen meist nur.
+- Nahtstellen: Abschnittsmarken (`// --- … ---`), `**fette**` Blockkommentare, eigenständige
+  `{ … }`-Blöcke, `if`-Zweige, die mit `return` enden, große JSX-Kinder.
+- Von hinten nach vorn arbeiten — dann verschieben sich die Zeilen davor nicht. Nach jedem
+  Schritt die Zeilen neu bestimmen (das Werkzeug fügt oben einen Import ein).
 
-## 2. Schnittstelle ermitteln
+## 2. Schnittstelle ansehen
 
 ```bash
-node tools/abschnitt-schnittstelle.mjs pipeline/build.ts <von> <bis>
+node tools/abschnitt-schnittstelle.mjs <datei> <von> <bis>   # ein / ändert / aus
 ```
 
-- `ein` → Parameter (bei vielen: ein Objekt `{ titles, releases, … }`).
-- `ändert` → der Abschnitt weist eine äußere `let`-Variable neu zu: den neuen Wert zurückgeben
-  und im Aufrufer zuweisen. Mutationen an Maps/Arrays bleiben Mutationen, aber der Name steht
-  jetzt in der Signatur.
-- `aus` → Rückgabe (Objekt), im Aufrufer mit `const { … } = phase(…)` entpacken.
+## 3. Herauslösen — mit dem Werkzeug, nicht von Hand
 
-## 3. Herauslösen
+```bash
+node tools/modul-umzug.mjs namen     <quelle> <ziel> a,b,c            # Deklarationen verschieben
+node tools/modul-umzug.mjs abschnitt <quelle> <von> <bis> <ziel> fn   # Anweisungen → Funktion
+node tools/modul-umzug.mjs jsx       <quelle> <von> <bis> <ziel> Name # JSX-Kinder → Komponente
+node tools/modul-umzug.mjs aufraeumen <datei…>                        # unbenutzte Importe weg
+```
 
-- Code wörtlich verschieben, nicht nebenbei umschreiben. Einrückung anpassen ist erlaubt.
-- Funktionen in Aufrufreihenfolge anordnen; Bau-Phasen liegen als `pipeline/bau/NN-name.ts`,
-  die Nummer ist die Aufrufreihenfolge (Zusicherungen in `check:logic` lesen den Bau als Text in
-  genau dieser Reihenfolge über `bauQuelltext()`).
-- Modulweite Helfer, die mehrere Phasen brauchen, nach `pipeline/bau/hilfen-*.ts` bzw.
-  `pipeline/lib/`. Nie aus `build.ts` importieren — es ruft beim Laden `main()` auf.
-- Kommentare wandern mit; Chronik (Datum, Anlass, Laufkennung) dabei auf ein bis drei Zeilen
-  kürzen, Ausführliches nach `docs/wissen/`.
-- React: Unterkomponenten in eigene Dateien unter `web/src/components/<bereich>/`, Props statt
-  Closure-Zugriff. Hooks-Reihenfolge nicht ändern (`check:hooks`).
+Es verschiebt wörtlich, setzt Parameter/Props mit Typen vom Typprüfer (eingeengt am Ort der
+Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
+
+- `ändert` (neu zugewiesene äußere `let`) meldet es nur — dann die Variable in die Funktion
+  holen, die sie als einzige erhöht, und zurückgeben (so bei `adnVerweiseErgaenzt`).
+- Ein Abschnitt mit `return` muss mit `return` enden; der Aufruf wird `return await fn(…)`.
+- „braucht Namen der obersten Ebene": diese Deklarationen zuerst mit `namen` auslagern. Aus
+  `build.ts` wird nie importiert (es ruft beim Laden `main()` auf).
+- Lange Typen (Warnung) durch Namen ersetzen: `ReturnType<typeof f>`, ein exportierter Typ.
+- Bau-Phasen heißen `pipeline/bau/NN-name.ts`, Teilschritte `NN-M-name.ts` (Aufrufreihenfolge);
+  `bauQuelltext()` liest sie in dieser Reihenfolge für die Text-Zusicherungen in `check:logic`.
+  Ebenso `panelQuelltext()` (Panel) und `workerQuelltext()` (Worker).
+- Kommentare wandern mit; Chronik dabei auf ein bis drei Zeilen kürzen.
 
 ## 4. Beweisen
 
 ```bash
-npm run typecheck && npm run check:logic
-git commit …                                  # Bau-Vergleich braucht einen Commit
-node tools/bau-vergleich.mjs origin/main HEAD # bei pipeline/: muss „gleich" melden
-node tools/umfang-pruefen.mjs --festschreiben # gesunkene Überlänge übernehmen
+npx tsc --noEmit -p tsconfig.json && npm run check:logic
+git commit …                                      # die Vergleiche arbeiten auf Commits
+node tools/bau-vergleich.mjs origin/main HEAD     # pipeline/: Ausgabe byte-gleich
+node tools/panel-vergleich.mjs origin/main HEAD   # web/src: Panel-HTML von 80 Titeln gleich
+npm run check:worker                              # worker/
+node tools/umfang-pruefen.mjs --festschreiben     # gesunkene Überlänge übernehmen
 ```
 
-Web: zusätzlich `npm run build`, `check:ansichten`, `check:panel`. Worker: `check:worker`.
-Erweiterung: `check:extension`. Danach die volle Kette `npm run check:vor-commit`.
-
-Meldet der Vergleich „VERSCHIEDEN": nicht die Ausgabe erklären, sondern den Umbau korrigieren —
-meist wurde eine `let`-Zuweisung nicht zurückgegeben oder eine Reihenfolge vertauscht.
+Beide Vergleiche bauen in eigenen Worktrees (≈ 5 bzw. 2 min), das Arbeitsverzeichnis bleibt frei.
+Meldet einer „VERSCHIEDEN": nicht die Ausgabe erklären, sondern den Umbau korrigieren. Danach
+die volle Kette `npm run check:vor-commit`.

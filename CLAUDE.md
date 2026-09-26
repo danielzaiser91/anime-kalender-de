@@ -95,10 +95,10 @@ Anlass: `main()` in `build.ts` hatte 7.809 Zeilen, `DetailPanel` 3.125 — jede 
 - **Kommentare sagen warum, in ein bis drei Zeilen.** Anlass, Datum, Laufkennung und Chronik gehören
   in den Commit oder nach `docs/wissen/` (ein Verweis genügt). Wer einen Abschnitt anfasst, kürzt
   dessen Chronik mit.
-- **Umbau und Verhaltensänderung nie im selben Commit.** Ein Umbau von `build.ts` beweist
-  Gleichheit: `node tools/bau-vergleich.mjs` (Ausgabe byte-gleich zu `origin/main`); Ein- und
-  Ausgaben eines Abschnitts nennt `node tools/abschnitt-schnittstelle.mjs <datei> <von> <bis>`.
-  Vorgehen: Skill `zerlegen`.
+- **Umbau und Verhaltensänderung nie im selben Commit.** Ein Umbau beweist Gleichheit:
+  `node tools/bau-vergleich.mjs` (Bau-Ausgabe byte-gleich zu `origin/main`),
+  `node tools/panel-vergleich.mjs` (Panel-HTML gleich). Verschoben wird mit
+  `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`.
 - **Wegwerfskripte gehören ins Scratchpad**, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
 
 ## Keine Information zweimal
