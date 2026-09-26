@@ -17,9 +17,9 @@
  * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert.
  */
 import { execFileSync, spawnSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, join, relative, resolve } from 'node:path'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const ABLAGE = join(tmpdir(), 'bau-vergleich')
@@ -87,12 +87,18 @@ function baue(sha, basisSha) {
   git('worktree', 'add', '--quiet', '--detach', baum, sha)
   const imBaum = (...args) => execFileSync('git', ['-C', baum, ...args], { encoding: 'utf8', maxBuffer: 1 << 28 })
   try {
-    symlinkSync(join(WURZEL, 'node_modules'), join(baum, 'node_modules'))
+    // `junction`: unter Windows ohne Administratorrechte möglich, anderswo ignoriert.
+    symlinkSync(join(WURZEL, 'node_modules'), join(baum, 'node_modules'), 'junction')
     imBaum('checkout', basisSha, '--', 'public/data', 'data')
     imBaum('commit', '-q', '--allow-empty', '-m', 'Bestand der Basis', '--no-verify')
     ersatzCache(join(baum, 'data/cache'), basisSha)
     console.log(`baue ${sha.slice(0, 12)} …`)
-    const lauf = spawnSync('npx', ['tsx', 'pipeline/build.ts'], { cwd: baum, encoding: 'utf8', maxBuffer: 1 << 28 })
+    const lauf = spawnSync('npx', ['tsx', 'pipeline/build.ts'], {
+      cwd: baum,
+      encoding: 'utf8',
+      maxBuffer: 1 << 28,
+      shell: process.platform === 'win32', // npx ist dort npx.cmd
+    })
     rmSync(ziel, { recursive: true, force: true })
     mkdirSync(ziel, { recursive: true })
     const geaendert = imBaum('status', '--porcelain', '--untracked-files=all')
@@ -123,11 +129,22 @@ if (!readFileSync(join(a, '_protokoll.txt'), 'utf8').startsWith('exit 0')) {
   process.exit(2)
 }
 const b = baue(kandidat, basis)
-const diff = spawnSync('diff', ['-r', '-q', a, b], { encoding: 'utf8' })
-if (diff.status === 0) {
+/** Alle Dateien unter `ordner`, relativ und mit `/` — ohne `diff`, das es unter Windows nicht gibt. */
+function dateienUnter(ordner) {
+  return readdirSync(ordner, { recursive: true, withFileTypes: true })
+    .filter((e) => e.isFile())
+    .map((e) => relative(ordner, join(e.parentPath, e.name)).replaceAll('\\', '/'))
+    .sort()
+}
+const liste = [...new Set([...dateienUnter(a), ...dateienUnter(b)])]
+const verschieden = liste.filter((f) => {
+  const [x, y] = [join(a, f), join(b, f)]
+  return !existsSync(x) || !existsSync(y) || !readFileSync(x).equals(readFileSync(y))
+})
+if (!verschieden.length) {
   console.log(`gleich: ${kandidat.slice(0, 12)} schreibt dasselbe wie ${basis.slice(0, 12)}`)
   process.exit(0)
 }
-console.log(diff.stdout)
-console.log(`VERSCHIEDEN — Einzelheiten: diff -r ${a} ${b}`)
+console.log(verschieden.join('\n'))
+console.log(`VERSCHIEDEN (${verschieden.length} Dateien) — Einzelheiten: ${a} gegen ${b}`)
 process.exit(1)

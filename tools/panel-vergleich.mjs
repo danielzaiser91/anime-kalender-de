@@ -44,10 +44,14 @@ function baue(sha, basisSha) {
   if (existsSync(baum)) git('worktree', 'remove', '--force', baum)
   git('worktree', 'add', '--quiet', '--detach', baum, sha)
   try {
-    symlinkSync(path.join(WURZEL, 'node_modules'), path.join(baum, 'node_modules'))
+    symlinkSync(path.join(WURZEL, 'node_modules'), path.join(baum, 'node_modules'), 'junction')
     execFileSync('git', ['-C', baum, 'checkout', basisSha, '--', 'public/data'], { stdio: 'ignore' })
     console.log(`baue Seite ${sha.slice(0, 12)} …`)
-    const lauf = spawnSync('npx', ['vite', 'build', '--outDir', ziel, '--emptyOutDir'], { cwd: baum, encoding: 'utf8' })
+    const lauf = spawnSync('npx', ['vite', 'build', '--outDir', ziel, '--emptyOutDir'], {
+      cwd: baum,
+      encoding: 'utf8',
+      shell: process.platform === 'win32', // npx ist dort npx.cmd
+    })
     if (lauf.status !== 0) throw new Error(`vite build ${sha.slice(0, 12)} gescheitert:\n${lauf.stderr.slice(-2000)}`)
     return ziel
   } finally {

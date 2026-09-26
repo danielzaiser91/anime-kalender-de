@@ -101,6 +101,8 @@ Anlass: `main()` in `build.ts` hatte 7.809 Zeilen, `DetailPanel` 3.125 — jede 
   `node tools/panel-vergleich.mjs` (Panel-HTML gleich). Verschoben wird mit
   `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`.
 - **Wegwerfskripte gehören ins Scratchpad**, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
+- Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal
+  `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).
 
 ## Keine Information zweimal
 
