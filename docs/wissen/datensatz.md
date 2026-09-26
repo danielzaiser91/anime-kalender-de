@@ -317,7 +317,7 @@ Daniel: „im tv muss auch sagen welche folge an dem termin kommt + uhrzeit ist 
 
 ### Pillen: neutral mit Markenstreifen, ✓ auf der Ecke, Premiere als Fähnchen (19.09.2026)
 
-Drei Entscheidungen Daniels aus Entwürfen (je drei bis vier Varianten, dunkel und hell): Fläche neutral, Markenfarbe nur im Zeichen und als 3-px-Streifen links (vorher „rot auf rot"); der Synchro-Beleg als grünes ✓ auf der oberen rechten Ecke mit Tooltip, unbelegte ohne Zeichen („DE ✓" kostete ~35 px je Pille); „Premiere" als Fähnchen auf der oberen Kante (kostet keine Breite). Leitsatz: verfügbaren Platz wirksam nutzen. Die Pillenreihen haben dafür `gap-y-2.5` — Ecke und Fähnchen ragen über die Kante. `DubMark` („🇩🇪 ✓") bleibt in Favoriten und „Wo sehen?".
+Drei Entscheidungen Daniels aus Entwürfen (je drei bis vier Varianten, dunkel und hell): Fläche neutral, Markenfarbe nur im Zeichen und als 3-px-Streifen links (vorher „rot auf rot"); der Synchro-Beleg als grünes ✓ auf der oberen rechten Ecke mit Tooltip, unbelegte ohne Zeichen („DE ✓" kostete ~35 px je Pille); „Premiere" als Fähnchen auf der oberen Kante (kostet keine Breite). Leitsatz: verfügbaren Platz wirksam nutzen. Die Pillenreihen haben dafür `gap-y-2.5` — Ecke und Fähnchen ragen über die Kante. `DubMark` („🇩🇪 ✓") stand danach nur noch in Favoriten und „Wo sehen?" — beide entfielen am 26.09.2026.
 
 ### „TV-Ausstrahlungen anzeigen" — ausgeschaltet bleiben Premieren (19.09.2026)
 
@@ -336,45 +336,39 @@ Die Wiedervorlage für laufende Serien (`wiedervorlage-frist.ts`) greift nur bei
 deutsche Lücke hinter dem Beleg schließt jetzt der Terminplan.
 
 
-## Wiederholungen eines Tages stehen gebündelt in der Woche (26.09.2026)
+## Poster-Gestaltung: Kalender, Kopfleiste, Navigation (26.09.2026)
 
-Die Wochenansicht zeigte am 26.09.2026 Eyeshield 21 fünfmal untereinander (ProSieben MAXX, 05:45
-bis 07:25), One Piece viermal an einem Mittwoch — die wenigen Neustarts der Woche gingen darin
-unter. Seitdem fasst `buendeleTermine()` (`web/src/lib/buendel.ts`) je Tag die Termine desselben
-Titels beim selben Anbieter und Sender zusammen: die erste Karte bleibt, darunter der Zähler als
-Aufklapper („4 weitere bis 07:25", inline, wie bei den News).
+Aus drei Prototypen hat Daniel am 26.09.2026 Richtung B „Poster“ gewählt (Leinwand
+https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommentiert. Umgesetzt:
 
-- **Nie über Sender hinweg** — Pokémon auf SUPER RTL und auf TOGGO plus sind zwei Auskünfte.
-- **Nie eingeklappt:** ausgebliebene Termine (`verpasst`) und TV-Premieren (`tvPremiere()`); beide
-  tragen eine eigene Auskunft, die hinter dem Zähler verschwände.
-- Am heutigen Tag wird je Farbfeld (vorbei / kommt) gebündelt, der nächste Termin bleibt sichtbar;
-  liegt das Sprungziel eingeklappt, trägt die erste Karte den Anker.
-- Zusicherung: `check:logic`, „Bündel: …".
-
-## Auf dem Handy steht die Navigation unten (26.09.2026)
-
-Mit sieben Reitern lief die Leiste oben auf 375 px über den Rand („Favoriten" abgeschnitten, „Wo?"
-und „News" nur durch Wischen erreichbar), und Titel-, Reiter- und Datumszeile nahmen zusammen ein
-Viertel des Schirms. Unter `sm` steht die Navigation deshalb als feste Leiste unten
-(`HandyNavigation`, Symbol plus Kurzwort, „Datenbank" dort als „Anime"); oben entfällt die
-Reiterzeile. Zu wissen:
-
-- **Per Portal am `body`** — unter der Kopfleiste mit `backdrop-filter` bezöge sich `fixed` sonst auf
-  die Kopfleiste.
-- **Was unten schwebt, rückt darüber:** Die Seite hat unter `sm` unten Platz für die Leiste
-  (samt `safe-area-inset-bottom`), der Rückgängig-Streifen der Favoriten steht bei `bottom-20`.
-- Das Panel (z-40) und sein Schleier (z-30) liegen über der Leiste (z-20).
-
-## Ein Staffelstart steht groß im Raster (26.09.2026)
-
-Daniel (26.09.2026): Hervorhebung im Raster „mit größerem Cover und eigenem Fähnchen" — kein eigener
-Kasten über der Woche, der dieselben Termine ein zweites Mal zeigte. `istStaffelstart()`
-(`web/src/lib/staffelstart.ts`) entscheidet; die Karte trägt dann das Cover über die ganze Breite
-(`KartenCover gross`) und das Fähnchen „✦ Start" auf der Kante, neben „✦ Premiere" das zweite.
-
-- **Nur wöchentliche Releases** — ein Katalogtitel mit `available-from` ist „im Angebot seit", kein
-  Start; Fernsehen beantwortet `tvPremiere()`.
-- **Nach Nummer, nicht Position:** Start ist `schedule.firstEpisodeNumber` (sonst 1) — JoJo SBR
-  „2nd & 3rd STAGE" beginnt mit Folge 2.
-- Selten und darum wirksam: am 26.09.2026 drei Starts in drei Wochen.
-- Zusicherungen: `check:logic`, „Staffelstart: …".
+- **Navigation: Kalender (Woche ⇄ Monat) · Datenbank · News.** Agenda, Favoriten und „Wo sehen?“
+  sind entfallen: die Woche ist schon eine Tagesliste, „Nur Favoriten“ und die Anbieter-Chips im
+  Filter beantworten die beiden anderen. Alte Adressen (`#/agenda`, `#/favoriten`, `#/wo`) leiten in
+  `lib/router.ts` weiter (`ALTE_ANSICHTEN`); Push-Nachrichten führen seitdem auf `#/woche?fav=1`.
+- **Umzüge:** „gesehen bis Folge N“ steht im Detail-Panel eines Favoriten (`detail/fortschritt.tsx`,
+  die Kachel zeigt „N neu“), der Push-Schalter im Abo-Menü, das Nachführen der Favoriten beim
+  Push-Dienst in `App` (`usePushNachfuehren`, vorher nur bei geöffneter Favoriten-Ansicht), der
+  AniList-Import unter „Nur Favoriten“ im Filterfeld.
+- **Kopfleiste** klebt oben: Logo (das Favicon-Symbol), Suche (gilt für Kalender und Datenbank,
+  von anderen Seiten führt sie in die Datenbank), Abo-Knopf nur mit Kalender- und Glockensymbol,
+  Hell/Dunkel, Zahnrad. Auf dem Handy unten Kalender · Datenbank · News · Einstellungen; Hell/Dunkel
+  dort im Einstellungsdialog, sonst passte der Name nicht in die Leiste.
+- **Woche:** je Tag eine Zeile — Tag, Cover-Raster (`repeat(auto-fill, minmax(128px, 1fr))`, auf
+  dem Handy genau zwei Spalten), rechts „Im Fernsehen“. Der TV-Kasten füllt absolut die Zeilenhöhe
+  und scrollt darin; bricht die Poster-Reihe um, wird er mit ihr höher.
+- **Staffelstart und Staffelfinale** nehmen zwei Spalten ein, das Cover füllt die Breite, der Text
+  steht wie bei jeder Kachel darunter (Daniel: kein geteiltes Cover/Text). `istStaffelfinale()`:
+  wöchentlich, nicht TV, nicht `available-from`, `episode === episodeCount`, kein
+  `episodeCountAssumed`. Zusicherungen: `check:logic`, „Staffelstart: …“, „Staffelfinale: …“.
+- **Monat:** Cover ohne Text; Zeigen nennt Titel, Zeit und Folge (`kalender/Schwebe.tsx`), Klick
+  öffnet das Panel. „+N“ klappt alle Termine des Tages auf, die TV-Zeile zeigt beim Zeigen (und
+  per Klick) die Ausstrahlungen. Ein Klick auf die Tageszahl springt in der Woche zu diesem Tag
+  (`lib/ziel-tag.ts`).
+- **Wiederholungen** eines Tages bündelt weiter `buendeleTermine()`: im TV-Kasten „+2 bis 18:50“
+  (Klick nennt die Zeiten), bei Streaming „+N Folgen“; nie über Sender hinweg, ausgebliebene Termine
+  und Premieren nie eingeklappt. Zusicherung: `check:logic`, „Bündel: …“.
+- **Farben und Schriften:** Variablen `--ak-*` je Thema in `styles.css`, in Tailwind `bg-ak-grund`,
+  `text-ak-leise` usw.; Unbounded und Manrope selbst gehostet (`@fontsource`), nicht über Google
+  Fonts — ein Abruf dort übermittelt die IP-Adresse.
+- Die Handy-Leiste liegt per Portal am `body` (unter `backdrop-filter` bezöge sich `fixed` sonst auf
+  die Kopfleiste); die Seite hält unter `md` unten Platz für sie frei.

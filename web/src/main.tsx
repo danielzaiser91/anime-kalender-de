@@ -3,6 +3,10 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { applyDocumentLanguage } from './lib/i18n.tsx'
 import { registerServiceWorker } from './lib/pwa.ts'
+/* Selbst gehostet statt über Google Fonts: Ein Abruf dort übermittelt die IP-Adresse (DSGVO). */
+import '@fontsource/unbounded/500.css'
+import '@fontsource/unbounded/700.css'
+import '@fontsource-variable/manrope'
 import './styles.css'
 
 // Theme-Wahl vor dem ersten Rendern anwenden, damit es nicht kurz aufblitzt.

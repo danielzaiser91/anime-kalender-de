@@ -11,7 +11,7 @@ const T = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', 
 const PUNKT = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64')
 const KONTRAST = process.argv.includes('--kontrast')
 const THEMEN = process.argv.includes('--hell') ? ['light'] : process.argv.includes('--dunkel') ? ['dark'] : ['light', 'dark']
-const ANSICHTEN = ['woche', 'monat', 'agenda', 'datenbank', 'favoriten', 'wo', 'news', 'abo', 'newsletter', 'quellen', 'woche?t=170083']
+const ANSICHTEN = ['woche', 'monat', 'datenbank', 'news', 'abo', 'newsletter', 'quellen', 'woche?t=170083']
 
 const b = await chromium.launch()
 const s = await b.newPage({ viewport: { width: 1280, height: 900 } })

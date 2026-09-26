@@ -3,7 +3,72 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Unbounded', 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+/*
+  Farben der Poster-Gestaltung (Prototyp B, 26.09.2026) — je Thema als Variable, in Tailwind als
+  `bg-ak-grund`, `text-ak-leise` usw. Text auf der Akzentfläche ist in beiden Themen dunkel.
+*/
+@theme inline {
+  --color-ak-grund: var(--ak-grund);
+  --color-ak-flaeche: var(--ak-flaeche);
+  --color-ak-flaeche-2: var(--ak-flaeche-2);
+  --color-ak-rand: var(--ak-rand);
+  --color-ak-linie: var(--ak-linie);
+  --color-ak-text: var(--ak-text);
+  --color-ak-leise: var(--ak-leise);
+  --color-ak-sehr-leise: var(--ak-sehr-leise);
+  --color-ak-akzent: var(--ak-akzent);
+  --color-ak-akzent-text: var(--ak-akzent-text);
+  --color-ak-auf-akzent: var(--ak-auf-akzent);
+  --color-ak-tv: var(--ak-tv);
+  --color-ak-tv-grund: var(--ak-tv-grund);
+  --color-ak-tv-rand: var(--ak-tv-rand);
+  --color-ak-finale: var(--ak-finale);
+  --color-ak-finale-text: var(--ak-finale-text);
+  --color-ak-heute: var(--ak-heute);
+}
+
+html.dark {
+  --ak-grund: #0d0f14;
+  --ak-flaeche: #151922;
+  --ak-flaeche-2: #1b202a;
+  --ak-rand: #2c3240;
+  --ak-linie: #232833;
+  --ak-text: #f2f1ee;
+  --ak-leise: #9aa0ab;
+  --ak-sehr-leise: #7a808c;
+  --ak-akzent: #ff5a36;
+  --ak-akzent-text: #ff7a5c;
+  --ak-auf-akzent: #0d0f14;
+  --ak-tv: #3cc7b4;
+  --ak-tv-grund: #121821;
+  --ak-tv-rand: #1f2a2f;
+  --ak-finale: #f5c542;
+  --ak-finale-text: #f5c542;
+  --ak-heute: #1a1512;
+}
+
+html:not(.dark) {
+  --ak-grund: #f5f4f0;
+  --ak-flaeche: #ffffff;
+  --ak-flaeche-2: #ebe9e3;
+  --ak-rand: #d6d3cb;
+  --ak-linie: #e2dfd8;
+  --ak-text: #15171c;
+  --ak-leise: #555b66;
+  --ak-sehr-leise: #636974;
+  --ak-akzent: #ff5a36;
+  --ak-akzent-text: #b8321a;
+  --ak-auf-akzent: #15171c;
+  --ak-tv: #0b7568;
+  --ak-tv-grund: #eaf4f2;
+  --ak-tv-rand: #c7e1dc;
+  --ak-finale: #f5c542;
+  --ak-finale-text: #8a6300;
+  --ak-heute: #fff0ea;
 }
 
 :root {
@@ -18,15 +83,10 @@ body,
 
 body {
   margin: 0;
-  background: #0a0e17;
-  color: #e6e9f0;
+  background: var(--ak-grund);
+  color: var(--ak-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-}
-
-html:not(.dark) body {
-  background: #f6f7fb;
-  color: #12161f;
 }
 
 /*

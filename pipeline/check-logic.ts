@@ -116,7 +116,7 @@ import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus } from './lib/meldungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
-import { istStaffelstart } from '../web/src/lib/staffelstart.ts'
+import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm, sendungNeuZuordnen } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
@@ -1726,19 +1726,19 @@ console.log('\nStreaming Availability API:')
     pushZiel([folge], []),
   )
   pruefe(
-    'mehrere Meldungen führen zur Favoritenansicht',
-    pushZiel([folge, { ...folge, titleId: 1, name: 'Anderer' }], []) === '#/favoriten',
+    'mehrere Meldungen führen zur Woche mit „Nur Favoriten“',
+    pushZiel([folge, { ...folge, titleId: 1, name: 'Anderer' }], []) === '#/woche?fav=1',
   )
   pruefe(
     'ein einzelner neuer Anbieter führt zum Titel',
     pushZiel([], [{ id: 21175, name: 'Dragon Ball Super', anbieter: 'Joyn' }]) === '#/woche?t=21175',
   )
   pruefe(
-    'Folge und Anbieter zusammen führen zur Favoritenansicht',
-    pushZiel([folge], [{ id: 21175, name: 'Dragon Ball Super', anbieter: 'Joyn' }]) === '#/favoriten',
+    'Folge und Anbieter zusammen führen zur Woche mit „Nur Favoriten“',
+    pushZiel([folge], [{ id: 21175, name: 'Dragon Ball Super', anbieter: 'Joyn' }]) === '#/woche?fav=1',
   )
   /* Ohne Meldung gibt es keinen Push — das Ziel bleibt trotzdem beantwortbar. */
-  pruefe('ohne Meldung die Favoritenansicht', pushZiel([], []) === '#/favoriten')
+  pruefe('ohne Meldung die Woche mit „Nur Favoriten“', pushZiel([], []) === '#/woche?fav=1')
 }
 
 /**
@@ -6050,11 +6050,6 @@ pruefe(
   pruefe('Bündel: ausgebliebener Termin und Premiere werden nie eingeklappt', g.includes('e') && g.includes('f'), g)
 }
 {
-  /* Premiere-Fähnchen (26.09.2026): Die Zeilenhöhe der Hülle schob die Plakette 8 px in die Karte, über die Uhrzeit. */
-  const fahne = readFileSync(new URL('../web/src/components/Faehnchen.tsx', import.meta.url), 'utf8')
-  pruefe('Fähnchen: Hülle ohne Zeilenhöhe, die Plakette sitzt auf der Kante', /ak-fahne absolute -top-1\.5[^"]* flex leading-none/.test(fahne))
-}
-{
   /* Staffelstart im Raster (26.09.2026): nur die erste Folge eines wöchentlichen Releases, nach Nummer gezählt. */
   const rel = (slug: string, extra: Partial<Release> = {}): Release =>
     ({ slug, titleId: 1, name: slug, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-01' }, ...extra }) as Release
@@ -6072,6 +6067,14 @@ pruefe(
   pruefe('Staffelstart: geteilter Start zählt ab firstEpisodeNumber', istStaffelstart(ev('teil2', 13), data) && !istStaffelstart(ev('teil2', 1), data))
   pruefe('Staffelstart: „im Angebot seit" ist kein Start', !istStaffelstart(ev('katalog', 1), data))
   pruefe('Staffelstart: Fernsehen fragt tvPremiere(), nicht diese Regel', !istStaffelstart(ev('w', 1, { platform: 'tv' }), data))
+  /* Staffelfinale (26.09.2026): letzte Folge nur bei belegter Folgenzahl — eine geratene macht kein Finale. */
+  data.releaseBySlug.set('geraten', rel('geraten', { schedule: { firstEpisodeDate: '2026-10-01', episodeCountAssumed: true } }))
+  pruefe('Staffelfinale: Folge 12/12 eines wöchentlichen Releases', istStaffelfinale(ev('w', 12, { episodeCount: 12 }), data))
+  pruefe('Staffelfinale: Folge 11/12 ist keins', !istStaffelfinale(ev('w', 11, { episodeCount: 12 }), data))
+  pruefe('Staffelfinale: ohne Folgenzahl keins', !istStaffelfinale(ev('w', 12), data))
+  pruefe('Staffelfinale: geratene Folgenzahl macht kein Finale', !istStaffelfinale(ev('geraten', 12, { episodeCount: 12 }), data))
+  pruefe('Staffelfinale: „im Angebot seit" ist keins', !istStaffelfinale(ev('katalog', 12, { episodeCount: 12 }), data))
+  pruefe('Staffelfinale: Fernsehen ist keins', !istStaffelfinale(ev('w', 12, { episodeCount: 12, platform: 'tv' }), data))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

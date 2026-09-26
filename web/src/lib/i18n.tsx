@@ -1,6 +1,7 @@
 import { GENRE_DE, KEYWORD_DE } from '@shared/mappings.ts'
 import type { ReleaseType } from '@shared/types.ts'
 import { TEXTE_SEITEN } from './i18n-seiten.ts'
+import { TEXTE_KALENDER } from './i18n-kalender.ts'
 
 /**
  * Alle Texte der Oberfläche — auf Deutsch, und nur auf Deutsch.
@@ -27,15 +28,7 @@ const TEXTE = {
 
   'view.woche': 'Woche',
   'view.monat': 'Monat',
-  'view.agenda': 'Agenda',
   'view.datenbank': 'Datenbank',
-  'view.favoriten': 'Favoriten',
-  'view.wo': 'Wo sehen?',
-  // Kurzform für schmale Schirme: Mit dem fünften Reiter passte die Leiste bei
-  // 375 px nicht mehr in eine Zeile und schob die Seite waagrecht auf.
-  'view.wo.short': 'Wo?',
-  // Unten auf dem Handy hat ein Reiter ein Siebtel von 375 px — „Datenbank“ passt nicht.
-  'view.datenbank.short': 'Anime',
   'view.news': 'News',
   'news.titel': 'Was sich getan hat',
   'news.leer': 'Noch keine Meldungen.',
@@ -102,8 +95,6 @@ const TEXTE = {
   'sprung.ersterTitel': 'Zum frühesten Termin',
   'sprung.letzterTitel': 'Zum spätesten Termin',
   'nav.forward': 'vor',
-  'nav.from': 'ab {date}',
-  'nav.theme': 'Hell/Dunkel umschalten',
   'nav.language': 'Sprache',
 
   'release.weekly': 'Wöchentlich (Simuldub)',
@@ -119,16 +110,11 @@ const TEXTE = {
   'release.disc.short': 'Disc',
   'release.disc.hint': 'Kaufbarer Datenträger',
 
-  'legend.colour': 'Farbe = Release-Art:',
   // **Die Legende bekommt zwei Wörter, die Erklärung den Tooltip** — wie bei
   // jedem anderen Eintrag daneben. Der volle Satz stand am 03.09.2026
   // ungekürzt in der Zeile und war länger als die vier Farbeinträge zusammen;
   // sein zweiter Halbsatz („Wir ziehen nach, sobald der Anbieter den Tag
   // nennt") ist ein Versprechen, kein Handlungshinweis.
-  'legend.estimatedShort': 'geschätzter Termin',
-  'legend.tv': 'TV-Ausstrahlung',
-  'legend.tvHint': 'Läuft im Fernsehen — gestrichelt umrandet, mit Sendernamen.',
-  'legend.tvZeigen': 'TV',
   'legend.estimated':
     'Geschätzter Termin — aus dem bisherigen Wochenrhythmus fortgeschrieben. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
   /*
@@ -145,13 +131,7 @@ const TEXTE = {
   'card.missedCheck': 'wir sehen mehrmals täglich nach',
   'card.missedLate': 'erschien {d} — {h} Stunden später als angekündigt',
   'card.missedLateBadge': 'kam {d}',
-  // **Der Tastenhinweis nur dort, wo es Tasten gibt.** Auf einem Handy steht
-  // „Tasten ← → T" unter dem Kalender und beantwortet nichts (gemessen am
-  // 03.09.2026 bei 375 px). Die Zahl gilt überall, der Hinweis ab `sm`.
-  'legend.count': '{count} Termine im Filter',
-  'legend.keys': 'Tasten ← → T',
 
-  'filter.search': 'Titel, Studio, Genre, Keyword …',
   'filter.mode': 'Klick-Modus',
   'filter.modeInclude': 'Auswählen',
   'filter.modeExclude': 'Ausschließen',
@@ -181,17 +161,9 @@ const TEXTE = {
   'filter.showMore': 'alle anzeigen ({count})',
   'filter.showLess': 'weniger anzeigen',
 
-  'week.nothing': 'nichts',
   'week.today': 'heute',
-  // Zähler unter einer Karte, die weitere Termine desselben Titels am selben Tag einklappt.
-  'week.buendel': '{n} weitere bis {zeit}',
-  'week.buendelOhneZeit': '{n} weitere',
-  'week.buendelZu': 'einklappen',
   'week.empty':
     'In dieser Woche liegt kein Termin, der zu den Filtern passt. Mit ← → springst du durch die Wochen.',
-  'month.more': '+{count} weitere',
-  'month.openWeek': 'Woche dieses Tages öffnen',
-  'agenda.empty': 'Ab dem gewählten Datum liegt kein Termin, der zu den Filtern passt.',
 
   'status.airing': 'Läuft',
   'status.abgeschlossen': 'Abgeschlossen',
@@ -201,7 +173,6 @@ const TEXTE = {
 
   'card.inStores': 'im Handel',
   'card.zeitVoraussichtlich': 'Voraussichtlich — Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit',
-  'card.episode': 'Ep {n}',
   'pwa.title': 'Auf den Startbildschirm legen',
   'pwa.pitch': 'Öffnet sich wie eine App, im Vollbild, und läuft auch ohne Verbindung.',
   'pwa.install': 'App installieren',
@@ -239,43 +210,16 @@ const TEXTE = {
   'db.seasons': '{count} Staffeln',
   'db.episodes': '{count} Ep.',
 
-  // „Wo sehen?" — der Kalender von der anderen Seite: nach Anbieter statt nach
-  // Datum. Für die meisten Titel ist das die eigentliche Frage, denn nur gut
-  // hundert von ihnen haben überhaupt einen anstehenden Termin.
-  'where.summary': '{mit} von {gesamt} Anime haben einen belegten Bezugsweg, verteilt auf {anbieter} Anbieter.',
-  'where.stream': 'Ansehen',
-  'where.streamHint': 'Abo, werbefinanziert oder kostenlos',
-  // Die drei Arten, an einen Titel zu kommen. Kurz gehalten, weil sie als
-  // Zwischenüberschrift zwischen den Anbietern stehen — „Ohne Kosten" statt
-  // „Kostenlos verfügbar", „Mit Abo" statt „Mit einem Abonnement".
-  'where.zugang.kostenlos': 'Ohne Kosten',
-  'where.zugang.abo': 'Mit Abo',
-  'where.zugang.kauf': 'Kaufen oder leihen',
-  'where.zugang.unbekannt': 'Angebot unbekannt',
-  'where.preorder': 'Vorbestellen',
-  'where.preorderHint': 'erscheint noch',
-  'where.buy': 'Kaufen oder leihen',
-  'where.buyHint': 'einmaliger Preis je Titel oder Staffel',
-  'where.titles': '{count} Einträge',
   // **„Eintrag" ist unser Wort, nicht seins.** Unter einer Shop-Pille im
   // Detail-Panel stand „2 Einträge" — Daniel am 03.09.2026: „wieso steht da
   // ‚2 einträge‘? unnötig verwirrende info". Gemeint sind zwei Adressen beim
   // selben Händler: bei einer Disc zwei Ausgaben, bei einem Kaufstream zwei
   // Käufe. „Angebote" trifft beide und sagt, was hinter dem Klick wartet.
-  //
-  // In `WhereView` bleibt „Einträge" richtig — dort zählt die Zeile unter
-  // „Crunchyroll" wirklich unsere Titel, nicht die Angebote eines Händlers.
   'where.angebote': '{count} Angebote',
   'where.discGesamt': 'Gesamtausgabe',
   'where.discEinzeln': 'Einzelausgaben',
   'where.discAnzahl': '{n} Ausgaben',
   'where.discAnzahlEine': '1 Ausgabe',
-  'where.titleOne': '1 Eintrag',
-  'where.tallyYes': 'deutsche Synchro dort belegt',
-  'where.tallyOpen': 'Der Anbieter macht dazu keine öffentliche Angabe.',
-  'where.openAt': 'Bei {name} öffnen',
-  'where.more': 'Weitere {count} anzeigen',
-  'where.empty': 'Zu den gewählten Filtern ist kein Bezugsweg belegt.',
 
   // Titel ohne belegte deutsche Synchro im Detail-Panel. „Termin unbekannt"
   // wäre hier falsch: Unbekannt ist nicht der Termin, sondern ob es je eine
@@ -792,6 +736,7 @@ const TEXTE = {
   'detail.dubProof': 'Synchro belegt über MyDubList ({sources})',
 
   ...TEXTE_SEITEN,
+  ...TEXTE_KALENDER,
 }
 
 export type TranslationKey = keyof typeof TEXTE

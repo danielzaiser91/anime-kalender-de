@@ -1,6 +1,6 @@
 import { type PlatformId, PLATFORMS, RELEASE_TYPES, type ReleaseType, type DataMeta } from '@shared/types.ts'
 import { Chip } from './ui.tsx'
-import { type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
+import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import type { Translate } from '../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 import { type Fsk, type ReleaseStatus } from '@shared/types.ts'
@@ -141,7 +141,7 @@ export function MeineAnbieter({
   return null
 }
 
-export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set, chipState, pick, showConfidence, showAllProviders, setShowAllProviders, tRelease, genreQuery, setGenreQuery, visibleGenres, tGenre, keywordQuery, setKeywordQuery, shownKeywords, tKeyword, hiddenKeywordCount, setAllKeywords, allKeywords, matchingKeywords }: {
+export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set, chipState, pick, showConfidence, showAllProviders, setShowAllProviders, tRelease, genreQuery, setGenreQuery, visibleGenres, tGenre, keywordQuery, setKeywordQuery, shownKeywords, tKeyword, hiddenKeywordCount, setAllKeywords, allKeywords, matchingKeywords, imKalender }: {
   t: Translate
   setMode: Dispatch<SetStateAction<'include' | 'exclude'>>
   mode: 'include' | 'exclude'
@@ -167,6 +167,8 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
   setAllKeywords: Dispatch<SetStateAction<boolean>>
   allKeywords: boolean
   matchingKeywords: string[]
+  /** Im Kalender stehen Anbieter, Genre und „bestätigt" schon im Filterfeld darüber. */
+  imKalender?: boolean
 }) {
   return (
     <>
@@ -202,7 +204,7 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
       </div>
 
       <div className="grid gap-4 p-3 sm:grid-cols-2 xl:grid-cols-3">
-      <Group label={t('filter.platform')} modus={modusVon2('platforms', filters.platforms.length)}>
+      {!imKalender && (<Group label={t('filter.platform')} modus={modusVon2('platforms', filters.platforms.length)}>
         <MeineAnbieter
           aktuell={filters.platforms}
           verfuegbar={meta.platforms}
@@ -218,7 +220,7 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
             {PLATFORMS[p].name}
           </Chip>
         ))}
-      </Group>
+      </Group>)}
 
       {/* Bezugsquellen nur in der Datenbank: In den Kalenderansichten geht es
           um Termine, und ein Termin liegt immer auf einer der bekannten
@@ -299,7 +301,7 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
         ))}
       </Group>
 
-      <Group label={t('filter.confidence')}>
+      {!imKalender && (<Group label={t('filter.confidence')}>
         <Chip
           active={filters.confirmedOnly}
           onClick={() => set({ confirmedOnly: !filters.confirmedOnly })}
@@ -317,9 +319,9 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
               {i === 0 ? t('filter.source') : t('filter.sources', { n: i + 1 })}
             </Chip>
           ))}
-      </Group>
+      </Group>)}
 
-      <div className="sm:col-span-2 xl:col-span-1">
+      {!imKalender && (<div className="sm:col-span-2 xl:col-span-1">
         <Group label={t('filter.genre')} modus={modusVon2('genres', filters.genres.length)}>
           <input
             type="search"
@@ -338,7 +340,7 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
             </Chip>
           ))}
         </Group>
-      </div>
+      </div>)}
 
       <div className="sm:col-span-2">
         <Group label={t('filter.keywords', { count: meta.keywords.length })} modus={modusVon2('keywords', filters.keywords.length)}>
@@ -368,4 +370,62 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
       </div>
     </>
   )
+}
+
+/** `FilterDetails` mit eigenem Zustand — Suchfelder, Auswahlmodus und Aufklapper leben hier. */
+export function FilterDetailsFeld({
+  meta,
+  filters,
+  onChange,
+  showConfidence,
+  imKalender,
+}: {
+  meta: DataMeta
+  filters: FilterState
+  onChange: (next: FilterState) => void
+  showConfidence: boolean
+  imKalender?: boolean
+}) {
+  const werkzeug = useFilterWerkzeug(meta, filters, onChange)
+  return <FilterDetails {...werkzeug} filters={filters} meta={meta} showConfidence={showConfidence} imKalender={imKalender} />
+}
+
+function useFilterWerkzeug(meta: DataMeta, filters: FilterState, onChange: (next: FilterState) => void) {
+  const { t, tGenre, tKeyword, tRelease } = useLang()
+  const [genreQuery, setGenreQuery] = useState('')
+  const [keywordQuery, setKeywordQuery] = useState('')
+  const [allKeywords, setAllKeywords] = useState(false)
+  const [showAllProviders, setShowAllProviders] = useState(false)
+  // Auswahlmodus: Ein Klick auf ein Tag wählt es — oder verbietet es.
+  const [mode, setMode] = useState<'include' | 'exclude'>('include')
+  const set = (patch: Partial<FilterState>) => onChange({ ...filters, ...patch })
+  /** UND/ODER je Kategorie — nur, wo ein Titel mehrere Werte tragen kann (`ModusFeld`). */
+  const modusVon2 = (feld: ModusFeld, anzahl: number) => ({
+    anzahl,
+    wert: modusVon(filters, feld),
+    setzen: (w: 'und' | 'oder') => set({ modus: { ...filters.modus, [feld]: w } }),
+  })
+  const pick = <K extends ListKey>(key: K, value: FilterState[K][number]) => onChange(toggleFilter(filters, key, value, mode))
+  const chipState = <K extends ListKey>(key: K, value: FilterState[K][number]) => {
+    const state = filterMode(filters, key, value)
+    return { active: state === 'include', excluded: state === 'exclude' }
+  }
+  const sortedGenres = meta.genres.slice().sort((a, b) => tGenre(a).localeCompare(tGenre(b), 'de'))
+  const visibleGenres = genreQuery
+    ? sortedGenres.filter((g) => tGenre(g).toLowerCase().includes(genreQuery.toLowerCase()))
+    : sortedGenres
+  const sortedKeywords = meta.keywords.slice().sort((a, b) => tKeyword(a).localeCompare(tKeyword(b), 'de'))
+  const matchingKeywords = keywordQuery
+    ? sortedKeywords.filter((k) => tKeyword(k).toLowerCase().includes(keywordQuery.toLowerCase()))
+    : sortedKeywords
+  // Gewählte und ausgeschlossene Keywords bleiben immer sichtbar, sonst fände man ein Verbot nicht wieder.
+  const setKeywords = [...filters.keywords, ...filters.excluded.keywords]
+  const previewKeywords = [...setKeywords, ...matchingKeywords.filter((k) => !setKeywords.includes(k)).slice(0, KEYWORD_PREVIEW)]
+  const shownKeywords = allKeywords || keywordQuery ? matchingKeywords : previewKeywords
+  const hiddenKeywordCount = matchingKeywords.length - previewKeywords.length
+  return {
+    t, tGenre, tKeyword, tRelease, mode, setMode, modusVon2, set, pick, chipState, showAllProviders, setShowAllProviders,
+    genreQuery, setGenreQuery, visibleGenres, keywordQuery, setKeywordQuery, shownKeywords, hiddenKeywordCount,
+    allKeywords, setAllKeywords, matchingKeywords,
+  }
 }

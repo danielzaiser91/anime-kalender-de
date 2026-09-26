@@ -25,16 +25,23 @@ await seite.route('**/*', async (route) => {
   return route.fulfill({ status: 200, contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream', body: await readFile(datei) })
 })
 
-const tvKacheln = () => seite.locator('text=/^(TOGGO PLUS|SUPER RTL|RTLZWEI)$/i').count()
+/* Seit dem 26.09.2026 stehen TV-Termine als Zeilen im Kasten „Im Fernsehen“ (`data-tv-zeile`). */
+const tvKacheln = () => seite.locator('[data-tv-zeile]').count()
+const schalter = () => seite.getByRole('switch', { name: 'Fernsehen zeigen' })
+const filterAuf = async () => {
+  await seite.getByRole('button', { name: 'Filter' }).first().waitFor({ state: 'visible', timeout: 30000 })
+  await seite.getByRole('button', { name: 'Filter' }).first().click()
+  await schalter().waitFor({ state: 'visible' })
+}
 await seite.goto('http://ak.test/#/woche')
-await seite.getByLabel('TV', { exact: true }).waitFor({ state: 'attached', timeout: 30000 })
+await filterAuf()
 await seite.waitForTimeout(1500)
 const vorher = await tvKacheln()
-await seite.getByLabel('TV', { exact: true }).evaluate((e) => e.click())
+await schalter().click()
 await seite.waitForTimeout(800)
 const aus = await tvKacheln()
 await seite.reload()
-await seite.getByLabel('TV', { exact: true }).waitFor({ state: 'attached', timeout: 30000 })
+await filterAuf()
 await seite.waitForTimeout(1500)
 const nachNeuladen = await tvKacheln()
 await browser.close()
