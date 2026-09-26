@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-26T08:13:50.513Z",
+ "erzeugtAm": "2026-09-26T09:41:53.829Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -59,26 +59,6 @@
    "ziel": null,
    "ziele": [],
    "naechster": null
-  },
-  {
-   "name": "Crunchyroll",
-   "plattform": "crunchyroll",
-   "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
-   "ohneSeite": 0,
-   "ziel": "http://www.crunchyroll.com/de/saga-of-tanya-the-evil",
-   "ziele": [
-    {
-     "url": "http://www.crunchyroll.com/de/saga-of-tanya-the-evil",
-     "titel": "Saga of Tanya the Evil"
-    },
-    {
-     "url": "https://www.crunchyroll.com/series/GT00371869/snowball-earth",
-     "titel": "Snowball Earth"
-    }
-   ],
-   "naechster": "Saga of Tanya the Evil"
   }
  ]
 }
