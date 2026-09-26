@@ -354,6 +354,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-16870-tv-prosieben-maxx@2026-10-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T003000Z
+DTEND:20261003T010000Z
+SUMMARY:The Last: Naruto the Movie
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-16870-tv-prosieben-max
+ x
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:naruto-shippuden-flammende-chunin-pruefung-naruto-gegen-konohamaru-2026
  -11-19@2026-11-19@anime-kalender-de
 DTSTAMP:20200101T000000Z

@@ -62,8 +62,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-183423-tv-prosieben-maxx@2026-09-28#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260928T165000Z
-DTEND:20260928T172000Z
+DTSTART:20260928T165500Z
+DTEND:20260928T172500Z
 SUMMARY:One Piece Log: Fish-Man Island Saga
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-183423-tv-prosieben-ma

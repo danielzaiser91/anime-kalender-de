@@ -687,7 +687,7 @@ UID:auto-176496-tv-prosieben-maxx@2026-09-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T215500Z
 DTEND:20260925T222500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 2/3
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 2/5
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
  xx
@@ -709,7 +709,7 @@ UID:auto-176496-tv-prosieben-maxx@2026-09-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T221500Z
 DTEND:20260925T224500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 3/3
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 3/5
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
  xx
@@ -812,8 +812,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-183423-tv-prosieben-maxx@2026-09-28#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260928T165000Z
-DTEND:20260928T172000Z
+DTSTART:20260928T165500Z
+DTEND:20260928T172500Z
 SUMMARY:One Piece Log: Fish-Man Island Saga
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-183423-tv-prosieben-ma
@@ -1046,6 +1046,26 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-02#15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T162500Z
+DTEND:20261002T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-02#16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T165000Z
+DTEND:20261002T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-16870-tv-prosieben-maxx@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T181500Z
@@ -1165,6 +1185,79 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-3
  84-disc
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-176496-tv-prosieben-maxx@2026-10-03#4@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T220500Z
+DTEND:20261002T223500Z
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 4/5
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-176496-tv-prosieben-maxx@2026-10-03#5@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T223000Z
+DTEND:20261002T230000Z
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 5/5
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-16870-tv-prosieben-maxx@2026-10-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T003000Z
+DTEND:20261003T010000Z
+SUMMARY:The Last: Naruto the Movie
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-16870-tv-prosieben-max
+ x
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-03#7@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T040000Z
+DTEND:20261003T043000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-03#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T042500Z
+DTEND:20261003T045500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-03#9@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T045000Z
+DTEND:20261003T052000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-03#10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T051500Z
+DTEND:20261003T054500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-21516-netflix@2026-10-03@anime-kalender-de

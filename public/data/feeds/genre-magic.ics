@@ -154,7 +154,7 @@ UID:auto-176496-tv-prosieben-maxx@2026-09-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T215500Z
 DTEND:20260925T222500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 2/3
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 2/5
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
  xx
@@ -176,7 +176,7 @@ UID:auto-176496-tv-prosieben-maxx@2026-09-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T221500Z
 DTEND:20260925T224500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 3/3
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 3/5
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
  xx
@@ -292,6 +292,28 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-176496-tv-prosieben-maxx@2026-10-03#4@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T220500Z
+DTEND:20261002T223500Z
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 4/5
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-176496-tv-prosieben-maxx@2026-10-03#5@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T223000Z
+DTEND:20261002T230000Z
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 5/5
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-03@anime-kalender-de

@@ -18470,3 +18470,47 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
   checkedAt: '2026-09-25'
   note: "Folgen 1–51 mit deutschem Ton — Tonspuren: de, en, es-419, fr-FR, ja, pt-BR"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-09-26 ---
+
+- anilistId: 21175
+  title: "Dragon Ball Super"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-ceb1fd76-acbe-4269-a1f3-532614807772
+  dub: true
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–131 mit deutschem Ton — Tonspuren: de, en, es-ES, fr-FR, ja"
+
+- anilistId: 1735
+  title: "Naruto Shippuden"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-ef04e263-4751-486c-9001-616f2adf09ba
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 59
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–59 mit deutschem Ton — Tonspuren: de, ja"
+
+- anilistId: 21
+  title: "One Piece"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-cdb8e29b-7fb0-4142-9966-3b1125246df0
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 48
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48]
+    - from: 49
+      to: 49
+      dub: false
+      checked: [49]
+    - from: 50
+      to: 61
+      dub: true
+      checked: [50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]
+  checkedAt: '2026-09-25'
+  note: "Folgen 1–48 mit deutschem Ton, Folge 49 ohne deutschen Ton, Folgen 50–61 mit deutschem Ton — Tonspuren: de, en, es-ES, fr-FR, ja"

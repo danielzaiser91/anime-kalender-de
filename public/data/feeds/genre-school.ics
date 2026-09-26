@@ -234,8 +234,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260929T155500Z
-DTEND:20260929T162500Z
+DTSTART:20260929T160000Z
+DTEND:20260929T163000Z
 SUMMARY:Detektiv Conan – Folge 145/147
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
@@ -304,6 +304,46 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/wind-b
  reaker-s2-vol2
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-03#7@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T040000Z
+DTEND:20261003T043000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-03#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T042500Z
+DTEND:20261003T045500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-03#9@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T045000Z
+DTEND:20261003T052000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-03#10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T051500Z
+DTEND:20261003T054500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-21516-netflix@2026-10-03@anime-kalender-de

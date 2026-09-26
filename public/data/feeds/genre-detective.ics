@@ -88,8 +88,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260929T155500Z
-DTEND:20260929T162500Z
+DTSTART:20260929T160000Z
+DTEND:20260929T163000Z
 SUMMARY:Detektiv Conan – Folge 145/147
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
