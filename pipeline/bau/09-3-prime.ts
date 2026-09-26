@@ -33,7 +33,7 @@ export function uebernehmePrimeUndCrVorschlaege({
   lautPruefungTot: (url: string) => boolean
   tmdbTitles: Record<string, TmdbTitelEintrag>
   ytKanal: Record<string, string>
-  zugangJeAdresse: Map<string, "abo" | "kauf">
+  zugangJeAdresse: Map<string, 'abo' | 'kauf'>
   joynZugang: Map<string, Zugangsart>
   ytKauf: Set<string>
   geprueft: number

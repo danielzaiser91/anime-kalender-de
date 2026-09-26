@@ -29,7 +29,7 @@ export function baueAuslieferung({
   synopses: Record<number, SynopsisEintrag>
   mitStimmen: Set<number>
   annKennungen: Record<string, number>
-  trailer: Record<string, { video: string; titel: string; sprache?: "de" | "en" | "ja"; }>
+  trailer: Record<string, { video: string; titel: string; sprache?: 'de' | 'en' | 'ja'; }>
   releases: Release[]
   verschoben: Title[]
   verweiseEntfernt: EntfernterVerweis[]

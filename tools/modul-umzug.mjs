@@ -246,8 +246,11 @@ function schnittstelle(quelle, pruefer, von, bis) {
       if (variabel && d !== huelle && d.getSourceFile() === quelle && !aufModulebene(d)) {
         const dz = zeile(d.getStart(quelle))
         if (z >= von && z <= bis && (dz < von || dz > bis)) {
-          const typ = pruefer.getTypeAtLocation(d.name ?? d)
-          ein.set(sym.name, pruefer.typeToString(typ, huelle, ts.TypeFormatFlags.NoTruncation))
+          // Der Typ an der ersten Verwendung im Abschnitt — dort ist er schon eingeengt (`if (!x) return`).
+          if (!ein.has(sym.name)) {
+            const typ = pruefer.getTypeAtLocation(k)
+            ein.set(sym.name, pruefer.typeToString(typ, huelle, ts.TypeFormatFlags.NoTruncation))
+          }
           if (zuweisung(k.parent, k) || zaehlt(k.parent)) aendert.add(sym.name)
         }
         if (z > bis && dz >= von && dz <= bis) aus.add(sym.name)
@@ -288,19 +291,30 @@ function ablauf(quelle, huelle, von, bis) {
   return { hatReturn, istAsync, endetMitReturn: Boolean(letzte && ts.isReturnStatement(letzte)) }
 }
 
+/** Ein Paket aus node_modules heißt nach dem Paket (`react`), eine eigene Datei relativ. */
+function modulFuer(pfad, zielPfad) {
+  const paket = pfad.split('/node_modules/')[1]
+  if (paket) {
+    const teile = paket.replace(/^@types\//, '').split('/')
+    return teile[0].startsWith('@') ? `${teile[0]}/${teile[1]}` : teile[0]
+  }
+  const datei = ['.ts', '.tsx', '/index.ts'].map((e) => pfad + e).find(existsSync) ?? `${pfad}.ts`
+  return spezifizierer(zielPfad, datei)
+}
+
 /** `import("/pfad/datei").Typ` (Typen, die die Quelle nicht importiert) wird `Typ` plus eigener Import. */
 function typenAufloesen(ein, zielPfad) {
-  const typImporte = new Set()
-  for (const [n, t] of ein)
-    ein.set(
-      n,
-      t.replace(/import\("([^"]+)"\)\.([A-Za-z_$][\w$]*)/g, (_, pfad, typ) => {
-        const datei = ['.ts', '.tsx', '/index.ts'].map((e) => pfad + e).find(existsSync) ?? `${pfad}.ts`
-        typImporte.add(`import type { ${typ} } from '${spezifizierer(zielPfad, datei)}'`)
-        return typ
-      }),
-    )
-  return [...typImporte]
+  const jeModul = new Map()
+  for (const [n, t] of ein) {
+    const ohnePfad = t.replace(/import\("([^"]+)"\)\.([A-Za-z_$][\w$]*)/g, (_, pfad, typ) => {
+      const modul = modulFuer(pfad, zielPfad)
+      jeModul.set(modul, new Set([...(jeModul.get(modul) ?? []), typ]))
+      return typ
+    })
+    // Zeichenketten-Typen im Stil des Projekts: einfache Anführungszeichen.
+    ein.set(n, ohnePfad.replace(/"((?:[^"\\']|\\.)*)"/g, "'$1'"))
+  }
+  return [...jeModul].map(([modul, typen]) => `import type { ${[...typen].join(', ')} } from '${modul}'`)
 }
 
 function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {

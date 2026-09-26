@@ -26,7 +26,7 @@ export function schliesseWegeAb({
   titles: Map<number, Title>
   anisearch: Record<string, AnisearchEintrag>
   releases: Release[]
-  zugangJeAdresse: Map<string, "abo" | "kauf">
+  zugangJeAdresse: Map<string, 'abo' | 'kauf'>
   tmdbMehrdeutig: Set<string>
   toteAdressen: Set<string>
   linkBefunde: Record<string, { status: number | string; prime?: boolean; geprueftAm?: string; }>

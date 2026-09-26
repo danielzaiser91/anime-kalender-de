@@ -8,7 +8,7 @@ export function ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdr
   titles: Map<number, Title>
   anisearch: Record<string, AnisearchEintrag>
   releases: Release[]
-  zugangJeAdresse: Map<string, "abo" | "kauf">
+  zugangJeAdresse: Map<string, 'abo' | 'kauf'>
 }) {
   /*
     **Alles, was Verweise ändert, muss vor dieser Zeile stehen.**

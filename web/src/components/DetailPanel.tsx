@@ -1,8 +1,6 @@
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { DiscAusgabe, Release, StreamLink, Title } from '@shared/types.ts'
 import { bereicheGekuerzt, bereicheKurz, dubAbdeckung, dubBild, dubGrenze, dubLuecken, folgenOhneAnbieter } from '@shared/dub-grenze.ts'
-import type { Zugangsart } from '@shared/zugangsart.ts'
-import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, istErschienen, releaseStatus, bereicheMitTermin } from '@shared/logic.ts'
 import { addDays, formatDate, todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -23,32 +21,30 @@ import {
   loadSynopsis, type Synopsis
 } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
-import { coverBild } from '../lib/cover.ts'
 import { syncSharePath } from '../lib/router.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import {
   Button,
-  Chip,
-  ReihenStern,
-  Tooltip,
-  FavoriteStar,
-  HideEye,
-  SectionTitle,
+  Chip, Tooltip, SectionTitle
 } from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
-import { AnbieterIcon, anbieterDatei } from '../lib/anbieter-icon.tsx'
-import { jetztBerlin, toggoAngabe } from '../lib/toggo.ts'
+import { jetztBerlin } from '../lib/toggo.ts'
 import { joynAngabe } from '../lib/joyn.ts'
 import { tvAngabe } from '../lib/tv-angabe.ts'
-import { KEYWORD_PREVIEW, PLOT_PREVIEW, ShareIcon } from './detail/hilfen.tsx'
-import { DiscZeichen, AniSearchVerweis, Pille, discPillen, DiscEinzelListe, ReleasePille, istToggo, farbeZuAnbieter, gruppiereKaufwege } from './detail/pillen.tsx'
-import { MerkenKnopf } from './detail/merken.tsx'
-import { TrailerKino, jpAngabe, KinoBanner } from './detail/kino.tsx'
-import { WeitereTitel, VoiceCast, AehnlicheTitel } from './detail/weitere.tsx'
-import { Meldungen, DubEcke } from './detail/vermerk.tsx'
-import { AntwortKasten } from './detail/antwort-kasten.tsx'
+import { KEYWORD_PREVIEW } from './detail/hilfen.tsx'
+import { DiscEinzelListe } from './detail/pillen.tsx'
+import { jpAngabe, KinoBanner } from './detail/kino.tsx'
+import { VoiceCast, AehnlicheTitel } from './detail/weitere.tsx'
 import { berechneAntwort } from './detail/antwort-berechnen.ts'
+import { EckdatenAbschnitt } from './detail/abschnitte.tsx'
+import { HandlungAbschnitt } from './detail/abschnitte.tsx'
+import { TermineAbschnitt } from './detail/abschnitte.tsx'
+import { ReihenListe } from './detail/reihen-liste.tsx'
+import { AntwortBereich } from './detail/antwort-bereich.tsx'
+import { PanelKopf } from './detail/kopf.tsx'
+import { PanelBuehne } from './detail/buehne.tsx'
+import { sortiereNachZugang } from './detail/wege-sortieren.ts'
 
 export function DetailPanel({
   data,
@@ -464,76 +460,7 @@ export function DetailPanel({
    * kommentarlos aus der Anzeige.
    */
   const sortiertNachZugang = useMemo(() => {
-    const arten: Zugangsart[] = ['kostenlos', 'abo', 'kauf', 'unbekannt']
-    const gruppen = arten.map((art) => ({
-      art,
-      /*
-        **Zwei gleiche Wege sind eine Pille** (18.09.2026). Amazon führt manchen Film
-        unter zwei Kennungen mit demselben Angebot („Giovannis Insel": B00TCOTQHS und
-        B00TE2CQLQ, beide Abo, beide DE ✓). 14 Titel zeigten zwei Prime-Pillen, die
-        sich durch nichts unterschieden. Zusammengelegt wird nur, was in Plattform,
-        Zugang, Sprachurteil und Folgenbereich übereinstimmt — sonst sagen die Pillen
-        Verschiedenes und bleiben beide. Im Datensatz stehen weiter beide.
-      */
-      plattformen: (title?.streams ?? [])
-        .filter((s) => (s.zugang ?? 'abo') === art)
-        .filter((s, i, alle) => {
-          const sig = (x: typeof s) =>
-            `${x.platform}|${x.zugang ?? ''}|${x.dub}|${JSON.stringify((x.dubRanges ?? []).filter((r) => r.dub).map((r) => [r.from, r.to]))}`
-          return alle.findIndex((x) => sig(x) === sig(s)) === i
-        }),
-      /*
-        **Was man ansieht, ist Stream — was man kauft, ist Disc.**
-
-        Hier stand `kind === 'stream'` ohne Rücksicht auf die Zugangsart, und
-        weil die ganze `shops`-Liste in die **Disc**-Spalte geht, landete
-        „Crunchyroll über Prime Video" — ein Abo, `kind: stream`,
-        `zugang: abo` — unter Disc (Daniel, 04.09.2026: „dieser link führt
-        nicht zum disc, sondern zum crunchy-abo auf prime … gehört in
-        stream").
-
-        Der Umschalter verspricht „Stream | Disc". Ein Abo unter Disc bricht
-        genau dieses Versprechen — und zwar an der Stelle, an der jemand
-        nachsieht, ob er die Serie kaufen kann.
-      */
-      /*
-        **Ein digitaler Kauf ist Streamen, keine Disc.**
-
-        Hier wanderte jeder Weg mit `zugang: 'kauf'` in den Disc-Reiter, auch wenn
-        er als `kind: 'stream'` angelegt war — maxdome und freenet meinVOD standen
-        dadurch unter „Disc" (Daniel, 16.09.2026: „die pills sind falsch als disc
-        eingeordnet, das sind streambare titel"). Der Reiter fragt „anschauen oder
-        ins Regal stellen"; ob das Anschauen Geld kostet, sagt die Zugangsart, und
-        die steht in der Gruppenüberschrift.
-
-        Der Disc-Reiter nimmt deshalb nur noch `kind: 'buy'` — Händler, die einen
-        Datenträger verschicken.
-      */
-      streamWege: gruppiereKaufwege(
-        (title?.watchLinks ?? []).filter((w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art),
-      ),
-      shops: gruppiereKaufwege([
-        /**
-         * Kaufwege gehören in die Kauf-Gruppe, nicht in einen zweiten Block.
-         *
-         * Bis zum 23.08.2026 standen sie darunter mit **derselben Überschrift**
-         * — „Kaufen oder leihen" kam bei 61 Titeln zweimal hintereinander, weil
-         * die eine Liste aus `streams` stammte und die andere aus `watchLinks`.
-         * Für einen Besucher ist das dieselbe Frage, also ist es eine Liste.
-         */
-        ...(art === 'kauf' ? (title?.watchLinks ?? []).filter((w) => w.kind === 'buy') : []),
-      ]),
-    }))
-    const belegte = gruppen.filter((g) => g.plattformen.length || g.shops.length || g.streamWege.length)
-    /**
-     * Die Überschrift steht nur da, wo es etwas zu trennen gibt — mit einer
-     * Ausnahme: **Was Geld kostet, sagt das immer.** Ein Titel, den es nur zu
-     * kaufen gibt, sähe sonst aus wie einer, den man einfach ansehen kann.
-     */
-    return belegte.map((g) => ({
-      ...g,
-      zeigeUeberschrift: belegte.length > 1 || g.art === 'kauf',
-    }))
+    return sortiereNachZugang({ title })
   }, [title])
   /**
    * Ausgaben, die es noch nicht gibt.
@@ -1247,162 +1174,19 @@ export function DetailPanel({
              **senkrecht** an der rechten Kante: waagerecht nahmen sie die volle
              Breite des Bildoberteils ein, genau dort, wo der Blick hinfällt.
         */}
-        <div className="relative shrink-0" style={{ isolation: 'isolate' }}>
-          <h2
-            title={reihenName}
-            className="line-clamp-2 px-4 pb-2 pt-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white"
-          >
-            {reihenName}
-          </h2>
-
-          {/*
-            **410 px, und der Ausschnitt sitzt tief.**
-
-            Daniel am 03.09.2026, in zwei Schritten: erst „cover height: 210 ->
-            410px; background-position: 50% 20 -> 90%", nach dem Ansehen dann
-            „auf 50% 10% und 400px reduzieren (sind paar negativ aufgefallen mit
-            der verschiebung, so ist besser)". Bei 90 % lag der Ausschnitt zu
-            tief — manche Cover zeigten dann den Bildrand statt der Figuren.
-
-            Der „Staffel 1"-Block darunter holt einen Teil davon wieder herein
-            (sein `-mt-24`): Das Cover bleibt groß, der Weg zum Inhalt kurz.
-          */}
-          <div className="relative h-[400px]">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-cover"
-              style={{
-                backgroundImage: buehnenBild ? `url(${buehnenBild})` : undefined,
-                backgroundPosition: '50% 10%',
-                zIndex: -2,
-              }}
-            />
-            {/*
-              **Ein Verlauf, der erst in der unteren Hälfte anfängt.**
-
-              Vorher lagen zwei übereinander — einer von oben, einer von links —
-              und beide begannen sofort: Das Cover war schon in der ersten Zeile
-              zur Hälfte abgedunkelt. Der von links ist ganz entfallen, denn er
-              schob den Kontrast vom Titel weg, und der Titel liegt nicht mehr
-              hier. Übrig bleibt der von unten, der bei 52 % transparent
-              anfängt und in den Panel-Grund ausläuft — damit das Cover ohne
-              Kante in die Seite übergeht.
-
-              **Die Farben kommen aus `styles.css` und wechseln mit dem Thema.**
-              Bis zum 25.08.2026 standen sie hier fest als `rgba(11,15,22,…)`;
-              im hellen Thema lag der dunkle Titel damit auf einem dunklen
-              Verlauf (Daniel, mit Bild: „styling kaputt im light mode").
-            */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0"
-              style={{
-                zIndex: -1,
-                background:
-                  'linear-gradient(180deg, transparent 0%, transparent 52%, var(--buehne-mitte) 78%, var(--buehne-unten) 92%, var(--panel-grund) 100%)',
-              }}
-            />
-            {/*
-              Senkrecht an der rechten Kante, direkt unter der Titelzeile. Jedes
-              Symbol behält seinen dunklen Grund: Auf einem hellen Cover wäre ein
-              blankes Symbol sonst genauso unlesbar wie blanker Text.
-            */}
-            {/*
-              In der Ecke, nicht neben ihr: `top-0 right-0`, und gerundet ist nur
-              die Kante, die ins Bild zeigt (Daniel, 03.09.2026).
-            */}
-            <div className="absolute right-0 top-0 z-10 flex flex-col items-center gap-1.5 rounded-bl-lg bg-black/50 px-1.5 py-2 backdrop-blur-[3px]">
-              <ShareIcon slug={title.slug} name={anzeigeName(title)} />
-              <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
-              <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
-              {reihenIds.length > 1 && (
-                <ReihenStern
-                  alleGemerkt={reihenIds.every((id) => favorites.has(id))}
-                  anzahl={reihenIds.length}
-                  onMerken={() => {
-                    for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
-                  }}
-                />
-              )}
-              <button
-                type="button"
-                onClick={onClose}
-                aria-label={t('detail.close')}
-                className="cursor-pointer px-1 text-sm text-white transition hover:opacity-70"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/*
-              Die Unterzeile überlappt das Cover — sie kostet damit keine eigene
-              Höhe. In der Ecke wie die Bedienelemente gegenüber, gerundet nur
-              zum Bild hin.
-
-              **Die Schreibweisen stehen darin, nicht darunter** (Daniel,
-              03.09.2026: „weitere schreibweisen unter subtitle schieben, selber
-              container nächste zeile"). Als eigene Zeile im Inhaltsbereich
-              kosteten sie 24 px für eine Angabe, die fast niemand aufklappt.
-            */}
-            {/*
-              **Kein Kasten ohne Inhalt.**
-
-              Die Unterzeile setzt sich aus vier Angaben zusammen — Format,
-              Folgenzahl, Jahr, Studio. Fehlen alle vier, stand hier trotzdem
-              ein grauer Balken über dem Cover: eine leere Fläche, die aussieht
-              wie ein Ladefehler (Daniel, 04.09.2026, mit Bild; er konnte den
-              Zustand nicht wiederholen, er trat beim Wechsel zwischen Tabs
-              auf).
-
-              Die Ursache ist damit nicht gefunden — sie steht als Aufgabe in
-              `status.md`. Aber der sichtbare Schaden entsteht erst hier, und er
-              gehört unabhängig von seiner Ursache verhindert: Ein Kasten, der
-              nichts zu sagen hat, wird nicht gezeichnet.
-            */}
-            {unterzeile.length > 0 && (
-            <div className="absolute left-0 top-0 z-10 max-w-[calc(100%-4rem)] rounded-br-lg bg-[rgba(8,12,18,.74)] px-2.5 py-1 backdrop-blur-[3px]">
-            <p className="text-xs text-slate-300">
-              {[
-                title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
-                /*
-                  **„1 Folgen" gab es hier zu lesen** — bei „Venus Wars" stand
-                  „Film · 1 Folgen · JP 1989" (03.09.2026). Falsch in beidem: Der
-                  Plural stimmt nicht, und ein Film hat keine Folgen, sondern ist
-                  einer. Bei genau einer Einheit sagt das Format schon alles.
-                */
-                title.episodes && title.episodes > 1
-                  ? `${title.episodes} ${t('detail.episodes')}`
-                  : undefined,
-                jpAngabe(eigenerTeil?.jpStart ?? (title.westlich ? title.jpStart : undefined), title.jpYear, title.land),
-                title.studios?.[0],
-              ]
-                .filter(Boolean)
-                .join(' · ')}
-            </p>
-            <WeitereTitel title={title} />
-            </div>
-            )}
-
-            {/*
-              **Die Altersfreigabe als Marke, gegenüber der Unterzeile.**
-
-              Sie stand bis zum 04.09.2026 in der Faktenzeile des Kastens,
-              zwischen zwei Angaben, die den Kopf darüber wiederholten. Als
-              deren Dopplung fiel, blieb sie als einzige übrig — und gehört
-              damit dorthin, wo die Werkangaben stehen. Daniel: „ab 12 kann als
-              label icon oben rechts vom sub-title-div."
-
-              Rechts, weil links der Untertitel steht und die Schließen-Leiste
-              erst 3,5 rem tiefer beginnt; die Marke passt in die Lücke
-              dazwischen, ohne beide anzufassen.
-            */}
-            {title.fsk !== undefined && (
-              <span className="absolute right-11 top-0 z-10 rounded-b-lg bg-[rgba(8,12,18,.74)] px-2 py-1 text-xs font-semibold tabular-nums text-slate-200 backdrop-blur-[3px]">
-                {t('antwort.fskAb', { n: title.fsk })}
-              </span>
-            )}
-          </div>
-        </div>
+        <PanelBuehne
+          reihenName={reihenName}
+          buehnenBild={buehnenBild}
+          title={title}
+          onToggleHidden={onToggleHidden}
+          favorites={favorites}
+          onToggleFavorite={onToggleFavorite}
+          reihenIds={reihenIds}
+          onClose={onClose}
+          t={t}
+          unterzeile={unterzeile}
+          eigenerTeil={eigenerTeil}
+        />
 
         {/*
           Das Karussell der Reihenteile — es ersetzt Cover **und** Auswahlliste.
@@ -1458,104 +1242,14 @@ export function DetailPanel({
           geworden statt kürzer. So bleibt das Bild groß **und** der Kasten im
           Blick; der Verlauf trägt den Text, wo er auf dem Bild steht.
         */}
-        <div className="relative -mt-24 flex flex-col gap-3 p-4">
-          {/*
-            Der Reihenname steht **über** dem Karussell, der gewählte Teil
-            darunter (Daniel, 15.08.2026: „ich hab s3 ausgewählt, es ist kaum
-            erkennbar… das ist der wichtigste teil").
-
-            Vorher trugen beide Zeilen denselben Reihennamen, und welcher Teil
-            gerade offen war, stand nur als blauer Rahmen an einer der
-            Vorschaukarten — bei acht Karten nebeneinander ein Rahmen zu viel,
-            um ihn zu bemerken. Jetzt beantwortet die Zeile unter dem Karussell
-            die Frage im Klartext: „Staffel 3".
-
-            Die beiden Bedienelemente teilen sich entsprechend auf: Der
-            Reihen-Stern gehört zur Reihe und steht oben, Stern und Auge
-            gehören zum gewählten Teil und stehen unten. Das ersetzt zugleich
-            die frühere absolute Positionierung — zwei Sterne übereinander
-            brauchte es nur, solange beide in derselben Zeile hingen.
-          */}
-          {/*
-            Titel und Bedienelemente stehen seit dem 24.08.2026 auf der Bühne
-            weiter oben. Hier stand bis dahin beides — der Reihenname als
-            Überschrift und daneben Teilen, Auge, Stern und Reihen-Stern.
-
-            Die frühere Begründung dafür bleibt gültig und ist mit umgezogen:
-            Die Bedienelemente gehören an den Anfang des Kopfbereichs, nicht
-            unter das Karussell, wo sie bei einem Einzeltitel eine eigene Zeile
-            für zwei Symbole gebraucht hätten.
-          */}
-
-
-          <div className="min-w-0 flex-1">
-            {/*
-              Die zweite Titelzeile entfällt, wenn sie nur die erste wiederholt.
-
-              Bei „Banana Fish" stand der Name viermal untereinander: als
-              Reihenname über dem Karussell, hier noch einmal, und darunter als
-              Umschrift und in Originalschrift — dreimal davon identisch
-              (Daniel, 15.08.2026: „banana fish steht dort 3x"). Ein Titel ohne
-              weitere Reihenteile hat schlicht keinen unterscheidenden Zusatz;
-              dann trägt ihn die Zeile über dem Karussell allein.
-            */}
-            {/*
-              **Die Wertung steht vor dem Namen, nicht darunter.**
-
-              Sie war eine eigene Zeile unter dem Staffelnamen — 24 px für eine
-              Pille, die neben ihn passt (Daniel, 03.09.2026: „Rating vor
-              ,Staffel 1'"). `items-baseline` setzt sie auf die Schriftlinie des
-              Namens statt an seine Oberkante.
-            */}
-            {/*
-              **Der aniSearch-Verweis steht rechts in derselben Zeile.**
-
-              Daniel am 07.09.2026: „hier im grün markierten bereich wäre platz
-              für ein AniSearch Link. mach das" — und gleich danach der
-              Geltungsbereich: „anisearch link für alle titel dort einfügen wo
-              wir anisearch links haben, ansonsten anisearch search seite mit dem
-              titel da einfügen. überall soll da ein link sein."
-
-              Deshalb wird die Zeile jetzt **immer** gerendert, nicht mehr nur
-              bei einem Reihenteil mit eigenem Namen. Der Staffelname darin folgt
-              weiter seiner alten Bedingung; ohne ihn bleibt eine Zeile aus
-              Wertung links und Verweis rechts — beides Angaben, die vorher
-              entweder gar nicht oder nur an einer Stelle standen.
-            */}
-            <div className="flex flex-wrap items-baseline gap-2">
-              {bewertung}
-              {reihenTeile.length > 1 && teilName !== reihenName && (
-                <h3 className="min-w-0 flex-1 text-xl font-bold leading-tight text-slate-900 dark:text-white">
-                  {teilName}
-                </h3>
-              )}
-              {/*
-                **Der Trailer steht bei den Angaben zum Werk, nicht bei den
-                Anbietern.** Er beantwortet eine andere Frage als „wo kann ich
-                das sehen" — nämlich „will ich das überhaupt".
-              */}
-              {(title.trailer || kinoRelease) && <TrailerKino trailer={title.trailer} titel={anzeigeName(title)} />}
-              <AniSearchVerweis title={title} />
-            </div>
-            {/*
-              Die Pillen-Zeile trug nur noch die Wertung — Status und FSK sind
-              seit dem 13.08.2026 im Terminblock, wo sie je Release gelten. Eine
-              eigene Zeile für eine einzelne Pille ist Platz ohne Auskunft; sie
-              steht jetzt neben dem Staffelnamen (siehe `bewertung` oben).
-            */}
-            {/*
-              Format, Jahr und Studio stehen seit dem 24.08.2026 in der Bühne,
-              direkt unter dem Titel — dieselbe Angabe zweimal im selben Bild
-              wäre eine Zeile für nichts.
-
-              Die Genres sind ans Ende gewandert, in den Details-Bereich. Ihre
-              Begründung vom 12.08.2026 bleibt gültig — sie beantworten „ist das
-              überhaupt meins?" —, aber diese Frage stellt sich **nach** der,
-              wegen der jemand das Panel öffnet: wann kommt es, wo läuft es. Wer
-              den Titel schon kennt, überspringt die Genres ohnehin.
-            */}
-          </div>
-        </div>
+        <PanelKopf
+          bewertung={bewertung}
+          reihenTeile={reihenTeile}
+          teilName={teilName}
+          reihenName={reihenName}
+          title={title}
+          kinoRelease={kinoRelease}
+        />
 
         {/* Aus demselben Grund wie oben — siehe den Hinweis am Block davor. */}
         <div className="relative flex flex-col gap-4 px-4 pb-8">
@@ -1577,339 +1271,28 @@ export function DetailPanel({
             Anbieter führt ihn bisher": zwei Sätze, die einander widersprechen. Wo es außer
             dem Kinostart nichts zu sagen gibt, bleibt es beim Banner.
           */}
-          {antwort && (
-            <AntwortKasten
-              pillenGruppen={
-                new Map([
-                  ...sortiertNachZugang.flatMap(({ art, plattformen, streamWege }) =>
-                    [
-                      ...plattformen.map((x) => `${x.platform}|${x.url}`),
-                      ...streamWege.map((g) => `sw-${g.shop}-${g.eintraege[0].url}`),
-                    ].map((k) => [k, art === 'kostenlos' ? 'frei' : art] as const),
-                  ),
-                  ...streamReleases.map((r) => [r.slug, r.platform === 'tv' ? 'tv' : 'abo'] as const),
-                ])
-              }
-              antwort={antwort}
-              title={title}
-              t={t}
-              today={today}
-              wegeHinweis={wegeHinweis}
-              notiz={kastenNotiz?.note}
-              schnitt={kastenNotiz?.schnitt}
-              angebotSeit={
-                /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
-                   Auskunft mehr („Auf Deutsch seit 28.12.2023 · Netflix, Inc." über „Bei Netflix im
-                   Angebot seit 08.03.2024", Pokémon-Concierge, Stichprobe 16.09.2026). */
-                title.angebotSeit &&
-                !(
-                  title.deErstausgabe?.von &&
-                  title.deErstausgabe.von <= title.angebotSeit.date &&
-                  (title.deErstausgabe.publisher ?? '').toLowerCase().includes((PLATFORMS[title.angebotSeit.platform]?.name ?? '§').toLowerCase())
-                )
-                  ? t('antwort.imAngebotSeit', {
-                      datum: formatDate(title.angebotSeit.date),
-                      anbieter: PLATFORMS[title.angebotSeit.platform]?.name ?? title.angebotSeit.platform,
-                    })
-                  : undefined
-              }
-              kaufausgabe={kaufausgabeZeile}
-              hinweis={
-                folgenLuecke ? (
-                  <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                    {t(/^\d+$/.test(folgenLuecke) ? 'detail.folgeOhneAnbieter' : 'detail.folgenOhneAnbieter', { bereich: folgenLuecke })}
-                  </p>
-                ) : /* Beim Kinofilm sagt der Kino-Hinweis darunter dasselbe (Daniel, 17.09.2026: „doppelte info"). */
-                title.ohneSynchro && antwort?.art !== 'kino' ? (
-                  <>
-                    <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
-                      {verbindung.verbunden
-                        ? t('detail.noDubWatchConnected', { mail: verbindung.mail ?? '' })
-                        : t('detail.noDubWatchOpen')}
-                    </p>
-                    {favorites.has(title.id) && (
-                      <p className="mt-1 text-xs font-medium text-amber-600 dark:text-amber-400">
-                        {t('detail.noDubWatched')}
-                      </p>
-                    )}
-                  </>
-                ) : undefined
-              }
-                /*
-                  **Stream ist, wo man es ansehen kann.** Die Zugangsart
-                  (kostenlos, Abo, Kauf) stand bis zum 03.09.2026 als eigene
-                  Zwischenüberschrift darüber; sie steht jetzt an der Pille
-                  selbst, wo sie hingehört — drei Überschriften über je einer
-                  Pille waren mehr Gliederung als Inhalt.
-                */
-                stream={sortiertNachZugang.flatMap(({ plattformen }) =>
-                  plattformen.map((s) => {
-                    /*
-                      **Was da ist, nicht was fehlt.**
-
-                      Der Verlag hat von „Date a Live" genau Folge 1 auf YouTube
-                      (Daniel, 07.09.2026: „schreib auch das es nur diese ep
-                      unter diesem verweis gibt, sodass kein falscher eindruck
-                      entsteht"). `dubLuecken` machte daraus „✕ DE 2–12" —
-                      richtig, aber von hinten gedacht: Wer die Pille sieht, will
-                      wissen, was er bekommt, nicht was ihm fehlt.
-
-                      Der Fall ist eng gefasst — **ein** deutscher Bereich, und
-                      der ist Folge 1. Alles Übrige bleibt bei der Lücken-Form,
-                      die dort die kürzere Auskunft ist.
-                    */
-                    /* Regeln an `folgenAngabeFuer()` — Film, Bereiche, laufend, abgeschlossen. */
-                    const folgenAngabe = folgenAngabeFuer(s)
-                    return (
-                      <Pille
-                        /*
-                          Anbieter **und** Adresse (21.09.2026): Mit `key={s.platform}` trugen zwei
-                          Prime-Pillen denselben Schlüssel, und beim Umschalten auf „Disc" blieb eine
-                          als verwaister Knoten stehen — Lupin III. Part 6 zeigte die Kanal-Pille
-                          unter „Disc" (Daniel mit Bild: „das ist keine disc").
-                        */
-                        key={`${s.platform}|${s.url}`}
-                        name={s.kanal ? `${PLATFORMS[s.platform].name} (${s.kanal})` : PLATFORMS[s.platform].name}
-                        farbe={PLATFORMS[s.platform].color}
-                        icon={<AnbieterIcon was={s.platform} />}
-                        url={s.url}
-                        unten={
-                          [
-                            folgenAngabe,
-                            s.teilBereich
-                              ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
-                              : '',
-                          ]
-                            .filter(Boolean)
-                            .join(' · ') || undefined
-                        }
-                        /*
-                          **Was in der Pille kürzt, steht hier ausgeschrieben.**
-
-                          Die Unterzeile trägt seit dem 03.09.2026 nur noch
-                          „✕ DE 2–33" statt „Ohne deutschen Ton: Folge 2–33" — sie
-                          wurde sonst ausgepunktet, und eine halbe Auskunft ist
-                          schlechter als eine kurze. Der Tooltip nennt beides:
-                          was fehlt, und wozu die Adresse sonst noch führt.
-                        */
-                        titel={
-                          [
-                            ...dubZeilen(s),
-                            s.teilBereich
-                              ? t('detail.teilBereichTitel', {
-                                  von: s.teilBereich.von,
-                                  bis: s.teilBereich.bis,
-                                })
-                              : '',
-                            (s.sharedWith ?? 0) > 1
-                              ? t('detail.sharedUrlNote', { count: s.sharedWith! })
-                              : '',
-                          ]
-                            .filter(Boolean)
-                            .join('\n') || undefined
-                        }
-                        rechts={
-                          <>
-                            <DubEcke dub={s.dub} />
-                            <MerkenKnopf
-                              release={releaseJePlattform.get(s.platform)}
-                              today={today}
-                              farbe={PLATFORMS[s.platform].color}
-                            />
-                          </>
-                        }
-                      />
-                    )
-                  }),
-                )
-                  /*
-                    **Ein Abgang ist eine Auskunft, kein Loch — und er gehört zu
-                    den anderen Wegen.**
-
-                    Bis zum 01.09.2026 fiel ein Verweis stillschweigend heraus,
-                    sobald er ins Leere führte. Daniel damals: „auch bei titeln
-                    die aus dem katalog eines anbieters fliegen entsprechend
-                    anzeigen … sie sind schließlich nicht mehr klickbar."
-
-                    Er stand danach als eigene Zeile über den Pillen — zwei
-                    Zeilen für eine Auskunft, die in eine Pille passt (Daniel,
-                    03.09.2026: „nicht mehr abrufbar auf netflix -> umstylen zu
-                    grauer netflix-pill und in box schieben"). Das Datum steht
-                    jetzt im Tooltip; sichtbar bleibt, was zählt: dieser Weg ist
-                    zu.
-                  */
-                  /*
-                    **Zwei Ausgaben derselben Staffel — die ohne Deutsch steht
-                    daneben, durchgestrichen.**
-
-                    Daniel am 14.09.2026 an Digimon: Prime führt die Serie „In
-                    Prime enthalten" mit deutscher Synchro und über den
-                    Crunchyroll-Kanal nur mit Untertiteln. Wer bei Prime sucht,
-                    findet beide; die Pille sagt, welche es nicht ist, statt sie
-                    zu verschweigen („sodass nutzer sich selbst ein bild machen
-                    können"). Welche Ausgaben es gibt, entscheidet der Bau
-                    (`ausgabenOhneDe`).
-                  */
-                  .concat(
-                    (title.ausgabenOhneDe ?? []).map((a) => (
-                      <Pille
-                        key={`ausgabe-${a.url}`}
-                        name={PLATFORMS[a.platform]?.name ?? a.platform}
-                        farbe={PLATFORMS[a.platform]?.color}
-                        url={a.url}
-                        durchgestrichen
-                        unten={[
-                          a.kanal ? t('detail.ausgabeKanal', { kanal: a.kanal }) : t('detail.ausgabeAndere'),
-                          t(a.untertitelDe ? 'detail.ausgabeNurUt' : 'detail.ausgabeOhneDe'),
-                        ].join(' · ')}
-                        titel={t('detail.ausgabeTitel', { anbieter: PLATFORMS[a.platform]?.name ?? a.platform })}
-                      />
-                    )),
-                  )
-                  /* Ein Abo, das über einen Dritten läuft — „Crunchyroll über
-                     Prime Video". Es steht bei den Streams, weil man es ansieht
-                     und nicht kauft. */
-                  .concat(
-                    sortiertNachZugang.flatMap(({ streamWege }) =>
-                      streamWege.map((g) => (
-                        <Pille
-                          key={`sw-${g.shop}-${g.eintraege[0].url}`}
-                          name={g.shop}
-                          url={g.eintraege[0].url}
-                          /*
-                            **Dasselbe Zeichen wie am Verweis mit derselben Adresse.**
-
-                            Daniel am 07.09.2026 an „Kill Blue": „warum ist bei
-                            ‚… über prime' pills kein ‚DE' zeichen?" Die Pille
-                            „Aniverse über Prime Video" und der Prime-Verweis
-                            zeigen auf dieselbe Kennung — der eine trug „DE ✓",
-                            die andere nichts.
-
-                            Das Urteil erbt der Bezugsweg beim Bauen (`build.ts`,
-                            „Ein Weg, ein Urteil"); hier wird es nur angezeigt.
-                            Wo keins geerbt wurde, zeigt `DubMark` weiterhin das
-                            Fragezeichen — das ist die ehrliche Antwort.
-                          */
-                          /*
-                            **Ein Weg zu einem Anbieter, den wir kennen, sieht aus wie einer.**
-
-                            Die Bezugswege standen weiß und randlos neben den
-                            farbigen Anbieter-Pillen, obwohl beide dasselbe
-                            beantworten: wo man es sehen kann. Daniel am
-                            07.09.2026: „vom blau gefärbten button style ist es
-                            deutlich besser als die weiße pill daneben, deshalb
-                            mach das so wie beschrieben für alle pills die
-                            aktuell noch das weiße style haben".
-
-                            Die Farbe kommt aus dem Namen, und der ist unsere
-                            eigene Erzeugung („Amazon Prime
-                            (Crunchyroll)"): Wo er mit dem Namen einer bekannten
-                            Plattform beginnt, gilt deren Farbe. Ein Shop, den
-                            wir nicht als Plattform führen (Videobuster,
-                            maxdome), bleibt neutral — dort gibt es keine Farbe,
-                            die etwas bedeuten würde.
-                          */
-                          farbe={farbeZuAnbieter(g.shop)}
-                          icon={g.shop === 'aniSearch' ? <DiscZeichen /> : <AnbieterIcon was={g.shop} />}
-                          /*
-                            **Ein Weg zu einer einzelnen Folge sagt das.**
-
-                            Bei „Banana Fish" führt die Akibapass-Pille auf eine
-                            Dub-Vorschau der ersten Folge, und daneben stand als
-                            Termin der 06.11.2026 — der zweite Blu-ray-Band.
-                            Beides zusammen las sich, als gäbe es bis November
-                            gar nichts (Daniel, 12.09.2026: „folge 1 jetzt, rest
-                            06.11."). Die Angabe steht am Weg, weil sie zu ihm
-                            gehört, nicht zum Titel.
-                          */
-                          /*
-                            **Eine Folgenzahl nur, wo die deutsche Fassung an diesem Weg belegt ist.**
-
-                            „Amazon Prime (Crunchyroll) · 100 Fg." stand über „Dragon Quest: The
-                            Adventure of Dai" — der Kanal führt die Serie nur auf Japanisch (Daniel,
-                            16.09.2026, mit Bild; Crunchyrolls deutscher Katalog: 0 von 101 Folgen
-                            deutsch). Die Zahl stammte aus der Titelregel von `folgenAngabeFuer()`,
-                            die für Verweise mit `dub: true` gemessen war und hier ohne jeden Verweis
-                            griff. 160 Titel zeigten so eine Stream-Pille mit Folgenzahl, ohne dass
-                            dort Deutsch belegt war.
-
-                            Ohne Urteil also keine Zahl — und rechts das Zeichen, das der Kommentar
-                            darüber schon lange versprach: „DE ?", die ehrliche Antwort.
-                          */
-                          unten={(() => {
-                            if (istToggo(g.eintraege[0].url))
-                              return toggoAngabe((title.watchLinks ?? []).find((w) => w.url === g.eintraege[0].url)?.toggo)
-                            if (g.eintraege[0].nurFolge) return t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
-                            if (g.eintraege[0].dubRanges?.length) return folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges, url: g.eintraege[0].url, nurFolge: g.eintraege[0].nurFolge }) || undefined
-                            const verweis = (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)
-                            return verweis?.dub === true ? folgenAngabeFuer(verweis) || undefined : undefined
-                          })()}
-                          rechts={
-                            <DubEcke
-                              dub={
-                                istToggo(g.eintraege[0].url) ||
-                                g.eintraege[0].dubRanges?.some((r) => r.dub) ||
-                                (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)?.dub
-                              }
-                            />
-                          }
-                        />
-                      )),
-                    ),
-                  )
-                  .concat(
-                    streamReleases.map((r) => (
-                      <ReleasePille
-                        key={r.slug}
-                        release={r}
-                        titel={anzeigeName(title)}
-                        today={today}
-                        tvText={tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16))}
-                      />
-                    )),
-                  )}
-                /*
-                  **Disc ist, was man kauft** — Händler und Vorbestellungen.
-                  Vier Ausgaben desselben Verlags sind **eine** Auskunft, keine
-                  vier (Daniel, 20.08.2026): eine Pille je Shop, die Zahl der
-                  Ausgaben in der zweiten Zeile.
-                */
-                disc={[
-                  /* Die aniSearch-Ausgaben ersetzen die eine aniSearch-Pille, sobald sie geladen sind. */
-                  ...discPillen(discAusgaben, discOffen, () => setDiscOffen((o) => !o), t as unknown as (k: string, v?: Record<string, string | number>) => string),
-                  ...sortiertNachZugang.flatMap(({ shops }) =>
-                    shops
-                      .filter((g) => !(g.shop === 'aniSearch' && discAusgaben.length))
-                      .map((g) => (
-                      <Pille
-                        key={g.shop + g.eintraege[0].url}
-                        name={g.shop}
-                        url={g.eintraege[0].url}
-                        unten={
-                          g.eintraege.length > 1
-                            ? t('where.angebote', { count: g.eintraege.length })
-                            : g.eintraege[0].dubRanges?.length
-                              ? folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges }) || undefined
-                              : undefined
-                        }
-                        rechts={g.eintraege[0].dubRanges?.some((r) => r.dub) ? <DubEcke dub /> : undefined}
-                        /*
-                          Auch hier trägt der Weg die Farbe seines Anbieters —
-                          derselbe Grund wie bei den Stream-Wegen darüber. Für
-                          aniSearch kommt die Silberscheibe dazu: Sie ersetzt
-                          das Wort „Disc", das bis zum 07.09.2026 im Namen stand.
-                        */
-                        farbe={farbeZuAnbieter(g.shop)}
-                        icon={anbieterDatei(g.shop) ? <AnbieterIcon was={g.shop} /> : <DiscZeichen />}
-                      />
-                    )),
-                  ),
-                  ...discReleases.map((r) => (
-                    <ReleasePille key={r.slug} release={r} titel={anzeigeName(title)} today={today} />
-                  )),
-                ]}
-            />
-          )}
+          <AntwortBereich
+            antwort={antwort}
+            sortiertNachZugang={sortiertNachZugang}
+            streamReleases={streamReleases}
+            title={title}
+            t={t}
+            today={today}
+            wegeHinweis={wegeHinweis}
+            kastenNotiz={kastenNotiz}
+            kaufausgabeZeile={kaufausgabeZeile}
+            folgenLuecke={folgenLuecke}
+            verbindung={verbindung}
+            favorites={favorites}
+            folgenAngabeFuer={folgenAngabeFuer}
+            dubZeilen={dubZeilen}
+            releaseJePlattform={releaseJePlattform}
+            releases={releases}
+            discAusgaben={discAusgaben}
+            discOffen={discOffen}
+            setDiscOffen={setDiscOffen}
+            discReleases={discReleases}
+          />
           {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
@@ -1990,581 +1373,22 @@ export function DetailPanel({
             sichtbaren Kacheln nach drei Teilen aus -- "Ghost in the Shell" hat
             einundzwanzig.
           */}
-          {reihenTeile.length > 1 && (
-            <div>
-              {/*
-                **Eine Liste über die volle Breite, kein Band mehr.**
-
-                Bis zum 03.09.2026 stand hier ein waagerechtes Karussell aus
-                Kacheln von 96 Pixeln. Bei einer Reihe wie „Die Tagebücher der
-                Apothekerin" hießen fünf von sechs Kacheln sichtbar gleich —
-                „Die Tagebücher der Apothekerin…" — und der unterscheidende Teil
-                lag hinter dem Abschnitt. Daniel: „es ist total unklar was man
-                dort anklickt … der titel ist ausgepunktet, die echte info steht
-                danach und man kann es nicht lesen."
-
-                Seine Vorgabe: „mach einträge die die ganze breite nutzen, sodass
-                man komplette titel lesen kann … Links an den einträgen kann das
-                cover sein", dazu eine Höchsthöhe mit drei sichtbaren Einträgen
-                und einem angeschnittenen vierten.
-
-                **Getrennt wird nach erschienen und angekündigt**, nicht nach
-                Werkart (seine Wahl unter drei Entwürfen). Das beantwortet die
-                Frage, mit der jemand hierherkommt: Was kann ich jetzt sehen?
-              */}
-              {/*
-                **Die Reihe schließt direkt an den Kasten an.**
-
-                Zwischen beiden stand eine Überschrift — „64 TEILE IN DIESER
-                REIHE" —, die nichts sagte, was die Liste nicht selbst zeigt.
-                Daniel am 03.09.2026: „‚x teile in dieser reihe' entfernen und
-                reihen bereich direkt an box anknüpfen. die x zahl unten links an
-                karussell-box heften. box border geben."
-
-                Die Zahl bleibt — bei drei sichtbaren Einträgen sieht eine Reihe
-                mit einundzwanzig Teilen sonst nach dreien aus. Sie steht jetzt
-                als Marke an der unteren Kante der Box, wo sie den Platz einer
-                Überschrift nicht braucht.
-
-                Der Rahmen macht aus der Liste einen Bereich: Ohne ihn schwamm
-                sie zwischen Kasten und Terminen, mit ihm gehört sie sichtbar
-                zusammen.
-              */}
-              <div className="relative -mt-1 rounded-xl border border-slate-200 dark:border-white/10">
-              <div className="max-h-[13.5rem] overflow-y-auto p-2">
-                {(() => {
-                  /*
-                    **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
-                    2027 ist angekündigt, einer aus 2023 gelaufen — unabhängig
-                    davon, ob wir für ihn eine deutsche Fassung kennen. Fehlt das
-                    Jahr, gilt der Teil als erschienen: Ein Eintrag ohne
-                    Ausstrahlungsjahr ist fast immer ein alter.
-                  */
-                  const jahr = new Date().getFullYear()
-                  /*
-                    **Künftig ist, was noch keine deutsche Fassung hat und
-                    frühestens dieses Jahr anfängt.**
-
-                    Das Jahr allein genügt nicht: „Staffel 3 — Teil 1" beginnt am
-                    02.10.2026 und stand mit `jpYear > jahr` bei den erschienenen
-                    (Daniel, 03.09.2026: „staffel 3 gehört auch in noch nicht
-                    erschienen"). Ein Tagesdatum führt die Reihe nicht mit — aber
-                    `ohneSynchro` sagt genau das, worum es hier geht: Für diesen
-                    Teil gibt es hier noch nichts zu sehen.
-
-                    Ein Titel aus einem späteren Jahr ist immer künftig, auch wenn
-                    wir schon eine Fassung kennen.
-                  */
-                  /*
-                    **AniList sagt es selbst, wo wir bisher gerechnet haben.**
-
-                    Der Jahresvergleich ist eine Ableitung und irrt am
-                    Jahreswechsel in beide Richtungen. `NOT_YET_RELEASED` ist
-                    dagegen eine Auskunft — für „Lord of the Mysteries 2" steht
-                    dort 2027 und genau dieser Status (Daniel, 12.09.2026: „2027
-                    release date ankündigung fehlt, und sollte entsprechend
-                    gekennzeichnet werden, das es noch nicht erschienen ist und
-                    noch erscheint"). Der Vergleich bleibt als Rückfall für
-                    Einträge ohne Status.
-                  */
-                  const kuenftig = (m: FranchiseMember) =>
-                    m.jpStatus === 'NOT_YET_RELEASED' ||
-                    (m.jpStatus !== 'FINISHED' &&
-                      ((m.jpYear ?? 0) > jahr || (Boolean(m.ohneSynchro) && (m.jpYear ?? 0) >= jahr)))
-                  /*
-                    **Vier Gruppen mit Überschrift, nicht zwei Töpfe.**
-
-                    Bei „One Piece" standen 64 Teile in einer Liste, und der erste
-                    sichtbare war eine ONA von 2018 (Daniel, 03.09.2026: „teile in
-                    dieser reihe muss sortiert sein. Zuerst Hauptstaffeln
-                    aufsteigend, dann Specials, dann movies. Entsprechende
-                    Trennstriche müssen sichtbar sein mit entsprechenden Kategorie
-                    Labels.").
-
-                    Die Reihenfolge folgt dem, was jemand sucht: erst die
-                    Hauptserie, dann das Beiwerk, dann die Filme — und ganz unten,
-                    was es noch nicht gibt. Innerhalb jeder Gruppe chronologisch.
-                  */
-                  /*
-                    **Ein Titel ohne Jahr gehört ans Ende, nicht an den Anfang.**
-
-                    `?? 0` machte aus „unbekannt" das Jahr null. Bei „One Piece"
-                    standen dadurch drei undatierte Kurzformate vor der Serie von
-                    1999, und sie selbst hieß in der Liste „Staffel 4" (Daniel,
-                    03.09.2026, mit Bild).
-                  */
-                  const nachJahr = (a: FranchiseMember, b: FranchiseMember) =>
-                    (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id
-
-                  /*
-                    **Was eine Hauptstaffel ist, entscheidet die Reihe selbst.**
-
-                    `istStaffel` zählt ONA mit, und das ist richtig: Viele neue
-                    Serien laufen als ONA („Beastars"). Für die **Zählung** einer
-                    Reihe ist es falsch, sobald sie daneben Kurzformate führt —
-                    „One Piece: Annecy Festival" und „Koisuru One Piece" sind keine
-                    Staffeln, sie haben nur dasselbe Format.
-
-                    Also: Gibt es in der Reihe echte Fernsehstaffeln, zählen nur
-                    die. Gibt es keine, zählen die ONAs — dann sind sie die Serie.
-
-                    **Kurzformate zählen nie mit.** „Chopper's" ist ein TV_SHORT und
-                    stand damit unter „Hauptserie" (Daniel, 03.09.2026:
-                    „choppers gehört nicht zur hauptserie"). Eine Sendung von fünf
-                    Minuten ist Beiwerk, auch wenn sie im Fernsehen läuft.
-                  */
-                  /*
-                    **Und bei chinesischen Produktionen entscheidet das Format
-                    gar nichts.** Dort ist jeder Teil eine ONA — Serie, Specials
-                    und Chibi-Kurzfilme gleichermaßen. Bei „Lord of Mysteries"
-                    standen deshalb alle vier Teile unter „Hauptserie" (Daniel,
-                    12.09.2026: „they are specials and categorized as
-                    hauptserie").
-
-                    AniList sagt es trotzdem: Ein Special nennt die Serie, zu
-                    der es gehört (`PARENT`), eine Staffel tut das nicht. Der
-                    Bau reicht das als `beiwerk` durch.
-                  */
-                  const hauptIds = new Set(hauptstaffeln(reihenTeile).map((m) => m.id))
-                  const istHauptstaffel = (m: FranchiseMember) => hauptIds.has(m.id)
-                  /*
-                    **Was noch nicht da ist, gehört trotzdem zu seiner Art.**
-
-                    Bis zum 04.09.2026 gab es dafür eine vierte Gruppe, „NOCH
-                    NICHT ERSCHIENEN", ganz unten. Bei „Black Clover" stand
-                    Staffel 2 damit **unter** zwei Specials und einem Film —
-                    Daniel sah sie erst nach dem Scrollen und hielt sie für
-                    fehlend: „ich hab staffel 2 nicht gesehen unter hauptserie
-                    … keine seperate kategorie ,noch nicht erschienen', sondern
-                    direkt dort einsortieren wozu es gehört."
-
-                    Er hat recht, und zwar nicht nur für diesen Fall: Wer eine
-                    Reihe aufschlägt, sucht die nächste Staffel — und die ist
-                    per Definition die, die noch aussteht. Sie ans Ende aller
-                    Kategorien zu schieben versteckt genau das, wonach gesucht
-                    wird.
-
-                    Innerhalb einer Kategorie stehen die künftigen Teile hinten,
-                    nach Jahr sortiert. Als **gestrichelt** bleiben sie erkennbar
-                    — das war ohnehin die Zeilenmarkierung, nicht die Überschrift.
-                  */
-                  const nachStandUndJahr = (a: FranchiseMember, b: FranchiseMember) =>
-                    Number(kuenftig(a)) - Number(kuenftig(b)) || nachJahr(a, b)
-                  const gruppen: { titel: string; teile: FranchiseMember[] }[] = [
-                    {
-                      titel: t('detail.gruppeStaffeln'),
-                      teile: reihenTeile.filter(istHauptstaffel).sort(nachStandUndJahr),
-                    },
-                    /* Filme vor Specials (Daniel, 04.09.2026): Ein Film ist ein
-                       eigenständiges Werk der Reihe, ein Special ist Beiwerk. */
-                    {
-                      titel: t('detail.gruppeFilme'),
-                      teile: reihenTeile.filter((m) => m.format === 'MOVIE').sort(nachStandUndJahr),
-                    },
-                    {
-                      titel: t('detail.gruppeSpecials'),
-                      teile: reihenTeile
-                        .filter((m) => !istHauptstaffel(m) && m.format !== 'MOVIE')
-                        .sort(nachStandUndJahr),
-                    },
-                  ].filter((g) => g.teile.length > 0)
-
-                  /*
-                    **Die Staffeln werden gezählt, damit die erste „Staffel 1"
-                    heißt.** Sie trägt im Datensatz meist den bloßen Reihennamen;
-                    nach dem Abzug unten bliebe nichts übrig, und im Panel stand
-                    dann derselbe Text wie in der Überschrift darüber (Daniel:
-                    „1. eintrag dort müsste staffel 1 heißen").
-                  */
-                  /*
-                    **„Staffel 1" nur, wo es eine Staffel 2 gibt.**
-
-                    One Piece ist bei AniList **ein** Eintrag mit über tausend
-                    Folgen — die Arcs sind keine eigenen Werke. In der Liste stand
-                    trotzdem „Staffel 1", und daneben nichts weiter (Daniel,
-                    03.09.2026: „wenn one piece alles meint, dann sollte nicht
-                    staffel 1 stehen, sondern einfach ,One Piece'").
-
-                    Gezählt wird deshalb nur, wo die Nummer etwas unterscheidet:
-                    wenn **mindestens zwei** Hauptstaffeln keinen eigenen Namen
-                    tragen. Hat ein Teil einen — „Log: Fish-Man Island Saga" —,
-                    steht der da, und eine Nummer bräuchte er nicht.
-                  */
-                  /* Seit dem 13.09.2026 zählt `staffelBeschriftungen()` — auch „Teil 2" gehört zu seiner Staffel. */
-                  const staffelLabel = staffelBeschriftungen(reihenTeile.filter(istHauptstaffel), reihenName)
-
-                  const zeile = (m: FranchiseMember, offen: boolean) => {
-                    const gewaehlt = m.id === title.id
-                    const gemerkt = favorites.has(m.id)
-                    /* `offen` heißt hier „noch nicht erschienen" — dort ist eine fehlende Synchro kein Befund. */
-                    const ohneDe = Boolean(m.ohneSynchro) && !offen
-                    /*
-                      **Gezeigt wird der unterscheidende Teil, nicht der ganze
-                      Name.** Der Reihenname steht zwei Zeilen höher; ihn hier
-                      sechsmal zu wiederholen füllt die Breite, die gerade erst
-                      gewonnen wurde. Bleibt nach dem Abzug nichts übrig, steht
-                      der volle Name da — bei der ersten Staffel ist das der
-                      Normalfall.
-                    */
-                    const voll = eindeutschenStaffel(m.name)
-                    let rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
-                      ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()
-                      : voll
-                    /*
-                      **Trägt der Name einen fremden Reihennamen, zählt trotzdem
-                      nur die Staffelangabe.**
-
-                      „Kusuriya no Hitorigoto Staffel 3 Teil 2" beginnt nicht mit
-                      unserem Reihennamen, weil für diesen Teil kein deutscher
-                      Titel existiert — der Abzug oben greift dann nicht, und in
-                      der Liste stand der volle japanische Name (Daniel,
-                      03.09.2026). Einen deutschen Namen können wir nicht
-                      erfinden; die Staffelangabe reicht aber, denn welche Reihe
-                      gemeint ist, steht zwei Zeilen höher.
-                    */
-                    /*
-                      **Und nur bei einer Hauptstaffel.**
-
-                      Unter „Specials & OVAs" stand „Staffel 2" — der Eintrag ist
-                      aber „Maomao no Hitorigoto Staffel 2", die zweite Staffel
-                      einer Mini-Serie, nicht die der Hauptserie (Daniel,
-                      12.09.2026: „solche staffel bezeichnungen dürfen nur bei
-                      hauptserie einzeln so aufgelistet sein … Maomao no
-                      Hitorigoto Staffel 2 müsste da stehen").
-
-                      Die Kürzung lebt davon, dass die Reihe eine Zeile höher
-                      steht — und das trägt nur für die Hauptserie. Beim Beiwerk
-                      gehört der fremde Reihenname dazu: Er ist gerade das, was
-                      den Eintrag von der Hauptserie unterscheidet.
-                    */
-                    const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
-                    if (istHauptstaffel(m) && staffelTeil && rest === voll && rest !== staffelTeil[1]) rest = staffelTeil[1]!
-                    /* Und die erste Staffel heißt „Staffel 1", ein Teil „Staffel 1 - Teil 2". */
-                    const beschriftung = (istHauptstaffel(m) && staffelLabel.get(m.id)) || rest || voll
-                    return (
-                      <button
-                        key={m.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={gewaehlt}
-                        disabled={wechselt}
-                        ref={
-                          gewaehlt
-                            ? (el) => el?.scrollIntoView({ block: 'nearest' })
-                            : undefined
-                        }
-                        onClick={() => !gewaehlt && wechsleZu(m.id)}
-                        className={[
-                          /*
-                            **Eine Zeile je Teil, nicht zwei.**
-
-                            Gemessen am 04.09.2026: 70 px je Zeile, davon 26 px
-                            Luft — das Cover (40×56) gab die Höhe vor, der Text
-                            brauchte 37. Bei 216 px sichtbarer Höhe waren das
-                            drei Teile; eine Reihe mit acht sah nach dreien aus.
-
-                            Titel und Angaben stehen jetzt nebeneinander statt
-                            untereinander, das Cover ist auf 24×36 gekürzt: 44 px
-                            je Zeile, fünf statt drei sichtbar.
-                          */
-                          'flex w-full items-center gap-2 rounded-lg border p-1 text-left transition',
-                          'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
-                          gewaehlt
-                            ? 'border-sky-400 bg-sky-50 ring-1 ring-sky-400/50 dark:bg-sky-400/10'
-                            : offen
-                              ? 'cursor-pointer border-dashed border-slate-300 opacity-80 hover:opacity-100 dark:border-white/20'
-                              : gemerkt
-                                ? 'cursor-pointer border-amber-400/70 hover:border-amber-400 dark:border-amber-400/60'
-                                : 'cursor-pointer border-transparent hover:border-slate-200 dark:hover:border-white/10',
-                        ].join(' ')}
-                      >
-                        <span
-                          className={[
-                            'block h-9 w-6 shrink-0 overflow-hidden rounded bg-slate-200 dark:bg-white/5',
-                            offen ? 'opacity-60' : '',
-                          ].join(' ')}
-                        >
-                          {m.cover && (
-                            <img
-                              {...coverBild(m.cover, 24)}
-                              alt=""
-                              loading="lazy"
-                              className="h-full w-full object-cover"
-                            />
-                          )}
-                        </span>
-                        <span className="flex min-w-0 flex-1 items-baseline gap-2">
-                          {/*
-                            **Ohne deutsche Synchro steht vor dem Namen, nicht dahinter** (Daniel,
-                            23.09.2026: „dieser in der reihe hat keine synchro, das muss sichtbar sein
-                            bevor man ihn anklickt"). „Super Dragon Ball Heroes" sah in der Reihe von
-                            Dragon Ball Super aus wie jeder andere Teil; den Unterschied erfuhr man
-                            erst nach dem Klick.
-
-                            Vier Entwürfe an der echten Liste, Daniels Wahl: Rot mit Fahne und Kreuz,
-                            dazu der gedämpfte Name. Rot heißt auf dieser Seite sonst „Fehler" — hier
-                            heißt es „gibt es nicht auf Deutsch", und genau das ist die Auskunft, um
-                            die es geht.
-
-                            Künftige Teile tragen es nicht: Bei ihnen steht „ab <Datum>", und eine
-                            fehlende Synchro ist dort kein Befund, sondern der Normalzustand.
-                          */}
-                          {ohneDe && (
-                            <span
-                              title={t('detail.reiheOhneSynchro')}
-                              className="shrink-0 rounded border border-rose-400/50 bg-rose-500/15 px-1.5 py-px text-[9px] font-extrabold leading-tight tracking-wider text-rose-600 dark:text-rose-400"
-                            >
-                              🇩🇪 ✕
-                            </span>
-                          )}
-                          <span
-                            className={[
-                              'min-w-0 truncate text-sm leading-tight',
-                              ohneDe ? 'opacity-75' : '',
-                              gewaehlt
-                                ? 'font-medium text-sky-700 dark:text-sky-300'
-                                : 'text-slate-700 dark:text-slate-200',
-                            ].join(' ')}
-                          >
-                            {beschriftung}
-                          </span>
-                          {/* Rechts, damit der Titel den ganzen übrigen Platz bekommt —
-                              „2026 · 12 Fg." ist immer kurz, ein Titel selten. */}
-                          <span className="ml-auto shrink-0 text-[11px] text-slate-500 dark:text-slate-400">
-                            {[
-                              m.format && m.format !== 'TV' ? (FORMAT_DE[m.format] ?? m.format) : '',
-                              /*
-                                **Der Termin schlägt das Jahr — wo es einen gibt.**
-
-                                Bei „Lord of Mysteries" stand hinter drei von vier
-                                Teilen nur das Format: kein Jahr, kein Datum
-                                (Daniel, 12.09.2026: „why important info like
-                                release dates or estimated release dates are
-                                missing"). AniList kennt für die Specials den
-                                19.06.2026; seit dem 12.09.2026 holt der
-                                Katalogabruf `startDate` mit.
-
-                                Angezeigt wird so genau, wie die Quelle ist:
-                                „2026", „06.2026" oder „19.06.2026".
-                              */
-                              (() => {
-                                /*
-                                  **Was noch aussteht, sagt es mit einem Wort.**
-                                  Eine gestrichelte Linie allein hat Daniel am
-                                  12.09.2026 nicht genügt; „ab 2027" beantwortet
-                                  die Frage, ohne eine Zeile zu kosten.
-                                */
-                                /*
-                                  **Hier steht der deutsche Termin oder gar
-                                  keiner.**
-
-                                  Bis zum 12.09.2026 stand die japanische
-                                  Ausstrahlung da — erst nackt, dann als
-                                  „JP 02.10.2026", weil der Kasten darüber den
-                                  deutschen 01.10. nannte und niemand den
-                                  Unterschied sah. Daniels Antwort auf die
-                                  Kennzeichnung: „jp release dates sind fast
-                                  komplett irrelevant … dürfen aber nie
-                                  prominent präsentiert werden … falls
-                                  unbekannt, lieber kein datum dort."
-
-                                  Das ist dieselbe Trennlinie wie überall in
-                                  diesem Projekt: Die Seite beantwortet eine
-                                  deutsche Frage. Ein japanisches Datum an
-                                  dieser Stelle sieht aus wie eine Antwort
-                                  darauf und ist keine.
-
-                                  `jpStart` bleibt im Datensatz — die Reihe
-                                  wird danach sortiert.
-                                */
-                                /*
-                                  **In der Reihenliste steht das japanische Erscheinungsjahr**
-                                  (Daniel, 23.09.2026: „da sollte jp release year stehen vom
-                                  anime, also 1989"). Die Liste ordnet die Teile einer Reihe
-                                  zeitlich ein — dafür ist das Jahr des Anime die stabile Angabe.
-                                  Vorher stand hier der deutsche Termin, und bei Dragon Ball Z war
-                                  das der Disc-Kauftermin 20.11.2026 zwischen „1986" und „1996".
-
-                                  Ein kommender Teil behält sein „ab", denn dort ist der deutsche
-                                  Termin die Auskunft, auf die jemand wartet.
-                                */
-                                if (offen && m.deStart) {
-                                  const [jahr, monat, tag] = m.deStart.split('-')
-                                  if (tag) return `ab ${tag}.${monat}.${jahr}`
-                                  if (monat) return `ab ${monat}.${jahr}`
-                                  return `ab ${jahr}`
-                                }
-                                return m.jpYear ? String(m.jpYear) : m.deStart ? m.deStart.slice(0, 4) : ''
-                              })(),
-                              m.episodes ? t('detail.folgenKurz', { n: m.episodes }) : '',
-                            ]
-                              .filter(Boolean)
-                              .join(' · ')}
-                          </span>
-                        </span>
-                        {gemerkt && (
-                          <span className="shrink-0 text-sm text-amber-400" aria-label={t('card.unfavourite')}>
-                            ★
-                          </span>
-                        )}
-                      </button>
-                    )
-                  }
-
-                  /* Teile ohne deutsche Synchro sind eingeklappt — angekündigte und der gewählte Teil bleiben sichtbar. */
-                  const ohneOffen = reiheOhneOffen === reihenSchluessel
-                  const eingeklappt = (m: FranchiseMember) => Boolean(m.ohneSynchro) && !kuenftig(m) && m.id !== title.id
-                  const sichtbar = (m: FranchiseMember) => ohneOffen || !eingeklappt(m)
-                  const lang = reihenTeile.length >= 15
-                  const suchText = reiheSuche.reihe === reihenSchluessel ? reiheSuche.text.trim() : ''
-                  const suchKern = (x: string) => x.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
-                  const passtSuche = (m: FranchiseMember) =>
-                    !suchText || suchKern(`${m.name} ${m.jpYear ?? ''}`).includes(suchKern(suchText))
-                  const gefiltert = gruppen
-                    .map((g) => ({ ...g, teile: g.teile.filter((m) => passtSuche(m) && (suchText ? true : sichtbar(m))) }))
-                    .filter((g) => g.teile.length > 0)
-                  /* Reiter nur bei langen Reihen ohne laufende Suche; vorausgewählt ist die Gruppe des geöffneten Titels. */
-                  const mitReitern = lang && !suchText && gefiltert.length > 1
-                  const eigeneGruppe = gefiltert.find((g) => g.teile.some((m) => m.id === title.id))?.titel
-                  const aktiverReiter =
-                    reiheReiter?.reihe === reihenSchluessel && gefiltert.some((g) => g.titel === reiheReiter.titel)
-                      ? reiheReiter.titel
-                      : (eigeneGruppe ?? gefiltert[0]?.titel)
-                  const angezeigt = mitReitern ? gefiltert.filter((g) => g.titel === aktiverReiter) : gefiltert
-                  /*
-                    **Die Zahl am Schalter gilt dem Reiter, nicht der Reihe** (Daniel, 22.09.2026:
-                    „auf hauptserie reiter gibt es keine ohne synchro, also soll toggle auch nicht
-                    angezeigt werden dort … die zahl der anzahl der ohne synchro unter diesem reiter
-                    entsprechen"). Gezählt wird in der ungefilterten Gruppe — die Filterung blendet
-                    genau diese Teile ja aus.
-                  */
-                  const zahlOhne = (
-                    mitReitern ? (gruppen.find((g) => g.titel === aktiverReiter)?.teile ?? []) : reihenTeile
-                  ).filter(eingeklappt).length
-                  /*
-                    **Ein Schalter in der Leiste statt einer Zeile unter der Liste** (Daniel,
-                    19.09.2026: „ohne deutsche synchro ausblenden zeile entfernen und stattdessen
-                    toggle oben in die leiste … default toggle state auf ausgeblendet").
-                  */
-                  const ohneSchalter =
-                    zahlOhne > 0 && !suchText ? (
-                      <label className="ml-auto inline-flex shrink-0 cursor-pointer items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
-                        <input
-                          type="checkbox"
-                          className="sr-only"
-                          checked={!ohneOffen}
-                          onChange={() => setReiheOhneOffen(ohneOffen ? null : reihenSchluessel)}
-                        />
-                        <span
-                          aria-hidden="true"
-                          className={[
-                            'relative h-3.5 w-6 rounded-full transition',
-                            ohneOffen ? 'bg-slate-300 dark:bg-white/20' : 'bg-sky-500',
-                          ].join(' ')}
-                        >
-                          <span
-                            className={[
-                              'absolute top-0.5 size-2.5 rounded-full bg-white shadow transition-all',
-                              ohneOffen ? 'left-0.5' : 'left-3',
-                            ].join(' ')}
-                          />
-                        </span>
-                        {t('detail.reiheOhneSchalter', { n: zahlOhne })}
-                      </label>
-                    ) : null
-
-                  return (
-                    <div className="flex flex-col gap-0.5">
-                      {lang && (
-                        <div className="sticky -top-2 z-10 -mx-2 -mt-2 mb-1 flex flex-col gap-1.5 bg-white/95 px-2 pb-1.5 pt-2 backdrop-blur dark:bg-slate-900/95">
-                          <input
-                            type="search"
-                            value={suchText ? reiheSuche.text : ''}
-                            onChange={(e) => setReiheSuche({ reihe: reihenSchluessel, text: e.target.value })}
-                            placeholder={t('detail.reiheSuche')}
-                            aria-label={t('detail.reiheSuche')}
-                            className="w-full rounded-lg border border-slate-200 bg-transparent px-2.5 py-1 text-xs outline-none focus:border-sky-400 dark:border-white/10"
-                          />
-                          {(mitReitern || ohneSchalter) && (
-                            <div className="flex flex-wrap items-center gap-1">
-                          {mitReitern && (
-                            <div role="tablist" className="flex flex-wrap gap-1">
-                              {gefiltert.map((g) => (
-                                <button
-                                  key={g.titel}
-                                  type="button"
-                                  role="tab"
-                                  aria-selected={g.titel === aktiverReiter}
-                                  onClick={() => setReiheReiter({ reihe: reihenSchluessel, titel: g.titel })}
-                                  className={[
-                                    'cursor-pointer rounded-full px-2.5 py-0.5 text-[11px] transition',
-                                    g.titel === aktiverReiter
-                                      ? 'bg-sky-500/20 font-medium text-sky-700 dark:text-sky-200'
-                                      : 'text-slate-500 hover:bg-slate-200/70 dark:text-slate-400 dark:hover:bg-white/10',
-                                  ].join(' ')}
-                                >
-                                  {g.titel} <span className="tabular-nums opacity-70">{g.teile.length}</span>
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                          {ohneSchalter}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                      {!lang && ohneSchalter && <div className="mb-1 flex">{ohneSchalter}</div>}
-                      {!angezeigt.length && (
-                        <span className="px-1 py-2 text-xs text-slate-500 dark:text-slate-400">{t('detail.reiheKeinTreffer')}</span>
-                      )}
-                      <div role="tablist" aria-label={t('detail.seriesParts')} className="flex flex-col gap-0.5">
-                      {angezeigt.map((g, i) => (
-                        <Fragment key={g.titel}>
-                          {/*
-                            Die Überschrift der ersten Gruppe steht ohne Linie
-                            darüber — dort trennt sie nichts, sie benennt nur.
-                          */}
-                          {!mitReitern && <div
-                            className={[
-                              'flex items-center gap-2',
-                              i === 0 ? 'mb-0.5' : 'my-1.5',
-                            ].join(' ')}
-                          >
-                            {i > 0 && <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />}
-                            <span className="text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500">
-                              {g.titel}
-                            </span>
-                            <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-                          </div>}
-                          {g.teile.map((m) => zeile(m, kuenftig(m)))}
-                        </Fragment>
-                      ))}
-                      </div>
-                    </div>
-                  )
-                })()}
-              </div>
-              {/*
-                **Die Marke steht unter einer eigenen Linie, nicht im Bild.**
-
-                Erst hing sie im Scrollbereich und der letzte Eintrag lag halb in
-                ihrem Text; ein Verlauf half nur halb. Daniel: „border bottom
-                zwischen scrollbereich und ,x teile...' hinzufügen. und x teile
-                gleicher abstand zur border und border darunter … hab einfach
-                line-height:1 gemacht auf den text, dann hat abstand zu den 2
-                bordern gepasst."
-
-                `leading-none` nimmt der Zeile ihre eigene Höhe — dann sind die
-                4 px Polster oben und unten wirklich gleich, statt durch die
-                Zeilenhöhe verschoben.
-              */}
-              <div className="border-t border-slate-200 px-3 py-1 text-[10px] uppercase leading-none tracking-wide text-slate-400 dark:border-white/10 dark:text-slate-500">
-                {t('detail.seriesPartsCount', { count: reihenTeile.length })}
-              </div>
-              </div>
-              {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
-            </div>
-          )}
+          <ReihenListe
+            reihenTeile={reihenTeile}
+            t={t}
+            reihenName={reihenName}
+            title={title}
+            favorites={favorites}
+            wechselt={wechselt}
+            wechsleZu={wechsleZu}
+            reiheOhneOffen={reiheOhneOffen}
+            reihenSchluessel={reihenSchluessel}
+            reiheSuche={reiheSuche}
+            reiheReiter={reiheReiter}
+            setReiheOhneOffen={setReiheOhneOffen}
+            setReiheSuche={setReiheSuche}
+            setReiheReiter={setReiheReiter}
+          />
 
           {/*
             **Der Terminblock steht nur, wenn es noch etwas zu terminieren gibt.**
@@ -2580,55 +1404,7 @@ export function DetailPanel({
             Frage „wann kann ich es sehen", dieser Block die Frage „was steht
             noch an".
           */}
-          {releases.length > 0 ? (
-            /*
-              **Die Termine stehen in den Pillen — hier steht nichts mehr.**
-
-              Bis zum 04.09.2026 folgte an dieser Stelle ein Abschnitt je
-              Release: Start, Folgenzahl, letzte Folge, Herkunftskasten, Quelle
-              und zwei Kalender-Knöpfe. Bei „Apothekerin" Staffel 1 waren das
-              zwei solche Blöcke für eine Serie, die seit April 2024 durch ist
-              — und der Kasten oben sagte dasselbe in einer Zeile.
-
-              Daniel am 04.09.2026, in drei Schritten: erst „der bereich gehört
-              weg, aber der link zum disc gehört in disc bereich", dann „eig
-              gehört der bereich immer weg, unabhängig ob in zukunft oder nicht.
-              die titel gehören mit releasedate info in disc/stream bereich",
-              schließlich „in die pill muss auch der calendar icon + eintrag".
-
-              **Was bleibt, sind die Meldungen** — Zusatzangaben, die zu keinem
-              einzelnen Termin gehören und in keine Pille passen.
-            */
-            <Meldungen titleId={title.id} />
-          ) : (
-            /*
-              Dieselbe Form wie ein echter Termin, nur mit „unbekannt".
-
-              Vorher stand hier ein Kasten mit zwei Sätzen: „Die deutsche
-              Fassung ist erschienen. Ein genaues Datum führen wir dazu nicht —
-              die Verweise unten führen hin." Das war viel Text für eine
-              einzige Auskunft, und es sah anders aus als jeder andere Titel.
-              „Im Angebot seit: unbekannt" sagt dasselbe in einer Zeile und an
-              derselben Stelle wie sonst auch (Daniel, 12.08.2026).
-            */
-            /*
-              **Hier stand der Bereich „Release-Termine für deutsche Synchro".**
-
-              Er ist am 16.09.2026 ersatzlos entfallen (Daniel, mit Bild: „das
-              sollte doch alles hochgewandert sein in die obere box, und dann gibt
-              es keinen verwendungszweck mehr für die untere"). Wohin seine drei
-              Angaben gegangen sind:
-
-              | Angabe | wohin |
-              |---|---|
-              | Status-Plakette („Erschienen") | der Kasten oben sagt es in Worten |
-              | FSK („16") | steht als Marke am Cover, 493 der 943 Titel hatten sie zweimal |
-              | „Im Angebot seit 25.07.2024 (Netflix)" | als Zeile in den Kasten, 267 Titel |
-              | „Erscheinungstermin: unbekannt" | gestrichen — eine Nicht-Auskunft |
-              | „Keine deutsche Synchro bekannt" samt Merken-Hinweis | der Satz stand doppelt, der Hinweis ist im Kasten |
-            */
-            null
-          )}
+          <TermineAbschnitt releases={releases} title={title} />
 
           {/*
             Hier stand „Alles aus dieser Reihe" — dieselben Einträge, die zwei
@@ -2636,65 +1412,7 @@ export function DetailPanel({
             identischem Inhalt sind keine doppelte Auskunft, sondern doppelte
             Länge (Daniel, 12.08.2026).
           */}
-          {plot && (
-            <div>
-              <SectionTitle>{t('detail.plot')}</SectionTitle>
-              {/*
-                **Der Hinweis steht über dem Text, nicht darunter.**
-
-                Er ändert, wie der Absatz zu lesen ist — wer ihn erst am Ende
-                findet, hat die Handlung schon dem falschen Titel zugeschrieben.
-              */}
-              {plot.vonTeil && (
-                <p className="mb-1 text-[11px] text-amber-600 dark:text-amber-400/90">
-                  {t('detail.plotVonTeil', { teil: plot.vonTeil.name })}
-                </p>
-              )}
-              {/*
-                Zuerst zwei Sätze, den Rest auf Wunsch.
-
-                Eine Inhaltsangabe von tausend Zeichen schob alles darunter aus
-                dem Bild — die deutschen Stimmen, die Keywords, die
-                Quellenangabe. Wer die Handlung lesen will, klickt; wer sie nur
-                einordnen will, sieht den Anfang und bleibt im Überblick
-                (Daniel, 12.08.2026).
-              */}
-              <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                {plotOffen || plot.text.length <= PLOT_PREVIEW
-                  ? plot.text
-                  : `${plot.text.slice(0, PLOT_PREVIEW).trimEnd()} …`}
-              </p>
-              {plot.text.length > PLOT_PREVIEW && (
-                <button
-                  type="button"
-                  onClick={() => setPlotOffen((v) => !v)}
-                  aria-expanded={plotOffen}
-                  className="mt-1 cursor-pointer text-xs text-sky-700 dark:text-sky-300 hover:underline"
-                >
-                  {t(plotOffen ? 'detail.plotLess' : 'detail.plotMore')}
-                </button>
-              )}
-              {plot.fallback && (
-                <p className="mt-1.5 text-[11px] text-slate-400">{t('detail.plotOnlyEnglish')}</p>
-              )}
-              {/*
-                **Die Quelle steht unten, gesammelt — nicht unter jedem Absatz.**
-
-                Hier stand „Quelle: anisearch.de", und dieselbe Zeile stand
-                unter jedem Terminblock. Seit die Termine in den Pillen sind,
-                blieb sie hier als einzige übrig — eine Fußnote unter einem
-                Absatz, während zwei Handbreit tiefer der Bereich „Woher diese
-                Angaben stammen" alle Quellen zusammen führt, aniSearch
-                eingeschlossen (Daniel, 04.09.2026: „alle stellen wo quelle
-                steht entfernen, sie sind nur noch im quellen bereich zu finden,
-                gebündelt").
-
-                Nichts geht verloren: Die Quellenübersicht führt aniSearch mit
-                „Titel und Beschreibung, wo vorhanden auf Deutsch" — samt Link
-                auf die Werkseite.
-              */}
-            </div>
-          )}
+          <HandlungAbschnitt plot={plot} t={t} plotOffen={plotOffen} setPlotOffen={setPlotOffen} />
 
           {/*
             Die Angaben zum Werk selbst — Genres, Bewertung, Studio.
@@ -2710,48 +1428,15 @@ export function DetailPanel({
             seltener geöffnet als drei sichtbare Zeilen. Weggeklappt sind nur
             die übrigen Genres.
           */}
-          {(title.genres.length > 0 || title.score !== undefined || title.studios?.[0]) && (
-            <div>
-              <SectionTitle>{t('detail.werkangaben')}</SectionTitle>
-              {title.genres.length > 0 && (
-                <div className="flex flex-wrap gap-1.5">
-                  {(genresOffen ? title.genres : title.genres.slice(0, 3)).map((g) => (
-                    <Chip key={g} onClick={() => onFilterBy('genre', g)}>
-                      {tGenre(g)}
-                    </Chip>
-                  ))}
-                  {!genresOffen && title.genres.length > 3 && (
-                    <button
-                      type="button"
-                      onClick={() => setGenresOffen(true)}
-                      className="cursor-pointer rounded-full border border-slate-200 px-2 py-0.5 text-[11px] text-slate-500 transition hover:border-slate-400 dark:border-white/10 dark:text-slate-400"
-                    >
-                      +{title.genres.length - 3}
-                    </button>
-                  )}
-                </div>
-              )}
-              <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-xs">
-                {/*
-                  **Die Bewertung steht oben, nicht hier.**
-
-                  Beide Stellen zeigten „★ 8.8 AniList" — einmal als Pille neben
-                  dem Staffelnamen, einmal als Zeile hier. Gemessen am
-                  03.09.2026: dieselbe Zahl zweimal auf einem Bildschirm, und
-                  oben ist sie sichtbarer und trägt ihren Tooltip mit der
-                  Herkunft. Die Zeile hier war die Wiederholung.
-                */}
-                {!faktenImKasten && title.studios?.[0] && (
-                  <>
-                    <dt className="text-slate-400 dark:text-slate-500">{t('detail.studio')}</dt>
-                    <dd className="text-slate-600 dark:text-slate-300">{title.studios.join(', ')}</dd>
-                  </>
-                )}
-                {/* Die Altersfreigabe stand hier bis zum 04.09.2026 ein zweites
-                    Mal — sie ist jetzt ausschließlich eine Marke am Cover. */}
-              </dl>
-            </div>
-          )}
+          <EckdatenAbschnitt
+            title={title}
+            t={t}
+            genresOffen={genresOffen}
+            onFilterBy={onFilterBy}
+            tGenre={tGenre}
+            setGenresOffen={setGenresOffen}
+            faktenImKasten={faktenImKasten}
+          />
 
           {title.hasVoices && <VoiceCast titleId={title.id} />}
 
