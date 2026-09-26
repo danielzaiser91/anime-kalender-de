@@ -460,6 +460,16 @@ for (const { pfad, suche, stand, leer } of PFADE) {
     console.log('  ⚠ Auf der leeren Suche fehlt „Nicht bei Prime — melden“.')
     fehlgeschlagen = true
   }
+  /*
+    Auf einer Prime-Video-Seite ohne Titel (Startseite, Serien, Filme) gehört die Prüfliste
+    in den Kasten. Bis 4.23.3 entstand er dort nie — die Seite wartete auf eine Kennung, und
+    der Knopf hatte keinen Platz (Daniel, 26.09.2026, mit Bild der Startseite). Die Prüfung
+    zeigte „Kasten: FEHLT“ und blieb grün.
+  */
+  if (pfad.startsWith('/gp/video/') && !kasten) {
+    console.log('  ⚠ Auf der Prime-Video-Seite fehlt der Kasten — die Prüfliste ist nicht erreichbar.')
+    fehlgeschlagen = true
+  }
   if (pfad === '/s' && (!kasten || zeilen === 0)) {
     console.log('  ⚠ Auf der Suchseite bleibt der Kasten leer — der Ablauf steigt vor dem Befund aus.')
     fehlgeschlagen = true

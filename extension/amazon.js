@@ -6417,6 +6417,15 @@ async function speicherSchreiben(werte) {
           19.09.2026: „wo ist der button für die liste?“).
         */
         try {
+          /*
+            **Und auf einer Prime-Video-Seite ohne Titel entsteht der Kasten hier.** Startseite,
+            Serien, Filme tragen keine Kennung, und der Takt, der ihn sonst baut, läuft erst mit
+            einer. Die Prüfliste war dort unerreichbar (Daniel, 26.09.2026, Bild der Startseite).
+          */
+          if (imPlayer()) document.querySelector('.ak-amazon-suchhinweis.ak-nur-huelle')?.remove()
+          else if (!document.querySelector('.ak-amazon-suchhinweis') && seiteGehtUnsAn()) {
+            kastenSkelett().classList.add('ak-nur-huelle')
+          }
           const mitte = document.querySelector('.ak-amazon-suchhinweis .ak-such-fuss-mitte')
           if (mitte && !imPlayer() && uebersichtKnopf.parentElement !== mitte) {
             uebersichtKnopf.classList.add('ak-uebersicht-innen')

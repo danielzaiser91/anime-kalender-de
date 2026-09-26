@@ -1969,3 +1969,18 @@ blieb deshalb bis zu einer Minute offen, und der Durchgang endete mit „Durchga
 `primeFrameErgebnis()` jede erfolgreiche Seite in `frischGemeldet` ein. **Merksatz:** Wer eine
 Invalidierung durch eine Frist ersetzt, muss jeden Schreiber an die Überbrückung hängen, nicht nur
 den, der gerade vor Augen ist.
+
+## Prime-Seiten ohne Titel bekommen ihren Kasten in der Warteschleife (26.09.2026, 4.23.4)
+
+Auf der Prime-Startseite (`/gp/video/storefront`) war keine Erweiterung zu sehen. Der
+Diagnosebericht (über die Konsole, `document.dispatchEvent(new CustomEvent('ak-report'))`) zeigte
+`imPlayer: false`, `seiteGehtUnsAn: true` — und „Cannot access 'knopf' before initialization":
+Das Skript wartet auf Seiten ohne Kennung in `if (!id) { … await … }` auf einen Titel, und der
+Takt, der den Kasten baut, läuft erst danach. Die Warteschleife hängte den Prüflisten-Knopf nur in
+einen **vorhandenen** Kasten — den es nur auf Suchseiten gab. Jetzt baut sie ihn selbst
+(`ak-nur-huelle`), sobald `seiteGehtUnsAn()` gilt und kein Player läuft.
+
+`tools/amazon-startseite-pruefen.cjs` fuhr die Startseite seit Wochen mit und schrieb
+„Kasten: FEHLT", ohne rot zu werden — eine Ausgabe ohne Riegel. Der Riegel steht jetzt für jede
+`/gp/video/`-Adresse. Der Bericht trägt seitdem auch `sichtbarkeit` (Player-Container, Videos mit
+Stummschaltung und Höhe), damit die nächste unsichtbare Erweiterung nicht geraten werden muss.
