@@ -124,13 +124,6 @@ html:not(.dark) {
   --buehne-links: rgba(255, 255, 255, 0.6);
   --buehne-links-mitte: rgba(255, 255, 255, 0.2);
   --buehne-links-aus: rgba(255, 255, 255, 0);
-  /*
-    Nebentext im hellen Thema (18.09.2026, axe-core): slate-500 (#62748e) lag auf unseren
-    hellen Flächen bei 4,12–4,44 statt 4,5. #5b6b84 erreicht auf allen gemessenen Gründen
-    mindestens 4,69 und ist kaum dunkler; slate-600 (7:1) hätte Haupt- und Nebentext
-    angeglichen. Nur hell — im dunklen Thema würde ein dunkleres Grau schlechter.
-  */
-  --color-slate-500: #5b6b84;
 }
 
 /* Dezente Scrollbars, damit die Wochenspalten nicht ausfransen. */
@@ -268,4 +261,47 @@ html.dark select option {
   .ak-breit-cover {
     padding-top: calc((100% - 0.875rem) * 0.75);
   }
+}
+
+/*
+  **Die älteren Ansichten sprechen dieselbe Farbsprache wie der Kalender** (26.09.2026). Datenbank,
+  Detail-Panel, News und die festen Seiten färben über Tailwinds `slate` und `sky` — rund tausend
+  Stellen. Statt jede umzuschreiben, sind die beiden Paletten hier umbelegt: `slate` wird das warme
+  Neutral der Poster-Gestaltung, `sky` (Links, aktive Zustände) ihr Akzent. Die Grautöne für Text
+  sind je Thema so gewählt, dass sie auf den Flächen 4,5:1 halten (axe, 26.09.2026) — im hellen
+  Thema dunkler, im dunklen heller. Eine neue Farbe gehört trotzdem als `ak-*` in den Code.
+*/
+:root {
+  --color-slate-50: #f7f6f3;
+  --color-slate-100: #efede8;
+  --color-slate-200: #e2dfd8;
+  --color-slate-300: #cfccc4;
+  --color-slate-600: #4a4f58;
+  --color-slate-700: #363a42;
+  --color-slate-800: #1f232b;
+  --color-slate-900: #151922;
+  --color-slate-950: #0d0f14;
+  --color-sky-50: #fff3ef;
+  --color-sky-100: #ffe3da;
+  --color-sky-200: #ffc6b5;
+  --color-sky-300: #ff9e85;
+  --color-sky-400: #ff7a5c;
+  --color-sky-500: #ff5a36;
+  --color-sky-600: #c23a1b;
+  --color-sky-700: #a8301a;
+  --color-sky-800: #8f2714;
+  --color-sky-900: #6b1e10;
+  --color-sky-950: #3d1109;
+}
+html:not(.dark) {
+  --color-slate-400: #6a6f79;
+  --color-slate-500: #555b66;
+  --color-emerald-600: #047857;
+  --color-emerald-700: #00664a;
+  --color-rose-700: #a8002c;
+}
+html.dark {
+  --color-slate-400: #9aa0ab;
+  --color-slate-500: #8a909b;
+  --panel-grund: #0d0f14;
 }

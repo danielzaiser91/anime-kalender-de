@@ -335,7 +335,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                 filter === a ? 'ring-2 ring-slate-400 dark:ring-slate-500' : 'hover:brightness-95'
               } ${FARBE[a]}`}
             >
-              {t(`news.art.${a}`)} <span className="tabular-nums opacity-70">{jeArt.get(a)}</span>
+              {t(`news.art.${a}`)} <span className="tabular-nums">{jeArt.get(a)}</span>
             </button>
           ))}
         </div>
@@ -346,7 +346,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
       {tage.map(([tag, liste]) => (
         <div key={tag} className="mb-4">
           <h3 className="sticky top-0 z-10 bg-slate-50/90 py-1 text-xs font-semibold uppercase tracking-wide text-slate-500 backdrop-blur dark:bg-slate-950/90 dark:text-slate-400">
-            {tagName(tag)} <span className="font-normal normal-case opacity-60">· {liste.length}</span>
+            {tagName(tag)} <span className="font-normal normal-case">· {liste.length}</span>
           </h3>
           {/*
             **Drei Zeilen je Eintrag, zwei Einträge nebeneinander** (Daniel,
@@ -409,7 +409,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                         <span className="truncate text-xs text-slate-500 dark:text-slate-400">
                           {kurz(erste)}
                           {e.meldungen.length > 1 && (
-                            <span className="opacity-70"> · {t('news.weitere', { n: e.meldungen.length - 1 })}</span>
+                            <span> · {t('news.weitere', { n: e.meldungen.length - 1 })}</span>
                           )}
                         </span>
                       )}
@@ -418,14 +418,14 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                         {arten.map(([a, n]) => (
                           <span key={a} className={`shrink-0 rounded px-1.5 py-px text-[11px] ${FARBE[a]}`}>
                             {t(`news.art.${a}`)}
-                            {n > 1 && <span className="ml-1 tabular-nums opacity-70">{n}</span>}
+                            {n > 1 && <span className="ml-1 tabular-nums">{n}</span>}
                           </span>
                         ))}
                         {erste.teil && erste.teil !== e.titel && (
                           <span className="min-w-0 truncate text-xs text-slate-500 dark:text-slate-400">
                             {kurz(erste)}
                             {e.meldungen.length > 1 && (
-                              <span className="opacity-70"> · {t('news.weitere', { n: e.meldungen.length - 1 })}</span>
+                              <span> · {t('news.weitere', { n: e.meldungen.length - 1 })}</span>
                             )}
                           </span>
                         )}

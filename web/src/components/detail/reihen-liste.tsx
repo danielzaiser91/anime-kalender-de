@@ -537,7 +537,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                                   : 'text-slate-500 hover:bg-slate-200/70 dark:text-slate-400 dark:hover:bg-white/10',
                               ].join(' ')}
                             >
-                              {g.titel} <span className="tabular-nums opacity-70">{g.teile.length}</span>
+                              {g.titel} <span className="tabular-nums">{g.teile.length}</span>
                             </button>
                           ))}
                         </div>

@@ -351,7 +351,7 @@ export function DatabaseView({
           className="mx-auto cursor-pointer rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-200/60 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/10"
         >
           {t('db.more', { count: Math.min(PAGE_SIZE * 2, groups.length - visible) })}
-          <span className="ml-2 text-xs opacity-60">{t('db.remaining', { count: groups.length - visible })}</span>
+          <span className="ml-2 text-xs text-slate-500 dark:text-slate-400">{t('db.remaining', { count: groups.length - visible })}</span>
         </button>
       )}
     </div>
