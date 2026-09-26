@@ -5,6 +5,14 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 26.09.2026, 09:45 — durchgesehen, nichts offen
+
+**Was läuft korrekt.** Wachläufe 21.–25.09.2026 alle „unauffällig“; zuletzt 2.776 Titel, 2.154 Urteile, 5 offen (+64 Urteile seit dem 20.09.). Die letzten 25 Läufe grün, keine offenen PRs. aniSearch liefert wieder (zuletzt ok 25.09.), seit die Kennung Browser-Signatur und Projektname trägt.
+
+**Wo Verbesserungspotenzial ist.** Der Briefkasten hält 37 Meldungen (Prime 24, Netflix 13), 24 davon noch nicht gelistet — Nachzügler unter der 60er-Schwelle, kein Verlust.
+
+---
+
 ## 20.09.2026, 21:25 — durchgesehen, nichts offen
 
 **Was läuft korrekt.** Wachlauf vom 20.09.2026, 14:23, „unauffällig": 2.775 Titel, 2.090 Urteile, **4 offen**; über 24 Stunden +3 Titel und +25 Urteile. Briefkasten leer, Statusanzeige ohne roten Lauf, die Liste der ungeklärten Meldungen steht bei zwei Adressen.
