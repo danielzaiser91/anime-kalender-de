@@ -10,13 +10,14 @@ einmal täglich im Netz (Anbieter-News, Social Media, Anime2You) und schreibt `r
 `rechercheQuelle`, `rechercheAm` und — nur mit Quelle, die den Tag nennt — `neuErwartet`.
 Nach zwei Wochen wöchentlich, nach zwei Monaten nicht mehr. Von Hand eintragen geht weiterhin.
 
-Stand: 2026-09-26 13:14 · 6 offen, 3 nachgeholt
+Stand: 2026-09-26 17:18 · 7 offen, 3 nachgeholt
 
 | Titel | Folge | erwartet | beim Anbieter | Kalender gelesen | Anime2You | Recherche | fällig |
 |---|---|---|---|---|---|---|---|
-| You and I Are Polar Opposites – Staffel 2 | 8 | 2026-09-13 08:30 | 12 Folgen | 2026-09-26 13:14 | keine Meldung | nichts gefunden (2026-09-25) | ja |
-| Re:ZERO -Starting Life in Another World- Staffel 4 | 14 | 2026-09-16 14:00 | 25 Folgen | 2026-09-26 13:14 | keine Meldung | Crunchyroll hat die deutsche Synchronfassung des zweiten Teils (Rückeroberungs-Arc) von Re:ZERO Staffel 4 verspätet gestartet: Während die Serie seit dem 12. August 2026 mit Untertiteln lief, folgen die deutschen Stimmen erst seit dem 9. September 2026 im wöchentlichen Rhythmus. ([Quelle](https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/)) | ja |
-| Hana-Kimi – Staffel 2 | 10 | 2026-09-16 16:00 | 12 Folgen | 2026-09-26 13:14 | keine Meldung | nichts gefunden (2026-09-25) | ja |
-| You and I Are Polar Opposites – Staffel 2 | 9 | 2026-09-20 08:30 | 12 Folgen | 2026-09-26 13:14 | keine Meldung | Die japanische Ausstrahlung und der Crunchyroll-Simulcast von Staffel 2 legten eine einwöchige Pause ein: Die als nächstes fällige Folge (Episode 12 der Originalzählung) wurde vom 20. auf den 27. September 2026 verschoben. ([Quelle](https://www.anime2you.de/news/1049815/you-and-i-are-polar-opposites-staffel-2-episode-12-verschoben/)) | ja |
-| Re:ZERO -Starting Life in Another World- Staffel 4 | 15 | 2026-09-23 14:00 | 25 Folgen | 2026-09-26 13:14 | keine Meldung | nichts gefunden (2026-09-25) | ja |
-| Hana-Kimi – Staffel 2 | 11 | 2026-09-23 16:00 | 12 Folgen | 2026-09-26 13:14 | keine Meldung | nichts gefunden (2026-09-25) | ja |
+| You and I Are Polar Opposites – Staffel 2 | 8 | 2026-09-13 08:30 | 12 Folgen | 2026-09-26 17:17 | keine Meldung | nichts gefunden (2026-09-26) | nein |
+| Re:ZERO -Starting Life in Another World- Staffel 4 | 14 | 2026-09-16 14:00 | 25 Folgen | 2026-09-26 17:17 | keine Meldung | Crunchyroll hat die deutsche Synchronfassung des zweiten Teils (Rückeroberungs-Arc) von Re:ZERO Staffel 4 verspätet gestartet: Während die Serie seit dem 12. August 2026 mit Untertiteln lief, folgen die deutschen Stimmen erst seit dem 9. September 2026 im wöchentlichen Rhythmus. ([Quelle](https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/)) | nein |
+| Hana-Kimi – Staffel 2 | 10 | 2026-09-16 16:00 | 12 Folgen | 2026-09-26 17:17 | keine Meldung | nichts gefunden (2026-09-26) | nein |
+| You and I Are Polar Opposites – Staffel 2 | 9 | 2026-09-20 08:30 | 12 Folgen | 2026-09-26 17:17 | keine Meldung | Die japanische Ausstrahlung und der Crunchyroll-Simulcast von Staffel 2 legten eine einwöchige Pause ein: Die als nächstes fällige Folge (Episode 12 der Originalzählung) wurde vom 20. auf den 27. September 2026 verschoben. ([Quelle](https://www.anime2you.de/news/1049815/you-and-i-are-polar-opposites-staffel-2-episode-12-verschoben/)) | nein |
+| Re:ZERO -Starting Life in Another World- Staffel 4 | 15 | 2026-09-23 14:00 | 25 Folgen | 2026-09-26 17:17 | keine Meldung | nichts gefunden (2026-09-26) | nein |
+| Hana-Kimi – Staffel 2 | 11 | 2026-09-23 16:00 | 12 Folgen | 2026-09-26 17:17 | keine Meldung | nichts gefunden (2026-09-26) | nein |
+| Das Band der Unterwelt | 22 | 2026-09-26 16:00 | 21 Folgen | 2026-09-26 17:17 | — | **offen** | nein |

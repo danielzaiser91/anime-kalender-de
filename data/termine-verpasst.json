@@ -29,7 +29,7 @@
     "neuErwartet": null,
     "recherche": null,
     "rechercheAm": "2026-09-26T15:00:55.893Z",
-    "geprueftAm": "2026-09-26T13:14:40.853Z",
+    "geprueftAm": "2026-09-26T17:17:55.728Z",
     "newsGeprueftAm": "2026-09-26T09:25:58.203Z"
   },
   {
@@ -65,7 +65,7 @@
     "neuErwartet": null,
     "recherche": "Crunchyroll hat die deutsche Synchronfassung des zweiten Teils (Rückeroberungs-Arc) von Re:ZERO Staffel 4 verspätet gestartet: Während die Serie seit dem 12. August 2026 mit Untertiteln lief, folgen die deutschen Stimmen erst seit dem 9. September 2026 im wöchentlichen Rhythmus.",
     "rechercheQuelle": "https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/",
-    "geprueftAm": "2026-09-26T13:14:40.853Z",
+    "geprueftAm": "2026-09-26T17:17:55.728Z",
     "newsGeprueftAm": "2026-09-26T09:25:58.203Z",
     "rechercheAm": "2026-09-26T15:00:55.893Z"
   },
@@ -83,7 +83,7 @@
     "folgenVerfuegbar": 12,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-09-26T13:14:40.853Z",
+    "geprueftAm": "2026-09-26T17:17:55.728Z",
     "newsGeprueftAm": "2026-09-26T09:25:58.203Z",
     "rechercheAm": "2026-09-26T15:00:55.893Z"
   },
@@ -121,7 +121,7 @@
     "neuErwartet": "2026-09-27T08:30:00.000Z",
     "recherche": "Die japanische Ausstrahlung und der Crunchyroll-Simulcast von Staffel 2 legten eine einwöchige Pause ein: Die als nächstes fällige Folge (Episode 12 der Originalzählung) wurde vom 20. auf den 27. September 2026 verschoben.",
     "rechercheQuelle": "https://www.anime2you.de/news/1049815/you-and-i-are-polar-opposites-staffel-2-episode-12-verschoben/",
-    "geprueftAm": "2026-09-26T13:14:40.853Z",
+    "geprueftAm": "2026-09-26T17:17:55.728Z",
     "newsGeprueftAm": "2026-09-26T09:25:58.203Z",
     "rechercheAm": "2026-09-26T15:00:55.893Z"
   },
@@ -139,7 +139,7 @@
     "folgenVerfuegbar": 25,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-09-26T13:14:40.853Z",
+    "geprueftAm": "2026-09-26T17:17:55.728Z",
     "newsGeprueftAm": "2026-09-26T09:25:58.203Z",
     "rechercheAm": "2026-09-26T15:00:55.893Z"
   },
@@ -157,8 +157,24 @@
     "folgenVerfuegbar": 12,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-09-26T13:14:40.853Z",
+    "geprueftAm": "2026-09-26T17:17:55.728Z",
     "newsGeprueftAm": "2026-09-26T09:25:58.203Z",
     "rechercheAm": "2026-09-26T15:00:55.893Z"
+  },
+  {
+    "id": "das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-09-26",
+    "slug": "das-band-der-unterwelt-crunchyroll-de-2026-04-04",
+    "titleId": 195600,
+    "name": "Das Band der Unterwelt",
+    "platform": "crunchyroll",
+    "episode": 22,
+    "erwartetAm": "2026-09-26T16:00:00.000Z",
+    "bemerktAm": "2026-09-26T17:18:02.264Z",
+    "erschienenAm": null,
+    "verzugStunden": null,
+    "folgenVerfuegbar": 21,
+    "neuErwartet": null,
+    "recherche": null,
+    "geprueftAm": "2026-09-26T17:17:55.728Z"
   }
 ]
