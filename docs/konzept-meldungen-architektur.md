@@ -400,11 +400,16 @@ One Piece, Medalist) — brauchen das Urteil je Folge. Keine Abweichung widerleg
 
 ## Stufe 4, Schritt 3 — begonnen am 26.09.2026
 
-**Karte der Setzstellen** (`build.ts`, 45 Zeilen, die `dub` oder `dubRanges` setzen). Ebene (a), eigene
-Prüfung: Handbelege aus `dub-confirmed.yaml` (3866–3880, spät ergänzte Wege 6509–6511), Prime-Rohmeldungen
-(4170, 4213), das Urteil (6857, füllt nur Lücken). Ebene (b), zuständige Quelle: Crunchyroll (4573–5271,
-6776), ADN (5948, 6016), Joyn als deutscher Anbieter (5664, 5716), Cartoon-Handbelege (544), JustWatch-Filme
-(7445), Videoload (7529). In Ebene (a) kommt **dieselbe Beobachtung auf drei Wegen** in den Bau.
+**Karte der Setzstellen** (42 Zeilen, die `dub` oder `dubRanges` setzen; seit dem Umbau vom
+26.09.2026 nach Modul und Funktion, nicht nach Zeile — `build.ts` ist nur noch die Phasenfolge).
+Ebene (a), eigene Prüfung: `09-2-linkpruefung · werteLinkpruefungAus` (Handbelege aus
+`dub-confirmed.yaml`), `09-3-prime · uebernehmePrimeUndCrVorschlaege` (Prime-Rohmeldungen),
+`09-6-anisearch-wege · ergaenzeAnisearchWege` (spät ergänzte Wege mit Handbeleg),
+`09-7-abschluss · schliesseSynchroAb` (das Urteil, füllt nur Lücken). Ebene (b), zuständige Quelle:
+Crunchyroll (`09-4-1` bis `09-4-4`, 16 Stellen), ADN (`07-adn`, `09-5`), Joyn und weitere
+(`09-5-weitere-quellen`), JustWatch (`11-2`), Cartoons (`nebendateien · schreibeCartoons`), dazu
+`09-1-belege · sammleBelege` und `10-termine`. In Ebene (a) kommt **dieselbe Beobachtung auf drei Wegen**
+in den Bau.
 
 **Erster Befund: Das Urteil kann die eingelesenen Belege noch nicht ablösen.** `dub-confirmed.yaml` führt
 2.203 Belege, 2.010 davon aus der Erweiterung eingelesen („Aus dem Browser gemeldet, abgeholt am …“),

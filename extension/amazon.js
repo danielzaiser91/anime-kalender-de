@@ -10402,7 +10402,7 @@ async function speicherSchreiben(werte) {
           /* Ohne Mischung bleibt das Feld leer — dann gilt der Befund der Staffel. */
           folge_nr: teil ? teil.folgeNr : undefined,
           /*
-            Die gültigen Werte stehen in `worker/src/index.ts` — nachlesen, nicht
+            Die gültigen Werte stehen in `worker/src/pruefung-speichern.ts` — nachlesen, nicht
             erraten: Die erste Fassung schickte `befund: 'ja'` und bekam HTTP 400
             (Digimon Tamers, 23.08.2026).
           */

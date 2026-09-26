@@ -18,6 +18,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { titelAus } from './lib/anisearch-titel.ts'
+import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin } from '../shared/logic.ts'
@@ -2650,13 +2651,13 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
   Male war der Code richtig und die Stelle falsch, und beide Male fiel es erst
   am ausgelieferten Datensatz auf.
 
-  Diese Zusicherung liest `build.ts` als Text und prüft die Reihenfolge der
+  Diese Zusicherung liest den Bau als Text (`bauQuelltext()`) und prüft die Reihenfolge der
   Marken. Das ist grob, aber es fängt genau den Fehler, der zweimal passiert
   ist — und er ist billig zu machen: Ein Block wandert beim Umbau mit, seine
   Wirkung nicht.
 */
 {
-  const bau = readFileSync(new URL('../pipeline/build.ts', import.meta.url), 'utf8')
+  const bau = bauQuelltext()
   const pos = (marke: string) => bau.indexOf(marke)
   const letzteEntfernung = pos('Verweise ohne deutsche Synchro entfernt')
   const disc = pos('**Deutsche Disc-Ausgaben aus dem aniSearch-Archiv.**')
@@ -3319,7 +3320,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
     'sonst bleiben Meldungen wie Haikyu!! TO THE TOP im Briefkasten liegen',
   )
   {
-    const bauQuelle = readFileSync('pipeline/build.ts', 'utf8')
+    const bauQuelle = bauQuelltext()
     pruefe(
       'eine mit „gibt es dort nicht" beantwortete Suchfrage kommt nicht wieder',
       (bauQuelle.match(/!beantworteteSuchen\.has\(`\$\{title\.id\}\|\$\{stream\.platform\}`\)/g) ?? []).length === 2,
@@ -3335,7 +3336,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
 
 console.log('\nJapanischer Start: so genau wie die Quelle, und angekündigte Titel frisch:')
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   const abruf = readFileSync('pipeline/fetch.ts', 'utf8')
   pruefe('der Reihe geht das genaue, nicht das aufgefüllte Datum mit', /jpStart: t\.jpStart \?\? jpStartAnzeige\.get\(t\.id\)/.test(bau))
   pruefe('ohne Tag bleibt es beim Monat', /if \(!d\.day\) return `\$\{d\.year\}-\$\{p\(d\.month\)\}`/.test(bau))
@@ -3389,7 +3390,7 @@ console.log('\nPrime: eine GTI steht nie unter /dp/:')
   )
   pruefe(
     'der Bau baut keine /dp/-Adresse mehr von Hand',
-    !/amazon\.de\/dp\/\$\{/.test(readFileSync('pipeline/build.ts', 'utf8')),
+    !/amazon\.de\/dp\/\$\{/.test(bauQuelltext()),
   )
 }
 
@@ -3402,7 +3403,7 @@ console.log('\nPrime: eine GTI steht nie unter /dp/:')
 */
 console.log('\nCrunchyroll: nur ein verstrichener Start wird mangels Kalendereintrag verworfen:')
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   const stelle = bau.indexOf('kein deutscher Eintrag bei Crunchyroll im Zeitraum')
   const davor = bau.slice(Math.max(0, stelle - 2500), stelle)
   pruefe(
@@ -3419,7 +3420,7 @@ console.log('\nCrunchyroll: nur ein verstrichener Start wird mangels Kalenderein
 */
 console.log('\nPrime: ein ersetzter Suchlink respektiert das belegte Nein:')
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   const stelle = bau.indexOf('    prime.url = echt\n')
   const davor = bau.slice(Math.max(0, stelle - 1500), stelle)
   pruefe(
@@ -3432,7 +3433,7 @@ console.log('\nPrime: ein ersetzter Suchlink respektiert das belegte Nein:')
 /* Gemessene Zugangsart je Seite schlägt JustWatch je Titel (21.09.2026, 111 falsche Pillen). */
 console.log('\nPrime: die Zugangsart der Seite kommt aus der Meldung:')
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe(
     'die Hauptschleife fragt zuerst die gemessene Zugangsart',
     /s\.zugang = gemessen \?\? zugangsart\(/.test(bau),
@@ -3447,7 +3448,7 @@ console.log('\nPrime: die Zugangsart der Seite kommt aus der Meldung:')
 /* Linkbefunde gehören der Seite, nicht der Schreibweise (21.09.2026, Haikyu!! Karasuno vs. Shiratorizawa). */
 console.log('\nLinkprüfung: ein Befund wird auch über die Kennung gefunden:')
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe(
     'linkBefunde fällt auf den Befund derselben Seite zurück',
     /befundJeKern\.get\(adressKern\(k\)\)/.test(bau),
@@ -3474,7 +3475,7 @@ console.log('\nPrime: der Zusatzkanal kommt aus der Notiz der Meldung:')
 
 console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe(
     'der Riegel sperrt nicht mehr pauschal je Anbieter',
     !/if \(checks\.has\(dubKey\(eintrag\.titleId, 'primevideo'\)\)\) continue/.test(bau),
@@ -4047,7 +4048,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     richtigen Zuständen rot ist, misst den Zeitpunkt statt die Sache; die
     Lehre steht seit dem 02.09.2026 in `CLAUDE.md`.
   */
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe(
     'Bezugswege auf primevideo.com werden entfernt',
     bau.includes('Bezugswege auf primevideo.com entfernt') && bau.includes('.test(w.url))'),
@@ -4067,7 +4068,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
  * statt die Sache (siehe 02.09.2026).
  */
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   /*
     **Die Zusicherung ist mit ihrer Regel gewandert.**
 
@@ -4235,7 +4236,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'eine Prime-Zuordnung überspringt Adressen, die ein Handbeleg einem anderen Titel zuschreibt',
     bau.includes('c.platform === plattform && c.url && c.anilistId !== eintrag.titleId') &&
       bau.includes('seite = amazonTitelAdresse(eintrag.seite)') &&
-      readFileSync('worker/src/index.ts', 'utf8').includes('AND seiten_kennung IS ?3'),
+      workerQuelltext().includes('AND seiten_kennung IS ?3'),
     'sonst trägt Vinland Saga Staffel 2 die Seite von Staffel 1 mit „DE ✓" (17.09.2026)',
   )
   pruefe(
@@ -4356,7 +4357,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'Synonyme sind das letzte Feld der Infobox; der Wert lief bis zum Abschnittsende',
   )
 
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe(
     'als deutscher Titel gilt nur, was aus Sprachblock oder Synonymen stammt',
     /* Seit dem 12.09.2026 strenger: Auch ein Eintrag **ohne** Herkunft zählt nicht mehr —
@@ -4417,7 +4418,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
  * Lauf offen — und **11 als tot beurteilt**, ohne jede Wirkung.
  */
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   const anfang = bau.indexOf("'data/crunchyroll-offene.json'")
   const block = bau.slice(anfang, bau.indexOf('Neunte Runde', anfang))
   pruefe(
@@ -4509,7 +4510,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'ein mehrdeutiger Name entscheidet nichts',
   )
   /* Und der Bau muss die Funktion wirklich rufen — an beiden Stellen. */
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe(
     'der Bau repariert Suchadressen, statt sie zu erzeugen',
     !bau.includes('crunchyroll.com/de/search?q=') && (bau.match(/crAdresseZu\(/g) ?? []).length >= 2,
@@ -4525,7 +4526,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   mehr an, mit dem neuen schon.
 */
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe(
     'ein Titel-Grund („kein Platz") sperrt nur diesen Titel, nicht die ganze Adresse',
     /NUR_DIESER_TITEL = \/\^der Anbieter führt /.test(bau) &&
@@ -4549,9 +4550,9 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
      jeder Teil eine ONA ist.
 */
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   const katalog = readFileSync('pipeline/lib/anilist.ts', 'utf8')
-  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+  const panel = panelQuelltext()
 
   pruefe(
     'ein deutscher Block ohne Titel geht an den Geschwistertitel',
@@ -4669,7 +4670,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   Newsletter.
 */
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe(
     '„neu auf Deutsch" verlangt eine belegte Synchro',
     bau.includes('const belegteSynchro = (t: Title): boolean =>') &&
@@ -5274,7 +5275,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe(
     'YouTube: eine Störung wird als „unklar" abgelegt und entfernt keinen Verweis',
     readFileSync('pipeline/check-youtube.ts', 'utf8').includes('unklar: true') &&
-      readFileSync('pipeline/build.ts', 'utf8').includes("yt.inDE === 0 && !yt.unklar"),
+      bauQuelltext().includes("yt.inDE === 0 && !yt.unklar"),
   )
   pruefe(
     'YouTube: ein unplausibler Lauf schreibt nicht',
@@ -5322,7 +5323,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe(
     'Handbeleg: eine als tot gemessene Adresse wird nicht wieder angelegt',
     /if \(check\.available === false\) continue[\s\S]{0,900}?if \(lautPruefungTot\(check\.url\)\) continue/.test(
-      readFileSync('pipeline/build.ts', 'utf8'),
+      bauQuelltext(),
     ),
   )
   /*
@@ -5332,13 +5333,13 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'JustWatch: nur bei Filmen wird aus der Tonspur ein Beleg am Bezugsweg',
-    readFileSync('pipeline/build.ts', 'utf8').includes("if (title.format !== 'MOVIE') continue") &&
-      readFileSync('pipeline/build.ts', 'utf8').includes("(a.audio ?? []).includes('de')"),
+    bauQuelltext().includes("if (title.format !== 'MOVIE') continue") &&
+      bauQuelltext().includes("(a.audio ?? []).includes('de')"),
   )
   pruefe(
     'YouTube: ein Trailer-Video ist kein Bezugsweg',
-    readFileSync('pipeline/build.ts', 'utf8').includes("b?.kategorie === 'Trailers'") &&
-      readFileSync('pipeline/build.ts', 'utf8').includes('ytTrailer.has(stream.url)'),
+    bauQuelltext().includes("b?.kategorie === 'Trailers'") &&
+      bauQuelltext().includes('ytTrailer.has(stream.url)'),
   )
   pruefe(
     'Crunchyroll: ein Fehlersatz überschreibt keinen guten Eintrag',
@@ -5372,9 +5373,9 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 /* 22.09.2026: Fairy Tail — die Linkprüfung sah nur Staffel 1 („region"), Daniel zwei Tage später Staffel 2–9 zum Kauf. */
 pruefe(
   'eine jüngere Handprüfung derselben Adresse schlägt einen 404/region-Linkbefund',
-  readFileSync('pipeline/build.ts', 'utf8').includes("if ((befund === 404 || befund === 'region') && !handSticht)") &&
+  bauQuelltext().includes("if ((befund === 404 || befund === 'region') && !handSticht)") &&
     readFileSync('pipeline/check-tote-adressen.ts', 'utf8').includes('handGesehen') &&
-    readFileSync('pipeline/build.ts', 'utf8').includes("(vonHandBelegtAm.get(adressKern(stream.url)) ?? '') > linkAm"),
+    bauQuelltext().includes("(vonHandBelegtAm.get(adressKern(stream.url)) ?? '') > linkAm"),
 )
 /* 22.09.2026: „Abos: crunchyrollde (Meldung 4738)" — der Klammerzusatz verdarb den Kanalnamen. */
 pruefe(
@@ -5384,13 +5385,13 @@ pruefe(
 /* JustWatch bei Titeln mit Wegen: nur digitale Angebote (17.09.2026). */
 pruefe(
   'JustWatch ergänzt bei Titeln mit Wegen keine Disc-Händler und keine Kinos',
-  readFileSync('pipeline/build.ts', 'utf8').includes("if (PHYSISCHE_SHOPS.test(a.anbieter) || a.art === 'CINEMA') continue"),
+  bauQuelltext().includes("if (PHYSISCHE_SHOPS.test(a.anbieter) || a.art === 'CINEMA') continue"),
   '728 Händlerwege ohne Ausgabe (Zavvi: UK-Importe) stünden wieder im Panel',
 )
 /* Kinos erkennt JustWatch selbst (art CINEMA) — auch bei Titeln ohne Weg (Cinestar Leipzig, Filmspiegel Essen; 19.09.2026). */
 pruefe(
   'kein JustWatch-Kinoangebot wird zum Bezugsweg, auch bei Titeln ohne jeden Weg',
-  (readFileSync('pipeline/build.ts', 'utf8').match(/a\.art === 'CINEMA'\) continue/g) ?? []).length >= 2,
+  (bauQuelltext().match(/a\.art === 'CINEMA'\) continue/g) ?? []).length >= 2,
   'die Pille führte zu einer Vorstellung in einer einzelnen Stadt',
 )
 /* gti-Brücke: Auswahl der JustWatch-Adresse für einen Prime-Verweis (17.09.2026). */
@@ -5423,7 +5424,7 @@ pruefe(
     adressKern(g('aaaaaaaa')) !== adressKern(g('bbbbbbbb')),
     'jede gti-Adresse hieße „watch.amazon.de/detail" — Belege und Gedächtnis verwechselten sie',
   )
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe(
     'die gti-Brücke stellt erst am Ende um und behält die Amazon-Seite',
     /s\.seite = s\.url\s+s\.url = wahl\.url/.test(bau),
@@ -5444,7 +5445,7 @@ pruefe(
 /* Your Name – CineAnime: der letzte Spieltag kommt auch über die Veranstaltungsadresse (17.09.2026). */
 pruefe(
   'Kino-Releases finden ihren letzten Spieltag auch über die CineStar-Seite in den Quellen',
-  /letzterJeVeranstaltung\.get\(veranstaltung\(q\)/.test(readFileSync('pipeline/build.ts', 'utf8')),
+  /letzterJeVeranstaltung\.get\(veranstaltung\(q\)/.test(bauQuelltext()),
   'eine Einzelvorstellung ohne AniList-Kennung im Abruf stünde vier Wochen lang im Kino-Karussell',
 )
 /* Ein YouTube-Nein sperrte alle YouTube-Videos (17.09.2026). */
@@ -5470,7 +5471,7 @@ pruefe(
   )
   pruefe(
     'ein belegtes Nein sperrt im Gedächtnis nur seinen Titel',
-    /NUR_DIESER_TITEL = \/[^\n]*\^belegtes Nein\//.test(readFileSync('pipeline/build.ts', 'utf8')),
+    /NUR_DIESER_TITEL = \/[^\n]*\^belegtes Nein\//.test(bauQuelltext()),
     'Princess Principal: Das Nein zu Kapitel 3 nimmt Kapitel 1 und 2 wieder den Weg',
   )
 }
@@ -5485,7 +5486,7 @@ pruefe(
 }
 /* Captain Tsubasa 2018: jede Crunchyroll-Runde, die ein Ja setzt, fragt die laufende Nummer (17.09.2026). */
 {
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe(
     'die Katalog-Runden sperren deutsche Folgen hinter dem Titelende',
     (bau.match(/if \(hinterDemEnde\(kennung, title\)\) continue/g) ?? []).length === 2,
@@ -5567,7 +5568,7 @@ pruefe(
     'die Einzeltermin-ICS trägt eine Erinnerung, die Sammelfeeds nicht',
     mit.includes('TRIGGER:-PT15M') && ohneZeit.includes('TRIGGER:PT9H') && !buildIcs([ev]).includes('VALARM'),
   )
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe('… und build.ts setzt sie in keinem Feed', !/buildIcs\([^)]*erinnerung/.test(bau))
 }
 {
@@ -5581,7 +5582,7 @@ pruefe(
     rss.includes('<title>A &amp; B &lt;C&gt;: Kinostart am 29.09.2026</title>') && !rss.includes('<C>'),
     rss.slice(0, 400),
   )
-  const bauQuelle = readFileSync('pipeline/build.ts', 'utf8')
+  const bauQuelle = bauQuelltext()
   pruefe(
     '… und der Bau schreibt ihn nach dem Leeren des Feed-Ordners',
     bauQuelle.indexOf('feeds/news.xml') > bauQuelle.indexOf('clearDir(`${OUT}/feeds`)'),
@@ -5618,7 +5619,7 @@ pruefe(
     m.subject === 'Frieren jetzt auch bei Netflix' && m.text.includes('JETZT AUCH BEI') && m.html.includes('auf Deutsch bei Netflix'),
     m.subject,
   )
-  const idx = readFileSync('worker/src/index.ts', 'utf8')
+  const idx = workerQuelltext()
   pruefe('… und der Versand verschickt auch eine Mail, die nur das enthält', idx.includes('!neuMitSynchro.length && !auchBei.length'))
 }
 {
@@ -5654,7 +5655,7 @@ pruefe(
   const mit = terminAusEintrag({ languages: [{ language: 'Deutsch', released: '04.11.2001', dubbed: true }] } as never)
   const ohne = terminAusEintrag({ languages: [{ language: 'Deutsch', released: '04.11.2001' }] } as never)
   pruefe('die Synchro-Marke des deutschen Blocks landet an der Erstausgabe, ohne Marke nicht', mit?.synchro === true && ohne?.synchro === undefined)
-  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+  const panel = panelQuelltext()
   pruefe('… und das Panel zählt sie als Synchro-Beleg', panel.includes('Boolean(title.deErstausgabe?.synchro)'))
 }
 {
@@ -5702,12 +5703,12 @@ pruefe(
 }
 {
   /* Peace Maker Kurogane, 19.09.2026: Die Erweiterung zählt als erledigt, was im Stand fehlt — der Stand muss vollständig sein. */
-  const idx = readFileSync('worker/src/index.ts', 'utf8')
+  const idx = workerQuelltext()
   pruefe('der Prüfstand liefert alle Ziele, nicht einen Ausschnitt', idx.includes('ziele: alleZiele,') && !/ziele: alleZiele\.slice/.test(idx))
 }
 {
   /* TOGGO (Daniel, 19.09.2026): „toggo ist immer DE, immer, ausnahmslos" — und die Pillen einer Zeile sind gleich hoch. */
-  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+  const panel = panelQuelltext()
   pruefe('ein TOGGO-Weg trägt immer „DE ✓"', /istToggo\(g\.eintraege\[0\]\.url\) \|\|\s*g\.eintraege\[0\]\.dubRanges/.test(panel))
   pruefe('die Pillen einer Zeile strecken sich auf gleiche Höhe', panel.includes('flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5'))
 }
@@ -5727,7 +5728,7 @@ pruefe(
 }
 {
   /* Conan „Der gefallene Engel des Highways“ (19.09.2026): ein Kinostart wird keine „Ausgabe bei aniSearch“. */
-  const bau = readFileSync('pipeline/build.ts', 'utf8')
+  const bau = bauQuelltext()
   pruefe('ein deutscher Sprachblock auf dem Kinotermin legt keinen Disc-Weg an', /if \(imKino\) continue\s*const as = anisearch\[title\.id\]\?\.anisearchId/.test(bau))
 }
 {
@@ -5737,7 +5738,7 @@ pruefe(
 }
 {
   /* Beyblade X (19.09.2026): eine automatische TV-Sichtung verdrängt keinen belegten deutschen Stream. */
-  const panel = readFileSync('web/src/components/DetailPanel.tsx', 'utf8')
+  const panel = panelQuelltext()
   pruefe('eine automatische TV-Sichtung bestimmt den Kasten nicht, wenn die Synchro schon gestreamt wird', panel.includes("!(hatSynchro && r.platform === 'tv' && r.automatisch)"))
 }
 {
@@ -5943,6 +5944,25 @@ pruefe(
   pruefe('Stufe 3: eine Staffelmeldung ohne Nummer bleibt verworfen — mit Grund', JSON.stringify(folgenDerMeldung(m(137822), 'ja', film)) === '{"verworfen":"ohne Folgennummer"}')
   pruefe('Stufe 3: ohne Titel verworfen, mit Grund', JSON.stringify(folgenDerMeldung(m(null, 3), 'ja', film)) === '{"verworfen":"ohne Titel"}')
   pruefe('Stufe 3: eine Folgennummer gilt wie gemeldet', JSON.stringify(folgenDerMeldung(m(137822, 7), 'ja', film)) === '{"von":7,"bis":7}')
+}
+{
+  /*
+    Disc-Termin aus den News ↔ aniSearch-Ausgabe (Daniel, 26.09.2026, an Amazons Seite bestätigt):
+    Dragon Ball Z Box 4 am 20.11.2026 ist die neue Uncut-Box, nicht die DVD-Box 04/10 von 2011.
+  */
+  const { ausgabeZumDiscTermin } = await import('./lib/disc-termin.ts')
+  const dbz = [
+    { edition: 'Dragon Ball Z - Box 04/10 (Uncut) [Blu-ray]', datum: '2026-12-31', url: 'https://www.anisearch.de/article/167249,dragon-ball-z-box-04-10-uncut-blu-ray', format: 'Blu-ray', kurz: 'Box 04/10 (Uncut)' },
+    { edition: 'Dragon Ball Z - Box 04/10 (Uncut)', datum: '2026-12-31', url: 'https://www.anisearch.de/article/167248,dragon-ball-z-box-04-10-uncut', format: 'DVD', kurz: 'Box 04/10 (Uncut)' },
+    { edition: 'Dragon Ball Z - Box 03/10 (Uncut) [Blu-ray]', datum: '2024-08-16', url: 'https://www.anisearch.de/article/163441,x', format: 'Blu-ray', kurz: 'Box 03/10 (Uncut)' },
+    { edition: 'Dragonball Z - Box 04/10', datum: '2010-06-25', url: 'https://www.anisearch.de/article/12190,x', format: 'DVD', kurz: 'Box 04/10' },
+  ]
+  const termin = { datum: '2026-11-20', hinweise: ['https://www.anime2you.de/news/1044034/dragon-ball-z-box-4-termin/'] }
+  const a = ausgabeZumDiscTermin(termin, dbz)
+  pruefe('Disc-Termin: DBZ Box 4 trifft die Uncut-Box, Blu-ray als Ziel, beide Formate im Namen', a?.edition === 'Box 04/10 (Uncut) · Blu-ray + DVD' && a.url.includes('167249'), a)
+  pruefe('Disc-Termin: die DVD-Box 04/10 von 2010 ist eine andere Ware', ausgabeZumDiscTermin(termin, dbz.slice(3)) === null)
+  pruefe('Disc-Termin: ohne Nummer in der Meldung keine Verknüpfung', ausgabeZumDiscTermin({ datum: '2026-11-20', hinweise: ['https://www.anime2you.de/news/1/dragon-ball-z-termin/'] }, dbz) === null)
+  pruefe('Disc-Termin: eine andere Nummer trifft nicht (Box 3 ≠ Box 4)', ausgabeZumDiscTermin({ datum: '2026-11-20', hinweise: ['…/dragon-ball-z-box-3-termin/'] }, dbz.slice(0, 2)) === null)
 }
 {
   /*

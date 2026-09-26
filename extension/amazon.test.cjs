@@ -499,13 +499,19 @@ function veraltetTest(schritte) {
  * Der Befund-Wert muss zu dem passen, was der Worker annimmt.
  *
  * Die erste Fassung schickte `ja`/`nein` und bekam HTTP 400 zurück — geraten
- * statt nachgesehen, obwohl die gültigen Werte in `worker/src/index.ts`
+ * statt nachgesehen, obwohl die gültigen Werte im Worker (`worker/src/`)
  * stehen. Diese Zusicherung liest sie **dort** und hält den Leser dagegen;
  * eine fest eingetragene Liste hier würde denselben Fehler nur wiederholen.
  */
 {
   const fs = require('node:fs')
-  const worker = fs.readFileSync(require('node:path').resolve(__dirname, '../worker/src/index.ts'), 'utf8')
+  /* Der ganze Worker: die Annahme der Meldungen liegt in `pruefung-speichern.ts`, nicht mehr in `index.ts`. */
+  const ordner = require('node:path').resolve(__dirname, '../worker/src')
+  const worker = fs
+    .readdirSync(ordner)
+    .filter((f) => f.endsWith('.ts'))
+    .map((f) => fs.readFileSync(require('node:path').join(ordner, f), 'utf8'))
+    .join('\n')
   const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   /*
     **Seit Stufe 1 (22.09.2026) meldet der Leser `vorhanden` / `ton_de` / `art`

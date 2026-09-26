@@ -3,8 +3,8 @@
  *
  * Aufruf: `node tools/streams-verfolgen.mjs <AniList-Id> [Plattform]`
  *
- * Legt eine instrumentierte Kopie von `pipeline/build.ts` an, lässt sie laufen und löscht sie
- * wieder. Jede Zuweisung, jedes `push` und jeder direkt gesetzte Platz in `title.streams` wird
+ * Instrumentiert vorübergehend `pipeline/bau/02-titel.ts` (dort entsteht die Titelkarte), lässt
+ * den Bau laufen und stellt die Datei danach wieder her. Jede Zuweisung, jedes `push` und jeder direkt gesetzte Platz in `title.streams` wird
  * mit Aufrufstelle und den Adressen danach ausgegeben. Der Bau schreibt dabei, was er immer
  * schreibt — die Erzeugnisse werden danach per `git checkout` zurückgesetzt.
  *
@@ -38,8 +38,7 @@ if (execSync(`git status --porcelain -- ${BAU_PFADE}`, { encoding: 'utf8' }).tri
 }
 const meldungenVorher = existsSync('data/meldungen-an-claude.jsonl')
 
-const QUELLE = 'pipeline/build.ts'
-const KOPIE = 'pipeline/_build-verfolgt.ts'
+const QUELLE = 'pipeline/bau/02-titel.ts'
 const anker = '  const titles = new Map<number, Title>()\n'
 const bau = readFileSync(QUELLE, 'utf8')
 if (!bau.includes(anker)) {
@@ -57,7 +56,7 @@ const einschub = `
         .map((s) => \`\${s?.platform}:\${String(s?.url ?? '').replace(/^https?:\\/\\/(www\\.)?/, '').slice(0, 60)}\`)
         .join('  ')
     const zeig = (was: string, a: any[]) => {
-      const stelle = (new Error().stack ?? '').split('\\n').slice(3, 4).map((z) => z.trim().replace(/.*_build-verfolgt\\.ts:/, 'Zeile ')).join('')
+      const stelle = (new Error().stack ?? '').split('\\n').slice(3, 4).map((z) => z.trim().replace(/.*pipeline\\/(bau\\/)?([\\w.-]+\\.ts):(\\d+).*/, '$2:$3')).join('')
       console.log(\`[verfolgt] \${was.padEnd(12)} \${stelle.padEnd(16)} \${kurz(a)}\`)
     }
     const hülle = (a: any[]) =>
@@ -86,16 +85,16 @@ const einschub = `
 `
 // Zeilennummern der Kopie verschieben sich um den Einschub — umgerechnet wird für die Ausgabe.
 const versatz = einschub.split('\n').length - 1
-writeFileSync(KOPIE, bau.replace(anker, anker + einschub))
+writeFileSync(QUELLE, bau.replace(anker, anker + einschub))
 try {
-  const lauf = spawnSync('npx', ['tsx', KOPIE], { encoding: 'utf8', shell: true, maxBuffer: 256 * 1024 * 1024 })
+  const lauf = spawnSync('npx', ['tsx', 'pipeline/build.ts'], { encoding: 'utf8', shell: true, maxBuffer: 256 * 1024 * 1024 })
   const zeilen = `${lauf.stdout}\n${lauf.stderr}`.split('\n').filter((z) => z.startsWith('[verfolgt]'))
   const ankerZeile = bau.slice(0, bau.indexOf(anker)).split('\n').length
   for (const z of zeilen)
-    console.log(z.replace(/Zeile (\d+):\d+\)?/, (_, n) => `build.ts:${Number(n) > ankerZeile ? Number(n) - versatz : n}`))
+    console.log(z.replace(/02-titel\.ts:(\d+)/, (_, n) => `02-titel.ts:${Number(n) > ankerZeile ? Number(n) - versatz : n}`))
   if (!zeilen.length) console.log(`Keine Änderungen an Titel ${id} gesehen — steht er im Bau überhaupt?`)
 } finally {
-  rmSync(KOPIE, { force: true })
+  writeFileSync(QUELLE, bau)
   /* Der Bau schreibt seine Erzeugnisse; die gehören nicht zu dieser Messung. */
   execSync(`git checkout -- ${BAU_PFADE}`, { stdio: 'ignore' })
   if (!meldungenVorher) rmSync('data/meldungen-an-claude.jsonl', { force: true })

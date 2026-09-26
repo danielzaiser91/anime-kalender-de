@@ -232,6 +232,50 @@ Datei, nachgeladen bei Bedarf.
 `public/data/` wird **mit committet** — die Seite ist statisch und lädt genau diese Dateien.
 `data/cache/` ist bewusst nicht im Repo; die nächtliche Action baut ihn neu auf.
 
+## Codegestalt: Neues bekommt eine eigene Funktion (26.09.2026)
+
+Eine Durchsicht am 26.09.2026 maß die Codebasis: rund 112.000 Zeilen, davon ein gutes Drittel in
+sechs Dateien. `main()` in `pipeline/build.ts` war eine Funktion mit **7.809 Zeilen** und 183
+Variablen auf oberster Ebene (57 davon `let`), `DetailPanel` 3.125, `handlePruefung` im Worker
+1.244, `amazon.js` eine einzige Hülle über 11.225 Zeilen. Die Architektur darüber ist gesund
+(ARCHITEKTUR.md), die Typen streng, Doppelungen selten — das Problem war allein, dass jede
+Ergänzung dort landete, wo schon der Rest stand.
+
+Die Folgen stehen in diesen Regeln selbst: Der Vorrang der Handbelege „hängt an einer
+Reihenfolge", `pruefeErgebnis()` „läuft mitten im Bau", die Disc-Wege liefen zweimal ins Leere,
+weil sie an der falschen Stelle standen (29.08.2026). In einer Funktion, in der jeder Abschnitt
+jede Variable lesen und ändern kann, ist die Reihenfolge eine unsichtbare Schnittstelle.
+
+**Warum eine Zahl statt eines Vorsatzes.** Ein Vorsatz wird bei der zehnten kleinen Ergänzung
+übersehen; `tools/umfang-pruefen.mjs` nicht. Es misst je Bereich die Summe der Zeilen über den
+Grenzen (Funktion 80, Datei 800) und vergleicht mit `tools/umfang-grenzen.json`. Verschieben ist
+neutral, Herauslösen senkt, Anbauen hebt — und nur Letzteres wird rot. Prüfsätze
+(`check-*`, `*.test.*`, `*-pruefen*`) zählen nur mit ihren Funktionen, nicht mit der Dateilänge,
+weil jeder neue Fehlerfall sie verlängern soll. Eine Modulhülle `;(() => { … })()` um eine ganze
+Datei zählt nicht als Funktion.
+
+**Kommentare.** In `build.ts` waren 36 % der Zeilen Kommentar, in `amazon.js` 43 %, oft als
+Chronik („Am 29.08.2026 kostete das eine Stunde …"). Die Begründung ist wertvoll, die Chronik
+kostet jeden, der die Stelle liest, und jede Sitzung Kontext. Im Code steht das Warum in wenigen
+Zeilen; Anlass und Verlauf gehören in den Commit oder hierher.
+
+**Umbauen, ohne etwas zu ändern.** `tools/bau-vergleich.mjs` baut Basis und Kandidat je in einem
+eigenen Worktree mit einem nachgebildeten Cache und vergleicht alles, was der Bau schreibt. Ein
+reiner Umbau ist erst fertig, wenn das „gleich" meldet. Für `web/src` tut dasselbe
+`tools/panel-vergleich.mjs`: beide Stände bauen, das Detail-Panel für 80 feste Titel bei stehender
+Uhr rendern, HTML vergleichen. Verschoben wird mit `tools/modul-umzug.mjs` (Namen, Abschnitte,
+JSX-Blöcke), das Parameter und Importe aus dem Typprüfer ableitet — von Hand verschobener Code
+verliert zu leicht eine Neuzuweisung oder eine Reihenfolge. Einige Zusicherungen in `check:logic`
+lesen Quelltext und prüfen die Reihenfolge von Marken; sie lesen deshalb alle Module in
+Aufrufreihenfolge (`bauQuelltext()`, `panelQuelltext()`, `workerQuelltext()`).
+
+**Stand nach dem ersten Umbau (26.09.2026):** `build.ts` 9.286 → 109 Zeilen, `main()` 7.809 → 90;
+die Phasen liegen in `pipeline/bau/` (größte Funktion 619 Zeilen). `DetailPanel.tsx` 6.237 →
+1.478, Teile in `web/src/components/detail/`. `handlePruefung` 1.244 → rund 70 (die Hälfte davon
+Kommentar), Teile in `worker/src/pruefung-*.ts`. Jeder Schritt bau- bzw. panelgleich
+nachgewiesen. Offen, bewusst: `extension/amazon.js` (11.225 Zeilen, eine Hülle ohne Bündler) —
+zerlegen, wenn dort ohnehin gearbeitet wird.
+
 ## Keine Information zweimal
 
 Daniel am 03.09.2026 zum blauen Kasten im Detail-Panel: Dort stand „Auf Deutsch

@@ -897,3 +897,20 @@ Migration 036 (`offen_ziel`) angewandt und der Worker ausgeliefert worden.
 **Die allgemeine Form:** Eine Fehlermeldung über eine fehlende Ressource sagt nicht, dass sie
 fehlt — sie sagt, dass das Werkzeug sie nicht gefunden hat. Vier Wochen lang galt hier eine
 Aufgabe als blockiert, die es nie war.
+
+## Gleichheitsbeweise unter Windows: Worktree selbst löschen, Nachgeladenes abwarten (26.09.2026)
+
+Erster Lauf von `bau-vergleich`/`panel-vergleich` auf Daniels Rechner (PR #242):
+
+- `git worktree remove --force` (Git 2.55.0.windows.5) lässt einen Baum mit
+  `node_modules`-Junction samt Ordner liegen; nur der Verwaltungseintrag verschwindet. Der
+  nächste `worktree add` in denselben Pfad scheitert dann. Das Ziel der Junction bleibt heil —
+  an einer Attrappe gemessen, ebenso dass `rmSync(…, { recursive: true })` die Junction löscht,
+  ohne ihr zu folgen. Beide Werkzeuge löschen den Baum deshalb selbst (`entferneBaum`:
+  `rmSync` + `git worktree prune`).
+- `panel-vergleich` meldete 2 von 80 Panels „VERSCHIEDEN" (13667, 20520), in beide Richtungen:
+  „Ähnliche Titel" war mal geladen, mal „Wird geladen …". Das Nachladen startet über einen
+  IntersectionObserver; bei 20520 lag der Abschnitt genau an der Unterkante des 1200 px hohen
+  Fensters und lud auf **beiden** Ständen je Lauf mal, mal nicht (je 3 Läufe gemessen). Das
+  Werkzeug rendert jetzt 8000 px hoch und wartet, bis im Panel kein „Wird geladen" mehr steht
+  (höchstens 10 s, danach wird trotzdem verglichen).
