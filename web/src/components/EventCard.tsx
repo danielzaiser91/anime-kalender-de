@@ -3,11 +3,10 @@ import { RELEASE_TYPES } from '@shared/types.ts'
 import { todayIso } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { useLang } from '../lib/i18n.tsx'
-import { coverBild } from '../lib/cover.ts'
 import { useShare } from '../lib/share.ts'
 import { FskBadge, HideEye, PlatformBadge } from './ui.tsx'
 import { KartenKopf } from './KartenKopf.tsx'
-import { MitFaehnchen } from './Faehnchen.tsx'
+import { KartenCover, MitFaehnchen, type Fahne } from './Faehnchen.tsx'
 
 export function EventCard({
   event,
@@ -19,7 +18,7 @@ export function EventCard({
   onToggleHidden,
   onOpen,
   dense,
-  premiere,
+  fahne,
 }: {
   event: ReleaseEvent
   title?: Title
@@ -30,8 +29,8 @@ export function EventCard({
   onToggleHidden?: () => void
   onOpen: () => void
   dense?: boolean
-  /** TV-Premiere (`tvPremiere()`): Fähnchen auf der oberen Kante. */
-  premiere?: boolean
+  /** Fähnchen auf der oberen Kante: TV-Premiere (`tvPremiere()`) oder Staffelstart (`istStaffelstart()`). */
+  fahne?: Fahne
 }) {
   const { t } = useLang()
   const { share, copiedSlug } = useShare()
@@ -182,10 +181,9 @@ export function EventCard({
         entschieden (05.09.2026: „zeig problem und lösung visuell bevor ich
         mich entscheide").
       */}
+      {cover && !dense && fahne === 'start' && <KartenCover cover={cover} gross />}
       <div className="flex w-full gap-2">
-        {cover && !dense && (
-          <img {...coverBild(cover, 28)} alt="" loading="lazy" className="h-10 w-7 shrink-0 rounded object-cover" />
-        )}
+        {cover && !dense && fahne !== 'start' && <KartenCover cover={cover} />}
         <div className="flex min-w-0 flex-1 flex-col gap-1">
         <KartenKopf
           event={event}
@@ -222,6 +220,6 @@ export function EventCard({
       </span>
     </div>
   )
-  if (!premiere) return kachel
-  return <MitFaehnchen t={t} kachel={kachel} />
+  if (!fahne) return kachel
+  return <MitFaehnchen t={t} kachel={kachel} art={fahne} />
 }

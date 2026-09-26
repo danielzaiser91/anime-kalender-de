@@ -116,6 +116,7 @@ import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus } from './lib/meldungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
+import { istStaffelstart } from '../web/src/lib/staffelstart.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm, sendungNeuZuordnen } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
@@ -6052,6 +6053,25 @@ pruefe(
   /* Premiere-Fähnchen (26.09.2026): Die Zeilenhöhe der Hülle schob die Plakette 8 px in die Karte, über die Uhrzeit. */
   const fahne = readFileSync(new URL('../web/src/components/Faehnchen.tsx', import.meta.url), 'utf8')
   pruefe('Fähnchen: Hülle ohne Zeilenhöhe, die Plakette sitzt auf der Kante', /ak-fahne absolute -top-1\.5[^"]* flex leading-none/.test(fahne))
+}
+{
+  /* Staffelstart im Raster (26.09.2026): nur die erste Folge eines wöchentlichen Releases, nach Nummer gezählt. */
+  const rel = (slug: string, extra: Partial<Release> = {}): Release =>
+    ({ slug, titleId: 1, name: slug, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-01' }, ...extra }) as Release
+  const data = {
+    releaseBySlug: new Map([
+      ['w', rel('w')],
+      ['teil2', rel('teil2', { schedule: { firstEpisodeDate: '2026-10-01', firstEpisodeNumber: 13 } })],
+      ['katalog', rel('katalog', { dateMeaning: 'available-from' })],
+    ]),
+  }
+  const ev = (releaseSlug: string, episode: number, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
+    ({ id: `${releaseSlug}${episode}`, releaseSlug, titleId: 1, date: '2026-10-01', releaseType: 'weekly', platform: 'crunchyroll', name: 'X', episode, ...extra }) as ReleaseEvent
+  pruefe('Staffelstart: Folge 1 eines wöchentlichen Releases', istStaffelstart(ev('w', 1), data))
+  pruefe('Staffelstart: Folge 2 ist keiner', !istStaffelstart(ev('w', 2), data))
+  pruefe('Staffelstart: geteilter Start zählt ab firstEpisodeNumber', istStaffelstart(ev('teil2', 13), data) && !istStaffelstart(ev('teil2', 1), data))
+  pruefe('Staffelstart: „im Angebot seit" ist kein Start', !istStaffelstart(ev('katalog', 1), data))
+  pruefe('Staffelstart: Fernsehen fragt tvPremiere(), nicht diese Regel', !istStaffelstart(ev('w', 1, { platform: 'tv' }), data))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

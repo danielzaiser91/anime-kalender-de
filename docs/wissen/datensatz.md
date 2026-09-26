@@ -364,3 +364,17 @@ Reiterzeile. Zu wissen:
 - **Was unten schwebt, rückt darüber:** Die Seite hat unter `sm` unten Platz für die Leiste
   (samt `safe-area-inset-bottom`), der Rückgängig-Streifen der Favoriten steht bei `bottom-20`.
 - Das Panel (z-40) und sein Schleier (z-30) liegen über der Leiste (z-20).
+
+## Ein Staffelstart steht groß im Raster (26.09.2026)
+
+Daniel (26.09.2026): Hervorhebung im Raster „mit größerem Cover und eigenem Fähnchen" — kein eigener
+Kasten über der Woche, der dieselben Termine ein zweites Mal zeigte. `istStaffelstart()`
+(`web/src/lib/staffelstart.ts`) entscheidet; die Karte trägt dann das Cover über die ganze Breite
+(`KartenCover gross`) und das Fähnchen „✦ Start" auf der Kante, neben „✦ Premiere" das zweite.
+
+- **Nur wöchentliche Releases** — ein Katalogtitel mit `available-from` ist „im Angebot seit", kein
+  Start; Fernsehen beantwortet `tvPremiere()`.
+- **Nach Nummer, nicht Position:** Start ist `schedule.firstEpisodeNumber` (sonst 1) — JoJo SBR
+  „2nd & 3rd STAGE" beginnt mit Folge 2.
+- Selten und darum wirksam: am 26.09.2026 drei Starts in drei Wochen.
+- Zusicherungen: `check:logic`, „Staffelstart: …".
