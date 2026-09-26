@@ -289529,6 +289529,124 @@
     },
     "fetchedAt": "2026-09-25T10:08:13.397Z"
   },
+  "204389": {
+    "anisearchId": 21117,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yasei no Last Boss ga Arawareta! Dai 2 Ki",
+          "titleNative": "野生のラスボスが現れた！ 第2期",
+          "status": "Laufend",
+          "released": "26.09.2026 - ?"
+        },
+        {
+          "language": "Englisch",
+          "title": "A Wild Last Boss Appeared! Season 2",
+          "status": "Laufend",
+          "released": "26.09.2026 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "A Wild Last Boss Appeared! Staffel 2",
+          "status": "Laufend",
+          "released": "26.09.2026 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "A Wild Last Boss Appeared! Temporada 2",
+          "status": "Laufend",
+          "released": "26.09.2026 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "A Wild Last Boss Appeared ! Saison 2",
+          "status": "Laufend",
+          "released": "26.09.2026 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "A Wild Last Boss Appeared! Stagione 2",
+          "status": "Laufend",
+          "released": "26.09.2026 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "studios": [
+        "WAO! World"
+      ],
+      "staff": [
+        {
+          "name": "Firehead",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yuuya HORIUCHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Akiko SATOU"
+        },
+        {
+          "name": "Maiko EBISAWA"
+        },
+        {
+          "name": "Mamiko MIZUTANI"
+        },
+        {
+          "name": "Shouta UENO"
+        },
+        {
+          "name": "Takahiro MIURA"
+        },
+        {
+          "name": "Takashi KOBAYASHI"
+        },
+        {
+          "name": "Touko NAKAMURA"
+        },
+        {
+          "name": "TECHNOBOYS PULCRAFT GREEN-FUND",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/lastboss_anime"
+        },
+        {
+          "name": "Lastboss Anime",
+          "url": "https://www.lastboss-anime.com/"
+        }
+      ],
+      "broadcast": "Samstag 22:30 (JST)"
+    },
+    "fetchedAt": "2026-09-26T09:26:01.175Z"
+  },
   "204949": {
     "anisearchId": 21094,
     "streams": [
