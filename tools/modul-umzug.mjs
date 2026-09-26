@@ -14,6 +14,9 @@
  *     der alten Stelle steht danach `const { aus… } = <funktion>({ ein… })`. Neu zugewiesene
  *     Eingaben (`ändert`) werden gemeldet und müssen von Hand zurückgegeben werden.
  *
+ *   aufraeumen <datei…>
+ *     Nur unbenutzte Importe entfernen.
+ *
  * Danach entfernt es unbenutzte Importe (TypeScript „Organize Imports", nur Entfernen) — der
  * Aufrufer prüft mit `npm run typecheck` und dem passenden Vergleich (Skill `zerlegen`).
  */
@@ -178,8 +181,8 @@ function verschiebeNamen(quellPfad, zielPfad, namen) {
   console.log(`${wanderNamen.length} Deklaration(en) nach ${zielPfad}: ${wanderNamen.join(', ')}`)
 }
 
-function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
-  const { pruefer, quelle } = programm(quellPfad)
+/** Innerste Funktion um die Zeilen von–bis und die Namen, die der Abschnitt mit ihr teilt. */
+function schnittstelle(quelle, pruefer, von, bis) {
   const zeile = (pos) => quelle.getLineAndCharacterOfPosition(pos).line + 1
   let huelle
   const suche = (k) => {
@@ -190,72 +193,100 @@ function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
   if (!huelle) throw new Error('Keine Funktion umschließt diesen Abschnitt.')
   const ein = new Map()
   const aendert = new Set()
-  const aus = new Map()
-  const schreibend = (b) => {
-    const p = b.parent
-    return (
-      (ts.isBinaryExpression(p) && p.left === b && p.operatorToken.kind >= ts.SyntaxKind.FirstAssignment && p.operatorToken.kind <= ts.SyntaxKind.LastAssignment) ||
-      ((ts.isPrefixUnaryExpression(p) || ts.isPostfixUnaryExpression(p)) && [ts.SyntaxKind.PlusPlusToken, ts.SyntaxKind.MinusMinusToken].includes(p.operator))
-    )
-  }
+  const aus = new Set()
   const benutzt = new Set()
+  const zuweisung = (p, b) =>
+    ts.isBinaryExpression(p) &&
+    p.left === b &&
+    p.operatorToken.kind >= ts.SyntaxKind.FirstAssignment &&
+    p.operatorToken.kind <= ts.SyntaxKind.LastAssignment
+  const zaehlt = (p) =>
+    (ts.isPrefixUnaryExpression(p) || ts.isPostfixUnaryExpression(p)) &&
+    [ts.SyntaxKind.PlusPlusToken, ts.SyntaxKind.MinusMinusToken].includes(p.operator)
   const besuche = (k) => {
     if (ts.isIdentifier(k)) {
       const z = zeile(k.getStart(quelle))
       if (z >= von && z <= bis) benutzt.add(k.text)
-      const sym = pruefer.getSymbolAtLocation(k)
+      // `{ x }` verweist über die Kurzschreibweise auf die Variable, nicht auf die Eigenschaft.
+      const sym = ts.isShorthandPropertyAssignment(k.parent)
+        ? pruefer.getShorthandAssignmentValueSymbol(k.parent)
+        : pruefer.getSymbolAtLocation(k)
       const d = sym?.declarations?.[0]
-      const variabel = d && (ts.isVariableDeclaration(d) || ts.isParameter(d) || ts.isBindingElement(d) || ts.isFunctionDeclaration(d))
+      const variabel =
+        d && (ts.isVariableDeclaration(d) || ts.isParameter(d) || ts.isBindingElement(d) || ts.isFunctionDeclaration(d))
       if (variabel && d !== huelle && d.getSourceFile() === quelle && d.pos >= huelle.pos && d.end <= huelle.end) {
         const dz = zeile(d.getStart(quelle))
         if (z >= von && z <= bis && (dz < von || dz > bis)) {
-          ein.set(sym.name, pruefer.typeToString(pruefer.getTypeAtLocation(d.name ?? d), huelle, ts.TypeFormatFlags.NoTruncation))
-          if (schreibend(k)) aendert.add(sym.name)
+          const typ = pruefer.getTypeAtLocation(d.name ?? d)
+          ein.set(sym.name, pruefer.typeToString(typ, huelle, ts.TypeFormatFlags.NoTruncation))
+          if (zuweisung(k.parent, k) || zaehlt(k.parent)) aendert.add(sym.name)
         }
-        if (z > bis && dz >= von && dz <= bis) aus.set(sym.name, true)
+        if (z > bis && dz >= von && dz <= bis) aus.add(sym.name)
       }
     }
     ts.forEachChild(k, besuche)
   }
   besuche(huelle.body)
+  return { ein, aendert, aus, benutzt }
+}
 
+/** `import("/pfad/datei").Typ` (Typen, die die Quelle nicht importiert) wird `Typ` plus eigener Import. */
+function typenAufloesen(ein, zielPfad) {
+  const typImporte = new Set()
+  for (const [n, t] of ein)
+    ein.set(
+      n,
+      t.replace(/import\("([^"]+)"\)\.([A-Za-z_$][\w$]*)/g, (_, pfad, typ) => {
+        const datei = ['.ts', '.tsx', '/index.ts'].map((e) => pfad + e).find(existsSync) ?? `${pfad}.ts`
+        typImporte.add(`import type { ${typ} } from '${spezifizierer(zielPfad, datei)}'`)
+        return typ
+      }),
+    )
+  return [...typImporte]
+}
+
+function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
+  const { pruefer, quelle } = programm(quellPfad)
+  const { ein, aendert, aus, benutzt } = schnittstelle(quelle, pruefer, von, bis)
+  const typImporte = typenAufloesen(ein, zielPfad)
   const zeilen = quelle.getFullText().split('\n')
-  const koerper = zeilen.slice(von - 1, bis).join('\n')
   const namen = [...ein.keys()]
   const signatur = namen.length
     ? `{ ${namen.join(', ')} }: {\n${namen.map((n) => `  ${n}: ${ein.get(n)}`).join('\n')}\n}`
     : ''
-  const rueckgabe = aus.size ? `\n  return { ${[...aus.keys()].join(', ')} }` : ''
-  const rumpf = `export function ${funktion}(${signatur}) {\n${koerper}${rueckgabe}\n}`
+  const rueckgabe = aus.size ? `\n  return { ${[...aus].join(', ')} }` : ''
+  const rumpf = `export function ${funktion}(${signatur}) {\n${zeilen.slice(von - 1, bis).join('\n')}${rueckgabe}\n}`
 
   // Typnamen in der Signatur brauchen ihre Importe genauso wie der Rumpf.
-  const typBezeichner = new Set([...ein.values()].flatMap((t) => t.match(/[A-Za-z_$][\w$]*/g) ?? []))
-  const karte = importe(quelle)
+  const typBezeichner = [...ein.values()].flatMap((t) => t.match(/[A-Za-z_$][\w$]*/g) ?? [])
+  const gebraucht = new Set([...benutzt, ...typBezeichner])
   const topNamen = new Set(quelle.statements.flatMap(deklName))
-  const rueck = [...new Set([...benutzt, ...typBezeichner])].filter((n) => topNamen.has(n))
+  const rueck = [...gebraucht].filter((n) => topNamen.has(n))
   if (rueck.length) console.warn(`⚠ braucht Namen der obersten Ebene von ${quellPfad}: ${rueck.join(', ')} — erst auslagern`)
-  anhaengen(zielPfad, importsaetze(quellPfad, karte, new Set([...benutzt, ...typBezeichner]), zielPfad), rumpf)
+  anhaengen(zielPfad, [...importsaetze(quellPfad, importe(quelle), gebraucht, zielPfad), ...typImporte], rumpf)
 
   const einrueck = zeilen[von - 1].match(/^\s*/)[0]
-  const aufruf = `${einrueck}${aus.size ? `const { ${[...aus.keys()].join(', ')} } = ` : ''}${funktion}(${namen.length ? `{ ${namen.join(', ')} }` : ''})`
+  const ziel = aus.size ? `const { ${[...aus].join(', ')} } = ` : ''
+  const aufruf = `${einrueck}${ziel}${funktion}(${namen.length ? `{ ${namen.join(', ')} }` : ''})`
   const neu = [...zeilen.slice(0, von - 1), aufruf, ...zeilen.slice(bis)]
-  const zielModul = spezifizierer(quellPfad, zielPfad)
   const letzterImport = [...quelle.statements].reverse().find(ts.isImportDeclaration)
-  const importZeile = letzterImport ? zeile(letzterImport.end) : 0
-  neu.splice(importZeile, 0, `import { ${funktion} } from '${zielModul}'`)
+  const importZeile = letzterImport ? quelle.getLineAndCharacterOfPosition(letzterImport.end).line + 1 : 0
+  neu.splice(importZeile, 0, `import { ${funktion} } from '${spezifizierer(quellPfad, zielPfad)}'`)
   writeFileSync(quellPfad, neu.join('\n'))
   importeAufraeumen(quellPfad)
   importeAufraeumen(zielPfad)
   console.log(`${funktion}: ${bis - von + 1} Zeilen nach ${zielPfad}`)
   console.log(`  ein: ${namen.join(', ') || '—'}`)
-  console.log(`  aus: ${[...aus.keys()].join(', ') || '—'}`)
+  console.log(`  aus: ${[...aus].join(', ') || '—'}`)
   if (aendert.size) console.warn(`⚠ weist neu zu: ${[...aendert].join(', ')} — Rückgabe von Hand ergänzen`)
 }
 
 if (modus === 'namen' && args.length === 3) verschiebeNamen(resolve(args[0]), resolve(args[1]), args[2].split(','))
 else if (modus === 'abschnitt' && args.length === 5)
   verschiebeAbschnitt(resolve(args[0]), Number(args[1]), Number(args[2]), resolve(args[3]), args[4])
+else if (modus === 'aufraeumen' && args.length) for (const d of args) importeAufraeumen(resolve(d))
 else {
+  console.error('Aufruf: modul-umzug.mjs aufraeumen <datei…> |')
   console.error('Aufruf: modul-umzug.mjs namen <quelle> <ziel> a,b,c | abschnitt <quelle> <von> <bis> <ziel> <funktion>')
   process.exit(2)
 }

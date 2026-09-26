@@ -84,7 +84,7 @@ function baue(sha, basisSha) {
   if (existsSync(join(ziel, '_protokoll.txt'))) return ziel
   const baum = join(ABLAGE, `baum-${sha.slice(0, 12)}`)
   if (existsSync(baum)) git('worktree', 'remove', '--force', baum)
-  git('worktree', 'add', '--detach', baum, sha)
+  git('worktree', 'add', '--quiet', '--detach', baum, sha)
   const imBaum = (...args) => execFileSync('git', ['-C', baum, ...args], { encoding: 'utf8', maxBuffer: 1 << 28 })
   try {
     symlinkSync(join(WURZEL, 'node_modules'), join(baum, 'node_modules'))

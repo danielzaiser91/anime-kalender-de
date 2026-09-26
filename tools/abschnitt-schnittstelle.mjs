@@ -62,7 +62,10 @@ function istSchreibend(bezeichner) {
 
 const besuche = (knoten) => {
   if (ts.isIdentifier(knoten)) {
-    const symbol = pruefer.getSymbolAtLocation(knoten)
+    // `{ x }` verweist über die Kurzschreibweise auf die Variable, nicht auf die Eigenschaft.
+    const symbol = ts.isShorthandPropertyAssignment(knoten.parent)
+      ? pruefer.getShorthandAssignmentValueSymbol(knoten.parent)
+      : pruefer.getSymbolAtLocation(knoten)
     const d = deklariertIn(symbol)
     const z = zeile(knoten.getStart(quelle))
     const istVariable = d && (ts.isVariableDeclaration(d) || ts.isParameter(d) || ts.isBindingElement(d) || ts.isFunctionDeclaration(d))
