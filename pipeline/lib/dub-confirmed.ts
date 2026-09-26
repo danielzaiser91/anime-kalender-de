@@ -286,3 +286,29 @@ export function adressGleich(a: string | undefined, b: string | undefined): bool
   const ka = adressKern(a)
   return Boolean(ka) && ka === adressKern(b)
 }
+
+/**
+ * Teilt neu erzeugte YAML-Zeilen in Belege und liefert nur die, die weder in `alt` noch weiter
+ * vorn unter den neuen stehen. Verglichen wird das gelesene Objekt, nicht der Text: Kommentare
+ * und Anführungszeichen dürfen sich unterscheiden. Die Zusicherung „kein Beleg steht zweimal in
+ * der Datei" hält sonst den ganzen Abruf zurück.
+ */
+export function neueBelegBloecke(alt: string, zeilen: string[]): { bloecke: string[][]; neu: string[][] } {
+  const vorhanden = new Set(((yaml.load(alt) as unknown[] | null) ?? []).map((b) => JSON.stringify(b)))
+  const bloecke: string[][] = []
+  for (const z of zeilen) {
+    if (z.startsWith('- ')) bloecke.push([z])
+    else if (bloecke.length) bloecke[bloecke.length - 1]!.push(z)
+  }
+  const neu = bloecke.filter((b) => {
+    try {
+      const eintrag = JSON.stringify((yaml.load(b.join('\n')) as unknown[] | null)?.[0])
+      if (vorhanden.has(eintrag)) return false
+      vorhanden.add(eintrag)
+      return true
+    } catch {
+      return true
+    }
+  })
+  return { bloecke, neu }
+}
