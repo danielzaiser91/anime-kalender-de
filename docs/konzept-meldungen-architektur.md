@@ -397,3 +397,30 @@ aus der jüngsten eigenen Prüfung. 409 Pills mit eigener Prüfung; von den 320,
 stehen, stimmen **311 (97 %)** überein. Die 9 Abweichungen sind alle erklärt: 5 Kanal-Nein (gewollte
 Modelländerung), 1 Fairy Tail (heutige Meldung, gewollt), 3 gemischte Folgen (Das Band der Unterwelt,
 One Piece, Medalist) — brauchen das Urteil je Folge. Keine Abweichung widerlegt das Modell.
+
+## Stufe 4, Schritt 3 — begonnen am 26.09.2026
+
+**Karte der Setzstellen** (`build.ts`, 45 Zeilen, die `dub` oder `dubRanges` setzen). Ebene (a), eigene
+Prüfung: Handbelege aus `dub-confirmed.yaml` (3866–3880, spät ergänzte Wege 6509–6511), Prime-Rohmeldungen
+(4170, 4213), das Urteil (6857, füllt nur Lücken). Ebene (b), zuständige Quelle: Crunchyroll (4573–5271,
+6776), ADN (5948, 6016), Joyn als deutscher Anbieter (5664, 5716), Cartoon-Handbelege (544), JustWatch-Filme
+(7445), Videoload (7529). In Ebene (a) kommt **dieselbe Beobachtung auf drei Wegen** in den Bau.
+
+**Erster Befund: Das Urteil kann die eingelesenen Belege noch nicht ablösen.** `dub-confirmed.yaml` führt
+2.203 Belege, 2.010 davon aus der Erweiterung eingelesen („Aus dem Browser gemeldet, abgeholt am …“),
+193 von Hand. Nur **564 der 2.010** tragen ein Urteil (28 %). Von den 1.446 ohne: 418 `available: false`,
+632 mit Adresse, 396 ohne; 1.329 stammen aus dem August. Eine Ursache ist im Code sichtbar:
+`fetch-urteile.ts` verwarf jede Meldung ohne Folgennummer — alle Prime-Filme (Kikis kleiner
+Lieferservice, The First Slam Dunk, Girls und Panzer: Der Film) und jede Staffelmeldung, deren Rohfolgen
+nicht zugeordnet sind.
+
+**Behoben:** Ein Einzelwerk (Film, einteiliges Special) beobachtet Folge 1 (`folgenDerMeldung`,
+`check:logic`). Jeder übrige Verwerfungsgrund steht mit Zahl im Log des Bestandslaufs („Meldungen ohne
+Beobachtung je Folge: …“).
+
+**Reihenfolge ab hier:** (1) nach dem nächsten Bestandslauf die Verwerfungszahlen lesen und die Abdeckung
+neu messen (Skript: Herkunft je Beleg aus den Abschnittskommentaren, Urteil je `titel|anbieter`);
+(2) die großen Gründe einzeln schließen — Staffelmeldungen ohne Nummer über die Rohfolgen, `available:
+false` als eigenes Urteil je Weg; (3) erst bei voller Abdeckung schlägt das Urteil die eingelesenen
+Belege, mit `check:handbelege` als Gegenprobe; (4) danach liest der Einleser nicht mehr nach
+`dub-confirmed.yaml`, die Datei bleibt „Daniel von Hand“.

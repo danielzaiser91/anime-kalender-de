@@ -12,7 +12,8 @@
  * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { urteileJeFolge, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import { folgenDerMeldung, urteileJeFolge, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
 
@@ -108,13 +109,26 @@ async function main() {
       kanal: tonDe === 'nein' && kanalAdresse.has(adressKern(f.url)),
     })
   }
+  /* Ein Einzelwerk (Film, einteiliges Special) hat genau Folge 1 — siehe `folgenDerMeldung`. */
+  const titelListe = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
+  const einzel = new Set(
+    (Array.isArray(titelListe) ? titelListe : titelListe.titles)
+      .filter((t) => t.format === 'MOVIE' || t.episodes === 1)
+      .map((t) => t.id),
+  )
+  const verworfen: Record<string, number> = {}
   /* Eine Meldung ohne die Felder aus Migration 034 trägt nur `befund`. */
   for (const m of meldungen) {
     const vorhanden = m.vorhanden ?? (m.befund === 'weg' ? 'nein' : m.befund ? 'ja' : null)
     const tonDe = m.ton_de ?? (m.befund === 'dub' ? 'ja' : m.befund === 'kein_dub' ? 'nein' : 'unbekannt')
-    const von = m.folge_nr ?? m.teil_von
-    const bis = m.folge_nr ?? m.teil_bis
-    if (!m.titel_id || !vorhanden || !von || !bis || bis < von || bis - von > 500) continue
+    const spanne = folgenDerMeldung(m, vorhanden, (id) => einzel.has(id))
+    if ('verworfen' in spanne) {
+      verworfen[spanne.verworfen] = (verworfen[spanne.verworfen] ?? 0) + 1
+      continue
+    }
+    const { von, bis } = spanne
+    /* `folgenDerMeldung` hat beide schon geprüft — ohne Titel oder Befund gibt es keine Spanne. */
+    if (!m.titel_id || !vorhanden) continue
     const art = m.art === 'angenommen' || /ANGENOMMEN/.test(m.notiz ?? '') ? 'angenommen' : 'gemessen'
     for (let n = von; n <= bis; n++) {
       beobachtungen.push({
@@ -143,6 +157,14 @@ async function main() {
         .sort((a, b) => b[1] - a[1])
         .map(([k, n]) => `${n} ${k}`)
         .join(', '),
+  )
+  /* Jeder Verwerfungspfad mit Zahl (Skill `stille-ausfaelle-verhindern`). */
+  log(
+    'Meldungen ohne Beobachtung je Folge: ' +
+      (Object.entries(verworfen)
+        .sort((a, b) => b[1] - a[1])
+        .map(([k, n]) => `${n} ${k}`)
+        .join(', ') || 'keine'),
   )
 }
 

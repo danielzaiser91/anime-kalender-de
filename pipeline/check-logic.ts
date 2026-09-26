@@ -5932,6 +5932,17 @@ pruefe(
   pruefe('Stufe 3: die jüngste Beobachtung gilt', u['1|primevideo|2']?.urteil === 'kein deutsch')
   pruefe('Stufe 3: am selben Tag schlägt gemessen die Randprobe', u['1|primevideo|3']?.urteil === 'deutsch')
   pruefe('Stufe 3: gesperrt heißt nicht verfügbar', u['1|primevideo|4']?.urteil === 'nicht verfügbar')
+  /*
+    Welche Folgen eine Meldung beobachtet (26.09.2026): Prime-Filme melden keine Folgennummer und
+    ergaben deshalb kein Urteil. Ein Einzelwerk hat Folge 1; eine Staffelmeldung ohne Nummer bleibt draußen.
+  */
+  const { folgenDerMeldung } = await import('./lib/urteil-je-folge.ts')
+  const m = (titel_id: number | null, folge_nr: number | null = null) => ({ titel_id, folge_nr, teil_von: null, teil_bis: null })
+  const film = (id: number) => id === 512
+  pruefe('Stufe 3: ein Film ohne Folgennummer beobachtet Folge 1 (Kikis kleiner Lieferservice)', JSON.stringify(folgenDerMeldung(m(512), 'ja', film)) === '{"von":1,"bis":1}')
+  pruefe('Stufe 3: eine Staffelmeldung ohne Nummer bleibt verworfen — mit Grund', JSON.stringify(folgenDerMeldung(m(137822), 'ja', film)) === '{"verworfen":"ohne Folgennummer"}')
+  pruefe('Stufe 3: ohne Titel verworfen, mit Grund', JSON.stringify(folgenDerMeldung(m(null, 3), 'ja', film)) === '{"verworfen":"ohne Titel"}')
+  pruefe('Stufe 3: eine Folgennummer gilt wie gemeldet', JSON.stringify(folgenDerMeldung(m(137822, 7), 'ja', film)) === '{"von":7,"bis":7}')
 }
 {
   /*

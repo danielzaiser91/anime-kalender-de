@@ -58,3 +58,31 @@ export function urteileJeFolge(beobachtungen: UrteilBeobachtung[]): Record<strin
   }
   return aus
 }
+
+/** Warum eine Meldung keine Beobachtung je Folge ergibt — gezählt, nicht still verworfen. */
+export type MeldungVerworfen = 'ohne Titel' | 'ohne Befund' | 'ohne Folgennummer' | 'Spanne unplausibel'
+
+/**
+ * **Welche Folgen eine Meldung beobachtet** (26.09.2026, Stufe 4 Schritt 3).
+ *
+ * Bis hierhin ergab eine Meldung ohne Folgennummer gar keine Beobachtung. Gemessen am 26.09.2026:
+ * Von 2.010 aus der Erweiterung eingelesenen Handbelegen trug nur 564 ein Urteil — darunter fehlten
+ * alle Prime-Filme (Kikis kleiner Lieferservice, The First Slam Dunk, Girls und Panzer: Der Film),
+ * weil eine Filmseite keine Folgennummer meldet. Ein Einzelwerk hat genau eine Folge; dort ist die
+ * Nummer keine Annahme. Eine Staffelmeldung ohne Nummer bleibt verworfen — welche Folgen sie meint,
+ * sagen nur die Rohfolgen über die Zuordnung.
+ */
+export function folgenDerMeldung(
+  m: { titel_id: number | null; folge_nr: number | null; teil_von: number | null; teil_bis: number | null },
+  vorhanden: string | null,
+  einzelwerk: (titelId: number) => boolean,
+): { von: number; bis: number } | { verworfen: MeldungVerworfen } {
+  if (!m.titel_id) return { verworfen: 'ohne Titel' }
+  if (!vorhanden) return { verworfen: 'ohne Befund' }
+  let von = m.folge_nr ?? m.teil_von
+  let bis = m.folge_nr ?? m.teil_bis
+  if (!von && !bis && einzelwerk(m.titel_id)) von = bis = 1
+  if (!von || !bis) return { verworfen: 'ohne Folgennummer' }
+  if (bis < von || bis - von > 500) return { verworfen: 'Spanne unplausibel' }
+  return { von, bis }
+}
