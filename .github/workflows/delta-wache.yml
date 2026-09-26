@@ -84,8 +84,13 @@ jobs:
           fi
           node tools/wache-schreiben.mjs delta.txt briefkasten.txt "$LAGE"
           rm -f delta.txt briefkasten.txt
+          echo "LAGE=$LAGE" >> "$GITHUB_ENV"
 
+      # **Nur ein Befund wird committet** (Daniel, 26.09.2026: „Behalten, still bei Ruhe"). 25 Tage
+      # lang stand hier täglich „Unauffällig" als eigener Commit — Rauschen in der Historie, keine
+      # Auskunft. Dass die Wache lief, zeigt der grüne Lauf in Actions; die Datei hält den letzten Befund.
       - name: Änderung committen
+        if: env.LAGE == 'befund'
         run: |
           git config user.name "anime-kalender-bot"
           git config user.email "bot@anime-kalender.de"
