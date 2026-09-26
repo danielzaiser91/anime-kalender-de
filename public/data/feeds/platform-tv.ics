@@ -6,46 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – tv
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-09-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260919T110000Z
-DTEND:20260919T113000Z
-SUMMARY:Pokémon Horizonte – Folge 127/128
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-09-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260919T120000Z
-DTEND:20260919T123000Z
-SUMMARY:Pokémon Horizonte – Folge 127/128
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-165159-tv-toggo-plus@2026-09-19#115@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260919T182500Z
-DTEND:20260919T185500Z
-SUMMARY:Beyblade X – Folge 115/117
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-165159-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-165159-tv-toggo-plus@2026-09-19#116@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260919T184500Z
-DTEND:20260919T191500Z
-SUMMARY:Beyblade X – Folge 116/117
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-165159-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-09-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260919T221000Z
