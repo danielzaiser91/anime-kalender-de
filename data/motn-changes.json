@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 55
+    "2026-09": 58
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1857,7 +1857,7 @@
       "imdbId": "tt4655480",
       "tmdbId": "tv/62650",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-09-26",
       "deutsch": true
     },
     "removed:7754:prime": {
@@ -3207,7 +3207,7 @@
       "imdbId": "tt31510819",
       "tmdbId": "tv/247718",
       "dienst": "prime",
-      "am": "2026-09-04",
+      "am": "2026-09-26",
       "deutsch": true
     },
     "removed:457:prime": {
@@ -4383,7 +4383,7 @@
     "new:26598817:netflix": {
       "art": "new",
       "titel": "Shaque: Trust No One",
-      "originalTitel": "Shaque: Trust No One",
+      "originalTitel": "शक: Trust No One",
       "imdbId": "tt35929525",
       "tmdbId": "tv/285147",
       "dienst": "netflix",
@@ -4519,7 +4519,257 @@
       "dienst": "prime",
       "am": "2026-09-25",
       "deutsch": false
+    },
+    "new:14839:prime": {
+      "art": "new",
+      "titel": "New Worlds",
+      "originalTitel": "New Worlds",
+      "imdbId": "tt3495652",
+      "tmdbId": "tv/62444",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": true
+    },
+    "new:30101:prime": {
+      "art": "new",
+      "titel": "Barbershop",
+      "originalTitel": "Barbershop",
+      "imdbId": "tt0460622",
+      "tmdbId": "tv/9861",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": true
+    },
+    "new:1292430:prime": {
+      "art": "new",
+      "titel": "Marc Márquez: All In",
+      "originalTitel": "Marc Márquez: All In",
+      "imdbId": "tt26762647",
+      "tmdbId": "tv/220805",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "new:25861824:netflix": {
+      "art": "new",
+      "titel": "The Final Problem",
+      "originalTitel": "El problema final",
+      "imdbId": "tt36832679",
+      "tmdbId": "tv/290720",
+      "dienst": "netflix",
+      "am": "2026-09-26",
+      "deutsch": true
+    },
+    "new:26635368:netflix": {
+      "art": "new",
+      "titel": "Stolen Heartbeats",
+      "originalTitel": "En Coma",
+      "imdbId": "tt45403168",
+      "tmdbId": "tv/332863",
+      "dienst": "netflix",
+      "am": "2026-09-25",
+      "deutsch": true
+    },
+    "removed:25900616:prime": {
+      "art": "removed",
+      "titel": "Love in Vienna",
+      "originalTitel": "Coup de foudre sur un air de Noël",
+      "imdbId": "tt9452652",
+      "tmdbId": "tv/322810",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": true
+    },
+    "removed:13403341:prime": {
+      "art": "removed",
+      "titel": "Saving Grace",
+      "originalTitel": "Saving Grace",
+      "imdbId": "tt32962604",
+      "tmdbId": "tv/259291",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:8891361:prime": {
+      "art": "removed",
+      "titel": "1122: For a Happy Marriage",
+      "originalTitel": "1122 いいふうふ",
+      "imdbId": "tt31039807",
+      "tmdbId": "tv/251824",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:9308648:prime": {
+      "art": "removed",
+      "titel": "ACMA:GAME",
+      "originalTitel": "ACMA:GAME",
+      "imdbId": "tt32123369",
+      "tmdbId": "tv/248346",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:1696770:prime": {
+      "art": "removed",
+      "titel": "Angel Flight",
+      "originalTitel": "エンジェルフライト 国際霊柩送還士",
+      "imdbId": "tt19265256",
+      "tmdbId": "tv/220763",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:1695983:prime": {
+      "art": "removed",
+      "titel": "Induk Gajah",
+      "originalTitel": "Induk Gajah",
+      "imdbId": "tt26749347",
+      "tmdbId": "tv/222913",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:31341:prime": {
+      "art": "removed",
+      "titel": "Súbete a mi moto",
+      "originalTitel": "Súbete a mi moto",
+      "imdbId": "tt12248706",
+      "tmdbId": "tv/111119",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:17377373:prime": {
+      "art": "removed",
+      "titel": "Sekotengs",
+      "originalTitel": "Sekotengs",
+      "imdbId": "tt35792962",
+      "tmdbId": "tv/272962",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:73087:prime": {
+      "art": "removed",
+      "titel": "NO ACTIVITY",
+      "originalTitel": "NO ACTIVITY",
+      "imdbId": "tt15978444",
+      "tmdbId": "tv/154030",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:79161:prime": {
+      "art": "removed",
+      "titel": "Última Hora",
+      "originalTitel": "Última Hora",
+      "imdbId": "tt16538944",
+      "tmdbId": "tv/152327",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:2573:prime": {
+      "art": "removed",
+      "titel": "Hostel Daze",
+      "originalTitel": "Hostel Daze",
+      "imdbId": "tt11407524",
+      "tmdbId": "tv/96421",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:14408061:prime": {
+      "art": "removed",
+      "titel": "The Girl Who Killed Her Parents - The Series",
+      "originalTitel": "A Menina que Matou os Pais: A Série",
+      "imdbId": "tt34877644",
+      "tmdbId": "tv/278383",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:5926:prime": {
+      "art": "removed",
+      "titel": "In the Heat of the Night",
+      "originalTitel": "In the Heat of the Night",
+      "imdbId": "tt0094484",
+      "tmdbId": "tv/862",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": true
+    },
+    "removed:860:prime": {
+      "art": "removed",
+      "titel": "Chicago Fire",
+      "originalTitel": "Chicago Fire",
+      "imdbId": "tt2261391",
+      "tmdbId": "tv/44006",
+      "dienst": "prime",
+      "am": "2026-09-26",
+      "deutsch": true
+    },
+    "removed:4869:netflix": {
+      "art": "removed",
+      "titel": "Pagan Peak",
+      "originalTitel": "Der Pass",
+      "imdbId": "tt6905756",
+      "tmdbId": "tv/85526",
+      "dienst": "netflix",
+      "am": "2026-09-26",
+      "deutsch": false
+    },
+    "removed:117:prime": {
+      "art": "removed",
+      "titel": "The Flash",
+      "originalTitel": "The Flash",
+      "imdbId": "tt3107288",
+      "tmdbId": "tv/60735",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:384:prime": {
+      "art": "removed",
+      "titel": "Naruto Shippūden",
+      "originalTitel": "ナルト 疾風伝",
+      "imdbId": "tt0988824",
+      "tmdbId": "tv/31910",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": true
+    },
+    "removed:25891235:prime": {
+      "art": "removed",
+      "titel": "PSG City of Lights, 50 years of legend",
+      "originalTitel": "PSG City of Lights, 50 years of legend",
+      "imdbId": "tt13433110",
+      "tmdbId": "tv/110225",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": false
+    },
+    "removed:168:prime": {
+      "art": "removed",
+      "titel": "Two and a Half Men",
+      "originalTitel": "Two and a Half Men",
+      "imdbId": "tt0369179",
+      "tmdbId": "tv/2691",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": true
+    },
+    "removed:5459431:prime": {
+      "art": "removed",
+      "titel": "Himmel, Herrgott, Sakrament",
+      "originalTitel": "Himmel, Herrgott, Sakrament",
+      "imdbId": "tt29644336",
+      "tmdbId": "tv/205808",
+      "dienst": "prime",
+      "am": "2026-09-25",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-09-25T09:38:40.943Z"
+  "fetchedAt": "2026-09-26T09:23:26.852Z"
 }

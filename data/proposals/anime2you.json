@@ -1,6 +1,39 @@
 {
-  "scrapedAt": "2026-09-25T09:41:13.144Z",
+  "scrapedAt": "2026-09-26T09:25:58.203Z",
   "proposals": [
+    {
+      "articleTitle": "Bis zu 87 % Rabatt: Neue Anime-Aktion im AKIBA PASS SHOP gestartet",
+      "articleUrl": "https://www.anime2you.de/news/1053915/akiba-pass-shop-september-2026-rabattaktion/",
+      "publishedAt": "2026-09-25",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-09-28",
+          "context": "che Anime-Produkte um bis zu 87 % reduziert angeboten werden. Nur bis 28. September 2026 Die Rabattaktion läuft vom 25. bis einschließlich 2"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Design der Blu-ray-Komplettbox von »Pass the Monster Meat, Milady!«",
+      "articleUrl": "https://www.anime2you.de/news/1052815/pass-the-monster-meat-milady-blu-ray-design/",
+      "publishedAt": "2026-09-25",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "tenen Extras enthüllt. Ein Produktbild findet ihr unten. Disc-Release im Dezember 2026 Die Komplettbox von »Pass the Monster Meat, Milady!«,"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm",
       "articleUrl": "https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/",
