@@ -13,6 +13,9 @@ import type { JSX } from 'react'
  * Kachel mit Fähnchen gegen 6 px überall sonst, also ein sichtbarer Versatz gegen die Nachbarspalte.
  * Ohne den Abstand ragt das Fähnchen mit `-top-1.5` genau 6 px hoch — es füllt den Zwischenraum
  * und berührt die Kachel darüber nicht (gemessen: Überlappung 0 px).
+ *
+ * `flex leading-none` an der Hülle: Ohne sie gab die Zeilenhöhe dem Tooltip 8 px Vorlauf, die Plakette
+ * rutschte in die Karte und verdeckte Uhrzeit und Cover (26.09.2026).
  */
 export function MitFaehnchen({ t, kachel }: {
   t: Translate
@@ -20,7 +23,7 @@ export function MitFaehnchen({ t, kachel }: {
 }) {
   return (
     <div className="relative">
-      <span className="absolute -top-1.5 left-3 z-10">
+      <span className="ak-fahne absolute -top-1.5 left-3 z-10 flex leading-none">
         <Tooltip text={t('tv.premiereHinweis')} seite="oben">
           <span className="block rounded-md bg-gradient-to-r from-fuchsia-600 to-amber-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(217,70,239,.7)]">
             ✦ Premiere

@@ -6048,5 +6048,10 @@ pruefe(
   pruefe('Bündel: anderer Sender bleibt eigene Karte', g.includes('d') && g.includes('b'), g)
   pruefe('Bündel: ausgebliebener Termin und Premiere werden nie eingeklappt', g.includes('e') && g.includes('f'), g)
 }
+{
+  /* Premiere-Fähnchen (26.09.2026): Die Zeilenhöhe der Hülle schob die Plakette 8 px in die Karte, über die Uhrzeit. */
+  const fahne = readFileSync(new URL('../web/src/components/Faehnchen.tsx', import.meta.url), 'utf8')
+  pruefe('Fähnchen: Hülle ohne Zeilenhöhe, die Plakette sitzt auf der Kante', /ak-fahne absolute -top-1\.5[^"]* flex leading-none/.test(fahne))
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
