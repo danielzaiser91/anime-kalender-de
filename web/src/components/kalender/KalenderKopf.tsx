@@ -78,7 +78,7 @@ export function KalenderKopf({
       </div>
       <div className="flex w-full flex-wrap items-center justify-between gap-2 sm:ml-auto sm:w-auto sm:justify-end">
         <div className="flex items-center gap-2">
-        <div role="group" aria-label={t('kal.zeitraum')} className="flex rounded-full border border-ak-rand bg-ak-flaeche p-1">
+        <div role="group" aria-label={t('kal.zeitraum')} className="flex rounded-full border border-ak-rand bg-ak-flaeche sm:p-1">
           <Segment an={!monat} onClick={onWoche}>{t('view.woche')}</Segment>
           <Segment an={monat} onClick={onMonat}>{t('view.monat')}</Segment>
         </div>
@@ -131,7 +131,7 @@ function Segment({ an, onClick, children }: { an: boolean; onClick: () => void; 
       aria-pressed={an}
       onClick={onClick}
       className={[
-        'h-9 cursor-pointer rounded-full px-4 text-sm font-bold transition',
+        'h-11 cursor-pointer rounded-full px-4 text-sm font-bold transition sm:h-9',
         an ? 'bg-ak-akzent text-ak-auf-akzent' : 'text-ak-leise hover:text-ak-text',
       ].join(' ')}
     >

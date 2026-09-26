@@ -117,6 +117,7 @@ import { releasesAus } from './lib/meldungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
 import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
+import { neuesteErschienen } from '../web/src/lib/gesehen.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { releasesAusTvProgramm, sendungNeuZuordnen } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
@@ -6075,6 +6076,14 @@ pruefe(
   pruefe('Staffelfinale: geratene Folgenzahl macht kein Finale', !istStaffelfinale(ev('geraten', 12, { episodeCount: 12 }), data))
   pruefe('Staffelfinale: „im Angebot seit" ist keins', !istStaffelfinale(ev('katalog', 12, { episodeCount: 12 }), data))
   pruefe('Staffelfinale: Fernsehen ist keins', !istStaffelfinale(ev('w', 12, { episodeCount: 12, platform: 'tv' }), data))
+}
+{
+  /* „N neu" (26.09.2026): gezählt wird nur Erschienenes, und Fernsehen zählt eigene Folgennummern. */
+  const f = (episode: number, date: string, extra: Record<string, unknown> = {}) => ({ titleId: 7, episode, date, platform: 'crunchyroll', ...extra })
+  const termine = [f(8, '2026-09-20'), f(9, '2026-09-26', { time: '18:00' }), f(10, '2026-10-03'), f(40, '2026-09-21', { platform: 'tv' })]
+  pruefe('Neu: künftige Folge zählt nicht', neuesteErschienen(termine, 7, '2026-09-26', '12:00') === 8)
+  pruefe('Neu: heute nach der Uhrzeit erschienen', neuesteErschienen(termine, 7, '2026-09-26', '18:00') === 9)
+  pruefe('Neu: Fernsehen zählt nicht mit', neuesteErschienen(termine, 7, '2026-10-10', '00:00') === 10)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

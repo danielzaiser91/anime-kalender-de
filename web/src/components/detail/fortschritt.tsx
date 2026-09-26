@@ -1,7 +1,7 @@
-import { todayIso } from '@shared/time.ts'
+import { nowHhMm, todayIso } from '@shared/time.ts'
 import type { Dataset } from '../../lib/data.ts'
 import { useLang } from '../../lib/i18n.tsx'
-import { neuSeitGesehen, useGesehen } from '../../lib/gesehen.ts'
+import { neuesteErschienen, neuSeitGesehen, useGesehen } from '../../lib/gesehen.ts'
 
 /**
  * „Gesehen bis Folge n" im Panel eines Favoriten — seit dem 26.09.2026 hier statt im entfallenen
@@ -10,15 +10,11 @@ import { neuSeitGesehen, useGesehen } from '../../lib/gesehen.ts'
 export function Fortschritt({ data, titelId }: { data: Dataset; titelId: number }) {
   const { t } = useLang()
   const [bis, setzen] = useGesehen(titelId)
-  const heute = todayIso()
-  const neueste = data.events.reduce(
-    (max, e) => (e.titleId === titelId && e.date <= heute && e.episode && !e.sichtung ? Math.max(max, e.episode) : max),
-    0,
-  )
+  const neueste = neuesteErschienen(data.events, titelId, todayIso(), nowHhMm())
   if (!neueste) return null
   const neu = neuSeitGesehen(bis, neueste)
   return (
-    <div className="mx-4 mt-3 flex flex-wrap items-center gap-3 rounded-2xl border border-ak-rand bg-ak-flaeche px-4 py-3 text-sm text-ak-text">
+    <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-ak-rand bg-ak-flaeche px-4 py-3 text-sm text-ak-text">
       <label className="flex items-center gap-2" title={t('fav.gesehenHinweis', { n: neueste })}>
         <span className="font-semibold">{t('fav.gesehenBis')}</span>
         <input

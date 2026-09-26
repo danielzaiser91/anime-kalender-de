@@ -30,6 +30,8 @@ export function Schwebe({
   const anker = useRef<HTMLSpanElement>(null)
   const karte = useRef<HTMLDivElement>(null)
   const zu = useRef<number>(undefined)
+  /* Nach Escape bekommt der Auslöser den Fokus zurück — das darf die Karte nicht gleich wieder öffnen. */
+  const stumm = useRef(false)
   const id = useId()
   const pos = useKartenPosition(offen, anker, karte)
   const zeigen = art !== 'klick'
@@ -47,6 +49,7 @@ export function Schwebe({
     const taste = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return
       schliessen()
+      stumm.current = true
       anker.current?.querySelector<HTMLElement>('button')?.focus()
     }
     /* Die Karte steht `fixed` — rollt die Seite, gehört sie nicht mehr zu ihrem Auslöser. */
@@ -61,10 +64,7 @@ export function Schwebe({
     }
   }, [offen])
 
-  /*
-    Per Klick geöffnet, bekommt die Karte den Fokus: Sie hängt am Ende des `body`, mit Tab käme
-    man sonst nie hinein. Escape schließt und gibt den Fokus an den Auslöser zurück.
-  */
+  /* Per Klick geöffnet, bekommt die Karte den Fokus: Sie hängt am Ende des `body`, mit Tab käme man nie hinein. */
   useEffect(() => {
     if (!fest || !pos) return
     karte.current?.querySelector<HTMLElement>('button, a[href], input')?.focus()
@@ -72,16 +72,15 @@ export function Schwebe({
 
   const umschalten = () => {
     if (art === 'zeigen') return
-    if (fest) {
-      setFest(false)
-      setOffen(false)
-    } else {
-      setFest(true)
-      setOffen(true)
-    }
+    setFest(!fest)
+    setOffen(!fest)
   }
   const betreten = () => {
     window.clearTimeout(zu.current)
+    if (stumm.current) {
+      stumm.current = false
+      return
+    }
     if (zeigen) setOffen(true)
   }
   const verlassen = () => {
@@ -99,7 +98,7 @@ export function Schwebe({
       onBlur={(e) => !fest && !e.currentTarget.contains(e.relatedTarget as Node) && !karte.current?.contains(e.relatedTarget as Node) && setOffen(false)}
       /* Klicks in der Karte kommen über das Portal hier an — sie schalten nicht um. */
       onClick={(e) => !karte.current?.contains(e.target as Node) && umschalten()}
-      aria-describedby={offen ? id : undefined}
+      aria-describedby={offen && art === 'zeigen' ? id : undefined}
     >
       {children}
       {offen &&
@@ -107,7 +106,7 @@ export function Schwebe({
           <div
             ref={karte}
             id={id}
-            role="dialog"
+            role={art === 'zeigen' ? 'tooltip' : 'dialog'}
             aria-label={label}
             onMouseEnter={betreten}
             onMouseLeave={verlassen}
@@ -118,7 +117,7 @@ export function Schwebe({
               setOffen(false)
             }}
             style={{ width: `min(${breite}px, calc(100vw - 16px))`, ...(pos ?? { left: -9999, top: 0 }) }}
-            className="fixed z-50 max-h-[70vh] overflow-y-auto rounded-2xl border border-ak-rand bg-ak-flaeche p-2 text-ak-text shadow-[0_18px_40px_rgba(0,0,0,.45)]"
+            className="fixed z-50 overflow-y-auto overscroll-contain rounded-2xl border border-ak-rand bg-ak-flaeche p-2 text-ak-text shadow-[0_18px_40px_rgba(0,0,0,.45)]"
           >
             {inhalt}
           </div>,
@@ -128,13 +127,16 @@ export function Schwebe({
   )
 }
 
-/** Unter dem Auslöser, sonst darüber; waagerecht im Fenster gehalten. */
+/**
+ * Unter dem Auslöser, sonst darüber — nie über der klebenden Kopfleiste und nie über dem Auslöser
+ * selbst. Reicht keine Seite, nimmt sie die größere und rollt darin (`maxHeight`).
+ */
 function useKartenPosition(
   offen: boolean,
   anker: React.RefObject<HTMLSpanElement | null>,
   karte: React.RefObject<HTMLDivElement | null>,
 ) {
-  const [pos, setPos] = useState<{ left: number; top: number }>()
+  const [pos, setPos] = useState<{ left: number; top: number; maxHeight: number }>()
   useLayoutEffect(() => {
     if (!offen) {
       setPos(undefined)
@@ -144,10 +146,14 @@ function useKartenPosition(
     const b = karte.current?.getBoundingClientRect()
     if (!a || !b) return
     const rand = 8
+    const luft = 6
+    const decke = (document.querySelector('header')?.getBoundingClientRect().bottom ?? 0) + rand
     const left = Math.min(Math.max(a.left, rand), Math.max(rand, window.innerWidth - b.width - rand))
-    const unten = a.bottom + 6
-    const top = unten + b.height <= window.innerHeight - rand ? unten : Math.max(rand, a.top - b.height - 6)
-    setPos({ left, top })
+    const platzUnten = window.innerHeight - rand - (a.bottom + luft)
+    const platzOben = a.top - luft - decke
+    const hoehe = karte.current?.scrollHeight ?? b.height
+    if (hoehe <= platzUnten || platzUnten >= platzOben) setPos({ left, top: a.bottom + luft, maxHeight: Math.max(120, platzUnten) })
+    else setPos({ left, top: Math.max(decke, a.top - luft - hoehe), maxHeight: platzOben })
   }, [offen, anker, karte])
   return pos
 }

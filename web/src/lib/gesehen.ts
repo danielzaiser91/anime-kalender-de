@@ -41,3 +41,19 @@ export function useGesehen(titelId: number): [number | undefined, (n: number | u
 export function neuSeitGesehen(bis: number | undefined, neueste: number): number {
   return bis === undefined ? 0 : Math.max(0, neueste - bis)
 }
+
+type Termin = { titleId: number; date: string; time?: string; episode?: number; platform: string; sichtung?: unknown }
+
+/**
+ * Die neueste erschienene Folge eines Titels — nur Streaming, nur schon Erschienenes. Fernsehen
+ * zählt eigene Folgennummern und bleibt deshalb außen vor (dieselbe Zählung wie „gesehen bis").
+ */
+export function neuesteErschienen(termine: Termin[], titelId: number, heute: string, jetzt: string): number {
+  let max = 0
+  for (const e of termine) {
+    if (e.titleId !== titelId || !e.episode || e.sichtung || e.platform === 'tv') continue
+    const erschienen = e.date < heute || (e.date === heute && (!e.time || e.time <= jetzt))
+    if (erschienen && e.episode > max) max = e.episode
+  }
+  return max
+}

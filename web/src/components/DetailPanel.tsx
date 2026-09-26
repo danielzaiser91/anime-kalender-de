@@ -1188,7 +1188,6 @@ export function DetailPanel({
           unterzeile={unterzeile}
           eigenerTeil={eigenerTeil}
         />
-        {favorites.has(title.id) && <Fortschritt data={data} titelId={title.id} />}
 
         {/*
           Das Karussell der Reihenteile — es ersetzt Cover **und** Auswahlliste.
@@ -1295,6 +1294,7 @@ export function DetailPanel({
             setDiscOffen={setDiscOffen}
             discReleases={discReleases}
           />
+          {favorites.has(title.id) && <Fortschritt data={data} titelId={title.id} />}
           {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.

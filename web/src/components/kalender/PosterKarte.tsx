@@ -96,7 +96,8 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
     <div
       className={[
         'relative overflow-hidden rounded-xl bg-ak-flaeche-2',
-        p.breit ? 'aspect-[4/3] ring-2' : 'aspect-[2/3]',
+        /* Breit: so hoch wie die schmalen Nachbarn — zwei Spalten minus Lücke, mal 3/4. */
+        p.breit ? 'ak-breit-cover h-0 ring-2' : 'aspect-[2/3]',
         p.art === 'start' ? 'ring-ak-akzent' : p.art === 'finale' ? 'ring-ak-finale' : '',
       ].join(' ')}
     >
@@ -116,8 +117,17 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
         <ZeitMarke event={p.event} t={t} />
         {p.art && <ArtFahne art={p.art} />}
       </span>
-      {/* Teilen und Ausblenden erst beim Zeigen (nur mit Zeiger); der Stern bleibt, sobald er gesetzt ist. */}
-      <span className="absolute top-1.5 right-1.5 flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      {/*
+        Teilen und Ausblenden erst beim Zeigen; der Stern bleibt, sobald er gesetzt ist. Unten rechts,
+        damit sie Uhrzeit und Fähnchen nicht verdecken. Auf dem Handy wären sie 20-px-Ziele — dort
+        steht nur der gesetzte Stern als Zeichen, bedient wird im Panel.
+      */}
+      {p.favorite && (
+        <span className="absolute right-2 bottom-3 text-base text-amber-400 drop-shadow-[0_1px_2px_rgba(0,0,0,.8)] sm:hidden" role="img" aria-label={t('kal.favorit')}>
+          ★
+        </span>
+      )}
+      <span className="absolute right-1.5 bottom-2.5 hidden items-center gap-1 sm:flex" onClick={(e) => e.stopPropagation()}>
         <span className={`${KNOPF_GRUND} ${ERST_BEIM_ZEIGEN}`}>
           <ShareIcon onShare={() => void share(p.event.releaseSlug, p.event.name)} copied={copiedSlug === p.event.releaseSlug} size="sm" />
           {p.onToggleHidden && <HideEye hidden={false} onToggle={p.onToggleHidden} size="sm" />}

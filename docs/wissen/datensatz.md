@@ -344,9 +344,12 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
 - **Navigation: Kalender (Woche ⇄ Monat) · Datenbank · News.** Agenda, Favoriten und „Wo sehen?“
   sind entfallen: die Woche ist schon eine Tagesliste, „Nur Favoriten“ und die Anbieter-Chips im
   Filter beantworten die beiden anderen. Alte Adressen (`#/agenda`, `#/favoriten`, `#/wo`) leiten in
-  `lib/router.ts` weiter (`ALTE_ANSICHTEN`); Push-Nachrichten führen seitdem auf `#/woche?fav=1`.
+  `lib/router.ts` weiter und werden in der Leiste umgeschrieben (`ALTE_ANSICHTEN`); Push-Nachrichten
+  führen seitdem auf `#/woche?fav=1`.
 - **Umzüge:** „gesehen bis Folge N“ steht im Detail-Panel eines Favoriten (`detail/fortschritt.tsx`,
-  die Kachel zeigt „N neu“), der Push-Schalter im Abo-Menü, das Nachführen der Favoriten beim
+  unter dem Antwortkasten). „N neu“ steht nur an der Kachel der neuesten **erschienenen** Folge
+  (`neuesteErschienen()`, ohne Fernsehen, das eigene Nummern zählt; Zusicherung „Neu: …“). Der
+  Push-Schalter sitzt im Abo-Menü, das Nachführen der Favoriten beim
   Push-Dienst in `App` (`usePushNachfuehren`, vorher nur bei geöffneter Favoriten-Ansicht), der
   AniList-Import unter „Nur Favoriten“ im Filterfeld.
 - **Kopfleiste** klebt oben: Logo (das Favicon-Symbol), Suche (gilt für Kalender und Datenbank,
@@ -354,7 +357,8 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   Hell/Dunkel, Zahnrad. Auf dem Handy unten Kalender · Datenbank · News · Einstellungen; Hell/Dunkel
   dort im Einstellungsdialog, sonst passte der Name nicht in die Leiste.
 - **Woche:** je Tag eine Zeile — Tag, Cover-Raster (`repeat(auto-fill, minmax(128px, 1fr))`, auf
-  dem Handy genau zwei Spalten), rechts „Im Fernsehen“. Der TV-Kasten füllt absolut die Zeilenhöhe
+  dem Handy genau zwei Spalten, immer in Zeitreihenfolge — `grid-flow-dense` würfelte sie durcheinander,
+  eine Lücke vor einer breiten Kachel wird hingenommen), rechts „Im Fernsehen“. Der TV-Kasten füllt absolut die Zeilenhöhe
   und scrollt darin; bricht die Poster-Reihe um, wird er mit ihr höher.
 - **Staffelstart und Staffelfinale** nehmen zwei Spalten ein, das Cover füllt die Breite, der Text
   steht wie bei jeder Kachel darunter (Daniel: kein geteiltes Cover/Text). `istStaffelfinale()`:
@@ -363,7 +367,15 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
 - **Monat:** Cover ohne Text; Zeigen nennt Titel, Zeit und Folge (`kalender/Schwebe.tsx`), Klick
   öffnet das Panel. „+N“ klappt alle Termine des Tages auf, die TV-Zeile zeigt beim Zeigen (und
   per Klick) die Ausstrahlungen. Ein Klick auf die Tageszahl springt in der Woche zu diesem Tag
-  (`lib/ziel-tag.ts`).
+  (`lib/ziel-tag.ts`). Unter `sm` ist die ganze Zelle ein Knopf, der den Tag aufklappt — Cover
+  von 22 px wären kein Touch-Ziel.
+- **Zählung** je Tag und Monat: „8 Termine · 9 im TV“ (`zaehlung()`); Termine sind alles außer
+  Fernsehen, also auch Disc und Kino. Eine Null entfällt, der leere Tag sagt „Kein Termin an diesem
+  Tag.“ bzw. „Nur im Fernsehen.“
+- **Vergangenes** dimmt nur Bilder (`.ak-vorbei`), Text wechselt auf `--ak-leise` — `opacity` am
+  ganzen Tag drückte jeden Text unter 4,5:1 (axe, 26.09.2026).
+- **Schwebekarten** (`Schwebe.tsx`) stehen nie über der Kopfleiste oder dem Auslöser und rollen
+  in sich; per Klick geöffnet bekommen sie den Fokus, Escape schließt und gibt ihn zurück.
 - **Wiederholungen** eines Tages bündelt weiter `buendeleTermine()`: im TV-Kasten „+2 bis 18:50“
   (Klick nennt die Zeiten), bei Streaming „+N Folgen“; nie über Sender hinweg, ausgebliebene Termine
   und Premieren nie eingeklappt. Zusicherung: `check:logic`, „Bündel: …“.

@@ -11,6 +11,7 @@ import { MonthView } from '../MonthView.tsx'
 import { KalenderKopf, wochenSpanne } from './KalenderKopf.tsx'
 import { FilterFeld } from './FilterFeld.tsx'
 import { AktiveFilter } from './AktiveFilter.tsx'
+import { zaehlung } from './Marken.tsx'
 
 export interface KalenderBereichProps {
   data: Dataset
@@ -50,9 +51,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
   const stream = imZeitraum.filter((e) => e.platform !== 'tv').length
   const tv = imZeitraum.length - stream
   const unterzeile = monat
-    ? p.tvAn
-      ? t('kal.monatZahlen', { stream, tv })
-      : t('kal.monatZahlenOhneTv', { stream })
+    ? zaehlung(stream, p.tvAn ? tv : 0, t)
     : wochenSpanne(route.date)
   const setFilters = (filters: FilterState) => navigate({ filters })
   const oeffnen = (release: string) => navigate({ release, title: undefined })

@@ -12,10 +12,13 @@ import { KalenderZeichen, NewsZeichen, RasterZeichen, ZahnradZeichen } from './k
 export function HandyNavigation({
   aktiv,
   onView,
+  kalender,
   einstellungen,
 }: {
   aktiv: 'kalender' | 'datenbank' | 'news' | undefined
   onView: (v: ViewId) => void
+  /** Woche oder Monat — „Kalender" behält die gewählte Ansicht. */
+  kalender: ViewId
   einstellungen: () => void
 }) {
   const { t } = useLang()
@@ -39,7 +42,7 @@ export function HandyNavigation({
       aria-label={t('nav.bereich')}
       className="fixed inset-x-3 bottom-[calc(12px+env(safe-area-inset-bottom))] z-30 grid grid-cols-4 rounded-[22px] border border-ak-rand bg-ak-flaeche/95 p-1.5 backdrop-blur md:hidden"
     >
-      {eintrag(aktiv === 'kalender', t('nav.kalender'), <KalenderZeichen />, () => onView('woche'), 'kalender')}
+      {eintrag(aktiv === 'kalender', t('nav.kalender'), <KalenderZeichen />, () => onView(kalender), 'kalender')}
       {eintrag(aktiv === 'datenbank', t('view.datenbank' as TranslationKey), <RasterZeichen />, () => onView('datenbank'), 'datenbank')}
       {eintrag(aktiv === 'news', t('view.news'), <NewsZeichen />, () => onView('news'), 'news')}
       {eintrag(false, t('einstellungen.titel'), <ZahnradZeichen />, einstellungen, 'einstellungen')}

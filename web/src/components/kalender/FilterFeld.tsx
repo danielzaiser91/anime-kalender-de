@@ -121,7 +121,7 @@ export function Pille({ an, aus, onClick, children, farbe }: { an: boolean; aus?
       aria-pressed={an || aus}
       onClick={onClick}
       className={[
-        'inline-flex h-9 cursor-pointer items-center gap-2 rounded-full border px-3.5 text-[13px] font-bold transition',
+        'inline-flex h-11 cursor-pointer items-center gap-2 rounded-full border px-3.5 text-[13px] font-bold transition sm:h-9',
         aus
           ? 'border-rose-400/70 bg-rose-500/10 text-rose-600 line-through dark:text-rose-300'
           : an
@@ -200,11 +200,11 @@ function FilterFuss(p: FilterFeldProps) {
           p.onChange({ ...EMPTY_FILTERS })
           p.setTvAn(true)
         }}
-        className="ml-auto h-10 cursor-pointer rounded-full border border-ak-rand px-4 text-sm font-bold text-ak-text hover:bg-ak-flaeche-2"
+        className="ml-auto h-11 cursor-pointer rounded-full border border-ak-rand px-4 text-sm font-bold text-ak-text hover:bg-ak-flaeche-2"
       >
         {t('filter.alleZuruecksetzen')}
       </button>
-      <button type="button" onClick={p.schliessen} className="h-10 cursor-pointer rounded-full bg-ak-akzent px-5 text-sm font-extrabold text-ak-auf-akzent">
+      <button type="button" onClick={p.schliessen} className="h-11 cursor-pointer rounded-full bg-ak-akzent px-5 text-sm font-extrabold text-ak-auf-akzent">
         {t('filter.fertig')}
       </button>
     </div>

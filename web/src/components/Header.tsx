@@ -67,7 +67,7 @@ export function Header({
             <button
               key={b.id}
               type="button"
-              onClick={() => onView(b.ziel)}
+              onClick={() => onView(b.id === 'kalender' && aktiv === 'kalender' ? view : b.ziel)}
               aria-current={aktiv === b.id ? 'page' : undefined}
               className={[
                 'cursor-pointer border-b-2 py-2 transition',
@@ -102,7 +102,7 @@ export function Header({
           </label>
         </div>
       )}
-      <HandyNavigation aktiv={aktiv} onView={onView} einstellungen={einstellungen} />
+      <HandyNavigation aktiv={aktiv} onView={onView} kalender={aktiv === 'kalender' ? view : 'woche'} einstellungen={einstellungen} />
     </header>
   )
 }

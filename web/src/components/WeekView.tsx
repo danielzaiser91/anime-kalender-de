@@ -2,14 +2,15 @@ import { useMemo } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
 import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
-import { addDays, formatDate, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
+import { addDays, formatDate, nowHhMm, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSprungZuHeute } from '../lib/woche-sprung.ts'
 import { useZielTag } from '../lib/ziel-tag.ts'
 import { buendeleTermine } from '../lib/buendel.ts'
-import { gesehenLesen } from '../lib/gesehen.ts'
+import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
 import { PosterKarte, type KartenArt } from './kalender/PosterKarte.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
+import { zaehlung } from './kalender/Marken.tsx'
 
 /** Ohne Uhrzeit hinter alles mit — ziffernbasiert, damit jede Kollation es hinten einsortiert. */
 const OHNE_UHRZEIT = '99:99'
@@ -98,7 +99,6 @@ function TagZeile({
   landingId?: string
   landingRef: React.RefObject<HTMLDivElement | null>
 }) {
-  const { t } = useLang()
   const heute = tag.date === today
   const vorbei = tag.date < today
   /* Ausgeschaltet bleiben Premieren sichtbar (Daniel, 19.09.2026) — dann steht der Kasten nur für sie da. */
@@ -129,7 +129,6 @@ function TagZeile({
           </div>
         </div>
       )}
-      {!p.tvAn && tag.stream.length === 0 && <span className="sr-only">{t('kal.keinStream')}</span>}
     </section>
   )
 }
@@ -147,9 +146,7 @@ function TagKopf({ tag, heute, tvAn }: { tag: Tag; heute: boolean; tvAn: boolean
         {Number(tag.date.slice(8))}
       </span>
       <span className="ml-auto text-xs text-ak-leise lg:ml-0">
-        {tvAn
-          ? t('kal.tagZahlen', { stream: tag.stream.length, tv: tag.tv.length })
-          : t('kal.tagZahlenOhneTv', { stream: tag.stream.length })}
+          {zaehlung(tag.stream.length, tvAn ? tag.tv.length : 0, t)}
       </span>
     </div>
   )
@@ -176,9 +173,9 @@ function PosterRaster({
     istStaffelstart(ev, p.data) ? 'start' : istStaffelfinale(ev, p.data) ? 'finale' : undefined
   const gruppen = buendeleTermine(tag.stream, (ev) => !!ev.verpasst || !!art(ev))
   return (
-    <div className="grid grid-flow-dense grid-cols-2 content-start gap-x-3 gap-y-5 sm:grid-flow-row sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-x-3.5 lg:min-h-[250px]">
+    <div className="grid grid-cols-2 content-start gap-x-3 gap-y-5 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-x-3.5 lg:min-h-[250px]">
       {tag.stream.length === 0 && (
-        <p className="col-span-full pt-1 text-sm text-ak-sehr-leise">{t(p.gefiltert ? 'kal.nichtsGefiltert' : 'kal.keinStream')}</p>
+        <p className="col-span-full pt-1 text-sm text-ak-sehr-leise">{t(p.gefiltert ? 'kal.nichtsGefiltert' : tag.tv.length ? 'kal.nurTv' : 'kal.keinTermin')}</p>
       )}
       {gruppen.map(([ev, ...weitere]) => {
         const bis = p.favorites.has(ev.titleId) ? gesehen[ev.titleId] : undefined
@@ -192,7 +189,7 @@ function PosterRaster({
             favorite={p.favorites.has(ev.titleId)}
             hidden={p.hidden.has(ev.titleId)}
             vorbei={heute && !!ev.time && ev.time < now}
-            neu={bis !== undefined && ev.episode ? Math.max(0, (weitere.at(-1)?.episode ?? ev.episode) - bis) : 0}
+            neu={neuAnKarte(p, bis, ev.titleId, weitere.at(-1)?.episode ?? ev.episode)}
             anker={[ev, ...weitere].some((e) => e.id === landingId) ? (landingRef as React.Ref<HTMLElement>) : undefined}
             onToggleFavorite={ev.titleId > 0 ? () => p.onToggleFavorite(ev.titleId) : undefined}
             onToggleHidden={ev.titleId > 0 ? () => p.onToggleHidden(ev.titleId) : undefined}
@@ -202,4 +199,14 @@ function PosterRaster({
       })}
     </div>
   )
+}
+
+/**
+ * „N neu" steht nur an der Karte der neuesten erschienenen Folge — dieselbe Zahl wie im Panel.
+ * Künftige Folgen tragen keine Marke: Was nicht erschienen ist, ist nicht neu.
+ */
+function neuAnKarte(p: WocheProps, bis: number | undefined, titelId: number, folge: number | undefined): number {
+  if (bis === undefined || !folge) return 0
+  const neueste = neuesteErschienen(p.data.events, titelId, todayIso(), nowHhMm())
+  return folge === neueste ? neuSeitGesehen(bis, neueste) : 0
 }

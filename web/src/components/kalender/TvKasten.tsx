@@ -40,7 +40,8 @@ export function TvKasten({
   if (kompakt) return liste
   return (
     <div className="flex flex-col gap-0.5 rounded-2xl border border-ak-tv-rand bg-ak-tv-grund px-3.5 py-3">
-      <h3 className="flex items-center gap-2 pb-1.5 text-xs font-bold uppercase tracking-[0.1em] text-ak-tv">
+      {/* Klebt oben, wenn der Kasten in Zeilenhöhe rollt — sonst verschwände mit dem Kopf auch der Hinweis, was hier steht. */}
+      <h3 className="sticky top-0 z-[1] -mx-3.5 -mt-3 flex items-center gap-2 rounded-t-2xl bg-ak-tv-grund px-3.5 pt-3 pb-1.5 text-xs font-bold uppercase tracking-[0.1em] text-ak-tv">
         <FernsehZeichen groesse={16} />
         {t('kal.imTv')}
       </h3>
@@ -105,7 +106,7 @@ function TvZeile({
           type="button"
           onClick={() => setAuf(!auf)}
           aria-expanded={auf}
-          className="ml-[76px] cursor-pointer rounded px-1 text-xs font-semibold text-ak-tv hover:underline"
+          className="ml-[76px] flex min-h-11 cursor-pointer items-center rounded px-1 text-xs font-semibold text-ak-tv hover:underline sm:min-h-0"
         >
           {auf
             ? t('kal.buendelAuch', { zeiten: weitere.map((w) => w.time ?? '–').join(', ') })

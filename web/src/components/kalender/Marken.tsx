@@ -65,3 +65,14 @@ export function VerpasstMarke({ event, t }: { event: ReleaseEvent; t: Translate 
     </Tooltip>
   )
 }
+
+/**
+ * „8 Termine · 9 im TV" — Termine sind alles außer Fernsehen (Stream, Disc, Kino). Eine Null
+ * entfällt: „0 Termine" neben „Kein Termin an diesem Tag" stünde doppelt da.
+ */
+export function zaehlung(termine: number, tv: number, t: Translate): string {
+  const teile: string[] = []
+  if (termine) teile.push(termine === 1 ? t('kal.einTermin') : t('kal.termine', { n: termine }))
+  if (tv) teile.push(t('kal.imTvZahl', { n: tv }))
+  return teile.join(' · ')
+}

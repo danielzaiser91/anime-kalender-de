@@ -68,26 +68,35 @@ function MonatsZelle({ tag, p, heute, vorbei, t }: { tag: Tag; p: MonatProps; he
   const stream = tag.stream.filter((e) => !p.hidden.has(e.titleId))
   /* Ist das Fernsehen ausgeschaltet, stehen hier nur noch Premieren (App, 19.09.2026). */
   const tv = tag.tv
+  const rahmen = [
+    'rounded-xl',
+    heute ? 'bg-ak-heute ring-1 ring-ak-akzent ring-inset' : 'bg-ak-flaeche ring-1 ring-ak-linie ring-inset',
+    vorbei ? 'ak-vorbei' : '',
+  ].join(' ')
+  return (
+    <div className={rahmen}>
+      <ZelleGross tag={tag} stream={stream} tv={tv} p={p} heute={heute} t={t} />
+      <ZelleHandy tag={tag} stream={stream} tv={tv} p={p} heute={heute} t={t} />
+    </div>
+  )
+}
+
+type ZellProps = { tag: Tag; stream: ReleaseEvent[]; tv: ReleaseEvent[]; p: MonatProps; heute: boolean; t: ReturnType<typeof useLang>['t'] }
+
+/** Ab `sm`: Tageszahl, Cover mit Details beim Zeigen, „+N" und die TV-Zeile. */
+function ZelleGross({ tag, stream, tv, p, heute, t }: ZellProps) {
   const zeigen = stream.length > PLATZ ? stream.slice(0, PLATZ - 1) : stream
   const mehr = stream.length - zeigen.length
   return (
-    <div
-      className={[
-        'flex min-h-[74px] flex-col gap-1.5 rounded-xl p-1.5 sm:min-h-[150px] sm:gap-2 sm:p-2.5',
-        heute ? 'bg-ak-heute ring-1 ring-ak-akzent ring-inset' : 'bg-ak-flaeche ring-1 ring-ak-linie ring-inset',
-        vorbei ? 'ak-vorbei' : '',
-      ].join(' ')}
-    >
+    <div className="hidden min-h-[150px] flex-col gap-2 p-2.5 sm:flex">
       <button
         type="button"
         onClick={() => p.onPickDay(tag.date)}
         aria-label={t('kal.tagOeffnen', { datum: formatDate(tag.date) })}
         className="flex cursor-pointer items-baseline gap-1.5 self-start rounded-md text-left hover:underline"
       >
-        <span className={`font-display text-sm font-bold sm:text-lg ${heute ? 'text-ak-akzent-text' : 'ak-titel text-ak-text'}`}>
-          {Number(tag.date.slice(8))}
-        </span>
-        {heute && <span className="hidden text-[11px] font-bold uppercase tracking-[0.08em] text-ak-akzent-text sm:inline">{t('week.today')}</span>}
+        <TagesZahl tag={tag} heute={heute} />
+        {heute && <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-ak-akzent-text">{t('week.today')}</span>}
       </button>
       <div className="flex flex-wrap gap-1">
         {zeigen.map((ev) => (
@@ -103,12 +112,54 @@ function MonatsZelle({ tag, p, heute, vorbei, t }: { tag: Tag; p: MonatProps; he
             aria-label={t('kal.tvAmTag', { datum: formatDate(tag.date) })}
           >
             <FernsehZeichen groesse={14} />
-            <span className="hidden sm:inline">{t('kal.imTvZahl', { n: tv.length })}</span>
-            <span className="sm:hidden">{tv.length}</span>
+            {t('kal.imTvZahl', { n: tv.length })}
           </button>
         </Schwebe>
       )}
     </div>
+  )
+}
+
+/**
+ * Unter `sm` ist die ganze Zelle ein Knopf (Touch-Ziel statt 22 px großer Cover): Er klappt alle
+ * Termine des Tages auf; ein leerer Tag führt direkt in die Woche.
+ */
+function ZelleHandy({ tag, stream, tv, p, heute, t }: ZellProps) {
+  const datum = formatDate(tag.date)
+  const knopf = (
+    <button
+      type="button"
+      onClick={stream.length + tv.length ? undefined : () => p.onPickDay(tag.date)}
+      aria-label={stream.length + tv.length ? t('kal.mehrLabel', { n: stream.length + tv.length, datum }) : t('kal.tagOeffnen', { datum })}
+      className="flex size-full min-h-[74px] cursor-pointer flex-col items-start gap-1 p-1.5 text-left"
+    >
+      <TagesZahl tag={tag} heute={heute} />
+      {stream.slice(0, 2).map((ev) => {
+        const cover = p.data.titleById.get(ev.titleId)?.coverImage
+        return cover ? <img key={ev.id} {...coverBild(cover, 22)} alt="" loading="lazy" className="h-8 w-[22px] rounded-[5px] object-cover" /> : null
+      })}
+      {stream.length > 2 && <span className="text-[10px] font-extrabold text-ak-text">+{stream.length - 2}</span>}
+      {tv.length > 0 && (
+        <span className="mt-auto flex items-center gap-0.5 text-[11px] font-bold text-ak-tv">
+          <FernsehZeichen groesse={11} />
+          {tv.length}
+        </span>
+      )}
+    </button>
+  )
+  if (!stream.length && !tv.length) return <div className="flex sm:hidden">{knopf}</div>
+  return (
+    <Schwebe art="klick" breite={360} label={t('kal.alleAmTag', { datum })} className="flex h-full sm:hidden" inhalt={<TagesListe tag={tag} stream={stream} tv={tv} p={p} />}>
+      {knopf}
+    </Schwebe>
+  )
+}
+
+function TagesZahl({ tag, heute }: { tag: Tag; heute: boolean }) {
+  return (
+    <span className={`font-display text-sm font-bold sm:text-lg ${heute ? 'text-ak-akzent-text' : 'ak-titel text-ak-text'}`}>
+      {Number(tag.date.slice(8))}
+    </span>
   )
 }
 

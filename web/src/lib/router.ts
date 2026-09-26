@@ -41,10 +41,10 @@ export const VIEWS: { id: ViewId; label: string }[] = [
  * Entfernen, wenn keine vor dem 26.09.2026 verschickte Push-Nachricht mehr geöffnet wird
  * (frühestens 31.12.2026).
  */
-const ALTE_ANSICHTEN: Record<string, { view: ViewId; favoriten?: true }> = {
+const ALTE_ANSICHTEN: Record<string, { view: ViewId; favoriten?: true; verfuegbar?: true }> = {
   agenda: { view: 'woche' },
   favoriten: { view: 'woche', favoriten: true },
-  wo: { view: 'datenbank' },
+  wo: { view: 'datenbank', verfuegbar: true },
 }
 
 export interface AppRoute {
@@ -114,7 +114,7 @@ export function parseHash(hash: string): AppRoute {
     search: params.get('q') ?? '',
     confirmedOnly: params.get('sicher') === '1',
     favoritesOnly: params.get('fav') === '1' || !!alt?.favoriten,
-    availableOnly: params.get('wo') === '1',
+    availableOnly: params.get('wo') === '1' || !!alt?.verfuegbar,
     kostenlosOnly: params.get('frei') === '1',
     minConfidence: (params.get('conf') as DubConfidence) ?? 'low',
   }
@@ -183,7 +183,14 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
   const [route, setRoute] = useState<AppRoute>(() => parseHash(window.location.hash))
 
   useEffect(() => {
-    const onChange = () => setRoute(parseHash(window.location.hash))
+    const onChange = () => {
+      const neu = parseHash(window.location.hash)
+      /* Eine alte Adresse wird in der Leiste gleich zur neuen — sonst teilt man sie weiter. */
+      if (ALTE_ANSICHTEN[window.location.hash.replace(/^#\/?/, '').split('?')[0]])
+        history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(neu))
+      setRoute(neu)
+    }
+    onChange()
     /*
       **Auch `popstate`, nicht nur `hashchange`** (Daniel, 22.09.2026: „beim pfeil zurück … url
       ändert sich, aber webseite bleibt so"). `syncSharePath` schreibt nach jedem Hash-Wechsel den

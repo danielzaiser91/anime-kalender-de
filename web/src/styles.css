@@ -259,3 +259,13 @@ html.dark select option {
 .ak-vorbei .ak-titel {
   color: var(--ak-leise);
 }
+
+/* Breite Kachel (Start, Finale): so hoch wie die schmalen Nachbarn — zwei Spalten minus Lücke, mal 3/4. */
+.ak-breit-cover {
+  padding-top: calc((100% - 0.75rem) * 0.75);
+}
+@media (min-width: 40rem) {
+  .ak-breit-cover {
+    padding-top: calc((100% - 0.875rem) * 0.75);
+  }
+}
