@@ -220,5 +220,15 @@ export function indiziereCrSendeplaetze({ titles }: {
     const id = crunchyrollSeriesId(entryUrl)
     return (id ? crBySeriesId.get(id) : undefined) ?? crunchyroll.german[normalizeTitle(name)]
   }
-  return { findCrunchyroll, crKalenderBis, crunchyroll, titleForCalendarName, titleFromSeries, titelAusKatalog, titleByName, crBySeriesId, katalogEintraege }
+  return {
+    findCrunchyroll,
+    crKalenderBis,
+    crunchyroll,
+    titleForCalendarName,
+    titleFromSeries,
+    titelAusKatalog,
+    titleByName,
+    crBySeriesId,
+    katalogEintraege,
+  }
 }

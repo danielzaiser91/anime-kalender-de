@@ -95,5 +95,16 @@ export function ladeQuellen() {
     )
     process.exit(1)
   }
-  return { byMal, confidenceRaw, byAniId, tmdbTitles, anisearch, curated, curatedIds, tmdb, anisearchEpisodes, tmdbMehrdeutig }
+  return {
+    byMal,
+    confidenceRaw,
+    byAniId,
+    tmdbTitles,
+    anisearch,
+    curated,
+    curatedIds,
+    tmdb,
+    anisearchEpisodes,
+    tmdbMehrdeutig,
+  }
 }

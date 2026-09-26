@@ -5,7 +5,17 @@ import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
 import { todayIso } from '../../shared/time.ts'
 
-export function werteLinkpruefungAus({ ytKanal, ytKauf, titles, netflixOhneKennung, checksJePlattform, youtubeBefunde, belegFuer, vonHandBelegtAm, checks }: {
+export function werteLinkpruefungAus({
+  ytKanal,
+  ytKauf,
+  titles,
+  netflixOhneKennung,
+  checksJePlattform,
+  youtubeBefunde,
+  belegFuer,
+  vonHandBelegtAm,
+  checks,
+}: {
   ytKanal: Record<string, string>
   ytKauf: Set<string>
   titles: Map<number, Title>

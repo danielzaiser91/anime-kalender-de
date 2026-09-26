@@ -6,7 +6,27 @@ import { providerToPlatform } from './titel-hilfen.ts'
 import { zugangsart, type Zugangsart } from '../../shared/zugangsart.ts'
 import { type TmdbTitelEintrag, type AnisearchEintrag } from './01-quellen.ts'
 
-export function uebernehmePrimeUndCrVorschlaege({ titles, checks, alleChecks, lautPruefungTot, tmdbTitles, ytKanal, zugangJeAdresse, joynZugang, ytKauf, geprueft, entfernt, ytAusTonspur, adressen, totEntfernt, ytEntfernt, linkBefunde, checksJePlattform, anisearch, belegFuer }: {
+export function uebernehmePrimeUndCrVorschlaege({
+  titles,
+  checks,
+  alleChecks,
+  lautPruefungTot,
+  tmdbTitles,
+  ytKanal,
+  zugangJeAdresse,
+  joynZugang,
+  ytKauf,
+  geprueft,
+  entfernt,
+  ytAusTonspur,
+  adressen,
+  totEntfernt,
+  ytEntfernt,
+  linkBefunde,
+  checksJePlattform,
+  anisearch,
+  belegFuer,
+}: {
   titles: Map<number, Title>
   checks: Map<string, DubCheck>
   alleChecks: DubCheck[]

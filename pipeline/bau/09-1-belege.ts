@@ -12,7 +12,16 @@ import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 
-export function sammleBelege({ releases, titles, crBySeriesId, tmdbMehrdeutig, tmdbTitles, tvJeTmdb, toteAdressen, crDub }: {
+export function sammleBelege({
+  releases,
+  titles,
+  crBySeriesId,
+  tmdbMehrdeutig,
+  tmdbTitles,
+  tvJeTmdb,
+  toteAdressen,
+  crDub,
+}: {
   releases: Release[]
   titles: Map<number, Title>
   crBySeriesId: Map<string, CrunchyrollEntry>
@@ -530,5 +539,22 @@ export function sammleBelege({ releases, titles, crBySeriesId, tmdbMehrdeutig, t
    * "kostenlos" im Kalender, obwohl sechs davon Geld kosten.
    */
   const ytKauf = new Set<string>()
-  return { ytKanal, ytKauf, checksJePlattform, youtubeBefunde, belegFuer, vonHandBelegtAm, checks, alleChecks, zugangJeAdresse, joynZugang, usNeinWiderlegt, crAdresseZu, crKatalogDeutsch, beantworteteSuchen, suchOffen, kanalJeAdresse }
+  return {
+    ytKanal,
+    ytKauf,
+    checksJePlattform,
+    youtubeBefunde,
+    belegFuer,
+    vonHandBelegtAm,
+    checks,
+    alleChecks,
+    zugangJeAdresse,
+    joynZugang,
+    usNeinWiderlegt,
+    crAdresseZu,
+    crKatalogDeutsch,
+    beantworteteSuchen,
+    suchOffen,
+    kanalJeAdresse,
+  }
 }

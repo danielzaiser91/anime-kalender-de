@@ -18,7 +18,15 @@ import { type EntfernterVerweis } from './grundlagen.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 
-export function werteCrunchyrollDubAus({ crDub, titles, usNeinWiderlegt, verweiseEntfernt, katalogEintraege, anisearch, releases }: {
+export function werteCrunchyrollDubAus({
+  crDub,
+  titles,
+  usNeinWiderlegt,
+  verweiseEntfernt,
+  katalogEintraege,
+  anisearch,
+  releases,
+}: {
   titles: Map<number, Title>
   usNeinWiderlegt: (serie: { nichtVerfuegbar?: boolean; katalog?: string; seriesId?: string | null; }) => boolean
   verweiseEntfernt: EntfernterVerweis[]

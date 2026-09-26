@@ -10,7 +10,21 @@ import { beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import type { AdnArchiv } from '../lib/adn-sprachen.ts'
 
-export function ergaenzeAnisearchWege({ verweiseEntfernt, crDub, usNeinWiderlegt, titles, anisearch, belegFuer, linkBefunde, lautPruefungTot, crAdresseZu, crKatalogDeutsch, checks, adnArchiv, adnStreamSchaerfen }: {
+export function ergaenzeAnisearchWege({
+  verweiseEntfernt,
+  crDub,
+  usNeinWiderlegt,
+  titles,
+  anisearch,
+  belegFuer,
+  linkBefunde,
+  lautPruefungTot,
+  crAdresseZu,
+  crKatalogDeutsch,
+  checks,
+  adnArchiv,
+  adnStreamSchaerfen,
+}: {
   verweiseEntfernt: EntfernterVerweis[]
   crDub: CrDubData
   usNeinWiderlegt: (serie: { nichtVerfuegbar?: boolean; katalog?: string; seriesId?: string | null; }) => boolean
