@@ -18,7 +18,7 @@
  *   node tools/umfang-pruefen.mjs --liste         die größten Funktionen und Dateien zeigen
  */
 import { execFileSync } from 'node:child_process'
-import { readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import ts from 'typescript'
 
@@ -31,9 +31,13 @@ const BEREICHE = ['pipeline', 'shared', 'web/src', 'worker/src', 'extension', 't
 const PRUEFSATZ = /(^pipeline\/check-|\.test\.|-pruefen)/
 
 function dateien() {
-  return execFileSync('git', ['-C', WURZEL, 'ls-files', ...BEREICHE], { encoding: 'utf8' })
-    .split('\n')
-    .filter((p) => /\.(ts|tsx|js|mjs|cjs|mts)$/.test(p) && !p.endsWith('.d.ts'))
+  // Auch neue, noch nicht hinzugefügte Dateien — sonst misst `--festschreiben` vor dem `git add` zu wenig.
+  const liste = execFileSync('git', ['-C', WURZEL, 'ls-files', '--cached', '--others', '--exclude-standard', ...BEREICHE], {
+    encoding: 'utf8',
+  })
+  return [...new Set(liste.split('\n'))].filter(
+    (p) => /\.(ts|tsx|js|mjs|cjs|mts)$/.test(p) && !p.endsWith('.d.ts') && existsSync(resolve(WURZEL, p)),
+  )
 }
 
 function funktionen(pfad, quelltext) {
