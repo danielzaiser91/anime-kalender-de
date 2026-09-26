@@ -18,7 +18,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { titelAus } from './lib/anisearch-titel.ts'
-import { bauQuelltext, panelQuelltext } from './lib/quelltext.ts'
+import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin } from '../shared/logic.ts'
@@ -4236,7 +4236,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'eine Prime-Zuordnung überspringt Adressen, die ein Handbeleg einem anderen Titel zuschreibt',
     bau.includes('c.platform === plattform && c.url && c.anilistId !== eintrag.titleId') &&
       bau.includes('seite = amazonTitelAdresse(eintrag.seite)') &&
-      readFileSync('worker/src/index.ts', 'utf8').includes('AND seiten_kennung IS ?3'),
+      workerQuelltext().includes('AND seiten_kennung IS ?3'),
     'sonst trägt Vinland Saga Staffel 2 die Seite von Staffel 1 mit „DE ✓" (17.09.2026)',
   )
   pruefe(
@@ -5619,7 +5619,7 @@ pruefe(
     m.subject === 'Frieren jetzt auch bei Netflix' && m.text.includes('JETZT AUCH BEI') && m.html.includes('auf Deutsch bei Netflix'),
     m.subject,
   )
-  const idx = readFileSync('worker/src/index.ts', 'utf8')
+  const idx = workerQuelltext()
   pruefe('… und der Versand verschickt auch eine Mail, die nur das enthält', idx.includes('!neuMitSynchro.length && !auchBei.length'))
 }
 {
@@ -5703,7 +5703,7 @@ pruefe(
 }
 {
   /* Peace Maker Kurogane, 19.09.2026: Die Erweiterung zählt als erledigt, was im Stand fehlt — der Stand muss vollständig sein. */
-  const idx = readFileSync('worker/src/index.ts', 'utf8')
+  const idx = workerQuelltext()
   pruefe('der Prüfstand liefert alle Ziele, nicht einen Ausschnitt', idx.includes('ziele: alleZiele,') && !/ziele: alleZiele\.slice/.test(idx))
 }
 {

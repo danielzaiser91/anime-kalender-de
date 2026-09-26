@@ -27,7 +27,14 @@ const EIN_PUNKT = Buffer.from(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
   'base64',
 )
-const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' }
+const TYPEN = {
+  '.html': 'text/html',
+  '.js': 'text/javascript',
+  '.css': 'text/css',
+  '.json': 'application/json',
+  '.svg': 'image/svg+xml',
+  '.webmanifest': 'application/manifest+json',
+}
 
 /** Baut `sha` mit dem Datenbestand von `basisSha`; liefert das `dist/`-Verzeichnis. */
 function baue(sha, basisSha) {
@@ -55,8 +62,15 @@ function stichprobe(basisSha, anzahl) {
   return titel.filter((_, i) => i % schritt === 0).slice(0, anzahl).map((t) => t.id)
 }
 
+/** Der Browser, den Playwright erwartet — oder, wo der fehlt, `CHROMIUM` bzw. der vorinstallierte. */
+function starteBrowser() {
+  if (existsSync(chromium.executablePath())) return chromium.launch()
+  const ersatz = process.env.CHROMIUM ?? '/opt/pw-browsers/chromium'
+  return chromium.launch(existsSync(ersatz) ? { executablePath: ersatz } : {})
+}
+
 async function rendere(dist, ids) {
-  const browser = await chromium.launch()
+  const browser = await starteBrowser()
   const seite = await browser.newPage({ viewport: { width: 560, height: 1200 } })
   await seite.clock.install({ time: UHR })
   await seite.route('**/*', async (route) => {
@@ -65,7 +79,8 @@ async function rendere(dist, ids) {
     if (url.hostname !== 'ak.test') return route.fulfill({ status: 200, contentType: 'image/png', body: EIN_PUNKT })
     const datei = path.join(dist, url.pathname === '/' ? '/index.html' : url.pathname)
     if (!datei.startsWith(dist) || !existsSync(datei)) return route.fulfill({ status: 404, body: '' })
-    return route.fulfill({ status: 200, contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream', body: await readFile(datei) })
+    const typ = TYPEN[path.extname(datei)] ?? 'application/octet-stream'
+    return route.fulfill({ status: 200, contentType: typ, body: await readFile(datei) })
   })
   const ergebnis = {}
   for (const id of ids) {

@@ -19,11 +19,13 @@
  *   1. jeder umhüllte Endpunkt hat einen Eintrag in der Verwerfen-Liste
  *   2. die Verwerfen-Liste läuft über die Weiterleitung, nicht je Schreibstelle
  */
-const { readFileSync } = require('node:fs')
+const { readFileSync, readdirSync } = require('node:fs')
 const { join } = require('node:path')
 
-const datei = join(__dirname, '..', 'worker', 'src', 'index.ts')
-const quelle = readFileSync(datei, 'utf8')
+/* Der ganze Worker als ein Text: `index.ts` zuerst, dann die Module (`pruefung.ts`, …). */
+const ordner = join(__dirname, '..', 'worker', 'src')
+const dateien = ['index.ts', ...readdirSync(ordner).filter((f) => f.endsWith('.ts') && f !== 'index.ts').sort()]
+const quelle = dateien.map((f) => readFileSync(join(ordner, f), 'utf8')).join('\n')
 
 let fehler = 0
 const pruefe = (bedingung, text) => {

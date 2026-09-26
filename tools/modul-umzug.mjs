@@ -37,8 +37,16 @@ const OPTIONEN = {
   skipLibCheck: true,
 }
 
+/** Die Optionen der nächsten `tsconfig.json` (der Worker hat eigene Typen), sonst OPTIONEN. */
+function optionenFuer(pfad) {
+  const konfig = ts.findConfigFile(dirname(pfad), existsSync)
+  if (!konfig) return OPTIONEN
+  const { config } = ts.readConfigFile(konfig, (f) => readFileSync(f, 'utf8'))
+  return { ...ts.parseJsonConfigFileContent(config, ts.sys, dirname(konfig)).options, noEmit: true }
+}
+
 function programm(pfad) {
-  const p = ts.createProgram([pfad], OPTIONEN)
+  const p = ts.createProgram([pfad], optionenFuer(pfad))
   return { pruefer: p.getTypeChecker(), quelle: p.getSourceFile(pfad) }
 }
 
@@ -93,7 +101,10 @@ function importsaetze(quellPfad, karte, namen, zielPfad) {
 }
 
 function bezeichnerIn(knoten, menge = new Set()) {
-  if (ts.isIdentifier(knoten)) menge.add(knoten.text)
+  const p = knoten.parent
+  const nurEigenschaft =
+    p && ((ts.isPropertyAccessExpression(p) && p.name === knoten) || (ts.isPropertyAssignment(p) && p.name === knoten))
+  if (ts.isIdentifier(knoten) && !nurEigenschaft) menge.add(knoten.text)
   ts.forEachChild(knoten, (k) => {
     bezeichnerIn(k, menge) // kein Rückgabewert: ein wahrer beendet forEachChild
   })
@@ -115,7 +126,7 @@ function exportiert(text, s, gebraucht) {
 function importeAufraeumen(pfad, alles = false) {
   const dateien = new Map([[pfad, readFileSync(pfad, 'utf8')]])
   const dienst = ts.createLanguageService({
-    getCompilationSettings: () => OPTIONEN,
+    getCompilationSettings: () => optionenFuer(pfad),
     getScriptFileNames: () => [pfad],
     getScriptVersion: () => '1',
     getScriptSnapshot: (f) => {
@@ -227,7 +238,36 @@ function schnittstelle(quelle, pruefer, von, bis) {
     ts.forEachChild(k, besuche)
   }
   besuche(huelle.body)
-  return { ein, aendert, aus, benutzt }
+  return { ein, aendert, aus, benutzt, ...ablauf(quelle, huelle, von, bis) }
+}
+
+/**
+ * `return` und `await` im Abschnitt, die der umschließenden Funktion gehören. Ein Abschnitt mit
+ * `return` lässt sich nur herauslösen, wenn er mit einem `return` endet — dann wird der Aufruf
+ * selbst zurückgegeben.
+ */
+function ablauf(quelle, huelle, von, bis) {
+  const zeile = (pos) => quelle.getLineAndCharacterOfPosition(pos).line + 1
+  const imBereich = (k) => zeile(k.getStart(quelle)) >= von && zeile(k.end) <= bis
+  const eigeneFunktion = (k) => {
+    let p = k.parent
+    while (p && !ts.isFunctionLike(p)) p = p.parent
+    return p === huelle
+  }
+  let hatReturn = false
+  let istAsync = false
+  let letzte
+  const besuche = (k) => {
+    if (imBereich(k) && eigeneFunktion(k)) {
+      if (ts.isReturnStatement(k)) hatReturn = true
+      if (ts.isAwaitExpression(k) || ts.isForOfStatement(k) && k.awaitModifier) istAsync = true
+    }
+    // Oberste Anweisung des Abschnitts: liegt darin, ihr Block beginnt davor.
+    if (imBereich(k) && ts.isBlock(k.parent) && zeile(k.parent.getStart(quelle)) < von) letzte = k
+    ts.forEachChild(k, besuche)
+  }
+  besuche(huelle.body)
+  return { hatReturn, istAsync, endetMitReturn: Boolean(letzte && ts.isReturnStatement(letzte)) }
 }
 
 /** `import("/pfad/datei").Typ` (Typen, die die Quelle nicht importiert) wird `Typ` plus eigener Import. */
@@ -247,7 +287,9 @@ function typenAufloesen(ein, zielPfad) {
 
 function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
   const { pruefer, quelle } = programm(quellPfad)
-  const { ein, aendert, aus, benutzt } = schnittstelle(quelle, pruefer, von, bis)
+  const { ein, aendert, aus, benutzt, hatReturn, istAsync, endetMitReturn } = schnittstelle(quelle, pruefer, von, bis)
+  if (hatReturn && (!endetMitReturn || aus.size))
+    throw new Error('Der Abschnitt enthält `return`, endet aber nicht damit (oder liefert Werte) — Grenzen anders wählen.')
   const typImporte = typenAufloesen(ein, zielPfad)
   const zeilen = quelle.getFullText().split('\n')
   const namen = [...ein.keys()]
@@ -255,7 +297,7 @@ function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
     ? `{ ${namen.join(', ')} }: {\n${namen.map((n) => `  ${n}: ${ein.get(n)}`).join('\n')}\n}`
     : ''
   const rueckgabe = aus.size ? `\n  return { ${[...aus].join(', ')} }` : ''
-  const rumpf = `export function ${funktion}(${signatur}) {\n${zeilen.slice(von - 1, bis).join('\n')}${rueckgabe}\n}`
+  const rumpf = `export ${istAsync ? 'async ' : ''}function ${funktion}(${signatur}) {\n${zeilen.slice(von - 1, bis).join('\n')}${rueckgabe}\n}`
 
   // Typnamen in der Signatur brauchen ihre Importe genauso wie der Rumpf.
   const typBezeichner = [...ein.values()].flatMap((t) => t.match(/[A-Za-z_$][\w$]*/g) ?? [])
@@ -266,8 +308,9 @@ function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
   anhaengen(zielPfad, [...importsaetze(quellPfad, importe(quelle), gebraucht, zielPfad), ...typImporte], rumpf)
 
   const einrueck = zeilen[von - 1].match(/^\s*/)[0]
-  const ziel = aus.size ? `const { ${[...aus].join(', ')} } = ` : ''
-  const aufruf = `${einrueck}${ziel}${funktion}(${namen.length ? `{ ${namen.join(', ')} }` : ''})`
+  const ziel = hatReturn ? 'return ' : aus.size ? `const { ${[...aus].join(', ')} } = ` : ''
+  const warte = istAsync ? 'await ' : ''
+  const aufruf = `${einrueck}${ziel}${warte}${funktion}(${namen.length ? `{ ${namen.join(', ')} }` : ''})`
   const neu = [...zeilen.slice(0, von - 1), aufruf, ...zeilen.slice(bis)]
   const letzterImport = [...quelle.statements].reverse().find(ts.isImportDeclaration)
   const importZeile = letzterImport ? quelle.getLineAndCharacterOfPosition(letzterImport.end).line + 1 : 0

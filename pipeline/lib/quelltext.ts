@@ -17,6 +17,12 @@ export function panelQuelltext(): string {
   return [panel, ...ordnerText('web/src/components/detail', /\.tsx?$/)].join('\n')
 }
 
+/** Der Worker als ein Text: `index.ts` und seine Module in `worker/src/`. */
+export function workerQuelltext(): string {
+  const index = readFileSync(join(ROOT, 'worker/src/index.ts'), 'utf8')
+  return [index, ...ordnerText('worker/src', /^(?!index\.ts$).*\.ts$/)].join('\n')
+}
+
 function ordnerText(ordner: string, muster: RegExp): string[] {
   const pfad = join(ROOT, ordner)
   if (!existsSync(pfad)) return []
