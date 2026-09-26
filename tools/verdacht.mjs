@@ -131,6 +131,59 @@ export function verdachtsfaelle(wurzel, plattform) {
   } catch {
     /* Ohne Datei keine Wiedervorlage. */
   }
+  try {
+    const titel = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
+    const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
+    const heute = new Date().toISOString().slice(0, 10)
+    for (const [id, fall] of laufendeSynchro(belege, Array.isArray(titel) ? titel : Object.values(titel), plattform, heute)) {
+      if (!raus.has(id)) raus.set(id, fall)
+    }
+  } catch {
+    /* Ohne Titel oder Belege gibt es nichts nachzusehen. */
+  }
+  return raus
+}
+
+const TAG = 86_400_000
+const plusTage = (iso, n) => new Date(Date.parse(iso) + n * TAG).toISOString().slice(0, 10)
+
+/**
+ * **Fünfte Quelle: eine Synchro, die noch erscheint** (26.09.2026).
+ *
+ * Ein Handbeleg „Folge 1–2 deutsch, 3–13 nicht" friert eine wöchentlich erscheinende Synchro
+ * ein: Der Titel hat ein Urteil, fällt aus der Prüfliste, und die Erweiterung zeigt „alles
+ * gemeldet". Snowball Earth stand so bei Disney+ vom 20.09. an auf 1–2, bis Daniel am 26.09.
+ * von selbst nachsah — deutsch bis Folge 6.
+ *
+ * Wieder vorgelegt wird, was **vorne deutsch und hinten nicht** ist, sieben Tage nach dem
+ * jüngsten Beleg. Jede neue Meldung schiebt die Frist um eine Woche; ist die Synchro komplett,
+ * endet der letzte Bereich deutsch und der Titel bleibt weg. Ausgenommen sind Titel, deren
+ * japanische Ausstrahlung über ein Jahr zurückliegt — dort ist eine halbe Synchro ein
+ * Endzustand, keine laufende.
+ *
+ * @returns {Map<number, {laufendeSynchro: {bis: number, am: string}, seit: string}>}
+ */
+export function laufendeSynchro(belege, titel, plattform, heute) {
+  const jpEnde = new Map(titel.map((t) => [t.id, t.jpEnd ?? null]))
+  const juengster = new Map()
+  for (const b of belege) {
+    if (b.platform !== plattform || !b.checkedAt) continue
+    const k = `${b.anilistId} ${String(b.url ?? '').replace(/^https?:\/\/(www\.)?/, '').replace(/\/(gp\/video\/detail|dp)\//, '/')}`
+    const alt = juengster.get(k)
+    if (!alt || String(b.checkedAt) >= String(alt.checkedAt)) juengster.set(k, b)
+  }
+  const raus = new Map()
+  for (const b of juengster.values()) {
+    const bereiche = [...(b.dubRanges ?? [])].sort((x, y) => x.from - y.from)
+    if (bereiche.length < 2 || bereiche[0].dub !== true || bereiche.at(-1).dub !== false) continue
+    if (!jpEnde.has(b.anilistId)) continue
+    const ende = jpEnde.get(b.anilistId)
+    if (ende && ende < plusTage(heute, -365)) continue
+    const faellig = plusTage(String(b.checkedAt), 7)
+    if (faellig > heute) continue
+    const bis = Math.max(...bereiche.filter((r) => r.dub).map((r) => r.to ?? 0))
+    raus.set(b.anilistId, { laufendeSynchro: { bis, am: String(b.checkedAt) }, seit: faellig })
+  }
   return raus
 }
 
@@ -142,6 +195,9 @@ export function verdachtHinweis(v) {
     ist — mit Kanal-Abo nachsehen.
   */
   if (v.wiedervorlage) return `Wiedervorlage: ${v.wiedervorlage} — bitte erneut melden`
+  if (v.laufendeSynchro) {
+    return `Synchro läuft noch: am ${v.laufendeSynchro.am} deutsch bis Folge ${v.laufendeSynchro.bis} — bitte erneut melden`
+  }
   if (v.anbieterZaehlung) {
     return (
       `Zuordnung: Der Beleg nennt Folgen bis ${v.anbieterZaehlung.bis}, unser Titel hat ${v.anbieterZaehlung.folgen} — ` +

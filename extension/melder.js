@@ -5489,7 +5489,8 @@ function uebersichtZeigen() {
     const vorhanden = platz?.querySelector('.ak-such-quelle')
     if (!asId) {
       vorhanden?.remove()
-    } else if (!vorhanden) {
+    } else if (!vorhanden && platz) {
+      /* Ohne Fuß im Kasten kein Link — vorher ein Absturz, sobald die Liste einen Titel mit aniSearch-Kennung führte (26.09.2026). */
       const link = document.createElement('a')
       /*
         `ak-such-quelle`, nicht `ak-quelle`: Die erste Klasse gehört zum Fuß des
@@ -5509,7 +5510,7 @@ function uebersichtZeigen() {
       link.textContent = 'aniSearch'
       link.title = 'Deutsche Folgentitel und Anbieter bei aniSearch nachsehen'
       platz.appendChild(link)
-    } else if (vorhanden.href.indexOf('/' + asId + '/') < 0) {
+    } else if (vorhanden && vorhanden.href.indexOf('/' + asId + '/') < 0) {
       /* Die Reihe hat gewechselt — dann zeigt der alte Verweis auf den falschen Titel. */
       vorhanden.href = 'https://www.anisearch.de/anime/' + asId + '/episodes'
     }

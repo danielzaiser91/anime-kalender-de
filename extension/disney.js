@@ -225,6 +225,8 @@
   const offeneFragen = new Map()
   /** Je Adresse die gemeldeten Folgennummern — für die Liste. */
   let briefkasten = new Map()
+  /* Adressen mit Wiedervorlage, zu denen nach deren `seit` gemeldet wurde — siehe `istErledigt`. */
+  let erneutBeantwortet = new Set()
 
   // --- Brücke zur Seitenwelt ------------------------------------------------
 
@@ -442,6 +444,12 @@
    * Datensatz und der Titel fällt bei der nächsten Listenerzeugung heraus.
    */
   function istErledigt(e) {
+    /*
+      Eine Wiedervorlage ist erst mit einer Meldung **nach** ihrem `seit` erledigt. Vorher
+      zählte jede alte Meldung: Snowball Earth (Synchro läuft noch) und Yu-Gi-Oh! standen als
+      „alles gemeldet“ da, und auf der Titelseite gab es nichts zu melden (26.09.2026).
+    */
+    if (e.seit) return erneutBeantwortet.has(e.url)
     return briefkasten.has(e.url)
   }
 
@@ -487,6 +495,12 @@
     } catch {
       /* Ohne Auskunft bleibt die Liste bei dem, was der Datensatz sagt. */
     }
+    /* Wiedervorlagen einzeln: Nur `?gemeldet=` nennt das Datum jeder Meldung. */
+    const beantwortet = new Set()
+    for (const e of Object.values(liste)) {
+      if (e.seit && e.url && (await gemeldeteHolen(e.url, e.seit)).size) beantwortet.add(e.url)
+    }
+    erneutBeantwortet = beantwortet
   }
 
   function dialogSchliessen() {
@@ -681,7 +695,8 @@
 
   // --- Was schon gemeldet ist ----------------------------------------------
 
-  async function gemeldeteHolen(url) {
+  /** `seit` (ISO-Datum): nur Meldungen ab diesem Tag zählen — für Wiedervorlagen. */
+  async function gemeldeteHolen(url, seit = null) {
     try {
       const antwort = await fetch(`${WORKER}?gemeldet=${encodeURIComponent(url)}`, {
         cache: 'no-store',
@@ -690,6 +705,13 @@
       const daten = await antwort.json()
       /* Die Ferne antwortet mit Nummern und Staffeln; der Schlüssel braucht beides. */
       const paare = daten.paare ?? null
+      if (seit) {
+        return new Set(
+          (paare ?? [])
+            .filter((p) => String(p.am ?? '') >= seit)
+            .map((p) => folgenSchluessel(p.staffel, p.nummer)),
+        )
+      }
       if (paare) return new Set(paare.map((p) => folgenSchluessel(p.staffel, p.nummer)))
       return new Set((daten.nummern ?? []).map((n) => folgenSchluessel(daten.staffel ?? 1, Number(n))))
     } catch {
@@ -705,7 +727,7 @@
     gelaufen = true
 
     const adresse = eintrag.url ?? location.href.split('?')[0]
-    gemeldeteNummern = await gemeldeteHolen(adresse)
+    gemeldeteNummern = await gemeldeteHolen(adresse, eintrag.seit ?? null)
 
     /* Nach Staffel und Folge, nicht in Ladereihenfolge. */
     const alle = [...folgen].sort(
@@ -1058,7 +1080,7 @@
       Sammelns schon sagen, wie viele Folgen überhaupt noch anstehen („1e1-15
       stehen in der liste, also müssten es 71/71 nicht 86/86 sein").
     */
-    void gemeldeteHolen(eintrag.url ?? location.href.split('?')[0]).then((n) => {
+    void gemeldeteHolen(eintrag.url ?? location.href.split('?')[0], eintrag.seit ?? null).then((n) => {
       gemeldeteNummern = n
     })
     window.postMessage({ marke: MARKE_STEUER, frageListe: true }, '*')

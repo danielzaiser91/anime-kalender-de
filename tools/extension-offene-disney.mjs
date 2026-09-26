@@ -69,6 +69,8 @@ for (const [id, eintraege] of jeAdresse) {
   if (!verdacht && sortiert.every((e) => e.dub !== undefined)) continue
   offen[id] = {
     ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
+    /* Ab wann eine Meldung die Wiedervorlage beantwortet — ältere zählen nicht (disney.js). */
+    ...(verdacht?.seit ? { seit: verdacht.seit } : {}),
     titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
     url: sortiert[0].url,
     staffeln: sortiert.map((e, i) => ({

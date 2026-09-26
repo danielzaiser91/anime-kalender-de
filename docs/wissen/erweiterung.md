@@ -1939,3 +1939,23 @@ Offen bis zum ersten echten Lauf: wie schnell drei Frames wirklich sind, und ob 
 
 Trotzdem hielt Daniel den Lauf für hängend, aus zwei Gründen, die beide an der sichtbaren Seite lagen: Der Knopf zeigte die ganze Zeit „⏹ Durchgang läuft · 4 offen“ (die Frames melden in eigenen Dokumenten, die Zahl bewegte sich nie), und nach dem Ende stand an jedem Titel „nur auf diesem Rechner“, weil die Seite den Briefkasten vom Start behielt. Seit 4.23.1 steht am Knopf „⏹ Titel n/m · k Seiten gemeldet“, neu gezeichnet nach jeder Seite, und das Ende holt den Briefkasten erzwungen neu. **Merksatz:** Wer Arbeit in unsichtbare Frames verlegt, muss ihren Fortschritt auf der sichtbaren Seite zeigen — sonst sieht ein laufender Automat aus wie ein stehender.
 
+
+## Eine laufende Synchro kommt wöchentlich zurück auf die Prüfliste (26.09.2026, 4.23.2)
+
+Ein Handbeleg „Folge 1–2 deutsch, 3–13 nicht" hat ein Urteil, also fiel der Titel aus der
+Prüfliste — und eine Synchro, die wöchentlich erscheint, blieb auf dem Stand dieses einen Tages
+stehen. Snowball Earth stand bei Disney+ vom 20.09. an auf 1–2; Daniel sah am 26.09. von selbst
+nach: deutsch bis Folge 6. Gemessen am selben Tag steckten vier weitere so fest, am längsten
+Kill Blue bei Prime (seit 25.08. „bis Folge 4").
+
+Seitdem legt `laufendeSynchro()` in `tools/verdacht.mjs` jeden jüngsten Beleg erneut vor, der
+**vorne deutsch und hinten nicht** ist, sieben Tage nach seinem `checkedAt`. Jede neue Meldung
+schiebt die Frist, eine komplette Synchro (letzter Bereich deutsch) beendet sie. Ausgenommen:
+japanisches Ende über ein Jahr her — dort ist eine halbe Synchro ein Endzustand. Test:
+`tools/verdacht-laufend.test.mjs` in `check:wiedervorlage`.
+
+**Disney+ kannte Wiedervorlagen gar nicht.** `disney.js` zählte jede Meldung aller Zeiten: Eine
+wieder vorgelegte Seite zeigte „✓ gemeldet", die Liste „alles gemeldet". Jetzt trägt der
+Listeneintrag `seit`, und nur Meldungen ab diesem Tag zählen (`gemeldeteHolen(url, seit)`,
+`istErledigt`). Netflix (`zustand: 'erneut'`) und Prime (`?stand=1` des Workers) konnten das
+schon.
