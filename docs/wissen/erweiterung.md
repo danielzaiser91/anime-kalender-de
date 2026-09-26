@@ -1959,3 +1959,13 @@ wieder vorgelegte Seite zeigte „✓ gemeldet", die Liste „alles gemeldet". J
 Listeneintrag `seit`, und nur Meldungen ab diesem Tag zählen (`gemeldeteHolen(url, seit)`,
 `istErledigt`). Netflix (`zustand: 'erneut'`) und Prime (`?stand=1` des Workers) konnten das
 schon.
+
+**Nachtrag 26.09.2026 (4.23.3): Frame-Meldungen brauchen die Überbrückung der sichtbaren Seite.**
+Seit dem 24.09.2026 verwirft der Worker `?stand=1` bei einer Meldung nicht mehr, er läuft nach
+60 s ab (Lesekontingent). Die Seite überbrückt das mit `frischGemeldet` — aber nur für Meldungen,
+die sie selbst abschickt. Die Frames des Prime-Durchgangs melden in eigenen Dokumenten; ihr Titel
+blieb deshalb bis zu einer Minute offen, und der Durchgang endete mit „Durchgang fertig“ neben
+„1 Prime-Titel zu prüfen“ (Trapped in a Dating Sim S2, Bericht 11:29). Jetzt trägt
+`primeFrameErgebnis()` jede erfolgreiche Seite in `frischGemeldet` ein. **Merksatz:** Wer eine
+Invalidierung durch eine Frist ersetzt, muss jeden Schreiber an die Überbrückung hängen, nicht nur
+den, der gerade vor Augen ist.

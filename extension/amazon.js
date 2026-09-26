@@ -1126,6 +1126,27 @@ async function speicherSchreiben(werte) {
     }
     return {
       erwartungsLage: erwartungsLage(),
+      /*
+        **Warum der Kasten fehlt: Player oder fremde Seite?** Auf der Prime-Startseite war er am
+        26.09.2026 unsichtbar, und von außen ließ sich nicht sagen, welche der beiden Bedingungen
+        in `taktSchritt()` griff — nur angemeldet zeigt die Startseite einen Trailer.
+      */
+      sichtbarkeit: sicher(() => ({
+        imPlayer: imPlayer(),
+        seiteGehtUnsAn: seiteGehtUnsAn(),
+        fensterHoehe: window.innerHeight,
+        container: [...document.querySelectorAll('.webPlayerSDKContainer, [data-testid="player-container"]')].map((e) => ({
+          klasse: String(e.className).slice(0, 80),
+          hoehe: e.offsetHeight,
+        })),
+        videos: [...document.querySelectorAll('video')].map((v) => ({
+          stumm: v.muted,
+          lautstaerke: v.volume,
+          bereit: v.readyState,
+          hoehe: v.offsetHeight,
+          imContainer: Boolean(v.closest('.webPlayerSDKContainer, [data-testid="player-container"]')),
+        })),
+      })),
       /**
        * **Was der Knopf sagt — und was die Sperren dazu beitragen.**
        *
@@ -11072,7 +11093,17 @@ async function speicherSchreiben(werte) {
     if (!lauf) return
     lauf.laufend = lauf.laufend.filter((k) => k !== f.kennung)
     primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null })
-    if (daten.ok) lauf.seiten = (lauf.seiten ?? 0) + 1
+    if (daten.ok) {
+      lauf.seiten = (lauf.seiten ?? 0) + 1
+      /*
+        Die Meldung ging aus dem Frame, nicht von dieser Seite — `frischGemeldet` wusste nichts
+        davon. `?stand=1` läuft beim Worker nach einer Minute ab, statt bei jeder Meldung verworfen
+        zu werden (24.09.2026); ohne diese Zeile blieb ein gemeldeter Titel bis dahin offen, und der
+        Durchgang endete mit „fertig“ neben „1 Prime-Titel zu prüfen“ (Daniel, 26.09.2026, Dating Sim S2).
+      */
+      const url = liste[lauf.titel]?.url
+      if (url) frischGemeldet.add(url)
+    }
     if (/kein Token/.test(String(daten.grund ?? ''))) return primeLaufBeenden(lauf, 'kein Token in den Optionen')
     if (!lauf.planBekannt) {
       const staffeln = [...(daten.staffeln ?? [])].sort((a, b) => (a.nummer ?? 0) - (b.nummer ?? 0))

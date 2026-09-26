@@ -89,6 +89,7 @@ function welt({ imFrame = false, speicher = neuerSpeicher() } = {}) {
     dialog: null,
     dialogUmschalten: () => {},
     uebersichtZeichnen: () => w.gezeichnet++,
+    frischGemeldet: new Set(),
     briefkastenHolen: () => {
       w.briefkasten++
       return Promise.resolve()
@@ -148,6 +149,7 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   pruefe('Naruto gilt im Lauf als fertig', w.lauf().fertig.includes('B07VP6VPVR'))
   pruefe('der Knopf kennt den Fortschritt: 2 Titel mit Titelseite, 5 Seiten gemeldet (26.09.2026)', w.lauf().titelGesamt === 2 && w.lauf().seiten === 5, w.lauf())
   pruefe('… und wird nach jeder Seite neu gezeichnet', w.gezeichnet >= 9, w.gezeichnet)
+  pruefe('eine Frame-Meldung gilt auf der sichtbaren Seite sofort als gemeldet — der Worker-Stand hinkt eine Minute nach (26.09.2026)', k.frischGemeldet.has('https://www.amazon.de/gp/video/detail/B07VP6VPVR'), [...k.frischGemeldet])
 
   w.ergebnis(w.offen()[0], { hier: 'B07FB4D9KM', staffeln: [] })
   pruefe('Titel ohne Staffelliste: eine Seite, dann Ende', w.lauf() === null)
