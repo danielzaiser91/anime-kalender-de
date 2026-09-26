@@ -113,6 +113,25 @@ console.log('Zusicherungen für die Crunchyroll-Zuordnung\n')
   pruefe('Gun Gale Online: mehrdeutige Größe erzeugt kein Urteil', u.size === 0, [...u])
 }
 
+
+/**
+ * Fall — A Wild Last Boss Appeared! (Daniel, 27.09.2026: „die folge ist nicht deutsch").
+ *
+ * Unter der Kennung kennt Crunchyroll nur Staffel 1, 12 von 12 deutsch. Unsere Staffel 2 bekam
+ * über „alle Blöcke vollständig deutsch" dub=true — sie startete nach der Prüfung, mit
+ * angekündigter, noch nicht erschienener Synchro. Ohne Ankündigung bleibt es beim Urteil.
+ */
+{
+  const s = serie([['Staffel 1', 12, 12]])
+  const staffel2 = { ...titel(2, 12, 2026), ankuendigung: { platform: 'crunchyroll', omuAb: '2026-09-26', synchro: 'angekuendigt', quellen: [], stand: '2026-09-15' } } as unknown as Title
+  const u = urteil(s, [titel(1, 12, 2025), staffel2])
+  pruefe('Last Boss: Staffel 1 deutsch', u.get(1) === true, [...u])
+  pruefe('Last Boss: Staffel 2 (Start nach der Prüfung, Synchro angekündigt) ohne Urteil', u.get(2) === undefined, [...u])
+  const spaeter = { ...titel(3, 12, 2026), ankuendigung: { platform: 'crunchyroll', omuAb: '2026-09-26', synchro: 'offen', quellen: [], stand: '2026-09-15' } } as unknown as Title
+  pruefe('Start nach der Prüfung allein genügt', urteil(s, [spaeter]).get(3) === undefined)
+  pruefe('ohne Ankündigung bleibt es beim Urteil', urteil(s, [titel(4, 24, 2020)]).get(4) === true)
+}
+
 /**
  * Fall 2 — Fruits Basket (23.08.2026, gefunden über `check:quellen`).
  *

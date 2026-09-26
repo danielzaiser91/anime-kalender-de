@@ -2851,3 +2851,19 @@ Leser: `pipeline/scrape-crunchyroll-woche.ts` (Playwright, weil Cloudflare `curl
 
 **Eingebaut am 25.09.2026 (Daniels „passt so" zur Regel).** `scrape-crunchyroll-woche.ts` läuft stündlich direkt hinter dem Kalenderabruf, entscheidet in `entscheiden()` und schreibt `uebernommen`, `abweichungen` und `ohneEintrag` nach `data/crunchyroll-woche.json`; der Bau hängt die übernommenen Folgen mit `wocheAnhaengen()` als Beobachtungen an den Kalendereintrag. Erster Lauf (lokal, 25.09.2026): 13 Folgen übernommen (Hana-Kimi S2 10–12, Polar Opposites S2 8–11, Mushoku S3 11–12, Iruma-kun S4 24, Jaadugar 7, 100 Girlfriends S3 34, Inept Villainess 9), 1 Abweichung als Vorfall (Ascendance of a Bookworm S4: Folge 21 am 26.09., der Kalender kennt zuletzt Folge 19 vom 12.09.), 1 ohne eindeutigen Eintrag (Das Band der Unterwelt). Zuordnung erst über den Titelschlüssel, dann über die Serienkennung, wenn sie genau einen Kalendereintrag trifft.
 
+
+## „Alle Crunchyroll-Blöcke deutsch" gilt nicht für eine Staffel, die danach begann (27.09.2026)
+
+„A Wild Last Boss Appeared!" Staffel 2 stand als „Auf Deutsch verfügbar" (Daniel: „die folge ist
+nicht deutsch"). Unter der Kennung `GT00361955` kannte Crunchyroll beim Abruf am 21.09. nur
+Staffel 1 (12/12 deutsch); `beurteile()` gab bei „alle Blöcke vollständig deutsch" jedem unserer
+Einträge `dub: true`, auch der am 26.09. mit Untertiteln gestarteten Staffel 2.
+
+Jetzt (`vollstaendigDeutsch()` in `pipeline/lib/crunchyroll-dub.ts`): kein Urteil für einen
+Eintrag, dessen Synchro nur angekündigt ist (`ankuendigung.synchro`) oder der nach der Prüfung
+beginnt (`ankuendigung.omuAb > geprueftAm`). Gemessen auf dem Bestand: 2 von 510 Urteilen fallen
+weg — Last Boss Staffel 2 und Apothekerin Staffel 3, beide zu Recht.
+
+**Verworfen:** Zuordnung über die Folgenzahl (Block ↔ Eintrag, Ketten, Rest 1:1). Crunchyroll zählt
+zu oft anders (Iruma Staffel 4: 23 statt 24, Attack on Titan, Haikyu) — 74 echte Synchros hätten
+ihr Urteil verloren. Zusicherungen: `check:cr-zuordnung`, „Last Boss: …".

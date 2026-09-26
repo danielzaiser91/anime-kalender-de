@@ -15,6 +15,7 @@
  * wenn die Rechnung nicht exakt aufgeht, bleibt der Eintrag ungeklärt.
  */
 import type { Title } from '../../shared/types.ts'
+import { vollstaendigDeutsch } from './crunchyroll-vollstaendig.ts'
 
 /**
  * Eine Folge, für die die Content-API eine deutsche Fassung führt.
@@ -238,13 +239,7 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
   }
 
   const vollstaendig = staffeln.every((s) => s.folgen > 0 && s.deutsch === s.folgen)
-  if (vollstaendig) {
-    return unsere.map((t) => ({
-      titleId: t.id,
-      dub: true,
-      grund: `alle ${staffeln.length} Blöcke vollständig deutsch`,
-    }))
-  }
+  if (vollstaendig) return vollstaendigDeutsch(serie, staffeln, unsere)
 
   /**
    * Gemischter Fall: unsere Einträge der Reihe nach an die Blöcke anlegen.
@@ -995,3 +990,4 @@ export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
   }
   return raus
 }
+
