@@ -447,3 +447,77 @@
   edition: "Limited Steelbook Edition, Blu-ray"
   schedule: { firstEpisodeDate: "2027-03-05" }
   sources: [https://www.anime2you.de/news/1044479/afro-samurai-steelbook-blu-ray-edition/, https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/]
+
+# ---------------------------------------------------------------- nachgetragen am 27.09.2026
+# Aus Anime2You-Einzelmeldungen, die die Automatik nicht übernimmt: Ein Titel mit schon einem
+# Disc-Termin bekommt dort keinen zweiten.
+
+- slug: failure-frame-box
+  anilistId: 173694
+  titleDe: "Failure Frame – Komplettbox"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Komplettbox, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-06" }
+  sources: [https://www.anime2you.de/news/1044382/failure-frame-blu-ray-komplettbox/, https://www.anime2you.de/news/1052976/failure-frame-blu-ray-design/]
+
+- slug: tougen-anki-part2
+  search: "Tougen Anki"
+  titleDe: "Tougen Anki – Part 2"
+  platform: disc
+  releaseType: disc
+  publisher: "LEONINE Anime"
+  edition: "Limited Collector's Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-06" }
+  sources: [https://www.anime2you.de/news/1044545/tougen-anki-part-2-disc-termin/]
+
+- slug: detektiv-conan-film-28-disc
+  anilistId: 185212
+  titleDe: "Detektiv Conan – 28. Film: Der Flashback des Einäugigen"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Edition, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1044161/detektiv-conan-film-28-disc-release/, https://www.anime2you.de/news/1052789/detektiv-conan-film-28-blu-ray-design/]
+
+- slug: dragon-maid-s1-steelbook
+  anilistId: 21776
+  titleDe: "Miss Kobayashi’s Dragon Maid – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Steelbook Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-12-04" }
+  sources: [https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/, https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/]
+
+- slug: the-100-girlfriends-s2-vol1
+  anilistId: 172258
+  titleDe: "The 100 Girlfriends – Staffel 2, Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Edition mit Sammelschuber, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-12-04" }
+  sources: [https://www.anime2you.de/news/1052803/the-100-girlfriends-staffel-2-blu-ray-design/, https://www.anime2you.de/news/1044426/the-100-girlfriends-staffel-2-blu-ray-release/]
+
+- slug: detektiv-conan-box1-30th-anniversary
+  anilistId: 235
+  titleDe: "Detektiv Conan – Box 1 (30th Anniversary Edition)"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "30th Anniversary Edition, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-12-18" }
+  sources: [https://www.anime2you.de/news/1044465/detektiv-conan-30th-anniversary-edition/]
+
+- slug: 7th-prince-s2-box
+  anilistId: 178090
+  titleDe: "I Was Reincarnated as the 7th Prince – Staffel 2"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Komplettbox, Blu-ray"
+  schedule: { firstEpisodeDate: "2027-02-05" }
+  sources: [https://www.anime2you.de/news/1048203/reincarnated-as-the-7th-prince-staffel-2-disc-termin/]

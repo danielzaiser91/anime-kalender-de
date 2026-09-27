@@ -171,3 +171,17 @@
   sources:
     - https://www.anime2you.de/news/1027799/jojo-steel-ball-run-fortsetzung-netflix-termin/
     - https://www.whats-on-netflix.com/news/steel-ball-run-part-2-netflix-release-date/
+
+# Netflix nennt die Sprachfassungen im Teaser-Artikel: deutsche Synchro und OmU. Zehn Folgen:
+# „der ebenfalls zehnteilige erste" (Anime2You, 22.09.2026).
+- slug: cyberpunk-edgerunners-2-netflix
+  anilistId: 195539
+  titleDe: "Cyberpunk: Edgerunners II"
+  platform: netflix
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-10-20"
+    episodeCount: 10
+  sources:
+    - https://www.anime2you.de/news/1053081/cyberpunk-edgerunners-ii-sneak-peek-teaser/
+    - https://www.anime2you.de/news/1043405/cyberpunk-edgerunners-2-netflix-termin/
