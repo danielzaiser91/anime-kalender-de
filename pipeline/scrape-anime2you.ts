@@ -26,6 +26,7 @@ import { sendezeiten, type Sendezeit } from './lib/sendezeit.ts'
 import { loadCurated } from './lib/curated.ts'
 import type { PlatformId } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
+import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './lib/disc-verschiebungen.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 
@@ -144,6 +145,8 @@ export interface Proposal {
    * trotzdem — und kein anderer Artikel nennt die Uhrzeit.
    */
   zeiten?: Sendezeit[]
+  /** Zeilen eines Sammelartikels „… Blu-ray-Termine verschoben" (`lib/disc-verschiebungen.ts`). */
+  verschiebungen?: Verschiebung[]
   /** true, wenn dieser Artikel schon als Quelle in data/curated/ steht. */
   alreadyCurated: boolean
 }
@@ -170,6 +173,32 @@ async function artikelText(url: string): Promise<string | undefined> {
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/g, ' ')
     .replace(/\s+/g, ' ')
+}
+
+/**
+ * Sammelartikel „… Blu-ray-Termine verschoben" tragen ihre Termine nur in einer Tabelle, die im
+ * Feed-Auszug fehlt. Einmal je Artikel holen — auch für ältere, schon gespeicherte.
+ */
+async function verschiebungenNachholen(alle: Proposal[]): Promise<Proposal[]> {
+  const aus: Proposal[] = []
+  let geholt = 0
+  for (const p of alle) {
+    if (p.category !== 'disc' || !SAMMELARTIKEL.test(p.articleTitle) || p.verschiebungen || geholt >= 6) {
+      aus.push(p)
+      continue
+    }
+    geholt++
+    const html = await fetchText(p.articleUrl)
+    await sleep(1500)
+    if (!html) {
+      aus.push(p)
+      continue
+    }
+    const zeilen = leseVerschiebungstabelle(html.slice(html.indexOf('<article'), html.indexOf('</article>')), p.publishedAt)
+    log(`Verschiebungen in „${p.articleTitle}": ${zeilen.length} Zeilen`)
+    aus.push({ ...p, verschiebungen: zeilen })
+  }
+  return aus
 }
 
 async function fetchText(url: string): Promise<string | undefined> {
@@ -276,12 +305,12 @@ async function main(): Promise<void> {
   for (const proposal of proposals) merged.set(proposal.articleUrl, proposal)
 
   const all = [...merged.values()]
-    // Was inzwischen kuratiert wurde, neu bewerten statt alten Stand behalten.
+    // Kuratiertes neu bewerten; Sammelartikel mit Tabelle bleiben — der Bau liest ihre Termine.
     .map((p) => ({ ...p, alreadyCurated: curatedSources.has(p.articleUrl.replace(/\/$/, '')) }))
-    .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated)
+    .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length)
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
-  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), proposals: all }, true)
+  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), proposals: await verschiebungenNachholen(all) }, true)
 
   const offen = all.filter((p) => !p.alreadyCurated)
   log(`${all.length} Vorschläge gespeichert, davon ${offen.length} noch nicht eingearbeitet.`)

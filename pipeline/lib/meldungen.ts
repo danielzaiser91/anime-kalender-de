@@ -26,6 +26,7 @@
  * Disc die **einzige** Quelle — ohne diesen Weg bleiben diese Anbieter leer.
  */
 import type { Meldung, Quelle, Release, ReleaseType, Title } from '../../shared/types.ts'
+import type { Verschiebung } from './disc-verschiebungen.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
 export interface Vorschlag {
@@ -37,6 +38,10 @@ export interface Vorschlag {
   platforms?: string[]
   dates?: { iso?: string; month?: string; context: string }[]
   dub?: string
+  /** „pause", „verschoben", … — siehe `Proposal.pause`. */
+  pause?: string
+  /** Zeilen eines Sammelartikels „… Blu-ray-Termine verschoben". */
+  verschiebungen?: Verschiebung[]
   alreadyCurated?: boolean
 }
 
@@ -298,6 +303,16 @@ export function meldungenAus(vorschlaege: Vorschlag[], titel: Title[], heute: st
  */
 const TV_UMFELD = /TV-Premiere|Free-TV|im (?:deutschen )?Fernsehen|TV-Ausstrahlung|auf (?:TOGGO plus|SUPER RTL|ProSieben MAXX|RTLZWEI|RTL II|Nicktoons|Nickelodeon|Disney Channel|KiKA)\b/i
 
+/**
+ * Der Tag, den eine Meldung für den Termin nennt — ohne Fernsehumfeld. **Eine Verschiebung nennt
+ * alten und neuen Tag, der neue ist der spätere** („nicht wie geplant am 2. Oktober, sondern erst am
+ * 20. November": Gantz stand bis 27.09.2026 auf dem alten).
+ */
+export function terminDerMeldung(v: Pick<Vorschlag, 'dates' | 'pause'>): string | undefined {
+  const tage = (v.dates ?? []).filter((d) => d.iso && !TV_UMFELD.test(d.context ?? '')).map((d) => d.iso!)
+  return v.pause === 'verschoben' ? tage.sort().at(-1) : tage[0]
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
@@ -318,7 +333,7 @@ export function releasesAus(
       (Daniel, 16.09.2026). Ein Datum, dessen Umfeld vom Fernsehen spricht,
       gilt deshalb für keinen Anbieter, den wir führen.
     */
-    const tag = (v.dates ?? []).find((d) => d.iso && !TV_UMFELD.test(d.context ?? ''))?.iso
+    const tag = terminDerMeldung(v)
     if (!tag) continue
 
     /**

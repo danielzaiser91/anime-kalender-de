@@ -2874,3 +2874,32 @@ von `titles.json` an, zur Zeit der Auswertung fehlt es. Die Zusicherungen setzte
 und waren deshalb grün. Jetzt liest die Regel `data/ankuendigungen.yaml` direkt, und eine
 Zusicherung prüft den Titel **ohne** Feld. Allgemein: Eine Zusicherung baut den Titel so, wie ihn
 der Bau an dieser Stelle kennt — nicht so, wie er am Ende in `titles.json` steht.
+
+## Disc-Verschiebungen aus Anime2You-Sammelartikeln (27.09.2026)
+
+Anime2You fasst verschobene Blu-ray-Termine in Sammelartikeln zusammen („25 Blu-ray-Termine von
+AniMoon, Crunchyroll und KSM verschoben", news/1052846, 22.09.2026; „30 …", news/1045437,
+01.09.; „Sechs …", news/1042244, 18.08.). Die Termine stehen nur in einer Tabelle Titel | Alt |
+Neu, die im Feed-Auszug fehlt — bis heute las sie niemand, und 22 unserer Disc-Termine standen
+auf überholten Tagen (Sakamoto Days Vol. 1 auf dem 28.08. statt dem 23.10.).
+
+- **Abruf:** `scrape-anime2you.ts` holt je Lauf bis zu sechs Sammelartikel ohne gespeicherte
+  Tabelle (`SAMMELARTIKEL`, auch ältere) und legt die Zeilen als `verschiebungen` am Vorschlag ab.
+  Solche Vorschläge fallen nie aus der Datei.
+- **Anwendung:** Phase 08 (`verschiebungenAnwenden`, `lib/disc-verschiebungen.ts`) verkettet die
+  Artikel nach Datum. Übernommen wird nur, wenn der **Name** gleich ist (ohne Ausgabe in Klammern,
+  `discSchluessel`) **und** unser Termin in der Kette als alter oder neuer Tag vorkommt. Die
+  Handeinträge stammen aus denselben Artikeln und tragen deren Namen; ein Termin außerhalb der Kette
+  kommt aus einer anderen Quelle und bleibt. Belege: der letzte Artikel aktuell, alle übrigen
+  `ueberholt` mit „Termin verschoben auf: …".
+- **Jahr:** Die Tabelle nennt keins. Ein neuer Tag vor dem Artikel liegt im Folgejahr, ein alter bis
+  ein halbes Jahr davor bleibt im Jahr.
+- **Gemessen am 27.09.2026:** 61 Zeilen aus drei Artikeln, 22 treffen einen Termin, alle 22 mit
+  unserem Datum in der Kette. Nicht getroffen: Titel, die wir nicht führen (Sailor Moon S2–5,
+  Strike Witches Vol. 2–3 u. a.), und abweichende Namen — Takamine hieß bei uns „Please Put Them
+  On" (auf den deutschen Namen umgestellt), Afro Samurai von Hand nachgetragen. Offen bleiben die
+  aniSearch-Einträge „Sakamoto Days: Teil 2 – Vol. 4" (18.12., laut Tabelle 25.12.) und „Miss
+  Kobayashi’s Dragon Maid S" (06.11., laut Tabelle 04.12.) — `disc-anisearch.yaml` ist erzeugt,
+  eine Handänderung ginge verloren.
+- **Einzelmeldung mit Verschiebung** („nicht wie geplant am 2. Oktober, sondern erst am 20.
+  November"): `terminDerMeldung` nimmt den späteren Tag. Vorher stand Gantz auf dem alten.

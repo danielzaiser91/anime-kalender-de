@@ -113,7 +113,8 @@ import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
-import { releasesAus } from './lib/meldungen.ts'
+import { releasesAus, terminDerMeldung } from './lib/meldungen.ts'
+import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
 import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
@@ -6084,6 +6085,43 @@ pruefe(
   pruefe('Neu: künftige Folge zählt nicht', neuesteErschienen(termine, 7, '2026-09-26', '12:00') === 8)
   pruefe('Neu: heute nach der Uhrzeit erschienen', neuesteErschienen(termine, 7, '2026-09-26', '18:00') === 9)
   pruefe('Neu: Fernsehen zählt nicht mit', neuesteErschienen(termine, 7, '2026-10-10', '00:00') === 10)
+}
+/* Disc-Verschiebungen aus Anime2You-Sammelartikeln (27.09.2026): Kette über drei Artikel, nur bei passendem Glied. */
+{
+  const tabelle = (zeilen: string[][]) =>
+    `<table>${[['Titel', 'Alt', 'Neu'], ...zeilen].map((z) => `<tr>${z.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('')}</table>`
+  const z = leseVerschiebungstabelle(
+    tabelle([
+      ['<a href="#">Sakamoto Days &#8211; Vol. 1 (Limited Edition mit Sammelschuber)</a>', '25.09.', '23.10.'],
+      ['Afro Samurai + Afro Samurai Resurrection (Limited Steelbook Edition)', '18.12.', '05.03.'],
+      ['Virgin Road &#8211; Vol. 2 (Limited Edition)', '18.09.', '16.10.'],
+    ]),
+    '2026-09-22',
+  )
+  pruefe('Verschiebung: Kopfzeile fällt weg, drei Zeilen', z.length === 3, z)
+  pruefe('Verschiebung: neuer Tag vor dem Artikel liegt im Folgejahr', z[1]?.neu === '2027-03-05', z[1])
+  pruefe('Verschiebung: alter Tag kurz vor dem Artikel bleibt im Jahr', z[2]?.alt === '2026-09-18', z[2])
+  const artikel = [
+    { articleUrl: 'https://a2y/3', publishedAt: '2026-09-22', verschiebungen: [{ titel: 'Sakamoto Days – Vol. 1 (Limited Edition mit Sammelschuber)', alt: '2026-09-25', neu: '2026-10-23' }] },
+    { articleUrl: 'https://a2y/1', publishedAt: '2026-08-18', verschiebungen: [{ titel: 'Sakamoto Days – Vol. 1 (Limited Edition)', alt: '2026-08-28', neu: '2026-09-11' }] },
+    { articleUrl: 'https://a2y/2', publishedAt: '2026-09-01', verschiebungen: [{ titel: 'Sakamoto Days – Vol. 1 (Limited Edition mit Sammelschuber)', alt: '2026-09-11', neu: '2026-09-25' }] },
+  ]
+  const disc = (name: string, datum: string) =>
+    ({ slug: name, titleId: 1, name, platform: 'disc', releaseType: 'disc', schedule: { firstEpisodeDate: datum }, sources: ['https://a2y/monat'] }) as unknown as Release
+  const rs = [disc('Sakamoto Days – Vol. 1', '2026-08-28'), disc('Sakamoto Days – Vol. 1', '2026-12-01'), disc('Sakamoto Days', '2026-08-28')]
+  const geaendert = verschiebungenAnwenden(rs, artikel, '2026-09-27')
+  pruefe('Verschiebung: die Kette führt vom 28.08. zum 23.10.', rs[0]!.schedule.firstEpisodeDate === '2026-10-23' && geaendert.length === 1, geaendert)
+  pruefe(
+    'Verschiebung: nur der letzte Artikel gilt, die Monatsübersicht ist überholt',
+    rs[0]!.quellen?.filter((q) => q.stand === 'aktuell').map((q) => q.url).join() === 'https://a2y/3' &&
+      rs[0]!.quellen?.find((q) => q.url === 'https://a2y/monat')?.stand === 'ueberholt',
+    rs[0]!.quellen,
+  )
+  pruefe('Verschiebung: ein Termin außerhalb der Kette bleibt stehen', rs[1]!.schedule.firstEpisodeDate === '2026-12-01')
+  pruefe('Verschiebung: ein anderer Name (ohne Volume) bleibt stehen', rs[2]!.schedule.firstEpisodeDate === '2026-08-28')
+  const gantz = { dates: [{ iso: '2026-10-02', context: 'nicht wie geplant am 2. Oktober' }, { iso: '2026-11-20', context: 'sondern erst am 20. November' }] }
+  pruefe('Verschiebung (Einzelmeldung): der spätere Tag gilt', terminDerMeldung({ ...gantz, pause: 'verschoben' }) === '2026-11-20')
+  pruefe('Gegenprobe: ohne Verschiebung gilt der erste Tag', terminDerMeldung(gantz) === '2026-10-02')
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

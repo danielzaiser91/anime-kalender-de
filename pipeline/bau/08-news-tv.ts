@@ -1,5 +1,6 @@
 import { readJson, log } from '../lib/util.ts'
 import { type Vorschlag, releasesAus } from '../lib/meldungen.ts'
+import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { type TvSendung } from '../fetch-tv-programm.ts'
 import { type WikiListen, sendungNeuZuordnen, releasesAusTvProgramm, sendungenAnhaengen } from '../lib/tv-termine.ts'
@@ -20,6 +21,8 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
     todayIso(),
   )
   releases.push(...ausMeldungen)
+  const verschoben = verschiebungenAnwenden(releases, rohVorschlaege.proposals ?? [], todayIso())
+  if (verschoben.length) log(`${verschoben.length} Disc-Termine laut Anime2You verschoben: ${verschoben.map((v) => `${v.name} (${v.von} → ${v.nach})`).join(', ')}`)
   if (ausMeldungen.length)
     log(
       `${ausMeldungen.length} Termine automatisch aus Anime2You übernommen: ` +
