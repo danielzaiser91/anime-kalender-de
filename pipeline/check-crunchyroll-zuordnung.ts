@@ -26,6 +26,7 @@ import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSer
 import { termineAusSerie } from './lib/crunchyroll-termine.ts'
 import { readJson, ROOT } from './lib/util.ts'
 import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
+import { vorDemStart } from './lib/crunchyroll-vollstaendig.ts'
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
 
@@ -134,6 +135,9 @@ console.log('Zusicherungen für die Crunchyroll-Zuordnung\n')
   /* Im Bau trägt der Titel das Feld noch nicht (`mitAnkuendigung` kommt erst beim Schreiben) — der erste Fix griff deshalb nie. */
   const angekuendigt = [...ankuendigungenLaden(ROOT)].find(([, a]) => a.synchro === 'angekuendigt')
   if (angekuendigt) pruefe('Ankündigung wirkt auch ohne Feld am Titel (aus data/ankuendigungen.yaml)', urteil(s, [titel(angekuendigt[0], 12, 2026)]).get(angekuendigt[0]) === undefined)
+  /* Die Sperre gilt dem Messstand, nicht der Ankündigung: Eine spätere Prüfung darf wieder urteilen. */
+  pruefe('angekündigte Synchro: Prüfung nach dem Start urteilt wieder', urteil(serie([['Staffel 1', 12, 12]], { geprueftAm: '2026-10-05' }), [staffel2]).get(2) === true)
+  pruefe('Katalog vom 09.09. sagt nichts über einen Start am 26.09.', vorDemStart(staffel2, '2026-09-09T17:26:33Z') && !vorDemStart(staffel2, '2026-09-26') && !vorDemStart(staffel2, undefined))
 }
 
 /**

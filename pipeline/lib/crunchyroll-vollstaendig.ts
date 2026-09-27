@@ -5,8 +5,8 @@ import { ROOT } from './util.ts'
 
 /**
  * **Alle Blöcke deutsch heißt nicht: alle unsere Staffeln deutsch.** Ein Eintrag, der erst nach der
- * Prüfung der Serie beginnt, kann in ihren Blöcken nicht stehen; einer, dessen Synchro nur
- * angekündigt ist, hat noch keine. Beide bleiben ohne Urteil, bis ein neuer Abruf ihren Block zeigt.
+ * Prüfung der Serie beginnt, kann in ihren Blöcken nicht stehen (`vorDemStart`) und bleibt ohne
+ * Urteil, bis ein neuer Abruf ihren Block zeigt.
  *
  * Anlass (Daniel, 27.09.2026): „A Wild Last Boss Appeared!" Staffel 2 stand als „Auf Deutsch
  * verfügbar" — Staffel 1 (12 von 12 deutsch, geprüft 21.09.) war der einzige Block unter derselben
@@ -16,12 +16,19 @@ import { ROOT } from './util.ts'
  */
 export function vollstaendigDeutsch(serie: CrSerie, staffeln: CrStaffel[], unsere: Title[]): Urteil[] {
   return unsere
-    .filter((t) => {
-      const a = ankuendigungVon(t)
-      if (a?.synchro === 'angekuendigt') return false
-      return !serie.geprueftAm || !a?.omuAb || a.omuAb <= serie.geprueftAm
-    })
+    .filter((t) => !vorDemStart(t, serie.geprueftAm))
     .map((t) => ({ titleId: t.id, dub: true, grund: `alle ${staffeln.length} Blöcke vollständig deutsch` }))
+}
+
+/**
+ * **Eine Messung vor dem Untertitel-Start sagt nichts über die Staffel** — sie kann darin nicht
+ * vorkommen. Gilt für die Blockliste (`geprueftAm`) wie für den Katalog (`geholtAm`). Gemessen am
+ * 27.09.2026: vier Titel mit angekündigter Synchro standen so auf Deutsch (Last Boss S2, Black
+ * Clover S2, Apothekerin S3, Reincarnated Aristocrat S3), sonst keiner.
+ */
+export function vorDemStart(t: Title, stand: string | undefined): boolean {
+  const omuAb = ankuendigungVon(t)?.omuAb
+  return Boolean(stand && omuAb && omuAb > stand.slice(0, 10))
 }
 
 /**

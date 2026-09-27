@@ -2903,3 +2903,31 @@ auf überholten Tagen (Sakamoto Days Vol. 1 auf dem 28.08. statt dem 23.10.).
   eine Handänderung ginge verloren.
 - **Einzelmeldung mit Verschiebung** („nicht wie geplant am 2. Oktober, sondern erst am 20.
   November"): `terminDerMeldung` nimmt den späteren Tag. Vorher stand Gantz auf dem alten.
+
+## Eine Messung vor dem Untertitel-Start sagt nichts über die neue Staffel (27.09.2026)
+
+„A Wild Last Boss Appeared!" Staffel 2 stand auf Deutsch, obwohl Crunchyroll sie seit dem 26.09.
+nur mit Untertiteln zeigt. Der erste Fix (`vollstaendigDeutsch`) ließ sie ohne Urteil — danach
+setzte die **Katalog-Runde** (`09-4-3-katalog.ts`) das Ja: Der deutsche Katalog vom 09.09. kannte
+unter der Kennung nur Staffel 1 (`staffeln: 1`, `de-DE`), und „genau eine Staffel = genau ein
+Werk" galt auch für unseren zweiten Eintrag an derselben Adresse. Bei Black Clover S2 kam das Ja
+aus **Phase 09-1**: Jedes Release gilt dort als Synchro-Beleg, auch der geschätzte Termin, der nur
+der Untertitel-Start ist.
+
+Bei der Apothekerin S3 setzte die **Blocknamen-Runde** (`ordneCrBloeckeZu`) das Ja — gefunden mit
+einem Beobachter am Verweis im lokalen Messbau (Aufrufstelle `09-4-2-bloecke.ts:144`).
+
+Regel: `vorDemStart(titel, stand)` — liegt `omuAb` der Ankündigung nach dem Messstand, spricht die
+Messung nicht über den Titel (Blockliste `geprueftAm`, Katalog `geholtAm`). In der Blockzuordnung
+kommt ein solcher Titel gar nicht erst in die Gruppe seiner Serie. Ein geschätztes,
+noch ausstehendes Release belegt keine Synchro. Die Sperre hängt am Messstand, nicht an der
+Ankündigung — eine Prüfung nach dem Start urteilt wieder (die erste Fassung hätte eine angekündigte
+Synchro auch nach ihrem Erscheinen gesperrt). Gemessen: genau vier Titel betroffen (Last Boss S2,
+Black Clover S2, Apothekerin S3, Reincarnated Aristocrat S3), alle mit angekündigter Synchro.
+
+**Lehre:** Wer ein Urteil zurücknimmt, prüft, welche spätere Runde leere Urteile füllt — gemessen,
+nicht gelesen: ein Setter auf `stream.dub` mit Aufrufstelle zeigt sie in einem Messbau. Der lokale
+Bau bricht am Cache-Abbruch ab; zum Messen die Schwelle nur lokal anheben und danach alle Ausgaben
+zurücksetzen. Titel, die der lokale Cache nur als Katalogeintrag kennt (hier drei der vier), zeigt
+erst der Bau auf GitHub. Gegenprobe am 27.09.2026: Bau ohne und mit Fix unterscheiden sich lokal in
+genau einem Urteil (Apothekerin S3).

@@ -9,6 +9,7 @@ import {
 import { log, slugify } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
+import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
 
 export function ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege }: {
   crDub: CrDubData
@@ -96,12 +97,12 @@ export function ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege }: {
     for (const serie of crDub.serien) {
       if (!serie.seriesId || serie.nichtVerfuegbar) continue
       const eintrag = nachSerienId.get(serie.seriesId) ?? { serie, titel: new Map<number, Title>() }
-      // Der Eintrag mit den meisten Folgendaten gewinnt — Adressen derselben
-      // Serie tragen unterschiedlich viel, je nachdem wann sie geholt wurden.
+      // Der Eintrag mit den meisten Folgendaten gewinnt — je nach Abruf tragen Adressen verschieden viel.
       const bisher = (eintrag.serie.staffeln ?? []).reduce((n, s) => n + (s.deutscheFolgen?.length ?? 0), 0)
       const jetzt = (serie.staffeln ?? []).reduce((n, s) => n + (s.deutscheFolgen?.length ?? 0), 0)
       if (jetzt > bisher) eintrag.serie = serie
-      for (const t of nachUrl.get(serie.url) ?? []) eintrag.titel.set(t.id, t)
+      // Ein Titel, der erst nach dem Abruf startet, kann in dessen Blöcken nicht stehen.
+      for (const t of nachUrl.get(serie.url) ?? []) if (!vorDemStart(t, serie.geprueftAm)) eintrag.titel.set(t.id, t)
       nachSerienId.set(serie.seriesId, eintrag)
     }
     let ueberNummern = 0

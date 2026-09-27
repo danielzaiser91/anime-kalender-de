@@ -10,6 +10,7 @@ import { providerToPlatform } from './titel-hilfen.ts'
 import { kanalAusNotiz } from '../lib/amazon-adresse.ts'
 import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/cr-katalog-adresse.ts'
 import { type TmdbTitelEintrag } from './01-quellen.ts'
+import { todayIso } from '../../shared/time.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 
 export function sammleBelege({
@@ -31,11 +32,11 @@ export function sammleBelege({
   toteAdressen: Set<string>
   crDub: CrDubData
 }) {
-  // Ein Stream-Link allein sagt nichts über die Sprache. Belegt ist die Synchro
-  // nur dort, wo sie tatsächlich nachgewiesen wurde.
+  // Ein Stream-Link sagt nichts über die Sprache — belegt ist nur, was nachgewiesen wurde.
   const dubByTitle = new Map<number, Set<PlatformId>>()
   for (const release of releases) {
-    if (release.titleId < 0) continue
+    // Ein geschätzter Termin, der noch aussteht, ist der Untertitel-Start — kein Beleg für eine Synchro.
+    if (release.titleId < 0 || (release.schedule.estimated && release.schedule.firstEpisodeDate > todayIso())) continue
     const set = dubByTitle.get(release.titleId) ?? new Set<PlatformId>()
     set.add(release.platform)
     dubByTitle.set(release.titleId, set)
