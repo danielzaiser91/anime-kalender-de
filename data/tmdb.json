@@ -1884,5 +1884,139 @@
       "primevideo",
       "crunchyroll"
     ]
-  }
+  },
+  "cyberpunk-edgerunners-2-netflix": {
+    "tmdbId": 326788
+  },
+  "afro-samurai-steelbook": {
+    "tmdbId": 19544,
+    "fsk": 18,
+    "justwatchUrl": "https://www.themoviedb.org/tv/19544-afro-samurai/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "failure-frame-box": {
+    "tmdbId": 245285,
+    "justwatchUrl": "https://www.themoviedb.org/tv/245285/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "tougen-anki-part2": {
+    "tmdbId": 253811,
+    "justwatchUrl": "https://www.themoviedb.org/tv/253811/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "crunchyroll",
+      "primevideo",
+      "adn"
+    ]
+  },
+  "detektiv-conan-film-28-disc": {
+    "tmdbId": 1396965,
+    "fsk": 12
+  },
+  "dragon-maid-s1-steelbook": {
+    "tmdbId": 69291,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/69291/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "the-100-girlfriends-s2-vol1": {},
+  "detektiv-conan-box1-30th-anniversary": {
+    "tmdbId": 30983,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/30983/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "7th-prince-s2-box": {}
 }
