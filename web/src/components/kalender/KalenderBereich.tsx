@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'
 import type { AppRoute } from '../../lib/router.ts'
@@ -8,7 +8,7 @@ import { useLang } from '../../lib/i18n.tsx'
 import { merkeZielTag } from '../../lib/ziel-tag.ts'
 import { WeekView } from '../WeekView.tsx'
 import { MonthView } from '../MonthView.tsx'
-import { KalenderKopf, wochenSpanne } from './KalenderKopf.tsx'
+import { KalenderKopf, Steuerleiste, wochenSpanne } from './KalenderKopf.tsx'
 import { FilterFeld } from './FilterFeld.tsx'
 import { AktiveFilter } from './AktiveFilter.tsx'
 import { zaehlung } from './Marken.tsx'
@@ -60,13 +60,14 @@ export function KalenderBereich(p: KalenderBereichProps) {
     navigate({ view: 'woche', date: datum })
   }
   const heute = todayIso()
+  useEscapeSchliesst(filterOffen, () => setFilterOffen(false))
 
   return (
     <div className="flex flex-col gap-4">
-      <KalenderKopf
+      <KalenderKopf view={route.view} date={route.date} unterzeile={unterzeile} />
+      <Steuerleiste
         view={route.view}
         date={route.date}
-        unterzeile={unterzeile}
         filterOffen={filterOffen}
         filterAnzahl={activeFilterCount(route.filters) + (p.tvAn ? 0 : 1)}
         termine={p.termine}
@@ -76,6 +77,8 @@ export function KalenderBereich(p: KalenderBereichProps) {
         onMonat={() => navigate({ view: 'monat' })}
       />
       {filterOffen ? (
+        /* Das Filterfeld steht über der Steuerleiste — dort, wo man es geöffnet hat. */
+        <div className="fixed inset-x-2 bottom-[calc(9rem+env(safe-area-inset-bottom))] z-30 mx-auto max-h-[calc(100dvh-14rem)] max-w-[1180px] overflow-y-auto rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,.45)] md:bottom-[5.75rem] md:max-h-[calc(100dvh-10rem)]">
         <FilterFeld
           data={p.data}
           filters={route.filters}
@@ -88,6 +91,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
           zeitraumWort={monat ? t('filter.imMonat', { monat: monthName(Number(von.slice(5, 7)) - 1) }) : t('filter.inDieserWoche')}
           schliessen={() => setFilterOffen(false)}
         />
+        </div>
       ) : (
         <AktiveFilter filters={route.filters} onChange={setFilters} tvAn={p.tvAn} setTvAn={p.setTvAn} />
       )}
@@ -109,4 +113,14 @@ export function KalenderBereich(p: KalenderBereichProps) {
       )}
     </div>
   )
+}
+
+/** Escape schließt das Filterfeld, solange es offen ist. */
+function useEscapeSchliesst(offen: boolean, schliessen: () => void) {
+  useEffect(() => {
+    if (!offen) return
+    const taste = (e: KeyboardEvent) => e.key === 'Escape' && schliessen()
+    window.addEventListener('keydown', taste)
+    return () => window.removeEventListener('keydown', taste)
+  }, [offen, schliessen])
 }

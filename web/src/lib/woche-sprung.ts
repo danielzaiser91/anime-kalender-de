@@ -70,27 +70,27 @@ export function useSprungZuHeute({ days, today, monday }: {
 
   useEffect(() => {
     const showsToday = days.some((d) => d.date === today)
-    if (!showsToday || !landingId) return
+    if (!showsToday) return
     // Einmal je Ankunft. Wer innerhalb der Woche filtert, blättert oder eine
     // Karte öffnet, soll nicht wieder nach unten gerissen werden.
     if (jumpedFor.current === monday) return
-    if (!window.matchMedia(SINGLE_COLUMN).matches) return
-
-    const el = landingRef.current
+    // Auf jeder Breite: Die Poster-Woche steht überall untereinander. Ohne anstehende Karte zählt der Tageskopf.
+    const el = landingRef.current ?? document.querySelector<HTMLElement>('[data-heute="1"]')
     if (!el) return
     jumpedFor.current = monday
 
     const jump = () => {
       // Die Kopfleiste klebt oben und würde die Karte sonst verdecken.
-      const header = document.querySelector('header')
-      const offset = (header?.getBoundingClientRect().height ?? 0) + LEAD_PX
+      const offset = klebendeUnterkante() + LEAD_PX
       /*
-        Ist die Zielkarte die erste ihres Tages, gilt der Tagesanfang als Ziel: Sonst
-        schnitt die Kopfleiste „FR · heute" halb ab (Handy-Bild, 18.09.2026).
+        Der Tageskopf ist das Ziel, wenn die Karte die erste ihres Tages ist — sonst schnitt die
+        Kopfleiste „FR · heute" halb ab (18.09.2026) — und am Rechner immer: Dort liegt die Karte in
+        einer Reihe neben dem Tag, der Kopf steht links daneben.
       */
       const tag = el.closest('section')
       const ersteKarte = tag?.querySelector('.ak-oeffnen')?.parentElement
-      const ziel = tag && (ersteKarte === el || el.contains(ersteKarte ?? null)) ? tag : el
+      const breit = !window.matchMedia(SINGLE_COLUMN).matches
+      const ziel = tag && (breit || ersteKarte === el || el.contains(ersteKarte ?? null)) ? tag : el
       window.scrollTo({
         top: Math.max(0, ziel.getBoundingClientRect().top + window.scrollY - offset),
         // Wer Bewegung abgestellt hat, bekommt keine — und im versteckten Tab
@@ -112,7 +112,7 @@ export function useSprungZuHeute({ days, today, monday }: {
       return () => document.removeEventListener('visibilitychange', onVisible)
     }
     jump()
-  }, [days, monday, today, landingId])
+  }, [days, monday, today, landingId, landingRef])
 
   /*
     **„heute" in der Kopfleiste scrollt, auch wenn die Woche schon die laufende ist** (Daniel,
@@ -126,8 +126,7 @@ export function useSprungZuHeute({ days, today, monday }: {
       const tag = document.querySelector<HTMLElement>('[data-heute="1"]')
       const ziel = karte ?? tag
       if (!ziel) return
-      const header = document.querySelector('header')
-      const offset = (header?.getBoundingClientRect().height ?? 0) + LEAD_PX
+      const offset = klebendeUnterkante() + LEAD_PX
       window.scrollTo({
         top: Math.max(0, ziel.getBoundingClientRect().top + window.scrollY - offset),
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
@@ -145,4 +144,10 @@ export function useSprungZuHeute({ days, today, monday }: {
     if (!days.some((d) => d.date === today)) jumpedFor.current = undefined
   }, [days, today])
   return { landingId, landingRef, now }
+}
+
+
+/** Die klebende Kopfleiste verdeckt ein Sprungziel — deren Höhe (die Steuerleiste sitzt unten). */
+export function klebendeUnterkante(): number {
+  return document.querySelector('header')?.getBoundingClientRect().height ?? 0
 }

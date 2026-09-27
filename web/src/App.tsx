@@ -59,6 +59,12 @@ function tvAusGespeichert(): boolean {
   }
 }
 
+/** Unten docken Handy-Navigation und im Kalender die Steuerleiste an — der Fuß bleibt darüber lesbar. */
+const FUSS_ABSTAND = {
+  kalender: 'pb-[calc(9.5rem+env(safe-area-inset-bottom))] md:pb-24',
+  sonst: 'pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0',
+}
+
 export default function App() {
   const { t } = useLang()
   const [data, setData] = useState<Dataset>()
@@ -189,11 +195,14 @@ export default function App() {
   const kalender = route.view === 'woche' || route.view === 'monat'
 
   return (
-    <div className="flex min-h-full flex-col pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0">
+    <div className={`flex min-h-full flex-col ${kalender ? FUSS_ABSTAND.kalender : FUSS_ABSTAND.sonst}`}>
       <Header
         view={route.view}
         onView={setView}
-        onStart={() => navigate({ view: 'woche', date: todayIso(), release: undefined, title: undefined })}
+        onStart={() => {
+          navigate({ view: 'woche', date: todayIso(), release: undefined, title: undefined })
+          window.dispatchEvent(new Event('ak-zu-heute'))
+        }}
         suche={route.filters.search}
         setSuche={setSuche}
         favorites={favorites}

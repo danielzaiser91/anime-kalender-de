@@ -126,7 +126,9 @@ function useKartenPosition(
     const luft = 6
     const decke = (document.querySelector('header')?.getBoundingClientRect().bottom ?? 0) + rand
     const left = Math.min(Math.max(a.left, rand), Math.max(rand, window.innerWidth - b.width - rand))
-    const platzUnten = window.innerHeight - rand - (a.bottom + luft)
+    /* Die Steuerleiste dockt unten an und verdeckt, was unter ihr läge. */
+    const boden = document.querySelector('[data-steuerleiste] > *')?.getBoundingClientRect().top ?? window.innerHeight
+    const platzUnten = boden - rand - (a.bottom + luft)
     const platzOben = a.top - luft - decke
     const hoehe = karte.current?.scrollHeight ?? b.height
     if (hoehe <= platzUnten || platzUnten >= platzOben) setPos({ left, top: a.bottom + luft, maxHeight: Math.max(120, platzUnten) })

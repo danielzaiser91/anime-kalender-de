@@ -36,25 +36,23 @@ export function monatsTitel(date: string): string {
   return `${monthName(m - 1)} ${y}`
 }
 
-/**
- * Kopf des Kalenders: Überschrift, Umschalter Woche ⇄ Monat, Filter, Blättern, „heute" und die
- * Datumsauswahl. Die Pfeile blättern je nach Ansicht um eine Woche oder einen Monat.
- */
-export function KalenderKopf({
-  view,
-  date,
-  unterzeile,
-  filterOffen,
-  filterAnzahl,
-  termine,
-  onFilter,
-  onDate,
-  onWoche,
-  onMonat,
-}: {
+/** Überschrift des Kalenders: „Diese Woche" bzw. „September 2026", daneben Spanne oder Zählung. */
+export function KalenderKopf({ view, date, unterzeile }: { view: ViewId; date: string; unterzeile: string }) {
+  const { t } = useLang()
+  const monat = view === 'monat'
+  return (
+    <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
+      <h1 className="font-display text-[26px] leading-tight font-bold tracking-[-0.02em] text-ak-text sm:text-[34px]">
+        {monat ? monatsTitel(date) : wochenTitel(date, t)}
+      </h1>
+      <span className="text-sm text-ak-leise sm:text-base">{unterzeile}</span>
+    </div>
+  )
+}
+
+export interface SteuerProps {
   view: ViewId
   date: string
-  unterzeile: string
   filterOffen: boolean
   filterAnzahl: number
   termine: { alle: string[]; sichtbar: string[] }
@@ -62,42 +60,44 @@ export function KalenderKopf({
   onDate: (d: string) => void
   onWoche: () => void
   onMonat: () => void
-}) {
+}
+
+/**
+ * **Die Steuerleiste dockt unten am Bildschirmrand an** (Daniel, 27.09.2026: „vielleicht einfach
+ * immer unten am rand anzeigen"). Wer ganz unten im Monat oder am Sonntag ist, blättert, filtert und
+ * springt zu heute, ohne zurückzurollen. Auf dem Handy sitzt sie über der Navigation.
+ */
+export function Steuerleiste(p: SteuerProps) {
   const { t } = useLang()
-  const monat = view === 'monat'
-  const schritt = (dir: number) => onDate(monat ? addMonths(date, dir) : addDays(date, dir * 7))
-  const heuteSichtbar = monat ? todayIso().slice(0, 7) === date.slice(0, 7) : startOfWeek(todayIso()) === startOfWeek(date)
-  const rund = 'flex size-11 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
+  const monat = p.view === 'monat'
+  const schritt = (dir: number) => p.onDate(monat ? addMonths(p.date, dir) : addDays(p.date, dir * 7))
+  const heuteSichtbar = monat ? todayIso().slice(0, 7) === p.date.slice(0, 7) : startOfWeek(todayIso()) === startOfWeek(p.date)
+  const rund = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
   return (
-    <div className="flex flex-wrap items-end gap-x-4 gap-y-3">
-      <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
-        <h1 className="font-display text-[26px] leading-tight font-bold tracking-[-0.02em] text-ak-text sm:text-[34px]">
-          {monat ? monatsTitel(date) : wochenTitel(date, t)}
-        </h1>
-        <span className="text-sm text-ak-leise sm:text-base">{unterzeile}</span>
-      </div>
-      <div className="flex w-full flex-wrap items-center justify-between gap-2 sm:ml-auto sm:w-auto sm:justify-end">
-        <div className="flex items-center gap-2">
-        <div role="group" aria-label={t('kal.zeitraum')} className="flex rounded-full border border-ak-rand bg-ak-flaeche sm:p-1">
-          <Segment an={!monat} onClick={onWoche}>{t('view.woche')}</Segment>
-          <Segment an={monat} onClick={onMonat}>{t('view.monat')}</Segment>
+    <div
+      data-steuerleiste
+      className="pointer-events-none fixed inset-x-2 bottom-[calc(5.25rem+env(safe-area-inset-bottom))] z-30 flex justify-center md:bottom-5"
+    >
+      <div className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-ak-rand bg-ak-flaeche/95 p-1.5 shadow-[0_12px_32px_rgba(0,0,0,.35)] backdrop-blur sm:gap-2">
+        <div role="group" aria-label={t('kal.zeitraum')} className="flex rounded-full bg-ak-flaeche-2 p-0.5">
+          <Segment an={!monat} onClick={p.onWoche}>{t('view.woche')}</Segment>
+          <Segment an={monat} onClick={p.onMonat}>{t('view.monat')}</Segment>
         </div>
         <button
           type="button"
-          onClick={onFilter}
-          aria-expanded={filterOffen}
+          onClick={p.onFilter}
+          aria-expanded={p.filterOffen}
           aria-controls="ak-filterfeld"
+          aria-label={t('filter.button')}
           className={[
-            'flex h-11 cursor-pointer items-center gap-2 rounded-full border pr-4 pl-3.5 text-sm font-bold transition',
-            filterOffen || filterAnzahl ? 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent' : 'border-ak-rand bg-ak-flaeche text-ak-text hover:border-ak-leise',
+            'flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3 text-sm font-bold transition sm:pr-4 sm:pl-3.5',
+            p.filterOffen || p.filterAnzahl ? 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent' : 'border-ak-rand bg-ak-flaeche text-ak-text hover:border-ak-leise',
           ].join(' ')}
         >
           <FilterZeichen />
-          {t('filter.button')}
-          {filterAnzahl > 0 && <span className="rounded-full bg-[#0d0f14] px-1.5 text-[11px] text-[#f2f1ee]">{filterAnzahl}</span>}
+          <span className="hidden sm:inline">{t('filter.button')}</span>
+          {p.filterAnzahl > 0 && <span className="rounded-full bg-[#0d0f14] px-1.5 text-[11px] text-[#f2f1ee]">{p.filterAnzahl}</span>}
         </button>
-        </div>
-        <div className="flex items-center gap-2">
         <button type="button" onClick={() => schritt(-1)} aria-label={t('kal.voriger')} className={rund}>
           <LinksZeichen />
         </button>
@@ -105,20 +105,21 @@ export function KalenderKopf({
         <button
           type="button"
           onClick={() => {
-            onDate(todayIso())
+            p.onDate(todayIso())
             if (!monat) window.dispatchEvent(new Event('ak-zu-heute'))
           }}
           disabled={heuteSichtbar && monat}
           title={heuteSichtbar ? (monat ? t('nav.todayHere') : t('nav.todayScroll')) : t('nav.todayGo')}
-          className="h-11 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche px-4 text-sm font-bold text-ak-text transition hover:border-ak-leise disabled:cursor-default disabled:opacity-40"
+          className="h-11 shrink-0 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche px-3 text-sm font-bold text-ak-text transition hover:border-ak-leise disabled:cursor-default disabled:opacity-40 sm:px-4"
         >
           {t('nav.today')}
         </button>
         <button type="button" onClick={() => schritt(1)} aria-label={t('kal.naechster')} className={rund}>
           <RechtsZeichen />
         </button>
-        <DatumSprung date={date} termine={termine} onDate={onDate} />
-        </div>
+        <span className="hidden sm:flex">
+          <DatumSprung date={p.date} termine={p.termine} onDate={p.onDate} />
+        </span>
       </div>
     </div>
   )
@@ -131,7 +132,7 @@ function Segment({ an, onClick, children }: { an: boolean; onClick: () => void; 
       aria-pressed={an}
       onClick={onClick}
       className={[
-        'h-11 cursor-pointer rounded-full px-4 text-sm font-bold transition sm:h-9',
+        'h-10 cursor-pointer rounded-full px-3 text-sm font-bold transition sm:px-4',
         an ? 'bg-ak-akzent text-ak-auf-akzent' : 'text-ak-leise hover:text-ak-text',
       ].join(' ')}
     >

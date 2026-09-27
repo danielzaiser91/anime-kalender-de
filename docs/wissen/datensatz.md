@@ -387,6 +387,13 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   Fonts — ein Abruf dort übermittelt die IP-Adresse.
 - Die Handy-Leiste liegt per Portal am `body` (unter `backdrop-filter` bezöge sich `fixed` sonst auf
   die Kopfleiste); die Seite hält unter `md` unten Platz für sie frei.
+- **Steuerleiste unten** (27.09.2026, Daniel: „einfach immer unten am rand anzeigen"): Woche/Monat,
+  Filter, ‹ heute ›, Datumssprung docken als Pille unten an (`Steuerleiste` in `KalenderKopf.tsx`,
+  `data-steuerleiste`), auf dem Handy über der Navigation. Das Filterfeld öffnet als Blatt darüber,
+  Escape schließt es. Die Seite hält im Kalender unten Platz frei (`FUSS_ABSTAND` in `App.tsx`),
+  Schwebekarten enden an der Oberkante der Leiste.
+- **Sprung zu heute** beim Laden der Woche und beim Klick aufs Logo, auf jeder Breite
+  (`useSprungZuHeute`, Ereignis `ak-zu-heute`) — die Poster-Woche steht auch am Rechner untereinander.
 
 ## Link-Vorschau im Poster-Stil (27.09.2026)
 
@@ -401,6 +408,10 @@ links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. Zu wi
   Bestandslauf alle Bilder neu — sonst erreichte ein neues Aussehen nur neue Releases. Bei jeder
   Änderung an `og-karte.ts` hochzählen. Stichproben lokal: `npx tsx pipeline/build-og.ts --nur
   default,<slug>` (danach `git checkout public/og`).
+- **Caches der Netze:** Messenger merken sich das Bild zur Bild-Adresse. Deshalb hängt an jeder
+  `og:image`-Adresse `?v=<Fassung>` (`lib/og-fassung.ts`, auch an der Startseite) — eine neue
+  Fassung ist für sie ein neues Bild. Die Seite selbst holen sie erst nach Ablauf ihres Caches neu;
+  sofort wirkt der Facebook-Debugger („Scrape Again", gilt auch für WhatsApp).
 - **Inhalt:** ohne künftigen Termin „Erste Folge"/„Erschienen" statt „Nächste Folge", Katalogtitel
   „Im Angebot seit"; das Standardbild zählt aus `meta.json` (vorher 504 aus `titles-core`).
 - Titelseiten (`/t/…`) behalten Banner oder Cover von AniList: eigene Bilder für 2.777 Titel wären
