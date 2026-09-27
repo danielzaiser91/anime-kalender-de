@@ -433,3 +433,17 @@
   edition: "Collector's Edition, Blu-ray — deutscher und japanischer Ton, Artcards, Trailer"
   schedule: { firstEpisodeDate: "2026-10-22" }
   sources: [https://www.anime2you.de/news/1039622/all-you-need-is-kill-deutscher-kinostart/]
+
+# ---------------------------------------------------------------- 05.03.2027 (verschoben)
+# Erst automatisch aus der Ankündigung übernommen (18.12.2026); die Sammeltabelle vom 22.09.2026
+# führt die Steelbook-Ausgabe unter ihrem vollen Namen, der zu keinem Titel passt — deshalb von Hand.
+
+- slug: afro-samurai-steelbook
+  anilistId: 1292
+  titleDe: "Afro Samurai + Afro Samurai Resurrection"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Steelbook Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2027-03-05" }
+  sources: [https://www.anime2you.de/news/1044479/afro-samurai-steelbook-blu-ray-edition/, https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/]
