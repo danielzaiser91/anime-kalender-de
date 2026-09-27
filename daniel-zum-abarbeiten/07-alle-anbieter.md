@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-27 · **3 offene Verweise** in **3 Zeilen**.
+Stand 2026-09-27 · **1 offene Verweise** in **1 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,18 +33,14 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Crunchyroll](07-crunchyroll.md) | 2 |
 | [Disney+](07-disneyplus.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-09-27 | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Staffel 3](https://www.crunchyroll.com/de/pt-pt/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world) |
-| 2 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2](https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared) |
-| 3 | 2026-06-28 | Mission: Yozakura Family | [Staffel 2](https://www.disneyplus.com/de-de/browse/entity-ac689bea-f955-4d95-8693-7b87b5a309cb) |
+| 1 | 2026-06-28 | Mission: Yozakura Family | [Staffel 2](https://www.disneyplus.com/de-de/browse/entity-ac689bea-f955-4d95-8693-7b87b5a309cb) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
-- **Crunchyroll:** Der Simulcast-Kalender führt nur laufende Staffeln. Für Katalogtitel sagt er nichts — Fehlen ist dort kein Gegenbeweis.
 - **Disney+:** Disney+ hat keine öffentliche Schnittstelle; die Sprachwahl steht nur im Player.

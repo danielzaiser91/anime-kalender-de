@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-27T15:56:04.241Z",
+  "stand": "2026-09-27T11:26:06.406Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4727,17 +4727,6 @@
       "url": "https://www.crunchyroll.com/de/free-iwatobi-swim-club",
       "seriesId": null,
       "grund": "die Adresse zeigt auf die Reihe „Free! - Iwatobi Swim Club\", das MOVIE steht nicht im deutschen Katalog, und JustWatch nennt 3 Anbieter ohne Crunchyroll (Akibapass, Buecher)",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-27",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 195604,
-      "titel": "Black Clover: Staffel 2",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
-      "seriesId": null,
-      "grund": "die Reihe führt 5 Staffeln, keine als MOVIE und keine andere mit 1 Folge(n) — das Werk steht unter dieser Adresse nicht",
       "geprueftAm": null,
       "entferntAm": "2026-09-27",
       "letzterWeg": true
