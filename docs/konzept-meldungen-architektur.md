@@ -446,7 +446,7 @@ Erweiterung (bleiben Handbelege). 5.807 der 7.510 Meldungen trugen keine `titel_
 02.09.2026); über die Adresse eindeutig: 2.803, mehrdeutig 1.389 (Netflix-Serienseiten), keiner
 1.615 (alte Prime-Adressen, Suchen). Gegenprobe gegen die Belege: Die neuen Widersprüche sind
 jüngere „nicht verfügbar"-Meldungen oder andere Folgen desselben Titels, keiner widerlegt die Regel.
-Zugeordnet wird nur ohne spätere Staffel (\`staffel\` leer oder 1): Eine Serienseite führt oft
+Zugeordnet wird nur ohne spätere Staffel (`staffel` leer oder 1): Eine Serienseite führt oft
 mehrere Staffeln, bei uns hängt nur eine daran.
 
 **Nächste Punkte in dieser Reihenfolge:** (2a) `available: false` als Urteil „nicht verfügbar" je
