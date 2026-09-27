@@ -1984,3 +1984,15 @@ einen **vorhandenen** Kasten — den es nur auf Suchseiten gab. Jetzt baut sie i
 „Kasten: FEHLT", ohne rot zu werden — eine Ausgabe ohne Riegel. Der Riegel steht jetzt für jede
 `/gp/video/`-Adresse. Der Bericht trägt seitdem auch `sichtbarkeit` (Player-Container, Videos mit
 Stummschaltung und Höhe), damit die nächste unsichtbare Erweiterung nicht geraten werden muss.
+
+## „▶ alle durchgehen" für Disney+ (4.24.0, 27.09.2026)
+
+`extension/disney-durchgang.js`, eigene Datei (disney.js lag schon über 800 Zeilen). Disney+ prüft
+auf der Titelseite ohnehin alle Folgen ohne Player; der Durchgang navigiert die **sichtbare** Seite
+von Titel zu Titel (keine Frames wie bei Prime — Einzelseiten-App mit Anmeldung), wartet auf
+`ak-disney-geprueft` ({ url, zuMelden, fehler }), meldet über dieselbe Funktion wie der Klick und geht
+nach `ak-disney-gemeldet` ({ ok }) weiter. Lauf im `sessionStorage`, zwei Stunden höchstens; ein Titel
+ohne Ergebnis nach drei Minuten (Umleitung, Fehlerseite) wird übersprungen und am Ende genannt —
+„nicht da" bleibt Handarbeit. Knopf im Listen-Dialog neben der Überschrift. `disney.js` stellt dafür
+`globalThis.AK_DISNEY` bereit (offene Titel, melden, Ziel merken, Ende anzeigen). Sandkasten-Test:
+`extension/disney-durchgang.test.cjs`. Am echten Disney+ noch nicht gelaufen (braucht Daniels Anmeldung).

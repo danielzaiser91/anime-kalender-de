@@ -227,6 +227,8 @@
   let briefkasten = new Map()
   /* Adressen mit Wiedervorlage, zu denen nach deren `seit` gemeldet wurde — siehe `istErledigt`. */
   let erneutBeantwortet = new Set()
+  /* Für den Durchgang (`disney-durchgang.js`): Ergebnis von Prüfen und Melden als Ereignis. */
+  const signal = (art, detail) => document.dispatchEvent(new CustomEvent(`ak-disney-${art}`, { detail }))
 
   // --- Brücke zur Seitenwelt ------------------------------------------------
 
@@ -508,18 +510,31 @@
     dialog = null
   }
 
+  /** „▶ alle durchgehen" — der Ablauf steht in `disney-durchgang.js`. */
+  function durchgangKnopf(kopf, nochOffen) {
+    const lauf = globalThis.AK_DISNEY_DURCHGANG
+    if (!lauf || (!nochOffen && !lauf.laeuft())) return
+    const knopf = document.createElement('button')
+    knopf.type = 'button'
+    knopf.style.cssText =
+      'padding:2px 9px;border-radius:6px;border:1px solid #ffffff33;background:none;color:#fff;font:11px system-ui,sans-serif;cursor:pointer'
+    knopf.textContent = lauf.laeuft() ? '⏹ Durchgang beenden' : '▶ alle durchgehen'
+    knopf.title = 'Öffnet die offenen Titel nacheinander, prüft und meldet sie — in diesem Tab.'
+    knopf.onclick = () => {
+      dialogSchliessen()
+      if (lauf.laeuft()) lauf.beenden()
+      else lauf.starten()
+    }
+    kopf.appendChild(knopf)
+  }
+
   function dialogOeffnen() {
     if (dialog) return dialogSchliessen()
     const alle = offeneEintraege()
     const erledigte = alle.filter(istErledigt)
     const eintraege = zeigeErledigte ? alle : alle.filter((e) => !istErledigt(e))
     dialog = document.createElement('div')
-    /*
-      **Über dem Kasten, nicht in ihm.** Hier stand ein fester Abstand von 100 px
-      zum unteren Rand. Seit die Knöpfe im gemeinsamen Kasten sitzen (12.09.2026),
-      ist der höher, und seine Oberkante lag über der Ecke des Dialogs (Daniel,
-      13.09.2026, mit Bild). Der Abstand kommt deshalb aus der Lage des Kastens.
-    */
+    /* Über dem Kasten: Der Abstand kommt aus dessen Lage, der Kasten ist unterschiedlich hoch (13.09.2026). */
     const kastenOben = disneyKasten().getBoundingClientRect().top
     const unten = Math.max(16, Math.round(window.innerHeight - kastenOben + 12))
     dialog.style.cssText =
@@ -534,6 +549,7 @@
     const nochOffen = alle.length - erledigte.length
     titelzeile.textContent = nochOffen ? `${nochOffen} Titel zu prüfen` : 'Alles gemeldet'
     kopf.appendChild(titelzeile)
+    durchgangKnopf(kopf, nochOffen)
 
     /* Wann das Gemeldete hier wieder verschwindet. */
     if ([...briefkasten.values()].some((n) => n.length >= 0) && briefkasten.size) {
@@ -544,15 +560,7 @@
         'Der stündliche Datenlauf holt die Meldungen ab und schreibt sie in den Kalender. Danach sind die grünen Bereiche hier weg.'
       kopf.appendChild(lauf)
     }
-    /*
-      **Gemeldetes ist standardmäßig weg.**
-
-      Es blieb sichtbar, damit erkennbar ist, was schon durch ist — bei einer
-      Liste aus 31 Titeln ist das aber nur Ballast. Wer nachsehen will, klappt
-      sie auf. Dieselbe Lösung wie bei Netflix (Daniel, 26.08.2026: „komplett
-      gemeldete sollten ausgeblendet und togglebar sein in der liste (wie
-      netflix)").
-    */
+    /* Gemeldetes ist standardmäßig ausgeblendet, wie bei Netflix (Daniel, 26.08.2026). */
     if (erledigte.length) {
       const umschalter = document.createElement('button')
       umschalter.type = 'button'
@@ -590,11 +598,7 @@
       verweis.href = e.url
       verweis.textContent = e.titel
       verweis.style.cssText = 'color:#7dd3fc;text-decoration:none'
-      /*
-        Wohin der Klick geht, weiß die Zielseite nachher nicht mehr — landet er
-        auf der Fehlerseite, steht dort keine Kennung mehr in der Adresse.
-        Deshalb wird sie beim Klick hinterlegt.
-      */
+      /* Die Zielseite weiß nach einer Umleitung nicht mehr, welcher Titel gemeint war — der Klick hinterlegt ihn. */
       verweis.onclick = () => merkeZiel(e.id)
       zeile.appendChild(verweis)
 
@@ -605,11 +609,7 @@
         gruen.textContent = nachStaffeln(gemeldet)
         zeile.appendChild(gruen)
       } else {
-        /*
-          Ohne Meldung steht da, was unser Bestand erwartet — mit „ca.", weil
-          unsere Staffelzählung von der des Anbieters abweicht (Beyblade X: bei
-          uns eine Staffel, bei Disney+ zwei mit 51 und 35 Folgen).
-        */
+        /* Ohne Meldung: was unser Bestand erwartet, mit „ca." — Disney+ teilt Staffeln anders ein. */
         const grau = document.createElement('span')
         grau.style.cssText = 'margin-left:8px;opacity:.6'
         const folgenZahl = e.staffeln
@@ -620,14 +620,7 @@
         zeile.appendChild(grau)
       }
 
-      /*
-        **„Nicht da" gehört in die Liste, nicht auf die Titelseite.**
-
-        Ist ein Titel in Deutschland nicht verfügbar, leitet Disney+ auf die
-        Startseite um — dort gibt es keine Seite, auf der ein Knopf stehen
-        könnte. Daniel am 26.08.2026: „aoashi button für nicht verfügbar hast du
-        nicht eingebaut, hab ich vorher bereits gemeldet."
-      */
+      /* „Nicht da" steht in der Liste: Ein nicht verfügbarer Titel leitet auf die Startseite um (26.08.2026). */
       const wegKnopf = document.createElement('button')
       wegKnopf.type = 'button'
       wegKnopf.textContent = 'nichts da?'
@@ -643,13 +636,7 @@
           wegKnopf.textContent = 'ging nicht'
           return
         }
-        /*
-          Die Zeile verschwindet erst, wenn die Ferne sie kennt — und sie
-          verschwindet dann von selbst, weil die Liste den Briefkasten liest.
-          Ohne diesen Schritt blieb der Titel stehen, obwohl die Meldung
-          angekommen war (Daniel, 26.08.2026: „aoashi als nicht da gemeldet, und
-          verschwindet trotzdem nicht aus der zu meldenden liste").
-        */
+        /* Die Zeile verschwindet, sobald der Briefkasten die Meldung kennt — deshalb neu holen. */
         await briefkastenHolen()
         zeigeUebersicht()
         dialogSchliessen()
@@ -668,21 +655,13 @@
     if (!uebersichtKnopf?.isConnected) {
       uebersichtKnopf = document.createElement('button')
       uebersichtKnopf.type = 'button'
-      /*
-        Zwei Klassen: `ak-uebersicht` trägt Form und Farbe, `ak-uebersicht-innen`
-        nimmt ihr die feste Lage am Bildschirmrand. Dieselbe Paarung wie bei
-        Netflix und Prime — im Kasten schwebt nichts mehr.
-      */
+      /* Zwei Klassen wie bei Netflix und Prime: Form und Farbe, ohne feste Lage am Rand. */
       uebersichtKnopf.className = 'ak-uebersicht ak-uebersicht-innen'
       uebersichtKnopf.onclick = dialogOeffnen
       kasten.querySelector('.ak-such-fuss-mitte')?.appendChild(uebersichtKnopf)
     }
     disneyDebugZeile(kasten)
-    /*
-      Gezählt wird der Titel, nicht die Meldung. Ein Titel, von dem 15 von 86
-      Folgen gemeldet sind, ist weiter offen — „anime-kalender button sollte 31
-      offen sagen, weil 1 nur teilweise gemeldet wurde" (Daniel, 26.08.2026).
-    */
+    /* Gezählt wird der Titel, nicht die Meldung — teilweise gemeldet ist noch offen (26.08.2026). */
     const nochOffen = offen.filter((e) => !istErledigt(e)).length
     uebersichtKnopf.textContent = nochOffen
       ? `Anime-Kalender: ${nochOffen} offen`
@@ -739,7 +718,7 @@
 
     if (!zuPruefen.length) {
       zeigePruefung(`${eintrag.titel}\n✓ ${nachStaffeln(alle)} gemeldet`, { klasse: 'gut' })
-      return
+      return signal('geprueft', { url: eintrag.url, zuMelden: 0 })
     }
     zeigePruefung(
       `${eintrag.titel}\nprüfe ${zuPruefen.length} Folgen …` +
@@ -780,7 +759,7 @@
       zeigePruefung(`${eintrag.titel}\nkeine Antwort — ${ergebnisse[0]?.fehler ?? 'unbekannt'}`, {
         klasse: 'schlecht',
       })
-      return
+      return signal('geprueft', { url: eintrag.url, zuMelden: 0, fehler: ergebnisse[0]?.fehler ?? 'unbekannt' })
     }
     zeigePruefung(
       `${eintrag.titel}` +
@@ -788,6 +767,7 @@
         `\n▸ ${nachStaffeln(echte)} melden (${mitDeutsch.length}× deutsch)`,
       { klasse: mitDeutsch.length ? 'gut' : null, klick: melden },
     )
+    signal('geprueft', { url: eintrag.url, zuMelden: echte.length })
   }
 
   // --- Melden ---------------------------------------------------------------
@@ -822,19 +802,16 @@
     const echte = ergebnisse.filter(
       (r) => r.sprachen && !gemeldeteNummern.has(folgenSchluessel(r.staffel, r.nummer)),
     )
-    if (!echte.length) return
+    if (!echte.length) return signal('gemeldet', { ok: true })
     const { token } = await chrome.storage.sync.get('token')
     if (!token) {
+      signal('gemeldet', { ok: false })
       return zeigePruefung('Kein Token — Rechtsklick aufs Symbol, dann Optionen', {
         klasse: 'schlecht',
       })
     }
 
-    /*
-      Wie Disney+ die Reihe teilt: je Staffel die Zahl der Folgen und die erste
-      Nummer. Damit lässt sich eine Meldung später einer unserer Staffeln
-      zuordnen, auch wenn der Anbieter anders einteilt — und er tut es.
-    */
+    /* Wie Disney+ die Reihe teilt — damit lässt sich die Meldung später unserer Staffel zuordnen. */
     const staffeln = [...new Set(echte.map((r) => r.staffel))]
       .filter((nr) => nr)
       .map((nr) => {
@@ -914,11 +891,7 @@
     )
     if (gescheitert.length) {
       console.warn(`[Anime-Kalender] ${gescheitert.length} Meldungen kamen nicht an:`, gescheitert)
-      /*
-        **Das ist der Fall, für den es den Meldeweg gibt.** Verlorene Befunde
-        sind Arbeit, die zweimal getan werden muss — und bis zum 10.09.2026 stand
-        die Zahl nur in der Konsole, wo sie niemand las.
-      */
+      /* Verlorene Befunde gehen an den Worker, nicht in die Konsole (10.09.2026). */
       void vorfallMelden('melden_fehlgeschlagen', {
         text: `${gescheitert.length} Meldung(en) kamen nicht an: ${gescheitert.slice(0, 3).join('; ')}`,
       })
@@ -929,26 +902,18 @@
       (a, b) => (a.staffel ?? 0) - (b.staffel ?? 0) || a.nummer - b.nummer,
     )
     zeigePruefung(
-      /*
-        Die Zahl der deutschen Folgen bleibt stehen. Vorher stand nach dem
-        Melden nur noch der Bereich da, und die Auskunft, um die es eigentlich
-        ging, war weg (Daniel, 26.08.2026: „jetzt steht dort nicht mehr wieviele
-        davon als deutsch gemeldet wurden").
-      */
+      /* Die Zahl der deutschen Folgen bleibt nach dem Melden stehen (Daniel, 26.08.2026). */
       `${eintrag.titel}\n✓ ${nachStaffeln(
         alle.filter((f) => gemeldeteNummern.has(folgenSchluessel(f.staffel, f.nummer))),
       )} gemeldet (${echte.filter((r) => r.sprachen.includes('de')).length}× deutsch)` +
         (gescheitert.length ? `\n${gescheitert.length} kamen nicht an — siehe Konsole` : '') +
         `\nÜbernahme ab ${uhrzeit(naechsteUebernahme())}`,
       {
-        /*
-          Rot heißt: etwas kam nicht an, und die Konsole sagt was. Ohne diesen
-          Zusatz stand der Knopf rot da, ohne dass jemand den Grund erfahren
-          konnte (Daniel, 26.08.2026: „warum ist er rot geworden??").
-        */
+        /* Rot heißt: etwas kam nicht an — der Grund steht in der Zeile darunter. */
         klasse: geschafft === echte.length ? 'gut' : 'schlecht',
       },
     )
+    signal('gemeldet', { ok: geschafft === echte.length })
   }
 
   // --- Wenn Disney+ die Seite gar nicht zeigt ------------------------------
@@ -1130,6 +1095,21 @@
     })
   } catch {
     /* Ohne document gibt es nichts zu berichten. */
+  }
+
+  /* Was der Durchgang braucht — dieselben Wege wie beim Klick. */
+  globalThis.AK_DISNEY = {
+    offene: () => offeneEintraege().filter((e) => !istErledigt(e)),
+    melden,
+    merkeZiel,
+    zeigeEnde: ({ grund, erledigt, uebersprungen }) =>
+      zeigePruefung(
+        `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'} · ${erledigt} Titel` +
+          (uebersprungen.length
+            ? `\n${uebersprungen.length} übersprungen: ${uebersprungen.map((u) => Object.values(liste).find((e) => e.url === u.url)?.titel ?? u.url).join(', ')}`
+            : ''),
+        { klasse: uebersprungen.length ? 'schlecht' : 'gut' },
+      ),
   }
 
   void briefkastenHolen().then(zeigeUebersicht)
