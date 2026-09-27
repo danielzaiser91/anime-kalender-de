@@ -114,7 +114,7 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung } from './lib/meldungen.ts'
-import { titelDerMeldung } from './lib/urteil-je-folge.ts'
+import { adressIndex, titelDerMeldung } from './lib/urteil-je-folge.ts'
 import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
@@ -5949,6 +5949,14 @@ pruefe(
   pruefe('Stufe 3: eine Staffelmeldung ohne Nummer bleibt verworfen — mit Grund', JSON.stringify(folgenDerMeldung(m(137822), 'ja', film)) === '{"verworfen":"ohne Folgennummer"}')
   pruefe('Stufe 3: ohne Titel verworfen, mit Grund', JSON.stringify(folgenDerMeldung(m(null, 3), 'ja', film)) === '{"verworfen":"ohne Titel"}')
   pruefe('Stufe 3: eine Folgennummer gilt wie gemeldet', JSON.stringify(folgenDerMeldung(m(137822, 7), 'ja', film)) === '{"von":7,"bis":7}')
+  pruefe('Stufe 4: „nicht verfügbar" ohne Nummer gilt dem ganzen Weg (Folge 0)', JSON.stringify(folgenDerMeldung(m(137822), 'nein', film)) === '{"von":0,"bis":0}')
+  {
+    const b = (folge: number, tag: string, vorhanden = 'ja') => ({ titel: 5, anbieter: 'primevideo', folge, vorhanden, tonDe: 'ja', art: 'gemessen', tag }) as UB
+    const weg = urteileJeFolge([b(0, '2026-09-10', 'nein'), b(3, '2026-09-01')])
+    pruefe('Stufe 4: ein Weg-Nein bleibt gegen eine ältere Folgenbeobachtung', weg['5|primevideo|0']?.urteil === 'nicht verfügbar', weg)
+    const zurueck = urteileJeFolge([b(0, '2026-09-10', 'nein'), b(3, '2026-09-20')])
+    pruefe('Stufe 4: eine jüngere Folgenbeobachtung hebt das Weg-Nein auf', !zurueck['5|primevideo|0'] && zurueck['5|primevideo|3']?.urteil === 'deutsch', zurueck)
+  }
 }
 {
   /*
@@ -6132,6 +6140,14 @@ pruefe(
   pruefe('Adresse: mehrere Titel → offen', titelDerMeldung({ titel_id: null, url: 'b' }, idx) === null)
   pruefe('Adresse: spätere Staffel einer Serienseite → offen', titelDerMeldung({ titel_id: null, url: 'a', staffel: 3 }, idx) === null)
   pruefe('Adresse: unbekannt → offen', titelDerMeldung({ titel_id: null, url: 'x' }, idx) === null)
+  const index = adressIndex([
+    { id: 11, titleDe: 'Cowboy Bebop', streams: [{ url: 'https://www.amazon.de/dp/B000' }] },
+    { id: 12, titleEn: 'Monster' },
+    { id: 13, titleRomaji: 'Monster' },
+  ])
+  pruefe('Adresse: Titelseite über den Verweis', index('https://www.amazon.de/dp/B000?ref_=x')?.join() === '11')
+  pruefe('Adresse: Suchadresse über den eindeutigen Namen', index('https://www.amazon.de/s?k=Cowboy+Bebop&i=instant-video')?.join() === '11')
+  pruefe('Adresse: Suchadresse mit zwei gleichnamigen Titeln bleibt offen', index('https://www.amazon.de/s?k=Monster') === undefined)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

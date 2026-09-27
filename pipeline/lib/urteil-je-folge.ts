@@ -1,4 +1,4 @@
-import { schluesselAdresse } from './zuordnung.ts'
+import { schluesselAdresse, titelSchluessel } from './zuordnung.ts'
 
 /**
  * **Stufe 3: das Urteil je Titel × Anbieter × Folge** (22.09.2026, Modell in
@@ -45,7 +45,7 @@ const RANG: Record<UrteilBeobachtung['art'], number> = { gemessen: 3, abgeleitet
 export function urteileJeFolge(beobachtungen: UrteilBeobachtung[]): Record<string, Urteil> {
   const jung = new Map<string, UrteilBeobachtung>()
   for (const b of beobachtungen) {
-    if (!b.titel || !b.folge || !b.vorhanden) continue
+    if (!b.titel || b.folge == null || b.folge < 0 || !b.vorhanden) continue
     const k = `${b.titel}|${b.anbieter}|${b.folge}`
     const alt = jung.get(k)
     if (!alt || b.tag > alt.tag || (b.tag === alt.tag && RANG[b.art] > RANG[alt.art])) jung.set(k, b)
@@ -57,6 +57,24 @@ export function urteileJeFolge(beobachtungen: UrteilBeobachtung[]): Record<strin
     else if (b.tonDe === 'nein' && b.kanal) aus[k] = { urteil: 'unbekannt', art: b.art, tag: b.tag, grund: 'kanal-ohne-abo' }
     else if (b.tonDe === 'nein') aus[k] = { urteil: 'kein deutsch', art: b.art, tag: b.tag }
     else aus[k] = { urteil: 'unbekannt', art: b.art, tag: b.tag }
+  }
+  return wegUrteileBereinigen(aus)
+}
+
+/**
+ * **Folge 0 ist der ganze Weg** (27.09.2026, Stufe 4 Schritt 3): Eine Meldung „nicht verfügbar" ohne
+ * Folgennummer gilt der Seite, nicht einer Folge. Ihr Urteil weicht, sobald eine **jüngere**
+ * Beobachtung einer einzelnen Folge desselben Wegs vorliegt — dann ist die Seite offenbar wieder da.
+ */
+function wegUrteileBereinigen(aus: Record<string, Urteil>): Record<string, Urteil> {
+  const juengsteFolge = new Map<string, string>()
+  for (const [k, u] of Object.entries(aus)) {
+    if (k.endsWith('|0')) continue
+    const weg = k.slice(0, k.lastIndexOf('|'))
+    if (u.tag > (juengsteFolge.get(weg) ?? '')) juengsteFolge.set(weg, u.tag)
+  }
+  for (const [k, u] of Object.entries(aus)) {
+    if (k.endsWith('|0') && (juengsteFolge.get(k.slice(0, -2)) ?? '') > u.tag) delete aus[k]
   }
   return aus
 }
@@ -84,13 +102,40 @@ export function folgenDerMeldung(
   let von = m.folge_nr ?? m.teil_von
   let bis = m.folge_nr ?? m.teil_bis
   if (!von && !bis && einzelwerk(m.titel_id)) von = bis = 1
+  /* „Nicht verfügbar" ohne Nummer meint die ganze Seite: Folge 0 (`wegUrteileBereinigen`). */
+  if (!von && !bis && vorhanden === 'nein') return { von: 0, bis: 0 }
   if (!von || !bis) return { verworfen: 'ohne Folgennummer' }
   if (bis < von || bis - von > 500) return { verworfen: 'Spanne unplausibel' }
   return { von, bis }
 }
 
-/** Adresse → unsere Titel, aus `streams` samt geöffneter Seite (`seite`) — wie im Einleser. */
-export function adressIndex(titel: { id: number; streams?: { url: string; seite?: string }[] }[]): (url: string) => number[] | undefined {
+/**
+ * Adresse → unsere Titel, aus `streams` samt geöffneter Seite (`seite`) — wie im Einleser. Eine
+ * Prime-Suchadresse (`/s?k=…`) löst der Suchbegriff auf, wie `ausSuchadresse` in
+ * `fetch-pruefungen.ts`: Name gleich nach `titelSchluessel`, nur eindeutig.
+ */
+export function adressIndex(
+  titel: { id: number; titleDe?: string; titleEn?: string; titleRomaji?: string; streams?: { url: string; seite?: string }[] }[],
+): (url: string) => number[] | undefined {
+  const nachName = new Map<string, Set<number>>()
+  for (const t of titel)
+    for (const n of [t.titleDe, t.titleEn, t.titleRomaji]) {
+      const k = n ? titelSchluessel(n) : ''
+      if (k) nachName.set(k, (nachName.get(k) ?? new Set()).add(t.id))
+    }
+  const ausSuche = (url: string): number[] | undefined => {
+    let begriff: string | null = null
+    try {
+      begriff = new URL(url).searchParams.get('k')
+    } catch {
+      return undefined
+    }
+    for (const v of begriff ? [begriff, begriff.replace(/\s+[—–-]\s+Teil\s+\d+\s*$/i, '')] : []) {
+      const ids = nachName.get(titelSchluessel(v))
+      if (ids?.size === 1) return [...ids]
+    }
+    return undefined
+  }
   const index = new Map<string, number[]>()
   for (const t of titel)
     for (const s of t.streams ?? [])
@@ -99,7 +144,7 @@ export function adressIndex(titel: { id: number; streams?: { url: string; seite?
         const liste = index.get(schluesselAdresse(u)) ?? []
         if (!liste.includes(t.id)) index.set(schluesselAdresse(u), [...liste, t.id])
       }
-  return (url) => index.get(schluesselAdresse(url))
+  return (url) => index.get(schluesselAdresse(url)) ?? (url.includes('/s?k=') ? ausSuche(url) : undefined)
 }
 
 /**

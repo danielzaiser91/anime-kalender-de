@@ -469,3 +469,22 @@ Folgenangabe (Liste: `C:\code\ai\__assets\notes\belege-ohne-folgenangabe.md`) ko
 `data/erneut-melden.yaml` auf die Prüfliste — 290 mit Weg im Bestand, 7 Paare ohne Weg entfallen.
 Der nächste Durchgang liefert Tonspuren je Folge; ein Eintrag fällt von selbst heraus, sobald eine
 Meldung nach dem 27.09.2026 angekommen ist.
+
+### Schritt 3 (2a) und Suchadressen, 27.09.2026
+
+- **„Nicht verfügbar" ohne Folgennummer ist ein Urteil über den Weg**: Folge 0 in `data/urteile.json`
+  (`folgenDerMeldung` → `{ von: 0, bis: 0 }`). Es weicht, sobald eine **jüngere** Beobachtung einer
+  Folge desselben Wegs vorliegt (`wegUrteileBereinigen`). Phase 10 liest weiter nur „deutsch".
+- **Prime-Suchadressen** (`/s?k=…`) löst `adressIndex` über den Suchbegriff auf — wie
+  `ausSuchadresse` im Einleser, nur eindeutig.
+
+Gemessen (fetch-urteile lokal, Datei danach zurückgesetzt):
+
+| | Urteile | Belege mit Urteil | davon `available: false` |
+|---|---|---|---|
+| nach (1) | 7.552 | 702 | — |
+| + Weg-Urteil (Folge 0) | 7.567 | 715 | 47 / 493 |
+| + Suchadressen | 7.748 | **928** / 2.049 | 180 / 493 |
+
+Offen bleiben: die 290 alten Belege ohne Rohdaten (stehen auf der Prüfliste, s. o.), Meldungen ohne
+Folgennummer (424) und mehrdeutige Netflix-Serienseiten.
