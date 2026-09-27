@@ -6,49 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Drama
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-09-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260920T083000Z
-DTEND:20260920T090000Z
-SUMMARY:⚠ nicht erschienen: You and I Are Polar Opposites – Staffel 2 
- – Folge 8/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-
- s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-20#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260920T150000Z
-DTEND:20260920T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 9/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-20#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260920T150000Z
-DTEND:20260920T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 10/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:though-i-am-an-inept-villainess@2026-09-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260920T154500Z
-DTEND:20260920T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 8/11
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/though-i-am-an-inept-villaines
- s
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-09-21#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260921T162500Z

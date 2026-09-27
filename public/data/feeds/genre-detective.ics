@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Detective
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-20#134@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260920T021500Z
-DTEND:20260920T024500Z
-SUMMARY:Detektiv Conan – Folge 134/147
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-20#135@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260920T024000Z
-DTEND:20260920T031000Z
-SUMMARY:Detektiv Conan – Folge 135/147
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260921T155500Z

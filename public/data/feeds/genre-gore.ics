@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Gore
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-20#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260920T150000Z
-DTEND:20260920T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 9/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-20#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260920T150000Z
-DTEND:20260920T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 10/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T140000Z
