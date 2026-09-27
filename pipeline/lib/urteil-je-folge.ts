@@ -1,3 +1,5 @@
+import { schluesselAdresse } from './zuordnung.ts'
+
 /**
  * **Stufe 3: das Urteil je Titel × Anbieter × Folge** (22.09.2026, Modell in
  * `docs/konzept-meldungen-architektur.md`). Reine Funktion, schreibt nichts.
@@ -85,4 +87,34 @@ export function folgenDerMeldung(
   if (!von || !bis) return { verworfen: 'ohne Folgennummer' }
   if (bis < von || bis - von > 500) return { verworfen: 'Spanne unplausibel' }
   return { von, bis }
+}
+
+/** Adresse → unsere Titel, aus `streams` samt geöffneter Seite (`seite`) — wie im Einleser. */
+export function adressIndex(titel: { id: number; streams?: { url: string; seite?: string }[] }[]): (url: string) => number[] | undefined {
+  const index = new Map<string, number[]>()
+  for (const t of titel)
+    for (const s of t.streams ?? [])
+      for (const u of new Set([s.url, s.seite])) {
+        if (!u) continue
+        const liste = index.get(schluesselAdresse(u)) ?? []
+        if (!liste.includes(t.id)) index.set(schluesselAdresse(u), [...liste, t.id])
+      }
+  return (url) => index.get(schluesselAdresse(url))
+}
+
+/**
+ * **Eine Meldung ohne Titel über ihre Adresse zuordnen** — wie der Einleser (`fetch-pruefungen.ts`),
+ * aber nur eindeutig: Die Adresse gehört genau einem unserer Titel, und die Meldung nennt keine
+ * spätere Staffel (eine Serienseite führt oft mehrere, bei uns hängt nur eine daran). Vor dem
+ * 02.09.2026 schickte die Erweiterung keine `titel_id` mit — 5.807 von 7.510 Meldungen.
+ * Gemessen 27.09.2026: Handbelege mit Urteil 552 → 702 von 2.049 (docs/konzept-meldungen-architektur.md).
+ */
+export function titelDerMeldung(
+  m: { titel_id: number | null; url: string; staffel?: number | null },
+  nachAdresse: (url: string) => number[] | undefined,
+): number | null {
+  if (m.titel_id) return m.titel_id
+  if (m.staffel != null && m.staffel !== 1) return null
+  const ids = nachAdresse(m.url)
+  return ids?.length === 1 ? ids[0]! : null
 }

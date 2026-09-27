@@ -114,6 +114,7 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung } from './lib/meldungen.ts'
+import { titelDerMeldung } from './lib/urteil-je-folge.ts'
 import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
@@ -6122,6 +6123,15 @@ pruefe(
   const gantz = { dates: [{ iso: '2026-10-02', context: 'nicht wie geplant am 2. Oktober' }, { iso: '2026-11-20', context: 'sondern erst am 20. November' }] }
   pruefe('Verschiebung (Einzelmeldung): der spätere Tag gilt', terminDerMeldung({ ...gantz, pause: 'verschoben' }) === '2026-11-20')
   pruefe('Gegenprobe: ohne Verschiebung gilt der erste Tag', terminDerMeldung(gantz) === '2026-10-02')
+}
+/* Meldung ohne Titel über die Adresse (27.09.2026): nur eindeutig und nur ohne spätere Staffel. */
+{
+  const idx = (url: string) => ({ 'a': [1], 'b': [1, 2] })[url]
+  pruefe('Adresse: eine Kennung aus der Meldung gewinnt', titelDerMeldung({ titel_id: 7, url: 'b' }, idx) === 7)
+  pruefe('Adresse: genau ein Titel → zugeordnet', titelDerMeldung({ titel_id: null, url: 'a', staffel: 1 }, idx) === 1)
+  pruefe('Adresse: mehrere Titel → offen', titelDerMeldung({ titel_id: null, url: 'b' }, idx) === null)
+  pruefe('Adresse: spätere Staffel einer Serienseite → offen', titelDerMeldung({ titel_id: null, url: 'a', staffel: 3 }, idx) === null)
+  pruefe('Adresse: unbekannt → offen', titelDerMeldung({ titel_id: null, url: 'x' }, idx) === null)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -12,7 +12,7 @@
  * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { folgenDerMeldung, urteileJeFolge, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import { adressIndex, folgenDerMeldung, titelDerMeldung, urteileJeFolge, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -29,6 +29,7 @@ interface RohMeldung {
   url: string
   befund: string | null
   folge_nr: number | null
+  staffel: number | null
   teil_von: number | null
   teil_bis: number | null
   titel_id: number | null
@@ -111,14 +112,13 @@ async function main() {
   }
   /* Ein Einzelwerk (Film, einteiliges Special) hat genau Folge 1 — siehe `folgenDerMeldung`. */
   const titelListe = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
-  const einzel = new Set(
-    (Array.isArray(titelListe) ? titelListe : titelListe.titles)
-      .filter((t) => t.format === 'MOVIE' || t.episodes === 1)
-      .map((t) => t.id),
-  )
+  const titelAlle = Array.isArray(titelListe) ? titelListe : titelListe.titles
+  const einzel = new Set(titelAlle.filter((t) => t.format === 'MOVIE' || t.episodes === 1).map((t) => t.id))
+  const nachAdresse = adressIndex(titelAlle)
   const verworfen: Record<string, number> = {}
   /* Eine Meldung ohne die Felder aus Migration 034 trägt nur `befund`. */
-  for (const m of meldungen) {
+  for (const roh of meldungen) {
+    const m = { ...roh, titel_id: titelDerMeldung(roh, nachAdresse) }
     const vorhanden = m.vorhanden ?? (m.befund === 'weg' ? 'nein' : m.befund ? 'ja' : null)
     const tonDe = m.ton_de ?? (m.befund === 'dub' ? 'ja' : m.befund === 'kein_dub' ? 'nein' : 'unbekannt')
     const spanne = folgenDerMeldung(m, vorhanden, (id) => einzel.has(id))

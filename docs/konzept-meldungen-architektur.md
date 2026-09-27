@@ -429,3 +429,26 @@ neu messen (Skript: Herkunft je Beleg aus den Abschnittskommentaren, Urteil je `
 false` als eigenes Urteil je Weg; (3) erst bei voller Abdeckung schlägt das Urteil die eingelesenen
 Belege, mit `check:handbelege` als Gegenprobe; (4) danach liest der Einleser nicht mehr nach
 `dub-confirmed.yaml`, die Datei bleibt „Daniel von Hand“.
+
+### Schritt 3 (1) gemessen, 27.09.2026
+
+Abdeckung der 2.049 Handbelege durch Urteile (Titel × Anbieter hat mindestens ein Urteil), gemessen
+mit einem Wegwerf-PoC über alle Worker-Meldungen und Rohfolgen:
+
+| | Urteile | Belege mit Urteil |
+|---|---|---|
+| vorher | 6.761 | 552 |
+| + Meldungen ohne `titel_id` über die eindeutige Adresse (`titelDerMeldung`) | 7.552 | 702 |
+
+Ohne Urteil bleiben: **510** Belege ohne jede Meldung im Worker, **457** `available: false` (braucht
+ein eigenes Urteil je Weg), **195** mit Meldungen ohne Folgennummer, **185** auf Plattformen ohne
+Erweiterung (bleiben Handbelege). 5.807 der 7.510 Meldungen trugen keine `titel_id` (vor dem
+02.09.2026); über die Adresse eindeutig: 2.803, mehrdeutig 1.389 (Netflix-Serienseiten), keiner
+1.615 (alte Prime-Adressen, Suchen). Gegenprobe gegen die Belege: Die neuen Widersprüche sind
+jüngere „nicht verfügbar"-Meldungen oder andere Folgen desselben Titels, keiner widerlegt die Regel.
+Zugeordnet wird nur ohne spätere Staffel (\`staffel\` leer oder 1): Eine Serienseite führt oft
+mehrere Staffeln, bei uns hängt nur eine daran.
+
+**Nächste Punkte in dieser Reihenfolge:** (2a) `available: false` als Urteil „nicht verfügbar" je
+Weg; (2b) die 510 Belege ohne Meldung nach Herkunft aufschlüsseln (Handarbeit, alte Einleser-Fälle,
+umgebuchte Titel); (2c) Staffelmeldungen ohne Nummer über die Rohfolgen.
