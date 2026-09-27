@@ -420,10 +420,15 @@ links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. Zu wi
 ## Neuigkeiten im Detail-Panel (27.09.2026)
 
 Daniel: News eines Titels direkt im Panel sehen und zur Quelle springen. `detail/neuigkeiten.tsx`
-zeigt die Meldungen aus `news.json` für die **ganze Reihe** (Teil = `teilId ?? titelId`), neueste
+zeigt die Meldungen aus `news.json` für den **eigenen Titel** (Teil = `teilId ?? titelId`), neueste
 zuerst, drei sichtbar. Satz und Farbe wie auf der News-Seite (`newsSatz`, `NEWS_FARBE`).
 
 - **Quelle:** Meldungen tragen keine Adresse. Genommen wird der jüngste Beleg (`quellen`,
   `gesehenAm`) des Releases der Meldung, sonst `sources[0]`, sonst `platformUrl`; „neu auf Deutsch"
   ohne Release führt zur Serie beim Anbieter (`streams[].url`).
-- Meldungen zu einem anderen Teil nennen ihn (`teil`, sonst der Name des Kopfs).
+- **Gefiltert** (`meldungenImPanel`, Daniel 27.09.2026): kein anderer Teil der Reihe (bei Pokémon
+  standen „Reisen" und „Horizonte" im Panel von „Generationen"); Ankündigung, Disc und Kino fallen
+  weg, sobald ihr Tag vorbei ist, und schon vorher, wenn ihr Release zum Titel gehört — dann zeigt
+  der Antwortkasten den Termin. Gemessen am 27.09.2026: von 408 Meldungen betreffen 180 einen
+  anderen Teil, 159 einen vergangenen Termin, 102 einen kommenden mit eigenem Release (alle 102
+  gehören zum Titel der Meldung). Geblieben sind „neu auf Deutsch", Folgen und Verspätungen.

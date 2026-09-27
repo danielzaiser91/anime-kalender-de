@@ -4,7 +4,7 @@ import { loadNews, type Dataset } from '../../lib/data.ts'
 import { useLang, type TranslationKey } from '../../lib/i18n.tsx'
 import { datumKurz, newsSatz } from '../../lib/news-text.ts'
 import { NEWS_FARBE } from '../NewsView.tsx'
-import { anzeigeName } from '@shared/titles.ts'
+import { todayIso } from '@shared/time.ts'
 
 interface Zeile {
   am: string
@@ -17,11 +17,10 @@ interface Zeile {
 const SICHTBAR = 3
 
 /**
- * **Die News eines Titels stehen auch in seinem Panel** (Daniel, 27.09.2026: „news section … sodass
- * man solche news dort direkt sieht und zum artikel/quelle der news springen kann"). Gezeigt wird
- * die ganze Reihe — „Staffel 2 angekündigt" gehört auch ins Panel von Staffel 1 —, neueste zuerst.
+ * **Die News eines Titels stehen auch in seinem Panel** (Daniel, 27.09.2026), mit Sprung zur Quelle —
+ * nur die des eigenen Titels, neueste zuerst (`meldungenImPanel`).
  */
-export function Neuigkeiten({ data, titelId, reihenIds }: { data: Dataset; titelId: number; reihenIds: number[] }) {
+export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number }) {
   const { t } = useLang()
   const [liste, setListe] = useState<NewsEintrag[] | null>(null)
   const [alle, setAlle] = useState(false)
@@ -32,7 +31,7 @@ export function Neuigkeiten({ data, titelId, reihenIds }: { data: Dataset; titel
       aktiv = false
     }
   }, [])
-  const zeilen = useMemo(() => meldungenDerReihe(liste ?? [], new Set([titelId, ...reihenIds])), [liste, titelId, reihenIds])
+  const zeilen = useMemo(() => meldungenImPanel(liste ?? [], titelId, data, todayIso()), [liste, titelId, data])
   if (!zeilen.length) return null
   const gezeigt = alle ? zeilen : zeilen.slice(0, SICHTBAR)
   return (
@@ -40,7 +39,7 @@ export function Neuigkeiten({ data, titelId, reihenIds }: { data: Dataset; titel
       <h3 className="text-xs font-bold uppercase tracking-[0.12em] text-ak-leise">{t('detail.neuigkeiten')}</h3>
       <ul className="flex flex-col">
         {gezeigt.map((z, i) => (
-          <NeuigkeitZeile key={`${z.am}-${z.teilId}-${z.m.art}-${i}`} z={z} data={data} titelId={titelId} />
+          <NeuigkeitZeile key={`${z.am}-${z.m.art}-${i}`} z={z} data={data} />
         ))}
       </ul>
       {zeilen.length > SICHTBAR && (
@@ -52,7 +51,7 @@ export function Neuigkeiten({ data, titelId, reihenIds }: { data: Dataset; titel
   )
 }
 
-function NeuigkeitZeile({ z, data, titelId }: { z: Zeile; data: Dataset; titelId: number }) {
+function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
   const { t } = useLang()
   const quelle = quelleFuer(z, data)
   const jahr = new Date().getFullYear().toString()
@@ -61,10 +60,7 @@ function NeuigkeitZeile({ z, data, titelId }: { z: Zeile; data: Dataset; titelId
     <li className="flex items-start gap-3 border-t border-ak-linie py-2 first:border-t-0">
       <span className="w-[4.5rem] shrink-0 pt-0.5 text-xs tabular-nums text-ak-leise">{datum}</span>
       <span className="flex min-w-0 flex-1 flex-col gap-1">
-        <span className="flex flex-wrap items-center gap-1.5">
-          <span className={`rounded px-1.5 text-xs ${NEWS_FARBE[z.m.art]}`}>{t(`news.art.${z.m.art}` as TranslationKey)}</span>
-          {z.teilId !== titelId && <span className="text-xs font-semibold text-ak-text">{z.m.teil ?? teilName(z.teilId, data)}</span>}
-        </span>
+        <span className={`self-start rounded px-1.5 text-xs ${NEWS_FARBE[z.m.art]}`}>{t(`news.art.${z.m.art}` as TranslationKey)}</span>
         <span className="text-sm text-ak-text">{newsSatz(z.m)}</span>
       </span>
       {quelle && (
@@ -83,13 +79,23 @@ function NeuigkeitZeile({ z, data, titelId }: { z: Zeile; data: Dataset; titelId
   )
 }
 
-/** Alle Meldungen, deren Teil zur Reihe gehört — neueste zuerst. */
-function meldungenDerReihe(liste: NewsEintrag[], ids: Set<number>): Zeile[] {
+/** Meldungen, die einen Termin nennen — sie veralten mit ihm. */
+const TERMIN_ARTEN = new Set<NewsMeldung['art']>(['angekuendigt', 'disc', 'kino'])
+
+/**
+ * Was das Panel an News zeigt (Daniel, 27.09.2026): **nur der eigene Titel** — bei Pokémon standen
+ * Meldungen zu „Reisen" und „Horizonte" im Panel von „Generationen" —, **kein vorbeigegangener
+ * Termin** und **kein kommender, den das Panel schon als Termin zeigt** (jedes Release des Titels
+ * steht dort als Pille, Disc oder Kino). Neueste zuerst.
+ */
+export function meldungenImPanel(liste: NewsEintrag[], titelId: number, data: Pick<Dataset, 'releaseBySlug'>, heute: string): Zeile[] {
   const zeilen: Zeile[] = []
   for (const e of liste)
     for (const m of e.meldungen) {
       const teilId = m.teilId ?? e.titelId
-      if (ids.has(teilId)) zeilen.push({ am: e.am, m, teilId })
+      if (teilId !== titelId) continue
+      if (TERMIN_ARTEN.has(m.art) && m.datum && (m.datum < heute || (m.release && data.releaseBySlug.get(m.release)?.titleId === titelId))) continue
+      zeilen.push({ am: e.am, m, teilId })
     }
   return zeilen.sort((a, b) => b.am.localeCompare(a.am))
 }
@@ -115,10 +121,4 @@ function quelleFuer(z: Zeile, data: Dataset): { url: string; name: string } | un
 function anbieterSeite(z: Zeile, data: Dataset): { url: string; name: string } | undefined {
   const stream = data.titleById.get(z.teilId)?.streams?.find((s) => s.platform === z.m.platform && s.url)
   return stream?.url ? { url: stream.url, name: PLATFORMS[stream.platform]?.name ?? stream.platform } : undefined
-}
-
-/** Name eines anderen Teils der Reihe, wenn die Meldung keinen eigenen nennt (sie meint dann den Kopf). */
-function teilName(id: number, data: Dataset): string {
-  const t = data.titleById.get(id)
-  return t ? anzeigeName(t) : ''
 }

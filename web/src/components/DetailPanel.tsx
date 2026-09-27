@@ -1294,7 +1294,7 @@ export function DetailPanel({
             setDiscOffen={setDiscOffen}
             discReleases={discReleases}
           />
-          <UnterDerAntwort data={data} title={title} favorites={favorites} reihenIds={reihenIds} />
+          <UnterDerAntwort data={data} title={title} favorites={favorites} />
           {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
