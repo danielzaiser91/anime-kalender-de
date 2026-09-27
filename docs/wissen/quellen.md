@@ -2914,6 +2914,8 @@ Werk" galt auch für unseren zweiten Eintrag an derselben Adresse. Bei Black Clo
 aus **Phase 09-1**: Jedes Release gilt dort als Synchro-Beleg, auch der geschätzte Termin, der nur
 der Untertitel-Start ist.
 
+Nachtrag (Bestandslauf 36330536301): alle vier ohne Ja, 0 falsche Meldungen — aber Black Clover S2 verlor seinen einzigen Verweis. Ein Befund aus `crunchyroll-offene.json` vom 16.09. („das Werk steht unter dieser Adresse nicht") entfernte ihn; bisher verdeckt, weil der Verweis fälschlich deutsch war. Dieselbe Sperre gilt jetzt auch für diese Befunde (`b.geprueftAm`).
+
 Bei der Apothekerin S3 setzte die **Blocknamen-Runde** (`ordneCrBloeckeZu`) das Ja — gefunden mit
 einem Beobachter am Verweis im lokalen Messbau (Aufrufstelle `09-4-2-bloecke.ts:144`).
 

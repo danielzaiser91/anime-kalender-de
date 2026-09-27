@@ -320,7 +320,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
      * Unterscheidung, die `DubCheck.available` seit dem 12.08.2026 zieht.
      */
     {
-      const offene = readJson<Record<string, { herkunft?: string; dub?: boolean; grund?: string }>>(
+      const offene = readJson<Record<string, { herkunft?: string; dub?: boolean; grund?: string; geprueftAm?: string }>>(
         'data/crunchyroll-offene.json',
         {},
       )
@@ -330,7 +330,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
         for (const stream of [...title.streams]) {
           if (stream.platform !== 'crunchyroll' || stream.dub !== undefined) continue
           const b = offene[stream.url]
-          if (!b) continue
+          if (!b || vorDemStart(title, b.geprueftAm)) continue
           /**
            * **Ein `tot` wurde gezählt und nie angewandt — 11 Verweise standen so
            * dauerhaft auf „🇩🇪 ?".**
