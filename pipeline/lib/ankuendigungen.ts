@@ -11,7 +11,7 @@ import yaml from 'js-yaml'
 import type { PlatformId, Title } from '../../shared/types.ts'
 import { PLATFORMS } from '../../shared/types.ts'
 
-type Ankuendigung = NonNullable<Title['ankuendigung']>
+export type Ankuendigung = NonNullable<Title['ankuendigung']>
 
 interface Roh {
   quellen?: Record<string, string>

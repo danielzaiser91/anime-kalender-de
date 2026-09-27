@@ -2867,3 +2867,10 @@ weg — Last Boss Staffel 2 und Apothekerin Staffel 3, beide zu Recht.
 **Verworfen:** Zuordnung über die Folgenzahl (Block ↔ Eintrag, Ketten, Rest 1:1). Crunchyroll zählt
 zu oft anders (Iruma Staffel 4: 23 statt 24, Attack on Titan, Haikyu) — 74 echte Synchros hätten
 ihr Urteil verloren. Zusicherungen: `check:cr-zuordnung`, „Last Boss: …".
+
+**Der erste Fix griff im Bestandslauf nicht** (27.09.2026, am Morgen nachgemessen: Staffel 2 blieb
+deutsch). Er las `title.ankuendigung` — das Feld hängt `mitAnkuendigung` aber erst beim Schreiben
+von `titles.json` an, zur Zeit der Auswertung fehlt es. Die Zusicherungen setzten das Feld selbst
+und waren deshalb grün. Jetzt liest die Regel `data/ankuendigungen.yaml` direkt, und eine
+Zusicherung prüft den Titel **ohne** Feld. Allgemein: Eine Zusicherung baut den Titel so, wie ihn
+der Bau an dieser Stelle kennt — nicht so, wie er am Ende in `titles.json` steht.

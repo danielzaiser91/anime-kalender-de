@@ -25,6 +25,7 @@
 import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSerie, type CrDubData, beurteileJeBlock, beurteileTeilblock } from './lib/crunchyroll-dub.ts'
 import { termineAusSerie } from './lib/crunchyroll-termine.ts'
 import { readJson, ROOT } from './lib/util.ts'
+import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
 
@@ -130,6 +131,9 @@ console.log('Zusicherungen für die Crunchyroll-Zuordnung\n')
   const spaeter = { ...titel(3, 12, 2026), ankuendigung: { platform: 'crunchyroll', omuAb: '2026-09-26', synchro: 'offen', quellen: [], stand: '2026-09-15' } } as unknown as Title
   pruefe('Start nach der Prüfung allein genügt', urteil(s, [spaeter]).get(3) === undefined)
   pruefe('ohne Ankündigung bleibt es beim Urteil', urteil(s, [titel(4, 24, 2020)]).get(4) === true)
+  /* Im Bau trägt der Titel das Feld noch nicht (`mitAnkuendigung` kommt erst beim Schreiben) — der erste Fix griff deshalb nie. */
+  const angekuendigt = [...ankuendigungenLaden(ROOT)].find(([, a]) => a.synchro === 'angekuendigt')
+  if (angekuendigt) pruefe('Ankündigung wirkt auch ohne Feld am Titel (aus data/ankuendigungen.yaml)', urteil(s, [titel(angekuendigt[0], 12, 2026)]).get(angekuendigt[0]) === undefined)
 }
 
 /**

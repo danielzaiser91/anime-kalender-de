@@ -1,5 +1,7 @@
 import type { Title } from '../../shared/types.ts'
 import type { CrSerie, CrStaffel, Urteil } from './crunchyroll-dub.ts'
+import { ankuendigungenLaden, type Ankuendigung } from './ankuendigungen.ts'
+import { ROOT } from './util.ts'
 
 /**
  * **Alle Blöcke deutsch heißt nicht: alle unsere Staffeln deutsch.** Ein Eintrag, der erst nach der
@@ -14,7 +16,21 @@ import type { CrSerie, CrStaffel, Urteil } from './crunchyroll-dub.ts'
  */
 export function vollstaendigDeutsch(serie: CrSerie, staffeln: CrStaffel[], unsere: Title[]): Urteil[] {
   return unsere
-    .filter((t) => t.ankuendigung?.synchro !== 'angekuendigt')
-    .filter((t) => !serie.geprueftAm || !t.ankuendigung?.omuAb || t.ankuendigung.omuAb <= serie.geprueftAm)
+    .filter((t) => {
+      const a = ankuendigungVon(t)
+      if (a?.synchro === 'angekuendigt') return false
+      return !serie.geprueftAm || !a?.omuAb || a.omuAb <= serie.geprueftAm
+    })
     .map((t) => ({ titleId: t.id, dub: true, grund: `alle ${staffeln.length} Blöcke vollständig deutsch` }))
+}
+
+/**
+ * Die Ankündigung eines Titels. **Im Bau hängt sie noch nicht am Titel** — `mitAnkuendigung` setzt
+ * sie erst beim Schreiben von `titles.json`; der erste Fix las nur das Feld und griff deshalb im
+ * Bestandslauf nie (gemessen 27.09.2026: Staffel 2 blieb deutsch). Darum aus der Datei selbst.
+ */
+let ankuendigungen: Map<number, Ankuendigung> | undefined
+function ankuendigungVon(t: Title): Pick<Ankuendigung, 'omuAb' | 'synchro'> | undefined {
+  ankuendigungen ??= ankuendigungenLaden(ROOT)
+  return t.ankuendigung ?? ankuendigungen.get(t.id)
 }
