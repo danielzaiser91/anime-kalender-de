@@ -452,3 +452,17 @@ mehrere Staffeln, bei uns hängt nur eine daran.
 **Nächste Punkte in dieser Reihenfolge:** (2a) `available: false` als Urteil „nicht verfügbar" je
 Weg; (2b) die 510 Belege ohne Meldung nach Herkunft aufschlüsseln (Handarbeit, alte Einleser-Fälle,
 umgebuchte Titel); (2c) Staffelmeldungen ohne Nummer über die Rohfolgen.
+
+### Schritt 3 (2b) gemessen, 27.09.2026: Belege ohne Rohdaten
+
+Die Belege ohne jede Worker-Meldung zu Titel × Anbieter (gezählt ≈ 590, Plattformen mit Erweiterung,
+ohne `available: false`) stammen fast alle aus den Abschnitten „Aus dem Browser gemeldet, abgeholt
+am …"; nur ≈ 50 davon haben eine Meldung unter ihrer Adresse, aber zu einem anderen Titel. Die älteste
+Meldung im Worker ist vom 21.08.2026, 22:42 — **die Rohdaten der frühen Belege gibt es nicht mehr.**
+(Die Zuordnung Beleg → Abschnitt ist unscharf: 2.209 Einträge in der Datei, 2.049 nach dem Laden.)
+
+**Folge für Schritt 3 (3):** „Erst bei voller Abdeckung schlägt das Urteil die Belege" ist aus
+Meldungen allein nicht erreichbar. Diese Belege müssen selbst zu Beobachtungen werden — Art
+„übernommen", Tag = `belegtAm`/Abschnittsdatum, Folgen aus `ranges` bzw. alle bei `dub: true` ohne
+Bereiche —, sonst verliert das Urteil sie. Entscheidung dazu steht aus (wie weit darf ein Beleg ohne
+Folgenangabe alle Folgen decken?).
