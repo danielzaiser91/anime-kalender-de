@@ -18,6 +18,7 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson, warn } from './lib/util.ts'
 import { zeichneKarte } from './lib/og-karte.ts'
+import { OG_FASSUNG } from './lib/og-fassung.ts'
 
 const OUT_DIR = resolve(ROOT, 'public/og')
 const COVER_CACHE = resolve(ROOT, 'data/cache/covers')
@@ -25,9 +26,9 @@ const COVER_CACHE = resolve(ROOT, 'data/cache/covers')
 /**
  * **Fassung des Aussehens.** Ohne sie würde ein neues Design nur neue Releases erreichen — der
  * Lauf überspringt vorhandene Bilder. Weicht die gespeicherte Fassung ab, zeichnet er einmal alle
- * neu (27.09.2026: Poster-Gestaltung). Bei jeder Änderung an `og-karte.ts` hochzählen.
+ * neu (27.09.2026: Poster-Gestaltung). Die Kennung steht in `lib/og-fassung.ts`.
  */
-const FASSUNG = 'poster-1'
+const FASSUNG = OG_FASSUNG
 const FASSUNG_DATEI = resolve(OUT_DIR, 'fassung.txt')
 const FORCE =
   process.argv.includes('--force') || !existsSync(FASSUNG_DATEI) || readFileSync(FASSUNG_DATEI, 'utf8').trim() !== FASSUNG

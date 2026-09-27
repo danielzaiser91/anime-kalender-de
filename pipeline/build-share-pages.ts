@@ -24,6 +24,7 @@ import { expandEvents } from '../shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
+import { OG_FASSUNG } from './lib/og-fassung.ts'
 
 const DIST = resolve(ROOT, 'dist')
 const SITE = (process.env.SITE_URL ?? 'https://anime-kalender.de/').replace(
@@ -277,7 +278,7 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
   if (title?.genres?.length) daten.genre = title.genres.slice(0, 5).map((g) => GENRE_DE[g] ?? g)
   if (!istFilm && title?.episodes) daten.numberOfEpisodes = title.episodes
   if (title?.jpYear) daten.datePublished = String(title.jpYear)
-  daten.image = `${SITE}og/${release.slug}.jpg`
+  daten.image = `${SITE}og/${release.slug}.jpg?v=${OG_FASSUNG}`
 
   /*
     Der Termin als eigenes Ereignis. `BroadcastEvent` passt für eine
@@ -321,7 +322,7 @@ function head(release: Release, title: Title | undefined, today: string): string
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
   const url = `${SITE}r/${release.slug}/`
-  const image = `${SITE}og/${release.slug}.jpg`
+  const image = `${SITE}og/${release.slug}.jpg?v=${OG_FASSUNG}`
   const headline = `${release.name} — ${RELEASE_TYPES[release.releaseType].short} bei ${anbieterName(release.platform, release.sender)}`
   const description = describe(release, title, today)
   const hash = `#/woche?${next ? `d=${next.date}&` : ''}r=${release.slug}`
@@ -605,7 +606,7 @@ function schreibeUebersicht(
       Liste als Erstes bringt. Gibt es keine, bleibt das Feld weg.
     */
     (naechsteZwanzig[0]
-      ? `    <meta property="og:image" content="${SITE}og/${naechsteZwanzig[0].slug}.jpg" />\n` +
+      ? `    <meta property="og:image" content="${SITE}og/${naechsteZwanzig[0].slug}.jpg?v=${OG_FASSUNG}" />\n` +
         `    <meta property="og:image:type" content="image/jpeg" />\n` +
         `    <meta property="og:image:width" content="1200" />\n` +
         `    <meta property="og:image:height" content="630" />\n`
@@ -683,6 +684,7 @@ function schreibeStartseite(
     resolve(DIST, 'index.html'),
     template
       .replace(rootTag, `<div id="root">${inhalt}</div>`)
+      .replaceAll('og/default.jpg"', `og/default.jpg?v=${OG_FASSUNG}"`)
       .replace(
         '</head>',
         `    <script type="application/ld+json">${JSON.stringify(startDaten)}</script>\n  </head>`,
