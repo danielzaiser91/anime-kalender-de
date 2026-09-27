@@ -32,7 +32,24 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   const tvProgramm = Object.entries(
     readJson<{ sendungen?: Record<string, TvSendung> }>('data/tv-programm.json', {}).sendungen ?? {},
   ).map(([k, s]) => ({ ...s, kennung: /^tvde_[^+]+\+(\d+)$/.exec(k)?.[1] }))
-  const tvFolgenListen: WikiListen = {
+  const tvFolgenListen = folgenListen()
+  /*
+    Erst umhängen, dann beides füttern: Die Termine entstehen aus den zugeordneten Sendungen, und
+    dieselben Sendungen hängen danach an den Terminen. Mit den Rohdaten bekam „One Piece Log:
+    Fish-Man Island Saga" am 23.09.2026 zwar ein Release, aber keine einzige Sendung.
+  */
+  const tvZugeordnet = sendungNeuZuordnen(tvProgramm, titles, tvFolgenListen)
+  const ausTv = releasesAusTvProgramm(tvZugeordnet, titles, releases, tvFolgenListen)
+  releases.push(...ausTv)
+  sendungenAnhaengen(releases, tvZugeordnet, addDays(todayIso(), -1), tvFolgenListen)
+  if (ausTv.length) log(`${ausTv.length} TV-Termine aus dem RTL+-Programm: ${ausTv.map((r) => `${r.name} (${r.sender})`).join(', ')}`)
+
+  quellenPflegen(releases)
+}
+
+/** Folgentitel je Titel für die TV-Termine: aniSearch als Grundstock, spätere Listen gewinnen. */
+function folgenListen(): WikiListen {
+  return {
     /*
       **aniSearch-Folgentitel als Grundstock** (23.09.2026). Ohne sie hat ein Titel ohne
       Wikipedia-Liste gar keine Folgennamen — „One Piece Log: Fish-Man Island Saga" (183423)
@@ -82,16 +99,4 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
       ),
       ...(readJson<{ titel?: WikiListen }>('data/wikipedia-folgen.json', {}).titel ?? {}),
   }
-  /*
-    Erst umhängen, dann beides füttern: Die Termine entstehen aus den zugeordneten Sendungen, und
-    dieselben Sendungen hängen danach an den Terminen. Mit den Rohdaten bekam „One Piece Log:
-    Fish-Man Island Saga" am 23.09.2026 zwar ein Release, aber keine einzige Sendung.
-  */
-  const tvZugeordnet = sendungNeuZuordnen(tvProgramm, titles, tvFolgenListen)
-  const ausTv = releasesAusTvProgramm(tvZugeordnet, titles, releases, tvFolgenListen)
-  releases.push(...ausTv)
-  sendungenAnhaengen(releases, tvZugeordnet, addDays(todayIso(), -1), tvFolgenListen)
-  if (ausTv.length) log(`${ausTv.length} TV-Termine aus dem RTL+-Programm: ${ausTv.map((r) => `${r.name} (${r.sender})`).join(', ')}`)
-
-  quellenPflegen(releases)
 }
