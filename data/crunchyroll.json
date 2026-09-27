@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-09-27T08:22:40.252Z",
+  "scrapedAt": "2026-09-27T18:55:24.960Z",
   "window": {
     "from": "2026-09-14",
     "to": "2026-10-04"
@@ -1033,7 +1033,8 @@
         "2026-08-30",
         "2026-09-06",
         "2026-09-13",
-        "2026-09-20"
+        "2026-09-20",
+        "2026-09-27"
       ],
       "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
       "seriesId": "GNVHKN933",
@@ -1074,6 +1075,10 @@
         {
           "date": "2026-09-20",
           "episode": 33
+        },
+        {
+          "date": "2026-09-27",
+          "episode": 34
         }
       ],
       "earliest": {
@@ -1333,7 +1338,8 @@
         "2026-08-30",
         "2026-09-06",
         "2026-09-13",
-        "2026-09-20"
+        "2026-09-20",
+        "2026-09-27"
       ],
       "rawTitle": "Though I Am an Inept Villainess Staffel 1 (Deutsch)",
       "seriesId": "GT00371881",
@@ -1370,6 +1376,10 @@
         {
           "date": "2026-09-20",
           "episode": 8
+        },
+        {
+          "date": "2026-09-27",
+          "episode": 9
         }
       ],
       "earliest": {
@@ -1703,6 +1713,27 @@
         "episode": 24
       },
       "weeklyConfirmed": false
+    },
+    "overgeared s1": {
+      "time": "16:30",
+      "weekday": 6,
+      "dates": [
+        "2026-09-27"
+      ],
+      "rawTitle": "Overgeared Staffel 1 (Deutsch)",
+      "seriesId": "GT00384004",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00384004/overgeared",
+      "observations": [
+        {
+          "date": "2026-09-27",
+          "episode": 1
+        }
+      ],
+      "earliest": {
+        "date": "2026-09-27",
+        "episode": 1
+      },
+      "weeklyConfirmed": false
     }
   },
   "slots": [
@@ -1934,6 +1965,36 @@
       "date": "2026-09-26",
       "time": "18:00",
       "episode": 7,
+      "german": true
+    },
+    {
+      "key": "the 100 girlfriends who really really really really really love you s3",
+      "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
+      "seriesId": "GNVHKN933",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you",
+      "date": "2026-09-27",
+      "time": "16:00",
+      "episode": 34,
+      "german": true
+    },
+    {
+      "key": "overgeared s1",
+      "rawTitle": "Overgeared Staffel 1 (Deutsch)",
+      "seriesId": "GT00384004",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00384004/overgeared",
+      "date": "2026-09-27",
+      "time": "16:30",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "though i am an inept villainess s1",
+      "rawTitle": "Though I Am an Inept Villainess Staffel 1 (Deutsch)",
+      "seriesId": "GT00371881",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371881/though-i-am-an-inept-villainess",
+      "date": "2026-09-27",
+      "time": "17:45",
+      "episode": 9,
       "german": true
     }
   ]
