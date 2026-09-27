@@ -464,5 +464,8 @@ Meldung im Worker ist vom 21.08.2026, 22:42 — **die Rohdaten der frühen Beleg
 **Folge für Schritt 3 (3):** „Erst bei voller Abdeckung schlägt das Urteil die Belege" ist aus
 Meldungen allein nicht erreichbar. Diese Belege müssen selbst zu Beobachtungen werden — Art
 „übernommen", Tag = `belegtAm`/Abschnittsdatum, Folgen aus `ranges` bzw. alle bei `dub: true` ohne
-Bereiche —, sonst verliert das Urteil sie. Entscheidung dazu steht aus (wie weit darf ein Beleg ohne
-Folgenangabe alle Folgen decken?).
+Bereiche —, sonst verliert das Urteil sie. **Entschieden (Daniel, 27.09.2026): nicht übernehmen, neu messen.** Die 308 Belege „deutsch" ohne
+Folgenangabe (Liste: `C:\code\ai\__assets\notes\belege-ohne-folgenangabe.md`) kommen über
+`data/erneut-melden.yaml` auf die Prüfliste — 290 mit Weg im Bestand, 7 Paare ohne Weg entfallen.
+Der nächste Durchgang liefert Tonspuren je Folge; ein Eintrag fällt von selbst heraus, sobald eine
+Meldung nach dem 27.09.2026 angekommen ist.
