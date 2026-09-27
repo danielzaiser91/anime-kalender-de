@@ -5,6 +5,25 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 27.09.2026, 21:55 — durchgesehen, nichts offen
+
+**Was läuft korrekt.** Wachläufe 23.–27.09.2026 alle grün, die Datei steht seit dem 25.09. auf
+„unauffällig" (sie wird nur bei einem Befund neu geschrieben). Keine roten Läufe in der Statusanzeige.
+
+**Wo echte Risiken waren — alle heute gefunden und behoben, keiner über die Wache.** (1) Vier
+Staffeln mit angekündigter, noch nicht erschienener Synchro standen als deutsch (Last Boss S2,
+Black Clover S2, Apothekerin S3, Reincarnated Aristocrat S3): Messungen vor dem Untertitel-Start
+urteilten über sie; `vorDemStart()`, im Bestandslauf bestätigt. (2) Der Synonym-Abruf holte
+Einträge ohne deutschen Namen in jedem Lauf neu — Blöcke drehten sich im Kreis; 30-Tage-Frist,
+danach 1.134 Namen neu belegt. (3) Anime2You-Sammelartikel zu verschobenen Blu-ray-Terminen wurden
+nie ausgewertet, 22 Disc-Termine standen auf überholten Tagen; greift mit dem nächsten Tageslauf.
+
+**Was die Wache nicht sehen kann.** Alle drei waren falsche Angaben, keine Verluste — die Wache
+zählt nur, was verschwindet. Ein Mittel dagegen ist Stufe 4 des Meldemodells (ein Urteil je Folge
+statt 42 Setzstellen).
+
+---
+
 ## 26.09.2026, 09:45 — durchgesehen, nichts offen
 
 **Was läuft korrekt.** Wachläufe 21.–25.09.2026 alle „unauffällig“; zuletzt 2.776 Titel, 2.154 Urteile, 5 offen (+64 Urteile seit dem 20.09.). Die letzten 25 Läufe grün, keine offenen PRs. aniSearch liefert wieder (zuletzt ok 25.09.), seit die Kennung Browser-Signatur und Projektname trägt.
