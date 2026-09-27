@@ -75,7 +75,7 @@ interface Befund {
 
 const SUCHE = `
 query Suche($q: String!, $country: Country!, $language: Language!) {
-  popularTitles(country: $country, first: 5, filter: { searchQuery: $q }) {
+  popularTitles(country: $country, first: 20, filter: { searchQuery: $q }) {
     edges {
       node {
         id
@@ -125,6 +125,22 @@ async function suche(begriff: string): Promise<JwKnoten[]> {
   }
   if (j.errors?.length) throw new Error(j.errors[0].message)
   return (j.data?.popularTitles?.edges ?? []).map((e) => e.node)
+}
+
+/**
+ * **Alle drei Namen und 20 Treffer, nicht nur der erste Name und fünf** (27.09.2026). Stichprobe über
+ * 30 von 420 Titeln „ohne Treffer": 27 führt JustWatch gar nicht, drei nur unter dem japanischen
+ * Namen oder jenseits von Rang 5 (Clannad: Der Film, Baki 2, Digimon: Der Film). Bestätigt wird
+ * weiter allein über die TMDB-Kennung — als Zeichenkette, JustWatch liefert sie als String.
+ */
+async function sucheUeberNamen(t: Title, erwartet: number | string): Promise<JwKnoten | undefined> {
+  const namen = [...new Set([t.titleDe, t.titleRomaji, t.titleEn].filter((n): n is string => Boolean(n)))]
+  for (const [i, name] of namen.entries()) {
+    if (i) await sleep(PAUSE_MS)
+    const treffer = (await suche(name)).find((k) => String(k.content.externalIds?.tmdbId ?? '') === String(erwartet))
+    if (treffer) return treffer
+  }
+  return undefined
 }
 
 async function main(): Promise<void> {
@@ -273,10 +289,8 @@ async function main(): Promise<void> {
 
   for (const t of offen.slice(0, limit)) {
     const erwartet = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
-    const name = t.titleDe || t.titleRomaji || t.titleEn
-    if (!name) continue
+    if (!(t.titleDe || t.titleRomaji || t.titleEn)) continue
     try {
-      const knoten = await suche(name)
       /*
         **Der Treffer wird über die TMDB-Kennung bestätigt, nicht über den Namen.**
 
@@ -291,9 +305,7 @@ async function main(): Promise<void> {
         sauber „0 zugeordnet, 0 Fehler" — der erste Probelauf am 07.09.2026 tat
         genau das, an fünf Titeln, deren Treffer JustWatch alle kannte.
       */
-      const treffer = erwartet
-        ? knoten.find((k) => String(k.content.externalIds?.tmdbId ?? '') === String(erwartet))
-        : undefined
+      const treffer = erwartet ? await sucheUeberNamen(t, erwartet) : undefined
       const vorher = bestand[String(t.id)]
       if (!treffer) {
         /*
@@ -345,7 +357,7 @@ async function main(): Promise<void> {
       if (angebote.some((a) => a.audio.includes('de'))) mitDeutsch++
     } catch (e) {
       fehler++
-      warn(`JustWatch: ${name} — ${(e as Error).message}`)
+      warn(`JustWatch: ${t.titleDe || t.titleRomaji || t.titleEn} — ${(e as Error).message}`)
     }
     await sleep(PAUSE_MS)
   }
