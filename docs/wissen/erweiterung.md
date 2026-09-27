@@ -1996,3 +1996,14 @@ ohne Ergebnis nach drei Minuten (Umleitung, Fehlerseite) wird übersprungen und 
 „nicht da" bleibt Handarbeit. Knopf im Listen-Dialog neben der Überschrift. `disney.js` stellt dafür
 `globalThis.AK_DISNEY` bereit (offene Titel, melden, Ziel merken, Ende anzeigen). Sandkasten-Test:
 `extension/disney-durchgang.test.cjs`. Am echten Disney+ noch nicht gelaufen (braucht Daniels Anmeldung).
+
+### Nachtrag 4.24.1 (28.09.2026): Der Zielmerker galt jeder Seite
+
+Im ersten echten Durchgang leitete Disney+ „Mission: Yozakura Family Season 2" auf die Startseite um
+(Dialog „Je nach Standort …"); Daniel öffnete daraufhin von Hand einen anderen Titel, und dessen 25
+Folgen wurden unter Yozakura gemeldet (Kennungen 8299–8323, verworfen). Ursache: `letztesZiel()`
+galt zehn Minuten für **jede** Seite — ein Fehler, den es schon vor dem Durchgang gab, nur ohne
+automatisches Melden. Jetzt `zielFuer()`: eigene Adresse, dazu die erste andere Adresse in 20 s
+(Umleitung); nach einer Seite ohne Kennung oder später verbraucht (`disney-ziel.test.cjs`). Der
+Durchgang überspringt die Startseite nach 10 s und endet „von Hand übernommen", sobald eine andere
+Titelseite offen ist, statt nach drei Minuten weiterzuspringen.

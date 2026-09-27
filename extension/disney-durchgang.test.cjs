@@ -25,7 +25,7 @@ pruefe('Fabrik ohne Browser erreichbar', typeof durchgang === 'function')
 
 function welt(offen) {
   const m = new Map()
-  const w = { uhr: 1_000_000, geoeffnet: [], gemeldet: 0, ende: null, offen }
+  const w = { uhr: 1_000_000, geoeffnet: [], gemeldet: 0, ende: null, offen, zustand: {} }
   w.lauf = durchgang({
     speicher: { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k) },
     jetzt: () => w.uhr,
@@ -33,6 +33,7 @@ function welt(offen) {
     oeffne: (e) => w.geoeffnet.push(e.url),
     melde: () => w.gemeldet++,
     ende: (info) => (w.ende = info),
+    zustand: () => w.zustand,
   })
   return w
 }
@@ -87,6 +88,26 @@ function welt(offen) {
   alt.lauf.starten()
   alt.uhr += 3 * 60 * 60 * 1000
   pruefe('Nach zwei Stunden gilt der Lauf als beendet', !alt.lauf.laeuft())
+}
+
+{
+  const A = { id: 'a', url: 'https://www.disneyplus.com/de-de/browse/entity-a' }
+  const B = { id: 'b', url: 'https://www.disneyplus.com/de-de/browse/entity-b' }
+  const w = welt([A, B])
+  w.lauf.starten()
+  w.zustand = { startseite: true, kennung: null, eintragUrl: null }
+  w.uhr += 5000
+  w.lauf.takt()
+  pruefe('Startseite: in den ersten Sekunden noch warten', w.geoeffnet.length === 1)
+  w.uhr += 10_000
+  w.offen = [B]
+  w.lauf.takt()
+  pruefe('Startseite (Umleitung, nicht verfügbar) → sofort übersprungen, weiter', w.geoeffnet.at(-1) === B.url, w.geoeffnet)
+  w.zustand = { startseite: false, kennung: 'fremd', eintragUrl: null }
+  w.uhr += 15_000
+  w.lauf.takt()
+  pruefe('Andere Titelseite → der Lauf endet „von Hand übernommen"', w.ende?.grund === 'von Hand übernommen' && !w.lauf.laeuft(), w.ende)
+  pruefe('… und öffnet keinen weiteren Titel', w.geoeffnet.length === 2)
 }
 
 if (fehler.length) {

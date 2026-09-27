@@ -919,25 +919,9 @@
   // --- Wenn Disney+ die Seite gar nicht zeigt ------------------------------
 
   /*
-    **Wohin der Klick ging — und warum das nötig ist.**
-
-    Zwei Fälle, beide am 26.08.2026 gemessen, beide von derselben Notiz gelöst:
-
-    - **Disney+ leitet um.** Unser Bestand führt „Bright Sun: Dark Shadows" als
-      `/series/summer-time-rendering/3AHbeFV7Lqvn`; der Klick landet auf
-      `/browse/entity-ad803e91-…`. Die Kennung dort steht in keiner Liste, und
-      die Erweiterung tat gar nichts.
-    - **Disney+ zeigt eine Fehlerseite.** `/de-de/error?src=bap` trägt überhaupt
-      keine Kennung mehr.
-
-    Beide Male weiß nur der Klick, welcher Titel gemeint war. Er hinterlegt ihn
-    für zehn Minuten.
-
-    **Aus einer Fehlerseite wird trotzdem keine Meldung.** Sie sieht gleich aus,
-    ob ein Titel fehlt oder gerade etwas klemmt — und bei Bright Sun führte
-    derselbe Klick eine Minute später auf die Seite („erneuter klick auf link in
-    liste führt korrekt zur seite"). Der Knopf bietet deshalb einen zweiten
-    Versuch an; „nicht da" bleibt eine Entscheidung von Hand.
+    **Wohin der Klick ging.** Disney+ leitet um (`/series/…` → `/browse/entity-…`) oder zeigt eine
+    Fehlerseite ohne Kennung (`/error?src=bap`) — nur der Klick weiß dann, welcher Titel gemeint
+    war. Aus einer Fehlerseite wird keine Meldung: Sie sieht bei Störung und Fehlen gleich aus.
   */
   const ZIEL_SCHLUESSEL = 'ak-disney-ziel'
 
@@ -959,6 +943,35 @@
     } catch {
       return null
     }
+  }
+
+  /**
+   * **Der Merker gilt der Seite, auf die der Klick führt**: der eigenen Adresse und der ersten anderen
+   * in 20 s (Umleitung); nach einer Seite ohne Kennung oder später ist er verbraucht. Vorher galt er
+   * zehn Minuten für jede Seite — 25 Folgen eines von Hand geöffneten Titels landeten unter
+   * „Mission: Yozakura Family Season 2" (28.09.2026, verworfen). Test: `disney-ziel.test.cjs`.
+   */
+  function zielFuer(jetzt) {
+    let z = null
+    try {
+      z = JSON.parse(sessionStorage.getItem(ZIEL_SCHLUESSEL) ?? 'null')
+    } catch {
+      return null
+    }
+    const ziel = z && Date.now() - z.zeit <= 600000 && liste[z.id] ? { id: z.id, ...liste[z.id] } : null
+    if (!ziel) return null
+    if (jetzt === kennung(ziel.url)) return ziel
+    const binden = (wert) => {
+      try {
+        sessionStorage.setItem(ZIEL_SCHLUESSEL, JSON.stringify({ ...z, gebunden: wert }))
+      } catch {
+        /* Ohne Speicher gilt der Merker nur für die eigene Adresse. */
+      }
+    }
+    if (z.gebunden !== undefined) return z.gebunden === jetzt ? ziel : null
+    if (!jetzt || Date.now() - z.zeit > 20000) return void binden(jetzt ?? null)
+    binden(jetzt)
+    return ziel
   }
 
   function istFehlerseite() {
@@ -1007,26 +1020,8 @@
     const jetzt = kennung(location.href)
     if (jetzt === seite) return
     seite = jetzt
-    /*
-      **Der Klick schlaegt die Adresse.**
-
-      Wer aus der Liste heraus oeffnet, meint den Titel, den er angeklickt hat —
-      auch wenn Disney+ ihn woanders hinbringt. Zwei Faelle, beide real:
-
-      - **Weiterleitung.** Unser Bestand fuehrt "Bright Sun: Dark Shadows" als
-        /series/summer-time-rendering/…, der Klick landet auf /browse/entity-….
-        Ohne den Merker tat die Erweiterung gar nichts.
-      - **Zwei Titel, eine Seite.** "Star Wars: Visionen" und "… Volume 3" sind
-        bei uns zwei Eintraege; Disney+ zeigt beide unter derselben Seite mit
-        drei Staffeln. Wer den ersten anklickt, wuerde sonst unter dem zweiten
-        melden (Daniel, 26.08.2026: "2 verschiedene urls fuehren zur selben
-        seite").
-
-      Nur wer ohne Klick hier landet — Lesezeichen, Suche, direkte Adresse —
-      bekommt den Titel aus der Adresse.
-    */
-    const geklickt = letztesZiel()
-    eintrag = geklickt ?? (jetzt ? liste[jetzt] : null)
+    /* Der Klick schlägt die Adresse — aber nur für die Seite, auf die er führt (`zielFuer`). */
+    eintrag = zielFuer(jetzt) ?? (jetzt ? liste[jetzt] : null)
     gelaufen = false
     angefordert = false
     folgen = []
@@ -1100,6 +1095,7 @@
   /* Was der Durchgang braucht — dieselben Wege wie beim Klick. */
   globalThis.AK_DISNEY = {
     offene: () => offeneEintraege().filter((e) => !istErledigt(e)),
+    zustand: () => ({ kennung: kennung(location.href), eintragUrl: eintrag?.url ?? null, startseite: /\/home\/?$/.test(location.pathname) }),
     melden,
     merkeZiel,
     zeigeEnde: ({ grund, erledigt, uebersprungen }) =>

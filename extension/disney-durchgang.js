@@ -21,9 +21,11 @@
   const ENDE = 'ak-disney-lauf-ende'
   const LAUF_HOECHSTENS_MS = 2 * 60 * 60 * 1000
   const SEITE_HOECHSTENS_MS = 3 * 60 * 1000
+  /* Zeit, die eine Seite zum Laden und Umleiten bekommt, bevor ihr Zustand zählt. */
+  const ANKOMMEN_MS = 10_000
 
   /** Die Ablauflogik ohne Browser — `disney-durchgang.test.cjs` spielt sie im Sandkasten. */
-  function durchgang({ speicher, jetzt, offene, oeffne, melde, ende }) {
+  function durchgang({ speicher, jetzt, offene, oeffne, melde, ende, zustand = () => ({}) }) {
     const lesen = () => {
       try {
         const lauf = JSON.parse(speicher.getItem(LAUF) ?? 'null')
@@ -84,7 +86,14 @@
       },
       takt() {
         const lauf = lesen()
-        if (lauf?.aktuell && jetzt() - lauf.seiteSeit > SEITE_HOECHSTENS_MS) abhaken(lauf, 'kein Ergebnis nach 3 Minuten')
+        if (!lauf?.aktuell) return
+        const seit = jetzt() - lauf.seiteSeit
+        const z = zustand()
+        /* Disney+ leitet einen nicht verfügbaren Titel auf die Startseite um (Dialog „Je nach Standort …"). */
+        if (z.startseite && seit > ANKOMMEN_MS) return abhaken(lauf, 'nicht verfügbar (Startseite)')
+        /* Eine andere Titelseite heißt: Daniel hat übernommen — der Lauf zieht ihm den Tab nicht weg. */
+        if (z.kennung && z.eintragUrl !== lauf.aktuell && seit > ANKOMMEN_MS) return beenden(lauf, 'von Hand übernommen')
+        if (seit > SEITE_HOECHSTENS_MS) abhaken(lauf, 'kein Ergebnis nach 3 Minuten')
       },
     }
   }
@@ -102,6 +111,7 @@
     },
     melde: () => void seite()?.melden(),
     ende: (info) => seite()?.zeigeEnde(info),
+    zustand: () => seite()?.zustand() ?? {},
   })
   globalThis.AK_DISNEY_DURCHGANG = lauf
   document.addEventListener('ak-disney-geprueft', (ev) => lauf.geprueft(ev.detail))
