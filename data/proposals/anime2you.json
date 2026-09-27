@@ -1,41 +1,6 @@
 {
-  "scrapedAt": "2026-09-27T10:05:24.241Z",
+  "scrapedAt": "2026-09-26T09:25:58.203Z",
   "proposals": [
-    {
-      "articleTitle": "Anime-Neuheiten im Oktober 2026 auf DVD und Blu-ray",
-      "articleUrl": "https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/",
-      "publishedAt": "2026-09-26",
-      "category": "disc",
-      "platforms": [
-        "disc"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "Anime-Neuheiten im Oktober 2026 auf DVD und Blu-ray Im Oktober 2026 kommen wieder zahl"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
-      "articleUrl": "https://www.anime2you.de/news/1052989/my-dress-up-darling-steelbook-design/",
-      "publishedAt": "2026-09-26",
-      "category": "disc",
-      "platforms": [
-        "crunchyroll",
-        "disc"
-      ],
-      "dates": [
-        {
-          "month": "2026-12",
-          "context": "das Design enthüllt, das ihr euch weiter unten ansehen könnt. Release im Dezember 2026 Die Steelbook-Edition, die alle zwölf Episoden der er"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
-    },
     {
       "articleTitle": "Bis zu 87 % Rabatt: Neue Anime-Aktion im AKIBA PASS SHOP gestartet",
       "articleUrl": "https://www.anime2you.de/news/1053915/akiba-pass-shop-september-2026-rabattaktion/",
