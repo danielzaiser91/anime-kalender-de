@@ -9738,8 +9738,16 @@
   },
   "16385": {
     "titel": "Dog Days Season 3",
+    "quelle": "ueberschrift",
+    "englisch": "Dog Days Season 3",
+    "synonyme": [
+      "DD3",
+      "Dog Days 3",
+      "Dog Days Double Dash"
+    ],
     "anisearchId": 8199,
-    "fetchedAt": "2026-09-01T11:00:00.094Z"
+    "fetchedAt": "2026-09-27T18:42:41.811Z",
+    "stand": 3
   },
   "16442": {
     "titel": "Eiga Precure All Stars New Stage 2: Kokoro no Tomodachi",
@@ -9893,8 +9901,11 @@
   },
   "17080": {
     "titel": "Fafner Exodus",
+    "quelle": "sprachblock",
+    "englisch": "Fafner Exodus",
     "anisearchId": 8274,
-    "fetchedAt": "2026-09-01T11:00:02.443Z"
+    "fetchedAt": "2026-09-27T18:42:48.745Z",
+    "stand": 3
   },
   "17086": {
     "titel": "Agi Gongnyong Dooly (1988)",
@@ -10680,8 +10691,14 @@
   },
   "20487": {
     "titel": "Gatchaman Crowds Insight",
+    "quelle": "sprachblock",
+    "englisch": "Gatchaman Crowds Insight",
+    "synonyme": [
+      "Gatchaman Crowds Second"
+    ],
     "anisearchId": 9246,
-    "fetchedAt": "2026-09-01T11:00:04.795Z"
+    "fetchedAt": "2026-09-27T18:42:55.670Z",
+    "stand": 3
   },
   "20494": {
     "titel": "Noragami OAD",
@@ -10778,8 +10795,14 @@
   },
   "20560": {
     "titel": "Symphogear GX",
+    "quelle": "sprachblock",
+    "englisch": "Symphogear GX",
+    "synonyme": [
+      "Symphogear Season 3"
+    ],
     "anisearchId": 9290,
-    "fetchedAt": "2026-09-01T11:00:07.152Z"
+    "fetchedAt": "2026-09-27T18:43:02.604Z",
+    "stand": 3
   },
   "20566": {
     "titel": "Das Verschwinden der Yuki Nagato",
@@ -10888,8 +10911,15 @@
   },
   "20627": {
     "titel": "World Break: Aria of Curse for a Holy Swordsman",
+    "quelle": "sprachblock",
+    "englisch": "World Break: Aria of Curse for a Holy Swordsman",
+    "synonyme": [
+      "Warubure",
+      "Seiken Tsukai no Kinju Eishou"
+    ],
     "anisearchId": 9452,
-    "fetchedAt": "2026-09-01T11:00:11.875Z"
+    "fetchedAt": "2026-09-27T18:43:09.541Z",
+    "stand": 3
   },
   "20630": {
     "titel": "Terra Formars: Bugs2 2599",
@@ -10918,8 +10948,17 @@
   },
   "20654": {
     "titel": "Hello!! Kinmoza",
+    "quelle": "sprachblock",
+    "englisch": "Hello!! Kinmoza",
+    "synonyme": [
+      "Golden Mosaic 2",
+      "Kin'iro Mosaic 2",
+      "Kiniro Mosaic 2",
+      "Yellow Mosaic 2"
+    ],
     "anisearchId": 9614,
-    "fetchedAt": "2026-09-01T11:00:16.585Z"
+    "fetchedAt": "2026-09-27T18:43:16.464Z",
+    "stand": 3
   },
   "20658": {
     "titel": "Gundam Reconguista in G",
@@ -10960,8 +10999,16 @@
   },
   "20662": {
     "titel": "Uta no Prince Sama: Revolutions",
+    "quelle": "sprachblock",
+    "englisch": "Utano Prince Sama R",
+    "synonyme": [
+      "Uta no Prince-sama 3",
+      "Uta no Prince-sama Maji Love Third Season",
+      "Uta no Prince-sama : Saison 3"
+    ],
     "anisearchId": 9411,
-    "fetchedAt": "2026-09-01T12:12:03.167Z"
+    "fetchedAt": "2026-09-27T18:43:23.402Z",
+    "stand": 3
   },
   "20679": {
     "titel": "The Irregular at Magic High School: Grundkurs in Magie",
@@ -11001,13 +11048,26 @@
   },
   "20693": {
     "titel": "The iDOLM@STER: Cinderella Girls",
+    "quelle": "sprachblock",
+    "englisch": "The iDOLM@STER: Cinderella Girls",
+    "synonyme": [
+      "The Idolmaster: Cinderella Girls"
+    ],
     "anisearchId": 9590,
-    "fetchedAt": "2026-09-01T12:12:05.617Z"
+    "fetchedAt": "2026-09-27T18:43:30.314Z",
+    "stand": 3
   },
   "20694": {
     "titel": "Non Non Biyori Repeat",
+    "quelle": "sprachblock",
+    "englisch": "Non Non Biyori Repeat",
+    "synonyme": [
+      "Non Non Biyori 2",
+      "Non Non Biyori Second Season"
+    ],
     "anisearchId": 9592,
-    "fetchedAt": "2026-09-01T12:12:08.077Z"
+    "fetchedAt": "2026-09-27T18:43:37.251Z",
+    "stand": 3
   },
   "20697": {
     "titel": "The Garden of Sinners: Recalled Out Summer - Extra Chorus",
@@ -11065,13 +11125,22 @@
   },
   "20744": {
     "titel": "Gourmet Girl Graffiti",
+    "quelle": "ueberschrift",
+    "englisch": "Gourmet Girl Graffiti",
+    "synonyme": [
+      "Happy Cooking Graffiti"
+    ],
     "anisearchId": 9688,
-    "fetchedAt": "2026-09-01T12:12:10.528Z"
+    "fetchedAt": "2026-09-27T18:43:44.169Z",
+    "stand": 3
   },
   "20746": {
     "titel": "Isuca",
+    "quelle": "sprachblock",
+    "englisch": "Isuca",
     "anisearchId": 9693,
-    "fetchedAt": "2026-09-01T12:12:12.981Z"
+    "fetchedAt": "2026-09-27T18:43:51.104Z",
+    "stand": 3
   },
   "20751": {
     "titel": "Mushi-Shi: The Next Passage 2",
@@ -11098,8 +11167,11 @@
   },
   "20758": {
     "titel": "Unlimited Fafnir",
+    "quelle": "ueberschrift",
+    "englisch": "Unlimited Fafnir",
     "anisearchId": 9900,
-    "fetchedAt": "2026-09-01T12:12:15.427Z"
+    "fetchedAt": "2026-09-27T18:43:58.011Z",
+    "stand": 3
   },
   "20760": {
     "titel": "Yorinuki Gintama-san on Theater 2D",
@@ -11116,8 +11188,16 @@
   },
   "20762": {
     "titel": "Knights of Sidonia Staffel 2",
+    "quelle": "sprachblock",
+    "englisch": "Knights of Sidonia: Battle for Planet Nine",
+    "synonyme": [
+      "Knights of Sidonia Season 2",
+      "Knights of Sidonia: War of the Ninth Planet",
+      "Sidonia no Kishi Second Season"
+    ],
     "anisearchId": 9815,
-    "fetchedAt": "2026-09-01T12:12:17.873Z"
+    "fetchedAt": "2026-09-27T18:44:04.922Z",
+    "stand": 3
   },
   "20765": {
     "titel": "One Week Friends: Kaoris Tagebuch",
@@ -11145,8 +11225,11 @@
   },
   "20772": {
     "titel": "Ninja Slayer From Animation",
+    "quelle": "sprachblock",
+    "englisch": "Ninja Slayer From Animation",
     "anisearchId": 9596,
-    "fetchedAt": "2026-09-01T12:12:20.317Z"
+    "fetchedAt": "2026-09-27T18:44:11.856Z",
+    "stand": 3
   },
   "20776": {
     "titel": "Koukaku Kidoutai Arise: Logicoma Beat",
@@ -11173,13 +11256,19 @@
   },
   "20785": {
     "titel": "Absolute Duo",
+    "quelle": "sprachblock",
+    "englisch": "Absolute Duo",
     "anisearchId": 9733,
-    "fetchedAt": "2026-09-01T12:12:22.773Z"
+    "fetchedAt": "2026-09-27T18:44:18.779Z",
+    "stand": 3
   },
   "20788": {
     "titel": "Master of Torque Staffel 2",
+    "quelle": "sprachblock",
+    "englisch": "Master of Torque Season 2",
     "anisearchId": 9820,
-    "fetchedAt": "2026-09-01T12:12:25.211Z"
+    "fetchedAt": "2026-09-27T18:44:25.691Z",
+    "stand": 3
   },
   "20795": {
     "titel": "Meshimase Lodoss-tou Senki: Sorette Oishii no?",
@@ -11207,18 +11296,33 @@
   },
   "20814": {
     "titel": "Re-Kan!",
+    "quelle": "ueberschrift",
+    "englisch": "Re-Kan!",
     "anisearchId": 9761,
-    "fetchedAt": "2026-09-01T12:12:27.661Z"
+    "fetchedAt": "2026-09-27T18:44:32.623Z",
+    "stand": 3
   },
   "20819": {
     "titel": "Working!!3",
+    "quelle": "sprachblock",
+    "englisch": "Wagnaria!!3",
+    "synonyme": [
+      "Wagnaria!!! Season 3",
+      "Working 3"
+    ],
     "anisearchId": 10055,
-    "fetchedAt": "2026-09-01T12:12:30.110Z"
+    "fetchedAt": "2026-09-27T18:44:39.542Z",
+    "stand": 3
   },
   "20820": {
     "titel": "Mahou Shoujo Lyrical Nanoha ViVid",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Magical Girl Lyrical Nanoha ViVid"
+    ],
     "anisearchId": 9781,
-    "fetchedAt": "2026-09-01T12:12:32.554Z"
+    "fetchedAt": "2026-09-27T18:44:46.468Z",
+    "stand": 3
   },
   "20823": {
     "titel": "Hyakka Ryouran: Samurai After",
@@ -11235,13 +11339,24 @@
   },
   "20827": {
     "titel": "Yurikuma Arashi",
+    "quelle": "sprachblock",
+    "englisch": "Yurikuma Arashi",
+    "synonyme": [
+      "Difficulty with the Yuri Bear",
+      "Storms of Lesbian Bears",
+      "Yuri Bear Storm"
+    ],
     "anisearchId": 9796,
-    "fetchedAt": "2026-09-01T12:12:35.008Z"
+    "fetchedAt": "2026-09-27T18:44:53.388Z",
+    "stand": 3
   },
   "20843": {
     "titel": "Show by Rock!!",
+    "quelle": "ueberschrift",
+    "englisch": "Show by Rock!!",
     "anisearchId": 9850,
-    "fetchedAt": "2026-09-01T12:12:37.458Z"
+    "fetchedAt": "2026-09-27T18:45:00.323Z",
+    "stand": 3
   },
   "20847": {
     "titel": "Tari Tari: Kumottari, Kagayaitari, Mata Itsuka Utattari",
@@ -11258,13 +11373,24 @@
   },
   "20848": {
     "titel": "Tantei Kageki Milky Holmes TD",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Tantei Opera Milky Holmes TD"
+    ],
     "anisearchId": 9871,
-    "fetchedAt": "2026-09-01T12:12:39.901Z"
+    "fetchedAt": "2026-09-27T18:45:07.255Z",
+    "stand": 3
   },
   "20854": {
     "titel": "Baby Steps: Season 2",
+    "quelle": "sprachblock",
+    "englisch": "Baby Steps 2",
+    "synonyme": [
+      "Baby Steps Second Season"
+    ],
     "anisearchId": 9876,
-    "fetchedAt": "2026-09-01T12:12:42.347Z"
+    "fetchedAt": "2026-09-27T18:45:14.200Z",
+    "stand": 3
   },
   "20859": {
     "titel": "Toubousha Mouri Kogorou",
@@ -11281,8 +11407,14 @@
   },
   "20868": {
     "titel": "Shonen Hollywood: Holly Stage for 50",
+    "quelle": "sprachblock",
+    "englisch": "Shonen Hollywood: Holly Stage for 50",
+    "synonyme": [
+      "Shonen Hollywood: Holly Stage for 49 - Season 2"
+    ],
     "anisearchId": 9892,
-    "fetchedAt": "2026-09-01T12:12:44.788Z"
+    "fetchedAt": "2026-09-27T18:45:21.131Z",
+    "stand": 3
   },
   "20869": {
     "titel": "Shojo-Mangaka Nozaki-kun OVA",
@@ -11318,8 +11450,15 @@
   },
   "20877": {
     "titel": "Cute High Earth Defense Club Love!",
+    "quelle": "sprachblock",
+    "englisch": "Cute High Earth Defense Club Love!",
+    "synonyme": [
+      "Boueibu",
+      "Handsome High School Earth Defense Club Love!"
+    ],
     "anisearchId": 9907,
-    "fetchedAt": "2026-09-01T12:12:47.234Z"
+    "fetchedAt": "2026-09-27T18:45:28.080Z",
+    "stand": 3
   },
   "20879": {
     "titel": "Durarara!! ×2 (Arc 2)",
@@ -11373,8 +11512,11 @@
   },
   "20901": {
     "titel": "Comical Psychosomatic Medicine",
+    "quelle": "sprachblock",
+    "englisch": "Comical Psychosomatic Medicine",
     "anisearchId": 10029,
-    "fetchedAt": "2026-09-01T12:12:52.124Z"
+    "fetchedAt": "2026-09-27T18:45:35.011Z",
+    "stand": 3
   },
   "20906": {
     "titel": "Lupin III. Part 4",
@@ -11422,8 +11564,15 @@
   },
   "20922": {
     "titel": "Yatterman Night",
+    "quelle": "sprachblock",
+    "englisch": "Yatterman Night",
+    "synonyme": [
+      "Time Bokan Series 9",
+      "Time Bokan: Yoru no Yatterman"
+    ],
     "anisearchId": 9936,
-    "fetchedAt": "2026-09-01T12:12:57.016Z"
+    "fetchedAt": "2026-09-27T18:45:41.925Z",
+    "stand": 3
   },
   "20928": {
     "titel": "Saint Seiya: Soul of Gold",
@@ -11438,8 +11587,15 @@
   },
   "20930": {
     "titel": "Etotama",
+    "quelle": "sprachblock",
+    "englisch": "Etotama",
+    "synonyme": [
+      "Etotama (干支魂)",
+      "Etotama: Eto Tamashii"
+    ],
     "anisearchId": 9942,
-    "fetchedAt": "2026-09-01T12:13:01.911Z"
+    "fetchedAt": "2026-09-27T18:45:48.882Z",
+    "stand": 3
   },
   "20936": {
     "titel": "Yokai Watch: The Movie",
@@ -11469,8 +11625,11 @@
   },
   "20946": {
     "titel": "My Love Story!!",
+    "quelle": "sprachblock",
+    "englisch": "My Love Story!!",
     "anisearchId": 10034,
-    "fetchedAt": "2026-09-01T12:13:04.382Z"
+    "fetchedAt": "2026-09-27T18:45:55.825Z",
+    "stand": 3
   },
   "20948": {
     "titel": "Pokémon: Diancie - Die Prinzessin des Diamantenreichs",
@@ -11486,58 +11645,108 @@
   },
   "20950": {
     "titel": "Tsukiuta: The Animation",
+    "quelle": "sprachblock",
+    "englisch": "Tsukiuta. The Animation",
     "anisearchId": 11477,
-    "fetchedAt": "2026-09-01T10:53:46.267Z"
+    "fetchedAt": "2026-09-27T18:26:52.471Z",
+    "stand": 3
   },
   "20951": {
     "titel": "Castle Town Dandelion",
+    "quelle": "ueberschrift",
+    "englisch": "Castle Town Dandelion",
     "anisearchId": 9965,
-    "fetchedAt": "2026-09-01T12:13:06.840Z"
+    "fetchedAt": "2026-09-27T18:46:02.756Z",
+    "stand": 3
   },
   "20953": {
     "titel": "RINNE",
+    "quelle": "sprachblock",
+    "englisch": "RIN-NE",
+    "synonyme": [
+      "Circle of Reincarnation",
+      "Rin-Ne",
+      "The Boundary of Rinne"
+    ],
     "anisearchId": 9968,
-    "fetchedAt": "2026-09-01T12:13:09.297Z"
+    "fetchedAt": "2026-09-27T18:46:09.683Z",
+    "stand": 3
   },
   "20962": {
     "titel": "Hetalia: The World Twinkle",
+    "quelle": "sprachblock",
+    "englisch": "Hetalia: The World Twinkle",
     "anisearchId": 10081,
-    "fetchedAt": "2026-09-01T12:13:11.739Z"
+    "fetchedAt": "2026-09-27T18:46:16.603Z",
+    "stand": 3
   },
   "20972": {
     "titel": "Showa Genroku Rakugo Shinju",
+    "quelle": "ueberschrift",
+    "englisch": "Showa Genroku Rakugo Shinju",
+    "synonyme": [
+      "Showa and Genroku Era Lover’s Suicide Through Rakugo"
+    ],
     "anisearchId": 10094,
-    "fetchedAt": "2026-09-01T10:53:48.623Z"
+    "fetchedAt": "2026-09-27T18:26:59.379Z",
+    "stand": 3
   },
   "20979": {
     "titel": "Gunslinger Stratos",
+    "quelle": "sprachblock",
+    "englisch": "Gunslinger Stratos",
     "anisearchId": 10048,
-    "fetchedAt": "2026-09-01T12:13:14.187Z"
+    "fetchedAt": "2026-09-27T18:46:23.527Z",
+    "stand": 3
   },
   "20983": {
     "titel": "Mikagura School Suite",
+    "quelle": "sprachblock",
+    "englisch": "Mikagura School Suite",
     "anisearchId": 10033,
-    "fetchedAt": "2026-09-01T12:13:16.640Z"
+    "fetchedAt": "2026-09-27T18:46:30.451Z",
+    "stand": 3
   },
   "20986": {
     "titel": "Chain Chronicle: The Light of Haecceitas (TV)",
+    "quelle": "sprachblock",
+    "englisch": "Chain Chronicle: The Light of Haecceitas (TV)",
+    "synonyme": [
+      "Chain Chronicle: Hekuseitasu no Hikari"
+    ],
     "anisearchId": 10039,
-    "fetchedAt": "2026-08-31T16:49:38.926Z"
+    "fetchedAt": "2026-09-27T18:09:27.106Z",
+    "stand": 3
   },
   "20987": {
     "titel": "Himouto! Umaru-chan",
+    "quelle": "sprachblock",
+    "englisch": "Himouto! Umaru-chan",
     "anisearchId": 10093,
-    "fetchedAt": "2026-09-01T12:13:19.100Z"
+    "fetchedAt": "2026-09-27T18:46:37.390Z",
+    "stand": 3
   },
   "20988": {
     "titel": "Tesagure! Bukatsumono 3",
+    "quelle": "sprachblock",
+    "englisch": "Tesagure! Bukatsumono 3",
+    "synonyme": [
+      "Tesagure! 3"
+    ],
     "anisearchId": 10095,
-    "fetchedAt": "2026-09-01T12:13:21.541Z"
+    "fetchedAt": "2026-09-27T18:46:44.310Z",
+    "stand": 3
   },
   "20991": {
     "titel": "Aria the Scarlet Ammo AA",
+    "quelle": "sprachblock",
+    "englisch": "Aria the Scarlet Ammo AA",
+    "synonyme": [
+      "Aria the Scarlet Ammo Double A"
+    ],
     "anisearchId": 10088,
-    "fetchedAt": "2026-09-01T12:13:23.992Z"
+    "fetchedAt": "2026-09-27T18:46:51.242Z",
+    "stand": 3
   },
   "20996": {
     "titel": "Gintama (Episoden 266-316)",
@@ -11556,8 +11765,14 @@
   },
   "20998": {
     "titel": "Robot Girls Z Plus",
+    "quelle": "ueberschrift",
+    "englisch": "Robot Girls Z Plus",
+    "synonyme": [
+      "Robot Girls Z+"
+    ],
     "anisearchId": 10056,
-    "fetchedAt": "2026-09-01T12:13:28.889Z"
+    "fetchedAt": "2026-09-27T18:46:58.181Z",
+    "stand": 3
   },
   "21001": {
     "titel": "Go! Princess Precure",
@@ -11573,8 +11788,14 @@
   },
   "21004": {
     "titel": "Joker 2",
+    "quelle": "sprachblock",
+    "englisch": "Joker 2",
+    "synonyme": [
+      "Mysterious Joker: Season 2"
+    ],
     "anisearchId": 10101,
-    "fetchedAt": "2026-09-01T12:13:33.777Z"
+    "fetchedAt": "2026-09-27T18:47:05.103Z",
+    "stand": 3
   },
   "21005": {
     "titel": "The Labyrinth of Grisaia: Der Kokon der Caprice 0",
@@ -11610,8 +11831,14 @@
   },
   "21009": {
     "titel": "Seiyu’s Life!",
+    "quelle": "ueberschrift",
+    "englisch": "Seiyu’s Life!",
+    "synonyme": [
+      "This Is a Voice Actor"
+    ],
     "anisearchId": 10112,
-    "fetchedAt": "2026-09-01T12:13:38.682Z"
+    "fetchedAt": "2026-09-27T18:47:12.064Z",
+    "stand": 3
   },
   "21010": {
     "titel": "Grisaia no Kajitsu Eizou Tokuten",
@@ -11654,13 +11881,21 @@
   },
   "21018": {
     "titel": "Ultimate Otaku Teacher",
+    "quelle": "sprachblock",
+    "englisch": "Ultimate Otaku Teacher",
+    "synonyme": [
+      "Denpa Kyoushi: He Is an Ultimate Teacher"
+    ],
     "anisearchId": 10125,
-    "fetchedAt": "2026-09-01T12:13:41.136Z"
+    "fetchedAt": "2026-09-27T18:47:18.989Z",
+    "stand": 3
   },
   "21020": {
     "titel": "Battle Spirits: Burning Soul",
+    "quelle": "ueberschrift",
     "anisearchId": 10118,
-    "fetchedAt": "2026-09-01T12:13:43.576Z"
+    "fetchedAt": "2026-09-27T18:47:25.919Z",
+    "stand": 3
   },
   "21021": {
     "titel": "Duel Masters Victory V",
@@ -11698,28 +11933,58 @@
   },
   "21028": {
     "titel": "Sushi and Beyond",
+    "quelle": "sprachblock",
+    "englisch": "Sushi and Beyond",
+    "synonyme": [
+      "Eikoku Ikka",
+      "Nihon wo Taberu"
+    ],
     "anisearchId": 10201,
-    "fetchedAt": "2026-09-01T12:13:48.460Z"
+    "fetchedAt": "2026-09-27T18:47:32.860Z",
+    "stand": 3
   },
   "21031": {
     "titel": "Taboo Tattoo",
+    "quelle": "sprachblock",
+    "englisch": "Taboo Tattoo",
     "anisearchId": 10148,
-    "fetchedAt": "2026-09-01T10:53:50.983Z"
+    "fetchedAt": "2026-09-27T18:27:06.316Z",
+    "stand": 3
   },
   "21033": {
     "titel": "Actually, I Am...",
+    "quelle": "ueberschrift",
+    "englisch": "Actually, I Am...",
+    "synonyme": [
+      "My Monster Secret"
+    ],
     "anisearchId": 10176,
-    "fetchedAt": "2026-09-01T12:13:50.917Z"
+    "fetchedAt": "2026-09-27T18:47:39.801Z",
+    "stand": 3
   },
   "21034": {
     "titel": "Is the Order a Rabbit?? Season 2",
+    "quelle": "ueberschrift",
+    "englisch": "Is the Order a Rabbit?? Season 2",
+    "synonyme": [
+      "Gochiusa 2",
+      "Gochuumon wa Usagi desu ka? Season 2"
+    ],
     "anisearchId": 10175,
-    "fetchedAt": "2026-09-01T12:13:53.369Z"
+    "fetchedAt": "2026-09-27T18:47:46.742Z",
+    "stand": 3
   },
   "21038": {
     "titel": "Ushio und Tora",
+    "quelle": "sprachblock",
+    "englisch": "Ushio and Tora",
+    "synonyme": [
+      "Ushio & Tora (2015)",
+      "Ushio to Tora (TV)"
+    ],
     "anisearchId": 10189,
-    "fetchedAt": "2026-09-01T12:13:55.823Z"
+    "fetchedAt": "2026-09-27T18:47:53.680Z",
+    "stand": 3
   },
   "21039": {
     "titel": "Shigatsu wa Kimi no Uso: Moments",
@@ -11734,23 +11999,40 @@
   },
   "21045": {
     "titel": "Dance with Devils",
+    "quelle": "ueberschrift",
+    "englisch": "Dance with Devils",
+    "synonyme": [
+      "DwD"
+    ],
     "anisearchId": 10192,
-    "fetchedAt": "2026-09-01T12:13:58.280Z"
+    "fetchedAt": "2026-09-27T18:48:00.626Z",
+    "stand": 3
   },
   "21050": {
     "titel": "Momokuri",
+    "quelle": "ueberschrift",
+    "englisch": "Momokuri",
     "anisearchId": 10214,
-    "fetchedAt": "2026-09-01T10:53:53.335Z"
+    "fetchedAt": "2026-09-27T18:27:13.226Z",
+    "stand": 3
   },
   "21051": {
     "titel": "Nanbaka",
+    "quelle": "sprachblock",
+    "englisch": "Nanbaka",
+    "synonyme": [
+      "Nambaka"
+    ],
     "anisearchId": 10224,
-    "fetchedAt": "2026-09-01T10:53:55.687Z"
+    "fetchedAt": "2026-09-27T18:27:20.151Z",
+    "stand": 3
   },
   "21052": {
     "titel": "Super Short Comics",
+    "quelle": "ueberschrift",
     "anisearchId": 10213,
-    "fetchedAt": "2026-09-01T12:14:00.720Z"
+    "fetchedAt": "2026-09-27T18:48:07.560Z",
+    "stand": 3
   },
   "21053": {
     "titel": "Amagi Brilliant Park: Das Spannende Mini-Theater",
@@ -11782,23 +12064,49 @@
   },
   "21085": {
     "titel": "Ace of the Diamond: Staffel 2",
+    "quelle": "sprachblock",
+    "englisch": "Ace of the Diamond: Second Season",
+    "synonyme": [
+      "Ace of Diamond: Second Season",
+      "Daiya no Ace: Second Season",
+      "Diamond no Ace: Second Season",
+      "Ace of the Diamond: Season 2"
+    ],
     "anisearchId": 10250,
-    "fetchedAt": "2026-09-01T12:14:03.172Z"
+    "fetchedAt": "2026-09-27T18:48:14.502Z",
+    "stand": 3
   },
   "21086": {
     "titel": "Venus Project: Climax",
+    "quelle": "ueberschrift",
+    "englisch": "Venus Project: Climax",
     "anisearchId": 10256,
-    "fetchedAt": "2026-09-01T12:14:05.622Z"
+    "fetchedAt": "2026-09-27T18:48:21.429Z",
+    "stand": 3
   },
   "21088": {
     "titel": "Yuru Yuri: Staffel 3",
+    "quelle": "sprachblock",
+    "englisch": "Yuruyuri: Season 3",
+    "synonyme": [
+      "Yuru Yuri 3rd Season",
+      "Yuru Yuri-san High!"
+    ],
     "anisearchId": 10282,
-    "fetchedAt": "2026-09-01T12:14:08.073Z"
+    "fetchedAt": "2026-09-27T18:48:28.366Z",
+    "stand": 3
   },
   "21094": {
     "titel": "The iDOLM@STER Cinderella Girls (Staffel 2)",
+    "quelle": "sprachblock",
+    "englisch": "The iDOLM@STER Cinderella Girls 2nd Season",
+    "synonyme": [
+      "The Idolmaster: Cinderella Girls - Season 2",
+      "The iDOLM@STER: Cinderella Girls Second Season"
+    ],
     "anisearchId": 10276,
-    "fetchedAt": "2026-09-01T12:14:10.523Z"
+    "fetchedAt": "2026-09-27T18:48:35.308Z",
+    "stand": 3
   },
   "21097": {
     "titel": "The Adventures of Tyrano Boy",
@@ -11841,18 +12149,35 @@
   },
   "21112": {
     "titel": "Classroom Crisis",
+    "quelle": "sprachblock",
+    "englisch": "Classroom Crisis",
+    "synonyme": [
+      "Classroom☆Crisis"
+    ],
     "anisearchId": 10322,
-    "fetchedAt": "2026-09-01T12:14:12.976Z"
+    "fetchedAt": "2026-09-27T18:48:42.251Z",
+    "stand": 3
   },
   "21115": {
     "titel": "Aquarion Logos",
+    "quelle": "ueberschrift",
+    "englisch": "Aquarion Logos",
     "anisearchId": 10319,
-    "fetchedAt": "2026-09-01T12:14:15.422Z"
+    "fetchedAt": "2026-09-27T18:48:49.180Z",
+    "stand": 3
   },
   "21118": {
     "titel": "Starmyu",
+    "quelle": "ueberschrift",
+    "englisch": "Starmyu",
+    "synonyme": [
+      "High School Star Musical",
+      "Koukou Hoshi Kageki",
+      "Starmu"
+    ],
     "anisearchId": 10300,
-    "fetchedAt": "2026-09-01T12:14:17.870Z"
+    "fetchedAt": "2026-09-27T18:48:56.080Z",
+    "stand": 3
   },
   "21121": {
     "titel": "Eiga Happiness Charge Precure! Ningyou no Kuni no Ballerina",
@@ -11880,8 +12205,11 @@
   },
   "21126": {
     "titel": "Chaos;Child",
+    "quelle": "sprachblock",
+    "englisch": "Chaos;Child",
     "anisearchId": 10334,
-    "fetchedAt": "2026-08-31T16:49:41.284Z"
+    "fetchedAt": "2026-09-27T18:09:34.021Z",
+    "stand": 3
   },
   "21129": {
     "titel": "Senran Kagura: Estival Versus - Mizugi Darake no Zen&#039;yasai",
@@ -11895,8 +12223,10 @@
   },
   "21134": {
     "titel": "Jewelpet: Magical Change",
+    "quelle": "ueberschrift",
     "anisearchId": 10225,
-    "fetchedAt": "2026-09-01T12:14:20.311Z"
+    "fetchedAt": "2026-09-27T18:49:03.020Z",
+    "stand": 3
   },
   "21137": {
     "titel": "Eiga Precure All Stars: Haru no Carnival",
@@ -11911,23 +12241,34 @@
   },
   "21157": {
     "titel": "Future Card Buddyfight Hundred",
+    "quelle": "ueberschrift",
+    "englisch": "Future Card Buddyfight Hundred",
     "anisearchId": 10228,
-    "fetchedAt": "2026-09-01T12:14:22.755Z"
+    "fetchedAt": "2026-09-27T18:49:09.924Z",
+    "stand": 3
   },
   "21171": {
     "titel": "Long Riders!",
+    "quelle": "sprachblock",
+    "englisch": "Long Riders!",
     "anisearchId": 10538,
-    "fetchedAt": "2026-09-01T10:53:58.042Z"
+    "fetchedAt": "2026-09-27T18:27:27.042Z",
+    "stand": 3
   },
   "21177": {
     "titel": "Super Lovers",
+    "quelle": "sprachblock",
+    "englisch": "Super Lovers",
     "anisearchId": 10948,
-    "fetchedAt": "2026-09-01T10:54:00.396Z"
+    "fetchedAt": "2026-09-27T18:27:34.301Z",
+    "stand": 3
   },
   "21183": {
     "titel": "Kare Baka: Wagahai no Kare wa Baka de R",
+    "quelle": "ueberschrift",
     "anisearchId": 10408,
-    "fetchedAt": "2026-09-01T12:14:25.196Z"
+    "fetchedAt": "2026-09-27T18:49:16.857Z",
+    "stand": 3
   },
   "21184": {
     "titel": "Rage of Bahamut: Virgin Soul",
@@ -11939,8 +12280,14 @@
   },
   "21185": {
     "titel": "Dokuro",
+    "quelle": "ueberschrift",
+    "englisch": "Dokuro",
+    "synonyme": [
+      "Dokuro the Ghost"
+    ],
     "anisearchId": 10211,
-    "fetchedAt": "2026-09-01T12:14:27.635Z"
+    "fetchedAt": "2026-09-27T18:49:23.751Z",
+    "stand": 3
   },
   "21186": {
     "titel": "Kamisama Kiss 2 Special Episodes",
@@ -11965,13 +12312,23 @@
   },
   "21189": {
     "titel": "Rampo Kitan: Game of Laplace",
+    "quelle": "ueberschrift",
+    "englisch": "Rampo Kitan: Game of Laplace",
+    "synonyme": [
+      "Mysterious Stories of Ranpo: Game of Laplace",
+      "Rampo Kitan"
+    ],
     "anisearchId": 10016,
-    "fetchedAt": "2026-09-01T12:14:32.533Z"
+    "fetchedAt": "2026-09-27T18:49:30.671Z",
+    "stand": 3
   },
   "21197": {
     "titel": "Bakuon!!",
+    "quelle": "sprachblock",
+    "englisch": "Bakuon!!",
     "anisearchId": 10440,
-    "fetchedAt": "2026-09-01T10:54:02.755Z"
+    "fetchedAt": "2026-09-27T18:27:41.212Z",
+    "stand": 3
   },
   "21203": {
     "titel": "City Hunter: Ryou no Propose",
@@ -12007,8 +12364,11 @@
   },
   "21213": {
     "titel": "Haruchika: Haruta &amp; Chika",
+    "quelle": "ueberschrift",
+    "englisch": "Haruchika: Haruta & Chika",
     "anisearchId": 10493,
-    "fetchedAt": "2026-09-01T10:54:05.114Z"
+    "fetchedAt": "2026-09-27T18:27:48.129Z",
+    "stand": 3
   },
   "21218": {
     "titel": "Utawarerumono: The False Faces",
@@ -12023,8 +12383,14 @@
   },
   "21229": {
     "titel": "Shin Atashinchi",
+    "quelle": "sprachblock",
+    "englisch": "Shin Atashinchi",
+    "synonyme": [
+      "New Atashin'chi"
+    ],
     "anisearchId": 10531,
-    "fetchedAt": "2026-09-01T12:14:37.438Z"
+    "fetchedAt": "2026-09-27T18:49:37.566Z",
+    "stand": 3
   },
   "21232": {
     "titel": "DD Fist of the North Star 2: Strawberry Flavor",
@@ -12036,33 +12402,60 @@
   },
   "21237": {
     "titel": "Kamisama Minarai: Himitsu no Cocotama",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "God Apprentices: Secretive Cocotama"
+    ],
     "anisearchId": 10719,
-    "fetchedAt": "2026-09-01T12:14:42.330Z"
+    "fetchedAt": "2026-09-27T18:49:44.484Z",
+    "stand": 3
   },
   "21238": {
     "titel": "Anne-Happy",
+    "quelle": "sprachblock",
+    "englisch": "Anne-Happy",
+    "synonyme": [
+      "Unhappy"
+    ],
     "anisearchId": 10514,
-    "fetchedAt": "2026-09-01T10:54:07.481Z"
+    "fetchedAt": "2026-09-27T18:27:55.061Z",
+    "stand": 3
   },
   "21241": {
     "titel": "Ushio und Tora (Staffel 2)",
+    "quelle": "sprachblock",
+    "englisch": "Ushio and Tora (Season 2)",
+    "synonyme": [
+      "Ushio & Tora (2016)",
+      "Ushio and Tora Second Season"
+    ],
     "anisearchId": 10504,
-    "fetchedAt": "2026-09-01T10:54:09.833Z"
+    "fetchedAt": "2026-09-27T18:28:02.007Z",
+    "stand": 3
   },
   "21242": {
     "titel": "First Love Monster",
+    "quelle": "ueberschrift",
+    "englisch": "First Love Monster",
     "anisearchId": 10512,
-    "fetchedAt": "2026-09-01T10:54:12.185Z"
+    "fetchedAt": "2026-09-27T18:28:08.921Z",
+    "stand": 3
   },
   "21250": {
     "titel": "ClassicaLoid",
+    "quelle": "ueberschrift",
+    "englisch": "ClassicaLoid",
     "anisearchId": 10534,
-    "fetchedAt": "2026-09-01T10:54:14.533Z"
+    "fetchedAt": "2026-09-27T18:28:15.844Z",
+    "stand": 3
   },
   "21252": {
     "titel": "Gatchaman Crowds Insight: Inbound",
+    "quelle": "sprachblock",
+    "englisch": "Gatchaman Crowds Insight: Inbound",
     "anisearchId": 10519,
-    "fetchedAt": "2026-09-01T12:14:44.776Z"
+    "fetchedAt": "2026-09-27T18:49:51.387Z",
+    "stand": 3
   },
   "21255": {
     "titel": "Sound! Euphonium: Short Episodes",
@@ -12077,13 +12470,22 @@
   },
   "21260": {
     "titel": "Utano Prince Sama: LS",
+    "quelle": "ueberschrift",
+    "englisch": "Utano Prince Sama: LS",
+    "synonyme": [
+      "Utano☆Princesama Legend Star"
+    ],
     "anisearchId": 10834,
-    "fetchedAt": "2026-09-01T10:54:16.882Z"
+    "fetchedAt": "2026-09-27T18:28:22.756Z",
+    "stand": 3
   },
   "21261": {
     "titel": "Mr. Osomatsu",
+    "quelle": "sprachblock",
+    "englisch": "Mr. Osomatsu",
     "anisearchId": 10744,
-    "fetchedAt": "2026-09-01T12:14:47.238Z"
+    "fetchedAt": "2026-09-27T18:49:58.314Z",
+    "stand": 3
   },
   "21262": {
     "titel": "Owarimonogatari",
@@ -12126,8 +12528,15 @@
   },
   "21277": {
     "titel": "Garo: Crimson Moon",
+    "quelle": "ueberschrift",
+    "englisch": "Garo: Crimson Moon",
+    "synonyme": [
+      "Garo 2nd Season",
+      "Garo: The Crimson Moon"
+    ],
     "anisearchId": 10622,
-    "fetchedAt": "2026-09-01T12:14:54.597Z"
+    "fetchedAt": "2026-09-27T18:50:05.215Z",
+    "stand": 3
   },
   "21281": {
     "titel": "Attack on Titan: Junior High",
@@ -12142,28 +12551,56 @@
   },
   "21284": {
     "titel": "Flying Witch",
+    "quelle": "sprachblock",
+    "englisch": "Flying Witch",
     "anisearchId": 10604,
-    "fetchedAt": "2026-09-01T10:54:19.247Z"
+    "fetchedAt": "2026-09-27T18:28:29.700Z",
+    "stand": 3
   },
   "21286": {
     "titel": "The File of Young Kindaichi Returns Season 2",
+    "quelle": "ueberschrift",
+    "englisch": "The File of Young Kindaichi Returns Season 2",
+    "synonyme": [
+      "Kindaichi Shounen no Jikenbo R 2nd Season"
+    ],
     "anisearchId": 10661,
-    "fetchedAt": "2026-09-01T12:14:59.490Z"
+    "fetchedAt": "2026-09-27T18:50:12.128Z",
+    "stand": 3
   },
   "21287": {
     "titel": "Fafner Exodus (Staffel 2)",
+    "quelle": "sprachblock",
+    "englisch": "Fafner Exodus (2nd Season)",
     "anisearchId": 10502,
-    "fetchedAt": "2026-09-01T12:15:01.935Z"
+    "fetchedAt": "2026-09-27T18:50:19.057Z",
+    "stand": 3
   },
   "21288": {
     "titel": "Monster Strike",
+    "quelle": "sprachblock",
+    "englisch": "Monster Strike",
+    "synonyme": [
+      "Monster Strike Anime 2016"
+    ],
     "anisearchId": 10568,
-    "fetchedAt": "2026-09-01T12:15:04.384Z"
+    "fetchedAt": "2026-09-27T18:50:25.973Z",
+    "stand": 3
   },
   "21293": {
     "titel": "Cute High Earth Defense Club Love! Love!",
+    "quelle": "sprachblock",
+    "englisch": "Cute High Earth Defense Club Love! Love!",
+    "synonyme": [
+      "Binan Koukou Chikyuu Bouei Bu Love! 2",
+      "Boueibu Season 2",
+      "Handsome High School Earth Defense Club Love!",
+      "Cute High Earth Defense Club LOVE! Season 2",
+      "Cute High Earth Defense Club Love! Staffel 2"
+    ],
     "anisearchId": 10670,
-    "fetchedAt": "2026-09-01T10:54:21.594Z"
+    "fetchedAt": "2026-09-27T18:28:36.617Z",
+    "stand": 3
   },
   "21294": {
     "titel": "KanColle: See You Again on Another Quiet Blue Sea",
@@ -12194,8 +12631,14 @@
   },
   "21298": {
     "titel": "Minami Kamakura High School Girls Cycling Club",
+    "quelle": "sprachblock",
+    "englisch": "Minami Kamakura High School Girls Cycling Club",
+    "synonyme": [
+      "Minami Kamakura H.S.C.C."
+    ],
     "anisearchId": 11489,
-    "fetchedAt": "2026-08-31T16:49:46.003Z"
+    "fetchedAt": "2026-09-27T18:09:40.943Z",
+    "stand": 3
   },
   "21299": {
     "titel": "Hyakka Ryouran: Samurai After Specials",
@@ -12259,8 +12702,14 @@
   },
   "21306": {
     "titel": "Myriad Colors Phantom World",
+    "quelle": "sprachblock",
+    "englisch": "Myriad Colors Phantom World",
+    "synonyme": [
+      "Myriad Colours Phantom World"
+    ],
     "anisearchId": 10638,
-    "fetchedAt": "2026-09-01T10:54:26.313Z"
+    "fetchedAt": "2026-09-27T18:28:43.553Z",
+    "stand": 3
   },
   "21312": {
     "titel": "Grisaia no Meikyuu: Takizono Baske-bu no Nama Cream Party!",
@@ -12292,8 +12741,16 @@
   },
   "21316": {
     "titel": "High School Fleet",
+    "quelle": "sprachblock",
+    "englisch": "High School Fleet",
+    "synonyme": [
+      "Hai Furi",
+      "Hai-Furi",
+      "Haifuri"
+    ],
     "anisearchId": 10742,
-    "fetchedAt": "2026-09-01T10:54:28.678Z"
+    "fetchedAt": "2026-09-27T18:28:50.478Z",
+    "stand": 3
   },
   "21317": {
     "titel": "The Heroic Legend of Arslan: The Short Comedy of Arslan",
@@ -12308,8 +12765,14 @@
   },
   "21321": {
     "titel": "Shonen Maid",
+    "quelle": "ueberschrift",
+    "englisch": "Shonen Maid",
+    "synonyme": [
+      "Boy Maid"
+    ],
     "anisearchId": 10728,
-    "fetchedAt": "2026-09-01T10:54:31.029Z"
+    "fetchedAt": "2026-09-27T18:28:57.392Z",
+    "stand": 3
   },
   "21322": {
     "titel": "Mysteria Friends",
@@ -12338,8 +12801,11 @@
   },
   "21330": {
     "titel": "Prince of Stride: Alternative",
+    "quelle": "ueberschrift",
+    "englisch": "Prince of Stride: Alternative",
     "anisearchId": 10726,
-    "fetchedAt": "2026-09-01T10:54:33.387Z"
+    "fetchedAt": "2026-09-27T18:29:04.335Z",
+    "stand": 3
   },
   "21331": {
     "titel": "Durarara!! ×2 The Second Arc OVA",
@@ -12358,58 +12824,99 @@
   },
   "21334": {
     "titel": "Three Leaves, Three Colors",
+    "quelle": "ueberschrift",
+    "englisch": "Three Leaves, Three Colors",
     "anisearchId": 10737,
-    "fetchedAt": "2026-09-01T10:54:35.740Z"
+    "fetchedAt": "2026-09-27T18:29:11.271Z",
+    "stand": 3
   },
   "21342": {
     "titel": "Brave Beats",
+    "quelle": "ueberschrift",
+    "englisch": "Brave Beats",
     "anisearchId": 10733,
-    "fetchedAt": "2026-09-01T12:15:06.829Z"
+    "fetchedAt": "2026-09-27T18:50:32.887Z",
+    "stand": 3
   },
   "21345": {
     "titel": "Cardfight!! Vanguard G GIRS Crisis",
+    "quelle": "ueberschrift",
+    "englisch": "Cardfight!! Vanguard G GIRS Crisis",
     "anisearchId": 10763,
-    "fetchedAt": "2026-09-01T12:15:09.272Z"
+    "fetchedAt": "2026-09-27T18:50:39.812Z",
+    "stand": 3
   },
   "21347": {
     "titel": "Peeping Life TV Season 1??",
+    "quelle": "ueberschrift",
+    "englisch": "Peeping Life TV Season 1??",
     "anisearchId": 10786,
-    "fetchedAt": "2026-09-01T12:15:11.713Z"
+    "fetchedAt": "2026-09-27T18:50:46.739Z",
+    "stand": 3
   },
   "21349": {
     "titel": "All Out!",
+    "quelle": "ueberschrift",
+    "englisch": "All Out!",
     "anisearchId": 10741,
-    "fetchedAt": "2026-09-01T10:54:38.094Z"
+    "fetchedAt": "2026-09-27T18:29:18.206Z",
+    "stand": 3
   },
   "21357": {
     "titel": "RIN-NE 2",
+    "quelle": "ueberschrift",
+    "englisch": "RIN-NE 2",
     "anisearchId": 10750,
-    "fetchedAt": "2026-09-01T10:54:40.443Z"
+    "fetchedAt": "2026-09-27T18:29:25.125Z",
+    "stand": 3
   },
   "21360": {
     "titel": "Ace Attorney",
+    "quelle": "sprachblock",
+    "englisch": "Ace Attorney",
+    "synonyme": [
+      "GyakuSai",
+      "Phoenix Wright: Ace Attorney",
+      "Turnabout Trial: I Object to That \"Truth\"!"
+    ],
     "anisearchId": 10903,
-    "fetchedAt": "2026-09-01T10:54:42.797Z"
+    "fetchedAt": "2026-09-27T18:29:32.057Z",
+    "stand": 3
   },
   "21362": {
     "titel": "Hundred",
+    "quelle": "sprachblock",
+    "englisch": "Hundred",
     "anisearchId": 10434,
-    "fetchedAt": "2026-09-01T10:54:45.161Z"
+    "fetchedAt": "2026-09-27T18:29:38.998Z",
+    "stand": 3
   },
   "21363": {
     "titel": "Monster Hunter Stories: Ride On",
+    "quelle": "ueberschrift",
+    "englisch": "Monster Hunter Stories: Ride On",
     "anisearchId": 10769,
-    "fetchedAt": "2026-09-01T10:54:47.509Z"
+    "fetchedAt": "2026-09-27T18:29:45.935Z",
+    "stand": 3
   },
   "21366": {
     "titel": "March Comes in Like a Lion",
+    "quelle": "sprachblock",
+    "englisch": "March Comes in Like a Lion",
+    "synonyme": [
+      "3-gatsu no Lion"
+    ],
     "anisearchId": 10792,
-    "fetchedAt": "2026-09-01T10:54:49.870Z"
+    "fetchedAt": "2026-09-27T18:29:52.871Z",
+    "stand": 3
   },
   "21382": {
     "titel": "Rewrite",
+    "quelle": "sprachblock",
+    "englisch": "Rewrite",
     "anisearchId": 10783,
-    "fetchedAt": "2026-09-01T10:54:52.223Z"
+    "fetchedAt": "2026-09-27T18:29:59.811Z",
+    "stand": 3
   },
   "21386": {
     "titel": "One Punch Man: Road to Hero",
@@ -12436,8 +12943,10 @@
   },
   "21393": {
     "titel": "Osiris no Tenbin",
+    "quelle": "ueberschrift",
     "anisearchId": 10598,
-    "fetchedAt": "2026-09-01T12:15:16.606Z"
+    "fetchedAt": "2026-09-27T18:50:53.668Z",
+    "stand": 3
   },
   "21404": {
     "titel": "Accel World: Infinite Burst",
@@ -12452,13 +12961,25 @@
   },
   "21406": {
     "titel": "Amanchu!",
+    "quelle": "ueberschrift",
+    "englisch": "Amanchu!",
     "anisearchId": 10824,
-    "fetchedAt": "2026-09-01T10:54:54.576Z"
+    "fetchedAt": "2026-09-27T18:30:06.744Z",
+    "stand": 3
   },
   "21407": {
     "titel": "Yowamushi Pedal New Generation",
+    "quelle": "sprachblock",
+    "englisch": "Yowamushi Pedal New Generation",
+    "synonyme": [
+      "YowaPeda Season 3",
+      "Yowamushi Pedal (2017)",
+      "Yowamushi Pedal: Season 3",
+      "Yowamushi Pedal: Staffel 3"
+    ],
     "anisearchId": 10820,
-    "fetchedAt": "2026-08-31T16:49:48.370Z"
+    "fetchedAt": "2026-09-27T18:09:47.860Z",
+    "stand": 3
   },
   "21413": {
     "titel": "Valkyrie Drive: Mermaid Mini-OVAs",
@@ -12484,13 +13005,22 @@
   },
   "21417": {
     "titel": "Active Raid",
+    "quelle": "sprachblock",
+    "englisch": "Active Raid",
     "anisearchId": 10849,
-    "fetchedAt": "2026-09-01T10:54:56.935Z"
+    "fetchedAt": "2026-09-27T18:30:13.676Z",
+    "stand": 3
   },
   "21423": {
     "titel": "Kumamiko: Girl Meets Bear",
+    "quelle": "ueberschrift",
+    "englisch": "Kumamiko: Girl Meets Bear",
+    "synonyme": [
+      "Kuma Miko: Girl Meets Bear"
+    ],
     "anisearchId": 10833,
-    "fetchedAt": "2026-09-01T10:54:59.294Z"
+    "fetchedAt": "2026-09-27T18:30:20.617Z",
+    "stand": 3
   },
   "21424": {
     "titel": "The Heroic Legend of Arslan: Dust Storm Dance",
@@ -12507,8 +13037,15 @@
   },
   "21427": {
     "titel": "Joker 3",
+    "quelle": "sprachblock",
+    "englisch": "Joker 3",
+    "synonyme": [
+      "Kaitou Joker 3rd Season",
+      "Mysterious Joker Third Season"
+    ],
     "anisearchId": 11033,
-    "fetchedAt": "2026-09-01T10:55:04.009Z"
+    "fetchedAt": "2026-09-27T18:30:27.543Z",
+    "stand": 3
   },
   "21429": {
     "titel": "Tenchi Muyo! Ryo-Ohki Season 4",
@@ -12531,8 +13068,11 @@
   },
   "21439": {
     "titel": "Ange Vierge",
+    "quelle": "sprachblock",
+    "englisch": "Ange Vierge",
     "anisearchId": 10043,
-    "fetchedAt": "2026-09-01T10:55:06.363Z"
+    "fetchedAt": "2026-09-27T18:30:34.472Z",
+    "stand": 3
   },
   "21440": {
     "titel": "Nurse Witch Komugi R",
@@ -12544,13 +13084,24 @@
   },
   "21444": {
     "titel": "Girls Beyond the Wasteland",
+    "quelle": "ueberschrift",
+    "englisch": "Girls Beyond the Wasteland",
+    "synonyme": [
+      "Girls beyond the youth KOYA",
+      "The girls who aim for the wildlands",
+      "Shoujo-tachi wa Kouya wo Mezasu"
+    ],
     "anisearchId": 10905,
-    "fetchedAt": "2026-09-01T10:55:11.071Z"
+    "fetchedAt": "2026-09-27T18:30:41.404Z",
+    "stand": 3
   },
   "21445": {
     "titel": "Big Order",
+    "quelle": "sprachblock",
+    "englisch": "Big Order",
     "anisearchId": 10869,
-    "fetchedAt": "2026-09-01T10:55:13.432Z"
+    "fetchedAt": "2026-09-27T18:30:48.313Z",
+    "stand": 3
   },
   "21446": {
     "titel": "Mini Hama",
@@ -12577,8 +13128,10 @@
   },
   "21448": {
     "titel": "Isobe Isobee Monogatari: Ukiyo wa Tsurai yo (2015)",
+    "quelle": "ueberschrift",
     "anisearchId": 11361,
-    "fetchedAt": "2026-09-01T12:15:19.047Z"
+    "fetchedAt": "2026-09-27T18:51:00.601Z",
+    "stand": 3
   },
   "21451": {
     "titel": "Full Metal Panic! Invisible Victory",
@@ -12594,18 +13147,35 @@
   },
   "21452": {
     "titel": "Kado: The Right Answer",
+    "quelle": "sprachblock",
+    "englisch": "Kado: The Right Answer",
+    "synonyme": [
+      "Kado: Correct Answer For...",
+      "Seikaisuru Kado"
+    ],
     "anisearchId": 10914,
-    "fetchedAt": "2026-08-31T16:49:50.733Z"
+    "fetchedAt": "2026-09-27T18:09:54.782Z",
+    "stand": 3
   },
   "21455": {
     "titel": "New Game!",
+    "quelle": "sprachblock",
+    "englisch": "New Game!",
     "anisearchId": 10942,
-    "fetchedAt": "2026-09-01T10:55:15.799Z"
+    "fetchedAt": "2026-09-27T18:30:55.260Z",
+    "stand": 3
   },
   "21457": {
     "titel": "This Art Club Has a Problem!",
+    "quelle": "ueberschrift",
+    "englisch": "This Art Club Has a Problem!",
+    "synonyme": [
+      "Konobi",
+      "There’s a Problem with This Art Club!"
+    ],
     "anisearchId": 10915,
-    "fetchedAt": "2026-09-01T10:55:18.155Z"
+    "fetchedAt": "2026-09-27T18:31:02.198Z",
+    "stand": 3
   },
   "21458": {
     "titel": "Mobile Suit Gundam Thunderbolt",
@@ -12632,8 +13202,11 @@
   },
   "21461": {
     "titel": "The Reflection",
+    "quelle": "sprachblock",
+    "englisch": "The Reflection",
     "anisearchId": 12145,
-    "fetchedAt": "2026-08-31T16:49:53.089Z"
+    "fetchedAt": "2026-09-27T18:10:01.695Z",
+    "stand": 3
   },
   "21469": {
     "titel": "Gekijouban Last Exile: Ginyoku no Fam - Over the Wishes",
@@ -12644,8 +13217,11 @@
   },
   "21471": {
     "titel": "BBK/BRNK",
+    "quelle": "ueberschrift",
+    "englisch": "BBK/BRNK",
     "anisearchId": 10971,
-    "fetchedAt": "2026-09-01T10:55:25.223Z"
+    "fetchedAt": "2026-09-27T18:31:09.131Z",
+    "stand": 3
   },
   "21474": {
     "titel": "Hakuouki: Otogisoushi",
@@ -12656,13 +13232,25 @@
   },
   "21476": {
     "titel": "Show by Rock!!#",
+    "quelle": "ueberschrift",
+    "englisch": "Show by Rock!!#",
+    "synonyme": [
+      "Show by Rock!! Season 2"
+    ],
     "anisearchId": 11557,
-    "fetchedAt": "2026-09-01T10:55:27.573Z"
+    "fetchedAt": "2026-09-27T18:31:16.048Z",
+    "stand": 3
   },
   "21482": {
     "titel": "Luck &amp; Logic",
+    "quelle": "ueberschrift",
+    "englisch": "Luck & Logic",
+    "synonyme": [
+      "Luck and Logic"
+    ],
     "anisearchId": 10944,
-    "fetchedAt": "2026-09-01T10:55:29.926Z"
+    "fetchedAt": "2026-09-27T18:31:22.991Z",
+    "stand": 3
   },
   "21483": {
     "titel": "Seraph of the Endless",
@@ -12708,18 +13296,33 @@
   },
   "21495": {
     "titel": "Tanaka-kun is Always Listless",
+    "quelle": "ueberschrift",
+    "englisch": "Tanaka-kun is Always Listless",
     "anisearchId": 10987,
-    "fetchedAt": "2026-09-01T10:55:32.288Z"
+    "fetchedAt": "2026-09-27T18:31:29.920Z",
+    "stand": 3
   },
   "21497": {
     "titel": "Reikenzan: Hoshikuzu-tachi no Utage",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "There was a Spirit Blade Mountain",
+      "从前有座灵剑山"
+    ],
     "anisearchId": 10986,
-    "fetchedAt": "2026-09-01T10:55:34.642Z"
+    "fetchedAt": "2026-09-27T18:31:36.842Z",
+    "stand": 3
   },
   "21499": {
     "titel": "Twin Star Exorcists",
+    "quelle": "sprachblock",
+    "englisch": "Twin Star Exorcists",
+    "synonyme": [
+      "TSE"
+    ],
     "anisearchId": 10949,
-    "fetchedAt": "2026-09-01T10:55:37.004Z"
+    "fetchedAt": "2026-09-27T18:31:43.777Z",
+    "stand": 3
   },
   "21501": {
     "titel": "Gintama Jump Special Anime Festa 2015",
@@ -12755,8 +13358,11 @@
   },
   "21511": {
     "titel": "Pandora in the Crimson Shell: Ghost Urn",
+    "quelle": "sprachblock",
+    "englisch": "Pandora in the Crimson Shell: Ghost Urn",
     "anisearchId": 10973,
-    "fetchedAt": "2026-09-01T10:55:41.713Z"
+    "fetchedAt": "2026-09-27T18:31:50.698Z",
+    "stand": 3
   },
   "21512": {
     "titel": "Ensemble Stars!",
@@ -12771,8 +13377,16 @@
   },
   "21517": {
     "titel": "Love Tyrant!",
+    "quelle": "sprachblock",
+    "englisch": "Love Tyrant!",
+    "synonyme": [
+      "Kiss Note",
+      "Renai Boukun",
+      "The very lovely tyrant of love"
+    ],
     "anisearchId": 11339,
-    "fetchedAt": "2026-08-31T16:49:55.454Z"
+    "fetchedAt": "2026-09-27T18:10:08.637Z",
+    "stand": 3
   },
   "21520": {
     "titel": "Koyomimonogatari",
@@ -12787,23 +13401,41 @@
   },
   "21534": {
     "titel": "Active Raid Second",
+    "quelle": "sprachblock",
+    "englisch": "Active Raid Second",
+    "synonyme": [
+      "Active Raid: Kidou Kyoushuushitsu Dai Hakkei 2",
+      "Special Public Security Fifth Division Third Mobile Assault Eighth Unit",
+      "Active Raid 2nd",
+      "Active Raid: Season 2",
+      "Active Raid: Staffel 2"
+    ],
     "anisearchId": 11035,
-    "fetchedAt": "2026-09-01T10:55:46.413Z"
+    "fetchedAt": "2026-09-27T18:31:57.623Z",
+    "stand": 3
   },
   "21553": {
     "titel": "Rilu Rilu Fairilu: Yousei no Door",
+    "quelle": "ueberschrift",
     "anisearchId": 10994,
-    "fetchedAt": "2026-09-01T10:55:48.764Z"
+    "fetchedAt": "2026-09-27T18:32:04.536Z",
+    "stand": 3
   },
   "21555": {
     "titel": "Dies Irae",
+    "quelle": "sprachblock",
+    "englisch": "Dies Irae",
     "anisearchId": 10600,
-    "fetchedAt": "2026-08-31T16:49:57.816Z"
+    "fetchedAt": "2026-09-27T18:10:15.546Z",
+    "stand": 3
   },
   "21557": {
     "titel": "Qualidea Code",
+    "quelle": "sprachblock",
+    "englisch": "Qualidea Code",
     "anisearchId": 11038,
-    "fetchedAt": "2026-09-01T10:55:51.117Z"
+    "fetchedAt": "2026-09-27T18:32:11.470Z",
+    "stand": 3
   },
   "21558": {
     "titel": "D.Gray-man Hallow",
@@ -12826,8 +13458,11 @@
   },
   "21563": {
     "titel": "Clockwork Planet",
+    "quelle": "ueberschrift",
+    "englisch": "Clockwork Planet",
     "anisearchId": 11030,
-    "fetchedAt": "2026-08-31T16:50:00.173Z"
+    "fetchedAt": "2026-09-27T18:10:22.455Z",
+    "stand": 3
   },
   "21565": {
     "titel": "Prison School: Mad Wax",
@@ -12843,8 +13478,14 @@
   },
   "21567": {
     "titel": "The Lost Village",
+    "quelle": "sprachblock",
+    "englisch": "The Lost Village",
+    "synonyme": [
+      "Das verlorene Dorf"
+    ],
     "anisearchId": 11068,
-    "fetchedAt": "2026-09-01T10:55:58.203Z"
+    "fetchedAt": "2026-09-27T18:32:18.406Z",
+    "stand": 3
   },
   "21573": {
     "titel": "High School D×D BorN: Yomigaeranai Fushichou",
@@ -12862,8 +13503,11 @@
   },
   "21578": {
     "titel": "Days",
+    "quelle": "ueberschrift",
+    "englisch": "Days",
     "anisearchId": 11222,
-    "fetchedAt": "2026-09-01T10:56:00.572Z"
+    "fetchedAt": "2026-09-27T18:32:25.332Z",
+    "stand": 3
   },
   "21579": {
     "titel": "Boruto: The Day Naruto Became the Hokage",
@@ -12919,13 +13563,19 @@
   },
   "21595": {
     "titel": "Haven&#039;t You Heard? I&#039;m Sakamoto",
+    "quelle": "ueberschrift",
+    "englisch": "Haven't You Heard? I'm Sakamoto",
     "anisearchId": 11091,
-    "fetchedAt": "2026-09-01T10:56:02.946Z"
+    "fetchedAt": "2026-09-27T18:32:32.273Z",
+    "stand": 3
   },
   "21597": {
     "titel": "Magic of Stella",
+    "quelle": "sprachblock",
+    "englisch": "Magic of Stella",
     "anisearchId": 11221,
-    "fetchedAt": "2026-09-01T10:56:05.298Z"
+    "fetchedAt": "2026-09-27T18:32:39.193Z",
+    "stand": 3
   },
   "21599": {
     "titel": "Grimgar, Ashes and Illusions: OVA",
@@ -12944,8 +13594,10 @@
   },
   "21602": {
     "titel": "Kamiwaza Wanda",
+    "quelle": "ueberschrift",
     "anisearchId": 11100,
-    "fetchedAt": "2026-09-01T10:56:07.644Z"
+    "fetchedAt": "2026-09-27T18:32:46.120Z",
+    "stand": 3
   },
   "21603": {
     "titel": "Duel Masters VSRF",
@@ -12959,18 +13611,29 @@
   },
   "21608": {
     "titel": "Cerberus",
+    "quelle": "sprachblock",
+    "englisch": "Cerberus",
     "anisearchId": 11088,
-    "fetchedAt": "2026-09-01T10:56:12.346Z"
+    "fetchedAt": "2026-09-27T18:32:53.045Z",
+    "stand": 3
   },
   "21609": {
     "titel": "12-sai. Chicchana Mune no Tokimeki",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Age 12: A Little Heart-Pounding"
+    ],
     "anisearchId": 11128,
-    "fetchedAt": "2026-09-01T10:56:14.701Z"
+    "fetchedAt": "2026-09-27T18:32:59.968Z",
+    "stand": 3
   },
   "21611": {
     "titel": "Endride",
+    "quelle": "ueberschrift",
+    "englisch": "Endride",
     "anisearchId": 11096,
-    "fetchedAt": "2026-09-01T10:56:17.058Z"
+    "fetchedAt": "2026-09-27T18:33:06.899Z",
+    "stand": 3
   },
   "21624": {
     "titel": "Steins;Gate: Missing Link der Grenzfläche",
@@ -12986,13 +13649,22 @@
   },
   "21626": {
     "titel": "Handa-kun",
+    "quelle": "ueberschrift",
+    "englisch": "Handa-kun",
     "anisearchId": 11093,
-    "fetchedAt": "2026-09-01T10:56:19.408Z"
+    "fetchedAt": "2026-09-27T18:33:13.817Z",
+    "stand": 3
   },
   "21627": {
     "titel": "Girlish Number",
+    "quelle": "ueberschrift",
+    "englisch": "Girlish Number",
+    "synonyme": [
+      "Gi(a)rlish Number"
+    ],
     "anisearchId": 11084,
-    "fetchedAt": "2026-09-01T10:56:21.765Z"
+    "fetchedAt": "2026-09-27T18:33:20.772Z",
+    "stand": 3
   },
   "21629": {
     "titel": "Noblesse: Awakening",
@@ -13004,13 +13676,21 @@
   },
   "21631": {
     "titel": "Poco’s Udon World",
+    "quelle": "ueberschrift",
+    "englisch": "Poco’s Udon World",
+    "synonyme": [
+      "The Udon Country’s Golden Furball"
+    ],
     "anisearchId": 11174,
-    "fetchedAt": "2026-09-01T10:56:26.468Z"
+    "fetchedAt": "2026-09-27T18:33:27.689Z",
+    "stand": 3
   },
   "21635": {
     "titel": "Battle Spirits: Double Drive",
+    "quelle": "ueberschrift",
     "anisearchId": 11166,
-    "fetchedAt": "2026-09-01T10:56:28.813Z"
+    "fetchedAt": "2026-09-27T18:33:34.615Z",
+    "stand": 3
   },
   "21638": {
     "titel": "Sound! Euphonium: The Movie - Welcome to the Kaitauji High School Concert Band",
@@ -13037,18 +13717,31 @@
   },
   "21643": {
     "titel": "The Morose Mononokean",
+    "quelle": "sprachblock",
+    "englisch": "The Morose Mononokean",
     "anisearchId": 11161,
-    "fetchedAt": "2026-09-01T10:56:31.165Z"
+    "fetchedAt": "2026-09-27T18:33:41.531Z",
+    "stand": 3
   },
   "21644": {
     "titel": "Puzzle &amp; Dragons X",
+    "quelle": "ueberschrift",
+    "englisch": "Puzzle & Dragons X",
+    "synonyme": [
+      "PazuDora X",
+      "Puzzle and Dragons Cross"
+    ],
     "anisearchId": 11156,
-    "fetchedAt": "2026-09-01T10:56:33.510Z"
+    "fetchedAt": "2026-09-27T18:33:48.484Z",
+    "stand": 3
   },
   "21645": {
     "titel": "Marginal #4 the Animation",
+    "quelle": "sprachblock",
+    "englisch": "Marginal #4 the Animation",
     "anisearchId": 11447,
-    "fetchedAt": "2026-08-31T16:50:02.533Z"
+    "fetchedAt": "2026-09-27T18:10:29.370Z",
+    "stand": 3
   },
   "21649": {
     "titel": "Girls und Panzer Gekijouban: Alice War",
@@ -13071,13 +13764,23 @@
   },
   "21652": {
     "titel": "Future Card Buddyfight Triple D",
+    "quelle": "ueberschrift",
+    "englisch": "Future Card Buddyfight Triple D",
     "anisearchId": 11289,
-    "fetchedAt": "2026-09-01T10:56:35.857Z"
+    "fetchedAt": "2026-09-27T18:33:55.394Z",
+    "stand": 3
   },
   "21657": {
     "titel": "Kaname o",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "A linchpin.",
+      "Kanamewo",
+      "Kaname wo"
+    ],
     "anisearchId": 11322,
-    "fetchedAt": "2026-09-01T12:15:23.934Z"
+    "fetchedAt": "2026-09-27T18:51:07.526Z",
+    "stand": 3
   },
   "21658": {
     "titel": "Mobile Suit Gundam Unicorn RE:0096",
@@ -13088,19 +13791,34 @@
     "stand": 3
   },
   "21659": {
-    "titel": "Sweetness &amp; Lightning",
+    "titel": "Sweetness & Lightning",
+    "quelle": "sprachblock",
+    "englisch": "Sweetness & Lightning",
+    "synonyme": [
+      "Sweetness and Lightning"
+    ],
     "anisearchId": 11146,
-    "fetchedAt": "2026-09-01T10:56:40.567Z"
+    "fetchedAt": "2026-09-27T18:34:02.355Z",
+    "stand": 3
   },
   "21664": {
     "titel": "Cardfight!! Vanguard G: Stride Gate",
+    "quelle": "ueberschrift",
+    "englisch": "Cardfight!! Vanguard G: Stride Gate",
     "anisearchId": 11287,
-    "fetchedAt": "2026-09-01T10:56:42.913Z"
+    "fetchedAt": "2026-09-27T18:34:09.263Z",
+    "stand": 3
   },
   "21672": {
     "titel": "Symphogear AXZ",
+    "quelle": "sprachblock",
+    "englisch": "Symphogear AXZ",
+    "synonyme": [
+      "Symphogear Season 4"
+    ],
     "anisearchId": 11223,
-    "fetchedAt": "2026-08-31T16:50:04.892Z"
+    "fetchedAt": "2026-09-27T18:10:36.283Z",
+    "stand": 3
   },
   "21673": {
     "titel": "Symphogear XV",
@@ -13115,13 +13833,18 @@
   },
   "21674": {
     "titel": "Luger Code 1951",
+    "quelle": "ueberschrift",
     "anisearchId": 10791,
-    "fetchedAt": "2026-09-01T10:56:45.259Z"
+    "fetchedAt": "2026-09-27T18:34:16.210Z",
+    "stand": 3
   },
   "21677": {
     "titel": "ēlDLIVE",
+    "quelle": "ueberschrift",
+    "englisch": "ēlDLIVE",
     "anisearchId": 11192,
-    "fetchedAt": "2026-08-31T16:50:07.254Z"
+    "fetchedAt": "2026-09-27T18:10:43.199Z",
+    "stand": 3
   },
   "21678": {
     "titel": "Ansatsu Kyoushitsu Second Season: Kagaijugyou-hen",
@@ -13135,8 +13858,11 @@
   },
   "21682": {
     "titel": "Tiger Mask W",
+    "quelle": "ueberschrift",
+    "englisch": "Tiger Mask W",
     "anisearchId": 11310,
-    "fetchedAt": "2026-09-01T10:56:49.953Z"
+    "fetchedAt": "2026-09-27T18:34:23.143Z",
+    "stand": 3
   },
   "21687": {
     "titel": "Soul Eater Late Night",
@@ -13163,28 +13889,47 @@
   },
   "21696": {
     "titel": "Urara Meirocho",
+    "quelle": "ueberschrift",
+    "englisch": "Urara Meirocho",
     "anisearchId": 11215,
-    "fetchedAt": "2026-08-31T16:50:09.612Z"
+    "fetchedAt": "2026-09-27T18:10:50.117Z",
+    "stand": 3
   },
   "21702": {
     "titel": "Battery",
+    "quelle": "sprachblock",
+    "englisch": "Battery: the animation",
     "anisearchId": 11211,
-    "fetchedAt": "2026-09-01T10:56:52.306Z"
+    "fetchedAt": "2026-09-27T18:34:30.061Z",
+    "stand": 3
   },
   "21703": {
     "titel": "The Great Passage",
+    "quelle": "sprachblock",
+    "englisch": "The Great Passage",
+    "synonyme": [
+      "To Compile A Ship",
+      "Fune wo Amu"
+    ],
     "anisearchId": 11213,
-    "fetchedAt": "2026-09-01T10:56:54.663Z"
+    "fetchedAt": "2026-09-27T18:34:37.005Z",
+    "stand": 3
   },
   "21707": {
     "titel": "Regalia: The Three Sacred Stars",
+    "quelle": "ueberschrift",
+    "englisch": "Regalia: The Three Sacred Stars",
     "anisearchId": 11237,
-    "fetchedAt": "2026-09-01T10:56:57.015Z"
+    "fetchedAt": "2026-09-27T18:34:43.913Z",
+    "stand": 3
   },
   "21708": {
     "titel": "Occultic;Nine",
+    "quelle": "sprachblock",
+    "englisch": "Occultic;Nine",
     "anisearchId": 11230,
-    "fetchedAt": "2026-09-01T10:56:59.369Z"
+    "fetchedAt": "2026-09-27T18:34:50.854Z",
+    "stand": 3
   },
   "21710": {
     "titel": "Natsume’s Book of Friends: Staffel 5",
@@ -13211,18 +13956,27 @@
   },
   "21713": {
     "titel": "Cheer Boys!!",
+    "quelle": "ueberschrift",
+    "englisch": "Cheer Boys!!",
     "anisearchId": 11257,
-    "fetchedAt": "2026-09-01T10:57:04.078Z"
+    "fetchedAt": "2026-09-27T18:34:57.782Z",
+    "stand": 3
   },
   "21715": {
     "titel": "Scorching Ping Pong Girls",
+    "quelle": "sprachblock",
+    "englisch": "Scorching Ping Pong Girls",
     "anisearchId": 11325,
-    "fetchedAt": "2026-09-01T10:57:06.434Z"
+    "fetchedAt": "2026-09-27T18:35:04.739Z",
+    "stand": 3
   },
   "21721": {
     "titel": "Flying Witch: Petit",
+    "quelle": "ueberschrift",
+    "englisch": "Flying Witch: Petit",
     "anisearchId": 11291,
-    "fetchedAt": "2026-09-01T10:57:08.782Z"
+    "fetchedAt": "2026-09-27T18:35:11.667Z",
+    "stand": 3
   },
   "21726": {
     "titel": "Aggressive Retsuko",
@@ -13259,28 +14013,61 @@
   },
   "21733": {
     "titel": "Descending Stories: Showa Genroku Rakugo Shinju",
+    "quelle": "ueberschrift",
+    "englisch": "Descending Stories: Showa Genroku Rakugo Shinju",
+    "synonyme": [
+      "Shouwa Genroku Rakugo Shinjuu 2",
+      "Showa Genroku Rakugo Shinju: Sukeroku Anew Arc"
+    ],
     "anisearchId": 11346,
-    "fetchedAt": "2026-08-31T16:50:14.334Z"
+    "fetchedAt": "2026-09-27T18:10:57.030Z",
+    "stand": 3
   },
   "21738": {
     "titel": "Hina Logic: From Luck and Logic",
+    "quelle": "ueberschrift",
+    "englisch": "Hina Logic: From Luck and Logic",
+    "synonyme": [
+      "Hina Logi: From Luck and Logic"
+    ],
     "anisearchId": 11265,
-    "fetchedAt": "2026-08-31T16:50:16.687Z"
+    "fetchedAt": "2026-09-27T18:11:03.983Z",
+    "stand": 3
   },
   "21739": {
     "titel": "Watashitachi, Luck Logi-bu! 2",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Luck Logic-bu! Shorts 2",
+      "We Are Luck & Logic Club 2"
+    ],
     "anisearchId": 11740,
-    "fetchedAt": "2026-09-01T10:57:15.837Z"
+    "fetchedAt": "2026-09-27T18:35:18.595Z",
+    "stand": 3
   },
   "21740": {
     "titel": "BBK/BRNK The Gentle Giants of the Galaxy",
+    "quelle": "ueberschrift",
+    "englisch": "BBK/BRNK The Gentle Giants of the Galaxy",
+    "synonyme": [
+      "BUBUKI/BURANKI The Gentle Giants of the Galaxy",
+      "Bubuki Buranki 2"
+    ],
     "anisearchId": 11302,
-    "fetchedAt": "2026-09-01T10:57:18.188Z"
+    "fetchedAt": "2026-09-27T18:35:25.520Z",
+    "stand": 3
   },
   "21744": {
     "titel": "Reikenzan: Eichi e no Shikaku",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Congqian Youzuo Lingjianshan 2",
+      "Reikenzan: Hoshikuzu-tachi no Utage 2",
+      "There was a Spirit Blade Mountain 2"
+    ],
     "anisearchId": 11300,
-    "fetchedAt": "2026-08-31T16:50:19.043Z"
+    "fetchedAt": "2026-09-27T18:11:10.906Z",
+    "stand": 3
   },
   "21745": {
     "titel": "Owarimonogatari: Staffel 2",
@@ -13305,8 +14092,14 @@
   },
   "21747": {
     "titel": "Scar-red Rider XechS",
+    "quelle": "ueberschrift",
+    "englisch": "Scar-red Rider XechS",
+    "synonyme": [
+      "Scar-red Riders XechS"
+    ],
     "anisearchId": 11360,
-    "fetchedAt": "2026-09-01T10:57:20.535Z"
+    "fetchedAt": "2026-09-27T18:35:32.454Z",
+    "stand": 3
   },
   "21748": {
     "titel": "FLCL Alternative",
@@ -13335,23 +14128,35 @@
   },
   "21751": {
     "titel": "B-Project",
+    "quelle": "ueberschrift",
+    "englisch": "B-Project",
     "anisearchId": 11292,
-    "fetchedAt": "2026-09-01T10:57:25.239Z"
+    "fetchedAt": "2026-09-27T18:35:39.382Z",
+    "stand": 3
   },
   "21755": {
     "titel": "Time Bokan 24",
+    "quelle": "ueberschrift",
+    "englisch": "Time Bokan 24",
     "anisearchId": 11297,
-    "fetchedAt": "2026-09-01T10:57:27.585Z"
+    "fetchedAt": "2026-09-27T18:35:46.317Z",
+    "stand": 3
   },
   "21760": {
     "titel": "Kaiju Girls",
+    "quelle": "sprachblock",
+    "englisch": "Kaiju Girls",
     "anisearchId": 11275,
-    "fetchedAt": "2026-09-01T10:57:29.931Z"
+    "fetchedAt": "2026-09-27T18:35:53.240Z",
+    "stand": 3
   },
   "21764": {
     "titel": "Www.Working!!",
+    "quelle": "sprachblock",
+    "englisch": "Www.Wagnaria!!",
     "anisearchId": 11348,
-    "fetchedAt": "2026-09-01T10:57:32.285Z"
+    "fetchedAt": "2026-09-27T18:36:00.176Z",
+    "stand": 3
   },
   "21765": {
     "titel": "Seraph of the Endless: Battle in Nagoya",
@@ -13367,8 +14172,10 @@
   },
   "21768": {
     "titel": "Osiris no Tenbin 2",
+    "quelle": "ueberschrift",
     "anisearchId": 11405,
-    "fetchedAt": "2026-09-01T10:57:34.630Z"
+    "fetchedAt": "2026-09-27T18:36:07.096Z",
+    "stand": 3
   },
   "21769": {
     "titel": "Yahari Ore no Seishun Lovecome wa Machigatte Iru. Zoku: Kitto, Onna no Ko wa Osatou to Spice to Suteki na Nanika de Dekite Iru.",
@@ -13409,13 +14216,24 @@
   },
   "21787": {
     "titel": "Battle Girl High School",
+    "quelle": "sprachblock",
+    "englisch": "Battle Girl High School",
+    "synonyme": [
+      "Battle Girls High School"
+    ],
     "anisearchId": 11412,
-    "fetchedAt": "2026-08-31T16:50:23.757Z"
+    "fetchedAt": "2026-09-27T18:11:17.865Z",
+    "stand": 3
   },
   "21800": {
     "titel": "Tanaka-kun wa Kyou mo Kedaruge",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Tanaka is Listless Today Too"
+    ],
     "anisearchId": 11457,
-    "fetchedAt": "2026-09-01T10:57:39.325Z"
+    "fetchedAt": "2026-09-27T18:36:14.049Z",
+    "stand": 3
   },
   "21814": {
     "titel": "Gundam Build Fighters Try: Island Wars",
@@ -13461,38 +14279,78 @@
   },
   "21824": {
     "titel": "Time Travel Girl",
+    "quelle": "ueberschrift",
+    "englisch": "Time Travel Girl",
+    "synonyme": [
+      "Blitz Time Travel Girls",
+      "Time Travel Girl: Mari & Waka"
+    ],
     "anisearchId": 11507,
-    "fetchedAt": "2026-09-01T10:57:44.017Z"
+    "fetchedAt": "2026-09-27T18:36:20.973Z",
+    "stand": 3
   },
   "21832": {
     "titel": "Trickster",
+    "quelle": "sprachblock",
+    "englisch": "Trickster",
+    "synonyme": [
+      "Trickster: From Rampo Edogawa’s “The Boy Detectives Club”"
+    ],
     "anisearchId": 11485,
-    "fetchedAt": "2026-09-01T10:57:46.369Z"
+    "fetchedAt": "2026-09-27T18:36:27.933Z",
+    "stand": 3
   },
   "21836": {
     "titel": "Super Lovers 2",
+    "quelle": "sprachblock",
+    "englisch": "Super Lovers 2",
+    "synonyme": [
+      "Super Lovers: Season 2",
+      "Super Lovers: Staffel 2"
+    ],
     "anisearchId": 11496,
-    "fetchedAt": "2026-08-31T16:50:26.117Z"
+    "fetchedAt": "2026-09-27T18:11:24.812Z",
+    "stand": 3
   },
   "21839": {
     "titel": "12-sai. Chicchana Mune no Tokimeki (2016)",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Age 12: A Little Heart-Pounding 2"
+    ],
     "anisearchId": 11502,
-    "fetchedAt": "2026-09-01T10:57:48.721Z"
+    "fetchedAt": "2026-09-27T18:36:34.869Z",
+    "stand": 3
   },
   "21848": {
     "titel": "Heybot!",
+    "quelle": "ueberschrift",
+    "englisch": "Heybot!",
     "anisearchId": 11523,
-    "fetchedAt": "2026-09-01T10:57:51.069Z"
+    "fetchedAt": "2026-09-27T18:36:41.818Z",
+    "stand": 3
   },
   "21849": {
     "titel": "Wake Up, Girls! no Miyagi PR Yarasete Kudasai!",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Wake Up",
+      "Girls! Please leave the Miyagi PR to us!",
+      "Wake Up",
+      "Miyagi! Fure-Ai Project in Taiwan (Wake Up",
+      "宮城! 触れ愛プロジェクトin台湾)"
+    ],
     "anisearchId": 11314,
-    "fetchedAt": "2026-09-01T10:57:53.416Z"
+    "fetchedAt": "2026-09-27T18:36:48.747Z",
+    "stand": 3
   },
   "21850": {
     "titel": "Magic-Kyun! Renaissance",
+    "quelle": "sprachblock",
+    "englisch": "Magic-Kyun! Renaissance",
     "anisearchId": 11478,
-    "fetchedAt": "2026-09-01T10:57:55.765Z"
+    "fetchedAt": "2026-09-27T18:36:55.679Z",
+    "stand": 3
   },
   "21853": {
     "titel": "To Love-Ru: Trouble - Darkness 2nd OAD",
@@ -13503,8 +14361,14 @@
   },
   "21859": {
     "titel": "Joker 4",
+    "quelle": "sprachblock",
+    "englisch": "Joker 4",
+    "synonyme": [
+      "Mysterious Joker 4"
+    ],
     "anisearchId": 11550,
-    "fetchedAt": "2026-09-01T10:57:58.110Z"
+    "fetchedAt": "2026-09-27T18:37:02.610Z",
+    "stand": 3
   },
   "21864": {
     "titel": "Koro-sensei Quest!",
@@ -13520,18 +14384,30 @@
   },
   "21865": {
     "titel": "Twin Angels Break",
+    "quelle": "sprachblock",
+    "englisch": "Twin Angels Break",
+    "synonyme": [
+      "Kaitou Tenshi Twin Angel 2017 (快盗天使ツインエンジェル 2017)"
+    ],
     "anisearchId": 11634,
-    "fetchedAt": "2026-08-31T16:50:28.471Z"
+    "fetchedAt": "2026-09-27T18:11:31.745Z",
+    "stand": 3
   },
   "21871": {
     "titel": "ViVid Strike!",
+    "quelle": "ueberschrift",
+    "englisch": "ViVid Strike!",
     "anisearchId": 11562,
-    "fetchedAt": "2026-09-01T10:58:00.463Z"
+    "fetchedAt": "2026-09-27T18:37:09.546Z",
+    "stand": 3
   },
   "21873": {
     "titel": "Matoi the Sacred Slayer",
+    "quelle": "sprachblock",
+    "englisch": "Matoi the Sacred Slayer",
     "anisearchId": 11601,
-    "fetchedAt": "2026-09-01T10:58:02.817Z"
+    "fetchedAt": "2026-09-27T18:37:16.478Z",
+    "stand": 3
   },
   "21879": {
     "titel": "Inazuma Eleven: Ares",
@@ -13550,13 +14426,26 @@
   },
   "21881": {
     "titel": "Nekota no Koto ga Ki ni Natte Shikatanai.",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "I‘m So Interested in Nekota That I Can't Help Myself",
+      "Ribon × Oha Suta Specials",
+      "Ribon x Oha Suta Specials"
+    ],
     "anisearchId": 10123,
-    "fetchedAt": "2026-09-01T12:15:26.379Z"
+    "fetchedAt": "2026-09-27T18:51:14.451Z",
+    "stand": 3
   },
   "21887": {
     "titel": "Fuuka",
+    "quelle": "ueberschrift",
+    "englisch": "Fuuka",
+    "synonyme": [
+      "Fuka"
+    ],
     "anisearchId": 11656,
-    "fetchedAt": "2026-08-31T16:50:30.844Z"
+    "fetchedAt": "2026-09-27T18:11:38.713Z",
+    "stand": 3
   },
   "21891": {
     "titel": "Re:ZERO - PETIT",
@@ -13581,8 +14470,11 @@
   },
   "87435": {
     "titel": "BanG Dream!",
+    "quelle": "ueberschrift",
+    "englisch": "BanG Dream!",
     "anisearchId": 11563,
-    "fetchedAt": "2026-08-31T16:50:33.203Z"
+    "fetchedAt": "2026-09-27T18:11:45.637Z",
+    "stand": 3
   },
   "87438": {
     "titel": "Eiga Doraemon: Shin Nobita no Nippon Tanjou",
@@ -13605,13 +14497,22 @@
   },
   "87476": {
     "titel": "Cardfight!! Vanguard G: Next",
+    "quelle": "ueberschrift",
+    "englisch": "Cardfight!! Vanguard G: Next",
     "anisearchId": 11768,
-    "fetchedAt": "2026-09-01T10:58:05.166Z"
+    "fetchedAt": "2026-09-27T18:37:23.385Z",
+    "stand": 3
   },
   "87484": {
     "titel": "Girl Friend (Onpu)",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Girl Friend Note",
+      "Girlfriend Note"
+    ],
     "anisearchId": 11680,
-    "fetchedAt": "2026-09-01T10:58:07.512Z"
+    "fetchedAt": "2026-09-27T18:37:30.321Z",
+    "stand": 3
   },
   "87486": {
     "titel": "Boku no Hero Academia: Sukue! Kyuujo Kunren!",
@@ -13650,8 +14551,11 @@
   },
   "87494": {
     "titel": "Hitorijime My Hero",
+    "quelle": "ueberschrift",
+    "englisch": "Hitorijime My Hero",
     "anisearchId": 12142,
-    "fetchedAt": "2026-08-31T16:50:35.567Z"
+    "fetchedAt": "2026-09-27T18:11:52.590Z",
+    "stand": 3
   },
   "87495": {
     "titel": "IDOLiSH7",
@@ -13666,8 +14570,11 @@
   },
   "87496": {
     "titel": "Kemono Friends",
+    "quelle": "sprachblock",
+    "englisch": "Kemono Friends",
     "anisearchId": 11351,
-    "fetchedAt": "2026-08-31T16:50:37.929Z"
+    "fetchedAt": "2026-09-27T18:11:59.524Z",
+    "stand": 3
   },
   "87498": {
     "titel": "Saiyuki Reload Blast",
@@ -13679,8 +14586,11 @@
   },
   "87500": {
     "titel": "Kabukibu!",
+    "quelle": "ueberschrift",
+    "englisch": "Kabukibu!",
     "anisearchId": 11684,
-    "fetchedAt": "2026-08-31T16:50:42.643Z"
+    "fetchedAt": "2026-09-27T18:12:06.489Z",
+    "stand": 3
   },
   "87501": {
     "titel": "Baki: Saikyou Shikei Shuu-hen SP (Special) Anime",
@@ -13720,8 +14630,11 @@
   },
   "87517": {
     "titel": "Hinako Note",
+    "quelle": "sprachblock",
+    "englisch": "Hinako Note",
     "anisearchId": 11701,
-    "fetchedAt": "2026-08-31T16:50:45.004Z"
+    "fetchedAt": "2026-09-27T18:12:13.429Z",
+    "stand": 3
   },
   "87528": {
     "titel": "Black Clover",
@@ -13736,13 +14649,19 @@
   },
   "87530": {
     "titel": "Dream Festival!",
+    "quelle": "sprachblock",
+    "englisch": "Dream Festival!",
     "anisearchId": 11323,
-    "fetchedAt": "2026-09-01T10:58:09.859Z"
+    "fetchedAt": "2026-09-27T18:37:37.242Z",
+    "stand": 3
   },
   "97590": {
     "titel": "Onihei",
+    "quelle": "sprachblock",
+    "englisch": "Onihei",
     "anisearchId": 11706,
-    "fetchedAt": "2026-08-31T16:50:47.362Z"
+    "fetchedAt": "2026-09-27T18:12:20.357Z",
+    "stand": 3
   },
   "97604": {
     "titel": "100 Sleeping Princes &amp; The Kingdom of Dreams",
@@ -13757,8 +14676,10 @@
   },
   "97605": {
     "titel": "Yume Oukoku to Nemureru 100 Nin no Ouji-sama: Short Stories",
+    "quelle": "ueberschrift",
     "anisearchId": 12437,
-    "fetchedAt": "2026-08-31T16:50:49.713Z"
+    "fetchedAt": "2026-09-27T18:12:27.295Z",
+    "stand": 3
   },
   "97616": {
     "titel": "To Be Hero",
@@ -13770,18 +14691,30 @@
   },
   "97617": {
     "titel": "Restaurant to Another World",
+    "quelle": "sprachblock",
+    "englisch": "Restaurant to Another World",
+    "synonyme": [
+      "The Other World Dining Hall"
+    ],
     "anisearchId": 11753,
-    "fetchedAt": "2026-08-31T16:50:52.079Z"
+    "fetchedAt": "2026-09-27T18:12:34.227Z",
+    "stand": 3
   },
   "97618": {
     "titel": "Idol Incidents",
+    "quelle": "sprachblock",
+    "englisch": "Idol Incidents",
     "anisearchId": 11956,
-    "fetchedAt": "2026-08-31T16:50:54.430Z"
+    "fetchedAt": "2026-09-27T18:12:41.164Z",
+    "stand": 3
   },
   "97636": {
     "titel": "Akiba’s Trip: The Animation",
+    "quelle": "sprachblock",
+    "englisch": "Akiba’s Trip: The Animation",
     "anisearchId": 11758,
-    "fetchedAt": "2026-08-31T16:50:56.789Z"
+    "fetchedAt": "2026-09-27T18:12:48.100Z",
+    "stand": 3
   },
   "97642": {
     "titel": "The Eccentric Family 2",
@@ -13804,13 +14737,22 @@
   },
   "97660": {
     "titel": "Sagrada Reset",
+    "quelle": "sprachblock",
+    "englisch": "Sagrada Reset",
+    "synonyme": [
+      "Sakurada Reset"
+    ],
     "anisearchId": 11790,
-    "fetchedAt": "2026-08-31T16:51:03.864Z"
+    "fetchedAt": "2026-09-27T18:12:55.047Z",
+    "stand": 3
   },
   "97665": {
     "titel": "Rewrite: Moon and Terra",
+    "quelle": "sprachblock",
+    "englisch": "Rewrite (Season 2)",
     "anisearchId": 11802,
-    "fetchedAt": "2026-08-31T16:51:06.220Z"
+    "fetchedAt": "2026-09-27T18:13:01.965Z",
+    "stand": 3
   },
   "97669": {
     "titel": "Orange: Mirai",
@@ -13824,53 +14766,106 @@
   },
   "97670": {
     "titel": "RIN-NE 3",
+    "quelle": "ueberschrift",
+    "englisch": "RIN-NE 3",
+    "synonyme": [
+      "Kyoukai no Rinne Third Season"
+    ],
     "anisearchId": 11801,
-    "fetchedAt": "2026-08-31T16:51:08.575Z"
+    "fetchedAt": "2026-09-27T18:13:08.907Z",
+    "stand": 3
   },
   "97683": {
     "titel": "Angel’s 3Piece!",
+    "quelle": "sprachblock",
+    "englisch": "Angel’s 3Piece!",
+    "synonyme": [
+      "Here Comes the Three Angels",
+      "Tenshi no 3-piece!",
+      "Tenshi no Three Piece!"
+    ],
     "anisearchId": 11825,
-    "fetchedAt": "2026-08-31T16:51:10.940Z"
+    "fetchedAt": "2026-09-27T18:13:15.828Z",
+    "stand": 3
   },
   "97715": {
     "titel": "Higanjima X",
+    "quelle": "ueberschrift",
     "anisearchId": 11863,
-    "fetchedAt": "2026-09-01T10:58:12.204Z"
+    "fetchedAt": "2026-09-27T18:37:44.146Z",
+    "stand": 3
   },
   "97716": {
     "titel": "Tawawa on Monday",
+    "quelle": "sprachblock",
+    "englisch": "Tawawa on Monday",
     "anisearchId": 11866,
-    "fetchedAt": "2026-09-01T10:58:14.556Z"
+    "fetchedAt": "2026-09-27T18:37:51.078Z",
+    "stand": 3
   },
   "97730": {
     "titel": "Seiren",
+    "quelle": "ueberschrift",
+    "englisch": "Seiren",
+    "synonyme": [
+      "Divina Juventud"
+    ],
     "anisearchId": 11864,
-    "fetchedAt": "2026-09-01T10:48:36.163Z"
+    "fetchedAt": "2026-09-27T18:13:22.780Z",
+    "stand": 3
   },
   "97769": {
     "titel": "Yuki Yuna Is a Hero: Hero Chapter",
+    "quelle": "sprachblock",
+    "englisch": "Yuki Yuna Is a Hero: Hero Chapter",
+    "synonyme": [
+      "Yuuki Yuuna wa Yuusha de Aru Season 2",
+      "Yuki Yuna is a Hero: The Hero Chapter"
+    ],
     "anisearchId": 11877,
-    "fetchedAt": "2026-09-01T10:48:38.512Z"
+    "fetchedAt": "2026-09-27T18:13:29.691Z",
+    "stand": 3
   },
   "97776": {
     "titel": "Schoolgirl Strikers",
+    "quelle": "sprachblock",
+    "englisch": "Schoolgirl Strikers",
     "anisearchId": 11881,
-    "fetchedAt": "2026-09-01T10:48:40.861Z"
+    "fetchedAt": "2026-09-27T18:13:36.634Z",
+    "stand": 3
   },
   "97819": {
     "titel": "Soulworker: Your Destiny Awaits",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Soul Worker: Your Destiny Awaits"
+    ],
     "anisearchId": 11726,
-    "fetchedAt": "2026-09-01T10:58:16.907Z"
+    "fetchedAt": "2026-09-27T18:37:57.994Z",
+    "stand": 3
   },
   "97820": {
     "titel": "Starmyu Season 2",
+    "quelle": "sprachblock",
+    "englisch": "Starmyu Season 2",
+    "synonyme": [
+      "High School Star Musical Season 2"
+    ],
     "anisearchId": 11481,
-    "fetchedAt": "2026-09-01T10:48:43.209Z"
+    "fetchedAt": "2026-09-27T18:13:43.548Z",
+    "stand": 3
   },
   "97821": {
-    "titel": "Alice &amp; Zoroku",
+    "titel": "Alice & Zoroku",
+    "quelle": "sprachblock",
+    "englisch": "Alice & Zoroku",
+    "synonyme": [
+      "Alice & Zouroku",
+      "Alice and Zoroku"
+    ],
     "anisearchId": 11935,
-    "fetchedAt": "2026-09-01T10:48:45.570Z"
+    "fetchedAt": "2026-09-27T18:13:50.503Z",
+    "stand": 3
   },
   "97853": {
     "titel": "Mobile Suit Gundam Thunderbolt 2",
@@ -13882,8 +14877,14 @@
   },
   "97855": {
     "titel": "Vatican Miracle Examiner",
+    "quelle": "sprachblock",
+    "englisch": "Vatican Miracle Examiner",
+    "synonyme": [
+      "Bachikan Kiseki Chousakan"
+    ],
     "anisearchId": 12241,
-    "fetchedAt": "2026-09-01T10:48:50.269Z"
+    "fetchedAt": "2026-09-27T18:13:57.418Z",
+    "stand": 3
   },
   "97873": {
     "titel": "Isekai Izakaya: Japanese Food from Another World",
@@ -13895,13 +14896,22 @@
   },
   "97874": {
     "titel": "Frame Arms Girl",
+    "quelle": "ueberschrift",
+    "englisch": "Frame Arms Girl",
     "anisearchId": 12223,
-    "fetchedAt": "2026-09-01T10:48:52.622Z"
+    "fetchedAt": "2026-09-27T18:14:04.365Z",
+    "stand": 3
   },
   "97875": {
     "titel": "Nanbaka (Staffel 2)",
+    "quelle": "sprachblock",
+    "englisch": "Nanbaka (Season 2)",
+    "synonyme": [
+      "Nanbaka 2"
+    ],
     "anisearchId": 12037,
-    "fetchedAt": "2026-09-01T10:48:54.971Z"
+    "fetchedAt": "2026-09-27T18:14:11.282Z",
+    "stand": 3
   },
   "97880": {
     "titel": "Code Geass: Lelouch of the Resurrection",
@@ -13930,18 +14940,26 @@
   },
   "97903": {
     "titel": "Sakura Quest",
+    "quelle": "ueberschrift",
+    "englisch": "Sakura Quest",
     "anisearchId": 12116,
-    "fetchedAt": "2026-09-01T10:48:59.686Z"
+    "fetchedAt": "2026-09-27T18:14:18.228Z",
+    "stand": 3
   },
   "97904": {
     "titel": "TsukiPro The Animation",
+    "quelle": "sprachblock",
+    "englisch": "Tsukipro The Animation",
     "anisearchId": 12332,
-    "fetchedAt": "2026-09-01T10:49:02.040Z"
+    "fetchedAt": "2026-09-27T18:14:25.141Z",
+    "stand": 3
   },
   "97916": {
     "titel": "Mutsugo to Ouma no Monogatari",
+    "quelle": "ueberschrift",
     "anisearchId": 12115,
-    "fetchedAt": "2026-09-01T10:58:19.251Z"
+    "fetchedAt": "2026-09-27T18:38:04.912Z",
+    "stand": 3
   },
   "97919": {
     "titel": "Saint Seiya: Saintia Sho",
@@ -13953,18 +14971,30 @@
   },
   "97921": {
     "titel": "Dive!!",
+    "quelle": "sprachblock",
+    "englisch": "Dive!!",
     "anisearchId": 12105,
-    "fetchedAt": "2026-09-01T10:49:04.392Z"
+    "fetchedAt": "2026-09-27T18:14:32.052Z",
+    "stand": 3
   },
   "97932": {
     "titel": "The Royal Tutor",
+    "quelle": "sprachblock",
+    "englisch": "The Royal Tutor",
+    "synonyme": [
+      "Oushitsu Kyoushi Haine"
+    ],
     "anisearchId": 11870,
-    "fetchedAt": "2026-09-01T10:49:06.746Z"
+    "fetchedAt": "2026-09-27T18:14:38.985Z",
+    "stand": 3
   },
   "97933": {
     "titel": "Wake Up, Girls! New Chapter",
+    "quelle": "sprachblock",
+    "englisch": "Wake Up, Girls! New Chapter",
     "anisearchId": 12092,
-    "fetchedAt": "2026-09-01T10:49:09.095Z"
+    "fetchedAt": "2026-09-27T18:14:45.916Z",
+    "stand": 3
   },
   "97936": {
     "titel": "Masou Gakuen H×H: Love Room +",
@@ -13982,58 +15012,103 @@
   },
   "97937": {
     "titel": "Dream Festival! R",
+    "quelle": "sprachblock",
+    "englisch": "Dream Festival! R",
+    "synonyme": [
+      "Dream Festival! Season 2",
+      "Dream Festival! Second Season"
+    ],
     "anisearchId": 12147,
-    "fetchedAt": "2026-09-01T10:49:11.443Z"
+    "fetchedAt": "2026-09-27T18:14:52.815Z",
+    "stand": 3
   },
   "97939": {
     "titel": "Chronos Ruler",
+    "quelle": "sprachblock",
+    "englisch": "Chronos Ruler",
+    "synonyme": [
+      "Shi Jian Zhi Pei Zhe (时间支配者)"
+    ],
     "anisearchId": 12106,
-    "fetchedAt": "2026-09-01T10:49:13.793Z"
+    "fetchedAt": "2026-09-27T18:14:59.747Z",
+    "stand": 3
   },
   "97953": {
     "titel": "Onizushi",
+    "quelle": "ueberschrift",
     "anisearchId": 11424,
-    "fetchedAt": "2026-09-01T10:58:21.594Z"
+    "fetchedAt": "2026-09-27T18:38:11.825Z",
+    "stand": 3
   },
   "97956": {
     "titel": "Zonmi-chan: Halloween - Special Movie!",
+    "quelle": "ueberschrift",
     "anisearchId": 12050,
-    "fetchedAt": "2026-09-01T12:15:28.817Z"
+    "fetchedAt": "2026-09-27T18:51:21.365Z",
+    "stand": 3
   },
   "97958": {
     "titel": "Robot Town Sagami 2028",
+    "quelle": "ueberschrift",
+    "englisch": "Robot Town Sagami 2028",
+    "synonyme": [
+      "Sagami Robot Sangyou Tokku",
+      "さがみロボット産業特区"
+    ],
     "anisearchId": 11422,
-    "fetchedAt": "2026-09-01T10:58:23.937Z"
+    "fetchedAt": "2026-09-27T18:38:18.756Z",
+    "stand": 3
   },
   "97959": {
     "titel": "Anthea-chan",
+    "quelle": "ueberschrift",
     "anisearchId": 10706,
-    "fetchedAt": "2026-09-01T12:15:31.258Z"
+    "fetchedAt": "2026-09-27T18:51:28.287Z",
+    "stand": 3
   },
   "97965": {
     "titel": "Turnover",
+    "quelle": "ueberschrift",
     "anisearchId": 10325,
-    "fetchedAt": "2026-09-01T12:15:33.698Z"
+    "fetchedAt": "2026-09-27T18:51:35.202Z",
+    "stand": 3
   },
   "97966": {
     "titel": "Phoenix Wright: Ace Attorney - Spirit of Justice Prologue",
+    "quelle": "ueberschrift",
+    "englisch": "Phoenix Wright: Ace Attorney - Spirit of Justice Prologue",
     "anisearchId": 11735,
-    "fetchedAt": "2026-09-01T10:58:26.283Z"
+    "fetchedAt": "2026-09-27T18:38:25.650Z",
+    "stand": 3
   },
   "97967": {
     "titel": "Chiryokumaru",
+    "quelle": "ueberschrift",
     "anisearchId": 11905,
-    "fetchedAt": "2026-09-01T10:58:28.631Z"
+    "fetchedAt": "2026-09-27T18:38:32.575Z",
+    "stand": 3
   },
   "97979": {
     "titel": "Fastest Finger First",
+    "quelle": "sprachblock",
+    "englisch": "Fastest Finger First",
+    "synonyme": [
+      "7 O 3 X",
+      "7 Right",
+      "3 Wrong",
+      "7O3X Fastest Finger First"
+    ],
     "anisearchId": 12140,
-    "fetchedAt": "2026-09-01T10:49:16.150Z"
+    "fetchedAt": "2026-09-27T18:15:06.657Z",
+    "stand": 3
   },
   "97980": {
     "titel": "Re:Creators",
+    "quelle": "sprachblock",
+    "englisch": "Re:Creators",
     "anisearchId": 12137,
-    "fetchedAt": "2026-09-01T10:49:18.515Z"
+    "fetchedAt": "2026-09-27T18:15:13.585Z",
+    "stand": 3
   },
   "97983": {
     "titel": "Natsume’s Book of Friends: Staffel 6",
@@ -14051,8 +15126,14 @@
   },
   "97984": {
     "titel": "Altair: A Record of Battles",
+    "quelle": "sprachblock",
+    "englisch": "Altair: A Record of Battles",
+    "synonyme": [
+      "Project Altair"
+    ],
     "anisearchId": 12124,
-    "fetchedAt": "2026-09-01T10:49:23.231Z"
+    "fetchedAt": "2026-09-27T18:15:20.494Z",
+    "stand": 3
   },
   "97988": {
     "titel": "Drifters (2017)",
@@ -14078,8 +15159,11 @@
   },
   "97994": {
     "titel": "Blend-S",
+    "quelle": "sprachblock",
+    "englisch": "Blend-S",
     "anisearchId": 12166,
-    "fetchedAt": "2026-09-01T10:49:25.589Z"
+    "fetchedAt": "2026-09-27T18:15:27.412Z",
+    "stand": 3
   },
   "97995": {
     "titel": "Yu-No: A Girl Who Chants Love at the Bound of This World",
@@ -14132,23 +15216,48 @@
   },
   "98069": {
     "titel": "Monster Strike Staffel 2",
+    "quelle": "sprachblock",
+    "englisch": "Monster Strike the Anime 2nd Season",
+    "synonyme": [
+      "Monster Strike Anime 2017",
+      "Monster Strike Season 2"
+    ],
     "anisearchId": 12157,
-    "fetchedAt": "2026-09-01T10:49:30.289Z"
+    "fetchedAt": "2026-09-27T18:15:34.315Z",
+    "stand": 3
   },
   "98077": {
     "titel": "Tomica Hyper Rescue Drive Head: Kidou Kyuukyuu Keisatsu",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Tomica Hyper Rescue Drive Head Mobile Emergency Police"
+    ],
     "anisearchId": 12230,
-    "fetchedAt": "2026-09-01T10:49:32.636Z"
+    "fetchedAt": "2026-09-27T18:15:41.224Z",
+    "stand": 3
   },
   "98089": {
     "titel": "Mirai no Watashi",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Crew ni Narou. Campaign (クルーになろう。キャンペーン)",
+      "McDonald's Recruit Campaign",
+      "The Future Me"
+    ],
     "anisearchId": 11267,
-    "fetchedAt": "2026-09-01T10:58:30.974Z"
+    "fetchedAt": "2026-09-27T18:38:39.476Z",
+    "stand": 3
   },
   "98091": {
     "titel": "Kanojo ga Kanji o Suki na Riyuu.",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Why She Loves Kanji",
+      "Kanojo ga Kanji wo Suki na Riyuu."
+    ],
     "anisearchId": 10764,
-    "fetchedAt": "2026-09-01T12:15:36.138Z"
+    "fetchedAt": "2026-09-27T18:51:42.122Z",
+    "stand": 3
   },
   "98092": {
     "titel": "Shin-chan Spin-off: Aliens vs. Shinnosuke",
@@ -14174,48 +15283,86 @@
   },
   "98094": {
     "titel": "Monster Strike Sommer-Special: Meerjungfrauen-Rhapsodie",
+    "quelle": "sprachblock",
+    "englisch": "Monster Strike Summer Special: Mermaid Rhapsody",
     "anisearchId": 11708,
-    "fetchedAt": "2026-09-01T10:58:38.009Z"
+    "fetchedAt": "2026-09-27T18:38:46.397Z",
+    "stand": 3
   },
   "98095": {
     "titel": "Monster Strike Winter Special: Regen der Erinnerungen",
+    "quelle": "sprachblock",
+    "englisch": "Monster Strike Winter Special: Rain of Memories",
     "anisearchId": 12097,
-    "fetchedAt": "2026-09-01T10:58:40.354Z"
+    "fetchedAt": "2026-09-27T18:38:53.338Z",
+    "stand": 3
   },
   "98096": {
     "titel": "Monster Strike: Eine Zugabe und Fortsetzung - Die Büchse der Pandora",
+    "quelle": "sprachblock",
+    "englisch": "Monster Strike: An Encore and Continuance - Pandoras Box",
+    "synonyme": [
+      "Monster Strike: Zoku Saishuu-banashi Pandora no Hako"
+    ],
     "anisearchId": 12158,
-    "fetchedAt": "2026-09-01T10:58:42.700Z"
+    "fetchedAt": "2026-09-27T18:39:00.262Z",
+    "stand": 3
   },
   "98104": {
     "titel": "Chou Yuu Sekai: Being the Reality",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Chao You Shi Jie",
+      "World of Super Sand Box"
+    ],
     "anisearchId": 12180,
-    "fetchedAt": "2026-09-01T10:49:34.982Z"
+    "fetchedAt": "2026-09-27T18:15:48.133Z",
+    "stand": 3
   },
   "98105": {
     "titel": "Gijinka de Manabo!",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Learn via Anthropomorphization!"
+    ],
     "anisearchId": 12146,
-    "fetchedAt": "2026-09-01T10:58:45.044Z"
+    "fetchedAt": "2026-09-27T18:39:07.209Z",
+    "stand": 3
   },
   "98107": {
     "titel": "Idol Time Pripara",
+    "quelle": "sprachblock",
+    "englisch": "Idol Time Pripara",
     "anisearchId": 12229,
-    "fetchedAt": "2026-09-01T10:49:37.330Z"
+    "fetchedAt": "2026-09-27T18:15:55.065Z",
+    "stand": 3
   },
   "98108": {
     "titel": "Dynamic Chord",
+    "quelle": "ueberschrift",
+    "englisch": "Dynamic Chord",
     "anisearchId": 12459,
-    "fetchedAt": "2026-09-01T10:49:39.676Z"
+    "fetchedAt": "2026-09-27T18:16:01.976Z",
+    "stand": 3
   },
   "98144": {
     "titel": "Magical Circle Guru-Guru",
+    "quelle": "sprachblock",
+    "englisch": "Magical Circle Guru-Guru",
+    "synonyme": [
+      "Guruguru"
+    ],
     "anisearchId": 12398,
-    "fetchedAt": "2026-09-01T10:49:42.029Z"
+    "fetchedAt": "2026-09-27T18:16:08.894Z",
+    "stand": 3
   },
   "98149": {
     "titel": "Action Heroine Cheer Fruits",
+    "quelle": "ueberschrift",
+    "englisch": "Action Heroine Cheer Fruits",
     "anisearchId": 12424,
-    "fetchedAt": "2026-09-01T10:49:44.379Z"
+    "fetchedAt": "2026-09-27T18:16:15.804Z",
+    "stand": 3
   },
   "98153": {
     "titel": "Super Danganronpa 2.5: Komaeda Nagito to Sekai no Hakaisha",
@@ -14238,8 +15385,14 @@
   },
   "98205": {
     "titel": "Clean Freak! Aoyama kun",
+    "quelle": "sprachblock",
+    "englisch": "Clean Freak! Aoyama kun",
+    "synonyme": [
+      "Cleanliness Boy! Aoyama-kun"
+    ],
     "anisearchId": 12250,
-    "fetchedAt": "2026-09-01T10:49:49.076Z"
+    "fetchedAt": "2026-09-27T18:16:22.713Z",
+    "stand": 3
   },
   "98208": {
     "titel": "Wake up!! Tamala",
@@ -14278,8 +15431,11 @@
   },
   "98229": {
     "titel": "Future Card Buddyfight X",
+    "quelle": "ueberschrift",
+    "englisch": "Future Card Buddyfight X",
     "anisearchId": 12240,
-    "fetchedAt": "2026-09-01T10:49:51.427Z"
+    "fetchedAt": "2026-09-27T18:16:29.621Z",
+    "stand": 3
   },
   "98231": {
     "titel": "Yu-Gi-Oh! Vrains",
@@ -14296,23 +15452,47 @@
   },
   "98239": {
     "titel": "The Laughing Salesman",
+    "quelle": "sprachblock",
+    "englisch": "The Laughing Salesman",
+    "synonyme": [
+      "Laughing Salesman New",
+      "Smiling Salesman New"
+    ],
     "anisearchId": 12225,
-    "fetchedAt": "2026-09-01T10:49:56.133Z"
+    "fetchedAt": "2026-09-27T18:16:36.536Z",
+    "stand": 3
   },
   "98292": {
     "titel": "New Game!!",
+    "quelle": "sprachblock",
+    "englisch": "New Game!!",
+    "synonyme": [
+      "New Game! Season 2",
+      "New Game! Staffel 2"
+    ],
     "anisearchId": 12237,
-    "fetchedAt": "2026-09-01T10:49:58.491Z"
+    "fetchedAt": "2026-09-27T18:16:43.464Z",
+    "stand": 3
   },
   "98297": {
     "titel": "Snack World",
+    "quelle": "ueberschrift",
+    "englisch": "Snack World",
     "anisearchId": 11941,
-    "fetchedAt": "2026-09-01T10:50:00.837Z"
+    "fetchedAt": "2026-09-27T18:16:50.367Z",
+    "stand": 3
   },
   "98310": {
     "titel": "The iDOLM@STER Side M",
+    "quelle": "sprachblock",
+    "englisch": "The iDOLM@STER Side M",
+    "synonyme": [
+      "Project IM@S",
+      "The Idolmaster SideM"
+    ],
     "anisearchId": 12226,
-    "fetchedAt": "2026-09-01T10:50:03.189Z"
+    "fetchedAt": "2026-09-27T18:16:57.274Z",
+    "stand": 3
   },
   "98338": {
     "titel": "Sound! Euphonium 2 Shorts",
@@ -14334,8 +15514,14 @@
   },
   "98379": {
     "titel": "Hell Girl: Fourth Twilight",
+    "quelle": "ueberschrift",
+    "englisch": "Hell Girl: Fourth Twilight",
+    "synonyme": [
+      "Hell Girl: Evening Sky"
+    ],
     "anisearchId": 12257,
-    "fetchedAt": "2026-09-01T10:50:07.886Z"
+    "fetchedAt": "2026-09-27T18:17:04.188Z",
+    "stand": 3
   },
   "98385": {
     "titel": "After the Rain",
@@ -14359,18 +15545,37 @@
   },
   "98421": {
     "titel": "Rilu Rilu Fairilu: Mahou no Kagami",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Rilu Rilu Fairilu Season 2"
+    ],
     "anisearchId": 12231,
-    "fetchedAt": "2026-09-01T10:50:10.232Z"
+    "fetchedAt": "2026-09-27T18:17:11.094Z",
+    "stand": 3
   },
   "98425": {
     "titel": "Take My Brother Away!",
+    "quelle": "ueberschrift",
+    "englisch": "Take My Brother Away!",
+    "synonyme": [
+      "Please Take My Brother Away!"
+    ],
     "anisearchId": 12299,
-    "fetchedAt": "2026-09-01T10:50:12.579Z"
+    "fetchedAt": "2026-09-27T18:17:18.013Z",
+    "stand": 3
   },
   "98438": {
     "titel": "Hozuki’s Coolheadedness 2",
+    "quelle": "ueberschrift",
+    "englisch": "Hozuki’s Coolheadedness 2",
+    "synonyme": [
+      "Hoozuki no Reitetsu 2",
+      "Hozuki no Reitetsu 2",
+      "Hozuki’s Coolheadedness Season 2"
+    ],
     "anisearchId": 12301,
-    "fetchedAt": "2026-09-01T10:50:14.928Z"
+    "fetchedAt": "2026-09-27T18:17:24.920Z",
+    "stand": 3
   },
   "98439": {
     "titel": "Mitsuboshi Colors",
@@ -14382,8 +15587,14 @@
   },
   "98441": {
     "titel": "T-sensei",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "My teacher",
+      "Mr. T"
+    ],
     "anisearchId": 12258,
-    "fetchedAt": "2026-09-01T10:50:17.271Z"
+    "fetchedAt": "2026-09-27T18:17:31.842Z",
+    "stand": 3
   },
   "98444": {
     "titel": "Laid-Back Camp",
@@ -14407,18 +15618,31 @@
   },
   "98467": {
     "titel": "Zo Zo Zo Zombie-kun",
+    "quelle": "ueberschrift",
     "anisearchId": 12320,
-    "fetchedAt": "2026-09-01T10:50:21.958Z"
+    "fetchedAt": "2026-09-27T18:17:38.753Z",
+    "stand": 3
   },
   "98468": {
     "titel": "Lunatan: Ichimannen no Himitsu",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Lunatan: 1 Man Nen no Himitsu"
+    ],
     "anisearchId": 12311,
-    "fetchedAt": "2026-09-01T10:50:24.309Z"
+    "fetchedAt": "2026-09-27T18:17:45.671Z",
+    "stand": 3
   },
   "98472": {
     "titel": "Africa no Salaryman",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "African Office Worker",
+      "Businessman in Africa"
+    ],
     "anisearchId": 12453,
-    "fetchedAt": "2026-09-01T10:50:26.656Z"
+    "fetchedAt": "2026-09-27T18:17:52.611Z",
+    "stand": 3
   },
   "98473": {
     "titel": "Lostorage Conflated Wixoss",
@@ -14442,8 +15666,15 @@
   },
   "98478": {
     "titel": "March Comes in Like a Lion (S2)",
+    "quelle": "sprachblock",
+    "englisch": "March Comes in Like a Lion Season 2",
+    "synonyme": [
+      "3-gatsu no Lion 2",
+      "Sangatsu no Lion 2"
+    ],
     "anisearchId": 12304,
-    "fetchedAt": "2026-09-01T10:50:29.012Z"
+    "fetchedAt": "2026-09-27T18:17:59.530Z",
+    "stand": 3
   },
   "98479": {
     "titel": "Gurazeni: Money Pitch",
@@ -14455,8 +15686,14 @@
   },
   "98501": {
     "titel": "Elegant Yokai Apartment Life",
+    "quelle": "sprachblock",
+    "englisch": "Elegant Yokai Apartment Life",
+    "synonyme": [
+      "Youkai Apartment no Yuuga na Nichijou"
+    ],
     "anisearchId": 12363,
-    "fetchedAt": "2026-09-01T10:50:31.368Z"
+    "fetchedAt": "2026-09-27T18:18:06.483Z",
+    "stand": 3
   },
   "98502": {
     "titel": "Miss Kobayashi’s Dragon Something",
@@ -14481,8 +15718,14 @@
   },
   "98506": {
     "titel": "Konohana Kitan",
+    "quelle": "sprachblock",
+    "englisch": "Konohana Kitan",
+    "synonyme": [
+      "Fox Spirit Tales"
+    ],
     "anisearchId": 12376,
-    "fetchedAt": "2026-09-01T10:50:36.078Z"
+    "fetchedAt": "2026-09-27T18:18:13.415Z",
+    "stand": 3
   },
   "98507": {
     "titel": "Hand Shakers: Go ago Go",
@@ -14510,13 +15753,26 @@
   },
   "98512": {
     "titel": "18if",
+    "quelle": "ueberschrift",
+    "englisch": "18if",
+    "synonyme": [
+      "18 Anime",
+      "18 if"
+    ],
     "anisearchId": 12396,
-    "fetchedAt": "2026-09-01T10:50:40.780Z"
+    "fetchedAt": "2026-09-27T18:18:20.358Z",
+    "stand": 3
   },
   "98513": {
     "titel": "Urahara",
+    "quelle": "sprachblock",
+    "englisch": "Urahara",
+    "synonyme": [
+      "Park: Harajuku Crisis Team!"
+    ],
     "anisearchId": 12591,
-    "fetchedAt": "2026-09-01T10:50:43.127Z"
+    "fetchedAt": "2026-09-27T18:18:27.274Z",
+    "stand": 3
   },
   "98514": {
     "titel": "Umamusume: Pretty Derby",
@@ -14547,13 +15803,24 @@
   },
   "98518": {
     "titel": "Zannen Onna Kanbu Black General-san",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Precarious Woman Executive Miss Black General"
+    ],
     "anisearchId": 12690,
-    "fetchedAt": "2026-09-01T10:50:45.475Z"
+    "fetchedAt": "2026-09-27T18:18:34.216Z",
+    "stand": 3
   },
   "98519": {
     "titel": "A Centaur’s Life",
+    "quelle": "sprachblock",
+    "englisch": "A Centaur’s Life",
+    "synonyme": [
+      "Centaur’s Worries"
+    ],
     "anisearchId": 12141,
-    "fetchedAt": "2026-09-01T10:50:47.837Z"
+    "fetchedAt": "2026-09-27T18:18:41.165Z",
+    "stand": 3
   },
   "98520": {
     "titel": "Touken Ranbu: Hanamaru 2",
@@ -14568,8 +15835,15 @@
   },
   "98521": {
     "titel": "Time Bokan: The Villains’ Strike Back",
+    "quelle": "ueberschrift",
+    "englisch": "Time Bokan: The Villains’ Strike Back",
+    "synonyme": [
+      "Time Bokan: Gyakushuu no San-Okunin",
+      "Time Bokan 24 Second Season"
+    ],
     "anisearchId": 12622,
-    "fetchedAt": "2026-09-01T10:50:50.185Z"
+    "fetchedAt": "2026-09-27T18:18:48.105Z",
+    "stand": 3
   },
   "98524": {
     "titel": "Gabriel Dropout Specials",
@@ -14590,8 +15864,14 @@
   },
   "98526": {
     "titel": "Robomasters The Animated Series",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Ji Jia Dashi",
+      "机甲大师"
+    ],
     "anisearchId": 12439,
-    "fetchedAt": "2026-09-01T10:50:52.531Z"
+    "fetchedAt": "2026-09-27T18:18:55.033Z",
+    "stand": 3
   },
   "98529": {
     "titel": "Ms. Koizumi Loves Ramen Noodles",
@@ -14603,8 +15883,14 @@
   },
   "98546": {
     "titel": "ClassicaLoid 2",
+    "quelle": "ueberschrift",
+    "englisch": "ClassicaLoid 2",
+    "synonyme": [
+      "ClassicaLoid 2nd Season"
+    ],
     "anisearchId": 12380,
-    "fetchedAt": "2026-09-01T10:50:54.880Z"
+    "fetchedAt": "2026-09-27T18:19:01.968Z",
+    "stand": 3
   },
   "98549": {
     "titel": "Pop Team Epic",
@@ -14630,18 +15916,38 @@
   },
   "98556": {
     "titel": "The IDOLM@STER: Cinderella Girls Theater (Web)",
+    "quelle": "sprachblock",
+    "englisch": "The IDOLM@STER: Cinderella Girls Theater (Web)",
+    "synonyme": [
+      "Idolmaster Cinderella Girls Gekijou (Web)",
+      "The Idolmaster: Cinderella Girls Theater (Web)"
+    ],
     "anisearchId": 12399,
-    "fetchedAt": "2026-09-01T10:50:57.228Z"
+    "fetchedAt": "2026-09-27T18:19:08.902Z",
+    "stand": 3
   },
   "98565": {
     "titel": "Mr. Osomatsu: Staffel 2",
+    "quelle": "sprachblock",
+    "englisch": "Mr. Osomatsu 2nd season",
+    "synonyme": [
+      "Osomatsu-san 2nd Season"
+    ],
     "anisearchId": 12394,
-    "fetchedAt": "2026-09-01T10:50:59.577Z"
+    "fetchedAt": "2026-09-27T18:19:15.844Z",
+    "stand": 3
   },
   "98572": {
     "titel": "Himouto! Umaru-chan R",
+    "quelle": "ueberschrift",
+    "englisch": "Himouto! Umaru-chan R",
+    "synonyme": [
+      "Himouto! Umaru-chan (2017)",
+      "Himouto! Umaru-chan 2"
+    ],
     "anisearchId": 12400,
-    "fetchedAt": "2026-09-01T10:51:01.931Z"
+    "fetchedAt": "2026-09-27T18:19:22.787Z",
+    "stand": 3
   },
   "98573": {
     "titel": "Soutai Sekai",
@@ -14666,33 +15972,63 @@
   },
   "98578": {
     "titel": "Sakura Internet",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Sakura Internet Rebirth",
+      "Sakura Internet Shinsei (さくらインターネット新生)"
+    ],
     "anisearchId": 12193,
-    "fetchedAt": "2026-09-01T10:51:06.630Z"
+    "fetchedAt": "2026-09-27T18:19:29.706Z",
+    "stand": 3
   },
   "98579": {
     "titel": "Henkei Shoujo",
+    "quelle": "ueberschrift",
+    "englisch": "Henkei Shoujo",
+    "synonyme": [
+      "Henkei Girls",
+      "Transforming Girls"
+    ],
     "anisearchId": 12401,
-    "fetchedAt": "2026-09-01T10:51:08.981Z"
+    "fetchedAt": "2026-09-27T18:19:36.642Z",
+    "stand": 3
   },
   "98595": {
     "titel": "Kakuchou Shoujo Kei Trinary",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Augmented Reality Girls Trinary"
+    ],
     "anisearchId": 11794,
-    "fetchedAt": "2026-09-01T10:51:11.327Z"
+    "fetchedAt": "2026-09-27T18:19:43.574Z",
+    "stand": 3
   },
   "98596": {
     "titel": "A Sister’s All You Need.",
+    "quelle": "sprachblock",
+    "englisch": "A Sister’s All You Need.",
+    "synonyme": [
+      "Imosae",
+      "I’d Be Good If Only Little Sister Was Here"
+    ],
     "anisearchId": 12406,
-    "fetchedAt": "2026-09-01T10:51:13.688Z"
+    "fetchedAt": "2026-09-27T18:19:50.537Z",
+    "stand": 3
   },
   "98607": {
     "titel": "Anime-Gataris",
+    "quelle": "ueberschrift",
+    "englisch": "Anime-Gataris",
     "anisearchId": 12440,
-    "fetchedAt": "2026-09-01T10:51:16.035Z"
+    "fetchedAt": "2026-09-27T18:19:57.464Z",
+    "stand": 3
   },
   "98611": {
     "titel": "Dekiru ka na",
+    "quelle": "ueberschrift",
     "anisearchId": 12737,
-    "fetchedAt": "2026-09-01T10:51:18.379Z"
+    "fetchedAt": "2026-09-27T18:20:04.422Z",
+    "stand": 3
   },
   "98621": {
     "titel": "Seven Mortal Sins Mini Episoden (Teil 2)",
@@ -14716,8 +16052,10 @@
   },
   "98628": {
     "titel": "Jingisukan no Jin-kun",
+    "quelle": "ueberschrift",
     "anisearchId": 12736,
-    "fetchedAt": "2026-09-01T10:51:23.075Z"
+    "fetchedAt": "2026-09-27T18:20:11.342Z",
+    "stand": 3
   },
   "98629": {
     "titel": "Shingeki no Bahamut: Genesis - Short Story",
@@ -14731,28 +16069,47 @@
   },
   "98630": {
     "titel": "Code: Realize - Guardian of Rebirth",
+    "quelle": "sprachblock",
+    "englisch": "Code: Realize - Guardian of Rebirth",
     "anisearchId": 10724,
-    "fetchedAt": "2026-09-01T10:51:27.775Z"
+    "fetchedAt": "2026-09-27T18:20:18.252Z",
+    "stand": 3
   },
   "98631": {
     "titel": "Convenience Store Boy Friends",
+    "quelle": "sprachblock",
+    "englisch": "Convenience Store Boy Friends",
+    "synonyme": [
+      "Convenience Store Boyfriends"
+    ],
     "anisearchId": 12423,
-    "fetchedAt": "2026-09-01T10:51:30.128Z"
+    "fetchedAt": "2026-09-27T18:20:25.206Z",
+    "stand": 3
   },
   "98632": {
     "titel": "Nui Nui Hinobori San Kyoudai",
+    "quelle": "ueberschrift",
     "anisearchId": 12471,
-    "fetchedAt": "2026-09-01T10:51:32.474Z"
+    "fetchedAt": "2026-09-27T18:20:32.114Z",
+    "stand": 3
   },
   "98638": {
     "titel": "Kuruneko (2017)",
+    "quelle": "ueberschrift",
     "anisearchId": 12733,
-    "fetchedAt": "2026-09-01T10:51:34.821Z"
+    "fetchedAt": "2026-09-27T18:20:39.051Z",
+    "stand": 3
   },
   "98655": {
     "titel": "Karada Sagashi",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Body Search",
+      "re:member"
+    ],
     "anisearchId": 12447,
-    "fetchedAt": "2026-09-01T10:51:37.171Z"
+    "fetchedAt": "2026-09-27T18:20:45.958Z",
+    "stand": 3
   },
   "98658": {
     "titel": "Revue Starlight",
@@ -14772,8 +16129,13 @@
   },
   "98697": {
     "titel": "Kemono Friends: Bus-teki",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Kemono Friends Episode 12.1"
+    ],
     "anisearchId": 12407,
-    "fetchedAt": "2026-09-01T10:51:39.516Z"
+    "fetchedAt": "2026-09-27T18:20:52.895Z",
+    "stand": 3
   },
   "98702": {
     "titel": "Food Wars! The Second Plate OVA",
@@ -14814,8 +16176,10 @@
   },
   "98739": {
     "titel": "Seizei Ganbare! Mahou Shoujo Kurumi",
+    "quelle": "ueberschrift",
     "anisearchId": 12475,
-    "fetchedAt": "2026-09-01T10:51:41.862Z"
+    "fetchedAt": "2026-09-27T18:20:59.815Z",
+    "stand": 3
   },
   "98744": {
     "titel": "Crayon Shinchan the Movie: My Moving Story Cactus Attack",
@@ -14855,8 +16219,11 @@
   },
   "98751": {
     "titel": "Folktales from Japan Season 2",
+    "quelle": "ueberschrift",
+    "englisch": "Folktales from Japan Season 2",
     "anisearchId": 12393,
-    "fetchedAt": "2026-09-01T10:51:44.208Z"
+    "fetchedAt": "2026-09-27T18:21:06.752Z",
+    "stand": 3
   },
   "98785": {
     "titel": "Cure Miracle to Mofurun no Mahou Lesson!",
@@ -14872,13 +16239,26 @@
   },
   "98791": {
     "titel": "MSonic! Eine Rhapsodie namens Lucy: Der allererste Song",
+    "quelle": "sprachblock",
+    "englisch": "MSonic! A Rhapsody Called Lucy: The Very First Song",
+    "synonyme": [
+      "MSonic! Episode 0",
+      "Monster Strike 2: Golden Week Special"
+    ],
     "anisearchId": 12457,
-    "fetchedAt": "2026-09-01T10:51:46.553Z"
+    "fetchedAt": "2026-09-27T18:21:13.673Z",
+    "stand": 3
   },
   "98846": {
     "titel": "MSonic!",
+    "quelle": "sprachblock",
+    "englisch": "MSonic!",
+    "synonyme": [
+      "Monster Sonic! D’Artagnyan’s Rise to Fame"
+    ],
     "anisearchId": 12549,
-    "fetchedAt": "2026-09-01T10:51:48.899Z"
+    "fetchedAt": "2026-09-27T18:21:20.628Z",
+    "stand": 3
   },
   "98860": {
     "titel": "IS: Infinite Stratos 2 - Infinite Wedding Picture Drama",
@@ -14917,8 +16297,14 @@
   },
   "98872": {
     "titel": "Marvel Future Avengers",
+    "quelle": "ueberschrift",
+    "englisch": "Marvel Future Avengers",
+    "synonyme": [
+      "Marvel’s Future Avengers"
+    ],
     "anisearchId": 12253,
-    "fetchedAt": "2026-09-01T10:51:51.253Z"
+    "fetchedAt": "2026-09-27T18:21:27.548Z",
+    "stand": 3
   },
   "98875": {
     "titel": "Fire Craft",
@@ -14953,28 +16339,54 @@
   },
   "98951": {
     "titel": "My Girlfriend Is a Faithful Virgin Bitch",
+    "quelle": "sprachblock",
+    "englisch": "My Girlfriend Is Shobitch",
+    "synonyme": [
+      "Boku no Kanojo ga Majimesugiru Sho-bitch na Ken",
+      "My Girlfriend Is Too Much To Handle",
+      "My Girlfriend is a Virgin who Takes Being Slutty too Seriously"
+    ],
     "anisearchId": 12603,
-    "fetchedAt": "2026-09-01T10:51:53.610Z"
+    "fetchedAt": "2026-09-27T18:21:34.476Z",
+    "stand": 3
   },
   "98959": {
     "titel": "Neko ga Kureta Marui Shiawase",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "The Round Happiness a Cat Gave"
+    ],
     "anisearchId": 12509,
-    "fetchedAt": "2026-09-01T10:51:55.956Z"
+    "fetchedAt": "2026-09-27T18:21:41.399Z",
+    "stand": 3
   },
   "98964": {
     "titel": "Four Seasons: Fuuka and Nanami -Master of Torque- Spin-off Episode",
+    "quelle": "sprachblock",
+    "englisch": "Four Seasons: Fuuka and Nanami -Master of Torque- Spin-off Episode",
     "anisearchId": 11384,
-    "fetchedAt": "2026-09-01T12:15:38.582Z"
+    "fetchedAt": "2026-09-27T18:51:49.048Z",
+    "stand": 3
   },
   "98966": {
     "titel": "Hey, President Trap-kun!",
+    "quelle": "ueberschrift",
+    "englisch": "Hey, President Trap-kun!",
     "anisearchId": 12482,
-    "fetchedAt": "2026-09-01T10:51:58.302Z"
+    "fetchedAt": "2026-09-27T18:21:48.305Z",
+    "stand": 3
   },
   "98977": {
     "titel": "Our Love Has Always Been 10 Centimeters Apart.",
+    "quelle": "sprachblock",
+    "englisch": "Our Love Has Always Been 10 Centimeters Apart.",
+    "synonyme": [
+      "Honeyworks",
+      "Kokuhaku Jikkouiinkai"
+    ],
     "anisearchId": 12526,
-    "fetchedAt": "2026-09-01T10:52:00.655Z"
+    "fetchedAt": "2026-09-27T18:21:55.236Z",
+    "stand": 3
   },
   "98999": {
     "titel": "UQ Holder! OVAs",
@@ -14997,13 +16409,17 @@
   },
   "99001": {
     "titel": "Chou Kidou Gaiku: Kashiwa-no-Ha - The Gate Tower",
+    "quelle": "ueberschrift",
     "anisearchId": 10830,
-    "fetchedAt": "2026-09-01T12:15:41.022Z"
+    "fetchedAt": "2026-09-27T18:51:55.952Z",
+    "stand": 3
   },
   "99002": {
     "titel": "Trigger-chan",
+    "quelle": "ueberschrift",
     "anisearchId": 11865,
-    "fetchedAt": "2026-09-01T10:58:47.387Z"
+    "fetchedAt": "2026-09-27T18:39:14.126Z",
+    "stand": 3
   },
   "99059": {
     "titel": "Inazuma Eleven: Outer Code",
@@ -15036,8 +16452,13 @@
   },
   "99112": {
     "titel": "Chuuko Video-ya no Onna Ten’in X",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Used Video Shop's Female Shop Clerk X"
+    ],
     "anisearchId": 12875,
-    "fetchedAt": "2026-09-01T10:58:52.082Z"
+    "fetchedAt": "2026-09-27T18:39:21.054Z",
+    "stand": 3
   },
   "99148": {
     "titel": "The Silver Guardian 2",
@@ -15052,13 +16473,21 @@
   },
   "99214": {
     "titel": "Choujuu Giga",
+    "quelle": "ueberschrift",
     "anisearchId": 11995,
-    "fetchedAt": "2026-09-01T10:58:54.426Z"
+    "fetchedAt": "2026-09-27T18:39:27.978Z",
+    "stand": 3
   },
   "99217": {
     "titel": "Taiko no Tatsujin: 15-shuunen Kinen Short Animation",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Taiko: Drum Master",
+      "Taiko no Tatsujin: Juugo Shuunenkinen Short Animation"
+    ],
     "anisearchId": 11136,
-    "fetchedAt": "2026-09-01T12:15:43.465Z"
+    "fetchedAt": "2026-09-27T18:52:02.878Z",
+    "stand": 3
   },
   "99363": {
     "titel": "Natsume’s Book of Friends: Staffel 5 OVAs",
@@ -15203,8 +16632,13 @@
   },
   "99582": {
     "titel": "Guruguru Petit Anime Gekijou",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Mahoujin Guru Guru Petit Anime Theater"
+    ],
     "anisearchId": 12666,
-    "fetchedAt": "2026-09-01T10:52:03.000Z"
+    "fetchedAt": "2026-09-27T18:22:02.159Z",
+    "stand": 3
   },
   "99624": {
     "titel": "Kemono Friends 2",
@@ -15312,8 +16746,11 @@
   },
   "99733": {
     "titel": "Cardfight!! Vanguard G Z",
+    "quelle": "ueberschrift",
+    "englisch": "Cardfight!! Vanguard G Z",
     "anisearchId": 12673,
-    "fetchedAt": "2026-09-01T10:52:12.394Z"
+    "fetchedAt": "2026-09-27T18:22:09.064Z",
+    "stand": 3
   },
   "99748": {
     "titel": "Hakumei & Mikochi",
@@ -15329,8 +16766,13 @@
   },
   "99790": {
     "titel": "Uma no Friends",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Horse Friends"
+    ],
     "anisearchId": 12780,
-    "fetchedAt": "2026-09-01T10:52:14.738Z"
+    "fetchedAt": "2026-09-27T18:22:15.981Z",
+    "stand": 3
   },
   "99807": {
     "titel": "22/7",
@@ -15347,8 +16789,14 @@
   },
   "99945": {
     "titel": "Kemono Friends × Anisama 2017 &quot;Anisama&quot;",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Kemono Friends: Proper Concert Behavior Short",
+      "Kemono Friends x Anisama 2017 \"Anisama\""
+    ],
     "anisearchId": 12842,
-    "fetchedAt": "2026-09-01T10:52:17.082Z"
+    "fetchedAt": "2026-09-27T18:22:22.901Z",
+    "stand": 3
   },
   "99963": {
     "titel": "Libra of Nil Admirari",
@@ -15362,9 +16810,14 @@
     "stand": 3
   },
   "99966": {
-    "titel": "Shirotan: Shirotan ga Ippai!",
+    "titel": "Sirotan: Sirotan ga Ippai!",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Shirotan: Shirotan ga Ippai!"
+    ],
     "anisearchId": 12739,
-    "fetchedAt": "2026-09-01T10:52:19.428Z"
+    "fetchedAt": "2026-09-27T18:22:29.819Z",
+    "stand": 3
   },
   "100083": {
     "titel": "Butlers × Battlers",
@@ -15384,8 +16837,11 @@
   },
   "100168": {
     "titel": "Prolog: 2022 - Blackout",
+    "quelle": "sprachblock",
+    "englisch": "Blade Runner: Black Out 2022",
     "anisearchId": 12812,
-    "fetchedAt": "2026-09-01T10:52:21.786Z"
+    "fetchedAt": "2026-09-27T18:22:36.742Z",
+    "stand": 3
   },
   "100180": {
     "titel": "Shoujo Shuumatsu Jugyou",
@@ -15424,8 +16880,15 @@
   },
   "100225": {
     "titel": "The IDOLM@STER: Cinderella Girls Theater 2 (Web)",
+    "quelle": "sprachblock",
+    "englisch": "The IDOLM@STER: Cinderella Girls Theater 2 (Web)",
+    "synonyme": [
+      "Idolmaster Cinderella Girls Gekijou 2 (Web)",
+      "The Idolmaster: Cinderella Girls Theater 2 (Web)"
+    ],
     "anisearchId": 12861,
-    "fetchedAt": "2026-09-01T10:52:24.131Z"
+    "fetchedAt": "2026-09-27T18:22:43.665Z",
+    "stand": 3
   },
   "100245": {
     "titel": "Beatless",
@@ -15445,8 +16908,11 @@
   },
   "100255": {
     "titel": "Onyankopon",
+    "quelle": "sprachblock",
+    "englisch": "Onyankopon",
     "anisearchId": 12722,
-    "fetchedAt": "2026-09-01T10:52:26.477Z"
+    "fetchedAt": "2026-09-27T18:22:50.585Z",
+    "stand": 3
   },
   "100256": {
     "titel": "Maho Yome",
@@ -15455,8 +16921,15 @@
   },
   "100262": {
     "titel": "Monster Strike The Anime: The Fading Cosmos",
+    "quelle": "sprachblock",
+    "englisch": "Monster Strike The Anime: The Fading Cosmos",
+    "synonyme": [
+      "Monster Strike Anime 2017 The Fading Cosmos",
+      "Monster Strike Season 3"
+    ],
     "anisearchId": 12757,
-    "fetchedAt": "2026-09-01T10:52:28.823Z"
+    "fetchedAt": "2026-09-27T18:22:57.502Z",
+    "stand": 3
   },
   "100280": {
     "titel": "Starmyu Season 3",
@@ -15536,13 +17009,22 @@
   },
   "100328": {
     "titel": "Nissin no Donbei × Kemono Friends",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Fukkura",
+      "Nissin no Donbei x Kemono Friends"
+    ],
     "anisearchId": 12845,
-    "fetchedAt": "2026-09-01T10:52:31.168Z"
+    "fetchedAt": "2026-09-27T18:23:04.449Z",
+    "stand": 3
   },
   "100339": {
     "titel": "Milpom",
+    "quelle": "ueberschrift",
+    "englisch": "Milpom",
     "anisearchId": 10918,
-    "fetchedAt": "2026-09-01T12:15:45.904Z"
+    "fetchedAt": "2026-09-27T18:52:09.790Z",
+    "stand": 3
   },
   "100382": {
     "titel": "My Sister, My Writer",
@@ -15607,13 +17089,21 @@
   },
   "100517": {
     "titel": "Baito-saki wa „Aku no Soshiki“!?",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "My Part-Time Job Is at an “Evil Organization”?!"
+    ],
     "anisearchId": 12986,
-    "fetchedAt": "2026-09-01T10:52:33.517Z"
+    "fetchedAt": "2026-09-27T18:23:11.354Z",
+    "stand": 3
   },
   "100522": {
     "titel": "Azure Striker Gunvolt",
+    "quelle": "ueberschrift",
+    "englisch": "Azure Striker Gunvolt",
     "anisearchId": 11599,
-    "fetchedAt": "2026-09-01T10:52:35.863Z"
+    "fetchedAt": "2026-09-27T18:23:18.303Z",
+    "stand": 3
   },
   "100526": {
     "titel": "Real Girl",
@@ -15689,8 +17179,11 @@
   },
   "100656": {
     "titel": "Sorcery in the Big City",
+    "quelle": "sprachblock",
+    "englisch": "Sorcery in the Big City",
     "anisearchId": 13072,
-    "fetchedAt": "2026-09-01T10:52:38.210Z"
+    "fetchedAt": "2026-09-27T18:23:25.210Z",
+    "stand": 3
   },
   "100661": {
     "titel": "Hugtto! Precure",
@@ -15816,13 +17309,24 @@
   },
   "100791": {
     "titel": "Yuki Yuna Is a Hero: The Washio Sumi Chapter",
+    "quelle": "sprachblock",
+    "englisch": "Yuki Yuna Is a Hero: The Washio Sumi Chapter",
     "anisearchId": 13573,
-    "fetchedAt": "2026-09-01T10:52:40.557Z"
+    "fetchedAt": "2026-09-27T18:23:32.153Z",
+    "stand": 3
   },
   "100812": {
     "titel": "Qiang Niang",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Gun Girls",
+      "Juu Musume: Gungirl (銃娘: ガンガール)",
+      "Qiang Niang FIRE",
+      "Gun Girl"
+    ],
     "anisearchId": 12858,
-    "fetchedAt": "2026-09-01T10:52:42.901Z"
+    "fetchedAt": "2026-09-27T18:23:39.051Z",
+    "stand": 3
   },
   "100814": {
     "titel": "Cutie Honey Universe",
@@ -15935,28 +17439,45 @@
   },
   "101001": {
     "titel": "Asobi Asobase: Workshop of Fun",
+    "quelle": "sprachblock",
+    "englisch": "Asobi Asobase: Workshop of Fun",
+    "synonyme": [
+      "Play and Let Play"
+    ],
     "anisearchId": 13273,
-    "fetchedAt": "2026-08-31T16:45:10.449Z"
+    "fetchedAt": "2026-09-27T17:57:34.168Z",
+    "stand": 3
   },
   "101013": {
     "titel": "Anima Yell!",
+    "quelle": "sprachblock",
+    "englisch": "Anima Yell!",
     "anisearchId": 13282,
-    "fetchedAt": "2026-08-31T16:45:12.805Z"
+    "fetchedAt": "2026-09-27T17:57:41.112Z",
+    "stand": 3
   },
   "101014": {
     "titel": "Release the Spyce",
+    "quelle": "ueberschrift",
+    "englisch": "Release the Spyce",
     "anisearchId": 13289,
-    "fetchedAt": "2026-08-31T16:45:15.163Z"
+    "fetchedAt": "2026-09-27T17:57:48.039Z",
+    "stand": 3
   },
   "101024": {
     "titel": "Radiant",
+    "quelle": "sprachblock",
+    "englisch": "Radiant",
     "anisearchId": 13297,
-    "fetchedAt": "2026-08-31T16:45:17.530Z"
+    "fetchedAt": "2026-09-27T17:57:54.992Z",
+    "stand": 3
   },
   "101034": {
     "titel": "Keifuku-san",
+    "quelle": "ueberschrift",
     "anisearchId": 13156,
-    "fetchedAt": "2026-09-01T10:52:45.245Z"
+    "fetchedAt": "2026-09-27T18:23:45.983Z",
+    "stand": 3
   },
   "101036": {
     "titel": "Gundam Build Divers",
@@ -15968,28 +17489,52 @@
   },
   "101037": {
     "titel": "Chichibu de Buchichi",
+    "quelle": "ueberschrift",
     "anisearchId": 13271,
-    "fetchedAt": "2026-08-31T16:45:22.233Z"
+    "fetchedAt": "2026-09-27T17:58:01.916Z",
+    "stand": 3
   },
   "101043": {
     "titel": "Aikatsu Friends!",
+    "quelle": "ueberschrift",
     "anisearchId": 13284,
-    "fetchedAt": "2026-08-31T16:45:24.590Z"
+    "fetchedAt": "2026-09-27T17:58:08.855Z",
+    "stand": 3
   },
   "101044": {
     "titel": "Last Period: The Journey to the End of the Despair",
+    "quelle": "sprachblock",
+    "englisch": "Last Period: The Journey to the End of the Despair",
+    "synonyme": [
+      "Last Period: A story of an endless spiral",
+      "ラストピリオド -終わりなき螺旋の物語-"
+    ],
     "anisearchId": 13319,
-    "fetchedAt": "2026-08-31T16:45:26.949Z"
+    "fetchedAt": "2026-09-27T17:58:15.806Z",
+    "stand": 3
   },
   "101045": {
     "titel": "Hanebado!",
+    "quelle": "sprachblock",
+    "englisch": "Hanebado!",
+    "synonyme": [
+      "The Badminton Play of Ayano Hanesaki!"
+    ],
     "anisearchId": 13318,
-    "fetchedAt": "2026-08-31T16:45:29.310Z"
+    "fetchedAt": "2026-09-27T17:58:22.753Z",
+    "stand": 3
   },
   "101046": {
     "titel": "Cute High Earth Defense Club Happy Kiss!",
+    "quelle": "sprachblock",
+    "englisch": "Cute High Earth Defense Club Happy Kiss!",
+    "synonyme": [
+      "Boueibu Season 3",
+      "Handsome High School Earth Defense Club Happy Kiss!"
+    ],
     "anisearchId": 13170,
-    "fetchedAt": "2026-08-31T16:45:31.663Z"
+    "fetchedAt": "2026-09-27T17:58:29.674Z",
+    "stand": 3
   },
   "101078": {
     "titel": "Infini-T Force: Farewell, Friend",
@@ -16015,23 +17560,46 @@
   },
   "101084": {
     "titel": "Dies Irae: Irasshai Zonnenji",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Dies Irae Picture Drama",
+      "Dies Irae Radio Drama"
+    ],
     "anisearchId": 16283,
-    "fetchedAt": "2026-09-01T10:52:47.589Z"
+    "fetchedAt": "2026-09-27T18:23:52.887Z",
+    "stand": 3
   },
   "101085": {
     "titel": "Dies Irae (Staffel 2)",
+    "quelle": "sprachblock",
+    "englisch": "Dies Irae (Season 2)",
+    "synonyme": [
+      "Dies Irae ONA: Day of Wrath",
+      "Dies Irae: To the Ring Reincarnation"
+    ],
     "anisearchId": 13143,
-    "fetchedAt": "2026-08-31T16:45:36.367Z"
+    "fetchedAt": "2026-09-27T17:58:36.614Z",
+    "stand": 3
   },
   "101086": {
     "titel": "Kokuhaku",
+    "quelle": "ueberschrift",
     "anisearchId": 13215,
-    "fetchedAt": "2026-09-01T12:15:48.349Z"
+    "fetchedAt": "2026-09-27T18:52:16.720Z",
+    "stand": 3
   },
   "101089": {
     "titel": "Moshimoshi, Terumi desu.",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Hello",
+      "Terumi Speaking",
+      "Hello",
+      "This is Terumi."
+    ],
     "anisearchId": 13310,
-    "fetchedAt": "2026-08-31T16:45:38.716Z"
+    "fetchedAt": "2026-09-27T17:58:43.536Z",
+    "stand": 3
   },
   "101094": {
     "titel": "Kirby 3D",
@@ -16074,8 +17642,11 @@
   },
   "101125": {
     "titel": "Merc StoriA",
+    "quelle": "sprachblock",
+    "englisch": "Merc StoriA: The Apathetic Boy and the Girl in a Bottle",
     "anisearchId": 13296,
-    "fetchedAt": "2026-08-31T16:45:41.069Z"
+    "fetchedAt": "2026-09-27T17:58:50.472Z",
+    "stand": 3
   },
   "101126": {
     "titel": "Gekijouban Macross Delta: Gekijou no Walküre",
@@ -16089,8 +17660,14 @@
   },
   "101161": {
     "titel": "Mr. Tonegawa Middle Management Blues!",
+    "quelle": "sprachblock",
+    "englisch": "Mr. Tonegawa Middle Management Blues!",
+    "synonyme": [
+      "Middle Manager Tonegawa"
+    ],
     "anisearchId": 13344,
-    "fetchedAt": "2026-08-31T16:45:43.425Z"
+    "fetchedAt": "2026-09-27T17:58:57.397Z",
+    "stand": 3
   },
   "101168": {
     "titel": "Plunderer",
@@ -16105,8 +17682,14 @@
   },
   "101169": {
     "titel": "IDOLiSH7: Vibrato",
+    "quelle": "sprachblock",
+    "englisch": "IDOLiSH7: Vibrato",
+    "synonyme": [
+      "IDOLiSH7: YouTube Originals"
+    ],
     "anisearchId": 13348,
-    "fetchedAt": "2026-08-31T16:45:45.773Z"
+    "fetchedAt": "2026-09-27T17:59:04.337Z",
+    "stand": 3
   },
   "101179": {
     "titel": "’84 Taegwon V",
@@ -16176,8 +17759,11 @@
   },
   "101228": {
     "titel": "Zoids Wild",
+    "quelle": "ueberschrift",
+    "englisch": "Zoids Wild",
     "anisearchId": 13497,
-    "fetchedAt": "2026-08-31T16:45:48.124Z"
+    "fetchedAt": "2026-09-27T17:59:11.263Z",
+    "stand": 3
   },
   "101239": {
     "titel": "Ahiru no Sora",
@@ -16195,8 +17781,10 @@
   },
   "101248": {
     "titel": "Kataribe Shoujo Honoka",
+    "quelle": "ueberschrift",
     "anisearchId": 10705,
-    "fetchedAt": "2026-09-01T12:15:50.792Z"
+    "fetchedAt": "2026-09-27T18:52:23.624Z",
+    "stand": 3
   },
   "101261": {
     "titel": "Sarazanmai",
@@ -16207,44 +17795,82 @@
     "stand": 3
   },
   "101289": {
-    "titel": "The Master of Ragnarok &amp; Blesser of Einherjar",
+    "titel": "The Master of Ragnarok & Blesser of Einherjar",
+    "quelle": "sprachblock",
+    "englisch": "The Master of Ragnarok & Blesser of Einherjar",
+    "synonyme": [
+      "Hyakuren no Haou to Seiyaku no Ikusa Otome"
+    ],
     "anisearchId": 13450,
-    "fetchedAt": "2026-08-31T16:45:50.486Z"
+    "fetchedAt": "2026-09-27T17:59:18.209Z",
+    "stand": 3
   },
   "101290": {
     "titel": "Tenka Touitsu Koi no Ran: Shutsujin! Saika 4-nin Shuu",
+    "quelle": "ueberschrift",
     "anisearchId": 13498,
-    "fetchedAt": "2026-08-31T16:45:52.836Z"
+    "fetchedAt": "2026-09-27T17:59:25.127Z",
+    "stand": 3
   },
   "101292": {
     "titel": "Holmes of Kyoto",
+    "quelle": "sprachblock",
+    "englisch": "Holmes of Kyoto",
+    "synonyme": [
+      "Holmes at Kyoto Teramachi Sanjou"
+    ],
     "anisearchId": 13464,
-    "fetchedAt": "2026-08-31T16:45:55.203Z"
+    "fetchedAt": "2026-09-27T17:59:32.048Z",
+    "stand": 3
   },
   "101309": {
     "titel": "Music Girls",
+    "quelle": "sprachblock",
+    "englisch": "Music Girls",
     "anisearchId": 13474,
-    "fetchedAt": "2026-08-31T16:45:57.555Z"
+    "fetchedAt": "2026-09-27T17:59:38.969Z",
+    "stand": 3
   },
   "101310": {
     "titel": "Boarding School Juliet",
+    "quelle": "sprachblock",
+    "englisch": "Boarding School Juliet",
+    "synonyme": [
+      "Romio vs Juliet"
+    ],
     "anisearchId": 13473,
-    "fetchedAt": "2026-08-31T16:45:59.917Z"
+    "fetchedAt": "2026-09-27T17:59:45.905Z",
+    "stand": 3
   },
   "101313": {
     "titel": "Ace Attorney: Staffel 2",
+    "quelle": "sprachblock",
+    "englisch": "Ace Attorney: Season 2",
     "anisearchId": 13479,
-    "fetchedAt": "2026-08-31T16:46:02.273Z"
+    "fetchedAt": "2026-09-27T17:59:52.833Z",
+    "stand": 3
   },
   "101318": {
-    "titel": "Double Decker! Doug &amp; Kirill",
+    "titel": "Double Decker! Doug & Kirill",
+    "quelle": "sprachblock",
+    "englisch": "Double Decker! Doug & Kirill",
+    "synonyme": [
+      "Double Decker! Doug and Kirill"
+    ],
     "anisearchId": 13478,
-    "fetchedAt": "2026-08-31T16:46:04.637Z"
+    "fetchedAt": "2026-09-27T17:59:59.746Z",
+    "stand": 3
   },
   "101336": {
     "titel": "Karakuri Circus",
+    "quelle": "sprachblock",
+    "englisch": "Karakuri Circus",
+    "synonyme": [
+      "Le Cirque de Karakuri"
+    ],
     "anisearchId": 13459,
-    "fetchedAt": "2026-08-31T16:46:07.004Z"
+    "fetchedAt": "2026-09-27T18:00:06.676Z",
+    "stand": 3
   },
   "101339": {
     "titel": "Eureka Seven AO Final Episode: One More Time - Lord Don&#039;t Slow Me Down",
@@ -16254,9 +17880,15 @@
     "stand": 3
   },
   "101340": {
-    "titel": "Muhyo &amp; Roji’s Bureau of Supernatural Investigation",
+    "titel": "Muhyo & Roji’s Bureau of Supernatural Investigation",
+    "quelle": "sprachblock",
+    "englisch": "Muhyo & Roji’s Bureau of Supernatural Investigation",
+    "synonyme": [
+      "Muhyo to Roujii no Mahouritsu Soudan Jimusho"
+    ],
     "anisearchId": 13477,
-    "fetchedAt": "2026-08-31T16:46:09.370Z"
+    "fetchedAt": "2026-09-27T18:00:13.598Z",
+    "stand": 3
   },
   "101345": {
     "titel": "City Hunter: Shinjuku Private Eyes",
@@ -16271,18 +17903,35 @@
   },
   "101351": {
     "titel": "Happy Sugar Life",
+    "quelle": "sprachblock",
+    "englisch": "Happy Sugar Life",
     "anisearchId": 13496,
-    "fetchedAt": "2026-08-31T16:46:11.742Z"
+    "fetchedAt": "2026-09-27T18:00:20.523Z",
+    "stand": 3
   },
   "101359": {
     "titel": "Million Arthur",
+    "quelle": "ueberschrift",
+    "englisch": "Million Arthur",
+    "synonyme": [
+      "Hangyakusei Million Arthur",
+      "Operation Han-Gyaku-Sei Million Arthur"
+    ],
     "anisearchId": 13501,
-    "fetchedAt": "2026-08-31T16:46:14.092Z"
+    "fetchedAt": "2026-09-27T18:00:27.433Z",
+    "stand": 3
   },
   "101360": {
     "titel": "The Girl in Twilight",
+    "quelle": "ueberschrift",
+    "englisch": "The Girl in Twilight",
+    "synonyme": [
+      "Animax 20th Anniversary Commemorative Project",
+      "Girl Glowing Red"
+    ],
     "anisearchId": 13506,
-    "fetchedAt": "2026-08-31T16:46:16.447Z"
+    "fetchedAt": "2026-09-27T18:00:34.344Z",
+    "stand": 3
   },
   "101367": {
     "titel": "Sorcerous Stabber Orphen",
@@ -16297,18 +17946,33 @@
   },
   "101368": {
     "titel": "Planet With",
+    "quelle": "sprachblock",
+    "englisch": "Planet With",
     "anisearchId": 13507,
-    "fetchedAt": "2026-08-31T16:46:18.805Z"
+    "fetchedAt": "2026-09-27T18:00:41.267Z",
+    "stand": 3
   },
   "101371": {
     "titel": "Ms. Vampire Who Lives in My Neighborhood.",
+    "quelle": "sprachblock",
+    "englisch": "Ms. Vampire Who Lives in My Neighborhood.",
+    "synonyme": [
+      "Miss Vampire Who Lives in My Neighborhood"
+    ],
     "anisearchId": 13509,
-    "fetchedAt": "2026-08-31T16:46:21.165Z"
+    "fetchedAt": "2026-09-27T18:00:48.185Z",
+    "stand": 3
   },
   "101373": {
     "titel": "Bakumatsu",
+    "quelle": "ueberschrift",
+    "englisch": "Bakumatsu",
+    "synonyme": [
+      "Bakumatsu: Renai Bakumatsu Kareshi Gaiden"
+    ],
     "anisearchId": 13511,
-    "fetchedAt": "2026-08-31T16:46:23.515Z"
+    "fetchedAt": "2026-09-27T18:00:55.093Z",
+    "stand": 3
   },
   "101379": {
     "titel": "Pastel Memories",
@@ -16323,28 +17987,51 @@
   },
   "101380": {
     "titel": "The Thousand Noble Musketeers",
+    "quelle": "sprachblock",
+    "englisch": "The Thousand Musketeers",
     "anisearchId": 13522,
-    "fetchedAt": "2026-08-31T16:46:25.865Z"
+    "fetchedAt": "2026-09-27T18:01:02.037Z",
+    "stand": 3
   },
   "101381": {
     "titel": "Dakaichi: My Number 1",
+    "quelle": "sprachblock",
+    "englisch": "Dakaichi: I’m Being Harassed by the Sexiest Man of the Year",
+    "synonyme": [
+      "Dakaretai Otoko 1-i ni Odosarete Imasu.",
+      "The Most Huggable Man Has Threatened Me"
+    ],
     "anisearchId": 13516,
-    "fetchedAt": "2026-08-31T16:46:28.221Z"
+    "fetchedAt": "2026-09-27T18:01:08.957Z",
+    "stand": 3
   },
   "101382": {
     "titel": "Phantom in the Twilight",
+    "quelle": "sprachblock",
+    "englisch": "Phantom in the Twilight",
     "anisearchId": 13515,
-    "fetchedAt": "2026-08-31T16:46:30.576Z"
+    "fetchedAt": "2026-09-27T18:01:15.879Z",
+    "stand": 3
   },
   "101384": {
     "titel": "Lord of Vermilion: The Crimson King",
+    "quelle": "sprachblock",
+    "englisch": "Lord of Vermilion: The Crimson King",
     "anisearchId": 13505,
-    "fetchedAt": "2026-08-31T16:46:32.937Z"
+    "fetchedAt": "2026-09-27T18:01:22.811Z",
+    "stand": 3
   },
   "101385": {
     "titel": "Future Card Buddyfight X: All-Star Fight",
+    "quelle": "ueberschrift",
+    "englisch": "Future Card Buddyfight X: All-Star Fight",
+    "synonyme": [
+      "Future Card Buddyfight X (2018)",
+      "Future Card Buddyfight Batzz: All-Star Fight"
+    ],
     "anisearchId": 13535,
-    "fetchedAt": "2026-08-31T16:46:35.285Z"
+    "fetchedAt": "2026-09-27T18:01:29.721Z",
+    "stand": 3
   },
   "101386": {
     "titel": "Hitoribocchi no Marumaruseikatsu",
@@ -16371,8 +18058,13 @@
   },
   "101424": {
     "titel": "PazuDora",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Puzzle & Dragon"
+    ],
     "anisearchId": 13291,
-    "fetchedAt": "2026-08-31T16:46:37.636Z"
+    "fetchedAt": "2026-09-27T18:01:36.668Z",
+    "stand": 3
   },
   "101425": {
     "titel": "Duel Masters! (2018)",
@@ -16413,13 +18105,26 @@
   },
   "101505": {
     "titel": "As Miss Beelzebub Likes It.",
+    "quelle": "sprachblock",
+    "englisch": "As Miss Beelzebub Likes It.",
+    "synonyme": [
+      "Wie es Miss Beelzebub gefällt"
+    ],
     "anisearchId": 13555,
-    "fetchedAt": "2026-08-31T16:46:42.348Z"
+    "fetchedAt": "2026-09-27T18:01:43.596Z",
+    "stand": 3
   },
   "101506": {
     "titel": "UzaMaid!",
+    "quelle": "ueberschrift",
+    "englisch": "UzaMaid!",
+    "synonyme": [
+      "Our Maid is Way Too Annoying!",
+      "Uchi no Maid ga Uza Sugiru!"
+    ],
     "anisearchId": 13556,
-    "fetchedAt": "2026-08-31T16:46:44.710Z"
+    "fetchedAt": "2026-09-27T18:01:50.549Z",
+    "stand": 3
   },
   "101547": {
     "titel": "Isekai Cheat Magician",
@@ -16465,8 +18170,11 @@
   },
   "101580": {
     "titel": "Late Night! The Genius Bakabon",
+    "quelle": "sprachblock",
+    "englisch": "Late Night! The Genius Bakabon",
     "anisearchId": 13621,
-    "fetchedAt": "2026-08-31T16:46:49.418Z"
+    "fetchedAt": "2026-09-27T18:01:57.465Z",
+    "stand": 3
   },
   "101581": {
     "titel": "Yuragi-sou no Yuuna-san (2018)",
@@ -16483,18 +18191,32 @@
   },
   "101594": {
     "titel": "Cardfight!! Vanguard (2018)",
+    "quelle": "ueberschrift",
+    "englisch": "Cardfight!! Vanguard (2018)",
     "anisearchId": 13499,
-    "fetchedAt": "2026-08-31T16:46:51.770Z"
+    "fetchedAt": "2026-09-27T18:02:04.403Z",
+    "stand": 3
   },
   "101609": {
     "titel": "Conception",
+    "quelle": "sprachblock",
+    "englisch": "Conception",
+    "synonyme": [
+      "Conception: Please Give Birth to My Child!"
+    ],
     "anisearchId": 13601,
-    "fetchedAt": "2026-08-31T16:46:54.131Z"
+    "fetchedAt": "2026-09-27T18:02:11.361Z",
+    "stand": 3
   },
   "101631": {
     "titel": "Aguu: Tensai Ningyou",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Aguu: Genius Dolls"
+    ],
     "anisearchId": 13581,
-    "fetchedAt": "2026-08-31T16:46:56.481Z"
+    "fetchedAt": "2026-09-27T18:02:18.277Z",
+    "stand": 3
   },
   "101633": {
     "titel": "BanG Dream! S2",
@@ -16530,13 +18252,24 @@
   },
   "101697": {
     "titel": "Marvel Future Avengers Season 2",
+    "quelle": "ueberschrift",
+    "englisch": "Marvel Future Avengers Season 2",
+    "synonyme": [
+      "Marvel’s Future Avengers Season 2"
+    ],
     "anisearchId": 13261,
-    "fetchedAt": "2026-08-31T16:46:58.833Z"
+    "fetchedAt": "2026-09-27T18:02:25.229Z",
+    "stand": 3
   },
   "101775": {
     "titel": "22/7: Ano Hi no Kanojo-tachi",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "22/7: The Diary of Our Days"
+    ],
     "anisearchId": 12721,
-    "fetchedAt": "2026-08-31T16:47:01.185Z"
+    "fetchedAt": "2026-09-27T18:02:32.149Z",
+    "stand": 3
   },
   "101814": {
     "titel": "Afterlost",
@@ -16576,18 +18309,33 @@
   },
   "101844": {
     "titel": "Take My Brother Away!",
+    "quelle": "ueberschrift",
+    "englisch": "Take My Brother Away!",
+    "synonyme": [
+      "Please Take My Brother Away! 2"
+    ],
     "anisearchId": 13636,
-    "fetchedAt": "2026-08-31T16:47:03.539Z"
+    "fetchedAt": "2026-09-27T18:02:39.101Z",
+    "stand": 3
   },
   "101903": {
     "titel": "Run with the Wind",
+    "quelle": "sprachblock",
+    "englisch": "Run with the Wind",
+    "synonyme": [
+      "Feel the Wind",
+      "KazeTsuyo"
+    ],
     "anisearchId": 13649,
-    "fetchedAt": "2026-08-31T16:47:05.924Z"
+    "fetchedAt": "2026-09-27T18:02:46.027Z",
+    "stand": 3
   },
   "101911": {
     "titel": "Masamune Datenicle",
+    "quelle": "ueberschrift",
     "anisearchId": 11426,
-    "fetchedAt": "2026-09-01T10:58:56.771Z"
+    "fetchedAt": "2026-09-27T18:39:34.900Z",
+    "stand": 3
   },
   "101924": {
     "titel": "Food Wars! The Third Plate: Erina im Wohnheim Polarstern",
@@ -16680,18 +18428,28 @@
   },
   "102004": {
     "titel": "Yinyang Shi: Pingan Wuyu",
+    "quelle": "ueberschrift",
     "anisearchId": 13719,
-    "fetchedAt": "2026-08-31T16:47:10.647Z"
+    "fetchedAt": "2026-09-27T18:02:52.951Z",
+    "stand": 3
   },
   "102005": {
     "titel": "Future Card Buddyfight Ace",
+    "quelle": "ueberschrift",
+    "englisch": "Future Card Buddyfight Ace",
     "anisearchId": 13620,
-    "fetchedAt": "2026-08-31T16:47:13.004Z"
+    "fetchedAt": "2026-09-27T18:02:59.909Z",
+    "stand": 3
   },
   "102051": {
     "titel": "Bibury",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Bibury Animation Studio PROMOTION MOVIE (バイブリーアニメーションスタジオプロモーションムービー)"
+    ],
     "anisearchId": 12759,
-    "fetchedAt": "2026-09-01T10:52:52.278Z"
+    "fetchedAt": "2026-09-27T18:23:59.813Z",
+    "stand": 3
   },
   "102077": {
     "titel": "The Rolling Girls: Chibi - Kino auf Rädern",
@@ -16706,13 +18464,19 @@
   },
   "102101": {
     "titel": "Master of Torque Staffel 3",
+    "quelle": "sprachblock",
+    "englisch": "Master of Torque Season 3",
     "anisearchId": 11383,
-    "fetchedAt": "2026-09-01T10:58:59.120Z"
+    "fetchedAt": "2026-09-27T18:39:41.840Z",
+    "stand": 3
   },
   "102102": {
     "titel": "Master of Torque Epilogue",
+    "quelle": "sprachblock",
+    "englisch": "Master of Torque Epilogue",
     "anisearchId": 12151,
-    "fetchedAt": "2026-09-01T10:59:01.464Z"
+    "fetchedAt": "2026-09-27T18:39:48.749Z",
+    "stand": 3
   },
   "102167": {
     "titel": "Yuri!!! on Ice: Welcome to The Madness OVA",
@@ -16819,13 +18583,18 @@
   },
   "102379": {
     "titel": "Pride",
+    "quelle": "ueberschrift",
     "anisearchId": 16983,
-    "fetchedAt": "2026-09-01T12:15:53.232Z"
+    "fetchedAt": "2026-09-27T18:52:30.537Z",
+    "stand": 3
   },
   "102380": {
     "titel": "Robber&#039;s Company",
+    "quelle": "ueberschrift",
+    "englisch": "Robber's Company",
     "anisearchId": 11854,
-    "fetchedAt": "2026-09-01T10:59:03.814Z"
+    "fetchedAt": "2026-09-27T18:39:55.681Z",
+    "stand": 3
   },
   "102396": {
     "titel": "Qing Wa Wang Guo: Bing Dong Da Mao Xian",
@@ -16870,13 +18639,17 @@
   },
   "102454": {
     "titel": "Slide",
+    "quelle": "ueberschrift",
     "anisearchId": 11819,
-    "fetchedAt": "2026-09-01T10:52:54.623Z"
+    "fetchedAt": "2026-09-27T18:24:06.713Z",
+    "stand": 3
   },
   "102457": {
     "titel": "Kirari Kagayaku",
+    "quelle": "ueberschrift",
     "anisearchId": 12553,
-    "fetchedAt": "2026-09-01T10:52:56.968Z"
+    "fetchedAt": "2026-09-27T18:24:13.633Z",
+    "stand": 3
   },
   "102508": {
     "titel": "The Testament of Sister New Devil Burst Specials",
@@ -16891,8 +18664,10 @@
   },
   "102513": {
     "titel": "Homé-Pato the Movie",
+    "quelle": "ueberschrift",
     "anisearchId": 10579,
-    "fetchedAt": "2026-09-01T12:15:55.677Z"
+    "fetchedAt": "2026-09-27T18:52:37.433Z",
+    "stand": 3
   },
   "102525": {
     "titel": "Gundam G no Reconguista: From the Past to the Future",
@@ -16910,23 +18685,32 @@
   },
   "102577": {
     "titel": "Happy Forest",
+    "quelle": "ueberschrift",
     "anisearchId": 12971,
-    "fetchedAt": "2026-09-01T12:15:58.116Z"
+    "fetchedAt": "2026-09-27T18:52:44.352Z",
+    "stand": 3
   },
   "102578": {
     "titel": "The Gift",
+    "quelle": "ueberschrift",
+    "englisch": "The Gift",
     "anisearchId": 17834,
-    "fetchedAt": "2026-09-01T10:59:06.160Z"
+    "fetchedAt": "2026-09-27T18:40:02.620Z",
+    "stand": 3
   },
   "102597": {
     "titel": "Love Bites",
+    "quelle": "ueberschrift",
     "anisearchId": 15396,
-    "fetchedAt": "2026-09-01T10:59:08.507Z"
+    "fetchedAt": "2026-09-27T18:40:09.541Z",
+    "stand": 3
   },
   "102604": {
     "titel": "Kirakira Happy Hirake! Cocotama",
+    "quelle": "ueberschrift",
     "anisearchId": 13676,
-    "fetchedAt": "2026-08-31T16:47:17.714Z"
+    "fetchedAt": "2026-09-27T18:03:06.834Z",
+    "stand": 3
   },
   "102608": {
     "titel": "Bakuman. (2012) Specials",
@@ -17005,18 +18789,32 @@
   },
   "102644": {
     "titel": "Promised Town",
+    "quelle": "sprachblock",
+    "englisch": "Promised Town",
     "anisearchId": 11532,
-    "fetchedAt": "2026-09-01T10:59:10.851Z"
+    "fetchedAt": "2026-09-27T18:40:16.463Z",
+    "stand": 3
   },
   "102646": {
     "titel": "Samurai Noodles: The Originator",
+    "quelle": "ueberschrift",
+    "englisch": "Samurai Noodles: The Originator",
+    "synonyme": [
+      "Nissin: Samurai Noodles \"THE ORIGINATOR\""
+    ],
     "anisearchId": 15465,
-    "fetchedAt": "2026-09-01T10:59:13.195Z"
+    "fetchedAt": "2026-09-27T18:40:23.392Z",
+    "stand": 3
   },
   "102647": {
     "titel": "Rara Maji Opening Animation",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Lala Maji Opening Animation"
+    ],
     "anisearchId": 15216,
-    "fetchedAt": "2026-09-01T10:52:59.311Z"
+    "fetchedAt": "2026-09-27T18:24:20.531Z",
+    "stand": 3
   },
   "102651": {
     "titel": "The Perfect World",
@@ -17025,8 +18823,13 @@
   },
   "102656": {
     "titel": "Chiisana Tayori, Ookina Tayori.",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Kao Nyantomo CM"
+    ],
     "anisearchId": 13421,
-    "fetchedAt": "2026-09-01T10:53:01.656Z"
+    "fetchedAt": "2026-09-27T18:24:27.453Z",
+    "stand": 3
   },
   "102663": {
     "titel": "Luo Xiao Hei Zhan Ji",
@@ -17063,28 +18866,46 @@
   },
   "102723": {
     "titel": "Cinderella Girls Gekijou: 5-shuunen Kinen Short Anime",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Cinderella Girls Gekijou: 5th Anniversary Short",
+      "The iDOLM@STER: Cinderella Girls Theater - 5th Anniversary Short"
+    ],
     "anisearchId": 12431,
-    "fetchedAt": "2026-09-01T10:59:15.540Z"
+    "fetchedAt": "2026-09-27T18:40:30.302Z",
+    "stand": 3
   },
   "102786": {
     "titel": "Otousan wa Ai no Hito",
+    "quelle": "ueberschrift",
     "anisearchId": 19781,
-    "fetchedAt": "2026-09-01T10:59:17.884Z"
+    "fetchedAt": "2026-09-27T18:40:37.224Z",
+    "stand": 3
   },
   "102787": {
     "titel": "Haha no Supporter",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Mother's Supporter"
+    ],
     "anisearchId": 15633,
-    "fetchedAt": "2026-09-01T10:59:20.229Z"
+    "fetchedAt": "2026-09-27T18:40:44.145Z",
+    "stand": 3
   },
   "102800": {
     "titel": "GJ8 Man",
+    "quelle": "ueberschrift",
+    "englisch": "GJ8 Man",
     "anisearchId": 11867,
-    "fetchedAt": "2026-09-01T10:59:22.573Z"
+    "fetchedAt": "2026-09-27T18:40:51.050Z",
+    "stand": 3
   },
   "102801": {
     "titel": "Jakusansei Million Arthur",
+    "quelle": "ueberschrift",
     "anisearchId": 11952,
-    "fetchedAt": "2026-09-01T12:16:00.556Z"
+    "fetchedAt": "2026-09-27T18:52:51.247Z",
+    "stand": 3
   },
   "102822": {
     "titel": "Senran Kagura: Shinovi Master",
@@ -17116,13 +18937,18 @@
   },
   "102925": {
     "titel": "The Journey Home",
+    "quelle": "ueberschrift",
+    "englisch": "The Journey Home",
     "anisearchId": 13615,
-    "fetchedAt": "2026-08-31T16:47:27.123Z"
+    "fetchedAt": "2026-09-27T18:03:13.795Z",
+    "stand": 3
   },
   "102927": {
     "titel": "Bakutsuri Bar Hunter",
+    "quelle": "ueberschrift",
     "anisearchId": 13313,
-    "fetchedAt": "2026-08-31T16:47:29.471Z"
+    "fetchedAt": "2026-09-27T18:03:20.718Z",
+    "stand": 3
   },
   "102933": {
     "titel": "Inazuma Eleven: Reloaded - Soccer no Henkaku",
@@ -17141,8 +18967,14 @@
   },
   "102946": {
     "titel": "Imouto sae Ireba Ii.: Original Twitter Anime",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "A Sister's All You Need. Specials",
+      "It'd be Good if Only Little Sister Was Here"
+    ],
     "anisearchId": 13180,
-    "fetchedAt": "2026-09-01T10:53:04.005Z"
+    "fetchedAt": "2026-09-27T18:24:34.359Z",
+    "stand": 3
   },
   "102949": {
     "titel": "The Morose Mononokean Ⅱ",
@@ -17159,8 +18991,11 @@
   },
   "102974": {
     "titel": "Gurazeni: Money Pitch (Season 2)",
+    "quelle": "ueberschrift",
+    "englisch": "Gurazeni: Money Pitch (Season 2)",
     "anisearchId": 13703,
-    "fetchedAt": "2026-08-31T16:47:31.827Z"
+    "fetchedAt": "2026-09-27T18:03:27.679Z",
+    "stand": 3
   },
   "102997": {
     "titel": "The King’s Avatar 2",
@@ -17241,8 +19076,10 @@
   },
   "103181": {
     "titel": "Yakiniku-ten Sengoku",
+    "quelle": "ueberschrift",
     "anisearchId": 12921,
-    "fetchedAt": "2026-08-31T16:47:34.180Z"
+    "fetchedAt": "2026-09-27T18:03:34.605Z",
+    "stand": 3
   },
   "103209": {
     "titel": "Overlord: Ple Ple Pleiades 3",
@@ -17287,8 +19124,14 @@
   },
   "103311": {
     "titel": "The IDOLM@STER: Cinderella Girls Theater 3 (Web)",
+    "quelle": "sprachblock",
+    "englisch": "The IDOLM@STER: Cinderella Girls Theater 3 (Web)",
+    "synonyme": [
+      "The Idolmaster: Cinderella Girls Theater 3 (Web)"
+    ],
     "anisearchId": 13728,
-    "fetchedAt": "2026-08-31T16:47:38.884Z"
+    "fetchedAt": "2026-09-27T18:03:41.567Z",
+    "stand": 3
   },
   "103555": {
     "titel": "Mix",
@@ -17300,8 +19143,11 @@
   },
   "103643": {
     "titel": "Starlight Promises",
+    "quelle": "sprachblock",
+    "englisch": "Starlight Promises",
     "anisearchId": 13677,
-    "fetchedAt": "2026-08-31T16:47:41.242Z"
+    "fetchedAt": "2026-09-27T18:03:48.494Z",
+    "stand": 3
   },
   "103690": {
     "titel": "Eiga Crayon Shin-chan: Bakumori! Kung-Fu Boys - Ramen Tairan",
@@ -17351,8 +19197,10 @@
   },
   "103873": {
     "titel": "Holiday Love: Fuufukan Ren&#039;ai",
+    "quelle": "ueberschrift",
     "anisearchId": 13788,
-    "fetchedAt": "2026-08-31T16:47:43.594Z"
+    "fetchedAt": "2026-09-27T18:03:55.434Z",
+    "stand": 3
   },
   "103874": {
     "titel": "My Roommate Is a Cat",
@@ -17368,23 +19216,34 @@
   },
   "103886": {
     "titel": "15-sai, Kyou kara Dousei Hajimemasu.",
+    "quelle": "ueberschrift",
     "anisearchId": 13675,
-    "fetchedAt": "2026-08-31T16:47:45.942Z"
+    "fetchedAt": "2026-09-27T18:04:02.352Z",
+    "stand": 3
   },
   "103888": {
     "titel": "Caramel Honey",
+    "quelle": "ueberschrift",
     "anisearchId": 13674,
-    "fetchedAt": "2026-08-31T16:47:48.290Z"
+    "fetchedAt": "2026-09-27T18:04:09.296Z",
+    "stand": 3
   },
   "104003": {
     "titel": "Kiss made, Ato 1 Byou.",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "A Second Away From a Kiss."
+    ],
     "anisearchId": 13805,
-    "fetchedAt": "2026-08-31T16:47:50.641Z"
+    "fetchedAt": "2026-09-27T18:04:16.212Z",
+    "stand": 3
   },
   "104006": {
     "titel": "Robot Girls Neo",
+    "quelle": "ueberschrift",
     "anisearchId": 13504,
-    "fetchedAt": "2026-08-31T16:47:52.990Z"
+    "fetchedAt": "2026-09-27T18:04:23.115Z",
+    "stand": 3
   },
   "104008": {
     "titel": "Circlet Princess",
@@ -17438,8 +19297,11 @@
   },
   "104082": {
     "titel": "The Sprites of Floria",
+    "quelle": "sprachblock",
+    "englisch": "The Sprites of Floria",
     "anisearchId": 13856,
-    "fetchedAt": "2026-08-31T16:47:57.692Z"
+    "fetchedAt": "2026-09-27T18:04:30.020Z",
+    "stand": 3
   },
   "104102": {
     "titel": "Bermuda Triangle: Colorful Pastorale",
@@ -17451,13 +19313,22 @@
   },
   "104103": {
     "titel": "Xuan Yuan Sword Luminary",
+    "quelle": "sprachblock",
+    "englisch": "Xuan Yuan Sword Luminary",
+    "synonyme": [
+      "Xuan-Yuan Sword: Aoki Kagayaki",
+      "Xuan-Yuan Sword: Lights of the Bleak"
+    ],
     "anisearchId": 13793,
-    "fetchedAt": "2026-08-31T16:48:00.049Z"
+    "fetchedAt": "2026-09-27T18:04:36.924Z",
+    "stand": 3
   },
   "104104": {
     "titel": "Seizei Ganbare! Mahou Shoujo Kurumi (2018)",
+    "quelle": "ueberschrift",
     "anisearchId": 14044,
-    "fetchedAt": "2026-08-31T16:48:02.403Z"
+    "fetchedAt": "2026-09-27T18:04:43.829Z",
+    "stand": 3
   },
   "104115": {
     "titel": "After School Dice Club",
@@ -17503,8 +19374,14 @@
   },
   "104188": {
     "titel": "Monster Strike The Animation",
+    "quelle": "sprachblock",
+    "englisch": "Monster Strike The Animation",
+    "synonyme": [
+      "Monster Strike Season 4"
+    ],
     "anisearchId": 13715,
-    "fetchedAt": "2026-08-31T16:48:04.760Z"
+    "fetchedAt": "2026-09-27T18:04:50.733Z",
+    "stand": 3
   },
   "104198": {
     "titel": "Is the Order a Rabbit? Bloom",
@@ -17556,18 +19433,37 @@
   },
   "104278": {
     "titel": "Dropkick on My Devil! Extra Episode",
+    "quelle": "sprachblock",
+    "englisch": "Dropkick on My Devil! Extra Episode",
+    "synonyme": [
+      "Dropkick On My Devil!! Episode 12",
+      "False God My Dropkick Episode 12",
+      "邪神ちゃんドロップキック １２話"
+    ],
     "anisearchId": 13929,
-    "fetchedAt": "2026-08-31T16:48:09.482Z"
+    "fetchedAt": "2026-09-27T18:04:57.642Z",
+    "stand": 3
   },
   "104308": {
-    "titel": "Armor Shop for Ladies &amp; Gentlemen",
+    "titel": "Armor Shop for Ladies & Gentlemen",
+    "quelle": "sprachblock",
+    "englisch": "Armor Shop for Ladies & Gentlemen",
+    "synonyme": [
+      "Armor Shop for Ladies and Gentlemen"
+    ],
     "anisearchId": 13911,
-    "fetchedAt": "2026-08-31T16:48:11.836Z"
+    "fetchedAt": "2026-09-27T18:05:04.553Z",
+    "stand": 3
   },
   "104334": {
     "titel": "Nani Iro no Nani",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "What of What Color"
+    ],
     "anisearchId": 13625,
-    "fetchedAt": "2026-08-31T16:48:14.185Z"
+    "fetchedAt": "2026-09-27T18:05:11.458Z",
+    "stand": 3
   },
   "104378": {
     "titel": "Strike Witches 501st Joint Fighter Wing Take Off!",
@@ -17697,8 +19593,14 @@
   },
   "104530": {
     "titel": "Osake wa Fuufu ni Natte kara: Yuzu Atsukan",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Alcohol is for Married Couples OVA",
+      "Love is Like a Cocktail Episode 14"
+    ],
     "anisearchId": 13604,
-    "fetchedAt": "2026-08-31T16:48:16.543Z"
+    "fetchedAt": "2026-09-27T18:05:18.368Z",
+    "stand": 3
   },
   "104557": {
     "titel": "Mobile Suit Gundam: Twilight Axis - Remain of the Red",
@@ -17811,8 +19713,10 @@
   },
   "105191": {
     "titel": "Monkey Peak",
+    "quelle": "ueberschrift",
     "anisearchId": 13988,
-    "fetchedAt": "2026-08-31T16:48:18.893Z"
+    "fetchedAt": "2026-09-27T18:05:25.273Z",
+    "stand": 3
   },
   "105244": {
     "titel": "Tsukiuta.: The Animation 2",
@@ -17879,8 +19783,13 @@
   },
   "105859": {
     "titel": "Eye Drops",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Eyedrops"
+    ],
     "anisearchId": 12043,
-    "fetchedAt": "2026-09-01T10:59:24.919Z"
+    "fetchedAt": "2026-09-27T18:40:57.975Z",
+    "stand": 3
   },
   "105893": {
     "titel": "Boku no Hero Academia: All Might - Rising The Animation",
@@ -17932,8 +19841,10 @@
   },
   "106146": {
     "titel": "Chainsaw Bunny",
+    "quelle": "ueberschrift",
     "anisearchId": 13323,
-    "fetchedAt": "2026-08-31T16:48:21.247Z"
+    "fetchedAt": "2026-09-27T18:05:32.187Z",
+    "stand": 3
   },
   "106169": {
     "titel": "Persona 5 the Animation: Dunkle Sonne",
@@ -17945,8 +19856,10 @@
   },
   "106215": {
     "titel": "Itsuka Aeru Kimi ni",
+    "quelle": "ueberschrift",
     "anisearchId": 13993,
-    "fetchedAt": "2026-08-31T16:48:23.606Z"
+    "fetchedAt": "2026-09-27T18:05:39.094Z",
+    "stand": 3
   },
   "106223": {
     "titel": "Black Clover: Das Magische-Ritter-Dankfest",
@@ -17984,13 +19897,17 @@
   },
   "106438": {
     "titel": "Chuusotsu Worker kara Hajimeru Koukou Seikatsu",
+    "quelle": "ueberschrift",
     "anisearchId": 13912,
-    "fetchedAt": "2026-08-31T16:48:25.958Z"
+    "fetchedAt": "2026-09-27T18:05:46.000Z",
+    "stand": 3
   },
   "106455": {
     "titel": "Oamu Monogatari: Sono Natsu, Watashi ga Shitta Koto",
+    "quelle": "ueberschrift",
     "anisearchId": 13565,
-    "fetchedAt": "2026-08-31T16:48:28.316Z"
+    "fetchedAt": "2026-09-27T18:05:52.906Z",
+    "stand": 3
   },
   "106493": {
     "titel": "Eiga Doraemon: Nobita no Getsumen Tansaki",
@@ -18057,8 +19974,14 @@
   },
   "106570": {
     "titel": "Kimi no Matsu Basho e",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Sōka City 60th Anniversary Promotional Anime",
+      "To the Place Where You Wait"
+    ],
     "anisearchId": 13990,
-    "fetchedAt": "2026-08-31T16:48:33.021Z"
+    "fetchedAt": "2026-09-27T18:05:59.811Z",
+    "stand": 3
   },
   "106571": {
     "titel": "Hi no Tori, the Phoenix: Dōgo Onsen Chapter",
@@ -18093,8 +20016,13 @@
   },
   "106674": {
     "titel": "Anima Yell! Ouen Douga",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Anima Yell! Support Video"
+    ],
     "anisearchId": 14805,
-    "fetchedAt": "2026-08-31T16:48:35.372Z"
+    "fetchedAt": "2026-09-27T18:06:06.723Z",
+    "stand": 3
   },
   "106862": {
     "titel": "Lord El-Melloi II’s Case Files: Rail Zeppelin - Grace Note Episode 0",
@@ -18196,8 +20124,14 @@
   },
   "107198": {
     "titel": "Tabechatta tte Ii no ni na!",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Tabechattatte Ii no ni na!",
+      "You Can Enjoy!"
+    ],
     "anisearchId": 13570,
-    "fetchedAt": "2026-08-31T16:48:37.729Z"
+    "fetchedAt": "2026-09-27T18:06:13.629Z",
+    "stand": 3
   },
   "107199": {
     "titel": "Fw:Hamatora",
@@ -18246,8 +20180,13 @@
   },
   "107264": {
     "titel": "Overlord: Ple Ple Pleiades - Clementine Toubou-hen",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Ple Ple Pleiades: Clementine the Fugitive"
+    ],
     "anisearchId": 14023,
-    "fetchedAt": "2026-08-31T16:48:40.089Z"
+    "fetchedAt": "2026-09-27T18:06:20.548Z",
+    "stand": 3
   },
   "107294": {
     "titel": "Dropkick on My Devil!! Dash",
@@ -18384,8 +20323,14 @@
   },
   "107874": {
     "titel": "Kangoku Jikken",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Prison Experiment",
+      "Prison Lab (プリズンラボ-)"
+    ],
     "anisearchId": 14066,
-    "fetchedAt": "2026-08-31T16:48:42.449Z"
+    "fetchedAt": "2026-09-27T18:06:27.450Z",
+    "stand": 3
   },
   "107876": {
     "titel": "Bem",
@@ -18534,8 +20479,10 @@
   },
   "108534": {
     "titel": "Meshi Numa.",
+    "quelle": "ueberschrift",
     "anisearchId": 13791,
-    "fetchedAt": "2026-08-31T16:48:44.800Z"
+    "fetchedAt": "2026-09-27T18:06:34.362Z",
+    "stand": 3
   },
   "108617": {
     "titel": "Somali and the Forest Spirit",
@@ -18681,8 +20628,10 @@
   },
   "108997": {
     "titel": "Historical: Shinsengumi",
+    "quelle": "ueberschrift",
     "anisearchId": 11282,
-    "fetchedAt": "2026-09-01T10:59:29.608Z"
+    "fetchedAt": "2026-09-27T18:41:04.878Z",
+    "stand": 3
   },
   "109002": {
     "titel": "Code Geass: Boukoku no Akito - Picture Drama",
@@ -18731,8 +20680,14 @@
   },
   "109189": {
     "titel": "Tales of HR",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Tales of Homeroom",
+      "ているず おぶ ホームルーム"
+    ],
     "anisearchId": 13787,
-    "fetchedAt": "2026-08-31T16:48:49.502Z"
+    "fetchedAt": "2026-09-27T18:06:41.262Z",
+    "stand": 3
   },
   "109260": {
     "titel": "Cardfight!! Vanguard (2019)",
@@ -19028,13 +20983,17 @@
   },
   "110330": {
     "titel": "Tales of the Rays Gekijou",
+    "quelle": "ueberschrift",
     "anisearchId": 13200,
-    "fetchedAt": "2026-08-31T16:48:51.854Z"
+    "fetchedAt": "2026-09-27T18:06:48.176Z",
+    "stand": 3
   },
   "110331": {
     "titel": "Tales of Puppet",
+    "quelle": "ueberschrift",
     "anisearchId": 15180,
-    "fetchedAt": "2026-08-31T16:48:54.204Z"
+    "fetchedAt": "2026-09-27T18:06:55.078Z",
+    "stand": 3
   },
   "110332": {
     "titel": "Mobile Suit Gundam 0083: Stardust Memory - The Mayfly of Space 2",
@@ -20387,9 +22346,12 @@
     "stand": 3
   },
   "114843": {
-    "titel": "Pikotaro&#039;s Lullaby La La By (Web)",
+    "titel": "Pikotaro's Lullaby La La By (Web)",
+    "quelle": "sprachblock",
+    "englisch": "Pikotaro's Lullaby La La By (Web)",
     "anisearchId": 12879,
-    "fetchedAt": "2026-09-01T10:53:08.701Z"
+    "fetchedAt": "2026-09-27T18:24:41.276Z",
+    "stand": 3
   },
   "114888": {
     "titel": "The Millionaire Detective: Balance Unlimited",
@@ -20463,8 +22425,10 @@
   },
   "115087": {
     "titel": "Jinryoku Senkan!? Shiokaze Sawakaze",
+    "quelle": "ueberschrift",
     "anisearchId": 12686,
-    "fetchedAt": "2026-09-01T10:53:11.048Z"
+    "fetchedAt": "2026-09-27T18:24:48.170Z",
+    "stand": 3
   },
   "115107": {
     "titel": "Digimon Adventure 20th Memorial Story",
@@ -20509,8 +22473,13 @@
   },
   "115437": {
     "titel": "K×Drop!!",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "KxDrop!!"
+    ],
     "anisearchId": 13023,
-    "fetchedAt": "2026-09-01T10:53:13.392Z"
+    "fetchedAt": "2026-09-27T18:24:55.068Z",
+    "stand": 3
   },
   "115519": {
     "titel": "iDOLM@STER Cinderella Girls Gekijou: Extra Stage",
@@ -20563,13 +22532,20 @@
   },
   "116015": {
     "titel": "Chiba Pedal: Yowamushi Pedal to Manabu Jitensha Koutsuu Anzen",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "YowaPeda Bicycle Traffic Safety Campaign"
+    ],
     "anisearchId": 11728,
-    "fetchedAt": "2026-09-01T10:59:31.954Z"
+    "fetchedAt": "2026-09-27T18:41:11.808Z",
+    "stand": 3
   },
   "116059": {
     "titel": "Tama Pawns",
+    "quelle": "ueberschrift",
     "anisearchId": 12191,
-    "fetchedAt": "2026-09-01T10:53:15.737Z"
+    "fetchedAt": "2026-09-27T18:25:01.967Z",
+    "stand": 3
   },
   "116073": {
     "titel": "Aihime Megohime",
@@ -20580,8 +22556,10 @@
   },
   "116150": {
     "titel": "Jewelpet: Attack Chance!?",
+    "quelle": "ueberschrift",
     "anisearchId": 11129,
-    "fetchedAt": "2026-09-01T10:59:34.299Z"
+    "fetchedAt": "2026-09-27T18:41:18.739Z",
+    "stand": 3
   },
   "116173": {
     "titel": "Warlords of Sigrdrifa",
@@ -20751,8 +22729,10 @@
   },
   "117286": {
     "titel": "Himitsukessha Taka no Tsume GT",
+    "quelle": "ueberschrift",
     "anisearchId": 12735,
-    "fetchedAt": "2026-09-01T10:59:36.644Z"
+    "fetchedAt": "2026-09-27T18:41:25.663Z",
+    "stand": 3
   },
   "117325": {
     "titel": "Puso Ni Comi: Okawari",
@@ -20846,8 +22826,10 @@
   },
   "117960": {
     "titel": "Cogimyun",
+    "quelle": "ueberschrift",
     "anisearchId": 12804,
-    "fetchedAt": "2026-09-01T10:53:18.081Z"
+    "fetchedAt": "2026-09-27T18:25:08.869Z",
+    "stand": 3
   },
   "118031": {
     "titel": "Gekijouban Kiyoko no Basket: Last Game 0401",
@@ -20877,8 +22859,10 @@
   },
   "118124": {
     "titel": "Destiny Child ONA",
+    "quelle": "ueberschrift",
     "anisearchId": 13680,
-    "fetchedAt": "2026-08-31T16:49:01.274Z"
+    "fetchedAt": "2026-09-27T18:07:01.991Z",
+    "stand": 3
   },
   "118126": {
     "titel": "Gekijouban Macross Delta: Zettai Live!!!!!!",
@@ -20944,13 +22928,20 @@
   },
   "119368": {
     "titel": "LayereD Stories 0",
+    "quelle": "ueberschrift",
     "anisearchId": 13082,
-    "fetchedAt": "2026-08-31T16:49:03.624Z"
+    "fetchedAt": "2026-09-27T18:07:08.893Z",
+    "stand": 3
   },
   "119402": {
     "titel": "Chou Futsuu Toshi Kashiwa Densetsu",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "The Legend of Super Normal City Kashiwa"
+    ],
     "anisearchId": 15568,
-    "fetchedAt": "2026-09-01T10:59:38.988Z"
+    "fetchedAt": "2026-09-27T18:41:32.578Z",
+    "stand": 3
   },
   "119403": {
     "titel": "Chou Futsuu Toshi Kashiwa Densetsu Z",
@@ -20979,13 +22970,24 @@
   },
   "119788": {
     "titel": "Chizu no Nai Bouken",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Sanyo CM: Adventure without a Map"
+    ],
     "anisearchId": 12544,
-    "fetchedAt": "2026-09-01T10:53:20.425Z"
+    "fetchedAt": "2026-09-27T18:25:15.766Z",
+    "stand": 3
   },
   "119795": {
     "titel": "Mori no Ongakudan",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Music Orchestra of the Forest",
+      "Musicians of the Forest"
+    ],
     "anisearchId": 10901,
-    "fetchedAt": "2026-09-01T12:16:05.445Z"
+    "fetchedAt": "2026-09-27T18:52:58.174Z",
+    "stand": 3
   },
   "119824": {
     "titel": "Cello Hiki no Gauche (1998)",
@@ -21007,8 +23009,13 @@
   },
   "119872": {
     "titel": "Chikatetsu ni Noru!",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Kyoto Municipal Transportation Bureau CM"
+    ],
     "anisearchId": 11520,
-    "fetchedAt": "2026-09-01T10:53:22.772Z"
+    "fetchedAt": "2026-09-27T18:25:22.681Z",
+    "stand": 3
   },
   "119873": {
     "titel": "Ultrasonico",
@@ -21240,8 +23247,10 @@
   },
   "121689": {
     "titel": "Enoshimans",
+    "quelle": "ueberschrift",
     "anisearchId": 12689,
-    "fetchedAt": "2026-09-01T10:53:25.117Z"
+    "fetchedAt": "2026-09-27T18:25:29.576Z",
+    "stand": 3
   },
   "121720": {
     "titel": "Shellfish Employee",
@@ -21253,8 +23262,10 @@
   },
   "121802": {
     "titel": "Tanuki to Kitsune",
+    "quelle": "ueberschrift",
     "anisearchId": 13133,
-    "fetchedAt": "2026-08-31T16:49:05.976Z"
+    "fetchedAt": "2026-09-27T18:07:15.801Z",
+    "stand": 3
   },
   "121962": {
     "titel": "Cardfight!! Vanguard: OverDress",
@@ -21827,8 +23838,10 @@
   },
   "126167": {
     "titel": "Nihonbashi City Dressing for Tokyo 2020",
+    "quelle": "ueberschrift",
     "anisearchId": 12515,
-    "fetchedAt": "2026-09-01T10:53:27.464Z"
+    "fetchedAt": "2026-09-27T18:25:36.476Z",
+    "stand": 3
   },
   "126168": {
     "titel": "Mottainai Grandma",
@@ -21840,8 +23853,10 @@
   },
   "126179": {
     "titel": "Ippou Nippon Mukashibanashi",
+    "quelle": "ueberschrift",
     "anisearchId": 11500,
-    "fetchedAt": "2026-09-01T10:59:41.332Z"
+    "fetchedAt": "2026-09-27T18:41:39.495Z",
+    "stand": 3
   },
   "126192": {
     "titel": "Girlfriend, Girlfriend",
@@ -21913,8 +23928,13 @@
   },
   "126322": {
     "titel": "Gift Plus Minus",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Gift±"
+    ],
     "anisearchId": 13905,
-    "fetchedAt": "2026-08-31T16:49:08.331Z"
+    "fetchedAt": "2026-09-27T18:07:22.728Z",
+    "stand": 3
   },
   "126393": {
     "titel": "Ancient Girl’s Frame",
@@ -21972,8 +23992,13 @@
   },
   "126652": {
     "titel": "Pan to Boku no Momo-chan",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Bread and My Momo"
+    ],
     "anisearchId": 14043,
-    "fetchedAt": "2026-08-31T16:49:10.683Z"
+    "fetchedAt": "2026-09-27T18:07:29.621Z",
+    "stand": 3
   },
   "126662": {
     "titel": "Gundam Build Divers Battlogue",
@@ -22045,8 +24070,13 @@
   },
   "126843": {
     "titel": "Zannen na Ikimono Jiten",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Encyclopedia of Pitiful Creatures"
+    ],
     "anisearchId": 13693,
-    "fetchedAt": "2026-08-31T16:49:13.038Z"
+    "fetchedAt": "2026-09-27T18:07:36.554Z",
+    "stand": 3
   },
   "126871": {
     "titel": "Yawaraka Atom",
@@ -22158,8 +24188,10 @@
   },
   "127507": {
     "titel": "Midori no Kuni no Otomodachi: Koeda-chan",
+    "quelle": "ueberschrift",
     "anisearchId": 12374,
-    "fetchedAt": "2026-09-01T10:53:29.810Z"
+    "fetchedAt": "2026-09-27T18:25:43.371Z",
+    "stand": 3
   },
   "127536": {
     "titel": "Cute Executive Officer",
@@ -22929,13 +24961,20 @@
   },
   "132014": {
     "titel": "Slow Start: Web Yokoku Movie",
+    "quelle": "ueberschrift",
     "anisearchId": 13586,
-    "fetchedAt": "2026-08-31T16:49:17.759Z"
+    "fetchedAt": "2026-09-27T18:07:43.447Z",
+    "stand": 3
   },
   "132016": {
     "titel": "Koisuru Shirokuma: Tokubetsuban",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "A Polar Bear in Love: Ice Wall Slam"
+    ],
     "anisearchId": 13017,
-    "fetchedAt": "2026-09-01T10:53:32.157Z"
+    "fetchedAt": "2026-09-27T18:25:50.271Z",
+    "stand": 3
   },
   "132061": {
     "titel": "Sayonara Watashi no Cramer Mini Anime",
@@ -23105,6 +25144,13 @@
     ],
     "anisearchId": 16204,
     "fetchedAt": "2026-09-27T16:35:37.329Z",
+    "stand": 3
+  },
+  "132562": {
+    "titel": "Kubbe Gachapin Mukku",
+    "quelle": "ueberschrift",
+    "anisearchId": 12130,
+    "fetchedAt": "2026-09-27T18:41:46.411Z",
     "stand": 3
   },
   "132679": {
@@ -23472,6 +25518,17 @@
     "fetchedAt": "2026-09-12T17:45:16.553Z",
     "stand": 3
   },
+  "134856": {
+    "titel": "Hen Xi You 2",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Hen Xi You Di 2 Ji (狠西游 第2季)",
+      "Hen Xi You Di Er Ji (狠西遊 第二季)"
+    ],
+    "anisearchId": 20439,
+    "fetchedAt": "2026-09-27T18:07:50.370Z",
+    "stand": 3
+  },
   "135102": {
     "titel": "By the Grace of the Gods 2",
     "quelle": "sprachblock",
@@ -23482,6 +25539,18 @@
     ],
     "anisearchId": 16350,
     "fetchedAt": "2026-09-12T17:47:31.151Z",
+    "stand": 3
+  },
+  "135278": {
+    "titel": "Chao Zhineng Zuqiu 2: Shijie Da Sai Pian",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "AI Football GGO 2",
+      "Artificial Intelligent Football GGO 2",
+      "GGO Football 2"
+    ],
+    "anisearchId": 14202,
+    "fetchedAt": "2026-09-27T18:07:57.262Z",
     "stand": 3
   },
   "135381": {
@@ -23505,8 +25574,10 @@
   },
   "135460": {
     "titel": "Oniku Daisuki! Zeushi-kun: Suteki na Hamburger",
+    "quelle": "ueberschrift",
     "anisearchId": 11579,
-    "fetchedAt": "2026-09-01T10:59:43.677Z"
+    "fetchedAt": "2026-09-27T18:41:53.332Z",
+    "stand": 3
   },
   "135511": {
     "titel": "Did You Also Travel Through Time?",
@@ -23657,8 +25728,14 @@
   },
   "136222": {
     "titel": "Musunde Hiraite",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Cœurs à Cœurs",
+      "Love Stories"
+    ],
     "anisearchId": 13868,
-    "fetchedAt": "2026-08-31T16:49:20.111Z"
+    "fetchedAt": "2026-09-27T18:08:04.182Z",
+    "stand": 3
   },
   "136226": {
     "titel": "Strike the Blood Final",
@@ -24450,6 +26527,16 @@
     "fetchedAt": "2026-09-27T17:17:21.220Z",
     "stand": 3
   },
+  "138257": {
+    "titel": "Calpis Hakkou Monogatari",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "\"Calpis\" Fermentation Story"
+    ],
+    "anisearchId": 18573,
+    "fetchedAt": "2026-09-27T18:08:11.073Z",
+    "stand": 3
+  },
   "138260": {
     "titel": "Link Click Special",
     "quelle": "sprachblock",
@@ -24551,13 +26638,24 @@
   },
   "138961": {
     "titel": "Chainsaw Bunny: Deleted Scene",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Chainsaw Bunny Special"
+    ],
     "anisearchId": 20860,
-    "fetchedAt": "2026-08-31T16:49:22.461Z"
+    "fetchedAt": "2026-09-27T18:08:17.998Z",
+    "stand": 3
   },
   "139037": {
     "titel": "Shin-chan Spin-off: Lone Wolf and Family",
+    "quelle": "ueberschrift",
+    "englisch": "Shin-chan Spin-off: Lone Wolf and Family",
+    "synonyme": [
+      "Crayon Shin-chan Side Story: Lone Wolf and Family"
+    ],
     "anisearchId": 12333,
-    "fetchedAt": "2026-09-01T10:53:34.505Z"
+    "fetchedAt": "2026-09-27T18:25:57.169Z",
+    "stand": 3
   },
   "139040": {
     "titel": "Sagashimono (2019)",
@@ -25945,8 +28043,11 @@
   },
   "143305": {
     "titel": "Milpom Pilot",
+    "quelle": "ueberschrift",
+    "englisch": "Milpom Pilot",
     "anisearchId": 10899,
-    "fetchedAt": "2026-09-01T12:16:07.888Z"
+    "fetchedAt": "2026-09-27T18:53:05.107Z",
+    "stand": 3
   },
   "143307": {
     "titel": "Sinbad: Soratobu Hime to Himitsu no Shima Pilot Eizou",
@@ -26019,6 +28120,16 @@
     "quelle": "ueberschrift",
     "anisearchId": 17215,
     "fetchedAt": "2026-09-27T16:45:43.577Z",
+    "stand": 3
+  },
+  "143572": {
+    "titel": "KisKis! Wode Nanyou Shi Bohe Tang",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "KisKis! My Boyfriends Are Mint Candies"
+    ],
+    "anisearchId": 19517,
+    "fetchedAt": "2026-09-27T18:08:24.891Z",
     "stand": 3
   },
   "143612": {
@@ -26236,8 +28347,14 @@
   },
   "145557": {
     "titel": "dMatsu-san",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Mr. dMatsu",
+      "Osomatsu-san 2nd Season Side Stories"
+    ],
     "anisearchId": 13222,
-    "fetchedAt": "2026-08-31T16:49:24.814Z"
+    "fetchedAt": "2026-09-27T18:08:31.814Z",
+    "stand": 3
   },
   "145560": {
     "titel": "Arifureta Shokugyou de Sekai Saikyou Prologue",
@@ -26624,8 +28741,10 @@
   },
   "147012": {
     "titel": "Ryuuzou to Shichinin no Kobun-tachi",
+    "quelle": "ueberschrift",
     "anisearchId": 10844,
-    "fetchedAt": "2026-09-01T12:16:12.768Z"
+    "fetchedAt": "2026-09-27T18:53:12.035Z",
+    "stand": 3
   },
   "147133": {
     "titel": "Jian Yu Fengyun Di-er Ji",
@@ -26831,8 +28950,20 @@
   },
   "148642": {
     "titel": "Haru no Niji no Soushiki",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Haru’s Funeral of a Rainbow"
+    ],
     "anisearchId": 13227,
-    "fetchedAt": "2026-09-01T10:59:46.020Z"
+    "fetchedAt": "2026-09-27T18:42:00.254Z",
+    "stand": 3
+  },
+  "148667": {
+    "titel": "Weaving",
+    "quelle": "ueberschrift",
+    "anisearchId": 16316,
+    "fetchedAt": "2026-09-27T18:26:04.075Z",
+    "stand": 3
   },
   "148819": {
     "titel": "Nanaraki: Seven Lucky Gods",
@@ -28063,6 +30194,30 @@
     "fetchedAt": "2026-09-27T16:14:41.635Z",
     "stand": 3
   },
+  "155247": {
+    "titel": "Tiantian Chengzhang Ji",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Growing Up"
+    ],
+    "anisearchId": 19843,
+    "fetchedAt": "2026-09-27T18:26:10.989Z",
+    "stand": 3
+  },
+  "155254": {
+    "titel": "Shenming Zhi Zhou Di-er Ji",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Shen Ming Zhi Zhou 2",
+      "Shenming Zhi Zhou 2",
+      "神明之胄 2",
+      "神明之胄 第2季",
+      "The Totem Warrior 2"
+    ],
+    "anisearchId": 13049,
+    "fetchedAt": "2026-09-27T18:26:17.895Z",
+    "stand": 3
+  },
   "155302": {
     "titel": "Soul of Light",
     "quelle": "ueberschrift",
@@ -28368,8 +30523,11 @@
   },
   "156009": {
     "titel": "Shin-chan Spin-off: O-O-O-No Shinnosuke",
+    "quelle": "ueberschrift",
+    "englisch": "Shin-chan Spin-off: O-O-O-No Shinnosuke",
     "anisearchId": 12527,
-    "fetchedAt": "2026-09-03T16:36:27.360Z"
+    "fetchedAt": "2026-09-27T18:26:24.822Z",
+    "stand": 3
   },
   "156023": {
     "titel": "An Archdemon’s Dilemma: How to Love Your Elf Bride",
@@ -29796,8 +31954,10 @@
   },
   "162690": {
     "titel": "Watashi no Na wa Ootafukuko: Chiisana Shiawase o, Chikyuu no Shiawase ni.",
+    "quelle": "ueberschrift",
     "anisearchId": 15226,
-    "fetchedAt": "2026-08-31T16:49:27.163Z"
+    "fetchedAt": "2026-09-27T18:08:38.723Z",
+    "stand": 3
   },
   "162716": {
     "titel": "Puchi Cool Doji Danshi no Hitokoma",
@@ -30144,8 +32304,10 @@
   },
   "163275": {
     "titel": "Yuuwaku Office Lover 2",
+    "quelle": "ueberschrift",
     "anisearchId": 13130,
-    "fetchedAt": "2026-08-31T16:49:29.520Z"
+    "fetchedAt": "2026-09-27T18:08:45.641Z",
+    "stand": 3
   },
   "163292": {
     "titel": "The Ossan Newbie Adventurer, Trained to Death by the Most Powerful Party, Became Invincible",
@@ -31490,6 +33652,14 @@
     "fetchedAt": "2026-09-27T16:28:22.092Z",
     "stand": 3
   },
+  "169792": {
+    "titel": "Fintan",
+    "quelle": "ueberschrift",
+    "englisch": "Fintan",
+    "anisearchId": 12293,
+    "fetchedAt": "2026-09-27T18:26:31.732Z",
+    "stand": 3
+  },
   "169911": {
     "titel": "Lee’s Detective Agency: Once upon a Time in Lungmen",
     "quelle": "sprachblock",
@@ -31965,6 +34135,16 @@
     ],
     "anisearchId": 19530,
     "fetchedAt": "2026-09-27T16:29:26.267Z",
+    "stand": 3
+  },
+  "171444": {
+    "titel": "Mirai Koushi Harima SACLA NEX RAY",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Future Photon Harima Sakura Nex Ray"
+    ],
+    "anisearchId": 13312,
+    "fetchedAt": "2026-09-27T18:26:38.654Z",
     "stand": 3
   },
   "171457": {
@@ -32896,8 +35076,14 @@
   },
   "176877": {
     "titel": "Uchuu Neko: Mardock no Bouken",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "The Adventures of Mardock",
+      "The Space Cat"
+    ],
     "anisearchId": 11332,
-    "fetchedAt": "2026-09-01T10:59:50.708Z"
+    "fetchedAt": "2026-09-27T18:42:07.186Z",
+    "stand": 3
   },
   "176881": {
     "titel": "Tsuru ga Mau Yoru ni",
@@ -33658,13 +35844,24 @@
   },
   "179759": {
     "titel": "Mirai e no Tegami: Kono Michi no Tochuu kara",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Future From Fukushima: Omnibus Documentary Animation",
+      "Letters to the Future: From the Middle of This Path"
+    ],
     "anisearchId": 11286,
-    "fetchedAt": "2026-09-01T10:59:55.396Z"
+    "fetchedAt": "2026-09-27T18:42:14.106Z",
+    "stand": 3
   },
   "179777": {
     "titel": "Zetsumetsu Kigu-shun.",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Extinction Fear-shun."
+    ],
     "anisearchId": 20012,
-    "fetchedAt": "2026-08-31T16:49:31.867Z"
+    "fetchedAt": "2026-09-27T18:08:52.544Z",
+    "stand": 3
   },
   "179778": {
     "titel": "Zetsumetsu Kigu-shun. (2020)",
@@ -34005,6 +36202,16 @@
     "fetchedAt": "2026-09-27T17:21:09.371Z",
     "stand": 3
   },
+  "180882": {
+    "titel": "Gaikan Chiba",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Gaikan Road Opening Special Movie"
+    ],
+    "anisearchId": 13665,
+    "fetchedAt": "2026-09-27T18:08:59.465Z",
+    "stand": 3
+  },
   "180894": {
     "titel": "Romelia War Chronicle",
     "quelle": "sprachblock",
@@ -34095,8 +36302,14 @@
   },
   "181642": {
     "titel": "Tamagocchi! Tama Tomo Daishuu Go",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Tamagotchi! Large Gathering of Tama-Friends!",
+      "Tamagotchi! Tama Tomo Daishuu Go"
+    ],
     "anisearchId": 10283,
-    "fetchedAt": "2026-09-01T12:16:15.208Z"
+    "fetchedAt": "2026-09-27T18:53:18.942Z",
+    "stand": 3
   },
   "181776": {
     "titel": "Murder Mystery of the Dead",
@@ -35369,6 +37582,17 @@
     "fetchedAt": "2026-09-27T15:23:27.497Z",
     "stand": 3
   },
+  "186540": {
+    "titel": "Tengoku Daimakyou PV",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Heavenly Delusion",
+      "Tengoku Dai Makyou PV"
+    ],
+    "anisearchId": 15755,
+    "fetchedAt": "2026-09-27T18:09:06.373Z",
+    "stand": 3
+  },
   "186541": {
     "titel": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship!",
     "quelle": "sprachblock",
@@ -35391,6 +37615,13 @@
     ],
     "anisearchId": 20153,
     "fetchedAt": "2026-09-27T15:23:34.252Z",
+    "stand": 3
+  },
+  "186631": {
+    "titel": "Kodoku no Gourmet",
+    "quelle": "ueberschrift",
+    "anisearchId": 12732,
+    "fetchedAt": "2026-09-27T18:26:45.541Z",
     "stand": 3
   },
   "186712": {
@@ -35808,8 +38039,10 @@
   },
   "188038": {
     "titel": "100% Pascal-sensei",
+    "quelle": "ueberschrift",
     "anisearchId": 12221,
-    "fetchedAt": "2026-09-01T10:59:57.740Z"
+    "fetchedAt": "2026-09-27T18:42:21.031Z",
+    "stand": 3
   },
   "188057": {
     "titel": "Tayo Mission Ace",
@@ -35990,6 +38223,25 @@
     "fetchedAt": "2026-09-27T15:25:15.493Z",
     "stand": 3
   },
+  "188808": {
+    "titel": "Power Battle Watch Car",
+    "quelle": "ueberschrift",
+    "englisch": "Power Battle Watch Car",
+    "synonyme": [
+      "Paweobaeteul Wacika"
+    ],
+    "anisearchId": 12566,
+    "fetchedAt": "2026-09-27T18:42:27.939Z",
+    "stand": 3
+  },
+  "188809": {
+    "titel": "Power Battle Watch Car (Season 2)",
+    "quelle": "ueberschrift",
+    "englisch": "Power Battle Watch Car (Season 2)",
+    "anisearchId": 12567,
+    "fetchedAt": "2026-09-27T18:42:34.876Z",
+    "stand": 3
+  },
   "188889": {
     "titel": "Ma no Mono-tachi wa Kuwadateru",
     "quelle": "ueberschrift",
@@ -36116,13 +38368,21 @@
   },
   "189721": {
     "titel": "Lalala Lala-chan",
+    "quelle": "ueberschrift",
     "anisearchId": 12801,
-    "fetchedAt": "2026-09-01T12:16:17.653Z"
+    "fetchedAt": "2026-09-27T18:53:25.871Z",
+    "stand": 3
   },
   "189726": {
     "titel": "Lalala Lala-chan Mini",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Lalala Lala-chan Mini (o Tegami Video)",
+      "ラララ ララちゃんミニ(お手紙ビデオ)"
+    ],
     "anisearchId": 20076,
-    "fetchedAt": "2026-09-01T12:16:20.092Z"
+    "fetchedAt": "2026-09-27T18:53:32.780Z",
+    "stand": 3
   },
   "189832": {
     "titel": "Yandere Dark Elf: She Chased Me All the Way From Another World! Mini Anime Theater",
@@ -38009,8 +40269,11 @@
   },
   "206517": {
     "titel": "Heroes: Legend of Battle Disks",
+    "quelle": "ueberschrift",
+    "englisch": "Heroes: Legend of Battle Disks",
     "anisearchId": 13901,
-    "fetchedAt": "2026-09-01T12:16:22.532Z"
+    "fetchedAt": "2026-09-27T18:53:39.705Z",
+    "stand": 3
   },
   "206523": {
     "titel": "Onegai AiPri",
@@ -38032,8 +40295,10 @@
   },
   "206846": {
     "titel": "Niku Iyo! Kalbi-kun",
+    "quelle": "ueberschrift",
     "anisearchId": 13433,
-    "fetchedAt": "2026-08-31T16:49:34.214Z"
+    "fetchedAt": "2026-09-27T18:09:13.283Z",
+    "stand": 3
   },
   "206875": {
     "titel": "Lord of Mysteries: Chibi Theatre",
@@ -38330,8 +40595,10 @@
   },
   "213636": {
     "titel": "Oshirimae Man",
+    "quelle": "ueberschrift",
     "anisearchId": 21429,
-    "fetchedAt": "2026-08-31T16:49:36.563Z"
+    "fetchedAt": "2026-09-27T18:09:20.179Z",
+    "stand": 3
   },
   "213655": {
     "titel": "LONA",
