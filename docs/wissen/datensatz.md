@@ -412,6 +412,9 @@ links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. Zu wi
   `og:image`-Adresse `?v=<Fassung>` (`lib/og-fassung.ts`, auch an der Startseite) — eine neue
   Fassung ist für sie ein neues Bild. Die Seite selbst holen sie erst nach Ablauf ihres Caches neu;
   sofort wirkt der Facebook-Debugger („Scrape Again", gilt auch für WhatsApp).
+  **Ein angehängtes `?v=0` an der Seitenadresse hilft nicht:** `og:url` zeigt auf
+  `https://anime-kalender.de/`, Facebook und WhatsApp werten jede Variante als diese Adresse und
+  zeigen deren gespeicherte Vorschau (27.09.2026, live geprüft: Seite und Bild waren neu).
 - **Inhalt:** ohne künftigen Termin „Erste Folge"/„Erschienen" statt „Nächste Folge", Katalogtitel
   „Im Angebot seit"; das Standardbild zählt aus `meta.json` (vorher 504 aus `titles-core`).
 - Titelseiten (`/t/…`) behalten Banner oder Cover von AniList: eigene Bilder für 2.777 Titel wären
