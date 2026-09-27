@@ -53,7 +53,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260920T140000Z
 DTEND:20260920T143000Z
 SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 33/33
+ Love You Staffel 3 – Folge 33/34
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
@@ -197,6 +197,17 @@ DTEND:20260926T123000Z
 SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 24/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GNVHKN933@2026-09-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260927T140000Z
+DTEND:20260927T143000Z
+SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
+ Love You Staffel 3 – Folge 34/34
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

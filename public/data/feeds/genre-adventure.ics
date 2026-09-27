@@ -766,6 +766,16 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GT00384004@2026-09-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260927T143000Z
+DTEND:20260927T150000Z
+SUMMARY:Overgeared Staffel 1
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
+ ps://anime-kalender.de/#/release/cr-GT00384004
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-09-28#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T151000Z

@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-27T11:26:15.337Z",
+ "erzeugtAm": "2026-09-27T19:03:04.318Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -60,6 +60,34 @@
     }
    ],
    "naechster": "Mission: Yozakura Family Season 2"
+  },
+  {
+   "name": "Crunchyroll",
+   "plattform": "crunchyroll",
+   "gemeldet": 0,
+   "gesamt": 4,
+   "offen": 4,
+   "ohneSeite": 0,
+   "ziel": "https://www.crunchyroll.com/de/pt-pt/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
+   "ziele": [
+    {
+     "url": "https://www.crunchyroll.com/de/pt-pt/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
+     "titel": "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Season 3"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
+     "titel": "Black Clover: Staffel 2"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/G3KHEVDJ7/the-apothecary-diaries",
+     "titel": "Die Tagebücher der Apothekerin: Staffel 3 - Cour 1"
+    },
+    {
+     "url": "https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared",
+     "titel": "A Wild Last Boss Appeared! Staffel 2"
+    }
+   ],
+   "naechster": "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Season 3"
   }
  ]
 }
