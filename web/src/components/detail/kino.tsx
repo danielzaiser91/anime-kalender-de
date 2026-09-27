@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom'
 import { formatDate, monthName } from '@shared/time.ts'
 import { type Release, type Title } from '@shared/types.ts'
 import { MerkenKnopf } from './merken.tsx'
+import { Tooltip } from '../ui.tsx'
 
 /**
  * **Der Trailer — eine Pille, die sich zu einem Kino öffnet.**
@@ -95,28 +96,29 @@ export function TrailerKino({
         jeder kennt, und es unterscheidet die Pille von den Anbieter-Pillen
         darunter, die zu einer fremden Seite führen statt etwas zu öffnen.
       */}
-      <button
-        type="button"
-        onClick={() => setOffen(true)}
-        title={deutsch ? undefined : trailer ? t('trailer.nochKeinDeutscher') : t('trailer.keinerGefunden')}
-        className={[
-          'group inline-flex shrink-0 items-center gap-1.5 rounded-full border py-1 pl-1 pr-3 text-xs font-semibold transition',
-          deutsch
-            ? 'border-rose-400/40 bg-rose-500/10 text-rose-700 hover:border-rose-400/70 hover:bg-rose-500/20 dark:text-rose-300'
-            : 'border-slate-300 bg-slate-500/5 text-slate-600 hover:border-slate-400 hover:bg-slate-500/10 dark:border-white/15 dark:text-slate-300',
-        ].join(' ')}
-      >
-        <span
-          aria-hidden="true"
+      <Tooltip text={deutsch ? '' : trailer ? t('trailer.nochKeinDeutscher') : t('trailer.keinerGefunden')} eigenerFokus className="shrink-0">
+        <button
+          type="button"
+          onClick={() => setOffen(true)}
           className={[
-            'grid h-5 w-5 place-items-center rounded-full text-[9px] text-white transition group-hover:scale-110',
-            deutsch ? 'bg-rose-600' : 'bg-slate-500',
+            'group inline-flex shrink-0 items-center gap-1.5 rounded-full border py-1 pl-1 pr-3 text-xs font-semibold transition',
+            deutsch
+              ? 'border-rose-400/40 bg-rose-500/10 text-rose-700 hover:border-rose-400/70 hover:bg-rose-500/20 dark:text-rose-300'
+              : 'border-slate-300 bg-slate-500/5 text-slate-600 hover:border-slate-400 hover:bg-slate-500/10 dark:border-white/15 dark:text-slate-300',
           ].join(' ')}
         >
-          ▶
-        </span>
-        {knopfText}
-      </button>
+          <span
+            aria-hidden="true"
+            className={[
+              'grid h-5 w-5 place-items-center rounded-full text-[9px] text-white transition group-hover:scale-110',
+              deutsch ? 'bg-rose-600' : 'bg-slate-500',
+            ].join(' ')}
+          >
+            ▶
+          </span>
+          {knopfText}
+        </button>
+      </Tooltip>
 
       {/*
         **Der Dialog hängt am Körper, nicht im Panel.**

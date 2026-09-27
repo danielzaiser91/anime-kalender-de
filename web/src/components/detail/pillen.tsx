@@ -88,19 +88,20 @@ export function AniSearchVerweis({ title }: { title: Title }) {
     ? `https://www.anisearch.de/anime/${title.anisearchId}`
     : `https://www.anisearch.de/search?q=${encodeURIComponent(anzeigeName(title))}`
   return (
-    <a
-      href={ziel}
-      target="_blank"
-      rel="noreferrer noopener"
-      title={tmdb ? 'Bei TMDB ansehen' : title.anisearchId ? 'Bei aniSearch ansehen' : 'Bei aniSearch suchen'}
-      className="ml-auto inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-slate-500 transition hover:bg-slate-200/70 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
-    >
-      {tmdb ? 'TMDB' : 'aniSearch'}
-      {/* Der Pfeil sagt „führt hinaus" — ohne ihn liest sich das Wort als Quellenangabe. */}
-      <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-        <path d="M4 2h6v6M10 2 2.5 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </a>
+    <Tooltip text={tmdb ? 'Bei TMDB ansehen' : title.anisearchId ? 'Bei aniSearch ansehen' : 'Bei aniSearch suchen'} eigenerFokus className="ml-auto shrink-0">
+      <a
+        href={ziel}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-slate-500 transition hover:bg-slate-200/70 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
+      >
+        {tmdb ? 'TMDB' : 'aniSearch'}
+        {/* Der Pfeil sagt „führt hinaus" — ohne ihn liest sich das Wort als Quellenangabe. */}
+        <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+          <path d="M4 2h6v6M10 2 2.5 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </a>
+    </Tooltip>
   )
 }
 
@@ -261,18 +262,26 @@ export function DiscEinzelListe({ ausgaben }: { ausgaben: DiscAusgabe[] }) {
       {gruppen.map((g) => (
         <div key={g.f} className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <span className="w-14 shrink-0 font-medium text-slate-700 dark:text-slate-200">{DISC_FORMAT[g.f]}</span>
-          {g.liste.map((a) => (
-            <a
-              key={a[4]}
-              href={`https://www.anisearch.de/article/${a[4]}`}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="whitespace-nowrap text-sky-700 hover:underline dark:text-sky-300"
-              title={a[3] ? formatDate(a[3]) : undefined}
-            >
-              {a[0]}
-            </a>
-          ))}
+          {g.liste.map((a) => {
+            const link = (
+              <a
+                key={a[4]}
+                href={`https://www.anisearch.de/article/${a[4]}`}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="whitespace-nowrap text-sky-700 hover:underline dark:text-sky-300"
+              >
+                {a[0]}
+              </a>
+            )
+            return a[3] ? (
+              <Tooltip key={a[4]} text={formatDate(a[3])} eigenerFokus>
+                {link}
+              </Tooltip>
+            ) : (
+              link
+            )
+          })}
         </div>
       ))}
     </div>

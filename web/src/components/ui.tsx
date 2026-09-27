@@ -1,4 +1,4 @@
-import { useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { cloneElement, isValidElement, useId, useLayoutEffect, useRef, useState, type ReactElement, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { FSK_COLORS, PLATFORMS, RELEASE_TYPES, anbieterName } from '@shared/types.ts'
 import type { Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
@@ -627,11 +627,17 @@ export function Tooltip({
   children,
   unterstrichen,
   seite = 'unten',
+  eigenerFokus,
+  className = '',
 }: {
   text: string
   children: ReactNode
   unterstrichen?: boolean
   seite?: 'oben' | 'unten'
+  /** Das Kind ist selbst fokussierbar (Knopf, Link) — dann kein zweiter Tab-Halt in der Hülle. */
+  eigenerFokus?: boolean
+  /** Für die Hülle, wenn sie im Flex-Layout den Platz des Kinds einnimmt (`ml-auto`, `shrink-0`). */
+  className?: string
 }) {
   const [offen, setOffen] = useState(false)
   const anker = useRef<HTMLSpanElement>(null)
@@ -646,6 +652,9 @@ export function Tooltip({
    * und davon gibt es auf der Startseite über zweihundert.
    */
   const blasenId = useId()
+  /* Ein Knopf oder Link ist selbst Tab-Halt: Er bekommt den Verweis auf die Blase, die Hülle keinen zweiten Halt. */
+  const kindFokus = eigenerFokus ?? (isValidElement(children) && (children.type === 'a' || children.type === 'button'))
+  const verweis = offen ? blasenId : undefined
 
   /**
    * Position im Fenster, einmal je Öffnen gemessen.
@@ -695,7 +704,7 @@ export function Tooltip({
   return (
     <span
       ref={anker}
-      className="relative inline-flex items-center"
+      className={`relative inline-flex items-center ${className}`}
       onMouseEnter={() => setOffen(true)}
       onMouseLeave={() => setOffen(false)}
       onFocus={() => setOffen(true)}
@@ -708,37 +717,20 @@ export function Tooltip({
       }}
     >
       <span
-        tabIndex={0}
-        /*
-          `aria-describedby` statt `role="note"`.
-
-          Hier stand `role="note"` — die Rolle für eine Anmerkung am Rande. Das
-          Element ist aber keine Anmerkung, sondern der **Auslöser**, der eine
-          zeigt. Vorlesende Programme kündigten damit auf der Startseite über
-          zweihundert „Anmerkungen" an, ohne je zu verraten, was darin steht:
-          Die Blase daneben trug zwar `role="tooltip"`, war aber mit nichts
-          verknüpft (gefunden am 20.08.2026 bei einer Durchsicht der Seite).
-
-          Richtig ist das Paar: Der Auslöser zeigt auf die Blase, sobald sie da
-          ist. `tabIndex` bleibt — sonst erreicht sie nur, wer eine Maus hat.
-        */
-        aria-describedby={offen ? blasenId : undefined}
-        /*
-          `inline-flex` statt `inline`: Ein Inline-Element bezieht seine Höhe aus
-          der Zeilenhöhe, nicht aus seinem Inhalt. Eine Plakette mit Hovertext
-          stand deshalb in einer 24 Pixel hohen Hülle, eine ohne war 20 Pixel
-          hoch — nebeneinander sichtbar verschoben (Daniel, 15.08.2026: „nicht
-          pixel genau auf einer Ebene"). Jetzt umschließt die Hülle ihr Kind
-          genau.
-        */
+        tabIndex={kindFokus ? undefined : 0}
+        /* Der Auslöser zeigt auf seine Blase (kein `role="note"`); ohne `tabIndex` erreicht sie nur, wer eine Maus hat. */
+        aria-describedby={kindFokus ? undefined : verweis}
+        /* `inline-flex`: Die Hülle nimmt die Höhe ihres Kinds, nicht die der Zeile — sonst stehen Plaketten versetzt. */
         className={[
           'inline-flex items-center outline-none',
           unterstrichen ? 'cursor-help underline decoration-dotted underline-offset-2' : '',
         ].join(' ')}
       >
-        {children}
+        {kindFokus && isValidElement(children)
+          ? cloneElement(children as ReactElement<{ 'aria-describedby'?: string }>, { 'aria-describedby': verweis })
+          : children}
       </span>
-      {offen &&
+      {offen && text &&
         createPortal(
           <span
             ref={blase}

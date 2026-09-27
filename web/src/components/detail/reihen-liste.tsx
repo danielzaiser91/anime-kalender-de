@@ -3,6 +3,7 @@ import { hauptstaffeln, staffelBeschriftungen, eindeutschenStaffel } from '@shar
 import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
+import { Tooltip } from '../ui.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -344,11 +345,10 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                         fehlende Synchro ist dort kein Befund, sondern der Normalzustand.
                       */}
                       {ohneDe && (
-                        <span
-                          title={t('detail.reiheOhneSynchro')}
-                          className="shrink-0 rounded border border-rose-400/50 bg-rose-500/15 px-1.5 py-px text-[9px] font-extrabold leading-tight tracking-wider text-rose-600 dark:text-rose-400"
-                        >
-                          🇩🇪 ✕
+                        <span className="shrink-0 rounded border border-rose-400/50 bg-rose-500/15 px-1.5 py-px text-[9px] font-extrabold leading-tight tracking-wider text-rose-600 dark:text-rose-400">
+                          <Tooltip text={t('detail.reiheOhneSynchro')} eigenerFokus>
+                            🇩🇪 ✕
+                          </Tooltip>
                         </span>
                       )}
                       <span

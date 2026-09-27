@@ -3,6 +3,7 @@ import { addDays, addMonths, diffDays, formatDateLong, monthName, startOfWeek, t
 import { useLang, type Translate } from '../../lib/i18n.tsx'
 import { DatumSprung } from '../DatumSprung.tsx'
 import { FilterZeichen, LinksZeichen, RechtsZeichen } from './Zeichen.tsx'
+import { Tooltip } from '../ui.tsx'
 
 /** ISO-Kalenderwoche: die Woche, in der der Donnerstag liegt. */
 function kalenderwoche(iso: string): number {
@@ -102,18 +103,19 @@ export function Steuerleiste(p: SteuerProps) {
           <LinksZeichen />
         </button>
         {/* In der Woche bleibt „heute" klickbar und scrollt zum heutigen Tag (Daniel, 25.09.2026). */}
-        <button
-          type="button"
-          onClick={() => {
-            p.onDate(todayIso())
-            if (!monat) window.dispatchEvent(new Event('ak-zu-heute'))
-          }}
-          disabled={heuteSichtbar && monat}
-          title={heuteSichtbar ? (monat ? t('nav.todayHere') : t('nav.todayScroll')) : t('nav.todayGo')}
-          className="h-11 shrink-0 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche px-3 text-sm font-bold text-ak-text transition hover:border-ak-leise disabled:cursor-default disabled:opacity-40 sm:px-4"
-        >
-          {t('nav.today')}
-        </button>
+        <Tooltip text={heuteSichtbar ? (monat ? t('nav.todayHere') : t('nav.todayScroll')) : t('nav.todayGo')} seite="oben" eigenerFokus>
+          <button
+            type="button"
+            onClick={() => {
+              p.onDate(todayIso())
+              if (!monat) window.dispatchEvent(new Event('ak-zu-heute'))
+            }}
+            disabled={heuteSichtbar && monat}
+            className="h-11 shrink-0 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche px-3 text-sm font-bold text-ak-text transition hover:border-ak-leise disabled:cursor-default disabled:opacity-40 sm:px-4"
+          >
+            {t('nav.today')}
+          </button>
+        </Tooltip>
         <button type="button" onClick={() => schritt(1)} aria-label={t('kal.naechster')} className={rund}>
           <RechtsZeichen />
         </button>

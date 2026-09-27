@@ -6,7 +6,7 @@ import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { useLang, type Translate } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
-import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Toggle } from './ui.tsx'
+import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Toggle, Tooltip } from './ui.tsx'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -252,11 +252,10 @@ export function DatabaseView({
                   vor.
                 */}
                 {main.westlich && (
-                  <span
-                    title={t('db.westlichHinweis')}
-                    className="absolute left-1 top-1 rounded bg-violet-600/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]"
-                  >
-                    {t('db.westlich')}
+                  <span className="absolute left-1 top-1 rounded bg-violet-600/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]">
+                    <Tooltip text={t('db.westlichHinweis')} eigenerFokus>
+                      {t('db.westlich')}
+                    </Tooltip>
                   </span>
                 )}
                 {keinDub && (

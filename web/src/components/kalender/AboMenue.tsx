@@ -20,7 +20,6 @@ export function AboMenue({ onView, favorites }: { onView: (v: ViewId) => void; f
       <button
         type="button"
         aria-label={t('kopf.abo')}
-        title={t('kopf.abo')}
         className="relative flex h-11 cursor-pointer items-center gap-1 rounded-full border border-ak-rand bg-ak-flaeche px-3 text-ak-text transition hover:border-ak-leise"
       >
         <KalenderZeichen groesse={18} />

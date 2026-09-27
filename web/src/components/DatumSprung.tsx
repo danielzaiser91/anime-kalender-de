@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { formatDate, monthName, todayIso, weekdayIndex } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { Tooltip } from './ui.tsx'
 
 /**
  * **Sprung zu einem Datum** (Daniel, 17.09.2026: „kalender icon hinzufügen → klick:
@@ -135,7 +136,7 @@ export function DatumSprung({
               type="button"
               disabled={d < von || d > bis}
               onClick={() => springe(d)}
-              title={n ? t('sprung.termine', { n }) : undefined}
+              aria-label={n ? `${i + 1}. · ${t('sprung.termine', { n })}` : undefined}
               className={[
                 'relative cursor-pointer rounded-md py-1.5 text-xs tabular-nums transition disabled:cursor-default disabled:opacity-30',
                 d === date ? 'bg-ak-akzent font-semibold text-ak-auf-akzent' : 'hover:bg-ak-flaeche-2',
@@ -156,20 +157,21 @@ export function DatumSprung({
 
   return (
     <>
-      <button
-        type="button"
-        ref={knopf}
-        onClick={oeffnen}
-        aria-expanded={offen}
-        aria-label={t('sprung.oeffnen')}
-        title={t('sprung.oeffnen')}
-        className="flex size-11 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise"
-      >
-        <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <rect x="3" y="5" width="18" height="16" rx="2" />
-          <path d="M8 3v4M16 3v4M3 10h18" />
-        </svg>
-      </button>
+      <Tooltip text={t('sprung.oeffnen')} seite="oben" eigenerFokus>
+        <button
+          type="button"
+          ref={knopf}
+          onClick={oeffnen}
+          aria-expanded={offen}
+          aria-label={t('sprung.oeffnen')}
+          className="flex size-11 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise"
+        >
+          <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2" />
+            <path d="M8 3v4M16 3v4M3 10h18" />
+          </svg>
+        </button>
+      </Tooltip>
       {offen &&
         pos &&
         createPortal(

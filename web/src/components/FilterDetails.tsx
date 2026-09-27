@@ -1,5 +1,5 @@
 import { type PlatformId, PLATFORMS, RELEASE_TYPES, type ReleaseType, type DataMeta } from '@shared/types.ts'
-import { Chip } from './ui.tsx'
+import { Chip, Tooltip } from './ui.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import type { Translate } from '../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
@@ -32,20 +32,21 @@ function ModusSchalter({
   setzen: (w: 'und' | 'oder') => void
 }) {
   const knopf = (w: 'und' | 'oder', text: string, titel: string) => (
-    <button
-      type="button"
-      onClick={() => setzen(w)}
-      title={titel}
-      aria-pressed={wert === w}
-      className={
-        'rounded px-1.5 py-px text-[9px] font-semibold uppercase tracking-wider transition ' +
-        (wert === w
-          ? 'bg-slate-600 text-slate-100'
-          : 'text-slate-500 hover:text-slate-300')
-      }
-    >
-      {text}
-    </button>
+    <Tooltip text={titel} eigenerFokus>
+      <button
+        type="button"
+        onClick={() => setzen(w)}
+        aria-pressed={wert === w}
+        className={
+          'rounded px-1.5 py-px text-[9px] font-semibold uppercase tracking-wider transition ' +
+          (wert === w
+            ? 'bg-slate-600 text-slate-100'
+            : 'text-slate-500 hover:text-slate-300')
+        }
+      >
+        {text}
+      </button>
+    </Tooltip>
   )
   return (
     <span className="ml-1 inline-flex items-center gap-px rounded bg-slate-800/70 p-px">

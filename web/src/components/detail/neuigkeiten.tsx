@@ -5,6 +5,7 @@ import { useLang, type TranslationKey } from '../../lib/i18n.tsx'
 import { datumKurz, newsSatz } from '../../lib/news-text.ts'
 import { NEWS_FARBE } from '../NewsView.tsx'
 import { todayIso } from '@shared/time.ts'
+import { Tooltip } from '../ui.tsx'
 
 interface Zeile {
   am: string
@@ -64,16 +65,17 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
         <span className="text-sm text-ak-text">{newsSatz(z.m)}</span>
       </span>
       {quelle && (
-        <a
-          href={quelle.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          title={quelle.name}
-          aria-label={t('detail.neuigkeitQuelle', { name: quelle.name })}
-          className="flex min-h-11 shrink-0 items-center text-xs font-bold text-ak-akzent-text hover:underline sm:min-h-0"
-        >
-          {t('detail.quelleKurz')} ↗
-        </a>
+        <Tooltip text={quelle.name} seite="oben" eigenerFokus className="shrink-0">
+          <a
+            href={quelle.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('detail.neuigkeitQuelle', { name: quelle.name })}
+            className="flex min-h-11 shrink-0 items-center text-xs font-bold text-ak-akzent-text hover:underline sm:min-h-0"
+          >
+            {t('detail.quelleKurz')} ↗
+          </a>
+        </Tooltip>
       )}
     </li>
   )
