@@ -387,6 +387,36 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-10-04#1@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T125000Z
+DTEND:20261004T132000Z
+SUMMARY:Yuna & Stitch – Folge 1/3
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-5027-tv-disney-channel
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-10-04#2@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T132000Z
+DTEND:20261004T135000Z
+SUMMARY:Yuna & Stitch – Folge 2/3
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-5027-tv-disney-channel
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-10-04#3@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T135000Z
+DTEND:20261004T142000Z
+SUMMARY:Yuna & Stitch – Folge 3/3
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-5027-tv-disney-channel
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
 UID:steins-gate-0-polymorpher-valentin-bittersweet-intermedio-2026-10-16@20
  26-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z

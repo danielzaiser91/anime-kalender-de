@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_DISNEY = {}
+globalThis.AK_OFFENE_DISNEY = {"ac689bea-f955-4d95-8693-7b87b5a309cb":{"titel":"Mission: Yozakura Family Season 2","url":"https://www.disneyplus.com/de-de/browse/entity-ac689bea-f955-4d95-8693-7b87b5a309cb","staffeln":[{"nr":1,"id":182578,"name":"Mission: Yozakura Family Season 2","folgen":12,"film":false,"offen":true}]}}

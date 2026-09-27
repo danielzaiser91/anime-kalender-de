@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-26T23:05:13.568Z",
+ "erzeugtAm": "2026-09-27T01:41:13.967Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -49,12 +49,17 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 43,
-   "gesamt": 43,
-   "offen": 0,
+   "gesamt": 44,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.disneyplus.com/de-de/browse/entity-ac689bea-f955-4d95-8693-7b87b5a309cb",
+   "ziele": [
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-ac689bea-f955-4d95-8693-7b87b5a309cb",
+     "titel": "Mission: Yozakura Family Season 2"
+    }
+   ],
+   "naechster": "Mission: Yozakura Family Season 2"
   }
  ]
 }

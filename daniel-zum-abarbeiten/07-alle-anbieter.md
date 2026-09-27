@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-27 · **0 offene Verweise** in **0 Zeilen**.
+Stand 2026-09-27 · **1 offene Verweise** in **1 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,11 +33,14 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
+| [Disney+](07-disneyplus.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
+| 1 | 2026-06-28 | Mission: Yozakura Family | [Staffel 2](https://www.disneyplus.com/de-de/browse/entity-ac689bea-f955-4d95-8693-7b87b5a309cb) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
+- **Disney+:** Disney+ hat keine öffentliche Schnittstelle; die Sprachwahl steht nur im Player.
