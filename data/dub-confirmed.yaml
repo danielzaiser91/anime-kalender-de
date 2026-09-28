@@ -21507,3 +21507,18 @@
   dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0H5TLK58X: alle 13 Folgen geprüft, Abos: maxde, zugang=abo, gti=amzn1.dv.gti.d55eccd2-dbea-46bc-9d4d-076969363de1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# Perfect Blue (437), 28.09.2026: derselbe Befund lag nur an der alten Sprachadresse.
+# `data/verweise-entfernt.json` kennt den Abgang unter `…/de/fr/series/GZJH3D8V3/…` — der
+# französische Sprachcode stammt aus der Zeit vor dem `germanizeUrl`-Fix (28.09.2026). Seit dem
+# trägt der Bestand die saubere Adresse `…/de/series/GZJH3D8V3/…`, und das Gedächtnis greift je
+# Adresse: Der Verweis kam damit zurück, obwohl zwei Quellen ihn widerlegen — unsere eigene
+# Crunchyroll-Runde führt die Kennung als `nichtVerfuegbar`, und Daniel liest in der
+# Statusanzeige „Leider sind die Videos dieser Serie nicht mehr verfügbar".
+- anilistId: 437
+  title: Perfect Blue
+  platform: crunchyroll
+  available: false
+  url: https://www.crunchyroll.com/de/series/GZJH3D8V3/perfect-blue
+  checkedAt: '2026-09-28'
+  note: 'Crunchyroll meldet „Videos dieser Serie nicht mehr verfügbar" (Daniel, 28.09.2026, in der Statusanzeige gesehen); unsere Crunchyroll-Runde führt dieselbe Kennung als nichtVerfuegbar.'
