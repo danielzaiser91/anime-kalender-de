@@ -249,6 +249,36 @@ Seite aus, `worker/wrangler.toml` den Dienst dahinter. Verlässlich entscheidet
 nur der ausgeschriebene `--config`, welche gilt — der Aufrufort allein tut es
 nicht.
 
+## Der Cloudflare-Token liegt nicht im Repo — und wie er als GitHub-Secret ankommt
+
+**Wo er steht:** `C:\code\ai\ai helper files\my_secrets.md`, Abschnitt „Newsletter anime-kalender-de"
+(API-Token `anime-kalender-deploy`: D1 Edit, Workers Scripts Edit, Account Settings Read und
+**Account Analytics Read**). Der Wert liegt **außerhalb** des Repos — Absicht: Ein Schlüssel in der
+Historie ist nicht mehr zurückzuholen.
+
+**Wofür die Analytics-Berechtigung** (28.09.2026 ergänzt): `wrangler d1 insights` und damit
+`tools/d1-verbrauch.mjs` lesen die GraphQL-Analytics-API; sie brauchen `Account · Account Analytics ·
+Read`. Nachträglich ergänzen geht über *Edit* am Token — **der Wert bleibt dabei gleich**, nur *Roll*
+erzeugt einen neuen (dann müssen alle Stellen nachziehen, die ihn benutzen).
+
+**Als GitHub-Secret setzen, ohne den Wert auszugeben:** über **stdin**, nicht über `--body` und
+nicht über eine Datei in der Kommandozeile —
+
+```js
+execFileSync('gh', ['secret', 'set', 'CLOUDFLARE_ANALYTICS_TOKEN', '--repo', 'danielzaiser91/anime-kalender-de'], { input: wert })
+```
+
+**Vorher prüfen, ob der Wert überhaupt gilt** (die Antwort nennt kein Geheimnis):
+
+```
+curl -s -H "Authorization: Bearer $TOKEN" https://api.cloudflare.com/client/v4/user/tokens/verify
+```
+
+**Danach:** `gh workflow run d1-verbrauch.yml` — der Lauf liest die Zahlen und wird rot, wenn der
+Tagesverbrauch über 2,5 Mio. Zeilen steigt oder eine einzelne Abfrage über 1 Mio. (Grenzen in
+`tools/d1-verbrauch.mjs`). Am 28.09.2026 war der erste Lauf rot — er zeigte den Tag *vor* den
+Korrekturen; ab dem nächsten Tag muss er grün sein.
+
 ## Der Worker läuft dem Web-Client immer hinterher
 
 **Neue Endpunkte sind erst da, wenn `wrangler deploy` gelaufen ist — die Seite ist es schon beim
