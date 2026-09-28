@@ -1,0 +1,85 @@
+name: Wache — Datenbankverbrauch
+
+# **Diese Wache gibt es seit dem 28.09.2026.**
+#
+# An dem Tag war das Tageskontingent der kostenlosen D1-Stufe (5 Mio. gelesene Zeilen) um 13:30
+# erschöpft. Zwei Abfragen machten 88 % aus — der teure Teil von `?zaehlen=1` (4,35 Mio.) und eine
+# Löschanfrage, die den falschen Index nahm (1,84 Mio.). Gefunden wurde das erst hinterher, aus
+# `wrangler d1 insights`; Statusanzeige, Erweiterung und Datenläufe waren bis Mitternacht UTC
+# blind.
+#
+# **Diese Wache sieht nach, bevor es eng wird.** Sie liest dieselbe Insights-Quelle und wird rot,
+# wenn der Tagesverbrauch über die Hälfte des Kontingents steigt (2,5 Mio.) oder eine einzelne
+# Abfrage über eine Million Zeilen liest. Rot heißt: in der Statusanzeige sichtbar, mit den Zahlen
+# im Protokoll.
+#
+# **Ohne `CLOUDFLARE_ANALYTICS_TOKEN` passiert nichts** — der Lauf bleibt grün und schreibt, dass
+# er übersprungen wurde. Ein fehlendes Secret darf keinen roten Lauf erzeugen (dieselbe Regel wie
+# beim Melder). Anleitung zum Anlegen:
+# https://developers.cloudflare.com/analytics/graphql-api/getting-started/authentication/api-token-auth/
+#
+# **Warum 07:50 UTC (09:50 Berlin):** kurz nach dem täglichen Datenlauf um 06:17, damit der Tag
+# schon Last gesehen hat — aber früh genug, um vor dem nächsten Melde-Durchgang zu warnen.
+
+on:
+  schedule:
+    - cron: '50 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: d1-verbrauch
+  cancel-in-progress: false
+
+jobs:
+  verbrauch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # `wrangler` kommt aus den devDependencies; die Prüfung ruft nur `d1 insights` auf.
+      - name: Abhängigkeiten
+        run: npm ci
+
+      - name: Verbrauch prüfen
+        id: pruefung
+        continue-on-error: true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN }}
+          # Die Konto-Kennung ist kein Geheimnis (sie steht in jeder Dashboard-Adresse) —
+          # `wrangler` braucht sie, wenn das Token auf mehrere Konten zugreifen darf.
+          CLOUDFLARE_ACCOUNT_ID: 567f5e28368c5bbcfeffad3e674b02ab
+        run: node tools/d1-verbrauch.mjs | tee verbrauch.txt
+
+      # **Der Befund gehört in die Statusanzeige**, nicht nur in die Actions-Ansicht — dort sieht
+      # Daniel die roten Läufe ohnehin. Dieselbe Meldung wie bei der Wache.
+      - name: Befund melden
+        if: steps.pruefung.outcome != 'success'
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: |
+          ZAHL=$(grep -m1 'D1-Verbrauch der letzten' verbrauch.txt || echo 'Verbrauch unklar')
+          if [ -n "$LAUF_TOKEN" ]; then
+            printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"fehler","url":"%s","zweck":"%s","ziel":"%s","notiz":"%s"}' \
+              "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
+              "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+              "Sieht täglich nach, wie viel die Datenbank liest" \
+              "Unter der Hälfte des Tageskontingents bleiben (2,5 Mio. Zeilen)" \
+              "$ZAHL — Einzelheiten im Protokoll" > /tmp/befund.json
+            curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
+              -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
+              --data-binary @/tmp/befund.json > /dev/null \
+              || echo "Meldung an die Statusanzeige fehlgeschlagen — der rote Lauf bleibt trotzdem sichtbar."
+          fi
+
+      - name: Rot werden, wenn etwas auffällt
+        if: steps.pruefung.outcome != 'success'
+        run: |
+          echo "::error::Datenbankverbrauch über der Grenze — Einzelheiten oben im Protokoll."
+          exit 1
