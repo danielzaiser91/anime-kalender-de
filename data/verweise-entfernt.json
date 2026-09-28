@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-28T09:06:33.715Z",
+  "stand": "2026-09-28T10:28:51.899Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1608,28 +1608,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 116756,
-      "titel": "Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/en-gb/fategrand-order-absolute-demonic-front-babylonia",
-      "seriesId": null,
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 20605,
-      "titel": "Tokyo Ghoul",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/en-gb/tokyo-ghoul",
-      "seriesId": null,
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": false
-    },
-    {
       "titleId": 790,
       "titel": "Ergo Proxy",
       "plattform": "crunchyroll",
@@ -1663,13 +1641,13 @@
       "letzterWeg": false
     },
     {
-      "titleId": 437,
-      "titel": "Perfect Blue",
+      "titleId": 116756,
+      "titel": "Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon",
       "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/fr/series/GZJH3D8V3/perfect-blue",
-      "seriesId": "GZJH3D8V3",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "url": "https://www.crunchyroll.com/de/fategrand-order-absolute-demonic-front-babylonia",
+      "seriesId": "GR24JZ886",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
       "entferntAm": "2026-09-28",
       "letzterWeg": false
     },
@@ -2243,7 +2221,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-09-28",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 99457,
@@ -2495,17 +2473,6 @@
       "seriesId": "GMEHME59W",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 21730,
-      "titel": "Star Blazers 2202: Space Battleship Yamato",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/pt-br/series/G65V4P4K6/star-blazers-space-battleship-yamato",
-      "seriesId": "G65V4P4K6",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
       "entferntAm": "2026-09-28",
       "letzterWeg": true
     },
@@ -8021,6 +7988,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8087,6 +8065,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8107,6 +8096,50 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-28",
       "letzterWeg": false
+    },
+    {
+      "titleId": 116756,
+      "titel": "Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/en-gb/fategrand-order-absolute-demonic-front-babylonia",
+      "seriesId": null,
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 20605,
+      "titel": "Tokyo Ghoul",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/en-gb/tokyo-ghoul",
+      "seriesId": null,
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 437,
+      "titel": "Perfect Blue",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/fr/series/GZJH3D8V3/perfect-blue",
+      "seriesId": "GZJH3D8V3",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21730,
+      "titel": "Star Blazers 2202: Space Battleship Yamato",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/pt-br/series/G65V4P4K6/star-blazers-space-battleship-yamato",
+      "seriesId": "G65V4P4K6",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
     },
     {
       "titleId": 196144,

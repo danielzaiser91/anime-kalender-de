@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-28 · **2 offene Verweise** in **2 Zeilen**,
+Stand 2026-09-28 · **4 offene Verweise** in **4 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,9 +31,11 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 2
+## Paket 1 — Zeilen 1 bis 4
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | Crunchyroll | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Staffel 3](https://www.crunchyroll.com/de/pt-pt/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world) |
-| 2 | Crunchyroll | A Wild Last Boss Appeared! | [Staffel 2](https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared) |
+| 1 | Crunchyroll | Star Blazers: The Quest for Iscandar | [Star Blazers 2202: Space Battleship Yamato](https://www.crunchyroll.com/de/series/G65V4P4K6/star-blazers-space-battleship-yamato) |
+| 2 | Crunchyroll | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Staffel 3](https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world) |
+| 3 | Crunchyroll | A Wild Last Boss Appeared! | [Staffel 2](https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared) |
+| 4 | Crunchyroll | Perfect Blue | [Hauptserie](https://www.crunchyroll.com/de/series/GZJH3D8V3/perfect-blue) |
