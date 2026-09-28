@@ -1,0 +1,19 @@
+-- Die zweite Löschanfrage auf `prime_folge` (28.09.2026).
+--
+-- `wrangler d1 insights` nennt für die 24 Stunden des Kontingent-Ausfalls zwei Leser aus derselben
+-- Datei:
+--
+--     DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND gti = ?3
+--     DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND seiten_kennung IS ?3
+--
+-- Der erste bekam am Abend `INDEXED BY prime_folge_gti`. **Gezählt wurde aber der zweite**:
+-- 537 Aufrufe mit im Mittel **3430 gelesenen Zeilen** = 1,84 Mio. (26 % des Tageskontingents).
+-- Sein Plan war derselbe Fehler wie beim ersten:
+--
+--     EXPLAIN QUERY PLAN
+--       DELETE FROM prime_folge WHERE … AND seiten_kennung IS ?
+--     → SEARCH prime_folge USING INDEX prime_folge_plattform (plattform=? AND uebernommen=?)
+--
+-- Er ging also erst alle offenen Prime-Folgen durch und prüfte dann die Seite. Mit diesem Index ist
+-- es eine Punktabfrage. Die Anweisung erzwingt ihn (siehe `worker/src/pruefung-speichern.ts`).
+CREATE INDEX IF NOT EXISTS prime_folge_seite ON prime_folge (seiten_kennung);

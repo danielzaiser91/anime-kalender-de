@@ -1,21 +1,21 @@
 /**
  * **Eine Meldung speichern — und aufräumen, was ihre Adresse schon hat.**
  *
- * ## Warum die Löschanfrage den Index erzwingt (28.09.2026)
+ * ## Warum die Löschanfragen den Index erzwingen (28.09.2026)
  *
- * `wrangler d1 insights` für die 24 Stunden des Kontingent-Ausfalls führt diese Abfrage als
- * zweitgrößten Leser:
+ * `wrangler d1 insights` für die 24 Stunden des Kontingent-Ausfalls nennt **zwei** Anweisungen aus
+ * dieser Datei unter den größten Lesern:
  *
  *     DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND gti = ?3
+ *     DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND seiten_kennung IS ?3
  *     537 Aufrufe · im Mittel 3430 gelesene Zeilen · 1,84 Mio. (26 % des Tageskontingents)
  *
- * Der Grund stand im Abfrageplan: `EXPLAIN QUERY PLAN` wählte `prime_folge_plattform
- * (plattform=?, uebernommen=?)` und ging damit erst **alle offenen Prime-Folgen** durch. Der Index
- * `prime_folge_gti` aus Migration 038 war vorhanden und leistet bei einer reinen gti-Suche eine
- * Punktabfrage (gemessen: 0 gelesene Zeilen) — nur benutzt hat ihn niemand. Mit
- * `INDEXED BY prime_folge_gti` steht im Plan `SEARCH prime_folge USING INDEX prime_folge_gti
- * (gti=?)`. Das Verhalten bleibt dasselbe: Die Bedingung `gti = ?3` gilt weiter, nur der Weg
- * dorthin ist ein anderer.
+ * **Beide** nahmen denselben falschen Weg: `EXPLAIN QUERY PLAN` zeigte
+ * `prime_folge_plattform (plattform=?, uebernommen=?)` — also erst alle offenen Prime-Folgen, dann
+ * die Kennung prüfen. Die passenden Indizes waren vorhanden (`prime_folge_gti` aus Migration 038,
+ * `prime_folge_seite` aus 042) und leisten eine Punktabfrage (gemessen: eine reine gti-Suche liest
+ * 0 Zeilen). Mit `INDEXED BY` steht im Plan `SEARCH … (gti=?)` bzw. `(seiten_kennung=?)`.
+ * Das Verhalten bleibt dasselbe: Die Bedingungen gelten weiter, nur der Weg dorthin ist ein anderer.
  */
 import { ereignisSenden } from './ereignisse.ts'
 import { zahlOderNull, jetztIso } from './werte.ts'
@@ -409,10 +409,10 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
       const plattform = String(daten.plattform ?? 'primevideo')
       const kennungen = rohfolgen.map((f: Record<string, unknown>) => (f.gti ? String(f.gti) : null)).filter(Boolean)
       if (plattform === 'primevideo' || !kennungen.length) {
-        /* Je Seite, nicht nur je Adresse: Staffel 2 unter derselben Prüflisten-Adresse
-           löschte sonst die offenen Folgen von Staffel 1 (Migration 030, 17.09.2026). */
+        /* Je Seite, nicht nur je Adresse (Migration 030, 17.09.2026); mit erzwungenem Index —
+           Begründung und Messung im Kopf dieser Datei. */
         await env.DB.prepare(
-          'DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND seiten_kennung IS ?3',
+          'DELETE FROM prime_folge INDEXED BY prime_folge_seite WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND seiten_kennung IS ?3',
         )
           .bind(url, plattform, seitenKennung)
           .run()

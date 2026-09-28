@@ -5797,6 +5797,12 @@ pruefe(
     'die Löschanfrage erzwingt den gti-Index',
     readFileSync('worker/src/pruefung-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
   )
+  /* Dieselbe Ursache, die andere Anweisung: `seiten_kennung` las 3430 Zeilen je Aufruf (26 %). */
+  pruefe(
+    'und die Seiten-Löschung den Seiten-Index',
+    readFileSync('worker/src/pruefung-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
+      readFileSync('worker/migrations/042-prime-folge-seite-index.sql', 'utf8').includes('prime_folge_seite'),
+  )
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */

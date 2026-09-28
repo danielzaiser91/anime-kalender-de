@@ -28,8 +28,13 @@ const GRENZE_EINZELN = 1_000_000
 
 const args = process.argv.slice(2)
 const zeitraum = args.includes('--zeitraum') ? (args[args.indexOf('--zeitraum') + 1] ?? '1d') : '1d'
+/*
+  **`--lokal` nutzt die angemeldete `wrangler`-Sitzung** statt eines Tokens. Für die Probe am
+  eigenen Rechner: In Actions gibt es die Sitzung nicht, dort trägt der Secret-Token die Anmeldung.
+*/
+const lokal = args.includes('--lokal')
 
-if (!process.env.CLOUDFLARE_API_TOKEN) {
+if (!lokal && !process.env.CLOUDFLARE_API_TOKEN) {
   console.log('Kein CLOUDFLARE_API_TOKEN gesetzt — Verbrauchsprüfung übersprungen.')
   console.log('Anleitung: https://developers.cloudflare.com/analytics/graphql-api/getting-started/authentication/api-token-auth/')
   process.exit(0)
