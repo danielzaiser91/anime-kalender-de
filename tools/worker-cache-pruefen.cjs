@@ -1,23 +1,24 @@
 #!/usr/bin/env node
 /**
- * **Eine gecachte Adresse, die niemand verwirft, hält einen überholten Stand.**
+ * **Eine gecachte Adresse, die niemand verwirft, hält einen überholten Stand — und eine, die bei
+ * jeder Meldung verworfen wird, kostet das Tageskontingent.**
  *
- * Seit dem 01.09.2026 hält der Worker die Antworten der beiden Übersichts-
- * Endpunkte eine halbe Stunde im Cache der Edge (`ausCache` in
- * `worker/src/index.ts`). Das ist der Unterschied zwischen 9,9 Millionen
- * gelesenen Zeilen am Tag und 331.000 — an dem Tag hatte das Kontingent von
- * fünf Millionen nicht gereicht, und der Briefkasten war stundenlang tot.
+ * Seit dem 01.09.2026 hält der Worker die Antworten seiner Übersichts-Endpunkte im Cache der Edge
+ * (`ausCache`, `worker/src/pruefung.ts`). Das ist der Unterschied zwischen 9,9 Millionen gelesenen
+ * Zeilen am Tag und 331.000 — an dem Tag hatte das Kontingent von fünf Millionen nicht gereicht,
+ * und der Briefkasten war stundenlang tot.
  *
- * Die Frische hängt daran, dass jeder Schreibzugriff die Antwort verwirft.
- * `briefkastenCacheLeeren` kennt dafür eine **feste Liste** von Adressen —
- * und genau die veraltet lautlos: Wer einen dritten Endpunkt umhüllt oder der
- * Erweiterung einen neuen Abfrageweg gibt, merkt nichts. Der Titel steht dann
- * eine halbe Stunde nach der Meldung noch als offen da, und das ist der Fehler,
- * den Daniel am 01.09.2026 viermal melden musste, bevor er behoben war.
+ * Bis zum 28.09.2026 verwarf dabei **jeder Schreibzugriff** die beiden Adressen von `?zaehlen=1`
+ * (`briefkastenCacheLeeren`, eine feste Liste). Genau das hat sich gerächt: Beim Melde-Durchgang
+ * liegt zwischen zwei Meldungen weniger als die Frist, der Cache greift also nie — der Worker
+ * rechnete die teure Zählung **540-mal** neu, 4,35 Mio. gelesene Zeilen, **62 %** des Kontingents
+ * (`wrangler d1 insights`). Dieselbe Lehre war am 24.09.2026 schon für `?stand=1` gezogen worden.
  *
- * Geprüft wird deshalb beides gegeneinander:
- *   1. jeder umhüllte Endpunkt hat einen Eintrag in der Verwerfen-Liste
- *   2. die Verwerfen-Liste läuft über die Weiterleitung, nicht je Schreibstelle
+ * Jetzt wird nichts mehr verworfen: Jede Antwort läuft nach ihrer eigenen Frist ab (eine Minute der
+ * Stand, dreißig Minuten die Zählung). Wer selbst meldet, überbrückt das in der Erweiterung.
+ *
+ * Geprüft wird deshalb, dass **keine** Verwerfen-Liste mehr existiert und dass die gehaltenen
+ * Endpunkte ihre Frist tragen.
  */
 const { readFileSync, readdirSync } = require('node:fs')
 const { join } = require('node:path')
@@ -48,46 +49,23 @@ for (const zeile of quelle.split('\n')) {
 }
 pruefe(umhuellt.length >= 2, `${umhuellt.length} Endpunkte gehalten: ${umhuellt.join(', ') || '—'}`)
 
-/* Und welche Adressen werden verworfen? */
-const listeRoh = quelle.match(/const wege = \[([^\]]+)\]/)
-pruefe(!!listeRoh, 'Verwerfen-Liste gefunden')
-const wege = listeRoh ? [...listeRoh[1].matchAll(/'([^']+)'/g)].map((m) => m[1]) : []
-
 /*
-  **Eine Ausnahme mit Grund** (24.09.2026): `?stand=1` hält nur eine Minute und wird absichtlich
-  nicht verworfen. Verworfen je Meldung, rechnete ihn der Worker am Tag des Melde-Durchgangs
-  1.834-mal neu und brauchte damit das D1-Tageskontingent auf.
-*/
-const LAEUFT_SELBST_AB = new Set(['stand=1'])
-for (const endpunkt of umhuellt) {
-  if (LAEUFT_SELBST_AB.has(endpunkt)) {
-    pruefe(!wege.some((w) => w.includes(endpunkt)), `«${endpunkt}» läuft nach seiner Frist ab und wird nicht verworfen`)
-    continue
-  }
-  pruefe(
-    wege.some((w) => w.includes(endpunkt)),
-    `«${endpunkt}» wird beim Schreiben verworfen`,
-  )
-}
+  **Und welche Adressen werden verworfen? Keine** (28.09.2026).
 
-/* Die Umkehrung: keine Adresse in der Liste, die es gar nicht mehr gibt. */
-for (const weg of wege) {
-  const kern = weg.replace(/^\?/, '').split('&')[0]
-  pruefe(umhuellt.includes(kern), `«${weg}» gehört zu einem gehaltenen Endpunkt`)
-}
+  Bis heute stand hier eine Verwerfen-Liste mit `?zaehlen=1` und `?zaehlen=1&nummern=1`. Genau sie
+  hat das Tageskontingent gekostet: Der Endpunkt liest je Neuberechnung die **ganze** Adresstabelle
+  (im Mittel 8049 Zeilen), und weil jede Meldung den Eintrag löschte, rechnete der Worker ihn am
+  Tag des Melde-Durchgangs **540-mal** neu — 4,35 Mio. Zeilen, **62 %** des Kontingents
+  (`wrangler d1 insights`). Dieselbe Lehre war am 24.09.2026 schon für `?stand=1` gezogen worden
+  (1.834 Neuberechnungen, 9,2 Mio. Zeilen); sie fehlte nur beim teuren Endpunkt.
 
-/*
-  Die Invalidierung hängt an der Weiterleitung. Steht sie stattdessen in einem
-  einzelnen Zweig, ist sie beim nächsten neuen Zweig vergessen — der Grund,
-  warum sie überhaupt dorthin gewandert ist.
+  Jede Antwort läuft jetzt nach ihrer eigenen Frist ab (eine Minute der Stand, dreißig Minuten die
+  Zählung). Wer gerade selbst gemeldet hat, überbrückt das in der Erweiterung
+  (`frischGemeldetNetflix`) — für alle anderen ist ein halbstündlich alter Zähler harmlos.
 */
 pruefe(
-  /case '\/pruefung': \{[\s\S]{0,900}?briefkastenCacheLeeren/.test(quelle),
-  'Verworfen wird an der Weiterleitung, nicht je Schreibstelle',
-)
-pruefe(
-  /request\.method !== 'GET'\) ctx\.waitUntil\(briefkastenCacheLeeren/.test(quelle),
-  'Verworfen wird bei jeder Methode außer GET',
+  !/const wege = \[/.test(quelle),
+  'keine Verwerfen-Liste mehr — sonst rechnet der Melde-Durchgang die teure Zählung je Meldung neu',
 )
 
 /*

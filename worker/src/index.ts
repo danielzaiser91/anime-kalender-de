@@ -36,33 +36,6 @@ import { handlePruefung } from './pruefung.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
 
-/**
- * **Was gemeldet wurde, ist sofort gemeldet — auch für die Übersicht.**
- *
- * Die Antworten von `?zaehlen=1` und `?stand=1` werden gehalten — eine halbe
- * Stunde die teure Zählung, eine Minute der Stand (Begründung dort). Eine neue
- * Meldung macht beide in derselben Sekunde falsch, also werden sie verworfen,
- * statt abzulaufen.
- *
- * Die drei Adressen sind fest, weil die Erweiterung genau sie abfragt: die
- * Übersicht mit und ohne Folgennummern und der Stand der Anzeige. Kommt eine
- * vierte hinzu, gehört sie hierher — sonst hält sie fünf Minuten lang einen
- * überholten Stand.
- */
-async function briefkastenCacheLeeren(request: Request): Promise<void> {
-  const basis = new URL(request.url)
-  basis.search = ''
-  /*
-    **`?stand=1` wird nicht mehr verworfen, er läuft nach seiner Minute von selbst ab** (24.09.2026).
-    Jede Meldung verwarf ihn, und am Tag des Melde-Durchgangs rechnete der Worker ihn 1.834-mal neu —
-    mit der Abfrage, die 9,2 Millionen Zeilen las und das Tageskontingent aufbrauchte. Die eigene
-    Meldung überbrückt die Erweiterung ohnehin selbst (`frischGemeldetNetflix`); für alle anderen
-    ist der Stand höchstens eine Minute alt.
-  */
-  const wege = ['?zaehlen=1', '?zaehlen=1&nummern=1']
-  await Promise.all(wege.map((w) => caches.default.delete(new Request(basis.toString() + w, { method: 'GET' }))))
-}
-
 export { Ereignisse }
 
 interface SubscriberRow {
@@ -1650,18 +1623,7 @@ export default {
         return stub.fetch(request)
       }
       case '/pruefung': {
-        const ergebnis = await handlePruefung(request, env, ctx)
-        /*
-          **Jeder Schreibzugriff verwirft die Übersicht — an einer Stelle, nicht an neun.**
-
-          `handlePruefung` ändert `pruefung` an neun Stellen: melden, verwerfen,
-          übernehmen, zurückholen. Die Invalidierung an jede einzelne zu hängen
-          hieße, sie bei der zehnten zu vergessen — und dann steht eine halbe
-          Stunde lang ein überholter Stand, ohne dass jemand den Zusammenhang
-          sieht. Hier kommt keine vorbei.
-        */
-        if (request.method !== 'GET') ctx.waitUntil(briefkastenCacheLeeren(request))
-        return ergebnis
+        return await handlePruefung(request, env, ctx)
       }
       case '/lauf':
         return handleLauf(request, env, ctx)

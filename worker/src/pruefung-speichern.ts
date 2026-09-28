@@ -1,4 +1,22 @@
-
+/**
+ * **Eine Meldung speichern — und aufräumen, was ihre Adresse schon hat.**
+ *
+ * ## Warum die Löschanfrage den Index erzwingt (28.09.2026)
+ *
+ * `wrangler d1 insights` für die 24 Stunden des Kontingent-Ausfalls führt diese Abfrage als
+ * zweitgrößten Leser:
+ *
+ *     DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND gti = ?3
+ *     537 Aufrufe · im Mittel 3430 gelesene Zeilen · 1,84 Mio. (26 % des Tageskontingents)
+ *
+ * Der Grund stand im Abfrageplan: `EXPLAIN QUERY PLAN` wählte `prime_folge_plattform
+ * (plattform=?, uebernommen=?)` und ging damit erst **alle offenen Prime-Folgen** durch. Der Index
+ * `prime_folge_gti` aus Migration 038 war vorhanden und leistet bei einer reinen gti-Suche eine
+ * Punktabfrage (gemessen: 0 gelesene Zeilen) — nur benutzt hat ihn niemand. Mit
+ * `INDEXED BY prime_folge_gti` steht im Plan `SEARCH prime_folge USING INDEX prime_folge_gti
+ * (gti=?)`. Das Verhalten bleibt dasselbe: Die Bedingung `gti = ?3` gilt weiter, nur der Weg
+ * dorthin ist ein anderer.
+ */
 import { ereignisSenden } from './ereignisse.ts'
 import { zahlOderNull, jetztIso } from './werte.ts'
 import { type Env } from './env.ts'
@@ -399,10 +417,13 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
           .bind(url, plattform, seitenKennung)
           .run()
       } else {
+        /* Mit erzwungenem Index: ohne ihn las diese Abfrage im Mittel 3430 Zeilen (26 % des
+           Kontingents, 28.09.2026) — der Planer nahm `prime_folge_plattform` statt `_gti`.
+           Messung und Begründung stehen im Kopf dieser Datei. */
         await env.DB.batch(
           kennungen.map((k) =>
             env.DB.prepare(
-              'DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND gti = ?3',
+              'DELETE FROM prime_folge INDEXED BY prime_folge_gti WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND gti = ?3',
             ).bind(url, plattform, k),
           ),
         )

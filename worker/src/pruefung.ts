@@ -26,17 +26,24 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
    * aber nicht die Ursache: Der Takt allein hätte es auch geschafft.
    *
    * Die Antwort ist für **alle** Fragenden dieselbe und ändert sich nur, wenn
-   * jemand schreibt. Sie wird deshalb im Cache der Edge gehalten und bei **jedem**
-   * Schreibzugriff verworfen (`briefkastenCacheLeeren`, angehängt an die
-   * Weiterleitung) — ein frisch gemeldeter Titel steht also nicht weiter als
-   * offen. Das ist der Fall, den Daniel am 01.09.2026 viermal melden musste; er
-   * darf durch eine Sparmaßnahme nicht zurückkommen.
+   * jemand schreibt. Sie wird deshalb im Cache der Edge gehalten.
    *
-   * **Deshalb ist die halbe Stunde keine Wartezeit.** Die Frische kommt aus dem
-   * Verwerfen, nicht aus dem Ablaufen; die Dauer deckt nur den Fall ab, dass ein
-   * Verwerfen ein anderes Rechenzentrum nicht erreicht. Bei fünf Minuten
-   * blieben 2,0 Millionen gelesene Zeilen am Tag je offenem Tab — bei drei Tabs
-   * wieder über dem Kontingent. Mit dreißig sind es 331.000.
+   * **Nicht mehr verworfen, sondern abgelaufen** (28.09.2026). Bis heute löschte jede Meldung den
+   * Eintrag (`briefkastenCacheLeeren`), damit ein frisch gemeldeter Titel nicht weiter als offen
+   * gilt. Am Tag des Melde-Durchgangs rechnete der Worker die Zählung dadurch **540-mal** neu —
+   * 4,35 Mio. gelesene Zeilen, **62 %** des Tageskontingents, belegt mit `wrangler d1 insights`.
+   * Genau daran ist das Kontingent an diesem Tag ausgefallen. Dieselbe Lehre war am 24.09.2026
+   * schon für `?stand=1` gezogen worden (1.834 Neuberechnungen, 9,2 Mio. Zeilen); sie fehlte nur
+   * beim teuren Endpunkt.
+   *
+   * Jetzt läuft die Antwort nach ihrer Frist ab. Wer gerade selbst gemeldet hat, überbrückt das in
+   * der Erweiterung (`frischGemeldetNetflix`) — für alle anderen ist ein halbstündlich alter
+   * Zähler harmlos, und eine versehentliche Meldung holt
+   * `tools/pruefung-zurueckstellen.mjs` zurück.
+   *
+   * **Deshalb ist die halbe Stunde keine Wartezeit.** Bei fünf Minuten blieben 2,0 Millionen
+   * gelesene Zeilen am Tag je offenem Tab — bei drei Tabs wieder über dem Kontingent. Mit
+   * dreißig sind es 331.000.
    *
    * `caches.default` gilt je Rechenzentrum. Meldung und Abfrage kommen aus
    * demselben Browser, also aus demselben — für einen fremden Leser ist die
@@ -53,11 +60,12 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
    *
    * Fuer `?stand=1` war es falsch, und zwar sichtbar: Die Zahl darin stammt aus
    * `pruefstand.json`, und die schreibt ein **Datenlauf**, kein Schreibzugriff
-   * auf den Worker. Das Verwerfen haengt aber genau an den Schreibzugriffen
-   * (`briefkastenCacheLeeren`). Nach einem Datenlauf zeigte die Statusanzeige
-   * deshalb bis zu dreissig Minuten den Stand von davor: Am 05.09.2026 standen
-   * vier neue Prime-Auftraege im Bestand, und in der App war die Leiste leer
-   * (Daniel: „die prime auftraege muessen auch als pill in status app").
+   * auf den Worker. Verworfen wurde er bis zum 24.09.2026 trotzdem bei jedem
+   * Schreibzugriff (`briefkastenCacheLeeren`, inzwischen entfernt). Nach einem
+   * Datenlauf zeigte die Statusanzeige deshalb bis zu dreissig Minuten den Stand
+   * von davor: Am 05.09.2026 standen vier neue Prime-Auftraege im Bestand, und in
+   * der App war die Leiste leer (Daniel: „die prime auftraege muessen auch als
+   * pill in status app").
    *
    * Eine Minute deckt genau den Takt ab, in dem die Anzeige ohnehin fragt. Sie
    * ist billig: `?stand=1` liest nur die **offenen** Meldungen
