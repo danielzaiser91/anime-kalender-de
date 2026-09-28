@@ -1,9 +1,27 @@
 {
-  "geholtAm": "2026-09-21T11:53:44.870Z",
+  "geholtAm": "2026-09-28T12:52:51.114Z",
   "titel": {
+    "16870": {
+      "programm": "the-last-naruto-the-movie-p_226250",
+      "videos": [
+        {
+          "video": "the-last-naruto-the-movie-c_1946685",
+          "titel": "The Last: Naruto the Movie",
+          "ab": "2026-05-04"
+        }
+      ],
+      "folgen": []
+    },
     "165159": {
       "programm": "beyblade-x-p_9519",
       "videos": [
+        {
+          "video": "wachsende-kraft-c_2111739",
+          "titel": "Wachsende Kraft",
+          "ab": "2026-09-18",
+          "staffel": 3,
+          "folge": 17
+        },
         {
           "video": "zukunfts-profis-c_2117078",
           "titel": "Zukunfts-Profis",
@@ -12,18 +30,18 @@
           "folge": 16
         },
         {
+          "video": "motiv-zu-motiv-c_2121373",
+          "titel": "Motiv zu Motiv",
+          "ab": "2026-09-25",
+          "staffel": 3,
+          "folge": 18
+        },
+        {
           "video": "wechseln-oder-auflosen-c_2111461",
           "titel": "Wechseln oder auflösen",
           "ab": "2026-09-04",
           "staffel": 3,
           "folge": 15
-        },
-        {
-          "video": "wachsende-kraft-c_2111739",
-          "titel": "Wachsende Kraft",
-          "ab": "2026-09-18",
-          "staffel": 3,
-          "folge": 17
         },
         {
           "video": "blick-in-die-zukunft-c_2090251",
@@ -59,13 +77,6 @@
           "ab": "2026-07-31",
           "staffel": 3,
           "folge": 10
-        },
-        {
-          "video": "ende-des-schrecklichen-drachen-c_2049612",
-          "titel": "Ende des schrecklichen Drachen",
-          "ab": "2026-07-24",
-          "staffel": 3,
-          "folge": 9
         },
         {
           "video": "retter-von-xenon-city-c_2048202",
@@ -1554,13 +1565,6 @@
           "ab": "2026-07-17"
         },
         {
-          "nr": 109,
-          "st": 9,
-          "staffel": 3,
-          "dt": "Ende des schrecklichen Drachen",
-          "ab": "2026-07-24"
-        },
-        {
           "nr": 110,
           "st": 10,
           "staffel": 3,
@@ -1615,6 +1619,13 @@
           "staffel": 3,
           "dt": "Wachsende Kraft",
           "ab": "2026-09-18"
+        },
+        {
+          "nr": 118,
+          "st": 18,
+          "staffel": 3,
+          "dt": "Motiv zu Motiv",
+          "ab": "2026-09-25"
         }
       ]
     }
