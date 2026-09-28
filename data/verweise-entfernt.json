@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-28T10:35:11.684Z",
+  "stand": "2026-09-28T11:49:03.934Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7062,6 +7062,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-28",
       "letzterWeg": true
+    },
+    {
+      "titleId": 136430,
+      "titel": "Vinland Saga: Staffel 2",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0BX1M7K82",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
     },
     {
       "titleId": 139369,

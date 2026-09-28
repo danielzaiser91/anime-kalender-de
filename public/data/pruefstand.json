@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-09-28T10:35:18.090Z",
+ "erzeugtAm": "2026-09-28T11:49:09.351Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 651,
-   "gesamt": 751,
-   "offen": 100,
+   "gemeldet": 730,
+   "gesamt": 752,
+   "offen": 22,
    "ohneSeite": 0,
    "suchAdressen": [],
    "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.90c814d3-83d5-4e7e-aa2c-68e5234cd305",
@@ -20,80 +20,16 @@
      "titel": "Yu-Gi-Oh! GX"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0GGFXGY1C",
-     "titel": "Tenchi Muyo! (Episode 1 - 6) (Tenchi Muyo! Ryo-Ohki)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FRH6GW62",
-     "titel": "Ouran High School Host Club"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
-     "titel": "Shin-chan (Shin Chan)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B8RQ86ZZ",
-     "titel": "The Familiar of Zero"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0B6TCM46Q",
      "titel": "Welcome to the N.H.K. (Welcome to the N-H-K)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DK9RW8NK",
-     "titel": "Pumpkin Scissors"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNC57YWT",
-     "titel": "Super Kickers 2006 (Captain Tsubasa)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C7HBNRR2",
-     "titel": "Sonic X"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B088TJTM33",
-     "titel": "Saber Rider und die Star Sheriffs (Star Musketeer Bismark)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DJD3V2W9",
-     "titel": "School Days: Wer dir alles geben kann, kann dir auch alles nehmen ... (School Days (TV))"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07B9G6T7N",
-     "titel": "Robin Hood (The Great Adventures of Robin Hood)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B018MUSJGQ",
-     "titel": "Perrine (Perrine Monogatari)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0C7QCV5B4",
      "titel": "Wunderbare Pollyanna (Ai Shoujo Pollyanna Story)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CVF68ZPN",
-     "titel": "Um die Welt mit Willy Fog (Around the World with Willy Fog)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DWSGKJ5Z",
-     "titel": "Um die Welt mit Barbapapa (Barbapapa Around the World)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B00WDK3XPE",
      "titel": "Wickie und die starken Männer (Vicky the Viking)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07P5V9CV3",
-     "titel": "Tico: Ein toller Freund (Tico and Friends)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CHDBLWD1",
-     "titel": "Strike Witches"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FSY8YZT9",
-     "titel": "Sekirei"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B014UEEGCE",
@@ -104,44 +40,12 @@
      "titel": "X-Men"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0H775G89C",
-     "titel": "Puella Magi Madoka Magica"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0BZM4K8ZS",
-     "titel": "Penguindrum"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CV4FG2NV",
      "titel": "Waiting in the Summer"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0B5PTK4ML",
-     "titel": "The Hentai Prince and the Stony Cat. (Hentai Prince & the Stony Cat)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CB1X24TG",
-     "titel": "The Devil Is a Part-Timer!"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FT9T5NTX",
-     "titel": "Tamako Market"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B01K0PLQHK",
-     "titel": "Pokémon: Die TV-Serie - XY (Pokémon the Series: XY)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FL11HR3X",
-     "titel": "No Game No Life (No Game, No Life)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0BX43F96W",
-     "titel": "Space Dandy"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B7D1XZJY",
-     "titel": "Samurai Warriors SP: Die Legende der Sanada (Sengoku Musou Special: Sanada's Chapter)"
+     "url": "https://www.amazon.de/gp/video/detail/B0GZJ7KH73",
+     "titel": "Attack on Titan"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B08CGK5645",
@@ -152,212 +56,24 @@
      "titel": "Akame ga Kill: Schwerter der Assassinen (Akame ga Kill!)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0DL43783S",
-     "titel": "Parasyte: The Maxim (Parasyte -the maxim-)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0H4R4DFWJ",
-     "titel": "Terra Formars"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B09TKPTYSS",
-     "titel": "Shojo-Mangaka Nozaki-kun (Monthly Girls' Nozaki-kun)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0HB4LWHTH",
      "titel": "Wolf Girl & Black Prince (Wolf Girl and Black Prince)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GVZMY7WT",
-     "titel": "Strike Witches: Operation Victory Arrow (Strike Witches Operation Victory Arrow)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FX5S5ZV1",
-     "titel": "School-Live!"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07NNTV2LR",
-     "titel": "Trinity Seven"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CBB1NX69",
-     "titel": "Sky Wizards Academy"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0H49FZZY8",
-     "titel": "Shirobako"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CC2XXCZG",
-     "titel": "Pac-Man und die Geisterabenteuer (Pac-Man and the Ghostly Adventures)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FDRC8B5Q",
-     "titel": "Punch Line"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DN482ZYY",
-     "titel": "Overlord"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CTMZG31J",
-     "titel": "Valkyrie Drive: Mermaid"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C7JVLPDR",
-     "titel": "The Asterisk War"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D7FXLN88",
-     "titel": "Tales of Zestiria the X"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B8PCPFP1",
-     "titel": "Phantasy Star Online 2: The Animation (Phantasy Star Online 2 The Animation)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07SZHSYWQ",
-     "titel": "Norn9"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B01HRSRENS",
-     "titel": "Pokémon: Die TV-Serie - XYZ (Pokémon the Series: XYZ)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNGCWNTR",
-     "titel": "UQ Holder! Magister Negi Magi Negima! 2 (UQ Holder!)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CNGQNN2P",
-     "titel": "Pokémon: Die TV-Serie - Sonne & Mond (Pokémon the Series: Sun & Moon)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FV2DT45Q",
-     "titel": "Sengoku Night Blood"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0G7346BYX",
-     "titel": "Two Car: Racing Sidecar (TWOCAR)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D4Z3Z5N1",
      "titel": "Wise Man’s Grandchild"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B09WR1P8JS",
-     "titel": "Tada Never Falls in Love"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DB78FWK9",
-     "titel": "Tokyo Ghoul:re"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CFXJPZ1Q",
      "titel": "W’z (W'z)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNCJ3RZK",
-     "titel": "The Ones Within"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FLQN4VG9",
-     "titel": "Tayo: Der Kleine Bus (Tayo the Little Bus Season 1)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FWJ94TP2",
-     "titel": "Titipo: Der kleine Zug (Titipo Titipo)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D2D9Z3NR",
      "titel": "We Never Learn (We Never Learn: BOKUBEN)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0C7NSMB25",
-     "titel": "The Magnificent Kotobuki"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DR7D6B5L",
-     "titel": "Shikizakura"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07XYDCVFK",
-     "titel": "Sylvanian Families: Mini-Episodes - Ivy (Calico Critters: Mini Episodes -Ivy-)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B09V4N69ZT",
-     "titel": "Special 7: Special Crime Investigation Unit"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D8SX7TGW",
-     "titel": "Val × Love (Val x Love)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B75V3WSK",
-     "titel": "Pokémon Reisen: Die Serie (Pokémon Journeys: The Series)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CM19FHP2",
-     "titel": "Peter Grill and the Philosopher’s Time (Peter Grill and the Philosopher's Time)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0BZXS61PP",
-     "titel": "Our Last Crusade or the Rise of a New World"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0BYXM4XD2",
-     "titel": "Otherside Picnic"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B77QBZ4T",
-     "titel": "Talentless Nana"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B6GH3ZK4",
-     "titel": "The Eminence in Shadow"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CJVQXQCS",
-     "titel": "The Greatest Demon Lord Is Reborn as a Typical Nobody"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CG8QQV76",
-     "titel": "The Dawn of the Witch"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0BX1M7K82",
-     "titel": "Vinland Saga: Staffel 2 (Vinland Saga Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B772HWHN",
-     "titel": "Reincarnated as a Sword"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DJK6WF2H",
-     "titel": "The Demon Sword Master of Excalibur Academy"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B5KCGF2N",
-     "titel": "Phantom of the Idol"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CV9Y8W99",
-     "titel": "Onimai: Ab sofort Schwester! (ONIMAI: I'm Now Your Sister!)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0D7CBG59K",
      "titel": "Yohane the Parhelion: Sunshine in the Mirror (YOHANE THE PARHELION -SUNSHINE in the MIRROR-)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CK2PTL73",
-     "titel": "Shangri-La Frontier"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0H4C7LCXK",
-     "titel": "Undead Unluck"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D6KJH45W",
-     "titel": "The Dreaming Boy Is a Realist"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
@@ -366,10 +82,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FX17N29N",
      "titel": "Your Forma"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DY17414W",
-     "titel": "Plus-Sized Elf"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D8Z7K7Y3",
@@ -382,10 +94,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0F5HDQBTM",
      "titel": "There’s No Freaking Way I’ll Be Your Lover! Unless… (There's No Freaking Way I'll Be Your Lover! Unless…)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DJWXLZ55",
-     "titel": "The After-Dinner Mysteries (The Dinner Table Detective)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FTW7GP47",
@@ -429,44 +137,6 @@
     }
    ],
    "naechster": "Bleach: Thousand-Year Blood War"
-  },
-  {
-   "name": "Crunchyroll",
-   "plattform": "crunchyroll",
-   "gemeldet": 0,
-   "gesamt": 6,
-   "offen": 6,
-   "titel": 6,
-   "ohneSeite": 0,
-   "ziel": "https://www.crunchyroll.com/de/series/GZJH3D8V3/perfect-blue",
-   "ziele": [
-    {
-     "url": "https://www.crunchyroll.com/de/series/GZJH3D8V3/perfect-blue",
-     "titel": "Perfect Blue"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/G65V4P4K6/star-blazers-space-battleship-yamato",
-     "titel": "Star Blazers 2202: Space Battleship Yamato"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
-     "titel": "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Season 3"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
-     "titel": "Black Clover: Staffel 2"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/G3KHEVDJ7/the-apothecary-diaries",
-     "titel": "Die Tagebücher der Apothekerin: Staffel 3 - Cour 1"
-    },
-    {
-     "url": "https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared",
-     "titel": "A Wild Last Boss Appeared! Staffel 2"
-    }
-   ],
-   "naechster": "Perfect Blue",
-   "hinweis": "Liste mit dem nächsten Titel öffnen und nachsehen, ob dort deutscher Ton steht — normalerweise beantwortet der wöchentliche Crunchyroll-Lauf das von selbst; von Hand nur nötig, wenn einer stehen bleibt"
   }
  ]
 }
