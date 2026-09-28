@@ -172,8 +172,25 @@ export function laufendeSynchro(belege, titel, plattform, heute) {
     const alt = juengster.get(k)
     if (!alt || String(b.checkedAt) >= String(alt.checkedAt)) juengster.set(k, b)
   }
+  /*
+    **Der jüngste Beleg des Titels schlägt einen älteren, der keine Adresse nennt.**
+
+    Ein Beleg ohne Adresse spricht über den ganzen Weg — er ist die ungenauere Aussage, und
+    eine jüngere, adressierte Aussage überholt ihn. Ohne diesen Schritt führte derselbe Titel
+    zwei Spuren, und die ältere hielt die Wiedervorlage am Leben: Kill Blue stand als
+    „Synchro läuft noch: am 2026-09-07 deutsch bis Folge 8" auf der Netflix-Liste, obwohl der
+    Beleg vom 26.09. (mit Adresse) „Folgen 1–12 mit deutschem Ton" sagt. Daniel am 28.09.2026:
+    „kill blue ist auf prüfliste, ist aber bereits gemeldet, also wie damit umgehen?"
+  */
+  const juengsteJeTitel = new Map()
+  for (const b of belege) {
+    if (b.platform !== plattform || !b.checkedAt) continue
+    const alt = juengsteJeTitel.get(b.anilistId)
+    if (!alt || String(b.checkedAt) >= String(alt.checkedAt)) juengsteJeTitel.set(b.anilistId, b)
+  }
   const raus = new Map()
   for (const b of juengster.values()) {
+    if (!b.url && juengsteJeTitel.get(b.anilistId) !== b) continue
     const bereiche = [...(b.dubRanges ?? [])].sort((x, y) => x.from - y.from)
     if (bereiche.length < 2 || bereiche[0].dub !== true || bereiche.at(-1).dub !== false) continue
     if (!jpEnde.has(b.anilistId)) continue

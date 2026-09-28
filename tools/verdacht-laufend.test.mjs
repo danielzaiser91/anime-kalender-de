@@ -64,6 +64,24 @@ pruefe('ohne japanisches Ende (läuft noch) → ja', laufendeSynchro([halb(3, '2
 pruefe('fremder Anbieter → nie', !laufendeSynchro([halb(1, '2026-09-01')], titel, 'netflix', '2026-10-30').has(1))
 pruefe('Titel nicht im Bestand → nie', !laufendeSynchro([halb(99, '2026-09-01')], titel, 'disneyplus', '2026-10-30').has(99))
 
+/*
+  Kill Blue (Daniel, 28.09.2026: „kill blue ist auf prüfliste, ist aber bereits gemeldet").
+  Zwei Belege desselben Titels: der ältere (07.09.) sagt „1–8 deutsch" und nennt **keine**
+  Adresse, der jüngere (26.09.) sagt „alle 12 deutsch" und nennt die Adresse. Ohne die
+  Zusammenführung liefen beide in eigenen Spuren, und die ältere hielt die Wiedervorlage.
+*/
+{
+  const alt = halb(1, '2026-09-07', 8, null)
+  const neu = { ...halb(1, '2026-09-26', 12, 'https://www.disneyplus.com/browse/entity-y'), dubRanges: [] }
+  pruefe('der jüngere Beleg schlägt den älteren ohne Adresse', !laufendeSynchro([alt, neu], titel, 'disneyplus', '2026-10-30').has(1))
+}
+{
+  /* Gegenprobe: Zwei **adressierte** Wege bleiben getrennt — Staffel 1 darf nicht verschwinden. */
+  const s1 = halb(1, '2026-09-01', 6, 'https://www.disneyplus.com/browse/entity-a')
+  const s2 = { ...halb(1, '2026-09-20', 13, 'https://www.disneyplus.com/browse/entity-b'), dubRanges: [{ from: 1, to: 13, dub: true }] }
+  pruefe('zwei adressierte Wege bleiben getrennt', laufendeSynchro([s1, s2], titel, 'disneyplus', '2026-10-30').has(1))
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) verletzt`)
   process.exit(1)
