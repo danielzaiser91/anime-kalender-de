@@ -244,12 +244,17 @@ const ausfallAntworten = (r) =>
   r.fulfill({ status: 500, contentType: 'text/html', body: '<html><body>error code: 1101</body></html>' })
 await seite.unroute(WORKER_URL)
 await seite.route(WORKER_URL, ausfallAntworten)
+/* Beide Quellen hängen an derselben Datenbank — im echten Ausfall fallen sie zusammen aus. */
+await seite.unroute(PILLEN_URL)
+await seite.route(PILLEN_URL, ausfallAntworten)
 await seite.reload({ waitUntil: 'domcontentloaded' })
 await seite.waitForTimeout(1200)
 const ausfall = await seite.evaluate(() => ({
   text: document.body.innerText,
   banner: Boolean(document.querySelector('.limit')),
   kacheln: document.querySelectorAll('.kachel').length,
+  pillen: document.querySelectorAll('.pille').length,
+  pillenTitel: (document.getElementById('pruefliste') || {}).title || '',
   kopf: (document.getElementById('kopf') || {}).textContent || '',
   stand: (document.getElementById('stand') || {}).textContent || '',
 }))
@@ -261,6 +266,9 @@ pruefe('die Kacheln bleiben stehen', ausfall.kacheln === 17, String(ausfall.kach
 pruefe('die Kopfzeile nennt den alten Stand', /^Stand von \d{2}:\d{2}$/.test(ausfall.kopf.trim()), ausfall.kopf)
 pruefe('die Fußzeile sagt, dass der Dienst nicht antwortet',
   ausfall.stand.includes('der Dienst antwortet nicht'), ausfall.stand)
+/* Die Pillen sind Daniels Arbeitsliste — sie kommen aus derselben Datenbank und müssen bleiben. */
+pruefe('die Prüfliste bleibt stehen', ausfall.pillen === 1, String(ausfall.pillen))
+pruefe('und ist als alter Stand gekennzeichnet', /Stand von vorhin/.test(ausfall.pillenTitel), ausfall.pillenTitel)
 await seite.screenshot({ path: path.join(WURZEL, 'docs', 'lauf-status-app-ausfall.png') })
 
 /* Und ohne gemerkten Stand: nur der Grund — ebenfalls lesbar. */
