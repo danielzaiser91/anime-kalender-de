@@ -1,5 +1,23 @@
 import { type Env } from './env.ts'
 
+/**
+ * **Der Stand für die Erweiterung — sparsam gelesen** (28.09.2026).
+ *
+ * Hier standen vier `SELECT DISTINCT` über die **ganze** `pruefung`-Tabelle: alle je
+ * gemeldeten Adressen, Suchadressen, Seiten. Bei rund zehntausend Zeilen sind das je Aufruf
+ * vierzigtausend gelesene Zeilen — und die Erweiterung fragt das bei **jeder** Seite
+ * (`?zaehlen=1`). Ein Durchgang über 150 Seiten sprengte damit das Tageskontingent des
+ * kostenlosen D1-Plans (5 Mio. gelesene Zeilen): Ab etwa 13:30 antwortete der Worker auf
+ * jede Leseabfrage mit `D1_ERROR … daily row read limit` — auch auf `?stand=1` und `/lauf`.
+ * Statusanzeige, Erweiterung und Datenläufe waren bis Mitternacht UTC blind.
+ *
+ * Jetzt gilt für alle drei Spalten dieselbe **Zeitgrenze** wie bisher schon für die Seiten:
+ * nur Meldungen seit `pruefstand.erzeugtAm`. An der Auskunft ändert das nichts: Was vor dem
+ * letzten Datenlauf gemeldet wurde, steht im gebauten Datensatz — der Prüfstand kennt es,
+ * und was er noch offen führt, steht unter den offenen Zeilen (der Abfrage ganz oben). Was
+ * der Bau **verworfen** hat, soll die Erweiterung ohnehin erneut fragen. Ohne Prüfstand
+ * bleibt es beim alten Verhalten über alles.
+ */
 export async function zaehleOffenePruefungen({ request, env, antwort }: {
   request: Request<unknown, CfProperties<unknown>>
   env: Env
@@ -45,6 +63,26 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
         adressen.push(r.url)
         if (mitNummern) eintraege.push({ url: r.url, folge_nr: r.folge_nr, staffel: r.staffel })
       }
+      /* Nur seit dem letzten Datenlauf lesen — Begründung über der Funktion. */
+      let seitStand: string | null = null
+      try {
+        const res = await fetch(new URL('data/pruefstand.json', env.SITE_URL).toString(), {
+          cf: { cacheTtl: 60 },
+        } as RequestInit)
+        if (res.ok) seitStand = ((await res.json()) as { erzeugtAm?: string }).erzeugtAm ?? null
+      } catch {
+        /* Ohne Prüfstand zählen alle Meldungen. */
+      }
+      /** Eine Spalte, seit dem letzten Datenlauf — sonst über alles. */
+      const seitStandAbfrage = (spalte: 'url' | 'such_url' | 'seiten_kennung') =>
+        seitStand
+          ? env.DB.prepare(
+              `SELECT DISTINCT ${spalte} FROM pruefung
+               WHERE ${spalte} IS NOT NULL AND ${spalte} != '' AND gemeldet_am > ?1`,
+            ).bind(seitStand)
+          : env.DB.prepare(
+              `SELECT DISTINCT ${spalte} FROM pruefung WHERE ${spalte} IS NOT NULL AND ${spalte} != ''`,
+            )
       /**
        * **„Liegt hier noch was?" ist nicht „wurde das gemeldet?"**
        *
@@ -63,9 +101,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
        * Ist unter dieser Adresse jemals etwas eingegangen? `DISTINCT`, weil je
        * Staffel und Folge mehrere Zeilen auf dieselbe Adresse zeigen.
        */
-      const { results: alle } = await env.DB.prepare(
-        `SELECT DISTINCT url FROM pruefung WHERE url IS NOT NULL AND url != ''`,
-      ).all<{ url: string }>()
+      const { results: alle } = await seitStandAbfrage('url').all<{ url: string }>()
       const gemeldet = (alle ?? []).map((r) => r.url)
       /*
         **Und die Suchadressen, unter denen gemeldet wurde.**
@@ -76,9 +112,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
         hier verworfen, sperrt er den Auftrag, und nur ein Konsolenbefehl half
         (02.09.2026, „Is This a Zombie?").
       */
-      const { results: suchen } = await env.DB.prepare(
-        `SELECT DISTINCT such_url FROM pruefung WHERE such_url IS NOT NULL AND such_url != ''`,
-      ).all<{ such_url: string }>()
+      const { results: suchen } = await seitStandAbfrage('such_url').all<{ such_url: string }>()
       const gemeldeteSuchen = (suchen ?? []).map((r) => r.such_url)
       /*
         **Und die Seiten, auf denen wirklich nachgesehen wurde.**
@@ -107,24 +141,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
         zählten weiter alles, und die Erweiterung zeigte zwei Stände zugleich.
         Ohne Prüfstand bleibt es beim alten Verhalten.
       */
-      let seitStand: string | null = null
-      try {
-        const res = await fetch(new URL('data/pruefstand.json', env.SITE_URL).toString(), {
-          cf: { cacheTtl: 60 },
-        } as RequestInit)
-        if (res.ok) seitStand = ((await res.json()) as { erzeugtAm?: string }).erzeugtAm ?? null
-      } catch {
-        /* Ohne Prüfstand zählen alle Meldungen. */
-      }
-      const { results: seiten } = await (seitStand
-        ? env.DB.prepare(
-            `SELECT DISTINCT seiten_kennung FROM pruefung
-             WHERE seiten_kennung IS NOT NULL AND seiten_kennung != '' AND gemeldet_am > ?1`,
-          ).bind(seitStand)
-        : env.DB.prepare(
-            `SELECT DISTINCT seiten_kennung FROM pruefung WHERE seiten_kennung IS NOT NULL AND seiten_kennung != ''`,
-          )
-      ).all<{ seiten_kennung: string }>()
+      const { results: seiten } = await seitStandAbfrage('seiten_kennung').all<{ seiten_kennung: string }>()
       const gemeldeteSeiten = (seiten ?? []).map((r) => r.seiten_kennung)
       /* Die bestätigten Erwartungen — siehe Migration 026. */
       const { results: erw } = await env.DB.prepare(
