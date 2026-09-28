@@ -1,6 +1,28 @@
 import { type Env } from './env.ts'
 
 /**
+ * **Eine Spalte der Meldungen, seit dem letzten Datenlauf** — sonst über alles.
+ *
+ * Mit Zeitgrenze wird für die Adressen `pruefung_gemeldet_url` erzwungen; die Begründung steht im
+ * Kopf der Datei („Die Zeitgrenze allein genügte nicht"). Ohne Grenze bleibt es beim Durchlauf in
+ * der Reihenfolge der Spalte — dort spart SQLite die Sortierung für `DISTINCT`.
+ */
+function seitStandAbfrage(
+  env: Env,
+  seitStand: string | null,
+  spalte: 'url' | 'such_url' | 'seiten_kennung',
+): D1PreparedStatement {
+  if (!seitStand) {
+    return env.DB.prepare(`SELECT DISTINCT ${spalte} FROM pruefung WHERE ${spalte} IS NOT NULL AND ${spalte} != ''`)
+  }
+  const erzwingen = spalte === 'url' ? ' INDEXED BY pruefung_gemeldet_url' : ''
+  return env.DB.prepare(
+    `SELECT DISTINCT ${spalte} FROM pruefung${erzwingen}
+      WHERE ${spalte} IS NOT NULL AND ${spalte} != '' AND gemeldet_am > ?1`,
+  ).bind(seitStand)
+}
+
+/**
  * **Der Stand für die Erweiterung — sparsam gelesen** (28.09.2026).
  *
  * Hier standen vier `SELECT DISTINCT` über die **ganze** `pruefung`-Tabelle: alle je
@@ -17,6 +39,20 @@ import { type Env } from './env.ts'
  * und was er noch offen führt, steht unter den offenen Zeilen (der Abfrage ganz oben). Was
  * der Bau **verworfen** hat, soll die Erweiterung ohnehin erneut fragen. Ohne Prüfstand
  * bleibt es beim alten Verhalten über alles.
+ *
+ * ## Die Zeitgrenze allein genügte nicht (dieselbe Nacht, am selben Abend gefunden)
+ *
+ * Der Plan für die **Adressen** zeigte, dass die Grenze dort nichts bewirkte:
+ *
+ *     SELECT DISTINCT url FROM pruefung WHERE url IS NOT NULL AND url != '' AND gemeldet_am > ?
+ *     → SCAN pruefung USING COVERING INDEX pruefung_url_zeit
+ *
+ * `pruefung_url_zeit` beginnt mit `url`; nach `gemeldet_am` kann SQLite darin nicht springen, und
+ * weil der Index beide Spalten trägt, war er „covering" — der Optimierer nahm ihn lieber als einen
+ * Sprung mit Sortierung. Gemessen: **8049 Zeilen je Aufruf, 4,35 Mio. an einem Tag, 62 % des
+ * Kontingents.** Deshalb erzwingt die Abfrage jetzt `pruefung_gemeldet_url` (Migration 041) —
+ * damit steht `SEARCH … (gemeldet_am>?)` im Plan, verifiziert mit `EXPLAIN QUERY PLAN`. Die beiden
+ * anderen Spalten liefen schon über `pruefung_gemeldet` und suchen dort korrekt.
  */
 export async function zaehleOffenePruefungen({ request, env, antwort }: {
   request: Request<unknown, CfProperties<unknown>>
@@ -73,16 +109,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
       } catch {
         /* Ohne Prüfstand zählen alle Meldungen. */
       }
-      /** Eine Spalte, seit dem letzten Datenlauf — sonst über alles. */
-      const seitStandAbfrage = (spalte: 'url' | 'such_url' | 'seiten_kennung') =>
-        seitStand
-          ? env.DB.prepare(
-              `SELECT DISTINCT ${spalte} FROM pruefung
-               WHERE ${spalte} IS NOT NULL AND ${spalte} != '' AND gemeldet_am > ?1`,
-            ).bind(seitStand)
-          : env.DB.prepare(
-              `SELECT DISTINCT ${spalte} FROM pruefung WHERE ${spalte} IS NOT NULL AND ${spalte} != ''`,
-            )
+      const abfrage = (spalte: 'url' | 'such_url' | 'seiten_kennung') => seitStandAbfrage(env, seitStand, spalte)
       /**
        * **„Liegt hier noch was?" ist nicht „wurde das gemeldet?"**
        *
@@ -101,7 +128,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
        * Ist unter dieser Adresse jemals etwas eingegangen? `DISTINCT`, weil je
        * Staffel und Folge mehrere Zeilen auf dieselbe Adresse zeigen.
        */
-      const { results: alle } = await seitStandAbfrage('url').all<{ url: string }>()
+      const { results: alle } = await abfrage('url').all<{ url: string }>()
       const gemeldet = (alle ?? []).map((r) => r.url)
       /*
         **Und die Suchadressen, unter denen gemeldet wurde.**
@@ -112,7 +139,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
         hier verworfen, sperrt er den Auftrag, und nur ein Konsolenbefehl half
         (02.09.2026, „Is This a Zombie?").
       */
-      const { results: suchen } = await seitStandAbfrage('such_url').all<{ such_url: string }>()
+      const { results: suchen } = await abfrage('such_url').all<{ such_url: string }>()
       const gemeldeteSuchen = (suchen ?? []).map((r) => r.such_url)
       /*
         **Und die Seiten, auf denen wirklich nachgesehen wurde.**
@@ -141,7 +168,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
         zählten weiter alles, und die Erweiterung zeigte zwei Stände zugleich.
         Ohne Prüfstand bleibt es beim alten Verhalten.
       */
-      const { results: seiten } = await seitStandAbfrage('seiten_kennung').all<{ seiten_kennung: string }>()
+      const { results: seiten } = await abfrage('seiten_kennung').all<{ seiten_kennung: string }>()
       const gemeldeteSeiten = (seiten ?? []).map((r) => r.seiten_kennung)
       /* Die bestätigten Erwartungen — siehe Migration 026. */
       const { results: erw } = await env.DB.prepare(

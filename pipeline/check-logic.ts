@@ -5778,6 +5778,27 @@ pruefe(
   pruefe('ohne Neuigkeiten fehlt die Rubrik', !schlicht.html.includes('📰 Neuigkeiten'))
 }
 {
+  /*
+    **Der größte Leser muss den Zeitindex erzwingen** (28.09.2026).
+
+    Die Adressabfrage in `?zaehlen=1` las 8049 Zeilen je Aufruf (4,35 Mio. an einem Tag, 62 % des
+    Kontingents), weil der Optimierer den url-sortierten Index nahm und darin nicht nach der Zeit
+    springen konnte. `EXPLAIN QUERY PLAN` gegen die entfernte Datenbank zeigt den Unterschied: ohne
+    Zwang `SCAN … pruefung_url_zeit`, mit Zwang `SEARCH … pruefung_gemeldet_url (gemeldet_am>?)`.
+    Geprüft wird der Quelltext — einen Plan kann dieser Lauf nicht messen.
+  */
+  const wq = workerQuelltext()
+  pruefe('die Adressabfrage erzwingt den Zeitindex', wq.includes('INDEXED BY pruefung_gemeldet_url'))
+  pruefe(
+    'und die Migration legt ihn an',
+    readFileSync('worker/migrations/041-pruefung-zeit-url-index.sql', 'utf8').includes('pruefung_gemeldet_url'),
+  )
+  pruefe(
+    'die Löschanfrage erzwingt den gti-Index',
+    readFileSync('worker/src/pruefung-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
+  )
+}
+{
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */
   const gross = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-a.png'
   const alt = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b2-b.png'

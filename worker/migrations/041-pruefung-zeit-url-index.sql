@@ -1,0 +1,22 @@
+-- Der größte Leser des Workers zahlt sich nicht durch den Cache allein (28.09.2026).
+--
+-- `?zaehlen=1` fragt je Meldung drei Listen ab: die Adressen, die Suchadressen und die Seiten, an
+-- denen schon nachgesehen wurde. Jede trägt eine Zeitgrenze (`gemeldet_am > <erzeugtAm des
+-- Prüfstands>`), damit nur die Meldungen seit dem letzten Datenlauf gelesen werden.
+--
+-- **Der Plan zeigte, dass die Grenze für die Adressen nichts bewirkt:**
+--
+--     EXPLAIN QUERY PLAN
+--       SELECT DISTINCT url FROM pruefung
+--        WHERE url IS NOT NULL AND url != '' AND gemeldet_am > ?
+--     → SCAN pruefung USING COVERING INDEX pruefung_url_zeit
+--
+-- `pruefung_url_zeit` beginnt mit `url`; SQLite kann darin nicht nach `gemeldet_am` springen, also
+-- liest es den **ganzen** Index. Gemessen in `wrangler d1 insights` für die 24 Stunden des
+-- Kontingent-Ausfalls: 540 Aufrufe mit im Mittel **8049 gelesenen Zeilen** — 4,35 Mio. Zeilen,
+-- **62 %** des Tageskontingents, der größte Einzelposten.
+--
+-- Mit diesem Index steht `gemeldet_am` vorn und `url` liegt mit im Index (covering): SQLite springt
+-- auf die jungen Zeilen und liest nur sie. Die beiden anderen Listen (`such_url`, `seiten_kennung`)
+-- laufen schon über `pruefung_gemeldet` und suchen dort korrekt — sie behalten ihren Weg.
+CREATE INDEX IF NOT EXISTS pruefung_gemeldet_url ON pruefung (gemeldet_am, url);
