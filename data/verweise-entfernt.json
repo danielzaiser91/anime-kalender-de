@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-27T22:27:17.497Z",
+  "stand": "2026-09-28T01:04:30.458Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1803,7 +1803,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-09-28",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 21833,
@@ -6448,6 +6448,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 101165,
+      "titel": "Goblin Slayer",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0CFL5Y7XN",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
       "titleId": 101348,
       "titel": "Vinland Saga",
       "plattform": "primevideo",
@@ -8010,17 +8021,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 137612,
-      "titel": "Princess Principal: Crown Handler 3",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-28",
-      "letzterWeg": true
-    },
-    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8080,17 +8080,6 @@
       "titel": "Gushing over Magical Girls",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1121",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-28",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 186716,
-      "titel": "Princess Principal: Crown Handler - Chapter 4",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,

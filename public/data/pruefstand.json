@@ -1,51 +1,23 @@
 {
- "erzeugtAm": "2026-09-27T22:27:26.787Z",
+ "erzeugtAm": "2026-09-28T01:04:39.592Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 518,
-   "gesamt": 743,
-   "offen": 225,
+   "gemeldet": 595,
+   "gesamt": 745,
+   "offen": 150,
    "ohneSeite": 0,
    "suchAdressen": [],
-   "ziel": "https://www.amazon.de/gp/video/detail/B0H4XQ2NNZ",
+   "ziel": "https://www.amazon.de/gp/video/detail/B0B6S983B4",
    "ziele": [
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0H4XQ2NNZ",
-     "titel": "Fullmetal Alchemist"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GKL1JJB7",
-     "titel": "Die Ewigkeit, die du dir wünschst (Rumbling Hearts)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B8T893H2",
-     "titel": "Elfen Lied"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D6NNGL96",
-     "titel": "InuYasha"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0G1YLVBLV",
-     "titel": "Hellsing"
-    },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B6S983B4",
      "titel": "Lady Oscar: Die Rose von Versailles (Lady Oscar: The Rose of Versailles)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0GD4RMY96",
-     "titel": "Emma: Eine viktorianische Liebe (Emma: A Victorian Romance)"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.90c814d3-83d5-4e7e-aa2c-68e5234cd305",
      "titel": "Shakugan no Shana"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GZV7F9KK",
-     "titel": "Gantz"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B07F9K4QFL",
@@ -60,10 +32,6 @@
      "titel": "Ouran High School Host Club"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0FFT1H1WS",
-     "titel": "Digimon Data Squad"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0B6793P3C",
      "titel": "Nana"
     },
@@ -72,24 +40,12 @@
      "titel": "Shin-chan (Shin Chan)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0FBKS1XMF",
-     "titel": "Digimon Frontier"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0B8RQ86ZZ",
      "titel": "The Familiar of Zero"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B6TCM46Q",
      "titel": "Welcome to the N.H.K. (Welcome to the N-H-K)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DYK8NGT4",
-     "titel": "Die geheimnisvollen Städte des Goldes (The Mysterious Cities of Gold)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0BYVJZ51W",
-     "titel": "Ghost in the Shell: Stand Alone Complex - Der Alltag der Tachikoma (Ghost in the Shell: Stand Alone Complex: Tachikomatic Days)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVLG57S5",
@@ -116,10 +72,6 @@
      "titel": "Marco (3000 Leagues in Search of Mother)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B00WZUS3EI",
-     "titel": "Duel Masters"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0G2YJ5BYG",
      "titel": "Murder Princess"
     },
@@ -132,22 +84,6 @@
      "titel": "Lucky Star (Lucky☆Star)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B09JTSD79F",
-     "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0G2SW5BZH",
-     "titel": "Gurren Lagann"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GM3R58CV",
-     "titel": "Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen (The Wonderful Adventures of Nils Holgersson)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0F6Y9H5Q4",
-     "titel": "Heidi (Heidi, Girl of the Alps)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B088TJTM33",
      "titel": "Saber Rider und die Star Sheriffs (Star Musketeer Bismark)"
     },
@@ -158,14 +94,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B07B9G6T7N",
      "titel": "Robin Hood (The Great Adventures of Robin Hood)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNDM7MMT",
-     "titel": "Die kleine Prinzessin Sara (A Little Princess Sara)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0G2P8B9N7",
-     "titel": "Eine fröhliche Familie (Tales of Little Women)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B018MUSJGQ",
@@ -184,24 +112,12 @@
      "titel": "Missis Jo und ihre fröhliche Familie (Little Women II: Jo's Boys)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0GSVYYYV8",
-     "titel": "Das Dschungelbuch: Die Serie (The Jungle Book)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FK5XHBR4",
-     "titel": "Das Dschungelbuch: Die Serie (The Jungle Book)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CVF68ZPN",
      "titel": "Um die Welt mit Willy Fog (Around the World with Willy Fog)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DWSGKJ5Z",
      "titel": "Um die Welt mit Barbapapa (Barbapapa Around the World)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0H89VPG22",
-     "titel": "Im Land des Zauberers von Oz (The Wonderful Wizard of Oz)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B00WDK3XPE",
@@ -220,16 +136,8 @@
      "titel": "Tico: Ein toller Freund (Tico and Friends)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B00ERK3MQ8",
-     "titel": "Es war einmal … das Leben (Once Upon a Time... Life)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CHDBLWD1",
      "titel": "Strike Witches"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GPD6QY37",
-     "titel": "Hakaba Kitaro: Der Junge vom Friedhof (Graveyard Kitaro)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FSY8YZT9",
@@ -238,14 +146,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B01H0QQNSO",
      "titel": "Jackie und Jill: Die Bärenkinder vom Berg Tarak (Monarch: The Big Bear of Tallac)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B00VQUZDQE",
-     "titel": "Eden of the East"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DW8W9JKQ",
-     "titel": "Halo Legends"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B011JHONQE",
@@ -268,28 +168,12 @@
      "titel": "Magic Kaito: Kid the Phantom Thief (Magic Kaito)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0FWT8MZD8",
-     "titel": "Digimon Fusion"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D543Y2KN",
-     "titel": "Infinite Stratos"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CH9BW1PW",
-     "titel": "Freezing"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0H775G89C",
      "titel": "Puella Magi Madoka Magica"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D7HMQGZZ",
      "titel": "Maken-Ki: Battling Venus (Maken-Ki! Battling Venus)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B09JV7CC61",
-     "titel": "Haganai: I Don’t Have Many Friends (Haganai)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0BZM4K8ZS",
@@ -308,16 +192,8 @@
      "titel": "Kokoro Connect"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0B5JVJKCD",
-     "titel": "Hyouka"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DNCB9LWT",
      "titel": "Naruto Spin off! Rock Lee & seine Ninja-Kumpels (NARUTO Spin-Off: Rock Lee & His Ninja Pals)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0H3MCKPBX",
-     "titel": "Girls & Panzer (Girls und Panzer)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0C8TKFF2J",
@@ -348,18 +224,6 @@
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0C8X5XW5H",
-     "titel": "Dog & Scissors"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B4NRNPKL",
-     "titel": "Golden Time"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CH8XZTL7",
-     "titel": "Gingitsune: Messenger Fox of the Gods"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B01K0PLQHK",
      "titel": "Pokémon: Die TV-Serie - XY (Pokémon the Series: XY)"
     },
@@ -370,10 +234,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0BX43F96W",
      "titel": "Space Dandy"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FP35JJ75",
-     "titel": "Hamatora: The Animation (Hamatora)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B7D1XZJY",
@@ -428,10 +288,6 @@
      "titel": "Trinity Seven"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0GZ5Q2Z5F",
-     "titel": "Gangsta."
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CBB1NX69",
      "titel": "Sky Wizards Academy"
     },
@@ -442,22 +298,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H49FZZY8",
      "titel": "Shirobako"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B081HG7N9Q",
-     "titel": "God Eater"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DND4JNDB",
-     "titel": "Heavy Object"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GKC63VC9",
-     "titel": "Encouragement of Climb: Staffel 2 Specials (Yama no Susume: Second Season Specials)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FW93J46S",
-     "titel": "Food Wars! Shokugeki no Soma (Food Wars!)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CC2XXCZG",
@@ -472,10 +312,6 @@
      "titel": "Overlord"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNG8BDW3",
-     "titel": "Die rothaarige Schneeprinzessin (Snow White with the Red Hair)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CTMZG31J",
      "titel": "Valkyrie Drive: Mermaid"
     },
@@ -484,20 +320,8 @@
      "titel": "The Asterisk War"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0DJB5HLCV",
-     "titel": "Dragon Ball Super"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0D7FXLN88",
      "titel": "Tales of Zestiria the X"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FQMKR524",
-     "titel": "Erased: Die Stadt, in der es mich nicht gibt (ERASED)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CGXXZXLS",
-     "titel": "Dimension W"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B8PCPFP1",
@@ -516,10 +340,6 @@
      "titel": "Pokémon: Die TV-Serie - XYZ (Pokémon the Series: XYZ)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0F14S6334",
-     "titel": "Divine Gate"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B09PQ86SHH",
      "titel": "Kiznaiver"
     },
@@ -532,10 +352,6 @@
      "titel": "KonoSuba: God’s Blessing on This Wonderful World! 2 (KONOSUBA -God's blessing on this wonderful world! 2)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CH9ZGF93",
-     "titel": "Flip Flappers"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B08HSHY3QF",
      "titel": "Katsugeki: Touken Ranbu (Katsugeki TOUKEN RANBU)"
     },
@@ -546,10 +362,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CNGQNN2P",
      "titel": "Pokémon: Die TV-Serie - Sonne & Mond (Pokémon the Series: Sun & Moon)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B09676MQ6S",
-     "titel": "Grimoire of Zero"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FHW8DNTG",
@@ -576,32 +388,8 @@
      "titel": "Tokyo Ghoul:re"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CWDYRF36",
-     "titel": "Doreiku: The Animation (Dorei-ku The Animation)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DV5RJM1Q",
-     "titel": "How Not to Summon a Demon Lord"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CFL5Y7XN",
-     "titel": "Goblin Slayer"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CNPLLDZF",
-     "titel": "Die Welt in allen Farben: Iroduku (IRODUKU: The World in Colors)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CFXJPZ1Q",
      "titel": "W’z (W'z)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B5M7HJ1K",
-     "titel": "Dororo"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CJN5R8ZT",
-     "titel": "Gakuen Basara: Samurai Highschool (Gakuen Basara: Samurai High School)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DNCJ3RZK",
@@ -610,10 +398,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CW36HBFY",
      "titel": "Midnight Occult Civil Servants"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D112TDDV",
-     "titel": "Domestic Girlfriend"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FLQN4VG9",
@@ -644,28 +428,12 @@
      "titel": "Sylvanian Families: Mini-Episodes - Ivy (Calico Critters: Mini Episodes -Ivy-)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0DZCL6XMM",
-     "titel": "Dr. Stone"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CYSWYH7J",
-     "titel": "How Heavy Are the Dumbbells You Lift?"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DHDFTY68",
-     "titel": "Gleipnir"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B09V4N69ZT",
      "titel": "Special 7: Special Crime Investigation Unit"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D8SX7TGW",
      "titel": "Val × Love (Val x Love)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CHBQ91TK",
-     "titel": "Golden Kamuy 3 (Golden Kamuy Season 3)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GXQT7Y42",
@@ -684,10 +452,6 @@
      "titel": "Our Last Crusade or the Rise of a New World"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0F5X8M853",
-     "titel": "Higurashi: When They Cry Gou (Higurashi: When They Cry - GOU)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CVTW992R",
      "titel": "Made in Abyss: Die Goldene Stadt der sengenden Sonne (Made in Abyss: The Golden City of the Scorching Sun)"
     },
@@ -704,20 +468,8 @@
      "titel": "Talentless Nana"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0G1DT86QJ",
-     "titel": "How a Realist Hero Rebuilt the Kingdom"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B099Y31723",
      "titel": "Mother of the Goddess’ Dormitory"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B6SCJ5DW",
-     "titel": "Don’t Toy with Me, Miss Nagatoro (DON'T TOY WITH ME, MISS NAGATORO)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GDFC7BL6",
-     "titel": "Fruits Basket Staffel 3 (Fruits Basket The Final Season)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B6GH3ZK4",
@@ -726,10 +478,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJVQXQCS",
      "titel": "The Greatest Demon Lord Is Reborn as a Typical Nobody"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GGWSLSCP",
-     "titel": "Higurashi: When They Cry Sotsu (Higurashi: When They Cry - SOTSU)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CG8QQV76",
@@ -748,10 +496,6 @@
      "titel": "Reincarnated as a Sword"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0C5F6SYC9",
-     "titel": "I’m Quitting Heroing (I'm Quitting Heroing)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DJK6WF2H",
      "titel": "The Demon Sword Master of Excalibur Academy"
     },
@@ -760,24 +504,8 @@
      "titel": "Phantom of the Idol"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CVD7K1TJ",
-     "titel": "Insomniacs after School"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0H2NR6TYH",
      "titel": "Jujutsu Kaisen: Staffel 2 (JUJUTSU KAISEN Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CKL9J95C",
-     "titel": "Helck"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0BZXB3G7H",
-     "titel": "I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills (I've Somehow Gotten Stronger When I Improved My Farm-Related Skills)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C6XMY4HK",
-     "titel": "Immoral Guild"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CV9Y8W99",
@@ -804,16 +532,16 @@
      "titel": "Frieren: Nach dem Ende der Reise (Frieren: Beyond Journey’s End)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0DZ2ZDJNV",
+     "titel": "Frieren: Nach dem Ende der Reise (Frieren: Beyond Journey’s End)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0D6KJH45W",
      "titel": "The Dreaming Boy Is a Realist"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
      "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CJJG6LNR",
-     "titel": "Horimiya: The Missing Pieces"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DTWZMVH8",
@@ -826,18 +554,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H5TLK58X",
      "titel": "Ninja Kamui"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D3KMSKTS",
-     "titel": "Dungeon People"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GQD2VQVG",
-     "titel": "How I Attended an All-Guy’s Mixer (How I Attended an All-Guy's Mixer)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DHJ82SRH",
-     "titel": "I Parry Everything! (I Parry Everything)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DY17414W",
@@ -864,7 +580,7 @@
      "titel": "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing"
     }
    ],
-   "naechster": "Fullmetal Alchemist"
+   "naechster": "Lady Oscar: Die Rose von Versailles (Lady Oscar: The Rose of Versailles)"
   },
   {
    "name": "Netflix",
@@ -916,19 +632,15 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 40,
+   "gemeldet": 41,
    "gesamt": 44,
-   "offen": 4,
+   "offen": 3,
    "ohneSeite": 0,
    "ziel": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
    "ziele": [
     {
      "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
      "titel": "Bleach: Thousand-Year Blood War"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-ac689bea-f955-4d95-8693-7b87b5a309cb",
-     "titel": "Mission: Yozakura Family Season 2"
     }
    ],
    "naechster": "Bleach: Thousand-Year Blood War"
