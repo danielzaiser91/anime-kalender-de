@@ -908,6 +908,9 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
     ['about:blank', undefined],
     ['https://www.crunchyroll.com/de/series/GRDV0019R', undefined],
     ['https://www.crunchyroll.com/de/series/GRDV0019R/jujutsu-kaisen', 'GRDV0019R'],
+    /* Der Fall vom 28.09.2026: derselbe Serienkennung hinter zwei Sprachcodes. */
+    ['https://www.crunchyroll.com/de/fr/series/GZJH3D8V3/perfect-blue', 'GZJH3D8V3'],
+    ['https://www.crunchyroll.com/de/series/GZJH3D8V3/perfect-blue', 'GZJH3D8V3'],
     ['https://www.crunchyroll.com/de/watch/GE00374453/eine-folge', undefined],
     ['https://www.crunchyroll.com/de/sing-a-bit-of-harmony', undefined],
   ]
@@ -2286,6 +2289,21 @@ console.log('\nStreaming Availability API:')
   pruefe('Disney+ entfernt die fremde Kennung ebenso',
     germanizeUrl('disneyplus', 'https://www.disneyplus.com/de-de/en-gb/series/bleach')
       === 'https://www.disneyplus.com/de-de/series/bleach')
+
+  /*
+    **Eine tote Serie wird über ihre Kennung gefunden, nicht nur über die Adresse** (28.09.2026).
+    Perfect Blue stand im Dub-Bestand unter `…/de/fr/series/GZJH3D8V3/…` (fremder Sprachcode,
+    aus der Zeit vor dem `germanizeUrl`-Fix) und im Datensatz unter `…/de/series/…` — der
+    Adressvergleich lief leer, der tote Verweis blieb stehen. Zusicherung am Quelltext, weil
+    die Entfernung in einer Bau-Phase läuft.
+  */
+  {
+    const bauQuelle = bauQuelltext()
+    pruefe('die tote Serie wird über die Kennung gesucht',
+      /kennungAusZiel\(url\) !== serie\.seriesId/.test(bauQuelle))
+    pruefe('und der Verweis über die Kennung entfernt',
+      /kennungAusZiel\(stream\.url\) === serie\.seriesId/.test(bauQuelle))
+  }
 }
 
 console.log('\nLücken im Sendeplan und die Uhrzeit')

@@ -1,7 +1,41 @@
 import { type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
-import { beurteile, type CrDubData } from '../lib/crunchyroll-dub.ts'
+import { beurteile, type CrDubData, type CrSerie } from '../lib/crunchyroll-dub.ts'
+import { kennungAusZiel } from '../lib/crunchyroll-api.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
+
+/**
+ * **Alle Titel, an denen diese Crunchyroll-Serie hängt — über die Adresse *und* die Kennung**
+ * (28.09.2026).
+ *
+ * `nachUrl.get(serie.url)` fand nichts, wenn der Dub-Bestand die Seite anders schreibt als der
+ * Datensatz: Perfect Blue stand dort unter `…/de/fr/series/GZJH3D8V3/…` (französischer
+ * Sprachcode, aus der Zeit vor dem `germanizeUrl`-Fix), bei uns als
+ * `…/de/series/GZJH3D8V3/…`. Kein Zeichen stimmte, die Schleife lief leer, der tote Verweis
+ * blieb stehen — und kam nach dem Adresswechsel sogar zurück. Die **Serienkennung** ist die
+ * Identität; Sprache und Slug sind Beiwerk. Der genaue Adressvergleich bleibt für Serien ohne
+ * Kennung.
+ */
+function betroffeneTitel(nachUrl: Map<string, Title[]>, serie: CrSerie): Title[] {
+  const betroffen = new Map<number, Title>()
+  for (const t of nachUrl.get(serie.url) ?? []) betroffen.set(t.id, t)
+  if (serie.seriesId) {
+    for (const [url, ts] of nachUrl) {
+      if (kennungAusZiel(url) !== serie.seriesId) continue
+      for (const t of ts) betroffen.set(t.id, t)
+    }
+  }
+  return [...betroffen.values()]
+}
+
+/** Gehört dieser Verweis zu dieser (toten) Serie? Adresse **oder** Kennung genügt. */
+function gehoertZurSerie(stream: Title['streams'][number], serie: CrSerie): boolean {
+  return (
+    stream.platform === 'crunchyroll' &&
+    (stream.url === serie.url ||
+      (Boolean(serie.seriesId) && kennungAusZiel(stream.url) === serie.seriesId))
+  )
+}
 
 export function ordneCrSerienZu({ titles, crDub, usNeinWiderlegt, verweiseEntfernt }: {
   titles: Map<number, Title>
@@ -91,11 +125,9 @@ export function ordneCrSerienZu({ titles, crDub, usNeinWiderlegt, verweiseEntfer
         continue
       }
       if (serie.nichtVerfuegbar || ohneBlock) {
-        for (const title of nachUrl.get(serie.url) ?? []) {
+        for (const title of betroffeneTitel(nachUrl, serie)) {
           const vorher = title.streams.length
-          title.streams = title.streams.filter(
-            (s) => !(s.platform === 'crunchyroll' && s.url === serie.url),
-          )
+          title.streams = title.streams.filter((s) => !gehoertZurSerie(s, serie))
           const weg = vorher - title.streams.length
           verschwunden += weg
           if (weg) {
