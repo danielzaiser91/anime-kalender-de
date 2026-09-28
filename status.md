@@ -389,7 +389,7 @@ Priorität nach Nutzen fürs Projektziel und Größe:
 | 9 | Abstand OmU → Synchro je Titel als gekennzeichnete Prognose | M | **verworfen 18.09.2026** — kein Anwendungsfall: 0 Releases ohne Datum, 0 geschätzte Wochenserien, 0 Titel „noch nicht in Japan". Neu bewerten, wenn angekündigte Synchros ohne Termin im Bestand auftauchen |
 | 10 | Fortschritt je Folge, lokal | M | **erledigt 18.09.2026** — „gesehen bis Folge n" in der Favoriten-Zeile, „x neu" seither |
 | 11 | Web-Push für Favoriten (notify.moe, LiveChart) | L | **Erledigt 18.09.2026** — Schalter in den Favoriten, stündlicher Versand (Abschnitt „Gebaut 18.09.2026: Web-Push“) |
-| 12 | Discord-Webhook-Kanal | M | **Was es wäre:** Ein Webhook, der neue Meldungen („Jetzt auch auf Deutsch bei X") in einen Discord-Kanal postet — dieselben Neuigkeiten wie der Newsletter, nur als Chat-Nachricht. **Warum Daniel entscheidet:** Das ist Außenwirkung auf einem fremden Server (Reichweite, Moderation, Absender). Ob der Anime-Kalender dort auftritt, ist eine Produktentscheidung, keine technische. 🙋 **Entscheidung nötig: bauen oder streichen.** |
+| 12 | Discord-Webhook-Kanal (Neuigkeiten in einen Discord-Kanal posten) | M | **Gestrichen am 28.09.2026 (Daniel).** Es wäre Außenwirkung auf einem fremden Server gewesen — nicht gewünscht. **Nicht betroffen:** die Meldung über rote Datenläufe (`tools/discord-melden.sh`, `DISCORD_WEBHOOK` in vier Workflows) bleibt, das ist eine Betriebsmeldung an dich selbst. |
 
 Weggelassen, weil kein Ziel: Bewertungen, Community, Zeitzonen.
 
