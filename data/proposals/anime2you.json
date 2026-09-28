@@ -1,6 +1,85 @@
 {
-  "scrapedAt": "2026-09-26T09:25:58.203Z",
+  "scrapedAt": "2026-09-28T10:58:38.708Z",
   "proposals": [
+    {
+      "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
+      "articleUrl": "https://www.anime2you.de/news/1054611/crunchyroll-overgeared-und-mehr/",
+      "publishedAt": "2026-09-27",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Samstag",
+          "zeit": "15:30",
+          "satz": "t Boss Appeared!« – Staffel 2 »As a Reincarnated Aristocrat« – Staffel 3 »Overgeared« »A Wild Last Boss Appeared!« – Staffel 2 Episoden: 1 Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 15:30 Uhr Hinweis: Deutsche Synchronisation angek"
+        },
+        {
+          "tag": "Sonntag",
+          "zeit": "17:00",
+          "satz": "hnet in dieser Welt gelandet ist. »As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World« – Staffel 3 Episoden: 1 Sprache: Japanisch (UT) Simulcast: Jeden Sonntag um 17:00 Uhr Hinweis: Deutsche Synchronisation angek"
+        },
+        {
+          "tag": "Sonntag",
+          "zeit": "16:30",
+          "satz": "lle gewöhnt, rückt eine gewaltige feindliche Armee an und zwingt Ars und seine Verbündeten in den Kampf. »Overgeared« Episoden: 1 Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 16:30 Uhr Stream: Crunchyroll , Prime Video Handl"
+        }
+      ],
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",
+      "articleUrl": "https://www.anime2you.de/news/1054098/animoon-higurashi-gou-sonderangebot/",
+      "publishedAt": "2026-09-26",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-09-28",
+          "context": "uft wird. Wir fassen die Details zusammen. Nur für kurze Zeit Bis zum 28. September 2026 bietet der Publisher alle fünf Volumes von »Higuras"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Anime-Neuheiten im Oktober 2026 auf DVD und Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/",
+      "publishedAt": "2026-09-26",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-10",
+          "context": "Anime-Neuheiten im Oktober 2026 auf DVD und Blu-ray Im Oktober 2026 kommen wieder zahl"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
+      "articleUrl": "https://www.anime2you.de/news/1052989/my-dress-up-darling-steelbook-design/",
+      "publishedAt": "2026-09-26",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "das Design enthüllt, das ihr euch weiter unten ansehen könnt. Release im Dezember 2026 Die Steelbook-Edition, die alle zwölf Episoden der er"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Bis zu 87 % Rabatt: Neue Anime-Aktion im AKIBA PASS SHOP gestartet",
       "articleUrl": "https://www.anime2you.de/news/1053915/akiba-pass-shop-september-2026-rabattaktion/",
@@ -71,7 +150,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Deutscher Kinostart des neuen »Madoka Magica«-Films + Poster",
@@ -131,7 +210,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Limitierte Collector’s Edition von »Gantz« verschoben",
@@ -177,20 +256,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "25 Blu-ray-Termine von AniMoon, Crunchyroll und KSM verschoben",
-      "articleUrl": "https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/",
-      "publishedAt": "2026-09-22",
-      "category": "disc",
-      "platforms": [
-        "crunchyroll",
-        "disc"
-      ],
-      "dates": [],
-      "dub": "unklar",
-      "pause": "verschoben",
-      "alreadyCurated": false
-    },
-    {
       "articleTitle": "Limitierte Blu-ray-Edition zum 28. »Detektiv Conan«-Film enthüllt + Extras",
       "articleUrl": "https://www.anime2you.de/news/1052789/detektiv-conan-film-28-blu-ray-design/",
       "publishedAt": "2026-09-22",
@@ -206,7 +271,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Design der limitierten Blu-ray-Box der zweiten »The 100 Girlfriends«-Staffel",
@@ -228,7 +293,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Deutscher Synchro-Trailer zu »YAIBA: Samurai Legend«",
@@ -661,7 +726,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Limitierte Steelcase-Edition von »Good Luck Girl!« vorbestellbar",
@@ -895,7 +960,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Neue Film-Komplettbox zu »Naruto Shippuden« angekündigt",
@@ -947,7 +1012,159 @@
       "dates": [],
       "dub": "unklar",
       "pause": "verschoben",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "verschiebungen": [
+        {
+          "titel": "2.5 Dimensional Seduction – Vol. 4 (Limited Edition)",
+          "alt": "2026-09-04",
+          "neu": "2026-09-25"
+        },
+        {
+          "titel": "Bitte zieh dich an, Takamine! – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-09-04",
+          "neu": "2026-10-02"
+        },
+        {
+          "titel": "Bitte zieh dich an, Takamine! – Vol. 2 (Limited Edition)",
+          "alt": "2026-10-16",
+          "neu": "2026-11-06"
+        },
+        {
+          "titel": "Bitte zieh dich an, Takamine! – Vol. 3 (Limited Edition)",
+          "alt": "2026-11-20",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "Bocchi the Rock! – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-09-04",
+          "neu": "2026-10-02"
+        },
+        {
+          "titel": "Bocchi the Rock! – Vol. 2 (Limited Edition)",
+          "alt": "2026-10-02",
+          "neu": "2026-11-06"
+        },
+        {
+          "titel": "Bocchi the Rock! – Vol. 3 (Limited Edition)",
+          "alt": "2026-11-20",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "I’m Standing on a Million Lives – Staffel 2 (Komplettbox)",
+          "alt": "2026-12-04",
+          "neu": "2027-02-05"
+        },
+        {
+          "titel": "Infinite Dendrogram – Vol. 2 (Limited Edition)",
+          "alt": "2026-09-04",
+          "neu": "2026-09-25"
+        },
+        {
+          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-09-04",
+          "neu": "2026-10-02"
+        },
+        {
+          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 2 (Limited Edition)",
+          "alt": "2026-10-02",
+          "neu": "2026-11-06"
+        },
+        {
+          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 3 (Limited Edition)",
+          "alt": "2026-11-20",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "Nukitashi – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-08-28",
+          "neu": "2026-09-25"
+        },
+        {
+          "titel": "Sakamoto Days – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-09-11",
+          "neu": "2026-09-25"
+        },
+        {
+          "titel": "Spice & Wolf: Merchant Meets the Wise Wolf – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-09-04",
+          "neu": "2026-10-02"
+        },
+        {
+          "titel": "Spice & Wolf: Merchant Meets the Wise Wolf – Vol. 2 (Limited Edition)",
+          "alt": "2026-10-02",
+          "neu": "2026-11-06"
+        },
+        {
+          "titel": "Spice & Wolf: Merchant Meets the Wise Wolf – Vol. 3 (Limited Edition)",
+          "alt": "2026-11-06",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "Spice & Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Limited Edition)",
+          "alt": "2026-12-18",
+          "neu": "2027-01-15"
+        },
+        {
+          "titel": "Strike Witches (Staffel 2) – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-09-11",
+          "neu": "2026-09-25"
+        },
+        {
+          "titel": "Strike Witches (Staffel 2) – Vol. 2 (Limited Edition)",
+          "alt": "2026-10-09",
+          "neu": "2026-10-30"
+        },
+        {
+          "titel": "Strike Witches (Staffel 2) – Vol. 3 (Limited Edition)",
+          "alt": "2026-11-20",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "The Café Terrace and Its Goddesses – Staffel 1 (Komplettbox)",
+          "alt": "2026-09-04",
+          "neu": "2026-10-02"
+        },
+        {
+          "titel": "Virgin Road – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-09-11",
+          "neu": "2026-09-25"
+        },
+        {
+          "titel": "Detektiv Conan – Vol. 9",
+          "alt": "2026-09-04",
+          "neu": "2026-09-09"
+        },
+        {
+          "titel": "Dragon Ball Z – Vol. 4",
+          "alt": "2026-10-16",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "Sailor Moon – Staffel 1 (Limited Edition im Steelbook)",
+          "alt": "2026-09-04",
+          "neu": "2026-10-18"
+        },
+        {
+          "titel": "Sailor Moon – Staffel 2 (Limited Edition im Steelbook)",
+          "alt": "2026-10-02",
+          "neu": "2026-11-06"
+        },
+        {
+          "titel": "Sailor Moon – Staffel 3 (Limited Edition im Steelbook)",
+          "alt": "2026-11-06",
+          "neu": "2026-12-18"
+        },
+        {
+          "titel": "Sailor Moon – Staffel 4 (Limited Edition im Steelbook)",
+          "alt": "2026-12-04",
+          "neu": "2027-01-15"
+        },
+        {
+          "titel": "Sailor Moon – Staffel 5 (Limited Edition im Steelbook)",
+          "alt": "2027-01-15",
+          "neu": "2027-02-19"
+        }
+      ]
     },
     {
       "articleTitle": "»Detektiv Conan« erscheint als 30th Anniversary Edition auf Blu-ray",
@@ -969,7 +1186,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Fantasy-Donghua »Lord of Mysteries« erscheint auf Blu-ray",
@@ -1030,7 +1247,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Erste »A Wild Last Boss Appeared!«-Staffel erscheint auf Blu-ray",
@@ -1156,7 +1373,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "»Suzume« erscheint als limitierte Ultra-HD-Steelbook-Edition",
@@ -1210,7 +1427,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "»Detektei Layton« erscheint als Blu-ray-Komplettbox + Design",
@@ -1270,7 +1487,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer",
@@ -1331,7 +1548,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Erste »My Dress-Up Darling«-Staffel erscheint im limitierten Steelbook",
@@ -1503,7 +1720,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Netflix enthüllt neues Visual zur ersten Staffel von »THE ONE PIECE«",
@@ -1702,7 +1919,39 @@
       "dates": [],
       "dub": "unklar",
       "pause": "verschoben",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "verschiebungen": [
+        {
+          "titel": "Inazuma Eleven – Staffel 1 (Komplettbox)",
+          "alt": "2026-09-04",
+          "neu": "2026-09-25"
+        },
+        {
+          "titel": "Sakamoto Days – Vol. 1 (Limited Edition)",
+          "alt": "2026-08-28",
+          "neu": "2026-09-11"
+        },
+        {
+          "titel": "Strike Witches (Staffel 2) – Vol. 1 (Limited Edition)",
+          "alt": "2026-08-28",
+          "neu": "2026-09-11"
+        },
+        {
+          "titel": "Virgin Road – Vol. 1 (Limited Edition)",
+          "alt": "2026-08-28",
+          "neu": "2026-09-11"
+        },
+        {
+          "titel": "Black Butler: Emerald Witch Arc – Vol. 1 (Limited Edition)",
+          "alt": "2026-10-02",
+          "neu": "2027-01-31"
+        },
+        {
+          "titel": "Dragon Ball Z – Vol. 4",
+          "alt": "2026-10-16",
+          "neu": "2026-12-31"
+        }
+      ]
     },
     {
       "articleTitle": "Amazon startet große Rabattaktion mit über 500 Anime-Produkten",
