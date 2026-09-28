@@ -8,7 +8,8 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 |---|---|---|---|---|
 | 2 | [Prime Video — Titelseiten](07-primevideo.md) | 22 Adressen, 2 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 | 3 | [Netflix](06-netflix-rest.md) | 2 Titel, 0 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
-| 5 | [Crunchyroll](07-crunchyroll.md) | 5 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
+| 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 1 Adresse | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
+| 5 | [Crunchyroll](07-crunchyroll.md) | 3 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 7 | [Disney+](07-disneyplus.md) | 1 Titel, 0 Verweise | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
@@ -17,7 +18,7 @@ schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippe
 
 ## Was das bringt
 
-Von 2781 Titeln zeigen **229** keinen einzigen Bezugsweg,
+Von 2781 Titeln zeigen **230** keinen einzigen Bezugsweg,
 **92** davon mit belegter deutscher Synchro. Für die ist die
 Antwort auf „wo kann ich das sehen?" heute: nirgends bekannt. Jede Meldung von hier
 macht eine davon weniger.

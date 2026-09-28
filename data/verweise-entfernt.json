@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-28T12:05:38.445Z",
+  "stand": "2026-09-28T13:34:13.432Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -163,6 +163,28 @@
       "seriesId": "GY19X1M9R",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 6746,
+      "titel": "Durarara!!",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/durarara",
+      "seriesId": "G619XVNEY",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 8408,
+      "titel": "Durarara!!",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/durarara",
+      "seriesId": "G619XVNEY",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
       "entferntAm": "2026-09-28",
       "letzterWeg": true
     },
@@ -409,6 +431,28 @@
       "letzterWeg": false
     },
     {
+      "titleId": 18671,
+      "titel": "Love, Chunibyo & Other Delusions! Heart Throb",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions-heart-throb-",
+      "seriesId": "GYJQV73V6",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20889,
+      "titel": "Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions-heart-throb-",
+      "seriesId": "GYJQV73V6",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
       "titleId": 14513,
       "titel": "Magi: The Labyrinth of Magic",
       "plattform": "crunchyroll",
@@ -499,6 +543,17 @@
     {
       "titleId": 101474,
       "titel": "Overlord III",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/overlord",
+      "seriesId": "G69PZ5PDY",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 133845,
+      "titel": "Overlord: The Sacred Kingdom",
       "plattform": "crunchyroll",
       "url": "http://www.crunchyroll.com/de/overlord",
       "seriesId": "G69PZ5PDY",
@@ -684,6 +739,28 @@
       "letzterWeg": true
     },
     {
+      "titleId": 143846,
+      "titel": "Arifureta: From Commonplace to World’s Strongest - Über Umwege zum stärksten der Welt",
+      "plattform": "crunchyroll",
+      "url": "https://crunchyroll.com/de/series/G4PH0WXD1",
+      "seriesId": "G4PH0WXD1",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 154473,
+      "titel": "Arifureta: From Commonplace to World’s Strongest",
+      "plattform": "crunchyroll",
+      "url": "https://crunchyroll.com/de/series/G4PH0WXD1",
+      "seriesId": "G4PH0WXD1",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
       "titleId": 205,
       "titel": "Samurai Champloo",
       "plattform": "crunchyroll",
@@ -704,6 +781,28 @@
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-09-28",
       "letzterWeg": false
+    },
+    {
+      "titleId": 130592,
+      "titel": "The Devil Is a Part-Timer! II",
+      "plattform": "crunchyroll",
+      "url": "https://crunchyroll.com/de/series/GR75Z5KKY/the-devil-is-a-part-timer",
+      "seriesId": "GR75Z5KKY",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 155168,
+      "titel": "The Devil Is a Part-Timer! II – Teil 2",
+      "plattform": "crunchyroll",
+      "url": "https://crunchyroll.com/de/series/GR75Z5KKY/the-devil-is-a-part-timer",
+      "seriesId": "GR75Z5KKY",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
     },
     {
       "titleId": 853,
@@ -1366,6 +1465,39 @@
       "letzterWeg": false
     },
     {
+      "titleId": 111852,
+      "titel": "Date A Bullet: Dead or Bullet & Nightmare or Queen",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/date-a-live",
+      "seriesId": "GYEX5E1G6",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 121034,
+      "titel": "Date A Bullet: Dead or Bullet & Nightmare or Queen",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/date-a-live",
+      "seriesId": "GYEX5E1G6",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 151380,
+      "titel": "Date a Live V",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/date-a-live",
+      "seriesId": "GYEX5E1G6",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
       "titleId": 6880,
       "titel": "Deadman Wonderland",
       "plattform": "crunchyroll",
@@ -1718,6 +1850,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 129188,
+      "titel": "Goblin Slayer 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/goblin-slayer",
+      "seriesId": "G6VDMN306",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
       "titleId": 13535,
       "titel": "Good Luck Girl!",
       "plattform": "crunchyroll",
@@ -1782,6 +1925,17 @@
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-09-28",
       "letzterWeg": true
+    },
+    {
+      "titleId": 14967,
+      "titel": "Haganai: I Don’t Have Many Friends - Next",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/haganai",
+      "seriesId": "GYX0PN4MR",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
     },
     {
       "titleId": 21833,
@@ -1914,6 +2068,17 @@
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-09-28",
       "letzterWeg": false
+    },
+    {
+      "titleId": 155211,
+      "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth IV – Teil 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
+      "seriesId": "G6DQN9KGR",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-22",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
     },
     {
       "titleId": 8841,
@@ -2477,6 +2642,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 21730,
+      "titel": "Star Blazers 2202: Space Battleship Yamato",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/pt-br/series/G65V4P4K6/star-blazers-space-battleship-yamato",
+      "seriesId": "G65V4P4K6",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
       "titleId": 1538,
       "titel": "Pumpkin Scissors",
       "plattform": "crunchyroll",
@@ -2708,28 +2884,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 143846,
-      "titel": "Arifureta: From Commonplace to World’s Strongest - Über Umwege zum stärksten der Welt",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/G4PH0WXD1/arifureta-from-commonplace-to-worlds-strongest",
-      "seriesId": "G4PH0WXD1",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 154473,
-      "titel": "Arifureta: From Commonplace to World’s Strongest",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/G4PH0WXD1/arifureta-from-commonplace-to-worlds-strongest",
-      "seriesId": "G4PH0WXD1",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": false
-    },
-    {
       "titleId": 151513,
       "titel": "Yohane the Parhelion: Sunshine in the Mirror",
       "plattform": "crunchyroll",
@@ -2761,39 +2915,6 @@
       "geprueftAm": "2026-08-21",
       "entferntAm": "2026-09-28",
       "letzterWeg": true
-    },
-    {
-      "titleId": 133845,
-      "titel": "Overlord: The Sacred Kingdom",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/G69PZ5PDY/overlord",
-      "seriesId": "G69PZ5PDY",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 155211,
-      "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth IV – Teil 2",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/G6DQN9KGR/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
-      "seriesId": "G6DQN9KGR",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 129188,
-      "titel": "Goblin Slayer 2",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/G6VDMN306/goblin-slayer",
-      "seriesId": "G6VDMN306",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": false
     },
     {
       "titleId": 226,
@@ -2887,7 +3008,7 @@
       "titleId": 243,
       "titel": "Gravitation",
       "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/G9VHN9DXX/gravitation",
+      "url": "https://www.crunchyroll.com/de/series/G9VHN9DXX/",
       "seriesId": "G9VHN9DXX",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
@@ -3126,28 +3247,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 130592,
-      "titel": "The Devil Is a Part-Timer! II",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GR75Z5KKY/the-devil-is-a-part-timer",
-      "seriesId": "GR75Z5KKY",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 155168,
-      "titel": "The Devil Is a Part-Timer! II – Teil 2",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GR75Z5KKY/the-devil-is-a-part-timer",
-      "seriesId": "GR75Z5KKY",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": true
-    },
-    {
       "titleId": 12413,
       "titel": "Jormungand",
       "plattform": "crunchyroll",
@@ -3258,39 +3357,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 111852,
-      "titel": "Date A Bullet: Dead or Bullet & Nightmare or Queen",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GYEX5E1G6/date-a-live",
-      "seriesId": "GYEX5E1G6",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 121034,
-      "titel": "Date A Bullet: Dead or Bullet & Nightmare or Queen",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GYEX5E1G6/date-a-live",
-      "seriesId": "GYEX5E1G6",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 151380,
-      "titel": "Date a Live V",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GYEX5E1G6/date-a-live",
-      "seriesId": "GYEX5E1G6",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": false
-    },
-    {
       "titleId": 14345,
       "titel": "Btooom!",
       "plattform": "crunchyroll",
@@ -3300,17 +3366,6 @@
       "geprueftAm": "2026-08-21",
       "entferntAm": "2026-09-28",
       "letzterWeg": true
-    },
-    {
-      "titleId": 14967,
-      "titel": "Haganai: I Don’t Have Many Friends - Next",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GYX0PN4MR/haganai",
-      "seriesId": "GYX0PN4MR",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": false
     },
     {
       "titleId": 147864,
@@ -7438,6 +7493,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 164702,
+      "titel": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
       "titleId": 166531,
       "titel": "Oshi no Ko: Mein Star",
       "plattform": "netflix",
@@ -7680,6 +7746,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 178434,
+      "titel": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
       "titleId": 179950,
       "titel": "Petals of Reincarnation",
       "plattform": "primevideo",
@@ -7834,6 +7911,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 185756,
+      "titel": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
       "titleId": 185874,
       "titel": "Bleach: Thousand-Year Blood War - The Calamity",
       "plattform": "disneyplus",
@@ -7944,6 +8032,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 204389,
+      "titel": "A Wild Last Boss Appeared! Staffel 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
       "titleId": 118465,
       "titel": "World's End Harem",
       "plattform": "crunchyroll",
@@ -7997,6 +8096,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-09-28",
       "letzterWeg": false
+    },
+    {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
     },
     {
       "titleId": 128223,
@@ -8065,6 +8175,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8083,6 +8204,116 @@
       "seriesId": null,
       "grund": "der Anbieter führt 23 + 25 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
       "geprueftAm": null,
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 143846,
+      "titel": "Arifureta: From Commonplace to World’s Strongest - Über Umwege zum stärksten der Welt",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G4PH0WXD1/arifureta-from-commonplace-to-worlds-strongest",
+      "seriesId": "G4PH0WXD1",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 154473,
+      "titel": "Arifureta: From Commonplace to World’s Strongest",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G4PH0WXD1/arifureta-from-commonplace-to-worlds-strongest",
+      "seriesId": "G4PH0WXD1",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 133845,
+      "titel": "Overlord: The Sacred Kingdom",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G69PZ5PDY/overlord",
+      "seriesId": "G69PZ5PDY",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 155211,
+      "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth IV – Teil 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G6DQN9KGR/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
+      "seriesId": "G6DQN9KGR",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 129188,
+      "titel": "Goblin Slayer 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G6VDMN306/goblin-slayer",
+      "seriesId": "G6VDMN306",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 243,
+      "titel": "Gravitation",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G9VHN9DXX/gravitation",
+      "seriesId": "G9VHN9DXX",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 111852,
+      "titel": "Date A Bullet: Dead or Bullet & Nightmare or Queen",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYEX5E1G6/date-a-live",
+      "seriesId": "GYEX5E1G6",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 121034,
+      "titel": "Date A Bullet: Dead or Bullet & Nightmare or Queen",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYEX5E1G6/date-a-live",
+      "seriesId": "GYEX5E1G6",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 151380,
+      "titel": "Date a Live V",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYEX5E1G6/date-a-live",
+      "seriesId": "GYEX5E1G6",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
+      "entferntAm": "2026-09-28",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 14967,
+      "titel": "Haganai: I Don’t Have Many Friends - Next",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYX0PN4MR/haganai",
+      "seriesId": "GYX0PN4MR",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-08-26",
       "entferntAm": "2026-09-28",
       "letzterWeg": false
     },
@@ -8118,17 +8349,6 @@
       "geprueftAm": "2026-08-21",
       "entferntAm": "2026-09-28",
       "letzterWeg": false
-    },
-    {
-      "titleId": 21730,
-      "titel": "Star Blazers 2202: Space Battleship Yamato",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/pt-br/series/G65V4P4K6/star-blazers-space-battleship-yamato",
-      "seriesId": "G65V4P4K6",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-09-28",
-      "letzterWeg": true
     },
     {
       "titleId": 196144,
