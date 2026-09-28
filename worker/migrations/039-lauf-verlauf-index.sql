@@ -1,0 +1,11 @@
+-- Der Verlauf je Lauf-Art (28.09.2026).
+--
+-- Seit dem Umbau der Statusanzeige auf Kacheln liest die Übersicht mit einer Fensterfunktion
+-- (`ROW_NUMBER() OVER (PARTITION BY workflow ORDER BY gemeldet_am DESC)`) die letzten zwölf
+-- Ergebnisse **je Lauf-Art** über vierzehn Tage; die Detailseite liest die letzten Läufe einer
+-- einzigen Art. Ohne Index sortiert SQLite dafür die ganze Tabelle.
+--
+-- Die Zählung aus `wrangler d1 insights` vom 24.09.2026 nennt `GET /lauf` als größten Leser:
+-- 2.699 Aufrufe, 886.000 gelesene Zeilen. Der vorhandene Index `(workflow, zustand, gemeldet_am)`
+-- trägt die Zustands-Frage, aber nicht die Zeitspanne — dieser hier tut es.
+CREATE INDEX IF NOT EXISTS lauf_status_verlauf ON lauf_status (workflow, gemeldet_am DESC);
