@@ -318046,6 +318046,168 @@
     ],
     "geholtAm": "2026-09-01T18:28:34.422Z"
   },
+  "18751": {
+    "anisearchId": 18751,
+    "folgen": [
+      {
+        "nr": 1,
+        "minuten": 23,
+        "de": "Donner und Blitz! Kraft der Elemente!",
+        "en": "Thunder and Lightning! Elemental Power!"
+      },
+      {
+        "nr": 2,
+        "minuten": 23,
+        "de": "Die Wiedergeburt! Divine Belfyre!",
+        "en": "The Rebirth! Divine Belfyre!"
+      },
+      {
+        "nr": 3,
+        "minuten": 23,
+        "de": "Aufsteigen! Gambit Dragon fliegt hoch!",
+        "en": "Rise Up! Gambit Dragon Soars!"
+      },
+      {
+        "nr": 4,
+        "minuten": 23,
+        "de": "Die Tiefen unter uns! Abgrund-Turnier!",
+        "en": "Depths Below! Abyssal Tournament!"
+      },
+      {
+        "nr": 5,
+        "minuten": 23,
+        "de": "Dragon gegen Pandora! Hier kommt die Flut!",
+        "en": "Dragon vs. Pandora! Rising Tides!"
+      },
+      {
+        "nr": 6,
+        "minuten": 23,
+        "de": "Heulen des Schreckens! Kerbeus kehrt zurück!",
+        "en": "Howls of Terror! Kerbeus Returns!"
+      },
+      {
+        "nr": 7,
+        "minuten": 23,
+        "de": "Theater des Düsteren Prinzen! Ungeheuerliche Missionen!",
+        "en": "Theater of the Dark Prince! Monstrous Missions!"
+      },
+      {
+        "nr": 8,
+        "minuten": 23,
+        "de": "Unvergleichlich! Xiphoid Xcalius!",
+        "en": "Peerless! Xiphoid Xcalius!"
+      },
+      {
+        "nr": 9,
+        "minuten": 23,
+        "de": "Lodernde Flammen! Wilder Battle!",
+        "en": "Striking Flames! Ferocious Battle!"
+      },
+      {
+        "nr": 10,
+        "minuten": 23,
+        "de": "Düstere Hingabe! Mächtiges Schwert!",
+        "en": "Dark Devotion! Mighty Sword!"
+      },
+      {
+        "nr": 11,
+        "minuten": 23,
+        "de": "Vorwärts stürmen! Battle Camp Kollision!",
+        "en": "Surge Ahead! Battle Camp Clash!"
+      },
+      {
+        "nr": 12,
+        "minuten": 23,
+        "de": "Wirbelsturm-Winde! Twister Pandora!",
+        "en": "Hurricane Winds! Twister Pandora!!"
+      },
+      {
+        "nr": 13,
+        "minuten": 23,
+        "de": "Tag-Team! Durchbrich die Grenze!",
+        "en": "Tag-Team! Break the Limit!"
+      },
+      {
+        "nr": 14,
+        "minuten": 23,
+        "de": "Turbo Zeit! Zeal Achilles!",
+        "en": "Turbo Time! Zeal Achilles!"
+      },
+      {
+        "nr": 15,
+        "minuten": 23,
+        "de": "Ritterlichkeit ohne Grenzen! Whirl Knight!",
+        "en": "Chivalry Unbound! Whirl Knight!"
+      },
+      {
+        "nr": 16,
+        "minuten": 23,
+        "de": "Wilder Sprint! Battle Marathon!",
+        "en": "Wild Dash! Battle Marathon!"
+      },
+      {
+        "nr": 17,
+        "minuten": 23,
+        "de": "Lodernde Battles! Äther Arena!",
+        "en": "Blazing Battles! Aether Stadium!"
+      },
+      {
+        "nr": 18,
+        "minuten": 23,
+        "de": "Dunkelheit entfesselt! Winde der Veränderung!",
+        "en": "Darkness Unleashed! Winds of Change!"
+      },
+      {
+        "nr": 19,
+        "minuten": 23,
+        "de": "Champion Herausforderung! Strahlendes Finale!",
+        "en": "Champion’s Challenge! Radiant Finals!"
+      },
+      {
+        "nr": 20,
+        "minuten": 23,
+        "de": "Unbesiegbare Schatten! Aiger gegen Bel!",
+        "en": "Invincible Shadows! Aiger vs. Bel!"
+      },
+      {
+        "nr": 21,
+        "minuten": 23,
+        "de": "Schreckliches Schicksal! Ruin Pandemonium!",
+        "en": "Dire Destiny! Ruin Pandemonium!"
+      },
+      {
+        "nr": 22,
+        "minuten": 23,
+        "de": "Strahlende Sterne! Leitstern Battle Turnier!",
+        "en": "Shining Stars! Lodestar Battle Tournament!"
+      },
+      {
+        "nr": 23,
+        "minuten": 23,
+        "de": "Vroom-Vroom-Revolution! Eine Heldenreise!",
+        "en": "Vroom-vroom Revolution! A Hero’s Journey!"
+      },
+      {
+        "nr": 24,
+        "minuten": 23,
+        "de": "Achilles gegen Pandemonium! Zusammenstöße des Lichts!",
+        "en": "Achilles vs. Pandemonium! Clashes of Light!"
+      },
+      {
+        "nr": 25,
+        "minuten": 23,
+        "de": "Resonanz gegen Elementarkraft",
+        "en": "Resonance vs. Elemental!"
+      },
+      {
+        "nr": 26,
+        "minuten": 23,
+        "de": "Elementarbattle! Ultimativer Showdown!",
+        "en": "Elemental Battle! Ultimate Showdown!"
+      }
+    ],
+    "geholtAm": "2026-09-28T13:13:25.616Z"
+  },
   "18752": {
     "anisearchId": 18752,
     "folgen": [
@@ -318526,6 +318688,90 @@
       }
     ],
     "geholtAm": "2026-09-01T18:29:01.418Z"
+  },
+  "18824": {
+    "anisearchId": 18824,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      },
+      {
+        "nr": 13
+      },
+      {
+        "nr": 14
+      },
+      {
+        "nr": 15
+      },
+      {
+        "nr": 16
+      },
+      {
+        "nr": 17
+      },
+      {
+        "nr": 18
+      },
+      {
+        "nr": 19
+      },
+      {
+        "nr": 20
+      },
+      {
+        "nr": 21
+      },
+      {
+        "nr": 22
+      },
+      {
+        "nr": 23
+      },
+      {
+        "nr": 24
+      },
+      {
+        "nr": 25
+      },
+      {
+        "nr": 26
+      }
+    ],
+    "geholtAm": "2026-09-28T13:13:05.387Z"
   },
   "18836": {
     "anisearchId": 18836,
@@ -328614,6 +328860,84 @@
     ],
     "geholtAm": "2026-09-01T18:43:33.383Z"
   },
+  "19687": {
+    "anisearchId": 19687,
+    "folgen": [
+      {
+        "nr": 1,
+        "minuten": 24,
+        "de": "Ai kommt zur Familie Yozakura/Mini-Kyoichiro",
+        "en": "AI Comes to the Yozakura Family/Mini Kyoichiro"
+      },
+      {
+        "nr": 2,
+        "minuten": 24,
+        "de": "Gewinner und Verlierer",
+        "en": "Winners and Losers"
+      },
+      {
+        "nr": 3,
+        "minuten": 24,
+        "de": "Das Shinzo-Beobachtungsteam",
+        "en": "The Big Bro Shinzo Safety Watch Team"
+      },
+      {
+        "nr": 4,
+        "minuten": 24,
+        "de": "Spionenprüfung",
+        "en": "Spy Advancement Exam"
+      },
+      {
+        "nr": 5,
+        "minuten": 24,
+        "de": "Die Frucht der Liebe",
+        "en": "The Fruit of Love"
+      },
+      {
+        "nr": 6,
+        "minuten": 24,
+        "de": "Neue Kirschblüten",
+        "en": "New Cherry Blossoms"
+      },
+      {
+        "nr": 7,
+        "minuten": 24,
+        "de": "In der alten Yozakura-Residenz",
+        "en": "At the Old Yozakura Residence"
+      },
+      {
+        "nr": 8,
+        "minuten": 24,
+        "de": "Ais Besorgung/Mutsumis große Diätmission",
+        "en": "Ai’s Errand/Mutsumi’s Major Diet Mission"
+      },
+      {
+        "nr": 9,
+        "minuten": 24,
+        "de": "Tsubomi & Mutsumi",
+        "en": "Tsubomi & Mutsumi"
+      },
+      {
+        "nr": 10,
+        "minuten": 24,
+        "de": "Weigerung",
+        "en": "Refusal"
+      },
+      {
+        "nr": 11,
+        "minuten": 24,
+        "de": "Operation Suche nach dem ältesten Sohn",
+        "en": "Operation Search for the Eldest Son"
+      },
+      {
+        "nr": 12,
+        "minuten": 24,
+        "de": "Lasst uns wieder Familie sein",
+        "en": "Let’s Be a Family Again"
+      }
+    ],
+    "geholtAm": "2026-09-28T13:12:38.391Z"
+  },
   "19696": {
     "anisearchId": 19696,
     "folgen": [
@@ -331128,6 +331452,48 @@
     ],
     "geholtAm": "2026-09-01T18:46:15.362Z"
   },
+  "19993": {
+    "anisearchId": 19993,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      }
+    ],
+    "geholtAm": "2026-09-28T13:12:45.144Z"
+  },
   "20000": {
     "anisearchId": 20000,
     "folgen": [
@@ -333105,6 +333471,42 @@
     ],
     "geholtAm": "2026-09-09T14:03:35.426Z"
   },
+  "20705": {
+    "anisearchId": 20705,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      }
+    ],
+    "geholtAm": "2026-09-28T13:13:12.132Z"
+  },
   "20716": {
     "anisearchId": 20716,
     "folgen": [
@@ -333225,6 +333627,116 @@
     ],
     "geholtAm": "2026-09-01T18:49:04.340Z"
   },
+  "20768": {
+    "anisearchId": 20768,
+    "folgen": [
+      {
+        "nr": 1,
+        "datum": "2026-04-03",
+        "minuten": 23,
+        "de": "Der Retter, der keine Erlösung bringen konnte",
+        "en": "The Savior Who Could Not Bring Salvation",
+        "ja": "(救えなかった救世主)"
+      },
+      {
+        "nr": 2,
+        "datum": "2026-04-10",
+        "minuten": 23,
+        "de": "Begegnungen",
+        "en": "Encounters",
+        "ja": "Deau (出会う)"
+      },
+      {
+        "nr": 3,
+        "datum": "2026-04-17",
+        "minuten": 23,
+        "de": "Mein bester Freund",
+        "en": "My First Friend",
+        "ja": "Hajimete no, Tomodachi (はじめての、友だち)"
+      },
+      {
+        "nr": 4,
+        "datum": "2026-04-24",
+        "minuten": 23,
+        "de": "Der Kaiju-Bändiger und die Dose Ananas",
+        "en": "The Kaiju Tamer and the Can of Pineapple",
+        "ja": "(怪獣使いとパイン缶)"
+      },
+      {
+        "nr": 5,
+        "datum": "2026-05-01",
+        "minuten": 23,
+        "de": "Gute Arbeit",
+        "en": "Good Job!",
+        "ja": "Ganbatta (がんばった)"
+      },
+      {
+        "nr": 6,
+        "datum": "2026-05-08",
+        "minuten": 23,
+        "de": "Jenseits den Wahnsinns",
+        "en": "Beyond the Madness",
+        "ja": "(狂気のゆくえ)"
+      },
+      {
+        "nr": 7,
+        "datum": "2026-05-15",
+        "minuten": 23,
+        "de": "Der Preis des Mutes",
+        "en": "The Cost of Courage",
+        "ja": "(勇気の代償)"
+      },
+      {
+        "nr": 8,
+        "datum": "2026-05-22",
+        "minuten": 23,
+        "de": "Einkaufszentrum Mishima aktiviert",
+        "en": "Mishima Mall Activates",
+        "ja": "(ミシマ・モール、起動)"
+      },
+      {
+        "nr": 9,
+        "datum": "2026-05-29",
+        "minuten": 23,
+        "de": "Der große Kaiju-Krieg",
+        "en": "The Great Kaiju War",
+        "ja": "(怪獣大戦争)"
+      },
+      {
+        "nr": 10,
+        "datum": "2026-06-05",
+        "minuten": 23,
+        "de": "Den Wunden entgegentreten",
+        "en": "Wounds You Can Face",
+        "ja": "(立ち向かえる傷)"
+      },
+      {
+        "nr": 11,
+        "datum": "2026-06-12",
+        "minuten": 23,
+        "de": "Ich will ein Retter sein",
+        "en": "I Want to Be a Savior",
+        "ja": "Kyuuseishu ni Naritai (救世主になりたい)"
+      },
+      {
+        "nr": 12,
+        "datum": "2026-06-19",
+        "minuten": 23,
+        "de": "Eine ruhige und sanfte Welt",
+        "en": "A Calm and Gentle World",
+        "ja": "Odayakade Yasashii Sekai (穏やかでやさしい世界)"
+      },
+      {
+        "nr": 13,
+        "datum": "2026-06-26",
+        "minuten": 23,
+        "de": "Zusammen trinken",
+        "en": "Drink Together",
+        "ja": "Sake o Kumikawasu (酒を酌み交わす)"
+      }
+    ],
+    "geholtAm": "2026-09-28T13:12:51.896Z"
+  },
   "20808": {
     "anisearchId": 20808,
     "folgen": [
@@ -333314,6 +333826,30 @@
       }
     ],
     "geholtAm": "2026-09-01T18:49:11.379Z"
+  },
+  "20815": {
+    "anisearchId": 20815,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      }
+    ],
+    "geholtAm": "2026-09-28T13:13:18.870Z"
   },
   "20836": {
     "anisearchId": 20836,
@@ -334556,6 +335092,48 @@
       }
     ],
     "geholtAm": "2026-09-01T18:50:00.646Z"
+  },
+  "21117": {
+    "anisearchId": 21117,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      }
+    ],
+    "geholtAm": "2026-09-28T13:12:58.644Z"
   },
   "21171": {
     "anisearchId": 21171,

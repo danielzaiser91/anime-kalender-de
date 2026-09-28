@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-09-28T10:55:00.676Z",
+  "aufgeloestAm": "2026-09-28T12:48:15.257Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -3912,6 +3912,31 @@
       "ziel": "https://www.crunchyroll.com/the-promised-neverland?__cf_chl_rt_tk=WFw_sNHBGezxnlzhllIfwApvySlc.Mb29ReyTcrdrHo-1788962295-1.0.1.1-45J_jNdupk.KLTOZa4igiaHxUfhOuAwP05gHt01n6UA",
       "geprueftAm": "2026-09-09",
       "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/G4VUQEP24": {
+      "ziel": "https://www.crunchyroll.com/watch/G4VUQEP24?__cf_chl_rt_tk=118b11atnDS6iOUqLOSqQy.UjgC3TAWZeJXCInQ4MLs-1790599669-1.0.1.1-28MRoaoWhESOAdjDJohN04WnZWqyztsR9k8zSrCwlMY",
+      "geprueftAm": "2026-09-28",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/G50UZV2GM": {
+      "seriesId": "G79H23ZKP",
+      "ziel": "https://www.crunchyroll.com/watch/G50UZV2GM?__cf_chl_rt_tk=J9NmL66.wvla0_8q2bPTU4c2liFlJD3W4N6i.gH4xSE-1790599671-1.0.1.1-t7gBRyvuP2OZr0IWj_4wRLal02LIJaOwRlxUOeSo.k0",
+      "geprueftAm": "2026-09-28"
+    },
+    "https://www.crunchyroll.com/watch/GEVUZE9V9": {
+      "ziel": "https://www.crunchyroll.com/watch/GEVUZE9V9?__cf_chl_rt_tk=D_.XckYASLmYdTSeAqqkPO48qtMxmuxAw74xMc_KCoE-1790599680-1.0.1.1-8zekGv_VUXLAiYQYjRSXuIKFCkJwSHoupubI8GwqALc",
+      "geprueftAm": "2026-09-28",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/GG1U2M5E0": {
+      "seriesId": "GYJQV73V6",
+      "ziel": "https://www.crunchyroll.com/watch/GG1U2M5E0?__cf_chl_rt_tk=Oq3Rp13WBOqv8_019WRl1XiEZN6yJ6rgc519snDNGS8-1790599682-1.0.1.1-WvF_JXMgBHunvX0GqvOJWHo3NwPjjl3I6A9dnAmZrJs",
+      "geprueftAm": "2026-09-28"
+    },
+    "https://www.crunchyroll.com/watch/GJWU2M393": {
+      "seriesId": "G24H1NZXD",
+      "ziel": "https://www.crunchyroll.com/watch/GJWU2M393?__cf_chl_rt_tk=EFLSU9c.Su49U5sNWZfPkWdr_ZK1VwMUFWMV4Ou2kpA-1790599686-1.0.1.1-MQPvFMJsIt.1LMFlAZuWqdI.Dk1WNmrIn1a.vYqjuvY",
+      "geprueftAm": "2026-09-28"
     }
   }
 }
