@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * **Die Laufstatus-App — startet sie, und gehen ihre Links in den richtigen Browser?**
+ * **Die Laufstatus-App — startet sie, gehen ihre Links hinaus, und zeigt sie das Richtige?**
  *
  * Seit dem 13.09.2026 läuft die Anzeige als eigenes Electron-Programm
  * (`C:\code\ai\__assets\tools\lauf-status\app\`), nicht mehr als Chrome-Fenster.
@@ -17,24 +17,40 @@
  *   Electron-Fenster ohne Daniels Anmeldung und ohne seine Erweiterung.
  * - Ein normaler Verweis mit `target="_blank"` geht ebenfalls hinaus.
  * - Die Anzeige selbst lässt sich nicht wegnavigieren.
- * - **Antwortet der Dienst nicht, bleibt der letzte Stand sichtbar** (seit 28.09.2026) —
- *   mit Grund und Uhrzeit statt eines leeren roten Kastens, und der Grund wird nicht auf eine
- *   Zeile beschnitten.
+ * - **Das Gitter zeigt jede Lauf-Art** (28.09.2026), ein Klick öffnet ihre Seite mit dem Verlauf,
+ *   und der Weg zurück führt ins Gitter.
+ * - **Antwortet der Dienst nicht, bleibt der letzte Stand sichtbar** — mit Hinweisbalken, Grund
+ *   und der Uhrzeit, ab der es weitergeht.
+ *
+ * **Die Lauf-Art-Liste wird gegen die Workflows gehalten:** Die Anzeige führt sie fest (sie muss
+ * auch ruhende Arten zeigen), der Worker kennt nur, was gelaufen ist. Läuft beides auseinander,
+ * findet eine Kachel ihre Läufe nicht mehr — hier fällt es auf.
  *
  * **Der Standardbrowser wird dabei nie geöffnet:** `shell.openExternal` wird im
  * Hauptprozess durch einen Zähler ersetzt, bevor irgendetwas geklickt wird.
  *
+ * **Der Stand kommt aus erfundenen Antworten, nicht vom echten Dienst:** Sonst hinge dieses
+ * Werkzeug davon ab, wie es dem Worker gerade geht. Geprüft wird der echte Code; nur seine
+ * Zulieferung ist gesetzt. Die Adressen fängt ein `route` ab, **beide** (`/lauf` und die Pillen) —
+ * sonst sammelt der Prüflauf im Kontingent-Ausfall Fehlversuche beim echten Server.
+ *
+ * **Ein eigener Datenordner:** Electron gibt es nur einmal — `app.requestSingleInstanceLock()`
+ * beendet einen zweiten Start sofort, und Daniel hat die Anzeige fast immer offen. Mit eigenem
+ * `--user-data-dir` hat der Probelauf seinen eigenen Riegel und seinen eigenen Speicher.
+ *
  * Aufruf: `node tools/lauf-status-app-pruefen.mjs`
- * Ergebnis: `docs/lauf-status-app.png`, `docs/lauf-status-app-ausfall.png`
+ * Ergebnis: `docs/lauf-status-app.png`, `docs/lauf-status-app-detail.png`,
+ *           `docs/lauf-status-app-ausfall.png`
  */
 import { _electron as electron } from 'playwright'
-import { existsSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const APP = 'C:/code/ai/__assets/tools/lauf-status/app'
+const ANZEIGE = 'C:/code/ai/__assets/tools/lauf-status/index.html'
 const EXE = path.join(APP, 'node_modules/electron/dist/electron.exe')
 
 if (!existsSync(EXE)) {
@@ -48,13 +64,64 @@ const pruefe = (was, ok, zusatz) => {
   if (!ok) fehler.push(was)
 }
 
+/* — Was der Worker liefert, in erfundener Form (echte Feldnamen) — */
+const VOR_12_MIN = new Date(Date.now() - 12 * 60000).toISOString()
+const GUTER_STAND = {
+  jetzt: new Date().toISOString(),
+  laeufe: [{
+    lauf_id: 'probe-1',
+    repo: 'danielzaiser91/anime-kalender-de',
+    workflow: 'Deploy auf GitHub Pages',
+    auftrag: '',
+    zweck: 'Veröffentlicht den aktuellen Stand von anime-kalender.de',
+    ziel: 'Prüfkette grün, neuer Stand auf GitHub Pages',
+    zustand: 'laeuft',
+    begonnen_am: new Date(Date.now() - 78000).toISOString(),
+    gemeldet_am: new Date().toISOString(),
+    url: 'https://example.com/lauf-1',
+    notiz: '',
+    fortschritt: 6,
+    fortschritt_gesamt: 6,
+    fortschritt_text: 'Seite gebaut',
+  }],
+  verlauf: {
+    'Deploy auf GitHub Pages': [
+      { z: 'ok', am: VOR_12_MIN },
+      { z: 'abgebrochen', am: VOR_12_MIN },
+      { z: 'fehler', am: VOR_12_MIN },
+    ],
+    'Stündlich — Sendezeiten': [{ z: 'ok', am: VOR_12_MIN }],
+  },
+}
+const VERLAUF_ANTWORT = {
+  jetzt: new Date().toISOString(),
+  laeufe: [
+    {
+      lauf_id: 'x-1', zustand: 'ok', auftrag: '', notiz: 'Probelauf fertig', url: 'https://example.com/x-1',
+      begonnen_am: new Date(Date.now() - 95000).toISOString(), gemeldet_am: VOR_12_MIN,
+    },
+    {
+      lauf_id: 'x-2', zustand: 'fehler', auftrag: '', notiz: 'Probelauf schiefgegangen', url: 'https://example.com/x-2',
+      begonnen_am: new Date(Date.now() - 260000).toISOString(), gemeldet_am: VOR_12_MIN,
+    },
+  ],
+}
+const PILLEN = {
+  offen: 1,
+  anbieter: [{ name: 'Amazon', plattform: 'primevideo', titel: 1, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] }],
+}
+
+const WORKER_URL = 'https://newsletter.animekalender.workers.dev/lauf*'
+const PILLEN_URL = 'https://newsletter.animekalender.workers.dev/pruefung?stand=1*'
+const antworte = (r) =>
+  r.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify(r.request().url().includes('verlauf=') ? VERLAUF_ANTWORT : GUTER_STAND),
+  })
+
 /*
   **Ein eigener Datenordner, damit die laufende Anzeige nicht stört** (28.09.2026).
-
-  Electron gibt es nur einmal: `app.requestSingleInstanceLock()` beendet einen zweiten Start
-  sofort — und Daniel hat die Anzeige fast immer offen, der Prüflauf brach dann mit „Target …
-  has been closed" ab. Mit eigenem `--user-data-dir` hat der Probelauf seinen eigenen Riegel und
-  seinen eigenen Speicher; die laufende Anzeige bleibt unangetastet.
 */
 const PROBENORDNER = path.join(os.tmpdir(), 'laufstatus-probe')
 const programm = await electron.launch({
@@ -72,42 +139,7 @@ await programm.evaluate(({ shell }) => {
 
 const seite = await programm.firstWindow()
 await seite.waitForLoadState('domcontentloaded')
-
-/*
-  **Der Stand kommt aus einer festen Antwort, nicht vom echten Dienst** (28.09.2026).
-
-  Sonst hinge dieses Werkzeug davon ab, wie es dem Worker gerade geht: Ist das
-  Datenbank-Kontingent erschöpft, zeigt die Anzeige den letzten Stand mit Begründung — richtig
-  so, aber keine Grundlage für „der Titel ist Laufstatus". Geprüft wird der echte Code; nur
-  seine Zulieferung ist hier gesetzt.
-*/
-const WORKER_URL = 'https://newsletter.animekalender.workers.dev/lauf*'
-/*
-  **Auch die Pillen kommen aus einer festen Antwort** (28.09.2026).
-
-  Sie hat eine eigene Adresse (`?stand=1`) und lief beim Prüflauf bisher gegen den echten
-  Dienst — im tail war zu sehen, wie der Lauf während des Kontingent-Ausfalls dort Fehlversuche
-  sammelte. Jetzt ist der ganze Abruf des Werkzeugs erfunden und niemand sonst wird belastet.
-*/
-const PILLEN_URL = 'https://newsletter.animekalender.workers.dev/pruefung?stand=1*'
-const PILLEN = {
-  offen: 1,
-  anbieter: [{ name: 'Amazon', plattform: 'primevideo', titel: 1, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] }],
-}
-const GUTER_STAND = {
-  jetzt: new Date().toISOString(),
-  laeufe: [{
-    lauf_id: 'probe-1',
-    auftrag: 'Probelauf',
-    workflow: 'Probe',
-    zustand: 'ok',
-    begonnen_am: new Date(Date.now() - 600000).toISOString(),
-    gemeldet_am: new Date().toISOString(),
-  }],
-}
-const gutAntworten = (r) =>
-  r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(GUTER_STAND) })
-await seite.route(WORKER_URL, gutAntworten)
+await seite.route(WORKER_URL, antworte)
 await seite.route(PILLEN_URL, (r) =>
   r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(PILLEN) }))
 await seite.reload({ waitUntil: 'domcontentloaded' })
@@ -122,7 +154,7 @@ const fenster = await programm.evaluate(({ BrowserWindow }) => {
   return { breite, hoehe, titel: w?.getTitle() ?? '' }
 })
 pruefe('das Fenster ist 420 × 760 groß', fenster.breite === 420 && fenster.hoehe === 760, `${fenster.breite} × ${fenster.hoehe}`)
-pruefe('es trägt den Titel der Seite', fenster.titel === 'Laufstatus', fenster.titel)
+pruefe('es trägt den Titel der Seite', /^(● \d+ — |▲ )?Laufstatus$/.test(fenster.titel), fenster.titel)
 pruefe('die Seite ist die aus dem Werkzeugordner', /lauf-status\/index\.html$/.test(seite.url()), seite.url())
 
 await seite.screenshot({ path: path.join(WURZEL, 'docs', 'lauf-status-app.png') })
@@ -165,44 +197,70 @@ pruefe('und das Wegnavigieren geht stattdessen hinaus', extern.includes('https:/
 pruefe('kein Hilfsfenster bleibt übrig', offen === 1, `${offen} Fenster`)
 
 /*
-  **4. Antwortet der Dienst nicht, bleibt der letzte Stand stehen** (28.09.2026).
+  **4. Das Gitter: alle Lauf-Arten, immer sichtbar** (Daniel, 28.09.2026: „alle lauf-arten immer
+  sichtbar", „kacheln, feste reihenfolge plus zähler").
+*/
+await seite.reload({ waitUntil: 'domcontentloaded' })
+await seite.waitForTimeout(1200)
+const gitter = await seite.evaluate(() => ({
+  kacheln: document.querySelectorAll('.kachel').length,
+  laeuft: document.querySelectorAll('.kachel.laeuft').length,
+  balken: document.querySelectorAll('.kachel .balken').length,
+  kaestchen: document.querySelectorAll('.kachel .reihe i').length,
+  kopf: (document.getElementById('kopf') || {}).textContent || '',
+  erste: document.querySelector('.kachel .kurz')?.textContent ?? '',
+}))
+pruefe('das Gitter zeigt jede Lauf-Art', gitter.kacheln === 17, String(gitter.kacheln))
+pruefe('die erste Kachel ist der Deploy', gitter.erste === 'Deploy', gitter.erste)
+pruefe('die laufende Art ist blau und trägt den Balken', gitter.laeuft === 1 && gitter.balken === 1)
+pruefe('die Kästchenreihe zeigt den Verlauf', gitter.kaestchen >= 4, String(gitter.kaestchen))
+pruefe('der Zähler nennt den laufenden Lauf', /1 läuft/.test(gitter.kopf), gitter.kopf)
 
-  Anlass: Daniel sah „Statusdienst nicht erreichbar" und fragte „warum? fix es". Die Ursache war
-  das erschöpfte Tageskontingent der Datenbank (HTTP 500), kein Fehler der Anzeige — aber die
-  Anzeige stand dann bis 02:00 leer, obwohl sie den Stand von vor einer Stunde schon kannte.
-  Geprüft wird beides: der gemerkte Stand bleibt sichtbar, und der Grund steht lesbar dabei.
+/* 5. Klick öffnet die Seite der Lauf-Art — heute, letzter Lauf, Verlauf. */
+await seite.click('.kachel.laeuft')
+await seite.waitForTimeout(900)
+const detail = await seite.evaluate(() => ({
+  text: document.body.innerText,
+  jetzt: Boolean(document.querySelector('.jetzt')),
+  zeilen: document.querySelectorAll('.zeile').length,
+  zurueck: Boolean(document.querySelector('.zurueck')),
+}))
+pruefe('der Klick öffnet die Detailseite', detail.jetzt && detail.zurueck)
+pruefe('mit Ziel und Schritt', /Schritt 6 von 6/.test(detail.text), detail.text.slice(0, 120))
+pruefe('und dem Verlauf', detail.zeilen >= 2, String(detail.zeilen))
+pruefe('samt Grund des Fehlschlags', /schiefgegangen/.test(detail.text))
+await seite.screenshot({ path: path.join(WURZEL, 'docs', 'lauf-status-app-detail.png') })
+
+await seite.click('.zurueck')
+await seite.waitForTimeout(700)
+pruefe('der Weg zurück führt ins Gitter',
+  (await seite.evaluate(() => document.querySelectorAll('.kachel').length)) === 17)
+
+/*
+  **6. Antwortet der Dienst nicht, bleibt der letzte Stand stehen** (Daniel: „status app zeigt
+  fehler, warum? fix es" — und „so ein kontingent fehler sollte viel sichtbarer sein").
 */
 const ausfallAntworten = (r) =>
   r.fulfill({ status: 500, contentType: 'text/html', body: '<html><body>error code: 1101</body></html>' })
-
-/* Ein guter Abruf zuerst — das ist der Stand, den es zu behalten gilt. */
-await seite.unroute(WORKER_URL)
-await seite.route(WORKER_URL, gutAntworten)
-await seite.reload({ waitUntil: 'domcontentloaded' })
-await seite.waitForTimeout(1200)
-pruefe('der gute Abruf zeigt seine Läufe', (await seite.getByText('Probelauf').count()) >= 1)
-pruefe('der gute Stand wird gemerkt',
-  await seite.evaluate(() => Boolean(localStorage.getItem('laufstatus-letzter-stand'))))
-
-/* Jetzt derselbe Abruf, aber mit Ausfall. */
 await seite.unroute(WORKER_URL)
 await seite.route(WORKER_URL, ausfallAntworten)
 await seite.reload({ waitUntil: 'domcontentloaded' })
 await seite.waitForTimeout(1200)
 const ausfall = await seite.evaluate(() => ({
   text: document.body.innerText,
+  banner: Boolean(document.querySelector('.limit')),
+  kacheln: document.querySelectorAll('.kachel').length,
   kopf: (document.getElementById('kopf') || {}).textContent || '',
   stand: (document.getElementById('stand') || {}).textContent || '',
-  grundLang: Boolean(document.querySelector('.karte.alt .unten.lang')),
 }))
-pruefe('beim Ausfall steht der letzte Stand weiter da', ausfall.text.includes('Probelauf'), ausfall.text.slice(0, 150))
-pruefe('der Kasten nennt Grund und Uhrzeit',
-  /Der Statusdienst antwortet nicht — Stand von \d{2}:\d{2}/.test(ausfall.text), ausfall.text.slice(0, 150))
-pruefe('die Kopfzeile nennt den alten Stand statt laufender Zahlen',
-  /^Stand von \d{2}:\d{2}$/.test(ausfall.kopf.trim()), ausfall.kopf)
+pruefe('beim Ausfall steht ein Hinweisbalken oben', ausfall.banner)
+pruefe('er nennt die Uhrzeit des Stands', /Stand von \d{2}:\d{2}/.test(ausfall.text), ausfall.text.slice(0, 120))
+pruefe('und ab wann es weitergeht', /Neue Werte gibt es ab \d{2}:\d{2}/.test(ausfall.text))
+pruefe('und dass nichts zu tun ist', /Nichts zu tun/.test(ausfall.text))
+pruefe('die Kacheln bleiben stehen', ausfall.kacheln === 17, String(ausfall.kacheln))
+pruefe('die Kopfzeile nennt den alten Stand', /^Stand von \d{2}:\d{2}$/.test(ausfall.kopf.trim()), ausfall.kopf)
 pruefe('die Fußzeile sagt, dass der Dienst nicht antwortet',
   ausfall.stand.includes('der Dienst antwortet nicht'), ausfall.stand)
-pruefe('der Grund wird nicht auf eine Zeile beschnitten', ausfall.grundLang)
 await seite.screenshot({ path: path.join(WURZEL, 'docs', 'lauf-status-app-ausfall.png') })
 
 /* Und ohne gemerkten Stand: nur der Grund — ebenfalls lesbar. */
@@ -216,6 +274,22 @@ const ohneStand = await seite.evaluate(() => ({
 pruefe('ohne gemerkten Stand steht der Grund da', /Tageskontingent/.test(ohneStand.text), ohneStand.text.slice(0, 150))
 pruefe('und auch dort nicht beschnitten', ohneStand.grundLang)
 
+/*
+  **7. Die feste Liste der Lauf-Arten gegen die Workflows.** Läuft beides auseinander, findet eine
+  Kachel ihre Läufe nicht mehr — und zwar still.
+*/
+const ausDerAnzeige = [...readFileSync(ANZEIGE, 'utf8').matchAll(/\{ kurz: '[^']+', lang: '([^']+)' \}/g)].map((m) => m[1])
+const ausDenWorkflows = readdirSync(path.join(WURZEL, '.github/workflows'))
+  .filter((f) => f.endsWith('.yml'))
+  .map((f) => /^name:\s*(.+)$/m.exec(readFileSync(path.join(WURZEL, '.github/workflows', f), 'utf8'))?.[1]?.trim())
+  .filter(Boolean)
+pruefe('die Anzeige kennt jede Lauf-Art der Workflows',
+  ausDenWorkflows.every((n) => ausDerAnzeige.includes(n)),
+  ausDenWorkflows.filter((n) => !ausDerAnzeige.includes(n)).join(', '))
+pruefe('und keine, die es nicht gibt',
+  ausDerAnzeige.every((n) => ausDenWorkflows.includes(n)),
+  ausDerAnzeige.filter((n) => !ausDenWorkflows.includes(n)).join(', '))
+
 await programm.close()
-console.log('\n  Bilder: docs/lauf-status-app.png, docs/lauf-status-app-ausfall.png')
+console.log('\n  Bilder: docs/lauf-status-app.png, docs/lauf-status-app-detail.png, docs/lauf-status-app-ausfall.png')
 process.exit(fehler.length ? 1 : 0)
