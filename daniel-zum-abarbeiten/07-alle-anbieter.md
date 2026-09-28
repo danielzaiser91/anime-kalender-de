@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-28 · **3 offene Verweise** in **2 Zeilen**.
+Stand 2026-09-28 · **1 offene Verweise** in **1 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,17 +33,14 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Crunchyroll](07-crunchyroll.md) | 2 |
 | [Prime Video](07-primevideo.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-09-18 | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Hauptserie](https://www.crunchyroll.com/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world) · [Staffel 2](https://www.crunchyroll.com/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world) |
-| 2 | 2025-07-15 | Attack on Titan | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GZJ7KH73) |
+| 1 | 2025-07-15 | Attack on Titan | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GZJ7KH73) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
-- **Crunchyroll:** Der Simulcast-Kalender führt nur laufende Staffeln. Für Katalogtitel sagt er nichts — Fehlen ist dort kein Gegenbeweis.
 - **Prime Video:** Prime Video nennt die Tonspuren erst auf der Produktseite, und die ist ohne Anmeldung unvollständig.
