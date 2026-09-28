@@ -312,3 +312,64 @@ export function neueBelegBloecke(alt: string, zeilen: string[]): { bloecke: stri
   })
   return { bloecke, neu }
 }
+
+/**
+ * Entfernt Belege, die in derselben Fassung schon stehen — verglichen am gelesenen Objekt.
+ *
+ * `neueBelegBloecke()` prüft dasselbe beim Anhängen, kann eine Dopplung aber übersehen: Lässt
+ * sich ein Block **allein** nicht lesen, wird er dort ungeprüft übernommen (`catch` → behalten)
+ * — in der fertigen Datei steht er trotzdem als eigener Eintrag, und `check:logic` vergleicht
+ * dort die gelesenen Objekte. Am 28.09.2026 hielt genau das einen ganzen Datenlauf zurück
+ * („Erzeugnisse und neue Meldungen werden nicht übernommen", Lauf 36417274445), und 242
+ * Meldungen aus Daniels Prime-Durchgang kamen nicht in die Datei. Diese Funktion ist der letzte
+ * Riegel **vor dem Schreiben** und stellt dieselbe Frage wie die Zusicherung.
+ *
+ * Der erste Beleg gewinnt; die Textgestalt bleibt sonst unangetastet (Kommentare, Reihenfolge,
+ * Anführungszeichen).
+ */
+export function entdoppleBelege(text: string, melde?: (text: string) => void): string {
+  const zeilen = text.split('\n')
+  const gesehen = new Set<string>()
+  const raus: string[] = []
+  let entfernt = 0
+  let i = 0
+  while (i < zeilen.length) {
+    const z = zeilen[i] ?? ''
+    if (!z.startsWith('- ')) {
+      raus.push(z)
+      i++
+      continue
+    }
+    let j = i + 1
+    while (j < zeilen.length) {
+      const w = zeilen[j] ?? ''
+      if (w.startsWith(' ') || w.trim() === '') j++
+      else break
+    }
+    /* Leerzeilen am Blockende gehören zum Abstand, nicht zum Beleg. */
+    let ende = j
+    while (ende > i && (zeilen[ende - 1] ?? '').trim() === '') ende--
+    const block = zeilen.slice(i, ende)
+    let schluessel: string | null = null
+    try {
+      const gelesen = yaml.load(block.join('\n')) as unknown[] | null
+      schluessel = JSON.stringify(gelesen?.[0])
+    } catch {
+      schluessel = null
+    }
+    if (schluessel && gesehen.has(schluessel)) {
+      entfernt++
+      /* Auch den Abstand vor dem entfernten Beleg zurücknehmen. */
+      while (raus.length && (raus[raus.length - 1] ?? '').trim() === '') raus.pop()
+      i = j
+      continue
+    }
+    if (schluessel) gesehen.add(schluessel)
+    raus.push(...block)
+    i = j
+  }
+  /* Der Abschluss der Datei bleibt, wie er war (der Block-Schnitt frisst ihn sonst). */
+  const schwanz = /\n+$/.exec(text)?.[0] ?? ''
+  if (entfernt && melde) melde(`${entfernt} Beleg(e) standen doppelt — nicht geschrieben`)
+  return raus.join('\n').replace(/\n+$/, '') + schwanz
+}

@@ -63,7 +63,7 @@ import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../sha
 import { bereicheGekuerzt, bereicheKurz, dubBild, dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { riegelGreift } from './lib/youtube-riegel.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
-import { neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
@@ -3352,6 +3352,23 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   const { neu } = neueBelegBloecke('- a: 1\n', ['- a: 1', '- b: 2', '  c: x', '- b: 2', '  c: "x"', '- d: 3'])
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
   pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(abholung))
+  /*
+    28.09.2026: Der Abgleich oben kann eine Dopplung übersehen — ein Block, der sich **allein**
+    nicht lesen lässt, wird dort übernommen, steht in der fertigen Datei aber als eigener
+    Eintrag. Genau das hielt Lauf 36417274445 zurück („Erzeugnisse und neue Meldungen werden
+    nicht übernommen"), und 242 Prime-Meldungen kamen nicht in die Datei. `entdoppleBelege()`
+    prüft die fertige Fassung vor dem Schreiben — dieselbe Frage wie diese Zusicherung.
+  */
+  const meldungen: string[] = []
+  const fertig = entdoppleBelege('- a: 1\n  note: "x"\n\n- b: 2\n  note: "y"\n\n- a: 1\n  note: "x"\n', (m) => meldungen.push(m))
+  pruefe('die fertige Fassung wird vor dem Schreiben entdoppelt', meldungen.length === 1, meldungen)
+  pruefe('und liest sich danach ohne Doppel',
+    (yaml.load(fertig) as unknown[]).length === 2 &&
+      new Set((yaml.load(fertig) as unknown[]).map((b) => JSON.stringify(b))).size === 2)
+  pruefe('Kommentare und Reihenfolge bleiben stehen',
+    entdoppleBelege('# Kopf\n\n- a: 1\n') === '# Kopf\n\n- a: 1\n')
+  pruefe('fetch-pruefungen ruft den Riegel vor dem Schreiben',
+    /entdoppleBelege\(neu, warn\)/.test(abholung))
   /* 22.09.2026: Haikyu!! TO THE TOP — Netflix-Staffel 4 ohne Zahl in unseren Titeln blieb liegen. */
   pruefe(
     'eine Netflix-Staffel ohne Nummer in unserer Reihe wird über Netflix\' Aufteilung verteilt',

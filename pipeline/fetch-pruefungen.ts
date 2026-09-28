@@ -29,7 +29,7 @@ import {
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
 import { log, ROOT, warn } from './lib/util.ts'
-import { adressKern, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { folgentitelAusNotiz, folgeUeberTitel } from './lib/folgentitel-anker.ts'
@@ -1348,7 +1348,7 @@ if (zeilen.length && !TROCKEN) {
       `Die erzeugten Zeilen ergeben kein gültiges YAML — nichts geschrieben. ${(e as Error).message}`,
     )
   }
-  if (neueZeilen.some((z) => z.startsWith('- '))) writeFileSync(p, neu)
+  if (neueZeilen.some((z) => z.startsWith('- '))) writeFileSync(p, entdoppleBelege(neu, warn))
 }
 
 /**
