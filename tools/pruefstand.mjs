@@ -292,14 +292,23 @@ function nachtrag(name, plattform, ziele, { alsTitel = false, hinweis = null } =
   ]
 }
 
-/* Crunchyroll-Verweise ohne Sprachurteil — Filme und Specials, die in keinem Block stehen. */
-const crOffen = []
-for (const t of titel) {
-  for (const s of t.streams ?? []) {
-    if (s.platform !== 'crunchyroll' || s.dub !== undefined) continue
-    crOffen.push({ url: s.url, titel: t.titleDe ?? t.titleEn ?? null })
-  }
-}
+/*
+  **Es gibt keine Crunchyroll-Pille mehr** (28.09.2026).
+
+  Daniel: „warum muss ich überhaupt für crunchy irgendwas melden, wir haben doch crunchy
+  automatisiert?" — Gemessen an den sechs Einträgen, die dort standen, ist keiner Arbeit für
+  ihn: **vier sind angekündigte Staffeln** (OMU-Start am 2./3.10., Synchro angekündigt, noch
+  keine Folgenzahl — Black Clover S2, Apothekerin S3, Last Boss S2, Appraisal S3), **eine ist
+  eine tote Seite**, die unsere eigene Crunchyroll-Runde als `nichtVerfuegbar` führt (Perfect
+  Blue), und **eine ein misslungener Abruf** (Yamato 2202, „Content-API kennt keine Staffel zu
+  dieser Kennung"). Angekündigtes erscheint von selbst, sobald es deutsch ist; die beiden
+  anderen sind Arbeit der Pipeline.
+
+  „Was keine Erweiterung hat, ist trotzdem Arbeit" (Daniel, 10.09.2026) gilt für die
+  **Suchadressen** — dort sucht wirklich jemand den richtigen Treffer —, nicht für einen
+  Anbieter, den wir selbst abfragen. Eine Pille, die Arbeit behauptet, die keine ist, kostet
+  mehr als sie zeigt.
+*/
 
 /*
   Die Suchadressen kommen aus der Datei, die der Bau neben der Markdown-Liste
@@ -315,15 +324,6 @@ try {
   /* Gibt es die Datei nicht, gibt es die Pille nicht — kein Grund abzubrechen. */
 }
 
-stand.push(
-  ...nachtrag('Crunchyroll', 'crunchyroll', crOffen, {
-    alsTitel: true,
-    hinweis:
-      'Liste mit dem nächsten Titel öffnen und nachsehen, ob dort deutscher Ton steht — ' +
-      'normalerweise beantwortet der wöchentliche Crunchyroll-Lauf das von selbst; von Hand ' +
-      'nur nötig, wenn einer stehen bleibt',
-  }),
-)
 stand.push(
   ...nachtrag('Suchadressen', 'suchadressen', suchOffen, {
     hinweis: 'Suchadressen ohne Titelseite: den richtigen Treffer beim Anbieter heraussuchen',
