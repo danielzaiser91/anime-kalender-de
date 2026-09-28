@@ -28,3 +28,10 @@ extension.pem
 .dev.vars*
 !.dev.vars.example
 !.env.example
+
+# Zustand des serena-MCP-Werkzeugs — nur lokal für dieses Repo eingerichtet
+# (Queue-Punkt „serena-Probelauf"). Die Regeln des Projekts stehen in CLAUDE.md
+# und den Skills, nicht in einem zweiten Werkzeug; ob serena bleibt, entscheidet
+# der Probelauf. Bis dahin gehört sein Ordner nicht in den Bestand — er stand
+# seit dem 27.09.2026 als untracked im `git status`.
+.serena/
