@@ -10,7 +10,7 @@
  *
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
-import type { PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
+import type { NewsEintrag, PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
 import { anbieterName } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { buildIcs } from '../../shared/ics.ts'
@@ -31,8 +31,9 @@ import { Ereignisse, ereignisSenden } from './ereignisse.ts'
 import { leererPush, pushVersand } from './push.ts'
 import { istErschienen } from '../../shared/logic.ts'
 import { type Env } from './env.ts'
-import { ISO_JETZT, jetztIso, zahlOderNull } from './werte.ts'
+import { ISO_JETZT, berlinParts, jetztIso, zahlOderNull } from './werte.ts'
 import { handlePruefung } from './pruefung.ts'
+import { loadNews, newsFuerAbonnent, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
 
@@ -878,20 +879,6 @@ async function loadReleaseLinks(env: Env): Promise<Map<string, ReleaseLink>> {
   }
 }
 
-function berlinParts(date: Date): { hour: number; iso: string } {
-  const fmt = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Europe/Berlin',
-    hour12: false,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-  })
-  const parts = fmt.formatToParts(date)
-  const get = (t: string) => parts.find((p) => p.type === t)!.value
-  return { hour: Number(get('hour')) % 24, iso: `${get('year')}-${get('month')}-${get('day')}` }
-}
-
 /** Der eigentliche Versand — als eigene Funktion, damit /debug/send ihn testen kann. */
 export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly'): Promise<string> {
   const { hour, iso } = berlinParts(now)
@@ -908,7 +895,8 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
   const allEvents = await loadEvents(env)
   const links = await loadReleaseLinks(env)
   const alleNeu = await loadNeuMitSynchro(env)
-  const weitereAnbieter = await loadWeitereAnbieter(env)
+  const news = await loadNews(env)
+  const weitereAnbieter = weitereAusNews(news)
   const reihen = await loadReihen(env)
   const log: string[] = []
 
@@ -1026,6 +1014,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       // Der Umstell-Knopf zeigt auf den jeweils **anderen** Rhythmus — was in
       // der Mail steht, ist ja der aktuelle.
       const rhythmusUrl = `${base}/rhythmus?token=${syncToken}&auf=${frequency === 'daily' ? 'weekly' : 'daily'}`
+      const meineNews = newsFuerAbonnent(news, seit, iso, until, frequency)
       const mail = digestMail(events, frequency, env.SITE_URL, unsubUrl, {
         favorites,
         syncUrl,
@@ -1033,6 +1022,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
         links,
         neuMitSynchro,
         auchBei,
+        news: meineNews,
       })
       try {
         await sendMail(env, { to: sub.email, ...mail, unsubscribeUrl: unsubUrl })
@@ -1670,8 +1660,8 @@ export default {
         .catch((err) => console.error('[land] fehlgeschlagen', err)),
     )
     ctx.waitUntil(
-      Promise.all([loadEvents(env), loadWeitereAnbieter(env)])
-        .then(([ev, weitere]) => pushVersand(env, now, ev, (e, zeit) => istErschienen(e, zeit), weitere))
+      Promise.all([loadEvents(env), loadNews(env)])
+        .then(([ev, news]) => pushVersand(env, now, ev, (e, zeit) => istErschienen(e, zeit), weitereAusNews(news)))
         .then((msg) => console.log(`[push] ${msg}`))
         .catch((err) => console.error('[push] fehlgeschlagen', err)),
     )

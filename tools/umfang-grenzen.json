@@ -7,15 +7,15 @@
     },
     "shared": {
       "funktionen": 247,
-      "dateien": 477
+      "dateien": 443
     },
     "web/src": {
       "funktionen": 6351,
       "dateien": 1486
     },
     "worker/src": {
-      "funktionen": 1231,
-      "dateien": 885
+      "funktionen": 1220,
+      "dateien": 875
     },
     "extension": {
       "funktionen": 7442,

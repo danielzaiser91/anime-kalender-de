@@ -1,10 +1,46 @@
 import { type ReleaseEvent, type Title, type Release } from '../../shared/types.ts'
 import { expandEvents } from '../../shared/logic.ts'
+import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-signale.ts'
 import { readJson, log, warn } from '../lib/util.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
 import { todayIso } from '../../shared/time.ts'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { VOICES_DIR } from './grundlagen.ts'
+
+/**
+ * **Die zwei Auskünfte an den Termin schreiben** (28.09.2026, `shared/tv-signale.ts`).
+ *
+ * Der Newsletter entsteht im **Worker**, und der hat den Datensatz nicht — er sieht nur die
+ * Termine. Damit die Mail nicht „Premiere" behauptet, während die Seite „Wiederholung" schreibt,
+ * wird hier einmal gerechnet (mit denselben Funktionen, die die Oberfläche benutzt) und das
+ * Ergebnis an den Termin geschrieben.
+ *
+ * Gemessen an den Zahlen vom 28.09.2026: 139 TV-Termine, 16 TV-Releases — die Rechnung ist
+ * billig. 32 TV-Termine sind `sichtung` (keine belegte Folgennummer); sie bekommen keine
+ * Premieren-Auskunft, weil für sie keine Folge feststeht.
+ */
+export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], titles: Map<number, Title>): void {
+  const releaseBySlug = new Map(releases.map((r) => [r.slug, r]))
+  let premier = 0
+  let wiederholungen = 0
+  let finale = 0
+  for (const ev of events) {
+    const release = releaseBySlug.get(ev.releaseSlug)
+    const title = titles.get(ev.titleId)
+    if (release && title && ev.platform === 'tv' && ev.episode && !ev.sichtung) {
+      const istEs = istPremiere(ev.episode, ev.date, title, releases, release.ersteDeutsch, ev.time)
+      ev.tvPremiere = istEs
+      if (istEs) premier++
+      else wiederholungen++
+    }
+    if (istStaffelfinale(ev, { releaseBySlug })) {
+      ev.staffelfinale = true
+      finale++
+    }
+    if (istStaffelstart(ev, { releaseBySlug })) ev.staffelstart = true
+  }
+  log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${finale} Staffelfinale`)
+}
 
 export function rolleTermineAus({ releases, titles, jpStart }: {
   releases: Release[]
@@ -141,7 +177,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
     if (titel) verschoben.push(titel)
     titles.delete(id)
   }
-  if (verschoben.length)
-    log(`${verschoben.length} Titel hinter den Toggle verschoben: japanische Ausstrahlung steht noch aus`)
+  if (verschoben.length) log(`${verschoben.length} Titel hinter den Toggle verschoben: japanische Ausstrahlung steht noch aus`)
+  schreibeTvAuskunft(events, releases, titles)
   return { events, mitStimmen, verschoben }
 }

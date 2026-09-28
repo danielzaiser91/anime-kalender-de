@@ -52,3 +52,23 @@ export function zahlOderNull(wert: unknown): number | null {
   const n = Number(wert)
   return Number.isFinite(n) && n >= 0 ? Math.round(n) : null
 }
+
+/**
+ * **Berliner Stunde und Datum** (28.09.2026 aus index.ts hierher — die Datei war über der Grenze).
+ *
+ * Der Versand entscheidet anhand der Berliner Ortszeit, ob die Tages- oder die Wochenmail fällig
+ * ist; hour ist die Stunde 0–23, iso das Datum YYYY-MM-DD.
+ */
+export function berlinParts(date: Date): { hour: number; iso: string } {
+  const fmt = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Berlin',
+    hour12: false,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+  })
+  const parts = fmt.formatToParts(date)
+  const get = (t: string) => parts.find((p) => p.type === t)!.value
+  return { hour: Number(get('hour')) % 24, iso: `${get('year')}-${get('month')}-${get('day')}` }
+}

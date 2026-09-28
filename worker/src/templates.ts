@@ -1,14 +1,18 @@
-import type { ReleaseEvent } from '../../shared/types.ts'
+import type { NewsEintrag, ReleaseEvent } from '../../shared/types.ts'
 import { PLATFORMS, RELEASE_TYPES, anbieterName } from '../../shared/types.ts'
 import { formatDate, weekdayName } from '../../shared/time.ts'
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-}
+import { sorteVon, SORTEN, wichtigkeit, type Sorte } from './mail-sorten.ts'
+import {
+  badge,
+  calendarUrl,
+  escapeHtml,
+  hinweisZeile,
+  newsBlock,
+  newsText,
+  tvWiederholungen,
+  wiederholungsText,
+  type RowContext,
+} from './mail-abschnitte.ts'
 
 /**
  * Absender und Kopfzeile der beiden Mail-Arten, die dieser Worker verschickt.
@@ -147,26 +151,6 @@ export interface ReleaseLink {
   buyUrl?: string
 }
 
-/** Was jede Zeile zum Verlinken braucht. */
-interface RowContext {
-  siteUrl: string
-  links: Map<string, ReleaseLink>
-}
-
-/**
- * Die Ansicht im Kalender, die genau diesen Termin zeigt.
- *
- * Bewusst über die Teilen-Seite `/r/<slug>/` statt direkt über `#/woche?…`:
- * Alles hinter dem `#` erreicht keinen Server, eine weitergeleitete Mail hätte
- * damit nie eine Vorschau. Die Teilen-Seite hat eigene Vorschaubilder und
- * springt anschließend selbst in die Wochenansicht — der Hash sagt ihr nur,
- * welcher Tag gemeint ist.
- */
-function calendarUrl(ctx: RowContext, ev: ReleaseEvent): string {
-  const slug = encodeURIComponent(ev.releaseSlug)
-  return `${ctx.siteUrl.replace(/\/$/, '')}/r/${slug}/#/woche?d=${ev.date}&r=${slug}`
-}
-
 /** Zum Anbieter selbst: Streamingseite, bei Disc-Releases die Kaufseite. */
 function watchUrl(ctx: RowContext, ev: ReleaseEvent): string | undefined {
   const link = ctx.links.get(ev.releaseSlug)
@@ -183,22 +167,24 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
   const time = ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : ''
   const episode = ev.episode && !ev.sichtung ? `Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}` : ''
   const platform = PLATFORMS[ev.platform]
+  /* Im Fernsehen ist der **Sender** die Auskunft, nicht das Wort „TV" (28.09.2026). */
+  const plattformName = ev.platform === 'tv' && ev.sender ? ev.sender : platform.name
   const watch = watchUrl(ctx, ev)
 
   // Der Anbietername ist der Knopf zum Ansehen. Fehlt der Deeplink, bleibt er
   // schlichter Text — ein Link ins Leere wäre schlimmer als keiner.
   const platformPart = watch
     ? `<a href="${escapeHtml(watch)}" style="color:${platform.color};text-decoration:none;font-weight:600;">${escapeHtml(
-        platform.name,
+        plattformName,
       )} ${ev.releaseType === 'disc' ? 'kaufen' : 'ansehen'} &rsaquo;</a>`
-    : escapeHtml(platform.name)
+    : escapeHtml(plattformName)
 
   return `<tr>
     <td style="padding:7px 0;border-top:1px solid #232c40;">
       <span style="display:inline-block;width:3px;height:14px;background:${type.color};vertical-align:-2px;border-radius:2px;"></span>
       ${highlight ? '<span style="color:#fbbf24;">★</span> ' : ''}<a href="${escapeHtml(
         calendarUrl(ctx, ev),
-      )}" style="color:#fff;text-decoration:none;"><strong>${escapeHtml(ev.name)}</strong></a><br>
+      )}" style="color:#fff;text-decoration:none;"><strong>${escapeHtml(ev.name)}</strong></a>${badge(ev)}<br>
       <span style="color:#9aa5bd;font-size:13px;">${[escapeHtml(time), escapeHtml(episode), platformPart, ev.estimated ? 'geschätzt' : '']
         .filter(Boolean)
         .join(' · ')}</span>
@@ -306,6 +292,120 @@ export interface DigestOptions {
    * läuft (18.09.2026, aus `news.json`, Meldungen mit `weiterer`).
    */
   auchBei?: { id: number; name: string; anbieter: string }[]
+  /**
+   * **Ankündigungen und Neuigkeiten** (Daniel, 28.09.2026: „News, eventuell? Wenn wir neue
+   * interessante news reinbekommen, wie zB ankündigungen, sollten diese eventuell auch angezeigt
+   * werden (inkl Link zur Quelle)").
+   *
+   * Quelle ist `data/news.json` — dieselbe Datei, die die Seite zeigt, und sie entsteht ohne
+   * neuen Abruf aus dem, was der Bau ohnehin weiß (`pipeline/lib/news.ts`). Der Link führt auf
+   * die Titelseite, wo die Belege stehen.
+   */
+  news?: NewsEintrag[]
+}
+
+/** Eine Abschnitts-Überschrift in der Farbe ihrer Rubrik. */
+function heading(text: string, colour: string): string {
+  return `<p style="margin:26px 0 0;padding-bottom:6px;border-bottom:2px solid ${colour};color:${colour};font-weight:700;font-size:15px;letter-spacing:.03em;">${text}</p>`
+}
+
+/**
+ * **Einordnen: Favoriten nach Wichtigkeit, der Rest nach Rubriken** (28.09.2026).
+ *
+ * Herausgelöst aus `digestMail`, weil die Funktion sonst über die Längengrenze wächst — und weil
+ * die Regeln ohne HTML lesbar bleiben sollen.
+ */
+function ordneEin(
+  mine: ReleaseEvent[],
+  rest: ReleaseEvent[],
+): { meine: ReleaseEvent[]; nachSorte: Map<Sorte, ReleaseEvent[]>; wiederholungen: ReleaseEvent[] } {
+  const nachSorte = new Map<Sorte, ReleaseEvent[]>()
+  for (const ev of rest) {
+    const sorte = sorteVon(ev)
+    const liste = nachSorte.get(sorte)
+    if (liste) liste.push(ev)
+    else nachSorte.set(sorte, [ev])
+  }
+  const meine = [...mine].sort(
+    (a, b) =>
+      wichtigkeit(a) - wichtigkeit(b) ||
+      a.date.localeCompare(b.date) ||
+      (a.time ?? '99').localeCompare(b.time ?? '99'),
+  )
+  return { meine, nachSorte, wiederholungen: nachSorte.get('tv-wiederholung') ?? [] }
+}
+
+/**
+ * **Der Rumpf der Mail: Rubriken in der vorgegebenen Reihenfolge** — Favoriten, Kino, Stream,
+ * Handel, TV-Premieren, TV-Wiederholungen, Neuigkeiten. Leere Rubriken fallen weg.
+ */
+function koerper(o: {
+  ctx: RowContext
+  meine: ReleaseEvent[]
+  nachSorte: Map<Sorte, ReleaseEvent[]>
+  wiederholungen: ReleaseEvent[]
+  meldungen: NewsEintrag[]
+  frequency: 'daily' | 'weekly'
+  siteUrl: string
+}): string {
+  let body = ''
+  if (o.meine.length > 0) body += heading('★ Deine Favoriten', '#fbbf24') + dateSections(o.ctx, o.meine, true)
+  if (!o.meine.length && SORTEN.some((r) => (o.nachSorte.get(r.sorte) ?? []).length)) {
+    body += `<p style="margin:0 0 2px;color:#9aa5bd;font-size:13px;">${
+      o.frequency === 'daily' ? 'Das steht heute an:' : 'Das steht in den nächsten sieben Tagen an:'
+    }</p>`
+  }
+  for (const rubrik of SORTEN) {
+    const drin = o.nachSorte.get(rubrik.sorte) ?? []
+    if (!drin.length) continue
+    body += heading(rubrik.titel, rubrik.farbe) + hinweisZeile(rubrik.hinweis) + dateSections(o.ctx, drin, false)
+  }
+  if (o.wiederholungen.length) body += tvWiederholungen(o.ctx, o.wiederholungen)
+  if (o.meldungen.length) body += newsBlock(o.meldungen, o.siteUrl)
+  return body
+}
+
+/** Derselbe Rumpf für die Textfassung — dieselben Rubriken, ohne HTML. */
+function textKoerper(o: {
+  ctx: RowContext
+  meine: ReleaseEvent[]
+  nachSorte: Map<Sorte, ReleaseEvent[]>
+  wiederholungen: ReleaseEvent[]
+  meldungen: NewsEintrag[]
+  siteUrl: string
+  neu: NeuMitSynchro[]
+  auchBei: { id: number; name: string; anbieter: string }[]
+}): string {
+  let text = ''
+  if (o.neu.length > 0) {
+    text +=
+      `ENDLICH: DEUTSCHE SYNCHRO\n\n` +
+      o.neu
+        .map(
+          (n) =>
+            `* ${n.name} — ${
+              n.termin ? `erster deutscher Termin: ${n.termin.split('-').reverse().join('.')}` : 'angekündigt, Termin steht noch aus'
+            }\n  ${o.siteUrl}#/datenbank?t=${n.id}`,
+        )
+        .join('\n') +
+      '\n\n'
+  }
+  if (o.auchBei.length > 0) {
+    text +=
+      `JETZT AUCH BEI\n\n` +
+      o.auchBei.map((a) => `* ${a.name} — jetzt auch auf Deutsch bei ${a.anbieter}\n  ${o.siteUrl}#/datenbank?t=${a.id}`).join('\n') +
+      '\n\n'
+  }
+  if (o.meine.length > 0) text += `DEINE FAVORITEN\n\n${textSections(o.ctx, o.meine)}\n\n`
+  for (const rubrik of SORTEN) {
+    const drin = o.nachSorte.get(rubrik.sorte) ?? []
+    if (!drin.length) continue
+    const titel = rubrik.titel.replace(/^[^\p{L}]+/u, '').toUpperCase()
+    text += `${titel}\n\n${textSections(o.ctx, drin)}\n\n`
+  }
+  if (o.wiederholungen.length) text += `TV — WIEDERHOLUNGEN\n\n${wiederholungsText(o.wiederholungen)}\n\n`
+  if (o.meldungen.length) text += `NEUIGKEITEN\n\n${newsText(o.meldungen, o.siteUrl)}\n\n`
+  return text
 }
 
 export function digestMail(
@@ -331,6 +431,11 @@ export function digestMail(
   const rest = events.filter((e) => !favorites.has(e.titleId))
   const neu = options.neuMitSynchro ?? []
   const auchBei = options.auchBei ?? []
+  const meldungen = options.news ?? []
+  /*
+    **Einordnen nach Rubriken und Wichtigkeit** — die Regeln stehen in `mail-sorten.ts`.
+  */
+  const { meine, nachSorte, wiederholungen } = ordneEin(mine, rest)
   /*
     **Zwei Sorten Neuzugang, und der Unterschied gehört in den Betreff.**
 
@@ -347,7 +452,14 @@ export function digestMail(
    * Der Betreff nennt zuerst, was den Leser wirklich betrifft — und nichts
    * betrifft ihn mehr als eine Serie, auf deren Synchro er gewartet hat.
    * Deshalb steht das vor allem anderen, auch vor den Favoriten-Folgen.
+   *
+   * **Seit dem 28.09.2026 auch Finale und TV-Premiere** (Daniel: „falls es tv premiere ist, sollte
+   * sie auch oben angezeigt werden, da es besonders ist"). Vorher zählte der Betreff Releases —
+   * „Heute mit deutscher Synchro: 6 Releases" —, und darunter standen fünf Wiederholungen.
    */
+  const finaleHeute = meine.find((e) => e.staffelfinale)
+  const premiereHeute =
+    meine.find((e) => e.platform === 'tv' && e.tvPremiere) ?? rest.find((e) => e.platform === 'tv' && e.tvPremiere)
   const subject =
     neu.length > 0
       ? neuGemerkt.length === 0 && neuAusReihe.length === 1
@@ -359,16 +471,17 @@ export function digestMail(
         ? auchBei.length === 1
           ? `${auchBei[0].name} jetzt auch bei ${auchBei[0].anbieter}`
           : `${auchBei.length} Favoriten jetzt bei weiteren Anbietern`
-      : mine.length > 0
-        ? `${mine.length} ${mine.length === 1 ? 'Folge' : 'Folgen'} deiner Favoriten${
-            rest.length ? ` und ${rest.length} weitere Releases` : ''
-          }`
-        : frequency === 'daily'
-          ? `Heute mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
-          : `Diese Woche mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
-
-  const heading = (text: string, colour: string) =>
-    `<p style="margin:26px 0 0;padding-bottom:6px;border-bottom:2px solid ${colour};color:${colour};font-weight:700;font-size:15px;letter-spacing:.03em;">${text}</p>`
+        : finaleHeute
+          ? `Finale bei ${finaleHeute.name}`
+          : premiereHeute
+            ? `TV-Premiere: ${premiereHeute.name}`
+            : mine.length > 0
+              ? `${mine.length} ${mine.length === 1 ? 'Folge' : 'Folgen'} deiner Favoriten${
+                  rest.length ? ` und ${rest.length} weitere Releases` : ''
+                }`
+              : frequency === 'daily'
+                ? `Heute mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
+                : `Diese Woche mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
 
   /**
    * Die Nachricht ganz oben, in Grün und mit eigenem Kasten.
@@ -432,18 +545,7 @@ export function digestMail(
          .join('')}`
     : ''
 
-  let body = neuBlock + reihenBlock + auchBlock
-  if (mine.length > 0) {
-    body += heading('★ Deine Favoriten', '#fbbf24') + dateSections(ctx, mine, true)
-  }
-  if (rest.length > 0) {
-    body +=
-      mine.length > 0
-        ? heading('Weitere Releases', '#3f4b63') + dateSections(ctx, rest, false)
-        : `<p style="margin:0;">${
-            frequency === 'daily' ? 'Das steht heute an:' : 'Das steht in den nächsten sieben Tagen an:'
-          }</p>` + dateSections(ctx, rest, false)
-  }
+  const body = neuBlock + reihenBlock + auchBlock + koerper({ ctx, meine, nachSorte, wiederholungen, meldungen, frequency, siteUrl })
 
   // Ohne gemerkte Titel ist der Hinweis nützlich; mit gemerkten wäre er Lärm.
   const favouriteHint =
@@ -481,23 +583,7 @@ export function digestMail(
 
   const text =
     `${subject}\n\n` +
-    (neu.length > 0
-      ? `ENDLICH: DEUTSCHE SYNCHRO\n\n` +
-        neu
-          .map(
-            (n) =>
-              `* ${n.name} — ${
-                n.termin ? `erster deutscher Termin: ${n.termin.split('-').reverse().join('.')}` : 'angekündigt, Termin steht noch aus'
-              }\n  ${siteUrl}#/datenbank?t=${n.id}`,
-          )
-          .join('\n') +
-        '\n\n'
-      : '') +
-    (auchBei.length > 0
-      ? `JETZT AUCH BEI\n\n${auchBei.map((a) => `* ${a.name} — jetzt auch auf Deutsch bei ${a.anbieter}\n  ${siteUrl}#/datenbank?t=${a.id}`).join('\n')}\n\n`
-      : '') +
-    (mine.length > 0 ? `DEINE FAVORITEN\n\n${textSections(ctx, mine)}\n\n` : '') +
-    (rest.length > 0 ? `${mine.length > 0 ? 'WEITERE RELEASES\n\n' : ''}${textSections(ctx, rest)}\n\n` : '') +
+    textKoerper({ ctx, meine, nachSorte, wiederholungen, meldungen, siteUrl, neu, auchBei }) +
     `Kalender: ${siteUrl}\n` +
     (options.syncUrl ? `Favoriten abgleichen: ${options.syncUrl}\n` : '') +
     `\nDas hier ist der ${rhythmus.name} — er kommt ${rhythmus.wann}.\n` +

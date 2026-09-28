@@ -5697,6 +5697,87 @@ pruefe(
   pruefe('… und der Versand verschickt auch eine Mail, die nur das enthält', idx.includes('!neuMitSynchro.length && !auchBei.length'))
 }
 {
+  /*
+    **Der Newsletter ist nach Wichtigkeit geordnet** (Daniel, 28.09.2026): „tv releases in
+    newsletter separiert anzeigen, vor allem wenn es wiederholungen sind … falls es tv premiere
+    ist, sollte sie auch oben angezeigt werden … generell so priorisiert: Favoriten, Premieren,
+    Finale, Kino, Stream, Kauftitel, TV (wiederholungen). Hab ich etwas vergessen? News?"
+
+    Gemessen wird die Reihenfolge der Rubriken, die Trennung der Wiederholungen, die Abzeichen,
+    der Betreff und die Neuigkeiten mit Quelle. Die TV-Auskunft selbst kommt aus dem Bau
+    (`shared/tv-signale.ts` → `tvPremiere` am Termin).
+  */
+  const t = (id: string, titleId: number, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
+    ({
+      id,
+      releaseSlug: id,
+      titleId,
+      date: '2026-09-28',
+      time: '18:00',
+      releaseType: 'weekly',
+      platform: 'crunchyroll',
+      name: id,
+      ...extra,
+    }) as ReleaseEvent
+  const posten = [
+    t('Frieren', 1, { staffelfinale: true }),
+    t('Solo Leveling', 2),
+    t('Look Back', 2, { platform: 'kino', releaseType: 'movie' }),
+    t('I Parry Everything!', 2, { platform: 'disc', releaseType: 'disc' }),
+    t('One Piece Log', 2, { platform: 'tv', sender: 'ProSieben MAXX', tvPremiere: true }),
+    t('Dragon Ball Fg. 5', 2, { platform: 'tv', sender: 'ProSieben MAXX', tvPremiere: false }),
+    t('Detektiv Conan Fg. 144', 2, { platform: 'tv', sender: 'ProSieben MAXX', tvPremiere: false }),
+  ]
+  const m = digestMail(posten, 'daily', 'https://anime-kalender.de/', 'https://x/u', {
+    favorites: new Set([1]),
+    news: [
+      {
+        am: '2026-09-28',
+        titelId: 7,
+        titel: 'Black Clover',
+        slug: 'black-clover-7',
+        meldungen: [{ art: 'angekuendigt', platform: 'crunchyroll', datum: '2026-10-03' }],
+      },
+    ],
+  })
+  const wo = (text: string) => m.html.indexOf(text)
+  pruefe(
+    'die Rubriken stehen in der vorgegebenen Reihenfolge (Favoriten, Kino, Stream, Handel, TV-Premieren)',
+    wo('★ Deine Favoriten') < wo('🎬 Kino') &&
+      wo('🎬 Kino') < wo('▶ Neu bei den Anbietern') &&
+      wo('▶ Neu bei den Anbietern') < wo('💿 Im Handel') &&
+      wo('💿 Im Handel') < wo('📺 TV — Premieren'),
+    [wo('★ Deine Favoriten'), wo('🎬 Kino'), wo('▶ Neu bei den Anbietern'), wo('💿 Im Handel'), wo('📺 TV — Premieren')].join(','),
+  )
+  pruefe(
+    'die TV-Wiederholungen stehen darunter, getrennt und klein',
+    wo('📺 TV — Wiederholungen') > wo('📺 TV — Premieren') &&
+      m.html.includes('2 Sendungen — die Folgen liefen schon auf Deutsch') &&
+      m.html.includes('Dragon Ball Fg. 5'),
+    String(wo('📺 TV — Wiederholungen')),
+  )
+  pruefe('die TV-Wiederholungen haben kein Premieren-Abzeichen', !/Dragon Ball Fg\. 5<\/strong><\/a> <span/.test(m.html))
+  pruefe(
+    'die TV-Premiere trägt ein Abzeichen',
+    /One Piece Log<\/strong><\/a> <span[^>]*>Premiere<\/span>/.test(m.html),
+  )
+  pruefe('das Finale steht bei den Favoriten mit Abzeichen', /Frieren<\/strong><\/a> <span[^>]*>Finale<\/span>/.test(m.html))
+  pruefe('der Betreff nennt das Finale statt einer Zahl', m.subject === 'Finale bei Frieren', m.subject)
+  pruefe(
+    'die Neuigkeiten nennen Titel, Satz und Quelle',
+    wo('📰 Neuigkeiten') > wo('📺 TV — Wiederholungen') &&
+      m.html.includes('Start am 03.10.2026 bei Crunchyroll') &&
+      m.html.includes('Quelle im Kalender'),
+  )
+  pruefe('und die Textfassung nennt sie ebenso', m.text.includes('NEUIGKEITEN') && m.text.includes('Start am 03.10.2026 bei Crunchyroll'))
+
+  /* Ohne TV-Premiere und ohne Finale bleibt der Betreff bei der alten Aussage — und ohne News
+     fehlt die Rubrik ganz (leere Rubriken nehmen keinen Platz). */
+  const schlicht = digestMail([t('Irgendwas', 3)], 'daily', 'https://anime-kalender.de/', 'https://x/u', {})
+  pruefe('ohne Finale und Premiere bleibt der alte Betreff', schlicht.subject.startsWith('Heute mit deutscher Synchro'), schlicht.subject)
+  pruefe('ohne Neuigkeiten fehlt die Rubrik', !schlicht.html.includes('📰 Neuigkeiten'))
+}
+{
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */
   const gross = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-a.png'
   const alt = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b2-b.png'
