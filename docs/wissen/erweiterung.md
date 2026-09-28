@@ -1997,6 +1997,32 @@ ohne Ergebnis nach drei Minuten (Umleitung, Fehlerseite) wird übersprungen und 
 `globalThis.AK_DISNEY` bereit (offene Titel, melden, Ziel merken, Ende anzeigen). Sandkasten-Test:
 `extension/disney-durchgang.test.cjs`. Am echten Disney+ noch nicht gelaufen (braucht Daniels Anmeldung).
 
+### Der Weg ohne Klick trägt über die Adresse (28.09.2026)
+
+Die offene Frage aus dem 19.09. lautete: Erkennt die Erweiterung eine Amazon-Seite, die
+**nicht** über die Prüfliste geöffnet wurde? Der Verdacht: JustWatch verlinkt über
+`watch.amazon.de/detail?gti=…`, und dort steht eine **andere** gti als in der Kopfzeile der
+Zielseite — also greift der Auftragsmerker nicht.
+
+Daniel hat es an Air Gear gemessen (JustWatch-Seite, Prime-Angebot, „Bericht laden" im
+Amazon-Kasten). Der Bericht
+(`anime-kalender-diagnose-2026-09-28T12-08-13-957Z.json`, Version 4.24.2) sagt:
+
+- Adresse: `amazon.de/gp/video/detail/0L8OEXAMVVVVJF4LJA0B8D1BIP?ref_=atv_dl_rdr` — das ist
+  **unsere** Adresse für den Titel.
+- `zustand.eintrag.titel: null` — der Auftrag fehlt, wie erwartet.
+- `seiteGehtUnsAn: true`, `letzteKennung: "…0L8OEXAM…|Air Gear"`, `zaehlstand` mit allen
+  **26 Folgen** (je „Deutsch, 日本語").
+
+**Die Erkennung läuft also über die Adresse, nicht über die gti.** Und JustWatchs gti steht
+im Quelltext der Seite — `amzn1.dv.gti.4825705e-aa8e-4aee-95d3-82f94649bb23`, Position **25 von
+37**; die Kopf-gti ist `66c97aeb…` (Position 0). Die Idee „alle gtis des Hydration-Blocks gegen
+die Prüfliste halten" ist damit machbar, aber für diesen Weg nicht nötig.
+
+**Was daraus folgt:** Der „Weg ohne Klick" braucht keinen Umbau. Bleibt die Frage offen, wenn
+eine Seite über eine **fremde** Adresse erreicht wird (anderer Anbieter-Link, andere Ausgabe) —
+dann ist die gti-Liste der nächste Griff, und die Messung ist dafür die Grundlage.
+
 ### Nachtrag 4.24.2 (28.09.2026): Die Staffelnummer der Seite ist nicht unsere
 
 Disney+ führt „Mission: Yozakura Family" als Staffel 1 (27 Folgen, kein Deutsch) und Staffel 2
