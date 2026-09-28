@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-09-26T09:23:22.161Z",
+  "scrapedAt": "2026-09-28T10:55:55.760Z",
   "window": {
-    "from": "2026-08-12",
-    "to": "2026-12-10"
+    "from": "2026-08-14",
+    "to": "2026-12-12"
   },
   "shows": [
     {
@@ -961,6 +961,42 @@
           "duration": 1440,
           "title": "Wenn man ganz einfach darüber nachdenkt",
           "image": "https://image.animationdigitalnetwork.com/license/servamp/tv/web/eps12_320x180.jpg"
+        }
+      ],
+      "batch": true
+    },
+    {
+      "showId": 1423,
+      "title": "86 EIGHTY-SIX",
+      "originalTitle": "86 ―エイティシックス―",
+      "age": "16+",
+      "url": "https://animationdigitalnetwork.com/de/video/1423",
+      "episodes": [
+        {
+          "date": "2026-10-08",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32631-folge-1",
+          "season": "1",
+          "seasonReference": "eightysix_tv",
+          "order": 1,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "86 EIGHTY-SIX - Folge 1",
+          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0001/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-10-08",
+          "time": "09:00",
+          "episode": 20,
+          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32650-folge-20",
+          "season": "1",
+          "seasonReference": "eightysix_tv",
+          "order": 20,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "86 EIGHTY-SIX - Folge 20",
+          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0020/web/license_320x180.jpg"
         }
       ],
       "batch": true
