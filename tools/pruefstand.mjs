@@ -264,7 +264,7 @@ const stand = ANBIETER.map((a) => {
  * die Arbeit. Ein Klick führt auf den ersten Eintrag, wie bei den übrigen
  * Pillen auch.
  */
-function nachtrag(name, plattform, ziele) {
+function nachtrag(name, plattform, ziele, { alsTitel = false, hinweis = null } = {}) {
   if (!ziele.length) return []
   return [
     {
@@ -273,10 +273,21 @@ function nachtrag(name, plattform, ziele) {
       gemeldet: 0,
       gesamt: ziele.length,
       offen: ziele.length,
-      ohneSeite: 0,
+      /*
+        **Die Anzeige rechnet ihre Arbeit aus `titel` + `ohneSeite`**, nicht aus
+        `offen` (das meint bei Amazon Staffeln). Eine Liste, die keines der beiden
+        Felder setzt, fällt dort durch den Filter und bekommt gar keine Pille,
+        obwohl sie Arbeit ist. Darum steht hier, welcher Fall gemeint ist:
+        Crunchyroll sind Titel mit offenem Sprachurteil, „Suchadressen" Adressen
+        ohne Titelseite.
+      */
+      titel: alsTitel ? ziele.length : 0,
+      ohneSeite: alsTitel ? 0 : ziele.length,
       ziel: ziele[0].url,
       ziele: ziele.slice(0, 25),
       naechster: ziele[0].titel ?? null,
+      /* Was zu tun ist — die Zahl allein lässt es offen (Daniel, 28.09.2026). */
+      hinweis,
     },
   ]
 }
@@ -304,8 +315,20 @@ try {
   /* Gibt es die Datei nicht, gibt es die Pille nicht — kein Grund abzubrechen. */
 }
 
-stand.push(...nachtrag('Crunchyroll', 'crunchyroll', crOffen))
-stand.push(...nachtrag('Suchadressen', 'suchadressen', suchOffen))
+stand.push(
+  ...nachtrag('Crunchyroll', 'crunchyroll', crOffen, {
+    alsTitel: true,
+    hinweis:
+      'Liste mit dem nächsten Titel öffnen und nachsehen, ob dort deutscher Ton steht — ' +
+      'normalerweise beantwortet der wöchentliche Crunchyroll-Lauf das von selbst; von Hand ' +
+      'nur nötig, wenn einer stehen bleibt',
+  }),
+)
+stand.push(
+  ...nachtrag('Suchadressen', 'suchadressen', suchOffen, {
+    hinweis: 'Suchadressen ohne Titelseite: den richtigen Treffer beim Anbieter heraussuchen',
+  }),
+)
 
 writeFileSync(
   resolve(wurzel, 'public/data/pruefstand.json'),

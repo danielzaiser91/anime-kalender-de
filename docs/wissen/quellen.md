@@ -2451,6 +2451,27 @@ nicht danebenlegen. `check:handbelege` hätte den Widerspruch nicht gemeldet —
 waren in sich stimmig, nur die Wirkung fehlte. Aufgefallen ist es beim Nachsehen am gebauten
 Bestand, nicht durch eine Zusicherung.
 
+### Zwei Sprachkennungen in einer Adresse ergeben eine 404
+
+AniLists `externalLinks` nennen einen Streaming-Dienst in irgendeiner Sprache — „As a
+Reincarnated Aristocrat … 3rd Season" kam als `crunchyroll.com/pt-pt/series/GG5H5XQMD/…`.
+`germanizeUrl()` setzte die deutsche Kennung davor, ohne die fremde zu entfernen:
+`crunchyroll.com/de/pt-pt/series/…` — und die Seite antwortet mit **404**. Am 28.09.2026
+stand genau dieser Verweis in der Statusanzeige, und Daniel klickte die Crunchyroll-Pille
+darauf: „click auf crunchy-pill in status app führt auf 404".
+
+Der erste Schritt ist deshalb: **alle** führenden Sprachsegmente entfernen
+(`(?:[a-z]{2}(?:-[a-z0-9]{2,3})?\/)+`, gedacht für `de`, `de-de`, `es-419`), dann die
+deutsche Kennung setzen. Bei Disney+ gab es denselben Fehler schon am 20.08.2026 (vier
+Verweise, u. a. `disneyplus.com/de-de/en-gb/series/bleach/…`) — dort entfernte die erste
+Fassung aber nur `de-de` und setzte es gleich wieder davor, sodass `de-de/en-gb/…` auch
+danach kaputt war. Beide Zweige machen es jetzt gleich, und `check:logic` hält fünf Fälle
+fest (fremde Kennung, doppelte Kennung, deutsche Kennung, keine Kennung, Disney+).
+
+**Aufgefallen ist es nicht durch eine Prüfung, sondern durch einen Klick von Daniel.** Die
+Verweisprüfung sieht eine Weiterleitung auf die Startseite als HTTP 200 — dieselbe Lücke wie
+bei Netflix am 22.08.2026.
+
 ### Eine Nichtauskunft löscht keinen Befund
 
 Am 07.09.2026 zweimal hintereinander passiert, und beim zweiten Mal war es

@@ -662,20 +662,20 @@ export function netflixNeutral(url: string): string {
 
 export function germanizeUrl(platform: PlatformId, url: string): string {
   if (platform === 'crunchyroll') {
-    return url.replace(/crunchyroll\.com\/(?!de\/)/, 'crunchyroll.com/de/')
+    /*
+      Erst **alle** führenden Sprachsegmente entfernen, dann das deutsche davorsetzen.
+      Sonst entstehen Adressen mit zwei Kennungen — `…/de/pt-pt/series/…` —, und die
+      antworten mit 404 (28.09.2026 an „As a Reincarnated Aristocrat … 3rd Season").
+      Dasselbe bei Disney+; ausführlich: `docs/wissen/quellen.md`, „Zwei Sprachkennungen
+      in einer Adresse ergeben eine 404".
+    */
+    const ohneSprache = url.replace(/crunchyroll\.com\/(?:[a-z]{2}(?:-[a-z0-9]{2,3})?\/)+/i, 'crunchyroll.com/')
+    return ohneSprache.replace(/crunchyroll\.com\/(?!de(?:\/|$))/i, 'crunchyroll.com/de/')
   }
   if (platform === 'disneyplus') {
-    /**
-     * Erst den fremden Ländercode entfernen, dann den deutschen setzen.
-     *
-     * Ohne den ersten Schritt entstanden Adressen mit **zwei** Codes —
-     * `disneyplus.com/de-de/en-gb/series/bleach/…` —, und die antworten mit 404.
-     * Am 20.08.2026 traf das vier Verweise: zweimal `en-gb`, dazu `ja-jp` und
-     * `en-jp`. Aufgefallen ist es erst, als die Verweisprüfung die 404 meldete;
-     * vorher stand die kaputte Adresse einfach da.
-     */
-    const ohneLand = url.replace(/disneyplus\.com\/[a-z]{2}-[a-z]{2}\//i, 'disneyplus.com/')
-    return ohneLand.replace(/disneyplus\.com\/(?!de-de\/)/, 'disneyplus.com/de-de/')
+    /* Dieselbe Regel — am 20.08.2026 standen vier Adressen mit zwei Ländercodes im Bestand. */
+    const ohneLand = url.replace(/disneyplus\.com\/(?:[a-z]{2}-[a-z0-9]{2,3}\/)+/i, 'disneyplus.com/')
+    return ohneLand.replace(/disneyplus\.com\/(?!de-de(?:\/|$))/i, 'disneyplus.com/de-de/')
   }
   if (platform === 'netflix') return netflixNeutral(url)
   return url

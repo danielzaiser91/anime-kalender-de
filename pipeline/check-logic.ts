@@ -65,7 +65,7 @@ import { riegelGreift } from './lib/youtube-riegel.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import { neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
-import { netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
+import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
 import { newsRss } from './lib/news-rss.ts'
 import { sucheZweistufig } from '../web/src/lib/search.ts'
@@ -2252,6 +2252,40 @@ console.log('\nStreaming Availability API:')
     netflixNeutral('https://www.netflix.com/title/70302573') === 'https://www.netflix.com/title/70302573')
   pruefe('was keine Titeladresse ist, wird nicht angefasst',
     netflixNeutral('https://www.netflix.com/browse') === 'https://www.netflix.com/browse')
+}
+
+/**
+ * **Zwei Sprachkennungen in einer Adresse ergeben eine 404.**
+ *
+ * Crunchyroll wie Disney+: Die Adresse kommt aus AniLists `externalLinks` in
+ * irgendeiner Sprache, und die deutsche Kennung wird davorgesetzt. Steht dort schon
+ * eine, entsteht `…/de/pt-pt/series/…` — die Seite gibt es nicht. Beim 28.09.2026 war
+ * das genau ein Verweis („As a Reincarnated Aristocrat … 3rd Season"), und er stand so
+ * in der Statusanzeige: Daniel klickte die Crunchyroll-Pille und landete auf einer 404.
+ */
+{
+  console.log('\nAnbieter-Adressen auf Deutsch bringen')
+
+  pruefe('eine fremde Sprachkennung wird durch die deutsche ersetzt',
+    germanizeUrl('crunchyroll', 'https://www.crunchyroll.com/pt-pt/series/GG5H5XQMD/slug')
+      === 'https://www.crunchyroll.com/de/series/GG5H5XQMD/slug')
+
+  pruefe('eine doppelte Kennung heilt (der Fall vom 28.09.2026)',
+    germanizeUrl('crunchyroll', 'https://www.crunchyroll.com/de/pt-pt/series/GG5H5XQMD/slug')
+      === 'https://www.crunchyroll.com/de/series/GG5H5XQMD/slug')
+
+  pruefe('eine deutsche Adresse bleibt, wie sie ist',
+    germanizeUrl('crunchyroll', 'https://www.crunchyroll.com/de/series/GG5H5XQMD/slug')
+      === 'https://www.crunchyroll.com/de/series/GG5H5XQMD/slug')
+
+  pruefe('ohne Kennung kommt die deutsche davor',
+    germanizeUrl('crunchyroll', 'https://www.crunchyroll.com/series/GG5H5XQMD/slug')
+      === 'https://www.crunchyroll.com/de/series/GG5H5XQMD/slug')
+
+  /* Der Disney+-Fall vom 20.08.2026 — dieselbe Regel, seit damals in Kraft. */
+  pruefe('Disney+ entfernt die fremde Kennung ebenso',
+    germanizeUrl('disneyplus', 'https://www.disneyplus.com/de-de/en-gb/series/bleach')
+      === 'https://www.disneyplus.com/de-de/series/bleach')
 }
 
 console.log('\nLücken im Sendeplan und die Uhrzeit')
