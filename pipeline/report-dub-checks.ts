@@ -43,17 +43,23 @@ interface Offen {
 }
 
 /**
- * Anbieter, die ein laufendes Abo verlangen, um überhaupt nachsehen zu können.
+ * Anbieter, deren offene Verweise **nicht auf eine Arbeitsliste gehören** — aus zwei Gründen.
  *
- * Daniel am 21.08.2026: „ich hol mir kein rtl+ abo um das zu prüfen". Eine
- * Zeile, die niemand ohne laufende Kosten prüfen kann, gehört nicht in eine
- * Arbeitsliste — dort steht, was heute abzuarbeiten ist.
+ * **`rtlplus`:** nur mit laufendem Abo prüfbar. Daniel am 21.08.2026: „ich hol mir kein rtl+
+ * abo um das zu prüfen". Eine Zeile, die niemand ohne laufende Kosten prüfen kann, gehört
+ * nicht in eine Liste dessen, was heute abzuarbeiten ist.
+ *
+ * **`crunchyroll` (28.09.2026):** **automatisiert.** Der wöchentliche Lauf mit dem deutschen
+ * Katalog beantwortet die Sprachfrage, und die Klasse „Videos dieser Serie nicht mehr
+ * verfügbar" entfernt der Bau über die Serienkennung. Beides stand trotzdem als Handarbeit in
+ * der Statusanzeige **und** in diesen Dateien, und Daniel hat zu Recht gefragt: „warum muss ich
+ * überhaupt für crunchy irgendwas melden, wir haben doch crunchy automatisiert?" Für Crunchyroll
+ * zu arbeiten hieße, auf die Automatik zu warten — das ist keine Arbeit für ihn.
  *
  * Verloren geht dabei nichts: Diese Zeilen wandern nach
- * `data/dub-pruefliste-zurueckgestellt.md` und bleiben auffindbar, falls sich
- * die Lage ändert.
+ * `data/dub-pruefliste-zurueckgestellt.md` und bleiben auffindbar, falls sich die Lage ändert.
  */
-const ZURUECKGESTELLT = new Set<PlatformId>(['rtlplus'])
+const ZURUECKGESTELLT = new Set<PlatformId>(['rtlplus', 'crunchyroll'])
 
 /** Eine Reihe auf einem Anbieter — das ist eine Zeile der Liste. */
 interface Zeile {
@@ -501,8 +507,10 @@ const zurueck: string[] = [
   '',
   `Stand ${heute} · **${zurueckgestellt.reduce((n, z) => n + z.offen.length, 0)} offene Verweise** in **${zurueckgestellt.length} Zeilen**.`,
   '',
-  'Diese Verweise stehen **nicht** in `daniel-zum-abarbeiten/07-alle-anbieter.md`: Wer sie prüfen will, braucht ein',
-  'laufendes Abo beim Anbieter. Daniel am 21.08.2026: „ich hol mir kein rtl+ abo um das zu prüfen".',
+  'Diese Verweise stehen **nicht** in `daniel-zum-abarbeiten/07-alle-anbieter.md`. Zwei Gründe:',
+  'Bei `RTL+` verlangt das Nachsehen ein laufendes Abo (Daniel am 21.08.2026: „ich hol mir kein rtl+',
+  'abo um das zu prüfen"), bei `Crunchyroll` beantwortet es unser eigener wöchentlicher Lauf — und die',
+  'tote Seite entfernt der Bau (28.09.2026).',
   'Auf der Seite tragen sie weiterhin „🇩🇪 ?" — das ist die ehrliche Angabe.',
   '',
   'Erzeugt von `npm run data:dub-checks`, nicht von Hand pflegen. Wird eine Zeile doch geprüft,',

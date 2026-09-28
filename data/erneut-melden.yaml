@@ -374,3 +374,5 @@
 - { anilistId: 9936, platform: primevideo, seit: '2026-09-27', grund: "Alter Beleg „deutsch“ ohne Folgenangabe, Rohdaten fehlen — Folgen einzeln melden (Stufe 4)" }
 - { anilistId: 99629, platform: primevideo, seit: '2026-09-27', grund: "Alter Beleg „deutsch“ ohne Folgenangabe, Rohdaten fehlen — Folgen einzeln melden (Stufe 4)" }
 - { anilistId: 99672, platform: primevideo, seit: '2026-09-27', grund: "Alter Beleg „deutsch“ ohne Folgenangabe, Rohdaten fehlen — Folgen einzeln melden (Stufe 4)" }
+- { anilistId: 99699, platform: primevideo, seit: '2026-09-28', grund: "Beleg nennt Folgen in Anbieterzählung — die Folgen einmal einzeln melden, damit die Zuordnung über die Folgentitel läuft" }
+- { anilistId: 151807, platform: primevideo, seit: '2026-09-28', grund: "Beleg nennt Folgen in Anbieterzählung — die Folgen einmal einzeln melden, damit die Zuordnung über die Folgentitel läuft" }
