@@ -23,6 +23,7 @@
  * Aufruf: npm run check:cr-zuordnung
  */
 import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSerie, type CrDubData, beurteileJeBlock, beurteileTeilblock } from './lib/crunchyroll-dub.ts'
+import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
 import { termineAusSerie } from './lib/crunchyroll-termine.ts'
 import { readJson, ROOT } from './lib/util.ts'
 import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
@@ -993,6 +994,48 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   /* Nur der deutsche Katalog zählt — der US-Katalog sagt nichts über unsere Tonspur. */
   const usKatalog = beurteileTeilblock({ ...(macheSerie([wou]) as object), katalog: 'us' } as never, wouTitel)
   pruefe('der US-Katalog belegt nichts', usKatalog.length === 0, usKatalog)
+}
+
+/*
+  **Eine tote Serie wird über ihre Kennung gefunden — nicht nur über die Adresse** (28.09.2026).
+
+  Zweimal an einem Tag schiefgegangen: Der Dub-Bestand schreibt dieselbe Seite anders als der
+  Datensatz (`…/de/pt-br/series/ID/…` und `…/de/star-blazers…` gegen `…/de/series/ID/…`), der
+  Adressvergleich lief leer, und der tote Verweis blieb stehen (Perfect Blue, Yamato 2202).
+  Hier geprüft wird `ordneCrSerienZu` — die Bau-Phase, die entfernt.
+*/
+{
+  const toteSerie = {
+    ...serie([], { seriesId: 'G65V4P4K6', katalog: 'de', nichtVerfuegbar: true }),
+    url: 'https://www.crunchyroll.com/de/pt-br/series/G65V4P4K6/star-blazers',
+  } as CrSerie
+  const unserTitel = {
+    ...titel(21730, 26),
+    streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/G65V4P4K6/star-blazers' }],
+  } as unknown as Title
+  const abgaenge: { url: string }[] = []
+  ordneCrSerienZu({
+    titles: new Map([[21730, unserTitel]]),
+    crDub: { scrapedAt: '', serien: [toteSerie] } as CrDubData,
+    usNeinWiderlegt: () => false,
+    verweiseEntfernt: abgaenge as never,
+  })
+  pruefe('tote Serie: der Verweis fällt auch bei anderer Schreibweise', unserTitel.streams.length === 0, unserTitel.streams)
+  pruefe('tote Serie: der Abgang wird vermerkt', abgaenge.length === 1, abgaenge)
+
+  /* Gegenprobe: Eine fremde Serienkennung an derselben Adresse bleibt stehen. */
+  const fremd = {
+    ...titel(1, 12),
+    streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/G65V4P4K6/star-blazers' }],
+  } as unknown as Title
+  const fremdAbgaenge: { url: string }[] = []
+  ordneCrSerienZu({
+    titles: new Map([[1, fremd]]),
+    crDub: { scrapedAt: '', serien: [{ ...toteSerie, seriesId: 'AAAA11111' }] } as CrDubData,
+    usNeinWiderlegt: () => false,
+    verweiseEntfernt: fremdAbgaenge as never,
+  })
+  pruefe('Gegenprobe: eine andere Kennung lässt den Verweis stehen', fremd.streams.length === 1, fremd.streams)
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
