@@ -752,6 +752,18 @@ async function speicherSchreiben(werte) {
   let briefkastenSeiten = null
   /** Je Suchadresse die bestätigten Ausgaben — vom Worker, nicht aus dem Browser. */
   let briefkastenErwartungen = null
+  /* Durchgangs-Zustand oben: der `message`-Hörer (Z. 6783) liest ihn schon vorher — sonst
+     `Cannot access 'primeFrames' before initialization` (Prime-Startseite, 28.09.2026). */
+  const PRIME_LAUF = 'ak-prime-lauf'
+  const PRIME_LAUF_ENDE = 'ak-prime-lauf-ende'
+  const PRIME_LAUF_HOECHSTENS_MS = 2 * 60 * 60 * 1000
+  const PRIME_SEITE_HOECHSTENS_MS = 60_000
+  const PRIME_FRAME_HOECHSTENS_MS = 90_000
+  const PRIME_RUHE_MS = 1000
+  const PRIME_FRAMES = 3
+  const PRIME_FRAME_NAME = 'ak-durchgang'
+  const IM_FRAME = Boolean(window.top) && window !== window.top
+  const primeFrames = new Map() // offene Frames dieser Seite: Element → { kennung, start }
   /**
    * **Was diese Sitzung selbst gemeldet hat — neben dem Briefkasten, nicht in ihm.**
    *
@@ -10952,16 +10964,7 @@ async function speicherSchreiben(werte) {
     - **Der Lauf gehört dem Tab** (`sessionStorage`) und endet spätestens nach zwei Stunden. Die
       Frames teilen ihn (gleiche Herkunft), schreiben ihn aber nie.
   */
-  const PRIME_LAUF = 'ak-prime-lauf'
-  const PRIME_LAUF_ENDE = 'ak-prime-lauf-ende'
-  const PRIME_LAUF_HOECHSTENS_MS = 2 * 60 * 60 * 1000
-  const PRIME_SEITE_HOECHSTENS_MS = 60_000
-  const PRIME_FRAME_HOECHSTENS_MS = 90_000
-  const PRIME_RUHE_MS = 1000
-  const PRIME_FRAMES = 3
-  const PRIME_FRAME_NAME = 'ak-durchgang'
-  const IM_FRAME = Boolean(window.top) && window !== window.top
-
+  /* Die Zustandswerte des Durchgangs stehen oben (Z. 755 ff.). */
   function primeLaufLesen() {
     try {
       const lauf = JSON.parse(sessionStorage.getItem(PRIME_LAUF) ?? 'null')
@@ -11001,9 +11004,6 @@ async function speicherSchreiben(werte) {
   }
 
   // --- Die Steuerung: sichtbare Seite --------------------------------------------
-
-  /** Offene Frames dieser Seite: Element → { kennung, start }. */
-  const primeFrames = new Map()
 
   function primeLaufStarten() {
     const lauf = {

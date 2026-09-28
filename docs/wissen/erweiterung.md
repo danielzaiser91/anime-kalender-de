@@ -2023,6 +2023,23 @@ die Prüfliste halten" ist damit machbar, aber für diesen Weg nicht nötig.
 eine Seite über eine **fremde** Adresse erreicht wird (anderer Anbieter-Link, andere Ausgabe) —
 dann ist die gti-Liste der nächste Griff, und die Messung ist dafür die Grundlage.
 
+### Nachtrag 4.24.3 (28.09.2026): Der Durchgangs-Zustand steht oben
+
+Auf der Prime-Startseite meldete Chrome `Uncaught ReferenceError: Cannot access 'primeFrames'
+before initialization` (`amazon.js`, `primeKoordinieren`). Ursache war kein Logikfehler, sondern
+die **Reihenfolge**: Die Werte des Durchgangs (`PRIME_*`, `IM_FRAME`, `primeFrames`) standen als
+`const` erst kurz vor ihren Funktionen — und der `message`-Hörer (Zeile 6783), der die Antworten
+der unsichtbaren Frames entgegennimmt, liest `IM_FRAME` und `primeFrames`. Trifft so eine
+Nachricht ein, bevor die `const`-Zeile an der Reihe war, liegt der Wert in der „temporal dead
+zone": Der Aufbau bricht ab, der Kasten zeichnet halb, und **„▶ alle durchgehen" tut nichts** —
+genau das, was Daniel sah („nichts passiert"); auf einer Titelseite ging es, weil dort der
+Zustand längst angelegt war.
+
+Die Werte stehen jetzt oben bei den übrigen Zustandswerten des Moduls. Der Sandkasten der
+Erweiterung stellt den Block vorne an, und `amazon-durchgang.test.cjs` hält die Reihenfolge mit
+einer Zusicherung fest („der Zustand steht vor dem message-Hörer") — sonst wandert er beim
+nächsten Umbau zurück und der Fehler kommt wieder.
+
 ### Nachtrag 4.24.2 (28.09.2026): Die Staffelnummer der Seite ist nicht unsere
 
 Disney+ führt „Mission: Yozakura Family" als Staffel 1 (27 Folgen, kein Deutsch) und Staffel 2

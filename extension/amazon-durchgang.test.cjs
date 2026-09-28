@@ -14,7 +14,19 @@ const vm = require('node:vm')
 const quelle = readFileSync(__dirname + '/amazon.js', 'utf8')
 const von = quelle.indexOf('  // --- Durchgang über die Prüfliste')
 const bis = quelle.indexOf('  function primeTakt()')
-const block = quelle.slice(von, bis)
+/*
+  **Der Zustand des Durchgangs steht seit dem 28.09.2026 oben im Modul**, nicht mehr im Block:
+  Der `message`-Hörer liest `IM_FRAME` und `primeFrames`, und ein `message`-Ereignis konnte
+  eintreffen, bevor die `const`-Zeile erreicht war (`ReferenceError: Cannot access
+  'primeFrames' before initialization`, Prime-Startseite). Für den Sandkasten wird der Block
+  deshalb vorne angestellt — sonst prüft er einen Zustand, den es so nicht gibt.
+*/
+const zustandsBlock = (() => {
+  const a = quelle.indexOf('  const PRIME_LAUF = ')
+  const b = quelle.indexOf('  const primeFrames = new Map()')
+  return a < 0 || b < 0 ? '' : quelle.slice(a, b + '  const primeFrames = new Map()'.length)
+})()
+const block = zustandsBlock + '\n' + quelle.slice(von, bis)
 
 const fehler = []
 function pruefe(name, bedingung, gefunden) {
@@ -25,6 +37,23 @@ function pruefe(name, bedingung, gefunden) {
 
 console.log('Prime-Durchgang im Sandkasten\n')
 pruefe('Block in amazon.js gefunden', von > 0 && bis > von)
+pruefe('Zustandsblock in amazon.js gefunden', zustandsBlock.length > 0)
+/*
+  **Die Klasse, die den 28.09.2026 ausgelöst hat:** Ein `const` weiter unten, das ein Hörer
+  schon vorher liest. Die Zusicherung hält die Reihenfolge fest — sie ist der Grund, warum der
+  Zustand nicht zurück in den Block wandern darf.
+*/
+{
+  const zeilen = quelle.split('\n')
+  const zeileZustand = zeilen.findIndex((z) => z.includes('const primeFrames = new Map()')) + 1
+  const zeileHoerer = zeilen.findIndex((z) => z.includes("window.addEventListener('message'")) + 1
+  const zeileFrameHinweis = zeilen.findIndex((z) => z.includes('ak-prime-frame')) + 1
+  pruefe(
+    'der Zustand steht vor dem message-Hörer (sonst „Cannot access … before initialization")',
+    zeileZustand > 0 && zeileHoerer > 0 && zeileZustand < zeileHoerer && zeileZustand < zeileFrameHinweis,
+    `${zeileZustand} vor ${zeileHoerer}/${zeileFrameHinweis}`,
+  )
+}
 
 const NARUTO = ['B0CWDYLZ1S', 'B0F3SHHVC2', 'B0DX7JQY9R', 'B0FBJWV6MJ', 'B0DX1XQ1W1', 'B0F5J96BX2', 'B0F9Z35RH6', 'B0FBKHYWCF', 'B07VP6VPVR']
 const STAFFELN = NARUTO.map((kennung, i) => ({ kennung, nummer: i + 1 }))
