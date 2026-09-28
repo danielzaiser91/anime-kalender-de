@@ -82,6 +82,18 @@ await seite.waitForLoadState('domcontentloaded')
   seine Zulieferung ist hier gesetzt.
 */
 const WORKER_URL = 'https://newsletter.animekalender.workers.dev/lauf*'
+/*
+  **Auch die Pillen kommen aus einer festen Antwort** (28.09.2026).
+
+  Sie hat eine eigene Adresse (`?stand=1`) und lief beim Prüflauf bisher gegen den echten
+  Dienst — im tail war zu sehen, wie der Lauf während des Kontingent-Ausfalls dort Fehlversuche
+  sammelte. Jetzt ist der ganze Abruf des Werkzeugs erfunden und niemand sonst wird belastet.
+*/
+const PILLEN_URL = 'https://newsletter.animekalender.workers.dev/pruefung?stand=1*'
+const PILLEN = {
+  offen: 1,
+  anbieter: [{ name: 'Amazon', plattform: 'primevideo', titel: 1, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] }],
+}
 const GUTER_STAND = {
   jetzt: new Date().toISOString(),
   laeufe: [{
@@ -96,6 +108,8 @@ const GUTER_STAND = {
 const gutAntworten = (r) =>
   r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(GUTER_STAND) })
 await seite.route(WORKER_URL, gutAntworten)
+await seite.route(PILLEN_URL, (r) =>
+  r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(PILLEN) }))
 await seite.reload({ waitUntil: 'domcontentloaded' })
 /* Die Anzeige holt ihre Daten nach — ein Moment für den ersten Aufbau. */
 await seite.waitForTimeout(1500)
