@@ -2434,6 +2434,23 @@ unterscheidet zwei Sorten — auch wenn niemand sie je benannt hat. Beim nächst
 Umbau derselben Struktur ist die erste Frage: *Welche Sorten liegen hier
 eigentlich, und meint dieser Zugriff alle?*
 
+### Ein Adressbeleg richtet die Adresse — solange kein zweiter auf der alten steht
+
+Am 28.09.2026 hatte „Mission: Yozakura Family" (182578) in `data/dub-confirmed.yaml` **zwei**
+Belege für Disney+, beide `dub: true`, beide vom selben Tag: einen maschinell aus den zwölf
+Meldungen der Staffel 2 mit der Adresse aus dem Datensatz (`entity-ac689bea…`), und einen von
+Hand mit der richtigen (`entity-0113d236…` — die alte leitet auf die Startseite).
+
+Beabsichtigt war, dass `09-2-linkpruefung.ts` die Adresse umschreibt (`stream.url = check.url`).
+`belegFuer()` sucht aber **zuerst nach derselben Adresse** — und die hatte der maschinelle
+Beleg. Der Handbeleg kam nie zum Zug, die tote Adresse blieb stumm stehen.
+
+**Die Regel:** Ein Adressbeleg ist eine Korrektur, aber eine Adresse, die einen eigenen Beleg
+hat, wird nicht korrigiert. Wer eine Adresse berichtigt, muss den Beleg der alten **ersetzen**,
+nicht danebenlegen. `check:handbelege` hätte den Widerspruch nicht gemeldet — beide Aussagen
+waren in sich stimmig, nur die Wirkung fehlte. Aufgefallen ist es beim Nachsehen am gebauten
+Bestand, nicht durch eine Zusicherung.
+
 ### Eine Nichtauskunft löscht keinen Befund
 
 Am 07.09.2026 zweimal hintereinander passiert, und beim zweiten Mal war es
