@@ -13,10 +13,14 @@ name: Wache — Datenbankverbrauch
 # Abfrage über eine Million Zeilen liest. Rot heißt: in der Statusanzeige sichtbar, mit den Zahlen
 # im Protokoll.
 #
-# **Ohne `CLOUDFLARE_ANALYTICS_TOKEN` passiert nichts** — der Lauf bleibt grün und schreibt, dass
-# er übersprungen wurde. Ein fehlendes Secret darf keinen roten Lauf erzeugen (dieselbe Regel wie
-# beim Melder). Anleitung zum Anlegen:
+# **Ohne `CLOUDFLARE_ANALYTICS_TOKEN` (oder `CLOUDFLARE_API_TOKEN`) passiert nichts** — der Lauf
+# bleibt grün und schreibt, dass er übersprungen wurde. Ein fehlendes Secret darf keinen roten Lauf
+# erzeugen (dieselbe Regel wie beim Melder). Anleitung zum Anlegen:
 # https://developers.cloudflare.com/analytics/graphql-api/getting-started/authentication/api-token-auth/
+#
+# **Es darf der vorhandene `anime-kalender-deploy`-Token sein** — er braucht zusätzlich nur
+# `Account Analytics: Read`. Das lässt sich in Cloudflare unter *Edit* nachsehen und ergänzen; der
+# Token-Wert bleibt dabei gleich. Schritt für Schritt steht es in `status.md`.
 #
 # **Warum 07:50 UTC (09:50 Berlin):** kurz nach dem täglichen Datenlauf um 06:17, damit der Tag
 # schon Last gesehen hat — aber früh genug, um vor dem nächsten Melde-Durchgang zu warnen.
@@ -51,7 +55,11 @@ jobs:
         id: pruefung
         continue-on-error: true
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN }}
+          # Zwei Namen, ein Zweck: `CLOUDFLARE_ANALYTICS_TOKEN` (nur Lesen, eigene Anlage) oder
+          # der vorhandene `anime-kalender-deploy`-Token als `CLOUDFLARE_API_TOKEN`. Beide
+          # brauchen `Account Analytics: Read` — der Deploy-Token zusätzlich D1 und Workers
+          # Scripts, was hier nichts schadet.
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN || secrets.CLOUDFLARE_API_TOKEN }}
           # Die Konto-Kennung ist kein Geheimnis (sie steht in jeder Dashboard-Adresse) —
           # `wrangler` braucht sie, wenn das Token auf mehrere Konten zugreifen darf.
           CLOUDFLARE_ACCOUNT_ID: 567f5e28368c5bbcfeffad3e674b02ab
