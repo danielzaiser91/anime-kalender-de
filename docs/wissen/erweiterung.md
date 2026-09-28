@@ -1997,6 +1997,24 @@ ohne Ergebnis nach drei Minuten (Umleitung, Fehlerseite) wird übersprungen und 
 `globalThis.AK_DISNEY` bereit (offene Titel, melden, Ziel merken, Ende anzeigen). Sandkasten-Test:
 `extension/disney-durchgang.test.cjs`. Am echten Disney+ noch nicht gelaufen (braucht Daniels Anmeldung).
 
+### Nachtrag 4.24.2 (28.09.2026): Die Staffelnummer der Seite ist nicht unsere
+
+Disney+ führt „Mission: Yozakura Family" als Staffel 1 (27 Folgen, kein Deutsch) und Staffel 2
+(12 Folgen, deutsch); unser Bestand kennt an dieser Adresse nur die zweite, und die Prüfliste
+zählt ihre Staffeln als Positionsindex über `titles.json` — also als `nr: 1`. `titelIdFuer()`
+buchte deshalb die 27 Folgen der ersten Staffel auf 182578 (Kennungen 8405–8431, verworfen),
+während die richtigen zwölf mit `titel_id: null` ankamen. Jetzt zählt die Folgenzahl der Seite
+mit (`folgenDerSeite()` aus der Staffelliste des Lesers, Platz 1 = Staffel 1): Sie widerlegt
+eine Nummer, die nicht passt, und belegt eine fehlende — aber nur, wenn sie auf beiden Seiten
+genau einmal vorkommt; sonst bleibt die Kennung leer, und `fetch-rohfolgen.ts` entscheidet über
+Folgentitel und Erstausstrahlung. Ohne Staffelliste der Seite gilt die Nummer allein wie bisher.
+`extension/disney-staffeln.test.cjs`.
+
+Zugleich die Adresse: Der Verweis unseres Bestands (`…/entity-ac689bea-…`) leitet auf die
+Startseite, die Serie steht unter `…/entity-0113d236-…`. Ein Handbeleg in
+`data/dub-confirmed.yaml` nennt sie und belegt dort den deutschen Ton von Staffel 2 —
+`09-2-linkpruefung.ts` schreibt die Adresse eines Belegs in den Verweis, die tote fällt damit weg.
+
 ### Nachtrag 4.24.1 (28.09.2026): Der Zielmerker galt jeder Seite
 
 Im ersten echten Durchgang leitete Disney+ „Mission: Yozakura Family Season 2" auf die Startseite um

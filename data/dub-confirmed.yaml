@@ -19592,13 +19592,19 @@
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch — Amazon-Seite B0DYK8NGT4: alle 39 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.befe4e4b-2b28-48a7-9476-fcc2d815db5d"
 
+# Mission: Yozakura Family, Staffel 2 (182578): Adresse berichtigt (28.09.2026).
+# Der Beleg kommt aus den zwölf Meldungen der Staffel 2, aber seine Adresse
+# (…/entity-ac689bea-…) leitet auf die Startseite; die Serie steht unter
+# …/entity-0113d236-…. `09-2-linkpruefung.ts` schreibt die Adresse eines Handbelegs in den
+# Verweis — deshalb trägt er hier die richtige. Ein zweiter Beleg auf der alten Adresse
+# würde ihn überstimmen (gleiche Adresse schlägt jede andere), darum gibt es nur diesen.
 - anilistId: 182578
   title: "Mission: Yozakura Family Season 2"
   platform: disneyplus
-  url: https://www.disneyplus.com/de-de/browse/entity-ac689bea-f955-4d95-8693-7b87b5a309cb
+  url: https://www.disneyplus.com/de-de/browse/entity-0113d236-c3a2-4098-a663-bdb5979bfb74
   dub: true
   checkedAt: '2026-09-28'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, ja, pt-BR"
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, ja, pt-BR — Adresse von Hand berichtigt: die alte leitet auf die Startseite (Daniel, 28.09.2026: Staffel 2 deutsch, Staffel 1 mit 27 Folgen nicht)"
 
 - anilistId: 2547
   title: "Die kleine Prinzessin Sara"

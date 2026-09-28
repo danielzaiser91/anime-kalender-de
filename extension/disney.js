@@ -180,32 +180,14 @@
 
   const liste = globalThis.AK_OFFENE_DISNEY ?? {}
 
-  /**
-   * **Welches Werk meint diese Meldung — der Auftrag weiß es, die Adresse nicht.**
-   *
-   * Disney+ führt dieselbe Serie unter zwei Adressen (`/series/<slug>/<id>`
-   * leitet auf `/browse/entity-<uuid>` um), und eine Serienseite trägt alle
-   * Staffeln. Ohne die Kennung muss der Bau die Adresse im Datensatz suchen und
-   * fällt sonst auf einen Namensvergleich zurück, der kein Beleg ist — am
-   * 02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
-   *
-   * Gesucht wird staffelgenau; ohne Staffelangabe nur, wenn der Auftrag genau
-   * ein Werk führt. Eine falsche Kennung wäre schlimmer als keine — sie sieht
-   * aus wie ein Beleg.
-   */
-  function titelIdFuer(staffeln, staffelNr) {
-    try {
-      const liste = Array.isArray(staffeln) ? staffeln : []
-      if (!liste.length) return null
-      if (staffelNr != null) {
-        return liste.find((st) => Number(st.nr) === Number(staffelNr))?.id ?? null
-      }
-      const ids = [...new Set(liste.map((st) => st.id).filter((x) => x != null))]
-      return ids.length === 1 ? ids[0] : null
-    } catch {
-      return null
-    }
-  }
+  /*
+    **Welches Werk meint diese Meldung — der Auftrag weiß es, die Adresse nicht.**
+
+    Die Rechnung steht in disney-staffeln.js: Staffelnummer **und** die Folgenzahl der
+    Seite, weil Disney+ und unser Bestand die Staffeln verschieden zählen (Yozakura,
+    28.09.2026). Hier bleiben nur die Aufrufe — disney.js ist über die Dateigrenze
+    gewachsen (check:umfang).
+  */
   /*
     `undefined`, nicht `null` — sonst erkennt der erste Durchlauf auf einer
     Seite ohne Kennung keinen Wechsel (`null === null`), und der Knopf erscheint
@@ -783,7 +765,7 @@
         body: JSON.stringify({
           plattform: 'disneyplus',
           url: e.url,
-          titelId: titelIdFuer(e.staffeln, null),
+          titelId: globalThis.AK_DISNEY_STAFFELN.titelIdFuer(e.staffeln, null, anbieterStaffeln),
           /* Stufe 1 des Meldemodells: Verfügbarkeit und Sprache getrennt (22.09.2026). */
           vorhanden: 'nein',
           art: 'gemessen',
@@ -833,7 +815,7 @@
             /* Die Adresse aus unserem Bestand — danach sucht die Pipeline. */
             url: eintrag.url ?? location.href.split('?')[0],
             /* Welches Werk gemeint ist — der Auftrag weiß es, die Adresse nicht. */
-            titelId: titelIdFuer(eintrag.staffeln, r.staffel ?? null),
+            titelId: globalThis.AK_DISNEY_STAFFELN.titelIdFuer(eintrag.staffeln, r.staffel ?? null, anbieterStaffeln),
             sprachen: r.sprachen,
             /* Jede Folge ist einzeln abgefragt — gemessen, nie angenommen. */
             vorhanden: 'ja',
