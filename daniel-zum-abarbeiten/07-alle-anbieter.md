@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-28 · **5 offene Verweise** in **5 Zeilen**.
+Stand 2026-09-28 · **4 offene Verweise** in **4 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,7 +33,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Crunchyroll](07-crunchyroll.md) | 4 |
+| [Crunchyroll](07-crunchyroll.md) | 3 |
 | [Prime Video](07-primevideo.md) | 1 |
 
 ## Zu prüfen
@@ -44,7 +44,6 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 2 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2](https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared) |
 | 3 | 2025-07-15 | Attack on Titan | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GZJ7KH73) |
 | 4 | 2019-03-01 | Star Blazers: The Quest for Iscandar | [Star Blazers 2202: Space Battleship Yamato](https://www.crunchyroll.com/de/series/G65V4P4K6/star-blazers-space-battleship-yamato) |
-| 5 | 1998-02-28 | Perfect Blue | [Hauptserie](https://www.crunchyroll.com/de/series/GZJH3D8V3/perfect-blue) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
