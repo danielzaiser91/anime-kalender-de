@@ -1,4 +1,5 @@
 import { schluesselAdresse, titelSchluessel } from './zuordnung.ts'
+import { adressKern } from './dub-confirmed.ts'
 
 /**
  * **Stufe 3: das Urteil je Titel × Anbieter × Folge** (22.09.2026, Modell in
@@ -93,20 +94,56 @@ export type MeldungVerworfen = 'ohne Titel' | 'ohne Befund' | 'ohne Folgennummer
  * sagen nur die Rohfolgen über die Zuordnung.
  */
 export function folgenDerMeldung(
-  m: { titel_id: number | null; folge_nr: number | null; teil_von: number | null; teil_bis: number | null },
+  m: { titel_id: number | null; folge_nr: number | null; teil_von: number | null; teil_bis: number | null; plattform?: string; url?: string },
   vorhanden: string | null,
   einzelwerk: (titelId: number) => boolean,
+  /**
+   * **Der Rückfall über die Rohfolgen** (29.09.2026): Eine Meldung über eine ganze Staffel trägt oft
+   * keine Nummer — der Kasten meldet „alle 12 Folgen deutsch", nicht „Folge 5". Solange die Rohfolgen
+   * derselben Adresse feststehen, ist die Spanne bekannt.
+   */
+  rohspanne?: (titelId: number, plattform: string, url: string) => { von: number; bis: number } | undefined,
 ): { von: number; bis: number } | { verworfen: MeldungVerworfen } {
   if (!m.titel_id) return { verworfen: 'ohne Titel' }
   if (!vorhanden) return { verworfen: 'ohne Befund' }
   let von = m.folge_nr ?? m.teil_von
   let bis = m.folge_nr ?? m.teil_bis
   if (!von && !bis && einzelwerk(m.titel_id)) von = bis = 1
-  /* „Nicht verfügbar" ohne Nummer meint die ganze Seite: Folge 0 (`wegUrteileBereinigen`). */
+  /* "Nicht verfügbar" ohne Nummer meint die ganze Seite: Folge 0 (`wegUrteileBereinigen`). */
   if (!von && !bis && vorhanden === 'nein') return { von: 0, bis: 0 }
-  if (!von || !bis) return { verworfen: 'ohne Folgennummer' }
+  if (!von || !bis) {
+    const roh = rohspanne && m.plattform && m.url ? rohspanne(m.titel_id, m.plattform, m.url) : undefined
+    if (roh) return roh
+    return { verworfen: 'ohne Folgennummer' }
+  }
   if (bis < von || bis - von > 500) return { verworfen: 'Spanne unplausibel' }
   return { von, bis }
+}
+
+/**
+ * **Welche Folgen eine Adresse laut Rohfolgen führt** — für Meldungen ohne Nummer (29.09.2026).
+ *
+ * Die Rohfolgen aus `?rohfolgen=1&alle=1` tragen keine Nummer; sie bekommt jede über die Zuordnung
+ * aus Stufe 2 (`data/folgen-zuordnung.json`, `plattform:asin|gti → { titel, folge }`). Für die
+ * Zuordnung zählen hier **Titel, Anbieter und Adresse** zusammen: Nur dann gilt die Spanne für die
+ * Meldung, sonst würde eine Staffelmeldung auf Folgen gestempelt, die sie nie gesehen hat.
+ *
+ * Gemessen im Bestandslauf vom 29.09.2026: **799 Meldungen** wurden als „ohne Folgennummer"
+ * verworfen (`pipeline/fetch-urteile.ts`).
+ */
+export function rohfolgenSpanne(
+  rohfolgen: { plattform: string; url: string; asin: string | null; gti: string | null }[],
+  zuordnung: Record<string, { titel?: number; folge?: number }>,
+): (titelId: number, plattform: string, url: string) => { von: number; bis: number } | undefined {
+  const karte = new Map<string, { von: number; bis: number }>()
+  for (const f of rohfolgen) {
+    const z = zuordnung[`${f.plattform}:${f.asin ?? f.gti}`]
+    if (!z?.titel || !z.folge) continue
+    const k = `${z.titel}|${f.plattform}|${adressKern(f.url)}`
+    const alt = karte.get(k)
+    karte.set(k, alt ? { von: Math.min(alt.von, z.folge), bis: Math.max(alt.bis, z.folge) } : { von: z.folge, bis: z.folge })
+  }
+  return (titelId, plattform, url) => karte.get(`${titelId}|${plattform}|${adressKern(url)}`)
 }
 
 /**

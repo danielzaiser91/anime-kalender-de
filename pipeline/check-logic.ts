@@ -6782,6 +6782,32 @@ pruefe(
   const film = (id: number) => id === 512
   pruefe('Stufe 3: ein Film ohne Folgennummer beobachtet Folge 1 (Kikis kleiner Lieferservice)', JSON.stringify(folgenDerMeldung(m(512), 'ja', film)) === '{"von":1,"bis":1}')
   pruefe('Stufe 3: eine Staffelmeldung ohne Nummer bleibt verworfen — mit Grund', JSON.stringify(folgenDerMeldung(m(137822), 'ja', film)) === '{"verworfen":"ohne Folgennummer"}')
+  /*
+    **Und seit dem 29.09.2026 über die Rohfolgen derselben Adresse zugeführt** (799 Meldungen, die so
+    verworfen wurden). Die Spanne gilt nur für **dieselbe Seite**: Titel, Anbieter und Adresskern
+    müssen zusammenpassen — sonst würde eine Staffelmeldung auf Folgen gestempelt, die sie nie sah.
+  */
+  const { rohfolgenSpanne } = await import('./lib/urteil-je-folge.ts')
+  const spanneFuer = rohfolgenSpanne(
+    [{ plattform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/B0TEST0001', asin: 'B0TEST0001', gti: null }],
+    { 'primevideo:B0TEST0001': { titel: 137822, folge: 3 } },
+  )
+  const mitAdresse = { ...m(137822), plattform: 'primevideo', url: 'https://www.amazon.de/dp/B0TEST0001' }
+  pruefe(
+    'Stufe 3: eine Staffelmeldung ohne Nummer bekommt die Spanne der Rohfolgen',
+    JSON.stringify(folgenDerMeldung(mitAdresse, 'ja', film, spanneFuer)) === '{"von":3,"bis":3}',
+    JSON.stringify(folgenDerMeldung(mitAdresse, 'ja', film, spanneFuer)),
+  )
+  pruefe(
+    'Stufe 3: über eine fremde Adresse gilt sie nicht',
+    JSON.stringify(
+      folgenDerMeldung({ ...mitAdresse, url: 'https://www.amazon.de/dp/B0FREMD0002' }, 'ja', film, spanneFuer),
+    ) === '{"verworfen":"ohne Folgennummer"}',
+  )
+  pruefe(
+    'Stufe 3: beide Amazon-Schreibweisen derselben Seite zählen zusammen',
+    spanneFuer(137822, 'primevideo', 'https://www.amazon.de/gp/video/detail/B0TEST0001')?.von === 3,
+  )
   pruefe('Stufe 3: ohne Titel verworfen, mit Grund', JSON.stringify(folgenDerMeldung(m(null, 3), 'ja', film)) === '{"verworfen":"ohne Titel"}')
   pruefe('Stufe 3: eine Folgennummer gilt wie gemeldet', JSON.stringify(folgenDerMeldung(m(137822, 7), 'ja', film)) === '{"von":7,"bis":7}')
   pruefe('Stufe 4: „nicht verfügbar" ohne Nummer gilt dem ganzen Weg (Folge 0)', JSON.stringify(folgenDerMeldung(m(137822), 'nein', film)) === '{"von":0,"bis":0}')

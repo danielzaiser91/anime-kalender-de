@@ -12,7 +12,7 @@
  * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { adressIndex, folgenDerMeldung, titelDerMeldung, urteileJeFolge, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import { adressIndex, folgenDerMeldung, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -78,13 +78,13 @@ async function main() {
   const rohfolgen = await seiten<RohFolge>('rohfolgen=1&alle=1', 'folgen')
   if (!meldungen || !rohfolgen) return
   const zuordnung = readJson<Record<string, FolgenZuordnung>>('data/folgen-zuordnung.json', {})
+  const rohspanne = rohfolgenSpanne(rohfolgen, zuordnung) /* Meldungen ohne Nummer über die Rohfolgen */
 
   /*
     Welche Adresse ist eine Kanal-Seite? Das steht in der Meldung (`abos`), gilt aber auch für die
     Rohfolgen derselben Adresse: Dort trägt die Zeile nur Tonspuren, nicht den Kanal.
   */
   const kanalAdresse = new Set(meldungen.filter((m) => KANAL.test(m.abos ?? '')).map((m) => adressKern(m.url)))
-
   const beobachtungen: UrteilBeobachtung[] = []
   for (const f of rohfolgen) {
     const z = zuordnung[`${f.plattform}:${f.asin ?? f.gti}`]
@@ -121,7 +121,7 @@ async function main() {
     const m = { ...roh, titel_id: titelDerMeldung(roh, nachAdresse) }
     const vorhanden = m.vorhanden ?? (m.befund === 'weg' ? 'nein' : m.befund ? 'ja' : null)
     const tonDe = m.ton_de ?? (m.befund === 'dub' ? 'ja' : m.befund === 'kein_dub' ? 'nein' : 'unbekannt')
-    const spanne = folgenDerMeldung(m, vorhanden, (id) => einzel.has(id))
+    const spanne = folgenDerMeldung(m, vorhanden, (id) => einzel.has(id), rohspanne)
     if ('verworfen' in spanne) {
       verworfen[spanne.verworfen] = (verworfen[spanne.verworfen] ?? 0) + 1
       continue
@@ -167,5 +167,4 @@ async function main() {
         .join(', ') || 'keine'),
   )
 }
-
 if (process.argv[1]?.endsWith('fetch-urteile.ts')) await main()
