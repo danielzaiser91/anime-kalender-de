@@ -200,3 +200,25 @@ export function titelDerMeldung(
   const ids = nachAdresse(m.url)
   return ids?.length === 1 ? ids[0]! : null
 }
+
+/**
+ * **Warum eine Meldung ohne Titel bleibt** (29.09.2026).
+ *
+ * Der größte Verwerfungsposten des Urteilslaufs: **4.693 Meldungen** (Bestandslauf 29.09., 17:13).
+ * Sie erzeugen keine einzige Beobachtung — ihre Auskunft fehlt also im Urteil. Bevor daran gebaut
+ * wird, wird gezählt, **welcher Anteil welchen Grund** hat: Die drei Gründe brauchen drei
+ * verschiedene Antworten (eine Regel, eine Adressauflösung, oder gar keine).
+ */
+export type MeldungOhneTitel = 'späte Staffel' | 'Adresse unbekannt' | 'Adresse mehrdeutig'
+
+export function meldungGrund(
+  m: { titel_id: number | null; url: string; staffel?: number | null },
+  nachAdresse: (url: string) => number[] | undefined,
+): MeldungOhneTitel | null {
+  if (m.titel_id) return null
+  /* Eine Serienseite führt oft mehrere Staffeln, bei uns hängt nur eine daran - bewusst offen. */
+  if (m.staffel != null && m.staffel !== 1) return 'späte Staffel'
+  const ids = nachAdresse(m.url)
+  if (!ids?.length) return 'Adresse unbekannt'
+  return 'Adresse mehrdeutig'
+}

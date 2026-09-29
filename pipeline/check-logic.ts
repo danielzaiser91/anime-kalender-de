@@ -6808,6 +6808,23 @@ pruefe(
     'Stufe 3: beide Amazon-Schreibweisen derselben Seite zählen zusammen',
     spanneFuer(137822, 'primevideo', 'https://www.amazon.de/gp/video/detail/B0TEST0001')?.von === 3,
   )
+  /*
+    **Der größte Verwerfungsposten bekommt Gründe** (29.09.2026): 4.693 Meldungen ohne Titel erzeugen
+    keine Beobachtung. Bevor daran gebaut wird, steht je Grund eine Zahl im Protokoll — die drei
+    brauchen drei verschiedene Antworten.
+  */
+  const { meldungGrund } = await import('./lib/urteil-je-folge.ts')
+  const nur = (ids: number[] | undefined) => () => ids
+  pruefe(
+    'Stufe 3: ohne Titel wird der Grund benannt (späte Staffel)',
+    meldungGrund({ titel_id: null, url: 'https://x', staffel: 2 }, nur([1])) === 'späte Staffel',
+  )
+  pruefe(
+    '… Adresse unbekannt',
+    meldungGrund({ titel_id: null, url: 'https://x', staffel: null }, nur(undefined)) === 'Adresse unbekannt',
+  )
+  pruefe('… Adresse mehrdeutig', meldungGrund({ titel_id: null, url: 'https://x' }, nur([1, 2])) === 'Adresse mehrdeutig')
+  pruefe('und mit Titel gibt es keinen Grund', meldungGrund({ titel_id: 5, url: 'https://x' }, nur(undefined)) === null)
   pruefe('Stufe 3: ohne Titel verworfen, mit Grund', JSON.stringify(folgenDerMeldung(m(null, 3), 'ja', film)) === '{"verworfen":"ohne Titel"}')
   pruefe('Stufe 3: eine Folgennummer gilt wie gemeldet', JSON.stringify(folgenDerMeldung(m(137822, 7), 'ja', film)) === '{"von":7,"bis":7}')
   pruefe('Stufe 4: „nicht verfügbar" ohne Nummer gilt dem ganzen Weg (Folge 0)', JSON.stringify(folgenDerMeldung(m(137822), 'nein', film)) === '{"von":0,"bis":0}')

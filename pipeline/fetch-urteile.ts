@@ -12,7 +12,7 @@
  * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { adressIndex, folgenDerMeldung, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import { adressIndex, folgenDerMeldung, meldungGrund, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -20,6 +20,9 @@ import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN ?? ''
 const ZIEL = 'data/urteile.json'
+
+/** Warum Meldungen ohne Titel bleiben — je Grund eine Zahl (29.09.2026, größter Verwerfungsposten). */
+const ohneTitel: Record<string, number> = {}
 
 /* Kanal-Seiten: ohne das Abo des Kanals zeigt Prime keine Tonspuren (CLAUDE.md). */
 const KANAL = /crunchyroll|aniverse|animedigital|pokemon|prosieben|kixi|midnight|arthouse|rtl/i
@@ -69,6 +72,25 @@ async function seiten<T>(pfad: string, feld: string): Promise<T[] | null> {
   }
 }
 
+/**
+ * **Warum Meldungen ohne Titel bleiben — zählen und melden** (29.09.2026).
+ *
+ * Der größte Verwerfungsposten des Urteilslaufs (4.693 Meldungen am 29.09.). Die drei Gründe brauchen
+ * drei verschiedene Antworten, deshalb steht jede Zahl einzeln im Protokoll. Eigene Funktionen, weil
+ * `main()` die Längengrenze schon überschreitet.
+ */
+function zaehleOhneTitel(m: RohMeldung, nachAdresse: (url: string) => number[] | undefined): void {
+  const grund = meldungGrund(m, nachAdresse)
+  if (grund) ohneTitel[grund] = (ohneTitel[grund] ?? 0) + 1
+}
+
+function logOhneTitel(): void {
+  const teile = Object.entries(ohneTitel)
+    .sort((a, b) => b[1] - a[1])
+    .map(([k, n]) => `${n} ${k}`)
+  log('Meldungen ohne Titel, nach Grund: ' + (teile.join(', ') || 'keine'))
+}
+
 async function main() {
   if (!TOKEN) {
     warn('LAUF_TOKEN fehlt — nichts geholt.')
@@ -79,7 +101,6 @@ async function main() {
   if (!meldungen || !rohfolgen) return
   const zuordnung = readJson<Record<string, FolgenZuordnung>>('data/folgen-zuordnung.json', {})
   const rohspanne = rohfolgenSpanne(rohfolgen, zuordnung) /* Meldungen ohne Nummer über die Rohfolgen */
-
   /*
     Welche Adresse ist eine Kanal-Seite? Das steht in der Meldung (`abos`), gilt aber auch für die
     Rohfolgen derselben Adresse: Dort trägt die Zeile nur Tonspuren, nicht den Kanal.
@@ -119,6 +140,7 @@ async function main() {
   /* Eine Meldung ohne die Felder aus Migration 034 trägt nur `befund`. */
   for (const roh of meldungen) {
     const m = { ...roh, titel_id: titelDerMeldung(roh, nachAdresse) }
+    if (!m.titel_id) zaehleOhneTitel(roh, nachAdresse)
     const vorhanden = m.vorhanden ?? (m.befund === 'weg' ? 'nein' : m.befund ? 'ja' : null)
     const tonDe = m.ton_de ?? (m.befund === 'dub' ? 'ja' : m.befund === 'kein_dub' ? 'nein' : 'unbekannt')
     const spanne = folgenDerMeldung(m, vorhanden, (id) => einzel.has(id), rohspanne)
@@ -143,7 +165,6 @@ async function main() {
       })
     }
   }
-
   const urteile = urteileJeFolge(beobachtungen)
   writeJson(ZIEL, urteile, true)
   const zaehl: Record<string, number> = {}
@@ -166,5 +187,6 @@ async function main() {
         .map(([k, n]) => `${n} ${k}`)
         .join(', ') || 'keine'),
   )
+  logOhneTitel()
 }
 if (process.argv[1]?.endsWith('fetch-urteile.ts')) await main()

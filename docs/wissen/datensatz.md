@@ -417,7 +417,7 @@ links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. Zu wi
   zeigen deren gespeicherte Vorschau (27.09.2026, live geprüft: Seite und Bild waren neu).
 - **Inhalt:** ohne künftigen Termin „Erste Folge"/„Erschienen" statt „Nächste Folge", Katalogtitel
   „Im Angebot seit"; das Standardbild zählt aus `meta.json` (vorher 504 aus `titles-core`).
-- Titelseiten (`/t/…`) behalten Banner oder Cover von AniList: eigene Bilder für 2.777 Titel wären
+- Titelseiten (`/t/…`) behalten Banner oder Cover von AniList: eigene Bilder für 2.781 Titel wären
   rund 170 MB zusätzlich im Repo (899 Release-Bilder = 54 MB).
 
 ## Neuigkeiten im Detail-Panel (27.09.2026)
