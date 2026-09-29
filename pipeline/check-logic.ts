@@ -113,6 +113,7 @@ import {
   schluesselVergleich,
   trefferPunkte,
   trefferSchluessel,
+  zusammenPunkte,
   type Fundstelle,
   type FundstelleArt,
 } from '../web/src/lib/search.ts'
@@ -6314,6 +6315,35 @@ pruefe(
       trefferSchluessel([imTitel('Tod')], sichtbar),
       trefferSchluessel([imTitel('Tod', 'Tod', false, 'Kimikoe wo Todoketai')], sichtbar),
     ) < 0,
+  )
+  /*
+    **Die ganze Suche in der getippten Folge steht vorn** (Daniel, 29.09.2026, „a gir"): „Rent-a-
+    Girlfriend" trifft „a" (Wort 1) und „gir" (Wort 2) in Folge; „Girls und Panzer" trifft „gir"
+    (Wort 0) und „a" (Wort 1) — als Suche falsch herum, einzeln betrachtet aber „vorn".
+  */
+  const rent = [
+    stelle('titel', 'Rent-a-Girlfriend', 'a', 'a', 'a'),
+    stelle('titel', 'Rent-a-Girlfriend', 'Girlfriend', 'gir', 'Gir'),
+  ]
+  const panzer = [
+    stelle('titel', 'Girls und Panzer', 'Girls', 'gir', 'Gir'),
+    stelle('titel', 'Girls und Panzer', 'Panzer', 'a', 'a'),
+  ]
+  pruefe(
+    'die getippte Folge wird erkannt',
+    zusammenPunkte(rent, ['a', 'gir']) === 0 && zusammenPunkte(panzer, ['a', 'gir']) === 2,
+    `${zusammenPunkte(rent, ['a', 'gir'])} / ${zusammenPunkte(panzer, ['a', 'gir'])}`,
+  )
+  pruefe(
+    'Rent-a-Girlfriend steht damit vor Girls und Panzer',
+    schluesselVergleich(
+      trefferSchluessel(rent, 'Rent-a-Girlfriend', 0, ['a', 'gir']),
+      trefferSchluessel(panzer, 'Girls und Panzer', 0, ['a', 'gir']),
+    ) < 0,
+  )
+  pruefe(
+    'eine einzelne Suche bleibt unberührt',
+    zusammenPunkte([stelle('titel', 'A Couple of Cuckoos', 'A', 'a', 'A')], ['a']) === 0,
   )
 }
 {

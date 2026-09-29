@@ -156,9 +156,48 @@ export function trefferPunkte(f: Fundstelle, sichtbar?: string, fehlendeWoerter 
   )
 }
 
+/**
+ * **Steckt die ganze Suche in der getippten Folge?** (Daniel, 29.09.2026, an „a gir" und
+ * „Rent-a-Girlfriend": „hätte in diesem beispiel a und gir, also komplette query als match, trotzdem
+ * wird es geschlagen von match treffern die nur girl im namen haben".)
+ *
+ * Die Punktliste allein verliert die **Ordnung**: „Rent-a-**Gir**lfriend" trifft „a" (Wort 1) und
+ * „gir" (Wort 2), „Girls und P**a**nzer" trifft „gir" (Wort 0) und „a" (Wort 1) — einzeln betrachtet
+ * liegt der zweite Fall „vorn", als Suche ist er falsch herum. Deshalb eine eigene Stufe **vor** allen
+ * Punkten:
+ *
+ * - `0` alle Suchwörter in Folge **und** direkt nebeneinander,
+ * - `1` alle in Folge (mit Lücken),
+ * - `2` nicht in Folge — oder nicht vollständig auffindbar.
+ */
+export function zusammenPunkte(fundstellen: Fundstelle[], suchwoerter: string[]): number {
+  if (suchwoerter.length < 2) return 0
+  const wo = new Map<string, number>()
+  for (const f of fundstellen) {
+    const i = woerterOriginal(f.feld).indexOf(f.wort)
+    if (i < 0) continue
+    const bisher = wo.get(f.suchwort)
+    if (bisher === undefined || i < bisher) wo.set(f.suchwort, i)
+  }
+  const folge = suchwoerter.map((w) => wo.get(w))
+  if (folge.some((i) => i === undefined)) return 2
+  const reihe = folge as number[]
+  if (!reihe.every((i, k) => k === 0 || i >= reihe[k - 1]!)) return 2
+  return reihe.every((i, k) => k === 0 || i === reihe[k - 1]! + 1) ? 0 : 1
+}
+
 /** Die Punktliste eines Treffers, aufsteigend — der Vergleich liest sie der Reihe nach. */
-export function trefferSchluessel(fundstellen: Fundstelle[], sichtbar?: string, fehlendeWoerter = 0): number[] {
-  return fundstellen.map((f) => trefferPunkte(f, sichtbar, fehlendeWoerter)).sort((a, b) => a - b)
+export function trefferSchluessel(
+  fundstellen: Fundstelle[],
+  sichtbar?: string,
+  fehlendeWoerter = 0,
+  suchwoerter: string[] = [],
+): number[] {
+  const punkte = fundstellen.map((f) => trefferPunkte(f, sichtbar, fehlendeWoerter)).sort((a, b) => a - b)
+  /* Die Folge steht **vor** allem anderen: Wer die ganze Suche so trifft, wie er sie getippt hat,
+     meint diesen Titel. Eine Stufe (× 1.000.000) liegt über jedem Feld-Rang (höchstens 70.000). */
+  const stufe = zusammenPunkte(fundstellen, suchwoerter)
+  return stufe === 0 ? punkte : punkte.map((p) => p + stufe * 1_000_000)
 }
 
 /** Zwei Punktlisten vergleichen: die erste Stelle entscheidet, dann die nächste. */
@@ -466,7 +505,8 @@ export function sucheMitFundstellen<T>(
       .map((b) => {
         const fundstellen = fundstellenFuer(suchwoerter, titel(b.item), genau(b.item))
         const fehlend = Math.max(0, suchwoerter.length - fundstellen.filter((f) => !f.unscharf).length)
-        return { ...b, fundstellen, schluessel: trefferSchluessel(fundstellen, sichtbarerName?.(b.item), fehlend) }
+        const schluessel = trefferSchluessel(fundstellen, sichtbarerName?.(b.item), fehlend, suchwoerter)
+        return { ...b, fundstellen, schluessel }
       })
       .sort((a, b) => trefferVergleich(a, b, sichtbarerName))
       .map(({ item, rang, fundstellen }) => ({ item, rang, fundstellen }))
