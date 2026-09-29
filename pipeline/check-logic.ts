@@ -108,6 +108,7 @@ import { badge } from '../worker/src/mail-abschnitte.ts'
 import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { hostVon } from '../shared/quelle.ts'
+import { fundstelleHinweis } from '../web/src/components/Suchtreffer.tsx'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
 import { ladeTitelDe } from './lib/titel-de.ts'
@@ -5982,6 +5983,38 @@ pruefe(
   const beschriftet = [...new Set([...suchQuelle.matchAll(/\{ art: '([a-z]+)', label:/g)].map((m) => m[1]))].sort()
   pruefe('die Feldliste am Suchfeld nennt genau die durchsuchten Felder',
     JSON.stringify(benutzt) === JSON.stringify(beschriftet), `${benutzt} / ${beschriftet}`)
+  /*
+    **Der Hinweis nennt das Feld und seinen Inhalt, nicht nur das Wort** (Daniel, 29.09.2026: „im
+    tooltip muss noch erwähnt werden was im feld in dem das match ist drin steht, und den teil davon
+    highlighten"). Gemessen wird die Textfassung (`fundstelleHinweis`); die Blase zeigt denselben
+    Auszug mit der Stelle als Markierung (`FeldAuszug`).
+  */
+  const genau = fundstelleHinweis({
+    art: 'titel',
+    feld: 'Spice and Wolf',
+    wort: 'Spice',
+    suchwort: 'pice',
+    teil: 'pice',
+  })
+  pruefe(
+    'der Hinweis nennt das Feld, seinen ganzen Inhalt und die Fundstelle darin',
+    genau.includes('Spice and Wolf') && genau.includes('„pice"') && genau.includes('Titel'),
+    genau,
+  )
+  const unscharf = fundstelleHinweis({
+    art: 'titel',
+    feld: 'Steins;Gate 0: Polymorpher Valentin - Bitter sweet Intermedio',
+    wort: 'sweet',
+    suchwort: 'Sweot',
+    unscharf: true,
+  })
+  pruefe(
+    'auch der unscharfe Hinweis zeigt den Feldinhalt',
+    unscharf.includes('Bitter sweet Intermedio') &&
+      unscharf.includes('übereinstimmende Buchstaben') &&
+      unscharf.includes('Sweot'),
+    unscharf,
+  )
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */

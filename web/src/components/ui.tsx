@@ -630,7 +630,7 @@ export function Tooltip({
   eigenerFokus,
   className = '',
 }: {
-  text: string
+  text: ReactNode
   children: ReactNode
   unterstrichen?: boolean
   seite?: 'oben' | 'unten'
