@@ -109,6 +109,13 @@ import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { hostVon } from '../shared/quelle.ts'
 import { fundstelleHinweis, hervorhebungen } from '../web/src/components/Suchtreffer.tsx'
+import {
+  schluesselVergleich,
+  trefferPunkte,
+  trefferSchluessel,
+  type Fundstelle,
+  type FundstelleArt,
+} from '../web/src/lib/search.ts'
 import { verweiseFuer } from '../web/src/components/detail/verweise.ts'
 import { zaehlText } from '../web/src/components/DatabaseView.tsx'
 import { activeFilterCount, EMPTY_FILTERS } from '../web/src/lib/filters.ts'
@@ -6164,6 +6171,74 @@ pruefe(
     warnt bei null — die Warnung darf nicht wieder verschwinden.
   */
   pruefe('der Bau warnt, wenn der Katalog ohne MAL-Kennungen ankommt', /Keine MAL-Kennung an/.test(nebendateiQuelle))
+  /*
+    **Die Rangfolge der Treffer** (Daniel, 29.09.2026): „bau eine sinnvolle priorisierung für
+    trefferart (ganzes wort, teilwort, fuzzy, etc) und die durchsuchten attribute ein. titel hat
+    höchste prio … ganze wort-treffer weiter oben … als wortanfang, und wortmitte nach wortanfang,
+    fuzzy noch weiter hinten. Danach folgen die andere Attribute."
+
+    Geprüft wird die Punktfolge Feld für Feld — der sichtbare Titel mit der schlechtesten Trefferart
+    muss vor jedem Treffer in einem anderen Feld liegen.
+  */
+  const stelle = (
+    art: FundstelleArt,
+    feld: string,
+    wort: string,
+    suchwort: string,
+    teil?: string,
+    unscharf?: boolean,
+  ): Fundstelle => ({ art, feld, wort, suchwort, teil, unscharf })
+  const sichtbar = 'Gyo: Der Tod aus dem Meer'
+  /* Immer dasselbe Feld (der sichtbare Titel), damit die Trefferart allein den Unterschied macht. */
+  const imTitel = (wort: string, teil?: string, unscharf?: boolean, feld = sichtbar): Fundstelle =>
+    stelle('titel', feld, wort, (teil ?? wort).toLowerCase(), teil, unscharf)
+  const arten: [string, number][] = [
+    ['ganzes Wort', trefferPunkte(imTitel('Tod'), sichtbar)],
+    ['Wortanfang', trefferPunkte(imTitel('Todoketai', 'Tod'), sichtbar)],
+    ['Wortmitte', trefferPunkte(imTitel('Todoketai', 'odok'), sichtbar)],
+    ['unscharf', trefferPunkte(imTitel('Tod', undefined, true), sichtbar)],
+  ]
+  pruefe(
+    'ganzes Wort vor Wortanfang vor Wortmitte vor unscharf',
+    arten.every(([, p], i) => i === 0 || p > arten[i - 1]![1]),
+    JSON.stringify(arten),
+  )
+  const feldPunkteFuer = (art: FundstelleArt, feld: string): number =>
+    trefferPunkte(stelle(art, feld, 'Tod', 'tod', 'Tod'), sichtbar)
+  pruefe(
+    'der sichtbare Titel zuerst, dann die Namen, dann Werk, Thema, Produkt',
+    feldPunkteFuer('titel', sichtbar) === 0 &&
+      feldPunkteFuer('titel', 'Gyo') === 1000 &&
+      feldPunkteFuer('synonym', 'Tod im Meer') === 1000 &&
+      feldPunkteFuer('studio', 'ufotable') === 2000 &&
+      feldPunkteFuer('keyword', 'Tod') === 3000 &&
+      feldPunkteFuer('genre', 'Tod') === 4000 &&
+      feldPunkteFuer('release', 'Tod Box') === 5000 &&
+      feldPunkteFuer('verlag', 'Tod') === 6000 &&
+      feldPunkteFuer('ausgabe', 'Tod') === 7000,
+  )
+  pruefe(
+    'ein unscharfer Treffer im sichtbaren Titel schlägt jeden genauen in einem anderen Feld',
+    trefferPunkte(imTitel('Tod', undefined, true), sichtbar) < feldPunkteFuer('studio', 'ufotable'),
+  )
+  pruefe(
+    'wer mehr Suchwörter trifft, steht vorn — bei gleichem Feld und gleicher Trefferart',
+    trefferPunkte(imTitel('Tod'), sichtbar, 0) < trefferPunkte(imTitel('Tod'), sichtbar, 1),
+  )
+  pruefe(
+    'die Punktliste entscheidet Stelle für Stelle',
+    schluesselVergleich([0, 100], [0, 200]) < 0 &&
+      schluesselVergleich([0, 100], [100, 0]) < 0 &&
+      schluesselVergleich([100, 0], [0, 100]) > 0,
+  )
+  /* „Gyo: Der Tod aus dem Meer" (ganzes Wort im sichtbaren Titel) vor „Your Voice: Kimikoe" (Wortanfang). */
+  pruefe(
+    'der Fall aus Daniels Bild ordnet sich richtig',
+    schluesselVergleich(
+      trefferSchluessel([imTitel('Tod')], sichtbar),
+      trefferSchluessel([imTitel('Tod', 'Tod', false, 'Kimikoe wo Todoketai')], sichtbar),
+    ) < 0,
+  )
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */

@@ -12,6 +12,7 @@ import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import type { Dataset } from './data.ts'
 import { sucheMitFundstellen, type Fundstelle, type FundstelleArt, type Suchfeld } from './search.ts'
 import { tvPremiere } from './tv-angabe.ts'
+import { anzeigeName } from '@shared/titles.ts'
 import { kostenloseFolgen } from '@shared/kostenlos.ts'
 import { synonymeFuer } from './data.ts'
 
@@ -334,6 +335,7 @@ export function filterEvents(
     f.search,
     (r) => suchfelder(r, data.titleById.get(r.titleId)),
     (r) => [r.name, ...namen(data.titleById.get(r.titleId))],
+    (r) => r.name,
   )
   merkeFundstellen(gesucht, (r) => r.slug, fundstellen)
 
@@ -351,7 +353,13 @@ export function filterTitles(
   fundstellen?: Map<string, Fundstelle[]>,
 ): Title[] {
   const vorgefiltert = source.filter((t) => passtTitel(t, data, f, today, favorites))
-  const gesucht = sucheMitFundstellen(vorgefiltert, f.search, (t) => suchfelder(undefined, t), (t) => namen(t))
+  const gesucht = sucheMitFundstellen(
+    vorgefiltert,
+    f.search,
+    (t) => suchfelder(undefined, t),
+    (t) => namen(t),
+    (t) => anzeigeName(t),
+  )
   merkeFundstellen(gesucht, (t) => String(t.id), fundstellen)
   return gesucht.map((t) => t.item)
 }

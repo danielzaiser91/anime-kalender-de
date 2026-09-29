@@ -72,6 +72,83 @@ export interface Fundstelle {
 }
 
 /**
+ * **Wie gut ein Treffer sitzt** (Daniel, 29.09.2026: „bau eine sinnvolle priorisierung für
+ * trefferart (ganzes wort, teilwort, fuzzy, etc) und die durchsuchten attribute ein. titel hat
+ * höchste prio … dabei sind ganze wort-treffer weiter oben zu platzieren, als wortanfang, und
+ * wortmitte nach wortanfang, fuzzy noch weiter hinten. Danach folgen die andere Attribute").
+ *
+ * Kleinere Zahl = weiter vorn. Drei Dimensionen mit **gestaffelten** Gewichten, damit keine die
+ * andere aufholt:
+ *
+ * - **Feld** (× 1000) — was getroffen hat. Der sichtbare Titel zuerst, dann die übrigen Namen des
+ *   Werks, dann Werk-, Thema- und Produktangaben (`FELD_RANG`).
+ * - **Trefferart** (× 100) — ganzes Wort, Wortanfang, Wortmitte, unscharf (`ART_RANG`).
+ * - **Vollständigkeit** (× 10 je Wort, das im Titel *nicht* gefunden wurde) — „exiled knight" mit
+ *   beiden Wörtern vor einem Treffer mit nur einem.
+ */
+export type TrefferArt = 'ganz' | 'anfang' | 'mitte' | 'fuzzy'
+
+/** Wie der Treffer im gefundenen Wort sitzt. */
+export function trefferArt(f: Fundstelle): TrefferArt {
+  if (f.unscharf) return 'fuzzy'
+  /* Über das **normalisierte** Wort: Bei Umlauten oder Sonderzeichen gibt es keine enge Fundstelle
+     (`teil` fehlt), aber das Wort ist trotzdem genau getroffen. */
+  const wort = normalize(f.wort)
+  const gesucht = normalize(f.suchwort)
+  if (wort === gesucht) return 'ganz'
+  return wort.startsWith(gesucht) ? 'anfang' : 'mitte'
+}
+
+const ART_RANG: Record<TrefferArt, number> = { ganz: 0, anfang: 1, mitte: 2, fuzzy: 3 }
+
+/**
+ * Die Reihenfolge der Felder — sie ist die eigentliche Entscheidung dieser Rangfolge.
+ *
+ * `titel` steht zweimal drin: Wer den **sichtbaren** Namen trifft (das, was auf der Karte steht),
+ * schlägt jeden anderen Treffer; die übrigen Namen desselben Werks (andere Sprache, Originalschrift,
+ * aniSearch-Synonym) kommen direkt danach. Danach Studio, Schlagwort, Genre, Ausgabe-Name, Verlag,
+ * Edition — Werk vor Thema vor Produkt.
+ */
+const FELD_RANG: Record<FundstelleArt, number> = {
+  titel: 1,
+  synonym: 1,
+  studio: 2,
+  keyword: 3,
+  genre: 4,
+  release: 5,
+  verlag: 6,
+  ausgabe: 7,
+}
+const FELD_SICHTBAR = 0
+
+/** Der Feld-Rang eines Treffers — 0, wenn er im **sichtbaren** Namen sitzt. */
+export function feldRang(f: Fundstelle, sichtbar?: string): number {
+  if ((f.art === 'titel' || f.art === 'synonym') && sichtbar && normalize(f.feld) === normalize(sichtbar)) {
+    return FELD_SICHTBAR
+  }
+  return FELD_RANG[f.art]
+}
+
+/** Der Platz eines Treffers im Feld — je kleiner, desto weiter vorn. */
+export function trefferPunkte(f: Fundstelle, sichtbar?: string, fehlendeWoerter = 0): number {
+  return feldRang(f, sichtbar) * 1000 + ART_RANG[trefferArt(f)] * 100 + fehlendeWoerter * 10
+}
+
+/** Die Punktliste eines Treffers, aufsteigend — der Vergleich liest sie der Reihe nach. */
+export function trefferSchluessel(fundstellen: Fundstelle[], sichtbar?: string, fehlendeWoerter = 0): number[] {
+  return fundstellen.map((f) => trefferPunkte(f, sichtbar, fehlendeWoerter)).sort((a, b) => a - b)
+}
+
+/** Zwei Punktlisten vergleichen: die erste Stelle entscheidet, dann die nächste. */
+export function schluesselVergleich(a: number[], b: number[]): number {
+  for (let i = 0; i < Math.max(a.length, b.length); i++) {
+    const d = (a[i] ?? Number.POSITIVE_INFINITY) - (b[i] ?? Number.POSITIVE_INFINITY)
+    if (d) return d
+  }
+  return 0
+}
+
+/**
  * **Welche Felder durchsucht werden — an einer Stelle.**
  *
  * Die Suche benutzt diese Liste (über die Aufrufer in `filters.ts`), und das Info-Symbol am
@@ -306,6 +383,8 @@ export function sucheMitFundstellen<T>(
   suchbegriff: string,
   genau: (item: T) => Suchfeld[],
   titel: (item: T) => string[],
+  /** Der **sichtbare** Name des Eintrags — Träger der höchsten Trefferklasse (29.09.2026). */
+  sichtbarerName?: (item: T) => string,
 ): { item: T; rang: number; fundstellen: Fundstelle[] }[] {
   /*
     **Füllwörter entscheiden nichts.** „abenteuer von dai" fand „Dais Abenteuer" nicht,
@@ -353,19 +432,23 @@ export function sucheMitFundstellen<T>(
     else if (trifftGenau(suchwoerter, genauTexte)) bewertet.push({ item, rang: 4, abstand: 0 })
   }
   const titelPasst = bewertet.some((b) => b.rang <= 2)
-  return bewertet
-    .filter((b) => !titelPasst || b.rang !== 3)
-    .sort((a, b) => a.rang - b.rang || a.abstand - b.abstand)
-    /*
-      **Die Fundstellen erst für die Behaltenen** — nicht für alle 2.753 Titel bei jedem
-      Tastendruck. Sie sind die Antwort auf „warum steht das hier", und die braucht nur, was
-      auch angezeigt wird.
-    */
-    .map((b) => ({
-      item: b.item,
-      rang: b.rang,
-      fundstellen: fundstellenFuer(suchwoerter, titel(b.item), genau(b.item)),
-    }))
+  return (
+    bewertet
+      .filter((b) => !titelPasst || b.rang !== 3)
+      /*
+        **Die Fundstellen erst für die Behaltenen** — nicht für alle 2.753 Titel bei jedem
+        Tastendruck. Sie sind die Antwort auf „warum steht das hier", und die braucht nur, was
+        auch angezeigt wird. **Seit dem 29.09.2026 tragen sie auch die Rangfolge**: Feld,
+        Trefferart und Vollständigkeit (`trefferPunkte`).
+      */
+      .map((b) => {
+        const fundstellen = fundstellenFuer(suchwoerter, titel(b.item), genau(b.item))
+        const fehlend = Math.max(0, suchwoerter.length - fundstellen.filter((f) => !f.unscharf).length)
+        return { ...b, fundstellen, schluessel: trefferSchluessel(fundstellen, sichtbarerName?.(b.item), fehlend) }
+      })
+      .sort((a, b) => schluesselVergleich(a.schluessel, b.schluessel) || a.rang - b.rang || a.abstand - b.abstand)
+      .map(({ item, rang, fundstellen }) => ({ item, rang, fundstellen }))
+  )
 }
 
 /**
