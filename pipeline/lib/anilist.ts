@@ -121,6 +121,14 @@ export interface KatalogEintrag {
   /** Kennungen der Eltern — wer zwei hat, ist ein Crossover und verbindet nichts. */
   eltern?: number[]
   id: number
+  /**
+   * **Die MAL-Kennung** (29.09.2026) — AniList führt sie als `idMal`.
+   *
+   * Daniel öffnete „1/100 SHIBUYA Crossing" (steht in `ohne-synchro.json`) und fand keinen
+   * MAL-Absprung: Die Datei trug nur die AniList-Kennung, und die ist nicht dieselbe. Für den Weg
+   * zu MyAnimeList braucht der Titel diese Nummer.
+   */
+  mal?: number
   /** Romaji, Englisch, Japanisch — alle drei, weil alle drei gesucht werden. */
   t: [string | null, string | null, string | null]
   format: string | null
@@ -262,7 +270,7 @@ export async function katalogSeite(
     Page(page: $p, perPage: 50) {
       pageInfo { hasNextPage }
       media(type: ANIME, isAdult: false, format_in: $f, ${datumsFilter} sort: ${absteigend ? 'ID_DESC' : 'ID'}) {
-        id
+        id idMal
         title { romaji english native }
         synonyms countryOfOrigin
         format episodes seasonYear averageScore status
@@ -283,7 +291,7 @@ export async function katalogSeite(
     Page: {
       pageInfo: { hasNextPage: boolean }
       media: {
-        id: number
+        id: number; idMal: number | null
         title: { romaji: string | null; english: string | null; native: string | null }
         synonyms?: string[] | null
         countryOfOrigin?: string | null
@@ -308,7 +316,7 @@ export async function katalogSeite(
   return {
     weiter: data?.Page?.pageInfo?.hasNextPage ?? false,
     eintraege: (data?.Page?.media ?? []).map((m) => ({
-      id: m.id,
+      id: m.id, mal: m.idMal ?? undefined,
       t: [m.title.romaji, m.title.english, m.title.native],
       format: m.format,
       jahr: m.seasonYear ?? m.startDate?.year ?? null,

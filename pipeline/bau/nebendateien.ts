@@ -292,7 +292,7 @@ export function schreibeOhneSynchro(
         deutschAusSynonymen(eintrag?.synonyme, reihenName) ??
         deutschAusSynonymen(e.synonyme, reihenName)
       return {
-        id: e.id,
+        id: e.id, malId: e.mal,
         titleRomaji: romaji ?? undefined,
         /*
           AniList führt bei chinesischen Produktionen oft keinen englischen

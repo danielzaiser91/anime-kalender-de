@@ -6145,6 +6145,19 @@ pruefe(
     'Cartoons führen zu TMDB statt zu aniSearch',
     verweiseFuer(nurTitel({ westlich: true, tmdbId: 99 })).some((v) => v.name === 'TMDB' && v.ziel.endsWith('/tv/99')),
   )
+  /*
+    **Der MAL-Weg braucht die Kennung aus dem Katalog** (29.09.2026). „1/100 SHIBUYA Crossing" steht
+    in `ohne-synchro.json`, die Datei trug aber nur die AniList-Kennung — und die ist nicht die von
+    MAL. Die Abfrage holt `idMal`, der Schreiber legt es als `malId` ab; ohne beides bleibt der
+    Absprung leer, egal wie richtig der Verweis selbst ist.
+  */
+  const anilistQuelle = readFileSync('pipeline/lib/anilist.ts', 'utf8')
+  const nebendateiQuelle = readFileSync('pipeline/bau/nebendateien.ts', 'utf8')
+  pruefe(
+    'der Katalog holt die MAL-Kennung',
+    /id idMal/.test(anilistQuelle) && /mal: m\.idMal/.test(anilistQuelle),
+  )
+  pruefe('und der Schreiber legt sie an den Titel', /malId: e\.mal/.test(nebendateiQuelle))
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */
