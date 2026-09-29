@@ -1,5 +1,4 @@
 import { type Title, type DiscAusgabe, type Release, anbieterName, PLATFORMS, type WatchLink } from '@shared/types.ts'
-import { anzeigeName } from '@shared/titles.ts'
 import { type ReactNode } from 'react'
 import { Tooltip } from '../ui.tsx'
 import { formatDate } from '@shared/time.ts'
@@ -7,6 +6,7 @@ import { tvAngabe } from '../../lib/tv-angabe.ts'
 import { useLang, translate } from '../../lib/i18n.tsx'
 import { AnbieterIcon } from '../../lib/anbieter-icon.tsx'
 import { MerkenKnopf } from './merken.tsx'
+import { verweiseFuer } from './verweise.ts'
 
 /*
   **Pillen: neutrale Fläche, Markenstreifen links** (Daniel, 19.09.2026: „rot auf rot, orange auf
@@ -80,28 +80,31 @@ export function DiscZeichen() {
  * Die Suche ist einen Klick länger und immer richtig.
  */
 export function AniSearchVerweis({ title }: { title: Title }) {
-  /* Cartoons führt aniSearch nicht — dort steht der Weg zu TMDB, woher ihre Angaben stammen (16.09.2026). */
-  const tmdb = title.westlich && title.tmdbId ? `https://www.themoviedb.org/tv/${title.tmdbId}` : undefined
-  const ziel = tmdb
-    ? tmdb
-    : title.anisearchId
-    ? `https://www.anisearch.de/anime/${title.anisearchId}`
-    : `https://www.anisearch.de/search?q=${encodeURIComponent(anzeigeName(title))}`
   return (
-    <Tooltip text={tmdb ? 'Bei TMDB ansehen' : title.anisearchId ? 'Bei aniSearch ansehen' : 'Bei aniSearch suchen'} eigenerFokus className="ml-auto shrink-0">
-      <a
-        href={ziel}
-        target="_blank"
-        rel="noreferrer noopener"
-        className="inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-slate-500 transition hover:bg-slate-200/70 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
-      >
-        {tmdb ? 'TMDB' : 'aniSearch'}
-        {/* Der Pfeil sagt „führt hinaus" — ohne ihn liest sich das Wort als Quellenangabe. */}
-        <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-          <path d="M4 2h6v6M10 2 2.5 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </a>
-    </Tooltip>
+    <span className="ml-auto flex shrink-0 items-center gap-1">
+      {verweiseFuer(title).map((v) => (
+        <Tooltip key={v.name} text={v.hinweis} eigenerFokus className="shrink-0">
+          <a
+            href={v.ziel}
+            target="_blank"
+            rel="noreferrer noopener"
+            className={[
+              'inline-flex shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium transition',
+              'border-slate-300 text-slate-600 hover:border-slate-400 hover:bg-slate-200/70 hover:text-slate-900',
+              'dark:border-white/20 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white',
+            ].join(' ')}
+          >
+            {v.name}
+            {/* „?" heißt: Wir kennen keine eigene Seite, der Weg führt auf die Suche (Daniel, 29.09.2026). */}
+            {v.suche && <span aria-hidden="true" className="font-bold">?</span>}
+            {/* Der Pfeil sagt „führt hinaus" — ohne ihn liest sich das Wort als Quellenangabe. */}
+            <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+              <path d="M4 2h6v6M10 2 2.5 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+        </Tooltip>
+      ))}
+    </span>
   )
 }
 

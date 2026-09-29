@@ -109,6 +109,7 @@ import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { hostVon } from '../shared/quelle.ts'
 import { fundstelleHinweis, hervorhebungen } from '../web/src/components/Suchtreffer.tsx'
+import { verweiseFuer } from '../web/src/components/detail/verweise.ts'
 import { zaehlText } from '../web/src/components/DatabaseView.tsx'
 import { activeFilterCount, EMPTY_FILTERS } from '../web/src/lib/filters.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
@@ -6112,6 +6113,37 @@ pruefe(
     'die Hervorhebung bringt keinen Innenabstand mit',
     !/bg-sky-200\/80[^']*px-/.test(trefferQuelle) && !/bg-sky-400\/40[^']*px-/.test(trefferQuelle),
     'ein px-0.5 schob das Wort auseinander',
+  )
+  /*
+    **Die Absprünge im Detail-Panel** (Daniel, 29.09.2026): „anisearch absprünge … besser hervorheben
+    (pille?) und mit ? kennzeichnen wenn es auf suche führt … außerdem über anisearch mal
+    absprung-link anzeigen, falls wir einen haben der direkt zum titel springt". Das „?" hängt an
+    `suche`; MAL gibt es nur mit Kennung.
+  */
+  const nurTitel = (felder: Record<string, unknown>): Title => ({ id: 1, titleEn: 'X', ...felder }) as unknown as Title
+  const absprunge = verweiseFuer(nurTitel({ anisearchId: 1234, malId: 5678 }))
+  pruefe(
+    'die Absprünge führen auf die Titelseiten',
+    absprunge.some((v) => v.name === 'aniSearch' && v.ziel === 'https://www.anisearch.de/anime/1234' && !v.suche) &&
+      absprunge.some((v) => v.name === 'MAL' && v.ziel === 'https://myanimelist.net/anime/5678' && !v.suche),
+    JSON.stringify(absprunge),
+  )
+  const ohneAnisearch = verweiseFuer(nurTitel({ titleDe: 'Shibuya', malId: 5678 }))
+  pruefe(
+    'ohne aniSearch-Kennung führt der Weg auf die Suche und trägt ein „?"',
+    ohneAnisearch.length === 2 &&
+      ohneAnisearch[0]!.suche === true &&
+      /^https:\/\/www\.anisearch\.de\/search\?q=/.test(ohneAnisearch[0]!.ziel) &&
+      ohneAnisearch.some((v) => v.name === 'MAL'),
+    JSON.stringify(ohneAnisearch),
+  )
+  pruefe(
+    'ohne MAL-Kennung gibt es keinen MAL-Weg — eine Suche wäre kein Sprung zum Titel',
+    verweiseFuer(nurTitel({ anisearchId: 1 })).every((v) => v.name !== 'MAL'),
+  )
+  pruefe(
+    'Cartoons führen zu TMDB statt zu aniSearch',
+    verweiseFuer(nurTitel({ westlich: true, tmdbId: 99 })).some((v) => v.name === 'TMDB' && v.ziel.endsWith('/tv/99')),
   )
 }
 {
