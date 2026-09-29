@@ -108,7 +108,7 @@ import { badge } from '../worker/src/mail-abschnitte.ts'
 import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { hostVon } from '../shared/quelle.ts'
-import { fundstelleHinweis } from '../web/src/components/Suchtreffer.tsx'
+import { fundstelleHinweis, hervorhebungen } from '../web/src/components/Suchtreffer.tsx'
 import { zaehlText } from '../web/src/components/DatabaseView.tsx'
 import { activeFilterCount, EMPTY_FILTERS } from '../web/src/lib/filters.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
@@ -6088,6 +6088,30 @@ pruefe(
     zaehlText([], 0, translate, 'link-click') === '0 Anime mit belegter deutscher Synchro für „link-click"' &&
       zaehlText([], 0, translate, '  ') === '0 Anime mit belegter deutscher Synchro',
     zaehlText([], 0, translate, 'link-click'),
+  )
+  /*
+    **Alle Suchwörter werden hervorgehoben, und ohne Innenabstand** (Daniel, 29.09.2026 mit Bild:
+    „exiled knight wird hervorgehoben, knight nicht … es sollen alle teile hervorgehoben werden" und
+    „highlight soll nicht zu einem padding führen … das d genau am e anliegen").
+  */
+  const fund = (wort: string, suchwort: string): Parameters<typeof hervorhebungen>[1] => [
+    { art: 'titel', feld: 'The Exiled Heavy Knight', wort, suchwort, teil: wort },
+  ]
+  const titel = 'The Exiled Heavy Knight Knows How to Game the System'
+  const beide = [
+    ...fund('Exiled', 'exiled')!,
+    ...fund('Knight', 'knight')!,
+  ]
+  pruefe(
+    'beide Suchwörter werden hervorgehoben',
+    JSON.stringify(hervorhebungen(titel, beide)) === JSON.stringify(['Exiled', 'Knight']),
+    JSON.stringify(hervorhebungen(titel, beide)),
+  )
+  const trefferQuelle = readFileSync('web/src/components/Suchtreffer.tsx', 'utf8')
+  pruefe(
+    'die Hervorhebung bringt keinen Innenabstand mit',
+    !/bg-sky-200\/80[^']*px-/.test(trefferQuelle) && !/bg-sky-400\/40[^']*px-/.test(trefferQuelle),
+    'ein px-0.5 schob das Wort auseinander',
   )
 }
 {

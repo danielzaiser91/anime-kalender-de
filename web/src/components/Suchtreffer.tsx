@@ -19,14 +19,22 @@ import { Tooltip } from './ui.tsx'
  *   den Grund („pice" → „Piece") samt dem exakten Buchstabenabgleich.
  */
 
-/** Die Stelle, die im sichtbaren Namen hervorgehoben gehört — eng oder (unscharf) das ganze Wort. */
-function hervorhebung(text: string, fundstellen?: Fundstelle[]): string | undefined {
+/**
+ * **Alle Stellen, die im sichtbaren Namen hervorgehoben gehören** — eng oder (unscharf) das Wort.
+ *
+ * Daniel am 29.09.2026 mit Bild: „exiled knight wird hervorgehoben, knight nicht, fix das. es sollen
+ * alle teile hervorgehoben werden." Bis dahin wurde die **erste** passende Fundstelle genommen — bei
+ * zwei Suchwörtern blieb das zweite blass.
+ */
+export function hervorhebungen(text: string, fundstellen?: Fundstelle[]): string[] {
+  const stellen = new Set<string>()
   for (const f of fundstellen ?? []) {
     if (f.art !== 'titel') continue
     const stelle = f.unscharf ? f.wort : f.teil
-    if (stelle && text.includes(stelle)) return stelle
+    if (stelle && text.includes(stelle)) stellen.add(stelle)
   }
-  return undefined
+  /* Längste zuerst: Stehen „Exile" und „Exiled" in der Liste, soll der längere Teil gewinnen. */
+  return [...stellen].sort((a, b) => b.length - a.length)
 }
 
 /** Was im sichtbaren Namen **nicht** vorkommt — nur solche Fundstellen brauchen ein Zeichen. */
@@ -37,23 +45,34 @@ function versteckte(fundstellen: Fundstelle[], text: string): Fundstelle[] {
   })
 }
 
-/** Ein Text mit hervorgehobener Fundstelle. */
+/** Ein Text mit hervorgehobenen Fundstellen. */
 export function TrefferName({ text, schluessel }: { text: string; schluessel: string }) {
   const fundstellen = useFundstellen(schluessel)
-  const stelle = fundstellen ? hervorhebung(text, fundstellen) : undefined
-  if (!stelle) return <>{text}</>
-  return <>{markiere(text, stelle, 'rounded bg-sky-200/80 px-0.5 text-inherit dark:bg-sky-400/30')}</>
+  const stellen = fundstellen ? hervorhebungen(text, fundstellen) : []
+  if (!stellen.length) return <>{text}</>
+  return <>{markiere(text, stellen, 'rounded bg-sky-200/80 text-inherit dark:bg-sky-400/30')}</>
 }
 
-/** Denselben Text zerlegen und die Stelle markieren — einmal geschrieben, zweimal gebraucht. */
-function markiere(text: string, stelle: string, klasse: string): ReactNode {
-  const teile = text.split(stelle)
-  return teile.map((teil, i) => (
-    <span key={i}>
-      {teil}
-      {i < teile.length - 1 && <mark className={klasse}>{stelle}</mark>}
-    </span>
-  ))
+/**
+ * Einen Text zerlegen und **alle** Stellen markieren.
+ *
+ * **Ohne Innenabstand** (Daniel, 29.09.2026: „highlight soll nicht zu einem padding führen, keine
+ * spaces um das highlight erzeugen … das d genau am e anliegen"). Ein `px-0.5` schob das Wort
+ * auseinander und ließ den Text an der Stelle anders aussehen als ohne Hervorhebung; die Farbe
+ * allein reicht.
+ */
+function markiere(text: string, stellen: string[], klasse: string): ReactNode {
+  if (!stellen.length) return text
+  /* Klammern: `split` behält die Treffer, die Markierung sitzt dann an jedem zweiten Stück. */
+  const muster = new RegExp(`(${stellen.map(musterFest).join('|')})`)
+  return text
+    .split(muster)
+    .map((teil, i) => (i % 2 ? <mark key={i} className={klasse}>{teil}</mark> : <span key={i}>{teil}</span>))
+}
+
+/** Ein Suchwort kann Zeichen tragen, die im Muster sonst etwas bedeuten (Punkt, Klammer, `+` …). */
+function musterFest(teil: string): string {
+  return teil.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 /**
@@ -67,7 +86,7 @@ function markiere(text: string, stelle: string, klasse: string): ReactNode {
 function FeldAuszug({ f }: { f: Fundstelle }) {
   const stelle = f.unscharf ? f.wort : (f.teil ?? f.wort)
   if (!stelle || !f.feld.includes(stelle)) return <>{f.feld}</>
-  return <>{markiere(f.feld, stelle, 'rounded bg-sky-400/40 px-0.5 font-semibold text-white')}</>
+  return <>{markiere(f.feld, [stelle], 'rounded bg-sky-400/40 text-white')}</>
 }
 
 /**
