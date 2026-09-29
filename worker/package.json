@@ -3,11 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "dev": "wrangler dev --config wrangler.toml",
+    "deploy": "wrangler deploy --config wrangler.toml",
     "db:init": "wrangler d1 execute anime-kalender --file=./schema.sql",
     "db:init:remote": "wrangler d1 execute anime-kalender --remote --file=./schema.sql",
-    "tail": "wrangler tail"
+    "tail": "wrangler tail --config wrangler.toml"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260801.1",
