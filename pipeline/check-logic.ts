@@ -6033,15 +6033,40 @@ pruefe(
   */
   const suchfeldQuelle = readFileSync('web/src/components/Suchfeld.tsx', 'utf8')
   const headerQuelle = readFileSync('web/src/components/Header.tsx', 'utf8')
+  const uiQuelle = readFileSync('web/src/components/ui.tsx', 'utf8')
   pruefe(
     'das Fragezeichen sitzt im Feld rechts',
-    /relative flex w-full items-center[\s\S]{0,900}?absolute right-2[\s\S]{0,200}?<Fragezeichen/.test(suchfeldQuelle),
-    'die absolute Lage im Feld fehlt',
+    /relative flex w-full items-center/.test(suchfeldQuelle) &&
+      /absolute inset-y-0 right-0 flex items-stretch/.test(suchfeldQuelle) &&
+      /<Fragezeichen text=\{felder\} gekapselt \/>/.test(suchfeldQuelle),
+    'die Lage im Feld fehlt',
   )
   pruefe(
     '… und das Feld lässt rechts Platz für beide Knöpfe',
-    /\bpr-16\b/.test(headerQuelle),
-    'pr-16 fehlt im Feld',
+    /\bpr-20\b/.test(headerQuelle),
+    'pr-20 fehlt im Feld',
+  )
+  /*
+    **Der rechte Bereich ist gekapselt** (Daniel, 29.09.2026): „mach das ? im search feld statt button
+    zu einem gekapselten bereich. nach dem x button muss also ein trenn-strich von top zu bottom
+    eingefügt werden, und der bereich des ? eine geeignete background-color bekommen — und der
+    bereich muss on hover eine hover color bekommen und den tooltip anzeigen, tooltip öffnet sich
+    dann nach unten mit einer nose".
+  */
+  pruefe(
+    'im Feld steht ein Trennstrich über die volle Höhe',
+    /w-px self-stretch bg-ak-rand/.test(suchfeldQuelle),
+    'der Trennstrich fehlt',
+  )
+  pruefe(
+    'das ? hat dort eine eigene Fläche und eine Hover-Farbe',
+    /bg-ak-flaeche-2[^']*hover:bg-ak-rand/.test(uiQuelle),
+    'Fläche oder Hover fehlen',
+  )
+  pruefe(
+    'sein Tooltip öffnet nach unten mit einer Nase',
+    /seite="unten" mitSpitze=/.test(uiQuelle) && /before:border-b-slate-900/.test(uiQuelle),
+    'Nase oder untere Ausrichtung fehlen',
   )
   /*
     Das native ✕ von `type="search"` ist je Browser verschieden groß — Daniel, 29.09.2026: „make x

@@ -403,20 +403,18 @@ export function ReihenStern({ alleGemerkt, anzahl, onMerken }: { alleGemerkt: bo
  * (13.08.2026) — deshalb ist der Anker ein `<button>`, der den Fokus annimmt
  * und den Hinweis damit auch per Fingertipp öffnet.
  */
-export function Fragezeichen({ text }: { text: string }) {
+export function Fragezeichen({ text, gekapselt }: { text: string; gekapselt?: boolean }) {
   return (
-    <Tooltip text={text} seite="unten">
+    <Tooltip text={text} seite="unten" mitSpitze={gekapselt}>
       <button
         type="button"
         aria-label={text}
-        onClick={(e) => {
-          e.stopPropagation()
-          e.currentTarget.focus()
-        }}
+        onClick={(e) => { e.stopPropagation(); e.currentTarget.focus() }}
         className={[
-          'inline-flex size-4 items-center justify-center rounded-full text-[10px] font-bold leading-none',
-          'bg-slate-300/70 text-slate-600 transition hover:bg-slate-400/70',
-          'dark:bg-white/15 dark:text-slate-300 dark:hover:bg-white/25',
+          'inline-flex items-center justify-center font-bold leading-none transition',
+          gekapselt
+            ? 'h-full min-w-9 rounded-r-full bg-ak-flaeche-2 px-2 text-xs text-ak-leise hover:bg-ak-rand hover:text-ak-text'
+            : 'size-4 rounded-full bg-slate-300/70 text-[10px] text-slate-600 hover:bg-slate-400/70 dark:bg-white/15 dark:text-slate-300 dark:hover:bg-white/25',
           CLICKABLE,
         ].join(' ')}
       >
@@ -629,15 +627,17 @@ export function Tooltip({
   seite = 'unten',
   eigenerFokus,
   className = '',
+  mitSpitze,
 }: {
   text: ReactNode
   children: ReactNode
   unterstrichen?: boolean
   seite?: 'oben' | 'unten'
-  /** Das Kind ist selbst fokussierbar (Knopf, Link) — dann kein zweiter Tab-Halt in der Hülle. */
+  /** Das Kind ist selbst fokussierbar (Knopf, Link) - dann kein zweiter Tab-Halt in der Hülle. */
   eigenerFokus?: boolean
   /** Für die Hülle, wenn sie im Flex-Layout den Platz des Kinds einnimmt (`ml-auto`, `shrink-0`). */
   className?: string
+  mitSpitze?: boolean
 }) {
   const [offen, setOffen] = useState(false)
   const anker = useRef<HTMLSpanElement>(null)
@@ -745,15 +745,13 @@ export function Tooltip({
             }
             className={[
               'pointer-events-none fixed z-50 w-max max-w-[min(20rem,80vw)]',
-              /*
-                `whitespace-pre-line`: Der Hinweis an einer Anbieter-Pille hat seit dem
-                23.09.2026 mehrere Zeilen („8 von 11 Folgen auf Deutsch", die Bereiche, „Ohne
-                deutschen Ton: …"). React rendert ein `\n` sonst als Leerzeichen, und die drei
-                Auskünfte kleben aneinander. Einzeilige Hinweise ändert es nicht.
-              */
+              /* `whitespace-pre-line`: Mehrzeilige Hinweise (Anbieter-Pille) brauchen es, einzeilige
+                 ändert es nicht — React würde `\n` sonst als Leerzeichen rendern (23.09.2026). */
               'whitespace-pre-line rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',
               'bg-slate-900 text-slate-100 shadow-xl ring-1 ring-white/15',
               'dark:bg-slate-800 dark:ring-white/10',
+              /* Die Nase: ein Dreieck, das nach oben aus der Blase ragt (Daniel, 29.09.2026). */
+              mitSpitze ? 'relative before:absolute before:-top-1 before:left-1/2 before:-translate-x-1/2 before:border-x-4 before:border-b-4 before:border-x-transparent before:border-b-slate-900 dark:before:border-b-slate-800' : '',
               pos ? 'animate-[hinweisEin_.15s_ease-out]' : '',
             ].join(' ')}
           >

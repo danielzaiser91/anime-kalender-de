@@ -51,11 +51,7 @@ export function Suchfeld({
     felder gesucht wird (+ fuzzy search)"). Die Liste kommt aus `SUCHFELD_ARTEN` — dieselbe Quelle,
     aus der die Suche ihre Felder bezieht; `check:logic` hält beide gegeneinander.
   */
-  const felder = [
-    translate('suche.felderTitel'),
-    SUCHFELD_ARTEN.map((s) => s.label).join(' · '),
-    translate('suche.unscharf'),
-  ].join(' ')
+  const felder = [translate('suche.felderTitel'), SUCHFELD_ARTEN.map((s) => s.label).join(' · '), translate('suche.unscharf')].join(' ')
 
   /*
     **Das Fragezeichen sitzt im Feld, rechts** (Daniel, 29.09.2026: „den icon rechts vom input ins
@@ -78,19 +74,27 @@ export function Suchfeld({
         aria-label={platzhalter}
         className={`${className} [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none`}
       />
-      {getippt && (
-        <LoeschKnopf
-          leeren={() => {
-            setGetippt('')
-            /* Ohne Wartezeit: Wer löscht, will die volle Liste sehen, nicht nach 250 ms. */
-            setzen('')
-            if (typeof eingabe === 'object') eingabe?.current?.focus()
-          }}
-        />
-      )}
-      <span className="absolute right-2 flex items-center">
-        <Fragezeichen text={felder} />
-      </span>
+      <FeldKnoepfe
+        getippt={getippt}
+        felder={felder}
+        leeren={() => {
+          setGetippt('')
+          /* Ohne Wartezeit: Wer löscht, will die volle Liste sehen, nicht nach 250 ms. */
+          setzen('')
+          if (typeof eingabe === 'object') eingabe?.current?.focus()
+        }}
+      />
+    </span>
+  )
+}
+
+/** Der rechte Bereich im Feld: Löschen · Trennstrich · Erklären (Daniels gekapselter Bereich). */
+function FeldKnoepfe({ getippt, felder, leeren }: { getippt: string; felder: string; leeren: () => void }) {
+  return (
+    <span className="absolute inset-y-0 right-0 flex items-stretch">
+      {getippt && <LoeschKnopf leeren={leeren} />}
+      <span className="w-px self-stretch bg-ak-rand" aria-hidden="true" />
+      <Fragezeichen text={felder} gekapselt />
     </span>
   )
 }
@@ -103,7 +107,7 @@ function LoeschKnopf({ leeren }: { leeren: () => void }) {
       aria-label={translate('suche.leeren')}
       title={translate('suche.leeren')}
       onClick={leeren}
-      className="absolute right-9 flex size-6 cursor-pointer items-center justify-center rounded-full text-ak-leise transition hover:bg-white/15 hover:text-ak-text"
+      className="my-2 flex size-6 cursor-pointer items-center justify-center self-center rounded-full text-ak-leise transition hover:bg-white/15 hover:text-ak-text"
     >
       <svg viewBox="0 0 14 14" className="size-3.5" fill="none" aria-hidden="true">
         <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
