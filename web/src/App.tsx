@@ -256,7 +256,7 @@ export default function App() {
                   onToggleFavorite={toggle}
                   onToggleHidden={toggleHidden}
                   onOpenTitle={(id) => navigate({ title: id, release: undefined })}
-                  gesucht={Boolean(route.filters.search.trim())}
+                  suche={route.filters.search}
                   gewaehlt={route.sort}
                   onSortChange={(sort) => navigate({ sort })}
                 />

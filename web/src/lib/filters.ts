@@ -199,11 +199,18 @@ export function isFilterActive(f: FilterState): boolean {
   return activeFilterCount(f) > 0
 }
 
+/**
+ * Wie viele **Filter** gesetzt sind — die Suche zählt nicht mit.
+ *
+ * Sie hat ihr eigenes Feld in der Kopfleiste und geht durch „zurücksetzen" nicht weg (Daniel,
+ * 29.09.2026: „Filter (1) - 1 entfernen, es zeigt 1 weil im suchfeld text eingegeben wurde, aber das
+ * sollte nicht über die filter pill angezeigt werden"). Wer wissen will, ob die Ansicht eingeschränkt
+ * ist, fragt getrennt (`KalenderBereich`: Filter **oder** Suche).
+ */
 export function activeFilterCount(f: FilterState): number {
   const lists = LIST_KEYS.reduce((sum, key) => sum + f[key].length + f.excluded[key].length, 0)
   return (
     lists +
-    (f.search.trim() ? 1 : 0) +
     (f.confirmedOnly ? 1 : 0) +
     (f.favoritesOnly ? 1 : 0) +
     (f.availableOnly ? 1 : 0) +

@@ -109,6 +109,9 @@ import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { hostVon } from '../shared/quelle.ts'
 import { fundstelleHinweis } from '../web/src/components/Suchtreffer.tsx'
+import { zaehlText } from '../web/src/components/DatabaseView.tsx'
+import { activeFilterCount, EMPTY_FILTERS } from '../web/src/lib/filters.ts'
+import { translate } from '../web/src/lib/i18n.tsx'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
 import { ladeTitelDe } from './lib/titel-de.ts'
@@ -6061,6 +6064,30 @@ pruefe(
     'und das Leeren der Suche geht nicht durch diese Tür',
     /const setSuche = \(search: string\) =>/.test(appQuelle) &&
       !/setFilters\(\{ \.\.\.route\.filters, search/.test(appQuelle),
+  )
+  /*
+    **Die drei Punkte aus Daniels Durchsicht vom 29.09.2026** (mit Bild):
+    (1) der Satz „Merken und benachrichtigen lassen, sobald es eine gibt." ist weg,
+    (2) „Filter (1)" zählt die Suche nicht mehr mit,
+    (3) die Null nennt den Suchbegriff — „0 Anime mit belegter deutscher Synchro für „x"".
+  */
+  const i18nQuelle = readFileSync('web/src/lib/i18n.tsx', 'utf8')
+  const datenbankQuelle = readFileSync('web/src/components/DatabaseView.tsx', 'utf8')
+  pruefe(
+    'der Satz neben dem Schalter „Anime ohne deutsche Synchro" ist entfernt',
+    !i18nQuelle.includes('Merken und benachrichtigen') && !datenbankQuelle.includes('withoutDubWhy'),
+  )
+  pruefe(
+    'die Suche zählt nicht als Filter',
+    activeFilterCount({ ...EMPTY_FILTERS, search: 'wolf' }) === 0 &&
+      activeFilterCount({ ...EMPTY_FILTERS, search: 'wolf', favoritesOnly: true }) === 1,
+    `${activeFilterCount({ ...EMPTY_FILTERS, search: 'wolf' })}`,
+  )
+  pruefe(
+    'die Trefferzeile nennt den Suchbegriff',
+    zaehlText([], 0, translate, 'link-click') === '0 Anime mit belegter deutscher Synchro für „link-click"' &&
+      zaehlText([], 0, translate, '  ') === '0 Anime mit belegter deutscher Synchro',
+    zaehlText([], 0, translate, 'link-click'),
   )
 }
 {

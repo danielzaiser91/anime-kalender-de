@@ -207,11 +207,11 @@ const TEXTE = {
   // Titel ohne belegte deutsche Synchro — der Schalter, seine Begründung und
   // die Kennzeichnung an der Kachel. Eingeführt 13.08.2026.
   'db.countMitWestlich': '{count} Anime und {westlich} westliche Serien mit belegter deutscher Synchro',
+  'db.countFuer': '{text} für „{suche}"',
   'db.countOhne': '{ohne} ohne',
   'db.withoutDub': 'Anime ohne deutsche Synchro',
   'db.withoutDubHint':
     'Holt zusätzlich alle Anime, zu denen wir keine deutsche Synchro kennen. Der Schalter beginnt bei jedem Aufruf wieder aus.',
-  'db.withoutDubWhy': 'Merken und benachrichtigen lassen, sobald es eine gibt.',
   'db.withoutDubLoading': 'Wird geladen. Das ist die größte Liste der Seite.',
   'db.noDubBadge': 'keine deutsche Synchro',
   'db.noDubWatch': '☆ merken → Bescheid bei Synchro',

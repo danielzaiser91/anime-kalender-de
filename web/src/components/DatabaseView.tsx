@@ -53,7 +53,7 @@ export function DatabaseView({
   onToggleFavorite,
   onToggleHidden,
   onOpenTitle,
-  gesucht,
+  suche,
   gewaehlt,
   onSortChange,
 }: {
@@ -72,7 +72,7 @@ export function DatabaseView({
   onToggleHidden: (id: number) => void
   onOpenTitle: (id: number) => void
   /** Ist eine Suche aktiv, kommen die Titel nach Treffergüte sortiert (lib/search.ts). */
-  gesucht?: boolean
+  suche: string
   /** Sortierung aus der Adresse (`?sort=`); ohne Wahl gilt die Vorgabe unten. */
   gewaehlt?: DbSort
   onSortChange: (next: DbSort) => void
@@ -83,7 +83,7 @@ export function DatabaseView({
   const [visible, setVisible] = useState(PAGE_SIZE)
   /* Beim Suchen gilt die Treffergüte, bis jemand selbst eine andere Sortierung wählt. */
   /* `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
-  const sort = (gewaehlt === 'relevanz' && !gesucht ? undefined : gewaehlt) ?? (gesucht ? 'relevanz' : 'titel')
+  const sort = (gewaehlt === 'relevanz' && !suche.trim() ? undefined : gewaehlt) ?? (suche.trim() ? 'relevanz' : 'titel')
 
   const anzahlOhne = useMemo(() => titles.filter((tt) => tt.ohneSynchro).length, [titles])
 
@@ -123,9 +123,8 @@ export function DatabaseView({
           label={t('db.withoutDub')}
           hint={t('db.withoutDubHint')}
         />
-        <span className="text-[11px] leading-snug text-slate-500 dark:text-slate-400">
-          {ohneSynchroLaedt ? t('db.withoutDubLoading') : t('db.withoutDubWhy')}
-        </span>
+        {/* Bis zum 29.09.2026 stand hier „Merken und benachrichtigen lassen, sobald es eine gibt." (Daniel: entfernen). */}
+        {ohneSynchroLaedt && <span className="text-[11px] leading-snug text-slate-500 dark:text-slate-400">{t('db.withoutDubLoading')}</span>}
       </div>
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
@@ -136,7 +135,7 @@ export function DatabaseView({
           Schalter verhindern soll (aufgefallen bei der Sichtprüfung, 13.08.2026).
         */}
         <span>
-          {zaehlText(titles, ohneSynchro ? anzahlOhne : 0, t)}
+          {zaehlText(titles, ohneSynchro ? anzahlOhne : 0, t, suche)}
         </span>
         <Toggle
           checked={grouped}
@@ -151,7 +150,7 @@ export function DatabaseView({
             onChange={(e) => onSortChange(e.target.value as DbSort)}
             className="cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5"
           >
-            {gesucht && <option value="relevanz">{t('db.sortRelevanz')}</option>}
+            {suche.trim() && <option value="relevanz">{t('db.sortRelevanz')}</option>}
             <option value="titel">{t('db.sortTitle')}</option>
             <option value="jahr">{t('db.sortYear')}</option>
             <option value="score">{t('db.sortScore')}</option>
@@ -366,9 +365,15 @@ export function DatabaseView({
  * seit dem 12.09.2026 auch Cartoons, der Seitenfuß zählt nur Anime. Unter einer Zahl zusammen
  * hießen alle 3.690 „Anime", und Fuß und Datenbank widersprachen sich (26.09.2026).
  */
-function zaehlText(titles: Title[], ohne: number, t: Translate): string {
+export function zaehlText(titles: Title[], ohne: number, t: Translate, suche: string): string {
   const westlich = titles.filter((tt) => tt.westlich && !tt.ohneSynchro).length
   const zahl = (n: number) => n.toLocaleString('de-DE')
-  const mit = t(westlich ? 'db.countMitWestlich' : 'db.count', { count: zahl(titles.length - ohne - westlich), westlich: zahl(westlich) })
+  const grund = t(westlich ? 'db.countMitWestlich' : 'db.count', { count: zahl(titles.length - ohne - westlich), westlich: zahl(westlich) })
+  /*
+    **Mit Suchbegriff nennt die Zeile ihn** (Daniel, 29.09.2026: „0 Anime mit belegter deutscher
+    Synchro" → „… für „<Suchtext>""). Ohne ihn liest sich die Null wie ein leerer Bestand statt wie
+    ein Ergebnis.
+  */
+  const mit = suche.trim() ? t('db.countFuer', { text: grund, suche: suche.trim() }) : grund
   return ohne ? `${mit} · ${t('db.countOhne', { ohne: zahl(ohne) })}` : mit
 }
