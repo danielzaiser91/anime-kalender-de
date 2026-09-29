@@ -472,9 +472,9 @@ export function sammleBelege({
 
   /** Was am Ende übrig bleibt und niemand automatisch auflösen kann. */
   const suchOffen: { id: number; titel: string; plattform: string; url: string }[] = []
-  /** Titel und Anbieter, zu denen ein Handbeleg „gibt es dort nicht" sagt. */
+  /** Titel und Anbieter, für die die Suchfrage beantwortet ist — ein Nein oder ein Beleg mit Adresse. */
   const beantworteteSuchen = new Set(
-    alleChecks.filter((c) => c.available === false).map((c) => `${c.anilistId}|${c.platform}`),
+    alleChecks.filter((c) => c.available === false || c.url).map((c) => `${c.anilistId}|${c.platform}`),
   )
 
   let ohnePfad = 0

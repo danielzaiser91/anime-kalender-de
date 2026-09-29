@@ -110,7 +110,7 @@ export async function berechnePruefstand({ env, antwort }: {
           gemeldet: number
           ohneSeite?: number
           suchAdressen?: string[]
-          ziele?: { url: string; titel: string; staffeln?: number[] }[]
+          ziele?: { url: string; titel: string; staffeln?: number[]; wiedervorlage?: boolean }[]
         }
         const unterwegs = gemeldeteAdressen.get(a.plattform) ?? new Set<string>()
         /*
@@ -128,6 +128,7 @@ export async function berechnePruefstand({ env, antwort }: {
           bei der Adresse.
         */
         const offeneZiele = (a.ziele ?? []).filter((z) => {
+          if (z.wiedervorlage) return true /* nie erledigt — ihr alter Beleg zählt nicht (29.09.2026) */
           if (!schonGemeldet.has(z.url)) return true
           if (!z.staffeln?.length) return false
           const gemeldet = staffelnGemeldet.get(z.url)
@@ -201,13 +202,10 @@ export async function berechnePruefstand({ env, antwort }: {
             : (a.ohneSeite ?? 0),
           ziel: alleZiele[0]?.url ?? null,
           /*
-            **Alle Ziele, nicht die ersten 25** (19.09.2026). Die Erweiterung hält
-            für erledigt, was hier nicht steht (`fertig()` → `standZiele`). Mit
-            `slice(0, 25)` zeigte sie bei 37 offenen Titeln „25 offen", die
-            Statusanzeige 36 — und Peace Maker Kurogane, eben gemeldet, rückte
-            nach dem Abzug aus der Liste und ein anderer Titel nach (Daniel: „25
-            ist kurz auf 24 gesprungen, jetzt steht wieder 25"). Selbst 384 Ziele
-            wären nur einige Dutzend KB.
+            **Alle Ziele, nicht die ersten 25** (19.09.2026). Die Erweiterung hält für erledigt, was
+            hier nicht steht (`fertig()` → `standZiele`). Mit `slice(0, 25)` zeigte sie bei 37 offenen
+            Titeln „25 offen", die Statusanzeige 36 — und ein eben gemeldeter Titel rückte nach dem
+            Abzug aus der Liste, ein anderer nach (Daniel). Selbst 384 Ziele wären einige Dutzend KB.
           */
           ziele: alleZiele,
         }

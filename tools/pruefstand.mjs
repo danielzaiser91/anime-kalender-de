@@ -214,7 +214,7 @@ const stand = ANBIETER.map((a) => {
         wert?.laut === 'anbieter-gerechnet'
           ? [...new Set((wert.staffeln ?? []).filter((st) => st.offen && !st.film).map((st) => Number(st.nr)))].filter(Number.isFinite)
           : []
-      return { url: a.ziel(schluessel, wert), titel: wert?.titel ?? null, ...(staffeln.length ? { staffeln } : {}) }
+      return { url: a.ziel(schluessel, wert), titel: wert?.titel ?? null, ...(wert?.erneut || wert?.wiedervorlage ? { wiedervorlage: true } : {}), ...(staffeln.length ? { staffeln } : {}) }
     })
     .filter((z) => z.url)
 
