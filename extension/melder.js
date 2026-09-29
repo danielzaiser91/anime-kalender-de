@@ -5560,18 +5560,11 @@ function uebersichtZeigen() {
     (n, [id, e]) => n + empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) }).length,
     0,
   )
-  /**
-   * Ist alles gemeldet, zeigt der Knopf keine Zahl mehr — verschwindet aber
-   * nicht.
-   *
-   * Eine „0" wäre ein Arbeitsvorrat, den es nicht gibt (Daniel, 23.08.2026:
-   * „dort sollen nur nicht gemeldete gezählt werden"). Ihn ganz zu entfernen
-   * nimmt aber den Zugang zur Liste, und die will man auch dann noch öffnen —
-   * um nachzusehen, was schon durch ist. Also bleibt er als Häkchen stehen.
-   *
-   * Ganz weg ist er erst, wenn die Liste selbst leer ist: Dann hat ein
-   * Datenlauf die Meldungen übernommen, und es gibt wirklich nichts mehr.
-   */
+  /*
+    Ist alles gemeldet, zeigt der Knopf keine Zahl mehr — verschwindet aber nicht (Daniel,
+    23.08.2026: „dort sollen nur nicht gemeldete gezählt werden"). Ein „✓" hält den Zugang zur
+    Liste offen; ganz weg ist er erst, wenn die Liste selbst leer ist.
+  */
   uebersichtKnopf.classList.toggle('ak-fertig', !offeneAdressen)
   /* Ohne jeden Eintrag sagt der Knopf, warum nichts dasteht — ein Häkchen allein
      ließe offen, ob die Liste leer oder die Erweiterung kaputt ist. */
@@ -5580,6 +5573,8 @@ function uebersichtZeigen() {
     : offeneAdressen
       ? `Anime-Kalender ${offeneAdressen}`
       : 'Anime-Kalender ✓'
+  /* Bericht und Ruhemodus stehen immer im Kasten, nicht nur mit der Melde-Leiste (29.09.2026). */
+  netflixDebugZeile(netflixKasten())
   /* Der Worker-Stand steht hier statt am Knopf: Er beantwortet eine andere
      Frage — was ein Datenlauf schon eingespielt hat. */
   const nachStand = offenLautStand === null ? '' : `\nIm Datensatz noch ohne Urteil: ${offenLautStand}`

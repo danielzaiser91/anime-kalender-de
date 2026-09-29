@@ -2119,3 +2119,11 @@ Zwei Riegel:
 `durchlaufStarten` kommt auf der Filmseite zu keiner Meldung. Dafür braucht es einen Bericht, der
 **auf der Chihiro-Seite** gezogen wird (die `leser`-Felder des vorliegenden Berichts gehören zur
 Dangers-Seite).
+
+### Nachtrag 4.24.8 (29.09.2026): Bericht und Ruhemodus stehen immer im Kasten
+
+Daniel: „wo ist bericht laden button?" — Auf einem Titel, den die Erweiterung als „✓ fertig" führt,
+fehlte die Debug-Leiste. `netflixDebugZeile()` hing an der Melde-Leiste des Durchlaufs, und die
+entsteht nur, wenn es etwas zu melden gibt. Beim Film-Lauf (Chihiro) brauchte er den Bericht aber
+gerade auf dieser Seite. Die Zeile wird jetzt mit dem Übersichtsknopf gezeichnet (`netflixKasten()`)
+und ist damit immer da.
