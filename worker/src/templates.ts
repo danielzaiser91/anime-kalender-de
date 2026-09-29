@@ -312,27 +312,40 @@ function heading(text: string, colour: string): string {
 /**
  * **Einordnen: Favoriten nach Wichtigkeit, der Rest nach Rubriken** (28.09.2026).
  *
- * Herausgelöst aus `digestMail`, weil die Funktion sonst über die Längengrenze wächst — und weil
- * die Regeln ohne HTML lesbar bleiben sollen.
+ * **Verschobene Termine fallen aus ihrer Rubrik heraus** (29.09.2026): Sie stehen oben in einem
+ * eigenen Block — in ihrer Rubrik stünde dieselbe Nachricht ein zweites Mal und ginge zwischen den
+ * Terminen unter.
  */
 function ordneEin(
   mine: ReleaseEvent[],
   rest: ReleaseEvent[],
-): { meine: ReleaseEvent[]; nachSorte: Map<Sorte, ReleaseEvent[]>; wiederholungen: ReleaseEvent[] } {
+): {
+  meine: ReleaseEvent[]
+  nachSorte: Map<Sorte, ReleaseEvent[]>
+  wiederholungen: ReleaseEvent[]
+  verschoben: ReleaseEvent[]
+} {
+  const verschobene = [...mine, ...rest].filter((ev) => ev.verpasst)
+  const ohneVerschobene = (liste: ReleaseEvent[]) => liste.filter((ev) => !ev.verpasst)
   const nachSorte = new Map<Sorte, ReleaseEvent[]>()
-  for (const ev of rest) {
+  for (const ev of ohneVerschobene(rest)) {
     const sorte = sorteVon(ev)
     const liste = nachSorte.get(sorte)
     if (liste) liste.push(ev)
     else nachSorte.set(sorte, [ev])
   }
-  const meine = [...mine].sort(
+  const meine = ohneVerschobene(mine).sort(
     (a, b) =>
       wichtigkeit(a) - wichtigkeit(b) ||
       a.date.localeCompare(b.date) ||
       (a.time ?? '99').localeCompare(b.time ?? '99'),
   )
-  return { meine, nachSorte, wiederholungen: nachSorte.get('tv-wiederholung') ?? [] }
+  return {
+    meine,
+    nachSorte,
+    wiederholungen: nachSorte.get('tv-wiederholung') ?? [],
+    verschoben: verschobene.sort((a, b) => a.date.localeCompare(b.date)),
+  }
 }
 
 /**
@@ -344,11 +357,13 @@ function koerper(o: {
   meine: ReleaseEvent[]
   nachSorte: Map<Sorte, ReleaseEvent[]>
   wiederholungen: ReleaseEvent[]
+  verschoben: ReleaseEvent[]
   meldungen: NewsEintrag[]
   frequency: 'daily' | 'weekly'
   siteUrl: string
 }): string {
   let body = ''
+  if (o.verschoben.length) body += verschobenBlock(o.verschoben)
   if (o.meine.length > 0) body += heading('★ Deine Favoriten', '#fbbf24') + dateSections(o.ctx, o.meine, true)
   if (!o.meine.length && SORTEN.some((r) => (o.nachSorte.get(r.sorte) ?? []).length)) {
     body += `<p style="margin:0 0 2px;color:#9aa5bd;font-size:13px;">${
@@ -365,18 +380,58 @@ function koerper(o: {
   return body
 }
 
-/** Derselbe Rumpf für die Textfassung — dieselben Rubriken, ohne HTML. */
-function textKoerper(o: {
+/**
+ * **Verschobene und ausgebliebene Termine — ganz oben** (Daniel, 29.09.2026: „verschoben gehört nach
+ * oben, weil es eine Änderung ist, nicht eine Neuigkeit").
+ *
+ * Der Leser hat den alten Termin womöglich schon im Kalender. Die Nachricht ist deshalb nicht der
+ * neue Termin, sondern dass der alte nicht stimmt.
+ */
+function verschobenBlock(events: ReleaseEvent[]): string {
+  const zeilen = events.map((ev) => {
+    const v = ev.verpasst
+    const datum = (iso?: string) => (iso ? iso.split('-').reverse().join('.') : '')
+    const alt = datum(v?.erwartetAm ?? ev.date)
+    const neu = v?.erschienenAm ? `nachgeholt am ${datum(v.erschienenAm)}` : 'noch nicht erschienen'
+    return `<p style="margin:10px 0 0;padding-top:8px;border-top:1px solid #232c40;">
+        <strong>${escapeHtml(ev.name)}</strong><br>
+        <span style="color:#9aa5bd;font-size:13px;">angekündigt für ${alt} — ${neu}${
+          v?.geprueftAm ? ` (zuletzt geprüft am ${datum(v.geprueftAm)})` : ''
+        }</span>
+      </p>`
+  })
+  return (
+    heading('🚚 Verschoben oder ausgeblieben', '#f97316') +
+    hinweisZeile('Diese Termine haben sich geändert — der alte steht womöglich noch in deinem Kalender.') +
+    zeilen.join('')
+  )
+}
+
+/** Derselbe Rumpf für die Textfassung — dieselben Rubriken, ohne HTML. */function textKoerper(o: {
   ctx: RowContext
   meine: ReleaseEvent[]
   nachSorte: Map<Sorte, ReleaseEvent[]>
   wiederholungen: ReleaseEvent[]
+  verschoben: ReleaseEvent[]
   meldungen: NewsEintrag[]
   siteUrl: string
   neu: NeuMitSynchro[]
   auchBei: { id: number; name: string; anbieter: string }[]
 }): string {
   let text = ''
+  if (o.verschoben.length) {
+    text +=
+      `VERSCHOBEN ODER AUSGEBLIEBEN\n\n` +
+      o.verschoben
+        .map((ev) => {
+          const v = ev.verpasst
+          const datum = (iso?: string) => (iso ? iso.split('-').reverse().join('.') : '')
+          const neu = v?.erschienenAm ? `nachgeholt am ${datum(v.erschienenAm)}` : 'noch nicht erschienen'
+          return `* ${ev.name} — angekündigt für ${datum(v?.erwartetAm ?? ev.date)}, ${neu}`
+        })
+        .join('\n') +
+      '\n\n'
+  }
   if (o.neu.length > 0) {
     text +=
       `ENDLICH: DEUTSCHE SYNCHRO\n\n` +
@@ -435,7 +490,7 @@ export function digestMail(
   /*
     **Einordnen nach Rubriken und Wichtigkeit** — die Regeln stehen in `mail-sorten.ts`.
   */
-  const { meine, nachSorte, wiederholungen } = ordneEin(mine, rest)
+  const { meine, nachSorte, wiederholungen, verschoben } = ordneEin(mine, rest)
   /*
     **Zwei Sorten Neuzugang, und der Unterschied gehört in den Betreff.**
 
@@ -545,7 +600,7 @@ export function digestMail(
          .join('')}`
     : ''
 
-  const body = neuBlock + reihenBlock + auchBlock + koerper({ ctx, meine, nachSorte, wiederholungen, meldungen, frequency, siteUrl })
+  const body = neuBlock + reihenBlock + auchBlock + koerper({ ctx, meine, nachSorte, wiederholungen, verschoben, meldungen, frequency, siteUrl })
 
   // Ohne gemerkte Titel ist der Hinweis nützlich; mit gemerkten wäre er Lärm.
   const favouriteHint =
@@ -583,7 +638,7 @@ export function digestMail(
 
   const text =
     `${subject}\n\n` +
-    textKoerper({ ctx, meine, nachSorte, wiederholungen, meldungen, siteUrl, neu, auchBei }) +
+    textKoerper({ ctx, meine, nachSorte, wiederholungen, verschoben, meldungen, siteUrl, neu, auchBei }) +
     `Kalender: ${siteUrl}\n` +
     (options.syncUrl ? `Favoriten abgleichen: ${options.syncUrl}\n` : '') +
     `\nDas hier ist der ${rhythmus.name} — er kommt ${rhythmus.wann}.\n` +

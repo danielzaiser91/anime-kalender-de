@@ -5777,6 +5777,22 @@ pruefe(
   const schlicht = digestMail([t('Irgendwas', 3)], 'daily', 'https://anime-kalender.de/', 'https://x/u', {})
   pruefe('ohne Finale und Premiere bleibt der alte Betreff', schlicht.subject.startsWith('Heute mit deutscher Synchro'), schlicht.subject)
   pruefe('ohne Neuigkeiten fehlt die Rubrik', !schlicht.html.includes('📰 Neuigkeiten'))
+
+  /*
+    **Ein verschobener Termin steht oben und nur einmal** (29.09.2026, Daniel: „verschoben gehört nach
+    oben, weil es eine Änderung ist, nicht eine Neuigkeit"). Der Leser hat den alten Termin womöglich
+    im Kalender.
+  */
+  const mitVerpasst = {
+    ...t('Trapped in a Dating Sim', 3),
+    verpasst: { erwartetAm: '2026-09-28', geprueftAm: '2026-09-29' },
+  } as unknown as ReleaseEvent
+  const verschobenMail = digestMail([mitVerpasst], 'daily', 'https://anime-kalender.de/', 'https://x/u', {})
+  pruefe('ein verschobener Termin steht oben',
+    verschobenMail.html.includes('🚚 Verschoben oder ausgeblieben'), verschobenMail.html.slice(0, 120))
+  pruefe('mit dem angekündigten Tag', /angekündigt für 28\.09\.2026/.test(verschobenMail.html))
+  pruefe('und nur einmal — nicht zusätzlich in seiner Rubrik',
+    (verschobenMail.html.match(/Trapped in a Dating Sim<\/strong>/g) ?? []).length === 1)
 }
 {
   /*
