@@ -488,3 +488,20 @@ Gemessen (fetch-urteile lokal, Datei danach zurückgesetzt):
 
 Offen bleiben: die 290 alten Belege ohne Rohdaten (stehen auf der Prüfliste, s. o.), Meldungen ohne
 Folgennummer (424) und mehrdeutige Netflix-Serienseiten.
+
+### Schritt 3 (1b) gemessen, 29.09.2026 — der Stand nach (2a)
+
+Aus dem Bestandslauf vom 29.09.2026, 02:08 (`36511139070`), seiner eigenen Ausgabe:
+
+- **11.493 Urteile** je Titel × Anbieter × Folge aus **22.295 Beobachtungen** (10.647 deutsch,
+  475 unbekannt/`kanal-ohne-abo`, 202 nicht verfügbar, 169 kein deutsch). Am 27.09. waren es 7.552 —
+  der Zuwachs kommt aus (2a), dem „nicht verfügbar" als Urteil über den Weg.
+- **Weiter ohne Beobachtung je Folge: 4.677 Meldungen ohne Titel, 799 ohne Folgennummer.**
+- 3 Wege sind über das Urteil aus Stufe 3 belegt worden (Schritt 1 füllt Lücken, wie am 23.09.
+  gemessen).
+
+**Folge:** Der nächste begrenzte Schritt bleibt **(2c)** — die 799 Meldungen ohne Folgennummer über
+die Rohfolgen zuführen. Die 4.677 ohne Titel sind der größere Posten, aber überwiegend alt (vor dem
+02.09.2026); soweit ihre Adresse eindeutig war, sind sie im (2a)-Durchgang schon gehoben worden
+(2.803 eindeutig, 1.389 mehrdeutig, 1.615 ohne Treffer — die beiden letzten Gruppen brauchen (2c)
+bzw. die Serienseiten-Regel).
