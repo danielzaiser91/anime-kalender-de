@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-29T18:53:42.765Z",
+ "erzeugtAm": "2026-09-29T19:57:25.671Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -13,39 +13,48 @@
    "ziele": [
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CWZFHDC4",
-     "titel": "Chihiros Reise ins Zauberland (Spirited Away)"
+     "titel": "Chihiros Reise ins Zauberland (Spirited Away)",
+     "wiedervorlage": true
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVZYJVGK",
-     "titel": "Akame ga Kill: Schwerter der Assassinen (Akame ga Kill!)"
+     "titel": "Akame ga Kill: Schwerter der Assassinen (Akame ga Kill!)",
+     "wiedervorlage": true
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H348BY3J",
-     "titel": "Akudama Drive"
+     "titel": "Akudama Drive",
+     "wiedervorlage": true
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B7DBXWH2",
-     "titel": "Sing a Bit of Harmony"
+     "titel": "Sing a Bit of Harmony",
+     "wiedervorlage": true
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GFPBT6FG",
-     "titel": "Oshi no Ko: Mein Star (OSHI NO KO)"
+     "titel": "Oshi no Ko: Mein Star (OSHI NO KO)",
+     "wiedervorlage": true
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
-     "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2)"
+     "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2)",
+     "wiedervorlage": true
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GDGLLYLS",
-     "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
+     "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)",
+     "wiedervorlage": true
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0F5HDQBTM",
-     "titel": "There’s No Freaking Way I’ll Be Your Lover! Unless… (There's No Freaking Way I'll Be Your Lover! Unless…)"
+     "titel": "There’s No Freaking Way I’ll Be Your Lover! Unless… (There's No Freaking Way I'll Be Your Lover! Unless…)",
+     "wiedervorlage": true
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FTW7GP47",
-     "titel": "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing"
+     "titel": "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing",
+     "wiedervorlage": true
     }
    ],
    "naechster": "Chihiros Reise ins Zauberland (Spirited Away)"
@@ -65,18 +74,21 @@
     },
     {
      "url": "https://www.netflix.com/title/80135674",
-     "titel": "My Hero Academia"
+     "titel": "My Hero Academia",
+     "wiedervorlage": true
     },
     {
      "url": "https://www.netflix.com/title/81091393",
      "titel": "Demon Slayer: Kimetsu no Yaiba",
+     "wiedervorlage": true,
      "staffeln": [
       3
      ]
     },
     {
      "url": "https://www.netflix.com/title/81788312",
-     "titel": "The Dangers in My Heart"
+     "titel": "The Dangers in My Heart",
+     "wiedervorlage": true
     }
    ],
    "naechster": "Chihiros Reise ins Zauberland"
@@ -92,28 +104,11 @@
    "ziele": [
     {
      "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
-     "titel": "Bleach: Thousand-Year Blood War"
+     "titel": "Bleach: Thousand-Year Blood War",
+     "wiedervorlage": true
     }
    ],
    "naechster": "Bleach: Thousand-Year Blood War"
-  },
-  {
-   "name": "Suchadressen",
-   "plattform": "suchadressen",
-   "gemeldet": 0,
-   "gesamt": 1,
-   "offen": 1,
-   "titel": 0,
-   "ohneSeite": 1,
-   "ziel": "https://www.amazon.de/s?k=Fairy%20Tail&i=instant-video",
-   "ziele": [
-    {
-     "url": "https://www.amazon.de/s?k=Fairy%20Tail&i=instant-video",
-     "titel": "Fairy Tail"
-    }
-   ],
-   "naechster": "Fairy Tail",
-   "hinweis": "Suchadressen ohne Titelseite: den richtigen Treffer beim Anbieter heraussuchen"
   }
  ]
 }
