@@ -6,7 +6,8 @@
  * Verlaufs-Abfragen (`?verlauf=<Workflow>` und die Kästchenreihe je Lauf-Art).
  */
 import { type Env } from './env.ts'
-import { ISO_JETZT, jetztIso, zahlOderNull } from './werte.ts'
+import { jetztIso, zahlOderNull } from './werte.ts'
+import { SQL_AUFRAEUMEN, SQL_LAEUFE_LAUFEND, SQL_LETZTE_ZUSTAENDE, SQL_VERLAUF } from './lauf-sql.ts'
 import { ereignisSenden } from './ereignisse.ts'
 import { crZugangAuffrischen } from './cr-zugang.ts'
 
@@ -36,15 +37,7 @@ import { crZugangAuffrischen } from './cr-zugang.ts'
 async function laufUebersicht(env: Env, request: Request, ctx?: ExecutionContext) {
   // Was älter als drei Tage ist, würde die Anzeige nur verstopfen — ein hängender
   // Lauf bleibt so lange sichtbar, dann verschwindet auch er.
-  const { results } = await env.DB.prepare(
-    `SELECT lauf_id, repo, workflow, auftrag, zweck, ziel, zustand, begonnen_am, gemeldet_am, url, notiz,
-            fortschritt, fortschritt_gesamt, fortschritt_text
-       FROM lauf_status
-      WHERE zustand = 'laeuft'
-        AND gemeldet_am > ${ISO_JETZT}, '-3 days')
-      ORDER BY gemeldet_am DESC
-      LIMIT 40`,
-  ).all()
+  const { results } = await env.DB.prepare(SQL_LAEUFE_LAUFEND).all()
   // Die Gelegenheit nutzen: Diese Anfrage kommt aus Daniels Browser, also aus
   // Deutschland — und nur von dort gibt Crunchyroll ein deutsches Paket her.
   ctx?.waitUntil(crZugangAuffrischen(env, request.cf?.colo as string | undefined))
@@ -153,9 +146,7 @@ async function laufMerken(
     .run()
 
   // Aufräumen im Vorbeigehen: kein eigener Cron für zwei Zeilen Hausputz.
-  await env.DB.prepare(
-    `DELETE FROM lauf_status WHERE gemeldet_am < ${ISO_JETZT}, '-14 days')`,
-  ).run()
+  await env.DB.prepare(SQL_AUFRAEUMEN).run()
 }
 
 /**
@@ -167,14 +158,7 @@ async function laufMerken(
  * und liest nur die Zeilen, die sie auch zeigt.
  */
 async function laufVerlauf(env: Env, art: string, n: number): Promise<unknown[]> {
-  const { results } = await env.DB.prepare(
-    `SELECT lauf_id, zustand, auftrag, notiz, url, begonnen_am, gemeldet_am
-       FROM lauf_status
-      WHERE workflow = ?1
-        AND gemeldet_am > ${ISO_JETZT}, '-14 days')
-      ORDER BY gemeldet_am DESC
-      LIMIT ?2`,
-  )
+  const { results } = await env.DB.prepare(SQL_VERLAUF)
     .bind(art, n)
     .all()
   return results ?? []
@@ -188,15 +172,7 @@ async function laufVerlauf(env: Env, art: string, n: number): Promise<unknown[]>
  * Nachfragen nicht siebzehnmal liest.
  */
 async function letzteZustaende(env: Env): Promise<Record<string, { z: string; am: string }[]>> {
-  const { results } = await env.DB.prepare(
-    `SELECT workflow, zustand, gemeldet_am, rang FROM (
-       SELECT workflow, zustand, gemeldet_am,
-              ROW_NUMBER() OVER (PARTITION BY workflow ORDER BY gemeldet_am DESC) AS rang
-         FROM lauf_status
-        WHERE gemeldet_am > ${ISO_JETZT}, '-14 days')
-      WHERE rang <= 12
-      ORDER BY workflow, rang DESC`,
-  ).all()
+  const { results } = await env.DB.prepare(SQL_LETZTE_ZUSTAENDE).all()
   const karte: Record<string, { z: string; am: string }[]> = {}
   for (const z of (results ?? []) as { workflow: string; zustand: string; gemeldet_am: string }[]) {
     ;(karte[z.workflow] ??= []).push({ z: z.zustand, am: z.gemeldet_am })

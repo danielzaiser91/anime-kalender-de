@@ -72,6 +72,7 @@ import { sucheZweistufig } from '../web/src/lib/search.ts'
 import { terminAusEintrag } from './lib/anisearch-termine.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
+import { LAUF_ABFRAGEN, SQL_LETZTE_ZUSTAENDE } from '../worker/src/lauf-sql.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -5803,6 +5804,13 @@ pruefe(
     readFileSync('worker/src/pruefung-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
       readFileSync('worker/migrations/042-prime-folge-seite-index.sql', 'utf8').includes('prime_folge_seite'),
   )
+  /* Die Abfragen stehen in `lauf-sql.ts` — dort prüft dieser Lauf sie auf Klammer-Gleichgewicht
+     und Gestalt (29.09.2026: eine fehlende Klammer ließ `/lauf` stundenlang mit 500 antworten). */
+  pruefe('jede Lauf-Abfrage geht auf (gleich viele Klammern auf wie zu)',
+    LAUF_ABFRAGEN.every((sql) => (sql.match(/\(/g) ?? []).length === (sql.match(/\)/g) ?? []).length),
+    LAUF_ABFRAGEN.map((sql) => `${(sql.match(/\(/g) ?? []).length}/${(sql.match(/\)/g) ?? []).length}`).join(' '))
+  pruefe('die Kästchen-Abfrage liest ihre Unterabfrage',
+    /FROM \(\s*SELECT[\s\S]*\)\s*WHERE rang <= 12/.test(SQL_LETZTE_ZUSTAENDE))
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */

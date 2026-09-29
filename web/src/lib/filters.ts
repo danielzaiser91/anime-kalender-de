@@ -244,6 +244,16 @@ function suchfelder(release: Release | undefined, title: Title | undefined): Suc
   return raus
 }
 
+/** Die Fundstellen der Treffer in die Map legen — dieselbe Zeile in beiden Filtern. */
+function merkeFundstellen<T>(
+  treffer: { item: T; fundstellen: Fundstelle[] }[],
+  schluessel: (item: T) => string,
+  ziel?: Map<string, Fundstelle[]>,
+): void {
+  if (!ziel) return
+  for (const t of treffer) if (t.fundstellen.length) ziel.set(schluessel(t.item), t.fundstellen)
+}
+
 /** Prüft einen einzelnen Release gegen die Filter. */
 export function releaseMatches(
   release: Release,
@@ -308,9 +318,7 @@ export function filterEvents(
     (r) => suchfelder(r, data.titleById.get(r.titleId)),
     (r) => [r.name, ...namen(data.titleById.get(r.titleId))],
   )
-  for (const t of gesucht) {
-    if (t.fundstellen.length) fundstellen?.set(t.item.slug, t.fundstellen)
-  }
+  merkeFundstellen(gesucht, (r) => r.slug, fundstellen)
 
   const allowed = new Set(gesucht.map((t) => t.item.slug))
   return data.events.filter((e) => allowed.has(e.releaseSlug))
@@ -415,15 +423,8 @@ export function filterTitles(
     return true
   })
 
-  const gesucht = sucheMitFundstellen(
-    vorgefiltert,
-    f.search,
-    (t) => suchfelder(undefined, t),
-    (t) => namen(t),
-  )
-  for (const t of gesucht) {
-    if (t.fundstellen.length) fundstellen?.set(String(t.item.id), t.fundstellen)
-  }
+  const gesucht = sucheMitFundstellen(vorgefiltert, f.search, (t) => suchfelder(undefined, t), (t) => namen(t))
+  merkeFundstellen(gesucht, (t) => String(t.id), fundstellen)
   return gesucht.map((t) => t.item)
 }
 
