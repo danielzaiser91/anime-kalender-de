@@ -256,6 +256,15 @@ pruefe(
     pruefe(`${datei} kennt den Endpunkt /vorfall`, text.includes("'/vorfall'"))
     pruefe(`${datei} meldet mindestens einen Vorfall`, /void vorfallMelden\(/.test(text))
   }
+  /*
+    **Der Serientitel der Seite schlägt `document.title`** (29.09.2026). Die 25 Netflix-Meldungen zu
+    „The Dangers in My Heart" trugen alle den Titel „Shangri-La Frontier" — den der zuletzt offenen
+    Seite: Netflix setzt `document.title` erst nach dem Seitenwechsel um. Geprüft wird der Quelltext,
+    weil die Zuordnung in einer Meldung entsteht; die Kennung daneben war immer richtig.
+  */
+  const melder = readFileSync(pfad(__dirname, '..', 'extension', 'melder.js'), 'utf8')
+  pruefe('der Serientitel der Seite schlägt document.title',
+    /titel: \(stand\.serientitel \|\| stand\.titel \|\| ''\)/.test(melder))
 }
 
 console.log('')
