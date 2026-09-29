@@ -413,7 +413,7 @@ export function Fragezeichen({ text, gekapselt }: { text: string; gekapselt?: bo
         className={[
           'inline-flex items-center justify-center font-bold leading-none transition',
           gekapselt
-            ? 'h-11 min-w-9 rounded-r-full bg-ak-flaeche-2 px-2 text-xs text-ak-leise hover:bg-ak-rand hover:text-ak-text'
+            ? 'h-10 rounded-r-full border-l border-ak-rand bg-ak-flaeche-2 pr-4 pl-[13px] text-xs text-ak-leise hover:bg-ak-rand hover:text-ak-text'
             : 'size-4 rounded-full bg-slate-300/70 text-[10px] text-slate-600 hover:bg-slate-400/70 dark:bg-white/15 dark:text-slate-300 dark:hover:bg-white/25',
           CLICKABLE,
         ].join(' ')}

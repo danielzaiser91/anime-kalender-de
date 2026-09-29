@@ -91,9 +91,10 @@ export function Suchfeld({
 /** Der rechte Bereich im Feld: Löschen · Trennstrich · Erklären (Daniels gekapselter Bereich). */
 function FeldKnoepfe({ getippt, felder, leeren }: { getippt: string; felder: string; leeren: () => void }) {
   return (
-    <span className="absolute inset-y-px right-px flex items-stretch">
+    <span className="absolute inset-y-0.5 right-px flex items-stretch">
       {getippt && <LoeschKnopf leeren={leeren} />}
-      <span className="mx-2 w-px self-stretch bg-ak-rand" aria-hidden="true" />
+      {/* Der Trennstrich ist die **linke Kante** des „?"-Bereichs (Daniel, 29.09.2026) — kein
+          eigenes Element mit Abstand. Damit ist der Abstand ✕→Strich gleich dem Strich→?. */}
       <Fragezeichen text={felder} gekapselt />
     </span>
   )
@@ -107,7 +108,7 @@ function LoeschKnopf({ leeren }: { leeren: () => void }) {
       aria-label={translate('suche.leeren')}
       title={translate('suche.leeren')}
       onClick={leeren}
-      className="my-2 flex size-6 cursor-pointer items-center justify-center self-center rounded-full text-ak-leise transition hover:bg-white/15 hover:text-ak-text"
+      className="my-auto ml-2 flex h-10 w-10 cursor-pointer items-center justify-center self-center rounded-full text-ak-leise transition hover:bg-white/15 hover:text-ak-text"
     >
       <svg viewBox="0 0 14 14" className="size-3.5" fill="none" aria-hidden="true">
         <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />

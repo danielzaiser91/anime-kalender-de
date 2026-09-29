@@ -6039,14 +6039,14 @@ pruefe(
   pruefe(
     'das Fragezeichen sitzt im Feld rechts',
     /relative flex w-full items-center/.test(suchfeldQuelle) &&
-      /absolute inset-y-px right-px flex items-stretch/.test(suchfeldQuelle) &&
+      /absolute inset-y-0\.5 right-px flex items-stretch/.test(suchfeldQuelle) &&
       /<Fragezeichen text=\{felder\} gekapselt \/>/.test(suchfeldQuelle),
     'die Lage im Feld fehlt',
   )
   pruefe(
     '… und das Feld lässt rechts Platz für beide Knöpfe',
-    /\bpr-20\b/.test(headerQuelle),
-    'pr-20 fehlt im Feld',
+    /\bpr-24\b/.test(headerQuelle),
+    'pr-24 fehlt im Feld',
   )
   /*
     **Der rechte Bereich ist gekapselt** (Daniel, 29.09.2026): „mach das ? im search feld statt button
@@ -6056,9 +6056,10 @@ pruefe(
     dann nach unten mit einer nose".
   */
   pruefe(
-    'im Feld steht ein Trennstrich über die volle Höhe',
-    /mx-2 w-px self-stretch bg-ak-rand/.test(suchfeldQuelle),
-    'der Trennstrich fehlt oder hat keine Luft zu beiden Seiten',
+    'der Trennstrich ist die linke Kante des ?-Bereichs',
+    /gekapselt\s*\?\s*'h-10 rounded-r-full border-l border-ak-rand/.test(uiQuelle) &&
+      !/mx-2 w-px self-stretch/.test(suchfeldQuelle),
+    'der Strich ist kein eigenes Element mehr, sondern die Kante',
   )
   /*
     **Der Rand des Feldes bleibt ganz** (Daniel, 29.09.2026: „rechter bereich darf border nicht
@@ -6067,7 +6068,7 @@ pruefe(
   */
   pruefe(
     'der gekapselte Bereich lässt den Feldrand stehen',
-    /absolute inset-y-px right-px/.test(suchfeldQuelle),
+    /absolute inset-y-0\.5 right-px/.test(suchfeldQuelle),
     'der Bereich liegt auf dem Rahmen',
   )
   /*
@@ -6098,7 +6099,7 @@ pruefe(
   pruefe(
     'das Löschen ist ein eigener, runder Knopf statt des nativen ✕',
     /webkit-search-cancel-button\]:appearance-none/.test(suchfeldQuelle) &&
-      /size-6[^"]*rounded-full/.test(suchfeldQuelle),
+      /h-10[^"]*rounded-full/.test(suchfeldQuelle),
     'das native ✕ ist noch an oder der Knopf ist nicht rund',
   )
   /*
