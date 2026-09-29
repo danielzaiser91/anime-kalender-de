@@ -97,6 +97,33 @@ function logOhneTitel(): void {
   log('Meldungen ohne Titel, nach Grund: ' + (teile.join(', ') || 'keine'))
 }
 
+/**
+ * **Adressen, Namen und Staffel-Kandidaten für die Zuordnung einer Meldung** (29.09.2026).
+ *
+ * Eigene Funktion, weil `main()` die Längengrenze reißt: Trägt eine Adresse mehrere unserer Titel,
+ * entscheidet die gemeldete Staffel (`staffelTreffer`); ist die Adresse unbekannt, entscheidet der
+ * Name (`nameIndex`). Beides braucht dieselbe Titelliste.
+ */
+function meldungsZuordnung(titelAlle: Title[]) {
+  const titelNachId = new Map(titelAlle.map((t) => [t.id, t]))
+  return {
+    nachAdresse: adressIndex(titelAlle),
+    nachName: nameIndex(titelAlle),
+    staffelKandidaten: (ids: number[]): StaffelKandidat[] =>
+      ids
+        .map((i) => titelNachId.get(i))
+        .filter((t): t is Title => !!t)
+        .map((t) => ({
+          id: t.id,
+          name: t.titleDe || t.titleEn || '',
+          episodes: t.episodes ?? null,
+          jpYear: t.jpYear,
+          jpStart: t.jpStart,
+          format: t.format,
+        })),
+  }
+}
+
 async function main() {
   if (!TOKEN) {
     warn('LAUF_TOKEN fehlt — nichts geholt.')
@@ -141,27 +168,7 @@ async function main() {
   const titelListe = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titelAlle = Array.isArray(titelListe) ? titelListe : titelListe.titles
   const einzel = new Set(titelAlle.filter((t) => t.format === 'MOVIE' || t.episodes === 1).map((t) => t.id))
-  const nachAdresse = adressIndex(titelAlle)
-  /*
-    **Die Kandidaten für die Staffel-Zuordnung** (29.09.2026): Trägt eine Adresse mehrere unserer
-    Titel (Netflix- und Disney+-Serienseiten führen mehrere Staffeln), entscheidet die gemeldete
-    Staffel — siehe `staffelTreffer` in `lib/urteil-je-folge.ts`.
-  */
-  const titelNachId = new Map(titelAlle.map((t) => [t.id, t]))
-  const staffelKandidaten = (ids: number[]): StaffelKandidat[] =>
-    ids
-      .map((i) => titelNachId.get(i))
-      .filter((t): t is Title => !!t)
-      .map((t) => ({
-        id: t.id,
-        name: t.titleDe || t.titleEn || '',
-        episodes: t.episodes ?? null,
-        jpYear: t.jpYear,
-        jpStart: t.jpStart,
-        format: t.format,
-      }))
-  /* Die letzte Zuordnung, wenn die Adresse unbekannt ist: der Name der Seite (wie im Einleser). */
-  const nachName = nameIndex(titelAlle)
+  const { nachAdresse, staffelKandidaten, nachName } = meldungsZuordnung(titelAlle)
   const verworfen: Record<string, number> = {}
   /* Eine Meldung ohne die Felder aus Migration 034 trägt nur `befund`. */
   for (const roh of meldungen) {

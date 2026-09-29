@@ -2078,6 +2078,7 @@ der Leser schickt dort aber weiter die Spuren der vorigen Seite: `stand.serienti
 `stand.staffeln` gehörten zu einer anderen Reihe. Die Zuordnung lief ohnehin über die Adresse,
 falsch war nur das gespeicherte `titel`-Feld (Anzeige, Diagnose) — und mit ihm die Staffelstruktur.
 
-Neu `standGehoert(reihe)`: Nur wenn `stand.reihe` die gemeinte Reihe ist, werden `serientitel`,
-`staffeln` und `roh.reihe` übernommen — sonst leer statt falsch. Beide Meldestellen (Durchgang und
-Randprobe) benutzen den Riegel; `netflix-titel-fremde-seite.test.cjs`.
+Neu prüfen beide Meldestellen (Durchgang und Randprobe) inline, ob `stand.reihe` die gemeinte Reihe
+ist: Nur dann werden `serientitel`, `staffeln` und `roh.reihe` übernommen — sonst leer statt falsch.
+Der Riegel steht inline statt in einem Helfer, weil `melder.js` sonst über die Codegestalt-Grenze
+wächst; `netflix-titel-fremde-seite.test.cjs` prüft seinen Wortlaut.

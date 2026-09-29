@@ -793,20 +793,6 @@ function gemeinteReihe() {
   return stand.reihe
 }
 
-/**
- * **Trägt der zuletzt gelesene Stand die gemeinte Reihe?** (29.09.2026)
- *
- * Auf einer Titelseite schlägt die Adresse die Reihe des Lesers (`gemeinteReihe()`) — der Leser
- * schickt dort aber weiter die Spuren der zuletzt **gespielten** Seite. Am 29.09.2026 standen so
- * 25 Meldungen auf `netflix.com/title/81788312` (The Dangers in My Heart) mit dem Serientitel
- * „Shangri-La Frontier": Adresse richtig, `stand.serientitel` und `stand.staffeln` von der vorigen
- * Seite. Gehört der Stand zu einer anderen Reihe, wird sein Titel **nicht** übernommen — leer statt
- * falsch. Welche Reihe gemeint ist, entscheiden Adresse und Kennung, nicht der Nachhall.
- */
-function standGehoert(reihe) {
-  return Boolean(stand.reihe && String(stand.reihe) === String(reihe))
-}
-
 function istGesucht() {
   if (stand.reihe && offeneTitel[String(stand.reihe)] !== undefined) return true
   return Boolean(
@@ -4542,13 +4528,13 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
         url: `https://www.netflix.com/title/${reihe}`,
         sprachen: befund.echte.map((x) => `${x.code}|${x.name}`),
         ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
-        titel: standGehoert(reihe) ? (stand.serientitel ?? null) : null,
+        titel: stand.reihe && String(stand.reihe) === String(reihe) ? (stand.serientitel ?? null) : null,
         folge: f.videoId,
         folge_nr: f.nummer,
         staffel: ziel.staffel,
         titelId: ziel.titelId,
-        staffeln: standGehoert(reihe) ? ohneKennungen(stand.staffeln) : null,
-        serientitel: standGehoert(reihe) ? (stand.serientitel ?? null) : null,
+        staffeln: stand.reihe && String(stand.reihe) === String(reihe) ? ohneKennungen(stand.staffeln) : null,
+        serientitel: stand.reihe && String(stand.reihe) === String(reihe) ? (stand.serientitel ?? null) : null,
         notiz:
           /*
             **Die Notiz ist der einzige Weg, auf dem die Annahme ankommt.**
@@ -4650,8 +4636,6 @@ async function durchlaufMelden(folge, echte, deutsch) {
   const staffelRoh = staffelFuerFolge(gemeinteReihe(), folge)
   /* Eine Nummer, die in diese Staffel nicht passt, geht nicht als solche raus. */
   const staffelDerFolge = staffelGeprueft(gemeinteReihe(), folge?.nummer, staffelRoh)
-  /* Trägt der zuletzt gelesene Stand diese Reihe? Sonst bleibt sein Titel außen vor (29.09.2026). */
-  const standPasst = standGehoert(gemeinteReihe())
   try {
     const antwort = await fetch(WORKER, {
       method: 'POST',
@@ -4671,7 +4655,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
 
           Der Name steht im Auftrag, den die Prüfliste mitbringt.
         */
-        titel: (standPasst ? stand.serientitel : null) ?? folge.titel ?? null,
+        titel: (stand.reihe && String(stand.reihe) === String(gemeinteReihe()) ? stand.serientitel : null) ?? folge.titel ?? null,
         folge: folge.videoId,
         /*
           **Ein Film hat keine Folge 1** — dieselbe Regel wie bei Amazon
@@ -4688,8 +4672,8 @@ async function durchlaufMelden(folge, echte, deutsch) {
         */
         staffel: meldeZiel(gemeinteReihe(), folge).staffel,
         titelId: meldeZiel(gemeinteReihe(), folge).titelId,
-        staffeln: standPasst ? ohneKennungen(stand.staffeln) : null,
-        serientitel: standPasst ? (stand.serientitel ?? null) : null,
+        staffeln: stand.reihe && String(stand.reihe) === String(gemeinteReihe()) ? ohneKennungen(stand.staffeln) : null,
+        serientitel: stand.reihe && String(stand.reihe) === String(gemeinteReihe()) ? (stand.serientitel ?? null) : null,
         notiz:
           `Durchlauf: Folge ${folge.nummer}${folge.titel ? `: ${folge.titel}` : ''}` +
           (DURCHLAUF.staffelLabel ? ` — Netflix: ${DURCHLAUF.staffelLabel}` : ''),
@@ -4728,8 +4712,8 @@ async function durchlaufMelden(folge, echte, deutsch) {
             */
             roh: {
               liste: folge.felder ?? null,
-              player: standPasst && String(stand.folge ?? '') === String(folge.videoId) ? stand.folgeRoh : null,
-              reihe: standPasst ? (stand.reiheRoh ?? null) : null,
+              player: stand.reihe && String(stand.reihe) === String(gemeinteReihe()) && String(stand.folge ?? '') === String(folge.videoId) ? stand.folgeRoh : null,
+              reihe: stand.reihe && String(stand.reihe) === String(gemeinteReihe()) ? (stand.reiheRoh ?? null) : null,
             },
           },
         ],
