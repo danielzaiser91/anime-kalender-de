@@ -345,7 +345,8 @@ function schluss() {
   /*
     Offen oder nicht — über die Folgenkennungen (24.09.2026). Meine ganz besondere Hochzeit:
     Netflix-Staffel 1 hat 13 Folgen, unsere 12; die Folgenzahl hielt sie für unsere belegte
-    Staffel 2. Jetzt zählt nur, ob ihre Folgen seit der Wiedervorlage gemeldet sind.
+    Staffel 2. Für **normale** Titel zählt, ob ihre Folgen seit der Wiedervorlage gemeldet sind;
+    eine Wiedervorlage selbst ist immer offen (29.09.2026).
   */
   {
     const code = schneide('gruppeOffen')
@@ -363,7 +364,13 @@ function schluss() {
       return kontext.ergebnis
     }
     pruefe('Hochzeit: Folgen nur im August gemeldet, Wiedervorlage heute → offen', offen({ meldungen: { 11: '2026-08-22', 12: '2026-08-22', 13: '2026-08-22' } }) === true)
-    pruefe('alle Folgen nach der Wiedervorlage gemeldet → fertig', offen({ meldungen: { 11: '2026-09-24T17:00:00Z', 12: '2026-09-24T17:00:00Z', 13: '2026-09-24T17:00:00Z' } }) === false)
+    /*
+      29.09.2026: Eine Wiedervorlage ist auf **Gruppen**ebene immer offen — die frühere Rechnung
+      („alle Folgen nach `seit` gemeldet") hielt MHA/Dangers fälschlich für erledigt, obwohl `?stand`
+      sie weiter offen führte. Ob ein Titel fertig ist, entscheidet jetzt `fertig()` gegen die
+      Prüfliste (`netflix-durchgang-fertig.test.cjs`).
+    */
+    pruefe('eine Wiedervorlage bleibt offen, auch wenn ihre Folgen gemeldet sind (fertig entscheidet die Prüfliste)', offen({ meldungen: { 11: '2026-09-24T17:00:00Z', 12: '2026-09-24T17:00:00Z', 13: '2026-09-24T17:00:00Z' } }) === true)
     pruefe('eine Folge ohne Meldung → offen', offen({ meldungen: { 11: '2026-09-24T17:00:00Z', 12: '2026-09-24T17:00:00Z' } }) === true)
     pruefe('ohne offene Staffel beim Titel → nie offen', offen({ staffeln: [{ nr: 1, offen: false }] }) === false)
     pruefe('ohne Wiedervorlage: gemeldet ist gemeldet, egal wann', offen({ staffeln: [{ nr: 1, offen: true, zustand: 'melden' }], meldungen: { 11: '2026-08-22', 12: '2026-08-22', 13: '2026-08-22' } }) === false)

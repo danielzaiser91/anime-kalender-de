@@ -2099,3 +2099,23 @@ ein Film steht. `netflix-film-durchgang.test.cjs`.
 Academia 25, The Dangers in My Heart 12), und der Durchgang hakte sie trotzdem als „fertig" ab —
 weil eine Staffel ohne neue Meldung als geprüft gilt und die lokale Abhakliste dem Bestand
 vorausläuft. Das ist der nächste Schritt.
+
+### Nachtrag 4.24.7 (29.09.2026): Fertig heißt „nicht mehr auf der Prüfliste"
+
+Daniels zweiter Netflix-Bericht: Der Durchgang lief über Chihiro, My Hero Academia und The Dangers
+in My Heart, meldete MHA „25" und Dangers „12" — den **lokalen Abhakstand**, nicht das Ergebnis —
+und hakte alle drei ab. Danach stand `durchgang.laeuft: false`, obwohl zwei Titel offen blieben.
+
+Zwei Riegel:
+- **Eine Wiedervorlage wird abgearbeitet.** `gruppeOffen()` verglich je Folge mit
+  `MELDUNGEN`/`DURCHLAUF.gemeldet` und hielt MHA/Dangers damit für erledigt; jetzt gilt eine
+  Wiedervorlage (`zustand: 'erneut'`) als offen und läuft.
+- **Fertig kommt aus der Prüfliste.** Vor dem Abhaken holt der Durchgang `?stand` (`standHolen()`)
+  und prüft `fertig()`. Bleibt der Titel offen, bekommt er einen zweiten Anlauf; danach wird er
+  übersprungen und der Versuch mitgezählt (`selbstVersuche`, `SELBST_VERSUCHE`). So gibt es weder
+  ein vorzeitiges „fertig" noch eine Schleife. `netflix-durchgang-fertig.test.cjs`.
+
+**Weiter offen:** Chihiros Film-Lauf startet (4.24.6) und meldet trotzdem **0** —
+`durchlaufStarten` kommt auf der Filmseite zu keiner Meldung. Dafür braucht es einen Bericht, der
+**auf der Chihiro-Seite** gezogen wird (die `leser`-Felder des vorliegenden Berichts gehören zur
+Dangers-Seite).

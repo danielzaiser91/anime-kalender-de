@@ -2673,6 +2673,7 @@ function laufStarten() {
   selbstUebersprungen.clear()
   selbstStaffelnGeprueft.clear()
   selbstGesammelt.clear()
+  selbstVersuche.clear()
   selbstSammelStand = null
   durchgangEnde = null
   fertigeTitel.clear()
@@ -2707,6 +2708,9 @@ let selbstWartet = null
 const SELBST_LISTE_WARTEN = 20000
 /** Titel, die die Automatik in dieser Sitzung übersprungen hat — sonst pendelt sie zwischen ihnen. */
 const selbstUebersprungen = new Set()
+/** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
+const selbstVersuche = new Map()
+const SELBST_VERSUCHE = 2
 /** Wie oft die Automatik auf derselben Seite nacheinander lief. */
 let selbstRundenSeite = ''
 let selbstRundenHier = 0
@@ -2744,6 +2748,8 @@ function gruppeOffen(reihe, gruppe) {
   const serien = alle.filter((st) => !st.film)
   const offene = (serien.length ? serien : alle).filter((st) => st.offen)
   if (!offene.length || !gruppe.length) return false
+  /* Eine Wiedervorlage läuft — die Rechnung darunter hielt MHA/Dangers fälschlich für erledigt (29.09.2026). */
+  if (offene.some((st) => st.zustand === 'erneut')) return true
   const seit = offene.map((st) => st.seit).filter(Boolean).sort()[0] ?? null
   const m = MELDUNGEN.get(String(reihe))
   return gruppe.some((f) => {
@@ -2994,15 +3000,9 @@ function selbstWeiter() {
 }
 
 /**
- * **Wie viele Titel dieser Sitzung selbsttätig durchlaufen wurden.**
- *
- * Die Obergrenze ist kein Misstrauen gegen den Code, sondern gegen das
- * Unvorhergesehene: Ein Durchgang öffnet Folgen in Daniels Konto, und ein Lauf,
- * der sich verrennt, tut das ohne Ende. Dieselbe Lehre wie am 26.08.2026, als
- * der erste One-Piece-Durchlauf 42 falsche Meldungen erzeugte — damals fehlte
- * die Grenze, und Daniels einzige Antwort war „ich schließe mal den tab".
- *
- * Zwanzig Titel sind eine Stunde Arbeit; wer mehr will, lädt die Seite neu.
+ * **Wie viele Titel dieser Sitzung selbsttätig durchlaufen wurden:** 20 sind eine Stunde. Die
+ * Grenze schützt gegen einen Lauf, der sich verrennt und Folgen ohne Ende in Daniels Konto öffnet
+ * (Lehre vom 26.08.2026: der erste One-Piece-Lauf erzeugte 42 falsche Meldungen).
  */
 let selbstGezaehlt = 0
 const SELBST_HOECHSTENS = 20
@@ -3058,15 +3058,9 @@ async function selbstStartenSchritt() {
   if (!reihe || offeneTitel[String(reihe)] === undefined) return
   if (selbstVersucht === reihe) return
   /*
-    **Entschieden wird erst mit der Folgenliste dieser Seite** (Daniel, 23.09.2026, mit Bericht:
-    „nach shaman king ist er wieder durch alle weiteren titel der prüfliste gesprungen … aber
-    nichts gemeldet"). Die Spur zeigte vier Titel in drei Sekunden, jeder mit „Staffel nicht
-    eindeutig" und keinem Kandidaten: Beim Sprung lagen noch die 52 Folgen von Shaman King in
-    `DURCHLAUF.folgen`, und die passten zu keinem der neuen Titel. `pfadPruefen` leerte nur
-    `alleFolgen`; `angezeigteFolgenSetzen()` lässt eine leere Liste aber stehen, wie sie ist.
-
-    `listeFuer` setzt allein der Leser, wenn die Liste dieser Adresse ankommt. Ein Film baut
-    seine Liste selbst und trägt die Kennung der Adresse.
+    **Entschieden wird erst mit der Folgenliste dieser Seite** (23.09.2026): Beim Sprung lagen noch
+    die Folgen des vorigen Titels in `DURCHLAUF.folgen`, und die Automatik meldete „nichts". Ein
+    Film baut seine Liste selbst und trägt die Kennung der Adresse (`listeFuer`).
   */
   const seiteHier = String(titelDerAdresse() ?? '')
   const filmHier =
@@ -3085,18 +3079,9 @@ async function selbstStartenSchritt() {
   selbstWartet = null
   /* Läuft gerade ein Staffelwechsel, warten, bis Netflix die neue Staffel zeigt und der Leser sie hat. */
   /*
-    **Erst alles laden, dann Staffel für Staffel prüfen** (Daniel, 24.09.2026: „alle folgen … dort
-    kannst du direkt für alle staffeln alle 1. und letzte url holen + alle infos zu allen episoden,
-    und dann alle 1. und letzte jeder staffel direkt hintereinander prüfen, ohne … staffel zu
-    wechseln").
-
-    Bis 4.21.12 wechselte die Automatik Staffel für Staffel im Menü: je Wechsel zwei Sekunden
-    Warten auf die neue Liste, dazu Fehler, die an genau diesem Wechsel hingen — ein verdeckter
-    Parameter (4.21.8), eine Staffel zweimal gewählt (JJK), Shaman King mit 30 von 52 Folgen
-    gestartet. Jetzt: Hat die Reihe mehrere Staffeln, wählt sie einmal „Alle Folgen anzeigen" und
-    scrollt, bis Netflix jede Staffel geladen hat; der Leser lädt je Staffel nach. Erst wenn die
-    Liste steht (nichts lädt nach, drei Sekunden keine Änderung), prüft sie jede Staffel mit
-    offenen Folgen — über `DURCHLAUF.folgen`, ohne das Menü noch einmal anzufassen.
+    **Erst alles laden, dann Staffel für Staffel prüfen** (24.09.2026): einmal „Alle Folgen
+    anzeigen", scrollen, bis nichts mehr nachlädt, dann jede offene Staffel über `DURCHLAUF.folgen`
+    — nicht mehr Staffel für Staffel im Menü, wo der Wechsel die Fehlerquelle war.
   */
   selbstVersucht = reihe
   if (!selbstGesammelt.has(String(reihe))) {
@@ -3155,12 +3140,26 @@ async function selbstStartenSchritt() {
     return
   }
   DURCHLAUF.mehrfach = null
-  fertigeTitel.add(String(reihe))
+  /* Fertig ist, was die Prüfliste nicht mehr führt — nicht der lokale Abhakstand (29.09.2026). */
+  await standHolen()
+  const nochOffen = !fertig(reihe, offeneTitel[String(reihe)])
+  const versuche = (selbstVersuche.get(String(reihe)) ?? 0) + 1
+  selbstVersuche.set(String(reihe), versuche)
   spur('Titel fertig', {
     reihe: String(reihe),
     staffeln: [...folgenJeStaffel(DURCHLAUF.alleFolgen ?? []).values()].map((g) => g.length),
     gemeldet: DURCHLAUF.gemeldet?.size ?? null,
+    nochOffen,
+    versuche,
   })
+  if (nochOffen && versuche < SELBST_VERSUCHE) {
+    /* Die Staffeln dieses Titels wieder öffnen — der nächste Takt kommt zurück. */
+    for (const s of [...selbstStaffelnGeprueft]) if (s.startsWith(`${reihe}:g:`)) selbstStaffelnGeprueft.delete(s)
+    selbstVersucht = null
+    setTimeout(() => void vielleichtSelbstStarten(), 2000)
+    return
+  }
+  fertigeTitel.add(String(reihe))
   selbstUebersprungen.add(String(reihe))
   selbstWeiter()
 }
