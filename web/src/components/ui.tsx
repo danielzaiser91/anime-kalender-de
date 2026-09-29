@@ -405,7 +405,7 @@ export function ReihenStern({ alleGemerkt, anzahl, onMerken }: { alleGemerkt: bo
  */
 export function Fragezeichen({ text, gekapselt }: { text: string; gekapselt?: boolean }) {
   return (
-    <Tooltip text={text} seite="unten" mitSpitze={gekapselt}>
+    <Tooltip text={text} seite="unten" mitSpitze={gekapselt} className={gekapselt ? 'flex h-full' : undefined}>
       <button
         type="button"
         aria-label={text}
