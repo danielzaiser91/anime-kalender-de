@@ -376,3 +376,9 @@
 - { anilistId: 99672, platform: primevideo, seit: '2026-09-27', grund: "Alter Beleg „deutsch“ ohne Folgenangabe, Rohdaten fehlen — Folgen einzeln melden (Stufe 4)" }
 - { anilistId: 99699, platform: primevideo, seit: '2026-09-28', grund: "Beleg nennt Folgen in Anbieterzählung — die Folgen einmal einzeln melden, damit die Zuordnung über die Folgentitel läuft" }
 - { anilistId: 151807, platform: primevideo, seit: '2026-09-28', grund: "Beleg nennt Folgen in Anbieterzählung — die Folgen einmal einzeln melden, damit die Zuordnung über die Folgentitel läuft" }
+- { anilistId: 199, platform: netflix, seit: '2026-09-29', grund: "Alter Pauschal-Beleg deutsch ohne Folgenangabe - Tonspuren je Folge nachmessen" }
+- { anilistId: 199, platform: primevideo, seit: '2026-09-29', grund: "Alter Pauschal-Beleg deutsch ohne Folgenangabe - Tonspuren je Folge nachmessen" }
+- { anilistId: 142329, platform: netflix, seit: '2026-09-29', grund: "Alter Pauschal-Beleg deutsch ohne Folgenangabe - Tonspuren je Folge nachmessen" }
+- { anilistId: 150672, platform: primevideo, seit: '2026-09-29', grund: "Alter Pauschal-Beleg deutsch ohne Folgenangabe - Tonspuren je Folge nachmessen" }
+- { anilistId: 116566, platform: primevideo, seit: '2026-09-29', grund: "Alter Pauschal-Beleg deutsch ohne Folgenangabe - Tonspuren je Folge nachmessen" }
+- { anilistId: 123899, platform: primevideo, seit: '2026-09-29', grund: "Alter Pauschal-Beleg deutsch ohne Folgenangabe - Tonspuren je Folge nachmessen" }

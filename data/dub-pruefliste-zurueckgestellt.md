@@ -1,6 +1,6 @@
 # Zurückgestellt: nur mit Abo prüfbar
 
-Stand 2026-09-28 · **4 offene Verweise** in **4 Zeilen**.
+Stand 2026-09-29 · **3 offene Verweise** in **2 Zeilen**.
 
 Diese Verweise stehen **nicht** in `daniel-zum-abarbeiten/07-alle-anbieter.md`. Zwei Gründe:
 Bei `RTL+` verlangt das Nachsehen ein laufendes Abo (Daniel am 21.08.2026: „ich hol mir kein rtl+
@@ -13,7 +13,5 @@ gehört das Ergebnis wie sonst auch nach `data/dub-confirmed.yaml`.
 
 | # | Datum | Reihe | Offen |
 |---|---|---|---|
-| 1 | 2026-09-27 | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Staffel 3](https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world) |
-| 2 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2](https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared) |
-| 3 | 2024-01-08 | Bakugan: Spieler des Schicksals | [Bakugan](https://plus.rtl.de/video-tv/serien/bakugan-982370/staffel-1-982371) |
-| 4 | 2019-03-01 | Star Blazers: The Quest for Iscandar | [Star Blazers 2202: Space Battleship Yamato](https://www.crunchyroll.com/de/series/G65V4P4K6/star-blazers-space-battleship-yamato) |
+| 1 | 2026-09-18 | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Hauptserie](https://www.crunchyroll.com/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world) · [Staffel 2](https://www.crunchyroll.com/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world) |
+| 2 | 2024-01-08 | Bakugan: Spieler des Schicksals | [Bakugan](https://plus.rtl.de/video-tv/serien/bakugan-982370/staffel-1-982371) |
