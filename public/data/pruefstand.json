@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-29T20:20:04.868Z",
+ "erzeugtAm": "2026-09-29T20:24:10.856Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -75,7 +75,8 @@
     },
     {
      "url": "https://www.netflix.com/title/80135674",
-     "titel": "My Hero Academia"
+     "titel": "My Hero Academia",
+     "seit": "2026-09-24"
     },
     {
      "url": "https://www.netflix.com/title/81091393",
@@ -87,7 +88,8 @@
     },
     {
      "url": "https://www.netflix.com/title/81788312",
-     "titel": "The Dangers in My Heart"
+     "titel": "The Dangers in My Heart",
+     "seit": "2026-09-27"
     }
    ],
    "naechster": "Chihiros Reise ins Zauberland"

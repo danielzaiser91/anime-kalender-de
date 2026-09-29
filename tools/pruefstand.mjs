@@ -222,11 +222,8 @@ const stand = ANBIETER.map((a) => {
         wert?.laut === 'anbieter-gerechnet'
           ? [...new Set((wert.staffeln ?? []).filter((st) => st.offen && !st.film).map((st) => Number(st.nr)))].filter(Number.isFinite)
           : []
-      const seit = [...(wert?.eintraege ?? []), ...(wert?.staffeln ?? [])]
-        .map((e) => Number(e?.id))
-        .filter((id) => Number.isFinite(id))
-        .map((id) => seitJeTitel.get(`${id}|${a.plattform}`))
-        .find(Boolean)
+      /* `seit` aus der Verdachtsfrist (über die AniList-Kennung) oder direkt aus den Staffeln. */
+      const seit = [...(wert?.eintraege ?? wert?.staffeln ?? []).map((e) => Number(e?.id)).filter((id) => Number.isFinite(id)).map((id) => seitJeTitel.get(`${id}|${a.plattform}`)), ...(wert?.staffeln ?? []).map((st) => st?.seit)].filter(Boolean).sort()[0]
       return { url: a.ziel(schluessel, wert), titel: wert?.titel ?? null, ...(seit ? { seit } : {}), ...(staffeln.length ? { staffeln } : {}) }
     })
     .filter((z) => z.url)
