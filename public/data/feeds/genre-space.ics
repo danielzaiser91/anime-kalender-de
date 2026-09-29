@@ -6,28 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Space
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-21175-tv-prosieben-maxx@2026-09-21#126@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260921T150500Z
-DTEND:20260921T153500Z
-SUMMARY:Dragon Ball Super – Folge 126/131
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21175-tv-prosieben-max
- x
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21175-tv-prosieben-maxx@2026-09-21#127@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260921T153000Z
-DTEND:20260921T160000Z
-SUMMARY:Dragon Ball Super – Folge 127/131
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21175-tv-prosieben-max
- x
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21175-tv-prosieben-maxx@2026-09-22#128@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260922T150500Z

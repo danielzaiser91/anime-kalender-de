@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Politics
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-21#1@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260921T162500Z
-DTEND:20260921T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-21#2@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260921T165000Z
-DTEND:20260921T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-09-22#3@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260922T162500Z
@@ -374,6 +354,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00378078
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-05#17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261005T162500Z
+DTEND:20261005T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-05#18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261005T165000Z
+DTEND:20261005T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de

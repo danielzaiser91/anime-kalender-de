@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Kids
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-09-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260921T140500Z
-DTEND:20260921T143500Z
-SUMMARY:Pokémon Horizonte – Folge 81/128
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-09-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260921T150500Z
-DTEND:20260921T153500Z
-SUMMARY:Pokémon Horizonte – Folge 81/128
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-09-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260922T140500Z
@@ -137,6 +117,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-165159-rtlplus-staffel-3@2026-09-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260925
+DTEND;VALUE=DATE:20260926
+SUMMARY:Beyblade X Staffel 3 – Folge 118/118
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-
+ 165159-rtlplus-staffel-3
+CATEGORIES:RTL+
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-09-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260926T110000Z
@@ -192,6 +183,36 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260928T191500Z
 DTEND:20260928T194500Z
 SUMMARY:Pokémon Reisen: Die Serie – Folge 3/3
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-09-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260929T140500Z
+DTEND:20260929T143500Z
+SUMMARY:Pokémon Horizonte – Folge 87/128
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-09-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260929T150500Z
+DTEND:20260929T153500Z
+SUMMARY:Pokémon Horizonte – Folge 87/128
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-09-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260929T191500Z
+DTEND:20260929T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 5/5
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
 CATEGORIES:TOGGO plus

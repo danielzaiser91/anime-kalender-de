@@ -30,6 +30,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-165159-rtlplus-staffel-3@2026-09-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260925
+DTEND;VALUE=DATE:20260926
+SUMMARY:Beyblade X Staffel 3 – Folge 118/118
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-
+ 165159-rtlplus-staffel-3
+CATEGORIES:RTL+
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-09-26#2@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260926T034500Z

@@ -1,5 +1,5 @@
 {
-  "stand": "2026-09-29T16:03:50.211Z",
+  "stand": "2026-09-29T16:44:47.365Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -5194,17 +5194,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 2361,
-      "titel": "Saber Rider und die Star Sheriffs",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/series/GQWH0M1EX/saber-rider-and-the-star-sheriffs",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-29",
-      "letzterWeg": false
-    },
-    {
       "titleId": 2476,
       "titel": "School Days: Wer dir alles geben kann, kann dir auch alles nehmen ...",
       "plattform": "crunchyroll",
@@ -5539,17 +5528,6 @@
       "titel": "Date a Live",
       "plattform": "primevideo",
       "url": "https://www.amazon.de/dp/B0CZS6FBVY",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-29",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 15813,
-      "titel": "Yoyo & Nene: Die magischen Schwestern",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/watch/G50UZV2GM/",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -6441,17 +6419,6 @@
       "titel": "Captain Tsubasa",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-29",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 100749,
-      "titel": "Mirai: Das Mädchen aus der Zukunft",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/watch/GQJUGQWMW/",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -8098,6 +8065,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-29",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8157,6 +8135,17 @@
       "titel": "Gushing over Magical Girls",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1121",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-09-29",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
