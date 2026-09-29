@@ -1272,9 +1272,6 @@ async function melden({ automatisch = false } = {}) {
         titelId: titelIdFuer(gemeinteReihe(), stand.staffel ?? null),
         sprachen: echte.map((s) => `${s.code}|${s.name}`),
         ...beobachtung(!ohneFolge, deutsch),
-        /* Der Serientitel **dieser** Seite schlägt `document.title` (29.09.2026): Netflix' SPA
-           setzt den erst nach dem Wechsel um, der Durchgang meldete deshalb die vorige Serie
-           (25 Dangers-Meldungen trugen „Shangri-La Frontier"). Begründung im Prüflauf. */
         titel: (stand.serientitel || stand.titel || '').replace(/\s*-\s*Netflix\s*$/i, '').trim() || null,
         // Die laufende Folge als Beleg, nie als Ersatz fuer die Reihe.
         folge: stand.folge,
