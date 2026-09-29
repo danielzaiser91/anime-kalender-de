@@ -747,8 +747,8 @@ export function Tooltip({
               'whitespace-pre-line rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',
               'bg-slate-900 text-slate-100 shadow-xl ring-1 ring-white/15',
               'dark:bg-slate-800 dark:ring-white/10',
-              /* Die Nase: ein Dreieck, das nach oben aus der Blase ragt (Daniel, 29.09.2026). */
-              mitSpitze ? 'relative before:absolute before:-top-1 before:left-1/2 before:-translate-x-1/2 before:border-x-4 before:border-b-4 before:border-x-transparent before:border-b-slate-900 dark:before:border-b-slate-800' : '',
+              /* Nase nach oben — **ohne `relative`**: das überschreibt `fixed` (29.09.2026). */
+              mitSpitze ? 'before:absolute before:-top-1 before:left-1/2 before:-translate-x-1/2 before:border-x-4 before:border-b-4 before:border-x-transparent before:border-b-slate-900 dark:before:border-b-slate-800' : '',
               pos ? 'animate-[hinweisEin_.15s_ease-out]' : '',
             ].join(' ')}
           >
