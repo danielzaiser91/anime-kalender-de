@@ -25,8 +25,7 @@ import { syncSharePath } from '../lib/router.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import {
-  Button,
-  Chip, Tooltip, SectionTitle
+  Button, Tooltip
 } from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { jetztBerlin } from '../lib/toggo.ts'
@@ -46,6 +45,7 @@ import { PanelKopf } from './detail/kopf.tsx'
 import { UnterDerAntwort } from './detail/unter-der-antwort.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
+import { SchlagworteAbschnitt } from './detail/Schlagworte.tsx'
 
 export function DetailPanel({
   data,
@@ -1442,25 +1442,15 @@ export function DetailPanel({
 
           {title.hasVoices && <VoiceCast titleId={title.id} />}
 
-          {title.keywords.length > 0 && (
-            <div>
-              <SectionTitle>{t('detail.keywords')}</SectionTitle>
-              <div className="flex flex-wrap gap-1.5">
-                {keywords.map((k) => (
-                  <Chip key={k} onClick={() => onFilterBy('keyword', k)}>
-                    {tKeyword(k)}
-                  </Chip>
-                ))}
-                {title.keywords.length > KEYWORD_PREVIEW && (
-                  <Chip onClick={() => setAllKeywords((v) => !v)}>
-                    {allKeywords
-                      ? t('filter.showLess')
-                      : `(…) ${t('filter.showMore', { count: title.keywords.length })}`}
-                  </Chip>
-                )}
-              </div>
-            </div>
-          )}
+          <SchlagworteAbschnitt
+            title={title}
+            t={t}
+            keywords={keywords}
+            onFilterBy={onFilterBy}
+            tKeyword={tKeyword}
+            setAllKeywords={setAllKeywords}
+            allKeywords={allKeywords}
+          />
 
           {/*
             **Die Quellen stehen gesammelt unten, nicht an jedem Bereich.**
