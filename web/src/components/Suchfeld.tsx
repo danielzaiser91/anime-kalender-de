@@ -60,7 +60,12 @@ export function Suchfeld({
   /*
     **Das Fragezeichen sitzt im Feld, rechts** (Daniel, 29.09.2026: „den icon rechts vom input ins
     input (rechts) packen"). Der Platz dafür kommt aus dem rechten Innenabstand des Feldes — in der
-    Kopfleiste `pr-9` (die Breite des Zeichens plus Luft); ohne ihn läge es über dem Text.
+    Kopfleiste `pr-16` (zwei Knöpfe: Löschen und Erklären).
+
+    **Und das Löschen ist ein eigener, runder Knopf** (Daniel, 29.09.2026: „make x more clickable, by
+    making it a circular button"). Das native ✕ von `type="search"` ist je Browser verschieden groß
+    und kaum zu treffen; es wird ausgeblendet, und wir zeichnen ein eigenes — gleiche Größe überall,
+    mit Fläche zum Anklicken.
   */
   return (
     <span className="relative flex w-full items-center">
@@ -71,11 +76,38 @@ export function Suchfeld({
         onChange={(e) => setGetippt(e.target.value)}
         placeholder={platzhalter}
         aria-label={platzhalter}
-        className={className}
+        className={`${className} [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none`}
       />
+      {getippt && (
+        <LoeschKnopf
+          leeren={() => {
+            setGetippt('')
+            /* Ohne Wartezeit: Wer löscht, will die volle Liste sehen, nicht nach 250 ms. */
+            setzen('')
+            if (typeof eingabe === 'object') eingabe?.current?.focus()
+          }}
+        />
+      )}
       <span className="absolute right-2 flex items-center">
         <Fragezeichen text={felder} />
       </span>
     </span>
+  )
+}
+
+/** Der runde Lösch-Knopf im Suchfeld — gleiche Größe in jedem Browser, mit Fläche zum Treffen. */
+function LoeschKnopf({ leeren }: { leeren: () => void }) {
+  return (
+    <button
+      type="button"
+      aria-label={translate('suche.leeren')}
+      title={translate('suche.leeren')}
+      onClick={leeren}
+      className="absolute right-9 flex size-6 cursor-pointer items-center justify-center rounded-full text-ak-leise transition hover:bg-white/15 hover:text-ak-text"
+    >
+      <svg viewBox="0 0 14 14" className="size-3.5" fill="none" aria-hidden="true">
+        <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    </button>
   )
 }

@@ -76,6 +76,7 @@ const TEXTE = {
     **Die Suche erklärt sich selbst** (Daniel, 29.09.2026): Welche Felder durchsucht werden, ist
     nirgends sichtbar — nach der Projektregel „alles offen kommunizieren" steht es am Suchfeld.
   */
+  'suche.leeren': 'Suche leeren',
   'suche.felderTitel': 'Durchsucht werden:',
   'suche.unscharf':
     'Findet sie nichts Genaues, sucht sie zusätzlich unscharf — Tippfehler werden dann verziehen.',

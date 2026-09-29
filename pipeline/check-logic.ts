@@ -6035,10 +6035,25 @@ pruefe(
   const headerQuelle = readFileSync('web/src/components/Header.tsx', 'utf8')
   pruefe(
     'das Fragezeichen sitzt im Feld rechts',
-    /relative flex w-full items-center[\s\S]{0,600}?absolute right-2[\s\S]{0,200}?<Fragezeichen/.test(suchfeldQuelle),
+    /relative flex w-full items-center[\s\S]{0,900}?absolute right-2[\s\S]{0,200}?<Fragezeichen/.test(suchfeldQuelle),
     'die absolute Lage im Feld fehlt',
   )
-  pruefe('… und das Feld lässt rechts Platz dafür', /\bpr-9\b/.test(headerQuelle), 'pr-9 fehlt im Feld')
+  pruefe(
+    '… und das Feld lässt rechts Platz für beide Knöpfe',
+    /\bpr-16\b/.test(headerQuelle),
+    'pr-16 fehlt im Feld',
+  )
+  /*
+    Das native ✕ von `type="search"` ist je Browser verschieden groß — Daniel, 29.09.2026: „make x
+    more clickable, by making it a circular button". Es wird ausgeblendet, unser eigener Knopf ist
+    24 px groß und rund.
+  */
+  pruefe(
+    'das Löschen ist ein eigener, runder Knopf statt des nativen ✕',
+    /webkit-search-cancel-button\]:appearance-none/.test(suchfeldQuelle) &&
+      /size-6[^"]*rounded-full/.test(suchfeldQuelle),
+    'das native ✕ ist noch an oder der Knopf ist nicht rund',
+  )
   /*
     **Die Lupe verschwand hinter dem Feld** (Daniel, 29.09.2026, mit Bild: „lupe icon unsichtbar").
     Seit das Fragezeichen im Feld sitzt, hat das Feld eine *positionierte* Hülle (`relative`) — und
