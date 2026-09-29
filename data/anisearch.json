@@ -50490,6 +50490,15 @@
           "released": "22.01.2009 - ?"
         },
         {
+          "language": "Französisch",
+          "title": "Gintama",
+          "status": "Zukünftig",
+          "released": "10.2026 - ?",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        },
+        {
           "language": "Italienisch",
           "title": "Gintama",
           "status": "Abgeschlossen",
@@ -50549,10 +50558,10 @@
       ],
       "synonyms": [
         "Gin Tama",
-        "Silver Soul Alle anzeigen"
+        "Silver Soul"
       ]
     },
-    "fetchedAt": "2026-08-29T08:15:50.117Z"
+    "fetchedAt": "2026-09-29T11:08:18.467Z"
   },
   "920": {
     "anisearchId": 4043,
@@ -50674,7 +50683,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:15:57.064Z"
+    "fetchedAt": "2026-09-29T11:08:25.391Z"
   },
   "934": {
     "anisearchId": 1931,
@@ -50778,10 +50787,10 @@
         "Der Gesang der Zikaden",
         "Higurashi",
         "When Cicadas Cry",
-        "When the Cicadas Cry Alle anzeigen"
+        "When the Cicadas Cry"
       ]
     },
-    "fetchedAt": "2026-08-29T08:16:04.161Z"
+    "fetchedAt": "2026-09-29T11:08:32.435Z"
   },
   "935": {
     "anisearchId": 1614,
@@ -50856,7 +50865,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:16:11.113Z"
+    "fetchedAt": "2026-09-29T11:08:39.367Z"
   },
   "936": {
     "anisearchId": 2988,
@@ -50984,10 +50993,10 @@
         "Naruto the Movie 2: Great Clash! The Illusionary Ruins at the Depths of the Earth",
         "Naruto: Naruto’s Big Clash in the Theatre! The Illusion of the Ruins of the Depths of the Earth!!",
         "Naruto: The Great Clash! The Phantom Ruins in the Depths of the Earth",
-        "Naruto’s Big Clash in the Theatre! The Illusion of the Ruins of the Underworld! Alle anzeigen"
+        "Naruto’s Big Clash in the Theatre! The Illusion of the Ruins of the Underworld!"
       ]
     },
-    "fetchedAt": "2026-08-29T08:16:18.085Z"
+    "fetchedAt": "2026-09-29T11:08:46.306Z"
   },
   "937": {
     "anisearchId": 2078,
@@ -51067,11 +51076,17 @@
         "GAINAX Co., Ltd."
       ],
       "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Anime House",
+          "url": "https://www.anime-house.de/appleseed.html"
+        }
+      ],
       "synonyms": [
-        "Apple Seed Alle anzeigen"
+        "Apple Seed"
       ]
     },
-    "fetchedAt": "2026-08-29T08:16:25.016Z"
+    "fetchedAt": "2026-09-29T11:08:53.230Z"
   },
   "938": {
     "anisearchId": 2401,
@@ -51198,7 +51213,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:16:31.981Z"
+    "fetchedAt": "2026-09-29T11:09:00.174Z"
   },
   "951": {
     "anisearchId": 2680,
@@ -51252,7 +51267,7 @@
         "Little Miss Maruko"
       ]
     },
-    "fetchedAt": "2026-08-29T08:16:38.915Z"
+    "fetchedAt": "2026-09-29T11:09:07.098Z"
   },
   "953": {
     "anisearchId": 3575,
@@ -51328,7 +51343,7 @@
         "Juuohsei"
       ]
     },
-    "fetchedAt": "2026-08-29T08:16:45.860Z"
+    "fetchedAt": "2026-09-29T11:09:14.035Z"
   },
   "958": {
     "anisearchId": 3071,
@@ -51427,10 +51442,10 @@
       "synonyms": [
         "Habitat Ground Jewdo",
         "Heat Guy Jay",
-        "HeatGuy-J Alle anzeigen"
+        "HeatGuy-J"
       ]
     },
-    "fetchedAt": "2026-08-29T08:16:52.820Z"
+    "fetchedAt": "2026-09-29T11:09:20.955Z"
   },
   "963": {
     "anisearchId": 6972,
@@ -51527,10 +51542,10 @@
         }
       ],
       "synonyms": [
-        "Love Hina Episode 25 Alle anzeigen"
+        "Love Hina Episode 25"
       ]
     },
-    "fetchedAt": "2026-08-29T08:16:59.729Z"
+    "fetchedAt": "2026-09-29T11:09:27.891Z"
   },
   "966": {
     "anisearchId": 178,
@@ -51890,10 +51905,10 @@
         "Dragon Ball Z: Los dos guerreros del futuro",
         "Gohan y Trunks",
         "Dragon Ball Z: Los Últimos Guerreros Z - Gohan y Trunks",
-        "Dragon Ball Z: ¡El desafío a la desesperación! Los superguerreros restantes: Gohan y Trunks Alle anzeigen"
+        "Dragon Ball Z: ¡El desafío a la desesperación! Los superguerreros restantes: Gohan y Trunks"
       ]
     },
-    "fetchedAt": "2026-08-29T08:17:13.673Z"
+    "fetchedAt": "2026-09-29T11:09:34.816Z"
   },
   "986": {
     "anisearchId": 3163,
@@ -51989,10 +52004,10 @@
       "synonyms": [
         "DBZ: A Final Solitary Battle! The Z Warrior Son Goku’s Father Challenges Frieza",
         "Dragon Ball Z: Le origini del mito",
-        "Dragonball Z: Son-Gokus Vater - Das Bardock Special Alle anzeigen"
+        "Dragonball Z: Son-Gokus Vater - Das Bardock Special"
       ]
     },
-    "fetchedAt": "2026-08-29T08:17:20.634Z"
+    "fetchedAt": "2026-09-29T11:09:41.746Z"
   },
   "987": {
     "anisearchId": 1825,
@@ -52081,10 +52096,10 @@
         "Dragon Ball GT: 100 Years After - TV Special",
         "Dragon Ball GT: Four-star Dragonball Is The Proof of Courage",
         "Dragon Ball GT: Goku’s Sidestory! The Proof of His Courage is the Four-Star",
-        "Dragon Ball GT: La Legendaria esfera de cuatro estrellas Alle anzeigen"
+        "Dragon Ball GT: La Legendaria esfera de cuatro estrellas"
       ]
     },
-    "fetchedAt": "2026-08-29T08:17:27.550Z"
+    "fetchedAt": "2026-09-29T11:09:48.658Z"
   },
   "993": {
     "anisearchId": 7159,
@@ -52316,10 +52331,10 @@
       "synonyms": [
         "Bishoujo Senshi Sailor Moon S Gekijouban (美少女戦士セーラームーンS 劇場版)",
         "Bishoujo Senshi Sailor Moon S: Kaguya-hime no Koibito (美少女戦士セーラームーンS かぐや姫の恋人)",
-        "Sailormoon S: Schneeprinzessin Kaguya Alle anzeigen"
+        "Sailormoon S: Schneeprinzessin Kaguya"
       ]
     },
-    "fetchedAt": "2026-08-29T08:17:34.507Z"
+    "fetchedAt": "2026-09-29T11:09:55.581Z"
   },
   "1000": {
     "anisearchId": 1017,
@@ -52492,7 +52507,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:17:41.421Z"
+    "fetchedAt": "2026-09-29T11:10:02.507Z"
   },
   "1006": {
     "anisearchId": 263,
@@ -52576,10 +52591,10 @@
       ],
       "adaptedFrom": "Originalwerk",
       "synonyms": [
-        "Tenchi the Movie 1 Alle anzeigen"
+        "Tenchi the Movie 1"
       ]
     },
-    "fetchedAt": "2026-08-29T08:17:48.351Z"
+    "fetchedAt": "2026-09-29T11:10:09.414Z"
   },
   "1007": {
     "anisearchId": 357,
@@ -53067,10 +53082,10 @@
       "adaptedFrom": "Manga",
       "synonyms": [
         "Gun Dream",
-        "Gunnm Alle anzeigen"
+        "Gunnm"
       ]
     },
-    "fetchedAt": "2026-08-29T08:18:02.210Z"
+    "fetchedAt": "2026-09-29T11:10:23.256Z"
   },
   "1029": {
     "anisearchId": 1112,
@@ -53134,7 +53149,8 @@
           "released": "05.05.2010",
           "publisher": [
             "Netflix, Inc.",
-            "Zima Entertainment"
+            "Zima Entertainment",
+            "Vértigo Films"
           ]
         },
         {
@@ -53193,17 +53209,25 @@
       "adaptedFrom": "Manga",
       "websites": [
         {
-          "name": "Nausicaa",
-          "url": "https://www.nausicaa.net/miyazaki/opp/"
+          "name": "Gkids",
+          "url": "https://gkids.com/films/only-yesterday/"
+        },
+        {
+          "name": "Wildbunch Germany",
+          "url": "https://www.wildbunch-germany.de/movie/traenen-der-erinnerung-only-yesterday"
+        },
+        {
+          "name": "Vertigofilms",
+          "url": "https://vertigofilms.es/movie/recuerdos-del-ayer/"
         }
       ],
       "synonyms": [
+        "Omoide Poro Poro",
         "Memories of Teardrops",
-        "Memories of Yesterday",
-        "Omoide Poro Poro Alle anzeigen"
+        "Memories of Yesterday"
       ]
     },
-    "fetchedAt": "2026-08-29T08:18:09.141Z"
+    "fetchedAt": "2026-09-29T11:10:30.176Z"
   },
   "1030": {
     "anisearchId": 498,
@@ -53268,7 +53292,9 @@
           "released": "09.12.2009",
           "publisher": [
             "Netflix, Inc.",
-            "Zima Entertainment"
+            "Zima Entertainment",
+            "Vértigo Films",
+            "eOne Films Spain"
           ]
         },
         {
@@ -53339,16 +53365,24 @@
       "adaptedFrom": "Originalwerk",
       "websites": [
         {
-          "name": "Nausicaa",
-          "url": "https://www.nausicaa.net/miyazaki/pompoko/"
+          "name": "Gkids",
+          "url": "https://gkids.com/films/pom-poko/"
+        },
+        {
+          "name": "Vertigofilms",
+          "url": "https://vertigofilms.es/movie/pompoko/"
+        },
+        {
+          "name": "Luckyred",
+          "url": "https://www.luckyred.it/movie/pom-poko/"
         }
       ],
       "synonyms": [
         "Heisei Tanuki Gassen Ponpoko",
-        "La guerra de los mapaches Alle anzeigen"
+        "La guerra de los mapaches"
       ]
     },
-    "fetchedAt": "2026-08-29T08:18:16.076Z"
+    "fetchedAt": "2026-09-29T11:10:37.101Z"
   },
   "1031": {
     "anisearchId": 284,
@@ -53409,7 +53443,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:18:23.000Z"
+    "fetchedAt": "2026-09-29T11:10:44.030Z"
   },
   "1033": {
     "anisearchId": 851,
@@ -53530,15 +53564,19 @@
         {
           "name": "Millenniumactress Themovie",
           "url": "https://www.millenniumactress-themovie.com/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/millenium-actress-4k/"
         }
       ],
       "synonyms": [
         "Chiyoko Millennial Actress",
         "Millennium Actress Chiyoko",
-        "Sennen Joyuu Chiyoko Alle anzeigen"
+        "Sennen Joyuu Chiyoko"
       ]
     },
-    "fetchedAt": "2026-08-29T08:18:29.952Z"
+    "fetchedAt": "2026-09-29T11:10:50.976Z"
   },
   "1034": {
     "anisearchId": 887,
@@ -53653,10 +53691,10 @@
         }
       ],
       "synonyms": [
-        "Star Quest Alle anzeigen"
+        "Star Quest"
       ]
     },
-    "fetchedAt": "2026-08-29T08:18:36.896Z"
+    "fetchedAt": "2026-09-29T11:10:57.934Z"
   },
   "1043": {
     "anisearchId": 2864,
@@ -53837,14 +53875,14 @@
         }
       ],
       "synonyms": [
-        "The Soul Taker Alle anzeigen"
+        "The Soul Taker"
       ]
     },
-    "fetchedAt": "2026-08-29T08:18:43.838Z"
+    "fetchedAt": "2026-09-29T11:11:04.876Z"
   },
   "1049": {
     "anisearchId": 2379,
-    "descriptionDe": "Goshu ist Cellist im örtlichen Orchester und lebt in einem kleinen Haus außerhalb der Stadt. Sein Spiel ist jedoch unvollkommen und so beginnt der Dirigent langsam seine Geduld mit ihm zu verlieren, da er das ganze Orchester mit seiner Unzulänglichkeit irritiert. In den nächsten Nächten tauchen in seinem Haus aber plötzlich einige Tiere auf, die ihm verschiedene musikalische Aufgaben stellen. Goshu realisiert zunächst nicht, dass diese seltsamen Lektionen dazu dienen sollen, ihn bis zum großen Konzert in wenigen Tagen von seinen Schwächen zu befreien … \n\nQuelle: www.anisearch.de/anime/2379",
+    "descriptionDe": "Der in einer Getreidemühle wohnende Cellist Goshu ist ein Mitglied des kleinen Venus-Orchesters, einem 18-köpfigen Ensemble, dem in nur zehn Tagen ein großer Auftritt bevorsteht. Die Probedurchläufe verlaufen für den strengen Dirigenten jedoch alles andere als zufriedenstellend. Insbesondere Goshus Spiel empfindet er als unvollkommen und das ganze Orchester würde unter seiner Unzulänglichkeit leiden. Bis zum Tag des großen Auftritts müsste er lernen, sich künstlerisch auszudrücken und die richtigen Tonlagen zu treffen. Goshu ist von dieser harschen Kritik sichtlich gezeichnet, doch bald darauf ereignet sich etwas höchst Seltsames. In den folgenden Nächten tauchen in Goshus Haus plötzlich einige sprechende Tiere auf, die ihm verschiedene musikalische Aufgaben stellen. Dabei realisiert er zunächst nicht, dass diese seltsamen Lektionen dazu dienen sollen, ihn bis zum großen Konzert von seinen Schwächen zu befreien … \n\nQuelle: www.anisearch.de/anime/2379",
     "streams": [],
     "info": {
       "languages": [
@@ -53924,10 +53962,10 @@
         "Gauche the cellist",
         "Goshu the Cellist",
         "Sero Hiki no Goshu",
-        "セロ彈きのゴーシュ Alle anzeigen"
+        "セロ彈きのゴーシュ"
       ]
     },
-    "fetchedAt": "2026-08-29T08:18:50.762Z"
+    "fetchedAt": "2026-09-29T11:11:11.783Z"
   },
   "1050": {
     "anisearchId": 1326,
@@ -54018,10 +54056,10 @@
       ],
       "synonyms": [
         "Bo^7",
-        "Boboboobo Boobobo Alle anzeigen"
+        "Boboboobo Boobobo"
       ]
     },
-    "fetchedAt": "2026-08-29T08:18:57.672Z"
+    "fetchedAt": "2026-09-29T11:11:18.719Z"
   },
   "1051": {
     "anisearchId": 1320,
@@ -54126,10 +54164,10 @@
         }
       ],
       "synonyms": [
-        "Blue Six Alle anzeigen"
+        "Blue Six"
       ]
     },
-    "fetchedAt": "2026-08-29T08:19:04.602Z"
+    "fetchedAt": "2026-09-29T11:11:25.636Z"
   },
   "1055": {
     "anisearchId": 3253,
@@ -54242,7 +54280,7 @@
         "Shana of the Burning Eyes Specials"
       ]
     },
-    "fetchedAt": "2026-08-29T08:19:11.504Z"
+    "fetchedAt": "2026-09-29T11:11:32.552Z"
   },
   "1074": {
     "anisearchId": 3647,
@@ -54348,10 +54386,10 @@
       ],
       "adaptedFrom": "Manga",
       "synonyms": [
-        "Cardcaptor Sakura: Leave It to Kero-chan! Theatrical Version Alle anzeigen"
+        "Cardcaptor Sakura: Leave It to Kero-chan! Theatrical Version"
       ]
     },
-    "fetchedAt": "2026-08-29T08:19:18.420Z"
+    "fetchedAt": "2026-09-29T11:11:39.461Z"
   },
   "1079": {
     "anisearchId": 1179,
@@ -54449,7 +54487,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:19:25.349Z"
+    "fetchedAt": "2026-09-29T11:11:46.393Z"
   },
   "1080": {
     "anisearchId": 895,
@@ -54535,10 +54573,10 @@
       "synonyms": [
         "Battle Fairy Yukikaze",
         "Fairy Air Force",
-        "Yukikaze Operation Alle anzeigen"
+        "Yukikaze Operation"
       ]
     },
-    "fetchedAt": "2026-08-29T08:19:32.267Z"
+    "fetchedAt": "2026-09-29T11:11:53.299Z"
   },
   "1081": {
     "anisearchId": 1425,
@@ -54622,7 +54660,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:19:39.178Z"
+    "fetchedAt": "2026-09-29T11:12:00.217Z"
   },
   "1084": {
     "anisearchId": 1553,
@@ -54701,10 +54739,10 @@
       ],
       "adaptedFrom": "Manga",
       "synonyms": [
-        "From I\"s: Another Summer Story Alle anzeigen"
+        "From I\"s: Another Summer Story"
       ]
     },
-    "fetchedAt": "2026-08-29T08:19:46.095Z"
+    "fetchedAt": "2026-09-29T11:12:07.140Z"
   },
   "1088": {
     "anisearchId": 1452,
@@ -54811,10 +54849,10 @@
         "SDF Macross",
         "The Super Dimension Fortress Macross",
         "Robotech: Season 1",
-        "Robotech: The Macross Saga Alle anzeigen"
+        "Robotech: The Macross Saga"
       ]
     },
-    "fetchedAt": "2026-08-29T08:19:53.148Z"
+    "fetchedAt": "2026-09-29T11:12:14.206Z"
   },
   "1089": {
     "anisearchId": 2367,
@@ -55317,10 +55355,10 @@
         }
       ],
       "synonyms": [
-        "Patlabor 1: The Movie Alle anzeigen"
+        "Patlabor 1: The Movie"
       ]
     },
-    "fetchedAt": "2026-08-29T08:20:00.141Z"
+    "fetchedAt": "2026-09-29T11:12:21.154Z"
   },
   "1096": {
     "anisearchId": 2835,
@@ -55432,10 +55470,10 @@
         }
       ],
       "synonyms": [
-        "Patlabor Movie 2 Alle anzeigen"
+        "Patlabor Movie 2"
       ]
     },
-    "fetchedAt": "2026-08-29T08:20:07.079Z"
+    "fetchedAt": "2026-09-29T11:12:28.102Z"
   },
   "1099": {
     "anisearchId": 2014,
@@ -55538,10 +55576,10 @@
       ],
       "adaptedFrom": "Originalwerk",
       "synonyms": [
-        "Tenchi Muyou! Midsummers Eve Alle anzeigen"
+        "Tenchi Muyou! Midsummers Eve"
       ]
     },
-    "fetchedAt": "2026-08-29T08:20:14.032Z"
+    "fetchedAt": "2026-09-29T11:12:35.032Z"
   },
   "1107": {
     "anisearchId": 1374,
@@ -55651,10 +55689,10 @@
       ],
       "synonyms": [
         "Demon Beast City",
-        "Supernatural Beast City Alle anzeigen"
+        "Supernatural Beast City"
       ]
     },
-    "fetchedAt": "2026-08-29T08:20:20.973Z"
+    "fetchedAt": "2026-09-29T11:12:41.971Z"
   },
   "1108": {
     "anisearchId": 1367,
@@ -55724,10 +55762,10 @@
         }
       ],
       "synonyms": [
-        "Romances of Sealed Gods Alle anzeigen"
+        "Romances of Sealed Gods"
       ]
     },
-    "fetchedAt": "2026-08-29T08:20:27.909Z"
+    "fetchedAt": "2026-09-29T11:12:48.901Z"
   },
   "1117": {
     "anisearchId": 3495,
@@ -55836,10 +55874,10 @@
         "Pocket Monsters the Movie: The Phantom Pokémon",
         "Lugia's Explosive Birth",
         "Pokémon Movie 2",
-        "Pokémon: The Movie 2000 Alle anzeigen"
+        "Pokémon: The Movie 2000"
       ]
     },
-    "fetchedAt": "2026-08-29T08:20:34.868Z"
+    "fetchedAt": "2026-09-29T11:12:55.843Z"
   },
   "1118": {
     "anisearchId": 1476,
@@ -55944,10 +55982,10 @@
       ],
       "synonyms": [
         "Pokémon Movie 3",
-        "Pokémon: Im Bann des Unbekannten Alle anzeigen"
+        "Pokémon: Im Bann des Unbekannten"
       ]
     },
-    "fetchedAt": "2026-08-29T08:20:41.810Z"
+    "fetchedAt": "2026-09-29T11:13:02.791Z"
   },
   "1119": {
     "anisearchId": 1612,
@@ -56052,7 +56090,7 @@
         "la voz del bosque"
       ]
     },
-    "fetchedAt": "2026-08-29T08:20:48.766Z"
+    "fetchedAt": "2026-09-29T11:13:09.735Z"
   },
   "1120": {
     "anisearchId": 164,
@@ -56150,10 +56188,10 @@
       ],
       "synonyms": [
         "Pocket Monsters: The Water Capital’s Guardian Deities - Latias & Latios",
-        "Pokémon Movie 5 Alle anzeigen"
+        "Pokémon Movie 5"
       ]
     },
-    "fetchedAt": "2026-08-29T08:20:55.712Z"
+    "fetchedAt": "2026-09-29T11:13:16.680Z"
   },
   "1121": {
     "anisearchId": 3100,
@@ -56233,10 +56271,10 @@
       ],
       "synonyms": [
         "Pokémon Movie 6",
-        "Pokémon: Advance Generation - Wishing Star of the Seven Nights Alle anzeigen"
+        "Pokémon: Advance Generation - Wishing Star of the Seven Nights"
       ]
     },
-    "fetchedAt": "2026-08-29T08:21:02.657Z"
+    "fetchedAt": "2026-09-29T11:13:23.642Z"
   },
   "1122": {
     "anisearchId": 2602,
@@ -56311,10 +56349,10 @@
       ],
       "synonyms": [
         "Pocket Monsters Advance Generation: Deoxys the Visitor of the Space Fissure",
-        "Pokémon Movie 7 Alle anzeigen"
+        "Pokémon Movie 7"
       ]
     },
-    "fetchedAt": "2026-08-29T08:21:09.637Z"
+    "fetchedAt": "2026-09-29T11:13:30.590Z"
   },
   "1132": {
     "anisearchId": 551,
@@ -56425,10 +56463,10 @@
       "synonyms": [
         "Digimon 04",
         "Digimon 4th Season",
-        "Digimon: Digital Monsters Season 4 Alle anzeigen"
+        "Digimon: Digital Monsters Season 4"
       ]
     },
-    "fetchedAt": "2026-08-29T08:21:16.592Z"
+    "fetchedAt": "2026-09-29T11:13:37.548Z"
   },
   "1138": {
     "anisearchId": 1453,
@@ -56498,7 +56536,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:21:23.534Z"
+    "fetchedAt": "2026-09-29T11:13:44.490Z"
   },
   "1140": {
     "anisearchId": 3238,
@@ -56605,10 +56643,10 @@
       "synonyms": [
         "Agito of the Silvery God",
         "Agito with Silver Hair",
-        "Gin-iro no Kami no Agito Alle anzeigen"
+        "Gin-iro no Kami no Agito"
       ]
     },
-    "fetchedAt": "2026-08-29T08:21:30.456Z"
+    "fetchedAt": "2026-09-29T11:13:51.502Z"
   },
   "1143": {
     "anisearchId": 3627,
@@ -56690,10 +56728,10 @@
       "synonyms": [
         ".hack//Another Story",
         ".hack//SIGN Episode 27",
-        ".hack//SIGN: Zwischenspiel Alle anzeigen"
+        ".hack//SIGN: Zwischenspiel"
       ]
     },
-    "fetchedAt": "2026-08-29T08:21:37.427Z"
+    "fetchedAt": "2026-09-29T11:13:58.442Z"
   },
   "1146": {
     "anisearchId": 1156,
@@ -56799,7 +56837,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:21:44.351Z"
+    "fetchedAt": "2026-09-29T11:14:05.395Z"
   },
   "1147": {
     "anisearchId": 18031,
@@ -56893,7 +56931,8 @@
           "dubbed": true,
           "released": "05.1995",
           "publisher": [
-            "Manga Vidéo (FR)"
+            "Manga Vidéo (FR)",
+            "Animation Digital Network"
           ]
         },
         {
@@ -56930,10 +56969,10 @@
         }
       ],
       "synonyms": [
-        "Capital Story Alle anzeigen"
+        "Capital Story"
       ]
     },
-    "fetchedAt": "2026-08-29T08:21:51.283Z"
+    "fetchedAt": "2026-09-29T11:14:12.349Z"
   },
   "1153": {
     "anisearchId": 596,
@@ -57006,7 +57045,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-08-29T08:21:58.216Z"
+    "fetchedAt": "2026-09-29T11:14:19.287Z"
   },
   "1157": {
     "anisearchId": 1600,
@@ -57082,7 +57121,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:22:05.121Z"
+    "fetchedAt": "2026-09-29T11:14:26.233Z"
   },
   "1164": {
     "anisearchId": 2174,
@@ -57149,10 +57188,10 @@
         }
       ],
       "synonyms": [
-        "Mahou Senshi Riui Alle anzeigen"
+        "Mahou Senshi Riui"
       ]
     },
-    "fetchedAt": "2026-08-29T08:22:12.063Z"
+    "fetchedAt": "2026-09-29T11:14:33.189Z"
   },
   "1167": {
     "anisearchId": 3419,
@@ -57233,7 +57272,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-08-29T08:22:18.979Z"
+    "fetchedAt": "2026-09-29T11:14:40.158Z"
   },
   "1170": {
     "anisearchId": 1236,
@@ -57319,10 +57358,10 @@
       ],
       "adaptedFrom": "Light Novel",
       "synonyms": [
-        "Slayers: Dragon Slave & Explosion Army Alle anzeigen"
+        "Slayers: Dragon Slave & Explosion Army"
       ]
     },
-    "fetchedAt": "2026-08-29T08:22:25.911Z"
+    "fetchedAt": "2026-09-29T11:14:47.103Z"
   },
   "1171": {
     "anisearchId": 447,
@@ -57399,10 +57438,10 @@
       "synonyms": [
         "Slayers: Lina-chan's Great Fashion Strategy",
         "Slayers: The Fearful Future",
-        "Slayers: The Labyrinth Alle anzeigen"
+        "Slayers: The Labyrinth"
       ]
     },
-    "fetchedAt": "2026-08-29T08:22:32.837Z"
+    "fetchedAt": "2026-09-29T11:14:54.241Z"
   },
   "1172": {
     "anisearchId": 3416,
@@ -57511,10 +57550,10 @@
         }
       ],
       "synonyms": [
-        "The Slayers: Season 3 Alle anzeigen"
+        "The Slayers: Season 3"
       ]
     },
-    "fetchedAt": "2026-08-29T08:22:39.770Z"
+    "fetchedAt": "2026-09-29T11:15:01.185Z"
   },
   "1175": {
     "anisearchId": 2146,
@@ -57564,7 +57603,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:22:46.671Z"
+    "fetchedAt": "2026-09-29T11:15:08.148Z"
   },
   "1182": {
     "anisearchId": 1223,
@@ -57644,7 +57683,7 @@
       ],
       "adaptedFrom": "Originalwerk"
     },
-    "fetchedAt": "2026-08-29T08:22:53.664Z"
+    "fetchedAt": "2026-09-29T11:15:15.093Z"
   },
   "1191": {
     "anisearchId": 1111,
@@ -57702,7 +57741,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:23:00.573Z"
+    "fetchedAt": "2026-09-29T11:15:22.032Z"
   },
   "1194": {
     "anisearchId": 3617,
@@ -57798,7 +57837,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:23:07.535Z"
+    "fetchedAt": "2026-09-29T11:15:29.009Z"
   },
   "1195": {
     "anisearchId": 2384,
@@ -57956,10 +57995,10 @@
         "Taro",
         "der Drachenboy",
         "Taro",
-        "der kleine Drachenjunge Alle anzeigen"
+        "der kleine Drachenjunge"
       ]
     },
-    "fetchedAt": "2026-08-29T08:23:21.405Z"
+    "fetchedAt": "2026-09-29T11:15:35.937Z"
   },
   "1209": {
     "anisearchId": 673,
@@ -58045,7 +58084,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:23:28.298Z"
+    "fetchedAt": "2026-09-29T11:15:42.912Z"
   },
   "1210": {
     "anisearchId": 2017,
@@ -58147,10 +58186,10 @@
         }
       ],
       "synonyms": [
-        "Welcome to the NHK Alle anzeigen"
+        "Welcome to the NHK"
       ]
     },
-    "fetchedAt": "2026-08-29T08:23:35.313Z"
+    "fetchedAt": "2026-09-29T11:15:49.950Z"
   },
   "1211": {
     "anisearchId": 2413,
@@ -58298,10 +58337,10 @@
       ],
       "synonyms": [
         "Molly Star-Racer",
-        "Oban Star-Racer Alle anzeigen"
+        "Oban Star-Racer"
       ]
     },
-    "fetchedAt": "2026-08-29T08:23:42.248Z"
+    "fetchedAt": "2026-09-29T11:15:56.898Z"
   },
   "1215": {
     "anisearchId": 3557,
@@ -58413,7 +58452,7 @@
         "世紀末 ダーリン"
       ]
     },
-    "fetchedAt": "2026-08-29T08:23:49.170Z"
+    "fetchedAt": "2026-09-29T11:16:03.847Z"
   },
   "1224": {
     "anisearchId": 630,
@@ -58493,7 +58532,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:23:56.072Z"
+    "fetchedAt": "2026-09-29T11:16:10.795Z"
   },
   "1232": {
     "anisearchId": 504,
@@ -58570,10 +58609,10 @@
       ],
       "adaptedFrom": "Originalwerk",
       "synonyms": [
-        "SMR Alle anzeigen"
+        "SMR"
       ]
     },
-    "fetchedAt": "2026-08-29T08:24:03.005Z"
+    "fetchedAt": "2026-09-29T11:16:17.740Z"
   },
   "1235": {
     "anisearchId": 8552,
@@ -58617,7 +58656,7 @@
         "I''s Pure Specials"
       ]
     },
-    "fetchedAt": "2026-08-29T08:24:09.894Z"
+    "fetchedAt": "2026-09-29T11:16:24.686Z"
   },
   "1237": {
     "anisearchId": 3823,
@@ -58928,10 +58967,10 @@
         "Sailor Moon SuperS Movie: Black Dream Hole",
         "Sailor Moon: Movie 3 - Reise ins Land der Träume",
         "Sailormoon Super S: Reise ins Land der Träume",
-        "Sailor Moon Super S : The Movie – Le trou noir des rêves Alle anzeigen"
+        "Sailor Moon Super S : The Movie – Le trou noir des rêves"
       ]
     },
-    "fetchedAt": "2026-08-29T08:24:16.820Z"
+    "fetchedAt": "2026-09-29T11:16:31.608Z"
   },
   "1241": {
     "anisearchId": 80,
@@ -59047,7 +59086,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T08:24:23.730Z"
+    "fetchedAt": "2026-09-29T11:16:38.537Z"
   },
   "1247": {
     "anisearchId": 3596,
@@ -59131,10 +59170,10 @@
         }
       ],
       "synonyms": [
-        "Project Blue Chikyuu SOS Alle anzeigen"
+        "Project Blue Chikyuu SOS"
       ]
     },
-    "fetchedAt": "2026-08-29T08:24:30.654Z"
+    "fetchedAt": "2026-09-29T11:16:45.514Z"
   },
   "1248": {
     "anisearchId": 3433,
@@ -59215,10 +59254,10 @@
       "synonyms": [
         "Z.O.E. Idolo",
         "Zone of the Enders Idolo",
-        "Zone of the Enders OVA Alle anzeigen"
+        "Zone of the Enders OVA"
       ]
     },
-    "fetchedAt": "2026-08-29T08:24:37.560Z"
+    "fetchedAt": "2026-09-29T11:16:52.447Z"
   },
   "1249": {
     "anisearchId": 1410,
@@ -59380,14 +59419,18 @@
         {
           "name": "Web Archive (Gainax)",
           "url": "https://web.archive.org/web/20040603211519/https://www.gainax.co.jp/anime/nadia/index.html"
+        },
+        {
+          "name": "Gkids",
+          "url": "https://gkids.com/series/nadia-the-secret-of-blue-water/"
         }
       ],
       "synonyms": [
         "Nadia of the Mysterious Seas",
-        "Nadia e il Mistero della Pietra Azzurra Alle anzeigen"
+        "Nadia e il Mistero della Pietra Azzurra"
       ]
     },
-    "fetchedAt": "2026-08-29T08:24:44.468Z"
+    "fetchedAt": "2026-09-29T11:16:59.373Z"
   },
   "1252": {
     "anisearchId": 3170,
@@ -59465,10 +59508,10 @@
       "synonyms": [
         "Nadia",
         "le Secret de l’Eau Bleue : Le Film - Le Mystère de Fuzzy",
-        "Nadia: The Secret of Fuzzy Alle anzeigen"
+        "Nadia: The Secret of Fuzzy"
       ]
     },
-    "fetchedAt": "2026-08-29T08:24:51.381Z"
+    "fetchedAt": "2026-09-29T11:17:06.302Z"
   },
   "1253": {
     "anisearchId": 2108,
@@ -59720,10 +59763,10 @@
       "synonyms": [
         "Saint Seiya: La Leyenda del Joven Escarlata",
         "Saint Seiya: Movie 3",
-        "Saint Seiya : Les Guerriers d’Abel Alle anzeigen"
+        "Saint Seiya : Les Guerriers d’Abel"
       ]
     },
-    "fetchedAt": "2026-08-29T08:24:58.286Z"
+    "fetchedAt": "2026-09-29T11:17:13.208Z"
   },
   "1256": {
     "anisearchId": 3026,
@@ -59804,10 +59847,10 @@
         "Saint Seiya: Movie 1",
         "Saint Seiya: The Battle with Eris",
         "Saint Seiya: The Legend of the Golden Apple",
-        "Saint Seiya : La Légende de la pomme d’or Alle anzeigen"
+        "Saint Seiya : La Légende de la pomme d’or"
       ]
     },
-    "fetchedAt": "2026-08-29T08:25:05.209Z"
+    "fetchedAt": "2026-09-29T11:17:20.109Z"
   },
   "1259": {
     "anisearchId": 1487,
@@ -59979,10 +60022,10 @@
       "synonyms": [
         "Kyatto-Ninden Teyandee",
         "Legendary Ninja Cats",
-        "SPC Alle anzeigen"
+        "SPC"
       ]
     },
-    "fetchedAt": "2026-08-29T08:25:12.137Z"
+    "fetchedAt": "2026-09-29T11:17:26.996Z"
   },
   "1262": {
     "anisearchId": 597,
@@ -60162,7 +60205,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-08-29T08:25:19.059Z"
+    "fetchedAt": "2026-09-29T11:17:33.905Z"
   },
   "1278": {
     "anisearchId": 3904,
@@ -60376,7 +60419,7 @@
         "MD Geist"
       ]
     },
-    "fetchedAt": "2026-08-29T08:25:32.885Z"
+    "fetchedAt": "2026-09-29T11:17:40.795Z"
   },
   "1286": {
     "anisearchId": 1559,
@@ -60429,7 +60472,7 @@
         "Most Dangerous Geist 2 Death Force"
       ]
     },
-    "fetchedAt": "2026-08-29T08:25:39.832Z"
+    "fetchedAt": "2026-09-29T11:17:47.716Z"
   },
   "1289": {
     "anisearchId": 2915,
@@ -60782,7 +60825,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:42:07.752Z"
+    "fetchedAt": "2026-09-29T11:17:54.600Z"
   },
   "1301": {
     "anisearchId": 743,
@@ -60990,7 +61033,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:42:14.617Z"
+    "fetchedAt": "2026-09-29T11:18:01.523Z"
   },
   "1313": {
     "anisearchId": 1480,
@@ -61173,10 +61216,10 @@
       ],
       "synonyms": [
         "Aoki Densetsu Shoot! TV",
-        "Blue Legend Shoot! Alle anzeigen"
+        "Blue Legend Shoot!"
       ]
     },
-    "fetchedAt": "2026-08-29T11:42:28.356Z"
+    "fetchedAt": "2026-09-29T11:18:08.452Z"
   },
   "1333": {
     "anisearchId": 1946,
@@ -61240,10 +61283,10 @@
       ],
       "synonyms": [
         "Blinky the Wonderful Koala",
-        "Brinky and Printy Alle anzeigen"
+        "Brinky and Printy"
       ]
     },
-    "fetchedAt": "2026-08-29T11:42:35.207Z"
+    "fetchedAt": "2026-09-29T11:18:15.362Z"
   },
   "1335": {
     "anisearchId": 4405,
@@ -61294,7 +61337,7 @@
         "Tachikomatic Days"
       ]
     },
-    "fetchedAt": "2026-08-29T11:42:42.063Z"
+    "fetchedAt": "2026-09-29T11:18:22.310Z"
   },
   "1336": {
     "anisearchId": 3504,
@@ -61411,7 +61454,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-08-29T11:42:48.916Z"
+    "fetchedAt": "2026-09-29T11:18:29.205Z"
   },
   "1343": {
     "anisearchId": 1208,
@@ -61479,10 +61522,10 @@
       ],
       "adaptedFrom": "Manga",
       "synonyms": [
-        "Violence Jack: Hell’s Wind Chapter Alle anzeigen"
+        "Violence Jack: Hell’s Wind Chapter"
       ]
     },
-    "fetchedAt": "2026-08-29T11:42:55.764Z"
+    "fetchedAt": "2026-09-29T11:18:36.118Z"
   },
   "1344": {
     "anisearchId": 3262,
@@ -61545,10 +61588,10 @@
         }
       ],
       "synonyms": [
-        "Eight Man After Alle anzeigen"
+        "Eight Man After"
       ]
     },
-    "fetchedAt": "2026-08-29T11:43:02.629Z"
+    "fetchedAt": "2026-09-29T11:18:43.029Z"
   },
   "1347": {
     "anisearchId": 260,
@@ -61757,7 +61800,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:43:09.490Z"
+    "fetchedAt": "2026-09-29T11:18:49.943Z"
   },
   "1352": {
     "anisearchId": 3036,
@@ -61856,10 +61899,10 @@
       "synonyms": [
         "CCO 808",
         "Dennou Toshi Oedo 808",
-        "電脳都市OEDO808 Alle anzeigen"
+        "電脳都市OEDO808"
       ]
     },
-    "fetchedAt": "2026-08-29T11:43:16.349Z"
+    "fetchedAt": "2026-09-29T11:18:56.832Z"
   },
   "1356": {
     "anisearchId": 1672,
@@ -62009,7 +62052,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:43:23.215Z"
+    "fetchedAt": "2026-09-29T11:19:03.748Z"
   },
   "1358": {
     "anisearchId": 2743,
@@ -62087,10 +62130,10 @@
       ],
       "adaptedFrom": "Manga",
       "synonyms": [
-        "Seikimatsu Kyuseishu Densetsu Hokuto no Ken Alle anzeigen"
+        "Seikimatsu Kyuseishu Densetsu Hokuto no Ken"
       ]
     },
-    "fetchedAt": "2026-08-29T11:43:30.121Z"
+    "fetchedAt": "2026-09-29T11:19:10.655Z"
   },
   "1361": {
     "anisearchId": 865,
@@ -62192,10 +62235,10 @@
         }
       ],
       "synonyms": [
-        "Final Fantasy: El espíritu en nosotros Alle anzeigen"
+        "Final Fantasy: El espíritu en nosotros"
       ]
     },
-    "fetchedAt": "2026-08-29T11:43:36.992Z"
+    "fetchedAt": "2026-09-29T11:19:17.599Z"
   },
   "1362": {
     "anisearchId": 399,
@@ -62295,10 +62338,10 @@
       ],
       "adaptedFrom": "Videospiel",
       "synonyms": [
-        "Street Fighter 2: The Movie Alle anzeigen"
+        "Street Fighter 2: The Movie"
       ]
     },
-    "fetchedAt": "2026-08-29T11:43:43.856Z"
+    "fetchedAt": "2026-09-29T11:19:24.499Z"
   },
   "1363": {
     "anisearchId": 3220,
@@ -62420,10 +62463,10 @@
         "Meitantei Conan Movie 4",
         "Case Closed Movie 4",
         "Detective Conan Movie 4: Captured in Her Eyes",
-        "Detektiv Conan Film 4 Alle anzeigen"
+        "Detektiv Conan Film 4"
       ]
     },
-    "fetchedAt": "2026-08-29T11:43:50.733Z"
+    "fetchedAt": "2026-09-29T11:19:31.433Z"
   },
   "1364": {
     "anisearchId": 1257,
@@ -62551,10 +62594,10 @@
         "Detektiv Conan Film 5",
         "Case Closed Movie 5",
         "Detective Conan Movie 5: Countdown to Heaven",
-        "Meitantei Conan Movie 5 Alle anzeigen"
+        "Meitantei Conan Movie 5"
       ]
     },
-    "fetchedAt": "2026-08-29T11:43:57.596Z"
+    "fetchedAt": "2026-09-29T11:19:38.382Z"
   },
   "1365": {
     "anisearchId": 3430,
@@ -62666,10 +62709,10 @@
         "DC M6",
         "Detective Conan Movie 6: The Phantom of Baker Street",
         "Detektiv Conan Film 6",
-        "Meitantei Conan Movie 6 Alle anzeigen"
+        "Meitantei Conan Movie 6"
       ]
     },
-    "fetchedAt": "2026-08-29T11:44:04.468Z"
+    "fetchedAt": "2026-09-29T11:19:45.305Z"
   },
   "1366": {
     "anisearchId": 1297,
@@ -62760,10 +62803,10 @@
         "DC M7",
         "Detective Conan Movie 7: Crossroad in the Ancient Capital",
         "Detektiv Conan Film 7",
-        "Meitantei Conan Movie 7 Alle anzeigen"
+        "Meitantei Conan Movie 7"
       ]
     },
-    "fetchedAt": "2026-08-29T11:44:11.325Z"
+    "fetchedAt": "2026-09-29T11:19:52.217Z"
   },
   "1367": {
     "anisearchId": 320,
@@ -62854,10 +62897,10 @@
         "DC M8",
         "Detective Conan Movie 8: Magician of the Silver Sky",
         "Detektiv Conan Film 8",
-        "Meitantei Conan Movie 8 Alle anzeigen"
+        "Meitantei Conan Movie 8"
       ]
     },
-    "fetchedAt": "2026-08-29T11:44:18.193Z"
+    "fetchedAt": "2026-09-29T11:19:59.131Z"
   },
   "1368": {
     "anisearchId": 4129,
@@ -63040,7 +63083,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:44:25.060Z"
+    "fetchedAt": "2026-09-29T11:20:06.043Z"
   },
   "1373": {
     "anisearchId": 3526,
@@ -63169,7 +63212,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:44:31.951Z"
+    "fetchedAt": "2026-09-29T11:20:12.951Z"
   },
   "1375": {
     "anisearchId": 1732,
@@ -63230,10 +63273,10 @@
         "My Daddy Long Legs",
         "Papa longues jambes",
         "Papà Gambalunga",
-        "Papá piernas largas Alle anzeigen"
+        "Papá piernas largas"
       ]
     },
-    "fetchedAt": "2026-08-29T11:44:38.792Z"
+    "fetchedAt": "2026-09-29T11:20:19.852Z"
   },
   "1379": {
     "anisearchId": 1248,
@@ -63794,10 +63837,10 @@
         "Lupin III: Zantetsu Sword is on Fire",
         "Lupin Sansei Special 06",
         "Lupin the 3rd: Dragon of Doom",
-        "Lupin III.: Brenne Zantetsuken! Der goldene Drache Alle anzeigen"
+        "Lupin III.: Brenne Zantetsuken! Der goldene Drache"
       ]
     },
-    "fetchedAt": "2026-08-29T11:44:52.522Z"
+    "fetchedAt": "2026-09-29T11:20:26.767Z"
   },
   "1418": {
     "anisearchId": 722,
@@ -63968,10 +64011,10 @@
         "Lupin III: Die",
         "Lupin III: To Hell with Nostradamus!",
         "Lupin Sansei Movie 05",
-        "Lupin the 3rd: Farewell to Nostradamus Alle anzeigen"
+        "Lupin the 3rd: Farewell to Nostradamus"
       ]
     },
-    "fetchedAt": "2026-08-29T11:44:59.390Z"
+    "fetchedAt": "2026-09-29T11:20:33.677Z"
   },
   "1421": {
     "anisearchId": 2822,
@@ -64612,17 +64655,21 @@
         {
           "name": "Tms E",
           "url": "https://www.tms-e.com/library/old/movie/data/m_caglio.html"
+        },
+        {
+          "name": "Gkids",
+          "url": "https://gkids.com/films/lupin-the-3rd-the-castle-of-cagliostro/"
         }
       ],
       "synonyms": [
+        "Lupin Sansei Movie 02",
+        "Die Jäger des Cagliostro",
         "Hardyman räumt auf",
         "Hardyman schafft alle: Freiheit für Prinzessin Yasmin",
-        "Lupin III: Vidocq contre Cagliostro",
-        "Lupin Sansei Movie 02",
-        "Die Jäger des Cagliostro"
+        "Lupin III.: Das Schloss des Cagliostro"
       ]
     },
-    "fetchedAt": "2026-08-29T11:45:06.251Z"
+    "fetchedAt": "2026-09-29T11:20:40.589Z"
   },
   "1432": {
     "anisearchId": 3298,
@@ -64879,10 +64926,10 @@
         "Lupin III: The Hunt for Harimao’s Treasure",
         "Lupin Sansei Special 07",
         "Lupin the 3rd: The Pursuit of Harimao’s Treasure",
-        "Lupin Sansei: Harimao no Zaihou wo Oe!! Alle anzeigen"
+        "Lupin Sansei: Harimao no Zaihou wo Oe!!"
       ]
     },
-    "fetchedAt": "2026-08-29T11:45:13.119Z"
+    "fetchedAt": "2026-09-29T11:20:47.499Z"
   },
   "1436": {
     "anisearchId": 1113,
@@ -64991,10 +65038,10 @@
         "Lupin Sansei Special 08",
         "Rupan Sansei: Twilight Gemini no Himitsu",
         "Lupin III.: Das Geheimnis des „Twilight Gemini“ - Der Diamant der Dämmerung",
-        "Lupin the 3rd: The Legend of Twilight Gemini Alle anzeigen"
+        "Lupin the 3rd: The Legend of Twilight Gemini"
       ]
     },
-    "fetchedAt": "2026-08-29T11:45:19.962Z"
+    "fetchedAt": "2026-09-29T11:20:54.431Z"
   },
   "1437": {
     "anisearchId": 308,
@@ -65180,10 +65227,10 @@
         "Lupin III: Dark Order of Assassination",
         "Lupin III: Orders to Assassinate Lupin",
         "Lupin Sansei Special 05",
-        "Lupin III.: Mordbefehl an Lupin - Der Höllentrip Alle anzeigen"
+        "Lupin III.: Mordbefehl an Lupin - Der Höllentrip"
       ]
     },
-    "fetchedAt": "2026-08-29T11:45:26.832Z"
+    "fetchedAt": "2026-09-29T11:21:01.353Z"
   },
   "1439": {
     "anisearchId": 635,
@@ -65342,7 +65389,7 @@
         "Night Train to the Stars"
       ]
     },
-    "fetchedAt": "2026-08-29T11:45:33.674Z"
+    "fetchedAt": "2026-09-29T11:21:08.291Z"
   },
   "1443": {
     "anisearchId": 2348,
@@ -65471,7 +65518,7 @@
         },
         {
           "language": "Italienisch",
-          "title": "Sol Bianca: L'eredità perduta",
+          "title": "Sol Bianca: L’eredità perduta",
           "status": "Abgeschlossen",
           "dubbed": true,
           "released": "?",
@@ -65495,10 +65542,10 @@
         }
       ],
       "synonyms": [
-        "Ship Of The Sun: The Legacy Alle anzeigen"
+        "Ship of the Sun: The Legacy"
       ]
     },
-    "fetchedAt": "2026-08-29T11:45:40.537Z"
+    "fetchedAt": "2026-09-29T11:21:15.200Z"
   },
   "1445": {
     "anisearchId": 1929,
@@ -65588,10 +65635,10 @@
       ],
       "synonyms": [
         "Mach 5",
-        "Mach GoGoGo Alle anzeigen"
+        "Mach GoGoGo"
       ]
     },
-    "fetchedAt": "2026-08-29T11:45:47.391Z"
+    "fetchedAt": "2026-09-29T11:21:22.148Z"
   },
   "1448": {
     "anisearchId": 928,
@@ -65666,10 +65713,10 @@
         "Beast King GoLion",
         "King of Beasts Golion",
         "Lion Force Voltron",
-        "Voltron 3 Alle anzeigen"
+        "Voltron 3"
       ]
     },
-    "fetchedAt": "2026-08-29T11:45:54.255Z"
+    "fetchedAt": "2026-09-29T11:21:29.059Z"
   },
   "1453": {
     "anisearchId": 2918,
@@ -65758,10 +65805,10 @@
       ],
       "synonyms": [
         "Ikkoku House",
-        "Mezon Ikkoku Alle anzeigen"
+        "Mezon Ikkoku"
       ]
     },
-    "fetchedAt": "2026-08-29T11:46:01.119Z"
+    "fetchedAt": "2026-09-29T11:21:36.019Z"
   },
   "1456": {
     "anisearchId": 3463,
@@ -65823,10 +65870,10 @@
         }
       ],
       "synonyms": [
-        "Im Dienste ihrer Majestät Alle anzeigen"
+        "Im Dienste ihrer Majestät"
       ]
     },
-    "fetchedAt": "2026-08-29T11:46:07.990Z"
+    "fetchedAt": "2026-09-29T11:21:42.960Z"
   },
   "1462": {
     "anisearchId": 2294,
@@ -66032,10 +66079,10 @@
         }
       ],
       "synonyms": [
-        "Monster Farmer Alle anzeigen"
+        "Monster Farmer"
       ]
     },
-    "fetchedAt": "2026-08-29T11:46:21.763Z"
+    "fetchedAt": "2026-09-29T11:21:49.911Z"
   },
   "1470": {
     "anisearchId": 2313,
@@ -134709,10 +134756,10 @@
         }
       ],
       "synonyms": [
-        "The Flowers of Evil Alle anzeigen"
+        "The Flowers of Evil"
       ]
     },
-    "fetchedAt": "2026-08-29T13:06:38.758Z"
+    "fetchedAt": "2026-09-29T10:44:53.067Z"
   },
   "16239": {
     "anisearchId": 8211,
@@ -136241,16 +136288,20 @@
         {
           "name": "Naruto Movie",
           "url": "https://www.naruto-movie.com/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/el-final-naruto-la-pelicula/"
         }
       ],
       "synonyms": [
         "Naruto Movie 10",
         "Naruto Shippuden Movie 7",
         "El Final: Naruto",
-        "la Película Alle anzeigen"
+        "la Película"
       ]
     },
-    "fetchedAt": "2026-08-29T13:08:28.464Z"
+    "fetchedAt": "2026-09-29T10:45:00.029Z"
   },
   "16894": {
     "anisearchId": 8267,
@@ -138251,10 +138302,10 @@
       ],
       "synonyms": [
         "Attack on Titan Special Edition",
-        "Attack on Titan Specialfolgen 1-3 Alle anzeigen"
+        "Attack on Titan Specialfolgen 1-3"
       ]
     },
-    "fetchedAt": "2026-08-29T13:10:38.773Z"
+    "fetchedAt": "2026-09-29T10:45:06.939Z"
   },
   "18411": {
     "anisearchId": 8558,
@@ -139781,10 +139832,10 @@
       ],
       "synonyms": [
         "Date a Live 2",
-        "Date a Live Season 2 Alle anzeigen"
+        "Date a Live Season 2"
       ]
     },
-    "fetchedAt": "2026-08-29T13:12:21.685Z"
+    "fetchedAt": "2026-09-29T10:45:13.890Z"
   },
   "19255": {
     "anisearchId": 8322,
@@ -140136,10 +140187,10 @@
       ],
       "synonyms": [
         "Akuma no Ridoru",
-        "The Demon Riddle Alle anzeigen"
+        "The Demon Riddle"
       ]
     },
-    "fetchedAt": "2026-08-29T13:12:49.097Z"
+    "fetchedAt": "2026-09-29T10:45:20.817Z"
   },
   "19603": {
     "anisearchId": 9333,
@@ -140258,10 +140309,10 @@
       ],
       "synonyms": [
         "F/SN 2014",
-        "FSN: UBW 2014 Alle anzeigen"
+        "FSN: UBW 2014"
       ]
     },
-    "fetchedAt": "2026-08-29T11:29:03.340Z"
+    "fetchedAt": "2026-09-29T10:46:16.582Z"
   },
   "19815": {
     "anisearchId": 8878,
@@ -141340,7 +141391,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:28:28.796Z"
+    "fetchedAt": "2026-09-29T10:45:27.764Z"
   },
   "20458": {
     "anisearchId": 9057,
@@ -141554,10 +141605,10 @@
       ],
       "synonyms": [
         "Chevalier",
-        "The Knight of Eon Alle anzeigen"
+        "The Knight of Eon"
       ]
     },
-    "fetchedAt": "2026-08-29T08:17:55.263Z"
+    "fetchedAt": "2026-09-29T11:10:16.354Z"
   },
   "20462": {
     "anisearchId": 9080,
@@ -142378,10 +142429,10 @@
         }
       ],
       "synonyms": [
-        "Psycho-Pass Second Season Alle anzeigen"
+        "Psycho-Pass Second Season"
       ]
     },
-    "fetchedAt": "2026-08-29T13:19:08.560Z"
+    "fetchedAt": "2026-09-29T10:46:51.455Z"
   },
   "20514": {
     "anisearchId": 9098,
@@ -142487,7 +142538,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T13:14:54.532Z"
+    "fetchedAt": "2026-09-29T10:45:41.634Z"
   },
   "20515": {
     "anisearchId": 9270,
@@ -142791,7 +142842,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:28:35.650Z"
+    "fetchedAt": "2026-09-29T10:45:34.705Z"
   },
   "20521": {
     "anisearchId": 9031,
@@ -143054,10 +143105,10 @@
         }
       ],
       "synonyms": [
-        "Brunnhilde Of Gokukuro Alle anzeigen"
+        "Brunnhilde Of Gokukuro"
       ]
     },
-    "fetchedAt": "2026-08-29T11:28:42.638Z"
+    "fetchedAt": "2026-09-29T10:45:48.716Z"
   },
   "20540": {
     "anisearchId": 9262,
@@ -143956,10 +144007,10 @@
         }
       ],
       "synonyms": [
-        "Daimidaler the Sound Robot Alle anzeigen"
+        "Daimidaler the Sound Robot"
       ]
     },
-    "fetchedAt": "2026-08-29T13:16:37.248Z"
+    "fetchedAt": "2026-09-29T10:45:55.676Z"
   },
   "20590": {
     "anisearchId": 9317,
@@ -144471,10 +144522,14 @@
         {
           "name": "Marv",
           "url": "https://www.marv.jp/special/tokyoghoul/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/tokyo-ghoul-temporada-1/"
         }
       ]
     },
-    "fetchedAt": "2026-08-29T13:17:39.232Z"
+    "fetchedAt": "2026-09-29T10:46:23.658Z"
   },
   "20606": {
     "anisearchId": 9638,
@@ -144703,10 +144758,10 @@
       ],
       "synonyms": [
         "Akame Slashes!",
-        "Red Eye Killer Alle anzeigen"
+        "Red Eye Killer"
       ]
     },
-    "fetchedAt": "2026-08-29T11:28:49.604Z"
+    "fetchedAt": "2026-09-29T10:46:02.661Z"
   },
   "20614": {
     "anisearchId": 9421,
@@ -144824,10 +144879,10 @@
         "Free! 2nd Season",
         "Free! Second Season",
         "Free!: Iwatobi Swim Club 2",
-        "Free! Staffel 2 Alle anzeigen"
+        "Free! Staffel 2"
       ]
     },
-    "fetchedAt": "2026-08-29T11:28:56.479Z"
+    "fetchedAt": "2026-09-29T10:46:09.618Z"
   },
   "20615": {
     "anisearchId": 9406,
@@ -145870,10 +145925,10 @@
       "synonyms": [
         "Angreifer der 6-Tatami-Matten-Wohnung",
         "Apartment Invaders!?",
-        "Invaders of the Rokujyouma!? Alle anzeigen"
+        "Invaders of the Rokujyouma!?"
       ]
     },
-    "fetchedAt": "2026-08-29T13:18:13.613Z"
+    "fetchedAt": "2026-09-29T10:46:30.605Z"
   },
   "20643": {
     "anisearchId": 10711,
@@ -146407,7 +146462,8 @@
           "publisher": [
             "FUNimation",
             "Madman Entertainment",
-            "Anime Limited (UK)"
+            "Anime Limited (UK)",
+            "REMOW Co., Ltd."
           ]
         },
         {
@@ -146481,10 +146537,10 @@
         }
       ],
       "synonyms": [
-        "Terror in Tokyo Alle anzeigen"
+        "Terror in Tokyo"
       ]
     },
-    "fetchedAt": "2026-08-29T13:19:15.432Z"
+    "fetchedAt": "2026-09-29T10:46:58.376Z"
   },
   "20663": {
     "anisearchId": 9440,
@@ -147095,10 +147151,10 @@
       "synonyms": [
         "Log Horizon 2nd Season",
         "Log Horizon Second Season",
-        "Log Horizon: Staffel 2 Alle anzeigen"
+        "Log Horizon: Staffel 2"
       ]
     },
-    "fetchedAt": "2026-08-29T11:29:17.132Z"
+    "fetchedAt": "2026-09-29T10:47:05.343Z"
   },
   "20677": {
     "anisearchId": 9584,
@@ -147314,10 +147370,10 @@
         }
       ],
       "synonyms": [
-        "Shinmai Maou no Keiyakusha Alle anzeigen"
+        "Shinmai Maou no Keiyakusha"
       ]
     },
-    "fetchedAt": "2026-08-29T11:29:10.267Z"
+    "fetchedAt": "2026-09-29T10:46:37.574Z"
   },
   "20683": {
     "anisearchId": 9591,
@@ -147824,10 +147880,10 @@
         }
       ],
       "synonyms": [
-        "AntiMagic Academy: The 35th Test Platoon Alle anzeigen"
+        "AntiMagic Academy: The 35th Test Platoon"
       ]
     },
-    "fetchedAt": "2026-08-29T13:21:39.666Z"
+    "fetchedAt": "2026-09-29T10:47:19.233Z"
   },
   "20705": {
     "anisearchId": 8145,
@@ -147941,7 +147997,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:24:47.097Z"
+    "fetchedAt": "2026-09-29T10:53:48.652Z"
   },
   "20709": {
     "anisearchId": 9637,
@@ -149341,10 +149397,10 @@
       ],
       "synonyms": [
         "Ansatsu Kyoushitsu (TV)",
-        "Assassination Classroom (2015) Alle anzeigen"
+        "Assassination Classroom (2015)"
       ]
     },
-    "fetchedAt": "2026-08-29T11:29:30.893Z"
+    "fetchedAt": "2026-09-29T10:47:26.173Z"
   },
   "20767": {
     "anisearchId": 9625,
@@ -150293,12 +150349,8 @@
         "url": "https://akibapasstv.vhx.tv/products/the-seven-deadly-sins-de-season-1-2"
       },
       {
-        "provider": "akibapass",
-        "url": "https://akibapassshop.de/The-Seven-Deadly-Sins-Season-11-DIGITAL-Deutsche-Synchronfassung-DE?ref=anisearch"
-      },
-      {
-        "provider": "akibapass",
-        "url": "https://akibapasstv.vhx.tv/products/the-seven-deadly-sins-de-season-1"
+        "provider": "animation-digital-network-(de)",
+        "url": "https://animationdigitalnetwork.com/de/video/587"
       }
     ],
     "info": {
@@ -150399,7 +150451,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:29:24.020Z"
+    "fetchedAt": "2026-09-29T10:47:12.277Z"
   },
   "20790": {
     "anisearchId": 9799,
@@ -150511,10 +150563,10 @@
       "synonyms": [
         "Kaito Kid",
         "Magic Kaito (2014)",
-        "Magic Kaito (TV) Alle anzeigen"
+        "Magic Kaito (TV)"
       ]
     },
-    "fetchedAt": "2026-08-29T11:29:37.763Z"
+    "fetchedAt": "2026-09-29T10:47:33.116Z"
   },
   "20792": {
     "anisearchId": 9824,
@@ -150631,10 +150683,10 @@
       "synonyms": [
         "F/SN 2015",
         "FSN: UBW 2015",
-        "Fate/Stay Night: Unlimited Blade Works Season 2 Alle anzeigen"
+        "Fate/Stay Night: Unlimited Blade Works Season 2"
       ]
     },
-    "fetchedAt": "2026-08-29T11:30:25.920Z"
+    "fetchedAt": "2026-09-29T10:48:56.438Z"
   },
   "20796": {
     "anisearchId": 10400,
@@ -150943,10 +150995,10 @@
       ],
       "synonyms": [
         "Kamisama Hajimemashita 2nd Season",
-        "Kamisama Kiss Second Season Alle anzeigen"
+        "Kamisama Kiss Second Season"
       ]
     },
-    "fetchedAt": "2026-08-29T13:24:38.044Z"
+    "fetchedAt": "2026-09-29T10:47:40.034Z"
   },
   "20806": {
     "anisearchId": 9752,
@@ -152074,10 +152126,10 @@
       "synonyms": [
         "Junketsu no Maria: Sorcière de gré",
         "pucelle de force",
-        "Maria the Virgin Witch Chaste Mary Alle anzeigen"
+        "Maria the Virgin Witch Chaste Mary"
       ]
     },
-    "fetchedAt": "2026-08-29T13:26:07.150Z"
+    "fetchedAt": "2026-09-29T10:47:47.043Z"
   },
   "20845": {
     "anisearchId": 9844,
@@ -152412,15 +152464,20 @@
         {
           "name": "Marv",
           "url": "https://www.marv.jp/special/tokyoghoul/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/tokyo-ghoul-temporada-2/"
         }
       ],
       "synonyms": [
         "Tokyo Ghoul Root A",
         "Tokyo Ghoul: Season 2",
-        "Tokyo Ghoul: Staffel 2 Alle anzeigen"
+        "Tokyo Ghoul: Staffel 2",
+        "Tokyo Ghoul: Temporada 2"
       ]
     },
-    "fetchedAt": "2026-08-29T11:29:51.526Z"
+    "fetchedAt": "2026-09-29T10:48:00.918Z"
   },
   "20853": {
     "anisearchId": 9882,
@@ -152769,7 +152826,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:29:44.642Z"
+    "fetchedAt": "2026-09-29T10:47:53.975Z"
   },
   "20875": {
     "anisearchId": 9889,
@@ -153667,10 +153724,10 @@
       ],
       "synonyms": [
         "A Boring World Where the Concept of Dirty Jokes Does Not Exist",
-        "Shimoseka Alle anzeigen"
+        "Shimoseka"
       ]
     },
-    "fetchedAt": "2026-08-29T11:30:32.813Z"
+    "fetchedAt": "2026-09-29T10:49:17.341Z"
   },
   "20912": {
     "anisearchId": 10076,
@@ -153973,10 +154030,10 @@
         }
       ],
       "synonyms": [
-        "Project Itoh Alle anzeigen"
+        "Project Itoh"
       ]
     },
-    "fetchedAt": "2026-08-29T13:19:01.696Z"
+    "fetchedAt": "2026-09-29T10:46:44.494Z"
   },
   "20920": {
     "anisearchId": 9940,
@@ -154209,10 +154266,10 @@
       ],
       "synonyms": [
         "Food Wars!",
-        "Shokugeki no Soma Alle anzeigen"
+        "Shokugeki no Soma"
       ]
     },
-    "fetchedAt": "2026-08-29T11:29:58.403Z"
+    "fetchedAt": "2026-09-29T10:48:07.880Z"
   },
   "20926": {
     "anisearchId": 9939,
@@ -154377,7 +154434,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:30:05.293Z"
+    "fetchedAt": "2026-09-29T10:48:21.749Z"
   },
   "20932": {
     "anisearchId": 9961,
@@ -154491,10 +154548,10 @@
       ],
       "synonyms": [
         "<harmony/>",
-        "Project Itoh Alle anzeigen"
+        "Project Itoh"
       ]
     },
-    "fetchedAt": "2026-08-29T14:06:41.731Z"
+    "fetchedAt": "2026-09-29T10:48:14.809Z"
   },
   "20935": {
     "anisearchId": 9962,
@@ -154934,14 +154991,18 @@
         {
           "name": "Koenokatachi Movie",
           "url": "https://koenokatachi-movie.com/"
+        },
+        {
+          "name": "Gkids",
+          "url": "https://gkids.com/films/a-silent-voice/"
         }
       ],
       "synonyms": [
         "The Shape of Voice",
-        "Una Voz Silenciosa Alle anzeigen"
+        "Una Voz Silenciosa"
       ]
     },
-    "fetchedAt": "2026-08-29T14:08:38.558Z"
+    "fetchedAt": "2026-09-29T10:49:10.418Z"
   },
   "20955": {
     "anisearchId": 9979,
@@ -155407,10 +155468,10 @@
         }
       ],
       "synonyms": [
-        "Punchline Alle anzeigen"
+        "Punchline"
       ]
     },
-    "fetchedAt": "2026-08-29T14:07:50.368Z"
+    "fetchedAt": "2026-09-29T10:48:28.684Z"
   },
   "20965": {
     "anisearchId": 10012,
@@ -155528,10 +155589,10 @@
         }
       ],
       "synonyms": [
-        "Project Itoh Alle anzeigen"
+        "Project Itoh"
       ]
     },
-    "fetchedAt": "2026-08-29T14:08:04.107Z"
+    "fetchedAt": "2026-09-29T10:48:42.560Z"
   },
   "20966": {
     "anisearchId": 10015,
@@ -155648,7 +155709,7 @@
         "Yamada-kun and the 7 Witches"
       ]
     },
-    "fetchedAt": "2026-08-29T11:30:19.056Z"
+    "fetchedAt": "2026-09-29T10:48:49.496Z"
   },
   "20968": {
     "anisearchId": 10087,
@@ -157289,10 +157350,10 @@
         }
       ],
       "synonyms": [
-        "A Corpse Is Buried Under Sakurako’s Feet Alle anzeigen"
+        "A Corpse Is Buried Under Sakurako’s Feet"
       ]
     },
-    "fetchedAt": "2026-08-29T14:10:01.090Z"
+    "fetchedAt": "2026-09-29T10:49:24.287Z"
   },
   "21077": {
     "anisearchId": 10515,
@@ -157561,10 +157622,10 @@
         }
       ],
       "synonyms": [
-        "OPM Alle anzeigen"
+        "OPM"
       ]
     },
-    "fetchedAt": "2026-08-29T14:10:35.510Z"
+    "fetchedAt": "2026-09-29T10:49:31.317Z"
   },
   "21091": {
     "anisearchId": 10370,
@@ -158082,6 +158143,10 @@
         {
           "name": "Yoshihiro WATANABE",
           "role": "Character Design"
+        },
+        {
+          "name": "Yasuharu TAKANASHI",
+          "role": "Music"
         }
       ],
       "adaptedFrom": "Light Novel",
@@ -158094,10 +158159,10 @@
       "synonyms": [
         "Shinmai Maou no Testament Season 2",
         "The Testament of Sister New Devil: Season 2",
-        "The Testament of Sister New Devil: Staffel 2 Alle anzeigen"
+        "The Testament of Sister New Devil: Staffel 2"
       ]
     },
-    "fetchedAt": "2026-08-29T11:30:39.681Z"
+    "fetchedAt": "2026-09-29T10:49:38.274Z"
   },
   "21116": {
     "anisearchId": 10324,
@@ -158286,10 +158351,6 @@
     "descriptionDe": "»Steins;Gate Zero« spielt im November 2010, kurz nach Rintarou Okabes erstem Versuch, Kurisu Makise zu retten, welcher allerdings tragisch fehlschlug. Daraufhin gibt Rintarou den Versuch, Kurisu zu retten, auf. Geplagt von Schuldgefühlen, wiederkehrenden Erinnerungen an Kurisus Tod und den Ereignissen in der Alpha-Worldline, legt er sein Alter-Ego »Hououin Kyouma« ab und lässt sich auf Anraten seiner besorgten Labormitglieder in einer Nervenklinik betreuen.\n\nSein Leben wird erneut aufgewühlt, als er Kurisus ehemaligen Professor Alexis Leskinen trifft, welcher ihm mit einer neuen Technologie, dem »Amadeus-System«, bekanntmacht … \n\nQuelle: www.anisearch.de/anime/10345",
     "streams": [
       {
-        "provider": "primevideo-channel-crunchyroll-de",
-        "url": "https://www.amazon.de/dp/B0CHC546C6?tag=anisearch.de-21"
-      },
-      {
         "provider": "crunchyroll",
         "url": "https://www.crunchyroll.com/steinsgate-0"
       },
@@ -158409,13 +158470,17 @@
         {
           "name": "Steinsgate",
           "url": "https://steinsgate.jp/zero/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/steins-gate-0/"
         }
       ],
       "synonyms": [
-        "Steins;Gate Zero Alle anzeigen"
+        "Steins;Gate Zero"
       ]
     },
-    "fetchedAt": "2026-08-29T11:30:53.537Z"
+    "fetchedAt": "2026-09-29T10:49:52.282Z"
   },
   "21128": {
     "anisearchId": 10382,
@@ -158634,10 +158699,10 @@
       ],
       "synonyms": [
         "AST36",
-        "The Asterisk War: The Academy City on the Water Alle anzeigen"
+        "The Asterisk War: The Academy City on the Water"
       ]
     },
-    "fetchedAt": "2026-08-29T11:31:00.421Z"
+    "fetchedAt": "2026-09-29T10:49:59.191Z"
   },
   "21132": {
     "anisearchId": 10342,
@@ -158840,7 +158905,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:11:37.335Z"
+    "fetchedAt": "2026-09-29T10:50:06.102Z"
   },
   "21155": {
     "anisearchId": 9952,
@@ -158993,7 +159058,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:30:46.552Z"
+    "fetchedAt": "2026-09-29T10:49:45.202Z"
   },
   "21170": {
     "anisearchId": 10438,
@@ -159116,10 +159181,10 @@
       ],
       "synonyms": [
         "Assassination Classroom: Staffel 2",
-        "Assassination Classroom: Segunda Temporada Alle anzeigen"
+        "Assassination Classroom: Segunda Temporada"
       ]
     },
-    "fetchedAt": "2026-08-29T11:31:07.290Z"
+    "fetchedAt": "2026-09-29T10:50:13.017Z"
   },
   "21175": {
     "anisearchId": 10383,
@@ -159337,7 +159402,12 @@
   "21188": {
     "anisearchId": 10435,
     "descriptionDe": "Die Geschichte handelt vom ehemaligen Prinzen des Reiches Arcadia, Lux, welches jedoch in einer Revolution vor fünf Jahren gestürzt wurde. Als Lux versehentlich in einem Badesaal den Schlafbereich für Frauen betritt und hierbei die neue Prinzessin Lisesharte nackt sieht, entfacht er nicht nur ihren Zorn, sondern befindet sich prompt auch in einem Drag-Ride-Duell mit ihr. Bei Drag-Rides handelt es sich um alte gepanzerte Waffen, die in Ruinen auf der Welt verteilt gefunden wurden. Nach seinem Duell mit Lisesharte, beginnt Lux – mehr oder minder freiwillig – eine reine Frauen-Akademie zu besuchen, die Adlige zu Drag-Rittern ausbildet. \n\nQuelle: www.anisearch.de/anime/10435",
-    "streams": [],
+    "streams": [
+      {
+        "provider": "animation-digital-network-(de)",
+        "url": "https://animationdigitalnetwork.com/de/video/398"
+      }
+    ],
     "info": {
       "languages": [
         {
@@ -159422,10 +159492,10 @@
         }
       ],
       "synonyms": [
-        "Saijaku Muhai no Shinsou Kiryuu Alle anzeigen"
+        "Saijaku Muhai no Shinsou Kiryuu"
       ]
     },
-    "fetchedAt": "2026-08-29T11:31:14.170Z"
+    "fetchedAt": "2026-09-29T10:50:19.950Z"
   },
   "21190": {
     "anisearchId": 10021,
@@ -159841,10 +159911,10 @@
         }
       ],
       "synonyms": [
-        "Koutetsujo no Kabaneri Alle anzeigen"
+        "Koutetsujo no Kabaneri"
       ]
     },
-    "fetchedAt": "2026-08-29T11:30:12.164Z"
+    "fetchedAt": "2026-09-29T10:48:35.626Z"
   },
   "21201": {
     "anisearchId": 10570,
@@ -159952,7 +160022,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:31:21.035Z"
+    "fetchedAt": "2026-09-29T10:50:26.863Z"
   },
   "21202": {
     "anisearchId": 10448,
@@ -160199,10 +160269,10 @@
         }
       ],
       "synonyms": [
-        "Boruto: Naruto - Der Film Alle anzeigen"
+        "Boruto: Naruto - Der Film"
       ]
     },
-    "fetchedAt": "2026-08-29T14:08:17.832Z"
+    "fetchedAt": "2026-09-29T10:49:03.363Z"
   },
   "21221": {
     "anisearchId": 10469,
@@ -160315,10 +160385,10 @@
       "synonyms": [
         "Tales of 20th Anniversary Animation",
         "テイルズ オブ ゼスティリア",
-        "テイルズオブ20thアニバーサリーアニメーション Alle anzeigen"
+        "テイルズオブ20thアニバーサリーアニメーション"
       ]
     },
-    "fetchedAt": "2026-08-29T11:31:27.916Z"
+    "fetchedAt": "2026-09-29T10:50:33.810Z"
   },
   "21230": {
     "anisearchId": 10689,
@@ -161077,7 +161147,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:13:13.741Z"
+    "fetchedAt": "2026-09-29T10:50:40.777Z"
   },
   "21258": {
     "anisearchId": 10541,
@@ -161506,7 +161576,12 @@
   "21269": {
     "anisearchId": 10547,
     "descriptionDe": "Eines Tages liest Mahiru eine streunende Katze auf. Die böse Überraschung: Das süße Kätzchen verwandelt sich in einen Vampir – und zwar in einen der sieben Servamps. Diese gehen mit ihrem Meister einen Vertrag ein, ihm für sein Blut zu Diensten zu sein. Was dem pflichtbewussten Mahiru aber gar nicht passt: Sleepy Ash ist ausgerechnet der Servamp der Trägheit! Doch im Kampf gegen die übrigen Servamps müssen sich die beiden zusammenraufen … \n\nQuelle: www.anisearch.de/anime/10547",
-    "streams": [],
+    "streams": [
+      {
+        "provider": "animation-digital-network-(de)",
+        "url": "https://animationdigitalnetwork.com/de/video/1419"
+      }
+    ],
     "info": {
       "languages": [
         {
@@ -161600,7 +161675,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:31:34.774Z"
+    "fetchedAt": "2026-09-29T10:50:47.729Z"
   },
   "21270": {
     "anisearchId": 10187,
@@ -161831,7 +161906,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:31:48.627Z"
+    "fetchedAt": "2026-09-29T10:51:01.674Z"
   },
   "21279": {
     "anisearchId": 10699,
@@ -162642,10 +162717,10 @@
       "synonyms": [
         "One Piece Film 12",
         "One Piece Movie 12",
-        "One Piece: 12. Film - Gold Alle anzeigen"
+        "One Piece: 12. Film - Gold"
       ]
     },
-    "fetchedAt": "2026-08-29T14:15:03.700Z"
+    "fetchedAt": "2026-09-29T10:51:08.618Z"
   },
   "21338": {
     "anisearchId": 10436,
@@ -162872,7 +162947,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:33:04.382Z"
+    "fetchedAt": "2026-09-29T10:52:52.943Z"
   },
   "21341": {
     "anisearchId": 10732,
@@ -163192,10 +163267,10 @@
       "synonyms": [
         "Re: Life in a Different World from Zero",
         "Re: Zero",
-        "ReZero Alle anzeigen"
+        "ReZero"
       ]
     },
-    "fetchedAt": "2026-08-29T11:31:41.754Z"
+    "fetchedAt": "2026-09-29T10:50:54.752Z"
   },
   "21356": {
     "anisearchId": 10759,
@@ -163906,10 +163981,10 @@
       "synonyms": [
         "Masou Gakuen Hybrid × Heart",
         "Masou Gakuen Hybrid x Heart",
-        "Masou Gakuen HxH Alle anzeigen"
+        "Masou Gakuen HxH"
       ]
     },
-    "fetchedAt": "2026-08-29T11:32:09.284Z"
+    "fetchedAt": "2026-09-29T10:51:29.408Z"
   },
   "21379": {
     "anisearchId": 10784,
@@ -164602,10 +164677,10 @@
       "synonyms": [
         "SAO Ordinal Scale Movie",
         "SAO:OS",
-        "Sword Art Online Movie Alle anzeigen"
+        "Sword Art Online Movie"
       ]
     },
-    "fetchedAt": "2026-08-29T11:31:55.500Z"
+    "fetchedAt": "2026-09-29T10:51:15.536Z"
   },
   "21410": {
     "anisearchId": 10819,
@@ -164984,7 +165059,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:32:02.417Z"
+    "fetchedAt": "2026-09-29T10:51:22.473Z"
   },
   "21425": {
     "anisearchId": 11504,
@@ -165452,10 +165527,10 @@
         "BNHA",
         "MHA",
         "My Hero Academia 1st Season",
-        "My Hero Academia 1. Staffel Alle anzeigen"
+        "My Hero Academia 1. Staffel"
       ]
     },
-    "fetchedAt": "2026-08-29T11:32:16.261Z"
+    "fetchedAt": "2026-09-29T10:51:36.445Z"
   },
   "21462": {
     "anisearchId": 11125,
@@ -166534,7 +166609,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:18:22.660Z"
+    "fetchedAt": "2026-09-29T10:51:43.368Z"
   },
   "21518": {
     "anisearchId": 10982,
@@ -166776,10 +166851,18 @@
         {
           "name": "Kiminona",
           "url": "https://www.kiminona.com/"
+        },
+        {
+          "name": "Gkids",
+          "url": "https://gkids.com/films/your-name/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/your-name-reestreno-2026/"
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:18:36.458Z"
+    "fetchedAt": "2026-09-29T10:51:50.429Z"
   },
   "21540": {
     "anisearchId": 10991,
@@ -166965,10 +167048,10 @@
       ],
       "adaptedFrom": "Light Novel",
       "synonyms": [
-        "KonoSuba OAD: A Blessing to This Wonderful Choker! Alle anzeigen"
+        "KonoSuba OAD: A Blessing to This Wonderful Choker!"
       ]
     },
-    "fetchedAt": "2026-08-29T11:32:23.126Z"
+    "fetchedAt": "2026-09-29T10:51:57.362Z"
   },
   "21579": {
     "anisearchId": 11874,
@@ -167219,7 +167302,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:32:30.005Z"
+    "fetchedAt": "2026-09-29T10:52:04.327Z"
   },
   "21639": {
     "anisearchId": 11160,
@@ -167322,10 +167405,10 @@
         }
       ],
       "synonyms": [
-        "Hip Whip Girl Alle anzeigen"
+        "Hip Whip Girl"
       ]
     },
-    "fetchedAt": "2026-08-29T11:32:36.879Z"
+    "fetchedAt": "2026-09-29T10:52:11.264Z"
   },
   "21646": {
     "anisearchId": 10045,
@@ -167886,7 +167969,7 @@
         },
         {
           "language": "Spanisch",
-          "title": "Sword Oratoria",
+          "title": "Sword Oratoria: ¿Qué tiene de malo intentar ligar en una mazmorra?",
           "status": "Abgeschlossen",
           "dubbed": true,
           "released": "21.04.2017 - 07.2017",
@@ -167941,16 +168024,32 @@
       "adaptedFrom": "Light Novel",
       "websites": [
         {
+          "name": "X",
+          "url": "https://x.com/danmachi_anime"
+        },
+        {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/danmachi_official/"
+        },
+        {
+          "name": "Tiktok",
+          "url": "https://www.tiktok.com/@danmachi_official"
+        },
+        {
           "name": "Danmachi",
           "url": "https://danmachi.com/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/sword-oratoria-danmachi-que-tiene-de-malo-ligar-en-una-mazmora/"
         }
       ],
       "synonyms": [
         "Is It Wrong to Try to Pick Up Girls in a Dungeon? Sword Oratoria",
-        "Dungeon ni Deai wo Motomeru no wa Machigatte Iru darou ka Gaiden: Sword Oratoria Alle anzeigen"
+        "Dungeon ni Deai wo Motomeru no wa Machigatte Iru darou ka Gaiden: Sword Oratoria"
       ]
     },
-    "fetchedAt": "2026-08-29T11:32:43.753Z"
+    "fetchedAt": "2026-09-29T10:52:18.227Z"
   },
   "21679": {
     "anisearchId": 11246,
@@ -168437,7 +168536,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:19:58.735Z"
+    "fetchedAt": "2026-09-29T10:52:25.156Z"
   },
   "21688": {
     "anisearchId": 11226,
@@ -168925,10 +169024,10 @@
       "synonyms": [
         "Roku de Nashi Majutsu Koushi to Akashic Records",
         "Roku de Nashi Majutsu Koushi to Kinki Kyouten",
-        "RokuAka Alle anzeigen"
+        "RokuAka"
       ]
     },
-    "fetchedAt": "2026-08-29T11:32:50.630Z"
+    "fetchedAt": "2026-09-29T10:52:32.102Z"
   },
   "21701": {
     "anisearchId": 11212,
@@ -169146,10 +169245,10 @@
         }
       ],
       "synonyms": [
-        "Yuuri!!! on Ice Alle anzeigen"
+        "Yuuri!!! on Ice"
       ]
     },
-    "fetchedAt": "2026-08-29T11:32:57.508Z"
+    "fetchedAt": "2026-09-29T10:52:46.015Z"
   },
   "21711": {
     "anisearchId": 11240,
@@ -169344,7 +169443,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:20:46.887Z"
+    "fetchedAt": "2026-09-29T10:52:39.031Z"
   },
   "21717": {
     "anisearchId": 11294,
@@ -169906,10 +170005,10 @@
         }
       ],
       "synonyms": [
-        "Action Picture! Touken Ranbu Alle anzeigen"
+        "Action Picture! Touken Ranbu"
       ]
     },
-    "fetchedAt": "2026-08-29T11:33:11.244Z"
+    "fetchedAt": "2026-09-29T10:52:59.897Z"
   },
   "21756": {
     "anisearchId": 11326,
@@ -171567,7 +171666,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:23:45.258Z"
+    "fetchedAt": "2026-09-29T10:53:06.829Z"
   },
   "21855": {
     "anisearchId": 11548,
@@ -171669,7 +171768,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:33:18.110Z"
+    "fetchedAt": "2026-09-29T10:53:13.773Z"
   },
   "21856": {
     "anisearchId": 11549,
@@ -171796,10 +171895,10 @@
       "synonyms": [
         "BNHA 2",
         "MHA 2",
-        "My Hero Academia 2. Staffel Alle anzeigen"
+        "My Hero Academia 2. Staffel"
       ]
     },
-    "fetchedAt": "2026-08-29T11:33:24.994Z"
+    "fetchedAt": "2026-09-29T10:53:20.742Z"
   },
   "21857": {
     "anisearchId": 11537,
@@ -171908,7 +172007,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:33:31.887Z"
+    "fetchedAt": "2026-09-29T10:53:27.666Z"
   },
   "21858": {
     "anisearchId": 11540,
@@ -172126,10 +172225,10 @@
       "synonyms": [
         "Do You Have What The End? Are You Busy? Shall You Save XXX?",
         "SukaSuka",
-        "WorldEnd: What Are You Doing at the End of the World? Are You Busy? Will You Save Us? Alle anzeigen"
+        "WorldEnd: What Are You Doing at the End of the World? Are You Busy? Will You Save Us?"
       ]
     },
-    "fetchedAt": "2026-08-29T14:23:59.102Z"
+    "fetchedAt": "2026-09-29T10:53:34.779Z"
   },
   "21861": {
     "anisearchId": 11554,
@@ -172592,7 +172691,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:33:38.756Z"
+    "fetchedAt": "2026-09-29T10:53:41.705Z"
   },
   "21894": {
     "anisearchId": 12235,
@@ -174399,7 +174498,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:33:45.626Z"
+    "fetchedAt": "2026-09-29T10:53:55.587Z"
   },
   "97815": {
     "anisearchId": 11903,
@@ -174597,7 +174696,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:33:52.497Z"
+    "fetchedAt": "2026-09-29T10:54:02.549Z"
   },
   "97833": {
     "anisearchId": 11979,
@@ -174800,7 +174899,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:27:11.198Z"
+    "fetchedAt": "2026-09-29T10:54:09.498Z"
   },
   "97881": {
     "anisearchId": 11517,
@@ -175239,10 +175338,10 @@
         }
       ],
       "synonyms": [
-        "DeathMa Alle anzeigen"
+        "DeathMa"
       ]
     },
-    "fetchedAt": "2026-08-29T11:33:59.371Z"
+    "fetchedAt": "2026-09-29T10:54:16.463Z"
   },
   "97908": {
     "anisearchId": 12081,
@@ -175467,14 +175566,18 @@
         {
           "name": "Kurokaminootome",
           "url": "https://kurokaminootome.com/"
+        },
+        {
+          "name": "Gkids",
+          "url": "https://gkids.com/films/night-is-short-walk-on-girl/"
         }
       ],
       "synonyms": [
         "The Night is Short",
-        "Walk On Girl Alle anzeigen"
+        "Walk On Girl"
       ]
     },
-    "fetchedAt": "2026-08-29T14:27:52.326Z"
+    "fetchedAt": "2026-09-29T10:54:23.401Z"
   },
   "97918": {
     "anisearchId": 12101,
@@ -176967,7 +177070,7 @@
         },
         {
           "language": "Französisch",
-          "title": "Lou et l'Île aux Sirènes",
+          "title": "Lou et l’Île aux Sirènes",
           "status": "Abgeschlossen",
           "dubbed": true,
           "released": "30.08.2017",
@@ -177014,13 +177117,17 @@
         {
           "name": "Lunouta",
           "url": "https://lunouta.com/"
+        },
+        {
+          "name": "Gkids",
+          "url": "https://gkids.com/films/lu-over-the-wall/"
         }
       ],
       "synonyms": [
-        "Song of Lu Who Informs the Dawn Alle anzeigen"
+        "Song of Lu Who Informs the Dawn"
       ]
     },
-    "fetchedAt": "2026-08-29T14:29:23.087Z"
+    "fetchedAt": "2026-09-29T10:54:30.349Z"
   },
   "98289": {
     "anisearchId": 12214,
@@ -177642,7 +177749,7 @@
         },
         {
           "language": "Spanisch",
-          "title": "The Ancient Magus' Bride",
+          "title": "The Ancient Magus’ Bride",
           "status": "Abgeschlossen",
           "dubbed": true,
           "released": "07.10.2017 - 24.03.2018",
@@ -177653,7 +177760,7 @@
         },
         {
           "language": "Französisch",
-          "title": "The Ancient Magus' Bride",
+          "title": "The Ancient Magus’ Bride",
           "status": "Abgeschlossen",
           "dubbed": true,
           "released": "07.10.2017 - 24.03.2018",
@@ -177701,16 +177808,28 @@
       "adaptedFrom": "Manga",
       "websites": [
         {
+          "name": "X",
+          "url": "https://x.com/mahoyomeproject"
+        },
+        {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/mahoyomeproject/"
+        },
+        {
           "name": "Mahoyome",
           "url": "https://mahoyome.jp/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/the-ancient-magus-bride/"
         }
       ],
       "synonyms": [
         "Mahoutsukai no Yome",
-        "Die Braut des Magiers Alle anzeigen"
+        "Die Braut des Magiers"
       ]
     },
-    "fetchedAt": "2026-08-29T11:34:13.114Z"
+    "fetchedAt": "2026-09-29T10:54:37.313Z"
   },
   "98437": {
     "anisearchId": 12300,
@@ -178384,10 +178503,10 @@
       ],
       "synonyms": [
         "IseSuma",
-        "In a Different World with a Smartphone. Alle anzeigen"
+        "In a Different World with a Smartphone."
       ]
     },
-    "fetchedAt": "2026-08-29T11:34:26.852Z"
+    "fetchedAt": "2026-09-29T10:54:51.234Z"
   },
   "98497": {
     "anisearchId": 12592,
@@ -178477,7 +178596,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:34:19.968Z"
+    "fetchedAt": "2026-09-29T10:54:44.256Z"
   },
   "98502": {
     "anisearchId": 12313,
@@ -178621,7 +178740,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:30:52.154Z"
+    "fetchedAt": "2026-09-29T10:54:58.184Z"
   },
   "98580": {
     "anisearchId": 12765,
@@ -178705,6 +178824,18 @@
         {
           "name": "Cool Kyoushinja",
           "role": "Original Work"
+        },
+        {
+          "name": "Yasuhiro TAKEMOTO",
+          "role": "Direction"
+        },
+        {
+          "name": "Miku KADOWAKI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Masumi ITOU",
+          "role": "Music"
         }
       ],
       "adaptedFrom": "Manga",
@@ -178718,10 +178849,10 @@
         "Kobayashi-san Chi no Maid Dragon Episode 14",
         "Kobayashi-san Chi no Maid Dragon OVA",
         "Kobayashi-san Chi no Maid Dragon Special",
-        "Miss Kobayashi's Dragon Maid Episode 14 Alle anzeigen"
+        "Miss Kobayashi's Dragon Maid Episode 14"
       ]
     },
-    "fetchedAt": "2026-08-29T14:31:26.346Z"
+    "fetchedAt": "2026-09-29T10:55:05.124Z"
   },
   "98603": {
     "anisearchId": 12345,
@@ -179170,7 +179301,7 @@
         "Welcome to Our Classroom: The Rules of Surviving Real World"
       ]
     },
-    "fetchedAt": "2026-08-29T11:34:33.723Z"
+    "fetchedAt": "2026-09-29T10:55:12.063Z"
   },
   "98707": {
     "anisearchId": 12451,
@@ -180270,7 +180401,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:32:48.682Z"
+    "fetchedAt": "2026-09-29T10:55:19.009Z"
   },
   "99147": {
     "anisearchId": 12550,
@@ -181141,7 +181272,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:34:40.703Z"
+    "fetchedAt": "2026-09-29T10:55:26.067Z"
   },
   "99425": {
     "anisearchId": 12600,
@@ -181481,12 +181612,8 @@
     "descriptionDe": "»Sobald du errötest, verlierst du.« Mit diesem Grundsatz wird der Mittelschüler Nishikata von seiner Sitznachbarin Takagi, die ihn tagtäglich neckt und versucht, ihn in Verlegenheit zu bringen, aufgezogen. Trotz seines am Boden zerstörten Stolzes nimmt er sich vor, den Spieß umzudrehen und Rache zu üben. Und so versucht er nun Tag für Tag, Takagi selbst in eine peinliche Falle zu locken … Wird ihm das wirklich gelingen oder bleibt er weiterhin nur ihr Opfer? \n\nQuelle: www.anisearch.de/anime/12642",
     "streams": [
       {
-        "provider": "primevideo-channel-crunchyroll-de",
-        "url": "https://www.amazon.de/dp/B0CJ6TW6L5?tag=anisearch.de-21"
-      },
-      {
-        "provider": "crunchyroll",
-        "url": "https://www.crunchyroll.com/series/G6X0P133Y/karakai-jozu-no-takagi-san"
+        "provider": "amazon-de",
+        "url": "https://www.amazon.de/dp/B0GF1R4V96?tag=anisearch.de-21"
       }
     ],
     "info": {
@@ -181579,10 +181706,10 @@
       ],
       "synonyms": [
         "Karakai Jozu no Takagi-san",
-        "Skilled Teaser Takagi-san Alle anzeigen"
+        "Skilled Teaser Takagi-san"
       ]
     },
-    "fetchedAt": "2026-08-29T14:34:24.910Z"
+    "fetchedAt": "2026-09-29T10:55:32.989Z"
   },
   "99470": {
     "anisearchId": 12629,
@@ -182071,7 +182198,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:34:47.561Z"
+    "fetchedAt": "2026-09-29T10:55:39.901Z"
   },
   "99629": {
     "anisearchId": 12660,
@@ -182622,10 +182749,10 @@
         "Ousama Game: Extreme",
         "Kings Game",
         "King’s Game: The Animation",
-        "Ousama Game: Spiel oder stirb! Alle anzeigen"
+        "Ousama Game: Spiel oder stirb!"
       ]
     },
-    "fetchedAt": "2026-08-29T14:35:26.779Z"
+    "fetchedAt": "2026-09-29T10:55:46.823Z"
   },
   "99699": {
     "anisearchId": 12680,
@@ -183636,10 +183763,10 @@
         }
       ],
       "synonyms": [
-        "Kase-san und blaue Blumen Alle anzeigen"
+        "Kase-san und blaue Blumen"
       ]
     },
-    "fetchedAt": "2026-08-29T14:36:35.803Z"
+    "fetchedAt": "2026-09-29T10:55:53.755Z"
   },
   "99940": {
     "anisearchId": 12745,
@@ -184686,10 +184813,10 @@
         }
       ],
       "synonyms": [
-        "SAO Alternative: GGO Alle anzeigen"
+        "SAO Alternative: GGO"
       ]
     },
-    "fetchedAt": "2026-08-29T11:34:54.475Z"
+    "fetchedAt": "2026-09-29T10:56:00.723Z"
   },
   "100240": {
     "anisearchId": 12880,
@@ -185019,10 +185146,10 @@
         "Doreiku The Animation",
         "SCM: Meine 23 Sklaven",
         "Slave District: Me and 23 Slaves",
-        "Doreiku: 23 Slaves Alle anzeigen"
+        "Doreiku: 23 Slaves"
       ]
     },
-    "fetchedAt": "2026-08-29T14:38:05.144Z"
+    "fetchedAt": "2026-09-29T10:56:07.651Z"
   },
   "100256": {
     "anisearchId": 12892,
@@ -188189,7 +188316,7 @@
         "Layton Mystery Detective Agency: Kat’s Mystery-Solving Files"
       ]
     },
-    "fetchedAt": "2026-08-29T14:41:31.336Z"
+    "fetchedAt": "2026-09-29T10:56:28.479Z"
   },
   "100876": {
     "anisearchId": 13186,
@@ -188624,10 +188751,10 @@
         }
       ],
       "synonyms": [
-        "Cells at Work! TV Alle anzeigen"
+        "Cells at Work! TV"
       ]
     },
-    "fetchedAt": "2026-08-29T11:35:08.219Z"
+    "fetchedAt": "2026-09-29T10:56:35.437Z"
   },
   "100979": {
     "anisearchId": 12570,
@@ -188792,10 +188919,10 @@
       ],
       "synonyms": [
         "The King of Darkness Another World Story: Slave Magic",
-        "The Other World Demon King and the Summoning Girls’ Slave Magic Alle anzeigen"
+        "The Other World Demon King and the Summoning Girls’ Slave Magic"
       ]
     },
-    "fetchedAt": "2026-08-29T11:35:15.107Z"
+    "fetchedAt": "2026-09-29T10:56:42.377Z"
   },
   "101016": {
     "anisearchId": 13558,
@@ -189174,10 +189301,10 @@
         "Free! (2018)",
         "Free! 3rd Season",
         "Free! Third Season",
-        "Free! Staffel 3 Alle anzeigen"
+        "Free! Staffel 3"
       ]
     },
-    "fetchedAt": "2026-08-29T11:35:01.343Z"
+    "fetchedAt": "2026-09-29T10:56:14.560Z"
   },
   "101165": {
     "anisearchId": 13356,
@@ -189825,7 +189952,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:53:50.294Z"
+    "fetchedAt": "2026-09-29T10:56:49.307Z"
   },
   "101277": {
     "anisearchId": 13438,
@@ -190035,10 +190162,10 @@
       "synonyms": [
         "TenSura",
         "Regarding Reincarnated to Slime",
-        "Regarding Reincarnation as Slime Alle anzeigen"
+        "Regarding Reincarnation as Slime"
       ]
     },
-    "fetchedAt": "2026-08-29T14:53:57.059Z"
+    "fetchedAt": "2026-09-29T10:56:56.264Z"
   },
   "101281": {
     "anisearchId": 13440,
@@ -190415,7 +190542,7 @@
           "title": "Dragon Ball Super: Broly",
           "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "22.02.2019",
+          "released": "01.02.2019",
           "publisher": [
             "Selecta Visión S.L.U."
           ]
@@ -190469,13 +190596,17 @@
         {
           "name": "Dbmovie 20th",
           "url": "https://www.dbmovie-20th.com/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/dragon-ball-super-broly/"
         }
       ],
       "synonyms": [
-        "Dragonball Super: Broly Alle anzeigen"
+        "Dragonball Super: Broly"
       ]
     },
-    "fetchedAt": "2026-08-29T14:41:10.758Z"
+    "fetchedAt": "2026-09-29T10:56:21.523Z"
   },
   "101316": {
     "anisearchId": 13482,
@@ -190658,7 +190789,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:54:57.943Z"
+    "fetchedAt": "2026-09-29T10:57:10.120Z"
   },
   "101337": {
     "anisearchId": 13483,
@@ -191122,7 +191253,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T14:55:25.053Z"
+    "fetchedAt": "2026-09-29T10:57:17.157Z"
   },
   "101349": {
     "anisearchId": 13495,
@@ -191230,7 +191361,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:35:21.982Z"
+    "fetchedAt": "2026-09-29T10:57:24.092Z"
   },
   "101350": {
     "anisearchId": 13494,
@@ -192775,10 +192906,10 @@
       ],
       "synonyms": [
         "TPN",
-        "Yakuneba Alle anzeigen"
+        "Yakuneba"
       ]
     },
-    "fetchedAt": "2026-08-29T14:56:39.424Z"
+    "fetchedAt": "2026-09-29T10:57:31.158Z"
   },
   "101874": {
     "anisearchId": 11606,
@@ -195703,7 +195834,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:35:28.851Z"
+    "fetchedAt": "2026-09-29T10:57:38.102Z"
   },
   "103223": {
     "anisearchId": 13766,
@@ -195919,10 +196050,10 @@
       ],
       "synonyms": [
         "Fate/Grand Order: Siebte Singularität",
-        "Fate/Grand Order: The Absolute Frontline in the War Against the Demonic Beasts Babylonia Alle anzeigen"
+        "Fate/Grand Order: The Absolute Frontline in the War Against the Demonic Beasts Babylonia"
       ]
     },
-    "fetchedAt": "2026-08-29T11:35:42.589Z"
+    "fetchedAt": "2026-09-29T10:58:05.814Z"
   },
   "103303": {
     "anisearchId": 13774,
@@ -196235,10 +196366,10 @@
       "synonyms": [
         "5-toubun no Hanayome",
         "Gotoubun no Hanayome",
-        "The Five Wedded Brides Alle anzeigen"
+        "The Five Wedded Brides"
       ]
     },
-    "fetchedAt": "2026-08-29T15:00:15.857Z"
+    "fetchedAt": "2026-09-29T10:58:12.892Z"
   },
   "103588": {
     "anisearchId": 14209,
@@ -196521,10 +196652,10 @@
         "So I Am a Spider",
         "What About It?",
         "So I’m a Spider",
-        "What About It? Alle anzeigen"
+        "What About It?"
       ]
     },
-    "fetchedAt": "2026-08-29T14:58:07.376Z"
+    "fetchedAt": "2026-09-29T10:57:45.055Z"
   },
   "103638": {
     "anisearchId": 13802,
@@ -196620,10 +196751,10 @@
       ],
       "synonyms": [
         "Case File No 221: Kabukicho",
-        "Kabukichou no Yatsu (歌舞伎町のやつ) Alle anzeigen"
+        "Kabukichou no Yatsu (歌舞伎町のやつ)"
       ]
     },
-    "fetchedAt": "2026-08-29T11:35:49.455Z"
+    "fetchedAt": "2026-09-29T10:58:19.790Z"
   },
   "103871": {
     "anisearchId": 13731,
@@ -197353,10 +197484,10 @@
         "Steins;Gate 0 OVA",
         "Steins;Gate 0 Special",
         "Steins;Gate 0: San Valentín de Polimorfismo de Cristal - Intermedio Agridulce",
-        "Steins;Gate 0 : Valentine Polymorphe Alle anzeigen"
+        "Steins;Gate 0 : Valentine Polymorphe"
       ]
     },
-    "fetchedAt": "2026-08-29T14:54:44.445Z"
+    "fetchedAt": "2026-09-29T10:57:03.190Z"
   },
   "104217": {
     "anisearchId": 13922,
@@ -198378,10 +198509,10 @@
         "Destruction Flag Otome",
         "Hamefura",
         "Bakarina",
-        "I Reincarnated into an Otome Game as a Villainess with Only Destruction Flags... Alle anzeigen"
+        "I Reincarnated into an Otome Game as a Villainess with Only Destruction Flags..."
       ]
     },
-    "fetchedAt": "2026-08-29T11:35:56.332Z"
+    "fetchedAt": "2026-09-29T10:58:40.550Z"
   },
   "104679": {
     "anisearchId": 13943,
@@ -198722,10 +198853,18 @@
         {
           "name": "Kimi Nami",
           "url": "https://kimi-nami.com/"
+        },
+        {
+          "name": "Gkids",
+          "url": "https://gkids.com/films/ride-your-wave/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/el-amor-esta-en-el-agua/"
         }
       ]
     },
-    "fetchedAt": "2026-08-29T15:02:58.009Z"
+    "fetchedAt": "2026-09-29T10:58:47.490Z"
   },
   "105096": {
     "anisearchId": 13970,
@@ -198995,14 +199134,18 @@
         {
           "name": "Onepiece Movie",
           "url": "https://www.onepiece-movie.jp/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/one-piece-estampida/"
         }
       ],
       "synonyms": [
         "One Piece Film 13",
-        "One Piece Movie 13 Alle anzeigen"
+        "One Piece Movie 13"
       ]
     },
-    "fetchedAt": "2026-08-29T15:00:36.130Z"
+    "fetchedAt": "2026-09-29T10:58:33.618Z"
   },
   "105156": {
     "anisearchId": 13977,
@@ -199124,10 +199267,10 @@
       ],
       "synonyms": [
         "The Hero Is Overpowered but Overly Cautious",
-        "This Hero Is Invincible but ”Too Cautious” Alle anzeigen"
+        "This Hero Is Invincible but ”Too Cautious”"
       ]
     },
-    "fetchedAt": "2026-08-29T11:36:03.315Z"
+    "fetchedAt": "2026-09-29T10:58:54.511Z"
   },
   "105190": {
     "anisearchId": 13976,
@@ -199451,7 +199594,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:36:10.189Z"
+    "fetchedAt": "2026-09-29T10:59:01.465Z"
   },
   "105245": {
     "anisearchId": 14346,
@@ -199632,10 +199775,10 @@
       ],
       "synonyms": [
         "Enen no Shouboutai",
-        "Fire Brigade of Flames Alle anzeigen"
+        "Fire Brigade of Flames"
       ]
     },
-    "fetchedAt": "2026-08-29T11:36:17.067Z"
+    "fetchedAt": "2026-09-29T10:59:08.381Z"
   },
   "105333": {
     "anisearchId": 13989,
@@ -201012,10 +201155,10 @@
         "So I Think I’ll Make a Full Defense Build.",
         "I Hate Getting Hurt",
         "So I Put All My Skill Points into Defense",
-        "Itai no wa Iya nano de Bougyoryoku ni Kyokufuri Shitai to Omoimasu. Alle anzeigen"
+        "Itai no wa Iya nano de Bougyoryoku ni Kyokufuri Shitai to Omoimasu."
       ]
     },
-    "fetchedAt": "2026-08-29T11:36:23.946Z"
+    "fetchedAt": "2026-09-29T10:59:15.333Z"
   },
   "106494": {
     "anisearchId": 14028,
@@ -201222,10 +201365,10 @@
       "synonyms": [
         "Regarding Reincarnated to Slime (2019)",
         "Regarding Reincarnation as Slime (2019)",
-        "That Time I Got Reincarnated as a Slime (2019) Alle anzeigen"
+        "That Time I Got Reincarnated as a Slime (2019)"
       ]
     },
-    "fetchedAt": "2026-08-29T15:04:19.116Z"
+    "fetchedAt": "2026-09-29T10:59:22.298Z"
   },
   "106625": {
     "anisearchId": 14041,
@@ -201815,10 +201958,10 @@
         "Nicht schon wieder",
         "Takagi-san! Staffel 2",
         "Skilled Teaser Takagi-san 2nd Season",
-        "Teasing Master Takagi-san S2 Alle anzeigen"
+        "Teasing Master Takagi-san S2"
       ]
     },
-    "fetchedAt": "2026-08-29T15:05:33.508Z"
+    "fetchedAt": "2026-09-29T10:59:29.258Z"
   },
   "107202": {
     "anisearchId": 14107,
@@ -202013,10 +202156,10 @@
       ],
       "synonyms": [
         "How Many Kilograms Are the Dumbbells You Lift?",
-        "How Much Heavy Dumbbells Can You Lift? Alle anzeigen"
+        "How Much Heavy Dumbbells Can You Lift?"
       ]
     },
-    "fetchedAt": "2026-08-29T11:36:30.817Z"
+    "fetchedAt": "2026-09-29T10:59:36.196Z"
   },
   "107313": {
     "anisearchId": 14265,
@@ -202855,7 +202998,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:36:37.685Z"
+    "fetchedAt": "2026-09-29T10:59:43.147Z"
   },
   "107717": {
     "anisearchId": 14169,
@@ -202977,10 +203120,10 @@
         "Miss Kobayashi’s Dragon Maid 2",
         "The Dragon Maid of Kobayashi-san 2",
         "Miss Kobayashi’s Dragon Maid: Season 2",
-        "Miss Kobayashi’s Dragon Maid: Staffel 2 Alle anzeigen"
+        "Miss Kobayashi’s Dragon Maid: Staffel 2"
       ]
     },
-    "fetchedAt": "2026-08-29T15:06:14.133Z"
+    "fetchedAt": "2026-09-29T10:59:50.093Z"
   },
   "107727": {
     "anisearchId": 14170,
@@ -203274,10 +203417,10 @@
       ],
       "synonyms": [
         "HenSuki",
-        "Will You Please Like Hentai If It’s Cute? Alle anzeigen"
+        "Will You Please Like Hentai If It’s Cute?"
       ]
     },
-    "fetchedAt": "2026-08-29T11:36:44.546Z"
+    "fetchedAt": "2026-09-29T10:59:57.054Z"
   },
   "108241": {
     "anisearchId": 14236,
@@ -203721,7 +203864,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T15:07:21.612Z"
+    "fetchedAt": "2026-09-29T11:00:04.013Z"
   },
   "108353": {
     "anisearchId": 14239,
@@ -204137,10 +204280,10 @@
       ],
       "synonyms": [
         "Choujin Koukousei-tachi wa Isekai de mo Yoyuu de Ikinuku You desu!",
-        "Choyoyu! High School Prodigies Have It Easy Even in Another World! Alle anzeigen"
+        "Choyoyu! High School Prodigies Have It Easy Even in Another World!"
       ]
     },
-    "fetchedAt": "2026-08-29T15:07:41.917Z"
+    "fetchedAt": "2026-09-29T11:00:10.956Z"
   },
   "108430": {
     "anisearchId": 14250,
@@ -204251,7 +204394,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:36:51.424Z"
+    "fetchedAt": "2026-09-29T11:00:17.916Z"
   },
   "108450": {
     "anisearchId": 14251,
@@ -204586,10 +204729,10 @@
         "Jobless Reincarnation: It Will Be All Out If I Go to Another World",
         "MT",
         "Mushoku Tensei",
-        "Jobless Reincarnation Alle anzeigen"
+        "Jobless Reincarnation"
       ]
     },
-    "fetchedAt": "2026-08-29T11:36:58.399Z"
+    "fetchedAt": "2026-09-29T11:00:24.988Z"
   },
   "108478": {
     "anisearchId": 14255,
@@ -204698,10 +204841,10 @@
       ],
       "synonyms": [
         "NGL",
-        "No Guns Life: The Way of Life of a Man Loading a Magazine Alle anzeigen"
+        "No Guns Life: The Way of Life of a Man Loading a Magazine"
       ]
     },
-    "fetchedAt": "2026-08-29T11:37:05.275Z"
+    "fetchedAt": "2026-09-29T11:00:31.947Z"
   },
   "108487": {
     "anisearchId": 14261,
@@ -204792,7 +204935,7 @@
         "Flagtime"
       ]
     },
-    "fetchedAt": "2026-08-29T15:08:02.199Z"
+    "fetchedAt": "2026-09-29T11:00:38.884Z"
   },
   "108489": {
     "anisearchId": 14263,
@@ -205985,10 +206128,10 @@
       ],
       "synonyms": [
         "Hataraku Saibou 2",
-        "Cells at Work! 2 Alle anzeigen"
+        "Cells at Work! 2"
       ]
     },
-    "fetchedAt": "2026-08-29T11:37:12.134Z"
+    "fetchedAt": "2026-09-29T11:00:45.816Z"
   },
   "108632": {
     "anisearchId": 14302,
@@ -207035,10 +207178,10 @@
         "Drilling Labyrinth Marker",
         "Project Anima",
         "Sacks&Guns!!",
-        "Sakugan Labyrinth Marker (削岩ラビリンスマーカー) Alle anzeigen"
+        "Sakugan Labyrinth Marker (削岩ラビリンスマーカー)"
       ]
     },
-    "fetchedAt": "2026-08-29T15:00:29.373Z"
+    "fetchedAt": "2026-09-29T10:58:26.718Z"
   },
   "109002": {
     "anisearchId": 17070,
@@ -207167,10 +207310,10 @@
         }
       ],
       "synonyms": [
-        "Yesterday wo Utatte Alle anzeigen"
+        "Yesterday wo Utatte"
       ]
     },
-    "fetchedAt": "2026-08-29T11:37:19.013Z"
+    "fetchedAt": "2026-09-29T11:00:52.763Z"
   },
   "109085": {
     "anisearchId": 15365,
@@ -207551,7 +207694,7 @@
         "The Quintessential Quintuplets: Season 2"
       ]
     },
-    "fetchedAt": "2026-08-29T15:10:37.648Z"
+    "fetchedAt": "2026-09-29T11:00:59.724Z"
   },
   "109321": {
     "anisearchId": 14399,
@@ -209132,7 +209275,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:37:25.874Z"
+    "fetchedAt": "2026-09-29T11:01:06.674Z"
   },
   "110354": {
     "anisearchId": 14498,
@@ -209930,10 +210073,10 @@
         }
       ],
       "synonyms": [
-        "Zombie Land Saga: Season 2 Alle anzeigen"
+        "Zombie Land Saga: Season 2"
       ]
     },
-    "fetchedAt": "2026-08-29T15:12:32.372Z"
+    "fetchedAt": "2026-09-29T11:01:13.625Z"
   },
   "110810": {
     "anisearchId": 14547,
@@ -210027,7 +210170,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T15:12:39.114Z"
+    "fetchedAt": "2026-09-29T11:01:20.566Z"
   },
   "110851": {
     "anisearchId": 14546,
@@ -210100,10 +210243,10 @@
       ],
       "adaptedFrom": "Videospiel",
       "synonyms": [
-        "Fate/Grand Order: Zettai Majuu Sensen Babylonia Episode 0 Alle anzeigen"
+        "Fate/Grand Order: Zettai Majuu Sensen Babylonia Episode 0"
       ]
     },
-    "fetchedAt": "2026-08-29T15:12:45.855Z"
+    "fetchedAt": "2026-09-29T11:01:27.503Z"
   },
   "110857": {
     "anisearchId": 14894,
@@ -212036,10 +212179,10 @@
         "Pokémon (2019)",
         "Pokémon Sword & Shield Anime Series",
         "Pokémon Meister-Reisen: Die Serie",
-        "Pokémon Ultimative Reisen: Die Serie Alle anzeigen"
+        "Pokémon Ultimative Reisen: Die Serie"
       ]
     },
-    "fetchedAt": "2026-08-29T15:13:46.605Z"
+    "fetchedAt": "2026-09-29T11:01:41.481Z"
   },
   "112177": {
     "anisearchId": 15037,
@@ -212327,10 +212470,10 @@
       ],
       "synonyms": [
         "Maou Gakuin no Futekigousha",
-        "The Misfit of Demon King Academy: History’s Strongest Demon King Reincarnates and Goes to School with His Descendants Alle anzeigen"
+        "The Misfit of Demon King Academy: History’s Strongest Demon King Reincarnates and Goes to School with His Descendants"
       ]
     },
-    "fetchedAt": "2026-08-29T11:37:39.724Z"
+    "fetchedAt": "2026-09-29T11:01:48.444Z"
   },
   "112323": {
     "anisearchId": 14659,
@@ -212766,10 +212909,10 @@
         }
       ],
       "synonyms": [
-        "Ich habe 300 Jahre lang Schleim getötet und aus Versehen das höchste Level erreicht Alle anzeigen"
+        "Ich habe 300 Jahre lang Schleim getötet und aus Versehen das höchste Level erreicht"
       ]
     },
-    "fetchedAt": "2026-08-29T11:37:53.504Z"
+    "fetchedAt": "2026-09-29T11:02:02.358Z"
   },
   "112609": {
     "anisearchId": 14689,
@@ -213446,10 +213589,10 @@
       "synonyms": [
         "L’étranger du plage",
         "Stranger by the Shore!",
-        "The Stranger by the Beach Alle anzeigen"
+        "The Stranger by the Beach"
       ]
     },
-    "fetchedAt": "2026-08-29T15:16:10.328Z"
+    "fetchedAt": "2026-09-29T11:02:09.298Z"
   },
   "112803": {
     "anisearchId": 14670,
@@ -213558,10 +213701,10 @@
       ],
       "synonyms": [
         "NGL 2",
-        "No Guns Life: The Way of Life of a Man Loading a Magazine 2 Alle anzeigen"
+        "No Guns Life: The Way of Life of a Man Loading a Magazine 2"
       ]
     },
-    "fetchedAt": "2026-08-29T11:37:46.637Z"
+    "fetchedAt": "2026-09-29T11:01:55.382Z"
   },
   "112818": {
     "anisearchId": 14705,
@@ -213892,10 +214035,10 @@
         }
       ],
       "synonyms": [
-        "The Doctor for Monster Girls. Alle anzeigen"
+        "The Doctor for Monster Girls."
       ]
     },
-    "fetchedAt": "2026-08-29T11:38:00.378Z"
+    "fetchedAt": "2026-09-29T11:02:16.321Z"
   },
   "113415": {
     "anisearchId": 14790,
@@ -213936,8 +214079,8 @@
           "publisher": [
             "Crunchyroll",
             "VIZ Media, LLC",
-            "Wakanim Nordic",
-            "Anime Limited (UK)"
+            "Anime Limited (UK)",
+            "MediaLink Entertainment Limited"
           ]
         },
         {
@@ -213947,8 +214090,7 @@
           "dubbed": true,
           "released": "02.10.2020 - 26.03.2021",
           "publisher": [
-            "Crunchyroll",
-            "Kazé Deutschland"
+            "Crunchyroll"
           ]
         },
         {
@@ -213958,8 +214100,7 @@
           "dubbed": true,
           "released": "02.10.2020 - 26.03.2021",
           "publisher": [
-            "Crunchyroll",
-            "Funimation LATAM"
+            "Crunchyroll"
           ]
         },
         {
@@ -214023,10 +214164,10 @@
       ],
       "synonyms": [
         "JJK",
-        "Sorcery Fight Alle anzeigen"
+        "Sorcery Fight"
       ]
     },
-    "fetchedAt": "2026-08-29T15:16:37.426Z"
+    "fetchedAt": "2026-09-29T11:02:23.383Z"
   },
   "113538": {
     "anisearchId": 14832,
@@ -214340,15 +214481,23 @@
           "url": "https://x.com/joseetora_movie"
         },
         {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/joseetora_movie/"
+        },
+        {
           "name": "Joseetora",
           "url": "https://joseetora.jp/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/josee-el-tigre-y-los-peces/"
         }
       ],
       "synonyms": [
-        "Joze to Tora to Sakana-tachi Alle anzeigen"
+        "Joze to Tora to Sakana-tachi"
       ]
     },
-    "fetchedAt": "2026-08-29T15:16:57.763Z"
+    "fetchedAt": "2026-09-29T11:02:30.463Z"
   },
   "113653": {
     "anisearchId": 14687,
@@ -214569,10 +214718,10 @@
         }
       ],
       "synonyms": [
-        "King Ranking Alle anzeigen"
+        "King Ranking"
       ]
     },
-    "fetchedAt": "2026-08-29T11:38:07.249Z"
+    "fetchedAt": "2026-09-29T11:02:37.406Z"
   },
   "113813": {
     "anisearchId": 14816,
@@ -214858,7 +215007,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T15:17:31.598Z"
+    "fetchedAt": "2026-09-29T11:02:44.332Z"
   },
   "113924": {
     "anisearchId": 14367,
@@ -215631,10 +215780,10 @@
         "HigeHiro",
         "HigewoSoru",
         "I Shaved. Then I Brought a High School Girl Home.",
-        "Hige wo Soru. Soshite Joshikousei wo Hirou. Alle anzeigen"
+        "Hige wo Soru. Soshite Joshikousei wo Hirou."
       ]
     },
-    "fetchedAt": "2026-08-29T15:18:05.364Z"
+    "fetchedAt": "2026-09-29T11:02:51.284Z"
   },
   "114236": {
     "anisearchId": 14850,
@@ -215761,10 +215910,10 @@
       "synonyms": [
         "Enen no Shouboutai 2",
         "Fire Brigade of Flames 2",
-        "Fire Force 2 Alle anzeigen"
+        "Fire Force 2"
       ]
     },
-    "fetchedAt": "2026-08-29T11:38:14.114Z"
+    "fetchedAt": "2026-09-29T11:02:58.216Z"
   },
   "114308": {
     "anisearchId": 14847,
@@ -216242,10 +216391,10 @@
       "synonyms": [
         "To You",
         "the Immortal",
-        "Your Immortal Self Alle anzeigen"
+        "Your Immortal Self"
       ]
     },
-    "fetchedAt": "2026-08-29T11:38:21.090Z"
+    "fetchedAt": "2026-09-29T11:03:05.263Z"
   },
   "114564": {
     "anisearchId": 14495,
@@ -216965,10 +217114,10 @@
       ],
       "synonyms": [
         "Sugoi Dekai",
-        "Uzaki-chan Wants to Play! Alle anzeigen"
+        "Uzaki-chan Wants to Play!"
       ]
     },
-    "fetchedAt": "2026-08-29T11:38:27.953Z"
+    "fetchedAt": "2026-09-29T11:03:12.212Z"
   },
   "115230": {
     "anisearchId": 14974,
@@ -217084,10 +217233,10 @@
       ],
       "synonyms": [
         "Sinui Tap",
-        "TOG Alle anzeigen"
+        "TOG"
       ]
     },
-    "fetchedAt": "2026-08-29T11:37:32.857Z"
+    "fetchedAt": "2026-09-29T11:01:34.567Z"
   },
   "115715": {
     "anisearchId": 13980,
@@ -217509,7 +217658,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:38:34.817Z"
+    "fetchedAt": "2026-09-29T11:03:19.134Z"
   },
   "116006": {
     "anisearchId": 15235,
@@ -217522,6 +217671,10 @@
       {
         "provider": "crunchyroll",
         "url": "https://www.crunchyroll.com/series/GRVD0ZDQR/the-god-of-high-school"
+      },
+      {
+        "provider": "disneyplus",
+        "url": "https://www.disneyplus.com/browse/entity-71bcb11f-763c-4609-8965-540eaf7fa795"
       }
     ],
     "info": {
@@ -217620,10 +217773,10 @@
       ],
       "synonyms": [
         "GoH",
-        "God of High School Alle anzeigen"
+        "God of High School"
       ]
     },
-    "fetchedAt": "2026-08-29T11:38:41.680Z"
+    "fetchedAt": "2026-09-29T11:03:26.088Z"
   },
   "116226": {
     "anisearchId": 15042,
@@ -217959,10 +218112,10 @@
         }
       ],
       "synonyms": [
-        "Fly Me to the Moon Alle anzeigen"
+        "Fly Me to the Moon"
       ]
     },
-    "fetchedAt": "2026-08-29T11:38:48.552Z"
+    "fetchedAt": "2026-09-29T11:03:32.996Z"
   },
   "116287": {
     "anisearchId": 15054,
@@ -218346,7 +218499,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:38:55.419Z"
+    "fetchedAt": "2026-09-29T11:03:39.948Z"
   },
   "116588": {
     "anisearchId": 15073,
@@ -218444,10 +218597,10 @@
       ],
       "synonyms": [
         "Sentouin",
-        "Haken Shimasu! Alle anzeigen"
+        "Haken Shimasu!"
       ]
     },
-    "fetchedAt": "2026-08-29T15:19:53.509Z"
+    "fetchedAt": "2026-09-29T11:03:46.852Z"
   },
   "116589": {
     "anisearchId": 15075,
@@ -218490,7 +218643,8 @@
           "dubbed": true,
           "released": "10.04.2021 - 19.06.2021",
           "publisher": [
-            "Crunchyroll"
+            "Crunchyroll",
+            "Animation Digital Network (DE)"
           ]
         },
         {
@@ -218510,7 +218664,8 @@
           "dubbed": true,
           "released": "10.04.2021 - 19.06.2021",
           "publisher": [
-            "Crunchyroll"
+            "Crunchyroll",
+            "Animation Digital Network"
           ]
         },
         {
@@ -218559,7 +218714,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:39:02.293Z"
+    "fetchedAt": "2026-09-29T11:03:53.782Z"
   },
   "116605": {
     "anisearchId": 15080,
@@ -218783,7 +218938,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:39:09.152Z"
+    "fetchedAt": "2026-09-29T11:04:07.625Z"
   },
   "116674": {
     "anisearchId": 15085,
@@ -219018,10 +219173,10 @@
       "synonyms": [
         "Meine Wiedergeburt als Schleim in einer anderen Welt: Die Schleim-Tagebücher",
         "Slime Diary That Time I Got Reincarnated as a Slime",
-        "The Slime Diaries: That Time I Got Reincarnated as a Slime Alle anzeigen"
+        "The Slime Diaries: That Time I Got Reincarnated as a Slime"
       ]
     },
-    "fetchedAt": "2026-08-29T15:20:27.282Z"
+    "fetchedAt": "2026-09-29T11:04:14.561Z"
   },
   "116742": {
     "anisearchId": 15098,
@@ -220394,7 +220549,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:39:16.025Z"
+    "fetchedAt": "2026-09-29T11:04:21.511Z"
   },
   "117612": {
     "anisearchId": 15183,
@@ -220733,7 +220888,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T15:21:48.448Z"
+    "fetchedAt": "2026-09-29T11:04:28.448Z"
   },
   "117989": {
     "anisearchId": 15212,
@@ -220948,10 +221103,10 @@
         }
       ],
       "synonyms": [
-        "Special Training in the Secret Dungeon Alle anzeigen"
+        "Special Training in the Secret Dungeon"
       ]
     },
-    "fetchedAt": "2026-08-29T15:22:08.700Z"
+    "fetchedAt": "2026-09-29T11:04:35.400Z"
   },
   "118390": {
     "anisearchId": 15236,
@@ -221522,10 +221677,10 @@
         }
       ],
       "synonyms": [
-        "Kenja no Deshi wo Nanoru Kenja Alle anzeigen"
+        "Kenja no Deshi wo Nanoru Kenja"
       ]
     },
-    "fetchedAt": "2026-08-29T11:39:22.896Z"
+    "fetchedAt": "2026-09-29T11:04:42.338Z"
   },
   "119321": {
     "anisearchId": 15303,
@@ -222356,7 +222511,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:39:29.773Z"
+    "fetchedAt": "2026-09-29T11:04:49.273Z"
   },
   "120209": {
     "anisearchId": 15346,
@@ -222697,7 +222852,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:39:36.623Z"
+    "fetchedAt": "2026-09-29T11:04:56.224Z"
   },
   "120697": {
     "anisearchId": 15366,
@@ -222813,10 +222968,10 @@
         "Please Don’t Bully Me",
         "Nagatoro-san",
         "Neck mich nicht",
-        "Nagatoro-san Alle anzeigen"
+        "Nagatoro-san"
       ]
     },
-    "fetchedAt": "2026-08-29T11:39:43.606Z"
+    "fetchedAt": "2026-09-29T11:05:03.171Z"
   },
   "122349": {
     "anisearchId": 15480,
@@ -223297,10 +223452,10 @@
       ],
       "synonyms": [
         "Ainouta",
-        "Ai no Utagoe wo Kikasete Alle anzeigen"
+        "Ai no Utagoe wo Kikasete"
       ]
     },
-    "fetchedAt": "2026-08-29T15:23:36.973Z"
+    "fetchedAt": "2026-09-29T11:05:10.169Z"
   },
   "124080": {
     "anisearchId": 15543,
@@ -223425,10 +223580,10 @@
       ],
       "synonyms": [
         "Hori-san to Miyamura-kun (ほりさんとみやむらくん)",
-        "Hori-san to Miyamura-kun (堀さんと宮村くん) Alle anzeigen"
+        "Hori-san to Miyamura-kun (堀さんと宮村くん)"
       ]
     },
-    "fetchedAt": "2026-08-29T11:39:50.464Z"
+    "fetchedAt": "2026-09-29T11:05:17.122Z"
   },
   "124140": {
     "anisearchId": 15547,
@@ -224360,10 +224515,10 @@
       "synonyms": [
         "En Route on an Alternate World Guided by the Moon",
         "Moon-led Journey Across Another World",
-        "Tsukimichi: Moonlight Fantasy Alle anzeigen"
+        "Tsukimichi: Moonlight Fantasy"
       ]
     },
-    "fetchedAt": "2026-08-29T11:39:57.338Z"
+    "fetchedAt": "2026-09-29T11:05:24.066Z"
   },
   "125367": {
     "anisearchId": 15681,
@@ -225073,10 +225228,10 @@
       ],
       "synonyms": [
         "5 Seconds to Death",
-        "Battle in 5 Seconds After Meeting Alle anzeigen"
+        "Battle in 5 Seconds After Meeting"
       ]
     },
-    "fetchedAt": "2026-08-29T15:25:38.483Z"
+    "fetchedAt": "2026-09-29T11:05:31.007Z"
   },
   "126289": {
     "anisearchId": 18077,
@@ -225369,10 +225524,10 @@
         }
       ],
       "synonyms": [
-        "Mythical Spirit Chronicles Alle anzeigen"
+        "Mythical Spirit Chronicles"
       ]
     },
-    "fetchedAt": "2026-08-29T11:40:04.207Z"
+    "fetchedAt": "2026-09-29T11:05:37.959Z"
   },
   "126659": {
     "anisearchId": 15890,
@@ -225593,10 +225748,10 @@
         "Kiwame Quest",
         "Kyuukyoku Shinka Shita Full Dive RPG ga Genjitsu yori mo Kuso Game dattara",
         "New Game Was Born. It Was Accepted with Shock and Enthusiasm. But No One Can Clear It.",
-        "Full Dive : L’ultime RPG est encore plus foireux que la réalité! Alle anzeigen"
+        "Full Dive : L’ultime RPG est encore plus foireux que la réalité!"
       ]
     },
-    "fetchedAt": "2026-08-29T11:40:11.078Z"
+    "fetchedAt": "2026-09-29T11:05:44.881Z"
   },
   "126830": {
     "anisearchId": 15951,
@@ -225784,8 +225939,8 @@
       "adaptedFrom": "Manga",
       "websites": [
         {
-          "name": "Twitter",
-          "url": "https://twitter.com/LoveofKill_info"
+          "name": "X",
+          "url": "https://x.com/LoveofKill_info"
         },
         {
           "name": "Love Of Kill",
@@ -225793,7 +225948,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:40:17.930Z"
+    "fetchedAt": "2026-09-29T11:05:51.830Z"
   },
   "127230": {
     "anisearchId": 15808,
@@ -226339,10 +226494,10 @@
       ],
       "synonyms": [
         "Fly Me to the Moon (2021)",
-        "Tonikawa: Over the Moon for You (2021) Alle anzeigen"
+        "Tonikawa: Over the Moon for You (2021)"
       ]
     },
-    "fetchedAt": "2026-08-29T15:26:12.220Z"
+    "fetchedAt": "2026-09-29T11:05:58.746Z"
   },
   "127399": {
     "anisearchId": 15822,
@@ -226573,7 +226728,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:40:24.803Z"
+    "fetchedAt": "2026-09-29T11:06:05.692Z"
   },
   "127619": {
     "anisearchId": 16002,
@@ -226896,10 +227051,10 @@
       ],
       "synonyms": [
         "Shikimori Is Not Just a Cutie",
-        "Shikimori es más que una cara bonita Alle anzeigen"
+        "Shikimori es más que una cara bonita"
       ]
     },
-    "fetchedAt": "2026-08-29T11:40:38.568Z"
+    "fetchedAt": "2026-09-29T11:06:19.555Z"
   },
   "127958": {
     "anisearchId": 15879,
@@ -227111,7 +227266,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:40:31.660Z"
+    "fetchedAt": "2026-09-29T11:06:12.611Z"
   },
   "128207": {
     "anisearchId": 15937,
@@ -227598,10 +227753,6 @@
     "descriptionDe": "Seit seiner Kindheit zieht Kimihiko Kimizuka Ärger nahezu magisch an. So wurde er bereits Zeuge eines Drogendeals und war schon so oft an Tatorten gewesen, dass ihm irgendwann selbst die Polizeiobermeisterin Fuubi Kase mit Skepsis begegnete. Eines Tages wurde er sogar entführt und musste einen Aktenkoffer mit unbekannten Inhalt außer Landes bringen. Auf dem Flug stellte sich heraus, dass das Flugzeug von der Geheimorganisation SPES gekapert wurde, doch zufälligerweise saß neben Kimihiko die Meisterdetektivin Siesta, die ihn sogleich zu ihrem Assistenten erklärte. Zusammen schafften sie es tatsächlich, den Entführer zu überwältigen und der Polizei zu übergeben.\n\nAls Kimihiko an diesem Abend wieder nach Hause kam, wartete dort auch schon Siesta auf ihn, die ihn nun offiziell zu ihrem Assistenten machen wollte. Nach anfänglichem Sträuben willigte Kimihiko schließlich doch ein und daraufhin reisten die beiden drei Jahre lang um die Welt, erlebten dabei teils gefährliche Abenteuer und lösten unzählige Fälle. Ihre Reise nahm jedoch ein tragisches Ende, als Siesta starb.\n\nEin Jahr nach Siestas Tod führt Kimihiko wieder ein halbwegs normales Leben als gewöhnlicher Oberschüler. Da er hin und wieder ein paar Kriminalfälle löst, die ihm gerade in den Schoß fallen, wird seine Mitschülerin Nagisa Natsunagi auf ihn aufmerksam und bittet ihn darum, eine bestimmte Person zu finden. Dieser Fall droht allerdings seinen zurückgewonnenen Alltag auf den Kopf zu stellen. \n\nQuelle: www.anisearch.de/anime/15908",
     "streams": [
       {
-        "provider": "primevideo-channel-crunchyroll-de",
-        "url": "https://www.amazon.de/dp/B0CH745Y9B?tag=anisearch.de-21"
-      },
-      {
         "provider": "crunchyroll",
         "url": "https://www.crunchyroll.com/series/G24H1N334/the-detective-is-already-dead"
       }
@@ -227685,8 +227836,8 @@
       "adaptedFrom": "Light Novel",
       "websites": [
         {
-          "name": "Twitter",
-          "url": "https://twitter.com/tanteiwamou_"
+          "name": "X",
+          "url": "https://x.com/tanteiwamou_"
         },
         {
           "name": "Tanmoshi Anime",
@@ -227696,10 +227847,10 @@
       "synonyms": [
         "Tanmoshi",
         "The Detective Is Already Dead: The Lost Memory",
-        "La detective está muerta. Alle anzeigen"
+        "La detective está muerta."
       ]
     },
-    "fetchedAt": "2026-08-29T11:40:52.290Z"
+    "fetchedAt": "2026-09-29T11:06:33.412Z"
   },
   "128715": {
     "anisearchId": 15905,
@@ -227810,10 +227961,10 @@
       "synonyms": [
         "Sacrifice Princess and King of Beasts",
         "Sacrifice to the King of Beasts",
-        "Sacrificial Princess & the King of Beasts Alle anzeigen"
+        "Sacrificial Princess & the King of Beasts"
       ]
     },
-    "fetchedAt": "2026-08-29T11:40:45.418Z"
+    "fetchedAt": "2026-09-29T11:06:26.469Z"
   },
   "128740": {
     "anisearchId": 15918,
@@ -228033,10 +228184,10 @@
       "synonyms": [
         "Jigoku Raku",
         "Heavenhell",
-        "Paradition Alle anzeigen"
+        "Paradition"
       ]
     },
-    "fetchedAt": "2026-08-29T15:27:33.253Z"
+    "fetchedAt": "2026-09-29T11:06:40.340Z"
   },
   "129188": {
     "anisearchId": 15928,
@@ -228268,10 +228419,10 @@
         "Shikkakumon",
         "Marked for Failure",
         "the World’s Strongest Sage Reincarnates for a Do-Over!",
-        "The Strongest Sage of Disqualified Crest Alle anzeigen"
+        "The Strongest Sage of Disqualified Crest"
       ]
     },
-    "fetchedAt": "2026-08-29T15:27:46.765Z"
+    "fetchedAt": "2026-09-29T11:06:47.282Z"
   },
   "129192": {
     "anisearchId": 15930,
@@ -228944,10 +229095,10 @@
         "The World’s Best Assassin",
         "to Reincarnate in a Different World Aristocrat",
         "The World’s Finest Assassin",
-        "Reincarnated in a Different World as an Aristocrat Alle anzeigen"
+        "Reincarnated in a Different World as an Aristocrat"
       ]
     },
-    "fetchedAt": "2026-08-29T11:40:59.148Z"
+    "fetchedAt": "2026-09-29T11:06:54.225Z"
   },
   "130003": {
     "anisearchId": 15989,
@@ -229264,7 +229415,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T15:28:34.141Z"
+    "fetchedAt": "2026-09-29T11:07:01.178Z"
   },
   "130253": {
     "anisearchId": 16165,
@@ -229579,7 +229730,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:41:06.016Z"
+    "fetchedAt": "2026-09-29T11:07:15.071Z"
   },
   "130592": {
     "anisearchId": 16024,
@@ -229689,10 +229840,10 @@
       ],
       "synonyms": [
         "Satan 2",
-        "Hataraku Maou-sama! Season 2 Alle anzeigen"
+        "Hataraku Maou-sama! Season 2"
       ]
     },
-    "fetchedAt": "2026-08-29T15:28:54.399Z"
+    "fetchedAt": "2026-09-29T11:07:08.125Z"
   },
   "130622": {
     "anisearchId": 16981,
@@ -235842,7 +235993,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-08-29T15:20:07.006Z"
+    "fetchedAt": "2026-09-29T11:04:00.666Z"
   },
   "138379": {
     "anisearchId": 16571,
@@ -238392,10 +238543,10 @@
       ],
       "synonyms": [
         "Demon’s Sword Master of Excalibur School",
-        "The Demon Sword Master of Excalibur Academy Casts Spells Alle anzeigen"
+        "The Demon Sword Master of Excalibur Academy Casts Spells"
       ]
     },
-    "fetchedAt": "2026-08-29T11:41:12.895Z"
+    "fetchedAt": "2026-09-29T11:07:22.010Z"
   },
   "140596": {
     "anisearchId": 16674,
@@ -262119,10 +262270,10 @@
         }
       ],
       "synonyms": [
-        "Kkoma-beoseu Tayo Alle anzeigen"
+        "Kkoma-beoseu Tayo"
       ]
     },
-    "fetchedAt": "2026-08-29T14:59:42.013Z"
+    "fetchedAt": "2026-09-29T10:57:51.956Z"
   },
   "164212": {
     "anisearchId": 18360,
@@ -263360,10 +263511,10 @@
       ],
       "adaptedFrom": "Webtoon",
       "synonyms": [
-        "The Super Cube Alle anzeigen"
+        "The Super Cube"
       ]
     },
-    "fetchedAt": "2026-08-29T11:41:33.437Z"
+    "fetchedAt": "2026-09-29T11:07:49.753Z"
   },
   "166452": {
     "anisearchId": 18469,
@@ -265300,7 +265451,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:41:19.737Z"
+    "fetchedAt": "2026-09-29T11:07:28.943Z"
   },
   "167418": {
     "anisearchId": 18626,
@@ -267424,6 +267575,10 @@
       {
         "provider": "adn-de",
         "url": "https://animationdigitalnetwork.com/de/video/1239-dragon-ball-daima"
+      },
+      {
+        "provider": "toggo",
+        "url": "https://www.toggo.de/serien/dragon-ball-daima-vse446/"
       }
     ],
     "info": {
@@ -267488,6 +267643,7 @@
           "language": "Italienisch",
           "title": "Dragon Ball Daima",
           "status": "Abgeschlossen",
+          "dubbed": true,
           "released": "11.10.2024 - 28.02.2025",
           "publisher": [
             "Crunchyroll",
@@ -267518,10 +267674,10 @@
       ],
       "synonyms": [
         "Dragon Ball Evil",
-        "ドラゴンボールDAIMA Alle anzeigen"
+        "ドラゴンボールDAIMA"
       ]
     },
-    "fetchedAt": "2026-08-30T09:58:33.894Z"
+    "fetchedAt": "2026-09-29T11:07:35.891Z"
   },
   "170130": {
     "anisearchId": 18759,
@@ -276185,15 +276341,15 @@
           "language": "Japanisch",
           "title": "Mushoku Tensei III: Isekai Ittara Honki Dasu",
           "titleNative": "無職転生III ～異世界行ったら本気だす～",
-          "status": "Laufend",
-          "released": "04.07.2026 - ?"
+          "status": "Abgeschlossen",
+          "released": "04.07.2026 - 28.09.2026"
         },
         {
           "language": "Englisch",
           "title": "Mushoku Tensei: Jobless Reincarnation - Season 3",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.07.2026 - ?",
+          "released": "04.07.2026 - 27.09.2026",
           "publisher": [
             "Crunchyroll",
             "Muse Communication Co.,Ltd."
@@ -276202,9 +276358,9 @@
         {
           "language": "Deutsch",
           "title": "Mushoku Tensei: Jobless Reincarnation - Staffel 3",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.07.2026 - ?",
+          "released": "04.07.2026 - 27.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -276212,9 +276368,9 @@
         {
           "language": "Spanisch",
           "title": "Mushoku Tensei: Jobless Reincarnation - Season 3",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.07.2026 - ?",
+          "released": "04.07.2026 - 27.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -276222,9 +276378,9 @@
         {
           "language": "Französisch",
           "title": "Mushoku Tensei : Jobless Reincarnation (Saison 3)",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.07.2026 - ?",
+          "released": "04.07.2026 - 27.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -276232,20 +276388,17 @@
         {
           "language": "Italienisch",
           "title": "Mushoku Tensei: Jobless Reincarnation - Season 3",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.07.2026 - ?",
+          "released": "04.07.2026 - 27.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
         }
       ],
-      "issues": [
-        "Episodenanzahl: vorläufige Schätzung"
-      ],
       "format": "TV-Serie",
       "episodes": 14,
-      "episodesEstimated": true,
+      "runtimeMinutes": 24,
       "season": "Sommer 2026",
       "studios": [
         "StudioBind Co., Ltd."
@@ -276282,14 +276435,13 @@
           "url": "https://mushokutensei.jp"
         }
       ],
-      "broadcast": "Montag 00:00 (JST)",
       "synonyms": [
         "Mushoku Tensei: Isekai Ittara Honki Dasu 3",
         "Jobless Reincarnation: It Will Be All Out If I Go to Another World 3",
-        "Mushoku Tensei III: Jobless Reincarnation Alle anzeigen"
+        "Mushoku Tensei III: Jobless Reincarnation"
       ]
     },
-    "fetchedAt": "2026-08-29T11:41:26.597Z"
+    "fetchedAt": "2026-09-29T11:07:42.820Z"
   },
   "178869": {
     "anisearchId": 19447,
@@ -281491,10 +281643,10 @@
         "but I Used the Gift from “Infinite Gacha” and Got Level 9999 Friends. I’ll Take Revenge on My Ex-party Members and the World. Serves You Right!",
         "My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeon",
         "I’m Out for Revenge!",
-        "Shinjite Ita Nakama-tachi ni Dungeon Okuchi de Korosarekaketa ga Gift “Mugen Gacha” de Level 9999 no Nakama-tachi wo Te ni Irete Moto Party Member to Sekai ni Fukushuu & “Zamaa!” Shimasu! Alle anzeigen"
+        "Shinjite Ita Nakama-tachi ni Dungeon Okuchi de Korosarekaketa ga Gift “Mugen Gacha” de Level 9999 no Nakama-tachi wo Te ni Irete Moto Party Member to Sekai ni Fukushuu & “Zamaa!” Shimasu!"
       ]
     },
-    "fetchedAt": "2026-08-29T11:41:40.304Z"
+    "fetchedAt": "2026-09-29T11:07:56.702Z"
   },
   "184356": {
     "anisearchId": 21171,
@@ -284065,7 +284217,8 @@
           "status": "Abgeschlossen",
           "released": "18.01.2026",
           "publisher": [
-            "Animation Digital Network"
+            "Animation Digital Network",
+            "Crunchyroll"
           ]
         },
         {
@@ -284080,8 +284233,9 @@
         },
         {
           "language": "Spanisch",
-          "status": "Zukünftig",
-          "released": "?",
+          "title": "Alicia en el País de las Maravillas: Dive in Wonderland",
+          "status": "Abgeschlossen",
+          "released": "24.04.2026",
           "publisher": [
             "Animation Digital Network"
           ]
@@ -284146,7 +284300,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-08-29T11:41:47.159Z"
+    "fetchedAt": "2026-09-29T11:08:04.459Z"
   },
   "186497": {
     "anisearchId": 20149,
@@ -285883,7 +286037,7 @@
         "Titipo-wa Chingudeul Titipo Titipo"
       ]
     },
-    "fetchedAt": "2026-08-29T11:35:35.711Z"
+    "fetchedAt": "2026-09-29T10:57:58.884Z"
   },
   "188139": {
     "anisearchId": 20297,
@@ -286493,15 +286647,15 @@
           "language": "Japanisch",
           "title": "Tenmaku no Jaadugar",
           "titleNative": "天幕のジャードゥーガル",
-          "status": "Laufend",
-          "released": "04.07.2026 - ?"
+          "status": "Abgeschlossen",
+          "released": "04.07.2026 - 12.09.2026"
         },
         {
           "language": "Englisch",
           "title": "Jaadugar: A Witch in Mongolia",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.07.2026 - ?",
+          "released": "04.07.2026 - 12.09.2026",
           "publisher": [
             "Crunchyroll",
             "Plus Media Networks Asia Pte. Ltd."
@@ -286510,9 +286664,9 @@
         {
           "language": "Deutsch",
           "title": "Jaadugar: A Witch in Mongolia",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.07.2026 - ?",
+          "released": "04.07.2026 - 12.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -286520,9 +286674,9 @@
         {
           "language": "Spanisch",
           "title": "Jaadugar: A Witch in Mongolia",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.07.2026 - ?",
+          "released": "04.07.2026 - 12.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -286530,9 +286684,9 @@
         {
           "language": "Französisch",
           "title": "Jaadugar: A Witch in Mongolia",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.07.2026 - ?",
+          "released": "04.07.2026 - 12.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -286540,19 +286694,15 @@
         {
           "language": "Italienisch",
           "title": "Jaadugar: A Witch in Mongolia",
-          "status": "Laufend",
-          "released": "04.07.2026 - ?",
+          "status": "Abgeschlossen",
+          "released": "04.07.2026 - 12.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
         }
       ],
-      "issues": [
-        "Episodenanzahl: vorläufige Schätzung"
-      ],
       "format": "TV-Serie",
       "episodes": 12,
-      "episodesEstimated": true,
       "season": "Sommer 2026",
       "studios": [
         "Science SARU Inc."
@@ -286590,13 +286740,12 @@
           "url": "https://anime-jaadugar.com/en/"
         }
       ],
-      "broadcast": "Samstag 23:30 (JST)",
       "synonyms": [
         "A Witch’s Life in Mongol",
-        "Jaadugar: Eine Hexe in der Mongolei Alle anzeigen"
+        "Jaadugar: Eine Hexe in der Mongolei"
       ]
     },
-    "fetchedAt": "2026-08-29T11:41:54.018Z"
+    "fetchedAt": "2026-09-29T11:08:11.408Z"
   },
   "190704": {
     "anisearchId": 20461,

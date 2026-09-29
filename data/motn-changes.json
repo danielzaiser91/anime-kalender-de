@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 62
+    "2026-09": 66
   },
   "gesehen": {
     "26341901:netflix": {
@@ -5589,7 +5589,67 @@
       "dienst": "prime",
       "am": "2026-09-27",
       "deutsch": false
+    },
+    "new:15412709:disney": {
+      "art": "new",
+      "titel": "Sandokan",
+      "originalTitel": "Sandokan",
+      "imdbId": "tt13924304",
+      "tmdbId": "tv/271855",
+      "dienst": "disney",
+      "am": "2026-09-29",
+      "deutsch": true
+    },
+    "new:24973060:netflix": {
+      "art": "new",
+      "titel": "LEGO ONE PIECE",
+      "originalTitel": "LEGO ONE PIECE",
+      "imdbId": "tt41538904",
+      "tmdbId": "tv/318918",
+      "dienst": "netflix",
+      "am": "2026-09-29",
+      "deutsch": false
+    },
+    "new:26893123:disney": {
+      "art": "new",
+      "titel": "CoComelon Playdates with Sanrio Friends",
+      "originalTitel": "CoComelon Playdates with Sanrio Friends",
+      "imdbId": "tt45015268",
+      "tmdbId": "tv/335964",
+      "dienst": "disney",
+      "am": "2026-09-28",
+      "deutsch": true
+    },
+    "new:26893503:netflix": {
+      "art": "new",
+      "titel": "Irreplaceable",
+      "originalTitel": "无可替代",
+      "imdbId": "tt37819415",
+      "tmdbId": "tv/297982",
+      "dienst": "netflix",
+      "am": "2026-09-28",
+      "deutsch": false
+    },
+    "new:355:prime": {
+      "art": "new",
+      "titel": "The Originals",
+      "originalTitel": "The Originals",
+      "imdbId": "tt2632424",
+      "tmdbId": "tv/46896",
+      "dienst": "prime",
+      "am": "2026-09-28",
+      "deutsch": true
+    },
+    "removed:1653:prime": {
+      "art": "removed",
+      "titel": "Tulsa King",
+      "originalTitel": "Tulsa King",
+      "imdbId": "tt16358384",
+      "tmdbId": "tv/153312",
+      "dienst": "prime",
+      "am": "2026-09-29",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-09-28T10:56:04.484Z"
+  "fetchedAt": "2026-09-29T10:42:24.181Z"
 }

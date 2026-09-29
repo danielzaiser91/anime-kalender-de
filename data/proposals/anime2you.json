@@ -1,6 +1,80 @@
 {
-  "scrapedAt": "2026-09-28T13:05:43.118Z",
+  "scrapedAt": "2026-09-29T10:44:50.983Z",
   "proposals": [
+    {
+      "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
+      "articleUrl": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
+      "publishedAt": "2026-09-28",
+      "category": "streaming",
+      "platforms": [
+        "adn"
+      ],
+      "dates": [
+        {
+          "month": "2026-10",
+          "context": "für Oktober 2026 an Der Streaming-Dienst ADN erweitert sein Programm im Oktober 2026 mit zahlreichen neuen Simulcasts und Katalogtiteln. Wi"
+        }
+      ],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Mittwoch",
+          "zeit": "17:30",
+          "satz": "Magica – Film 2: Eternal« (Sub) Ab 29.10.: »Puella Magi Madoka Magica – Film 3: Rebellion« (Sub) 30. September: »Reincarnated as a Sword« – Staffel 2 (Simulcast) Simulcast: Jeden Mittwoch um 17:30 Uhr Sprache: Japanisch (UT) Stream: ADN , P"
+        },
+        {
+          "tag": "Freitag",
+          "zeit": "18:00",
+          "satz": "en bedrohten »Strike Worlds«. Gemeinsam mit ihm begibt sie sich auf eine lange Reise, um diese Welten zu retten. 2. Oktober: »Tougen Anki« – Staffel 2 (Simulcast) Simulcast: Jeden Freitag um 18:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "13:00",
+          "satz": ", folgen Shiki und seine Freunde seiner Spur nach Nikko – und stoßen auf ein gigantisches Forschungszentrum voller Geheimnisse. 3. Oktober: »Suikoden« (Simulcast) Simulcast: Jeden Samstag um 13:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "19:00",
+          "satz": "Entschlossen, die Wahrheit aufzudecken, machen sie sich auf den Weg zurück in ihre Heimatstadt. 3. Oktober: »Even the Student Council Has Its Holes!« (Simulcast) Simulcast: Jeden Samstag um 19:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
+        },
+        {
+          "tag": "Sonntag",
+          "zeit": "18:00",
+          "satz": "ler, die ihm ein turbulentes Schuljahr bescheren. 4. Oktober: »Now That I Can Control Reality With A Mouse Cursor, I’m Gonna Click Away On The Girls!« (Simulcast) Simulcast: Jeden Sonntag um 18:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
+        },
+        {
+          "tag": "Sonntag",
+          "zeit": "18:05",
+          "satz": "t sich ihm plötzlich eine gefährliche Möglichkeit: Endlich kann er Mone für all die Demütigungen bezahlen lassen. 4. Oktober: »My Girlfriend’s Friend« (Simulcast) Simulcast: Jeden Sonntag um 18:05 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
+        },
+        {
+          "tag": "Dienstag",
+          "zeit": "14:55",
+          "satz": "te der Schule aushelfen. Dort finden die Brüder nach ihrem schweren Verlust langsam wieder neue Freude. 6. Oktober: »Nia Liston: The Merciless Maiden« (Simulcast) Simulcast: Jeden Dienstag um 14:55 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "19:00",
+          "satz": "ernative Version der Serie und stellt dabei vor allem die Beziehung zwischen Utena, Anthy und dem Prinzen in den Mittelpunkt. 17. Oktober: »Dreamland« (Simulcast) Simulcast: Jeden Samstag um 19:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
+        }
+      ],
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
+      "articleUrl": "https://www.anime2you.de/news/1054668/akiba-pass-tv-zwei-herbst-2026-simulcasts/",
+      "publishedAt": "2026-09-28",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-09-30",
+          "context": "weite Staffel der Fantasy-Serie »Reincarnated as a Sword«, die ab dem 30. September 2026 jeden Mittwoch um 17:30 Uhr im japanischen Original"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
       "articleUrl": "https://www.anime2you.de/news/1054611/crunchyroll-overgeared-und-mehr/",
