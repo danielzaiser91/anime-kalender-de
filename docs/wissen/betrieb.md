@@ -957,3 +957,34 @@ Zeile, aber `--short` (so wie hier üblich) lässt genau diese Zeile weg.
 `git branch --show-current` — steht dort nicht `main`, nicht committen, sondern die andere Sitzung
 fragen. Geteilte Dateien vorher absprechen; fremde, nicht committete Änderungen nie mit stagen
 (`git add <eigene Dateien>`, kein `git add -A`), beim Pull `--autostash`.
+
+## Der Actions-Cache für `data/cache/` kennt keinen Besitzer (29.09.2026)
+
+**Was passiert ist.** Die Katalog-Abfrage sollte die MAL-Kennung (`idMal`) mitbringen. Der
+Katalog-Lauf holte sie auch — `ohne-synchro.json` trug danach trotzdem **null** Kennungen an 15.130
+Titeln, und nichts wurde rot.
+
+**Warum.** `data/cache/` liegt nicht im Repo, sondern in einem Actions-Cache unter dem Präfix
+`anilist-cache-`. Jeder Lauf, der den Ordner anfasst, speichert ihn am Ende **unter seinem eigenen
+Schlüssel** (`anilist-cache-<run_id>`) — auch der Stündliche, der den Stand nur gelesen hat. Welchen
+Stand ein späterer Lauf bekommt, entscheidet damit nicht das Alter *des Inhalts*, sondern das
+Alter *des Schlüssels*:
+
+```
+08:34  Katalog-Lauf startet, holt alles neu (35 min)
+09:0x  ein anderer Lauf startet, liest den ALTEN Katalog
+09:14  Katalog-Lauf speichert seinen neuen Stand   → anilist-cache-…43605186
+09:15  der andere Lauf speichert seinen alten Stand → anilist-cache-…44444523   ← neuer!
+09:16  Bestandslauf nimmt `restore-keys: anilist-cache-` → den neueren, also den alten Stand
+```
+
+**Was dagegen hilft.**
+1. **Kennungen über den Fingerabdruck** (`REL_FASSUNG` in `pipeline/fetch-anilist-katalog.ts`): Ändert
+   sich die *Frage*, gilt kein Jahr als fertig, der Katalog wird neu geholt. Genau daran fehlte es —
+   er zählte nur die Beziehungsregeln, nicht die Felder. Jetzt trägt er `+mal-1`.
+2. **Messen statt schweigen**: Der Bau zählt die MAL-Kennungen mit und **warnt bei null**
+   (`meldeOhneSynchro` in `pipeline/bau/nebendateien.ts`). Ohne diese Zahl ist ein zu alter Cache
+   nicht von einem Titel ohne MAL-Seite zu unterscheiden.
+3. **Wer den Refresh braucht, startet ihn selbst**: Nach einem `data:katalog` den Bestandslauf
+   **von Hand** auslösen (`gh workflow run bestand-bauen.yml`), statt auf den `workflow_run`-Trigger
+   zu warten — der kann in das Zeitfenster fallen, in dem ein fremder Lauf seinen alten Stand speichert.

@@ -378,9 +378,26 @@ export function schreibeOhneSynchro(
   const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
 
   writeJson(`${OUT}/ohne-synchro.json`, alle.map(mitAnkuendigung))
+  meldeOhneSynchro(alle.length, eintraege.length, nachgetragen.length, alle.filter((t) => t.malId).length)
+}
+
+/**
+ * **Was der Lauf über `ohne-synchro.json` ins Protokoll schreibt** (29.09.2026).
+ *
+ * Die Zahl der MAL-Kennungen steht mit dabei, und bei **null** gibt es eine Warnung: Der
+ * AniList-Katalog kommt aus einem Actions-Cache, den mehrere Läufe zugleich überschreiben — ein Lauf,
+ * der vor dem Katalog-Refresh startet, reicht den alten Stand unter einem neueren Schlüssel weiter.
+ * Genau das ließ `ohne-synchro.json` zweimal mit null Kennungen dastehen, ohne dass etwas rot wurde
+ * (Einzelheiten in `docs/wissen/betrieb.md`). Eine Zahl im Protokoll macht es sichtbar.
+ */
+function meldeOhneSynchro(anzahl: number, katalog: number, nachgetragen: number, mitMal: number): void {
+  if (!mitMal && anzahl) {
+    warn(`Keine MAL-Kennung an ${anzahl} Titeln — der AniList-Katalog im Cache ist zu alt (data:katalog).`)
+  }
   log(
-    `Ohne deutsche Synchro: ${alle.length} Titel (aus ${eintraege.length} im AniList-Katalog` +
-      (nachgetragen.length ? `, ${nachgetragen.length} aus dem Hauptbestand nachgetragen)` : ')'),
+    `Ohne deutsche Synchro: ${anzahl} Titel (aus ${katalog} im AniList-Katalog` +
+      (nachgetragen ? `, ${nachgetragen} aus dem Hauptbestand nachgetragen)` : ')') +
+      `, ${mitMal} mit MAL-Kennung`,
   )
 }
 

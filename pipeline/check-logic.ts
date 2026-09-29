@@ -6158,6 +6158,12 @@ pruefe(
     /id idMal/.test(anilistQuelle) && /mal: m\.idMal/.test(anilistQuelle),
   )
   pruefe('und der Schreiber legt sie an den Titel', /malId: e\.mal/.test(nebendateiQuelle))
+  /*
+    Sichtbarkeit statt Stille (29.09.2026): Zweimal stand `ohne-synchro.json` mit **null** MAL-Kennungen
+    da, weil der Actions-Cache den alten Katalog weitergereicht hatte. Der Bau zählt sie jetzt mit und
+    warnt bei null — die Warnung darf nicht wieder verschwinden.
+  */
+  pruefe('der Bau warnt, wenn der Katalog ohne MAL-Kennungen ankommt', /Keine MAL-Kennung an/.test(nebendateiQuelle))
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */
