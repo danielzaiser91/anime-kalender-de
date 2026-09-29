@@ -1,95 +1,23 @@
 {
- "erzeugtAm": "2026-09-29T16:44:57.269Z",
+ "erzeugtAm": "2026-09-29T17:00:05.807Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 727,
+   "gemeldet": 745,
    "gesamt": 750,
-   "offen": 23,
+   "offen": 5,
    "ohneSeite": 0,
    "suchAdressen": [],
-   "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.90c814d3-83d5-4e7e-aa2c-68e5234cd305",
+   "ziel": "https://www.amazon.de/gp/video/detail/B0CVZYJVGK",
    "ziele": [
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.90c814d3-83d5-4e7e-aa2c-68e5234cd305",
-     "titel": "Shakugan no Shana"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07F9K4QFL",
-     "titel": "Yu-Gi-Oh! GX"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B6TCM46Q",
-     "titel": "Welcome to the N.H.K. (Welcome to the N-H-K)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C7QCV5B4",
-     "titel": "Wunderbare Pollyanna (Ai Shoujo Pollyanna Story)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B00WDK3XPE",
-     "titel": "Wickie und die starken Männer (Vicky the Viking)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B014UEEGCE",
-     "titel": "Wolverine"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B013FNV7BE",
-     "titel": "X-Men"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CV4FG2NV",
-     "titel": "Waiting in the Summer"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B08CGK5645",
-     "titel": "Yu-Gi-Oh! Arc-V"
-    },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVZYJVGK",
      "titel": "Akame ga Kill: Schwerter der Assassinen (Akame ga Kill!)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0HB4LWHTH",
-     "titel": "Wolf Girl & Black Prince (Wolf Girl and Black Prince)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y",
-     "titel": "Golden Kamuy"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D4Z3Z5N1",
-     "titel": "Wise Man’s Grandchild"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CFXJPZ1Q",
-     "titel": "W’z (W'z)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D2D9Z3NR",
-     "titel": "We Never Learn (We Never Learn: BOKUBEN)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D7CBG59K",
-     "titel": "Yohane the Parhelion: Sunshine in the Mirror (YOHANE THE PARHELION -SUNSHINE in the MIRROR-)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FJWFGLQC",
-     "titel": "Solo Leveling"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
      "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FX17N29N",
-     "titel": "Your Forma"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D8Z7K7Y3",
-     "titel": "Vom Landei zum Schwertheiligen (From Old Country Bumpkin to Master Swordsman)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GDGLLYLS",
@@ -104,7 +32,7 @@
      "titel": "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing"
     }
    ],
-   "naechster": "Shakugan no Shana"
+   "naechster": "Akame ga Kill: Schwerter der Assassinen (Akame ga Kill!)"
   },
   {
    "name": "Netflix",
