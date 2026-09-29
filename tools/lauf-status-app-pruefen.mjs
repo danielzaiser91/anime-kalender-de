@@ -137,7 +137,8 @@ const PILLEN = {
     /* `liste` ist die ganze offene Liste — die Zahl der Pille. `titel` ist sie minus gemeldet. */
     { name: 'Amazon', plattform: 'primevideo', liste: 9, titel: 7, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] },
     { name: 'Netflix', plattform: 'netflix', liste: 0, titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
-    { name: 'Disney+', plattform: 'disneyplus', liste: 0, titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
+    /* Der Randfall: die Liste hat eine Zeile, `titel` hat sie schon abgezogen. */
+    { name: 'Disney+', plattform: 'disneyplus', liste: 1, titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
   ],
 }
 
@@ -334,6 +335,11 @@ pruefe(
   pillenForm.map((p) => p.text).join(' | '),
 )
 pruefe('ein Anbieter mit 0 zeigt die 0', pillenForm.some((p) => /Netflix 0/.test(p.text)), pillenForm.map((p) => p.text).join(' | '))
+pruefe(
+  'eine schon gemeldete Zeile bleibt als Liste sichtbar (kein leeres Etikett)',
+  pillenForm.some((p) => /Disney\+ 1/.test(p.text)),
+  pillenForm.map((p) => p.text).join(' | '),
+)
 pruefe(
   'und führt auf die Anbieterseite',
   pillenForm.some((p) => p.klasse.includes('fertig') && /netflix\.com\/browse/.test(p.href)),
