@@ -66,6 +66,8 @@ const pruefe = (was, ok, zusatz) => {
 
 /* — Was der Worker liefert, in erfundener Form (echte Feldnamen) — */
 const VOR_12_MIN = new Date(Date.now() - 12 * 60000).toISOString()
+const VOR_9_STD = new Date(Date.now() - 9 * 3600_000).toISOString()
+const VOR_6_STD = new Date(Date.now() - 6 * 3600_000).toISOString()
 const GUTER_STAND = {
   jetzt: new Date().toISOString(),
   laeufe: [{
@@ -83,6 +85,22 @@ const GUTER_STAND = {
     fortschritt: 6,
     fortschritt_gesamt: 6,
     fortschritt_text: 'Seite gebaut',
+  }, {
+    /* Derselbe Lauf, aber ohne Abschluss: Der Verlauf kennt danach ein neueres „warnung". */
+    lauf_id: 'probe-alt',
+    repo: 'danielzaiser91/anime-kalender-de',
+    workflow: 'Bestand — zusammenführen und bauen',
+    auftrag: '',
+    zweck: 'Führt die gesammelten Quellen zusammen',
+    ziel: 'Datensatz gebaut',
+    zustand: 'laeuft',
+    begonnen_am: VOR_9_STD,
+    gemeldet_am: VOR_9_STD,
+    url: 'https://example.com/lauf-alt',
+    notiz: '',
+    fortschritt: 2,
+    fortschritt_gesamt: 5,
+    fortschritt_text: 'Datensatz bauen',
   }],
   verlauf: {
     'Deploy auf GitHub Pages': [
@@ -91,6 +109,13 @@ const GUTER_STAND = {
       { z: 'fehler', am: VOR_12_MIN },
     ],
     'Stündlich — Sendezeiten': [{ z: 'ok', am: VOR_12_MIN }],
+    /* Der Fall vom 29.09.2026: ein Lauf ohne Abschlussmeldung — der Verlauf kennt danach ein
+       neueres Ergebnis, der Bestand führt ihn trotzdem noch als „läuft". */
+    'Bestand — zusammenführen und bauen': [
+      { z: 'ok', am: VOR_9_STD },
+      { z: 'laeuft', am: VOR_9_STD },
+      { z: 'warnung', am: VOR_6_STD },
+    ],
   },
 }
 const VERLAUF_ANTWORT = {
@@ -214,6 +239,19 @@ pruefe('das Gitter zeigt jede Lauf-Art', gitter.kacheln === 18, String(gitter.ka
 pruefe('die erste Kachel ist der Deploy', gitter.erste === 'Deploy', gitter.erste)
 pruefe('die laufende Art ist blau und trägt den Balken', gitter.laeuft === 1 && gitter.balken === 1)
 pruefe('die Kästchenreihe zeigt den Verlauf', gitter.kaestchen >= 4, String(gitter.kaestchen))
+/*
+  **Ein Lauf ohne Abschlussmeldung macht die Kachel nicht gelb, wenn der Verlauf weiter ist**
+  (29.09.2026): `laeufe` führt „Bestand" mit einer neun Stunden alten Meldung, der Verlauf kennt
+  danach ein „warnung" von vor sechs Stunden. Die Kachel muss dem Verlauf folgen.
+*/
+const verjaehrt = await seite.evaluate(() => {
+  const k = [...document.querySelectorAll('.kachel')].find((x) => x.title === 'Bestand — zusammenführen und bauen')
+  return { klasse: k?.className ?? '', text: k?.textContent ?? '' }
+})
+pruefe('ein alter „läuft"-Eintrag überschreibt den Verlauf nicht',
+  /kachel warnung/.test(verjaehrt.klasse), verjaehrt.klasse)
+pruefe('und die Kachel nennt den Verlaufsstand, nicht „ohne Meldung"',
+  !/ohne Meldung/.test(verjaehrt.text), verjaehrt.text)
 pruefe('der Zähler nennt den laufenden Lauf', /1 läuft/.test(gitter.kopf), gitter.kopf)
 
 /* 5. Klick öffnet die Seite der Lauf-Art — heute, letzter Lauf, Verlauf. */
