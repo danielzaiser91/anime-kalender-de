@@ -15409,11 +15409,6 @@
     "art": "gemessen",
     "tag": "2026-09-20"
   },
-  "196144|disneyplus|6": {
-    "urteil": "kein deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-20"
-  },
   "196144|disneyplus|8": {
     "urteil": "kein deutsch",
     "art": "gemessen",
@@ -35213,6 +35208,66 @@
     "tag": "2026-09-27"
   },
   "1279|primevideo|39": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|3": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|2": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|4": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|5": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|6": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|9": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|8": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|10": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|11": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "182578|disneyplus|12": {
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-09-27"
@@ -55824,6 +55879,11 @@
     "tag": "2026-09-20"
   },
   "196144|disneyplus|3": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-20"
+  },
+  "196144|disneyplus|6": {
     "urteil": "kein deutsch",
     "art": "gemessen",
     "tag": "2026-09-20"
