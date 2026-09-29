@@ -2068,3 +2068,16 @@ automatisches Melden. Jetzt `zielFuer()`: eigene Adresse, dazu die erste andere 
 (Umleitung); nach einer Seite ohne Kennung oder später verbraucht (`disney-ziel.test.cjs`). Der
 Durchgang überspringt die Startseite nach 10 s und endet „von Hand übernommen", sobald eine andere
 Titelseite offen ist, statt nach drei Minuten weiterzuspringen.
+
+### Nachtrag 4.24.5 (29.09.2026): Der Serientitel kam von der vorigen Seite
+
+Die 25 Netflix-Meldungen auf `netflix.com/title/81788312` („The Dangers in My Heart", F1–F25) trugen
+alle den Serientitel **„Shangri-La Frontier"** — von der zuletzt **gespielten** Seite derselben
+Sitzung. Auf einer Titelseite entscheidet die Adresse, welche Reihe gemeint ist (`gemeinteReihe()`),
+der Leser schickt dort aber weiter die Spuren der vorigen Seite: `stand.serientitel` und
+`stand.staffeln` gehörten zu einer anderen Reihe. Die Zuordnung lief ohnehin über die Adresse,
+falsch war nur das gespeicherte `titel`-Feld (Anzeige, Diagnose) — und mit ihm die Staffelstruktur.
+
+Neu `standGehoert(reihe)`: Nur wenn `stand.reihe` die gemeinte Reihe ist, werden `serientitel`,
+`staffeln` und `roh.reihe` übernommen — sonst leer statt falsch. Beide Meldestellen (Durchgang und
+Randprobe) benutzen den Riegel; `netflix-titel-fremde-seite.test.cjs`.
