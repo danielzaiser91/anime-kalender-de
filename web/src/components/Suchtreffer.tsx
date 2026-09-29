@@ -19,22 +19,35 @@ import { Tooltip } from './ui.tsx'
  *   den Grund („pice" → „Piece") samt dem exakten Buchstabenabgleich.
  */
 
+/** Eine Stelle zum Hervorheben — mit der Angabe, ob sie nur **als ganzes Wort** zählen darf. */
+export interface Stelle {
+  text: string
+  ganzesWort: boolean
+}
+
 /**
  * **Alle Stellen, die im sichtbaren Namen hervorgehoben gehören** — eng oder (unscharf) das Wort.
  *
  * Daniel am 29.09.2026 mit Bild: „exiled knight wird hervorgehoben, knight nicht, fix das. es sollen
  * alle teile hervorgehoben werden." Bis dahin wurde die **erste** passende Fundstelle genommen — bei
  * zwei Suchwörtern blieb das zweite blass.
+ *
+ * `ganzesWort` ist für Füllwörter wie „a" wichtig: Sie sollen **nur** als Wort markiert werden, sonst
+ * leuchtet in „M**a**chiv**a**llism" jeder Buchstabe (am 29.09.2026 genau so auf der Seite gesehen).
  */
-export function hervorhebungen(text: string, fundstellen?: Fundstelle[]): string[] {
-  const stellen = new Set<string>()
+export function hervorhebungen(text: string, fundstellen?: Fundstelle[]): Stelle[] {
+  const stellen = new Map<string, boolean>()
   for (const f of fundstellen ?? []) {
     if (f.art !== 'titel') continue
     const stelle = f.unscharf ? f.wort : f.teil
-    if (stelle && text.includes(stelle)) stellen.add(stelle)
+    if (!stelle || !text.includes(stelle)) continue
+    const ganzesWort = stelle === f.wort
+    stellen.set(stelle, (stellen.get(stelle) ?? true) && ganzesWort)
   }
   /* Längste zuerst: Stehen „Exile" und „Exiled" in der Liste, soll der längere Teil gewinnen. */
-  return [...stellen].sort((a, b) => b.length - a.length)
+  return [...stellen.entries()]
+    .map(([text, ganzesWort]) => ({ text, ganzesWort }))
+    .sort((a, b) => b.text.length - a.text.length)
 }
 
 /** Was im sichtbaren Namen **nicht** vorkommt — nur solche Fundstellen brauchen ein Zeichen. */
@@ -61,10 +74,12 @@ export function TrefferName({ text, schluessel }: { text: string; schluessel: st
  * auseinander und ließ den Text an der Stelle anders aussehen als ohne Hervorhebung; die Farbe
  * allein reicht.
  */
-function markiere(text: string, stellen: string[], klasse: string): ReactNode {
+function markiere(text: string, stellen: Stelle[], klasse: string): ReactNode {
   if (!stellen.length) return text
-  /* Klammern: `split` behält die Treffer, die Markierung sitzt dann an jedem zweiten Stück. */
-  const muster = new RegExp(`(${stellen.map(musterFest).join('|')})`)
+  /* Klammern: `split` behält die Treffer, die Markierung sitzt dann an jedem zweiten Stück.
+     `ganzesWort` bekommt Wortgrenzen — sonst leuchtet bei „a" jeder Buchstabe im Namen. */
+  const teile = stellen.map((s) => (s.ganzesWort ? `\\b${musterFest(s.text)}\\b` : musterFest(s.text)))
+  const muster = new RegExp(`(${teile.join('|')})`)
   return text
     .split(muster)
     .map((teil, i) => (i % 2 ? <mark key={i} className={klasse}>{teil}</mark> : <span key={i}>{teil}</span>))
@@ -86,7 +101,7 @@ function musterFest(teil: string): string {
 function FeldAuszug({ f }: { f: Fundstelle }) {
   const stelle = f.unscharf ? f.wort : (f.teil ?? f.wort)
   if (!stelle || !f.feld.includes(stelle)) return <>{f.feld}</>
-  return <>{markiere(f.feld, [stelle], 'rounded bg-sky-400/40 text-white')}</>
+  return <>{markiere(f.feld, [{ text: stelle, ganzesWort: stelle === f.wort }], 'rounded bg-sky-400/40 text-white')}</>
 }
 
 /**

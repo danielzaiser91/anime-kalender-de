@@ -6174,8 +6174,8 @@ pruefe(
   ]
   pruefe(
     'beide Suchwörter werden hervorgehoben',
-    JSON.stringify(hervorhebungen(titel, beide)) === JSON.stringify(['Exiled', 'Knight']),
-    JSON.stringify(hervorhebungen(titel, beide)),
+    JSON.stringify(hervorhebungen(titel, beide).map((s) => s.text)) === JSON.stringify(['Exiled', 'Knight']),
+    JSON.stringify(hervorhebungen(titel, beide).map((s) => s.text)),
   )
   const trefferQuelle = readFileSync('web/src/components/Suchtreffer.tsx', 'utf8')
   pruefe(
@@ -6397,6 +6397,14 @@ pruefe(
     stellenVonMake.some((f) => f.suchwort === 'a' && f.teil === 'a') &&
       stellenVonMake.some((f) => f.suchwort === 'girl'),
     JSON.stringify(stellenVonMake),
+  )
+  /* Und es wird **nur als ganzes Wort** hervorgehoben — sonst leuchtet in „Machiavellism" jeder
+     Buchstabe (29.09.2026 auf der Seite gesehen). */
+  pruefe(
+    'das Füllwort zählt nur als ganzes Wort',
+    hervorhebungen('Armed Girl’s Machiavellism', stellenVonMake)
+      .filter((s) => s.text.toLowerCase() === 'a')
+      .every((s) => s.ganzesWort),
   )
   /*
     **Bei Gruppierung ist der Reihenkopf der sichtbare Name** (Daniel, 29.09.2026: „es ist ein

@@ -461,7 +461,8 @@ function fundstellenFuer(
     for (const wort of woerterOriginal(feld.text)) {
       const nWort = normalize(wort)
       for (const teil of fueller) {
-        if (!nWort.includes(teil)) continue
+        /* **Nur als ganzes Wort**: „a" steckt sonst in „M**a**ke" und in jedem zweiten Namen. */
+        if (nWort !== teil) continue
         raus.push({ art: feld.art, feld: feld.text, wort, suchwort: teil, teil: fundstelleImWort(wort, teil) })
       }
     }
