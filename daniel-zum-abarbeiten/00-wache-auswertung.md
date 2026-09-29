@@ -5,6 +5,37 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 29.09.2026, 08:16 — durchgesehen, einen seit drei Tagen roten Prüflauf gefunden
+
+**Was läuft korrekt.** Von 30 Läufen der letzten Stunden sind 27 grün; die Wachläufe vom 26.–28.09.
+alle grün, die Wache-Datei steht seit dem 25.09. auf „unauffällig" — so ist es gedacht (seit dem
+26.09. wird nur ein **Befund** committet, Daniel: „Behalten, still bei Ruhe"). Der heutige Wachlauf
+steht für 11:20 noch aus.
+
+**Was komplett falsch lief — und drei Tage unbemerkt blieb.** „Aussehen prüfen" war seit dem
+**27.09.** viermal rot: „der Schalter blendet die westlichen Titel wirklich aus — 2781 → 2781". Der
+Schalter wirkt; **die Messung las die falsche Zahl.** Seit die Trefferzeile „N Anime **und M
+westliche Serien** mit belegter deutscher Synchro" heißt, ist N um die westlichen schon vermindert —
+die erste Zahl der Zeile kann sich beim Umlegen also gar nicht ändern. Gemessen wird jetzt die Summe
+aus beiden (3696 → 2781, `2317fcdf`).
+
+**Warum es niemand gesehen hat.** Von 18 Workflows melden elf an die Statusanzeige — dieser nicht,
+obwohl seine Lauf-Art dort längst steht (`LAUF_ARTEN` im Worker kennt „Aussehen prüfen"). Genau das
+war der blinde Fleck: Der rote Lauf stand in Actions, nicht in der Anzeige. Nachgetragen (`ed3a6240`).
+
+**Wo echte Risiken waren.** Im Bestand keines. Ein Fehlerbild, das die Wache nicht sehen kann (wie
+am 27.09. — falsche Angaben sind keine Verluste): 25 Netflix-Meldungen zu „The Dangers in My Heart"
+trugen den Titel der zuletzt offenen Seite, „Shangri-La Frontier". Ursache war `document.title`,
+das Netflix' SPA erst nach dem Seitenwechsel umsetzt; jetzt schlägt der Serientitel **dieser** Seite
+(`stand.serientitel`) ihn (`96424e1f`, Zusicherung im Leisten-Prüflauf).
+
+**Was die Wache nicht messen kann.** Dass ein Versprechen eingehalten wird: Die Neuigkeiten nennen
+seit heute die Quelle, an der wir gelesen haben („inkl Link zur Quelle", Daniel). Und der
+Datenbankverbrauch: acht Stunden nach den drei Großposten 3,4 % des Tageskontingents, der Rest ist
+echte Übertragungsarbeit (gemessen, `80bac137`).
+
+---
+
 ## 27.09.2026, 21:55 — durchgesehen, nichts offen
 
 **Was läuft korrekt.** Wachläufe 23.–27.09.2026 alle grün, die Datei steht seit dem 25.09. auf
