@@ -112,3 +112,28 @@ jobs:
           path: docs/*.png
           retention-days: 14
           if-no-files-found: warn
+
+      # **Ein roter Lauf muss in der Statusanzeige stehen** (29.09.2026, Wache-Durchsicht).
+      #
+      # Dieser Prüflauf war seit dem 27.09. viermal rot — „der Schalter blendet die westlichen Titel
+      # wirklich aus: 2781 → 2781" — und niemand hat es gesehen: Von den 18 Workflows melden elf an
+      # die Anzeige, dieser nicht. Die Lauf-Art steht dort längst bereit (`LAUF_ARTEN` im Worker,
+      # „Aussehen prüfen"); es fehlte nur die Meldung. Derselbe Baustein wie bei der
+      # Verbrauchswache.
+      - name: Befund melden
+        if: failure()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: |
+          if [ -n "$LAUF_TOKEN" ]; then
+            printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"fehler","url":"%s","zweck":"%s","ziel":"%s","notiz":"%s"}' \
+              "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
+              "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+              "Prüft, ob die Seite so aussieht, wie sie soll (Ansichten, Dialoge, Erweiterungs-Kästen)" \
+              "Kein roter Lauf — Einzelheiten und Bilder hängen am Lauf" \
+              "Ein Prüflauf ist rot geworden — Einzelheiten im Protokoll, Bilder als Anhang" > /tmp/befund.json
+            curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
+              -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
+              --data-binary @/tmp/befund.json > /dev/null \
+              || echo "Meldung an die Statusanzeige fehlgeschlagen — der rote Lauf bleibt trotzdem sichtbar."
+          fi
