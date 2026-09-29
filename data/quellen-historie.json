@@ -4495,7 +4495,14 @@
       "url": "https://plus.rtl.de/tv-programm",
       "name": "plus.rtl.de",
       "gesehenAm": "2026-09-29",
-      "sagt": "2026-09-24",
+      "sagt": "2026-09-29",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.themoviedb.org/tv/60572",
+      "name": "themoviedb.org",
+      "gesehenAm": "2026-09-29",
+      "sagt": "2026-09-29",
       "stand": "aktuell"
     },
     {
@@ -4503,7 +4510,8 @@
       "name": "anisearch.de",
       "gesehenAm": "2026-09-29",
       "sagt": "2026-09-24",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-09-29"
     }
   ],
   "auto-16870-tv-prosieben-maxx": [
