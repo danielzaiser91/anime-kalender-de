@@ -28,17 +28,45 @@ export const SQL_VERLAUF = `SELECT lauf_id, zustand, auftrag, notiz, url, begonn
       ORDER BY gemeldet_am DESC
       LIMIT ?2`
 
-/** Je Lauf-Art die letzten zwölf Ergebnisse — die Kästchenreihe des Gitters. */
-export const SQL_LETZTE_ZUSTAENDE = `SELECT workflow, zustand, gemeldet_am, rang FROM (
-       SELECT workflow, zustand, gemeldet_am,
-              ROW_NUMBER() OVER (PARTITION BY workflow ORDER BY gemeldet_am DESC) AS rang
-         FROM lauf_status
-        WHERE gemeldet_am > ${ISO_JETZT}, '-14 days'))
-      WHERE rang <= 12
-      ORDER BY workflow, rang DESC`
-
 /** Hausputz im Vorbeigehen: Was älter als 14 Tage ist, interessiert niemanden mehr. */
 export const SQL_AUFRAEUMEN = `DELETE FROM lauf_status WHERE gemeldet_am < ${ISO_JETZT}, '-14 days')`
 
+/** Die letzten zwölf Läufe **einer** Lauf-Art — der Index `(workflow, gemeldet_am)` sucht sie. */
+export const SQL_EINE_ART = `SELECT workflow, zustand, gemeldet_am
+       FROM lauf_status
+      WHERE workflow = ?1
+      ORDER BY gemeldet_am DESC
+      LIMIT 12`
+
+/**
+ * **Die Lauf-Arten des Projekts** — dieselbe Liste wie in der Statusanzeige (`ARTEN`).
+ *
+ * Nötig, weil die Übersicht „je Lauf-Art die letzten zwölf" auf **eine** Abfrage je Art umgestellt
+ * wurde (29.09.2026): Eine Fensterfunktion über der ganzen Tabelle las im Mittel **3.666 Zeilen je
+ * Aufruf** (`SCAN lauf_status USING INDEX lauf_status_verlauf`) — bei 5-Minuten-Takt rund 1 Mio. am
+ * Tag. Zwölf je Art über den Index sind ~200 Zeilen. `check:logic` hält diese Liste gegen
+ * `.github/workflows/*.yml`, damit sie nicht veraltet (dieselbe Zusicherung wie für die Anzeige).
+ */
+export const LAUF_ARTEN = [
+  'Deploy auf GitHub Pages',
+  'Bestand — zusammenführen und bauen',
+  'Stündlich — Sendezeiten',
+  'Täglich — alle Quellen',
+  'Wöchentlich — tiefer Durchlauf',
+  'Wache — Delta und Briefkasten',
+  'Wache — Datenbankverbrauch',
+  'ADN — laufende Serien',
+  'Datenlauf auf Abruf',
+  'Crunchyroll — Rückstand nachholen',
+  'Monatlich — Tonspuren von der Streaming Availability API',
+  'Claude — Daten-PR zusammenführen',
+  'Claude — Auftrag abarbeiten',
+  'Claude — roten Datenlauf untersuchen',
+  'Claude — ausgebliebene Folgen recherchieren',
+  'Aussehen prüfen',
+  'Crunchyroll — Regionstest mit fremdem Token',
+  'Crunchyroll — Weiche aus der Cloud messen',
+]
+
 /** Alle Abfragen dieses Moduls — für den Prüflauf. */
-export const LAUF_ABFRAGEN = [SQL_LAEUFE_LAUFEND, SQL_VERLAUF, SQL_LETZTE_ZUSTAENDE, SQL_AUFRAEUMEN]
+export const LAUF_ABFRAGEN = [SQL_LAEUFE_LAUFEND, SQL_VERLAUF, SQL_AUFRAEUMEN, SQL_EINE_ART]

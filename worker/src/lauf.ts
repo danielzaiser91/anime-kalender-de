@@ -7,7 +7,7 @@
  */
 import { type Env } from './env.ts'
 import { jetztIso, zahlOderNull } from './werte.ts'
-import { SQL_AUFRAEUMEN, SQL_LAEUFE_LAUFEND, SQL_LETZTE_ZUSTAENDE, SQL_VERLAUF } from './lauf-sql.ts'
+import { SQL_AUFRAEUMEN, SQL_EINE_ART, SQL_LAEUFE_LAUFEND, SQL_VERLAUF, LAUF_ARTEN } from './lauf-sql.ts'
 import { ereignisSenden } from './ereignisse.ts'
 import { crZugangAuffrischen } from './cr-zugang.ts'
 
@@ -165,18 +165,28 @@ async function laufVerlauf(env: Env, art: string, n: number): Promise<unknown[]>
 }
 
 /**
- * **Je Lauf-Art die letzten zwölf Ergebnisse** — nur die Ampeln, fürs Kachel-Gitter.
+ * **Je Lauf-Art die letzten zwölf Ergebnisse** — nur die Ampel, fürs Kachel-Gitter.
  *
- * Der Verlauf einer jeden Art reicht weiter als die Drei-Tage-Grenze der Übersicht; für die
- * kleine Kästchenreihe genügt der Zustand. Eine Abfrage für alle Arten, damit die Anzeige beim
- * Nachfragen nicht siebzehnmal liest.
+ * **Eine Abfrage je Lauf-Art, nicht eine über alles** (29.09.2026). Vorher stand hier eine
+ * Fensterfunktion (`ROW_NUMBER() OVER (PARTITION BY workflow …)`); sie liest die **ganze** Tabelle —
+ * gemessen 3.666 Zeilen je Aufruf, bei 5-Minuten-Takt der Anzeige rund 1 Mio. am Tag. Zwölf Zeilen
+ * je Art über den Index `(workflow, gemeldet_am)` sind rund 200 und wachsen nicht mit dem Bestand.
+ *
+ * Ein `batch` ist ein Aufruf zur Datenbank — siebzehn kleine Abfragen kosten dort ein Vielfaches
+ * weniger als eine, die alles liest (dieselbe Lehre wie bei den `DISTINCT`-Listen).
  */
 async function letzteZustaende(env: Env): Promise<Record<string, { z: string; am: string }[]>> {
-  const { results } = await env.DB.prepare(SQL_LETZTE_ZUSTAENDE).all()
+  const ergebnisse = await env.DB.batch(
+    LAUF_ARTEN.map((art) => env.DB.prepare(SQL_EINE_ART).bind(art)),
+  )
   const karte: Record<string, { z: string; am: string }[]> = {}
-  for (const z of (results ?? []) as { workflow: string; zustand: string; gemeldet_am: string }[]) {
-    ;(karte[z.workflow] ??= []).push({ z: z.zustand, am: z.gemeldet_am })
-  }
+  ergebnisse.forEach((ergebnis, i) => {
+    const art = LAUF_ARTEN[i]
+    const zeilen = (ergebnis.results ?? []) as { workflow: string; zustand: string; gemeldet_am: string }[]
+    if (!art || !zeilen.length) return
+    /* Die Abfrage liefert neueste zuerst; das Gitter malt älteste zuerst. */
+    karte[art] = zeilen.reverse().map((r) => ({ z: r.zustand, am: r.gemeldet_am }))
+  })
   return karte
 }
 

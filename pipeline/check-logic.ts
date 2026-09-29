@@ -16,7 +16,7 @@
  *
  * Aufruf: npm run check:logic
  */
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { titelAus } from './lib/anisearch-titel.ts'
 import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.ts'
 import yaml from 'js-yaml'
@@ -72,7 +72,7 @@ import { sucheZweistufig } from '../web/src/lib/search.ts'
 import { terminAusEintrag } from './lib/anisearch-termine.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
-import { LAUF_ABFRAGEN, SQL_LETZTE_ZUSTAENDE } from '../worker/src/lauf-sql.ts'
+import { LAUF_ABFRAGEN, LAUF_ARTEN, SQL_EINE_ART } from '../worker/src/lauf-sql.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -5809,8 +5809,21 @@ pruefe(
   pruefe('jede Lauf-Abfrage geht auf (gleich viele Klammern auf wie zu)',
     LAUF_ABFRAGEN.every((sql) => (sql.match(/\(/g) ?? []).length === (sql.match(/\)/g) ?? []).length),
     LAUF_ABFRAGEN.map((sql) => `${(sql.match(/\(/g) ?? []).length}/${(sql.match(/\)/g) ?? []).length}`).join(' '))
-  pruefe('die Kästchen-Abfrage liest ihre Unterabfrage',
-    /FROM \(\s*SELECT[\s\S]*\)\s*WHERE rang <= 12/.test(SQL_LETZTE_ZUSTAENDE))
+  pruefe('die Kästchen-Abfrage holt je Lauf-Art höchstens zwölf Zeilen',
+    /WHERE workflow = \?1[\s\S]*LIMIT 12/.test(SQL_EINE_ART))
+  /*
+    **Und die Liste der Lauf-Arten muss zu den Workflows passen** (29.09.2026). Sie steht jetzt im
+    Worker, weil die Übersicht eine Abfrage je Art stellt (die Fensterfunktion davor las 3.666
+    Zeilen je Aufruf). Läuft sie auseinander, fehlt eine Kachel still — dieselbe Zusicherung wie
+    für `ARTEN` in der Statusanzeige (`tools/lauf-status-app-pruefen.mjs`).
+  */
+  const ausDenWorkflows = readdirSync('.github/workflows')
+    .filter((f) => f.endsWith('.yml'))
+    .map((f) => /^name:\s*(.+)$/m.exec(readFileSync(`.github/workflows/${f}`, 'utf8'))?.[1]?.trim())
+    .filter((n): n is string => !!n)
+  pruefe('die Lauf-Arten des Workers sind genau die der Workflows',
+    LAUF_ARTEN.length === ausDenWorkflows.length && LAUF_ARTEN.every((n) => ausDenWorkflows.includes(n)),
+    LAUF_ARTEN.filter((n) => !ausDenWorkflows.includes(n)).join(', '))
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */
