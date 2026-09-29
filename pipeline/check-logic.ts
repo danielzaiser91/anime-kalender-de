@@ -6287,10 +6287,14 @@ pruefe(
   pruefe(
     'und der Fall aus dem Bild ordnet sich danach richtig',
     schluesselVergleich(
-      trefferSchluessel([stelle('titel', 'A Couple of Cuckoos', 'A', 'a', 'A')], 'A Couple of Cuckoos'),
+      trefferSchluessel([stelle('titel', 'A Couple of Cuckoos', 'A', 'a', 'A')], 'A Couple of Cuckoos', 0, new Map([['a', 0]]), ['a'], ['a']),
       trefferSchluessel(
         [stelle('titel', 'How a Realist Hero Rebuilt the Kingdom', 'a', 'a', 'a')],
         'How a Realist Hero Rebuilt the Kingdom',
+        0,
+        new Map([['a', 1]]),
+        ['a'],
+        ['a'],
       ),
     ) < 0,
   )
@@ -6312,8 +6316,8 @@ pruefe(
   pruefe(
     'der Fall aus Daniels Bild ordnet sich richtig',
     schluesselVergleich(
-      trefferSchluessel([imTitel('Tod')], sichtbar),
-      trefferSchluessel([imTitel('Tod', 'Tod', false, 'Kimikoe wo Todoketai')], sichtbar),
+      trefferSchluessel([imTitel('Tod')], sichtbar, 0, new Map([['tod', 0]]), ['tod'], ['tod']),
+      trefferSchluessel([imTitel('Tod', 'Tod', false, 'Kimikoe wo Todoketai')], sichtbar, 0, new Map([['tod', 0]]), ['tod'], ['tod']),
     ) < 0,
   )
   /*
@@ -6329,21 +6333,30 @@ pruefe(
     stelle('titel', 'Girls und Panzer', 'Girls', 'gir', 'Gir'),
     stelle('titel', 'Girls und Panzer', 'Panzer', 'a', 'a'),
   ]
+  const rentStellen = new Map([
+    ['a', 1],
+    ['gir', 2],
+  ])
+  const panzerStellen = new Map([
+    ['a', 1],
+    ['gir', 0],
+  ])
   pruefe(
-    'die getippte Folge wird erkannt',
-    zusammenPunkte(rent, ['a', 'gir']) === 0 && zusammenPunkte(panzer, ['a', 'gir']) === 2,
-    `${zusammenPunkte(rent, ['a', 'gir'])} / ${zusammenPunkte(panzer, ['a', 'gir'])}`,
+    'die getippte Folge wird erkannt — auch mit Füllwort',
+    zusammenPunkte(rentStellen, ['gir'], ['a', 'gir']) === 0 &&
+      zusammenPunkte(panzerStellen, ['gir'], ['a', 'gir']) === 1,
+    `${zusammenPunkte(rentStellen, ['gir'], ['a', 'gir'])} / ${zusammenPunkte(panzerStellen, ['gir'], ['a', 'gir'])}`,
   )
   pruefe(
     'Rent-a-Girlfriend steht damit vor Girls und Panzer',
     schluesselVergleich(
-      trefferSchluessel(rent, 'Rent-a-Girlfriend', 0, ['a', 'gir']),
-      trefferSchluessel(panzer, 'Girls und Panzer', 0, ['a', 'gir']),
+      trefferSchluessel(rent, 'Rent-a-Girlfriend', 0, rentStellen, ['gir'], ['a', 'gir']),
+      trefferSchluessel(panzer, 'Girls und Panzer', 0, panzerStellen, ['gir'], ['a', 'gir']),
     ) < 0,
   )
   pruefe(
     'eine einzelne Suche bleibt unberührt',
-    zusammenPunkte([stelle('titel', 'A Couple of Cuckoos', 'A', 'a', 'A')], ['a']) === 0,
+    zusammenPunkte(new Map([['a', 0]]), ['a'], ['a']) === 0,
   )
 }
 {

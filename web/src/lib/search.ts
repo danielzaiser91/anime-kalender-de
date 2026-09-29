@@ -158,46 +158,64 @@ export function trefferPunkte(f: Fundstelle, sichtbar?: string, fehlendeWoerter 
 
 /**
  * **Steckt die ganze Suche in der getippten Folge?** (Daniel, 29.09.2026, an „a gir" und
- * „Rent-a-Girlfriend": „hätte in diesem beispiel a und gir, also komplette query als match, trotzdem
- * wird es geschlagen von match treffern die nur girl im namen haben".)
+ * „Rent-a-Girlfriend": „hätte in diesem beispiel a und gir, also komplette query als match".)
  *
- * Die Punktliste allein verliert die **Ordnung**: „Rent-a-**Gir**lfriend" trifft „a" (Wort 1) und
- * „gir" (Wort 2), „Girls und P**a**nzer" trifft „gir" (Wort 0) und „a" (Wort 1) — einzeln betrachtet
- * liegt der zweite Fall „vorn", als Suche ist er falsch herum. Deshalb eine eigene Stufe **vor** allen
- * Punkten:
+ * Füllwörter („a", „von", „the" …) entscheiden nicht, **ob** etwas trifft — „abenteuer von dai" soll
+ * „Dais Abenteuer" weiter finden (16.09.2026). Sie entscheiden aber, **wie gut**: Wer sie wie getippt
+ * im Namen hat, meint diesen Titel. „Rent-a-**Gir**lfriend" hat „a" und „gir"; „Girls und P**a**nzer"
+ * hat nur „gir" an der richtigen Stelle und das „a" mitten in einem Wort.
  *
- * - `0` alle Suchwörter in Folge **und** direkt nebeneinander,
- * - `1` alle in Folge (mit Lücken),
- * - `2` nicht in Folge — oder nicht vollständig auffindbar.
+ * - `0` **alle** Wörter der Eingabe in Folge und benachbart,
+ * - `1` die Pflichtwörter in Folge,
+ * - `2` die Pflichtwörter nicht in Folge oder nicht vollständig.
  */
-export function zusammenPunkte(fundstellen: Fundstelle[], suchwoerter: string[]): number {
-  if (suchwoerter.length < 2) return 0
-  const wo = new Map<string, number>()
-  for (const f of fundstellen) {
-    const i = woerterOriginal(f.feld).indexOf(f.wort)
-    if (i < 0) continue
-    const bisher = wo.get(f.suchwort)
-    if (bisher === undefined || i < bisher) wo.set(f.suchwort, i)
-  }
-  const folge = suchwoerter.map((w) => wo.get(w))
-  if (folge.some((i) => i === undefined)) return 2
-  const reihe = folge as number[]
-  if (!reihe.every((i, k) => k === 0 || i >= reihe[k - 1]!)) return 2
-  return reihe.every((i, k) => k === 0 || i === reihe[k - 1]! + 1) ? 0 : 1
+export function zusammenPunkte(stellen: Map<string, number>, pflicht: string[], alle: string[]): number {
+  if (alle.length < 2) return 0
+  const reihe = alle.map((w) => stellen.get(w))
+  const folge = (liste: (number | undefined)[]): number[] | undefined =>
+    liste.some((i) => i === undefined) || !liste.every((i, k) => k === 0 || (i as number) >= (liste[k - 1] as number))
+      ? undefined
+      : (liste as number[])
+  const alleReihe = folge(reihe)
+  if (alleReihe && alleReihe.every((i, k) => k === 0 || i === alleReihe[k - 1]! + 1)) return 0
+  return folge(pflicht.map((w) => stellen.get(w))) ? 1 : 2
 }
 
 /** Die Punktliste eines Treffers, aufsteigend — der Vergleich liest sie der Reihe nach. */
 export function trefferSchluessel(
   fundstellen: Fundstelle[],
-  sichtbar?: string,
-  fehlendeWoerter = 0,
-  suchwoerter: string[] = [],
+  sichtbar: string | undefined,
+  fehlendeWoerter: number,
+  stellen: Map<string, number>,
+  pflicht: string[],
+  alle: string[],
 ): number[] {
   const punkte = fundstellen.map((f) => trefferPunkte(f, sichtbar, fehlendeWoerter)).sort((a, b) => a - b)
-  /* Die Folge steht **vor** allem anderen: Wer die ganze Suche so trifft, wie er sie getippt hat,
-     meint diesen Titel. Eine Stufe (× 1.000.000) liegt über jedem Feld-Rang (höchstens 70.000). */
-  const stufe = zusammenPunkte(fundstellen, suchwoerter)
+  /* Die Folge steht **vor** allem anderen: Eine Stufe (× 1.000.000) liegt über jedem Feld-Rang
+     (höchstens 70.000). Bei einer Ein-Wort-Suche gibt es keine Stufe — dort bleibt alles wie es war. */
+  const stufe = zusammenPunkte(stellen, pflicht, alle)
   return stufe === 0 ? punkte : punkte.map((p) => p + stufe * 1_000_000)
+}
+
+/** Wo die Suchwörter im Eintrag stehen (auch die Füllwörter) — für die Reihenfolge-Stufe. */
+function stellenVon(
+  fundstellen: Fundstelle[],
+  titelFelder: string[],
+  felder: Suchfeld[],
+  alle: string[],
+): Map<string, number> {
+  const wo = new Map<string, number>()
+  for (const f of fundstellen) {
+    const i = woerterOriginal(f.feld).indexOf(f.wort)
+    if (i >= 0 && !wo.has(f.suchwort)) wo.set(f.suchwort, i)
+  }
+  for (const text of [...titelFelder, ...felder.map((f) => f.text)]) {
+    woerterOriginal(text).forEach((wort, i) => {
+      const n = normalize(wort)
+      if (alle.includes(n) && !wo.has(n)) wo.set(n, i)
+    })
+  }
+  return wo
 }
 
 /** Zwei Punktlisten vergleichen: die erste Stelle entscheidet, dann die nächste. */
@@ -503,9 +521,11 @@ export function sucheMitFundstellen<T>(
         Trefferart und Vollständigkeit (`trefferPunkte`).
       */
       .map((b) => {
-        const fundstellen = fundstellenFuer(suchwoerter, titel(b.item), genau(b.item))
+        const felder = genau(b.item)
+        const fundstellen = fundstellenFuer(suchwoerter, titel(b.item), felder)
         const fehlend = Math.max(0, suchwoerter.length - fundstellen.filter((f) => !f.unscharf).length)
-        const schluessel = trefferSchluessel(fundstellen, sichtbarerName?.(b.item), fehlend, suchwoerter)
+        const stellen = stellenVon(fundstellen, titel(b.item), felder, alle)
+        const schluessel = trefferSchluessel(fundstellen, sichtbarerName?.(b.item), fehlend, stellen, suchwoerter, alle)
         return { ...b, fundstellen, schluessel }
       })
       .sort((a, b) => trefferVergleich(a, b, sichtbarerName))
