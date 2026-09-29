@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
 import type { Ref } from 'react'
+import { SUCHFELD_ARTEN } from '../lib/search.ts'
+import { translate } from '../lib/i18n.tsx'
+import { Fragezeichen } from './ui.tsx'
 
 /**
  * **Die Eingabe muss laufen, auch wenn die Suche nicht hinterherkommt.**
@@ -41,15 +44,31 @@ export function Suchfeld({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getippt, wert])
 
+  /*
+    **Was durchsucht wird, steht am Feld** (Daniel, 29.09.2026: „welche felder durchsucht werden
+    nicht ersichtlich ist und gemäß der projekt regel alles offen zu kommunizieren, muss hier in der
+    suche nahe dem such-input ein icon erscheinen, das on hover oder touch erklärt über welche
+    felder gesucht wird (+ fuzzy search)"). Die Liste kommt aus `SUCHFELD_ARTEN` — dieselbe Quelle,
+    aus der die Suche ihre Felder bezieht; `check:logic` hält beide gegeneinander.
+  */
+  const felder = [
+    translate('suche.felderTitel'),
+    SUCHFELD_ARTEN.map((s) => s.label).join(' · '),
+    translate('suche.unscharf'),
+  ].join(' ')
+
   return (
-    <input
-      ref={eingabe}
-      type="search"
-      value={getippt}
-      onChange={(e) => setGetippt(e.target.value)}
-      placeholder={platzhalter}
-      aria-label={platzhalter}
-      className={className}
-    />
+    <span className="flex items-center gap-1.5">
+      <input
+        ref={eingabe}
+        type="search"
+        value={getippt}
+        onChange={(e) => setGetippt(e.target.value)}
+        placeholder={platzhalter}
+        aria-label={platzhalter}
+        className={className}
+      />
+      <Fragezeichen text={felder} />
+    </span>
   )
 }

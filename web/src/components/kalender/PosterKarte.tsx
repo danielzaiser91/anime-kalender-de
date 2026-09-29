@@ -7,6 +7,7 @@ import { useShare } from '../../lib/share.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { FavoriteStar, HideEye, ShareIcon, Tooltip } from '../ui.tsx'
 import { anbieterUndFolge, VerpasstMarke, ZeitMarke } from './Marken.tsx'
+import { FundstellenZeichen, TrefferName } from '../Suchtreffer.tsx'
 
 export type KartenArt = 'start' | 'finale'
 
@@ -68,11 +69,14 @@ export function PosterKarte(p: PosterKarteProps) {
       <PosterCover {...p} breit={breit} />
       <span
         className={[
-          'ak-titel line-clamp-2 text-sm font-bold leading-snug',
+          'ak-titel flex items-start gap-0.5 text-sm font-bold leading-snug',
           ueberholt ? 'text-ak-sehr-leise line-through decoration-rose-500/60' : 'text-ak-text',
         ].join(' ')}
       >
-        {p.event.name}
+        <span className="line-clamp-2">
+          <TrefferName text={p.event.name} schluessel={p.event.releaseSlug} />
+        </span>
+        <FundstellenZeichen text={p.event.name} schluessel={p.event.releaseSlug} />
       </span>
       <span className="-mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-ak-leise">
         <span>{anbieterUndFolge(p.event, t)}</span>

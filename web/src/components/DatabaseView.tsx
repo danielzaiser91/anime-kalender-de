@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
 import { titleStatus } from '@shared/logic.ts'
+import { FundstellenZeichen, TrefferName } from './Suchtreffer.tsx'
 import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -307,8 +308,11 @@ export function DatabaseView({
                 )}
               </div>
               <div className="flex flex-1 flex-col gap-1.5 p-2">
-                <span className="line-clamp-2 text-[13px] font-medium leading-snug text-slate-900 dark:text-slate-100">
-                  {anzeigeName(main)}
+                <span className="flex items-start gap-0.5">
+                  <span className="line-clamp-2 text-[13px] font-medium leading-snug text-slate-900 dark:text-slate-100">
+                    <TrefferName text={anzeigeName(main)} schluessel={String(main.id)} />
+                  </span>
+                  <FundstellenZeichen text={anzeigeName(main)} schluessel={String(main.id)} />
                 </span>
                 <span className="text-[11px] text-slate-500 dark:text-slate-400">
                   {main.jpYear ?? '—'}

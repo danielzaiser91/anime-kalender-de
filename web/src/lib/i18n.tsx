@@ -74,6 +74,16 @@ const TEXTE = {
   'news.kurz.kino': 'ab {datum}',
   'news.kurz.verspaetet': 'E{von}, erwartet zum {datum}',
   'news.kurz.nachgereicht': 'E{von}, kam am {datum}',
+  /*
+    **Die Suche erklärt sich selbst** (Daniel, 29.09.2026): Welche Felder durchsucht werden, ist
+    nirgends sichtbar — nach der Projektregel „alles offen kommunizieren" steht es am Suchfeld.
+  */
+  'suche.felderTitel': 'Durchsucht werden:',
+  'suche.unscharf':
+    'Findet sie nichts Genaues, sucht sie zusätzlich unscharf — Tippfehler werden dann verziehen.',
+  'suche.fundstelleTitel': 'Dieser Treffer steht nicht im Namen — gefunden über:',
+  'suche.unscharfHinweis':
+    'Unscharf getroffen: Die Schreibweise weicht ab. Hervorgehoben ist das Wort, das den Treffer trägt; die übereinstimmenden Buchstaben stehen oben.',
   'view.abo': 'Kalender-Abo',
   'view.newsletter': 'Newsletter',
   // Steht im Hovertext des Newsletter-Knopfes, sobald ein Abo hinterlegt ist.

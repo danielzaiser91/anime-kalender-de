@@ -3,12 +3,14 @@ import type { Title } from '@shared/types.ts'
 import type { Dataset } from './lib/data.ts'
 import { EinstellungenDialog, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadDataset, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
-import { filterEvents, filterTitles, toggleValue, type FilterState } from './lib/filters.ts'
+import { eventsFuerAnsicht, titelFuerAnsicht, toggleValue, type FilterState } from './lib/filters.ts'
+import { SuchfundstellenContext } from './lib/such-kontext.ts'
+import type { Fundstelle } from './lib/search.ts'
+import type { ReleaseEvent } from '@shared/types.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
 import { speicherSichern, useNewsletterSync } from './lib/newsletterSync.ts'
 import { usePushNachfuehren } from './lib/push-nachfuehren.ts'
 import { useRoute, type ViewId } from './lib/router.ts'
-import { tvPremiere } from './lib/tv-angabe.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header } from './components/Header.tsx'
@@ -143,24 +145,22 @@ export default function App() {
   const events = useMemo(
     () =>
       data
-        ? filterEvents(data, route.filters, today, favorites).filter(
-            /* Ausgeschaltet bleiben Premieren sichtbar (Daniel, 19.09.2026). */
-            (e) => !tvAus || e.platform !== 'tv' || tvPremiere(e, data),
-          )
-        : [],
+        ? eventsFuerAnsicht(data, route.filters, today, favorites, tvAus)
+        : { liste: [] as ReleaseEvent[], fundstellen: new Map<string, Fundstelle[]>() },
     [data, route.filters, today, favorites, tvAus],
   )
+  const eventListe = events.liste
   /* Für die Datumsauswahl: der Bereich aus allen Terminen, die Zählung aus der gefilterten Ansicht. */
   const termintage = useMemo(
-    () => ({ alle: data ? data.events.map((e) => e.date) : [], sichtbar: events.map((e) => e.date) }),
-    [data, events],
+    () => ({ alle: data ? data.events.map((e) => e.date) : [], sichtbar: eventListe.map((e) => e.date) }),
+    [data, eventListe],
   )
   const titles = useMemo(() => {
-    if (!data) return []
+    if (!data) return { liste: [] as Title[], fundstellen: new Map<string, Fundstelle[]>() }
     const basis = allTitles ?? data.titles
     const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
     const quelle = !cartoonsAus && cartoons ? [...mitOhne, ...cartoons] : mitOhne
-    return filterTitles(quelle, data, route.filters, today, favorites)
+    return titelFuerAnsicht(quelle, data, route.filters, today, favorites)
   }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites])
 
   const openTitleId = useMemo(() => {
@@ -217,19 +217,21 @@ export default function App() {
 
       <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-6 sm:px-6 lg:px-10">
         {kalender && (
-          <KalenderBereich
-            data={data}
-            route={route}
-            navigate={navigate}
-            events={events}
-            favorites={favorites}
-            hidden={hidden}
-            onToggleFavorite={toggle}
-            onToggleHidden={toggleHidden}
-            tvAn={!tvAus}
-            setTvAn={(an) => setTvAus(!an)}
-            termine={termintage}
-          />
+          <SuchfundstellenContext.Provider value={events.fundstellen}>
+            <KalenderBereich
+              data={data}
+              route={route}
+              navigate={navigate}
+              events={eventListe}
+              favorites={favorites}
+              hidden={hidden}
+              onToggleFavorite={toggle}
+              onToggleHidden={toggleHidden}
+              tvAn={!tvAus}
+              setTvAn={(an) => setTvAus(!an)}
+              termine={termintage}
+            />
+          </SuchfundstellenContext.Provider>
         )}
 
         {route.view === 'datenbank' && (
@@ -240,23 +242,25 @@ export default function App() {
               <FilterBar meta={data.meta} filters={route.filters} onChange={setFilters} showConfidence favoriteCount={favorites.size} />
             </div>
             {allTitles ? (
-              <DatabaseView
-                data={data}
-                titles={titles}
-                grouped={grouped}
-                onGroupedChange={setGrouped}
-                ohneSynchro={zeigeOhneSynchro}
-                onOhneSynchroChange={setZeigeOhneSynchro}
-                ohneSynchroLaedt={zeigeOhneSynchro && !ohneSynchro}
-                favorites={favorites}
-                hidden={hidden}
-                onToggleFavorite={toggle}
-                onToggleHidden={toggleHidden}
-                onOpenTitle={(id) => navigate({ title: id, release: undefined })}
-                gesucht={Boolean(route.filters.search.trim())}
-                gewaehlt={route.sort}
-                onSortChange={(sort) => navigate({ sort })}
-              />
+              <SuchfundstellenContext.Provider value={titles.fundstellen}>
+                <DatabaseView
+                  data={data}
+                  titles={titles.liste}
+                  grouped={grouped}
+                  onGroupedChange={setGrouped}
+                  ohneSynchro={zeigeOhneSynchro}
+                  onOhneSynchroChange={setZeigeOhneSynchro}
+                  ohneSynchroLaedt={zeigeOhneSynchro && !ohneSynchro}
+                  favorites={favorites}
+                  hidden={hidden}
+                  onToggleFavorite={toggle}
+                  onToggleHidden={toggleHidden}
+                  onOpenTitle={(id) => navigate({ title: id, release: undefined })}
+                  gesucht={Boolean(route.filters.search.trim())}
+                  gewaehlt={route.sort}
+                  onSortChange={(sort) => navigate({ sort })}
+                />
+              </SuchfundstellenContext.Provider>
             ) : (
               <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
             )}

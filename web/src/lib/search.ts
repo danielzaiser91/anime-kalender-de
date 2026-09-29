@@ -63,6 +63,8 @@ export interface Fundstelle {
   feld: string
   /** Das Wort im Feld, das den Treffer trägt. */
   wort: string
+  /** Das Suchwort, das hier getroffen hat — für den Buchstabenabgleich bei unscharfen Treffern. */
+  suchwort: string
   /** Die genaue Fundstelle im Wort — nur bei der strengen Stufe. */
   teil?: string
   /** Die unscharfe Stufe hat getroffen (Tippfehler verziehen). */
@@ -281,7 +283,7 @@ function fundstellenFuer(suchwoerter: string[], titelFelder: string[], genaueFel
       const nWort = normalize(wort)
       for (const wortTeil of [...offen]) {
         if (!nWort.includes(wortTeil)) continue
-        raus.push({ art: feld.art, feld: feld.text, wort, teil: fundstelleImWort(wort, wortTeil) })
+        raus.push({ art: feld.art, feld: feld.text, wort, suchwort: wortTeil, teil: fundstelleImWort(wort, wortTeil) })
         offen.delete(wortTeil)
       }
     }
@@ -292,7 +294,7 @@ function fundstellenFuer(suchwoerter: string[], titelFelder: string[], genaueFel
     for (const feld of alle) {
       const wort = woerterOriginal(feld.text).find((w) => wortTrifftUngefaehr(wortTeil, [normalize(w)]))
       if (!wort) continue
-      raus.push({ art: feld.art, feld: feld.text, wort, unscharf: true })
+      raus.push({ art: feld.art, feld: feld.text, wort, suchwort: wortTeil, unscharf: true })
       break
     }
   }

@@ -11,6 +11,7 @@ import type {
 import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import type { Dataset } from './data.ts'
 import { sucheMitFundstellen, type Fundstelle, type FundstelleArt, type Suchfeld } from './search.ts'
+import { tvPremiere } from './tv-angabe.ts'
 import { kostenloseFolgen } from './kostenlos.ts'
 import { synonymeFuer } from './data.ts'
 
@@ -333,99 +334,135 @@ export function filterTitles(
   favorites: Set<number>,
   fundstellen?: Map<string, Fundstelle[]>,
 ): Title[] {
-  const vorgefiltert = source.filter((t) => {
-    if (f.favoritesOnly && !favorites.has(t.id)) return false
-    /**
-     * „Streambar" — Titel, bei denen wir einen Stream kennen oder vermuten.
-     *
-     * Der Filter hieß bis zum 15.08.2026 „verfügbar" und nahm alles mit, was
-     * irgendeinen Bezugsweg hatte: auch reine Disc-Veröffentlichungen und
-     * Kauflinks. Daniel las ihn deshalb als „hat deutsche Synchro" und stolperte
-     * darüber, dass „.hack//SIGN" verschwand, obwohl es synchronisiert ist und
-     * man die DVD kaufen kann.
-     *
-     * Beide Lesarten waren falsch, und beide lagen am Namen. Jetzt beantwortet
-     * der Filter genau eine Frage — **kann ich das streamen?** — und lässt
-     * draußen, was nur auf Disc erscheint oder nur zu kaufen ist. Über die
-     * Synchro sagt er weiterhin nichts; das tut die Kennzeichnung am Anbieter.
-     */
-    if (f.kostenlosOnly && !kostenloseFolgen(t)) return false
-    if (f.availableOnly) {
-      const stream =
-        t.streams.length > 0 ||
-        (t.watchLinks ?? []).some((w) => w.kind === 'stream') ||
-        (data.releasesByTitle.get(t.id) ?? []).some(
-          (r) => r.platform !== 'disc' && r.platform !== 'kino',
-        )
-      if (!stream) return false
-    }
-    if (CONFIDENCE_RANK[t.dubConfidence] < CONFIDENCE_RANK[f.minConfidence]) return false
-
-    const x = f.excluded
-    if (x.genres.some((g) => t.genres.includes(g))) return false
-    if (x.keywords.some((k) => t.keywords.includes(k))) return false
-    if (t.fsk !== undefined && x.fsk.includes(t.fsk)) return false
-
-    /*
-      **UND oder ODER — je Kategorie, wie eingestellt.**
-
-      `passt` fasst beides zusammen: Bei „und" muss jede gewählte Pill zutreffen,
-      bei „oder" reicht eine. Die Voreinstellung hält das Verhalten von vor dem
-      02.09.2026 fest (`MODUS_VORGABE`), damit ein geteilter Link dasselbe zeigt.
-    */
-    const passt = <T>(gewaehlt: readonly T[], feld: ModusFeld, hat: (v: T) => boolean) => {
-      if (!gewaehlt.length) return true
-      return modusVon(f, feld) === 'und' ? gewaehlt.every(hat) : gewaehlt.some(hat)
-    }
-
-    if (!passt(f.genres, 'genres', (g) => t.genres.includes(g))) return false
-    if (!passt(f.keywords, 'keywords', (k) => t.keywords.includes(k))) return false
-    /* FSK ist einwertig — „ab 12 UND ab 16" gibt es nicht, deshalb ohne Modus. */
-    if (f.fsk.length && (t.fsk === undefined || !f.fsk.includes(t.fsk))) return false
-
-    const releases = data.releasesByTitle.get(t.id) ?? []
-    const platformsOf = new Set([...releases.map((r) => r.platform), ...t.streams.map((s) => s.platform)])
-    const yearsOf = releases.length ? releases.map((r) => r.year) : t.jpYear ? [t.jpYear] : []
-
-    // Bezugsquellen zählen wie Plattformen: Wer nach „maxdome" filtert, will
-    // die Titel sehen, die es dort gibt — ob als Abo oder zum Kauf.
-    const providersOf = new Set((t.watchLinks ?? []).map((w) => w.name))
-
-    if (x.platforms.some((p) => platformsOf.has(p))) return false
-    if (x.providers.some((p) => providersOf.has(p))) return false
-    /*
-      **„Film ausschließen" heißt das Werk, nicht nur den Termin.**
-
-      Der Filter prüfte allein die Release-Arten. Ein Film **ohne** Termin hat
-      keine — und blieb deshalb im Ergebnis stehen: Bei einer Suche nach „one
-      piece" mit ausgeschlossenem „Film" standen „Episode of Skypia", „Heart of
-      Gold" und ein Dutzend weitere Filme in der Liste (Daniel, 03.09.2026:
-      „film ausschluss filter -> filme bleiben trotzdem in result").
-
-      Ein Titel mit `format: 'MOVIE'` ist ein Film, ob wir einen Termin dazu
-      kennen oder nicht. Die übrigen Arten haben keine solche Entsprechung im
-      Werk — „wöchentlich" oder „Disc" sagt nur ein Release.
-    */
-    const istFilmwerk = t.format === 'MOVIE'
-    const hatArt = (rt: ReleaseType) =>
-      releases.some((r) => r.releaseType === rt) || (rt === 'movie' && istFilmwerk)
-
-    if (x.releaseTypes.some(hatArt)) return false
-    if (x.years.some((y) => yearsOf.includes(y))) return false
-    if (x.statuses.includes(titleStatus(releases, today, t))) return false
-
-    if (!passt(f.platforms, 'platforms', (p) => platformsOf.has(p))) return false
-    if (!passt(f.providers, 'providers', (p) => providersOf.has(p))) return false
-    if (!passt(f.releaseTypes, 'releaseTypes', hatArt)) return false
-    if (!passt(f.years, 'years', (y) => yearsOf.includes(y))) return false
-    /* Der Status ist einwertig — ohne Modus, aus demselben Grund wie FSK. */
-    if (f.statuses.length && !f.statuses.includes(titleStatus(releases, today, t))) return false
-    return true
-  })
-
+  const vorgefiltert = source.filter((t) => passtTitel(t, data, f, today, favorites))
   const gesucht = sucheMitFundstellen(vorgefiltert, f.search, (t) => suchfelder(undefined, t), (t) => namen(t))
   merkeFundstellen(gesucht, (t) => String(t.id), fundstellen)
   return gesucht.map((t) => t.item)
+}
+
+/**
+ * **Passt dieser Titel zum Filter?** — herausgelöst aus `filterTitles` (29.09.2026), damit die
+ * Funktion unter der Längengrenze bleibt. Inhalt unverändert.
+ */
+function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favorites: Set<number>): boolean {
+  if (f.favoritesOnly && !favorites.has(t.id)) return false
+  /**
+   * „Streambar" — Titel, bei denen wir einen Stream kennen oder vermuten.
+   *
+   * Der Filter hieß bis zum 15.08.2026 „verfügbar" und nahm alles mit, was
+   * irgendeinen Bezugsweg hatte: auch reine Disc-Veröffentlichungen und
+   * Kauflinks. Daniel las ihn deshalb als „hat deutsche Synchro" und stolperte
+   * darüber, dass „.hack//SIGN" verschwand, obwohl es synchronisiert ist und
+   * man die DVD kaufen kann.
+   *
+   * Beide Lesarten waren falsch, und beide lagen am Namen. Jetzt beantwortet
+   * der Filter genau eine Frage — **kann ich das streamen?** — und lässt
+   * draußen, was nur auf Disc erscheint oder nur zu kaufen ist. Über die
+   * Synchro sagt er weiterhin nichts; das tut die Kennzeichnung am Anbieter.
+   */
+  if (f.kostenlosOnly && !kostenloseFolgen(t)) return false
+  if (f.availableOnly) {
+    const stream =
+      t.streams.length > 0 ||
+      (t.watchLinks ?? []).some((w) => w.kind === 'stream') ||
+      (data.releasesByTitle.get(t.id) ?? []).some(
+        (r) => r.platform !== 'disc' && r.platform !== 'kino',
+      )
+    if (!stream) return false
+  }
+  if (CONFIDENCE_RANK[t.dubConfidence] < CONFIDENCE_RANK[f.minConfidence]) return false
+
+  const x = f.excluded
+  if (x.genres.some((g) => t.genres.includes(g))) return false
+  if (x.keywords.some((k) => t.keywords.includes(k))) return false
+  if (t.fsk !== undefined && x.fsk.includes(t.fsk)) return false
+
+  /*
+    **UND oder ODER — je Kategorie, wie eingestellt.**
+
+    `passt` fasst beides zusammen: Bei „und" muss jede gewählte Pill zutreffen,
+    bei „oder" reicht eine. Die Voreinstellung hält das Verhalten von vor dem
+    02.09.2026 fest (`MODUS_VORGABE`), damit ein geteilter Link dasselbe zeigt.
+  */
+  const passt = <T>(gewaehlt: readonly T[], feld: ModusFeld, hat: (v: T) => boolean) => {
+    if (!gewaehlt.length) return true
+    return modusVon(f, feld) === 'und' ? gewaehlt.every(hat) : gewaehlt.some(hat)
+  }
+
+  if (!passt(f.genres, 'genres', (g) => t.genres.includes(g))) return false
+  if (!passt(f.keywords, 'keywords', (k) => t.keywords.includes(k))) return false
+  /* FSK ist einwertig — „ab 12 UND ab 16" gibt es nicht, deshalb ohne Modus. */
+  if (f.fsk.length && (t.fsk === undefined || !f.fsk.includes(t.fsk))) return false
+
+  const releases = data.releasesByTitle.get(t.id) ?? []
+  const platformsOf = new Set([...releases.map((r) => r.platform), ...t.streams.map((s) => s.platform)])
+  const yearsOf = releases.length ? releases.map((r) => r.year) : t.jpYear ? [t.jpYear] : []
+
+  // Bezugsquellen zählen wie Plattformen: Wer nach „maxdome" filtert, will
+  // die Titel sehen, die es dort gibt — ob als Abo oder zum Kauf.
+  const providersOf = new Set((t.watchLinks ?? []).map((w) => w.name))
+
+  if (x.platforms.some((p) => platformsOf.has(p))) return false
+  if (x.providers.some((p) => providersOf.has(p))) return false
+  /*
+    **„Film ausschließen" heißt das Werk, nicht nur den Termin.**
+
+    Der Filter prüfte allein die Release-Arten. Ein Film **ohne** Termin hat
+    keine — und blieb deshalb im Ergebnis stehen: Bei einer Suche nach „one
+    piece" mit ausgeschlossenem „Film" standen „Episode of Skypia", „Heart of
+    Gold" und ein Dutzend weitere Filme in der Liste (Daniel, 03.09.2026:
+    „film ausschluss filter -> filme bleiben trotzdem in result").
+
+    Ein Titel mit `format: 'MOVIE'` ist ein Film, ob wir einen Termin dazu
+    kennen oder nicht. Die übrigen Arten haben keine solche Entsprechung im
+    Werk — „wöchentlich" oder „Disc" sagt nur ein Release.
+  */
+  const istFilmwerk = t.format === 'MOVIE'
+  const hatArt = (rt: ReleaseType) =>
+    releases.some((r) => r.releaseType === rt) || (rt === 'movie' && istFilmwerk)
+
+  if (x.releaseTypes.some(hatArt)) return false
+  if (x.years.some((y) => yearsOf.includes(y))) return false
+  if (x.statuses.includes(titleStatus(releases, today, t))) return false
+
+  if (!passt(f.platforms, 'platforms', (p) => platformsOf.has(p))) return false
+  if (!passt(f.providers, 'providers', (p) => providersOf.has(p))) return false
+  if (!passt(f.releaseTypes, 'releaseTypes', hatArt)) return false
+  if (!passt(f.years, 'years', (y) => yearsOf.includes(y))) return false
+  /* Der Status ist einwertig — ohne Modus, aus demselben Grund wie FSK. */
+  if (f.statuses.length && !f.statuses.includes(titleStatus(releases, today, t))) return false
+  return true
+}
+
+/**
+ * **Die Termine der Ansicht samt ihren Fundstellen** — die zwei Zeilen, die `App` sonst selbst
+ * rechnen müsste. `filterEvents` füllt die Map, hier wird beides zusammen zurückgegeben.
+ */
+export function eventsFuerAnsicht(
+  data: Dataset,
+  f: FilterState,
+  today: string,
+  favorites: Set<number>,
+  tvAus: boolean,
+): { liste: ReleaseEvent[]; fundstellen: Map<string, Fundstelle[]> } {
+  const fundstellen = new Map<string, Fundstelle[]>()
+  const gefiltert = filterEvents(data, f, today, favorites, fundstellen).filter(
+    /* Ausgeschaltet bleiben Premieren sichtbar (Daniel, 19.09.2026). */
+    (e) => !tvAus || e.platform !== 'tv' || tvPremiere(e, data),
+  )
+  return { liste: gefiltert, fundstellen }
+}
+
+/** Dasselbe für die Datenbank-Ansicht (Schlüssel: Titel-Kennung). */
+export function titelFuerAnsicht(
+  quelle: Title[],
+  data: Dataset,
+  f: FilterState,
+  today: string,
+  favorites: Set<number>,
+): { liste: Title[]; fundstellen: Map<string, Fundstelle[]> } {
+  const fundstellen = new Map<string, Fundstelle[]>()
+  return { liste: filterTitles(quelle, data, f, today, favorites, fundstellen), fundstellen }
 }
 
 export function toggleValue<T>(list: T[], value: T): T[] {

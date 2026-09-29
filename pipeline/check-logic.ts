@@ -5826,6 +5826,21 @@ pruefe(
     LAUF_ARTEN.filter((n) => !ausDenWorkflows.includes(n)).join(', '))
 }
 {
+  /*
+    **Die Feldliste am Suchfeld muss die Felder der Suche nennen** (29.09.2026, Daniel: „welche
+    felder durchsucht werden nicht ersichtlich ist und gemäß der projekt regel alles offen zu
+    kommunizieren, muss hier in der suche nahe dem such-input ein icon erscheinen"). Geprüft wird
+    am Quelltext: In `filters.ts` steht je `dazu('art', …)` eine Art, in `search.ts` je Art eine
+    Beschriftung — läuft das auseinander, verspricht das Symbol eine Suche, die es nicht gibt.
+  */
+  const filterQuelle = readFileSync('web/src/lib/filters.ts', 'utf8')
+  const suchQuelle = readFileSync('web/src/lib/search.ts', 'utf8')
+  const benutzt = [...new Set([...filterQuelle.matchAll(/dazu\('([a-z]+)'/g)].map((m) => m[1]))].sort()
+  const beschriftet = [...new Set([...suchQuelle.matchAll(/\{ art: '([a-z]+)', label:/g)].map((m) => m[1]))].sort()
+  pruefe('die Feldliste am Suchfeld nennt genau die durchsuchten Felder',
+    JSON.stringify(benutzt) === JSON.stringify(beschriftet), `${benutzt} / ${beschriftet}`)
+}
+{
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */
   const gross = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-a.png'
   const alt = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b2-b.png'
