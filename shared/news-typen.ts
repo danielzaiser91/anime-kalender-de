@@ -39,6 +39,14 @@ export interface NewsMeldung {
    */
   teil?: string
   teilId?: number
+  /**
+   * **Wo das steht, was hier gemeldet wird** (Daniel, 28.09.2026: „inkl Link zur Quelle").
+   *
+   * Nicht die eigene Titelseite: Der Leser will nachsehen können, woher wir von einem Termin
+   * wissen. Bevorzugt wird eine lesbare Seite (Artikel, Anbieterseite), erst dann ein
+   * Schnittstellen-Endpunkt — die eigentliche Herkunft, aber nichts zum Anklicken.
+   */
+  quelle?: string
 }
 
 /**

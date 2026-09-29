@@ -50,6 +50,94 @@ interface NeuerTitel {
   seit: string
 }
 
+/**
+ * **Die Quelle eines Termins — eine Seite zum Nachsehen, kein Endpunkt** (29.09.2026).
+ *
+ * Daniel am 28.09.2026 zu den Neuigkeiten im Newsletter: „inkl Link zur Quelle". Die Quelle ist
+ * nicht unsere Titelseite, sondern die Stelle, an der wir gelesen haben: meist ein Artikel
+ * (anime2you.de, anisearch.de), bei ADN der Kalender-Endpunkt. Der wird nur genommen, wenn nichts
+ * Lesbares dasteht — ein Link auf `gw.api.…` erklärt niemandem etwas.
+ */
+function quelleVonRelease(r: Release): string | undefined {
+  const aktuelle = (r.quellen ?? []).filter((q) => q.stand !== 'ueberholt')
+  return (
+    aktuelle.find((q) => !q.url.includes('//gw.api.'))?.url ??
+    aktuelle[0]?.url ??
+    r.sources?.find((u) => !u.includes('//gw.api.')) ??
+    r.sources?.[0]
+  )
+}
+
+/**
+ * **Die Termine als Meldungen** — angekündigt, auf Disc, im Kino, verschoben.
+ *
+ * Am 29.09.2026 aus `baueNews` herausgelöst (Längengrenze); dabei trägt jede Meldung ihre
+ * **Quelle** — die Stelle, an der wir den Termin gelesen haben.
+ */
+function terminMeldungen(
+  releases: Release[],
+  nachId: Map<number, Title>,
+  heute: string,
+): (NewsMeldung & { schluessel: string; fallback: string; titel: Title })[] {
+  const raus: (NewsMeldung & { schluessel: string; fallback: string; titel: Title })[] = []
+  for (const r of releases) {
+    const t = nachId.get(r.titleId)
+    if (!t) continue
+    const quelle = quelleVonRelease(r)
+    const datum = r.schedule?.firstEpisodeDate
+    if (datum) {
+      /*
+        **„Im Kino" sagt die Plattform, nicht die Art des Werks.**
+
+        `releaseType: 'movie'` heißt „das hier ist ein Film" — und daraus wurde
+        „Im Kino". Für „Mononoke – The Movie: Chapter III" stand deshalb „ab
+        29.09.2026 · Im Kino" in den Nachrichten; das Release trägt
+        `platform: 'netflix'` und die Netflix-Adresse als Quelle (Daniel,
+        12.09.2026: „woher kommt dieser news eintrag mit ab 29.09.2026 im kino?
+        … wo genau steht diese info, und woher kommt das?").
+
+        Ein Film, der bei einem Streamingdienst erscheint, ist keine
+        Kinopremiere. Entschieden wird deshalb an `platform === 'kino'` — dem
+        Feld, das genau das bedeutet.
+      */
+      const art: NewsArt =
+        r.releaseType === 'disc' ? 'disc' : r.platform === 'kino' ? 'kino' : 'angekuendigt'
+      raus.push({
+        schluessel: `${art}:${r.slug}:${datum}`,
+        fallback: datum > heute ? heute : datum,
+        art,
+        titel: t,
+        platform: r.platform,
+        datum,
+        release: r.slug,
+        quelle,
+      })
+    }
+    for (const [nummer, v] of Object.entries(r.schedule?.verpasst ?? {})) {
+      if (!v?.erwartetAm) continue
+      raus.push({
+        schluessel: `verspaetet:${r.slug}:${nummer}:${v.erwartetAm}`,
+        fallback: v.erwartetAm,
+        art: 'verspaetet',
+        titel: t,
+        platform: r.platform,
+        /*
+          Nur das Datum: Der Vermerk führt Zeitstempel, die Meldung ein Datum.
+          Durchgereicht stand „06T15:00:00.000Z.09.2026" auf der News-Seite
+          (Daniel, 15.09.2026).
+        */
+        datum: v.erwartetAm.slice(0, 10),
+        von: Number(nummer),
+        release: r.slug,
+        /* Was inzwischen daraus wurde — leer, solange die Folge aussteht. */
+        nachgereichtAm: v.erschienenAm?.slice(0, 10),
+        quelle,
+      })
+    }
+  }
+  return raus
+}
+
 interface CrNeueFolge {
   serieId: string
   serie: string
@@ -98,10 +186,10 @@ export function baueNews(
     const t = nachId.get(n.id)
     if (!t) continue
     const anbieter = t.streams.find((s) => s.dub === true)?.platform
-    const erreicht = releases
+    const erreichtRelease = releases
       .filter((r) => r.titleId === t.id && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
-      .map((r) => r.schedule!.firstEpisodeDate!)
-      .sort()[0]
+      .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
+    const erreicht = erreichtRelease?.schedule?.firstEpisodeDate
     if (!anbieter && !erreicht) continue
     roh.push({
       schluessel: `neu:${t.id}`,
@@ -109,6 +197,9 @@ export function baueNews(
       art: 'neu',
       ...kopf(t),
       platform: anbieter,
+      quelle:
+        t.streams.find((s) => s.dub === true && s.platform === anbieter)?.url ??
+        (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
     })
   }
 
@@ -134,7 +225,15 @@ export function baueNews(
       if (seit < grenze) continue
       const frueher = [...wege].some((q) => q !== p && anbieterSeit[`${t.id}:${q}`]! < seit)
       if (!frueher) continue
-      roh.push({ schluessel: `anbieter:${t.id}:${p}`, fallback: seit, art: 'neu', ...kopf(t), platform: p, weiterer: true })
+      roh.push({
+        schluessel: `anbieter:${t.id}:${p}`,
+        fallback: seit,
+        art: 'neu',
+        ...kopf(t),
+        platform: p,
+        weiterer: true,
+        quelle: t.streams.find((s) => s.dub === true && s.platform === p)?.url,
+      })
     }
   }
 
@@ -162,7 +261,8 @@ export function baueNews(
     }
   }
   for (const [schluessel, eintrag] of jeSerieUndTag) {
-    const t = nachSerienId.get(schluessel.split('|')[0]!)
+    const serienId = schluessel.split('|')[0]!
+    const t = nachSerienId.get(serienId)
     if (!t) continue
     const nummern = [...new Set(eintrag.nummern)].sort((a, b) => a - b)
     roh.push({
@@ -174,66 +274,13 @@ export function baueNews(
       von: nummern[0],
       bis: nummern[nummern.length - 1],
       anzahl: nummern.length || undefined,
+      /* Die Seite, auf der die deutschen Folgen stehen — dieselbe Adresse, über die zugeordnet wurde. */
+      quelle: t.streams.find((s) => s.url.includes(serienId))?.url,
     })
   }
 
   /* 3. Termine: angekündigt, auf Disc, im Kino — und die, die niemand eingehalten hat. */
-  for (const r of releases) {
-    const t = nachId.get(r.titleId)
-    if (!t) continue
-    const datum = r.schedule?.firstEpisodeDate
-    if (datum) {
-      /*
-        **„Im Kino" sagt die Plattform, nicht die Art des Werks.**
-
-        `releaseType: 'movie'` heißt „das hier ist ein Film" — und daraus wurde
-        „Im Kino". Für „Mononoke – The Movie: Chapter III" stand deshalb „ab
-        29.09.2026 · Im Kino" in den Nachrichten; das Release trägt
-        `platform: 'netflix'` und die Netflix-Adresse als Quelle (Daniel,
-        12.09.2026: „woher kommt dieser news eintrag mit ab 29.09.2026 im kino?
-        … wo genau steht diese info, und woher kommt das?").
-
-        Ein Film, der bei einem Streamingdienst erscheint, ist keine
-        Kinopremiere. Entschieden wird deshalb an `platform === 'kino'` — dem
-        Feld, das genau das bedeutet.
-      */
-      const art: NewsArt =
-        r.releaseType === 'disc'
-          ? 'disc'
-          : r.platform === 'kino'
-            ? 'kino'
-            : 'angekuendigt'
-      roh.push({
-        schluessel: `${art}:${r.slug}:${datum}`,
-        fallback: datum > heute ? heute : datum,
-        art,
-        ...kopf(t),
-        platform: r.platform,
-        datum,
-        release: r.slug,
-      })
-    }
-    for (const [nummer, v] of Object.entries(r.schedule?.verpasst ?? {})) {
-      if (!v?.erwartetAm) continue
-      roh.push({
-        schluessel: `verspaetet:${r.slug}:${nummer}:${v.erwartetAm}`,
-        fallback: v.erwartetAm,
-        art: 'verspaetet',
-        ...kopf(t),
-        platform: r.platform,
-        /*
-          Nur das Datum: Der Vermerk führt Zeitstempel, die Meldung ein Datum.
-          Durchgereicht stand „06T15:00:00.000Z.09.2026" auf der News-Seite
-          (Daniel, 15.09.2026).
-        */
-        datum: v.erwartetAm.slice(0, 10),
-        von: Number(nummer),
-        release: r.slug,
-        /* Was inzwischen daraus wurde — leer, solange die Folge aussteht. */
-        nachgereichtAm: v.erschienenAm?.slice(0, 10),
-      })
-    }
-  }
+  roh.push(...terminMeldungen(releases, nachId, heute))
 
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
   const datiert: (NewsMeldung & { am: string; titel: Title })[] = []

@@ -4,6 +4,7 @@ import { feedUrl, loadNews, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { anbieterDerMeldung, datumKurz, newsSatz } from '../lib/news-text.ts'
+import { hostVon, istLink } from '@shared/quelle.ts'
 import { todayIso, addDays } from '@shared/time.ts'
 
 /**
@@ -266,8 +267,6 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
     }
   }
 
-  const satz = newsSatz
-
   const tagName = (iso: string): string =>
     iso === todayIso() ? t('news.heute') : iso === addDays(todayIso(), -1) ? t('news.gestern') : datumKurz(iso)
 
@@ -444,25 +443,12 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                   {auf && (
                     <ul className="mb-1.5 ml-10 space-y-0.5 border-l border-slate-200 pl-3 dark:border-slate-700">
                       {sortiert.map((m, i) => (
-                        <li key={`${m.art}-${m.datum ?? ''}-${m.von ?? ''}-${i}`}>
-                          <button
-                            type="button"
-                            onClick={() => oeffne(m.teilId ?? e.titelId)}
-                            className="flex w-full items-center gap-2 rounded py-1 pr-1 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
-                          >
-                            <span className={`shrink-0 rounded px-1.5 py-0.5 text-[11px] ${NEWS_FARBE[m.art]}`}>
-                              {t(`news.art.${m.art}`)}
-                            </span>
-                            {m.teil && m.teil !== e.titel && (
-                              <span className="min-w-0 shrink truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
-                                {m.teil}
-                              </span>
-                            )}
-                            <span className="min-w-0 flex-1 truncate text-xs text-slate-600 dark:text-slate-300">
-                              {satz(m)}
-                            </span>
-                          </button>
-                        </li>
+                        <MeldungZeile
+                          key={`${m.art}-${m.datum ?? ''}-${m.von ?? ''}-${i}`}
+                          m={m}
+                          reihe={e.titel}
+                          oeffne={() => oeffne(m.teilId ?? e.titelId)}
+                        />
                       ))}
                     </ul>
                   )}
@@ -483,5 +469,59 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
         </button>
       )}
     </section>
+  )
+}
+
+/**
+ * **Eine Meldungszeile** — Art-Pille, Teil-Nennung, Satz und Quelle (29.09.2026 herausgelöst: Die
+ * Quellenangabe ließ die Listenfunktion über die Längengrenze wachsen).
+ *
+ * Die Quelle steht **neben** dem Knopf, nicht darin: Der Knopf öffnet das Detail-Panel, ein Link in
+ * ihm wäre ungültiges HTML und ein zweites Ziel im selben Klick (Daniel, 28.09.2026: „inkl Link zur
+ * Quelle").
+ */
+function MeldungZeile({
+  m,
+  reihe,
+  oeffne,
+}: {
+  m: NewsMeldung
+  reihe: string
+  oeffne: () => void
+}) {
+  const { t } = useLang()
+  return (
+    <li>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={oeffne}
+          className="flex min-w-0 flex-1 items-center gap-2 rounded py-1 pr-1 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
+        >
+          <span className={`shrink-0 rounded px-1.5 py-0.5 text-[11px] ${NEWS_FARBE[m.art]}`}>
+            {t(`news.art.${m.art}`)}
+          </span>
+          {m.teil && m.teil !== reihe && (
+            <span className="min-w-0 shrink truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
+              {m.teil}
+            </span>
+          )}
+          <span className="min-w-0 flex-1 truncate text-xs text-slate-600 dark:text-slate-300">
+            {newsSatz(m)}
+          </span>
+        </button>
+        {istLink(m.quelle) && (
+          <a
+            href={m.quelle}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={t('news.quelleTitel', { quelle: m.quelle })}
+            className="shrink-0 text-[10px] text-slate-400 underline decoration-dotted underline-offset-2 hover:text-slate-600 dark:hover:text-slate-200"
+          >
+            {t('news.quelle')} {hostVon(m.quelle)}
+          </a>
+        )}
+      </div>
+    </li>
   )
 }

@@ -3,6 +3,15 @@
  * Eigene Datei, weil `i18n.tsx` über 800 Zeilen lag; `TEXTE` dort nimmt sie vollständig auf.
  */
 export const TEXTE_SEITEN = {
+  /*
+    **Die Nachrichtenseite** (29.09.2026 aus `i18n.tsx` hierher): Der Block lag mit der Datei an der
+    800-Zeilen-Grenze, und diese Datei ist genau dafür da. Dazu die Quellenangabe — Daniel,
+    28.09.2026: „inkl Link zur Quelle"; „Heute"/„Gestern" beschriften die Tagesgruppen.
+  */
+  'news.heute': 'Heute',
+  'news.gestern': 'Gestern',
+  'news.quelle': 'Quelle',
+  'news.quelleTitel': 'Nachsehen, woher diese Meldung kommt: {quelle}',
   'sub.title': 'Kalender abonnieren',
   'sub.intro':
     'Ein Abo statt vieler Einzelklicks: Die Feeds unten aktualisieren sich mit jedem Daten-Update von selbst. Kein Konto, kein Login, keine Freigabe an uns nötig.',

@@ -105,6 +105,7 @@ import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
+import { hostVon } from '../shared/quelle.ts'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
 import { ladeTitelDe } from './lib/titel-de.ts'
@@ -5684,6 +5685,79 @@ pruefe(
   )
 }
 {
+  /*
+    **Jede Meldung nennt ihre Quelle** (Daniel, 28.09.2026: „inkl Link zur Quelle"). Gemessen mit
+    Fixtures statt an der gebauten Datei: Ein Termin trägt die Seite, an der wir ihn gelesen haben;
+    ein Endpunkt weicht der lesbaren Quelle; neue deutsche Folgen tragen die Adresse, über die sie
+    zugeordnet wurden. Die gebauten Meldungen bekommen ihr Feld beim nächsten Datenlauf.
+  */
+  const titel = (id: number, streams: { platform: string; url: string; dub?: boolean }[] = []): Title =>
+    ({ id, franchiseId: id, slug: `t-${id}`, titleEn: `T${id}`, keywords: [], genres: [], streams }) as unknown as Title
+  const release = (extra: Record<string, unknown>): Release =>
+    ({
+      slug: 'r-1',
+      titleId: 1,
+      name: 'T1',
+      platform: 'adn',
+      releaseType: 'batch',
+      schedule: { firstEpisodeDate: '2026-10-08' },
+      ...extra,
+    }) as unknown as Release
+  const leer: NewsHistorie = { zuerst: {} }
+
+  const mitTermin = baueNews(
+    [titel(1)],
+    [
+      release({
+        sources: [
+          'https://gw.api.animationdigitalnetwork.com/video/calendar',
+          'https://www.anime2you.de/news/1',
+        ],
+      }),
+    ],
+    [],
+    [],
+    leer,
+  )
+  const terminMeldung = mitTermin[0]?.meldungen.find((m) => m.art === 'angekuendigt')
+  pruefe(
+    'ein Termin trägt die Quelle, an der er gelesen wurde',
+    terminMeldung?.quelle === 'https://www.anime2you.de/news/1',
+    JSON.stringify(terminMeldung),
+  )
+
+  const nurApi = baueNews(
+    [titel(1)],
+    [release({ sources: ['https://gw.api.animationdigitalnetwork.com/video/calendar'] })],
+    [],
+    [],
+    { zuerst: {} },
+  )
+  pruefe(
+    'ohne lesbare Quelle bleibt der Endpunkt',
+    nurApi[0]?.meldungen[0]?.quelle === 'https://gw.api.animationdigitalnetwork.com/video/calendar',
+
+    JSON.stringify(nurApi[0]?.meldungen[0]),
+  )
+
+  const folgen = baueNews(
+    [titel(1, [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/G6VQ0GQ8R/x', dub: true }])],
+    [],
+    [],
+    [{ serieId: 'G6VQ0GQ8R', serie: 'X', nummer: 5, gesehenAm: '2026-09-20' }],
+    { zuerst: {} },
+  )
+  pruefe(
+    'neue deutsche Folgen tragen die Seite, über die sie zugeordnet wurden',
+    folgen[0]?.meldungen[0]?.quelle === 'https://www.crunchyroll.com/de/series/G6VQ0GQ8R/x',
+    JSON.stringify(folgen[0]?.meldungen[0]),
+  )
+  pruefe(
+    'angezeigt wird der Wirt, nicht die ganze Adresse',
+    hostVon('https://www.anime2you.de/news/1') === 'anime2you.de' && hostVon('https://x') === 'x',
+  )
+}
+{
   /* Newsletter: „Jetzt auch bei X" trägt allein eine Mail, mit eigenem Betreff (18.09.2026). */
   const m = digestMail([], 'daily', 'https://anime-kalender.de/', 'https://x/u', {
     favorites: new Set([1]),
@@ -5737,7 +5811,14 @@ pruefe(
         titelId: 7,
         titel: 'Black Clover',
         slug: 'black-clover-7',
-        meldungen: [{ art: 'angekuendigt', platform: 'crunchyroll', datum: '2026-10-03' }],
+        meldungen: [
+          {
+            art: 'angekuendigt',
+            platform: 'crunchyroll',
+            datum: '2026-10-03',
+            quelle: 'https://www.crunchyroll.com/de/series/G6VQ0GQ8R/x',
+          },
+        ],
       },
     ],
   })
@@ -5768,9 +5849,15 @@ pruefe(
     'die Neuigkeiten nennen Titel, Satz und Quelle',
     wo('📰 Neuigkeiten') > wo('📺 TV — Wiederholungen') &&
       m.html.includes('Start am 03.10.2026 bei Crunchyroll') &&
-      m.html.includes('Quelle im Kalender'),
+      m.html.includes('Quelle: crunchyroll.com') &&
+      m.html.includes('Im Kalender ansehen'),
   )
-  pruefe('und die Textfassung nennt sie ebenso', m.text.includes('NEUIGKEITEN') && m.text.includes('Start am 03.10.2026 bei Crunchyroll'))
+  pruefe(
+    'und die Textfassung nennt sie ebenso',
+    m.text.includes('NEUIGKEITEN') &&
+      m.text.includes('Start am 03.10.2026 bei Crunchyroll') &&
+      m.text.includes('Quelle: crunchyroll.com'),
+  )
 
   /* Ohne TV-Premiere und ohne Finale bleibt der Betreff bei der alten Aussage — und ohne News
      fehlt die Rubrik ganz (leere Rubriken nehmen keinen Platz). */

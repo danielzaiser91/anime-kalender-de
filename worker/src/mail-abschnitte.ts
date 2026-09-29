@@ -11,6 +11,7 @@
 import type { NewsEintrag, NewsMeldung, ReleaseEvent } from '../../shared/types.ts'
 import { PLATFORMS, anbieterName } from '../../shared/types.ts'
 import { abzeichen } from './mail-sorten.ts'
+import { hostVon, istLink } from '../../shared/quelle.ts'
 
 /** Was jede Zeile zum Verlinken braucht. */
 export interface RowContext {
@@ -125,12 +126,22 @@ export function newsSatz(m: NewsMeldung): string {
  */
 export function newsBlock(eintraege: NewsEintrag[], siteUrl: string): string {
   const bloecke = eintraege.map((e) => {
-    const saetze = e.meldungen.map(newsSatz).filter(Boolean)
+    /*
+      **Jede Meldung nennt ihre Quelle** (Daniel, 28.09.2026: „inkl Link zur Quelle"). Angezeigt
+      wird der Wirt, das Ziel ist die Stelle, an der wir gelesen haben.
+    */
+    const saetze = e.meldungen
+      .map((m) =>
+        istLink(m.quelle)
+          ? `${escapeHtml(newsSatz(m))} (<a href="${escapeHtml(m.quelle)}" style="color:#7dd3fc;">Quelle: ${escapeHtml(hostVon(m.quelle))}</a>)`
+          : escapeHtml(newsSatz(m)),
+      )
+      .filter(Boolean)
     const link = `${siteUrl.replace(/\/$/, '')}#/datenbank?t=${e.titelId}`
     return `<p style="margin:10px 0 0;padding-top:8px;border-top:1px solid #232c40;">
         <a href="${link}" style="color:#fff;text-decoration:none;"><strong>${escapeHtml(e.titel)}</strong></a><br>
-        <span style="color:#9aa5bd;font-size:13px;">${saetze.map(escapeHtml).join(' · ')} —
-          <a href="${link}" style="color:#7dd3fc;">Quelle im Kalender &rsaquo;</a></span>
+        <span style="color:#9aa5bd;font-size:13px;">${saetze.join(' · ')} —
+          <a href="${link}" style="color:#7dd3fc;">Im Kalender ansehen &rsaquo;</a></span>
       </p>`
   })
   return `<p style="margin:26px 0 0;padding-bottom:6px;border-bottom:2px solid #a78bfa;color:#a78bfa;font-weight:700;font-size:15px;letter-spacing:.03em;">
@@ -152,7 +163,10 @@ export function wiederholungsText(events: ReleaseEvent[]): string {
 export function newsText(eintraege: NewsEintrag[], siteUrl: string): string {
   return eintraege
     .map((e) => {
-      const saetze = e.meldungen.map(newsSatz).filter(Boolean).join(' · ')
+      const saetze = e.meldungen
+        .map((m) => (istLink(m.quelle) ? `${newsSatz(m)} (Quelle: ${hostVon(m.quelle)})` : newsSatz(m)))
+        .filter(Boolean)
+        .join(' · ')
       return `* ${e.titel} — ${saetze}\n  ${siteUrl.replace(/\/$/, '')}#/datenbank?t=${e.titelId}`
     })
     .join('\n')

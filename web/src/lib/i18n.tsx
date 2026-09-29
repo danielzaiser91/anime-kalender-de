@@ -40,8 +40,6 @@ const TEXTE = {
   'news.kino.bis': 'bis {d}',
   'news.kino.zurueck': 'Zurück',
   'news.kino.weiter': 'Weiter',
-  'news.heute': 'Heute',
-  'news.gestern': 'Gestern',
   // Eine Zeile je Meldung, so kurz wie möglich — die Karte nennt den Titel schon.
   'news.art.neu': 'Neu auf Deutsch',
   'news.art.folgen': 'Neue Folgen',
