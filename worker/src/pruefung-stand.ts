@@ -5,8 +5,8 @@ export async function berechnePruefstand({ env, antwort }: {
   antwort: (body: unknown, status?: number) => Response
 }) {
       const { results } = await env.DB.prepare(
-        `SELECT plattform, url, staffel, gemeldet_am FROM pruefung WHERE uebernommen = 0`,
-      ).all<{ plattform: string; url: string; staffel: number | null; gemeldet_am: string | null }>()
+        `SELECT plattform, url, staffel FROM pruefung WHERE uebernommen = 0`,
+      ).all<{ plattform: string; url: string; staffel: number | null }>()
       const gemeldeteAdressen = new Map<string, Set<string>>()
       for (const r of results ?? []) {
         if (!r.url) continue
@@ -53,31 +53,27 @@ export async function berechnePruefstand({ env, antwort }: {
       const seit = stand.erzeugtAm ?? null
       const { results: jemals } = seit
         ? await env.DB.prepare(
-            `SELECT DISTINCT plattform, url, staffel, gemeldet_am FROM pruefung
+            `SELECT DISTINCT plattform, url, staffel FROM pruefung
              WHERE url IS NOT NULL AND url != '' AND gemeldet_am > ?1`,
           )
             .bind(seit)
-            .all<{ plattform: string; url: string; staffel: number | null; gemeldet_am: string | null }>()
+            .all<{ plattform: string; url: string; staffel: number | null }>()
         : await env.DB.prepare(
-            `SELECT DISTINCT plattform, url, staffel, gemeldet_am FROM pruefung WHERE url IS NOT NULL AND url != ''`,
-          ).all<{ plattform: string; url: string; staffel: number | null; gemeldet_am: string | null }>()
+            `SELECT DISTINCT plattform, url, staffel FROM pruefung WHERE url IS NOT NULL AND url != ''`,
+          ).all<{ plattform: string; url: string; staffel: number | null }>()
       const jeGemeldet = new Map<string, Set<string>>()
       /** Je Adresse die Staffeln, zu denen seit dem Prüfstand gemeldet wurde (22.09.2026). */
       const staffelnGemeldet = new Map<string, Set<number>>()
-      /** Je Adresse die **jüngste** Meldung — die Frist der Wiedervorlage vergleicht damit. */
-      const juengste = new Map<string, string>()
       /*
-        **Was noch im Briefkasten liegt, ist nie übernommen — es zählt immer** (22.09.2026). Der
-        Zeitstempel allein trägt nicht: Ein lokal neu erzeugter Prüfstand setzte `erzeugtAm` auf
-        jetzt, und Haikyu!! stand wieder als offen, obwohl alle 25 Meldungen unübernommen im
-        Briefkasten lagen (Daniel: „dann änder das in prüfliste").
+        **Nur was nach dem Listenbau gemeldet wurde, erledigt ein Ziel** (29.09.2026). Der Prüfstand
+        entsteht nach `data:build`; alles davor hat der Bau verarbeitet. Was danach kommt, ist die
+        Brücke bis zum nächsten Lauf. Die offenen Briefkasten-Meldungen zählen **nicht** mehr mit —
+        sie zogen Wiedervorlagen über ihren alten Beleg ab („7 statt 9", Daniel).
       */
-      for (const r of [...(jemals ?? []), ...(results ?? []).filter((x) => x.url)]) {
+      for (const r of jemals ?? []) {
         const dazu = jeGemeldet.get(r.plattform) ?? new Set<string>()
         dazu.add(r.url)
         jeGemeldet.set(r.plattform, dazu)
-        const am = String(r.gemeldet_am ?? '')
-        if (am && am > (juengste.get(r.url) ?? '')) juengste.set(r.url, am)
         if (typeof r.staffel === 'number') {
           const st = staffelnGemeldet.get(r.url) ?? new Set<number>()
           st.add(r.staffel)
@@ -94,7 +90,7 @@ export async function berechnePruefstand({ env, antwort }: {
           gemeldet: number
           ohneSeite?: number
           suchAdressen?: string[]
-          ziele?: { url: string; titel: string; staffeln?: number[]; seit?: string }[]
+          ziele?: { url: string; titel: string; staffeln?: number[] }[]
         }
         const unterwegs = gemeldeteAdressen.get(a.plattform) ?? new Set<string>()
         /*
@@ -112,11 +108,6 @@ export async function berechnePruefstand({ env, antwort }: {
           bei der Adresse.
         */
         const offeneZiele = (a.ziele ?? []).filter((z) => {
-          /* Eine Wiedervorlage erledigt nur eine Meldung **nach ihrem `seit`** (29.09.2026). */
-          if (z.seit) {
-            const am = juengste.get(z.url) ?? ''
-            return !am || am <= z.seit
-          }
           if (!schonGemeldet.has(z.url)) return true
           if (!z.staffeln?.length) return false
           const gemeldet = staffelnGemeldet.get(z.url)

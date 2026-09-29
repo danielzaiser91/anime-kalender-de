@@ -14,7 +14,7 @@
       "dateien": 1315
     },
     "worker/src": {
-      "funktionen": 1195,
+      "funktionen": 1181,
       "dateien": 875
     },
     "extension": {
@@ -22,7 +22,7 @@
       "dateien": 16816
     },
     "tools": {
-      "funktionen": 273,
+      "funktionen": 271,
       "dateien": 107
     }
   }

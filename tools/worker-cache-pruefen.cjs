@@ -104,25 +104,23 @@ pruefe(
   lieber ein Ziel zu wenig zeigen als eins, das längst erledigt ist.
 */
 pruefe(
-  quelle.includes("SELECT DISTINCT plattform, url, staffel, gemeldet_am FROM pruefung WHERE url IS NOT NULL AND url != ''`,"),
+  quelle.includes("SELECT DISTINCT plattform, url, staffel FROM pruefung WHERE url IS NOT NULL AND url != ''`,"),
   'ohne Zeitstempel gilt weiterhin die alte, strengere Rechnung',
 )
 /*
-  29.09.2026: Eine Wiedervorlage ist erst erledigt, wenn eine Meldung **nach ihrem `seit`**
-  angekommen ist — nicht durch ihren alten Beleg (dann „7 statt 9") und nicht nie (dann App 9,
-  Erweiterung 0). Geprüft wird beides: die Frist und ihr Vergleich mit der jüngsten Meldung.
+  29.09.2026: Nur eine Meldung **nach dem Listenbau** erledigt ein Ziel. Die offenen
+  Briefkasten-Meldungen zählen nicht mehr mit — sie zogen Wiedervorlagen über ihren alten Beleg
+  ab („7 statt 9"), und wurde eine gemeldet, zeigte die Erweiterung 0, die App aber 9. Daniel:
+  „single source of truth, keine unterschiedlichen Zahlen mehr."
 */
-pruefe(quelle.includes('if (z.seit) {'), 'eine Wiedervorlage hat ihre eigene Frist (`seit`)')
-pruefe(quelle.includes('am <= z.seit'), 'und erledigt sie erst durch eine Meldung danach')
+pruefe(
+  quelle.includes('for (const r of jemals ?? [])'),
+  'abgezogen wird nur, was nach dem Prüfstand gemeldet wurde',
+)
 /* 22.09.2026: Ein Ziel mit offenen Staffeln ist erst erledigt, wenn jede gemeldet ist. */
 pruefe(
   quelle.includes('return !z.staffeln.every((nr) => gemeldet?.has(nr))'),
   'ein Ziel mit Staffelangabe verschwindet erst, wenn jede seiner Staffeln gemeldet ist',
-)
-
-pruefe(
-  quelle.includes("for (const r of [...(jemals ?? []), ...(results ?? []).filter((x) => x.url)])"),
-  'eine unübernommene Meldung zählt als gemeldet, unabhängig vom Prüfstand-Zeitstempel',
 )
 
 console.log(fehler ? `\n${fehler} Fehler` : '\nalles grün')
