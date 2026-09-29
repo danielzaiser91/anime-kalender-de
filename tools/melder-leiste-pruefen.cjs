@@ -69,6 +69,10 @@ function machElement(tag = 'div') {
       this.kinder.push(k)
       return k
     },
+    /* `append` (mehrere Kinder) — `box.js` baut die Debug-Leiste damit (29.09.2026). */
+    append(...kinder) {
+      for (const k of kinder) this.appendChild(k)
+    },
     insertBefore(k) {
       k.parentNode = this
       this.kinder.unshift(k)
