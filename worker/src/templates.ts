@@ -230,7 +230,7 @@ function textSections(ctx: RowContext, events: ReleaseEvent[]): string {
             return (
               `  - ${ev.name}${ev.episode && !ev.sichtung ? ` (Folge ${ev.episode})` : ''}${
                 ev.time ? ` — ${ev.time} Uhr` : ev.releaseType === 'disc' ? ' — im Handel' : ''
-              }, ${anbieterName(ev.platform, ev.sender)}\n` +
+              }, ${anbieterName(ev.platform, ev.sender)}${ev.kostenlos ? ' — heute kostenlos' : ''}\n` +
               `    Kalender: ${calendarUrl(ctx, ev)}` +
               (watch ? `\n    ${ev.releaseType === 'disc' ? 'Kaufen' : 'Ansehen'}: ${watch}` : '')
             )

@@ -46,12 +46,23 @@ export function hinweisZeile(text: string): string {
   return `<p style="margin:6px 0 0;color:#9aa5bd;font-size:13px;">${text}</p>`
 }
 
-/** Das Abzeichen an der Zeile — Finale, Start oder TV-Premiere. */
+/**
+ * Das Abzeichen an der Zeile — Finale, Start, TV-Premiere **und „heute kostenlos"**.
+ *
+ * „Kostenlos" ist kein Ersatz für die anderen: Ein Finale heute Abend bleibt ein Finale, auch wenn
+ * es frei läuft. Deshalb zwei Abzeichen nebeneinander, das zweite in Grün (29.09.2026, Daniel:
+ * „heute kostenlos" als Abzeichen).
+ */
 export function badge(ev: ReleaseEvent): string {
   const text = abzeichen(ev)
-  if (!text) return ''
   const farbe = text === 'Premiere' ? '#2dd4bf' : '#fbbf24'
-  return ` <span style="padding:1px 7px;border:1px solid ${farbe};border-radius:999px;color:${farbe};font-size:11px;font-weight:600;">${text}</span>`
+  const marke = text
+    ? ` <span style="padding:1px 7px;border:1px solid ${farbe};border-radius:999px;color:${farbe};font-size:11px;font-weight:600;">${text}</span>`
+    : ''
+  const frei = ev.kostenlos
+    ? ' <span style="padding:1px 7px;border:1px solid #22c55e;border-radius:999px;color:#22c55e;font-size:11px;font-weight:600;">heute kostenlos</span>'
+    : ''
+  return marke + frei
 }
 
 /** Eine Zeile für die eingeklappte Wiederholungsliste — Titel, Folge, Zeit, Sender. */

@@ -27,7 +27,7 @@ import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/ti
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
-import { kostenlosEtikett, kostenloseFolgen } from '../web/src/lib/kostenlos.ts'
+import { kostenlosEtikett, kostenloseFolgen } from '../shared/kostenlos.ts'
 import { istPremiere, tvAngabe } from '../web/src/lib/tv-angabe.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
 import { FSK_COLORS, PLATFORMS } from '../shared/types.ts'
@@ -102,7 +102,9 @@ import {
   DURCHZAEHLUNG_UNKLAR,
 } from './lib/crunchyroll.ts'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
-import { todayIso } from '../shared/time.ts'
+import { todayIso, addDays } from '../shared/time.ts'
+import { schreibeKostenlosAuskunft } from './bau/10-termine.ts'
+import { badge } from '../worker/src/mail-abschnitte.ts'
 import { bestesSynonym } from './lib/anilist.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { hostVon } from '../shared/quelle.ts'
@@ -5755,6 +5757,44 @@ pruefe(
   pruefe(
     'angezeigt wird der Wirt, nicht die ganze Adresse',
     hostVon('https://www.anime2you.de/news/1') === 'anime2you.de' && hostVon('https://x') === 'x',
+  )
+}
+{
+  /*
+    **„Heute kostenlos" wird nur an Termine von heute geschrieben** (29.09.2026, Daniel: „heute
+    kostenlos" als Abzeichen im Newsletter). Der Worker hat den Datensatz nicht — er sieht nur die
+    Termine; ob ein Titel frei läuft, rechnet der Bau (`shared/kostenlos.ts`), und zwar **nur für
+    heute**: Für einen Termin in drei Wochen wäre dieselbe Auskunft geraten.
+  */
+  const heute = todayIso()
+  const frei = {
+    id: 1,
+    franchiseId: 1,
+    slug: 'frei',
+    titleEn: 'Frei',
+    genres: [],
+    keywords: [],
+    streams: [{ platform: 'youtube', url: 'https://x/1', zugang: 'kostenlos', nurFolge: 5 }],
+  } as unknown as Title
+  const ev = (datum: string): ReleaseEvent =>
+    ({ id: `e-${datum}`, releaseSlug: 'r', titleId: 1, date: datum, releaseType: 'batch', platform: 'youtube', name: 'Frei' }) as unknown as ReleaseEvent
+  const heuteEv = ev(heute)
+  const spaeterEv = ev(addDays(heute, 21))
+  schreibeKostenlosAuskunft([heuteEv, spaeterEv], new Map([[1, frei]]))
+  pruefe(
+    'nur der Termin von heute gilt als kostenlos',
+    heuteEv.kostenlos === true && spaeterEv.kostenlos === undefined,
+    `${heuteEv.kostenlos} / ${spaeterEv.kostenlos}`,
+  )
+  pruefe(
+    'und der Newsletter nennt es',
+    badge(heuteEv).includes('heute kostenlos') && !badge(spaeterEv).includes('kostenlos'),
+    badge(heuteEv),
+  )
+  const mitFrei = digestMail([heuteEv], 'daily', 'https://anime-kalender.de/', 'https://x/u', {})
+  pruefe(
+    '… auch in der Textfassung',
+    mitFrei.html.includes('heute kostenlos') && mitFrei.text.includes('heute kostenlos'),
   )
 }
 {

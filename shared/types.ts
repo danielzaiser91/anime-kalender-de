@@ -764,17 +764,18 @@ export interface ReleaseEvent {
    * **Vom Bau gesetzte Auskünfte über den Termin** (28.09.2026) — damit sie überall gleich lauten.
    *
    * Der Newsletter entsteht im Worker, die Oberfläche im Browser; beide brauchen dieselbe Antwort
-   * auf „Premiere oder Wiederholung?" und „ist das das Finale?". Berechnet wird sie einmal im Bau
-   * (`shared/tv-signale.ts`), hier steht das Ergebnis.
+   * auf „Premiere oder Wiederholung?" und „ist das das Finale?". Berechnet wird sie einmal im Bau,
+   * die Einzelheiten stehen in `shared/tv-signale.ts` und `shared/kostenlos.ts`.
    *
    * `tvPremiere` **nur bei `platform: 'tv'`**: true = erstmals auf Deutsch, false = Wiederholung.
-   * Fehlt es, gibt es keine Aussage (kein Fernsehsender, kein Vergleich möglich).
    */
   tvPremiere?: boolean
   /** Letzte Folge einer Staffel mit belegter Folgenzahl (siehe `istStaffelfinale`). */
   staffelfinale?: boolean
   /** Erste Folge einer wöchentlichen Staffel (siehe `istStaffelstart`). */
   staffelstart?: boolean
+  /** An diesem Tag kostenlos schaubar — nur für Termine von heute gesetzt (`shared/kostenlos.ts`). */
+  kostenlos?: boolean
   name: string
   estimated?: boolean
   /**
@@ -790,10 +791,9 @@ export interface ReleaseEvent {
 /**
  * Was wir über einen Termin wissen, den der Anbieter nicht eingehalten hat.
  *
- * Die Felder ab `geprueftAm` beantworten die Frage, die jeder stellt, der
- * „nicht erschienen" liest: **und wann dann?** Wissen wir es nicht, soll
- * wenigstens dastehen, dass und wann wir nachgesehen haben, und wo (Daniel,
- * 13.09.2026: „sodass nutzer beruhigt sind und sich sicher sein können, das
+ * Die Felder ab `geprueftAm` beantworten die Frage, die jeder stellt, der „nicht erschienen" liest:
+ * **und wann dann?** Wissen wir es nicht, soll wenigstens dastehen, dass und wann wir nachgesehen
+ * haben, und wo (Daniel, 13.09.2026: „sodass nutzer beruhigt sind und sich sicher sein können, das
  * sie sich auf den kalender verlassen können").
  */
 export interface VermerkAusgeblieben {

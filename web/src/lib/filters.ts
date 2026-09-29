@@ -12,7 +12,7 @@ import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import type { Dataset } from './data.ts'
 import { sucheMitFundstellen, type Fundstelle, type FundstelleArt, type Suchfeld } from './search.ts'
 import { tvPremiere } from './tv-angabe.ts'
-import { kostenloseFolgen } from './kostenlos.ts'
+import { kostenloseFolgen } from '@shared/kostenlos.ts'
 import { synonymeFuer } from './data.ts'
 
 /**

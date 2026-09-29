@@ -2,7 +2,7 @@ import { type ReleaseEvent, type VermerkAusgeblieben, type Title, type Release, 
 import { formatDate, weekdayName } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { type ReactNode, useState, type ReactElement } from 'react'
-import { kostenloseFolgen, kostenlosEtikett } from '../../lib/kostenlos.ts'
+import { kostenloseFolgen, kostenlosEtikett } from '@shared/kostenlos.ts'
 import { Countdown, sendetageText } from './hilfen.tsx'
 import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
@@ -306,7 +306,7 @@ export function AntwortKasten({
     Block). Das kehrt die Entscheidung vom 03.09.2026 um, die Zugangsart nur an der Pille zu
     nennen — ausdrücklich gewünscht. Gegliedert wird nur, wenn es einen kostenlosen Weg gibt;
     sonst bleibt die Reihe wie sie war. Ob „kostenlos" oder „teilweise kostenlos":
-    `lib/kostenlos.ts`, verglichen mit den deutschen Folgen (laufend: den erschienenen; ohne
+    `shared/kostenlos.ts`, verglichen mit den deutschen Folgen (laufend: den erschienenen; ohne
     Gesamtzahl: den meisten belegten eines Anbieters — Beyblade X: Disney+ 100, TOGGO 117).
   */
   const gruppeVon = (p: ReactNode) => pillenGruppen.get(String((p as ReactElement)?.key ?? '')) ?? 'sonst'

@@ -5,6 +5,13 @@
  * verfügbarkeit und anzahl der kostenlos schaubaren episoden im vergleich zum gesamt
  * bestand an existierenden folgen mit deutscher synchro").
  *
+ * **Das Etikett gehört auf die Karten nicht** — „kostenlos nur als Filter, kein Etikett auf Karten
+ * oder in der Datenbank" (derselbe Durchgang, 19.09.2026; so steht es in `web/src/lib/filters.ts`).
+ * Gebraucht wird die Rechnung an zwei Stellen: im Filter und — seit dem 29.09.2026 — im **Bau**,
+ * der damit einen Termin als „heute kostenlos schaubar" kennzeichnen kann (Newsletter-Abzeichen).
+ * Deshalb liegt sie hier und nicht mehr unter `web/`; sie rechnet mit der Berliner Uhr aus
+ * `shared/time.ts`.
+ *
  * Gezählt wird je kostenlosem Weg (`zugang: 'kostenlos'`):
  * - TOGGO: die Folgen, deren Fenster **jetzt** offen ist (`toggo`-Blöcke);
  * - ein einzelnes Video (YouTube `watch?v=` ohne Liste, `nurFolge`): eine Folge;
@@ -18,12 +25,17 @@
  * einmal, auch wenn zwei Anbieter sie führen. Nur ein Einzelvideo ohne Nummer zählt blind als eine
  * Folge — dort ist die Nummer unbekannt, aber die Menge ist es nicht.
  */
-import type { StreamLink, WatchLink } from '@shared/types.ts'
-import { jetztBerlin } from './toggo.ts'
+import type { StreamLink, WatchLink } from './types.ts'
+import { nowHhMm, todayIso } from './time.ts'
 
 export type Kostenlos = { frei?: number; unbekannt: boolean }
 
 const einVideo = (url: string) => /youtube\.com\/watch\?/.test(url) && !/[?&]list=/.test(url)
+
+/** Jetzt als „YYYY-MM-DDTHH:MM" in Berliner Ortszeit — dieselbe Form wie im Datensatz. */
+export function jetztBerlin(): string {
+  return `${todayIso()}T${nowHhMm()}`
+}
 
 /** Die Folgennummern eines Weges — `'eine'`, wenn es genau eine ist, deren Nummer wir nicht kennen. */
 function folgenFuer(w: Partial<WatchLink & StreamLink>, jetzt: string): number[] | 'eine' | undefined {

@@ -4,6 +4,7 @@ import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-
 import { readJson, log, warn } from '../lib/util.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
 import { todayIso } from '../../shared/time.ts'
+import { kostenloseFolgen } from '../../shared/kostenlos.ts'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { VOICES_DIR } from './grundlagen.ts'
 
@@ -86,7 +87,6 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
     }
     if (ausUrteil) log(`${ausUrteil} Weg(e) über das Urteil aus Stufe 3 belegt`)
   }
-
   /**
    * Gegenprobe, bevor irgendetwas geschrieben wird.
    *
@@ -154,9 +154,9 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
   /**
    * Die Verschobenen werden aufbewahrt, nicht weggeworfen.
    *
-   * `schreibeOhneSynchro` bekommt sie unten übergeben und trägt nach, wer nicht
-   * schon über den AniList-Katalog dorthin gelangt. Ohne diese Liste hing es vom
-   * Zufall ab, ob ein Titel hinter dem Toggle wieder auftaucht.
+   * `schreibeOhneSynchro` bekommt sie unten übergeben und trägt nach, wer nicht schon über den
+   * AniList-Katalog dorthin gelangt. Ohne diese Liste hing es vom Zufall ab, ob ein Titel hinter
+   * dem Toggle wieder auftaucht.
    */
   const verschoben: Title[] = []
   for (const id of [...titles.keys()]) {
@@ -179,5 +179,28 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
   }
   if (verschoben.length) log(`${verschoben.length} Titel hinter den Toggle verschoben: japanische Ausstrahlung steht noch aus`)
   schreibeTvAuskunft(events, releases, titles)
+  schreibeKostenlosAuskunft(events, titles)
   return { events, mitStimmen, verschoben }
+}
+
+/**
+ * **„Heute kostenlos" an den Termin schreiben** (29.09.2026, Daniel zum Newsletter: „heute
+ * kostenlos" als Abzeichen).
+ *
+ * Der Worker hat den Datensatz nicht — er sieht nur die Termine. Ob ein Titel gerade frei zu sehen
+ * ist, rechnet `shared/kostenlos.ts` (dieselbe Rechnung wie der Filter der Oberfläche). Geschrieben
+ * wird es **nur an Termine von heute**: Die offenen TOGGO-Fenster sind das, was *jetzt* offen ist;
+ * für einen Termin in drei Wochen wäre dieselbe Auskunft geraten.
+ */
+export function schreibeKostenlosAuskunft(events: ReleaseEvent[], titles: Map<number, Title>): void {
+  const heute = todayIso()
+  let frei = 0
+  for (const ev of events) {
+    if (ev.date !== heute) continue
+    const title = titles.get(ev.titleId)
+    if (!title || !kostenloseFolgen(title)) continue
+    ev.kostenlos = true
+    frei++
+  }
+  if (frei) log(`${frei} Termin(e) heute kostenlos schaubar`)
 }
