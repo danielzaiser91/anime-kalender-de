@@ -52,7 +52,7 @@ export function Header({
     if (sucheAuf) eingabe.current?.focus()
   }, [sucheAuf])
   const aktiv = bereichVon(view)
-  const feld = 'h-11 w-full rounded-full border border-ak-rand bg-ak-flaeche pr-4 pl-10 text-sm text-ak-text placeholder:text-ak-sehr-leise focus:border-ak-akzent focus:outline-none'
+  const feld = 'h-11 w-full rounded-full border border-ak-rand bg-ak-flaeche pr-9 pl-10 text-sm text-ak-text placeholder:text-ak-sehr-leise focus:border-ak-akzent focus:outline-none'
   return (
     <header className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
       <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6 lg:px-10">

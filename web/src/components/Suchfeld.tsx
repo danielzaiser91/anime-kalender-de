@@ -57,8 +57,13 @@ export function Suchfeld({
     translate('suche.unscharf'),
   ].join(' ')
 
+  /*
+    **Das Fragezeichen sitzt im Feld, rechts** (Daniel, 29.09.2026: „den icon rechts vom input ins
+    input (rechts) packen"). Der Platz dafür kommt aus dem rechten Innenabstand des Feldes — in der
+    Kopfleiste `pr-9` (die Breite des Zeichens plus Luft); ohne ihn läge es über dem Text.
+  */
   return (
-    <span className="flex items-center gap-1.5">
+    <span className="relative flex w-full items-center">
       <input
         ref={eingabe}
         type="search"
@@ -68,7 +73,9 @@ export function Suchfeld({
         aria-label={platzhalter}
         className={className}
       />
-      <Fragezeichen text={felder} />
+      <span className="absolute right-2 flex items-center">
+        <Fragezeichen text={felder} />
+      </span>
     </span>
   )
 }

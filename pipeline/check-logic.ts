@@ -6015,6 +6015,19 @@ pruefe(
       unscharf.includes('Sweot'),
     unscharf,
   )
+  /*
+    **Das Fragezeichen sitzt im Suchfeld, rechts** (Daniel, 29.09.2026: „den icon rechts vom input
+    ins input (rechts) packen"). Zwei Hälften, die zusammengehören: die absolute Lage im Feld und
+    der Platz, den das Feld dafür lässt — fehlt einer von beiden, liegt das Zeichen über dem Text.
+  */
+  const suchfeldQuelle = readFileSync('web/src/components/Suchfeld.tsx', 'utf8')
+  const headerQuelle = readFileSync('web/src/components/Header.tsx', 'utf8')
+  pruefe(
+    'das Fragezeichen sitzt im Feld rechts',
+    /relative flex w-full items-center[\s\S]{0,600}?absolute right-2[\s\S]{0,200}?<Fragezeichen/.test(suchfeldQuelle),
+    'die absolute Lage im Feld fehlt',
+  )
+  pruefe('… und das Feld lässt rechts Platz dafür', /\bpr-9\b/.test(headerQuelle), 'pr-9 fehlt im Feld')
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */
