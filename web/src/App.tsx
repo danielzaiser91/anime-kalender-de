@@ -169,7 +169,7 @@ export default function App() {
     return undefined
   }, [route.release, route.title, data])
 
-  const setFilters = (filters: FilterState) => navigate({ filters })
+  const setFilters = (filters: FilterState) => navigate({ filters: { ...filters, search: route.filters.search } })
   const setView = (view: ViewId) => navigate({ view, release: undefined, title: undefined })
   /* Gesucht wird in Kalender und Datenbank; von anderen Seiten aus führt die Suche in die Datenbank. */
   const setSuche = (search: string) =>

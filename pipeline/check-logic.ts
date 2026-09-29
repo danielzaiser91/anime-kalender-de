@@ -6046,6 +6046,22 @@ pruefe(
     headerQuelle.includes('text-amber-400') && headerQuelle.includes('text-indigo-500'),
     'Sonne und Einstellungen sahen gleich aus (Daniel, 29.09.2026)',
   )
+  /*
+    **„zurücksetzen" räumt die Pillen, nicht die Adresse** (Daniel, 29.09.2026). Die drei
+    Zurücksetzen-Knöpfe (Pillenreihe, Kalender, Filterfeld) rufen alle `setFilters` — dort steht die
+    Regel, die die Suche stehen lässt. Geleert wird sie nur über das Suchfeld (`setSuche`).
+  */
+  const appQuelle = readFileSync('web/src/App.tsx', 'utf8')
+  pruefe(
+    'ein Filterwechsel lässt die Suche in der Adresse stehen',
+    /const setFilters = \(filters: FilterState\) => navigate\(\{ filters: \{ \.\.\.filters, search: route\.filters\.search \} \}\)/.test(appQuelle),
+    'der Zurücksetzen-Knopf würde den Suchbegriff mitnehmen',
+  )
+  pruefe(
+    'und das Leeren der Suche geht nicht durch diese Tür',
+    /const setSuche = \(search: string\) =>/.test(appQuelle) &&
+      !/setFilters\(\{ \.\.\.route\.filters, search/.test(appQuelle),
+  )
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */

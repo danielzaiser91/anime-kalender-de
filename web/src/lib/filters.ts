@@ -126,6 +126,15 @@ const emptyLists = (): FilterLists => ({
   keywords: [],
 })
 
+/**
+ * **Der leere Filter — alles aus, auch die Suche.**
+ *
+ * **Wer das zurücksetzt, nimmt die Suche aus** (Daniel, 29.09.2026: „zurücksetzen klick soll den
+ * querystring nicht zurücksetzen"): Der Suchbegriff steht in der Adresse, die Filter sind Pillen.
+ * Wer eine geteilte Adresse öffnet und dann die Pillen zurücksetzt, soll seinen Suchbegriff nicht
+ * verlieren. Deshalb rettet `setFilters` in `App.tsx` die Suche bei **jedem** Filterwechsel — hier
+ * bleibt der leere Wert stehen, weil er für Vergleiche gebraucht wird.
+ */
 export const EMPTY_FILTERS: FilterState = {
   ...emptyLists(),
   excluded: emptyLists(),
