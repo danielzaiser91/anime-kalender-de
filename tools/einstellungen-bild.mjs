@@ -60,11 +60,22 @@ const pruefe = (was, ok, zusatz) => {
   if (!ok) fehler.push(was)
 }
 
-/** Die Zahl aus „N Anime mit belegter deutscher Synchro" bzw. der Trefferzeile. */
+/**
+ * **Die Titelzahl aus der Trefferzeile — die Summe.**
+ *
+ * Seit dem 22.09.2026 steht dort bei geladenen westlichen Titeln „**N** Anime und **M** westliche
+ * Serien mit belegter deutscher Synchro". Wer nur die erste Zahl liest, misst genau die, die sich
+ * **nicht** ändert: Die westlichen sind in `N` schon abgezogen. Deshalb die Summe aus beiden —
+ * der Schalter bewegt dann `N` und `M` und die Summe fällt um die westlichen (29.09.2026, der
+ * Prüflauf war seit dem 22.09. rot, ohne dass es jemandem auffiel).
+ */
 async function titelzahl() {
   return seite.evaluate(() => {
-    const m = document.body.innerText.match(/([\d.]+)\s+(?:Anime|Titel)/)
-    return m ? Number(m[1].replace(/\./g, '')) : 0
+    const text = document.body.innerText
+    const m = text.match(/([\d.]+)\s+(?:Anime|Titel)(?:\s+und\s+([\d.]+)\s+westliche Serien)?/)
+    if (!m) return 0
+    const zahl = (s) => Number(String(s ?? '').replace(/\./g, ''))
+    return zahl(m[1]) + zahl(m[2])
   })
 }
 
