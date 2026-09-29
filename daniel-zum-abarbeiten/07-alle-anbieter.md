@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-09-29 · **2 offene Verweise** in **2 Zeilen**.
+Stand 2026-09-29 · **0 offene Verweise** in **0 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,17 +33,11 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Prime Video](07-primevideo.md) | 1 |
-| [Disney+](07-disneyplus.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2025-07-15 | Attack on Titan | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GZJ7KH73) |
-| 2 | 2023-10-24 | The God of High School | [Hauptserie](https://www.disneyplus.com/browse/entity-71bcb11f-763c-4609-8965-540eaf7fa795) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
-- **Disney+:** Disney+ hat keine öffentliche Schnittstelle; die Sprachwahl steht nur im Player.
-- **Prime Video:** Prime Video nennt die Tonspuren erst auf der Produktseite, und die ist ohne Anmeldung unvollständig.

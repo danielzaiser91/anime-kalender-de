@@ -1,12 +1,5 @@
 # Prime Video: was noch zu prüfen ist
 
-Stand 2026-09-29 · **1 offene Verweise** in **1 Zeilen**.
+Stand 2026-09-29 · **nichts offen**.
 
-Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
-Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
-
-**Warum dieser Anbieter unsicher ist:** Prime Video nennt die Tonspuren erst auf der Produktseite, und die ist ohne Anmeldung unvollständig.
-
-| # | Datum | Reihe | Noch zu bestätigen |
-|---|---|---|---|
-| 1 | 2025-07-15 | Attack on Titan | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GZJ7KH73) |
+Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**.
