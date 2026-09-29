@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import type { DiscAusgabe, Release, StreamLink, Title } from '@shared/types.ts'
-import { bereicheKurz, dubBild, dubGrenze, dubLuecken, folgenOhneAnbieter } from '@shared/dub-grenze.ts'
+import type { DiscAusgabe, Release, Title } from '@shared/types.ts'
+import { folgenOhneAnbieter } from '@shared/dub-grenze.ts'
 import { releaseStatus, bereicheMitTermin } from '@shared/logic.ts'
 import { addDays, formatDate, todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -32,6 +32,7 @@ import { jetztBerlin } from '../lib/toggo.ts'
 import { tvAngabe } from '../lib/tv-angabe.ts'
 import { KEYWORD_PREVIEW } from './detail/hilfen.tsx'
 import { folgenAuskunft } from './detail/folgen-angabe.ts'
+import { dubZeilenVon } from './detail/dub-zeilen.ts'
 import { DiscEinzelListe } from './detail/pillen.tsx'
 import { jpAngabe, KinoBanner } from './detail/kino.tsx'
 import { VoiceCast, AehnlicheTitel } from './detail/weitere.tsx'
@@ -581,30 +582,7 @@ export function DetailPanel({
    * welche der Anbieter gar nicht führt. Deckt ein Weg alles auf Deutsch ab, sagt das
    * Häkchen daneben schon alles — dann bleibt der Hinweis leer.
    */
-  const dubZeilen = (s: { dubRanges?: StreamLink['dubRanges'] }): string[] => {
-    const bild = dubBild(s.dubRanges, title?.episodes)
-    if (!bild?.deutsch.length || (!bild.ohneTon.length && !bild.nichtImAngebot.length)) {
-      const grenze = dubGrenze(s.dubRanges)
-      return [
-        dubLuecken(s.dubRanges) ? t('detail.dubLueckenTitel') : '',
-        grenze
-          ? t(grenze.schluessel === 'detail.dubUntil' ? 'detail.dubUntilTitel' : 'detail.dubFromTitel', {
-              n: grenze.n,
-            })
-          : '',
-      ].filter(Boolean)
-    }
-    return [
-      title?.episodes
-        ? t('detail.dubKopfVon', { n: bild.deutscheFolgen, m: title.episodes })
-        : t('detail.dubKopf', { n: bild.deutscheFolgen }),
-      bereicheKurz(bild.deutsch),
-      bild.ohneTon.length ? t('detail.dubOhneTonZeile', { bereiche: bereicheKurz(bild.ohneTon) }) : '',
-      bild.nichtImAngebot.length
-        ? t('detail.dubNichtImAngebot', { bereiche: bereicheKurz(bild.nichtImAngebot) })
-        : '',
-    ].filter(Boolean)
-  }
+  const dubZeilen = dubZeilenVon({ title, t })
   /* Die Folgenangabe kommt aus `detail/folgen-angabe.ts` (Zerlegung, 29.09.2026) — einmal gebunden. */
   const folgenAngabeFuer = folgenAuskunft({ releases, title, t, releaseJePlattform, today })
 
