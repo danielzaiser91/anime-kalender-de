@@ -52,7 +52,8 @@ ein Mensch ohnehin auf dem Bildschirm hat, und meldet es mit einem Klick:
 - **Prime Video**: die Tonspuren stehen im Quelltext. Ein Seitenaufruf trägt eine ganze Staffel
   statt einer Folge, und die Erweiterung holt die weiteren Folgenabschnitte selbst nach. Sie
   erkennt außerdem, ob ein Titel im Abo läuft, gekauft werden muss oder beides.
-- **Disney+**: noch nicht angebunden. Bauweise wie bei Netflix, Aufwand etwa eine Stunde.
+- **Disney+**: angebunden (4.24.0). Der Playback-Aufruf liest die acht Tonspuren ohne
+  Wiedergabe; „▶ alle durchgehen" läuft die sichtbare Liste Titel für Titel ab.
 
 Die JustWatch-GraphQL-Schnittstelle wäre eine weitere Möglichkeit, ist aber inoffiziell und in
 den Nutzungsbedingungen ein Graubereich — bewusst nicht angebunden. aniverse.de ist von hier aus
@@ -100,9 +101,7 @@ Zeitaufwand und dem, was jede Aufgabe löst.
 
 ## Offene Kästchen
 
-- [ ] Disney+ in die Erweiterung aufnehmen (Bauweise wie Netflix, ~1 h)
-- [ ] 202 Amazon-Suchadressen kennzeichnen — sie behaupten „Mit Abo", dahinter liegt eine Suche
-- [ ] `zugang`-Spalte in der Prüfungstabelle des Workers (D1-API verweigert derzeit den Zugriff)
+keine.
 
 ## Erledigt
 
@@ -118,3 +117,6 @@ Zeitaufwand und dem, was jede Aufgabe löst.
 - [x] Wachhund gegen stumm gewordene Quellen
 - [x] Browser-Erweiterung für Netflix und Prime Video
 - [x] Crunchyroll über den **deutschen** Katalog statt den US-Katalog
+- [x] Disney+ in die Erweiterung aufnehmen — 4.24.0; der erste echte Durchgang über „▶ alle durchgehen" steht bei Daniel aus
+- [x] 202 Amazon-Suchadressen kennzeichnen — Migration 015 setzt sie auf `unbekannt`, der Bau repariert sie; keine Suchadresse mehr im Datensatz (0 in `titles.json`, nachgezählt 29.09.2026)
+- [x] `zugang`-Spalte in der Prüfungstabelle des Workers — Migration 015 (`ALTER TABLE pruefung ADD COLUMN zugang TEXT`), der Worker schreibt sie in `pruefung-speichern.ts`
