@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-09-28. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-09-29. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-76 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+75 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -16,11 +16,10 @@ Stand: 2026-09-28. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-09-29, 2026-09 (Monat) | netflix | ✅ zugesagt | [Neuer Netflix-Trailer zur »LEGO One Piece«-Miniserie](https://www.anime2you.de/news/1043281/netflix-lego-one-piece-neuer-trailer/) |
 | 2026-09 (Monat) | netflix | – unklar | [Netflix: Alle Anime-Neuzugänge im September 2026](https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/) |
 | 2026-09 (Monat) | crunchyroll | ✅ zugesagt | [Deutsche Synchro von Teil 2 der vierten »Re:ZERO«-Staffel startet später](https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/) |
-| 2026-09-28 | ? | – unklar | [AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis](https://www.anime2you.de/news/1054098/animoon-higurashi-gou-sonderangebot/) |
-| 2026-09-28 | ? | – unklar | [Bis zu 87 % Rabatt: Neue Anime-Aktion im AKIBA PASS SHOP gestartet](https://www.anime2you.de/news/1053915/akiba-pass-shop-september-2026-rabattaktion/) |
-| 2026-09-28 | netflix | – unklar | [Netflix nimmt ersten »Demon Slayer: Infinity Castle«-Film ins Programm](https://www.anime2you.de/news/1049975/demon-slayer-infinity-castle-bald-auf-netflix/) |
 | 2026-09-29 | netflix | – unklar | [Netflix-Termin des dritten »Mononoke«-Films + Trailer](https://www.anime2you.de/news/1042775/dritter-mononoke-film-netflix-termin/) |
+| 2026-09-30 | ? | – unklar | [AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an](https://www.anime2you.de/news/1054668/akiba-pass-tv-zwei-herbst-2026-simulcasts/) |
 | 2026-09-30 | netflix | – unklar | [Netflix entfernt acht Anime-Titel aus seinem Programm](https://www.anime2you.de/news/1045817/netflix-entfernt-quintuplets-und-mehr/) |
+| 2026-10 (Monat) | adn | – unklar | [ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an](https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/) |
 | 2026-10 (Monat) | disc | – unklar | [Anime-Neuheiten im Oktober 2026 auf DVD und Blu-ray](https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/) |
 | 2026-10-27, 2026-10 (Monat) | kino | – unklar | [In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm](https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/) |
 | 2026-10 (Monat) | netflix | – unklar | [Netflix: Alle Anime-Neuzugänge im Oktober 2026](https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/) |
@@ -48,46 +47,47 @@ Stand: 2026-09-28. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11 (Monat) | ? | – unklar | [Limitierte Steelcase-Edition von »Good Luck Girl!« vorbestellbar](https://www.anime2you.de/news/1048260/good-luck-girl-steelcase-edition-vorbestellbar/) |
 | 2026-11 (Monat) | crunchyroll, disc | – unklar | [Blu-ray-Termin der zweiten Staffel von »As a Reincarnated Aristocrat«](https://www.anime2you.de/news/1046924/as-a-reincarnated-aristocrat-staffel-2-disc-termin/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [»A Silent Voice« erscheint als Steelbook-Edition auf Blu-ray](https://www.anime2you.de/news/1044326/a-silent-voice-steelbook-edition/) |
+| 2026-11-20, 2026-11 (Monat) | crunchyroll, disc | – unklar | [Termin der vierten Blu-ray-Box von »Dragon Ball Z« + Design](https://www.anime2you.de/news/1044034/dragon-ball-z-box-4-termin/) |
 
-… und 36 weitere.
+… und 35 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 6 |
-| adn-catalog | 7.0 Tage her | 117 |
-| anilist-voices | 7.0 Tage her | 0 |
-| anime-offline-database | 7.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 36 |
-| anisearch | 2.1 Tage her | 3187 |
-| anisearch-folgen | 7.0 Tage her | 2623 |
-| ann-voices | 7.0 Tage her | 8876 |
-| cartoons | 2.1 Tage her | 2 |
-| cinestar | 7.0 Tage her | 1 |
-| cr-einzelwerke | 5.0 Tage her | 0 |
-| cr-filmbloecke | 5.0 Tage her | 0 |
+| adn-catalog | 0.9 Tage her | 117 |
+| anilist-voices | 0.9 Tage her | 0 |
+| anime-offline-database | 0.9 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 34 |
+| anisearch | 0.9 Tage her | 60 |
+| anisearch-folgen | 0.9 Tage her | 117 |
+| ann-voices | 0.9 Tage her | 8876 |
+| cartoons | 1.0 Tage her | 2 |
+| cinestar | 0.9 Tage her | 1 |
+| cr-einzelwerke | 5.9 Tage her | 0 |
+| cr-filmbloecke | 5.9 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 18 |
-| crunchyroll-dub | 0.0 Tage her | 1100 |
+| crunchyroll-dub | 0.9 Tage her | 1107 |
 | crunchyroll-neu | 0.0 Tage her | 82 |
-| crunchyroll-offene | 7.0 Tage her | 0 |
-| fsk | 7.0 Tage her | 3 |
-| justwatch-audio | 5.0 Tage her | 0 |
-| kinoheld | 7.0 Tage her | 1 |
-| link-check | 7.0 Tage her | 295 |
-| motn | 26.1 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 82 |
-| rohfolgen | 0.0 Tage her | 165 |
-| rtlplus-folgen | 7.0 Tage her | 1 |
-| tmdb-folgen | 7.0 Tage her | 851 |
-| tmdb-kino | 7.0 Tage her | 4 |
-| tmdb-titles | 5.0 Tage her | 1 |
+| crunchyroll-offene | 0.9 Tage her | 5 |
+| fsk | 0.9 Tage her | 4 |
+| justwatch-audio | 6.0 Tage her | 0 |
+| kinoheld | 0.9 Tage her | 0 |
+| link-check | 0.9 Tage her | 400 |
+| motn | 27.1 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 6 |
+| rohfolgen | 0.4 Tage her | 0 |
+| rtlplus-folgen | 0.9 Tage her | 2 |
+| tmdb-folgen | 0.9 Tage her | 858 |
+| tmdb-kino | 0.9 Tage her | 4 |
+| tmdb-titles | 0.9 Tage her | 400 |
 | toggo | 0.0 Tage her | 25 |
-| trailer | 2.1 Tage her | 1 |
-| tv-de | 0.4 Tage her | 35 |
-| tv-programm | 0.2 Tage her | 287 |
+| trailer | 1.0 Tage her | 0 |
+| tv-de | 0.4 Tage her | 33 |
+| tv-programm | 0.1 Tage her | 295 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 7.0 Tage her | 4742 |
-| wikidata-titel | 12.1 Tage her | 0 |
+| wikidata-imdb | 0.9 Tage her | 4740 |
+| wikidata-titel | 0.9 Tage her | 26 |
 | wikipedia-folgen | 0.0 Tage her | 7 |
-| youtube-check | 4.9 Tage her | 514 |
+| youtube-check | 0.9 Tage her | 1 |
