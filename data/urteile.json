@@ -65011,12 +65011,6 @@
     "art": "gemessen",
     "tag": "2026-09-29"
   },
-  "150672|primevideo|12": {
-    "urteil": "unbekannt",
-    "art": "gemessen",
-    "tag": "2026-09-29",
-    "grund": "kanal-ohne-abo"
-  },
   "159309|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
@@ -65079,5 +65073,10 @@
     "art": "gemessen",
     "tag": "2026-09-29",
     "grund": "kanal-ohne-abo"
+  },
+  "199|netflix|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-29"
   }
 }

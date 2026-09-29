@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-29T20:32:18.553Z",
+ "erzeugtAm": "2026-09-29T20:59:38.927Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -13,8 +13,7 @@
    "ziele": [
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVZYJVGK",
-     "titel": "Akame ga Kill: Schwerter der Assassinen (Akame ga Kill!)",
-     "seit": "2026-09-27"
+     "titel": "Akame ga Kill: Schwerter der Assassinen (Akame ga Kill!)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GFPBT6FG",
@@ -22,23 +21,19 @@
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
-     "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2)",
-     "seit": "2026-09-24"
+     "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GDGLLYLS",
-     "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)",
-     "seit": "2026-09-24"
+     "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0F5HDQBTM",
-     "titel": "There’s No Freaking Way I’ll Be Your Lover! Unless… (There's No Freaking Way I'll Be Your Lover! Unless…)",
-     "seit": "2026-09-27"
+     "titel": "There’s No Freaking Way I’ll Be Your Lover! Unless… (There's No Freaking Way I'll Be Your Lover! Unless…)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FTW7GP47",
-     "titel": "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing",
-     "seit": "2026-09-27"
+     "titel": "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing"
     }
    ],
    "naechster": "Akame ga Kill: Schwerter der Assassinen (Akame ga Kill!)"
@@ -46,29 +41,22 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 369,
+   "gemeldet": 370,
    "gesamt": 377,
-   "offen": 8,
+   "offen": 7,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/60023642",
+   "ziel": "https://www.netflix.com/title/80135674",
    "ziele": [
     {
-     "url": "https://www.netflix.com/title/60023642",
-     "titel": "Chihiros Reise ins Zauberland",
-     "seit": "2026-09-29"
-    },
-    {
      "url": "https://www.netflix.com/title/80135674",
-     "titel": "My Hero Academia",
-     "seit": "2026-09-24"
+     "titel": "My Hero Academia"
     },
     {
      "url": "https://www.netflix.com/title/81788312",
-     "titel": "The Dangers in My Heart",
-     "seit": "2026-09-27"
+     "titel": "The Dangers in My Heart"
     }
    ],
-   "naechster": "Chihiros Reise ins Zauberland"
+   "naechster": "My Hero Academia"
   },
   {
    "name": "Disney+",
@@ -81,8 +69,7 @@
    "ziele": [
     {
      "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
-     "titel": "Bleach: Thousand-Year Blood War",
-     "seit": "2026-09-27"
+     "titel": "Bleach: Thousand-Year Blood War"
     }
    ],
    "naechster": "Bleach: Thousand-Year Blood War"
