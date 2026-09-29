@@ -12,7 +12,7 @@
  * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { adressIndex, folgenDerMeldung, meldungGrund, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import { adressIndex, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -36,6 +36,9 @@ interface RohMeldung {
   /** Die Staffelstruktur des Anbieters, roh als JSON — für den Folgenzahl-Riegel der Zuordnung. */
   staffeln: string | null
   folgen: number | null
+  /** Der Anbieter-Name der Seite — die letzte Zuordnung, wenn die Adresse unbekannt ist. */
+  titel: string | null
+  serientitel: string | null
   teil_von: number | null
   teil_bis: number | null
   titel_id: number | null
@@ -157,10 +160,12 @@ async function main() {
         jpStart: t.jpStart,
         format: t.format,
       }))
+  /* Die letzte Zuordnung, wenn die Adresse unbekannt ist: der Name der Seite (wie im Einleser). */
+  const nachName = nameIndex(titelAlle)
   const verworfen: Record<string, number> = {}
   /* Eine Meldung ohne die Felder aus Migration 034 trägt nur `befund`. */
   for (const roh of meldungen) {
-    const m = { ...roh, titel_id: titelDerMeldung(roh, nachAdresse, staffelKandidaten) }
+    const m = { ...roh, titel_id: titelDerMeldung(roh, nachAdresse, staffelKandidaten, nachName) }
     if (!m.titel_id) zaehleOhneTitel(roh, nachAdresse)
     const vorhanden = m.vorhanden ?? (m.befund === 'weg' ? 'nein' : m.befund ? 'ja' : null)
     const tonDe = m.ton_de ?? (m.befund === 'dub' ? 'ja' : m.befund === 'kein_dub' ? 'nein' : 'unbekannt')

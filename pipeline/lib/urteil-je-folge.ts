@@ -249,6 +249,28 @@ export function staffelTreffer(
 }
 
 /**
+ * **Eine Adresse unbekannte Meldung über ihren Namen zuordnen** — wie der Einleser
+ * (`fetch-pruefungen.ts`, Zeile 599–649): Der Anbieter-Name (`serientitel`, sonst `titel`) muss
+ * **exakt** auf genau einen unserer Titel passen. Ein Name ist eine Ähnlichkeit, kein Beleg
+ * (Daniel, 23.08.2026: „ein Name ist eine Ähnlichkeit, kein Beleg") — deshalb nichts Ungefähres,
+ * kein Anfangstreffer, nur der eine exakte.
+ */
+export function nameIndex(
+  titel: { id: number; titleDe?: string; titleEn?: string; titleRomaji?: string }[],
+): (name: string) => number[] | undefined {
+  const nachName = new Map<string, Set<number>>()
+  for (const t of titel)
+    for (const n of [t.titleDe, t.titleEn, t.titleRomaji]) {
+      const k = n ? titelSchluessel(n) : ''
+      if (k) (nachName.get(k) ?? nachName.set(k, new Set()).get(k)!).add(t.id)
+    }
+  return (name) => {
+    const ids = nachName.get(titelSchluessel(name))
+    return ids ? [...ids] : undefined
+  }
+}
+
+/**
  * **Eine Meldung ohne Titel über ihre Adresse zuordnen** — wie der Einleser (`fetch-pruefungen.ts`),
  * aber nur eindeutig: Die Adresse gehört genau einem unserer Titel, und die Meldung nennt keine
  * spätere Staffel (eine Serienseite führt oft mehrere, bei uns hängt nur eine daran). Vor dem
@@ -257,18 +279,34 @@ export function staffelTreffer(
  *
  * Trägt die Adresse **mehrere** Titel, entscheidet die gemeldete Staffel (`staffelTreffer`), sofern
  * der Aufrufer die Kandidaten mitgibt — die bewusste Regel für spätere Staffeln bleibt davor.
+ *
+ * Ist die Adresse **gar nicht bekannt**, entscheidet der Name (`nameIndex`) — dieselbe Reihenfolge
+ * wie im Einleser. Gemessen am 29.09.2026 trugen 665 der 763 solchen Meldungen einen Serientitel,
+ * der genau einen unserer Titel exakt trifft.
  */
 export function titelDerMeldung(
-  m: { titel_id: number | null; url: string; staffel?: number | null; staffeln?: string | null; folgen?: number | null },
+  m: {
+    titel_id: number | null
+    url: string
+    staffel?: number | null
+    staffeln?: string | null
+    folgen?: number | null
+    titel?: string | null
+    serientitel?: string | null
+  },
   nachAdresse: (url: string) => number[] | undefined,
   kandidaten?: (ids: number[]) => StaffelKandidat[],
+  nachName?: (name: string) => number[] | undefined,
 ): number | null {
   if (m.titel_id) return m.titel_id
   if (m.staffel != null && m.staffel !== 1) return null
   const ids = nachAdresse(m.url)
-  if (!ids?.length) return null
-  if (ids.length === 1) return ids[0]!
-  return kandidaten ? staffelTreffer(m, kandidaten(ids)) : null
+  if (ids?.length === 1) return ids[0]!
+  if (ids && ids.length > 1) return kandidaten ? staffelTreffer(m, kandidaten(ids)) : null
+  const name = m.serientitel ?? m.titel
+  if (!name || !nachName) return null
+  const treffer = nachName(name)
+  return treffer?.length === 1 ? treffer[0]! : null
 }
 
 /**

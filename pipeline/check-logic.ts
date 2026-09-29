@@ -132,7 +132,7 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung } from './lib/meldungen.ts'
-import { adressIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
+import { adressIndex, nameIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
 import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
@@ -7051,6 +7051,22 @@ pruefe(
   pruefe('Staffel: die bewusste Regel für spätere Staffeln bleibt', titelDerMeldung({ titel_id: null, url: 'serie', staffel: 2 }, idxMehr, kandidaten) === null)
   pruefe('Staffel: der eindeutige Adressweg bleibt', titelDerMeldung({ titel_id: null, url: 'eins', staffel: 1 }, idxMehr, kandidaten) === 7)
   pruefe('Staffel: das Verfahren selbst trägt auch spätere Staffeln', staffelTreffer({ staffel: 2 }, kandidaten([1, 2, 3])) === 2)
+
+  /*
+    **Unbekannte Adresse über den Namen** (29.09.2026): Wie im Einleser entscheidet der Anbieter-Name,
+    aber nur exakt und nur, wenn er auf genau einen Titel trifft.
+  */
+  const namen = (name: string) => (name === 'X' ? [5] : name === 'Doppelt' ? [6, 7] : undefined)
+  pruefe('Name: unbekannte Adresse, exakter Name → zugeordnet', titelDerMeldung({ titel_id: null, url: 'fremd', staffel: 1, serientitel: 'X' }, idxMehr, kandidaten, namen) === 5)
+  pruefe('Name: derselbe Name auf zwei Titeln → offen', titelDerMeldung({ titel_id: null, url: 'fremd', staffel: 1, titel: 'Doppelt' }, idxMehr, kandidaten, namen) === null)
+  pruefe('Name: die Adresse schlägt den Namen', titelDerMeldung({ titel_id: null, url: 'eins', staffel: 1, serientitel: 'X' }, idxMehr, kandidaten, namen) === 7)
+  pruefe('Name: ohne Name und ohne Adresse offen', titelDerMeldung({ titel_id: null, url: 'fremd', staffel: 1 }, idxMehr, kandidaten, namen) === null)
+  const echteNamen = nameIndex([
+    { id: 21, titleDe: 'Magi: The Labyrinth of Magic' },
+    { id: 22, titleEn: 'Monster' },
+  ])
+  pruefe('nameIndex: exakter Treffer', echteNamen('Monster')?.join() === '22')
+  pruefe('nameIndex: ein Anfangstreffer zählt nicht', echteNamen('Magi') === undefined)
   const index = adressIndex([
     { id: 11, titleDe: 'Cowboy Bebop', streams: [{ url: 'https://www.amazon.de/dp/B000' }] },
     { id: 12, titleEn: 'Monster' },
