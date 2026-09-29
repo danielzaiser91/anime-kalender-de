@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { DiscAusgabe, Release, Title } from '@shared/types.ts'
-import { folgenOhneAnbieter } from '@shared/dub-grenze.ts'
-import { releaseStatus, bereicheMitTermin } from '@shared/logic.ts'
+import { bereicheMitTermin } from '@shared/logic.ts'
 import { addDays, formatDate, todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember, Franchises } from '@shared/types.ts'
@@ -32,6 +31,7 @@ import { jetztBerlin } from '../lib/toggo.ts'
 import { tvAngabe } from '../lib/tv-angabe.ts'
 import { KEYWORD_PREVIEW } from './detail/hilfen.tsx'
 import { folgenAuskunft } from './detail/folgen-angabe.ts'
+import { lueckeOhneAnbieter } from './detail/folgen-ohne-anbieter.ts'
 import { dubZeilenVon } from './detail/dub-zeilen.ts'
 import { DiscEinzelListe } from './detail/pillen.tsx'
 import { jpAngabe, KinoBanner } from './detail/kino.tsx'
@@ -742,40 +742,11 @@ export function DetailPanel({
     return kuenftig[0] ?? vergangen[0]
   }, [releases, today])
 
-  /*
-    **Welche Folgen bei keinem bekannten Anbieter liegen.** Die Dai-DVD-Box enthält 1–75,
-    die Serie hat 100 Folgen; ohne diese Zeile blieb offen, wo 76–100 zu sehen sind
-    (Daniel, 16.09.2026). Gezählt werden **alle** Wege; einer ohne Bereiche — eine
-    aniSearch-Ausgabe, ein Stream mit „DE ?" — kann die fehlenden Folgen enthalten und
-    gilt deshalb als vollständig. So stand „76–100 bei keinem Anbieter", während
-    aniSearch vier Blu-ray-Boxen und ein Komplettset führte (Daniel, mit Bild).
-  */
-  const folgenLuecke = useMemo(() => {
-    if (!title || title.format === 'MOVIE') return null
-    /*
-      Ein Anbieter mit laufendem deutschen Wochenplan führt jede erschienene Folge — sein
-      Dub-Bestand hinkt nur hinterher. Black Torch: Bestand „1–10", Folge 11 seit dem
-      12.09. im Plan, und im Kasten stand „Für Folgen 11 kennen wir keinen deutschen
-      Anbieter" (Stichprobe 17.09.2026). Ein solcher Weg gilt wie einer ohne Bereiche.
-    */
-    const laufendBei = (plattform: string): boolean => {
-      const r = releaseJePlattform.get(plattform)
-      return r?.releaseType === 'weekly' && releaseStatus(r, today) === 'airing'
-    }
-    const wege = [
-      ...(title.streams ?? []).map((s) => (s.dub === true && !laufendBei(s.platform) ? s.dubRanges : undefined)),
-      ...(title.watchLinks ?? []).map((w) => w.dubRanges),
-    ]
-    /*
-      Bei einer laufenden Serie zählt nur, was erschienen ist — „Folgen 11–12 führt kein
-      Anbieter" stand über „Vom Landei zum Schwertheiligen II", deren Folge 11 heute kommt
-      (Daniel, 16.09.2026).
-    */
-    /* Im Teilweise-Zustand sagt der Kasten es schon („Für die übrigen fehlt uns eine Angabe"). */
-    if (antwort?.art === 'teilweise') return null
-    const gesamt = antwort?.art === 'laeuft' ? antwort.raus : title.episodes
-    return folgenOhneAnbieter(wege, gesamt)
-  }, [title, antwort, releaseJePlattform, today])
+  /* Welche Folgen bei keinem bekannten Anbieter liegen — Begründung in `lueckeOhneAnbieter`. */
+  const folgenLuecke = useMemo(
+    () => lueckeOhneAnbieter({ title, antwort, releaseJePlattform, today }),
+    [title, antwort, releaseJePlattform, today],
+  )
   const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
 
   /** Die vier Werkangaben der Unterzeile — leer heißt: kein Kasten. */
