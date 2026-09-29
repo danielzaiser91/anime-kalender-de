@@ -133,7 +133,12 @@ const VERLAUF_ANTWORT = {
 }
 const PILLEN = {
   offen: 1,
-  anbieter: [{ name: 'Amazon', plattform: 'primevideo', titel: 1, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] }],
+  anbieter: [
+    /* `liste` ist die ganze offene Liste — die Zahl der Pille. `titel` ist sie minus gemeldet. */
+    { name: 'Amazon', plattform: 'primevideo', liste: 9, titel: 7, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] },
+    { name: 'Netflix', plattform: 'netflix', liste: 0, titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
+    { name: 'Disney+', plattform: 'disneyplus', liste: 0, titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
+  ],
 }
 
 const WORKER_URL = 'https://newsletter.animekalender.workers.dev/lauf*'
@@ -304,9 +309,36 @@ pruefe('die Kacheln bleiben stehen', ausfall.kacheln === 18, String(ausfall.kach
 pruefe('die Kopfzeile nennt den alten Stand', /^Stand von \d{2}:\d{2}$/.test(ausfall.kopf.trim()), ausfall.kopf)
 pruefe('die Fußzeile sagt, dass der Dienst nicht antwortet',
   ausfall.stand.includes('der Dienst antwortet nicht'), ausfall.stand)
-/* Die Pillen sind Daniels Arbeitsliste — sie kommen aus derselben Datenbank und müssen bleiben. */
-pruefe('die Prüfliste bleibt stehen', ausfall.pillen === 1, String(ausfall.pillen))
+/*
+  **Die Pillen sind Daniels Arbeitsliste — sie kommen aus derselben Datenbank und müssen bleiben**
+  (29.09.2026: „mach in status app die pills immer sichtbar, also amazon, suchadressen, netflix,
+  disney+ … wenn 0, dann zeig dort auch 0, aber 0 klick führt dann auf die homepage des anbieters").
+*/
+pruefe('die Prüfliste bleibt stehen — jetzt alle Anbieter, auch mit 0', ausfall.pillen === 4, String(ausfall.pillen))
 pruefe('und ist als alter Stand gekennzeichnet', /Stand von vorhin/.test(ausfall.pillenTitel), ausfall.pillenTitel)
+const pillenForm = await seite.evaluate(() =>
+  [...document.querySelectorAll('#pruefliste .pille')].map((p) => ({
+    text: p.textContent.replace(/\s+/g, ' ').trim(),
+    klasse: p.className,
+    href: p.getAttribute('href') || '',
+  })),
+)
+pruefe(
+  'die vier sind Amazon, Suchadressen, Netflix, Disney+',
+  ['Amazon', 'Suchadressen', 'Netflix', 'Disney+'].every((n) => pillenForm.some((p) => p.text.startsWith(n))),
+  pillenForm.map((p) => p.text).join(' | '),
+)
+pruefe(
+  'die Zahl ist die offene Liste (`liste`), nicht der Abzug',
+  pillenForm.some((p) => /Amazon 9/.test(p.text)),
+  pillenForm.map((p) => p.text).join(' | '),
+)
+pruefe('ein Anbieter mit 0 zeigt die 0', pillenForm.some((p) => /Netflix 0/.test(p.text)), pillenForm.map((p) => p.text).join(' | '))
+pruefe(
+  'und führt auf die Anbieterseite',
+  pillenForm.some((p) => p.klasse.includes('fertig') && /netflix\.com\/browse/.test(p.href)),
+  pillenForm.filter((p) => p.klasse.includes('fertig')).map((p) => p.href).join(' | '),
+)
 await seite.screenshot({ path: path.join(WURZEL, 'docs', 'lauf-status-app-ausfall.png') })
 
 /* Und ohne gemerkten Stand: nur der Grund — ebenfalls lesbar. */

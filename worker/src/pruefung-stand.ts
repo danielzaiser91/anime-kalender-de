@@ -167,6 +167,7 @@ export async function berechnePruefstand({ env, antwort }: {
            * der nächste Datenbau sie einarbeitet (30.08.2026).
            */
           offen: Math.max(0, a.offen - schonGemeldet.size),
+          liste: (a.ziele ?? []).length,
           /** Adressen, die noch niemand gemeldet hat. */
           titel: offeneZiele.length,
           /** Was davon schon unterwegs ist. */
@@ -185,8 +186,7 @@ export async function berechnePruefstand({ env, antwort }: {
            * „wieso steht in status app oben keine klickbare pill?").
            */
           /*
-            Abgezogen wird, was schon gemeldet ist — sonst zählt die Anzeige
-            Arbeit mit, die längst getan ist.
+            Abgezogen wird, was schon gemeldet ist — sonst zählt die Anzeige Arbeit mit, die längst getan ist.
 
             Am 30.08.2026 stand in der Statusanzeige „58 Suchen", in der
             Erweiterung im selben Moment „122 von 176 offen" (Daniel: „wieso die
@@ -194,8 +194,7 @@ export async function berechnePruefstand({ env, antwort }: {
             Der Prüfstand rechnete die Suchaufträge selbst nach, statt die Liste
             zu zählen, die Daniel abarbeitet — und hier wurde nichts abgezogen.
 
-            Beide sind behoben. `suchAdressen` trägt die Liste, `suchOffen()` in
-            der Erweiterung macht dieselbe Rechnung.
+            Beide sind behoben — `suchAdressen` trägt die Liste, `suchOffen()` ebenso.
           */
           ohneSeite: a.suchAdressen
             ? a.suchAdressen.filter((u) => !schonGemeldet.has(u)).length
