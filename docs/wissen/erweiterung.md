@@ -2082,3 +2082,20 @@ Neu prüfen beide Meldestellen (Durchgang und Randprobe) inline, ob `stand.reihe
 ist: Nur dann werden `serientitel`, `staffeln` und `roh.reihe` übernommen — sonst leer statt falsch.
 Der Riegel steht inline statt in einem Helfer, weil `melder.js` sonst über die Codegestalt-Grenze
 wächst; `netflix-titel-fremde-seite.test.cjs` prüft seinen Wortlaut.
+
+### Nachtrag 4.24.6 (29.09.2026): Ein Film fiel durch den Durchgang
+
+Daniel ließ auf Netflix „▶ alle durchgehen" laufen und lud den Bericht. Die Spur zeigte für
+„Chihiros Reise ins Zauberland" (Netflix 60023642): `gesammelt staffeln: []`, dann „Titel fertig,
+gemeldet: 0" — der Durchgang tat auf der Filmseite **gar nichts** und hakte den Titel trotzdem ab.
+Der Knopf daneben („▶ 1 Folge prüfen") konnte ihn die ganze Zeit.
+
+Ursache: Der Durchgang gruppiert über `DURCHLAUF.alleFolgen` — die vom Leser gesammelten
+**Serienfolgen**. Ein Film hat keine Staffelliste; der Leser legt ihn nur in `DURCHLAUF.folgen`.
+Jetzt fällt der Durchgang auf `DURCHLAUF.folgen` zurück, wenn `alleFolgen` leer ist und dort genau
+ein Film steht. `netflix-film-durchgang.test.cjs`.
+
+**Noch offen (derselbe Bericht):** Die übrigen Titel wurden nur **teilweise** gemeldet (My Hero
+Academia 25, The Dangers in My Heart 12), und der Durchgang hakte sie trotzdem als „fertig" ab —
+weil eine Staffel ohne neue Meldung als geprüft gilt und die lokale Abhakliste dem Bestand
+vorausläuft. Das ist der nächste Schritt.

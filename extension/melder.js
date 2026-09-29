@@ -3119,7 +3119,7 @@ async function selbstStartenSchritt() {
   const zaehler = DURCHLAUF.mehrfach
   /* Ein Klick zwischen zwei Staffeln bricht ab — dort läuft kein Durchlauf, der es sähe. */
   if (zaehler.abbruch) return laufBeenden('abgebrochen')
-  for (const [seasonId, gruppe] of folgenJeStaffel(DURCHLAUF.alleFolgen ?? [])) {
+  for (const [seasonId, gruppe] of folgenJeStaffel(DURCHLAUF.alleFolgen?.length ? DURCHLAUF.alleFolgen : DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film ? DURCHLAUF.folgen : [])) {
     const schluessel = `${reihe}:g:${seasonId}`
     if (selbstStaffelnGeprueft.has(schluessel)) continue
     DURCHLAUF.folgen = gruppe
