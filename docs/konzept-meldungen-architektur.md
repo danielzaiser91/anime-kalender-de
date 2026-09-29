@@ -505,3 +505,25 @@ die Rohfolgen zuführen. Die 4.677 ohne Titel sind der größere Posten, aber ü
 02.09.2026); soweit ihre Adresse eindeutig war, sind sie im (2a)-Durchgang schon gehoben worden
 (2.803 eindeutig, 1.389 mehrdeutig, 1.615 ohne Treffer — die beiden letzten Gruppen brauchen (2c)
 bzw. die Serienseiten-Regel).
+
+### Schritt 3 (1c) gemessen, 29.09.2026 — der Stand nach den Zuordnungen aus `status.md`
+
+Nach den beiden Zuordnungsverbesserungen vom 29.09.2026 (mehrdeutige Adresse über die Staffel,
+unbekannte Adresse über den Namen, 4.693 → 3.639 Meldungen ohne Titel) ist die Deckung der Handbelege
+durch das Urteil neu gezählt (`data/dub-confirmed.yaml` gegen die Schlüssel `titel|anbieter` aus
+`data/urteile.json`):
+
+| | Belege | mit Urteil | ohne |
+|---|---|---|---|
+| 27.09. (nach (2a)) | 2.049 | 928 (45 %) | 1.121 |
+| 29.09. (nach Aufgabe 1) | 2.836 | **2.108 (74 %)** | 728 |
+
+Der Belegbestand ist seither selbst gewachsen (neue Meldungen), die beiden Zahlen sind also nicht
+dieselbe Grundmenge; die Richtung ist trotzdem klar. Die 728 ohne Urteil: 483 `dub: true`, 146
+`available: false`, 90 `dub: false`, 9 ohne Sprachurteil — nach Plattform vor allem primevideo (278),
+netflix (195), youtube (97), crunchyroll (94).
+
+**Folge:** Die Vorbedingung für (3) — „erst bei voller Abdeckung schlägt das Urteil die eingelesenen
+Belege" — ist noch nicht erreicht. Die 26 Setzstellen bleiben stehen; der nächste begrenzte Schritt
+ist, die 483 `dub: true` ohne Urteil nach Herkunft zu trennen (alte Belege ohne Rohdaten → Prüfliste,
+wie am 27.09. entschieden) und die 146 `available: false` je Weg als Urteil zu prüfen.
