@@ -427,7 +427,12 @@ export function trifftUngefaehr(suchwoerter: string[], titelFelder: string[]): b
  * Zuerst die strenge Sicht (jedes Suchwort irgendwo im Feld), dann für die übrig gebliebenen Wörter
  * die unscharfe (Tippfehler). Höchstens vier Stellen: Ein Hinweis, der zehn nennt, erklärt nichts.
  */
-function fundstellenFuer(suchwoerter: string[], titelFelder: string[], genaueFelder: Suchfeld[]): Fundstelle[] {
+function fundstellenFuer(
+  suchwoerter: string[],
+  titelFelder: string[],
+  genaueFelder: Suchfeld[],
+  fueller: string[] = [],
+): Fundstelle[] {
   const raus: Fundstelle[] = []
   const alle: Suchfeld[] = [
     ...titelFelder.map((text) => ({ art: 'titel' as FundstelleArt, text })),
@@ -443,7 +448,23 @@ function fundstellenFuer(suchwoerter: string[], titelFelder: string[], genaueFel
         offen.delete(wortTeil)
       }
     }
-    if (!offen.size) return raus
+    if (!offen.size) break
+  }
+  /*
+    **Füllwörter zuletzt — und nur genau.** Sie entscheiden nicht, *ob* etwas trifft (16.09.2026),
+    sollen aber **sichtbar** sein: Daniel am 29.09.2026: „a in a Girl treffern ist nicht
+    gehighlighted". Seit sie für die Rangfolge zählen, gehören sie auch in die Fundstellen — sonst
+    bliebe im Namen blass, was den Treffer mitbegründet. Unscharf werden sie **nicht** gesucht:
+    „a" ≈ „e" wäre in jedem zweiten Titel ein Treffer.
+  */
+  for (const feld of alle) {
+    for (const wort of woerterOriginal(feld.text)) {
+      const nWort = normalize(wort)
+      for (const teil of fueller) {
+        if (!nWort.includes(teil)) continue
+        raus.push({ art: feld.art, feld: feld.text, wort, suchwort: teil, teil: fundstelleImWort(wort, teil) })
+      }
+    }
   }
   /* Unscharf: Was jetzt noch offen ist, hat nur ähnlich getroffen — das tragende Wort benennen. */
   for (const wortTeil of offen) {
@@ -454,7 +475,7 @@ function fundstellenFuer(suchwoerter: string[], titelFelder: string[], genaueFel
       break
     }
   }
-  return raus.slice(0, 4)
+  return raus.slice(0, 6)
 }
 
 export function sucheMitFundstellen<T>(
@@ -473,6 +494,8 @@ export function sucheMitFundstellen<T>(
   const alle = woerter(suchbegriff)
   const ohneFuell = alle.filter((w) => !FUELLWOERTER.has(w))
   const suchwoerter = ohneFuell.length ? ohneFuell : alle
+  /* Füllwörter nur, wenn es daneben Pflichtwörter gibt — sonst wären sie doppelt in der Liste. */
+  const fueller = ohneFuell.length ? alle.filter((w) => FUELLWOERTER.has(w)) : []
   if (!suchwoerter.length) return quelle.map((item) => ({ item, rang: 0, fundstellen: [] }))
   /*
     **Nach Treffergüte sortiert, und die ungefähre Stufe fragt, wenn kein Titel passt**
@@ -522,7 +545,7 @@ export function sucheMitFundstellen<T>(
       */
       .map((b) => {
         const felder = genau(b.item)
-        const fundstellen = fundstellenFuer(suchwoerter, titel(b.item), felder)
+        const fundstellen = fundstellenFuer(suchwoerter, titel(b.item), felder, fueller)
         const fehlend = Math.max(0, suchwoerter.length - fundstellen.filter((f) => !f.unscharf).length)
         const stellen = stellenVon(fundstellen, titel(b.item), felder, alle)
         const schluessel = trefferSchluessel(fundstellen, sichtbarerName?.(b.item), fehlend, stellen, suchwoerter, alle)

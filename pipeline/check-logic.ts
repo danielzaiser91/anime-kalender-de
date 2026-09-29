@@ -111,6 +111,7 @@ import { hostVon } from '../shared/quelle.ts'
 import { fundstelleHinweis, hervorhebungen } from '../web/src/components/Suchtreffer.tsx'
 import {
   schluesselVergleich,
+  sucheMitFundstellen,
   trefferPunkte,
   trefferSchluessel,
   zusammenPunkte,
@@ -6377,6 +6378,25 @@ pruefe(
   pruefe(
     'eine einzelne Suche bleibt unberührt',
     zusammenPunkte(new Map([['a', 0]]), ['a'], ['a']) === 0,
+  )
+  /*
+    **Das Füllwort wird hervorgehoben** (Daniel, 29.09.2026: „a in a Girl treffern ist nicht
+    gehighlighted"): Es entscheidet nicht über den Treffer, steht aber als Fundstelle dabei — sonst
+    bliebe im Namen blass, was den Treffer mitbegründet.
+  */
+  const macht = sucheMitFundstellen(
+    [{ name: 'Make a Girl' }],
+    'a girl',
+    () => [],
+    (i) => [i.name],
+    (i) => i.name,
+  )
+  const stellenVonMake = macht[0]?.fundstellen ?? []
+  pruefe(
+    'das Füllwort steht als Fundstelle dabei',
+    stellenVonMake.some((f) => f.suchwort === 'a' && f.teil === 'a') &&
+      stellenVonMake.some((f) => f.suchwort === 'girl'),
+    JSON.stringify(stellenVonMake),
   )
   /*
     **Bei Gruppierung ist der Reihenkopf der sichtbare Name** (Daniel, 29.09.2026: „es ist ein
