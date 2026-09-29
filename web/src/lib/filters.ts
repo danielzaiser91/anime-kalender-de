@@ -12,7 +12,7 @@ import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import type { Dataset } from './data.ts'
 import { sucheMitFundstellen, type Fundstelle, type FundstelleArt, type Suchfeld } from './search.ts'
 import { tvPremiere } from './tv-angabe.ts'
-import { anzeigeName } from '@shared/titles.ts'
+import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { kostenloseFolgen } from '@shared/kostenlos.ts'
 import { synonymeFuer } from './data.ts'
 
@@ -351,6 +351,8 @@ export function filterTitles(
   today: string,
   favorites: Set<number>,
   fundstellen?: Map<string, Fundstelle[]>,
+  /** Welcher Name auf der Karte steht — Träger der höchsten Trefferklasse (bei Gruppierung der Kopf). */
+  sichtbarerName?: (t: Title) => string,
 ): Title[] {
   const vorgefiltert = source.filter((t) => passtTitel(t, data, f, today, favorites))
   const gesucht = sucheMitFundstellen(
@@ -358,7 +360,7 @@ export function filterTitles(
     f.search,
     (t) => suchfelder(undefined, t),
     (t) => namen(t),
-    (t) => anzeigeName(t),
+    sichtbarerName ?? ((t) => anzeigeName(t)),
   )
   merkeFundstellen(gesucht, (t) => String(t.id), fundstellen)
   return gesucht.map((t) => t.item)
@@ -484,9 +486,35 @@ export function titelFuerAnsicht(
   f: FilterState,
   today: string,
   favorites: Set<number>,
+  /** Gruppiert die Ansicht die Staffeln? Dann ist der **Reihenkopf** der sichtbare Name. */
+  gruppiert = false,
 ): { liste: Title[]; fundstellen: Map<string, Fundstelle[]> } {
   const fundstellen = new Map<string, Fundstelle[]>()
-  return { liste: filterTitles(quelle, data, f, today, favorites, fundstellen), fundstellen }
+  const sichtbar = gruppiert ? reihenKopf(quelle) : (t: Title) => anzeigeName(t)
+  return { liste: filterTitles(quelle, data, f, today, favorites, fundstellen, sichtbar), fundstellen }
+}
+
+/**
+ * **Wer im Katalog als Reihe angezeigt wird** — für die Rangfolge der Suche (29.09.2026).
+ *
+ * Daniel mit Bild: „wieso taucht dieser erste treffer vor den anderen auf? es ist ein sekundär
+ * treffer (nicht im sichtbaren titel)". Auf der Karte stand „Haikyu!! Lev ist hier!", getroffen hatte
+ * die Suche „Haikyu!! Lev **Ken**zen" — ein *anderer* Titel derselben Reihe. Mit eingeschalteter
+ * Gruppierung zeigt die Karte den Reihenkopf, also muss die Rangfolge ihn auch messen; sonst gilt ein
+ * unsichtbarer Name als sichtbarer Treffer. Dieselbe Regel wie `groupByFranchise()`
+ * (`reihenVertreter` nach Ausstrahlung).
+ */
+export function reihenKopf(quelle: Title[]): (t: Title) => string {
+  const nachReihe = new Map<number, Title[]>()
+  for (const t of quelle) {
+    const k = t.franchiseId ?? t.id
+    const liste = nachReihe.get(k)
+    if (liste) liste.push(t)
+    else nachReihe.set(k, [t])
+  }
+  const kopf = new Map<number, Title>()
+  for (const [k, mitglieder] of nachReihe) kopf.set(k, reihenVertreter(mitglieder.slice().sort(nachAusstrahlung)))
+  return (t) => anzeigeName(kopf.get(t.franchiseId ?? t.id) ?? t)
 }
 
 export function toggleValue<T>(list: T[], value: T): T[] {

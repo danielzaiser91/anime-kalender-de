@@ -160,8 +160,8 @@ export default function App() {
     const basis = allTitles ?? data.titles
     const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
     const quelle = !cartoonsAus && cartoons ? [...mitOhne, ...cartoons] : mitOhne
-    return titelFuerAnsicht(quelle, data, route.filters, today, favorites)
-  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites])
+    return titelFuerAnsicht(quelle, data, route.filters, today, favorites, grouped)
+  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites, grouped])
 
   const openTitleId = useMemo(() => {
     if (route.title) return route.title

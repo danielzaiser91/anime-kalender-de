@@ -119,7 +119,7 @@ import {
 } from '../web/src/lib/search.ts'
 import { verweiseFuer } from '../web/src/components/detail/verweise.ts'
 import { zaehlText } from '../web/src/components/DatabaseView.tsx'
-import { activeFilterCount, EMPTY_FILTERS } from '../web/src/lib/filters.ts'
+import { activeFilterCount, EMPTY_FILTERS, reihenKopf } from '../web/src/lib/filters.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
@@ -6357,6 +6357,24 @@ pruefe(
   pruefe(
     'eine einzelne Suche bleibt unberührt',
     zusammenPunkte(new Map([['a', 0]]), ['a'], ['a']) === 0,
+  )
+  /*
+    **Bei Gruppierung ist der Reihenkopf der sichtbare Name** (Daniel, 29.09.2026: „es ist ein
+    sekundär treffer (nicht im sichtbaren titel) und entsprechend später zu kategorisieren"): Auf der
+    Karte stand „Haikyu!! Lev ist hier!", getroffen hatte „Haikyu!! Lev **Ken**zen" — ein anderer
+    Titel derselben Reihe.
+  */
+  const erste = { id: 1, franchiseId: 1, titleDe: 'Erste Staffel', jpYear: 2014 } as unknown as Title
+  const zweite = { id: 2, franchiseId: 1, titleDe: 'Zweite Staffel', jpYear: 2016 } as unknown as Title
+  const kopfName = reihenKopf([erste, zweite])
+  pruefe(
+    'mit Gruppierung nennen beide Teile den Reihenkopf',
+    kopfName(erste) === 'Erste Staffel' && kopfName(zweite) === 'Erste Staffel',
+    `${kopfName(erste)} / ${kopfName(zweite)}`,
+  )
+  pruefe(
+    'und die Ansicht sagt der Suche, ob gruppiert wird',
+    /titelFuerAnsicht\(quelle, data, route\.filters, today, favorites, grouped\)/.test(appQuelle),
   )
 }
 {
