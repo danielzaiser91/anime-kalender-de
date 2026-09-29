@@ -104,9 +104,16 @@ pruefe(
   lieber ein Ziel zu wenig zeigen als eins, das längst erledigt ist.
 */
 pruefe(
-  quelle.includes("SELECT DISTINCT plattform, url, staffel FROM pruefung WHERE url IS NOT NULL AND url != ''`,"),
+  quelle.includes("SELECT DISTINCT plattform, url, staffel, gemeldet_am FROM pruefung WHERE url IS NOT NULL AND url != ''`,"),
   'ohne Zeitstempel gilt weiterhin die alte, strengere Rechnung',
 )
+/*
+  29.09.2026: Eine Wiedervorlage ist erst erledigt, wenn eine Meldung **nach ihrem `seit`**
+  angekommen ist — nicht durch ihren alten Beleg (dann „7 statt 9") und nicht nie (dann App 9,
+  Erweiterung 0). Geprüft wird beides: die Frist und ihr Vergleich mit der jüngsten Meldung.
+*/
+pruefe(quelle.includes('if (z.seit) {'), 'eine Wiedervorlage hat ihre eigene Frist (`seit`)')
+pruefe(quelle.includes('am <= z.seit'), 'und erledigt sie erst durch eine Meldung danach')
 /* 22.09.2026: Ein Ziel mit offenen Staffeln ist erst erledigt, wenn jede gemeldet ist. */
 pruefe(
   quelle.includes('return !z.staffeln.every((nr) => gemeldet?.has(nr))'),

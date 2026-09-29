@@ -134,11 +134,10 @@ const VERLAUF_ANTWORT = {
 const PILLEN = {
   offen: 1,
   anbieter: [
-    /* `liste` ist die ganze offene Liste — die Zahl der Pille. `titel` ist sie minus gemeldet. */
-    { name: 'Amazon', plattform: 'primevideo', liste: 9, titel: 7, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] },
-    { name: 'Netflix', plattform: 'netflix', liste: 0, titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
-    /* Der Randfall: die Liste hat eine Zeile, `titel` hat sie schon abgezogen. */
-    { name: 'Disney+', plattform: 'disneyplus', liste: 1, titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
+    { name: 'Amazon', plattform: 'primevideo', titel: 9, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] },
+    { name: 'Netflix', plattform: 'netflix', titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
+    /* Eine Zeile mit Arbeit, aber ohne Aufteilung in Titel/Suchen. */
+    { name: 'Disney+', plattform: 'disneyplus', titel: 1, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/bleach', ziele: [] },
   ],
 }
 
@@ -330,13 +329,13 @@ pruefe(
   pillenForm.map((p) => p.text).join(' | '),
 )
 pruefe(
-  'die Zahl ist die offene Liste (`liste`), nicht der Abzug',
+  'die Zahl ist die offene Arbeit aus dem Stand (`titel` + `ohneSeite`)',
   pillenForm.some((p) => /Amazon 9/.test(p.text)),
   pillenForm.map((p) => p.text).join(' | '),
 )
 pruefe('ein Anbieter mit 0 zeigt die 0', pillenForm.some((p) => /Netflix 0/.test(p.text)), pillenForm.map((p) => p.text).join(' | '))
 pruefe(
-  'eine schon gemeldete Zeile bleibt als Liste sichtbar (kein leeres Etikett)',
+  'eine Zeile ohne Aufteilung zeigt trotzdem ihre Zahl',
   pillenForm.some((p) => /Disney\+ 1/.test(p.text)),
   pillenForm.map((p) => p.text).join(' | '),
 )

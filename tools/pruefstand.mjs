@@ -27,10 +27,23 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { verdachtsfaelle } from './verdacht.mjs'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
 const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
+
+/** Wann eine Wiedervorlage fällig wurde — je AniList-Kennung und Anbieter (`seit`). */
+const seitJeTitel = (() => {
+  const raus = new Map()
+  try {
+    for (const plattform of ['primevideo', 'netflix', 'disneyplus'])
+      for (const [id, v] of verdachtsfaelle(wurzel, plattform)) if (v?.seit) raus.set(`${id}|${plattform}`, String(v.seit))
+  } catch {
+    /* Ohne die Fälle gibt es keine Fristen. */
+  }
+  return raus
+})()
 
 /** Die Prüfliste laden, wie die Erweiterung sie sieht. */
 function listeLesen(datei, global) {
@@ -197,12 +210,7 @@ const stand = ANBIETER.map((a) => {
   */
   const ziele = liste
     .filter(([, wert]) => a.offene(wert) > 0)
-    /*
-      **Alle, nicht fünfundzwanzig** (14.09.2026). Seit die Erweiterungen ihr
-      „offen" aus diesen Zielen lesen, hieße eine Grenze: Eintrag 26 gilt dort
-      als erledigt. Die Datei bleibt trotzdem klein — ein Ziel sind rund
-      hundert Zeichen.
-    */
+    /* Alle Ziele, nicht 25 (14.09.2026) — die Erweiterung liest ihr „offen" daraus. */
     .map(([schluessel, wert]) => {
       /*
         **Die offenen Staffeln gehören ans Ziel** (22.09.2026). Der Worker strich ein Ziel, sobald
@@ -214,7 +222,12 @@ const stand = ANBIETER.map((a) => {
         wert?.laut === 'anbieter-gerechnet'
           ? [...new Set((wert.staffeln ?? []).filter((st) => st.offen && !st.film).map((st) => Number(st.nr)))].filter(Number.isFinite)
           : []
-      return { url: a.ziel(schluessel, wert), titel: wert?.titel ?? null, ...(wert?.erneut || wert?.wiedervorlage ? { wiedervorlage: true } : {}), ...(staffeln.length ? { staffeln } : {}) }
+      const seit = [...(wert?.eintraege ?? []), ...(wert?.staffeln ?? [])]
+        .map((e) => Number(e?.id))
+        .filter((id) => Number.isFinite(id))
+        .map((id) => seitJeTitel.get(`${id}|${a.plattform}`))
+        .find(Boolean)
+      return { url: a.ziel(schluessel, wert), titel: wert?.titel ?? null, ...(seit ? { seit } : {}), ...(staffeln.length ? { staffeln } : {}) }
     })
     .filter((z) => z.url)
 
