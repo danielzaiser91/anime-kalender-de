@@ -79,17 +79,19 @@ export function FundstellenZeichen({ text, schluessel }: { text: string; schlues
   const rest = treffer ? versteckte(treffer, text) : []
   if (!rest.length) return null
   const hinweis = [
-    translate('suche.fundstelleTitel'),
     ...rest.map((f) => erklaerung(f)),
     rest.some((f) => f.unscharf) ? translate('suche.unscharfHinweis') : '',
   ]
     .filter(Boolean)
     .join(' · ')
+  /* Der Kopf braucht kein Trennzeichen vor dem ersten Eintrag — „gefunden über: · Titel" las sich
+     wie ein fehlender Eintrag (am 29.09.2026 auf der Seite gesehen). */
+  const ganzerText = `${translate('suche.fundstelleTitel')} ${hinweis}`
   return (
-    <Tooltip text={hinweis} seite="oben">
+    <Tooltip text={ganzerText} seite="oben">
       <span
         role="img"
-        aria-label={hinweis}
+        aria-label={ganzerText}
         className="ml-1 inline-flex size-3.5 flex-none items-center justify-center rounded-full bg-sky-500/80 text-[9px] font-bold leading-none text-white align-middle"
       >
         ?
