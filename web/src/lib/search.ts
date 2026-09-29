@@ -33,7 +33,111 @@
  * Ein verrutschtes Genre-Wort träfe sonst hunderte Titel auf einmal.
  */
 
-/** Vereinheitlicht Groß-/Kleinschreibung und deutsche Umlaute. */
+/**
+ * Woher ein Treffer kommt — die Art bestimmt die Beschriftung im Hinweis.
+ *
+ * Daniel am 29.09.2026: „if search matched not the title, but the alternative title (not visible on
+ * the result card) then it should display a small icon … to explain which part of it lead to it
+ * being part of the search result … show the attribute that matched". Und: es gilt für **alle**
+ * Felder, die die Suche ansieht — welche das sind, ist nirgends sichtbar (siehe `SUCHFELD_ARTEN`).
+ */
+export type FundstelleArt = 'titel' | 'synonym' | 'studio' | 'genre' | 'keyword' | 'release' | 'verlag' | 'ausgabe'
+
+/** Ein beschriftetes Feld, wie es die Suche durchsieht. */
+export interface Suchfeld {
+  art: FundstelleArt
+  text: string
+}
+
+/**
+ * **Warum dieser Treffer dasteht — und wo.**
+ *
+ * `wort` ist die Stelle im Original (Groß-/Kleinschreibung und Umlaute wie dort), `teil` die enge
+ * Fundstelle darin, wenn sie sich genau benennen lässt. Bei der unscharfen Stufe bleibt `teil`
+ * leer: Dort stimmen die Buchstaben ja gerade **nicht** überein („pice" gegen „Piece"), deshalb
+ * wird das tragende Wort hervorgehoben und im Hinweis erklärt (siehe `hebeBuchstaben`).
+ */
+export interface Fundstelle {
+  art: FundstelleArt
+  /** Das Feld im Original, z. B. „One Piece" als Romaji-Titel. */
+  feld: string
+  /** Das Wort im Feld, das den Treffer trägt. */
+  wort: string
+  /** Die genaue Fundstelle im Wort — nur bei der strengen Stufe. */
+  teil?: string
+  /** Die unscharfe Stufe hat getroffen (Tippfehler verziehen). */
+  unscharf?: boolean
+}
+
+/**
+ * **Welche Felder durchsucht werden — an einer Stelle.**
+ *
+ * Die Suche benutzt diese Liste (über die Aufrufer in `filters.ts`), und das Info-Symbol am
+ * Suchfeld zeigt sie an. Damit kann sie nicht auseinanderlaufen; `check:logic` hält beide
+ * gegeneinander. Daniel am 29.09.2026: „welche felder durchsucht werden nicht ersichtlich ist und
+ * gemäß der projekt regel alles offen zu kommunizieren, muss hier in der suche nahe dem such-input
+ * ein icon erscheinen, das on hover oder touch erklärt über welche felder gesucht wird (+ fuzzy
+ * search)".
+ */
+export const SUCHFELD_ARTEN: { art: FundstelleArt; label: string }[] = [
+  { art: 'titel', label: 'Titel (deutsch, englisch, Romaji, Originalschrift)' },
+  { art: 'synonym', label: 'Weitere Namen (aus aniSearch)' },
+  { art: 'studio', label: 'Studio' },
+  { art: 'genre', label: 'Genre' },
+  { art: 'keyword', label: 'Schlagwort' },
+  { art: 'release', label: 'Name der Ausgabe' },
+  { art: 'verlag', label: 'Verlag' },
+  { art: 'ausgabe', label: 'Ausgabe (z. B. „Box 2")' },
+]
+
+/** Die Beschriftung einer Fundstelle für den Hinweis. */
+export function fundstelleLabel(art: FundstelleArt): string {
+  return SUCHFELD_ARTEN.find((s) => s.art === art)?.label ?? art
+}
+
+/**
+ * **Die Buchstaben, die wirklich übereinstimmen** — für den Hinweis bei unscharfen Treffern.
+ *
+ * Bei „pice" gegen „Piece" stimmt kein zusammenhängender Teil; die längste gemeinsame
+ * Buchstabenfolge (Reihenfolge, nicht Nachbarschaft) zeigt, was der Leser wiedererkennt:
+ * p, i, e, c, e. Wird im Hinweis als eigene Zeile gezeigt, damit das hervorgehobene **Wort** nicht
+ * als Behauptung dasteht, es stimme buchstabengenau.
+ */
+export function gemeinsameBuchstaben(eingabe: string, wort: string): string {
+  const a = normalize(eingabe)
+  const b = normalize(wort)
+  let i = 0
+  let j = 0
+  let treffer = ''
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) {
+      treffer += b[j]
+      i++
+      j++
+    } else if (a.length - i > b.length - j) {
+      i++
+    } else {
+      j++
+    }
+  }
+  return treffer
+}
+
+/** Ein Suchwort im Wort finden — mit Rücksicht auf ß (aus „ß" wird beim Normalisieren „ss"). */
+function fundstelleImWort(wort: string, suchwort: string): string | undefined {
+  const nWort = normalize(wort)
+  const i = nWort.indexOf(suchwort)
+  if (i < 0) return undefined
+  /* Nur wenn das Normalisieren nichts verlängert hat, stimmen die Stellen überein. */
+  if (nWort.length === wort.length) return wort.slice(i, i + suchwort.length)
+  return undefined
+}
+
+/** Die Wörter eines Feldes im **Original** — gleich geschnitten wie `woerter()`. */
+function woerterOriginal(feld: string): string[] {
+  return feld.split(/[^\p{L}\p{N}]+/u).filter(Boolean)
+}
+
 export function normalize(value: string): string {
   return value
     .toLowerCase()
@@ -160,20 +264,47 @@ export function trifftUngefaehr(suchwoerter: string[], titelFelder: string[]): b
 }
 
 /**
- * Filtert eine Liste in zwei Stufen.
+ * **Die Fundstellen eines Treffers** — welche Felder ihn tragen, und wo darin.
  *
- * `genau` liefert die Felder für die strenge Stufe, `titel` die für die
- * nachsichtige. Bleibt die strenge Stufe leer, wird die nachsichtige gefragt —
- * sonst nicht.
+ * Zuerst die strenge Sicht (jedes Suchwort irgendwo im Feld), dann für die übrig gebliebenen Wörter
+ * die unscharfe (Tippfehler). Höchstens vier Stellen: Ein Hinweis, der zehn nennt, erklärt nichts.
  */
-const FUELLWOERTER = new Set(['von', 'der', 'die', 'das', 'des', 'dem', 'den', 'und', 'ein', 'eine', 'the', 'of', 'and', 'a', 'an', 'no'])
+function fundstellenFuer(suchwoerter: string[], titelFelder: string[], genaueFelder: Suchfeld[]): Fundstelle[] {
+  const raus: Fundstelle[] = []
+  const alle: Suchfeld[] = [
+    ...titelFelder.map((text) => ({ art: 'titel' as FundstelleArt, text })),
+    ...genaueFelder,
+  ]
+  const offen = new Set(suchwoerter)
+  for (const feld of alle) {
+    for (const wort of woerterOriginal(feld.text)) {
+      const nWort = normalize(wort)
+      for (const wortTeil of [...offen]) {
+        if (!nWort.includes(wortTeil)) continue
+        raus.push({ art: feld.art, feld: feld.text, wort, teil: fundstelleImWort(wort, wortTeil) })
+        offen.delete(wortTeil)
+      }
+    }
+    if (!offen.size) return raus
+  }
+  /* Unscharf: Was jetzt noch offen ist, hat nur ähnlich getroffen — das tragende Wort benennen. */
+  for (const wortTeil of offen) {
+    for (const feld of alle) {
+      const wort = woerterOriginal(feld.text).find((w) => wortTrifftUngefaehr(wortTeil, [normalize(w)]))
+      if (!wort) continue
+      raus.push({ art: feld.art, feld: feld.text, wort, unscharf: true })
+      break
+    }
+  }
+  return raus.slice(0, 4)
+}
 
-export function sucheZweistufig<T>(
+export function sucheMitFundstellen<T>(
   quelle: T[],
   suchbegriff: string,
-  genau: (item: T) => string[],
+  genau: (item: T) => Suchfeld[],
   titel: (item: T) => string[],
-): T[] {
+): { item: T; rang: number; fundstellen: Fundstelle[] }[] {
   /*
     **Füllwörter entscheiden nichts.** „abenteuer von dai" fand „Dais Abenteuer" nicht,
     weil „von" dort nicht vorkommt (Daniel, 16.09.2026). Sie fallen weg, solange etwas
@@ -182,7 +313,7 @@ export function sucheZweistufig<T>(
   const alle = woerter(suchbegriff)
   const ohneFuell = alle.filter((w) => !FUELLWOERTER.has(w))
   const suchwoerter = ohneFuell.length ? ohneFuell : alle
-  if (!suchwoerter.length) return quelle
+  if (!suchwoerter.length) return quelle.map((item) => ({ item, rang: 0, fundstellen: [] }))
   /*
     **Nach Treffergüte sortiert, und die ungefähre Stufe fragt, wenn kein Titel passt**
     (18.09.2026, gemessen an 22 typischen Eingaben: Platz 1 richtig 16 → 21).
@@ -210,19 +341,49 @@ export function sucheZweistufig<T>(
   for (const item of quelle) {
     const namen = titel(item).map(normalize)
     const namenKompakt = kompaktZaehlt ? namen.map(kompakt) : []
+    const alleFelder = genau(item)
+    const genauTexte = alleFelder.map((f) => f.text)
     if (namen.some((n) => n === ganz) || namenKompakt.some((n) => n === ganzKompakt)) bewertet.push({ item, rang: 0, abstand: 0 })
     else if (namen.some((n) => n.startsWith(ganz)) || namenKompakt.some((n) => n.startsWith(ganzKompakt)))
       bewertet.push({ item, rang: 1, abstand: 0 })
     else if (trifftGenau(suchwoerter, titel(item))) bewertet.push({ item, rang: 2, abstand: keinWortanfang(suchwoerter, titel(item)) * 1000 + kuerzesterName(suchwoerter, titel(item)) })
     else if (trifftUngefaehr(suchwoerter, titel(item))) bewertet.push({ item, rang: 3, abstand: tippAbstand(suchwoerter, titel(item)) })
-    else if (trifftGenau(suchwoerter, genau(item))) bewertet.push({ item, rang: 4, abstand: 0 })
+    else if (trifftGenau(suchwoerter, genauTexte)) bewertet.push({ item, rang: 4, abstand: 0 })
   }
   const titelPasst = bewertet.some((b) => b.rang <= 2)
   return bewertet
     .filter((b) => !titelPasst || b.rang !== 3)
     .sort((a, b) => a.rang - b.rang || a.abstand - b.abstand)
-    .map((b) => b.item)
+    /*
+      **Die Fundstellen erst für die Behaltenen** — nicht für alle 2.753 Titel bei jedem
+      Tastendruck. Sie sind die Antwort auf „warum steht das hier", und die braucht nur, was
+      auch angezeigt wird.
+    */
+    .map((b) => ({
+      item: b.item,
+      rang: b.rang,
+      fundstellen: fundstellenFuer(suchwoerter, titel(b.item), genau(b.item)),
+    }))
 }
+
+/**
+ * Filtert eine Liste in zwei Stufen — die Kurzfassung ohne Fundstellen.
+ *
+ * `genau` liefert die Felder für die strenge Stufe, `titel` die für die
+ * nachsichtige. Bleibt die strenge Stufe leer, wird die nachsichtige gefragt —
+ * sonst nicht.
+ */
+const FUELLWOERTER = new Set(['von', 'der', 'die', 'das', 'des', 'dem', 'den', 'und', 'ein', 'eine', 'the', 'of', 'and', 'a', 'an', 'no'])
+
+export function sucheZweistufig<T>(
+  quelle: T[],
+  suchbegriff: string,
+  genau: (item: T) => string[],
+  titel: (item: T) => string[],
+): T[] {
+  return sucheMitFundstellen(quelle, suchbegriff, (item) => genau(item).map((text) => ({ art: 'titel' as FundstelleArt, text })), titel).map((t) => t.item)
+}
+
 
 /** Wie viele Suchwörter nur mitten in einem Wort stehen — „dai" in „Samurai" zählt schwächer als „Dai". */
 function keinWortanfang(suchwoerter: string[], titelFelder: string[]): number {

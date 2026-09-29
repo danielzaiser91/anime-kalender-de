@@ -10,7 +10,7 @@ import type {
 } from '@shared/types.ts'
 import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import type { Dataset } from './data.ts'
-import { sucheZweistufig } from './search.ts'
+import { sucheMitFundstellen, type Fundstelle, type FundstelleArt, type Suchfeld } from './search.ts'
 import { kostenloseFolgen } from './kostenlos.ts'
 import { synonymeFuer } from './data.ts'
 
@@ -220,17 +220,28 @@ function namen(title: Title | undefined): string[] {
   ].filter((v): v is string => !!v)
 }
 
-/** Alles, was die strenge Suchstufe durchsuchen darf. */
-function suchfelder(release: Release | undefined, title: Title | undefined): string[] {
-  return [
-    release?.name,
-    release?.publisher,
-    release?.edition,
-    ...namen(title),
-    ...(title?.studios ?? []),
-    ...(title?.genres ?? []),
-    ...(title?.keywords ?? []),
-  ].filter((v): v is string => !!v)
+/**
+ * **Alles, was die strenge Suchstufe durchsuchen darf — mit Beschriftung.**
+ *
+ * Die Art (`art`) ist die Auskunft, die der Hinweis an der Trefferkarte nennt: „Treffer über
+ * Genre". Deshalb steht hier nicht mehr nur der Text, sondern auch, wozu er gehört — und die
+ * Liste deckt sich mit `SUCHFELD_ARTEN` in `search.ts`, die das Info-Symbol am Suchfeld zeigt
+ * (Zusicherung in `check:logic`).
+ */
+function suchfelder(release: Release | undefined, title: Title | undefined): Suchfeld[] {
+  const raus: Suchfeld[] = []
+  const dazu = (art: FundstelleArt, text?: string | null) => {
+    if (text) raus.push({ art, text })
+  }
+  dazu('release', release?.name)
+  dazu('verlag', release?.publisher)
+  dazu('ausgabe', release?.edition)
+  for (const n of [title?.titleDe, title?.titleEn, title?.titleRomaji, title?.titleNative]) dazu('titel', n)
+  for (const s of title ? synonymeFuer(title.id) : []) dazu('synonym', s)
+  for (const s of title?.studios ?? []) dazu('studio', s)
+  for (const g of title?.genres ?? []) dazu('genre', g)
+  for (const k of title?.keywords ?? []) dazu('keyword', k)
+  return raus
 }
 
 /** Prüft einen einzelnen Release gegen die Filter. */
@@ -274,24 +285,34 @@ export function releaseMatches(
   return true
 }
 
+/**
+ * Die Termine zum Filter — `fundstellen` nimmt auf, **warum** ein Treffer dasteht (29.09.2026).
+ *
+ * Der Aufrufer reicht eine leere Map herein und bekommt sie gefüllt zurück; die Trefferkarten
+ * lesen daraus, was hervorgehoben und was im Hinweis erklärt wird. Ohne Map ändert sich nichts.
+ */
 export function filterEvents(
   data: Dataset,
   f: FilterState,
   today: string,
   favorites: Set<number>,
+  fundstellen?: Map<string, Fundstelle[]>,
 ): ReleaseEvent[] {
   const passend = data.releases
     .filter((r) => !f.favoritesOnly || favorites.has(r.titleId))
     .filter((r) => releaseMatches(r, data.titleById.get(r.titleId), f, today))
 
-  const gesucht = sucheZweistufig(
+  const gesucht = sucheMitFundstellen(
     passend,
     f.search,
     (r) => suchfelder(r, data.titleById.get(r.titleId)),
     (r) => [r.name, ...namen(data.titleById.get(r.titleId))],
   )
+  for (const t of gesucht) {
+    if (t.fundstellen.length) fundstellen?.set(t.item.slug, t.fundstellen)
+  }
 
-  const allowed = new Set(gesucht.map((r) => r.slug))
+  const allowed = new Set(gesucht.map((t) => t.item.slug))
   return data.events.filter((e) => allowed.has(e.releaseSlug))
 }
 
@@ -302,6 +323,7 @@ export function filterTitles(
   f: FilterState,
   today: string,
   favorites: Set<number>,
+  fundstellen?: Map<string, Fundstelle[]>,
 ): Title[] {
   const vorgefiltert = source.filter((t) => {
     if (f.favoritesOnly && !favorites.has(t.id)) return false
@@ -393,12 +415,16 @@ export function filterTitles(
     return true
   })
 
-  return sucheZweistufig(
+  const gesucht = sucheMitFundstellen(
     vorgefiltert,
     f.search,
     (t) => suchfelder(undefined, t),
     (t) => namen(t),
   )
+  for (const t of gesucht) {
+    if (t.fundstellen.length) fundstellen?.set(String(t.item.id), t.fundstellen)
+  }
+  return gesucht.map((t) => t.item)
 }
 
 export function toggleValue<T>(list: T[], value: T): T[] {
