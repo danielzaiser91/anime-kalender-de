@@ -16,6 +16,7 @@
  */
 import type { Title } from '../../shared/types.ts'
 import { vollstaendigDeutsch } from './crunchyroll-vollstaendig.ts'
+import { serienMitDeutsch } from './cr-dub-katalog.ts'
 
 /**
  * Eine Folge, für die die Content-API eine deutsche Fassung führt.
@@ -173,61 +174,45 @@ export interface Urteil {
  *
  * ## Warum „keine deutsche Tonspur auf der Seite" **kein** Fall mehr ist
  *
- * Bis zum 15.08.2026 stand hier ein vierter, vorgeblich sicherster Fall: Fehlt
- * „Deutsch" in der Audio-Zeile, bekamen alle Einträge dieser Adresse `dub:
- * false` — mit der Begründung, es werde ja „nur widerlegt, nie behauptet".
+ * Bis zum 15.08.2026 bekam jede Adresse ohne „Deutsch" in der Audio-Zeile ein `dub: false` — „es werde
+ * ja nur widerlegt, nie behauptet". **Falsch:** Crunchyroll zeigt nicht allen dasselbe (nicht
+ * angemeldet, angemeldet ohne Abo, mit Abo sind drei Ansichten, Daniel 15.08.2026). Unser Scraper sieht
+ * als Gast nicht, *was es gibt*, sondern *was ein Gast darf*. Der Lauf vom 12./13.08.2026 fand auf nur
+ * 151 von 917 Seiten Deutsch und führte „Frieren" als Seite ohne Tonspur.
  *
- * Diese Begründung ist falsch, und zwar aus einem Grund, der beim Schreiben
- * übersehen wurde: **Crunchyroll zeigt nicht allen dasselbe.** Nicht angemeldet,
- * angemeldet ohne Abo und angemeldet mit Abo sind drei verschiedene Ansichten
- * (Daniel, 15.08.2026). Unser Scraper ruft ohne Anmeldung ab und sieht damit
- * nicht, *was es gibt*, sondern *was ein Gast sehen darf*. Ein fehlendes
- * „Deutsch" ist unter dieser Bedingung keine Widerlegung, sondern eine
- * Nichtauskunft — und `dub: false` daraus zu machen ist genau die Sorte
- * Falschangabe, gegen die dieses Projekt gebaut ist.
- *
- * Der Messwert passte dazu: Der Lauf vom 12./13.08.2026 fand auf nur **151 von
- * 917** Seiten überhaupt Deutsch und führte „Frieren: Beyond Journey's End" als
- * Seite ohne deutsche Tonspur.
- *
- * Ein `false` kann deshalb nur aus der **Folgenliste** kommen (Fall 1 und 3),
- * aus dem **deutschen Katalog** (siehe unten) — oder von einem Menschen aus
- * `data/dub-confirmed.yaml`.
- *
- * ## Was der deutsche Katalog daran ändert
- *
- * Seit dem 22.08.2026 liest der Abruf über ein Zugangspaket von einer deutschen
- * Leitung (`lib/crunchyroll-api.ts`). Damit steht in `versions` das, was ein
- * Besucher in Deutschland zu sehen bekommt — und ein fehlendes `de-DE` ist dann
- * keine Nichtauskunft mehr, sondern eine Aussage. „Fairy Tail Final Season"
- * trägt dort `ja-JP` und sonst nichts, während die ersten beiden Blöcke `de-DE`
- * führen; genau so hat Daniel es von Hand gesehen.
- *
- * Das gilt **ausschließlich** für `katalog === 'de'`. Alles andere — der alte
- * Bestand, der Browser-Weg, ein Lauf aus einer dritten Region — bleibt bei der
- * Vorsichtsregel, und zwar auch dann, wenn es „bestimmt auch deutsch gemeint"
- * ist. Die Trennlinie ist der Beleg, nicht die Wahrscheinlichkeit.
+ * Ein `false` kommt deshalb nur aus der **Folgenliste** (Fall 1 und 3), aus dem **deutschen Katalog** —
+ * seit dem 22.08.2026 liest der Abruf über ein Zugangspaket von einer deutschen Leitung
+ * (`lib/crunchyroll-api.ts`), ein fehlendes `de-DE` ist dort eine Aussage — oder von einem Menschen aus
+ * `data/dub-confirmed.yaml`. Das gilt **ausschließlich** für `katalog === 'de'`; alles andere bleibt bei
+ * der Vorsichtsregel, auch wenn es „bestimmt deutsch gemeint" ist. Die Trennlinie ist der Beleg.
  */
+/**
+ * **Serie ohne deutsches Angebot** — die Auskunft „Nein", mit zwei Ausnahmen.
+ *
+ * (1) Aus dem US-Katalog wird hier nie ein Nein (dort fehlt `de-DE` auch bei Serien, die in
+ * Deutschland vollständig synchronisiert vorliegen). (2) Führt die **Serien-Tonspurliste** des
+ * deutschen Katalogs `de-DE`, gibt es die deutsche Fassung — nur in einer anderen Staffel
+ * (`…DEDE` statt `…JAJP`; 29.09.2026 an „Dragon Ball Z: Resurrection 'F'", siehe `cr-dub-katalog.ts`).
+ */
+function ohneDeutschesAngebot(serie: CrSerie, unsere: Title[], bloecke: number): Urteil[] {
+  if (serie.katalog !== 'de') return []
+  if (serie.seriesId && serienMitDeutsch().has(serie.seriesId)) {
+    return unsere.map((t) => ({ titleId: t.id, dub: true, grund: 'Serien-Tonspurliste des deutschen Katalogs führt de-DE' }))
+  }
+  return unsere.map((t) => ({
+    titleId: t.id,
+    dub: false,
+    grund: `deutscher Katalog führt in ${bloecke} Blöcken keine deutsche Fassung`,
+  }))
+}
+
 export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
   if (!unsere.length) return []
 
   const staffeln = serie.staffeln ?? []
   if (!staffeln.length) return []
 
-  if (!serie.deutschImAngebot) {
-    /**
-     * Aus dem US-Katalog wird hier nie ein Nein.
-     *
-     * Der Grund steht oben: Dort fehlt `de-DE` auch bei Serien, die in
-     * Deutschland vollständig synchronisiert vorliegen.
-     */
-    if (serie.katalog !== 'de') return []
-    return unsere.map((t) => ({
-      titleId: t.id,
-      dub: false,
-      grund: `deutscher Katalog führt in ${staffeln.length} Blöcken keine deutsche Fassung`,
-    }))
-  }
+  if (!serie.deutschImAngebot) return ohneDeutschesAngebot(serie, unsere, staffeln.length)
 
   const gesamtDeutsch = staffeln.reduce((n, s) => n + s.deutsch, 0)
   if (gesamtDeutsch === 0) {

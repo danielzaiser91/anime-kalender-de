@@ -21,6 +21,8 @@
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import type { Title } from '../shared/types.ts'
+import { adressKern } from './lib/dub-confirmed.ts'
+import { juengsteJeKern } from './lib/link-befund.ts'
 
 const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | { titles: Title[] }
 const titles: Title[] = Array.isArray(roh) ? roh : roh.titles
@@ -38,7 +40,9 @@ const belege = (yaml.load(readFileSync('data/dub-confirmed.yaml', 'utf8')) ?? []
   available?: boolean
   checkedAt?: string
 }[]
-const kern = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/(gp\/video\/detail|dp)\//, '/').replace(/[?#].*$/, '')
+/** Dieselbe Regel wie im Bau: eine Seite, eine Kennung, der jüngste Befund (`lib/link-befund.ts`). */
+const befundJeKern = juengsteJeKern(befunde)
+const kern = adressKern
 const handGesehen = new Map<string, string>()
 for (const b of belege) {
   if (!b.url || b.available === false) continue
@@ -53,7 +57,7 @@ for (const v of ((yaml.load(readFileSync('data/verweise-von-hand.yaml', 'utf8'))
 }
 const tot = (url?: string): boolean => {
   if (!url) return false
-  const b = befunde[url]
+  const b = befundJeKern.get(adressKern(url))
   const s = b?.status
   if (!(s === 404 || s === 'region')) return false
   return !((handGesehen.get(kern(url)) ?? '') > String(b?.geprueftAm ?? ''))

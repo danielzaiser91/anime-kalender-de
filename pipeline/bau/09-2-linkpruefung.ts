@@ -1,5 +1,6 @@
 import { readJson, log } from '../lib/util.ts'
 import { adressKern, dubKey, adressGleich, type DubCheck } from '../lib/dub-confirmed.ts'
+import { juengsteJeKern } from '../lib/link-befund.ts'
 import { type Title, type PlatformId } from '../../shared/types.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
@@ -86,17 +87,22 @@ export function werteLinkpruefungAus({
     trägt aus seinen Quellen aber oft noch `/dp/`. „Haikyu!! Karasuno vs. Shiratorizawa" war
     unter der Video-Adresse als „in Deutschland nicht abrufbar" gemessen, galt unter `/dp/` als
     unbekannt, blieb im Datensatz — und `check:tote-adressen` brach den Bau ab (Lauf
-    35619070607). Der exakte Treffer gewinnt weiter; sonst zählt der jüngste Befund derselben
-    Seite (`adressKern`). So bleiben alle zehn Nachschlagestellen, wie sie sind.
+    35619070607). Es zählt der **jüngste** Befund derselben Seite (`adressKern`) — auch dann, wenn
+    die exakte Schreibweise einen **älteren** Eintrag hat (29.09.2026, „The Dragon Dentist").
+    So bleiben alle zehn Nachschlagestellen, wie sie sind.
   */
-  const befundJeKern = new Map<string, (typeof linkBefundeRoh)[string]>()
-  for (const [u, b] of Object.entries(linkBefundeRoh)) {
-    const k = adressKern(u)
-    const alt = befundJeKern.get(k)
-    if (!alt || (b.geprueftAm ?? '') > (alt.geprueftAm ?? '')) befundJeKern.set(k, b)
-  }
+  const befundJeKern = juengsteJeKern(linkBefundeRoh)
   const linkBefunde = new Proxy(linkBefundeRoh, {
-    get: (o, k) => (typeof k === 'string' ? (o[k] ?? befundJeKern.get(adressKern(k))) : undefined),
+    /*
+    **Dieselbe Seite, zwei Adressformen — der jüngste Befund entscheidet** (29.09.2026).
+    *
+    * Bis hierher gewann der **exakte** Treffer, der Rückfall über `adressKern` griff nur, wenn die
+    * exakte Adresse fehlte. Bei „The Dragon Dentist" (87539) existierten beide: `/dp/B0FXJQFN8R` war am
+    20.09. als 200 gemessen, `/gp/video/detail/B0FXJQFN8R` am 28.09. als „region". Der Bau sah den
+    älteren, die Prüfung den jüngeren — dieselbe Seite, zwei Urteile. Jetzt gilt an **beiden** Stellen
+    derselbe Satz: der jüngste Befund der Seite (`adressKern`) entscheidet.
+    */
+  get: (o, k) => (typeof k === 'string' ? (befundJeKern.get(adressKern(k)) ?? o[k]) : undefined),
   })
   /*
     **Eine späte Runde legt keine Adresse an, die die Linkprüfung als tot kennt**

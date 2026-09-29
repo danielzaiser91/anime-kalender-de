@@ -3543,8 +3543,20 @@ console.log('\nLinkprüfung: ein Befund wird auch über die Kennung gefunden:')
   const bau = bauQuelltext()
   pruefe(
     'linkBefunde fällt auf den Befund derselben Seite zurück',
-    /befundJeKern\.get\(adressKern\(k\)\)/.test(bau),
+    /befundJeKern\.get\(adressKern\(k\)\) \?\? o\[k\]/.test(bau),
     'der Rückfall über adressKern fehlt — /dp/ und /gp/video/detail/ finden ihre Befunde nicht gegenseitig',
+  )
+
+  /*
+    **Bau und Prüfung benutzen dieselbe Regel** (29.09.2026): „The Dragon Dentist" hatte
+    `/dp/B0FXJQFN8R` als 200 (20.09.) und `/gp/video/detail/B0FXJQFN8R` als „region" (28.09.) — der
+    Bau sah den älteren, die Prüfung den jüngeren. Beide holen den Befund jetzt aus `juengsteJeKern()`,
+    damit die Regel nicht wieder auseinanderläuft.
+  */
+  pruefe(
+    'Bau und Prüfung bestimmen den Befund je Seite an derselben Stelle',
+    /juengsteJeKern/.test(bau) && /juengsteJeKern/.test(readFileSync('pipeline/check-tote-adressen.ts', 'utf8')),
+    'eine Stelle bestimmt den Befund je Seite selbst',
   )
 }
 
@@ -6424,6 +6436,30 @@ pruefe(
   pruefe(
     'und die Ansicht sagt der Suche, ob gruppiert wird',
     /titelFuerAnsicht\(quelle, data, route\.filters, today, favorites, grouped\)/.test(appQuelle),
+  )
+  /*
+    **Eine Serie kann Deutsch führen, auch wenn die untersuchte Staffel die japanische ist**
+    (29.09.2026, „Dragon Ball Z: Resurrection 'F'"): Der deutsche Katalog nennt auf Serienebene
+    `de-DE`, die Auswertung sah nur `GMSE00002920JAJP` und urteilte „kein Deutsch". Dieses eine
+    falsche Nein hielt jeden Bestandslauf davon ab, seine Erzeugnisse zu committen.
+  */
+  const crSerie = (felder: Record<string, unknown>): Parameters<typeof beurteile>[0] =>
+    ({
+      url: 'https://www.crunchyroll.com/de/series/XXXX0000000/x',
+      katalog: 'de',
+      geprueftAm: '2026-09-29',
+      staffeln: [{ name: 'X', staffelId: 'GMSE00002920JAJP', folgen: 1, kacheln: 1, deutsch: 0, fremd: 0, deutscheFassung: false }],
+      ...felder,
+    }) as unknown as Parameters<typeof beurteile>[0]
+  const einTitel = [{ id: 20778 }] as unknown as Title[]
+  pruefe(
+    'die Serien-Tonspurliste rettet den Fall (Staffel ist die japanische)',
+    beurteile(crSerie({ seriesId: 'GMTE00002920', deutschImAngebot: false }), einTitel)[0]?.dub === true,
+    JSON.stringify(beurteile(crSerie({ seriesId: 'GMTE00002920', deutschImAngebot: false }), einTitel)),
+  )
+  pruefe(
+    'eine Serie ohne de-DE bleibt bei Nein',
+    beurteile(crSerie({ seriesId: 'GXXXX0000000', deutschImAngebot: false }), einTitel)[0]?.dub === false,
   )
 }
 {
