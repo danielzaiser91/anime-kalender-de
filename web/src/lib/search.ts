@@ -77,12 +77,13 @@ export interface Fundstelle {
  * höchste prio … dabei sind ganze wort-treffer weiter oben zu platzieren, als wortanfang, und
  * wortmitte nach wortanfang, fuzzy noch weiter hinten. Danach folgen die andere Attribute").
  *
- * Kleinere Zahl = weiter vorn. Drei Dimensionen mit **gestaffelten** Gewichten, damit keine die
+ * Kleinere Zahl = weiter vorn. Vier Dimensionen mit **gestaffelten** Gewichten, damit keine die
  * andere aufholt:
  *
- * - **Feld** (× 1000) — was getroffen hat. Der sichtbare Titel zuerst, dann die übrigen Namen des
+ * - **Feld** (× 10000) — was getroffen hat. Der sichtbare Titel zuerst, dann die übrigen Namen des
  *   Werks, dann Werk-, Thema- und Produktangaben (`FELD_RANG`).
- * - **Trefferart** (× 100) — ganzes Wort, Wortanfang, Wortmitte, unscharf (`ART_RANG`).
+ * - **Trefferart** (× 1000) — ganzes Wort, Wortanfang, Wortmitte, unscharf (`ART_RANG`).
+ * - **Stelle** (× 100) — das wievielte Wort des Feldes den Treffer trägt (`wortStelle`).
  * - **Vollständigkeit** (× 10 je Wort, das im Titel *nicht* gefunden wurde) — „exiled knight" mit
  *   beiden Wörtern vor einem Treffer mit nur einem.
  */
@@ -100,6 +101,22 @@ export function trefferArt(f: Fundstelle): TrefferArt {
 }
 
 const ART_RANG: Record<TrefferArt, number> = { ganz: 0, anfang: 1, mitte: 2, fuzzy: 3 }
+
+/**
+ * **Wo im Feld der Treffer sitzt — als wievieltes Wort.**
+ *
+ * Daniel am 29.09.2026: „why is the last item in first line before 2nd item of 2nd line? 2nd item 2nd
+ * line has full match at start of title … last item first line also has full word, but it is not at
+ * the very start of the title." Bei einer kurzen Suche („a") treffen zwanzig Titel dasselbe Wort in
+ * derselben Art — dann entschied bisher die Reihenfolge im Datensatz. Das erste Wort eines Namens
+ * meint der Nutzer häufiger als das fünfte, deshalb zählt die Stelle mit.
+ */
+const STELLE_MAX = 9
+
+function wortStelle(f: Fundstelle): number {
+  const i = woerterOriginal(f.feld).indexOf(f.wort)
+  return i < 0 ? STELLE_MAX : Math.min(i, STELLE_MAX)
+}
 
 /**
  * Die Reihenfolge der Felder — sie ist die eigentliche Entscheidung dieser Rangfolge.
@@ -131,7 +148,12 @@ export function feldRang(f: Fundstelle, sichtbar?: string): number {
 
 /** Der Platz eines Treffers im Feld — je kleiner, desto weiter vorn. */
 export function trefferPunkte(f: Fundstelle, sichtbar?: string, fehlendeWoerter = 0): number {
-  return feldRang(f, sichtbar) * 1000 + ART_RANG[trefferArt(f)] * 100 + fehlendeWoerter * 10
+  return (
+    feldRang(f, sichtbar) * 10000 +
+    ART_RANG[trefferArt(f)] * 1000 +
+    wortStelle(f) * 100 +
+    fehlendeWoerter * 10
+  )
 }
 
 /** Die Punktliste eines Treffers, aufsteigend — der Vergleich liest sie der Reihe nach. */
@@ -446,9 +468,29 @@ export function sucheMitFundstellen<T>(
         const fehlend = Math.max(0, suchwoerter.length - fundstellen.filter((f) => !f.unscharf).length)
         return { ...b, fundstellen, schluessel: trefferSchluessel(fundstellen, sichtbarerName?.(b.item), fehlend) }
       })
-      .sort((a, b) => schluesselVergleich(a.schluessel, b.schluessel) || a.rang - b.rang || a.abstand - b.abstand)
+      .sort((a, b) => trefferVergleich(a, b, sichtbarerName))
       .map(({ item, rang, fundstellen }) => ({ item, rang, fundstellen }))
   )
+}
+
+/**
+ * Der Vergleich zweier Treffer: erst die Punkte, dann Stufe, Tippabstand — und bei Gleichstand
+ * **alphabetisch** (29.09.2026).
+ *
+ * Ohne den letzten Schritt entschied die Reihenfolge im Datensatz, und bei einer kurzen Suche („a")
+ * treffen zwanzig Titel dieselbe Stelle in derselben Art: Dann stand „How a Realist Hero …" vor
+ * „A Couple of Cuckoos", obwohl dort das Wort ganz am Anfang des Namens steht.
+ */
+function trefferVergleich<T>(
+  a: { schluessel: number[]; rang: number; abstand: number; item: T },
+  b: { schluessel: number[]; rang: number; abstand: number; item: T },
+  name?: (item: T) => string,
+): number {
+  const punkte = schluesselVergleich(a.schluessel, b.schluessel)
+  if (punkte) return punkte
+  if (a.rang !== b.rang) return a.rang - b.rang
+  if (a.abstand !== b.abstand) return a.abstand - b.abstand
+  return name ? name(a.item).localeCompare(name(b.item), 'de') : 0
 }
 
 /**

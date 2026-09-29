@@ -6204,14 +6204,17 @@ pruefe(
     unscharf?: boolean,
   ): Fundstelle => ({ art, feld, wort, suchwort, teil, unscharf })
   const sichtbar = 'Gyo: Der Tod aus dem Meer'
-  /* Immer dasselbe Feld (der sichtbare Titel), damit die Trefferart allein den Unterschied macht. */
-  const imTitel = (wort: string, teil?: string, unscharf?: boolean, feld = sichtbar): Fundstelle =>
+  /* Immer dasselbe Feld (der sichtbare Titel) und die Stelle 0, damit Trefferart bzw. Feld allein
+     den Unterschied machen. */
+  const imTitel = (wort: string, teil?: string, unscharf?: boolean, feld = wort): Fundstelle =>
     stelle('titel', feld, wort, (teil ?? wort).toLowerCase(), teil, unscharf)
+  const artFall = (wort: string, teil?: string, unscharf?: boolean): number =>
+    trefferPunkte(imTitel(wort, teil, unscharf), wort)
   const arten: [string, number][] = [
-    ['ganzes Wort', trefferPunkte(imTitel('Tod'), sichtbar)],
-    ['Wortanfang', trefferPunkte(imTitel('Todoketai', 'Tod'), sichtbar)],
-    ['Wortmitte', trefferPunkte(imTitel('Todoketai', 'odok'), sichtbar)],
-    ['unscharf', trefferPunkte(imTitel('Tod', undefined, true), sichtbar)],
+    ['ganzes Wort', artFall('Tod')],
+    ['Wortanfang', artFall('Todoketai', 'Tod')],
+    ['Wortmitte', artFall('Todoketai', 'odok')],
+    ['unscharf', artFall('Tod', undefined, true)],
   ]
   pruefe(
     'ganzes Wort vor Wortanfang vor Wortmitte vor unscharf',
@@ -6219,18 +6222,51 @@ pruefe(
     JSON.stringify(arten),
   )
   const feldPunkteFuer = (art: FundstelleArt, feld: string): number =>
-    trefferPunkte(stelle(art, feld, 'Tod', 'tod', 'Tod'), sichtbar)
+    trefferPunkte(stelle(art, feld, 'Tod', 'tod', 'Tod'), feld === 'Tod am Meer' ? feld : 'Tod am Meer')
   pruefe(
     'der sichtbare Titel zuerst, dann die Namen, dann Werk, Thema, Produkt',
-    feldPunkteFuer('titel', sichtbar) === 0 &&
-      feldPunkteFuer('titel', 'Gyo') === 1000 &&
-      feldPunkteFuer('synonym', 'Tod im Meer') === 1000 &&
-      feldPunkteFuer('studio', 'ufotable') === 2000 &&
-      feldPunkteFuer('keyword', 'Tod') === 3000 &&
-      feldPunkteFuer('genre', 'Tod') === 4000 &&
-      feldPunkteFuer('release', 'Tod Box') === 5000 &&
-      feldPunkteFuer('verlag', 'Tod') === 6000 &&
-      feldPunkteFuer('ausgabe', 'Tod') === 7000,
+    feldPunkteFuer('titel', 'Tod am Meer') === 0 &&
+      feldPunkteFuer('titel', 'Tod Gyo') === 10000 &&
+      feldPunkteFuer('synonym', 'Tod im Meer') === 10000 &&
+      feldPunkteFuer('studio', 'Tod Studio') === 20000 &&
+      feldPunkteFuer('keyword', 'Tod') === 30000 &&
+      feldPunkteFuer('genre', 'Tod') === 40000 &&
+      feldPunkteFuer('release', 'Tod Box') === 50000 &&
+      feldPunkteFuer('verlag', 'Tod') === 60000 &&
+      feldPunkteFuer('ausgabe', 'Tod') === 70000,
+    [
+      feldPunkteFuer('titel', 'Tod am Meer'),
+      feldPunkteFuer('titel', 'Tod Gyo'),
+      feldPunkteFuer('synonym', 'Tod im Meer'),
+      feldPunkteFuer('studio', 'Tod Studio'),
+      feldPunkteFuer('keyword', 'Tod'),
+      feldPunkteFuer('genre', 'Tod'),
+      feldPunkteFuer('release', 'Tod Box'),
+      feldPunkteFuer('verlag', 'Tod'),
+      feldPunkteFuer('ausgabe', 'Tod'),
+    ].join(','),
+  )
+  /*
+    **Die Stelle im Namen zählt mit** (Daniel, 29.09.2026, mit Bild): „2nd item 2nd line has full match
+    at start of title, should be highest weight … last item first line also has full word, but it is
+    not at the very start of the title." Beide treffen dasselbe Wort in derselben Art — bis dahin
+    entschied die Reihenfolge im Datensatz.
+  */
+  const stelle1 = trefferPunkte(stelle('titel', 'A Couple of Cuckoos', 'A', 'a', 'A'), 'A Couple of Cuckoos')
+  const stelle2 = trefferPunkte(
+    stelle('titel', 'How a Realist Hero Rebuilt the Kingdom', 'a', 'a', 'a'),
+    'How a Realist Hero Rebuilt the Kingdom',
+  )
+  pruefe('dasselbe Wort weiter vorn im Namen steht höher', stelle1 < stelle2, `${stelle1} / ${stelle2}`)
+  pruefe(
+    'und der Fall aus dem Bild ordnet sich danach richtig',
+    schluesselVergleich(
+      trefferSchluessel([stelle('titel', 'A Couple of Cuckoos', 'A', 'a', 'A')], 'A Couple of Cuckoos'),
+      trefferSchluessel(
+        [stelle('titel', 'How a Realist Hero Rebuilt the Kingdom', 'a', 'a', 'a')],
+        'How a Realist Hero Rebuilt the Kingdom',
+      ),
+    ) < 0,
   )
   pruefe(
     'ein unscharfer Treffer im sichtbaren Titel schlägt jeden genauen in einem anderen Feld',
