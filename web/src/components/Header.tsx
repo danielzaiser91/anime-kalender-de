@@ -80,7 +80,7 @@ export function Header({
         </nav>
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           <label className="relative hidden w-64 lg:block xl:w-72">
-            <span className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-ak-leise"><SuchZeichen /></span>
+            <span className="pointer-events-none absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-ak-leise"><SuchZeichen /></span>
             <Suchfeld wert={suche} setzen={setSuche} platzhalter={t('kopf.suche')} className={feld} />
           </label>
           <button type="button" onClick={() => setSucheAuf(!sucheAuf)} aria-expanded={sucheAuf} aria-label={t('kopf.sucheOeffnen')} className={`${RUND} lg:hidden`}>
@@ -97,7 +97,7 @@ export function Header({
       {sucheAuf && (
         <div className="mx-auto max-w-[1600px] px-4 pb-3 lg:hidden">
           <label className="relative block">
-            <span className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-ak-leise"><SuchZeichen /></span>
+            <span className="pointer-events-none absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-ak-leise"><SuchZeichen /></span>
             <Suchfeld wert={suche} setzen={setSuche} platzhalter={t('kopf.suche')} className={feld} eingabe={eingabe} />
           </label>
         </div>
@@ -112,9 +112,17 @@ function ThemaKnopf() {
   const { t } = useLang()
   const [dunkel, umschalten] = useThema()
   const label = t(dunkel ? 'kopf.hell' : 'kopf.dunkel')
+  /*
+    **Das Zeichen trägt eine Farbe** (Daniel, 29.09.2026: „moon/sun icon muss farblich hervorgehoben
+    werden, weil sonne und setting icon zu schwer zu unterscheiden sind"). Sonne warm, Mond kühl —
+    so ist auf einen Blick klar, welcher Knopf das Licht umschaltet und welcher die Einstellungen
+    öffnet.
+  */
   return (
     <button type="button" onClick={umschalten} aria-label={label} title={label} className={`${RUND} hidden md:flex`}>
-      {dunkel ? <SonnenZeichen /> : <MondZeichen />}
+      <span className={dunkel ? 'text-amber-400' : 'text-indigo-500'}>
+        {dunkel ? <SonnenZeichen /> : <MondZeichen />}
+      </span>
     </button>
   )
 }

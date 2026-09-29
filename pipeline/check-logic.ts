@@ -6028,6 +6028,24 @@ pruefe(
     'die absolute Lage im Feld fehlt',
   )
   pruefe('… und das Feld lässt rechts Platz dafür', /\bpr-9\b/.test(headerQuelle), 'pr-9 fehlt im Feld')
+  /*
+    **Die Lupe verschwand hinter dem Feld** (Daniel, 29.09.2026, mit Bild: „lupe icon unsichtbar").
+    Seit das Fragezeichen im Feld sitzt, hat das Feld eine *positionierte* Hülle (`relative`) — und
+    positionierte Elemente malen in Baumreihenfolge übereinander: Die Hülle steht hinter der Lupe und
+    deckte sie mit ihrem Hintergrund zu. `z-10` an der Lupe holt sie zurück.
+  */
+  const lupen = headerQuelle.match(/pointer-events-none absolute/g) ?? []
+  const ueberDemFeld = headerQuelle.match(/pointer-events-none absolute[^"]*z-10/g) ?? []
+  pruefe(
+    'die Lupe im Feld bleibt sichtbar',
+    lupen.length > 0 && lupen.length === ueberDemFeld.length,
+    `${ueberDemFeld.length} von ${lupen.length} Lupen über dem Feld`,
+  )
+  pruefe(
+    'das Thema-Zeichen ist farblich vom Zahnrad zu unterscheiden',
+    headerQuelle.includes('text-amber-400') && headerQuelle.includes('text-indigo-500'),
+    'Sonne und Einstellungen sahen gleich aus (Daniel, 29.09.2026)',
+  )
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */
