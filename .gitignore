@@ -29,9 +29,10 @@ extension.pem
 !.dev.vars.example
 !.env.example
 
-# Zustand des serena-MCP-Werkzeugs — nur lokal für dieses Repo eingerichtet
-# (Queue-Punkt „serena-Probelauf"). Die Regeln des Projekts stehen in CLAUDE.md
-# und den Skills, nicht in einem zweiten Werkzeug; ob serena bleibt, entscheidet
-# der Probelauf. Bis dahin gehört sein Ordner nicht in den Bestand — er stand
-# seit dem 27.09.2026 als untracked im `git status`.
+# Zustand des serena-MCP-Werkzeugs. Der Probelauf vom 29.09.2026 fiel gegen
+# serena aus (5.461 Token Werkzeugliste je Sitzung, in 133 Sitzungen kein
+# einziger Aufruf, Erkunden langsamer als Grep) — das Werkzeug ist entfernt
+# (`claude mcp remove serena`, `uv tool uninstall serena-agent`). Der Ordner
+# bleibt ignoriert, falls serena für ein großes dateiübergreifendes Refactoring
+# neu bewertet wird. Einzelheiten: __assets/notes/claude-token-sparen.md
 .serena/
