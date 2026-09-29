@@ -67,7 +67,16 @@ interface Katalog {
  * geblieben und der Cache hätte eine Regel weitergereicht, die es nicht mehr
  * gibt.
  */
-const REL_FASSUNG = `${[...FRANCHISE_RELATIONS].sort().join(',')}+other-namen-8+eltern`
+/**
+ * **Der Fingerabdruck des Caches — er zählt die Abfrage mit, nicht nur die Regel.**
+ *
+ * Am 29.09.2026 kam `idMal` in die Abfrage (der MAL-Absprung im Panel braucht die Kennung, siehe
+ * `pipeline/lib/anilist.ts`). Der Cache hätte die alten Einträge ohne `mal` bis in alle Ewigkeit
+ * weitergereicht — genau der Fall, für den es diesen Fingerabdruck seit dem 03.09.2026 gibt: Wer die
+ * **Frage** ändert, muss den Cache verwerfen. `+mal-1` ist der Zusatz, der das beim nächsten Lauf
+ * auslöst (einmalig alles neu, rund zehn Minuten).
+ */
+const REL_FASSUNG = `${[...FRANCHISE_RELATIONS].sort().join(',')}+other-namen-8+eltern+mal-1`
 
 const DATEI = 'data/cache/anilist-katalog.json'
 /** Erster Jahrgang mit nennenswertem Bestand. Davor gibt es einzelne Kurzfilme. */
@@ -83,7 +92,7 @@ async function main(): Promise<void> {
   const fertig = new Set(veraltet ? [] : (vorhanden?.fertigeJahre ?? []))
   if (veraltet) {
     log(
-      'Die Beziehungsarten haben sich geändert — alle Jahre werden neu geholt ' +
+      'Der Fingerabdruck des Katalogs hat sich geändert - alle Jahre werden neu geholt ' +
         `(Cache: ${vorhanden?.relFassung ?? 'ohne Angabe'})`,
     )
   }
