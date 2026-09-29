@@ -497,8 +497,7 @@ async function speicherSchreiben(werte) {
   /**
    * **Ein Film braucht den Mitleser nicht — die Tonspuren stehen im DOM.**
    *
-   * Gemessen am 28.08.2026 an den beiden Fällen, die Daniel gemeldet hat, mit
-   * einem funktionierenden Film als Gegenprobe:
+   * Gemessen am 28.08.2026 an zwei von Daniel gemeldeten Fällen, mit einer Gegenprobe:
    *
    * | Titel | Adresse | pageTitleId | audioTracks |
    * |---|---|---|---|
@@ -506,24 +505,14 @@ async function speicherSchreiben(werte) {
    * | Have A Nice Day | B0FYSH898T | **B0FWK8XMDJ** | Deutsch |
    * | Avatar Aang (geht) | B0H6QYBZFS | B0H6QYBZFS | Deutsch, English |
    *
-   * Der Block ist vollständig, `entityType` sagt „Movie", die Tonspuren stehen
-   * im Klartext — und trotzdem kam am Knopf nichts an. Der Zählstand im Bericht
-   * zeigt warum: `gesamt: 1` bei `fuerAdresse: null`. Diese Eins stammt aus dem
-   * Seitengerüst, nicht vom Mitleser; der hat für diese Seiten nie geliefert.
+   * Der Block ist vollständig, `entityType` sagt „Movie", die Tonspuren stehen im Klartext — und am
+   * Knopf kam nichts an: `gesamt: 1` bei `fuerAdresse: null`, die Eins stammt aus dem Seitengerüst.
+   * Weil Mitleser und Erweiterung sich das DOM teilen, entfällt die postMessage-Kette hier ganz —
+   * bei einem Film ist nichts nachzuladen, nur eine Fehlerquelle weniger.
    *
-   * **Überholt am 15.09.2026:** Seit dem Leser-Umbau kommt der Film wieder über
-   * den Schnappschuss (`seite`, eine Folge); `filmAusSeite()` liest nur noch
-   * diesen Stand. Die Herleitung darunter bleibt als Anlass stehen.
-   *
-   * **Statt die postMessage-Kette zu reparieren, entfällt sie hier.** Mitleser
-   * und Erweiterung teilen sich das DOM — das `<script>` mit dem Block ist für
-   * beide dasselbe Element. Bei einem Film ist ohnehin nichts nachzuladen: keine
-   * Abschnitte, keine Folgenliste, ein einziger Satz Tonspuren. Der Umweg über
-   * eine Nachricht hat dort nie etwas hinzugefügt, nur eine Fehlerquelle.
-   *
-   * **Gelesen wird einmal je Adresse.** Der Block ist 145 bis 204 KB JSON; ihn
-   * je Takt zu parsen wäre genau die Sorte Arbeit, die am 28.08.2026 schon
-   * einmal die Seite lahmgelegt hat (`taktMax: 1377`).
+   * **Überholt am 15.09.2026:** Seit dem Leser-Umbau kommt der Film über den Schnappschuss (`seite`,
+   * eine Folge); `filmAusSeite()` liest nur diesen Stand. Gelesen wird einmal je Adresse — der Block
+   * ist 145 bis 204 KB JSON, und `taktMax: 1377` ließ die Seite am 28.08.2026 schon einmal einfrieren.
    */
   /*
     **Seit dem 15.09.2026 (Umbau Phase 2) liest diese Funktion nichts mehr selbst.**
@@ -781,6 +770,8 @@ async function speicherSchreiben(werte) {
    * ankommt, darf nicht als erledigt gelten.
    */
   const selbstGemeldeteSeiten = new Set()
+  /** Wie oft der 500-ms-Takt hintereinander geworfen hat — der Durchgang darf daran nicht sterben. */
+  let primeFehler = 0
   /**
    * **Ein Muster über den ganzen Quelltext — nicht 220 Ausschnitte.**
    *
@@ -11243,14 +11234,19 @@ async function speicherSchreiben(werte) {
   }
 
   /*
-    Eine `setTimeout`-Kette statt `setInterval`: Die Sandkästen der Amazon-Tests zählen Intervalle
-    als Takt und stellen je Intervall die Uhr vor — ein zusätzliches verschob dort jede
-    zeitabhängige Zusicherung (amazon-uebersicht.test.cjs, 25.09.2026).
+    setTimeout-Kette statt setInterval (Sandkasten, 25.09.2026) - und finally: Warf ein Takt einmal,
+    gab es keinen naechsten mehr und der Durchgang stand still (29.09.2026, mit Bild).
   */
   function primeTakt() {
-    if (IM_FRAME) frameSchritt()
-    else primeKoordinieren()
-    setTimeout(primeTakt, 500)
+    try {
+      if (IM_FRAME) frameSchritt()
+      else primeKoordinieren()
+      primeFehler = 0
+    } catch (fehler) {
+      if (++primeFehler === 3) console.warn('[Anime-Kalender] Durchgang: Takt wirft ' + String(fehler?.message ?? fehler))
+    } finally {
+      setTimeout(primeTakt, 500)
+    }
   }
   setTimeout(primeTakt, 500)
 })()

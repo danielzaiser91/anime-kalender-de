@@ -283,6 +283,21 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   pruefe('Frame: ohne Token kommt „kein Token" zurück', w.gepostet[0]?.grund === 'kein Token', w.gepostet[0])
 }
 
+{
+  /*
+    **Ein Fehler in einem Takt beendet die Kette nicht** (29.09.2026). Daniel sah den Durchgang auf
+    „Titel 1/3 · 0 Seiten gemeldet" stehen — Ursache war die Reihenfolge in `primeTakt`: Warf
+    `frameSchritt()`/`primeKoordinieren()` einmal, wurde `setTimeout` nie erreicht, es gab keinen
+    nächsten Takt, und nichts sagte warum. Der Sandkasten kann das nicht auslösen (sein Ausschnitt
+    endet vor `primeTakt`), deshalb wird der Quelltext geprüft.
+  */
+  pruefe(
+    'der Takt wird auch nach einem Fehler neu gestellt',
+    /finally \{\s*setTimeout\(primeTakt, 500\)/.test(quelle),
+  )
+  pruefe('der Fehler wird sichtbar statt lautlos weiterzulaufen', /Takt wirft/.test(quelle))
+}
+
 console.log('')
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) gerissen.`)
