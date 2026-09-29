@@ -23438,3 +23438,12 @@
   dub: false
   checkedAt: '2026-09-28'
   note: "Tonspuren: 日本語 — Amazon-Seite B0BX1M7K82: alle 24 Folgen geprüft, Abos: Prime, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.28dcdb64-3efe-403e-af16-eb617948d933"
+
+# --- Von Hand nachgetragen am 29.09.2026 (Daniels Sichtprüfung) ---
+- anilistId: 116006
+  title: 'The God of High School'
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/browse/entity-71bcb11f-763c-4609-8965-540eaf7fa795
+  dub: true
+  checkedAt: '2026-09-29'
+  note: "Daniel am 29.09.2026: alle 13 Folgen mit deutscher Tonspur - Pruefung im Kasten auf der Hauptserie (die Adresse der Pruefliste 07-disneyplus.md)"
