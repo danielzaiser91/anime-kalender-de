@@ -91,9 +91,9 @@ export function Suchfeld({
 /** Der rechte Bereich im Feld: Löschen · Trennstrich · Erklären (Daniels gekapselter Bereich). */
 function FeldKnoepfe({ getippt, felder, leeren }: { getippt: string; felder: string; leeren: () => void }) {
   return (
-    <span className="absolute inset-y-0 right-0 flex items-stretch">
+    <span className="absolute inset-y-px right-px flex items-stretch">
       {getippt && <LoeschKnopf leeren={leeren} />}
-      <span className="w-px self-stretch bg-ak-rand" aria-hidden="true" />
+      <span className="mx-2 w-px self-stretch bg-ak-rand" aria-hidden="true" />
       <Fragezeichen text={felder} gekapselt />
     </span>
   )

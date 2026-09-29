@@ -405,7 +405,7 @@ export function ReihenStern({ alleGemerkt, anzahl, onMerken }: { alleGemerkt: bo
  */
 export function Fragezeichen({ text, gekapselt }: { text: string; gekapselt?: boolean }) {
   return (
-    <Tooltip text={text} seite="unten" mitSpitze={gekapselt} className={gekapselt ? 'flex' : undefined}>
+    <Tooltip text={text} seite="unten" mitSpitze={gekapselt}>
       <button
         type="button"
         aria-label={text}
@@ -687,17 +687,14 @@ export function Tooltip({
       Math.max(a.left + a.width / 2 - b.width / 2, rand),
       Math.max(rand, window.innerWidth - b.width - rand),
     )
-    // Senkrecht auf der gewünschten Seite — es sei denn, dort ist kein Platz.
+    // Senkrecht bevorzugt auf der gewünschten Seite — und **immer im Bild** (Daniel, 29.09.2026:
+    // „wird außerhalb des sichtbaren bereichs weiter unten angezeigt … das ist ein bug").
     const oben = a.top - b.height - luft
     const unten = a.bottom + luft
-    const top =
-      seite === 'oben'
-        ? oben >= rand
-          ? oben
-          : unten
-        : unten + b.height <= window.innerHeight - rand
-          ? unten
-          : Math.max(rand, oben)
+    const platzUnten = window.innerHeight - rand - unten >= b.height
+    const platzOben = oben >= rand
+    const gewuenscht = seite === 'oben' ? (platzOben ? oben : unten) : platzUnten ? unten : oben
+    const top = Math.min(Math.max(gewuenscht, rand), Math.max(rand, window.innerHeight - b.height - rand))
     setPos({ left, top })
   }, [offen, seite])
 

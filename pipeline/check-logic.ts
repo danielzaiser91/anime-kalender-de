@@ -6038,7 +6038,7 @@ pruefe(
   pruefe(
     'das Fragezeichen sitzt im Feld rechts',
     /relative flex w-full items-center/.test(suchfeldQuelle) &&
-      /absolute inset-y-0 right-0 flex items-stretch/.test(suchfeldQuelle) &&
+      /absolute inset-y-px right-px flex items-stretch/.test(suchfeldQuelle) &&
       /<Fragezeichen text=\{felder\} gekapselt \/>/.test(suchfeldQuelle),
     'die Lage im Feld fehlt',
   )
@@ -6056,8 +6056,28 @@ pruefe(
   */
   pruefe(
     'im Feld steht ein Trennstrich über die volle Höhe',
-    /w-px self-stretch bg-ak-rand/.test(suchfeldQuelle),
-    'der Trennstrich fehlt',
+    /mx-2 w-px self-stretch bg-ak-rand/.test(suchfeldQuelle),
+    'der Trennstrich fehlt oder hat keine Luft zu beiden Seiten',
+  )
+  /*
+    **Der Rand des Feldes bleibt ganz** (Daniel, 29.09.2026: „rechter bereich darf border nicht
+    entfernen, das orange border muss komplett sein"): Der gekapselte Bereich liegt **innerhalb** des
+    Randes (`inset-y-px right-px`) — sonst deckt seine Fläche den Fokusrahmen am rechten Ende zu.
+  */
+  pruefe(
+    'der gekapselte Bereich lässt den Feldrand stehen',
+    /absolute inset-y-px right-px/.test(suchfeldQuelle),
+    'der Bereich liegt auf dem Rahmen',
+  )
+  /*
+    **Der Tooltip bleibt im Bild** (Daniel, 29.09.2026: „aktuell wird er außerhalb des sichtbaren
+    bereichs weiter unten angezeigt, man muss runterscrollen"). Die gewünschte Seite gilt, wenn sie
+    passt — und danach wird die Höhe in jedem Fall ins Fenster geholt.
+  */
+  pruefe(
+    'der Tooltip wird ins Fenster geholt',
+    /window\.innerHeight - b\.height - rand/.test(uiQuelle),
+    'die Höhe wird nicht begrenzt',
   )
   pruefe(
     'das ? hat dort eine eigene Fläche und eine Hover-Farbe',
