@@ -132,7 +132,7 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung } from './lib/meldungen.ts'
-import { adressIndex, titelDerMeldung } from './lib/urteil-je-folge.ts'
+import { adressIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
 import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
@@ -7018,6 +7018,39 @@ pruefe(
   pruefe('Adresse: mehrere Titel → offen', titelDerMeldung({ titel_id: null, url: 'b' }, idx) === null)
   pruefe('Adresse: spätere Staffel einer Serienseite → offen', titelDerMeldung({ titel_id: null, url: 'a', staffel: 3 }, idx) === null)
   pruefe('Adresse: unbekannt → offen', titelDerMeldung({ titel_id: null, url: 'x' }, idx) === null)
+
+  /*
+    **Mehrdeutige Adresse über die Staffel entscheiden** (29.09.2026): Trägt eine Adresse mehrere
+    unserer Titel (Netflix-/Disney+-Serienseiten führen mehrere Staffeln), entscheidet die gemeldete
+    Staffel — genau ein Kandidat trägt sie, und der Folgenzahl-Riegel muss halten.
+  */
+  const idxMehr = (url: string) => (url === 'serie' ? [1, 2, 3] : url === 'eins' ? [7] : undefined)
+  const kandidaten = (ids: number[]) =>
+    ids.map((id) => ({
+      id,
+      name: id === 1 ? 'X' : id === 2 ? 'X: Staffel 2' : 'X: Staffel 3',
+      format: 'TV',
+      episodes: id === 1 ? 24 : id === 2 ? 23 : 12,
+    }))
+  pruefe('Staffel: genau ein Kandidat trägt Staffel 1 → zugeordnet', titelDerMeldung({ titel_id: null, url: 'serie', staffel: 1 }, idxMehr, kandidaten) === 1)
+  pruefe('Staffel: Folgenzahl passt → zugeordnet', titelDerMeldung(
+    { titel_id: null, url: 'serie', staffel: 1, staffeln: JSON.stringify([{ seq: 1, folgen: 24 }]) },
+    idxMehr,
+    kandidaten,
+  ) === 1)
+  pruefe('Staffel: Folgenzahl weicht ab → bleibt offen', titelDerMeldung(
+    { titel_id: null, url: 'serie', staffel: 1, staffeln: JSON.stringify([{ seq: 1, folgen: 13 }]) },
+    idxMehr,
+    kandidaten,
+  ) === null)
+  pruefe('Staffel: dasselbe Werk zweimal → offen', titelDerMeldung({ titel_id: null, url: 'serie', staffel: 1 }, idxMehr, () => [
+    { id: 1, name: 'X', format: 'TV' },
+    { id: 2, name: 'X', format: 'TV' },
+  ]) === null)
+  pruefe('Staffel: ohne Staffelnummer keine Zuordnung', titelDerMeldung({ titel_id: null, url: 'serie' }, idxMehr, kandidaten) === null)
+  pruefe('Staffel: die bewusste Regel für spätere Staffeln bleibt', titelDerMeldung({ titel_id: null, url: 'serie', staffel: 2 }, idxMehr, kandidaten) === null)
+  pruefe('Staffel: der eindeutige Adressweg bleibt', titelDerMeldung({ titel_id: null, url: 'eins', staffel: 1 }, idxMehr, kandidaten) === 7)
+  pruefe('Staffel: das Verfahren selbst trägt auch spätere Staffeln', staffelTreffer({ staffel: 2 }, kandidaten([1, 2, 3])) === 2)
   const index = adressIndex([
     { id: 11, titleDe: 'Cowboy Bebop', streams: [{ url: 'https://www.amazon.de/dp/B000' }] },
     { id: 12, titleEn: 'Monster' },

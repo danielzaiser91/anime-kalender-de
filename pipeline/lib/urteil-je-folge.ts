@@ -1,5 +1,6 @@
 import { schluesselAdresse, titelSchluessel } from './zuordnung.ts'
 import { adressKern } from './dub-confirmed.ts'
+import { staffelNummern } from './staffel-nummern.ts'
 
 /**
  * **Stufe 3: das Urteil je Titel × Anbieter × Folge** (22.09.2026, Modell in
@@ -184,21 +185,90 @@ export function adressIndex(
   return (url) => index.get(schluesselAdresse(url)) ?? (url.includes('/s?k=') ? ausSuche(url) : undefined)
 }
 
+/** Ein Kandidat für die Staffel-Zuordnung — nur, was `staffelNummern()` braucht. */
+export interface StaffelKandidat {
+  id: number
+  name: string
+  episodes?: number | null
+  jpYear?: number
+  jpStart?: string
+  format?: string
+  beiwerk?: boolean
+}
+
+/** Die Folgenzahl, die der Anbieter für seine Staffel `staffel` nennt — aus der gemeldeten Struktur. */
+function folgenDerAnbieterStaffel(staffeln: string | null, staffel: number): number | null {
+  try {
+    const liste = JSON.parse(staffeln ?? '[]') as { seq?: number; folgen?: number }[]
+    return liste.find((s) => s.seq === staffel)?.folgen ?? null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * **Die mehrdeutige Adresse über die Staffel entscheiden** (29.09.2026).
+ *
+ * Der zweite große Posten der Meldungen ohne Titel (768 von 4.693 im Bestandslauf 29.09.) waren
+ * Adressen, die **mehrere unserer Titel** tragen: eine Netflix- oder Disney+-Serienseite führt
+ * mehrere Staffeln, und bei uns hängt jede Staffel als eigener Titel an derselben Adresse
+ * (gemessen: JJK 60 Meldungen, Vinland Saga 26, Kuroko 27). Die Adresse allein sagt dort nicht,
+ * welche Staffel gemeint ist — die **Meldung** nennt sie aber: `staffel` samt Anbieter-Struktur.
+ *
+ * Drei Riegel, jeder aus einem gemessenen Fall:
+ * - **Genau ein Kandidat** muss die gemeldete Staffelnummer tragen (`staffelNummern()` auf die
+ *   Kandidatengruppe). Trägt sie keiner oder mehrere, bleibt es offen.
+ * - **Dasselbe Werk zweimal** ist nicht entscheidbar (Fate/Zero, Go! Go! Loser Ranger stehen doppelt
+ *   im Bestand) — gleicher normalisierter Name heißt: liegen lassen.
+ * - **Die Folgenzahl muss passen** (wie im Einleser, 19.09.2026): Nennt der Anbieter für seine
+ *   Staffel eine andere Zahl als der Kandidat (Tokyo Revengers: Anbieter 24, Kandidat 13), gilt die
+ *   Nummer nicht. Toleranz drei Folgen, wie bei `ordneMeldungZu()`.
+ *
+ * Gemessen am 29.09.2026 an den echten 768: 389 werden so zuordenbar (59 fallen am Folgenzahl-Riegel,
+ * 176 nennen keine Staffel, 144 sind mehrdeutig oder ohne Nummer).
+ */
+export function staffelTreffer(
+  m: { staffel?: number | null; staffeln?: string | null; folgen?: number | null },
+  kandidaten: StaffelKandidat[],
+): number | null {
+  if (m.staffel == null) return null
+  const benannt = kandidaten.filter((k) => k.name)
+  if (benannt.length < 2) return null
+  const namen = benannt.map((k) =>
+    k.name.normalize('NFD').replace(/\p{M}|[^\p{L}\p{N}]/gu, '').toLowerCase(),
+  )
+  if (new Set(namen).size !== namen.length) return null
+  const nummern = staffelNummern(benannt)
+  const treffer = benannt.filter((k) => nummern.get(k.id) === m.staffel)
+  if (treffer.length !== 1) return null
+  const ziel = treffer[0]!
+  const anbieterFolgen =
+    folgenDerAnbieterStaffel(m.staffeln ?? null, m.staffel) ?? (typeof m.folgen === 'number' ? m.folgen : null)
+  if (anbieterFolgen && ziel.episodes && Math.abs(anbieterFolgen - ziel.episodes) > 3) return null
+  return ziel.id
+}
+
 /**
  * **Eine Meldung ohne Titel über ihre Adresse zuordnen** — wie der Einleser (`fetch-pruefungen.ts`),
  * aber nur eindeutig: Die Adresse gehört genau einem unserer Titel, und die Meldung nennt keine
  * spätere Staffel (eine Serienseite führt oft mehrere, bei uns hängt nur eine daran). Vor dem
  * 02.09.2026 schickte die Erweiterung keine `titel_id` mit — 5.807 von 7.510 Meldungen.
  * Gemessen 27.09.2026: Handbelege mit Urteil 552 → 702 von 2.049 (docs/konzept-meldungen-architektur.md).
+ *
+ * Trägt die Adresse **mehrere** Titel, entscheidet die gemeldete Staffel (`staffelTreffer`), sofern
+ * der Aufrufer die Kandidaten mitgibt — die bewusste Regel für spätere Staffeln bleibt davor.
  */
 export function titelDerMeldung(
-  m: { titel_id: number | null; url: string; staffel?: number | null },
+  m: { titel_id: number | null; url: string; staffel?: number | null; staffeln?: string | null; folgen?: number | null },
   nachAdresse: (url: string) => number[] | undefined,
+  kandidaten?: (ids: number[]) => StaffelKandidat[],
 ): number | null {
   if (m.titel_id) return m.titel_id
   if (m.staffel != null && m.staffel !== 1) return null
   const ids = nachAdresse(m.url)
-  return ids?.length === 1 ? ids[0]! : null
+  if (!ids?.length) return null
+  if (ids.length === 1) return ids[0]!
+  return kandidaten ? staffelTreffer(m, kandidaten(ids)) : null
 }
 
 /**

@@ -149,8 +149,10 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
     if (sucheP.get('alle') === '1') {
       const nach = Number(sucheP.get('nach') ?? 0)
       const { results } = await env.DB.prepare(
-        `SELECT id, plattform, url, befund, folge_nr, staffel, teil_von, teil_bis, titel_id, notiz,
-                abos, gemeldet_am, vorhanden, ton_de, art
+        /* `staffeln`/`folgen` seit dem 29.09.2026: der Urteilslauf prüft damit die zugeordnete
+           Staffel gegen die Folgenzahl des Anbieters (`staffelTreffer` in `lib/urteil-je-folge.ts`). */
+        `SELECT id, plattform, url, befund, folge_nr, staffel, staffeln, folgen, teil_von, teil_bis,
+                titel_id, notiz, abos, gemeldet_am, vorhanden, ton_de, art
            FROM pruefung WHERE id > ?1 ORDER BY id LIMIT 5000`,
       )
         .bind(Number.isFinite(nach) ? nach : 0)

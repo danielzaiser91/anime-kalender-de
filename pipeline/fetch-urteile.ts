@@ -12,7 +12,7 @@
  * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { adressIndex, folgenDerMeldung, meldungGrund, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import { adressIndex, folgenDerMeldung, meldungGrund, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -33,6 +33,9 @@ interface RohMeldung {
   befund: string | null
   folge_nr: number | null
   staffel: number | null
+  /** Die Staffelstruktur des Anbieters, roh als JSON — für den Folgenzahl-Riegel der Zuordnung. */
+  staffeln: string | null
+  folgen: number | null
   teil_von: number | null
   teil_bis: number | null
   titel_id: number | null
@@ -136,10 +139,28 @@ async function main() {
   const titelAlle = Array.isArray(titelListe) ? titelListe : titelListe.titles
   const einzel = new Set(titelAlle.filter((t) => t.format === 'MOVIE' || t.episodes === 1).map((t) => t.id))
   const nachAdresse = adressIndex(titelAlle)
+  /*
+    **Die Kandidaten für die Staffel-Zuordnung** (29.09.2026): Trägt eine Adresse mehrere unserer
+    Titel (Netflix- und Disney+-Serienseiten führen mehrere Staffeln), entscheidet die gemeldete
+    Staffel — siehe `staffelTreffer` in `lib/urteil-je-folge.ts`.
+  */
+  const titelNachId = new Map(titelAlle.map((t) => [t.id, t]))
+  const staffelKandidaten = (ids: number[]): StaffelKandidat[] =>
+    ids
+      .map((i) => titelNachId.get(i))
+      .filter((t): t is Title => !!t)
+      .map((t) => ({
+        id: t.id,
+        name: t.titleDe || t.titleEn || '',
+        episodes: t.episodes ?? null,
+        jpYear: t.jpYear,
+        jpStart: t.jpStart,
+        format: t.format,
+      }))
   const verworfen: Record<string, number> = {}
   /* Eine Meldung ohne die Felder aus Migration 034 trägt nur `befund`. */
   for (const roh of meldungen) {
-    const m = { ...roh, titel_id: titelDerMeldung(roh, nachAdresse) }
+    const m = { ...roh, titel_id: titelDerMeldung(roh, nachAdresse, staffelKandidaten) }
     if (!m.titel_id) zaehleOhneTitel(roh, nachAdresse)
     const vorhanden = m.vorhanden ?? (m.befund === 'weg' ? 'nein' : m.befund ? 'ja' : null)
     const tonDe = m.ton_de ?? (m.befund === 'dub' ? 'ja' : m.befund === 'kein_dub' ? 'nein' : 'unbekannt')
