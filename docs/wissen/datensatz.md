@@ -358,8 +358,12 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   dort im Einstellungsdialog, sonst passte der Name nicht in die Leiste.
 - **Woche:** je Tag eine Zeile — Tag, Cover-Raster (`repeat(auto-fill, minmax(128px, 1fr))`, auf
   dem Handy genau zwei Spalten, immer in Zeitreihenfolge — `grid-flow-dense` würfelte sie durcheinander,
-  eine Lücke vor einer breiten Kachel wird hingenommen), rechts „Im Fernsehen“. Der TV-Kasten füllt absolut die Zeilenhöhe
-  und scrollt darin; bricht die Poster-Reihe um, wird er mit ihr höher.
+  eine Lücke vor einer breiten Kachel wird hingenommen), darunter **„Im Handel“** als kompakte Liste
+  (Titel + „DVD / Blu-ray“), rechts „Im Fernsehen“. **Disc-Termine sind seit dem 30.09.2026 kein
+  Poster im Raster mehr** (Daniels Wahl nach zwei Prototypen): Sie sind zu viele und zu wenig
+  interessant, und als Liste kämpfen sie nicht mit dem Fernseh-Kasten um Platz. Der TV-Kasten füllt
+  die Zeilenhöhe (`h-full` im absolut positionierten Rahmen) und scrollt darin; wächst die
+  Mittelspalte durch den Disc-Kasten, wächst er mit. Bilder: `docs/woche-im-handel*.png`.
 - **Staffelstart und Staffelfinale** nehmen zwei Spalten ein, das Cover füllt die Breite, der Text
   steht wie bei jeder Kachel darunter (Daniel: kein geteiltes Cover/Text). `istStaffelfinale()`:
   wöchentlich, nicht TV, nicht `available-from`, `episode === episodeCount`, kein
@@ -369,9 +373,10 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   per Klick) die Ausstrahlungen. Ein Klick auf die Tageszahl springt in der Woche zu diesem Tag
   (`lib/ziel-tag.ts`). Unter `sm` ist die ganze Zelle ein Knopf, der den Tag aufklappt — Cover
   von 22 px wären kein Touch-Ziel.
-- **Zählung** je Tag und Monat: „8 Termine · 9 im TV“ (`zaehlung()`); Termine sind alles außer
-  Fernsehen, also auch Disc und Kino. Eine Null entfällt, der leere Tag sagt „Kein Termin an diesem
-  Tag.“, ein Tag nur mit Fernsehen sagt nichts extra — der Kasten daneben sagt es.
+- **Zählung** je Tag und Monat: „8 Termine · 9 im TV“ (`zaehlung()`); Termine sind Streaming und
+  Kino — **nicht Disc** (die stehen im eigenen Kasten, seit 30.09.2026) und nicht Fernsehen. Eine
+  Null entfällt, der leere Tag sagt „Kein Termin an diesem Tag.“, ein Tag nur mit Fernsehen sagt
+  nichts extra — der Kasten daneben sagt es.
 - **Tailwind v4 erzeugt `pt-[calc((100%-0.75rem)*0.75)]` nicht — lautlos, ohne Warnung** (gemessen
   26.09.2026 im gebauten CSS). Verschachtelte `calc` stehen deshalb als eigene Klasse in `styles.css`
   (`.ak-breit-cover`); nach jeder arbiträren Klasse im gebauten CSS nachsehen, ob sie angekommen ist.

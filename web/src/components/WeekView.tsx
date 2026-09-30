@@ -10,7 +10,7 @@ import { buendeleTermine } from '../lib/buendel.ts'
 import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
 import { PosterKarte, type KartenArt } from './kalender/PosterKarte.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
-import { zaehlung } from './kalender/Marken.tsx'
+import { anbieterUndFolge, zaehlung } from './kalender/Marken.tsx'
 
 /** Ohne Uhrzeit hinter alles mit — ziffernbasiert, damit jede Kollation es hinten einsortiert. */
 const OHNE_UHRZEIT = '99:99'
@@ -18,11 +18,15 @@ const OHNE_UHRZEIT = '99:99'
 export interface Tag {
   date: string
   stream: ReleaseEvent[]
+  /** Disc-Termine — eigener Topf (Prototyp 30.09.2026). */
+  disc: ReleaseEvent[]
   tv: ReleaseEvent[]
   /** Für den Sprung zu heute: Streaming-Termine mit und ohne Uhrzeit. */
   timed: ReleaseEvent[]
   untimed: ReleaseEvent[]
 }
+
+
 
 function nachZeit(a: ReleaseEvent, b: ReleaseEvent): number {
   return (a.time ?? OHNE_UHRZEIT).localeCompare(b.time ?? OHNE_UHRZEIT) || a.name.localeCompare(b.name, 'de')
@@ -34,10 +38,13 @@ export function tageDerWoche(events: ReleaseEvent[], monday: string): Tag[] {
   return Array.from({ length: 7 }, (_, i) => {
     const date = addDays(monday, i)
     const alle = (byDate.get(date) ?? []).slice().sort(nachZeit)
-    const stream = alle.filter((e) => e.platform !== 'tv')
+    /* Disc-Termine sind eine eigene Sorte: weniger interessant, gehören nicht in den Stream-Zähler. */
+    const disc = alle.filter((e) => e.releaseType === 'disc')
+    const stream = alle.filter((e) => e.platform !== 'tv' && e.releaseType !== 'disc')
     return {
       date,
       stream,
+      disc,
       tv: alle.filter((e) => e.platform === 'tv'),
       timed: stream.filter((e) => e.time),
       untimed: stream.filter((e) => !e.time),
@@ -115,7 +122,10 @@ function TagZeile({
       ].join(' ')}
     >
       <TagKopf tag={tag} heute={heute} tvAn={p.tvAn} />
-      <PosterRaster tag={tag} p={p} heute={heute} now={now} landingId={landingId} landingRef={landingRef} />
+      <div className="flex min-w-0 flex-col gap-4">
+        <PosterRaster tag={tag} p={p} heute={heute} now={now} landingId={landingId} landingRef={landingRef} />
+        <DiscKasten termine={tag.disc} hidden={p.hidden} onOpen={p.onOpen} />
+      </div>
       {zeigeTv && (
         <div className="relative lg:min-h-0">
           <div className="lg:absolute lg:inset-0 lg:overflow-y-auto lg:rounded-2xl">
@@ -174,7 +184,7 @@ function PosterRaster({
   const gruppen = buendeleTermine(tag.stream, (ev) => !!ev.verpasst || !!art(ev))
   return (
     <div className="grid grid-cols-2 content-start gap-x-3 gap-y-5 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-x-3.5 lg:min-h-[250px]">
-      {tag.stream.length === 0 && (p.gefiltert || !tag.tv.length) && (
+      {tag.stream.length === 0 && tag.disc.length === 0 && (p.gefiltert || !tag.tv.length) && (
         <p className="col-span-full pt-1 text-sm text-ak-sehr-leise">{t(p.gefiltert ? 'kal.nichtsGefiltert' : 'kal.keinTermin')}</p>
       )}
       {gruppen.map(([ev, ...weitere]) => {
@@ -197,6 +207,47 @@ function PosterRaster({
           />
         )
       })}
+    </div>
+  )
+}
+
+/**
+ * **„Im Handel" als kompakte Liste** (30.09.2026, Daniels Wahl) — wie „Im Fernsehen", nur unter dem
+ * Raster der Mittelspalte statt in einer eigenen Spalte. Disc-Termine werden damit ruhig, ohne mit
+ * dem Fernseh-Kasten um Platz zu kämpfen; der Kopf zählt sie nicht mehr als Streaming-Termine.
+ */
+function DiscKasten({
+  termine,
+  hidden,
+  onOpen,
+}: {
+  termine: ReleaseEvent[]
+  hidden: Set<number>
+  onOpen: (slug: string, date: string) => void
+}) {
+  const { t } = useLang()
+  if (!termine.length) return null
+  return (
+    <div className="flex flex-col gap-0.5 rounded-2xl border border-ak-linie bg-ak-flaeche/40 px-3.5 py-2.5">
+      <h3 className="flex items-center gap-2 text-xs font-bold tracking-[0.1em] text-ak-leise uppercase">
+        {t('card.inStores')} · {termine.length}
+      </h3>
+      <ul className="flex flex-col">
+        {termine.map((ev) => (
+          <li key={ev.id}>
+            <button
+              type="button"
+              onClick={() => onOpen(ev.releaseSlug, ev.date)}
+              className="flex w-full cursor-pointer items-center gap-2 rounded-lg py-1 text-left text-[13px] transition hover:bg-ak-flaeche-2"
+            >
+              <span className="min-w-0 flex-1 truncate font-semibold text-ak-text">
+                {hidden.has(ev.titleId) ? <span className="text-ak-sehr-leise italic">{ev.name}</span> : ev.name}
+              </span>
+              <span className="shrink-0 text-xs text-ak-leise">{anbieterUndFolge(ev, t)}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
