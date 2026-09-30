@@ -269,6 +269,17 @@ const detail = await seite.evaluate(() => ({
   zurueck: Boolean(document.querySelector('.zurueck')),
 }))
 pruefe('der Klick öffnet die Detailseite', detail.jetzt && detail.zurueck)
+/* Der Verlauf nennt Datum und Uhrzeit (Daniel, 30.09.2026). */
+pruefe('die Verlaufszeiten tragen ein Datum (TT.MM. HH:MM)', /\d{2}\.\d{2}\.\s\d{2}:\d{2}/.test(detail.text), detail.text.slice(0, 160))
+pruefe(
+  'der Zurück-Knopf ist ein runder Knopf',
+  await seite.evaluate(() => {
+    const z = document.querySelector('.zurueck')
+    if (!z) return false
+    const s = getComputedStyle(z)
+    return s.borderRadius === '50%' && z.getBoundingClientRect().width >= 20
+  }),
+)
 pruefe('mit Ziel und Schritt', /Schritt 6 von 6/.test(detail.text), detail.text.slice(0, 120))
 pruefe('und dem Verlauf', detail.zeilen >= 2, String(detail.zeilen))
 pruefe('samt Grund des Fehlschlags', /schiefgegangen/.test(detail.text))
