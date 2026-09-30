@@ -299,12 +299,11 @@ pruefe(
   detail.text.slice(0, 200),
 )
 pruefe(
-  'die Tagesabschnitte sind ein sichtbarer Abstand, keine Linie',
+  'die Tagesblöcke unterscheiden sich in der Hintergrundfarbe',
   await seite.evaluate(() => {
-    const t = document.querySelectorAll('.tagtrenner')
-    if (t.length < 2) return false
-    const s = getComputedStyle(t[1])
-    return parseFloat(s.marginTop) >= 12 && parseFloat(s.borderTopWidth) === 0
+    const g = document.querySelectorAll('.taggruppe')
+    if (g.length < 2) return false
+    return getComputedStyle(g[0]).backgroundColor !== getComputedStyle(g[1]).backgroundColor
   }),
 )
 pruefe(
