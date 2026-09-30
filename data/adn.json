@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-09-29T10:42:16.686Z",
+  "scrapedAt": "2026-09-30T10:31:09.185Z",
   "window": {
-    "from": "2026-08-15",
-    "to": "2026-12-13"
+    "from": "2026-08-16",
+    "to": "2026-12-14"
   },
   "shows": [
     {
@@ -1010,6 +1010,19 @@
           "duration": 1440,
           "title": "86 EIGHTY-SIX - Folge 3",
           "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0003/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-10-08",
+          "time": "09:00",
+          "episode": 4,
+          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32634-folge-4",
+          "season": "1",
+          "seasonReference": "eightysix_tv",
+          "order": 4,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "86 EIGHTY-SIX - Folge 4",
+          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0004/web/license_320x180.jpg"
         },
         {
           "date": "2026-10-08",

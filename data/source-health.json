@@ -1,22 +1,22 @@
 {
   "adn": {
-    "lastOk": "2026-09-29T10:42:16.685Z",
-    "lastRun": "2026-09-29T10:42:16.685Z",
+    "lastOk": "2026-09-30T10:31:09.184Z",
+    "lastRun": "2026-09-30T10:31:09.184Z",
     "lastCount": 6
   },
   "anime2you": {
-    "lastOk": "2026-09-29T10:44:50.982Z",
-    "lastRun": "2026-09-29T10:44:50.982Z",
-    "lastCount": 34
+    "lastOk": "2026-09-30T10:33:46.108Z",
+    "lastRun": "2026-09-30T10:33:46.108Z",
+    "lastCount": 35
   },
   "crunchyroll": {
-    "lastOk": "2026-09-30T06:52:44.017Z",
-    "lastRun": "2026-09-30T06:52:44.017Z",
-    "lastCount": 13
+    "lastOk": "2026-09-30T10:30:02.546Z",
+    "lastRun": "2026-09-30T10:30:02.546Z",
+    "lastCount": 18
   },
   "anisearch": {
-    "lastOk": "2026-09-29T11:21:55.959Z",
-    "lastRun": "2026-09-29T11:21:55.959Z",
+    "lastOk": "2026-09-30T11:12:00.116Z",
+    "lastRun": "2026-09-30T11:12:00.116Z",
     "lastCount": 120
   },
   "adn-catalog": {
@@ -60,9 +60,9 @@
     "lastCount": 400
   },
   "motn-changes": {
-    "lastOk": "2026-09-29T10:42:24.182Z",
-    "lastRun": "2026-09-29T10:42:24.182Z",
-    "lastCount": 6
+    "lastOk": "2026-09-30T10:31:11.746Z",
+    "lastRun": "2026-09-30T10:31:11.746Z",
+    "lastCount": 3
   },
   "motn": {
     "lastOk": "2026-09-02T08:52:21.656Z",
@@ -125,18 +125,18 @@
     "lastCount": 0
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-09-29T10:41:19.462Z",
-    "lastRun": "2026-09-29T10:41:19.462Z",
+    "lastOk": "2026-09-30T10:30:07.095Z",
+    "lastRun": "2026-09-30T10:30:07.095Z",
     "lastCount": 82
   },
   "cartoons": {
-    "lastOk": "2026-09-29T11:22:02.778Z",
-    "lastRun": "2026-09-29T11:22:02.778Z",
-    "lastCount": 1
+    "lastOk": "2026-09-30T11:12:09.473Z",
+    "lastRun": "2026-09-30T11:12:09.473Z",
+    "lastCount": 0
   },
   "trailer": {
-    "lastOk": "2026-09-29T11:27:05.760Z",
-    "lastRun": "2026-09-29T11:27:05.760Z",
+    "lastOk": "2026-09-30T11:17:45.891Z",
+    "lastRun": "2026-09-30T11:17:45.891Z",
     "lastCount": 0
   },
   "wikidata-titel": {
@@ -155,13 +155,13 @@
     "lastCount": 32
   },
   "toggo": {
-    "lastOk": "2026-09-30T00:07:19.368Z",
-    "lastRun": "2026-09-30T00:07:19.368Z",
+    "lastOk": "2026-09-30T10:32:16.488Z",
+    "lastRun": "2026-09-30T10:32:16.488Z",
     "lastCount": 25
   },
   "wikipedia-folgen": {
-    "lastOk": "2026-09-29T10:44:23.686Z",
-    "lastRun": "2026-09-29T10:44:23.686Z",
+    "lastOk": "2026-09-30T10:33:17.562Z",
+    "lastRun": "2026-09-30T10:33:17.562Z",
     "lastCount": 7
   },
   "kinoheld": {

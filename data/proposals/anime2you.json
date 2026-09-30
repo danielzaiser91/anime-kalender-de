@@ -1,6 +1,40 @@
 {
-  "scrapedAt": "2026-09-29T10:44:50.983Z",
+  "scrapedAt": "2026-09-30T10:33:46.109Z",
   "proposals": [
+    {
+      "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
+      "publishedAt": "2026-09-29",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-10",
+          "context": "r«) in Kürze in sein Programm aufnehmen wird. Wir fassen zusammen. Ab 10. Oktober 2026 »Rooster Fighter« steht demzufolge ab dem 10. Oktober"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video fügt drei Anime-Neuzugänge zu seinem Katalog hinzu",
+      "articleUrl": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
+      "publishedAt": "2026-09-29",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-01",
+          "context": "hen Originalton mit deutschen Untertiteln auf Abruf zur Verfügung. Am 1. Oktober 2026 folgen die erste Staffel von […] Der Beitrag Prime V"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
       "articleUrl": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
@@ -2085,10 +2119,6 @@
         "kino"
       ],
       "dates": [
-        {
-          "iso": "2026-09-29",
-          "context": "sammen. Kinostart im September 2026 »All You Need is Kill« ist ab dem 29. September 2026 mit deutscher Synchronisation sowie im japanischen"
-        },
         {
           "month": "2026-09",
           "context": "ill« bekannt. Wir fassen alle Details nachfolgend zusammen. Kinostart im September 2026 »All You Need is Kill« ist ab dem 29. September 2026"

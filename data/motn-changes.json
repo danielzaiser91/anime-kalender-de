@@ -1,7 +1,7 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 66
+    "2026-09": 68
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1857,7 +1857,7 @@
       "imdbId": "tt4655480",
       "tmdbId": "tv/62650",
       "dienst": "prime",
-      "am": "2026-09-26",
+      "am": "2026-09-29",
       "deutsch": true
     },
     "removed:7754:prime": {
@@ -5649,7 +5649,37 @@
       "dienst": "prime",
       "am": "2026-09-29",
       "deutsch": true
+    },
+    "new:26343532:netflix": {
+      "art": "new",
+      "titel": "The Arena",
+      "originalTitel": "L'Arène",
+      "imdbId": "tt38234547",
+      "tmdbId": "tv/331669",
+      "dienst": "netflix",
+      "am": "2026-09-30",
+      "deutsch": false
+    },
+    "new:26598917:netflix": {
+      "art": "new",
+      "titel": "Love Is Blind: Netherlands",
+      "originalTitel": "Love Is Blind: Nederland",
+      "imdbId": "tt38681829",
+      "tmdbId": "tv/290750",
+      "dienst": "netflix",
+      "am": "2026-09-30",
+      "deutsch": false
+    },
+    "new:312:prime": {
+      "art": "new",
+      "titel": "The Night Of",
+      "originalTitel": "The Night Of",
+      "imdbId": "tt2401256",
+      "tmdbId": "tv/66276",
+      "dienst": "prime",
+      "am": "2026-09-30",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-09-29T10:42:24.181Z"
+  "fetchedAt": "2026-09-30T10:31:11.744Z"
 }
