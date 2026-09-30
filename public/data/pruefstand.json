@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-30T13:49:34.598Z",
+ "erzeugtAm": "2026-09-30T14:45:00.379Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -29,18 +29,13 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 371,
+   "gemeldet": 377,
    "gesamt": 377,
-   "offen": 6,
+   "offen": 0,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/80135674",
-   "ziele": [
-    {
-     "url": "https://www.netflix.com/title/80135674",
-     "titel": "My Hero Academia"
-    }
-   ],
-   "naechster": "My Hero Academia"
+   "ziel": null,
+   "ziele": [],
+   "naechster": null
   },
   {
    "name": "Disney+",
