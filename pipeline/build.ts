@@ -20,13 +20,13 @@ import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { baueMeta } from './bau/12-meta.ts'
 import { schreibeDatensatz } from './bau/13-schreiben.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
+import { schreibeSynchro } from './bau/15-synchro.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
 
 function main(): void {
   /**
-   * **Jeder entfernte Verweis mit seinem Grund — vollständig.** Ein Verweis, der verschwindet, ist
-   * die folgenreichste Änderung, die dieser Bau macht; jede Phase, die einen entfernt, trägt ihn
-   * hier mit Grund ein (Anlass 29.08.2026: 46 Titel ohne Weg und ohne Begründung).
+   * **Jeder entfernte Verweis mit seinem Grund — vollständig** (Anlass 29.08.2026: 46 Titel ohne
+   * Weg und ohne Begründung). Jede Phase, die einen entfernt, trägt ihn hier mit Grund ein.
    */
   const verweiseEntfernt: EntfernterVerweis[] = []
   const quellen = ladeQuellen()
@@ -104,6 +104,7 @@ function main(): void {
     meta,
   })
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })
+  schreibeSynchro() // Farbtabelle für die Crunchyroll-Watchlist (30.09.2026)
 }
 
 main()

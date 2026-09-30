@@ -28,6 +28,7 @@ import {
   type ReleaseLink,
 } from './templates.ts'
 import { Ereignisse, ereignisSenden } from './ereignisse.ts'
+import { handleSynchro } from './synchro.ts'
 import { leererPush, pushVersand } from './push.ts'
 import { istErschienen } from '../../shared/logic.ts'
 import { type Env } from './env.ts'
@@ -1432,13 +1433,13 @@ export default {
     const url = new URL(request.url)
 
     if (request.method === 'OPTIONS') {
-      // Der Laufstatus wird auch von einer Datei auf dem Schreibtisch gelesen;
-      // die hat den Ursprung `null` und käme an der sonstigen Beschränkung nicht vorbei.
+      // Der Laufstatus wird auch aus einer Datei gelesen (Ursprung `null`) — daher `*` für diese Pfade.
       if (
         url.pathname === '/lauf' ||
         url.pathname === '/pruefung' ||
         url.pathname === '/netzfund' ||
-        url.pathname === '/vorfall'
+        url.pathname === '/vorfall' ||
+        url.pathname === '/synchro'
       ) {
         return new Response(null, {
           headers: {
@@ -1548,8 +1549,7 @@ export default {
         // Browser gleich mit — ein Klick, beide Wirkungen.
         return handleRhythmus(request, env)
       case '/debug/digest': {
-        // Versand von Hand auslösen, ohne bis 07:00 zu warten. Nur mit dem
-        // Secret DEBUG_TOKEN erreichbar; ohne gesetztes Secret abgeschaltet.
+        // Versand von Hand auslösen. Nur mit dem Secret DEBUG_TOKEN; ohne Secret abgeschaltet.
         const token = url.searchParams.get('token') ?? ''
         if (!env.DEBUG_TOKEN || token !== env.DEBUG_TOKEN) {
           return json(env, { error: 'Nicht erlaubt' }, 403)
@@ -1598,11 +1598,8 @@ export default {
       case '/vorfall':
         return handleVorfall(request, env)
       /*
-        **Der Kanal, auf dem die Statusanzeige zuhört.**
-
-        Kein Token: Was hier fließt, ist die Nachricht „es hat sich etwas
-        geändert" — keine Daten. Was sich geändert hat, holt die Anzeige über
-        die Endpunkte, die sie ohnehin liest.
+        **Der Kanal, auf dem die Statusanzeige zuhört.** Kein Token: Hier fließt nur die Nachricht
+        „es hat sich etwas geändert", keine Daten — die holt die Anzeige über ihre Endpunkte.
       */
       case '/ereignisse': {
         if (!env.EREIGNISSE) return json(env, { error: 'Kein Ereignis-Kanal eingerichtet' }, 501)
@@ -1617,6 +1614,9 @@ export default {
       }
       case '/lauf':
         return handleLauf(request, env, ctx)
+      /* Die Farb-Auskunft für die Crunchyroll-Watchlist (30.09.2026) — ohne Token, ohne Datenbank. */
+      case '/synchro':
+        return handleSynchro(request)
       case '/health': {
         const count = await env.DB.prepare(
           "SELECT COUNT(*) AS n FROM subscribers WHERE status = 'active'",

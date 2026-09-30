@@ -22,6 +22,7 @@ import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.t
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
+import { farbeFuer, type SynchroDaten } from '../shared/synchro.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
@@ -5079,6 +5080,25 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     sources: ['x'], schedule: { firstEpisodeDate: '2026-09-30', episodeCount: 3 },
   } as unknown as Release
   pruefe('eine laufende Serie behält ihre künftigen Folgen', merkbareTermine(serie, '2026-09-30').map((e) => e.episode).join(',') === '2,3')
+}
+/*
+  **Die Farbe für die Crunchyroll-Watchlist** (30.09.2026): bestätigt grün, angekündigt erst ab
+  seiner Uhrzeit, sonst gelb. „Nicht bestätigt" und „kein Deutsch" werden bewusst nicht getrennt
+  (Daniel: „keine ungenauigkeit gegen bestand").
+*/
+{
+  const daten: SynchroDaten = {
+    v: 1,
+    erzeugtAm: '2026-09-30T18:00:00Z',
+    g: { BESTAETIGT: '2026-09-26T16:00:00Z' },
+    w: { G8DHV78ZM: [{ von: 13, bis: 13, ab: '2026-09-30T19:25:00Z' }] },
+  }
+  const vorher = Date.parse('2026-09-30T19:20:00Z')
+  pruefe('eine bestätigte deutsche Folge ist grün', farbeFuer({ e: 'BESTAETIGT' }, daten, vorher).f === 'gruen')
+  pruefe('eine unbekannte Kennung ist gelb', farbeFuer({ e: 'UNBEKANNT' }, daten, vorher).f === 'gelb')
+  pruefe('eine angekündigte Folge ist vor ihrer Uhrzeit gelb', farbeFuer({ s: 'G8DHV78ZM', n: 13 }, daten, vorher).f === 'gelb')
+  pruefe('dieselbe Folge ist ab ihrer Uhrzeit grün', farbeFuer({ s: 'G8DHV78ZM', n: 13 }, daten, Date.parse('2026-09-30T19:25:00Z')).f === 'gruen')
+  pruefe('eine andere Nummer bleibt gelb', farbeFuer({ s: 'G8DHV78ZM', n: 14 }, daten, vorher).f === 'gelb')
 }
 /* Crunchyroll-Folgendaten ergänzen einen Wochentermin nur über einen eindeutig passenden Block (16.09.2026). */
 {
