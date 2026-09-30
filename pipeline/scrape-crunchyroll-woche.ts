@@ -27,6 +27,7 @@
 import { chromium } from 'playwright'
 import { normalizeTitle, type CrunchyrollData } from './lib/crunchyroll.ts'
 import { todayIso } from '../shared/time.ts'
+import { MONATE, wocheAus } from '../shared/wochenprogramm.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 
 const args = process.argv.slice(2)
@@ -157,10 +158,6 @@ async function abweichungenMelden(abw: WochenProgramm['abweichungen'], artikel: 
   }
 }
 
-const MONATE: Record<string, number> = {
-  januar: 1, februar: 2, märz: 3, maerz: 3, april: 4, mai: 5, juni: 6, juli: 7,
-  august: 8, september: 9, oktober: 10, november: 11, dezember: 12,
-}
 const TAGE = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag']
 
 const iso = (j: number, m: number, t: number) => `${j}-${String(m).padStart(2, '0')}-${String(t).padStart(2, '0')}`
@@ -168,17 +165,6 @@ function plusTage(isoTag: string, n: number): string {
   const d = new Date(`${isoTag}T12:00:00Z`)
   d.setUTCDate(d.getUTCDate() + n)
   return d.toISOString().slice(0, 10)
-}
-
-/** „Crunchyrolls aktuelles Wochenprogramm vom 21. bis 27. September" (+ Jahr) → Montag als ISO. */
-export function wocheAus(ueberschrift: string, jahr: number): string | null {
-  const m = /vom\s+(\d{1,2})\.\s*(?:([A-Za-zäöü]+)\s+)?bis\s+(\d{1,2})\.\s*([A-Za-zäöü]+)/i.exec(ueberschrift)
-  if (!m) return null
-  const monatBis = MONATE[m[4].toLowerCase()]
-  const monatVon = m[2] ? MONATE[m[2].toLowerCase()] : monatBis
-  if (!monatVon || !monatBis) return null
-  /* Eine Woche über den Jahreswechsel („vom 29. Dezember bis 4. Januar") beginnt im Vorjahr. */
-  return iso(monatVon === 12 && monatBis === 1 ? jahr - 1 : jahr, monatVon, Number(m[1]))
 }
 
 /** „*erscheint am 2. Oktober" → ISO, im Jahr der Woche; ein Januar nach einer Dezemberwoche zählt ins Folgejahr. */

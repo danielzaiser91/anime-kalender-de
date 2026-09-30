@@ -20,7 +20,6 @@ import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { baueMeta } from './bau/12-meta.ts'
 import { schreibeDatensatz } from './bau/13-schreiben.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
-import { schreibeSynchro } from './bau/15-synchro.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
 
 function main(): void {
@@ -104,7 +103,6 @@ function main(): void {
     meta,
   })
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })
-  schreibeSynchro() // Farbtabelle für die Crunchyroll-Watchlist (30.09.2026)
 }
 
 main()

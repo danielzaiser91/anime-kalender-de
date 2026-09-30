@@ -22,7 +22,7 @@ import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.t
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
-import { farbeFuer, type SynchroDaten } from '../shared/synchro.ts'
+import { wocheAus } from '../shared/wochenprogramm.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
@@ -5082,24 +5082,17 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('eine laufende Serie behält ihre künftigen Folgen', merkbareTermine(serie, '2026-09-30').map((e) => e.episode).join(',') === '2,3')
 }
 /*
-  **Die Farbe für die Crunchyroll-Watchlist** (30.09.2026): nur der **bestätigte** Bestand färbt grün.
-  Eine angekündigte oder geschätzte deutsche Folge reicht nicht — das Wochenprogramm kündigte
-  „Meine Wiedergeburt als Schleim in einer anderen Welt" Staffel 4, Folge 22, eine Woche zu früh als
-  deutsch an (25.09. statt 02.10.), und der Punkt wurde grün (Daniel). „Nicht bestätigt" und „kein
-  Deutsch" werden bewusst nicht getrennt.
+  **Die Überschrift des Wochenprogramms** (30.09.2026): Am 28.09. wechselte derselbe Artikel auf die
+  kurze Schreibweise („vom 28.9. bis 4.10."), der Leser kannte nur ausgeschriebene Monate — seither
+  brach der Stundelauf ab, und `data/crunchyroll-woche.json` blieb drei Tage auf der Vorwoche stehen.
 */
 {
-  const daten: SynchroDaten = {
-    v: 1,
-    erzeugtAm: '2026-09-30T18:00:00Z',
-    g: { BESTAETIGT: '2026-09-26T16:00:00Z' },
-  }
-  const jetzt = Date.parse('2026-09-30T19:20:00Z')
-  pruefe('eine bestätigte deutsche Folge ist grün', farbeFuer({ e: 'BESTAETIGT' }, daten, jetzt).f === 'gruen')
-  pruefe('eine unbekannte Kennung ist gelb', farbeFuer({ e: 'UNBEKANNT' }, daten, jetzt).f === 'gelb')
-  /* Slime S4 E22: Serienkennung und Nummer allein färben nichts. */
-  pruefe('ohne Kennung bleibt es gelb, auch mit Seriennummer', farbeFuer({ s: 'GYZJ43JMR', n: 22 }, daten, jetzt).f === 'gelb')
-  pruefe('eine erst künftig deutsche Folge ist noch gelb', farbeFuer({ e: 'KUENFTIG' }, { ...daten, g: { KUENFTIG: '2026-10-02T15:00:00Z' } }, jetzt).f === 'gelb')
+  const ueberschrift = (t: string) => `Crunchyrolls aktuelles Wochenprogramm ${t}`
+  pruefe('Wochenprogramm: Monat ausgeschrieben', wocheAus(ueberschrift('vom 21. bis 27. September'), 2026) === '2026-09-21')
+  pruefe('Wochenprogramm: kurze Zahlen', wocheAus(ueberschrift('vom 28.9. bis 4.10.'), 2026) === '2026-09-28')
+  pruefe('Wochenprogramm: gemischt', wocheAus(ueberschrift('vom 28. September bis 4.10.'), 2026) === '2026-09-28')
+  pruefe('Wochenprogramm: Jahreswechsel', wocheAus(ueberschrift('vom 29. Dezember bis 4. Januar'), 2026) === '2025-12-29')
+  pruefe('Wochenprogramm: unlesbar bleibt unlesbar', wocheAus('Wochenprogramm ohne Datum', 2026) === null)
 }
 /* Crunchyroll-Folgendaten ergänzen einen Wochentermin nur über einen eindeutig passenden Block (16.09.2026). */
 {

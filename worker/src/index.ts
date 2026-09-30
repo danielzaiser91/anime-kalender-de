@@ -28,7 +28,6 @@ import {
   type ReleaseLink,
 } from './templates.ts'
 import { Ereignisse, ereignisSenden } from './ereignisse.ts'
-import { handleSynchro } from './synchro.ts'
 import { leererPush, pushVersand } from './push.ts'
 import { istErschienen } from '../../shared/logic.ts'
 import { type Env } from './env.ts'
@@ -1438,8 +1437,7 @@ export default {
         url.pathname === '/lauf' ||
         url.pathname === '/pruefung' ||
         url.pathname === '/netzfund' ||
-        url.pathname === '/vorfall' ||
-        url.pathname === '/synchro'
+        url.pathname === '/vorfall'
       ) {
         return new Response(null, {
           headers: {
@@ -1614,9 +1612,6 @@ export default {
       }
       case '/lauf':
         return handleLauf(request, env, ctx)
-      /* Die Farb-Auskunft für die Crunchyroll-Watchlist (30.09.2026) — ohne Token, ohne Datenbank. */
-      case '/synchro':
-        return handleSynchro(request)
       case '/health': {
         const count = await env.DB.prepare(
           "SELECT COUNT(*) AS n FROM subscribers WHERE status = 'active'",
