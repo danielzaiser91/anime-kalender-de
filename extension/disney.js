@@ -656,8 +656,9 @@
 
   // --- Was schon gemeldet ist ----------------------------------------------
 
-  /** `seit` (ISO-Datum): nur Meldungen ab diesem Tag zählen — für Wiedervorlagen. */
+  /** `seit`: nur Meldungen ab diesem Zeitpunkt zählen — Maßstab ist der Prüfstand (`pruefstand-zeit.js`). */
   async function gemeldeteHolen(url, seit = null) {
+    if (typeof globalThis.akGemeldetSeit === 'function') seit = await globalThis.akGemeldetSeit(seit)
     try {
       const antwort = await fetch(`${WORKER}?gemeldet=${encodeURIComponent(url)}`, {
         cache: 'no-store',
@@ -902,8 +903,7 @@
 
   /*
     **Wohin der Klick ging.** Disney+ leitet um (`/series/…` → `/browse/entity-…`) oder zeigt eine
-    Fehlerseite ohne Kennung (`/error?src=bap`) — nur der Klick weiß dann, welcher Titel gemeint
-    war. Aus einer Fehlerseite wird keine Meldung: Sie sieht bei Störung und Fehlen gleich aus.
+    Fehlerseite ohne Kennung (`/error?src=bap`) — nur der Klick weiß dann, welcher Titel gemeint war.
   */
   const ZIEL_SCHLUESSEL = 'ak-disney-ziel'
 

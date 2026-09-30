@@ -270,6 +270,26 @@ pruefe(
     /titel: \(stand\.serientitel \|\| stand\.titel \|\| ''\)/.test(melder))
 }
 
+/*
+  **Der Maßstab für „schon gemeldet" ist der Prüfstand** (01.10.2026). Auf Disney+ blendete der
+  Kasten „Bleach: Thousand-Year Blood War" aus, weil Meldungen seit seinem Eintragsdatum (27.09.)
+  vorlagen — die Liste (Prüfstand vom 30.09.) verlangt den Titel aber erneut, weil die alten
+  Meldungen Folgentitel statt Nummern trugen. Die Statusanzeige zählte 2 Titel, der Kasten 1
+  (Daniel: „woher die diskrepanz?"). Geprüft wird der Quelltext — der Zeitpunkt entsteht zur
+  Laufzeit aus `?stand=1`.
+*/
+{
+  const { resolve: pfad } = require('node:path')
+  const lies = (name) => readFileSync(pfad(__dirname, '..', 'extension', name), 'utf8')
+  pruefe('disney.js nimmt den Prüfstand-Zeitpunkt als Maß für „gemeldet"',
+    lies('disney.js').includes('globalThis.akGemeldetSeit('))
+  pruefe('pruefstand-zeit.js stellt den Maßstab bereit',
+    lies('pruefstand-zeit.js').includes('globalThis.akGemeldetSeit'))
+  const js = (JSON.parse(lies('manifest.json')).content_scripts ?? []).flatMap((s) => s.js ?? [])
+  pruefe('pruefstand-zeit.js wird vor disney.js geladen',
+    js.indexOf('pruefstand-zeit.js') >= 0 && js.indexOf('pruefstand-zeit.js') < js.indexOf('disney.js'))
+}
+
 console.log('')
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) rot.`)

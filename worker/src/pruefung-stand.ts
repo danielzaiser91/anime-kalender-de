@@ -1,3 +1,15 @@
+/**
+ * **Der Prüfstand als Auskunft: was noch zu melden ist.**
+ *
+ * Zwei Zeitpunkte stehen in der Antwort, und sie sind nicht dasselbe (01.10.2026):
+ *
+ * - `pruefstandAm` — wann `data/pruefstand.json` gebaut wurde. Das ist der **Maßstab** für „schon
+ *   gemeldet": Nur eine Meldung **nach** dem Listenbau ist die Überbrückung bis zum nächsten
+ *   Lauf; alles davor kennt der Bau längst. Die Erweiterung auf Disney+ nahm stattdessen das
+ *   Eintragsdatum und blendete damit einen Titel aus, den die Liste weiterhin verlangt (Bleach:
+ *   Meldung vom 27.09. mit Folgentiteln statt Nummern — der Prüfstand vom 30.09. will sie erneut).
+ * - `erzeugtAm` — wann diese Antwort **gerechnet** wurde. Steht nur zur Anzeige da.
+ */
 import { type Env } from './env.ts'
 
 export async function berechnePruefstand({ env, antwort }: {
@@ -188,5 +200,5 @@ export async function berechnePruefstand({ env, antwort }: {
           ziele: alleZiele,
         }
       })
-      return antwort({ anbieter, erzeugtAm: new Date().toISOString() })
+      return antwort({ anbieter, erzeugtAm: new Date().toISOString(), pruefstandAm: seit })
 }
