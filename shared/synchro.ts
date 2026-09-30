@@ -10,11 +10,15 @@
  * Watchlist-Einträge und bekommt je Eintrag eine Farbe zurück — kein Abo, kein Zwischenspeicher.
  *
  * Die Wahrheit liegt in `public/data/synchro.json` (Bau-Phase `pipeline/bau/15-synchro.ts`):
- * - `g` — **bestätigte** deutsche Folgen. Schlüssel ist die Folgenkennung aus der Watch-Adresse
- *   (`/de/watch/<kennung>/…`), Wert der Zeitpunkt, seit dem sie deutsch ist (UTC).
- * - `w` — **angekündigte** deutsche Folgen aus dem Crunchyroll-Wochenprogramm, je Serienkennung ein
- *   Bereich `von…bis` mit Zeitpunkt. Damit wird eine Folge grün, sobald ihre Uhrzeit erreicht ist,
- *   ohne auf den nächsten Datenlauf zu warten (Daniel: „das 19:20 vs 19:25 beispiel").
+ * `g` — **bestätigte** deutsche Folgen. Schlüssel ist die Folgenkennung aus der Watch-Adresse
+ * (`/de/watch/<kennung>/…`), Wert der Zeitpunkt, seit dem sie deutsch ist (UTC).
+ *
+ * **Nur Bestätigtes wird grün.** Eine angekündigte oder geschätzte deutsche Folge reicht nicht:
+ * Für „Meine Wiedergeburt als Schleim in einer anderen Welt" Staffel 4 kündigte das
+ * Crunchyroll-Wochenprogramm Folge 22 für den 25.09.2026 als deutsch an; belegt ist aber nur bis
+ * Folge 21 (25.09.), Folge 22 ist im Kalender **geschätzt** (02.10.) und die Episodenseite nennt am
+ * 30.09. nur „Dub: Japanese, English" (Daniel). Die Ankündigung lag also eine Woche daneben — der
+ * Punkt war grün. Deshalb entscheidet allein der bestätigte Bestand.
  *
  * Die Farbregel steht hier und nicht im Worker, damit Prüflauf und Auslieferung dieselbe Rechnung
  * benutzen — eine Wahrheit.
@@ -25,11 +29,13 @@ export interface SynchroDaten {
   erzeugtAm: string
   /** Folgenkennung → Zeitpunkt der deutschen Fassung (UTC ISO), `''` wenn ohne Datum belegt. */
   g: Record<string, string>
-  /** Serienkennung → angekündigte deutsche Bereiche aus dem Wochenprogramm. */
-  w: Record<string, { von: number; bis: number; ab: string }[]>
 }
 
-/** Ein sichtbarer Watchlist-Eintrag: Serienkennung, Folgenkennung, Folgennummer (so weit bekannt). */
+/**
+ * Ein sichtbarer Watchlist-Eintrag. Die Erweiterung schickt alle drei Angaben; **entscheidend ist
+ * nur die Folgenkennung** — Serienkennung und Folgennummer sind zu unzuverlässig (verschiedene
+ * Zählungen bei Crunchyroll und bei uns, siehe oben).
+ */
 export interface SynchroEintrag {
   s?: string
   e?: string
@@ -40,36 +46,15 @@ export interface SynchroFarbe {
   f: 'gruen' | 'gelb'
   /** Seit wann deutsch (bestätigt). */
   seit?: string
-  /** Ab wann deutsch (angekündigt). */
-  ab?: string
 }
 
 /**
- * **Eine Ankündigung gilt zwei Tage.**
- *
- * Danach zählt nur der bestätigte Bestand. Sonst bliebe eine Ankündigung, die nie eintraf, für immer
- * grün: Für „Meine Wiedergeburt als Schleim in einer anderen Welt" Staffel 4 kündigte das
- * Wochenprogramm Folge 22 für den 25.09.2026 an, der Dub-Bestand reicht aber bis Folge 21, und die
- * Episodenseite nennt am 30.09. weiterhin nur „Dub: Japanese, English" (Daniel). Zwei Tage genügen,
- * damit der tägliche Dub-Lauf eine echte Veröffentlichung bestätigt.
- */
-const ANKUENDIGUNG_GILT_MS = 48 * 60 * 60 * 1000
-
-/**
- * **Die Farbe eines Eintrags.** Alles, was nicht als deutsch belegt oder angekündigt ist, ist gelb —
- * „nicht bestätigt" und „kein Deutsch" werden bewusst nicht getrennt (Daniel: „keine ungenauigkeit
- * gegen bestand").
+ * **Die Farbe eines Eintrags.** Grün nur, wenn die Folge im bestätigten Bestand steht und ihr
+ * Zeitpunkt erreicht ist; alles andere ist gelb — „nicht bestätigt" und „kein Deutsch" werden
+ * bewusst nicht getrennt (Daniel: „keine ungenauigkeit gegen bestand").
  */
 export function farbeFuer(eintrag: SynchroEintrag, daten: SynchroDaten, jetzt: number): SynchroFarbe {
   const seit = eintrag.e ? daten.g[eintrag.e] : undefined
   if (seit !== undefined && (!seit || Date.parse(seit) <= jetzt)) return { f: 'gruen', seit }
-  const nummer = eintrag.n
-  const bereiche = eintrag.s && nummer !== undefined ? daten.w[eintrag.s] : undefined
-  const treffer = bereiche?.find((b) => nummer! >= b.von && nummer! <= b.bis)
-  if (treffer) {
-    const ab = Date.parse(treffer.ab)
-    if (ab <= jetzt && jetzt - ab <= ANKUENDIGUNG_GILT_MS) return { f: 'gruen', ab: treffer.ab }
-    return { f: 'gelb', ab: treffer.ab }
-  }
   return { f: 'gelb' }
 }
