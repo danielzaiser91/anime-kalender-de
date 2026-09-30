@@ -4664,5 +4664,32 @@
       "sagt": "2026-10-08",
       "stand": "aktuell"
     }
+  ],
+  "adn-1423-s1-20261008-116589": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-09-30",
+      "sagt": "2026-10-08",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1423-s1-20261008-131586": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-09-30",
+      "sagt": "2026-10-08",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-179813-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-30",
+      "sagt": "2026-10-10",
+      "stand": "aktuell"
+    }
   ]
 }
