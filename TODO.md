@@ -101,7 +101,16 @@ Zeitaufwand und dem, was jede Aufgabe löst.
 
 ## Offene Kästchen
 
-keine.
+- [ ] **Watchlist-Farbe in beiden Oberflächen prüfen, sobald eine Karte grün ist** (30.09.2026).
+  `chrome-utilities` 1.10.0.5 färbt grün nur bei deutscher Fassung **und** ungesehen
+  (`cu_watchSprache` liest das Sprachpaar aus dem Watch-Link, `cu_watchZustand` den Zustand aus dem
+  Untertitel). Gemessen ist bisher nur der gelbe Fall: an Daniels Watchlist sind alle 11 Karten gelb
+  (8 ohne deutsche Fassung, 3 deutsch aber schon gesehen), und die englische Fassung zeigt `DEDE` an
+  genau denselben drei Stellen wie die deutsche. **Auslöser:** sobald eine ungesehene Folge mit
+  deutscher Fassung dasteht — erster Kandidat ist „Meine Wiedergeburt als Schleim in einer anderen
+  Welt" Staffel 4, Folge 22 (deutscher Termin im Kalender: 02.10.2026, 17:00). **Dann prüfen:**
+  dieselbe Karte in deutscher (`Jetzt anschauen`) und englischer Oberfläche (`Start Watching`) —
+  beide müssen **grün** sein; „Erneut anschauen"/„Watch Again" muss **gelb** bleiben.
 
 ## Erledigt
 
