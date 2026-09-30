@@ -503,7 +503,7 @@ UID:auto-112153-tv-toggo-plus@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T191500Z
 DTEND:20260929T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 5/5
+SUMMARY:Pokémon Reisen: Die Serie – Folge 5/6
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
 CATEGORIES:TOGGO plus
@@ -517,6 +517,16 @@ SUMMARY:Dragon Ball – Folge 9/18
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T191500Z
+DTEND:20260930T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 6/6
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-171018-disc@2026-09-30@anime-kalender-de
