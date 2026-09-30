@@ -37,6 +37,21 @@ import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
+import { meldeAbbruch } from './lib/abbruch.ts'
+
+/*
+  **Dieser Lauf ist im Stundeltakt als geduldeter Schritt eingehängt** (`continue-on-error`, weil er
+  den Datenlauf nicht aufhalten soll). Ohne die folgenden zwei Zeilen bliebe ein Absturz unsichtbar —
+  genau die Form, die am 28.09.2026 drei Tage lang niemandem auffiel. Deshalb meldet sich jeder
+  Abbruch als Vorfall an die Statusanzeige; `tools/check-workflows.mjs` achtet darauf.
+*/
+for (const ereignis of ['uncaughtException', 'unhandledRejection'] as const) {
+  process.on(ereignis, (err) => {
+    void meldeAbbruch('verpasste-termine', err, 'mehrere')
+    console.error(err)
+    process.exit(1)
+  })
+}
 
 /** Fünfzehn Minuten Nachsicht — ein Anbieter stellt selten auf die Sekunde ein. */
 const KARENZ_MS = 15 * 60 * 1000

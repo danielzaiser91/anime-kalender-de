@@ -62,6 +62,13 @@ const FRISTEN: Record<string, number> = {
   'crunchyroll-dub': 9,
   // Läuft täglich — vier Abrufe. Bleibt er zwei Tage stumm, ist etwas kaputt.
   'crunchyroll-neu': 3,
+  /*
+    Stündlich. Fällt der Leser aus, steht `data/crunchyroll-woche.json` still — und weil der Schritt
+    als geduldeter läuft (`continue-on-error`), bleibt der Lauf trotzdem grün: Am 28.09.2026 wechselte
+    der Artikel auf die kurze Schreibweise, und die Datei stand drei Tage auf der Vorwoche, ohne dass
+    es jemandem auffiel. Ein Tag Frist meldet das am zweiten Tag als Blocker.
+  */
+  'crunchyroll-woche': 1,
   // Mehrmals täglich; zwei stumme Tage heißen, RTL+ hat die Seite umgebaut.
   'tv-programm': 3,
   /*

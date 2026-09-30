@@ -29,6 +29,8 @@ import { normalizeTitle, type CrunchyrollData } from './lib/crunchyroll.ts'
 import { todayIso } from '../shared/time.ts'
 import { MONATE, wocheAus } from '../shared/wochenprogramm.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
+import { recordSource } from './lib/health.ts'
+import { meldeAbbruch } from './lib/abbruch.ts'
 
 const args = process.argv.slice(2)
 const HEADED = args.includes('--head')
@@ -186,13 +188,17 @@ export function zeileLesen(text: string): { von: number; bis: number; zeit: stri
   return { von: Number(f[1]), bis: Number(f[2] ?? f[1]), zeit: z ? `${z[1].padStart(2, '0')}:${z[2]}` : null }
 }
 
+/*
+  **Der Wachhund muss diese Quelle kennen.** Bis zum 30.09.2026 meldete sie sich nirgends — ein stiller
+  Ausfall wie der vom 28.09. konnte deshalb drei Tage unbemerkt bleiben. `check-sources` liest
+  `data/source-health.json` und zeigt eine stumme Quelle als Blocker auf der Statusanzeige.
+*/
 async function main(): Promise<void> {
   const browser = await chromium.launch({ headless: !HEADED })
   try {
     const seite = await browser.newPage({ userAgent: UA, locale: 'de-DE' })
     /*
-      `tsx` (esbuild, keepNames) setzt in benannte Funktionen einen Helfer `__name` ein — im
-      Browser gibt es ihn nicht, und `page.evaluate` warf „__name is not defined" (25.09.2026).
+      `tsx` (esbuild) setzt in benannte Funktionen einen Helfer `__name` ein — im Browser gibt es ihn nicht.
     */
     await seite.addInitScript('window.__name = (f) => f')
     let artikel = args[args.indexOf('--adresse') + 1]
@@ -257,6 +263,7 @@ async function main(): Promise<void> {
     const entschieden = entscheiden(eintraege, kalender, todayIso())
     const programm: WochenProgramm = { geholtAm: new Date().toISOString(), artikel, ueberschrift: roh.ueberschrift, wocheAb, eintraege, ...entschieden }
     writeJson('data/crunchyroll-woche.json', programm)
+    recordSource('crunchyroll-woche', eintraege.length, eintraege.length ? undefined : 'Artikel gelesen, aber keine Zeile erkannt', eintraege.length)
     const de = eintraege.filter((e) => e.sprache === 'de')
     log(`${roh.ueberschrift}: ${eintraege.length} Zeilen, davon ${de.length} Synchro (${de.filter((e) => e.abweichend).length} mit eigenem Datum)`)
     log(`Übernommen: ${entschieden.uebernommen.length} Folgen · Abweichungen: ${entschieden.abweichungen.length} · ohne Kalendereintrag: ${entschieden.ohneEintrag.length}`)
@@ -268,7 +275,16 @@ async function main(): Promise<void> {
 }
 
 if (process.argv[1]?.endsWith('scrape-crunchyroll-woche.ts')) {
-  main().catch((err) => {
+  main().catch(async (err) => {
+    /*
+      **Der stille Ausfall.** Dieser Schritt ist `continue-on-error` — ein Wurf bleibt damit für den
+      Lauf unsichtbar (28.09.2026: drei Tage lang, während die Datei auf der Vorwoche stand). Deshalb
+      meldet der Leser sein Scheitern doppelt: an den Wachhund (`recordSource`, den `check-sources`
+      auswertet) und als Vorfall an die Statusanzeige.
+    */
+    const meldung = (err as Error).message
+    recordSource('crunchyroll-woche', 0, meldung, 0)
+    await meldeAbbruch('wochenprogramm', err)
     console.error(err)
     process.exit(1)
   })

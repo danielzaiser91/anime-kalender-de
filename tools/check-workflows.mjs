@@ -438,6 +438,48 @@ const NUR_VON_HAND = {
   }
 }
 
+/*
+  **Ein geduldeter Schritt darf nicht still scheitern** (30.09.2026).
+
+  Der Wochenprogramm-Leser warf drei Tage lang bei jedem Stundelauf — der Schritt trägt
+  `continue-on-error: true`, der Lauf blieb also grün, und `data/crunchyroll-woche.json` stand
+  unverändert auf der Vorwoche. Aufgefallen ist es nur, weil jemand die Datei zufällig ansah.
+
+  Deshalb: Läuft ein geduldeter Schritt ein `pipeline/*.ts`, muss das Skript seinen Ausfall selbst
+  sichtbar machen — über den Wachhund (`recordSource`, das `check-sources` auswertet) **oder** als
+  Vorfall (`meldeAbbruch`). Fehlt beides, bleibt ein Ausfall unsichtbar.
+*/
+for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml'))) {
+  let doc
+  try {
+    doc = parse(readFileSync(resolve(DIR, datei), 'utf8'))
+  } catch {
+    continue // ungültiges YAML meldet der Durchlauf oben schon
+  }
+  for (const job of Object.values(doc?.jobs ?? {})) {
+    for (const step of job?.steps ?? []) {
+      if (step['continue-on-error'] !== true) continue
+      const run = String(step.run ?? '')
+      for (const treffer of run.matchAll(/pipeline\/[a-z0-9-]+\.ts/g)) {
+        const skript = treffer[0]
+        let inhalt
+        try {
+          inhalt = readFileSync(resolve(process.cwd(), skript), 'utf8')
+        } catch {
+          continue
+        }
+        if (inhalt.includes('recordSource(') || inhalt.includes('meldeAbbruch(')) continue
+        console.error(
+          `✗ ${datei}: „${step.name ?? skript}" darf scheitern (continue-on-error), ` +
+            `aber ${skript} meldet sich nirgends — ein stiller Ausfall fällt niemandem auf. ` +
+            'Entweder `recordSource()` (Wachhund) oder `meldeAbbruch()` (Vorfall) ergänzen.',
+        )
+        fehler++
+      }
+    }
+  }
+}
+
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
   process.exit(1)
