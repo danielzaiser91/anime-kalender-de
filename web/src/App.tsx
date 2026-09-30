@@ -284,6 +284,7 @@ export default function App() {
           data={data}
           titleId={openTitleId}
           terminOffen={Boolean(route.release)}
+          releaseSlug={route.release}
           favorites={favorites}
           hidden={hidden}
           onToggleFavorite={toggle}

@@ -363,7 +363,9 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   Poster im Raster mehr** (Daniels Wahl nach zwei Prototypen): Sie sind zu viele und zu wenig
   interessant, und als Liste kämpfen sie nicht mit dem Fernseh-Kasten um Platz. Der TV-Kasten füllt
   die Zeilenhöhe (`h-full` im absolut positionierten Rahmen) und scrollt darin; wächst die
-  Mittelspalte durch den Disc-Kasten, wächst er mit. Bilder: `docs/woche-im-handel*.png`.
+  Mittelspalte durch den Disc-Kasten, wächst er mit. Ein Klick auf einen Titel öffnet das Panel mit
+  dem Stream/Disc-Umschalter auf **„Disc"** (`detail/disc-start.ts`, 30.09.2026); der Umschalter
+  selbst liegt in `detail/umschalter.tsx`. Bilder: `docs/woche-im-handel*.png`.
 - **Staffelstart und Staffelfinale** nehmen zwei Spalten ein, das Cover füllt die Breite, der Text
   steht wie bei jeder Kachel darunter (Daniel: kein geteiltes Cover/Text). `istStaffelfinale()`:
   wöchentlich, nicht TV, nicht `available-from`, `episode === episodeCount`, kein

@@ -14,7 +14,7 @@ import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
 import { type sortiereNachZugang } from './wege-sortieren.ts'
 
-export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, title, t, today, wegeHinweis, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases }: {
+export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, title, t, today, wegeHinweis, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
   antwort: ReturnType<typeof berechneAntwort>
   sortiertNachZugang: ReturnType<typeof sortiereNachZugang>
   streamReleases: Release[]
@@ -35,6 +35,8 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
   discOffen: boolean
   setDiscOffen: Dispatch<SetStateAction<boolean>>
   discReleases: Release[]
+  /** Über einen Disc-Termin geöffnet — der Umschalter startet auf „Disc". */
+  discZuerst?: boolean
 }) {
   return (
     <>
@@ -369,6 +371,8 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
                 <ReleasePille key={r.slug} release={r} titel={anzeigeName(title)} today={today} />
               )),
             ]}
+          discZuerst={discZuerst}
+          key={discZuerst ? 'disc' : 'stream'}
         />
       )}
     </>

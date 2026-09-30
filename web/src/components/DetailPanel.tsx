@@ -48,11 +48,13 @@ import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
 import { SchlagworteAbschnitt } from './detail/Schlagworte.tsx'
 import { plotVon } from './detail/plot.ts'
+import { startetMitDisc } from './detail/disc-start.ts'
 
 export function DetailPanel({
   data,
   titleId,
   terminOffen = false,
+  releaseSlug,
   favorites,
   hidden,
   onToggleFavorite,
@@ -65,6 +67,8 @@ export function DetailPanel({
   titleId: number
   /** Über einen Termin geöffnet — dann gehört die Adresse dem Termin (`/r/`). */
   terminOffen?: boolean
+  /** Der Termin aus der Adresse — entscheidet, ob das Panel mit „Disc" startet. */
+  releaseSlug?: string
   favorites: Set<number>
   hidden: Set<number>
   onToggleFavorite: (id: number) => void
@@ -1132,6 +1136,7 @@ export function DetailPanel({
             discOffen={discOffen}
             setDiscOffen={setDiscOffen}
             discReleases={discReleases}
+            discZuerst={startetMitDisc(data, releaseSlug)}
           />
           <UnterDerAntwort data={data} title={title} favorites={favorites} />
           {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
