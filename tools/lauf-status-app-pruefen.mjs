@@ -68,6 +68,8 @@ const pruefe = (was, ok, zusatz) => {
 const VOR_12_MIN = new Date(Date.now() - 12 * 60000).toISOString()
 const VOR_9_STD = new Date(Date.now() - 9 * 3600_000).toISOString()
 const VOR_6_STD = new Date(Date.now() - 6 * 3600_000).toISOString()
+/* Für die Tagesgruppen im Verlauf: ein Lauf von vorgestern. */
+const VOR_2_TAGEN = new Date(Date.now() - 2 * 86400_000).toISOString()
 const GUTER_STAND = {
   jetzt: new Date().toISOString(),
   laeufe: [{
@@ -127,7 +129,7 @@ const VERLAUF_ANTWORT = {
     },
     {
       lauf_id: 'x-2', zustand: 'fehler', auftrag: '', notiz: 'Probelauf schiefgegangen', url: 'https://example.com/x-2',
-      begonnen_am: new Date(Date.now() - 260000).toISOString(), gemeldet_am: VOR_12_MIN,
+      begonnen_am: new Date(Date.now() - 260000).toISOString(), gemeldet_am: VOR_2_TAGEN,
     },
   ],
 }
@@ -295,6 +297,15 @@ pruefe(
   /* `innerText` gibt den Trenner großgeschrieben zurück (`text-transform: uppercase`). */
   /(heute|gestern|\d{2}\.\d{2}\.\d{4})/i.test(detail.text),
   detail.text.slice(0, 200),
+)
+pruefe(
+  'die Tagesabschnitte sind ein sichtbarer Abstand, keine Linie',
+  await seite.evaluate(() => {
+    const t = document.querySelectorAll('.tagtrenner')
+    if (t.length < 2) return false
+    const s = getComputedStyle(t[1])
+    return parseFloat(s.marginTop) >= 12 && parseFloat(s.borderTopWidth) === 0
+  }),
 )
 pruefe(
   'der Zurück-Knopf ist ein runder Knopf',
