@@ -2120,6 +2120,15 @@ Zwei Riegel:
 **auf der Chihiro-Seite** gezogen wird (die `leser`-Felder des vorliegenden Berichts gehören zur
 Dangers-Seite).
 
+### Nachtrag 4.24.9 (30.09.2026): Eine Staffel läuft nicht zweimal
+
+Daniels Durchgangsbericht zeigte jede Staffel **zweimal**: erst meldend, dann leer. Ursache war der
+Riegel „Ein Lauf ohne neue Meldung macht die Staffel fertig" — eine Staffel, die etwas meldete, galt
+damit **nicht** als geprüft und lief im nächsten Takt noch einmal. Das kostete eine doppelte
+Wiedergabe und ließ den Zähler überlaufen („18/14": 14 Prüfungen geplant, die Wiederholungen kamen
+dazu). Jetzt ist jede Staffel nach einem Lauf durch; bleibt der **Titel** laut Prüfliste offen,
+greift der zweite Anlauf über `selbstVersuche` (4.24.7). `netflix-durchgang-fertig.test.cjs`.
+
 ### Nachtrag 4.24.8 (29.09.2026): Bericht und Ruhemodus stehen immer im Kasten
 
 Daniel: „wo ist bericht laden button?" — Auf einem Titel, den die Erweiterung als „✓ fertig" führt,

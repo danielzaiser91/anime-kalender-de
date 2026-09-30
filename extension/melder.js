@@ -3121,7 +3121,6 @@ async function selbstStartenSchritt() {
       kandidaten: staffelnDerGruppe(reihe, gruppe),
     })
     console.log('[Anime-Kalender] Selbsttätiger Durchgang startet …')
-    const vorher = DURCHLAUF.gemeldet?.size ?? 0
     DURCHLAUF.selbst = true
     DURCHLAUF.gesamt = 0
     DURCHLAUF.erzwungen = true
@@ -3129,8 +3128,8 @@ async function selbstStartenSchritt() {
     DURCHLAUF.selbst = false
     zaehler.fertig += DURCHLAUF.fertig ?? 0
     zaehler.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - randPruefungen(gruppe))
-    /* Ein Lauf ohne neue Meldung macht die Staffel fertig — sonst drehte eine uneinheitliche Randprobe endlos. */
-    if ((DURCHLAUF.gemeldet?.size ?? 0) === vorher) selbstStaffelnGeprueft.add(schluessel)
+    /* **Nach einem Lauf ist die Staffel durch** (30.09.2026). Sie galt nur als geprüft, wenn der Lauf NICHTS gemeldet hatte — eine meldende Staffel lief deshalb ein zweites Mal (doppelte Wiedergabe, Zähler „18/14"). Bleibt der Titel offen, greift der zweite Anlauf über `selbstVersuche`. */
+    selbstStaffelnGeprueft.add(schluessel)
     /* Fand der Durchlauf nichts zu tun, kam er nie bis zum Weitergehen — dann hier weiter. */
     if (!DURCHLAUF.gesamt && selbstAn) {
       selbstStaffelnGeprueft.add(schluessel)

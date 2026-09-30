@@ -39,6 +39,7 @@ pruefe(
   quelle.includes('SELBST_VERSUCHE') && quelle.includes('selbstVersuche.get(String(reihe))') && quelle.includes('versuche < SELBST_VERSUCHE'),
 )
 pruefe('die Zahl der Versuche wird je Lauf zurückgesetzt', quelle.includes('selbstVersuche.clear()'))
+pruefe('eine Staffel läuft nicht zweimal (kein Abgleich gegen `vorher`)', !/=== vorher/.test(quelle))
 
 console.log('')
 if (fehler.length) {

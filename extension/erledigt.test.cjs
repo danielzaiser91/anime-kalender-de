@@ -406,8 +406,8 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
     /if \(ziel && DURCHLAUF\.leiste\.parentElement !== ziel\) \{\s*ziel\.appendChild\(DURCHLAUF\.leiste\)[\s\S]{0,200}?netflixDebugZeile\(netflixKasten\(\)\)/.test(quelle),
   )
   pruefe(
-    'eine Staffel, auf der ein Lauf nichts meldete, ist fertig',
-    /if \(\(DURCHLAUF\.gemeldet\?\.size \?\? 0\) === vorher\) selbstStaffelnGeprueft\.add\(schluessel\)/.test(quelle),
+    'eine Staffel ist nach einem Lauf fertig (kein zweiter Durchgang, 30.09.2026)',
+    /selbstStaffelnGeprueft\.add\(schluessel\)/.test(quelle) && !/=== vorher/.test(quelle),
   )
   pruefe('vor dem Pruefen wird gewartet, bis nichts mehr nachlaedt', /leserLaedtNach === 0 && Date\.now\(\) - \(DURCHLAUF\.listeGeaendertAm \?\? 0\) > 3000/.test(quelle))
   pruefe('kein dauerhafter Schalter mehr', !/netflixSelbst/.test(quelle) && /▶ alle durchgehen/.test(quelle))

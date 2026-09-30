@@ -89,7 +89,8 @@ pruefe('… und gibt nach einer Frist auf, statt still zu hängen', /spur\('kein
 pruefe('kein Überspringen wegen unklarer Staffel', !/Staffel nicht eindeutig/.test(start))
 /* Seit 4.22.0 (Daniel: „alle folgen … dann alle 1. und letzte jeder staffel direkt hintereinander prüfen"). */
 pruefe('erst sammeln, dann je Staffel prüfen', /await selbstSammeln\(reihe\)/.test(start) && /for \(const \[seasonId, gruppe\] of folgenJeStaffel\(DURCHLAUF\.alleFolgen/.test(start))
-pruefe('ein Lauf ohne neue Meldung macht die Staffel fertig', /=== vorher\) selbstStaffelnGeprueft\.add\(schluessel\)/.test(start))
+/* 30.09.2026: Jede Staffel ist nach einem Lauf durch — vorher lief eine meldende Staffel zweimal („18/14"). */
+pruefe('eine Staffel ist nach einem Lauf geprüft', /selbstStaffelnGeprueft\.add\(schluessel\)/.test(start) && !/=== vorher/.test(start))
 const wahlCode = schneide('netflixStaffelWaehlen')
 pruefe('die Staffelwahl nimmt auch einen Menütext', /typeof ziel === 'string'/.test(wahlCode))
 
