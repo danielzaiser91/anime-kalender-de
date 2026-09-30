@@ -1,8 +1,9 @@
 {
-  "geholtAm": "2026-09-29T10:42:28.562Z",
+  "geholtAm": "2026-09-30T00:06:20.758Z",
   "titel": {
     "20": {
       "serie": "VSE361",
+      "adresse": "https://www.toggo.de/naruto-pty606/serien/naruto-vse361",
       "folgen": [
         {
           "staffel": 1,
@@ -133,6 +134,7 @@
     },
     "1735": {
       "serie": "VSE379",
+      "adresse": "https://www.toggo.de/naruto-pty606/serien/naruto-shippuden-vse379",
       "folgen": [
         {
           "staffel": 1,
@@ -438,6 +440,7 @@
     },
     "2116": {
       "serie": "VSE435",
+      "adresse": "https://www.toggo.de/captain-tsubasa-pty655/serien/captain-tsubasa--die-tollen-fusballstars-vse435",
       "folgen": []
     },
     "2225": {
@@ -452,6 +455,7 @@
     },
     "3972": {
       "serie": "VSE432",
+      "adresse": "https://www.toggo.de/yu-gi-oh-pty647/serien/yu-gi-oh-5ds-vse432",
       "folgen": []
     },
     "9107": {
@@ -876,6 +880,7 @@
     },
     "20464": {
       "serie": "VSE433",
+      "adresse": "https://www.toggo.de/haikyu-pty652/serien/haikyu-vse433",
       "folgen": []
     },
     "21356": {
@@ -4023,7 +4028,6 @@
     },
     "158871": {
       "serie": "VSE292",
-      "adresse": "https://www.toggo.de/pokemon/serien/pokemon-horizonte-die-serie-vse292",
       "folgen": [
         {
           "staffel": 1,
@@ -4803,14 +4807,9 @@
     },
     "165159": {
       "serie": "VSE359",
+      "adresse": "https://www.toggo.de/beyblade-x-pty605/serien/beyblade-x-vse359",
       "folgen": [
         {
-          "staffel": 1,
-          "folge": 1,
-          "ab": "2024-12-06T00:00",
-          "bis": "2027-12-31T23:59"
-        },
-        {
           "staffel": 2,
           "folge": 1,
           "ab": "2025-09-05T00:00",
@@ -4824,7 +4823,7 @@
         },
         {
           "staffel": 1,
-          "folge": 2,
+          "folge": 1,
           "ab": "2024-12-06T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -4842,7 +4841,7 @@
         },
         {
           "staffel": 1,
-          "folge": 3,
+          "folge": 2,
           "ab": "2024-12-06T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -4860,8 +4859,8 @@
         },
         {
           "staffel": 1,
-          "folge": 4,
-          "ab": "2024-12-13T00:00",
+          "folge": 3,
+          "ab": "2024-12-06T00:00",
           "bis": "2027-12-31T23:59"
         },
         {
@@ -4878,7 +4877,7 @@
         },
         {
           "staffel": 1,
-          "folge": 5,
+          "folge": 4,
           "ab": "2024-12-13T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -4896,7 +4895,7 @@
         },
         {
           "staffel": 1,
-          "folge": 6,
+          "folge": 5,
           "ab": "2024-12-13T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -4914,7 +4913,7 @@
         },
         {
           "staffel": 1,
-          "folge": 7,
+          "folge": 6,
           "ab": "2024-12-13T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -4932,8 +4931,8 @@
         },
         {
           "staffel": 1,
-          "folge": 8,
-          "ab": "2025-01-03T00:00",
+          "folge": 7,
+          "ab": "2024-12-13T00:00",
           "bis": "2027-12-31T23:59"
         },
         {
@@ -4950,7 +4949,7 @@
         },
         {
           "staffel": 1,
-          "folge": 9,
+          "folge": 8,
           "ab": "2025-01-03T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -4964,6 +4963,12 @@
           "staffel": 3,
           "folge": 9,
           "ab": "2026-07-24T00:00",
+          "bis": "2027-12-31T23:59"
+        },
+        {
+          "staffel": 1,
+          "folge": 9,
+          "ab": "2025-01-03T00:00",
           "bis": "2027-12-31T23:59"
         },
         {
@@ -5677,7 +5682,6 @@
     },
     "169826": {
       "serie": "VSE250",
-      "adresse": "https://www.toggo.de/bakugan/serien/bakugan-legends-vse250",
       "folgen": [
         {
           "staffel": 5,
@@ -6197,6 +6201,7 @@
     },
     "187052": {
       "serie": "VSE385",
+      "adresse": "https://www.toggo.de/sylvanian-families-pty613/serien/sylvanian-families-vse385",
       "folgen": [
         {
           "staffel": 2,
