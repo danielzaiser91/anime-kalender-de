@@ -1,7 +1,7 @@
 import { type Release } from '@shared/types.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { useState, useRef, useEffect } from 'react'
-import { expandEvents, istAusgeblieben } from '@shared/logic.ts'
+import { merkbareTermine } from '@shared/logic.ts'
 import { Tooltip } from '../ui.tsx'
 import { createPortal } from 'react-dom'
 import { googleCalendarUrl } from '@shared/ics.ts'
@@ -12,8 +12,8 @@ import { downloadIcs } from './hilfen.tsx'
  *
  * Steht in jeder Pille, die einen künftigen Termin trägt: an der Release-Pille
  * einer Disc ebenso wie an der Anbieter-Pille einer laufenden Serie. Steht
- * nichts mehr aus, erscheint er nicht — ein Kalendereintrag für etwas
- * Vergangenes ist kein Angebot, sondern ein Fehlgriff.
+ * nichts mehr aus, erscheint er nicht — ein Kalendereintrag für etwas Heutiges
+ * oder Vergangenes ist kein Angebot, sondern ein Fehlgriff (30.09.2026).
  */
 export function MerkenKnopf({
   release,
@@ -53,8 +53,8 @@ export function MerkenKnopf({
       window.removeEventListener('resize', zu)
     }
   }, [merkenOffen])
-  /* Ein ausgebliebener Termin ist keiner, den man sich eintragen könnte. */
-  const kuenftige = release ? expandEvents(release).filter((e) => e.date >= today && !istAusgeblieben(e)) : []
+  /* Nur was noch aussteht: heute ist kein Zukunftstermin mehr. */
+  const kuenftige = release ? merkbareTermine(release, today) : []
   const ev = kuenftige[0]
   if (!ev || !release) return null
   return (

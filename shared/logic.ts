@@ -234,6 +234,17 @@ export function expandEvents(release: Release): ReleaseEvent[] {
   return termine.map((e) => (e.time ? e : { ...e, time: utcZeitInBerlin(e.date, NETFLIX_UHRZEIT_UTC), timeEstimated: true }))
 }
 
+/**
+ * **Was sich in den Kalender übernehmen lässt** (30.09.2026): nur was noch aussteht.
+ *
+ * Ein Termin, der heute ist oder war, ist kein Angebot mehr — der Kalenderknopf am Disc-Termin
+ * „seit 30.09.2026" verschwindet (Daniel: „das brauchen nutzer nur für zukunftstermine"). Für
+ * eine laufende Serie bleiben die künftigen Folgen, solange eine aussteht.
+ */
+export function merkbareTermine(release: Release, today: string): ReleaseEvent[] {
+  return expandEvents(release).filter((e) => e.date > today && !istAusgeblieben(e))
+}
+
 function termineAusPlan(release: Release): ReleaseEvent[] {
   const s = release.schedule
   if (!s?.firstEpisodeDate) return []

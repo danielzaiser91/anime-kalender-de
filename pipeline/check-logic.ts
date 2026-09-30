@@ -21,7 +21,7 @@ import { titelAus } from './lib/anisearch-titel.ts'
 import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
-import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin } from '../shared/logic.ts'
+import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
@@ -5063,6 +5063,22 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const f = (n: number) => ev.find((e) => e.episode === n)
   pruefe('Folge 10 vor dem Prüftag ist belegt, nicht geschätzt', f(10)?.estimated === undefined, f(10))
   pruefe('Folge 11 danach bleibt geschätzt', f(11)?.estimated === true, f(11))
+}
+/*
+  **Der Kalenderknopf steht nur bei Zukunftsterminen** (30.09.2026). Daniel: „das brauchen nutzer
+  nur für zukunftstermine" — an der Disc-Pille „seit 30.09.2026" war er unnötig.
+*/
+{
+  const disc = (datum: string) =>
+    ({ slug: 'probe-disc', titleId: 1, name: 'Probe', platform: 'disc', releaseType: 'disc', schedule: { firstEpisodeDate: datum }, sources: ['x'] }) as unknown as Release
+  pruefe('ein Disc-Termin gestern ist nicht mehr zum Merken', merkbareTermine(disc('2026-09-29'), '2026-09-30').length === 0)
+  pruefe('ein Disc-Termin heute ist kein Zukunftstermin', merkbareTermine(disc('2026-09-30'), '2026-09-30').length === 0)
+  pruefe('ein Disc-Termin morgen lässt sich merken', merkbareTermine(disc('2026-10-01'), '2026-09-30').length === 1)
+  const serie = {
+    slug: 'probe-serie', titleId: 1, name: 'Probe', platform: 'crunchyroll', releaseType: 'weekly', year: 2026,
+    sources: ['x'], schedule: { firstEpisodeDate: '2026-09-30', episodeCount: 3 },
+  } as unknown as Release
+  pruefe('eine laufende Serie behält ihre künftigen Folgen', merkbareTermine(serie, '2026-09-30').map((e) => e.episode).join(',') === '2,3')
 }
 /* Crunchyroll-Folgendaten ergänzen einen Wochentermin nur über einen eindeutig passenden Block (16.09.2026). */
 {
