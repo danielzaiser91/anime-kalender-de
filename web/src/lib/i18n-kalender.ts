@@ -30,6 +30,7 @@ export const TEXTE_KALENDER = {
   'kal.imTv': 'Im Fernsehen',
   'kal.keineAusstrahlung': 'Keine Ausstrahlung.',
   'kal.imTvZahl': '{n} im TV',
+  'kal.imHandelZahl': '{n} im Handel',
   'kal.buendelTv': '+{n} bis {zeit}',
   'kal.buendelTvOhneZeit': '+{n}',
   'kal.buendelAuch': 'Auch um {zeiten}',

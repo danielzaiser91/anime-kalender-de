@@ -67,12 +67,14 @@ export function VerpasstMarke({ event, t }: { event: ReleaseEvent; t: Translate 
 }
 
 /**
- * „8 Termine · 9 im TV" — Termine sind alles außer Fernsehen (Stream, Disc, Kino). Eine Null
- * entfällt: „0 Termine" neben „Kein Termin an diesem Tag" stünde doppelt da.
+ * „8 Termine · 9 im TV · 12 im Handel" — Termine sind Streaming und Kino; Disc und Fernsehen stehen
+ * mit eigener Zahl dahinter (30.09.2026, derselbe Trenner). Eine Null entfällt: „0 Termine" neben
+ * „Kein Termin an diesem Tag" stünde doppelt da.
  */
-export function zaehlung(termine: number, tv: number, t: Translate): string {
+export function zaehlung(termine: number, tv: number, handel: number, t: Translate): string {
   const teile: string[] = []
   if (termine) teile.push(termine === 1 ? t('kal.einTermin') : t('kal.termine', { n: termine }))
   if (tv) teile.push(t('kal.imTvZahl', { n: tv }))
+  if (handel) teile.push(t('kal.imHandelZahl', { n: handel }))
   return teile.join(' · ')
 }

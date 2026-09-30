@@ -48,10 +48,11 @@ export function KalenderBereich(p: KalenderBereichProps) {
   const [von, bis] = spanne(route)
   const zeitraum = useMemo(() => p.data.events.filter((e) => e.date >= von && e.date <= bis), [p.data, von, bis])
   const imZeitraum = useMemo(() => p.events.filter((e) => e.date >= von && e.date <= bis), [p.events, von, bis])
-  const stream = imZeitraum.filter((e) => e.platform !== 'tv').length
-  const tv = imZeitraum.length - stream
+  const handel = imZeitraum.filter((e) => e.releaseType === 'disc').length
+  const stream = imZeitraum.filter((e) => e.platform !== 'tv' && e.releaseType !== 'disc').length
+  const tv = imZeitraum.length - stream - handel
   const unterzeile = monat
-    ? zaehlung(stream, p.tvAn ? tv : 0, t)
+    ? zaehlung(stream, p.tvAn ? tv : 0, handel, t)
     : wochenSpanne(route.date)
   const setFilters = (filters: FilterState) => navigate({ filters })
   const oeffnen = (release: string) => navigate({ release, title: undefined })

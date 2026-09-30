@@ -156,7 +156,7 @@ function TagKopf({ tag, heute, tvAn }: { tag: Tag; heute: boolean; tvAn: boolean
         {Number(tag.date.slice(8))}
       </span>
       <span className="ml-auto text-xs text-ak-leise lg:ml-0">
-          {zaehlung(tag.stream.length, tvAn ? tag.tv.length : 0, t)}
+          {zaehlung(tag.stream.length, tvAn ? tag.tv.length : 0, tag.disc.length, t)}
       </span>
     </div>
   )
