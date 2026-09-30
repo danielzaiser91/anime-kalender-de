@@ -142,6 +142,21 @@ const aufgaben = [
     loest: 'der Playback-Aufruf liest die Sprachen ohne Wiedergabe',
     wie: 'Seite öffnen, Knopf drücken',
   },
+  /*
+    **Eine Frage, kein Listenposten** (Daniel, 01.10.2026: „schreib auf die todo als neuen daniel todo
+    zu prüfen ob 2 korrekt ist, weil alle episoden grün angezeigt werden"). Die Zahl stimmt mit der
+    Statusanzeige überein, aber auf der Seite sieht alles gemeldet aus. Bleibt stehen, bis geklärt ist,
+    ob die Liste recht hat oder die Grün-Markierung lügt.
+  */
+  {
+    nr: 8,
+    titel: 'Disney+ — sind es wirklich 2?',
+    datei: 'daniel-zum-abarbeiten/21-disneyplus-gruen.md',
+    umfang: '2 Titel, alle Folgen grün',
+    zeit: '~2 min',
+    loest: 'die Frage, ob die Liste recht hat oder das Grün lügt',
+    wie: 'Disney+ öffnen, Kasten und Folgenmarkierung vergleichen',
+  },
 ].filter((a) => /\d/.test(a.umfang) && !/^0 /.test(a.umfang))
 
 const md: string[] = [

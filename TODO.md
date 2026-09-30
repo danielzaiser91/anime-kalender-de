@@ -101,6 +101,12 @@ Zeitaufwand und dem, was jede Aufgabe löst.
 
 ## Offene Kästchen
 
+- [ ] **Disney+ „2 Titel" klären, dann Aufgabe 8 aus `00-START-HIER.md` wieder entfernen** (01.10.2026).
+  Laufstatus-App und Erweiterung sagen 2 (Bleach, Though I Am an Inept Villainess), auf der Seite sind
+  aber alle Folgen grün. Daniel prüft es (Aufgabe 8, `daniel-zum-abarbeiten/21-disneyplus-gruen.md`);
+  **ich** nehme danach den Eintrag aus `pipeline/report-start.ts` wieder heraus und lasse
+  `npm run data:start-liste` laufen, damit die Tabelle nicht dauerhaft eine erledigte Frage führt.
+
 - [ ] **Watchlist-Farbe in beiden Oberflächen prüfen, sobald eine Karte grün ist** (30.09.2026).
   `chrome-utilities` 1.10.0.5 färbt grün nur bei deutscher Fassung **und** ungesehen
   (`cu_watchSprache` liest das Sprachpaar aus dem Watch-Link, `cu_watchZustand` den Zustand aus dem
