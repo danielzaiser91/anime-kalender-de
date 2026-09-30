@@ -6,21 +6,11 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Mystery
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260922T160000Z
-DTEND:20260922T163000Z
-SUMMARY:Detektiv Conan – Folge 140/148
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T155500Z
 DTEND:20260923T162500Z
-SUMMARY:Detektiv Conan – Folge 141/148
+SUMMARY:Detektiv Conan – Folge 141/149
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -30,7 +20,7 @@ UID:auto-235-tv-prosieben-maxx@2026-09-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T160000Z
 DTEND:20260924T163000Z
-SUMMARY:Detektiv Conan – Folge 142/148
+SUMMARY:Detektiv Conan – Folge 142/149
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -53,7 +43,7 @@ UID:auto-235-tv-prosieben-maxx@2026-09-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T155500Z
 DTEND:20260925T162500Z
-SUMMARY:Detektiv Conan – Folge 143/148
+SUMMARY:Detektiv Conan – Folge 143/149
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -63,7 +53,7 @@ UID:auto-235-tv-prosieben-maxx@2026-09-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T160000Z
 DTEND:20260928T163000Z
-SUMMARY:Detektiv Conan – Folge 144/148
+SUMMARY:Detektiv Conan – Folge 144/149
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -84,7 +74,7 @@ UID:auto-235-tv-prosieben-maxx@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T160000Z
 DTEND:20260929T163000Z
-SUMMARY:Detektiv Conan – Folge 145/148
+SUMMARY:Detektiv Conan – Folge 145/149
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -94,7 +84,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T160000Z
 DTEND:20261001T163000Z
-SUMMARY:Detektiv Conan – Folge 146/148
+SUMMARY:Detektiv Conan – Folge 146/149
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -129,7 +119,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T160000Z
 DTEND:20261002T163000Z
-SUMMARY:Detektiv Conan – Folge 147/148
+SUMMARY:Detektiv Conan – Folge 147/149
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -139,7 +129,17 @@ UID:auto-235-tv-prosieben-maxx@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T160000Z
 DTEND:20261005T163000Z
-SUMMARY:Detektiv Conan – Folge 148/148
+SUMMARY:Detektiv Conan – Folge 148/149
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T160000Z
+DTEND:20261007T163000Z
+SUMMARY:Detektiv Conan – Folge 149/149
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
