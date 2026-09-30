@@ -49,13 +49,11 @@ export function verdachtsfaelle(wurzel, plattform) {
    *
    * `pipeline/kanal-gegenprobe.ts` macht aus einer Kanal-Meldung ohne Deutsch
    * plus einer schweigenden zweiten Quelle ein belegtes Nein. Findet JustWatch
-   * dort aber **deutschen Ton**, ist die Meldung ein Falschnegativ — der Fall,
-   * vor dem CLAUDE.md warnt: Ohne Kanal-Abo zeigt Amazon die deutsche Tonspur
-   * gar nicht, und 14 von 45 solcher Meldungen waren am 07.09.2026 falsch.
+   * dort aber **deutschen Ton**, ist die Meldung ein Falschnegativ — der Fall, vor dem CLAUDE.md
+   * warnt: Ohne Kanal-Abo zeigt Amazon die deutsche Tonspur gar nicht (14 von 45 solcher Meldungen
+   * waren am 07.09.2026 falsch).
    *
-   * Solche Titel gehören zurück in die Prüfliste, und zwar sichtbar: Sie tragen
-   * ein Urteil, dem eine Quelle widerspricht — dieselbe Lage wie beim
-   * MOTN-Wechsel darüber, nur aus anderer Richtung.
+   * Solche Titel gehören zurück auf die Prüfliste: ein Urteil, dem eine Quelle widerspricht.
    *
    * **Eigene Datei, nicht `tonspur-verdacht.json`:** Die schreibt ein anderer
    * Lauf komplett neu, und ein Eintrag darin wäre beim nächsten Durchgang weg —
@@ -79,16 +77,13 @@ export function verdachtsfaelle(wurzel, plattform) {
   /**
    * **Dritte Quelle: Belege, deren Folgen über den Titel hinausreichen.**
    *
-   * Ein Handbeleg „Folge 1–22" an einem Titel mit 21 Folgen trägt die Zählung
-   * des Anbieters, nicht unsere (FGO Babylonia: Netflix zählt Episode 0 mit).
-   * Aufgelöst wird das über die Folgentitel — und die schickt die Erweiterung
-   * nur für Seiten, die über die Prüfliste geöffnet werden. Am 13.09.2026 standen
-   * acht solcher Belege seit Tagen als „wartet auf Folgentitel" im Footer, und
-   * keiner war auf einer Liste; es wartete also auf etwas, das nie kommt.
+   * Ein Handbeleg „Folge 1–22" an einem Titel mit 21 Folgen trägt die Zählung des Anbieters, nicht
+   * unsere (FGO Babylonia: Netflix zählt Episode 0 mit). Aufgelöst wird das über die Folgentitel —
+   * und die schickt die Erweiterung nur für Seiten, die über die Prüfliste geöffnet werden. Am
+   * 13.09.2026 standen acht solcher Belege seit Tagen als „wartet auf Folgentitel" im Footer.
    *
-   * Gerechnet wird dasselbe wie in `check:logic` („höchstens N nennen Folgen
-   * über der Folgenzahl ihres Titels"). Ist ein Fall zugeordnet, fällt er
-   * dort heraus — und damit hier von selbst von der Liste.
+   * Gerechnet wird dasselbe wie in `check:logic` — ist ein Fall zugeordnet, fällt er dort heraus
+   * und damit hier von selbst von der Liste.
    */
   try {
     const titel = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
@@ -125,8 +120,12 @@ export function verdachtsfaelle(wurzel, plattform) {
     const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
     for (const w of liste) {
       if (w.platform !== plattform || raus.has(w.anilistId)) continue
-      const neuer = belege.some((b) => b.anilistId === w.anilistId && b.platform === plattform && String(b.checkedAt ?? '') >= w.seit)
-      if (!neuer) raus.set(w.anilistId, { wiedervorlage: w.grund, seit: w.seit })
+      const zu = belege.filter((b) => b.anilistId === w.anilistId && b.platform === plattform)
+      const neuer = zu.some((b) => String(b.checkedAt ?? '') >= w.seit)
+      if (neuer) continue
+      /* Ein Kanal-Titel ist über Prime nicht zu klären — 139 der 367 Einträge, sonst eine Schleife (30.09.2026). */
+      if (zu.length && zu.every((b) => /Kanal-Titel|kein Beleg/i.test(String(b.note ?? '')))) continue
+      raus.set(w.anilistId, { wiedervorlage: w.grund, seit: w.seit })
     }
   } catch {
     /* Ohne Datei keine Wiedervorlage. */
