@@ -187,6 +187,26 @@ pruefe('das Fenster ist 420 × 760 groß', fenster.breite === 420 && fenster.hoe
 pruefe('es trägt den Titel der Seite', /^(● \d+ — |▲ )?Laufstatus$/.test(fenster.titel), fenster.titel)
 pruefe('die Seite ist die aus dem Werkzeugordner', /lauf-status\/index\.html$/.test(seite.url()), seite.url())
 
+/* Kopf und Fuß (Daniel, 30.09.2026: Überschrift über den Pillen, Statistik unten fest). */
+pruefe(
+  'über den Pillen steht die Überschrift',
+  await seite.evaluate(() => /Prüfliste/.test(document.querySelector('#pruefliste')?.previousElementSibling?.textContent ?? '')),
+)
+pruefe(
+  'die Statistik steht im Fuß, nicht am Ende der Liste',
+  await seite.evaluate(() => {
+    const d = document.getElementById('daten')
+    return Boolean(d && d.closest('footer') && !document.getElementById('inhalt')?.contains(d))
+  }),
+)
+pruefe(
+  'der Fuß klebt am unteren Rand',
+  await seite.evaluate(() => {
+    const f = document.querySelector('footer')
+    return Boolean(f) && f.getBoundingClientRect().bottom >= window.innerHeight - 24
+  }),
+)
+
 await seite.screenshot({ path: path.join(WURZEL, 'docs', 'lauf-status-app.png') })
 
 /* 1. Der Weg der Pillen: leeres Fenster jetzt, Adresse nach einem await. */
