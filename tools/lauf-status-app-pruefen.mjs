@@ -289,8 +289,13 @@ const detail = await seite.evaluate(() => ({
   zurueck: Boolean(document.querySelector('.zurueck')),
 }))
 pruefe('der Klick öffnet die Detailseite', detail.jetzt && detail.zurueck)
-/* Der Verlauf nennt Datum und Uhrzeit (Daniel, 30.09.2026). */
-pruefe('die Verlaufszeiten tragen ein Datum (TT.MM. HH:MM)', /\d{2}\.\d{2}\.\s\d{2}:\d{2}/.test(detail.text), detail.text.slice(0, 160))
+/* Der Verlauf trennt die Tage (Daniel, 30.09.2026): „Heute", „Gestern", sonst das Datum. */
+pruefe(
+  'der Verlauf trennt die Tage (Heute / Gestern / Datum)',
+  /* `innerText` gibt den Trenner großgeschrieben zurück (`text-transform: uppercase`). */
+  /(heute|gestern|\d{2}\.\d{2}\.\d{4})/i.test(detail.text),
+  detail.text.slice(0, 200),
+)
 pruefe(
   'der Zurück-Knopf ist ein runder Knopf',
   await seite.evaluate(() => {
