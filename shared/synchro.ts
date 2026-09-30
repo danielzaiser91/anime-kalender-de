@@ -45,6 +45,17 @@ export interface SynchroFarbe {
 }
 
 /**
+ * **Eine Ankündigung gilt zwei Tage.**
+ *
+ * Danach zählt nur der bestätigte Bestand. Sonst bliebe eine Ankündigung, die nie eintraf, für immer
+ * grün: Für „Meine Wiedergeburt als Schleim in einer anderen Welt" Staffel 4 kündigte das
+ * Wochenprogramm Folge 22 für den 25.09.2026 an, der Dub-Bestand reicht aber bis Folge 21, und die
+ * Episodenseite nennt am 30.09. weiterhin nur „Dub: Japanese, English" (Daniel). Zwei Tage genügen,
+ * damit der tägliche Dub-Lauf eine echte Veröffentlichung bestätigt.
+ */
+const ANKUENDIGUNG_GILT_MS = 48 * 60 * 60 * 1000
+
+/**
  * **Die Farbe eines Eintrags.** Alles, was nicht als deutsch belegt oder angekündigt ist, ist gelb —
  * „nicht bestätigt" und „kein Deutsch" werden bewusst nicht getrennt (Daniel: „keine ungenauigkeit
  * gegen bestand").
@@ -55,6 +66,10 @@ export function farbeFuer(eintrag: SynchroEintrag, daten: SynchroDaten, jetzt: n
   const nummer = eintrag.n
   const bereiche = eintrag.s && nummer !== undefined ? daten.w[eintrag.s] : undefined
   const treffer = bereiche?.find((b) => nummer! >= b.von && nummer! <= b.bis)
-  if (treffer) return Date.parse(treffer.ab) <= jetzt ? { f: 'gruen', ab: treffer.ab } : { f: 'gelb', ab: treffer.ab }
+  if (treffer) {
+    const ab = Date.parse(treffer.ab)
+    if (ab <= jetzt && jetzt - ab <= ANKUENDIGUNG_GILT_MS) return { f: 'gruen', ab: treffer.ab }
+    return { f: 'gelb', ab: treffer.ab }
+  }
   return { f: 'gelb' }
 }

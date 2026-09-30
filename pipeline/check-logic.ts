@@ -5099,6 +5099,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('eine angekündigte Folge ist vor ihrer Uhrzeit gelb', farbeFuer({ s: 'G8DHV78ZM', n: 13 }, daten, vorher).f === 'gelb')
   pruefe('dieselbe Folge ist ab ihrer Uhrzeit grün', farbeFuer({ s: 'G8DHV78ZM', n: 13 }, daten, Date.parse('2026-09-30T19:25:00Z')).f === 'gruen')
   pruefe('eine andere Nummer bleibt gelb', farbeFuer({ s: 'G8DHV78ZM', n: 14 }, daten, vorher).f === 'gelb')
+  /* Eine Ankündigung, die nie eintraf, darf nicht grün bleiben (Slime S4 E22, 30.09.2026). */
+  pruefe('eine überholte Ankündigung fällt auf gelb zurück', farbeFuer({ s: 'G8DHV78ZM', n: 13 }, daten, Date.parse('2026-10-03T19:25:00Z')).f === 'gelb')
 }
 /* Crunchyroll-Folgendaten ergänzen einen Wochentermin nur über einen eindeutig passenden Block (16.09.2026). */
 {
