@@ -120,6 +120,12 @@ export function pflegeTerminverlauf({
 
   const verlauf = (historie.termine ??= {})
   const vergangen = (historie.vergangen ??= {})
+  /*
+    **Alte Form verwerfen.** Der erste Versuch führte je Release **einen** Stand
+    (ein Objekt); die neue Form führt Listen. Ein Objekt wäre nicht iterierbar —
+    der Lauf bräche ab. Die Liste wird aus dem vorigen `news.json` neu gespeist.
+  */
+  for (const [release, wert] of Object.entries(verlauf)) if (!Array.isArray(wert)) delete verlauf[release]
   if (!Object.keys(verlauf).length && vorherige.length) seedAusVorherige(vorherige, nachId, verlauf)
 
   for (const [release, alte] of Object.entries(verlauf)) {
