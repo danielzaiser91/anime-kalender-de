@@ -4,10 +4,12 @@ Stand: 2026-10-01. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 
 ## Kuratierung: was noch fehlt
 
-74 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+78 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
+| 2026-10 (Monat) | primevideo, aniverse | ✅ zugesagt | [Neue Anime-Katalogtitel im Oktober 2026 bei aniverse](https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/) |
+| 2026-10-31, 2026-10 (Monat) | disc | – unklar | [AniMoon-Angebot: Dritte »ARIFURETA«-Staffel zum Sonderpreis](https://www.anime2you.de/news/1056076/animoon-arifureta-staffel-3-sonderpreis/) |
 | 2026-10 (Monat) | adn | – unklar | [ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an](https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/) |
 | 2026-10 (Monat) | disc | – unklar | [Anime-Neuheiten im Oktober 2026 auf DVD und Blu-ray](https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/) |
 | 2026-10-27, 2026-10 (Monat) | kino | – unklar | [In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm](https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/) |
@@ -31,9 +33,10 @@ Stand: 2026-10-01. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10-03 | netflix | ✅ zugesagt | [Netflix entfernt »Kuromukuro« aus seinem Programm](https://www.anime2you.de/news/1048297/netflix-entfernt-kuromukuro/) |
 | 2026-10-05 | ? | – unklar | [Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN](https://www.anime2you.de/news/1055796/mediamarkt-saturn-neue-mehrwertsteuer-aktion/) |
 | 2026-10-10 | netflix | – unklar | [Action-Anime »Rooster Fighter« bald auf Netflix verfügbar](https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/) |
-| 2026-10-11 | crunchyroll, netflix, adn | – unklar | [Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast](https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/) |
+| 2026-10-11, 2026-10-17 | crunchyroll, netflix, adn | – unklar | [Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast](https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/) |
 | 2026-10-17 | crunchyroll, adn | – unklar | [Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer](https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/) |
 | 2026-10-22 | disc | – unklar | [Sieben Blu-ray-Neuheiten ab sofort bei Anime Planet vorbestellbar](https://www.anime2you.de/news/1043419/anime-planet-oktober-november-2026-vorbestellung/) |
+| 2026-10-31 | primevideo | ✅ zugesagt | [Drei Anime-Serien verlassen bald den Prime-Video-Katalog](https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/) |
 | 2026-11-27, 2026-11 (Monat) | disc | – unklar | [Blu-ray-Termin von »Loner Life in Another World« + Design](https://www.anime2you.de/news/1046376/loner-life-in-another-world-blu-ray-termin/) |
 | 2026-11-27, 2026-11 (Monat) | disc | – unklar | [»Love of Kill« erscheint als Blu-ray-Komplettbox + Design](https://www.anime2you.de/news/1055761/love-of-kill-erscheint-auf-blu-ray/) |
 | 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Design der Blu-ray-Komplettbox von »Lord of Mysteries« + Extras](https://www.anime2you.de/news/1055434/lord-of-mysteries-blu-ray-komplettbox-design/) |
@@ -45,51 +48,48 @@ Stand: 2026-10-01. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11 (Monat) | crunchyroll, disc | – unklar | [Blu-ray-Termin der zweiten Staffel von »As a Reincarnated Aristocrat«](https://www.anime2you.de/news/1046924/as-a-reincarnated-aristocrat-staffel-2-disc-termin/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | – unklar | [»A Silent Voice« erscheint als Steelbook-Edition auf Blu-ray](https://www.anime2you.de/news/1044326/a-silent-voice-steelbook-edition/) |
 | 2026-11-20, 2026-11 (Monat) | crunchyroll, disc | – unklar | [Termin der vierten Blu-ray-Box von »Dragon Ball Z« + Design](https://www.anime2you.de/news/1044034/dragon-ball-z-box-4-termin/) |
-| 2026-11-19, 2026-11 (Monat) | disc | – unklar | [Neue Film-Komplettbox zu »Naruto Shippuden« angekündigt](https://www.anime2you.de/news/1044519/naruto-shippuden-neue-film-komplettbox/) |
-| 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Fantasy-Donghua »Lord of Mysteries« erscheint auf Blu-ray](https://www.anime2you.de/news/1044052/lord-of-mysteries-erscheint-auf-blu-ray/) |
-| 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Erste »A Wild Last Boss Appeared!«-Staffel erscheint auf Blu-ray](https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/) |
 
-… und 34 weitere.
+… und 38 weitere.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 6 |
-| adn-catalog | 2.9 Tage her | 117 |
-| adn-news | 0.0 Tage her | 75 |
-| anilist-voices | 2.9 Tage her | 0 |
-| anime-offline-database | 2.9 Tage her | 8876 |
+| adn-catalog | 3.4 Tage her | 117 |
+| adn-news | 0.5 Tage her | 75 |
+| anilist-voices | 3.4 Tage her | 0 |
+| anime-offline-database | 3.4 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 36 |
-| anisearch | 1.0 Tage her | 120 |
-| anisearch-folgen | 2.9 Tage her | 117 |
-| ann-voices | 2.9 Tage her | 8876 |
-| cartoons | 1.0 Tage her | 0 |
-| cinestar | 3.0 Tage her | 1 |
-| cr-einzelwerke | 8.0 Tage her | 0 |
-| cr-filmbloecke | 8.0 Tage her | 0 |
+| anisearch | 0.4 Tage her | 120 |
+| anisearch-folgen | 3.3 Tage her | 117 |
+| ann-voices | 3.4 Tage her | 8876 |
+| cartoons | 0.4 Tage her | 1 |
+| cinestar | 3.4 Tage her | 1 |
+| cr-einzelwerke | 8.4 Tage her | 0 |
+| cr-filmbloecke | 8.4 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 18 |
-| crunchyroll-dub | 0.0 Tage her | 1107 |
+| crunchyroll-dub | 0.4 Tage her | 1107 |
 | crunchyroll-neu | 0.0 Tage her | 86 |
-| crunchyroll-offene | 2.9 Tage her | 5 |
-| crunchyroll-woche | 0.2 Tage her | 46 |
-| fsk | 3.0 Tage her | 4 |
-| justwatch-audio | 8.0 Tage her | 0 |
-| kinoheld | 2.9 Tage her | 0 |
-| link-check | 2.9 Tage her | 400 |
-| motn | 29.1 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 3 |
-| rohfolgen | 1.4 Tage her | 0 |
-| rtlplus-folgen | 2.9 Tage her | 2 |
-| tmdb-folgen | 2.9 Tage her | 858 |
-| tmdb-kino | 3.0 Tage her | 4 |
-| tmdb-titles | 2.9 Tage her | 400 |
+| crunchyroll-offene | 3.4 Tage her | 5 |
+| crunchyroll-woche | 0.1 Tage her | 46 |
+| fsk | 3.4 Tage her | 4 |
+| justwatch-audio | 8.4 Tage her | 0 |
+| kinoheld | 3.4 Tage her | 0 |
+| link-check | 3.4 Tage her | 400 |
+| motn | 29.5 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 0 |
+| rohfolgen | 1.9 Tage her | 0 |
+| rtlplus-folgen | 3.4 Tage her | 2 |
+| tmdb-folgen | 3.3 Tage her | 858 |
+| tmdb-kino | 3.4 Tage her | 4 |
+| tmdb-titles | 3.3 Tage her | 400 |
 | toggo | 0.0 Tage her | 20 |
-| trailer | 1.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 0 |
-| tv-programm | 0.2 Tage her | 301 |
-| vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 2.9 Tage her | 4740 |
-| wikidata-titel | 3.0 Tage her | 26 |
+| trailer | 0.4 Tage her | 0 |
+| tv-de | 0.6 Tage her | 0 |
+| tv-programm | 0.1 Tage her | 303 |
+| vorfaelle | 0.1 Tage her | 0 |
+| wikidata-imdb | 3.4 Tage her | 4740 |
+| wikidata-titel | 3.4 Tage her | 26 |
 | wikipedia-folgen | 0.0 Tage her | 7 |
-| youtube-check | 2.9 Tage her | 1 |
+| youtube-check | 3.4 Tage her | 1 |

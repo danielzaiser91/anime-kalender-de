@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-01T11:03:38.931Z",
+  "scrapedAt": "2026-10-01T21:36:37.438Z",
   "proposals": [
     {
       "articleTitle": "Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast",
@@ -15,6 +15,10 @@
         {
           "iso": "2026-10-11",
           "context": "Streaming-Diensten zu sehen sein. Wir fassen die Details zusammen. Ab 11. Oktober 2026 »Dragon Ball Super: Beerus« startet am 11. Oktober 20"
+        },
+        {
+          "iso": "2026-10-17",
+          "context": "hyroll und ADN im Originalton mit Untertiteln. Bei Netflix geht es am 17. Oktober 2026 […] Der Beitrag Netflix, Crunchyroll und ADN zeigen"
         }
       ],
       "dub": "unklar",
@@ -36,6 +40,84 @@
         {
           "month": "2026-11",
           "context": "n »Loner Life in Another World« bekannt. Wir fassen zusammen. Release ab November 2026 Das erste Volume von »Loner Life in Another World«, d"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neue Anime-Katalogtitel im Oktober 2026 bei aniverse",
+      "articleUrl": "https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/",
+      "publishedAt": "2026-10-01",
+      "category": "streaming",
+      "platforms": [
+        "primevideo",
+        "aniverse"
+      ],
+      "dates": [
+        {
+          "month": "2026-10",
+          "context": "Neue Anime-Katalogtitel im Oktober 2026 bei aniverse Der Prime Video Channel aniverse stockt s"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
+      "articleUrl": "https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/",
+      "publishedAt": "2026-10-01",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-31",
+          "context": "beiden Serien »Naruto« und »Naruto Shippuden«, die voraussichtlich am 31. Oktober 2026 aus dem Programm von Prime Video entfernt werden und"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Design der limitierten »Miss Kobayashi’s Dragon Maid«-Steelbooks enthüllt",
+      "articleUrl": "https://www.anime2you.de/news/1055738/miss-kobayashis-dragon-maid-steelbook-design/",
+      "publishedAt": "2026-10-01",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "zu »Miss Kobayashi’s Dragon Maid« erscheinen voraussichtlich beide am 4. Dezember 2026 und enthalten alle […] Der Beitrag Design der limit"
+        },
+        {
+          "month": "2026-12",
+          "context": "ie Designs enthüllt, die ihr euch weiter unten ansehen könnt. Release im Dezember 2026 Die Staffelboxen zu »Miss Kobayashi’s Dragon Maid« er"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "AniMoon-Angebot: Dritte »ARIFURETA«-Staffel zum Sonderpreis",
+      "articleUrl": "https://www.anime2you.de/news/1056076/animoon-arifureta-staffel-3-sonderpreis/",
+      "publishedAt": "2026-10-01",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-31",
+          "context": "lu-ray. Wir fassen alle Details zusammen. Nur in diesem Monat Bis zum 31. Oktober 2026 verkauft der Publisher die dritte Staffel von »ARIFUR"
+        },
+        {
+          "month": "2026-10",
+          "context": "Sonderpreis AniMoon Publishing hat ein neues Monatsangebot gestartet: Im Oktober 2026 gibt es die dritte Staffel von »ARIFURETA: From Common"
         }
       ],
       "dub": "unklar",
