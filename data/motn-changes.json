@@ -1,7 +1,8 @@
 {
   "verbrauch": {
     "2026-08": 55,
-    "2026-09": 68
+    "2026-09": 68,
+    "2026-10": 2
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1057,7 +1058,7 @@
       "imdbId": "tt9813792",
       "tmdbId": "tv/124364",
       "dienst": "prime",
-      "am": "2026-09-11",
+      "am": "2026-09-30",
       "deutsch": true
     },
     "removed:39338:prime": {
@@ -5679,7 +5680,37 @@
       "dienst": "prime",
       "am": "2026-09-30",
       "deutsch": true
+    },
+    "new:9884299:netflix": {
+      "art": "new",
+      "titel": "Matlock",
+      "originalTitel": "Matlock",
+      "imdbId": "tt26591147",
+      "tmdbId": "tv/226174",
+      "dienst": "netflix",
+      "am": "2026-09-30",
+      "deutsch": true
+    },
+    "removed:6783:netflix": {
+      "art": "removed",
+      "titel": "Shoresy",
+      "originalTitel": "Shoresy",
+      "imdbId": "tt18249282",
+      "tmdbId": "tv/158756",
+      "dienst": "netflix",
+      "am": "2026-10-01",
+      "deutsch": false
+    },
+    "removed:2656:netflix": {
+      "art": "removed",
+      "titel": "Zoey's Extraordinary Playlist",
+      "originalTitel": "Zoey's Extraordinary Playlist",
+      "imdbId": "tt10314462",
+      "tmdbId": "tv/95941",
+      "dienst": "netflix",
+      "am": "2026-10-01",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-09-30T10:31:11.744Z"
+  "fetchedAt": "2026-10-01T11:01:26.599Z"
 }
