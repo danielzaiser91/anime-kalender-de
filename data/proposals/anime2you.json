@@ -1,6 +1,190 @@
 {
-  "scrapedAt": "2026-09-30T10:33:46.109Z",
+  "scrapedAt": "2026-10-01T11:03:38.931Z",
   "proposals": [
+    {
+      "articleTitle": "Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast",
+      "articleUrl": "https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/",
+      "publishedAt": "2026-10-01",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll",
+        "netflix",
+        "adn"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-11",
+          "context": "Streaming-Diensten zu sehen sein. Wir fassen die Details zusammen. Ab 11. Oktober 2026 »Dragon Ball Super: Beerus« startet am 11. Oktober 20"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Blu-ray-Termin von »Loner Life in Another World« + Design",
+      "articleUrl": "https://www.anime2you.de/news/1046376/loner-life-in-another-world-blu-ray-termin/",
+      "publishedAt": "2026-10-01",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-27",
+          "context": "s die ersten sechs Episoden und einen Sammelschuber umfasst, kommt am 27. November 2026 als Blu-ray in den Handel. Das zweite Volume […] D"
+        },
+        {
+          "month": "2026-11",
+          "context": "n »Loner Life in Another World« bekannt. Wir fassen zusammen. Release ab November 2026 Das erste Volume von »Loner Life in Another World«, d"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
+      "articleUrl": "https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/",
+      "publishedAt": "2026-09-30",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2027-03-01",
+          "context": "nachfolgend zusammen. Werbe-Abo startet in 15 weiteren Ländern Ab dem 1. März 2027 soll das werbefinanzierte […] Der Beitrag Netflix start"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "aniverse kündigt sechs neue Herbst-Simulcasts 2026 an",
+      "articleUrl": "https://www.anime2you.de/news/1055850/aniverse-reincarnated-as-a-sword-und-mehr/",
+      "publishedAt": "2026-09-30",
+      "category": "streaming",
+      "platforms": [
+        "primevideo",
+        "aniverse"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-01",
+          "context": "affel, die fortan jeden Mittwoch um 17:30 Uhr veröffentlicht wird. Am 1. Oktober 2026 folgt die zweite Staffel von »With Vengeance, […] De"
+        }
+      ],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Mittwoch",
+          "zeit": "17:30",
+          "satz": "Wir fassen alle bislang angekündigten Titel zusammen. Sechs neue Simulcasts Den Anfang macht am 30. September 2026 die zweite »Reincarnated as a Sword« -Staffel, die fortan jeden Mittwoch um 17:30 Uhr veröffentlicht wird. Am 1. Oktober 2026"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "19:00",
+          "satz": "Staffel 2 »Tougen Anki« – Staffel 2 »With Vengeance, Sincerely, Your Broken Saintess« – Staffel 2 »Even the Student Council Has Its Holes!« Start: 3. Oktober 2026 Simulcast: Jeden Samstag um 19:00 Uhr Sprache: Japanisch (UT) Hinweis: Die Se"
+        },
+        {
+          "tag": "Sonntag",
+          "zeit": "18:05",
+          "satz": ". Dort trifft er auf eine Gruppe exzentrischer Mitschüler, die seinen Schulalltag ordentlich durcheinanderbringen. »My Girlfriend’s Friend« Start: 4. Oktober 2026 Simulcast: Jeden Sonntag um 18:05 Uhr Sprache: Japanisch (UT) Hinweis: Die Se"
+        },
+        {
+          "tag": "Sonntag",
+          "zeit": "18:00",
+          "satz": "e, ihn zu verführen. Kann Takeru ihr widerstehen? »Now That I Can Control Reality With a Mouse Cursor, I’m Gonna Click Away On The Girls!?« Start: 4. Oktober 2026 Simulcast: Jeden Sonntag um 18:00 Uhr Sprache: Japanisch (UT) Hinweis: Die Se"
+        },
+        {
+          "tag": "Mittwoch",
+          "zeit": "17:30",
+          "satz": "r die Realität beeinflussen kann, beschließt er, diese Fähigkeit für seine Rache an ihr zu nutzen. »Reincarnated as a Sword« – Staffel 2 Start: 30. September 2026 Simulcast: Jeden Mittwoch um 17:30 Uhr Sprache: Japanisch (UT) Hinweis: Zusätz"
+        },
+        {
+          "tag": "Freitag",
+          "zeit": "19:00",
+          "satz": "es wieder. Nun muss er herausfinden, wie er hierherkam und welches Schicksal ihn in dieser fremden Welt erwartet. »Tougen Anki« – Staffel 2 Start: 2. Oktober 2026 Simulcast: Jeden Freitag um 19:00 Uhr Sprache: Japanisch (UT) Hinweis: Zusätz"
+        },
+        {
+          "tag": "Donnerstag",
+          "zeit": "18:15",
+          "satz": "lut durch seine Adern fließt, gerät er selbst ins Visier des Momotarou-Clans. »With Vengeance, Sincerely, Your Broken Saintess« – Staffel 2 Start: 1. Oktober 2026 Simulcast: Jeden Donnerstag um 18:15 Uhr Sprache: Japanisch (UT) Stream: anivers"
+        }
+      ],
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
+      "articleUrl": "https://www.anime2you.de/news/1055796/mediamarkt-saturn-neue-mehrwertsteuer-aktion/",
+      "publishedAt": "2026-09-30",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-05",
+          "context": "ehrwertsteuer geschenkt«-Aktion. Wir fassen nachfolgend zusammen. Bis 5. Oktober 2026 Die Aktion findet vom 1. bis zum 5. Oktober 2026 bei M"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Love of Kill« erscheint als Blu-ray-Komplettbox + Design",
+      "articleUrl": "https://www.anime2you.de/news/1055761/love-of-kill-erscheint-auf-blu-ray/",
+      "publishedAt": "2026-09-30",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-27",
+          "context": "Release im November 2026 »Love of Kill« erscheint voraussichtlich am 27. November 2026 in einer limitierten Blu-ray-Komplettbox mit Schuber"
+        },
+        {
+          "month": "2026-11",
+          "context": "d auf Blu-ray in den Handel. Wir fassen die Details zusammen. Release im November 2026 »Love of Kill« erscheint voraussichtlich am 27. Novem"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Design der Blu-ray-Komplettbox von »Lord of Mysteries« + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1055434/lord-of-mysteries-blu-ray-komplettbox-design/",
+      "publishedAt": "2026-09-30",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "t, das ihr euch weiter unten in diesem Artikel ansehen könnt. Release im November 2026 Die Blu-ray-Komplettbox der ersten »Lord of Mysteries"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Design des limitierten »Jujutsu Kaisen«-Steelbooks enthüllt",
+      "articleUrl": "https://www.anime2you.de/news/1054676/jujutsu-kaisen-steelbook-design/",
+      "publishedAt": "2026-09-30",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "nthaltenen Extras enthüllt. Ein Produktbild findet ihr unten. Release im Dezember 2026 Die Steelbook-Edition, die alle 24 Episoden mit deuts"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
@@ -2111,23 +2295,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Deutscher Kinostart von »All You Need is Kill« + Disc-Termin",
-      "articleUrl": "https://www.anime2you.de/news/1039622/all-you-need-is-kill-deutscher-kinostart/",
-      "publishedAt": "2026-08-11",
-      "category": "kino",
-      "platforms": [
-        "kino"
-      ],
-      "dates": [
-        {
-          "month": "2026-09",
-          "context": "ill« bekannt. Wir fassen alle Details nachfolgend zusammen. Kinostart im September 2026 »All You Need is Kill« ist ab dem 29. September 2026"
-        }
-      ],
-      "dub": "ja",
-      "alreadyCurated": true
-    },
-    {
       "articleTitle": "Erste »DAN DA DAN«-Staffel erscheint als Blu-ray-Komplettbox",
       "articleUrl": "https://www.anime2you.de/news/1039547/dan-da-dan-staffel-1-blu-ray-komplettbox/",
       "publishedAt": "2026-08-09",
@@ -2215,27 +2382,6 @@
         {
           "month": "2026-10",
           "context": "uf DVD und Blu-ray veröffentlichen wird. Wir fassen zusammen. Release im Oktober 2026 Das erste Volume von »Black Butler: Emerald Witch Arc«"
-        }
-      ],
-      "dub": "ja",
-      "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Neue Blu-ray-Komplettbox von »Yu-Gi-Oh!« bei Amazon vorbestellbar",
-      "articleUrl": "https://www.anime2you.de/news/1038025/neue-yu-gi-oh-box-vorbestellbar/",
-      "publishedAt": "2026-08-05",
-      "category": "disc",
-      "platforms": [
-        "disc"
-      ],
-      "dates": [
-        {
-          "iso": "2026-09-17",
-          "context": "utsch sowie die zwölfteilige Miniserie »Kapselmonster« beinhaltet, am 17. September 2026 in den Handel. Für die Produktion […] Der Beitrag"
-        },
-        {
-          "month": "2026-09",
-          "context": "r Amazon vorbestellt werden. Wir fassen nachfolgend zusammen. Release im September 2026 KSM Anime bringt die neue Blu-ray-Komplettbox von »Y"
         }
       ],
       "dub": "ja",
@@ -2448,27 +2594,6 @@
       ],
       "dub": "unklar",
       "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Deutscher Trailer zu »Bocchi the Rock!« + Sprechercast",
-      "articleUrl": "https://www.anime2you.de/news/1035764/bocchi-the-rock-deutscher-trailer/",
-      "publishedAt": "2026-07-29",
-      "category": "disc",
-      "platforms": [
-        "disc"
-      ],
-      "dates": [
-        {
-          "iso": "2026-09-04",
-          "context": "26 Das erste Volume von »Bocchi the Rock!« ist voraussichtlich ab dem 4. September 2026 als Blu-ray erhältlich. Dieses beinhaltet […] Der"
-        },
-        {
-          "month": "2026-09",
-          "context": "deutschen Trailer veröffentlicht, den ihr unten findet. Disc-Release ab September 2026 Das erste Volume von »Bocchi the Rock!« ist voraussi"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true
     },
     {
       "articleTitle": "Neuer »Gintama«-Film erscheint auf Netflix + Visual",
