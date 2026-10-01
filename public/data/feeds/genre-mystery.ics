@@ -70,6 +70,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260930
+DTEND;VALUE=DATE:20261001
+SUMMARY:⚠ nicht erschienen: Die Tagebücher der Apothekerin: Staffel 3 - 
+ Teil 1 – Folge 1/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T160000Z
@@ -101,6 +113,18 @@ SUMMARY:Detektiv Conan – Folge 147/149
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261002
+DTEND;VALUE=DATE:20261003
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 1/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-05@anime-kalender-de
@@ -136,6 +160,18 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261009
+DTEND;VALUE=DATE:20261010
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 2/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T080000Z
@@ -147,6 +183,18 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  er Zeit.\nDetails: https://anime-kalender.de/#/release/steel-ball-run-2nd-
  3rd-stage
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 3/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:detektei-layton-katrielles-raetselhafte-faelle-2026-10-22@2026-10-22@an
@@ -174,6 +222,18 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-10-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261023
+DTEND;VALUE=DATE:20261024
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 4/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T080000Z
@@ -185,6 +245,18 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  er Zeit.\nDetails: https://anime-kalender.de/#/release/steel-ball-run-2nd-
  3rd-stage
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 5/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-06@anime-kalender-de
@@ -211,6 +283,18 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 6/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261113T080000Z
@@ -222,6 +306,18 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  er Zeit.\nDetails: https://anime-kalender.de/#/release/steel-ball-run-2nd-
  3rd-stage
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 7/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:memories-2026-11-18@2026-11-18@anime-kalender-de
@@ -271,6 +367,18 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 8/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261127T080000Z
@@ -282,6 +390,18 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  er Zeit.\nDetails: https://anime-kalender.de/#/release/steel-ball-run-2nd-
  3rd-stage
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 9/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-12-04@anime-kalender-de
@@ -297,6 +417,30 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-12-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261211
+DTEND;VALUE=DATE:20261212
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:detektiv-conan-box1-30th-anniversary@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261218
@@ -306,6 +450,18 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/detekt
  iv-conan-box1-30th-anniversary
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:apothecary-diaries-s3-cour1@2026-12-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
+ e/apothecary-diaries-s3-cour1
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:black-butler-emerald-witch-vol1@2027-01-31@anime-kalender-de
