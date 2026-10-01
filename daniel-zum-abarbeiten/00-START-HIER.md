@@ -7,6 +7,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
 | 2 | [Prime Video — Titelseiten](07-primevideo.md) | 3 Adressen, 1 Verweis | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 3 | [Netflix](06-netflix-rest.md) | 1 Titel, 1 Verweis | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 5 | [Crunchyroll](07-crunchyroll.md) | 3 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 7 | [Disney+](07-disneyplus.md) | 2 Titel, 0 Verweise | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 | 8 | [Disney+ — sind es wirklich 2?](21-disneyplus-gruen.md) | 2 Titel, alle Folgen grün | ~2 min | die Frage, ob die Liste recht hat oder das Grün lügt |

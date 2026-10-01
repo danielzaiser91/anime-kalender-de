@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-01T19:47:14.756Z",
+ "erzeugtAm": "2026-10-01T22:23:31.246Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -29,13 +29,18 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 377,
+   "gemeldet": 376,
    "gesamt": 377,
-   "offen": 0,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.netflix.com/title/81663325",
+   "ziele": [
+    {
+     "url": "https://www.netflix.com/title/81663325",
+     "titel": "Sakamoto Days"
+    }
+   ],
+   "naechster": "Sakamoto Days"
   },
   {
    "name": "Disney+",
