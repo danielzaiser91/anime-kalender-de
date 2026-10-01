@@ -166,6 +166,16 @@ function mitPfad(route: AppRoute, pathname: string): AppRoute {
 }
 
 /**
+ * **Der Adressbalken bekommt die kurze Fassung.** Eine alte Ansicht
+ * (`#/agenda`) oder ein doppeltes `r=` wird ersetzt — `replaceState` schreibt
+ * keinen Verlaufseintrag und feuert kein `hashchange`.
+ */
+function hashAufraeumen(neu: AppRoute, hash: string): void {
+  if (ALTE_ANSICHTEN[hash.replace(/^#\/?/, '').split('?')[0]] || /[?&]r=/.test(hash))
+    history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(neu))
+}
+
+/**
  * Hält den Pfad in der Adressleiste zur geöffneten Karte passend.
  *
  * Hintergrund: Diese App routet über den Hash, und alles hinter dem `#`
@@ -201,9 +211,7 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
   useEffect(() => {
     const onChange = () => {
       const neu = mitPfad(parseHash(window.location.hash), window.location.pathname)
-      /* Eine alte Adresse wird in der Leiste gleich zur neuen — sonst teilt man sie weiter. */
-      if (ALTE_ANSICHTEN[window.location.hash.replace(/^#\/?/, '').split('?')[0]])
-        history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(neu))
+      hashAufraeumen(neu, window.location.hash)
       setRoute(neu)
     }
     onChange()
