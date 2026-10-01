@@ -140,6 +140,7 @@ import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
 import { adressIndex, nameIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
 import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
+import { bereichsSuche } from '../web/src/lib/filter-suche.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
 import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
 import { neuesteErschienen } from '../web/src/lib/gesehen.ts'
@@ -6762,6 +6763,23 @@ pruefe(
     }
   }
   pruefe('keine kuratierte Quelle führt zu einer fremden aniSearch-Kennung', verstoesse.length === 0, verstoesse.slice(0, 5))
+}
+{
+  /* **Ein Suchfeld für alle Filter** (01.10.2026): Bereich weg ohne Treffer, ein Titelwort öffnet
+     den ganzen Bereich. Die Fälle stammen wörtlich aus Daniels Vorgabe. */
+  const quelle = bereichsSuche('Quelle')!
+  pruefe('Filtersuche: „Quelle" hält den Bereich „Sicherheit der Angaben"', quelle.bereich('Sicherheit der Angaben', ['1 Quelle', '≥2 Quellen']))
+  const quellen = bereichsSuche('Quellen')!
+  pruefe(
+    'Filtersuche: „Quellen" lässt „1 Quelle" fallen, „≥2 Quellen" bleibt',
+    !quellen.zeige('Sicherheit der Angaben', '1 Quelle') && quellen.zeige('Sicherheit der Angaben', '≥2 Quellen'),
+  )
+  pruefe('Filtersuche: „Sicherheit" öffnet den Bereich ganz', bereichsSuche('Sicherheit')!.zeige('Sicherheit der Angaben', '≥4 Quellen'))
+  pruefe('Filtersuche: „angaben" öffnet ihn ebenfalls', bereichsSuche('angaben')!.bereich('Sicherheit der Angaben', ['1 Quelle']))
+  pruefe('Filtersuche: „der" ist ein Ignorierwort und öffnet nichts', !bereichsSuche('der')!.bereich('Sicherheit der Angaben', ['1 Quelle']))
+  pruefe('Filtersuche: „fs" trifft „FSK" nicht und fällt weg', !bereichsSuche('fs')!.bereich('FSK', ['ab 0', 'ab 12']))
+  pruefe('Filtersuche: „fsk" öffnet den Bereich FSK ganz', bereichsSuche('fsk')!.zeige('FSK', 'ab 18'))
+  pruefe('Filtersuche: eine leere Suche filtert nichts', bereichsSuche('   ') === undefined)
 }
 {
   /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */

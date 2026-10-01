@@ -64,8 +64,11 @@ export const TEXTE_KALENDER = {
   'filter.bestaetigtHinweis': 'ohne geschätzte (≈)',
   'filter.nurFavoriten': 'Nur Favoriten',
   'filter.nurKostenlos': 'Nur kostenlos',
-  'filter.tvZeigen': 'Fernsehen zeigen',
-  'filter.tvHinweis': 'Ausstrahlungen im TV',
+  /* Der Chip heißt, was er **tut** — vorher „Fernsehen zeigen" und leuchtete, solange das
+     Fernsehen an war; der Zähler stand deshalb auf 1, ohne dass etwas ausgeblendet war
+     (Daniel, 01.10.2026). */
+  'filter.tvAusblenden': 'TV-Termine ausblenden',
+  'filter.sucheAlle': 'Filter durchsuchen …',
   'filter.anilist': 'Favoriten aus AniList übernehmen',
   'filter.weitere': 'Weitere Filter: Release-Art, Jahr, FSK, Status, Keywords',
   'filter.weitereZu': 'Weitere Filter ausblenden',

@@ -78,7 +78,7 @@ jobs:
       - name: Alle Ansichten — Handy
         run: npm run check:ansichten -- --handy
 
-      - name: Schalter „TV-Sendungen zeigen“
+      - name: Schalter „TV-Termine ausblenden“
         run: npm run check:tv-schalter
 
       - name: Nachrichtenseite — zugeklappt und aufgeklappt
