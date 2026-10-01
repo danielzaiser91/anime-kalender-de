@@ -12,7 +12,15 @@ const esc = (s: string) =>
 
 export function newsRss(eintraege: NewsEintrag[], siteUrl: string, max = 60): string {
   const basis = siteUrl.endsWith('/') ? siteUrl : `${siteUrl}/`
-  const items = eintraege.slice(0, max).map((e) => {
+  /*
+    **Abgelöste Meldungen gehören nicht in den Feed.** Auf der Seite stehen sie
+    durchgestrichen mit Hinweis; ein Feedreader kann das nicht darstellen und
+    meldete einen Termin, der so nicht mehr gilt.
+  */
+  const aktuell = eintraege
+    .map((e) => ({ ...e, meldungen: e.meldungen.filter((m) => !m.ersetzt && !m.zurueckgezogen) }))
+    .filter((e) => e.meldungen.length)
+  const items = aktuell.slice(0, max).map((e) => {
     const saetze = e.meldungen.map((m) => `${m.teil ? `${m.teil}: ` : ''}${newsSatz(m)}`)
     const link = `${basis}#/news?t=${e.titelId}`
     /* 12 Uhr Berliner Zeit: Die Meldungen tragen nur einen Tag, keine Uhrzeit. */

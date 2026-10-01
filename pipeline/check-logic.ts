@@ -24,7 +24,7 @@ import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
 import { wocheAus } from '../shared/wochenprogramm.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
-import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
+import { hauptstaffeln, reihenAnfang, staffelBeschriftungen, staffelFormAusQuelle } from '../shared/titles.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
@@ -3311,6 +3311,30 @@ console.log('\nStaffel und Teil zählen:')
     zweiTeile.get(1) === 'Teil 1' && zweiTeile.get(2) === 'Teil 2',
     Object.fromEntries(zweiTeile),
   )
+  /*
+    **Nennt die deutsche Quelle eine Staffel, ist es eine Staffel, kein Teil.**
+    „86: Eighty Six" (Daniel, 01.10.2026): aniSearch führt den zweiten Eintrag
+    als „86: Eighty Six (Staffel 2)", AniList als „Part 2". Ohne die Quelle hieß
+    er „Teil 2" und hing damit an Staffel 1.
+  */
+  pruefe(
+    'die deutsche Quelle wird zur Anzeigeform; ohne Staffelangabe gibt es nichts',
+    staffelFormAusQuelle('86: Eighty Six (Staffel 2)') === '86: Eighty Six – Staffel 2' &&
+      staffelFormAusQuelle('Natsume’s Book of Friends: Staffel 2') === 'Natsume’s Book of Friends – Staffel 2' &&
+      staffelFormAusQuelle('86: Eighty Six') === null,
+  )
+  const achtSechs = staffelBeschriftungen(
+    [
+      { id: 116589, name: '86: Eighty Six', jpStart: '2021-04-11' },
+      { id: 131586, name: staffelFormAusQuelle('86: Eighty Six (Staffel 2)')!, jpStart: '2021-10-03' },
+    ],
+    '86: Eighty Six',
+  )
+  pruefe(
+    'deutsche Staffelangabe schlägt AniLists „Part": Staffel 1 und Staffel 2',
+    achtSechs.get(116589) === 'Staffel 1' && achtSechs.get(131586) === 'Staffel 2',
+    Object.fromEntries(achtSechs),
+  )
 }
 
 /* ══ Ein Abruf löscht seinen eigenen Ertrag nicht ═══════════════════════════ */
@@ -5740,6 +5764,41 @@ pruefe(
     'ein weiterer Anbieter mit Synchro wird gemeldet, der Bestand beim Säen nicht',
     erster.length === 0 && neuBei.join(',') === '1:crunchyroll',
     `${erster.length} / ${neuBei.join(',')}`,
+  )
+}
+{
+  /*
+    **Eine abgelöste Meldung verschwindet nicht** (Daniel, 01.10.2026: „keine
+    Entfernung von News einträgen … sichtbar machen was passiert ist"). Wird ein
+    Termin verschoben, bleibt die alte Ankündigung stehen und nennt den neuen
+    Tag; wird er zurückgezogen, sagt sie das — die Kette bleibt lesbar.
+  */
+  const heute = todayIso()
+  const t1 = { id: 1, franchiseId: 1, slug: 't-1', titleEn: 'T1', streams: [] } as unknown as Title
+  const rel = (datum: string): Release =>
+    ({
+      slug: 'r',
+      titleId: 1,
+      name: 'T1',
+      platform: 'crunchyroll',
+      releaseType: 'weekly',
+      schedule: { firstEpisodeDate: datum },
+      sources: ['https://a2y/x'],
+    }) as unknown as Release
+  const h: NewsHistorie = { zuerst: {} }
+  baueNews([t1], [rel(addDays(heute, 1))], [], [], h)
+  const gemeldet = baueNews([t1], [rel(addDays(heute, 2))], [], [], h).flatMap((e) => e.meldungen)
+  const alt = gemeldet.find((m) => m.datum === addDays(heute, 1))
+  pruefe(
+    'ein verschobener Termin bleibt sichtbar und nennt den neuen Tag',
+    alt?.ersetzt?.datum === addDays(heute, 2) && gemeldet.some((m) => m.datum === addDays(heute, 2) && !m.ersetzt),
+    JSON.stringify(gemeldet),
+  )
+  const zurueck = baueNews([t1], [], [], [], h).flatMap((e) => e.meldungen)
+  pruefe(
+    'ein zurückgezogener Termin sagt es, die Kette bleibt stehen',
+    zurueck.some((m) => m.zurueckgezogen) && zurueck.some((m) => m.ersetzt?.datum === addDays(heute, 2)),
+    JSON.stringify(zurueck),
   )
 }
 {

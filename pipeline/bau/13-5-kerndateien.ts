@@ -51,15 +51,17 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
     writeJson('data/news-historie.json', newsHistorie)
     const jeArt = new Map<string, number>()
     let einzeln = 0
+    let abgeloest = 0
     for (const e of meldungen)
       for (const m of e.meldungen) {
         einzeln++
+        if (m.ersetzt || m.zurueckgezogen) abgeloest++
         jeArt.set(m.art, (jeArt.get(m.art) ?? 0) + 1)
       }
     log(
       `${meldungen.length} Einträge für die Nachrichtenseite, ${einzeln} Meldungen darin (` +
         [...jeArt].map(([a, n]) => `${a} ${n}`).join(', ') +
-        ')',
+        `), davon ${abgeloest} abgelöst und sichtbar geblieben`,
     )
   }
   writeJson(`${OUT}/meta.json`, meta, true)

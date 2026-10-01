@@ -58,6 +58,16 @@ const TEXTE = {
   'news.kino': 'Kinostart am {datum}',
   'news.verspaetet': 'Folge {von} war für den {datum} angekündigt und ist nicht erschienen',
   'news.nachgereicht': 'Folge {von} kam mit Verspätung am {datum}',
+  /*
+    **Eine abgelöste Meldung bleibt stehen** (Daniel, 01.10.2026). Sie wird
+    durchgestrichen, nennt aber, wodurch sie ersetzt wurde — mit Verweis auf die
+    Quelle der neueren Angabe. So ist der Weg nachvollziehbar, statt dass eine
+    Meldung spurlos verschwindet.
+  */
+  'news.ersetzt': 'ersetzt durch {datum}',
+  'news.ersetztTitel': 'Diese Meldung wurde von einer neueren Angabe abgelöst — nachsehen',
+  'news.zurueckgezogen': 'zurückgezogen',
+  'news.zurueckgezogenTitel': 'Die Ankündigung wurde durch eine Prüfung widerlegt',
   // Kurzform für die Übersichtszeile: Stichworte statt Satz — der Vollsatz steht aufgeklappt darunter.
   'news.alle': 'Alles',
   'news.weitere': '+{n} weitere',
@@ -515,6 +525,16 @@ const TEXTE = {
   // die interessantere Auskunft: Die Reihe fängt an.
   'antwort.ersteFolgeNr': 'Erste Folge (Folge {n})',
   'antwort.ersteFolge': 'Erste Folge',
+  /*
+    **Ein Komplettabwurf bringt alle Folgen an einem Tag** (Daniel, 01.10.2026).
+
+    Der Kasten las den ADN-Abwurf von „86: Eighty Six" als Sendeplan und schrieb
+    „Erste Folge … · Wöchentlich · letzte Folge". Für `available-from` ist weder
+    das eine noch das andere wahr — es kommt der ganze Block.
+  */
+  'antwort.alleFolgen': 'Alle {count} Folgen',
+  'antwort.angebotRelativ': 'im Angebot {rel}, am {tag} den {datum}.',
+  'antwort.angebotDatum': 'im Angebot ab {tag} den {datum}.',
   // Nur noch diese eine steht aus (Daniel, 15.09.2026).
   'antwort.finaleFolgeNr': 'Finale Folge (Folge {n})',
   'antwort.finaleFolge': 'Finale Folge',

@@ -49,7 +49,11 @@ export function newsFuerAbonnent(
   frequency: 'daily' | 'weekly',
 ): NewsEintrag[] {
   const grenze = seit || addTage(iso, frequency === 'daily' ? -2 : -8)
-  return news.filter((n) => n.am > grenze && n.am <= bis).slice(0, 5)
+  /* Abgelöste Meldungen bleiben auf der Seite, gehören aber nicht in die Mail. */
+  return news
+    .map((n) => ({ ...n, meldungen: n.meldungen.filter((m) => !m.ersetzt && !m.zurueckgezogen) }))
+    .filter((n) => n.meldungen.length && n.am > grenze && n.am <= bis)
+    .slice(0, 5)
 }
 
 /** `addDays` aus `shared/time.ts` nachgebildet — hier nur für die ISO-Grenze. */

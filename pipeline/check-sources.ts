@@ -88,6 +88,8 @@ const FRISTEN: Record<string, number> = {
   trailer: 4,
   /* Täglich geholt, also Taktung plus zwei Tage Luft. */
   cartoons: 4,
+  /* Täglich im ADN-Lauf geholt (die Datei merkt sich den Tag) — zwei Tage Luft. */
+  'adn-news': 4,
   // Wöchentlich. Ein Fenster von zwölf Monaten enthält in ruhigen Wochen
   // **null** Anime-Kinostarts — das ist kein Ausfall, sondern die Branche.
   'tmdb-kino': 9,

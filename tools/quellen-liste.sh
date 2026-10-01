@@ -35,6 +35,10 @@ QUELLEN=(
   # nie, und bei bewegtem Fernstand warf der Reset sie weg. Der Lauf tat also
   # jede Woche dieselbe Arbeit umsonst.
   data/adn-catalog.json
+  # Die ADN-News-Artikel, über die sich angekündigte Termine lesbar belegen
+  # lassen (`pipeline/lib/adn-news.ts`). Ohne diese Zeile fiele der Stand bei
+  # bewegtem Fernstand weg und würde jeden Tag neu geholt.
+  data/adn-news.json
   # Die ADN-Rohantworten, rund 5 KB je Serie. Sie standen hier nie — und weil
   # `git add` nur diese Liste kennt, hat **kein** CI-Lauf je eine archiviert:
   # Der Bestand wuchs nur, wenn jemand von Hand committete (zuletzt am

@@ -26,6 +26,7 @@
  * Disc die **einzige** Quelle — ohne diesen Weg bleiben diese Anbieter leer.
  */
 import type { Meldung, Quelle, Release, ReleaseType, Title } from '../../shared/types.ts'
+import { quelleAnzeigeName } from '../../shared/quelle.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
@@ -48,7 +49,7 @@ export interface Vorschlag {
 /** Hostname als Anzeigename — „www." fällt weg, es sagt nichts. */
 export function quellenName(url: string): string {
   try {
-    return new URL(url).hostname.replace(/^www\./, '')
+    return quelleAnzeigeName(new URL(url).hostname.replace(/^www\./, ''))
   } catch {
     return url
   }

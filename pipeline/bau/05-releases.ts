@@ -1,6 +1,9 @@
 import { schreibeCartoons } from './nebendateien.ts'
 import { type Release, type Title } from '../../shared/types.ts'
-import { warn } from '../lib/util.ts'
+import { warn, ROOT } from '../lib/util.ts'
+import { ankuendigungenLaden } from '../lib/ankuendigungen.ts'
+import { angekuendigterTermin } from './ankuendigungs-termin.ts'
+import { verpasstAmTermin } from './verpasst-am-termin.ts'
 import { verpassteTermine, CR_CALENDAR_URL } from './grundlagen.ts'
 import { pickPlatformUrl, derivedStart, observedEpisodes, overlapsWindow, werkTitel } from './titel-hilfen.ts'
 import {
@@ -53,6 +56,8 @@ export function baueReleases({
   const usedCrKeys = new Set<string>()
   // Kuratierte Termine, die der Crunchyroll-Kalender nicht bestätigt.
   const unverified: string[] = []
+  /* Angekündigte Simulcasts (`data/ankuendigungen.yaml`) — im Bau noch nicht am Titel. */
+  const ankuendigungen = ankuendigungenLaden(ROOT)
 
   for (const entry of curated) {
     if (seenSlugs.has(entry.slug)) {
@@ -68,45 +73,19 @@ export function baueReleases({
     const titleId = entry.anilistId ?? curatedIds[entry.slug]
     const title = titleId ? titles.get(titleId) : undefined
     if (!title) warn(`"${entry.slug}": kein AniList-Titel verknüpft — läuft ohne Metadaten`)
+    const angekuendigt = titleId ? ankuendigungen.get(titleId) : undefined
 
     const info = tmdb[entry.slug]
     const schedule = { ...entry.schedule }
+    /* Der angekündigte Tag schlägt eine Schätzung (`bau/ankuendigungs-termin.ts`). */
+    const angekuendigterTag = angekuendigterTermin(entry, angekuendigt)
+    if (angekuendigterTag) schedule.firstEpisodeDate = angekuendigterTag
     /*
       **Was der Anbieter nicht eingehalten hat, steht am Termin.**
-
-      `pipeline/termine-pruefen.ts` schreibt die Fälle nach
-      `data/termine-verpasst.json`; hier wandern sie an den Sendeplan, damit
-      `expandEvents()` sie an das jeweilige Ereignis hängt. Ein Termin, an dem
-      nichts erschien, verschwindet damit nicht — er sagt es (Daniel,
-      31.08.2026: „falsche infos auf der webseite sind unbedingt zu vermeiden").
+      Die Aufbereitung steht in `bau/verpasst-am-termin.ts`.
     */
-    /*
-      Aufsteigend nach Termin: Fällt eine Folge zweimal aus (am alten Tag und
-      am recherchierten Ersatztermin), gilt der jüngere Vermerk.
-    */
-    const verpasstHier = verpassteTermine
-      .filter((v) => v.slug === entry.slug && v.episode != null)
-      .sort((a, b) => a.erwartetAm.localeCompare(b.erwartetAm))
-    if (verpasstHier.length) {
-      schedule.verpasst = Object.fromEntries(
-        verpasstHier.map((v) => [
-          v.episode as number,
-          {
-            erwartetAm: v.erwartetAm,
-            ...(v.erschienenAm ? { erschienenAm: v.erschienenAm } : {}),
-            ...(v.verzugStunden != null ? { verzugStunden: v.verzugStunden } : {}),
-            ...(v.folgenVerfuegbar != null ? { folgenVerfuegbar: v.folgenVerfuegbar } : {}),
-            ...(v.neuErwartet ? { neuErwartet: v.neuErwartet } : {}),
-            ...(v.recherche ? { recherche: v.recherche } : {}),
-            ...(v.recherche && v.rechercheQuelle ? { rechercheQuelle: v.rechercheQuelle } : {}),
-            ...(v.rechercheAm ? { rechercheAm: v.rechercheAm } : {}),
-            ...(v.geprueftAm ? { geprueftAm: v.geprueftAm } : {}),
-            ...(v.newsGeprueftAm ? { newsGeprueftAm: v.newsGeprueftAm } : {}),
-            ...(v.hinweise?.length ? { hinweise: v.hinweise } : {}),
-          },
-        ]),
-      )
-    }
+    const verpasst = verpasstAmTermin(entry.slug, verpassteTermine)
+    if (verpasst) schedule.verpasst = verpasst
     const releaseYear = Number(entry.schedule.firstEpisodeDate.slice(0, 4))
     if (!schedule.episodeCount && entry.releaseType === 'weekly') {
       // Folgenzahl nur übernehmen, wenn der verknüpfte AniList-Eintrag zeitlich
@@ -140,7 +119,8 @@ export function baueReleases({
 
     // Angaben aus dem Crunchyroll-Kalender einsetzen. Sie kommen direkt vom
     // Anbieter und schlagen deshalb jede abgeleitete Angabe.
-    const sources = [...(entry.sources ?? [])]
+    /* Die Ankündigung steht vor der Schätzung — sonst führte die News zu der Schätzung. */
+    const sources = [...(angekuendigt?.quellen ?? []), ...(entry.sources ?? [])]
     let durchzaehlungHinweis: string | undefined
     if (entry.platform === 'crunchyroll') {
       const slot = findCrunchyroll(platformUrl, entry.titleDe ?? name)
@@ -192,6 +172,7 @@ export function baueReleases({
         sources.push(CR_CALENDAR_URL)
       } else if (
         entry.schedule.estimated &&
+        !angekuendigt?.omuAb &&
         crunchyroll.window &&
         overlapsWindow(schedule, crunchyroll.window) &&
         (schedule.firstEpisodeDate ?? '') <= todayIso()

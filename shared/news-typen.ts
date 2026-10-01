@@ -47,6 +47,20 @@ export interface NewsMeldung {
    * Schnittstellen-Endpunkt — die eigentliche Herkunft, aber nichts zum Anklicken.
    */
   quelle?: string
+  /**
+   * **Diese Meldung wurde von einer neueren abgelöst** (Daniel, 01.10.2026).
+   *
+   * Ein Termin wurde verschoben: Die alte Ankündigung verschwindet nicht, sie
+   * bleibt sichtbar und durchgestrichen stehen — samt Hinweis, wodurch sie
+   * ersetzt wurde. `datum`/`quelle` führen zur neuen Angabe, damit der Leser den
+   * Weg nachvollziehen kann.
+   */
+  ersetzt?: { datum?: string; release?: string; quelle?: string }
+  /**
+   * **Der Beleg ist entfallen, ohne Ersatz.** Nur, wenn eine Prüfung die
+   * Ankündigung widerlegt hat — nicht, weil sie uns gerade fehlt.
+   */
+  zurueckgezogen?: { grund?: string }
 }
 
 /**

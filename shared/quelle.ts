@@ -7,9 +7,27 @@
  * wohin er geht. Der Name kommt aus der Adresse, nicht aus dem Datensatz — so ist er immer
  * dieselbe Angabe, die der Link selbst macht.
  */
+/**
+ * **Nicht jeder Host erklärt sich selbst.**
+ *
+ * `gw.api.animationdigitalnetwork.com` ist ADNs Kalender-Endpunkt. Als Link
+ * sichtbar sagte der Host niemandem, warum der Klick in eine Fehlermeldung
+ * führt (ohne `date`-Parameter antwortet er mit `400 Bad Request`, Daniel mit
+ * Bild, 01.10.2026). Der Link führt weiter dorthin — die Beschriftung nennt
+ * jetzt die Sache, damit vor dem Klick klar ist, was einen erwartet.
+ */
+const ANZEIGENAME: Record<string, string> = {
+  'gw.api.animationdigitalnetwork.com': 'ADN API',
+}
+
+/** Hostname → Anzeigename. Dieselbe Zuordnung für Seite, Feed und Bestand. */
+export function quelleAnzeigeName(host: string): string {
+  return ANZEIGENAME[host] ?? host
+}
+
 export function hostVon(url: string): string {
   try {
-    return new URL(url).host.replace(/^www\./, '')
+    return quelleAnzeigeName(new URL(url).host.replace(/^www\./, ''))
   } catch {
     return url
   }

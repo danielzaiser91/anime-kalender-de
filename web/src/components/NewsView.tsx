@@ -6,6 +6,7 @@ import { coverBild } from '../lib/cover.ts'
 import { anbieterDerMeldung, datumKurz, newsSatz } from '../lib/news-text.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { todayIso, addDays } from '@shared/time.ts'
+import { AbgeloestHinweis } from './news-abgeloest.tsx'
 
 /**
  * **Was sich getan hat — ein Anime, ein Tag, eine Zeile.**
@@ -506,10 +507,17 @@ function MeldungZeile({
               {m.teil}
             </span>
           )}
-          <span className="min-w-0 flex-1 truncate text-xs text-slate-600 dark:text-slate-300">
+          <span
+            className={`min-w-0 flex-1 truncate text-xs ${
+              m.ersetzt || m.zurueckgezogen
+                ? 'text-slate-400 line-through dark:text-slate-500'
+                : 'text-slate-600 dark:text-slate-300'
+            }`}
+          >
             {newsSatz(m)}
           </span>
         </button>
+        <AbgeloestHinweis m={m} />
         {istLink(m.quelle) && (
           <a
             href={m.quelle}

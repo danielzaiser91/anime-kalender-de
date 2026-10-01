@@ -24,6 +24,7 @@
  * wieder.
  */
 import type { NewsArt, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
+import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from './news-verlauf.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 
@@ -32,7 +33,7 @@ const FENSTER_TAGE = 120
 /** Obergrenze, damit die Datei klein bleibt — sie wird bei jedem Seitenaufruf geladen. */
 const HOECHSTENS = 400
 
-export interface NewsHistorie {
+export interface NewsHistorie extends TerminGedaechtnis {
   /** Meldungsschlüssel → Tag, an dem die Meldung zum ersten Mal dastand. */
   zuerst: Record<string, string>
   /**
@@ -283,13 +284,13 @@ export function baueNews(
   roh.push(...terminMeldungen(releases, nachId, heute))
 
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
-  const datiert: (NewsMeldung & { am: string; titel: Title })[] = []
+  const datiert: DatiertNews[] = []
   for (const r of roh) {
     const { schluessel, fallback, ...rest } = r
     const zuerst = historie.zuerst[schluessel] ?? (fallback > heute ? heute : fallback)
     historie.zuerst[schluessel] = zuerst
     if (zuerst < grenze) continue
-    datiert.push({ ...rest, am: zuerst })
+    datiert.push({ ...rest, am: zuerst, schluessel })
   }
 
   /* Alte Schlüssel aus dem Gedächtnis werfen — sonst wächst es ohne Ende. */
@@ -324,6 +325,9 @@ export function baueNews(
   const wurzelVon = (t: Title) => t.franchiseId ?? t.id
   const kopfTitel = new Map<number, Title>()
   for (const t of titles) if (wurzelVon(t) === t.id) kopfTitel.set(t.id, t)
+
+  /* Abgelöste Termin-Meldungen bleiben sichtbar (`news-verlauf.ts`). */
+  datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, name, wurzel: wurzelVon, grenze, heute }))
 
   const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()
   for (const m of datiert) {
@@ -362,7 +366,7 @@ export function baueNews(
       .slice()
       .sort((a, b) => rang[a.art] - rang[b.art] || (a.datum ?? '').localeCompare(b.datum ?? ''))
       .map((m) => {
-        const { am: _am, titel: teil, ...rest } = m
+        const { am: _am, titel: teil, schluessel: _s, ...rest } = m
         return teil.id === kopfT.id ? rest : { ...rest, teil: teilName(teil, kopf), teilId: teil.id }
       })
     eintraege.push({

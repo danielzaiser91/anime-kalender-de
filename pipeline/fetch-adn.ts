@@ -5,15 +5,13 @@
  * öffentliche JSON-Schnittstelle, die je Folge **Datum, Uhrzeit und
  * Sprachfassung** nennt. Der Sprachcode ist dabei das Entscheidende:
  *
- *   vde    — deutsche Synchronfassung
- *   vostde — japanischer Ton mit deutschen Untertiteln
+ *   vde — deutsche Synchronfassung · vostde — japanischer Ton mit Untertiteln
  *
  * Damit beantwortet ADN von sich aus genau die Frage, für die es sonst keine
  * maschinenlesbare Antwort gibt: Gibt es eine deutsche Synchro, und wann läuft
- * sie? Kein Schätzen, kein Ableiten. Alles ohne `vde` ignorieren wir.
- *
- * Ein Aufruf je Tag, mit Pause dazwischen. Die Schnittstelle ist dieselbe, die
- * auch die Webseite benutzt; ein Schlüssel ist nicht nötig.
+ * sie? Kein Schätzen, kein Ableiten. Alles ohne `vde` ignorieren wir. Ein Aufruf
+ * je Tag, mit Pause dazwischen; dieselbe Schnittstelle benutzt auch die
+ * Webseite, ein Schlüssel ist nicht nötig.
  *
  * Aufruf: npx tsx pipeline/fetch-adn.ts [--from -30] [--to 60]
  */
@@ -24,6 +22,7 @@ import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { searchMedia } from './lib/anilist.ts'
 import { recordSource } from './lib/health.ts'
+import { holeAdnNews } from './lib/adn-news.ts'
 import {
   bestimmeRhythmus,
   bewerteTreffer,
@@ -721,6 +720,7 @@ function laufendeSerien(): number[] {
 }
 
 async function main(): Promise<void> {
+  await holeAdnNews()
   if (args.includes('--laufend')) {
     const ids = laufendeSerien()
     if (!ids.length) {

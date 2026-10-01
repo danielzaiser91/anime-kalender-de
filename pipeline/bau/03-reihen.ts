@@ -16,6 +16,7 @@ import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { werkTitel, providerToPlatform } from './titel-hilfen.ts'
 import { type WatchLink, type PlatformId, type Title } from '../../shared/types.ts'
 import { entwirreWeiterleitung, adressePasst, plattformAusAdresse } from '../../shared/adresse-passt.ts'
+import { titelAusDeutscherQuelle } from '../../shared/titles.ts'
 import { loadWatchLinks } from '../lib/curated.ts'
 import { type AniListMedia } from '../lib/anilist.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
@@ -262,9 +263,17 @@ export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anise
 
   let deutscheTitel = 0
   let deutscheTitelTmdb = 0
+  let titelAusStaffelQuelle = 0
   let netflixOhneKennung = 0
   for (const title of titles.values()) {
     const extra = anisearch[title.id]
+
+    /* Die deutsche Quelle entscheidet „Staffel" gegen AniLists „Part" (`shared/titles.ts`). */
+    const ausStaffelQuelle = titelAusDeutscherQuelle(extra, title.titleDe)
+    if (ausStaffelQuelle) {
+      title.titleDe = ausStaffelQuelle
+      titelAusStaffelQuelle++
+    }
 
     /**
      * Der deutsche Name des Werks — die Antwort auf „warum finde ich das nicht".
@@ -404,6 +413,8 @@ export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anise
   if (netflixOhneKennung) log(`${netflixOhneKennung} Netflix-Verweise ohne Kennung entfernt — sie führen ins Leere`)
   if (deutscheTitelTmdb) log(`${deutscheTitelTmdb} deutsche Titel von TMDB ergänzt (aniSearch hatte keinen)`)
   if (umsortiert) log(`${umsortiert} aniSearch-Verweise umsortiert: Adresse gehört zu einem anderen Anbieter als dem genannten`)
+  if (titelAusStaffelQuelle)
+    log(`${titelAusStaffelQuelle} deutsche Titel mit „Staffel N" aus der Quelle (statt AniLists „Teil")`)
   if (fremdeAdressen) log(`${fremdeAdressen} aniSearch-Verweise verworfen: Adresse führt zu gar keinem bekannten Anbieter`)
 
   // Angebote von TMDB (Datenbasis JustWatch) — dieselbe Quelle, aus der auch

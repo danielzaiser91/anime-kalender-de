@@ -10,6 +10,9 @@ import { readJson, log, warn } from '../lib/util.ts'
 import { normalizeTitle } from '../lib/crunchyroll.ts'
 import { adnSlug, adnBlockName, fskFromAdnAge, adnHinweis, werkTitel } from './titel-hilfen.ts'
 import { ADN_CALENDAR_URL } from './grundlagen.ts'
+import { todayIso } from '../../shared/time.ts'
+import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'
+import { ergaenzeTeilnamen } from './adn-teilnamen.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 
 export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
@@ -30,6 +33,14 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
   // im Angebot liegen und deshalb in keinem Kalenderfenster mehr auftauchen.
   // Er läuft selten; fehlt die Datei, ändert sich nichts.
   const adnKatalog = readJson<AdnData>('data/adn-catalog.json', leer)
+  /*
+    **Die News-Artikel als lesbare Quelle** (`pipeline/lib/adn-news.ts`).
+    Der Kalender-Endpunkt bleibt der Beleg, der Artikel steht davor — er
+    erklärt denselben Termin und lässt sich ohne `date`-Parameter öffnen.
+  */
+  const adnNews = readJson<AdnNews | null>('data/adn-news.json', null)
+  /* Der spezifischste Artikel je Serie steht als lesbare Quelle vor dem Kalender-Endpunkt. */
+  const artikelProShow = artikelJeShow(adnNews)
   /* Eine Katalogzuordnung muss den Namen tragen, nicht nur ein Werkwort — siehe `WERKWOERTER`
      in lib/adn.ts. Der Katalog wird nur alle paar Wochen neu nachgeschlagen; bis dahin
      fängt der Bau die falschen Zuordnungen selbst ab. */
@@ -54,6 +65,8 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
   )
   let adnAdded = 0
   let adnBloecke = 0
+  /* Ein Termin ab diesem Tag gilt als verfügbar — davor ist er angekündigt. */
+  const heute = todayIso()
   /**
    * Kein Anime zweimal aus ADN — **über alle Serien hinweg**.
    *
@@ -222,6 +235,8 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
         const first = folgen[0]
         const letzte = folgen.at(-1)!
         const anzahl = new Set(folgen.map((e) => e.episode ?? e.url)).size
+        /* Lesbarer Artikel, falls ADN einen zur Serie veröffentlicht hat. */
+        const artikel = artikelProShow.get(show.showId)
 
         releases.push({
           slug,
@@ -249,7 +264,7 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
             lastEpisodeDate: letzte.date,
           },
           year: Number(first.date.slice(0, 4)),
-          sources: [ADN_CALENDAR_URL],
+          sources: [...(artikel ? [artikel.url] : []), ADN_CALENDAR_URL],
         })
         /*
           **Ein ADN-Termin belegt die Synchro — also gehört ein ADN-Verweis dazu.** Der Termin
@@ -259,7 +274,8 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
           die Serienseite, nicht auf die Folge; Handbelege greifen weiter unten wie bei jedem
           anderen Verweis.
         */
-        if (title && !title.streams.some((s) => s.platform === 'adn')) {
+        /* Ein angekündigter Termin ist keine verfügbare Fassung (86: Eighty Six, 01.10.2026). */
+        if (title && first.date <= heute && !title.streams.some((s) => s.platform === 'adn')) {
           title.streams.push({ platform: 'adn', url: first.url.replace(/(\/video\/[^/]+)\/\d+-[^/]*$/, '$1'), dub: true })
           adnVerweiseErgaenzt++
         }
@@ -290,25 +306,8 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
       `${adnAdded} ADN-Releases aus ${adnBloecke} Staffelblöcken ergänzt (${adn.shows.length} Serien gefunden)`,
     )
 
-  /**
-   * **Ist der Teil selbst der Eintrag, gehört seine Nummer in den Namen** (22.09.2026).
-   *
-   * `werkTitel()` schneidet „– Teil N" ab, damit ein Block nicht wie das Werk heißt. Führt AniList
-   * den Teil aber als eigenen Eintrag („Girls und Panzer das Finale - Part 4", „BEASTARS Final
-   * Season Part 2"), ist die Nummer der Name des Werks. Gemessen am selben Tag: 20 Titel verloren
-   * sie, darunter zweimal „Pretty Guardian Sailor Moon Eternal: Der Film" und zweimal „Beastars
-   * Letzte Staffel" — zwei Einträge, ein Name. Anlass: Teil 4 von Girls und Panzer: Das Finale
-   * hieß ohne Nummer neben „Teil 1" bis „Teil 3" (Daniel an der Videoload-Suche).
-   */
-  let teilNamen = 0
-  for (const title of titles.values()) {
-    if (!title.titleDe) continue
-    const quelle = [title.titleEn, title.titleRomaji].find((s) => /(?:part|teil|vol\.?|volume)\s*\d+\s*$/i.test(s ?? ''))
-    const nr = quelle?.match(/(\d+)\s*$/)?.[1]
-    if (!nr || new RegExp(`\\b${nr}\\b`).test(title.titleDe)) continue
-    title.titleDe = `${title.titleDe} – Teil ${nr}`
-    teilNamen++
-  }
+  /* Ist der Teil selbst der Eintrag, gehört seine Nummer in den Namen (`adn-teilnamen.ts`). */
+  const teilNamen = ergaenzeTeilnamen(titles)
   if (teilNamen) log(`${teilNamen} deutsche Namen um ihre Teilnummer ergänzt (der Teil ist der Eintrag)`)
   return { adnKatalog, adnVerweiseErgaenzt }
 }

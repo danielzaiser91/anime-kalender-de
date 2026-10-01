@@ -1,8 +1,10 @@
 import { addDays } from '@shared/time.ts'
 import { expandEvents, istErschienen, istAusgeblieben, titleStatus } from '@shared/logic.ts'
 import { dubAbdeckung } from '@shared/dub-grenze.ts'
-import { anbieterName, type Title, type Release } from '@shared/types.ts'
+import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
+import { zaehleErschienen, istBelegtAbgeschlossen } from './antwort-regeln.ts'
+import { filmTermine } from './film-termine.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
 
 export function berechneAntwort({ title, releases, today }: {
@@ -100,7 +102,7 @@ export function berechneAntwort({ title, releases, today }: {
   const kuenftig = offen
     .filter((e) => !istAusgeblieben(e) || !offen.some((o) => o.episode === e.episode && !istAusgeblieben(o)))
     .sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
-  const raus = alleEvents.filter((e) => istErschienen(e)).length
+  const raus = zaehleErschienen(alleEvents)
   /*
     **Keine Folgenzahl aus der Zahl der Termine.**
 
@@ -226,44 +228,13 @@ export function berechneAntwort({ title, releases, today }: {
     return gedeckt.size >= gesamt
   })
 
-  /*
-    **Kino und Stream eines Films gehören in einen Kasten** (Daniel, 17.09.2026:
-    „Meistens kommt Kinofilm wochen vor online streaming, manchmal zeitgleich,
-    manchmal streaming zuerst"). Vorher stand über einem Kinostart „Erste Folge
-    erscheint … Wöchentlich · 0 von 1 Folgen".
-  */
-  const filmTermine = () => {
-    const start = (r: (typeof releases)[number]) => r.schedule.firstEpisodeDate
-    /*
-      **Was im Banner steht, steht nicht noch einmal im Kasten** (17.09.2026). „Ab
-      29.09.2026 im Kino" stand nach dem Einbau zweimal untereinander.
-    */
-    const alleKino = releases.filter((r) => r.platform === 'kino' && start(r)).sort((a, b) => start(a)!.localeCompare(start(b)!))
-    const imBanner = (r: (typeof releases)[number]) =>
-      r.cinemaUntil ? r.cinemaUntil >= today : start(r)! >= addDays(today, -60)
-    const kinoRel = alleKino.filter((r) => !imBanner(r))[0]
-    const streamRel = releases
-      .filter((r) => r.platform !== 'kino' && r.releaseType !== 'disc' && start(r))
-      .sort((a, b) => start(a)!.localeCompare(start(b)!))[0]
-    if (!kinoRel && !streamRel) return null
-    /* Ein Kinostart, der länger als 60 Tage zurückliegt, ist keine Auskunft mehr. */
-    if (!streamRel && start(kinoRel!)! < addDays(today, -60)) return null
-    return {
-      art: 'filmDe' as const,
-      kino: kinoRel ? { datum: start(kinoRel)!, raus: start(kinoRel)! <= today } : undefined,
-      stream: streamRel
-        ? { datum: start(streamRel)!, raus: start(streamRel)! <= today, anbieter: anbieterName(streamRel.platform, streamRel.sender) }
-        : undefined,
-      streamWege: Boolean(
-        (title.streams ?? []).length ||
-          (title.watchLinks ?? []).some((w) => w.kind === 'stream'),
-      ),
-      verleih: kinoRel?.publisher ?? title.kino?.verleih,
-      fassung: title.kino?.fassung,
-    }
-  }
+  /* Kino und Stream eines Films gehören in einen Kasten — `film-termine.ts`. */
   if (kuenftig.length > 0) {
     const n = kuenftig[0]!
+    /* Ein abgeschlossenes, vollständig deutsches Werk bleibt „fertig" (`antwort-regeln.ts`). */
+    if (istBelegtAbgeschlossen(hatSynchro, vollstaendig, abgeschlossenFuerKasten)) {
+      return { art: 'fertig' as const, raus: raus || gesamt, gesamt }
+    }
     /*
       **Fällt der Kopf auf die Disc zurück, wird er zur Disc-Auskunft.**
 
@@ -309,7 +280,7 @@ export function berechneAntwort({ title, releases, today }: {
       Kasten nannte „noch 5 bis zum Finale am 25.09." (16.09.2026).
     */
     if (title.format === 'MOVIE' || releases.find((r) => r.slug === n.releaseSlug)?.releaseType === 'movie') {
-      const film = filmTermine()
+      const film = filmTermine(releases, title, today)
       if (film) return film
     }
     const derselben = kuenftig.filter((e) => e.releaseSlug === n.releaseSlug)
@@ -321,6 +292,8 @@ export function berechneAntwort({ title, releases, today }: {
       gesamt,
       letzter: derselben[derselben.length - 1]?.date,
       sendetage: releases.find((r) => r.slug === n.releaseSlug)?.schedule.wochentage,
+      /* Komplettabwurf (`available-from`): kein Wochentakt — siehe `antwort-kasten.tsx`. */
+      komplett: releases.find((r) => r.slug === n.releaseSlug)?.releaseType !== 'weekly',
       sichtung: n.sichtung,
       offenesEnde: Boolean(releases.find((r) => r.slug === n.releaseSlug)?.tvLetzteSichtung),
       verschobenVon: istAusgeblieben(n)
@@ -348,7 +321,7 @@ export function berechneAntwort({ title, releases, today }: {
       wartet.
     */
     /* Läuft der Film gerade in deutschen Kinos und ist noch nicht gestreamt, bleibt es die Kino-Auskunft. */
-    const filmDe = !(title.streams ?? []).some((s) => s.dub === true) ? filmTermine() : null
+    const filmDe = !(title.streams ?? []).some((s) => s.dub === true) ? filmTermine(releases, title, today) : null
     if (filmDe) return filmDe
     const jp = title.kino?.jp ?? title.jpStart
     const land = title.land ?? 'JP'

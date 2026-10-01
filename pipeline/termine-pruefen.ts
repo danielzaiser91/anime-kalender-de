@@ -174,6 +174,26 @@ function zeitpunkt(e: Ereignis): Date {
 }
 
 /**
+ * **Ab wann ein Ausbleiben gilt — nicht, wann der Termin „ist".**
+ *
+ * Nur das Datum bekannt (keine Uhrzeit): Der Anbieter kann bis zum Tagesende
+ * liefern, der Termin gilt erst ab 23:59:59 Ortszeit als verpasst. Vorher
+ * stand hier Mitternacht + fünfzehn Minuten — „Die Tagebücher der Apothekerin"
+ * Staffel 3 wurde damit am 01.10. um 01:59 als „nicht erschienen" vermerkt,
+ * obwohl der Tag noch lief (Daniel, 01.10.2026: „sollte es bis 01.10. 23:59:59
+ * nicht erscheinen, dann …").
+ *
+ * Datum **und** Uhrzeit bekannt: Uhrzeit + Karenz. Die Laufzeit der Folge
+ * gehört nach Daniels Vorgabe dazu, steht aber nicht in jedem Termin — sie
+ * nachzutragen ist offen; bis dahin bleibt es bei der Karenz allein.
+ */
+function frist(e: Ereignis): Date {
+  return e.time
+    ? new Date(new Date(`${e.date}T${e.time}:00+02:00`).getTime() + KARENZ_MS)
+    : new Date(`${e.date}T23:59:59+02:00`)
+}
+
+/**
  * Wie viele Folgen der Anbieter zu dieser Serie wirklich zeigt.
  *
  * Steht im Kalender „Folge 6 kommt heute" und kam sie nicht, ist die nächste
@@ -224,7 +244,7 @@ for (const e of ereignisse) {
   if (e.platform !== 'crunchyroll') continue
   /* Und nur im gelesenen Fenster — davor hat auch bei Crunchyroll niemand hingesehen. */
   if (e.date < von || e.date > bis) continue
-  if (JETZT.getTime() - zeitpunkt(e).getTime() < KARENZ_MS) continue
+  if (JETZT.getTime() - frist(e).getTime() < 0) continue
   const treffer = beobachtungen(e.releaseSlug).some(
     (o) => o.date === e.date || (e.episode != null && o.episode === e.episode),
   )
