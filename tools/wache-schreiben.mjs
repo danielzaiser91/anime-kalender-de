@@ -109,7 +109,11 @@ if (existsSync(ZIEL)) {
 
 const inhalt = `# Wache — Bestand und Briefkasten
 
-**${befund ? '⚠ Auffälligkeit' : 'Unauffällig'}** · zuletzt ${tag} um ${uhr} Uhr
+**${befund ? '⚠ Auffälligkeit' : 'Unauffällig'}** · letzter Befund vom ${tag} um ${uhr} Uhr
+
+Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
+ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
+Actions; hier steht, was sie zuletzt gefunden hat.
 
 Diese Datei schreibt der Workflow [\`delta-wache.yml\`](../.github/workflows/delta-wache.yml),
 täglich um 09:20 Uhr. Sie lief bis zum 03.09.2026 als Routine auf Daniels

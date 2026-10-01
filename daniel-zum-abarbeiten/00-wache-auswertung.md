@@ -5,6 +5,42 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 01.10.2026, 07:20 — durchgesehen, zwei stille Ausfälle gefunden und behoben
+
+**Was läuft korrekt.** In der Statusanzeige stehen 27 gemeldete Läufe, **keiner** rot; `meta.generatedAt`
+ist von heute 06:16, die Seite wird also gebaut. Die Wache-Datei steht seit dem 25.09. auf
+„unauffällig" — das ist so gedacht (seit dem 26.09. wird nur ein **Befund** committet, Daniel:
+„Behalten, still bei Ruhe"), und die Datei sagt es jetzt auch: Ihre Zeile nennt den letzten Befund,
+nicht den letzten Lauf (`tools/wache-schreiben.mjs`).
+
+**Was komplett falsch lief — acht Stunden Stillstand der Seite.** Der Deploy war dreimal rot
+(30.09. 22:30, 01.10. 00:04, 06:17). Ursache war **meine** Prüfung aus der Nacht: `check:workflows`
+hielt jeden **erwähnten** Pfad unter `daniel-zum-abarbeiten/` für einen **geschriebenen**. Meine neue,
+handgeschriebene Anleitung `21-disneyplus-gruen.md` steht als Link in `report-start.ts`
+(`datei: '…/21-disneyplus-gruen.md'`), nicht als Schreibziel — die Prüfkette brach damit **vor** dem
+Bauen ab, und die Seite bekam keine neuen Daten. Behoben (`ab575abf2`): ein Pfad zählt nur, wenn im
+Umfeld ein `writeFileSync`/`writeJson`/`writeText` steht; nachgemessen werden weiterhin **11** echte
+Schreiber erkannt, keiner fehlt. Der Deploy danach grün.
+
+**Der zweite stille Ausfall — drei Tage.** Der Wochenprogramm-Leser warf seit dem **28.09.** bei jedem
+Stundelauf (der Artikel wechselte auf „vom 28.9. bis 4.10.", der Leser kannte nur ausgeschriebene
+Monate). Der Schritt ist `continue-on-error`, der Lauf blieb grün, `data/crunchyroll-woche.json` stand
+auf der Vorwoche — aufgefallen ist es erst, als eine daraus gebaute Farbauskunft die falsche Woche
+zeigte. Behoben (`wocheAus` liest beide Schreibweisen, Zusicherungen in `check:logic`), der Datensatz
+neu geschrieben. **Und die Bauart ist jetzt ausgeschlossen:** Der Leser meldet sich an `recordSource`
+(Erfolg *und* Abbruch), schickt bei einem Abbruch einen Vorfall, `check-sources` führt ihn mit Frist
+1 Tag, und `check:workflows` verlangt von jedem geduldeten Schritt, dass sein Skript `recordSource()`
+oder `meldeAbbruch()` enthält — `termine-pruefen.ts` fehlte das ebenfalls und hat es jetzt.
+
+**Wo echte Risiken waren.** Kein Verlust im Bestand, aber zweimal **Stillstand**, und den sieht die
+Wache nicht: Sie zählt, was verschwindet. Der Deploy-Fall wurde nur gefunden, weil ich die Läufe
+angesehen habe — nicht durch eine Meldung.
+
+**Was noch offen ist.** Nichts Rotes. Die drei Deploy-Fehlläufe sind mit `ab575abf2` abgelöst; die
+Wache-Datei bleibt bis zum nächsten Befund stehen.
+
+---
+
 ## 29.09.2026, 08:16 — durchgesehen, einen seit drei Tagen roten Prüflauf gefunden
 
 **Was läuft korrekt.** Von 30 Läufen der letzten Stunden sind 27 grün; die Wachläufe vom 26.–28.09.
