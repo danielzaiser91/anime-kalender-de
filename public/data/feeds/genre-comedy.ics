@@ -6,99 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Comedy
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#5@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260923T022500Z
-DTEND:20260923T025500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#6@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260923T025000Z
-DTEND:20260923T032000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21175-tv-prosieben-maxx@2026-09-23#130@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260923T150500Z
-DTEND:20260923T153500Z
-SUMMARY:Dragon Ball Super – Folge 130/131
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21175-tv-prosieben-max
- x
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21175-tv-prosieben-maxx@2026-09-23#131@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260923T153000Z
-DTEND:20260923T160000Z
-SUMMARY:Dragon Ball Super – Folge 131/131
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21175-tv-prosieben-max
- x
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260923T155500Z
-DTEND:20260923T162500Z
-SUMMARY:Detektiv Conan – Folge 141/149
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-09-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260923T160000Z
-DTEND:20260923T163000Z
-SUMMARY:⚠ nicht erschienen: Hana-Kimi – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:vom-landei-zum-schwertheiligen-2@2026-09-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260923T160000Z
-DTEND:20260923T163000Z
-SUMMARY:Vom Landei zum Schwertheiligen II – Folge 12/12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/vom-landei-zum-schwertheiligen
- -2
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260923T162500Z
-DTEND:20260923T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-23#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260923T165000Z
-DTEND:20260923T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-09-24#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260924T151000Z
@@ -370,7 +277,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260927T140000Z
 DTEND:20260927T143000Z
 SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 34/34
+ Love You Staffel 3 – Folge 34/35
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
@@ -519,6 +426,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T160000Z
+DTEND:20260930T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-112153-tv-toggo-plus@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T191500Z
@@ -597,8 +515,7 @@ DTSTART:20261002T150000Z
 DTEND:20261002T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
  Folge 22/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -621,36 +538,6 @@ SUMMARY:Dragon Ball – Folge 13/18
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-02#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-02#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-02#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-02@anime-kalender-de
@@ -910,6 +797,17 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GNVHKN933@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T140000Z
+DTEND:20261004T143000Z
+SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
+ Love You Staffel 3 – Folge 35/35
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/cr-GNVHKN933
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T151000Z
@@ -990,6 +888,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T160000Z
+DTEND:20261007T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T160000Z
@@ -1009,17 +918,6 @@ SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 –
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T160000Z
-DTEND:20261009T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1081,6 +979,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/from-b
  ureaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T160000Z
+DTEND:20261014T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-10-16@anime-kalender-de
@@ -1211,6 +1120,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-her
  o-academia-yuei-heroes-battle-2026-10-20
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261021T160000Z
+DTEND:20261021T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-184591-disc@2026-10-22@anime-kalender-de
