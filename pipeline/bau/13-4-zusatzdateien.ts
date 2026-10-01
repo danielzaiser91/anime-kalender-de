@@ -8,6 +8,7 @@ import {
   type FranchiseMember, type Release
 } from '../../shared/types.ts'
 import { nachAusstrahlung, unterscheidenderZusatz } from '../../shared/titles.ts'
+import { staffelQuellenAusAnisearch } from './staffel-quelle.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
@@ -170,6 +171,8 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
   }
 
   const ausKatalog = readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])
+  /* Die belegte deutsche Staffelangabe (aniSearch) steuert die Beschriftung, nicht den Titel. */
+  const staffelQuellen = staffelQuellenAusAnisearch()
   const imBestand = new Set(slim.map((t) => t.id))
   const fuerReihen = [
     ...slim,
@@ -264,6 +267,8 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
       jpStatus: t.jpStatus,
       deStart: deStart.get(t.id),
       ohneSynchro: (t as { ohneSynchro?: boolean }).ohneSynchro || undefined,
+      /* Die belegte deutsche Staffelangabe — sie entscheidet die Beschriftung. */
+      staffelQuelle: staffelQuellen.get(t.id),
       /* Hängt er an einem anderen Teil **dieser** Reihe? Eine fremde Elternkante zählt nicht. */
       beiwerk: (elternVon.get(t.id) ?? []).some((e) => sortiert.some((x) => x.id === e)) || undefined,
       // Nur der Dateiname; den Vorsatz hängt `loadFranchises` wieder an.

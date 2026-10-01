@@ -24,7 +24,8 @@ import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
 import { wocheAus } from '../shared/wochenprogramm.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
-import { hauptstaffeln, reihenAnfang, staffelBeschriftungen, staffelFormAusQuelle } from '../shared/titles.ts'
+import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
+import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
@@ -3318,20 +3319,20 @@ console.log('\nStaffel und Teil zählen:')
     er „Teil 2" und hing damit an Staffel 1.
   */
   pruefe(
-    'die deutsche Quelle wird zur Anzeigeform; ohne Staffelangabe gibt es nichts',
-    staffelFormAusQuelle('86: Eighty Six (Staffel 2)') === '86: Eighty Six – Staffel 2' &&
-      staffelFormAusQuelle('Natsume’s Book of Friends: Staffel 2') === 'Natsume’s Book of Friends – Staffel 2' &&
-      staffelFormAusQuelle('86: Eighty Six') === null,
+    'die deutsche Quelle liefert die Staffelnummer; ohne Angabe nichts',
+    staffelNummerAusQuelle('86: Eighty Six (Staffel 2)') === 2 &&
+      staffelNummerAusQuelle('DoReMi Staffel 2') === 2 &&
+      staffelNummerAusQuelle('86: Eighty Six') === undefined,
   )
   const achtSechs = staffelBeschriftungen(
     [
       { id: 116589, name: '86: Eighty Six', jpStart: '2021-04-11' },
-      { id: 131586, name: staffelFormAusQuelle('86: Eighty Six (Staffel 2)')!, jpStart: '2021-10-03' },
+      { id: 131586, name: '86: Eighty Six – Teil 2', jpStart: '2021-10-03', staffelQuelle: 2 },
     ],
     '86: Eighty Six',
   )
   pruefe(
-    'deutsche Staffelangabe schlägt AniLists „Part": Staffel 1 und Staffel 2',
+    'die belegte Staffelangabe schlägt AniLists „Part": Staffel 1 und Staffel 2',
     achtSechs.get(116589) === 'Staffel 1' && achtSechs.get(131586) === 'Staffel 2',
     Object.fromEntries(achtSechs),
   )

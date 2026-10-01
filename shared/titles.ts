@@ -70,52 +70,6 @@ export function anzeigeName(title: Pick<Title, 'titleDe' | 'titleEn' | 'titleRom
 }
 
 /**
- * **Nennt die deutsche Quelle eine Staffel, gilt sie — nicht AniLists „Part".**
- *
- * Daniel am 01.10.2026 an „86: Eighty Six": aniSearch führt den zweiten Teil als
- * „86: Eighty Six (Staffel 2)", AniList als „Part 2". `eindeutschenStaffel()`
- * machte daraus „Teil 2" — und `staffelBeschriftungen()` ordnete ihn deshalb der
- * ersten Staffel als zweiten Teil zu. Der Unterschied ist keine Kleinigkeit:
- * **„Teil" ist die zweite Hälfte einer geteilten Staffel, „Staffel" eine eigene.**
- * Wo die belegte deutsche Quelle „Staffel N" sagt, ist das die Antwort; das
- * mechanische „Part → Teil" tritt dahinter zurück.
- *
- * Zurück kommt die Anzeigeform `<Werk> – Staffel N`, oder `null`, wenn die
- * Quelle keine Staffel nennt. Ein vorhandenes „Staffel N" bleibt stehen — die
- * Funktion normalisiert nur die Fügung, sie hängt nichts doppelt an.
- */
-export function staffelFormAusQuelle(deutscherTitel: string): string | null {
-  const m = /^(.*?)[\s:–—-]*\(?\s*Staffel\s+(\d+)\s*\)?\s*$/i.exec(deutscherTitel.trim())
-  if (!m) return null
-  const basis = m[1]!.replace(/[\s:–—-]+$/, '').trim()
-  return basis ? `${basis} – Staffel ${m[2]}` : `Staffel ${m[2]}`
-}
-
-/**
- * **Darf die deutsche Quelle den Anzeigenamen bestimmen?**
- *
- * Ja, wenn sie eine Staffel nennt und der bestehende Name sie nicht schon führt.
- * Ein vorhandenes „Staffel N" bleibt unangetastet — die Funktion ergänzt nur.
- */
-export function deutscherTitelAusQuelle(
-  aktuell: string | undefined,
-  quelle: string | undefined,
-): string | undefined {
-  if (!quelle) return undefined
-  if (/\bStaffel\s+\d+\s*$/i.test(aktuell ?? '')) return undefined
-  return staffelFormAusQuelle(quelle) ?? undefined
-}
-
-/** Wie `deutscherTitelAusQuelle`, nur direkt aus dem aniSearch-Eintrag (dessen Sprachblock). */
-export function titelAusDeutscherQuelle(
-  extra: { info?: { languages?: { language?: string; title?: string }[] } } | undefined,
-  aktuell: string | undefined,
-): string | undefined {
-  const de = extra?.info?.languages?.find((l) => /deutsch/i.test(l.language ?? ''))
-  return deutscherTitelAusQuelle(aktuell, de?.title?.trim())
-}
-
-/**
  * Die Hauptstaffeln einer Reihe — **eine** Regel für Kopf und Liste des Panels.
  *
  * Gibt es echte Fernsehstaffeln, zählen nur die; sonst die ONAs, ohne Beiwerk.
@@ -160,12 +114,11 @@ export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; ep
 /**
  * **Welche Staffel und welcher Teil ein Eintrag ist — gezählt, nicht an der Position abgelesen.**
  *
- * Daniel am 13.09.2026 an Mushoku Tensei, mit zwei Bildern: Im Kopf stand
- * „Staffel 5" über der dritten Staffel, und der erste Eintrag der Liste hieß
- * wie die Reihe statt „Staffel 1". AniList führt die zweite Hälfte einer
- * geteilten Staffel als eigenen Eintrag („Cour 2"); gezählt wurde nach
- * Position, und so wurden aus drei Staffeln fünf. Seine Vorgabe: „teil 2 …
- * ist eig teil von der 1. staffel … unter staffel 1 gebündelt (teil 1 - teil 2)".
+ * Daniel am 13.09.2026 an Mushoku Tensei: Im Kopf stand „Staffel 5" über der
+ * dritten Staffel, der erste Listeneintrag hieß wie die Reihe. AniList führt die
+ * zweite Hälfte einer geteilten Staffel als eigenen Eintrag („Cour 2"), gezählt
+ * wurde nach Position — aus drei Staffeln wurden fünf („teil 2 … ist eig teil
+ * von der 1. staffel … unter staffel 1 gebündelt").
  *
  * Die Regeln, der Reihe nach über die Ausstrahlung:
  *
@@ -175,14 +128,13 @@ export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; ep
  *   („Log: Fish-Man Island Saga"), behält er ihn und bekommt keine Beschriftung.
  *
  * Nummern gibt es nur, wo sie etwas unterscheiden: bei **mindestens zwei**
- * Staffeln ohne eigenen Namen — sonst hieße One Piece wieder „Staffel 1"
- * (Daniel, 03.09.2026). Hat eine Staffel Teile, heißen alle ihre Einträge
- * „Staffel N - Teil M", der erste also „Teil 1".
+ * Staffeln ohne eigenen Namen — sonst hieße One Piece wieder „Staffel 1". Hat
+ * eine Staffel Teile, heißen alle ihre Einträge „Staffel N - Teil M".
  *
  * Zurück kommt nur, was eine Beschriftung bekommt; alles andere zeigt weiter
  * seinen Namen.
  */
-export function staffelBeschriftungen<T extends { id: number; name: string; jpYear?: number; jpStart?: string }>(
+export function staffelBeschriftungen<T extends { id: number; name: string; jpYear?: number; jpStart?: string; staffelQuelle?: number }>(
   staffeln: T[],
   reihenName: string,
 ): Map<number, string> {
@@ -191,6 +143,11 @@ export function staffelBeschriftungen<T extends { id: number; name: string; jpYe
   const eintraege: { id: number; staffel: number; teil?: number; eigenerName: boolean }[] = []
   let aktuell = 0
   for (const m of sortiert) {
+    /* Nennt die belegte deutsche Quelle eine Staffel, gilt sie (86: Eighty Six, 01.10.2026). */
+    if (m.staffelQuelle) {
+      eintraege.push({ id: m.id, staffel: (aktuell = m.staffelQuelle), eigenerName: false })
+      continue
+    }
     const voll = eindeutschenStaffel(m.name)
     const rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
       ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()

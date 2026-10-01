@@ -901,14 +901,14 @@ export interface FranchiseMember {
   /**
    * **Hängt dieser Teil an einem anderen der Reihe?**
    *
-   * AniList kennt die Beziehung `PARENT`: Specials, Kurzformate und Beiwerk
-   * nennen die Serie, zu der sie gehören. Das Format tut es nicht — bei
-   * chinesischen Produktionen ist **alles** eine ONA, und ohne dieses Feld
-   * standen bei „Lord of Mysteries" die Specials und das Chibi-Theater unter
-   * „Hauptserie" (Daniel, 12.09.2026: „they are specials and categorized as
-   * hauptserie").
+   * AniList kennt die Beziehung `PARENT`: Specials und Beiwerk nennen die Serie,
+   * zu der sie gehören; das Format tut es nicht. Bei chinesischen Produktionen
+   * ist **alles** eine ONA, und ohne dieses Feld standen bei „Lord of Mysteries"
+   * die Specials unter „Hauptserie" (Daniel, 12.09.2026).
    */
   beiwerk?: boolean
+  /** Belegte deutsche Staffelnummer (aniSearch); steuert `staffelBeschriftungen()`, nicht den Titel. */
+  staffelQuelle?: number
 }
 
 /** franchiseId → alle Einträge der Reihe, in Ausstrahlungsreihenfolge. */
