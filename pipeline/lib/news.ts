@@ -120,6 +120,8 @@ function terminMeldungen(
         datum,
         release: r.slug,
         quelle,
+        /* Eine angekündigte Staffel trägt ihre Einordnung im Satz (Simuldub-Vermutung). */
+        ...(art === 'angekuendigt' && r.schedule?.estimated && r.note ? { hinweis: r.note } : {}),
       })
     }
     for (const [nummer, v] of Object.entries(r.schedule?.verpasst ?? {})) {

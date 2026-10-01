@@ -4803,10 +4803,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 {
   const bau = bauQuelltext()
   pruefe(
-    '„neu auf Deutsch" verlangt eine belegte Synchro',
-    bau.includes('const belegteSynchro = (t: Title): boolean =>') &&
+    '"neu auf Deutsch" verlangt eine belegte Synchro',
+    bau.includes('function belegteDeutscheSynchro(') &&
+      bau.includes('belegteSynchro = (t: Title) => belegteDeutscheSynchro(t, ersterTermin, heute)') &&
       /seit !== historie\.angelegtAm && belegteSynchro\(t\)/.test(bau),
-    '„neu im Bestand" ist nicht „neu auf Deutsch" — und der Newsletter verschickt es',
+    '"neu im Bestand" ist nicht "neu auf Deutsch" - und der Newsletter verschickt es',
   )
   pruefe(
     'Crunchyrolls Folgenwissen landet als Bereich am Verweis',

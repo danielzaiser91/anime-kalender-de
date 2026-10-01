@@ -35,7 +35,8 @@ export function newsSatz(m: NewsMeldung): string {
         ? t('news.folge', { von: m.von ?? '', anbieter })
         : t('news.folgen', { von: m.von ?? '', bis: m.bis, anbieter })
     case 'angekuendigt':
-      return t('news.angekuendigt', { datum, anbieter })
+      /* Der Hinweis macht den Satz vollständig; der Quellenlink bleibt zum Nachsehen. */
+      return t('news.angekuendigt', { datum, anbieter }) + (m.hinweis ? ` ${m.hinweis}` : '')
     case 'disc':
       return t('news.disc', { datum })
     case 'kino':

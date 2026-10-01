@@ -517,6 +517,27 @@ export function schreibeMeldungen(slim: Title[]): void {
  * Ankündigung ohne Datum wäre sonst nie eine Mail wert, und gerade sie ist die
  * Nachricht, auf die jemand monatelang wartet.
  */
+/**
+ * **„Jetzt auf Deutsch" verlangt, dass die Staffel überhaupt läuft.**
+ *
+ * Die geteilte Crunchyroll-Serienseite trägt für „Die Tagebücher der Apothekerin"
+ * ein `dub: true` — Staffel 1 und 2 sind dort deutsch. Staffel 3 erbte es, obwohl
+ * sie erst am 02.10.2026 startet, und stand so als „Neu auf Deutsch" (Daniel,
+ * 01.10.2026). Ein Titel, dessen japanische Ausstrahlung noch aussteht, ist kein
+ * Neuzugang „auf Deutsch" — das erledigt die Termin-Meldung.
+ *
+ * Dasselbe gilt für einen bloß angekündigten deutschen Termin: Was noch nicht
+ * erschienen ist, kann nicht „es gibt die Fassung jetzt" heißen.
+ */
+function belegteDeutscheSynchro(t: Title, ersterTermin: Map<number, string>, heute: string): boolean {
+  const laeuft = !t.jpStart || t.jpStart <= heute
+  return (
+    Boolean((t as { hasVoices?: boolean }).hasVoices) ||
+    (laeuft && (t.streams ?? []).some((s) => s.dub === true)) ||
+    (ersterTermin.has(t.id) && ersterTermin.get(t.id)! <= heute)
+  )
+}
+
 export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): void {
   const HISTORIE = 'data/synchro-historie.json'
   /** Wie lange ein Zugang als „neu" gilt. */
@@ -582,10 +603,7 @@ export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): voi
     belegte Sprechrollen, oder ein deutscher Termin. Ein Titel ohne all das ist
     ein Neuzugang **des Bestands**, und darüber gibt es nichts zu melden.
   */
-  const belegteSynchro = (t: Title): boolean =>
-    (t.streams ?? []).some((s) => s.dub === true) ||
-    Boolean((t as { hasVoices?: boolean }).hasVoices) ||
-    ersterTermin.has(t.id)
+  const belegteSynchro = (t: Title) => belegteDeutscheSynchro(t, ersterTermin, heute)
   const neu = titles
     .filter((t) => {
       const seit = historie.seit[t.id]

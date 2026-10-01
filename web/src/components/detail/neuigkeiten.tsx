@@ -96,7 +96,17 @@ export function meldungenImPanel(liste: NewsEintrag[], titelId: number, data: Pi
     for (const m of e.meldungen) {
       const teilId = m.teilId ?? e.titelId
       if (teilId !== titelId) continue
-      if (TERMIN_ARTEN.has(m.art) && m.datum && (m.datum < heute || (m.release && data.releaseBySlug.get(m.release)?.titleId === titelId))) continue
+      const rel = m.release ? data.releaseBySlug.get(m.release) : undefined
+      /*
+        Eine **angekündigte** Staffel bleibt sichtbar — sie ist noch kein Termin,
+        den das Panel schon zeigt, sondern die Nachricht selbst (Daniel, 01.10.2026).
+      */
+      if (
+        TERMIN_ARTEN.has(m.art) &&
+        m.datum &&
+        (m.datum < heute || (rel && rel.titleId === titelId && !rel.schedule.estimated))
+      )
+        continue
       zeilen.push({ am: e.am, m, teilId })
     }
   return zeilen.sort((a, b) => b.am.localeCompare(a.am))

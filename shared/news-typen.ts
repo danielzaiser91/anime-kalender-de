@@ -48,6 +48,15 @@ export interface NewsMeldung {
    */
   quelle?: string
   /**
+   * **Was die Meldung aus sich heraus verständlich macht** (Daniel, 01.10.2026).
+   *
+   * Der Quellenlink ist zum Nachsehen da, nicht als Bedingung: Bei einer
+   * angekündigten Staffel trägt die Meldung die Einordnung (hier: die Ankündigung
+   * lässt OmU oder Synchro offen, wir vermuten einen Simuldub). Rein, damit der
+   * Ausschnitt auch ohne Klick die ganze Nachricht zeigt.
+   */
+  hinweis?: string
+  /**
    * **Diese Meldung wurde von einer neueren abgelöst** (Daniel, 01.10.2026).
    *
    * Ein Termin wurde verschoben: Die alte Ankündigung verschwindet nicht, sie
