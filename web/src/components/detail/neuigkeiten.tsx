@@ -7,7 +7,7 @@ import { NEWS_FARBE } from '../NewsView.tsx'
 import { AbgeloestHinweis } from '../news-abgeloest.tsx'
 import { BelegZeile } from '../news-belege.tsx'
 import { todayIso } from '@shared/time.ts'
-import { hostVon } from '@shared/quelle.ts'
+import { hostVon, istLink } from '@shared/quelle.ts'
 import { Tooltip } from '../ui.tsx'
 
 interface Zeile {
@@ -57,7 +57,8 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
 
 function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
   const { t } = useLang()
-  const quelle = quelleFuer(z, data)
+  /* Eine geschätzte Meldung hat keine Quelle, die sie belegt — sie sagt es selbst (01.10.2026). */
+  const quelle = z.m.geschaetzt ? undefined : quelleFuer(z, data)
   const jahr = new Date().getFullYear().toString()
   const datum = z.am.startsWith(jahr) ? datumKurz(z.am).slice(0, 6) : datumKurz(z.am)
   const abgeloest = Boolean(z.m.ersetzt || z.m.zurueckgezogen)
@@ -70,7 +71,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
         {abgeloest && <AbgeloestHinweis m={z.m} />}
         <BelegZeile belege={z.m.belege} className="self-start" />
       </span>
-      {quelle && (
+      {quelle ? (
         <Tooltip text={quelle.name} seite="oben" eigenerFokus className="shrink-0">
           <a
             href={quelle.url}
@@ -82,6 +83,8 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
             {t('detail.quelleKurz')} ↗
           </a>
         </Tooltip>
+      ) : (
+        z.m.geschaetzt && <span className="shrink-0 self-center text-[10px] text-ak-leise">{t('news.eigeneSchaetzung')}</span>
       )}
     </li>
   )
@@ -124,6 +127,13 @@ export function meldungenImPanel(liste: NewsEintrag[], titelId: number, data: Pi
  * beim genannten Anbieter.
  */
 function quelleFuer(z: Zeile, data: Dataset): { url: string; name: string } | undefined {
+  /*
+    **Eine abgelöste Meldung zeigt ihre *damalige* Quelle** (01.10.2026). Vorher löste das Panel sie
+    über das **geltende** Release auf — die durchgestrichene 01.10.-Meldung bekam so den
+    Crunchyroll-Link, der den 02.10. nennt. Der Link widersprach der Meldung, an der er stand.
+  */
+  if (z.m.ersetzt || z.m.zurueckgezogen)
+    return istLink(z.m.quelle) ? { url: z.m.quelle, name: hostVon(z.m.quelle) } : undefined
   const release: Release | undefined = z.m.release
     ? data.releaseBySlug.get(z.m.release)
     : data.releases.find((r) => r.titleId === z.teilId && r.platform === z.m.platform)

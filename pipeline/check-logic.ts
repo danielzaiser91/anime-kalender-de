@@ -136,6 +136,7 @@ import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung, quellenZusammenfuehren } from './lib/meldungen.ts'
 import { belegeVonRelease } from './lib/news.ts'
+import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
 import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
 import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
 import { adressIndex, nameIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
@@ -6808,6 +6809,35 @@ pruefe(
   const nackt = belegeVonRelease(release([], ['https://www.anime2you.de/x', 'https://www.anime2you.de/x']))
   pruefe('Belege: nackte Adressen aus `sources` zählen mit, doppelt nicht', nackt?.length === 1, nackt)
   pruefe('Belege: ohne Quelle kein Eintrag', belegeVonRelease(release([])) === undefined)
+}
+{
+  /* **Eine eigene Schätzung trägt keinen Quellenlink** (01.10.2026). Anlass: Die abgelöste
+     Apothekerin-Meldung (01.10.) hing an einem Crunchyroll-Link, der den 02.10. nennt — der Link
+     widersprach der Meldung, an der er stand. Der Verlauf muss die Schätzung deshalb behalten. */
+  const T = (id: number) => ({ id, franchiseId: id, titleDe: `T${id}` }) as unknown as Title
+  const alt: TerminVerlauf = {
+    datum: '2026-10-01',
+    art: 'angekuendigt',
+    titelId: 1,
+    name: 'T1',
+    wurzel: 1,
+    platform: 'crunchyroll',
+    quelle: 'https://www.crunchyroll.com/de/news/latest/2026/8/16/x',
+    geschaetzt: true,
+    am: '2026-09-12',
+  }
+  const raus = pflegeTerminverlauf({
+    datiert: [],
+    nachId: new Map([[1, T(1)]]),
+    historie: { termine: { r: [alt] }, vergangen: {} },
+    vorherige: [],
+    name: (t) => t.titleDe ?? String(t.id),
+    wurzel: (t) => t.franchiseId ?? t.id,
+    grenze: '2026-09-01',
+    heute: '2026-10-02',
+  })
+  pruefe('Verlauf: eine abgelöste Schätzung bleibt als Schätzung erkennbar', raus.length === 1 && raus[0]!.geschaetzt === true, raus[0])
+  pruefe('Verlauf: sie steht als abgelöst (kein Nachfolger) da', raus[0]?.zurueckgezogen !== undefined, raus[0]?.zurueckgezogen)
 }
 {
   /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */

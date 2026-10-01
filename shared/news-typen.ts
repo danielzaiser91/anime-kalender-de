@@ -73,6 +73,14 @@ export interface NewsMeldung {
    */
   belege?: NewsBeleg[]
   /**
+   * **Der Termin ist unsere eigene Schätzung, keine Aussage einer Quelle** (Daniel, 01.10.2026).
+   *
+   * Aus dem bisherigen Rhythmus fortgeschrieben (`schedule.estimated`). Dann darf **kein**
+   * Quellenlink daran hängen: Er führte auf eine Seite, die den Termin gar nicht nennt —
+   * bei der abgelösten Apothekerin-Meldung auf Crunchyroll, wo der 02.10. steht.
+   */
+  geschaetzt?: boolean
+  /**
    * **Was die Meldung aus sich heraus verständlich macht** (Daniel, 01.10.2026).
    *
    * Der Quellenlink ist zum Nachsehen da, nicht als Bedingung: Bei einer

@@ -520,16 +520,20 @@ function MeldungZeile({
         </button>
         <BelegZeile belege={m.belege} className="shrink-0" />
         <AbgeloestHinweis m={m} />
-        {istLink(m.quelle) && (
-          <a
-            href={m.quelle}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={t('news.quelleTitel', { quelle: m.quelle })}
-            className="shrink-0 text-[10px] text-slate-400 underline decoration-dotted underline-offset-2 hover:text-slate-600 dark:hover:text-slate-200"
-          >
-            {t('news.quelle')} {hostVon(m.quelle)}
-          </a>
+        {m.geschaetzt ? (
+          <span className="shrink-0 text-[10px] text-ak-leise">{t('news.eigeneSchaetzung')}</span>
+        ) : (
+          istLink(m.quelle) && (
+            <a
+              href={m.quelle}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={t('news.quelleTitel', { quelle: m.quelle })}
+              className="shrink-0 text-[10px] text-slate-400 underline decoration-dotted underline-offset-2 hover:text-slate-600 dark:hover:text-slate-200"
+            >
+              {t('news.quelle')} {hostVon(m.quelle)}
+            </a>
+          )
         )}
       </div>
     </li>

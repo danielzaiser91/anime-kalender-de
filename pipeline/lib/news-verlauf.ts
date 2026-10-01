@@ -38,6 +38,8 @@ export interface TerminVerlauf {
   wurzel: number
   platform?: PlatformId
   quelle?: string
+  /** Der Termin war unsere eigene Schätzung — er trägt keinen Quellenlink (01.10.2026). */
+  geschaetzt?: boolean
   /** Tag, an dem die Meldung zuerst dastand. */
   am: string
 }
@@ -66,6 +68,7 @@ function ausMeldung(m: DatiertNews, name: (t: Title) => string, wurzel: (t: Titl
     wurzel: wurzel(m.titel),
     platform: m.platform,
     quelle: m.quelle,
+    geschaetzt: m.geschaetzt,
     am: m.am,
   }
 }
@@ -89,6 +92,7 @@ function seedAusVorherige(
         wurzel: nachId.get(titelId)?.franchiseId ?? titelId,
         platform: m.platform,
         quelle: m.quelle,
+        geschaetzt: m.geschaetzt,
         am: e.am,
       }
       verlauf[m.release] = [...(verlauf[m.release] ?? []), v]
@@ -186,6 +190,7 @@ function verlaufsKette({
         datum: alt.datum,
         release,
         quelle: alt.quelle,
+        geschaetzt: alt.geschaetzt,
         am: alt.am,
         titel,
         schluessel: `verlauf:${release}:${alt.art}:${tag(alt.datum)}:${i}`,

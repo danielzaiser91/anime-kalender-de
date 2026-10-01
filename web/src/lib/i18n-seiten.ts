@@ -19,6 +19,11 @@ export const TEXTE_SEITEN = {
   */
   'news.belege': 'Sicherheit der Angaben: {n} Quellen',
   'news.belegeTitel': 'Belege dieses Termins — je Dokument einer, Aktualisierungen zählen nicht doppelt',
+  /*
+    **Der Termin ist unsere Schätzung, keine Quelle** (Daniel, 01.10.2026). An einer geschätzten
+    Meldung darf kein Quellenlink hängen: Er führte auf eine Seite, die den Termin nicht nennt.
+  */
+  'news.eigeneSchaetzung': 'eigene Schätzung',
   'sub.title': 'Kalender abonnieren',
   'sub.intro':
     'Ein Abo statt vieler Einzelklicks: Die Feeds unten aktualisieren sich mit jedem Daten-Update von selbst. Kein Konto, kein Login, keine Freigabe an uns nötig.',
