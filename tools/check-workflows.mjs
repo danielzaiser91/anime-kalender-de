@@ -337,16 +337,28 @@ const NUR_VON_HAND = {
 
   Das ist teurer als eine veraltete Zahl — es ist Daniels Zeit: Er hätte 400
   Zeilen abgearbeitet, von denen die meisten längst geprüft waren.
+
+  **Gezählt wird nur, was geschrieben wird, nicht was genannt wird** (01.10.2026).
+  Die erste Fassung sammelte jeden zitierten Pfad — und schlug Alarm, als
+  `report-start.ts` eine **handgeschriebene** Anleitung verlinkte
+  (`datei: 'daniel-zum-abarbeiten/21-disneyplus-gruen.md'`). Der Deploy war damit ab
+  dem 30.09. 22:30 dreimal rot, und die Seite stand still. Jetzt zählt ein Pfad nur,
+  wenn im Umfeld ein `writeFileSync`/`writeJson`/`writeText` steht.
 */
 {
   const skript = readFileSync(new URL('../tools/quellen-liste.sh', import.meta.url), 'utf8')
   const geschrieben = new Set()
+  const SCHREIBT = /write(?:FileSync|File|Json|Text)\s*\(/
   for (const datei of readdirSync(new URL('../pipeline/', import.meta.url))) {
     if (!/\.(ts|mjs)$/.test(datei)) continue
-    const inhalt = readFileSync(new URL('../pipeline/' + datei, import.meta.url), 'utf8')
-    for (const m of inhalt.matchAll(/['"`](daniel-zum-abarbeiten\/[\w.-]+\.md)['"`]/g)) {
-      geschrieben.add(m[1])
-    }
+    const zeilen = readFileSync(new URL('../pipeline/' + datei, import.meta.url), 'utf8').split('\n')
+    zeilen.forEach((zeile, i) => {
+      for (const m of zeile.matchAll(/['"`](daniel-zum-abarbeiten\/[\w.-]+\.md)['"`]/g)) {
+        /* Drei Zeilen Umfeld: Ein `writeFileSync(` darf vor seinem Pfad umbrechen. */
+        const umfeld = zeilen.slice(Math.max(0, i - 2), i + 1).join('\n')
+        if (SCHREIBT.test(umfeld)) geschrieben.add(m[1])
+      }
+    })
   }
   const fehlend = [...geschrieben].filter((p) => !skript.includes(p))
   for (const p of fehlend) {
