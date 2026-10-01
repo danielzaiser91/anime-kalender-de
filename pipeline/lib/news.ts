@@ -60,12 +60,20 @@ interface NeuerTitel {
  * Lesbares dasteht — ein Link auf `gw.api.…` erklärt niemandem etwas.
  */
 function quelleVonRelease(r: Release): string | undefined {
-  const aktuelle = (r.quellen ?? []).filter((q) => q.stand !== 'ueberholt')
+  /*
+    **Die geltende Quelle zuerst** (01.10.2026). `quellen` führt die Historie mit,
+    und dort stand die falsche aniSearch-Seite (Spin-off) noch als
+    „vermutlich-überholt" an erster Stelle — der Link ging dorthin. `sources` ist
+    die gehegte Liste des Termins (kuratiert, dann Ankündigung) und damit der
+    bessere erste Griff.
+  */
+  const aktuelle = (r.quellen ?? []).filter((q) => q.stand === 'aktuell')
   return (
-    aktuelle.find((q) => !q.url.includes('//gw.api.'))?.url ??
-    aktuelle[0]?.url ??
     r.sources?.find((u) => !u.includes('//gw.api.')) ??
-    r.sources?.[0]
+    aktuelle.find((q) => !q.url.includes('//gw.api.'))?.url ??
+    r.sources?.[0] ??
+    (r.quellen ?? []).find((q) => !q.url.includes('//gw.api.'))?.url ??
+    (r.quellen ?? [])[0]?.url
   )
 }
 
