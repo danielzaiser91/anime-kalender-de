@@ -123,6 +123,7 @@ import {
 import { verweiseFuer } from '../web/src/components/detail/verweise.ts'
 import { zaehlText } from '../web/src/components/DatabaseView.tsx'
 import { activeFilterCount, EMPTY_FILTERS, reihenKopf } from '../web/src/lib/filters.ts'
+import { buildHash } from '../web/src/lib/router.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
@@ -5816,6 +5817,20 @@ pruefe(
     bar.includes('FilterDetailsFeld') && feld.includes('FilterDetailsFeld'),
     `FilterBar: ${bar.includes('FilterDetailsFeld')}, FilterFeld: ${feld.includes('FilterDetailsFeld')}`,
   )
+}
+{
+  /*
+    **Der offene Titel steht nicht doppelt in der Adresse** (Daniel, 01.10.2026):
+    `/r/<slug>/` im Pfad **und** `r=<slug>` im Hash. `buildHash` schreibt `r` nicht
+    mehr; den Titel trägt der Pfad (`releaseAusPfad`).
+  */
+  const hash = buildHash({
+    view: 'woche',
+    date: todayIso(),
+    release: 'apothecary-diaries-s3-cour1',
+    filters: { ...EMPTY_FILTERS },
+  })
+  pruefe('der offene Titel steht nicht doppelt in der Adresse (kein r=)', !/[?&]r=/.test(hash), hash)
 }
 {
   /*

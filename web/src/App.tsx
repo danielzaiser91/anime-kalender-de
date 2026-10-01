@@ -199,9 +199,9 @@ export default function App() {
       <Header
         view={route.view}
         onView={setView}
-        /* Echte Adressen, damit Mittlere Maustaste und Strg-Klick einen neuen Tab öffnen. */
-        startHref={buildHash({ ...route, view: 'woche', date: todayIso(), release: undefined, title: undefined })}
-        hrefFuer={(ziel) => buildHash({ ...route, view: ziel, release: undefined, title: undefined })}
+        /* Echte Adressen (Mittelklick), mit Basis-Pfad: der neue Tab startet ohne den Titel-Pfad. */
+        startHref={`${import.meta.env.BASE_URL}${buildHash({ ...route, view: 'woche', date: todayIso(), release: undefined, title: undefined })}`}
+        hrefFuer={(ziel) => `${import.meta.env.BASE_URL}${buildHash({ ...route, view: ziel, release: undefined, title: undefined })}`}
         onStart={() => {
           navigate({ view: 'woche', date: todayIso(), release: undefined, title: undefined })
           window.dispatchEvent(new Event('ak-zu-heute'))

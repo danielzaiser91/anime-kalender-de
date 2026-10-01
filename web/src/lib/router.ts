@@ -141,12 +141,28 @@ export function buildHash(route: AppRoute): string {
   if (f.kostenlosOnly) params.set('frei', '1')
   if (f.minConfidence !== 'low') params.set('conf', f.minConfidence)
   if (route.date !== todayIso()) params.set('d', route.date)
-  if (route.release) params.set('r', route.release)
   if (route.title) params.set('t', String(route.title))
   if (route.sort) params.set('sort', route.sort)
 
   const query = params.toString()
   return `#/${route.view}${query ? `?${query}` : ''}`
+}
+
+/**
+ * **Der offene Titel steht im Pfad, nicht mehr doppelt im Hash** (Daniel, 01.10.2026:
+ * `…/r/apothecary-diaries-s3-cour1/#/woche?xp=disc&r=apothecary-diaries-s3-cour1`).
+ * Seitwärts geteilte Seiten liegen unter `/r/<slug>/`; diese Adresse trägt den
+ * Titel bereits. `parseHash` liest `r`/`t` weiter als Rückfall für alte Links.
+ */
+export function releaseAusPfad(pathname: string): string | undefined {
+  const basis = (import.meta.env?.BASE_URL ?? '/').replace(/\/$/, '')
+  const m = new RegExp(`^${basis}/r/([^/]+)/?$`).exec(pathname)
+  return m?.[1] ? decodeURIComponent(m[1]) : undefined
+}
+
+/** Füllt den offenen Titel aus dem Pfad, wenn der Hash keinen nennt. */
+function mitPfad(route: AppRoute, pathname: string): AppRoute {
+  return route.release ? route : { ...route, release: releaseAusPfad(pathname) }
 }
 
 /**
@@ -180,11 +196,11 @@ export function syncSharePath(release: string | undefined, titelSlug?: string): 
 }
 
 export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
-  const [route, setRoute] = useState<AppRoute>(() => parseHash(window.location.hash))
+  const [route, setRoute] = useState<AppRoute>(() => mitPfad(parseHash(window.location.hash), window.location.pathname))
 
   useEffect(() => {
     const onChange = () => {
-      const neu = parseHash(window.location.hash)
+      const neu = mitPfad(parseHash(window.location.hash), window.location.pathname)
       /* Eine alte Adresse wird in der Leiste gleich zur neuen — sonst teilt man sie weiter. */
       if (ALTE_ANSICHTEN[window.location.hash.replace(/^#\/?/, '').split('?')[0]])
         history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(neu))
@@ -212,6 +228,8 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
 
   const navigate = (next: Partial<AppRoute>) => {
     const merged: AppRoute = { ...route, ...next }
+    /* Pfad zuerst — ohne `r` im Hash ist `/r/<slug>/` die einzige Spur des Titels. */
+    syncSharePath(merged.release)
     const hash = buildHash(merged)
     if (hash !== window.location.hash) window.location.hash = hash
     else setRoute(merged)
