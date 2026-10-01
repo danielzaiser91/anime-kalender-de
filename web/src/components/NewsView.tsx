@@ -518,7 +518,6 @@ function MeldungZeile({
             {newsSatz(m)}
           </span>
         </button>
-        <BelegZeile belege={m.belege} className="shrink-0" />
         <AbgeloestHinweis m={m} />
         {m.geschaetzt ? (
           <span className="shrink-0 text-[10px] text-ak-leise">{t('news.eigeneSchaetzung')}</span>
@@ -536,6 +535,9 @@ function MeldungZeile({
           )
         )}
       </div>
+      {/* Die Belegzeile steht **unter** der Meldung, nicht in ihrer Zeile: In der Zeile wäre sie auf
+          dem Handy zu breit (gemessen am 02.10.2026 — `check:news --handy` war rot). */}
+      <BelegZeile belege={m.belege} className="pb-1 pl-2" />
     </li>
   )
 }
