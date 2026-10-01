@@ -23,10 +23,11 @@
  * Meldung fest, wann sie zuerst dastand; danach ändert sich ihr Datum nie
  * wieder.
  */
-import type { NewsArt, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
+import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
 import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from './news-verlauf.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
+import { hostVon } from '../../shared/quelle.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -78,6 +79,26 @@ function quelleVonRelease(r: Release): string | undefined {
 }
 
 /**
+ * **Die Belege eines Termins — je Dokument einer** (01.10.2026).
+ *
+ * Daniel am 01.10.2026: gezählt wird **nach Artikel-Adresse**. Ein zweimal gelesener oder später
+ * aktualisierter Artikel bleibt **eine** Quelle; nur ein weiteres Dokument kommt dazu. Deshalb
+ * wird hier über die Adresse dedupliziert, nicht über die Lesung.
+ *
+ * Überholte Quellen zählen nicht mit: Sie belegen den geltenden Stand nicht mehr.
+ */
+export function belegeVonRelease(r: Release): NewsBeleg[] | undefined {
+  const nachUrl = new Map<string, NewsBeleg>()
+  for (const q of r.quellen ?? []) {
+    if (q.stand && q.stand !== 'aktuell') continue
+    if (!nachUrl.has(q.url)) nachUrl.set(q.url, { url: q.url, name: q.name, gelesenAm: q.gesehenAm })
+  }
+  /* Kuratierte Termine tragen nackte Adressen in `sources` — sie sind ebenso Belege. */
+  for (const u of r.sources ?? []) if (!nachUrl.has(u)) nachUrl.set(u, { url: u, name: hostVon(u) })
+  return nachUrl.size ? [...nachUrl.values()] : undefined
+}
+
+/**
  * **Die Termine als Meldungen** — angekündigt, auf Disc, im Kino, verschoben.
  *
  * Am 29.09.2026 aus `baueNews` herausgelöst (Längengrenze); dabei trägt jede Meldung ihre
@@ -119,7 +140,7 @@ function terminMeldungen(
         platform: r.platform,
         datum,
         release: r.slug,
-        quelle,
+        quelle, belege: belegeVonRelease(r),
         /* Eine angekündigte Staffel trägt ihre Einordnung im Satz (Simuldub-Vermutung). */
         ...(art === 'angekuendigt' && r.schedule?.estimated && r.note ? { hinweis: r.note } : {}),
       })
@@ -142,7 +163,7 @@ function terminMeldungen(
         release: r.slug,
         /* Was inzwischen daraus wurde — leer, solange die Folge aussteht. */
         nachgereichtAm: v.erschienenAm?.slice(0, 10),
-        quelle,
+        quelle, belege: belegeVonRelease(r),
       })
     }
   }
@@ -209,9 +230,8 @@ export function baueNews(
       art: 'neu',
       ...kopf(t),
       platform: anbieter,
-      quelle:
-        t.streams.find((s) => s.dub === true && s.platform === anbieter)?.url ??
-        (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
+      quelle: t.streams.find((s) => s.dub === true && s.platform === anbieter)?.url ?? (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
+      belege: (erreichtRelease && belegeVonRelease(erreichtRelease)) || undefined,
     })
   }
 

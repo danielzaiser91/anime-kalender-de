@@ -14,6 +14,21 @@ export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'ver
  * formuliert daraus einen Satz. Sonst stünde die deutsche Fassung fest in einer
  * Datei, und die Seite kann zwei Sprachen.
  */
+/**
+ * **Ein Beleg einer Meldung — ein Dokument, nicht eine Lesung** (01.10.2026).
+ *
+ * Daniel am 01.10.2026: „ich glaub so hast du es auch gemeint" — gezählt wird **nach Adresse**.
+ * Derselbe Artikel, zweimal gelesen oder aktualisiert, bleibt **eine** Quelle; sonst verspräche
+ * die Zeile „Sicherheit der Angaben" mehr, als da ist.
+ */
+export interface NewsBeleg {
+  url: string
+  /** Anzeigename (Verlag), meist der Hostname. */
+  name: string
+  /** Wann wir dieses Dokument zum ersten Mal gesehen haben — der ehrliche, weil einzige Wert. */
+  gelesenAm?: string
+}
+
 export interface NewsMeldung {
   art: NewsArt
   platform?: PlatformId
@@ -47,6 +62,16 @@ export interface NewsMeldung {
    * Schnittstellen-Endpunkt — die eigentliche Herkunft, aber nichts zum Anklicken.
    */
   quelle?: string
+  /**
+   * **Die Belege dieser Aussage — je Dokument einer** (01.10.2026).
+   *
+   * Der `quelle`-Link führt zu **einer** Stelle zum Nachsehen; `belege` trägt die
+   * ganze Kette, aus der die Zeile „Sicherheit der Angaben" die Zahl zieht. Nur
+   * gesetzt, wo ein Termin die Herkunft kennt (angekündigt, Disc, Kino, verpasst,
+   * „neu auf Deutsch" mit erreichtem Termin) — ein bloßer Anbieter-Verweis ist kein
+   * Dokument.
+   */
+  belege?: NewsBeleg[]
   /**
    * **Was die Meldung aus sich heraus verständlich macht** (Daniel, 01.10.2026).
    *

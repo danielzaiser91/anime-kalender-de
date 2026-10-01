@@ -135,6 +135,7 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung, quellenZusammenfuehren } from './lib/meldungen.ts'
+import { belegeVonRelease } from './lib/news.ts'
 import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
 import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
 import { adressIndex, nameIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
@@ -6780,6 +6781,33 @@ pruefe(
   pruefe('Filtersuche: „fs" trifft „FSK" nicht und fällt weg', !bereichsSuche('fs')!.bereich('FSK', ['ab 0', 'ab 12']))
   pruefe('Filtersuche: „fsk" öffnet den Bereich FSK ganz', bereichsSuche('fsk')!.zeige('FSK', 'ab 18'))
   pruefe('Filtersuche: eine leere Suche filtert nichts', bereichsSuche('   ') === undefined)
+}
+{
+  /* **Sicherheit der Angaben: nach Dokument gezählt, nicht nach Lesung** (01.10.2026).
+     Daniel: „wenn crunchyroll 1 artikel und anime2you 1 artikel, aber crunchyroll artikel wird
+     aktualisiert, zählt es weiter als 1 und nicht 2". */
+  const release = (quellen: unknown[], sources: string[] = []) =>
+    ({ quellen, sources }) as unknown as Parameters<typeof belegeVonRelease>[0]
+  const zwei = belegeVonRelease(
+    release([
+      { url: 'https://www.crunchyroll.com/de/news/a', name: 'Crunchyroll News', gesehenAm: '2026-08-16', stand: 'aktuell' },
+      /* Zweite Lesung desselben Dokuments — sie darf die Zahl nicht heben. */
+      { url: 'https://www.crunchyroll.com/de/news/a', name: 'Crunchyroll News', gesehenAm: '2026-10-01', stand: 'aktuell' },
+      { url: 'https://www.anime2you.de/b', name: 'anime2you.de', gesehenAm: '2026-10-02', stand: 'aktuell' },
+    ]),
+  )
+  pruefe('Belege: dieselbe Adresse zählt einmal — aktualisiert heißt nicht „mehr Quellen"', zwei?.length === 2, zwei)
+  pruefe('Belege: der erste Lesezeitpunkt bleibt stehen', zwei?.[0]?.gelesenAm === '2026-08-16', zwei?.[0])
+  const ueberholt = belegeVonRelease(
+    release([
+      { url: 'https://www.anisearch.de/anime/20083', name: 'anisearch.de', gesehenAm: '2026-08-01', stand: 'ueberholt' },
+      { url: 'https://www.anisearch.de/anime/20704', name: 'anisearch.de', gesehenAm: '2026-10-01', stand: 'aktuell' },
+    ]),
+  )
+  pruefe('Belege: eine überholte Quelle belegt den geltenden Stand nicht mehr', ueberholt?.length === 1, ueberholt)
+  const nackt = belegeVonRelease(release([], ['https://www.anime2you.de/x', 'https://www.anime2you.de/x']))
+  pruefe('Belege: nackte Adressen aus `sources` zählen mit, doppelt nicht', nackt?.length === 1, nackt)
+  pruefe('Belege: ohne Quelle kein Eintrag', belegeVonRelease(release([])) === undefined)
 }
 {
   /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */

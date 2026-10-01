@@ -5,6 +5,7 @@ import { useLang, type TranslationKey } from '../../lib/i18n.tsx'
 import { datumKurz, newsSatz } from '../../lib/news-text.ts'
 import { NEWS_FARBE } from '../NewsView.tsx'
 import { AbgeloestHinweis } from '../news-abgeloest.tsx'
+import { BelegZeile } from '../news-belege.tsx'
 import { todayIso } from '@shared/time.ts'
 import { hostVon } from '@shared/quelle.ts'
 import { Tooltip } from '../ui.tsx'
@@ -67,6 +68,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
         <span className={`self-start rounded px-1.5 text-xs ${NEWS_FARBE[z.m.art]}`}>{t(`news.art.${z.m.art}` as TranslationKey)}</span>
         <span className={`text-sm ${abgeloest ? 'text-ak-leise line-through' : 'text-ak-text'}`}>{newsSatz(z.m)}</span>
         {abgeloest && <AbgeloestHinweis m={z.m} />}
+        <BelegZeile belege={z.m.belege} className="self-start" />
       </span>
       {quelle && (
         <Tooltip text={quelle.name} seite="oben" eigenerFokus className="shrink-0">

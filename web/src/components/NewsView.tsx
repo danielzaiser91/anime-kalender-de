@@ -7,6 +7,7 @@ import { anbieterDerMeldung, datumKurz, newsSatz } from '../lib/news-text.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { todayIso, addDays } from '@shared/time.ts'
 import { AbgeloestHinweis } from './news-abgeloest.tsx'
+import { BelegZeile } from './news-belege.tsx'
 
 /**
  * **Was sich getan hat — ein Anime, ein Tag, eine Zeile.**
@@ -517,6 +518,7 @@ function MeldungZeile({
             {newsSatz(m)}
           </span>
         </button>
+        <BelegZeile belege={m.belege} className="shrink-0" />
         <AbgeloestHinweis m={m} />
         {istLink(m.quelle) && (
           <a
