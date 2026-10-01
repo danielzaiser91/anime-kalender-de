@@ -22,7 +22,7 @@ export function AbgeloestHinweis({ m }: { m: NewsMeldung }) {
         title={t('news.ersetztTitel')}
         className="shrink-0 text-[10px] text-amber-700 underline decoration-dotted underline-offset-2 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-300"
       >
-        {text}
+        {text} ↗
       </a>
     ) : (
       <span title={t('news.ersetztTitel')} className="shrink-0 text-[10px] text-amber-700 dark:text-amber-400">
