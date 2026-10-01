@@ -18,8 +18,9 @@ export function AktiveFilter({
 }: {
   filters: FilterState
   onChange: (next: FilterState) => void
-  tvAn: boolean
-  setTvAn: (an: boolean) => void
+  /** Nur im Kalender: der Fernsehen-Schalter gehört zu den Filtern. */
+  tvAn?: boolean
+  setTvAn?: (an: boolean) => void
 }) {
   const { t } = useLang()
   const eintraege = useEintraege(filters, onChange, tvAn, setTvAn)
@@ -42,7 +43,7 @@ export function AktiveFilter({
         type="button"
         onClick={() => {
           onChange({ ...EMPTY_FILTERS })
-          setTvAn(true)
+          setTvAn?.(true)
         }}
         className="h-8 cursor-pointer text-[13px] font-semibold text-ak-leise underline"
       >
@@ -52,7 +53,12 @@ export function AktiveFilter({
   )
 }
 
-function useEintraege(filters: FilterState, onChange: (next: FilterState) => void, tvAn: boolean, setTvAn: (an: boolean) => void): Eintrag[] {
+function useEintraege(
+  filters: FilterState,
+  onChange: (next: FilterState) => void,
+  tvAn: boolean | undefined,
+  setTvAn: ((an: boolean) => void) | undefined,
+): Eintrag[] {
   const { t, tGenre, tKeyword, tRelease } = useLang()
   const name = (key: ListKey, wert: string | number): string => {
     if (key === 'platforms') return PLATFORMS[wert as PlatformId].name
@@ -75,6 +81,6 @@ function useEintraege(filters: FilterState, onChange: (next: FilterState) => voi
   if (filters.favoritesOnly) liste.push({ label: t('filter.nurFavoriten'), weg: aus({ favoritesOnly: false }) })
   if (filters.kostenlosOnly) liste.push({ label: t('filter.nurKostenlos'), weg: aus({ kostenlosOnly: false }) })
   if (filters.confirmedOnly) liste.push({ label: t('filter.bestaetigt'), weg: aus({ confirmedOnly: false }) })
-  if (!tvAn) liste.push({ label: t('filter.ohneTv'), weg: () => setTvAn(true) })
+  if (tvAn === false) liste.push({ label: t('filter.ohneTv'), weg: () => setTvAn?.(true) })
   return liste
 }

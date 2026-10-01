@@ -5804,6 +5804,21 @@ pruefe(
 }
 {
   /*
+    **Datenbank und Kalender zeigen dieselbe Filteransicht** (Daniel, 01.10.2026).
+    Der Klick-Modus war im Kalender hinter „Weitere Filter" versteckt. Beide Seiten
+    rendern jetzt `FilterDetailsFeld` — nicht zwei getrennte Filterbäume.
+  */
+  const liesWeb = (p: string) => readFileSync(new URL(`../web/src/components/${p}`, import.meta.url), 'utf8')
+  const bar = liesWeb('FilterBar.tsx')
+  const feld = liesWeb('kalender/FilterFeld.tsx')
+  pruefe(
+    'Datenbank und Kalender rendern dieselbe Filteransicht',
+    bar.includes('FilterDetailsFeld') && feld.includes('FilterDetailsFeld'),
+    `FilterBar: ${bar.includes('FilterDetailsFeld')}, FilterFeld: ${feld.includes('FilterDetailsFeld')}`,
+  )
+}
+{
+  /*
     **Jede Meldung nennt ihre Quelle** (Daniel, 28.09.2026: „inkl Link zur Quelle"). Gemessen mit
     Fixtures statt an der gebauten Datei: Ein Termin trägt die Seite, an der wir ihn gelesen haben;
     ein Endpunkt weicht der lesbaren Quelle; neue deutsche Folgen tragen die Adresse, über die sie

@@ -55,6 +55,8 @@ export const TEXTE_KALENDER = {
   'kal.tvAmTag': 'Im Fernsehen am {datum}',
 
   'filter.schnell': 'Schnell',
+  'filter.mehr': 'mehr Filter ▾',
+  'filter.weniger': 'weniger Filter ▴',
   'filter.anbieter': 'Anbieter',
   'filter.favHinweis': 'Titel mit Stern',
   'filter.kostenlosKurz': 'Free-TV, TOGGO, YouTube',

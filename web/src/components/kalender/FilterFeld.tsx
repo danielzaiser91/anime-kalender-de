@@ -1,12 +1,10 @@
-import { useMemo, useState } from 'react'
-import type { ReactNode } from 'react'
+import { useMemo } from 'react'
 import type { PlatformId, ReleaseEvent } from '@shared/types.ts'
-import { PLATFORMS } from '@shared/types.ts'
+import type { ReactNode } from 'react'
 import type { Dataset } from '../../lib/data.ts'
-import { EMPTY_FILTERS, filterMode, toggleFilter, type FilterState } from '../../lib/filters.ts'
+import { EMPTY_FILTERS, type FilterState } from '../../lib/filters.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { FilterDetailsFeld } from '../FilterDetails.tsx'
-import { AniListImport } from '../AniListImport.tsx'
 
 export interface FilterFeldProps {
   data: Dataset
@@ -23,75 +21,69 @@ export interface FilterFeldProps {
 }
 
 /**
- * Das Filterfeld des Kalenders (Prototyp B, 26.09.2026): Schnellschalter, Anbieter und Genres mit
- * der Zahl ihrer Termine im gezeigten Zeitraum, dahinter die übrigen Filter. Der AniList-Import sitzt
- * unter „Nur Favoriten", seit es keinen eigenen Favoriten-Reiter mehr gibt.
+ * Das Filterfeld des Kalenders.
+ *
+ * **Dieselbe Ansicht wie die Datenbank** (Daniel, 01.10.2026): die Schnell-Schalter,
+ * der Klick-Modus in eigener Zeile und der Kasten mit den betroffenen Filtern. Was
+ * hier hinzukommt, sind nur die **Zahlen des Zeitraums** an Anbieter und Genre und
+ * der Fernsehen-Schalter. Vorher versteckte „Weitere Filter" den Klick-Modus
+ * mit — er greift jetzt sichtbar.
  */
 export function FilterFeld(p: FilterFeldProps) {
   const { t } = useLang()
-  const [weitere, setWeitere] = useState(false)
+  const zaehlungen = useMemo(() => {
+    const proPlattform = new Map<PlatformId, number>()
+    const proGenre = new Map<string, number>()
+    for (const ev of p.zeitraum) {
+      proPlattform.set(ev.platform, (proPlattform.get(ev.platform) ?? 0) + 1)
+      for (const g of p.data.titleById.get(ev.titleId)?.genres ?? []) proGenre.set(g, (proGenre.get(g) ?? 0) + 1)
+    }
+    return { proPlattform, proGenre }
+  }, [p.zeitraum, p.data])
+  const genreListe = useMemo(() => {
+    const gewaehlt = [...p.filters.genres, ...p.filters.excluded.genres]
+    return [...zaehlungen.proGenre.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([g]) => g)
+      .filter((g, i) => i < 12 || gewaehlt.includes(g))
+  }, [zaehlungen, p.filters.genres, p.filters.excluded.genres])
+
   return (
     <section
       id="ak-filterfeld"
       aria-label={t('filter.button')}
-      className="animate-fade-in grid gap-6 rounded-3xl border border-ak-rand bg-ak-flaeche p-5 lg:grid-cols-[300px_minmax(0,1fr)_minmax(0,1fr)] lg:gap-8"
+      className="animate-fade-in rounded-3xl border border-ak-rand bg-ak-flaeche"
     >
-      <SchnellSchalter {...p} />
-      <AnbieterChips {...p} />
-      <GenreChips {...p} />
-      <div className="lg:col-span-3">
-        <button
-          type="button"
-          onClick={() => setWeitere(!weitere)}
-          aria-expanded={weitere}
-          className="cursor-pointer text-[13px] font-bold text-ak-akzent-text hover:underline"
-        >
-          {weitere ? t('filter.weitereZu') : t('filter.weitere')}
-        </button>
-        {weitere && (
-          <div className="mt-3 rounded-2xl border border-ak-linie">
-            <FilterDetailsFeld meta={p.data.meta} filters={p.filters} onChange={p.onChange} showConfidence={false} imKalender />
-          </div>
-        )}
-      </div>
+      <FilterDetailsFeld
+        meta={p.data.meta}
+        filters={p.filters}
+        onChange={p.onChange}
+        showConfidence
+        favoriteCount={p.favoriteCount}
+        tvAn={p.tvAn}
+        setTvAn={p.setTvAn}
+        platformZaehlung={zaehlungen.proPlattform}
+        genreListe={genreListe}
+        genreZaehlung={zaehlungen.proGenre}
+      />
       <FilterFuss {...p} />
     </section>
   )
 }
 
-function Ueberschrift({ children }: { children: ReactNode }) {
-  return <h2 className="mb-1 text-xs font-extrabold uppercase tracking-[0.12em] text-ak-leise">{children}</h2>
-}
-
-function SchnellSchalter(p: FilterFeldProps) {
-  const { t } = useLang()
-  const [import_, setImport] = useState(false)
-  const set = (patch: Partial<FilterState>) => p.onChange({ ...p.filters, ...patch })
-  return (
-    <div className="flex flex-col gap-1">
-      <Ueberschrift>{t('filter.schnell')}</Ueberschrift>
-      <Schalter an={p.filters.favoritesOnly} setzen={(an) => set({ favoritesOnly: an })} label={`${t('filter.nurFavoriten')}${p.favoriteCount ? ` (${p.favoriteCount})` : ''}`} hinweis={t('filter.favHinweis')} />
-      <button
-        type="button"
-        onClick={() => setImport(!import_)}
-        aria-expanded={import_}
-        className="ml-[50px] cursor-pointer self-start text-left text-[13px] font-bold text-ak-akzent-text hover:underline"
-      >
-        {t('filter.anilist')}
-      </button>
-      {import_ && (
-        <div className="my-1 rounded-xl border border-ak-linie p-2">
-          <AniListImport data={p.data} />
-        </div>
-      )}
-      <Schalter an={p.filters.kostenlosOnly} setzen={(an) => set({ kostenlosOnly: an })} label={t('filter.nurKostenlos')} hinweis={t('filter.kostenlosKurz')} />
-      <Schalter an={p.filters.confirmedOnly} setzen={(an) => set({ confirmedOnly: an })} label={t('filter.bestaetigt')} hinweis={t('filter.bestaetigtHinweis')} />
-      <Schalter an={p.tvAn} setzen={p.setTvAn} label={t('filter.tvZeigen')} hinweis={t('filter.tvHinweis')} />
-    </div>
-  )
-}
-
-export function Schalter({ an, setzen, label, hinweis, ariaLabel }: { an: boolean; setzen: (an: boolean) => void; label: string; hinweis?: string; ariaLabel?: string }) {
+export function Schalter({
+  an,
+  setzen,
+  label,
+  hinweis,
+  ariaLabel,
+}: {
+  an: boolean
+  setzen: (an: boolean) => void
+  label: string
+  hinweis?: string
+  ariaLabel?: string
+}) {
   return (
     <button
       type="button"
@@ -114,7 +106,19 @@ export function Schalter({ an, setzen, label, hinweis, ariaLabel }: { an: boolea
   )
 }
 
-export function Pille({ an, aus, onClick, children, farbe }: { an: boolean; aus?: boolean; onClick: () => void; children: ReactNode; farbe?: string }) {
+export function Pille({
+  an,
+  aus,
+  onClick,
+  children,
+  farbe,
+}: {
+  an: boolean
+  aus?: boolean
+  onClick: () => void
+  children: ReactNode
+  farbe?: string
+}) {
   return (
     <button
       type="button"
@@ -125,7 +129,7 @@ export function Pille({ an, aus, onClick, children, farbe }: { an: boolean; aus?
         aus
           ? 'border-rose-400/70 bg-rose-500/10 text-rose-600 line-through dark:text-rose-300'
           : an
-            ? 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent'
+            ? 'border-transparent bg-emerald-500 text-emerald-950'
             : 'border-ak-rand bg-ak-flaeche-2 text-ak-text hover:border-ak-leise',
       ].join(' ')}
     >
@@ -135,62 +139,10 @@ export function Pille({ an, aus, onClick, children, farbe }: { an: boolean; aus?
   )
 }
 
-function AnbieterChips(p: FilterFeldProps) {
-  const { t } = useLang()
-  const zaehlung = useMemo(() => {
-    const z = new Map<PlatformId, number>()
-    for (const ev of p.zeitraum) z.set(ev.platform, (z.get(ev.platform) ?? 0) + 1)
-    return [...z].sort((a, b) => b[1] - a[1])
-  }, [p.zeitraum])
-  return (
-    <div className="flex flex-col gap-3">
-      <Ueberschrift>{t('filter.anbieter')}</Ueberschrift>
-      <div className="flex flex-wrap gap-2">
-        {zaehlung.map(([pl, n]) => {
-          const zustand = filterMode(p.filters, 'platforms', pl)
-          return (
-            <Pille key={pl} an={zustand === 'include'} aus={zustand === 'exclude'} farbe={PLATFORMS[pl].color} onClick={() => p.onChange(toggleFilter(p.filters, 'platforms', pl, zustand === 'exclude' ? 'exclude' : 'include'))}>
-              {PLATFORMS[pl].name}
-              <span className="font-medium opacity-65">{n}</span>
-            </Pille>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-function GenreChips(p: FilterFeldProps) {
-  const { t, tGenre } = useLang()
-  const zaehlung = useMemo(() => {
-    const z = new Map<string, number>()
-    for (const ev of p.zeitraum)
-      for (const g of p.data.titleById.get(ev.titleId)?.genres ?? []) z.set(g, (z.get(g) ?? 0) + 1)
-    const gewaehlt = [...p.filters.genres, ...p.filters.excluded.genres]
-    return [...z].sort((a, b) => b[1] - a[1]).filter(([g], i) => i < 12 || gewaehlt.includes(g))
-  }, [p.zeitraum, p.data, p.filters.genres, p.filters.excluded.genres])
-  return (
-    <div className="flex flex-col gap-3">
-      <Ueberschrift>{t('filter.genre')}</Ueberschrift>
-      <div className="flex flex-wrap gap-2">
-        {zaehlung.map(([g, n]) => {
-          const zustand = filterMode(p.filters, 'genres', g)
-          return (
-            <Pille key={g} an={zustand === 'include'} aus={zustand === 'exclude'} onClick={() => p.onChange(toggleFilter(p.filters, 'genres', g, zustand === 'exclude' ? 'exclude' : 'include'))}>
-              {tGenre(g)}
-              <span className="font-medium opacity-65">{n}</span>
-            </Pille>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
 function FilterFuss(p: FilterFeldProps) {
   const { t } = useLang()
   return (
-    <div className="flex flex-wrap items-center gap-3 border-t border-ak-linie pt-4 lg:col-span-3">
+    <div className="flex flex-wrap items-center gap-3 border-t border-ak-linie px-5 pb-4 pt-3">
       <span className="text-sm text-ak-leise">
         <b className="font-extrabold text-ak-text">{p.treffer}</b> {t('filter.treffer', { gesamt: p.zeitraum.length, zeitraum: p.zeitraumWort })}
       </span>

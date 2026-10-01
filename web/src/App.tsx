@@ -10,7 +10,7 @@ import type { ReleaseEvent } from '@shared/types.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
 import { speicherSichern, useNewsletterSync } from './lib/newsletterSync.ts'
 import { usePushNachfuehren } from './lib/push-nachfuehren.ts'
-import { useRoute, type ViewId } from './lib/router.ts'
+import { useRoute, buildHash, type ViewId } from './lib/router.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header } from './components/Header.tsx'
@@ -199,6 +199,9 @@ export default function App() {
       <Header
         view={route.view}
         onView={setView}
+        /* Echte Adressen, damit Mittlere Maustaste und Strg-Klick einen neuen Tab öffnen. */
+        startHref={buildHash({ ...route, view: 'woche', date: todayIso(), release: undefined, title: undefined })}
+        hrefFuer={(ziel) => buildHash({ ...route, view: ziel, release: undefined, title: undefined })}
         onStart={() => {
           navigate({ view: 'woche', date: todayIso(), release: undefined, title: undefined })
           window.dispatchEvent(new Event('ak-zu-heute'))

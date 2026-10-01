@@ -24,6 +24,16 @@ export function bereichVon(view: ViewId): 'kalender' | 'datenbank' | 'news' | un
 const RUND = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
 
 /**
+ * Nur der schlichte Linksklick geht durch die App. Mittlere Maustaste, Strg-,
+ * Shift- und Meta-Klick sollen die echte Adresse öffnen — dafür steht am
+ * Element ein `href` (Daniel, 01.10.2026: Logo und Reiter per mittlerer
+ * Maustaste im neuen Tab).
+ */
+function einfacherKlick(e: React.MouseEvent): boolean {
+  return e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey
+}
+
+/**
  * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema
  * und Einstellungen. Sie klebt oben und rollt mit (Daniel, 26.09.2026). Auf dem Handy wandern die
  * Bereiche und das Zahnrad nach unten, die Suche klappt unter der Leiste auf.
@@ -32,6 +42,8 @@ export function Header({
   view,
   onView,
   onStart,
+  startHref,
+  hrefFuer,
   suche,
   setSuche,
   favorites,
@@ -40,6 +52,10 @@ export function Header({
   view: ViewId
   onView: (v: ViewId) => void
   onStart: () => void
+  /** Echte Adresse der Startseite — für Mittlere Maustaste/Strg-Klick. */
+  startHref: string
+  /** Echte Adresse je Bereich — für Mittlere Maustaste/Strg-Klick. */
+  hrefFuer: (ziel: ViewId) => string
   suche: string
   setSuche: (s: string) => void
   favorites: Set<number>
@@ -56,27 +72,45 @@ export function Header({
   return (
     <header className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
       <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6 lg:px-10">
-        <button type="button" onClick={onStart} aria-label={t('kopf.startseite')} className="flex min-w-0 cursor-pointer items-center gap-2.5 text-ak-text">
+        <a
+          href={startHref}
+          onClick={(e) => {
+            if (einfacherKlick(e)) {
+              e.preventDefault()
+              onStart()
+            }
+          }}
+          aria-label={t('kopf.startseite')}
+          className="flex min-w-0 cursor-pointer items-center gap-2.5 text-ak-text"
+        >
           <LogoZeichen groesse={32} />
           <span className="truncate font-display text-base font-bold tracking-[-0.01em] sm:text-xl">
             anime<span className="text-ak-akzent">·</span>kalender
           </span>
-        </button>
+        </a>
         <nav aria-label={t('nav.bereich')} className="hidden gap-6 text-[15px] font-semibold md:flex">
-          {BEREICHE.map((b) => (
-            <button
-              key={b.id}
-              type="button"
-              onClick={() => onView(b.id === 'kalender' && aktiv === 'kalender' ? view : b.ziel)}
-              aria-current={aktiv === b.id ? 'page' : undefined}
-              className={[
-                'cursor-pointer border-b-2 py-2 transition',
-                aktiv === b.id ? 'border-ak-akzent text-ak-text' : 'border-transparent text-ak-leise hover:text-ak-text',
-              ].join(' ')}
-            >
-              {t(b.id === 'kalender' ? 'nav.kalender' : (`view.${b.id}` as TranslationKey))}
-            </button>
-          ))}
+          {BEREICHE.map((b) => {
+            const ziel = b.id === 'kalender' && aktiv === 'kalender' ? view : b.ziel
+            return (
+              <a
+                key={b.id}
+                href={hrefFuer(ziel)}
+                onClick={(e) => {
+                  if (einfacherKlick(e)) {
+                    e.preventDefault()
+                    onView(ziel)
+                  }
+                }}
+                aria-current={aktiv === b.id ? 'page' : undefined}
+                className={[
+                  'cursor-pointer border-b-2 py-2 transition',
+                  aktiv === b.id ? 'border-ak-akzent text-ak-text' : 'border-transparent text-ak-leise hover:text-ak-text',
+                ].join(' ')}
+              >
+                {t(b.id === 'kalender' ? 'nav.kalender' : (`view.${b.id}` as TranslationKey))}
+              </a>
+            )
+          })}
         </nav>
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           <label className="relative hidden w-64 lg:block xl:w-72">

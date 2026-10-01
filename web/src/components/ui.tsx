@@ -67,6 +67,7 @@ export function Chip({
   children,
   color,
   title,
+  ton,
 }: {
   active?: boolean
   /** Ausgeschlossen — muss sich auf einen Blick von „gewählt" unterscheiden. */
@@ -75,6 +76,12 @@ export function Chip({
   children: ReactNode
   color?: string
   title?: string
+  /**
+   * Farbe der Auswahl. `gruen` hebt gewählte **Filter** hervor: Orange/Rot liest
+   * sich dort wie ein Fehler, Grün heißt „drin" (Daniel, 01.10.2026). Die
+   * übrigen Chips der Seite bleiben neutral.
+   */
+  ton?: 'gruen'
 }) {
   return mitHinweis(
     title,
@@ -92,7 +99,9 @@ export function Chip({
             // wie eine zweite Auswahl lesen, nicht wie ein Verbot.
             'border-rose-400/70 bg-rose-500/10 text-rose-600 line-through decoration-rose-500/70 dark:border-rose-400/50 dark:text-rose-300'
           : active
-            ? 'border-transparent bg-slate-100 text-slate-900 dark:bg-slate-100 dark:text-slate-900'
+            ? ton === 'gruen'
+              ? 'border-transparent bg-emerald-500 font-semibold text-emerald-950 dark:bg-emerald-500 dark:text-emerald-950'
+              : 'border-transparent bg-slate-100 text-slate-900 dark:bg-slate-100 dark:text-slate-900'
             : 'border-slate-300/70 text-slate-600 hover:border-slate-400 hover:text-slate-900 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/40 dark:hover:text-white',
       ].join(' ')}
     >

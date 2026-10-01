@@ -1,9 +1,16 @@
-import { type PlatformId, PLATFORMS, RELEASE_TYPES, type ReleaseType, type DataMeta } from '@shared/types.ts'
+import {
+  type PlatformId,
+  PLATFORMS,
+  RELEASE_TYPES,
+  type ReleaseType,
+  type DataMeta,
+  type Fsk,
+  type ReleaseStatus,
+} from '@shared/types.ts'
 import { Chip, Tooltip } from './ui.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import type { Translate } from '../lib/i18n.tsx'
-import type { Dispatch, SetStateAction } from 'react'
-import { type Fsk, type ReleaseStatus } from '@shared/types.ts'
+import type { Dispatch, SetStateAction, ReactNode } from 'react'
 import { useLang } from '../lib/i18n.tsx'
 import { useState } from 'react'
 
@@ -13,24 +20,21 @@ export const STATUS_OPTIONS: ReleaseStatus[] = ['airing', 'tba', 'abgeschlossen'
 
 export const KEYWORD_PREVIEW = 24
 
+export const STATUS_LABEL_KEY = {
+  airing: 'status.airing',
+  abgeschlossen: 'status.abgeschlossen',
+  tba: 'status.tba',
+  erschienen: 'status.erschienen',
+  unbekannt: 'status.unbekannt',
+} as const
+
 /**
  * **Der UND/ODER-Schalter einer Kategorie.**
  *
  * Er erscheint erst ab der zweiten gewählten Pill: Bei einer einzigen bewirkt er
- * nichts, und ein Schalter ohne Wirkung ist Rauschen an einer Stelle, an der
- * ohnehin viel steht.
- *
- * „egal" statt „ODER" — das trifft, was die Einstellung meint, und liest sich
- * ohne Nachdenken: Wer Netflix und Prime wählt, will „irgendwo davon" (egal
- * welches) oder „auf beiden" (alle).
+ * nichts, und ein Schalter ohne Wirkung ist Rauschen.
  */
-function ModusSchalter({
-  wert,
-  setzen,
-}: {
-  wert: 'und' | 'oder'
-  setzen: (w: 'und' | 'oder') => void
-}) {
+function ModusSchalter({ wert, setzen }: { wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }) {
   const knopf = (w: 'und' | 'oder', text: string, titel: string) => (
     <Tooltip text={titel} eigenerFokus>
       <button
@@ -39,9 +43,7 @@ function ModusSchalter({
         aria-pressed={wert === w}
         className={
           'rounded px-1.5 py-px text-[9px] font-semibold uppercase tracking-wider transition ' +
-          (wert === w
-            ? 'bg-slate-600 text-slate-100'
-            : 'text-slate-500 hover:text-slate-300')
+          (wert === w ? 'bg-slate-600 text-slate-100' : 'text-slate-500 hover:text-slate-300')
         }
       >
         {text}
@@ -62,13 +64,12 @@ export function Group({
   modus,
 }: {
   label: string
-  children: React.ReactNode
-  /** Nur bei Kategorien, in denen ein Titel mehrere Werte tragen kann. */
+  children: ReactNode
   modus?: { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="flex items-center text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+      <span className="flex items-center text-[10px] font-semibold uppercase tracking-[0.14em] text-ak-leise">
         {label}
         {modus && modus.anzahl > 1 ? <ModusSchalter wert={modus.wert} setzen={modus.setzen} /> : null}
       </span>
@@ -77,22 +78,12 @@ export function Group({
   )
 }
 
-export const STATUS_LABEL_KEY = {
-  airing: 'status.airing',
-  abgeschlossen: 'status.abgeschlossen',
-  tba: 'status.tba',
-  erschienen: 'status.erschienen',
-  unbekannt: 'status.unbekannt',
-} as const
-
 /**
- * **„Meine Anbieter" — die eigenen Abos als ein Klick** (18.09.2026, autonomer Modus).
+ * **„Meine Anbieter" — die eigenen Abos als ein Klick** (18.09.2026).
  *
- * Aus dem Feature-Vergleich mit JustWatch („My Services"): Wer Netflix und Crunchyroll
- * hat, wählt beide bei jedem Besuch neu aus. Gespeichert wird im Browser, nicht in der
- * Adresse — eine Vorliebe ist keine Ansicht, und ein geteilter Link soll beim Empfänger
- * nicht still dessen Abos filtern. Deshalb auch kein automatisch gesetzter Filter: Der
- * Knopf zeigt an, dass es die Auswahl gibt, und setzt sie erst auf Klick.
+ * Wer Netflix und Crunchyroll hat, wählt beide bei jedem Besuch neu aus.
+ * Gespeichert wird im Browser, nicht in der Adresse — eine Vorliebe ist keine
+ * Ansicht.
  */
 const MEINE_ANBIETER = 'meineAnbieter'
 
@@ -126,7 +117,7 @@ export function MeineAnbieter({
     setGemerkt([...aktuell])
   }
   const knopf =
-    'cursor-pointer rounded-full border border-dashed border-slate-400/70 px-2.5 py-0.5 text-xs text-slate-600 transition hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-white/10'
+    'cursor-pointer rounded-full border border-dashed border-ak-rand px-2.5 py-0.5 text-xs text-ak-leise transition hover:bg-ak-flaeche-2'
   if (gemerkt.length && !gleich)
     return (
       <button type="button" className={knopf} onClick={() => setzen(gemerkt)} title={gemerkt.map((p) => PLATFORMS[p].name).join(', ')}>
@@ -142,15 +133,51 @@ export function MeineAnbieter({
   return null
 }
 
-export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set, chipState, pick, showConfidence, showAllProviders, setShowAllProviders, tRelease, genreQuery, setGenreQuery, visibleGenres, tGenre, keywordQuery, setKeywordQuery, shownKeywords, tKeyword, hiddenKeywordCount, setAllKeywords, allKeywords, matchingKeywords, imKalender }: {
+/**
+ * **Was gerade greift, steht als entfernbarer Streifen darüber** — siehe
+ * `kalender/AktiveFilter.tsx` (Kalender) bzw. `FilterBar.tsx` (Datenbank).
+ */
+export function FilterDetails({
+  t,
+  setMode,
+  mode,
+  modusVon2,
+  filters,
+  meta,
+  set,
+  chipState,
+  pick,
+  showConfidence,
+  showAllProviders,
+  setShowAllProviders,
+  tRelease,
+  genreQuery,
+  setGenreQuery,
+  visibleGenres,
+  tGenre,
+  keywordQuery,
+  setKeywordQuery,
+  shownKeywords,
+  tKeyword,
+  hiddenKeywordCount,
+  setAllKeywords,
+  allKeywords,
+  matchingKeywords,
+  favoriteCount,
+  tvAn,
+  setTvAn,
+  platformZaehlung,
+  genreListe,
+  genreZaehlung,
+}: {
   t: Translate
   setMode: Dispatch<SetStateAction<'include' | 'exclude'>>
   mode: 'include' | 'exclude'
-  modusVon2: (feld: ModusFeld, anzahl: number) => { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void; }
+  modusVon2: (feld: ModusFeld, anzahl: number) => { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
   filters: FilterState
   meta: DataMeta
   set: (patch: Partial<FilterState>) => void
-  chipState: <K extends ListKey>(key: K, value: FilterState[K][number]) => { active: boolean; excluded: boolean; }
+  chipState: <K extends ListKey>(key: K, value: FilterState[K][number]) => { active: boolean; excluded: boolean }
   pick: <K extends ListKey>(key: K, value: FilterState[K][number]) => void
   showConfidence: boolean
   showAllProviders: boolean
@@ -168,99 +195,187 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
   setAllKeywords: Dispatch<SetStateAction<boolean>>
   allKeywords: boolean
   matchingKeywords: string[]
-  /** Im Kalender stehen Anbieter, Genre und „bestätigt" schon im Filterfeld darüber. */
-  imKalender?: boolean
+  /** Zahl der gemerkten Titel — steht am Favoriten-Chip. */
+  favoriteCount?: number
+  /** Im Kalender: Schalter fürs Fernsehen und die Zahlen des Zeitraums. */
+  tvAn?: boolean
+  setTvAn?: (an: boolean) => void
+  platformZaehlung?: Map<PlatformId, number>
+  genreListe?: string[]
+  genreZaehlung?: Map<string, number>
 }) {
+  const [mehr, setMehr] = useState(false)
+  const plattformen: PlatformId[] = platformZaehlung
+    ? [...platformZaehlung.entries()].sort((a, b) => b[1] - a[1]).map(([p]) => p)
+    : meta.platforms
+  const genres = genreListe ?? visibleGenres
+  const mitZahl = (n: number | undefined) => (n ? <span className="opacity-60">{n}</span> : null)
+
   return (
     <>
-      {/* Der Umschalter steht über den Tags, nicht neben jedem einzelnen:
-          Wer etwas ausschließen will, will meist mehreres ausschließen. */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-3 py-2 dark:border-white/10">
-        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-          {t('filter.mode')}
-        </span>
-        <div className="inline-flex overflow-hidden rounded-lg border border-slate-300 dark:border-white/15">
-          {(['include', 'exclude'] as const).map((m) => (
-            <button
-              key={m}
-              type="button"
-              onClick={() => setMode(m)}
-              aria-pressed={mode === m}
-              className={[
-                'cursor-pointer px-3 py-1 text-xs font-medium transition',
-                mode === m
-                  ? m === 'exclude'
-                    ? 'bg-rose-500 text-white'
-                    : 'bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900'
-                  : 'text-slate-600 hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-white/10',
-              ].join(' ')}
-            >
-              {m === 'exclude' ? `⊘ ${t('filter.modeExclude')}` : t('filter.modeInclude')}
-            </button>
-          ))}
-        </div>
-        <span className="text-[11px] text-slate-500 dark:text-slate-400">
-          {t(mode === 'exclude' ? 'filter.modeExcludeHint' : 'filter.modeIncludeHint')}
-        </span>
-      </div>
-
-      <div className="grid gap-4 p-3 sm:grid-cols-2 xl:grid-cols-3">
-      {!imKalender && (<Group label={t('filter.platform')} modus={modusVon2('platforms', filters.platforms.length)}>
-        <MeineAnbieter
-          aktuell={filters.platforms}
-          verfuegbar={meta.platforms}
-          setzen={(platforms) => set({ platforms })}
-        />
-        {meta.platforms.map((p: PlatformId) => (
-          <Chip
-            key={p}
-            color={PLATFORMS[p].color}
-            {...chipState('platforms', p)}
-            onClick={() => pick('platforms', p)}
-          >
-            {PLATFORMS[p].name}
+      {/* Schnell-Schalter — Schalter (an/aus), nicht vom Klick-Modus betroffen. */}
+      <div className="border-b border-ak-linie px-3 py-2.5">
+        <Group label={t('filter.schnell')}>
+          <Chip ton="gruen" active={filters.favoritesOnly} onClick={() => set({ favoritesOnly: !filters.favoritesOnly })}>
+            ★ {t('filter.favourites')}
+            {favoriteCount ? ` (${favoriteCount})` : ''}
           </Chip>
-        ))}
-      </Group>)}
-
-      {/* Bezugsquellen nur in der Datenbank: In den Kalenderansichten geht es
-          um Termine, und ein Termin liegt immer auf einer der bekannten
-          Plattformen — dort wäre die Gruppe leer. */}
-      {showConfidence && meta.providers.length > 0 && (
-        <Group label={t('filter.provider', { count: meta.providers.length })} modus={modusVon2('providers', filters.providers.length)}>
-          {meta.providers.slice(0, showAllProviders ? undefined : 12).map((name: string) => (
-            <Chip
-              key={name}
-              color="#34d399"
-              {...chipState('providers', name)}
-              onClick={() => pick('providers', name)}
-            >
-              {name}
+          <Chip ton="gruen" active={filters.kostenlosOnly} onClick={() => set({ kostenlosOnly: !filters.kostenlosOnly })}>
+            {t('filter.kostenlos')}
+          </Chip>
+          <Chip ton="gruen" active={filters.confirmedOnly} onClick={() => set({ confirmedOnly: !filters.confirmedOnly })}>
+            {t('filter.confirmedOnly')}
+          </Chip>
+          {setTvAn && (
+            <Chip ton="gruen" active={Boolean(tvAn)} onClick={() => setTvAn(!tvAn)}>
+              {t('filter.tvZeigen')}
             </Chip>
-          ))}
-          {meta.providers.length > 12 && (
-            <button
-              type="button"
-              onClick={() => setShowAllProviders((v) => !v)}
-              className="cursor-pointer text-xs text-sky-700 dark:text-sky-300 underline-offset-2 hover:underline"
-            >
-              {showAllProviders
-                ? t('filter.showLess')
-                : t('filter.showMore', { count: meta.providers.length })}
-            </button>
+          )}
+          {showConfidence && (
+            <Chip ton="gruen" active={filters.availableOnly} onClick={() => set({ availableOnly: !filters.availableOnly })}>
+              {t('filter.available')}
+            </Chip>
           )}
         </Group>
-      )}
+      </div>
 
+      {/* Klick-Modus in eigener Zeile, darunter der Kasten mit den betroffenen Filtern. */}
+      <div className="p-3">
+        <div className="rounded-2xl border border-ak-rand bg-ak-flaeche-2 p-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ak-leise">{t('filter.mode')}</span>
+            <div className="inline-flex overflow-hidden rounded-lg border border-ak-rand">
+              {(['include', 'exclude'] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMode(m)}
+                  aria-pressed={mode === m}
+                  className={[
+                    'cursor-pointer px-3 py-1.5 text-xs font-bold transition',
+                    mode === m
+                      ? m === 'exclude'
+                        ? 'bg-rose-500 text-white'
+                        : 'bg-ak-flaeche text-ak-text'
+                      : 'text-ak-leise hover:bg-ak-flaeche-2',
+                  ].join(' ')}
+                >
+                  {m === 'exclude' ? `⊘ ${t('filter.modeExclude')}` : t('filter.modeInclude')}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-3 rounded-xl border border-ak-rand bg-ak-flaeche p-3">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Group label={t('filter.platform')} modus={modusVon2('platforms', filters.platforms.length)}>
+                <MeineAnbieter
+                  aktuell={filters.platforms}
+                  verfuegbar={meta.platforms}
+                  setzen={(platforms) => set({ platforms })}
+                />
+                {plattformen.map((p) => (
+                  <Chip
+                    ton="gruen"
+                    key={p}
+                    color={PLATFORMS[p].color}
+                    {...chipState('platforms', p)}
+                    onClick={() => pick('platforms', p)}
+                  >
+                    {PLATFORMS[p].name} {mitZahl(platformZaehlung?.get(p))}
+                  </Chip>
+                ))}
+              </Group>
+
+              <Group label={t('filter.genre')} modus={modusVon2('genres', filters.genres.length)}>
+                <input
+                  type="search"
+                  value={genreQuery}
+                  onChange={(e) => setGenreQuery(e.target.value)}
+                  placeholder={t('filter.genreSearch')}
+                  className="mb-1.5 w-full rounded-md border border-ak-rand bg-ak-flaeche-2 px-2 py-1 text-xs text-ak-text"
+                />
+                {genres.map((g) => (
+                  <Chip ton="gruen" key={g} {...chipState('genres', g)} onClick={() => pick('genres', g)}>
+                    {tGenre(g)} {mitZahl(genreZaehlung?.get(g))}
+                  </Chip>
+                ))}
+              </Group>
+            </div>
+
+            <div className="mt-3 border-t border-dashed border-ak-linie pt-3">
+              <button
+                type="button"
+                onClick={() => setMehr(!mehr)}
+                aria-expanded={mehr}
+                className="cursor-pointer text-[13px] font-bold text-ak-akzent-text hover:underline"
+              >
+                {mehr ? t('filter.weniger') : t('filter.mehr')}
+              </button>
+              {mehr && (
+                <FilterMehr
+                  t={t}
+                  meta={meta}
+                  filters={filters}
+                  showConfidence={showConfidence}
+                  modusVon2={modusVon2}
+                  chipState={chipState}
+                  pick={pick}
+                  set={set}
+                  tRelease={tRelease}
+                  tKeyword={tKeyword}
+                  showAllProviders={showAllProviders}
+                  setShowAllProviders={setShowAllProviders}
+                  keywordQuery={keywordQuery}
+                  setKeywordQuery={setKeywordQuery}
+                  shownKeywords={shownKeywords}
+                  hiddenKeywordCount={hiddenKeywordCount}
+                  setAllKeywords={setAllKeywords}
+                  allKeywords={allKeywords}
+                  matchingKeywords={matchingKeywords}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+/**
+ * **Die weiteren Filter** — erst hinter „mehr Filter". Sie gehören zum selben
+ * Klick-Modus wie Anbieter und Genre darüber.
+ */
+type FilterMehrProps = {
+  t: Translate
+  meta: DataMeta
+  filters: FilterState
+  showConfidence: boolean
+  modusVon2: (feld: ModusFeld, anzahl: number) => { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
+  chipState: <K extends ListKey>(key: K, value: FilterState[K][number]) => { active: boolean; excluded: boolean }
+  pick: <K extends ListKey>(key: K, value: FilterState[K][number]) => void
+  set: (patch: Partial<FilterState>) => void
+  tRelease: (type: ReleaseType, variant?: 'name' | 'short' | 'hint') => string
+  tKeyword: (name: string) => string
+  showAllProviders: boolean
+  setShowAllProviders: Dispatch<SetStateAction<boolean>>
+  keywordQuery: string
+  setKeywordQuery: Dispatch<SetStateAction<string>>
+  shownKeywords: string[]
+  hiddenKeywordCount: number
+  setAllKeywords: Dispatch<SetStateAction<boolean>>
+  allKeywords: boolean
+  matchingKeywords: string[]
+}
+
+function FilterMehr(props: FilterMehrProps) {
+  const { t, meta, filters, modusVon2, chipState, pick, tRelease } = props
+  return (
+    <div className="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       <Group label={t('filter.releaseType')} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
         {(Object.keys(RELEASE_TYPES) as ReleaseType[]).map((type) => (
-          <Chip
-            key={type}
-            color={RELEASE_TYPES[type].color}
-            title={tRelease(type, 'hint')}
-            {...chipState('releaseTypes', type)}
-            onClick={() => pick('releaseTypes', type)}
-          >
+          <Chip ton="gruen" key={type} color={RELEASE_TYPES[type].color} title={tRelease(type, 'hint')} {...chipState('releaseTypes', type)} onClick={() => pick('releaseTypes', type)}>
             {tRelease(type)}
           </Chip>
         ))}
@@ -268,11 +383,7 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
 
       <Group label={t('filter.status')}>
         {STATUS_OPTIONS.map((s) => (
-          <Chip
-            key={s}
-            {...chipState('statuses', s)}
-            onClick={() => pick('statuses', s)}
-          >
+          <Chip ton="gruen" key={s} {...chipState('statuses', s)} onClick={() => pick('statuses', s)}>
             {t(STATUS_LABEL_KEY[s])}
           </Chip>
         ))}
@@ -280,11 +391,7 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
 
       <Group label={t('filter.fsk')}>
         {FSK_OPTIONS.map((f) => (
-          <Chip
-            key={f}
-            {...chipState('fsk', f)}
-            onClick={() => pick('fsk', f)}
-          >
+          <Chip ton="gruen" key={f} {...chipState('fsk', f)} onClick={() => pick('fsk', f)}>
             {t('filter.fskFrom', { n: f })}
           </Chip>
         ))}
@@ -292,72 +399,81 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
 
       <Group label={t('filter.year')} modus={modusVon2('years', filters.years.length)}>
         {meta.years.map((y) => (
-          <Chip
-            key={y}
-            {...chipState('years', y)}
-            onClick={() => pick('years', y)}
-          >
+          <Chip ton="gruen" key={y} {...chipState('years', y)} onClick={() => pick('years', y)}>
             {y}
           </Chip>
         ))}
       </Group>
 
-      {!imKalender && (<Group label={t('filter.confidence')}>
-        <Chip
-          active={filters.confirmedOnly}
-          onClick={() => set({ confirmedOnly: !filters.confirmedOnly })}
-          title={t('filter.confirmedOnlyHint')}
-        >
-          {t('filter.confirmedOnly')}
-        </Chip>
-        {showConfidence &&
-          (['low', 'normal', 'high', 'very-high'] as const).map((c, i) => (
-            <Chip
-              key={c}
-              active={filters.minConfidence === c}
-              onClick={() => set({ minConfidence: c })}
+      <FilterMehrRest {...props} />
+    </div>
+  )
+}
+
+/** Bezugsquelle, Sicherheit und Keywords — der zweite Teil der „mehr Filter"-Fläche. */
+function FilterMehrRest(props: FilterMehrProps) {
+  const {
+    t,
+    meta,
+    filters,
+    showConfidence,
+    modusVon2,
+    chipState,
+    pick,
+    set,
+    tKeyword,
+    showAllProviders,
+    setShowAllProviders,
+    keywordQuery,
+    setKeywordQuery,
+    shownKeywords,
+    hiddenKeywordCount,
+    setAllKeywords,
+    allKeywords,
+    matchingKeywords,
+  } = props
+  return (
+    <>
+      {meta.providers.length > 0 && (
+        <Group label={t('filter.provider', { count: meta.providers.length })} modus={modusVon2('providers', filters.providers.length)}>
+          {meta.providers.slice(0, showAllProviders ? undefined : 12).map((name: string) => (
+            <Chip ton="gruen" key={name} color="#34d399" {...chipState('providers', name)} onClick={() => pick('providers', name)}>
+              {name}
+            </Chip>
+          ))}
+          {meta.providers.length > 12 && (
+            <button
+              type="button"
+              onClick={() => setShowAllProviders((v) => !v)}
+              className="cursor-pointer text-xs text-ak-akzent-text underline-offset-2 hover:underline"
             >
+              {showAllProviders ? t('filter.showLess') : t('filter.showMore', { count: meta.providers.length })}
+            </button>
+          )}
+        </Group>
+      )}
+
+      {showConfidence && (
+        <Group label={t('filter.confidence')}>
+          {(['low', 'normal', 'high', 'very-high'] as const).map((c, i) => (
+            <Chip ton="gruen" key={c} active={filters.minConfidence === c} onClick={() => set({ minConfidence: c })}>
               {i === 0 ? t('filter.source') : t('filter.sources', { n: i + 1 })}
             </Chip>
           ))}
-      </Group>)}
-
-      {!imKalender && (<div className="sm:col-span-2 xl:col-span-1">
-        <Group label={t('filter.genre')} modus={modusVon2('genres', filters.genres.length)}>
-          <input
-            type="search"
-            value={genreQuery}
-            onChange={(e) => setGenreQuery(e.target.value)}
-            placeholder={t('filter.genreSearch')}
-            className="mb-1.5 w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-xs dark:border-white/15 dark:bg-white/5"
-          />
-          {visibleGenres.map((g) => (
-            <Chip
-              key={g}
-              {...chipState('genres', g)}
-              onClick={() => pick('genres', g)}
-            >
-              {tGenre(g)}
-            </Chip>
-          ))}
         </Group>
-      </div>)}
+      )}
 
-      <div className="sm:col-span-2">
+      <div className="sm:col-span-2 xl:col-span-1">
         <Group label={t('filter.keywords', { count: meta.keywords.length })} modus={modusVon2('keywords', filters.keywords.length)}>
           <input
             type="search"
             value={keywordQuery}
             onChange={(e) => setKeywordQuery(e.target.value)}
             placeholder={t('filter.keywordSearch')}
-            className="mb-1.5 w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-xs dark:border-white/15 dark:bg-white/5"
+            className="mb-1.5 w-full rounded-md border border-ak-rand bg-ak-flaeche-2 px-2 py-1 text-xs text-ak-text"
           />
           {shownKeywords.map((k) => (
-            <Chip
-              key={k}
-              {...chipState('keywords', k)}
-              onClick={() => pick('keywords', k)}
-            >
+            <Chip ton="gruen" key={k} {...chipState('keywords', k)} onClick={() => pick('keywords', k)}>
               {tKeyword(k)}
             </Chip>
           ))}
@@ -367,7 +483,6 @@ export function FilterDetails({ t, setMode, mode, modusVon2, filters, meta, set,
             </Chip>
           )}
         </Group>
-      </div>
       </div>
     </>
   )
@@ -379,16 +494,39 @@ export function FilterDetailsFeld({
   filters,
   onChange,
   showConfidence,
-  imKalender,
+  favoriteCount,
+  tvAn,
+  setTvAn,
+  platformZaehlung,
+  genreListe,
+  genreZaehlung,
 }: {
   meta: DataMeta
   filters: FilterState
   onChange: (next: FilterState) => void
   showConfidence: boolean
-  imKalender?: boolean
+  favoriteCount?: number
+  tvAn?: boolean
+  setTvAn?: (an: boolean) => void
+  platformZaehlung?: Map<PlatformId, number>
+  genreListe?: string[]
+  genreZaehlung?: Map<string, number>
 }) {
   const werkzeug = useFilterWerkzeug(meta, filters, onChange)
-  return <FilterDetails {...werkzeug} filters={filters} meta={meta} showConfidence={showConfidence} imKalender={imKalender} />
+  return (
+    <FilterDetails
+      {...werkzeug}
+      filters={filters}
+      meta={meta}
+      showConfidence={showConfidence}
+      favoriteCount={favoriteCount}
+      tvAn={tvAn}
+      setTvAn={setTvAn}
+      platformZaehlung={platformZaehlung}
+      genreListe={genreListe}
+      genreZaehlung={genreZaehlung}
+    />
+  )
 }
 
 function useFilterWerkzeug(meta: DataMeta, filters: FilterState, onChange: (next: FilterState) => void) {
@@ -400,7 +538,6 @@ function useFilterWerkzeug(meta: DataMeta, filters: FilterState, onChange: (next
   // Auswahlmodus: Ein Klick auf ein Tag wählt es — oder verbietet es.
   const [mode, setMode] = useState<'include' | 'exclude'>('include')
   const set = (patch: Partial<FilterState>) => onChange({ ...filters, ...patch })
-  /** UND/ODER je Kategorie — nur, wo ein Titel mehrere Werte tragen kann (`ModusFeld`). */
   const modusVon2 = (feld: ModusFeld, anzahl: number) => ({
     anzahl,
     wert: modusVon(filters, feld),
@@ -412,13 +549,9 @@ function useFilterWerkzeug(meta: DataMeta, filters: FilterState, onChange: (next
     return { active: state === 'include', excluded: state === 'exclude' }
   }
   const sortedGenres = meta.genres.slice().sort((a, b) => tGenre(a).localeCompare(tGenre(b), 'de'))
-  const visibleGenres = genreQuery
-    ? sortedGenres.filter((g) => tGenre(g).toLowerCase().includes(genreQuery.toLowerCase()))
-    : sortedGenres
+  const visibleGenres = genreQuery ? sortedGenres.filter((g) => tGenre(g).toLowerCase().includes(genreQuery.toLowerCase())) : sortedGenres
   const sortedKeywords = meta.keywords.slice().sort((a, b) => tKeyword(a).localeCompare(tKeyword(b), 'de'))
-  const matchingKeywords = keywordQuery
-    ? sortedKeywords.filter((k) => tKeyword(k).toLowerCase().includes(keywordQuery.toLowerCase()))
-    : sortedKeywords
+  const matchingKeywords = keywordQuery ? sortedKeywords.filter((k) => tKeyword(k).toLowerCase().includes(keywordQuery.toLowerCase())) : sortedKeywords
   // Gewählte und ausgeschlossene Keywords bleiben immer sichtbar, sonst fände man ein Verbot nicht wieder.
   const setKeywords = [...filters.keywords, ...filters.excluded.keywords]
   const previewKeywords = [...setKeywords, ...matchingKeywords.filter((k) => !setKeywords.includes(k)).slice(0, KEYWORD_PREVIEW)]
