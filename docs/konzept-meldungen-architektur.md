@@ -527,3 +527,51 @@ netflix (195), youtube (97), crunchyroll (94).
 Belege" — ist noch nicht erreicht. Die 26 Setzstellen bleiben stehen; der nächste begrenzte Schritt
 ist, die 483 `dub: true` ohne Urteil nach Herkunft zu trennen (alte Belege ohne Rohdaten → Prüfliste,
 wie am 27.09. entschieden) und die 146 `available: false` je Weg als Urteil zu prüfen.
+
+### Schritt 3 (1d) gemessen, 01.10.2026 — die Herkunft der Belege ohne Urteil
+
+Gezählt wurde `data/dub-confirmed.yaml` gegen die Wege (`anilistId|platform`) aus `data/urteile.json`
+und die Prüfliste in `data/erneut-melden.yaml`.
+
+| | Belege |
+|---|---|
+| gesamt | 2.859 |
+| mit Urteil | 2.138 (**74,8 %**) |
+| ohne Urteil | **721** |
+
+Ohne Urteil: **476** `dub: true`, **146** `available: false`, **90** `dub: false`, **9** ohne
+Sprachurteil — nach Plattform primevideo 276, netflix 190, youtube 97, crunchyroll 94, rtlplus 42,
+adn 11, disneyplus 10, aniverse 1.
+
+**Die 476 `dub: true` nach Herkunft getrennt** (143 stehen schon auf der Prüfliste, 333 nicht):
+
+| Grund | Belege | Plattformen |
+|---|---|---|
+| Weg im Bestand da, kein Urteil → **Prüfliste** | **272** | netflix 89, primevideo 84, crunchyroll 42, rtlplus 40, adn 9, disneyplus 8 |
+| Plattform ohne Erweiterung — der Handbeleg bleibt | 52 | youtube 52 |
+| Weg im Bestand entfernt — Beleg ist veraltet | 8 | primevideo 5, aniverse 1, netflix 1, crunchyroll 1 |
+| Titel nicht mehr im Bestand | 1 | primevideo 1 |
+
+Alle 476 wurden im August (340) und September (136) geprüft; keine trägt eine `notiz`, 256 eine
+Adresse. **Nicht auf die Prüfliste geschoben:** Der Schritt verdoppelt Daniels Liste (heute 327
+Einträge), und die Entscheidung vom 27.09. galt der engeren Menge „deutsch ohne Folgenangabe". Die
+272 sind gemessen und liegen bereit — der Griff ist `node tools/erneut-melden.mjs … --ohne-push`.
+
+**Die `available: false` (501 Belege) je Weg:**
+
+| Lage | Belege |
+|---|---|
+| Urteil am Weg sagt dasselbe („nicht verfügbar") | 334 |
+| **kein Urteil — braucht eines** | **146** |
+| Urteil sagt `deutsch` (Widerspruch) | 17 |
+| Urteil sagt `unbekannt` | 3 |
+| `deutsch`+`unbekannt` (Staffelmix, prüfen) | 1 |
+
+**Nebenbefund: 89 Belege, denen jedes Urteil am Weg widerspricht.** Aufgeschlüsselt nach Paar:
+`dub: false → unbekannt` 24, `dub: true → nicht verfügbar` 19, `available: false → deutsch` 17,
+`dub: false → deutsch` 7, `dub: true → unbekannt` 6, `dub: false → nicht verfügbar` 5,
+`dub: false → deutsch+unbekannt` 4, `dub: true → kein deutsch` 3, `available: false → unbekannt` 3,
+`available: false → deutsch+unbekannt` 1. Die `unbekannt`-Fälle sind Kanal-Wege ohne Abo (das Urteil
+weiß es nicht besser); die **46 mit einem eindeutigen Gegenurteil** (`nicht verfügbar` gegen
+`dub: true`, `deutsch` gegen `available: false`/`dub: false`) sind ein echter Streit zwischen
+Handbeleg und Messung und brauchen einen eigenen Durchgang.
