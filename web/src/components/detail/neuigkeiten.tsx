@@ -6,6 +6,7 @@ import { datumKurz, newsSatz } from '../../lib/news-text.ts'
 import { NEWS_FARBE } from '../NewsView.tsx'
 import { AbgeloestHinweis } from '../news-abgeloest.tsx'
 import { todayIso } from '@shared/time.ts'
+import { hostVon } from '@shared/quelle.ts'
 import { Tooltip } from '../ui.tsx'
 
 interface Zeile {
@@ -127,7 +128,7 @@ function quelleFuer(z: Zeile, data: Dataset): { url: string; name: string } | un
   if (!release) return anbieterSeite(z, data)
   const beleg = [...(release.quellen ?? [])].sort((a, b) => b.gesehenAm.localeCompare(a.gesehenAm))[0]
   if (beleg) return { url: beleg.url, name: beleg.name }
-  if (release.sources[0]) return { url: release.sources[0], name: new URL(release.sources[0]).hostname.replace(/^www\./, '') }
+  if (release.sources[0]) return { url: release.sources[0], name: hostVon(release.sources[0]) }
   if (release.platformUrl) return { url: release.platformUrl, name: PLATFORMS[release.platform]?.name ?? release.platform }
   return anbieterSeite(z, data)
 }

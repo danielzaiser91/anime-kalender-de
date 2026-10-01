@@ -21,13 +21,20 @@ const ANZEIGENAME: Record<string, string> = {
 }
 
 /** Hostname → Anzeigename. Dieselbe Zuordnung für Seite, Feed und Bestand. */
-export function quelleAnzeigeName(host: string): string {
+export function quelleAnzeigeName(host: string, pfad = ''): string {
+  /*
+    **Crunchyrolls Nachrichtenseite ist nicht die Streaming-Seite** (01.10.2026).
+    Ein Link auf `/de/news/…` führt zu Crunchyroll **News**; „crunchyroll.com"
+    allein ließe eine Serienseite erwarten.
+  */
+  if (host === 'crunchyroll.com' && /^\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?news\//i.test(pfad)) return 'Crunchyroll News'
   return ANZEIGENAME[host] ?? host
 }
 
 export function hostVon(url: string): string {
   try {
-    return quelleAnzeigeName(new URL(url).host.replace(/^www\./, ''))
+    const u = new URL(url)
+    return quelleAnzeigeName(u.host.replace(/^www\./, ''), u.pathname)
   } catch {
     return url
   }

@@ -19,5 +19,13 @@ export function angekuendigterTermin(
   if (!angekuendigt?.omuAb) return undefined
   if (entry.platform !== 'crunchyroll') return undefined
   if (!entry.schedule?.estimated) return undefined
+  /*
+    **Ein Monat ist kein Kalendertag** (01.10.2026). `omuAb` darf „JJJJ-MM" sein
+    — PSYREN trägt „2026-10". Dieser Wert landete ungeprüft in
+    `firstEpisodeDate`, und damit stand ein Monat dort, wo ein Tag erwartet
+    wird. Den Monat zeigt der Antwortkasten („mit Untertiteln ab Oktober 2026");
+    einen Kalendereintrag setzt nur ein echter Tag.
+  */
+  if (angekuendigt.omuAb.length !== 10) return undefined
   return angekuendigt.omuAb
 }

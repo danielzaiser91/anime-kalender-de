@@ -430,6 +430,7 @@ export function quellenPflegen(releases: Release[]): void {
      * Kuratierte Termine tragen nur nackte Adressen in `sources`. Daraus wird
      * hier eine vollwertige Herkunftsangabe — sonst hätten ausgerechnet die von
      * Hand geprüften Termine die schlechtere Belegkette als die automatischen.
+     * **Kein `sagt`:** Unser Termin als Aussage der Quelle war ein Zirkelschluss.
      */
     const neu: Quelle[] =
       release.quellen ??
@@ -437,7 +438,6 @@ export function quellenPflegen(releases: Release[]): void {
         url,
         name: quellenName(url),
         gesehenAm: heute,
-        sagt: termin,
         stand: 'aktuell' as const,
       }))
 

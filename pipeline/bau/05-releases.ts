@@ -3,6 +3,7 @@ import { type Release, type Title } from '../../shared/types.ts'
 import { warn, ROOT } from '../lib/util.ts'
 import { ankuendigungenLaden } from '../lib/ankuendigungen.ts'
 import { angekuendigterTermin } from './ankuendigungs-termin.ts'
+import { quellenUndTermin } from '../lib/quellen-bindung.ts'
 import { verpasstAmTermin } from './verpasst-am-termin.ts'
 import { verpassteTermine, CR_CALENDAR_URL } from './grundlagen.ts'
 import { pickPlatformUrl, derivedStart, observedEpisodes, overlapsWindow, werkTitel } from './titel-hilfen.ts'
@@ -76,9 +77,9 @@ export function baueReleases({
     const angekuendigt = titleId ? ankuendigungen.get(titleId) : undefined
 
     const info = tmdb[entry.slug]
-    const schedule = { ...entry.schedule }
+    const { sources, schedule } = quellenUndTermin([...(entry.sources ?? []), ...(angekuendigt?.quellen ?? [])], title?.anisearchId, entry.schedule, (n) => warn(`"${entry.slug}": ${n} Quelle(n) gehören nicht zum Titel — nicht übernommen`))
     /* Der angekündigte Tag schlägt eine Schätzung (`bau/ankuendigungs-termin.ts`). */
-    const angekuendigterTag = angekuendigterTermin(entry, angekuendigt)
+    const angekuendigterTag = angekuendigterTermin({ platform: entry.platform, schedule }, angekuendigt)
     if (angekuendigterTag) schedule.firstEpisodeDate = angekuendigterTag
     /*
       **Was der Anbieter nicht eingehalten hat, steht am Termin.**
@@ -120,7 +121,7 @@ export function baueReleases({
     // Angaben aus dem Crunchyroll-Kalender einsetzen. Sie kommen direkt vom
     // Anbieter und schlagen deshalb jede abgeleitete Angabe.
     /* Der kuratierte Beleg steht vor der allgemeinen Ankündigung — er ist der genauere. */
-    const sources = [...(entry.sources ?? []), ...(angekuendigt?.quellen ?? [])]
+    /* `sources` ist oben bereits auf passende Quellen gefiltert. */
     let durchzaehlungHinweis: string | undefined
     if (entry.platform === 'crunchyroll') {
       const slot = findCrunchyroll(platformUrl, entry.titleDe ?? name)

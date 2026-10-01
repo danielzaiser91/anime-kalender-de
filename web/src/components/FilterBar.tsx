@@ -33,13 +33,16 @@ export function FilterBar({
 
   return (
     <div className="rounded-2xl border border-ak-rand bg-ak-flaeche">
-      <AktiveFilter filters={filters} onChange={onChange} />
+      {/* Auswahl links, Filter-Knopf rechts auf derselben Zeile (Daniel, 01.10.2026). */}
       <div className="flex flex-wrap items-center gap-2 p-2">
+        <div className="min-w-0 flex-1">
+          <AktiveFilter filters={filters} onChange={onChange} />
+        </div>
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
-          className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-ak-rand px-3 py-1.5 text-sm font-semibold text-ak-text transition hover:bg-ak-flaeche-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-ak-akzent"
+          className="ml-auto inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-full border border-ak-rand px-3 py-1.5 text-sm font-semibold text-ak-text transition hover:bg-ak-flaeche-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-ak-akzent"
         >
           {t('filter.button')}
           {count > 0 && <span className="rounded-full bg-ak-akzent px-1.5 text-[11px] font-bold text-ak-auf-akzent">{count}</span>}

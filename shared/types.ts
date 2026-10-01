@@ -570,7 +570,7 @@ export interface Quelle {
   url: string
   /** Anzeigename, meist der Hostname: „anime2you.de". */
   name: string
-  /** Wann ein Lauf diese Aussage in dieser Quelle zuletzt gesehen hat. */
+  /** Wann ein Lauf diese Quelle zum ersten Mal gesehen hat. */
   gesehenAm: string
   /** Was die Quelle sagt, sofern auslesbar — etwa ein Datum. */
   sagt?: string

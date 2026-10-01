@@ -79,7 +79,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
       />
       {filterOffen ? (
         /* Das Filterfeld steht über der Steuerleiste — dort, wo man es geöffnet hat. */
-        <div className="fixed inset-x-2 bottom-[calc(9rem+env(safe-area-inset-bottom))] z-30 mx-auto max-h-[calc(100dvh-14rem)] max-w-[1180px] overflow-y-auto rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,.45)] md:bottom-[5.75rem] md:max-h-[calc(100dvh-10rem)]">
+        <div className="fixed inset-x-2 bottom-[calc(7.75rem+env(safe-area-inset-bottom))] z-30 mx-auto max-h-[calc(100dvh-14rem)] max-w-[1180px] overflow-y-auto rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,.45)] md:bottom-[4.5rem] md:max-h-[calc(100dvh-10rem)]">
         <FilterFeld
           data={p.data}
           filters={route.filters}

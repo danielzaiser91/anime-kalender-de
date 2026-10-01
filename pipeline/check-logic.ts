@@ -134,7 +134,9 @@ import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
-import { releasesAus, terminDerMeldung } from './lib/meldungen.ts'
+import { releasesAus, terminDerMeldung, quellenZusammenfuehren } from './lib/meldungen.ts'
+import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
+import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
 import { adressIndex, nameIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
 import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
 import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
@@ -6691,6 +6693,75 @@ pruefe(
   /* Conan „Der gefallene Engel des Highways“ (19.09.2026): ein Kinostart wird keine „Ausgabe bei aniSearch“. */
   const bau = bauQuelltext()
   pruefe('ein deutscher Sprachblock auf dem Kinotermin legt keinen Disc-Weg an', /if \(imKino\) continue\s*const as = anisearch\[title\.id\]\?\.anisearchId/.test(bau))
+}
+{
+  /* Quellen-Belege (01.10.2026): anhängend, nicht überschreibend. */
+  const erst = quellenZusammenfuehren(
+    [{ url: 'https://a.example/x', name: 'a.example', gesehenAm: '2026-09-01', sagt: '2026-10-01' }],
+    [{ url: 'https://a.example/x', name: 'a.example', gesehenAm: '2026-10-01', sagt: '2026-10-02' }],
+  )
+  pruefe('dieselbe Adresse: der erste Beleg bleibt', erst.length === 1 && erst[0]!.gesehenAm === '2026-09-01', erst[0])
+  pruefe('dieselbe Adresse: die erste Aussage bleibt', erst[0]!.sagt === '2026-10-01', erst[0])
+
+  const gleich = quellenZusammenfuehren(
+    [{ url: 'https://b.example/y', name: 'b.example', gesehenAm: '2026-09-01', sagt: '2026-10-01' }],
+    [{ url: 'https://b.example/y', name: 'b.example', gesehenAm: '2026-10-01', sagt: '2026-10-01' }],
+  )
+  pruefe('gleiche Aussage erneut gelesen: unverändert', gleich[0]!.sagt === '2026-10-01' && gleich[0]!.gesehenAm === '2026-09-01', gleich[0])
+
+  const nebendateiText = readFileSync('pipeline/bau/nebendateien.ts', 'utf8')
+  pruefe(
+    'kuratierte Quellen erfinden keine Aussage (kein `sagt: termin`)',
+    !/sagt:\s*termin\b/.test(nebendateiText),
+    'pipeline/bau/nebendateien.ts',
+  )
+}
+{
+  /* Ankündigung „nur Monat" (01.10.2026): Ein Monat ist kein Kalendertag. */
+  const ank = (omuAb: string) => ({
+    platform: 'crunchyroll' as const,
+    omuAb,
+    synchro: 'angekuendigt' as const,
+    quellen: ['https://example.org/a'],
+    stand: '2026-09-15',
+  })
+  const schaetzung = { platform: 'crunchyroll', schedule: { estimated: true } }
+  pruefe('Ankündigung mit Tag schlägt die Schätzung', angekuendigterTermin(schaetzung, ank('2026-10-07')) === '2026-10-07')
+  pruefe('Ankündigung nur mit Monat setzt keinen Kalendertag', angekuendigterTermin(schaetzung, ank('2026-10')) === undefined)
+  pruefe(
+    'ohne Schätzung greift die Ankündigung nicht',
+    angekuendigterTermin({ platform: 'crunchyroll', schedule: {} }, ank('2026-10-07')) === undefined,
+  )
+}
+{
+  /* Eine aniSearch-Anime-Adresse als Quelle muss zum Titel gehören (01.10.2026). */
+  pruefe('Quellenbindung: passende aniSearch-Kennung', quelleGehoertZumTitel('https://www.anisearch.de/anime/20704', 20704))
+  pruefe(
+    'Quellenbindung: fremde aniSearch-Kennung wird erkannt',
+    !quelleGehoertZumTitel('https://www.anisearch.de/anime/20083', 20704),
+  )
+  pruefe(
+    'Quellenbindung: eine News-Adresse ist nicht prüfbar und gilt',
+    quelleGehoertZumTitel('https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026', 20704),
+  )
+  pruefe(
+    'Quellenbindung: ohne eigene Kennung zählt eine fremde aniSearch-Adresse nicht',
+    !quelleGehoertZumTitel('https://www.anisearch.de/anime/20083', undefined),
+  )
+
+  const anisearchIds = JSON.parse(readFileSync('data/anisearch.json', 'utf8')) as Record<string, { anisearchId?: number }>
+  const verstoesse: string[] = []
+  for (const datei of readdirSync('data/curated').filter((f) => f.endsWith('.yaml'))) {
+    const roh = yaml.load(readFileSync(`data/curated/${datei}`, 'utf8'))
+    if (!Array.isArray(roh)) continue
+    for (const e of roh as { slug?: string; anilistId?: number; sources?: unknown[] }[]) {
+      const asId = e?.anilistId !== undefined ? anisearchIds[String(e.anilistId)]?.anisearchId : undefined
+      for (const u of e?.sources ?? []) {
+        if (typeof u === 'string' && !quelleGehoertZumTitel(u, asId)) verstoesse.push(`${datei}:${e?.slug ?? '?'} → ${u}`)
+      }
+    }
+  }
+  pruefe('keine kuratierte Quelle führt zu einer fremden aniSearch-Kennung', verstoesse.length === 0, verstoesse.slice(0, 5))
 }
 {
   /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */

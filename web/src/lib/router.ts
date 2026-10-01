@@ -90,6 +90,17 @@ function readLists(params: URLSearchParams, prefix: '' | 'x'): FilterLists {
     const raw = splitList(params.get(prefix + LIST_PARAM[key]))
     ;(lists as any)[key] = NUMERIC_KEYS.has(key) ? raw.map(Number) : raw
   }
+  /*
+    **`disc` ist eine Veröffentlichungsart, keine Plattform** (01.10.2026; am
+    Bestand gemessen: 159 = 159, Differenz 0). Ein altes `xp=disc` wandert
+    deshalb zu `xrt=disc` — sonst filterte es weiter, ohne sichtbar zu sein.
+  */
+  const plattformen = lists.platforms as unknown as string[]
+  if (plattformen.includes('disc')) {
+    ;(lists as any).platforms = plattformen.filter((p) => p !== 'disc')
+    const arten = lists.releaseTypes as unknown as string[]
+    if (!arten.includes('disc')) arten.push('disc')
+  }
   return lists
 }
 

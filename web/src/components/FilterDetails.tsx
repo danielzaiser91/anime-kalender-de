@@ -62,13 +62,16 @@ export function Group({
   label,
   children,
   modus,
+  inline,
 }: {
   label: string
   children: ReactNode
   modus?: { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
+  /** Label und Chips in **einer** Zeile — für kurze Gruppen wie „Schnell". */
+  inline?: boolean
 }) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className={inline ? 'flex flex-wrap items-center gap-2' : 'flex flex-col gap-1.5'}>
       <span className="flex items-center text-[10px] font-semibold uppercase tracking-[0.14em] text-ak-leise">
         {label}
         {modus && modus.anzahl > 1 ? <ModusSchalter wert={modus.wert} setzen={modus.setzen} /> : null}
@@ -205,9 +208,7 @@ export function FilterDetails({
   genreZaehlung?: Map<string, number>
 }) {
   const [mehr, setMehr] = useState(false)
-  const plattformen: PlatformId[] = platformZaehlung
-    ? [...platformZaehlung.entries()].sort((a, b) => b[1] - a[1]).map(([p]) => p)
-    : meta.platforms
+  const plattformen: PlatformId[] = (platformZaehlung ? [...platformZaehlung.entries()].sort((a, b) => b[1] - a[1]).map(([p]) => p) : meta.platforms).filter((p) => p !== 'disc')
   const genres = genreListe ?? visibleGenres
   const mitZahl = (n: number | undefined) => (n ? <span className="opacity-60">{n}</span> : null)
 
@@ -215,7 +216,7 @@ export function FilterDetails({
     <>
       {/* Schnell-Schalter — Schalter (an/aus), nicht vom Klick-Modus betroffen. */}
       <div className="border-b border-ak-linie px-3 py-2.5">
-        <Group label={t('filter.schnell')}>
+        <Group label={t('filter.schnell')} inline>
           <Chip ton="gruen" active={filters.favoritesOnly} onClick={() => set({ favoritesOnly: !filters.favoritesOnly })}>
             ★ {t('filter.favourites')}
             {favoriteCount ? ` (${favoriteCount})` : ''}
@@ -241,7 +242,7 @@ export function FilterDetails({
 
       {/* Klick-Modus in eigener Zeile, darunter der Kasten mit den betroffenen Filtern. */}
       <div className="p-3">
-        <div className="rounded-2xl border border-ak-rand bg-ak-flaeche-2 p-3">
+        <div className="rounded-2xl border border-ak-rand bg-ak-flaeche-2 px-3 py-2">
           <div className="flex flex-wrap items-center gap-3">
             <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ak-leise">{t('filter.mode')}</span>
             <div className="inline-flex overflow-hidden rounded-lg border border-ak-rand">
@@ -266,7 +267,7 @@ export function FilterDetails({
             </div>
           </div>
 
-          <div className="mt-3 rounded-xl border border-ak-rand bg-ak-flaeche p-3">
+          <div className="mt-3 rounded-xl border border-ak-rand bg-ak-flaeche p-2">
             <div className="grid gap-4 sm:grid-cols-2">
               <Group label={t('filter.platform')} modus={modusVon2('platforms', filters.platforms.length)}>
                 <MeineAnbieter
@@ -286,7 +287,6 @@ export function FilterDetails({
                   </Chip>
                 ))}
               </Group>
-
               <Group label={t('filter.genre')} modus={modusVon2('genres', filters.genres.length)}>
                 <input
                   type="search"
@@ -301,6 +301,7 @@ export function FilterDetails({
                   </Chip>
                 ))}
               </Group>
+              <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} tRelease={tRelease} />
             </div>
 
             <div className="mt-3 border-t border-dashed border-ak-linie pt-3">
@@ -369,22 +370,22 @@ type FilterMehrProps = {
   matchingKeywords: string[]
 }
 
-function FilterMehr(props: FilterMehrProps) {
-  const { t, meta, filters, modusVon2, chipState, pick, tRelease } = props
+/** Release-Art, FSK und Jahr — stehen seit dem 01.10.2026 oben bei Anbietern und Genre. */
+function Grundgruppen({
+  t,
+  meta,
+  filters,
+  modusVon2,
+  chipState,
+  pick,
+  tRelease,
+}: Pick<FilterMehrProps, 't' | 'meta' | 'filters' | 'modusVon2' | 'chipState' | 'pick' | 'tRelease'>) {
   return (
-    <div className="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <>
       <Group label={t('filter.releaseType')} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
         {(Object.keys(RELEASE_TYPES) as ReleaseType[]).map((type) => (
           <Chip ton="gruen" key={type} color={RELEASE_TYPES[type].color} title={tRelease(type, 'hint')} {...chipState('releaseTypes', type)} onClick={() => pick('releaseTypes', type)}>
             {tRelease(type)}
-          </Chip>
-        ))}
-      </Group>
-
-      <Group label={t('filter.status')}>
-        {STATUS_OPTIONS.map((s) => (
-          <Chip ton="gruen" key={s} {...chipState('statuses', s)} onClick={() => pick('statuses', s)}>
-            {t(STATUS_LABEL_KEY[s])}
           </Chip>
         ))}
       </Group>
@@ -401,6 +402,21 @@ function FilterMehr(props: FilterMehrProps) {
         {meta.years.map((y) => (
           <Chip ton="gruen" key={y} {...chipState('years', y)} onClick={() => pick('years', y)}>
             {y}
+          </Chip>
+        ))}
+      </Group>
+    </>
+  )
+}
+
+function FilterMehr(props: FilterMehrProps) {
+  const { t, chipState, pick } = props
+  return (
+    <div className="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <Group label={t('filter.status')}>
+        {STATUS_OPTIONS.map((s) => (
+          <Chip ton="gruen" key={s} {...chipState('statuses', s)} onClick={() => pick('statuses', s)}>
+            {t(STATUS_LABEL_KEY[s])}
           </Chip>
         ))}
       </Group>

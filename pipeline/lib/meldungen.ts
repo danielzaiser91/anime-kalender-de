@@ -49,7 +49,8 @@ export interface Vorschlag {
 /** Hostname als Anzeigename — „www." fällt weg, es sagt nichts. */
 export function quellenName(url: string): string {
   try {
-    return quelleAnzeigeName(new URL(url).hostname.replace(/^www\./, ''))
+    const u = new URL(url)
+    return quelleAnzeigeName(u.hostname.replace(/^www\./, ''), u.pathname)
   } catch {
     return url
   }
@@ -428,7 +429,8 @@ export function quellenZusammenfuehren(alt: Quelle[], neu: Quelle[]): Quelle[] {
   for (const q of alt) nachUrl.set(q.url, q)
   for (const q of neu) {
     const bisher = nachUrl.get(q.url)
-    nachUrl.set(q.url, bisher ? { ...bisher, ...q } : q)
+    // Anhängend (01.10.2026): Der erste Beleg bleibt, wird nicht überschrieben.
+    nachUrl.set(q.url, bisher ? { ...q, gesehenAm: bisher.gesehenAm, sagt: bisher.sagt ?? q.sagt } : q)
   }
   // Aktuelle zuerst, dann nach Sichtung absteigend.
   return [...nachUrl.values()].sort(
