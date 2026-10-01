@@ -101,6 +101,26 @@ Zeitaufwand und dem, was jede Aufgabe löst.
 
 ## Offene Kästchen
 
+- [ ] **Apothekerin S3 Cour 1: steht sie am 02.10. im Kalender?** (02.10.2026).
+  Erwartung: „Die Tagebücher der Apothekerin: Staffel 3 – Teil 1" steht am **02.10.2026** im Kalender
+  (angekündigter Simulcast, `data/ankuendigungen.yaml`, `omuAb: 2026-10-02`; Quelle der Crunchyroll-Artikel).
+  Der Termin kam am 01.10. von 01.10. auf 02.10. (vorher eine aniSearch-Schätzung), der Riegel verwirft
+  Angekündigtes nicht mehr. **Prüfen** in Woche und Monat sowie im Detail-Panel. **Fehlt er:** Bau-Log
+  („verworfen") und `data/termine-verpasst.json` ansehen.
+
+- [ ] **Apothekerin S3 Cour 1: am 03.10. den Stand prüfen — „nicht erschienen" oder neuer DE-Termin** (03.10.2026).
+  Die Ankündigung nennt den 02.10. als **OmU**-Start; die **deutsche Synchro** ist zum angekündigten Release
+  am 02.10. **nicht** erschienen. Zu prüfen und **sichtbar** zu aktualisieren (nicht still):
+  1. Hat der Lauf den 02.10. als „nicht erschienen" markiert — durchgestrichen im Kalender, Eintrag in
+     `data/termine-verpasst.json`, News „Nicht erschienen" mit Quelle?
+  2. Oder wurde ein **neuer, echter DE-Synchro-Termin** eingereiht (neue Ankündigung → `neuErwartet`,
+     Antwort-Kasten „Start am …")?
+  3. Die Meldung muss eine der beiden ehrlichen Fassungen tragen:
+     - **Termin da:** „Deutsche Synchro startet am <Datum> (Quelle)."
+     - **Termin offen:** „Deutsche Synchro ohne offiziellen Termin — wir tragen ihn nach, sobald sie
+       erscheint oder neue Infos vorliegen."
+     (Panel-Formulierungen: `antwort.synchroOffen` / `antwort.synchroTerminOffen`, `shared/ankuendigung.ts`.)
+
 - [ ] **Disney+ „2 Titel" klären, dann Aufgabe 8 aus `00-START-HIER.md` wieder entfernen** (01.10.2026).
   Laufstatus-App und Erweiterung sagen 2 (Bleach, Though I Am an Inept Villainess), auf der Seite sind
   aber alle Folgen grün. Daniel prüft es (Aufgabe 8, `daniel-zum-abarbeiten/21-disneyplus-gruen.md`);
