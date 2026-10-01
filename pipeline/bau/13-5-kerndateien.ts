@@ -1,7 +1,7 @@
 import { writeJson, readJson, log } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
-import { type Release, type ReleaseEvent, type Title, type DataMeta } from '../../shared/types.ts'
+import { type Release, type ReleaseEvent, type Title, type DataMeta, type NewsEintrag } from '../../shared/types.ts'
 
 export function schreibeKernUndNews({ releases, events, titles, meta }: {
   releases: Release[]
@@ -45,6 +45,8 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
         {},
       ).folgen ?? [],
       newsHistorie,
+      /* Das zuvor ausgelieferte `news.json` speist beim ersten Lauf den Verlauf. */
+      readJson<NewsEintrag[]>(`${OUT}/news.json`, []),
     )
     writeJson(`${OUT}/news.json`, meldungen)
     newsFuerRss = meldungen

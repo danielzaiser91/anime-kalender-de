@@ -166,6 +166,7 @@ export function baueNews(
   neuMitSynchro: NeuerTitel[],
   crNeu: CrNeueFolge[],
   historie: NewsHistorie,
+  vorherige: NewsEintrag[] = [],
 ): NewsEintrag[] {
   const heute = todayIso()
   const grenze = addDays(heute, -FENSTER_TAGE)
@@ -326,8 +327,7 @@ export function baueNews(
   const kopfTitel = new Map<number, Title>()
   for (const t of titles) if (wurzelVon(t) === t.id) kopfTitel.set(t.id, t)
 
-  /* Abgelöste Termin-Meldungen bleiben sichtbar (`news-verlauf.ts`). */
-  datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, name, wurzel: wurzelVon, grenze, heute }))
+  datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute }))
 
   const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()
   for (const m of datiert) {

@@ -6,23 +6,27 @@
  * Sie müssen aktualisiert werden statt entfernt, und sichtbar machen was passiert
  * ist."
  *
- * Der Bau vergleicht deshalb jeden Termin mit dem, was zuletzt zu ihm dastand
- * (`historie.termine`):
+ * Der Bau vergleicht deshalb jeden Termin mit dem, was zuletzt zu ihm dastand:
  *
- * - **Verschoben** (derselbe Release, anderer Tag): Die alte Meldung bleibt,
- *   durchgestrichen, mit `ersetzt` auf den neuen Tag und dessen Quelle.
- * - **Zurückgezogen** (kein Termin mehr): ebenfalls sichtbar, mit Grund.
+ * - **Verschoben** (derselbe Release, dieselbe Art, anderer Tag): Die alte
+ *   Meldung bleibt, durchgestrichen, mit `ersetzt` auf den neuen Tag und dessen
+ *   Quelle.
+ * - **Zurückgezogen** (dieselbe Art gibt es gar nicht mehr): sichtbar mit Grund.
  *
- * Abgelöste Fassungen sammeln sich in `historie.vergangen` und werden bei jedem
- * Bau erneut ausgeliefert, bis sie das Fenster verlassen — sonst verschwände die
- * Ersetzung nach einem Tag wieder.
+ * Je Release wird eine **Liste** geführt, nicht ein einzelner Wert: Ein Release
+ * kann gleichzeitig „angekündigt" und „nicht erschienen" melden, und ein einzelner
+ * Wert verlor die erste Meldung.
+ *
+ * Beim ersten Lauf mit diesem Verfahren ist das Gedächtnis leer — dann wird es
+ * aus dem zuvor ausgelieferten `news.json` gespeist (`vorherige`), sonst wäre
+ * gerade der Fall unsichtbar, der es ausgelöst hat.
  *
  * Liegt in einer eigenen Datei, weil `baueNews` die Längengrenze reißt.
  */
 import { addDays } from '../../shared/time.ts'
-import type { NewsArt, NewsMeldung, PlatformId, Title } from '../../shared/types.ts'
+import type { NewsArt, NewsEintrag, NewsMeldung, PlatformId, Title } from '../../shared/types.ts'
 
-/** Was zuletzt zu einem Release auf der Nachrichtenseite stand. */
+/** Was zuletzt zu einem Termin auf der Nachrichtenseite stand. */
 export interface TerminVerlauf {
   datum: string
   art: NewsArt
@@ -40,19 +44,63 @@ export interface TerminVerlauf {
 
 /** Das Gedächtnis des Verlaufs — Teil von `NewsHistorie`. */
 export interface TerminGedaechtnis {
-  /** Zuletzt ausgelieferter Stand je Release (für den Vergleich). */
-  termine?: Record<string, TerminVerlauf>
-  /** Abgelöste Fassungen, die sichtbar bleiben. */
+  /** Release → zuletzt ausgelieferte Termin-Meldungen. */
+  termine?: Record<string, TerminVerlauf[]>
+  /** Release → abgelöste Fassungen, in Reihenfolge des Ablösens. */
   vergangen?: Record<string, TerminVerlauf[]>
 }
 
 /** Eine terminierte Meldung mit ihrem Schlüssel — die Form, mit der `baueNews` arbeitet. */
 export type DatiertNews = NewsMeldung & { am: string; titel: Title; schluessel: string }
 
+const tag = (d: string | undefined) => (d ?? '').slice(0, 10)
+
+/** Der gespeicherte Stand einer ausgelieferten Meldung. */
+function ausMeldung(m: DatiertNews, name: (t: Title) => string, wurzel: (t: Title) => number): TerminVerlauf {
+  return {
+    datum: m.datum!,
+    art: m.art,
+    titelId: m.titel.id,
+    name: name(m.titel),
+    cover: m.titel.coverImage,
+    wurzel: wurzel(m.titel),
+    platform: m.platform,
+    quelle: m.quelle,
+    am: m.am,
+  }
+}
+
+/** Den Verlauf aus dem zuvor ausgelieferten `news.json` speisen (nur beim ersten Lauf). */
+function seedAusVorherige(
+  vorherige: NewsEintrag[],
+  nachId: Map<number, Title>,
+  verlauf: Record<string, TerminVerlauf[]>,
+): void {
+  for (const e of vorherige) {
+    for (const m of e.meldungen) {
+      if (!m.release || !m.datum || m.ersetzt || m.zurueckgezogen) continue
+      const titelId = m.teilId ?? e.titelId
+      const v: TerminVerlauf = {
+        datum: m.datum,
+        art: m.art,
+        titelId,
+        name: e.titel,
+        cover: e.cover,
+        wurzel: nachId.get(titelId)?.franchiseId ?? titelId,
+        platform: m.platform,
+        quelle: m.quelle,
+        am: e.am,
+      }
+      verlauf[m.release] = [...(verlauf[m.release] ?? []), v]
+    }
+  }
+}
+
 export function pflegeTerminverlauf({
   datiert,
   nachId,
   historie,
+  vorherige,
   name,
   wurzel,
   grenze,
@@ -61,103 +109,94 @@ export function pflegeTerminverlauf({
   datiert: DatiertNews[]
   nachId: Map<number, Title>
   historie: TerminGedaechtnis
+  vorherige: NewsEintrag[]
   name: (t: Title) => string
   wurzel: (t: Title) => number
   grenze: string
   heute: string
 }): DatiertNews[] {
-  const jetztNachSlug = new Map<string, DatiertNews>()
-  for (const m of datiert) if (m.release) jetztNachSlug.set(m.release, m)
+  const jetztProRelease = new Map<string, DatiertNews[]>()
+  for (const m of datiert) if (m.release) jetztProRelease.set(m.release, [...(jetztProRelease.get(m.release) ?? []), m])
 
   const verlauf = (historie.termine ??= {})
   const vergangen = (historie.vergangen ??= {})
-  for (const [slug, alt] of Object.entries(verlauf)) {
-    const neu = jetztNachSlug.get(slug)
-    if (neu?.datum === alt.datum) continue
-    vergangen[slug] = [...(vergangen[slug] ?? []), alt]
-    if (neu) {
-      const t = neu.titel
-      verlauf[slug] = {
-        datum: neu.datum!,
-        art: neu.art,
-        titelId: t.id,
-        name: name(t),
-        cover: t.coverImage,
-        wurzel: wurzel(t),
-        platform: neu.platform,
-        quelle: neu.quelle,
-        am: neu.am,
-      }
-    } else {
-      delete verlauf[slug]
-    }
-  }
+  if (!Object.keys(verlauf).length && vorherige.length) seedAusVorherige(vorherige, nachId, verlauf)
 
-  const raus = verlaufsKette({ vergangen, verlauf, jetztNachSlug, nachId, grenze })
-  for (const [slug, kette] of Object.entries(vergangen)) {
-    const rest = kette.filter((v) => v.am >= addDays(heute, -400))
-    if (rest.length) vergangen[slug] = rest
-    else delete vergangen[slug]
-  }
-  for (const m of datiert) {
-    if (!m.release) continue
-    const t = m.titel
-    verlauf[m.release] = {
-      datum: m.datum!,
-      art: m.art,
-      titelId: t.id,
-      name: name(t),
-      cover: t.coverImage,
-      wurzel: wurzel(t),
-      platform: m.platform,
-      quelle: m.quelle,
-      am: m.am,
+  for (const [release, alte] of Object.entries(verlauf)) {
+    const neue = jetztProRelease.get(release) ?? []
+    const behalten: TerminVerlauf[] = []
+    for (const alt of alte) {
+      const treffer = neue.find((n) => n.art === alt.art && tag(n.datum) === tag(alt.datum))
+      if (treffer) behalten.push(ausMeldung(treffer, name, wurzel))
+      else vergangen[release] = [...(vergangen[release] ?? []), alt]
     }
+    for (const n of neue) {
+      const v = ausMeldung(n, name, wurzel)
+      if (!behalten.some((b) => b.art === v.art && tag(b.datum) === tag(v.datum))) behalten.push(v)
+    }
+    if (behalten.length) verlauf[release] = behalten
+    else delete verlauf[release]
   }
-  for (const [slug, v] of Object.entries(verlauf)) if (v.am < addDays(heute, -400)) delete verlauf[slug]
-  return raus
+  for (const [release, neue] of jetztProRelease) {
+    if (verlauf[release]) continue
+    verlauf[release] = neue.map((n) => ausMeldung(n, name, wurzel))
+  }
+  return verlaufsKette({ vergangen, verlauf, jetztProRelease, nachId, grenze, heute })
 }
 
 /**
- * **Die Kette ausliefern.** Jede abgelöste Fassung zeigt auf die nächste — bei
- * der letzten auf den geltenden Stand, sonst auf „zurückgezogen".
+ * **Die Kette ausliefern.** Jede abgelöste Fassung zeigt auf die nächste
+ * Meldung derselben Art — bei der letzten auf den geltenden Stand, sonst auf
+ * „zurückgezogen". Altes jenseits des Fensters fällt aus dem Gedächtnis.
  */
 function verlaufsKette({
   vergangen,
   verlauf,
-  jetztNachSlug,
+  jetztProRelease,
   nachId,
   grenze,
+  heute,
 }: {
   vergangen: Record<string, TerminVerlauf[]>
-  verlauf: Record<string, TerminVerlauf>
-  jetztNachSlug: Map<string, DatiertNews>
+  verlauf: Record<string, TerminVerlauf[]>
+  jetztProRelease: Map<string, DatiertNews[]>
   nachId: Map<number, Title>
   grenze: string
+  heute: string
 }): DatiertNews[] {
   const raus: DatiertNews[] = []
-  for (const [slug, kette] of Object.entries(vergangen)) {
-    const aktuell = jetztNachSlug.get(slug) ?? verlauf[slug]
+  for (const [release, kette] of Object.entries(vergangen)) {
+    const aktuell = jetztProRelease.get(release) ?? []
     for (let i = 0; i < kette.length; i++) {
       const alt = kette[i]!
       if (alt.am < grenze) continue
       const titel =
         nachId.get(alt.titelId) ??
         ({ id: alt.titelId, franchiseId: alt.wurzel, titleDe: alt.name, coverImage: alt.cover } as unknown as Title)
-      const nachfolger = kette[i + 1] ?? aktuell
+      const nachfolger = kette.slice(i + 1).find((k) => k.art === alt.art) ?? aktuell.find((n) => n.art === alt.art)
       raus.push({
         art: alt.art,
         platform: alt.platform,
         datum: alt.datum,
-        release: slug,
+        release,
         quelle: alt.quelle,
         am: alt.am,
         titel,
-        schluessel: `verlauf:${slug}:${alt.datum}:${i}`,
-        ersetzt: nachfolger ? { datum: nachfolger.datum, release: slug, quelle: nachfolger.quelle } : undefined,
+        schluessel: `verlauf:${release}:${alt.art}:${tag(alt.datum)}:${i}`,
+        ersetzt: nachfolger ? { datum: nachfolger.datum, release, quelle: nachfolger.quelle } : undefined,
         zurueckgezogen: nachfolger ? undefined : { grund: 'Der Termin wurde zurückgezogen.' },
       })
     }
+  }
+  for (const [release, kette] of Object.entries(vergangen)) {
+    const rest = kette.filter((v) => v.am >= addDays(heute, -400))
+    if (rest.length) vergangen[release] = rest
+    else delete vergangen[release]
+  }
+  for (const [release, liste] of Object.entries(verlauf)) {
+    const rest = liste.filter((v) => v.am >= addDays(heute, -400))
+    if (rest.length) verlauf[release] = rest
+    else delete verlauf[release]
   }
   return raus
 }
