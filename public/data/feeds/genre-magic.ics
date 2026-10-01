@@ -682,6 +682,17 @@ DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-173693-disc@2026-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:Loner Life in Another World (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1
+ 73693-disc
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:black-clover-s2-crunchyroll@2026-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261128

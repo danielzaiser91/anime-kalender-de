@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-01T10:57:34.851Z",
+  "stand": "2026-10-01T11:49:02.708Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -835,7 +835,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-10-01",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 21077,
@@ -8065,6 +8065,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-01",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8124,6 +8135,17 @@
       "titel": "Gushing over Magical Girls",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1121",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-01",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,

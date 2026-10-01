@@ -163,18 +163,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:apothecary-diaries-s3-cour1@2026-09-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260930
-DTEND;VALUE=DATE:20261001
-SUMMARY:⚠ nicht erschienen: Die Tagebücher der Apothekerin: Staffel 3 - 
- Teil 1 – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/releas
- e/apothecary-diaries-s3-cour1
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T162500Z

@@ -4348,7 +4348,7 @@
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-02",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026",
@@ -4360,6 +4360,20 @@
     {
       "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026",
       "name": "crunchyroll.com",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-10-02",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/news/latest/2026/8/16/die-tagebuecher-der-apothekerin-staffel-3-anime-release-date-trailer-visual",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-10-02",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anisearch.de/anime/20704",
+      "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-02",
       "stand": "aktuell"
@@ -5004,6 +5018,24 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-173693-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1046376/loner-life-in-another-world-blu-ray-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-11-27",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-127050-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1055761/love-of-kill-erscheint-auf-blu-ray/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-11-27",
       "stand": "aktuell"
     }
   ]

@@ -835,18 +835,6 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:apothecary-diaries-s3-cour1@2026-09-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260930
-DTEND;VALUE=DATE:20261001
-SUMMARY:⚠ nicht erschienen: Die Tagebücher der Apothekerin: Staffel 3 - 
- Teil 1 – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/releas
- e/apothecary-diaries-s3-cour1
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-171018-disc@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260930
@@ -2842,6 +2830,28 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/releas
  e/apothecary-diaries-s3-cour1
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-173693-disc@2026-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:Loner Life in Another World (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1
+ 73693-disc
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-127050-disc@2026-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:Love of Kill (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1
+ 27050-disc
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:black-clover-s2-crunchyroll@2026-11-28@anime-kalender-de

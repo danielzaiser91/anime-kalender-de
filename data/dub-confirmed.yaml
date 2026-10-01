@@ -21241,3 +21241,12 @@
   dub: false
   checkedAt: '2026-09-29'
   note: "Folgen 1–21 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 146 und 170, dazwischen nicht geprüft — Folge 159: Der brennende Körper, der das Leben erhellt! Ein verletzter Held!"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-01 ---
+
+- anilistId: 100780
+  title: "Legend of the Galactic Heroes: Die Neue These"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0C8X3SVR3
+  available: false
+  checkedAt: '2026-09-28'
+  note: "Amazon-Seite B0C8X3SVR3: nur 0 von 12 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.4a61826b-1036-41aa-b24a-ee1cf0dd8778, regionsperre=laut Seite nicht mehr im Abo"
