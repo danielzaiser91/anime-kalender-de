@@ -158,11 +158,21 @@ for (const eintrag of Object.values(kalender.german ?? {})) {
   gesehen.set(schluessel, [...(gesehen.get(schluessel) ?? []), ...(eintrag.observations ?? [])])
 }
 /* Ein Ereignis kennt die Serienadresse nicht — die Veröffentlichung schon. */
-const veroeffentlichungen = readJson<Array<{ slug: string; platformUrl?: string }>>(
+const veroeffentlichungen = readJson<Array<{ slug: string; platformUrl?: string; schedule?: { firstEpisodeDate?: string } }>>(
   'public/data/releases.json',
   [],
 )
 const adresseJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.platformUrl]))
+/*
+  **Ein Vermerk vor dem heutigen Start ist gegenstandslos.** Er stammt aus einer
+  Schätzung, die eine spätere Ankündigung widerlegt hat (Apothekerin: 01.10.
+  geschätzt, 02.10. belegt; Daniel, 01.10.2026). Er wird nicht mehr geführt.
+*/
+const startJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.schedule?.firstEpisodeDate]))
+const vorDemStart = (v: { slug: string; erwartetAm: string }) => {
+  const start = startJeSlug.get(v.slug)
+  return Boolean(start && v.erwartetAm.slice(0, 10) < start)
+}
 
 function beobachtungen(slug: string): Beobachtung[] {
   const adresse = adresseJeSlug.get(slug)
@@ -378,14 +388,14 @@ for (const v of verpasst) {
 if (hinweiseNeu) log(`${hinweiseNeu} Anime2You-Meldung(en) einem ausgebliebenen Termin zugeordnet`)
 
 if (ohneVerzug) log(`${ohneVerzug} Vermerk(e) gestrichen — die Folge kam am erwarteten Tag`)
-writeJson(
-  'data/termine-verpasst.json',
-  verpasst.filter((v) => !v.gestrichen),
-  true,
-)
+/* Vermerke vor dem geltenden Start fallen weg (widerlegte Schätzung). */
+const endgueltig = verpasst.filter((v) => !v.gestrichen && !vorDemStart(v))
+const veraltet = verpasst.length - endgueltig.length - ohneVerzug
+if (veraltet > 0) log(`${veraltet} Vermerk(e) verworfen — ihr Tag liegt vor dem heutigen Start`)
+writeJson('data/termine-verpasst.json', endgueltig, true)
 
 /* Die Arbeitsliste für die Handrecherche — offene Fälle zuerst. */
-const offen = verpasst.filter((v) => !v.erschienenAm)
+const offen = endgueltig.filter((v) => !v.erschienenAm)
 const zeilen = [
   '# Verpasste Termine',
   '',

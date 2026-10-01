@@ -29,9 +29,17 @@ type Verpasst = {
   hinweise?: { quelle: string; titel: string; url: string; datum: string }[]
 }
 
-export function verpasstAmTermin(slug: string, verpasst: Verpasst[]) {
+export function verpasstAmTermin(slug: string, verpasst: Verpasst[], ab?: string) {
   const hier = verpasst
-    .filter((v) => v.slug === slug && v.episode != null)
+    /*
+      **Ein Termin vor dem heutigen Start ist keine versäumte Folge.** Der
+      Apothekerin-Eintrag entstand aus der Schätzung „01.10."; als die
+      Ankündigung den 02.10. belegte, beschrieb er einen Tag, den nie jemand
+      angekündigt hatte (Daniel, 01.10.2026: „Folge 1 war nie für den 30.09.
+      angekündigt, jedenfalls haben wir keine Belege dafür"). Gezählt wird nur,
+      was **ab** dem geltenden Start liegt.
+    */
+    .filter((v) => v.slug === slug && v.episode != null && (!ab || v.erwartetAm.slice(0, 10) >= ab))
     .sort((a, b) => a.erwartetAm.localeCompare(b.erwartetAm))
   if (!hier.length) return undefined
   return Object.fromEntries(

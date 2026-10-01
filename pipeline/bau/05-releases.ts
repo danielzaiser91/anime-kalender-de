@@ -84,7 +84,7 @@ export function baueReleases({
       **Was der Anbieter nicht eingehalten hat, steht am Termin.**
       Die Aufbereitung steht in `bau/verpasst-am-termin.ts`.
     */
-    const verpasst = verpasstAmTermin(entry.slug, verpassteTermine)
+    const verpasst = verpasstAmTermin(entry.slug, verpassteTermine, schedule.firstEpisodeDate)
     if (verpasst) schedule.verpasst = verpasst
     const releaseYear = Number(entry.schedule.firstEpisodeDate.slice(0, 4))
     if (!schedule.episodeCount && entry.releaseType === 'weekly') {
@@ -119,8 +119,8 @@ export function baueReleases({
 
     // Angaben aus dem Crunchyroll-Kalender einsetzen. Sie kommen direkt vom
     // Anbieter und schlagen deshalb jede abgeleitete Angabe.
-    /* Die Ankündigung steht vor der Schätzung — sonst führte die News zu der Schätzung. */
-    const sources = [...(angekuendigt?.quellen ?? []), ...(entry.sources ?? [])]
+    /* Der kuratierte Beleg steht vor der allgemeinen Ankündigung — er ist der genauere. */
+    const sources = [...(entry.sources ?? []), ...(angekuendigt?.quellen ?? [])]
     let durchzaehlungHinweis: string | undefined
     if (entry.platform === 'crunchyroll') {
       const slot = findCrunchyroll(platformUrl, entry.titleDe ?? name)
