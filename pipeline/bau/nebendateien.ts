@@ -530,11 +530,17 @@ export function schreibeMeldungen(slim: Title[]): void {
  * erschienen ist, kann nicht „es gibt die Fassung jetzt" heißen.
  */
 function belegteDeutscheSynchro(t: Title, ersterTermin: Map<number, string>, heute: string): boolean {
-  const laeuft = !t.jpStart || t.jpStart <= heute
+  const termin = ersterTermin.get(t.id)
+  /*
+    **Ein geteilter Stream belegt nichts, solange die Staffel nicht läuft.** Der
+    früheste deutsche Termin entscheidet mit: Liegt er in der Zukunft, hat die
+    Staffel noch nicht begonnen (`jpStart` fehlt bei angekündigten Titeln oft).
+  */
+  const beginnt = (!t.jpStart || t.jpStart <= heute) && !(termin && termin > heute)
   return (
     Boolean((t as { hasVoices?: boolean }).hasVoices) ||
-    (laeuft && (t.streams ?? []).some((s) => s.dub === true)) ||
-    (ersterTermin.has(t.id) && ersterTermin.get(t.id)! <= heute)
+    (beginnt && (t.streams ?? []).some((s) => s.dub === true)) ||
+    (termin !== undefined && termin <= heute)
   )
 }
 
