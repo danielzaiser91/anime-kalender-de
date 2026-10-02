@@ -90,6 +90,7 @@ export const verpassteTermine = readJson<
     slug: string
     episode: number | null
     erwartetAm: string
+    bemerktAm?: string
     erschienenAm?: string | null
     verzugStunden?: number | null
     folgenVerfuegbar?: number | null

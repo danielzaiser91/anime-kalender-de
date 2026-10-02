@@ -23,7 +23,10 @@ import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, releaseStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
 import { wocheAus } from '../shared/wochenprogramm.ts'
-import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
+import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig } from './lib/ausgeblieben.ts'
+import { kalenderTag, ohneDoppelteFolgen, verspaetungsMeldungen } from './lib/news-verspaetung.ts'
+import { nachgereichteFolgen } from './bau/verpasst-am-termin.ts'
+import { mitArtikeldaten } from './lib/beleg-lesung.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
@@ -6810,14 +6813,14 @@ pruefe(
     ({ quellen, sources }) as unknown as Parameters<typeof belegeVonRelease>[0]
   const zwei = belegeVonRelease(
     release([
-      { url: 'https://www.crunchyroll.com/de/news/a', name: 'Crunchyroll News', gesehenAm: '2026-08-16', stand: 'aktuell' },
+      { url: 'https://www.crunchyroll.com/de/news/a', name: 'Crunchyroll News', gesehenAm: '2026-08-16', stand: 'aktuell', veroeffentlichtAm: '2026-06-29' },
       /* Zweite Lesung desselben Dokuments — sie darf die Zahl nicht heben. */
       { url: 'https://www.crunchyroll.com/de/news/a', name: 'Crunchyroll News', gesehenAm: '2026-10-01', stand: 'aktuell' },
       { url: 'https://www.anime2you.de/b', name: 'anime2you.de', gesehenAm: '2026-10-02', stand: 'aktuell' },
     ]),
   )
   pruefe('Belege: dieselbe Adresse zählt einmal — aktualisiert heißt nicht „mehr Quellen"', zwei?.length === 2, zwei)
-  pruefe('Belege: der erste Lesezeitpunkt bleibt stehen', zwei?.[0]?.gelesenAm === '2026-08-16', zwei?.[0])
+  pruefe('Belege: der Tooltip nennt das Veröffentlichungsdatum, nicht unseren Fundtag', zwei?.[0]?.veroeffentlichtAm === '2026-06-29' && !('gelesenAm' in (zwei?.[0] ?? {})), zwei?.[0])
   const ueberholt = belegeVonRelease(
     release([
       { url: 'https://www.anisearch.de/anime/20083', name: 'anisearch.de', gesehenAm: '2026-08-01', stand: 'ueberholt' },
@@ -7670,6 +7673,65 @@ pruefe(
     !still.some((m) => m.zurueckgezogen) && still.some((m) => m.art === 'angekuendigt'),
     still,
   )
+}
+/* Nach einem Ausfall zeigt der Kalender wieder dieselbe Folge — fällig war die nächste (Hana-Kimi S2, 16./23./30.09.2026). */
+console.log('\nFolge am verpassten Termin:')
+{
+  const gesehen = [{ date: '2026-09-02', episode: 8 }, { date: '2026-09-09', episode: 9 }]
+  pruefe('erster Ausfall: die Folge nach der letzten gesehenen', folgeAmVerpasstenTermin('2026-09-16', 10, gesehen, []) === 10)
+  pruefe(
+    'dritter Ausfall in Folge: 12, auch wenn der Kalender 10 zeigt',
+    folgeAmVerpasstenTermin('2026-09-30', 10, gesehen, ['2026-09-16', '2026-09-23']) === 12,
+    folgeAmVerpasstenTermin('2026-09-30', 10, gesehen, ['2026-09-16', '2026-09-23']),
+  )
+  pruefe('ohne Beobachtung zählt der Kalender', folgeAmVerpasstenTermin('2026-09-16', 3, [], []) === 3)
+  const verpasst = JSON.parse(readFileSync('data/termine-verpasst.json', 'utf8')) as { slug: string; episode: number | null; id: string }[]
+  const doppelt = verpasst.filter(
+    (v, i) => v.episode != null && verpasst.findIndex((w) => w.slug === v.slug && w.episode === v.episode) !== i,
+  )
+  pruefe('termine-verpasst.json: keine Folge zweimal als verpasst vermerkt', doppelt.length === 0, doppelt.map((v) => v.id))
+}
+/*
+  **Verspätung als Meldung: Der Ausfall bleibt stehen, das Nachreichen ist eine neue Meldung**
+  (Hana-Kimi S2, Daniel 02.10.2026; docs/wissen/news-plan.md).
+*/
+console.log('\nVerspätete Folgen in den News:')
+{
+  const v = (erwartetAm: string, bemerktAm: string) => ({ erwartetAm, bemerktAm, erschienenAm: '2026-10-02T16:00:00.000Z' })
+  const release = {
+    slug: 'hana', platform: 'crunchyroll',
+    schedule: { verpasst: { 10: v('2026-09-16T16:00:00.000Z', '2026-09-16T17:09:49Z'), 11: v('2026-09-23T16:00:00.000Z', '2026-09-23T17:16:47Z'), 12: v('2026-09-30T16:00:00.000Z', '2026-10-01T06:10:58Z') } },
+  } as unknown as Release
+  const ms = verspaetungsMeldungen(release)
+  const aus = ms.filter((m) => m.art === 'verspaetet')
+  const nach = ms.filter((m) => m.art === 'nachgereicht')
+  pruefe('je Ausfall eine Meldung an seinem Tag', aus.map((m) => `${m.von}@${m.datum}`).join() === '10@2026-09-16,11@2026-09-23,12@2026-09-30', aus.map((m) => `${m.von}@${m.datum}`))
+  pruefe('ein Ausfall bleibt ein Ausfall, auch nachdem die Folge kam', aus.every((m) => !('nachgereichtAm' in m)))
+  pruefe('nachgereicht: eine Meldung für alle drei, am Tag des Erscheinens', nach.length === 1 && nach[0]!.datum === '2026-10-02' && nach[0]!.von === 10 && nach[0]!.bis === 12, nach)
+  pruefe('nachgereicht nennt die angekündigten Tage', nach[0]?.erwartet?.join() === '2026-09-16,2026-09-23,2026-09-30', nach[0]?.erwartet)
+  pruefe(
+    'der Beleg eines Ausfalls ist der Kalender an seinem Tag, gemessen am Tag des Bemerkens',
+    aus[2]?.belege?.length === 1 && aus[2]!.belege![0]!.url === kalenderTag('2026-09-30') && aus[2]!.belege![0]!.url.endsWith('date=2026-09-30') && aus[2]!.belege![0]!.gemessenAm === '2026-10-01',
+    aus[2]?.belege,
+  )
+  const quellen = new Set(ms.flatMap((m) => (m.belege ?? []).map((b) => b.url)))
+  pruefe('keine Quelle hängt an zwei Meldungen (eine Quelle, eine Meldung)', quellen.size === ms.length, [...quellen])
+  const titel = { id: 1 } as Title
+  const folgen = { art: 'folgen', titel, am: '2026-10-02', platform: 'crunchyroll', von: 10, bis: 12, schluessel: 'f' } as unknown as DatiertNews
+  const mehr = { ...folgen, von: 10, bis: 13, schluessel: 'g' } as DatiertNews
+  const nachD = { ...nach[0]!, titel, am: '2026-10-02' } as unknown as DatiertNews
+  pruefe('die Folgen-Meldung derselben Folgen am selben Tag entfällt', ohneDoppelteFolgen([folgen, nachD]).length === 1)
+  pruefe('mehr Folgen als nachgereicht: die Folgen-Meldung bleibt', ohneDoppelteFolgen([mehr, nachD]).length === 2)
+  pruefe(
+    'nachgereichte Folgen zählen als erschienen (sonst „11 von 13")',
+    JSON.stringify(nachgereichteFolgen(release.schedule.verpasst)) === JSON.stringify({ 10: '2026-10-02', 11: '2026-10-02', 12: '2026-10-02' }),
+    nachgereichteFolgen(release.schedule.verpasst),
+  )
+  const mitDatum = mitArtikeldaten(
+    [{ url: 'https://www.anisearch.de/news/x', name: 'anisearch.de', gesehenAm: '2026-10-01' }],
+    { 'https://www.anisearch.de/news/x': { zuletzt: '2026-10-03', lesungen: [{ am: '2026-10-03', hash: 'h', veroeffentlicht: '2026-06-29' }] } },
+  )
+  pruefe('Quellen tragen das Veröffentlichungsdatum laut Lesung', mitDatum[0]?.veroeffentlichtAm === '2026-06-29', mitDatum)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

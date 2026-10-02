@@ -36,7 +36,7 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
-import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
+import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 
 /*
@@ -254,9 +254,14 @@ for (const e of ereignisse) {
   /* Und nur im gelesenen Fenster — davor hat auch bei Crunchyroll niemand hingesehen. */
   if (e.date < von || e.date > bis) continue
   if (JETZT.getTime() - frist(e).getTime() < 0) continue
-  const treffer = beobachtungen(e.releaseSlug).some(
-    (o) => o.date === e.date || (e.episode != null && o.episode === e.episode),
+  const gesehenHier = beobachtungen(e.releaseSlug)
+  const folge = folgeAmVerpasstenTermin(
+    e.date,
+    e.episode,
+    gesehenHier,
+    verpasst.filter((v) => v.slug === e.releaseSlug && !v.gestrichen).map((v) => v.id.slice(v.id.lastIndexOf('@') + 1)),
   )
+  const treffer = gesehenHier.some((o) => o.date === e.date || (folge != null && o.episode === folge))
   if (treffer) continue
   verpasst.push({
     id: e.id,
@@ -264,7 +269,7 @@ for (const e of ereignisse) {
     titleId: e.titleId,
     name: e.name,
     platform: e.platform,
-    episode: e.episode ?? null,
+    episode: folge,
     erwartetAm: zeitpunkt(e).toISOString(),
     bemerktAm: JETZT.toISOString(),
     erschienenAm: null,

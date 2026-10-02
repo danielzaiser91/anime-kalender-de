@@ -43,8 +43,17 @@ export function newsSatz(m: NewsMeldung): string {
     case 'kino':
       return t('news.kino', { datum })
     case 'verspaetet':
-      return m.nachgereichtAm
-        ? t('news.nachgereicht', { von: m.von ?? '', datum: datumKurz(m.nachgereichtAm) })
-        : t('news.verspaetet', { von: m.von ?? '', datum })
+      return t('news.verspaetet', { von: m.von ?? '', datum })
+    case 'nachgereicht': {
+      const erwartet = aufzaehlen((m.erwartet ?? []).map((d) => (m.erwartet!.length > 1 ? datumKurz(d).slice(0, 6) : datumKurz(d))))
+      return m.bis !== undefined && m.bis !== m.von
+        ? t('news.nachgereichtMehrere', { von: m.von ?? '', bis: m.bis, erwartet })
+        : t('news.nachgereicht', { von: m.von ?? '', erwartet })
+    }
   }
+}
+
+/** „16.09., 23.09. und 30.09." */
+function aufzaehlen(teile: string[]): string {
+  return teile.length > 1 ? `${teile.slice(0, -1).join(', ')} und ${teile.at(-1)}` : (teile[0] ?? '')
 }

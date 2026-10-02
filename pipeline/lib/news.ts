@@ -16,6 +16,7 @@
  * | `angekuendigt` | ein Release mit deutschem Termin, das wir zum ersten Mal sehen |
  * | `disc`, `kino` | dasselbe für Disc- und Kinotermine |
  * | `verspaetet` | `schedule.verpasst` — ein angekündigter Termin verstrich, ohne dass etwas erschien |
+ * | `nachgereicht` | dasselbe, sobald die Folgen kamen — je Tag gebündelt (`news-verspaetung.ts`) |
  *
  * **Das Datum einer Meldung ist der Tag, an dem sie zum ersten Mal wahr war.**
  * Ohne Gedächtnis würde jede Meldung bei jedem Bau nach oben rutschen und die
@@ -28,6 +29,7 @@ import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from '.
 import { addDays, todayIso } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
+import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -91,7 +93,7 @@ export function belegeVonRelease(r: Release): NewsBeleg[] | undefined {
   const nachUrl = new Map<string, NewsBeleg>()
   for (const q of r.quellen ?? []) {
     if (q.stand && q.stand !== 'aktuell') continue
-    if (!nachUrl.has(q.url)) nachUrl.set(q.url, { url: q.url, name: q.name, gelesenAm: q.gesehenAm })
+    if (!nachUrl.has(q.url)) nachUrl.set(q.url, { url: q.url, name: q.name, veroeffentlichtAm: q.veroeffentlichtAm, aktualisiertAm: q.aktualisiertAm })
   }
   /* Kuratierte Termine tragen nackte Adressen in `sources` — sie sind ebenso Belege. */
   for (const u of r.sources ?? []) if (!nachUrl.has(u)) nachUrl.set(u, { url: u, name: hostVon(u) })
@@ -147,26 +149,7 @@ function terminMeldungen(
         ...(art === 'angekuendigt' && r.schedule?.estimated && r.note ? { hinweis: r.note } : {}),
       })
     }
-    for (const [nummer, v] of Object.entries(r.schedule?.verpasst ?? {})) {
-      if (!v?.erwartetAm) continue
-      raus.push({
-        schluessel: `verspaetet:${r.slug}:${nummer}:${v.erwartetAm}`,
-        fallback: v.erwartetAm,
-        art: 'verspaetet',
-        titel: t,
-        platform: r.platform,
-        /*
-          Nur das Datum: Der Vermerk führt Zeitstempel, die Meldung ein Datum.
-          Durchgereicht stand „06T15:00:00.000Z.09.2026" auf der News-Seite.
-        */
-        datum: v.erwartetAm.slice(0, 10),
-        von: Number(nummer),
-        release: r.slug,
-        /* Was inzwischen daraus wurde — leer, solange die Folge aussteht. */
-        nachgereichtAm: v.erschienenAm?.slice(0, 10),
-        quelle, belege: belegeVonRelease(r),
-      })
-    }
+    for (const m of verspaetungsMeldungen(r)) raus.push({ ...m, titel: t })
   }
   return raus
 }
@@ -400,7 +383,7 @@ export function baueNews(
   const rang: Record<NewsArt, number> = {
     neu: 0,
     angekuendigt: 1,
-    verspaetet: 2,
+    verspaetet: 2, nachgereicht: 2,
     kino: 3,
     disc: 4,
     folgen: 5,
@@ -425,7 +408,7 @@ export function baueNews(
   const kopfTitel = new Map<number, Title>()
   for (const t of titles) if (wurzelVon(t) === t.id) kopfTitel.set(t.id, t)
 
-  datiert = verschmelzeGleicheQuelle(datiert)
+  datiert = ohneDoppelteFolgen(verschmelzeGleicheQuelle(datiert))
   datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute }))
 
   const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()

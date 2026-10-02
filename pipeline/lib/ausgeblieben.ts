@@ -70,3 +70,25 @@ export function artikelNenntTitel(artikelTitel: string, namen: (string | undefin
     return kern.trim().length >= 8 && artikel.includes(kern)
   })
 }
+
+/**
+ * Welche Folge an einem ausgebliebenen Termin fällig war.
+ *
+ * Nicht die Nummer des Kalendereintrags: Nach einem Ausfall rechnet der Kalender
+ * vom Ersatztermin aus neu und zeigt am nächsten Termin wieder dieselbe Folge.
+ * Fällig war die letzte gesehene Folge plus je eine für jeden seither
+ * ausgebliebenen Termin (Hana-Kimi Staffel 2: 16./23./30.09. → 10, 11, 12).
+ */
+export function folgeAmVerpasstenTermin(
+  datum: string,
+  kalenderFolge: number | undefined,
+  gesehen: { date: string; episode?: number }[],
+  verpassteTage: string[],
+): number | null {
+  const letzte = gesehen
+    .filter((o) => o.episode != null && o.date < datum)
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : b.episode! - a.episode!))[0]
+  if (!letzte) return kalenderFolge ?? null
+  const dazwischen = new Set(verpassteTage.filter((t) => t > letzte.date && t < datum)).size
+  return Math.max(kalenderFolge ?? 0, letzte.episode! + dazwischen + 1)
+}

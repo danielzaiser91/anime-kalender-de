@@ -13,7 +13,12 @@ export const TEXTE_SEITEN = {
   'news.quelleTitel': 'Nachsehen, woher diese Meldung kommt: {quelle}',
   /* Quellen werden nach Dokument gezählt — ein aktualisierter Artikel bleibt eine Quelle. */
   'news.weitereQuellen': '+{n} weitere Quellen',
-  'news.quelleGelesen': '{name} · gelesen am {datum}',
+  /* Der Tag, an dem die Quelle es sagte — bei eigener Messung der Tag, an dem wir nachsahen (news-plan.md). */
+  'news.quelleVeroeffentlicht': '{name} · veröffentlicht am {datum}',
+  'news.quelleAktualisiert': '{name} · veröffentlicht am {datum}, aktualisiert am {aktualisiert}',
+  'news.quelleGemessen': '{name} · nachgesehen am {datum}',
+  'news.art.nachgereicht': 'Verspätet erschienen',
+  'news.nachgereichtMehrere': 'Folgen {von}–{bis} sind da, angekündigt waren {erwartet}',
   'sub.title': 'Kalender abonnieren',
   'sub.intro':
     'Ein Abo statt vieler Einzelklicks: Die Feeds unten aktualisieren sich mit jedem Daten-Update von selbst. Kein Konto, kein Login, keine Freigabe an uns nötig.',

@@ -119,9 +119,11 @@ export function newsSatz(m: NewsMeldung): string {
     case 'kino':
       return `Kinostart am ${datum}`
     case 'verspaetet':
-      return m.nachgereichtAm
-        ? `Folge ${m.von} kam mit Verspätung am ${m.nachgereichtAm.split('-').reverse().join('.')}`
-        : `Folge ${m.von} war für den ${datum} angekündigt und ist nicht erschienen`
+      return `Folge ${m.von} war für den ${datum} angekündigt und ist nicht erschienen`
+    case 'nachgereicht':
+      return m.bis && m.bis !== m.von
+        ? `Folgen ${m.von}–${m.bis} verspätet erschienen`
+        : `Folge ${m.von} verspätet erschienen`
   }
 }
 

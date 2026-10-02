@@ -5,7 +5,7 @@
  * von dort — die Aufrufer importieren unverändert aus `shared/types.ts`.
  */
 import type { PlatformId } from './types.ts'
-export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet'
+export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet' | 'nachgereicht'
 
 /**
  * Eine einzelne Auskunft — neue Folgen, ein Termin, eine verpasste Ankündigung.
@@ -25,8 +25,11 @@ export interface NewsBeleg {
   url: string
   /** Anzeigename (Verlag), meist der Hostname. */
   name: string
-  /** Wann wir dieses Dokument zum ersten Mal gesehen haben — der ehrliche, weil einzige Wert. */
-  gelesenAm?: string
+  /** Laut Artikel (Beleg-Lesung) — der Tag, an dem die Quelle es gesagt hat. */
+  veroeffentlichtAm?: string
+  aktualisiertAm?: string
+  /** Bei einer eigenen Messung (Anbieter-Kalender): der Tag, an dem wir nachgesehen haben. */
+  gemessenAm?: string
 }
 
 export interface NewsMeldung {
@@ -42,8 +45,8 @@ export interface NewsMeldung {
   /** Letzte betroffene Folge. */
   bis?: number
   anzahl?: number
-  /** Bei `verspaetet`: wann die Folge dann doch kam. */
-  nachgereichtAm?: string
+  /** Bei `nachgereicht`: die angekündigten Tage der nachgereichten Folgen. */
+  erwartet?: string[]
   release?: string
   /**
    * Der Teil der Reihe, um den es geht — nur wenn er nicht der Kopf ist.

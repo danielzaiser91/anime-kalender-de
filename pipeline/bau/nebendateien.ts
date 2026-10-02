@@ -10,6 +10,7 @@ import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
+import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
@@ -420,6 +421,7 @@ const QUELLEN_HISTORIE = 'data/quellen-historie.json'
  */
 export function quellenPflegen(releases: Release[]): void {
   const historie = readJson<Record<string, Quelle[]>>(QUELLEN_HISTORIE, {})
+  const lesungen = readJson<BelegGedaechtnis>('data/beleg-lesungen.json', {})
   const heute = todayIso()
 
   for (const release of releases) {
@@ -461,7 +463,7 @@ export function quellenPflegen(releases: Release[]): void {
 
     const zusammen = quellenZusammenfuehren(alt, neu)
     historie[release.slug] = zusammen
-    release.quellen = zusammen
+    release.quellen = mitArtikeldaten(zusammen, lesungen)
   }
 
   writeJson(QUELLEN_HISTORIE, historie, true)

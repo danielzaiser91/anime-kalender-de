@@ -1,3 +1,5 @@
+import { toIsoDate } from '../../shared/time.ts'
+
 /**
  * **Was der Anbieter nicht eingehalten hat, steht am Termin.**
  *
@@ -17,6 +19,7 @@ type Verpasst = {
   slug: string
   episode: number | null
   erwartetAm: string
+  bemerktAm?: string
   erschienenAm?: string | null
   verzugStunden?: number | null
   folgenVerfuegbar?: number | null
@@ -46,6 +49,7 @@ export function verpasstAmTermin(slug: string, verpasst: Verpasst[], ab?: string
       v.episode as number,
       {
         erwartetAm: v.erwartetAm,
+        ...(v.bemerktAm ? { bemerktAm: v.bemerktAm } : {}),
         ...(v.erschienenAm ? { erschienenAm: v.erschienenAm } : {}),
         ...(v.verzugStunden != null ? { verzugStunden: v.verzugStunden } : {}),
         ...(v.folgenVerfuegbar != null ? { folgenVerfuegbar: v.folgenVerfuegbar } : {}),
@@ -58,5 +62,20 @@ export function verpasstAmTermin(slug: string, verpasst: Verpasst[], ab?: string
         ...(v.hinweise?.length ? { hinweise: v.hinweise } : {}),
       },
     ]),
+  )
+}
+
+/**
+ * Nachgereichte Folgen gelten am Tag des Nachreichens als erschienen.
+ *
+ * Crunchyrolls Kalender zeigt je Tag nur die neueste Folge; kamen 10–12 gemeinsam,
+ * steht nur „12" da, und 10 und 11 blieben ohne Tag (Hana-Kimi Staffel 2, 02.10.2026:
+ * „11 von 13"). Der Vermerk weiß es: Er wurde von genau dieser Beobachtung geschlossen.
+ */
+export function nachgereichteFolgen(verpasst: ReturnType<typeof verpasstAmTermin>): Record<number, string> {
+  return Object.fromEntries(
+    Object.entries(verpasst ?? {})
+      .filter(([, v]) => v.erschienenAm)
+      .map(([nr, v]) => [Number(nr), toIsoDate(new Date(v.erschienenAm!))]),
   )
 }

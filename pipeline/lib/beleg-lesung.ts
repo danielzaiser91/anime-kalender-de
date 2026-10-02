@@ -7,6 +7,7 @@
  * Rechnungen — der Abruf liegt in `pipeline/belege-lesen.ts`.
  */
 import { createHash } from 'node:crypto'
+import type { Quelle } from '../../shared/types.ts'
 
 /** Artikel, keine Kalender, APIs oder Katalogseiten — nur sie haben einen Text, der sich ändern kann. */
 const ARTIKEL = [
@@ -86,4 +87,21 @@ export function merkeLesung(gedaechtnis: BelegGedaechtnis, url: string, lesung: 
 /** Seit wann der Text unverändert ist: Tag der letzten Lesung mit neuem Hash. */
 export function unveraendertSeit(eintrag: BelegGedaechtnis[string] | undefined): string | undefined {
   return eintrag?.lesungen.at(-1)?.am
+}
+
+/**
+ * Veröffentlicht- und Aktualisiert-Datum laut Lesung an die Quellen eines Termins — damit sagt der
+ * Tooltip, wann die Quelle es gesagt hat, nicht wann wir sie zuerst sahen (news-plan.md).
+ */
+export function mitArtikeldaten(quellen: Quelle[], gedaechtnis: BelegGedaechtnis): Quelle[] {
+  return quellen.map((q) => {
+    const lesungen = gedaechtnis[q.url]?.lesungen ?? []
+    const veroeffentlicht = lesungen.map((l) => l.veroeffentlicht).find(Boolean)
+    const aktualisiert = lesungen.map((l) => l.aktualisiert).filter(Boolean).at(-1)
+    return {
+      ...q,
+      ...(veroeffentlicht ? { veroeffentlichtAm: veroeffentlicht } : {}),
+      ...(aktualisiert && aktualisiert !== veroeffentlicht ? { aktualisiertAm: aktualisiert } : {}),
+    }
+  })
 }

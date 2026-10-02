@@ -4,7 +4,7 @@ import { warn, ROOT } from '../lib/util.ts'
 import { ankuendigungenLaden } from '../lib/ankuendigungen.ts'
 import { angekuendigterTermin } from './ankuendigungs-termin.ts'
 import { quellenUndTermin } from '../lib/quellen-bindung.ts'
-import { verpasstAmTermin } from './verpasst-am-termin.ts'
+import { nachgereichteFolgen, verpasstAmTermin } from './verpasst-am-termin.ts'
 import { verpassteTermine, CR_CALENDAR_URL } from './grundlagen.ts'
 import { pickPlatformUrl, derivedStart, observedEpisodes, overlapsWindow, werkTitel } from './titel-hilfen.ts'
 import {
@@ -144,7 +144,7 @@ export function baueReleases({
         // Gesehene Einzeltermine gewinnen gegen jede Hochrechnung — und der
         // Mensch gegen den Kalender, der von einem Mehrfachstart nur eine
         // Kachel zeigt.
-        const seen = beobachtungenZusammenfuehren(observedEpisodes(slot), entry.schedule.observed)
+        const seen = beobachtungenZusammenfuehren({ ...nachgereichteFolgen(verpasst), ...observedEpisodes(slot) }, entry.schedule.observed)
         if (seen) schedule.observed = seen
         /**
          * Dieselbe durchlaufende Zählung wie unten bei den automatisch

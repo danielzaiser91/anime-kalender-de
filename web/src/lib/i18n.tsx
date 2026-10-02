@@ -57,7 +57,7 @@ const TEXTE = {
   'news.disc': 'Erscheint am {datum} auf Disc',
   'news.kino': 'Kinostart am {datum}',
   'news.verspaetet': 'Folge {von} war für den {datum} angekündigt und ist nicht erschienen',
-  'news.nachgereicht': 'Folge {von} kam mit Verspätung am {datum}',
+  'news.nachgereicht': 'Folge {von} ist da, angekündigt war der {erwartet}',
   /*
     **Eine abgelöste Meldung bleibt stehen**. Sie wird
     durchgestrichen, nennt aber, wodurch sie ersetzt wurde — mit Verweis auf die
@@ -81,7 +81,6 @@ const TEXTE = {
   'news.kurz.disc': 'ab {datum}',
   'news.kurz.kino': 'ab {datum}',
   'news.kurz.verspaetet': 'E{von}, erwartet zum {datum}',
-  'news.kurz.nachgereicht': 'E{von}, kam am {datum}',
   /*
     **Die Suche erklärt sich selbst**: Welche Felder durchsucht werden, ist
     nirgends sichtbar — nach der Projektregel „alles offen kommunizieren" steht es am Suchfeld.

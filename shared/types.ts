@@ -572,6 +572,8 @@ export interface Quelle {
   gesehenAm: string
   /** Was die Quelle sagt, sofern auslesbar — etwa ein Datum. */
   sagt?: string
+  /** Laut Artikel, aus der Beleg-Lesung (`data/beleg-lesungen.json`). */
+  veroeffentlichtAm?: string; aktualisiertAm?: string
   /**
    * `aktuell`              — deckt sich mit dem geführten Stand.
    * `ueberholt`            — eine neuere Quelle widerspricht, und wir sind sicher.
@@ -797,8 +799,8 @@ export interface ReleaseEvent {
 export interface VermerkAusgeblieben {
   /** Wann es hätte sein sollen. */
   erwartetAm: string
-  /** Wann die Folge wirklich kam — leer, solange sie aussteht. */
-  erschienenAm?: string
+  /** Wann der Lauf das Ausbleiben bemerkte (Tag der Messung) und wann die Folge wirklich kam — leer, solange sie aussteht. */
+  bemerktAm?: string; erschienenAm?: string
   /** Verzug in Stunden, sobald beides bekannt ist. */
   verzugStunden?: number
   /** Wie viele Folgen der Anbieter zu diesem Zeitpunkt zeigte. */

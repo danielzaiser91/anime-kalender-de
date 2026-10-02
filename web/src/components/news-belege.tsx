@@ -13,6 +13,15 @@ export function quellenLabel(b: NewsBeleg): string {
   return RUBRIKEN[rubrik] ?? rubrik.replace(/-/g, ' ')
 }
 
+/** Der Tag, an dem die Quelle es sagte — oder an dem wir selbst nachsahen. Ohne beides nur der Name. */
+function belegTitel(b: NewsBeleg, t: ReturnType<typeof useLang>['t']): string {
+  if (b.gemessenAm) return t('news.quelleGemessen', { name: b.name, datum: datumKurz(b.gemessenAm) })
+  if (b.veroeffentlichtAm && b.aktualisiertAm)
+    return t('news.quelleAktualisiert', { name: b.name, datum: datumKurz(b.veroeffentlichtAm), aktualisiert: datumKurz(b.aktualisiertAm) })
+  if (b.veroeffentlichtAm) return t('news.quelleVeroeffentlicht', { name: b.name, datum: datumKurz(b.veroeffentlichtAm) })
+  return b.name
+}
+
 /** Höhe einer Quellenzeile in px (text-[11px] mit leading-4). */
 const ZEILE = 16
 
@@ -46,7 +55,7 @@ export function QuellenSpalte({ belege, links }: { belege: NewsBeleg[]; links: R
           href={b.url}
           target="_blank"
           rel="noopener noreferrer"
-          title={b.gelesenAm ? t('news.quelleGelesen', { name: b.name, datum: datumKurz(b.gelesenAm) }) : b.name}
+          title={belegTitel(b, t)}
           className="max-w-full truncate font-bold text-ak-akzent-text hover:underline"
         >
           {quellenLabel(b)} ↗
