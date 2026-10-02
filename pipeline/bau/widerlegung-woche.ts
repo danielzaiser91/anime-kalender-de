@@ -132,6 +132,32 @@ export function sammleWiderlegungen(
 }
 
 /**
+ * Ein geteilter Reihen-Weg belegt kein Deutsch für eine Staffel, deren deutsche
+ * Termine auf diesem Anbieter **alle** widerlegt sind. Das `dub: true` gehört dann
+ * den Schwesterstaffeln (die Serienkennung ist ein Franchise); für diese Staffel
+ * bleibt die Sprache offen, statt an der Pille „DE ✓" neben „widerlegt" zu stehen.
+ */
+export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map<number, Title>): number {
+  const jeTitelPlattform = new Map<string, Release[]>()
+  for (const r of releases) {
+    const k = `${r.titleId}|${r.platform}`
+    jeTitelPlattform.set(k, [...(jeTitelPlattform.get(k) ?? []), r])
+  }
+  let geloest = 0
+  for (const [k, liste] of jeTitelPlattform) {
+    if (!liste.every((r) => r.widerlegt)) continue
+    const [id, plattform] = k.split('|')
+    for (const s of titles.get(Number(id))?.streams ?? []) {
+      if (s.platform !== plattform || s.dub !== true || (s.sharedWith ?? 0) < 2 || s.dubRanges?.length) continue
+      delete s.dub
+      geloest++
+    }
+  }
+  if (geloest) log(`${geloest} geteilte Wege tragen für eine widerlegte Staffel kein „deutsch" mehr`)
+  return geloest
+}
+
+/**
  * Widerlegt jeden deutschen Termin aus der Wochenvorschau, trägt das Ergebnis in
  * die Releases und führt das Gedächtnis fort. Gibt die Zahl der **neuen**
  * Widerlegungen zurück; der Bau protokolliert sie.
@@ -144,6 +170,7 @@ export function widerlegeDeutscheTermine(releases: Release[], titles: Map<number
     const gemerkt = neu[r.slug]
     if (gemerkt) r.widerlegt = gemerkt
   }
+  loeseGeteilteWegeVonWiderlegten(releases, titles)
   writeJson(DATEI, neu, true)
   log(`${anzahl} deutsche Termin(e) durch das Wochenprogramm neu widerlegt, ${Object.keys(neu).length} im Gedächtnis`)
   return anzahl

@@ -156,7 +156,7 @@ import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap,
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
 import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
-import { sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
+import { loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
@@ -7539,6 +7539,23 @@ pruefe(
   pruefe('Wochenprogramm/Gedächtnis: ein verschobener Termin fällt heraus', verschoben.gedaechtnis[apo.slug] === undefined, verschoben)
   const bestaetigt = sammleWiderlegungen([clev], titles, woche, { [clev.slug]: { am: '2026-09-30', grund: 'x', gemeldet: true } })
   pruefe('Wochenprogramm/Gedächtnis: ein `de` hebt eine frühere Widerlegung auf', bestaetigt.gedaechtnis[clev.slug] === undefined, bestaetigt)
+
+  /* Ein geteilter Reihen-Weg belegt für eine widerlegte Staffel kein Deutsch; ein eigener Weg und eine Staffel mit gültigem Termin behalten es. */
+  const geteilt = (id: number, kennung: string): Title => {
+    const t = titel(id, kennung, true)
+    t.streams[0].sharedWith = 3
+    return t
+  }
+  const wegeTitel = new Map<number, Title>([[195516, geteilt(195516, 'G3KHEVDJ7')], [196010, geteilt(196010, 'GTEIL')], [196011, titel(196011, 'GEIGEN', true)]])
+  const offen = rel('teil-offen', 196010, '2026-10-02', true)
+  const eigen = { ...rel('eigen', 196011, '2026-10-02', true), widerlegt: apo.widerlegt }
+  const geloest = loeseGeteilteWegeVonWiderlegten([apo, offen, eigen], wegeTitel)
+  pruefe(
+    'Widerlegt: der geteilte Weg der Apothekerin S3 zeigt kein „DE ✓" mehr',
+    geloest === 1 && wegeTitel.get(195516)!.streams[0].dub === undefined &&
+      wegeTitel.get(196010)!.streams[0].dub === true && wegeTitel.get(196011)!.streams[0].dub === true,
+    [...wegeTitel.values()].map((t) => t.streams[0]),
+  )
 
   /* Der behauptete Termin wird zurückgezogen; die bloße Schätzung verschwindet still. */
   const ohneStreams = (id: number): Title => ({ id, franchiseId: id, titleDe: `T${id}`, streams: [] }) as unknown as Title
