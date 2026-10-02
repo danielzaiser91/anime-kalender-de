@@ -988,3 +988,13 @@ Alter *des Schlüssels*:
 3. **Wer den Refresh braucht, startet ihn selbst**: Nach einem `data:katalog` den Bestandslauf
    **von Hand** auslösen (`gh workflow run bestand-bauen.yml`), statt auf den `workflow_run`-Trigger
    zu warten — der kann in das Zeitfenster fallen, in dem ein fremder Lauf seinen alten Stand speichert.
+
+## Wie die Newsletter-Mail aussieht: `tools/newsletter-probe.ts` (28.09.2026)
+
+Rendert die **echte** `digestMail()` aus `worker/src/templates.ts` mit erfundenen Terminen und legt
+ein Bild nach `docs/newsletter-probe.png`. Gedacht für Änderungen an Reihenfolge, Rubriken und
+Abzeichen der Mail — ein Nachbau würde den Nachbau prüfen.
+
+```bash
+node node_modules/tsx/dist/cli.mjs tools/newsletter-probe.ts
+```
