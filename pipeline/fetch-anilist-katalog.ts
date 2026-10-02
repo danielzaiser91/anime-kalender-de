@@ -3,7 +3,7 @@
  * deutsche Synchro hat.
  *
  * Warum ein Kalender für deutsche Synchronfassungen Titel führt, die keine
- * haben (Daniel, 13.08.2026): Weil genau dort das Warten stattfindet. „Ich sehe
+ * haben: Weil genau dort das Warten stattfindet. „Ich sehe
  * Serien, die großartig sind und keine deutsche Synchro haben, und ich prüfe
  * unablässig nach, immer wieder, und werde immer enttäuscht." Wer so einen
  * Titel merken kann, hört auf, von Hand nachzusehen — die Seite meldet sich,

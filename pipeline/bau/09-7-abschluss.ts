@@ -113,7 +113,7 @@ export function schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, 
   /**
    * Adressen vermerken, die mehrere unserer Einträge bedienen.
    *
-   * Anlass (Daniel, 12.08.2026): Bei „The Café Terrace and Its Goddesses"
+   * Anlass: Bei „The Café Terrace and Its Goddesses"
    * zeigten unsere Staffel 1 und Staffel 2 auf **dieselbe** Crunchyroll-Seite —
    * und dort steht das Ganze als *eine* Staffel mit 24 Folgen. Dasselbe bei
    * „The Case Study of Vanitas". Wer bei uns „Staffel 2" anklickt und dort 24
@@ -148,7 +148,7 @@ export function schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, 
    * Die Namen stammen aus dem Crunchyroll-Kalender und aus AniList und tragen
    * dort „Season 2", „2nd Season", „Final Season". Im Detail-Panel stand das
    * dann neben dem deutschen „Staffel 4" — dasselbe Wort zweimal, in zwei
-   * Sprachen, in einem Blickfeld (Daniel, 12.08.2026).
+   * Sprachen, in einem Blickfeld.
    *
    * Umgestellt wird hier und nicht in der Oberfläche, weil dieselben Namen in
    * die ICS-Feeds und die Teilen-Seiten wandern. Ersetzt wird nur die

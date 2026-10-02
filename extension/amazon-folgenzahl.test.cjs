@@ -306,7 +306,7 @@ pruefe(
 
     Bis zum dritten Fall an einem Tag stand hier eine Aufzaehlung — knopf,
     listenId, dialog, kasten. `istGemeldet` war nicht dabei und ist deshalb
-    durchgerutscht (Daniel, 28.08.2026). Eine Pruefung, die man pflegen muss,
+    durchgerutscht. Eine Pruefung, die man pflegen muss,
     faengt genau den Fall nicht, an den niemand gedacht hat.
 
     Gesammelt werden jetzt alle Namen, die im Modulscope mit const oder let
@@ -381,7 +381,7 @@ pruefe(
 
   „Girls und Panzer: Das Finale" ist bei uns Teil 4 — der deutsche Titel sagt es
   nur nicht, waehrend die Geschwister sauber „Teil 1" bis „Teil 3" heissen. In
-  der Liste stand Teil 4 damit unter dem Namen der Reihe (Daniel, 28.08.2026).
+  der Liste stand Teil 4 damit unter dem Namen der Reihe.
 
   Geprueft wird an der erzeugten Liste, weil genau die Daniel vor sich hat.
 */

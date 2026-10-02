@@ -26,7 +26,7 @@ import { serienMitDeutsch } from './cr-dub-katalog.ts'
  * `/seasons/<id>/episodes` liefert immer die Episoden der Originalstaffel, und
  * deren Datumsfelder gehören zur japanischen Ausstrahlung. Für „Mushoku Tensei"
  * Staffel 3 stand dort der 04.07.2026 — die deutschen Folgen erschienen am
- * 19.08.2026 (Daniel, 21.08.2026).
+ * 19.08.2026.
  *
  * Das Feld wird derzeit von nichts ausgewertet. Es steht hier, weil es
  * ohnehin über die Leitung geht, sobald die deutsche Kennung gelesen wird, und
@@ -90,7 +90,7 @@ export interface CrSerie {
    * Das entscheidende Feld dieser Datei, seit es zwei Stände gibt. Crunchyroll
    * leitet die Region aus der IP des Abrufs ab; GitHub-Runner stehen in den
    * USA, und aus US-Sicht trägt „Fairy Tail" durchgehend `ja-JP, en-US`,
-   * während in Deutschland 277 Folgen deutsch sind (Daniel, 22.08.2026). Ein
+   * während in Deutschland 277 Folgen deutsch sind. Ein
    * fehlendes `de-DE` aus dem US-Katalog belegt deshalb **nichts** — aus dem
    * deutschen belegt es das Gegenteil.
    *
@@ -261,7 +261,7 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
      * Weniger Einträge als Blöcke — der Reihenweg ist versperrt, aber nicht
      * jede Auskunft ist damit verloren.
      *
-     * **Der Anlass (Daniel, 23.08.2026):** Für KONOSUBA führt Crunchyroll fünf
+     * **Der Anlass:** Für KONOSUBA führt Crunchyroll fünf
      * Blöcke — `10/10  10/10  2/2  1/1  0/13` —, wir haben unter dieser Adresse
      * zwei Einträge zu je zehn Folgen. Die Reihenzuordnung stieg oben aus, und
      * heraus kam „unbekannt" für eine Serie, deren Staffeln 1 und 2 dort
@@ -705,8 +705,7 @@ export function kapitelImBlock(serie: CrSerie, title: Title): boolean | undefine
  * anderen Wege fand Teil 2 — der Name des Blocks trifft nur den ersten, eine Blockkette
  * scheitert an der Adresse (dort liegt auch „Alicization" mit 25 Folgen, von denen 24 deutsch
  * sind, und die Kette bricht bei jedem unvollständigen Block ab). Teil 2 stand deshalb ohne
- * Sprachurteil als Crunchyroll-Aufgabe in der Statusanzeige, obwohl es dort keinen Melder gibt
- * (Daniel, 23.09.2026).
+ * Sprachurteil als Crunchyroll-Aufgabe in der Statusanzeige, obwohl es dort keinen Melder gibt.
  *
  * **Die Regel ist bewusst eng.** Eine bloße Summe zweier aufeinanderfolgender Titel trifft im
  * Bestand 271 Blöcke, und fast alle davon zufällig — ein Film plus eine Serie ergeben auch 13.

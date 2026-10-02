@@ -185,7 +185,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       termineNeu++
     }
     /*
-      **Was die Ableitung verworfen hat, wird sichtbar** (Daniel, 20.09.2026): Riegel, die
+      **Was die Ableitung verworfen hat, wird sichtbar**: Riegel, die
       eine Serie stumm durchfallen lassen, kosten Termine, die niemand vermisst — „Das Band
       der Unterwelt" fehlte ein halbes Jahr. Die Gründe stehen ab jetzt in einer Datei, die
       Zahl im Lauf (Skill `stille-ausfaelle-verhindern`).
@@ -200,7 +200,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
         faelle: termineAusgelassen.slice(0, 400),
       })
       /*
-        **Ein Zuwachs geht in den Posteingang** (Daniel, 20.09.2026): eine Datei, die niemand
+        **Ein Zuwachs geht in den Posteingang**: eine Datei, die niemand
         öffnet, ist keine Meldung. `~/.claude/hooks/posteingang.js` liest
         `data/meldungen-an-claude.jsonl` und nennt neue Zeilen beim nächsten Prompt.
       */

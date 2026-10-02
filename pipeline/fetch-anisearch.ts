@@ -84,7 +84,7 @@ const MAX_FAILURES = 5
  * anzuschreiben, statt ihn auszusperren.
  */
 /*
-  **Browser-Signatur plus Projektkennung** (Daniel, 23.09.2026). aniSearch weist die nackte
+  **Browser-Signatur plus Projektkennung**. aniSearch weist die nackte
   Projektkennung seit dem 19.09.2026 mit HTTP 423 ab; die Begründung und die Messung stehen
   in `lib/kennung.ts`.
 */
@@ -682,7 +682,7 @@ async function main(): Promise<void> {
      * dort falsch, wo sich am meisten ändert: Verliert ein Dienst die
      * Lizenzrechte, nimmt er die deutsche Fassung wieder aus dem Angebot —
      * Crunchyroll führt aus diesem Grund keine erste Staffel von „Attack on
-     * Titan" mehr (Daniel, 15.08.2026). Ein Bestand, der nur wachsen kann,
+     * Titan" mehr. Ein Bestand, der nur wachsen kann,
      * behauptet solche Angebote weiter.
      *
      * Vierzehn Tage sind der Kompromiss: aniSearch gehört einer kleinen

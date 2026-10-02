@@ -282,7 +282,7 @@ function nachtrag(name, plattform, ziele, { alsTitel = false, hinweis = null } =
       ziel: ziele[0].url,
       ziele: ziele.slice(0, 25),
       naechster: ziele[0].titel ?? null,
-      /* Was zu tun ist — die Zahl allein lässt es offen (Daniel, 28.09.2026). */
+      /* Was zu tun ist — die Zahl allein lässt es offen. */
       hinweis,
     },
   ]
@@ -300,7 +300,7 @@ function nachtrag(name, plattform, ziele, { alsTitel = false, hinweis = null } =
   dieser Kennung"). Angekündigtes erscheint von selbst, sobald es deutsch ist; die beiden
   anderen sind Arbeit der Pipeline.
 
-  „Was keine Erweiterung hat, ist trotzdem Arbeit" (Daniel, 10.09.2026) gilt für die
+  „Was keine Erweiterung hat, ist trotzdem Arbeit" gilt für die
   **Suchadressen** — dort sucht wirklich jemand den richtigen Treffer —, nicht für einen
   Anbieter, den wir selbst abfragen. Eine Pille, die Arbeit behauptet, die keine ist, kostet
   mehr als sie zeigt.

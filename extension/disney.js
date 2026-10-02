@@ -542,7 +542,7 @@
         'Der stündliche Datenlauf holt die Meldungen ab und schreibt sie in den Kalender. Danach sind die grünen Bereiche hier weg.'
       kopf.appendChild(lauf)
     }
-    /* Gemeldetes ist standardmäßig ausgeblendet, wie bei Netflix (Daniel, 26.08.2026). */
+    /* Gemeldetes ist standardmäßig ausgeblendet, wie bei Netflix. */
     if (erledigte.length) {
       const umschalter = document.createElement('button')
       umschalter.type = 'button'
@@ -885,7 +885,7 @@
       (a, b) => (a.staffel ?? 0) - (b.staffel ?? 0) || a.nummer - b.nummer,
     )
     zeigePruefung(
-      /* Die Zahl der deutschen Folgen bleibt nach dem Melden stehen (Daniel, 26.08.2026). */
+      /* Die Zahl der deutschen Folgen bleibt nach dem Melden stehen. */
       `${eintrag.titel}\n✓ ${nachStaffeln(
         alle.filter((f) => gemeldeteNummern.has(folgenSchluessel(f.staffel, f.nummer))),
       )} gemeldet (${echte.filter((r) => r.sprachen.includes('de')).length}× deutsch)` +

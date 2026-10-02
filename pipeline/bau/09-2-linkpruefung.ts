@@ -255,7 +255,7 @@ export function werteLinkpruefungAus({
        * geprüft, sonst verwürfe diese Zeile reihenweise gültige Verweise.
        */
       /*
-        **Ein Abgang wird vermerkt, nicht verschwiegen** (Daniel, 01.09.2026).
+        **Ein Abgang wird vermerkt, nicht verschwiegen**.
 
         Bis dahin fiel ein Verweis stillschweigend heraus, sobald er ins Leere
         führte oder eine Prüfung ihn als weg meldete. Für den Leser sah das aus,

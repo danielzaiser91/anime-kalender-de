@@ -29,7 +29,7 @@
  *
  * ## Der Filter ist **kein** Fassungsfilter — und das ist die Gefahr
  *
- * Naheliegende Vermutung (Daniel, 25.08.2026): Vielleicht führt TMDB einen
+ * Naheliegende Vermutung: Vielleicht führt TMDB einen
  * deutschen Kinostart ohnehin nur dann, wenn es eine deutsche Fassung gibt —
  * dann wäre die Trefferliste selbst schon der Beleg.
  *

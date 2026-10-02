@@ -68,7 +68,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
         nennt die erste deutsche Veröffentlichung überhaupt, und das ist oft der
         OmU-Simulcast: „Dragon Quest: The Adventure of Dai" — 03.10.2020, Publisher
         Crunchyroll, Kazé Deutschland. Die Synchro gibt es nur auf Kazés Disc; im
-        Panel stand „Auf Deutsch seit 03.10.2020 · Crunchyroll" (Daniel, 16.09.2026).
+        Panel stand „Auf Deutsch seit 03.10.2020 · Crunchyroll".
         Gemessen: 375 Titel mit deutschem Datum am japanischen Start und einem
         Streamingdienst als erstem Verlag, 119 davon ohne belegten Dub-Stream dort.
         Bei denen fallen Datum und Dienst weg; ein Disc-Verlag bleibt als Spur.
@@ -89,7 +89,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
         **Und ein Datum dicht am japanischen Start ist Simulcast, wenn die Discs erst später kamen.**
         „Undefeated Bahamut Chronicle": deutscher Block 20.01.–02.04.2016 (neun Tage nach dem
         japanischen Start, Verlag Nipponart), die deutschen Discs ab 30.06.2017 — Volume 1 bis 4,
-        Gesamtausgabe 25.05.2020 (Daniel, 16.09.2026). Dann gilt das früheste Disc-Datum.
+        Gesamtausgabe 25.05.2020. Dann gilt das früheste Disc-Datum.
       */
       const fruehesteDisc = (discFuerErstausgabe[String(title.id)] ?? [])
         .map((a) => a.datum)

@@ -321,7 +321,7 @@
   Es sitzt **in** der Pille, weil es ihr gilt und nicht der Zeile — der
   „nichts da?"-Knopf am Zeilenende meint den ganzen Verweis. Klein und grau,
   bis man darüberfährt: Wer eine Staffel streicht, soll es wollen, nicht
-  treffen (Daniel, 06.09.2026).
+  treffen.
 */
 .ak-staffel-weg {
   margin-left: 6px;
@@ -351,7 +351,7 @@
 /* Dritte Stufe: Der Browser hat einen Befund gemerkt, beim Worker liegt keine
    Meldung. Das ist keine Zwischenstufe, sondern ein Verlust — die Arbeit ist
    getan und nirgends angekommen, sie muss wiederholt werden. Bernstein, weil
-   es eine Warnung ist und kein Fortschritt (Daniel, 30.08.2026). */
+   es eine Warnung ist und kein Fortschritt. */
 .ak-folge.ak-verloren {
   border-color: rgba(255, 180, 84, 0.65);
   color: #ffb454;
@@ -644,7 +644,7 @@
   /*
     Unten am Rand, mit demselben Abstand wie nach rechts. Vorher schwebte der
     Kasten 132 px hoch, weil darunter der Übersichts-Knopf stand — der sitzt
-    jetzt in ihm drin (Daniel, 02.09.2026).
+    jetzt in ihm drin.
   */
   bottom: 16px;
   /*
@@ -1043,7 +1043,7 @@
 /*
   Der Prüflisten-Knopf im Kasten trägt dieselbe Form wie der aniSearch-Knopf
   daneben — nur grün. Beide sind Wege, keiner ist die Handlung; gleiche Form
-  heißt gleiche Bedeutung (Daniel, 02.09.2026).
+  heißt gleiche Bedeutung.
 */
 /* Die Maße stehen oben bei der gemeinsamen Pille; hier nur, was ihn löst und färbt. */
 .ak-uebersicht-innen {
@@ -1274,7 +1274,7 @@
   display: none;
 }
 /*
-  Versions-Fähnchen als Reiter oben links auf dem Kasten (Daniel, 19.09.2026) —
+  Versions-Fähnchen als Reiter oben links auf dem Kasten —
   für Bildschirmfotos. Die Ecke darunter ist eckig, damit beide bündig anschließen.
 */
 .ak-box[data-version] {
@@ -1491,7 +1491,7 @@
   Prime Video spielt hinter der Seite ein Video und animiert die Karten; in einer
   Aufnahme ändert sich dadurch fast jedes Einzelbild. Steht der Hintergrund, ist
   jede Änderung im Bild eine Änderung der Oberfläche — und die lässt sich aus der
-  Aufnahme herausrechnen, statt sie zu suchen (Daniel, 02.09.2026).
+  Aufnahme herausrechnen, statt sie zu suchen.
 
   Eingeschaltet wird er über `document.dispatchEvent(new CustomEvent('ak-ruhig'))`.
   Die Elemente der Erweiterung sind ausgenommen: Ihre Zustände sollen ja sichtbar

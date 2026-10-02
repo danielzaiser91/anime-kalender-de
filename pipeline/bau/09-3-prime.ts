@@ -461,7 +461,7 @@ export function uebernehmePrimeUndCrVorschlaege({
    * Übernommen wird ausschließlich diese Auskunft; Crunchyrolls
    * Staffeleinteilung bleibt draußen. Sie enthält Folgendoppelungen, mehrfache
    * Wähler-Einträge zur selben Staffel und Blöcke, die zwei unserer Staffeln
-   * zusammenfassen (Daniel, 12.08.2026). Unsere Einteilung kommt von AniList
+   * zusammenfassen. Unsere Einteilung kommt von AniList
    * und bleibt maßgeblich.
    *
    * Handgeprüftes schlägt auch das: Der Block läuft **vor** dem Einlesen von

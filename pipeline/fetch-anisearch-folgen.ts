@@ -43,7 +43,7 @@ import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 
 /*
-  **Browser-Signatur plus Projektkennung** (Daniel, 23.09.2026). aniSearch weist die nackte
+  **Browser-Signatur plus Projektkennung**. aniSearch weist die nackte
   Projektkennung seit dem 19.09.2026 mit HTTP 423 ab; die Begründung und die Messung stehen
   in `lib/kennung.ts`.
 */

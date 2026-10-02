@@ -549,7 +549,7 @@ export function ergaenzeAnisearchWege({
         jetzt entsteht, bliebe sonst im ausgelieferten Datensatz stehen. Dort
         steht bei **keinem** Verweis ein Nein, und zwar nicht zufällig: Die
         Seite beantwortet eine Frage, und „dort nur Originalton" ist keine
-        Antwort darauf (Daniel, 15.08.2026).
+        Antwort darauf.
       */
       const raus = title.streams.filter((s) => s.dub === false)
       nachJa += title.streams.filter((s) => s.dub === true).length

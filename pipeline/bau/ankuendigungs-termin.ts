@@ -1,5 +1,5 @@
 /**
- * **Der angekündigte Tag schlägt eine bloße Schätzung** (Daniel, 01.10.2026).
+ * **Der angekündigte Tag schlägt eine bloße Schätzung**.
  *
  * „Die Tagebücher der Apothekerin" Staffel 3 trug als kuratierte Schätzung den
  * 01.10. (aus aniSearch); Crunchyroll hatte seit dem 16.08. den 02.10.

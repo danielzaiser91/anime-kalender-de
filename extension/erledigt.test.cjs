@@ -95,7 +95,7 @@ pruefe('ohne Vermerke ist nichts erledigt',
    * Auch eine Serie ohne Folgenangabe wird vermerkt, wenn nur eine Staffel
    * offen ist: „Pokémon: The Arceus Chronicles" fuehren wir als Serie mit vier
    * Folgen, bei Netflix ist es ein Film — und der nennt keine Folge. Wer keine
-   * Auswahl vorfindet, hat gesehen, was es dort gibt (Daniel, 22.08.2026).
+   * Auswahl vorfindet, hat gesehen, was es dort gibt.
    */
   pruefe('eine Serie ohne Folgenangabe wird bei einer offenen Staffel vermerkt',
     nimmt([{ nr: 1, folgen: 13, film: false, offen: true }]))
@@ -111,7 +111,7 @@ pruefe('ohne Vermerke ist nichts erledigt',
  *
  * `[].every(…)` ist immer wahr — ein Titel ohne empfohlene Folgen galt damit
  * als vollständig geprüft. Nach einer einzigen Meldung fiel die Zahl am Knopf
- * von 11 auf 0 (Daniel, 22.08.2026).
+ * von 11 auf 0.
  */
 {
   const fertig = (kuerzel, tot = false) => {
@@ -152,8 +152,7 @@ pruefe('ohne Vermerke ist nichts erledigt',
  * Der Worker führt die Meldungen als blanke Folgennummern. Der erste Anlauf
  * übersetzte sie über `DURCHLAUF.folgen` — die Folgen der Staffel, deren Liste
  * Netflix gerade zeigt. Bei One Piece Staffel 38 waren das 34 von 216; der
- * Dialog zeigte E1124–1154 als offen, während der Knopf „alles geprüft" sagte
- * (Daniel, 26.08.2026).
+ * Dialog zeigte E1124–1154 als offen, während der Knopf „alles geprüft" sagte.
  *
  * Die Staffelgrenzen unten sind Onepieces echte Zuschnitte bei Netflix.
  */
@@ -252,7 +251,7 @@ pruefe('ohne Vermerke ist nichts erledigt',
   Netflix' Season-Knoten traegt keine Nummer; der Leser vergibt sie nach der
   Reihenfolge des Eintreffens. Bei Black Clover kamen 168 Meldungen an als
   "St. 2: 1-50, St. 3: 52-101, St. 1: 104-155" — die Folgennummern stimmten
-  alle, die Staffeln keine einzige (Daniel, 31.08.2026).
+  alle, die Staffeln keine einzige.
 */
 {
   const von = quelle.indexOf('function staffelnBereinigen')

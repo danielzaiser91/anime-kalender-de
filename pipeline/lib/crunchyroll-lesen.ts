@@ -111,7 +111,7 @@ export async function serieHinterFolge(quelle: CrQuelle, url: string): Promise<s
  * `versions` sagt zwar, *dass* es eine deutsche Fassung gibt, aber alle
  * Datumsfelder gehören zur japanischen Ausstrahlung. Für „Mushoku Tensei"
  * Staffel 3 stand dort der 04.07.2026 — die deutschen Folgen erschienen am
- * 19.08.2026 (Daniel, 21.08.2026).
+ * 19.08.2026.
  *
  * Übernommen wird ein Datum nur, wenn das Objekt selbst `audio_locale: de-DE`
  * meldet. Ein Objekt, das etwas anderes zurückgibt, als angefragt wurde, ist

@@ -442,7 +442,7 @@ function veraltetTest(schritte) {
  * Season 3" ergab `lautSeite: 3`, obwohl darunter „12 Folgen" stand — sichtbar
  * im Diagnosefeld als `folgen: 12, gesamt: 3`. Der Zählstand hatte alle zwölf
  * gelesen, der Umfang deckelte sie auf drei, und der Knopf bot „3 Folgen" zum
- * Melden an (Daniel, 25.08.2026).
+ * Melden an.
  */
 // (Der Season-Fall steht jetzt oben bei den anderen drei, in Zeilenform.)
 
@@ -884,7 +884,7 @@ function veraltetTest(schritte) {
   /*
     Und der Riegel dagegen: Das Hintergrundvideo einer Übersicht ist stumm.
     Ohne diese Bedingung verschwand der Listen-Knopf auf jeder Übersichtsseite
-    (Daniel, 27.08.2026) — der Fehler, den die erste Fassung dieser Funktion
+    — der Fehler, den die erste Fassung dieser Funktion
     gemacht hat.
   */
   kulisse({ videos: [{ muted: true, readyState: 4, offsetHeight: 820 }] })

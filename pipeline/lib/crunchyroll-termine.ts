@@ -85,8 +85,7 @@ export interface CrTermin {
    * Die gemessenen Tage je Folgennummer — Grundlage für `schedule.observed`.
    *
    * Ohne sie rechnet die Fortschreibung stur im Wochenabstand ab dem Start und trifft Pausen
-   * nicht: „Das Band der Unterwelt" endete so am 12.09.2026, obwohl Folge 21 am 19.09. lief
-   * (Daniel, 20.09.2026).
+   * nicht: „Das Band der Unterwelt" endete so am 12.09.2026, obwohl Folge 21 am 19.09. lief.
    */
   beobachtet: Record<number, string>
 }

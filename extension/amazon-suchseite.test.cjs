@@ -660,7 +660,7 @@ pruefe('ohne Staffelangabe bleibt der Treffer ein Treffer', ersteOhneNummer.befu
 
   Wir führen „Captain Tsubasa" mit 52 Folgen; die Suchadresse lautet
   k=Captain Tsubasa (2018), und Prime nennt die Serie genauso. Der Vergleich
-  gegen den Anzeigetitel fand sie nicht (Daniel, 27.08.2026).
+  gegen den Anzeigetitel fand sie nicht.
 */
 const SUCHE_2018 = 'https://www.amazon.de/s?k=Captain+Tsubasa+(2018)&i=instant-video'
 const mitJahr = werte(
@@ -680,7 +680,7 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
   **Staffeln stehen in einem halben Dutzend Schreibweisen im Titel.**
 
   Alle drei unten galten als Staffel 1, und die Erweiterung meldete darum die
-  erste Staffel für Auftraege, die eine spaetere meinten (Daniel, 27.08.2026).
+  erste Staffel für Auftraege, die eine spaetere meinten.
 */
 {
   const q = readFileSync(__dirname + '/amazon.js', 'utf8')
@@ -781,7 +781,7 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
 
   Prime führt „H.O.T.D. High School of the Dead" und „Highschool of the Dead
   [dt./OV]" — dieselbe Serie wie unser Eintrag, einmal mit Abkuerzung davor,
-  einmal mit Fassungsangabe dahinter (Daniel, 27.08.2026).
+  einmal mit Fassungsangabe dahinter.
 */
 const abkuerzung = werte(
   [{ label: 'Beste Ergebnisse', karten: [karte('H.O.T.D. High School of the Dead', 'TV Show', 'Entitled', 'B0AAAA4444')] }],
@@ -947,7 +947,7 @@ pruefe('„The Animation" ebenso wenig', psoAnim.befund.art === 'genau', psoAnim
   **Auch beim Treffer muss „nicht bei Prime" meldbar sein.**
 
   „Ronja Räubertochter" fand eine gleichnamige Karte — Viaplays
-  Realverfilmung, nicht den Anime von 1984 (Daniel, 31.08.2026). Ohne den
+  Realverfilmung, nicht den Anime von 1984. Ohne den
   Knopf gäbe es keinen Weg, das zu sagen.
 */
 pruefe(
@@ -960,7 +960,7 @@ pruefe(
 
   Er stand seit 3.80 nur im Auftragshinweis der Titelseite — gebraucht wird er
   im Kein-Treffer-Kasten der Suchseite, wo sich die Frage stellt, ob der
-  Suchbegriff stimmt (Daniel, 28.08.2026). Geprueft wird deshalb die Stelle,
+  Suchbegriff stimmt. Geprueft wird deshalb die Stelle,
   nicht der Einzelfall: Liegt er in hinweisKasten, hat ihn jeder Kasten.
 */
 {

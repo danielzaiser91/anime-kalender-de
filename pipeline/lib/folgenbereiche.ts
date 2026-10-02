@@ -286,7 +286,7 @@ export function ordneNachStaffelliste(
    * Führt er **mehr**, stimmt die Reihenfolge nicht mehr. Bei „My Hero
    * Academia" führt Netflix sieben Staffeln, an unserer Adresse hängen nur zwei
    * Einträge — Staffel 1 und Staffel **6**, weil für die vier dazwischen nie
-   * jemand einen Verweis eingetragen hat (Daniel, 22.08.2026). Von vorn gepaart
+   * jemand einen Verweis eingetragen hat. Von vorn gepaart
    * würde Netflix' zweite Staffel mit unserer sechsten verheiratet; beide haben
    * 25 Folgen, und die Folgenzahl-Kontrolle merkt nichts davon.
    *
@@ -309,7 +309,7 @@ export function ordneNachStaffelliste(
    * Führt der Anbieter **eine** Staffel und wir mehrere, entscheidet die Summe.
    *
    * Netflix zeigt BAKI-DOU als eine Staffel mit 25 Folgen, AniList als zwei mit
-   * 13 und 12 — zusammen genau 25 (Daniel, 22.08.2026). Dann ist klar, dass es
+   * 13 und 12 — zusammen genau 25. Dann ist klar, dass es
    * dieselbe Sache ist, nur anders geschnitten. Alles gehört zur ersten unserer
    * Staffeln; wo genau die Grenze liegt, sagt die Folgennummer der Meldung.
    */

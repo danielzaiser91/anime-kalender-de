@@ -2,7 +2,7 @@
  * **kinoheld-Adressen für Kinotermine über die Websuche** (19.09.2026).
  *
  * Der Kino-Banner verlinkt kinoheld („Kinos & Tickets"), weil dort kein bestimmtes Kino
- * vorausgewählt ist (Daniel, 19.09.2026). kinoheld selbst sperrt Agenten (`robots.txt:
+ * vorausgewählt ist. kinoheld selbst sperrt Agenten (`robots.txt:
  * Disallow: /`) — nachsehen, ob es eine Filmseite gibt, dürfen wir dort nicht. Bis hierhin
  * stand deshalb jede Adresse von Hand im Kinotermin, und fehlende blieben liegen: „Your
  * Name" hatte eine, bei uns stand „sobald es sie gibt".

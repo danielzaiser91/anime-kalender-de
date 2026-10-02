@@ -273,7 +273,7 @@ export function sammleBelege({
    * Adresse. `belegFuer()` nimmt bei einem einzigen Weg aber zuerst den Beleg mit
    * **derselben** Adresse; das Nein zur Kanal-Seite gewann, der Verweis flog
    * heraus, und das Ja zur anderen Seite fand keinen Weg, an dem es hängen
-   * konnte (Daniel, 14.09.2026).
+   * konnte.
    *
    * Angelegt wird nur, wenn **jeder** vorhandene Weg dieser Plattform belegt
    * ohne Deutsch ist. Sonst ist die Adresse im Beleg eine Korrektur (siehe

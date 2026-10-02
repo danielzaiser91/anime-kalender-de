@@ -1,5 +1,5 @@
 /**
- * **Nichts verschwindet stillschweigend** (Daniel, 01.10.2026).
+ * **Nichts verschwindet stillschweigend**.
  *
  * Als „Die Tagebücher der Apothekerin" Staffel 3 ohne Erklärung aus dem Kalender
  * fiel, war die Nachricht dazu einfach weg: „keine Entfernung von News einträgen.

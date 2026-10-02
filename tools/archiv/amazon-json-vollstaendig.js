@@ -6,7 +6,7 @@
  * Öffnen selbst auslöst (`getDetailWidgets`), und hält die Antwort gegen die
  * sechs Felder, die `amazon.js` heute aus dem HTML liest.
  *
- * Hintergrund (Daniel, 25.08.2026): „aus den metadaten kannst du sicher alle
+ * Hintergrund: „aus den metadaten kannst du sicher alle
  * infos rausziehen, du brauchst kein parsing mehr denke ich." Für drei der
  * sechs Felder stimmt das belegt — `audioTracks` je Folge, `benefitId` und die
  * Kennung stehen in der Antwort. Für die drei anderen (Staffelnummer,

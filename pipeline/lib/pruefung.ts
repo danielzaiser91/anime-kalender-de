@@ -203,7 +203,7 @@ export function pruefeErgebnis(
     }
   }
 
-  /* Ein Weg auf TMDB trägt seine Kennzeichnung — sonst liest er sich als Anbieteradresse (Daniel, 22.09.2026). */
+  /* Ein Weg auf TMDB trägt seine Kennzeichnung — sonst liest er sich als Anbieteradresse. */
   for (const t of titles.values())
     for (const w of t.watchLinks ?? [])
       if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)

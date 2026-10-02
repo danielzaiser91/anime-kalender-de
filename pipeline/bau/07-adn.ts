@@ -270,7 +270,7 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
           **Ein ADN-Termin belegt die Synchro — also gehört ein ADN-Verweis dazu.** Der Termin
           entsteht nur aus Folgen mit `vde`. „Undefeated Bahamut Chronicle" hatte trotzdem keinen
           Verweis: Das Panel zeigte „Noch keine deutsche Fassung" und darunter eine Termin-Pille
-          mit dem Seriennamen, die auf Folge 1 führte (Daniel, 16.09.2026). Der Verweis zeigt auf
+          mit dem Seriennamen, die auf Folge 1 führte. Der Verweis zeigt auf
           die Serienseite, nicht auf die Folge; Handbelege greifen weiter unten wie bei jedem
           anderen Verweis.
         */

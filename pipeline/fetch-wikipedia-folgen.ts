@@ -4,7 +4,7 @@
  *
  * Wofür: Das TV-Programm nennt nur Folgentitel. Ohne Nummer zählte `tv-termine.ts` die
  * gesichteten Titel als „Folge 1, 2 …" — bei Beyblade X stand dadurch „Erste Folge heute"
- * über einer Reihe mit 100 deutschen Folgen (Daniel, 19.09.2026). Mit der Episodenliste
+ * über einer Reihe mit 100 deutschen Folgen. Mit der Episodenliste
  * wird aus „Durchbreche dein Limit! Goku meistert den Ultra-Instinkt!" die Folge 110.
  *
  * **Welche Titel:** nur die, die im TV-Programm gesichtet wurden (`data/tv-programm.json`) —

@@ -9,7 +9,7 @@
  * `docs/messung-crunchyroll-region.md`.
  *
  * Der Prüfstein ist „Fairy Tail" (Serie G6DQDD3WR): In Deutschland tragen die
- * Folgen 1 bis 277 eine deutsche Tonspur (Daniel, 22.08.2026), in der
+ * Folgen 1 bis 277 eine deutsche Tonspur, in der
  * US-Antwort steht bei allen drei Blöcken nur `ja-JP, en-US`. Taucht in
  * `versions` der ersten beiden Blöcke ein `de-DE` auf, hat der Versuch die
  * deutsche Sicht erreicht — alles andere ist weiterhin US.

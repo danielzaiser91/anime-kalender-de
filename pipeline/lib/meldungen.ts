@@ -331,8 +331,8 @@ export function releasesAus(
     /*
       **Ein Fernsehtermin ist kein Streaming-Termin.** „Dragon Ball DAIMA" lief
       ab 28.08.2026 im TV bei TOGGO plus, abrufbar bei RTL+ erst ab 25.09. — der
-      Artikel nennt beides, und genommen wurde das erste Datum für RTL+
-      (Daniel, 16.09.2026). Ein Datum, dessen Umfeld vom Fernsehen spricht,
+      Artikel nennt beides, und genommen wurde das erste Datum für RTL+.
+      Ein Datum, dessen Umfeld vom Fernsehen spricht,
       gilt deshalb für keinen Anbieter, den wir führen.
     */
     const tag = terminDerMeldung(v)

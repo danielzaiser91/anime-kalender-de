@@ -156,7 +156,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
   */
   /*
     **Der früheste deutsche Termin je Titel.** Er ist das einzige Datum, das in
-    die Auswahlbox des Panels gehört (Daniel, 12.09.2026) — die japanische
+    die Auswahlbox des Panels gehört — die japanische
     Ausstrahlung bleibt für die Sortierung im Datensatz, wird dort aber nicht
     mehr angezeigt. Gezählt wird der Beginn jedes Releases, Disc wie Stream:
     Gefragt ist „seit wann gibt es das hier", nicht „auf welchem Weg".
@@ -184,8 +184,8 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
    *
    * AniLists `PARENT`-Kante sagt es, das Format nicht: Bei chinesischen
    * Produktionen ist jeder Teil eine ONA, und ohne dieses Feld standen bei
-   * „Lord of Mysteries" die Specials und das Chibi-Theater unter „Hauptserie"
-   * (Daniel, 12.09.2026). Der Katalog führt die Kante für **alle** Titel, auch
+   * „Lord of Mysteries" die Specials und das Chibi-Theater unter „Hauptserie".
+   * Der Katalog führt die Kante für **alle** Titel, auch
    * für die im Bestand — er ist der vollständige AniList-Abzug.
    */
   const elternVon = new Map<number, number[]>()

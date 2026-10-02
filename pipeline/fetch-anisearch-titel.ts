@@ -1,7 +1,7 @@
 /**
  * **Deutsche Titel für Anime ohne belegte Synchro.**
  *
- * Anlass (Daniel, 31.08.2026): „Ein Landei aus dem Dorf vor dem letzten Dungeon
+ * Anlass: „Ein Landei aus dem Dorf vor dem letzten Dungeon
  * sucht das Abenteuer in der Stadt" läuft bei Prime, war in unserer Datenbank
  * aber nicht zu finden. Der Titel steht als AniList 112649 in
  * `ohne-synchro.json` — ohne deutschen Namen, denn AniList führt keine, und
@@ -31,7 +31,7 @@ import { KENNUNG } from './lib/kennung.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 
 /*
-  **Browser-Signatur plus Projektkennung** (Daniel, 23.09.2026). aniSearch weist die nackte
+  **Browser-Signatur plus Projektkennung**. aniSearch weist die nackte
   Projektkennung seit dem 19.09.2026 mit HTTP 423 ab; die Begründung und die Messung stehen
   in `lib/kennung.ts`.
 */

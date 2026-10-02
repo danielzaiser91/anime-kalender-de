@@ -2,7 +2,7 @@
  * Wie viele Staffeln die Seite nennt — gelesen aus dem sichtbaren Text.
  *
  * Bei „Grisaia Phantom Trigger" (eine Staffel, 13 Folgen) verlangte die
- * Erweiterung „weiter mit Staffel 2" (Daniel, 19.09.2026). Der Diagnosebericht
+ * Erweiterung „weiter mit Staffel 2". Der Diagnosebericht
  * zeigte `staffelZahl: 18`: Das Altersfeld „18" stand als Zeile vor der
  * Überschrift „Staffel 1", und `(\d+)\s*Staffeln?` lief über den Umbruch.
  *

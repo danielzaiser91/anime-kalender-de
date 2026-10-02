@@ -157,8 +157,7 @@ function terminMeldungen(
         platform: r.platform,
         /*
           Nur das Datum: Der Vermerk führt Zeitstempel, die Meldung ein Datum.
-          Durchgereicht stand „06T15:00:00.000Z.09.2026" auf der News-Seite
-          (Daniel, 15.09.2026).
+          Durchgereicht stand „06T15:00:00.000Z.09.2026" auf der News-Seite.
         */
         datum: v.erwartetAm.slice(0, 10),
         von: Number(nummer),
@@ -190,7 +189,7 @@ interface CrNeueFolge {
 }
 
 /**
- * **Eine Quelle, eine Meldung** (Daniel, 02.10.2026).
+ * **Eine Quelle, eine Meldung**.
  *
  * Am Overgeared-Panel standen zwei Einträge am selben Tag aus derselben Quelle: „Neu auf Deutsch ·
  * Erstmals mit deutscher Synchro bei Crunchyroll" und „Neue Folgen · Folge 1 auf Deutsch bei

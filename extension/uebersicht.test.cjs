@@ -72,7 +72,7 @@ pruefe('eine laufende Serie ohne Folgenzahl nennt die erste Folge',
 pruefe('ein Special mit einer Folge ist kein Film',
   JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 1, film: false, offen: true }] })) === JSON.stringify(['1e01']))
 
-// Die Faelle, an denen die Einfaerbung scheiterte (Daniel, 22.08.2026).
+// Die Faelle, an denen die Einfaerbung scheiterte.
 pruefe('durchgezaehlte Staffeln bekommen die Nummern des Anbieters',
   JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 7, folgen: 25, erste: 146, offen: true }] })) === JSON.stringify(['7e146', '7e170']),
   empfohleneFolgen({ staffeln: [{ nr: 7, folgen: 25, erste: 146, offen: true }] }))

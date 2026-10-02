@@ -212,7 +212,7 @@ async function main(): Promise<void> {
 
     Wo TMDB Anbieter nennt, aber keinen Deeplink liefert, trägt der Bezugsweg
     seit jeher die TMDB-Übersichtsseite — die Pille „maxdome" öffnete also
-    themoviedb.org statt store.maxdome.de (Daniel, 16.09.2026). JustWatch nennt
+    themoviedb.org statt store.maxdome.de. JustWatch nennt
     je Angebot die Adresse beim Anbieter selbst; gemessen sind das 1.187 Wege auf
     364 Titeln, und bei den zehn schon gefragten ließen sich 16 von 20 ersetzen.
 

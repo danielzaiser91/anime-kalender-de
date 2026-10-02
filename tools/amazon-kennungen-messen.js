@@ -58,13 +58,13 @@
   /* Amazons Fehlerseite kommt nicht immer mit 404 — erkannt wird sie am Wortlaut. */
   const nichtGefunden = !seite && /nicht gefunden|not found/i.test(document.title + ' ' + document.body.innerText.slice(0, 2000))
   /*
-    Eine Zeile mit festem Präfix, damit sie sich in der Konsole filtern lässt
-    (Daniel, 17.09.2026). Die Adresse steht mit drin, auch nach einer Weiterleitung.
+    Eine Zeile mit festem Präfix, damit sie sich in der Konsole filtern lässt.
+    Die Adresse steht mit drin, auch nach einer Weiterleitung.
   */
   const kurz =
     `[gti-poc] ${location.pathname} | pageTitleId ${seite?.pageTitleId ?? '–'} | catalogId ${eigeneGti ?? '–'} | ` +
     (nichtGefunden ? 'Seite nicht gefunden' : zeile ? `= JustWatch-gti aus Zeile ${zeile}` : 'keine gti der Liste')
-  /* Direkt in die Zwischenablage (Daniel, 17.09.2026); `copy()` gibt es nur in der DevTools-Konsole. */
+  /* Direkt in die Zwischenablage; `copy()` gibt es nur in der DevTools-Konsole. */
   try {
     copy(kurz)
     console.log('[gti-poc] in der Zwischenablage — einfach einfügen')

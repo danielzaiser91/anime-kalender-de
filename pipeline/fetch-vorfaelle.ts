@@ -1,7 +1,7 @@
 /**
  * Die Vorfälle der Erweiterung abholen und ablegen, wo sie gelesen werden.
  *
- * **Der Anlass** (Daniel, 10.09.2026): „info bringt nix, du liest nix aus der
+ * **Der Anlass**: „info bringt nix, du liest nix aus der
  * console aus, ich lese auch nix aus. denk darüber nach auch bezüglich allen
  * anderen derartigen logs, du musst informiert werden über issues."
  *

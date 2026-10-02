@@ -33,7 +33,7 @@ export function schreibeSynopsenUndReichereAn({ allTitles, releases, kanalJeAdre
    * www.anisearch.de/anime/1572". Das stand bei 2.385 von 2.683 deutschen
    * Beschreibungen mitten im Fließtext — und darunter dann noch einmal unsere
    * eigene, anders gestaltete Quellenzeile, die obendrein „themoviedb.org"
-   * behauptete, obwohl der Text von aniSearch kam (Daniel, 12.08.2026).
+   * behauptete, obwohl der Text von aniSearch kam.
    *
    * Herausgelöst wird sie hier, einmal beim Bauen, statt in der Oberfläche bei
    * jedem Öffnen eines Panels.
@@ -87,7 +87,7 @@ export function schreibeSynopsenUndReichereAn({ allTitles, releases, kanalJeAdre
       const adresse = toggo[String(t.id)]?.adresse
       /*
         Kein TOGGO-Weg bekannt, aber die Serie steht im TOGGO-Katalog und hat gerade freie
-        Folgen: Weg anlegen. TOGGO zeigt nur deutsche Fassungen (Daniel, 19.09.2026).
+        Folgen: Weg anlegen. TOGGO zeigt nur deutsche Fassungen.
       */
       if (adresse && folgen.length && !(t.watchLinks ?? []).some((w) => /(^|\.)toggo\.de\//i.test(w.url.replace(/^https?:\/\//, ''))))
         (t.watchLinks ??= []).push({ name: 'TOGGO', url: adresse, kind: 'stream', zugang: 'kostenlos' })

@@ -11,7 +11,7 @@
  * Je Adresse steht dabei, **welche Folgen** sich lohnen. Denn eine Netflix-Seite
  * bedient oft mehrere unserer Staffeln: „My Hero Academia" führt sieben unter
  * einer Adresse. Wer dort nur die erste Folge prüft, weiß nichts über Staffel 7
- * — und genau dort hört die deutsche Fassung auf (Daniel, 22.08.2026).
+ * — und genau dort hört die deutsche Fassung auf.
  *
  * Empfohlen werden **erste und letzte Folge je Staffel**: Sind beide gleich,
  * ist die Staffel einheitlich; weichen sie ab, liegt die Grenze dazwischen und
@@ -435,7 +435,7 @@ for (const [id, eintraege] of jeAdresse) {
       name: e.t.titleDe ?? e.t.titleEn ?? e.t.titleRomaji ?? '',
       folgen: e.t.episodes ?? 0,
       // Ein Film hat keine Folge zum Auswählen — man startet ihn einfach.
-      // Ohne diese Angabe stand in der Liste „1e01" (Daniel, 22.08.2026).
+      // Ohne diese Angabe stand in der Liste „1e01".
       // Nur ein echter Film ist ein Film. OVAs und Specials sind meist Folgen
       // einer Staffel und werden oben ohnehin ausgefiltert, wo eine Serie
       // dieselbe Adresse hat.
@@ -443,7 +443,7 @@ for (const [id, eintraege] of jeAdresse) {
       // **Bis auf das Special, das allein auf seiner Seite steht.** „Pokémon:
       // Blauer Himmel in der Ferne!" ist ein SPECIAL mit einer Folge und einer
       // eigenen Netflix-Adresse; in der Liste stand „offen: E1", und die Folge
-      // gab es nicht zum Anklicken (Daniel, 30.08.2026). Wo eine Serie dieselbe
+      // gab es nicht zum Anklicken. Wo eine Serie dieselbe
       // Adresse hat, greift der Filter oben — was hier ankommt, steht für sich
       // und wird wie ein Film bedient. `=== 1` und nicht `<= 1`: „ONE PIECE"
       // läuft und trägt `folgen: 0`, ist aber eine Serie (22.08.2026).

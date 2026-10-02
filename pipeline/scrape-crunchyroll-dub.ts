@@ -463,8 +463,8 @@ async function serieLesenSeitenanzeige(page: Page, url: string): Promise<CrSerie
    * Nötig, weil die Audio-Zeile schon dasteht, wenn eine **einzige** Folge
    * deutsch ist. Bei „That Time I Got Reincarnated as a Slime" fehlt den
    * letzten beiden Folgen der vierten Staffel die deutsche Fassung, und
-   * einzelne Einträge des Wählers — Filme, OVAs — sind gar nicht vertont
-   * (Daniel, 12.08.2026). Ohne das Durchblättern würde aus „ein Teil ist
+   * einzelne Einträge des Wählers — Filme, OVAs — sind gar nicht vertont.
+   * Ohne das Durchblättern würde aus „ein Teil ist
    * deutsch" ein „alles ist deutsch".
    */
   const staffeln: CrStaffel[] = []
@@ -479,7 +479,7 @@ async function serieLesenSeitenanzeige(page: Page, url: string): Promise<CrSerie
      * Je Folgennummer nur einmal zählen.
      *
      * Crunchyroll führt dieselbe Folge mehrfach auf, und es gibt sogar zwei
-     * Einträge im Wähler mit derselben Staffel (Daniel, 12.08.2026). Wer
+     * Einträge im Wähler mit derselben Staffel. Wer
      * Kacheln zählt statt Folgennummern, holt sich diese Fehler in den eigenen
      * Datensatz — und genau das soll nicht passieren: Die Staffelstruktur
      * bleibt unsere, Crunchyroll liefert hier nur die Tonspur.

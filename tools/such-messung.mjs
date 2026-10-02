@@ -2,7 +2,7 @@
 /**
  * **Wie träge ist die Datenbanksuche wirklich?**
  *
- * Anlass (Daniel, 12.09.2026): „ich hab gerade was gesucht und es hat extrem
+ * Anlass: „ich hab gerade was gesucht und es hat extrem
  * gelaggt, sodass tastatur eingaben verschluckt wurden … mach ein input buffer
  * rein, sodass die suche erst anfängt wenn mindestens x ms nix eingegeben
  * wurde."

@@ -282,7 +282,7 @@ for (const [asin, eintraege] of jeAsin) {
 
     Widerspricht eine zweite Quelle unserem Urteil, ist die Frage wieder da —
     und sie gehört auf die Titelseite, wo ein Klick sie beantwortet. Beide
-    Riegel darunter werden dafür übersprungen (Daniel, 31.08.2026).
+    Riegel darunter werden dafür übersprungen.
   */
   const verdacht = eintraege.map((e) => verdaechtig.get(e.t?.id ?? e.id)).find(Boolean)
   // Ist unter dieser Adresse schon alles beantwortet, gibt es nichts zu tun.
@@ -623,7 +623,7 @@ for (const t of titel) {
         **Das Jahr trennt Gleichnamige.** „Elysium" steht bei uns als
         koreanischer Mecha-Film von 2003; die Prime-Suche führt auf den
         Hollywood-Film mit Matt Damon von 2013, und die Erweiterung bot an, den
-        zu melden (Daniel, 28.08.2026). Titel und Typ stimmen dort überein — nur
+        zu melden. Titel und Typ stimmen dort überein — nur
         das Jahr nicht.
       */
       jahr: Number.isFinite(t.jpYear) ? t.jpYear : null,
@@ -771,7 +771,7 @@ if (wegenStaffel) {
  * Kanal-Abo, mit verschiedenen Folgenzahlen, Altersfreigaben und sogar
  * verschiedenen Folgentiteln (zwei Verlage). Unser Bestand kennt nur einen
  * Verweis; nach der ersten Meldung fiel der Auftrag aus der Liste, und die
- * andere Ausgabe blieb ungeprüft (Daniel, 30.08.2026).
+ * andere Ausgabe blieb ungeprüft.
  *
  * Die Erweiterung schickt die Kennungen der übrigen Treffer derselben Suche
  * seit 4.0.22 als `weitere=` in der Notiz mit. Daraus entsteht hier je Kennung

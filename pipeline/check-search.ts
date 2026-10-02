@@ -2,7 +2,7 @@
  * Zusicherungen für die Suche — gegen den echten Titelbestand, nicht gegen
  * Beispieldaten.
  *
- * Anlass (Daniel, 12.08.2026): „Aesthetica of a Rogue Hero" war weder über
+ * Anlass: „Aesthetica of a Rogue Hero" war weder über
  * „aesthetic hero" noch über „ästhetik" zu finden. Beides sind keine
  * Ausnahmefälle, sondern der Normalfall bei langen fremdsprachigen Titeln.
  *

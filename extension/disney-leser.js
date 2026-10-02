@@ -16,7 +16,7 @@
  * **Und warum nachgeladen wird, statt mitzulesen.** Der Seitenaufruf bringt nur
  * die ersten 15 Folgen der ersten Staffel mit; die übrigen holt Disney+ beim
  * Scrollen. Wer nur mithört, prüft 15 von 51 und hält das für die Staffel —
- * derselbe Fehler wie bei Amazons Abschnitten (Daniel, 26.08.2026).
+ * derselbe Fehler wie bei Amazons Abschnitten.
  *
  * Der Seitenaufruf nennt dafür alles Nötige: je Staffel ihre Kennung und
  * `pagination.totalCount`. Nachgeladen wird mit
@@ -306,7 +306,7 @@
 
         Disney+ vergibt Nebenbloecken hohe Nummern: "Undead Unluck: Winter Arc"
         laeuft als Staffel 99, und die Anzeige schrieb "99e1". Welcher Block das
-        ist, weiss nur dieser Abruf — er holt ihn gerade (Daniel, 26.08.2026).
+        ist, weiss nur dieser Abruf — er holt ihn gerade.
       */
       sammleFolgen(daten, 0, staffel.name)
       gesehen += stueck.length

@@ -291,7 +291,7 @@ const detail = await seite.evaluate(() => ({
   zurueck: Boolean(document.querySelector('.zurueck')),
 }))
 pruefe('der Klick öffnet die Detailseite', detail.jetzt && detail.zurueck)
-/* Der Verlauf trennt die Tage (Daniel, 30.09.2026): „Heute", „Gestern", sonst das Datum. */
+/* Der Verlauf trennt die Tage: „Heute", „Gestern", sonst das Datum. */
 pruefe(
   'der Verlauf trennt die Tage (Heute / Gestern / Datum)',
   /* `innerText` gibt den Trenner großgeschrieben zurück (`text-transform: uppercase`). */

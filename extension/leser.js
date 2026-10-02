@@ -121,7 +121,7 @@
     // Erst Netflix' eigenes Kürzel, dann das ausgeschriebene Wort.
     //
     // Der Episodentitel darf selbst „Folge 1" heißen — real bei „The Cleaning
-    // Lady": „The Cleaning LadyFlg. 1Folge 1" (Daniel, 22.08.2026). Wer nur
+    // Lady": „The Cleaning LadyFlg. 1Folge 1". Wer nur
     // nach der ersten Zahl sucht, trifft dort zufällig richtig; steht die Zahl
     // aber im Serientitel, trifft er daneben. Deshalb hat das Kürzel Vorrang.
     const kuerzel = /(?:Flg\.|Ep\.|\bE)\s*(\d{1,4})/i.exec(text)?.[1]

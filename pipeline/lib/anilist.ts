@@ -169,7 +169,7 @@ export interface KatalogEintrag {
    * **Herkunftsland, nur wenn es nicht Japan ist** (`countryOfOrigin`).
    *
    * Der Kasten eines angekündigten Kinofilms nennt den Kinostart im
-   * Herkunftsland (Daniel, 13.09.2026). 19 von 112 angekündigten Filmen stammen
+   * Herkunftsland. 19 von 112 angekündigten Filmen stammen
    * aus China oder Südkorea — „In Japan ab …" wäre dort eine Falschangabe.
    * Japan bleibt weg: Es ist der Regelfall und stünde sonst siebzehntausendmal
    * im Cache.

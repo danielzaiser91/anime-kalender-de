@@ -119,7 +119,7 @@ pruefe('ohne Knopf bleibt die Anzeige durchlässig', mass.ohneKnopf === 'none', 
 /*
   **Der Takt darf den Knopf nicht ersetzen.** `playerZeigen()` läuft jede
   Sekunde; baute die Anzeige dabei ihren Inhalt neu, pulsierte der Knopf und ein
-  Klick konnte ins Leere gehen (Daniel, 12.09.2026). Geprüft wird am Quelltext,
+  Klick konnte ins Leere gehen. Geprüft wird am Quelltext,
   weil der Takt selbst in dieser Kulisse nicht läuft.
 */
 const quelle = readFileSync('extension/melder.js', 'utf8')

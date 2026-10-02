@@ -8,7 +8,7 @@ import { ROOT } from './util.ts'
  * Prüfung der Serie beginnt, kann in ihren Blöcken nicht stehen (`vorDemStart`) und bleibt ohne
  * Urteil, bis ein neuer Abruf ihren Block zeigt.
  *
- * Anlass (Daniel, 27.09.2026): „A Wild Last Boss Appeared!" Staffel 2 stand als „Auf Deutsch
+ * Anlass: „A Wild Last Boss Appeared!" Staffel 2 stand als „Auf Deutsch
  * verfügbar" — Staffel 1 (12 von 12 deutsch, geprüft 21.09.) war der einzige Block unter derselben
  * Kennung, Staffel 2 startete am 26.09. nur mit Untertiteln. Eine Zuordnung über die Folgenzahl
  * wurde gemessen und verworfen: Crunchyroll zählt zu oft anders (74 echte Synchros verlören ihr

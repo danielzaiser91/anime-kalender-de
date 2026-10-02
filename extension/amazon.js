@@ -598,7 +598,7 @@ async function speicherSchreiben(werte) {
    *
    * Die erste Fassung nahm den ersten Treffer von `(\d+)\s*Folgen?` und schloss
    * danach aus, was falsch aussah. Diese Liste wuchs an einem einzigen Abend
-   * viermal, jedes Mal nach einem echten Fehlgriff (Daniel, 25.08.2026):
+   * viermal, jedes Mal nach einem echten Fehlgriff:
    *
    * | Seite | gelesen | richtig | Ursache |
    * |---|---|---|---|
@@ -939,7 +939,7 @@ async function speicherSchreiben(werte) {
    *
    * Der Ruhemodus lässt sich per Konsolenbefehl schalten, und für ein einmaliges
    * Messen genügt das. Für etwas, das man während einer Aufnahme mehrfach
-   * braucht, nicht (Daniel, 02.09.2026).
+   * braucht, nicht.
    *
    * Sie hängen **am Kasten**, nicht frei am Bildschirmrand: Alles, was die
    * Erweiterung zeigt, gehört zusammen — dieselbe Vorgabe wie beim Melde- und
@@ -1904,7 +1904,7 @@ async function speicherSchreiben(werte) {
    *
    * **Der Unterschied entscheidet, ob die Sprachangabe etwas taugt.** Bei
    * "Kill Blue" behauptet Amazon 12 deutsche Folgen; ADN, die Quelle hinter
-   * dem Kanal, hat 2 (Daniel, 24.08.2026). Offenbar zeigt Amazon dort die
+   * dem Kanal, hat 2. Offenbar zeigt Amazon dort die
    * Sprachen des Kanals, nicht die der Folge.
    *
    * Ein Kauftitel zaehlt nicht als Kanal: Was gekauft wird, hat seine
@@ -2487,7 +2487,7 @@ async function speicherSchreiben(werte) {
 
     `the`, `ova`, `ona` und `oad` standen hier bis 3.83 mit drin und haben
     „Code Geass: Akito the Exiled 4 — From the Memories of Hatred — OVA"
-    blockiert (Daniel, 28.08.2026). Ein Artikel kündigt keine Fortsetzung an,
+    blockiert. Ein Artikel kündigt keine Fortsetzung an,
     und ein Formatkürzel am Ende schneidet `titelKernLocker` ohnehin weg.
 
     `movie`, `film` und `special` bleiben: Sie trennen ein eigenes Werk von der
@@ -2547,7 +2547,7 @@ async function speicherSchreiben(werte) {
   /*
     **Nicht jedes fremde Wort unterscheidet.** „Code Geass: Akito the Exiled —
     Memories of Hatred" gegen die Prime-Karte „… Akito the Exiled 4 — From the
-    Memories of Hatred — OVA" (Daniel, 28.08.2026): drei Zusatzwörter, und damit
+    Memories of Hatred — OVA": drei Zusatzwörter, und damit
     über der Grenze — obwohl nur eines davon etwas aussagt.
 
         from   ein Wort des Satzbaus
@@ -3045,7 +3045,7 @@ async function speicherSchreiben(werte) {
 
     /*
       **Titel und Folgenzahl in einer Zeile.** Zwei Zeilen für zwei Wörter
-      kosten Höhe, die der Kasten für die Auswahl braucht (Daniel, 02.09.2026).
+      kosten Höhe, die der Kasten für die Auswahl braucht.
     */
     const kopf = kasten.querySelector('.ak-z-titel')
     const kopfText = unterzeile ? titel + ' · ' + unterzeile : titel
@@ -3101,7 +3101,7 @@ async function speicherSchreiben(werte) {
 
       aniSearch statt AniList, weil es deutsche Titel, deutsche Beschreibungen
       und eine Episodenliste mit deutschen Folgentiteln führt — genau das
-      entscheidet bei Reihen, die Prime durchnummeriert (Daniel, 28.08.2026).
+      entscheidet bei Reihen, die Prime durchnummeriert.
     */
     try {
       const rechts = kasten.querySelector('.ak-such-fuss-rechts')
@@ -3429,7 +3429,7 @@ async function speicherSchreiben(werte) {
       const sprung = document.createElement('a')
       sprung.className = 'ak-such-sprung'
       sprung.href = `https://www.amazon.de/gp/video/detail/${kennung}`
-      /* Als Knopf, nicht als Zeichen — ein ↗ am Zeilenende übersieht man (Daniel, 02.09.2026). */
+      /* Als Knopf, nicht als Zeichen — ein ↗ am Zeilenende übersieht man. */
       sprung.textContent = 'öffnen'
       sprung.title = `${kennung} öffnen`
       sprung.addEventListener('click', (e) => {
@@ -4309,7 +4309,7 @@ async function speicherSchreiben(werte) {
       **Standardwert**, nicht als Feststellung. Die Warnung behandelte ihn wie
       eine: Bei „Tokyo Ghoul:re" (das ist Staffel 3, trägt die Zahl aber nirgends)
       stand auf der Staffel-3-Seite „Hier steht Staffel 3 — gesucht ist Staffel 1",
-      obwohl alle Staffeln längst gemeldet waren (Daniel, 31.08.2026).
+      obwohl alle Staffeln längst gemeldet waren.
 
       Gewarnt wird deshalb nur, wenn der Auftragstitel eine Staffel wirklich
       **nennt**. Der Fall, für den die Warnung gebaut wurde, bleibt gedeckt:
@@ -4497,7 +4497,7 @@ async function speicherSchreiben(werte) {
 
         Vorher stand hier ein Knopf „nochmal ansehen", der auf den **anderen**
         Titel führte — verwirrend, weil er wie eine Handlung für diese Seite
-        aussah (Daniel, 02.09.2026). Jetzt: Die aktuelle Seite ist markiert und
+        aussah. Jetzt: Die aktuelle Seite ist markiert und
         trägt keinen Sprung, die anderen tragen ihr „öffnen", und was gemeldet
         ist, hat ein Häkchen.
       */
@@ -4770,8 +4770,8 @@ async function speicherSchreiben(werte) {
    *
    * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
    * ist `erledigt` leer. Der Knopf sah darin einen ungemeldeten Titel und lud
-   * zum Melden ein — Sekunden später sprang er auf „alles gemeldet" zurück
-   * (Daniel, 24.08.2026). Wer in diesem Fenster klickt, meldet eine Staffel ein
+   * zum Melden ein — Sekunden später sprang er auf „alles gemeldet" zurück.
+   * Wer in diesem Fenster klickt, meldet eine Staffel ein
    * zweites Mal.
    */
   let standGeladen = false
@@ -4869,7 +4869,7 @@ async function speicherSchreiben(werte) {
    * Bakugan steht bei uns als drei Titel, bei Amazon als **eine** Serie mit
    * fünfzehn Staffeln; Barbapapa als zwei. Wer alle durchgeht, verteilt seinen
    * Fortschritt sonst auf mehrere Zeilen, und keine wird je fertig — „12/15",
-   * „2/15", „2/15" (Daniel, 24.08.2026).
+   * „2/15", „2/15".
    *
    * Verbunden wird über den Serientitel, den Amazon beim Melden liefert. Fehlt
    * er — bei allem, was vor dem 24.08.2026 gemeldet wurde —, bleibt der Eintrag
@@ -4897,7 +4897,7 @@ async function speicherSchreiben(werte) {
    * **Bewusst nicht über die Serie gebündelt** — das war der erste Versuch und
    * ein Fehlgriff: Das Maximum über alle Zeilen derselben Serie zieht jede
    * fehlerhafte Zahl auf alle anderen. Bei „K — Return of Kings" (zwei
-   * Staffeln) stand daraufhin „noch 19 Staffeln" am Knopf (Daniel, 24.08.2026).
+   * Staffeln) stand daraufhin „noch 19 Staffeln" am Knopf.
    *
    * Die gemeldeten Staffeln werden weiterhin zusammengelegt — das ist die
    * Auskunft, um die es Daniel ging. Die Gesamtzahl bleibt bei ihrer Zeile.
@@ -4906,7 +4906,7 @@ async function speicherSchreiben(werte) {
     /*
       Die Staffeln werden über alle Einträge der Serie gesammelt — die Zahl, mit
       der sie verglichen werden, muss denselben Umfang haben. Sonst entsteht
-      „7/5" (Daniel, 28.08.2026).
+      „7/5".
     */
     let groesste = 0
     for (const k of serienGefaehrten(asinEintrag)) {
@@ -4920,7 +4920,7 @@ async function speicherSchreiben(werte) {
       bliebe sonst für immer stehen — und mit ihm ein Titel, der nach einer
       Meldung als fertig gilt. Bei „Danmachi" war das eine 1 für eine Serie mit
       fünf Staffeln; der Eintrag verschwand aus der Liste, und Staffel 2 war
-      nicht mehr erreichbar (Daniel, 30.08.2026).
+      nicht mehr erreichbar.
 
       Nur nach oben, und nur für den Eintrag, dessen Seite gerade offen ist:
       Was hier steht, ist die Auskunft der Seite selbst.
@@ -5452,7 +5452,7 @@ async function speicherSchreiben(werte) {
         `adressen` führt nur, was der Datenlauf noch nicht abgeholt hat. Wer
         einen Titel meldete und danach lief ein Datenlauf, fand ihn am nächsten
         Tag wieder in der Prüfliste — die Meldung war da, nur eben nicht mehr
-        „im Briefkasten" (Daniel, 30.08.2026).
+        „im Briefkasten".
 
         Der Rückfall auf `adressen` gilt für die Minuten zwischen dem Ausrollen
         der Erweiterung und dem des Workers; danach ist `gemeldet` immer da.
@@ -5592,7 +5592,7 @@ async function speicherSchreiben(werte) {
 
       Der Aufruf aus dem Auftragskasten steht rund 560 Zeilen weiter oben. Ein
       Pfeil-const dort ist die tote Zone: „Cannot access istGemeldet before
-      initialization" (Daniel, 28.08.2026) — der dritte Fall derselben Art an
+      initialization" — der dritte Fall derselben Art an
       einem Tag, nach knopf und listenId.
 
       Die Deklaration wird hochgezogen, ihre beiden Variablen nicht. Deshalb
@@ -5613,8 +5613,7 @@ async function speicherSchreiben(werte) {
         ein, und der nächste Abruf warf sie sofort wieder hinaus.
 
         Sichtbar wurde das an „Jormungand: Perfect Order": gemeldet, Knopf auf
-        „alles gemeldet", und der Sucheintrag stand weiter in der Liste
-        (Daniel, 30.08.2026).
+        „alles gemeldet", und der Sucheintrag stand weiter in der Liste.
 
         Deshalb gilt hier beides. Das ist keine Rückkehr zum alten Zustand,
         sondern die Trennung, die vorher fehlte: Der Briefkasten entscheidet,
@@ -5940,7 +5939,7 @@ async function speicherSchreiben(werte) {
      *
      * Der Wächter allein prüfte nur, ob sich am **Inhalt** etwas geändert hat.
      * Beim Schließen und Neuöffnen ändert sich daran nichts, also baute er
-     * nichts: „es kommt backdrop aber kein dialog" (Daniel, 24.08.2026).
+     * nichts: „es kommt backdrop aber kein dialog".
      */
     const signatur = listenSignatur()
     if (signatur === letzteSignatur && dialog.querySelector('.ak-kasten')) return
@@ -6313,7 +6312,7 @@ async function speicherSchreiben(werte) {
         /*
           Die Folgenzahl ist hier kein Fortschritt, sondern das Erkennungs-
           merkmal: Eine Suche nach „Cowboy Bebop" liefert bei Prime nur den
-          Film — eine Folge statt sechsundzwanzig (Daniel, 27.08.2026).
+          Film — eine Folge statt sechsundzwanzig.
         */
         if (e.folgen) {
           const marke = document.createElement('span')
@@ -6472,7 +6471,7 @@ async function speicherSchreiben(werte) {
    * Ohne diesen Rückfall landete jede Meldung ab Staffel 2 unter einer
    * Kennung, die in keiner Zeile der Liste steht: Bei „Captain Tsubasa" waren
    * vier von fünf Meldungen unsichtbar, bei Bakugan verteilten sie sich auf
-   * drei Zeilen derselben Serie (Daniel, 24.08.2026).
+   * drei Zeilen derselben Serie.
    */
   /**
    * **Steht diese Serie irgendwo bei uns — egal unter welcher Staffel?**
@@ -6720,7 +6719,7 @@ async function speicherSchreiben(werte) {
         const zeichen = p.befund === 'dub' ? '🇩🇪' : p.befund === 'weg' ? '✕✕' : '✕'
         jeAdresse[asin] = jeAdresse[asin] ?? { staffeln: {}, folgen: {}, gesamt: 1, serie: null }
         jeAdresse[asin].staffeln[angezeigt] = zeichen
-        /* Wie viele Folgen die Meldung trug — für „S1 E1–54 gemeldet" (Daniel, 14.09.2026). */
+        /* Wie viele Folgen die Meldung trug — für „S1 E1–54 gemeldet". */
         if (Number.isFinite(p.folgen) && p.folgen > 0) jeAdresse[asin].folgen[angezeigt] = p.folgen
         if (p.titel) jeAdresse[asin].serie = p.titel
         jeAdresse[asin].gesamt = Math.max(
@@ -6981,7 +6980,7 @@ async function speicherSchreiben(werte) {
    *
    * Amazon tauscht beim Staffelwechsel erst das Gerüst und dann die Zahlen. In
    * diesem Fenster steht am Knopf die Zahl der **vorigen** Staffel, und wer
-   * dann klickt, meldet den falschen Stand (Daniel, 24.08.2026).
+   * dann klickt, meldet den falschen Stand.
    *
    * Zwei Sekunden sind großzügig für einen Austausch, der im Bruchteil davon
    * passiert — und kurz genug, dass niemand darauf wartet.
@@ -7157,7 +7156,7 @@ async function speicherSchreiben(werte) {
       Abruf an; bis er ankommt, gilt der Zählstand als leer. Das ist der
       Unterschied zwischen „Seite neu laden" und „einen Moment".
 
-      **Beide Wege müssen tragen** (Daniel, 25.08.2026): „prime ab und zu nicht
+      **Beide Wege müssen tragen**: „prime ab und zu nicht
       neulädt … und manchmal neulädt". Bei einer echten Neuladung ist der
       Quelltext frisch, und die Kennung wandert mit — dann greift dieser Zweig
       gar nicht. Nur der Weg ohne Neuladen braucht ihn.
@@ -7536,7 +7535,7 @@ async function speicherSchreiben(werte) {
      * Folgenzahl mehr — und `vollstaendig` ergibt sich aus
      * `!gesehen.gesamt`, ist also wahr. Der Knopf meldete daraufhin "3 Folgen"
      * fuer JoJos Staffel 3, waehrend die Seite darueber "48 Folgen" schreibt
-     * und der Abschnitt 25-48 gerade erst lud (Daniel, 25.08.2026).
+     * und der Abschnitt 25-48 gerade erst lud.
      *
      * Die Zahl der Seite fuellt die Luecke, sobald es eine gibt.
      */
@@ -7800,7 +7799,7 @@ async function speicherSchreiben(werte) {
      *
      * Der Knopf blieb gesperrt mit „Tonspuren noch nicht geladen", und bei
      * einer Seite, die es nicht mehr gibt, wartet man damit ewig: „tote links
-     * in der liste kann ich nicht melden" (Daniel, 24.08.2026).
+     * in der liste kann ich nicht melden".
      *
      * Erst nach der Geduldsfrist — solange kann Amazon legitim nachladen —
      * wird daraus ein Angebot. Gemeldet wird dann `nichtAbrufbar`, nicht „kein
@@ -7886,7 +7885,7 @@ async function speicherSchreiben(werte) {
        *
        * Dieser Zweig lief **vor** den Regeln weiter unten und setzte den Knopf
        * bei jedem Takt zurück auf „nicht abrufbar — melden" — Sekunden nach der
-       * Meldung war er wieder anklickbar (Daniel, 24.08.2026). Auf einer
+       * Meldung war er wieder anklickbar. Auf einer
        * Fehlerseite gibt es keine geladenen Folgen, also kam der Code nie dort
        * an, wo „✓ gemeldet" steht.
        */
@@ -8269,7 +8268,7 @@ async function speicherSchreiben(werte) {
 
       Bei „Mob Psycho 100 II" führte die geöffnete Seite Staffel 2 als reinen
       Kauftitel, eine zweite Ausgabe derselben Staffel lief über ein Kanal-Abo —
-      gemeldet wurde „nur Kauf" (Daniel, 30.08.2026). Der Zusatz steht am Knopf,
+      gemeldet wurde „nur Kauf". Der Zusatz steht am Knopf,
       damit das **vor** dem Klick sichtbar ist und nicht erst im Datensatz.
     */
     const mehrereAusgaben = ausgabenDieserStaffel() > 1
@@ -8282,7 +8281,7 @@ async function speicherSchreiben(werte) {
      * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
      * ist `erledigt` leer, und der Knopf lud zum Melden ein, obwohl der Titel
      * längst durch war — „ich hab auf chaika link geklickt, ohne was zu machen
-     * nach paar sek steht da noch 1 staffel" (Daniel, 24.08.2026). Sein
+     * nach paar sek steht da noch 1 staffel". Sein
      * Vorschlag, und er ist richtig: Der Knopf soll in dieser Zeit sagen, was
      * er tut, und nicht klickbar sein.
      *
@@ -8306,7 +8305,7 @@ async function speicherSchreiben(werte) {
      * Seitentext, und stand der beim Speichern noch nicht da, blieb eine 1
      * stehen. Der Knopf sagte dann „alles gemeldet" auf einer Seite, deren
      * Staffel gar nicht im Bestand war — bei „Barbapapa" mit dem Tooltip
-     * „Gemeldet: S2 · Es fehlen: S1" direkt daneben (Daniel, 24.08.2026).
+     * „Gemeldet: S2 · Es fehlen: S1" direkt daneben.
      *
      * Deshalb zählt zusätzlich die einfache Frage: Ist **diese** Staffel dabei?
      * Wenn nicht, ist hier etwas zu tun, ganz gleich was die Zahl sagt.
@@ -8770,7 +8769,7 @@ async function speicherSchreiben(werte) {
       Quelltext, warte auf einen gezielten Abruf mit genau dieser Kennung. Beide
       Bedingungen kommen aus dem Quelltext, und der wird für die Folgen gar
       nicht mehr gelesen — bei „Golden Kamuy" Staffel 3 hing der Knopf deshalb
-      dauerhaft auf „Staffel wird geladen …" (Daniel, 25.08.2026).
+      dauerhaft auf „Staffel wird geladen …".
 
       Die Frage ist einfacher geworden: Liegt für die jetzige Adresse schon eine
       Antwort vor? Wenn nein, wird gewartet; kommt keine, bleibt das Neuladen.
@@ -8944,7 +8943,7 @@ async function speicherSchreiben(werte) {
      * „Chaika" Staffel 1 stehen zehn Folgen darin, während die Seite darüber
      * „In deiner Region nicht mehr auf Prime Video verfügbar" schreibt: Der
      * Knopf verlangte „10 von 12 — Abschnitte selbst öffnen" für Abschnitte,
-     * die es hier nicht mehr gibt (Daniel, 24.08.2026).
+     * die es hier nicht mehr gibt.
      *
      * Der Satz ist eine Aussage über das Angebot, nicht über die Folgenliste.
      * Er gehört deshalb **vor** jede Zählung — was gezählt wird, sind
@@ -9066,7 +9065,7 @@ async function speicherSchreiben(werte) {
      * und dann 105 („Die Rache der legendären Krieger", 17. März 2003). Beides
      * ist richtig: Die Folge ist die 105. der Reihe und zugleich die 23. dieser
      * Staffel (TV Wunschliste führt sie als 04x23). Amazons Abschnittswähler
-     * schreibt entsprechend „Folgen 26–105" (Daniel, 27.08.2026).
+     * schreibt entsprechend „Folgen 26–105".
      *
      * Für die Lückenrechnung heißt das: Eine Nummer über der Staffelgröße ist
      * keine fehlende Folge, sondern eine anders gezählte. Sie wird mitgezählt,
@@ -9994,7 +9993,7 @@ async function speicherSchreiben(werte) {
             der Pfad dort die Kennung trägt und ein Wechsel die Seite neu lädt.
             Auf Suchseiten war `andereAdresse` nie wahr — der Pfad ist immer
             `/s` —, also wurde der Kasten dort nie ersetzt: Er zeigte den Auftrag
-            von vorhin (Daniel, 31.08.2026).
+            von vorhin.
 
             Seit der Vergleich die Query einschließt, greift der Zweig auch dort.
             Nur baute ihn danach niemand neu, und der Kasten war ganz weg
@@ -10132,7 +10131,7 @@ async function speicherSchreiben(werte) {
      * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
      * ist `erledigt` leer, und der Knopf lädt zum Melden ein, obwohl der Titel
      * längst durch ist — „nach dem ‚alles gemeldet' neuladen erlaubt erneutes
-     * melden für paar sekunden, dann springt es zurück" (Daniel, 24.08.2026).
+     * melden für paar sekunden, dann springt es zurück".
      *
      * Gesperrt wird der **Klick**, nicht die Anzeige: Was der Knopf über
      * Sprache und Folgenzahl sagt, stimmt auch ohne den gespeicherten Stand.
@@ -10143,7 +10142,7 @@ async function speicherSchreiben(werte) {
      * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
      * ist `erledigt` leer, und der Knopf lädt zum Melden ein, obwohl der Titel
      * längst durch ist — „nach dem ‚alles gemeldet' neuladen erlaubt erneutes
-     * melden für paar sekunden, dann springt es zurück" (Daniel, 24.08.2026).
+     * melden für paar sekunden, dann springt es zurück".
      *
      * Gewartet wird auf das Lade-Promise selbst, nicht in einer Schleife: Ein
      * Klick ist gewollt, er soll nur einen Wimpernschlag später greifen.
@@ -10737,7 +10736,7 @@ async function speicherSchreiben(werte) {
          * Melden **komplett** zurück. Wer zwei Listeneinträge in zwei Tabs
          * öffnete und nacheinander meldete, verlor die erste Meldung: Der
          * zweite Tab kannte sie nicht und überschrieb sie mit seinem Stand von
-         * vor dem Öffnen (Daniel, 24.08.2026).
+         * vor dem Öffnen.
          *
          * Der Speicher ist die gemeinsame Sache mehrerer Tabs — er wird
          * behandelt wie eine, nicht wie eine private Variable.
@@ -10782,7 +10781,7 @@ async function speicherSchreiben(werte) {
          *
          * Verglichen wird später mit `seitenTitel()` — wer hier etwas anderes
          * ablegt, findet seinen eigenen Eintrag nie wieder. Genau das ist bei
-         * „Chaika" passiert (Daniel, 24.08.2026): Unsere Liste führt ihn als
+         * „Chaika" passiert: Unsere Liste führt ihn als
          * „Hitsugi no Chaika: AVENGING BATTLE", Amazon nennt beide Staffeln
          * schlicht „Chaika". Nach dem Neuladen auf Staffel 1 passte nichts
          * zusammen, die Meldung landete unter einer fremden Kennung, und der

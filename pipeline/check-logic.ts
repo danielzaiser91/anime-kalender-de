@@ -909,7 +909,7 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
    * Dieselbe Folge zweimal, einmal deutsch und einmal nicht.
    *
    * Crunchyroll führt Folgen doppelt und hat sogar zwei Wähler-Einträge zur
-   * selben Staffel (Daniel, 12.08.2026). Gezählt wird deshalb je Folgennummer,
+   * selben Staffel. Gezählt wird deshalb je Folgennummer,
    * und die deutsche Fassung schlägt die fremde — sonst hinge das Ergebnis
    * daran, in welcher Reihenfolge die Schnittstelle antwortet.
    */
@@ -1779,7 +1779,7 @@ console.log('\nStreaming Availability API:')
 }
 
 /**
- * **Ein „weg" für eine Staffel streicht nicht den ganzen Weg** (Daniel, 23.09.2026).
+ * **Ein „weg" für eine Staffel streicht nicht den ganzen Weg**.
  *
  * Prime führt Fairy Tail unter einer Adresse: Staffel 1 regionsgesperrt, 2 bis 9 zum Kauf.
  */
@@ -2017,7 +2017,7 @@ console.log('\nStreaming Availability API:')
 {
   console.log('\nGemeldete Staffelliste statt Umrechnung')
 
-  // Netflix' eigene Auskunft zu Sword Art Online (Daniel, 22.08.2026).
+  // Netflix' eigene Auskunft zu Sword Art Online.
   const netflixSao = [
     { seq: 1, name: 'St. 1', folgen: 25, erste: 1 },
     { seq: 2, name: 'St. 2', folgen: 24, erste: 1 },
@@ -2161,7 +2161,7 @@ console.log('\nStreaming Availability API:')
   /**
    * Der Fall, der die Paarung fast falsch gemacht hätte.
    *
-   * Netflix führt „My Hero Academia" in sieben Staffeln (Daniel, 22.08.2026).
+   * Netflix führt „My Hero Academia" in sieben Staffeln.
    * An unserer Adresse hängen nur zwei Einträge: Staffel 1 und Staffel **6** —
    * für die vier dazwischen hat nie jemand einen Verweis eingetragen. Von vorn
    * gepaart würde Netflix' zweite Staffel mit unserer sechsten verheiratet, und
@@ -2184,7 +2184,7 @@ console.log('\nStreaming Availability API:')
    * Ein einziger Eintrag nimmt alles auf, was der Anbieter dort führt.
    *
    * Netflix teilt „One Piece" in sieben Arcs, unser Datensatz kennt einen
-   * Eintrag (Daniel, 22.08.2026). Von einer falschen Reihenfolge kann hier
+   * Eintrag. Von einer falschen Reihenfolge kann hier
    * nichts kommen: Es gibt nur eine, und alles gehört dazu.
    */
   const opNetflix = [
@@ -2578,7 +2578,7 @@ console.log('\nStatus: ein belegter Verweis schlägt das Enddatum')
 
   Fünfzehn Netflix-Verweise standen als „ohne Titelseite" außerhalb jeder
   Prüfung, obwohl acht davon eine Kennung tragen — nur eben in der
-  Abspiel-, der Alt- oder der Suchform (Daniel, 27.08.2026).
+  Abspiel-, der Alt- oder der Suchform.
 */
 {
   const gleich = 'https://www.netflix.com/title/80180071'
@@ -3057,7 +3057,7 @@ console.log('\nRohfolgen: eine Adresse, eine Gruppe:')
   Der reale Fall: Mushoku Tensei Staffel 3, Folge 6 kam am 30.08.2026 nicht.
   Der Kalender rechnete unbeirrt weiter und setzte für den 06.09. Folge **7** an,
   obwohl die Recherche in `data/termine-verpasst.json` genau diesen Tag für
-  Folge 6 nennt (Daniel, 01.09.2026).
+  Folge 6 nennt.
 
   Der alte Tag verschwindet dabei nicht: „damit weiterhin sichtbar ist, das es
   dort stand, aber die echte neue info es nachweislich überschreibt."
@@ -3325,7 +3325,7 @@ console.log('\nStaffel und Teil zählen:')
   )
   /*
     **Nennt die deutsche Quelle eine Staffel, ist es eine Staffel, kein Teil.**
-    „86: Eighty Six" (Daniel, 01.10.2026): aniSearch führt den zweiten Eintrag
+    „86: Eighty Six": aniSearch führt den zweiten Eintrag
     als „86: Eighty Six (Staffel 2)", AniList als „Part 2". Ohne die Quelle hieß
     er „Teil 2" und hing damit an Staffel 1.
   */
@@ -4472,8 +4472,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
  * **Die Überschrift einer aniSearch-Seite ist kein deutscher Titel.**
  *
  * Anlass: Der Katalog führte „Tensei Kizoku, Kantei Skill de Nariagaru Dai 3
- * Ki" als `titleDe`, während aniSearch unter „Synonyme" „…: Staffel 3" nennt
- * (Daniel, 08.09.2026). Die `<h1 id="htitle">` trägt keine Sprachkennzeichnung.
+ * Ki" als `titleDe`, während aniSearch unter „Synonyme" „…: Staffel 3" nennt.
+ * Die `<h1 id="htitle">` trägt keine Sprachkennzeichnung.
  *
  * Geprüft wird an einer **Kulisse**, nicht am Bestand: Was hier steht, gilt
  * unabhängig davon, welche Seiten ein Lauf gerade geholt hat.
@@ -4703,7 +4703,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 }
 
 /*
-  **Der Fall „Lord of Mysteries" (Daniel, 12.09.2026).**
+  **Der Fall „Lord of Mysteries".**
 
   Vier Fehler an einem Titel, und jeder hat seine eigene Zusicherung:
 
@@ -4830,8 +4830,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 }
 
 /*
-  **Zwei Auskünfte über dieselbe Sache dürfen sich nicht widersprechen**
-  (Daniel, 12.09.2026): Auf der Nachrichtenseite stand „Gals Can't Be Kind to
+  **Zwei Auskünfte über dieselbe Sache dürfen sich nicht widersprechen**:
+  Auf der Nachrichtenseite stand „Gals Can't Be Kind to
   Otaku!? — Neu auf Deutsch", im Panel daneben „Noch keine deutsche Fassung",
   und bei Crunchyroll gab es keine deutsche Folge. Dieselbe Datei speist den
   Newsletter.
@@ -5386,7 +5386,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     const quer = releasesAusTvProgramm([sl('Titel 12'), sl('Titel 14')], tm, [], liste)
     pruefe('TV-Sichtung: über zwei Staffeln verteilt wird nicht zugeordnet, sondern gezählt', quer[0]?.titleId === 151807 && !quer[0]?.folgenBelegt, quer[0] && { id: quer[0].titleId, s: quer[0].schedule })
   }
-  /* TOGGO: Figurenseite → Serienseite über den Namen (Daniel, 19.09.2026). */
+  /* TOGGO: Figurenseite → Serienseite über den Namen. */
   {
     const serien = [
       { id: 'VSE359', uname: 'beyblade-x-vse359', titel: 'BEYBLADE X', figuren: ['beyblade-x-pty605'] },
@@ -5480,7 +5480,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   /*
     Fünf Verweise zeigten auf den Trailer statt auf den Film — bei Your Name auf die
-    OmU-Fassung, und der Verweis trug „DE ✓" (Daniel, 17.09.2026).
+    OmU-Fassung, und der Verweis trug „DE ✓".
   */
   /*
     Bei einem Film hat JustWatchs Tonspur genau eine Einheit zu beschreiben — bei einer
@@ -5842,7 +5842,7 @@ pruefe(
 }
 {
   /*
-    **Datenbank und Kalender zeigen dieselbe Filteransicht** (Daniel, 01.10.2026).
+    **Datenbank und Kalender zeigen dieselbe Filteransicht**.
     Der Klick-Modus war im Kalender hinter „Weitere Filter" versteckt. Beide Seiten
     rendern jetzt `FilterDetailsFeld` — nicht zwei getrennte Filterbäume.
   */
@@ -5857,7 +5857,7 @@ pruefe(
 }
 {
   /*
-    **Der offene Titel steht nicht doppelt in der Adresse** (Daniel, 01.10.2026):
+    **Der offene Titel steht nicht doppelt in der Adresse**:
     `/r/<slug>/` im Pfad **und** `r=<slug>` im Hash. `buildHash` schreibt `r` nicht
     mehr; den Titel trägt der Pfad (`releaseAusPfad`).
   */
@@ -5996,7 +5996,7 @@ pruefe(
 }
 {
   /*
-    **Der Newsletter ist nach Wichtigkeit geordnet** (Daniel, 28.09.2026): „tv releases in
+    **Der Newsletter ist nach Wichtigkeit geordnet**: „tv releases in
     newsletter separiert anzeigen, vor allem wenn es wiederholungen sind … falls es tv premiere
     ist, sollte sie auch oben angezeigt werden … generell so priorisiert: Favoriten, Premieren,
     Finale, Kino, Stream, Kauftitel, TV (wiederholungen). Hab ich etwas vergessen? News?"
@@ -6218,7 +6218,7 @@ pruefe(
     'pr-24 fehlt im Feld',
   )
   /*
-    **Der rechte Bereich ist gekapselt** (Daniel, 29.09.2026): „mach das ? im search feld statt button
+    **Der rechte Bereich ist gekapselt**: „mach das ? im search feld statt button
     zu einem gekapselten bereich. nach dem x button muss also ein trenn-strich von top zu bottom
     eingefügt werden, und der bereich des ? eine geeignete background-color bekommen — und der
     bereich muss on hover eine hover color bekommen und den tooltip anzeigen, tooltip öffnet sich
@@ -6290,7 +6290,7 @@ pruefe(
     'Sonne und Einstellungen sahen gleich aus (Daniel, 29.09.2026)',
   )
   /*
-    **„zurücksetzen" räumt die Pillen, nicht die Adresse** (Daniel, 29.09.2026). Die drei
+    **„zurücksetzen" räumt die Pillen, nicht die Adresse**. Die drei
     Zurücksetzen-Knöpfe (Pillenreihe, Kalender, Filterfeld) rufen alle `setFilters` — dort steht die
     Regel, die die Suche stehen lässt. Geleert wird sie nur über das Suchfeld (`setSuche`).
   */
@@ -6354,7 +6354,7 @@ pruefe(
     'ein px-0.5 schob das Wort auseinander',
   )
   /*
-    **Die Absprünge im Detail-Panel** (Daniel, 29.09.2026): „anisearch absprünge … besser hervorheben
+    **Die Absprünge im Detail-Panel**: „anisearch absprünge … besser hervorheben
     (pille?) und mit ? kennzeichnen wenn es auf suche führt … außerdem über anisearch mal
     absprung-link anzeigen, falls wir einen haben der direkt zum titel springt". Das „?" hängt an
     `suche`; MAL gibt es nur mit Kennung.
@@ -6404,7 +6404,7 @@ pruefe(
   */
   pruefe('der Bau warnt, wenn der Katalog ohne MAL-Kennungen ankommt', /Keine MAL-Kennung an/.test(nebendateiQuelle))
   /*
-    **Die Rangfolge der Treffer** (Daniel, 29.09.2026): „bau eine sinnvolle priorisierung für
+    **Die Rangfolge der Treffer**: „bau eine sinnvolle priorisierung für
     trefferart (ganzes wort, teilwort, fuzzy, etc) und die durchsuchten attribute ein. titel hat
     höchste prio … ganze wort-treffer weiter oben … als wortanfang, und wortmitte nach wortanfang,
     fuzzy noch weiter hinten. Danach folgen die andere Attribute."
@@ -6704,7 +6704,7 @@ pruefe(
   pruefe('der Prüfstand liefert alle Ziele, nicht einen Ausschnitt', idx.includes('ziele: alleZiele,') && !/ziele: alleZiele\.slice/.test(idx))
 }
 {
-  /* TOGGO (Daniel, 19.09.2026): „toggo ist immer DE, immer, ausnahmslos" — und die Pillen einer Zeile sind gleich hoch. */
+  /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und die Pillen einer Zeile sind gleich hoch. */
   const panel = panelQuelltext()
   pruefe('ein TOGGO-Weg trägt immer „DE ✓"', /istToggo\(g\.eintraege\[0\]\.url\) \|\|\s*g\.eintraege\[0\]\.dubRanges/.test(panel))
   pruefe('die Pillen einer Zeile strecken sich auf gleiche Höhe', panel.includes('flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5'))
@@ -6980,7 +6980,7 @@ pruefe(
   pruefe('tv.de: Folgentitel und Zeichen stimmen', g[1]?.folge === 'Zou & Co' && g[0]?.titel === 'Dragon Ball Super', JSON.stringify(g[1]))
 }
 {
-  /* Kostenlos-Etikett (Daniel, 19.09.2026): TOGGO zählt offene Fenster, ein Video eine Folge. */
+  /* Kostenlos-Etikett: TOGGO zählt offene Fenster, ein Video eine Folge. */
   const jetzt = '2026-09-19T15:00'
   const toggo = { name: 'TOGGO', url: 'https://www.toggo.de/x/serien/y-vse1', kind: 'stream', zugang: 'kostenlos', toggo: [
     { staffel: 1, von: 1, bis: 30, ab: '2026-01-01T00:00', ende: '2026-12-31T23:59' },
@@ -6995,7 +6995,7 @@ pruefe(
   pruefe('kostenlos: ohne Zahl „auch kostenlos", nie „teilweise"', kostenlosEtikett(kostenloseFolgen({ watchLinks: [toggo, liste] }, jetzt), 293) === 'auch')
   pruefe('kostenlos: kein freier Weg, kein Etikett', kostenloseFolgen({ watchLinks: [], streams: [] }, jetzt) === undefined)
   /*
-    **Gezählt werden Folgen, nicht Wege** (Daniel, 22.09.2026): Daima hat Folge 1 auf YouTube und
+    **Gezählt werden Folgen, nicht Wege**: Daima hat Folge 1 auf YouTube und
     16–20 bei TOGGO — das sind sechs, nicht fünf. Zeigen zwei Wege dieselbe Folge, zählt sie einmal.
   */
   const jetztDaima = '2026-09-22T23:30'
@@ -7008,7 +7008,7 @@ pruefe(
   pruefe('kostenlos: eine Folge bei zwei Anbietern zählt einmal', kostenloseFolgen({ watchLinks: [ytFolge(16), toggoDaima] }, jetztDaima)?.frei === 5)
 }
 {
-  /* Premiere/Wiederholung (Daniel, 19.09.2026) — Daima: YouTube nur Folge 1, RTL+ ab 25.09. */
+  /* Premiere/Wiederholung — Daima: YouTube nur Folge 1, RTL+ ab 25.09. */
   const daima = { id: 170083, streams: [{ platform: 'youtube', url: 'y', dub: true, dubRanges: [{ from: 1, to: 1, dub: true }, { from: 2, to: 20, dub: false }] }] } as unknown as Title
   const rtl = { slug: 'd-rtl', titleId: 170083, name: 'D', platform: 'rtlplus', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-09-25', episodeCount: 20 }, sources: ['x'] } as unknown as Release
   pruefe('Premiere: Folge 16 vor dem RTL+-Start', istPremiere(16, '2026-09-16', daima, [rtl]))
@@ -7016,7 +7016,7 @@ pruefe(
   pruefe('Wiederholung: nach dem RTL+-Termin der Folge', !istPremiere(1, '2026-10-01', { ...daima, streams: [] } as Title, [rtl]))
   pruefe('Wiederholung: lief laut Episodenliste schon früher auf Deutsch', !istPremiere(16, '2026-09-16', daima, [rtl], { 16: '2025-05-01' }))
   /*
-    **Nachtwiederholung** (Daniel, 23.09.2026). ProSieben MAXX zeigt One Piece abends und in
+    **Nachtwiederholung**. ProSieben MAXX zeigt One Piece abends und in
     derselben Nacht noch einmal; im Streaming ändert sich dazwischen nichts, also hielt die
     Prüfung beide Termine für Premieren.
   */

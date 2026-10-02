@@ -59,7 +59,7 @@ export interface TmdbTitle {
    * Erscheinungsjahr laut TMDB — der Prüfstein gegen Gleichnamige.
    *
    * „Elysium" steht bei uns als koreanischer Mecha-Film von 2003; die
-   * Prime-Suche führt auf den Hollywood-Film von 2013 (Daniel, 28.08.2026).
+   * Prime-Suche führt auf den Hollywood-Film von 2013.
    * Titel und Typ stimmen dort überein, nur das Jahr nicht — und genau das
    * wurde bis zum 29.08.2026 nicht mitgespeichert. Ohne es kann kein Lauf
    * merken, dass der Treffer ein anderes Werk ist.

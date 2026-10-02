@@ -144,7 +144,7 @@ export function reihenFuerKatalog(
  * die Reihe im Bestand „Die Tagebücher der Apothekerin", dann ist ein Synonym
  * mit genau diesem Anfang die deutsche Fassung dieses Titels.
  *
- * Anlass (Daniel, 12.09.2026): Im Panel stand „Kusuriya no Hitorigoto: Bouhi
+ * Anlass: Im Panel stand „Kusuriya no Hitorigoto: Bouhi
  * no Hihou" — „Die Tagebücher der Apothekerin: Der Film muss da stehen".
  *
  * Die Grenze ist dieselbe wie überall hier: Der Reihenname muss **belegt**

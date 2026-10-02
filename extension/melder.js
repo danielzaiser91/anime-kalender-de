@@ -184,7 +184,7 @@ function titelIdFuer(reihe, staffelNr) {
  * Die mitgelieferte Liste kennt nur unsere Aufteilung, bis ein Datenlauf die
  * gemeldete übernimmt. Bis dahin standen dort falsche Kürzel: „2e01 2e12" bei
  * Forest of Piano, wo Netflix „2e13" bis „2e24" zählt — die Meldung war
- * richtig, das Zeichen blieb rosa (Daniel, 22.08.2026).
+ * richtig, das Zeichen blieb rosa.
  *
  * Was der Player meldet, wird deshalb hier behalten und schlägt die
  * mitgelieferte Angabe. Wirksam ab der ersten geprüften Folge, ohne Neuladen.
@@ -604,7 +604,7 @@ function kuerzelFuerNummern(staffeln, nummern) {
  * `data:pruefungen` auf — das ist der Schritt, der den Briefkasten leert und
  * die Meldungen in den Datensatz schreibt. Danach sind die Titel aus der
  * Prüfliste verschwunden, und genau daran lässt sich ablesen, ob der Lauf
- * seine Arbeit getan hat (Daniel, 26.08.2026).
+ * seine Arbeit getan hat.
  *
  * GitHub startet geplante Läufe regelmäßig einige Minuten später als
  * eingetragen; die Zeile sagt deshalb „ab", nicht „um".
@@ -2119,7 +2119,7 @@ function empfohleneFolgen(eintrag) {
      * Academia beginnt Staffel 7 bei Folge 146 und endet bei 170. Eine
      * Empfehlung „7e01" schickt dorthin, wo nichts ist — und der Vermerk nach
      * der Meldung heißt „7e170" und trifft nie auf „7e01". Genau daran ist die
-     * Einfärbung gescheitert (Daniel, 22.08.2026).
+     * Einfärbung gescheitert.
      *
      * `erste` steht erst da, wenn der Anbieter selbst gesprochen hat. Bis dahin
      * ist unsere Aufteilung die beste Schätzung, und die beginnt bei 1.
@@ -2155,7 +2155,7 @@ function istErledigt(id, kuerzel) {
  *
  * Gemeldet wird immer als Folge: Ein Film ist für den Player die erste Folge
  * seiner Staffel, also steht im Speicher „1e01". In der Liste steht „Film".
- * Ohne diese Übersetzung färbte sich das Zeichen nie (Daniel, 22.08.2026).
+ * Ohne diese Übersetzung färbte sich das Zeichen nie.
  */
 function staffelAusKuerzel(kuerzel) {
   const film = /^Film(?:\s+(\d+))?$/.exec(kuerzel)
@@ -2213,7 +2213,7 @@ async function merkeErledigt(id, staffel, folge) {
    *
    * Netflix nennt bei „Castle in the Sky" weder Staffel noch Folge; die Meldung
    * kam mit beidem leer an und fiel deshalb durch. Das Zeichen „Film" blieb
-   * weiß, obwohl die Auskunft im Briefkasten lag (Daniel, 22.08.2026).
+   * weiß, obwohl die Auskunft im Briefkasten lag.
    *
    * Hat der Titel genau eine offene Staffel mit einer einzigen Folge, ist klar,
    * was gemeint war.
@@ -2225,14 +2225,14 @@ async function merkeErledigt(id, staffel, folge) {
      *
      * „Flavors of Youth" ist ein Anthologie-Film und steht bei AniList mit drei
      * Episoden — die Bedingung „höchstens eine Folge" schloss ihn deshalb aus,
-     * und die Meldung blieb ohne Vermerk (Daniel, 22.08.2026). Wer einen Film
+     * und die Meldung blieb ohne Vermerk. Wer einen Film
      * meldet, meint den Film; eine Auswahl gibt es dort nicht.
      */
     /**
      * Nennt der Anbieter keine Folge, gibt es dort auch keine Auswahl.
      *
      * „Pokémon: The Arceus Chronicles" führen wir als Serie mit vier Folgen —
-     * bei Netflix ist es ein Film (Daniel, 22.08.2026). Die Meldung kam ohne
+     * bei Netflix ist es ein Film. Die Meldung kam ohne
      * Folgennummer, und die alte Bedingung „nur bei Filmen" verwarf sie: Der
      * Eintrag blieb weiß, obwohl die Auskunft im Briefkasten lag.
      *
@@ -2274,7 +2274,7 @@ async function merkeErledigt(id, staffel, folge) {
       sonst aus. Bei Death Note (drei Staffeln) blieb Folge 31 deshalb schwarz,
       obwohl die Meldung angekommen war; bei Black Clover standen 168 gemeldete
       Folgen mit drei geratenen Staffelnummern im Speicher, und der Kasten zeigte
-      nur ein Drittel als erledigt (Daniel, 31.08.2026).
+      nur ein Drittel als erledigt.
 
       Die Prüfliste trägt je Staffel, wo ihre Zählung beginnt und wie weit sie
       reicht — bei durchgezählten Reihen ist das die Antwort, ohne zu raten.
@@ -2439,7 +2439,7 @@ function fertig(id, eintrag) {
   /*
     Ohne Folgenangabe gilt nichts als fertig. `[].every(…)` ist immer wahr, und
     daran ist der Zähler schon einmal gescheitert: Nach einer einzigen Meldung
-    fiel er von 11 auf 0 (Daniel, 22.08.2026).
+    fiel er von 11 auf 0.
   */
   return hatFolgen
 }
@@ -2533,8 +2533,7 @@ const DURCHLAUF = {
    *
    * Der erste Anlauf filterte über `istErledigt(reihe, "1")`, während die
    * Abhakliste Kürzel der Form `2e01` führt. Die beiden trafen sich nie: Nach
-   * einem vollständigen Durchlauf stand weiter „12 Folgen prüfen" am Knopf
-   * (Daniel, 26.08.2026).
+   * einem vollständigen Durchlauf stand weiter „12 Folgen prüfen" am Knopf.
    *
    * Die `videoId` ist eindeutig und braucht keine Staffelzuordnung. Sie
    * überlebt auch das Neuladen — der Durchlauf soll dort weitermachen, wo er
@@ -2605,7 +2604,7 @@ function laufBeenden(grund) {
   if (!selbstAn) return
   selbstAn = false
   DURCHLAUF.mehrfach = null
-  /* Sonst stand der letzte Zählerstand („⏹ 6/6 — abbrechen") weiter am Knopf (Daniel, 24.09.2026). */
+  /* Sonst stand der letzte Zählerstand („⏹ 6/6 — abbrechen") weiter am Knopf. */
   durchlaufKnopfZeigen()
   try {
     sessionStorage.removeItem(LAUF_SCHLUESSEL)
@@ -2742,7 +2741,7 @@ function gruppeOffen(reihe, gruppe) {
     **Filme zählen nur, wo der Titel nichts anderes hat.** Neben einer Serie ist ein Film Beiwerk
     an derselben Adresse. Steht er allein, ist er die Sache selbst: Steel Ball Run (ONA, bei uns
     eine Folge) kam als `film: true` auf die Liste, und der Durchgang meldete „fertig", ohne den
-    Player zu öffnen (Daniel, 25.09.2026).
+    Player zu öffnen.
   */
   const alle = offeneTitel[String(reihe)]?.staffeln ?? []
   const serien = alle.filter((st) => !st.film)
@@ -2920,7 +2919,7 @@ async function netflixStaffelWaehlen(ziel) {
       /*
         `treffer`, nicht `ziel`: Eine Konstante gleichen Namens verdeckte ab 4.21.8 den Parameter,
         der Vergleich griff auf sie vor ihrer Belegung zu, und jeder Wechsel warf einen Fehler — die
-        Automatik stand bei JoJo still, das Menü offen (Daniel, 24.09.2026).
+        Automatik stand bei JoJo still, das Menü offen.
       */
       const treffer = eintraege.find((li) => {
         if (typeof ziel === 'function') return ziel((li.textContent ?? '').trim())
@@ -2963,7 +2962,7 @@ async function netflixStaffelnImMenue() {
     return { text, nr: nr ? Number(nr[1]) : null, folgen: folgen ? Number(folgen[1]) : null }
   })
   if (!warOffen) knopf.click()
-  /* „Alle Folgen anzeigen" ist keine Staffel — der Durchgang wechselt nur zwischen echten (Daniel, 24.09.2026). */
+  /* „Alle Folgen anzeigen" ist keine Staffel — der Durchgang wechselt nur zwischen echten. */
   const staffeln = raus.filter((e) => !istAlleFolgenEintrag(e.text))
   /* Gemerkt für `gruppenLabel()` — im Player gibt es kein Menü. */
   if (staffeln.length) letztesMenue = staffeln
@@ -3026,7 +3025,7 @@ function naechsterAuftrag() {
       **Offen ist, was die Prüfliste offen zeigt** — `fertig()`, dieselbe Rechnung wie Dialog und
       Knopfzahl (Worker-Stand). Bis 4.20.55 entschied hier der lokale Abhak-Speicher: Haikyu!!
       war dort seit einem abgebrochenen Lauf abgehakt, der Dialog zeigte es offen, und die
-      Automatik meldete „kein offener Auftrag mehr" (Daniel, 22.09.2026).
+      Automatik meldete „kein offener Auftrag mehr".
     */
     if (fertig(kennung, eintrag)) continue
     return kennung
@@ -3372,7 +3371,7 @@ async function durchlaufStandLaden(reihe) {
 
       Sie speist die Bereiche im Dialog. Ohne diesen Abgleich stand dort nach einer
       Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 | offen: E3-60", während
-      der Knopf daneben „61 Folgen geprüft" sagte (Daniel, 26.08.2026).
+      der Knopf daneben „61 Folgen geprüft" sagte.
 
       Der erste Anlauf ging über `DURCHLAUF.folgen` und hat den Widerspruch nur
       verschoben: Das sind die Folgen der Staffel, deren Liste Netflix gerade zeigt.
@@ -3450,7 +3449,7 @@ function stoerung() {
     stehen Netflix' Fehlercode-Vorlagen im Klartext. Auf der Pokémon-Titelseite
     fand das Muster deshalb ein `M7355`, obwohl die Seite keinen Fehler zeigt —
     dreimal in Folge im Diagnosebericht, und jedes Mal riet der Knopf, andere
-    Tabs zu schließen (Daniel, 30.08.2026).
+    Tabs zu schließen.
 
     `innerText` liefert, was ein Mensch sieht: kein Skript, nichts Verborgenes.
     Genau das ist gemeint, wenn hier nach einer Fehlermeldung gesucht wird.
@@ -3663,8 +3662,8 @@ function folgenJeStaffel(folgen) {
  * Bis 4.19.0 las der Knopf `f.staffel`. Die vergibt `leser.js` nach der
  * **Reihenfolge**, in der Staffeln geladen wurden, und `staffelnBereinigen()`
  * löscht sie, sobald nur eine geladen ist — auf der Titelseite der Normalfall.
- * Bei Haikyu!! blieb sie leer, und der Knopf fiel auf „nur E2 + E25" zurück
- * (Daniel, 11.09.2026). Die Zusicherung vom Vortag hatte `staffel` von Hand
+ * Bei Haikyu!! blieb sie leer, und der Knopf fiel auf „nur E2 + E25" zurück.
+ * Die Zusicherung vom Vortag hatte `staffel` von Hand
  * gesetzt und lief an genau dieser Löschung vorbei.
  *
  * Tragfähig ist die **Folgenkennung**, in dieser Reihenfolge:
@@ -4192,7 +4191,7 @@ async function durchlaufStarten(grenze) {
        * Der Player nennt die Staffel der gerade laufenden Folge — nur hinkt er
        * hinterher, und Netflix zählt jede Staffel neu bei 1. Bei „7 Seeds"
        * landeten dadurch 22 von 24 geprüften Folgen unter Staffel 1 und zwei
-       * unter Staffel 2, praktisch zufällig verteilt (Daniel, 31.08.2026).
+       * unter Staffel 2, praktisch zufällig verteilt.
        *
        * Seit 4.8.0 trägt jede Folge ihre Staffel aus der Folgenliste mit —
        * dort, wo Netflix sie selbst hinschreibt. Der Player bleibt Rückfall für
@@ -4583,7 +4582,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
           gemeldet++
           DURCHLAUF.gemeldet.add(f.videoId)
           frischGemeldetNetflix.add(String(reihe))
-          /* Abgeleitet zählt wie gemessen (Daniel, 11.09.2026) — mit demselben Datum. */
+          /* Abgeleitet zählt wie gemessen — mit demselben Datum. */
           meldungenMerken(reihe, [
             {
               nummer: f.nummer,
@@ -4599,7 +4598,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
             Sie speist die Bereiche im Dialog. Ohne diesen Eintrag stand dort
             nach einer Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 |
             offen: E3-60" — die Meldungen waren raus, nur wusste die Anzeige
-            nichts davon (Daniel, 26.08.2026).
+            nichts davon.
           */
           abhaken.push([staffelDerFolge, f.nummer])
         })
@@ -4624,7 +4623,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
     mit `null`. `merkeErledigt` leitet die Staffel dann aus "genau eine offene"
     ab und steigt bei jedem Titel mit mehreren offenen Staffeln aus. Bei Death
     Note (drei Staffeln) blieb Folge 31 deshalb schwarz, obwohl die Meldung
-    angekommen war (Daniel, 31.08.2026).
+    angekommen war.
   */
   /*
     **Nicht mehr „die Staffel der Folge schlägt die des Players".** Die Staffel
@@ -4752,7 +4751,7 @@ function folgenFuerFilmErgaenzen() {
       Der Riegel darunter verhinderte nur das Anlegen. Ein Eintrag, der vor dem
       Seitenwechsel entstand — oder bevor „Erinnern" geladen war —, blieb
       stehen: Auf der Pokémon-Seite bot der Knopf weiter „1 Folge prüfen" an,
-      während daneben schon „Keine Folge da" stand (Daniel, 30.08.2026).
+      während daneben schon „Keine Folge da" stand.
     */
     if (keineFolgeVorhanden() && DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film) {
       DURCHLAUF.folgen = []
@@ -5791,7 +5790,7 @@ async function dialogOeffnen() {
     const zeile = document.createElement('div')
     zeile.className = 'ak-zeile'
     zeile.dataset.suchtext = eintrag.titel.toLowerCase()
-    /* Wiedervorlage: gelb wie ihre ↻-Pillen, Grund im Tooltip (Daniel, 21.09.2026). */
+    /* Wiedervorlage: gelb wie ihre ↻-Pillen, Grund im Tooltip. */
     if (eintrag.wiedervorlage) {
       zeile.classList.add('ak-wiedervorlage')
       zeile.title = eintrag.wiedervorlage
@@ -5811,7 +5810,7 @@ async function dialogOeffnen() {
     */
     link.href = `https://www.netflix.com/title/${id}`
     /*
-      **Netflix bleibt im selben Tab** (Daniel, 30.08.2026).
+      **Netflix bleibt im selben Tab**.
 
       Wer die Liste abarbeitet, öffnet Titel für Titel — bei zwanzig Einträgen
       sind das zwanzig Tabs, die alle offen bleiben. Und Netflix ist eine

@@ -104,7 +104,7 @@ function main(): void {
         gelten die Anbieter nicht dem, was wir suchen.
       - **Jahr:** Fünf Jahre Abstand oder mehr. „Elysium" ist bei uns ein
         koreanischer Film von 2003, die Suche führt auf den Hollywood-Film von
-        2013 (Daniel, 28.08.2026).
+        2013.
 
       Der Vorschlag bleibt trotzdem in der Liste, nur hinten und mit Vermerk. Ein
       TMDB-Treffer auf die Serie ist ein schwacher Hinweis, aber kein Unsinn:

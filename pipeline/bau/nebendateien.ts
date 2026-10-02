@@ -234,7 +234,7 @@ export function schreibeOhneSynchro(
     — deshalb hat das lange getragen. Bei einem ohne steht dort der japanische,
     und dann behauptet `titleDe` etwas Falsches: „Tensei Kizoku, Kantei Skill de
     Nariagaru Dai 3 Ki" stand so im Katalog, während aniSearch unter „Synonyme"
-    „…: Staffel 3" führt (Daniel, 08.09.2026).
+    „…: Staffel 3" führt.
 
     `ueberschrift` heißt deshalb: Name unbekannter Sprache. Er wird nicht zu
     `titleDe` — `titleRomaji` sagt ohnehin dasselbe, und die Oberfläche fällt

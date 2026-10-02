@@ -208,7 +208,7 @@ export function ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege }: {
     /**
      * **Ein deutscher Block, den keiner unserer Titel führt — das Special.**
      *
-     * Der teuerste Fall dieser Woche (Daniel, 12.09.2026): „Lord of Mysteries"
+     * Der teuerste Fall dieser Woche: „Lord of Mysteries"
      * führt bei Crunchyroll vier Blöcke. Unser Datensatz kannte nur den ersten,
      * denn die drei anderen sind bei AniList **eigene Einträge** — Specials,
      * Chibi-Kurzfilme, der nächste Arc. Am 10.09.2026 erschienen die drei

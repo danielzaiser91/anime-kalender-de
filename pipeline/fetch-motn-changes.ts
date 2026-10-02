@@ -182,7 +182,7 @@ async function main(): Promise<void> {
    * `new` findet, was dazukommt: brauchbar, mit Tonspur.
    *
    * **`removed` ist unbrauchbar für automatische Änderungen — an vier von vier
-   * Fällen widerlegt (Daniel, 23.08.2026).** Die Quelle meldete am 18.08. vier
+   * Fällen widerlegt.** Die Quelle meldete am 18.08. vier
    * Anime als bei Prime Video entfernt; alle vier lagen dort weiterhin im Abo:
    *
    * | Titel | Quelle | Daniels Blick ins eigene Konto |

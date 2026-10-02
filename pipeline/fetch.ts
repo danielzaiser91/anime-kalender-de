@@ -56,7 +56,7 @@ async function main(): Promise<void> {
     Titel blieb damit auf dem Stand seines ersten Abrufs stehen: Black Clover
     Staffel 2 hatte am 03.09. „Oktober 2026" ohne Tag, AniList führt seit der
     Ankündigung vom 07.09. den 03.10. — im Panel stand weiter der Monat, und
-    `isoDate()` machte daraus „31.10.2026" (Daniel, 15.09.2026). Dieselbe Falle
+    `isoDate()` machte daraus „31.10.2026". Dieselbe Falle
     wie in CLAUDE.md, „Ein Abruf, der nur ergänzt, veraltet zwangsläufig".
     Abgeschlossene und abgesetzte Titel ändern sich nicht mehr und bleiben im
     Speicher.

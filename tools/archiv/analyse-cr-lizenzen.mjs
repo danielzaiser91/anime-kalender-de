@@ -2,7 +2,7 @@
  * Was steht im deutschen Katalog über Lizenzfristen — und was folgt daraus für
  * die Prüftaktung?
  *
- * Der Hintergrund (Daniel, 22.08.2026): „das lizenz attribut … könnten wir
+ * Der Hintergrund: „das lizenz attribut … könnten wir
  * nutzen um serien zu kennzeichnen bis wann sie voraussichtlich bei crunchy im
  * raum deutschland mit deutscher synchro verfügbar sind, sodass wir nicht
  * erneut unnötig prüfen."

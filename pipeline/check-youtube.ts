@@ -4,7 +4,7 @@
  *
  * Warum das nötig wurde: Für „Sword of the Demon Hunter" stand eine Playlist im
  * Datensatz, die im Browser nur „24 nicht verfügbare Videos werden nicht
- * angezeigt" zeigt (Daniel, 20.08.2026). Die Videos sind nicht gelöscht — sie
+ * angezeigt" zeigt. Die Videos sind nicht gelöscht — sie
  * sind auf den asiatischen Raum beschränkt und tragen chinesische Untertitel bei
  * japanischem Ton. Ein Verweis, der ins Leere führt, ist schlimmer als keiner:
  * Er verspricht ein Angebot, das es hier nicht gibt.

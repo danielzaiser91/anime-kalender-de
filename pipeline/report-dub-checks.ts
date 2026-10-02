@@ -8,7 +8,7 @@
  * gar keine maschinenlesbare Auskunft — dort steht dauerhaft „🇩🇪 ?".
  *
  * **Eine Zeile ist eine Reihe auf einem Anbieter**, nicht eine einzelne
- * Staffel. Der Grund kommt aus dem ersten Prüfdurchgang (Daniel, 12.08.2026):
+ * Staffel. Der Grund kommt aus dem ersten Prüfdurchgang:
  * Wer den Crunchyroll-Verweis von „Attack on Titan" öffnet, sieht dort alle
  * Staffeln, die OADs und den Film auf einmal — und kann sie auch alle auf
  * einmal beantworten. Zehn Zeilen für zehn Staffeln derselben Serie wären zehn
