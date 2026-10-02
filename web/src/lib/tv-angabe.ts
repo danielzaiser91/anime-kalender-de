@@ -30,7 +30,7 @@ const minuten = (lokal: string) => Date.parse(`${lokal}:00Z`) / 60_000
 
 /**
  * „Fg. 16 · heute 21:15" plus `premiere` — oder `undefined`, wenn es keinen Termin gibt.
- * „Premiere" ist ein eigenes Abzeichen an der Pille (Daniel, 19.09.2026: „zu unauffällig"),
+ * „Premiere" ist ein eigenes Abzeichen an der Pille,
  * „Wiederholung" steht im Text.
  *
  * **Läuft eine Sendung, kommt `laeuft` dazu, und der Text nennt die nächste** (Daniel, 22.09.2026:
@@ -56,9 +56,8 @@ export function tvAngabe(
   const nummer = (e: ReleaseEvent) => (e.episode && !e.sichtung ? e.episode : sendungZu(e)?.nr)
   const kommend = termine.find((e) => e.date > heute || (e.date === heute && (e.time ?? '99') > jetztZeit))
   /*
-    **Ohne kommenden Termin gibt es nichts zu sagen** (Daniel, 22.09.2026: „es ist ein
-    Fernsehtermin in der vergangenheit, niemand kann in die vergangenheit reisen und dort die
-    folge gucken … also weg damit"). Vorher nannte die Pille den letzten Termin mit „zuletzt";
+    **Ohne kommenden Termin gibt es nichts zu sagen**. Vorher nannte die Pille den letzten Termin
+    mit „zuletzt";
     das beantwortet die Frage „wo kann ich das sehen" nicht. Die Pille entfällt damit ganz —
     der Aufrufer zeigt einen TV-Weg nur, solange `tvAngabe` etwas liefert.
   */

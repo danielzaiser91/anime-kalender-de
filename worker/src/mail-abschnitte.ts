@@ -76,8 +76,7 @@ function wiederholungsTeile(ev: ReleaseEvent): string[] {
 }
 
 /**
- * **TV-Wiederholungen: eine Zeile je Sendung, klein und zusammen** (Daniel, 28.09.2026: „vor
- * allem wenn es wiederholungen sind, sind es nebensächliche infos").
+ * **TV-Wiederholungen: eine Zeile je Sendung, klein und zusammen**.
  *
  * Sie fallen nicht weg — wer wissen will, was heute im Fernsehen läuft, findet es weiterhin.
  * Sie nehmen nur nicht mehr den Platz der Premieren ein: In der Mail vom 28.09.2026 standen
@@ -127,9 +126,7 @@ export function newsSatz(m: NewsMeldung): string {
 }
 
 /**
- * **Neuigkeiten: Ankündigungen und Verschiebungen** (Daniel, 28.09.2026: „News, eventuell? Wenn
- * wir neue interessante news reinbekommen, wie zB ankündigungen, sollten diese eventuell auch
- * angezeigt werden (inkl Link zur Quelle)").
+ * **Neuigkeiten: Ankündigungen und Verschiebungen**.
  *
  * Quelle ist `data/news.json` — dieselbe Datei wie auf der Seite, entstanden ohne neuen Abruf
  * (`pipeline/lib/news.ts`: `neu`, `folgen`, `angekuendigt`, `disc`, `kino`, `verspaetet`).
@@ -138,7 +135,7 @@ export function newsSatz(m: NewsMeldung): string {
 export function newsBlock(eintraege: NewsEintrag[], siteUrl: string): string {
   const bloecke = eintraege.map((e) => {
     /*
-      **Jede Meldung nennt ihre Quelle** (Daniel, 28.09.2026: „inkl Link zur Quelle"). Angezeigt
+      **Jede Meldung nennt ihre Quelle**. Angezeigt
       wird der Wirt, das Ziel ist die Stelle, an der wir gelesen haben.
     */
     const saetze = e.meldungen

@@ -55,7 +55,7 @@ function gewichte(alle: readonly Title[]): Map<string, number> {
   return w
 }
 
-/** Höchstens fünf (Daniel, 15.09.2026: „max 5 ähnliche titel"). */
+/** Höchstens fünf. */
 /**
  * **Cartoons messen am Mittel beider Listen** (16.09.2026). TMDB-Schlagwortlisten sind
  * sehr ungleich lang: „The Mighty Nein" hat 6, „The Legend of Vox Machina" 15, und die

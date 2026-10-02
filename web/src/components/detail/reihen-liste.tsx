@@ -81,9 +81,8 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 frühestens dieses Jahr anfängt.**
 
                 Das Jahr allein genügt nicht: „Staffel 3 — Teil 1" beginnt am
-                02.10.2026 und stand mit `jpYear > jahr` bei den erschienenen
-                (Daniel, 03.09.2026: „staffel 3 gehört auch in noch nicht
-                erschienen"). Ein Tagesdatum führt die Reihe nicht mit — aber
+                02.10.2026 und stand mit `jpYear > jahr` bei den erschienenen.
+                Ein Tagesdatum führt die Reihe nicht mit — aber
                 `ohneSynchro` sagt genau das, worum es hier geht: Für diesen
                 Teil gibt es hier noch nichts zu sehen.
 
@@ -96,10 +95,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 Der Jahresvergleich ist eine Ableitung und irrt am
                 Jahreswechsel in beide Richtungen. `NOT_YET_RELEASED` ist
                 dagegen eine Auskunft — für „Lord of the Mysteries 2" steht
-                dort 2027 und genau dieser Status (Daniel, 12.09.2026: „2027
-                release date ankündigung fehlt, und sollte entsprechend
-                gekennzeichnet werden, das es noch nicht erschienen ist und
-                noch erscheint"). Der Vergleich bleibt als Rückfall für
+                dort 2027 und genau dieser Status. Der Vergleich bleibt als Rückfall für
                 Einträge ohne Status.
               */
               const kuenftig = (m: FranchiseMember) =>
@@ -110,11 +106,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 **Vier Gruppen mit Überschrift, nicht zwei Töpfe.**
 
                 Bei „One Piece" standen 64 Teile in einer Liste, und der erste
-                sichtbare war eine ONA von 2018 (Daniel, 03.09.2026: „teile in
-                dieser reihe muss sortiert sein. Zuerst Hauptstaffeln
-                aufsteigend, dann Specials, dann movies. Entsprechende
-                Trennstriche müssen sichtbar sein mit entsprechenden Kategorie
-                Labels.").
+                sichtbare war eine ONA von 2018.
 
                 Die Reihenfolge folgt dem, was jemand sucht: erst die
                 Hauptserie, dann das Beiwerk, dann die Filme — und ganz unten,
@@ -371,10 +363,8 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                             **Der Termin schlägt das Jahr — wo es einen gibt.**
 
                             Bei „Lord of Mysteries" stand hinter drei von vier
-                            Teilen nur das Format: kein Jahr, kein Datum
-                            (Daniel, 12.09.2026: „why important info like
-                            release dates or estimated release dates are
-                            missing"). AniList kennt für die Specials den
+                            Teilen nur das Format: kein Jahr, kein Datum.
+                            AniList kennt für die Specials den
                             19.06.2026; seit dem 12.09.2026 holt der
                             Katalogabruf `startDate` mit.
 
@@ -412,9 +402,8 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                               wird danach sortiert.
                             */
                             /*
-                              **In der Reihenliste steht das japanische Erscheinungsjahr**
-                              (Daniel, 23.09.2026: „da sollte jp release year stehen vom
-                              anime, also 1989"). Die Liste ordnet die Teile einer Reihe
+                              **In der Reihenliste steht das japanische Erscheinungsjahr**.
+                              Die Liste ordnet die Teile einer Reihe
                               zeitlich ein — dafür ist das Jahr des Anime die stabile Angabe.
                               Vorher stand hier der deutsche Termin, und bei Dragon Ball Z war
                               das der Disc-Kauftermin 20.11.2026 zwischen „1986" und „1996".

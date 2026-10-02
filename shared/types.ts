@@ -659,8 +659,7 @@ export interface Release {
    * **Wofür das Feld da ist:** Solange ein Film läuft, wäre „Kein Anbieter
    * bekannt" eine Irreführung — der Anbieter ist das Kino. Danach wird derselbe
    * Satz zur richtigen Auskunft. Ohne dieses Datum ließe sich das eine nicht
-   * vom anderen unterscheiden (Daniel, 25.08.2026: „erst wenn der film in
-   * keinem kino mehr läuft, dann").
+   * vom anderen unterscheiden.
    *
    * **Bewusst nicht `schedule.lastEpisodeDate`:** Das Feld steuert die
    * Statusberechnung und das Auffalten der Termine. Ein Kinofilm hat eine
@@ -791,8 +790,7 @@ export interface ReleaseEvent {
  *
  * Die Felder ab `geprueftAm` beantworten die Frage, die jeder stellt, der „nicht erschienen" liest:
  * **und wann dann?** Wissen wir es nicht, soll wenigstens dastehen, dass und wann wir nachgesehen
- * haben, und wo (Daniel, 13.09.2026: „sodass nutzer beruhigt sind und sich sicher sein können, das
- * sie sich auf den kalender verlassen können").
+ * haben, und wo.
  */
 export interface VermerkAusgeblieben {
   /** Wann es hätte sein sollen. */
@@ -881,8 +879,7 @@ export interface FranchiseMember {
    * Steht dieser Teil nur im Katalog hinter dem Toggle?
    *
    * Die Reihe eines geöffneten Titels ist vollständig, unabhängig davon, was
-   * der Toggle gerade zeigt (Daniel, 03.09.2026: „alle 6 sollten im panel immer
-   * sein"). Dass ein Teil noch keine deutsche Fassung hat, gehört trotzdem
+   * der Toggle gerade zeigt. Dass ein Teil noch keine deutsche Fassung hat, gehört trotzdem
    * sichtbar — die Liste stellt ihn gestrichelt dar.
    */
   ohneSynchro?: boolean

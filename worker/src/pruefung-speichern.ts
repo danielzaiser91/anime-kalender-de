@@ -37,8 +37,7 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
   }
 
   /*
-    **Ein Stapel: mehrere Meldungen in einer Anfrage** (Daniel, 25.09.2026: „alles gebündelt
-    senden, statt jede erste letzte einer staffel zu senden, weil das senden so lange dauert").
+    **Ein Stapel: mehrere Meldungen in einer Anfrage**.
     Die Randprobe einer Netflix-Staffel schickte je Folge eine Anfrage — 25 Folgen, 25 Rundreisen.
 
     Jedes Element läuft durch genau denselben Weg wie eine Einzelmeldung (derselbe Handler,

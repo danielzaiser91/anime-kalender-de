@@ -58,12 +58,11 @@ const DATEI: Record<string, string> = {
 /*
   maxdome: das Bildzeichen („M") aus „Maxdome Logo (2021).svg" (Commons, videociety GmbH,
   CC BY-SA 4.0), auf das Zeichen zugeschnitten — der Schriftzug stünde neben dem Namen doppelt.
-  Als Bild, weil es seine eigenen Blautöne trägt (Daniel, 16.09.2026: „bei maxdome fehlt noch
-  das icon").
+  Als Bild, weil es seine eigenen Blautöne trägt.
 */
 /*
   rtlplus: die RTL-Wortmarke von simple-icons (drei Kästen) ist 24 × 4,2 — im Quadrat blieb ein
-  Strich (Daniel, 17.09.2026: „rtl+ icon sieht aus wie ein -"). Zugeschnitten auf die Kästen;
+  Strich. Zugeschnitten auf die Kästen;
   damit sie nicht die halbe Pille füllt, deckelt `MAX_BREITE` die Breite und die Höhe folgt.
 */
 const BREITE: Record<string, number> = { disneyplus: 1033 / 565, adn: 121 / 44, maxdome: 98 / 44.918, rtlplus: 35 / 9 }
@@ -89,8 +88,8 @@ export function anbieterDatei(was: string): string | undefined {
  * **Zeichen, die als Bild gezeigt werden — mit ihren eigenen Farben.**
  *
  * Das Prime-Video-Zeichen von simple-icons ist die Wortmarke als Umriss; auf 14 px
- * blieb davon ein unleserlicher Strich (Daniel, 16.09.2026: „prime icon ist müll
- * hier"). Das quadratische Logo von Wikimedia Commons (gemeinfrei, blauer Grund mit
+ * blieb davon ein unleserlicher Strich. Das quadratische Logo von Wikimedia Commons (gemeinfrei,
+ * blauer Grund mit
  * weißem Zeichen) trägt seine Farbe selbst — als Maske würde es zu einer blauen
  * Fläche, deshalb kommt es als `<img>`.
  */

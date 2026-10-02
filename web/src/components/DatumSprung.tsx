@@ -5,9 +5,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { Tooltip } from './ui.tsx'
 
 /**
- * **Sprung zu einem Datum** (Daniel, 17.09.2026: „kalender icon hinzufügen → klick:
- * öffnet auswahl, übersichtlich, sodass man schnell zu einem datum in
- * zukunft/vergangenheit springen kann").
+ * **Sprung zu einem Datum**.
  *
  * Zwei Stufen: erst Jahr und Monat, dann der Tag. Jeder Monat trägt die Zahl
  * seiner Termine, damit man sieht, wo etwas los ist. Der Bereich reicht vom

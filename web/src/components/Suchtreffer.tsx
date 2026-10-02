@@ -6,10 +6,7 @@ import { translate } from '../lib/i18n.tsx'
 import { Tooltip } from './ui.tsx'
 
 /**
- * **Der Suchtreffer sichtbar machen** (Daniel, 29.09.2026: „search should highlight the part of the
- * result title that has been matched … if search matched not the title, but the alternative title
- * (not visible on the result card) then it should display a small icon … to explain which part of it
- * lead to it being part of the search result").
+ * **Der Suchtreffer sichtbar machen**.
  *
  * Zwei Teile, beide aus **derselben** Rechnung wie die Suche (`sucheMitFundstellen`):
  *
@@ -69,8 +66,7 @@ export function TrefferName({ text, schluessel }: { text: string; schluessel: st
 /**
  * Einen Text zerlegen und **alle** Stellen markieren.
  *
- * **Ohne Innenabstand** (Daniel, 29.09.2026: „highlight soll nicht zu einem padding führen, keine
- * spaces um das highlight erzeugen … das d genau am e anliegen"). Ein `px-0.5` schob das Wort
+ * **Ohne Innenabstand**. Ein `px-0.5` schob das Wort
  * auseinander und ließ den Text an der Stelle anders aussehen als ohne Hervorhebung; die Farbe
  * allein reicht.
  */
@@ -91,8 +87,7 @@ function musterFest(teil: string): string {
 }
 
 /**
- * **Was in dem Feld steht, mit der Fundstelle darin** (Daniel, 29.09.2026: „im tooltip muss noch
- * erwähnt werden was im feld in dem das match ist drin steht, und den teil davon highlighten").
+ * **Was in dem Feld steht, mit der Fundstelle darin**.
  *
  * Vorher stand nur das getroffene Wort da — „Titel …: „Kappa"" — und niemand konnte einordnen,
  * woher es kommt. Jetzt steht der **ganze Inhalt des Feldes** da (etwa der vollständige Romaji-Titel)

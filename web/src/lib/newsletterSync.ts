@@ -29,8 +29,7 @@ const DEBOUNCE_MS = 2500
  * die Newsletter-Seite selbst. Jede davon `localStorage` direkt lesen zu lassen
  * hätte zwei Fehler: Der Wert wäre an jeder Stelle ein anderer Schnappschuss,
  * und eine Änderung erreichte die anderen Stellen erst beim nächsten
- * Seitenaufbau (Daniel, 15.08.2026: „den verbindungszustand solltest du global
- * als variable zur verfügung haben").
+ * Seitenaufbau.
  *
  * Umgesetzt als winziger Store mit `useSyncExternalStore`: Ein Schreibvorgang
  * benachrichtigt alle Abonnenten, und React zeichnet neu. Ein `storage`-Ereignis

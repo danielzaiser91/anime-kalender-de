@@ -68,9 +68,7 @@ export function MerkenKnopf({
            *
            * Die Pille ist ein `<a>` auf die Anbieterseite, und „Merken" steht
            * darin. Ohne diese beiden Zeilen führte jeder Klick auf den Knopf zu
-           * Crunchyroll, und das Menü öffnete sich erst auf der Rückkehr
-           * (Daniel, 10.09.2026: „klick auf merken leitet direkt auf crunchyroll
-           * weiter").
+           * Crunchyroll, und das Menü öffnete sich erst auf der Rückkehr.
            */
           onClick={(e) => {
             e.preventDefault()

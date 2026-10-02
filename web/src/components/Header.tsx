@@ -147,8 +147,7 @@ function ThemaKnopf() {
   const [dunkel, umschalten] = useThema()
   const label = t(dunkel ? 'kopf.hell' : 'kopf.dunkel')
   /*
-    **Das Zeichen trägt eine Farbe** (Daniel, 29.09.2026: „moon/sun icon muss farblich hervorgehoben
-    werden, weil sonne und setting icon zu schwer zu unterscheiden sind"). Sonne warm, Mond kühl —
+    **Das Zeichen trägt eine Farbe**. Sonne warm, Mond kühl —
     so ist auf einen Blick klar, welcher Knopf das Licht umschaltet und welcher die Einstellungen
     öffnet.
   */

@@ -32,8 +32,7 @@ export function pushText(folgen: PushEreignis[], auchBei: WeitererAnbieter[]): s
 
 
 /**
- * **Wohin der Klick auf die Benachrichtigung führt** (Daniel, 23.09.2026: „klick drauf
- * öffnet nicht clevates detail panel in wochenansicht sondern .../#/favoriten").
+ * **Wohin der Klick auf die Benachrichtigung führt**.
  *
  * Der Service Worker öffnete bis dahin fest die Favoritenansicht. Bei einer einzelnen
  * Meldung ist das eine Station zu viel: Gemeint ist genau dieser Titel, und die Route

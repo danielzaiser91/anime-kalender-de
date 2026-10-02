@@ -183,8 +183,7 @@ export function bereicheKurz(ranges: { from: number; to: number }[]): string {
  * **Welche Folgen kein bekannter Anbieter auf Deutsch führt.**
  *
  * „Dragon Quest: The Adventure of Dai" hat 100 Folgen; der einzige deutsche Weg, die
- * DVD-Box bei Animeversand, enthält 1–75 (Daniel, 16.09.2026: „die restlichen 25 bietet
- * kein uns bekannter anbieter … generische implementierung").
+ * DVD-Box bei Animeversand, enthält 1–75.
  *
  * Übergeben werden die Bereiche **jedes** deutschen Wegs. Ein Weg ohne Bereiche gilt als
  * vollständig — so, wie `dubAbdeckung()` ihn liest —, und dann fehlt nichts. Rückgabe ist

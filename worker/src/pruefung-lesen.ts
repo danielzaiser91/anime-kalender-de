@@ -50,14 +50,13 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
         S1E1-15 gemeldet — und weil jede Staffel bei Disney+ ab 1 zählt, hielt
         die Erweiterung damit auch S2E1-15 für erledigt und übersprang sie.
         Im Briefkasten landete Staffel 1 vollständig und Staffel 2 erst ab Folge
-        16 (Daniel, 26.08.2026: „2e16? wo sind die ersten 15 von s2?").
+        16.
 
         `nummern` bleibt für die Netflix-Seite, die eine durchlaufende Zählung
         hat; `paare` ist die genauere Auskunft.
       */
       /*
-        **Mit Datum der letzten Meldung** (Daniel, 11.09.2026: „gemeldet (+datum
-        wann zuletzt)"). Die Erweiterung zeigt je Folge genau einen Zustand, und
+        **Mit Datum der letzten Meldung**. Die Erweiterung zeigt je Folge genau einen Zustand, und
         „gemeldet" trägt sein Datum — auch für Folgen, die eine Stichprobe
         abgeleitet hat: Sie gehen als eigene Meldung ein und gelten wie gemessene.
       */
@@ -92,8 +91,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
      * Quellen: die Statusanzeige aus `pruefstand.json` minus Briefkasten, die
      * Erweiterung ebenso, und ihre Liste aus dem lokalen Speicher. Das Ergebnis
      * war ein offener Widerspruch — der Knopf sagte „10 offen", die Liste
-     * daneben „Alles geprüft", und beide hatten recht (Daniel: „wo sind die 10
-     * einträge die es zu prüfen gilt?", danach: „single source of truth").
+     * daneben „Alles geprüft", und beide hatten recht.
      *
      * Hier laufen beide Quellen zusammen: `pruefstand.json` sagt, was der
      * Datensatz noch nicht hat, die Datenbank, was davon schon unterwegs ist.

@@ -28,8 +28,7 @@ function deSeitZeile(
    *
    * Dann nennt sie ihre Quelle im Text. Sonst stand über „Auf Deutsch seit
    * 03.11.2024" die Aussage, es gebe keine deutsche Fassung — zwei Sätze, die
-   * einander widersprechen, statt zweier Auskünfte mit verschiedenen Absendern
-   * (Daniel, 03.09.2026: „widerspruch").
+   * einander widersprechen, statt zweier Auskünfte mit verschiedenen Absendern.
    */
   fremd = false,
 ): string {
@@ -130,9 +129,7 @@ export function AntwortKasten({
    *
    * „WO LÄUFT ES — Kein Anbieter bekannt" war bis zum 04.09.2026 ein eigener
    * Abschnitt unter dem Kasten. Seit die Pillen im Kasten stehen, ist er die
-   * letzte Hälfte eines Bereichs, den es nicht mehr gibt (Daniel: „wo läuft es
-   * bereich haben wir in die box geschoben, daher sollte der bereich nicht mehr
-   * auftauchen").
+   * letzte Hälfte eines Bereichs, den es nicht mehr gibt.
    *
    * Der Satz selbst bleibt, und zwar an der Stelle der Pillen: Er unterscheidet
    * „läuft nirgends" von „wissen wir nicht" — bei 665 von 2.760 Titeln die
@@ -146,8 +143,7 @@ export function AntwortKasten({
    * noch nicht fest", „Netflix nennt den Termin auf der Titelseite; das Jahr
    * ist abgeleitet". Was nur unsere Zuordnung erklärt („Zum Start standen die
    * Folgen 1 bis 3 bereit", „Automatisch übernommen aus …"), steht seit dem
-   * 13.09.2026 in `Release.herkunft` und nicht hier (Daniel: „das ist höchstens
-   * für uns interessant").
+   * 13.09.2026 in `Release.herkunft` und nicht hier.
    * **271 Releases haben eine**, und sie standen bis zum 04.09.2026 als
    * orangefarbener Kasten im Terminbereich.
    *
@@ -166,9 +162,7 @@ export function AntwortKasten({
    * 267 Titel haben sie (Streaming Availability API: seit wann ein Anbieter den
    * Titel führt). Sie ist **nicht** das Erscheinungsdatum der deutschen Fassung;
    * der Tooltip am Datum sagt das. Sie steht seit dem 16.09.2026 hier, weil der
-   * Block darunter ersatzlos entfallen ist (Daniel: „dann gibt es keinen
-   * verwendungszweck mehr für die untere, und kann entsprechend restlos entfernt
-   * werden").
+   * Block darunter ersatzlos entfallen ist.
    */
   angebotSeit?: string
   /**
@@ -216,8 +210,7 @@ export function AntwortKasten({
   const beides = streamPillen.length > 0 && disc.length > 0
   /*
     **Der Umschalter steht immer da, sobald es Pillen gibt** (`Umschalter`); die leere Seite ist
-    gesperrt. Stand er nur bei beidem, war eine einzelne Kaufpille nicht als Disc zu erkennen
-    (Daniel, 16.09.2026: „damit disc/stream klar ist immer oben rechts den toggle anzeigen").
+    gesperrt. Stand er nur bei beidem, war eine einzelne Kaufpille nicht als Disc zu erkennen.
   */
   const aktivDisc = beides ? zeigeDisc : streamPillen.length === 0
   const pillen = aktivDisc ? disc : streamPillen
@@ -233,8 +226,7 @@ export function AntwortKasten({
   */
   const gruppeVon = (p: ReactNode) => pillenGruppen.get(String((p as ReactElement)?.key ?? '')) ?? 'sonst'
   /*
-    **Die Bereiche stehen immer** (Daniel, 23.09.2026: „diese condition gefällt mir nicht, änder
-    das, sodass es immer bereichsüberschriften gibt, konsistenz ist wichtig"). Bis dahin gliederte
+    **Die Bereiche stehen immer**. Bis dahin gliederte
     das Panel nur, wenn es einen kostenlosen Weg gab — bei Gachiakuta stand „Kostenlos / Abo / TV",
     bei One Piece lagen Netflix, ADN und die TV-Pille ohne Überschrift beieinander. Zwei Panels,
     zwei Ordnungen, und beim zweiten sah es nach Fehler aus.
@@ -312,8 +304,7 @@ export function AntwortKasten({
   if (antwort.art === 'laeuft') {
     const e = antwort.haupt
     /*
-      **Zuerst die Sache, dann der Termin** (Daniel, 10.09.2026: „it is
-      important to mention the important part first"). Vorher stand dort
+      **Zuerst die Sache, dann der Termin**. Vorher stand dort
       „In 2 Tagen, 12.09.2026 — Folge 2" — drei Angaben, aneinandergereiht, und
       die wichtigste hinten.
 
@@ -324,8 +315,7 @@ export function AntwortKasten({
     */
     const rel = relativImSatz(e.date)
     /*
-      **Die letzte Folge heißt so, wie sie ist** (Daniel, 15.09.2026: „statt
-      nächste - finale folge, wenn letzte folge der staffel"). `rest` zählt die
+      **Die letzte Folge heißt so, wie sie ist**. `rest` zählt die
       kommende Folge mit; steht nur sie noch aus, ist sie das Finale.
     */
     /*
@@ -437,7 +427,7 @@ export function AntwortKasten({
         mit Datum genannt wird. Gedacht war „und danach kommen noch elf". Gelesen
         wurde es anders, und zwar zu Recht: Bei einer Staffel, von der noch keine
         einzige Folge draußen ist, stand „0 von 12 erschienen" über „noch 11 bis
-        zum Finale" (Daniel, 04.09.2026: „es müsste noch 12 heißen"). Zwölf
+        zum Finale". Zwölf
         Folgen stehen aus, nicht elf — die nächste ist keine erschienene.
       */
       antwort.letzter && antwort.rest > 1 && !antwort.offenesEnde
@@ -651,9 +641,8 @@ export function AntwortKasten({
       **Hier stand dreimal, was oben schon steht.**
 
       „2022 erschienen · ab 12 Altersfreigabe · 8-bit Studio" — und in der
-      Unterzeile am Cover, drei Zentimeter darüber: „Film · JP 2022 · 8-bit"
-      (Daniel, 04.09.2026: „2022 info steht bereits oben … 8-bit steht bereits
-      im sub-title div oben drin"). Die Altersfreigabe stand als einzige nur
+      Unterzeile am Cover, drei Zentimeter darüber: „Film · JP 2022 · 8-bit".
+      Die Altersfreigabe stand als einzige nur
       hier — sie ist jetzt eine Marke an der Unterzeile, wo die anderen
       Werkangaben ohnehin sitzen.
 
@@ -742,7 +731,7 @@ export function AntwortKasten({
           **Mindesthöhe statt fester Höhe — seit dem 12.09.2026.**
 
           Bei „Steel Ball Run" stand die Netflix-Pille halb unter der
-          Reihenliste (Daniel, mit Bild: „warum ist das design hier kaputt?").
+          Reihenliste.
           Dieser Titel bringt alles auf einmal mit: zweizeilige Überschrift,
           Rhythmuszeile, Balken, Zählzeile **und** eine zweizeilige Notiz. Das
           ist höher als 11rem, und was übersteht, schob die Pillenreihe aus dem
@@ -777,8 +766,7 @@ export function AntwortKasten({
         beide Seiten, statt sie an einer Stelle zu sammeln.
       */}
       {/*
-        **Kein `flex-1` mehr am Kopfteil** (Daniel, 03.09.2026: „‚alle folgen'
-        div-element: flex:1 entfernen"). Es zog den Kopf in die Mitte des
+        **Kein `flex-1` mehr am Kopfteil**. Es zog den Kopf in die Mitte des
         Kastens und ließ darüber wie darunter Luft; jetzt steht er oben, und der
         freie Platz sammelt sich über den Pillen, wo er nicht auffällt.
       */}

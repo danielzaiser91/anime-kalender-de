@@ -228,8 +228,7 @@ function AboEinstellungen({ meta, onWechseln }: { meta: DataMeta; onWechseln: ()
    *
    * „Wird geladen" hing vorher allein daran, dass noch nichts angekommen war —
    * und blieb deshalb nach einem Fehler für immer stehen. Am 18.08.2026 stand so
-   * eine rote Fehlermeldung direkt über einem Ladehinweis, der nie endete
-   * (Daniel: „egal wie lange ich warte, nix passiert").
+   * eine rote Fehlermeldung direkt über einem Ladehinweis, der nie endete.
    */
   const [laedt, setLaedt] = useState(true)
 
@@ -610,8 +609,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
 
         Vorher stand hier für jeden dasselbe Formular — auch für Abonnenten, die
         weder Rhythmus noch Plattformen ändern konnten, ohne sich neu
-        anzumelden (Daniel, 15.08.2026: „wenn ich bereits verbunden bin, sollte
-        ich wechseln können, abbestellen, etc"). Wer die Adresse wechseln will,
+        anzumelden. Wer die Adresse wechseln will,
         klappt das Formular über den Knopf darunter wieder auf: Eine neue
         Adresse ist eine neue Anmeldung samt Bestätigung, und das soll sie auch
         bleiben.
@@ -773,8 +771,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
           Wer verbunden ist, braucht das Formular nicht.
 
           Es stand trotzdem da — ein Eingabefeld für ein Problem, das dieser
-          Browser gerade nicht hat (Daniel, 14.08.2026: „warum kann ich erneut
-          E-Mail eingeben, wenn ich verbunden bin?"). Erreichbar bleibt es
+          Browser gerade nicht hat. Erreichbar bleibt es
           trotzdem: Ein Schlüssel kann ungültig geworden sein, und dann ist der
           Link der einzige Weg zurück.
         */}
@@ -1216,9 +1213,8 @@ function Wissenswert() {
         Der Bereichstitel muss sich von seinen Unterfragen abheben.
 
         Vorher war er `text-lg font-bold`, die Fragen darunter `font-semibold`
-        in Grundgröße — zwei Stufen, die im Fließtext fast gleich aussehen
-        (Daniel, 15.08.2026: „visuell ist er zu identisch zu den untergeordneten
-        Überschriften"). Jetzt trennen ihn drei Dinge: Größe, eine Linie
+        in Grundgröße — zwei Stufen, die im Fließtext fast gleich aussehen.
+        Jetzt trennen ihn drei Dinge: Größe, eine Linie
         darunter und mehr Abstand.
       */}
       <h2 className="border-b border-slate-200 pb-2 text-2xl font-bold text-slate-900 dark:border-white/10 dark:text-slate-100">

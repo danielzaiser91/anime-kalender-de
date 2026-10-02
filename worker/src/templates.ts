@@ -292,9 +292,7 @@ export interface DigestOptions {
    */
   auchBei?: { id: number; name: string; anbieter: string }[]
   /**
-   * **Ankündigungen und Neuigkeiten** (Daniel, 28.09.2026: „News, eventuell? Wenn wir neue
-   * interessante news reinbekommen, wie zB ankündigungen, sollten diese eventuell auch angezeigt
-   * werden (inkl Link zur Quelle)").
+   * **Ankündigungen und Neuigkeiten**.
    *
    * Quelle ist `data/news.json` — dieselbe Datei, die die Seite zeigt, und sie entsteht ohne
    * neuen Abruf aus dem, was der Bau ohnehin weiß (`pipeline/lib/news.ts`). Der Link führt auf
@@ -380,8 +378,7 @@ function koerper(o: {
 }
 
 /**
- * **Verschobene und ausgebliebene Termine — ganz oben** (Daniel, 29.09.2026: „verschoben gehört nach
- * oben, weil es eine Änderung ist, nicht eine Neuigkeit").
+ * **Verschobene und ausgebliebene Termine — ganz oben**.
  *
  * Der Leser hat den alten Termin womöglich schon im Kalender. Die Nachricht ist deshalb nicht der
  * neue Termin, sondern dass der alte nicht stimmt.
@@ -507,8 +504,7 @@ export function digestMail(
    * betrifft ihn mehr als eine Serie, auf deren Synchro er gewartet hat.
    * Deshalb steht das vor allem anderen, auch vor den Favoriten-Folgen.
    *
-   * **Seit dem 28.09.2026 auch Finale und TV-Premiere** (Daniel: „falls es tv premiere ist, sollte
-   * sie auch oben angezeigt werden, da es besonders ist"). Vorher zählte der Betreff Releases —
+   * **Seit dem 28.09.2026 auch Finale und TV-Premiere**. Vorher zählte der Betreff Releases —
    * „Heute mit deutscher Synchro: 6 Releases" —, und darunter standen fünf Wiederholungen.
    */
   const finaleHeute = meine.find((e) => e.staffelfinale)

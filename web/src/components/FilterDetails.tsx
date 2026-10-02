@@ -203,8 +203,7 @@ export function MeineAnbieter({
 /**
  * **Die Schnell-Schalter** — Schalter (an/aus), nicht vom Klick-Modus betroffen.
  *
- * **Jeder Chip trägt ein Zeichen** (Daniel, 02.10.2026: „finde passende icons für jeden
- * schnellfilter (wie du es bereits bei nur favoriten gemacht hast)"). ★ war der Anfang; die
+ * **Jeder Chip trägt ein Zeichen**. ★ war der Anfang; die
  * übrigen folgen demselben Muster — ein Zeichen, das die Zeile auf einen Blick lesbar macht.
  *
  * **Die beiden Ausblende-Chips sind Kurzformen echter Filter**, nicht eigene Schalter:

@@ -833,7 +833,7 @@ const PROVIDER_NAMES: Record<string, string> = {
 
     aniSearch führt sie bei chinesischen Produktionen mit; auf einer deutschen
     Seite sind sie kein Bezugsweg. Gemessen am 12.09.2026 an „Lord of
-    Mysteries" (Daniel: „remove the wetv entry … its a dead link"): Die
+    Mysteries": Die
     Album-Adresse `wetv.vip/en/album/7o961rwa3bmfgob` antwortet mit HTTP 200
     und liefert die **Startseite** aus — derselbe Seitentitel wie `wetv.vip/`,
     kein Titelinhalt. Das ist das Muster, das dieses Projekt seit dem

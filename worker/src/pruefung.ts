@@ -64,8 +64,7 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
    * Schreibzugriff (`briefkastenCacheLeeren`, inzwischen entfernt). Nach einem
    * Datenlauf zeigte die Statusanzeige deshalb bis zu dreissig Minuten den Stand
    * von davor: Am 05.09.2026 standen vier neue Prime-Auftraege im Bestand, und in
-   * der App war die Leiste leer (Daniel: „die prime auftraege muessen auch als
-   * pill in status app").
+   * der App war die Leiste leer.
    *
    * Eine Minute deckt genau den Takt ab, in dem die Anzeige ohnehin fragt. Sie
    * ist billig: `?stand=1` liest nur die **offenen** Meldungen

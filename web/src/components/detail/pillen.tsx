@@ -20,7 +20,7 @@ const marke = (farbe?: string) => (farbe ? ({ '--marke': farbe } as React.CSSPro
 
 /*
   Die Pille „nicht mehr abrufbar" (durchgestrichen) ist seit dem 22.09.2026 aus der Oberfläche
-  genommen (Daniel: „war nette idee, aber brauchen wir vorerst nicht"). Die Abgänge bleiben als
+  genommen. Die Abgänge bleiben als
   `entfernteStreams` im Bestand.
 */
 
@@ -57,8 +57,7 @@ const marke = (farbe?: string) => (farbe ? ({ '--marke': farbe } as React.CSSPro
  * **Und die Suchadresse ist `/search?q=`, nicht `/anime/index?text=`.**
  * Letztere antwortet mit HTTP 200 und „Deine Suchanfrage ist ungültig — bitte
  * sende Deine Suchanfrage erneut ab": ein Filterformular, das ohne Sitzung
- * nicht abschickt (Daniel, 12.09.2026, mit Bild: „die anisearch verlinkung
- * läuft ins leere"). Der Beleg dafür, dass es hier je funktioniert hat, war ein
+ * nicht abschickt. Der Beleg dafür, dass es hier je funktioniert hat, war ein
  * Statuscode — genau der Fehler, den diese Akte für Amazon schon beschreibt:
  * **200 heißt „ich habe geantwortet", nicht „es gibt die Seite".**
  *
@@ -123,8 +122,7 @@ export function Pille({
   durchgestrichen?: boolean
 }) {
   /*
-    **Der Hinweis kommt aus `ui.tsx`, nicht vom Browser** (Daniel, 12.08.2026: „keine default
-    web tooltips … überall nutzen"). Die Pille war die letzte Stelle mit einem nackten
+    **Der Hinweis kommt aus `ui.tsx`, nicht vom Browser**. Die Pille war die letzte Stelle mit einem nackten
     `title`-Attribut; seit dem 23.09.2026 hat der Hinweis mehrere Zeilen, und der graue
     Systemkasten setzt sie zwar um, sieht aber anders aus als jeder andere Hinweis der Seite.
 
@@ -413,8 +411,7 @@ export function ReleasePille({
   const kurzerName =
     release.releaseType === 'disc'
       ? /*
-          **Ohne Adresse kein Händler** (Daniel, 23.09.2026: „was ist das für eine pill ‚kaufen bei
-          shop', man kann die pill nicht anklicken, sie leitet nirgendwohin"). `haendlerAus`
+          **Ohne Adresse kein Händler**. `haendlerAus`
           antwortete auf ein fehlendes Ziel mit „Shop", und die Pille versprach einen Klick, den es
           nicht gab — bei Dragon Ball Z kennt aniSearch nur den Termin, keinen Shop. Dann nennt die
           Pille schlicht, was sie ist; Termin und Merken-Knopf bleiben.
@@ -481,11 +478,7 @@ export function ReleasePille({
       )}
       {tvText?.premiere && (
         /*
-          **Premiere als Fähnchen auf der Kante** (Daniel, 19.09.2026: „zu unauffällig", aus vier
-          Entwürfen gewählt) — leuchtet und kostet keine Breite.
-
-          **Auf der Kante, nicht darin** (Daniel, 22.09.2026: „premiere label überdeckt toggo,
-          platzier es am kachelrand" und „nicht rechts, sondern links, aber rechts vom tv icon"):
+          **Premiere als Fähnchen auf der Kante**:
           Es steht links neben dem Namen, rechts der Blase — aber mit seiner Unterkante auf der
           Oberkante der Pille, sonst ragt es in die Namenszeile.
         */
@@ -643,8 +636,8 @@ function LangMitTooltip({ text, children }: { text: string; children: ReactNode 
   beide #ec6400/#ec6500. Das Zeichen ist das nachgebaute App-Symbol (`public/anbieter/toggo.svg`,
   siehe `anbieter-icon.tsx`).
 
-  **TOGGO zeigt ausschließlich deutsche Fassungen** (Daniel: „toggo ist immer DE, immer,
-  ausnahmslos") — der Weg trägt deshalb „DE ✓" ohne Urteil je Folge. Welche Folgen gerade
+  **TOGGO zeigt ausschließlich deutsche Fassungen** — der Weg trägt deshalb „DE ✓" ohne Urteil je
+  Folge. Welche Folgen gerade
   abrufbar sind, steht in der zweiten Zeile — aus den Fenstern je Folge, die
   `pipeline/fetch-toggo.ts` täglich holt (`web/src/lib/toggo.ts`).
 */

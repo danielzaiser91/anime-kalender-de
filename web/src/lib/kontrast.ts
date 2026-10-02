@@ -22,7 +22,7 @@ export const HELLE_GRUENDE = [
 export const toenung = (grund: number[], farbe: number[]) => mische(grund, farbe, 0x22 / 255)
 
 /*
-  **Plakettenfarben mit lesbarem Kontrast** (Daniel, 18.09.2026: „hell B, dunkel C“).
+  **Plakettenfarben mit lesbarem Kontrast**.
   Die Markenfarbe als Schrift auf ihrer eigenen blassen Tönung lag im hellen Thema bei
   allen Anbietern unter 4,5:1 (Prime 2,2, Kino 1,7). Hell bleibt die Tönung, die Schrift
   wird nur so weit Richtung Schwarz gemischt, bis sie auf Tönung über Weiß **und** über

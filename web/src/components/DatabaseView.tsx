@@ -265,8 +265,7 @@ export function DatabaseView({
                 )}
                 {/*
                   Alles Bedienbare in **einer** Spalte oben rechts, unter der
-                  FSK-Kennzeichnung (Daniel, 13.08.2026: „icon position fühlt
-                  sich falsch an").
+                  FSK-Kennzeichnung.
 
                   Vorher lagen Stern und Auge oben links, die FSK oben rechts —
                   zwei Häufchen in gegenüberliegenden Ecken, ohne dass die
@@ -370,8 +369,7 @@ export function zaehlText(titles: Title[], ohne: number, t: Translate, suche: st
   const zahl = (n: number) => n.toLocaleString('de-DE')
   const grund = t(westlich ? 'db.countMitWestlich' : 'db.count', { count: zahl(titles.length - ohne - westlich), westlich: zahl(westlich) })
   /*
-    **Mit Suchbegriff nennt die Zeile ihn** (Daniel, 29.09.2026: „0 Anime mit belegter deutscher
-    Synchro" → „… für „<Suchtext>""). Ohne ihn liest sich die Null wie ein leerer Bestand statt wie
+    **Mit Suchbegriff nennt die Zeile ihn**. Ohne ihn liest sich die Null wie ein leerer Bestand statt wie
     ein Ergebnis.
   */
   const mit = suche.trim() ? t('db.countFuer', { text: grund, suche: suche.trim() }) : grund

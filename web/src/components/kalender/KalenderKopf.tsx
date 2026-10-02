@@ -64,8 +64,8 @@ export interface SteuerProps {
 }
 
 /**
- * **Die Steuerleiste dockt unten am Bildschirmrand an** (Daniel, 27.09.2026: „vielleicht einfach
- * immer unten am rand anzeigen"). Wer ganz unten im Monat oder am Sonntag ist, blättert, filtert und
+ * **Die Steuerleiste dockt unten am Bildschirmrand an**. Wer ganz unten im Monat oder am Sonntag
+ * ist, blättert, filtert und
  * springt zu heute, ohne zurückzurollen. Auf dem Handy sitzt sie über der Navigation.
  */
 export function Steuerleiste(p: SteuerProps) {

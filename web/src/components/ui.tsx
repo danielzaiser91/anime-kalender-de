@@ -39,9 +39,8 @@ function mitHinweis(text: string | undefined, seite: 'oben' | 'unten', kind: Rea
  *
  * **Es gibt nur noch zwei Zustände: belegt und offen.** Das rote Kreuz ist weg,
  * und mit ihm die Anbieter, die es getragen hätten — steht fest, dass es dort
- * keine deutsche Fassung gibt, wird der Verweis gar nicht mehr ausgeliefert
- * (Daniel, 15.08.2026: „wir interessieren uns als app nur für deutsche
- * synchros, keine anderen synchron sprachen"). Aussortiert wird beim Bauen,
+ * keine deutsche Fassung gibt, wird der Verweis gar nicht mehr ausgeliefert.
+ * Aussortiert wird beim Bauen,
  * siehe `build.ts`; hier kann `dub === false` deshalb nicht mehr ankommen.
  */
 export function DubMark({ dub }: { dub?: boolean }) {
@@ -124,8 +123,7 @@ export function Chip({
  * Vorher brachte jede ihre eigenen mit: `px-2 py-0.5 text-[11px]` bei Plattform,
  * Release-Art und Status, `h-5 min-w-7 text-xs` bei der FSK. Aus Polsterung
  * berechnete Höhen und eine feste Höhe daneben ergeben nie dieselbe Zahl, und
- * nebeneinander sieht man jeden Pixel Unterschied (Daniel, 15.08.2026: „pills
- * sind nicht gleich groß und nicht pixel genau auf einer Ebene").
+ * nebeneinander sieht man jeden Pixel Unterschied.
  *
  * Deshalb feste Höhe statt Polsterung nach oben und unten, und dieselbe
  * Schriftgröße. Die FSK behält ihre eigene Form — quadratisch, mit Rahmen —,
@@ -555,8 +553,7 @@ export function Toggle({
   hint?: string
 }) {
   /*
-    **Ein Hinweis ist gekennzeichnet** (Daniel, 19.09.2026: „entsprechend kennzeichnen dass es
-    bei hover (oder touch auf mobile) ein tooltip gibt"). Er hängt an einem eigenen ⓘ neben
+    **Ein Hinweis ist gekennzeichnet**. Er hängt an einem eigenen ⓘ neben
     dem Schalter — Antippen zeigt ihn, ohne umzuschalten.
   */
   const schalter = (

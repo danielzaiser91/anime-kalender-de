@@ -342,8 +342,7 @@ const TEXTE = {
   //
   // Kurz gehalten, weil es aufgeklappt neben einer Pille steht: Wer es liest,
   // will wissen, welche Folgen — nicht, wie wir es herausgefunden haben.
-  // **Auf eine Zeile gekürzt** (Daniel, 03.09.2026: „keine ausgepunkteten infos
-  // … zB ,ohne deutschen ton: Folge 2-33' -> ,x DE 2-33'"). In der Pille steht
+  // **Auf eine Zeile gekürzt**. In der Pille steht
   // nur noch, was fehlt: das Kreuz, die Sprache, die Folgen. Der volle Satz
   // steht im Tooltip daneben.
   'detail.dubLuecken': '✕ DE {n}',
@@ -369,16 +368,14 @@ const TEXTE = {
   // Normalfall. „1–1" wäre richtig gerechnet und trotzdem verwirrend.
   'detail.dubNurEine': '✓ DE nur Fg. 1',
   'detail.dubUntilTitel': 'Deutscher Ton bis Folge {n}',
-  // **Das Label sagt, was es auf Deutsch gibt** (Daniel, 23.09.2026: „de in fokus und
-  // nicht de in tooltip"). Vorher nannte es die Lücke — „✕ DE 5–7" —, also das, was
+  // **Das Label sagt, was es auf Deutsch gibt**. Vorher nannte es die Lücke — „✕ DE 5–7" —, also das, was
   // fehlt. Wer vor der Pille steht, will aber wissen, was er bekommt, und bei mehr als
   // einem Wechsel wird die Lücken-Form ohnehin unübersichtlich.
   'detail.dubDe': '✓ DE {bereiche}',
   // Ab drei Bereichen bliebe die Pille nicht mehr schmal. Die Zahl sagt, dass da noch
   // etwas kommt; die vollständige Aufzählung steht im Hinweis daneben.
   'detail.dubDeMehr': '✓ DE {bereiche} +{n} Bereiche',
-  // Der Hinweis, zeilenweise (Daniel, 23.09.2026: „im tooltip nicht in selbe zeile
-  // sondern untereinander, also zeilenumbruch vor nicht im angebot").
+  // Der Hinweis, zeilenweise.
   'detail.dubKopfVon': '{n} von {m} Folgen auf Deutsch',
   'detail.dubKopf': '{n} Folgen auf Deutsch',
   'detail.dubOhneTonZeile': 'Ohne deutschen Ton: {bereiche}',
@@ -549,8 +546,7 @@ const TEXTE = {
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
   'antwort.verschobenVon': 'verschoben vom {datum}',
   'antwort.ausgebliebenMehrere': 'Folgen {von} bis {bis} sind nicht erschienen',
-  // Die Auskunft unter einer ausgebliebenen Folge (Daniel, 13.09.2026: „sodass
-  // nutzer beruhigt sind"). {anbieter} wird im Panel zum Verweis.
+  // Die Auskunft unter einer ausgebliebenen Folge. {anbieter} wird im Panel zum Verweis.
   'antwort.vermerkPruefen': 'Wir sehen mehrmals täglich bei {anbieter} nach und tragen die Folge ein, sobald sie da ist.',
   'antwort.vermerkZuletzt': 'Zuletzt nachgesehen: {wann}.',
   'antwort.vermerkNews': '{quelle} am {datum}:',
@@ -755,8 +751,7 @@ const TEXTE = {
   'quellen.feedWerk': 'Titel, Cover, Genres, Jahr, Studio, Folgenzahl',
   // aniSearch liefert den **Haupttitel** seiner Seite, nicht zwingend einen
   // deutschen — bei „Maomao no Hitorigoto Dai 2 Ki" ist es eine zweite
-  // Umschrift (Daniel, 03.09.2026: „warum hat dieser titel japanisch statt
-  // deutschen titel?"). Die Zeile sagt jetzt, was wirklich kommt.
+  // Umschrift. Die Zeile sagt jetzt, was wirklich kommt.
   'quellen.feedDeutsch': 'Titel und Beschreibung, wo vorhanden auf Deutsch',
   'quellen.feedStimmen': 'deutsche Sprechrollen',
   'quellen.feedAnbieterName': 'Anbieter selbst',

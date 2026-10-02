@@ -223,9 +223,7 @@ export function DetailPanel({
         fehlt hier. Bei „Lord of Mysteries" fielen so `beiwerk`, `jpStart`
         und `jpStatus` heraus, sobald `titles.json` nachgeladen war — die
         Specials standen zwei Sekunden lang richtig unter „Specials" und
-        danach unter „Hauptserie" (Daniel, 12.09.2026: „für paar sek war
-        chibi theatre unter specials eingeordnet, dann wieder in
-        hauptserie").
+        danach unter „Hauptserie".
 
         Der Titel liefert deshalb nur noch die Vorgabe; der Eintrag der
         Reihe liegt darüber. Fehlende Felder stehen in der Datei gar nicht
@@ -486,10 +484,7 @@ export function DetailPanel({
     — „RELEASE-TERMINE FÜR DEUTSCHE SYNCHRO", mit Start, Folgenzahl, letzter
     Folge, Quelle und zwei Kalender-Knöpfen je Eintrag. Bei einer Staffel, die
     seit anderthalb Jahren durch ist, war das ein halber Bildschirm für eine
-    Auskunft, die der Kasten oben schon gibt (Daniel, 04.09.2026: „eig gehört
-    der bereich immer weg, unabhängig ob in zukunft oder nicht. die titel
-    gehören mit releasedate info in disc/stream bereich … in die pill muss auch
-    der calendar icon + eintrag").
+    Auskunft, die der Kasten oben schon gibt.
 
     Ein Release **ist** ein Bezugsweg: Es sagt, wo etwas herkommt und ab wann.
     Beides passt in eine Pille — Name und Verlag oben, Datum unten, Kalender
@@ -577,9 +572,7 @@ export function DetailPanel({
     Angaben des Verweises mit derselben Adresse; ohne ihn gilt die Regel des Titels.
   */
   /**
-   * **Der Hinweis an der Pille: zeilenweise, Deutsch zuerst** (Daniel, 23.09.2026: „im
-   * tooltip nicht in selbe zeile sondern untereinander, also zeilenumbruch vor nicht im
-   * angebot").
+   * **Der Hinweis an der Pille: zeilenweise, Deutsch zuerst**.
    *
    * Drei Mengen, drei Zeilen, und keine davon steht da, wenn sie leer ist: wie viele Folgen
    * auf Deutsch (und wovon), welche das sind, welche nur fremdsprachig dort liegen, und
@@ -846,8 +839,7 @@ export function DetailPanel({
 
       Ohne die Klasse reicht der Browser das Rad an die Seite dahinter weiter,
       sobald das Panel unten angekommen ist — der Kalender scrollte weg, während
-      das Panel offen stand (Daniel, 16.09.2026: „wenn maus auf detailpanel, dann
-      darf scrollen nur fürs detail panel gelten"). Dieselbe Klasse trägt die
+      das Panel offen stand. Dieselbe Klasse trägt die
       zweite Panel-Hülle.
 
       **Die inneren Rollbereiche tragen sie ausdrücklich nicht** (Pillenreihe,
@@ -934,8 +926,7 @@ export function DetailPanel({
       <div className="fixed inset-0 z-30 cursor-pointer bg-black/40 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
       <div
         /*
-          Von `max-w-md` (28 rem) auf `max-w-lg` (32 rem) — vier Rem mehr
-          (Daniel, 15.08.2026: „evtl die gesamte card paar pixel breiter").
+          Von `max-w-md` (28 rem) auf `max-w-lg` (32 rem) — vier Rem mehr.
 
           Der Gewinn ist kein Selbstzweck: Die Terminzeilen tragen jetzt Datum,
           Ausgabe und Aktion **nebeneinander**. Bei 28 rem brach die Aktion in
@@ -962,9 +953,8 @@ export function DetailPanel({
           setzte nur die Höhe — und die blieb wirkungslos: Das Panel ist eine
           Flex-Spalte mit Rollbereich, und darin schrumpft ein Element ohne
           `shrink-0` auf null zurück, ganz gleich welche Höhe daransteht.
-          Gemessen wurde genau das: Klasse `relative h-9` gesetzt, Höhe 0
-          (Daniel, 13.08.2026: „ich hab grad geguckt, ist immer noch über dem
-          Stern"). Merksatz: In einer scrollenden Flex-Spalte ist eine Höhe
+          Gemessen wurde genau das: Klasse `relative h-9` gesetzt, Höhe 0.
+          Merksatz: In einer scrollenden Flex-Spalte ist eine Höhe
           ohne `shrink-0` ein Vorschlag, keine Angabe.
         */}
         {/*
@@ -1301,8 +1291,7 @@ export function DetailPanel({
 
             Hier stand bis zum 29.08.2026 eine Zeile „Metadaten von AniList ·
             MAL 12345 · Beleg ≥4" — richtig, aber unvollständig: Sie nannte
-            eine Quelle von sechs und war nicht klickbar (Daniel: „quellen
-            links in details kacheln nicht anklickbar").
+            eine Quelle von sechs und war nicht klickbar.
           */}
           <AehnlicheTitel title={title} data={data} onOpenTitle={onOpenTitle} />
 

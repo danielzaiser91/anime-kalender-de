@@ -57,8 +57,7 @@ export function FilterFeld(p: FilterFeldProps) {
       aria-label={t('filter.button')}
       className="animate-fade-in rounded-3xl border border-ak-rand bg-ak-flaeche"
     >
-      {/* **Die gewählten Filter stehen im Filterfeld** (Daniel, 02.10.2026: „die ausgewählten
-          filter [sollen] in das filter menu wandern") — dieselbe Stelle wie im Datenbank-Reiter
+      {/* **Die gewählten Filter stehen im Filterfeld** — dieselbe Stelle wie im Datenbank-Reiter
           (`FilterBar`). Vorher standen sie als eigene Zeile über der Woche und waren im offenen
           Menü nicht zu sehen. */}
       {etwasGewaehlt && (

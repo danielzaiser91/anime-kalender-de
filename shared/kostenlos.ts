@@ -1,9 +1,5 @@
 /**
- * **Wie viel von einem Titel kostenlos zu sehen ist** (Daniel, 19.09.2026: „toggo (nicht
- * toggo plus) und youtube links sind beispiele für kostenlose streaming services, sie
- * sollten ein label beim anime ‚kostenlos' oder ‚teilweise kostenlos' hinzufügen, je nach
- * verfügbarkeit und anzahl der kostenlos schaubaren episoden im vergleich zum gesamt
- * bestand an existierenden folgen mit deutscher synchro").
+ * **Wie viel von einem Titel kostenlos zu sehen ist**.
  *
  * **Das Etikett gehört auf die Karten nicht** — „kostenlos nur als Filter, kein Etikett auf Karten
  * oder in der Datenbank" (derselbe Durchgang, 19.09.2026; so steht es in `web/src/lib/filters.ts`).
@@ -18,8 +14,7 @@
  * - Folgenbereiche mit deutscher Fassung (`dubRanges`): ihre Folgen;
  * - sonst: unbekannt — es gibt den Weg, aber keine Zahl.
  *
- * **Gezählt werden die Folgen, nicht die Wege** (Daniel, 22.09.2026: „folge 1 bei youtube, und
- * 5 folgen bei toggo ergibt 6"). Bis dahin galt der größte Weg allein — aus Sorge, zwei Wege
+ * **Gezählt werden die Folgen, nicht die Wege**. Bis dahin galt der größte Weg allein — aus Sorge, zwei Wege
  * könnten dieselbe Folge zeigen und die Summe „alle" behaupten. Die Sorge löst die Vereinigung
  * sauber: Wo wir Nummern kennen (TOGGO-Fenster, `nurFolge`, `dubRanges`), zählt jede Folge genau
  * einmal, auch wenn zwei Anbieter sie führen. Nur ein Einzelvideo ohne Nummer zählt blind als eine

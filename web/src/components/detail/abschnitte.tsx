@@ -120,9 +120,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             blieb sie hier als einzige übrig — eine Fußnote unter einem
             Absatz, während zwei Handbreit tiefer der Bereich „Woher diese
             Angaben stammen" alle Quellen zusammen führt, aniSearch
-            eingeschlossen (Daniel, 04.09.2026: „alle stellen wo quelle
-            steht entfernen, sie sind nur noch im quellen bereich zu finden,
-            gebündelt").
+            eingeschlossen.
 
             Nichts geht verloren: Die Quellenübersicht führt aniSearch mit
             „Titel und Beschreibung, wo vorhanden auf Deutsch" — samt Link
@@ -174,9 +172,7 @@ export function TermineAbschnitt({ releases, title }: {
         /*
           **Hier stand der Bereich „Release-Termine für deutsche Synchro".**
 
-          Er ist am 16.09.2026 ersatzlos entfallen (Daniel, mit Bild: „das
-          sollte doch alles hochgewandert sein in die obere box, und dann gibt
-          es keinen verwendungszweck mehr für die untere"). Wohin seine drei
+          Er ist am 16.09.2026 ersatzlos entfallen. Wohin seine drei
           Angaben gegangen sind:
 
           | Angabe | wohin |

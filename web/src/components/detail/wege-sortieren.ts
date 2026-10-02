@@ -29,9 +29,7 @@ export function sortiereNachZugang({ title }: {
       Hier stand `kind === 'stream'` ohne Rücksicht auf die Zugangsart, und
       weil die ganze `shops`-Liste in die **Disc**-Spalte geht, landete
       „Crunchyroll über Prime Video" — ein Abo, `kind: stream`,
-      `zugang: abo` — unter Disc (Daniel, 04.09.2026: „dieser link führt
-      nicht zum disc, sondern zum crunchy-abo auf prime … gehört in
-      stream").
+      `zugang: abo` — unter Disc.
 
       Der Umschalter verspricht „Stream | Disc". Ein Abo unter Disc bricht
       genau dieses Versprechen — und zwar an der Stelle, an der jemand
@@ -42,8 +40,7 @@ export function sortiereNachZugang({ title }: {
 
       Hier wanderte jeder Weg mit `zugang: 'kauf'` in den Disc-Reiter, auch wenn
       er als `kind: 'stream'` angelegt war — maxdome und freenet meinVOD standen
-      dadurch unter „Disc" (Daniel, 16.09.2026: „die pills sind falsch als disc
-      eingeordnet, das sind streambare titel"). Der Reiter fragt „anschauen oder
+      dadurch unter „Disc". Der Reiter fragt „anschauen oder
       ins Regal stellen"; ob das Anschauen Geld kostet, sagt die Zugangsart, und
       die steht in der Gruppenüberschrift.
 

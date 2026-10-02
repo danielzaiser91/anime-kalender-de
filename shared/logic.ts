@@ -241,7 +241,7 @@ export function expandEvents(release: Release): ReleaseEvent[] {
  * **Was sich in den Kalender übernehmen lässt** (30.09.2026): nur was noch aussteht.
  *
  * Ein Termin, der heute ist oder war, ist kein Angebot mehr — der Kalenderknopf am Disc-Termin
- * „seit 30.09.2026" verschwindet (Daniel: „das brauchen nutzer nur für zukunftstermine"). Für
+ * „seit 30.09.2026" verschwindet. Für
  * eine laufende Serie bleiben die künftigen Folgen, solange eine aussteht.
  */
 export function merkbareTermine(release: Release, today: string): ReleaseEvent[] {

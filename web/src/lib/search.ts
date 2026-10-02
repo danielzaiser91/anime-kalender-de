@@ -72,10 +72,7 @@ export interface Fundstelle {
 }
 
 /**
- * **Wie gut ein Treffer sitzt** (Daniel, 29.09.2026: „bau eine sinnvolle priorisierung für
- * trefferart (ganzes wort, teilwort, fuzzy, etc) und die durchsuchten attribute ein. titel hat
- * höchste prio … dabei sind ganze wort-treffer weiter oben zu platzieren, als wortanfang, und
- * wortmitte nach wortanfang, fuzzy noch weiter hinten. Danach folgen die andere Attribute").
+ * **Wie gut ein Treffer sitzt**.
  *
  * Kleinere Zahl = weiter vorn. Vier Dimensionen mit **gestaffelten** Gewichten, damit keine die
  * andere aufholt:
@@ -514,8 +511,8 @@ export function sucheMitFundstellen<T>(
   /*
     **Zusammengeschrieben ist dasselbe wie getrennt** (21.09.2026). „sandland" traf „Sand Land:
     The Series" nicht als Titel, weil dort ein Leerzeichen steht; die unscharfe Stufe füllte die
-    Liste dann mit 38 Klangverwandten (Daniel: „wieso so viele treffer wenn ich nach sandland
-    suche?"). Verglichen wird deshalb auch ohne Leer- und Satzzeichen — erst ab vier Zeichen,
+    Liste dann mit 38 Klangverwandten. Verglichen wird deshalb auch ohne Leer- und Satzzeichen —
+    erst ab vier Zeichen,
     darunter steckt ein Begriff in zu vielen Namen.
   */
   const kompakt = (s: string) => s.replace(/[^\p{L}\p{N}]+/gu, '')

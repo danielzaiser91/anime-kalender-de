@@ -79,9 +79,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
 
         Die Erweiterung zeigt in ihrer Liste je Titel, welche Folgen schon
         gemeldet sind — als Bereich („1e1-15"), nicht als Anzahl. Dafür genügt
-        die Adresse nicht (Daniel, 26.08.2026: „bereits gemeldete folgen und
-        fehlende meldungen werden ebenfalls nicht korrekt in der liste
-        angezeigt").
+        die Adresse nicht.
 
         Ein Abruf für alle Titel statt einer je Titel: 31 Disney-Seiten wären
         sonst 31 Anfragen bei jedem Öffnen der Liste.
@@ -152,8 +150,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
         Ein Auftrag steuert, **was** zu prüfen ist. Er darf nicht verbieten, eine
         zweite Seite desselben Titels zu melden: Am 02.09.2026 war nach der
         Kauftitel-Meldung die aniverse-Meldung gesperrt, weil die Suchadresse als
-        erledigt galt (Daniel: „nach kaufoption meldung ist aniverse meldung nicht
-        mehr möglich"). Mit dieser Liste entscheidet die **Seite**, nicht der
+        erledigt galt. Mit dieser Liste entscheidet die **Seite**, nicht der
         Auftrag.
       */
       /*

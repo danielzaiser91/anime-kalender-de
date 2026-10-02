@@ -26,8 +26,7 @@ export function zaehleErschienen(events: ReleaseEvent[]): number {
  * „86: Eighty Six" liegt seit 2021 vollständig auf Deutsch vor; im Oktober 2026
  * nimmt ADN dieselben Folgen als Komplettabwurf ins Angebot. Der Kasten las den
  * künftigen Termin als Sendeplan und schrieb „0 von 12 Folgen erschienen ·
- * Wöchentlich" über eine fertige Serie (Daniel, 01.10.2026: „einmal belegt
- * erschienen auf de, ist die feste wahrheit").
+ * Wöchentlich" über eine fertige Serie.
  *
  * Ein späterer Abwurf oder eine Wiederholung überschreibt das nicht. Eine
  * **laufende** Serie bleibt unberührt — dort sind die künftigen Folgen wirklich

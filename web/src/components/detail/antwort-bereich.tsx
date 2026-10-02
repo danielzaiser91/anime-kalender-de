@@ -83,7 +83,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
               <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
                 {t(/^\d+$/.test(folgenLuecke) ? 'detail.folgeOhneAnbieter' : 'detail.folgenOhneAnbieter', { bereich: folgenLuecke })}
               </p>
-            ) : /* Beim Kinofilm sagt der Kino-Hinweis darunter dasselbe (Daniel, 17.09.2026: „doppelte info"). */
+            ) : /* Beim Kinofilm sagt der Kino-Hinweis darunter dasselbe. */
             title.ohneSynchro && antwort?.art !== 'kino' ? (
               <>
                 <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
@@ -111,10 +111,8 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
                 /*
                   **Was da ist, nicht was fehlt.**
 
-                  Der Verlag hat von „Date a Live" genau Folge 1 auf YouTube
-                  (Daniel, 07.09.2026: „schreib auch das es nur diese ep
-                  unter diesem verweis gibt, sodass kein falscher eindruck
-                  entsteht"). `dubLuecken` machte daraus „✕ DE 2–12" —
+                  Der Verlag hat von „Date a Live" genau Folge 1 auf YouTube.
+                  `dubLuecken` machte daraus „✕ DE 2–12" —
                   richtig, aber von hinten gedacht: Wer die Pille sieht, will
                   wissen, was er bekommt, nicht was ihm fehlt.
 
@@ -130,7 +128,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
                       Anbieter **und** Adresse (21.09.2026): Mit `key={s.platform}` trugen zwei
                       Prime-Pillen denselben Schlüssel, und beim Umschalten auf „Disc" blieb eine
                       als verwaister Knoten stehen — Lupin III. Part 6 zeigte die Kanal-Pille
-                      unter „Disc" (Daniel mit Bild: „das ist keine disc").
+                      unter „Disc".
                     */
                     key={`${s.platform}|${s.url}`}
                     name={s.kanal ? `${PLATFORMS[s.platform].name} (${s.kanal})` : PLATFORMS[s.platform].name}
@@ -282,8 +280,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
                         Dub-Vorschau der ersten Folge, und daneben stand als
                         Termin der 06.11.2026 — der zweite Blu-ray-Band.
                         Beides zusammen las sich, als gäbe es bis November
-                        gar nichts (Daniel, 12.09.2026: „folge 1 jetzt, rest
-                        06.11."). Die Angabe steht am Weg, weil sie zu ihm
+                        gar nichts. Die Angabe steht am Weg, weil sie zu ihm
                         gehört, nicht zum Titel.
                       */
                       /*

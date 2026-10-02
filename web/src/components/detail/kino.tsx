@@ -217,8 +217,7 @@ export function TrailerKino({
  * **So genau, wie AniList es weiß — nicht nur das Jahr.**
  *
  * Im Kopf stand „Film · JP 2026", während die Reihenliste zwei Zeilen tiefer
- * den 11.12.2026 nannte (Daniel, 12.09.2026: „für den film kennen wir genauere
- * infos für jp release date als 2026, oben steht trotzdem nur 2026"). Beide
+ * den 11.12.2026 nannte. Beide
  * lesen dieselbe Quelle; nur der Kopf nahm ausschließlich `jpYear`.
  *
  * Das Datum bleibt eine Zusatzangabe und steht deshalb klein im Kopf, nicht in
@@ -264,9 +263,7 @@ export function jpAngabe(jpStart: string | undefined, jpYear: number | undefined
 }
 
 /**
- * **Der Kinostart bekommt einen eigenen Banner** (Daniel, 17.09.2026: „ein banner über die
- * box legen … in diesen banner können alle infos zum kino-ausstrahlungs zeitraum und
- * startdatum, sowie die kino pill … integriert").
+ * **Der Kinostart bekommt einen eigenen Banner**.
  *
  * Er steht zwischen Trailer-Zeile und Antwort-Kasten und ersetzt die Kino-Pille in der
  * Wegeliste — ein Kinostart ist kein Anbieter unter vielen, sondern ein Termin mit Ende.

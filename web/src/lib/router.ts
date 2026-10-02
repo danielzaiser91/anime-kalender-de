@@ -227,8 +227,7 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
     }
     onChange()
     /*
-      **Auch `popstate`, nicht nur `hashchange`** (Daniel, 22.09.2026: „beim pfeil zurück … url
-      ändert sich, aber webseite bleibt so"). `syncSharePath` schreibt nach jedem Hash-Wechsel den
+      **Auch `popstate`, nicht nur `hashchange`**. `syncSharePath` schreibt nach jedem Hash-Wechsel den
       Pfad auf `/r/<slug>/` um. Zwei Verlaufseinträge unterscheiden sich dann nicht nur im Hash,
       sondern auch im Pfad — beim Zurückgehen feuert der Browser dafür kein `hashchange`, nur
       `popstate`. Feuern beide, setzt React denselben Zustand zweimal; das kostet nichts.

@@ -66,7 +66,7 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
             **Die Farben kommen aus `styles.css` und wechseln mit dem Thema.**
             Bis zum 25.08.2026 standen sie hier fest als `rgba(11,15,22,…)`;
             im hellen Thema lag der dunkle Titel damit auf einem dunklen
-            Verlauf (Daniel, mit Bild: „styling kaputt im light mode").
+            Verlauf.
           */}
           <div
             aria-hidden="true"

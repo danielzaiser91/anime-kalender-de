@@ -75,8 +75,8 @@ export default function App() {
   // Vorgabe aus: Wer die Datenbank öffnet, sucht meist einen bestimmten Titel.
   const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') === '1')
   /*
-    Titel ohne deutsche Synchro mitzeigen — bewusst **nicht** gespeichert (Daniel, 13.08.2026: „not
-    remembered upon reload"): Sie sind ein Werkzeug zum Merken, kein Teil der Antwort der Seite.
+    Titel ohne deutsche Synchro mitzeigen — bewusst **nicht** gespeichert: Sie sind ein Werkzeug zum
+    Merken, kein Teil der Antwort der Seite.
   */
   const [zeigeOhneSynchro, setZeigeOhneSynchro] = useState(false)
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()

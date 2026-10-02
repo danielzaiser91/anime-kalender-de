@@ -26,8 +26,7 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
     /*
       **Alle Releases des Anbieters zusammen** (21.09.2026, Steel Ball Run). Netflix führt Folge 1
       als eigenes Release (19.03.) und die Folgen 2–12 als Wochenserie ab 25.09.; AniList kennt nur
-      die erste. Die Pille zählte ein Release und hielt das Werk für einfolgig — sie blieb leer
-      (Daniel mit Bild: „warum steht in der pill nicht wieviele folgen auf netflix … sind").
+      die erste. Die Pille zählte ein Release und hielt das Werk für einfolgig — sie blieb leer.
     */
     const anbieterReleases = s?.platform ? releases.filter((r) => r.platform === s.platform) : []
     const folgenLautReleases = Math.max(
@@ -49,8 +48,8 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
     if (einzelneFolge && deutsch.length === 1 && deutsch[0]!.from === 1 && deutsch[0]!.to === 1)
       return t('detail.dubNurEine')
     /*
-      **Gemischt heißt: das Label nennt die deutschen Folgen** (Daniel, 23.09.2026: „de in
-      fokus und nicht de in tooltip"). Vorher stand dort die Lücke („✕ DE 5–7") oder die
+      **Gemischt heißt: das Label nennt die deutschen Folgen**. Vorher stand dort die Lücke („✕ DE
+      5–7") oder die
       Grenze („✓ DE 1–155"). Beide beantworten nur einen Teil der Frage, und die Lücken-Form
       stellt sogar das Fehlende nach vorn. Bei drei Bereichen und mehr kürzt die Pille; der
       Hinweis daneben zählt alle auf.
@@ -90,8 +89,7 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       Verweisen gemessen — für einen Weg ohne Urteil schrieb sie trotzdem die Folgen des
       Titels hin. Golden Wind: zwei Prime-Pillen über den Crunchyroll-Kanal, dort nur
       Französisch und Japanisch, und beide zeigten „39 Fg." unter „Alle 39 Folgen auf
-      Deutsch" (Daniel mit Bild: „wieso tauchen diese 2 prime pills auf, obwohl sie keine
-      deutsche synchro haben?"). Eine Zahl am Weg braucht einen Beleg an genau diesem Weg.
+      Deutsch". Eine Zahl am Weg braucht einen Beleg an genau diesem Weg.
     */
     if (s && s.dub !== true) return ''
     const abgeschlossen = title.jpEnd

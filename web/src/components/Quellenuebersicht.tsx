@@ -87,9 +87,8 @@ export function Quellenuebersicht({ title, releases }: { title: Title; releases:
       })
     }
     /*
-      **Die Zeile „Anbieter selbst" ist gestrichen** (Daniel, 04.09.2026: „anbieter
-      selbst ist sinnlos, du meinst pills und ob dort de ist oder nicht … weg
-      damit"). Sie stand für das, was ohnehin in den Pillen darüber steht — wo
+      **Die Zeile „Anbieter selbst" ist gestrichen**. Sie stand für das, was ohnehin in den Pillen
+      darüber steht — wo
       ein Titel läuft und in welcher Sprachfassung. Eine Quellenzeile, die auf
       die Anzeige direkt darüber zeigt, belegt nichts.
     */

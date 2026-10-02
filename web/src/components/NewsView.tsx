@@ -282,9 +282,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
       Der Klick führte auf den Reihenkopf — und im Panel stand die Meldung dann
       nirgends. Für „Mononoke" bündelt die Zeile auf „The Phantom in the Rain",
       der Termin am 29.09.2026 gehört aber zu „Chapter III"; wer klickte,
-      landete bei einem Titel ohne diesen Termin (Daniel, 12.09.2026: „alle news
-      einträge öffnen aktuell nur das jeweilige panel, aber wo genau steht diese
-      info … Alle Infos in News müssen ja eig auch im panel sichtbar sein").
+      landete bei einem Titel ohne diesen Termin.
 
       Die aufgeklappten Zeilen konnten das längst (`m.teilId ?? e.titelId`) —
       nur die Kopfzeile nicht.
@@ -480,8 +478,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
  * Quellenangabe ließ die Listenfunktion über die Längengrenze wachsen).
  *
  * Die Quelle steht **neben** dem Knopf, nicht darin: Der Knopf öffnet das Detail-Panel, ein Link in
- * ihm wäre ungültiges HTML und ein zweites Ziel im selben Klick (Daniel, 28.09.2026: „inkl Link zur
- * Quelle").
+ * ihm wäre ungültiges HTML und ein zweites Ziel im selben Klick.
  */
 function MeldungZeile({
   m,

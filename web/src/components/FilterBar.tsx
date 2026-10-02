@@ -23,9 +23,8 @@ export type FilterBarProps = {
 }
 
 /**
- * **Derselbe Kasten, unten angedockt** (Daniel, 02.10.2026: „auf reiter datenbank scrollt der
- * filter nicht mit. dort so implementieren wie auf kalender reiter. also nicht oben anheften,
- * sondern unten."). Vorher stand die Leiste oben im Fluss der Titelliste und war beim Scrollen
+ * **Derselbe Kasten, unten angedockt**. Vorher stand die Leiste oben im Fluss der Titelliste und
+ * war beim Scrollen
  * weg. Der Platzhalter darunter hält die letzten Kacheln frei.
  */
 export function FilterBarDock(props: FilterBarProps) {

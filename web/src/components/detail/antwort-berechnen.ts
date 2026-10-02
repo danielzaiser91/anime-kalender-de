@@ -78,9 +78,8 @@ export function berechneAntwort({ title, releases, today }: {
 
     Bei „Code Geass" stand über einem Titel, der seit September 2023 auf
     Deutsch bei Crunchyroll liegt: „In 2 Tagen, 18.09.2026 · Kaufausgabe" —
-    während die Pillen im selben Kasten „Crunchyroll · 25 Fg. · 🇩🇪 ✓" zeigten
-    (Daniel, 16.09.2026, mit Bild: „der titel ist schon lange erschienen …
-    es muss klar sein was gemeint ist, worauf bezieht sich das?"). Der Termin
+    während die Pillen im selben Kasten „Crunchyroll · 25 Fg. · 🇩🇪 ✓" zeigten.
+    Der Termin
     gehört zu einer **neuen Blu-ray-Ausgabe**, nicht zur Erstveröffentlichung.
 
     Der Rückfall auf die Disc bleibt richtig, wo sie wirklich die einzige
@@ -112,7 +111,7 @@ export function berechneAntwort({ title, releases, today }: {
     **Keine Folgenzahl aus der Zahl der Termine.**
 
     Bei „One Piece" stand „Alle 1 Folgen auf Deutsch" — für eine Serie mit
-    über tausend (Daniel, 03.09.2026: „Totale müll info"). AniList führt dort
+    über tausend. AniList führt dort
     keine Folgenzahl (die Serie läuft weiter), und der Rückfall zählte die
     **Termine**: ein Katalog-Release ergibt ein Ereignis, also „1 Folge".
 

@@ -45,21 +45,18 @@ export function Suchfeld({
   }, [getippt, wert])
 
   /*
-    **Was durchsucht wird, steht am Feld** (Daniel, 29.09.2026: „welche felder durchsucht werden
-    nicht ersichtlich ist und gemäß der projekt regel alles offen zu kommunizieren, muss hier in der
-    suche nahe dem such-input ein icon erscheinen, das on hover oder touch erklärt über welche
-    felder gesucht wird (+ fuzzy search)"). Die Liste kommt aus `SUCHFELD_ARTEN` — dieselbe Quelle,
+    **Was durchsucht wird, steht am Feld**. Die Liste kommt aus `SUCHFELD_ARTEN` — dieselbe Quelle,
     aus der die Suche ihre Felder bezieht; `check:logic` hält beide gegeneinander.
   */
   const felder = [translate('suche.felderTitel'), SUCHFELD_ARTEN.map((s) => s.label).join(' · '), translate('suche.unscharf')].join(' ')
 
   /*
-    **Das Fragezeichen sitzt im Feld, rechts** (Daniel, 29.09.2026: „den icon rechts vom input ins
-    input (rechts) packen"). Der Platz dafür kommt aus dem rechten Innenabstand des Feldes — in der
+    **Das Fragezeichen sitzt im Feld, rechts**. Der Platz dafür kommt aus dem rechten Innenabstand
+    des Feldes — in der
     Kopfleiste `pr-16` (zwei Knöpfe: Löschen und Erklären).
 
-    **Und das Löschen ist ein eigener, runder Knopf** (Daniel, 29.09.2026: „make x more clickable, by
-    making it a circular button"). Das native ✕ von `type="search"` ist je Browser verschieden groß
+    **Und das Löschen ist ein eigener, runder Knopf**. Das native ✕ von `type="search"` ist je
+    Browser verschieden groß
     und kaum zu treffen; es wird ausgeblendet, und wir zeichnen ein eigenes — gleiche Größe überall,
     mit Fläche zum Anklicken.
   */

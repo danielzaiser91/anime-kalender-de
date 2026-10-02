@@ -17,8 +17,7 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
       <div className="relative -mt-24 flex flex-col gap-3 p-4">
         {/*
           Der Reihenname steht **über** dem Karussell, der gewählte Teil
-          darunter (Daniel, 15.08.2026: „ich hab s3 ausgewählt, es ist kaum
-          erkennbar… das ist der wichtigste teil").
+          darunter.
 
           Vorher trugen beide Zeilen denselben Reihennamen, und welcher Teil
           gerade offen war, stand nur als blauer Rahmen an einer der
@@ -50,8 +49,8 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
 
             Bei „Banana Fish" stand der Name viermal untereinander: als
             Reihenname über dem Karussell, hier noch einmal, und darunter als
-            Umschrift und in Originalschrift — dreimal davon identisch
-            (Daniel, 15.08.2026: „banana fish steht dort 3x"). Ein Titel ohne
+            Umschrift und in Originalschrift — dreimal davon identisch.
+            Ein Titel ohne
             weitere Reihenteile hat schlicht keinen unterscheidenden Zusatz;
             dann trägt ihn die Zeile über dem Karussell allein.
           */}
@@ -59,8 +58,7 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
             **Die Wertung steht vor dem Namen, nicht darunter.**
 
             Sie war eine eigene Zeile unter dem Staffelnamen — 24 px für eine
-            Pille, die neben ihn passt (Daniel, 03.09.2026: „Rating vor
-            ,Staffel 1'"). `items-baseline` setzt sie auf die Schriftlinie des
+            Pille, die neben ihn passt. `items-baseline` setzt sie auf die Schriftlinie des
             Namens statt an seine Oberkante.
           */}
           {/*

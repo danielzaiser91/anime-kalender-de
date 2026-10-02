@@ -45,7 +45,7 @@ export function istPremiere(
   const erst = ersteDeutsch?.[folge]
   if (erst && erst < datum) return false
   /*
-    **Und eine Nachtwiederholung ist eine Wiederholung** (Daniel, 23.09.2026: „ja").
+    **Und eine Nachtwiederholung ist eine Wiederholung**.
 
     Die Prüfung darunter fragt nur das Streaming ab. Sendet derselbe Sender dieselbe Folge
     noch einmal — One Piece läuft auf ProSieben MAXX abends und in derselben Nacht um 04:25 —,

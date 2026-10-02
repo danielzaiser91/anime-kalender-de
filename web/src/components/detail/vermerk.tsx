@@ -203,9 +203,7 @@ export function VermerkAuskunft({
   const [vor, nach] = T('antwort.vermerkPruefen', { anbieter: '\u0000' }).split('\u0000')
   const zeilen: ReactNode[] = []
   /*
-    **Wann zuletzt, wann als Nächstes — je Stufe** (Daniel, 15.09.2026: „wann war
-    das letzte mal das wir geprüft haben, und wann steht die nächste Prüfung an?
-    Offen kommunizieren"). Die nächste Recherche rechnet dieselbe Regel aus wie
+    **Wann zuletzt, wann als Nächstes — je Stufe**. Die nächste Recherche rechnet dieselbe Regel aus wie
     der Lauf (`shared/recherche-plan.ts`); weil GitHub geplante Läufe oft später
     startet, heißt es „voraussichtlich … ab".
   */

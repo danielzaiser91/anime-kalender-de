@@ -180,8 +180,7 @@ export async function berechnePruefstand({ env, antwort }: {
             Abgezogen wird, was schon gemeldet ist — sonst zählt die Anzeige Arbeit mit, die längst getan ist.
 
             Am 30.08.2026 stand in der Statusanzeige „58 Suchen", in der
-            Erweiterung im selben Moment „122 von 176 offen" (Daniel: „wieso die
-            diskrepanz? es sollte synchron sein"). Zwei Ursachen hintereinander:
+            Erweiterung im selben Moment „122 von 176 offen". Zwei Ursachen hintereinander:
             Der Prüfstand rechnete die Suchaufträge selbst nach, statt die Liste
             zu zählen, die Daniel abarbeitet — und hier wurde nichts abgezogen.
 

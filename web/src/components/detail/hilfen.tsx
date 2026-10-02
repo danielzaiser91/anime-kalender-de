@@ -32,9 +32,7 @@ export function downloadIcs(events: ReleaseEvent[], filename: string): void {
  * Teilen — als Symbol im Kopf, nicht als Knopf neben dem Anbieter.
  *
  * Vorher stand er in der Knopfzeile direkt neben „Bei ADN ansehen", und dort
- * las er sich, als teile er den ADN-Link (Daniel, 15.08.2026: „es lässt
- * vermuten das der teilen link sich auf adn bezieht, dabei bezieht er sich auf
- * dieses panel"). Geteilt wird der Titel, also gehört er zu Auge und Stern —
+ * las er sich, als teile er den ADN-Link. Geteilt wird der Titel, also gehört er zu Auge und Stern —
  * den anderen beiden Handlungen, die dem Titel gelten.
  */
 export function ShareIcon({ slug, name }: { slug: string; name: string }) {

@@ -11,7 +11,7 @@ import { translate as t } from './i18n.tsx'
 /**
  * **Nur die ersten zehn Zeichen sind das Datum.** Manche Meldungen tragen einen vollen
  * Zeitstempel („2026-08-30T15:00:00.000Z"); das Zerlegen an „-" machte daraus
- * „30T15:00:00.000Z.08.2026" (Daniel, 15.09.2026: „wieso so ein komisches datum format?").
+ * „30T15:00:00.000Z.08.2026".
  */
 export function datumKurz(iso: string): string {
   const [j, m, t] = iso.slice(0, 10).split('-')
@@ -35,8 +35,7 @@ export function newsSatz(m: NewsMeldung): string {
         ? t('news.folge', { von: m.von ?? '', anbieter })
         : t('news.folgen', { von: m.von ?? '', bis: m.bis, anbieter })
     case 'angekuendigt':
-      /* **Der Satz bleibt kurz** (Daniel am 02.10.2026: „der eintrag beim 01.10. muss stark gekürzt
-         werden, extra infos können ausgeklappt werden"). Der Vermerk (`hinweis`) steht seitdem als
+      /* **Der Satz bleibt kurz**. Der Vermerk (`hinweis`) steht seitdem als
          eigene, leisere Zeile daneben — in der Übersicht kurz, im Aufgeklappten ausführlich. */
       return t('news.angekuendigt', { datum, anbieter })
     case 'disc':
