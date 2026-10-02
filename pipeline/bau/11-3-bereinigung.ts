@@ -217,8 +217,8 @@ export function bereinigeWege({
       doppelterWeg += vorher - title.watchLinks.length
     }
   }
-  if (doppelterWeg)
-    log(`${doppelterWeg} Bezugswege entfernt, die auf dieselbe Adresse zeigen wie ein Verweis desselben Titels`)
+  if (doppelterWeg) log(`${doppelterWeg} Bezugswege entfernt, die auf dieselbe Adresse zeigen wie ein Verweis desselben Titels`)
+  entdoppleCrWege(titles)
 
   let wegNachNein = 0
   {
@@ -356,4 +356,51 @@ export function bereinigeWege({
   if (ausSuche) log(`${ausSuche} Suchadressen über den deutschen Katalog auf ihre Serienadresse gesetzt`)
   if (suchAdressen) log(`${suchAdressen} Suchadressen entfernt — eine Suche ist kein Weg zu einem Titel`)
   schreibeSuchadressen(suchOffen)
+}
+
+/**
+ * **Zwei Wege auf dieselbe Serienkennung sind einer** (02.10.2026).
+ *
+ * Overgeared und Re:Zero Staffel 4 trugen dieselbe Crunchyroll-Serie zweimal — einmal in der kurzen
+ * Form (`/de/series/GT00384004`, aus dem Simulcast-Slot) und einmal in der ausgeschriebenen
+ * (`/de/series/GT00384004/overgeared`, aus dem Katalog). Der Block darüber vergleicht nur Verweise
+ * gegen Bezugswege **über die Adresse** — zwei Schreibweisen derselben Serie sind für ihn zwei
+ * Adressen.
+ *
+ * Gemessen am 02.10.2026: genau zwei Titel. **Der Weg mit Sprachurteil bleibt**, er trägt die
+ * Auskunft; die Reihenfolge sonst unverändert. Rückgabe ist die Zahl der entfernten Wege.
+ */
+export function entdoppleCrWege(titles: Map<number, Title>): number {
+  const kennung = (u: string): string | undefined => /\/series\/([A-Z0-9]+)/i.exec(u)?.[1]?.toLowerCase()
+  let entfernt = 0
+  for (const title of titles.values()) {
+    if ((title.streams?.length ?? 0) < 2) continue
+    const gesehen = new Map<string, (typeof title.streams)[number]>()
+    const behalten = new Set<(typeof title.streams)[number]>()
+    for (const s of title.streams) {
+      const k = s.platform === 'crunchyroll' ? kennung(s.url) : undefined
+      if (!k) {
+        behalten.add(s)
+        continue
+      }
+      const bisher = gesehen.get(k)
+      if (!bisher) {
+        gesehen.set(k, s)
+        behalten.add(s)
+        continue
+      }
+      if (bisher.dub === undefined && s.dub !== undefined) {
+        behalten.delete(bisher)
+        behalten.add(s)
+        gesehen.set(k, s)
+      }
+    }
+    const neu = title.streams.filter((s) => behalten.has(s))
+    if (neu.length < title.streams.length) {
+      entfernt += title.streams.length - neu.length
+      title.streams = neu
+    }
+  }
+  if (entfernt) log(`${entfernt} Crunchyroll-Wege entfernt, die dieselbe Serie in zwei Schreibweisen nannten`)
+  return entfernt
 }

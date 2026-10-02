@@ -137,6 +137,7 @@ import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung, quellenZusammenfuehren } from './lib/meldungen.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
+import { entdoppleCrWege } from './bau/11-3-bereinigung.ts'
 import type { DatiertNews } from './lib/news-verlauf.ts'
 import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
 import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
@@ -6926,6 +6927,21 @@ pruefe(
     { ...basis, art: 'folgen', von: 2, bis: 2, am: '2026-10-04', schluessel: 'd' } as unknown as DatiertNews,
   ])
   pruefe('ein anderer Tag bleibt getrennt', andererTag.length === 2, andererTag.map((m) => m.am))
+}
+{
+  /* **Zwei Wege auf dieselbe Serienkennung sind einer** (02.10.2026): Overgeared und Re:Zero S4
+     trugen dieselbe Crunchyroll-Serie in zwei Schreibweisen (kurz aus dem Slot, ausgeschrieben
+     aus dem Katalog); die Bereinigung verglich nur Adressen. Der Weg mit Sprachurteil bleibt. */
+  const titel = (streams: unknown[]) => new Map([[1, { id: 1, titleDe: "T", streams } as unknown as Title]])
+  const kurz = { platform: "crunchyroll", url: "https://www.crunchyroll.com/de/series/GT1", dub: true }
+  const lang = { platform: "crunchyroll", url: "https://www.crunchyroll.com/de/series/GT1/x", zugang: "abo" }
+  const map1 = titel([kurz, lang])
+  pruefe("dieselbe Serie in zwei Schreibweisen: ein Weg bleibt", entdoppleCrWege(map1) === 1 && map1.get(1)!.streams.length === 1, map1.get(1)!.streams)
+  pruefe("und es bleibt der mit Sprachurteil", map1.get(1)!.streams[0]!.dub === true, map1.get(1)!.streams[0])
+  const map2 = titel([lang])
+  pruefe("ein einzelner Weg bleibt unangetastet", entdoppleCrWege(map2) === 0 && map2.get(1)!.streams.length === 1)
+  const map3 = titel([kurz, { platform: "netflix", url: "https://www.netflix.com/title/1", dub: true }])
+  pruefe("verschiedene Anbieter bleiben getrennt", entdoppleCrWege(map3) === 0 && map3.get(1)!.streams.length === 2)
 }
 {
   /* **Laeuft die Serie, ist ihr Slot ein Simulcast** (02.10.2026, Overgeared): AniList kennt fuer
