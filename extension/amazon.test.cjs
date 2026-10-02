@@ -414,9 +414,7 @@ function veraltetTest(schritte) {
   /*
     **Gezählt wird nicht, verglichen wird.**
 
-    Bis zum 25.08.2026 stand hier `=== 2` — die Zahl der Sendestellen von damals.
-    Als der Film-Weg zwei weitere brachte, wurde die Zusicherung rot, obwohl alle
-    vier die Adresse korrekt mitschicken. Eine Prüfung, die an der Anzahl hängt,
+    Eine Prüfung, die an der Anzahl der Sendestellen hängt,
     misst den Umbau statt der Regel.
   */
   const sendeStellen = (leser.match(/window\.postMessage\(/g) ?? []).length

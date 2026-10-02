@@ -308,10 +308,7 @@ const alsTitel = lauf('/dp/B000W9GBW6', '', {
 /*
   Gesucht wird über die **Folgenzahl**, nicht über einen Satz.
 
-  Bis zum 02.09.2026 stand hier `/Meldung läuft unter diesem Titel/` — der Satz
-  ist auf Daniels Wunsch entfallen („das kann weg. ist klar."), und die
-  Zusicherung wurde rot, obwohl der Kasten unverändert erschien. Eine Prüfung,
-  die an einer Formulierung hängt, misst die Formulierung; gemeint war, dass der
+  Eine Prüfung, die an einer Formulierung hängt, misst die Formulierung; gemeint ist, dass der
   Kasten den Titel und sein Erkennungsmerkmal nennt.
 */
 const merker = alsTitel.angehaengt.find((e) => /Folgen erwartet/.test(kastenText(e)))

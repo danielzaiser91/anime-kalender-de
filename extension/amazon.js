@@ -442,13 +442,10 @@ async function speicherSchreiben(werte) {
   /**
    * **Eine Prime-Kennung hat nicht immer zehn Zeichen.**
    *
-   * Bis zum 25.08.2026 stand hier `[A-Z0-9]{10}` — die Länge einer ASIN. Prime
-   * Video führt daneben aber GTIs mit **26** Zeichen, und das Muster schnitt sie
-   * ab: Aus `0J16B1NAB82TO0O5A5Q8TLG1VP` wurde `0J16B1NAB8`. Der Vergleich in
-   * `quelltextPasst()` scheiterte damit zwangsläufig, `spuren()` wurde gar nicht
-   * erst aufgerufen, und der Knopf blieb auf „Tonspuren noch nicht geladen"
-   * stehen — bei „Babylon" ebenso wie bei „Akame ga Kill"
-   * (`0HSXN9KO9VCAUTXWKIY203H5KV`, auch 26 Zeichen).
+   * Neben ASINs (zehn Zeichen) führt Prime Video GTIs mit **26** Zeichen
+   * (`0J16B1NAB82TO0O5A5Q8TLG1VP`). Ein Muster `[A-Z0-9]{10}` schnitte sie ab, der
+   * Vergleich in `quelltextPasst()` scheiterte, und der Knopf bliebe auf
+   * „Tonspuren noch nicht geladen" stehen.
    *
    * Sichtbar wurde es erst durch die Messung in Daniels Sitzung: Die Seite führt
    * 15 Tonspurangaben, alle mit Deutsch, und die Paarung findet 12 Folgen. Die
@@ -1429,11 +1426,8 @@ async function speicherSchreiben(werte) {
   /**
    * **Die Staffelnummer — das JSON schlägt die Adresse.**
    *
-   * Bis zum 25.08.2026 stand `staffelAusAdresse()` vorn, und das war richtig,
-   * solange der Quelltext nach einem Wechsel veraltete: Die Adresse wanderte
-   * mit, das JSON nicht.
-   *
-   * Seit die Angabe aus dem Hydration-Block kommt, dreht sich das um — und
+   * Die Angabe kommt aus dem Hydration-Block, der nach einem Wechsel mitwandert;
+   * deshalb steht das JSON vor `staffelAusAdresse()` — und
    * „Yu-Gi-Oh! ZEXAL" zeigt, warum das nötig ist. Prime teilt dort jede
    * Staffel in zwei Bände und nutzt `sequenceNumber` als **Sortierschlüssel**,
    * nicht als Staffelnummer:
@@ -6123,18 +6117,15 @@ async function speicherSchreiben(werte) {
         /*
           **Zwei Aussagen, zwei Marken — sie zusammenzuziehen war der Fehler.**
 
-          Bis zum 09.09.2026 stand hier „1/9 — nicht angekommen" in **einer**
-          Pille, und Daniel las es als eine Aussage: „2/9 heißt also es wurde
-          noch nicht gemeldet? weil er lokal mitzählt und wartet bis alles
-          gemeldet ist?" Es sind aber zwei unabhängige Dinge:
+          In einer Pille liest man sie als eine Aussage. Es sind aber zwei
+          unabhängige Dinge:
 
               2 von 9 gemeldet     wie weit die Serie durch ist
               nur auf dem Rechner  ob die Meldung den Worker erreicht hat
 
           Dazu kam, dass die zweite Angabe verschwindet, sobald die Meldung
           ankommt — nach ein paar Sekunden. Nebeneinander in derselben Pille
-          sah das aus wie eine wechselnde Beschriftung derselben Sache
-          („inkonsistent siehe screenshots, 1/9 + text -- 2/9 ohne text").
+          sah das aus wie eine wechselnde Beschriftung derselben Sache.
 
           Ausgeschrieben statt „2/9": Der Bruchstrich sagt nicht, was gezählt
           wird, und genau danach musste er fragen.
@@ -8115,10 +8106,8 @@ async function speicherSchreiben(werte) {
           Acht Sekunden sind mehr als das Doppelte des gemessenen Normalfalls
           (554 ms). Was danach noch „nicht gefunden" heißt, ist ein Vorfall:
           Vielleicht hat Amazon den Seitenaufbau geändert, vielleicht greift ein
-          Muster nicht mehr. Bis zum 10.09.2026 stand das nur auf dem Knopf, und
-          davon erfahre ich nur, wenn Daniel zufällig ein Bild schickt — genau
-          der Weg, den er als untauglich benannt hat: „info bringt nix, du liest
-          nix aus der console aus, ich lese auch nix aus."
+          Muster nicht mehr. Stünde das nur auf dem Knopf oder in der Konsole,
+          erführe es niemand.
 
           Netflix meldet denselben Zustand seit 4.17.11 als `ohne_tonspur`.
           Der Riegel „je Art und Seite einmal" fängt den Takt ab, in dem

@@ -1199,15 +1199,9 @@ function beschriftung(spuren) {
       **Ohne Tonspur gibt es nichts zu melden — aber der Knopf sagt jetzt, wie
       man dahin kommt.**
 
-      Bis zum 26.08.2026 stand hier „Auf Abspielen klicken, dann läuft es von
-      selbst", und das war nach dem Abschalten der Automatik falsch: Es lief
-      nichts von selbst. Der Hinweis wurde ersatzlos gestrichen — und damit
-      verschwand der Knopf auf der Titelseite ganz.
-
       Für einen **Film** ist das die einzige Stelle, an der jemand steht: Es gibt
-      keine Folgenliste, aus der heraus man in den Player käme. Daniel am
-      30.08.2026 an „Gintama the Movie 2026" und „Pokémon: Blauer Himmel in der
-      Ferne!": „beide titel lassen sich immer noch nicht melden."
+      keine Folgenliste, aus der heraus man in den Player käme — ohne den Knopf
+      ließe sich ein Film nicht melden.
 
       Der neue Text verspricht keine Automatik, er nennt den Weg: Netflix gibt
       seine Tonspuren nur an einer laufenden Wiedergabe heraus (viermal
@@ -1222,13 +1216,6 @@ function beschriftung(spuren) {
     : ''
   /*
     **Im Player wird nichts mehr angeboten.**
-
-    Bis zum 26.08.2026 stand hier „Deutsche Tonspur (St. 1, Flg. 1) — wird
-    gesendet …" — und das war nach dem Abschalten der Automatik eine
-    Falschaussage: Es wurde nichts gesendet. Daniel mit Bild: „das wird
-    automatisch bei abspielen von ep 1 eingeblendet, ich hab gesagt diesen
-    automatismus raus, nur wenn man es über den button neben limit button macht
-    soll es klappen."
 
     Gemeldet wird über den Durchlauf auf der Titelseite. Ein zweiter Weg im
     Player macht die Herkunft einer Meldung unklar — und war der Grund, warum

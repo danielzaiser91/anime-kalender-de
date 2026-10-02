@@ -1725,13 +1725,6 @@ for (const pfad of ['/', '/gp/video/storefront']) {
 /**
  * **Fortschritt und Sendezustand sind zwei Marken, nicht eine.**
  *
- * Bis zum 09.09.2026 stand in der Liste „1/9 — nicht angekommen" in **einer**
- * Pille. Daniel las es als eine Aussage und musste zweimal nachfragen: „2/9
- * heißt also es wurde noch nicht gemeldet? weil er lokal mitzählt und wartet
- * bis alles gemeldet ist?" — und, mit zwei Bildern: „das muss besser gelabeled
- * sein, das ist zu verwirrend, außerdem ist inkonsistent … 1/9 + text -- 2/9
- * ohne text."
- *
  * Es sind zwei unabhängige Dinge: wie weit die Serie durch ist, und ob die
  * Meldung den Worker erreicht hat. Das zweite verschwindet nach Sekunden —
  * in derselben Pille sah das nach einer wechselnden Beschriftung derselben

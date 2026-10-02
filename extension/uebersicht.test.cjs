@@ -54,9 +54,7 @@ pruefe('eine beantwortete Staffel taucht nicht auf',
   !empfohleneFolgen(mehrteilig).some((k) => k.startsWith('2e')))
 /**
  * Eine Staffel mit einer einzigen Folge ist in aller Regel ein Film oder ein
- * Special — dort gibt es nichts auszuwählen. Bis zum 22.08.2026 stand hier
- * „1e01", was Daniel zu Recht als Unsinn meldete: „filme in der liste werden
- * als 1e01 gemeldet, obwohl es filme und keine serien sind."
+ * Special — dort gibt es nichts auszuwählen, „1e01" wäre Unsinn.
  */
 /**
  * **Das Format entscheidet, nicht die Folgenzahl.** Zwei Faelle machen das
