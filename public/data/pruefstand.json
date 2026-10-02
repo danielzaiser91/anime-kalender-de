@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-02T13:07:06.032Z",
+ "erzeugtAm": "2026-10-02T16:42:37.921Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -29,35 +29,26 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 376,
+   "gemeldet": 377,
    "gesamt": 377,
-   "offen": 1,
+   "offen": 0,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/81663325",
-   "ziele": [
-    {
-     "url": "https://www.netflix.com/title/81663325",
-     "titel": "Sakamoto Days"
-    }
-   ],
-   "naechster": "Sakamoto Days"
+   "ziel": null,
+   "ziele": [],
+   "naechster": null
   },
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 40,
+   "gemeldet": 41,
    "gesamt": 44,
-   "offen": 4,
+   "offen": 3,
    "ohneSeite": 0,
    "ziel": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
    "ziele": [
     {
      "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
      "titel": "Bleach: Thousand-Year Blood War"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-79a3e335-2acc-408e-a942-1b0bac47d952",
-     "titel": "Though I Am an Inept Villainess"
     }
    ],
    "naechster": "Bleach: Thousand-Year Blood War"

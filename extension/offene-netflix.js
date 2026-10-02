@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_TITEL = {"81663325":{"titel":"Sakamoto Days","asId":19307,"staffeln":[{"nr":1,"id":177709,"name":"Sakamoto Days","folgen":11,"film":false,"offen":true,"zustand":"melden"},{"nr":2,"id":184237,"name":"Sakamoto Days: Teil 2","folgen":11,"film":false,"offen":false,"zustand":"belegt","am":null}]}}
+globalThis.AK_OFFENE_TITEL = {}

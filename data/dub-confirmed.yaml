@@ -21250,3 +21250,35 @@
   available: false
   checkedAt: '2026-09-28'
   note: "Amazon-Seite B0C8X3SVR3: nur 0 von 12 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.4a61826b-1036-41aa-b24a-ee1cf0dd8778, regionsperre=laut Seite nicht mehr im Abo"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-02 ---
+
+- anilistId: 188139
+  title: "Though I Am an Inept Villainess"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/browse/entity-79a3e335-2acc-408e-a942-1b0bac47d952
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 9
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    - from: 10
+      to: 11
+      dub: false
+      checked: [10, 11]
+  checkedAt: '2026-10-02'
+  note: "Folgen 1–9 mit deutschem Ton, Folgen 10–11 ohne deutschen Ton — Tonspuren: ja"
+- anilistId: 177709
+  title: "Sakamoto Days"
+  platform: netflix
+  url: https://www.netflix.com/title/81663325
+  dub: true
+  checkedAt: '2026-10-02'
+  note: "Folgen 1–11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, id|Indonesisch, ko|Koreanisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 22, dazwischen nicht geprüft — Folge 11: Casino Battle"
+- anilistId: 184237
+  title: "Sakamoto Days: Teil 2"
+  platform: netflix
+  url: https://www.netflix.com/title/81663325
+  dub: true
+  checkedAt: '2026-10-02'
+  note: "Folgen 1–11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, id|Indonesisch, ko|Koreanisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 22, dazwischen nicht geprüft — Folge 16: Tanz der rollenden Köpfe"
