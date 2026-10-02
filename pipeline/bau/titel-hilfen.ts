@@ -14,7 +14,7 @@ import {
 } from '../../shared/mappings.ts'
 import { KEYWORD_MIN_RANK, KEYWORD_MAX } from './grundlagen.ts'
 import { entwirreWeiterleitung } from '../../shared/adresse-passt.ts'
-import { slugify } from '../lib/util.ts'
+import { log, slugify } from '../lib/util.ts'
 import { addDays } from '../../shared/time.ts'
 import { type CrunchyrollEntry } from '../lib/crunchyroll.ts'
 import { type CuratedEntry } from '../lib/curated.ts'
@@ -552,6 +552,31 @@ export function derivedStart(slot: CrunchyrollEntry): { date: string; assumed: b
     (a, b) => b[1].count - a[1].count || b[1].latest.localeCompare(a[1].latest),
   )[0]
   return { date, assumed: winner.count < 2 }
+}
+
+/**
+ * **Der deutsche Crunchyroll-Slot trägt den Weg selbst** (02.10.2026).
+ *
+ * Anlass: Overgeared lief ab dem 27.09. als **Simuldub** — der Kalender führte den Slot mit
+ * `rawTitle: „Overgeared Staffel 1 (Deutsch)"`, der Folgen-Feed die erste Folge, und trotzdem
+ * hatte der Titel **keinen einzigen Weg**. Daniel: „trotzdem hab ich es verpasst … diese automatik
+ * für crunchy muss 100% funktionieren."
+ *
+ * **Warum es überhaupt passieren konnte:** Die Runden in `09-4-3-katalog.ts` **beurteilen nur
+ * vorhandene** Crunchyroll-Wege (`stream.dub = …`). Fehlt der Weg, sagt keine von ihnen etwas —
+ * und der Weg entstand sonst nur aus Katalog oder Kuration. Gemessen am 02.10.2026 betraf das
+ * **fünf Serien** (Overgeared, Aoashi, Elainas Reise, Fruits Basket, Anime Awards).
+ *
+ * **Der Slot ist der stärkste Beleg des Projekts** — Crunchyroll selbst schreibt „(Deutsch)" in
+ * den Kalender. Also setzt er den Weg, mit `dub: true`: Es ist ein deutscher Simulcast. Vorhandene
+ * Wege werden nie überschrieben, nur ergänzt.
+ */
+export function ergaenzeCrWeg(title: Title, seriesUrl: string | undefined): boolean {
+  if (!seriesUrl) return false
+  if (title.streams.some((s) => s.platform === 'crunchyroll' && s.url === seriesUrl)) return false
+  title.streams.push({ platform: 'crunchyroll', url: seriesUrl, dub: true, zugang: 'abo' })
+  log(`  ${title.titleDe ?? title.titleEn ?? title.id}: Crunchyroll-Weg aus dem deutschen Simulcast-Slot ergänzt`)
+  return true
 }
 
 /**

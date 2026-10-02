@@ -136,6 +136,7 @@ import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung, quellenZusammenfuehren } from './lib/meldungen.ts'
 import { belegeVonRelease, nurAngekuendigt } from './lib/news.ts'
+import { ergaenzeCrWeg } from './bau/titel-hilfen.ts'
 import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
 import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
 import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
@@ -6882,6 +6883,24 @@ pruefe(
     'News: ein erreichter Termin eines **anderen** Anbieters rettet „neu auf Deutsch" nicht',
     nurAngekuendigt([rel(1, 'disc', '2026-09-04'), rel(1, 'crunchyroll', '2026-10-02')], 1, 'crunchyroll', '2026-09-03'),
   )
+}
+{
+  /* **Der deutsche Simulcast-Slot trägt den Weg selbst** (02.10.2026): Overgeared lief ab dem
+     27.09. deutsch, hatte aber **keinen** Crunchyroll-Weg — die Katalog-Runden beurteilen nur
+     vorhandene Wege (`stream.dub = …`), keiner legt einen an. Der Kalender-Slot nennt „(Deutsch)"
+     und setzt ihn deshalb selbst. */
+  const t = { id: 1, titleDe: 'T', streams: [] } as unknown as Title
+  pruefe(
+    'der deutsche Slot ergänzt einen fehlenden Crunchyroll-Weg als deutschen',
+    ergaenzeCrWeg(t, 'https://www.crunchyroll.com/de/series/GT1/x') && t.streams.length === 1 && t.streams[0]!.dub === true,
+    t.streams,
+  )
+  pruefe(
+    'ein vorhandener Weg wird nicht doppelt angelegt',
+    !ergaenzeCrWeg(t, 'https://www.crunchyroll.com/de/series/GT1/x') && t.streams.length === 1,
+    t.streams,
+  )
+  pruefe('ohne Adresse passiert nichts', !ergaenzeCrWeg(t, undefined) && t.streams.length === 1, t.streams)
 }
 {
   /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */

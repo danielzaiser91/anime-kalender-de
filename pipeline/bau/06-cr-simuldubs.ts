@@ -1,5 +1,5 @@
 import { slugify, log, warn } from '../lib/util.ts'
-import { werkTitel, derivedStart, observedEpisodes } from './titel-hilfen.ts'
+import { werkTitel, derivedStart, observedEpisodes, ergaenzeCrWeg } from './titel-hilfen.ts'
 import {
   normalizeTitle,
   durchlaufendeZaehlung,
@@ -60,6 +60,7 @@ export function ergaenzeCrSimuldubs({
     const slug = `cr-${slot.seriesId ?? slugify(key)}`
     if (seenSlugs.has(slug)) continue
     seenSlugs.add(slug)
+    if (title) ergaenzeCrWeg(title, slot.seriesUrl)
 
     /**
      * Der deutsche Name, den Crunchyroll selbst verwendet, gehört an den Titel.
@@ -76,9 +77,7 @@ export function ergaenzeCrSimuldubs({
      */
     if (title && !title.titleDe) {
       const werk = werkTitel(name)
-      if (werk && normalizeTitle(werk) !== normalizeTitle(title.titleEn ?? '') && normalizeTitle(werk) !== normalizeTitle(title.titleRomaji ?? '')) {
-        title.titleDe = werk
-      }
+      if (werk && normalizeTitle(werk) !== normalizeTitle(title.titleEn ?? '') && normalizeTitle(werk) !== normalizeTitle(title.titleRomaji ?? '')) title.titleDe = werk
     }
 
     // Ein einziger Termin ist kein Beleg für einen Wochentakt.
