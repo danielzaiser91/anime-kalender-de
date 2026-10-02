@@ -575,3 +575,13 @@ Einträge), und die Entscheidung vom 27.09. galt der engeren Menge „deutsch oh
 weiß es nicht besser); die **46 mit einem eindeutigen Gegenurteil** (`nicht verfügbar` gegen
 `dub: true`, `deutsch` gegen `available: false`/`dub: false`) sind ein echter Streit zwischen
 Handbeleg und Messung und brauchen einen eigenen Durchgang.
+
+### Schritt 3 (1e), 02.10.2026 — spätere Staffeln über die Reihe
+
+Größter Restposten der Meldungen ohne Titel war „späte Staffel" (3.366 von 8.749 Meldungen am
+02.10.2026): Die Serienseite des Anbieters hängt bei uns an einer Staffel, die Meldung nennt eine
+spätere. `spaeteStaffel()` (`pipeline/lib/urteil-je-folge.ts`) nimmt alle Titel der Reihe der Adresse
+als Kandidaten und lässt `staffelTreffer` entscheiden — nur mit **bekannter** Anbieter-Folgenzahl (±3).
+Gemessen vor dem Einbau: **647** werden zuordenbar (54 Titel), 2.296 bleiben an den Riegeln offen,
+419 haben eine unbekannte Adresse, 4 keine Folgenzahl. Die Wirkung aufs Urteil zeigt erst der nächste
+Bestandslauf; danach `check:handbelege` ansehen.
