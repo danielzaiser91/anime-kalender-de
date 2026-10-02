@@ -100,7 +100,8 @@ export function lastEpisodeDate(release: Release): string | undefined {
  */
 export function releaseStatus(release: Release, today = todayIso()): ReleaseStatus {
   const s = release.schedule
-  if (!s?.firstEpisodeDate) return 'unbekannt'
+  /* Ein widerlegter Termin hat keinen Sendeplan: er verschwindet still (02.10.2026). */
+  if (!s?.firstEpisodeDate || release.widerlegt) return 'unbekannt'
   if (s.firstEpisodeDate > today) return 'tba'
   /* Gesichtete TV-Reihen haben kein bekanntes Ende — eine Woche nach der letzten Sichtung laufen sie noch. */
   if (release.tvLetzteSichtung && release.tvLetzteSichtung >= addDays(today, -7)) return 'airing'
@@ -168,7 +169,9 @@ export function titleStatus(
    * Einstufung sagt, wie gut die **Terminlage** belegt ist; ob die Fassung
    * existiert, beantwortet der Anbieter selbst.
    */
-  if ((title?.streams ?? []).some((s) => s.dub === true)) return 'erschienen'
+  /* Ein widerlegter deutscher Termin belegt kein verfügbares Deutsch (02.10.2026). */
+  const nurWiderlegt = releases.length > 0 && releases.every((r) => r.widerlegt)
+  if (!nurWiderlegt && (title?.streams ?? []).some((s) => s.dub === true)) return 'erschienen'
 
   const ended = title?.jpEnd ?? (title?.jpYear ? `${title.jpYear}-12-31` : undefined)
   // Ohne einen belegten Verweis reicht eine einzige Quelle für den Satz „die
@@ -247,7 +250,7 @@ export function merkbareTermine(release: Release, today: string): ReleaseEvent[]
 
 function termineAusPlan(release: Release): ReleaseEvent[] {
   const s = release.schedule
-  if (!s?.firstEpisodeDate) return []
+  if (!s?.firstEpisodeDate || release.widerlegt) return []
 
   const base = {
     releaseSlug: release.slug,

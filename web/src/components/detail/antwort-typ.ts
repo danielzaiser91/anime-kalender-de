@@ -64,6 +64,14 @@ export type Antwort =
     }
   | { art: 'ohne'; gesamt?: number }
   /**
+   * **Ein deutscher Termin, den der Anbieter selbst widerlegt hat** (02.10.2026).
+   *
+   * Steht in Crunchyrolls Wochenprogramm am selben Tag für dieselbe Serie nur
+   * die japanische Fassung, kommt keine deutsche Folge — „Erste Folge erscheint
+   * heute" wäre falsch. Der Kasten nennt den widerlegten Tag und den Grund.
+   */
+  | { art: 'widerlegt'; datum: string; grund: string; quelle?: string }
+  /**
    * **Eine Disc ist kein Sendeplan.**
    *
    * Gibt es zu einem Titel überhaupt kein Streaming-Release, fällt der Kopf auf

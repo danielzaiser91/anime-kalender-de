@@ -7,6 +7,7 @@ import { todayIso } from '../../shared/time.ts'
 import { kostenloseFolgen } from '../../shared/kostenlos.ts'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { VOICES_DIR } from './grundlagen.ts'
+import { widerlegeDeutscheTermine } from './widerlegung-woche.ts'
 
 /**
  * **Die zwei Auskünfte an den Termin schreiben** (28.09.2026, `shared/tv-signale.ts`).
@@ -48,6 +49,8 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
   titles: Map<number, Title>
   jpStart: Map<number, string>
 }) {
+  /* Erst widerlegen, dann auffalten: Ein widerlegter Termin erzeugt kein Ereignis (02.10.2026). */
+  widerlegeDeutscheTermine(releases, titles)
   const events: ReleaseEvent[] = releases
     .flatMap(expandEvents)
     .sort((a, b) => (a.date === b.date ? (a.time ?? '99') .localeCompare(b.time ?? '99') : a.date.localeCompare(b.date)))
@@ -60,10 +63,8 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
    * abgeleitete, ein Kanal-Nein bleibt `unbekannt`.
    *
    * Dieser Schritt ersetzt **keine** der 26 Stellen, an denen der Bau heute `dub` setzt — er
-   * steht dahinter und füllt nur, was niemand gesetzt hat. Gemessen am 23.09.2026 über die 222
-   * Wege mit Urteil: 177 decken sich mit dem Bestand, **null** widersprechen ihm, genau einer
-   * war offen (Fairy Tail bei Prime). Der Gewinn liegt nicht in der Zahl von heute, sondern
-   * darin, dass jede neue Meldung ab jetzt ohne eine weitere Setzstelle ankommt.
+   * steht dahinter und füllt nur, was niemand gesetzt hat (gemessen am 23.09.2026: 177 von 222
+   * decken sich, null widersprechen, einer offen). Jede neue Meldung kommt so ohne neue Setzstelle an.
    *
    * Ein Urteil „kein deutsch" setzt hier nichts: Ein Nein entfernt Wege, und das gehört zu
    * Schritt 2, wenn die Gegenproben dafür stehen.

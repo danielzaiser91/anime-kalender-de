@@ -210,7 +210,7 @@ export function AntwortKasten({
     **Kaufwege bleiben**, denn eine Vorbestellung ist genau für diesen Zustand
     da: Man kann sie tätigen, bevor etwas erschienen ist.
   */
-  const nochNichts = antwort.art === 'laeuft' && antwort.raus === 0
+  const nochNichts = (antwort.art === 'laeuft' && antwort.raus === 0) || antwort.art === 'widerlegt'
   const streamPillen = nochNichts ? [] : stream
   const beides = streamPillen.length > 0 && disc.length > 0
   /*
@@ -418,24 +418,11 @@ export function AntwortKasten({
     )
     neben = [
       /*
-        **Der Wochentag wird ausgeschrieben, nicht abgeschnitten.**
-
-        `weekdayName(…).slice(0, 2)` machte aus „Freitag" ein „Fr", und mit dem
-        angehängten s stand dort „Wöchentlich Frs" — Daniel am 03.09.2026: „Frs
-        entfernen. wofür steht es? Niemand versteht es… Dann nicht entfernen,
-        sondern ausschreiben."
-
-        Er hat beides richtig gesehen: Das Kürzel war unlesbar, und die
-        Auskunft dahinter ist wertvoll — wer weiß, dass eine Serie freitags
-        kommt, muss nicht täglich nachsehen. Zwei Zeichen zu sparen war der
-        schlechteste denkbare Tausch dafür.
-      */
-      /*
-        **Der Wochentag ist nach oben gewandert, nicht verschwunden.** Er steht
-        seit dem 10.09.2026 ausgeschrieben im Satz der Überschrift („am Samstag
-        den 12.09.2026"); ihn hier zu wiederholen wäre dieselbe Auskunft
-        zweimal. Was bleibt, ist die Frequenz — und die sagt zusammen mit dem
-        Tag oben alles, was „Wöchentlich samstags" sagte.
+        **Der Wochentag steht oben im Satz, hier bleibt die Frequenz.**
+        Das alte Kürzel („Wöchentlich Frs") war unlesbar; ausgeschrieben
+        wiederholte es nur den Wochentag der Überschrift. Was bleibt, ist der
+        Takt — wer weiß, dass eine Serie freitags kommt, muss nicht täglich
+        nachsehen.
       */
       antwort.sendetage?.length
         ? sendetageText(antwort.sendetage)
@@ -673,6 +660,12 @@ export function AntwortKasten({
       Frage, ob es ihn auf Deutsch gibt; das Werk beschreibt der Kopf.
     */
     fakten = []
+  } else if (antwort.art === 'widerlegt') {
+    /* Ein widerlegter Termin sagt nicht „erscheint heute" — er nennt Tag und Grund (02.10.2026). */
+    haupt = T('antwort.widerlegtTitel')
+    neben = T('antwort.widerlegtNeben', { datum: formatDate(antwort.datum) })
+    gedaempft = true
+    zaehl = ''
   } else {
     /*
       Dieselbe Dopplung wie oben, nur verneint: „Noch keine deutsche Fassung",

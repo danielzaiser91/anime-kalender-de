@@ -103,6 +103,11 @@ export function berechneAntwort({ title, releases, today }: {
     .filter((e) => !istAusgeblieben(e) || !offen.some((o) => o.episode === e.episode && !istAusgeblieben(o)))
     .sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
   const raus = zaehleErschienen(alleEvents)
+  /* Ein widerlegter deutscher Termin erzeugt kein Ereignis — er bekommt seine eigene Antwort (02.10.2026). */
+  const widerlegt = releases.find((r) => r.widerlegt)?.widerlegt
+  if (widerlegt && !alleEvents.length) {
+    return { art: 'widerlegt' as const, datum: widerlegt.am, grund: widerlegt.grund, quelle: widerlegt.quelle }
+  }
   /*
     **Keine Folgenzahl aus der Zahl der Termine.**
 

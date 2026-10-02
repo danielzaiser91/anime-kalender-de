@@ -687,12 +687,12 @@ export interface Release {
    * Zweitkandidat erscheint deshalb im Detail-Panel neben dem ersten, samt
    * Hinweis, dass wir uns nicht sicher sind.
    *
-   * Der Anlass: „Inazuma Eleven – Staffel 1". Anime2You nennt den 04.09.2026,
-   * aniSearch den 25.09.2026 für dieselbe AniMoon-Ausgabe, und der Verlag
-   * selbst schreibt nur „September 2026". Fünf Händler geprüft, keiner nennt
-   * einen Tag.
+   * Der Anlass: „Inazuma Eleven – Staffel 1" — Anime2You nennt den 04.09.2026,
+   * aniSearch den 25.09.2026, der Verlag nur „September 2026"; fünf Händler
+   * geprüft, keiner nennt einen Tag.
    */
   disputedDates?: { date: string; source: string }[]
+  widerlegt?: { am: string; grund: string; quelle?: string; gemeldet: boolean } // Wochenprogramm, 02.10.2026
   schedule: Schedule
   /** Jahr der ersten Folge im deutschen Dub. */
   year: number

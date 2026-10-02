@@ -21,7 +21,7 @@ import { titelAus } from './lib/anisearch-titel.ts'
 import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
-import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
+import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, releaseStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
 import { wocheAus } from '../shared/wochenprogramm.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
@@ -156,6 +156,7 @@ import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap,
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
 import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
+import { widerlegeDeutscheTermine, widerlegtDurchWoche, type Wochenprogramm } from './bau/widerlegung-woche.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
@@ -7458,6 +7459,107 @@ pruefe(
   pruefe('Adresse: Titelseite über den Verweis', index('https://www.amazon.de/dp/B000?ref_=x')?.join() === '11')
   pruefe('Adresse: Suchadresse über den eindeutigen Namen', index('https://www.amazon.de/s?k=Cowboy+Bebop&i=instant-video')?.join() === '11')
   pruefe('Adresse: Suchadresse mit zwei gleichnamigen Titeln bleibt offen', index('https://www.amazon.de/s?k=Monster') === undefined)
+}
+{
+  /*
+    **Das Wochenprogramm widerlegt einen deutschen Termin** (02.10.2026). Führt
+    Crunchyrolls Vorschau denselben Tag für dieselbe Serienkennung nur `ja`,
+    kommt kein deutscher Termin — gemessen: Apothekerin S3 (02.10.) und Black
+    Clover S2 (03.10.). Gemeldet wird nur, was vorher behauptet war.
+  */
+  const titel = (id: number, kennung: string, dub: boolean): Title =>
+    ({
+      id,
+      franchiseId: id,
+      titleDe: `T${id}`,
+      streams: [{ platform: 'crunchyroll', url: `https://www.crunchyroll.com/de/series/${kennung}/x`, ...(dub ? { dub: true } : {}) }],
+    }) as unknown as Title
+  const rel = (slug: string, titleId: number, datum: string, estimated: boolean): Release =>
+    ({
+      slug,
+      titleId,
+      name: `T${titleId}`,
+      platform: 'crunchyroll',
+      releaseType: 'weekly',
+      schedule: { firstEpisodeDate: datum, episodeCount: 12, ...(estimated ? { estimated: true } : {}) },
+      sources: ['https://x'],
+    }) as unknown as Release
+  const woche: Wochenprogramm = {
+    wocheAb: '2026-09-28',
+    artikel: 'https://www.crunchyroll.com/de/news/seasonal-lineup/2026/7/6/crunchyroll-wochenprogramm-sommer-2026',
+    eintraege: [
+      { seriesId: 'G3KHEVDJ7', sprache: 'ja', datum: '2026-10-02' },
+      { seriesId: 'GRE50KV36', sprache: 'ja', datum: '2026-10-03' },
+      { seriesId: 'G8DHV78ZM', sprache: 'ja', datum: '2026-09-30' },
+      { seriesId: 'G8DHV78ZM', sprache: 'de', datum: '2026-09-30' },
+    ],
+  }
+  const apo = rel('apothecary-diaries-s3-cour1', 195516, '2026-10-02', true)
+  const clover = rel('black-clover-s2-crunchyroll', 195604, '2026-10-03', true)
+  const clev = rel('clevatess-s2', 196000, '2026-09-30', true)
+  const draussen = rel('spaeter', 196001, '2026-10-20', true)
+  const ohneEintrag = rel('unbekannt', 196002, '2026-09-29', true)
+  const titles = new Map<number, Title>([
+    [195516, titel(195516, 'G3KHEVDJ7', true)],
+    [195604, titel(195604, 'GRE50KV36', false)],
+    [196000, titel(196000, 'G8DHV78ZM', false)],
+    [196001, titel(196001, 'GSPAET', false)],
+    [196002, titel(196002, 'GUNBEKANNT', false)],
+  ])
+  const n = widerlegeDeutscheTermine([apo, clover, clev, draussen, ohneEintrag], titles, woche)
+  pruefe(
+    'Wochenprogramm: nur `ja` am selben Tag widerlegt',
+    widerlegtDurchWoche(new Set(['ja'])) && !widerlegtDurchWoche(new Set(['ja', 'de'])) && !widerlegtDurchWoche(undefined),
+  )
+  pruefe(
+    'Wochenprogramm: die Apothekerin (behauptet) wird widerlegt — mit Meldung',
+    n === 2 && apo.widerlegt?.gemeldet === true && apo.widerlegt.am === '2026-10-02',
+    apo.widerlegt,
+  )
+  pruefe('Wochenprogramm: Black Clover S2 (bloße Schätzung) wird widerlegt — still', clover.widerlegt?.gemeldet === false, clover.widerlegt)
+  pruefe('Wochenprogramm: ein `de` am selben Tag widerlegt nicht', clev.widerlegt === undefined)
+  pruefe('Wochenprogramm: außerhalb des Fensters wird nichts widerlegt', draussen.widerlegt === undefined)
+  pruefe('Wochenprogramm: ohne Eintrag zur Serie wird nichts widerlegt', ohneEintrag.widerlegt === undefined)
+  pruefe('Wochenprogramm: ein widerlegter Termin erzeugt kein Ereignis', expandEvents(apo).length === 0 && expandEvents(clover).length === 0)
+  pruefe('Wochenprogramm: ein widerlegter Termin zählt nicht als laufend', releaseStatus(apo, '2026-10-02') === 'unbekannt')
+
+  /* Der behauptete Termin wird zurückgezogen; die bloße Schätzung verschwindet still. */
+  const ohneStreams = (id: number): Title => ({ id, franchiseId: id, titleDe: `T${id}`, streams: [] }) as unknown as Title
+  const basis = (titleId: number, widerlegt?: Release['widerlegt']): Release =>
+    ({
+      slug: `r-${titleId}`,
+      titleId,
+      name: `T${titleId}`,
+      platform: 'crunchyroll',
+      releaseType: 'weekly',
+      schedule: { firstEpisodeDate: '2026-10-02', episodeCount: 12, estimated: true },
+      sources: ['https://x'],
+      ...(widerlegt ? { widerlegt } : {}),
+    }) as unknown as Release
+  const h1: NewsHistorie = { zuerst: {} }
+  baueNews([ohneStreams(1)], [basis(1)], [], [], h1)
+  const behauptet = baueNews(
+    [ohneStreams(1)],
+    [basis(1, { am: '2026-10-02', grund: 'Wochenprogramm führt nur OmU', gemeldet: true })],
+    [],
+    [],
+    h1,
+  ).flatMap((e) => e.meldungen)
+  pruefe('News: ein widerlegter, behaupteter Termin wird zurückgezogen', behauptet.some((m) => m.zurueckgezogen), behauptet)
+  const h2: NewsHistorie = { zuerst: {} }
+  baueNews([ohneStreams(2)], [basis(2)], [], [], h2)
+  const still = baueNews(
+    [ohneStreams(2)],
+    [basis(2, { am: '2026-10-02', grund: 'Wochenprogramm führt nur OmU', gemeldet: false })],
+    [],
+    [],
+    h2,
+  ).flatMap((e) => e.meldungen)
+  pruefe(
+    'News: eine widerlegte Schätzung verschwindet still (keine Zurückziehung)',
+    !still.some((m) => m.zurueckgezogen) && still.some((m) => m.art === 'angekuendigt'),
+    still,
+  )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
