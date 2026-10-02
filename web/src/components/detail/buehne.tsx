@@ -86,6 +86,15 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
             die Kante, die ins Bild zeigt.
           */}
           <div className="absolute right-0 top-0 z-10 flex flex-col items-center gap-1.5 rounded-bl-lg bg-black/50 px-1.5 py-2 backdrop-blur-[3px]">
+            {/* Schließen steht ganz oben, wo man es sucht. */}
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={t('detail.close')}
+              className="cursor-pointer px-1 text-sm text-white transition hover:opacity-70"
+            >
+              ✕
+            </button>
             {reihenIds.length > 1 && (
               <ReihenStern
                 alleGemerkt={reihenIds.every((id) => favorites.has(id))}
@@ -98,14 +107,6 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
             <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
             <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
             <ShareIcon slug={title.slug} name={anzeigeName(title)} />
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label={t('detail.close')}
-              className="cursor-pointer px-1 text-sm text-white transition hover:opacity-70"
-            >
-              ✕
-            </button>
           </div>
 
           {/*
