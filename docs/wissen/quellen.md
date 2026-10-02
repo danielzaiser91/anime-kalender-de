@@ -2971,3 +2971,47 @@ Bau bricht am Cache-Abbruch ab; zum Messen die Schwelle nur lokal anheben und da
 zurücksetzen. Titel, die der lokale Cache nur als Katalogeintrag kennt (hier drei der vier), zeigt
 erst der Bau auf GitHub. Gegenprobe am 27.09.2026: Bau ohne und mit Fix unterscheiden sich lokal in
 genau einem Urteil (Apothekerin S3).
+
+## Erkannt am 02.10.2026: das Crunchyroll-Wochenprogramm widerlegt deutsche Termine
+
+Vier Befunde eines Tages, alle an Overgeared und Apothekerin S3 gemessen. Sie gehören zusammen,
+weil sie **dieselbe Schwachstelle** zeigen: Wir lesen Crunchyroll an mehreren Stellen und führen
+die Ergebnisse nicht gegeneinander.
+
+**1. Der deutsche Slot trägt den Weg selbst — nicht der Katalog.** `data/crunchyroll.json` führt
+den deutschen Simulcast (`rawTitle: "… (Deutsch)"`, `german: true`), der deutsche Katalog
+`data/cr-katalog-de.json` die Serie aber nicht — und **alle Runden in
+`pipeline/bau/09-4-3-katalog.ts` beurteilen nur vorhandene Wege** (`stream.dub = …`), keine legt
+einen an. Ergebnis: Overgeared lief ab dem 27.09. deutsch und hatte **keinen** Weg, das Panel sagte
+„Noch keine deutsche Fassung". Gemessen betraf das **fünf Serien** (Overgeared, Aoashi, Elainas
+Reise, Fruits Basket, Anime Awards). Behoben über `ergaenzeCrWeg()`
+(`pipeline/bau/titel-hilfen.ts`), gerufen in `06-cr-simuldubs.ts`.
+
+**2. Ein laufender Simulcast ist keine Kataloglieferung.** AniList kennt für **laufende** Serien oft
+keine Folgenzahl (`episodes: undefined`), und der Zweig „nur einmal gesehen und eine Folge"
+(`seenDates.length < 2 && (knownEpisodes ?? 1) === 1`) machte daraus `releaseType: 'batch'`. Folge:
+`istStaffelstart()`/`istStaffelfinale()` (`shared/tv-signale.ts`) verlangen `weekly` — Overgeared
+verlor Premieren-Stil und Fortschritt, die Karte sagte „Folge 1/1". Behoben über
+`laufendeSerieImSlot()`: TV/ONA aus dem laufenden oder dem Vorjahr ist ein Simulcast; Filme,
+Specials und alte Serien bleiben `batch`.
+
+**3. Das Wochenprogramm ist ein Widerlegungsbeleg.** `data/crunchyroll-woche.json` führt je Serie
+`sprache: ja|de` mit Tag und Folge. Fehlt für denselben Tag das `de`, obwohl wir dort einen
+deutschen Termin führen, ist das ein **starker Beleg vom selben Anbieter**: Es kommt keine deutsche
+Synchro. Gemessen am 02.10.2026: 180 Crunchyroll-Releases mit deutschem Termin, **2** im Fenster der
+Vorschau — und **beide widerlegt**: Apothekerin S3 (02.10.) und Black Clover S2 (03.10.).
+**Unterschied:** Eine **Ankündigung** braucht eine Meldung (der Leser hat sie gesehen), eine bloße
+**Schätzung** verschwindet von selbst. Merksatz: **widerlegt wird immer, gemeldet wird nur, was
+vorher behauptet wurde.** Der Mechanismus dafür steht bereit: `zurueckgezogen` in
+`pipeline/lib/news-verlauf.ts`.
+
+**4. `observed` darf nichts aus der Zukunft tragen.** `observed` entsteht aus den Slots des
+Kalenders und ist als „welche Folge wir wann gesehen haben" dokumentiert — bei Overgeared stand dort
+`{1: 27.09., 2: 04.10.}`. Eine künftige Beobachtung ist keine; sie wandert in den Sendeplan
+(`termineAusPlan()`, `shared/logic.ts`), nicht in die Beobachtung, und macht den Antwortkasten sonst
+„fertig" (`raus: raus || gesamt` in `web/src/components/detail/antwort-berechnen.ts`), sodass
+„Alle 12 Folgen auf Deutsch" ohne Fortschrittsbalken dasteht.
+
+**Die gemeinsame Lehre:** Vier Stellen lesen denselben Anbieter — Kalender, Wochenprogramm,
+neuer-Folgen-Feed, deutscher Katalog — und **keine vergleicht sich mit den anderen**. Ein deutscher
+Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
