@@ -1,5 +1,5 @@
 import { readJson, log, ROOT } from '../lib/util.ts'
-import { terminAusEintrag, verlagAlsDienst } from '../lib/anisearch-termine.ts'
+import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from '../lib/anisearch-termine.ts'
 import yaml from 'js-yaml'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -41,18 +41,18 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
       'data/anisearch.json',
       {},
     )
-    const schonMitTermin = new Set(releases.map((r) => r.titleId))
+    const eigenerStart = new Map<number, string>()
+    for (const r of releases) if (r.schedule?.firstEpisodeDate && !(eigenerStart.get(r.titleId)! <= r.schedule.firstEpisodeDate)) eigenerStart.set(r.titleId, r.schedule.firstEpisodeDate)
     let asNeu = 0
     let asVorJp = 0
     let asSimulcast = 0
     let asDiscDatum = 0
     const discFuerErstausgabe = readJson<Record<string, { datum: string }[]>>('data/disc-ausgaben.json', {})
     for (const title of titles.values()) {
-      if (schonMitTermin.has(title.id)) continue
       const termin = terminAusEintrag(
         asRoh[String(title.id)]?.info as { languages?: never[] } | undefined,
       )
-      if (!termin) continue
+      if (!termin || eigenerTerminVerdraengt(eigenerStart.get(title.id), termin)) continue
       /*
         **Eine deutsche Fassung gibt es nicht vor dem Original.** Sechs Einträge
         scheitern daran — meist eine Verwechslung mit einem Vorgänger im

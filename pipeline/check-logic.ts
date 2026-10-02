@@ -26,7 +26,7 @@ import { wocheAus } from '../shared/wochenprogramm.ts'
 import { artikelNenntTitel, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
-import { verlagAlsDienst } from './lib/anisearch-termine.ts'
+import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../shared/kostenlos.ts'
@@ -71,7 +71,6 @@ import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../s
 import { buildIcs, fold as icsFold } from '../shared/ics.ts'
 import { newsRss } from './lib/news-rss.ts'
 import { sucheZweistufig } from '../web/src/lib/search.ts'
-import { terminAusEintrag } from './lib/anisearch-termine.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { LAUF_ABFRAGEN, LAUF_ARTEN, SQL_EINE_ART } from '../worker/src/lauf-sql.ts'
@@ -7563,6 +7562,14 @@ pruefe(
     'Widerlegt: die Bauprüfung meldet einen geteilten Weg mit „deutsch" — und schweigt nach dem Lösen',
     meldetVorher === 1 && geteilteWegeTrotzWiderlegung([apo], vorher).length === 0,
   )
+
+  /* aniSearchs Erstausgabe: ein späterer eigener Termin verdrängt sie nicht, derselbe schon. */
+  pruefe('Erstausgabe: Rooster Fighter (Disney+ 15.03.–31.05.) bleibt neben dem Netflix-Start am 10.10.',
+    !eigenerTerminVerdraengt('2026-10-10', { start: '2026-03-15', ende: '2026-05-31', zitat: '' }))
+  pruefe('Erstausgabe: Apothekerin (aniSearch 21.10., wir 18.11., noch laufend) — der eigene Termin gewinnt',
+    eigenerTerminVerdraengt('2023-11-18', { start: '2023-10-21', zitat: '' }) &&
+      eigenerTerminVerdraengt('2023-11-18', { start: '2023-10-21', ende: '2024-03-23', zitat: '' }))
+  pruefe('Erstausgabe: ohne eigenen Termin gilt aniSearch', !eigenerTerminVerdraengt(undefined, { start: '2020-01-01', zitat: '' }))
 
   /* Beleg-Lesungen: Artikel erkennen, Crunchyrolls Datumszeile lesen, nur Änderungen merken. */
   pruefe('Belege: Artikel ja, Kalender und Katalog nein',

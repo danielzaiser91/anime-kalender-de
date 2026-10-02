@@ -156,3 +156,17 @@ export function verlagAlsDienst(verlag: string): string | undefined {
   if (v.includes('wakanim') || v.includes('anime on demand') || v.includes('akiba pass') || v.includes('joyn')) return '-'
   return undefined
 }
+
+/**
+ * **Ein eigener Termin verdrängt aniSearchs Erstausgabe — außer sie ist vorher schon vorbei.**
+ *
+ * Ein eigener Termin ist gemessen und schlägt aniSearch, wo beide dieselbe Veröffentlichung meinen
+ * (die Apothekerin: aniSearch nannte den OmU-Start, wir die Synchro vier Wochen später). Endete
+ * aniSearchs deutsche Veröffentlichung aber, bevor unser erster Termin beginnt, ist es eine frühere,
+ * eigene: „Rooster Fighter" lief vom 15.03. bis 31.05.2026 synchronisiert bei Disney+, unser
+ * Termin ist der Netflix-Start am 10.10.2026 — ohne diese Regel stand dort „0 von 12 erschienen".
+ */
+export function eigenerTerminVerdraengt(eigenerStart: string | undefined, termin: AnisearchTermin): boolean {
+  if (!eigenerStart) return false
+  return !(termin.ende && termin.ende < eigenerStart)
+}
