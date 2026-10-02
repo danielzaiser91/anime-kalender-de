@@ -99,6 +99,30 @@ aniSearch teilt Staffeln teils selbst (Eyeshield 21 / GX getrennt, Stone Ocean T
 | Rechtsprüfung Datenschutzerklärung (C-04), Lizenzen ODbL/MyDubList (C-05) | **nicht beauftragt** |
 | Pilot Cat's Eye (beide AniList-Einträge → aniSearch 2213) | angeboten, **nicht ausgeführt** |
 
+## 7b. Klärungsliste — wird mit Daniel der Reihe nach abgehakt (Stand 02.10.2026, 23:30)
+
+Vereinbarung (Daniel): Erst die vier Punkte vom Abend und die „liegen geblieben"-Liste klären, bevor Neues beginnt. **Driftet das Gespräch ab, wird das Neue unten unter „Geparkt" festgehalten und wir kehren hierher zurück.**
+
+| # | Punkt | Stand |
+|---|---|---|
+| 1 | „Bauprüfung" erklärt (= `pruefeErgebnis()` am Ende des Datenbaus; fünf Invarianten fehlen) | erklärt; Umsetzung = Phase 0, **Freigabe offen** |
+| 2 | Alles dokumentieren | **erledigt** (dieses Dokument, `quellen.md`, `status.md`, `tools/archiv/analyse-2026-10-02/`) |
+| 3 | MyDubList: wofür brauchen wir es noch? | **in Klärung.** Drei bestätigte Fälle (Cat's Eye, Monsuno, Berserk-Filme); Daniel prüft sie jetzt von Hand. Cat's Eye: Prime-Meldung `9713` ist angekommen (siehe §7c). Danach: die übrigen Wikipedia-Kandidaten (§3.5) abarbeiten, dann streichen/herabstufen entscheiden |
+| 4 | Liegengebliebenes | siehe 4a–4l |
+
+Liegengeblieben (4a–4l): a) Zählwort streng/zwei Zahlen/115 heraus · b) 917 Cartoons · c) Einheit Werk/Staffel + Stichprobe 30 Serien · d) Pilot Cat's Eye (inkl. zweite Staffel) · e) Triage der 22 Wikipedia-Treffer ·
+f) Befunde B-02…B-11 beheben · g) Rechtsprüfung Datenschutz/Lizenzen · h) ungeprüfte Bereiche (§9) · i) Kopfkommentar `fetch-anisearch.ts` + `ARCHITEKTUR.md`/`TODO.md`/`ZIELE.md` · j) `rtk`-Hook und `node`-PATH ·
+k) Token von aniSearch · l) Live-Test der Schnellfilter-Vorlieben (gebaut, `9d3e06e6e`).
+
+**Geparkt (Abschweifungen, hier festgehalten):** Schnellfilter als Vorlieben — Daniels Wunsch, umgesetzt, nur der Live-Test (4l) steht aus.
+
+## 7c. Cat's Eye — Prime-Meldung vom 02.10.2026, 23:22 Uhr
+
+Daniel hat die Amazon-Seite gemeldet: Meldung `9713` im Briefkasten (Plattform Prime Video, `https://www.amazon.de/dp/0NRA8APAOPCTKPDYT08UOO3K4B`, Titel „Ein Supertrio - Cat's Eye", Sprache Deutsch,
+Befund `dub`, **73 Folgen geprüft**, `zugang=kauf` — also zum Kaufen, nicht im Abo, GTI `amzn1.dv.gti.914ca375-…`). Notiz der Erweiterung: „Staffel nicht im Bestand, Titel von der Seite gelesen". `titel_id` ist leer:
+die Meldung kann **nicht** zugeordnet werden, weil sie 73 Folgen nennt und unser Titel (AniList 2043) 36 hat — **dasselbe Werk-/Staffel-Problem, jetzt an einem Anbieterbeleg**. Zur Zuordnung braucht es entweder
+die Werk-Einheit (aniSearch 2213) oder die Zerlegung 36 + 37. Der Briefkasten-Abruf geht mit dem Repo-Token als `?token=` (der Header-Weg liefert 403) — passt zu Befund C-02.
+
 ## 8. Vorläufiger Plan (nach Token-Antwort anzupassen)
 
 **Phase 0 — jetzt, ohne aniSearch (kleine, klare Schritte):**
