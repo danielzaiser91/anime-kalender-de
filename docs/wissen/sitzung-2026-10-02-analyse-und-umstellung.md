@@ -107,7 +107,7 @@ Vereinbarung (Daniel): Erst die vier Punkte vom Abend und die „liegen gebliebe
 |---|---|---|
 | 1 | „Bauprüfung" erklärt (= `pruefeErgebnis()` am Ende des Datenbaus; fünf Invarianten fehlen) | erklärt; Umsetzung = Phase 0, **Freigabe offen** |
 | 2 | Alles dokumentieren | **erledigt** (dieses Dokument, `quellen.md`, `status.md`, `tools/archiv/analyse-2026-10-02/`) |
-| 3 | MyDubList: wofür brauchen wir es noch? | **in Klärung.** Drei Kandidaten (Cat's Eye, Monsuno, Berserk-Filme). **Cat's Eye bestätigt** (73 Folgen deutsch, Prime-Meldung `9713`, §7c). **Monsuno bestätigt** (YouTube kostenlos, 26 Folgen Staffel 1, §7d, eingetragen). **Berserk-Filme: Daniel prüft.** Danach: die übrigen Wikipedia-Kandidaten (§3.5) abarbeiten, dann streichen/herabstufen entscheiden |
+| 3 | MyDubList: wofür brauchen wir es noch? | **in Klärung.** Drei Kandidaten (Cat's Eye, Monsuno, Berserk-Filme). **Cat's Eye bestätigt** (73 Folgen deutsch, Prime-Meldung `9713`, §7c). **Monsuno bestätigt** (YouTube kostenlos, 26 Folgen Staffel 1, §7d, eingetragen). **Berserk-Filme bestätigt** (nur Disc, kein Streaming, §7e, eingetragen). Damit sind alle drei Kandidaten bestätigt — jeweils **nicht durch MyDubList**. Danach: die übrigen Wikipedia-Kandidaten (§3.5) abarbeiten, dann streichen/herabstufen entscheiden |
 | 4 | Liegengebliebenes | siehe 4a–4l |
 
 Liegengeblieben (4a–4l): a) Zählwort streng/zwei Zahlen/115 heraus · b) 917 Cartoons · c) Einheit Werk/Staffel + Stichprobe 30 Serien · d) Pilot Cat's Eye (inkl. zweite Staffel) · e) Triage der 22 Wikipedia-Treffer ·
@@ -125,6 +125,22 @@ gegengelesen auf fernsehserien.de/monsuno/sendetermine/nickelodeon); Staffel 2 �
 **Eingetragen** (nicht live bis zum nächsten Datenlauf): `data/dub-confirmed.yaml` (dub: true) und `data/verweise-von-hand.yaml` (YouTube, kostenlos). **Offen:** ob der Kanal der Rechteinhaber ist (Linkpolitik wie bei TOGGO/Daima);
 Daniel entscheidet. **Lehre für das Zählwort:** Monsuno ist ein Titel, den MyDubList richtig führte und den kein anderer Datensatz kannte — Beleg kam von Hand und aus fernsehserien.de, nicht aus MyDubList.
 Fernsehserien.de ist als Quelle für „lief im deutschen Fernsehen" brauchbar (Sendetermine je Sender), nicht als Beleg für Streaming.
+
+## 7e. Fall Berserk – Das goldene Zeitalter I–III (10218, 12113, 12115) — von Daniel geprüft, 02.10.2026 ~23:55: bestätigt, nur Disc
+
+**Ergebnis:** Deutsche Synchro **nur auf Disc**, **kein Streaming** gefunden (Daniel). Videobuster nennt je Teil „Deutsch Dolby Digital 5.1, Japanisch Dolby Digital 5.1" mit deutschen Untertiteln
+(Teil 1 Erscheinen 26.10.2012, Teil 2 16.08.2013, Teil 3 laut Videobuster-Verleih 08.08.2014); Wikipedia: Universum Anime, Teil 3 am 27.06.2014, Sprecher Guts Marcel Collé, Griffith Nico Mamone, Casca Anja Stadlober;
+„anders als die Serie (1997) enthalten die Filme eine deutsche Tonspur". Gefunden hat Daniel die Angebote über werstreamt.es ([Film 110269](https://www.werstreamt.es/film/details/110269/berserk-das-goldene-zeitalter/)) —
+dessen robots.txt untersagt das automatische Auslesen, deshalb nur von Hand übernommen.
+**Weg zu den Daten:** *Nicht* über MyDubList und nicht über aniSearch — alle drei Filme haben **keine aniSearch-Kennung** in der Brücke (drei weitere Fälle der Lücke aus §3.4, diesmal Filme), und
+`watchLinks` waren leer. Eingetragen (live erst mit dem nächsten Datenlauf, `check:handbelege` danach):
+`data/erstausgabe-von-hand.yaml` (deutsche Erstausgabe + `synchro: true`, 3 Einträge) und `data/watch-links.yaml` (Videobuster, Verleihshop, Amazon Blu-ray/DVD/Trilogie, alles `kind: buy`; Videobuster/Verleihshop sind Leih-Discs per Post).
+Amazon: Blu-ray B008UE8ICK / B00JCG4ZXG / B00JCG4ZZO, DVD B00A7W8WYC / (Teil 2: nicht gefunden) / B00JCG501C, Trilogie (3 DVDs) B075YL2RJ6. Verleihshop-Seiten sind hinter Cloudflare nicht lesbar; Daniels URLs tragen keine Parameter (nichts zu bereinigen),
+die Zuordnung Teil 1/2/3 folgt seiner Reihenfolge.
+**Zweiter Befund — Trailer:** Die Seite zeigt für alle drei Filme **englische** Trailer (Warner Bros., vizmedia, Crunchyroll Store Australia; mit Hinweis „Trailer in Englisch"). Daniel fand deutsche:
+[I](https://www.youtube.com/watch?v=WcBrfOmBb7Q) „Deutscher Trailer" (Kanal BerserkFanVideo — Fan-Kanal), [II](https://www.youtube.com/watch?v=Yw_fs-O_-Ck) „Trailer (Deutsch | German)" (Movieport), [III](https://www.youtube.com/watch?v=mOPE5FpsfKA) „Niedergang – Deutscher Trailer" (BerserkFanVideo).
+Unser Trailer-Lauf (`pipeline/fetch-trailer.ts`: KinoCheck, TMDB-Videoliste, Label-Kanäle) findet Fan-Uploads nicht. **Offen/geparkt:** Handüberschreibung für Trailer (`data/trailer-von-hand.yaml`?) und Regel, ob Fan-Kanäle zulässig sind.
+**Lehre für das Zählwort:** Alle drei Filme sind belegt, aber **ohne** MyDubList und aniSearch; MyDubList hat sie nur zufällig richtig geführt. Zusammen mit Cat's Eye und Monsuno: kein einziger Fall, in dem MyDubList etwas wusste, was Wikipedia, Videobuster, fernsehserien.de oder Daniels Sichtung nicht auch lieferte — spricht für Streichen, sobald die Brücke steht.
 
 ## 7c. Cat's Eye — Prime-Meldung vom 02.10.2026, 23:22 Uhr
 

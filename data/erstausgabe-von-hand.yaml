@@ -14,3 +14,28 @@
   sources:
     - https://x.com/AniMoonAnime/status/1925946111379870000
     - https://animoon-publishing.de/products/beheneko-vol-1
+
+# Berserk – Das goldene Zeitalter I–III: Synchro nur auf Disc (Daniel, 02.10.2026, kein Streaming gefunden). Videobuster nennt je Teil
+# „Deutsch Dolby Digital 5.1, Japanisch Dolby Digital 5.1“, deutsche Untertitel; Wikipedia: die Filme (anders als die Serie von 1997) mit deutscher Tonspur, Universum Anime.
+# Datum: Teil 1 laut Videobuster (Wikipedia-Seite zu Teil 1 gibt es nicht), Teil 2 laut Wikipedia = Videobuster, Teil 3 laut Wikipedia (Videobuster nennt 08.08.2014 fürs Verleihangebot).
+- anilistId: 10218
+  title: "Berserk – Das goldene Zeitalter (Teil 1: Das Ei des Königs)"
+  von: '2012-10-26'
+  publisher: 'Universum Anime'
+  sources:
+    - https://www.videobuster.de/dvd-bluray-verleih/177256/berserk-das-goldene-zeitalter-1
+    - https://de.wikipedia.org/wiki/Berserk
+- anilistId: 12113
+  title: "Berserk – Das goldene Zeitalter II (Die Schlacht um Doldrey)"
+  von: '2013-08-16'
+  publisher: 'Universum Anime'
+  sources:
+    - https://www.videobuster.de/dvd-bluray-verleih/187156/berserk-das-goldene-zeitalter-2
+    - https://de.wikipedia.org/wiki/Berserk:_Das_goldene_Zeitalter_II
+- anilistId: 12115
+  title: "Berserk – Das goldene Zeitalter III (Die Ankunft)"
+  von: '2014-06-27'
+  publisher: 'Universum Anime'
+  sources:
+    - https://www.videobuster.de/dvd-bluray-verleih/194904/berserk-das-goldene-zeitalter-3
+    - https://de.wikipedia.org/wiki/Berserk:_Das_goldene_Zeitalter_III
