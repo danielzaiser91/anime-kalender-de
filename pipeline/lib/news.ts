@@ -188,6 +188,45 @@ interface CrNeueFolge {
 }
 
 /**
+ * **Eine Quelle, eine Meldung** (Daniel, 02.10.2026).
+ *
+ * Am Overgeared-Panel standen zwei Einträge am selben Tag aus derselben Quelle: „Neu auf Deutsch ·
+ * Erstmals mit deutscher Synchro bei Crunchyroll" und „Neue Folgen · Folge 1 auf Deutsch bei
+ * Crunchyroll". Beides ist **dieselbe Aussage** — Daniel: „1 quelle = 1 news eintrag → beides muss
+ * gebündelt werden".
+ *
+ * Gebündelt wird deshalb, wenn am **selben Tag**, beim **selben Titel und Anbieter**, aus
+ * **derselben Quelle** eine `folgen`-Meldung neben einer `neu`-Meldung steht. Die Folgen-Angabe
+ * geht nicht verloren: Sie wandert in den Vermerk (`hinweis`), der in der Oberfläche als leisere
+ * Zeile unter dem Satz steht — die Hauptaussage bleibt kurz.
+ *
+ * **Noch nicht gebaut** (dafür fehlen die Lesungen): der zweite Teil von Daniels Ansage — wird ein
+ * Artikel später **aktualisiert** und bringt neue Angaben, soll die Meldung mit **neuem**
+ * Datumsstempel dastehen und das **alte Datum im Kleingedruckten** behalten. Das ist der
+ * Lesungs-/Belegteil (Stufe 4 des Datenbank-Plans).
+ */
+export function verschmelzeGleicheQuelle(datiert: DatiertNews[]): DatiertNews[] {
+  const neuJeSchluessel = new Map<string, DatiertNews>()
+  for (const m of datiert) {
+    if (m.art !== 'neu' || !m.quelle) continue
+    neuJeSchluessel.set([m.titel.id, m.am, m.platform, m.quelle].join('|'), m)
+  }
+  const raus: DatiertNews[] = []
+  for (const m of datiert) {
+    if (m.art === 'folgen' && m.quelle) {
+      const neu = neuJeSchluessel.get([m.titel.id, m.am, m.platform, m.quelle].join('|'))
+      if (neu) {
+        const spanne = m.bis !== undefined && m.bis !== m.von ? `Folgen ${m.von}–${m.bis}` : `Folge ${m.von ?? 1}`
+        neu.hinweis = `${spanne} auf Deutsch bei ${m.platform === 'crunchyroll' ? 'Crunchyroll' : m.platform}`
+        continue
+      }
+    }
+    raus.push(m)
+  }
+  return raus
+}
+
+/**
  * **Steht der deutsche Start desselben Anbieters noch aus?** Dann ist es „angekündigt", nicht
  * „neu" (Daniel am 02.10.2026 an der Apothekerin S3: Der 03.09.-Eintrag hieß „Neu auf Deutsch ·
  * Erstmals mit deutscher Synchro bei Crunchyroll", „das muss heißen angekündigt und zum 02.10.").
@@ -342,9 +381,8 @@ export function baueNews(
 
   /* 3. Termine: angekündigt, auf Disc, im Kino — und die, die niemand eingehalten hat. */
   roh.push(...terminMeldungen(releases, nachId, heute))
-
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
-  const datiert: DatiertNews[] = []
+  let datiert: DatiertNews[] = []
   for (const r of roh) {
     const { schluessel, fallback, ...rest } = r
     const zuerst = historie.zuerst[schluessel] ?? (fallback > heute ? heute : fallback)
@@ -386,6 +424,7 @@ export function baueNews(
   const kopfTitel = new Map<number, Title>()
   for (const t of titles) if (wurzelVon(t) === t.id) kopfTitel.set(t.id, t)
 
+  datiert = verschmelzeGleicheQuelle(datiert)
   datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute }))
 
   const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()

@@ -135,8 +135,9 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung, quellenZusammenfuehren } from './lib/meldungen.ts'
-import { belegeVonRelease, nurAngekuendigt } from './lib/news.ts'
+import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg } from './bau/titel-hilfen.ts'
+import type { DatiertNews } from './lib/news-verlauf.ts'
 import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
 import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
 import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
@@ -6901,6 +6902,30 @@ pruefe(
     t.streams,
   )
   pruefe('ohne Adresse passiert nichts', !ergaenzeCrWeg(t, undefined) && t.streams.length === 1, t.streams)
+}
+{
+  /* **Eine Quelle, eine Meldung** (02.10.2026). Am Overgeared-Panel standen am 27.09. zwei
+     Einträge aus derselben Quelle: „Neu auf Deutsch · Erstmals mit deutscher Synchro bei
+     Crunchyroll" und „Neue Folgen · Folge 1 auf Deutsch bei Crunchyroll" — dieselbe Aussage
+     zweimal. Daniel: „1 quelle = 1 news eintrag → beides muss gebündelt werden". */
+  const t = { id: 1, titleDe: 'T', streams: [] } as unknown as Title
+  const basis = { titel: t, am: '2026-09-27', platform: 'crunchyroll' as const, quelle: 'https://www.crunchyroll.com/de/x' }
+  const gemischt = verschmelzeGleicheQuelle([
+    { ...basis, art: 'neu', schluessel: 'a' } as unknown as DatiertNews,
+    { ...basis, art: 'folgen', von: 1, bis: 1, schluessel: 'b' } as unknown as DatiertNews,
+  ])
+  pruefe('gleiche Quelle, gleicher Tag: nur eine Meldung', gemischt.length === 1 && gemischt[0]!.art === 'neu', gemischt.map((m) => m.art))
+  pruefe('die Folgen-Angabe steht im Vermerk', /Folge 1 auf Deutsch/.test(gemischt[0]!.hinweis ?? ''), gemischt[0]!.hinweis)
+  const andereQuelle = verschmelzeGleicheQuelle([
+    { ...basis, art: 'neu', schluessel: 'a' } as unknown as DatiertNews,
+    { ...basis, art: 'folgen', von: 1, bis: 1, quelle: 'https://www.anime2you.de/y', schluessel: 'c' } as unknown as DatiertNews,
+  ])
+  pruefe('eine andere Quelle bleibt getrennt', andereQuelle.length === 2, andereQuelle.map((m) => m.art))
+  const andererTag = verschmelzeGleicheQuelle([
+    { ...basis, art: 'neu', schluessel: 'a' } as unknown as DatiertNews,
+    { ...basis, art: 'folgen', von: 2, bis: 2, am: '2026-10-04', schluessel: 'd' } as unknown as DatiertNews,
+  ])
+  pruefe('ein anderer Tag bleibt getrennt', andererTag.length === 2, andererTag.map((m) => m.am))
 }
 {
   /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */
