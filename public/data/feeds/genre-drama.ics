@@ -552,6 +552,28 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-183423-tv-prosieben-maxx@2026-10-08#5@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261008T162500Z
+DTEND:20261008T165500Z
+SUMMARY:One Piece Log: Fish-Man Island Saga
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-183423-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-183423-tv-prosieben-maxx@2026-10-08#6@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261008T165000Z
+DTEND:20261008T172000Z
+SUMMARY:One Piece Log: Fish-Man Island Saga
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-183423-tv-prosieben-ma
+ xx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T080000Z

@@ -10,7 +10,7 @@ UID:auto-235-tv-prosieben-maxx@2026-09-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T155500Z
 DTEND:20260925T162500Z
-SUMMARY:Detektiv Conan – Folge 143/149
+SUMMARY:Detektiv Conan – Folge 143/150
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -20,7 +20,7 @@ UID:auto-235-tv-prosieben-maxx@2026-09-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T160000Z
 DTEND:20260928T163000Z
-SUMMARY:Detektiv Conan – Folge 144/149
+SUMMARY:Detektiv Conan – Folge 144/150
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -41,7 +41,7 @@ UID:auto-235-tv-prosieben-maxx@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T160000Z
 DTEND:20260929T163000Z
-SUMMARY:Detektiv Conan – Folge 145/149
+SUMMARY:Detektiv Conan – Folge 145/150
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -51,7 +51,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T160000Z
 DTEND:20261001T163000Z
-SUMMARY:Detektiv Conan – Folge 146/149
+SUMMARY:Detektiv Conan – Folge 146/150
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -61,7 +61,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T160000Z
 DTEND:20261002T163000Z
-SUMMARY:Detektiv Conan – Folge 147/149
+SUMMARY:Detektiv Conan – Folge 147/150
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -71,7 +71,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T160000Z
 DTEND:20261005T163000Z
-SUMMARY:Detektiv Conan – Folge 148/149
+SUMMARY:Detektiv Conan – Folge 148/150
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
@@ -81,7 +81,17 @@ UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T160000Z
 DTEND:20261007T163000Z
-SUMMARY:Detektiv Conan – Folge 149/149
+SUMMARY:Detektiv Conan – Folge 149/150
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261008T155500Z
+DTEND:20261008T162500Z
+SUMMARY:Detektiv Conan – Folge 150/150
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-235-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX

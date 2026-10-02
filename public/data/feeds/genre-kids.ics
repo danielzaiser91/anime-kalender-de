@@ -30,7 +30,7 @@ UID:auto-112153-tv-toggo-plus@2026-09-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T191500Z
 DTEND:20260925T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 2/6
+SUMMARY:Pokémon Reisen: Die Serie – Folge 2/7
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
 CATEGORIES:TOGGO plus
@@ -112,7 +112,7 @@ UID:auto-112153-tv-toggo-plus@2026-09-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T191500Z
 DTEND:20260928T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 3/6
+SUMMARY:Pokémon Reisen: Die Serie – Folge 3/7
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
 CATEGORIES:TOGGO plus
@@ -202,7 +202,37 @@ UID:auto-112153-tv-toggo-plus@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T191500Z
 DTEND:20261001T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 6/6
+SUMMARY:Pokémon Reisen: Die Serie – Folge 6/7
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T140500Z
+DTEND:20261002T143500Z
+SUMMARY:Pokémon Horizonte – Folge 1/128
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T150500Z
+DTEND:20261002T153500Z
+SUMMARY:Pokémon Horizonte – Folge 1/128
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T191500Z
+DTEND:20261002T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 7/7
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
 CATEGORIES:TOGGO plus
