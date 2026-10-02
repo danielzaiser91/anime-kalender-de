@@ -4840,6 +4840,19 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       /seit !== historie\.angelegtAm && belegteSynchro\(t\)/.test(bau),
     '"neu im Bestand" ist nicht "neu auf Deutsch" - und der Newsletter verschickt es',
   )
+  /*
+    **Und ein verstrichener Termin belegt sie nicht, solange die Synchro nur angekündigt ist**
+    (02.10.2026, Overgeared): Das Panel sagte „Noch keine deutsche Fassung" und zeigte darunter
+    „Neu auf Deutsch · Erstmals mit deutscher Synchro" — der angekündigte OmU-Termin (27.09.) lag
+    hinter uns. Genau diese Klasse hat hier schon einmal zugeschlagen (Daniel, 12.09.2026); die
+    Prüfung sah bisher nur, **dass** die Funktion da ist.
+  */
+  pruefe(
+    'eine bloß angekündigte Synchro zählt nicht als belegte',
+    bau.includes("ankuendigung?.synchro === 'angekuendigt'") &&
+      /!nurAngekuendigt && termin !== undefined/.test(bau),
+    'pipeline/bau/nebendateien.ts',
+  )
   pruefe(
     'Crunchyrolls Folgenwissen landet als Bereich am Verweis',
     bau.includes('stream.dubRanges = bereiche') && bau.includes('if (unsere.length !== 1) continue'),
