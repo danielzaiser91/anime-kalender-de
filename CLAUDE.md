@@ -98,7 +98,8 @@ Anlass: `main()` in `build.ts` hatte 7.809 Zeilen, `DetailPanel` 3.125 — jede 
   dessen Chronik mit.
 - **Umbau und Verhaltensänderung nie im selben Commit.** Ein Umbau beweist Gleichheit:
   `node tools/bau-vergleich.mjs` (Bau-Ausgabe byte-gleich zu `origin/main`),
-  `node tools/panel-vergleich.mjs` (Panel-HTML gleich). Verschoben wird mit
+  `node tools/panel-vergleich.mjs` (Panel-HTML gleich), bei reinen Kommentar-Umbauten
+  `node tools/nur-kommentare.mjs` (Code ohne Kommentare gleich). Verschoben wird mit
   `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`.
 - **Wegwerfskripte gehören ins Scratchpad**, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
 - Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal
