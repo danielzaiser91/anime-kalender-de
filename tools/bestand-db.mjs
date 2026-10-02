@@ -110,19 +110,33 @@ if (!frage) {
   console.log(`doppelte Release-Kennungen: ${doppelt}`)
   console.log('Fragen: --frage slots | --frage ohne-stream | --frage dub')
 } else if (frage === 'slots') {
-  /* **Die Frage, die den Anlass gab:** Ein deutscher Crunchyroll-Slot, zu dessen Serie im Bestand
-     kein deutscher Weg steht — Overgeared, 02.10.2026. Ein Join, keine Dateisuche. */
-  const zeilen = db.prepare(`
-    select s.serie_id, s.titel, s.datum, s.episode
+  /*
+    **Die Frage, die den Anlass gab — jetzt über die Serienkennung statt über den Namen**
+    (02.10.2026): Ein deutscher Crunchyroll-Slot, zu dessen **Serie** im Bestand kein deutscher
+    Weg steht. Die Kennung steht in der Stream-Adresse (`…/series/<ID>/…`), also lässt sie sich
+    verbinden, ohne Namen zu raten. Overgeared war der Anlass.
+  */
+  const ohneDeutsch = db.prepare(`
+    select s.serie_id, s.titel, min(s.datum) ab, count(*) folgen
     from slot s
-    left join titel t on t.name like s.titel || '%'
-    left join stream st on st.titel_id = t.id and st.platform = 'crunchyroll' and st.dub = 1
-    where st.url is null
+    where not exists (
+      select 1 from stream st
+      where st.platform = 'crunchyroll' and st.dub = 1 and st.url like '%' || s.serie_id || '%'
+    )
     group by s.serie_id, s.titel
-    order by s.datum
+    order by ab
   `).all()
-  console.log(`deutsche Crunchyroll-Slots ohne deutschen Weg im Bestand: ${zeilen.length}`)
-  for (const z of zeilen) console.log(`  ${z.datum}  ${z.titel}  (Serie ${z.serie_id}, Folge ${z.episode})`)
+  const ohneWegUeberhaupt = db.prepare(`
+    select s.serie_id, s.titel, min(s.datum) ab, count(*) folgen
+    from slot s
+    where not exists (select 1 from stream st where st.url like '%' || s.serie_id || '%')
+    group by s.serie_id, s.titel
+    order by ab
+  `).all()
+  console.log(`deutsche Crunchyroll-Slots, deren Serie im Bestand keinen deutschen Weg hat: ${ohneDeutsch.length}`)
+  for (const z of ohneDeutsch.slice(0, 12)) console.log(`  ${z.ab}  ${z.titel}  (${z.serie_id}, ${z.folgen} Folgen)`)
+  console.log(`\n… darunter ganz ohne Weg (kein Stream, der die Serie nennt): ${ohneWegUeberhaupt.length}`)
+  for (const z of ohneWegUeberhaupt.slice(0, 12)) console.log(`  ${z.ab}  ${z.titel}  (${z.serie_id}, ${z.folgen} Folgen)`)
 } else if (frage === 'ohne-stream') {
   const z = db.prepare(`select t.id, t.name from titel t left join stream s on s.titel_id = t.id where s.url is null limit 20`).all()
   console.log(`Titel ohne jeden Weg (erste 20 von …): ${z.length}`)
