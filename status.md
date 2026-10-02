@@ -45,6 +45,7 @@ Messungen, verworfene Quellen) und alles, was Code-Kommentare „in `status.md`"
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **Zu besprechen (02.10.2026): Filter nicht mehr per Adress-Parameter, sondern per Nutzereinstellung** | 3 | Daniel am 02.10.: „Filter nicht mehr per param steuern, sondern nur noch per user preferences. also localstorage?" — **erst Lösungen mit Daniel diskutieren, nichts bauen.** Heute: Filter stehen als Query in `#/woche?…` (`web/src/lib/router.ts`: `p anb rt st fsk y g kw` + `x…` Ausschluss, `q sicher fav wo frei conf`), ein geteilter Link trägt sie mit; Push-Links nutzen `?fav=1`. Bereits in `localStorage`: Cartoons ausblenden, TV ausblenden, Staffeln zusammenfassen (`App.tsx`). Offene Punkte: Teilen-Links, Zurück-Taste, Geräte-Abgleich über den Worker (`/prefs`, nur mit Newsletter-Abo), Verhalten bei gesperrtem Speicher, was Suche/Datum/Sortierung bleibt. |
 | **Zu besprechen (02.10.2026): vier offene Entscheidungen der Gesamtanalyse** | 1 | (1) Zählwort streng „belegt" mit zwei Zahlen oder die 115 Titel ohne Beleg aus dem Hauptbestand; (2) 917 westliche Serien im „Anime-Kalender"; (3) Einheit Werk (73) oder Staffel (36+37) — vorher Stichprobe an 30 Mehrstaffel-Serien; (4) MyDubList streichen oder herabstufen. Rechtsprüfung Datenschutzerklärung und Lizenzen (ODbL, MyDubList) ist nicht beauftragt. Stand: Sitzungsdoku §7. |
 
 ### Warten auf Feedback
