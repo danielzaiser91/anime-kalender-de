@@ -134,6 +134,22 @@ export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; ep
  * Zurück kommt nur, was eine Beschriftung bekommt; alles andere zeigt weiter
  * seinen Namen.
  */
+/**
+ * **Der Platz jedes Eintrags innerhalb seiner Staffel** (1-basiert, in Reihenfolge) — von hier
+ * kommt der „Teil N" (02.10.2026). Ein fremder Name zählt anders (AniList Cours, MAL Teile);
+ * unsere Liste zählt ihre eigenen Glieder.
+ */
+function plaetzeInStaffel(eintraege: { id: number; staffel: number }[]): Map<number, number> {
+  const platz = new Map<number, number>()
+  const gezaehlt = new Map<number, number>()
+  for (const e of eintraege) {
+    const n = (gezaehlt.get(e.staffel) ?? 0) + 1
+    gezaehlt.set(e.staffel, n)
+    platz.set(e.id, n)
+  }
+  return platz
+}
+
 export function staffelBeschriftungen<T extends { id: number; name: string; jpYear?: number; jpStart?: string; staffelQuelle?: number }>(
   staffeln: T[],
   reihenName: string,
@@ -190,10 +206,18 @@ export function staffelBeschriftungen<T extends { id: number; name: string; jpYe
   }
   const ohneNamen = new Set(eintraege.filter((e) => !e.eigenerName).map((e) => e.staffel))
   const mitTeilen = new Set(eintraege.filter((e) => (e.teil ?? 1) >= 2).map((e) => e.staffel))
+  /*
+    **Der „Teil N" zählt innerhalb der Staffel, nicht nach dem fremden Namen** (02.10.2026).
+    AniList führt Slime S4 als „Part 1 & 2" plus „Part 3" (`第3クール`), MAL als „4th Season" plus
+    „Part 2"; wir hatten den fremden Namen wörtlich genommen („Staffel 4 - Teil 3" neben einem
+    MAL-Link mit „Teil 2", Daniel). Gezählt wird deshalb die Reihenfolge — der Name entscheidet
+    weiterhin nur, **ob** eine Staffel Teile hat.
+  */
+  const platz = plaetzeInStaffel(eintraege)
   const beschriftung = new Map<number, string>()
   for (const e of eintraege) {
     if (e.eigenerName) continue
-    const teil = mitTeilen.has(e.staffel) ? (e.teil ?? 1) : undefined
+    const teil = mitTeilen.has(e.staffel) ? (platz.get(e.id) ?? 1) : undefined
     if (ohneNamen.size < 2) {
       if (teil) beschriftung.set(e.id, `Teil ${teil}`)
       continue

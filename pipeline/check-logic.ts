@@ -3342,6 +3342,32 @@ console.log('\nStaffel und Teil zählen:')
     achtSechs.get(116589) === 'Staffel 1' && achtSechs.get(131586) === 'Staffel 2',
     Object.fromEntries(achtSechs),
   )
+  /*
+    **Der „Teil N" zählt innerhalb der Staffel, nicht nach dem fremden Namen** (02.10.2026).
+
+    AniList führt den dritten Cour von Slime S4 als „4th Season Part 3" (`第3クール`), MAL als
+    „4th Season Part 2". Wir hatten den Namen wörtlich genommen: „Staffel 4 - Teil 3", daneben der
+    MAL-Link mit „Teil 2" (Daniel: „warum sagen wir teil 3 obwohl es teil 2 ist?"). In unserer
+    Liste ist es der zweite Eintrag der Staffel 4 — also Teil 2. Gemessen über alle 423 Reihen mit
+    mindestens zwei Hauptstaffeln: genau dieser eine Fall ändert sich.
+  */
+  const slimeReihe = 'Meine Wiedergeburt als Schleim in einer anderen Welt'
+  const slime = staffelBeschriftungen(
+    [
+      { id: 101280, name: slimeReihe, jpStart: '2018-10-02' },
+      { id: 108511, name: `${slimeReihe}: Staffel 2`, jpStart: '2021-01-12', staffelQuelle: 2 },
+      { id: 116742, name: `${slimeReihe}: Staffel 2 — Teil 2`, jpStart: '2021-07-06' },
+      { id: 156822, name: `${slimeReihe}: Staffel 3`, jpStart: '2024-04-05', staffelQuelle: 3 },
+      { id: 182205, name: `${slimeReihe}: Staffel 4`, jpStart: '2026-04-03', staffelQuelle: 4 },
+      { id: 217331, name: 'Tensei Shitara Slime Datta Ken 4th Season Part 3', jpStart: '2027-07' },
+    ],
+    slimeReihe,
+  )
+  pruefe(
+    'der Teil zählt innerhalb der Staffel, nicht nach dem fremden Namen',
+    slime.get(182205) === 'Staffel 4 - Teil 1' && slime.get(217331) === 'Staffel 4 - Teil 2',
+    Object.fromEntries(slime),
+  )
 }
 
 /* ══ Ein Abruf löscht seinen eigenen Ertrag nicht ═══════════════════════════ */
