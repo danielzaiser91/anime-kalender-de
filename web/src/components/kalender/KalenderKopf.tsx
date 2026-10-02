@@ -77,7 +77,7 @@ export function Steuerleiste(p: SteuerProps) {
   return (
     <div
       data-steuerleiste
-      className="pointer-events-none fixed inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-30 flex justify-center md:bottom-2"
+      className="pointer-events-none fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 flex justify-center md:bottom-2"
     >
       <div className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-ak-rand bg-ak-flaeche/95 p-1.5 shadow-[0_12px_32px_rgba(0,0,0,.35)] backdrop-blur sm:gap-2">
         <div role="group" aria-label={t('kal.zeitraum')} className="flex rounded-full bg-ak-flaeche-2 p-0.5">

@@ -30,7 +30,7 @@ export type FilterBarProps = {
 export function FilterBarDock(props: FilterBarProps) {
   return (
     <>
-      <div className="fixed inset-x-2 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 mx-auto max-h-[calc(100dvh-3rem)] max-w-[1180px] overflow-y-auto">
+      <div className="fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto max-h-[calc(100dvh-8rem)] md:bottom-[calc(1rem+env(safe-area-inset-bottom))] md:max-h-[calc(100dvh-3rem)] max-w-[1180px] overflow-y-auto">
         <FilterBar {...props} />
       </div>
       <div className="h-20" aria-hidden="true" />

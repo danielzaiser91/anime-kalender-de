@@ -63,7 +63,7 @@ function tvAusGespeichert(): boolean {
 
 /** Unten docken Handy-Navigation und im Kalender die Steuerleiste an — der Fuß bleibt darüber lesbar. */
 const FUSS_ABSTAND = {
-  kalender: 'pb-[calc(9.5rem+env(safe-area-inset-bottom))] md:pb-24',
+  kalender: 'pb-[calc(10.5rem+env(safe-area-inset-bottom))] md:pb-24',
   sonst: 'pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0',
 }
 
