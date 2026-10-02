@@ -7427,6 +7427,17 @@ pruefe(
   pruefe('Staffel: die bewusste Regel für spätere Staffeln bleibt', titelDerMeldung({ titel_id: null, url: 'serie', staffel: 2 }, idxMehr, kandidaten) === null)
   pruefe('Staffel: der eindeutige Adressweg bleibt', titelDerMeldung({ titel_id: null, url: 'eins', staffel: 1 }, idxMehr, kandidaten) === 7)
   pruefe('Staffel: das Verfahren selbst trägt auch spätere Staffeln', staffelTreffer({ staffel: 2 }, kandidaten([1, 2, 3])) === 2)
+  /* Spätere Staffel über die Reihe: Die Adresse hängt nur an Staffel 1 (`eins` → 1), die Reihe kennt alle drei. */
+  const nurEins = (url: string) => (url === 'eins' ? [1] : undefined)
+  const reihe123 = () => [1, 2, 3]
+  pruefe('Späte Staffel: Reihe + passende Anbieter-Folgenzahl → zugeordnet', titelDerMeldung(
+    { titel_id: null, url: 'eins', staffel: 2, staffeln: JSON.stringify([{ seq: 1, folgen: 24 }, { seq: 2, folgen: 23 }]) },
+    nurEins, kandidaten, undefined, reihe123,
+  ) === 2)
+  pruefe('Späte Staffel: ohne Anbieter-Folgenzahl bleibt sie offen', titelDerMeldung({ titel_id: null, url: 'eins', staffel: 2 }, nurEins, kandidaten, undefined, reihe123) === null)
+  pruefe('Späte Staffel: Anbieter zählt anders (24 statt 12) → offen', titelDerMeldung(
+    { titel_id: null, url: 'eins', staffel: 3, folgen: 24 }, nurEins, kandidaten, undefined, reihe123,
+  ) === null)
 
   /*
     **Unbekannte Adresse über den Namen** (29.09.2026): Wie im Einleser entscheidet der Anbieter-Name,

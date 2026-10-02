@@ -278,7 +278,7 @@ export function nameIndex(
  * Gemessen 27.09.2026: Handbelege mit Urteil 552 → 702 von 2.049 (docs/konzept-meldungen-architektur.md).
  *
  * Trägt die Adresse **mehrere** Titel, entscheidet die gemeldete Staffel (`staffelTreffer`), sofern
- * der Aufrufer die Kandidaten mitgibt — die bewusste Regel für spätere Staffeln bleibt davor.
+ * der Aufrufer die Kandidaten mitgibt. Eine spätere Staffel geht über die ganze Reihe (`spaeteStaffel`).
  *
  * Ist die Adresse **gar nicht bekannt**, entscheidet der Name (`nameIndex`) — dieselbe Reihenfolge
  * wie im Einleser. Gemessen am 29.09.2026 trugen 665 der 763 solchen Meldungen einen Serientitel,
@@ -297,9 +297,10 @@ export function titelDerMeldung(
   nachAdresse: (url: string) => number[] | undefined,
   kandidaten?: (ids: number[]) => StaffelKandidat[],
   nachName?: (name: string) => number[] | undefined,
+  reiheVon?: (ids: number[]) => number[],
 ): number | null {
   if (m.titel_id) return m.titel_id
-  if (m.staffel != null && m.staffel !== 1) return null
+  if (m.staffel != null && m.staffel !== 1) return spaeteStaffel(m, nachAdresse, kandidaten, reiheVon)
   const ids = nachAdresse(m.url)
   if (ids?.length === 1) return ids[0]!
   if (ids && ids.length > 1) return kandidaten ? staffelTreffer(m, kandidaten(ids)) : null
@@ -307,6 +308,29 @@ export function titelDerMeldung(
   if (!name || !nachName) return null
   const treffer = nachName(name)
   return treffer?.length === 1 ? treffer[0]! : null
+}
+
+/**
+ * **Eine spätere Staffel über die Reihe der Adresse zuordnen.**
+ *
+ * Eine Serienseite führt beim Anbieter oft alle Staffeln, bei uns hängt sie an einer — meist
+ * Staffel 1. Kandidaten sind deshalb alle Titel der Reihe (`reiheVon`), und `staffelTreffer`
+ * entscheidet mit seinen Riegeln. Strenger als bei mehrdeutigen Adressen: Die Folgenzahl der
+ * Anbieter-Staffel muss **bekannt** sein, denn Anbieter zählen Staffeln anders als wir.
+ * Gemessen am 02.10.2026: 647 von 3.366 solchen Meldungen werden zuordenbar (54 Titel), in der
+ * Stichprobe stimmten Staffel und Folgenzahl (MHA 2–6, Overlord II–IV, JJK 3, Golden Kamuy 2–5).
+ */
+function spaeteStaffel(
+  m: { url: string; staffel?: number | null; staffeln?: string | null; folgen?: number | null },
+  nachAdresse: (url: string) => number[] | undefined,
+  kandidaten?: (ids: number[]) => StaffelKandidat[],
+  reiheVon?: (ids: number[]) => number[],
+): number | null {
+  const ids = nachAdresse(m.url)
+  if (!ids?.length || !kandidaten || !reiheVon || m.staffel == null) return null
+  const anbieterFolgen = folgenDerAnbieterStaffel(m.staffeln ?? null, m.staffel) ?? m.folgen
+  if (typeof anbieterFolgen !== 'number') return null
+  return staffelTreffer(m, kandidaten(reiheVon(ids)))
 }
 
 /**
@@ -324,7 +348,7 @@ export function meldungGrund(
   nachAdresse: (url: string) => number[] | undefined,
 ): MeldungOhneTitel | null {
   if (m.titel_id) return null
-  /* Eine Serienseite führt oft mehrere Staffeln, bei uns hängt nur eine daran - bewusst offen. */
+  /* Gezählt wird nur, was auch über die Reihe offen blieb (`spaeteStaffel`). */
   if (m.staffel != null && m.staffel !== 1) return 'späte Staffel'
   const ids = nachAdresse(m.url)
   if (!ids?.length) return 'Adresse unbekannt'

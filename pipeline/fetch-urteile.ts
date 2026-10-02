@@ -106,9 +106,13 @@ function logOhneTitel(): void {
  */
 function meldungsZuordnung(titelAlle: Title[]) {
   const titelNachId = new Map(titelAlle.map((t) => [t.id, t]))
+  const reihen = new Map<number, number[]>()
+  for (const t of titelAlle) reihen.set(t.franchiseId ?? t.id, [...(reihen.get(t.franchiseId ?? t.id) ?? []), t.id])
   return {
     nachAdresse: adressIndex(titelAlle),
     nachName: nameIndex(titelAlle),
+    /* Alle Titel der Reihen, an denen die Adresse hängt — für spätere Staffeln (`spaeteStaffel`). */
+    reiheVon: (ids: number[]) => [...new Set(ids.flatMap((i) => reihen.get(titelNachId.get(i)?.franchiseId ?? i) ?? [i]))],
     staffelKandidaten: (ids: number[]): StaffelKandidat[] =>
       ids
         .map((i) => titelNachId.get(i))
@@ -168,11 +172,11 @@ async function main() {
   const titelListe = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titelAlle = Array.isArray(titelListe) ? titelListe : titelListe.titles
   const einzel = new Set(titelAlle.filter((t) => t.format === 'MOVIE' || t.episodes === 1).map((t) => t.id))
-  const { nachAdresse, staffelKandidaten, nachName } = meldungsZuordnung(titelAlle)
+  const { nachAdresse, staffelKandidaten, nachName, reiheVon } = meldungsZuordnung(titelAlle)
   const verworfen: Record<string, number> = {}
   /* Eine Meldung ohne die Felder aus Migration 034 trägt nur `befund`. */
   for (const roh of meldungen) {
-    const m = { ...roh, titel_id: titelDerMeldung(roh, nachAdresse, staffelKandidaten, nachName) }
+    const m = { ...roh, titel_id: titelDerMeldung(roh, nachAdresse, staffelKandidaten, nachName, reiheVon) }
     if (!m.titel_id) zaehleOhneTitel(roh, nachAdresse)
     const vorhanden = m.vorhanden ?? (m.befund === 'weg' ? 'nein' : m.befund ? 'ja' : null)
     const tonDe = m.ton_de ?? (m.befund === 'dub' ? 'ja' : m.befund === 'kein_dub' ? 'nein' : 'unbekannt')
