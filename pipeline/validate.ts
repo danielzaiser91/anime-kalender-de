@@ -26,6 +26,8 @@ function main(): void {
     if (!(e.releaseType in RELEASE_TYPES)) errors.push(`${at}: unbekannte releaseType "${e.releaseType}"`)
     if (!e.anilistId && !e.search) errors.push(`${at}: weder anilistId noch search gesetzt`)
     if (!e.sources?.length) errors.push(`${at}: keine Quelle angegeben`)
+    /* Ein Komma in einer ungequoteten YAML-Liste teilt die Adresse — der Rest steht dann ohne https da. */
+    else if (e.sources.some((q) => !/^https?:\/\//.test(q))) errors.push(`${at}: Quelle ohne http(s)-Adresse — Adresse mit Komma in Anführungszeichen setzen`)
     /* Eine Schnittliste ohne Quelle wäre eine Behauptung (19.09.2026). */
     if (e.schnitt && (!e.schnitt.was?.length || !e.schnitt.quellen?.length || e.schnitt.quellen.some((q) => !/^https:\/\//.test(q))))
       errors.push(`${at}: schnitt braucht was und quellen (https-Adressen)`)

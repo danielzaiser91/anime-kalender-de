@@ -15,7 +15,7 @@
   publisher: "KSM Anime"
   edition: "Gesamtausgabe Blu-ray (Re-Release)"
   schedule: { firstEpisodeDate: "2026-10-22" }
-  sources: [https://www.anisearch.de/article/216206,detektei-layton-katrielles-ratselhafte-falle-gesamtausgabe-blu-ray-re-release]
+  sources: ["https://www.anisearch.de/article/216206,detektei-layton-katrielles-ratselhafte-falle-gesamtausgabe-blu-ray-re-release"]
 
 - slug: the-quintessential-quintuplets-2026-09-18
   anilistId: 103572
@@ -25,7 +25,7 @@
   publisher: "Crunchyroll"
   edition: "Komplettset + Sammelschuber · Komplettset Blu-ray + Sammelschuber"
   schedule: { firstEpisodeDate: "2026-09-18" }
-  sources: [https://www.anisearch.de/article/15034,the-quintessential-quintuplets-staffel-1-2-komplettset-sammelschuber]
+  sources: ["https://www.anisearch.de/article/15034,the-quintessential-quintuplets-staffel-1-2-komplettset-sammelschuber"]
 
 - slug: steins-gate-0-polymorpher-valentin-bittersweet-intermedio-2026-10-16
   anilistId: 104174
@@ -35,7 +35,7 @@
   publisher: "Wakanim DE"
   edition: "Komplettset Blu-ray · Komplettset"
   schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: [https://www.anisearch.de/article/213058,steins-gate-0-komplettset-blu-ray]
+  sources: ["https://www.anisearch.de/article/213058,steins-gate-0-komplettset-blu-ray"]
 
 - slug: naruto-shippuden-the-movie-5-blood-prison-2026-11-19
   anilistId: 10589
@@ -45,7 +45,7 @@
   publisher: "KSM Anime"
   edition: "The Movie Collection Blu-ray (8 Filme) (Re-Release)"
   schedule: { firstEpisodeDate: "2026-11-19" }
-  sources: [https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release]
+  sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
 - slug: naruto-shippuden-the-ova-naruto-ein-genie-und-drei-wuensche-2026-11-19
   anilistId: 10659
@@ -55,7 +55,7 @@
   publisher: "KSM Anime"
   edition: "The Movie Collection Blu-ray (8 Filme) (Re-Release)"
   schedule: { firstEpisodeDate: "2026-11-19" }
-  sources: [https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release]
+  sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
 - slug: naruto-shippuden-flammende-chunin-pruefung-naruto-gegen-konohamaru-2026-11-19
   anilistId: 10686
@@ -65,7 +65,7 @@
   publisher: "KSM Anime"
   edition: "The Movie Collection Blu-ray (8 Filme) (Re-Release)"
   schedule: { firstEpisodeDate: "2026-11-19" }
-  sources: [https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release]
+  sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
 - slug: miss-kobayashi-s-dragon-maid-s-2026-11-06
   anilistId: 107717
@@ -77,7 +77,7 @@
   # Von Hand (27.09.2026): Anime2You nennt den 04.12. statt des 06.11.; der zweite aniSearch-Eintrag
   # (216599, 03.11.) war dieselbe Ausgabe und ist entfallen.
   schedule: { firstEpisodeDate: "2026-12-04" }
-  sources: [https://www.anisearch.de/article/216798,miss-kobayashis-dragon-maid-s-gesamtausgabe-steelbook-blu-ray, https://www.anisearch.de/article/216599,miss-kobayashis-dragon-maid-s-steelbook-blu-ray, https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/, https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/]
+  sources: ["https://www.anisearch.de/article/216798,miss-kobayashis-dragon-maid-s-gesamtausgabe-steelbook-blu-ray", "https://www.anisearch.de/article/216599,miss-kobayashis-dragon-maid-s-steelbook-blu-ray", https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/, https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/]
 
 - slug: the-quintessential-quintuplets-2-2026-09-18
   anilistId: 109261
@@ -87,7 +87,7 @@
   publisher: "Crunchyroll"
   edition: "Komplettset + Sammelschuber · Komplettset Blu-ray + Sammelschuber"
   schedule: { firstEpisodeDate: "2026-09-18" }
-  sources: [https://www.anisearch.de/article/15034,the-quintessential-quintuplets-staffel-1-2-komplettset-sammelschuber]
+  sources: ["https://www.anisearch.de/article/15034,the-quintessential-quintuplets-staffel-1-2-komplettset-sammelschuber"]
 
 - slug: zombie-land-saga-revenge-2026-10-02
   anilistId: 110733
@@ -97,7 +97,7 @@
   publisher: "Crunchyroll"
   edition: "Komplettset Blu-ray · Komplettset"
   schedule: { firstEpisodeDate: "2026-10-02" }
-  sources: [https://www.anisearch.de/article/213890,zombie-land-saga-zombie-land-saga-revenge-komplettset-blu-ray]
+  sources: ["https://www.anisearch.de/article/213890,zombie-land-saga-zombie-land-saga-revenge-komplettset-blu-ray"]
 
 - slug: jujutsu-kaisen-2026-12-04
   anilistId: 113415
@@ -107,7 +107,7 @@
   publisher: "Crunchyroll"
   edition: "Gesamtausgabe: Steelbook Blu-ray"
   schedule: { firstEpisodeDate: "2026-12-04" }
-  sources: [https://www.anisearch.de/article/216721,jujutsu-kaisen-staffel-1-gesamtausgabe-steelbook-blu-ray]
+  sources: ["https://www.anisearch.de/article/216721,jujutsu-kaisen-staffel-1-gesamtausgabe-steelbook-blu-ray"]
 
 - slug: jujutsu-kaisen-2027-05-07
   anilistId: 113415
@@ -117,7 +117,7 @@
   publisher: "Crunchyroll"
   edition: "Komplettset Blu-ray"
   schedule: { firstEpisodeDate: "2027-05-07" }
-  sources: [https://www.anisearch.de/article/197791,jujutsu-kaisen-staffel-1-komplettset-blu-ray]
+  sources: ["https://www.anisearch.de/article/197791,jujutsu-kaisen-staffel-1-komplettset-blu-ray"]
 
 - slug: the-familiar-of-zero-2026-12-04
   anilistId: 1195
@@ -127,7 +127,7 @@
   publisher: "AniMoon Publishing GmbH"
   edition: "Gesamtausgabe Blu-ray"
   schedule: { firstEpisodeDate: "2026-12-04" }
-  sources: [https://www.anisearch.de/article/177001,the-familiar-of-zero-gesamtausgabe-blu-ray]
+  sources: ["https://www.anisearch.de/article/177001,the-familiar-of-zero-gesamtausgabe-blu-ray"]
 
 - slug: sailor-moon-super-s-2026-12-04
   anilistId: 1239
@@ -137,7 +137,7 @@
   publisher: "Kazé Deutschland"
   edition: "Gesamtausgabe: Limited Steelbook Edition Blu-ray"
   schedule: { firstEpisodeDate: "2026-12-04" }
-  sources: [https://www.anisearch.de/article/210269,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition-blu-ray]
+  sources: ["https://www.anisearch.de/article/210269,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition-blu-ray"]
 
 - slug: the-devil-is-a-part-timer-ii-2026-09-04
   anilistId: 130592
@@ -147,7 +147,7 @@
   publisher: "Anime House GmbH"
   edition: "Komplettset Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-04" }
-  sources: [https://www.anisearch.de/article/211703,the-devil-is-a-part-timer-staffel-2-komplettset-blu-ray]
+  sources: ["https://www.anisearch.de/article/211703,the-devil-is-a-part-timer-staffel-2-komplettset-blu-ray"]
 
 - slug: a-couple-of-cuckoos-2026-09-04
   anilistId: 132052
@@ -157,7 +157,7 @@
   publisher: "Crunchyroll"
   edition: "Komplettset Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-04" }
-  sources: [https://www.anisearch.de/article/211697,a-couple-of-cuckoos-staffel-1-komplettset-blu-ray]
+  sources: ["https://www.anisearch.de/article/211697,a-couple-of-cuckoos-staffel-1-komplettset-blu-ray"]
 
 - slug: good-luck-girl-vol-1-2026-11-20
   anilistId: 13535
@@ -167,7 +167,7 @@
   publisher: "Hardball Films"
   edition: "Vol. 1/2: Limited Steelcase Edition Blu-ray + Sammelschuber"
   schedule: { firstEpisodeDate: "2026-11-20" }
-  sources: [https://www.anisearch.de/article/216284,good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber]
+  sources: ["https://www.anisearch.de/article/216284,good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber"]
 
 - slug: good-luck-girl-vol-2-2027-02-05
   anilistId: 13535
@@ -177,7 +177,7 @@
   publisher: "Hardball Films"
   edition: "Vol. 2/2: Limited Steelcase Edition Blu-ray"
   schedule: { firstEpisodeDate: "2027-02-05" }
-  sources: [https://www.anisearch.de/article/216285,good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray]
+  sources: ["https://www.anisearch.de/article/216285,good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray"]
 
 - slug: road-to-ninja-naruto-the-movie-2026-11-19
   anilistId: 13667
@@ -187,7 +187,7 @@
   publisher: "KSM Anime"
   edition: "The Movie Collection Blu-ray (8 Filme) (Re-Release)"
   schedule: { firstEpisodeDate: "2026-11-19" }
-  sources: [https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release]
+  sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
 - slug: my-next-life-as-a-villainess-all-routes-lead-to-doom-ich-habe-die-mir-vorbestimm
   anilistId: 136829
@@ -197,7 +197,7 @@
   publisher: "Crunchyroll"
   edition: "Komplettset Blu-ray · Komplettset"
   schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: [https://www.anisearch.de/article/213891,my-next-life-as-a-villainess-wie-ueberlebe-ich-in-einem-dating-game-x-komplettset-blu-ray]
+  sources: ["https://www.anisearch.de/article/213891,my-next-life-as-a-villainess-wie-ueberlebe-ich-in-einem-dating-game-x-komplettset-blu-ray"]
 
 - slug: vampire-princess-miyu-2026-09-08
   anilistId: 1384
@@ -207,7 +207,7 @@
   publisher: "Kazé Deutschland"
   edition: "Limited Edition Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-08" }
-  sources: [https://www.anisearch.de/article/208085,vampire-princess-miyu-ova-limited-edition-blu-ray]
+  sources: ["https://www.anisearch.de/article/208085,vampire-princess-miyu-ova-limited-edition-blu-ray"]
 
 - slug: gods-games-we-play-2026-12-01
   anilistId: 144176
@@ -217,7 +217,7 @@
   publisher: "Crunchyroll"
   edition: "Gesamtausgabe Blu-ray"
   schedule: { firstEpisodeDate: "2026-12-01" }
-  sources: [https://www.anisearch.de/article/185053,gods-games-we-play-gesamtausgabe-blu-ray]
+  sources: ["https://www.anisearch.de/article/185053,gods-games-we-play-gesamtausgabe-blu-ray"]
 
 - slug: memories-2026-11-18
   anilistId: 1462
@@ -227,7 +227,7 @@
   publisher: "Sony Pictures Entertainment Deutschland GmbH"
   edition: "Memories Blu-ray"
   schedule: { firstEpisodeDate: "2026-11-18" }
-  sources: [https://www.anisearch.de/article/216207,memories-blu-ray]
+  sources: ["https://www.anisearch.de/article/216207,memories-blu-ray"]
 
 - slug: the-ancient-magus-bride-staffel-2-2026-09-18
   anilistId: 154364
@@ -237,7 +237,7 @@
   publisher: "Crunchyroll"
   edition: "Gesamtausgabe Blu-ray · Gesamtausgabe"
   schedule: { firstEpisodeDate: "2026-09-18" }
-  sources: [https://www.anisearch.de/article/211704,the-ancient-magus-bride-staffel-2-gesamtausgabe-blu-ray]
+  sources: ["https://www.anisearch.de/article/211704,the-ancient-magus-bride-staffel-2-gesamtausgabe-blu-ray"]
 
 - slug: code-geass-lelouch-of-the-rebellion-2026-09-18
   anilistId: 1575
@@ -262,7 +262,7 @@
   publisher: "Animation Digital Network (DE)"
   edition: "Collector’s Edition Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-07" }
-  sources: [https://www.anisearch.de/article/207793,2-5-dimensional-seduction-season-1-collectors-edition-blu-ray]
+  sources: ["https://www.anisearch.de/article/207793,2-5-dimensional-seduction-season-1-collectors-edition-blu-ray"]
 
 - slug: the-ancient-magus-bride-staffel-2-cour-2-2026-09-18
   anilistId: 166452
@@ -272,7 +272,7 @@
   publisher: "Crunchyroll"
   edition: "Gesamtausgabe Blu-ray · Gesamtausgabe"
   schedule: { firstEpisodeDate: "2026-09-18" }
-  sources: [https://www.anisearch.de/article/211704,the-ancient-magus-bride-staffel-2-gesamtausgabe-blu-ray]
+  sources: ["https://www.anisearch.de/article/211704,the-ancient-magus-bride-staffel-2-gesamtausgabe-blu-ray"]
 
 - slug: the-last-naruto-the-movie-2026-11-19
   anilistId: 16870
@@ -282,7 +282,7 @@
   publisher: "KSM Anime"
   edition: "The Movie Collection Blu-ray (8 Filme) (Re-Release)"
   schedule: { firstEpisodeDate: "2026-11-19" }
-  sources: [https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release]
+  sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
 - slug: my-hero-academia-yuei-heroes-battle-2026-10-20
   anilistId: 169402
@@ -292,7 +292,7 @@
   publisher: "Crunchyroll"
   edition: "My Hero Academia: Season 7 Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-20" }
-  sources: [https://www.anisearch.de/article/213001,my-hero-academia-season-7-blu-ray]
+  sources: ["https://www.anisearch.de/article/213001,my-hero-academia-season-7-blu-ray"]
 
 - slug: i-parry-everything-2026-09-28
   anilistId: 170695
@@ -302,7 +302,7 @@
   publisher: "Animation Digital Network (DE)"
   edition: "Collector’s Edition Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-28" }
-  sources: [https://www.anisearch.de/article/209338,i-parry-everything-season-1-collectors-edition-blu-ray]
+  sources: ["https://www.anisearch.de/article/209338,i-parry-everything-season-1-collectors-edition-blu-ray"]
 
 - slug: promise-of-wizard-2026-09-17
   anilistId: 170916
@@ -312,7 +312,7 @@
   publisher: "KSM Anime"
   edition: "Gesamtausgabe Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-17" }
-  sources: [https://www.anisearch.de/article/210501,promise-of-wizard-gesamtausgabe-blu-ray]
+  sources: ["https://www.anisearch.de/article/210501,promise-of-wizard-gesamtausgabe-blu-ray"]
 
 - slug: from-bureaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12
   anilistId: 172453
@@ -322,7 +322,7 @@
   publisher: "Animation Digital Network (DE)"
   edition: "Complete Series Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-12" }
-  sources: [https://www.anisearch.de/article/215273,from-bureaucrat-to-villainess-dads-been-reincarnated-complete-series-blu-ray]
+  sources: ["https://www.anisearch.de/article/215273,from-bureaucrat-to-villainess-dads-been-reincarnated-complete-series-blu-ray"]
 
 - slug: yaiba-samurai-legend-vol-1-2026-12-04
   anilistId: 177476
@@ -332,7 +332,7 @@
   publisher: "peppermint anime GmbH"
   edition: "Staffel 1 - Vol. 1/2: Limited Edition Blu-ray + Sammelschuber · Staffel 1 - Vol. 1/2 Blu-ray"
   schedule: { firstEpisodeDate: "2026-12-04" }
-  sources: [https://www.anisearch.de/article/214949,yaiba-samurai-legend-staffel-1-vol-1-2-limited-edition-blu-ray-sammelschuber]
+  sources: ["https://www.anisearch.de/article/214949,yaiba-samurai-legend-staffel-1-vol-1-2-limited-edition-blu-ray-sammelschuber"]
 
 - slug: yaiba-samurai-legend-vol-2-2027-02-19
   anilistId: 177476
@@ -342,7 +342,7 @@
   publisher: "peppermint anime GmbH"
   edition: "Staffel 1 - Vol. 2/2: Limited Edition Blu-ray · Staffel 1 - Vol. 2/2 Blu-ray"
   schedule: { firstEpisodeDate: "2027-02-19" }
-  sources: [https://www.anisearch.de/article/214951,yaiba-samurai-legend-staffel-1-vol-2-2-limited-edition-blu-ray]
+  sources: ["https://www.anisearch.de/article/214951,yaiba-samurai-legend-staffel-1-vol-2-2-limited-edition-blu-ray"]
 
 - slug: miss-kobayashi-s-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-2026-10-1
   anilistId: 181839
@@ -352,7 +352,7 @@
   publisher: "Crunchyroll"
   edition: "Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: [https://www.anisearch.de/article/213787,miss-kobayashis-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-blu-ray]
+  sources: ["https://www.anisearch.de/article/213787,miss-kobayashis-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-blu-ray"]
 
 - slug: sakamoto-days-teil-2-vol-3-2026-11-13
   anilistId: 184237
@@ -362,7 +362,7 @@
   publisher: "Netflix, Inc."
   edition: "Vol. 3/4: Limited Steelcase Edition Blu-ray · Vol. 3/4: Limited Steelcase Edition"
   schedule: { firstEpisodeDate: "2026-11-13" }
-  sources: [https://www.anisearch.de/article/201864,sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray]
+  sources: ["https://www.anisearch.de/article/201864,sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray"]
 
 - slug: sakamoto-days-teil-2-vol-4-2026-12-18
   anilistId: 184237
@@ -373,7 +373,7 @@
   edition: "Vol. 4/4: Limited Steelcase Edition Blu-ray · Vol. 4/4: Limited Steelcase Edition"
   # Von Hand (27.09.2026): Anime2You nennt den 25.12. statt des 18.12. und AniMoon als Verlag.
   schedule: { firstEpisodeDate: "2026-12-25" }
-  sources: [https://www.anisearch.de/article/201866,sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray, https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/]
+  sources: ["https://www.anisearch.de/article/201866,sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray", https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/]
 
 - slug: my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m-out-for-
   anilistId: 184322
@@ -383,7 +383,7 @@
   publisher: "Animation Digital Network (DE)"
   edition: "Complete Series Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-08" }
-  sources: [https://www.anisearch.de/article/210609,my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-im-out-for-revenge-complete-series-blu-ray]
+  sources: ["https://www.anisearch.de/article/210609,my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-im-out-for-revenge-complete-series-blu-ray"]
 
 - slug: kamisama-kiss-staffel-2-2026-11-15
   anilistId: 20801
@@ -393,7 +393,7 @@
   publisher: "Anime House GmbH"
   edition: "Gesamtausgabe: Premium Collection Blu-ray · Gesamtausgabe: Limited Edition Blu-ray"
   schedule: { firstEpisodeDate: "2026-11-15" }
-  sources: [https://www.anisearch.de/article/189227,kamisama-kiss-staffel-2-gesamtausgabe-premium-collection-blu-ray]
+  sources: ["https://www.anisearch.de/article/189227,kamisama-kiss-staffel-2-gesamtausgabe-premium-collection-blu-ray"]
 
 - slug: a-silent-voice-2026-11-06
   anilistId: 20954
@@ -403,7 +403,7 @@
   publisher: "Kazé Deutschland"
   edition: "Steelbook Blu-ray"
   schedule: { firstEpisodeDate: "2026-11-06" }
-  sources: [https://www.anisearch.de/article/216795,a-silent-voice-steelbook-blu-ray]
+  sources: ["https://www.anisearch.de/article/216795,a-silent-voice-steelbook-blu-ray"]
 
 - slug: steins-gate-0-2026-10-16
   anilistId: 21127
@@ -413,7 +413,7 @@
   publisher: "Wakanim DE"
   edition: "Komplettset Blu-ray · Komplettset"
   schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: [https://www.anisearch.de/article/213058,steins-gate-0-komplettset-blu-ray]
+  sources: ["https://www.anisearch.de/article/213058,steins-gate-0-komplettset-blu-ray"]
 
 - slug: boruto-naruto-the-movie-2026-11-19
   anilistId: 21220
@@ -423,7 +423,7 @@
   publisher: "KSM Anime"
   edition: "The Movie Collection Blu-ray (8 Filme) (Re-Release)"
   schedule: { firstEpisodeDate: "2026-11-19" }
-  sources: [https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release]
+  sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
 - slug: naruto-shippuden-the-movie-2026-11-19
   anilistId: 2472
@@ -433,7 +433,7 @@
   publisher: "KSM Anime"
   edition: "The Movie Collection Blu-ray (8 Filme) (Re-Release)"
   schedule: { firstEpisodeDate: "2026-11-19" }
-  sources: [https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release]
+  sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
 - slug: code-geass-lelouch-of-the-rebellion-r2-2026-09-18
   anilistId: 2904
@@ -458,7 +458,7 @@
   publisher: "New KSM"
   edition: "Gesamtausgabe (Re-Release)"
   schedule: { firstEpisodeDate: "2026-12-03" }
-  sources: [https://www.anisearch.de/article/215324,hallo-kurt-gesamtausgabe-re-release]
+  sources: ["https://www.anisearch.de/article/215324,hallo-kurt-gesamtausgabe-re-release"]
 
 - slug: hakaba-kitaro-der-junge-vom-friedhof-2026-09-04
   anilistId: 3710
@@ -468,7 +468,7 @@
   publisher: "polyband Medien GmbH"
   edition: "Gesamtausgabe Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-04" }
-  sources: [https://www.anisearch.de/article/197198,hakaba-kitaro-der-junge-vom-friedhof-gesamtausgabe-blu-ray]
+  sources: ["https://www.anisearch.de/article/197198,hakaba-kitaro-der-junge-vom-friedhof-gesamtausgabe-blu-ray"]
 
 - slug: naruto-shippuden-the-movie-bonds-2026-11-19
   anilistId: 4437
@@ -478,7 +478,7 @@
   publisher: "KSM Anime"
   edition: "The Movie Collection Blu-ray (8 Filme) (Re-Release)"
   schedule: { firstEpisodeDate: "2026-11-19" }
-  sources: [https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release]
+  sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
 - slug: sailor-moon-s-2026-11-06
   anilistId: 532
@@ -488,7 +488,7 @@
   publisher: "Kazé Deutschland"
   edition: "Gesamtausgabe: Limited Steelbook Edition Blu-ray · Gesamtausgabe: Limited Steelbook Edition"
   schedule: { firstEpisodeDate: "2026-11-06" }
-  sources: [https://www.anisearch.de/article/210266,sailor-moon-s-gesamtausgabe-limited-steelbook-edition-blu-ray]
+  sources: ["https://www.anisearch.de/article/210266,sailor-moon-s-gesamtausgabe-limited-steelbook-edition-blu-ray"]
 
 - slug: sailor-moon-s-2026-12-04
   anilistId: 532
@@ -498,7 +498,7 @@
   publisher: "Kazé Deutschland"
   edition: "Gesamtausgabe: Limited Steelbook Edition"
   schedule: { firstEpisodeDate: "2026-12-04" }
-  sources: [https://www.anisearch.de/article/210270,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition]
+  sources: ["https://www.anisearch.de/article/210270,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition"]
 
 - slug: naruto-shippuden-the-movie-die-erben-des-willens-des-feuers-2026-11-19
   anilistId: 6325
@@ -508,7 +508,7 @@
   publisher: "KSM Anime"
   edition: "The Movie Collection Blu-ray (8 Filme) (Re-Release)"
   schedule: { firstEpisodeDate: "2026-11-19" }
-  sources: [https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release]
+  sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
 - slug: sailor-moon-r-2026-11-06
   anilistId: 740
@@ -518,7 +518,7 @@
   publisher: "Kazé Deutschland"
   edition: "Gesamtausgabe: Limited Steelbook Edition Blu-ray · Gesamtausgabe: Limited Steelbook Edition"
   schedule: { firstEpisodeDate: "2026-11-06" }
-  sources: [https://www.anisearch.de/article/203257,sailor-moon-r-gesamtausgabe-limited-steelbook-edition-blu-ray]
+  sources: ["https://www.anisearch.de/article/203257,sailor-moon-r-gesamtausgabe-limited-steelbook-edition-blu-ray"]
 
 - slug: naruto-shippuden-the-movie-4-the-lost-tower-2026-11-19
   anilistId: 8246
@@ -528,7 +528,7 @@
   publisher: "KSM Anime"
   edition: "The Movie Collection Blu-ray (8 Filme) (Re-Release)"
   schedule: { firstEpisodeDate: "2026-11-19" }
-  sources: [https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release]
+  sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
 - slug: princess-principal-2026-09-04
   anilistId: 98505
@@ -538,7 +538,7 @@
   publisher: "Kazé Deutschland"
   edition: "Komplettset + OVA 1+2 Blu-ray · Komplettset + OVA 1+2"
   schedule: { firstEpisodeDate: "2026-09-04" }
-  sources: [https://www.anisearch.de/article/211711,princess-principal-komplettset-ova-1-2-blu-ray]
+  sources: ["https://www.anisearch.de/article/211711,princess-principal-komplettset-ova-1-2-blu-ray"]
 
 - slug: miss-kobayashi-s-dragon-maid-valentinstag-und-onsen-erwartet-nicht-zu-viel-2026-
   anilistId: 98580
@@ -548,7 +548,7 @@
   publisher: "Crunchyroll"
   edition: "Gesamtausgabe: Steelbook Blu-ray"
   schedule: { firstEpisodeDate: "2026-11-06" }
-  sources: [https://www.anisearch.de/article/216797,miss-kobayashis-dragon-maid-gesamtausgabe-steelbook-blu-ray]
+  sources: ["https://www.anisearch.de/article/216797,miss-kobayashis-dragon-maid-gesamtausgabe-steelbook-blu-ray"]
 
 - slug: sailor-moon-sailor-stars-2027-01-15
   anilistId: 996
@@ -558,4 +558,4 @@
   publisher: "Kazé Deutschland"
   edition: "Gesamtausgabe: Limited Steelbook Edition Blu-ray · Gesamtausgabe: Limited Steelbook Edition"
   schedule: { firstEpisodeDate: "2027-01-15" }
-  sources: [https://www.anisearch.de/article/210291,sailor-moon-sailor-stars-gesamtausgabe-limited-steelbook-edition-blu-ray]
+  sources: ["https://www.anisearch.de/article/210291,sailor-moon-sailor-stars-gesamtausgabe-limited-steelbook-edition-blu-ray"]

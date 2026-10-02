@@ -202,7 +202,7 @@ function main(): void {
       ...(gruppe[0].publisher ? [`  publisher: ${q(gruppe[0].publisher)}`] : []),
       `  edition: ${q(editionen.join(' · '))}`,
       `  schedule: { firstEpisodeDate: ${q(datum)} }`,
-      `  sources: [${gruppe[0].url}]`,
+      `  sources: [${JSON.stringify(gruppe[0].url)}]`, /* Ein Komma in der Adresse teilte sie sonst in zwei Einträge. */
       '',
     )
     anzahl++
