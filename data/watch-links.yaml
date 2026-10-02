@@ -225,14 +225,14 @@
     - https://www.videoload.de/film/made-in-abyss-gefaehrten-der-daemmerung/GN_MV016700610000
 
 # Berserk – Das goldene Zeitalter I–III: deutsche Fassung nur auf Disc, kein Streaming (Daniel, 02.10.2026). Videobuster = Leih-Disc per Post.
-# Die Trilogie-Box (3 DVDs) gehört zu allen drei Teilen. Verleihshop: Daniel nannte die drei Seiten in der Reihenfolge Teil 1, 2, 3 (Seite nicht lesbar, Cloudflare; die Adressen tragen keine Parameter, es gibt nichts zu bereinigen).
+# Die Trilogie-Box (3 DVDs) gehört zu allen drei Teilen. Verleihshop: bereinigte Adressen von Daniel (03.10.2026, Reihenfolge Teil 1, 2, 3); Teil 1 gibt es dort nicht auf Blu-ray. Die Seiten sind hinter Cloudflare nicht lesbar.
 - anilistId: 10218
   title: "Berserk – Das goldene Zeitalter (Teil 1: Das Ei des Königs)"
   links:
     - name: "Videobuster (Leih-Disc)"
       url: https://www.videobuster.de/dvd-bluray-verleih/177256/berserk-das-goldene-zeitalter-1
       kind: buy
-    - name: "Verleihshop (Leih-Disc)"
+    - name: "Verleihshop (Leih-DVD)"
       url: https://www.verleihshop.de/detail_eYsaAUF8SUC6FobvWEJ1wdTnATabFpulFVMv.html
       kind: buy
     - name: "Amazon (Blu-ray)"
@@ -253,8 +253,11 @@
     - name: "Videobuster (Leih-Disc)"
       url: https://www.videobuster.de/dvd-bluray-verleih/187156/berserk-das-goldene-zeitalter-2
       kind: buy
-    - name: "Verleihshop (Leih-Disc)"
-      url: https://www.verleihshop.de/detail_wRsaAUCleYsaAUF6SUFmFBbbrV10FUK6Dpu7FmubFmWbFpa6FUa7DmamDpW6DpunDUK8DmW9DpW8FVumSUZnSBbpQp0me9Zlw8K2QYTmWnbcWp0ne92nrBbmqU1vGLNiAUClwYa2Q9XlQEJhQIbdWp1leYXnrY6sep0QFUK7GVMv.html
+    - name: "Verleihshop (Leih-DVD)"
+      url: https://www.verleihshop.de/detail_eYsaAUF6SUFmFBbvWEJ1wdTnATabFpulFVMv.html
+      kind: buy
+    - name: "Verleihshop (Leih-Blu-ray)"
+      url: https://www.verleihshop.de/detail_eYsaAUF6SUFmFIbvWEJ1wdTnATabFpulFVMv.html
       kind: buy
     - name: "Amazon (Blu-ray)"
       url: https://www.amazon.de/dp/B00JCG4ZXG
@@ -271,8 +274,11 @@
     - name: "Videobuster (Leih-Disc)"
       url: https://www.videobuster.de/dvd-bluray-verleih/194904/berserk-das-goldene-zeitalter-3
       kind: buy
-    - name: "Verleihshop (Leih-Disc)"
-      url: https://www.verleihshop.de/detail_wRsaAUCleYsaAUPnDpP9DIbbrV10FUK6Dpu7FmubFmWbFpa6FUa7DmamDpW6DpunDUK8DmW9DpW8FVumSUZnSBbpQp0me9Zlw8K2QYTmWnbcWp0ne92nrBbmqU1vGLNiAUClwYa2Q9XlQEJhQIbdWp1leYXnrY6sep0QFUK7GVMv.html
+    - name: "Verleihshop (Leih-DVD)"
+      url: https://www.verleihshop.de/detail_eYsaAUPnDpP9DIbvWEJ1wdTnATabFpulFVMv.html
+      kind: buy
+    - name: "Verleihshop (Leih-Blu-ray)"
+      url: https://www.verleihshop.de/detail_eYsaAUPnDpP9DnbvWEJ1wdTnATabFpulFVMv.html
       kind: buy
     - name: "Amazon (Blu-ray)"
       url: https://www.amazon.de/dp/B00JCG4ZZO
