@@ -75,7 +75,7 @@ import { terminAusEintrag } from './lib/anisearch-termine.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { LAUF_ABFRAGEN, LAUF_ARTEN, SQL_EINE_ART } from '../worker/src/lauf-sql.ts'
-import { pruefeErgebnis } from './lib/pruefung.ts'
+import { geteilteWegeTrotzWiderlegung, pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
 import { gruppiereNachAusgabe, findeStaffel, folgenKern, ordneZu } from '../shared/folgen-zuordnung.ts'
@@ -7556,6 +7556,13 @@ pruefe(
     geloest === 1 && wegeTitel.get(195516)!.streams[0].dub === undefined &&
       wegeTitel.get(196010)!.streams[0].dub === true && wegeTitel.get(196011)!.streams[0].dub === true,
     [...wegeTitel.values()].map((t) => t.streams[0]),
+  )
+  const vorher = new Map<number, Title>([[195516, geteilt(195516, 'G3KHEVDJ7')]])
+  const meldetVorher = geteilteWegeTrotzWiderlegung([apo], vorher).length
+  loeseGeteilteWegeVonWiderlegten([apo], vorher)
+  pruefe(
+    'Widerlegt: die Bauprüfung meldet einen geteilten Weg mit „deutsch" — und schweigt nach dem Lösen',
+    meldetVorher === 1 && geteilteWegeTrotzWiderlegung([apo], vorher).length === 0,
   )
 
   /* JustWatch: neue Fehlschläge sagen nichts über die Schnittstelle, verlorene Treffer schon. */

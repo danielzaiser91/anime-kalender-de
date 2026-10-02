@@ -584,7 +584,7 @@ export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): voi
   }
 
   const ersterTermin = new Map<number, string>()
-  for (const r of releases) {
+  for (const r of releases.filter((x) => !x.widerlegt /* kein deutscher Start */)) {
     const bisher = ersterTermin.get(r.titleId)
     if (!bisher || r.schedule.firstEpisodeDate < bisher) ersterTermin.set(r.titleId, r.schedule.firstEpisodeDate)
   }

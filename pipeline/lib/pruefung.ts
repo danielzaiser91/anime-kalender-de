@@ -209,5 +209,27 @@ export function pruefeErgebnis(
       if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)
         fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB, ohne als „über TMDB" gekennzeichnet zu sein`)
 
+  fehler.push(...geteilteWegeTrotzWiderlegung(releases, titles))
   return { fehler, warnungen }
+}
+
+/**
+ * Eine Staffel, deren deutsche Termine auf einem Anbieter **alle** widerlegt sind, darf dort keinen
+ * geteilten Reihen-Weg mit `dub: true` tragen — sonst stünde „DE ✓" neben „widerlegt" und die
+ * Staffel käme als „Neu auf Deutsch" in die News (`loeseGeteilteWegeVonWiderlegten`).
+ */
+export function geteilteWegeTrotzWiderlegung(releases: Release[], titles: Map<number, Title>): string[] {
+  const jeTitelPlattform = new Map<string, boolean>()
+  for (const r of releases) {
+    const k = `${r.titleId}|${r.platform}`
+    jeTitelPlattform.set(k, (jeTitelPlattform.get(k) ?? true) && Boolean(r.widerlegt))
+  }
+  const fehler: string[] = []
+  for (const [k, alleWiderlegt] of jeTitelPlattform) {
+    if (!alleWiderlegt) continue
+    const [id, plattform] = k.split('|')
+    const weg = titles.get(Number(id))?.streams.find((s) => s.platform === plattform && s.dub === true && (s.sharedWith ?? 0) > 1 && !s.dubRanges?.length)
+    if (weg) fehler.push(`Anime ${id}: alle Termine auf ${plattform} widerlegt, der geteilte Weg ${weg.url} trägt trotzdem „deutsch"`)
+  }
+  return fehler
 }

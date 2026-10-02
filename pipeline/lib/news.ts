@@ -290,7 +290,7 @@ export function baueNews(
     if (!t) continue
     const anbieter = t.streams.find((s) => s.dub === true)?.platform
     const erreichtRelease = releases
-      .filter((r) => r.titleId === t.id && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
+      .filter((r) => r.titleId === t.id && !r.widerlegt && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
       .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
     const erreicht = erreichtRelease?.schedule?.firstEpisodeDate
     if ((!anbieter && !erreicht) || nurAngekuendigt(releases, t.id, anbieter, n.seit)) continue
