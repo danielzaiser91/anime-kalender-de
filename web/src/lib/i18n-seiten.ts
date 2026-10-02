@@ -18,6 +18,7 @@ export const TEXTE_SEITEN = {
     was der Quellenlink nicht schon sagt.
   */
   'news.belege': 'Sicherheit der Angaben: {n} Quellen',
+  'news.belegeEins': 'Sicherheit der Angaben: 1 Quelle',
   'news.belegeTitel': 'Belege dieses Termins — je Dokument einer, Aktualisierungen zählen nicht doppelt',
   /*
     **Der Termin ist unsere Schätzung, keine Quelle** (Daniel, 01.10.2026). An einer geschätzten
