@@ -192,6 +192,15 @@ jobs:
         continue-on-error: true
         run: npx tsx pipeline/termine-pruefen.ts
 
+      # Was der Prüflauf eben gemessen hat, als Bild festhalten: Crunchyrolls Kalender an dem Tag,
+      # auf den sich eine Meldung „nicht erschienen"/„verspätet erschienen" bezieht (privat, R2).
+      # Öffnet nur dann einen Browser, wenn ein frischer Vermerk noch kein Bild hat.
+      - name: Messbelege ablegen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npx tsx pipeline/messbelege.ts
+
       # Das TV-Programm von RTL+ nennt nur den laufenden Tag — mehrmals täglich
       # abgefragt, damit keine Sendung durchrutscht (16.09.2026, status.md).
       - name: TV-Programm von RTL+ lesen

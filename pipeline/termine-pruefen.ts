@@ -124,6 +124,17 @@ export interface VerpassterTermin {
    * der Datei, sondern nur zwischen Lesen und Schreiben.
    */
   gestrichen?: boolean
+  /** Bild und HTML des Kalendertags beim Bemerken bzw. beim Nachreichen (`messbelege.ts`). */
+  messbeleg?: Messbeleg
+  nachgereichtBeleg?: Messbeleg
+}
+
+/** Was wir beim Messen gesehen haben — privat abgelegt, der Schlüssel steht hier. */
+export interface Messbeleg {
+  am: string
+  url: string
+  bild: string
+  html?: string
 }
 
 const ereignisse = readJson<Ereignis[]>('public/data/events.json', [])

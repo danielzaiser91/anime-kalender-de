@@ -17,6 +17,8 @@
  * Recherche wert.
  */
 
+import { addDays, toIsoDate } from '../../shared/time.ts'
+
 const STUNDE = 36e5
 const TAG = 24 * STUNDE
 
@@ -91,4 +93,24 @@ export function folgeAmVerpasstenTermin(
   if (!letzte) return kalenderFolge ?? null
   const dazwischen = new Set(verpassteTage.filter((t) => t > letzte.date && t < datum)).size
   return Math.max(kalenderFolge ?? 0, letzte.episode! + dazwischen + 1)
+}
+
+/**
+ * Welche Vermerke noch ein Bild brauchen (`pipeline/messbelege.ts`): das Bemerken eines Ausfalls und
+ * das Nachreichen, je mit dem Kalendertag, auf den sich die Meldung bezieht. Nur frische — nach
+ * 14 Tagen zeigt die Seite einen anderen Stand als beim Messen.
+ */
+export function offeneMessbelege<V extends { bemerktAm: string; erwartetAm: string; erschienenAm: string | null; messbeleg?: unknown; nachgereichtBeleg?: unknown }>(
+  verpasst: V[],
+  heute: string,
+  hoechstens: number,
+): { v: V; feld: 'messbeleg' | 'nachgereichtBeleg'; tag: string }[] {
+  const frisch = (iso: string) => toIsoDate(new Date(iso)) >= addDays(heute, -14)
+  const raus: { v: V; feld: 'messbeleg' | 'nachgereichtBeleg'; tag: string }[] = []
+  for (const v of verpasst) {
+    if (!v.messbeleg && frisch(v.bemerktAm)) raus.push({ v, feld: 'messbeleg', tag: toIsoDate(new Date(v.erwartetAm)) })
+    if (v.erschienenAm && !v.nachgereichtBeleg && frisch(v.erschienenAm))
+      raus.push({ v, feld: 'nachgereichtBeleg', tag: toIsoDate(new Date(v.erschienenAm)) })
+  }
+  return raus.slice(0, hoechstens)
 }

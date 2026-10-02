@@ -3038,3 +3038,15 @@ Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
 - **Gewählter Weg:** Abgleich von Hand über Edge, wenn ein Artikel ein Update trägt. Am 02.10.:
   56 Titel, 13 mit „DE: TBA" (deckt sich mit `data/ankuendigungen.yaml`), neu nur Beerus
   (AniList 206814, OmU 11.10., keine DE-Zeile) — eingetragen.
+
+## Crunchyrolls Simulcast-Kalender: `date` nimmt jeden Tag, die Seite belegt Ausfälle (02.10.2026)
+
+- `simulcastcalendar?filter=premium&date=<Tag>` nimmt **jeden** Tag, nicht nur den Montag, und zeigt
+  dessen Woche (gemessen: `date=2026-09-30` → 28.09.–04.10.). Die News verlinken deshalb den Tag der
+  Meldung — zwei Meldungen derselben Woche behalten getrennte Links.
+- Die Seite ist ein brauchbarer Beleg fürs Ausbleiben: Am 30.09. führte sie Hana-Kimi Staffel 2
+  Folge 12 auf Französisch, Spanisch, Portugiesisch, Folge 13 auf Englisch, **keine** deutsche Kachel;
+  am 02.10. „(DEUTSCH) Folgen 10–12". Vergangene Wochen bleiben abrufbar.
+- Bildbeleg (Playwright, Desktop-UA, 1400 px, ganze Seite, JPEG 50): rund 380 KB, HTML.gz rund
+  60 KB. Der OneTrust-Cookie-Banner (`#onetrust-consent-sdk`) liegt quer über dem Kalender und wird
+  vor der Aufnahme entfernt, nicht beantwortet (`pipeline/messbelege.ts`).

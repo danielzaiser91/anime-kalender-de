@@ -23,7 +23,7 @@ import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, releaseStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
 import { wocheAus } from '../shared/wochenprogramm.ts'
-import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig } from './lib/ausgeblieben.ts'
+import { artikelNenntTitel, folgeAmVerpasstenTermin, offeneMessbelege, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { kalenderTag, ohneDoppelteFolgen, verspaetungsMeldungen } from './lib/news-verspaetung.ts'
 import { nachgereichteFolgen } from './bau/verpasst-am-termin.ts'
 import { mitArtikeldaten } from './lib/beleg-lesung.ts'
@@ -7732,6 +7732,17 @@ console.log('\nVerspätete Folgen in den News:')
     { 'https://www.anisearch.de/news/x': { zuletzt: '2026-10-03', lesungen: [{ am: '2026-10-03', hash: 'h', veroeffentlicht: '2026-06-29' }] } },
   )
   pruefe('Quellen tragen das Veröffentlichungsdatum laut Lesung', mitDatum[0]?.veroeffentlichtAm === '2026-06-29', mitDatum)
+  const vermerke = [
+    { bemerktAm: '2026-09-30T19:00:00Z', erwartetAm: '2026-09-30T16:00:00Z', erschienenAm: '2026-10-02T16:00:00Z' },
+    { bemerktAm: '2026-09-30T19:00:00Z', erwartetAm: '2026-09-30T16:00:00Z', erschienenAm: null, messbeleg: { am: 'x' } },
+    { bemerktAm: '2026-08-01T19:00:00Z', erwartetAm: '2026-08-01T16:00:00Z', erschienenAm: null },
+  ]
+  const offen = offeneMessbelege(vermerke, '2026-10-02', 6).map((o) => `${o.feld}@${o.tag}`)
+  pruefe(
+    'Messbelege: Bemerken und Nachreichen je am eigenen Tag, abgelegte und alte nicht',
+    offen.join() === 'messbeleg@2026-09-30,nachgereichtBeleg@2026-10-02',
+    offen,
+  )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

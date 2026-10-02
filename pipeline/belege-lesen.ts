@@ -97,6 +97,8 @@ async function main(): Promise<void> {
         const ziel = letzte?.hash === hash ? letzte : lesung
         if (!ziel.bild) {
           const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
+          /* Crunchyrolls Cookie-Banner läge quer über dem Artikel — entfernt, nicht beantwortet. */
+          await seite.evaluate(() => document.querySelector('#onetrust-consent-sdk')?.remove())
           ziel.bild = await ablegen(`${basis}.jpg`, await seite.screenshot({ fullPage: true, type: 'jpeg', quality: 60 }), 'image/jpeg')
           ziel.html = await ablegen(`${basis}.html.gz`, gzipSync(await seite.content()), 'application/gzip')
         }
