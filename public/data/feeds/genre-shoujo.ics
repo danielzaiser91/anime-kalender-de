@@ -6,13 +6,23 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Shoujo
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-09-30@anime-kalender-de
+UID:hana-kimi-s2@2026-10-02#10@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260930T160000Z
-DTEND:20260930T163000Z
-SUMMARY:⚠ nicht erschienen: Hana-Kimi – Staffel 2 – Folge 10/13
+DTSTART:20261002T160000Z
+DTEND:20261002T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-02#12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T160000Z
+DTEND:20261002T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -28,10 +38,10 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-07@anime-kalender-de
+UID:hana-kimi-s2@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261007T160000Z
-DTEND:20261007T163000Z
+DTSTART:20261009T160000Z
+DTEND:20261009T163000Z
 SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
@@ -39,11 +49,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-14@anime-kalender-de
+UID:hana-kimi-s2@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261014T160000Z
-DTEND:20261014T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
+DTSTART:20261016T160000Z
+DTEND:20261016T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/hana-kimi-s2
@@ -61,15 +71,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-21@anime-kalender-de
+UID:my-happy-marriage-special-netflix@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261021T160000Z
-DTEND:20261021T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
+DTSTART:20261025T080000Z
+DTEND:20261025T083000Z
+SUMMARY:Meine ganz besondere Hochzeit: Special
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
+ chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
+ etails: https://anime-kalender.de/#/release/my-happy-marriage-special-netf
+ lix
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-147103-netflix@2026-10-25@anime-kalender-de
