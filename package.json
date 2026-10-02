@@ -11,6 +11,7 @@
     "data:fetch": "tsx pipeline/fetch.ts",
     "data:crunchyroll": "tsx pipeline/scrape-crunchyroll.ts --weeks 8",
     "data:build": "tsx pipeline/build.ts",
+    "db:bestand": "node tools/bestand-db.mjs",
     "data:og": "tsx pipeline/build-og.ts",
     "data:tmdb": "tsx pipeline/fetch-tmdb-titles.ts",
     "data:tmdb-kino": "tsx pipeline/fetch-tmdb-kino.ts",
