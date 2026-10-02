@@ -1,15 +1,14 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { PLATFORMS, type NewsEintrag, type NewsMeldung, type Release } from '@shared/types.ts'
 import { loadNews, type Dataset } from '../../lib/data.ts'
 import { useLang, type TranslationKey } from '../../lib/i18n.tsx'
 import { datumKurz, newsSatz } from '../../lib/news-text.ts'
 import { NEWS_FARBE } from '../NewsView.tsx'
 import { AbgeloestHinweis } from '../news-abgeloest.tsx'
-import { BelegZeile } from '../news-belege.tsx'
+import { QuellenSpalte } from '../news-belege.tsx'
 import { Klapptext } from '../klapptext.tsx'
 import { todayIso } from '@shared/time.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
-import { Tooltip } from '../ui.tsx'
 
 interface Zeile {
   am: string
@@ -63,33 +62,21 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
   const jahr = new Date().getFullYear().toString()
   const datum = z.am.startsWith(jahr) ? datumKurz(z.am).slice(0, 6) : datumKurz(z.am)
   const abgeloest = Boolean(z.m.ersetzt || z.m.zurueckgezogen)
+  const links = useRef<HTMLSpanElement>(null)
+  const belege = z.m.belege?.length ? z.m.belege : quelle ? [quelle] : []
   return (
     <li className="flex items-start gap-3 border-t border-ak-linie py-2 first:border-t-0">
       <span className="w-[4.5rem] shrink-0 pt-0.5 text-xs tabular-nums text-ak-leise">{datum}</span>
-      <span className="flex min-w-0 flex-1 flex-col gap-1">
+      <span ref={links} className="flex min-w-0 flex-1 flex-col gap-1">
         <span className={`self-start rounded px-1.5 text-xs ${NEWS_FARBE[z.m.art]}`}>{t(`news.art.${z.m.art}` as TranslationKey)}</span>
         <span className={`text-sm ${abgeloest ? 'text-ak-leise line-through' : 'text-ak-text'}`}>{newsSatz(z.m)}</span>
         {/* **Lange Vermerke nur aufgeklappt** (Daniel, 02.10.2026): Der erste Satz steht da, der
             Rest hinter „mehr" — dieselbe Regel wie im Antwortkasten. */}
         {z.m.hinweis && <Klapptext text={z.m.hinweis} className="text-[11px] text-ak-leise" />}
         {abgeloest && <AbgeloestHinweis m={z.m} />}
-        <BelegZeile belege={z.m.belege} className="self-start" />
       </span>
-      {quelle ? (
-        <Tooltip text={quelle.name} seite="oben" eigenerFokus className="shrink-0">
-          <a
-            href={quelle.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t('detail.neuigkeitQuelle', { name: quelle.name })}
-            className="flex min-h-11 shrink-0 items-center text-xs font-bold text-ak-akzent-text hover:underline sm:min-h-0"
-          >
-            {t('detail.quelleKurz')} ↗
-          </a>
-        </Tooltip>
-      ) : (
-        z.m.geschaetzt && <span className="shrink-0 self-center text-[10px] text-ak-leise">{t('news.eigeneSchaetzung')}</span>
-      )}
+      {/* Eine geschätzte Meldung zeigt keine Quelle — die Seite dahinter nennt den Termin nicht. */}
+      {!z.m.geschaetzt && <QuellenSpalte belege={belege} links={links} />}
     </li>
   )
 }

@@ -7,7 +7,7 @@ import { anbieterDerMeldung, datumKurz, newsSatz } from '../lib/news-text.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { todayIso, addDays } from '@shared/time.ts'
 import { AbgeloestHinweis } from './news-abgeloest.tsx'
-import { BelegZeile } from './news-belege.tsx'
+import { quellenLabel } from './news-belege.tsx'
 import { Klapptext } from './klapptext.tsx'
 
 /**
@@ -520,28 +520,37 @@ function MeldungZeile({
           </span>
         </button>
         <AbgeloestHinweis m={m} />
-        {m.geschaetzt ? (
-          <span className="shrink-0 text-[10px] text-ak-leise">{t('news.eigeneSchaetzung')}</span>
-        ) : (
-          istLink(m.quelle) && (
-            <a
-              href={m.quelle}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={t('news.quelleTitel', { quelle: m.quelle })}
-              className="shrink-0 text-[10px] text-slate-400 underline decoration-dotted underline-offset-2 hover:text-slate-600 dark:hover:text-slate-200"
-            >
-              {t('news.quelle')} {hostVon(m.quelle)}
-            </a>
-          )
-        )}
+        {/* Eine geschätzte Meldung zeigt keine Quelle — die Seite dahinter nennt den Termin nicht. */}
+        {!m.geschaetzt && <QuelleKurz m={m} />}
       </div>
-      {/* Die Belegzeile steht **unter** der Meldung, nicht in ihrer Zeile: In der Zeile wäre sie auf
-          dem Handy zu breit (gemessen am 02.10.2026 — `check:news --handy` war rot). */}
       {/* Der Vermerk erscheint **beim Aufklappen** unter der Meldung — in der Übersicht bleibt der
           Satz kurz (Daniel am 02.10.2026). */}
       {m.hinweis && <p className="pb-1 pl-2 pr-2 text-[10px] text-slate-400 dark:text-slate-500"><Klapptext text={m.hinweis} /></p>}
-      <BelegZeile belege={m.belege} className="pb-1 pl-2" />
     </li>
+  )
+}
+
+/**
+ * Die Quelle in der einzeiligen Liste: der erste Beleg mit Rubrik, weitere als „+N" (die Namen im
+ * Tooltip). Eine Spalte wie im Panel passt hier nicht — die Zeile ist auf dem Handy schon voll.
+ */
+function QuelleKurz({ m }: { m: NewsMeldung }) {
+  const { t } = useLang()
+  const belege = m.belege?.length ? m.belege : istLink(m.quelle) ? [{ url: m.quelle, name: hostVon(m.quelle) }] : []
+  if (!belege.length) return null
+  const [erster, ...weitere] = belege
+  return (
+    <span className="flex shrink-0 items-center gap-1 text-[10px] text-slate-400">
+      <a
+        href={erster.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={t('news.quelleTitel', { quelle: erster.url })}
+        className="max-w-[9rem] truncate underline decoration-dotted underline-offset-2 hover:text-slate-600 dark:hover:text-slate-200"
+      >
+        {quellenLabel(erster)}
+      </a>
+      {weitere.length > 0 && <span title={weitere.map(quellenLabel).join(' · ')}>+{weitere.length}</span>}
+    </span>
   )
 }

@@ -10,21 +10,10 @@ export const TEXTE_SEITEN = {
   */
   'news.heute': 'Heute',
   'news.gestern': 'Gestern',
-  'news.quelle': 'Quelle',
   'news.quelleTitel': 'Nachsehen, woher diese Meldung kommt: {quelle}',
-  /*
-    **„Sicherheit der Angaben" — nach Artikeln gezählt** (Daniel, 01.10.2026). Ein aktualisierter
-    Artikel bleibt **eine** Quelle; die Zahl steht erst ab zwei Belegen da, sonst sagte sie nichts,
-    was der Quellenlink nicht schon sagt.
-  */
-  'news.belege': 'Sicherheit der Angaben: {n} Quellen',
-  'news.belegeEins': 'Sicherheit der Angaben: 1 Quelle',
-  'news.belegeTitel': 'Belege dieses Termins — je Dokument einer, Aktualisierungen zählen nicht doppelt',
-  /*
-    **Der Termin ist unsere Schätzung, keine Quelle** (Daniel, 01.10.2026). An einer geschätzten
-    Meldung darf kein Quellenlink hängen: Er führte auf eine Seite, die den Termin nicht nennt.
-  */
-  'news.eigeneSchaetzung': 'eigene Schätzung',
+  /* Quellen werden nach Dokument gezählt — ein aktualisierter Artikel bleibt eine Quelle. */
+  'news.weitereQuellen': '+{n} weitere Quellen',
+  'news.quelleGelesen': '{name} · gelesen am {datum}',
   'sub.title': 'Kalender abonnieren',
   'sub.intro':
     'Ein Abo statt vieler Einzelklicks: Die Feeds unten aktualisieren sich mit jedem Daten-Update von selbst. Kein Konto, kein Login, keine Freigabe an uns nötig.',
