@@ -140,6 +140,48 @@ export function verdachtsfaelle(wurzel, plattform) {
   } catch {
     /* Ohne Titel oder Belege gibt es nichts nachzusehen. */
   }
+  for (const [id, fall] of justwatchWiderspruch(wurzel, plattform)) if (!raus.has(id)) raus.set(id, fall)
+  return raus
+}
+
+/** JustWatchs Anbietername → unsere Plattform; nur Abo-Angebote zählen. */
+const JW_PLATTFORM = { 'Disney Plus': 'disneyplus', Netflix: 'netflix', 'Amazon Prime Video': 'primevideo' }
+
+/**
+ * **Ein altes Nein, dem eine neuere Quelle widerspricht, gehört zurück auf die Prüfliste.**
+ *
+ * Ein Handbeleg hat Vorrang vor allem, was rät — auch dann, wenn er veraltet ist. „Rooster
+ * Fighter" stand seit dem 26.08.2026 als „Disney+ meldet: nicht in deinem Gebiet verfügbar" im
+ * Bestand; JustWatch nannte ab dem 17.09. Disney+ mit deutschem Ton, aniSearch die fertige
+ * Synchro. Weil niemand neu prüfte, stand „0 von 12 erschienen" über einer vollständigen Synchro.
+ * Hier wird nicht entschieden, wer recht hat — der Titel kommt auf die Liste, und die nächste
+ * Meldung entscheidet.
+ *
+ * @returns {Map<number, {gegenauskunft: string, seit: string}>}
+ */
+export function justwatchWiderspruch(wurzel, plattform) {
+  const raus = new Map()
+  try {
+    const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
+    const jw = JSON.parse(readFileSync(resolve(wurzel, 'data/justwatch-audio.json'), 'utf8'))
+    const jeTitel = new Map()
+    for (const b of belege) {
+      if (b.platform !== plattform || (b.dub === undefined && b.available === undefined)) continue
+      jeTitel.set(b.anilistId, [...(jeTitel.get(b.anilistId) ?? []), b])
+    }
+    for (const [id, liste] of jeTitel) {
+      const juengster = liste.reduce((a, b) => (String(b.checkedAt ?? '') >= String(a.checkedAt ?? '') ? b : a))
+      if (juengster.dub !== false && juengster.available !== false) continue
+      const befund = jw[String(id)]
+      const deutsch = (befund?.angebote ?? []).some(
+        (a) => JW_PLATTFORM[a.anbieter] === plattform && a.art === 'FLATRATE' && (a.audio ?? []).includes('de'),
+      )
+      const seit = String(befund?.geprueftAm ?? '')
+      if (deutsch && seit > String(juengster.checkedAt ?? '')) raus.set(id, { gegenauskunft: 'JustWatch', seit })
+    }
+  } catch {
+    /* Ohne Belege oder JustWatch-Befunde gibt es nichts zu vergleichen. */
+  }
   return raus
 }
 
@@ -220,6 +262,7 @@ export function verdachtHinweis(v) {
       `bitte die Folgen hier melden, damit ihre Titel zeigen, welche Folge wohin gehört`
     )
   }
+  if (v.gegenauskunft) return `Wiedervorlage: Unser Beleg sagt „nicht da", ${v.gegenauskunft} nennt hier seit ${v.seit} deutschen Ton — bitte erneut melden`
   if (v.kanalWiderspruch) {
     return (
       `Wiedervorlage: Die Meldung sagt „kein Deutsch", ${v.kanalWiderspruch} findet deutschen Ton — ` +
