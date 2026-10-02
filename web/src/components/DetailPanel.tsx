@@ -829,25 +829,17 @@ export function DetailPanel({
 
   if (!title) {
     /*
-      **`overscroll-contain`: Am Ende des Panels hört das Scrollen auf.**
+      **`overscroll-contain` nur mit Maus: Am Ende des Panels hört das Scrollen auf.**
 
-      Ohne die Klasse reicht der Browser das Rad an die Seite dahinter weiter,
-      sobald das Panel unten angekommen ist — der Kalender scrollte weg, während
-      das Panel offen stand. Dieselbe Klasse trägt die
-      zweite Panel-Hülle.
-
-      **Die inneren Rollbereiche tragen sie ausdrücklich nicht** (Pillenreihe,
-      Reihenliste). Der erste Anlauf gab sie ihnen mit — und damit stand das Rad
-      still, sobald die Maus über „Teile dieser Reihe" war: Am Ende der Liste
-      soll das **Panel** weiterscrollen, nur die Seite dahinter nicht. Daniel
-      eine halbe Stunde später: „maus in ‚teile dieser reihe'-box, scrollen nach
-      oben führt nicht dazu, dass das detail panel scrollt."
-
-      Die Grenze liegt also genau eine Ebene höher, als sie zuerst gezogen war:
-      zwischen Panel und Seite, nicht zwischen Liste und Panel.
+      Sonst reicht der Browser das Rad an den Kalender dahinter weiter. Auf
+      Touch-Geräten würde dieselbe Klasse das Neuladen per Herunterwischen
+      verhindern — dort deckt das Panel die Seite ohnehin ganz ab. Dieselbe Klasse
+      trägt die zweite Panel-Hülle. Die inneren Rollbereiche (Pillenreihe,
+      Reihenliste) tragen sie nicht: Am Ende der Liste soll das Panel
+      weiterscrollen, nur die Seite dahinter nicht.
     */
     return (
-      <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-lg overflow-y-auto overscroll-contain border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
+      <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-lg overflow-y-auto pointer-fine:overscroll-contain border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
         {/*
           **Nachladen statt aufgeben — die Adresse muss teilbar sein.**
 
@@ -928,7 +920,7 @@ export function DetailPanel({
           genau die Platzverschwendung, die verschwinden sollte. Auf schmalen
           Schirmen greift weiterhin `w-full`, dort ändert sich nichts.
         */
-        className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col overflow-y-auto overscroll-contain border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
+        className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col overflow-y-auto pointer-fine:overscroll-contain border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
         role="dialog"
         data-panel="titel"
         aria-label={anzeigeName(title)}
