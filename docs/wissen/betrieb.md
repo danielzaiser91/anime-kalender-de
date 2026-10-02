@@ -1018,3 +1018,11 @@ Daniel am 02.10.2026: Screenshots der Belege ja, aber **privat**.
   leeres `<article>`). **ADN liefert mit Desktop-UA eine leere Seite**, Crunchyroll braucht ihn —
   deshalb zwei Seiten mit verschiedenem UA. Crunchyroll ist lokal kopflos gesperrt (Hülle, 964
   Zeichen); auf dem Runner liest derselbe Weg das Wochenprogramm stündlich.
+
+## Claude-Läufe scheitern in einer Sekunde, wenn Daniels Kontingent leer ist (02.10.2026)
+
+Die Claude-Workflows (`claude-verpasst-recherche.yml` u. a.) laufen mit Daniels
+`CLAUDE_CODE_OAUTH_TOKEN`. Ist sein Kontingent erschöpft, endet der Schritt nach ~1 s mit
+`"is_error": true`, `"total_cost_usd": 0`, `"num_turns": 1`, `modelUsage: {}` — kein Codefehler.
+Erkannt am Lauf `37035218875` (16:38, genau beim Limit). Nichts zu tun: Der nächste planmäßige Lauf
+geht wieder durch.
