@@ -114,7 +114,40 @@ Liegengeblieben (4a–4l): a) Zählwort streng/zwei Zahlen/115 heraus · b) 917 
 f) Befunde B-02…B-11 beheben · g) Rechtsprüfung Datenschutz/Lizenzen · h) ungeprüfte Bereiche (§9) · i) Kopfkommentar `fetch-anisearch.ts` + `ARCHITEKTUR.md`/`TODO.md`/`ZIELE.md` · j) `rtk`-Hook und `node`-PATH ·
 k) Token von aniSearch · l) Live-Test der Schnellfilter-Vorlieben (gebaut, `9d3e06e6e`).
 
-**Geparkt (Abschweifungen, hier festgehalten):** Schnellfilter als Vorlieben — Daniels Wunsch, umgesetzt, nur der Live-Test (4l) steht aus.
+**Geparkt (Abschweifungen, hier festgehalten):** Schnellfilter als Vorlieben — Daniels Wunsch, umgesetzt, nur der Live-Test (4l) steht aus. Trailer-Handüberschreibung und Zulässigkeit von Fan-Kanälen (Berserk, §7e).
+
+### Wo wir stehen geblieben sind (03.10.2026, 00:05 Uhr)
+
+Punkt 3 (MyDubList) ist für die **drei Kandidaten abgeschlossen**: Cat's Eye (Prime-Meldung `9713`), Monsuno (YouTube, §7d), Berserk-Filme (Disc, §7e) — alle von Daniel bestätigt, **keiner über MyDubList belegt**; Daniel hat alle Berserk-/Monsuno-Links gegengelesen („alle richtig").
+**Weiter am 03.10.2026 mit:** (a) den übrigen 19 Wikipedia-Kandidaten (§3.5) *oder* gleich der Entscheidung über MyDubList, dann (b) Punkt 4a Zählwort, danach 4b…4l der Reihe nach.
+Eingetragen und gepusht: Monsuno (`fe6c74804`), Berserk (`6da45aa92`, `67e54dbba`), Schnellfilter-Vorlieben (`9d3e06e6e`). Live erst nach dem nächsten Datenlauf (Daten) bzw. Deploy (Schnellfilter).
+
+### Plan 03.10.2026 — getrennt nach Zuständigkeit
+
+**A. Kann ich selbstständig bearbeiten (keine Entscheidung nötig; nichts davon wird ohne Vorlage der Ergebnisse festgeschrieben, was Daniel entscheidet):**
+1. Live-Test der Schnellfilter-Vorlieben mit Playwright (Desktop und Handy), sobald der Deploy durch ist.
+2. Die 19 übrigen MyDubList-Kandidaten einzeln prüfen (Wikipedia, Videobuster, fernsehserien.de) und als Tabelle vorlegen.
+3. Stichprobe an ~30 Mehrstaffel-Serien: wie schneidet aniSearch sie (Werk oder Staffel)? (Grundlage für Entscheidung c).
+4. Bauprüfung schärfen: fünf Invarianten in `pruefung.ts` (eindeutige Slugs, Titel vorhanden, eindeutige Folgennummern, Datum monoton, `meta`-Zahlen), jede mit nachgestelltem Fehlerfall in `check:logic`. *(Daniel hat Phase 0 noch nicht ausdrücklich freigegeben — vor Beginn kurz bestätigen lassen.)*
+5. Ladelast-Wächter in `check:vor-commit` (Startdaten < 300 KB) und Vorschlag zur Teilung von `events.json` (93 % Vergangenheit).
+6. Kleinbefunde mit Messlatte: Cartoons mit Zukunftsjahr, Gruppe `id % 32` bei negativen IDs, `localStorage`-Absicherung `App.tsx:76,106`, Fehlerzustand statt leer in `lib/data.ts`, Touch-Ziele 44 px, Fußnote „News-Datum aus dem Release ableiten".
+7. Doku nachführen: Kopfkommentar `fetch-anisearch.ts`, `ARCHITEKTUR.md`, `TODO.md`, `ZIELE.md` (Zahlen mit Datum).
+8. Terminfehler untersuchen (Ursache zuerst, dann Vorschlag): Hana-Kimi S2, Polar Opposites S2, Pokémon Reisen TOGGO plus, Lycoris Recoil.
+9. Ungeprüfte Bereiche prüfen (§9): Newsletter-Formular, ICS-Feeds, Dunkelmodus, englische Oberfläche, Barrierefreiheit (axe), `npm audit`.
+10. aniSearch-Zugang ohne Token: **zwei** Testabfragen (`/associated`, `/{id}/full` für Cat's Eye) — erst nach Daniels kurzem OK (fremder Dienst).
+
+**B. Mit Daniel zu besprechen / zu entscheiden:**
+1. MyDubList: komplett streichen oder als „unbestätigter Hinweis" herabstufen (Empfehlung: streichen, sobald Brücke steht; kein Fall gefunden, in dem es allein etwas wusste).
+2. Zählwort „belegte Synchro" (4a): streng mit zwei Zahlen, oder die 115 Titel ohne Beleg aus dem Hauptbestand nehmen.
+3. 917 westliche Serien (Cartoons) im „Anime-Kalender": behalten, getrennt führen oder entfernen.
+4. Einheit Werk (73) oder Staffel (36+37), abhängig von A3.
+5. Monsuno-Kanal „Monsuno Deutsch": offiziell? Weg behalten oder entfernen.
+6. Trailer: Fan-Kanäle zulassen? Handüberschreibung `trailer-von-hand.yaml` bauen?
+7. Disc-„Kaufen" als Amazon-Suche (138 von 159): beschriften, auflösen oder entfernen.
+8. aniSearch: Token abwarten (Mail vom 02.10.), danach Brücke/Umstieg planen; Bilder selbst hosten statt Hotlink.
+9. Rechtsprüfung Datenschutzerklärung (Push, Favoriten-Abgleich, TMDB-Bilder, YouTube) und Lizenzen (ODbL, MyDubList, AniList, JustWatch) — wer prüft?
+10. Betrieb: getrennte Tokens und Header statt `?token=` (Worker-Deploy), Hosting zu Cloudflare (Sicherheits-Header, Bildproxy), Vorlieben über Geräte abgleichen (`/prefs`).
+11. `rtk`-Hook und `node`-PATH in der Bash-Einrichtung.
 
 ## 7d. Fall Monsuno (13185) — von Daniel am 02.10.2026, 23:35 Uhr geprüft: bestätigt
 
