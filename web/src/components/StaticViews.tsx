@@ -1121,8 +1121,7 @@ export function DatenschutzView() {
 /**
  * Quellen und Lizenzen als eigene Ansicht.
  *
- * Bis zum 10.08.2026 stand diese Liste im Seitenfuß und machte ihn sechs
- * Zeilen lang. Verschwinden darf sie nicht — die anime-offline-database steht
+ * Im Seitenfuß machte die Liste ihn sechs Zeilen lang. Verschwinden darf sie nicht — die anime-offline-database steht
  * unter ODbL, MyDubList unter CC BY 4.0, und beide verlangen die Nennung. Ein
  * Klick entfernt erfüllt das genauso wie unter jeder Seite, und hier ist Platz
  * zu erklären, wofür welche Quelle überhaupt gebraucht wird.

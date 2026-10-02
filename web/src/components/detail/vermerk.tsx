@@ -116,12 +116,8 @@ export function Meldungen({ titleId }: { titleId: number }) {
 /**
  * Ein Bezugsweg als Pille — Anbieter, Bedingung und Sprachmarke in einem Stueck.
  *
- * Bis zum 25.08.2026 stand jeder Weg in einer eigenen, volle Breite langen
- * Zeile. Bei "Dan Da Dan Staffel 2" waren das vier Zeilen fuer vier Anbieter,
- * darunter dieselben Anbieter noch einmal als Terminbloecke. Daniel: "viel zu
- * schlecht praesentiert ... es muss ein kleiner schnell ersichtlicher
- * klickbarer bereich sein, uebersichtlich, stream pills und kauf pills, alle
- * infos in die pills."
+ * Ein kleiner, schnell erfassbarer Klickbereich statt einer Zeile je Weg: alle
+ * Angaben zum Weg stehen in der Pille.
  *
  * **Was in der Pille steht, steht im Datensatz.** Seit dem 14.09.2026 nennt die
  * zweite Zeile die Folgenzahl **unseres Titels** bei diesem Anbieter (Regeln an

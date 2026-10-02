@@ -480,12 +480,6 @@ export function DetailPanel({
   /*
     **Jedes Release ist ein Weg, nicht nur das künftige.**
 
-    Bis zum 04.09.2026 standen die Termine in einem eigenen Abschnitt darunter
-    — „RELEASE-TERMINE FÜR DEUTSCHE SYNCHRO", mit Start, Folgenzahl, letzter
-    Folge, Quelle und zwei Kalender-Knöpfen je Eintrag. Bei einer Staffel, die
-    seit anderthalb Jahren durch ist, war das ein halber Bildschirm für eine
-    Auskunft, die der Kasten oben schon gibt.
-
     Ein Release **ist** ein Bezugsweg: Es sagt, wo etwas herkommt und ab wann.
     Beides passt in eine Pille — Name und Verlag oben, Datum unten, Kalender
     rechts. Der Abschnitt darunter sagte dasselbe in zwölf Zeilen.

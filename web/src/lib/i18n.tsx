@@ -503,12 +503,7 @@ const TEXTE = {
   /*
     **Die Überschrift nennt zuerst, wonach gefragt wird.**
 
-    Bis zum 10.09.2026 stand dort „In 2 Tagen, 12.09.2026 — Folge 2": erst der
-    Abstand, dann das Datum, und die Folge als Nachtrag hinter einem Strich.
-    Daniel: „title needs to emphasize already released episodes and next
-    episodes … it is important to mention the important part first."
-
-    Jetzt steht vorn, worum es geht — „Nächste Folge (Folge 2)" —, und der
+    Vorn steht, worum es geht — „Nächste Folge (Folge 2)" —, und der
     Termin folgt als Satz. Der Wochentag steht dabei ausgeschrieben im Datum
     und ist deshalb aus der Rhythmuszeile darunter verschwunden: „am Samstag
     den 12.09.2026" und „Wöchentlich samstags" wären dieselbe Auskunft zweimal

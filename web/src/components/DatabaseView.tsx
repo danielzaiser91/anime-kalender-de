@@ -123,7 +123,6 @@ export function DatabaseView({
           label={t('db.withoutDub')}
           hint={t('db.withoutDubHint')}
         />
-        {/* Bis zum 29.09.2026 stand hier „Merken und benachrichtigen lassen, sobald es eine gibt." (Daniel: entfernen). */}
         {ohneSynchroLaedt && <span className="text-[11px] leading-snug text-slate-500 dark:text-slate-400">{t('db.withoutDubLoading')}</span>}
       </div>
 

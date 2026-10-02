@@ -54,10 +54,8 @@ export function sortiereNachZugang({ title }: {
       /**
        * Kaufwege gehören in die Kauf-Gruppe, nicht in einen zweiten Block.
        *
-       * Bis zum 23.08.2026 standen sie darunter mit **derselben Überschrift**
-       * — „Kaufen oder leihen" kam bei 61 Titeln zweimal hintereinander, weil
-       * die eine Liste aus `streams` stammte und die andere aus `watchLinks`.
-       * Für einen Besucher ist das dieselbe Frage, also ist es eine Liste.
+       * Ob aus `streams` oder `watchLinks`: Für einen Besucher ist es dieselbe
+       * Frage, also eine Liste unter einer Überschrift.
        */
       ...(art === 'kauf' ? (title?.watchLinks ?? []).filter((w) => w.kind === 'buy') : []),
     ]),

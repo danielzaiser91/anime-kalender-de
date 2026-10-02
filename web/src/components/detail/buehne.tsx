@@ -63,10 +63,9 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
             anfängt und in den Panel-Grund ausläuft — damit das Cover ohne
             Kante in die Seite übergeht.
 
-            **Die Farben kommen aus `styles.css` und wechseln mit dem Thema.**
-            Bis zum 25.08.2026 standen sie hier fest als `rgba(11,15,22,…)`;
-            im hellen Thema lag der dunkle Titel damit auf einem dunklen
-            Verlauf.
+            **Die Farben kommen aus `styles.css` und wechseln mit dem Thema** —
+            fest eingetragen lag der dunkle Titel im hellen Thema auf einem
+            dunklen Verlauf.
           */}
           <div
             aria-hidden="true"

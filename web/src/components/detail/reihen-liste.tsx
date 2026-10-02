@@ -30,18 +30,11 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
           {/*
             **Eine Liste über die volle Breite, kein Band mehr.**
 
-            Bis zum 03.09.2026 stand hier ein waagerechtes Karussell aus
-            Kacheln von 96 Pixeln. Bei einer Reihe wie „Die Tagebücher der
-            Apothekerin" hießen fünf von sechs Kacheln sichtbar gleich —
-            „Die Tagebücher der Apothekerin…" — und der unterscheidende Teil
-            lag hinter dem Abschnitt. Daniel: „es ist total unklar was man
-            dort anklickt … der titel ist ausgepunktet, die echte info steht
-            danach und man kann es nicht lesen."
-
-            Seine Vorgabe: „mach einträge die die ganze breite nutzen, sodass
-            man komplette titel lesen kann … Links an den einträgen kann das
-            cover sein", dazu eine Höchsthöhe mit drei sichtbaren Einträgen
-            und einem angeschnittenen vierten.
+            In schmalen Kacheln hießen bei einer Reihe wie „Die Tagebücher der
+            Apothekerin" fast alle Einträge sichtbar gleich; der unterscheidende
+            Teil des Titels war abgeschnitten. Deshalb volle Breite mit Cover
+            links und eine Höchsthöhe mit drei sichtbaren Einträgen und einem
+            angeschnittenen vierten.
 
             **Getrennt wird nach erschienen und angekündigt**, nicht nach
             Werkart (seine Wahl unter drei Entwürfen). Das beantwortet die
@@ -382,17 +375,9 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                               **Hier steht der deutsche Termin oder gar
                               keiner.**
 
-                              Bis zum 12.09.2026 stand die japanische
-                              Ausstrahlung da — erst nackt, dann als
-                              „JP 02.10.2026", weil der Kasten darüber den
-                              deutschen 01.10. nannte und niemand den
-                              Unterschied sah. Daniels Antwort auf die
-                              Kennzeichnung: „jp release dates sind fast
-                              komplett irrelevant … dürfen aber nie
-                              prominent präsentiert werden … falls
-                              unbekannt, lieber kein datum dort."
-
-                              Das ist dieselbe Trennlinie wie überall in
+                              Ein japanisches Datum stand hier neben dem
+                              deutschen im Kasten darüber, und niemand sah
+                              den Unterschied. Das ist dieselbe Trennlinie wie überall in
                               diesem Projekt: Die Seite beantwortet eine
                               deutsche Frage. Ein japanisches Datum an
                               dieser Stelle sieht aus wie eine Antwort
