@@ -79,3 +79,21 @@
     - https://www.anime2you.de/news/1039738/dragon-ball-daima-toggo-rtl-starttermin/
     - https://www.anime2you.de/news/1047175/toggo-plus-dragon-ball-daima-wiederholung/
     - https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/
+
+# **My Happy Marriage — die drei Sonderfolgen gehören zum Special, nicht zu Staffel 1.** Die
+# automatische Übernahme las „Netflix enthüllt Termin der neuen »My Happy Marriage«-Folgen" und
+# hängte den 25.10. an Staffel 1 (147103). Anime2Yous Netflix-Oktoberartikel nennt „»My Happy
+# Marriage« – Sonderfolgen · Episoden: 3 (komplett) · Sprache: Deutsch, Japanisch (UT)" — das ist
+# das Special (190054, AniList: SPECIAL, 3 Folgen). Dieser Eintrag führt den Artikel als Quelle und
+# schaltet damit die falsche Übernahme ab.
+- slug: my-happy-marriage-special-netflix
+  anilistId: 190054
+  titleDe: "Meine ganz besondere Hochzeit: Special"
+  platform: netflix
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-10-25"
+    episodeCount: 3
+  sources:
+    - https://www.anime2you.de/news/1045378/my-happy-marriage-specials-netflix-termin/
+    - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
