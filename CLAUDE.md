@@ -39,6 +39,9 @@ Nicht Ziel: Community, Bewertungen, Wasserstandsmeldungen zu japanischen Ausstra
 - **„Früheste Beobachtung" ist nicht „erste Folge"** (`earliest` ist nur der früheste gesehene Tag),
   und der erste Eintrag einer Staffelliste ist nicht deren erste Folge — nach Nummer zählen.
 - **„Im Angebot seit" ist nicht „erschienen am"** (`dateMeaning: 'available-from'`).
+- **Eine News-Meldung ist eine Aussage zu ihrem Tag:** nie umschreiben (Späteres ist eine neue
+  Meldung), Belege nur ihrer eigenen Aussage, eine Quelle an genau einer Meldung; eigene Messung
+  belegt der Anbieter-Kalender an diesem Tag ([news-plan.md](docs/wissen/news-plan.md)).
 - Geteilte Staffelstarts über `schedule.firstEpisodeNumber`. Bei Fortsetzungen die AniList-ID
   prüfen (`npx tsx pipeline/qa-resolve.ts`).
 
