@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { useLang } from '../lib/i18n.tsx'
+import { MitFachwoertern } from './fachwort.tsx'
 
 /**
  * **Lange Texte nur aufgeklappt** (Daniel, 02.10.2026).
@@ -16,11 +17,11 @@ export function Klapptext({ text, className = '' }: { text: string; className?: 
   const [offen, setOffen] = useState(false)
   const erster = /^[\s\S]*?[.!?](\s|$)/.exec(text.trim())?.[0].trim() ?? text.trim()
   const rest = text.trim().slice(erster.length).trim()
-  if (!rest) return <span className={className}>{text}</span>
+  if (!rest) return <span className={className}><MitFachwoertern text={text} /></span>
   return (
     <span className={className}>
-      {erster}
-      {offen && ` ${rest}`}{' '}
+      <MitFachwoertern text={erster} />
+      {offen && <> <MitFachwoertern text={rest} /></>}{' '}
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}

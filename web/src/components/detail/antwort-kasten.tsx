@@ -1,3 +1,4 @@
+import { MitFachwoertern } from '../fachwort.tsx'
 import { type ReleaseEvent, type Title, type Release, PLATFORMS } from '@shared/types.ts'
 import { formatDate, weekdayName } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
@@ -806,7 +807,7 @@ export function AntwortKasten({
       </div>
       {neben && (
         <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400" title={nebenTitel}>
-          {neben}
+          <MitFachwoertern text={neben} />
         </p>
       )}
 
@@ -862,11 +863,10 @@ export function AntwortKasten({
           T={T}
         />
       )}
-      {/* Die Erklärung zum Termin — in der Farbe, in der sie im früheren
-          Terminblock stand, damit sie als Einschränkung lesbar bleibt. */}
+      {/* Die Erklärung zum Termin, in Warnfarbe: Sie schränkt ihn ein. */}
       {notiz && (
         <p className="mt-1.5 text-[11px] leading-snug text-amber-600 dark:text-amber-400/90">
-          {notiz}
+          <MitFachwoertern text={notiz} />
         </p>
       )}
       {schnitt && (

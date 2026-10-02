@@ -47,6 +47,7 @@ export const TEXTE_KALENDER = {
   'kal.folgeVon': 'Folge {n}/{von}',
   'kal.folgen': '{n} Folgen',
   'kal.folgenSpanne': 'Folgen {von}–{bis}',
+  'fachwort.omu': 'Originalton mit deutschen Untertiteln — keine deutsche Synchro',
   'kal.mehrLabel': 'Alle {n} Termine am {datum} zeigen',
   'kal.alleAmTag': 'Alle Termine am {datum}',
   'kal.zurWoche': 'In der Woche zeigen',
