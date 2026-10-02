@@ -43,8 +43,8 @@ export function Meldungen({ titleId }: { titleId: number }) {
 
         Vorher stand der Block weit unten zwischen „Wo läuft es" und „Handlung",
         mit eigener Überschrift und einer wiederholten Quellenzeile — dieselbe
-        Adresse, die drei Zeilen weiter oben schon unter dem Termin steht
-        (Daniel, 15.08.2026). Was eine Zusatzangabe zum Termin ist, gehört zum
+        Adresse, die drei Zeilen weiter oben schon unter dem Termin steht.
+        Was eine Zusatzangabe zum Termin ist, gehört zum
         Termin und bleibt bis zum Klick zusammengefaltet.
       */}
       <button

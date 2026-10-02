@@ -1,5 +1,5 @@
 /**
- * **Ein Suchfeld für alle Filter** (Daniel, 01.10.2026).
+ * **Ein Suchfeld für alle Filter**.
  *
  * Bei 38 Anbietern, 30 Genres und Dutzenden Keywords findet man eine Pille nur noch, wenn man
  * weiß, in welcher Gruppe sie steht. Drei eigene Suchfelder (Genre, Keyword, …) wären drei

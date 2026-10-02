@@ -3,7 +3,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { MitFachwoertern } from './fachwort.tsx'
 
 /**
- * **Lange Texte nur aufgeklappt** (Daniel, 02.10.2026).
+ * **Lange Texte nur aufgeklappt**.
  *
  * Anlass: „außerdem text viel zu lang, lange texte sind nur erlaubt, im ausgeklappten zustand."
  * Der Vermerk einer Meldung (und der Hinweis im Antwortkasten) trug die ganze Begründung in der

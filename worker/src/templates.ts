@@ -245,8 +245,7 @@ function textSections(ctx: RowContext, events: ReleaseEvent[]): string {
  *
  * Das ist die Nachricht, auf die jemand monatelang wartet — und die es ohne
  * eigenen Weg nie in eine Mail schaffen würde: Eine Ankündigung ist kein
- * Termin, fällt also durch das Tages- und Wochenfenster des Newsletters
- * (Daniel, 13.08.2026).
+ * Termin, fällt also durch das Tages- und Wochenfenster des Newsletters.
  */
 export interface NeuMitSynchro {
   id: number

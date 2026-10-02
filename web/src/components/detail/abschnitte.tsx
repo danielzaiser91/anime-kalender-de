@@ -92,8 +92,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             Eine Inhaltsangabe von tausend Zeichen schob alles darunter aus
             dem Bild — die deutschen Stimmen, die Keywords, die
             Quellenangabe. Wer die Handlung lesen will, klickt; wer sie nur
-            einordnen will, sieht den Anfang und bleibt im Überblick
-            (Daniel, 12.08.2026).
+            einordnen will, sieht den Anfang und bleibt im Überblick.
           */}
           <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600 dark:text-slate-300">
             {plotOffen || plot.text.length <= PLOT_PREVIEW
@@ -170,7 +169,7 @@ export function TermineAbschnitt({ releases, title }: {
           die Verweise unten führen hin." Das war viel Text für eine
           einzige Auskunft, und es sah anders aus als jeder andere Titel.
           „Im Angebot seit: unbekannt" sagt dasselbe in einer Zeile und an
-          derselben Stelle wie sonst auch (Daniel, 12.08.2026).
+          derselben Stelle wie sonst auch.
         */
         /*
           **Hier stand der Bereich „Release-Termine für deutsche Synchro".**

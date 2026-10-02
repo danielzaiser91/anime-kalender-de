@@ -45,7 +45,7 @@ export const TEXTE_SEITEN = {
     'Täglich oder wöchentlich per Mail, was mit deutscher Synchro erscheint. Kein Tracking, keine Werbung, Abmelden mit einem Klick aus jeder Mail.',
   'news.email': 'E-Mail-Adresse',
   // Was ein verbundener Browser auf der Newsletter-Seite sieht: seinen Stand
-  // statt des Anmeldeformulars (Daniel, 15.08.2026).
+  // statt des Anmeldeformulars.
   'news.yourSubscription': 'Dein Abo',
   'news.loadingPrefs': 'Einstellungen werden geladen …',
   'news.allPlatforms': 'alle',

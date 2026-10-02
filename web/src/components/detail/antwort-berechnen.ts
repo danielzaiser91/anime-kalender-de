@@ -37,7 +37,7 @@ export function berechneAntwort({ title, releases, today }: {
   /*
     **Synchro belegt heißt nicht nur „ein Stream mit DE ✓".** „Undefeated Bahamut Chronicle"
     stand als „Noch keine deutsche Fassung" da — mit belegten deutschen Sprechrollen und
-    einer Blu-ray-Gesamtausgabe seit 2020 im Disc-Reiter (Daniel, 16.09.2026). Belegt ist
+    einer Blu-ray-Gesamtausgabe seit 2020 im Disc-Reiter. Belegt ist
     sie auch durch die Sprechrollen und durch einen Kaufweg mit deutscher Folgenspanne.
   */
   /*

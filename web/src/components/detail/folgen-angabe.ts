@@ -19,7 +19,7 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       | undefined,
   ): string => {
     /*
-      **Joyn: nur das gerechnete Fenster, nie die Folgenzahl des Titels** (Daniel, 22.09.2026). Joyn hält
+      **Joyn: nur das gerechnete Fenster, nie die Folgenzahl des Titels**. Joyn hält
       ein rollendes Fenster; bei Dragon Ball Super stand sonst „131 Fg.“, abrufbar waren 20.
     */
     if (s?.platform === 'joyn') return joynAngabe(s.fenster) ?? ''

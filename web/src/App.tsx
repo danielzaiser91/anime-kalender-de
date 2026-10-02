@@ -72,7 +72,7 @@ export default function App() {
   const [data, setData] = useState<Dataset>()
   const [allTitles, setAllTitles] = useState<Title[]>()
   const [error, setError] = useState<string>()
-  // Vorgabe aus: Wer die Datenbank öffnet, sucht meist einen bestimmten Titel (Daniel, 12.08.2026).
+  // Vorgabe aus: Wer die Datenbank öffnet, sucht meist einen bestimmten Titel.
   const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') === '1')
   /*
     Titel ohne deutsche Synchro mitzeigen — bewusst **nicht** gespeichert (Daniel, 13.08.2026: „not
@@ -81,10 +81,10 @@ export default function App() {
   const [zeigeOhneSynchro, setZeigeOhneSynchro] = useState(false)
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
   const [cartoons, setCartoons] = useState<Title[]>()
-  /* Standardmäßig aus, die Cartoons also sichtbar (Daniel, 12.09.2026). */
+  /* Standardmäßig aus, die Cartoons also sichtbar. */
   const [cartoonsAus, setCartoonsAus] = useGemerkterSchalter(CARTOONS_AUS, cartoonsAusGespeichert)
   const [einstellungenOffen, setEinstellungenOffen] = useState(false)
-  /* TV-Termine ausblenden (Daniel, 16.09.2026). */
+  /* TV-Termine ausblenden. */
   const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
   const [route, navigate] = useRoute()
   const { favorites, toggle } = useFavorites()
@@ -241,7 +241,7 @@ export default function App() {
           <>
             {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
             <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
-            {/* Das Filterfeld der Datenbank dockt unten an (Daniel, 02.10.2026) — wie im Kalender. */}
+            {/* Das Filterfeld der Datenbank dockt unten an — wie im Kalender. */}
             <FilterBarDock meta={data.meta} filters={route.filters} onChange={setFilters} showConfidence favoriteCount={favorites.size} />
             {allTitles ? (
               <SuchfundstellenContext.Provider value={titles.fundstellen}>

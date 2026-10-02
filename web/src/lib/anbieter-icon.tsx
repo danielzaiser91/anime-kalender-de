@@ -79,7 +79,7 @@ export function anbieterDatei(was: string): string | undefined {
   if (kern.startsWith('amazon prime') || kern === 'prime video') return 'primevideo'
   /*
     Ein Kauf bei Amazon ist kein Prime-Weg — er bekommt das „a" des Shops (Commons,
-    „Amazon icon.svg", gemeinfrei), nicht das Prime-Zeichen (Daniel, 16.09.2026).
+    „Amazon icon.svg", gemeinfrei), nicht das Prime-Zeichen.
   */
   if (kern.startsWith('amazon')) return 'amazon'
   return undefined

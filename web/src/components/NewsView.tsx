@@ -390,7 +390,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                         **Der Teil steht am Titel, nicht hinter dem Anbieter.** „bei
                         Crunchyroll · Lord of Mysteries Specials" las sich wie eine
                         Fußnote zum Anbieter — die Meldung betrifft aber genau diesen
-                        Teil und **nicht** die Hauptserie (Daniel, 12.09.2026). Ohne
+                        Teil und **nicht** die Hauptserie. Ohne
                         Teil steht hier die Kurzform.
                       */}
                       {/* Heißt der Teil wie die Zeile darüber, sagt er nichts Neues (15.09.2026, Bildprüfung). */}
@@ -524,7 +524,7 @@ function MeldungZeile({
         {!m.geschaetzt && <QuelleKurz m={m} />}
       </div>
       {/* Der Vermerk erscheint **beim Aufklappen** unter der Meldung — in der Übersicht bleibt der
-          Satz kurz (Daniel am 02.10.2026). */}
+          Satz kurz. */}
       {m.hinweis && <p className="pb-1 pl-2 pr-2 text-[10px] text-slate-400 dark:text-slate-500"><Klapptext text={m.hinweis} /></p>}
     </li>
   )

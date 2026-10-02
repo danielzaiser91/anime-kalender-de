@@ -253,7 +253,7 @@ export function kinoDatum(jp: string): string {
 }
 
 export function jpAngabe(jpStart: string | undefined, jpYear: number | undefined, land = 'JP'): string | undefined {
-  /* „JP 2025" stand über The Mighty Nein, einer US-Serie (Daniel, 16.09.2026) — das Land kommt jetzt aus dem Titel. */
+  /* „JP 2025" stand über The Mighty Nein, einer US-Serie — das Land kommt jetzt aus dem Titel. */
   if (jpStart) {
     const [jahr, monat, tag] = jpStart.split('-')
     if (tag) return `${land} ${tag}.${monat}.${jahr}`

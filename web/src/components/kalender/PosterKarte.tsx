@@ -35,7 +35,7 @@ export interface PosterKarteProps {
 /**
  * Eine Kachel der Poster-Woche: Cover im Hochformat, darunter Titel und „Anbieter · Folge".
  * Staffelstart und -finale nehmen zwei Spalten ein; das Cover füllt dann die ganze Breite, der
- * Text steht wie bei jeder Kachel darunter (Daniel, 26.09.2026).
+ * Text steht wie bei jeder Kachel darunter.
  *
  * Die Kachel ist kein Knopf, sie enthält einen: Stern, Auge und Teilen liegen darin, und ein Knopf
  * aus Knöpfen ist für Vorlesende unbedienbar (axe „nested-interactive", 18.09.2026).

@@ -1,5 +1,5 @@
 /**
- * **Wohin die Absprünge aus dem Detail-Panel führen** (Daniel, 29.09.2026): „anisearch absprünge aus
+ * **Wohin die Absprünge aus dem Detail-Panel führen**: „anisearch absprünge aus
  * detail panel besser hervorheben (pille?) und mit ? kennzeichnen wenn es auf suche führt, statt
  * direkt auf titel. außerdem über anisearch mal absprung-link anzeigen, falls wir einen haben der
  * direkt zum titel springt (zB bei „1/100 SHIBUYA Crossing" gibt es keine anisearch seite, aber eine

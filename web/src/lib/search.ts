@@ -1,7 +1,7 @@
 /**
  * Die Suche — und wie viel Ungenauigkeit sie verzeiht.
  *
- * Anlass (Daniel, 12.08.2026): Anime-Titel sind lang, fremdsprachig und
+ * Anlass: Anime-Titel sind lang, fremdsprachig und
  * schwer zu tippen. Wer „Aesthetica of a Rogue Hero" sucht, tippt „aesthetic
  * hero" oder gleich „ästhetik" — und bekam bisher nichts, weil die Suche den
  * **gesamten** Suchbegriff als zusammenhängende Zeichenkette im Titel suchte.
@@ -489,7 +489,7 @@ export function sucheMitFundstellen<T>(
 ): { item: T; rang: number; fundstellen: Fundstelle[] }[] {
   /*
     **Füllwörter entscheiden nichts.** „abenteuer von dai" fand „Dais Abenteuer" nicht,
-    weil „von" dort nicht vorkommt (Daniel, 16.09.2026). Sie fallen weg, solange etwas
+    weil „von" dort nicht vorkommt. Sie fallen weg, solange etwas
     übrig bleibt — wer nur „the" sucht, bekommt weiter die Treffer dafür.
   */
   const alle = woerter(suchbegriff)

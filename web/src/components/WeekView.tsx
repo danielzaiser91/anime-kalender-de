@@ -108,7 +108,7 @@ function TagZeile({
 }) {
   const heute = tag.date === today
   const vorbei = tag.date < today
-  /* Ausgeschaltet bleiben Premieren sichtbar (Daniel, 19.09.2026) — dann steht der Kasten nur für sie da. */
+  /* Ausgeschaltet bleiben Premieren sichtbar — dann steht der Kasten nur für sie da. */
   const zeigeTv = p.tvAn || tag.tv.length > 0
   return (
     <section

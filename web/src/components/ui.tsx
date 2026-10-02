@@ -78,7 +78,7 @@ export function Chip({
   title?: string
   /**
    * Farbe der Auswahl. `gruen` hebt gewählte **Filter** hervor: Orange/Rot liest
-   * sich dort wie ein Fehler, Grün heißt „drin" (Daniel, 01.10.2026). Die
+   * sich dort wie ein Fehler, Grün heißt „drin". Die
    * übrigen Chips der Seite bleiben neutral.
    */
   ton?: 'gruen'

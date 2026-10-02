@@ -7,7 +7,7 @@ import { formatDate, weekdayName } from '@shared/time.ts'
 import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
 
 /**
- * **Gezählt werden Folgen, nicht Termine** (Daniel, 01.10.2026).
+ * **Gezählt werden Folgen, nicht Termine**.
  *
  * Ein Komplettabwurf ist **ein** Termin, aber N Folgen. Vorher zählte die
  * Schleife Ereignisse — ein ADN-Block mit 12 Folgen stand nach dem Start als

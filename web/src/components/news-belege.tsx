@@ -17,7 +17,7 @@ export function quellenLabel(b: NewsBeleg): string {
 const ZEILE = 16
 
 /**
- * **Die Quellen stehen rechts am Eintrag** (Daniel, 02.10.2026): die erste auf Höhe des
+ * **Die Quellen stehen rechts am Eintrag**: die erste auf Höhe des
  * Art-Labels, die weiteren darunter. Wie viele Zeilen Platz haben, bestimmt die Höhe des
  * Textes links; was nicht passt, steht als „+N weitere Quellen" da und klappt auf.
  * Gezählt wird nach Dokument — ein aktualisierter Artikel bleibt eine Quelle.

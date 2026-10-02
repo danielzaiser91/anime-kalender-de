@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { LEAD_PX } from './woche-sprung.ts'
 
 /**
- * **Ein Klick auf einen Tag im Monat springt in der Woche zu diesem Tag** (Daniel, 26.09.2026). Der
+ * **Ein Klick auf einen Tag im Monat springt in der Woche zu diesem Tag**. Der
  * Monat merkt sich das Ziel, bevor er zur Woche wechselt; die Woche holt es nach dem Zeichnen ab.
  * Eine Modulvariable statt der Adresse: Das Ziel ist ein einmaliger Sprung, keine Ansicht.
  */

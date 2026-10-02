@@ -190,7 +190,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                   titel: t('detail.gruppeStaffeln'),
                   teile: reihenTeile.filter(istHauptstaffel).sort(nachStandUndJahr),
                 },
-                /* Filme vor Specials (Daniel, 04.09.2026): Ein Film ist ein
+                /* Filme vor Specials: Ein Film ist ein
                    eigenständiges Werk der Reihe, ein Special ist Beiwerk. */
                 {
                   titel: t('detail.gruppeFilme'),

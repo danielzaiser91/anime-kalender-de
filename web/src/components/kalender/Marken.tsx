@@ -43,7 +43,7 @@ export function anbieterUndFolge(event: ReleaseEvent, t: Translate, bis?: number
 
 /**
  * **Ein nicht eingehaltener Termin bleibt stehen und sagt, was los ist** — dass wir nachgesehen
- * haben, wie viele Folgen der Anbieter zeigt und wann wir wieder nachsehen (Daniel, 01.09.2026).
+ * haben, wie viele Folgen der Anbieter zeigt und wann wir wieder nachsehen.
  */
 export function VerpasstMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
   const v = event.verpasst

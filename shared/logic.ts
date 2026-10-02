@@ -461,7 +461,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
   }
 
   /*
-    **Der ausgefallene Tag bleibt im Kalender stehen** (Daniel, 01.09.2026):
+    **Der ausgefallene Tag bleibt im Kalender stehen**:
     „wir haben es erst auf dem kalender gezeigt, dann ändert sich das, wir
     sollten es dort dann rot markieren oder durchstreichen … damit weiterhin
     sichtbar ist, das es dort stand, aber die echte neue info es nachweislich
@@ -553,7 +553,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
    * Der Wochentakt ist ein guter Vorgabewert, aber Abweichungen sind der
    * Normalfall — Pausen, Verschiebungen, und ein Auftakt mit mehreren Folgen auf
    * einmal. Bei „Mushoku Tensei" Staffel 3 erschienen am 19.08.2026 die ersten
-   * **drei** Folgen zusammen (Daniel, 21.08.2026); über `observed` lässt sich das
+   * **drei** Folgen zusammen; über `observed` lässt sich das
    * eintragen, nur trugen die drei Termine dann dieselbe Kennung
    * `slug@datum` — dieselbe React-Kennung in der Liste und dieselbe UID im
    * Kalender-Abo, wo drei Einträge zu einem verschmolzen wären.

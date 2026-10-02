@@ -7,7 +7,7 @@ const FACHWOERTER: Record<string, TranslationKey> = { OmU: 'fachwort.omu' }
 const MUSTER = new RegExp(`\\b(${Object.keys(FACHWOERTER).join('|')})\\b`)
 
 /**
- * **„OmU" ist unterstrichen und erklärt sich** (Daniel, 02.10.2026): Wer die Abkürzung nicht
+ * **„OmU" ist unterstrichen und erklärt sich**: Wer die Abkürzung nicht
  * kennt, sieht an der Unterstreichung, dass er zeigen oder tippen kann.
  */
 export function MitFachwoertern({ text }: { text: string }): ReactNode {

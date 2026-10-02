@@ -21,7 +21,7 @@ interface Zeile {
 const SICHTBAR = 3
 
 /**
- * **Die News eines Titels stehen auch in seinem Panel** (Daniel, 27.09.2026), mit Sprung zur Quelle —
+ * **Die News eines Titels stehen auch in seinem Panel**, mit Sprung zur Quelle —
  * nur die des eigenen Titels, neueste zuerst (`meldungenImPanel`).
  */
 export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number }) {
@@ -70,7 +70,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
       <span ref={links} className="flex min-w-0 flex-1 flex-col gap-1">
         <span className={`self-start rounded px-1.5 text-xs ${NEWS_FARBE[z.m.art]}`}>{t(`news.art.${z.m.art}` as TranslationKey)}</span>
         <span className={`text-sm ${abgeloest ? 'text-ak-leise line-through' : 'text-ak-text'}`}>{newsSatz(z.m)}</span>
-        {/* **Lange Vermerke nur aufgeklappt** (Daniel, 02.10.2026): Der erste Satz steht da, der
+        {/* **Lange Vermerke nur aufgeklappt**: Der erste Satz steht da, der
             Rest hinter „mehr" — dieselbe Regel wie im Antwortkasten. */}
         {z.m.hinweis && <Klapptext text={z.m.hinweis} className="text-[11px] text-ak-leise" />}
         {abgeloest && <AbgeloestHinweis m={z.m} />}
@@ -85,7 +85,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
 const TERMIN_ARTEN = new Set<NewsMeldung['art']>(['angekuendigt', 'disc', 'kino'])
 
 /**
- * Was das Panel an News zeigt (Daniel, 27.09.2026): **nur der eigene Titel** — bei Pokémon standen
+ * Was das Panel an News zeigt: **nur der eigene Titel** — bei Pokémon standen
  * Meldungen zu „Reisen" und „Horizonte" im Panel von „Generationen" —, **kein vorbeigegangener
  * Termin** und **kein kommender, den das Panel schon als Termin zeigt** (jedes Release des Titels
  * steht dort als Pille, Disc oder Kino). Neueste zuerst.
@@ -99,7 +99,7 @@ export function meldungenImPanel(liste: NewsEintrag[], titelId: number, data: Pi
       const rel = m.release ? data.releaseBySlug.get(m.release) : undefined
       /*
         Eine **angekündigte** Staffel bleibt sichtbar — sie ist noch kein Termin,
-        den das Panel schon zeigt, sondern die Nachricht selbst (Daniel, 01.10.2026).
+        den das Panel schon zeigt, sondern die Nachricht selbst.
       */
       if (
         TERMIN_ARTEN.has(m.art) &&

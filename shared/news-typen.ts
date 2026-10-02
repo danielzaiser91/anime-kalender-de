@@ -73,7 +73,7 @@ export interface NewsMeldung {
    */
   belege?: NewsBeleg[]
   /**
-   * **Der Termin ist unsere eigene Schätzung, keine Aussage einer Quelle** (Daniel, 01.10.2026).
+   * **Der Termin ist unsere eigene Schätzung, keine Aussage einer Quelle**.
    *
    * Aus dem bisherigen Rhythmus fortgeschrieben (`schedule.estimated`). Dann darf **kein**
    * Quellenlink daran hängen: Er führte auf eine Seite, die den Termin gar nicht nennt —
@@ -81,7 +81,7 @@ export interface NewsMeldung {
    */
   geschaetzt?: boolean
   /**
-   * **Was die Meldung aus sich heraus verständlich macht** (Daniel, 01.10.2026).
+   * **Was die Meldung aus sich heraus verständlich macht**.
    *
    * Der Quellenlink ist zum Nachsehen da, nicht als Bedingung: Bei einer
    * angekündigten Staffel trägt die Meldung die Einordnung (hier: die Ankündigung
@@ -90,7 +90,7 @@ export interface NewsMeldung {
    */
   hinweis?: string
   /**
-   * **Diese Meldung wurde von einer neueren abgelöst** (Daniel, 01.10.2026).
+   * **Diese Meldung wurde von einer neueren abgelöst**.
    *
    * Ein Termin wurde verschoben: Die alte Ankündigung verschwindet nicht, sie
    * bleibt sichtbar und durchgestrichen stehen — samt Hinweis, wodurch sie

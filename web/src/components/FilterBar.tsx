@@ -8,7 +8,7 @@ import { AktiveFilter } from './kalender/AktiveFilter.tsx'
 /**
  * Die Filterleiste der Datenbank.
  *
- * **Dieselbe Ansicht wie im Kalender** (Daniel, 01.10.2026): Der Zustandsstreifen
+ * **Dieselbe Ansicht wie im Kalender**: Der Zustandsstreifen
  * steht sichtbar über dem Knopf, und das Feld öffnet genau die Filter, die auch
  * Woche und Monat zeigen — Klick-Modus in eigener Zeile, betroffene Filter im
  * Kasten, der Rest hinter „mehr Filter". Gesucht wird seit dem 26.09.2026 im
@@ -52,7 +52,7 @@ export function FilterBar({
 
   return (
     <div className="rounded-2xl border border-ak-rand bg-ak-flaeche">
-      {/* Auswahl links, Filter-Knopf rechts auf derselben Zeile (Daniel, 01.10.2026). */}
+      {/* Auswahl links, Filter-Knopf rechts auf derselben Zeile. */}
       <div className="flex flex-wrap items-center gap-2 p-2">
         <div className="min-w-0 flex-1">
           <AktiveFilter filters={filters} onChange={onChange} />

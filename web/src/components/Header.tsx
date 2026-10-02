@@ -35,7 +35,7 @@ function einfacherKlick(e: React.MouseEvent): boolean {
 
 /**
  * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema
- * und Einstellungen. Sie klebt oben und rollt mit (Daniel, 26.09.2026). Auf dem Handy wandern die
+ * und Einstellungen. Sie klebt oben und rollt mit. Auf dem Handy wandern die
  * Bereiche und das Zahnrad nach unten, die Suche klappt unter der Leiste auf.
  */
 export function Header({

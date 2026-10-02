@@ -1,5 +1,5 @@
 /**
- * **Die Reihenfolge der Mail** (Daniel, 28.09.2026).
+ * **Die Reihenfolge der Mail**.
  *
  * „tv releases in newsletter separiert anzeigen, vor allem wenn es wiederholungen sind, sind es
  * nebensächliche infos, falls es tv premiere ist, sollte sie auch oben angezeigt werden, da es

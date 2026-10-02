@@ -2,7 +2,7 @@
  * **Der Stream/Disc-Umschalter über der Pillen-Reihe** (30.09.2026 aus `AntwortKasten` gelöst).
  *
  * Überschrift und Umschalter teilen sich eine Zeile; saß er absolut in der Ecke, kostete das eine
- * zweite (Daniel, 03.09.2026): „headline auf selbe zeile wie den toggle, trennstrich genau
+ * zweite: „headline auf selbe zeile wie den toggle, trennstrich genau
  * darunter, dann die pills." Gibt es keine zweite Seite, gibt es nichts umzuschalten.
  */
 export function Umschalter({ aktivDisc, streamLeer, discLeer, onWahl, T }: {

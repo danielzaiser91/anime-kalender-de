@@ -210,7 +210,7 @@ export function MeineAnbieter({
  * **Die beiden Ausblende-Chips sind Kurzformen echter Filter**, nicht eigene Schalter:
  * „TV-Termine ausblenden" schließt die Plattform „TV" aus, „Disc-Termine ausblenden" die
  * Release-Art „disc". Der zugehörige Chip in seiner Gruppe zeigt deshalb denselben Stand, und ein
- * Klick an einer der beiden Stellen wirkt an der anderen (Daniel, 01.10.2026).
+ * Klick an einer der beiden Stellen wirkt an der anderen.
  */
 function SchnellSchalter({
   t,
@@ -480,7 +480,7 @@ export function FilterDetails({
                 </button>
               </div>
             )}
-            {/* **Auch die Filter hinter „mehr Filter" werden durchsucht** (Daniel, 01.10.2026):
+            {/* **Auch die Filter hinter „mehr Filter" werden durchsucht**:
                 Während gesucht wird, klappt die Fläche auf, damit ein Treffer nicht verborgen bleibt. */}
             {(mehr || suche) && (
               <FilterMehr
@@ -742,7 +742,7 @@ function useFilterWerkzeug(
     wert: modusVon(filters, feld),
     setzen: (w: 'und' | 'oder') => set({ modus: { ...filters.modus, [feld]: w } }),
   })
-  /* **Der TV-Schalter und der Plattform-Chip „TV" sind derselbe Filter** (Daniel, 01.10.2026):
+  /* **Der TV-Schalter und der Plattform-Chip „TV" sind derselbe Filter**:
      „tv ausblenden ist das selbe wie ausschließen tv". Der Zustand kommt aus dem Schalter, damit
      beide Stellen denselben Stand zeigen und ein Klick an der einen an der anderen wirkt. Das
      „Premieren bleiben sichtbar" (19.09.2026) hängt an `tvAus` und bleibt so erhalten. */
@@ -763,7 +763,7 @@ function useFilterWerkzeug(
   const suche = bereichsSuche(filterQuery)
   const sortedKeywords = meta.keywords.slice().sort((a, b) => tKeyword(a).localeCompare(tKeyword(b), 'de'))
   /* Die Keywords folgen derselben Suche wie alle Pillen — „stattdessen" kein eigenes Suchfeld
-     mehr (Daniel, 01.10.2026). */
+     mehr. */
   const keywordLabel = t('filter.keywords', { count: meta.keywords.length })
   const matchingKeywords = suche ? sortedKeywords.filter((k) => zeigePille(suche, keywordLabel, tKeyword(k))) : sortedKeywords
   // Gewählte und ausgeschlossene Keywords bleiben immer sichtbar, sonst fände man ein Verbot nicht wieder.

@@ -188,7 +188,7 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
     Der erste Einbau stand hinter `if (!url) return`, und der Worker antwortete
     mit „url fehlt": Die Bestätigung meldet keinen Befund zu einer Adresse,
     sondern welche Ausgaben zusammengehören. Am Knopf stand deshalb „Auswahl
-    bestätigen — nicht angekommen" (Daniel, 02.09.2026), und die Anzeige war
+    bestätigen — nicht angekommen", und die Anzeige war
     ehrlich: Es kam wirklich nichts an.
   */
   if (daten.erwartung && typeof daten.erwartung === 'object') {
@@ -266,7 +266,7 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
    * Titels. Prime führt aber regelmäßig zwei, und sie sind verschiedene
    * Angebote: „My First Girlfriend is a Gal" liegt als Kauftitel mit 11 Folgen
    * und FSK 16 (die KAZÉ-Fassung samt OVA) und über den Crunchyroll-Kanal mit
-   * 10 Folgen und FSK 18, mit völlig anderen Folgentiteln (Daniel, 30.08.2026).
+   * 10 Folgen und FSK 18, mit völlig anderen Folgentiteln.
    *
    * Ohne diese Bedingung löscht die zweite Meldung die erste, und im Briefkasten
    * bleibt nur eine der beiden Ausgaben übrig.

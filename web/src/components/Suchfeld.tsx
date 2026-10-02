@@ -9,7 +9,7 @@ import { Fragezeichen } from './ui.tsx'
  *
  * Jeder Tastendruck schrieb direkt in `filters.search` — und daran hängt die Filterung über
  * tausende Titel samt allem, was sie zeichnet. Bei schneller Eingabe verschluckte die Tastatur
- * Zeichen (Daniel, 12.09.2026). Deshalb zwei Zustände: Das Feld zeigt sofort, was getippt wurde;
+ * Zeichen. Deshalb zwei Zustände: Das Feld zeigt sofort, was getippt wurde;
  * gesucht wird erst, wenn `RUHE_MS` ohne weiteren Anschlag vergangen sind. Deutlich darunter
  * bündelt es nichts mehr, deutlich darüber läuft die Trefferliste sichtbar nach.
  */
@@ -93,7 +93,7 @@ function FeldKnoepfe({ getippt, felder, leeren }: { getippt: string; felder: str
   return (
     <span className="absolute inset-y-0.5 right-px flex items-stretch">
       {getippt && <LoeschKnopf leeren={leeren} />}
-      {/* Der Trennstrich ist die **linke Kante** des „?"-Bereichs (Daniel, 29.09.2026) — kein
+      {/* Der Trennstrich ist die **linke Kante** des „?"-Bereichs — kein
           eigenes Element mit Abstand. Damit ist der Abstand ✕→Strich gleich dem Strich→?. */}
       <Fragezeichen text={felder} gekapselt />
     </span>

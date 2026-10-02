@@ -102,7 +102,7 @@ export function Steuerleiste(p: SteuerProps) {
         <button type="button" onClick={() => schritt(-1)} aria-label={t('kal.voriger')} className={rund}>
           <LinksZeichen />
         </button>
-        {/* In der Woche bleibt „heute" klickbar und scrollt zum heutigen Tag (Daniel, 25.09.2026). */}
+        {/* In der Woche bleibt „heute" klickbar und scrollt zum heutigen Tag. */}
         <Tooltip text={heuteSichtbar ? (monat ? t('nav.todayHere') : t('nav.todayScroll')) : t('nav.todayGo')} seite="oben" eigenerFokus>
           <button
             type="button"

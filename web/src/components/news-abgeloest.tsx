@@ -4,7 +4,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { datumKurz } from '../lib/news-text.ts'
 
 /**
- * **Was eine Meldung abgelöst hat, steht neben ihr** (Daniel, 01.10.2026).
+ * **Was eine Meldung abgelöst hat, steht neben ihr**.
  *
  * Ein Link in einem Knopf wäre ungültiges HTML — der Verweis steht deshalb
  * daneben, wie die Quellenangabe. Ausgelagert, damit `MeldungZeile` die

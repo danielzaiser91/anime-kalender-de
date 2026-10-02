@@ -105,7 +105,7 @@ export interface Schedule {
    *
    * „Vom Landei zum Schwertheiligen II": Beobachtet waren nur die Tage von Folge 1 und 5,
    * Folge 10 (09.09.) stand deshalb als „geschätzt" da, obwohl eine Meldung Prime mit den
-   * Folgen 1–10 auf Deutsch belegt (Daniel, 16.09.2026). Ein Termin bis zu dieser Folge, der
+   * Folgen 1–10 auf Deutsch belegt. Ein Termin bis zu dieser Folge, der
    * nicht nach dem Prüftag liegt, ist erschienen und gilt nicht mehr als Schätzung.
    */
   belegtBis?: { folge: number; am: string }
@@ -187,7 +187,7 @@ export interface StreamLink {
    * mehrere unserer Staffeln unter derselben Seite — und teilt sie dort oft
    * anders ein als wir: Crunchyroll zeigt „The Café Terrace and Its Goddesses"
    * als **eine** Staffel mit 24 Folgen, während AniList zwei Staffeln zu je
-   * zwölf führt; dasselbe bei „The Case Study of Vanitas" (Daniel, 12.08.2026).
+   * zwölf führt; dasselbe bei „The Case Study of Vanitas".
    *
    * Das ist keine Nebensächlichkeit, sondern der Grund für ein Missverständnis:
    * Wer bei uns „Staffel 2" anklickt und dort eine Liste mit 24 Folgen
@@ -257,7 +257,7 @@ export interface WatchLink {
    * Was es kostet: nichts, ein Abo, oder Geld pro Titel.
    *
    * `kind` trennt Ansehen von Erwerben, aber nicht Abo von kostenlos — und für
-   * einen Besucher ist genau das der Unterschied (Daniel, 23.08.2026). Wird
+   * einen Besucher ist genau das der Unterschied. Wird
    * beim Bauen aus Name und Adresse bestimmt, siehe `shared/zugangsart.ts`.
    */
   zugang?: Zugangsart
@@ -281,7 +281,7 @@ export interface WatchLink {
    *
    * Anlass: Die Dai-DVD-Box bei Animeversand führt „Episoden: 1-75", die Serie hat 100
    * Folgen. Ohne die Angabe stand an der Pille gar keine Zahl, und dass 76–100 bei
-   * keinem bekannten Anbieter liegen, sagte niemand (Daniel, 16.09.2026).
+   * keinem bekannten Anbieter liegen, sagte niemand.
    */
   dubRanges?: Array<{ from: number; to: number; dub: boolean }>
   /**
@@ -316,8 +316,7 @@ export interface Title {
    * Nur bei Titeln aus dem Katalog gesetzt — im gepflegten Bestand steht der
    * deutsche Termin ohnehin am Release, und der japanische wäre dort Ladelast
    * ohne Gegenwert. Im Katalog ist es die einzige Zeitangabe überhaupt: Bei
-   * „Lord of Mysteries" trugen drei von vier Teilen weder Jahr noch Termin
-   * (Daniel, 12.09.2026).
+   * „Lord of Mysteries" trugen drei von vier Teilen weder Jahr noch Termin.
    */
   jpStart?: string
   /** `NOT_YET_RELEASED`, `RELEASING`, `FINISHED` — sagt, ob der Termin noch aussteht. */
@@ -493,8 +492,7 @@ export interface Title {
    * Sie stehen nicht im Hauptbestand, sondern in `ohne-synchro.json`, und
    * werden erst geladen, wenn jemand den Schalter in der Datenbank umlegt.
    * Ihr Zweck ist das Merken: Wer auf eine Synchro wartet, hört damit auf,
-   * von Hand nachzusehen — die Seite meldet sich, sobald es eine gibt
-   * (Daniel, 13.08.2026).
+   * von Hand nachzusehen — die Seite meldet sich, sobald es eine gibt.
    *
    * Zu ihnen ist fast nichts bekannt und soll auch nichts bekannt sein: keine
    * Termine, keine Verweise, keine Sprecher. Alles Weitere entsteht in dem
@@ -670,7 +668,7 @@ export interface Release {
    * tun haben.
    *
    * Es sagt **nichts** über Streams: Ein Film kann im Kino laufen und
-   * gleichzeitig auf Disc erscheinen (Daniel, 25.08.2026). Beide Auskünfte
+   * gleichzeitig auf Disc erscheinen. Beide Auskünfte
    * stehen nebeneinander, keine schließt die andere aus.
    */
   cinemaUntil?: string
@@ -859,7 +857,7 @@ export interface FranchiseMember {
    * `2026-06-19`).
    *
    * Ein Katalogtitel hat sonst gar keine Zeitangabe: Bei „Lord of Mysteries"
-   * stand im Panel dreimal nur das Format (Daniel, 12.09.2026).
+   * stand im Panel dreimal nur das Format.
    */
   jpStart?: string
   /** `NOT_YET_RELEASED` heißt: Der Termin steht noch aus. */
@@ -904,7 +902,7 @@ export interface FranchiseMember {
    * AniList kennt die Beziehung `PARENT`: Specials und Beiwerk nennen die Serie,
    * zu der sie gehören; das Format tut es nicht. Bei chinesischen Produktionen
    * ist **alles** eine ONA, und ohne dieses Feld standen bei „Lord of Mysteries"
-   * die Specials unter „Hauptserie" (Daniel, 12.09.2026).
+   * die Specials unter „Hauptserie".
    */
   beiwerk?: boolean
   /** Belegte deutsche Staffelnummer (aniSearch); steuert `staffelBeschriftungen()`, nicht den Titel. */

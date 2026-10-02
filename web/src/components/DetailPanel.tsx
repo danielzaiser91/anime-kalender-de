@@ -202,7 +202,7 @@ export function DetailPanel({
    * `franchises.json` deckt nur den gepflegten Bestand ab. Titel ohne deutsche
    * Synchro stehen dort nicht, gehören aber zur selben Reihe: „Link Click" hat
    * sieben Teile und keinen einzigen mit Synchro — der Umschalter fehlte dort
-   * deshalb ganz, obwohl die Kachel korrekt gebündelt war (Daniel, 13.08.2026).
+   * deshalb ganz, obwohl die Kachel korrekt gebündelt war.
    *
    * Die zweite Quelle ist das, was die Anwendung ohnehin geladen hat. Wer im
    * Detail-Panel steht, hat die passende Liste vorher geöffnet; im Kalender
@@ -319,8 +319,8 @@ export function DetailPanel({
    *
    * Steht unter dem Karussell an der Stelle, an der vorher noch einmal der
    * Reihenname stand. Der Grund: Welcher Teil gerade offen ist, war allein am
-   * blauen Rahmen einer von acht Vorschaukarten zu erkennen, und das ging unter
-   * (Daniel, 15.08.2026). Der Unterschied ist die wichtigste Auskunft im Kopf,
+   * blauen Rahmen einer von acht Vorschaukarten zu erkennen, und das ging unter.
+   * Der Unterschied ist die wichtigste Auskunft im Kopf,
    * also steht er im Klartext und am größten.
    *
    * Ermittelt wird er durch Abzug: Was am Namen des Teils über den Reihennamen
@@ -345,7 +345,7 @@ export function DetailPanel({
 
       Über „Staffel 3 Teil 2" stand im Kopf „Kusuriya no Hitorigoto Staffel 3
       Teil 2", in der Liste darunter korrekt „Staffel 3 Teil 2" — bei Teil 1
-      stimmten beide (Daniel, 12.09.2026). Der Grund ist der Abzug oben: Für
+      stimmten beide. Der Grund ist der Abzug oben: Für
       Teil 2 kennen wir keinen deutschen Namen, der Titel beginnt deshalb nicht
       mit unserem Reihennamen, und der Abzug greift nicht.
 
@@ -377,7 +377,7 @@ export function DetailPanel({
 
       Über Mushoku Tensei Staffel 3 stand „Staffel 5": Gezählt wurde die
       Position unter allen Fernsehstaffeln, und AniList führt die beiden
-      zweiten Hälften („Cour 2") als eigene Einträge (Daniel, 13.09.2026).
+      zweiten Hälften („Cour 2") als eigene Einträge.
       `staffelBeschriftungen()` ordnet einen Teil seiner Staffel zu.
     */
     const beschriftung = staffelBeschriftungen(hauptstaffeln(reihenTeile), reihenName).get(title.id)
@@ -543,7 +543,7 @@ export function DetailPanel({
           r.slug !== kinoRelease?.slug &&
           !(title?.streams ?? []).some((s) => s.platform === r.platform) &&
           /*
-            Ein Fernsehtermin, der vorbei ist, ist kein Weg zur Folge (Daniel, 22.09.2026):
+            Ein Fernsehtermin, der vorbei ist, ist kein Weg zur Folge:
             „niemand kann in die vergangenheit reisen und dort die folge gucken". Eine TV-Pille
             steht deshalb nur, solange eine Sendung läuft oder eine kommt.
           */
@@ -604,7 +604,7 @@ export function DetailPanel({
       auf einen davon fallen: `loadAllTitles` lädt `titles.json`, und dort steht
       ein Titel ohne belegte Synchro nicht. Das Panel meldete dann „Zu diesem
       Eintrag liegen keine Metadaten vor" — und derselbe Klick funktionierte,
-      sobald der Toggle den Katalog geladen hatte (Daniel, 03.09.2026).
+      sobald der Toggle den Katalog geladen hatte.
 
       Ein Eintrag, den die Liste zeigt, muss sich auch öffnen lassen. Beide
       Ladewege sind gegen Mehrfachaufrufe gesichert und tun beim zweiten Mal
@@ -676,7 +676,7 @@ export function DetailPanel({
     eigenem Anlass:
 
     - **Es gibt Wege** — dann sagen die Pillen alles.
-    - **Kein Titel ohne deutsche Fassung** (Daniel, 01.09.2026): Oben steht
+    - **Kein Titel ohne deutsche Fassung**: Oben steht
       dann schon „Noch keine deutsche Fassung", und ein zweites Nein liest
       sich wie eine eigene Feststellung. Sind Sprechrollen belegt, bleibt der
       Satz — dort sagt er etwas anderes.
@@ -831,7 +831,7 @@ export function DetailPanel({
         <span className="inline-flex shrink-0 cursor-help items-baseline gap-1 rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] dark:bg-white/10">
           <span className="font-normal text-slate-500 dark:text-slate-400">{title.scoreQuelle === 'tmdb' ? 'TMDB' : 'AniList'}</span>
           {/* Der Stern macht auf einen Blick klar, dass es eine Wertung ist und
-              keine Folgenzahl (Daniel, 15.08.2026). */}
+              keine Folgenzahl. */}
           <span className="text-amber-400" aria-hidden="true">
             ★
           </span>
@@ -972,8 +972,8 @@ export function DetailPanel({
 
           Vorher hing es allein an `title.bannerImage` — und weil längst nicht
           jeder Teil einer Reihe eines hat, verschwand es beim Umschalten und
-          kam beim Zurückschalten wieder. Der Kopf sprang dabei um 112 Pixel
-          (Daniel, 13.08.2026). Jetzt gilt: eigenes Banner, sonst das des
+          kam beim Zurückschalten wieder. Der Kopf sprang dabei um 112 Pixel.
+          Jetzt gilt: eigenes Banner, sonst das des
           ersten Teils der Reihe, der eines hat. Ein Banner ist Schmuck für die
           Reihe, kein Beleg für den einzelnen Titel — es darf geliehen werden.
         */}
@@ -1039,8 +1039,8 @@ export function DetailPanel({
           und weiter unten eine Auswahlliste mit der Überschrift „Staffel, Film
           oder Special". Drei Bausteine für eine Sache. Jetzt zeigt das
           Karussell alle Teile als Vorschaukarten, der gewählte ist darin
-          hervorgehoben, und die Angaben stehen darunter über die volle Breite
-          (Daniel, 13.08.2026). Die Überschrift entfällt: Ein Karussell aus
+          hervorgehoben, und die Angaben stehen darunter über die volle Breite.
+          Die Überschrift entfällt: Ein Karussell aus
           Covern erklärt sich selbst.
 
           Auch bei einem Einzeltitel bleibt es stehen — dann als eine Karte.
@@ -1070,7 +1070,7 @@ export function DetailPanel({
         {/*
           Die Wertung nennt ihre Quelle — sonst sieht es aus, als wäre es
           unsere. „★ 8.4" ohne Herkunft las sich, als hätten wir diesen Anime
-          selbst bewertet (Daniel, 15.08.2026); wir bewerten nichts, die Zahl ist
+          selbst bewertet; wir bewerten nichts, die Zahl ist
           der Nutzerdurchschnitt von AniList.
 
           Der Name steht ausgeschrieben statt als Logo: AniList liefert keine
@@ -1256,7 +1256,7 @@ export function DetailPanel({
             Hier stand „Alles aus dieser Reihe" — dieselben Einträge, die zwei
             Handbreit darüber schon im Umschalter stehen. Zwei Listen mit
             identischem Inhalt sind keine doppelte Auskunft, sondern doppelte
-            Länge (Daniel, 12.08.2026).
+            Länge.
           */}
           <HandlungAbschnitt plot={plot} t={t} plotOffen={plotOffen} setPlotOffen={setPlotOffen} />
 

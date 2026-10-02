@@ -762,8 +762,8 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
           „Favoriten verloren?" ist die Frage eines Menschen, der etwas sucht.
           Wer verbunden ist, sucht nichts — für ihn war die Überschrift eine
           Frage ohne Anlass, und der Knopf darunter hieß „Trotzdem einen
-          Wiederherstellungslink anfordern", als müsse er sich rechtfertigen
-          (Daniel, 16.08.2026). Verbunden heißt der Kasten jetzt nach dem, was
+          Wiederherstellungslink anfordern", als müsse er sich rechtfertigen.
+          Verbunden heißt der Kasten jetzt nach dem, was
           er zeigt: dieses Gerät.
         */}
         <SectionTitle>
@@ -796,7 +796,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
               {/*
                 Abmelden direkt hier — bisher musste man dafür eine alte Mail
                 heraussuchen, weil der Abmeldelink am `unsub_token` hängt und
-                die Seite nur den `pref_token` kennt (Daniel, 14.08.2026).
+                die Seite nur den `pref_token` kennt.
 
                 Zweistufig, weil Löschen nicht umkehrbar ist: Der erste Klick
                 fragt, der zweite handelt. Kein Dialogfenster — die Frage steht

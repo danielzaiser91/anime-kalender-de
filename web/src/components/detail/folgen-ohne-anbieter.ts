@@ -7,7 +7,7 @@ import type { berechneAntwort } from './antwort-berechnen.ts'
  * **Welche Folgen bei keinem bekannten Anbieter liegen** (Zerlegung 29.09.2026).
  *
  * Die Dai-DVD-Box enthält 1–75, die Serie hat 100 Folgen; ohne diese Zeile blieb offen, wo
- * 76–100 zu sehen sind (Daniel, 16.09.2026). Gezählt werden **alle** Wege; einer ohne Bereiche —
+ * 76–100 zu sehen sind. Gezählt werden **alle** Wege; einer ohne Bereiche —
  * eine aniSearch-Ausgabe, ein Stream mit „DE ?" — kann die fehlenden Folgen enthalten und gilt
  * deshalb als vollständig. So stand „76–100 bei keinem Anbieter", während aniSearch vier
  * Blu-ray-Boxen und ein Komplettset führte (Daniel, mit Bild).
@@ -35,8 +35,7 @@ export function lueckeOhneAnbieter({ title, antwort, releaseJePlattform, today }
   ]
   /*
     Bei einer laufenden Serie zählt nur, was erschienen ist — „Folgen 11–12 führt kein
-    Anbieter" stand über „Vom Landei zum Schwertheiligen II", deren Folge 11 heute kommt
-    (Daniel, 16.09.2026).
+    Anbieter" stand über „Vom Landei zum Schwertheiligen II", deren Folge 11 heute kommt.
   */
   /* Im Teilweise-Zustand sagt der Kasten es schon („Für die übrigen fehlt uns eine Angabe"). */
   if (antwort?.art === 'teilweise') return null

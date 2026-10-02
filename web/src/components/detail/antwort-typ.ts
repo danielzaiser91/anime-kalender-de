@@ -85,7 +85,7 @@ export type Antwort =
    *
    * **Und er nennt den Band, den es schon gibt.** Bei „Banana Fish" stand dort
    * „in 2 Monaten, 06.11.2026" — Band 1 lag seit dem 21.08.2026 im Laden, und
-   * wir verlinkten sogar dorthin (Daniel, 12.09.2026).
+   * wir verlinkten sogar dorthin.
    */
   | {
       art: 'disc'

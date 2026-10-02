@@ -97,7 +97,7 @@ export function clearSyncToken(): void {
  *
  * Ohne sie musste jeder Hinweis im Konjunktiv bleiben („falls du ein Abo
  * hast"). Mit ihr steht dort, was tatsächlich passiert: „Wir informieren dich
- * über deine hinterlegte Newsletter-E-Mail-Adresse: …" (Daniel, 15.08.2026).
+ * über deine hinterlegte Newsletter-E-Mail-Adresse: …".
  *
  * Sie liegt neben dem Abgleich-Schlüssel im selben Browser und wird mit ihm
  * zusammen gelöscht. Der Dienst liefert sie nur gegen diesen Schlüssel aus.

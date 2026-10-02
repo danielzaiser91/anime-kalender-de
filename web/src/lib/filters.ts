@@ -84,7 +84,7 @@ export interface FilterState extends FilterLists {
    * Voreingestellt ist, was die jeweilige Frage meistens meint: Bei Plattformen
    * „irgendwo davon", bei Genres „alle davon". Wer es anders braucht — Titel,
    * die auf Netflix **und** Prime laufen, oder Action **oder** Comedy —, stellt
-   * es je Kategorie um (Daniel, 02.09.2026).
+   * es je Kategorie um.
    *
    * **Nur wo ein Titel mehrere Werte haben kann.** Status und FSK sind
    * einwertig: „läuft UND abgeschlossen" wäre immer leer, und ein Schalter, der
@@ -473,7 +473,7 @@ export function eventsFuerAnsicht(
 ): { liste: ReleaseEvent[]; fundstellen: Map<string, Fundstelle[]> } {
   const fundstellen = new Map<string, Fundstelle[]>()
   const gefiltert = filterEvents(data, f, today, favorites, fundstellen).filter(
-    /* Ausgeschaltet bleiben Premieren sichtbar (Daniel, 19.09.2026). */
+    /* Ausgeschaltet bleiben Premieren sichtbar. */
     (e) => !tvAus || e.platform !== 'tv' || tvPremiere(e, data),
   )
   return { liste: gefiltert, fundstellen }

@@ -84,7 +84,7 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
           */}
           {/*
             In der Ecke, nicht neben ihr: `top-0 right-0`, und gerundet ist nur
-            die Kante, die ins Bild zeigt (Daniel, 03.09.2026).
+            die Kante, die ins Bild zeigt.
           */}
           <div className="absolute right-0 top-0 z-10 flex flex-col items-center gap-1.5 rounded-bl-lg bg-black/50 px-1.5 py-2 backdrop-blur-[3px]">
             {reihenIds.length > 1 && (

@@ -59,7 +59,7 @@ const TEXTE = {
   'news.verspaetet': 'Folge {von} war für den {datum} angekündigt und ist nicht erschienen',
   'news.nachgereicht': 'Folge {von} kam mit Verspätung am {datum}',
   /*
-    **Eine abgelöste Meldung bleibt stehen** (Daniel, 01.10.2026). Sie wird
+    **Eine abgelöste Meldung bleibt stehen**. Sie wird
     durchgestrichen, nennt aber, wodurch sie ersetzt wurde — mit Verweis auf die
     Quelle der neueren Angabe. So ist der Weg nachvollziehbar, statt dass eine
     Meldung spurlos verschwindet.
@@ -83,7 +83,7 @@ const TEXTE = {
   'news.kurz.verspaetet': 'E{von}, erwartet zum {datum}',
   'news.kurz.nachgereicht': 'E{von}, kam am {datum}',
   /*
-    **Die Suche erklärt sich selbst** (Daniel, 29.09.2026): Welche Felder durchsucht werden, ist
+    **Die Suche erklärt sich selbst**: Welche Felder durchsucht werden, ist
     nirgends sichtbar — nach der Projektregel „alles offen kommunizieren" steht es am Suchfeld.
   */
   'suche.leeren': 'Suche leeren',
@@ -429,7 +429,7 @@ const TEXTE = {
   // gelesen wird es nur von dem kleinen Teil, der wirklich nachprüfen will.
   // Handlung **und** Zielort in einem Knopf — man soll vor dem Klick wissen,
   // wo man landet. „Ansehen" wäre bei einem künftigen Disc-Termin falsch: Es
-  // gibt noch nichts zu sehen, nur etwas vorzubestellen (Daniel, 15.08.2026).
+  // gibt noch nichts zu sehen, nur etwas vorzubestellen.
   // Weitere Schreibweisen, nach dem Muster von MyAnimeLists „Alternative
   // Titles": ein Aufklapper statt drei dauerhafter Zeilen.
   'detail.otherTitles': '{count} weitere Schreibweisen',
@@ -467,7 +467,7 @@ const TEXTE = {
   'detail.availableFrom': 'Erscheinungstermin',
   // Für Titel, deren deutsche Fassung längst draußen ist: Die Zeile nennt
   // zuerst, dass es sie gibt. „Erscheinungstermin: unbekannt" allein las sich
-  // wie „kommt vielleicht noch" (Daniel, 22.08.2026).
+  // wie „kommt vielleicht noch".
   'detail.releasedLabel': 'Deutsche Synchro',
   'detail.releasedValue': 'vorhanden, Termin nicht erfasst',
   /*
@@ -524,7 +524,7 @@ const TEXTE = {
   'antwort.ersteFolgeNr': 'Erste Folge (Folge {n})',
   'antwort.ersteFolge': 'Erste Folge',
   /*
-    **Ein Komplettabwurf bringt alle Folgen an einem Tag** (Daniel, 01.10.2026).
+    **Ein Komplettabwurf bringt alle Folgen an einem Tag**.
 
     Der Kasten las den ADN-Abwurf von „86: Eighty Six" als Sendeplan und schrieb
     „Erste Folge … · Wöchentlich · letzte Folge". Für `available-from` ist weder
@@ -533,7 +533,7 @@ const TEXTE = {
   'antwort.alleFolgen': 'Alle {count} Folgen',
   'antwort.angebotRelativ': 'im Angebot {rel}, am {tag} den {datum}.',
   'antwort.angebotDatum': 'im Angebot ab {tag} den {datum}.',
-  // Nur noch diese eine steht aus (Daniel, 15.09.2026).
+  // Nur noch diese eine steht aus.
   'antwort.finaleFolgeNr': 'Finale Folge (Folge {n})',
   'antwort.finaleFolge': 'Finale Folge',
   'antwort.erscheintRelativ': 'erscheint {rel}, am {tag} den {datum}.',
@@ -557,7 +557,7 @@ const TEXTE = {
   'antwort.vermerkNewsLeer': 'Anime2You meldet bisher keine Verschiebung.',
   'antwort.vermerkQuelle': 'Quelle',
   'antwort.vermerkRechercheLeer': 'Auch in weiteren News und auf Social Media haben wir bis zum {datum} nichts dazu gefunden.',
-  // „Offen kommunizieren" (Daniel, 15.09.2026): je Stufe, wann zuletzt und wann als Nächstes.
+  // „Offen kommunizieren": je Stufe, wann zuletzt und wann als Nächstes.
   // Die Folge hat einen neuen Termin, ist aber weiterhin überfällig (Daniel,
   // 20.09.2026): „entsprechend muss eine ausfallnotiz im detail panel stehen".
   'antwort.vermerkUeberfaellig': 'Folge {n} war für den {datum} angekündigt und ist bis heute nicht erschienen.',
@@ -594,8 +594,8 @@ const TEXTE = {
   /*
     **Was belegt ist, nicht was vermutet wird.**
 
-    „Kill Blue" stand mit „Alle 12 Folgen auf Deutsch" da, belegt waren vier
-    (Daniel, 07.09.2026). Der Satz hier nennt beide Zahlen — er ist genauso kurz
+    „Kill Blue" stand mit „Alle 12 Folgen auf Deutsch" da, belegt waren vier.
+    Der Satz hier nennt beide Zahlen — er ist genauso kurz
     und sagt die Wahrheit.
   */
   'antwort.teilweiseZahl': '{raus} von {gesamt} Folgen auf Deutsch',
@@ -616,7 +616,7 @@ const TEXTE = {
   'antwort.deZeitraumPublisher': 'Auf Deutsch erschienen {zeitraum} · {publisher}',
   // **Dieselbe Angabe, aber unter einem Nein.** Wo wir selbst keine Fassung
   // belegen können, stand „Noch keine deutsche Fassung" über „Auf Deutsch seit
-  // 03.11.2024" — ein offener Widerspruch (Daniel, 03.09.2026). Die Fremdquelle
+  // 03.11.2024" — ein offener Widerspruch. Die Fremdquelle
   // muss sich hier selbst nennen: Dann steht dort nicht zweimal dasselbe mit
   // umgekehrtem Vorzeichen, sondern unsere Auskunft und die von aniSearch.
   'antwort.deSeitFremd': 'aniSearch nennt {datum}',
@@ -630,7 +630,7 @@ const TEXTE = {
   'antwort.filmNeben': 'Deutsche Synchronfassung',
   'antwort.filmOhneTitel': 'Noch keine deutsche Fassung',
   'antwort.filmOhneNeben': 'Kein deutscher Anbieter führt ihn bisher',
-  // Ein angekündigter Kinofilm ohne deutsche Fassung (Daniel, 13.09.2026): Der
+  // Ein angekündigter Kinofilm ohne deutsche Fassung: Der
   // Kasten nennt den japanischen Kinostart und was zum deutschen bekannt ist,
   // statt nur „Noch keine deutsche Fassung" zu sagen.
   'antwort.kinoAb': 'In {land} ab {datum} im Kino',

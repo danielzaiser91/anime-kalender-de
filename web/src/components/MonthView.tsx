@@ -31,7 +31,7 @@ const PLATZ = 4
 /**
  * Der Poster-Monat (26.09.2026): je Tag die Cover ohne Text. Zeigen auf ein Cover nennt Titel, Zeit
  * und Folge, ein Klick öffnet das Panel; „+N" klappt alle Termine des Tages auf, die TV-Zeile zeigt
- * beim Zeigen die Ausstrahlungen (Daniel, 26.09.2026).
+ * beim Zeigen die Ausstrahlungen.
  */
 export function MonthView(p: MonatProps) {
   const { t } = useLang()

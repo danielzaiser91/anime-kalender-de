@@ -81,7 +81,7 @@ export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; ep
   /*
     **Eine Streaming-Staffel ist eine Staffel.** „Stone Ocean" und „Steel Ball Run" liefen
     als Netflix-Serien (ONA) und standen deshalb unter den Nebenausgaben, während die
-    übrigen JoJo-Teile Hauptserie waren (Daniel, 16.09.2026). Neben Fernsehstaffeln zählt
+    übrigen JoJo-Teile Hauptserie waren. Neben Fernsehstaffeln zählt
     ein ONA mit mindestens zehn Folgen, das kein Beiwerk ist — gemessen 62 Fälle, darunter
     Dorohedoro Staffel 2, Rent-a-Girlfriend Staffel 4 und 5, Beastars, Baki.
   */
@@ -171,7 +171,7 @@ export function staffelBeschriftungen<T extends { id: number; name: string; jpYe
     /*
       Steht nach dem Reihennamen noch ein eigener Name vor „Staffel N", zählt die
       Nummer zu diesem Namen, nicht zur Reihe: „Pokémon: Schwarz & Weiß Staffel 2"
-      ist nicht Pokémon Staffel 2 (Daniel, 17.09.2026).
+      ist nicht Pokémon Staffel 2.
     */
     const kern = (x: string) => x.normalize('NFD').replace(/\p{M}|[^\p{L}\p{N}]/gu, '').toLowerCase()
     const vorStaffel = kern(rest.replace(/Staffel\s+\d+[\s\S]*$/i, ''))

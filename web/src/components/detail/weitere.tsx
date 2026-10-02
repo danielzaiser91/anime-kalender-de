@@ -14,7 +14,7 @@ import { coverBild } from '../../lib/cover.ts'
  * findet sie in einem Klick; alle anderen bekommen zwei Zeilen weniger, die sie
  * nie gelesen hätten.
  *
- * Die Regel „infos nie verstecken" (Daniel, 15.08.2026) ist damit nicht
+ * Die Regel „infos nie verstecken" ist damit nicht
  * verletzt, sondern befolgt: Verstecken hieße weglassen oder hinter ein Symbol
  * ohne Beschriftung packen. Hier steht ausgeschrieben, was drin ist, samt
  * Anzahl — genau das, was MAL mit „More titles" tut.

@@ -335,7 +335,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
             /*
               **Disc ist, was man kauft** — Händler und Vorbestellungen.
               Vier Ausgaben desselben Verlags sind **eine** Auskunft, keine
-              vier (Daniel, 20.08.2026): eine Pille je Shop, die Zahl der
+              vier: eine Pille je Shop, die Zahl der
               Ausgaben in der zweiten Zeile.
             */
             disc={[

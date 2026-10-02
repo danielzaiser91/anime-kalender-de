@@ -111,7 +111,7 @@ export function AntwortKasten({
 }: {
   /** Bereich je Pillen-Schlüssel (`key`) — nur gebraucht, wenn es einen kostenlosen Weg gibt. */
   pillenGruppen?: Map<string, 'frei' | 'abo' | 'kauf' | 'tv' | 'unbekannt'>
-  /** Über einen Disc-Termin geöffnet — dann steht der Umschalter auf „Disc" (Daniel, 30.09.2026). */
+  /** Über einen Disc-Termin geöffnet — dann steht der Umschalter auf „Disc". */
   discZuerst?: boolean
   antwort: Antwort
   title: Title
@@ -403,7 +403,7 @@ export function AntwortKasten({
       <>
         {betont(kopf)}{' '}
         <span className="font-normal text-slate-700 dark:text-slate-300">
-          {/* „heute" in eigener Farbe (Daniel, 19.09.2026) — der Tag entscheidet, ob man jetzt nachsieht. */}
+          {/* „heute" in eigener Farbe — der Tag entscheidet, ob man jetzt nachsieht. */}
           {rel && rel === T('antwort.relHeute') && mitZeit.includes(rel) ? (
             <>
               {mitZeit.slice(0, mitZeit.indexOf(rel))}
@@ -441,7 +441,7 @@ export function AntwortKasten({
         Folgen stehen aus, nicht elf — die nächste ist keine erschienene.
       */
       antwort.letzter && antwort.rest > 1 && !antwort.offenesEnde
-        ? /* „noch 2 Folgen …" (Daniel, 19.09.2026) — Einzahl gibt es hier nicht: bei einer steht „letzte Folge". */
+        ? /* „noch 2 Folgen …" — Einzahl gibt es hier nicht: bei einer steht „letzte Folge". */
           T('antwort.nochFolgen', { count: ungefaehr(antwort.rest, antwort.gesamtGeschaetzt), datum: ungefaehr(formatDate(antwort.letzter), antwort.gesamtGeschaetzt) })
         : /* Steht „Finale Folge" schon in der Überschrift, wäre „letzte Folge" hier dieselbe Auskunft zweimal. */
           antwort.raus === 0 && !antwort.offenesEnde && !antwort.komplett
@@ -793,7 +793,7 @@ export function AntwortKasten({
         {haupt}
       </p>
       {/*
-        **Überschrift und Umschalter teilen sich eine Zeile** (Daniel, 03.09.2026): „headline auf
+        **Überschrift und Umschalter teilen sich eine Zeile**: „headline auf
         selbe zeile wie den toggle, trennstrich genau darunter, dann die pills. box müsste also um
         ~2 zeilen kleiner werden." Der Umschalter selbst steht in `Umschalter`.
       */}
@@ -893,7 +893,7 @@ export function AntwortKasten({
       </div>
       {pillen.length === 0 && wegeHinweis && (
         <div className="mt-auto shrink-0 border-t border-slate-200/70 pt-2.5 dark:border-white/10">
-          {/* Beim Kinofilm ist der Satz ein Favoriten-Hinweis und trägt deren Gelb (Daniel, 13.09.2026). */}
+          {/* Beim Kinofilm ist der Satz ein Favoriten-Hinweis und trägt deren Gelb. */}
           <p
             className={[
               'flex min-h-[2.1rem] items-center text-xs',

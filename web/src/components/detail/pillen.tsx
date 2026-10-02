@@ -89,7 +89,7 @@ export function AniSearchVerweis({ title }: { title: Title }) {
             ].join(' ')}
           >
             {v.name}
-            {/* „?" heißt: Wir kennen keine eigene Seite, der Weg führt auf die Suche (Daniel, 29.09.2026). */}
+            {/* „?" heißt: Wir kennen keine eigene Seite, der Weg führt auf die Suche. */}
             {v.suche && <span aria-hidden="true" className="font-bold">?</span>}
             {/* Der Pfeil sagt „führt hinaus" — ohne ihn liest sich das Wort als Quellenangabe. */}
             <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
@@ -161,7 +161,7 @@ export function Pille({
         {/*
           **Kein `truncate` mehr.** Die Unterzeile trug Sätze wie „Ohne deutschen
           Ton: Folge 2–33" und wurde ausgepunktet — eine halbe Auskunft ist
-          schlechter als eine kurze (Daniel, 03.09.2026). Seit den gekürzten
+          schlechter als eine kurze. Seit den gekürzten
           Texten („✕ DE 2–33") passt sie, und `whitespace-nowrap` hält sie in
           einer Zeile: Die Pille wächst lieber mit, als etwas zu verschlucken.
         */}
@@ -434,7 +434,7 @@ export function ReleasePille({
     Vergangenes ist kein Angebot, sondern ein Fehlgriff.
   */
   const datum = release.schedule?.firstEpisodeDate
-  /* Ein TOGGO-Sender trägt TOGGOs Orange, nicht das allgemeine TV-Grün (Daniel, 19.09.2026). */
+  /* Ein TOGGO-Sender trägt TOGGOs Orange, nicht das allgemeine TV-Grün. */
   const farbe = /^TOGGO/i.test(release.sender ?? '')
     ? TOGGO_ORANGE
     : /^ProSieben MAXX$/i.test(release.sender ?? '')
@@ -450,14 +450,14 @@ export function ReleasePille({
     >
       {tv && (
         /*
-          **Fernsehen erkennt man am Fernseher** (Daniel, 22.09.2026): eckige Pille, dazu ein Fernseher
+          **Fernsehen erkennt man am Fernseher**: eckige Pille, dazu ein Fernseher
           als Blase oben links (unten links war „schlecht") — neutral grau, nie in der Senderfarbe
           („keine dynamische anbieter farbe"). So hebt sich die Pille von den Streaming-Anbietern ab,
           ohne Breite zu kosten.
         */
         <span className="absolute -left-1.5 -top-1.5 z-10">
           {tvText?.programm ? (
-            /* Führt zur laufenden, sonst zur nächsten Sendung im tv.de-Programm (Daniel, 22.09.2026). */
+            /* Führt zur laufenden, sonst zur nächsten Sendung im tv.de-Programm. */
             <Tooltip text={t('tv.imProgramm')} seite="oben">
               <a
                 href={tvText.programm}
@@ -573,7 +573,7 @@ export function ReleasePille({
           ]
             .filter(Boolean)
             .join(' · ')
-            /* Tag und Uhrzeit farbig, der Rest bleibt grau (Daniel, 22.09.2026). Ohne TV-Angabe
+            /* Tag und Uhrzeit farbig, der Rest bleibt grau. Ohne TV-Angabe
                trennt der Platzhalter nichts, und der Text bleibt ein Stück. */
             .split(tvText?.zeit || KEIN_TRENNER)
             .flatMap((teil, i) => [
@@ -618,7 +618,7 @@ function LangMitTooltip({ text, children }: { text: string; children: ReactNode 
  * Vorher stand jede Ausgabe in einer eigenen Zeile: „AniMoon — Vol. 1",
  * „AniMoon — Vol. 2", „AniMoon — Vol. 3", „AniMoon — Vol. 4" untereinander. Das
  * sind vier Zeilen für eine Auskunft — nämlich, dass es die Serie bei AniMoon in
- * vier Ausgaben gibt (Daniel, 20.08.2026).
+ * vier Ausgaben gibt.
  *
  * Gruppiert wird nach **Hostnamen**, nicht nach Anzeigenamen: Derselbe Shop
  * schreibt sich in unseren Daten mal so, mal anders, die Adresse nicht. Der
@@ -757,7 +757,7 @@ export function gruppiereKaufwege(
     const geteilt = liste.map((l) => zerlege(l.name))
     const gemeinsam = geteilt.every((t) => t.length > 1 && t[0] === geteilt[0][0])
     if (liste.length === 1 || !gemeinsam) {
-      /* Die Adresse ist TMDBs Übersicht, nicht der Anbieter — das steht an der Pille (Daniel, 22.09.2026). */
+      /* Die Adresse ist TMDBs Übersicht, nicht der Anbieter — das steht an der Pille. */
       return { shop: liste[0].ueberTmdb ? translate('detail.ueberTmdb', { name: liste[0].name }) : liste[0].name, eintraege: liste.map((l) => ({ url: l.url, nurFolge: l.nurFolge, dubRanges: l.dubRanges })) }
     }
     return {

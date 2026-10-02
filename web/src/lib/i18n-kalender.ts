@@ -65,8 +65,8 @@ export const TEXTE_KALENDER = {
   'filter.nurFavoriten': 'Nur Favoriten',
   'filter.nurKostenlos': 'Nur kostenlos',
   /* Der Chip heißt, was er **tut** — vorher „Fernsehen zeigen" und leuchtete, solange das
-     Fernsehen an war; der Zähler stand deshalb auf 1, ohne dass etwas ausgeblendet war
-     (Daniel, 01.10.2026). */
+     Fernsehen an war; der Zähler stand deshalb auf 1, ohne dass etwas ausgeblendet war.
+     */
   'filter.tvAusblenden': 'TV-Termine ausblenden',
   'filter.discAusblenden': 'Disc-Termine ausblenden',
   'filter.sucheAlle': 'Filter durchsuchen …',

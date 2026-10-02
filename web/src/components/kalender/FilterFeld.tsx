@@ -24,7 +24,7 @@ export interface FilterFeldProps {
 /**
  * Das Filterfeld des Kalenders.
  *
- * **Dieselbe Ansicht wie die Datenbank** (Daniel, 01.10.2026): die Schnell-Schalter,
+ * **Dieselbe Ansicht wie die Datenbank**: die Schnell-Schalter,
  * der Klick-Modus in eigener Zeile und der Kasten mit den betroffenen Filtern. Was
  * hier hinzukommt, sind nur die **Zahlen des Zeitraums** an Anbieter und Genre und
  * der Fernsehen-Schalter. Vorher versteckte „Weitere Filter" den Klick-Modus

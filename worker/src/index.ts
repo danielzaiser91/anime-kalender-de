@@ -559,8 +559,8 @@ async function handleFavoritesGet(request: Request, env: Env): Promise<Response>
   if (!row) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
   /**
    * Die Adresse geht mit zurück, damit die Seite sie nennen kann: „Wir
-   * informieren dich über deine hinterlegte Newsletter-E-Mail-Adresse: …"
-   * (Daniel, 15.08.2026). Das ist kein Datenleck — der Schlüssel liegt nur in
+   * informieren dich über deine hinterlegte Newsletter-E-Mail-Adresse: …".
+   * Das ist kein Datenleck — der Schlüssel liegt nur in
    * dem Browser, in dem das Abo bestätigt wurde, und er beantwortet ohnehin
    * schon die schärfere Frage, ob es zu dieser Adresse ein Abo gibt.
    */
@@ -598,7 +598,7 @@ async function handleFavorites(request: Request, env: Env): Promise<Response> {
  * Der Abmeldelink aus der Mail trägt den `unsub_token`, die Seite kennt aber
  * nur den `pref_token`. Wer verbunden war, musste deshalb erst eine alte Mail
  * heraussuchen — dabei weiß die Seite in dem Moment genau, um welches Abo es
- * geht (Daniel, 14.08.2026).
+ * geht.
  *
  * Dasselbe Vertrauensniveau: Auch der `pref_token` stammt aus einer Mail an
  * dieses Postfach. Und Abmelden leichter zu machen ist nie der Fehler — die
@@ -1262,7 +1262,7 @@ async function crunchyrollLand(colo?: string): Promise<Record<string, unknown>> 
  * Die Erweiterung hört mit, während Daniel eine Seite ansieht, und schickt
  * Feldnamen und kurze Fundstellen — nicht die Antworten selbst. Die Frage
  * dahinter ist, ob Netflix die Sprachangaben ohnehin ausliefert; dann erübrigt
- * sich die Handarbeit (Daniel, 22.08.2026).
+ * sich die Handarbeit.
  *
  * GET gibt die Funde zurück, damit die Pipeline sie auswerten kann. Beides
  * hinter demselben Token wie `/pruefung`.
