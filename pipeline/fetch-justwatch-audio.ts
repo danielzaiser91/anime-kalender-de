@@ -40,8 +40,9 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import yaml from 'js-yaml'
-import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
+import { fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -49,6 +50,8 @@ const ENDPUNKT = 'https://apis.justwatch.com/graphql'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 /** Eine Sekunde zwischen zwei Abrufen — die Schnittstelle nennt kein Limit, also wird zurückhaltend gefragt. */
 const PAUSE_MS = 1000
+/** So viele Titel hintereinander gesperrt (nach Backoff) — dann ist die Sperre keine Laune mehr. */
+const SPERREN_BIS_ABBRUCH = 3
 const DATEI = 'data/justwatch-audio.json'
 
 interface Angebot {
@@ -112,17 +115,16 @@ interface JwKnoten {
     | null
 }
 
+/** Eine Sperre wartet `fetchJson` mit Backoff ab; erst danach kommt sie hier als Fehler an. */
 async function suche(begriff: string): Promise<JwKnoten[]> {
-  const r = await fetch(ENDPUNKT, {
+  const j = await fetchJson<{
+    errors?: { message: string }[]
+    data?: { popularTitles?: { edges?: { node: JwKnoten }[] } }
+  }>(ENDPUNKT, {
     method: 'POST',
     headers: { 'content-type': 'application/json', 'user-agent': UA },
     body: JSON.stringify({ query: SUCHE, variables: { q: begriff, country: 'DE', language: 'de' } }),
   })
-  if (!r.ok) throw new Error(`HTTP ${r.status}`)
-  const j = (await r.json()) as {
-    errors?: { message: string }[]
-    data?: { popularTitles?: { edges?: { node: JwKnoten }[] } }
-  }
   if (j.errors?.length) throw new Error(j.errors[0].message)
   return (j.data?.popularTitles?.edges ?? []).map((e) => e.node)
 }
@@ -286,6 +288,7 @@ async function main(): Promise<void> {
   let leer = 0
   let verfehlt = 0
   let ohneTrefferNeu = 0
+  let sperrenInFolge = 0
 
   for (const t of offen.slice(0, limit)) {
     const erwartet = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
@@ -306,6 +309,7 @@ async function main(): Promise<void> {
         genau das, an fünf Titeln, deren Treffer JustWatch alle kannte.
       */
       const treffer = erwartet ? await sucheUeberNamen(t, erwartet) : undefined
+      sperrenInFolge = 0
       const vorher = bestand[String(t.id)]
       if (!treffer) {
         /*
@@ -358,6 +362,10 @@ async function main(): Promise<void> {
     } catch (e) {
       fehler++
       warn(`JustWatch: ${t.titleDe || t.titleRomaji || t.titleEn} — ${(e as Error).message}`)
+      if (/^429 /.test((e as Error).message) && ++sperrenInFolge >= SPERREN_BIS_ABBRUCH) {
+        warn(`JustWatch: ${SPERREN_BIS_ABBRUCH} Sperren in Folge — der Lauf endet hier, das Erreichte wird geschrieben.`)
+        break
+      }
     }
     await sleep(PAUSE_MS)
   }
@@ -366,15 +374,8 @@ async function main(): Promise<void> {
     `JustWatch: ${getroffen} Titel zugeordnet (${leer} ohne Angebot), ${mitDeutsch} davon mit deutscher Tonspur, ` +
       `${ohneTrefferNeu} ohne Treffer, ${verfehlt} verfehlt (alte Antwort behalten), ${fehler} Fehler.`,
   )
-  /*
-    **Plausibilität vor dem Schreiben** (17.09.2026). Gemessen am Bestand vor dem Umbau:
-    2 % der Treffer ohne Angebot, 23 % der Suchen ohne Treffer. Ändert JustWatch seine
-    Schnittstelle, sähe das aus wie „überall keine Angebote" — und der Bau nähme den Titeln
-    ohne eigenen Verweis ihre Wege. Dann wird nichts geschrieben; die alte Datei bleibt.
-  */
-  const gefragt = getroffen + ohneTrefferNeu + verfehlt
-  if (gefragt >= 50 && (leer / Math.max(getroffen, 1) > 0.25 || (ohneTrefferNeu + verfehlt) / gefragt > 0.7)) {
-    warn(`JustWatch: Ergebnis unplausibel (${leer} von ${getroffen} Treffern ohne Angebot, ${ohneTrefferNeu + verfehlt} von ${gefragt} ohne Treffer) — nichts geschrieben.`)
+  if (istUnplausibel({ getroffen, leer, verfehlt })) {
+    warn(`JustWatch: Ergebnis unplausibel (${leer} von ${getroffen} Treffern ohne Angebot, ${verfehlt} früher gefundene jetzt verfehlt) — nichts geschrieben.`)
     recordSource('justwatch-audio', 0)
     return
   }

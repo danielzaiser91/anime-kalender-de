@@ -157,6 +157,7 @@ import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-seri
 import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
+import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
@@ -7556,6 +7557,11 @@ pruefe(
       wegeTitel.get(196010)!.streams[0].dub === true && wegeTitel.get(196011)!.streams[0].dub === true,
     [...wegeTitel.values()].map((t) => t.streams[0]),
   )
+
+  /* JustWatch: neue Fehlschläge sagen nichts über die Schnittstelle, verlorene Treffer schon. */
+  pruefe('JustWatch: der Lauf vom 28.09.2026 (26 Treffer, 2 leer, 0 verfehlt) ist plausibel', !istUnplausibel({ getroffen: 26, leer: 2, verfehlt: 0 }))
+  pruefe('JustWatch: verlieren früher gefundene Titel mehrheitlich ihren Treffer, wird nichts geschrieben', istUnplausibel({ getroffen: 10, leer: 0, verfehlt: 30 }))
+  pruefe('JustWatch: überwiegend leere Treffer bleiben unplausibel', istUnplausibel({ getroffen: 40, leer: 20, verfehlt: 0 }))
 
   /* Der behauptete Termin wird zurückgezogen; die bloße Schätzung verschwindet still. */
   const ohneStreams = (id: number): Title => ({ id, franchiseId: id, titleDe: `T${id}`, streams: [] }) as unknown as Title
