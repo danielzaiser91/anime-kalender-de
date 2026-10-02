@@ -19,4 +19,6 @@ export interface Env extends MailEnv, PushEnv {
   LAUF_TOKEN?: string
   /** Empfänger der Überwachungsmeldungen. Fehlt sie, wird nur geprüft, nicht gemeldet. */
   MONITOR_EMAIL?: string
+  /** Private Beleg-Ablage (Screenshots, HTML). Optional: Ohne Bindung antwortet /beleg mit 503. */
+  BELEGE?: R2Bucket
 }

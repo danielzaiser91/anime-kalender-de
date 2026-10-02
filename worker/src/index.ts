@@ -36,6 +36,7 @@ import { handlePruefung } from './pruefung.ts'
 import { loadNews, newsFuerAbonnent, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
+import { handleBeleg } from './beleg.ts'
 
 export { Ereignisse }
 
@@ -123,13 +124,9 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
    * wer das zugehörige Postfach lesen kann. Genau dieselbe Grenze, die schon
    * für Bestätigung und Abmeldung gilt.
    *
-   * Bis zum 14.08.2026 waren beide dasselbe: Ein `ON CONFLICT(email) DO UPDATE`
-   * überschrieb `frequency`, `platforms` und `favorites` **sofort**, und der
-   * Status blieb ausdrücklich auf `active`. Wer eine fremde Adresse ins
-   * Formular tippte, ersetzte damit ohne einen einzigen Klick die Einstellungen
-   * und die gemerkten Titel eines anderen Menschen. Der Betroffene bekam weiter
-   * Mails, nur eben die falschen (gefunden auf Daniels Frage hin: „ich möchte
-   * nicht, dass andere meinen Newsletter manipulieren").
+   * Ein sofortiges `ON CONFLICT(email) DO UPDATE` ließe jeden, der eine fremde
+   * Adresse ins Formular tippt, ohne einen Klick die Einstellungen und gemerkten
+   * Titel eines anderen Menschen ersetzen.
    *
    * Deshalb: Bei aktivem Abo landen die Wünsche in `pending_*` und werden erst
    * von `/confirm` übernommen. `unsub_token` und `pref_token` bleiben ohnehin
@@ -537,10 +534,8 @@ async function handleConfirm(request: Request, env: Env): Promise<Response> {
 /**
  * Der Rückweg: die gespeicherten Favoriten abrufen.
  *
- * Bis zum 14.08.2026 war `/favorites` reines POST — der Dienst **hatte** die
- * Liste jedes Abonnenten, gab sie aber nie heraus. Es fehlte also nicht die
- * Speicherung, sondern der Weg zurück. Ohne ihn nützt auch der beste
- * Wiederherstellungslink nichts: Er brächte den Schlüssel, aber keine Daten.
+ * Ohne ihn nützte auch der beste Wiederherstellungslink nichts: Er brächte den
+ * Schlüssel, aber keine Daten.
  *
  * Der Schlüssel ist der Ausweis. Wer ihn hat, hat ihn aus einer Mail an genau
  * dieses Postfach — dieselbe Grenze wie überall sonst hier.
@@ -1466,8 +1461,10 @@ export default {
         if (request.method === 'GET') return handlePrefsGet(request, env)
         if (request.method !== 'POST') return json(env, { error: 'GET oder POST erwartet' }, 405)
         return handlePrefsPost(request, env)
+      case '/beleg':
+        return handleBeleg(request, env, url)
       case '/favorites':
-        // GET holt, POST schreibt. Der Rückweg kam am 14.08.2026 dazu.
+        // GET holt, POST schreibt.
         if (request.method === 'GET') return handleFavoritesGet(request, env)
         if (request.method !== 'POST') return json(env, { error: 'GET oder POST erwartet' }, 405)
         return handleFavorites(request, env)

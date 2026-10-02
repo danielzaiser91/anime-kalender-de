@@ -44,3 +44,9 @@ class_name = "Ereignisse"
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["Ereignisse"]
+
+# Private Beleg-Ablage (02.10.2026): je Lesung eines Artikels Bild und HTML. Kein öffentlicher
+# Zugang am Bucket — gelesen und geschrieben wird nur über /beleg mit LAUF_TOKEN.
+[[r2_buckets]]
+binding = "BELEGE"
+bucket_name = "anime-kalender-belege"
