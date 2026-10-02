@@ -6,221 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Action
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:steel-ball-run-2nd-3rd-stage@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T080000Z
-DTEND:20260925T083000Z
-SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
- lge 2/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/#/release/steel-ball-run-2nd-
- 3rd-stage
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T140500Z
-DTEND:20260925T143500Z
-SUMMARY:Pokémon Horizonte – Folge 85/128
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T150000Z
-DTEND:20260925T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T150500Z
-DTEND:20260925T153500Z
-SUMMARY:Pokémon Horizonte – Folge 85/128
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-25#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T151000Z
-DTEND:20260925T154000Z
-SUMMARY:Dragon Ball – Folge 3/20
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-25#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T153500Z
-DTEND:20260925T160500Z
-SUMMARY:Dragon Ball – Folge 4/20
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-223-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-25#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T162500Z
-DTEND:20260925T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-25#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T165000Z
-DTEND:20260925T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T191500Z
-DTEND:20260925T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 2/7
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-112153-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T202500Z
-DTEND:20260925T205500Z
-SUMMARY:Gachiakuta – Folge 16/21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
- xx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T205500Z
-DTEND:20260925T212500Z
-SUMMARY:Gachiakuta – Folge 17/21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
- xx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T212500Z
-DTEND:20260925T215500Z
-SUMMARY:Gachiakuta – Folge 18/21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
- xx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-176496-tv-prosieben-maxx@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T215500Z
-DTEND:20260925T222500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 2/5
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
- xx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:strike-witches-s2-vol1@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Strike Witches (Staffel 2) – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/strike
- -witches-s2-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:virgin-road-vol1@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Virgin Road – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/virgin
- -road-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:infinite-dendrogram-vol2@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Infinite Dendrogram – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/infini
- te-dendrogram-vol2
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:sakamoto-days-vol1@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Sakamoto Days – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sakamo
- to-days-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:nukitashi-vol1@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Nukitashi – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/nukita
- shi-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:dragon-ball-daima-rtlplus@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Dragon Ball DAIMA
-DESCRIPTION:Plattform: RTL+\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
- bestätigt.\nDetails: https://anime-kalender.de/#/release/dragon-ball-daim
- a-rtlplus
-CATEGORIES:RTL+
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-165159-rtlplus-staffel-3@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Beyblade X Staffel 3 – Folge 118/118
-DESCRIPTION:Plattform: RTL+\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
- noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-
- 165159-rtlplus-staffel-3
-CATEGORIES:RTL+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-176496-tv-prosieben-maxx@2026-09-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260925T221500Z
@@ -328,7 +113,7 @@ UID:cr-GT00384004@2026-09-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260927T143000Z
 DTEND:20260927T150000Z
-SUMMARY:Overgeared Staffel 1 – Folge 1/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
 CATEGORIES:Crunchyroll
@@ -927,17 +712,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-21516-netflix@2026-10-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T080000Z
-DTEND:20261003T083000Z
-SUMMARY:Kuromukuro
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
- chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
- etails: https://anime-kalender.de/#/release/auto-21516-netflix
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-03@anime-kalen
  der-de
 DTSTAMP:20200101T000000Z
@@ -955,7 +729,7 @@ UID:cr-GT00384004@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T143000Z
 DTEND:20261004T150000Z
-SUMMARY:Overgeared Staffel 1 – Folge 2/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
 CATEGORIES:Crunchyroll
@@ -1199,7 +973,7 @@ UID:cr-GT00384004@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T143000Z
 DTEND:20261011T150000Z
-SUMMARY:Overgeared Staffel 1 – Folge 3/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
@@ -1335,7 +1109,7 @@ UID:cr-GT00384004@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T143000Z
 DTEND:20261018T150000Z
-SUMMARY:Overgeared Staffel 1 – Folge 4/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
@@ -1416,7 +1190,7 @@ UID:cr-GT00384004@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T153000Z
 DTEND:20261025T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 5/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
@@ -1451,7 +1225,7 @@ UID:cr-GT00384004@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261101T153000Z
 DTEND:20261101T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 6/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
@@ -1563,7 +1337,7 @@ UID:cr-GT00384004@2026-11-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261108T153000Z
 DTEND:20261108T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 7/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
@@ -1609,7 +1383,7 @@ UID:cr-GT00384004@2026-11-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261115T153000Z
 DTEND:20261115T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 8/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
@@ -1785,7 +1559,7 @@ UID:cr-GT00384004@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261122T153000Z
 DTEND:20261122T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 9/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
@@ -1831,7 +1605,7 @@ UID:cr-GT00384004@2026-11-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261129T153000Z
 DTEND:20261129T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 10/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 10/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
@@ -1921,7 +1695,7 @@ UID:cr-GT00384004@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261206T153000Z
 DTEND:20261206T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 11/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
@@ -1943,7 +1717,7 @@ UID:cr-GT00384004@2026-12-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261213T153000Z
 DTEND:20261213T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 12/≈12
+SUMMARY:Overgeared Staffel 1 – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004

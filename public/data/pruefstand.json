@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-02T18:36:43.492Z",
+ "erzeugtAm": "2026-10-02T23:11:52.564Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,8 +7,10 @@
    "gemeldet": 746,
    "gesamt": 750,
    "offen": 4,
-   "ohneSeite": 0,
-   "suchAdressen": [],
+   "ohneSeite": 1,
+   "suchAdressen": [
+    "https://www.amazon.de/s?k=The%20Seven%20Knights%20of%20the%20Marronnier%20Kingdom&i=instant-video"
+   ],
    "ziel": "https://www.amazon.de/gp/video/detail/B0CQ4VL364",
    "ziele": [
     {
@@ -34,12 +36,17 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 377,
-   "gesamt": 377,
-   "offen": 0,
+   "gesamt": 378,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": null,
-   "ziele": [],
-   "naechster": null
+   "ziel": "https://www.netflix.com/title/81712068",
+   "ziele": [
+    {
+     "url": "https://www.netflix.com/title/81712068",
+     "titel": "Die Tagebücher der Apothekerin"
+    }
+   ],
+   "naechster": "Die Tagebücher der Apothekerin"
   },
   {
    "name": "Disney+",
@@ -61,15 +68,19 @@
    "name": "Suchadressen",
    "plattform": "suchadressen",
    "gemeldet": 0,
-   "gesamt": 1,
-   "offen": 1,
+   "gesamt": 2,
+   "offen": 2,
    "titel": 0,
-   "ohneSeite": 1,
+   "ohneSeite": 2,
    "ziel": "https://netflix.com",
    "ziele": [
     {
      "url": "https://netflix.com",
      "titel": "Meine ganz besondere Hochzeit: Special"
+    },
+    {
+     "url": "https://www.amazon.de/s?k=The%20Seven%20Knights%20of%20the%20Marronnier%20Kingdom&i=instant-video",
+     "titel": "The Seven Knights of the Marronnier Kingdom"
     }
    ],
    "naechster": "Meine ganz besondere Hochzeit: Special",

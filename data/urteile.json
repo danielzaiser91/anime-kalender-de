@@ -30934,82 +30934,82 @@
   "182205|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|10": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|12": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|13": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|14": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|15": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "182205|primevideo|16": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-02"
   },
   "108511|primevideo|1": {
     "urteil": "deutsch",
@@ -66378,49 +66378,6 @@
     "art": "gemessen",
     "tag": "2026-09-29"
   },
-  "182205|primevideo|17": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "182205|primevideo|18": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "182205|primevideo|19": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "182205|primevideo|20": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "182205|primevideo|21": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "182205|primevideo|22": {
-    "urteil": "unbekannt",
-    "art": "gemessen",
-    "tag": "2026-09-29",
-    "grund": "kanal-ohne-abo"
-  },
-  "182205|primevideo|23": {
-    "urteil": "unbekannt",
-    "art": "gemessen",
-    "tag": "2026-09-29",
-    "grund": "kanal-ohne-abo"
-  },
-  "182205|primevideo|24": {
-    "urteil": "unbekannt",
-    "art": "gemessen",
-    "tag": "2026-09-29",
-    "grund": "kanal-ohne-abo"
-  },
   "150672|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
@@ -66678,5 +66635,47 @@
     "urteil": "kein deutsch",
     "art": "gemessen",
     "tag": "2026-10-02"
+  },
+  "182205|primevideo|17": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-02"
+  },
+  "182205|primevideo|18": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-02"
+  },
+  "182205|primevideo|19": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-02"
+  },
+  "182205|primevideo|20": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-02"
+  },
+  "182205|primevideo|21": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-02"
+  },
+  "182205|primevideo|22": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-02"
+  },
+  "182205|primevideo|23": {
+    "urteil": "unbekannt",
+    "art": "gemessen",
+    "tag": "2026-10-02",
+    "grund": "kanal-ohne-abo"
+  },
+  "182205|primevideo|24": {
+    "urteil": "unbekannt",
+    "art": "gemessen",
+    "tag": "2026-10-02",
+    "grund": "kanal-ohne-abo"
   }
 }

@@ -6,105 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Drama
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:steel-ball-run-2nd-3rd-stage@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T080000Z
-DTEND:20260925T083000Z
-SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
- lge 2/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/#/release/steel-ball-run-2nd-
- 3rd-stage
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-25#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T162500Z
-DTEND:20260925T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-25#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T165000Z
-DTEND:20260925T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-21-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T202500Z
-DTEND:20260925T205500Z
-SUMMARY:Gachiakuta – Folge 16/21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
- xx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T205500Z
-DTEND:20260925T212500Z
-SUMMARY:Gachiakuta – Folge 17/21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
- xx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-09-25#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T212500Z
-DTEND:20260925T215500Z
-SUMMARY:Gachiakuta – Folge 18/21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-178025-tv-prosieben-ma
- xx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:virgin-road-vol1@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Virgin Road – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/virgin
- -road-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:inazuma-eleven-s1-box@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Inazuma Eleven – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/inazum
- a-eleven-s1-box
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:nukitashi-vol1@2026-09-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260925
-DTEND;VALUE=DATE:20260926
-SUMMARY:Nukitashi – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/nukita
- shi-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-09-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260926T093000Z
@@ -249,8 +150,17 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261002T160000Z
 DTEND:20261002T163000Z
 SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-02#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T160000Z
+DTEND:20261002T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -389,7 +299,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261003T093000Z
 DTEND:20261003T100000Z
 SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -399,7 +310,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261003T160000Z
 DTEND:20261003T163000Z
 SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00378078
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -578,7 +490,7 @@ UID:hana-kimi-s2@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T160000Z
 DTEND:20261009T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/hana-kimi-s2
@@ -673,17 +585,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  er Zeit.\nDetails: https://anime-kalender.de/#/release/steel-ball-run-2nd-
  3rd-stage
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T160000Z
-DTEND:20261016T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:miss-kobayashi-s-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-

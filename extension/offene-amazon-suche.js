@@ -1,1 +1,1 @@
-globalThis.AK_PRIME_SUCHE = {}
+globalThis.AK_PRIME_SUCHE = {"https://www.amazon.de/s?k=The%20Seven%20Knights%20of%20the%20Marronnier%20Kingdom&i=instant-video":{"titel":"The Seven Knights of the Marronnier Kingdom","suchbegriff":"Seven Knights of Marronnier Kingdom","suchbegriffEn":"Seven Knights of Marronnier Kingdom","id":212799,"folgen":20,"jahr":2026,"asId":null,"malId":64326}}
