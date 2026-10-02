@@ -60,7 +60,7 @@ Reihenfolge (`if (stream.dub !== undefined) continue`).
 (`tools/quellen-liste.sh`) aus dem Arbeitsverzeichnis — eine zwischenzeitliche Korrektur daran
 geht dabei verloren. Deshalb: **Läuft ein Datenlauf oder Bau, wird keine Datei aus `QUELLEN`
 committet**, sondern im Hintergrund gewartet; `tools/quellen-commit-wache.sh` hält solche Commits
-als pre-commit-Hook an (einrichten: `bash tools/quellen-commit-wache.sh --einrichten`). Was ein
+als pre-commit-Hook an, zusammen mit `check:umfang` (einrichten: `bash tools/quellen-commit-wache.sh --einrichten`). Was ein
 Schritt zusammen schreibt, steht zusammen in `QUELLEN` oder gar nicht. Jede neue Datei, die die
 Pipeline schreibt, gehört in `tools/quellen-liste.sh`. Zu jeder Datenkorrektur gehört eine
 Zusicherung, die meldet, wenn sie verlorengeht.
