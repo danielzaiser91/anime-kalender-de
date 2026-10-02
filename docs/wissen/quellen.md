@@ -3050,3 +3050,25 @@ Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
 - Bildbeleg (Playwright, Desktop-UA, 1400 px, ganze Seite, JPEG 50): rund 380 KB, HTML.gz rund
   60 KB. Der OneTrust-Cookie-Banner (`#onetrust-consent-sdk`) liegt quer über dem Kalender und wird
   vor der Aufnahme entfernt, nicht beantwortet (`pipeline/messbelege.ts`).
+
+## aniSearch hat eine freie Database-API — Konto und OAuth sind dafür nicht nötig (02.10.2026)
+
+Der Kopfkommentar von `pipeline/fetch-anisearch.ts` („offizielle Schnittstelle mit OAuth-Zugang … ein Konto kann nur der
+Betreiber anlegen") ist überholt. Gelesen am 02.10.2026 auf `api.anisearch.com/docs` (`api_database.html`,
+`api_database_anime.html`, `api_user_oauth.html`; die Wiedergabe stammt aus einem Abruf — Einzelwerte vor dem Bau gegen die Seite prüfen):
+
+- **Database API** (`https://api.anisearch.com/v1/anime/`) ist **ohne Token nutzbar**; ein Token ist optional und kommt per
+  Mail an `api@anisearch.com` („with your project and planned integration"). **OAuth 2.0 gehört zur User API**
+  (Bewertungen, Einreichungen) und wird fürs Lesen nicht gebraucht.
+- Pflicht: aussagekräftiger `User-Agent` (`MyApp/1.0 (kontakt@…)`), sonst HTTP 403. Limits: 30 Anfragen je IP, nachgefüllt
+  mit 1 pro Sekunde; Titeldaten werden 3/5/7 Tage gecacht; ein ungültiger Token sperrt die IP 24 h; bei 429 gilt `Retry-After`.
+- Endpunkte: `/{id}` (Titel, `external_ids` MAL und AniDB — **kein AniList**, Genres main/subsidiary/tags, Cover medium/large,
+  Score, `related`, `releases` je Sprache mit Publisher, Synopse, `dubbed`), `/{id}/full` (mit Episoden, Figuren, Staff),
+  `/{id}/episodes`, `/{id}/characters` (**Sprecher je Sprache**), `/{id}/staff`, `/titles` und
+  `/associated?source=myanimelist|anidb` (Gesamtlisten, 1× je 24 h ohne Token, 1× je Stunde mit Token), `/ratings`.
+  Listen- und Bereichsabfragen (bis 10 IDs) brauchen einen Token. Parameter `lang=de`, `gzip`.
+- Bedingungen: aniSearch als Quelle nennen; eine Synopse mit `source: anisearch` nur mit Link zum Eintrag direkt daneben
+  (das Panel führt `deSource` bereits).
+- **Folgen für uns:** `/associated?source=myanimelist` ersetzt die lückenhafte AniList-Brücke der anime-offline-database
+  (150 Titel im Hauptbestand ohne Kennung, `befund-2026-10-02.md`) in **einer** Anfrage, über unsere `malId`.
+  `/{id}/full` ersetzt Hauptseite, Folgenseite und Sprecherseite durch eine Anfrage; mit Token sind 10 Titel je Anfrage möglich.
