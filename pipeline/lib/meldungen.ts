@@ -28,6 +28,7 @@
 import type { Meldung, Quelle, Release, ReleaseType, Title } from '../../shared/types.ts'
 import { quelleAnzeigeName } from '../../shared/quelle.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
+import type { SammelEintrag } from './sammelartikel.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
 export interface Vorschlag {
@@ -44,6 +45,12 @@ export interface Vorschlag {
   /** Zeilen eines Sammelartikels „… Blu-ray-Termine verschoben". */
   verschiebungen?: Verschiebung[]
   alreadyCurated?: boolean
+  /** Aus einem Sammelartikel (`lib/sammelartikel.ts`): alle Folgen an einem Tag … */
+  folgen?: number
+  /** … oder ein wöchentlicher Simulcast. */
+  woechentlich?: boolean
+  /** Die gelesenen Einträge, wenn der Vorschlag selbst ein Sammelartikel ist. */
+  sammel?: SammelEintrag[]
 }
 
 /** Hostname als Anzeigename — „www." fällt weg, es sagt nichts. */
@@ -403,8 +410,7 @@ export function releasesAus(
       titleId: treffer.id,
       name,
       platform: platform as Release['platform'],
-      releaseType: art,
-      schedule: { firstEpisodeDate: tag },
+      ...zeitplanAusVorschlag(v, art, tag, treffer),
       year: Number(tag.slice(0, 4)),
       herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
       automatisch: true,
@@ -413,6 +419,32 @@ export function releasesAus(
     })
   }
   return out
+}
+
+/**
+ * **Wie ein Sammelartikel-Eintrag in den Kalender kommt.** Ein Komplettpaket („Episoden: 13
+ * (komplett)") trägt seine Folgenzahl; einer älteren Serie, die nur neu ins Angebot kommt, gilt
+ * der Tag als „im Angebot seit", nicht als Erscheinen. Ein wöchentlicher Simulcast läuft
+ * wöchentlich — mit AniLists Folgenzahl als Schätzung („≈"), ohne sie als einzelner Termin.
+ * Eine Einzelmeldung ohne diese Angaben bleibt, wie sie war: ein Termin ohne Folgenzahl.
+ */
+export function zeitplanAusVorschlag(
+  v: Pick<Vorschlag, 'folgen' | 'woechentlich'>,
+  art: ReleaseType,
+  tag: string,
+  treffer: Pick<Title, 'episodes' | 'jpYear'>,
+): Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'> {
+  if (art === 'batch' && v.woechentlich && !v.folgen)
+    return {
+      releaseType: 'weekly',
+      schedule: { firstEpisodeDate: tag, ...(treffer.episodes ? { episodeCount: treffer.episodes, episodeCountAssumed: true } : {}) },
+    }
+  const katalog = art === 'batch' && v.folgen && treffer.jpYear && treffer.jpYear < Number(tag.slice(0, 4))
+  return {
+    releaseType: art,
+    schedule: { firstEpisodeDate: tag, ...(v.folgen && art === 'batch' ? { episodeCount: v.folgen } : {}) },
+    ...(katalog ? { dateMeaning: 'available-from' as const } : {}),
+  }
 }
 
 /**

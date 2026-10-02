@@ -133,7 +133,8 @@ import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
-import { releasesAus, terminDerMeldung, quellenZusammenfuehren } from './lib/meldungen.ts'
+import { releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
+import { leseSammelartikel, vorschlaegeAusSammelartikel } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
 import { entdoppleCrWege } from './bau/11-3-bereinigung.ts'
@@ -7562,6 +7563,32 @@ pruefe(
     'Widerlegt: die Bauprüfung meldet einen geteilten Weg mit „deutsch" — und schweigt nach dem Lösen',
     meldetVorher === 1 && geteilteWegeTrotzWiderlegung([apo], vorher).length === 0,
   )
+
+  /* Sammelartikel: nur deutscher Ton wird ein Termin, unklare Teile bleiben offen. */
+  const sammel = leseSammelartikel(
+    [
+      '1. Oktober: »The Ramparts of Ice« – Staffel 2 (Simulcast)', 'Simulcast: Jeden Donnerstag', 'Sprache: Deutsch, Japanisch (UT)', 'Stream: Netflix',
+      '2. Oktober: »Tougen Anki« – Staffel 2 (Simulcast)', 'Sprache: Japanisch (UT)', 'Hinweis: Deutsche Synchronisation noch nicht bestätigt', 'Stream: Netflix',
+      '6. Oktober: »My Hero Academia: Vigilantes« – Staffel 1 und 2', 'Episoden: 26 (komplett)', 'Sprache: Deutsch, Japanisch (UT)', 'Stream: Netflix',
+      'Ab 08.10.: »86 EIGHTY-SIX« (Dub + Sub)',
+      'Ab 05.10.: »School Babysitters« (Sub)',
+    ].join('\n'),
+    '2026-09-23',
+  )
+  const nachTitel = (t: string) => sammel.find((e) => e.titel === t)
+  pruefe('Sammelartikel: Simulcast mit deutschem Ton → wöchentlich ab dem genannten Tag',
+    nachTitel('The Ramparts of Ice')?.deutsch === true && nachTitel('The Ramparts of Ice')?.woechentlich === true && nachTitel('The Ramparts of Ice')?.datum === '2026-10-01')
+  pruefe('Sammelartikel: „Synchronisation noch nicht bestätigt" ist kein deutscher Termin', nachTitel('Tougen Anki')?.deutsch === false)
+  pruefe('Sammelartikel: „(Dub + Sub)" ja, „(Sub)" nein', nachTitel('86 EIGHTY-SIX')?.deutsch === true && nachTitel('School Babysitters')?.deutsch === false)
+  const sammelVorschlaege = vorschlaegeAusSammelartikel({ url: 'https://x', publishedAt: '2026-09-23' }, sammel, 'netflix')
+  pruefe('Sammelartikel: „Staffel 1 und 2" wird kein Vorschlag (MHA Vigilantes landete sonst am Haupt-MHA)',
+    sammelVorschlaege.length === 2 && !sammelVorschlaege.some((v) => /Vigilantes/.test(v.articleTitle)))
+  pruefe('Sammelartikel: Komplettpaket einer alten Serie = „im Angebot seit" mit Folgenzahl',
+    JSON.stringify(zeitplanAusVorschlag({ folgen: 25 }, 'batch', '2026-10-01', { episodes: 25, jpYear: 2013 })) ===
+      JSON.stringify({ releaseType: 'batch', schedule: { firstEpisodeDate: '2026-10-01', episodeCount: 25 }, dateMeaning: 'available-from' }))
+  pruefe('Sammelartikel: Simulcast ohne bekannte Folgenzahl bleibt ein Termin, mit ihr ≈',
+    zeitplanAusVorschlag({ woechentlich: true }, 'batch', '2026-10-01', {}).schedule.episodeCount === undefined &&
+      zeitplanAusVorschlag({ woechentlich: true }, 'batch', '2026-10-01', { episodes: 12 }).schedule.episodeCountAssumed === true)
 
   /* aniSearchs Erstausgabe: ein späterer eigener Termin verdrängt sie nicht, derselbe schon. */
   pruefe('Erstausgabe: Rooster Fighter (Disney+ 15.03.–31.05.) bleibt neben dem Netflix-Start am 10.10.',

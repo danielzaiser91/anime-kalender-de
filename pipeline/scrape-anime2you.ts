@@ -25,7 +25,8 @@ import { recordSource } from './lib/health.ts'
 import { sendezeiten, type Sendezeit } from './lib/sendezeit.ts'
 import { loadCurated } from './lib/curated.ts'
 import type { PlatformId } from '../shared/types.ts'
-import { todayIso } from '../shared/time.ts'
+import { addDays, todayIso } from '../shared/time.ts'
+import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, type SammelEintrag } from './lib/sammelartikel.ts'
 import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './lib/disc-verschiebungen.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -147,6 +148,10 @@ export interface Proposal {
   zeiten?: Sendezeit[]
   /** Zeilen eines Sammelartikels „… Blu-ray-Termine verschoben" (`lib/disc-verschiebungen.ts`). */
   verschiebungen?: Verschiebung[]
+  /** Einträge eines Anbieter-Sammelartikels („Netflix: Alle Anime-Neuzugänge …", `lib/sammelartikel.ts`). */
+  sammel?: SammelEintrag[]
+  /** Wann der Sammelartikel zuletzt gelesen wurde — Anime2You trägt Titel nach. */
+  sammelGelesen?: string
   /** true, wenn dieser Artikel schon als Quelle in data/curated/ steht. */
   alreadyCurated: boolean
 }
@@ -197,6 +202,35 @@ async function verschiebungenNachholen(alle: Proposal[]): Promise<Proposal[]> {
     const zeilen = leseVerschiebungstabelle(html.slice(html.indexOf('<article'), html.indexOf('</article>')), p.publishedAt)
     log(`Verschiebungen in „${p.articleTitle}": ${zeilen.length} Zeilen`)
     aus.push({ ...p, verschiebungen: zeilen })
+  }
+  return aus
+}
+
+/**
+ * Anbieter-Sammelartikel lesen (`lib/sammelartikel.ts`). Ein junger Artikel wird alle drei Tage neu
+ * gelesen — „Wir aktualisieren diese Liste, falls weitere Titel angekündigt werden" —, ein älterer
+ * einmal. Höchstens sechs Abrufe je Lauf.
+ */
+async function sammelartikelNachholen(alle: Proposal[], heute: string): Promise<Proposal[]> {
+  const aus: Proposal[] = []
+  let geholt = 0
+  for (const p of alle) {
+    const jung = p.publishedAt >= addDays(heute, -45)
+    const faellig = !p.sammelGelesen || (jung && p.sammelGelesen <= addDays(heute, -3))
+    if (p.category !== 'streaming' || !ANBIETER_SAMMELARTIKEL.test(p.articleTitle) || !faellig || geholt >= 6) {
+      aus.push(p)
+      continue
+    }
+    geholt++
+    const html = await fetchText(p.articleUrl)
+    await sleep(1500)
+    if (!html) {
+      aus.push(p)
+      continue
+    }
+    const sammel = leseSammelartikel(artikelZeilen(html), p.publishedAt)
+    log(`Sammelartikel „${p.articleTitle}": ${sammel.length} Titel, ${sammel.filter((e) => e.deutsch).length} mit deutschem Ton`)
+    aus.push({ ...p, sammel, sammelGelesen: heute })
   }
   return aus
 }
@@ -307,10 +341,10 @@ async function main(): Promise<void> {
   const all = [...merged.values()]
     // Kuratiertes neu bewerten; Sammelartikel mit Tabelle bleiben — der Bau liest ihre Termine.
     .map((p) => ({ ...p, alreadyCurated: curatedSources.has(p.articleUrl.replace(/\/$/, '')) }))
-    .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length)
+    .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length || p.sammel?.some((e) => (e.datum ?? '') >= today))
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
-  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), proposals: await verschiebungenNachholen(all) }, true)
+  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), proposals: await sammelartikelNachholen(await verschiebungenNachholen(all), today) }, true)
 
   const offen = all.filter((p) => !p.alreadyCurated)
   log(`${all.length} Vorschläge gespeichert, davon ${offen.length} noch nicht eingearbeitet.`)

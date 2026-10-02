@@ -1,6 +1,7 @@
 import { readJson, log } from '../lib/util.ts'
 import { type Vorschlag, releasesAus } from '../lib/meldungen.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
+import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { type TvSendung } from '../fetch-tv-programm.ts'
 import { type WikiListen, sendungNeuZuordnen, releasesAusTvProgramm, sendungenAnhaengen } from '../lib/tv-termine.ts'
@@ -15,7 +16,7 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   // `data/curated/`, Crunchyroll oder ADN schon da ist, gewinnt gegen den Bot.
   const rohVorschlaege = readJson<{ proposals?: Vorschlag[] }>('data/proposals/anime2you.json', {})
   const ausMeldungen = releasesAus(
-    rohVorschlaege.proposals ?? [],
+    [...(rohVorschlaege.proposals ?? []), ...vorschlaegeAusAllenSammelartikeln(rohVorschlaege.proposals ?? [])],
     [...titles.values()],
     releases,
     todayIso(),
