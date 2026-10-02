@@ -444,3 +444,28 @@ zuerst, drei sichtbar. Satz und Farbe wie auf der News-Seite (`newsSatz`, `NEWS_
   der Antwortkasten den Termin. Gemessen am 27.09.2026: von 408 Meldungen betreffen 180 einen
   anderen Teil, 159 einen vergangenen Termin, 102 einen kommenden mit eigenem Release (alle 102
   gehören zum Titel der Meldung). Geblieben sind „neu auf Deutsch", Folgen und Verspätungen.
+
+## „0 von 12 erschienen" über einer fertigen Synchro: drei Quellen, keine kam durch (02.10.2026)
+
+**Fall:** „Rooster Fighter" (179813) lief vom 15.03. bis 31.05.2026 vollständig synchronisiert bei
+Disney+; das Panel sagte „0 von 12 Folgen erschienen", weil unser einziger Termin der Netflix-Start
+am 10.10.2026 war. Drei Quellen hatten es richtig — aniSearch („Deutsch · Synchronisiert ·
+Abgeschlossen · 15.03.–31.05.2026 · Disney" samt Disney+-Adresse), JustWatch (17.09.: Disney+ mit
+deutschem Ton) und Disney+ selbst.
+
+**Ursachen und was jetzt gilt:**
+
+1. Ein Handbeleg vom 26.08. („Disney+ meldet: nicht in deinem Gebiet verfügbar", eine Serie von 17
+   gleichen Belegen an einem Tag) hielt den Disney+-Weg draußen. **Jetzt:** Ein verneinender Beleg,
+   dem JustWatch später deutschen Ton entgegenhält, kommt auf die Prüfliste (`tools/verdacht.mjs`,
+   `justwatchWiderspruch`). Am Bestand: 1 Disney+-, 12 Prime-Titel.
+2. Jeder eigene Termin unterdrückte aniSearchs deutsche Erstausgabe — auch ein späterer auf einer
+   anderen Plattform. **Jetzt:** Er verdrängt sie nur, wenn aniSearchs Veröffentlichung nicht schon
+   vor ihm endete (`eigenerTerminVerdraengt`). Damit trägt der Titel aniSearchs Marke
+   „Synchronisiert", und der Kasten zählt sie als belegte Synchro (bis zum Gegenbeweis).
+3. Daniels Prüfung vom 02.10. steht als Handbeleg (Disney+, Folgen 1–12).
+
+**Gemessen am Bestand (02.10.):** 2.349 Titel führt aniSearch als „Deutsch · synchronisiert ·
+abgeschlossen" mit vergangenem Ende; 855 davon ohne Weg mit `dub: true`, aber fast alle mit
+Erstausgabe. Ein künftiger eigener Termin daneben — das Fehlerbild „0 von N" — traf nur Rooster
+Fighter.
