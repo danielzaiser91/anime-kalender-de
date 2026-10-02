@@ -5,6 +5,20 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 02.10.2026, 15:05 — durchgesehen, eine stumme Quelle gefunden
+
+**Was läuft korrekt.** 0 rote Läufe in der Statusanzeige (`laeufe-aufraeumen.mjs --trocken`),
+`check:vor-commit` grün, alle Quellen bis auf eine in ihrer Frist (`check-sources.ts`).
+
+**Was falsch läuft — JustWatch seit 9 Tagen stumm.** Der Wochenlauf vom 28.09. (`36418896451`)
+lief nach vier Minuten in eine Sperre (318× HTTP 429) und fragte im Sekundentakt weiter. Der
+Plausibilitätsriegel hat richtig nichts geschrieben — aber damit auch die 26 guten Treffer
+verworfen. Der Blocker steht korrekt in der Statusanzeige. Als Queue-Punkt in `status.md`, fällig
+vor dem nächsten Lauf (Mo 05.10.).
+
+**Was noch offen ist.** Der JustWatch-Punkt. Die Verwerfungen der Terminableitung wachsen langsam
+(„Blöcke und Titel verschieden viele" 208 → 212 seit 28.09.) — beobachten, kein Sprung.
+
 ## 01.10.2026, 07:20 — durchgesehen, zwei stille Ausfälle gefunden und behoben
 
 **Was läuft korrekt.** In der Statusanzeige stehen 27 gemeldete Läufe, **keiner** rot; `meta.generatedAt`
