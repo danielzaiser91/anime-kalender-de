@@ -133,7 +133,7 @@ import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
-import { releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
+import { istAbschied, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
 import { leseSammelartikel, vorschlaegeAusSammelartikel } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
@@ -7563,6 +7563,20 @@ pruefe(
     'Widerlegt: die Bauprüfung meldet einen geteilten Weg mit „deutsch" — und schweigt nach dem Lösen',
     meldetVorher === 1 && geteilteWegeTrotzWiderlegung([apo], vorher).length === 0,
   )
+
+  /* Ein Abschied ist kein Termin: Kuromukuro stand als „erscheint morgen" im Kalender. */
+  pruefe('Abschied: „Netflix entfernt »Kuromukuro«" und „… verlassen bald den Prime-Video-Katalog" erkannt',
+    istAbschied('Netflix entfernt »Kuromukuro« aus seinem Programm') && istAbschied('Drei Anime-Serien verlassen bald den Prime-Video-Katalog'))
+  pruefe('Abschied: Ankündigungen bleiben Ankündigungen',
+    !istAbschied('ADN nimmt »86 EIGHTY-SIX« in sein Programm auf') && !istAbschied('Action-Anime »Rooster Fighter« bald auf Netflix verfügbar') &&
+      !istAbschied('Netflix: Alle Anime-Neuzugänge im Oktober 2026'))
+  pruefe('Abschied: wird kein Release',
+    releasesAus(
+      [{ articleTitle: 'Netflix entfernt »Kuromukuro« aus seinem Programm', articleUrl: 'https://x', publishedAt: '2026-09-12', category: 'streaming', platforms: ['netflix'], dates: [{ iso: '2026-10-03', context: '' }] }],
+      [{ id: 21516, titleDe: 'Kuromukuro', titleEn: 'Kuromukuro', franchiseId: 21516, streams: [] } as unknown as Title],
+      [],
+      '2026-10-02',
+    ).length === 0)
 
   /* Sammelartikel: nur deutscher Ton wird ein Termin, unklare Teile bleiben offen. */
   const sammel = leseSammelartikel(

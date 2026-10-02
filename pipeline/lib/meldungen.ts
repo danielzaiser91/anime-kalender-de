@@ -309,6 +309,15 @@ export function meldungenAus(vorschlaege: Vorschlag[], titel: Title[], heute: st
  * - **Nicht raten, welcher Anbieter gemeint ist.** Ohne `platforms` fällt der
  *   Vorschlag durch.
  */
+/**
+ * **Ein Abschied ist kein Termin.** „Netflix entfernt »Kuromukuro« aus seinem Programm" (03.10.)
+ * stand als „erscheint morgen" im Kalender — für eine Serie, die dort seit 2016 auf Deutsch läuft.
+ * Das Datum einer solchen Meldung ist das Ende eines Angebots, nicht sein Anfang.
+ */
+export function istAbschied(ueberschrift: string): boolean {
+  return /\b(?:entfernt|verlässt|verlassen|nimmt\b.*\braus\b|nicht mehr (?:verfügbar|abrufbar|im)|aus dem (?:Programm|Katalog|Angebot)|läuft aus)/i.test(ueberschrift)
+}
+
 const TV_UMFELD = /TV-Premiere|Free-TV|im (?:deutschen )?Fernsehen|TV-Ausstrahlung|auf (?:TOGGO plus|SUPER RTL|ProSieben MAXX|RTLZWEI|RTL II|Nicktoons|Nickelodeon|Disney Channel|KiKA)\b/i
 
 /**
@@ -333,7 +342,7 @@ export function releasesAus(
   const out: Release[] = []
 
   for (const v of vorschlaege) {
-    if (v.alreadyCurated) continue
+    if (v.alreadyCurated || istAbschied(v.articleTitle)) continue
     /*
       **Ein Fernsehtermin ist kein Streaming-Termin.** „Dragon Ball DAIMA" lief
       ab 28.08.2026 im TV bei TOGGO plus, abrufbar bei RTL+ erst ab 25.09. — der
