@@ -3005,6 +3005,11 @@ Vorschau — und **beide widerlegt**: Apothekerin S3 (02.10.) und Black Clover S
 vorher behauptet wurde.** Der Mechanismus dafür steht bereit: `zurueckgezogen` in
 `pipeline/lib/news-verlauf.ts`.
 
+**Gebaut am 02.10.2026** in `pipeline/bau/widerlegung-woche.ts`: Die Prüfung setzt `Release.widerlegt`
+vor dem Auffalten (kein Ereignis, keine „Erste Folge erscheint heute") und erzeugt die
+`zurueckgezogen`-Meldung nur bei behaupteten Terminen (`gemeldet`). Belegt am gebauten Bestand
+(Lauf `37008356908`): Apothekerin S3 mit Meldung, Black Clover S2 still.
+
 **4. `observed` darf nichts aus der Zukunft tragen.** `observed` entsteht aus den Slots des
 Kalenders und ist als „welche Folge wir wann gesehen haben" dokumentiert — bei Overgeared stand dort
 `{1: 27.09., 2: 04.10.}`. Eine künftige Beobachtung ist keine; sie wandert in den Sendeplan
