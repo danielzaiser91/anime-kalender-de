@@ -2,3 +2,4 @@
 {"am":"2026-09-27T01:41:02.391Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Folgenzahl geht nicht auf 54 → 55","datei2":"data/termine-ausgelassen.json"}
 {"am":"2026-09-28T13:34:10.607Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 208 → 211","datei2":"data/termine-ausgelassen.json"}
 {"am":"2026-09-30T00:41:33.625Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Folgenzahl geht nicht auf 53 → 54","datei2":"data/termine-ausgelassen.json"}
+{"am":"2026-10-02T10:31:16.542Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 211 → 212","datei2":"data/termine-ausgelassen.json"}
