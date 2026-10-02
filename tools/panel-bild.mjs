@@ -153,14 +153,8 @@ async function main() {
       /*
         **Gemessen wird, ob etwas hinausragt — nicht, ob alle gleich hoch sind.**
 
-        Bis zum 12.09.2026 stand hier „alle gleich hoch": die Vorgabe vom
-        03.09.2026, dass der Kasten beim Wechsel zwischen zwei Teilen einer
-        Reihe nicht springt. Sie hat genau das gemessen, was sie sollte — und
-        den eigentlichen Fehler zweimal durchgelassen: Am 07.09. und am 12.09.
-        ragte die Pillenreihe aus dem Kasten heraus, beide Male gleich hoch,
-        beide Male von Daniel auf einem Bild gefunden.
-
-        Eine gleiche Höhe ist eine Momentaufnahme. Die Frage, um die es geht,
+        „Alle gleich hoch" ließ zweimal eine Pillenreihe durch, die aus dem
+        Kasten ragte — gleich hoch. Eine gleiche Höhe ist eine Momentaufnahme. Die Frage, um die es geht,
         lautet: Steht der Inhalt im Kasten? Das misst `scrollHeight` gegen
         `clientHeight`, und es bleibt richtig, wenn ein neuer Zustand dazukommt.
       */

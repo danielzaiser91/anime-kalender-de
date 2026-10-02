@@ -8,14 +8,10 @@
  * erreichbar, polyband sperrt Bots. Hier steht alles an einem Ort, in einer
  * Quelle, die uns das Lesen erlaubt.
  *
- * **Aber nicht nur die deutschen.** Bis zum 13.08.2026 stand hier „die deutschen
- * Veröffentlichungen", und das war schlicht falsch: Die Liste führt US-, UK- und
- * französische Ausgaben gleichberechtigt mit. Weil der Auszug sie alle nahm und
- * jedem Vorschlag den **deutschen** Publisher aus `info.languages` anhängte, sah
- * eine britische Blu-ray im Vorschlag aus wie eine deutsche von Crunchyroll.
- * Drei angebliche Terminwidersprüche gingen allein darauf zurück (Daniel,
- * 13.08.2026: „wieder us und uk … wir haben kein Interesse an Releases für
- * andere Sprachen als Deutsch").
+ * **Aber nicht nur die deutschen:** Die Liste führt US-, UK- und französische
+ * Ausgaben gleichberechtigt mit. Nähme der Auszug sie alle und hängte jedem den
+ * **deutschen** Publisher aus `info.languages` an, sähe eine britische Blu-ray aus
+ * wie eine deutsche von Crunchyroll — und wir wollen nur deutsche Ausgaben.
  *
  * **Kein Abruf.** Gelesen wird ausschließlich das Archiv unter
  * `data/anisearch-raw/`, das der aniSearch-Lauf ohnehin anlegt.

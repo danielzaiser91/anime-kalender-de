@@ -72,10 +72,8 @@ function describe(release: Release, title: Title | undefined, today: string): st
 /**
  * Der sichtbare Inhalt der Teilen-Seite, als fertiges HTML im `#root`.
  *
- * Bis zum 10.08.2026 stand hier nichts: Die Seite bestand aus Meta-Angaben und
- * einem Skript, das den Hash setzt. Für die Link-Vorschau reichte das, und
- * indexiert wurden die Seiten auch — aber eine Seite ohne Text rankt für
- * nichts. Wer „Steel Ball Run deutsche Synchro" sucht, soll hier landen, und
+ * Meta-Angaben reichen für die Link-Vorschau, aber eine Seite ohne Text rankt
+ * für nichts. Wer „Steel Ball Run deutsche Synchro" sucht, soll hier landen, und
  * dafür müssen die Wörter auf der Seite stehen.
  *
  * React räumt `#root` beim ersten Rendern leer. Das ist gewollt: Bis das

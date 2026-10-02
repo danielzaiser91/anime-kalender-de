@@ -1426,11 +1426,7 @@ if (ohneZuordnung.length && !TROCKEN) {
      *
      * Das gilt **ohne** Titelvergleich: Wenn kein Verweis auf diese Adresse
      * zeigt, kann auch keiner entfernt werden. Wer den Titel dahinter kennt,
-     * gewinnt nichts dazu.
-     *
-     * Bis zum 23.08.2026 stand bei solchen Meldungen „Titel von Hand suchen" —
-     * dreiundzwanzig Zeilen Arbeit, die keine war. Daniel: „deshalb habe ich sie
-     * auch als weg gemeldet. also warum soll ich das nochmal prüfen."
+     * gewinnt nichts dazu — „Titel von Hand suchen" wäre Arbeit, die keine ist.
      */
     const zuTun =
       o.befund === 'weg'

@@ -11,9 +11,7 @@ for (const t of liste) {
     **Jeder offene Netflix-Verweis gehört auf die Liste, nicht nur die
     MOTN-vergeblichen.**
 
-    Bis zum 29.08.2026 stand hier zusätzlich `vergeblich.has(t.id)` — die Idee
-    war: „Diese Titel kennt die Streaming Availability API nicht, ein zweiter
-    Abruf bringt nichts." Der Schluss ist falsch herum. Ob MOTN den Titel
+    Kein Filter auf `vergeblich.has(t.id)`: Ob MOTN den Titel
     **kennt**, sagt nichts darüber, ob es eine **Tonspur** liefert; die 42
     offenen Verweise sind offen, weil keine Quelle geantwortet hat.
 

@@ -3853,9 +3853,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   /*
     **Ein verneinender Handbeleg sperrt den Anbieter — ein bejahender öffnet ihn.**
 
-    Bis zum 06.09.2026 stand hier `checks.has(...)`, also die Frage, **ob**
-    jemand hingesehen hat. Für ein Nein ist das richtig (am 25.08.2026 hat ein
-    Lauf so fünf geprüfte Neins überschrieben), für ein Ja verkehrt herum: Bei
+    Die bloße Frage, **ob** jemand hingesehen hat (`checks.has(...)`), ist für ein
+    Nein richtig, für ein Ja verkehrt herum: Bei
     „Sword Art Online II" sagten zwei Handbelege `dub: true` für die Folgen
     1–24, und im Datensatz stand kein Netflix-Weg.
 
@@ -4892,10 +4891,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   /*
     **Und der Teilname nennt nur, was ihn vom Kopf unterscheidet.**
 
-    Bis zum 12.09.2026 stand dort der volle Name: In der Liste las sich das als
-    „bei Crunchyroll · Lord of Mysteries Specials", blass und hinter dem
-    Anbieter. Der Reihenname steht eine Zeile höher — hier bleibt
-    „Specials".
+    Der Reihenname steht eine Zeile höher — hier bleibt „Specials", nicht
+    „Lord of Mysteries Specials".
   */
   pruefe(
     'der Kopf ist die Reihe, der abweichende Teil wird benannt',

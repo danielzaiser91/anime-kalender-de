@@ -361,9 +361,8 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
      * Geht ein Block nicht auf, ist die **ganze Reihe** hinfällig — nicht nur
      * dieser eine Schritt.
      *
-     * Bis zum 23.08.2026 stand hier `continue`: Der Block wurde übersprungen,
-     * die bereits erzeugten Urteile blieben stehen und der Zeiger lief weiter.
-     * Das setzt voraus, dass alles davor richtig zugeordnet war — und genau das
+     * Ein `continue` ließe die bereits erzeugten Urteile stehen und den Zeiger
+     * weiterlaufen. Das setzte voraus, dass alles davor richtig zugeordnet war — und genau das
      * ist nicht gesichert, wenn irgendwo eine Zahl nicht passt.
      *
      * **Der Fall, der es zeigt (Fruits Basket, gefunden über die Stichprobe in

@@ -1,11 +1,9 @@
 /**
  * **Wann zu einer ausgebliebenen Folge recherchiert wird — eine Regel für Lauf und Seite.**
  *
- * Bis zum 15.09.2026 standen die Fristen nur in `pipeline/lib/ausgeblieben.ts`.
- * Daniel dann unter „Folge 9 ist nicht erschienen": „wann war das letzte mal das
- * wir geprüft haben, und wann steht die nächste Prüfung an? Offen
- * kommunizieren". Die Seite muss dafür dieselbe Regel kennen wie der Lauf —
- * zwei Kopien laufen auseinander, also liegt sie hier.
+ * Die Seite nennt, wann zuletzt geprüft wurde und wann die nächste Prüfung ansteht. Dafür
+ * muss sie dieselbe Regel kennen wie der Lauf — zwei Kopien laufen auseinander, also liegt
+ * sie hier.
  */
 
 const STUNDE = 36e5

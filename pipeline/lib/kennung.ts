@@ -1,10 +1,9 @@
 /**
  * **Wie wir uns bei fremden Servern melden.**
  *
- * Bis zum 23.09.2026 stand in jedem Abruf dieselbe ehrliche Zeile:
- * `anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)`. Der
- * Gedanke dahinter war richtig und bleibt es: Wer sich zu erkennen gibt, kann angeschrieben
- * werden, statt gesperrt zu werden (09.08.2026, nach einer Sperre bei aniSearch).
+ * Eine ehrliche Kennzeile wie `anime-kalender.de/1.0 (+https://anime-kalender.de; …)` folgt
+ * dem richtigen Gedanken: Wer sich zu erkennen gibt, kann angeschrieben werden, statt gesperrt
+ * zu werden.
  *
  * **Nur beantwortet aniSearch genau diese Zeile seit dem 19.09.2026 mit HTTP 423.** Gemessen
  * am 23.09.2026 an derselben Adresse, derselben Leitung, innerhalb einer Minute: mit einer

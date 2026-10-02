@@ -38,12 +38,9 @@ ERZEUGNISSE=(public/data public/og)
 # Die Bot-Identität gilt **nur für den Commit dieses Skripts**, nicht für das
 # Repo.
 #
-# Bis zum 22.08.2026 stand hier `git config user.name …` ohne `--global`. Das
-# schreibt in `.git/config` und bleibt dort stehen — in der CI harmlos, weil
-# der Arbeitsordner nach dem Lauf verschwindet. Wird das Skript aber **von
-# Hand** ausgeführt, färbt es jeden späteren Commit in diesem Ordner: 177
-# Commits zwischen dem 17. und 22.08.2026 tragen den Bot als Autor, darunter
-# Handarbeit. `git blame` zeigt dort einen Automaten, der nie am Werk war.
+# Ohne `--global` schriebe `git config user.name …` in `.git/config` und bliebe
+# dort — von Hand ausgeführt, trügen alle späteren Commits im Ordner den Bot
+# als Autor (177 Commits im August 2026).
 #
 # `git -c` unten setzt beides nur für den einen Aufruf.
 BOT_NAME="github-actions[bot]"

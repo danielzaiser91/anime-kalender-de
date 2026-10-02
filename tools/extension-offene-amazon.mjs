@@ -305,14 +305,9 @@ for (const [asin, eintraege] of jeAsin) {
   /*
     **`erneut`, nicht `wiedervorlage` — und der Eintrag ist offen.**
 
-    Bis zum 14.09.2026 stand der Grund hier im Feld `wiedervorlage`, das keine
-    Stelle liest: `amazon.js` fragt `erneut`, `tools/pruefstand.mjs` zählt
-    `eintraege[].offen`. Beides ging an Verdachtsfällen vorbei — die
-    Zuordnungsaufträge (Captain Tsubasa, Golden Kamuy, Solo Leveling, Haikyu!!)
-    fehlten in der Statusanzeige, und die Erweiterung blendete die
-    Kanal-Widersprüche aus, weil unter ihren Adressen früher schon gemeldet
-    worden war. Daniel sah drei verschiedene Zahlen für dieselbe Liste: „das
-    sollte doch single source of truth sein."
+    Das Feld `wiedervorlage` liest keine Stelle: `amazon.js` fragt `erneut`,
+    `tools/pruefstand.mjs` zählt `eintraege[].offen`. Nur so zeigen
+    Statusanzeige und Erweiterung dieselbe Zahl für dieselbe Liste.
   */
   offen[asin] = {
     ...(verdacht ? { erneut: verdachtHinweis(verdacht) } : {}),

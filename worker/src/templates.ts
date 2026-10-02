@@ -280,8 +280,7 @@ export interface DigestOptions {
    * Adresse, die den Rhythmus mit einem Klick umstellt.
    *
    * Fehlt sie, zeigt der Link wie früher auf die Newsletter-Seite — dann heißt er
-   * auch anders, denn dort passiert nichts von selbst. Bis zum 17.08.2026 stand
-   * über diesem Weg „Auf wöchentlich umstellen", und umgestellt wurde nichts.
+   * auch anders, denn dort passiert nichts von selbst.
    */
   rhythmusUrl?: string
   /** Gemerkte Titel, die seit der letzten Mail eine Synchro bekommen haben. */

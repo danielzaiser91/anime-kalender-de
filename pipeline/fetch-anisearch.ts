@@ -676,9 +676,8 @@ async function main(): Promise<void> {
     /**
      * Geholt wird, was fehlt **oder was zu alt ist**.
      *
-     * Bis zum 15.08.2026 stand hier nur „noch nicht im Bestand oder ohne
-     * Infobox". Damit war jeder Titel nach dem ersten erfolgreichen Abruf
-     * dauerhaft erledigt, und sein Bestand an Anbietern fror ein. Das ist genau
+     * Sonst wäre jeder Titel nach dem ersten erfolgreichen Abruf dauerhaft
+     * erledigt, und sein Bestand an Anbietern fröre ein. Das ist genau
      * dort falsch, wo sich am meisten ändert: Verliert ein Dienst die
      * Lizenzrechte, nimmt er die deutsche Fassung wieder aus dem Angebot —
      * Crunchyroll führt aus diesem Grund keine erste Staffel von „Attack on

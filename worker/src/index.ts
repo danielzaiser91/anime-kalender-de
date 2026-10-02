@@ -355,12 +355,9 @@ async function handleRestore(request: Request, env: Env): Promise<Response> {
 /**
  * Löst den befristeten Abgleich-Link aus einer Newsletter-Mail ein.
  *
- * Bis zum 14.08.2026 stand der `pref_token` **selbst** in jeder Mail. Er gilt
- * unbefristet — wer jemals eine weitergeleitete Mail sah oder einen Screenshot
- * davon, konnte die gemerkten Titel dieses Abos dauerhaft ändern, Monate
- * später noch.
- *
- * Jetzt verlässt der Dauerschlüssel den Server nicht mehr. In der Mail steht
+ * Der `pref_token` gilt unbefristet — stünde er in der Mail, könnte jeder, der eine
+ * weitergeleitete Mail oder einen Screenshot sah, die gemerkten Titel dauerhaft
+ * ändern. Deshalb verlässt der Dauerschlüssel den Server nicht. In der Mail steht
  * ein eigener, nach dreißig Tagen verfallender Schlüssel; erst sein Einlösen
  * übergibt den `pref_token` an den Browser. Anders als beim Wiederherstellen
  * wird er **nicht** sofort entwertet: Dieselbe Mail auf zwei Geräten zu öffnen
@@ -985,9 +982,8 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       /**
        * Ohne Termine **und** ohne Neuzugang gibt es nichts zu erzählen.
        *
-       * Bis zum 13.08.2026 stand hier nur `if (!events.length) continue` — eine
-       * angekündigte Synchro ohne Termin hätte damit nie eine Mail ausgelöst,
-       * und genau die ist die Nachricht, auf die jemand monatelang wartet.
+       * Eine angekündigte Synchro ohne Termin ist genau die Nachricht, auf die
+       * jemand monatelang wartet — sie löst eine Mail aus, auch ohne Termine.
        */
       if (!events.length && !neuMitSynchro.length && !auchBei.length) continue
 
