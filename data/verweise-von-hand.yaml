@@ -309,3 +309,12 @@
   belegtAm: '2026-09-27'
   zugang: kostenlos
   beleg: 'JustWatch führt „Dragon Ball" bei Joyn als kostenlos mit Werbung (ADS), Abfrage 27.09.2026; die Folgen laufen seit 24.09.2026 Mo–Fr auf ProSieben MAXX und stehen danach rollend in der Mediathek. Joyn ist deutsch (Daniel, 02.09.2026)'
+
+# Monsuno Staffel 1 (13185): kostenlos auf YouTube, Daniel 02.10.2026. Staffel 2 und 3 haben keine deutsche Fassung.
+- anilistId: 13185
+  title: "Monsuno"
+  platform: youtube
+  url: https://www.youtube.com/playlist?list=PLGFlb1G8-ThNpiqdBrJZdVMG4V6MlTT74
+  belegtAm: '2026-10-02'
+  zugang: kostenlos
+  beleg: 'oEmbed: Playlist „Monsuno Staffel 1 | Deutsch/German“, Kanal „Monsuno Deutsch“ (@monsunodeutsch); erstes Video „Monsuno S1 E01 Clash | Deutsch/German“, passend zur ersten Nickelodeon-Sendung „Clash“ vom 02.06.2012 (fernsehserien.de). Daniel: alle 26 Folgen, ab Folge 1, 360p. Ob der Kanal offiziell ist, ist offen.'

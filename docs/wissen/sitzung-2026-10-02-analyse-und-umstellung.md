@@ -107,7 +107,7 @@ Vereinbarung (Daniel): Erst die vier Punkte vom Abend und die „liegen gebliebe
 |---|---|---|
 | 1 | „Bauprüfung" erklärt (= `pruefeErgebnis()` am Ende des Datenbaus; fünf Invarianten fehlen) | erklärt; Umsetzung = Phase 0, **Freigabe offen** |
 | 2 | Alles dokumentieren | **erledigt** (dieses Dokument, `quellen.md`, `status.md`, `tools/archiv/analyse-2026-10-02/`) |
-| 3 | MyDubList: wofür brauchen wir es noch? | **in Klärung.** Drei bestätigte Fälle (Cat's Eye, Monsuno, Berserk-Filme); Daniel prüft sie jetzt von Hand. Cat's Eye: Prime-Meldung `9713` ist angekommen (siehe §7c). Danach: die übrigen Wikipedia-Kandidaten (§3.5) abarbeiten, dann streichen/herabstufen entscheiden |
+| 3 | MyDubList: wofür brauchen wir es noch? | **in Klärung.** Drei Kandidaten (Cat's Eye, Monsuno, Berserk-Filme). **Cat's Eye bestätigt** (73 Folgen deutsch, Prime-Meldung `9713`, §7c). **Monsuno bestätigt** (YouTube kostenlos, 26 Folgen Staffel 1, §7d, eingetragen). **Berserk-Filme: Daniel prüft.** Danach: die übrigen Wikipedia-Kandidaten (§3.5) abarbeiten, dann streichen/herabstufen entscheiden |
 | 4 | Liegengebliebenes | siehe 4a–4l |
 
 Liegengeblieben (4a–4l): a) Zählwort streng/zwei Zahlen/115 heraus · b) 917 Cartoons · c) Einheit Werk/Staffel + Stichprobe 30 Serien · d) Pilot Cat's Eye (inkl. zweite Staffel) · e) Triage der 22 Wikipedia-Treffer ·
@@ -115,6 +115,16 @@ f) Befunde B-02…B-11 beheben · g) Rechtsprüfung Datenschutz/Lizenzen · h) u
 k) Token von aniSearch · l) Live-Test der Schnellfilter-Vorlieben (gebaut, `9d3e06e6e`).
 
 **Geparkt (Abschweifungen, hier festgehalten):** Schnellfilter als Vorlieben — Daniels Wunsch, umgesetzt, nur der Live-Test (4l) steht aus.
+
+## 7d. Fall Monsuno (13185) — von Daniel am 02.10.2026, 23:35 Uhr geprüft: bestätigt
+
+Monsuno (2012, Staffel 1 „World Master", 26 Folgen) hat **nur einen Weg: YouTube, kostenlos**, Playlist „Monsuno Staffel 1 | Deutsch/German", Kanal „Monsuno Deutsch" (@monsunodeutsch), alle 26 Folgen,
+beginnt bei Folge 1, 360p ([Playlist](https://www.youtube.com/playlist?list=PLGFlb1G8-ThNpiqdBrJZdVMG4V6MlTT74)). Kein anderer Anbieter, Discs nur englisch.
+„Alle 26" stimmt für die deutsche Fassung, obwohl die Serie 65 Folgen in 3 Staffeln hat (Wikipedia, fernsehserien.de): Im deutschen Fernsehen lief **nur Staffel 1** (Nickelodeon, 02.06.2012 bis 20.04.2013, erste Sendung „Clash",
+gegengelesen auf fernsehserien.de/monsuno/sendetermine/nickelodeon); Staffel 2 „Combat Chaos" und 3 gibt es nicht auf Deutsch. Das erste Video heißt laut oEmbed „Monsuno S1 E01 Clash | Deutsch/German" — passt zur ersten Sendung.
+**Eingetragen** (nicht live bis zum nächsten Datenlauf): `data/dub-confirmed.yaml` (dub: true) und `data/verweise-von-hand.yaml` (YouTube, kostenlos). **Offen:** ob der Kanal der Rechteinhaber ist (Linkpolitik wie bei TOGGO/Daima);
+Daniel entscheidet. **Lehre für das Zählwort:** Monsuno ist ein Titel, den MyDubList richtig führte und den kein anderer Datensatz kannte — Beleg kam von Hand und aus fernsehserien.de, nicht aus MyDubList.
+Fernsehserien.de ist als Quelle für „lief im deutschen Fernsehen" brauchbar (Sendetermine je Sender), nicht als Beleg für Streaming.
 
 ## 7c. Cat's Eye — Prime-Meldung vom 02.10.2026, 23:22 Uhr
 
