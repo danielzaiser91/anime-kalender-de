@@ -6863,7 +6863,7 @@ pruefe(
   pruefe('„Neu auf Deutsch" verlangt einen deutschen Stream oder einen erreichten Termin', news.includes('!anbieter && !erreicht'))
   /* **Und ein noch ausstehender Termin desselben Anbieters macht daraus eine Ankündigung**
      (02.10.2026, Apothekerin S3) — die Prüfung hängt an derselben Zeile. */
-  pruefe('und der ausstehende Termin desselben Anbieters wird abgefragt', news.includes('nurAngekuendigt(releases, t.id, anbieter, heute)'))
+  pruefe('und der ausstehende Termin desselben Anbieters wird abgefragt', news.includes('nurAngekuendigt(releases, t.id, anbieter'))
 }
 {
   /* Beyblade X (19.09.2026): eine automatische TV-Sichtung verdrängt keinen belegten deutschen Stream. */

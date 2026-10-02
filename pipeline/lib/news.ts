@@ -197,19 +197,23 @@ interface CrNeueFolge {
  * für das Gegenteil: Es ist angekündigt. Steht er noch aus, fällt die Meldung dem
  * `angekuendigt`-Eintrag zu, der denselben Termin ohnehin trägt.
  *
- * **Gemessen am Anbieter, nicht am Titel** (02.10.2026): Der erste Entwurf nahm „irgendein
- * erreichter Termin" als Ausnahme — beim Apothekerin-Titel war das der **Disc**-Termin vom
- * 04.09., und die falsche „Neu auf Deutsch"-Meldung blieb stehen. Der Disc-Termin sagt nichts
- * darüber, ob bei Crunchyroll zu sehen ist; nur die Termine **desselben Anbieters** zählen.
+ * **Gemessen am Tag der Meldung, nicht an heute** (02.10.2026): Der Bau am 02.10. fand den Termin
+ * vom 02.10. bereits „erreicht" und ließ die 03.09.-Meldung stehen. Gefragt ist, ob Deutsch **an
+ * dem Tag zu sehen war, an dem die Meldung entstand** — deshalb `n.seit`.
+ *
+ * **Gemessen am Anbieter, nicht am Titel:** Der erste Entwurf nahm „irgendein erreichter Termin"
+ * als Ausnahme — beim Apothekerin-Titel war das der **Disc**-Termin vom 04.09., und die falsche
+ * „Neu auf Deutsch"-Meldung blieb stehen. Ein Disc-Termin sagt nichts darüber, ob bei Crunchyroll
+ * zu sehen ist; nur die Termine **desselben Anbieters** zählen.
  */
-export function nurAngekuendigt(releases: Release[], titleId: number, plattform: string | undefined, heute: string): boolean {
+export function nurAngekuendigt(releases: Release[], titleId: number, plattform: string | undefined, tag: string): boolean {
   if (!plattform) return false
   const termine = releases
     .filter((r) => r.titleId === titleId && r.platform === plattform)
     .map((r) => r.schedule?.firstEpisodeDate)
     .filter((d): d is string => !!d)
   if (!termine.length) return false
-  return !termine.some((d) => d <= heute)
+  return !termine.some((d) => d <= tag)
 }
 
 /**
@@ -248,7 +252,7 @@ export function baueNews(
       .filter((r) => r.titleId === t.id && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
       .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
     const erreicht = erreichtRelease?.schedule?.firstEpisodeDate
-    if ((!anbieter && !erreicht) || nurAngekuendigt(releases, t.id, anbieter, heute)) continue
+    if ((!anbieter && !erreicht) || nurAngekuendigt(releases, t.id, anbieter, n.seit)) continue
     roh.push({
       schluessel: `neu:${t.id}`,
       fallback: anbieter || !erreicht || erreicht < n.seit ? n.seit : erreicht,
