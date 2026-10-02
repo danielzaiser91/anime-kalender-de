@@ -1,6 +1,6 @@
 import { type Title, type DiscAusgabe, type Release, anbieterName, PLATFORMS, type WatchLink } from '@shared/types.ts'
 import { type ReactNode } from 'react'
-import { Tooltip } from '../ui.tsx'
+import { Tooltip, DiscZeichen } from '../ui.tsx'
 import { formatDate } from '@shared/time.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
 import { useLang, translate } from '../../lib/i18n.tsx'
@@ -34,17 +34,11 @@ const marke = (farbe?: string) => (farbe ? ({ '--marke': farbe } as React.CSSPro
  *
  * `currentColor` statt einer festen Farbe: So trägt das Zeichen dieselbe
  * Tönung wie der Text daneben, in beiden Themen.
+ *
+ * **Seit dem 02.10.2026 steht es in `ui.tsx`** (`TvZeichen` daneben): Die Schnellfilter im
+ * Filterfeld brauchen es, und von hier gezogen lüde das Filterfeld das nachgeladene
+ * Detail-Modul mit.
  */
-export function DiscZeichen() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3" />
-      <circle cx="8" cy="8" r="1.9" stroke="currentColor" strokeWidth="1.3" />
-      {/* Der Lichtreflex — ohne ihn liest sich der Ring als Zielscheibe. */}
-      <path d="M4.6 4.2A5 5 0 0 1 8 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity="0.55" />
-    </svg>
-  )
-}
 
 /**
  * **Zu jedem Titel ein Weg zu aniSearch — auch ohne Kennung.**

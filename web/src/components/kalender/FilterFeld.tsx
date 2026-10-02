@@ -2,9 +2,10 @@ import { useMemo } from 'react'
 import type { PlatformId, ReleaseEvent } from '@shared/types.ts'
 import type { ReactNode } from 'react'
 import type { Dataset } from '../../lib/data.ts'
-import { EMPTY_FILTERS, type FilterState } from '../../lib/filters.ts'
+import { EMPTY_FILTERS, isFilterActive, type FilterState } from '../../lib/filters.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { FilterDetailsFeld } from '../FilterDetails.tsx'
+import { AktiveFilter } from './AktiveFilter.tsx'
 
 export interface FilterFeldProps {
   data: Dataset
@@ -47,6 +48,8 @@ export function FilterFeld(p: FilterFeldProps) {
       .map(([g]) => g)
       .filter((g, i) => i < 12 || gewaehlt.includes(g))
   }, [zaehlungen, p.filters.genres, p.filters.excluded.genres])
+  /* Der Streifen bringt nur etwas, wenn er etwas zu zeigen hat — sonst bliebe eine leere Zeile. */
+  const etwasGewaehlt = isFilterActive(p.filters) || p.filters.search.trim() !== '' || p.tvAn === false
 
   return (
     <section
@@ -54,6 +57,15 @@ export function FilterFeld(p: FilterFeldProps) {
       aria-label={t('filter.button')}
       className="animate-fade-in rounded-3xl border border-ak-rand bg-ak-flaeche"
     >
+      {/* **Die gewählten Filter stehen im Filterfeld** (Daniel, 02.10.2026: „die ausgewählten
+          filter [sollen] in das filter menu wandern") — dieselbe Stelle wie im Datenbank-Reiter
+          (`FilterBar`). Vorher standen sie als eigene Zeile über der Woche und waren im offenen
+          Menü nicht zu sehen. */}
+      {etwasGewaehlt && (
+        <div className="border-b border-ak-linie px-3 py-2.5">
+          <AktiveFilter filters={p.filters} onChange={p.onChange} tvAn={p.tvAn} setTvAn={p.setTvAn} />
+        </div>
+      )}
       <FilterDetailsFeld
         meta={p.data.meta}
         filters={p.filters}

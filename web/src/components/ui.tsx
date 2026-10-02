@@ -163,6 +163,22 @@ export function TvZeichen({ className = 'size-3' }: { className?: string }) {
   )
 }
 
+/**
+ * **Der Disc-Ring** — dasselbe Zeichen wie an der Disc-Pille. Steht seit dem 02.10.2026 hier bei
+ * `TvZeichen`, weil die Schnellfilter im Filterfeld ihn brauchen: Aus `detail/pillen.tsx` gezogen
+ * würde das Filterfeld das (nachgeladene) Detail-Modul mitladen.
+ */
+export function DiscZeichen({ className = 'size-3.5' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" className={`${className} shrink-0`} fill="none" aria-hidden="true">
+      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3" />
+      <circle cx="8" cy="8" r="1.9" stroke="currentColor" strokeWidth="1.3" />
+      {/* Der Lichtreflex - ohne ihn liest sich der Ring als Zielscheibe. */}
+      <path d="M4.6 4.2A5 5 0 0 1 8 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity="0.55" />
+    </svg>
+  )
+}
+
 export function FskBadge({ fsk, small }: { fsk: Fsk; small?: boolean }) {
   const bg = FSK_COLORS[fsk]
   /* Dunkle Ziffer bis FSK 12: Weiß auf dem FSK-Grün hatte nur 3,6:1, #111 hat 5,3:1 (18.09.2026). */

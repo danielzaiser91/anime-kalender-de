@@ -18,7 +18,7 @@ import { InstallDialog } from './components/InstallPrompt.tsx'
 import { NewsView } from './components/NewsView.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
 import { coverBild } from './lib/cover.ts'
-import { FilterBar } from './components/FilterBar.tsx'
+import { FilterBarDock } from './components/FilterBar.tsx'
 import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
 import { DatabaseView } from './components/DatabaseView.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
@@ -241,9 +241,8 @@ export default function App() {
           <>
             {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
             <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
-            <div className="mb-4">
-              <FilterBar meta={data.meta} filters={route.filters} onChange={setFilters} showConfidence favoriteCount={favorites.size} />
-            </div>
+            {/* Das Filterfeld der Datenbank dockt unten an (Daniel, 02.10.2026) — wie im Kalender. */}
+            <FilterBarDock meta={data.meta} filters={route.filters} onChange={setFilters} showConfidence favoriteCount={favorites.size} />
             {allTitles ? (
               <SuchfundstellenContext.Provider value={titles.fundstellen}>
                 <DatabaseView

@@ -10,7 +10,6 @@ import { WeekView } from '../WeekView.tsx'
 import { MonthView } from '../MonthView.tsx'
 import { KalenderKopf, Steuerleiste, wochenSpanne } from './KalenderKopf.tsx'
 import { FilterFeld } from './FilterFeld.tsx'
-import { AktiveFilter } from './AktiveFilter.tsx'
 import { zaehlung } from './Marken.tsx'
 
 export interface KalenderBereichProps {
@@ -77,8 +76,9 @@ export function KalenderBereich(p: KalenderBereichProps) {
         onWoche={() => monat && zurWoche(heute.slice(0, 7) === route.date.slice(0, 7) ? heute : startOfMonth(route.date))}
         onMonat={() => navigate({ view: 'monat' })}
       />
-      {filterOffen ? (
-        /* Das Filterfeld steht über der Steuerleiste — dort, wo man es geöffnet hat. */
+      {filterOffen && (
+        /* Das Filterfeld steht über der Steuerleiste — dort, wo man es geöffnet hat. Die gewählten
+           Filter stehen **im** Feld (`FilterFeld`), nicht mehr als eigene Zeile darüber. */
         <div className="fixed inset-x-2 bottom-[calc(7.75rem+env(safe-area-inset-bottom))] z-30 mx-auto max-h-[calc(100dvh-14rem)] max-w-[1180px] overflow-y-auto rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,.45)] md:bottom-[4.5rem] md:max-h-[calc(100dvh-10rem)]">
         <FilterFeld
           data={p.data}
@@ -93,8 +93,6 @@ export function KalenderBereich(p: KalenderBereichProps) {
           schliessen={() => setFilterOffen(false)}
         />
         </div>
-      ) : (
-        <AktiveFilter filters={route.filters} onChange={setFilters} tvAn={p.tvAn} setTvAn={p.setTvAn} />
       )}
       {monat ? (
         <MonthView data={p.data} events={p.events} anchorDate={route.date} hidden={p.hidden} onOpen={oeffnen} onPickDay={zurWoche} />

@@ -7,7 +7,7 @@ import {
   type Fsk,
   type ReleaseStatus,
 } from '@shared/types.ts'
-import { Chip, Tooltip } from './ui.tsx'
+import { Chip, Tooltip, TvZeichen, DiscZeichen } from './ui.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import { bereichsSuche, titelWoerter, type BereichsSuche } from '../lib/filter-suche.ts'
 import type { Translate } from '../lib/i18n.tsx'
@@ -203,10 +203,14 @@ export function MeineAnbieter({
 /**
  * **Die Schnell-Schalter** — Schalter (an/aus), nicht vom Klick-Modus betroffen.
  *
- * Der Fernseh-Chip ist der Ausschluss der Plattform „TV" in Kurzform: Er leuchtet, **wenn** das
- * Fernsehen aus ist, und der Chip „TV" in der Plattform-Gruppe zeigt denselben Stand. Vorher hieß
- * er „Fernsehen zeigen" und leuchtete im Gegenteil — deshalb stand der Filterzähler auf 1, ohne
- * dass etwas ausgeblendet war (Daniel, 01.10.2026).
+ * **Jeder Chip trägt ein Zeichen** (Daniel, 02.10.2026: „finde passende icons für jeden
+ * schnellfilter (wie du es bereits bei nur favoriten gemacht hast)"). ★ war der Anfang; die
+ * übrigen folgen demselben Muster — ein Zeichen, das die Zeile auf einen Blick lesbar macht.
+ *
+ * **Die beiden Ausblende-Chips sind Kurzformen echter Filter**, nicht eigene Schalter:
+ * „TV-Termine ausblenden" schließt die Plattform „TV" aus, „Disc-Termine ausblenden" die
+ * Release-Art „disc". Der zugehörige Chip in seiner Gruppe zeigt deshalb denselben Stand, und ein
+ * Klick an einer der beiden Stellen wirkt an der anderen (Daniel, 01.10.2026).
  */
 function SchnellSchalter({
   t,
@@ -228,7 +232,15 @@ function SchnellSchalter({
   suche?: BereichsSuche
 }) {
   const label = t('filter.schnell')
-  const texte = [t('filter.favourites'), t('filter.kostenlos'), t('filter.confirmedOnly'), t('filter.tvAusblenden'), t('filter.available')]
+  const discAus = filters.excluded.releaseTypes.includes('disc')
+  const texte = [
+    t('filter.favourites'),
+    t('filter.kostenlos'),
+    t('filter.confirmedOnly'),
+    t('filter.tvAusblenden'),
+    t('filter.discAusblenden'),
+    t('filter.available'),
+  ]
   return (
     <div className="border-b border-ak-linie px-3 py-2.5">
       <Bereich label={label} suche={suche} texte={texte} inline>
@@ -240,22 +252,27 @@ function SchnellSchalter({
         )}
         {zeigePille(suche, label, t('filter.kostenlos')) && (
           <Chip ton="gruen" active={filters.kostenlosOnly} onClick={() => set({ kostenlosOnly: !filters.kostenlosOnly })}>
-            {t('filter.kostenlos')}
+            <span aria-hidden="true">🆓</span> {t('filter.kostenlos')}
           </Chip>
         )}
         {zeigePille(suche, label, t('filter.confirmedOnly')) && (
           <Chip ton="gruen" active={filters.confirmedOnly} onClick={() => set({ confirmedOnly: !filters.confirmedOnly })}>
-            {t('filter.confirmedOnly')}
+            <span aria-hidden="true">✓</span> {t('filter.confirmedOnly')}
           </Chip>
         )}
         {setTvAn && zeigePille(suche, label, t('filter.tvAusblenden')) && (
           <Chip ton="gruen" active={tvAn === false} onClick={() => setTvAn(tvAn === false)}>
-            {t('filter.tvAusblenden')}
+            <TvZeichen className="size-3 opacity-80" /> {t('filter.tvAusblenden')}
+          </Chip>
+        )}
+        {zeigePille(suche, label, t('filter.discAusblenden')) && (
+          <Chip ton="gruen" active={discAus} onClick={() => set(toggleFilter(filters, 'releaseTypes', 'disc', 'exclude'))}>
+            <DiscZeichen className="size-3 opacity-80" /> {t('filter.discAusblenden')}
           </Chip>
         )}
         {showConfidence && zeigePille(suche, label, t('filter.available')) && (
           <Chip ton="gruen" active={filters.availableOnly} onClick={() => set({ availableOnly: !filters.availableOnly })}>
-            {t('filter.available')}
+            <span aria-hidden="true">▶</span> {t('filter.available')}
           </Chip>
         )}
       </Bereich>
