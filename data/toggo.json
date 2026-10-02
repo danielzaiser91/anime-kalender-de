@@ -1,9 +1,8 @@
 {
-  "geholtAm": "2026-10-01T21:34:25.301Z",
+  "geholtAm": "2026-10-02T00:34:50.186Z",
   "titel": {
     "20": {
       "serie": "VSE361",
-      "adresse": "https://www.toggo.de/naruto-pty606/serien/naruto-vse361",
       "folgen": [
         {
           "staffel": 1,
@@ -134,7 +133,6 @@
     },
     "1735": {
       "serie": "VSE379",
-      "adresse": "https://www.toggo.de/naruto-pty606/serien/naruto-shippuden-vse379",
       "folgen": [
         {
           "staffel": 1,
@@ -440,7 +438,6 @@
     },
     "2116": {
       "serie": "VSE435",
-      "adresse": "https://www.toggo.de/captain-tsubasa-pty655/serien/captain-tsubasa--die-tollen-fusballstars-vse435",
       "folgen": []
     },
     "2225": {
@@ -455,7 +452,6 @@
     },
     "3972": {
       "serie": "VSE432",
-      "adresse": "https://www.toggo.de/yu-gi-oh-pty647/serien/yu-gi-oh-5ds-vse432",
       "folgen": []
     },
     "9107": {
@@ -880,7 +876,6 @@
     },
     "20464": {
       "serie": "VSE433",
-      "adresse": "https://www.toggo.de/haikyu-pty652/serien/haikyu-vse433",
       "folgen": []
     },
     "21356": {
@@ -2174,6 +2169,7 @@
     },
     "158871": {
       "serie": "VSE292",
+      "adresse": "https://www.toggo.de/pokemon/serien/pokemon-horizonte-die-serie-vse292",
       "folgen": [
         {
           "staffel": 1,
@@ -2908,6 +2904,12 @@
           "bis": "2026-12-31T23:59"
         },
         {
+          "staffel": 3,
+          "folge": 41,
+          "ab": "2026-10-09T00:00",
+          "bis": "2027-12-31T23:59"
+        },
+        {
           "staffel": 1,
           "folge": 42,
           "ab": "2024-10-18T00:00",
@@ -2953,7 +2955,6 @@
     },
     "165159": {
       "serie": "VSE359",
-      "adresse": "https://www.toggo.de/beyblade-x-pty605/serien/beyblade-x-vse359",
       "folgen": [
         {
           "staffel": 2,
@@ -3046,6 +3047,12 @@
           "bis": "2027-12-31T23:59"
         },
         {
+          "staffel": 1,
+          "folge": 6,
+          "ab": "2024-12-13T00:00",
+          "bis": "2027-12-31T23:59"
+        },
+        {
           "staffel": 2,
           "folge": 6,
           "ab": "2025-09-19T00:00",
@@ -3059,7 +3066,7 @@
         },
         {
           "staffel": 1,
-          "folge": 6,
+          "folge": 7,
           "ab": "2024-12-13T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -3073,12 +3080,6 @@
           "staffel": 3,
           "folge": 7,
           "ab": "2026-07-10T00:00",
-          "bis": "2027-12-31T23:59"
-        },
-        {
-          "staffel": 1,
-          "folge": 7,
-          "ab": "2024-12-13T00:00",
           "bis": "2027-12-31T23:59"
         },
         {
@@ -3190,12 +3191,6 @@
           "bis": "2027-12-31T23:59"
         },
         {
-          "staffel": 1,
-          "folge": 14,
-          "ab": "2025-01-24T00:00",
-          "bis": "2027-12-31T23:59"
-        },
-        {
           "staffel": 2,
           "folge": 14,
           "ab": "2025-10-17T00:00",
@@ -3209,7 +3204,7 @@
         },
         {
           "staffel": 1,
-          "folge": 15,
+          "folge": 14,
           "ab": "2025-01-24T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -3227,7 +3222,7 @@
         },
         {
           "staffel": 1,
-          "folge": 16,
+          "folge": 15,
           "ab": "2025-01-24T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -3245,8 +3240,8 @@
         },
         {
           "staffel": 1,
-          "folge": 17,
-          "ab": "2025-01-31T00:00",
+          "folge": 16,
+          "ab": "2025-01-24T00:00",
           "bis": "2027-12-31T23:59"
         },
         {
@@ -3263,7 +3258,7 @@
         },
         {
           "staffel": 1,
-          "folge": 18,
+          "folge": 17,
           "ab": "2025-01-31T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -3281,6 +3276,12 @@
         },
         {
           "staffel": 1,
+          "folge": 18,
+          "ab": "2025-01-31T00:00",
+          "bis": "2027-12-31T23:59"
+        },
+        {
+          "staffel": 1,
           "folge": 19,
           "ab": "2025-02-07T00:00",
           "bis": "2027-12-31T23:59"
@@ -3289,6 +3290,12 @@
           "staffel": 2,
           "folge": 19,
           "ab": "2025-11-07T00:00",
+          "bis": "2027-12-31T23:59"
+        },
+        {
+          "staffel": 3,
+          "folge": 19,
+          "ab": "2026-10-02T00:00",
           "bis": "2027-12-31T23:59"
         },
         {
@@ -3520,12 +3527,6 @@
           "bis": "2027-12-31T23:59"
         },
         {
-          "staffel": 1,
-          "folge": 39,
-          "ab": "2025-05-02T00:00",
-          "bis": "2027-12-31T23:59"
-        },
-        {
           "staffel": 2,
           "folge": 39,
           "ab": "2026-01-30T00:00",
@@ -3533,7 +3534,7 @@
         },
         {
           "staffel": 1,
-          "folge": 40,
+          "folge": 39,
           "ab": "2025-05-02T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -3545,8 +3546,8 @@
         },
         {
           "staffel": 1,
-          "folge": 41,
-          "ab": "2025-05-09T00:00",
+          "folge": 40,
+          "ab": "2025-05-02T00:00",
           "bis": "2027-12-31T23:59"
         },
         {
@@ -3557,7 +3558,7 @@
         },
         {
           "staffel": 1,
-          "folge": 42,
+          "folge": 41,
           "ab": "2025-05-09T00:00",
           "bis": "2027-12-31T23:59"
         },
@@ -3569,8 +3570,8 @@
         },
         {
           "staffel": 1,
-          "folge": 43,
-          "ab": "2025-05-16T00:00",
+          "folge": 42,
+          "ab": "2025-05-09T00:00",
           "bis": "2027-12-31T23:59"
         },
         {
@@ -3581,14 +3582,20 @@
         },
         {
           "staffel": 1,
-          "folge": 44,
-          "ab": "2025-05-23T00:00",
+          "folge": 43,
+          "ab": "2025-05-16T00:00",
           "bis": "2027-12-31T23:59"
         },
         {
           "staffel": 2,
           "folge": 44,
           "ab": "2026-02-27T00:00",
+          "bis": "2027-12-31T23:59"
+        },
+        {
+          "staffel": 1,
+          "folge": 44,
+          "ab": "2025-05-23T00:00",
           "bis": "2027-12-31T23:59"
         },
         {
@@ -3873,7 +3880,6 @@
     },
     "187052": {
       "serie": "VSE385",
-      "adresse": "https://www.toggo.de/sylvanian-families-pty613/serien/sylvanian-families-vse385",
       "folgen": [
         {
           "staffel": 1,
