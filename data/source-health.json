@@ -10,8 +10,8 @@
     "lastCount": 36
   },
   "crunchyroll": {
-    "lastOk": "2026-10-02T18:33:18.659Z",
-    "lastRun": "2026-10-02T18:33:18.659Z",
+    "lastOk": "2026-10-02T23:06:43.069Z",
+    "lastRun": "2026-10-02T23:06:43.069Z",
     "lastCount": 14
   },
   "anisearch": {
@@ -145,9 +145,9 @@
     "lastCount": 26
   },
   "tv-programm": {
-    "lastOk": "2026-10-02T18:33:27.164Z",
-    "lastRun": "2026-10-02T18:33:27.164Z",
-    "lastCount": 300
+    "lastOk": "2026-10-02T23:06:55.259Z",
+    "lastRun": "2026-10-02T23:06:55.259Z",
+    "lastCount": 301
   },
   "tv-de": {
     "lastOk": "2026-10-02T05:55:45.512Z",
@@ -180,13 +180,18 @@
     "lastCount": 2
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-10-02T18:33:24.554Z",
-    "lastRun": "2026-10-02T18:33:24.554Z",
+    "lastOk": "2026-10-02T23:06:49.089Z",
+    "lastRun": "2026-10-02T23:06:49.089Z",
     "lastCount": 46
   },
   "adn-news": {
     "lastOk": "2026-10-01T10:15:48.043Z",
     "lastRun": "2026-10-01T10:15:48.043Z",
     "lastCount": 75
+  },
+  "messbelege": {
+    "lastRun": "2026-10-02T23:06:54.415Z",
+    "lastCount": 0,
+    "lastError": "Ablage nicht erreichbar"
   }
 }
