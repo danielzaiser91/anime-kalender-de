@@ -537,24 +537,10 @@ function belegteDeutscheSynchro(t: Title, ersterTermin: Map<number, string>, heu
     Staffel noch nicht begonnen (`jpStart` fehlt bei angekündigten Titeln oft).
   */
   const beginnt = (!t.jpStart || t.jpStart <= heute) && !(termin && termin > heute)
-  /*
-    **Eine bloße Ankündigung ist keine Synchro** (02.10.2026, Overgeared).
-
-    Das Panel sagte für denselben Titel gleichzeitig „Noch keine deutsche Fassung" und zeigte
-    darunter die Meldung „Neu auf Deutsch · Erstmals mit deutscher Synchro": Der angekündigte
-    Termin (**OmU**, 27.09.) lag hinter uns, und damit galt der Titel über die Zeile
-    `termin <= heute` als „deutsch da" — obwohl die Ankündigung ausdrücklich nur *angekündigt*
-    ist und kein Stream Deutsch führt.
-
-    Der **belegte** deutsche Stream zählt weiter (unten), und ein Handbeleg mit Sprechrollen
-    ohnehin — nur der **Schluss aus einem verstrichenen Termin** ist gesperrt, solange die
-    Ankündigung nur angekündigt ist.
-  */
-  const nurAngekuendigt = (t as { ankuendigung?: { synchro?: string } }).ankuendigung?.synchro === 'angekuendigt'
   return (
     Boolean((t as { hasVoices?: boolean }).hasVoices) ||
     (beginnt && (t.streams ?? []).some((s) => s.dub === true)) ||
-    (!nurAngekuendigt && termin !== undefined && termin <= heute)
+    (termin !== undefined && termin <= heute)
   )
 }
 
