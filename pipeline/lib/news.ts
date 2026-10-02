@@ -188,6 +188,29 @@ interface CrNeueFolge {
 }
 
 /**
+ * **Steht der deutsche Start desselben Anbieters noch aus?** Dann ist es „angekündigt", nicht
+ * „neu" (Daniel am 02.10.2026 an der Apothekerin S3: Der 03.09.-Eintrag hieß „Neu auf Deutsch ·
+ * Erstmals mit deutscher Synchro bei Crunchyroll", „das muss heißen angekündigt und zum 02.10.").
+ *
+ * Die Regel vom 19.09.2026 — „neu auf Deutsch" nur, wenn die Synchro *an dem Tag zu sehen* ist —
+ * kannte nur den erreichten Termin. Ein **künftiger** Termin desselben Anbieters ist der Beweis
+ * für das Gegenteil: Es ist angekündigt. Steht er noch aus, fällt die Meldung dem
+ * `angekuendigt`-Eintrag zu, der denselben Termin ohnehin trägt.
+ */
+export function nurAngekuendigt(
+  releases: Release[],
+  titleId: number,
+  plattform: string | undefined,
+  erreicht: string | undefined,
+  heute: string,
+): boolean {
+  if (!plattform || erreicht) return false
+  return releases.some(
+    (r) => r.titleId === titleId && r.platform === plattform && (r.schedule?.firstEpisodeDate ?? '') > heute,
+  )
+}
+
+/**
  * Baut die Meldungen. `historie` wird dabei **ergänzt** — der Aufrufer schreibt
  * sie zurück, damit das Datum einer Meldung beim nächsten Bau dasselbe bleibt.
  */
@@ -223,7 +246,7 @@ export function baueNews(
       .filter((r) => r.titleId === t.id && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
       .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
     const erreicht = erreichtRelease?.schedule?.firstEpisodeDate
-    if (!anbieter && !erreicht) continue
+    if ((!anbieter && !erreicht) || nurAngekuendigt(releases, t.id, anbieter, erreicht, heute)) continue
     roh.push({
       schluessel: `neu:${t.id}`,
       fallback: anbieter || !erreicht || erreicht < n.seit ? n.seit : erreicht,

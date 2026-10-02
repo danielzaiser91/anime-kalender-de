@@ -68,6 +68,9 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span className={`self-start rounded px-1.5 text-xs ${NEWS_FARBE[z.m.art]}`}>{t(`news.art.${z.m.art}` as TranslationKey)}</span>
         <span className={`text-sm ${abgeloest ? 'text-ak-leise line-through' : 'text-ak-text'}`}>{newsSatz(z.m)}</span>
+        {/* Der Vermerk steht **neben** dem Satz, nicht darin: kurz in der Zeile, ausführlich daneben
+            (Daniel am 02.10.2026). */}
+        {z.m.hinweis && <span className="text-[11px] text-ak-leise">{z.m.hinweis}</span>}
         {abgeloest && <AbgeloestHinweis m={z.m} />}
         <BelegZeile belege={z.m.belege} className="self-start" />
       </span>

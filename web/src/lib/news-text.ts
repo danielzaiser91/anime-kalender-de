@@ -35,8 +35,10 @@ export function newsSatz(m: NewsMeldung): string {
         ? t('news.folge', { von: m.von ?? '', anbieter })
         : t('news.folgen', { von: m.von ?? '', bis: m.bis, anbieter })
     case 'angekuendigt':
-      /* Der Hinweis macht den Satz vollständig; der Quellenlink bleibt zum Nachsehen. */
-      return t('news.angekuendigt', { datum, anbieter }) + (m.hinweis ? ` ${m.hinweis}` : '')
+      /* **Der Satz bleibt kurz** (Daniel am 02.10.2026: „der eintrag beim 01.10. muss stark gekürzt
+         werden, extra infos können ausgeklappt werden"). Der Vermerk (`hinweis`) steht seitdem als
+         eigene, leisere Zeile daneben — in der Übersicht kurz, im Aufgeklappten ausführlich. */
+      return t('news.angekuendigt', { datum, anbieter })
     case 'disc':
       return t('news.disc', { datum })
     case 'kino':

@@ -537,6 +537,9 @@ function MeldungZeile({
       </div>
       {/* Die Belegzeile steht **unter** der Meldung, nicht in ihrer Zeile: In der Zeile wäre sie auf
           dem Handy zu breit (gemessen am 02.10.2026 — `check:news --handy` war rot). */}
+      {/* Der Vermerk erscheint **beim Aufklappen** unter der Meldung — in der Übersicht bleibt der
+          Satz kurz (Daniel am 02.10.2026). */}
+      {m.hinweis && <p className="pb-1 pl-2 pr-2 text-[10px] text-slate-400 dark:text-slate-500">{m.hinweis}</p>}
       <BelegZeile belege={m.belege} className="pb-1 pl-2" />
     </li>
   )

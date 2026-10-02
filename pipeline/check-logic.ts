@@ -135,7 +135,7 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung, quellenZusammenfuehren } from './lib/meldungen.ts'
-import { belegeVonRelease } from './lib/news.ts'
+import { belegeVonRelease, nurAngekuendigt } from './lib/news.ts'
 import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
 import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
 import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
@@ -6838,6 +6838,18 @@ pruefe(
   })
   pruefe('Verlauf: eine abgelöste Schätzung bleibt als Schätzung erkennbar', raus.length === 1 && raus[0]!.geschaetzt === true, raus[0])
   pruefe('Verlauf: sie steht als abgelöst (kein Nachfolger) da', raus[0]?.zurueckgezogen !== undefined, raus[0]?.zurueckgezogen)
+}
+{
+  /* **„Neu auf Deutsch" nur, wenn es an dem Tag zu sehen ist** (02.10.2026). Daniel an der
+     Apothekerin S3: Der 03.09.-Eintrag hieß „Erstmals mit deutscher Synchro bei Crunchyroll",
+     obwohl der deutsche Start erst am 02.10. war. Ein **künftiger** Termin desselben Anbieters
+     beweist das Gegenteil — es ist angekündigt. */
+  const rel = (titleId: number, platform: string, firstEpisodeDate?: string) =>
+    ({ titleId, platform, schedule: firstEpisodeDate ? { firstEpisodeDate } : {} }) as unknown as Release
+  pruefe('News: ein künftiger Termin macht „neu auf Deutsch" zur Ankündigung', nurAngekuendigt([rel(1, 'crunchyroll', '2026-10-02')], 1, 'crunchyroll', undefined, '2026-09-03'))
+  pruefe('News: ein erreichter Termin bleibt „neu auf Deutsch"', !nurAngekuendigt([rel(1, 'crunchyroll', '2026-08-01')], 1, 'crunchyroll', '2026-08-01', '2026-09-03'))
+  pruefe('News: ein künftiger Termin bei einem **anderen** Anbieter ändert nichts', !nurAngekuendigt([rel(1, 'netflix', '2026-10-02')], 1, 'crunchyroll', undefined, '2026-09-03'))
+  pruefe('News: ohne Termin bleibt es „neu auf Deutsch"', !nurAngekuendigt([], 1, 'crunchyroll', undefined, '2026-09-03'))
 }
 {
   /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */
