@@ -175,6 +175,14 @@ die Zuordnung Teil 1/2/3 folgt seiner Reihenfolge.
 Unser Trailer-Lauf (`pipeline/fetch-trailer.ts`: KinoCheck, TMDB-Videoliste, Label-Kanäle) findet Fan-Uploads nicht. **Offen/geparkt:** Handüberschreibung für Trailer (`data/trailer-von-hand.yaml`?) und Regel, ob Fan-Kanäle zulässig sind.
 **Lehre für das Zählwort:** Alle drei Filme sind belegt, aber **ohne** MyDubList und aniSearch; MyDubList hat sie nur zufällig richtig geführt. Zusammen mit Cat's Eye und Monsuno: kein einziger Fall, in dem MyDubList etwas wusste, was Wikipedia, Videobuster, fernsehserien.de oder Daniels Sichtung nicht auch lieferte — spricht für Streichen, sobald die Brücke steht.
 
+## 7f. Neuer Befund 03.10.2026, 00:20 — Slime Staffel 4: Prime-Kanal „24 Folgen deutsch", Crunchyroll 22 (Aufgabe für morgen)
+
+Daniel mit Bild: Panel zu „Staffel 4 – Teil 1" (Slime): „Nächste Folge (Folge 23) … am 09.10.2026 um 17:00", „22 von 24 Folgen erschienen", Pillen **Crunchyroll ✓ 22 Fg.** und **Prime Video (Crunchyroll) ✓ 24 Fg.** Daniel prüfte
+auf Crunchyroll: Folge 22 erschien am 02.10. auf Deutsch, Folge 23 nur Englisch-Dub, Folge 24 nur OmU — 24 deutsche Folgen bei Prime sind unmöglich. Vorläufige Fakten (nicht ausgewertet): Daniel meldete die Prime-Seite `B0GDGLLYLS` erneut (02.10., 24 Meldungen `9714…`,
+„alle 24 Folgen geprüft … ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"); am 29.09. kam dieselbe Staffel unter `B0CHH3X5QB` (Meldung 9261, ohne Zuordnung). Im Datensatz: Prime-Weg mit `kanal: Crunchyroll`, `dub: true`;
+Handbeleg vom 25.08.2026 Folgen 1–15. **Zu klären:** warum eine Kanal-Meldung, die sich selbst als „kein Beleg" kennzeichnet, trotzdem als Folgenbeleg zählt; wo die 24 entstehen; ob andere Prime-Kanal-Titel dasselbe zeigen.
+Eintrag in `status.md` (Queue). Gehört zum Themenkreis „Anbieter-Zuordnung" und „Wahrheit je Folge" (Meldemodell, `docs/konzept-meldungen-architektur.md`).
+
 ## 7c. Cat's Eye — Prime-Meldung vom 02.10.2026, 23:22 Uhr
 
 Daniel hat die Amazon-Seite gemeldet: Meldung `9713` im Briefkasten (Plattform Prime Video, `https://www.amazon.de/dp/0NRA8APAOPCTKPDYT08UOO3K4B`, Titel „Ein Supertrio - Cat's Eye", Sprache Deutsch,
