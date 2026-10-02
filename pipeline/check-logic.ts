@@ -6854,7 +6854,10 @@ pruefe(
 {
   /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */
   const news = readFileSync('pipeline/lib/news.ts', 'utf8')
-  pruefe('„Neu auf Deutsch" verlangt einen deutschen Stream oder einen erreichten Termin', news.includes('if (!anbieter && !erreicht) continue'))
+  pruefe('„Neu auf Deutsch" verlangt einen deutschen Stream oder einen erreichten Termin', news.includes('!anbieter && !erreicht'))
+  /* **Und ein noch ausstehender Termin desselben Anbieters macht daraus eine Ankündigung**
+     (02.10.2026, Apothekerin S3) — die Prüfung hängt an derselben Zeile. */
+  pruefe('und der ausstehende Termin desselben Anbieters wird abgefragt', news.includes('nurAngekuendigt(releases, t.id, anbieter, erreicht, heute)'))
 }
 {
   /* Beyblade X (19.09.2026): eine automatische TV-Sichtung verdrängt keinen belegten deutschen Stream. */
