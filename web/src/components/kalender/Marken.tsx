@@ -38,7 +38,8 @@ export function anbieterUndFolge(event: ReleaseEvent, t: Translate, bis?: number
   }
   /* Im Fernsehen nur die Folge: tv.de kennt die Gesamtzahl nicht (23.09.2026). */
   const gesamt = event.platform === 'tv' ? undefined : event.episodeCount
-  return `${anbieter} · ${gesamt ? t('kal.folgeVon', { n: event.episode, von: gesamt }) : t('kal.folge', { n: event.episode })}`
+  const von = event.episodeCountAssumed ? `≈${gesamt}` : gesamt
+  return `${anbieter} · ${gesamt ? t('kal.folgeVon', { n: event.episode, von: von! }) : t('kal.folge', { n: event.episode })}`
 }
 
 /**

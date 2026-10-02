@@ -751,6 +751,8 @@ export interface ReleaseEvent {
   timeEstimated?: boolean
   episode?: number
   episodeCount?: number
+  /** Die Folgenzahl ist aus dem Wochentakt fortgeschrieben, nicht belegt — angezeigt mit „≈". */
+  episodeCountAssumed?: boolean
   releaseType: ReleaseType
   platform: PlatformId
   /** Bei `platform: 'tv'` der Sender — siehe `anbieterName()`. */

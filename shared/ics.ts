@@ -60,7 +60,7 @@ export function eventSummary(ev: ReleaseEvent): string {
   */
   if (ev.releaseType === 'weekly' && ev.episode && !ev.sichtung) {
     const vorn = istAusgeblieben(ev) ? '⚠ nicht erschienen: ' : ''
-    return `${vorn}${ev.name} – Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}`
+    return `${vorn}${ev.name} – Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCountAssumed ? '≈' : ''}${ev.episodeCount}` : ''}`
   }
   if (ev.releaseType === 'disc') return `${ev.name} (${type.short})`
   return ev.name

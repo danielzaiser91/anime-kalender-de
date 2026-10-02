@@ -165,7 +165,7 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
     erst am Ende verbunden, sonst bliebe ein führender Trennpunkt stehen.
   */
   const time = ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : ''
-  const episode = ev.episode && !ev.sichtung ? `Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}` : ''
+  const episode = ev.episode && !ev.sichtung ? `Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCountAssumed ? '≈' : ''}${ev.episodeCount}` : ''}` : ''
   const platform = PLATFORMS[ev.platform]
   /* Im Fernsehen ist der **Sender** die Auskunft, nicht das Wort „TV" (28.09.2026). */
   const plattformName = ev.platform === 'tv' && ev.sender ? ev.sender : platform.name
