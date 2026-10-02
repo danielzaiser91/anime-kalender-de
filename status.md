@@ -38,15 +38,20 @@ Messungen, verworfene Quellen) und alles, was Code-Kommentare „in `status.md`"
 | **📅 03.10.2026: Beleg-Ablage — erste Bilder prüfen** | 1 | Worker am 02.10. 21:41 ausgeliefert (Version a79221cf), `/beleg` antwortet (403 ohne, 200 mit Token, Ablage leer). Prüfen: `GET /beleg?liste=www` zeigt Messbelege aus dem Stundenlauf (Hana-Kimi 02.10.) und Artikelbilder aus `belege-lesen.ts` (Tageslauf); Wachhund `messbelege` grün. Danach offen: Datum und „unverändert seit" in der Quellenspalte. |
 | **📅 03.10.2026: News-Plan Schritt 6 — Ankündigung je Quelle, am Veröffentlichungstag** | 5 | [docs/wissen/news-plan.md](docs/wissen/news-plan.md). Schritte 1–5 stehen (02.10.). Offen: Die Ankündigung nennt heute den abgeleiteten Start (Hana-Kimi: 15.07., obwohl Folge 1 laut Kalender am 22.07. kam) und steht auf diesem Tag; richtig wäre je Quelle eine Meldung am Veröffentlichungstag mit dem, was sie sagt (aniSearch 29.06.: „ab 01.07. als Simuldub"). Braucht `veroeffentlichtAm` aus den Beleg-Lesungen (erster Lauf 03.10.) und klärt nebenbei, warum `firstEpisodeDate` 15.07. vor der ersten beobachteten Folge liegt. |
 
+| **Queue (02.10.2026): Datenbereinigung nach Gesamtanalyse — Phase 0 ohne aniSearch** | 5 | Bauprüfung schärfen (`pruefung.ts`: Slugs, Titel, Folgennummern, Datum monoton, `meta`-Zahlen), danach Hana-Kimi S2, Polar Opposites S2, Pokémon Reisen TOGGO plus, Lycoris Recoil, Anime Awards (`cr-GR3K50PZR`) reparieren. Messlatte: `node tools/daten-befund.mjs`. Plan und Begründung: [docs/wissen/sitzung-2026-10-02-analyse-und-umstellung.md](docs/wissen/sitzung-2026-10-02-analyse-und-umstellung.md) §8, Befunde `befund-2026-10-02.md`. **Wartet auf Daniels Freigabe.** |
+| **Queue (02.10.2026): Umstellung auf aniSearch (Brücke, Synchro-Angabe, Sprecher, Metadaten)** | 13 | Nach Token-Antwort: Test `/associated` + `/{id}/full`, Pilot Cat's Eye (zwei AniList-Einträge → aniSearch 2213), Zählwort an Belegklassen binden, MyDubList streichen/herabstufen, Triage der 115. Alle Entscheidungen und offenen Fragen: Sitzungsdoku §7. |
+
 ### Zu besprechen
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **Zu besprechen (02.10.2026): vier offene Entscheidungen der Gesamtanalyse** | 1 | (1) Zählwort streng „belegt" mit zwei Zahlen oder die 115 Titel ohne Beleg aus dem Hauptbestand; (2) 917 westliche Serien im „Anime-Kalender"; (3) Einheit Werk (73) oder Staffel (36+37) — vorher Stichprobe an 30 Mehrstaffel-Serien; (4) MyDubList streichen oder herabstufen. Rechtsprüfung Datenschutzerklärung und Lizenzen (ODbL, MyDubList) ist nicht beauftragt. Stand: Sitzungsdoku §7. |
 
 ### Warten auf Feedback
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **Warten auf aniSearch (02.10.2026): Token für die Database-API** | 1 | Daniel hat am 02.10. ca. 22:55 die Mail an `api@anisearch.com` abgeschickt (Projekt, geplante Nutzung: `/{id}/full`, `/associated`, `/titles`). Ohne Token geht die API trotzdem (1 Anfrage/s nachgefüllt, 30 je IP, Pflicht-User-Agent). Sobald die Antwort da ist: Token nach `my_secrets.md` und als GitHub-Secret, dann Test (Sitzungsdoku §8, Phase 1). |
 
 ### Beobachten (nicht im Footer)
 
