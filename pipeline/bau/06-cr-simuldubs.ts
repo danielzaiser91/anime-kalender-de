@@ -1,5 +1,5 @@
 import { slugify, log, warn } from '../lib/util.ts'
-import { werkTitel, derivedStart, observedEpisodes, ergaenzeCrWeg } from './titel-hilfen.ts'
+import { werkTitel, derivedStart, observedEpisodes, ergaenzeCrWeg, laufendeSerieImSlot } from './titel-hilfen.ts'
 import {
   normalizeTitle,
   durchlaufendeZaehlung,
@@ -101,7 +101,7 @@ export function ergaenzeCrSimuldubs({
           ? title.episodes
           : undefined
         : undefined
-    if (seenDates.length < 2 && (knownEpisodes ?? 1) === 1) {
+    if (seenDates.length < 2 && (knownEpisodes ?? 1) === 1 && !laufendeSerieImSlot(title, Number(slot.earliest.date.slice(0, 4)))) {
       const date = slot.earliest.date
       releases.push({
         slug,

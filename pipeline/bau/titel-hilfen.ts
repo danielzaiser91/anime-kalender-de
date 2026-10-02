@@ -555,6 +555,25 @@ export function derivedStart(slot: CrunchyrollEntry): { date: string; assumed: b
 }
 
 /**
+ * **Läuft diese Serie gerade? Dann ist ihr Slot ein Simulcast und kein Katalogabwurf**
+ * (02.10.2026, Overgeared).
+ *
+ * Anlass: Daniels Frage „staffel 1 folge 1 von overgeared ist am 27.09. erschienen, warum wird es
+ * nicht im premiere style angezeigt?" — Der Release stand als `batch` („nur einmal gesehen und
+ * eine Folge"), und `istStaffelstart()` verlangt `weekly`. Ursache: Für eine **laufende** Serie
+ * kennt AniList oft **keine Folgenzahl** (`episodes: undefined`), und dann sah der Slot aus wie
+ * ein Special.
+ *
+ * Die Unterscheidung braucht die Folgenzahl also **nicht**: Was eine TV-/ONA-Serie aus dem
+ * laufenden oder dem Vorjahr ist, wird wöchentlich ausgestrahlt. Filme, Specials und alte Serien
+ * bleiben beim bisherigen Weg (sie sind der Grund für den `batch`-Zweig).
+ */
+export function laufendeSerieImSlot(title: Title | undefined, slotJahr: number): boolean {
+  if (!title || (title.format !== 'TV' && title.format !== 'ONA')) return false
+  return !!title.jpYear && Math.abs(title.jpYear - slotJahr) <= 1
+}
+
+/**
  * **Der deutsche Crunchyroll-Slot trägt den Weg selbst** (02.10.2026).
  *
  * Anlass: Overgeared lief ab dem 27.09. als **Simuldub** — der Kalender führte den Slot mit

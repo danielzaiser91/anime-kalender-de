@@ -136,7 +136,7 @@ import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { releasesAus, terminDerMeldung, quellenZusammenfuehren } from './lib/meldungen.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
-import { ergaenzeCrWeg } from './bau/titel-hilfen.ts'
+import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
 import type { DatiertNews } from './lib/news-verlauf.ts'
 import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
 import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
@@ -6926,6 +6926,14 @@ pruefe(
     { ...basis, art: 'folgen', von: 2, bis: 2, am: '2026-10-04', schluessel: 'd' } as unknown as DatiertNews,
   ])
   pruefe('ein anderer Tag bleibt getrennt', andererTag.length === 2, andererTag.map((m) => m.am))
+}
+{
+  /* **Laeuft die Serie, ist ihr Slot ein Simulcast** (02.10.2026, Overgeared): AniList kennt fuer
+     laufende Serien oft keine Folgenzahl — ohne diese Unterscheidung wurde der Simuldub ein
+     `batch` und verlor Premieren- wie Finale-Kennzeichnung. */
+  pruefe('eine laufende TV-/ONA-Serie im Slot ist ein Simulcast', laufendeSerieImSlot({ format: 'ONA', jpYear: 2026 } as never, 2026) && laufendeSerieImSlot({ format: 'TV', jpYear: 2025 } as never, 2026))
+  pruefe('Film und Special bleiben Katalogabwurf', !laufendeSerieImSlot({ format: 'MOVIE', jpYear: 2026 } as never, 2026) && !laufendeSerieImSlot({ format: 'SPECIAL', jpYear: 2026 } as never, 2026))
+  pruefe('eine alte Serie und ein fehlender Titel sind kein Simulcast', !laufendeSerieImSlot({ format: 'TV', jpYear: 2014 } as never, 2026) && !laufendeSerieImSlot(undefined, 2026))
 }
 {
   /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */
