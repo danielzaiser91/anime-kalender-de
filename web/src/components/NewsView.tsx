@@ -8,6 +8,7 @@ import { hostVon, istLink } from '@shared/quelle.ts'
 import { todayIso, addDays } from '@shared/time.ts'
 import { AbgeloestHinweis } from './news-abgeloest.tsx'
 import { BelegZeile } from './news-belege.tsx'
+import { Klapptext } from './klapptext.tsx'
 
 /**
  * **Was sich getan hat — ein Anime, ein Tag, eine Zeile.**
@@ -539,7 +540,7 @@ function MeldungZeile({
           dem Handy zu breit (gemessen am 02.10.2026 — `check:news --handy` war rot). */}
       {/* Der Vermerk erscheint **beim Aufklappen** unter der Meldung — in der Übersicht bleibt der
           Satz kurz (Daniel am 02.10.2026). */}
-      {m.hinweis && <p className="pb-1 pl-2 pr-2 text-[10px] text-slate-400 dark:text-slate-500">{m.hinweis}</p>}
+      {m.hinweis && <p className="pb-1 pl-2 pr-2 text-[10px] text-slate-400 dark:text-slate-500"><Klapptext text={m.hinweis} /></p>}
       <BelegZeile belege={m.belege} className="pb-1 pl-2" />
     </li>
   )
