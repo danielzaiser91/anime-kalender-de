@@ -158,6 +158,7 @@ import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
+import { crunchyrollDatum, istArtikel, merkeLesung, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
@@ -7554,6 +7555,22 @@ pruefe(
     'Widerlegt: die Bauprüfung meldet einen geteilten Weg mit „deutsch" — und schweigt nach dem Lösen',
     meldetVorher === 1 && geteilteWegeTrotzWiderlegung([apo], vorher).length === 0,
   )
+
+  /* Beleg-Lesungen: Artikel erkennen, Crunchyrolls Datumszeile lesen, nur Änderungen merken. */
+  pruefe('Belege: Artikel ja, Kalender und Katalog nein',
+    istArtikel('https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026') &&
+      istArtikel('https://www.anisearch.de/article/216206,detektei-layton') &&
+      !istArtikel('https://www.crunchyroll.com/de/simulcastcalendar') && !istArtikel('https://www.anisearch.de/anime/20704'))
+  pruefe('Belege: „15. SEPT. 2026, 18:00 MESZ" ist der 15.09.2026', crunchyrollDatum('15. SEPT. 2026, 18:00 MESZ') === '2026-09-15' && crunchyrollDatum('1. OKT. 2026, 16:44 MESZ') === '2026-10-01')
+  const lesungen: BelegGedaechtnis = {}
+  const a = 'https://www.anime2you.de/news/1/x/'
+  const erst = merkeLesung(lesungen, a, { am: '2026-10-02', hash: 'h1', veroeffentlicht: '2026-08-01' })
+  const gleich = merkeLesung(lesungen, a, { am: '2026-10-09', hash: 'h1', veroeffentlicht: '2026-08-01' })
+  const anders = merkeLesung(lesungen, a, { am: '2026-10-16', hash: 'h2', veroeffentlicht: '2026-08-01', aktualisiert: '2026-10-15' })
+  pruefe('Belege: gleicher Text rückt nur „zuletzt" vor, neuer Text wird eine Lesung',
+    erst && !gleich && anders && lesungen[a]!.lesungen.length === 2 && lesungen[a]!.zuletzt === '2026-10-16' && unveraendertSeit(lesungen[a]) === '2026-10-16')
+  pruefe('Belege: nie gelesene zuerst, frisch gelesene warten ihren Abstand ab',
+    JSON.stringify(warteschlange([a, 'https://www.anime2you.de/news/2/y/'], lesungen, '2026-10-20', 7, 5)) === '["https://www.anime2you.de/news/2/y/"]')
 
   /* JustWatch: neue Fehlschläge sagen nichts über die Schnittstelle, verlorene Treffer schon. */
   pruefe('JustWatch: der Lauf vom 28.09.2026 (26 Treffer, 2 leer, 0 verfehlt) ist plausibel', !istUnplausibel({ getroffen: 26, leer: 2, verfehlt: 0 }))

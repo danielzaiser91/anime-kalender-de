@@ -153,6 +153,9 @@ QUELLEN=(
   # Gedächtnis trägt sie über das Wochenfenster hinaus — ohne es fiele die
   # Widerlegung zurück, sobald die Vorschau weiterzieht.
   data/widerlegte-termine.json
+  # Lesungen der Artikel-Belege (Hash, Veröffentlicht/Aktualisiert, Schlüssel der privaten Bilder)
+  # — schreibt pipeline/belege-lesen.ts im täglichen Lauf.
+  data/beleg-lesungen.json
   # Gesichtete Anime-Sendungen im TV-Programm von RTL+ — die Seite zeigt nur
   # den laufenden Tag, das Gedächtnis entsteht erst hier (16.09.2026).
   data/tv-programm.json

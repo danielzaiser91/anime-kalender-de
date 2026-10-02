@@ -998,3 +998,23 @@ Abzeichen der Mail — ein Nachbau würde den Nachbau prüfen.
 ```bash
 node node_modules/tsx/dist/cli.mjs tools/newsletter-probe.ts
 ```
+
+## Beleg-Ablage: privat in R2, gelesen im täglichen Lauf (02.10.2026)
+
+Daniel am 02.10.2026: Screenshots der Belege ja, aber **privat**.
+
+- **Bucket** `anime-kalender-belege`: seit 02.10.2026 ohne öffentlichen Zugang — `r2.dev` abgeschaltet
+  (`wrangler r2 bucket dev-url disable`), Domain `belege.anime-kalender.de` gelöst. Nichts im Code
+  verwies darauf.
+- **Zugang nur über den Worker:** Bindung `BELEGE` in `worker/wrangler.toml`, Route `/beleg`
+  (`worker/src/beleg.ts`) mit `LAUF_TOKEN` — `POST ?key=` legt ab, `GET ?key=` liefert,
+  `GET ?liste=<präfix>` zählt auf. **Wirkt erst nach `wrangler deploy`**; bis dahin antwortet
+  der alte Worker mit 404, und die Lesungen bleiben ohne Bild (das Bild wird nachgeholt).
+- **Leser:** `pipeline/belege-lesen.ts` im Schritt „Belege lesen" von `refresh-data.yml` —
+  Artikel aus `releases.json` (Crunchyroll-News, Anime2You, aniSearch-Artikel, ADN-News; 144 am
+  02.10.2026), je Lauf 25, jeder alle 7 Tage. Gedächtnis `data/beleg-lesungen.json`.
+- **Gemessen am 02.10.2026 (lokal):** Hash stabil über zwei Lesungen bei Anime2You, aniSearch und
+  ADN. Der Text steht in `<article>` (Anime2You, Crunchyroll) oder `<main>` (aniSearch; ADN hat ein
+  leeres `<article>`). **ADN liefert mit Desktop-UA eine leere Seite**, Crunchyroll braucht ihn —
+  deshalb zwei Seiten mit verschiedenem UA. Crunchyroll ist lokal kopflos gesperrt (Hülle, 964
+  Zeichen); auf dem Runner liest derselbe Weg das Wochenprogramm stündlich.
