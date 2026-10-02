@@ -3021,3 +3021,20 @@ Kalenders und ist als „welche Folge wir wann gesehen haben" dokumentiert — b
 **Die gemeinsame Lehre:** Vier Stellen lesen denselben Anbieter — Kalender, Wochenprogramm,
 neuer-Folgen-Feed, deutscher Katalog — und **keine vergleicht sich mit den anderen**. Ein deutscher
 Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
+
+## Crunchyrolls Season-Lineup-Artikel: in Edge lesbar, von hier nicht (02.10.2026)
+
+- **Was funktioniert:** In Daniels Edge (Claude-Erweiterung) rendert der Artikel vollständig —
+  `<article>`, `<h1>`, je Titel „Studio / OmU: <Datum> / DE: TBA", dazu „Veröffentlicht" und
+  „Aktualisiert" mit Uhrzeit. Ein Update steht als eigene Zeile oben („UPDATE 1. Oktober: Dragon
+  Ball Super: Beerus wurde hinzugefügt!").
+- **Bauart:** Next.js mit React Server Components (`self.__next_f`), Inhalt aus **Storyblok**
+  (Space 178900, Bilder von `a.storyblok.com`). Beim Laden gibt es **keinen** JSON-Abruf für den
+  Text — er steckt serverseitig gerendert im HTML. Deshalb liefert ein Abruf ohne Browser nur die
+  Cloudflare-Hülle (gemessen 28.09.).
+- **Verworfen ohne Daniels Ja:** Storyblok-CDN-API mit dem öffentlichen Token aus dem Seitencode —
+  technisch naheliegend, aber ein fremdes Frontend-Token in unserem Abruf ist eine Grauzone; die
+  Erweiterung blockt das Auslesen ohnehin („sensitive key").
+- **Gewählter Weg:** Abgleich von Hand über Edge, wenn ein Artikel ein Update trägt. Am 02.10.:
+  56 Titel, 13 mit „DE: TBA" (deckt sich mit `data/ankuendigungen.yaml`), neu nur Beerus
+  (AniList 206814, OmU 11.10., keine DE-Zeile) — eingetragen.
