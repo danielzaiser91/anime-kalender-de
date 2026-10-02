@@ -203,17 +203,42 @@ function hashAufraeumen(neu: AppRoute, hash: string): void {
  */
 export function syncSharePath(release: string | undefined, titelSlug?: string): void {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '')
-  /* Ein offener Titel ohne Termin hat seit dem 19.09.2026 eine eigene Seite unter `/t/`. */
-  const target = release
-    ? `${base}/r/${encodeURIComponent(release)}/`
-    : titelSlug
-      ? `${base}/t/${encodeURIComponent(titelSlug)}/`
-      : `${base}/`
+  const target = zielPfad(release, titelSlug)
   if (window.location.pathname === target) return
   // Nur innerhalb der eigenen Seite umschreiben. Läuft die App aus einem
   // Unterverzeichnis, das nicht zum Muster passt, bleibt der Pfad unangetastet.
   if (!window.location.pathname.startsWith(`${base}/`)) return
   history.replaceState(history.state, '', target + window.location.search + window.location.hash)
+}
+
+/** Der Pfad zur geöffneten Karte; ein Titel ohne Termin hat eine eigene Seite unter `/t/`. */
+function zielPfad(release: string | undefined, titelSlug?: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+  if (release) return `${base}/r/${encodeURIComponent(release)}/`
+  return titelSlug ? `${base}/t/${encodeURIComponent(titelSlug)}/` : `${base}/`
+}
+
+const panelOffen = (r: Pick<AppRoute, 'release' | 'title'>) => Boolean(r.release || r.title)
+
+/**
+ * **Zurück schließt das Panel** (Daniel, 02.10.2026: auf dem Handy sprang „zurück" zur Woche davor
+ * oder beendete die App). Der offene Titel steht nur im Pfad, und dessen Umschreiben legt keinen
+ * Verlaufseintrag an. Deshalb bekommt das Öffnen einen eigenen Eintrag (`state.panel`); Zurück nimmt
+ * ihn weg, und das ✕ geht denselben Schritt, statt einen zweiten Eintrag zu stapeln.
+ */
+function panelVerlauf(route: AppRoute, next: Partial<AppRoute>, merged: AppRoute): 'zurueck' | 'eintrag' | undefined {
+  const nurPanel = Object.keys(next).every((k) => k === 'release' || k === 'title')
+  if (panelOffen(route) && !panelOffen(merged) && nurPanel && history.state?.panel) return 'zurueck'
+  if (!panelOffen(route) && panelOffen(merged)) return 'eintrag'
+  return undefined
+}
+
+/** Ein geteilter Link öffnet direkt ein Panel: darunter liegt die Ansicht ohne Panel, damit Zurück erst das Panel schließt. */
+function panelUnterlegen(route: AppRoute): void {
+  if (!panelOffen(route) || history.state?.panel) return
+  const url = window.location.pathname + window.location.search + window.location.hash
+  history.replaceState(null, '', zielPfad(undefined) + window.location.search + buildHash({ ...route, release: undefined, title: undefined }))
+  history.pushState({ panel: true }, '', url)
 }
 
 export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
@@ -226,6 +251,7 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
       setRoute(neu)
     }
     onChange()
+    panelUnterlegen(mitPfad(parseHash(window.location.hash), window.location.pathname))
     /*
       **Auch `popstate`, nicht nur `hashchange`**. `syncSharePath` schreibt nach jedem Hash-Wechsel den
       Pfad auf `/r/<slug>/` um. Zwei Verlaufseinträge unterscheiden sich dann nicht nur im Hash,
@@ -246,9 +272,15 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
 
   const navigate = (next: Partial<AppRoute>) => {
     const merged: AppRoute = { ...route, ...next }
+    const verlauf = panelVerlauf(route, next, merged)
+    if (verlauf === 'zurueck') return history.back()
+    const hash = buildHash(merged)
+    if (verlauf === 'eintrag') {
+      history.pushState({ panel: true }, '', zielPfad(merged.release) + window.location.search + hash)
+      return setRoute(merged)
+    }
     /* Pfad zuerst — ohne `r` im Hash ist `/r/<slug>/` die einzige Spur des Titels. */
     syncSharePath(merged.release)
-    const hash = buildHash(merged)
     if (hash !== window.location.hash) window.location.hash = hash
     else setRoute(merged)
   }
