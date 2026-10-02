@@ -3032,7 +3032,7 @@ Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
   (Space 178900, Bilder von `a.storyblok.com`). Beim Laden gibt es **keinen** JSON-Abruf für den
   Text — er steckt serverseitig gerendert im HTML. Deshalb liefert ein Abruf ohne Browser nur die
   Cloudflare-Hülle (gemessen 28.09.).
-- **Verworfen ohne Daniels Ja:** Storyblok-CDN-API mit dem öffentlichen Token aus dem Seitencode —
+- **Verworfen, von Daniel bestätigt (02.10.2026, „Weiter von Hand"):** Storyblok-CDN-API mit dem öffentlichen Token aus dem Seitencode —
   technisch naheliegend, aber ein fremdes Frontend-Token in unserem Abruf ist eine Grauzone; die
   Erweiterung blockt das Auslesen ohnehin („sensitive key").
 - **Gewählter Weg:** Abgleich von Hand über Edge, wenn ein Artikel ein Update trägt. Am 02.10.:

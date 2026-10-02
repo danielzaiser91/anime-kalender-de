@@ -42,8 +42,6 @@ Messungen, verworfene Quellen) und alles, was Code-Kommentare „in `status.md`"
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Frage (02.10.2026): Season-Lineup über Storybloks CDN-API lesen?** | 1 | Crunchyrolls News-Artikel kommen aus Storyblok (Space 178900); deren CDN-API liefert sie als JSON, braucht aber das öffentliche Token aus Crunchyrolls Seitencode. Technisch der saubere Weg zu einem automatischen Leser — rechtlich eine Grauzone (fremdes Frontend-Token). Bis zu einem Ja: Abgleich von Hand über Edge. |
-| **Frage (02.10.2026): Edge minimiert starten — darf ich Edge zum Messen beenden?** | 1 | Edge ploppte beim Start auf, weil das Minimieren erst nach 10 s greift. Messskript mit Startinfo `SW_SHOWMINNOACTIVE` liegt bereit; der Auto-Modus hat das dafür nötige Beenden von Edge abgelehnt. Braucht dein Ja (oder du beendest Edge, dann messe ich beim nächsten Start). |
 
 ### Warten auf Feedback
 
