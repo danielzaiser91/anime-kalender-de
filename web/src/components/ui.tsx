@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, useId, useLayoutEffect, useRef, useState, type ReactElement, type ReactNode } from 'react'
+import { cloneElement, isValidElement, useEffect, useId, useLayoutEffect, useRef, useState, type MouseEvent, type ReactElement, type ReactNode, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { FSK_COLORS, PLATFORMS, RELEASE_TYPES, anbieterName } from '@shared/types.ts'
 import type { Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
@@ -665,6 +665,7 @@ export function Tooltip({
   const anker = useRef<HTMLSpanElement>(null)
   const blase = useRef<HTMLSpanElement>(null)
   const zuTimer = useRef<number>(undefined)
+  const tipp = useTippVerhalten(anker, offen, () => setOffen(false), Boolean(eigenerFokus ?? (isValidElement(children) && (children.type === 'a' || children.type === 'button'))))
   /**
    * Kennung, mit der der Auslöser auf seine Blase zeigt.
    *
@@ -730,10 +731,12 @@ export function Tooltip({
       onBlur={() => setOffen(false)}
       /* Auf dem Handy gibt es kein Überfahren: Antippen zeigt die Blase drei Sekunden (19.09.2026). */
       onTouchStart={() => {
+        tipp.beimAntippen()
         setOffen(true)
         window.clearTimeout(zuTimer.current)
         zuTimer.current = window.setTimeout(() => setOffen(false), 3000)
       }}
+      onClickCapture={tipp.beimKlick}
     >
       <span
         tabIndex={kindFokus ? undefined : 0}
@@ -780,4 +783,35 @@ export function Tooltip({
         )}
     </span>
   )
+}
+
+/**
+ * **Ein Tooltip antippen heißt den Tooltip meinen** (Daniel, 02.10.2026). Auf einer Kalenderkarte
+ * öffnete das Antippen von „≈" zugleich das Detail-Panel, und die Blase stand darüber. Ein Klick nach
+ * einem Antippen geht deshalb nicht an das darunterliegende Element weiter — außer der Tooltip
+ * umschließt selbst einen Knopf oder Link, der den Klick braucht. Und eine offene Blase schließt
+ * sich, sobald irgendwo außerhalb getippt oder geklickt wird.
+ */
+function useTippVerhalten(anker: RefObject<HTMLSpanElement | null>, offen: boolean, schliessen: () => void, kindBedienbar: boolean) {
+  const perTouch = useRef(false)
+  useEffect(() => {
+    if (!offen) return
+    const draussen = (e: Event) => {
+      if (!anker.current?.contains(e.target as Node)) schliessen()
+    }
+    document.addEventListener('pointerdown', draussen, true)
+    return () => document.removeEventListener('pointerdown', draussen, true)
+  }, [offen, anker, schliessen])
+  return {
+    beimAntippen: () => {
+      perTouch.current = true
+    },
+    beimKlick: (e: MouseEvent) => {
+      if (perTouch.current && !kindBedienbar) {
+        e.stopPropagation()
+        e.preventDefault()
+      }
+      perTouch.current = false
+    },
+  }
 }
