@@ -3007,7 +3007,8 @@ vorher behauptet wurde.** Der Mechanismus dafür steht bereit: `zurueckgezogen` 
 
 **Gebaut am 02.10.2026** in `pipeline/bau/widerlegung-woche.ts`: Die Prüfung setzt `Release.widerlegt`
 vor dem Auffalten (kein Ereignis, keine „Erste Folge erscheint heute") und erzeugt die
-`zurueckgezogen`-Meldung nur bei behaupteten Terminen (`gemeldet`). Belegt am gebauten Bestand
+`zurueckgezogen`-Meldung nur bei behaupteten Terminen (`gemeldet`). Das Gedächtnis
+`data/widerlegte-termine.json` trägt sie über das Wochenfenster hinaus. Belegt am gebauten Bestand
 (Lauf `37008356908`): Apothekerin S3 mit Meldung, Black Clover S2 still.
 
 **4. `observed` darf nichts aus der Zukunft tragen.** `observed` entsteht aus den Slots des
