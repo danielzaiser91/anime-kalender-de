@@ -7,6 +7,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
 import { tageDerWoche, type Tag } from './WeekView.tsx'
+import { buendeleTermine } from '../lib/buendel.ts'
 import { Schwebe } from './kalender/Schwebe.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { FernsehZeichen } from './kalender/Zeichen.tsx'
@@ -20,6 +21,8 @@ export interface MonatProps {
   onOpen: (slug: string, date: string) => void
   /** Tag in der Woche zeigen (springt dort zu diesem Tag). */
   onPickDay: (date: string) => void
+  /** Je gebündeltem Termin die letzte Folge des Bündels (`buendeleTermine`) — nur innerhalb einer Zelle gesetzt. */
+  folgenBis?: Map<string, number>
 }
 
 /** Wie viele Cover eine Zelle zeigt; ab einem mehr steht an der letzten Stelle „+N". */
@@ -64,8 +67,11 @@ export function MonthView(p: MonatProps) {
   )
 }
 
-function MonatsZelle({ tag, p, heute, vorbei, t }: { tag: Tag; p: MonatProps; heute: boolean; vorbei: boolean; t: ReturnType<typeof useLang>['t'] }) {
-  const stream = tag.stream.filter((e) => !p.hidden.has(e.titleId))
+function MonatsZelle({ tag, p: alle, heute, vorbei, t }: { tag: Tag; p: MonatProps; heute: boolean; vorbei: boolean; t: ReturnType<typeof useLang>['t'] }) {
+  /* Vier Folgen desselben Titels am selben Tag sind ein Bündel — wie in der Woche (Polar Opposites S2, 04.10.2026). */
+  const gruppen = buendeleTermine(tag.stream.filter((e) => !alle.hidden.has(e.titleId)), (ev) => !!ev.verpasst || !!art(ev, alle.data))
+  const stream = gruppen.map((g) => g[0]!)
+  const p = { ...alle, folgenBis: new Map(gruppen.filter((g) => g.length > 1 && g.at(-1)!.episode).map((g) => [g[0]!.id, g.at(-1)!.episode!])) }
   /* Ist das Fernsehen ausgeschaltet, stehen hier nur noch Premieren (App, 19.09.2026). */
   const tv = tag.tv
   const rahmen = [
@@ -274,7 +280,7 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
           )}
         </span>
         <span className="line-clamp-2 text-[13px] font-bold leading-snug text-ak-text">{ev.name}</span>
-        <span className="text-xs text-ak-leise">{anbieterUndFolge(ev, t)}</span>
+        <span className="text-xs text-ak-leise">{anbieterUndFolge(ev, t, p.folgenBis?.get(ev.id))}</span>
       </span>
     </button>
   )

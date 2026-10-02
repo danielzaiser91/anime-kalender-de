@@ -46,6 +46,7 @@ export const TEXTE_KALENDER = {
   'kal.folge': 'Folge {n}',
   'kal.folgeVon': 'Folge {n}/{von}',
   'kal.folgen': '{n} Folgen',
+  'kal.folgenSpanne': 'Folgen {von}–{bis}',
   'kal.mehrLabel': 'Alle {n} Termine am {datum} zeigen',
   'kal.alleAmTag': 'Alle Termine am {datum}',
   'kal.zurWoche': 'In der Woche zeigen',

@@ -28,9 +28,10 @@ export function ZeitMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
   )
 }
 
-/** „Anbieter · Folge 3/12" unter dem Titel; im Fernsehen der Sender. */
-export function anbieterUndFolge(event: ReleaseEvent, t: Translate): string {
+/** „Anbieter · Folge 3/12" unter dem Titel; im Fernsehen der Sender. Mit `bis` ein Bündel: „Folgen 8–11". */
+export function anbieterUndFolge(event: ReleaseEvent, t: Translate, bis?: number): string {
   const anbieter = event.platform === 'tv' ? (event.sender ?? PLATFORMS.tv.name) : PLATFORMS[event.platform].name
+  if (bis && event.episode && bis > event.episode) return `${anbieter} · ${t('kal.folgenSpanne', { von: event.episode, bis })}`
   /* Ein Film hat keine Folgen, eine TV-Sichtung zählt Sichtungen — beide ohne Angabe (17.09.2026). */
   if (!event.episode || event.sichtung || event.releaseType === 'movie') {
     return event.episodeCount && event.episodeCount > 1 && !event.episode ? `${anbieter} · ${t('kal.folgen', { n: event.episodeCount })}` : anbieter
