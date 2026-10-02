@@ -237,6 +237,9 @@ erst fertig, wenn auch das mitgeführt ist, was ihn später wiederfindet.**
 cd worker && npx wrangler deploy --config wrangler.toml
 ```
 
+**Ausliefern macht der Agent selbst**, nach jedem geprüften Commit unter `worker/src`, ohne
+Rückfrage (Daniel, 02.10.2026: „worker auslieferung in zukunft selber machen").
+
 **Aus der Wurzel bricht es ab**, und die Meldung führt in die Irre: „The
 `assets` property in your configuration is missing the required `directory`
 property" (29.08.2026) — und **`cd worker` allein genügt nicht**, das `--config` gehört dazu. Wrangler findet sonst `wrangler.jsonc` — die gehört zur
