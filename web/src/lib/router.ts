@@ -9,6 +9,7 @@ import {
   type ListKey,
 } from './filters.ts'
 import { todayIso } from '@shared/time.ts'
+import { vorliebenLesen, vorliebenNachfuehren } from './vorlieben.ts'
 
 export type ViewId =
   | 'woche'
@@ -118,15 +119,22 @@ export function parseHash(hash: string): AppRoute {
   const alt = ALTE_ANSICHTEN[pathPart]
   const view = (alt?.view ?? VIEWS.find((v) => v.id === pathPart)?.id ?? 'woche') as ViewId
 
+  /*
+    Die Schnellfilter kommen aus den Vorlieben im Browser. Eine Adresse mit `fav=1` & Co. (Push, alte Links)
+    schaltet sie für diese Ansicht zusätzlich ein; sie wird nie mehr geschrieben (`buildHash`).
+  */
+  const vorlieben = vorliebenLesen()
+  const excluded = readLists(params, 'x')
+  if (vorlieben.discAus && !excluded.releaseTypes.includes('disc')) excluded.releaseTypes = [...excluded.releaseTypes, 'disc']
   const filters: FilterState = {
     ...EMPTY_FILTERS,
     ...readLists(params, ''),
-    excluded: readLists(params, 'x'),
+    excluded,
     search: params.get('q') ?? '',
-    confirmedOnly: params.get('sicher') === '1',
-    favoritesOnly: params.get('fav') === '1' || !!alt?.favoriten,
-    availableOnly: params.get('wo') === '1' || !!alt?.verfuegbar,
-    kostenlosOnly: params.get('frei') === '1',
+    confirmedOnly: vorlieben.confirmedOnly || params.get('sicher') === '1',
+    favoritesOnly: vorlieben.favoritesOnly || params.get('fav') === '1' || !!alt?.favoriten,
+    availableOnly: vorlieben.availableOnly || params.get('wo') === '1' || !!alt?.verfuegbar,
+    kostenlosOnly: vorlieben.kostenlosOnly || params.get('frei') === '1',
     minConfidence: (params.get('conf') as DubConfidence) ?? 'low',
   }
 
@@ -144,12 +152,9 @@ export function buildHash(route: AppRoute): string {
   const params = new URLSearchParams()
   const f = route.filters
   writeLists(params, f, '')
-  writeLists(params, f.excluded, 'x')
+  /* „Disc ausblenden" ist eine Vorliebe und steht nicht in der Adresse (`vorlieben.ts`). */
+  writeLists(params, { ...f.excluded, releaseTypes: f.excluded.releaseTypes.filter((a) => a !== 'disc') }, 'x')
   if (f.search.trim()) params.set('q', f.search.trim())
-  if (f.confirmedOnly) params.set('sicher', '1')
-  if (f.favoritesOnly) params.set('fav', '1')
-  if (f.availableOnly) params.set('wo', '1')
-  if (f.kostenlosOnly) params.set('frei', '1')
   if (f.minConfidence !== 'low') params.set('conf', f.minConfidence)
   if (route.date !== todayIso()) params.set('d', route.date)
   if (route.title) params.set('t', String(route.title))
@@ -272,6 +277,8 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
 
   const navigate = (next: Partial<AppRoute>) => {
     const merged: AppRoute = { ...route, ...next }
+    /* Ändert sich ein Schnellfilter, wird er zur Vorliebe — vor dem Adresswechsel, den `parseHash` danach liest. */
+    vorliebenNachfuehren(route.filters, merged.filters)
     const verlauf = panelVerlauf(route, next, merged)
     if (verlauf === 'zurueck') return history.back()
     const hash = buildHash(merged)

@@ -85,8 +85,10 @@ Auslieferungsdateien (`public/data/`), gzip auf der Leitung, gemessen 02.10.2026
 ## 5. Oberfläche (Routen und Komponenten)
 
 Hash-Router (`web/src/lib/router.ts`): `#/woche`, `#/monat`, `#/datenbank`, `#/news`, `#/abo`, `#/newsletter`, `#/quellen`,
-`#/impressum`, `#/datenschutz`; Filter als Query (`p`, `anb`, `rt`, `st`, `fsk`, `y`, `g`, `kw`, `x…` = Ausschluss, `q`, `fav`, `wo`, `frei`,
-`sicher`, `conf`, `d`, `t`, `sort`). Der offene Titel steht **im Pfad**: `/r/<release-slug>/` (vorgerenderte Teilen-Seite mit
+`#/impressum`, `#/datenschutz`; Filter-Pillen als Query (`p`, `anb`, `rt`, `st`, `fsk`, `y`, `g`, `kw`, `x…` = Ausschluss, `q`, `conf`, `d`, `t`, `sort`).
+**Die fünf Schnellfilter** (Nur Favoriten, Kostenlos, Nur bestätigte, Disc ausblenden, Nur verfügbar) sind seit 02.10.2026 **Vorlieben in
+`localStorage`** (`lib/vorlieben.ts`, Schlüssel `vorlieben`; TV ausblenden: `tvAus`); `fav=1`, `frei=1`, `sicher=1`, `wo=1` werden nur noch gelesen
+(einmalige Aktivierung, z. B. Push-Link), nie geschrieben. Der offene Titel steht **im Pfad**: `/r/<release-slug>/` (vorgerenderte Teilen-Seite mit
 OG-Tags, `build-share-pages.ts`) bzw. `/t/<titel-slug>/`. Alte Adressen `#/agenda|favoriten|wo` leiten um (`ALTE_ANSICHTEN`).
 
 | Soll geändert werden … | … dann hier |
