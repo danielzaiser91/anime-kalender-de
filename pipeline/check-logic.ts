@@ -6846,10 +6846,16 @@ pruefe(
      beweist das Gegenteil — es ist angekündigt. */
   const rel = (titleId: number, platform: string, firstEpisodeDate?: string) =>
     ({ titleId, platform, schedule: firstEpisodeDate ? { firstEpisodeDate } : {} }) as unknown as Release
-  pruefe('News: ein künftiger Termin macht „neu auf Deutsch" zur Ankündigung', nurAngekuendigt([rel(1, 'crunchyroll', '2026-10-02')], 1, 'crunchyroll', undefined, '2026-09-03'))
-  pruefe('News: ein erreichter Termin bleibt „neu auf Deutsch"', !nurAngekuendigt([rel(1, 'crunchyroll', '2026-08-01')], 1, 'crunchyroll', '2026-08-01', '2026-09-03'))
-  pruefe('News: ein künftiger Termin bei einem **anderen** Anbieter ändert nichts', !nurAngekuendigt([rel(1, 'netflix', '2026-10-02')], 1, 'crunchyroll', undefined, '2026-09-03'))
-  pruefe('News: ohne Termin bleibt es „neu auf Deutsch"', !nurAngekuendigt([], 1, 'crunchyroll', undefined, '2026-09-03'))
+  pruefe('News: ein künftiger Termin macht „neu auf Deutsch" zur Ankündigung', nurAngekuendigt([rel(1, 'crunchyroll', '2026-10-02')], 1, 'crunchyroll', '2026-09-03'))
+  pruefe('News: ein erreichter Termin bleibt „neu auf Deutsch"', !nurAngekuendigt([rel(1, 'crunchyroll', '2026-08-01')], 1, 'crunchyroll', '2026-09-03'))
+  pruefe('News: ein künftiger Termin bei einem **anderen** Anbieter ändert nichts', !nurAngekuendigt([rel(1, 'netflix', '2026-10-02')], 1, 'crunchyroll', '2026-09-03'))
+  pruefe('News: ohne Termin bleibt es „neu auf Deutsch"', !nurAngekuendigt([], 1, 'crunchyroll', '2026-09-03'))
+  /* **Der Fall, der den ersten Entwurf überführte** (02.10.2026): Der *erreichte Disc-Termin* darf
+     die Ankündigung bei Crunchyroll nicht retten — sonst blieb die falsche Meldung stehen. */
+  pruefe(
+    'News: ein erreichter Termin eines **anderen** Anbieters rettet „neu auf Deutsch" nicht',
+    nurAngekuendigt([rel(1, 'disc', '2026-09-04'), rel(1, 'crunchyroll', '2026-10-02')], 1, 'crunchyroll', '2026-09-03'),
+  )
 }
 {
   /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */
@@ -6857,7 +6863,7 @@ pruefe(
   pruefe('„Neu auf Deutsch" verlangt einen deutschen Stream oder einen erreichten Termin', news.includes('!anbieter && !erreicht'))
   /* **Und ein noch ausstehender Termin desselben Anbieters macht daraus eine Ankündigung**
      (02.10.2026, Apothekerin S3) — die Prüfung hängt an derselben Zeile. */
-  pruefe('und der ausstehende Termin desselben Anbieters wird abgefragt', news.includes('nurAngekuendigt(releases, t.id, anbieter, erreicht, heute)'))
+  pruefe('und der ausstehende Termin desselben Anbieters wird abgefragt', news.includes('nurAngekuendigt(releases, t.id, anbieter, heute)'))
 }
 {
   /* Beyblade X (19.09.2026): eine automatische TV-Sichtung verdrängt keinen belegten deutschen Stream. */
