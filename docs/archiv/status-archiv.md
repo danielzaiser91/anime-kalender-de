@@ -1,0 +1,4940 @@
+# Archiv: Arbeitsgeschichte von anime-kalender-de
+
+Aus `status.md` ausgelagert am 02.10.2026. Offenes steht in [status.md](../../status.md).
+Bleibt stehen, damit eine verworfene Quelle nicht in drei Monaten ein zweites Mal geprüft wird.
+
+## Erledigte Queue-Einträge
+
+| Aufgabe | SP | Notiz |
+|---|---|---|
+| **Erledigt am 02.10.2026: Die vier Termine am 04.10. sind keine Rechnung — sie stehen so bei Crunchyroll** | 3 | **Befund (an der Quelle nachgesehen):** In `data/crunchyroll-woche.json` stehen für Serie `GT00365624` („You and I Are Polar Opposites Staffel 2") am **04.10.2026** genau zwei Zeilen: `{sprache:'ja', von:13, bis:13, zeit:'10:30'}` — das **japanische Finale** — und `{sprache:'de', von:8, bis:11, zeit:'10:30'}` — **vier deutsche Folgen auf einmal**. Die vier Einträge in unserem Kalender sind also **nicht** fortgeschrieben oder gestapelt, sondern wörtlich gelesen; `public/data/events.json` führt sie als `folge: 8/9/10/11`, gleiche Zeit, gleicher Release. **Damit sind die Fragen beantwortet:** Die deutsche Fassung hatte zwischen dem **06.09.** (Folge 7, die letzte) und dem 04.10. eine **Pause** und kommt dann als **Viererpaket** — die Pause steht in der Quelle, es fehlt keine News. Die japanische Ausstrahlung endet am selben Tag mit Folge 13. **Anlass:** Daniel am 02.10.2026 mit Bild: „es scheint eine wochenlange Pause zu sein, und wir stapeln alle errechneten Termine". |
+| **Erledigt am 02.10.2026: Der deutsche Simulcast-Slot trägt den Crunchyroll-Weg selbst — Overgeared und drei weitere sind wieder da** | 4 | **Ursache (an der Kette gefunden):** Die Runden in `pipeline/bau/09-4-3-katalog.ts` **beurteilen nur vorhandene** Crunchyroll-Wege (`stream.dub = …`) — **keine legt einen an**. Fehlt der Weg, schweigen alle; er entstand sonst nur aus Katalog oder Kuration, und der deutsche Katalog führt Overgeared nicht. Der Kalender-Slot aber kennt ihn: `rawTitle: „Overgeared Staffel 1 (Deutsch)"`. **Gebaut:** `ergaenzeCrWeg()` (`pipeline/bau/titel-hilfen.ts`) setzt den Weg aus dem Slot (`dub: true`, Zugang Abo); vorhandene Wege werden nie überschrieben. Aufgerufen in `06-cr-simuldubs.ts` nach der Titelzuordnung — dort kennt der Slot seinen Titel bereits. Drei Zusicherungen in `check:logic`. **Belegt am Bestand (Lauf `36999017670`):** `titles.json` führt 212888 jetzt mit Crunchyroll-Weg `dub: true`, und `npm run db:bestand -- --frage slots` fällt von **7 auf 1** — es bleibt nur „Crunchyroll Anime Awards" (kein Anime). **Damit sind alle vier echten Anime versorgt** (Overgeared, Aoashi, Elainas Reise, Fruits Basket), nicht nur der Anlass. Die vier hatten **zwei Ursachen**: Overgeared fehlte im deutschen Katalog, bei Aoashi, Elainas Reise und Fruits Basket kannte der Katalog die Kennung, aber kein Titel trug einen Weg darauf. **Offen (klein):** Der Titel trägt jetzt **zwei** Crunchyroll-Wege auf dieselbe Serie (`…/series/GT00384004` und `…/series/GT00384004/overgeared`) — die Bereinigung vergleicht Adressen als Zeichenketten, nicht Kennungen. |
+| **Erledigt am 02.10.2026: Das Wochenprogramm widerlegt einen deutschen Termin — Urteil „OmU bestätigt, Dub vermutet" und die Widerlegung als eigene News**  (mit drei Bildern), Wortlaut:** „es läuft im simuldub, wir hätten overgeared also selbst fortschreiben müssen" · „es ist in der wochenvorschau von crunchyroll angekündigt, wir haben die info bereits gescraped" · „crunchy hat für freitag kein apothekerin staffel 3 folge 1 eingetragen … sie haben bestätigt omu, aber de dub ist unbestätigt, es war nur unsere annahme das es im simuldub läuft, aber dieser wochenvorschau bestätigt, es wird keinen simuldub geben, damit ist bestätigt → **kein de synchro release von apothekerin heute am 02.10.**" **Seine Regel daraus:** Die zwei Artikel, die wir als Belege führen, sagen „angekündigt" und **weder Synchro noch Widerlegung** → das ist ein **schwaches** Urteil für den deutschen Start. Das **Wochenprogramm** listet für denselben Termin ausdrücklich **kein** `de` (`data/crunchyroll-woche.json`, Eintrag je Serie mit `sprache: ja|de`) → vom **selben Anbieter** → **starker Beleg**: Es kommt keine deutsche Synchro. **Zu bauen:** (1) eine Prüfung in der Pipeline, die einen deutschen Termin **widerlegt**, wenn die Wochenvorschau seinen Tag abdeckt und für die Serie nur `ja` führt — Ergebnis ist kein stilles Streichen, sondern `zurueckgezogen` (der Mechanismus steht in `pipeline/lib/news-verlauf.ts` genau dafür: „Nur, wenn eine Prüfung die Ankündigung widerlegt hat"); (2) das Urteil zweistufig führen: **OmU bestätigt, Dub vermutet** (schwach) → **durch den Anbieter widerlegt** (stark) — das gehört an den Termin, nicht nur in eine News; (3) **beide** Meldungen müssen erscheinen: die ursprüngliche Ankündigung (mit dem vermuteten deutschen Termin) **und** die Widerlegung.  **Ausmaß gemessen (02.10.2026, `data/crunchyroll-woche.json` gegen `public/data/releases.json`):** 180 Crunchyroll-Releases tragen einen deutschen Termin mit Serienkennung; von ihnen liegen **2 im Fenster des Wochenprogramms** — und **beide** werden von ihm **widerlegt** (nur `ja`, kein `de` am selben Tag): **Die Tagebücher der Apothekerin S3 (02.10.)** — Daniels Fall — und **Black Clover: Staffel 2 (03.10.)**, den bis jetzt niemand auf dem Schirm hatte. Die übrigen 178 liegen außerhalb des Fensters (die Vorschau deckt die kommende Woche).  **Und die zwei Fälle sind nicht gleich stark (02.10.2026 nachgesehen):** Bei der **Apothekerin** steht der deutsche Termin auf einer **Ankündigung** (schwach) — hier braucht die Widerlegung eine **Meldung** („ersetzt/widerlegt"), denn der Leser hat die Ankündigung gesehen. Bei **Black Clover S2** ist der deutsche Termin ohnehin nur **geschätzt** (`estimated: true`, `episodeCountAssumed: true`, Release `black-clover-s2-crunchyroll`, `weekly`, Start 03.10.) — dort **verschwindet die Schätzung von selbst**, sie braucht keine News, höchstens den Vermerk „Wochenprogramm führt nur OmU". Diese Unterscheidung gehört in den Bau: **widerlegt wird immer, gemeldet wird nur, was vorher behauptet wurde.** **Das heißt zweierlei:** Die Regel feuert **selten und dann präzise** — und sie findet Fälle, die unserer Annahme sonst stillschweigend folgen. **Nicht zu verwechseln:** Der `batch`-Zweig ist inzwischen erledigt (Simulcast-Regel), hier geht es um das **Urteil über den deutschen Ton**. **Gebaut (02.10.2026):** `pipeline/bau/widerlegung-woche.ts` liest die Wochenvorschau und setzt `Release.widerlegt`, wenn am selben Tag dieselbe Serienkennung dort nur `ja` führt — vor dem Auffalten, also ohne Ereignis und ohne „Erste Folge erscheint heute". Gemeldet wird nur, was behauptet war: Ein belegter deutscher Weg oder ein bestätigter Termin erzeugt die `zurueckgezogen`-Meldung; eine bloße Schätzung verschwindet still (`if (r.widerlegt?.gemeldet) continue` in `pipeline/lib/news.ts`). Der Antwortkasten hat dafür den Zustand `widerlegt`. **Belegt am Bestand (Lauf `37008356908`, grün):** `releases.json` führt für die Apothekerin S3 (02.10.) `widerlegt.gemeldet: true` — `news.json` zeigt die ursprüngliche 02.10.-Ankündigung als `zurueckgezogen` und die abgelöste 01.10.-Fassung mit `ersetzt`; für Black Clover S2 (03.10.) gilt `widerlegt.gemeldet: false`, die OmU-Ankündigung bleibt unangetastet. `events.json` führt für beide **0** Termine. Die Widerlegung steht im Gedächtnis `data/widerlegte-termine.json` und übersteht das Wochenfenster (sonst fiele sie zurück, sobald die Vorschau weiterzieht). Dreizehn Zusicherungen in `check:logic` mit den echten Fällen; `check:vor-commit`, `check:ansichten` und `check:panel` grün; Belegläufe `37008356908` und `37009090553` grün (2 widerlegt, 2 im Gedächtnis). |
+| **Erledigt am 02.10.2026: Eine laufende Serie im Slot ist ein Simulcast — Overgeared steht als „weekly" und trägt den Premieren-Stil** | 2 **Gebaut:** `laufendeSerieImSlot()` (`pipeline/bau/titel-hilfen.ts`) — eine **TV-/ONA-Serie aus dem laufenden oder dem Vorjahr** wird `weekly`, auch ohne bekannte Folgenzahl; Filme, Specials und alte Serien bleiben beim bisherigen `batch`-Weg (sie sind der Grund für den Zweig). `06-cr-simuldubs.ts` fragt es im `batch`-Zweig ab, drei Zusicherungen in `check:logic`. **Belegt am Bestand (Lauf `37001416491`):** `cr-GT00384004` steht jetzt als **`weekly`**, Start 27.09., `observed: {1: 27.09., 2: 04.10.}`, `episodeCount: 12` mit **`episodeCountAssumed: true`** (also „≈" im UI, ehrlich geschätzt). Damit greift `istStaffelstart()` und die Karte vom 27.09. bekommt ihren Premieren-Stil. **Anlass:** Daniel am 02.10.2026: „staffel 1 folge 1 von overgeared ist am 27.09. erschienen, warum wird es nicht im premiere style angezeigt?" |
+
+| Serie | deutscher Katalog kennt die Kennung | Titel im Bestand | Stream auf die Kennung | Folgen-Feed |
+|---|---|---|---|---|
+| **Overgeared** | **nein** | 212888, 0 Wege | keiner | **1 Folge (27.09.)** |
+| Aoashi | ja | 134732, 1 Weg | keiner | nichts |
+| Elainas Reise | ja | 112609, 1 Weg | keiner | nichts |
+| Fruits Basket | ja | vorhanden | keiner | nichts |
+
+| **Erledigt am 02.10.2026: Zwei News aus derselben Quelle werden eine — Overgeared zeigt jetzt eine Meldung** | 3 | **Anlass:** Daniel mit Bild: Am Panel standen am **27.09.** zwei Einträge aus derselben Quelle — „Neu auf Deutsch · Erstmals mit deutscher Synchro bei Crunchyroll" **und** „Neue Folgen · Folge 1 auf Deutsch bei Crunchyroll". „1 quelle = 1 news eintrag → beides muss gebündelt werden." **Gebaut:** `verschmelzeGleicheQuelle()` (`pipeline/lib/news.ts`) bündelt, wenn am **selben Tag**, beim **selben Titel und Anbieter** aus **derselben Quelle** eine `folgen`- neben einer `neu`-Meldung steht: Die `folgen`-Meldung fällt weg, ihre Spanne wandert in den Vermerk (`hinweis`), der als leisere Zeile unter dem Satz steht — Hauptaussage kurz, Rest im Kleingedruckten. Vier Zusicherungen in `check:logic`. **Belegt am Bestand (Lauf `37000222020`):** `news.json` führt für den 27.09. nur noch **eine** Meldung, `art: neu`, `hinweis: „Folge 1 auf Deutsch bei Crunchyroll"`. **Noch nicht gebaut — der zweite Teil seiner Ansage:** Wird ein Artikel später **aktualisiert** und bringt neue oder berichtigte Angaben, soll die Meldung mit **neuem Datumsstempel** dastehen und das **alte Datum im Kleingedruckten** behalten. Das ist der Lesungs-/Belegteil (Stufe 4 des Datenbank-Plans, wartet auf die R2-Entscheidungen). |
+| **Erledigt am 02.10.2026: Die Karte nennt jetzt „Folge 1/12" statt „Folge 1/1" — dieselbe Ursache wie beim Premieren-Stil** | 2 **Daniels Frage:** „warum steht nicht 1 folge in der crunchyroll pill?" **Ursache (dieselbe wie beim Premieren-Stil):** Der Release war `batch` mit `episodeCount: 1` — der `batch`-Zweig frisst den einen gesehenen Termin und macht daraus eine „1 von 1". Mit der Simulcast-Regel (`laufendeSerieImSlot`) führt der Release jetzt `observed: {1: 27.09., 2: 04.10.}` und `episodeCount: 12` (`episodeCountAssumed: true`). **Belegt am gebauten Bestand (Playwright):** Die Karte vom 27.09. liest sich **„16:30 · Staffelstart · Overgeared Staffel 1 · Crunchyroll · Folge 1/12"** — Premieren-Stil **und** Folgenspanne sind da. **Was bleibt:** Die Zahl ist **geschätzt** („≈"), weil sie aus dem Rhythmus fortgeschrieben ist; sobald die deutschen Folgen einzeln beobachtet sind, wird sie belegt. **Die Regel „keine Folgenzahl aus der Zahl der Termine" bleibt dabei unberührt** — hier kommt die Spanne aus `observed`, nicht aus Terminen. |
+| **Erledigt am 02.10.2026: News-Belege werden benannt und verlinkt; der gelbe Hinweis ist gekürzt** | 3 | **Anlass:** Daniel an der Apothekerin (mit Bild): „da steht 3 quellen, was ist die 3. quelle? … wir müssen hier alle 3 quellen benennen, direkt am news eintrag inkl link zu den 2 artikeln" und „außerdem text viel zu lang, lange texte sind nur erlaubt, im ausgeklappten zustand". **Die drei Belege sind (in `news.json` nachgesehen):** ① `…/news/latest/2026/8/16/die-tagebuecher-der-apothekerin-…` (16.08., nennt den 02.10.), ② `…/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026` (15.09.), ③ `…/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026` (15.09.) — die **dritte** ist der zweite Herbst-Artikel; **beide** stehen als Quellen in `data/ankuendigungen.yaml`. Die Zahl zählt also richtig **unique Artikel**; sie war nur nicht nachprüfbar, weil die Dokumente im Tooltip versteckt waren. **Gebaut:** `BelegZeile` nennt jetzt **jedes Dokument einzeln mit Link** (Name, Lesezeitpunkt im Tooltip) und zeigt „1 Quelle" in der Einzahl; der gelbe Hinweis ist auf „Für den 02.10.2026 angekündigt — ob OmU oder deutscher Ton, ist offen; wir rechnen mit Simuldub." gekürzt. **Noch offen (im Code vermerkt):** (1) Die **Aktualisierung** eines Artikels soll die Quelle **bestätigen** und als **Zuversicht** erscheinen — ausdrücklich **nicht** im Quellenzähler („nicht durch quellen zähler, sondern separiert als zuversicht der news zähler oder glaubhaftigkeit"). Dafür fehlen die **Lesungen** (Stufe 4 des Datenbank-Plans). (2) Der Antwortkasten soll den Hinweis **ausklappbar** anbieten statt nur gekürzt zu sein. |
+| **Erledigt am 02.10.2026: Datenbank-Filterfeld dockt unten an (wie im Kalender)** | 2 | **Gebaut:** `FilterBarDock` in `web/src/components/FilterBar.tsx` — derselbe Kasten, aber `fixed` am unteren Rand (`bottom-[calc(1rem+env(safe-area-inset-bottom))]`, `max-h-[calc(100dvh-3rem)]`, `overflow-y-auto`) und dahinter ein Platzhalter, damit die letzten Kacheln nicht darunter verschwinden. Vorher stand die Leiste oben im Fluss der Liste und war beim Scrollen weg. **Belegt:** am gebauten Bestand gemessen (Playwright) — Position `fixed`, 16 px über dem unteren Rand. `check:ansichten` (Desktop und Handy) ohne Überbreite. **Anlass:** Daniel am 02.10.2026: „auf reiter datenbank scrollt der filter nicht mit. dort so implementieren wie auf kalender reiter. also nicht oben anheften, sondern unten." |
+| **Erledigt am 02.10.2026: Die gewählten Filter stehen im Filterfeld (Kalender)** | 2 | **Gebaut:** `FilterFeld` nimmt den Streifen `AktiveFilter` oben auf (nur wenn wirklich etwas gewählt ist), die eigene Zeile über der Woche in `KalenderBereich` ist gestrichen — dieselbe Stelle wie im Datenbank-Reiter (`FilterBar`). **Folge (bewusst):** Ist das Feld zu, zeigt nur noch der Zähler am Filter-Knopf, dass etwas gesetzt ist. **Belegt:** am gebauten Bestand gemessen (Playwright) — im `#ak-filterfeld` steht der Streifen samt Entfernen-Knopf; `check:ansichten` grün. **Anlass:** Daniel am 02.10.2026: „die gewählten filter tauchen im kalender unter ‚diese woche' als zeile auf, aber nicht im ausgeklappten filter menü … die ausgewählten filter [sollen] in das filter menü wandern." |
+| **Erledigt am 02.10.2026: Schnellfilter „Disc-Termine ausblenden" + Symbole für alle Schnellfilter** | 2 | **Gebaut:** (1) Der neue Chip schließt die Release-Art `disc` aus (`toggleFilter(filters, 'releaseTypes', 'disc', 'exclude')`) — dieselbe Kopplung wie TV ↔ Plattform „TV": Der „DVD / Blu-ray"-Chip im Release-Art-Bereich zeigt denselben Stand. Belegt am Bestand: ein Klick setzt `#/woche?xrt=disc`, und der Streifen führt „⊘ DVD / Blu-ray". (2) **Jeder Schnellfilter trägt ein Zeichen:** ★ Favoriten · 🆓 kostenlos · ✓ bestätigt · TV-Zeichen · Disc-Zeichen · ▶ stream verfügbar. `DiscZeichen` ist dafür von `detail/pillen.tsx` nach `ui.tsx` gezogen (neben `TvZeichen`) — vom Detail-Modul gezogen hätte das Filterfeld das nachgeladene Detail-Bündel mitgeladen; `antwort-bereich.tsx` importiert es jetzt direkt aus `ui.tsx`. **Anlass:** Daniel am 02.10.2026: „füg als schnellfilter noch hinzu ‚disc termine ausblenden' und pack zu disc und tv termine ausblenden filter die icons hinzu. finde passende icons für jeden schnellfilter (wie du es bereits bei nur favoriten gemacht hast)". |
+| **Erledigt am 02.10.2026: „Staffel 4 - Teil 3" heißt jetzt „Teil 2" — der Teil zählt innerhalb der Staffel** | 2 | **Ursache (an der Quelle geprüft):** AniList 217331 heißt „Tensei Shitara Slime Datta Ken 4th Season Part 3" (nativ `第4期 第3クール` — *dritter Cour*), sein Vorgänger 182205 bei AniList „Part 1 & 2". **MAL** zählt anders: dort ist die 4. Staffel Teil 1 und der dritte Cour „Part 2" (idMal 63129). Wir hatten den **AniList-Namen wörtlich** genommen (`eindeutschenStaffel`: `Part 3` → `Teil 3`) und daneben den MAL-Link gesetzt — zwei Zählweisen in einer Zeile. **Gebaut:** `staffelBeschriftungen()` (`shared/titles.ts`) zählt den „Teil N" jetzt **innerhalb der Staffel** (`plaetzeInStaffel()`, 1-basiert in Reihenfolge). Der Name entscheidet weiterhin nur, **ob** eine Staffel Teile hat. **Ausmaß gemessen** (über alle Reihen aus `public/data/franchises.json`): 423 Reihen mit ≥2 Hauptstaffeln, 16 mit Teil-Labels, 25 Mitglieder mit `Part/Teil/Cour` im Namen — **genau eine** Beschriftung ändert sich (217331: `Teil 3` → `Teil 2`); dazu bekommt 182205 das passende `Teil 1`. **Belegt:** Zusicherung in `check:logic` (Slime-Reihe: „Staffel 4 - Teil 1" und „- Teil 2"), `check:vor-commit` grün, und am gebauten Panel gemessen (Playwright): die Reihe zeigt die beiden Labels, „Staffel 4 - Teil 3" kommt nirgends mehr vor. **Was das nicht löst:** Fehlt ein Glied in unserer Liste, zählt die Reihe trotzdem lückenlos — dann kann die Zahl vom fremden Namen abweichen (bewusst: die Liste soll für den Leser stimmig sein). **Anlass:** Daniel am 02.10.2026 mit dem Link `#/monat?xrt=disc&t=217331`: „warum sagen wir teil 3 obwohl es teil 2 ist?" |
+| **Erledigt am 02.10.2026: News-Einträge verbessert — „neu auf Deutsch" ist keine Ankündigung, Beleg und Satz stimmen** | 3 | **Gebaut:** (1) **Art:** `nurAngekuendigt()` (`pipeline/lib/news.ts`) unterdrückt eine „Neu auf Deutsch"-Meldung, wenn derselbe Anbieter einen **noch ausstehenden** Termin hat — dann ist es angekündigt, und der `angekuendigt`-Eintrag trägt denselben Termin ohnehin. Gemessen wird **am Tag der Meldung** (`n.seit`), nicht an heute: Der Bau am 02.10. fand den Termin vom 02.10. schon „erreicht" und ließ die 03.09.-Meldung stehen; und **am Anbieter**, nicht am Titel: Der erste Entwurf nahm jeden erreichten Termin als Ausnahme — beim Apothekerin-Titel war das der **Disc**-Termin vom 04.09., und die falsche Meldung blieb. (2) **Beleg:** Am gebauten Bestand geprüft — die Apothekerin-Ankündigung und die abgelöste Fassung führen jetzt den **16.08.-Artikel** (`.../latest/2026/8/16/die-tagebuecher-der-apothekerin-staffel-3-anime-release-date-trailer-visual`), der den 02.10. nennt. (3) **Länge:** Der Vermerk (`hinweis`) hängt nicht mehr am Satz; er steht als eigene, leisere Zeile — im Panel unter dem Satz, auf der Nachrichtenseite erst beim Aufklappen. **Belegt:** sieben Zusicherungen in `check:logic` (vier für die Regel, eine für den Anbieter-Fall, zwei für den Quelltext), `check:vor-commit` grün, Bestandslauf `36992697660` grün — die 03.09.-Meldung ist aus `public/data/news.json` verschwunden. **Zwischenfund (wichtig):** Eine Quelltext-Zusicherung suchte die alte Bedingung im Wortlaut und fiel beim Zusammenziehen um — der Bestandslauf brach ab und **übernahm nichts** (Läufe `36991027079`, `36991445347`); erst nach dem Anpassen der Zusicherung lief es durch. **Lehre:** Nach der letzten Zeilenänderung an einer Datei, die eine Zusicherung wörtlich prüft, gehört `check:logic` **danach** gefahren — mein erster Lauf war vor der letzten Kürzung. |
+| **Erledigt am 01.10.2026: Belegkette 1A–1D und Filtersuche live, `belege.anime-kalender.de` am Bucket** | 3 | **Anlass:** Apothekerin S3 stand plötzlich am 02.10. statt 01.10., ihr Beleg zeigte auf eine fremde aniSearch-Staffel, und ein kuratierter Termin trug als „Aussage der Quelle" unseren eigenen Termin. **Gebaut (`206a9601`):** (1A) eine Ankündigung nur mit Monat (`omuAb: „2026-10"`) setzt keinen Kalendertag mehr; (1B) `pipeline/lib/quellen-bindung.ts` verwirft Quellen mit fremder aniSearch-Anime-Kennung (Zusicherung gegen **alle** Kuratierungen); (1C) kuratierte Quellen erfinden kein `sagt: termin` mehr; (1D) `quellenZusammenfuehren` überschreibt den ersten Beleg nicht. Dazu „Crunchyroll News" für `/news/…`-Adressen und die Filter-Aufräumung (Knopf auf der Auswahlzeile, Release-Art/FSK/Jahr oben, `disc` nur als Release-Art — altes `xp=disc` wandert zu `xrt=disc`). **Filtersuche (`cf94b9f0`, `web/src/lib/filter-suche.ts`):** ein Feld in der Klick-Modus-Zeile durchsucht **alle** Pillen; ein Bereich ohne Treffer verschwindet samt Überschrift, ein ganzes Wort des Bereichstitels öffnet ihn ganz und wird hervorgehoben („der" ist Ignorierwort); die drei Einzelfelder (Genre, Keyword, …) entfallen; auch die Filter hinter „mehr Filter" werden durchsucht und klappen dabei auf. **Der TV-Chip heißt jetzt „TV-Termine ausblenden"** und leuchtet, wenn das Fernsehen **aus** ist — vorher hieß er „Fernsehen zeigen" und leuchtete im Gegenteil, deshalb stand der Filterzähler auf 1, ohne dass etwas ausgeblendet war. Er und der Plattform-Chip „TV" sind derselbe Filter (Zustand aus `tvAus`). **Damit ist der seit dem 01.10. rote „Aussehen prüfen"-Lauf wieder grün** (`tv-schalter-pruefen.mjs` suchte einen `role="switch"` mit altem Namen). **R2:** `belege.anime-kalender.de` hängt mit der Zone-ID `5165d3f6…` am Bucket `anime-kalender-belege` (SSL aktiv, `--min-tls 1.2`); Schreib-Lesetest über die Subdomain **HTTP 200** (Objekt danach gelöscht). Nur der lokale Resolver hängt noch im Cache. **Lauf:** Datenlauf `36929210007` angestoßen, Deploy grün. Zusicherungen für die Suchregeln in `check:logic`. |
+| **Erledigt am 01.10.2026: ↗-Symbol am „ersetzt durch"-Link ergänzt** | 1 | Der Verweis auf die ersetzende Meldung trägt jetzt dasselbe externe Pfeil-Symbol wie die übrigen Auswärts-Verweise (`web/src/components/news-abgeloest.tsx`). |
+| **Erledigt am 02.10.2026: „Sicherheit der Angaben: N Quellen" steht an der Meldung — nach Artikeln gezählt** | 2 | Daniels Entscheidung vom 01.10.2026 in die Anzeige gebracht. **Gezählt wird nach Adresse**: Ein zweimal gelesener oder später aktualisierter Artikel bleibt **eine** Quelle; nur ein weiteres Dokument kommt dazu, und eine überholte Quelle zählt nicht mehr. **Bau:** `belegeVonRelease()` (`pipeline/lib/news.ts`) legt die Belegliste je Termin an (dedupliziert über die Adresse, `stand: aktuell`), `NewsMeldung.belege` trägt sie (Typ `NewsBeleg`); die Zeile steht im Panel unter dem Satz und auf der Nachrichtenseite an der aufgeklappten Meldung. **Angezeigt wird erst ab zwei Belegen** — bei einem sagt sie nichts, was der Quellenlink nicht schon sagt („keine Information zweimal" aus CLAUDE.md); die einzelnen Dokumente (Verlag · gelesen am) stehen im Tooltip. **Belegt:** fünf Zusicherungen in `check:logic` (dieselbe Adresse zählt einmal, erster Lesezeitpunkt bleibt, überholte fallen, nackte `sources` zählen mit, ohne Quelle kein Eintrag); am echten Panel gemessen (Apothekerin S3, Playwright): „Sicherheit der Angaben: 3 Quellen", keine Überbreite. **Offen bleibt** „zuletzt aktualisiert"/„Termin unverändert seit …" — dafür fehlen die Lesungen (Zeile darunter). |
+| **Erledigt am 02.10.2026: Abgelöste Meldung heißt „eigene Schätzung" statt mit falschem Quellenlink** | 2 | **Anlass:** Die durchgestrichene 01.10.-Meldung der Apothekerin zeigte „Quelle ↗" auf Crunchyroll — eine Seite, die den **02.10.** nennt. Der Link widersprach der Meldung, an der er stand: der 01.10. war nie eine Ankündigung, sondern **unsere** Fortschreibung aus einer aniSearch-Schätzung. **Gebaut:** `NewsMeldung.geschaetzt` (aus `schedule.estimated`), im `TerminVerlauf` mitgeführt (`news-verlauf.ts`), sodass auch die **abgelöste** Fassung die Herkunft behält. Zwei Stellen in der Oberfläche: Das Panel löst die Quelle einer abgelösten Meldung **nicht mehr über das geltende Release** auf (`quelleFuer`), und eine geschätzte Meldung trägt gar keinen Quellenlink, sondern den Vermerk „eigene Schätzung" — im Panel wie auf der Nachrichtenseite. **Belegt:** zwei Zusicherungen in `check:logic` (der Verlauf behält die Schätzung, sie steht als abgelöst da) und am echten Panel gemessen (Apothekerin S3, Playwright): „eigene Schätzung" steht dort, wo vorher „Quelle ↗" stand. **Dazu:** `data/news-historie.json` trägt für die abgelöste 01.10.-Fassung jetzt `geschaetzt: true` — der Wert war damals noch nicht gespeichert. |
+| **Erledigt am 01.10.2026: Die Watchlist-Anzeige misst „schon gemeldet" wie der Worker — am Prüfstand** | 2 | Daniel auf Disney+: „1 Titel zu prüfen", die Laufstatus-App „Disney+ 2 Titel" — „woher die diskrepanz?". **Gemessen:** Die App liest `titel` aus `?stand=1` (Ziele ohne Meldung **seit dem Prüfstand**), die Erweiterung blendete einen Eintrag aus, sobald eine Meldung **seit seinem Eintragsdatum** vorlag (`gemeldeteHolen(e.url, e.seit)`). Bleach wurde am **27.09.** gemeldet, der Prüfstand stammt vom **30.09.** — und der Bau führt Bleach zu Recht weiter: Die 27.09.-Meldungen tragen **Folgentitel statt Nummern** (Wiedervorlage „Folgen einzeln melden, Stufe 4"). Die Erweiterung versteckte damit Arbeit, die die Liste noch will. **Gebaut:** `?stand=1` liefert zusätzlich `pruefstandAm` (in `erzeugtAm` stand bisher nur die Rechenzeit — zwei Felder, zwei Bedeutungen); `extension/pruefstand-zeit.js` holt den Zeitpunkt einmal je Seite, `disney.js` nimmt ihn in `gemeldeteHolen` als Maß (Rückfall bleibt das Eintragsdatum); Zusicherungen in `tools/melder-leiste-pruefen.cjs` (Maß genutzt, Datei im Manifest **vor** `disney.js`). Erweiterung **4.24.10**. **Belegt:** Bleach hat 48 Meldungen, davon **0 nach dem Prüfstand** → der Kasten zeigt wieder 2 Titel wie die App. **Lehre:** Zwei Stellen, die dieselbe Zahl zeigen sollen, müssen denselben Zeitpunkt als Maß nehmen — nicht den, der gerade zur Hand ist. |
+| **Erledigt am 30.09.2026: Watchlist-Farbe kommt aus der Karte selbst — API, Datei und Phasen wieder entfernt** | 3 | **Anlass:** Die `chrome-utilities`-Erweiterung färbte Crunchyroll-Watchlist-Punkte grün, obwohl kein deutscher Ton da war (Jaadugar E8: „Synchro English", Karte trug „Untertitelt \| Synchro"). **Ursache:** Crunchyrolls Kartenuntertitel („Jetzt/Erneut anschauen") trug monatelang die deutsche Verfügbarkeit mit und zählt seit einem Update jede Synchro. **Umweg und Korrektur:** Erst baute ich eine Auskunft über unsere Daten (`shared/synchro.ts` → `public/data/synchro.json` 1.587 Termine, Worker `POST /synchro`) — dabei fiel auf, dass unser Wochenprogramm-Datensatz seit dem **28.09.** eingefroren war: der Artikel wechselte auf die kurze Schreibweise („vom 28.9. bis 4.10."), `wocheAus()` kannte nur ausgeschriebene Monate und der Stundelauf brach seither ab (Step rot, Lauf grün — **stiller Ausfall**, drei Tage unbemerkt). **Der eigentliche Fund:** Die Angabe steckt in der Karte selbst — der Watch-Link führt auf die Fassung, die man bekäme, und ihre Kennung endet mit dem Sprachpaar (`GE00374386JAJP` japanisch, `GE00377827DEDE` deutsch, `GE00378913KOKR` koreanisch). An Daniels 11 Karten stimmte das **in allen Fällen** mit unserem Bestand überein. Deshalb braucht die Erweiterung **keine** Abfrage, keine Datei und keinen Zwischenspeicher. **Gebaut:** `cu_watchSprache()` (Sprachpaar aus dem Link) + `cu_watchZustand()` (Untertitel deutsch/englisch, `aria-label` als Rückfall); **grün nur bei deutsch UND ungesehen** („Erneut anschauen" bleibt gelb), Version 1.10.0.5. Probe gegen die echte gespeicherte Watchlist: 11 Karten, 0 grün (8 ohne Deutsch, 3 deutsch aber gesehen). **Bei uns zurückgebaut:** `shared/synchro.ts`, `pipeline/bau/15-synchro.ts`, `worker/src/synchro.ts`, die Route, die Datei. **Geblieben:** der Parser-Fix (`shared/wochenprogramm.ts`, beide Schreibweisen, `check:logic`) und der frische Datensatz. **Lehre:** Ein stiller Abbruch in einem Quellenlauf bleibt drei Tage unbemerkt — jede verbrauchte Quelle braucht einen Alterswächter (offen). |
+| **Erledigt am 30.09.2026: Der Kalenderknopf steht nur bei Zukunftsterminen** | 2 | Daniel, mit Bild der Disc-Pille „Kaufausgabe · seit 30.09.2026": „'seit' kalendereintrag zum merken ist unnötig, das brauchen nutzer nur für zukunftstermine — also ausblenden". **Ursache:** `MerkenKnopf` filterte `expandEvents(release).filter((e) => e.date >= today …)` — „heute" galt als Zukunft. **Behoben:** die Regel liegt jetzt in `merkbareTermine(release, today)` (`shared/logic.ts`, strikt `> today`, ohne ausgebliebene Termine); `detail/merken.tsx` benutzt sie. **Belegt:** `check:logic` — gestern und heute nicht merkbar, morgen schon, eine laufende Serie behält die künftigen Folgen (2,3). Am Bau gemessen (Playwright): Dan Da Dan (Disc heute, zuvor mit Knopf) → **0**; „Bitte zieh dich an, Takamine!" (Discs 02.10./06.11.) → **2** Knöpfe bleiben. Wissen in `docs/wissen/datensatz.md`. |
+| **Erledigt am 30.09.2026: Disc-Termine sind ein eigener, ruhiger Bereich — und ein Klick aus „Im Handel" wählt „Disc"** | 3 | **Anlass:** Disc-Termine standen als Poster im Wochengitter und kämpften mit dem Fernseh-Kasten um Platz (Daniel: „disc releases are less interesting" — leiser stellen, wie TV getrennt). **Entschieden:** Zwei Prototypen (A kompakte Liste, D gedämpfte Poster) gerendert und vorgelegt, Daniel wählte **A**. **Gebaut:** `tageDerWoche` trennt Disc in einen eigenen Topf; unter dem Raster steht **„Im Handel · N"** (Titel + DVD/Blu-ray), der Fernseh-Kasten füllt jetzt wirklich die Zeilenhöhe (`h-full` im absolut positionierten Rahmen) und wächst mit. Der Tageszähler nennt Disc mit demselben Trenner — **„5 Termine · 9 im TV · 12 im Handel"** (Monatskopf ebenso, neuer Text `kal.imHandelZahl`); Disc zählt nicht mehr als „Termin". **Zweiter Fix (Daniel: „der toggle … wählt bei einem klick vom im handel heraus nicht automatisch disc aus"):** `startetMitDisc()` (`detail/disc-start.ts`) liest den Termin der Adresse, `discZuerst` geht über `AntwortBereich` in `AntwortKasten`, dessen `key` beim Wechsel Disc ↔ Stream neu aufbaut (Startwert greift so ohne Effekt). Den Umschalter aus `AntwortKasten` nach `detail/umschalter.tsx` gelöst (Codegestalt, Überlänge sinkt). **Belegt:** Playwright-Messung — Disc-Klick → `Stream=false \| Disc=true`, Poster-/TV-Klick → `Stream=true \| Disc=false`; `check:umfang` und Deploy grün (`abe48e51`, `81a76176`). Bilder `docs/woche-im-handel*.png`, Wissen in `docs/wissen/datensatz.md`. |
+| **Erledigt am 30.09.2026: Kanal-Titel kommen nicht mehr als Wiedervorlage zurück (139 Einträge)** | 3 | Daniels drei Amazon-Einträge (Akame ga Kill, There's No Freaking Way, Hell Mode) ließen sich über Prime nie abräumen — ihre Belege sind **Kanal-Titel**, und dort ist Amazons Sprachangabe laut eigener Regel kein Beleg; der Durchgang erzeugt also nie einen gültigen Nachweis, die Wiedervorlage lief endlos. **Gemessen: 139 der 367 Einträge in `data/erneut-melden.yaml` haben nur solche Belege.** `verdachtsfaelle` (`tools/verdacht.mjs`) überspringt sie jetzt; ein Nein oder ein Beleg mit Adresse beantwortet weiter, ein Kanal-Beleg nicht. **Amazon-Prüfliste 6 → 3** (Oshi no Ko, Trapped in a Dating Sim, Slime S4 bleiben). Zusicherung `tools/verdacht-kanal.test.mjs`, in `check:wiedervorlage` eingehängt. **Dazu (Erweiterung 4.24.9):** Jede Netflix-Staffel läuft nach einem Lauf **einmal** — der alte Riegel „nur ohne neue Meldung fertig" ließ eine meldende Staffel im nächsten Takt erneut laufen (doppelte Wiedergabe, Zähler „18/14"). |
+| **Erledigt am 29.09.2026: Status-App zeigt die Anbieter immer — und dieselbe Zahl wie Todo und Erweiterung** | 3 | Daniel: „mach in status app die pills immer sichtbar, also amazon, suchadressen, netflix, disney+ … wenn 0, dann zeig dort auch 0, aber 0 klick führt dann auf die homepage des anbieters … es soll überall synchron und korrekt sein." **Die drei Zahlen gemessen:** `offene-*.js` (Erweiterung und `00-START-HIER`) führt die offene Liste — 9 Amazon, 4 Netflix, 1 Disney+, 1 Suchadresse; der Worker zog davon ab, was schon im Briefkasten liegt (7/2/0/1), und die App **verbarg** Anbieter ohne Arbeit, weshalb Disney+ ganz fehlte. **Gebaut:** (1) Die App (`__assets/tools/lauf-status/index.html`) zeigt die vier festen Anbieter **immer**, mit 0; ein Klick auf 0 führt auf die Anbieterseite (Prime-Storefront, `netflix.com/browse`, `disneyplus.com/de-de/home`); was der Stand zusätzlich kennt, hängt hinten an. (2) Der Worker liefert neu `liste` = die **ganze** offene Liste; die App zeigt sie als Zahl, der Klick bleibt der erste noch nicht gemeldete Eintrag (`ziel`). Damit steht überall dieselbe Zahl: **9 / 4 / 1 / 1**. **Zur Erweiterung:** Die fünf Titel **sind** in `offene-*.js`; wer sie im Browser nicht sieht, lädt die Erweiterung in `chrome://extensions` neu — sie liest die Datei nur beim Laden. `tools/lauf-status-app-pruefen.mjs` um sieben Zusicherungen erweitert (immer sichtbar, 0 mit 0, 0 → Anbieterseite, Zahl aus `liste`, kein leeres Etikett); Bilder in `docs/lauf-status-app*.png`. **Nachtrag (Daniels erster Klick-Test):** Zwei Ursachen blieben. (1) `#1/#4/#5` — der Worker (und über `ziel` die Erweiterung) zog **Wiedervorlagen** ab, weil ihr *alter* Beleg noch offen im Briefkasten lag; genau er ist der Grund, sie erneut vorzulegen. `tools/pruefstand.mjs` markiert sie jetzt als `wiedervorlage`, der Worker lässt sie in Ruhe (`pruefung-stand.ts`) — Ziel ist wieder die ganze Liste (Chihiro statt Startseite, Disney+ 1 mit Ziel Bleach). (2) `#3` — Fairy Tail stand als Suchadresse, obwohl seit dem 25.08.2026 ein Prime-Beleg **mit Adresse** vorliegt; `beantworteteSuchen` (`09-1-belege.ts`) zählt jetzt auch Belege mit Adresse, wie die Erweiterung es längst tut. Stand nach dem Bestandslauf: **`?stand=1` liefert Amazon 9 (Ziel Chihiro), Netflix 4, Disney+ 1 (Ziel Bleach), Suchadressen entfallen**; `00-START-HIER` Prime 9, Netflix 4, Disney+ 1; Worker `769024ad`. **Nachtrag 2 (29.09.2026, nach Daniels Melden):** Der `seit`-Weg war ein Umweg und markierte Netflix' MHA zu früh (alte Meldung, aber kein Beleg). **Die eine Regel lautet jetzt:** Der Prüfstand entsteht nach `data:build`; abgezogen wird nur, was **nach `erzeugtAm`** gemeldet wurde (`pruefung-stand.ts`) — die offenen Briefkasten-Meldungen zählen nicht mehr mit. Liste, Todo, App und Erweiterung sind damit **dieselbe Zahl**, und eine neue Meldung senkt sie sofort: **Amazon 6 · Netflix 3 · Disney+ 1**. **Dabei aufgefallen (neuer Posten):** Drei der sechs Amazon-Einträge — Akame ga Kill, There's No Freaking Way, Hell Mode — sind **Kanal-Titel** (aniverse/animedigitalde); Prime' Tonspur ist dort laut eigener Regel kein Beleg, also kann der Prime-Durchgang sie nie abräumen. Ihre Wiedervorlage ist eine Schleife und gehört auf den Kanal-Weg. Worker `13344fdb`. **Nachtrag 3 (30.09.2026):** Der Verlauf nennt jetzt **Datum und Uhrzeit** („30.09. 08:57") statt nur die Uhrzeit, und der Zurück-Knopf ist ein **runder Knopf** statt eines nackten Zeichens; beides prüft `tools/lauf-status-app-pruefen.mjs`. **Die drei roten Deploys (29.09. 23:17, 30.09. 02:42 und 08:57) hatten eine Ursache:** mein `append`-Zusatz im Prüfsatz (`tools/melder-leiste-pruefen.cjs`) schob die `tools`-Überlänge um eine Zeile über die Codegestalt-Grenze — der Nachtlauf baute den Stand, `check:umfang` brach ab. Eine Kommentarzeile entfernt, Grenze wieder eingehalten. |
+| **Nachgesehen am 02.10.2026: Die Prüfliste ist nicht leer — nichts nachzulegen** | 1 | Der Auftrag greift nur, **wenn** die Liste leerläuft. **Gemessen am 02.10.2026:** `extension/offene-netflix.js` ist leer (`{}`), aber `offene-amazon.js` führt 3 Titel (Oshi no Ko, Trapped in a Dating Sim S2, Slime S4), `offene-disney.js` 2 (Bleach TYBW, Though I Am an Inept Villainess); dazu die Verweise aus `daniel-zum-abarbeiten/00-START-HIER.md` (Prime 3, Crunchyroll 3, Disney+ 2). Daniel hat also Arbeit. **Wenn es doch leerläuft** ist die Mechanik: ein paar passende Titel über `data/erneut-melden.yaml` + `node tools/erneut-melden.mjs <anilistId>[:anbieter] --grund "…"` nachlegen; gute Kandidaten sind die **ältesten `dub: true`-Belege ohne Folgenangabe** (Pauschal-Belege, ein Drittel der 644 Netflix-Einträge), weil ein frisches Melden aus „deutsch" ein „deutsch bis Folge N" macht. |
+| **Erledigt am 29.09.2026: DetailPanel-Zerlegung, fünfter Schritt — `folgenLuecke` herausgelöst** | 2 | Der `useMemo`-Block (29 Zeilen) liegt jetzt als `lueckeOhneAnbieter({ title, antwort, releaseJePlattform, today })` in `detail/folgen-ohne-anbieter.ts`; die Komponente ruft ihn im selben `useMemo` mit denselben Abhängigkeiten. `modul-umzug abschnitt` lehnt den Block ab (er ruft `useMemo` — ein Hook), deshalb von Hand; bewiesen mit `panel-vergleich.mjs origin/main HEAD` (80 Panels gleich, 0 ohne Panel) und `check:vor-commit`. **Nebenbei ein eigener Fehler, behoben:** Mein Zubau aus Aufgabe 1 und 2 ließ die Codegestalt-Überlänge wachsen (pipeline +20, worker/src +3, extension +2/+16) — der Deploy auf GitHub Pages war deshalb ab 18:17 rot. Abgebaut: `meldungsZuordnung()` kapselt den Adress-/Namensaufbau in `fetch-urteile.ts`, der Worker-SELECT-Kommentar ist weg, der Erweiterungs-Riegel steht inline statt in einem Helfer; `umfang-grenzen.json` trägt den gesunkenen web/src-Wert. **Lehre:** Wer einer übergroßen Funktion oder Datei Zeilen zufügt, baut im selben Commit welche ab — `check:umfang` läuft im Build und die Grenzen steigen nie. |
+| **Erledigt am 29.09.2026: 1.054 der 4.693 Meldungen ohne Titel sind jetzt zugeordnet** | 2 | Von den 768 „Adresse mehrdeutig" sind **389 zugeordnet** — die Ursache war einsehbar: eine Netflix- oder Disney+-Serienseite trägt mehrere unserer Titel (JJK 60 Meldungen, Vinland Saga 26, Kuroko 27), die Adresse entscheidet also nicht, die **Meldung** nennt aber ihre Staffel. `staffelTreffer()` in `pipeline/lib/urteil-je-folge.ts` wählt den Kandidaten mit dieser Nummer (`staffelNummern`), und zwar nur bei genau einem, nur ohne doppeltes Werk und nur wenn die Anbieter-Folgenzahl passt (Riegel wie `ordneMeldungZu`, Toleranz drei). Offen bleiben 379: 176 nennen keine Staffel, 144 mehrdeutig/ohne Nummer, 59 am Folgenzahl-Riegel (Tokyo Revengers: Anbieter 24 vs. Kandidat 13 — richtig liegen gelassen). **Meldungen ohne Titel 4.693 → 4.304** (am echten Bestand belegt). Der `?alle=1`-Abruf lieferte `staffeln`/`folgen` nicht — der SELECT im Worker ist ergänzt und ausgeliefert (Version `33054974`), sonst hätte der Riegel im Produktivlauf keine Daten (Lehre Phase 4). Nebenbefund: `npm run deploy` im `worker`-Ordner zog die Root-`wrangler.jsonc` und scheiterte an `assets … missing directory`; die Skripte tragen jetzt `--config wrangler.toml`. **Die 763 „Adresse unbekannt" sind ebenfalls erledigt:** Der Einleser entscheidet sie seit dem 23.08.2026 über den Anbieternamen (`fetch-pruefungen.ts`, „ein Name ist eine Ähnlichkeit, kein Beleg"), der Urteilslauf tat es nicht — seine 763 waren Meldungen, die der Einleser längst zuordnet. `nameIndex()` und der vierte Weg in `titelDerMeldung` holen das nach (nur exakt, nur eindeutig): **665 zugeordnet, 763 → 98**. Der `?alle=1`-Abruf lieferte auch `titel`/`serientitel` nicht — ergänzt und ausgeliefert (Version `84ba7fdb`). **Am echten Lauf belegt (18:27): Meldungen ohne Titel 4.693 → 3.639**, Urteile 12.273 → 12.844. **Nächster Schritt:** die 3.162 „späte Staffel" mit demselben Staffel-Verfahren (`staffelTreffer` liegt bereit) — heute bewusst noch gesperrt. |
+| **Erledigt am 29.09.2026: Meldungen ohne Titel nach Gründen gemessen** | 2 | Der größte Verwerfungsposten des Urteilslaufs (4.693 Meldungen) hat jetzt eine Verteilung im Protokoll (`fetch-urteile.ts`, Lauf 17:28): **3.162 „späte Staffel"** (eine Serienseite führt mehrere Staffeln, bei uns hängt nur eine daran — eine **Regel**frage), **768 „Adresse mehrdeutig"** (mehrere Titel unter derselben Adresse), **763 „Adresse unbekannt"** (die Adresse steht in keinem Verweis). Reihenfolge für später: erst die 768 (Zuordnung verbessern), dann die 763 (Adressen aufnehmen); die 3.162 sind eine bewusste Regel und nur mit einer Staffel-Zuordnung auflösbar. |
+| **Erledigt am 29.09.2026: DetailPanel-Zerlegung — vier Schritte, Panel-HTML unverändert** | 3 | Der Posten aus dem Repo-Scan: `DetailPanel` war **1.431 Zeilen in einer Funktion** (Datei 1.480). Verfahren nach dem Skill `zerlegen` — Nahtstelle mit `tools/abschnitt-schnittstelle.mjs` messen, mit `tools/modul-umzug.mjs` verschieben, mit `tools/panel-vergleich.mjs` beweisen (Panel-HTML von 80 Titeln). **Vier Schritte, jeder mit „gleich … 0 ohne Panel" belegt:** (1) `detail/Schlagworte.tsx` — Schlagwort-Abschnitt (19 Z.), (2) `detail/plot.ts` — die Plot-Herkunft als reiner Wert (27 Z.), (3) `detail/folgen-angabe.ts` — die Folgenangabe (87 Z.), (4) `detail/dub-zeilen.ts` — der kleine Helfer (24 Z.). **Datei 1.480 → 1.337 Zeilen**, Überlänge in jedem Schritt gesunken und festgeschrieben. ****Nachtrag (29.09.2026, Richtigstellung):** Der erste Versuch, `laufendBei` zu verschieben, scheiterte an **meinem Ausschnitt**, nicht am Werkzeug: `laufendBei` (Z. 761–764) steht **innerhalb eines `useMemo`** (Z. 745–778, endet mit `}, [title, antwort, releaseJePlattform, today])`), ein Ausschnitt mitten aus dessen Rumpf ergibt zwangsläufig `aus (0)` — und das Werkzeug schrieb die halbe Funktion heraus. **Richtige Naht dort:** der ganze `useMemo`-Block (745–778) → Datei `detail/folgen-ohne-anbieter.ts`, Eingaben `title, antwort, releaseJePlattform, today`, Rückgabe `null | string`; dann ist `abschnitt` das passende Werkzeug. **Merksatz:** erst der `abschnitt-schnittstelle` glauben (er nennt `aus`), dann schneiden — steht dort `aus (0)`, ist die Grenze falsch gewählt. |
+| **Erledigt am 29.09.2026: Repo durchsucht und Vorschläge für sinnvolle Arbeit gemacht** | 2 | (2) **229 Titel ohne jeden Weg** — davon stehen nur 85 im Todo „Kein Anbieter bekannt"; **am 29.09. nachgezählt**: 109 mit deutscher Erstausgabe, 91 mit belegten Sprechrollen, **88 ohne jede Auskunft** (am 12.09. noch 119) — die Wege dorthin sind laut eigener Messung erschöpft, es fehlt eine EAN je Titel. Damit ist der Posten nicht mehr offen, sondern gemessen. (3) **Die 4.677 Meldungen ohne Titel** — der *größte* Verwerfungsposten des Urteilslaufs; die 27.09.-Messung fand 2.803 über die Adresse eindeutig zuordenbar. Prüfen, ob der Weg im Einleser schon läuft, sonst einbauen. (4) **`docs/wissen/datensatz.md` nennt 2.777 Titel** — heute sind es 2.781; kleine, aber echte Veraltung (`wissen-veraltet-nie`). (5) Keine roten Läufe → kein Aufräum-Bedarf. |
+| **Erledigt am 29.09.2026: Der Serientitel der Seite schlägt document.title (Erweiterung)** | 3 | Gefunden am 29.09.2026 beim Nachsehen der Dangers-Meldungen: Die 25 Netflix-Meldungen auf `netflix.com/title/81788312` (**The Dangers in My Heart** Staffel 1, F1–F25) tragen alle den Titel **„Shangri-La Frontier"** — den der zuletzt gesehenen Titelseite derselben Sitzung. Ursache in `extension/leser.js`: Der Titel kommt (1) aus der Adresse (`/title/<nr>`, `?jbv=`) oder (2) aus `letzteReihe`, der zuletzt gesehenen Titelseite — und der Durchgang meldet die Folgen, während der Abspieler offen ist (Adresse `/watch/…`, keine Kennung), also greift (2). **Auswirkung begrenzt:** Die Zuordnung im Bau läuft über die Adresse (`nachUrl` in `fetch-pruefungen.ts`), die Meldungen landen also am richtigen Titel — falsch ist nur das gespeicherte `titel`-Feld (Anzeige, Diagnose). **Fix-Skizze:** Den Rückfall nur zulassen, wenn die laufende Adresse dieselbe Serie betrifft (Kennung der `/watch/`-Adresse gegen die der Titelseite) — sonst `titel: null`, ehrlich statt falsch. Mit Sandkasten-Zusicherung, wie bei den übrigen Erweiterungsfällen. **Nachtrag 29.09.2026 (gemessen an D1, nicht angenommen):** Die 25 Meldungen kamen aus der **Randprobe** (`notiz: „ANGENOMMEN aus Randprobe"`), nicht aus dem manuellen Weg — `randMelden()` sendete `titel: stand.serientitel`, und `stand` gehörte noch zur vorigen Reihe. Der Fix von 07:59 (`96424e1f`, manueller Weg auf `stand.serientitel`) erfasste das nicht. Neu `standGehoert(reihe)` in `extension/melder.js` (4.24.5): Ist `stand.reihe` nicht die gemeinte Reihe, bleiben `serientitel`, `staffeln` und `roh.reihe` leer — beide Meldestellen nutzen den Riegel, `extension/netflix-titel-fremde-seite.test.cjs`. |
+| **Erledigt am 29.09.2026: Restposten gemessen — keine weitere Optimierung nötig** | 2 | Acht Stunden nach den drei Großposten (168.765 Zeilen = **3,4 %** des Tageskontingents) sind die größten Leser: die Rohfolgen-Übertragung der Datenläufe (`SELECT … FROM prime_folge …`, 5× à 5000 = 25.000 — das ist der **notwendige** Bulk-Transfer, ein Durchlauf über die Tabelle je Lauf), ein `COUNT(*)` über die offenen Rohfolgen (6× à 4390 = 26.340, ein Kandidat für einen Index, aber mit ~80k/Tag = 1,6 % nicht dringend), die Kästchen-Abfrage in der **alten** Form vor dem heutigen Deploy (9× à 3665 = 32.985) und **meine eigenen Probеabfragen** (`LIKE '%dangers%'`, 8× à 8444 = 67.552 — Volltabellen-Scans, die nur der Untersuchung dienten). Fazit: Der Rest ist echte Arbeit (Übertragung, Zählung), keine Verschwendung; die Optimierung ist damit abgeschlossen, die Wache meldet sich, wenn es wieder wächst. |
+| **Erledigt am 29.09.2026: Restposten im D1-Verbrauch geprüft (3,4 % in 8 h)** | 3 | Nach den drei behobenen Großposten (Adress-Liste 8444→1, Seiten-Löschung 3182→0, Kästchen 3666→216) bleiben laut Messung rund 700k Zeilen am Tag (~14 %): der Briefkasten-Abruf der Datenläufe (`SELECT … FROM pruefung WHERE uebernommen = 0`, Ø 339 je Aufruf, 765 Aufrufe), die Rohfolgen-Übertragung (`SELECT … FROM prime_folge WHERE id > ? ORDER BY id LIMIT ?`, Ø 3408, 86 Aufrufe) und `?stand=1` (Ø ~500, alle 60 s gecacht). Alle drei sind index-gestützt; zu prüfen ist je Posten dasselbe wie bei den anderen: **liest es mehr, als es braucht?** Verfahren: `insights --sort-by reads` → `EXPLAIN QUERY PLAN` → die drei Fragen (Zeit-/Kennungsgrenze? Index, der sie sucht? Muss es so oft geholt werden?) → Beweis am Zeilenzähler + Zusicherung. **Ergebnis (die Zeile darüber):** Der Rest ist echte Arbeit (Bulk-Übertragung, Zählung), keine Verschwendung — 3,4 % in acht Stunden. Die größten Posten waren zwei Volltabellen-Scans **meiner eigenen Probеabfragen** (`LIKE '%dangers%'`, 8× à 8444). |
+| **Erledigt am 29.09.2026: Die Kachel folgt dem Verlauf, nicht einem alten „läuft"-Eintrag** | 2 | Am 29.09. aufgefallen: Läufe, deren Abschlussmeldung im Kontingent-Ausfall verloren ging, stehen im Bestand als `laeuft` (z. B. „Bestand" mit letzten Meldungen von 22:14) und machen ihre Kachel gelb („ohne Meldung"), obwohl der **Verlauf** derselben Lauf-Art längst `warnung` (02:12) sagt. Richtig: der jüngste Zustand aus dem Verlauf ist die Grundlage; `laeuft` überschreibt ihn nur, wenn der laufende Eintrag **jünger** ist als der letzte Verlaufszustand. Zusicherung im Prüflauf der Anzeige: Verlauf `warnung` + alter `laeuft`-Eintrag ⇒ Kachel zeigt `warnung`, nicht „ohne Meldung". |
+| **Erledigt am 29.09.2026: Kontingent frei — `/lauf` war durch meinen Umbau kaputt, Verbrauch jetzt 0,3 %** | 5 | Nach dem Reset (02:00) antwortete `/health` mit 200, **`/lauf` aber mit 500**: `wrangler tail` zeigte `D1_ERROR: near "WHERE": syntax error at offset 297` in `letzteZustaende` — in meiner Fensterfunktion fehlte die **schließende Klammer der Unterabfrage** (`… '-14 days') WHERE rang <= 12`). In meinem Python-Probewert war sie richtig, beim Übertragen in TypeScript habe ich sie „wegkorrigiert". Kein Typecheck sieht das, der Fehler entsteht erst in SQLite. **Behoben** (zwei Deploys, zuletzt `d7dbf09c`) und **abgesichert:** die Abfragen stehen jetzt in `worker/src/lauf-sql.ts`, und `check:logic` prüft Klammer-Gleichgewicht und Gestalt — die Lehre: Auskünfte über SQL geben nur Prüfläufe, nie `tsc`. **Messung der letzten 3 Stunden (Kontingent frei, `tools/d1-verbrauch.mjs --lokal --zeitraum 3h`): 17.212 gelesene Zeilen = 0,3 % des Tageskontingents.** Die zwei Großposten von gestern (4,35 Mio. und 1,84 Mio.) stehen nicht mehr in der Liste — **ehrlich dazu:** die Erweiterung lief in diesen drei Stunden nicht, `?zaehlen=1` und die Löschanfrage wurden also gar nicht aufgerufen; bewiesen sind für sie bisher die **Pläne** (`EXPLAIN QUERY PLAN`), nicht die Zeilenzahlen. **Neuer Posten, von mir verursacht:** der Kästchen-Abruf (`SQL_LETZTE_ZUSTAENDE`) liest im Mittel **3.663 Zeilen je Aufruf** — die Fensterfunktion scannt die ganze Tabelle (`SCAN lauf_status USING INDEX lauf_status_verlauf`). Bei 5-Minuten-Takt der Anzeige sind das rund 1 Mio. am Tag (21 %); sauber wäre „die letzten zwölf je Lauf-Art" (17 kleine, index-gestützte Abfragen in einem Batch, ~200 Zeilen). **Behoben noch am selben Morgen:** Die Übersicht stellt jetzt **eine Abfrage je Lauf-Art** (`WHERE workflow = ?1 … LIMIT 12`, gebündelt in einem `batch`) statt der Fensterfunktion — gemessen: **12 Zeilen je Art**, also rund **216 je Aufruf** statt 3.666, und sie wächst nicht mehr mit der Tabelle. Die Liste der 18 Lauf-Arten steht dafür in `worker/src/lauf-sql.ts` und wird von `check:logic` gegen `.github/workflows/*.yml` gehalten (sie schlug sofort an, weil die neue Verbrauchswache in beiden Listen fehlte — genau ihr Zweck). Dazu eine Zusicherung für Klammer-Gleichgewicht, nachdem eine fehlende Klammer `/lauf` mit 500 lahmgelegt hatte. **Zweitens dabei aufgefallen:** Läufe, deren Abschlussmeldung im Ausfall verloren ging, stehen als `laeuft` im Bestand und machen ihre Kachel gelb („ohne Meldung"), obwohl der Verlauf längst „warnung"/„ok" sagt — die Kachel soll dem Verlauf folgen, nicht dem alten Eintrag. |
+| **Erledigt am 29.09.2026: Suche — Hervorhebung, Fundstellen-Symbol, Feld-Auskunft am Suchfeld** | 5 | Daniel, 29.09.2026: „search should highlight the part of the result title that has been matched … if search matched not the title, but the alternative title (not visible on the result card) then it should display a small icon on the bottom right of the card, that can be hovered, to explain which part of it lead to it being part of the search result". **Was gebaut wird:** (1) In den Trefferkarten (Datenbank-Ansicht und Kalender-Trefferliste) wird die passende Stelle **des sichtbaren Titels** farblich hervorgehoben. (2) Kommt der Treffer über ein **unsichtbares** Feld, erscheint unten rechts ein kleines Symbol; Hover **und Tippen** öffnen die Erklärung: Feldname + hervorgehobene Fundstelle. **Alle** Felder zählen (seine Ansage vom 29.09.): `titleEn`, `titleRomaji`, `titleNative`, Synonyme (aniSearch), Studio, Genre, Keyword, `release.name`, `publisher`, `edition` — so, wie `suchfelder()` in `web/src/lib/filters.ts` sie heute schon durchsucht. (3) **Weil nicht sichtbar ist, welche Felder durchsucht werden**, kommt nahe dem Suchfeld ein Info-Symbol (`Suchfeld.tsx`), das bei Hover/Touch die Feldliste **und** den Hinweis auf die unscharfe Stufe nennt — nach der Projektregel „alles offen kommunizieren". (4) **Fuzzy, ehrlich:** Bei unscharfen Treffern (Tippfehler, „pice" → „Piece") wird **das ganze tragende Wort** hervorgehoben statt einzelner Buchstaben — und das wird gesagt: auch dort erscheint das Symbol, der Tooltip erklärt den Grund und zeigt **zusätzlich den exakten Buchstabenabgleich** (welche Buchstaben der Eingabe kommen im Wort vor). **Umsetzung:** `sucheZweistufig()` in `web/src/lib/search.ts` liefert künftig die Fundstelle mit (Feldart + tragendes Wort + genaue Teilzeichenkette + `unscharf`), damit Hervorhebung und Treffer aus **einer** Rechnung kommen (keine zweite Wahrheit); die Feldliste des Tooltips kommt aus **einer** Konstante, die auch die Suche benutzt. **Zusicherungen (check:logic):** Suche und Hervorhebung benutzen dieselbe `normalize()`; kein Symbol ohne benannte Fundstelle; kein Symbol, wenn der sichtbare Titel selbst passt; die Tooltip-Liste deckt sich mit `suchfelder()`. |
+| **Erledigt am 28.09.2026: Warum das Kontingent trotz Maßnahmen ausfiel — gemessen, und die zwei Ursachen sind behoben** | 5 | Daniels Frage: „das kontingent hätte niemals erschöpft werden dürfen, es wurden maßnahmen getroffen … warum haben die maßnahmen nicht den gewünschten erfolg gehabt?" **Antwort aus `wrangler d1 insights` (24 h am 28.09.): 7,02 Mio. gelesene Zeilen gegen 5 Mio. Limit** — zwei Posten machen 88 %: (1) `SELECT DISTINCT url FROM pruefung …`, der teure Teil von `?zaehlen=1`: **4,35 Mio. (62 %), 540 Ausführungen**, im Mittel 8049 Zeilen (ein Scan über die ganze Adresstabelle). (2) `DELETE FROM prime_folge … gti = ?3`: **1,84 Mio. (26 %), 537 Aufrufe**, im Mittel 3430. **Warum die Maßnahmen nicht griffen:** Die 30-Minuten-Frist für `?zaehlen=1` war richtig gedacht, aber `briefkastenCacheLeeren()` **verwarf beide `?zaehlen`-Adressen bei jedem Schreibzugriff** — und beim Melde-Durchgang liegen zwischen zwei Meldungen Sekunden, nicht 30 Minuten. Der Cache konnte nie greifen: 540 Neuberechnungen statt höchstens 48. Dieselbe Lehre war am 24.09.2026 schon für `?stand=1` gezogen worden (1.834 Neuberechnungen, 9,2 Mio. Zeilen) — sie fehlte nur beim **teuren** Endpunkt. Der Index `prime_folge_gti` aus Migration 038 war vorhanden, wurde aber nicht gewählt: `EXPLAIN QUERY PLAN` zeigte `prime_folge_plattform (plattform=?, uebernommen=?)`; eine reine gti-Suche liest mit dem richtigen Index **0 Zeilen**. Die Zeitgrenze von heute Mittag kam für diesen Tag zu spät (live 14:14, Kontingent weg 13:30) und ist erst morgen messbar. **Behoben:** Verwerfen-Liste entfernt (jede Antwort läuft nach ihrer eigenen Frist ab, die eigene Meldung überbrückt die Erweiterung über `frischGemeldetNetflix`) und `INDEXED BY prime_folge_gti` in der Löschanfrage. `check:worker` prüft jetzt, dass **keine** Verwerfen-Liste mehr existiert. **Morgen nachsehen:** dieselben Insights — der Zähl-Scan muss verschwinden, die Löschanfrage unter 100 Zeilen je Aufruf liegen. **Nachtrag (abends):** Die Plan-Prüfung gegen die entfernte Datenbank zeigte, dass die Zeitgrenze von heute Mittag beim **größten** Posten nichts bewirkte — `SELECT DISTINCT url … AND gemeldet_am > ?` lief weiter als `SCAN … USING COVERING INDEX pruefung_url_zeit`: Dort steht `url` vorn, nach `gemeldet_am` kann SQLite darin nicht springen, und weil der Index beide Spalten trägt, war der volle Durchlauf für den Optimierer billiger als ein Sprung mit Sortierung. Genau das sind die **8049 Zeilen je Aufruf = 4,35 Mio. = 62 %**. Behoben mit Migration 041 (`INDEX (gemeldet_am, url)`) und `INDEXED BY pruefung_gemeldet_url` — aber **nur mit Zeitgrenze**; ohne sie bleibt der Spalten-Durchlauf billiger, weil `DISTINCT` dort die Sortierung spart. Plan jetzt: `SEARCH … (gemeldet_am>?)`. Die anderen zwei Spalten und `?stand=1` suchen schon korrekt über `pruefung_gemeldet` (alle drei per `EXPLAIN QUERY PLAN` geprüft). **Erwartung nach beiden Fixes:** größter Posten 4,35 Mio. → wenige zehntausend, zweiter 1,84 Mio. → Punktabfragen; es bleiben die index-gestützten Restposten (Briefkasten ~245 Tsd., Rohfolgen ~327 Tsd., `?stand=1` ~144 Tsd. = zusammen rund 17 % des Kontingents). **Gemessen wird nach 02:00** — heute ist jeder Scan gesperrt. **Langfristig:** `pruefung` wächst (8445 Zeilen); die ungefilterten Ausweichwege (ohne Prüfstand) werden damit teurer — eine Aufräumfrist oder eine Summentabelle wäre der nächste Schritt, mit den Indizes aber nicht dringend. **Automatische Warnung (erledigt):** `tools/d1-verbrauch.mjs` + `.github/workflows/d1-verbrauch.yml` laufen täglich 07:50 UTC, melden Befunde in die Statusanzeige und werden rot ab 2,5 Mio. Zeilen am Tag oder 1 Mio. je Abfrage. Der Cloudflare-Token (aus `ai helper files/my_secrets.md`, mit nachgetragener Berechtigung `Account Analytics Read`) liegt als GitHub-Secret `CLOUDFLARE_ANALYTICS_TOKEN`; gegen `/user/tokens/verify` geprüft und per `workflow_dispatch` getestet — der erste Lauf war rot, weil er den Tag **vor** den Korrekturen zeigte. Weg und Fallen in `docs/wissen/betrieb.md`. |
+| **Erledigt am 28.09.2026: Die Statusanzeige ist ein Monitoring-Werkzeug geworden — Kacheln, Detailseite, Kontingent-Balken** | 5 | Daniel: „es soll ein viel besseres monitoring tool sein, wo man auf einen blick alles sieht, aktuell blick ich kaum noch durch … so ein kontingent fehler sollte viel sichtbarer sein und visuell einfacher zu verstehen sein", danach entschieden: „kacheln, feste reihenfolge plus zähler, eigene seite". **Gebaut:** (1) **Gitter** aus 17 festen Lauf-Arten (Kurzname, Ampel, „läuft 1:18"/„vor 12 min"/„nie", Kästchenreihe der letzten zwölf Ergebnisse, Fortschrittsbalken) — jede Art ist immer da, auch wenn sie ruht; (2) **Detailseite je Art** mit „Läuft gerade" (Schritt, Ziel, Balken), Verlauf der letzten 20 Läufe (Uhrzeit, Dauer, Ergebnis, Notiz, Link) und „Alle Läufe auf GitHub"; (3) **Zähler im Kopf** („2 laufen · 1 Warnung · 1 Fehler"); (4) **Kontingent-Balken** gelb über allem in drei Zeilen: was los ist, von wann die Zahlen sind, ab wann es weitergeht (bis 00:00 UTC gerechnet), „Nichts zu tun". **Worker:** Verlaufs-Abfrage `?verlauf=<Workflow>&n=20` plus Kästchenreihe je Art, neuer Index `039-lauf-verlauf-index.sql` (der vorhandene trug die Zustands-Frage, nicht die Zeitspanne), und die Übersicht liest nur noch **laufende** Einträge statt der ganzen Tabelle mit Unterabfrage — **gemessen:** im Kontingent-Ausfall antwortete die kleine Verlaufs-Abfrage weiter, während die alte zusammenbrach. Dabei `index.ts` in `lauf.ts` und `cr-zugang.ts` geteilt (Dateigrenze, wie `pruefung.ts`). **Zusicherung:** `tools/lauf-status-app-pruefen.mjs` — 30 Zusicherungen grün, u. a. „das Gitter zeigt jede Lauf-Art" (17), „die Liste stimmt mit `.github/workflows/*.yml` überein", Klick → Detail → zurück, Ausfall-Balken samt Uhrzeit. Der Prüflauf fand dabei einen echten Fehler: ein lokales `const karte` verdeckte die gleichnamige Funktion („Cannot access 'karte' before initialization") — **dieselbe Klasse wie der Erweiterungs-Fehler vom Vormittag**. **Nachtrag:** Daniel sah während des Ausfalls keine Prime-/Netflix-Pille („im daniel todo steht prime und netflix, aber in der status app sehe ich diese nicht") — die Pillen kommen aus `?stand=1`, also derselben schweigenden Datenbank. Der letzte gute Pillenstand wird jetzt gemerkt (`localStorage`) und im Ausfall weitergezeigt, mit „Stand von vorhin" im Tooltip; die statische `pruefstand.json` taugt dafür nicht (andere Feldnamen, ohne Briefkasten-Abgleich). Zusicherungen dafür in derselben Datei (32 grün). **Daniel:** Anzeige neu starten, dann ist der Umbau da. |
+| **Erledigt am 28.09.2026: Die Statusanzeige bleibt beim Ausfall nützlich** | 3 | Daniel: „status app zeigt fehler, warum? fix es" (18:20). **Ursache gemessen — es war kein Fehler der Anzeige:** `wrangler tail` zeigt auf `/lauf` den Stack `D1_ERROR … free tier daily row read limit` ← `berechnePruefstand` ← `handlePruefung`, also dasselbe Tageskontingent wie in der Zeile darunter; frei ab 02:00. **Was die Anzeige falsch machte:** Sie verwarf beim Ausfall alles und zeigte einen roten Kasten, dessen Begründung auf **eine Zeile** beschnitten war („Meist ist…") — obwohl sie den Stand von vor einer Stunde längst kannte. Jetzt merkt sie den letzten guten Abruf (`localStorage`, damit auch ein Neustart ihn kennt) und zeigt ihn beim Ausfall weiter: gelb umrandet, mit Grund und Uhrzeit, Kopfzeile „Stand von 13:20" statt „8 laufen", Fußzeile „der Dienst antwortet nicht". Ohne gemerkten Stand steht wenigstens der Grund im Klartext (neue Klasse `.unten.lang`, mehrzeilig statt abgeschnitten). **Zusicherung:** `tools/lauf-status-app-pruefen.mjs` fährt den echten Code gegen eine erfundene Antwort (200 mit einem Probelauf, dann 500) und prüft beide Wege — 18 Zusicherungen grün, Bilder in `docs/lauf-status-app.png` und `docs/lauf-status-app-ausfall.png`. **Nebenbei behoben:** Der Prüflauf startete bei geöffneter Anzeige gar nicht (Electron lässt nur eine Instanz zu, Playwright brach mit „Target … has been closed" ab) — er bekommt jetzt einen eigenen `--user-data-dir`. **Für diesen Ausfall bleibt bis 02:00 trotzdem nur der Grund**, weil das offene Fenster den alten Code fährt und noch nichts gemerkt hat; ab dem nächsten Start greift der Rückfall. |
+| **Erledigt am 28.09.2026: Erweiterung 4.24.3 — der Durchgangs-Zustand stand zu weit unten** | 3 | Daniel meldete auf der Prime-Startseite `Uncaught ReferenceError: Cannot access 'primeFrames' before initialization` (`amazon.js:11140`, `primeKoordinieren`) — und dass „▶ alle durchgehen" dort **nichts** tat. Ursache war die Reihenfolge, kein Logikfehler: `PRIME_*`, `IM_FRAME` und `primeFrames` standen als `const` erst kurz vor ihren Funktionen, aber der `message`-Hörer (Zeile 6783) liest `IM_FRAME` und `primeFrames` — trifft eine Frame-Antwort ein, bevor die `const`-Zeile an der Reihe war, liegt der Wert in der „temporal dead zone", der Aufbau bricht ab, der Kasten zeichnet halb. Die Werte stehen jetzt oben bei den übrigen Zustandswerten; `amazon-durchgang.test.cjs` hält die Reihenfolge mit einer Zusicherung fest („der Zustand steht vor dem message-Hörer"), der Sandkasten stellt den Block vorne an. Wissen in docs/wissen/erweiterung.md, 4.24.3 gepusht (`2eb2febe`). **Daniel hat die Erweiterung am 28.09.2026 neu geladen — erledigt.** **Dazu** (nicht in der Erweiterung): Die Statusanzeige zeigte den D1-Fehler als rohes `Unexpected token '<'` — sie prüft die Antwort jetzt und schreibt, dass der Dienst nicht antwortet und das Kontingent ab 02:00 wieder frei ist. |
+| **Erledigt am 29.09.2026: D1-Tageslimit für Lesezugriffe erschöpft — Worker blockiert bis 02:00** | 5 | Ab etwa 13:30 antwortete der Worker auf `?pruefung`, `?stand=1` und `/lauf` mit **HTTP 500 (Cloudflare 1101)**: `D1_ERROR: Your account has exceeded D1's free tier daily row read limit … wait until tomorrow (midnight UTC)`. Belegt mit `wrangler tail` (Stack: `berechnePruefstand`) und `wrangler d1 execute --remote` (dieselbe Meldung, Code 7500). **Folgen:** Der Briefkasten ist nicht lesbar (Statusanzeige, Erweiterung, Datenläufe), und Daniels manuelle S1-Meldung „The Dangers in My Heart" ließ sich nicht bestätigen. Bis **02:00 Berliner Zeit** arbeitet keine Route, die D1 liest. **Größter Verursacher (im Code gelesen):** `worker/src/pruefung-zaehlen.ts` (`?zaehlen=1`, von der Erweiterung bei **jeder** Seite aufgerufen) fährt **vier `SELECT DISTINCT` über die ganze `pruefung`-Tabelle** (alle je gemeldeten Adressen, Suchadressen, Seiten) — bei ~10⁴ Zeilen sind das je Aufruf ~4·10⁴ gelesene Zeilen, und ein Durchgang über ~150 Seiten vervielfacht das. Dazu `?stand=1` (60-s-Cache, liest alle offenen Meldungen) und die Datenläufe (`?alle=1`, `?rohfolgen=1`). **Plan:** (1) **erledigt:** die drei vollen Scans lesen jetzt mit derselben Zeitgrenze wie die Seiten (nur Meldungen seit `pruefstand.erzeugtAm`, sonst wie bisher über alles) — `worker/src/pruefung-zaehlen.ts`, `check:worker`/`tsc`/`check:vor-commit` grün, **ausgeliefert** (Version `6d87727c`; `/health` antwortete damit 200, die 500er danach sind das Kontingent selbst). (2) `?stand=1`-Takt der Anzeige **geprüft (28.09.2026): kein Handlungsbedarf** — die Schleife fragt bei stehendem Kanal alle **5 Minuten** (60 s nur während eines Laufs), der Worker hält die Antwort 60 s. Das sind ~288 Abrufe/Tag über je ~500 offene Zeilen. (3) erst wenn es dann noch knapp wird, über den bezahlten Plan reden — **Preis in der Doku geprüft am 28.09.2026:** D1 hat keinen eigenen Plan, es hängt am **Workers-Paid-Tarif mit 5 $/Monat Mindestgebühr** (je Konto, samt Workers, Pages Functions, KV, Durable Objects). Darin **25 Mrd. gelesene** und **50 Mio. geschriebene Zeilen pro Monat** sowie **5 GB-Monat**; darüber 0,001 $ je Mio. gelesene, 1,00 $ je Mio. geschriebene, 0,20 $ je GB-Monat. Die freien 5 Mio. Zeilen **pro Tag** sind die Grenze, an der wir gelandet sind — die Monatsmenge des bezahlten Tarifs ist rund das 5.000-fache unseres Verbrauchs, ein Aufschlag ist damit nicht zu erwarten. (4) **Beobachtet am 28.09. abends:** Läufe, die während des Ausfalls fertig wurden, bleiben in der Anzeige auf `laeuft` stehen, obwohl GitHub `completed` sagt — ihre **Abmeldung** ist die letzte Stufe eines Laufs und kam beim erschöpften Kontingent nicht mehr durch (`tools/lauf-melden.sh` schluckt den Fehler bewusst, damit eine Statusmeldung keinen Lauf rot macht). Die Anzeige macht daraus „seit X min keine Meldung — vermutlich abgestürzt". **Das räumt sich selbst:** Der GET blendet jeden Eintrag aus, sobald ein **späterer** `ok`-Lauf desselben Workflows vorliegt (worker/src/index.ts, `NOT EXISTS … spaeter.zustand = 'ok'`) — nach 02:00 genügt also der nächste Deploy- bzw. Bestandslauf, und der ganze Stapel verschwindet ohne Handarbeit. **Das Kontingent selbst bleibt bis 02:00 erschöpft** — bis dahin liest keine Route. **Nichts verloren:** Meldungen liegen in der Datenbank. |
+| **Erledigt am 28.09.2026: Ein Beleg-Doppel hielt einen ganzen Datenlauf zurück** | 2 | Lauf 36417274445 (11:42) verletzte die Zusicherung „Handbelege: kein Beleg steht zweimal in der Datei" und ließ deshalb alles liegen („Erzeugnisse und neue Meldungen werden nicht übernommen"): `data/dub-confirmed.yaml` wurde **nicht** committet, und die Belegdatei bekam die rund 240 Prime-Meldungen des Durchgangs nicht. Ursache: `neueBelegBloecke()` vergleicht die gelesenen Objekte **beim Anhängen**, übersieht aber eine Dopplung, wenn sich ein Block **allein** nicht lesen lässt — in der fertigen Datei steht er dann als eigener Eintrag, und `check:logic` vergleicht dort. Neu: `entdoppleBelege()` in `pipeline/lib/dub-confirmed.ts` ist der letzte Riegel **vor dem Schreiben** — dieselbe Frage wie die Zusicherung, vier Zusicherungen in `check:logic`. Nicht betroffen: `data/urteile.json` (+9.166 Zeilen) und `data/folgen-zuordnung.json` (+12.679) — die **Folgenurteile** des Durchgangs sind in diesem Lauf angekommen. Der fehlende Belegteil wurde lokal nachgeholt und mitcommittet. |
+| **Erledigt am 28.09.2026: Die Crunchyroll-Pille ist weg — sie zeigte keine Arbeit für Daniel** | 3 | Daniel: „warum muss ich überhaupt für crunchy irgendwas melden, wir haben doch crunchy automatisiert?" — Gemessen an den 6 Einträgen: **keiner war Handarbeit.** 4 sind **angekündigte Staffeln** (OMU-Start 2./3.10., `synchro: angekuendigt`, noch keine Folgenzahl: Black Clover S2 `GRE50KV36`, Apothekerin S3 `G3KHEVDJ7`, Last Boss S2 `GT00361955`, Appraisal S3 `GG5H5XQMD`) — die erscheinen von selbst, sobald sie deutsch sind; die älteren Staffeln derselben Adressen tragen ihr Urteil längst (`beurteile()` liefert 164702=true, 161645=true, 180523=true). 1 ist eine **tote Seite**, die unsere eigene Runde als `nichtVerfuegbar` führt (Perfect Blue `GZJH3D8V3`, von Hand belegt). 1 ist ein **misslungener Abruf** (Yamato 2202 `G65V4P4K6`: „Content-API kennt keine Staffel zu dieser Kennung"). Konsequenz: `tools/pruefstand.mjs` führt **keine** Crunchyroll-Liste mehr; die Suchadressen-Pille bleibt (dort sucht wirklich jemand den richtigen Treffer). Der Satz „was keine Erweiterung hat, ist trotzdem Arbeit" (10.09.2026) gilt für Suchadressen, nicht für einen Anbieter, den wir selbst abfragen. |
+| **Erledigt am 28.09.2026: Zwei Crunchyroll-Lücken sind Pipeline-Arbeit** | 2 | **(1) `nichtVerfuegbar` als Urteil — gelöst über die Serienkennung.** Perfect Blue stand im Dub-Bestand unter `…/de/fr/series/GZJH3D8V3/…`, im Datensatz unter `…/de/series/GZJH3D8V3/…`; der Adressvergleich lief leer, der tote Verweis blieb stehen. `betroffeneTitel()`/`gehoertZurSerie()` in `pipeline/bau/09-4-1-serien.ts` vergleichen jetzt auch `kennungAusZiel(url)`; Zusicherungen in `check:logic` (beide Sprachformen, Quelltext) **und** in `check:cr-zuordnung` (Verhalten: Entfernung + Gegenprobe, dass eine fremde Kennung stehen bleibt). **(2) Yamato 2202 (`G65V4P4K6`) — derselbe Fall, mit erledigt:** Der Dub-Bestand führt die Seite als `…/de/pt-br/series/G65V4P4K6/…` (dritter Schreibweise), der Datensatz als `…/de/series/G65V4P4K6/…`; der Titel steht im deutschen Katalog nicht, `ohneBlock` greift also — mit dem Kennung-Abgleich fällt der Verweis. Kein zweiter Abruf nötig. |
+| **Erledigt am 28.09.2026: Kill Blue stand zu Unrecht als Wiedervorlage** | 2 | Daniel: „kill blue ist auf prüfliste, ist aber bereits gemeldet." `laufendeSynchro()` (`tools/verdacht.mjs`) führte zwei Belege desselben Titels in getrennten Spuren: der ältere (07.09., „1–8 deutsch", **ohne Adresse**) und der jüngere (26.09., „1–12 deutsch", **mit Adresse**). Die ältere Spur hielt die Wiedervorlage am Leben. Jetzt wird ein Beleg ohne Adresse übersprungen, wenn ein jüngerer desselben Titels existiert; zwei adressierte Wege bleiben getrennt (Gegenprobe). 12 Zusicherungen in `tools/verdacht-laufend.test.mjs`. Nachgemessen nach Lauf 36410304265: `82757009` ist aus `extension/offene-netflix.js` verschwunden. |
+| **Erledigt am 28.09.2026: Yozakura / Disney+ — Staffelnummer zählt mit, Adresse berichtigt (4.24.2)** | 3 | Ursache der Falschbuchung war die Staffelnummer der Prüfliste (Positionsindex über `titles.json`, Disney zählt zwei Staffeln). `extension/disney-staffeln.js` (neu, aus `disney.js` herausgelöst — die Datei lag über der Grenze) nimmt jetzt die **Folgenzahl der Seite** dazu: sie widerlegt eine Nummer, die nicht passt, und belegt eine fehlende, wenn sie auf beiden Seiten genau einmal vorkommt. Zugleich die Adresse: `data/dub-confirmed.yaml` nennt `entity-0113d236…` und belegt dort den deutschen Ton von Staffel 2 — `09-2-linkpruefung.ts` schreibt die Adresse des Belegs in den Verweis. 13 Zusicherungen (`extension/disney-staffeln.test.cjs`), `check:vor-commit` grün, Wissen in docs/wissen/erweiterung.md. **Nachgemessen am gebauten Bestand** (`8d088d3f`, Lauf 36401032755 grün): 182578 führt Disney+ jetzt unter `entity-0113d236…` mit `dub: true`, `entity-ac689bea…` kommt im ganzen Datensatz nicht mehr vor, und die Prüfliste führt die Adresse nicht mehr (der Weg ist beantwortet). Die **12 Meldungen 8432–8443** sind angekommen und als „Folgen 1–12 mit deutschem Ton" gebucht. **Erkenntnis** (docs/wissen/quellen.md, „Ein Adressbeleg richtet die Adresse"): der maschinelle Beleg auf der alten Adresse hätte den Handbeleg überstimmt — er musste **ersetzt**, nicht ergänzt werden. |
+| **Erledigt am 26.09.2026: Poster-Design umgesetzt und live (PR #244)** | 13 | Woche/Monat, Kopfleiste, Filterfeld, Abo-Knopf, Staffelfinale, Handy-Leiste; Agenda/Favoriten/„Wo sehen?“ entfallen (Weiterleitung), „gesehen bis“ im Panel. Zwei Runden mit einem Prüf-Agenten bis „zufrieden“. Details: `docs/wissen/datensatz.md`, „Poster-Gestaltung“. Nachgezogen am 27.09.2026: Datenbank, Panel, News und feste Seiten in der Poster-Farbsprache (axe ohne Verstöße), Datenbank trennt Anime und westliche Serien, Link-Vorschau im Poster-Stil (alle Bilder beim nächsten Bestandslauf), Neuigkeiten im Detail-Panel mit Quelle. |
+| **Erledigt am 27.09.2026: Neuigkeiten im Detail-Panel gefiltert, Steuerleiste unten, Sprung zu heute** | 5 | Panel-News nur zum eigenen Titel, ohne vergangene Termine, ohne Termine, die der Antwortkasten schon nennt (`meldungenImPanel`, docs/wissen/datensatz.md). Kalender-Steuerleiste dockt unten an, Filter als Blatt darüber. Woche springt beim Laden und beim Klick aufs Logo zu heute. Link-Vorschau: `?v=poster-1` an jeder Bild-Adresse. Offen: Black Clover S2 und Last Boss S2 tragen noch „neu auf Deutsch“ bei Crunchyroll — der Fix 44766ada greift erst mit dem nächsten Bestandslauf, dort nachsehen. |
+| **Erledigt am 25.09.2026: Angekündigte Simulcasts im Panel (Crunchyroll Herbst 2026)** | 5 | Daniel an Magic Knight Rayearth (2026): Panel sagte nur „Noch keine deutsche Fassung". Jetzt `data/ankuendigungen.yaml` (32 Titel, 13 mit angekündigter Synchro) → Feld `ankuendigung` am Titel → Antwortkasten „Deutsche Synchro angekündigt" / „Crunchyroll · mit Untertiteln ab … · Synchro-Termin offen". Quelle: Crunchyrolls Season-Artikel vom 15.09.2026 (docs/wissen/quellen.md). Black-Clover-S2-Hinweis berichtigt (Synchro war seit 15.09. angekündigt). Daima: RTL+ zeigt dieselbe geschnittene Fassung wie TOGGO (Daniels Prüfung) — im Daima-Termin nachgetragen |
+| **Erledigt am 29.09.2026: serena-Probelauf — gemessen, das Werkzeug ist entfernt** | 2 | Der Probelauf (serena-agent 1.7.0, MCP roh über stdio, Token mit `tiktoken`) steht vollständig in `C:\code\ai\__assets\notes\claude-token-sparen.md`. Ergebnis: **Fixkosten 5.461 Token je Sitzung** (21 Werkzeugdefinitionen, context `claude-code`); ein Zugriff auf eine Funktion kostet bei serena **90 statt 341 Token** (Grep + Read), rechnet sich aber erst nach ~22 Zugriffen je Sitzung (typisch 1–5). Erkunden ist schlechter: `get_symbols_overview` auf `amazon.js` liefert keine Funktionsnamen (umhülltes Skript), die globale Suche braucht 8–26 s gegen sofortige Grep-Treffer. **Wie eingerichtet (`language_servers: []`) arbeitet gar kein Symbolwerkzeug** — erst mit `language_servers: [typescript]` nutzbar. **Zugriff: 0 Aufrufe in 133 echten Transkripten.** Deshalb entfernt: `claude mcp remove serena` und `uv tool uninstall serena-agent` (beide ausgeführt, „No tools installed"). `.serena/` bleibt ignoriert, falls serena für ein großes dateiübergreifendes Refactoring neu bewertet wird. |
+| **Erledigt am 25.09.2026: Weitere News-Quellen geprüft** | 3 | Ergebnis in `docs/wissen/quellen.md` („News-Quellen im Vergleich"): Crunchyrolls Season-Artikel und Wochenprogramm lohnen sich, manime.de, ANN, animenachrichten.de nicht |
+| **Erledigt am 26.09.2026: Laufende Synchro kommt wöchentlich zurück auf die Prüfliste** | 3 | `laufendeSynchro()` in `tools/verdacht.mjs`: jüngster Beleg vorne deutsch, hinten nicht, sieben Tage alt, japanisches Ende höchstens ein Jahr her → Wiedervorlage bei Netflix, Prime, Disney+. Erste Messung: vier Fälle (Kill Blue Netflix „bis 8“ seit 07.09. und Prime „bis 4“ seit 25.08., Dating Sim S2 und Slime S4 bei Prime). Disney+ kannte Wiedervorlagen gar nicht — `disney.js` zählt jetzt nur Meldungen ab `seit` (4.23.2). Dabei gefunden: `melder.js` stürzte ab, wenn der Kasten keinen Fuß hatte und der Titel eine aniSearch-Kennung trug. Wissen: docs/wissen/erweiterung.md |
+| **Erledigt am 26.09.2026: PR #242 (Codegestalt, Zerlegung) gemergt, Rechner eingerichtet** | 3 | Auf Windows geprüft: Kette, `check:panel`, `check:ansichten`, `bau-vergleich` gleich, `panel-vergleich` gleich (80). Repariert: Vergleichswerkzeuge unter Windows (89ba7fc, Wissen in docs/wissen/betrieb.md). Globale Regel als `~/.claude/rules/60-codegestalt.md` statt Abschnitt im globalen CLAUDE.md (Daniel), eingerichtet mit `tools/claude-global/einrichten.mjs`. Dabei gefunden: Bestandslauf 36233076125 stellte alle neuen Meldungen zurück, weil zwei gleiche Meldungen eines Abrufs doppelt in `dub-confirmed.yaml` landeten — `fetch-pruefungen.ts` gleicht jetzt auch untereinander ab. |
+| **Erledigt am 26.09.2026: Disc-Termin aus den News mit der aniSearch-Ausgabe verknüpft** | 3 | `lib/disc-termin.ts` (`ausgabeZumDiscTermin`): gleiche Box-/Volume-Nummer, Ausgabe höchstens ein Jahr vor dem Termin (die DVD-Box 04/10 von 2010 trifft nicht). Dragon Ball Z Box 4 zeigt „Box 04/10 (Uncut) · Blu-ray + DVD“ und führt zu aniSearch. Gemessen: 1 von 17 automatischen Disc-Terminen nennt eine Nummer (`tools/archiv/disc-termine-messen.ts`); die übrigen bleiben bewusst unverknüpft. Offen und nicht gebaut: das Platzhalterdatum 31.12.2026 der Ausgabe selbst durch den News-Termin ersetzen. |
+| **Erledigt am 27.09.2026: JustWatch-Abgleich für Titel ohne Treffer** | 3 | Gemessen: Die 646 „ohne Treffer“ sind im Hauptbestand 420 mit TMDB-Kennung und 139 ohne; dazu 610 Titel, die mangels Kennung nie gefragt werden (Namensabgleich ohne Kennung bleibt verboten, To Love-Ru). Stichprobe 30 der 420 (Keim 4711): **27 führt JustWatch gar nicht** (alte Serien/Filme), drei nur unter dem japanischen Namen oder jenseits von Rang 5 (Clannad: Der Film mit 2 Angeboten, Baki 2, Digimon: Der Film). Geändert: `sucheUeberNamen()` fragt alle drei Namen und 20 Treffer, bestätigt weiter über die TMDB-Kennung. Wirkt, sobald die Titel nach ihrer Frist wieder dran sind (5.–17.10.). Hochgerechnet ≈ 40 Treffer mehr, wenige mit Angeboten — der Rest ist bei JustWatch nicht zu holen. |
+| **Erledigt am 27.09.2026: Anime2You-Vorschläge eingearbeitet** | 5 | Sammelartikel „… Blu-ray-Termine verschoben“ werden jetzt ausgewertet (`lib/disc-verschiebungen.ts`, docs/wissen/quellen.md): Probelauf 22 Termine nachgezogen, greift nach dem nächsten Tageslauf (der Scraper holt die Tabellen nach). Verschobene Einzelmeldung nimmt den späteren Tag (Gantz). Von Hand: Takamine unter deutschem Namen, Afro Samurai, sieben fehlende Disc-Termine, Edgerunners II (Netflix). Nicht übernommen, weil ohne Synchro-Beleg: Rascal Dear Friend (Kino OmU), Demon Slayer IC bei Netflix, Dreamland, Seven Knights. Offen: zwei aniSearch-Einträge (Sakamoto Days Teil 2 Vol. 4, Dragon Maid S) — `disc-anisearch.yaml` erst nach dem laufenden Synonym-Lauf anfassen. |
+| **Erledigt am 25.09.2026: Crunchyroll-Wochenprogramm im stündlichen Lauf** | 5 | Regel mit Daniel: nur künftige Synchro-Folgen, nur mit Anschluss an die letzte beobachtete, Gemessenes nie überstimmen, Abweichungen als Vorfall. Erster Lauf: 13 Folgen übernommen, 1 Abweichung (Ascendance of a Bookworm S4). Offen: ob der Abruf vom GitHub-Runner aus durch Cloudflare kommt — erster stündlicher Lauf zeigt es |
+| **Erledigt am 24.09.2026: `tools/erneut-melden.mjs` — Netflix-Kennung erkannt, Konflikte selbst gelöst** | 2 | Ursache von (1) war nicht ein erfüllter Eintrag, sondern die Prüfung: `luecken()` fand Titel nicht, die die Liste unter Netflix-Kennung mit Netflix-Staffeln führt. Erfüllte Einträge räumt `verdachtsfaelle()` ohnehin (Beleg ab `seit`). Kuroko wieder auf der Wiedervorlage. Ursprüngliche Notiz: Zweimal am 24.09. abends: (1) Kuroko (11771) stand seit dem Vormittag in `data/erneut-melden.yaml`, war inzwischen gemeldet und eingearbeitet, fehlte deshalb in `offene-netflix.js` — die Prüfung „steht in YAML, fehlt in der Liste" verwarf jede neue Eintragung, bis ich die Zeile von Hand entfernte. Ein Eintrag mit Beleg ab `seit` ist erfüllt und gehört automatisch raus. (2) Zwischen Erzeugen und Push lief ein Bestandslauf; `git pull --rebase` endete mit Konflikten in `offene-netflix.js` und `pruefstand.json` (beides erzeugt), das Werkzeug blieb mitten im Rebase stehen. Richtig wäre: bei Konflikt nur die YAML übernehmen, die Listen auf dem neuen Stand neu erzeugen, dann pushen. |
+| **Erledigt am 24.09.2026: „Alle Folgen anzeigen" gemessen — Durchgang bleibt vorerst beim Menü** | 3 | Gemessen mit 4.21.10/4.21.11 (Abrufverlauf im Bericht): dieselbe `data.videos`-Abfrage je Staffel, alle auf einmal; bei langsamem Scrollen alle fünf JoJo-Staffeln vollständig (die 30er-Schnitte im ersten Bericht lagen am schnellen Scrollen). Gebaut wird die Ansicht erst, wenn der Menüweg wieder Probleme macht. Ursprüngliche Notiz: | Daniel mit Bild von JoJo: Der letzte Eintrag im Netflix-Staffelmenü heißt „Alle Folgen anzeigen" — „vielleicht ersparen wir uns sehr viele probleme wenn wir die extension einfach immer diesen eintrag nutzen lassen". Vorher messen: Welche Folgenliste lädt der Leser dann (alle Staffeln in einer Antwort oder seitenweise je Staffel)? Tragen die Folgen dort ihre Netflix-Staffel (`seasonId`)? Zählt Netflix dort durch oder je Staffel? Erst danach entscheiden, ob die Menü-Schleife aus 4.21.8 entfällt. |
+| **Erledigt am 24.09.2026: 9 falsch zugeordnete JoJo-Meldungen gelöscht (Kennungen 5317–5325, mit Daniels Ja)** | 1 | Der Durchgang mit 4.21.9 lief auch über „Stardust Crusaders" (Netflix-Staffel 2, 48 Folgen = unsere Staffeln 2 und 3, beide belegt) und meldete die Folgen 40–48 mit `staffel: 2`, `titel_id: 20474` — das ist unsere Staffel 2, die Folgen gehören zu „Battle in Egypt". Golden Wind (39, ohne Staffel/`titelId`) und Diamond Is Unbreakable (39, Netflix-Staffel 3, ohne `titelId`) sind richtig. Löschen braucht Daniels Ja (`tools/pruefung-zurueckstellen.mjs --zurueck 5317,…,5325 --wirklich-loeschen`). Sonst nach dem nächsten Bestandslauf prüfen, dass an 20474 kein Bereich über Folge 24 entstand. |
+| **Erledigt am 24.09.2026 (4.21.11): `titelId` 20474 kam aus zwei Zählungen** | 2 | `titelIdFuer()` übersetzte Netflix-Staffel 2 (gespeicherte Netflix-Liste) über unsere Liste. Jetzt ohne `titelId`, wenn beide Zählungen gemischt sind. Offen bleibt, warum Folgen 40–48 einer belegten Staffel als offen galten — beim nächsten Durchgang auf die Spur achten. Ursprüngliche Notiz: | `staffelnDerGruppe` gab für Folgen der 48er-Gruppe offenbar `[2]` zurück (Weg „Eine Meldung verrät die Staffel", alte Meldungen vom 22.08. mit Staffel 2) — obwohl die Gruppe zwei unserer Staffeln umfasst. Und Folgen 40–48 galten als offen, 1–39 nicht. Mit dem Bericht des nächsten Durchgangs nachmessen, dann beheben: Eine Gruppe, die mehr Folgen hat als die aus der Meldung abgeleitete Staffel, darf nicht dieser Staffel zufallen. |
+| **Erledigt am 24.09.2026: Melde-Durchgang sprang nach dem ersten Titel ohne Meldung weiter (4.21.5)** | 3 | Daniels Bericht mit der neuen Spur (4.21.4): Shaman King lief sauber, danach Naruto, Shippuden, Boruto, Beelzebub in drei Sekunden, jeder „Staffel nicht eindeutig", keine Kandidaten. Zwei Ursachen: `DURCHLAUF.folgen` trug noch die 52 Folgen von Shaman King (`pfadPruefen` leerte nur `alleFolgen`), und alle vier führen wir mit einer Staffel, die Netflix anders teilt oder kürzer führt (Beelzebub 48 statt 60). Jetzt wartet die Automatik auf die Liste der eigenen Seite (höchstens 20 s, dann Spur „keine Folgenliste"), und eine einzige eigene Staffel nimmt jede Netflix-Gruppe, deren Nummern hineinpassen, außer eine spätere Netflix-Staffel beginnt wieder bei 1. Dazu: Die Randprobe meldete 52 Folgen nacheinander (8 s bei „2/2"), jetzt sechs gleichzeitig. 14 Zusicherungen in `extension/durchgang-fremde-liste.test.cjs`. **Zu prüfen:** nächster Durchgang von Daniel. |
+| **Erledigt am 23.09.2026: Push-Klick führte immer zur Favoritenliste** | 2 | Daniel zur Clevatess-Meldung: „klick drauf öffnet nicht clevates detail panel in wochenansicht". Der Service Worker hatte kein Ziel — die Nachricht trug keins. Jetzt legt der Worker es daneben (`pushZiel()`, Migration 036 `offen_ziel`, angewandt und ausgeliefert): bei genau einer Meldung `#/woche?d=…&t=…`, sonst die Favoriten. Der Klick benutzt außerdem ein offenes Fenster und setzt dort die Route. Zu prüfen bleibt der nächste echte Push. |
+| **Erledigt am 23.09.2026: Netflix-Kasten blinkte auf jeder Titelseite (4.21.2)** | 2 | Seit dem 06.09. zeichnet der Sekundentakt den Kasten für den Prüflisten-Knopf, seit dem 11.09. versteckt ihn derselbe Takt ohne Auftrag. Sichtbar wurde es, als alle 376 Netflix-Wege ein Urteil hatten und die Prüfliste leer war. Die Trennlinie liegt jetzt am Ort: Player nur mit Auftrag, außerhalb bleibt der Kasten. |
+| **Erledigt am 23.09.2026: Disney+ behauptete „✕ DE 5–7" bei „Though I Am an Inept Villainess"** | 2 | Daniels Handprüfung: 1–8 deutsch, 9–11 japanisch. Der Befund war nicht falsch gemessen, sondern alt — die Erweiterung sah am 26.08.2026 sieben Folgen, davon vier deutsch, und die Synchro hat seitdem aufgeschlossen. Die Wiedervorlage fragt bei Disney+ erst nach 180 Tagen; für einen `dub: false`-Bereich bei einer **laufenden** Serie gelten jetzt 14 (`pipeline/lib/wiedervorlage-frist.ts`, Zusicherungen in `check:logic`). Gegenprobe gegen den Stand davor: genau dieser eine Weg kommt zusätzlich auf die Prüfliste. |
+| **Erledigt am 23.09.2026: Label und Hinweis der Pille bei gemischten Bereichen** | 3 | Daniel: „de in fokus und nicht de in tooltip", Hinweis „untereinander". Das Label nennt jetzt die deutschen Bereiche („✓ DE 1–8", ab dem dritten Bereich gekürzt mit „+N Bereiche") statt der Lücke; der Hinweis hat vier Zeilen: wie viele Folgen auf Deutsch, welche, „Ohne deutschen Ton: …", „Nicht im Angebot: …". `dubBild()` in `shared/dub-grenze.ts` trennt die drei Zustände, Zusicherungen mit One Piece und dem wilden Fall. |
+| **Erledigt am 27.09.2026: keine Browser-Tooltips mehr** | 1 | Die Pille war schon seit b0094d73 umgestellt; die übrigen zwölf `title`-Attribute (Datumssprung, heute, Abo, Neuigkeiten-Quelle, aniSearch-Link, Disc-Bände, Trailer-Knopf, Marken, Und/Oder) nutzen jetzt `Tooltip`. Dabei behoben: Tooltip-Hüllen um Knöpfe und Links waren ein zweiter Tab-Halt (58 Stellen) — `Tooltip` erkennt fokussierbare Kinder und gibt ihnen den Verweis auf die Blase. Bewusst geblieben: `title` am `iframe` (Pflicht) und an der zweizeilig gekürzten Reihen-Überschrift. |
+| **Erledigt am 23.09.2026: Ein Crunchyroll-Block deckt zwei unserer Titel** | 2 | `beurteileTeilblock()` belegt einen restlos deutschen Block, dessen Name genau einen Titel der Adresse trifft und dessen Folgenzahl diesen Titel plus seinen „Teil 2"/„Cour 2" exakt deckt. Warum nicht über die Blockkette: Die bricht ab, sobald ein anderer Block der Adresse unvollständig deutsch ist — bei SAO ist das „Alicization" (25 Folgen, 24 deutsch). **PoC vor der Umsetzung:** Eine reine Summenregel trifft 271 Blöcke, fast alle zufällig (Film + Serie); mit Namens- und Teilbedingung bleiben 8 Treffer, 0 Widersprüche — 7 davon bestätigen vorhandene Urteile (Haikyu!! To the Top, Dead Mount Death Play, Ancient Magus’ Bride S2, Space Dandy, Kokoro Connect, Monster-Mädchen, Chunibyo), der achte ist SAO WoU Teil 2. Acht Zusicherungen in `check:cr-zuordnung`, darunter fünf Gegenproben. |
+| **Erledigt am 23.09.2026: Premiere-Fähnchen verschob die Kalenderkachel** | 1 | Gemessen in der Wochenansicht: 18 px über einer Kachel mit Fähnchen, 6 px überall sonst. Die Hülle in `EventCard.tsx` trug `mt-3`, obwohl das Fähnchen `absolute` steht und im Fluss keinen Platz braucht. Jetzt `relative` ohne Abstand, Fähnchen `-top-1.5` — es ragt genau 6 px hoch, füllt den Zwischenraum und überlappt die Kachel darüber um 0 px. Am nachgebauten Fall im Browser gemessen; der Bestand führt zurzeit keine TV-Premiere. |
+| **Erledigt am 23.09.2026: Ohne deutsche Synchro in der Reihenliste sichtbar** | 2 | Vier Varianten an der echten Liste von Dragon Ball Super gebaut und als Bild vorgelegt (Daniel: „benutz echte daten, echte detail panel, und benutz mehr farbliche unterscheidung"). Seine Wahl: D — rotes Abzeichen 🇩🇪 ✕ vor dem Namen, Name auf 75 % gedämpft. Künftige Teile tragen es nicht, dort steht „ab <Datum>". Beide Themen im Bild geprüft. |
+| **Erledigt am 23.09.2026: Wo lassen sich die Dragon-Ball-Titel streamen?** | 3 | Antwort: Die Klassiker (Dragon Ball, Z, GT, Z Kai, Final Chapters) gibt es nirgends im Stream — JustWatch nennt nur Kauf und Verleih. Deutsche Wege haben sechs der 44 Titel. Ursache für die Lücke waren fehlende und eine falsche TMDB-Kennung, beide behoben. Vollständige Messung im Abschnitt „Recherchiert 23.09.2026" weiter unten. Offen bleibt Super Dragon Ball Heroes — JustWatch hat gedrosselt, die Antwort kommt mit dem nächsten regulären Lauf. |
+| **Erledigt am 22.09.2026: Lauf „Bestand — zusammenführen und bauen" (35748165978) brach mit 1172 Widersprüchen ab** | 1 | Ursache: `pruefeErgebnis()` in `pipeline/build.ts` stand bei Zeile 6763, direkt nach `expandEvents` — die heutige Prüfung „ein TMDB-Weg trägt `ueberTmdb`" (Commit a62d33d) lief damit **vor** dem Block „Kein Weg auf eine Datenbank", der diese Kennzeichnung erst bei Zeile ~7291 setzt. Keiner der 1172 Wege war unbelegt, nur die Reihenfolge stimmte nicht. Fix in PR #208 (Issue #207): Prüfaufruf hinter die Kennzeichnung verschoben; `releases`/`events` ändern sich zwischen beiden Stellen nicht. `check:vor-commit` grün, `data:build` lokal nicht reproduzierbar (kein `data/cache`). **Zu prüfen bleibt:** nächster Remote-Lauf von „Bestand — zusammenführen und bauen" sollte grün durchlaufen. |
+| **Erledigt am 30.09.2026: alte Belege ohne Folgenangabe — 290 von 296 aufgelöst** | 3 | Nachgemessen: In `data/erneut-melden.yaml` tragen **296** Einträge den Grund „ohne Folgenangabe"; **290 davon sind inzwischen erfüllt** (ein neuerer Beleg ist angekommen) und fallen von selbst heraus. Offen waren 6, davon 3 **Kanal-Titel** (über Prime nie belegbar, seit heute übersprungen). Auf der Prüfliste steht davon nur noch **Bleach: Thousand-Year Blood War** (Disney+). Dazu **40 Test-Einträge entfernt** („Test Erweiterung 4.21.0", „Abschlusstest Netflix-Durchgang 4.21.12/4.22.0/4.22.3") — 39 längst erfüllt, der letzte offene war My Hero Academia. **Die Prüfliste führt damit nur noch echte Fälle: Amazon 3, Netflix 0, Disney+ 2.** Ursprungsnotiz (27.09.2026): | In `data/erneut-melden.yaml` stehen **290** Einträge mit dem Grund „Alter Beleg ‚deutsch' ohne Folgenangabe, Rohdaten fehlen — Folgen einzeln melden (Stufe 4)" (gemessen 28.09.2026; die Datei führt insgesamt 359 Einträge). Auf den Pillen der Statusanzeige erscheinen davon **138 Amazon · 7 Netflix · 4 Crunchyroll** — die Anzeige zieht ab, was schon gemeldet oder inzwischen beantwortet ist (Daniels Zahlen vom 28.09.2026). Mit „▶ alle durchgehen" holt die Erweiterung die Tonspuren je Folge; daraus entstehen Urteile (Stufe 4, Schritt 3). **Die 4 Crunchyroll-Einträge sind eine andere Sorte:** Verweise ohne Sprachurteil aus `tools/pruefstand.mjs`, keine Folgen-Belege — sie beantwortet der wöchentliche Crunchyroll-Lauf. |
+| **Erledigt am 21.09.2026: ADN-Katalog ordnete Filme fremden AniList-Titeln zu** | 2 | 882 „One Piece - Der Film" → 18617 „Girls und Panzer der Film" (geteilt nur „film"): im Bestand stand ein One-Piece-Link an Girls und Panzer. `passtZuSerie` ignoriert jetzt Werkwörter, der Bau verwirft solche Katalogzuordnungen. Gegenprobe über 89 Zuordnungen im Bestand: nur dieser eine fällt heraus. Die drei One-Piece-Filme (459/460/2107) über `adn-adressen.yaml`. |
+| **Erledigt am 21.09.2026: `check:tote-adressen` schlug wiederholt fehl (Läufe 35597691429, 35619070607)** | 1 | Ursache: `data/verweise-von-hand.yaml` trägt seit dem 10.09.2026 einen Prime-Verweis (`/dp/B0D544CDK6`, Haikyu!! Karasuno vs. Shiratorizawa), `data/link-check.json` misst dieselbe Seite seit dem 21.09.2026 als regionsgesperrt aber unter `/gp/video/detail/B0D544CDK6` — der exakte Schlüsselvergleich in `build.ts` fand den Befund nicht, die Adresse blieb im Datensatz. Kein Datenverlust: Der Riegel hat beide Male den Commit verhindert. Zwei Fixversuche parallel: Mein eigener (Filter direkt in der `verweise-von-hand.yaml`-Runde, ohne Normalisierung — wäre wirkungslos gewesen) und PR #194 (dieselbe Runde, mit `amazonAdresseRichten`-Normalisierung). Beide überholt von Daniels direktem Commit e7f0656 auf `main` (mit Claude Opus 5): `linkBefunde` fällt jetzt generell über `adressKern` auf den Befund derselben Seite zurück, unabhängig von `/dp/` oder `/gp/video/detail/` — behebt damit auch jeden künftigen Fall derselben Ursache, nicht nur diese eine Runde. `check:logic` trägt seitdem `befundJeKern.get(adressKern(k))` als eigene Zusicherung. PR #194 und Issue #193 als überholt geschlossen, Issue #197 (eigener Duplikat-Versuch) ebenfalls. **Zu prüfen bleibt:** nächster Lauf „Bestand — zusammenführen und bauen" sollte `check:tote-adressen` grün liefern. |
+| **Erledigt am 20.09.2026: Bau-Abbruch bei Crunchyroll-Beobachtungen (Lauf 35507532910) — eigener Fund war ein Duplikat** | 1 | Zwölf Widersprüche „letzter Termin liegt vor der frühesten belegten Beobachtung" — Ursache: `beobachtet` (neu aus Commit 43291ca) nutzte Crunchyrolls Rohnummer `f.nummer` als Schlüssel, die bei vielen Blöcken über die ganze Reihe zählt statt über die Staffel (gemessen: mind. 20 Blöcke, u. a. Attack on Titan S2 beginnt bei 26). `expandEvents` erwartet aber Positionsnummern 1..episodeCount; fehlte der Stützpunkt für Folge 1, rechnete die Rückwärtsrechnung vor den belegten Start. Mit synthetischen Daten reproduziert und bestätigt. Parallele Session (Daniel/Claude Opus 5, Commit f77a911, direkt auf `main`, ohne PR) hatte dieselbe Ursache schon behoben, bevor mein Issue #176 fertig war — dort wird `beobachtet` bei nicht passenden Nummern komplett verworfen (konservativer, aber verliert die Tages-Genauigkeit bei den ~20 betroffenen Blöcken). Issue als Duplikat geschlossen, Verbesserungsvorschlag (Positions- statt Rohnummer-Schlüssel, verliert keinen Block) dort hinterlassen — nicht umgesetzt, da kein rotes Signal mehr ansteht. **Erkenntnis, drittes Mal:** `gh run list` vor dem eigenen Fix geprüft, aber erst nachdem die Analyse schon stand — beim nächsten automatisch ausgelösten Auftrag zuerst prüfen, dann analysieren. |
+| **Erledigt am 19.09.2026: `check:handbelege` — Adressbeleg ohne Urteil zog die Stream-Suche auf sich (Lauf 35469312736)** | 1 | „20474 (Stardust Crusaders) — primevideo: von Hand als deutsch geprüft, im Datensatz steht dub=undefined", obwohl `B0GX7VDJK3` (dub: true) korrekt im Datensatz stand. Ursache: Commit 7c9e84a ließ zur JoJo-Sammelseite `B0CG7S59KL` nur eine urteilslose Notiz-Zeile stehen; die Ja-Prüfung verglich weiterhin den **ersten** Stream des Titels, egal ob dessen Adresse zum Ja-Beleg gehörte. Behoben in Commit 8c65708 (Daniel/Claude Opus 5) — der Ja-Zweig sucht jetzt gezielt den Stream der eigenen Ja-Adresse. Nachlauf 35469424722 grün. **Eigener Fund war ein Duplikat:** Ich hatte dieselbe Ursache unabhängig diagnostiziert (Issue #170, PR #171 mit einer Variante an anderer Stelle — Adressfilterung vor dem Ja/Nein-Zweig statt danach), aber Commit 8c65708 landete auf `main`, bevor mein PR fertig war. Issue und PR als Duplikat geschlossen. **Erkenntnis, zweites Mal:** Vor dem eigenen Fix `gh run list` **und** `git log origin/main` prüfen — die vorherige Lehre vom 19.09. (PR #169) bezog sich auf laufende Sessions, hier lag der fremde Fix schon fertig auf `main`, nur lokal noch nicht gezogen. |
+| **Erledigt am 19.09.2026: `check:handbelege` bei mehreren Adressen je Titel/Anbieter** | 1 | Lauf 35468723474 brach ab: „20954 (A Silent Voice) — primevideo: als „nicht verfügbar" geprüft, steht aber noch im Datensatz" — ohne echten Widerspruch. Ursache: Zwei Prime-Belege zu 20954 mit verschiedenen Adressen (alte Seite `available: false`, aktuelle Seite „Kanal-Nein ohne Urteil") wurden über `anilistId:platform` in eine Gruppe geworfen, die Adresssuche akzeptierte die unbeurteilte aktuelle Adresse als Beleg für das „weg"-Urteil der alten. Eine parallele Session (Daniel/Claude Opus 5, Commit 137b10e) hatte denselben Befund schon behoben, bevor mein eigener PR #169 fertig war — als Duplikat geschlossen, Issue #168 ebenfalls. Nachlauf 35469004583 danach grün. **Erkenntnis:** Bei automatisch ausgelösten „roten Lauf untersuchen"-Aufträgen zuerst `gh run list` nach einer bereits laufenden/fertigen Parallel-Session für denselben Lauf prüfen, bevor ein eigener Fix committet wird. |
+| **Erledigt am 18.09.2026: Durchgang mit Daniel** | — | Vorher selbst geklärt: Crunchyroll ohne Urteil 5 → 0, Suchadressen 5 → 0, Classroom und Free! S1/S3 entwirrt. Mit Daniel: Quintuplets S1+S2 (Netflix, nach Fix 4.20.27 sauber getrennt), Horimiya S1+S2, Jormungand S1+S2 (bei Prime nicht mehr erhältlich, auch nicht in der Suche), Mob Psycho 100 S1–S3 (S3: vier Folgen mit falscher Amazon-Sprachliste, Crunchyroll hat alle 12 deutsch), Free! Dive S3, Your Name (neue Ausgabe; erste abgelesene gti = JustWatchs gti). |
+| **Erledigt am 18.09.2026: Netflix-Meldungen über den Folgentitel zuordnen** | 3 | Daniel: „episodentitel sind doch viel eindeutiger“. PoC über 671 Netflix-Meldungen mit Folgentitel: aniSearchs deutsche Folgentitel (je Eintrag, wie unser Bestand gezählt) trafen 466, **alle eindeutig**; TMDB 406, aber nur je TMDB-Staffel, also ohne direkten Titel. 36 Treffer wichen von der Meldung ab, alle zugunsten des Ankers: 34× Jujutsu Kaisen (Netflix zählt S2/S3 als S1 F26–59), 2× SAO mit vertauschter Staffel. Ohne Treffer (163): abweichende Übersetzungen (One Piece, Black Clover), Platzhalter „Folge N“. Gebaut: `lib/folgentitel-anker.ts`, der Import fragt ihn vor der Zählung (nur Adressen mit Staffelliste des Anbieters). Altbestand geprüft: SAO/SAO II stehen seit 06.09. richtig. Offen als Idee: derselbe Anker in der Erweiterung (Knopf zeigt Titel statt Zahl) und im Zweig ohne Staffelliste. |
+| **Gestrichen am 18.09.2026: „Ein Werk bleibt offen, bis jede Staffel gemeldet ist“** | — | Unbegründet: Perfect Order hing nicht an Jormungand, es hatte längst ein Urteil; der Eintrag verschwand, weil er erledigt war. |
+| **Erledigt am 18.09.2026: Jormungand-Einträge aus `verweise-von-hand.yaml` genommen** | — | Beide Prime-Seiten nicht mehr im Abo, kein Kauf, nicht in der Suche. |
+| **Durchgang 19.09.2026 abgeschlossen** | — | Stand 23:08: Netflix, Suchadressen, Prime ohne Urteil, 14 JustWatch-Kandidaten und JoJo gemeldet und eingearbeitet. Offen bleibt ein Prime-Auftrag: Diamond is Unbreakable unter B0CJC2JNPM (JustWatch-Weg, ungesehen). Nächster Durchgang mit `/ai-daniel-todos`. |
+| **Erledigt am 20.09.2026: Briefkasten geräumt — sieben liegengebliebene Meldungen** | 1 | Fünf zugeordnet: Captain Tsubasa (2018) führt Prime in Bögen („Elementary School“ 14, „Junior High School“ 12, Meldungen 4551/4553), KonoSuba 2 steht als Prime-Staffel 2 unter der Reihe von Staffel 1 (4741/4746) — alle vier als Wege eingetragen. Drei abgehakt, weil bei uns kein Titel dazu existiert: Fushigi Yugi Staffel 1 = die Fernsehserie von 1995 mit 52 Folgen (4734, ohne deutsche Fassung, deshalb nicht im Bestand), KonoSuba 3 (4742, Kanal-Nein ohne Beleg, Titel 136804 ohne Prime-Weg) und die tote Jormungand-Seite B0DNCF1M3N (4679, die Verweise sind seit dem 18.09. draußen). Damit ist die Warnung „Meldungen auffällig“ im Bau weg. |
+| **Erledigt am 28.09.2026: Die offene Frage zur JustWatch-Erkennung ist gemessen (Bericht vom 28.09.)** | 2 | Daniel hat die Air-Gear-Seite über JustWatch geöffnet (Prime-Angebot angeklickt) und im Amazon-Kasten **„Bericht laden"** gedrückt: `C:\Users\ih\Downloads\anime-kalender-diagnose-2026-09-28T12-08-13-957Z.json` (Version 4.24.2). **Ergebnis:** Adresse `https://www.amazon.de/gp/video/detail/0L8OEXAMVVVVJF4LJA0B8D1BIP?ref_=atv_dl_rdr` — **JustWatchs gti `4825705e-aa8e-4aee-95d3-82f94649bb23` steht im Quelltext**, an **Position 25 von 37**; die Kopf-gti ist wie vermutet `66c97aeb…` (Position 0). **Und die Seite wurde trotzdem erkannt:** `zustand.eintrag.titel` ist `null` (kein Auftrag), aber `seiteGehtUnsAn: true`, `letzteKennung: "?&#124;1&#124;0L8OEXAM…&#124;Air Gear"` und `zaehlstand` liest alle **26 Folgen** (alle „Deutsch, 日本語"). Der Weg ohne Klick trägt also über die **Adresse**; die Idee „alle gtis gegen die Liste halten" wäre möglich (JustWatchs gti ist da), aber nicht nötig. **Nebenbei:** Air Gear selbst war längst beantwortet (Beleg vom 19.09.2026, „alle 26 Folgen geprüft", `dub: true`) und steht auf keiner Prüfliste. Der Kasten zeigte „… · neu · melden", `lokalAbgehakt: [1]` — gemeldet wurde nichts, es war nichts zu melden. |
+| **Erledigt am 20.09.2026: 26 geteilte Prime-Adressen gemessen und berichtigt** | 3 | `tools/prime-geteilte-adressen.mjs` über Daniels Leitung gelaufen (51 Belege, 26 Adressen). Sechs Belege zeigten auf eine fremde Seite und hängen jetzt an der gemessenen (How a Realist Hero, Granblue Fantasy, Lupin Goemon, Zombie Land Saga, Magical Girl Spec-Ops Asuka, Pac-Man); drei belegten gar nichts und sind entfernt (Ragna Crimson, Lupin III. Part 1, Dragon Ball Super: Super Hero). Der Rest teilt sich Adressen zu Recht — dieselbe Ausgabe oder derselbe Sammeleintrag. |
+| **Erledigt am 17.09.2026: Panel-Stichprobe nach dem Umbau-Abend** | 1 | Zwei Läufe à 50 Panels (Keime 4711 und 8123, der zweite nach dem Fix und auf frischem Stand). Ein Befund: Die Pille „Deutsche Ausgabe bei aniSearch" stand bei **allen 186** Titeln mit dieser Pille unter „Noch keine deutsche Fassung" — sie heißt jetzt „Ausgabe bei aniSearch", denn der Sprachblock belegt eine Veröffentlichung, keine Tonspur. Danach 0 Befunde. Die Texte wurden gelesen, nicht nur gezählt (die Zahl allein hat am 16.09. vier Fehlerarten übersehen). |
+| **Erledigt am 17.09.2026: Gegenprobe der Film-Belege aus JustWatch** | 2 | 664 Wege in 269 Filmen sind an einem Abend auf „DE ✓" gesprungen, allein aus JustWatchs Tonspur je Angebot — deshalb vor dem Stehenlassen gegengeprüft. `tools/apple-tonspur-gegenprobe.mjs` liest die Tonspurzeile direkt aus Apples HTML („Deutsch (Deutschland) (AAC), Japanisch (Japan) (AAC)", ohne Anmeldung, ohne Browser): von 200 Apple-Belegen 60 gleichmäßig über den Bestand geprüft, **59 bestätigt, 0 widersprochen**, einer ohne Sprachliste. Dazu maxdome 2/2 im Browser. maxdome, MagentaTV und Rakuten laden per JavaScript nach und brauchen den Browser. |
+| **Erledigt am 17.09.2026: Kino-Karussell auf der Nachrichtenseite** | 2 | Daniel: „füg oben bei news ein karussel hinzu für aktuell laufende und kommende kinofilme“. `KinoKarussell` in `NewsView.tsx` aus den Kino-Releases: laufende zuerst (`cinemaUntil` → „bis …“, sonst „Start …“, höchstens 28 Tage zurück — ein letzter Spieltag ist derzeit bei keinem der 7 Releases belegt), dann kommende („ab …“). Stand 17.09.: 5 Karten (Conan, All You Need Is Kill, A New Dawn, Madoka, Witch on the Holy Night). Bilder beider Themen und Handy geprüft. Nachtrag 17:50: „Your Name“ als CineAnime-Einzelvorstellung am 29.09. kuratiert (CineStar: 30 deutsche Vorstellungen in 28 Kinos; der Abruf ordnet Titel mit zwei Wörtern nicht zu); der Bau holt den letzten Spieltag jetzt auch über die CineStar-Seite in den Quellen, die Karte zeigt dann „am 29.09.“. |
+| **Erledigt am 17.09.2026: Vercel-Speicherwarnung — Weiche war mit dem Repo verbunden** | 1 | Daniels Frage zur Mail „75 % von 10 GB Deployment Storage“ (15:17). Ursache: `cr-weiche` war seit dem 16.09., 21:31, mit dem GitHub-Repo verbunden, ohne Stammverzeichnis — jeder Push ein Produktions-Deployment des ganzen Repos (150 insgesamt), die Weiche lieferte die Kalender-Seite und `/api/cr` gab 404 (Nachhol-Lauf 35225541742: Rückfall aufs Secret). Mit Daniels Freigabe (16:59): Verbindung getrennt, CLI-Deployment `dpl_BGps21AYUPKpZTqMatfvNEWCFYsr` wieder befördert (neues Deployment verhinderte das Tageslimit), 147 Git-Deployments gelöscht. Weiche-Test 35237744347: dreimal `fra1`/`DE`. |
+| **Erledigt am 17.09.2026 (autonomer Modus): zwei Panel-Texte aus Stichproben 719/911** | 1 | „1 Fg." an Pillen von Werken mit genau einer Folge entfällt (Dr. Stone Ryusui). „Kein deutscher Anbieter führt ihn bisher" steht nur noch bei Filmen ohne Verweis und ohne Angebot (Digimon tri. 5 hatte sechs Kaufangebote). Beide Fälle meldet `check:stichprobe` künftig. Dazu aus 1013: TV-Sichtung ohne „Finale Folge“/„Wöchentlich“ (Pokémon Horizonte), „Für die übrigen fehlt uns eine Angabe“ entfällt, wenn die übrigen Folgen als ohne Deutsch belegt sind (Gundam GQuuuuuuX); aus 1229: offenes Zeitraumende auch in „aniSearch nennt …“ (Superbuch). Stichproben 613, 719, 823, 911, 1013, 1117, 1229 gelesen. |
+| **Erledigt am 17.09.2026 (autonomer Modus): Gedächtnis entfernter Verweise — YouTube-Kennung, Nein je Titel, Kanal-Lücken** | 2 | Drei Funde aus Stichprobe 823 und dem Bau danach. (1) `adressKern()` machte jede YouTube-Adresse zu `youtube.com/watch` — ein Nein zu einem Video sperrte alle (30 aniSearch-Videos nie ergänzt); die Kennung gehört jetzt dazu, Belegzahl unverändert 1.790. Die 25 jetzt ergänzten Videos fallen im selben Bau durch „Umfang unbekannt". (2) „belegtes Nein" sperrt nur noch seinen Titel — das Nein zu Princess Principal Kapitel 3/4 hatte Kapitel 1/2 den Weg genommen (Bau 35232831023: Verweise 2.082 → 2.078, nach dem Fix wieder 2.082). (3) Nein-Bereiche aus Kanal-Meldungen fallen beim Einlesen weg (10 Zickzack-Belege, 8 Kanal-Titel; Mob Psycho 100 III jetzt „2–5, 7, 9, 11–12" statt „✕ DE 1, 6, 8, 10"). Geprüft und gelassen: ADN (`?s=N`) und Amazon-Suche (`?k=`) teilen sich ebenfalls Kerne über den Parameter hinweg — 0 Belege betroffen, und das Nein hängt jetzt am Titel. Offen, nicht angefasst: The Irregular at Magic High School (Prime-Eigeninhalt, Lücken 1–2, 5) — Solo Leveling 151807 danach von Hand berichtigt: Lücken vom 31.08. entfernt, drei spätere Meldungen (15.–17.09.) messen alle 13 Folgen deutsch; Bau 35233959285 ohne Bereiche. Ein jüngerer Beleg ohne Bereiche löscht ältere Bereiche bewusst nicht (bei Captain Tsubasa `B0CVQW43HC` ist er eine Teilausgabe, 14 von 52). |
+| **Erledigt am 17.09.2026 (autonomer Modus): Princess Principal: Crown Handler, Kapitel 1–4 beurteilt** | 1 | Crunchyroll führt die vier Filme als Folgen I–IV eines Blocks, deutsch I und II. `kapitelImBlock()` ordnet „… - Chapter N" der N-ten Folge zu (PoC: genau diese vier Titel; Gegenprobe im Archiv: Folgentitel „Crown Handler I–IV", Reihenfolge passt zu den Jahren 2021/2021/2023/2025). Läuft in der Katalog-Runde **und** in der Nachrunde — die Verweise entstehen erst in der aniSearch-Ergänzung, der erste Bau (35230591392) traf deshalb nichts. Bau 35231060996: Kapitel 1 und 2 „DE ✓", 3 und 4 als belegtes Nein entfernt, ohne Urteil 14 → 10. Übrig: 5 Prime (Daniel), 2 One-Punch-Man-OVA-Sammlungen (nicht im Block), das Kurz-OVA „BUSY EASY MONEY", Captain Tsubasa 2018 (bewusst offen). |
+| **Erledigt am 17.09.2026 (autonomer Modus): Captain Tsubasa 2018 ohne falsches Crunchyroll-„DE ✓"** | 2 | Crunchyroll führt die Serie von 2018 und „Junior Youth" unter `GZJH3D7G9` in einem Block; deutsch sind nur die laufenden Nummern 53–91. `laufend` wird jetzt gespeichert (24.860 Folgen aus dem Archiv nachgetragen), `deutscheFolgenNachDemEnde()` sperrt vier Wege: Einzelserien-Regel, Namensabgleich, beide Bereichsübertragungen, beide Katalog-Runden. Bau 35230125851: 100745 ohne Urteil und ohne Bereich bei Crunchyroll, Urteile 2.071 → 2.070, Titel mit Synchro unverändert 1.604 (Prime-Kaufausgaben). |
+| **Erledigt am 17.09.2026 (autonomer Modus): 35 Crunchyroll-Verweise mit „DE ✓" zurückgeholt** | 3 | Ursache: 109 Serien trugen `nichtVerfuegbar` aus dem **US**-Lauf vom 21.08.; der Bau entfernte ihre Verweise, und weil die Dub-Warteschlange sich aus den Verweisen bildet, kamen 14 davon nie zur Prüfung mit deutschem Zugang. `usNeinWiderlegt()` lässt sie offen, wenn der deutsche Katalog die Serie mit de-DE führt und noch kein deutscher Befund vorliegt. Nachhol-Lauf 35225541742 (`nur_fehler`) prüfte sie mit deutschem Zugang; Bau danach: Urteile 2.041 → 2.071, Titel mit Synchro 1.595 → 1.604, offen 15. Neu mit „DE ✓": InuYasha samt vier Filmen und Final Act, Death Note, One-Punch Man, K-On!, Kokoro Connect, Flowers of Evil, Tsubasa Chronicle, Princess Principal u. a. Unterwegs ein roter Bau (35225087674, `check:cr-zuordnung` hielt das alte Entfernen fest) und eine zu breite erste Fassung (fünf „DE ✓" verdrängt) — beides behoben, Lauf abgenommen. |
+| **Erledigt am 18.09.2026: zwei gleich aussehende Prime-Pillen** | — | Selbst entschieden (Daniel: „du bist der master des projekts“): Wege mit gleicher Plattform, Zugangsart, Sprachurteil und Folgenbereich werden im Panel zu einer Pille zusammengelegt; im Datensatz bleiben beide. Berserk (Fg. 1–13 / 14–25) behält zwei. |
+| **Erledigt am 18.09.2026: „DE nur Fg. 1“ bei Stichproben-Belegen** | — | Selbst entschieden: „nur Fg. 1“ steht nur noch, wo der Weg wirklich nur eine Folge ist (einzelnes YouTube-Video, `nurFolge`); sonst der Bereich „Fg. 1“ wie bei jedem anderen Beleg. |
+| **Erledigt am 17.09.2026 (autonomer Modus): Stichprobe Keim 131 — drei Anzeigefehler** | 1 | Steel Ball Run „1 von 1 Folgen erschienen" → „1 von 12" (lückenlos aneinandergereihte Releases zählen; gemessen trifft die Regel nur diesen Titel, eine einfache Höchstzahl hätte acht verfälscht). „DE nur Fg. 1" bei Titeln mit einer einzigen Folge → „1 Fg.". „Auf Deutsch erschienen 1996 - ?" → „1996" (17 Titel). Keim 211: Filme ohne Synchro sagten „kein Anbieter" zweimal (3 Titel) — behoben. Alle vier Fehlerbilder prüft `check:stichprobe` jetzt mit. Keim 307: „Für Folgen 11 kennen wir keinen deutschen Anbieter" bei laufenden Wochenserien (Dub-Bestand hinkt dem Plan hinterher) — ein Anbieter mit laufendem deutschen Plan gilt als vollständig; Einzahl „Für Folge 11". ICS-Feeds falten jetzt nach Oktetten (357 überlange Zeilen in all.ics). |
+| **Erledigt am 17.09.2026 (autonomer Modus): Wache und Stichprobe — fünf Fehler behoben** | 3 | (1) `verweise-entfernt.json` flatterte 836 ↔ 769 (78 Crunchyroll-Adressen) — Gedächtnis übernimmt gesperrte Einträge, zwei Bauten danach stabil bei 847. (2) Sechs Joyn-Verweise mit 404 seit 20.08. standen ohne Urteil im Datensatz — späte Ergänzungen prüfen `link-check`; ohne Urteil 13 → 4. (3) Vinland Saga S2 zeigte die S1-Seite `B0C55SJB1W` mit „DE ✓" (Rohfolgen tragen die Prüflisten-Adresse) — Zuordnungen, deren Adresse ein Handbeleg einem anderen Titel zuschreibt, werden übersprungen (6). (4) JustWatch-Partnerkennung `tag=movie0c6-21` (11) und `ref=anisearch` (44) entfernt. (5) „Amazon Dvd / Blu Ray" und „Buecher" heißen jetzt „Amazon (DVD / Blu-ray)" und „bücher.de". (6) Rohfolgen tragen seit Migration 030 die gemeldete Seite; der Worker räumt je Seite auf (vorher löschte Staffel 2 die offenen Folgen von Staffel 1), der Bau nimmt die Seite bei fremd belegter Adresse. Die sechs Altfälle bleiben übersprungen, bis sie neu gemeldet werden. |
+| **Erledigt am 17.09.2026: Lange Reihen im Panel und RTL+-Zeichen** | 2 | Pokémon (112 Teile): ab 15 Teilen Suchfeld und Reiter je Art mit Zahlen, Teile ohne deutsche Synchro hinter „+N ohne deutsche Synchro", Jahr in Zeilen ohne deutschen Termin — im Bild und per Klick geprüft (Suche „schwarz" → 4 Teile). RTL+-Wortmarke zugeschnitten, im Panel als drei Kästen sichtbar statt Strich. |
+| **Erledigt am 16.09.2026: Status-App-Fragen — Fruits Basket, Prime-Suche ohne Kasten, Crunchyroll-Pille** | 3 | (c) Die Abhakung war richtig: Meldung trägt `seiten_kennung` B0GDFC7BL6 und Staffel 3. Falsch war der Altbeleg vom 30.08., der die Seite an Staffel 1 (105334) hängte; umgehängt auf 124194, dazu 14 Altbelege derselben Art über die Staffelnummer im Namen (Kizuna S2, Trapped S2, Vinland S2, CotE S3/S4, Arifureta S3, Eminence S2, Schleim S4, Irregular S3, Berserk 2017 S2, Our Last Crusade S2; Kuroko, Wind Breaker, Saint's doppelt → Kopfzeile entfernt). Zusicherung in `check:logic`. (b) `extension-offene-amazon.mjs` las Suchadressen nur aus den Verweisen, die der Bau seit 10.09. entfernt — jetzt auch aus `data/suchadressen-offen.json`; eine leere Suche mit Amazons Satz „keine Ergebnisse" ist ein Befund (4.20.22). (a) Die neun Crunchyroll-Verweise über den deutschen Katalog von hier geklärt (Belege vom 16.09.) |
+| **Erledigt am 16.09.2026: Crunchyroll-Verweise auf eine Reihe, die das Werk nicht führt** | 3 | `data:cr-offene` erkennt jetzt „tot", wenn die Staffelliste vollständig ist (Summe = Katalogzahl), keine Staffel die Art oder (TV/ONA) das Startjahr trägt und die Suche nichts anderes nennt (`lib/cr-reihe.ts`, Zusicherungen in `check:logic`). Gegenprobe über 40 handbelegte Titel: kein falsches „tot", 31 Urteile deckungsgleich. Läuft seit 16.09.2026 in der Cloud über die Vercel-Weiche in Frankfurt (`weiche-vercel/`, Wochenlauf und `daten-auf-abruf`); die Cloudflare-Weiche davor trug nicht (CLAUDE.md). Das Zugangspaket `CR_ZUGANG` entsteht seit demselben Abend in jedem Workflow frisch über die Weiche (Lauf 35141736215: Paket DE, `data:cr-offene` grün) |
+| **Erledigt am 16.09.2026: TV-Ausstrahlungen als eigene Termine** | 5 | Daniel an Dragon Ball DAIMA: „tägliche tv releases sind ein paradebeispiel …". Gebaut: `platform: tv` mit Sender, `schedule.wochentage`, Anzeige des Senders überall; DAIMA als Handeintrag (TOGGO plus, 20 Folgen bis 22.09.); stündlicher Abruf des RTL+-Programms mit automatischen TV-Terminen (erster Fund: Pokémon Horizonte auf Super RTL und TOGGO plus). Quellenrecherche unten. **Offen:** Sender außerhalb der RTL-Gruppe (ProSieben MAXX, Nicktoons, KiKA) haben keine legale Quelle; dort nur Handeinträge |
+| **Erledigt am 17.09.2026: Your Name — sechs Befunde an einem Titel** | 5 | (1) **TMDB-Zuordnung berichtigt:** `similarity` teilte durch den kürzeren Titel, „Your Name." steckt in „Call Me by Your Name"; jetzt durch den längeren, bei Gleichstand gewinnt der bekanntere Treffer (372058 korrekt). Ein Fehltreffer behält die alte Zuordnung. `tools/tmdb-teilstueck-treffer.mjs` misst den Altbestand: 18 Verdachtsfälle, 8 davon belegt falsch (fremde Werke, u. a. „Senso Unico", „Belle, Sebastian and the Horses", koreanisch „별나라 삼총사") — entfernt, der nächste Lauf sucht neu. (2) „Streamstart noch nicht bekannt" entfällt, wo Stream-Wege verlinkt sind; unter einem Kino-Banner ohne Stream steht er weiter. (3) **YouTube-Trailer-Pillen entfernt** — fünf Verweise mit `kategorie: Trailers` (60–106 s), bei Your Name sogar OmU. (4) Prime-Link `B0FLLFC2L6` von hier als 404 gemessen; der Linklauf holt ihn nach (96 tote Adressen im ersten Los). (5) **maxdome mit „DE ✓":** Bei einem Film belegt JustWatchs Tonspur je Angebot den Weg — 435 Wege in 231 Filmen. (6) **Wiederaufführung** als Chip im Kino-Banner (Kinostart mindestens zwei Jahre nach dem japanischen Jahr). |
+| **Erledigt am 17.09.2026: Kino-Banner im Detail-Panel** | 3 | Banner zwischen Trailer-Zeile und Antwort-Kasten mit Filmstreifen-Kante, 🎬-Kreis, Zeitraum („Nur am 29.09.2026 im Kino", „Im Kino bis …", „Ab … im Kino"), WIEDERAUFFÜHRUNG-Chip, Verleih/FSK, Notiz und Merken-Knopf; die Kino-Pille entfällt dafür in der Wegeliste. Kino-Release ist aus `filmTermine`, `ohneDisc` und `fuerKopf` gefiltert. Im selben Zug: Die Wegeliste rollt nicht mehr, der Kasten wächst (bis 13 Wege je Film seit den JustWatch-Angeboten). |
+| **Erledigt am 17.09.2026: JustWatch fragt alle Titel, Wege auch bei Titeln mit Wegen** | 3 | Abruf 35252015912: 1.432 Titel gefragt, 1.157 zugeordnet (19 % ohne Treffer, Grundlinie 23 %), 660 mit deutscher Tonspur, 0 Fehler. Bau 35254668531: **640 Cartoon-Verweise** mit echter Anbieteradresse, 61 neue digitale Wege bei Titeln mit Wegen, 44 bei Titeln ohne Weg; Apple TV 253 Titel, ohne jeden Weg noch 229. Der Zuwachs ist klein, weil TMDB dieselbe Datenbasis hat — JustWatch bringt die Direktlinks und was TMDB nicht kennt. Recherche dahinter: Daniels Frage (19:12). **Quellen:** TMDB-Watch-Provider (JustWatch-Daten, je Titel, Link nur zur TMDB-Übersicht) und JustWatchs GraphQL (`fetch-justwatch-audio.ts`, Direktlink je Angebot, ersetzt die TMDB-Übersicht). **Gemessen:** 250 von 2.772 Titeln haben einen Apple-TV-Weg (238 direkt, 12 noch TMDB-Übersicht). JustWatch kennt Apple-Angebote bei 242 Hauptbestands-Titeln, davon 239 gezeigt, 3 fehlen (alle laut JustWatch mit deutschem Ton). **Lücke:** JustWatch fragt nur Titel mit offener Frage (unbeurteilter Verweis, kein Weg, TMDB-Übersicht) — 1.641 bisher; und 1.971 TMDB-Einträge stammen aus August. **Eigener Apple-Lauf wie bei Crunchyroll: verworfen** — `tv.apple.com/robots.txt` sperrt `/api`, `/uts/` (die Schnittstelle) und die Suche. **Vorschlag:** JustWatch-Wiedervorlage auf alle Hauptbestands-Titel (Frist 28 Tage, Limit wöchentlich erhöhen) und JustWatch-Angebote auch bei Titeln mit Wegen übernehmen. |
+| **Erledigt am 17.09.2026: alle Abrufe auf „Störung ist kein Befund" durchgesehen** | 3 | Daniels Frage nach den übrigen Stellen. Durchsicht aller Abrufe (Suchagent, Ergebnis in `CLAUDE.md`). **Behoben:** `check-youtube.ts` (jeder API-Fehler wurde `inDE: 0` → Bau entfernte den Verweis; jetzt `unklar`, dazu Mengen-Riegel bei über 50 % ohne Video), `scrape-crunchyroll-dub.ts` (Fehlersatz überschrieb guten Eintrag → Verweis flog als „keine Staffel" raus), `fetch-voices.ts` (AniList-Ausfall schrieb `roles: []` über belegte Sprechrollen), `fetch-tmdb-titles.ts` (Fehltreffer löschte `tmdbId`, an der JustWatch, MOTN und Trailer hängen). Fünf Zusicherungen in `check:logic`. **Offen, bewusst so gelassen:** `check-links.ts` entfernt bei 404/`region` ohne zweiten Beleg (nur Amazon hat einen Sperr-Riegel) — ein geo- oder botbedingtes 404 aus der Cloud ist damit weiterhin ein Entfern-Grund; `fetch-cr-katalog.mjs` läuft in keinem Workflow und speist zwei Entfern-Pfade; `fetch-adn.ts` verliert gescheiterte Tage/Serien beim Neuschreiben. |
+| **Erledigt am 28.09.2026: gti-Brücke — nur belegte Umstellung** | 5 | **Die letzte offene Frage ist gemessen** (Bericht vom 28.09.2026, Air Gear über JustWatch geöffnet): JustWatchs gti `4825705e…` steht im Quelltext der Amazon-Seite (Position 25 von 37), die Kopf-gti ist eine andere (`66c97aeb…`) — **und die Seite wurde trotzdem erkannt**, über die Adresse (`seiteGehtUnsAn: true`, 26 Folgen gelesen). Der Weg ohne Klick trägt damit; die Idee „alle gtis gegen die Liste halten" bleibt als Möglichkeit liegen, ist aber nicht nötig. **Stand 20.09.2026:** Die Erweiterung erkennt weitergeleitete gti-Seiten (4.20.33–4.20.36: Prüfliste führt `?gti=`, der Klick trägt den Auftrag über die Weiterleitung). Gegenprobe der mehrfachen gtis erledigt, siehe „Recherche 20.09.2026" — JustWatchs gti trifft selten unsere Seite, die Beschränkung auf abgelesene gtis bleibt. | **Stand 19:20:** Daniels Gegenprobe (19:03) fand Pokémon Weiß → Schwarz (JustWatch-Angebot mit fremder gti). Ersatz toter Links abgeschaltet, geteilte gtis ausgeschlossen, Umstellung nur noch bei in der Erweiterung abgelesener gti (4.20.25 schreibt `gti=` in die Notiz, der Import sammelt `data/amazon-gti-belegt.json`). Bis die ersten Meldungen mit gti kommen, zeigen alle Prime-Verweise wieder auf die Amazon-Seite. **Daniel:** Erweiterung neu laden. Vorher: **Stand:** Bau 35249935287 stellt 198 Prime-Verweise um und ersetzt 22 tote (Verweise 2.082 → 2.104, Titel mit Verweis 1.610 → 1.614, ohne Urteil 10 → 32 — die ersetzten tragen kein Urteil). Offen: Gegenprobe von drei ersetzten Links durch Daniel (`19-poc-gti.md`), Erweiterung erkennt weitergeleitete gti-Seiten noch nicht (ersetzte Links stehen deshalb nicht auf der Prüfliste), mehrere gtis je Titel (67) ohne Gegenprobe. Vorher: PoC abgeschlossen 17.09.2026, 18:42 (`docs/poc-justwatch-amazon.md`): 8/8 lebende Seiten tragen JustWatchs gti, die tote (Afro Samurai) findet ihren Ersatz über JustWatchs Weiterleitung. Daniel: alle Amazon-Verweise mit JustWatch-Angebot umstellen, die toten eingeschlossen. **Gemessen:** 739 Prime-Verweise, 268 mit JustWatch-Amazon-Angebot, **201** mit genau einer gti (Auswahl in `pipeline/lib/amazon-gti.ts`, Trockenlauf `npx tsx tools/amazon-gti-trocken.ts`). Mehrere gtis (67) bleiben außen vor, bis eigens geprüft (Mushi-Shi wäre sonst von Kauf auf Aniverse-Kanal gewechselt). **Plan, weil an der ASIN heute Handbelege, Prüfliste und Gedächtnis hängen:** (1) Der Bau rechnet weiter mit der ASIN und stellt erst am Ende `url` auf die gti-Adresse um, die ASIN bleibt als `seite`. (2) `adressKern()` kennt gti-Adressen (sonst hießen alle `watch.amazon.de/detail`), `belegFuer()` vergleicht ASIN **und** gti. (3) Die Prüfliste der Erweiterung nutzt `seite`, solange sie lebt; tote ASINs mit gti brauchen in der Erweiterung eine Weiterleitungs-Merkung wie bei Disney+ (Test durch Daniel). (4) Ein toter ASIN-Verweis mit gti wird nicht entfernt, sondern umgestellt. |
+| **Erledigt am 21.09.2026: alle Amazon-Verweise haben einen Linkbefund** | 2 | Stand 21.09.2026, 07:13 (gezählt in `data/link-check.json`): 2.159 Amazon-Adressen, davon 2.089 mit 200, 62 Regionssperre, 7 mit 503, 1 mit 404, **0 unklar** (am 20.09. morgens 472). Acht Schübe über Daniels Leitung. Gemessen dabei: Amazons Abwehr hängt an der Menge je Zeitfenster, nicht am Takt — nach langer Ruhe gehen 600 bis 670 Abrufe bei 700 ms (669 am 20.09., 600 ohne Sperre am 21.09. nach neun Stunden), nach knapp drei Stunden nur 280 bis 300, direkt nach einer Sperre 20. Vorgehen für künftige Nachholläufe: `npx tsx pipeline/check-links.ts --alter 3 --limit 600 --pause 700`, dann Stunden Ruhe; Rückfallebene `tavily_extract` (Gegenprobe zehn von zehn). |
+| **Erledigt am 20.09.2026: Tavilys 404 gegengeprüft — zehn von zehn** | 1 | Dieselben zehn `/dp/`-Adressen über die freie Leitung abgerufen, nachdem Amazon drei Stunden Ruhe hatte: zehnmal HTTP 404 mit 2.299 Zeichen, genau wie Tavily gemeldet hatte. Tavilys „404 page not found" ist damit Amazons 404; „Error fetching content" bleibt eine Nichtauskunft und setzt keinen Befund. |
+| **Erledigt am 20.09.2026: Prime-Verweise unter die Video-Adresse** | 3 | Stichprobe über fünfzehn `/dp/`-Verweise mit Befund „lebt": **sieben** antworteten selbst mit 404 — die Linkprüfung weicht bei 404 still auf die Video-Adresse aus und bucht den Erfolg unter der alten Adresse, im Kalender stand also ein grüner Verweis auf eine Fehlerseite. Dieselben fünfzehn ASINs unter `/gp/video/detail/`: **fünfzehn von fünfzehn** mit voller Titelseite. Betroffen waren rund 300 von 643 Verweisen. `amazonAdresseRichten` gilt jetzt auch für zehnstellige ASINs, und der Bau richtet zum Schluss alle Prime-Streams und -Releases; Discs und Shop-Artikel laufen über `watchLinks` und bleiben unberührt. |
+| **Erledigt am 17.09.2026: Daniels Testantworten vom 17.09., 00:11** | — | Erweiterung 4.20.23: Suchkasten zeichnet nach „Nicht bei Prime“ sofort neu (grüne Marke, keine Vorschläge); eine ungemeldete Staffel im Auswahlfeld verhindert „alles gemeldet“, „weiter mit Staffel N“ steht in der Marke statt als zweiter Knopf; Staffeln per Auswahlfeld zählen in der Checkliste zum Suchtreffer, kein „Andere Seite“ mehr. Daten: Golden Kamuy S4-Seite (B0CJYLSY3D) seit 27.08. an S1 → an 142343 (die „S1 E1–12 gemeldet“-Angabe und die Wiedervorlage „Folgen bis 13“ kamen daher), S1-Seite nicht mehr an S2; Schleim B0CJC11GRB an S2 Teil 1+2, B0CVS8488Z an S3; Kuroko S2 mit eigener Adresse; Bluelock-Seite = S1 (Daniel), S2 14 Folgen deutsch belegt, Fehlbeleg an Hunter x Hunter entfernt; Trapped S2, Schleim S3/S4 umgehängt. Import: Staffel aus der Adresse über die Namen der Reihe (`lib/staffel-nummern.ts`). Läufe: Bau prüft neue Meldungen vor und den Bestand nach dem Bau, gelb statt rot (`warnung`). Fruits Basket `B0G6HF46PV`: auf Daniels Entscheidung nach JustWatch als deutsch belegt, von der Prüfliste genommen |
+| **Erledigt am 18.09.2026: Berserk (2017) S2 und Our Last Crusade S2 — beide ohne belegte Synchro** | 1 | Berserk: Die Prime-„Staffel 2“ (`B0FKZM9J6V`, releaseYear 1998) ist die zweite Hälfte der Serie von **1997** — der Beleg war am 16.09. über die Staffelnummer falsch an die CGI-Serie von 2017 gehängt worden und hängt wieder an AniList 33 (Folgen 14–25). Die CGI-Serie trägt bei aniSearch keine Synchro-Marke. OLC S2: Crunchyrolls deutscher Katalog führt beide Staffeln mit 0 deutschen Folgen (06.09.), die Prime-Angabe stammt von einem Kanal-Titel. Keiner der beiden gehört in den Bestand. Die übrigen neun umgehängten Belege prüft `tools/prime-staffel-jahr-pruefen.mjs` über das Seitenjahr. |
+| **Erledigt am 16.09.2026: Stichprobe über 50 Live-Panels — vier Fehlerbilder allgemein behoben** | 3 | Gerendert und am Text geprüft (Werkzeug im Scratchpad, feste Zufallsmenge). Gefunden: (1) „155 von 170 · Für die übrigen fehlt uns eine Angabe" neben „Crunchyroll 170 Fg. ✓" (Black Clover, JoJo, MHA 4) — Crunchyroll-Verweise tragen jetzt ihre deutschen Folgen aus dem Bestand (160 Verweise, 157 vollständig; nur bei einem Titel je Adresse und eindeutiger Zählung); (2) „Noch keine deutsche Fassung · Deutsche Fassung bei Kazé" (Bakuman 3) — die Zeile nennt dort aniSearch als Absender; (3) „Alle 1 Folgen" — ohne Zahl; (4) Disc-Pille wiederholte bei Filmen den Titel — zeigt das Datum. Der Lückenhinweis entfällt im Teilweise-Zustand und heißt „kennen wir keinen deutschen Anbieter". Weitere Runden mit neuen Keimen (23, 41, 59): „36 von 145" neben „ADN 145 Fg." (abgeschlossene Serie: Verweis ohne Bereiche zählt wie in der Pille), „1 Ausgaben", „Auf Deutsch seit" nach früherem Angebot, „seit 10.1990 - 03.1991" (Zeitraum ohne „seit"), zwei Netflix-Daten übereinander (Pokémon-Concierge). Am Ende 150 Panels ohne Regelbefund. Werkzeug im Repo: `npm run check:stichprobe -- <keim>` |
+| **Erledigt am 16.09.2026: vergangene Crunchyroll-Termine mit echtem deutschen Tag, Dai „0 von 100" behoben** | 3 | 106 vergangene Termine standen noch als geschätzt (97 Crunchyroll in 17 Staffeln, 9 Netflix/Thunder 3). `beobachtungenAusBlock()` paart einen Wochentermin mit dem Crunchyroll-Block über eine beobachtete Folge (Nummer und Tag) und übernimmt dessen übrige deutsche Tage — 17 von 17 eindeutig, 95 Folgen nachgetragen. Thunder 3 bleibt offen (Netflix nennt keine Tage). Live-Prüfung fand dazu zwei Fehler: Dai zeigte „0 von 100" (Kaufweg-Spanne nicht gezählt, behoben) und keine Disc-Pillen — ein Nachhol-Lauf hatte `data/disc-ausgaben.json` mit seinem Startstand überschrieben (neu erzeugt, Lehre in CLAUDE.md) |
+| **Erledigt am 16.09.2026: ADN-Termine legen ihren Verweis an, Synchro auch über Sprechrollen belegt, Disc-Datum statt Simulcast** | 3 | „Undefeated Bahamut Chronicle" (Daniel, vier Punkte): ADN-Termin (nur aus `vde`-Folgen) ohne ADN-Verweis → Termin-Pille mit Seriennamen auf Folge 1, „Noch keine deutsche Fassung". Jetzt legt jeder ADN-Termin einen Verweis auf die Serienseite an (17 Titel), eine Stream-Termin-Pille nennt Anbieter und Zeichen, ADN ist blau (#0095ff, vom Logo abgelesen). Der Kasten zählt belegte Sprechrollen und Kaufwege mit Spanne als Synchro (779 Titel ohne DE-Stream). Liegt aniSearchs deutsches Datum höchstens 30 Tage nach dem japanischen Start (Serien ab 2012) und kamen die Discs später, gilt das früheste Disc-Datum (548 Titel; Bahamut 30.06.2017 statt 20.01.2016). Gegenprobe ohne Jahresgrenze: Wickie, Barbapapas, FF-Film hätten fälschlich das Disc-Datum bekommen |
+| **Erledigt am 16.09.2026: belegt erschienene Folgen nicht mehr „geschätzt", Lückenhinweis nur über Erschienenes** | 2 | „Vom Landei zum Schwertheiligen II": Folge 10 (09.09.) stand als geschätzt, obwohl eine Meldung vom 13.09. Prime mit 1–10 belegt; beobachtet waren nur die Tage von Folge 1 und 5. Neu `schedule.belegtBis` (höchste belegte Folge + Prüftag), `expandEvents()` lässt dort die Schätzung weg. Und der Hinweis „Folgen 11–12 führt kein bekannter Anbieter" zählte noch nicht erschienene Folgen mit — bei laufenden Serien zählt jetzt nur das Erschienene (mein Fehler vom selben Nachmittag) |
+| **Erledigt am 16.09.2026: Streaming-Staffeln (ONA) gehören zur Hauptserie** | 1 | Stone Ocean und Steel Ball Run standen unter „Specials & OVAs", weil neben Fernsehstaffeln nur TV zählte (Daniel). Jetzt zählt auch ein ONA mit mindestens zehn Folgen, das kein Beiwerk ist (62 Fälle: Dorohedoro S2, Rent-a-Girlfriend S4/S5, Beastars, Baki …), und ein kurzes ONA, dessen ganzer Name eine solche Staffel beginnt (Steel Ball Run Teil 1, Saint Seiya Netflix). Nebenbei geprüft: „PHASE 2 bis 3" bei Netflix sind die Rennetappen der Vorlage, 11 Folgen freitags 25.09.–04.12. — so im Kalender, zweite Quelle ergänzt |
+| **Erledigt am 16.09.2026: „nicht mehr abrufbar" nur, wo es vorher Deutsch gab** | 2 | Mushoku Tensei S3 zeigte „Netflix — nicht mehr abrufbar", die Staffel lief dort nie (Daniels Bild: Netflix führt nur Staffel 1 mit 23 und Staffel 2 mit 25 Folgen). Alle 514 Abgänge im Datensatz trugen kein Sprachurteil, nur einer hat einen Handbeleg mit Deutsch. Angezeigt wird ein Abgang jetzt nur mit Beleg (`dub-confirmed.yaml` mit `dub: true` oder „DE ✓" im zuletzt ausgelieferten Stand) und trägt die Markierung weiter. Die Kanal-Regel für „Crunchyroll über Prime" liest weiter alle Abgänge. Nebenbei beantwortet: „Steel Ball Run" (JoJo Teil 7) ist bei Netflix ein eigener Titel (`title/82116553`), keine Staffel der Reihe |
+| **Erledigt am 16.09.2026: Disc-Ausgaben nach Format, Einzelbände aufklappbar — Dai hat 100 Folgen auf Disc** | 5 | Daniels Verdacht bestätigt: Animeversands „Episoden: 1-75" ist falsch. Dieselbe EAN (7630017542045) führt der Herausgeber als DVD-Gesamtausgabe mit **100 Folgen**, die Blu-ray ebenso (7630017542038); Volume 1 = 1–25, Volume 4 = 625 Min. (crunchyroll-vertrieb.de, av4644/av4647/av5140/av5141). Eintrag berichtigt. aniSearch kennzeichnet DVDs nicht (Plakette nur an Blu-ray/4K/eBook/Spielen, gemessen an 27.695 Artikeln); erkannt wird die DVD jetzt am Blu-ray-Zwilling oder an Video-Merkmalen, Manga/Figuren/Musik fallen heraus. `public/data/disc/<n>.json` (32 Gruppen, 1.847 Titel); im Disc-Reiter je Format eine Gesamtausgaben-Pille plus „Einzelausgaben" zum Aufklappen unter dem Kasten |
+| **Erledigt am 16.09.2026: Suche kennt aniSearchs Synonyme und übergeht Füllwörter** | 2 | „abenteuer von dai" fand Dai nicht (Daniel: „google schafft es"). Der Bau schreibt `public/data/synonyme.json` (gemessen 4.539 Synonyme zu 1.934 Titeln, gepackt 61 KB), die Datenbank-Ansicht lädt sie mit `titles.json`; Füllwörter (von, der, the, of …) fallen aus der strengen Stufe, solange etwas übrig bleibt. Lokal gemessen: „abenteuer von dai" → 3 Treffer mit Dai, „dais abenteuer" → Dai, „slime" unverändert 12. Nicht enthalten: Wikipedias „Dais großes Abenteuer" — Wikidata-Aliase wären die nächste Quelle |
+| **Erledigt am 16.09.2026: aniSearch-Discs auch neben anderen Wegen, englische Namen aus Synonymen** | 3 | Dai zeigte nur die Animeversand-DVD (1–75) und „76–100 bei keinem Anbieter", obwohl aniSearch vier Kazé-Blu-ray-Boxen und ein Komplettset (06.06.2025) führt (Daniel, mit Bild). Der Riegel „aniSearch-Disc nur bei Titeln ohne jeden Weg" stammte aus der Zeit vor dem Disc-Reiter; **1.073 Titel** bekommen jetzt ihre belegte deutsche Disc-Ausgabe. Der Lückenhinweis steht nur noch, wenn **jeder** Weg eine Spanne trägt. Katalogtitel ohne englischen Namen nehmen ein englisches aniSearch-Synonym (Füllwort-Erkennung, `englischAusSynonymen()`) — Dai-Filme, Roto; wirkt nach dem laufenden Synonym-Abruf |
+| **Erledigt am 16.09.2026: Folgenspanne am Kaufweg, Lücke benannt, Umschalter immer sichtbar** | 3 | Dai-DVD-Box bei Animeversand: „Episoden: 1-75" (Produktseite) — Bezugswege tragen jetzt `dubRanges`, die Pille zeigt „Fg. 1–75" und „DE ✓". `folgenOhneAnbieter()` rechnet alle deutschen Wege eines Titels zusammen; fehlt etwas, steht im Kasten „Folgen 76–100 führt kein uns bekannter Anbieter auf Deutsch." Deckt ein Bereich den Titel nicht ab, nennt jede Pille ihre Spanne statt nur der Zahl. Stream/Disc-Umschalter steht immer, gewählt ist die Seite mit Pillen; Kaufpillen ohne Markenzeichen tragen das Disc-Zeichen |
+| **Erledigt am 16.09.2026: Yu-Gi-Oh! Capsule Monsters — deutsche Fassung, die MyDubList nicht kennt** | 3 | Daniel: aniSearch-Suche ohne Treffer. Recherchiert: nie in Japan gesendet (4Kids), lief auf RTL II, bei TOGGO kostenlos — in der deutschen Zählung Staffel 6 von „Yu-Gi-Oh!", Folgen 225–236 (Wikipedia, fernsehserien.de). aniSearch führt die Serie nicht. Neu: `data/synchro-von-hand.yaml` nimmt solche Titel mit zwei Quellen in den Hauptbestand auf, TOGGO-Weg in `watch-links.yaml`. **Offen:** Der Suchlink auf aniSearch für Titel ohne Kennung bleibt (Entscheidung vom 12.09.2026) — Rückfrage an Daniel |
+| **Erledigt am 16.09.2026: Simulcast-Datum nicht als Synchro-Datum** | 2 | Dai zeigte „Auf Deutsch seit 03.10.2020 · Crunchyroll", die Synchro gibt es nur auf Kazés Disc. aniSearchs deutscher Block nennt die erste deutsche Veröffentlichung. Liegt sie am japanischen Start und ist der erste Verlag ein Dienst ohne belegten Dub-Stream, fallen Datum und Dienst weg (`verlagAlsDienst()`); im Bau vom 16.09.2026 **156 Titel** |
+| **Erledigt am 16.09.2026: Disney+- und Amazon-Zeichen, digitale Shops als Stream** | 2 | Disney+: Wortmarke 2024 von Commons (gemeinfrei) in ihrer Breite; Amazon-Kauf: das „a" von Commons (gemeinfrei). **ADN:** kein frei lizenziertes Zeichen — nur lokal auf fr.wikipedia als „marque déposée"; Rückfrage an Daniel. Pillenbereich fasst drei Reihen (FF7 ragte 11 px hinaus). maxdome, Sky Store, Videoload, Apple TV aus aniSearch/`watch-links.yaml` jetzt Kauf-Stream statt Disc (218 Wege) |
+| **Erledigt am 27.09.2026: Synonyme für die Katalogeinträge nachgeholt** | 1 | Fünf Blöcke über `daten-auf-abruf.yml` (`data:anisearch-titel`), keine Sperre: 400 + 1.000 + 999 + 999 + 487 Seiten, 1.134 deutsche Namen neu belegt; offen noch 1 Titel. Dabei behoben: Einträge ohne deutschen Namen waren in jedem Lauf fällig (Block 2 holte Block 1 noch einmal) — jetzt 30-Tage-Frist (`OHNE_NAMEN_TAGE`). Vorgeschichte: zwei Läufe im September holten 0 Seiten (HTTP 423 auf die Kennung), seitdem 6 s Takt und Abbruch bei 403/423/429. |
+| **Erledigt am 16.09.2026: Dragon Quest Dai — „deutsch" ohne Beleg an der Prime-Pille** | 3 | Daniel: Prime-Kanal und Crunchyroll zeigen nur Untertitel. Belegt: Die Synchro gibt es nur auf Disc (DVD-Gesamtausgabe Folgen 1–75, „Sprachen: Deutsch, Japanisch", Animeversand + Synchronkartei); der Prime-Kanal steht jetzt als belegtes Nein in `dub-confirmed.yaml`, der Animeversand-Kaufweg in `watch-links.yaml`. **Generisch:** Eine Weg-Pille zeigt eine Folgenzahl nur, wenn ein Verweis derselben Adresse `dub: true` trägt, sonst „DE ?" — 160 Titel verloren damit eine Folgenzahl, die zur Reihe, nicht zum Weg gehörte |
+| **Erledigt am 16.09.2026: TMDB-Film-Kennung bei mehreren Titeln verworfen** | 2 | Eine TMDB-Filmkennung, die mehreren Titeln zugeordnet ist, belegt keinen davon (`pipeline/lib/tmdb-eindeutig.ts`). tv und movie haben getrennte Nummernräume — die erste Messung (139) hatte sie vermischt, echt sind **5 Kennungen mit 11 Zuordnungen** (Bau vom 16.09.2026). Die Einträge fallen weg, die JustWatch-Runden überspringen sie; drei Zusicherungen in `check:logic` |
+| **Erledigt am 16.09.2026: Stream oder Disc richtig eingeordnet, Direktlinks statt TMDB** | 3 | maxdome, freenet meinVOD und andere Leih-/Kaufstreams standen im Disc-Reiter. TMDB-Angebote sind jetzt `kind: stream` mit `zugang` abo/kauf; JustWatch-Angebote nur bei physischen Shops (`PHYSISCHE_SHOPS`) `buy`. Wege mit themoviedb.org-Adresse bekommen den Direktlink aus JustWatch (Akito 3: store.maxdome.de/mo45163184). Prime-Zeichen jetzt das Wikimedia-Logo 2024 (gemeinfrei) als Bild statt Maske |
+| **Erledigt am 16.09.2026: Kopf zeigt nur den Reihennamen** | 2 | „Code Geass: Akito the Exiled" statt des Namens von Teil 1; in „Teile dieser Reihe" fällt das gemeinsame Präfix weg. `reihenAnfang()` in `shared/titles.ts` (erste Fassung wirkungslos: beim Einfügen waren die Backslashes aus den Mustern verschwunden, live bemerkt, jetzt mit Zusicherungen samt Gegenprobe): voller Name zuerst, dann Präfixe an Trennstellen, mindestens zwei Wörter, die Mehrheit der Teile muss ihn tragen — Demon Slayer, Star Wars und Full Metal Panic! behalten ihren Namen. Trägt kaum ein Teil den Kopf („Dragon Warrior", „Jujutsu Kaisen PV"), gilt der gemeinsame Anfang der meisten Teile — außer der Kopf ist ein deutscher Titel („Mila Superstar"). Gemessen: 76 von 768 Reihen bekommen einen anderen Kopf. Dazu: Scrollen im Panel läuft nicht mehr an die Seite über, die Teile-Box gibt es ans Panel weiter |
+| **Erledigt am 16.09.2026: Anbieter-Zeichen und Hausfarben an den Pillen** | 3 | Zehn Markenzeichen von simple-icons (CC0) liegen als Dateien im Repo (`public/anbieter/`, zusammen 10,6 KB) und werden über eine CSS-Maske in der Anbieterfarbe gezeigt. Für ADN, Disney+, Joyn, Aniverse, Akibapass und Videoload gibt es **kein** belegbares quadratisches Zeichen: Commons führt unter „ADN Logo" ein anderes Unternehmen, und MagentaTVs Wortmarke taugt als 14-px-Maske nicht. Diese Wege bekommen stattdessen ihre Hausfarbe, jede abgelesen statt gewählt — maxdome #0094d7 (Logo 2021, sechs Vorkommen), MagentaTV #e20074, Rakuten TV #bf0000, Sky Store #0072c9, freenet meinVOD #84bc34 (simple-icons-Datenbank). Apple TV und Google Play bleiben neutral, ihre Hausfarben sind Schwarz und Dunkelgrau. **Beim Nachmessen fielen vier geratene Werte auf** (freenet stand rot statt grün) — sie sind ersetzt, Unbelegtes bekommt keine Farbe |
+| **Erledigt am 16.09.2026: Crunchyroll-Verweise aus dem deutschen Katalog** | 3 | „Akito the Exiled - The Brightness Falls" stand als „Noch keine deutsche Fassung", obwohl Crunchyroll die Reihe mit deutscher Tonspur führt. Ursache: Der Katalog (`data/cr-katalog-de.json`, seit 22.08.2026 im Repo) wurde nur zum Reparieren vorhandener Adressen benutzt, und ohne Verweis prüft der Dub-Lauf nicht. Gemessen: 2.142 Titel ohne Crunchyroll-Verweis, 304 mit Katalogtreffer, 75 mit `de-DE`, nach den Riegeln **33 angelegt** — ohne Sprachurteil, das holt `data:cr-dub`. Kette am selben Tag durchgezogen (Zugangspaket erneuert, Nachhol-Lauf, Bau): alle fünf Akito-Teile stehen jetzt mit belegtem „DE ✓" |
+| **Erledigt am 16.09.2026: vier Meldungen aus dem Detail-Panel** | 5 | (1) „Code Geass" zeigte „In 2 Tagen, 18.09.2026" für einen Titel, der seit September 2023 auf Deutsch läuft — der Kopf fiel ohne Streaming-**Release** auf die Disc zurück. Gemessen: 44 Titel mit belegtem deutschen Stream, deren einziger Termin eine künftige Disc ist. Jetzt nimmt der Kopf den Stream-Zustand, der Termin steht als „Neue Kaufausgabe am … — Label"; Gegenprobe an den 24 Titeln ohne deutschen Stream: dort bleibt der Termin die Überschrift. (2) Die Ausgabe recherchiert: acht Blu-rays, 1.250 Minuten, ungeschnitten, Keep Case mit Schuber und Booklet; bisher gab es die Staffeln hier nur einzeln (27.04.2018, 07.06.2024). Steht als `note` mit drei Quellen. (3) Die Pille „Amazon Prime (Crunchyroll)" führte auf Amazons Fehlerseite — die Adresse stand seit dem 20.08.2026 als 404 in `data/link-check.json`, der Filter dagegen läuft aber vor den drei Runden, die Bezugswege anlegen. Nachfilter am Ende ergänzt, im Lauf fielen **105 Wege**. (4) `overscroll-contain` am Panel: Das Scrollen springt nicht mehr auf die Seite dahinter über (Playwright: Seite bleibt bei 0 px). Dazu die ähnlichen Titel als Kacheln mit 96×136-Postern und farbigen Merkmal-Chips |
+| **Erledigt am 16.09.2026: Bereich „Release-Termine für deutsche Synchro" ersatzlos entfernt** | 3 | Auftrag: Daniel, 16.09.2026, mit Bild („das sollte doch alles hochgewandert sein in die obere box … kann entsprechend restlos entfernt werden"). Gemessen, was er wirklich trug: 1.828 Titel sahen ihn ohnehin nicht, 943 den Kasten mit Status/FSK/Datum (493 davon mit FSK, die schon als Marke am Cover steht — also doppelt), 267 mit „Im Angebot seit", 369 nur mit „Erscheinungstermin: unbekannt". Hochgezogen in den Antwort-Kasten: „Bei {Anbieter} im Angebot seit {Datum}" und der Merken-Hinweis für Titel ohne Synchro. Gestrichen: Status-Plakette (der Kasten sagt es in Worten), FSK (Dopplung), „unbekannt" (Nicht-Auskunft), der zweite Satz „Keine deutsche Synchro bekannt". Nachgemessen mit `check:panel`: Regelfall weiter 176 px, Titel ohne Fassung 184 px |
+| **Erledigt am 16.09.2026: aniSearch-Beschwerde geprüft** | 2 | Mail von Dominik Koziol (aniSearch): Beschreibungstexte angeblich ohne Quellenangabe, aniSearch angeblich nicht im Impressum. Gemessen mit Playwright am ausgelieferten Stand: Link auf die jeweilige Titelseite ohne Klick sichtbar bei 43 von 43 der kritischsten Fälle und 25 von 25 einer Stichprobe über alle 2.498 Titel mit aniSearch-Text; der Panel-Bereich „Woher diese Angaben stammen" nennt „aniSearch — Termine · Titel und Beschreibung, wo vorhanden auf Deutsch", verlinkt; die Quellenseite führt „Deutsche Inhaltsangaben & Bezugsquellen: aniSearch". **Zutreffend war nur das Impressum** — dort stand aniSearch als Terminquelle ohne Link, ergänzt. Antwortentwurf samt API-Spezifikation in `__assets/notes/anisearch-antwort-entwurf.md`, noch nicht gesendet |
+| **Erledigt am 16.09.2026: dritte Quelle für deutsche Werktitel** | 5 | 132 Titel ohne `titleDe`, 57 davon mit belegter deutscher Fassung. aniSearch-Archiv: 3 deutsche Sprachblöcke, 0 mit Namen. TMDB `language=de-DE`: 0 Übersetzungen in 15 Stichproben — es fällt still auf den Originaltitel zurück. **Wikidata über die MAL-Kennung (P4086)**: 29 Treffer, 6 brauchbare Kandidaten. Neuer Lauf `npm run data:wikidata-titel` (wöchentlich im Tiefendurchlauf, Frist 9 Tage, Quellenliste ergänzt) sortiert Reihenköpfe, Wikipedia-Unterseiten und Romanisierungen aus und legt den Rest vor; eingetragen wird von Hand mit zwei Quellen in `data/titel-de.yaml`, die der Bau vor aniSearch und TMDB liest. Drei Namen geprüft und eingetragen (Cat’s Eye – Ein Supertrio, Made in Abyss: Gefährten der Dämmerung, Aggretsuko), „Sorcerer Hunters: Heiße Früchtchen zum Vernaschen" mangels zweiter Quelle verworfen. Stand nach dem Bau: **129 ohne deutschen Namen**. Drei Zusicherungen in `check:logic` (zwei Quellen je Eintrag, Titel existiert, kein Handtitel von einer Datenbank überschrieben) |
+| **Erledigt am 16.09.2026: Uhrzeit-Quelle für Netflix-Termine gesucht und gefunden** | 3 | Ausgangslage: 13 künftige Netflix-Termine ohne Uhrzeit (Thunder 3 F11–12, JoJo Steel Ball Run F2–12) gegenüber 65 von 89 bei Crunchyroll. Gemessen: Anime2You nennt die Sendezeit **nur in „Simulcast gestartet"-Meldungen** (3 von 3: „Weitere Episoden erscheinen jeden Samstag um 18:00 Uhr"), nicht in Ankündigungen (0 von 3), nicht in den 25 Artikeln, die bei uns als Quelle stehen (0 von 25), und nie im RSS-Auszug (0 von 75 — er bricht vor dem Ablaufteil ab). Netflix selbst nennt zu Steel Ball Run keine. **Rückwirkend also nichts, künftig schon**: Start-Meldungen fielen bisher durch den Zukunfts-Filter des Vorschlagslaufs, weil sie „seit heute" sagen. `scrape-anime2you.ts` holt bei Streaming-Meldungen mit Start-Signal jetzt den Volltext nach (höchstens zwölf je Lauf, 1,5 s Takt) und legt gefundene Zeiten mit belegendem Satz als Vorschlag vor. Der Wochentag ist der Riegel: ohne ihn elf Fehlalarme je Seite aus den Zeitstempeln der Seitenleiste, mit ihm null (Gegenprobe in `check:logic`). Die 13 Termine bleiben „Zeit offen" — die Entscheidung gegen eine Faustregel-Uhrzeit gilt unverändert |
+| **Erledigt am 14.09.2026: Anbieter-Pillen zeigen die Folgenzahl statt „seit Datum"** | — | `folgenAngabeFuer()` im Detail-Panel, vier Regeln, von Daniel bestätigt: Film ohne Zahl · belegte Bereiche (Grenze, Lücke, „nur Fg. 1", Summe) · laufende Wochenserie = erschienene Folgen · abgeschlossene Serie = Folgen des Titels; laufend ohne Wochenplan und Beleg ohne Zahl. Gilt auch für Bezugswege („Amazon Prime (Crunchyroll)"), die die Angaben des Verweises mit derselben Adresse erben. Gemessen über 1.982 deutsche Verweise: 517 Filme, 783 mit Einzelbeleg je Anbieter (Crunchyroll 515, ADN 98, Streaming Availability 79, Bereiche 91), 682 abgeschlossene Serien, 0 laufende ohne Beleg. Nebenbei: Der Pillenbereich schnitt die zweite Reihe ab (`max-h-[4.4rem]` gegen rund 94 px für zwei Reihen zweizeiliger Pillen, sichtbar bei Kill Blue) — jetzt `6rem`, und `check:panel` misst den Rollbereich mit (Gegenprobe mit alter Höhe: „24 px ragen hinaus"). Auftrag: Daniel, 13.09.2026, 23:33, mit Bild (Mushoku Tensei Staffel 1 - Teil 1: „Crunchyroll DE ✓ seit 31.03.2026", „Netflix DE ✓", „Amazon Prime (Crunchyroll)"): „in den pills muss überall drin stehen wieviele episoden bei dem jeweiligen anbieter sind. einfaches de ✅ reicht nicht, und seit datum ist uninteressant … datum ausblenden -> episodenanzahl anzeigen (in jeder pill)." **Noch nicht umsetzen, nur notiert** (Daniel: „setz nicht um, schreib nur auf"). Das Datum bleibt im Datensatz, es wird nur nicht mehr angezeigt. Beim Bau zu klären: Woher kommt die Zahl je Anbieter (Crunchyroll `deutscheFolgen`, ADN je Folge, Netflix/Prime aus den Meldungen bzw. `dubRanges`), und was steht in einer Pille, für die keine Zahl belegt ist |
+| **Erledigt am 13.09.2026: Ausgebliebene Folge — Auskunft im Panel und tägliche Recherche** | — | Gebaut: `pipeline/lib/ausgeblieben.ts` (Frist, Anime2You-Zuordnung), `termine-pruefen.ts` schreibt `geprueftAm` (aus `scrapedAt` des Kalenders), `newsGeprueftAm` und `hinweise`; `claude-verpasst-recherche.yml` täglich 13:17, nur mit fälligen Einträgen, `verpasst-faellig.ts --pruefen` lässt nur vier Felder durch. Panel zeigt darunter bis zu drei Zeilen (Nachsehen mit Zeitstempel und Anbieter-Verweis, Anime2You, Recherche mit Quelle); mehrere ausgebliebene Folgen hintereinander als „Folgen 8 bis 9". Lehre in CLAUDE.md. **Erster echter Lauf am 13.09.2026 (Polar Opposites Folge 8, nichts gefunden):** im Panel mit dem gebauten Bestand abgebildet, beide Themen lesbar. Er brauchte drei Anläufe, alle drei Ursachen behoben: Prüfung maß den Altbestand, Push nach `claude-code-action` ohne gültige Anmeldung, `rechercheAm` von Claude geraten (jetzt `--stempeln`). Die Zeilen „Zuletzt nachgesehen" und Anime2You erscheinen mit dem nächsten Sendezeiten-Lauf. Auftrag: Daniel, 13.09.2026, 21:34: Wer „Folge 8 ist nicht erschienen" liest, fragt „wann dann?". Der Kasten soll sagen, dass und wie oft wir nachsehen (mit Zeitstempel), wo man selbst nachsieht, ob Anime2You etwas meldet, und was eine Recherche ergab. Ausfälle landen in einer Liste, und nach einigen Stunden sucht ein Cloud-Claude-Lauf einmal täglich im Netz (News, Social Media) nach Verschiebung oder Pause |
+| **Erledigt am 13.09.2026: Notizen für uns erscheinen nicht mehr im Panel** | — | Daniel, 22:57, mit Bild: „Zum Start am 19.08.2026 standen die Folgen 1 bis 3 gemeinsam bereit …" — „das ist höchstens für uns interessant". Neues Feld `Release.herkunft`; der Bau schreibt alle Zuordnungsvermerke dorthin (Crunchyroll-Block 232×, ADN-Abschnitt, Einzeltermin, Durchzählung, „Automatisch übernommen"), die zwei „Zum Start"-Notizen in den YAML-Dateien ebenso. `note` bleibt für Besucher (Tag noch offen, FSK, Tonspuren). Die Bestandsprüfung liest beide. **Live seit 13.09.2026, 23:05** (Bestand 1216a7de): 17 Notizen für Besucher, 271 Vermerke als `herkunft`; auf anime-kalender.de/data/releases.json nachgesehen |
+| **Erledigt am 13.09.2026: Detail-Panel: „Staffel 5" im Kopf bei Mushoku Tensei Staffel 3** | — | `staffelBeschriftungen()` und `hauptstaffeln()` in `shared/titles.ts`, Kopf und Liste lesen beide. Mushoku: „Staffel 1 - Teil 1 · Staffel 1 - Teil 2 · Staffel 2 - Teil 1 · Staffel 2 - Teil 2 · Staffel 3". Über alle 769 Reihen geprüft (14 mit Teilen, alle stimmig); „Part.2" wird jetzt erkannt. Auftrag: Daniel, 13.09.2026, 21:37, mit Bild: Kopf zeigt „Staffel 5", die Reihenliste markiert „Staffel 3". Nachträge 21:40 (mit Bild): Vermutete Ursache ist, dass „Teil 2" als eigene Staffel zählt, obwohl er zu Staffel 1 gehört — in der Reihenliste soll er unter Staffel 1 gebündelt stehen, benannt als **Teil 1 · Teil 2** (nicht „Cour"); und der erste Eintrag der Liste soll „Staffel 1" heißen statt des Reihennamens. Kommt nach der Verpasst-Auskunft dran |
+| **Erledigt am 12.09.2026: die Suche lag an der Häufung, nicht an der Rechnung** | — | Daniel: „ich hab gerade was gesucht und es hat extrem gelaggt, sodass tastatur eingaben verschluckt wurden." Der Eingabepuffer (250 ms Ruhe) ist eingebaut; gemessen mit Gegenprobe (`npm run mess:suche -- --katalog`): median 82 → 13 ms, Ausreißer 534 → 24 ms. **Die Analyse dahinter ist damit beantwortet und braucht keine eigene Aufgabe mehr.** `npm run mess:filter` misst, was eine einzelne Filterung wirklich kostet: Katalog-Toggle (2.771 → 18.000 Titel) **156 ms**, ein Filter-Chip **39–46 ms**. Die halbe Sekunde entstand also nicht aus einer teuren Rechnung, sondern aus fünfzehn davon in Folge — genau das, was der Puffer verhindert. Beide Messwerkzeuge bleiben im Repo; wer die Zahlen anzweifelt, misst nach, statt sie neu zu erheben. **Wieder aufgegriffen wird es, wenn eine einzelne Handlung über 200 ms steigt** — etwa weil der Katalog weiter wächst |
+| **Erledigt am 12.09.2026: Analyse „Cartoons aufnehmen?"** | — | Ergebnis in [docs/analyse-cartoons.md](docs/analyse-cartoons.md). **Der Kern:** Die Trennlinie der Tracker ist die **Produktion, nicht das Aussehen** — „RWBY: Ice Queendom" (Studio Shaft) und „Cyberpunk: Edgerunners" (Trigger) stehen im AniList-Katalog, „Avatar", „Castlevania", „Arcane" und „The Mighty Nein" nicht; aniSearch zieht dieselbe Linie. Es ist also keine Lücke unserer Pipeline. TMDB trüge den zweiten Bestand (kennt alle vier, mit deutschen Titeln, `origin_country` als Unterscheidung), und die Größenordnung sind **778** englischsprachige Animationsserien ab 2000 mit Streaming-Angebot in Deutschland — bei 2.771 heutigen Titeln. **Der eigentliche Einwand ist kein technischer:** Für US-Serien lautet die Frage „gibt es das auf Deutsch" fast immer ja-zum-Start, und ein Kalender, der 778-mal dasselbe sagt, sagt nichts. Empfohlen ist ein eigener Bereich hinter einem Schalter (wie heute „ohne deutsche Synchro") — **aber erst nach einer Stichprobe über hundert Titel**, die beantwortet, wie viele davon überhaupt einen Termin haben, den man vorher wissen will. Ein Tag Arbeit, danach ist es keine Geschmacksfrage mehr |
+| **Erledigt am 12.09.2026: Cartoons gehören in die Datenbank, nicht in den Kalender** | — | Gemessen an 100 zufälligen der 906 (`tools/cartoon-termine-messen.mjs`, feste Mischung, wiederholbar): **71 beendet**, nur **7 mit Termin für eine nächste Folge**, 98 in Deutschland zu sehen. Ein Kalender beantwortet für sie fast nie etwas, eine Datenbank sehr wohl. **Genau so steht es im Datensatz** — die 906 tragen keine Releases und erzeugen keine Kalendereinträge (gegengeprüft). Die 7 % bekommen bewusst auch keinen: `next_episode_to_air` ist der **Original**termin, und diese Seite behauptet keinen deutschen, den niemand belegt hat. Wieder aufgegriffen, wenn eine Quelle deutsche Termine für diese Serien führt. Bericht: [docs/messung-cartoon-termine.md](docs/messung-cartoon-termine.md) |
+| **Erledigt am 15.09.2026: Umbau Amazon-Mitleser: ein Zustand je Adresse, eine Quelle** | — | **Phase 2 abgeschlossen 13:05 (4.20.19):** Kauf und Leihe kommen aus dem Aktionsblock (`seite.kaufbar`/`leihbar`, gemessen an `B0CVQW43HC`: `TRANSACT`, „Als Kauftitel verfügbar"). **Entschieden: Die Quelltext-Wächter (`quelltextVeraltet`, `quelltextPasst`, `kennungImQuelltextBekannt`, `frischeStaffel`) und die `gesamt`-Stellen bleiben.** Sie bewachen nur noch, was wirklich aus dem Seitentext kommt — die DOM-Rückfälle von `seitenTitel()` und die Zahl über der Folgenliste —, keine zweite Quelle für Tonspuren, Kennung, Staffel oder Zugang. Neu bewerten, wenn ein Fehler auf einen dieser Wächter zurückgeht oder `seitenTitel()` ohne DOM auskommt. **Verlauf:** Stand 12:20: erledigt sind der tote Code (`spuren()`, `sprachnamen()`, `teilBereich` — 4.20.15) und der zweite Hydration-Leser (`filmAusSeite()` liest `gesehen.seite`, der Leser hat den `headerDetail`-Rückfall — 4.20.16). 12:35: `abos()` liest `seite.zugaenge` aus dem Schnappschuss statt `benefitId` per Muster aus dem ganzen Quelltext (4.20.17); Kauf/Leihe bleibt vorerst aus dem sichtbaren Text. 12:55: `asinAusSeite()` und `staffelAusSeite()` suchen nicht mehr im Quelltext, sondern nehmen `seite.kennung`/`seite.staffel` (4.20.18); dabei gefunden, dass `beiStaffelwechsel()` die Staffelnummer ein zweites Mal leerte — verdeckt vom Muster-Rückfall. **Entschieden:** `seitenTitel()` bleibt vorerst (seine DOM-Rückfälle für Titel sind keine Doppelung des Blocks, sondern greifen, wenn `seite.titel` fehlt). Offen: `gesamt` aus mehreren Stellen, die Quelltext-Wächter. | Daniel am 15.09.2026, 09:59: „warum ist das so kompliziert … einfach scrapen was da ist, mitbekommen wann ein wechsel passiert, bisherige scraping data entsprechend zurücksetzen und scraping erneut starten". Entscheidung 10:09: jetzt, Durchgang danach. **Test mit 4.20.12 (10:29): Fall 1 und 2 (Bungo S3 neu laden, Wechsel auf S1) bestanden laut Daniel; Fall 3 (Digimon Tamers) laut Bericht bestanden — 51 Folgen, alle Deutsch, `gesamt` 51. Der Knopf fehlte dort absichtlich (Titel nicht auf der Prüfliste, kein Suchauftrag, `amazon.js` Z. 7713) — damit ist auch dieses Verhalten nach dem Umbau bestätigt. Fall 4 (Avatar Aang, Film, 10:33) laut Bericht bestanden: Film erkannt, eine Folge mit Deutsch/English/Audiodeskription, Kanal Paramount+. **Phase 1 abgeschlossen.** Phase 2 folgt nach dem Durchgang, damit `amazon.js` sich nicht ändert, während Daniel meldet.** **Test 1 mit 4.20.11 (10:20, Bild): Bungo S3 neu geladen → „Folgen werden geladen", dann „Tonspuren nicht gefunden".** Wahrscheinliche Ursache: Der erste Schnappschuss kommt bei `document_start` + 0,5 s, bevor `amazon.js` (`document_idle`) zuhört; der alte Leser schickte später mehrfach und verdeckte das. 4.20.12: `amazon.js` fragt beim Start mit `ak-amazon-anfrage` nach, der Leser antwortet mit dem ganzen Zustand (samt nachgeholtem Quelltext). Zusicherung in amazon.test. **Phase 1 gebaut, 4.20.11, 10:20:** `amazon-leser.js` neu (1.134 → rund 480 Zeilen): ein Zustand je Pfad + Staffel aus der Adresse, beim Laden aus dem DOM-Block, nach einem Wechsel aus der nachgeholten Seite, Abschnitte über Tokens, **eine** Sendestelle (`schnappschuss: true`), leere Tonspuren überschreiben keine gefüllten; gestrichen: Mitlesen von fetch/XHR, `holeStaffel`, Muster-Rückfall, `abschnittsFinger`. `amazon.js` ersetzt seinen Zählstand je Schnappschuss. Tests angepasst (film, serie-hydration, nachladen neu, amazon.test), `check:extension` grün. **Phase 2 (nach dem Test), laut Karte vom 15.09.2026:** in `amazon.js` doppelte Quellen streichen — `gesamt` an vier Stellen (6748, 7364/7455, 7398 DOM, 8692), `filmAusSeite()` als zweiter Hydration-Leser, `abos()` per Muster über den ganzen Quelltext statt `seite.zugaenge` (Kauf/Leihe fehlt dafür noch im Schnappschuss), `staffelAusSeite`/`asinAusSeite`/`seitenTitel` per Muster statt `seite`, die Quelltext-Wächter (`quelltextVeraltet`, `quelltextPasst`, `kennungImQuelltextBekannt`, `frischeStaffel`, Riegel „Staffel uneins"), toter Zweig `teilBereich` (nie zugewiesen), `spuren()` ohne Aufrufer; betroffene Tests: amazon.test, kill-blue, uebersicht, folgenzahl, seitenwechsel |
+| **Erledigt am 15.09.2026: Captain Tsubasa (2018): vier deutsche Kaufausgaben zuordnen** | — | Entschieden 12:15: vier Belege auf 100745 mit Bereichen in unserer Zählung — `B0CVQW43HC` 1–14, `B0DJB5NGNK` 15–28, `B0CZTFL57B` 29–40 (vorher fälschlich 163024), `B0D2M355W6` 41–52; Beleg: die Rohfolgen-Zuordnung traf Titel nur innerhalb dieser Blöcke, 14+14+12+12 = 52, TMDB-Grenze bei Folge 29. Die drei Belege der Kanal-Seite `B0GXPFJJZK` (91 Folgen) gehören zu 163024 mit `teilBereich` 53–91; ihre „kein Deutsch"-Bereiche kamen aus leeren Tonspuren ohne Abo und entfallen. Darstellung: vier Kauf-Pillen, jede mit ihrem Bereich. | Daniel hat sie am 15.09.2026, 10:57, selbst über die Suche gefunden und gemeldet (alle Deutsch, Kauftitel, Rohfolgen mit Titel): Elementary School S1 `B0CVQW43HC` (14) und S2 `B0DJB5NGNK` (14), Junior High School S1 `B0CZTFL57B` (12) und S2 `B0D2M355W6` (12) — zusammen 52, genau Titel 100745. Die Meldungen tragen `titel_id: null` und warten im Briefkasten. Offen ist die Darstellung: vier Prime-Pillen oder eine mit Bereichen; Zuordnung wahrscheinlich über `data/verweise-von-hand.yaml` mit `teilBereich` 1–14, 15–28, 29–40, 41–52 — die Bereiche vorher an den Folgentiteln gegen TMDB prüfen. Wartet bis nach dem Durchgang |
+| **Erledigt am 15.09.2026 (4.20.13): Amazon-Meldung: leere Tonspurliste geht als „kein_dub" raus** | — | Folgen ohne Tonspurangabe werden nicht mehr gemeldet, machen die Staffel aber zur Mischung (sonst würde aus 53–91 Deutsch eine Meldung über 91 Folgen). Zusicherung im Kill-Blue-Sandkasten, ohne Fix rot. | Gefunden am 15.09.2026, 10:55, an Captain Tsubasa 2018 (Meldungen 4483 ff.): Folgen 25–52 mit `sprachen: []` (Crunchyroll-Kanal ohne Abo) wurden als `kein_dub` gemeldet. Geschützt ist der Bestand, weil die Notiz „Kanal-Titel" trägt und `fetch-pruefungen.ts` aus einer Kanal-Meldung kein Nein macht. Die Meldung selbst sagt aber etwas, das niemand gemessen hat: leer heißt „nichts gesagt". Die Erweiterung sollte solche Folgen als unbekannt melden oder weglassen. Wartet bis nach dem Durchgang |
+| **Erledigt am 15.09.2026 (4.20.13): Amazon-Knopf: „67 von 91 gelesen", obwohl alle Abschnitte da sind** | — | Gesperrte Folgen zählen als gelesen; der Knopf sagt „· 24 gesperrt", und nur wenn wirklich etwas fehlt „X von Y gelesen, Z gesperrt". | Gefunden am 15.09.2026, 10:53, im Durchgang an Captain Tsubasa 2018 (`B0GC9MPBHQ`, 91 Folgen, Bericht): `abschnitte.offen` 0, Folgen 1–24 in der Region gesperrt (`gesperrt`, nicht in `nummern`), 25–91 gelesen. Der Text zählt die gesperrten nicht als gelesen und klingt nach „lädt noch" — Daniel wartete darauf. Gesperrte gehören in die Zählung (oder als „24 gesperrt" daneben). Wartet bis nach dem Durchgang |
+| **Erledigt am 15.09.2026: Amazon-Verweis mit langer Kennung unter `/dp/` führt ins Leere** | — | `amazonTitelAdresse()` und `amazonAdresseRichten()` in `pipeline/lib/amazon-adresse.ts`; der Bau baut keine `/dp/`-Adresse mehr von Hand, der Belegvergleich läuft über `adressGleich`. Zusicherungen in `check:logic` und `check:zugangsart`. Der Verweis im Datensatz wird beim nächsten Bau gerichtet. | Gefunden am 15.09.2026, 10:45, im Durchgang: `amazon.de/dp/0Q6QUJIEW346VMM87OG648DPND` (Haikyu!!, 20464) zeigt „Suchen Sie etwas?". Die 26-stellige Kennung ist eine GTI, keine ASIN; sie gilt nur unter `/gp/video/detail/`. Auf der Seite ist es genau dieser eine Verweis (gezählt 10:46), er kommt aus `data/prime-zugeordnet.json`. Fix: beim Schreiben bzw. im Bau lange Kennungen auf `/gp/video/detail/` umstellen, mit Zusicherung. Wartet bis nach dem Durchgang |
+| **Erledigt am 21.09.2026: Prime-Pillen — Sammelseiten-Köpfe, Kanal, Zugangsart, Folgenzahl** | 3 | Aus Daniels Bildern zu JoJo und Lupin. (1) Köpfe der JoJo-Sammelseite (B0CG7KDCTS, B0CG7S59KL) standen als eigene Prime-Wege an Golden Wind, Stardust Crusaders und Battle in Egypt — ausgetragen mit `available: false`; ein ersetzter Prime-Suchlink fragt jetzt den Beleg zur neuen Adresse (sonst kam der Kopf zurück, gefunden mit `tools/streams-verfolgen.mjs`). (2) Die Pille nennt den Zusatzkanal („Prime Video (Crunchyroll)"), gelesen aus den Abos der Meldung; 297 Adressen, Gegenprobe gegen JustWatch 7/7. (3) Die Zugangsart kommt aus der Messung der Seite statt aus JustWatch je Titel: falsche Zugangsarten live 111 → 2. (4) Ohne Sprachbeleg keine Folgenzahl an der Pille. (5) Einleser setzt `/dp/` und `/gp/video/detail/` gleich — Lupin III. Part 6 (B0D3WCX3WH, deutsch, Kauf) ist zugeordnet. |
+| **Erledigt am 21.09.2026: Amazon-Suchseite — bestätigte Auswahl erscheint im neuen Tab** | 1 | Gegenprobe von Daniel mit 4.20.43 und drei Bildern: Suche „Lupin the 3rd", drei Kandidaten, nur B0DTN9NW75 bestätigt, Zurück per mittlerer Maustaste im neuen Tab → nur dieser Eintrag angehakt, Knopf „1 ausgewählt". Der Fix aus 4.20.21 (Neuzeichnen beim Eintreffen der Auswahl vom Worker) trägt. Dabei gefunden: Part 6 steht als „Staffel 6" auf derselben Sammelseite (B0D3WCX3WH, 25 Folgen) und zusätzlich im Crunchyroll-Kanal (B0CJJKGFGW); beide Wege in `verweise-von-hand.yaml`. |
+| **Erledigt am 15.09.2026: Amazon: „schon gemeldet" je Seite zählt Meldungen aller Zeiten** | — | **Behoben 11:50 im Worker:** `?zaehlen=1` liefert `gemeldeteSeiten` nur noch aus Meldungen nach `erzeugtAm` des Prüfstands (wie die Ziele in `?stand=1`); ausgeliefert, gemessen mit frischer Adresse: 0 Seiten, Nukitashi-GTI und `B0FQXKKXQW` offen. Die Erweiterung braucht dafür kein Update. **Entschieden: keine Zuordnung über `pageTitleId`.** Die Prüfliste öffnet immer ihre eigene Adresse; ein Unterschied entsteht nur über einen Umweg durch die Suche, und die Listeneinträge kennen keine `pageTitleId` — dafür müsste jeder Eintrag sie erst aus einer Meldung lernen. Neu bewerten, wenn ein Umweg wieder eine Meldung unter fremder Adresse erzeugt. Gefunden am 15.09.2026, 10:37, im Durchgang an Touken Ranbu `B0FQXKKXQW` (Aniverse): Der Worker liefert `gemeldeteSeiten` als `DISTINCT seiten_kennung` über **alle** Meldungen, übernommene und verworfene eingeschlossen. Zu `B0FQXKKXQW` gab es keinen Beleg, trotzdem galt die Seite als gemeldet, der Melde-Knopf verschwand (`jeKennung: B0FQXKKXQW:gemeldet`), die Suche blieb offen. Dieselbe Klasse wie die Suchen am Morgen (4.20.6): Die Erwartung auf der Titelseite muss den Stand fragen, nicht den Briefkasten aller Zeiten. **Zweiter Fall 11:10, Nukitashi (Bilder):** Über die GTI-Adresse aus der Prüfliste zeigte der Kasten „gemeldet ✓" ohne Melde-Knopf (Meldung vom 28.08. unter `amzn1.dv.gti.234d22cb…` in `gemeldeteSeiten`), nach einem Neuladen gar keinen Knopf. Über die Suche (`B0FFXJFLZJ`) „✕ kein Deutsch · melden", nach dem Neuladen Knopf **und** „gemeldet ✓" zugleich. Gemessen 11:22: Beide Seiten tragen `pageTitleId` `B0FHN5MRV6` und die GTI (12× bzw. 4×), `B0FFXJFLZJ` steht nur auf der ASIN-Seite. Eine Seite ist also über die GTI im Quelltext der Prüflisten-Adresse zuzuordnen. Wartet bis nach dem Durchgang |
+| **Erledigt am 15.09.2026: Durchgang mit Daniel** | — | Beendet 11:32: Schritt 13 (Fruits Basket, Crunchyroll-Kanal) übersprungen — der Kanal ist nicht gebucht, der Eintrag bleibt auf der Liste. Deploy nach der Belegberichtigung grün (Lauf 34952650731), rote Läufe von heute gelöscht. 15.09.2026, 10:38: Schritt 4 (Touken Ranbu) erledigt — Aniverse-Ausgabe `B0FQXKKXQW` aus Daniels Bericht als Deutsch belegt (zweite Quelle JustWatch), Suche von der Liste. 10:43: Schritt 5 (Okko) erledigt — Meldung 4454, Film über den Crunchyroll-Kanal mit Deutsch, mit JustWatch als zweiter Quelle belegt, Suche von der Liste. 10:46: Schritt 6 (Haikyu!! Staffel 1) erledigt — Meldung 4455, 26 Rohfolgen mit Titel, Folge 26 ist „Lev ist hier!" (OVA, bei uns 20884); geöffnet über `/gp/video/detail/`, weil die Listenadresse `/dp/<GTI>` ins Leere führt. 10:48: Schritt 7 (Haikyu!! `B0D4K9PV2F`, laut Seite Staffel 2) erledigt — 26 Folgenmeldungen (1–25 deutsch), 26 Rohfolgen mit Titel; Folge 26 „Kampf gegen ungenügende Noten" ohne Tonspur = OVA „VS Failing Marks" (21348). Die Meldungen tragen noch `titel_id` 20464 (Staffel 1); die Zuordnung zu 20992 bzw. 21348 läuft über die Folgentitel. 10:50: Schritt 8 (Golden Kamuy) erledigt — Meldung 4482, Staffel 1, 12 Folgen Deutsch (Crunchyroll-Kanal), 12 Rohfolgen mit Titel; die Seite zeigt 12 Folgen, der Beleg nannte 13. 10:55: Schritt 9 (Captain Tsubasa 2018) erledigt — Listenadresse `B0GXPFJJZK` zeigt inzwischen nur „Staffel 2: Die Junioren" ohne Folgen; über das Auswahlfeld `B0GC9MPBHQ` („Captain Tsubasa 2018", 91 Folgen). 67 Folgenmeldungen: 25–52 „kein_dub" (leere Tonspuren, Kanal ohne Abo), 53–91 Deutsch; Folgen 1–24 in der Region gesperrt, ohne Meldung. 67 Rohfolgen mit Titel. 11:07: Schritt 10 (Solo Leveling) erledigt — Meldung 4554, `B0FJWFGLQC`, Kauftitel, 13 Einträge alle Deutsch, 13 Rohfolgen mit Titel. Amazon zählt einen Eintrag mehr: Position 12 trägt „E11", Position 13 „E12 – Erhebt euch" — die Zuordnung auf unsere 12 läuft über die Titel. Der ältere Beleg mit Lücken (2, 4, 7, 10–11 ohne Deutsch) hängt an derselben Adresse `B0FJWFGLQC` (ein zweiter gleicher an `B0DQTBWY5K`) und ist damit überholt; woher die Lücken kamen, ist offen. Daniel fand in der Suche zusätzlich die Crunchyroll-Kanal-Ausgabe `B0CN337N7Z` ohne sichtbares Deutsch — ohne Kanal-Abo, und Crunchyroll selbst ist für Solo Leveling mit Deutsch belegt; das ist also kein Nein. 11:25: Schritt 11 (Nukitashi) ohne neue Meldung erledigt — die Meldung vom 28.08. (9 Folgen nur 日本語, Aniverse-Kanal) hatte `fetch-pruefungen.ts` als Kanal-Meldung ohne Aussage ausgelassen, `kanal-gegenprobe.ts` sah sie deshalb nie, und jede neue Meldung wäre wieder ausgelassen worden. Die Gegenprobe liest jetzt auch `data/prime-zugeordnet.json`; mit JustWatch (Aniverse-Kanal: Ton ja, deutsche Untertitel) belegtes Nein. Gemessen 11:21: es war der einzige Fall dieser Art. **Deploy rot seit 07:55 (gefunden 11:27):** `check:logic` „höchstens 8 Handbelege über der Folgenzahl" fand 10 — die neuen Belege aus Schritt 1 und 2 (FGO 1–22 bei 21 Folgen, Shiboyugi 1–12 bei 11). Zugeordnet über die Rohfolgen: Netflix-FGO E1 „Initium Iter – Reisebeginn" (19610) ist 110851, E22 „Grand Order" unsere 21; Shiboyugi E12 „L-O---E" (19643, 90 Min.) ist der Film 209961. Alle fünf Belege beider Titel berichtigt, zwei neue für 110851 und 209961. Als Nächstes Schritt 12 (Fruits Basket, braucht Crunchyroll-Kanal-Abo). Vorher: | Gestartet 15.09.2026, 09:25: 13 Schritte in `daniel-zum-abarbeiten/00-durchgang-schritte.md`. Erledigt: 12 (Free! S1 Kanal = belegtes Nein über Daniels Crunchyroll-Prüfung vom 23.08.), 1 (FGO Babylonia: 22 Folgen mit Titel und Laufzeit im Briefkasten, 09:28; Knopftext „angenommen" in 4.20.7 umformuliert). 2 (Shiboyugi: 12 Folgen mit Titel und Laufzeit, 09:33). 3 (Bungo Stray Dogs: Aniverse-Staffel 1 `B0825L839L` in der Region nicht verfügbar, als `available: false` belegt, Suche von der Liste genommen). Als Nächstes Schritt 4 (Touken Ranbu, Amazon-Suche). |
+| **Erledigt am 15.09.2026: Amazon-Staffelwechsel ohne Neuladen** | — | **Bestätigt von Daniel, 09:53, mit Bild:** 4.20.9, Bungo Stray Dogs Staffel 3 → Auswahlfeld Staffel 1, ohne Neuladen „✕ kein Deutsch · 12 Folgen · Staffel 1". Bericht ausgewertet und gelöscht. **Nachtrag 09:57 (4.20.10):** Beim Neuladen von Staffel 3 stand „✕ kein Deutsch" — zweiter Bericht: Seitendaten mit Deutsch um 52,385 s, danach der Folgen-Abruf mit leeren `audioTracks` um 52,921 s, der die Liste überschrieb. Wettlauf, schon vor 4.20.9 vorhanden (erster Bericht: umgekehrte Reihenfolge, Ergebnis „Deutsch"). Eine leere Tonspurliste überschreibt jetzt keine gefüllte; Daniels Test steht aus. | **Stand 15.09.2026, 10:05 — gemessen, zweiter Anlauf:** Test mit 4.20.8: Kanal und Zugang richtig, „Deutsch" blieb. Daniels Bericht (09:47) zeigt die Ursache: Der Knopf stand 19,896 s nach dem Wechsel richtig auf „✕ kein Deutsch", 0,18 s später auf „🇩🇪 Deutsch" mit den Tonspuren von Staffel 3 („Dialogue Boost"). `amazon-leser.js` las den Hydration-Block aus dem DOM, der beim Wechsel nicht getauscht wird, und stempelte ihn mit der neuen Adresse. 4.20.9: Der Mitleser liest den DOM-Block nur auf der geladenen Seite; nach einem Wechsel holt `seiteNachholen()` die neue Seite, liest den Block aus der Antwort und reicht den Quelltext an `amazon.js` weiter (ein Abruf statt zwei). **Vorher (4.20.8, 09:55):** Daniel: „fix das es direkt ohne neuladen klappt". Ursache gemessen im Code: `abos()`, `zugangsart()`, `ueberKanal()` lesen `benefitId` aus `seitenHtml()`, und das war nach dem Wechsel der Quelltext von Staffel 3. `neueSeiteHolen()` ruft nach einem Adresswechsel die neue Seite im Hintergrund ab, `seitenHtml()` liefert sie. Prüfstein: `B0CGQ5H216` öffnen, Auswahlfeld Staffel 1, ohne Neuladen muss „✕ kein Deutsch · 12 Folgen · Staffel 1" erscheinen. Ursprüngliche Notiz: | Daniel am 15.09.2026, 09:38, mit zwei Bildern an Bungo Stray Dogs (`B0CGQ5H216`, Aufruf aus der Suche, Staffel 3 → Auswahlfeld Staffel 1 → `B0825L839L`): Ohne Neuladen stand der Knopf auf „🇩🇪 Deutsch · 12 Folgen · Staffel 1 · Abo + Kauf · ⚠ Kanal · melden", also Staffel aus der Adresse, Tonspuren aus dem alten Quelltext. Nach dem Neuladen: „✕ kein Deutsch · 12 Folgen · Staffel 1", die Seite ist in der Region nicht verfügbar. Der Wächter gegen genau diesen Fall (10.09.2026, frühere Adress-Kennungen) hat nicht angeschlagen. **Zweiter Fix am selben Symptom: erst messen.** Nach dem Durchgang Daniel um einen Bericht („Bericht laden") im Zustand vor dem Neuladen bitten | Fortsetzen mit `/ai-daniel-todos` |
+| **Erledigt am 15.09.2026: Kanal-Gegenprobe: ein Beleg beim Kanal-Anbieter selbst ist die zweite Quelle** | — | `kanal-gegenprobe.ts` fragt vor JustWatch die Handbelege beim Anbieter des gemeldeten Kanals (crunchyroll, aniverse, adn) für denselben Titel; nur Nein ergibt ein belegtes Nein, ein Ja lässt den JustWatch-Vergleich laufen. Trockenlauf 12:25: kein offener Fall (Free! war schon belegt, Fruits Basket hat keinen Crunchyroll-Handbeleg). | Gefunden am 15.09.2026 im Durchgang an Free!: JustWatch nennt beim Crunchyroll-Angebot „de", aber für die ganze Reihe (Staffel 3). Crunchyroll selbst ist für Staffel 1 von Daniel als „kein Deutsch" belegt. `kanal-gegenprobe.ts` sollte vor JustWatch prüfen, ob für denselben Titel beim Anbieter des Kanals (crunchyrollde → crunchyroll, aniversede → aniverse) ein Beleg vorliegt. Wartet bis nach dem Durchgang |
+| **Erledigt am 15.09.2026 (4.20.14): Amazon-Liste: „S1, S2, S3 gemeldet" zählt die ganze Reihe** | — | `gemeldetKurz()` liest nur noch den eigenen Eintrag; `fortschritt()` zählt weiter über die Reihe. | Gefunden am 15.09.2026 an Free!: Die Marke einer Seite mit einer Staffel nennt die gemeldeten Staffeln aller Einträge derselben Serie (`staffelnDerSerie` über `serienGefaehrten`). Für den Fortschritt ist das gewollt, für „was ist hier gemeldet" liest es sich falsch. Wartet bis nach dem Durchgang |
+| **Erledigt am 12.09.2026 (d0114a58): News-Zeile öffnet den Teil, nicht den Reihenkopf** | — | Nachgetragen am 15.09.2026: Die Kopfzeile öffnet bei genau einer Meldung deren Teil; der Quellenverweis stand im Panel des Teils schon (Beleg docs/panel-179874-dunkel.png). Ursprüngliche Notiz: | Daniel, 12.09.2026: „alle news einträge öffnen aktuell nur das jeweilige panel, aber wo genau steht diese info, und woher kommt das? Alle Infos in News müssen ja eig auch im panel sichtbar sein, und dort müsste ein verweis auf die quelle zu sehen sein." Der Eintrag zu „Mononoke" bündelt auf den Reihenkopf; der Termin gehört zu „Chapter III", und dorthin führt kein Klick — im geöffneten Panel steht die Meldung deshalb nirgends. Die aufgeklappten Zeilen können es bereits (`oeffne(m.teilId ?? e.titelId)`), die Kopfzeile nicht. Dazu die zweite Hälfte seiner Frage: Der Quellenverweis des Termins (hier `netflix.com/title/82012956`) muss im Panel sichtbar sein |
+| **Erledigt am 12.09.2026: sieben Befunde aus Daniels Panel-Durchsicht** | — | Alle an einem Nachmittag gemeldet, alle behoben. **1.** Der Disc-Kasten nannte nur den nächsten Termin — „Banana Fish" stand mit „06.11.2026" da, während Band 1 seit dem 21.08. im Laden liegt und der Kaufweg daneben dorthin führt; jetzt „Vol. 1 seit 21.08.2026 · Vol. 2 am 06.11.2026" (Bandname aus `release.name`, abzüglich des Titels). **2.** Im Kasten stand der deutsche Termin 01.10., in der Reihenliste der japanische 02.10., ohne Unterschied — die Liste schreibt jetzt „JP 02.10.2026". **3.** Unter „Specials & OVAs" stand „Staffel 2" für „Maomao no Hitorigoto Staffel 2"; die Kürzung auf die bloße Staffelangabe gilt nur noch für Hauptstaffeln. **4.** Der Kopf zeigte „Kusuriya no Hitorigoto Staffel 3 Teil 2", die Liste „Staffel 3 Teil 2" — beide ziehen jetzt dieselbe Regel. **5.** „Staffel 3 - Teil 1" neben „Staffel 3 Teil 2": `eindeutschenStaffel()` setzt den Strich jetzt einheitlich. **6.** Der aniSearch-Knopf führte auf `/anime/index?text=` und dort auf „Deine Suchanfrage ist ungültig" — gemessen: `/search?q=` liefert die Trefferliste („Date A Bullet" → anime/14630); dazu 221 Quellenverweise, die auf die aniSearch-Indexseite zeigten, auf die Werkseite umgestellt. **7.** Der deutsche Titel eines Reihenteils kommt jetzt aus AniLists `synonyms`, wenn ein Synonym mit dem **belegten** deutschen Reihennamen beginnt — „Die Tagebücher der Apothekerin: Der Film" statt „Kusuriya no Hitorigoto: Bouhi no Hihou" |
+| **Erledigt am 12.09.2026: die Nachrichtenzeile sagt, welcher Teil gemeint ist** | — | Daniel: „heb besser hervor das es sich bei dem neuzugang nur um die Specials handelt, nicht um die hauptserie. so wie es aktuell dort steht ist es verwirrend." Der Teil stand blass hinter dem Anbieter („bei Crunchyroll · Lord of Mysteries Specials") und las sich wie eine Fußnote zu ihm. Jetzt trägt er einen Rahmen direkt am Titel und nennt nur noch, was ihn vom Kopf unterscheidet („Specials") — der Reihenname steht eine Zeile höher. Dieselbe Schreibweise wie überall sonst: `news.ts` ruft jetzt `eindeutschenStaffel()`, sonst stünde „Cour 1" neben „Teil 2" |
+| **Erledigt am 12.09.2026: zwei Handbelege mit Netflix-Zählung umgerechnet** | — | `check:logic` wurde rot (14 statt höchstens 12 Belege nennen Folgen über der Folgenzahl ihres Titels). Es waren die beiden von heute: „Dorohedoro: Teuflische Anekdoten" (Netflix S1 E13, unser Titel hat eine Folge) und „Hi Score Girl: Extra Stage" (S1 E13–15, drei Folgen) — beide richtig gemessen, beide in der Anbieterzählung. Auf unsere Zählung umgerechnet, die Netflix-Nummern stehen in der Notiz. Die Schwelle bleibt bei 12 und darf nur sinken |
+| **Verworfen am 12.09.2026: „Erschienen" aus dem Dub-Bestand belegen** | — | Anlass: Daniel fragte, warum der stündliche Lauf nicht bemerkt hat, dass Iruma-kun Folge 22 um 14:00 nicht erschien. Gemessen: Crunchyrolls **Sendekalender** listet den Termin (das ist eine Ankündigung, keine Beobachtung), der **Dub-Bestand** desselben Tages führte in Staffel 4 nur die Folgen 1–21. Daraus entstand der Ansatz, eine Kalender-Beobachtung nur noch gelten zu lassen, wenn eine deutsche Folge mit `verfuegbarAb` am selben Tag vorliegt. **Widerlegt, bevor es ausgeliefert war:** Die Folge **war** erschienen (Daniel mit Bild, 17:25; Crunchyroll führt Staffel 4 jetzt mit 22 Folgen) — unser Dub-Bestand war vom Vormittag. `geprueftAm` ist **tagesgenau**, nicht zeitgenau: Ein Bestand von 09:00 sagt nichts über 14:00, und der Riegel „geprüft am Termintag" hätte genau daraus drei Falschmeldungen gemacht (Iruma, Kaiju No. 8, Black Torch). Wieder aufgreifen ließe es sich nur mit einem **Zeitstempel** statt eines Tagesdatums am Dub-Bestand. Der ursprüngliche Code bleibt |
+| **Erledigt am 12.09.2026: Disney+ bekommt die gemeinsame Box** | — | `disney.js` ruft `akBox()` jetzt wie die anderen beiden: Prüf-Knopf in `.ak-z-melden`, Übersicht als `ak-uebersicht ak-uebersicht-innen` im Fuß, dazu die Debug-Zeile mit Bericht und Ruhemodus. Die Inline-Stile sind weg (`KNOPF_STIL` entfällt), die Farben kommen aus `melder.css`. Gemessen mit dem neuen `check:disney-kasten`: 294 px breit, fünf Zeilen, beide Knöpfe `position: static`, ein leerer Kasten verschwindet. Vorher (Stand 10.09.): | `box.js` liefert seit dem 10.09.2026 das Gerüst für alle drei Melder, und Netflix und Prime nutzen es. **Disney+ lädt die Datei laut Manifest, ruft sie aber nicht** — dort schweben die Elemente weiter einzeln. Kein dringender Fall: Die Disney-Prüfliste ist leer (0 Verweise ohne Urteil), es gibt also gerade nichts zu melden. Drankommen sollte es, sobald dort wieder Aufträge stehen — sonst laufen zwei Bauweisen nebeneinander her, und die zweite veraltet |
+| **Erledigt am 12.09.2026: Lord of Mysteries — Specials, Termine, Titel, Einordnung** | — | Vier Fehler an einem Titel (Daniel mit zwei Bildern). Die drei Specials kamen am 10.09. auf Deutsch heraus, einen Tag nach unserem Prüflauf, und waren unsichtbar: `beurteile()` fragt nur Titel, die die Adresse schon tragen. Gebaut: täglicher Lauf über Crunchyrolls Neuzugänge (hebt die 28-Tage-Frist auf), neue Zuordnungsrunde Block→Geschwistertitel, `startDate` im Katalogabruf, aniSearch-Überschrift gilt nicht mehr als deutscher Titel (1.001 Fälle), Reihen-Einordnung über die PARENT-Kante, WeTV/iQIYI raus. Lehren in CLAUDE.md |
+| **Erledigt am 12.09.2026: Nachrichtenseite, gebündelt je Anime und Tag** | — | Daniel: „pro tag max 1 eintrag je anime — alle infos zu diesem anime … müssen unter diesem anime gebündelt aufgelistet sein. und die übersicht muss noch kompakter … interaktion für mehr details". Gebündelt wird je **Reihe** (die Specials stehen unter „Lord of Mysteries", mit ihrem Namen als Zusatz): 275 Meldungen in 226 Einträgen, 30 mit mehr als einer. Aufbau aus zehn vermessenen Listen abgeleitet (Sentry 119 px, Discourse 88, LiveChart 80–92, GitHub 64–71, Wikipedia 22) — Sentrys Zeile plus Wikipedias Inline-Aufklapper, gemessen **56 px** je Zeile. Chips fest sortiert, auf dem Handy einer plus Zähler; der Chip nennt die Art, die Zeile die Umstände. Datiert wird auf Crunchyrolls `verfuegbarAb`, nicht auf unseren Fundtag. Neu: `check:news` klickt eine Zeile auf und misst die Zeilenhöhe; `ansicht-bild.mjs` kannte die Route „news" nicht und meldete trotzdem „ok" |
+| **Erledigt am 12.09.2026: die vier Nachträge am Lord-of-Mysteries-Panel** | — | Daniel nach dem ersten Fix: Specials sprangen nach zwei Sekunden zurück in die Hauptserie (`reihenTeile` baute den Eintrag Feld für Feld neu und verlor `beiwerk`/`jpStart`/`jpStatus`, sobald `titles.json` nachlud), „Wu Mian Ren Pian" blieb chinesisch (keine aniSearch-Kennung, kein englischer AniList-Name — jetzt aus `synonyms` bei `countryOfOrigin` ≠ JP: „Lord of the Mysteries 2"), 2027 fehlte (Katalog-Cache älter als die `startDate`-Erweiterung, Neuabruf gelaufen), jp-Termin der Specials fehlte (steht nur in der Bau-Karte `jpStart`, die beim Reihenbau niemand las) und das deutsche Datum (Crunchyroll nennt es selbst: `premium_available_date` an der **deutschen** Folge = 10.09.2026). Was noch aussteht, zeigt das Panel jetzt als „ab 2027" statt nur gestrichelt |
+| **Erledigt am 11.09.2026 (4.19.2): drei Zustände je Folge aus einer Quelle** | — | Daniel: „zustände sind schließlich nur: gemeldet (+datum wann zuletzt), zu melden, erneut melden … pro episode … single source of truth". Der Briefkasten liefert je Folge Datum und Kennung (Worker deployt), die Prüfliste `zustand`/`am`/`seit`, `folgeZustand()` führt beides zusammen, Dialog und Knopf lesen nur sie. Befund dabei: Netflix-S1-E26 bei Haikyu!! war **nie** gemeldet — das „✓" von 4.19.1 kam aus dem Nummernabgleich mit der S2-E26-Meldung vom 22.08. |
+| **Erledigt am 11.09.2026: die drei Haikyu-Meldungen vom 22.08. neu zugeordnet** | — | S2 E26 → OVA 21348 („VS Failing Marks“, Folge 1), S4 E1 → To the Top Folge 1, S4 E27 → Part 2 Folge 12. Vorher stand „HAIKYU!! 2nd Season“ (25 Folgen) mit „Folge 26 deutsch“ im Datensatz |
+| **Erledigt am 13.09.2026: Kinofilme — Kasten nennt den Kinostart statt „Noch keine deutsche Fassung"** | — | Recherche und Befunde im Abschnitt „Recherchiert 13.09.2026" unten; 41 Einträge in `data/kino-ankuendigungen.yaml`, Herkunftsland (CN/KR) aus AniList im Katalog-Cache ab dem nächsten Wochenlauf. Ursprünglicher Auftrag: Daniel, 13.09.2026, am Apothekerin-Film: Der Kasten soll den japanischen Kinostart nennen, sagen, dass der deutsche fehlt, und was der Stern bringt — „für alle filme die als kino film angekündigt sind … web recherche … falls du was findest, merk dir die webseite, weil evtl müssen wir dann unsere news quellen erweitern". **Oberfläche fertig:** neuer Zustand `kino` im Antwort-Kasten (angekündigt = von Hand recherchiert, `NOT_YET_RELEASED`/`RELEASING`, oder in Japan seit höchstens einem Jahr im Kino), der doppelte Abschnitt „Keine deutsche Synchro bekannt" entfällt dort; Bild mit `node tools/kino-kasten-bild.mjs`. **Daten:** `data/kino-ankuendigungen.yaml` (genauerer JP-Termin, deutscher Zeitraum, Verleih). Offen: die Web-Recherche über 112 Filme einarbeiten, gefundene deutsche Termine als Release nach `data/curated/kino-2026.yaml`, ergiebige Webseiten als Kandidaten für die Newsquellen festhalten |
+| **Erledigt am 13.09.2026: Netflix: Stichprobe auch für Prüflisten-Aufträge** | — | stichprobeUeberEinenTitel() in melder.js: Bilden die offenen Folgen lückenlos genau einen Eintrag der gerechneten Prüfliste (erste Folge und Folgenzahl stimmen), prüft der Knopf erste und letzte Folge und meldet den Rest als Annahme. Eine eingemischte OVA (eigener Eintrag) oder eine laufende Staffel (weniger Folgen als der Eintrag) bleibt beim Einzelprüfen. Vier Zusicherungen in netflix-auftrag.test.cjs, darunter Konosuba S2 mit und ohne belegte OVA. Erweiterung 4.20.2 |
+| **Erledigt am 13.09.2026: Disney+: Prüflisten-Dialog überdeckt den Kasten** | — | Der Dialog sitzt jetzt über der Oberkante des Kastens statt 100 px über dem Rand, Höhe entsprechend begrenzt (disney.js, 4.20.2) |
+| **Erledigt am 13.09.2026: Crunchyroll-Lauf, vier Lücken aus dem Durchgang** | — | Daniel, 13.09.2026: „warum funktioniert der crunchylauf nicht?“ Eingebaut in pipeline/fetch-crunchyroll-offene.ts: (1) **Summenregel** — trifft keine Staffel die Folgenzahl genau, gilt eine Staffel mit Folgenzahl = Werk + Nebenausgabe derselben Reihe (Heart Throb 12 + OVA 1 = 13), wenn genau eine trifft. (2) **Nebenausgabe im Dub-Block** — vor einem Nein zu OVA oder Special wird nach einem deutschen Block gesucht, der eine Hauptserie der Reihe um 1 bis N Folgen übersteigt (Chunibyo-OVA, Durarara-Specials); genau einer, sonst kein Urteil. (3) **Tote Altadressen** der Form …-unbekannt-NNNNNN werden als tot gewertet (Cencoroll, Your Voice: beide 404). (4) Filme ohne Kennung: der Katalog führt movie_listing schon seit dem 09.09.; die vier Fälle des Abends sind per Handbeleg geklärt. Wirksam mit dem nächsten Wochenlauf (data:cr-offene in refresh-weekly.yml) |
+| **Erledigt am 13.09.2026: Okko und ihre Geisterfreunde: drei Bezugswege eintragen** | — | maxdome und die Blu-ray bei Amazon stehen in data/watch-links.yaml. Apple TV ist herausgenommen: Es verweist nur in die Prime-App und ist kein eigener Bezugsweg (docs/recherche-anbieterketten.md) |
+| **Erledigt am 13.09.2026: Recherche: Anbieterketten (Apple TV → Prime → Crunchyroll-Kanal)** | — | Ergebnis in docs/recherche-anbieterketten.md. Kern: Der Prime-Kanal hat einen eigenen Katalog mit eigenen Rechten und wird als eigener Bezugsweg geführt; „nicht mehr verfügbar“ auf crunchyroll.com beendet nur diesen Weg; Apple TV und JustWatch sind Verweise, keine Belege. Einziger belegter Abzug entlang der Kette: 86 EIGHTY-SIX am 11.05.2026, Prime zog am selben Abend nach |
+| **Erledigt am 13.09.2026: Erweiterung: Prime-Meldung trägt „Chatverlauf“ als Titel** | — | saeubern() in amazon.js verwirft „Chatverlauf“ (Überschrift der Rufus-Leiste), damit fällt seitenTitel() auf die nächste Quelle zurück. Die beiden Meldungen (Okko, Danganronpa 3) sind von Hand gebucht. Erweiterung 4.20.2 |
+| **Erledigt am 13.09.2026: Shakugan no Shana Staffel 2 bei Prime: „kein Deutsch“ trotz deutscher Besetzung** | — | Der Bestand stimmt: Zwei Handbelege (25. und 31.08.2026) führen B0CMZZVV7R mit „alle 24 Folgen geprüft, Deutsch“. Das „kein Deutsch“ im Kasten war eine Fehlablesung beim Besuch am 13.09.2026, keine Datenfrage. Taucht es wieder auf, Bericht laden |
+| **Erledigt am 13.09.2026: Erweiterung: kein Melde-Knopf auf der Titelseite eines Suchauftrags** | — | Ursache aus dem Bericht: Beide Seiten standen nicht auf der Prüfliste (über den aniSearch-Link geöffnet, kein Suchauftrag), und dort blendet der Takt den Knopf bewusst aus. Falsch war nur die Kopfzeile „meldet: …“ darüber — sie entfällt jetzt ebenfalls (amazon.js, 4.20.2). Beide Titel sind per Handbeleg eingetragen und stehen nach dem nächsten Bau mit ihrer Prime-Adresse im Bestand |
+| **Erledigt am 13.09.2026: aniSearch-Adresse statt Prime-Suchadresse** | — | Die Regel gibt es im Bau schon (build.ts, aniSearch-Bezugsquellen): Eine aniSearch-Adresse ersetzt die Suchadresse, sobald der Link-Check sie als Prime-Video-Seite belegt (linkBefunde[url].prime). Bei The Ghost in the Shell und Landei II stand der Befund auf „unklar“, weil Amazons Abwehr den Prüflauf ausbremst; beide sind jetzt per Handbeleg eingetragen. Kein Umbau nötig |
+| **Erledigt am 13.09.2026: Erweiterung: Chip „2 erwartet“ unter den angekreuzten Treffern umbenennen** | — | Beschriftung „N ausgewählt“ in amazon.js, Erweiterung 4.20.2 |
+| **Erledigt am 13.09.2026: Trinity Seven trägt die Prime-Adresse von Plus-Sized Elf** | — | Beleg vom 10.09.2026 auf Plus-Sized Elf (173388) umgebucht. Die Kopfzeile nahm den Titel aus der Kanal-Wiedervorlage in offene-amazon.js, und die bildet sich beim nächsten Bau aus dem berichtigten Beleg neu |
+| **Erledigt am 13.09.2026: Durchgang mit Daniel** | — | Gestartet 13.09.2026, 19:40. Vorbereitet: Haikyu-Netflix-Meldungen (S1 E26, S3 E11, S4 E14/15/26/27) selbst verbucht, S4 E14–15 gehört zu TO THE TOP 2, E26–27 zur OVA. Erledigt: Laufstatus-App (19:41, eigenes Fenster, Chrome normal breit), Erweiterung 4.20.1 neu geladen (19:42), Konosuba S2 E1–10 deutsch gemeldet (19:50, Bereichsmelder nicht ausgelöst, alles deutsch), Disney+-Box korrekt (19:54), Dumbbells-Seite ist die Hauptserie als Kauftitel, Verweis am Special entfernt (19:57), Crunchyroll 1/7 Sin: The Movie nicht mehr verfügbar (19:59), 2/7 Durarara!! Specials deutsch (20:00), 3/7 Cencoroll Connect nicht mehr verfügbar (20:02), 4/7 Chunibyo Heart Throb deutsch samt OVA (S2 E13 im Dub-Block, Lauf-Nein berichtigt, 20:07), 5/7 Your Voice: Kimikoe nicht mehr verfügbar (20:09), 6/7 Okko bei crunchyroll.com nicht mehr verfügbar, aber im Crunchyroll-Kanal auf Prime (20:11), Prime-Kanalangebot von Daniel gemeldet (20:16), 7/7 Gals Can’t Be Kind to Otaku nur Untertitel (20:18), Prime-Suche Danganronpa Future Arc: Seite B0H9G1CNHC führt alle drei Teile (24 Folgen deutsch), Future und Hope Arc auf diese Adresse umgestellt (20:27), Saekano ♭ nicht bei Prime (20:28), Shakugan no Shana III nicht bei Prime (20:29), The Ghost in the Shell 1–10 deutsch auf B0GZD5N2GP (20:31), Vom Landei zum Schwertheiligen II 1–10 deutsch auf B0H1QXQL33 (20:33), Plus-Sized Elf: beide Ausgaben schon gemeldet, Beleg von Trinity Seven auf Plus-Sized Elf umgebucht (20:41). Ergebnis: 5 Prime-Kanal-Wiedervorlagen (Digimon, Free!, Bungo Stray Dogs, Touken Ranbu, Nukitashi) nicht prüfbar, Daniel hat kein Kanal-Abo; sie bleiben beim JustWatch-Hinweis ohne Urteil. Bereichsmelder nicht ausgelöst (Konosuba S2 war durchgehend deutsch), Test beim nächsten gemischten Netflix-Titel |
+| **Erledigt am 15.09.2026: Suchen zählen wie die Statusanzeige** | — | Daniel, 09:20, mit zwei Bildern: Statusanzeige „Amazon 11 offen · 8 Titel · 3 Suchen", Erweiterung „8 Prime-Titel · 2 Suchen offen". Ursache: `istGemeldet()` zählte Meldungen aller Zeiten; die Ausgaben-Suche „Bungo Stray Dogs" hat dieselbe Adresse wie eine früher gemeldete Suche. `amazon.js` 4.20.6 fragt für Adressen der Prüfliste zuerst `?stand=1`, `suchAbhaken()` überbrückt mit `frischGemeldet`. Stand-Probe erweitert, Gegenprobe fällt. Lehre in CLAUDE.md |
+| **Erledigt am 14.09.2026: Zwei Ausgaben derselben Staffel (Digimon)** | — | Daniel, 13:20–13:36, mit drei Bildern. (1) `amazon.js` 4.20.5: Die Marke nennt, was gemeldet ist („S1 E1–54 gemeldet") statt „✓ alle gemeldet". (2) `kanal-gegenprobe.ts` vergleicht mit dem Angebot des gemeldeten Kanals: Digimon, Bungo Stray Dogs und Trinity Seven bekommen ein belegtes Nein, Bungo Stray Dogs, Touken Ranbu und Okko eine Suche nach der zweiten Ausgabe mit Deutsch. (3) Digimon `B0CGRJGJX1` ist als deutsche Ausgabe belegt (Daniels Angabe + JustWatch). (4) Der Bau legt die zweite Ausgabe mit Deutsch als Verweis an und führt die ohne Deutsch in `ausgabenOhneDe`. Das Panel zeigt sie durchgestrichen. (5) Doppelte Verweise derselben Seite (`/dp/` und `/gp/video/detail/`, Date a Live V) werden zusammengelegt. Übrige Staffeln (02, Tamers, Frontier, Data Squad, Fusion) sind eigene Titel mit Beleg. Websuche ohne Tonspur-Auskunft, siehe CLAUDE.md |
+| **Erledigt am 14.09.2026: Statusanzeige und Prime-Erweiterung zeigen denselben Stand** | — | Daniel, 13:03, mit zwei Bildern: Statusanzeige „Amazon 6 · Suchadressen 6", keine Netflix-Pille; Erweiterung „2 Prime-Titel zu prüfen". Behoben: (1) `extension-offene-amazon.mjs` schreibt Wiedervorlagen als `erneut` (vorher totes Feld `wiedervorlage`) und markiert sie offen; (2) volle Kette `data:extension-liste` gelaufen, Prüfstand jetzt Amazon 11, Netflix 2, Suchadressen 6 (live nachgesehen); (3) `amazon.js` 4.20.3: `fertig()` fragt zuerst `?stand=1`, lokal überbrückt nur `frischGemeldet` — Stand-Probe in `amazon-startseite-pruefen.cjs` (Gegenprobe ohne die Regel: „3 Prime-Titel" statt 1); (4) „Suchadressen 6" waren sechs am 13.09. geklärte Titel: `build.ts` schrieb `suchadressen-offen.json` bei „nichts offen" nicht mehr — jetzt leer geschrieben, die Pille entfällt; (5) Netflix (Daniel, 13:23, mit zwei Bildern: Statusanzeige „Netflix 2", Prüfliste „1 Titel"): `melder.js` 4.20.4 fragt in `fertig()` ebenfalls die Adressen des Worker-Stands, Stand-Probe in `netflix-auftrag.test.cjs` mit Gegenprobe; `pruefstand.mjs` führt alle Ziele statt 25. Lehre in CLAUDE.md |
+| **Erledigt am 28.09.2026: 8 Belege mit Anbieterzählung neu zuordnen** | 2 | **Was es ist:** Acht Belege nennen Folgennummern in der Zählung des Anbieters (Netflix zählt z. B. über alle Staffeln durch), unser Titel hat aber weniger Folgen — die Belege brauchen eine neue Meldung, damit die Folgen einzeln beobachtet werden. **Gemessen am 28.09.2026:** Von den sechs damals genannten Titeln tragen vier inzwischen Bereiche (103275, 180746, 100745, 20464); die beiden offenen — **99699 Golden Kamuy** und **151807 Solo Leveling** — sind über `tools/erneut-melden.mjs` als Zuordnungsauftrag auf die Prüflisten gesetzt worden (Amazon 22 → 24 offen; die Erweiterung meldet dort die Folgentitel, der Bau ordnet danach zu). **Warum es nicht bei Daniel lag:** Die Titel standen auf keiner Prüfliste, und die Erweiterung schickt Folgentitel nur für Seiten, die man über die Liste öffnet. **Stand 14.09.2026, 12:30 — der Weg ist gebaut:** `tools/verdacht.mjs` führt die Belege als dritte Wiedervorlage-Quelle (Kriterium wie `check:logic`), sie stehen mit dem Hinweis „Zuordnung: Der Beleg nennt Folgen bis …" auf den Prüflisten — Netflix 2 (FGO Babylonia 103275, SHIBOYUGI 180746), Prime 4 Titel (99699, 100745 Captain Tsubasa, 151807, 20464). Werden die Seiten über die Liste geöffnet und gemeldet, kommen die Folgentitel, und ein zugeordneter Fall fällt von selbst heraus. **Netflix-Folgenfelder:** Der Worker schreibt die Laufzeit jetzt aus `roh.liste.runtimeSec`/`displayRuntimeSec` in `dauer_sek` (gemessen über die neue Probe `?rohfolgen=1&probe=netflix`); ein Erscheinungsdatum liefert Netflix' Folgenliste nicht — das einzige Datum ist `bookmark.watchedDate`, die eigene Wiedergabe. **Stand 13.09.2026:** vier weitere gekappt statt umgebucht — Dorohedoro (Disney+ 13 → 12), Tokyo Revengers (Disney+ 26 → 24), Medalist Staffel 2 (Disney+ 10–13 gehören zu Staffel 1), Railgun S (Prime 25 → 24). Beleg ist die kumulative Zählung der Streaming Availability API (`data/motn.json`: Dorohedoro 23 = 12 + 11, Medalist 22 = 13 + 9 mit deutsch 14–22). **Nachgemessen 13.09.2026, 23:45 — „wartet auf Folgentitel" tritt von selbst nie ein:** Keiner der offenen Titel (FGO Babylonia 103275, SHIBOYUGI 180746, Captain Tsubasa, Golden Kamuy, Solo Leveling, Dumbbells) steht auf einer Prüfliste (`extension/offene-netflix.js`, `offene-amazon.js`), und die Erweiterung schickt Folgentitel nur für Seiten, die über die Liste geöffnet werden. Briefkasten: 116 offene Rohfolgen, alle Prime, keine zu diesen Titeln. Weg: die Titel als Zuordnungsauftrag auf die Prüflisten setzen. **Netflix-Folgenfelder:** fünf Netflix-Adressen sind längst verarbeitet, und der Worker speichert seit Migration 029 (11.09.) `roh` je Folge — die Abfrage `?rohfolgen=1` gibt die Spalte aber nicht heraus (`worker/src/index.ts`, SELECT ab Zeile 2109); ob Laufzeit und Datum darin stehen, ist ungeprüft. Vorher stand hier: FGO Babylonia (zwei Belege) und SHIBOYUGI — der Briefkasten führt am 13.09. nur Prime-Rohfolgen, Netflix-Folgentitel sind noch keine angekommen; Captain Tsubasa (zwei Belege), Golden Kamuy, Solo Leveling und „How Heavy Are the Dumbbells" (die Prime-Seite mit 12 Folgen hängt am Special mit 2 — der Hauptserie gehört sie, die trägt aber schon einen Beleg auf einer anderen Seite). `check:logic` hält die Zahl bei 8. Vorher, Stand 11.09.2026, 14:30: von 24 sind zwölf berichtigt (dazu Re:Hamatora — Prime führt die zwölf Folgen doppelt, deutsch und OmU — und One Punch Man, dessen Prime-Folge 13 eine OVA ist) (BAKI-DOU, Sailor Moon Eternal, Dr. STONE RYUSUI/New World/Part 2, Kabaneri Unato, KONOSUBA 2 → OVA 97996, KONOSUBA 3 + BONUS STAGE, MHA S7). Offen: **FGO Babylonia** (Netflix 22 = 21 + Episode 0 — vorn oder hinten?) und **SHIBOYUGI** (Netflix 12, AniList 11) — beides entscheiden die Folgentitel, die seit 4.19.3 mitkommen; dazu 7 Prime (Captain Tsubasa mischt drei Ausgaben auf einer Seite, Solo Leveling Rückblick und Staffel-2-Folge) und 3 Disney+. `check:logic` hält die Zahl bei 12 |
+| **Erledigt am 11.09.2026: 1.489 identische Doppel aus `dub-confirmed.yaml` entfernt** | — | 3.289 → 1.800 Belege, dieselbe Menge (Gegenprobe im Werkzeug `tools/handbelege-doppel-entfernen.mjs`), alle 603 Kommentarzeilen erhalten. Entstanden am 22.–24.08. bei mehrfachen lokalen Läufen, seitdem nicht gewachsen. `check:logic` wird rot, sobald wieder einer doppelt steht |
+| **Erledigt am 15.09.2026: Folgen-Metadaten von Netflix ausgewertet** | — | **Gemessen am 15.09.2026** an den fünf jüngsten Netflix-Zeilen mit `roh` (Worker `?rohfolgen=1&probe=netflix`, KonoSuba, gemeldet 13.09.): **Netflix liefert je Folge kein Datum** — weder die Folgenliste (`runtimeSec`, `displayRuntimeSec`, `title`, `contextualSynopsis.text`, `isAvailable`, `isPlayable`, `videoId`) noch der Player-Teil (`runtime`, `creditsOffset`, `seq`, `skipMarkers`, `bookmark.watchedDate` = 0 — das ist der Sehverlauf, kein Erscheinungsdatum) noch die Reihe (`title`, `rating`, `type`, `currentEpisode`). Der Player-Teil war nur in 1 von 5 Zeilen gefüllt. **Laufzeit** ist gelöst: Der Worker schreibt seit dem 14.09.2026 `runtimeSec` in `dauer_sek`, `fetch-rohfolgen.ts` rechnet daraus Minuten. **Datum** bleibt bei TMDB; die Zuordnung über Folgentitel trägt ohnehin. Ursprüngliche Notiz: | Gemessen am 11.09.2026 an den ersten zwei Zeilen: Die Folgenliste liefert `title`, `runtimeSec`, `displayRuntimeSec`, `contextualSynopsis.text`, `isAvailable`, `isPlayable` — **kein Datum**. Der Player-Teil war leer (erste Folge eines Durchlaufs, Metadaten kamen zu spät); ob er ein Datum trägt, ist offen. Vorher: Daniel, 11.09.2026: „alle folgen maximal mögliche infos sammeln, also ep titel sehr wichtig für zuordnung später, besonders wegen ova. auch runtime und release date und original release date". Seit 4.19.3 geht je Folge **jedes kleine Feld** mit — aus der Folgenliste, aus dem Player und von der Reihe — in die neue Spalte `prime_folge.roh` (Migration 029, angewandt). Ungefiltert, weil Netflix' Feldnamen für Laufzeit und Datum nicht gemessen sind. Offen: an den ersten echten Zeilen ablesen, welche Felder Laufzeit, Verfügbarkeit und Erstausstrahlung sind, und sie in `fetch-rohfolgen.ts` übernehmen. Nebenbei behoben: Der Worker löschte vor jeder Netflix-Meldung alle offenen Rohfolgen der Adresse, von einem Durchlauf blieb nur die letzte Folge |
+| **Erledigt am 11.09.2026 (4.19.1): Netflix-Dialog und Knopf nach Anbieterstaffel** | — | Eine Pille je Staffel im Format `S1 ✓ E1, 26 · E2-25 · ✕` (Daniel: „1 pill je staffel", „bei komma seperator kein erneutes e"); das ✕ meldet den offenen Titel der Staffel, nicht den ersten. Der Knopf zeigte bei Haikyu!! „nur E2 + E25", weil `staffelnBereinigen()` die Staffel bei nur einer geladenen Staffel löscht — die Zusicherung vom Vortag hatte sie von Hand gesetzt. Jetzt entscheiden Netflix' Folgenkennungen (`ids` aus dem Player) oder, bis sie da sind, Folgenzahl und Nummernspanne. Ist nichts mehr offen, steht „✓ E26 geprüft" statt einer Stichprobe. Die Stichprobe sagt jetzt, was sie annimmt: „▶ E2 + E25 prüfen → gilt für E2-25", danach „✓ E2 + E25 deutsch · E3-24 angenommen". Lehre in `CLAUDE.md`, „Eine Kulisse, die ein Feld von Hand setzt" |
+| **Erledigt am 10.09.2026: Vorfälle der Erweiterung kommen an** | — | Daniel: „info bringt nix, du liest nix aus der console aus, ich lese auch nix aus … du musst informiert werden über issues." Die Erweiterung schrieb seit Monaten Diagnosen in die Browserkonsole — sie existierten nur, wenn er zufällig hinsah und ein Bild schickte. Gebaut ist der Weg, den die Meldungen ohnehin gehen: Migration 027 (`vorfall`), Worker-Endpunkt `/vorfall` (POST melden, GET holen, DELETE aufräumen, dieselbe Sache je Seite einmal pro Tag), `vorfallMelden()` in `melder.js` für **ohne_tonspur**, **fremde_reihe** und **stoerung**, und `pipeline/fetch-vorfaelle.ts` schreibt `daniel-zum-abarbeiten/17-vorfaelle.md`. Eingehängt in `bestand-bauen.yml`. Ausgeliefert und von beiden Seiten geprüft (Version 574bb1aa). **Nachgezogen am 10.09.2026 (4.18.3):** Prime meldet jetzt `ohne_tonspur`, wenn nach acht Sekunden keine Tonspur auf der Seite steht, Disney+ meldet `stoerung` bei einer Fehlerseite. Verlorene Meldungen (`melden_fehlgeschlagen`) melden beide schon seit dem Bau. Aus einer Disney-Fehlerseite wird weiterhin **kein Befund** — sie kann eine Störung sein, die beim zweiten Klick weg ist; ihre **Häufigkeit** ist die Auskunft |
+| **Erledigt am 10.09.2026: die Migrations-Buchführung ist nachgetragen** | — | `wrangler d1 migrations list` führte **018 bis 028** unter „Migrations to be applied", obwohl der Worker ihre Spalten seit Wochen liest und schreibt: Sie wurden einzeln über `d1 execute` angewandt, und `d1_migrations` wusste nichts davon. **Jede der elf ist gegen die Produktivdatenbank belegt** — drei Spalten in `pruefung` (`seiten_kennung`, `titel_id`, `folge`), zwei in `subscribers`, fünf Indizes und die Tabellen `such_erwartung` und `vorfall`. Nachgetragen wurde **nur die Buchführung**, nicht das Schema: Ein `migrations apply` hätte alle elf erneut gefahren und wäre am ersten `ADD COLUMN` auf eine vorhandene Spalte abgebrochen — mitten im Stapel. Ergebnis: „No migrations to apply!". Migration 029 läuft wieder über den normalen Weg. Beleg mit allen Prüfabfragen: `docs/d1-migrationen-nachgetragen-2026-09-10.sql` |
+| **Erledigt am 10.09.2026: der Knopf prüft genau die Folgen des Auftrags** | — | Hier stand, Daniel müsse für **eine** Folge entweder `↻ alle` drücken oder sie von Hand im Player öffnen, und ein Knopf an jeder Folgenzeile würde das abkürzen. **4.18.0 hat den Zweck auf anderem Weg erfüllt:** `durchlaufAuftrag()` liest die genauen Folgen aus der Prüfliste, und der ▶-Knopf schreibt sie hin — „▶ Folge 26 prüfen", „▶ Folgen 13–15 prüfen". Ein Klick prüft genau das und nichts sonst. Ein zweiter Knopf an jeder Zeile wäre jetzt Beiwerk auf einer Seite, auf der nichts Überflüssiges stehen soll (Daniel am selben Tag zum Player: „wieso ist die extension hier??? fail") |
+| **Erledigt am 10.09.2026 (4.17.7): Bereichsmeldung: der Knopf hat nie existiert** | — | Am 15.09.2026 durchgesehen: behoben in 4.17.7; die offene Gegenprobe steht unter „Beobachten" als „Bereichsmelder auf Netflix". | **Richtigstellung vom 10.09.2026.** Hier stand seit dem 07.09., die Logik trage — „sechs Zusicherungen: der Zweig legt beide an, schaltet sie sichtbar, hängt den Knopf ans Feld". Alle sechs waren grün, und der Knopf erschien trotzdem nie: Zwei verschiedene Knöpfe hießen `DURCHLAUF.grenzKnopf` — der Umschalter `⏱ 2 / ⏱ alle / ⇤⇥` in der Leiste und der `✓ melden` am Grenzfeld. Der Umschalter entsteht beim Aufbau der Leiste und ist danach **verbunden**, die Bedingung `!isConnected` beim zweiten traf deshalb nie zu. Die Zusicherungen prüfen den Quelltext, und dort stand alles richtig — ein doppelt vergebener Name ist im Quelltext korrekt und wird erst zur Laufzeit falsch. Behoben in **4.17.7** (eigene Variable `grenzeMeldenKnopf`), dazu eine siebte Zusicherung: „kein Feld von DURCHLAUF trägt zwei verschiedene Elemente". **Daniels Beobachtung vom 07.09. war also richtig, und meine Erklärung („er war im Player") war es nicht.** Die Gegenprobe steht weiter aus — jetzt an einem Knopf, den es gibt |
+| ~~621 Amazon-Adressen mit offenem Befund — läuft von allein~~ **Widerlegt am 17.09.2026** | — | Der Wochenlauf läuft auf GitHub, und von dort sperrt Amazon nach wenigen Abrufen (14.09.: 41 Adressen, 2 Befunde). „Läuft von allein" stimmte nicht; der Abbruch ließ außerdem alle anderen Anbieter ungeprüft. Weiter unter „Offen: 618 Amazon-Verweise" oben und in der Recherche vom 17.09.2026. |
+| **Erledigt am 10.09.2026: jeder Beleg trägt die Adresse, an der gemessen wurde** | — | 855 Belege nennen in ihrer Notiz die Amazon-Seite („Amazon-Seite B07L1CMH2D: alle 0 Folgen geprüft"), **497** trugen kein `url`-Feld — und ohne das gilt der Befund für **jede** Adresse dieser Plattform. Bei entfernenden Urteilen ist das folgenreich: 54 solche Belege, bei **acht** zeigt die Notiz-Kennung auf eine andere Seite als der Verweis, den sie entfernt (Naruto Shippuden, Megalo Box, Penguin Highway, Attack on Titan Movie 3, The Irregular at Magic High School u. a.) — dieselbe Klasse wie „Date a Live IV". Zwei Teile: `fetch-pruefungen.ts` schreibt die Adresse jetzt **immer** (gefahrlos, weil `loadDubChecks()` seit dem 07.09. selbst unterscheidet, ob sie Korrektur oder Unterscheidung ist), und `tools/beleg-adresse-nachtragen.mjs` hat die 497 bestehenden ergänzt — reine Einfügungen, Urteile unangetastet. **Wirkung nach dem Bau:** Drei Titel haben ihren Prime-Weg zurück, alle mit belegtem Urteil; `check:handbelege` bleibt grün (729 bestätigt, 447 korrekt entfernt) |
+| **Erledigt am 12.09.2026: „Kein Anbieter bekannt" — Quellenlage ausgemessen, ohne EAN kein weiterer Weg** | 1 | Gemessen am 10.09.2026: 233 von 2.768 Titeln zeigen keinen einzigen Weg. **Nachgezählt am 29.09.2026:** 229 Titel ohne Weg — davon 109 mit deutscher Erstausgabe (das Panel sagt „Auf Deutsch seit …"), 91 mit belegten Sprechrollen („Eine deutsche Fassung gab es — die Sprecher sind belegt"), **88 ohne jede Auskunft** (am 12.09. waren es 119; 31 sind seither aufgeklärt). Elf der 88 tragen eine FSK. Die Wege dorthin sind erschöpft (JPC braucht EAN, aniSearch nennt nur japanische Studioseiten, JustWatch hat 232 von 235 gefragt) — wieder aufgreifen, sobald je Titel eine EAN vorliegt. Aufgeschlüsselt sind es vier Gruppen, und nur eine war zu schließen: **12** kennt aniSearch (davon 7 YouTube, die bewusst draußen bleiben — ein Kanal zeigt dort regelmäßig die untertitelte Fassung), **1** kennt JustWatch, **35** hatten einen Verweis, der belegt entfernt wurde (18 „kein deutscher Ton", 12 „Katalog führt die Staffel nicht", 8 „nicht mehr verfügbar"). Bleiben **223**, zu denen **keine** Quelle etwas führt (nachgemessen am 12.09.2026: **235** ohne Stream, Kaufweg und Termin — der Zuwachs sind Katalogtitel aus den neuen Zuordnungsrunden). **Berichtigung vom 12.09.2026, 16:20:** „Keine Quelle kennt sie" war zu hart — **116 der 235 tragen eine deutsche Erstausgabe** aus aniSearch (Datum, teils Verlag), und das Panel zeigt sie als „Auf Deutsch seit …". Ohne jede Auskunft sind **119**. **Drei Wege daraufhin gemessen und verworfen:** (1) **JPC** sperrt weder KI-Bots noch den Suchpfad, führt Anime-DVDs aber unter `poprock` ohne eigene Kategorie und **ohne EAN im Treffer** — „Sorcerer Hunters" liefert dort ein Jazz-Album „The Sorcerers". Ein Namensabgleich ohne eindeutigen Schlüssel erzeugt genau die Kauflinks, vor denen CLAUDE.md warnt („beim Preis wiegt ein Irrtum schwerer als beim Termin"). Wieder aufgreifen, sobald wir je Titel eine EAN haben. (2) **aniSearchs `websites`** trägt bei 102 der 235 etwas — ausnahmslos japanische Studioseiten (Sunrise, Pierrot, Toei), kein deutscher Bezugsweg. (3) **JustWatch** hat 232 der 235 bereits abgefragt und nichts gefunden. **Was daraus gebaut wurde:** Ein Verlag ohne Datum fällt nicht mehr heraus (`terminAusEintrag`), das Panel schreibt dann „Deutsche Fassung bei X". **Und danach ist die Quellenlage ausgemessen** (12.09.2026, 16:10): Von den 119 ohne jede Auskunft tragen **34** belegte Sprechrollen und damit schon den besseren Satz („Eine deutsche Fassung gab es — die Sprecher sind belegt"). Bleiben **85** mit „Kein Anbieter bekannt". **ANN als vierte Quelle geprüft und verworfen:** Es führt zwar EANs an Releases (1.576 der 2.119 Archivdateien), aber **null deutsche Ausgaben** — die Encyclopedia pflegt den englischsprachigen Markt. Und Sprecher hat es für diese Titel auch keine: 2.119 von 2.120 sind längst abgefragt, nur einer war nie dran. Damit ist „Kein Anbieter bekannt" bei diesen 85 die richtige Antwort, nicht eine Lücke. **Wiederaufnahme**, sobald es je Titel eine EAN gibt — dann trägt auch ein Shop-Abgleich — und sie sind nicht ungefragt: JustWatch hat sie am 09.09.2026 abgerufen und nichts gefunden. Nach Jahren: 100 vor 2000, 28 aus den 2000ern, 73 aus den 2010ern, 20 ab 2020. **Das ist keine Lücke im Ablauf, sondern in den Quellen** — die meisten dieser Titel laufen in Deutschland tatsächlich nirgends mehr. Die Wiedervorlage greift nach 28 Tagen von selbst; das Wochenlimit ist deshalb von 40 auf 200 erhöht, sonst käme der Lauf bei 259 gleichzeitig fälligen Titeln nie durch |
+| **Erledigt am 10.09.2026: der Anbieter zählt kumulativ — sechs Verweise waren zu Unrecht weg** | — | Daniel fand „Haikyu!! Lev ist hier!" bei Netflix unter `/watch/81308427`; der Zurück-Pfeil führte auf **Staffel 1, Folge 26**. Die OVA ist dort keine eigene Staffel, sie hängt am Ende der Staffel, zu der sie gehört. **Die Rechnung stand seit dem 22.08.2026 als Kommentar im Code** („Netflix meldet 26+26+11+27 = 90, unsere Fernsehstaffeln 85, die vier OVAs fünf") — gezogen wurde daraus nur der Schluss, die OVAs zu verstecken. Die Zuordnung paarte Position gegen Position, prüfte die Folgenzahlen nur auf „Abstand ≤ 3", und der überzählige fünfte Eintrag („TO THE TOP Part 2") bekam ein `available: false` — obwohl er in Staffel 4 steckt (27 = 13 + 2 + 12). **Sechs solcher Belege** standen in `dub-confirmed.yaml`, alle nach demselben Muster; sie sind zurückgenommen. Gebaut sind drei Dinge: die kumulative Verteilung in `ordneNachStaffelliste()` (mit `teile` je Staffel, neun Zusicherungen in `check-logic.ts`), die Platzprüfung in `fetch-pruefungen.ts` vor jedem „nicht geführt", und dieselbe Rechnung in der Prüfliste. **`staffelnDerAdresse()` filtert OVAs nicht mehr heraus** — weil der Anbieter sie mitrechnet, gehören sie in die Rechnung, nicht aus ihr heraus |
+| **Erledigt am 10.09.2026: die Umkehrung derselben Rechnung belegt ein Nein** | — | Füllen die **beurteilten** Titel jede Staffel des Anbieters exakt auf, ist dort kein Platz mehr — ein Titel derselben Adresse ohne Urteil läuft dort nicht. Kein Umkehrschluss aus Schweigen, sondern eine Abzählung: Netflix zeigt „Sword Art Online" mit 25 und 24 Folgen, unsere ersten beiden haben genau diese Zahlen und sind belegt; für die 23 Folgen der Alicization-Teile ist kein Platz. Bei „Mushoku Tensei" passt der Special (1 Folge) in keine der beiden Staffeln (23 = 11+12, 25 = 13+12). Greift an genau den zwei Adressen, die die Netflix-Prüfliste als ungelöst führte |
+| **Erledigt am 10.09.2026: der Melde-Knopf gehört nie zur verlassenen Seite** | — | Erweiterung **4.17.3**. Daniel schickte eine Bildschirmaufnahme (Bungo Stray Dogs, Wechsel auf Staffel 2): Die Adresse führte ab Bild 80 schon `B0CHL21CT2`, die Kopfzeile nannte bis Bild 320 weiter `B0BZGQZCFT` — **vier Sekunden** mit scharfem Melde-Knopf. Ursache war der Freibrief vom Vortag: `kennungImQuelltextBekannt()` fragt, ob die Adress-Kennung **irgendwo** im Quelltext steht, und beim Staffelwechsel steht sie dort immer — im Staffelwähler der alten Seite. Die Unterscheidung läuft jetzt über die **Adresse**: Eine Sammelseite trägt eine `titleID`, die nie dort stand, nach einem Wechsel trägt der Quelltext die, die gerade noch dort stand. Knopf gesperrt („Seite wechselt …", löst sich von selbst), Kopfzeile nimmt die Adress-Kennung, Adresswechsel wirft den Quelltext weg. 15 Zusicherungen in `extension/amazon-seitenwechsel.test.cjs`, die Lehre in CLAUDE.md |
+| **Erledigt am 10.09.2026: 18 Amazon-Suchen durch die geprüfte Titelseite ersetzt** | — | Im Kalender standen 33 Verweise auf eine Amazon-**Suche** statt auf eine Titelseite. Der vorhandene Ersetzungsblock verlangte einen Link-Befund mit Status 200 — den gibt es für Amazon nur in Losen (623 Adressen auf `unklar`, weil die Abwehr nach ~660 Abrufen zumacht). Die zweite Quelle lag daneben: **Daniels eigene Prüfnotiz** nennt die Kennung, auf der er nachgesehen hat („Seitenadresse: B0DXS2THFS"); steht dieselbe auch in aniSearchs Quellenliste, haben zwei Stellen dieselbe Seite genannt. Gemessen nach dem Bau: **63 ersetzt** (vorher 45), Suchadressen im Bestand von 33 auf **15**. **Überholt am 10.09.2026:** Die 15 bleiben nicht mehr — jede Suchadresse fliegt jetzt aus dem Datensatz und wird als Frage vorgelegt, siehe den Eintrag oben |
+| **Erledigt am 13.09.2026: 6 Suchadressen bei Prime — welcher Titel steckt dahinter?** | — | Nachgetragen am 15.09.2026: `data/suchadressen-offen.json` ist leer, der Prüfstand führt keine alte Suchadresse mehr; die drei Suchen dort sind die Ausgaben-Suchen vom 14.09. Ursprüngliche Notiz: | Daniel am 10.09.2026, mit Bild: Der Crunchyroll-Verweis für „Kaiju No. 8 Narumi's Week at Work" führte auf eine **Suche**, und die antwortete mit „Es konnte nichts gefunden werden". Seine Ansage: „alle links die auf such query gehen, statt direkt auf treffer, müssen entfernt werden von der webseite." Der Bau erzeugte sie selbst — aus einer pfadlosen Adresse wurde eine Suche mit unserem Titel als Suchbegriff. **Crunchyroll ist automatisch gelöst:** `data/cr-katalog-de.json` kennt die Serienadresse (`GG5H5XQ7D/kaiju-no-8`, Zeichen für Zeichen die, die Daniel von Hand fand), `pipeline/lib/cr-katalog-adresse.ts` löst sie auf, sechs Zusicherungen halten es fest. **Bei Prime kann es niemand automatisch:** Amazons robots.txt sperrt 19 Bots namentlich, und die acht Adressen, die aniSearch dazu kennt, stehen im Link-Check auf `unklar`. Aus den 43 sind am selben Abend **6** geworden: Das Nachtragen der Beleg-Adressen (Eintrag darüber) hat 37 Suchadressen durch die Seite ersetzt, auf der Daniel wirklich nachgesehen hat. Die restlichen sechs liegen als Frage in `daniel-zum-abarbeiten/18-suchadressen.md` |
+| **Erledigt am 15.09.2026: 6 Crunchyroll-Verweise ohne Urteil** | — | Gemessen 21:02 aus `public/data/titles.json`: **0** Crunchyroll-Verweise ohne `dub`. Die sechs sind seit dem 10.09. über die Läufe geklärt oder entfernt; ein Blick von Hand ist nicht mehr nötig. Alte Notiz: | Stand 10.09.2026, 20:45: **6**. Zwischendurch waren es 7 — „Babylon" kam durch die Suchadressen-Umstellung neu dazu und ist am selben Abend über ein frisches Zugangspaket und den Nachholauf als **12/12 deutsch** belegt worden. Am Vormittag: von 28 über 11 auf 6. Drei Wege haben die Differenz geschlossen, jeder mit eigenem Anlass: der **Jahres-Anker** aus `season_tags` (zwei Staffeln gleichen Namens — „Sound! Euphonium" trägt `Frühling-2015`), **JustWatch als Kennungsquelle** (die kanonische Crunchyroll-Adresse trägt eine Videokennung, wo unser Altverweis nur einen Slug hat — so ist „Sword Art Online EXTRA EDITION" als deutsch belegt), und die **Nebenausgabe als eigene Staffel** (Crunchyroll führt die Chunibyo-OVA als `GR2PCVZM5 „… (OVA)"`, 1 Folge, nur `ja-JP`). **Was bleibt, ist gemessen hart:** „Sin: The Movie", „Cencoroll 2" und „I Want to Deliver Your Voice" stehen in keinem deutschen Katalogeintrag, und JustWatch kennt zu ihnen **kein einziges** Angebot — sein Schweigen ist keine Auskunft. „Okko’s Inn" hat eine JustWatch-Kennung, die Crunchyroll nicht mehr kennt (ein 404 auf eine **geliehene** Kennung belegt nichts über unseren Verweis). „Durarara!! Specials" gibt es dort nicht als eigene Staffel, und der 12-Folgen-Chunibyo trifft weder die 13er- noch die 1er-Staffel. Alle sechs brauchen einen Blick von Hand oder eine Quelle, die es nicht gibt |
+| **Erledigt am 09.09.2026: Death Note: Relight** | — | Daniel hat beide Ausgaben gemeldet, und die offene Frage ist damit beantwortet — **negativ**: Aus zwei Meldungen wurde **ein** Beleg. `fetch-pruefungen.ts` bündelte je `plattform + url`, und bei einem Suchauftrag ist die Adresse für beide Ausgaben dieselbe; der Befund der jüngeren Meldung gewann. Der Schlüssel trägt jetzt die `seiten_kennung`, der verlorene Beleg (B0FVDZ286F) ist von Hand nachgetragen. Zwei weitere Fehler derselben Sitzung sind in 4.16.5 behoben (Auftrag wandert nicht mehr auf fremde Suchseiten; er überlebt die erste von zwei Ausgaben) |
+| **Erledigt am 28.09.2026: Kanal-Meldungen, denen JustWatch widerspricht** | 1 | Die fünf Fälle vom 09.09. waren überwiegend keine Widersprüche: Seit dem 14.09. vergleicht `kanal-gegenprobe.ts` mit dem Angebot des gemeldeten Kanals (CLAUDE.md, „Zwei Ausgaben derselben Staffel"). Digimon ist gelöst (deutsche Ausgabe belegt, Kanal-Ausgabe durchgestrichen), Trinity Seven ist ein belegtes Nein, Date a Live II steht nicht mehr darunter. **Nachgemessen am 28.09.2026:** `data/suchadressen-offen.json` ist leer (0 Einträge) — die drei Ausgaben-Suchen für Bungo Stray Dogs, Touken Ranbu und Okko sind damit weg. Und die Prime-Wege von **Fruits Basket** tragen jetzt `dub: true` (105334 `B0G6HF46PV`, 111762 `B0GFGTTR3N`, 124194 `B0GDFC7BL6`), bei **Free!** gibt es außer `Free!: Dive to the Future` (`B0CJK3GVR1`, `dub: true`) keinen Prime-Weg mehr — die Widersprüche sind beantwortet, keiner steht offen. |
+| **Erledigt am 09.09.2026: alle ADN-Verweise haben ein Urteil** | — | Von vier offenen sind drei über `/show?limit=100&offset=…` geklärt (171 Shows über drei Seiten) und der vierte über **JustWatch**: Es nennt je Angebot eine kanonische Adresse, und bei ADN steckt die Serienkennung darin — `animationdigitalnetwork.com/de/video/1181/25475-film` für „High Speed! Free! Starting Days", `/video/show/1181` bestätigt `vde`. Ein Weg, den das Projekt bisher nicht genutzt hat. Alle vier Kennungen stehen in `data/adn-adressen.yaml` und werden von `check:logic` namentlich festgehalten — der erste Eintrag war von einem Datenlauf überschrieben worden |
+| **Erledigt: Phase 4 — die Erweiterung urteilt nicht mehr** | — | **Überholt und am 10.09.2026 nachgemessen.** Hier stand seit dem 29.08., der Weg gelte nur für Prime und „Netflix und Disney+ gehen ihn nicht". Beide gehen ihn: `melder.js` und `disney.js` schicken `rohfolgen` mit, der Worker nimmt sie je Plattform an, und `fetch-rohfolgen.ts` ordnet über Folgentitel und Erstausstrahlung zu. Der Eintrag darunter („Sammeln und Zuordnen trennen") hatte das am 09.09. bereits gemessen — zwei Einträge zur selben Sache, einer davon veraltet. Offen bleibt allein die Umbenennung von `prime_folge` auf einen anbieterneutralen Namen; sie ist bewusst zurückgestellt (D1-Migration im laufenden Betrieb für reine Lesbarkeit) |
+| **Erledigt am 09.09.2026: eine Staffel als „hier nicht vorhanden" melden** | — | Erweiterung 4.17.0. An der Staffel-Pille der Netflix-Prüfliste steht ein ✕, das **titelgenau** meldet: `titelIdFuer(id, st.nr)` löst die Staffel in unsere AniList-Kennung auf, die Meldung trägt sie als `titelId`, und `fetch-pruefungen.ts` arbeitet genau diesen Titel ab statt über die Adresse zu gehen. Ohne aufgelöste Kennung erscheint der Knopf nicht. **Disney+ hat ihn nicht und braucht ihn gerade nicht** — gemessen am 10.09.2026: **0** Disney+-Verweise ohne Urteil, die Prüfliste ist leer. Der Knopf hinge an einer Staffelkachel, die es dort auch nicht gibt (die Liste bündelt: „2 Staffeln, ca. 51 Folgen"). Beides zu bauen lohnt erst, wenn wieder Disney-Adressen offen sind — dann steht hier die Bedingung, unter der es drankommt |
+| **Erledigt 23.09.2026 (Daniel: „ja“, umgesetzt in `lib/weg-entwerten.ts`, `wegGiltGanzerAdresse`):** Einleser: „nicht verfügbar" für **eine** Staffel streicht den ganzen Weg? | 22.09.2026 gelesen: `fetch-pruefungen.ts` schreibt `available: false`, sobald die jüngste Meldung einer Adresse `weg` ist — für den Titel, nicht für die Staffel. Bei Fairy Tail (Prime: Staffel 1 regionsgesperrt, 2–9 zum Kauf) würde eine Meldung zu Staffel 1 als letzte den ganzen Prime-Weg entfernen. Vorschlag: `weg` nur gelten lassen, wenn die Meldung keine Staffel nennt oder alle Staffeln der Adresse `weg` sind. |
+| **Erledigt 22.09.2026:** Worker-Ziele je Staffel statt je Adresse abziehen | 22.09.2026: `worker/src/index.ts` (`?stand=1`) streicht ein Ziel, sobald unter seiner Adresse **irgendetwas** nach `pruefstand.erzeugtAm` gemeldet wurde. Dr. STONE verschwand nach der Meldung von Staffel 1 aus der Prüfliste, obwohl Staffel 2 offen war; Haikyu!! ebenso. Löst sich mit jeder Übernahme von selbst. Umbau: Prüfstand schickt je Ziel die offenen Netflix-Staffeln, Worker vergleicht mit `pruefung.staffel`, Worker-Deploy. |
+| **Entschieden 22.09.2026: verworfen** (Daniel) — weder Regel noch Fate-Beleg; die 8 Teilbelege wurden über die Prüfliste neu gemeldet. Fate/stay night UBW (19603/20792): Soll MOTNs „alle deutsch" einen Handbeleg schlagen, der nur Folge 1 prüfte? | 21.09.2026: `data/motn.json` tt3621796 — Netflix 25 gelistet, 25 deutsch, `seit: 2026-08-06`. Handbeleg vom 22.08. nur Folge 1 (`dubRanges 1–1`) → Panel „1 von 13 … für die übrigen fehlt uns eine Angabe". Dazu müssten MOTNs 25 auf zwei AniList-Einträge verteilt werden (Netflix: Teil 1 und 2 je 13). 06.08.2026 ist MOTNs „im Angebot seit", kein Erscheinungsdatum. **Szenarien gemessen 21.09.2026** (Handbelege mit `dubRanges` gegen `ordneShowsZu`): Hand teilweise und MOTN belegt alles deutsch (übernehmbar) 8 (BEASTARS, Dr. STONE, Stone Wars, Haikyu TO THE TOP 1+2, Isekai Oji-san …) · Hand teilweise, MOTN nicht alles deutsch 18 (ULTRAMAN, Kuromukuro, Pokémon …) · Hand teilweise, keine andere Quelle 37 — **darunter Fate UBW selbst**: MOTN zählt 25 Folgen, AniList 13+13, deshalb keine Zuordnung · Hand vollständig 69 · Widerspruch (Hand Nein, MOTN alles deutsch) 0. |
+| **Prüfstand** | Stand 12.09.2026, 15:45 (aus den Listen der Erweiterung gemessen): **Netflix 4**, **Prime 6**, **Disney+ 0**. Vorher, 10.09.2026, 16:30: **Netflix 6 Adressen** (Haikyu!! mit vier Nebenausgaben, Dorohedoro, Hi Score Girl, Sailor Moon, Baki-Dou — alle mit gerechneter Folgennummer), **Prime 6 Adressen** (fünf davon Kanal-Wiedervorlagen, die ein Abo brauchen), **Disney+ 0**. Der Eintrag stand seit dem 05.09.2026 auf „alle drei Listen leer" — das galt, bevor `tools/extension-offene-liste.mjs` am 09.09. die Einträge jenseits der Anbieterzählung anhängte und die Netflix-Liste von 0 auf 6 sprang |
+
+## Recherchiert 23.09.2026: Wo lassen sich die Dragon-Ball-Titel auf Deutsch sehen?
+
+Daniels Auftrag vom 23.09.2026: „ich will sicher sein, dass es wirklich nirgendwo zu streamen
+ist." Gemessen wurde gegen den eigenen Bestand und alle Quellen, die wir führen — ohne neue
+Abrufe bei Anbietern, die wir nicht ohnehin fragen.
+
+**Der Bestand kennt 44 Dragon-Ball-Titel.** Einen deutschen Weg haben davon sechs:
+
+| Titel | Weg |
+|---|---|
+| Dragon Ball Super (131 Fg.) | Disney+, Prime Video, ADN, Joyn |
+| Dragon Ball DAIMA (20 Fg.) | YouTube (nur Folge 1); Netflix führt alle 20 **ohne** deutschen Ton (Daniels Handprüfung) |
+| Dragon Ball Z: Kampf der Götter | Amazon Video (Leihe, Tonspur de/ja belegt) |
+| Dragon Ball Z: Resurrection ‚F' | Crunchyroll, Prime Video |
+| Dragon Ball Super: Broly | Crunchyroll, Prime Video, Disney+ |
+| Dragon Ball Super: Super Hero | Crunchyroll, Prime Video, Disney+ |
+
+**Die Klassiker gibt es nirgends im Stream.** Für Dragon Ball (153), Dragon Ball Z (291),
+Dragon Ball GT (64), Dragon Ball Z Kai (97) und The Final Chapters (69) nennt JustWatch
+ausschließlich Kauf und Verleih:
+
+- Dragon Ball: Amazon DVD/Blu-ray, Hugendubel, Medimops, Thalia, ZOXS, Zavvi
+- Dragon Ball Z: dieselben Händler (6 Angebote, alle BUY)
+- Z Kai und The Final Chapters: Zavvi (BUY), Videobuster (RENT)
+- GT: Thalia (BUY)
+- Die 17 Filme und Specials: teils Videobuster (RENT), teils gar kein Angebot
+
+Dazu führt `data/disc-ausgaben.json` zu 31 der 44 Titel deutsche Disc-Ausgaben — die laufende
+Blu-ray-Neuauflage von Dragon Ball Z (Box 4 von 10) ist darunter.
+
+**Zwei Ursachen, die die Recherche überhaupt erst möglich gemacht haben**, beide am selben Tag
+behoben: Vier der Titel (Z, Z Kai, The Final Chapters, Super Dragon Ball Heroes) hatten keine
+TMDB-Kennung — ohne sie fragt JustWatch nie. Und „Dragon Ball Super" trug die Kennung der für
+2026 angekündigten Beerus-Serie, weshalb JustWatch dort „kein Treffer" meldete, obwohl vier
+Anbieter die Serie führen. Beides steht jetzt in `data/tmdb-von-hand.yaml`.
+
+**Offen:** Super Dragon Ball Heroes (56 Folgen, keine deutsche Synchro bekannt) — die
+JustWatch-Antwort steht noch aus, weil die Quelle nach drei Läufen in zehn Minuten gedrosselt
+hat (siehe `docs/wissen/quellen.md`). Sie kommt mit dem nächsten regulären Lauf.
+
+**Bewertung:** Für die Klassiker ist „kein deutscher Stream" damit kein Erfassungsmangel,
+sondern die Antwort. Die Seite sagt das bereits über „Für Folgen … kennen wir keinen deutschen
+Anbieter"; die Disc-Ausgaben stehen als eigene Pillen daneben.
+
+### Nachtrag 23.09.2026, 14:30: echte Anbietersuche im Web (Daniels Auftrag)
+
+Der Teil oben war ein Abgleich unserer eigenen Quellen — Daniel wollte die Suche nach Anbietern:
+„mach echte web search, gründlich, und such nach anbietern die die hauptserie von dragon ball
+anbieten". Gesucht und **live geprüft**, nicht aus dem Bestand gelesen:
+
+| Geprüft | Wie | Ergebnis |
+|---|---|---|
+| JustWatch DE, Serienseiten von Dragon Ball, Dragonball Z, Z Kai, GT | Browser, 23.09.2026 | jeweils „nicht im Stream verfügbar" — nur DVD/Blu-ray (Amazon, Zavvi, Thalia, Hugendubel, Medimops, ZOXS), Z Kai zusätzlich Videobuster (Leihe) |
+| Crunchyroll | CMS-Pfad mit unserem DE-Zugangspaket (`/DE/M2/-`) | Dragon Ball, Z, Z Kai, GT, Movies: **0 Blöcke**; DAIMA: 1 Block, Tonspur nur `ja-JP`. Gegenprobe mit einer echten DE-Serie: 1 Block mit `de-DE`, erfundene Kennung: 0 |
+| Joyn | Suche auf joyn.de, 23.09.2026 | nur **Dragon Ball Super**, Folgen 110–129 (rollendes Fenster) |
+| Pluto TV DE | Kanalliste über `api.pluto.tv/v2/channels` | 192 Kanäle, davon zwei Anime-Kanäle (Pluto TV Anime #370, Akiba Anime #374) — kein Dragon-Ball-Angebot |
+| fernsehserien.de | Abruf | nennt für DBZ Crunchyroll, Crunchyroll-Kanal bei Prime, maxdome, Prime Video Shop — gegen die Messungen oben **veraltet** |
+| Anime on Demand | Recherche | seit 08.12.2021 eingestellt, Inhalte zu Crunchyroll gewandert |
+
+**Der Fund, den keine unserer Quellen kannte:** Die erste Serie läuft **ab dem 24.09.2026**
+Montag bis Freitag ab 17:10 in Doppelfolgen auf ProSieben MAXX, und die Folgen stehen danach
+**kostenlos in der Joyn-Mediathek** — so lief es schon ab dem 26.11.2025 (damals 18:05) und
+ebenso bei Dragon Ball Z Kai. Joyn hält dabei ein rollendes Fenster, wie bei Dragon Ball Super
+zu sehen (dort stehen zurzeit die Folgen 110–129).
+
+Damit ist der deutsche Streaming-Weg für die Hauptserien die **Joyn-Mediathek begleitend zur
+Ausstrahlung** — kein Abo, kein Kauf, aber auch kein vollständiger Katalog: Wer eine bestimmte
+Folge sucht, findet sie nur im laufenden Fenster.
+
+**Zu tun:** Sobald die ersten Folgen auf Joyn stehen (ab 24.09.2026), den Joyn-Weg für
+„Dragon Ball" (AniList 223) aufnehmen und das Fenster wie bei Super pflegen. Dasselbe für
+Z Kai prüfen, sobald es wieder läuft.
+
+**Nicht abschließend geprüft:** Netflix, Disney+ und Prime Video digital — dort kommt man ohne
+Anmeldung nicht an die Sprachangaben. Für Prime nennen Suchtreffer Titelseiten
+(`primevideo.com/-/de/detail/…`), die Sprachfassung steht dort aber nur hinter dem Login.
+
+## Geplant 19.09.2026: Deutsche Folgendaten und TV-Folgennummern (Recherche `docs/recherche-tv-quellen-2026-09-19.md`)
+
+**Gebaut (19.09.2026):** tv.de als zweite TV-Quelle (`fetch-tv-programm.ts`, einmal am Tag, nur Kategorie Anime) — ProSieben MAXX mit Dragon Ball Super, One Piece, Conan, Solo Leveling, Gachiakuta u. a.
+
+**Offen, nach Priorität:**
+1. ~~Folgennummern für TV-Sichtungen~~ **gebaut 19.09.2026:** `fetch-wikipedia-folgen.ts` (täglich, über `/wiki/…?action=raw`, weil robots `/w/` sperrt) → `data/wikipedia-folgen.json`; `tv-termine.ts` nimmt die Nummern, wenn jede Sichtung in der Liste steht. 32/32 Titel passten. Ohne Liste: Solo Leveling, Eyeshield 21, Beyblade X.
+2. **Deutsche Erstausstrahlung je Folge** aus denselben Listen, wo aniSearch Lücken hat — die Daten (`ead`) liegen seit 19.09.2026 in `data/wikipedia-folgen.json`, bisher nur für TV-gesichtete Titel geholt.
+2a. ~~Detektiv Conan~~ **gebaut 19.09.2026:** Tabellenleser `folgenAusTabellen` (japanische Nummer, rowspan), 7/7 Titel.
+2b. ~~Solo Leveling im TV ist Staffel 2~~ **gebaut 19.09.2026:** TMDB (`data/tmdb-folgen.json`) ist dritte Folgenliste nach Wikipedia und RTL+; eine Nummer jenseits der Staffel wandert über `franchiseId` in die passende TV-Staffel (`spaetereStaffel`), über zwei Staffeln verteilt wird gezählt statt geraten. Solo Leveling → „Arise from the Shadow“ Folge 2. Befund dazu: ProSieben MAXX zeigt „Das war dir wohl nicht bewusst" — bei TMDB (127532, de-DE, beide Staffeln als eine) Folge 14, also Staffel 2 Folge 2. `titelZuordnen` nimmt für „Solo Leveling" den Titel 151807 (12 Folgen). Weg: eine Folgenliste, die über die Staffel hinaus zählt, verschiebt die Sichtung über `franchiseId` + `hauptstaffeln` in die richtige Staffel. Wikipedia hat keine Liste; TMDB-Titel als dritte Quelle taugen nur bedingt — bei Eyeshield 21 passten **0 von 5** TV-Titeln (andere Übersetzung), bei Solo Leveling 1 von 1.
+3. ~~RTL+-Folgenseiten~~ **gebaut 19.09.2026:** `fetch-rtlplus-folgen.ts` (wöchentlich, Sitemap + Staffelseiten + einmal je Folge die Folgenseite) → `data/rtlplus-folgen.json`, Nummernquelle für TV-Sichtungen ohne Wikipedia-Liste. `uploadDate` ist nur bei neuen Folgen die deutsche Erstveröffentlichung.
+3a. ~~RTL+ als eigener Wochentermin~~ **gebaut 19.09.2026:** `rtlplusWochentermine` macht aus einer RTL+-Staffel mit gemessenem Wochentakt, jüngster Folge ≤ 14 Tage und belegter Synchro einen Termin mit offenem Ende (`tvLetzteSichtung`, `folgenBelegt`), Termine nur für erschienene Folgen. Beyblade X Staffel 3: Folge 101–117. Offen: `dubRanges` am RTL+-Weg aus den Folgen (heute nur `dub: true` ohne Zahl).
+4. ~~Nachtblöcke~~ **gebaut 19.09.2026:** Die Tagesseiten lassen die Nacht aus (ProSieben MAXX 19.09. bis 22:10, 20.09. ab 04:15; dazwischen 10 Folgen Dragon Ball Super). `fetch-tv-programm.ts` liest je gesichteter Reihe und Sender einmal täglich die Detailseite („Bald im TV", `baldImTv`).
+5. ~~RTL+-Folgenbereiche am Beyblade-Weg~~ **verworfen 19.09.2026:** Die Pille zeigt dort „neue Folge …" (Wochentermin), RTL+ fehlen Folge 37 und 102 — drei Bereiche „Fg. 1–36, 38–101, 103–117" wären mehr Text als Auskunft; das Kostenlos-Etikett vergleicht ohnehin richtig. Neu bewerten, wenn eine Anzeige die RTL+-Zahl wirklich braucht.
+
+## Aufgenommen 19.09.2026, 03:25: TOGGO-Pillen (Daniel, mit zwei Bildern an Dragon Ball Daima) — noch nicht umgesetzt
+
+Anlass: Auf toggo.de (`/sammlung/alle-formate/serien/dragon-ball-daima-vse446`) stehen nur noch die Folgen 14–18 („Neu“, ab 12, je 22:37 Min.), im Panel steht die Pille „TOGGO DE ?“.
+
+1. ✅ **Pillen gleich hoch** (19.09.2026): Pillenzeile `items-stretch`.
+2. ✅ **Farbe** (19.09.2026): TOGGO und TOGGO plus in `#ec6400`, abgelesen aus „Toggo Logo 10.2019.svg“/„Toggo plus Logo 10.2019.svg“ (Commons, gemeinfrei, Marke). **Kein Zeichen:** TOGGO hat kein Bildzeichen, das Logo ist der Schriftzug und stünde neben dem Namen doppelt (Regel wie bei maxdome).
+3. ✅ **Immer „DE ✓“** (19.09.2026), Zusicherung in `check:logic`.
+4. ✅ **Abrufzeitraum gemessen** (19.09.2026, TOGGO-Schnittstelle): Daima — jede Folge **genau 7 Tage** nach der TV-Ausstrahlung frei (`catchup`); Boruto — 30 von 292 Folgen frei bis 31.12.2026 (`fvod`). Ein fester Satz stimmt also nicht für alle.
+5. ✅ **Angabe in der Pille, aktuell** (19.09.2026): „Fg. 14–18 · je 7 Tage“ bzw. „30 Folgen · bis 31.12.“, beim Anzeigen gerechnet (`web/src/lib/toggo.ts`).
+6. ✅ **TOGGO-Abruf** (19.09.2026, Daniels Entscheidung „ja, direkt bauen“ trotz widersprüchlicher robots.txt der API): `pipeline/fetch-toggo.ts`, täglich in „Täglich — alle Quellen“, `data/toggo.json` in der Quellenliste; der Bau hängt die Fenster als `toggo` an den TOGGO-Weg.
+
+## Geplant 19.09.2026: Tote aniSearch-Adressen bei Prime — JustWatch als Kandidat, nicht als Ersatz
+
+**Befund (19.09.2026, 02:25, Daniels Durchgang):** Die 37 Titel der Prime-Prüfliste stammen alle aus aniSearchs Amazon-Partnerlinks; Daniel fand die ersten sechs als Amazon-404. Daniels Frage: „unter dieser kennung garantiert nix, aber es bedeutet nicht zwangsläufig das amazon diesen titel nicht führt“. Gemessen gegen `data/justwatch-audio.json`: **20** der 36 haben bei JustWatch ein Prime-Angebot unter **anderer** Adresse (`watch.amazon.de/detail?gti=…`), **7** kein Prime-Angebot (geprüft 16./17.09.), **9** kennt JustWatch nicht.
+
+**Bleibt:** „nicht abrufbar“ melden ist richtig — es widerlegt nur diese Adresse. Kein automatischer Ersatz: `ERSATZ_TOTER_AMAZON_LINKS` in `build.ts` bleibt aus (17.09.2026, Pokémon Weiß trug bei JustWatch die gti von Schwarz).
+
+**Nachtrag 19.09.2026, 02:40 — alle 37 gemeldet, alle `weg`** (36 in der Nacht + Peace Maker; keine Tonspur, keine Meldung außerhalb der Liste). **Wichtiger als JustWatch:** Bei 15 der Titel führt aniSearch eine **zweite** Amazon-Kennung. Die tote war jeweils die Shop-Kennung (`amazon-de`), die zweite meist die Seite im **Prime-Kanal** (`primevideo-channel-crunchyroll-de` ×10: Conan Magier/Killer/Phantom, Lupin Harimao/Höllentrip, Rosario Capu2, Lupin vs Conan, Demon King Daimao, Psycho-Pass Movie, Haikyu!! To the Top; `…-aniverse-de` ×2: Familiar of Zero 3, Yu-Gi-Oh! Bonds Beyond Time) oder eine weitere Shop-Kennung (Yu-Gi-Oh! 5D's, Yuna & Stitch S1/S2). Linkprüfung dazu: meist „unklar“, drei mit 200. **Geklärt 19.09.2026, 11:05:** Die Kanal-Seiten stehen bei allen zwölf Titeln längst als eigener Weg „Amazon Prime (Crunchyroll/Aniverse)“ auf der Seite (`watchLinks`), bei drei Conan-Filmen und Psycho-Pass mit „DE ✓“ — nur nicht als Prime-Verweis und deshalb nicht auf der Prüfliste. Das ist Absicht (Kanal-Titel). Mein Umbau von 10:48, sie als Prime-Verweis anzulegen, war überflüssig: Das Messprotokoll des Baus zeigte 0 angelegt, 410 „Adresse bekannt“. Zurückgenommen. **Übrig für JustWatch-Kandidaten:** die Titel ohne jeden Amazon-Weg nach den `weg`-Meldungen. Haikyu!! To the Top behält ohnehin einen zweiten Prime-Weg (`B0D2NL5GYX`). Nebenbefund: sieben tote Adressen haben aniSearchs uraltes Format `exec/obidos/ASIN/…` (FF VII Advent Children, Conan Killer/Phantom, Naruto Shippuden Movie 4/5, Robotic Angel, Pokémon Schwarz) — ein Hinweis auf Tote schon vor jeder Prüfung.
+
+**Plan:** (1) Nach einem `weg` an einer aniSearch-Adresse, für die JustWatch genau eine Prime-gti kennt, führt die Prüfliste (`tools/extension-offene-amazon.mjs`, Prüfstand im Worker) die JustWatch-Adresse als **Kandidaten** unter demselben Titel. (2) Die Erweiterung muss auf der Zielseite (nach Weiterleitung von `watch.amazon.de`) den Auftrag erkennen — sie liest die gti seit 4.20.25 in die Notiz. (3) Stimmt die abgelesene gti mit JustWatchs überein, gilt der Kandidat als belegt (`amazon-gti-belegt.json`, bisher ASIN → gti; hier Titel → gti). (4) Titel ohne JustWatch-Treffer bekommen nach `weg` eine Prime-Suchadresse (Suchadressen-Liste). (5) Titel mit JustWatch „kein Prime“ bleiben beim `weg`. PoC zuerst: die 20 Kandidaten als Liste mit Links, Daniel prüft drei, erst dann bauen.
+
+## Gebaut 18.09.2026: Web-Push für Favoriten (Feature-Vergleich Nr. 11)
+
+**Live seit 18.09.2026 abends.** Zustellung vorher belegt (14:28, Edge/Windows, Daniels Bestätigung). Bauweise:
+
+1. **Push ohne Nutzlast** — kein RFC-8291-Verschlüsseln, nur VAPID-JWT (ES256, `worker/src/push.ts`). Der Service Worker holt den Text bei `push` selbst (`GET /push/nachricht?endpoint=…`, einmalig, danach gelöscht); ohne Text die neutrale Testmeldung.
+2. **Schlüssel:** Worker-Secrets `VAPID_PRIVATE_JWK`, `VAPID_PUBLIC`; der Client holt den öffentlichen über `/push/schluessel`.
+3. **D1:** `push_abo(endpoint, favoriten, erstellt, zuletzt, offen)` (Migration 032). `/push/abo` legt an, führt Favoriten nach, `abmelden: true` löscht.
+4. **Auslöser:** stündlicher Cron, `pushVersand()` — je Abo die Favoriten-Termine, die seit `zuletzt` erschienen sind (`istErschienen`). Erster Lauf eines neuen Abos merkt sich nur die Zeit. Ein Push je Abo und Lauf, gebündelt; 404/410 löscht das Abo.
+5. **Oberfläche:** Schalter oben in `#/favoriten` (nur mit Favoriten und wo `PushManager` existiert), Favoriten wandern bei jeder Änderung mit (`web/src/lib/push.ts`). Versteckter Testknopf weiter unter `#/abo?pushtest=1`.
+
+Live-Rundreise 18.09.2026 mit Test-Endpunkt: Anlegen, D1-Zeile, Nachricht (leer), Abmelden, CORS — alles grün. „Jetzt auch bei X" aus den News seit 18.09.2026 mit drin (Migration 033, Spalte `gemeldet` gegen stündliche Wiederholung; Text in `worker/src/push-text.ts`, Zusicherung in `check:logic`). Offen: erster echter Push, sobald eine Favoriten-Folge erscheint.
+
+## Stichprobe 18.09.2026 (Keim 1809): aniSearchs Synchro-Marke fehlte im Panel
+
+50 Panels live, Regeln 0 Befunde — beim Lesen der Textliste drei Widersprüche: Niklaas, Jakobus Nimmersatt („Noch keine deutsche Fassung" neben der deutschen Ausgabe). Ursache: `deErstausgabe` übernahm aniSearchs `dubbed` nicht, der Film-Zweig kannte nur Streams, Sprechrollen, Kaufwege. **Behoben:** `deErstausgabe.synchro`, gemessen 253 betroffene Titel (180 Filme/Specials/OVAs); live bestätigt 12:09. Nebenbei: Die Stichprobe fand das Panel nach dem `aside`→`div`-Umbau nicht mehr — Werkzeuge suchen jetzt `data-panel="titel"`, `check:panel` wird bei 0 Messungen rot. Nächste Stichprobe mit neuem Keim.
+
+## Gemessen 18.09.2026: Ladeleistung — die Cover waren das Gewicht
+
+`node tools/leistung-messen.mjs` gegen die Live-Seite: Desktop erster Termin nach 0,6 s, LCP 0,63 s, keine langen Tasks; Handy (4× CPU, 1,6 Mbit/s) erster Termin 3,3 s, LCP 1,35 s, zwei lange Tasks (234 ms). Die größten Antworten waren ausnahmslos AniList-Cover in „large“ (bis 660 KB) für 28-px-Vorschauen. **Behoben** mit `web/src/lib/cover.ts` (srcset je Anzeigegröße): Woche 6,3 → 0,5 MB, Datenbank 6,9 → 2,8 MB. Danach `cartoons.json` (244 KB, kein Cartoon hat einen Termin) nur noch in Datenbank, „Wo sehen?", Favoriten und bei direktem Öffnen geladen. **Preload der Startdaten** (Vite-Plugin in `vite.config.ts`): erster Termin auf dem gedrosselten Handy 3,29 → 3,12–3,15 s, nur ~5 %. Grund: Bei 1,6 Mbit/s teilen sich Daten und Bündel die Leitung — das Bündel war danach erst bei 2,35 s statt 1,16 s da. Die Zeit ist durch Bandbreite begrenzt, nicht durch Reihenfolge; spürbar schneller wird es nur mit weniger Bytes (größte Posten: Bündel 139 KB, `titles-core.json` 131 KB gzip). Neu messen, wenn die Handy-Zeit bis zum ersten Termin über 4 s steigt. **`titles-core.json` gewogen** (494 Titel, 126 KB gzip): keywords 20, watchLinks 16, titleNative 15, streams 11, coverImage 9, titleRomaji 8, bannerImage 8 KB. Nicht gekürzt: Filter, Suche und Detail-Panel lesen die Kerntitel, bevor `titles.json` da ist — jede Stelle müsste erst auf Nachladen umgebaut werden, für geschätzt ~0,25 s auf dem gedrosselten Handy.
+
+## Gemessen 18.09.2026: Barrierefreiheit (axe-core, 11 Ansichten × 2 Themen)
+
+`node tools/a11y-pruefen.mjs` nach `vite build` (`--kontrast` gruppiert nach Farbpaar). **Behoben am selben Tag:** label, link-in-text-block, page-has-heading-one, heading-order, aria-allowed-role; Nebentext-Grau im hellen Thema #62748e → #5b6b84 (Kontrastfehler 1.558 → 1.123; getestet gegen slate-600, das die Abstufung verflacht hätte). **Ebenfalls behoben:** nested-interactive (Kalender- und Datenbankkarten: Karte kein Knopf mehr, unsichtbarer Knopf „Details“ für Tastatur, Fokusring per `:has()`). **Behoben 18.09.2026 (Daniels Wahl „hell B, dunkel C“):** Anbieter-Plaketten — hell Tönung mit nachgedunkelter Schrift (≥ 4,5:1 auf Weiß und Seitengrund), dunkel Markenfarbe als Fläche mit Weiß/#111 (`plakettenStil` in `ui.tsx`); danach kein Anbieter-Farbpaar mehr im axe-Befund. FSK-12-Ziffer dunkel statt weiß (3,6 → 5,3:1). Rest des Befunds (Stand 18.09. 15:15): überwiegend absichtlich verblasste vergangene Termine (`opacity`) und `text-sky-500`-Verweise; Newsletter-Knopf: **Daniels Wahl C (18.09.2026 16:23)** — sky-700 (5,9:1), verbunden emerald-700; dieselbe Farbe für alle weißen Schriften auf Hellblau (Heute im Monat, Filterzähler, aktive Schalter, Import-, Push-Knopf). Ursprünglicher Befund:
+
+| Regel | Knoten | Beispiel | Einschätzung |
+|---|---|---|---|
+| color-contrast | 1.558 in 22 | `text-slate-500` (#62748e) auf #f6f7fb: 4,44 statt 4,5 | knapp daneben, fast überall dieselbe Farbe — eine Stelle im Thema, dann Bild prüfen |
+| nested-interactive | 678 in 8 | Kalenderkarte mit fokussierbaren Kindern | Karte als Knopf mit Knöpfen darin; Tastaturbedienung prüfen |
+| label | 2 | ein Eingabefeld ohne Beschriftung | klein |
+| link-in-text-block | 2 | `text-sky-600`-Link im Fließtext, 1,86:1 zum Text | Unterstreichung ergänzen |
+| page-has-heading-one, heading-order, aria-allowed-role | je 2–4 | fehlendes h1, h3 vor h2, `role=dialog` an `aside` | klein |
+
+## Recherchiert 18.09.2026: Features ähnlicher Seiten, die uns fehlen
+
+Verglichen mit LiveChart, AniChart, animeschedule.net, Simkl, JustWatch, notify.moe, aniSearch (Belege je Punkt im Verlauf der Recherche; LiveChart-FAQ 404, Crunchyroll 403 — dort nur Store-Einträge). Schon vorhanden und nicht erneut vorschlagen: Dunkelmodus, PWA, Tastenkürzel, Trailer, ICS je Anbieter/Genre, Einzeltermin-ICS, Google-Kalender, Newsletter mit Anbieterwahl, Favoriten-Sync.
+
+Priorität nach Nutzen fürs Projektziel und Größe:
+
+| # | Feature | Größe | Stand |
+|---|---|---|---|
+| 1 | „Meine Anbieter" als gemerkte Filterauswahl (JustWatch „My Services") | S | **erledigt 18.09.2026** |
+| 2 | Persönlicher ICS-Feed nur mit meinen Favoriten (Simkl) — Worker erzeugt je Newsletter-Token | M | **erledigt 18.09.2026** — eigene Feed-Kennung (Migration 031), `/feed/favoriten.ics`, Karte auf der Kalender-Abo-Seite |
+| 3 | RSS-Feed für neue Synchro-Ankündigungen (animeschedule.net), im Bau neben den ICS | S | **erledigt 18.09.2026** — `data/feeds/news.xml`, Link auf der News-Seite |
+| 4 | Live-Countdown bis zur nächsten Folge, nur bei belegter Uhrzeit (LiveChart) | S | **erledigt 18.09.2026** — im Antwort-Kasten des Panels, ab 24 h vorher |
+| 5 | Erinnerung (VALARM) in der Einzeltermin-ICS; in Sammelfeeds nicht (Spam) | S | **erledigt 18.09.2026** — 15 min vorher, ohne Uhrzeit 9 Uhr |
+| 6 | „Jetzt auch auf Deutsch bei X" (JustWatch Alerts) | M | **erledigt 18.09.2026** als News-Meldung, im RSS und im Newsletter (Abschnitt „Jetzt auch bei“) |
+| 7 | Import einer AniList-/MAL-Liste als Favoriten (Simkl) | M | **AniList erledigt 18.09.2026** (öffentliche Liste, ohne Anmeldung); MAL erledigt am selben Tag über den XML-Export (auch .gz), nur im Browser gelesen |
+| 8 | Saison-Vorschau „kommende Saison mit Synchro" (AniChart) | S–M | **verworfen 18.09.2026** — gemessen: 97 künftige Starts, davon 85 Disc, 6 Filme, 3 Wochenserien, 3 Batches; die Agenda zeigt genau das. Neu bewerten, wenn mehr als 20 künftige Streaming-Starts anstehen |
+| 9 | Abstand OmU → Synchro je Titel als gekennzeichnete Prognose | M | **verworfen 18.09.2026** — kein Anwendungsfall: 0 Releases ohne Datum, 0 geschätzte Wochenserien, 0 Titel „noch nicht in Japan". Neu bewerten, wenn angekündigte Synchros ohne Termin im Bestand auftauchen |
+| 10 | Fortschritt je Folge, lokal | M | **erledigt 18.09.2026** — „gesehen bis Folge n" in der Favoriten-Zeile, „x neu" seither |
+| 11 | Web-Push für Favoriten (notify.moe, LiveChart) | L | **Erledigt 18.09.2026** — Schalter in den Favoriten, stündlicher Versand (Abschnitt „Gebaut 18.09.2026: Web-Push“) |
+| 12 | Discord-Webhook-Kanal (Neuigkeiten in einen Discord-Kanal posten) | M | **Gestrichen am 28.09.2026 (Daniel).** Es wäre Außenwirkung auf einem fremden Server gewesen — nicht gewünscht. **Nicht betroffen:** die Meldung über rote Datenläufe (`tools/discord-melden.sh`, `DISCORD_WEBHOOK` in vier Workflows) bleibt, das ist eine Betriebsmeldung an dich selbst. |
+
+Weggelassen, weil kein Ziel: Bewertungen, Community, Zeitzonen.
+
+## Gemessen 18.09.2026: Code-Splitting des Detail-Panels lohnt nicht
+
+Hauptbündel 453 KB (138 KB gzip). Das Detail-Panel lazy geladen ergab einen eigenen Teil von 23 KB gzip, das Hauptbündel sank auf 117 KB — 17 %. Dafür würde der Service Worker den nachgeladenen Teil nicht vorab speichern (`sw.js` liest die Assets aus `index.html`), und das Panel ginge offline erst nach dem ersten Öffnen. **Verworfen.** Neu bewerten, wenn das Hauptbündel über 200 KB gzip wächst.
+
+## Recherchiert 18.09.2026: RSI und das Hackathon-Repo aus Daniels Video
+
+- **Google-News:** Dream-RSI (arXiv 2609.14858, 14.09.2026, Google/DeepMind) verbessert den Such-Code des Agenten, nicht das Modell. Kein Skill-Repo.
+- **Hackathon:** Affaan Mustafa gewann den Anthropic × Forum Ventures Hackathon mit **Everything Claude Code** (affaan-m/everything-claude-code, MIT, sehr aktiv). Lernen aus Erfolg/Fehlschlag: Hooks protokollieren jeden Werkzeugaufruf, ein Hintergrund-Agent leitet „Instincts" mit Konfidenz 0,3–0,9 ab, Korrekturen senken sie, `/evolve` macht Skills daraus.
+- **Entscheidung: nicht installieren.** 28 globale Hooks mit Node-Skripten, unsignierte Updates, ein Malware-Klon im Umlauf (dev.to-Audit), und ein zweites Regel-/Memory-System, das mit unserem kollidiert. Übernommen werden zwei Ideen: Konfidenz/Rückfallzähler je Regel und erst reproduzieren, dann schärfen (RED/GREEN aus obra/superpowers). Umgesetzt im Skill `korrektur-schaerft-die-regel`.
+- Weitere Kandidaten: `hookify` (offiziell, Regeln als Regex-Hooks) — vielleicht, erst Hooks lesen; `claude plugin eval` für Rückfall-Tests je Korrektur — offen, kostet Kontingent.
+
+## Recherchiert 16.09.2026: Quellen für deutsche TV-Sendetermine
+
+Anlass: Dragon Ball DAIMA bei TOGGO plus (Daniel: „tägliche tv releases sind ein paradebeispiel …"). Gemessen je Quelle, Probeabrufe sparsam:
+
+| Quelle | Weg | Reichweite | Befund | Urteil |
+|---|---|---|---|---|
+| fernsehserien.de | schema.org in der Seite | Wochen | Impressum: „Vervielfältigung jeglicher Art ist nur mit schriftlicher Genehmigung gestattet" | verworfen (Daniel: „andere quellen suchen") |
+| TVmaze | API `schedule?country=DE` | — | am 17.09.2026 genau 1 Eintrag für Deutschland | verworfen, leer |
+| RTL+ Programmseite `plus.rtl.de/tv-programm` | HTML, `curl` genügt; TOGGO plus, RTLZWEI, Super RTL | **nur heute** | robots `Allow: /`; AGB verbieten nur **kommerzielles** TDM (§ 44b) | nutzbar, wenn das Projekt nicht kommerziell ist |
+| RTL+ EPG-Schnittstelle (bedrock) | JSON mit anonymem Token | ~14 Tage | undokumentiert, Token-Abfrage nachzubauen | Grauzone |
+| rtl2.de `/tv-programm/<datum>` | schema.org | 7 Tage | robots frei; AGB „nur privat, nicht kommerziell" | nutzbar wie oben, zurzeit kein Anime |
+| ARD Mediathek (KiKA) | `preloadedState` | 8 Tage, mit Folgennummer | robots sperrt `claudebot` namentlich, TDM-Vorbehalt nach § 44b(3) | verworfen |
+| programm-api.ard.de | — | — | robots `Disallow: /` | verworfen |
+| ProSieben MAXX / Joyn | GraphQL `api.joyn.de`; Serienseiten `www.joyn.de/serien/*` (22.09.2026: robots erlaubt, Folgen mit `airdate`/`endsAt`) | ~30 Tage je Folge | robots `api` `Disallow: /`; **Impressum: TDM-Vorbehalt nach § 44b** | verworfen — Verweise kommen über JustWatch (docs/wissen/quellen.md) |
+| toggo.de, nick.de | — | — | kein Programmendpunkt | verworfen |
+| iptv-org/epg | Werkzeug, holt bei MagentaTV | 2 Tage | keine Rechte an den Daten | verworfen |
+| presseportal.de RSS (z. B. ProSieben MAXX) | RSS | Ankündigungen | „kann grundsätzlich redaktionell frei verwendet werden" | nutzbar für Starttermine |
+| Programmzeitschriften (TV Spielfilm, TV Today, Hörzu, tvmovie, prisma, tv-media …) | — | — | **am 19.09.2026 vollständig geprüft**, siehe `docs/recherche-tv-quellen-2026-09-19.md`; gebaut ist tv.de (`fetch-tv-programm.ts`) | am 22.09. versehentlich ein zweites Mal geprüft, Ergebnis gleich |
+| prosiebenmaxx.de/tv-programm (19.09.2026) | — | — | leitet auf `joyn.de/live-tv/prosieben-maxx` um; keine eigene robots.txt, die Daten liegen bei Joyn (`Disallow: /`) | verworfen — das 7MAXX-Programm kommt seit 19.09.2026 über tv.de |
+
+Nicht geprüft: Programmzeitschriften (Daten von Drittanbietern), DVB-EIT über eigenen Empfänger (Hardware). **Anlass 19.09.2026:** Dragon Ball Super läuft auf 7MAXX (Folge 116–121 am 20.09. nachts, laut fernsehserien.de) und fehlt bei uns, weil die RTL-Programmseite nur die RTL-Gruppe führt. Daniel fragt zugleich nach einer besseren Quelle für deutsche Folgendaten (aniSearch führt sie nur lückenhaft, z. B. Beyblade X nur bis Folge 65). Beleg DAIMA über RTL+: 16.09. 21:15–21:35 „Degesu", 27.09. (So) „Glorio", 30.09. nicht mehr im Plan.
+
+## Recherchiert 13.09.2026: Kinostarts der 112 angekündigten Anime-Filme
+
+Anlass: Daniel wollte im Kasten des Apothekerin-Films den Kinostart statt „Noch keine deutsche Fassung" — für alle angekündigten Kinofilme, mit Web-Recherche je Film und dem Hinweis, gefundene Webseiten als mögliche Newsquellen festzuhalten. Recherchiert in vier Gruppen (je 28 Filme), Ergebnis in `data/kino-ankuendigungen.yaml` (41 Einträge).
+
+| Befund | Zahl / Titel |
+|---|---|
+| angekündigte Filme (MOVIE, 2026+ oder `NOT_YET_RELEASED`, dazu Filme mit deutschem Kinotermin) | 112 |
+| Herkunft laut AniList (`countryOfOrigin`) | JP 93 · CN 13 · KR 6 |
+| deutscher Kinostart **ohne** Synchro | 1 — „Rascal Does Not Dream of a Dear Friend", 27.10.2026, peppermint anime, nur OmU |
+| deutsche Lizenz ohne Termin | 2 — „The Eminence in Shadow: Lost Echoes" (peppermint anime, 2027), „Solo Leveling: Beyond the System" (Crunchyroll) |
+| gar kein Kinofilm oder offen | 18 — YouTube-Veröffentlichungen, Festival-Kurzfilme, ein Spiel-Promo, Streaming-oder-Kino unklar (`kinofilm: false`) |
+| Herkunftstermin berichtigt | 3 — Echo (06.03.2026, Teil von „GEMNIBUS vol.2"), Gill (09.09.2026, Südkorea), King Gesar (lief 2023 in China) |
+| Filme mit deutschem Kinotermin im Bestand | 7, alle Termine aktuell (Witch on the Holy Night 26.01.2027 bestätigt) |
+
+**Die Lücke in unseren Newsquellen ist gemessen, nicht vermutet.** Der Rascal-Kinostart kam über den anime2you-Kinofeed als Vorschlag an (`data/proposals/anime2you.json`, 12.09.2026) — und endete dort, weil ein OmU-Start zu Recht kein Kalendertermin ist. Bis heute gab es keinen Ort, an dem so eine Auskunft trotzdem am Titel ankommt. Die beiden Lizenzmeldungen (anime2you 1036645, 1036731, beide von der AnimagiC im Sommer) fehlen in den Vorschlägen **ganz**: Der Feed liefert nur die jüngsten Artikel, und eine Lizenz ohne Datum erzeugt keinen Termin.
+
+**Webseiten, die sich als Quelle für deutsche Anime-Kinostarts lohnen würden** (Kandidaten, noch nicht angebunden, robots.txt und Nutzungsbedingungen vor einer Anbindung prüfen):
+
+| Seite | was sie trägt |
+|---|---|
+| anime2you.de/kino-news (Archivseite, nicht nur der Feed) | Termin, Verleih, Fassung — bei allen gefundenen deutschen Starts die Erstquelle |
+| mein-mmo.de, Liste „Anime im Kino 2026" | laufend gepflegte Jahresliste deutscher Anime-Kinostarts, Stand 07.09.2026 |
+| insidekino.com/DStarts/DStartplan.htm | Startplan mit Verleih-Kürzel, Events getrennt — nannte bei Rascal den 20.10. als Event |
+| kino-intimes.de/anime.html | Fassung je Vorstellung (Deutsch, OmdU, OmeU) |
+| filmkunstkinos.de, Reihe „Animes im Bambi 2026" | Programmkino-Reihe mit Anime-Terminen |
+
+Wenig ergiebig: kino.de, filmstarts.de (nur Filme mit feststehendem Start), moviejones.de. Nicht abrufbar per WebFetch: crunchyroll.com/de/news (leere Seite), douban (403), die Berlinale-Seiten (503).
+
+**Wieder aufgegriffen wird es**, wenn die Kinovorschläge automatisch in `kino-ankuendigungen.yaml` statt nur in den Kalender führen sollen — dann zuerst die Archivseite von anime2you und die mein-mmo-Liste messen.
+
+## Gemessen 07.09.2026: alle fünf Punkte des Projektziels
+
+Am Ende des Arbeitstages jeder Punkt aus `CLAUDE.md` einzeln am ausgelieferten
+Bestand geprüft — nicht aus dem Gefühl, sondern mit einer Zahl.
+
+| Punkt | Stand | gemessen an |
+|---|---|---|
+| **1. Synchro ist nicht Untertitel** | trägt | 16 YouTube-Verweise ohne belegte Synchro heute entfernt; „7th Time Loop" mit zwei Quellen als „nur Untertitel" belegt |
+| **2. Nichts behaupten ohne Beleg** | trägt | 660 Releases, **kein einziges ohne Quelle**; 7 mit geschätztem Datum, alle als `estimated` gekennzeichnet |
+| **3. Unsicheres kennzeichnen statt weglassen** | trägt | 354 Releases ohne belegte Uhrzeit stehen als „Zeit offen" da; 81 Verweise tragen „🇩🇪 ?"; 1 strittiger Termin wird mit **beiden** Daten geführt; 15.118 Titel ohne belegte Synchro stehen hinter dem Toggle statt gestrichen zu sein |
+| **4. Nicht nur wann, auch wo** | verbessert | Titel ohne jeden Bezugsweg heute von 489 auf **235** gesenkt (aniSearch-Sprachblock, JustWatch) |
+| **5. Rechtzeitig Bescheid geben** | trägt | ICS-Feed unter `/data/feeds/all.ics` mit 269 Terminen erreichbar; Newsletter-Cron läuft stündlich im Worker |
+
+**Die Schwäche ist keine der fünf, sondern die Sichtbarkeit**: 62 von 664 Seiten
+indexiert. Dagegen ist heute alles getan, was ohne Wartezeit geht — JSON-LD samt
+`WatchAction`, Querverlinkung, und auf jeder Teilen-Seite der Abschnitt „Wo es
+auf Deutsch läuft". Was jetzt fehlt, sind Wochen.
+
+## Gemessen 07.09.2026: was an den 81 offenen Verweisen wirklich fehlt
+
+Am Abend des Arbeitstages nachgemessen, damit niemand — ich eingeschlossen —
+denselben Weg noch einmal versucht. Von 123 offenen Verweisen am Morgen sind 81
+übrig; sie zerfallen in drei Gruppen, und **keine davon löst sich automatisch**.
+
+### 22 Crunchyroll-Verweise unter einer Franchise-Kennung
+
+Der Dub-Bestand kennt die Blöcke samt Folgenzahl, aber unsere Staffel liegt
+nicht darin:
+
+```
+Love, Chunibyo & Other Delusions   12 Folgen   Blöcke: 13 (dt.), 1
+Sound! Euphonium                  13 Folgen   Blöcke: 14 (dt.), 13, 13, 1
+One Punch Man OVAs                 6 Folgen   Blöcke: 12 (dt.) ×3, 1
+SAO: Extra Edition                 1 Folge    Blöcke: 25 (dt.) ×3, 23 (dt.)
+```
+
+Es sind fast ausnahmslos **Specials, OVAs und Filme** innerhalb einer
+Serienkennung. Eine Zuordnung über die Folgenzahl — der Weg, den ADN geht —
+griffe hier daneben: 13 gegen 14 ist kein Treffer, und ein falsch getroffener
+Block erzeugt eine falsche Sprachaussage. Die Fälle mit passender Folgenzahl
+sind längst zugeordnet (35 über den Blocknamen, 5 über Blockketten).
+
+### 32 Prime-Verweise, überwiegend Kanal-Titel
+
+**JustWatch beantwortet sie nicht.** Gemessen: 24 der 32 Titel kennt es, aber
+nur bei **einem** nennt es für Prime Video eine Tonspur (Digimon, `de`). Die
+Angabe fehlt dort, wo das Angebot über einen Kanal läuft — also genau in den
+Fällen, um die es geht.
+
+### 11 Crunchyroll-Adressen ohne Serienkennung
+
+Alte Ablage-Formen (`…-unbekannt-850430`, `/watch/<id>`), überwiegend Filme.
+Der deutsche Katalog kennt keine Filme (siehe `CLAUDE.md`), und die Fuzzy-Suche
+der Content-API gibt für „Millennium Actress" einen Inuyasha-Film aus — als
+alleiniger Beleg zu schwach.
+
+**Was bleibt:** Diese 65 Verweise beantwortet nur eine Prüfung von Hand. Das ist
+kein Versäumnis der Pipeline, sondern die Grenze dessen, was fremde Quellen über
+deutsche Tonspuren hergeben.
+
+## Gemessen 07.09.2026: die Terminqualität ist eine Stärke
+
+Punkt 1 und 2 des Projektziels („nichts behaupten, was nicht belegt ist") am
+Bestand gemessen, 16:20 Uhr:
+
+| | |
+|---|---|
+| Releases | 660 |
+| **ohne Quelle** | **0** |
+| mit geschätztem Datum (`estimated`) | 7 |
+| mit angenommener Folgenzahl | 6 |
+| mit verpasstem Termin | 1 — Mushoku Tensei S3 Folge 6, aufgelöst |
+
+Der verpasste Termin ist der Prüfstein: Folge 6 war für den 30.08. angekündigt
+und kam am 06.09. — 168 Stunden Verzug, im Datensatz mit `erschienenAm` und
+Recherchenotiz festgehalten. Die Folgen 7 und 8 liegen ebenfalls auf dem 06.09.,
+genau wie Daniel es am Morgen gemeldet hat. **Der Kalender stimmt an der Stelle,
+an der er am leichtesten falsch läge.**
+
+Das ist die Stärke, die es zu verstärken gilt: kein einziger Termin ohne Quelle,
+und ein verstrichener Termin verschwindet nicht, sondern sagt, dass er nicht
+eingehalten wurde.
+
+## Gemessen 07.09.2026: JustWatch nennt Audiosprachen — eine neue, legale Quelle
+
+Daniels Auftrag „erneute websearch für autonomie ziel". Drei Quellen geprüft,
+zwei verworfen, eine trägt.
+
+**Was trägt: JustWatchs GraphQL-Schnittstelle** (`apis.justwatch.com/graphql`,
+kein Token, `robots.txt` sperrt **nichts** und nennt keinen Agenten namentlich).
+Jedes Angebot trägt `audioLanguages` und `subtitleLanguages`:
+
+| Titel | was JustWatch sagt | was wir belegt haben |
+|---|---|---|
+| Kill Blue | Crunchyroll/Aniverse/ADN-Kanal `audio: de,en,es,fr,it,ja,pt,th` | 1–8 deutsch, 9–12 nicht |
+| **Chiikawa** | ADN-Kanal `audio: ja`, `sub: de` | keine Synchro, nur Untertitel — **die Gegenprobe hält** |
+| Blue Exorcist | Crunchyroll `audio: de,…` | blockweise verschieden (Kyoto Saga ohne) |
+
+Die Gegenprobe an Chiikawa ist der eigentliche Wert des Fundes: Die Quelle
+unterscheidet Synchro von Untertitel, sie sagt nicht überall „de". Damit ist es
+ein brauchbares **Signal** — kein Beleg je Folge.
+
+**Zwei Grenzen, beide gemessen:**
+
+- **Es ist eine Aussage über die Serie**, nicht über Folge oder Staffel. Bei
+  Kill Blue meldet sie `de` für alle zwölf; belegt sind acht. Ein `dub: true`
+  darf daraus nie direkt werden — dieselbe Trennung wie beim deutschen
+  Crunchyroll-Katalog.
+- **Netflix und ADN-direkt melden gar nichts** (`audio: —`), obwohl es dort
+  Deutsch gibt. Ein fehlendes `de` belegt also nichts.
+
+**Wo es hilft:** 107 Verweise haben kein Sprachurteil — 47 Crunchyroll, 33
+Prime Video, 16 YouTube, 10 Netflix, 1 ADN. Für die Prime- und Kanal-Fälle
+haben wir bisher **gar keine** maschinelle Quelle; genau dort antwortet
+JustWatch.
+
+**Verworfen, mit Grund** — damit es niemand in drei Monaten erneut prüft:
+
+- **animeschedule.net API v3**: kennt `dubPremier`, `dubTime`, `dubDelayedFrom`
+  — aber ausschließlich **englische** Dubs. Keine Sprach- oder Regionsangabe.
+- **aniSearch-Liste „Crunchyroll nur mit deutscher Synchro"** (`/lists/RmRAkk`):
+  55 Einträge, nutzerkuratiert, Stand **10.02.2023**, ohne Datumsangaben.
+- **Deutsche Synchronkartei**: `robots.txt` sperrt `/json/` und `/suche` — also
+  genau die Pfade, über die eine maschinelle Abfrage liefe. Dieselbe Lage wie
+  bei Amazon (24.08.2026): Der Pfad, den man braucht, ist zu.
+
+## Behoben 07.09.2026: Kill Blue — drei Ursachen, drei Fixes
+
+Daniels Meldung: „warum hat unser crunchylauf … nicht automatisch im kalender
+eingetragen das dieser anime jetzt auch auf crunchy ist? am 06.09. wurden die
+synchronisierten folgen 1-8 auf crunchy veröffentlicht."
+
+| Ursache | gemessen | Fix |
+|---|---|---|
+| Das Gedächtnis der entfernten Verweise kannte keine Frist | ein Nein vom 24.08. hielt für immer | 28 Tage (`NEIN_GILT_TAGE`), Feld `entferntAm` |
+| Der Sendekalender führt nachgereichte Katalog-Synchros nicht | Kill Blue steht dort nicht — es ist kein Simulcast-Termin | Katalog-Runde legt Wege über die Serienkennung an |
+| **Ein 16 Tage altes Nein schlug den jüngeren Katalog** | `crunchyroll-dub.json` 22.08.: 0 deutsche Folgen · `cr-katalog-de.json` 07.09. 06:44: `de-DE` | der jüngere Katalog überstimmt das Nein, nur in dieser Richtung, nur bei einer Staffel |
+
+Belegt im Lauf: „Kill Blue: Nein vom 2026-08-22 durch den Katalog vom
+2026-09-07 überholt". Dazu die Anzeige: Der Kasten sagte „Alle 12 Folgen auf
+Deutsch", während die ADN-Pille „✕ DE" trug — jetzt „8 von 12 Folgen auf
+Deutsch" über `dubAbdeckung()`.
+
+**Offen bleibt die Vorhersage.** Daniel: „wir müssen im voraus sowas
+vorhersehen, entsprechend news etc. quellen abonieren". Der Katalog-Lauf
+braucht eine deutsche IP und läuft deshalb nicht automatisch; ohne ihn merkt
+der Bestand eine nachgereichte Synchro erst, wenn jemand den Lauf von Hand
+anstößt.
+
+## Projektanalyse 07.09.2026: Stärken und Schwächen, gemessen
+
+Daniels Auftrag: „wo sind schwächen und stärken, schwächen ausbessern, stärken
+verstärken". Alle Zahlen aus dem ausgelieferten Bestand vom 07.09., 04:57.
+
+### Stärken
+
+| | |
+|---|---|
+| **Quellen** | 22 von 22 grün, keine über ihrer Frist |
+| **belegte deutsche Tonspur** | 1.919 Verweise mit `dub: true` |
+| **Zusicherungen** | 270 in `check:logic`, dazu 25/15/10 in Erweiterung, Zugangsart und Worker — plus rund 700 in den Sandkästen der Erweiterung |
+| **Prüflisten** | Netflix, Disney+ und Prime **leer** — die Handarbeit ist aufgeholt |
+| **Termine** | 2.825, davon nur 230 abgeleitet (8 %) — der Rest ist belegt |
+| **Selbstschutz des Baus** | Titelschwund-Riegel, Handbeleg-Vorrang, Gedächtnis für entfernte Verweise, Frist je Quelle |
+
+Der Selbstschutz ist die eigentliche Stärke: Am 07.09. hat der Titelschwund-Riegel
+einen lokalen Lauf mit veraltetem Cache abgefangen, und `check:logic` hat zwei
+Umbauten an derselben Stelle gemeldet, bevor sie ausgeliefert waren.
+
+### Schwächen, nach Wirkung sortiert
+
+**1. Sichtbarkeit — 62 von 664 Seiten indexiert (9 %).** Die größte Lücke, und
+sie trifft das Projektziel im Kern: Eine Seite, die niemand findet, beantwortet
+keine Frage. Details im Abschnitt darunter; am 07.09. mit Querverlinkung
+angegangen, Wirkung offen.
+
+**2. 91 Verweise ohne Sprachurteil** (Stand 07.09.2026, 15:10 — im Lauf des Tages von 123 gesenkt). Aufgeschlüsselt:
+
+```
+crunchyroll  44   überwiegend Franchise-Kennungen: eine Serie, mehrere Staffeln
+primevideo   32   Kanal-Titel — Amazons Angabe belegt dort nichts
+netflix      14
+adn           1   „Plus-Sized Elf“, französischer Slug ohne Serienkennung
+```
+
+**Die 16 YouTube-Verweise sind weg** — dort führen wir seit dem 07.09. nur noch
+belegte Wege (Daniel: „youtube hat nur untertitel, also weg damit“).
+
+**3. 235 Titel ohne jeden Bezugsweg (8 %).** Am 07.09.2026 von 489 gesenkt:
+246 über aniSearchs Sprachblock („Deutsche Ausgabe bei aniSearch“), 57 über
+JustWatchs Angebote. Der Rest ist überwiegend alt — die Alterung war schon bei
+489 der auffällige Teil, und sie bleibt: Wer 1998 eine deutsche Fassung hatte,
+findet sie heute in keinem Katalog mehr.
+
+**4. Der stündliche Lauf ist real ein 4,5-Stunden-Lauf.** GitHub verwirft
+`schedule`-Läufe unter Last; gemessen 5,2 statt 24 Läufe am Tag (03.09.2026).
+Wer eine Zahl aus dem Kalender gegen die Wirklichkeit hält, misst gegen einen
+Stand, der einen halben Tag alt sein kann.
+
+**5. Das Crunchyroll-Zugangspaket lebt 24 Stunden, sein Lauf kommt wöchentlich.**
+Ein struktureller Widerspruch, der am 06.09. acht Tage lang unbemerkt blieb. Der
+Dauerauftrag oben fängt ihn ab, aber nur solange jemand ihn liest.
+
+### Punkt 5 des Projektziels ist geprüft und trägt (07.09.2026)
+
+„Rechtzeitig Bescheid geben" stand in der Analyse nur mit einer Terminzahl da —
+ob Abo und Newsletter wirklich funktionieren, war ungeprüft. Gemessen an der
+Live-Seite:
+
+| | |
+|---|---|
+| `/data/feeds/all.ics` | HTTP 200, `text/calendar`, 117 KB |
+| Termine darin | 269 — davon **222 künftig**, 47 aus dem 7-Tage-Rückblick |
+| Gültigkeit | sauberer `END:VCALENDAR`, Zeiten in UTC |
+| Varianten | `platform-netflix` 18, `platform-crunchyroll` 117, `genre-action` 134 |
+| Newsletter-Worker | `/health` meldet `activeSubscribers: 2` |
+| Verdrahtung | die Worker-Adresse steht im ausgelieferten Bundle |
+
+**Ein Messfehler auf dem Weg dahin gehört zum Befund:** Der erste Versuch rief
+`/feeds/all.ics` ab und bekam 404. Der Feed liegt unter `/data/feeds/` — die
+Seite verlinkt ihn richtig (`web/src/lib/data.ts`), nur meine Annahme war
+falsch. Wer eine Adresse rät statt sie im Code nachzuschlagen, misst einen
+Ausfall, den es nicht gibt.
+
+### Was daraus folgt
+
+Verstärkt wird, was trägt: die Zusicherungen. Jeder Fund dieser Woche hat eine
+bekommen, und zweimal hat genau das den nächsten Fehler gefangen.
+
+Ausgebessert wird in dieser Reihenfolge: **Sichtbarkeit** (läuft), **die 12
+ADN-Verweise** (Weg beschrieben), **die YouTube-Verweise** (`offerId` prüfen).
+Was dokumentiert unlösbar ist, bleibt es — es wird nicht ein drittes Mal
+gemessen.
+
+## Gemessen 07.09.2026: Search Console — 62 indexiert, 596 nicht
+
+Abgefragt in der Search Console (Edge, angemeldete Sitzung), nicht geschätzt:
+
+| Grund | Seiten | Bewertung |
+|---|---|---|
+| Gefunden – zurzeit nicht indexiert | **562** | der eigentliche Fall, siehe unten |
+| Gecrawlt – zurzeit nicht indexiert | 28 | Google war da und hat abgelehnt |
+| Seite mit Weiterleitung | 3 | **kein Fehler** — `www.` und `http://`-Varianten |
+| Nicht gefunden (404) | 2 | **kein Fehler** — eine Fremdadresse (`anime.php?next`), ein Slug, den ein Import-Fix zu Recht entfernt hat (`virgin-road-vol-3-2026-11-20`) |
+| Duplikat – andere kanonische Seite | 1 | `as-a-reincarnated-aristocrat-s1-vol1` |
+| **indexiert** | **62** | |
+
+Die Live-Seite ist technisch sauber: **664 von 664** Sitemap-Adressen antworten
+mit 200, kein `noindex`, jedes `canonical` zeigt auf sich selbst, `robots.txt`
+erlaubt alles.
+
+**Die 562 sind der Fall vom 17.08.2026 in größer** (damals 171). Die Antwort
+von damals — Übersicht und Startseite verlinken jede Teilen-Seite — reicht
+nicht: Eine Seite, auf die nur eine Sammelliste zeigt, bleibt ein Blatt am Ende
+eines Astes.
+
+**Getan am 07.09.2026:** Die Teilen-Seiten verlinken jetzt die anderen Ausgaben
+desselben Titels (149 der 662 Adressen haben welche). Das legt Querverbindungen
+statt nur Blätter und hebt den eigenen Textanteil je Seite — bei
+`wind-breaker-s2-vol1` von 924 auf 1.645 Zeichen.
+
+**Das Duplikat ist damit mitbehandelt:** Gemessen an drei Paaren liegt die
+Wortüberschneidung zwischen zwei Ausgaben desselben Titels bei **96 bis 98
+Prozent** — von 855 bis 1355 Zeichen entfallen vier Fünftel auf die
+Serienbeschreibung, die bei jeder Ausgabe dieselbe ist. Ein `canonical` wäre
+der falsche Griff: „Vol. 2" ist eine eigene Veröffentlichung mit eigenem Termin,
+und genau danach sucht jemand.
+
+**Offen bleibt die Wirkung.** Ob Google die Seiten daraufhin aufnimmt,
+entscheidet sich über Wochen, nicht über Tage. Der Zähler in der Search Console
+ist die Messstelle.
+
+## Gemessen 06.09.2026: Der Prüflisten-Knopf war auf Netflix unsichtbar, nicht abwesend
+
+Daniel hat es dreimal gemeldet („prüfliste button fehlt weiterhin auf netflix",
+„keine prüfliste wird angezeigt mit neuer extension version auf homepage",
+„auf der homepage immer noch kein prüfliste button sichtbar"). Drei Runden
+Fehlersuche gingen daran vorbei, weil sie „ist er da?" fragten statt „sieht man
+ihn?".
+
+Beantwortet hat es der Diagnosebericht von 22:18 (4.14.6, `/browse`):
+
+```json
+"uebersicht": { "imDom": true, "text": "Anime-Kalender 2",
+  "lage": { "top": 835, "left": 1604, "breite": 128, "hoehe": 32 },
+  "stil": { "display": "block", "sichtbarkeit": "hidden", "deckkraft": "1",
+            "zIndex": "2147483647", "position": "fixed" } }
+```
+
+Die Ursache stand in `extension/melder.css`: eine für Amazons Hinweiskasten
+geschriebene Regel, die einen Knopf verborgen hält, solange er nicht in den
+Kasten eingezogen ist. Die Datei gilt laut Manifest für **alle drei** Anbieter,
+und weder Netflix noch Disney+ haben diesen Kasten — seit dem Umbau vom
+02.09.2026 war der Knopf dort dauerhaft unsichtbar.
+
+**Behoben in 4.14.7:** `amazon.js` markiert seine Seiten mit `ak-amazon` am
+`<html>`, die Regel verlangt diesen Anker, und `check:logic` sichert zu, dass
+kein Knopf ohne Anbieter-Anker unsichtbar geschaltet wird (Gegenprobe gefahren).
+Der Diagnosebericht trägt jetzt den berechneten Stil und `elementFromPoint`,
+damit dieselbe Frage beim nächsten Mal in einem Bericht beantwortet ist.
+
+## Gemessen 06.09.2026: Drei rote Deploys, ein totes Zugangspaket, und was daraus folgt
+
+**Die drei roten Deploys hatten eine Ursache, und es war eine fehlende Zeile.**
+`check-workflows.mjs` meldete `data/anisearch-ids-hand.yaml` als „wird
+geschrieben, steht aber nicht in `tools/quellen-liste.sh`". Die Datei wird nur
+gelesen; der Melder zaehlt jedes `data/…` in einer schreibenden Datei und irrt
+lieber zu oft (dokumentiert seit 24.08.2026). Zeile ergaenzt.
+
+**Der eigentliche Fehler war die Pruefkette.** In `CLAUDE.md` stand sie als
+Liste zum Abtippen — und `check:workflows` fehlte darin. Der CI-Lauf faehrt ihn,
+ich nicht. Es gibt jetzt **`npm run check:vor-commit`** mit allen neun
+Schritten; eine Kette, die man von Hand zusammensetzt, ist genau um die Glieder
+kuerzer, an die man gerade nicht denkt.
+
+**Das Crunchyroll-Zugangspaket war acht Tage tot.** `CR_ZUGANG` trug den Stand
+vom 29.08., 17:04 und lebt 24 Stunden; `crunchyroll-dub` hat zuletzt am 31.08.
+etwas geschrieben. Aufgefallen ist es niemandem, weil die Frist in
+`check-sources.ts` auf neun Tagen steht — **der Alarm misst, wann eine Quelle
+zuletzt geschrieben hat, nicht ob sie ueberhaupt arbeiten kann.**
+
+Der Nachholauf mit frischem Paket lief am 06.09.: 29 Adressen, 17 Serien
+gelesen, **0 ohne deutsche Tonspur**, 28 Adressen neu in eine Serienkennung
+aufgeloest, 780 deutsche Folgen mit belegtem Termin.
+
+**Was er nicht geloest hat, und warum das so bleibt:** Von den 30
+Crunchyroll-Verweisen ohne Urteil tragen **26 eine alte Slug-Adresse ohne
+Serienkennung**. Der Katalogabgleich dafuer existiert und ist dokumentiert
+gescheitert (29.08.2026): Ein Namensteil trifft immer den Reihennamen, und die
+Serie vererbt ihre Sprache nicht an Specials und OVAs — von 16 Zuordnungen
+waren fuenfzehn falsch. Uebrig bleibt ein sicherer Treffer. **Hier wird nicht
+weiter gesucht**, das ist gemessen und nicht Meinung.
+
+**Stand der offenen Urteile am 06.09.2026** (100 von 2.003 Verweisen):
+
+```
+primevideo   32   davon 29 Kanal-Titel — Amazons Sprachangabe belegt dort nichts
+crunchyroll  30   26 ohne Serienkennung, siehe oben
+youtube      16
+adn          12   fuenf davon dieselbe Franchise-Adresse (JoJo), sieben auf der
+                  alten Domain animationdigitalnetwork.de
+netflix      10   braucht den Player, also Daniels Klick
+```
+
+## Gebaut 06.09.2026: Die Bezugsquellen von aniSearch kommen im Bestand an
+
+**Der Anlass war ein Fall, der seit dem 25.08.2026 in `CLAUDE.md` steht und nie
+behoben wurde.** Detektiv Conan läuft bei Crunchyroll mit 405 deutschen Folgen;
+im Datensatz stand dazu ein Amazon-Kaufweg und sonst nichts. Der falsche
+Verweis (`case-closed`) war als belegtes Nein entfernt worden, der richtige nie
+angelegt — und konnte es nicht: `scrape-crunchyroll-dub.ts` bildet seine
+Warteschlange aus dem Bestand, also aus dem, was ohnehin schon dasteht.
+
+**Gemessen:** 625 Anbieter, die aniSearch zu einem Titel nennt und die im
+ausgelieferten Datensatz fehlen. Nach vier Riegeln bleiben **123** — 113
+Crunchyroll, 6 ADN, 3 Netflix, 1 Prime. Der Rest fällt weg, weil eine Adresse
+schon einmal entfernt wurde, ein Handbeleg dagegensteht oder bei Amazon nicht
+belegt ist, dass hinter `/dp/` ein Video liegt und keine DVD.
+
+Die Riegel und ihre Anlässe stehen in `CLAUDE.md`; fünf Zusicherungen halten
+sie fest, darunter die Reihenfolge (der Block gehört **hinter** das Entfernen
+der Neins — davor kamen im Probelauf 83 statt 123 heraus).
+
+**Stand nach dem Bau:** 745 Crunchyroll-Verweise, davon 143 ohne Urteil. Genau
+sie sind jetzt in der Warteschlange des Nachholaufs — die Lücke schließt sich
+also von selbst, sobald ein frisches Zugangspaket vorliegt.
+
+**Was das über die Bauart sagt:** Eine Warteschlange, die sich aus dem eigenen
+Bestand bildet, kann eine Lücke im Bestand nie schließen. Das ist dieselbe
+Klasse wie „ein Abruf, der nur ergänzt, veraltet zwangsläufig" — nur eine Ebene
+höher: Dort ging es um Antworten, die nie wieder gefragt werden, hier um
+Fragen, die nie gestellt werden.
+
+## Behoben 06.09.2026: Vier Tage lang reichte der Sammel-Lauf nichts ein
+
+**Das Symptom:** „Täglich — alle Quellen" endete jeden Tag grün und meldete
+„Keine Änderung an den Quellen — kein Pull Request", obwohl der Lauf
+nachweislich arbeitete (ADN: 121 Tage geprüft, 106 Folgen mit deutscher
+Synchro). Seit dem 02.09. stand `data/source-health.json` für `adn`,
+`anime2you` und `crunchyroll` still, die Frist in `check-sources.ts` riss,
+`data:check` machte den Bau **dreimal rot**, und der Deploy wurde ab 14:16
+übersprungen.
+
+**Die Ursache war eine Zeile**, und sie stand seit jeher da:
+
+```
+git add -- "${QUELLEN[@]}" 2>/dev/null || true
+```
+
+`git add` bricht beim **ersten** Pfad ab, den es nicht gibt — und stagt dann
+gar nichts. Der fehlende Pfad war
+`daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md`: Die Liste entsteht nur,
+wenn es Meldungen ohne Zuordnung gibt, und seit die Wache am 03.09. „0
+Adressen" meldet, fehlt sie. Genau seitdem lief jeder Sammel-Lauf ins Leere.
+
+**Sichtbar wurde es erst durch eine Messstelle.** Drei Vermutungen waren
+vorher ausgeschlossen (QUELLEN-Liste, `.gitignore`, Schreibweg), und keine
+davon führte weiter. Ein `git status --porcelain` vor dem Stagen und ein
+`git add` **ohne** `2>/dev/null` beantworteten die Frage im ersten Versuch:
+
+```
+--- Zahl geänderter Dateien: 9
+fatal: pathspec 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'
+       did not match any files
+Keine Änderung an den Quellen — kein Pull Request.
+```
+
+**Der Fix:** je Pfad einzeln stagen. Ein fehlender kostet nur sich selbst, und
+ihre Zahl steht im Protokoll („1 von 82 Pfaden gibt es gerade nicht"). Gegenprobe
+im Lauf 34049077068: PR #48 erzeugt und gemergt, `source-health` frisch, Bau
+grün, Deploy durch.
+
+**Die Lehre, und sie ist teurer als der Fehler:** `2>/dev/null || true` hat vier
+Tage lang eine Fehlermeldung verschluckt, die alles gesagt hätte. Wo ein
+Fehlschlag erlaubt ist, wird er **gezählt und protokolliert**, nicht
+stummgeschaltet — sonst sieht ein Lauf, der nichts tut, genauso aus wie einer,
+der nichts zu tun hatte.
+
+## Entschieden 06.09.2026: Der aniSearch-Katalogdurchlauf lohnt nicht
+
+**Die Frage war:** 11.607 Katalogtitel haben eine aniSearch-Kennung, keiner war
+je geholt. Lohnt der volle Durchlauf (19 Stunden bei 6 s Abstand)?
+
+**Drei Stichproben über 560 Titel**, die letzte mit der Sortierung
+„aussichtsreiche zuerst":
+
+| | Zahl |
+|---|---|
+| deutscher Beschreibungstext | 526 |
+| Stream-Angabe | 33 |
+| deutscher Sprachblock | 84 |
+| **davon mit Synchro-Marke** | **0** |
+| Synchro-Marke in irgendeiner Sprache | **401** |
+
+Die letzte Zeile ist die Gegenprobe: Der Detektor findet 401-mal eine
+Synchronfassung, nur nie eine deutsche. Ohne sie wäre „null Treffer" kein
+Befund, sondern eine offene Frage.
+
+**Der Fehlgriff, der beinahe passiert wäre**, steht in `CLAUDE.md`: Ein
+deutscher Sprachblock bei aniSearch ist eine Veröffentlichung, keine Synchro —
+und 84 davon hätten wie ein Fund ausgesehen. Die Fassung markiert aniSearch
+selbst (`class="dubbed dubbed-1"`), der Parser liest sie seit jeher, und 917
+von 967 handbelegten `dub: true` tragen sie.
+
+**Nebenbefund, und der ist mehr wert als die Antwort:** Der Katalog hinter dem
+Toggle ist die Menge, für die MyDubList keine deutsche Synchro kennt. Für 560
+davon widerspricht aniSearch kein einziges Mal — der bisher beste Beleg für die
+Vollständigkeit der Hauptquelle.
+
+**Was bleibt:** `data:anisearch --katalog` bleibt als Schalter bestehen, für
+den deutschen Beschreibungstext und die Bezugsquellen. Ohne Vorrang, und ohne
+Plan, ihn durchlaufen zu lassen.
+
+## Gemessen 06.09.2026: ADN-Adressen ohne Serienkennung — und zwei widerlegte Annahmen
+
+**Was gebaut wurde.** 65 der 135 ADN-Verweise zeigen auf die alte Domain
+`animationdigitalnetwork.de/video/<slug>`. Eine solche Adresse trägt keine
+Serienkennung, und der Namensteil ist teils französisch
+(`50-nuances-de-gras` für „Plus-Sized Elf") — `beurteileAdnVerweis` steigt dort
+aus, obwohl die Serie im Archiv liegt und ADN je Folge sagt, ob es sie auf
+Deutsch gibt. **48 von 135 ADN-Verweisen bekamen deshalb kein Urteil aus dem
+Archiv, 33 davon allein aus diesem Grund.**
+
+Die Kennung wird jetzt nachgeschlagen: aus dem Katalog (er trägt je Serie eine
+`anilistId` — löst 33 der 65 auf) und aus `data/adn-adressen.yaml` für die
+sechs Serien, die der Katalog gerade nicht führt. Vor dem Einbau simuliert:
+**38 Adressen berichtigt, danach 31 belegte Ja und 6 belegte Nein**, genau einer
+bleibt offen (Chained Soldier, Serie gemischt mit 1 von 24 Folgen).
+
+**Zwei Annahmen vom selben Vormittag sind dabei gefallen**, beide meine eigenen:
+
+| Annahme | Messung |
+|---|---|
+| „Die alten Adressen antworten mit 403, also sind sie tot" | Die **neuen** antworten genauso — beide Domains liegen hinter CloudFront und weisen jeden Aufruf ohne Browser ab, selbst `robots.txt` |
+| „ADNs deutscher Katalog führt 96 Serien, vier davon fehlen darin" | `/show?limit=100` gibt 96 zurück und meldet `total: 252`; über drei Seiten gesammelt sind es **184**. Alle vier stehen darin |
+
+Die vier `null`-Einträge, die aus der zweiten Annahme entstanden waren, sind
+entfallen — sie hätten vier Verweise entfernt, für die es keinen Beleg gibt.
+
+**Was der Bau daraus gemacht hat** (zwei Läufe, 07:11 und 07:13 UTC):
+
+| | vorher | nachher |
+|---|---|---|
+| ADN-Verweise | 135 | 129 (sechs ohne deutsche Tonspur entfernt) |
+| ohne Sprachangabe | 12 | **6** |
+| auf der alten Domain | 65 | **15** |
+| mit Staffelangabe in der Adresse | ~0 | **41** |
+
+**Eine Zahl aus der Simulation ist so nicht eingetreten**, und das gehört
+dazu: Die Schärfung um die Staffel sollte „25 weitere Urteile" bringen —
+gemessen wurde das gegen `beurteileAdnVerweis` allein. Im Bau fragen aber nur
+Verweise **ohne** `dub`, und die meisten dieser 25 trugen ihr Urteil längst aus
+einer anderen Quelle. Ihr wirklicher Gewinn ist ein anderer und trotzdem echter:
+41 Verweise führen jetzt auf die richtige **Staffel** statt auf die Serienseite.
+
+**Die sechs, die offen bleiben**, sind es aus einem Grund, den kein Code
+auflöst: Fünf JoJo-Einträge zeigen auf Serie 444 (113 von 152 Folgen mit
+`vde`), und keiner von ihnen hat ein ADN-Release, aus dem eine Staffel
+abzulesen wäre. Dazu „Plus-Sized Elf", dessen Kennung in den 184 gesammelten
+Serien nicht steht.
+
+**Was offen bleibt und warum:** 32 alte Adressen lösen weder Katalog noch
+Handliste auf. Es sind fast durchweg Fortsetzungen und Specials, die ADN unter
+**einer** Franchise-Kennung führt (sechs Haikyu!!-Einträge zeigen auf
+`/video/haikyuu`, vier Clannad-Specials auf `/video/clannad`). Die nackte
+Serienadresse brächte dort nichts: Der Befund wäre „gemischt", und welche
+ADN-Staffel unser Eintrag meint, sagt der Verweis nicht. Das ist dieselbe Grenze
+wie bei den fünf JoJo-Verweisen.
+
+## Abgeschaltet 05.09.2026: Die DMARC-Berichte haben ihre Frage beantwortet
+
+Heute Morgen stand hier noch als Aufgabe, dass seit dem 22.08. keine Berichte
+mehr abgelegt sind. Daniels Antwort darauf war eine andere als erwartet: „ich
+hab dmarc emails seit 24.08. jeden tag, wofuer haben wir das gemacht, koennen
+wir das analysieren und abschalten das ich keine emails mehr bekomme?"
+
+**Ausgewertet, was vorliegt** (15 Berichte, 07. bis 22.08.2026, `npm`-frei ueber
+`node tools/dmarc-auswerten.mjs`):
+
+```
+Mails insgesamt: 30
+dkim-Fehler:     0
+spf-Fehler:      0
+Absender-IPs:    ausschliesslich 54.240.3.x / 54.240.6.x (Amazon SES)
+```
+
+Kein einziger Fehlschlag, kein fremder Absender, zwei Mails am Tag aus einer
+einzigen Quelle. Genau diese Zahlen waren am 24.08. die Grundlage fuer den
+Wechsel auf `p=quarantine`, und sie sind seitdem die Antwort geblieben.
+
+**Der Eintrag lautet jetzt `v=DMARC1; p=quarantine`** — ohne `rua=`, gesetzt
+ueber `tools/inwx-dns.mjs --apply` und an drei Stellen nachgeprueft (INWX
+autoritativ, 1.1.1.1, 8.8.8.8).
+
+**Der Schutz bleibt vollstaendig.** `p=quarantine` wirkt beim Empfaenger, nicht
+im Bericht; ohne `rua=` bekommen wir nur nichts mehr erzaehlt. Hier stand
+vorher, die Berichte seien „das einzige Fenster darauf, ob die Politik
+ankommt" — das war zu grosszuegig formuliert: Ob sie veroeffentlicht ist, sagt
+eine DNS-Abfrage in drei Sekunden.
+
+**Und eine Ueberwachung, die haeufiger meldet, als sie etwas zu melden hat, wird
+nicht gelesen.** Dann ist sie schlechter als keine — das ist der eigentliche
+Grund, und er gilt ueber DMARC hinaus.
+
+### Die fehlenden zwoelf Berichte, nachgereicht am 05.09.2026
+
+Daniel hat die Berichte vom 23.08. bis 03.09. aus seinem Postfach abgelegt.
+Damit ist die Frage, die seit dem 24.08. offenstand, beantwortet — und zwar
+positiv:
+
+```
+2026-08-23   3 Mails   p=none         ← letzter Bericht unter der alten Politik
+2026-08-24   1 Mail    p=quarantine   ← die Umstellung ist angekommen
+…
+2026-09-03   2 Mails   p=quarantine
+
+Zeitraum 23.08.–03.09.: 12 Berichte, 23 Mails, 0 dkim-Fehler, 0 spf-Fehler
+Kette lueckenlos, alle Absender-IPs aus dem SES-Bereich
+```
+
+**`policy_published` springt genau am 24.08. auf `quarantine`** — dem Tag der
+Umstellung. Die Empfaenger wenden die schaerfere Politik also an, und in zwoelf
+Tagen darunter ist keine einzige eigene Mail durchgefallen.
+
+Ueber den ganzen Bestand von **28 Berichten** (07.08. bis 04.09., 55 Mails):
+**null Fehlschlaege, kein fremder Absender**. Ein Tag fehlt in der Kette, der
+19.08. — aus der Zeit vor der Umstellung.
+
+Der Bericht fuer den 04.09. kam am 05.09. um 12:17 nach, also nach dem
+Abschalten: 2 Mails, `p=quarantine`, keine Fehler. Google hatte den Bericht
+schon erzeugt, bevor der Eintrag ohne `rua=` gelesen wurde — **ein bis zwei
+Nachzuegler sind normal**, danach ist Ruhe.
+
+Die Berichte liegen unter `__assets/notes/dmarc-berichte/` (29 Dateien),
+auszuwerten mit `node tools/dmarc-auswerten.mjs <ordner>`.
+
+## Entschieden 05.09.2026: Der Kachel-Titel steht unter dem Cover
+
+Die Frage stand seit dem 03.09.2026 unter „Zu besprechen": Zwei Drittel der
+Titel in der Wochenansicht endeten mit „…", und die naheliegende Antwort war
+eine zusätzliche Textzeile. Daniels Vorgabe zur Entscheidung: „zeig problem und
+lösung visuell bevor ich mich entscheide."
+
+Gemessen mit `npm run bild:kachel` (1280 × 900, dunkles Thema, 42 sichtbare
+Titel):
+
+```
+Titel neben dem Cover, drei Zeilen   20 gekappt   134 px   ← Stand davor
+… vier Zeilen                         6 gekappt   152 px
+… ohne Grenze                         0 gekappt   170 px
+… Icons neben den Titel              35 gekappt   134 px   ← Sackgasse
+Titel über die volle Kachelbreite     0 gekappt   136 px   ← gebaut
+```
+
+**Der Engpass war die Breite, nicht die Zeilenzahl.** Neben dem Cover hatte der
+Titel 85 von 153 Pixeln, also rund zehn Zeichen je Zeile — jede weitere Zeile
+kostete 18 px Höhe und brachte zehn Zeichen. Über die ganze Kachel sind es
+doppelt so viele je Zeile, und kein Titel ist mehr gekappt.
+
+Zwei Nebenwirkungen gehören dazu:
+
+- **Das Cover ist von 56 auf 40 px geschrumpft.** Sonst gäbe die Kopfzeile die
+  Höhe der oberen Reihe vor, und die Kachel wäre 152 px hoch geworden — genau
+  der Preis, den die vierte Zeile gekostet hätte.
+- **Die Obergrenze steht jetzt bei vier Zeilen** statt drei. Sie greift kaum
+  noch; sie ist der Riegel gegen einen Ausreißer wie „My Gift Lvl 9999
+  Unlimited Gacha: Backstabbed in a Backwater Dungeon, I'm Out for Revenge!".
+
+Die gemessene Sackgasse bleibt im Werkzeug stehen: Die Icons neben den Titel zu
+rücken kostet mehr Breite, als die frei werdende Zeile einbringt — 35 gekappte
+Titel statt 20.
+
+## Recherche 20.09.2026: JustWatchs gti trifft selten die Seite, die wir führen
+
+Gegenprobe an den 38 gtis, die die Erweiterung bisher von Amazon-Seiten abgelesen hat
+(`data/amazon-gti-belegt.json`, Stand 20.09.2026). 15 davon lassen sich einem Titel im Bestand
+zuordnen; für sie nennt JustWatch (`data/justwatch-audio.json`) diese gtis:
+
+| Ergebnis | Zahl |
+|---|---|
+| JustWatch nennt dieselbe gti | 2 |
+| JustWatch nennt nur andere gtis | 6 |
+| JustWatch nennt für den Titel gar kein Amazon-Angebot | 7 |
+
+Die sechs Abweichungen sind keine Fehler von JustWatch, sondern **andere Ausgaben desselben
+Werks**: Air Gear (Seite 4825705e… gegen JustWatch 66c97aeb…), KonoSuba 2 (Kanal- und
+Werbe-Ausgabe gegen die Staffel-1-Adresse der Reihe), JoJo (drei gtis für eine Sammelseite),
+Horimiya, Magilumiere. Eine automatische Umstellung würde den Besucher also oft auf eine andere
+Ausgabe schicken — genau der Fall, den Daniels Gegenprobe am 17.09. an „Pokémon Weiß → Schwarz"
+gefunden hat.
+
+**Schluss:** Die Beschränkung auf abgelesene gtis bleibt. Neue gtis kommen mit jeder Meldung
+aus der Erweiterung dazu (seit 4.20.25); eine breite Umstellung über JustWatch ist damit vom
+Tisch, bis es einen Weg gibt, Ausgabe gegen Ausgabe zu vergleichen.
+
+## Recherche 19.09.2026: IMDb und MAL als Hilfe für Staffel-/Teil-Entscheidungen
+
+Anlass: Grisaia Stargazer und Fushigi Yugi OVA — Daniel musste den Werkaufbau selbst über
+aniSearch, IMDb und MAL klären.
+
+- **IMDb: nur verlinken, nie abrufen.** `imdb.com/robots.txt` (gelesen 19.09.2026) beginnt mit:
+  „Use of any device, tool, or process designed to data mine or scrape the content using
+  automated means is prohibited without prior written permission from IMDb.“ Die Datensätze
+  unter datasets.imdbws.com sind nur für nichtkommerzielle Nutzung lizenziert. Neu bewerten nur
+  mit schriftlicher Erlaubnis oder Lizenz.
+- **Die IMDb-Kennung gibt es trotzdem legal:** Wikidata führt sie als P345 und die MAL-Kennung als
+  P4086 (CC0, SPARQL-Abfrage). Damit wird aus unserer `malId` ein IMDb-Link, ohne IMDb anzufassen.
+  Noch nicht gebaut.
+- **MAL:** `malId` steht für fast jeden Titel schon im Datensatz (aus AniList `idMal`). MALs
+  robots.txt sperrt die Titelseiten nicht; gebraucht wird ohnehin nur der Link.
+
+## Recherche 17.09.2026: Veralten die Netflix-Belege „nur Erinnern"?
+
+138 Handbelege (131 vom 22.08.) sagen „Titelseite zeigt nur „Erinnern", keine Folge abspielbar". „Erinnern" kann bei Netflix „kommt bald" heißen, also wäre eine Wiedervorlage denkbar. Gemessen: JustWatch kennt 33 dieser Titel und nennt für **keinen** ein Netflix-Angebot (`data/justwatch-audio.json`, Abrufe ≤ 28 Tage alt). **Entschieden: keine Wiedervorlage.** Neu bewerten, wenn JustWatch für einen dieser Titel ein Netflix-Angebot führt oder Daniel eine Netflix-Ankündigung meldet.
+
+## Recherche 17.09.2026: Wie werden tote Amazon-Adressen automatisch erkannt?
+
+Anlass: 618 Amazon-Adressen stehen in `data/link-check.json` auf `unklar`. Gemessen:
+
+| Gruppe | Zahl | Stand |
+|---|---|---|
+| Prime-Verweise im Datensatz | 229 | 227 davon mit Handbeleg zur selben ASIN |
+| Kaufwege (meist DVD) | 241 | — |
+| aniSearch-Kandidaten außerhalb des Datensatzes | 148 | nur für Prime-Suchadressen gebraucht, davon gibt es 0 |
+
+Geprüfte Wege:
+
+| Weg | Ergebnis | Urteil |
+|---|---|---|
+| Linkprüfung aus der Cloud | 14.09.: 2 Befunde, dann Sperre | trägt nicht |
+| Linkprüfung von hier | 07.09.: 552 Befunde, Sperre nach ~660 | trägt, aber automatischer Abruf gegen Amazons robots.txt (19 Bots namentlich gesperrt) |
+| primevideo.com als zweiter Host | robots.txt sperrt dieselben KI-Bots; die tote `B0CGRCT6M2` liefert dort 200 mit 1,9 MB | verworfen: kein Tot-Signal |
+| JustWatch (`data/justwatch-audio.json`) | kennt 71 der 229 Prime- und 36 der 241 Kauf-Titel; Kaufangebote tragen `/dp/<ASIN>` (10 Treffer), Prime-Angebote nur `watch.amazon.de/detail?gti=amzn1.dv.gti.<uuid>` | als Lebenszeichen brauchbar, Abdeckung zu klein |
+| **PoC JustWatch als Lebenszeichen** (`tools/poc-justwatch-amazon.mjs`, Bericht `docs/poc-justwatch-amazon.md`) | 80 Adressen mit gemessenem Befund (40 lebt, 40 tot): unsere ASIN steht bei JustWatch **0-mal**; ein Amazon-Angebot zum Titel gibt es bei 38 lebenden und 32 toten | **verworfen** — trennt lebend und tot nicht |
+| **PoC gti-Brücke, erster Befund** | JustWatch-Link für Cowboy Bebop (Film) landet auf `/gp/video/detail/0TECWCCSSY5EN20G3JCF6GTI5X`, unser Bestand kennt `B0B8TR93HR` | Amazon führt zwei Kennungsformen je Titel; die Brücke trägt nur, wenn eine Seite beide samt gti nennt. Gemessen in Daniels Sitzung: Seite nennt `pageTitleId` `B0B8TQBBS6` (dritte Form) und im eigenen Kopf `catalogId` = die JustWatch-gti — **exakter Treffer**. Die Brücke hängt also an `headerDetail[pageTitleId].catalogId`, nicht an Kennungen in der Adresse und nicht an gtis im ganzen Quelltext (dort auch Nachbarn). Zeilen 2–9 offen |
+| Amazon-Seite nennt gti | ja, `amzn1.dv.gti.<uuid>` steht mehrfach im Quelltext (auch für Nachbarn) | Brücke ASIN ↔ JustWatch möglich, eigene gti muss die Erweiterung sicher bestimmen |
+| Amazon PA-API 5 | offiziell, braucht Partnerprogramm mit Umsätzen | verworfen: macht die Seite kommerziell, dann fällt die RTL-TV-Quelle weg |
+| Keepa-API | ab 49 €/Monat für 20 Abfragen je Minute (laut revenuegeeks.com, Keepas Preisseite nicht maschinenlesbar), monatlich kündbar, 1 Abfrage je ASIN; gibt es die ASIN nicht, kommt ein leeres Ergebnis. **Laut Doku keine digitalen Produkte** — Prime Video fällt raus (keepa.com/api-docs/product.html, 17.09.2026) | taugt nur für die 241 Kaufwege; Keepa beschafft seine Daten selbst per Abruf bei Amazon |
+
+## Beantwortet 05.09.2026: Welche Pokémon-Folgen Prime nicht führt
+
+Die Frage stand seit dem 30.08.2026 offen und war zuletzt als „Daniel muss die
+zwölf Bände neu melden" geführt. Das war falsch: Die Antwort lag im Verlauf von
+`data/prime-zugeordnet.json`, den derselbe Fehler weggeworfen hat, der heute
+behoben wurde. Zwanzig Zuordnungen zu AniList 97634 stehen darin, acht davon mit
+Folgennummern.
+
+```
+B0CNK77G6V   12 Zeilen   44–55    vollständig
+B0CNCLPCC7   12 Zeilen   56–68    es fehlt 64
+B0CH8VTJ4L   11 Zeilen   69–80    es fehlt 72
+B0CMDHVHJR   12 Zeilen   81–92    vollständig
+B0CNVT63CJ   13 Zeilen   93–105   vollständig
+B0CJS1BYWF   13 Zeilen   106–118  vollständig
+B0CNY27NKX   13 Zeilen   119–132  es fehlt 129
+B0CKFGYQ5P   13 Zeilen   133–146  es fehlt 139
+```
+
+**Vier Nummern: 64, 72, 129, 139.** Und sie sind keine Zuordnungsfehler — in
+allen acht Bändern ist die Zahl der gemeldeten Zeilen **gleich** der Zahl der
+zugeordneten. Es ist also keine Folge beim Abgleich durchgefallen; die vier
+Nummern kommen in den Bändern schlicht nicht vor. Das ist genau Daniels Maßstab
+vom 30.08.2026: „so wie sie gemeldet wurden so führt sie amazon."
+
+**Was weiterhin offen ist: die Folgen 1 bis 43.** Für sie gibt es keine
+Folgendaten — gemeldet wurde dazu nur `B0CNGQNN2P` („alle 11 Folgen geprüft",
+laut Adresse Staffel 2001) und zwölf Einzelfolgen ohne Nummer. 99 der 146
+Nummern sind damit belegt, 4 als Lücke ausgewiesen, 43 unbekannt.
+
+**Nicht in den Datensatz geschrieben**, und das ist Absicht: `dubRanges` kennt
+nur `dub: true/false`, also „dort, aber ohne Deutsch". Eine Folge, die es dort
+gar nicht gibt, ist etwas anderes — genau die Unterscheidung, die dieses Projekt
+zwischen `dub: false` und `available: false` zieht. Sie je Folge auszudrücken
+gibt der Datensatz nicht her.
+
+## Gemessen 05.09.2026: Der Briefkasten leerte sich nicht, und die Zuordnungen hielten einen Bau
+
+Zwei Funde beim Aufräumen des Rückstands, beide still, beide mit derselben
+Bauart: Eine Datei wird überschrieben oder ein Eintrag nicht abgehakt, und was
+verlorengeht, meldet niemand.
+
+**Der Briefkasten füllte sich mit Meldungen, die niemand abhaken konnte.**
+`fetch-pruefungen.ts` hakt am Ende nur ab, wer etwas geschrieben hat. Eine
+Kanal-Meldung ohne Aussage schreibt bewusst nichts — und blieb deshalb liegen.
+Heute lagen dort 16 Meldungen auf 13 Adressen, die älteste seit Wochen; jeder
+Lauf holte sie, ließ sie aus, ließ sie liegen. Sie sind jetzt abgehakt: Die
+Entscheidung hängt an drei Dingen, von denen sich keines zurückdreht
+(Kanal-Titel, Adresse bekannt, kein Folgenbefund).
+
+**Die Zuordnungen aus den Rohfolgen hielten genau einen Bau.**
+`fetch-rohfolgen.ts` schrieb `data/prime-zugeordnet.json` mit den Zuordnungen
+des laufenden Laufs und hakte den Briefkasten danach ab. Was gestern
+zugeordnet war, war heute weg — der Verlauf der Datei zeigt 0, 1, 2, 0, 1
+Adressen, nie mehr. Am 04.09. standen dort die zwölf deutschen Takagi-Folgen,
+am 05.09. nicht. Seitdem wird der alte Stand gelesen und zusammengeführt,
+Schlüssel ist `url#asin`.
+
+**Wiederhergestellt wird der Verlauf trotzdem nicht — er ist zur Hälfte Müll.**
+Über alle Fassungen zusammen stehen dort 3.136 Adressen. Gemessen, was ein
+Einspielen bewirken würde: 2.023 neue Prime-Verweise auf 209 Titeln, davon 105
+Titel mit **fünf oder mehr** Adressen — 52 für „Niklaas, ein Junge aus
+Flandern", 51 für „Fullmetal Alchemist", 50 für „Digimon Frontier". Das ist
+eine Adresse je **Folge**, aus der Zeit vor dem 02.09.2026, als Prime jeder
+Folge eine eigene ASIN gab und die Gruppierung ihr folgte.
+
+Dieselbe Zahl ist der Maßstab für den Deckel, der jetzt in `build.ts` steht:
+Ein Titel bekommt aus Meldungen höchstens **zwei** Prime-Verweise. Zwei sind
+die Wege, die ein Besucher unterscheiden kann — im Abo und zum Kauf, und genau
+danach gruppiert die Oberfläche. Ein dritter beantwortet keine Frage, die der
+zweite offen gelassen hätte.
+
+## Archiv 05.09.2026: Die elf Gal-Folgen sind angekommen — drei Riegel lagen davor
+
+- **26.09.2026 archiviert:** Migrationen 037/038 sind eingespielt (`wrangler d1 migrations list` → keine offen). Prime-Durchgang in Frames: erster echter Lauf 07:46–07:48 UTC, vier Titel, 21 Seiten gemeldet in 101 s, alle im Briefkasten angekommen; sah für Daniel wie hängend aus → 4.23.1 zeigt den Fortschritt am Knopf und holt am Ende den Briefkasten neu.
+
+- **26.09.2026 archiviert:** PR #189 (gemerged 23.09.), Issues #214/#218 (geschlossen 23.09.) — aniSearch-Sperre durch Kennung Variante B (11c5ea19) behoben, stumme Quelle macht den Bau nicht mehr rot (599d0963). Härtung „deploy.yml prüft gezielt den Commit-Schritt" bleibt optional (Kommentar in #218).
+
+Die Aufgabe hieß „Prime-Adresse ohne jeden Titel" und ihre Notiz war an zwei
+Stellen falsch: Der Titel steht sehr wohl im Bestand (AniList 97863, „My First
+Girlfriend Is a Gal"), und das gleiche Datum aller elf Folgen war nicht der
+Grund, warum nichts ankam. Er war der dritte von drei Riegeln, und jeder einzelne
+hätte die Meldung allein aufgehalten.
+
+**Der erste: der Name.** Daniel meldet mit eigenem Zusatz — „My First
+Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)". Beide Namensstufen in
+`fetch-rohfolgen.ts` prüfen, ob ein **Bestandstitel** mit dem gemeldeten Namen
+beginnt (der Fall „Das Dschungelbuch" gegen „Das Dschungelbuch: Die Serie"); hier
+ist die Meldung die längere Seite. Geschnitten wird deshalb am Gedankenstrich —
+und der ist sicher, weil ihn **null** der 2.766 Einträge in einem ihrer drei
+Namen führt. Beim Bindestrich wäre er es nicht: 448 tun es.
+
+**Der zweite: die Folgenzuordnung.** Prime vergibt beim Kauftitel eigene
+Folgennamen („1. Mein erstes Mal mit einer Gal", „2. Erstes Date") und setzt bei
+allen elf den 12.07.2017; aniSearch führt dieselbe Staffel als „Der erste
+Kniefall", 12.07. bis 13.09. Weder über Namen noch über Daten ist da etwas
+zuzuordnen — das ist kein Fehler, es sind andere Texte. Die Frage dieses
+Projekts hängt aber nicht daran: Elf Zeilen, jede mit `[„Deutsch"]`. Der Beleg
+wird jetzt ohne Folgennummer abgelegt, wie beim Einzeleintrag — er gilt dem
+Titel. **Zwei Bedingungen halten ihn eng:** Kennung, Adresse oder ein **genauer**
+Namenstreffer als Herkunft, und alle Zeilen müssen dieselben Tonspuren nennen.
+
+**Der dritte: der Handbeleg.** `build.ts` stieg aus, sobald es zu Titel und
+Anbieter überhaupt einen Handbeleg gab. Die Belege werden je Titel und Anbieter
+zu **einem** zusammengeführt — Daniels Prüfung des Kanal-Titels vom 30.08.
+(`B0GV5SHH5P`, zehn Folgen, FSK 18) sperrte damit seine eigene Meldung zum
+Kauftitel vom 01.09. (`B0GPD4GNLL`, elf Folgen, FSK 16). Der Kommentar an
+derselben Stelle beschreibt genau diese zwei Ausgaben seit dem 30.08.2026 als
+zwei Wege, die beide in den Datensatz gehören. Jetzt gilt ein Beleg **seiner
+Adresse**; einer **ohne** Adresse ist eine Aussage über den Anbieter und sperrt
+weiter alles.
+
+**Nebenbefund, der sonst still falsch geblieben wäre:** Der Verweis entstand aus
+`eintrag.asin` — und das ist bei einer Folgenliste die ASIN der **ersten Folge**
+(`B0GSSL7BMZ`), nicht die der Seite. Die gemeldete Adresse steht im Schlüssel der
+Ablage (`url#asin`) und wird jetzt genommen, wo sie schon eine Titelseite ist.
+
+Im Datensatz stehen seitdem beide Prime-Wege für 97863. Fünf Zusicherungen in
+`check-logic.ts` halten alle drei Stellen fest, in beide Richtungen — die
+Lockerung beim Handbeleg ist die gefährlichere Hälfte.
+
+## Archiv 03.09.2026: aniSearch als zweite Stimme
+
+- **Zwei Reihenteile hießen gleich — in 74 Reihen.** „Staffel 2" stand bei
+  „Schleim" zweimal untereinander, „Bleach: Thousand-Year Blood War" dreimal.
+  Der Unterschied steckt im Originaltitel („2nd Season" gegen „2nd Season
+  Part 2"); `unterscheidenderZusatz` in `shared/titles.ts` holt ihn zurück.
+  Es bleiben 9 Reihen, in denen auch die Originale gleich lauten (Doraemon,
+  Chibi Maruko-chan) — dort gibt es nichts zu unterscheiden.
+
+- **Der Titelabruf hatte einen Titel offen und 1.534 sichtbare übersehen.** Der
+  Jahresfilter („TV/ONA ab 2015") sortierte genau die Formate aus, die in
+  Reihenlisten stehen — Specials, OVAs, Filme. Reihenmitglieder kommen jetzt
+  ohne Ansehen von Format und Jahr dran, und zwar vorn. Gemessen: 2.158
+  Reihenmitglieder aus dem Katalog, 1.964 davon ohne deutschen Namen.
+
+- **2.089 Titel sagen jetzt, seit wann es sie auf Deutsch gibt** — mit Verlag,
+  aus `data/anisearch.json`. Als Feld `deErstausgabe` am Titel, **nicht** als
+  Release: Der erste Anlauf baute 1.985 Kalendereinträge und blähte
+  `titles-core.json` von 554 KB auf 2,7 MB auf. Der Auslöser dafür steht jetzt
+  in `ARCHITEKTUR.md` als Punkt 2b.
+- **Die 227 Titel ohne eigenen Beleg** brauchen keine Handprüfung mehr: Wo
+  aniSearch eine deutsche Fassung führt und wir keine belegen können, steht das
+  jetzt nebeneinander im Kasten — unsere Auskunft oben, die Fremdangabe
+  darunter, mit Quelle im Tooltip.
+- **`OTHER` zählt als Reihenbeziehung**, aber nur bei passenden Namen (acht
+  Zeichen gemeinsamer Wortanfang). Ohne diese Schranke klebten Gundam an
+  Patlabor (9 → 154 Teile), „True Tears" an „Angel Beats!" und „Tamako Market"
+  an „Free!". Der Katalog-Cache trägt seither einen Fingerabdruck der Regel und
+  holt alles neu, wenn sie sich ändert.
+
+## Archiv 03.09.2026: Das Detail-Panel, aufgeräumt
+
+- **Die Crunchyroll-Termine kommen an.** `pipeline/lib/crunchyroll-termine.ts`
+  leitet sie aus `deutscheFolgen[].verfuegbarAb` ab — 229 Termine, die Releases
+  stiegen von 313 auf 535. Die fünf Bedingungen und die chronologische Paarung
+  stehen im Kopf der Datei.
+- **„Wo läuft es" doppelt sich nicht mehr**, weil es den Abschnitt nicht mehr
+  gibt — die Pillen stehen im blauen Kasten.
+
+Neun Punkte aus Daniels Bilderserie vom 02. und 03.09.2026, alle ausgeliefert:
+
+- **Das Reihen-Karussell ist eine Liste geworden** — volle Breite, Cover links,
+  gruppiert in Staffeln / Specials und Filme / noch nicht erschienen, sortiert
+  erst nach Rang, dann nach Datum. Die erste Staffel heißt jetzt „Staffel 1".
+- **Die Anbieter-Pillen stehen im blauen Kasten**, mit Umschalter zwischen
+  Stream und Disc und zwei fest reservierten Reihen. Damit springt der Kopf
+  beim Wechsel zwischen zwei Titeln nicht mehr, und die Überschrift „WO LÄUFT
+  ES" — die nichts sagte, was die Pillen nicht selbst zeigen — ist weg. Damit
+  erledigt sich auch die Dopplung bei Titeln ohne deutsche Fassung.
+- **Der Kopf beantwortet die Streaming-Frage, nicht die Disc-Frage.** Gibt es
+  gar kein Streaming-Release, wird er zur Disc-Auskunft mit Label, Ausgabe und
+  FSK — statt „Wöchentlich freitags · 0 von 24 Folgen" über einer Steelbook-Box.
+- **Der Terminblock steht nur noch, wenn es künftige Termine gibt.**
+- **„Frs" heißt jetzt „freitags"**, **„2 Einträge" heißt „2 Angebote"**.
+- **Die Netflix-Pille bei Staffel 2 ist weg** — und der Grund war ein anderer
+  als vermutet: kein Übertragungsschritt im Bau, sondern ein **Handbeleg vom
+  22.08.2026**, der an derselben Netflix-Seite entstand wie der von Staffel 1.
+  Die Adresse `netflix.com/title/81712068` hängt an zwei unserer Einträge, und
+  die Prüfung hat sie einmal je Eintrag beantwortet — zweimal dasselbe
+  gemessen, zweimal ja gesagt.
+
+  **Die Lehre ist größer als der Titel:** Ein Anbieter-Verweis, der mehreren
+  unserer Einträge zugeordnet ist, belegt immer nur einen davon. Die Gegenprobe
+  über alle Handbelege fand **125 solcher Gruppen** — die allermeisten davon
+  zu Recht: Netflix führt Kuroko's Basketball S1–S3 tatsächlich unter einer
+  Kennung, und dort gilt der Beleg für alle. Welcher Fall vorliegt, steht in
+  Netflix' eigener Staffelliste, die eine Anmeldung braucht — also entscheidet
+  es die Erweiterung, nicht der Bau. Das gehört zu „Sammeln und Zuordnen
+  vollständig trennen".
+
+## Gemessen 05.09.2026: Der Wache-Cron feuert — mit Stärke fünf Stunden Verzug
+
+Am 04.09.2026 stand hier die Beobachtung, `delta-wache.yml` habe **noch nie** von
+selbst gefeuert; beide Läufe bis dahin waren `workflow_dispatch`. Ein Tag
+Beobachtung war zu wenig.
+
+Die Gegenprobe heute:
+
+```
+04.09., 12:07 UTC   schedule           ← der planmäßige Lauf
+04.09., 08:04 UTC   workflow_dispatch  ← von Hand angestoßen
+```
+
+Der Cron steht auf `20 7 * * *` (09:20 Berlin), gefeuert hat er um **14:07
+Berlin** — 4 Stunden 47 Minuten später. Das ist kein Fehler in der
+Konfiguration, sondern dasselbe, was `CLAUDE.md` für den stündlichen Lauf
+festhält: GitHub **verwirft** `schedule`-Läufe bei Last statt sie nachzuholen,
+und öffentliche Repos ohne laufende Zahlung stehen hinten an.
+
+**Kein Umbau.** Ein täglicher Lauf verträgt fünf Stunden Verzug — anders als
+ein stündlicher, der dabei von 24 auf 5 Läufe fällt. Die Wache sieht ohnehin auf
+die letzten 24 Stunden zurück; ob sie das um neun oder um zwei tut, ändert am
+Befund nichts.
+
+**Was daraus für jede Zeitangabe folgt:** „täglich um 09:20" im Kopf der
+Wache-Datei ist die **Absicht**, nicht der Stand. Wer wissen will, wann sie
+zuletzt lief, liest den Zeitstempel in der Datei — er kommt vom Lauf selbst.
+
+## Recherche 04.09.2026: Die leere Unterzeile stammt nicht aus den Daten
+
+Daniel am 04.09.2026 mit Bild: Der graue Kasten links oben über dem Cover stand
+leer. Aufgetreten beim Wechsel zwischen Tabs, nicht wiederholbar.
+
+Die Unterzeile setzt sich aus vier Angaben zusammen — Format, Folgenzahl (ab 2),
+japanisches Jahr, Studio. Leer ist sie nur, wenn **alle vier** fehlen. Gemessen
+über alle drei Bestände, aus denen ein `title` im Panel stammen kann:
+
+| Bestand | Titel | ohne alle vier Angaben |
+|---|---|---|
+| `titles.json` | 2.766 | **0** |
+| `titles-core.json` (Erstaufruf) | 454 | **0** |
+| `ohne-synchro.json` (Katalog) | 15.120 | **0** |
+
+Dazu der Feldvergleich: `titles-core.json` lässt **kein** Feld weg, das
+`titles.json` führt. Der Katalog führt kein `studios`, aber `format`, `episodes`
+und `jpYear` — also nie alle vier leer.
+
+**Damit ist der Zustand aus den Daten nicht erklärbar.** Er kann nur ein
+Renderzustand gewesen sein, und den fängt die Absicherung vom selben Tag: Die
+Unterzeile wird nur noch gezeichnet, wenn mindestens eine der vier Angaben da
+ist. Weiter zu suchen, ohne den Fall wiederholen zu können, wäre Raten.
+
+**Wieder aufgemacht wird der Punkt, wenn Daniel den leeren Kasten erneut sieht** —
+dann mit dem Wissen, dass es an keinem Datensatz liegt.
+
+## Recherche 04.09.2026: Vollständig deutsche Crunchyroll-Blöcke — der Hebel existiert nicht
+
+**Die Vermutung war:** Ist ein Crunchyroll-Block restlos deutsch, ist jede Folge
+darin deutsch — egal wie unser Bestand ihn aufteilt. Damit müssten sich Verweise
+belegen lassen, an denen `beurteileNachFolgennummern` scheitert, weil die Summe
+unserer Folgen nicht der höchsten Crunchyroll-Nummer entspricht (Fall „Schleim":
+Block „Staffel 2" hat 25 von 25 deutsch, unser Bestand teilt in 2×12).
+
+**Gemessen am 04.09.2026** über alle 969 Serien des Crunchyroll-Bestands:
+
+| | |
+|---|---|
+| Verweise ohne Urteil an Adressen mit `katalog: de` | **31** (nicht 40 — die Zahl in der Aufgabe war veraltet) |
+| davon an Adressen mit mindestens einem restlos deutschen Block | 30 an 15 Adressen |
+| **davon sicher belegbar** | **0** |
+
+**Warum null.** Der sichere Schluss braucht keine Zuordnung, aber eine
+Voraussetzung: *alle* Blöcke der Serie müssen restlos deutsch sein — dann ist
+jede Folge deutsch, und es ist gleichgültig, welcher Titel zu welchem Block
+gehört. **Keine einzige der 16 betroffenen Adressen erfüllt das.** An jeder hängt
+mindestens ein Block, der läuft oder untertitelt ist:
+
+```
+free-iwatobi-swim-club      Free! — Iwatobi Swim Club: 0/14 dt, 12 fremd
+fruits-basket               Fruits Basket (2019): 0/25 dt, 25 fremd
+kaguya-sama-love-is-war     Staffel 1: 0/12 dt, 12 fremd
+the-promised-neverland      Staffel 2: 0/12 dt, 12 fremd
+that-time-i-got-…-slime     Staffel 4: 16/19 dt, 1 fremd
+rezero-…                    Staffel 4: 11/13 dt
+sword-art-online            Alicization: 24/25 dt, 1 fremd
+nierautomata-ver11a         24/25 dt
+```
+
+**Der naheliegende Ausweg ist gemessen falsch.** Eine Präfix-Kette — Blöcke der
+Reihe nach, unsere Titel nach Jahr, solange die Summen aufgehen — belegt genau
+**drei** Titel, und mindestens einer davon ist falsch: „Sword Art Online: Extra
+Edition" ist ein **Special** mit einer Folge und steht in keinem Block; die Kette
+schob es in „Sword Art Online (25)". Das ist wörtlich der Fehler, vor dem
+`CLAUDE.md` warnt („Specials und Filme sind ausgenommen … sie stehen in keinem der
+Blöcke"). Der zweite Treffer, „Kaguya-sama: Love Is War (12)", wäre über den Block
+der **zweiten** Staffel belegt worden — richtig nur durch Zufall gleicher
+Folgenzahl.
+
+**Entscheidung: nicht gebaut.** Drei Urteile, davon eins nachweislich falsch, gegen
+einen Umbau an der Stelle mit den drei teuersten dokumentierten Fehlschlägen des
+Projekts. Die 31 offenen Verweise sind keine ungenutzten Belege, sondern echte
+offene Fragen — dort steht ein Block, der gerade läuft, oder einer ohne deutsche
+Fassung.
+
+**Wann es sich neu zu bewerten lohnt:** Wenn eine der acht Adressen oben ihre
+laufende Staffel abschließt und der Block danach restlos deutsch ist. Dann greift
+die sichere Form ohne jede Zuordnung. Bei „Schleim" ist das die Staffel 4.
+
+## Recherche 31.08.2026: Deutsche Titel für Anime ohne belegte Synchro
+
+**Anlass** (Daniel, 16:48): „Ein Landei aus dem Dorf vor dem letzten Dungeon sucht das
+Abenteuer in der Stadt" ist auf Prime zu sehen, in unserer Datenbank aber nicht zu finden.
+Der Titel steht als AniList 112649 in `ohne-synchro.json` — **ohne deutschen Namen**, weil
+deutsche Titel bisher nur für die 2.764 kuratierten Titel geholt werden und AniList selbst
+keine führt.
+
+### Gemessen, nicht geschätzt
+
+| Quelle | deutscher Titel für 112649 | Zuordnung | Tempo |
+|---|---|---|---|
+| AniList | — | — | — |
+| aniSearch (14694) | **„Ein Landei aus dem Dorf vor dem letzten Dungeon sucht das Abenteuer in der Stadt"** | ID-Brücke aus `anime-offline-database`, **11.609 von 15.119 Titeln (77 %)** | ein Abruf je Titel, 2 s Takt → **6,4 Stunden** |
+| TMDB (100825) | **derselbe Titel** | nur über die Namenssuche — **keine** ID-Brücke, TMDB fehlt in der Offline-Datenbank | **28,2 Titel/s gemessen → 8,9 Minuten** für alle 15.119 |
+
+### Warum TMDB trotz des Tempos nicht allein trägt
+
+Stichprobe über 50 Titel (jeder 300. der Liste, `search/tv?language=de-DE`):
+
+- **28 ohne Treffer** (56 %) — vor allem chinesische Produktionen und Specials
+- **19 mit abweichendem Namen**, davon aber nur ein bis zwei echte deutsche Titel
+  („A Condition Called Love" → „Ein Gefühl namens Liebe"). Der Rest sind Originalnamen
+  (地灵曲, 妖怪ウォッチ♪) oder **Falschtreffer**: „Dream" → „Traum Studios".
+- **3 gleich**
+
+Ein Falschtreffer bringt einen erfundenen deutschen Titel in den Bestand, und niemand sieht
+ihm an, dass er falsch ist. Die Namenssuche ist damit als alleinige Zuordnung unbrauchbar.
+
+### aniSearch als Titelquelle — was die Messung wirklich zeigt
+
+18 neuere Serien (2021+) aus `ohne-synchro.json` über die ID-Brücke geholt: **10 weichen vom
+AniList-Titel ab, 8 sind gleich.** Die Abweichungen sind aber überwiegend Schreibvarianten
+(„Fate/strange Fake" → „Fate/Strange Fake", typografische Apostrophe) und Staffelschreibweisen
+(„Season 2" → „Staffel 2"). Echte deutsche Titel liefert aniSearch dort, wo es sie gibt —
+beim Landei-Beispiel exakt den, den auch Prime zeigt.
+
+**Das ist kein Widerspruch zu Daniels Urteil, sondern seine Bestätigung mit Zahlen:** aniSearch
+ist die bessere Quelle, weil es überhaupt deutsche Titel führt und über eine belastbare
+ID-Brücke erreichbar ist. Nur ist die Ausbeute kleiner als die 15.119, weil die meisten dieser
+Titel nie einen deutschen Namen bekommen haben.
+
+### Entscheidung
+
+Empfohlener Weg: **aniSearch über die ID-Brücke**, TMDB nur als Gegenprobe für Titel, bei denen
+aniSearch keinen Namen führt — und nur, wenn der TMDB-Treffer über eine ID kommt, nie über die
+Namenssuche allein. Der Lauf gehört in die Nachtläufe, nicht in einen einmaligen Sturmlauf:
+aniSearch hat am 09.08.2026 schon einmal die IP gesperrt.
+
+Offen, bis Daniel entscheidet: ob die 6,4 Stunden Abrufzeit über mehrere Nächte verteilt werden
+oder ob nur die Titel drankommen, die bei einem Anbieter tatsächlich laufen (rund 700 statt
+11.609 — das wäre in einer Nacht durch).
+
+### Nacht vom 29. auf den 30.08.2026: YouTube-Tonspur und Disc-Termine
+
+Zwei Wege, die im Haus lagen und nicht zu Ende gegangen waren.
+
+**YouTube: die Angabe stand da und wurde nicht gelesen.** `youtube-befunde.json`
+trägt seit dem 23.08. je Adresse `audioDeutsch` — YouTubes eigene Angabe „Audio:
+Deutsch" aus der Videoseite. `build.ts` las aus derselben Datei `kanal` und
+`kaufAngebot`; das Feld daneben las niemand. Dazu holte der 401-Zweig des
+Prüflaufs gar keine Tonspur, obwohl er die Seite ohnehin lädt — und genau die
+Kauf- und Leihtitel bei YouTube Movies antworten mit 401.
+
+| | vorher | nachher |
+|---|---|---|
+| YouTube-Verweise ohne Urteil | 22 | **16** |
+| Verweise ohne Urteil gesamt | 181 | **175** |
+
+Gegenprobe über `check:quellen`: 40 YouTube-Urteile gegen die Handprüfung,
+**100 % einig**. Belegt wurden unter anderem FF7 Advent Children, Tokyo
+Godfathers, Volcanion, Your Name und Fireworks.
+
+Playlists (`?list=` ohne `v=`) haben kein Audio-Menü; der Lauf geht dort jetzt
+eine Ebene tiefer zum ersten Video. Brachte diesmal nichts, kostet nichts.
+
+**Disc-Termine: der Auszug war zwei Wochen alt.** `data:disc-proposals` liest
+das aniSearch-Archiv und schlägt künftige deutsche Ausgaben vor. Der letzte Lauf
+stammte vom 13.08. — aus einer Zeit, in der 1.660 Archivdateien fehlten. Sie
+wurden heute Nachmittag nachgeholt; derselbe Code findet jetzt:
+
+| | 13.08. | 29.08. |
+|---|---|---|
+| künftige deutsche Ausgaben | 94 | **160** |
+| Termine im kuratierten Bestand | 14 | **57** |
+
+Das trifft die größte Lücke: 1.161 Titel mit belegter Synchro ohne einen
+einzigen Kalendereintrag. `PLAN.md` nannte hier „wenig zu holen" — das gilt für
+Streaming-Ankündigungen und stimmt dort weiter. Für Discs lag die Quelle im
+Haus, nur ihr Auszug war alt.
+
+**Dabei gelernt:** Ein `data-date` auf den 31.12. ist bei aniSearch kein Termin,
+sondern ein Jahr ohne Tag. Vier Vorschläge gingen darauf zurück, darunter „Mein
+Nachbar Totoro" — der wäre damit am Silvestertag erschienen. Sperre steht in
+`extract-disc-dates.ts`.
+
+**Und ein Fehlgriff:** `npx prettier --write pipeline/build.ts` formatierte die
+Datei in 2.840 Zeilen um, für eine Änderung von zwölf — das Projekt hat keine
+Prettier-Konfiguration, `npx` wendet die Voreinstellung an. Zurückgenommen,
+Änderung von Hand wiederholt (34 Zeilen), Regel in `CLAUDE.md` notiert.
+
+**Offen geblieben:** Prime 76, Crunchyroll 36, Netflix 32, ADN 12. Netflix ist
+über die Streaming Availability API ausgereizt — die 32 sind Titel, die sie für
+Deutschland nicht führt.
+
+### Erledigt am 29.08.2026
+
+**Vormittag — der Weg von der Meldung bis in den Datensatz:**
+
+| | Was daraus wurde |
+|---|---|
+| **Phase 1–3 des Autonomie-Plans** | Zuordnung über Folgentitel und Erstausstrahlung statt Folgennummer. `check:folgen` stellt 6.887 Folgen mit **um zwölf verschobener** Nummerierung nach: 99 % richtig, **0 falsch** |
+| **aniSearch-Folgenlisten** | 150 Titel, 8.702 Folgen, 7.109 mit deutschem Titel |
+| **Phase 5** | 7 Fortsetzungen raus, 19 wackelige TMDB-Treffer mit Vermerk ans Ende, Liste nach Aussicht sortiert |
+| **Worker: `titel_id` und Pagination** | Die Spalte lag seit Migration 018 da und wurde nie ausgeliefert; `LIMIT 5000` verschwieg 620 von 5.620 Rohfolgen. Beides behoben, Worker ausgeliefert |
+| **Rohfolgen werden abgehakt** | Briefkasten von 5.633 auf 958. 4.464 Dubletten aus dem INSERT-ohne-DELETE-Fehler weg — vor dem Wegwerfen gegengeprüft: 1.169 Gruppen, **null** mit abweichendem Inhalt |
+| **Suchadressen führen zurück** | Alle 79 offenen Suchadressen lösen sich über den Suchbegriff auf. Zugeordnete Adressen: 3 → 43 |
+
+**Nachmittag — acht Fehler, die Daten oder Daniels Zeit gekostet haben:**
+
+| | Befund |
+|---|---|
+| **Kanal-Titel erzeugten ein Nein** | 239 Handbelege tragen „⚠ Kanal", **19 davon ein `dub: false`** — und ein Nein entfernt den Verweis. „Fullmetal Alchemist" verlor so seinen letzten Weg, obwohl derselbe Eintrag sagt, dass die Angabe kein Beleg ist |
+| **Ein Beleg für Netflix sperrte Prime** | Der Vorschlagsfilter arbeitete je Titel statt je Titel+Plattform: 27 von 83 wegelosen Titeln mit Sprechrollen fielen heraus |
+| **Favoriten ohne Termin verschwanden** | Von fünf gesetzten Favoriten erschienen zwei — der Rest steht im Vollbestand, nicht im Kern |
+| **„zuletzt" kam aus dem Kalender** | One Piece stand als „zuletzt 20.05.2019"; die deutsche Fassung lief bis 25.03.2026 |
+| **1.660 Archivdateien waren verloren** | Und der Lauf meldete „nichts nachzuladen" — die Warteschlange fragte nur nach dem Alter, nicht danach, ob die Datei noch da ist |
+| **Elf Datenläufe standen in keiner Automatik** | Darunter `data:vorschlaege`, aus dem die Prüfliste entsteht: Die Liste wurde stündlich gebaut, ihre Grundlage nie |
+| **Sieben Arbeitslisten wurden weggeworfen** | `data:dub-checks` schreibt neun, zwei standen in `commit-data.sh`. `07-primevideo.md` nannte **588 offene Verweise**, tatsächlich 65 |
+| **Daniels Netflix-Liste war leer** | 42 Titel warteten darauf. Der Filter verlangte, dass MOTN den Titel *vergeblich gesucht* hat — das sagt aber nichts über die Tonspur |
+
+**Betriebsstörungen, beide behoben:**
+
+- Ein Wochenlauf-Schritt hing **1 Stunde 50 Minuten** an AniLists Rate-Limit und
+  legte über die gemeinsame Concurrency-Gruppe den ganzen Datenbau still. Kein
+  Lauf hatte `timeout-minutes`; der ANN-Schritt hatte als einziger kein
+  `--limit`. Beides gesetzt.
+- Ein laufender Datenlauf hat eine Korrektur überschrieben (er committet den
+  Stand von seinem Start). `check:logic` hat es zwanzig Minuten später gemeldet
+  — der Beleg dafür, dass zu jeder Datenkorrektur eine Zusicherung gehört.
+
+**Abend — der Ertrag des Tages:**
+
+| | früh | abends |
+|---|---|---|
+| **Titel ganz ohne Weg** | 1.041 | **498** |
+| **davon mit belegter Synchro** | 693 | **277** |
+| Titel mit Disc-Weg aus dem Archiv | 0 | **545** |
+| aniSearch-Archivdateien | 956 | **2.616** (vollständig) |
+| Verweise mit Urteil | 1.692 | **1.715** |
+| Verweise ohne Urteil | 193 | **178** |
+| davon Crunchyroll | 60 | **30** (nach dem laufenden Bau: 22) |
+
+**Die größte inhaltliche Lücke hat sich mehr als halbiert** — ohne eine einzige
+neue Quelle. Beide Funde lagen im eigenen Haus: der Veröffentlichungs-Abschnitt
+im aniSearch-Archiv, und 1.660 verlorene Archivdateien, die der Abruf nicht
+bemerkte, weil seine Warteschlange nur nach dem Alter fragte.
+
+**Und für die 277, die bleiben, sagt die Seite jetzt mehr:** „Kein Bezugsweg
+bekannt. Eine deutsche Fassung gab es — die Sprecher sind belegt." Wer das
+liest, sucht gebraucht statt weiter bei den Streamingdiensten.
+
+### Crunchyroll: 34 von 56 Fragen ohne Daniel beantwortet
+
+Auf seine Frage „wieso kannst du dann nicht alle fragen selbst lösen?" hin
+gemessen — und der Schluss war richtig. Vier Wege, alle neu:
+
+| Weg | gelöst |
+|---|---|
+| **Blockketten** — ein Block deckt mehrere Cours (Dr. STONE „Season 3" = New World + Cour 2) | 5 |
+| **Suche ohne `type=series`** — Filme liegen als `movie_listing` | 8 |
+| **Eigene Filmreihen** — „Fairy Tail Movies" mit einem Block je Film | 5 |
+| **Folgen innerhalb der Serie** — die Detektiv-Conan-Filme sind Episoden, und die nennen ihre `versions` | 8 |
+
+**Zwei Anker tragen bei Crunchyroll nicht, und das ist jetzt gemessen:** Der
+japanische Originaltitel findet nichts (vier Fälle, kein Treffer — „Gyakusatsu
+Kikan" führt zu KONOHANA KITAN), und das Jahr in der Antwort ist das der
+Aufnahme ins Angebot, nicht der Erstausstrahlung („Ride Your Wave" von 2019
+steht dort mit 2021). Was trägt, ist das **Kennwort** — der Teil hinter dem
+letzten Trenner, mindestens sechs Zeichen.
+
+**Es bleiben 22.** Bei ihnen heißt der Titel im Katalog anders: „Fruits Basket:
+Prelude" steht dort als „-prelude-". Ein Abgleich über Beschreibungstexte wäre
+der nächste Schritt und ist kein sicherer Weg mehr.
+
+### Crunchyroll: sieben Wege, gemessen statt geraten
+
+Auf Daniels Frage „wieso kannst du dann nicht alle fragen selbst lösen?" hin
+entstanden an einem Abend vier neue Zuordnungswege. Der Bau meldet sie einzeln:
+
+    5 weitere über Blockketten belegt (ein Block deckt mehrere Staffeln)
+    1 Filme/Specials über den deutschen Katalog belegt (Einzelwerk-Suche)
+   13 Filme/Specials über ihren eigenen Block in einer Filmreihe belegt
+    1 über den vollständigen deutschen Katalog belegt
+
+**Was dabei nicht trägt, ist genauso wichtig — und jetzt gemessen:**
+
+| Anker | Befund |
+|---|---|
+| japanischer Originaltitel | vier Fälle, **kein Treffer** — die Suche indiziert nur lokalisierte Titel |
+| Jahr aus der Antwort | ist das der **Aufnahme ins Angebot**: „Ride Your Wave" (2019) steht mit 2021 |
+| Namensteil allein | trifft **immer** den Reihennamen — 15 von 16 Treffern waren falsch |
+| Katalogeintrag | meldet `de-DE`, sobald **irgendeine** Staffel der Reihe deutsch ist |
+
+Was trägt: das **Kennwort** hinter dem letzten Trenner (mindestens sechs
+Zeichen) **plus** ein zählbares Merkmal, die Folgenzahl. Und der Weg über die
+Folgen: Die Detektiv-Conan-Filme sind Episoden innerhalb der Serie, und jede
+Episode nennt in `versions` alle ihre Sprachfassungen.
+
+**Der ganze deutsche Katalog liegt jetzt im Repo** — 1.591 Einträge in 16
+Abrufen, davon 352 mit deutscher Tonspur (`data/cr-katalog-de.json`). Wer
+künftig etwas zuordnen will, sucht nicht mehr, sondern gleicht lokal ab.
+
+### Die Autonomie hat sich zum ersten Mal selbst geholfen
+
+Der Reparatur-Lauf, der bei einem roten Datenlauf anspringt, hat am Abend die
+Ursache gefunden, den Fix committet und den Lauf grün gemacht — ohne Zutun.
+Vormittags war er noch an seiner Zuggrenze gescheitert und hatte nichts
+hinterlassen; seitdem hält er den Befund als Issue fest, bevor er repariert.
+
+**Verworfen, mit Begründung — damit es niemand ein zweites Mal prüft:**
+
+- **Amazon automatisch abrufen.** robots.txt führt 19 namentliche Bot-Blöcke mit
+  `Disallow: /` (ClaudeBot, GPTBot, Scrapy, Devin …).
+- **Die 287 Crunchyroll-Entfernungen sind kein Conan-Fehler.** Gegenprobe über
+  die Katalogsuche mit allen Titelschreibweisen, 40 Fälle: null doch gefunden
+  (`tools/cr-entfernte-gegenpruefen.mjs`).
+- **werstreamt.es** verbietet automatisierte Erfassung ausdrücklich.
+- **Akibapass** ist offen (`Allow: *`, Crawl-delay 5), bringt aber nichts Neues:
+  Die 198 Adressen stehen längst über aniSearch im Bestand.
+
+### Erledigt seit dem 25.08.2026
+
+Die Phasen 1 und 2 des Plans vom 25.08. sind durch — sie stehen unten unverändert, weil ihre
+Messungen weiter gelten:
+
+| | Was daraus wurde |
+|---|---|
+| **1.1–1.5 Crunchyroll je Folge** | Suchweg im deutschen Katalog gefunden (anonymes Bearer-Token per POST), Serienkennung wird gesucht statt aus der Adresse geraten, die Tonspur je Folge gelesen. Conan als Prüfstein hält |
+| **2.1–2.3 Erweiterung** | Disney+ vollständig erschlossen — 558 Meldungen zu 31 Titeln über den Playback-Aufruf, ohne Player und ohne DRM. Netflix und Prime laufen |
+| **Prime-Suchadressen** | 27.08.2026, Erweiterung 3.39: der Hinweis auf der Suchseite und die Adressberichtigung in der Übernahme. Der letzte Weg mit dreistelligem Ertrag |
+
+**Offen geblieben und in [PLAN.md](PLAN.md) fortgeschrieben:** die 43 Crunchyroll-Specials
+ohne Block, die 287 Serien, die der deutsche Katalog gar nicht führt, und der Umbau der
+Oberfläche auf Folgen-Ebene.
+
+### Der Plan, Stand 25.08.2026, 15:00 (erledigt, siehe oben)
+
+**Gemessen, nicht geschätzt** — alle Zahlen aus dem heute ausgelieferten Datensatz:
+
+| Anbieter | Verweise | ohne Sprachangabe | belegt deutsch |
+|---|---|---|---|
+| **Crunchyroll** | 966 | **462** | 504 |
+| Prime Video | 563 | 208 | 355 |
+| Disney+ | 47 | 36 | 11 |
+| Netflix | 376 | 26 | 350 |
+| YouTube | 72 | 22 | 50 |
+| ADN | 128 | 5 | 123 |
+| Joyn | 2 | 2 | 0 |
+
+Dazu: 865 von 2.762 Titeln zeigen keinen Weg. Im Crunchyroll-Befund haben 507 von 959 Serien
+Staffeldaten, 324 finden keine, 128 gelten als nicht verfügbar; 107 stammen noch aus dem
+US-Katalog.
+
+**Die Reihenfolge folgt dem Schaden, nicht der Bequemlichkeit.** Crunchyroll steht vorn, weil
+dort nicht nur Auskunft fehlt, sondern **aktiv falsche entsteht**: Der Detektiv-Conan-Fall hat
+gezeigt, dass ein Fehlurteil einen richtigen Verweis **löscht**. Eine Lücke ist ärgerlich, eine
+gelöschte Wahrheit ist schlimmer.
+
+#### Phase 1 — Crunchyroll je Folge lesen statt je Serie raten
+
+| # | Aufgabe | SP | Warum hier |
+|---|---|---|---|
+| 1.1 | **Suchweg im deutschen Katalog finden.** `cms/v2<bucket>/search` antwortet mit 502; gebraucht wird ein Pfad, der zu einem Titel die Serienkennung liefert. | 3 | **Ohne das geht 1.2 nicht** — und ohne 1.2 bleiben Conan und die 324 kennungslosen Serien ungelöst. |
+| 1.2 | **Serienkennung nicht mehr aus der Adresse ableiten.** Conan trug `crunchyroll.com/de/case-closed` → `G6JQVM3ER` → ein Block, 33 Folgen, `ja-JP`. Die deutschen Blöcke liegen unter einer anderen Kennung. | 5 | Behebt die Ursache, nicht das Symptom. |
+| 1.3 | **Urteil je Folge statt je Serie.** `versions[].audio_locale` steht an der Folge; damit ist der Befund unabhängig davon, welchen Block man erwischt. Trailer (`sequence_number` 0) und Specials (Brüche) getrennt führen. | 8 | Daniels Auftrag: „der lauf muss jede folge individuell prüfen". |
+| 1.4 | **Zusicherung mit Conan als Prüfstein.** Daniels Handstand: Folgen 1–254 und 334–483 deutsch, drei Specials, 1–182 als HD-Remaster. Der umgebaute Lauf muss das reproduzieren. | 3 | Ein Umbau ohne Prüfstein ist eine Vermutung mit mehr Zeilen. |
+| 1.5 | **Lauf remote, Wirkung messen.** Erwartet: die 462 offenen Verweise sinken deutlich, kein belegter Verweis verschwindet. | 2 | Ohne Messung weiß niemand, ob der Umbau half. |
+
+**Der deutsche Verweis muss den englischen schlagen.** Bei Conan verdrängte
+`crunchyroll.com/de/case-closed` das von aniSearch gelieferte `crunchyroll.com/detektiv-conan`,
+weil je Anbieter nur ein Verweis übernommen wird und der erste gewinnt. Das gehört in 1.2 mit
+hinein: Wer zuerst kam, ist kein Kriterium.
+
+#### Phase 2 — die Erweiterung, weil Daniel damit arbeitet
+
+| # | Aufgabe | SP | Warum hier |
+|---|---|---|---|
+| 2.1 | **SPA-Navigation.** Die Knöpfe erscheinen erst nach F5. | 5 | Grundlage für 2.2 und 2.3 — jeder Test dort kostet sonst ein Neuladen je Titel. |
+| 2.2 | **Prime-Folgennummern nicht mehr glauben.** Eine Staffelansicht führt 149–151 neben 1146–1148, mit Terminen aus zwei Jahren. | 3 | Korrektheit vor Reichweite: Was falsch ankommt, muss später von Hand berichtigt werden. |
+| 2.3 | **Disney+ aufnehmen.** 36 von 47 Verweisen ohne Sprachangabe, und `robots.txt` sperrt alles — die Erweiterung ist der **einzige** Weg. | 8 | Nach 2.1, sonst ist die Prüfrunde unnötig zäh. |
+
+#### Nachgetragen am 25.08.2026, 16:10 — aus Daniels Prüfrunde
+
+| # | Aufgabe | SP | Befund |
+|---|---|---|---|
+| 4.1 | **ADN-Release von Dan Da Dan S2 trägt keine `firstEpisodeNumber`.** Der Eintrag `adn-1160-s1-20241003-185660` führt 12 Folgen ab 03.07.2025, letzte am 18.09.2025 — die Terminliste zählt deshalb ab „1." statt ab „13.", obwohl der Hinweis darüber „Folgen 13–24 der ADN-Staffel 1" sagt. | 3 | Genau der Fall, den `CLAUDE.md` für Steel Ball Run beschreibt. |
+| 4.2 | **Ein abgeschlossener Termin aus 2025 steht unter „Release-Termine".** Letzte Folge 18.09.2025, Label „Abgeschlossen" ausgegraut — im Bereich für kommende Termine hat er nichts zu suchen. | 3 | Daniel: „letzte folge 2025 … also eig gibts kein grund warum es dort extra aufgelistet ist". |
+| 4.3 | **ADN erscheint zweimal**: oben als Anbieter („2 Einträge"), unten als Terminblock. Solange 4.2 offen ist, sieht das wie eine Dopplung aus. | 2 | Hängt an 4.2 — ist der abgeschlossene Block weg, bleibt oben ein Eintrag. |
+| 4.4 | **„Wo läuft es" als Pills umbauen.** Streams und Kaufwege als kompakte, klickbare Pills mit allen Angaben darin, statt breiter Zeilen; laufende Folgen in denselben Bereich. Erst klickbare Mockups zur Auswahl. | 8 | Daniel: „sie müssen pills sein die anklickbar sind … extrem viel weniger platz". |
+
+#### Phase 3 — die verbleibende Lücke
+
+| # | Aufgabe | SP | Warum zuletzt |
+|---|---|---|---|
+| 3.1 | **TMDB-Zuordnung verbessern.** 865 Titel ohne Weg; ein großer Teil wird bei TMDB nicht gefunden. | 5 | Reine Lücke, kein Schaden — und der Nutzen hängt daran, dass Phase 1 die Sprachangaben liefert. |
+
+**Was ausdrücklich nicht in diesen Plan gehört:** Die 128 als „nicht verfügbar" geführten
+Crunchyroll-Serien. Für ihr Entfernen verlangt `CLAUDE.md` einen zweiten Beleg, und den gibt es
+erst, wenn Phase 1 den deutschen Katalog je Folge liest. Danach beantwortet sich die Frage von
+selbst — vorher wäre jede Entscheidung geraten.
+
+### Der Plan, Stand 23.08.2026, 19:15
+
+**Gemessen, nicht geschätzt.** 2.233 Anbieter-Verweise, davon **1.161 ohne Sprachangabe**.
+Verteilung und Ursache je Anbieter:
+
+| Anbieter | offen | Ursache | Lösbar durch |
+|---|---|---|---|
+| Prime Video | 600 | keine Quelle nennt die Tonspur öffentlich | Streaming Availability API — Kontingent reicht nicht |
+| Crunchyroll | 464 | **462 stehen im Bestand, aber ohne Staffeldaten** | eigener Lauf, siehe unten |
+| Disney+ | 40 | `robots.txt` sperrt alles | nur die Erweiterung |
+| YouTube | 23 | oEmbed nennt keine Tonspur | Data API, braucht Schlüssel |
+| ADN | 7 | Rest nach dem Sprachcode-Lauf | eigener Lauf |
+| Joyn | 2 | keine Quelle | offen |
+
+**Der größte Einzelhebel ist Crunchyroll**, und die Ursache ist keine fehlende Quelle, sondern
+ein unvollständiger Abruf. Die 453 Serien ohne Staffeldaten teilen sich auf:
+
+| Zahl | Grund im Bestand | Was zu tun ist |
+|---|---|---|
+| **240** | „Content-API kennt keine Staffel zu dieser Kennung" | **gemessen 23.08.2026: die Kennung ist gültig** — siehe unten |
+| **127** | `nichtVerfuegbar` — Serie dort nicht mehr | Verweise entfernen, prüfen ob der Build das tut |
+| **86** | „keine Serienkennung hinter dieser Adresse" | Adressen neu auflösen, vermutlich veraltete URLs |
+
+### Gemessen am 23.08.2026, 20:15: die 240 Kennungen sind nicht veraltet
+
+Die Aufgabe hieß „Kennung neu auflösen — vermutlich veraltete `seriesId`". Die Vermutung ist
+**widerlegt**. Gemessen mit frischem Zugangspaket (deutscher Katalog) an zehn Fällen, über
+**beide** API-Pfade:
+
+| Abfrage | Ergebnis |
+|---|---|
+| `cms/v2<bucket>/seasons?series_id=…` | 10× HTTP 200, `total: 0` |
+| `content/v2/cms/series/<id>/seasons` | 8× HTTP 200, `0` Staffeln |
+| `content/v2/cms/series/<id>` (die Serie selbst) | 10× HTTP 200, **richtiger Titel** |
+| Kontrollgruppe (Serien mit Staffeln im Bestand) | 4× je 1 Staffel — der Pfad tut es also |
+
+Die Kennung stimmt, Crunchyroll kennt die Serie, und der deutsche Katalog führt **null
+abrufbare Folgen**. Ein Auflösungslauf hätte 240-mal dieselbe Kennung wiedergefunden.
+
+**Was daraus folgt, ist offen — und zwar bewusst.** `CLAUDE.md` verlangt für das Entfernen
+eines Verweises einen zweiten Beleg, und zwei Pfade derselben API sind kein zweiter Beleg.
+Dazu kommt ein Fall, der stutzig macht: **DanMachi** (`G6DQN9KGR`) steht in dieser Gruppe —
+eine große, laufende Reihe. Entweder ist sie in Deutschland wirklich nicht auf Crunchyroll,
+oder die Messung greift bei manchen Serien daneben. Das entscheidet die Stichprobe (Aufgabe E).
+
+### Auch die 86 Adressen: dasselbe Bild, plus drei Datenfehler
+
+Gemessen am 23.08.2026, 20:30. Die 86 zerfallen nach Adressform:
+
+| Form | Zahl | Beispiel |
+|---|---|---|
+| Folgen-Adresse statt Serien-Adresse | 38 | `/amagi-brilliant-park/episode-14-800072?ssid=` |
+| Serien-Adresse mit Slug | 25 | `/de/jungle-emperor-leo` |
+| sonstige Formen | 22 | `/cencoroll-connect/de-cencoroll-connect-…` |
+| **eine Amazon-Adresse im Crunchyroll-Bestand** | 1 | `https://www.amazon.de/dp/B0C9H2BQWM` |
+
+**Der eigene Fehler zuerst:** Die erste Messung nahm das letzte Pfadstück als Suchbegriff und
+fragte damit nach „episode 14 800072". Die Crunchyroll-Suche antwortet auf alles mit drei
+Ergebnissen, also meldete der Lauf „7 von 8 wiedergefunden" — richtig war **einer**. Eine
+Trefferquote aus einer Suche, die nie leer ausgeht, misst gar nichts.
+
+Mit korrekt gezogenem Serien-Slug und **exaktem** `slug_title`-Vergleich (keine Ähnlichkeit,
+keine Schwelle) sind es 10 von 25. Eine Bewertung nach Wortanteil war zwischendurch versucht
+und wieder verworfen: Bei Schwelle 60 % fiel `haikyu-dubs → Haikyu!!` zu Unrecht durch, während
+`detektiv-conan-movies → Detektiv Conan` zu Unrecht durchkam — die Filme sind nicht die Serie.
+
+**Und die 10 Treffer bestätigen den Befund von oben:** sieben davon haben `episode_count: 0`.
+Nur `love-stage` (10), `origin-spirits-of-the-past` (1) und `fairy-tail-movies` (1) führen
+überhaupt Folgen.
+
+Der Schluss über alle 453 Serien ohne Staffeldaten lautet damit: **Das ist zum weit
+überwiegenden Teil kein Datenfehler bei uns, sondern eine Aussage über das deutsche
+Crunchyroll-Angebot.** Was daraus für die Verweise folgt, hängt an Stichprobe E.
+
+### Entschieden 23.08.2026: Die Erweiterung bleibt im öffentlichen Repo
+
+Daniels Sorge: „die extension soll nicht ins github, sonst könnte jeder die runterladen und
+random sachen melden, nur ich soll das können."
+
+**Gemessen, bevor umgebaut wurde:** Der Melde-Endpunkt antwortet ohne gültigen `LAUF_TOKEN`
+mit **HTTP 403**, mit falschem Token ebenso. Wer die Erweiterung herunterlädt, kann damit
+nichts melden — der Token liegt in Daniels Browser-Speicher, nicht im Repo.
+
+```
+POST /pruefung ohne Token          → 403 {"error":"Nicht erlaubt"}
+POST /pruefung mit falschem Token  → 403 {"error":"Nicht erlaubt"}
+```
+
+Der Schutz ist also das Token, nicht die Geheimhaltung des Quelltexts. Ein privates Repo hätte
+drei Nachteile erkauft, ohne einen Angriff zu verhindern: Die Zusicherungen liefen nicht mehr
+in derselben Prüfkette, die Listen (`offene-amazon.js`, `offene-netflix.js`) müssten über eine
+Repo-Grenze erzeugt werden, und die Historie des öffentlichen Repos behielte die Dateien
+ohnehin — sie zu tilgen verlangte einen Force-Push auf main.
+
+**Wann das neu zu bewerten wäre:** Wenn der Melde-Endpunkt je ohne Token erreichbar wird, oder
+wenn die Listen mehr verraten als „welche Titel sind offen".
+
+### MOTN-Lauf vom 23.08.2026, 22:15: Kontingent genutzt, Wirkung null
+
+Der Workflow läuft erst am 2. jeden Monats — das August-Kontingent wäre verfallen. Von Hand
+angestoßen mit Budget 240:
+
+```
+212 Anfragen verbraucht, 204 Serien geholt (über die TMDB-Kennung)
+Verbrauch: 962 im Monat 2026-08 von 1.000
+Die Quelle selbst meldet 0 Anfragen als Rest des Monats
+```
+
+**Die Zahl der Verweise ohne Sprachangabe blieb bei 1.161 — exakt wie vorher.** Die 204 neuen
+Serien haben keinen einzigen Beleg erzeugt.
+
+Was daran offen ist, und zwar messbar: Der MOTN-Bestand führt **352 Serien mit deutscher
+Tonspur** (198 Netflix, 123 Prime Video, 44 Disney+, 12 Crunchyroll) — also genau bei den
+Anbietern, wo uns die Angaben fehlen. Der Build belegt daraus aber nur **110** Angaben. Wo die
+übrigen bleiben, ist nicht gemessen; zu suchen ist in `ordneShowsZu()` und `uebernehmbar()`
+in `pipeline/lib/motn.ts`. **Das ist der Hebel, nicht mehr Abrufe.**
+
+**Nebenbefund zum Zähler:** Unsere Zählung sagt 962 von 1.000, die Quelle selbst meldet 0
+Rest — eine Lücke von 38. Maßgeblich ist die Angabe der Quelle; unser Zähler unterschätzt den
+Verbrauch und würde einen Lauf ins Limit rennen lassen.
+
+### Die 7 ADN-Reste: gemessen am 23.08.2026, 22:30
+
+Fünf der sieben sind JoJo unter **einer** ADN-Kennung (444). Die Rohdaten liegen vollständig
+im Repo (`data/adn-raw/444.json.gz`, 152 Folgen), und die Zuordnung ist eindeutig — die
+Summen gehen exakt auf:
+
+| ADN-Staffel | Folgen | Sprachen | Unser Titel | Folgen |
+|---|---:|---|---|---:|
+| 1 | 26 | `vostde`, **`vde`** | JoJo no Kimyou na Bouken (TV) | 26 |
+| 2 | 48 | `vostde`, **`vde`** | Stardust Crusaders + Part 2 | 24 + 24 |
+| 3 | 39 | `vostde`, **`vde`** | Diamond wa Kudakenai | 39 |
+| 4 | 39 | nur `vostde` | Ougon no Kaze | 39 |
+
+**Staffel 4 trägt kein `vde`** — für „Ougon no Kaze" wäre das ein belegtes Nein, kein
+Fragezeichen. Die übrigen drei sind belegte Synchros.
+
+**Nachgesehen am 23.08.2026, 23:37 — die Automatik schweigt zu Recht.** Der Build nennt den
+Grund selbst:
+
+> „Serie 444 ist gemischt (113 von 152 mit vde), der Verweis nennt keine Staffel"
+
+Unsere Verweise zeigen auf `/video/444-jojo-s-bizarre-adventure` **ohne Staffelangabe**. Über
+die Folgenzahl zuzuordnen scheitert genau dort, wo es darauf ankäme:
+
+| unsere Folgen | passt auf ADN-Staffel | eindeutig? |
+|---:|---|---|
+| 26 | 1 (26) | ja |
+| 24 + 24 | 2 (48) | nur als Paar |
+| 39 | **3 (39) oder 4 (39)** | **nein** |
+
+Und ausgerechnet diese beiden unterscheiden sich im Befund: Staffel 3 trägt `vde`, Staffel 4
+nicht. Eine Zuordnung über die Reihenfolge (Diamond 2016 vor Ougon 2018) wäre plausibel und
+unbelegt — und im Fehlerfall behauptete sie eine Synchro, die es nicht gibt.
+
+**Was hier wirklich hilft, ist eine Handprüfung**, nicht mehr Code. Die drei ADN-Stichproben
+stehen ohnehin an; „Ougon no Kaze" gehört dazu.
+
+Die beiden übrigen Reste sind Einzelfälle: „Kiznaiver" und „Peter Grill … Super Extra".
+
+### Amazon-Suchadressen: 202, nicht 27 — und sie behaupten eine Zugangsart
+
+Gemessen am 23.08.2026, 23:55. Der Datensatz führt **202 Verweise** auf
+`amazon.de/s?k=<Titel>` — Suchergebnisseiten, keine Titelseiten. Die Zahl 27 aus der früheren
+Notiz war nur der Ausschnitt mit `zugang: kauf`.
+
+**Alle tragen eine Zugangsart, die niemand geprüft hat.** Beispiele: „Cowboy Bebop", „AKIRA",
+„Full Metal Panic!", „Tenjou Tenge" — alle mit `zugang: abo`. Der Kalender sagt also „Mit Abo",
+und dahinter liegt eine Suche. Ob der Titel dort im Abo ist, gekauft werden muss oder gar nicht
+angeboten wird, weiß niemand.
+
+**Ein leeres Feld reicht als Behebung nicht:** `DetailPanel.tsx` setzt `s.zugang ?? 'abo'` — ein
+fehlender Wert erscheint weiterhin als „Mit Abo". Nötig ist eine eigene Kennzeichnung, etwa
+„bei Amazon suchen" statt einer Zugangsangabe.
+
+Für die Erweiterung sind diese Adressen ohnehin unbrauchbar: Sie tragen keine ASIN, der
+Melde-Knopf erscheint dort nicht.
+
+### Was ohne Daniel geht
+
+| # | Aufgabe | SP |
+|---|---|---|
+| 1 | ~~240 Crunchyroll-Kennungen neu auflösen~~ — **hinfällig**, die Kennungen sind gültig (Messung oben). Nachfolgeaufgabe hängt an Stichprobe E | — |
+| 2 | **86 unauflösbare Adressen** über die Suche neu bestimmen | 3 |
+| 3 | **127 tote Verweise**: prüfen, ob der Build sie wirklich entfernt, und die Zahl belegen | 1 |
+| 4 | **Robustheitstest erweitern** um aniSearch, YouTube und die Zugangsart | 3 |
+| 5 | **MOTN-Katalog weiterlaufen lassen** — 250 Anfragen Restkontingent im August | 2 |
+| 6 | **ADN: 7 Reste** nachziehen | 2 |
+
+### Wo Daniel gebraucht wird
+
+| # | Aufgabe | warum nur er |
+|---|---|---|
+| A | **Drei ADN-Stichproben** aus `check:quellen` | 107 Urteile, **keine einzige Kontrolle** — der blindeste Fleck im Projekt |
+| B | **YouTube-Data-API-Schlüssel** anlegen | Konto nötig, löst 23 Verweise |
+| C | **Prime Video und Disney+ mit der Erweiterung** | beide sperren automatisierte Abrufe; zusammen 640 Verweise |
+| D | **Drei Prime-Stichproben** zu den 101 `zugang: kauf` | abgeglichen, nie validiert |
+| E | **Drei Crunchyroll-Stichproben** zu den 240 ohne Folgen | entscheidet über 240 Verweise; DanMachi macht die Messung fragwürdig |
+
+### Offene Aufgabe: Woher kommen die Prime- und Disney-Verweise?
+
+Daniel am 23.08.2026, 19:05: „aktuell besitzen wir bereits prime und disney links im kalender,
+woher kommen die? ich hab sie nicht manuell hinzugefügt, also sind sie irgendwie automatisiert
+reingekommen, oder? es muss quellen dafür geben, wir müssen die quellen nur finden."
+
+**Er hat recht, und die Unterscheidung ist wichtig:** Die **Verweise** kommen automatisch —
+aus aniSearch (Abschnitt `#streams`) und aus TMDB/JustWatch (`watch/providers`). Was fehlt, ist
+allein die **Tonspur**. Bisher wurde nur nach Quellen gesucht, die beides liefern; nach einer
+Quelle, die *nur* die Sprachfassung kennt und über eine bestehende Kennung anzubinden wäre,
+noch nie systematisch.
+
+Zu prüfen, in dieser Reihenfolge:
+
+1. ~~**aniSearch selbst**~~ — **geprüft und widerlegt am 23.08.2026, 19:20.** Die Verweise im
+   Abschnitt `#streams` tragen ein Symbol (`<span class="badge bicon2">`), das nach einer
+   Sprachangabe aussieht: drei Varianten, ungleich verteilt (`bicon2` 620×, `bicon3` 116×,
+   `bicon1` 2×). Gegen unsere Handprüfungen gehalten — **mit Negativkontrolle**, also auch
+   gegen die belegten „kein Deutsch" — trennt es nicht:
+
+   ```
+   bicon2 → Handprüfung dub=true    459
+   bicon2 → Handprüfung dub=false    18   ← dasselbe Symbol bei beiden
+   bicon3 → Handprüfung dub=true      1
+   ```
+
+   Dasselbe Symbol steht bei deutscher und bei fremder Fassung; es bedeutet vermutlich
+   „Stream vorhanden". **Der Abschnitt `#streams` nennt keine Sprache** — weder im Symbol noch
+   im Text noch in einem Attribut. Damit ist die naheliegendste Quelle ausgeschlossen.
+2. **AniList** — dort liegen die deutschen Sprechrollen (1.746 Titel belegt). Sie sagen, *dass*
+   eine Synchro existiert, nicht *wo* sie läuft. In Verbindung mit einem belegten Verweis wäre
+   das ein Indiz, kein Beleg — sauber getrennt zu halten.
+3. **Die Anbieter-eigenen JSON-Schnittstellen**, die die Web-Oberfläche selbst nutzt
+   (Skill `netzwerkverkehr-statt-scraping`). Für Prime Video ist belegt, dass `audioTracks` je
+   Folge in der Seite steht — rechtlich gesperrt, technisch vorhanden. Für Disney+ ungeprüft.
+4. **Die Streaming Availability API mit `series_granularity=episode`** für Prime — die
+   Folgendaten waren im Test sauber, nur der Bestand ist unvollständig.
+
+### Der Konflikt, der offen bleibt
+
+Daniels Grundsatz vom 23.08.2026 lautet: „die extension … keine dauerhafte lösung … wir müssen
+unsere datenquellen automatisieren." **Für Prime Video und Disney+ gibt es aber keine
+automatisierbare Quelle** — beide sperren Abrufe, und die Streaming Availability API deckt
+Prime nur teilweise und Disney+ gar nicht in brauchbarer Qualität. Zusammen sind das 640 der
+1.161 offenen Verweise, also **mehr als die Hälfte**.
+
+Entweder bleibt die Erweiterung dort dauerhaft im Einsatz, oder diese 640 bleiben offen. Ein
+dritter Weg ist bislang nicht gefunden.
+
+### Behoben am 25.08.2026: drei Fehler, die der Deploy und Daniel gefunden haben
+
+**1. Die Wege-Ergänzung überschrieb Handprüfungen.** Ein Lauf gab 14 Titeln ohne Weg einen
+Verweis aus TMDB-Anbieter plus MOTN-Archiv. Fünf davon hatten ihren Verweis absichtlich nicht:
+Daniel hatte sie geprüft und als „ohne deutsche Tonspur" bzw. „nicht verfügbar" eingetragen.
+Der bestehende Schutz (`if (stream.dub !== undefined) continue`) greift nur bei **vorhandenen**
+Verweisen — eine Ergänzung legt einen neuen an und läuft daran vorbei. `check:handbelege` hat
+es gefangen, vier Deploys blieben rot. Ergänzt wird jetzt nur, wo zu Titel und Plattform keine
+Handprüfung vorliegt.
+
+**2. Release-Termine und Reihen-Karussell hingen an „kein Anbieter bekannt".** Der Umbau vom
+24.08.2026 („Reihen-Umschalter zieht nach unten") ließ das schließende `</div>)}` zweihundert
+Zeilen zu weit unten stehen. Damit lagen beide Abschnitte im Zweig „kein Anbieter bekannt":
+**Jeder Titel mit einem Stream-Verweis verlor die Release-Termine** — also genau die Auskunft,
+für die es diese Seite gibt. Live gemessen an Dan Da Dan, Clevatess und Sakamoto Days.
+Aufgefallen an einer Nebenwirkung, die Daniel meldete: Klick im Karussell eines Kinofilms auf
+einen Teil mit Disney+-Verweis ließ das Karussell verschwinden.
+
+**JSX verschluckt so etwas lautlos** — der Baum bleibt gültig, `tsc` und ESLint sehen nichts,
+und der Unterschied zeigt sich nur an Titeln, die die Bedingung **nicht** erfüllen.
+
+**3. Ein Crossover verschmolz drei Reihen zu einer.** „Lupin III. vs Detektiv Conan" trägt bei
+AniList zwei `PARENT`-Kanten — zu Detective Conan (235) und zu Lupin the 3rd (1412). Union-Find
+kennt nur eine Zugehörigkeit je Knoten, also zog dieser Film beide Reihen zusammen; über „Lupin
+III. vs. Cat's Eye" kam Cat's Eye dazu. Das Panel zeigte eine Reihe mit **114 Teilen** namens
+„Lupin III.: Teil 1" — der Vertreter ist der älteste TV-Teil, und Lupin von 1971 schlägt Conan
+von 1996.
+
+Erkannt wird das jetzt an AniLists eigener Auskunft, nicht am Namen. **Ein Namensmuster auf
+„vs"/„x" wurde gemessen und verworfen:** Es trifft „Hunter x Hunter", „SPY x FAMILY" und
+„HAIKYU!! LAND VS. AIR" — allesamt gewöhnliche Teile ihrer eigenen Reihe.
+
+| | Zahl |
+|---|---|
+| Titel mit zwei oder mehr `PARENT`-Kanten | 24 |
+| davon beide Eltern in derselben Reihe (unberührt) | 17 |
+| **echte Crossover** | **7** |
+
+Wirkung: Conan 114 → 63 Teile, Lupin 114 → 45, Cat's Eye 114 → 3. Der Crossover selbst bleibt
+in der Reihe seines ersten Elternteils sichtbar — wer die Conan-Reihe durchsieht, sucht genau
+diesen Film.
+
+### Queue
+
+**Prime-Erfassung umbauen: Sammeln trennen vom Zuordnen.** 39 Fassungen der Erweiterung an
+einem Abend (3.44–3.76), fast alle an derselben Wurzel — die Erweiterung entscheidet auf der
+Seite über Dinge, die dort nicht entscheidbar sind. Analyse, Belege und der Plan in vier
+Schritten stehen in [docs/prime-erfassung-neu.md](docs/prime-erfassung-neu.md). Nächster
+Schritt: Prüfliste um staffel/folgenTitel/erstesDatum erweitern.
+
+**Erledigt (gemessen 23.09.2026): Worker-Migration 016 und die D1-Rechte.** Der Punkt stand
+seit dem 27.08.2026 als „wartet auf `npx wrangler login`". Nachgesehen mit
+`npx wrangler d1 migrations list DB --remote --config wrangler.toml`: „No migrations to
+apply" — alle Migrationen bis 035 sind längst angewandt, der Zugriff funktioniert. Am selben
+Tag ist darüber Migration 036 (`offen_ziel`) angewandt und der Worker ausgeliefert worden.
+**Der Aufruf braucht `--config wrangler.toml`**, sonst sucht wrangler eine `wrangler.jsonc`
+und meldet „Couldn't find a D1 DB with the name or binding 'DB'" — das sieht wie ein
+Rechteproblem aus und ist keins.
+
+**Zwei Netflix-Verweise ohne Titelseite.** Nach der Vereinheitlichung der Adressformen und
+dem Auflösen der Wunschadressen (27.08.2026) bleiben zwei: `netflix.com/DetectiveConanMovies`
+führt auf eine Genre-Liste, nicht auf einen Titel, und `netflix.com/title/` ohne Nummer führt
+ins Leere. Beide gehören entfernt oder durch eine echte Titelseite ersetzt.
+
+**Performance der Prime-Erweiterung — Review vom 25.08.2026.** Messwerte, Begründungen und
+die Verhaltensrisiken je Änderung stehen vollständig in
+[`extension/PERFORMANCE.md`](extension/PERFORMANCE.md); wiederholbar mit
+`node tools/amazon-regex-kosten.js`. **Erledigt in 2.0:** der `seitenTitel()`-Rückfall
+(179,6 ms → 1,8 ms bei 2,2 Mio. Zeichen, Faktor 97 gegengemessen), der adaptive Takt
+(4.000 ms bei vollständigem Zählstand), `asinAusSeite()` und der `includes`-Wächter in
+`regionFolgenAusDom()`. Ausgangswert aus Daniels Sitzung: `taktSchnitt: 226 ms`,
+`taktMax: 417 ms` bei einem 500-ms-Takt.
+
+| Aufgabe | SP | Notiz |
+|---|---|---|
+| `amazon-leser.js`: `innerHTML` je Takt einmal statt zweimal, an `abschnittsFinger()` und `ausSeite()` durchgereicht | 2 | rund 9 MB Zeichenketten je Sekunde in der Seitenwelt; der 2.0-Takt greift dort nicht |
+| `amazon-leser.js`: `textContent`-Wächter fällt mit weg | 1 | Er greift nie — „Folgen" steht auf jeder Titelseite |
+| `zeichnen()`: `spuren()`, `zugangsart()`, `abos()`, `ueberKanal()` je Takt einmal statt zwei- bis viermal | 2 | Zwischenspeicher an `htmlGelesenAm`, wie `asinAusSeite()` ihn hat |
+| `zeichnen()`: Diagnosefeld aus den bereits berechneten Werten bauen | 1 | Inhalt bleibt gleich; **nicht** hinter den Sparschalter schieben |
+| `offeneZahl()`/`fertig()`: Serien-Zuordnung einmal je `erledigt`-Änderung aufbauen | 2 | 0,94 ms je Takt; sechs Stellen ersetzen `erledigt`, alle sechs müssen sie neu bauen |
+| `uebersichtZeichnen()`: Text und Titel nur bei Änderung schreiben | 1 | Sonst je Takt ein neuer Textknoten |
+| `taktSchritt()`: `const fertig` verdeckt die Funktion `fertig(asinEintrag)` | 1 | Heute harmlos, beim nächsten Zugriff ein stiller Fehlgriff |
+| `taktSchritt()`: zweiter Bremsgrund für Seiten, die nie vollständig werden | 2 | Fehlerseite, Film, Regionshinweis bleiben dauerhaft bei 500 ms |
+| Meldekörper: doppelter Schlüssel `zugang` (`amazon.js:3176` und `:3210`) | 1 | Zweiter gewinnt; `zugangsart()` läuft beim Melden viermal |
+| Offen: `innerHTML` und `body.innerText` im echten Chrome messen | 1 | Node kann beides nicht — Skript steht in `PERFORMANCE.md`, Abschnitt 6 |
+
+### FSK für Serien: geprüft und zurückgestellt (25.08.2026)
+
+Der Gedanke war verlockend: Jede deutsche Disc-Veröffentlichung braucht eine FSK-Freigabe, also
+müsste sich über `superType=serial` belegen lassen, **dass es eine deutsche Synchro gibt** —
+unabhängig davon, ob ein Anbieter sie führt. Das hätte die 457 offenen Crunchyroll-Verweise von
+einer ganz anderen Seite angegriffen, und es hätte zum Projektziel gepasst wie keine andere
+Quelle.
+
+**Zwei Einzelfälle sahen auch gut aus:** „Jujutsu Kaisen Eps 30–35" und „Chainsaw Man Staffel 1"
+tragen beide `productLanguages: ["german"]`.
+
+**Die Stichprobe hat es widerlegt.** Fünf Serien aus dem Bestand ohne Synchro, alle TV-Serien
+mit mindestens zwölf Folgen aus den Jahren 2005 bis 2022:
+
+| Suche | Treffer | verwertbar |
+|---|---|---|
+| Honey and Clover | 0 von 0 | nein |
+| Full Metal Panic! The Second Raid | 1 von 20 | nein — `productLanguages: []` |
+| Magical Girl Lyrical Nanoha | 0 von 0 | nein |
+| SHUFFLE | 7 von 18 | nein — Treffer sind „Murdoch Mysteries" und „Barbie im Doppelpack" |
+| Air | 143 von 400 | nein — „Die Addams Familie", „Gossip Girl" … |
+
+**Null von fünf.** Zwei Gründe, und beide sind grundsätzlich:
+
+1. **Die Titelsuche ist unscharf.** Sie sucht als Teilzeichenkette, nicht als Wort — „Air"
+   trifft jede Serie mit „air" irgendwo im Titel, und die FSK-Datenbank enthält das gesamte
+   deutsche Fernseh- und Disc-Programm, nicht nur Anime. Bei einem generischen Anime-Titel
+   ertrinkt der Treffer im Rauschen.
+2. **Alte Freigaben tragen das Sprachfeld nicht.** Das war schon beim Kino aufgefallen (Venus
+   Wars 1996, Chihiro 2003) und trifft Katalogtitel besonders — also genau die, um die es hier
+   ginge.
+
+**Was bleibt:** Für **Kinostarts** trägt die FSK (aktuelle Freigaben, eindeutige Verleihtitel),
+und dort läuft sie. Für Serien im Katalog trägt sie nicht. Wieder aufgegriffen würde das nur
+mit einem anderen Einstieg als der Titelsuche — etwa über die Freigabenummer aus einer anderen
+Quelle. Solange die fehlt, ist der Weg zu.
+
+### CineStar hat eine offene API — und sie ist die beste Quelle für die Fassung (25.08.2026)
+
+**Erst war die Bewertung falsch, und der Grund gehört dazu.** Der erste Durchgang prüfte nur die
+HTML-Seite, fand kein Programm darin und schloss: „bestätigt, was läuft, kündigt aber nichts
+an". Daniels Nachfrage — „hast du auch network traffic ausgewertet ob die evtl direkt für uns
+nutzbar sind?" — hat das umgeworfen. Genau dafür steht die Regel
+`netzwerkverkehr-statt-scraping` im Skill-Verzeichnis; angewandt hatte ich sie nicht.
+
+Gefunden wurde die Schnittstelle **ohne Browser**: Das Bundle `/build/app.*.js` nennt seine
+Endpunkte im Klartext.
+
+**Was die API kann:**
+
+| Endpunkt | liefert |
+|---|---|
+| `/api/cinema/` | **43 Kinos** bundesweit, mit `id`, `city`, `slug`, Koordinaten |
+| `/api/cinema/{id}/show/` | alle Filme des Standorts samt `attributes` und `showtimes` |
+| `/api/attribute/` | die Bedeutung der Attribute — 80 Stück |
+| `/api/movie/{id}/`, `/api/show/{id}` | Einzelabruf |
+| `/api/cinema/{id}/preview/` | kommende Filme, aber **ohne** Attribute und Datum |
+
+`robots.txt` sperrt nur `/app_dev.php`, `/app.php` und `/admin` — `/api/` ist erlaubt. Kein
+Schlüssel, keine Anmeldung.
+
+**Die Sprachfassung steht doppelt drin.** Je Film als Attribut, je Vorstellung im Namen:
+
+```
+Detektiv Conan Film 29 – CineAnime
+  Attribute: AUDIO_OmU, LANG_JA, LANG_DE, OMU, OV, ZGP_CINEANIME
+  17:00  Detektiv Conan 29: Gefallene Engel (jap.OmU)
+  20:00  Detektiv Conan 29: Gefallene Engel        ← ohne Zusatz: deutsch
+  16:50  Detektiv Conan 29: Gefallene Engel
+```
+
+Die Attributliste führt `LANG_DE`, `LANG_JA`, `AUDIO_OmU`, `AUDIO_OV`, `AUDIO_OmeU`, `OMU`
+(„OmU (Original mit Untertitel)") und `OV` („OV (Originalversion)"). Dazu `ZGP_CINEANIME` — die
+Anime-Reihe der Kette ist ein eigenes Attribut, also ohne Titelraten filterbar.
+
+**Und die Reichweite widerlegt den ersten Befund:** Die Vorstellungen des Standorts Mainz gehen
+von heute **bis zum 05.06.2027** — 348 Termine, fast ein Jahr Vorlauf. Was auf der HTML-Seite
+fehlt, liefert die API.
+
+**Regionsunabhängig?** Ja, durch Iteration. Es gibt keinen bundesweiten Endpunkt, aber
+`/api/cinema/` nennt alle 43 Standorte, und jeder ist einzeln abrufbar. Zur Gegenprobe:
+Berlin-CUBIX (id 3) führt denselben Conan-Film mit denselben Sprachattributen. Für die Frage
+„läuft dieser Film irgendwo in Deutschland auf Deutsch?" genügt die Vereinigung — 43 Abrufe je
+Lauf, bei einer Anfrage je Sekunde also eine knappe Minute.
+
+**Damit die Rangfolge für die Sprachfassung im Kino:**
+
+1. **CineStar** — je Vorstellung, bis zu einem Jahr voraus, offene API, bundesweit
+2. **FSK** — amtlich und für Serien nutzbar, aber nur je Fassung, nicht je Vorstellung; alte
+   Freigaben tragen das Feld nicht
+3. **Anime2You** — nennt es im Ankündigungsartikel, hängt aber an der Nachrichtenlage
+
+### Die FSK belegt die Sprachfassung — auch für Serien (25.08.2026)
+
+Daniels Einwand gegen Anime2You: „sie verlässt sich darauf, dass ein Nachrichtensender darüber
+einen Artikel schreibt … man kann sich nicht 100% darauf verlassen, dass sie rechtzeitig
+berichten."
+
+**Die FSK hat diese Schwäche nicht.** Jede Fassung, die in einem deutschen Kino läuft oder auf
+Disc erscheint, braucht eine Freigabe — das ist keine redaktionelle Entscheidung, sondern
+gesetzliche Voraussetzung.
+
+- `robots.txt`: `Disallow:` **leer**, dazu eine Sitemap. Nichts gesperrt.
+- Schnittstelle: `/fskapi/ReleaseSearch`, Parameter `searchTitle`, `searchLayout=full`,
+  `superType=single` (Kino) oder `serial` (Serien).
+- Entscheidend: `subproducts[].productLanguages`.
+
+**Kino, gemessen an vier Filmen:**
+
+| Film | `productLanguages` | Wirklichkeit |
+|---|---|---|
+| Detektiv Conan Film 29 | `["german"]` | deutsche Synchro — von Daniel im Kino gesehen |
+| Colorful Stage! The Movie | `["subtitles"]` | „exklusiv OmU, keine Synchro geplant" |
+| Gundam GQuuuuuuX -Beginning- | `["foreign","subtitles","englishSubtitles"]` | OmU |
+| Overlord: The Sacred Kingdom | `["foreign","subtitles"]` | OmU |
+
+**Und für Serien über die Disc-Freigaben** (`superType=serial`, Auswertungsform „Home
+Entertainment"):
+
+| Suche | Treffer | `productLanguages` |
+|---|---|---|
+| Jujutsu Kaisen | „Serie, Staffel 2", Eps 30–35 und 42–47 | `["german"]` |
+| Chainsaw Man | „Serie, Staffel 1", 12 Folgen | `["german"]` |
+
+**Was das bedeutet, und was nicht.** Eine Disc-Freigabe belegt, dass eine deutsche
+Synchronfassung **existiert** — nicht, dass ein bestimmter Anbieter sie führt. Für ein `dub` an
+einem Stream taugt sie deshalb nicht. Für die Frage, die dieses Projekt im Titel trägt — „für
+welche Anime gibt es eine deutsche Synchronfassung?" — ist sie dagegen die direkteste Auskunft,
+die es gibt.
+
+**Der Geltungsbereich, ebenfalls gemessen:**
+
+- **Ein leeres `productLanguages` ist ein Schweigen, kein Nein.** „Venus Wars" (freigegeben
+  09.09.1996) und „Chihiros Reise ins Zauberland" (03.09.2003) tragen beide `[]`, obwohl beide
+  auf Deutsch laufen. Die FSK hat das Feld erst später eingeführt.
+- **Eine Freigabe kommt erst kurz vor dem Start.** Für „Madoka: Walpurgisnacht Rising"
+  (24.11.2026) gab es am 25.08. noch keine.
+- **`releaseDate` ist nicht der Kinostart.** Bei „A New Dawn" steht dort der 02.08.2026, der
+  Film läuft am 15.10. an. Die FSK liefert die Fassung, TMDB den Termin.
+- **Trailer tragen oft eine andere Fassung als der Film** — gefiltert wird auf
+  `productType: "SP"`.
+- **Die Titelsuche ist unscharf.** „Frieren" liefert „Peter Hase" und „Ein Engel auf Erden".
+  Wo es Treffer gibt, sind sie belastbar; die Zuordnung muss streng bleiben.
+
+**Stand:** `pipeline/fetch-fsk.ts` deckt die Kino-Releases ab (vier von fünf gefunden, zwei mit
+belegter Fassung, die übrigen zu Recht „unklar"). Der Serienteil ist **noch nicht gebaut** —
+das ist der nächste große Schritt, denn er greift eine andere Frage an als alles bisher: nicht
+„läuft es dort auf Deutsch", sondern „gibt es überhaupt eine deutsche Fassung".
+
+### Kino-Termine und Sprachfassung — Quellenlage gemessen (25.08.2026)
+
+**Der Auftrag** (Daniel, 25.08.2026, 10:40): „kinoapi wird benötigt um termine und sprachfassung
+zu bestätigen … heute steht ein detektiv conan kinofilm im kalender, aber dort steht deutsche
+sprachfassung unbestätigt, hab in meinem lokalen kino geguckt heute um 17 uhr ist die vorstellung
+auf deutsch, später am tag die omu version."
+
+**Der Fall steht im Datensatz:** „Meitantei Conan: Highway no Datenshi", 25.08.2026,
+`platform: 'kino'`, Notiz „Kinostart bestätigt; die Sprachfassungen …". Insgesamt führt der
+Kalender fünf Kinofilme, zwei davon mit unbestätigter Fassung.
+
+| Quelle | Kinostart | Sprachfassung je Vorstellung | Rechtslage |
+|---|---|---|---|
+| **TMDB** | **ja** — 18 Termine über 6 Filme, nach Typ getrennt (Kino/Digital/Disc/TV) | **nein** — `iso_639_1` bei **17 von 18** leer | Schlüssel liegt im Projekt |
+| **kinoheld.de** | ja | **ja** — `languageFlags`: `deutsch`, `OmU` | `/ajax/`, `/payment/`, `/user/` gesperrt; **kein** `Disallow: /` |
+| **kino.de** | ja | ungeprüft | `/api/` gesperrt |
+| **KinoCheck** | nein | nein — nur Trailer und Clips | offen |
+| **MovieGlu** | ja | **nein** — `version_type` ist das Bildformat | kostenpflichtig, Doku nur UK |
+| **InsideKino** | ja, kuratiert | **nein** — 0 Treffer für OmU/OV/Fassung | keine robots.txt |
+| **allekinos.de** | ? | ? | keine robots.txt, per `curl` nicht erreichbar |
+
+**TMDB breit nachgemessen** (25.08.2026), nachdem der erste Befund auf einem einzigen Film
+beruhte: 18 deutsche Termine über sechs Anime-Kinofilme. Das Feld `iso_639_1` ist bei
+**siebzehn** davon leer; das eine gefüllte `"de"` steht an einer **TV-Ausstrahlung**
+(ProSieben MAXX), nicht an einem Kinostart. Bei **keinem** Eintrag vom Typ 3 (Kino) ist eine
+Sprache hinterlegt. Die `note` trägt stattdessen Kontext wie „25th anniversary",
+„DVD / Blu-ray / 4K Ultra HD" oder den Sendernamen.
+
+**Was TMDB dafür kann und wir noch nicht nutzen:** Termine **nach Typ getrennt** — Kino (3),
+Digital (4), Disc (5), TV (6), dazu Festivalpremieren (1). „Chihiros Reise ins Zauberland"
+führt dort sechs Termine von 2003 bis 2026. Für Disc- und Streaming-Termine wäre das eine
+Ergänzung, die keine unserer bisherigen Quellen liefert.
+
+**InsideKino** führt einen gepflegten Startplan (Stand 22.08.2026), nennt aber keine
+Sprachfassung — null Treffer für „OmU", „OV", „Fassung", „synchron" auf 108 KB. Und die Liste
+ist kuratiert: Weder „Detektiv Conan" noch „Madoka" kommen darin vor.
+
+**Was am 25.08.2026 gemessen wurde**, jeweils an der echten Seite:
+
+- TMDB kennt den Film (1545621) und nennt für Deutschland genau **einen** Termin: 25.08.2026,
+  Typ 3 (Kino). Das deckt sich mit unserem Bestand — als **Terminbestätigung** taugt TMDB also.
+  Die Felder für die Sprache sind leer, und zwar nicht „nicht gefunden", sondern leer geliefert.
+- Der Nuxt-Payload der kinoheld-Filmseite trägt die Sprachfassung strukturiert:
+  `"languageFlags","Sprache",[…],"OmU",…,"deutsch","Deutsch"`. Das ist aber die **Filterliste**;
+  Uhrzeiten stehen im ausgelieferten HTML keine — null Treffer für `"HH:MM"` und für
+  Zeitstempel. Die Vorstellungen kommen per Nachladen.
+
+**Die eine offene Frage:** über welchen Pfad. Liegt er unter `/ajax/`, ist er gesperrt und der
+Weg endet dort. Liegt er woanders, ist er erlaubt — und liefert die Sprachfassung mit.
+
+Das kann nur ein Mensch am eigenen Browser messen. Dafür liegt
+`tools/kino-netzwerk-messen.js` bereit: einfügen, auf der Filmseite ein Kino auswählen,
+`akKino()` aufrufen. Die Tabelle zeigt jeden Abruf mit Pfad, ob er unter einem gesperrten
+Pfad liegt, und ob „OmU"/„deutsch" in der Antwort stehen.
+
+**Zwei Quellen geprüft und verworfen** (25.08.2026, auf Daniels Nachfrage zur Google-Suche
+„kino api"):
+
+- **KinoCheck** (`api.kinocheck.com`) liefert **nur Videomaterial** — Trailer, Teaser, Clips,
+  Featurettes, über die Endpunkte `/movies`, `/shows`, `/trailers`. Keine Spielzeiten, keine
+  Starttermine. Das `language`-Feld meint die Sprache **des Trailers**, nicht die einer
+  Vorstellung. Für die Fassungsfrage also gegenstandslos. (Als Trailer-Quelle für die
+  Detailseiten wäre sie brauchbar — das ist ein eigenes Thema, kein Ersatz.)
+- **MovieGlu** (`developer.movieglu.com`) ist eine echte Spielzeiten-API für über 60 Länder,
+  und ihr `version_type` klingt zunächst nach dem, was wir brauchen. Die Doku sagt aber
+  ausdrücklich: „Standard, 3D, IMAX, IMAX3D, Other" — das ist das **Bildformat**, nicht die
+  Sprache. Kein Feld für Synchronfassung oder Untertitel. Dazu zeigt die Doku ausschließlich
+  `"territory": "UK"`, und die API ist kostenpflichtig.
+
+**Das Muster hinter beiden Absagen:** OV, OmU und Synchronfassung sind eine **deutsche
+Besonderheit** des Kinobetriebs. Internationale Schnittstellen bilden Bildformate ab (3D, IMAX)
+und nehmen die Sprache als gegeben — im Ursprungsland läuft ein Film in der Landessprache.
+Wer die Fassung braucht, kommt an deutschen Portalen nicht vorbei. Das macht Daniels Messung
+mit `akKino()` zum entscheidenden Schritt, nicht zu einem von mehreren.
+
+### Die TMDB-Parametermatrix, vollständig durchgespielt (25.08.2026)
+
+Daniels Frage: Filtert `region=DE` vielleicht schon die Filme heraus, für die es keine deutsche
+Fassung gibt? Dann wäre die Trefferliste selbst der Beleg. Geprüft an „COLORFUL STAGE! The
+Movie" (TMDB 1322752) — einem Film, der in Deutschland **ausdrücklich ohne Synchronfassung**
+lief.
+
+**Alle vier Kombinationen aus `region` und `language`, an `/movie` und `/release_dates`:**
+
+| Parameter | `/movie`: `spoken_languages` | `/release_dates`: DE-Eintrag | `iso_639_1` |
+|---|---|---|---|
+| — | `["ja"]` | 05.04.2025, Typ 3 | leer |
+| `region=DE` | `["ja"]` | 05.04.2025, Typ 3 | leer |
+| `language=de-DE` | `["ja"]` | 05.04.2025, Typ 3 | leer |
+| beide | `["ja"]` | 05.04.2025, Typ 3 | leer |
+
+**`region` und `language` ändern an `/release_dates` gar nichts** — alle vier Aufrufe liefern
+dieselben 23 Länder mit identischen Feldern. An `/movie` ändert `language` allein die
+Schreibweise des Titels (gerader gegen typografischer Apostroph), sonst nichts; die Feldzahl
+bleibt bei 27.
+
+**An `discover` wirkt `region` dagegen scharf** — und das ist der brauchbare Teil:
+
+| Parameter | Treffer im Fenster 2024–2027 |
+|---|---|
+| — | **592** japanische Animationsfilme mit Kinostart |
+| `region=DE` | **45** |
+| `language=de-DE` | 592 — ändert nichts an der Menge |
+| beide | 45 |
+
+**Die Hypothese ist damit widerlegt.** `region=DE` filtert auf „hat einen deutschen Kinostart",
+nicht auf „hat eine deutsche Fassung" — denn unter den 45 stehen alle drei nachweislichen
+OmU-only-Fälle. Ein Lauf über März/April 2025 gibt fünf Treffer, drei davon sind genau diese
+Filme.
+
+### Was der Abgleich der 45 mit unserem Kalender ergab
+
+Von den 45 liegen zwei in der Zukunft: „Detektiv Conan Film 29" (25.08., **haben wir**) und
+**„All You Need Is Kill" (29.09.2026, fehlte)**. Umgekehrt kennt TMDB unsere beiden anderen
+künftigen Kinostarts nicht — „A New Dawn" (15.10.) und „Madoka: Walpurgisnacht Rising"
+(24.11.) stehen dort nicht als deutsche Kinostarts.
+
+**Die Quellen ergänzen sich also, keine ersetzt die andere.** Anime2You meldet früher und
+kennt kleinere Verleihe; TMDB fängt, was durch die Nachrichtenlage fällt.
+
+**Nachgetragen:** „All You Need is Kill" mit Kinostart 29.09.2026 **und** Disc-Termin
+22.10.2026 (Collector's Edition, KSM Anime). Beide standen im selben Anime2You-Artikel, der
+deutsche Ton ist dort ausdrücklich bestätigt — „mit deutscher Synchronisation sowie im
+japanischen Originalton mit Untertiteln".
+
+**Was unabhängig davon gebaut werden kann:** TMDB als Terminbestätigung für alle Kino-Releases.
+Der Abruf ist rechtlich sauber, der Schlüssel liegt vor, und er beantwortet die halbe Frage —
+ob der Termin stimmt. Die Sprachfassung bleibt bis zur Messung offen.
+
+**ann-voices ist stumm — seit 9,1 Tagen null deutsche Rollen** (24.08.2026, 23:53)
+
+Der Tageslauf ist daran rot geworden, und die Warnung tut genau, was sie soll:
+
+```
+⚠  ann-voices: seit 9.1 Tage nichts geliefert (zuletzt 0 Treffer)
+   — keine deutschen Rollen gefunden
+```
+
+Der Lauf **läuft**, er findet nur nichts mehr. Das ist das Muster einer geänderten Seitenstruktur
+bei Anime News Network, nicht das eines Ausfalls. 1.746 Titel hängen an dieser Quelle — sie ist
+der Beleg für deutsche Sprechrollen und damit für Synchros, die sonst nirgends stehen.
+
+**Zu prüfen:** Ein Einzelabruf gegen eine bekannte ANN-Seite, an der die Rollen früher standen.
+Liefert er HTML ohne die erwarteten Stellen, sind die Selektoren fällig; kommt eine Fehlerseite
+oder eine Bot-Sperre, ist es etwas anderes.
+
+**Bakugan: drei Listeneinträge, drei Staffeln derselben Amazon-Serie** (Daniel, 24.08.2026)
+
+„das war 3x in der Liste, ich hab vorhin bereits gesagt die links zeigen auf staffel 1, 5, 9,
+also wieder unterschied zwischen quellen wie sie bezeichnet wird."
+
+Unsere Titel heißen „Spieler des Schicksals", „Neu Vestroia", „Invasion der Gundalianer"; Amazon
+führt eine Serie mit fünfzehn Staffeln, und unsere drei Verweise zeigen auf die Staffeln 1, 5
+und 9. Welche Amazon-Staffel zu welchem unserer Titel gehört, sagt keine der beiden Seiten.
+
+**Was schon geht:** Die Meldungen kommen vollständig an — 13 Staffeln unter einer Adresse, je
+eine unter den beiden anderen, alle mit ihrer Nummer. Zuzuordnen sind sie über die
+**Folgenzahl**, denselben Weg, den das Projekt bei ADN schon geht (`staffelBloecke()`): Bakugan
+Staffel 1 hat 26 Folgen, „Neu Vestroia" 52, „Gundalianer" 39. Geht die Summe nicht auf, bleibt
+der Block unzugeordnet — das ist besser als eine geratene Zuordnung.
+
+### Offen für morgen: drei Beobachtungen an JoJo, ungeklärt
+
+Aufgenommen am 25.08.2026, 02:28, ohne Eingriff — Daniel: „notier das, mach nix, wir gucken
+morgen weiter". Alle drei an derselben Serie, alle drei mit Bild.
+
+**1. Zwei Kennungen für dieselbe Staffel, je nach Weg.** Der Klick aus unserer Übersichtsliste
+führt auf `amazon.de/dp/B0CG7S59KL`; die Wahl derselben Staffel 3 aus Amazons Auswahlfeld
+führt auf `amazon.de/gp/video/detail/B0CG76MH1K?ref_=atv_dp_season_select_s3`. Unsere Liste
+kennt nur die erste, deshalb steht auf der zweiten „nicht auf der Prüfliste" — formal richtig,
+praktisch eine Sackgasse.
+
+**Was zu klären ist:** Ob die beiden Kennungen dieselbe Staffel meinen (dann gehört die zweite
+als Alias in die Liste) oder verschiedene Fassungen (Kauf gegen Kanal-Abo). Amazons Auswahlfeld
+führt für JoJo mehrere Staffeln doppelt, insofern ist beides denkbar.
+
+**2. „5 Folgen", wo keine sind.** Auf `B0CG76MH1K` mit Staffel 3 zeigte der Knopf
+„🇩🇪 Deutsch · 5 Folgen · Kauf/Leihe · melden", während die Seite keine Folgenliste hat —
+weder Reiter noch Kacheln. Die fünf Nummern stammen also nicht von dieser Seite.
+
+**3. Der Zähler wandert mit dem Weg.** Dieselbe Staffel zeigte im Lauf einer Viertelstunde
+nacheinander „3 Folgen", „48 Folgen" und „5 Folgen", je nachdem, ob neu geladen, gewechselt
+oder aus der Liste geöffnet wurde.
+
+**Wie es angegangen wird — nicht durch Raten.** `tools/amazon-diagnose.js` in die Konsole der
+offenen Seite einfügen und `akDiagnose()` nach jedem Wechsel aufrufen. Die Tabelle nennt je
+Zeitpunkt Adresse, Kennung, Staffelnummer und Zahl der gelesenen Folgen — dieselbe Messung hat
+am 24.08.2026 ein Dutzend scheinbar verschiedene Fehler auf eine Ursache zurückgeführt.
+
+**Und das ist die eigentliche Lehre dieser Nacht.** Zwischen 00:30 und 02:30 sind sieben
+Fassungen der Erweiterung entstanden, jede als Antwort auf einen Screenshot, und drei davon
+haben einen neuen Fehler erzeugt (15 Folgen statt 13, dann 3 statt 24, dann „nicht abrufbar"
+über einer Seite mit 48 sichtbaren Folgen). Die Projektregel dazu steht seit dem 24.08. in
+`CLAUDE.md` und wurde nicht befolgt: **Wo nur ein Mensch messen kann, wird die Messung erbeten,
+nicht ersetzt.**
+
+### Stand nach der Nacht auf den 25.08.2026 — die Prime-Liste ist praktisch durch
+
+**Gemessen am Briefkasten des Workers, 01:45 Uhr:** 358 Meldungen unter 263 Kennungen; die
+Liste führt 257. **Genau zwei Kennungen haben noch keine einzige Meldung:**
+
+| Kennung | Titel | AniList | Folgen |
+|---|---|---|---|
+| `B0CG7S59KL` | JoJo no Kimyou na Bouken: Stardust Crusaders | 20474 | 24 |
+| `B0CH5BXKFX` | Mahouka Koukou no Rettousei: Raihousha-hen | 112300 | 13 |
+
+Beide sind die Fälle, an denen die Erweiterung in dieser Nacht hängen blieb — die doppelt
+gelistete JoJo-Staffel und die Mahouka-Staffel mit zwei gesperrten Folgen. Gemeldet wurden
+beide Serien, aber unter der **Sammelkennung** der Reihe (`B0CH1LLV72` bzw. `B0CN3Q9DH8`),
+nicht unter der Kennung, die unsere Liste erwartet.
+
+**Mahouka ist beantwortet** (Daniel, 25.08.2026, 02:00, selbst nachgesehen): Unter
+`B0CH5BXKFX` liegt Staffel 2. Die Folgen 1, 2 und 5 sind in Deutschland nicht abrufbar, die
+übrigen zehn laufen im Prime-Abo — eine davon angespielt, deutscher Ton bestätigt. Steht als
+Handbeleg in `data/dub-confirmed.yaml`.
+
+Der Widerspruch, der hier zuvor stand, war keiner: Die Meldung „Staffel 3, kein Deutsch"
+meinte die **nächste** Staffel (`B0CWRDZVBY`, über den Crunchyroll-Kanal, nur englischer Ton),
+nicht diese. Beide Angaben hatten recht.
+
+**Auch JoJo ist beantwortet** (Daniel, 25.08.2026, 02:20). Amazons Staffel 3 **ist** „Stardust
+Crusaders", mit 48 Folgen — beide AniList-Einträge zu je 24 zusammen (20474 und 20799), die
+Summe geht exakt auf. Sie läuft über das Crunchyroll-Kanal-Abo, und die deutsche Synchro hat
+Daniel dort selbst gesehen; aus Amazons Sprachfeld wäre sie bei einem Kanal-Titel kein Beleg.
+Steht als Handbeleg in `data/dub-confirmed.yaml`.
+
+Meine „24 Folgen" davor waren die Zahl **unseres Listeneintrags**, nicht die der Serie — und
+ohne diesen Zusatz gelesen eine falsche Auskunft.
+
+**Damit ist die Prime-Prüfliste durch.** Was danach noch als „nicht auf der Prüfliste"
+erscheint, ist meist richtig: Wer einen Titel über Amazons **Suche** öffnet, landet auf einer
+anderen Kennung als der, die unsere Liste führt (JoJo: `B0GYBTWX28` statt `B0CG7S59KL`).
+
+**Die ~10 Titel, die vor dem Zurücksetzen offen standen, sind nicht verloren.** Sie hatten im
+Worker längst Meldungen, nur der lokale Stand kannte sie nicht; der Abgleich hat sie
+zurückgeholt. Deshalb sank die Zahl nach dem Zurücksetzen von zehn auf zwei.
+
+### Erweiterung 0.86 bis 0.90 — was in dieser Nacht behoben wurde
+
+| Fassung | Befund |
+|---|---|
+| 0.86 | Speicherlast gedrittelt (zweiter „Out of Memory"), Neuladezwang bei jeder Staffel über 1, Regionshinweis einzelner Folgen, Volume-Nummern lesbar |
+| 0.87 | „Dieses Video ist derzeit nicht verfügbar" ist meldbar (Filme haben keine Folgenliste) |
+| 0.88 | Veralteter Quelltext kippte seine Folgen jede halbe Sekunde in den Zählstand zurück; Staffel ohne Folgen wieder meldbar |
+| 0.89 | Meldungen ohne Staffelnummer — 203 von 297 im Briefkasten, weil nur die Adresse gelesen wurde |
+| 0.90 | Die Zahl über der Folgenliste ist der Prüfstein für den Quelltext; `staffelZahl()` las Empfehlungskacheln; gesperrte Folgen zählen als beantwortet; doppelt gelistete Staffel gilt als gemeldet |
+
+**Der rote Tageslauf vom 24.08. ist erklärt und behoben.** Er wurde ausschließlich an
+`ann-voices` rot; die Warteschlange liefert wieder (drei Titel im Probelauf), der
+Gesundheitsstand meldet den Bestand statt des Zuwachses. Beide Läufe sind gelöscht.
+
+### Daniels Prüfrunde vom 25.08.2026, 00:30–01:45 — fünf Befunde, alle behoben
+
+Gepusht als Erweiterung **0.87**: Speicherlast (zweiter „Out of Memory"), Neuladezwang bei
+jeder Staffel über 1, Regionshinweis einzelner Folgen, Amazons Volume-Nummern, und „Dieses
+Video ist derzeit nicht verfügbar" als meldbarer Befund.
+
+**Offen geblieben ist genau eine Sache — eine Meldung ohne Staffelnummer.**
+
+Daniel zu „Haha wo Tazunete Sanzenri": „da steht 2/8 aber im tooltip steht nur s1 gemeldet,
+und S ohne nummer, also irgendeine staffel ohne nummer wurde gemeldet für diesen anime oder
+was?"
+
+Genau so ist es. Unter `B016J8RJ9G` liegen zwei Meldungen: eine für Staffel 1 und eine, die
+ihre Nummer nicht mitgeschickt hat — sie stammt aus einer Fassung der Erweiterung vor 0.72,
+die den Staffelschlüssel noch nicht kannte. Der Zähler „2/8" ist damit richtig gezählt und
+trotzdem irreführend: Er sagt nicht, welche der acht Staffeln die zweite war.
+
+**Zu tun:** Die Meldungen im Worker nach `staffel: null` durchsehen. Der Eintrag trägt
+Folgenzahl und Zeitstempel; über die Folgenzahl lässt sich die Staffel in aller Regel
+zuordnen, so wie bei ADN. Was sich nicht zuordnen lässt, wird gelöscht statt geraten — Daniel
+meldet die Staffel dann noch einmal, das kostet ihn dreißig Sekunden.
+
+**Zwei Amazon-Sonderfälle, die keine Arbeit machen** (25.08.2026, beide von Daniel gemessen):
+
+- **Dieselbe Staffelnummer zweimal im Auswahlfeld.** „Naruto Shippuden" führt „Staffel 13"
+  doppelt: `B081TKST2W` mit 14 Folgen und deutschem Ton, `B07YJ5ZK7Y` mit 13 und dem
+  Regionshinweis. Die Folgentitel sind identisch; in der zweiten Fassung ist Folge 4 eine
+  Doppelfolge (46 statt 23 Minuten). Kein Handlungsbedarf: Der Melde-Stand hängt an der
+  **Kennung**, nicht an der Nummer, und die beiden sind verschieden.
+- **Staffeln in Bänden.** „Made in Abyss" führt „Staffel 2, Volume 1" als `seasonNumber: 201`
+  (Hunderterstelle Staffel, Rest Band). Seit 0.86 zeigt der Knopf „2, Vol. 1"; der Schlüssel
+  bleibt Amazons Zahl, denn er muss eindeutig sein.
+
+**Und einer, der erklärt werden muss, weil er richtig aussieht wie ein Fehler:** Bei „High
+School DxD" stand nach zwei von drei Staffeln „alles gemeldet". Unsere Liste führt unter
+`B09QFHGS6L` **einen** offenen Eintrag (12 Folgen) — mehr braucht der Kalender dort nicht.
+Amazons Staffelzahl und unsere Zahl offener Einträge sind zwei verschiedene Dinge, und der
+Knopf zählt die zweite. Weitere Meldungen schaden nicht, sie sind zusätzliche Belege.
+
+### Archiv: Daniels Prüfrunde vom 24.08.2026 und die Liste vom 23./24.08. (durchgesehen 15.09.2026)
+
+**Nichts davon ist mehr offen.** Durchgesehen am 15.09.2026: Die Erweiterung läuft auf `amazon.de/*` (SPA-Navigation damit erledigt), die Arbeitslisten sind je Anbieter getrennt (`07-primevideo.md` u. a.), Disney+ hat `disney.js`, Netflix hat Kasten und Prüflisten-Knopf auf jeder Seite. Die Zahlen der Tabelle weiter unten (Prime 243/597, Netflix sieben, Crunchyroll 172 US-Befunde, 1.158 offene Verweise) sind Stände vom 23./24.08. und überholt — gemessen wird aus `public/data/titles.json`. „Ähnliche Titel vorschlagen" steht unter „Später". Der Block bleibt als Herleitung stehen.
+
+Behoben und gepusht sind: Fokus-Bug, Klick auf ganze Zeile, Staffel-Schlüssel
+(Sindbad/Bakugan/Barbapapa), falsche Folgenzahl beim Wechsel, „welche Staffeln fehlen"
+als Tooltip, tote Verweise meldbar.
+
+| Aufgabe | SP | Notiz |
+|---|---|---|
+| **Erweiterung lädt nicht bei SPA-Navigation** | 3 | Daniel: „extension lädt nicht korrekt wenn ich von amazon homepage auf ein prime titel navigiere, erscheinen die buttons erst nach neuladen der seite (f5)". **Ursache steht fest:** Das Content-Script hängt in `manifest.json` an `https://www.amazon.de/dp/*` und `/gp/video/detail/*`. Wechselt Amazon per History-API dorthin, injiziert Chrome nichts nach — erst ein echter Seitenaufruf greift. Zwei Wege: den Match auf `amazon.de/*` erweitern und im Skript prüfen, ob eine Titelseite vorliegt (einfach, aber das Skript läuft dann auf jeder Amazon-Seite), oder `chrome.webNavigation.onHistoryStateUpdated` im Service Worker mit Nachinjektion (sauberer, braucht die Berechtigung `webNavigation`). **Zu klären, bevor gebaut wird:** `amazon.js` steigt bei fehlender Titel-Kennung mit `return` aus — es müsste stattdessen warten und erneut prüfen |
+| **Arbeitsliste nach Anbieter trennen** | 2 | Daniel: „verweis auf gesamte liste ist nicht sortiert nach anbieter, trenn das nach anbieter auf." Betrifft `daniel-zum-abarbeiten/07-alle-anbieter.md` — eine Datei je Anbieter, erzeugt von `report-dub-checks.ts`. Prime Video und Crunchyroll haben eigene Wege, offen sind vor allem Disney+ (40) und die Reste |
+| **Disney+ in die Erweiterung** | 5 | Daniel: „evtl melde extension auf disney+ erweitern, damit es schneller geht." 40 Verweise in 34 Reihen, je ~30 Sekunden von Hand. Bauweise wie bei Netflix: Der Player nennt seine Tonspuren, ein Skript in `world: MAIN` liest sie mit. Der bisherige Einwand („bei 40 einmaligen Prüfungen ist Handarbeit schneller") gilt weiter — er kippt, sobald regelmäßig neue Disney-Titel dazukommen |
+| **Netflix: kein Melden von der Übersicht** | 2 | Daniel zu AnoHana: „keine anime-liste button sichtbar, wo ich nachgucken könnte ob dieser titel überhaupt eingetragen ist, der titel lässt sich nicht abspielen, kein melden möglich von der overview." Zwei Dinge: (1) Der Übersichts-Knopf fehlt auf Netflix-Seiten, die keine `/watch/`-Adresse sind — bei Prime Video gibt es ihn. (2) AnoHana trägt bei Netflix nur „Erinnerung", keinen Abspiel-Knopf: Der Titel ist **angekündigt, nicht verfügbar**. Dann gibt es dort nichts zu melden, und der Verweis gehört als „noch nicht abrufbar" markiert statt als offene Prüfung geführt |
+
+**Ähnliche Titel vorschlagen** — Idee von Daniel, 24.08.2026, 16:43
+
+Ein ausklappbarer Bereich im Detail-Panel, der Titel vorschlägt, die diesem ähneln.
+Grundlage: die Überschneidung der Genres. Erweiterung: Genres an- und abwählbar, damit man
+die ausblenden kann, an denen man kein Interesse hat.
+
+**Die Datenlage trägt das.** Gemessen am 24.08.2026:
+
+| | |
+|---|---|
+| Titel mit Genres | 2.749 von 2.762 |
+| verschiedene Genres | 58 |
+| im Schnitt je Titel | 5,4 |
+
+**Ein Probelauf mit Jaccard-Ähnlichkeit** (Schnittmenge geteilt durch Vereinigungsmenge)
+für „The Ghost in the Shell" — Genres Action, Psychological, Sci-Fi, Cyberpunk, Dystopian,
+Crime:
+
+```
+75 %  Cyberpunk: Edgerunners                 ★ 8.5
+75 %  PSYCHO-PASS Sinners of the System 1    ★ 7.0
+71 %  Animatrix                              ★ 7.0
+71 %  Mardock Scramble: The Second Combustion ★ 6.9
+67 %  Psycho-Pass 3: First Inspector          ★ 7.7
+```
+
+Das sind brauchbare Empfehlungen — Edgerunners und Psycho-Pass sind genau das, was ein
+Ghost-in-the-Shell-Zuschauer als Nächstes sehen will. **Ohne eine Zeile Zusatzdaten.**
+
+**Zwei Dinge, die der Probelauf gleich mit aufgedeckt hat:**
+
+1. **Reihen müssen gebündelt werden.** Unter den ersten acht Treffern standen vier Teile von
+   Psycho-Pass. Eine Empfehlungsliste, die viermal dieselbe Reihe nennt, ist eine Liste mit
+   fünf Vorschlägen, die wie acht aussieht. Die Bündelung nach `franchiseId` gibt es im
+   Projekt bereits.
+2. **58 Genres sind grob.** „Action" trägt fast nichts zur Ähnlichkeit bei, „Cyberpunk" sehr
+   viel. Eine Gewichtung nach Seltenheit (wer selten vorkommt, zählt mehr) wäre der nächste
+   Schritt — dieselbe Rechnung, die Suchmaschinen als IDF kennen. Erst danach lohnt die
+   Frage nach feineren Tags aus einer zusätzlichen Quelle.
+
+**Zur Abwählbarkeit:** Sie ist mehr als Bequemlichkeit — sie macht die Empfehlung
+nachvollziehbar. Wer sieht, *warum* etwas vorgeschlagen wird (weil beide „Cyberpunk" und
+„Psychological" tragen), versteht auch, warum ein Vorschlag danebenliegt. Das ist der
+Unterschied zwischen einer Empfehlung und einem Orakel.
+
+**Offen:** Sollen Titel ohne deutsche Synchro vorgeschlagen werden? Dagegen spricht der Zweck
+der Seite; dafür spricht, dass ein Vorschlag mit Stern-Merken der natürliche Weg ist, wie
+jemand von einem Titel zum nächsten kommt.
+
+| Aufgabe | SP | Notiz |
+|---|---|---|
+| ~~① Automatisierte Quelle für Tonspuren und Neuzugänge~~ — **steht, läuft täglich** (23.08.2026, 14:45) | 5 | **Die Quelle war seit dem 21.08. angebunden, lief aber nur am 2. jedes Monats** (`tonspuren-monatlich.yml`) und holte nur den Bestandskatalog. Eine Staffel, die am 3. startet, war damit dreissig Tage unsichtbar. Neu: `pipeline/fetch-motn-changes.ts` fragt `/changes` mit `change_type=new` fuer Netflix, Prime Video und Disney+ ab und haengt im taeglichen `refresh-data`-Lauf. **Kosten: eine Anfrage am Tag** (~30 im Monat) gegen ein Kontingent von 1.000. Liefert die Tonspur mit (`audios: [deu, jpn]`) und `imdbId`/`tmdbId` fuer die Zuordnung. **Gemessen statt angenommen:** `upcoming` ist fuer Anime nutzlos (12 kuenftige Serien fuer ganz Deutschland, kein Anime), `new` bringt welche (Beelzebub, The Dangers in My Heart, GTO 2026). ~~**Offen als naechster Schritt:** Die gesammelten Aenderungen mit unserem Datensatz verknuepfen~~ — **gemessen 24.08.2026: es gibt nichts zu verknuepfen.** 11 von 152 Meldungen sind einem unserer Titel zuzuordnen, 5 tragen deutschen Ton, **0 fehlen im MOTN-Bestand.** Der Lauf meldet die Zahl jetzt selbst und warnt, sobald sie ueber null steigt — Einzelheiten im Archiv |
+| **Prüfstand aller Entscheidungen vom 23.08.2026** (nach Daniels Korrektur, 15:20) | — | Daniel: „du hast falsche annahmen basierend auf falschen grundlagen gehabt, du hättest verweise gelöscht… du musst auf tatsächlicher echten grundlage entscheiden." Jede Änderung dieses Tages durch das Raster aus `pruefen-und-belegen` (Abgleich ≠ Validierung): <br>**① Amazon-Verweise sind Prime Video statt Kaufshop (360 Stück) — VALIDIERT.** Daniels Blick in sein Konto bestätigt vier Titel, die wir seither als `primevideo, zugang=abo` führen: Digimon Tamers, Gankutsuou, Mayonaka no Occult Koumuin, Mahoutsukai no Yakusoku. Vier Fälle, offener Ausgang, in der schädlichen Richtung geprüft. <br>**② Zugangsart aus JustWatch/TMDB (28 Verweise abo→kauf) — ABGEGLICHEN, NICHT VALIDIERT.** Gegenprobe mit der Streaming Availability API am 23.08.: Für DEATH NOTE, Made in Abyss und Dr. STONE meldet sie „kein Prime-Angebot" — Schweigen, also weder Beleg noch Gegenbeleg. Der schädliche Irrtum wäre „kauf, obwohl im Abo": Ein Abonnent hält den Titel für kostenpflichtig und klickt nicht, es fällt nie auf. **Bleibt bis zu Daniels Prüfung als unvalidiert markiert.** Zurückgenommen wird sie nicht — der Vorzustand (aus dem Anbieternamen geraten) war nachweislich schlechter. <br>**③ `change_type=removed` — WIDERLEGT**, siehe eigene Zeile. Sammelt nur noch. <br>**④ Crunchyroll aus der Änderungsquelle entfernt** — belegt durch Daniels Lycoris-Recoil-Prüfung **und** die eigene Kontrollmessung (96 von 99 „Quelle schweigt"). <br>**⑤ Ohne Datenrisiko:** doppelte Überschrift im Detail-Panel, Quellenangaben für JustWatch und Movie of the Night, Genre-Filter im Katalog, `loadEnv` in `fetch-motn.ts`, Disney+-robots.txt-Befund |
+| **Aktualitätsmessung an einer laufenden Serie** (Daniels Vorgabe, 23.08.2026, 14:55) | — | Getestet an „Vom Landei zum Schwertheiligen" Staffel 2 (Prime Video, laufend, Folge 7 seit drei Tagen draussen). **Was die Quelle kann:** Sie fuehrt **jede einzelne Folge** mit Datum und Tonspur — Folge 1 bis 6 der laufenden Staffel, alle als `DEUTSCH` belegt, dazu die offiziellen deutschen Folgentitel. Diese Aufloesung hat sonst keine Quelle im Projekt. **Was sie nicht kann:** Folge 7 (unser Termin: 20.08.) kennt sie am 23.08. **nicht**. Und `availableSince` ist ein **Entdeckungsdatum, kein Erscheinungsdatum** — im Vergleich mit unseren Terminen: Folge 5 exakt gleich, Folge 6 einen Tag frueher, Folge 2 aber sieben Tage spaeter, weil die Quelle einen Durchlauf verpasst hat. **Schlussfolgerung: als Terminquelle ungeeignet, als folgengenauer Synchro-Beleg sehr gut.** Die Termine bleiben bei Crunchyroll (stuendlich) und der Wochentakt-Prognose; diese Quelle beantwortet „laeuft es dort auf Deutsch", nicht „wann kommt es" |
+| **Bestand ohne Geld und ohne Scraping — belegt am 23.08.2026, 14:45** | 3 | Daniels Vorgabe: „wir bleiben kostenlos… beleg das scraping an einem beispiel bevor du hochscalierst." **Das Beispiel hat ergeben, dass es kein Scraping braucht.** Eine Titelsuche „Naruto" bei der Streaming Availability API liefert acht Titel mit vollstaendiger Anbieter- und Sprachinfo, inklusive `subscription` / `addon` (Aniverse-Kanal) / `buy` bei Prime Video — genau die Angabe, fuer die am Vortag Amazon-Seiten abgerufen wurden. **Der Engpass war nie das Kontingent, sondern der Zuschnitt:** Der Katalogweg fragte den kompletten deutschen Netflix-Serienkatalog ohne Genre-Filter ab und liess Prime Video und Disney+ ganz aus. Mit `genres=animation` und drei Katalogen in einer Anfrage stehen 10 Serien je Seite, 15 von 20 mit deutscher Tonspur. **Rechnung: 661 offene Titel, geschaetzt 60 bis 100 Anfragen fuer den Anime-Katalog, dazu eine am Tag fuer die Aenderungen — gegen 1.000 im Monat.** Die 49-USD-Stufe ist damit gegenstandslos. Naechster Schritt: den Katalog in Etappen durchlaufen lassen, das Restkontingent August (223) reicht fuer den Anfang |
+| **JustWatch direkt auslesen — geprüft und verworfen** (23.08.2026, 14:30) | — | Daniels Vorschlag: „1x justwatch scraping für gesamt stand, und dann nur über änderung täglich per api nachfragen?" **Die Architektur ist richtig, die Quelle nicht.** JustWatchs `robots.txt` erlaubt alles (`User-agent: *` / `Disallow:` leer) und die Titelseiten tragen `audioLanguage` als schema.org-Daten — technisch waere es der kuerzeste Weg. Die Nutzungsbedingungen verbieten es aber ausdruecklich, **Abschnitt 7.1**: „In connection with the use of the Website users will not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods." **Keine Ausnahme fuer private oder nicht-kommerzielle Nutzung** — Abschnitt 1.2/5.4 erlaubt die private Nutzung der Plattform, ausdruecklich nicht auf automatisiertem Weg. Dazu: „users agree not to implement any measures to circumvent such blocking" (IP-Sperre). **Dritter Fall an einem Tag, in dem die robots.txt freundlicher ist als die AGB** (nach Amazon und der Synchronkartei). Zweite Huerde, unabhaengig davon: Wir haben gar keine JustWatch-Adressen — das Feld `justwatchUrl` in `data/tmdb-titles.json` enthaelt eine **TMDB**-Adresse (`themoviedb.org/tv/<id>/watch?locale=DE`), nicht justwatch.com. **Bestandsquelle bleibt daher die Streaming Availability API**, deren Bedingungen Speichern und Anzeigen ausdruecklich erlauben |
+| **⓪ Grundsatz: die Erweiterung ist kein Dauerbetrieb** (Daniel, 23.08.2026, 14:12) | — | Wörtlich: „wir können die extension zum prüfen nutzen, aber nur einmalig als bestätigung das der automatismus funktioniert, keine dauerhafte lösung… wir müssen unsere datenquellen automatisieren… wir brauchen die beste quelle, schnellster weg aktuelle infos für die webseite beschaffen, nicht erst tage später, besonders für zukünftige releases." **Damit ist der Rang der Aufgaben neu:** Eine Quelle, die von allein läuft, schlägt jede Lösung, die Daniels Handgriff braucht — auch dann, wenn sie mehr Arbeit macht. Die Erweiterung bleibt als **Gegenprobe** erlaubt (stimmt, was die Automatik liefert?), nicht als Beschaffungsweg. Zweite Vorgabe im selben Satz: **Aktualität ist Teil der Qualität.** Ein Termin, der drei Tage später ankommt, ist für einen Kalender wertlos — künftige Veröffentlichungen wiegen schwerer als Katalogpflege |
+| ~~① Rechtsfrage Amazon zu Ende prüfen~~ — **grösstenteils gegenstandslos** (23.08.2026, 14:45) | 3 | **Die Zugangsart braucht Amazon gar nicht.** Recherche am 23.08.: JustWatch **scrapt nicht**, sondern bezieht ueber Partner-Integrationen — und liefert seine Daten ueber die TMDB-API weiter, die dieses Projekt seit Monaten nutzt. `watch/providers` nennt `flatrate`, `rent`, `buy` und `ads`: genau Daniels drei Kategorien, lizenziert, mit Attributionspflicht („JustWatch", steht jetzt auf der Quellenseite). Die Angaben lagen als `offers` in `data/tmdb-titles.json` und wurden nur fuer Anbieter **ohne** eigene Plattform ausgewertet. **Offen bleibt allein die Tonspur** — die fuehrt TMDB nicht; dafuer weiter ② . Nebenbefund: Die PA-API wurde am 15.05.2026 eingestellt, Nachfolger ist die Creators API (ungeprueft, ob sie Prime-Video-Metadaten fuehrt). Daniels Informationspflicht-Argument bleibt als Frage bestehen, hat aber keine praktische Dringlichkeit mehr — Bewertung im Abschnitt „Rechtslage" weiter unten |
+| **Disney+: 40 Verweise ohne Sprachangabe — nur ueber die Erweiterung** (geprueft 23.08.2026, 14:50) | 2 | `disneyplus.com/robots.txt` sperrt mit `User-agent: *` / `Disallow: /` alles, ausgenommen sind namentlich genannte Suchmaschinen-Bots (Googlebot, Bingbot, Applebot, Yandex …). Damit ist Disney+ **derselbe Fall wie Netflix**: kein automatisierter Abruf, der Weg fuehrt ueber die Erweiterung. TMDB hilft nicht — `watch/providers` nennt Anbieter, aber keine Tonspuren. **Zusammen mit Prime Video haengen 640 Verweise an der Erweiterung**, das ist der groesste Hebel im Projekt. Adressformen im Bestand: `/de-de/series/<slug>/<id>` und `/browse/entity-<uuid>` |
+| ~~**① Rechtsfrage Amazon: Restfrage Informationspflicht**~~ — **geprüft und entschieden am 24.08.2026**, Einzelheiten im Archiv unter „Rechtsfrage Amazon zu Ende geprüft". Kurz: Die Informationspflicht besteht (Art. 246a § 1 Abs. 1 Nr. 1 EGBGB), gilt aber gegenüber dem Käufer und begründet kein Zugriffsrecht Dritter. Entschieden hat es am Ende nicht die Auslegung, sondern eine Messung: Amazons `robots.txt` sperrt `/gp/video/api` — genau den Aufruf, über den die vollständige Folgenliste käme — und listet über 90 Bots namentlich mit `Disallow: /`. Damit fehlt dem BGH-Fall, der helfen würde (I ZR 159/10), seine tragende Voraussetzung. Es bleibt bei der Erweiterung. Der ursprüngliche Auftrag lautete: | 2 | „ich denke automatisiert wäre es besser, wenn es wirklich rechtlich nicht geht dann lassen wir es, aber ich würde das nochmal genauer untersuchen… es sind simple informationen die öffentlich zugänglich sein müssen, sonst könnten käufer sich nie dafür entscheiden." **Sein Ansatz ist neu und noch nicht geprüft: die Informationspflicht als Gegengewicht.** Zu untersuchen: (1) **Art. 246a § 1 EGBGB / § 312d BGB** — bei Fernabsatz über digitale Inhalte muss der Anbieter über „Funktionsweise" und „Kompatibilität" informieren; ob die Sprachfassung darunterfällt, ist die Kernfrage. (2) **Digitale-Inhalte-Richtlinie (EU) 2019/770**, Art. 6–8: Vertragsmäßigkeit umfasst Eigenschaften, die der Verbraucher erwarten darf. (3) Trägt eine Pflichtangabe überhaupt Datenbankschutz? Argument: Wer veröffentlichen **muss**, investiert nicht in die Beschaffung — Anschluss an EuGH *British Horseracing Board*. (4) Wie halten es **JustWatch und werstreamt.es**, die genau dieselbe Angabe zeigen — Partnerprogramm, Lizenz oder Duldung? Das ist der praktische Beleg, der mehr wiegt als jede Auslegung. **Ergebnis entscheidet, ob ② nötig ist oder ein Lauf doch geht** |
+| ~~**② Erweiterung liest Amazon mit**~~ — **gebaut und in Betrieb** (23./24.08.2026) | 5 | Der Plan ist umgesetzt: `extension/amazon-leser.js` liest `audioTracks` je Folge und `benefitId` je Staffel, holt die übrigen Folgenabschnitte über `getDetailWidgets` selbst nach und markiert Kanal-Titel mit ⚠, weil Amazons Sprachangabe dort die des Kanals ist und nicht die der Folge (gemessen an „Kill Blue": Amazon behauptet 12 deutsche Folgen, ADN und Netflix sagen übereinstimmend 4). Einzelheiten in `CLAUDE.md`, Abschnitte „Amazon: die Folgenliste kommt seitenweise" und „Bei einem Kanal-Titel ist Amazons Sprachangabe kein Beleg". Der ursprüngliche Plan lautete: Der Bot darf Amazon nicht abrufen (Nutzungsbedingungen, siehe Abschnitt „Rechtslage" unten), ein Mensch mit offener Seite schon — derselbe Weg wie bei Netflix. **Was zu bauen ist:** (1) `extension/manifest.json` um `*://*.amazon.de/*` erweitern, Content-Script wie bei Netflix in `world: "MAIN"`; (2) `extension/leser.js` liest die Seiten-Fracht statt des Players — die Angaben stehen im ausgelieferten HTML, kein Netzwerk-Mitschnitt noetig; (3) auszulesen sind `audioTracks` (**je Folge**, nennt „Deutsch") und `benefitId` (**je Staffel**: `Prime`, `aniversede`, `crunchyrollde`) — **niemals `entitlementType`**, das ist kontoabhaengig und anonym immer „Unentitled"; (4) Meldung je Staffel statt je Folge, das ist der Vorteil gegenueber Netflix; (5) die Uebersicht in `melder.js` um die offenen Amazon-Titel erweitern, Adressform `https://www.amazon.de/gp/video/detail/<ASIN>?ref_=atv_dp_season_select_sN`. **Daran haengen 243 Prime-Video-Verweise ohne Sprachangabe** plus die Zugangsart je Staffel, die sonst nirgends steht. Messbelege im Abschnitt „Amazon nennt Tonspur und Abo-Bedingung selbst" |
+| **Reihenfolge: neue Anime zuerst** | — | Daniels Vorgabe vom 23.08.2026: „im fokus stehen neue anime, das ist das aller wichtigste". Was 2016 und aelter ist, kommt zuletzt — auch dann, wenn dort mehr Luecken sind. Ein Kalender lebt von dem, was demnaechst laeuft; ein Katalogtitel von 2005 ist Nachschlagewerk. |
+| **Crunchyroll: 172 Befunde aus dem US-Katalog nachziehen** | 2 | **Der deutsche Katalog ist erreichbar, seit dem 22.08.2026 belegt:** Der Worker frischt das Zugangspaket selbst auf — gemessen um 16:14 Uhr, geholt über eine Londoner Leitung, `land: DE`, Bucket `/DE/M2/-`, gültig 24 Stunden. Im Archiv tragen **762 Serien `katalog: de`**, und die Zahl mit belegter deutscher Fassung ist von 226 auf **406** gestiegen. Offen sind die **172 Serien mit `katalog: "us"`** und 25 ohne Angabe aus dem Lauf vom 21.08.2026. Sie sind nicht veraltet, sie beantworten eine andere Frage — die Wiedervorlage schützte sie trotzdem. Seit dem 22.08.2026 schlägt der Katalog die Frist, damit kommen sie von selbst wieder dran |
+| **„Nicht mehr im Angebot" ohne Seitenanzeige erkennen** | 3 | Die Content-API meldet den Rückzug einer Serie **nicht**: Für „Dragon Ball" und „Dragon Ball Z" liefert sie 153 bzw. 291 Folgen, die Seite zeigt das Banner „Leider sind die Videos dieser Serie nicht mehr verfügbar" (Daniel, 22.08.2026). Beide Reihen stehen dadurch als erster Eintrag in `daniel-zum-abarbeiten/08-arbeitspakete.md` — 19 tote Verweise in einer Zeile. **Widerlegt am 22.08.2026:** `availability_ends` trennt die Fälle nicht — Dragon Ball (weg) und JoJo (sichtbar) tragen beide den 31.12.2025, und Daniel hat JoJo wie Lycoris Recoil als normal sichtbar bestätigt. Die Ursache ist eine andere und steht in der Zeile darüber: Der Lauf sah den US-Katalog. Drei Gruppen gemessen: 57 Serien mit Ende 12/2025 (darunter Dragon Ball Z **und Fairy Tail**), 226 mit Enden aus 2022, 220 ohne jedes Ende. Daniels erste Runde passt dazu: Ende 12/2025 → Banner; Ende 2022 (Conan, Gintama, Yu-Gi-Oh! GX) → sichtbar; ohne Ende (One Piece) → sichtbar. ~~**Entscheidet sich an zwei, drei weiteren Prüfungen aus der 12/2025-Gruppe.**~~ — **die Prüfungen sind gegenstandslos** (24.08.2026). Die These war, das Ablaufdatum trenne die Fälle; sie ist längst widerlegt, und die drei belegten Fälle reichen: Dragon Ball (weg), JoJo (sichtbar) und Lycoris Recoil (sichtbar) tragen **alle** den 31.12.2025. Weitere Stichproben würden nur bestätigen, was feststeht. Was offen bleibt, ist ein **anderes** Merkmal — und dessen Suche ist Arbeit an den Daten, nicht an Daniels Zeit |
+| **Prime Video: 243 Verweise ohne Sprachangabe** (gemessen 23.08.2026, 02:05) | 5 | Der groesste offene Posten nach dem Netflix-Abend. Nur 5 von 245 Verweisen sind belegt. Die Erweiterung koennte dieselbe Arbeit leisten wie bei Netflix, muesste aber auf Amazons Seite umgebaut werden. **Messung am 23.08.2026 gemacht, Ergebnis besser als erhofft** (Abschnitt „Amazon nennt Tonspur und Abo-Bedingung selbst" weiter unten): Es braucht nicht einmal den Player — die Seite selbst nennt `audioTracks` **je Folge** und `benefitId` **je Staffel**, beides ohne Anmeldung lesbar. Ein einziger Seitenaufruf traegt damit mehr als bei Netflix, wo je Folge geklickt werden muss. **Ein Bot darf es trotzdem nicht holen** — Amazons Nutzungsbedingungen untersagen Data Mining ausdruecklich, auch einmalig. Bleibt der Netflix-Weg: mitlesen, waehrend Daniel die Seite ohnehin offen hat |
+| **Sieben Netflix-Titel mit offener Staffel** | 1 | Netflix ist am 22.08.2026 von 258 offenen Adressen auf sieben gefallen, **340 Synchros sind belegt und 145 tote Verweise entfernt**. Was bleibt: ONE PIECE (sieben Arcs), KONOSUBA, Kakegurui, Ghost in the Shell SAC_2045, Pokémon Horizons, DAN DA DAN, BEYBLADE X — je eine bis sieben Staffeln. Die Erweiterung zeigt sie, sobald Daniel sie oeffnet |
+| ~~**YouTube-Data-API-Schlüssel**~~ — **geprüft, bringt nichts** (23.08.2026, 19:35) | 2 | Der Schlüssel stand als Aufgabe für Daniel auf der Liste. **Vor der Bitte geprüft, und die Prüfung hat sie erledigt:** Die Data API führt für Audiosprachen **ein einziges Feld**, `snippet.defaultAudioLanguage` — die Standard-Tonspur, keine Liste. Genau dieses Feld steht normalerweise auch in der Videoseite, die ohne Schlüssel lesbar ist. An drei der offenen Verweise nachgesehen: Es **fehlt dort vollständig**, also hat der Uploader es nie gesetzt — dann ist es in der API ebenso leer. Der Schlüssel hätte Daniels Zeit gekostet und nichts geliefert. |
+| **Die 23 offenen YouTube-Verweise sind großteils gar nicht deutschsprachig** (23.08.2026) | 2 | Nach Kanal aufgeschlüsselt, ohne Schlüssel ermittelt: **6× „YouTube Movies"** (Kauffilme — die Tonspur steht dort erst nach dem Kauf fest), **4× „The Official Pokémon YouTube channel"**, je einmal Nozomi Entertainment und Aniplex USA (beide US-Kanäle mit englischen Titeln), **2× animeondemand** (deutscher Anbieter). Dazu neun Playlists, überwiegend Kurzformate (Sylvanian Families, Pokémon Evolutions, Mini-Anime). ~~**Nebenbefund:** Alle 23 stehen als `zugang: kostenlos`, obwohl sechs davon Kauffilme sind~~ — **behoben 23./24.08.2026 in zwei Schritten.** Zuerst über den Kanalnamen (40 Verweise), dann über die sechs, die bei oEmbed mit HTTP 401 antworten und deshalb gar keinen Kanal tragen: Ihre Videoseite nennt eine `offerId`, das ist der Beleg. Alle sechs stehen jetzt als `kauf`, zwei Zusicherungen in `check:zugangsart` halten beide Richtungen fest. **Dabei mitgefunden:** Zwei der 401-Fälle heißen „Tokyo Ghoul … OmU" und „My Hero Academia … OmU" — Untertitel statt Synchro, vom Uploader selbst benannt. Sieben solche Verweise stehen jetzt ganz oben in `daniel-zum-abarbeiten/09-youtube-liste.md` und warten auf Daniels `0` | Alle 93 wurden am 23.08.2026 geprueft — erst ueber oEmbed (Titel und Kanal), dann ueber die JSON-Fracht der Videoseite, die die Tonspur strukturiert nennt. **41 Verweise sagen ihre Fassung selbst**, 40 davon deutsch; dazu sechs, deren Videotitel sie benennt. Kein Verweis ist geloescht, neun sind kostenpflichtig (HTTP 401 bei oEmbed, Kauf- und Leihfilme). Die uebrigen 46 nennen nichts — dort haette nur die Data API mit Schluessel eine Antwort, und die kostet Kontingent. Reste in `daniel-zum-abarbeiten/09-youtube-liste.md` |
+| ~~RTL+: Verweise offen~~ — **0, erledigt** (gemessen 23.08.2026, 02:05) | 1 | 36 sind eingetragen, nachdem Daniel am 23.08.2026 festgelegt hat: „rtl+ eintraege kannst du immer davon ausgehen das sie deutsch sind, es ist ein rein deutschsprachiger online streaming dienst." Das steht als Festlegung in den Daten, nicht als Messung — RTL+ nennt die Tonspur nirgends strukturiert. Geprueft wurde, was pruefbar war: alle 42 Verweise leben, einer zeigte auf einen anderen Titel (Demon Slayer → Mugen-Train-Film) und ist ausgenommen |
+| **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | **1.158 Anbieter-Verweise ohne Sprachangabe (gemessen 24.08.2026, 11:00 aus `public/data/titles.json`)**. Verteilung: Prime Video 597, Crunchyroll 462, Disney+ 40, Netflix 26, YouTube 24, ADN 7, Joyn 2, RTL+ 0. **Belegt sind 1.081 von 2.239 Verweisen.** (Vorstand 23.08.2026, 14:45: 1.226 offen von 2.234 — der Rückgang um 68 kommt aus dem Crunchyroll-Anteil, 523 → 462, also aus dem Montags-Tiefendurchlauf.) Der Crunchyroll-Anteil laeuft maschinell nach (Montags-Durchlauf), Netflix ist mit der Erweiterung fast durch. **Die Zahlen werden gemessen, nicht fortgeschrieben** — Griff: `node -e` ueber `public/data/titles.json`, `streams[].dub`. <br>**Warum die Summe gegenueber 02:05 (872) gestiegen ist:** nicht durch Rueckschritt, sondern durch Ehrlichkeit. Der Amazon-Fix vom selben Tag hat 360 Verweise von `watchLinks` (dort standen sie als „Kaufen oder leihen") in die Prime-Video-Streams geholt. Sie waren vorher genauso ohne Sprachangabe, nur zaehlte sie niemand — Prime Video springt dadurch von 243 auf 600 offene. |
+| ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
+
+### Terminiert (läuft von allein)
+
+Geplante Aufgaben, die zu einem festen Zeitpunkt selbst anspringen. Zählen im Footer als 📅,
+nicht als „jetzt möglich" — entschieden und eingeplant ist beides schon, es fehlt nur die Zeit.
+
+| Wann | Was | Aufgabe |
+|---|---|---|
+| stündlich :23 | **Sendezeiten** | `refresh-hourly.yml`, Crunchyroll-Kalender über drei Wochen. Committet nur bei echter Änderung |
+| täglich 06:17 | **Alle Quellen** | `refresh-data.yml`: AniList, Crunchyroll, ADN, Anime2You, aniSearch, danach `data:check` als Wachhund gegen stumm gewordene Quellen |
+| 02.09.2026, 06:17 | **Tonspuren bei Netflix, Prime und Disney+** | `tonspuren-monatlich.yml`, 800 der 1.000 Monatsabrufe der Streaming Availability API. Läuft am 2. jedes Monats, einen Tag nach dem Zurücksetzen des Kontingents |
+| montags 07:41 | **Wöchentlicher Tiefendurchlauf** | Läuft von allein (`cron: 41 5 * * 1`), nächster am 24.08.2026. Steht hier, damit er nicht als Aufgabe verwechselt wird — anzustoßen ist nichts. Nur wenn er rot wird, springt `claude-reparatur.yml` an und öffnet einen Pull Request |
+
+### Später (nice to have)
+
+Bewusst zurückgestellt. Zählt im Footer als „später", nicht als „jetzt möglich" — damit die
+Liste der wirklich anstehenden Arbeit nicht von Dauerbrennern verstopft wird. Wird hier
+herausgeholt, wenn der User es sagt.
+
+| Idee | SP | Notiz |
+|---|---|---|
+| **„Seit"-Datum in den Anbieter-Pillen einblendbar machen** | 2 | Daniel, 13.09.2026, 23:33: Das Datum („seit 31.03.2026") kommt aus den Pillen raus und wird durch die Folgenzahl ersetzt (Aufgabe unter „In Arbeit") — „diese info können wir uns weiterhin merken, aber für nutzer eher weniger interessant, evtl fügen wir eine option später hinzu um das einblenden zu können?" Eine Einstellung, die das Datum wieder zeigt. Erst nach der Folgenzahl-Umstellung |
+| **Erledigt am 15.09.2026: Ähnliche Titel im Detail-Panel** | — | Gebaut als einklappbarer, standardmäßig offener Bereich zwischen Keywords und Quellen (Daniel: „aber einklappbar", „per default aufklappen", „max 5 ähnliche titel"). Gewichteter Jaccard über Genres und Keywords (`log(N/Häufigkeit)`), eine Reihe nur einmal, eigene Reihe ausgenommen, Mindestanteil 15 %, höchstens fünf Vorschläge, je Zeile die drei gewichtigsten gemeinsamen Merkmale. Lädt `titles.json` erst, wenn der Bereich ins Bild scrollt. Nur Hauptbestand — alle 2.771 Titel dort haben eine deutsche Fassung, die offene Frage „auch ohne Synchro?" entfällt damit. Geprüft mit Bild an Ghost in the Shell (No Guns Life, Psycho-Pass 2, Pluto …). Ursprüngliche Notiz: | Idee von Daniel, 24.08.2026, 16:43 — Herleitung und Probelauf (Jaccard über Genres, Reihen bündeln, Gewichtung nach Seltenheit) im Archiv-Block „Daniels Prüfrunde vom 24.08.2026". Offen: auch Titel ohne deutsche Synchro vorschlagen? |
+| **Statusanzeige fürs Handy** | 2 | Die Anzeige liegt unter `C:codeai__assets	oolslauf-status` und startet seit dem 21.08.2026 beim Anmelden von selbst (`Laufstatus.vbs` im Autostart). Für das Handy müsste die Datei nur irgendwo erreichbar liegen — sie fragt eine einzige Adresse ab und braucht keinen Schlüssel. **Zurückgestellt am 21.08.2026:** „die idee mit handy brauchen wir erstmal nicht". Der zweite Rest, ein Fenster das immer oben bleibt, ist mit dem Autostart hinfällig — Daniel schiebt es sich einmal am Monitor zurecht |
+| **Verworfen am 15.09.2026: Synchronstudios als Quelle** | — | Daniel: „recherche über nutzen, analyse ob dadurch falsch infos entstehen könnten, vermutlich eher nicht machen". **Ergebnis: nicht machen.** (1) **Nutzen gering:** Die Projektlisten sind Referenzen ohne Datum, Plattform, Staffel oder Ausgabe (Oxygen: „Chainsaw Man – Der Film Reze Arc — Deutsche Synchronisation"); Studio Hamburg Synchron, TV+Synchron und Berliner Synchron führen keine maschinenlesbaren Listen, nur Referenzseiten. Für die Frage „ob es eine deutsche Fassung gibt" hat der Bestand bessere Quellen: MyDubList, AniList-Sprechrollen, aniSearchs Synchro-Marke, Anbieter-Tonspuren. (2) **Falschinfos wahrscheinlich:** Ein Studioname plus Werktitel sagt nicht, welche Staffel, welcher Film oder welche Ausgabe gemeint ist — genau die Verwechslung, die dieses Projekt mehrfach Belege gekostet hat (Date a Live, Haikyu!!, Captain Tsubasa). Eine Nennung ohne Staffel würde als Synchro-Beleg auf die falsche Staffel fallen. Dazu Doppelsynchros (TV und Neuauflage, siehe aniSearch-Forum „Liste aller Doppel- oder Dreifach-Synchronisationen"), bei denen ein Studio die ältere Fassung meint. (3) **Die naheliegende Sammelquelle ist gesperrt:** Die Deutsche Synchronkartei führt Synchronfirma je Titel, sperrt aber `/json/` und `/suche` per robots.txt und untersagt automatisiertes Auslesen (seit 11.08.2026 festgehalten). **Neu bewerten**, wenn ein Studio oder Lizenznehmer eine datierte, staffelgenaue Liste veröffentlicht. Alte Notiz: | 8 | **Recherche am 11.08.2026 gemacht, Ergebnis ernüchternd.** Oxygen Sound Studios führt unter [o2studios.com/de/projekte](https://o2studios.com/de/projekte/) eine reine Referenzliste: „Chainsaw Man – Der Film Reze Arc — Deutsche Synchronisation", ohne jedes Datum und ohne Status. Violetmedia ist von hier aus nicht erreichbar (TLS-Handshake bricht ab, wie schon bei aniverse.de). Ein Studio nennt also, **dass** es eine Fassung macht — nicht **wann** sie kommt. Das ist nachvollziehbar: Der Termin gehört dem Lizenznehmer, nicht dem Studio. **Rest-Nutzen:** Die Projektlisten wären ein Beleg dafür, dass eine deutsche Fassung überhaupt existiert oder entsteht — für die `dubConfidence`, nicht für den Kalender. Als Terminquelle zurückgestellt; eine Anfrage lohnt nur, wenn ein Studio überhaupt Termine kennt und nennen dürfte |
+
+### Gemessen am 24.08.2026: nextVideoReleaseDate bringt derzeit nichts
+
+Der ADN-Endpunkt `/show/<id>` liefert ein Feld `nextVideoReleaseDate` — den exakten
+Termin der nächsten Folge, anonym abrufbar. Das klang nach einer Terminquelle, die dem
+Projektziel direkt dient, und stand als Aufgabe in der Liste.
+
+**Die Messung sagt etwas anderes.** Von 20 laufenden Serien tragen 6 einen künftigen Termin:
+
+| Serie | Termin | Sprachen |
+|---|---|---|
+| One Piece | 30.08.2026, 23:00 | `vde`, `vostde` |
+| HELL MODE | 28.08.2026, 18:30 | nur `vostde` |
+| Rilakkuma | 29.08.2026, 03:00 | nur `vostde` |
+| The Forsaken Saintess | 24.08.2026, 16:30 | nur `vostde` |
+| The World is Dancing | 24.08.2026, 15:30 | nur `vostde` |
+| Flaming Dodgeball Girl Danko | 24.08.2026, 16:30 | nur `vostde` |
+
+**Auch der One-Piece-Termin ist keiner.** Das `vde` auf Serienebene stammt von älteren
+Folgen; die laufenden Folgen 1172 bis 1175 tragen alle nur `vostde`, und Folge 1176 am
+30.08. wird ebenso eine Untertitelfolge sein. Die Serienangabe ist eine ODER-Verknüpfung
+über alle Folgen und sagt über die nächste nichts.
+
+Damit sind **alle sechs** künftigen Termine Untertitel-Termine. Für einen Kalender, der
+deutsche Fassungen zeigt, ist der Gewinn null — `fetch-adn.ts` filtert Folgen ohne `vde`
+bewusst heraus.
+
+**Wann das neu zu bewerten wäre:** Wenn der Kalender künftig auch Untertitel-Termine zeigen
+soll (Produktentscheidung, nicht Technik), ist das Feld sofort nutzbar und liefert exakte
+Termine auf die Minute. Oder wenn eine Simulcast-Serie mit laufender Synchro auftaucht —
+dann nennt das Feld den nächsten deutschen Termin.
+
+### Zu besprechen
+
+*(nichts offen)*
+
+### Warten auf Feedback
+
+**Entfernt am 28.09.2026:** Hier stand bis heute der Google-DMARC-Bericht „erwartet ab dem
+26.08.2026". Das Thema ist längst abgeschlossen — am **05.09.2026** wurden die Berichte
+**abgeschaltet** (`rua=` aus dem DMARC-Eintrag entfernt, siehe „Abgeschaltet 05.09.2026: Die
+DMARC-Berichte haben ihre Frage beantwortet" oben). Es kommen also keine Mails mehr an
+(Daniel am 28.09.2026: „keine dmarc emails im postfach, warum steht das im todo, haben wir das
+thema nicht bereits abgeschlossen?"), und die Frage nach der Politik beantwortet eine
+DNS-Abfrage in Sekunden.
+
+| Thema | Seit |
+|---|---|
+| Antwort von aniSearch auf die Anfrage nach einer Titeldaten-Schnittstelle (abgeschickt 09.08.2026 an api@anisearch.com); dabei auch gefragt, ob die Beschreibungen mit Quellenangabe öffentlich stehen dürfen | 09.08.2026 |
+
+## Recherche News-Quellen (11.08.2026, angefangen — nicht abgeschlossen)
+
+Erster Schritt der Aufgabe „News-Quellen für Sendepausen". Geprüft wurde nur, was ohne
+Abrufcode zu prüfen ist: robots.txt und ob es einen Feed gibt. **Kein Zeilencode geschrieben,
+keine Inhalte ausgewertet.**
+
+| Quelle | robots.txt | Feed | Bewertung |
+|---|---|---|---|
+| anime2you.de | erlaubt (sperrt nur `wp-admin`) | `/feed/` → 200, echtes RSS, 54 KB | **Bester Kandidat.** Wir lesen die Seite ohnehin schon (`scrape-anime2you.ts`), aber bisher nur die Termin-Artikel. Ein Feed ist der schonendste Weg überhaupt: eine Anfrage statt vieler |
+| nipponinsider.de | erlaubt (sperrt nur `wp-admin`) | `/feed/` → 200, echtes RSS, 12 KB | Zweiter Kandidat, kleinere Redaktion |
+| crunchyroll.com/de/news | `/news` nicht gesperrt | `/de/news/rss` → 200, aber `text/html` — **kein Feed** | Ginge nur als HTML-Auslesen. Zurückstellen, bis die beiden Feeds ausgewertet sind |
+| anisearch.de/news | erlaubt | `/news/rss` → 404 | Kein Feed vorhanden |
+
+### Nachtrag 11.08.2026: Lizenznehmer statt Studios — und wer sie beobachtet
+
+Aus der Studio-Recherche folgt die Frage, ob man nicht bei den **Lizenznehmern** suchen sollte.
+Die zerfallen in zwei Gruppen, und nur eine hilft:
+
+- **Streaming-Lizenznehmer sind die Plattformen selbst.** Crunchyroll und ADN lesen wir bereits
+  maschinell; Netflix, Prime und Disney+ veröffentlichen keine Kalender. Kein neuer Weg.
+- **Disc- und Kino-Publisher** (peppermint, KAZÉ, AniMoon, Nipponart, Universum, polyband)
+  müssen Termine nennen, weil man vorbestellen soll. Genau diese pflegen wir bisher von Hand.
+
+Direkt bei den Publishern auszulesen ist aber der mühsamste Weg: zehn Seiten, zehn Bauweisen.
+peppermints Übersicht (`/anime`) rendert per JavaScript, im HTML steht kein einziges Datum;
+AniMoon und Universum waren von hier aus nicht erreichbar. polyband sperrt in seiner robots.txt
+ausschließlich `ClaudeBot`.
+
+**Erledigt am 12.08.2026 — und zwar ohne eine einzige Publisher-Seite abzurufen.** aniSearch
+führt beides selbst: den **deutschen Publisher** je Titel (in 310 ausgewerteten Infoboxen 60
+verschiedene, von Crunchyroll mit 83 Titeln bis polyband mit 13) und im Abschnitt `items` die
+**deutschen Neuerscheinungen mit Datum**, Jahre im Voraus — „Banana Fish – Vol. 1/2 [Blu-ray],
+21.08.2026". In 110 archivierten Seiten stecken 136 künftige Termine, 96 Seiten führen
+überhaupt eine solche Liste.
+
+Damit ist die polyband-Frage hinfällig: Wir bekommen dieselbe Auskunft aus einer Quelle, die
+uns das Lesen erlaubt, und zwar für **alle** Publisher zugleich. Die Rohabschnitte liegen schon
+im Archiv — `items` war beim Archivieren am 11.08. bewusst mit aufgenommen worden, weil
+deutsche Disc-Termine dort „das Wertvollste auf der Seite" wären, falls sie darin stehen. Sie
+stehen darin. Neue Aufgabe in der Queue.
+
+**Der bessere Hebel sind Seiten, die alle Publisher zugleich beobachten:**
+
+| Quelle | robots | Feed | Was sie liefert |
+|---|---|---|---|
+| **anime2you.de** | erlaubt | RSS | **Die stärkste Quelle, und wir haben sie schon.** Fasst Ankündigungen je Season gebündelt zusammen: „Crunchyroll zeigt zehn Anime-Neustarts im Sommer 2026 auf Deutsch". Bisher werten wir nur die Termin-Artikel aus, nicht diese Übersichten |
+| manga-passion.de | erlaubt (`Disallow:` leer) | ja | Schwerpunkt Manga, deckt aber Publisher-News mit ab |
+| sumikai.com | erlaubt | RSS | Japan-News allgemein, Anime als Teilbereich |
+| nipponinsider.de | erlaubt | RSS | kleinere Redaktion, zweite Meinung |
+| animehunter.de | zu prüfen | zu prüfen | Führt Jahreslisten „Deutsche Anime-Lizenzen 20XX" über **alle** Publisher hinweg — genau die Lizenznehmer-Übersicht, die einzeln zu scrapen mühsam wäre |
+
+**Wettbewerber gefunden — und der Vergleich schärft, worin unser Unterschied besteht:**
+[animeradar.de](https://www.animeradar.de/kalender) bietet einen Release-Kalender filterbar nach
+deutscher Synchro, dazu Android-App, Community, Discord, Toplisten, Nutzerprofile. Der Aufbau
+ist ausgereifter als unserer. **Ihre Datenbasis sind laut eigenem Impressum-Hinweis TMDb und
+AniList** — beides Quellen, die wir ebenfalls nutzen.
+
+Genau daraus folgt die Grenze, und sie schreiben sie selbst unter ihren Filter:
+
+> „Bestätigt nur, dass eine deutsche Synchro **existiert**"
+
+TMDb und AniList führen den **Originaltermin**: AniLists `airingSchedule` ist der japanische
+Sendeplan, TMDbs `air_date` die Erstausstrahlung. Ein deutscher Ausstrahlungstermin steht in
+keiner der beiden APIs. Ablesbar auch an der Menge: **120 Releases in der Woche vom 10.08.**
+gegenüber einer Handvoll bei uns — das ist der japanische Sendeplan mit einem Ja/Nein-Filter
+darüber, nicht ein deutscher Terminkalender.
+
+Was aus TMDb + AniList prinzipiell **nicht** abzuleiten ist und bei uns aus eigenen Quellen kommt:
+
+| | unsere Quelle |
+|---|---|
+| **Wann** die deutsche Folge läuft | Crunchyroll-Simulcastkalender (Playwright, stündlich), ADN |
+| **Uhrzeit** der deutschen Folge | derselbe Kalender |
+| Ob **diese eine Folge** synchronisiert ist | ADN-Sprachcode je Folge (`vde` vs. `vostde`) — eine Reihe kann mit Untertiteln starten und erst später eine Synchro bekommen |
+| Disc- und Kino-Termine | Handpflege aus Publisher- und Presseangaben |
+| Sendepausen im deutschen Takt | offen — siehe Aufgabe „News-Quellen" |
+| Quellenangabe je Termin | Pflichtfeld im Datensatz |
+
+**Gegenprobe am Einzelfall (Daniel, 11.08.2026):** AnimeRadar zeigte „Chiikawa Folge 369
+erscheint in 2 Tagen". Nachgeprüft über die ADN-API: ADN Deutschland führt Chiikawa mit **120
+Folgen, Sprachcode `vostde`** — deutsche **Untertitel**, nicht Synchro (`vde`). Damit sind es
+zwei Fehler in einer Zeile: die Folgennummer stammt aus dem japanischen Sendeplan, und eine
+deutsche Synchro gibt es überhaupt nicht. **Unser Kalender liegt richtig, indem er den Titel
+nicht führt** — der ADN-Abruf prüft den Sprachcode je Folge. Genau diese Trennlinie kann ein
+Ja/Nein-Filter aus TMDb oder AniList nicht ziehen.
+
+Das bestätigt den Kurs: Der Aufwand mit Playwright, ADN und Handpflege **ist** der Unterschied.
+Als Quelle taugt AnimeRadar folglich nicht — es wäre Abschreiben bei jemandem, der die Frage
+„wann kommt es auf Deutsch" gar nicht beantwortet. Als Maßstab für Funktionsumfang und
+Bedienung dagegen sehr wohl.
+
+**Offen und vor dem Bauen zu klären:** Wie oft steht eine Sendepause überhaupt in diesen News,
+und mit welchen Worten? Bevor ein Erkenner gebaut wird, sollte einmal von Hand durch ein paar
+Wochen Feed gelesen werden — sonst baut man eine Mustererkennung für einen Fall, den es in der
+Praxis dreimal im Jahr gibt. Kandidaten für Signalwörter: Pause, pausiert, Sendepause, entfällt,
+verschoben, Best-of, Recap.
+
+## Recherche Synchro-Belege (15.08.2026)
+
+**Anlass:** Nach der Rücknahme der Crunchyroll-Gastauskunft standen 2.678 Anbieter-Verweise auf
+„unbekannt". Daniel hat sich gegen angemeldetes Crawling und für eine unabhängige Quelle
+entschieden.
+
+**Ergebnis: Die beste Quelle liegt seit dem 11.08.2026 im Repo und wurde für diese Frage nie
+benutzt** — die deutschen Sprechrollen von AniList unter `public/data/voices/<id>.json`.
+
+- **1.746 von 2.758 Titeln haben deutsche Sprechrollen.** Ein deutscher Sprecher zu einer Rolle
+  ist ein direkter Beleg dafür, dass eine deutsche Fassung existiert — kein Indiz, kein
+  Rückschluss über Verfügbarkeit.
+- **1.543 davon haben weder einen deutschen Termin noch einen belegten Stream.** Für sie ist das
+  bislang die einzige Auskunft, die wir maschinell haben, und sie lag ungenutzt herum.
+- **Frieren: Beyond Journey's End: 13 deutsche Rollen** (Julia Casper, Linda Fölster, Janek
+  Schächter, Alexander Merbeth). Damit ist belegt, dass Crunchyrolls `deutschImAngebot: false`
+  ein Falschnegativ war — Daniels Einschätzung vom 15.08. bestätigt sich.
+
+**Grenze der Quelle, und sie ist scharf:** Sprechrollen belegen, **dass** es eine deutsche
+Fassung gibt — nicht, **wo** sie läuft. Ein `stream.dub = true` darf daraus nicht abgeleitet
+werden; die Frage „gibt es eine Synchro" und die Frage „hat dieser Anbieter sie" sind zwei
+verschiedene, und genau ihre Vermischung war der Fehler bei Crunchyroll.
+
+### Geprüfte und verworfene Kandidaten
+
+- **AnimeSchedule (v3)** — verworfen. Die API kennt zu Tonspuren nur `subPremier`, `dubPremier`,
+  `subTime`, `dubTime`, und alle vier sind laut eigener Dokumentation ausdrücklich auf
+  **Englisch** bezogen. Es gibt kein Feld für eine andere Sprache. Die `StreamEntry`-Objekte
+  führen Plattform und Adresse, aber keine Sprachangabe.
+  Quelle: <https://animeschedule.net/api/v3/documentation/anime>
+- **MyDubList** — bleibt als Bestandsquelle, taugt aber nicht für diese Frage. Die Stufen sind
+  reine Quellenzählungen (`low` ≥ 1 Quelle … `very-high` ≥ 4), und es gibt **keine**
+  Unterscheidung zwischen „Synchro existiert" und „Synchro angekündigt".
+  Quelle: <https://github.com/Joelis57/MyDubList>
+- **Deutsche Synchronkartei** — rechtlich ausgeschlossen, unverändert seit 11.08.2026:
+  „Insbesondere ist ein automatisiertes Auslesen des Internetangebots nicht gestattet."
+- **Crunchyroll selbst** — als Quelle über sich selbst ungeeignet, siehe CLAUDE.md. Drei
+  verschiedene Ansichten je nach Anmeldestatus; ein Direktabruf am 15.08. lief zusätzlich in die
+  Bot-Sperre (313 Zeichen Seiteninhalt).
+
+- **JustWatch** — **vollständig verworfen** (15.08.2026), auch für die Terminfrage.
+
+  Zwischenzeitlich stand hier, die `upcoming`-Zeitfenster machten JustWatch zum
+  aussichtsreichsten Kandidaten für Termine. Das war aus der **Feldliste** geschlossen und nicht
+  gemessen — der Fehler, gegen den die Regel „prüfen und belegen" gerichtet ist. Die Messung
+  danach kippt es:
+
+  - Die deutsche Übersicht „demnächst verfügbare Serien" führt **104 Titel für ganz
+    Deutschland**, über alle Anbieter zusammen, und darunter ist Anime praktisch nicht
+    vertreten. Unser Datensatz hat allein 181 Releases und 689 Termine.
+  - Gegenprobe an einem belegten Fall: Für „The Dangers in My Heart" führt JustWatch nur die
+    **bestehende** Verfügbarkeit. Der Netflix-Start von Staffel 2 am 20.08.2026, den wir aus
+    Anime2You haben, steht dort nicht.
+
+  JustWatch beantwortet „wo läuft es **jetzt**" — und das beantworten AniList, TMDB und aniSearch
+  für uns bereits. Ein Partnervertrag für eine Auskunft, die wir haben, und ohne die, die uns
+  fehlt, lohnt nicht. Der Vollständigkeit halber bleibt unten stehen, was die API kann und was
+  eine Partnerschaft verlangt hätte.
+
+  Verworfen für Tonspuren: Das dokumentierte Offer-Objekt führt `monetization_type`,
+  `provider_id`, `presentation_type` (nur `sd`/`hd`), `date_created`, `retail_price`, `currency`
+  und `urls` — **kein Feld für die Tonspur**. `audioLanguage`/`subtitleLanguage` tauchen nur in
+  kodierten Adressparametern auf und sind in allen Beispielen leer. `original_language` ist die
+  Produktionssprache, bei Anime also Japanisch.
+
+  Interessant ist etwas anderes: Für noch nicht verfügbare Titel liefert die API statt `offers`
+  ein `upcoming`-Feld mit `release_window_from`, `release_window_to`, `release_type`, `country`
+  und `provider_id`. Das ist genau unsere Kalenderfrage für Netflix, Prime Video und Disney+ —
+  die Anbieter, für die Anime2You bisher unsere **einzige** Quelle ist. Ein Zeitfenster statt
+  eines Tages passt außerdem zu unserem Umgang mit Unsicherheit.
+
+  Zwei weitere Passgenauigkeiten: `id_type` akzeptiert `tmdb`, und TMDB-Kennungen haben wir
+  bereits — die Zuordnung wäre ohne Titelraten. Und Serien lassen sich je `season_number`
+  abfragen, also in unserer Staffel-Granularität.
+
+  **Ablauf der Partnerschaft** (15.08.2026 recherchiert): Formular auf der Produktseite oder Mail
+  an `data-partner@justwatch.com` → Vertrag („Once the contract is concluded") → ein eindeutiger
+  Partner-Token, der an jede Anfrage angehängt wird. Drei Bezugsformen stehen zur Wahl: API,
+  Daten-Abzug („data dump") und Widget.
+
+  **Kosten sind nirgends öffentlich.** Weder die API-Doku noch der Content-Partner-Leitfaden,
+  das Partnerportal, die Produktseite oder das offizielle WordPress-Plugin nennen einen Preis
+  oder eine kostenlose Stufe. Es ist ein Vertriebsgespräch, kein Self-Service — ob ein
+  unkommerzielles Projekt etwas zahlt, klärt erst die Anfrage. Nicht behaupten, es sei
+  kostenlos.
+
+  Preis: Zugang nur mit **Partnervertrag** und Partner-Token, und jede Einbindung muss „branded
+  links to the JustWatch website" zeigen — Ankertext „JustWatch" oder das Logo mit alt-Text, und
+  der Link muss in die länderspezifische Unterseite des jeweiligen Titels führen.
+
+  **Nachtrag 21.08.2026 — auch für die Sprachfrage gemessen und verworfen.** Daniel bat um
+  eine Quelle, die Handarbeit ganz erspart. JustWatch wäre der naheliegende Kandidat: Die
+  öffentliche GraphQL-Schnittstelle unter `apis.justwatch.com/graphql` braucht keinen
+  Schlüssel, und beide robots.txt (`www.` und `apis.`) enthalten `Disallow:` ohne Wert,
+  erlauben also alles. Sie kennt unsere Titel sogar folgengenau — für „Thunder 3" liefert sie
+  zwölf Episoden mit Titeln.
+
+  **Aber `audioLanguages` ist leer.** Gemessen an zwei Titeln, Serien- wie Episodenebene:
+  „Thunder 3" (2026) und „Beastars" (2019) liefern für jedes Netflix-Angebot
+  `audioLanguages: []` und `subtitleLanguages: []`. Damit ist JustWatch genau dort blind, wo
+  wir es bräuchten. Das deckt sich mit einem fremden Erfahrungsbericht, der dieselbe Aufgabe
+  löst ([ma.ttias.be](https://ma.ttias.be/finding-dutch-audio-across-streaming-services/)):
+  Der Autor nutzt JustWatch als Grundgerüst und die Streaming Availability API, um genau
+  diese Sprachlücken zu füllen.
+
+  Die beworbene Produkt-API von JustWatch ist davon unberührt — sie läuft weiter über einen
+  Partnervertrag (`data-partner@justwatch.com`) und ist damit aus denselben Gründen
+  ausgeschlossen wie am 11.08.2026 festgestellt.
+
+- **JustWatchs privater GraphQL-Endpunkt** (`https://apis.justwatch.com/graphql`) — verworfen
+  (15.08.2026). Anlass war eine kursierende Anleitung, die ihn mit Puppeteer und
+  `--disable-web-security` plus `setBypassCSP(true)` anspricht und dabei die Kopfzeilen der
+  JustWatch-Weboberfläche mitschickt (`App-Version: 3.8.0-web-web`, `DEVICE-ID`).
+
+  Drei Gründe, und der erste allein genügt:
+
+  1. **Der beschriebene Trick löst ein Problem, das wir nicht haben.** CORS ist eine
+     Browser-Beschränkung. Unsere Pipeline läuft in Node auf GitHub Actions; dort gibt es kein
+     CORS. Der gesamte Kunstgriff des Artikels ist für uns gegenstandslos.
+  2. **Es liefert nicht, was uns fehlt.** Zurück kommen Titel, Poster, IMDB-Wertung, Genres und
+     Anbieterpakete — alles vorhanden. Eine Tonspurangabe ist in keinem der nachgebauten Clients
+     dokumentiert, und in der offiziellen Partner-API sind genau diese Felder leer.
+  3. **Es hieße, ihre Weboberfläche zu imitieren.** Eigene Kopfzeilen nachzubauen und CSP zu
+     umgehen ist das Umgehen einer technischen Maßnahme, während JustWatch die Datennutzung
+     ausdrücklich über Vertrag und Token führt. Dazu praktisch: undokumentiert, ändert sich ohne
+     Ankündigung, keine veröffentlichten Rate Limits — „excessive usage could lead to throttling
+     or blocking".
+
+  Was an JustWatch für uns wertvoll wäre — die `upcoming`-Zeitfenster —, liegt gerade **nicht**
+  in diesem Endpunkt, sondern hinter dem Vertrag. Letzteres ist mit diesem Projekt vereinbar (wir
+  verlinken Quellen ohnehin, und es ist unkommerziell) — der Vertrag ist eine Entscheidung, die
+  Daniel treffen muss. Die inoffiziellen Endpunkte scheiden aus: JustWatch untersagt dort die
+  kommerzielle Nutzung, und sie sind ungeschützt gegen Änderungen.
+  Quelle: <https://apis.justwatch.com/docs/api/>
+- **TMDB `watch/providers`** — verworfen. Die Antwort enthält je Anbieter nur `provider_id`,
+  `provider_name`, `logo_path`, `display_priority` und die Verfügbarkeitsart (`flatrate`, `rent`,
+  `buy`, `ads`). Keine Tonspur, an keiner Stelle.
+  Quelle: <https://developer.themoviedb.org/reference/movie-watch-providers>
+
+  Der Vorschlag, TMDB neben JustWatch zu legen, um daraus eine Audio-Matrix zu bauen, stammt aus
+  einer Gemini-Antwort (Daniel, 15.08.2026) und hält der Nachprüfung nicht stand — **keine** der
+  beiden Quellen führt die Tonspur. Notiert, weil er plausibel klingt und sonst ein zweites Mal
+  geprüft würde.
+
+### GitHub-Durchsicht (15.08.2026)
+
+Durchsucht nach Projekten, die deutsche Synchro- oder Termindaten führen. Zwei Funde, einer davon
+wichtig.
+
+**Gefunden und übernehmenswert: `manami-project/anime-offline-database`**
+(<https://github.com/manami-project/anime-offline-database>, ODbL + DbCL, wöchentlich aktualisiert,
+5,8 MB komprimiert). 41.537 Einträge, jeder mit den Adressen desselben Anime bei zehn Diensten.
+Gemessen gegen unseren Bestand:
+
+- **2.756 unserer 2.758 Titel** sind darin enthalten.
+- 2.613 mit aniSearch-Kennung — für uns **ohne Wert**, unsere eigene Zuordnung hat 15.265 Einträge
+  und ist damit besser.
+- **2.112 mit ANN-Kennung** und 2.401 mit AniDB-Kennung — beides haben wir nicht.
+
+**Warum die ANN-Kennung zählt:** Die Encyclopedia-API von Anime News Network führt Sprechrollen
+**nach Sprache**, `<cast gid="…" lang="DE">`. Nachgemessen am 15.08.2026:
+
+- Frieren: 13 deutsche Rollen bei ANN, exakt so viele wie bei AniList — dieselben Namen.
+- Entscheidender Test an **8 Titeln, für die AniList keine deutschen Stimmen führt**: **5 haben
+  bei ANN welche** (Eyeshield 21: 6, Gankutsuou: 8, FAKE: 5, MUSHI-SHI: 3, Three Little Ghosts: 1).
+  622 unserer Titel fallen in diese Gruppe; die Stichprobe legt rund 380 zusätzlich belegte
+  Synchros nahe.
+
+Bedingungen von ANN, alle erfüllbar: Quellennennung, ein Link zum jeweiligen Encyclopedia-Eintrag
+auf jeder Seite, die die Angaben zeigt, und **1 Anfrage pro Sekunde** je IP. 2.112 Titel wären
+damit ein einmaliger Lauf von rund 35 Minuten.
+Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
+
+**Geprüft und verworfen:**
+
+- `StrikerLUL/anime-ger-dub-tracker` — 125 Titel, scrapt aniSearch, keine Lizenz, ausdrücklich
+  „Work in Progress". Wir haben denselben Bestand vollständiger im eigenen Archiv.
+- `Funami580/MAL-GerDubs` — Handkuratierung wie MyDubList („whenever I see a new dub
+  announcement"), kein eigenständiger Datenstand.
+- `saitho/synchronkartei-api-server` — zwischengespeicherte Synchronkartei-Inhalte. Ändert nichts
+  daran, dass die Synchronkartei automatisiertes Auslesen untersagt; ein fremder Zwischenspeicher
+  wäscht das nicht.
+- `princessmiku/anime2you` — RSS-Bibliothek für Anime2You. Wir lesen die Artikel bereits selbst
+  und brauchen mehr als die Kurzfassung des Feeds.
+
+### Offen
+
+- **aniSearch-API** — Anfrage seit 09.08.2026 unbeantwortet.
+- ~~**Anime News Network** — ungeprüft, ob deutscher Cast dort breiter gepflegt ist als bei
+  AniList.~~ **Am 16.08.2026 gemessen und angebunden.** Die Encyclopedia-API führt Sprechrollen je
+  Sprache (`<cast lang="DE">`), erlaubt eine Anfrage pro Sekunde und verlangt Quellenangabe samt
+  Verweis auf den Eintrag. Die Zuordnung AniList → ANN kommt aus dem Offline-Datensatz von
+  manami-project (8.876 Kennungen). Ergebnis: **218 Titel mehr mit belegten deutschen
+  Sprechrollen, 8.737 Rollen** — ANN pflegt den deutschen Cast tatsächlich breiter. Läuft
+  wöchentlich (`data:ann:ids`, `data:ann:voices`), Rohantworten liegen unter `data/ann-raw/`.
+
+## Recherche Sprachangaben ohne Handarbeit (21.08.2026)
+
+**Anlass:** Daniel fragte, wofür er bei der Prüfliste noch gebraucht wird. Gemessene
+Verteilung der 1.971 offenen Verweise: Crunchyroll 969, Netflix 532, Prime Video 214,
+YouTube 92, ADN 61, RTL+ 42, Disney+ 38, Aniverse 21, Joyn 2.
+
+**Netflix scrapen ist ausgeschlossen, und zwar nicht technisch.** `netflix.com/robots.txt`
+beginnt mit:
+
+    User-agent: *
+    Disallow: /
+
+Danach folgt eine Liste namentlich erlaubter Suchmaschinen-Bots (Googlebot, Applebot,
+bingbot, Baiduspider, Yandex und weitere). Wir stehen nicht darauf. Das ist eine
+ausgesprochene Absage, kein Hindernis — abgehakt, nicht aufgeschoben.
+
+**Amazon ist nicht gesperrt.** `amazon.de/robots.txt` verbietet unter `/gp/video/` nur
+`api`, `settings`, `library`, `watchlist` und `mystuff` — also Konto- und
+Schnittstellenpfade. Produktseiten sind nicht ausgenommen.
+
+### Geprüfte Quellen
+
+| Quelle | Audio-Sprachen? | Urteil |
+|---|---|---|
+| [Streaming Availability API](https://www.movieofthenight.com/about/api) (Movie of the Night) | ja, ISO-639-2 je Streaming-Option | **aussichtsreichste Quelle**, siehe unten |
+| [uNoGS](https://unogs.com/) | ja, je Titel und Land | Rückfallebene — siehe Bedenken unten |
+| JustWatch | ungeprüft für Audio | am 15.08.2026 als Terminquelle gemessen und verworfen (104 künftige Titel für ganz Deutschland, fast kein Anime); für Sprachen nicht erneut geprüft |
+| TMDB | nein | führt Anbieter je Land, aber keine Tonspuren |
+
+### Streaming Availability API — die Zahlen
+
+- **Kostenlose Stufe: 1.000 Anfragen im Monat**, ohne Zahlungsdaten
+  ([Preisseite](https://www.movieofthenight.com/about/api/pricing)). Bezahlt ab 49 USD/Monat
+  für 25.000 Anfragen.
+- **Katalog statt Einzelabfrage:** `GET /shows/search/filters` filtert nach `country`,
+  `catalogs` (bis zu 32 Dienste, mit Typ: subscription/free/rent/buy/addon), `show_type`,
+  `genres`, Jahr und Bewertung. Cursor-Paginierung über `hasMore`/`nextCursor`, 15 bis 20
+  Ergebnisse je Anfrage. Der deutsche Anime-Katalog eines Anbieters ist damit eine Sache von
+  ein bis zwei Dutzend Anfragen, nicht von 532.
+- **Deckt mehr ab als Netflix:** 66 Länder, und in der Filterliste stehen Netflix, Prime
+  Video, Disney+ und weitere. Eine Anbindung könnte also Netflix **und** Prime **und**
+  Disney+ auf einmal erledigen — das sind zusammen 784 der offenen Verweise.
+- **Nutzungsbedingungen** ([TERMS.md](https://github.com/movieofthenight/streaming-availability-api/blob/main/TERMS.md)),
+  im Wortlaut geprüft:
+  - Speichern erlaubt, auch dauerhaft: „Once The API User's subscription ends, The API User
+    can still keep the data retrieved from the API".
+  - Anzeige auf der eigenen Seite erlaubt, **mit sichtbarer Quellenangabe**: „The API User
+    shall give an attribution to The API Provider", „visible to the users of the
+    website/application", verlinkt auf movieofthenight.com/about/api.
+  - Verboten ist das Weiterverkaufen und Weiterverteilen der Daten: „shall not
+    reshare/resell/redistribute the streaming availability data". Betrifft uns nicht.
+  - Kommerzielle Nutzung ausdrücklich gestattet.
+  - Die Bildbandbreite ist auf 1 GB im Monat begrenzt — für uns unerheblich, wir brauchen
+    Metadaten, keine Bilder.
+
+**Was fehlt:** ein API-Schlüssel. Den kann nur Daniel anlegen — ein Konto zu eröffnen ist
+mir verwehrt. Danach gehört er nach `my_secrets.md` und als Repo-Secret ins Projekt.
+
+**Was vor der ersten Anzeige zu prüfen ist:** ob die Audio-Angaben stimmen. Wir haben eine
+Kontrollgruppe im Haus — 190 über Crunchyroll belegte Fälle, 98 über ADN belegte, dazu
+`data/dub-confirmed.yaml` mit Daniels eigenen Prüfungen. Eine fremde Quelle wird daran
+gemessen, bevor ihr geglaubt wird.
+
+### uNoGS als Rückfallebene
+
+[unogs.com](https://unogs.com/) ist aktiv und führt je Titel Land, Audio-Sprachen,
+Untertitel und Ablaufdaten; Zugang über RapidAPI, kostenlose Stufe 100 Anfragen am Tag.
+Zwei Gründe, warum es die zweite Wahl ist: Es ist **eine Anfrage je Titel** statt eines
+Katalogs, und die Betreiber schreiben selbst, dass „Netflix make it harder and harder for us
+to pull information" — die Daten sind also von derselben Sperre bedroht, die uns das
+Scrapen verbietet. Bleibt als Vergleichsquelle brauchbar.
+
+## Crunchyrolls eigene Content-API — der Weg, der alle Textmuster ersetzt
+
+**Gefunden am 21.08.2026 auf Daniels Vorschlag** („prüf ob du die infos direkt aus crunchy
+network traffic lesen kannst, dann brauch man nicht auf seitenelemente warten"). Die
+Serienseite ist eine React-Anwendung; sie holt ihre Daten selbst über eine JSON-Schnittstelle,
+und die ist ungleich besser als alles, was sich aus dem gerenderten Text ablesen lässt.
+
+### Die drei Aufrufe
+
+    POST /auth/v1/token
+         authorization: Basic Y3Jfd2ViOg==      (das ist „cr_web:", anonym)
+         content-type:  application/x-www-form-urlencoded
+         body:          grant_type=client_id
+
+    GET  /content/v2/cms/series/<serienId>/seasons?locale=de-DE
+    GET  /content/v2/cms/seasons/<staffelId>/episodes?locale=de-DE
+         authorization: Bearer <access_token>
+
+### Was drinsteht
+
+**Je Staffel** ein Feld `versions` mit jeder Tonspur-Fassung:
+
+    "versions": [
+      {"audio_locale":"ja-JP","guid":"GS00374452JAJP","original":true},
+      {"audio_locale":"de-DE","guid":"GS00374452DEDE","original":false},
+      …
+    ]
+
+**Je Episode** dasselbe Feld — und damit die Frage, an der dieses Projekt hängt, folgengenau
+beantwortet. Für „Mushoku Tensei" Staffel 3 am 21.08.2026:
+
+    F1  ab 04.07.  ja-JP, en-US, pt-BR, es-419, es-ES, it-IT, de-DE   → deutsch
+    F2  ab 04.07.  … de-DE                                             → deutsch
+    F3  ab 12.07.  … de-DE                                             → deutsch
+    F4  ab 19.07.  ja-JP, en-US, it-IT, es-ES, pt-BR, es-419           → nein
+    F5–F8                                                              → nein
+
+**Drei von acht.** Genau der Stand, den Daniel am selben Tag von Hand festgestellt hatte.
+Dazu liefert jede Episode ein `premium_available_date` — das Datum, an dem sie verfügbar wurde.
+
+### Warum das alles ändert
+
+| | Serienseite lesen | Content-API |
+|---|---|---|
+| Zeit je Serie | 5 bis 23 Sekunden | **70 bis 200 Millisekunden** |
+| Grundlage | Textmuster im gerenderten HTML | strukturiertes JSON |
+| Sprachangabe | „Audio: Deutsch" irgendwo auf der Seite | `audio_locale` je Fassung |
+| Folgengenau | nein, nur Staffelzählung über Kacheln | **ja** |
+| Übersetzungsabhängig | ja — die Zeile heißt auf jeder Sprachfassung anders | nein |
+
+### Die Grenze: nur aus dem Browser heraus
+
+Ein Direktabruf mit `fetch` bekommt Cloudflares Bot-Sperre („Just a moment…", HTTP 403). Der
+Weg führt weiterhin über Playwright — aber nur noch **einmal** zum Aufwärmen: Eine Seite laden,
+das Token aus dem Netzwerkverkehr mitnehmen, danach alle Serien über `page.evaluate(fetch)` im
+Browser-Kontext abfragen. Gemessen: 1.310 ms Aufwärmen, danach 70 bis 208 ms je Serie.
+
+### Rechtslage
+
+`crunchyroll.com/robots.txt` sperrt `/showtag`, Suche, Konto, Merkliste, Verlauf, Bezahlseiten
+und einige Verwaltungspfade. **`/content/` und `/auth/` stehen nicht darauf** — ebenso wenig
+wie `/series/`, das dieses Projekt seit dem 12.08.2026 liest.
+
+## NACHTRAG — das Verfügbarkeitsdatum steht woanders (21.08.2026)
+
+**Daniel hat einen Fehler in meiner ersten Messung gefunden:** Ich hatte
+„F1 ab 04.07., F3 ab 12.07." notiert. Das sind die Daten der **japanischen**
+Fassung. Die deutschen Folgen 1 bis 3 erschienen alle am **19.08.2026**.
+
+Der Grund: `/content/v2/cms/seasons/<id>/episodes` liefert die Episoden der
+**Originalstaffel**, auch wenn man die Kennung der deutschen Fassung einsetzt.
+Das Feld `versions` je Episode sagt zwar, **dass** es eine deutsche Fassung gibt,
+aber die Datumsfelder gehören zur japanischen.
+
+**Die deutsche Fassung ist ein eigenes Objekt** und wird über ihre eigene
+Kennung abgefragt:
+
+    GET /content/v2/cms/objects/<guid der de-DE-Fassung>?locale=de-DE
+
+Für „Mushoku Tensei" Staffel 3, Folge 1 (`GE00374453DEDE`):
+
+    audio_locale:            de-DE
+    premium_available_date:  2026-08-19T11:00:00Z   ← der deutsche Termin
+    episode_air_date:        2026-07-04T00:00:00Z   ← japanische Ausstrahlung
+    availability_starts:     9998-11-30             ← Platzhalter, unbrauchbar
+
+**Damit ist es mehr als eine Sprachauskunft.** `premium_available_date` der
+deutschen Fassung ist ein **belegter Termin je Folge, mit Uhrzeit** — genau das,
+was dieses Projekt bisher aus Kalenderkacheln zusammensuchen musste. Die
+11:00 UTC sind 13:00 Ortszeit.
+
+**Der Weg je Folge ist damit dreistufig:**
+
+    1. seasons  → Staffeln und deren `versions`
+    2. episodes → Folgen der Originalstaffel, je Folge `versions`
+    3. objects  → die de-DE-Kennung aus `versions`, dort steht der deutsche Termin
+
+Ob Schritt 3 sich für mehrere Kennungen auf einmal abfragen lässt
+(`objects/<guid1>,<guid2>,…`), ist **ungeprüft** — bei Crunchyroll ist diese Form
+sonst üblich und würde die Zahl der Aufrufe stark senken.
+
+### Drei weitere Befunde vom 21.08.2026
+
+**Der Sammelabruf trägt.** `objects/<guid1>,<guid2>,<guid3>?locale=de-DE` liefert alle
+angefragten Objekte auf einmal. Damit ist die Skalierungsfrage beantwortet: Statt eines
+Aufrufs je Folge — bei 959 Serien über zehntausend — genügen wenige Bündel.
+
+**Die Quelle kündigt nichts an.** Folge 4 und 5 von „Mushoku Tensei" Staffel 3 führen in
+`versions` schlicht kein `de-DE`: keine Kennung, kein künftiges Datum, kein Hinweis. Die
+Schnittstelle sagt „ist da" oder „ist nicht da" — sie sagt nie „kommt am". Für die Vorschau
+bleibt es beim Kalenderabruf und bei der Fortschreibung.
+
+**`is_dubbed` ist eine Falle und darf nicht benutzt werden.** Das Feld steht auf `true`, sobald
+es **irgendeine** Synchronfassung gibt — bei Folge 4 und 5 also auch, obwohl dort nur Englisch,
+Italienisch, Spanisch und Portugiesisch vorliegen. Wer danach ginge, hielte jede Folge für
+deutsch synchronisiert. Maßgeblich ist ausschließlich `de-DE` in `versions`.
+
+**Die Uhrzeiten sind echt und einzeln.** Die drei deutschen Folgen erschienen am 19.08.2026 um
+11:00, 11:30 und 15:00 UTC — also nicht als ein Block zur selben Minute. Das Projekt führt
+`schedule.time` bisher nur, wo es belegt ist; hier wäre es belegt.
+
+### Was daran hängt
+
+969 der 1.914 offenen Verweise in der Prüfliste sind Crunchyroll. Sie sind damit nicht mehr
+Handarbeit, sondern ein Abruf von wenigen Minuten — und die Antwort ist genauer als alles, was
+ein Mensch auf der Seite ablesen könnte, weil sie je Folge kommt.
+
+### Umgesetzt am 21.08.2026 — und was die Messung ergeben hat
+
+`scrape-crunchyroll-dub.ts` liest den Regelweg jetzt über die API; die Seitenanzeige bleibt
+als Rückfallebene hinter `--seitenanzeige`. Gelesen wurden **alle 911 Crunchyroll-Adressen**
+aus `titles.json`, 693 verschiedene Serien, 17.686 Folgen.
+
+**Die Serienkennung** steht nur in 280 der 911 Adressen (31 %); 592 tragen die alte
+Slug-Form, 39 zeigen auf eine einzelne Folge. Die Slug-Form löst sich über die Weiterleitung
+auf (rund 900 ms je Adresse), der Folgenverweis über `objects` → `series_id`. Beides steht
+in `data/crunchyroll-series-ids.json` und kostet damit **einmal** einen Seitenaufruf.
+
+**Der Vergleich mit der Seitenanzeige** (Stand `main` vom selben Tag, 17:42):
+
+| alt → neu | Adressen |
+|---|---|
+| keine Auskunft → beantwortet | **488** |
+| beide „deutsch" / beide „kein Deutsch" | 314 |
+| beide ohne Auskunft | 65 |
+| **Widerspruch** | 44 |
+
+Von den 44 Widersprüchen sagt der alte Weg 33-mal „deutsch", wo die API keine deutsche
+Fassung findet. **Die API hat recht**, und zwar gemessen: Für „High School DxD",
+„Steins;Gate 0", „Vampire Knight", „Space Dandy", „Plastic Memories", „Zom 100",
+„NieR:Automata" und „The Promised Neverland" nennt die Serienseite selbst als Tonspuren
+„Japanese, English" — kein Deutsch. Und dieselbe **alte** Programmzeile, heute noch einmal
+auf „High School DxD" losgelassen, meldet ebenfalls kein Deutsch. Der alte Weg gibt also auf
+dieselbe Adresse binnen weniger Stunden zwei verschiedene Antworten; er ist nicht
+reproduzierbar. Die übrigen elf Widersprüche sind Serien, die Crunchyroll inzwischen aus dem
+Angebot genommen hat („Leider sind die Videos dieser Serie nicht mehr verfügbar").
+
+**Kontrollgruppe** `data/dub-confirmed.yaml`, 24 von Hand geprüfte Crunchyroll-Fälle: neuer
+Weg 24 richtig, 0 falsch, 0 stumm; alter Weg 19 richtig, 0 falsch, 5 stumm.
+
+**Die Termine sind da:** 4.826 deutsche Folgen tragen ein `premium_available_date` ihrer
+eigenen de-DE-Fassung — ein belegter deutscher Termin mit Uhrzeit, je Folge. Ausgewertet
+wird davon noch nichts; er liegt in `data/crunchyroll-dub.json` und in den Rohantworten
+unter `data/crunchyroll-raw/` (693 Dateien, 11 MB gzip).
+
+**„3 von 8" gibt es jetzt wirklich:** 20 Staffeln sind nur teilweise deutsch. Diese Angabe
+war über die Serienseite gar nicht zu haben. Für den Datensatz heißt der Umstieg: 138 Titel
+bekommen ein Urteil, das sie vorher nicht hatten, 50 verlieren eines (weil die Zuordnung
+nicht sauber aufgeht), keiner dreht sich um.
+
+**Widerspricht die Staffelebene der Folgenebene?** Nein — anders als bei der Streaming
+Availability API. Über alle 693 Serien gibt es **keine einzige** Staffel, die `de-DE` in
+ihren `versions` führt und keine einzige deutsche Folge hat.
+
+### Zwei Grenzen, beide teuer bezahlt
+
+**Crunchyroll sperrt nach rund 300 Serien.** Mit 250 ms Pause zwischen den Aufrufen kam nach
+25 Minuten HTTP 403, danach lieferte auch die Aufwärmseite kein Token mehr; nach einer
+Viertelstunde ging es wieder. Mit 400 ms Pause liefen 409 Adressen am Stück durch. Die Pause
+ist deshalb jetzt 400 ms, und die Sperre beendet den Lauf, statt ihn ins Leere weiterlaufen
+zu lassen.
+
+**Ein misslungener `page.goto` wechselt die Seite nicht.** Während der Sperre scheiterte
+jeder Seitenaufruf — und `page.url()` lieferte weiter die Adresse der Aufwärmseite, also
+„Jujutsu Kaisen". **91 fremde Adressen bekamen dessen Staffelliste zugeschrieben**,
+„sing-a-bit-of-harmony" mitsamt „JUJUTSU KAISEN: 24/24". Die Einträge sind entfernt, vor
+jedem Aufruf wird auf `about:blank` geräumt, und die Aufwärmseite gilt nie als Ergebnis
+(`kennungAusZiel`, zugesichert in `check-logic.ts`).
+
+## Rechtliche Einordnung der Crunchyroll-Content-API (geprüft 22.08.2026)
+
+**Nutzungsbedingungen** — Fassung vom 22.08.2026 unter <https://www.crunchyroll.com/tos/>
+(Gatsby-Seite, Text nur nach dem Rendern sichtbar; deutsche Fassung `?lang=de`, wortgleich
+aufgebaut). **Kein Änderungsdatum im Dokument.** Drei Klauseln treffen uns, alle in
+**Abschnitt 5 „Access and Use of Services"**:
+
+> **Automated Access:** Employ any robot, spider, scraper, deep-link, mod, hack, exploit,
+> cheat utility, trainer, or other automated data gathering or extraction tool, program, or
+> algorithm to access, acquire, modify, copy, monitor, or otherwise interfere with any portion
+> of the Services or Content.
+
+> **Integration and Indexing:** Incorporate the Content into, or stream or retransmit the
+> Content via, any hardware or software application, or make it available via frames or in-line
+> links. Furthermore, you are strictly prohibited from creating, recreating, distributing, or
+> advertising an index of any significant portion of the Content without express written
+> authorization from Crunchyroll.
+
+> **Commercial Exploitation:** Build or operate a business utilizing the Services, whether or
+> not for profit.
+
+Dazu **Abschnitt 4**: Lizenz „solely for your personal, non-commercial purposes". Und der
+Einstieg: „By creating an Account, clicking ‚I agree', **or otherwise accessing or using any
+Service**, you are binding yourself to these Terms" — die Bedingungen greifen also auch ohne
+Konto. **Der Wortlaut deckt unser Vorgehen ab; ein Vertragsverstoß liegt vor.** Abschnitt 17
+nennt als Rechtsfolge ausschließlich, dass Crunchyroll Konten sperren darf („restrict, suspend,
+or terminate any Account for any reason at any time") — keine Vertragsstrafe.
+
+**robots.txt** (abgerufen 22.08.2026):
+- `www.crunchyroll.com/robots.txt` — 39 Zeilen, ein `User-agent: *`-Block. Gesperrt sind
+  `/showtag`, Suche, `/user`, `*/account`, `*/watchlist`, `*/history`, `*/crunchylists`,
+  `*/payments/`, `/vilos/` und Verwaltungspfade. **`/content/`, `/auth/`, `/index/` und `/cms/`
+  stehen nicht darauf.**
+- `beta-api.crunchyroll.com/robots.txt` — **HTTP 502** (Cloudflare, keine Datei). Nach
+  RFC 9309 §2.3.1.4 ist eine per 5xx unerreichbare robots.txt „undefined" und ein Crawler
+  „MUST assume complete disallow" — formal also ein Nein für die API-Domain, allerdings aus
+  einem Serverfehler heraus, nicht aus einer Absicht.
+
+**Belegte Folgen — nur Video, nie Metadaten.** Im Register `github/dmca` liegen 35
+Crunchyroll-Meldungen (2018 bis 2026-06). Ziel war **ausnahmslos** Wiedergabe, Download oder
+DRM-Umgehung: `Crunchy-DL/Crunchy-Downloader` (16.06.2026, ausdrücklich 17 U.S.C. §1201),
+`hayase-app`, `Dantotsu`, `aniyomi-extensions`, `powanime`, diverse Sora-Module. **Kein
+einziger Fall betrifft ein Projekt, das nur Metadaten liest.** `crunchy-labs/crunchy-cli`
+(634 Sterne) steht auf keiner Liste; es ist archiviert, weil Crunchyroll am 14.03.2024 die
+DRM-freien Streams abschaltete (Issue #362), nicht wegen einer Abmahnung.
+`crunchy-labs/crunchyroll-rs` wird weiterentwickelt (letzter Push 15.08.2026).
+`hyugogirubato/KeyDive` ist online — aber ein Widevine-Werkzeug und damit eine andere
+Rechtskategorie (§1201), die uns nicht berührt. Konto-Sperren wegen API-Nutzung: **keine
+belegte Meldung gefunden** (Suche über Issues beider crunchy-labs-Repos und Websuche).
+
+**Crunchyrolls eigene Auskunft zu IP-Sperren**
+([Hilfeartikel 18933076022676](https://help.crunchyroll.com/hc/en-us/articles/18933076022676-Why-was-my-IP-banned),
+abgerufen 22.08.2026) nennt als Ursachen VPN, Browser-Erweiterungen und geteilte Netze, als
+Abhilfe einen Router-Neustart für eine neue IP. **Automatisierung wird dort nicht erwähnt, eine
+Sperrdauer nicht genannt.** Ein dokumentiertes Rate Limit für die Content-API existiert nicht —
+weder offiziell noch in den inoffiziellen Doku-Repos.
+
+**Gemessen am 22.08.2026** (ein einzelner Abruf von Daniels Anschluss):
+- `POST /auth/v1/token` mit `Basic Y3Jfd2ViOg==` und `grant_type=client_id` → HTTP 200,
+  `expires_in: 3600`, JWT-Nutzteil `"anonymous_id": ""`, `"client_id": "cr_web"`.
+- **`"country": "DE"`** und CMS-Bucket **`/DE/M2/-`** — von hier aus kommt also die deutsche
+  Region ohne Konto. Der US-Befund vom 21.08. lag an den US-GitHub-Runnern, nicht am Verfahren.
+- Der CloudFront-Zugang aus `/index/v2` läuft **24 Stunden** (`expires`
+  `2026-08-23T08:25:55Z`). Die 403 vom 21.08.2026 nach ~25 Minuten war deshalb **keine
+  abgelaufene Signatur, sondern eine Drosselung an der Kante** — sie traf auch den
+  Token-Endpunkt und löste sich nach einer Viertelstunde von selbst.
+- Ein Direktabruf per `curl` gegen `beta-api.crunchyroll.com` funktioniert; nur
+  `www.crunchyroll.com` hängt hinter Cloudflares Bot-Sperre.
+
+## Entscheidungen
+
+- **Die Regel „mindestens eine Folge auf Deutsch erschienen" wird nicht umgesetzt** (17.08.2026).
+  Daniel hatte sie am 15.08. vorgegeben: Titel ohne eine einzige erschienene deutsche Folge
+  gehören hinter den Toggle „Anime ohne deutsche Synchro". Gemessen, bevor gebaut wurde — und die
+  Messung widerlegt die Umsetzbarkeit.
+
+  Als Beleg für „eine deutsche Fassung existiert" stehen drei Dinge zur Verfügung: ein Release mit
+  Datum, deutsche Sprechrollen (AniList oder ANN) oder ein bestätigter Stream. Fehlen alle drei und
+  behauptet nur eine einzige Quelle die Synchro (`dubConfidence: 'low'`), trifft die Regel
+  **361 von 2.760 Titeln**.
+
+  Darunter sind **Frieren: Beyond Journey's End Staffel 2** und **Fire Force Staffel 3 Teil 2** —
+  beide laut Daniel (15.08.2026) vollständig deutsch synchronisiert, keine Folge ohne Synchro. Sie
+  tragen keine Sprechrollen, weil AniList und ANN ihre Besetzungslisten für laufende Serien erst
+  mit Verzögerung führen, und keinen Termin, weil wir keinen belegt haben.
+
+  Die Regel würde also genau das tun, wovor Daniel gewarnt hat, und sie verletzt den
+  Projektgrundsatz aus `CLAUDE.md`: „Ein Eintrag wird nur gestrichen, wenn eine Quelle ihn
+  **aktiv widerlegt** — nicht, weil er unbestätigt ist." Fehlender Beleg ist kein Gegenbeleg.
+
+  **Schwelle für eine Neubewertung:** Sobald es eine verlässliche Auskunft über die deutsche
+  Tonspur laufender Serien gibt — ein angemeldeter Crunchyroll-Abruf oder eine andere Quelle, die
+  je Titel Ja oder Nein sagt. Dann ist „keine Folge auf Deutsch" ein Befund statt einer Lücke, und
+  die Regel trägt. Der grobe Vorfilter bleibt bis dahin in Kraft: Titel, deren japanische
+  Ausstrahlung noch nicht begonnen hat, stehen schon hinter dem Toggle.
+
+- **Keine Fallback-Kette über Wikipedia für Beschreibungen** (11.08.2026). Am 11.08. gemessen
+  statt geschätzt: Es fehlen nur noch **70** von 2.753 Beschreibungen (nicht 516 — die Zahl
+  stammte von vor dem vollständigen aniSearch-Bestand), und von diesen 70 haben **2** einen
+  deutschen Wikipedia-Artikel. Eine ganze Quellenkette für zwei Texte lohnt nicht. Wikidata
+  bleibt als ID-Brücke interessant, für Inhaltsangaben ist es zu knapp.
+- **Die Seite bleibt einsprachig deutsch** (11.08.2026). Die Idee „weitere Sprachen" ist
+  gestrichen, nicht zurückgestellt: anime-kalender.de sagt, wann ein Anime **auf Deutsch**
+  erscheint. Eine englische Fassung derselben Seite hätte keinen Inhalt, den es nicht
+  anderswo besser gäbe.
+
+- **Keine Affiliate-Links** (08.08.2026). Das Projekt bleibt unkommerziell. Damit bleibt auch die
+  TMDB-Nutzung im privaten Rahmen, und die Amazon-Links sind schlichte Kauflinks ohne Partner-Tag.
+- **Keine Pull Requests für Termine** (08.08.2026). Die Datenpflege bleibt in einer Hand — die
+  Quellenpflicht ist die Grundregel des Projekts, und sie ist nur haltbar, solange jeder Termin
+  durch dieselbe Prüfung geht.
+- **Gesamtabnahme der ersten Version erteilt** (08.08.2026). Die letzte offene Ausnahme, die
+  Newsletter-Abmeldung, ist am 10.08.2026 geprüft — damit ist die erste Version vollständig
+  abgenommen.
+
+## Archiv
+
+### Rechtsfrage Amazon zu Ende geprüft (24.08.2026) — die Entscheidung bleibt
+
+Daniels Einwand vom 23.08.2026: „es sind simple informationen die öffentlich zugänglich sein
+müssen, sonst könnten käufer sich nie dafür entscheiden." Der Ansatz ist die
+**Informationspflicht als Gegengewicht** zum Data-Mining-Verbot in Amazons Nutzungsbedingungen.
+Vier Teilfragen, alle nachgesehen. **Das ist eine Recherche, keine Rechtsberatung** — ich bin
+kein Anwalt, und bei einer streitigen Auseinandersetzung entscheidet niemand danach.
+
+#### ① Die Informationspflicht besteht — sie gilt aber gegenüber dem Käufer, nicht gegenüber uns
+
+[Art. 246a § 1 Abs. 1 EGBGB](https://dejure.org/gesetze/EGBGB/246a.html) verlangt vom
+Unternehmer Angaben zu
+
+- **Nr. 1** „die wesentlichen Eigenschaften der Waren oder Dienstleistungen"
+- **Nr. 17** „die Funktionalität … einschließlich anwendbarer technischer Schutzmaßnahmen"
+- **Nr. 18** „die Kompatibilität und die Interoperabilität …, soweit diese Informationen dem
+  Unternehmer bekannt sind oder bekannt sein müssen"
+
+Die Sprachfassung eines Films fällt für einen deutschen Käufer unter **Nr. 1**, nicht unter
+17/18 — dort geht es um DRM und technische Ausspielbarkeit. Daniels Grundannahme stimmt also:
+Amazon **muss** es hinschreiben.
+
+**Nur folgt daraus nichts für uns.** Es ist eine **vorvertragliche Informationspflicht des
+Unternehmers gegenüber dem Verbraucher**. Sie sagt, dass die Angabe dastehen muss — nicht, dass
+ein Dritter sie automatisiert einsammeln darf. Aus einer Pflicht zu veröffentlichen folgt kein
+Recht zu ernten.
+
+#### ② Der BGH-Fall, der helfen würde, passt nicht auf Amazon
+
+[BGH, 22.06.2011, I ZR 159/10 (Automobil-Onlinebörse)](https://ihde.de/bundesgerichtshof-zum-screen-scraping-auslesen-von-datenbanken-durch-bots-bgh-urteil-vom-22-06-2011-az-i-zr-159-10-automobil-onlineboerse/)
+ist der Leitfall, und er fiel gegen den Portalbetreiber aus — an drei Punkten:
+
+| Der BGH sagte | Trifft auf Amazon zu? |
+|---|---|
+| AGB-Verbot unwirksam, weil Abfragen **ohne AGB-Annahme** möglich waren und es „keine besonderen Vorkehrungen" gab | **Nein** — Amazon erkennt und sperrt Bots aktiv |
+| Kein Datenbankrechtsverstoß, weil nur **Einzelabfragen zum konkreten Suchauftrag** eines Nutzers | **Nein** — ein Durchlauf über 385 Titel ist kein Suchauftrag |
+| Kein UWG-Verstoß, wer „ungeschützt öffentlich zugänglich" macht, muss mit automatischen Aufrufen rechnen | **Nein** — siehe ④ |
+
+Das Urteil trägt also gerade **nicht**. Es beschreibt den Gegenfall.
+
+#### ③ Das Datenbankrecht ist wirklich schwach — hilft aber nicht
+
+Daniels Vermutung war richtig: Nach
+[EuGH C-203/02 (British Horseracing Board)](https://lexetius.com/2004,2512) zählt für den
+Schutz nur die Investition ins **Beschaffen** vorhandener Daten, nicht ins **Erzeugen**.
+Amazons Sprachangaben entstehen im eigenen Haus, sind also eher Erzeugung — der sui-generis-
+Schutz greift schwach.
+
+**Das ändert nichts**, weil das Datenbankrecht gar nicht der Engpass ist. Bleibt das
+Vertragsverhältnis, und das besteht unabhängig davon.
+
+Ebenso wenig hilft die TDM-Schranke aus [§ 44b UrhG](https://www.gesetze-im-internet.de/urhg/__44b.html):
+Sie erlaubt automatisierte Analyse **urheberrechtlich geschützter Werke** mit maschinenlesbarem
+Nutzungsvorbehalt als Grenze. „Deutsch" als Tonspur-Angabe ist eine Tatsache ohne
+Schöpfungshöhe — für sie braucht es keine Schranke, und sie gibt auch keine.
+
+#### ④ Der praktisch entscheidende Fund steht in der robots.txt
+
+Gemessen am 24.08.2026 an `https://www.amazon.de/robots.txt`, 416 Zeilen:
+
+- **`/gp/video/detail/` ist für `User-agent: *` nicht gesperrt.** Die Titelseite selbst dürfte
+  ein Bot also abrufen.
+- **`/gp/video/api` ist gesperrt** — und genau darüber läuft `getDetailWidgets`, der Aufruf, der
+  die **vollständige** Folgenliste nachlädt. Ohne ihn sieht man 24 von 51 Folgen.
+- **Über 90 Bots sind namentlich mit `Disallow: /` ausgesperrt**, darunter `GPTBot`, `ClaudeBot`,
+  `Scrapy`, `Crawl4AI`, `Diffbot`, `Bytespider` und ein `Datenbank Crawler`.
+
+Damit ist die Frage entschieden, und zwar ohne Auslegung: Der Weg, den ein automatischer Lauf
+gehen müsste, ist **maschinenlesbar untersagt**. Und die namentliche Sperrliste ist genau die
+„besondere Vorkehrung", deren Fehlen den BGH-Fall damals kippen ließ.
+
+#### ⑤ Der Vergleich mit JustWatch und werstreamt.es taugt nicht als Vorbild
+
+- **JustWatch scrapt nicht** (belegt am 23.08.2026): bezieht über Partner-Integrationen und
+  liefert seine Daten über die TMDB-API weiter — die wir bereits lizenziert nutzen.
+- **werstreamt.es** gehört seit 2017 zur FUNKE Mediengruppe (Gong Verlag). Zur Datenherkunft
+  ist öffentlich nichts belegt; eine FAQ-Seite ist von hier nicht abrufbar.
+
+Wer eine Lizenz oder eine Partnerschaft hat, ist kein Beleg dafür, dass es ohne geht.
+
+#### Ergebnis
+
+**Die Entscheidung bleibt, wie sie ist.** Die Erweiterung liest mit, während Daniel die Seite
+ohnehin offen hat; ein Bot ruft Amazon nicht ab. Das ist kein Kompromiss aus Vorsicht, sondern
+das, was nach ④ übrig bleibt.
+
+**Was sich ändert:** Die Frage ist beantwortet und muss nicht wiederkehren. Und die Messung gibt
+eine Linie für künftige Anbieter — **erst die robots.txt lesen, dann die AGB**: Ein
+maschinenlesbares Verbot des konkreten Pfads entscheidet die Sache schneller und eindeutiger als
+jede Auslegung einer Vertragsklausel.
+
+**Neu bewerten**, wenn eines davon eintritt: Amazon veröffentlicht eine Metadaten-Schnittstelle
+(die PA-API wurde am 15.05.2026 eingestellt, Nachfolger ist die Creators API — ungeprüft, ob sie
+Prime-Video-Metadaten führt), oder eine lizenzierte Quelle nennt Tonspuren je Folge.
+
+### Nachtrag zum Panel-Umbau: Das Bühnenbild überdeckte den Antwortkasten
+
+Gemeldet von Daniel mit Bildschirmabzug, 24.08.2026: Der Kasten „1 von 170 Folgen erschienen"
+stand angeschnitten da — obere Kante weg, der Rest sichtbar. Dazu die Frage, ob ich es
+überhaupt bemerkt hätte. Hatte ich nicht.
+
+**Ursache, gemessen an der laufenden Seite:** Das Bild ist 340 px hoch, sein Container nur so
+hoch wie Titel und Unterzeile. Die letzten 56 px ragen darüber hinaus, und das ist Absicht —
+die ersten Inhalte sollen darauf stehen. Nur gewinnt beim Malen sonst das Bild: Der Container
+ist positioniert und erzeugt über `isolation: isolate` einen eigenen Stapel; ein nachfolgendes
+Geschwister **ohne** `position` wird davon überdeckt, ganz gleich, welchen z-index das Bild
+innerhalb des Stapels trägt. Beide Inhaltsbereiche standen `static`.
+
+Gegenprobe an der ausgelieferten Seite, an den drei Zeilen des Kastens im Bildbereich:
+
+```
+ohne relative: 275:BILD   300:BILD   326:BILD
+mit relative:  275:KASTEN 300:KASTEN 326:KASTEN
+```
+
+**Die eigentliche Lehre ist nicht das CSS.** Sechs Commits, jeder mit grüner Kette — Typecheck,
+Linter, Build. Keiner von ihnen sieht ein Bild. Daniel: „in zukunft bitte selbst sowas
+mitbekommen und automatisch fixen." Festgehalten im Skill `pruefen-und-belegen` unter „Grün ist
+nicht richtig — was sichtbar ist, wird angesehen".
+
+**Eine Messfalle steckte darin**, die künftig Zeit spart: `elementFromPoint` misst
+Trefferbarkeit, nicht Sichtbarkeit. Die Bildschichten tragen `pointer-events: none`, also
+meldete die Probe „Kasten liegt oben", während er in Wahrheit verdeckt war — die erste
+Gegenprobe zeigte deshalb keinen Unterschied, und ich hielt meine richtige Diagnose kurz für
+widerlegt. Für die Messung müssen die Schichten kurz auf `pointer-events: auto`.
+
+### Gemessen 24.08.2026: Die Änderungsquelle bringt für uns derzeit null
+
+Die Aufgabe hieß „die gesammelten Änderungen mit unserem Datensatz verknüpfen". Nachgerechnet
+an den 152 Meldungen, die seit dem 23.08.2026 in `data/motn-changes.json` liegen:
+
+| | |
+|---|---|
+| Meldungen gesamt | 152 |
+| einem unserer Titel zuzuordnen | **11** |
+| davon mit deutscher Tonspur | **5** |
+| davon **nicht** schon im MOTN-Bestand | **0** |
+
+Die fünf sind 86 EIGHTY-SIX, Fate/Zero, Fate/stay night [UBW], Fate/Grand Order Babylonia und
+Naruto Shippūden — alle längst über den Katalogweg erfasst.
+
+**Es gibt also nichts zu verknüpfen**, und ein Verknüpfungslauf hätte keine Arbeit. Abgeschaltet
+wird die Quelle trotzdem nicht: Sie kostet eine Anfrage am Tag gegen ein Monatskontingent von
+1.000, und ihr Zweck ist genau der seltene Fall — ein Anime, der neu erscheint und in keinem
+Katalogdurchlauf steht.
+
+Statt eines Laufs steht die Zahl seit dem 24.08.2026 in jeder Ausgabe von
+`fetch-motn-changes.ts`, und wenn sie über null steigt, meldet er es als Warnung. Die Frage
+wird damit nicht mehr von Hand beantwortet.
+
+**Eine Falle steckt in der Zuordnung:** Beide Seiten schreiben die TMDB-Kennung verschieden.
+`data/tmdb-titles.json` führt `tmdbId: 30991` mit `kind: 'tv'`, die Änderungsquelle
+`tmdbId: 'tv/331650'`. Der erste Messversuch verglich sie direkt und ergab sauber null Treffer
+— was wie „die Quelle taugt nichts" aussieht und nur ein Formatfehler war.
+
+### Vier Messdateien gingen in jedem CI-Lauf verloren (24.08.2026)
+
+Gefunden beim Nachgehen einer YouTube-Preisangabe, und der größere der beiden Funde.
+
+`tools/commit-data.sh` legt vor dem `git reset --hard` die Dateien beiseite, die ein Lauf
+unter `data/` geschrieben hat. Vier standen nicht in der Liste:
+
+| Datei | Taktung |
+|---|---|
+| `data/youtube-befunde.json` | wöchentlich |
+| `data/rtlplus-befunde.json` | wöchentlich |
+| `data/motn-changes.json` | **täglich**, gegen ein Monatskontingent von 1.000 |
+| `data/curated/disc-anisearch.yaml` | wöchentlich |
+
+Sichtbar war es nur am Commit-Datum: alle vier zuletzt am 23.08.2026 durch einen lokalen
+Lauf beschrieben, seither nichts — obwohl zwei davon täglich bzw. wöchentlich neu geholt
+werden.
+
+**Die Prüfung, die das melden soll, hatte zwei blinde Flecken.** Sie las nur `.ts`-Dateien
+(die `.mjs`-Läufe also gar nicht) und suchte nur nach `writeJson('data/…')`, fand also kein
+Ziel, das in einer Konstanten steht. Jetzt zählt jedes `data/…`-Literal in einer Datei, die
+überhaupt schreibt — auch reine Lesepfade. Das ist die richtige Seite zum Irren: Eine Datei
+zu viel in der Liste wird beiseitegelegt und unverändert zurückgelegt; eine zu wenig kostet
+die Arbeit jedes Laufs, und zwar still. Gegentest gemacht: Zeile entfernt → rot, Zeile
+zurück → grün.
+
+### Neun YouTube-Kauffilme standen als „kostenlos" (24.08.2026)
+
+Neun Verweise antworten bei oEmbed mit HTTP 401. Der Lauf legte das pauschal als
+„kostenpflichtig" ab, und `zugangsart()` las das Feld nie — „Your Name", „FF7 Advent
+Children" und „Fireworks" standen als Gratisangebot im Kalender.
+
+**Auch die Ablage war falsch.** An den Videoseiten nachgemessen: sechs der neun tragen eine
+`offerId`, also ein echtes Kaufangebot, drei nicht. Der 401 hat mehrere Ursachen. Belegt wird
+der Kauf seither über `offerId`, sein Fehlen bleibt Schweigen.
+
+**Der Nebenfund wiegt für dieses Projekt schwerer:** Zwei der drei heißen „Tokyo Ghoul,
+2. Staffel, 1. Episode, OmU" und „Anime, My Hero Academia, Episode 01, OmU" — Untertitel
+statt Synchro, vom Uploader selbst benannt, und das ist genau die Trennlinie, an der dieser
+Kalender hängt. `pipeline/lib/titel-muster.mjs` erkennt sie jetzt, ebenso eine fremde
+Synchronfassung („English Dub" bei drei Attack-on-Titan-Filmen). Sieben Verweise stehen
+dadurch ganz oben in `daniel-zum-abarbeiten/09-youtube-liste.md`; ein `dub: false` setzt
+weiterhin ein Mensch.
+
+### Detail-Panel neu gebaut — sechs Schritte, 24.08.2026
+
+Daniel am 24.08.2026: „eventuell sollten wir über ein re-design des detail panels nachdenken".
+Aus fünfzehn Mockup-Fassungen wurde eine, aus der eine Reihenfolge. Gebaut in sechs Commits,
+jeder für sich prüfbar:
+
+| Schritt | Was |
+|---|---|
+| 1 | Bühne aus dem Cover statt aus dem Banner, Titel als zusammenhängende Pille |
+| 2 | „Wo läuft es" **vor** die Termine — das grüne „DE ✓" ist die wertvollste Angabe der Seite |
+| 3 | Antwortkasten mit fester Höhe: vier Fälle, ein Platz, keine springenden Elemente |
+| 4 | Werkangaben ans Ende, Genres auf drei begrenzt |
+| 5 | Reihen-Umschalter unter die Anbieter, mit Zahl in der Überschrift |
+| 6 | Knopf-Beschriftungen nennen die Wirkung statt des Ziels |
+
+**Zwei Beobachtungen von Daniel sind darin aufgegangen:**
+
+- „unter dem grünen balken steht x von y erschienen … das führt dazu, dass die elemente nach
+  klick zwischen titel hoch/runter schieben" → der Antwortkasten hat eine feste Mindesthöhe,
+  alle vier Fälle belegen denselben Platz.
+- „wenn ich the ghost in the shell detail panel öffne wird im karussell nicht an die stelle
+  horizontal gescrollt zu dem gerade ausgewählten titel" (16:05) → der aktive Teil macht sich
+  beim Öffnen selbst sichtbar. Bewusst zurückgestellt gewesen, weil der Umbau den Umschalter
+  ohnehin an einen neuen Platz brachte; jetzt in Schritt 5 mitgenommen. Senkrecht wird dabei
+  auf „nearest" gescrollt statt auf „center", damit die Seite nicht springt — bewegen soll
+  sich nur das Band.
+
+**Was der Umbau nicht angefasst hat:** Die Gruppierung der Kaufwege nach Shop steht seit dem
+20.08.2026 und trägt die Synchro-Angabe je Anbieter bereits; sie ist in Schritt 2 unverändert
+mitgewandert.
+
+### DMARC steht auf `p=quarantine` (24.08.2026, 12:05)
+
+Der Termin vom 24.08. ist eingelöst — zwei Stunden später als geplant, weil die Grundlage
+erst nachgereicht werden musste. Daniel hat 15 Google-Aggregatberichte in den Übergabeordner
+gelegt, Zeitraum 07.–22.08.2026:
+
+| | |
+|---|---|
+| Mails insgesamt | 30 |
+| `dkim`-Fehler | **0** |
+| `spf`-Fehler | **0** |
+| Absender-IPs | 17, **alle** Amazon SES (`54.240.3.x`, `54.240.6.x`) |
+
+Der 19.08. fehlt in der Kette, und das ist kein Loch: Google schickt einen Bericht nur, wenn
+an dem Tag Mail geflossen ist. Der Newsletter verschickt nur bei neuen Terminen.
+
+**`rua=` bleibt entgegen der Absicht vom 12.08. stehen.** Daniel hat das am 24.08. so
+entschieden, nachdem der Zusammenhang klar war: Die Berichte sind das einzige Fenster darauf,
+ob die schärfere Politik überhaupt ankommt — und ob sie eines Tages eigene Post aussortiert.
+Wer sie abschaltet, macht die Umstellung unprüfbar und müsste für ein späteres `p=reject`
+bei null neu sammeln. Die täglichen Berichtsmails sind der Preis dafür.
+
+**Beim Umstellen ist ein Fehler im eigenen Werkzeug aufgefallen, und zwar rechtzeitig.**
+Der Trockenlauf meldete `+ TXT _dmarc` — *anlegen*, nicht *aktualisieren*. Die Ursache stand
+in `tools/inwx-dns.mjs`: Die Liste der Typen, bei denen ein Eintrag ersetzt statt danebengelegt
+wird, enthielt nur `CNAME`. Für TXT ist „mehrere erlaubt" im Allgemeinen richtig — die Wurzel
+trägt SPF und die Google-Verifizierung nebeneinander —, aber nicht für zwei Einträge
+**derselben Sorte**: Zwei DMARC-Records auf `_dmarc` sind nach RFC 7489 §6.6.3 dasselbe wie
+keiner, der Empfänger verwirft beide. Die Umstellung hätte den Schutz also **abgeschaltet**
+statt ihn zu verschärfen, und im DNS hätte danach eine Politik gestanden, die niemand anwendet.
+
+Behoben durch Unterscheidung nach dem `v=`-Präfix (`DMARC1`, `spf1`, `DKIM1`): Ein Eintrag
+ersetzt den vorhandenen derselben Sorte und lässt alle anderen in Ruhe. Nach dem Fix meldete
+der Trockenlauf `~ … 1 aktualisiert, 0 angelegt`, und die Wurzel-TXT mit der
+Google-Verifizierung blieb unangetastet. Aufgefallen war es nie, weil sich bis dahin kein
+TXT-Inhalt geändert hatte.
+
+**Geprüft nach dem Schreiben** (24.08.2026, 12:05):
+
+| Auflöser | Antwort |
+|---|---|
+| INWX (autoritativ) | `v=DMARC1; p=quarantine; rua=…` ✓ |
+| Cloudflare `1.1.1.1` | `p=quarantine` ✓ |
+| Google `8.8.8.8` | noch `p=none` — alter Cache, TTL 3600 |
+
+Genau **ein** Eintrag auf `_dmarc`. Der Wirkungsnachweis steht noch aus und wartet unter
+„Warten auf Feedback" auf den Bericht vom 26.08.
+
+### 23.08.2026 — der Crunchyroll-Negativbefund war laengst belastbar
+
+Die Aufgabe stand seit dem 21.08. offen: 366 Serien galten als „keine deutsche Fassung", und
+uebernommen wurde davon nichts. Der Grund war gut — ein fehlendes Deutsch in der **Gast-Ansicht**
+bewies nichts, 975 Falschangaben hatten das gezeigt.
+
+Mit dem deutschen Zugang vom 22.08. ist die Frage eine andere, und der Code entscheidet bereits
+so: `beurteile()` macht aus `deutschImAngebot: false` genau dann ein Nein, wenn `katalog === "de"`
+ist. Aus dem US-Katalog nie.
+
+**Die Kontrollgruppe bestaetigt es:** 26 von 26 Handbelegen stimmen mit dem DE-Katalog ueberein,
+kein einziger Widerspruch. Und die Zahl selbst ist gefallen — statt 366 sind es 100 Negativ-
+Befunde, alle aus dem deutschen Katalog, keiner mit Fehlermeldung.
+
+Daniels Frage traf den Punkt: „warum kann bei crunchy ueberhaupt ein schiefstand sein? seit wir
+den lauf mit auth token gemacht haben ... sollte es doch perfekt sein fuer alle?" — Es war
+perfekt, nur stand die alte Vorsicht noch in der Aufgabenliste.
+
+Wirkung im Datensatz: 491 Synchro-Angaben aus den Serienseiten belegt, 188 Verweise ohne deutsche
+Synchro entfernt.
+
+### 22./23.08.2026 — Netflix von Hand, mit einer Erweiterung, die mitlernt
+
+Daniel hat an einem Abend **352 Netflix-Pruefungen** gemeldet: 178 belegte deutsche Synchros,
+24 Titel ohne deutschen Ton, 145 Verweise, die ins Leere fuehren. Die offenen Adressen fielen
+von 258 auf sieben.
+
+Die 145 toten Verweise sind dabei so wertvoll wie die Belege: Netflix leitet einen
+verschwundenen Titel auf die Startseite um, und das sieht fuer jede automatische Pruefung wie
+HTTP 200 aus. Kein Automat haette sie gefunden.
+
+**Die Erweiterung lernte im Lauf des Abends, was Netflix ihr sagt.** Sie meldet seit v0.23.0
+die Staffelaufteilung mit — und die widerlegte gleich mehrere Annahmen: Netflix zaehlt bei
+Jujutsu Kaisen ueber alle Staffeln durch (Staffel 7 beginnt bei Folge 146), bei Sword Art
+Online faengt jede Staffel neu bei 1 an. Wer das umrechnet statt es zu lesen, schreibt Befunde
+an die falsche Staffel. Netflix rechnet ausserdem OVAs als Folgen der Staffel mit, waehrend
+AniList sie getrennt fuehrt: HAIKYU!! hat dort 26 statt 25 Folgen, KONOSUBA 11 statt 10.
+
+**Ein Fehler ist mir dabei zweimal unterlaufen**, und beide Male hat Daniel ihn gemeldet: Die
+Erweiterung schickte Befunde zu Serien, die er einfach ansah — erst „Heroes" ohne jede
+Einschraenkung, dann noch einmal, weil eine Bruecke fuer abweichende Kennungen zu breit war.
+Sie verlangt jetzt, dass der Name passt.
+
+**Der Ertrag fuer die Seite:** 340 belegte Netflix-Synchros statt 178 am Vortag, und 145
+Kacheln weniger, die jemanden ins Leere geschickt haetten.
+
+### 22.08.2026 — Netflix mitlesen: am Ergebnis, nicht am Aufruf
+
+Drei Anläufe, zwei davon haben Netflix mitten in Daniels Sitzung lahmgelegt (NSES-UHX):
+`window.fetch` und `XMLHttpRequest.prototype.open` zu ersetzen war wirkungslos (Netflix setzt
+beide danach selbst neu); dieselben Stellen hinter einen Zugriffsschutz zu legen war schlimmer
+— Netflix las beim eigenen Wrappen zuerst den bestehenden Wert, bekam die Hülle, und beide
+riefen einander auf. *Maximum call stack size exceeded*, die Seite lud nicht mehr.
+
+Daniels Einwand wies den Weg: „man muss ja nicht direkt fetch überschreiben". Umhüllt wird
+jetzt, was die Seite **liest** — `Response.prototype.json` und der Getter von
+`XMLHttpRequest.prototype.responseText`. Die native Funktion liegt in einer Closure, niemand
+kann sie verdrängen, niemand verwendet unseren Wert als „Original" weiter.
+
+**Was es einbrachte**, gleich bei der ersten Meldung (v0.23.0, 18:29 Uhr): Netflix meldet zu
+Sword Art Online `[{seq:1, folgen:25, erste:1}, {seq:2, folgen:24, erste:1}]`. Das `erste: 1`
+widerlegte die Annahme, der Anbieter zähle über die Staffeln hinweg durch — bei Jujutsu Kaisen
+tut er es (bis 59), hier nicht. Die Umrechnung hätte Daniels Folge 24 der zweiten Staffel an
+„Sword Art Online" geschrieben statt an „Alicization", und der Befund hätte ausgesehen wie ein
+geprüfter. Aus derselben Antwort folgte, dass Netflix nur zwei der vier Staffeln unter dieser
+Adresse führt; die beiden „War of Underworld"-Verweise sind entfernt.
+
+Die Regel steht im Skill `netzwerkverkehr-statt-scraping`, samt der beiden Wege, die
+ausgeschlossen sind (`PerformanceObserver` sieht keinen Inhalt, `chrome.webRequest` gibt es in
+Manifest v3 ohne Body-Zugriff).
+
+### 22.08.2026 — Folgenbereiche: wo der deutsche Ton aufhört
+
+Bis dahin kannte `data/dub-confirmed.yaml` nur „hat deutsche Synchro" oder „hat keine", je
+Verweis für die ganze Reihe. Bei Black Clover auf Netflix stimmte beides nicht: Folgen 1 bis
+155 sind deutsch, 156 bis 171 nicht. Ein Kommentar in der Datei hielt fest, dass es „kein Feld
+für eine Teilmenge" gebe.
+
+Jetzt gibt es eins, und drei Stücke greifen ineinander:
+
+- **`pipeline/lib/folgenbereiche.ts`** bildet aus Einzelmeldungen Bereiche. Daniel am
+  22.08.2026: „melden von 1,3,4,13 müsste reichen, um daraus die infos zu ziehen das 1-3 keine
+  und 4-13 eine synchro haben." Interpoliert wird nur zwischen **gleichen** Befunden — aus
+  „3 ohne" und „6 mit" wird „4–5 ungeprüft", keine geratene Grenze.
+- **Dieselbe Datei rechnet durchgezählte Anbieternummern um.** Netflix zählt Jujutsu Kaisen
+  bis 59 durch (Daniel mit Bild: „staffel 1 (bis 24) staffel 2 (bis 47) staffel 3 (bis 59)"),
+  unser Datensatz führt drei Einträge mit 24, 23 und 12 Folgen. Eine Staffel ohne geprüfte
+  Folge bekommt **gar keinen** Eintrag — vorher wies eine Prüfung an Folge 59 auch Staffel 1
+  als geprüft aus.
+- **`shared/dub-grenze.ts`** entscheidet, ob im Detail-Panel etwas dazu steht. Nur bei
+  gemischten Staffeln: „Deutsch bis Flg. 155". Ist eine ganz deutsch oder gar nicht, sagt das
+  Häkchen daneben schon alles.
+
+19 Zusicherungen in `check:logic`. Dabei zwei stille Verluste behoben: Ein Protokollbuchstabe
+(`http` gegen `https`) verwarf eine gültige Prüfung, und Meldungen zu unbekannten Adressen
+fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md` zu landen.
+
+- ✅ **Crunchyrolls Tonspuren kommen aus der Content-API** (21.08.2026, [PR #6](https://github.com/danielzaiser91/anime-kalender-de/pull/6),
+  Merge-Commit 9afdd11e). 911 Adressen, 693 Serien, 17.686 Folgen in einem Lauf gelesen —
+  vorher 5 bis 23 Sekunden je Seite, jetzt 3 bis 5. **488 Adressen bekommen eine Auskunft, die
+  der alte Weg nie geben konnte**; 44 widersprechen ihm, und in allen 44 hat die API recht.
+
+  **Selbst nachgeprüft, nicht übernommen:** Kontrollgruppe aus `data/dub-confirmed.yaml` 24
+  richtig / 0 falsch / 0 stumm; die Zahlen des Berichts nachgezählt (313 deutsch, 426 ohne, 107
+  nicht mehr verfügbar, 65 ohne Auskunft, 20 teilweise deutsche Staffeln, 4.826 deutsche Folgen
+  mit belegtem Termin); der Streitfall „High School DxD" aus der archivierten Rohantwort belegt
+  — `versions` trägt `ja-JP` und `en-US`, kein Deutsch, bei `is_dubbed: true`. Mushoku Tensei
+  Staffel 3 stimmt mit Daniels eigenem Befund überein: 3 von 8 deutsch, Folgen 1 bis 3 am
+  19.08.2026 um 11:00, 11:30 und 15:00 UTC.
+
+  **Wer über die 911 Adressen statt über die 693 Serien zählt, bekommt andere Zahlen** (37
+  statt 20 teilweise deutsche Staffeln, 8.434 statt 4.826 Termine) — mehrere Adressen zeigen
+  auf dieselbe Serie. Das ist beim Nachrechnen der erste Fallstrick.
+
+  Drei Fehler hat der Lauf dabei gefunden und behoben: ein misslungener `page.goto` gab die
+  **vorige** Seite zurück und hängte 91 Adressen die Staffelliste von „Jujutsu Kaisen" an;
+  Crunchyroll sperrt nach rund 300 Serien für eine Viertelstunde; und eine Nichtauskunft galt
+  als „frisch geprüft" und blockierte damit vier Wochen lang ihre eigene Wiederholung.
+
+  Nachgezogen, weil der Cloud-Lauf keine `workflows`-Rechte hat: Deckel im Wochenlauf von 250
+  auf 300. Ebenfalls dabei: `tsconfig.tsbuildinfo` liegt nicht mehr im Repo — sie war der
+  einzige Konflikt dieses Merges.
+- ✅ **Alle Läufe melden ihre Schritte** (21.08.2026). Nach `deploy.yml` jetzt auch
+  `refresh-hourly` (4 Schritte), `refresh-data` (8), `refresh-weekly` (18),
+  `tonspuren-monatlich` (2) und `crunchyroll-nachholen` (1). **Live belegt:** Der von Hand
+  angestoßene Stundenlauf 32519352698 zeigte „1/4 · Rohdaten holen" und endete mit „4/4 ·
+  Vorschaubilder für neue Releases", parallel dazu der Deploy mit „5/7 · Hooks-Regeln geprüft".
+
+  Die Frage dahinter war, wie sich zwei Zählweisen im selben Lauf vertragen: Der Schrittzähler
+  sagt „3/8 Rohdaten geholt", das Pipeline-Skript darin meldet „233/594 Serien". Beide
+  schreiben dieselben drei Felder, und der Worker setzte sie einzeln per `COALESCE` — ein
+  Melder ohne Gesamtzahl hätte die 594 seines Vorgängers geerbt. Die drei Felder sind deshalb
+  jetzt eine Gruppe. Gegen den ausgerollten Worker durchgespielt: Schritt 3/8, dann eine
+  Meldung mit 12 ohne Gesamtzahl → „12/null" statt „12/594", danach eine Meldung ohne
+  Fortschritt → Werte bleiben stehen.
+
+- ✅ **TMDB holt nach Alter nach, nicht nach „schon mal geholt"** (21.08.2026). `fetchedAt` je
+  Eintrag, `--alter` mit 60 Tagen als Vorgabe, ältestes zuerst. Probelauf: „2761 von 2761
+  Titeln fällig (10 noch nie geholt, Rest älter als 60 Tage)". Dabei fiel auf, dass dieser
+  Abruf keine der drei Voraussetzungen aus der `CLAUDE.md` hatte: kein Platz in einem
+  Workflow — er lief einmal von Hand und veraltete danach still —, keine Zeile in
+  `tools/commit-data.sh` (ein CI-Lauf hätte `data/tmdb-titles.json` verworfen) und keine Frist
+  in `check-sources.ts`. Alle drei nachgezogen: Wochenlauf mit `--limit 400`, Frist neun Tage,
+  Bestandsmeldung über `recordSource()`.
+
+- ✅ **`loadEnv()` liegt in `pipeline/lib/util.ts`** (21.08.2026) statt als identische Kopie in
+  `fetch.ts` und `fetch-tmdb-titles.ts`. Im Trockenlauf geprüft: drei Werte aus `.env` gelesen,
+  ein bereits gesetzter bleibt stehen — das ist die Eigenschaft, auf die sich die Cloud
+  verlässt, wo die Schlüssel aus den Repo-Secrets kommen.
+
+- ✅ **Crunchyroll-Rückstand ist abgearbeitet** (21.08.2026, nebenbei gemessen). Der
+  Nachhollauf 32519594875 meldete „0 Serienadressen offen (911 in den letzten 28 Tagen
+  gelesen)". Heute früh waren es 769 offene.
+- ✅ **Kalender-Abo führt keine zehn Jahre Vergangenheit mehr** (21.08.2026, Daniels
+  Entscheidung: sieben Tage Rückblick). `all.ics` führte am 20.08.2026 noch **742 Termine,
+  davon 641 in der Vergangenheit** — zurück bis zum 12.01.2015, 348 KB. Wer das Abo eintrug,
+  bekam das alles in seinen Kalender. **Live nachgemessen am 21.08.2026:**
+  `https://anime-kalender.de/data/feeds/all.ics` liefert **232 Termine**. Alle künftigen sind
+  drin; `events.json` auf der Seite bleibt vollständig, die Vergangenheit ist dort weiter
+  durchblätterbar.
+
+- ✅ **Die Statusanzeige zeigt Zweck, Ziel und Fortschritt je Lauf** (21.08.2026). Vorher stand
+  je Lauf eine Zeile, die je nach Lauf etwas anderes trug — bei drei Auftrags-Läufen dreimal
+  denselben Workflow-Namen. Jetzt liefert **der Lauf selbst** die Angaben (`LAUF_ZWECK`,
+  `LAUF_ZIEL` als `env` am Job), der Worker hält sie in zwei neuen Spalten, die Anzeige zeigt
+  drei Zeilen. `deploy.yml` meldet zusätzlich seine sieben Schritte einzeln — belegt im Lauf
+  32517576468 mit „5/7 · Hooks-Regeln geprüft". Die Prüfung `check:workflows` macht einen Lauf
+  rot, der sich meldet, ohne seinen Zweck zu nennen; Gegentest gemacht.
+
+  Zwei Fehler im Fortschritt fielen dabei auf und sind behoben: `git rev-list --count HEAD`
+  zählte die mitgeklonte Historie mit (`fetch-depth: 50`), die Zahl begann also bei 50 — und
+  „121 Dateien offen" waren Rohdaten aus einem Testabruf, kein Arbeitsstand.
+- ✅ **Wochenlauf vom 20.08.2026 nachgesehen** — Lauf 32359320442, grün durch. Der Eintrag stand
+  bis zum 21.08.2026 unter „terminiert" und wanderte von dort in den Footer, wo ich ihn als
+  „anzustoßen" führte. Beides falsch: Der Lauf war erledigt, und angestoßen wird er ohnehin nie
+  von Hand — er hat einen Cron. Daniel hat es gemeldet („sollte das nicht automatisch angestoßen
+  werden?").
+
+- ✅ **Abweichungen vom Wochentakt sind eintragbar** (21.08.2026, erarbeitet in der Cloud,
+  hier nachgemessen). Ein kuratiertes `schedule.observed` wird jetzt über die aus dem
+  Crunchyroll-Kalender abgeleiteten Beobachtungen gelegt statt von ihnen überschrieben —
+  dieselbe Vorrangregel wie bei `data/dub-confirmed.yaml`. Erster Fall: Mushoku Tensei
+  Staffel 3, Folgen 1 bis 3 am 19.08.2026 gemeinsam erschienen. **Am erzeugten Datensatz
+  gemessen:** drei Termine am 19.08. mit den Kennungen `#1`/`#2`/`#3`, nächster Termin am
+  26.08. ist Folge **4** statt Folge 2, Ende am 04.11. statt 18.11., Anzeige **3/14** statt
+  1/14. Dabei mitgefunden und mitrepariert: `lastEpisodeDate()` kannte die Stützpunkte aus
+  `observed` nicht und widersprach der Terminliste darunter; vier Releases bekommen dadurch
+  ihr richtiges Enddatum. Ebenfalls mitgefunden: `npm run check:worker` lief in einem frischen
+  Checkout gar nicht — `@cloudflare/workers-types` fehlte in `package.json`.
+
+- ✅ **Claude arbeitet jetzt auch in der Cloud, mit ausgeschaltetem PC** (21.08.2026). Daniels
+  Frage war: „könnte so ein task nach unserer cli einrichtung in der cloud weitergearbeitet werden
+  während mein pc aus ist?" Antwort: ja, und es ist eingerichtet. Das Abo-Token aus
+  `claude setup-token` liegt als Repo-Secret `CLAUDE_CODE_OAUTH_TOKEN`; damit ist
+  `.github/workflows/claude-reparatur.yml` scharf — bei einem roten Datenlauf liest Claude das
+  Protokoll und öffnet einen Reparatur-PR, ohne dass hier jemand am Rechner sitzt.
+  **Belegt, nicht angenommen:** ein Wegwerf-Workflow lief am 20.08. um 22:16 (Lauf 32423507534)
+  und lieferte `is_error: false`, `num_turns: 1`, Modell `claude-sonnet-5`. Danach wieder gelöscht.
+  **Die Lehre daraus steht in `ai_agent_learnings.md` als Kategorie 30:** Der erste Probelauf
+  meldete `success`, obwohl gar kein Claude gelaufen war — ohne `actions/checkout` bricht die
+  Action nach 250 ms in `configureGitAuth` ab (`fatal: not in a git directory`) und **schluckt den
+  Fehler**. Ein grüner Haken ist bei dieser Action kein Beleg; der Beleg ist der JSON-Block
+  `"type": "result"` im Protokoll.
+
+- ✅ **Jeder fünfte Anbieter-Verweis führte auf eine Fehlerseite** (20.08.2026). Aufgefallen bei
+  einer Stichprobe, dann vollständig gemessen: **195 von 945 prüfbaren Adressen antworten mit 404**.
+  Aufgeschlüsselt:
+
+  | Anbieter | Verweise | davon tot |
+  |---|---|---|
+  | Netflix | 596 | **174 (29 %)** |
+  | Amazon / Prime Video | 261 | 9 (3 %) |
+  | Disney+ | 39 | 4 (10 %) |
+  | Joyn | 8 | **6 (75 %)** |
+  | RTL+ | 27 | 0 |
+
+  Bei Netflix erklärt sich der hohe Anteil: Die Kennungen stammen aus einem weltweiten Bestand, und
+  viele dieser Titel stehen im **deutschen** Katalog gar nicht. Aus derselben Leitung antworten 422
+  andere mit 200 — es ist also keine Bot-Abwehr, sondern der Befund, den auch ein Besucher bekäme.
+
+  Im Datensatz waren es 220 Verweise, weil Adressen bei mehreren Titeln stehen. Titel ganz ohne
+  Bezugsquelle steigen dadurch von 665 auf 683 — und das ist die ehrlichere Zahl: Diese 18 hatten
+  vorher nur einen kaputten Link. Seit demselben Tag sagen sie das auch („Kein Anbieter bekannt").
+
+  **Crunchyroll und ADN werden nicht geprüft.** Beide antworten jedem Skript mit 403; das wäre kein
+  Befund über den Verweis, sondern der Nachweis, dass wir kein Browser sind. Entfernt wird ohnehin
+  nur bei einem harten 404 — Zeitüberschreitung, 403 und Netzfehler ändern nichts.
+
+- 📌 **Und ein Fehler in der eigenen Arbeit desselben Tages**, gefunden beim Nachmessen: Die
+  YouTube-Prüfung bildete ihre Warteschlange allein aus `titles.json` — aus der der Build tote
+  Verweise entfernt. Ein einmal als tot erfasster Verweis wäre nie wieder geprüft worden, ein
+  Falschbefund für immer einer. Das ist wörtlich die Falle, der `CLAUDE.md` einen eigenen Abschnitt
+  widmet. Beide Prüfungen bilden ihre Schlange jetzt aus der Vereinigung von Datensatz und allem je
+  Geprüften; `check-links.ts` hatte es von Anfang an so.
+
+- ✅ **Der Wochenlauf ist grün — zum ersten Mal seit dem 10.08.2026** (20.08., 66 Minuten). Alle
+  Schritte erfolgreich, auch der neue YouTube-Schritt: In der CI waren 3 Adressen fällig und wurden
+  geprüft, das Secret trägt also. Geschrieben: 2.760 Titel, 245 Releases, 892 Termine. Damit ist die
+  Reparatur der ADN-Zuordnung am echten Lauf bestätigt, nicht nur lokal.
+
+- ✅ **ADN verliert keine Serien mehr** (20.08.2026). Die Serienliste von ADN ist von Lauf zu Lauf
+  verschieden — 179 gegen 176 am selben Tag —, und der Katalog wurde jedes Mal allein aus dem
+  aktuellen Lauf gebaut. **25 Serien mit belegter Synchro lagen im eigenen Archiv und fehlten
+  trotzdem im Katalog: 762 Folgen**, darunter Yu-Gi-Oh! mit 236, Fire Force, Clannad und DAN DA DAN.
+  Die Warteschlange ist jetzt die Vereinigung aus aktueller Liste, letztem Katalog und Archiv — 242
+  statt 179 Serien, 109 statt 81 mit Synchro. Ob eine Serie bleibt, entscheidet weiterhin allein die
+  frische Antwort; verliert ADN eine Lizenz, fällt sie heraus.
+
+  Aufgefallen ist es, weil Daniel „Sword of the Demon Hunter" bei ADN offen im Angebot fand, während
+  unsere Seite „DE ?" zeigte. Der Sprachcode `vde` stand auf allen 24 Folgen in unserem Archiv.
+
+- ✅ **Tote YouTube-Verweise werden erkannt und entfernt** (20.08.2026). Neues Skript gegen die
+  offizielle Data API v3 — kein Auslesen der Seite, das untersagt YouTube, und die Ländersperre
+  steht ohnehin nur in der API (`regionRestriction`), nicht im Seitenquelltext. Befund: **Von 460
+  bewertbaren Adressen führten 362 ins Leere** — 290 Playlists vollständig landgesperrt, 46
+  Einzelvideos hier nicht abrufbar, 17 gelöscht, 9 ohne Inhalt. Brauchbar sind 95. Der Build
+  entfernt sie; im Datensatz waren es 397 Verweise, weil Adressen bei mehreren Titeln stehen.
+  Kanäle bleiben unangetastet — ein Kanal ist keine Folgenliste. Wiedervorlage nach 30 Tagen, denn
+  Lizenzen kehren zurück.
+
+- ✅ **Die Kalenderansicht war für Vorleseprogramme nicht begehbar** (20.08.2026). Bei einer
+  Durchsicht gefunden: **keine einzige Überschrift** auf Kalender, Datenbank und „Wo sehen?" — kein
+  `h1`, gar nichts —, dazu über zweihundert `span[role="note"]`. Das ist die Rolle für eine
+  Anmerkung am Rande; das Element war aber der Auslöser, der eine zeigt, und mit seiner Blase gar
+  nicht verknüpft. Jetzt trägt jede Ansicht eine unsichtbare `h1`, die Wochentage sind `h2`, und der
+  Auslöser zeigt über `aria-describedby` auf seine Blase. Am ausgelieferten Programmcode
+  gegengeprüft: `role="note"` kommt dort nicht mehr vor.
+
+- ✅ **„Kein Anbieter bekannt" statt gar nichts** (20.08.2026). Bei 665 von 2.760 Titeln fiel der
+  ganze Abschnitt „Wo läuft es" weg, sobald wir keine Bezugsquelle kannten. Für einen Besucher waren
+  damit zwei sehr verschiedene Dinge nicht zu unterscheiden: „läuft nirgends" und „wissen wir
+  nicht". Bei „.hack//SIGN" etwa ist die deutsche Synchro über Sprechrollen belegt, nur weiß niemand,
+  wo man sie heute noch sehen kann. Ein Satz beendet das Suchen auf dieser Seite.
+
+- 📌 **Geprüft und für gut befunden** (20.08.2026), damit es niemand ein zweites Mal misst: Die
+  Startseite lädt in 317 ms mit 6 Anfragen und 204 KB, ohne einen einzigen Konsolenfehler. Auf 375
+  Pixeln gibt es keinen waagrechten Überlauf, und von 201 Tippzielen sind nur 5 unter 24 Pixeln.
+  Bilder, Knöpfe und Eingabefelder tragen durchgehend Beschriftungen. Die Karten in Kalender und
+  Datenbank sind mit Enter und Leertaste bedienbar — der leere `onkeydown` im DOM täuscht, React
+  hängt seine Behandlung an den Wurzelknoten.
+
+- ✅ **One Piece steht wieder vollständig da — 515 statt 10 Folgen** (17.08.2026). ADN teilt die
+  deutschen Folgen in zwölf Blöcke mit Namen wie „Saga 2 : Alabasta". AniList kennt für die Serie
+  **einen** Eintrag, und in unserem Bestand hat die Reihe außer ihm nur zwei Mitglieder (den
+  Pilotfilm von 1998 und Fishman Island). Also fand die Staffelsuche für keinen einzigen Block
+  einen eigenen Teil, alle zwölf zeigten auf denselben Titel, und die Sperre gegen Doppelungen
+  behielt den ersten — zehn Folgen — und warf 505 weg.
+
+  Neue Regel: Findet die Suche für **keinen** Block einen eigenen Reihenteil, waren die Schnitte
+  Lieferwellen und keine Staffeln; dann wird die Serie wieder zu einem Release zusammengefasst.
+  Ergebnis: ein Eintrag über alle 515 Folgen, „Im Angebot seit 20.05.2019", und **ein** einziger
+  Kalendereintrag statt 515. Der Slug bleibt `adn-561`, also stirbt keine Adresse. Fünf
+  Zusicherungen in `check-logic.ts`.
+
+- 📌 **To Love-Ru - Darkness bleibt ohne Release — und das ist die richtige Antwort.**
+  ADN-Kennung 217 bündelt 26 Folgen unter „Staffel 3". Der Bestand kennt Darkness (12) und
+  Darkness 2nd (12); zusammen 24, nicht 26 — die beiden übrigen sind Sonderfolgen, und die lässt
+  `staffelnDesFranchise` bewusst draußen, weil sie jede Folgenzahl-Rechnung sprengen.
+
+  Ohne aufgehende Summe gibt es drei Möglichkeiten, und zwei davon sind falsch: 26 Folgen auf den
+  Zwölfteiler „Darkness" zu buchen wäre eine Falschangabe, und der Treffer über die reine
+  Folgenzahl führte auf „To LOVE-Ru" (26 Folgen) — die **Originalserie**, die ADN unter einer
+  eigenen Kennung führt. Bleibt die dritte: kein Release. Das ist der Projektgrundsatz aus
+  `CLAUDE.md`, wörtlich — „Geht die Summe nicht exakt auf, bleibt der Block lieber unzugeordnet,
+  als einen fremden Titel mitzubringen."
+
+  **Kein offener Punkt mehr.** Er würde erst wieder einer, wenn AniList die beiden Sonderfolgen
+  als Staffelmitglieder führte oder ADN die Kennung aufteilte.
+
+- ✅ **Das Favicon ist angemeldet, wie Google es verlangt** (17.08.2026, live). In der
+  Ergebnisliste stand der graue Standard-Globus, aniSearch daneben mit seinem Logo (Daniels
+  Screenshot). Angemeldet waren nur ein SVG und ein 32×32-PNG; Googles Dokumentation empfiehlt
+  „larger than 48x48px". Jetzt kommen ein 96er PNG und ein echtes `/favicon.ico` dazu — letzteres
+  gab es überhaupt nicht, jede Anfrage dorthin lief in die 404-Seite. Live geprüft: 200 mit
+  `image/vnd.microsoft.icon` beziehungsweise `image/png`, und im Kopf stehen alle vier `rel`-Werte,
+  die Google akzeptiert.
+
+  **Wann es in der Suche erscheint, entscheidet Google**, nicht wir: „Crawling can take anywhere
+  from several days to several weeks." Behoben ist die Ursache, nicht schon das Ergebnis.
+
+- ✅ **Der Wochenlauf schreibt wieder — und verliert nichts mehr, wenn er scheitert**
+  (17.08.2026). Seit dem 10.08. hatte der wöchentliche Tiefendurchlauf dreimal nichts
+  committet. Ursache war ein einziger Titel: ADN führt „To Love-Ru" unter zwei Kennungen (217
+  und 670), beide mit 26 Folgen, und die Namenssuche gab beiden denselben AniList-Eintrag 3455.
+  `passtZuSerie` nimmt einen Reihenkopf an, sobald ein Wort geteilt wird — bei „To Love-Ru -
+  Darkness" gegen „To Love Ru" ist das „love". Die Prüfung meldete zu Recht „zusammen 52 Folgen
+  bei 26 vorhandenen" und brach ab.
+
+  Der Abbruch war richtig, seine Reichweite nicht. Drei Änderungen:
+
+  - **Zuordnung** (`fetch-adn.ts`): Ein bereits vergebener AniList-Eintrag lässt die nächste
+    Schreibweise probieren statt aufzugeben. Genau dafür gibt es die Suchvarianten.
+  - **Sperre** (`build.ts`): Sie galt je Serienkennung, weil sie innerhalb der Schleife stand.
+    Jetzt gilt sie über alle ADN-Serien.
+  - **Zusicherung** (`check-logic.ts`): Der Fall steht mit seinen echten Zahlen als Prüfung im
+    Weg. Wer den Melder weicher stellt, um einen grünen Lauf zu bekommen, bricht sie.
+
+  Dazu die Härtung, die den eigentlichen Schaden verhindert: Der Commit-Schritt lief hinter dem
+  Aufbau **ohne** `if: always()`. Ein Abbruch nahm damit die ganze Ernte mit — knapp eine Stunde
+  Abrufe bei ADN, AniList, ANN, Crunchyroll und aniSearch, dreimal dieselbe Last auf denselben
+  fremden Servern. Quellen sind teuer erkauft, Erzeugnisse entstehen in Sekunden; jetzt
+  überleben die Quellen einen roten Lauf, und rot bleibt er, damit die Meldung kommt.
+  `commit-data.sh` bricht dafür auch nicht mehr an seinem eigenen internen Neuaufbau ab.
+
+- ✅ **Kein Titel fällt mehr zwischen Hauptbestand und Toggle** (17.08.2026). Der Vorfilter für
+  Titel, deren japanische Ausstrahlung noch aussteht, löschte sie aus dem Hauptbestand und
+  verließ sich darauf, dass sie über den AniList-Katalog hinter dem Toggle wieder auftauchen.
+  Bei acht von neun stimmte das; „Xiao Mao Diao Yu" (215520) stand in keinem der beiden Bestände
+  und war über keinen Weg mehr erreichbar. Verschobene Titel werden jetzt gesammelt und in
+  `ohne-synchro.json` nachgetragen. Ein Titel, den man nirgends findet, ist stillschweigend
+  gestrichen — und gestrichen wird nur, was eine Quelle aktiv widerlegt.
+
+- ✅ **Der Dauerschlüssel läuft jetzt ab — ohne jemanden zu trennen** (17.08.2026, live).
+  Die alte Notiz („der Abgleich-Schlüssel steht in **jeder** Newsletter-Mail und gilt ewig") war
+  zur Hälfte überholt: Seit dem 14.08.2026 steht in der Mail ein eigener `sync_token` mit dreißig
+  Tagen Frist, und erst sein Einlösen an `/sync` übergibt den Dauerschlüssel. Offen war der
+  Dauerschlüssel selbst — er hatte kein Ablaufdatum, und `handleSync` hängt ihn beim Weiterleiten
+  an die Adresse (`/#/newsletter?sync=…`), er liegt also im Browserverlauf.
+
+  Eine feste Frist wäre die falsche Antwort gewesen: Sie hätte genau die Leute getroffen, die
+  alles richtig machen. Jetzt gleitet sie — `pref_expires`, bei jeder Benutzung um zwölf Monate
+  weitergeschoben, Prüfen und Weiterschieben in **einer** SQL-Anweisung, damit dazwischen kein
+  Zeitfenster liegt. Der Einmal-Link aus der Mail **setzt** die Frist statt sie zu prüfen: Wer
+  Postfachzugriff nachweist, belebt einen verfallenen Schlüssel wieder.
+
+  Geprüft, nicht angenommen: Die sechs Fälle der SQL-Bedingung (keine Frist, gültig, abgelaufen,
+  gekündigtes Abo, unbekannter Schlüssel, derselbe Wert erneut) liefen gegen eine **lokale**
+  D1-Kopie — der letzte Fall entscheidet, ob ein zweiter Aufruf in derselben Sekunde noch gilt,
+  und SQLite zählt ihn als Änderung. Danach Migration 006 und Deploy; am laufenden Dienst
+  gegengeprüft: unbekannter Schlüssel → 404, und beide Bestandsabos stehen weiter auf
+  `pref_expires IS NULL`, also gültig. Niemand hat seine Verbindung verloren.
+
+- ✅ **Abmelden aus dem verbundenen Browser** (16.08.2026, live). Wer verbunden ist, beendet sein
+  Abo jetzt direkt auf der Newsletter-Seite, zweistufig. Vorher hing der Abmeldelink allein am
+  `unsub_token` aus der Mail, den die Seite nicht kennt. `/unsubscribe` nimmt zusätzlich POST mit
+  dem `pref_token`; dasselbe Vertrauensniveau, denn auch der kam per Mail an dieses Postfach. Am
+  17.08.2026 am laufenden Worker gegengeprüft: Die Route antwortet routenspezifisch, ist also
+  deployt.
+
+- 📌 **Datenlage Inazuma Eleven S1 — kein offener Punkt, sondern der Normalzustand.**
+  Unser **04.09.2026** ist belegt (Anime2You, „24 Blu-ray-Termine verschoben", 31.07.2026,
+  verschoben vom 14.08.). aniSearch führt den **25.09.**, AniMoon selbst nur „September 26"
+  ohne Tag; am 13.08.2026 fünf Händler geprüft, keiner nennt einen Liefertag. Der
+  Zweitkandidat steht über `disputedDates` im Detail-Panel, verlinkt und als unsicher
+  gekennzeichnet — damit ist die Sache abgeschlossen.
+  **Nicht mehr im Footer zählen** (Daniel, 14.08.2026): Auf künftige Terminangaben zu warten
+  ist die tägliche Arbeit dieses Projekts und kein Rückstand. Ein Punkt entsteht daraus erst
+  wieder, wenn eine Quelle etwas Neues sagt — und das meldet der Datenlauf von selbst.
+
+- ✅ **Favoriten gehen nicht mehr verloren** (14.08.2026, live). Gemerkte Titel lagen nur im
+  Browser: Browserdaten gelöscht, Gerät gewechselt, neues Handy — weg. iOS-Safari räumt den
+  Speicher sogar nach sieben Tagen ohne Besuch von allein auf. Serverseitig lagen sie längst,
+  es fehlte allein der Rückweg (`/favorites` war reines POST).
+  Jetzt: **Wiederherstellung per E-Mail-Link**, ohne Konto und ohne Passwort. Die Eingabe einer
+  Adresse gibt dem Browser **nichts** zurück — die Mail geht ans Postfach, und wer das lesen
+  kann, ist der Berechtigte. Drei Schutzmaßnahmen: Einmal-Link mit 30 Minuten Frist,
+  Ratenbegrenzung (eine Mail je Adresse in 15 Minuten, zehn Anfragen je IP und Stunde), und
+  **immer dieselbe Antwort**, auch bei unbekannter Adresse und selbst wenn der Versand
+  scheitert. Beim Wiederherstellen wird **vereinigt statt ersetzt**.
+  Dazu `navigator.storage.persist()` gegen die automatische Löschung.
+
+- 🔒 **Sicherheitslücke geschlossen: fremde Anmeldung überschrieb ein aktives Abo**
+  (14.08.2026, live). Gefunden auf Daniels Frage hin — es war keine hypothetische Sorge.
+  `/subscribe` überschrieb per `ON CONFLICT(email) DO UPDATE` sofort `frequency`, `platforms`
+  und `favorites`, und der Status blieb ausdrücklich `active`. Wer eine fremde Adresse ins
+  Formular tippte, ersetzte damit **ohne einen einzigen Klick** die Einstellungen und die
+  gemerkten Titel eines anderen Menschen.
+  Der Kern des Fehlers war, Anmeldung und Änderung gleich zu behandeln. Eine Anmeldung darf
+  jeder auslösen — sie bewirkt bis zum Klick nichts. Eine Änderung an einem bestätigten Abo
+  darf nur, wer das Postfach lesen kann. Jetzt landen die Wünsche in `pending_*` und greifen
+  erst mit `/confirm`; die Bestätigungsmail hat dafür eine zweite Fassung, die vor allem sagt,
+  dass **Nichtstun sicher ist**.
+
+- 🔒 **Alt-Abos ohne `pref_token` repariert** (14.08.2026). Das Feld kam erst mit Migration 002
+  und hat den Vorgabewert `''` — wer vorher bestätigt hat (Daniel selbst), hatte keinen und
+  bekam bis heute keinen Abgleich-Link in seinen Mails. Der neue Wiederherstellungs-Link hätte
+  es verschlimmert: `?sync=` mit leerem Wert, der Browser hätte einen leeren Schlüssel
+  gespeichert. `sichereSchluessel()` legt ihn jetzt an, wenn er fehlt — ein Alt-Abo repariert
+  sich beim ersten Klick selbst.
+
+- 📌 **Migrationen 003 und 004 sind auf der Live-Datenbank eingespielt**, Worker deployt
+  (Version `9add16ef`). Gegengeprüft: sechs neue Spalten, Tabelle `rate_limit`, und die
+  Endpunkte antworten wie vorgesehen.
+
+- ✅ **Detail-Panel neu geordnet: Karussell statt Auswahlliste** (13.08.2026). Vorher standen
+  links ein Cover, rechts die Angaben und weiter unten eine Auswahlliste mit der Überschrift
+  „Staffel, Film oder Special" — drei Bausteine für eine Sache. Jetzt zeigt ein Karussell alle
+  Teile der Reihe als Vorschaukarten, der gewählte ist hervorgehoben, die Angaben stehen darunter
+  über die volle Breite. Die Überschrift entfällt: Ein Karussell aus Covern erklärt sich selbst.
+  *Der eigentliche Fund:* Die alte Liste hing allein an `franchises.json`, und darin steht der
+  AniList-Katalog nicht. „Link Click" war korrekt gebündelt, hatte aber **gar keinen**
+  Umschalter, weil kein einziger seiner sieben Teile eine deutsche Synchro hat. Das Karussell
+  speist deshalb aus beiden Beständen. `franchises.json` trägt dafür jetzt Cover — die frühere
+  Begründung („für eine Auswahlliste braucht es sie nicht") gilt nicht mehr, eine Vorschaukarte
+  ohne Bild ist keine. 63 KB gzip statt 33, weiterhin erst beim ersten Öffnen geholt.
+  *Dazu drei kleinere Korrekturen:* Das Banner bleibt beim Wechsel stehen (eigenes, sonst
+  geliehen vom ersten Teil der Reihe, der eines hat) — vorher sprang der Kopf um 112 Pixel. Der
+  Reihen-Stern hängt absolut statt im Fluss, weil er sonst beim Merken das halbe Panel nach unten
+  schob. Und Status und FSK stehen nur noch im Terminblock: Der nennt sie je Release, und eine
+  Disc kann eine andere Freigabe tragen als der Stream.
+
+- 📌 **Neue Projektregel: zwei Termine, keiner belegbar → beide führen** (Daniel, 13.08.2026).
+  Nicht heimlich einen wählen und den anderen in eine Fußnote schieben. Beide erscheinen im
+  Detail-Panel, jeder mit seiner Quelle verlinkt, dazu der Satz, dass wir es nicht klären
+  konnten. Der **Kalender** führt weiterhin einen Termin — zwei Einträge würden behaupten, es
+  gebe zwei Veröffentlichungen, und das wäre die schlimmere Falschaussage.
+  Technisch `Release.disputedDates`, gepflegt in `data/curated/*.yaml`; die Regel steht in der
+  `CLAUDE.md` unter „Terminquellen". Erster und bisher einziger Fall: Inazuma Eleven S1.
+
+- ⚠️ **Fallstrick beim Prüfen: der Service Worker der Vorschau** (13.08.2026). Ein Service
+  Worker, der aus einer früheren `npm run preview`-Sitzung auf demselben Port registriert blieb,
+  bediente `/data/` hartnäckig aus seinem Cache — der Dev-Server lieferte längst die neuen
+  Daten, der Browser zeigte die alten, und selbst `fetch(..., { cache: 'no-store' })` kam nicht
+  daran vorbei. Erkennbar daran, dass `curl` gegen denselben Port das richtige Ergebnis liefert.
+  Abhilfe: `navigator.serviceWorker.getRegistrations()` abmelden und `caches.keys()` löschen.
+
+- ✅ **Anime ohne deutsche Synchro: merken und benachrichtigt werden** (13.08.2026). Der
+  häufigste Grund, die Seite immer wieder aufzurufen, ist eine Serie, die es auf Deutsch gar
+  nicht gibt — nachsehen, nichts finden, nächste Woche wieder (Daniel aus eigener Erfahrung).
+  Jetzt holt ein Schalter in der Datenbank **15.103 Titel ohne belegte Synchro** dazu; wer einen
+  davon merkt, bekommt eine Mail, sobald es eine gibt. Auch dann, wenn sonst nichts ansteht —
+  vorher verschickte der Newsletter nur bei Terminen im Fenster, und eine Ankündigung ist kein
+  Termin.
+  *Datenquelle:* `pipeline/fetch-anilist-katalog.ts` holt den Gesamtbestand (17.852 Anime),
+  zerlegt nach Startjahr, weil AniList je Abfrage nur 5.000 Einträge durchblättern lässt und es
+  kein `id_greater` gibt; ein Nachlauf über die jüngsten Kennungen sammelt 285 Titel ohne
+  Jahrgang ein.
+  *Ladelast:* Eigene Datei, **1.018 KB gzip**, geholt nur beim Umlegen des Schalters. Der
+  Service Worker lädt sie ausdrücklich nicht vor — die Begründung steht jetzt an seiner
+  Vorladeliste, damit sie niemand ergänzt.
+  *Beinahe-Katastrophe:* Beim zweiten Bau galten **alle 2.753** bestehenden Titel als Neuzugang,
+  weil der Ausgangsstand das heutige Datum trägt. Jeder Abonnent hätte eine Mail über Serien
+  bekommen, die er seit Jahren kennt. `check:logic` stellt den Ablauf jetzt nach.
+
+- 📌 **Korrektur einer eigenen Behauptung vom selben Tag** (13.08.2026). Vormittags stand in der
+  `CLAUDE.md`, aniSearch nenne „den weltweit frühesten Termin, nicht den deutschen" — mit
+  Daniels Lesart, der 20.08. sei der Termin der Ausgabe mit japanischer Tonspur. **Widerlegt:**
+  Der Anime2You-Verschiebungsartikel nennt für dieselben Titel exakt diese Daten als die alten
+  **deutschen** Termine (Most Heretical 20.08. → 03.09., Café Terrace 21.08. → 04.09.). aniSearch
+  pflegt Verschiebungen also schlicht nicht nach. Das ist eine andere Diagnose mit anderer Folge:
+  Ein aniSearch-Datum, das **später** liegt als unseres, ist kein Fremdrelease, sondern ein
+  ernstzunehmender Verdacht auf eine Verschiebung, die uns fehlt.
+
+- ✅ **Zehn Disc-Widersprüche geprüft, neun erledigt** (13.08.2026, Daniel von Hand, je über die
+  Shops). Ergebnis in drei Teilen:
+
+  **Vier waren gar keine Widersprüche, sondern ein Fehler bei uns.** aniSearch führt US-, UK- und
+  französische Ausgaben gleichberechtigt in derselben Liste; `extract-disc-dates.ts` nahm sie alle
+  mit und hängte jedem Vorschlag den **deutschen** Publisher an. Eine britische Blu-ray sah damit
+  aus wie eine deutsche von Crunchyroll. Betroffen: Black Butler Emerald Witch Arc, MHA Vigilantes
+  S1, Kaiju No. 8 Mission Recon, Dr. STONE Science Future. Erkennbar am Flaggenbild im Block
+  (`class="flag"`) — deutsche Ausgaben tragen keine. **28 von 122 Vorschlägen waren ausländisch.**
+  *Damit fällt auch meine Vermutung vom selben Tag*, die höhere aniSearch-Artikelnummer trage das
+  spätere Datum: Es waren schlicht US- und UK-Termine (Daniel: „also evtl doch nicht so einfach
+  wie du vermutest").
+
+  **Fünf sind bestätigt — unser Termin stimmt.** The Most Heretical Last Boss Queen S1 (03.09.,
+  anime-planet.de: „Lieferung zum Release am 3. September 2026"), I'm Standing on a Million Lives
+  S1, My One-Hit Kill Sister S1, Re:Monster S1, The Café Terrace S1 (alle 04.09., jpc). Warum wir
+  richtig lagen: Die Termine stehen **von Hand** in `data/curated/disc-august-2026.yaml`, mit dem
+  Anime2You-Artikel „24 Blu-ray-Termine verschoben" (news/1035909, 31.07.2026) als zweiter Quelle.
+  Der maschinelle Auszug aus genau diesem Artikel enthält `dates: []` — die Pipeline hat daraus
+  **kein einziges Datum** gelesen, nur die Markierung `pause: "verschoben"`. **Die Richtigkeit
+  skaliert also nicht**; sie hing an einem Menschen, der einen Artikel gelesen hat.
+
+  **Einer bleibt offen:** Inazuma Eleven S1, siehe Queue.
+
+- 📌 **Recherche: Rangfolge der Terminquellen** (13.08.2026, Daniel). Ausführlich in der
+  `CLAUDE.md` unter „Terminquellen". Kurz: **Shop mit Vorbestellung** ist am verlässlichsten (er
+  muss liefern), aber nicht jeder pflegt nach — ofdb.de führte für Million Lives noch den
+  überholten 19.06., jpc und alle übrigen schon den 04.09. **Anime2You** ist ein guter Indikator,
+  aber lückenhaft: Ein Artikel vom 11.07.2026 nennt für dieselbe Staffel den 07.08. und wurde nie
+  nachgezogen — nicht jede Verschiebung bekommt eine eigene Meldung. **aniSearch** nennt den
+  weltweit frühesten Termin, nicht den deutschen; für die fünf AniMoon-Boxen steht dort der
+  20./21.08., nach Daniels Prüfung der Termin der Ausgabe mit japanischer Tonspur.
+  *Verworfen, mit Grund:* aniSearch als Beleg für einen deutschen Termin — dafür taugt es nicht.
+  Als Hinweis, **dass** es zu einem Titel überhaupt eine Ausgabe gibt, bleibt es nützlich.
+
+- ✅ **Crunchyroll-Lauf abgeschlossen: 917 von 918 Seiten gelesen** (13.08.2026, 06:25–07:03).
+  Die 316 Restadressen des abgebrochenen Laufs vom 12.08. nachgeholt; der Wiederaufsatz übersprang
+  die 601 bekannten von selbst. **1.146 Synchro-Angaben belegt.**
+  Crunchyroll steht damit bei **234 ja / 988 nein / 25 offen** — vorher 122 / 745 / 380. Knapp
+  tausend belegte Neins sind knapp tausend Klicks, die niemand mehr machen muss: „dort nur
+  Originalton" ist eine genauso brauchbare Auskunft wie ein Häkchen.
+  Die Prüfliste fällt von 2.078 auf **1.732** offene Verweise. Was bleibt, ist Handarbeit bei
+  Anbietern ohne jede öffentliche Sprachangabe.
+  *Beim Rebase auf die Nachtläufe kollidierten die erzeugten Dateien* (`public/data/*`). Nicht von
+  Hand aufgelöst, sondern die Quelldaten zusammengeführt und `data:build` neu laufen lassen — bei
+  erzeugten Dateien ist jede Handauflösung eine Erfindung.
+
+- ✅ **Ansicht „Wo sehen?" gebaut** (13.08.2026, `#/wo`, neuer Reiter). Der Kalender von der
+  anderen Seite gelesen: nach **Anbieter** statt nach Datum, getrennt in *Ansehen* und *Kaufen
+  oder leihen*. Für die meisten Titel ist das die eigentliche Frage — nur gut hundert der 2.753
+  Anime haben überhaupt einen anstehenden Termin. **2.103 Titel auf 53 Anbietern**, je Anbieter
+  die Bilanz ✓/✕/? und aufgeklappt die Titel mit Verweis nach draußen.
+  *Gebündelt wird über Name und Zugangsart*, nicht über die Herkunft der Angabe: Sonst stand
+  „Prime Video" zweimal in der Liste (231 aus `streams`, 6 aus `watchLinks`) und die kleinere
+  Zahl las sich wie ein anderer Dienst. „YouTube zum Ansehen" und „YouTube zum Kaufen" bleiben
+  dagegen getrennt — das sind zwei verschiedene Antworten.
+
+- ✅ **Zwei Anzeigefehler beim Bau der Ansicht gefunden und behoben** (13.08.2026).
+  *Der Tooltip schob die ganze Seite auf:* Die Blase stand dauerhaft im DOM und wurde nur per
+  `opacity-0` unsichtbar gemacht — ein durchsichtiges Element nimmt aber weiter Platz im
+  Überlauf ein. Bei den Hinweisen am rechten Bildrand ragten 320 Pixel hinaus, gemessen 1.302
+  Pixel Inhalt bei 1.270 Pixel Fensterbreite. Jetzt entsteht die Blase erst beim Zeigen und wird
+  einmal gemessen, damit sie mit acht Pixeln Abstand ins Bild passt.
+  *Die Navigation passte nicht mehr aufs Handy:* Mit dem fünften Reiter überstand die Leiste
+  375 Pixel. Gelöst über eine Kurzform („Wo?") und knappere Innenabstände auf schmalen Schirmen;
+  `overflow-x-auto` liegt als Reißleine darunter, falls je ein sechster Reiter dazukommt.
+  *Lehre für die Animation:* Der erste Entwurf blendete die Blase von `opacity: 0` auf — im
+  Browser-Pane blieb sie damit unsichtbar, weil dort `document.hidden` gilt und Animationen gar
+  nicht erst anlaufen. Eine hängende Animation darf einen Inhalt nie verschlucken; jetzt
+  animiert nur noch eine Verschiebung um drei Pixel, und die steht mit im Keyframe, weil eine
+  `transform`-Animation das statische `-translate-x-1/2` sonst überschreibt.
+
+- ✅ **Crunchyroll-Lauf: 601 Seiten gelesen, 791 Angaben belegt** (12./13.08.2026). Die offenen
+  Crunchyroll-Verweise fielen damit von **1.156 auf 380**, die Prüfliste insgesamt von 2.847 auf
+  **2.078** Verweise. 551 der gelesenen Seiten führen gar keine deutsche Tonspur — das sind
+  belegte Neins, für die niemand mehr klicken muss.
+  *Beinahe-Verlust und die Lehre daraus:* Der Lauf schrieb sein Ergebnis erst **am Ende**. Beim
+  Abbruch nach 579 Seiten wäre alles weg gewesen — anderthalb Stunden Last auf einem fremden
+  Server für nichts. Gerettet über `pipeline/recover-cr-dub.ts`, das die Protokollzeilen zurück
+  in den Datensatz übersetzt. Seitdem schreibt der Scraper alle zehn Seiten einen Zwischenstand
+  und überspringt beim nächsten Start, was schon gelesen ist. **Ein langer Lauf ohne
+  Zwischenstand ist ein Lauf ohne Netz.**
+  *Nebenbei:* Ein Fehlschlag wird nicht mehr als „keine Synchro" gespeichert — sonst stünde eine
+  Zeitüberschreitung später als belegtes Nein im Datensatz, und der Wiederaufsatz fasste die
+  Seite nie wieder an.
+
+- ✅ **Crunchyroll-Serienseiten liefern die Synchro-Auskunft selbst** (12.08.2026). Aus der
+  Frage nach Crunchyrolls Staffelzählung wurde etwas viel Nützlicheres: Die Serienseite nennt
+  je Folge „Synchro", „Synchro English" oder nur „Untertitel" — also genau das, was Daniel
+  bisher von Hand prüft. `npm run data:cr-dub` liest das aus.
+  *Zwei Stufen:* Fehlt „Deutsch" in der Audio-Zeile des Kopfes, ist die Seite nach einem
+  Ladevorgang erledigt (Daniels Abbruchbedingung); im Probelauf traf das auf fünf von sechs
+  Adressen zu. Sonst wird jede Staffel durchgeblättert und je Folge gezählt.
+  *Drei Fallen, alle gemessen und behoben:* Die Folgenliste zeigt nur zwanzig Kacheln und lädt
+  weitere erst auf Klick auf „Mehr anzeigen" (der erste Versuch meldete deshalb drei
+  Slime-Staffeln als „20/20"); Badges müssen je Kachel gelesen werden, nicht aus dem Fließtext;
+  und gezählt werden **Folgennummern statt Kacheln**, weil Crunchyroll Folgen doppelt führt —
+  das korrigierte Slime-Staffel 1 von 25 auf die richtigen 24.
+  *Grundsatz:* Crunchyrolls Einteilung wird nicht übernommen, nur die Tonspur. Ein teilweise
+  vertonter Block bleibt ohne Urteil. Sechs Zusicherungen in `check:logic` halten das fest.
+  *Gegenprobe an Slime:* Staffel 4 mit 15 von 17 Folgen deutsch — genau Daniels Befund.
+
+- ✅ **Disc-Vorschläge abgearbeitet** (12.08.2026). Von 101 Vorschlägen aus dem aniSearch-Archiv
+  führten wir 77 bereits mit demselben Datum. Von den 24 offenen blieben nach dem Abgleich genau
+  **zwei** echte Lücken: „Spice and Wolf – Vol. 2/4" (02.10.) und „Witch Watch – Vol. 2/2"
+  (17.09.) — beides Zwischenausgaben von Reihen, deren übrige Volumes wir schon führen.
+  Der Rest zerfiel in drei Gruppen: **veraltete Termine**, die der Verschiebungs-Artikel vom
+  31.07. längst überholt hat (I'm Standing on a Million Lives, One-Hit Kill Sister, Re:Monster,
+  Café Terrace, Most Heretical Last Boss Queen — alle mit dem alten 21.08. bzw. 20.08.);
+  **Platzhalter** mit dem 31.12., den aniSearch für „steht noch nicht fest" verwendet; und
+  **sieben echte Widersprüche**, die je einen Blick auf die Produktseite brauchen und deshalb in
+  der Queue stehen.
+  *Nebenbei bestätigt:* aniSearch nennt für „Café Terrace – Staffel 1" den 21.08. — also genau
+  das alte Datum aus dem Verschiebungs-Artikel. Unser bisheriger 07.08. war damit falsch, und
+  die Entscheidung, auf den neuen 04.09. zu gehen, war richtig.
+
+- ✅ **Drei Pausen-Meldungen abgearbeitet** (12.08.2026). Der Filter hatte sie am 11.08. vorgelegt,
+  aber ohne Datumsangaben — die stehen nur im Fließtext bzw. in einer Tabelle. Ergebnis nach
+  einem Abruf des einen Artikels, der Termine nennt:
+  - **„24 Blu-ray-Termine verschoben" (31.07.2026):** Die Tabelle nennt 27 Änderungen von
+    AniMoon, Crunchyroll, KSM und peppermint. **15 davon betrafen unsere Termine** und sind
+    verschoben — unter anderem sechs Komplettboxen vom 07.08. auf den 04.09. Sechs weitere
+    Ausgaben (Strike Witches Vol. 2/3, Virgin Road Vol. 2/3, World's End Harem Vol. 2) standen
+    bereits auf dem neuen Datum, weil der aniSearch-Import sie schon aktualisiert hatte.
+    **Drei Ausgaben fehlten ganz** und sind neu: Takamine Vol. 2 (16.10.), Million Lives
+    Staffel 2 (04.12.), Sakamoto Days Vol. 2 (02.10.).
+  - **Nicht übernommen:** „Jujutsu Kaisen – Staffel 1 (Bundle), 07.08. → 07.05." — ein Termin,
+    der vor dem Artikel läge. Entweder Tippfehler oder 2027 gemeint; ohne zweite Quelle bleibt
+    er draußen. Die drei gestrichenen Eyeshield-21-Ausgaben führen wir ohnehin nicht.
+  - **Abweichung notiert:** Für „The Café Terrace and Its Goddesses – Staffel 1" nennt der
+    Artikel als **altes** Datum den 21.08., bei uns stand der 07.08. Übernommen wurde das neue
+    Datum (04.09.) — der Artikel ist die jüngere und ausdrückliche Quelle.
+  - **Bleach und Scarlet** betreffen uns nicht: Beide Titel stehen in keinem unserer Einträge.
+    „Bleach auf unbestimmte Zeit verschoben" hat ohnehin kein Datum; „Scarlet" wäre ein
+    Kinotermin, den wir noch nicht führen — als Kandidat notiert, nicht als Termin.
+
+- ✅ **Batch 3 ausgewertet, zwei Regeln fürs Vorlegen gelernt** (12.08.2026). 33 Angaben belegt,
+  32 tote Verweise entfernt (65 Prüfungen). Zwei Fehler auf meiner Seite, beide beim Vorlegen im
+  Chat: Ich hatte die Einträge einer Zeile **umsortiert** (Serien vor Filme statt in der
+  Reihenfolge der Liste) und zwölf Netflix-Einträge zu „12 weitere Filme/Ableger"
+  zusammengefasst, statt sie zu verlinken — die blieben damit ungeprüft. Ab jetzt: jeder Eintrag
+  einzeln verlinkt, Reihenfolge wie in der Liste, und bei gleicher Adresse nur **ein** Link mit
+  den zu prüfenden Namen in Klammern.
+  *Befund am Rande:* Crunchyroll zeigt „Café Terrace" und „Vanitas" je als **eine** Staffel mit
+  24 Folgen, während wir sie getrennt führen. Daraus wurde `StreamLink.sharedWith` und ein
+  Hinweis unter „Wo läuft es".
+
+- ✅ **Batch 1 der Prüfliste ausgewertet, Format umgestellt** (12.08.2026). Daniels zehn
+  Antworten brachten einen Befund, den ich nicht erwartet hatte: **sechs von zehn Verweisen waren
+  tot**, nicht untertitelt. Deshalb kennt `data/dub-confirmed.yaml` jetzt drei Ergebnisse —
+  `dub: true`, `dub: false` (dort nur Untertitel, Verweis bleibt mit ✕) und
+  `available: false` (Titel dort nicht zu haben, Verweis wird **entfernt**). 16 Angaben belegt,
+  6 Verweise entfernt.
+  *Neues Listenformat:* Eine Zeile ist jetzt eine **Reihe auf einem Anbieter**, nicht eine
+  einzelne Staffel — wer den Crunchyroll-Verweis von Attack on Titan öffnet, sieht dort alle
+  Staffeln auf einmal. In der letzten Spalte stehen die noch offenen Einträge, jeder als eigener
+  Verweis; die Anbieter-Spalte entfällt, sie ergibt sich aus der Adresse. 1.691 Zeilen statt
+  2.910 Einzelposten.
+
+- ✅ **Eigene Tooltips statt der Browser-Kästchen** (12.08.2026, Daniel). `Tooltip` in
+  `ui.tsx`, eingehängt in die gemeinsamen Bausteine (Button, Chip, FskBadge,
+  ReleaseTypeBadge, FavoriteStar, HideEye, ShareIcon, Toggle) — damit greifen die 25
+  Aufrufstellen auf einmal. Erscheint auch bei Tastaturbedienung. Einzige Ausnahme: die
+  abgeschnittenen Namen der Sprecherliste, wo der Browser-Hinweis genau seine Aufgabe erfüllt.
+  Dazu die Abkürzung MAL erklärt und der veraltete Hinweistext von „Staffeln zusammenfassen"
+  korrigiert (sprach noch von „der neuesten Staffel").
+
+- ✅ **Quelle der Handlung stimmt und steht an einer Stelle** (12.08.2026). aniSearch hängt sie
+  als Fließtext an die Beschreibung; bei 2.385 von 2.683 Texten stand sie deshalb mitten im
+  Absatz, und darunter behauptete unsere eigene Zeile pauschal „themoviedb.org". Die Pipeline
+  löst sie jetzt heraus und führt sie als `deSource` mit.
+
+- ✅ **Detail-Panel aufgeräumt** (12.08.2026, zehn Punkte von Daniel). Genres nach oben neben das
+  Cover, Keywords ganz ans Ende, „Alles aus dieser Reihe" gestrichen (steht schon im
+  Umschalter). Im Terminblock: Datum und Uhrzeit in einer Zeile, Uhrzeit weg statt „unbekannt",
+  der Bedeutungs-Hinweis als Hovertext am gepunktet unterstrichenen Datum, Release-Name raus.
+  Titel ohne Termin bekommen denselben Block mit „Im Angebot seit — unbekannt" statt eines
+  eigenen Kastens. Kalender- und ICS-Knopf nur noch bei künftigen Terminen, ICS mit
+  Erklär-Fragezeichen. Handlung auf 200 Zeichen mit „mehr anzeigen", Quelle darunter als
+  Verweis. Im Browser gegengeprüft (Dev-Server 5183, danach gestoppt).
+
+- ✅ **Drei Nachbesserungen an der Staffel-Ansicht** (12.08.2026, Daniel).
+  *Auswahlliste unlesbar:* Im Dunkelmodus hatte das `select` `bg-white/5` — 95 % durchsichtiges
+  Weiß. Geschlossen richtig, aufgeklappt malt Windows es über Weiß, und die helle Schrift des
+  Dunkelmodus stand hellgrau auf Weiß. Feste Farben für `option` in `styles.css`, einmal für
+  beide Auswahllisten der Seite. Gemessen: Kontrast 11,87 (dunkel) und 17,85 (hell).
+  *Progressive-Filme abgetrennt:* AniList verknüpft sie über `ALTERNATIVE`, und dieser
+  Beziehungstyp fehlte in `FRANCHISE_RELATIONS`. Ergänzt um `ALTERNATIVE`, `SPIN_OFF`,
+  `SUMMARY`, `COMPILATION` — bewusst **ohne** `CHARACTER`, das nur „hier kommt jemand vor"
+  bedeutet und fremde Reihen verschmelzen würde. 1.504 → 1.413 Reihen; SAO ist eine Kachel mit
+  zwölf Einträgen.
+  *Schalter-Vorgabe:* „Staffeln zusammenfassen" startet jetzt aus.
+
+- ✅ **Cache-Busting: normaler Refresh reicht** (12.08.2026, Daniel: „das harte Neuladen sollte
+  nie notwendig sein"). Ursache war keine Fehlfunktion, sondern eine Adresse: `/data/events.json`
+  hieß nach dem Deploy genauso wie davor. Der Service Worker fuhr „Cache sofort, Netz im
+  Hintergrund", und der Hintergrund-Abruf lief seinerseits in den HTTP-Cache des Browsers
+  (GitHub Pages: `max-age=600`) — aufgefrischt wurde also mit demselben alten Inhalt, beliebig
+  oft. Jede Datenadresse trägt jetzt den Datenstand aus `meta.generatedAt`
+  (`?v=20260812142619`), eingesetzt in `vite.config.ts`; der Service Worker antwortet bei
+  gleicher Kennung sofort aus dem Cache, sonst aus dem Netz, und ignoriert die Kennung nur
+  offline. Navigationen fragen mit `cache: 'no-cache'` beim Server nach, damit altes HTML nicht
+  zehn Minuten lang auf ein altes Bündel zeigt.
+  *Im Browser bewiesen*, nicht nur gebaut: Datenstand geändert, Dev-Server neu gestartet,
+  **normal** neu geladen — neuer Inhalt da, alter weg, beide Fassungen nebeneinander im Cache.
+  Offline-Zweig einzeln geprüft: unbekannte Kennung ohne Server liefert die letzte bekannte
+  Fassung (682 Termine) statt eines Fehlers.
+  *Nebenbefund mitbehoben:* Die Programmdateien jedes Deploys blieben liegen — rund 400 KB je
+  Veröffentlichung, unbegrenzt. Jetzt bleiben die letzten vierzig, und das Aufräumen fasst
+  ausdrücklich nur `/assets/` an: Die Startseite steht in der Einfügereihenfolge ganz vorn und
+  wäre als Erstes gelöscht worden, obwohl ohne sie offline gar nichts mehr geht.
+
+- ✅ **Suche und Staffel-Navigation überarbeitet** (12.08.2026, gemeldet von Daniel).
+  *Suche:* liest jetzt Wort für Wort statt die Eingabe als eine Zeichenkette („aesthetic hero"
+  fand vorher nichts), und fällt bei leerem Ergebnis auf eine nachsichtige Stufe zurück
+  („ästhetik" → Aesthetica, „bochi the rok" → Bocchi the Rock!). Toleranz nach Wortlänge:
+  bis 2 Zeichen keine, 3–6 ein Tippfehler, ab 7 zwei, dazu Bigramm-Ähnlichkeit ab 0,60 und
+  gemeinsame Wortanfänge ab vier Zeichen auf **beiden** Seiten. Die zweite Stufe sieht nur
+  Titel an, nicht Genres oder Keywords. `npm run check:search` sichert das gegen den echten
+  Bestand ab, samt Laufzeitgrenze.
+  *Deutsche Namen:* Der Name aus dem Crunchyroll-Kalender hing nur am Termin, nicht am Anime —
+  „Meine Wiedergeburt als Schleim" war nicht auffindbar. Jetzt 93 statt 84 Titel mit deutschem
+  Namen.
+  *Reihen:* Vertreter einer Reihe ist die erste reguläre Staffel statt der neuesten (Suche
+  „slime" zeigte vorher eine Fortsetzung und einen Film). „Staffeln dieser Reihe" las die 133
+  Kalender-Titel statt aller — neu über `public/data/franchises.json` (460 Reihen, 33 KB gzip,
+  nachgeladen). Im Detail-Panel steht jetzt der Reihenname im Kopf und darunter ein Umschalter
+  über alle Staffeln, Filme und Specials. „Season" ist aus Titeln, Terminnamen und Oberfläche
+  verschwunden (`eindeutschenStaffel()` in `shared/titles.ts`).
+  *Im Browser geprüft* (Dev-Server auf Port 5183, danach gestoppt): Kacheln, Umschalter, Termine
+  je Staffel, Suche nach „ästhetik". Dabei zwei Dinge gefunden, die kein Test gezeigt hätte —
+  die Eindeutschung lief **nach** dem Ausrollen der Termine, stand also in `releases.json` und
+  nicht in `events.json`; und die Mehrzahlform „Seasons 1 & 2" (Urusei Yatsura) fiel durch die
+  Einzahl-Regel.
+
+- ✅ **196 erfundene Termine beseitigt — der schwerste Fehler bisher** (12.08.2026). Gemeldet
+  von Daniel: Der Kalender führte „Sword Art Online" mit 96 Wochenfolgen bis zum 07.04.2027,
+  obwohl die deutsche Fassung der dritten Staffel seit August 2019 auf Disc existiert (Quelle:
+  [anime2you, 15.04.2019](https://www.anime2you.de/) — peppermint anime beginnt im August 2019
+  mit dem Disc-Release von »Sword Art Online -Alicization-«). Sailor Moon dasselbe bis zum
+  16.11.2027. Zusammen **196 von 867 Terminen frei erfunden**, 101 davon in der Zukunft, zwei
+  in der laufenden Woche und ohne ≈ ausgewiesen. Vollständige Analyse:
+  [anime-kalender-adn-staffeln-und-falsche-termine.md](file:///C:/code/ai/__assets/notes/anime-kalender-adn-staffeln-und-falsche-termine.md).
+
+  Vier Ursachen hintereinander, alle behoben:
+  1. `?limit=100` ohne `offset` — ADN liefert die neuesten Folgen zuerst, abgeschnitten wurde
+     der Anfang. Sailor Moon 100 statt 199 (und ein um vier Monate falscher Start), Eyeshield 21
+     100 statt 145, Dragon Ball Super 100 statt 131.
+  2. Die Felder `season`, `reference`, `order`, `type`, `duration` der ADN-Antwort wurden
+     weggeworfen. Eine ADN-Kennung ist ein Franchise: SAO = 3 Staffeln, Sailor Moon = 5,
+     Haikyu!! = 8, neun von 37 Serien betroffen.
+  3. Komplettabwurf wurde an `dates.size === 1` erkannt — zwei Veröffentlichungswellen galten
+     als Wochentakt.
+  4. `expandEvents` las `lastEpisodeDate` nicht, obwohl `releaseStatus()` in derselben Datei es
+     auswertet. Der Datensatz sagte gleichzeitig „abgeschlossen" und „nächste Folge Mittwoch".
+
+  Ergebnis: 46 ADN-Releases aus 48 Staffelblöcken statt 28 Sammel-Einträgen, Termine von 867
+  auf 682, zukünftige Termine von 291 auf 191. SAO steht jetzt als fünf Einträge da —
+  Staffel 1, Staffel 2, Alicization, War of Underworld, WoU Part 2 —, jeder mit seiner eigenen
+  Folgenzahl und dem Hinweis, wie ADN sie zählt („Folgen 25–36 der ADN-Staffel 3").
+
+  *Neu dazu:* `pipeline/lib/pruefung.ts` prüft am Ende jedes Builds den **erzeugten** Datensatz
+  und bricht bei einem Widerspruch ab (bisher prüfte `validate.ts` nur die Handarbeit — also
+  ausgerechnet den durchdachten Teil). `npm run check:logic` stellt die vier Annahmen nach.
+  `npm run data:adn:refresh` frischt die bekannten Katalogserien auf, ohne alle 580 anzufragen.
+  Rohantworten liegen ab sofort unter `data/adn-raw/*.json.gz` (35 Dateien, 196 KB).
+
+  *Nebenbefunde derselben Art, mitbehoben:* 32 Anime hießen nach einer Blu-ray-Ausgabe
+  („Bocchi the Rock! – Vol. 1"), weil der Release-Name zum Werktitel wurde. Die beiden
+  Disc-Ausgaben von DAN DA DAN Staffel 2 hingen über `search: "Dandadan"` an der ersten Staffel.
+
+- ✅ **Disc-Termine aus dem aniSearch-Archiv** (12.08.2026). Der `items`-Abschnitt jeder
+  archivierten Seite führt die deutschen Neuerscheinungen mit maschinenlesbarem Datum
+  (`data-date="2026-10-30"`), Jahre im Voraus, über **alle** Publisher hinweg. Damit erledigt
+  sich die Frage nach den Verlagsseiten: peppermint rendert per JavaScript, AniMoon und
+  Universum waren nicht erreichbar, polyband sperrt Bots — hier steht alles an einem Ort, in
+  einer Quelle, die uns das Lesen erlaubt. **Ohne einen einzigen neuen Abruf**, gelesen wird nur
+  das Archiv. Ergebnis aus 110 Seiten: 101 künftige Ausgaben, davon 47 neu (34 Termine, 21
+  Anime). `npm run data:disc-proposals`.
+  *Strenge Auswahl:* Als Bildträger gilt nur, was sich belegen lässt — `[Blu-ray]`/`[DVD]`, die
+  Bruchzählung „Vol. 2/3" (die es bei Büchern nicht gibt), Box, Gesamtausgabe, Staffel.
+  Ausgeschlossen: `[eBook]` und „Bd. 02" (Manga), dazu Nendoroid, Pop!, Figuren, Spiele,
+  Soundtracks. Was in keine Gruppe fällt, wird verworfen statt geraten — 106 von 207 Einträgen.
+
+- ✅ **Wächter meldet erst beim zweiten Fehlschlag** (12.08.2026, deployt — Version
+  `af64e37e-0ef9-4bf2-9270-0877434ad67e`). Auslöser war ein Fehlalarm: Am 11.08.2026 kam
+  „Störung: Isekai-Idle-Mockups, HTTP 503". Nachgeprüft war es keiner — letzter grüner Abruf
+  01:00:28Z, Mail aus dem Lauf um 02:00Z, also genau **ein** roter Lauf; die Seite ist unverändert
+  (`Last-Modified` 17.07.2026), GitHub meldete für den 10./11.08. keinen Pages-Vorfall, und ein
+  503 vor einer Pages-Seite kommt aus dem Fastly-Edge davor, nicht aus dem Repo. `runMonitor`
+  alarmierte bei `down.length > 0`. Jetzt gilt eine Seite erst ab `failStreak >= 2` als gestört —
+  der Wert wurde ohnehin schon in `site_status` fortgeschrieben und nur nie gelesen. Der Preis ist
+  eine Stunde Verzug im echten Ausfall; eine Mail, der man nicht mehr glaubt, ist teurer.
+  `outageMail` bekam dazu ein `okCount`-Argument: Es zählte bisher `totalCount - down.length` und
+  hätte eine gleichzeitig erstmalig rote Seite als „antwortet normal" mitgezählt.
+- ✅ **Karteileichen in `site_status`** (12.08.2026, dieselbe Änderung). `/status` führte eine Zeile
+  „Newsletter-Dienst" auf `ok=0, HTTP 404, checked_at 08.08.2026` — Rest vom zurückgenommenen
+  Selbstüberwachungs-Versuch (`sites.ts:34`). Sie wurde nie wieder geprüft und stand darum
+  dauerhaft auf Rot im Admin-Panel. `runMonitor` löscht jetzt nach jedem Lauf, was nicht mehr in
+  `SITES` steht. Auf die Mails hatte es nie Einfluss — die lesen `checkAllSites()`, nicht die
+  Tabelle.
+- ✅ **ADN-Katalog statt nur Kalender** (11.08.2026). Der Abruf las nur `/video/calendar` — also
+  nur, was in einem Zeitfenster **neu** erscheint. Serien, die vollständig im Angebot liegen,
+  tauchten dort nie auf: Wir kannten **4** ADN-Titel, es sind **28**. Releases 125 → 149,
+  Termine 486 → 853. Neu darunter: DAN DA DAN, Sword Art Online, Haikyu!!, Dragon Ball Super,
+  Parasyte, Eyeshield 21. Läuft als eigener seltener Lauf (`npm run data:adn:catalog`) im
+  Wochen-Workflow, nicht täglich — es sind rund 390 Einzelabfragen.
+  *Drei Anläufe, drei ungeprüfte Zahlen:* (1) `limit=500` überschritt die API-Grenze von 100,
+  jede Anfrage kam als `400` und lief in denselben Zweig wie ein `404` — Ergebnis „0 Serien",
+  fehlerfrei gemeldet. (2) `total` meldet 580, das ist der **französische** Katalog; mit
+  deutschem Regionskopf sind es 387, und die Schleife sammelte darüber hinaus Wiederholungen
+  (12 Doubletten). Jetzt wird nach Kennung entdoppelt und bei Sättigung abgebrochen. (3) Die
+  Vorab-Stichprobe zog aus den ersten 100 Einträgen und schätzte 19 Treffer — die Liste ist
+  unsortiert, also war sie nicht repräsentativ.
+  *Nachtrag am selben Tag — Zuordnung statt Verwerfen:* Die erste Fassung warf Titel weg, deren
+  Anime-Zuordnung scheiterte, darunter acht One-Piece-Filme mit belegter deutscher Synchro.
+  **Das war falsch** (Daniels Hinweis mit Screenshot der Wiedergabesprachen): Nicht der Ton war
+  französisch, nur der Name. Jetzt schlägt der Katalog-Lauf die AniList-Kennung nach; beim
+  Bauen gewinnt sie vor dem Namensabgleich. **35 statt 28 Titel**, kein französischer Name mehr.
+  Der Abgleich scheitert an vier Dingen, daher eine Kaskade: der Zählung („Movie 3", die AniList
+  nicht führt), Diakritika („Kyôkai"/„Kyoukai", „Haikyū"/„Haikyu"), der Schreibweise im Kern
+  („Chinjuu Shima"/„Chinjuu-jima") und der Sprache des Originaltitels.
+  *Zwei Fehlversuche dabei:* Eine Prüfung auf **Folgenzahl verwarf 10 korrekte** Zuordnungen —
+  ADN bündelt Staffeln unter einer Serie („Haikyu!!" = 90 Folgen), AniList führt sie einzeln
+  (25). Das Format taugt als Kriterium, die Folgenzahl nicht. Und die Kürzung auf den Namenskern
+  rettet „Chopper Oukoku", trifft mit zwei Wörtern aber beliebiges: „no Bouken" fand „The
+  Enchanted Journey". Ein Treffer muss jetzt ein Wort ab vier Zeichen mit dem ADN-Titel teilen;
+  zwei One-Piece-Filme bleiben deshalb unzugeordnet — richtig so.
+- ✅ **Gefälschte Browser-Kennung im ADN-Abruf entfernt** (11.08.2026). Dort stand seit jeher
+  eine Chrome-Kennung — derselbe Fehler, der bei aniSearch die IP-Sperre einbrachte und danach
+  als Lehre festgehalten wurde, ohne zu prüfen, wo er sonst noch im Code steckt. Mit ehrlicher
+  Kennung antwortet dieselbe Schnittstelle mit 200; nötig war die Tarnung nie.
+
+- ✅ **Deutsche Synchronsprecher im Detail-Panel** (11.08.2026). 1.746 von 2.753 Titeln haben
+  eine Besetzung, zusammen **21.924 Rollen**. Quelle ist **AniList** — dieselbe Schnittstelle,
+  die das Projekt seit Monaten abfragt. Der Umweg dorthin ist die eigentliche Lehre: Erst
+  Deutsche Synchronkartei recherchiert (800.000 Einträge, saubere Rollentabellen), dafür eine
+  Wikidata-Brücke über P4834/P3844 gebaut und gemessen (675 unserer Titel erreichbar) — und
+  dann in deren rechtlichen Hinweisen gelesen: „Insbesondere ist ein automatisiertes Auslesen
+  des Internetangebots nicht gestattet." Die robots.txt hätte grünes Licht gegeben, wo keines
+  ist. synchrondatenbank.de veröffentlicht frei nur Synchronisationen, die über dreißig Jahre
+  zurückliegen. **Regel für künftige Quellensuchen: erst die eigenen Quellen ausreizen.**
+  *Architektur:* eine Datei je Titel (~640 B) unter `public/data/voices/`, geholt **erst beim
+  Aufklappen** — live nachgeprüft, genau ein Abruf, ausgelöst durch den Klick. Der Erstaufruf
+  bleibt bei 142 KB. Der Merker `hasVoices` sorgt dafür, dass der Bereich nur erscheint, wo es
+  Stimmen gibt; `titles-core` bleibt trotzdem bei 27 KB gzip.
+  *Beinahe durchgerutscht:* Die erste Fassung fragte deutsche und japanische Stimmen in einer
+  Auswahl ab. AniList löst das gleichnamige Feld genau einmal auf — Liste gefüllt, Namen
+  plausibel, nur hieß Henriettas „deutsche" Stimme Yuuka Nanri.
+
+- ✅ **aniSearch-Seiten werden archiviert statt verworfen** (11.08.2026). Bisher wurden je Seite
+  zwei Felder herausgelöst und 110 KB weggeworfen; die gebrauchte Folgenzahl stand auf jeder
+  bereits geholten Seite und wäre nur über einen zweiten Lauf über 2.612 Seiten zu bekommen
+  gewesen — vier Stunden Last auf einer fremden Redaktionsseite (Daniels Einwand: „besser zu
+  viele Daten als zu wenig"). Jetzt liegen die inhaltlichen Abschnitte unter
+  `data/anisearch-raw/` (~14 KB je Titel gepackt, 1,5 MB für die ersten 110). Forum,
+  Kommentare, Rezensionen und Bearbeiterlisten bleiben draußen. Die Infobox wird vollständig
+  gelesen: Folgenzahl mit Schätzungs-Markierung, Laufzeit, Studio, Staff mit Funktion,
+  Sendeplatz, Synonyme sowie Titel, Status, Zeitraum und Publisher je Sprachfassung.
+  **Live-Scraping beim Seitenaufruf wurde verworfen** — es macht aus einem Abruf je Titel und
+  Woche einen je Besucher.
+  *Sofort bezahlt gemacht:* Die erste Stichprobe fand einen Fehler im frischen Parser — die
+  Folgenzahl wurde nur bei 3 % erkannt, weil eine Regex die Laufzeit traf statt der
+  Folgenzahl. Reparatur über `data:anisearch:reparse` ohne einen einzigen neuen Abruf,
+  Trefferquote 100 %. `data:anisearch:check` wacht seither auch über die Folgenzahl.
+- ✅ **Folgenzahl von aniSearch statt geraten** (11.08.2026). Fehlte die Angabe bei AniList,
+  wurden zwölf angesetzt. „Meine Wiedergeburt als Schleim" stand damit mit 16 statt 24 Folgen
+  im Kalender. Kennzeichnet aniSearch die Zahl selbst als vorläufig, trägt sie weiter das ≈ —
+  aber mit dem Hinweis, dass die Schätzung von dort stammt und nicht unsere eigene Annahme
+  ist. Neues Feld `schedule.episodeCountSource`.
+
+- ✅ **aniSearch-Bestand vollständig** (10.08.2026): alle 2.612 zuordenbaren Titel geholt, an
+  einem Tag von 960 auf 2.612. Deutsche Beschreibungen von 2.041 auf **2.689 von 2.759**,
+  Titel mit belegtem Bezugsweg von 498 auf **2.109**. Die letzten drei Läufe lief eine Kette,
+  die nach jedem Durchgang im Repo nachzählte und nur bei Bedarf den nächsten anstieß
+
+- ✅ **Discord-Bereich vervollständigt** (10.08.2026): Die Kategorie „🌐 Anime-Kalender DE" hatte
+  nur `#info`. Jetzt mit `#news`, der Ping-Rolle „Anime-Kalender News" (erwähnbar, wie bei den
+  anderen Projekten) und einem Webhook — beide in `my_secrets.md`. Erste Release-Meldung mit den
+  Änderungen dieses Tages ist raus
+
+- ✅ **Monitoring-Mails vom Newsletter unterscheidbar**: Beide kamen als „Anime-Kalender DE" an,
+  obwohl die Erreichbarkeitsprüfung 19 Seiten aus allen Projekten überwacht — Daniel hielt die
+  Wochenübersicht deshalb für den Newsletter. Absendername und Kopfzeile hängen jetzt an einer
+  `BRAND`-Konstante: Newsletter „📺 Anime-Kalender DE", Prüfung „🛰️ Seiten-Wächter". Betreffe
+  sagen jetzt, worum es geht („Störung: …", „Wochenbericht: …"), die Fußzeile schreibt
+  „kein Newsletter". Adresse bleibt gleich, weil `send.anime-kalender.de` die einzige verifizierte
+  Domain ist
+- ✅ **DMARC-Berichte von Google ausgewertet** (07.–09.08.2026): drei Aggregatberichte, 9 Mails,
+  DKIM (Resend und amazonses) und SPF durchgehend `pass`, ausschließlich Amazon-SES-IPs, kein
+  fremder Absender. Kein Handlungsbedarf am Versand; offen ist nur, ob die Politik von `none`
+  angehoben wird
+- ✅ **Abmeldung Ende zu Ende geprüft** (10.08.2026), nicht nur die Seite, sondern die Wirkung in
+  D1: Link aus der echten Digest-Mail → „Abgemeldet", Datensatz gelöscht (2 Abos → 1), das fremde
+  Abo unberührt. Zweiter Aufruf desselben Links → „Nichts zu tun" statt Fehler. Neuanmeldung →
+  Bestätigungsmail → „Abo aktiv", wieder 2 Abos, beide `active`, keins hängen geblieben.
+  Nebenbefund: Der Wochen-Digest ging am selben Morgen raus, der wöchentliche Versand war bis
+  dahin nie bestätigt
+- ✅ **Geteilte Staffelstarts zählen durch**. Netflix brachte Steel Ball Run am 19.03.2026 als
+  einzelne 47-Minuten-Folge und den Rest ein halbes Jahr später als „2nd & 3rd STAGE". Die
+  Terminliste des zweiten Teils begann wieder bei „1. Fr 25.09.2026" und las sich damit wie der
+  Termin der Auftaktfolge. Neues Feld `schedule.firstEpisodeNumber`: aus „Ep 1/11" wird „Ep 2/12",
+  im Panel steht die Spanne „2–12" statt der nackten „11". Beide Hinweistexte sagen jetzt, welche
+  Folge wann kommt
+- ✅ **Specials werden nicht mehr zu zwölfteiligen Serien**. Der Kalender behauptete eine neue Folge
+  von „I am a hero too"; es gibt genau eine, am 02.08.2026. Drei Fehler zusammen: ein einzelner
+  Termin galt als Wochenserie (`Math.max(12, …)`), die Zuordnung lief über die Crunchyroll-Serien-ID
+  (die alle Staffeln einer Reihe teilen — daher „Staffel 6"), und der Rückfall prüfte die
+  Staffelnummer nicht („Schleim Staffel 4" hing an „Slime Season 3"). Vorher 9 Einträge mit
+  geratener Folgenzahl und 3 ohne Titel, jetzt 2 und 1 — letzterer sind die Anime Awards
+- ✅ **Nachtläufe gehen jetzt auch live**. Der Datenlauf committete nach `public/data` und pushte —
+  aber ein Push aus einer Action mit dem `GITHUB_TOKEN` löst keine weiteren Workflows aus, und
+  genau daran hing der Deploy. Seit dem Einrichten der Kaskade ging kein automatisch geholter
+  Datensatz live, außer wenn zufällig ein Mensch am selben Tag etwas pushte. `deploy.yml` hört
+  jetzt zusätzlich per `workflow_run` auf die drei Refresh-Workflows; mit einem Bot-Lauf verifiziert
+- ✅ **aniSearch: ehrliche Kennung**. Der Abruf gab sich als Chrome aus. In deren Doku steht, dass
+  fehlende oder generische Kennungen als Missbrauch gewertet werden und zur IP-Sperre führen — die
+  Rate war also nicht der einzige Fehler. Jetzt `anime-kalender.de/1.0 (+URL; Mail)`, Kontingent
+  200 je Lauf; erster Lauf 200 von 200 ohne Fehlschlag
+- ✅ **Anbieter vollständig aus TMDB** (Datenbasis JustWatch — dieselbe Quelle, aus der werstreamt.es
+  schöpft). Der Abruf fragte bisher nur flatrate und buy und behielt davon nur die Dienste mit
+  eigener Plattform; Videobuster, maxdome, Apple TV, MagentaTV, Videoload, Sky Store, Rakuten und
+  Akibapass wurden verworfen. Jetzt 291 Titel mit Bezugswegen
+- ⚠️ **aniSearch-Sperre selbst verschuldet**: Scraper lief mit 60 Anfragen je Minute, dokumentiert
+  sind 10. Jetzt 6 Sekunden Takt, 60 Titel je Lauf. Neue Immer-Regel: API-Doku vor dem ersten
+  Abrufcode lesen
+
+- ✅ **aniSearch als Quelle**: deutsche Inhaltsangaben (redaktionell, ausführlich) und Bezugsquellen
+  auch für alte Katalogtitel. ID-Zuordnung über die anime-offline-database (ODbL), weil ein
+  Titelvergleich „.hack//Quantum" und „.hack//Sign" nicht auseinanderhält
+- ✅ **Hinweis bei Titeln ohne Termin** unterscheidet jetzt: erschienen (Datum fehlt nur bei uns)
+  gegen wartend. Bezugswege stehen darunter, Streams vor Kauflinks, fremde Partner-Kennungen
+  entfernt
+- ✅ **Steel Ball Run** kuratiert: 1st STAGE seit 19.03.2026 auf Netflix, Fortsetzung ab 25.09.2026
+
+- ✅ **Sendepausen verschieben alles Folgende**: Der Sendeplan hängt jetzt an Stützpunkten — jede
+  Folge rechnet ab der jüngsten Beobachtung vor ihr weiter, nicht ab Folge 1. Eine Pause muss
+  nirgends gepflegt werden, sie ergibt sich aus dem, was im Kalender stand. Folgen jenseits der
+  letzten Beobachtung tragen das ≈: 220 von 555 Terminen sind belegt, der Rest ist Fortschreibung
+
+- ✅ **Offline nutzbar ab dem ersten Besuch**: Der Worker liest beim Einrichten die Bündel-Adressen
+  aus der ausgelieferten HTML (Hash-Namen, feste Liste wäre lautlos veraltet), holt die vier
+  Datendateien vorab und legt die Cover der aktuellen und nächsten Woche ab. Seitenaufrufe haben
+  drei Sekunden Zeitlimit — „kein Netz" heißt selten Fehler, meistens Hängen
+- ✅ **Sendetermine über die Mehrheit ankern**: Ein einzelner Ausreißer (Skeleton Knight, Folge 1 an
+  einem Samstag) hatte die ganze Staffel um zwei Tage verschoben. Jetzt bestimmt der häufigste
+  Wochentag den Sendeplatz, und gesehene Einzeltermine schlagen jede Hochrechnung
+
+- ✅ **Als App installierbar (PWA)**: Manifest, gezeichnete PNG-Symbole samt `maskable`-Fassung,
+  Service Worker mit drei Strategien (Seiten aus dem Netz zuerst, gehashte Bündel aus dem Cache,
+  Termine sofort aus dem Cache und im Hintergrund aufgefrischt). Auf dem Handy einmalig die Frage
+  „installieren oder im Browser weiter", danach der Knopf in der Kopfzeile; auf iOS die Anleitung
+  übers Teilen-Menü, weil Safari kein `beforeinstallprompt` kennt
+- ✅ **Mobil auf heute**: Der Blick landet beim nächsten anstehenden Termin, 30px Vorlauf, einmal
+  je Ankunft. Dazu zwei Farbfelder im heutigen Tag — vorbei grau, kommend blau
+- ✅ **Bei Google angemeldet**: `sitemap.xml` (122 Adressen) und `robots.txt` entstehen jetzt im
+  Build aus dem Datenbestand. Domain-Property in der Search Console über einen TXT-Eintrag in der
+  INWX-Zone bestätigt, Sitemap eingereicht — Status „Erfolgreich", 122 Seiten erkannt
+- ✅ Datenschutzerklärung: Der Abschnitt zur Erfolgsmessung beschrieb die Zeit der gemeinsam
+  genutzten Absenderdomain. Seit dem Wechsel auf `send.anime-kalender.de` wird nicht mehr
+  getrackt; der Text sagt das jetzt auch
+
+- ✅ **Ausschluss-Filter**: Umschalter über den Tags; im Modus „Ausschließen" macht ein Klick aus
+  einem Tag ein Verbot statt einer Auswahl (roter, durchgestrichener Chip). Ausschluss schlägt
+  Einschluss, ein Wert kann nie beides sein. Steht in der Adresse als `xg=`, `xkw=` usw.
+- ✅ **Titel ausblenden**: Auge neben dem Stern. Die Karte bleibt an ihrem Platz, zeigt aber nur
+  den Namen — kein Bild, keine Tags, nicht anklickbar; auch das Detail-Panel bleibt zu.
+  Verdeckt statt gefiltert, damit man sieht, dass da etwas ist
+- ✅ **Notbremse im Build**: Der stündliche Workflow hatte `data:build` ohne `data:fetch`
+  aufgerufen und damit einen Datensatz mit null Titeln veröffentlicht. Der Build bricht jetzt ab,
+  wenn der Cache leer ist, und die drei Workflows teilen sich einen `actions/cache`
+
+- ✅ Kuratierungsbericht abgearbeitet: 6 belegte Termine übernommen (Chihiro-Wiederaufführung,
+  Yu-Gi-Oh-Komplettbox, Bocchi Vol. 1+2, Oshi no Ko S3 Vol. 1+2), 5 bestehende Termine mit einer
+  zweiten Quelle belegt. Ohne belegte deutsche Fassung bleibt ein Titel draußen
+- ✅ Uhrzeiten außerhalb von Crunchyroll geklärt: Nur Netflix macht dazu eine belastbare Aussage
+  (Eigenproduktionen 00:00 Pacific, Lizenztitel Mitternacht Ortszeit) — Disney+ und Prime Video
+  veröffentlichen keine. Statt eine Faustregel als Uhrzeit einzutragen, erklärt die Karte jetzt,
+  warum dort nichts steht, mit Quellenlink
+
+- ✅ **ADN als zweite maschinelle Quelle**: Die öffentliche JSON-Schnittstelle nennt je Folge
+  Datum, Uhrzeit UND Sprachcode (`vde` = Synchro, `vostde` = nur Untertitel). Damit beantwortet
+  sie von sich aus die Frage, für die es sonst keine maschinenlesbare Antwort gibt. 4 Serien
+  mit deutscher Synchro gefunden, alle vorher nicht erfasst
+- ✅ **Anime2You als Vorschlagsquelle**: drei RSS-Feeds, deutsche Datumserkennung, Abgleich gegen
+  die `sources` der kuratierten Einträge. Erzeugt bewusst keine Termine, sondern die Liste
+  „gemeldet, aber noch nicht erfasst" (`npm run data:report`) — 16 offene Meldungen beim ersten Lauf
+- ✅ **Polling-Kaskade**: stündlich Crunchyroll, täglich alle Quellen, wöchentlich mit weitem
+  Fenster. Alle drei teilen sich eine `concurrency`-Gruppe, committen nur bei echter Änderung
+- ✅ **Wachhund gegen stumme Quellen**: `data/source-health.json` merkt sich je Quelle den letzten
+  erfolgreichen Lauf; schweigt eine länger als vier Tage, wird der Workflow rot und GitHub mailt.
+  Gegen den lautlosesten Fehler des Projekts — ein Scraper, der nach einem Seitenumbau einfach
+  nichts mehr findet
+
+- ✅ Teilbare Adresse ohne Umweg: sobald eine Karte offen ist, steht /r/<slug>/ in der
+  Adressleiste (replaceState, kein Neuladen) — kopieren genügt, der Teilen-Knopf ist nur Beiwerk
+
+- ✅ Newsletter-Mails verlinken: Titel → Teilen-Seite des Releases (mit Vorschaubild, springt in
+  die Wochenansicht des Tages), Anbietername → Serie beim Streamingdienst bzw. Kaufseite
+- ✅ Unbelegte Crunchyroll-Termine verwerfen: liegt ein behaupteter Start im abgesuchten
+  Kalenderfenster, hat dort aber keine deutsche Folge, fällt der Termin raus
+
+- ✅ Quellen- und Tool-Recherche (`docs/recherche-quellen.md`)
+- ✅ Plan mit Datenmodell und Story Points (`docs/plan.md`)
+- ✅ Scaffold: Vite + React + TS + Tailwind v4, Pfad-Aliase, Typecheck grün
+- ✅ Datenpipeline: MyDubList (3.080 MAL-IDs) → AniList (2.977 aufgelöst) → 2.751 Titel nach
+  Adult-Filter; TMDB für FSK und DE-Anbieter
+- ✅ Kuratierter Seed: 13 Simuldubs Sommer 2026 + 37 Disc-Releases August 2026 = 50 Releases,
+  197 Einzeltermine
+- ✅ AniList-IDs der Fortsetzungen von Hand korrigiert (Suche traf mehrfach die falsche Staffel)
+- ✅ Wochen-, Monats-, Agenda- und Datenbank-Ansicht
+- ✅ Filter für Plattform, Release-Art, Status, FSK, Jahr, Genre, Keywords + Volltextsuche,
+  Zustand in der URL
+- ✅ Detail-Panel mit Terminliste, Deeplinks, Kauflinks, Quellenangabe
+- ✅ Google-Calendar-Links, ICS-Einzeldownload, ICS-Abo-Feeds (gesamt/Plattform/Genre)
+- ✅ Newsletter-Worker: Double-Opt-in, D1-Schema, stündlicher Cron mit Berlin-Prüfung,
+  Resend-/Brevo-Adapter, Mail-Templates
+- ✅ GitHub Actions: Pages-Deploy + nächtliche Datenaktualisierung
+- ✅ TMDB-API-Key besorgt und in `my_secrets.md` hinterlegt
+- ✅ Repo `danielzaiser91/anime-kalender-de` (public) angelegt, Pages auf Actions-Quelle
+  gestellt, Secret `TMDB_API_KEY` und Variable `SITE_URL` gesetzt, Deploy grün
+- ✅ **Crunchyroll-Sendezeiten**: Der Simulcast-Kalender ist mit `filter=premium` öffentlich
+  lesbar (kein Login, kein Abo) und markiert deutsche Synchro-Folgen mit „(Deutsch)". Playwright
+  nötig, weil die Seite ihre Kacheln per JS baut. 25 Titel mit belegter Uhrzeit, 16 davon
+  vorher gar nicht erfasst
+- ✅ Favoriten (lokal), Sprachumschalter DE/EN, Staffel-Bündelung über AniList-Beziehungen,
+  Status „Erschienen", Trennung nach Uhrzeit, 58 Genres statt 18
+- ✅ **Link-Vorschaubilder**: 1200×630 je Release aus den Daten gerendert (SVG über sharp),
+  echte Teilen-Seiten unter `/r/<slug>/` — Hash-Routen können prinzipbedingt keine eigene
+  Vorschau tragen. Teilen-Knöpfe auf Kacheln, Karten und im Detail-Panel. Muster als globaler
+  Skill `link-vorschaubilder` festgehalten
+- ✅ Sprachwahl mit gezeichneten SVG-Flaggen statt Emoji (Windows rendert Regional-Indicator
+  nur als Buchstaben)
+- ✅ Impressum und Datenschutzerklärung ausformuliert (Kontakt per E-Mail, ohne Anschrift —
+  bewusste Entscheidung des Betreibers für ein privates, nicht kommerzielles Angebot)
+- ✅ **Newsletter live**: Worker unter `newsletter.animekalender.workers.dev`, D1-Datenbank
+  `anime-kalender` in Westeuropa, stündlicher Cron, Versand über Resend. Ende-zu-Ende getestet:
+  Anmeldung → Bestätigungsmail → Bestätigung → Tages-Digest mit 17 Terminen verschickt.
+  GitHub-Variable `NEWSLETTER_API_URL` gesetzt, Formular auf der Live-Seite verbunden.
+  Brevo fiel aus — deren Registrierung war defekt.
+- ✅ **Eigene Domain `anime-kalender.de`** bei INWX registriert. DNS-Zone per API gesetzt
+  (`tools/inwx-dns.mjs`, idempotent): GitHub Pages A/AAAA, www-CNAME, drei Resend-Einträge,
+  DMARC. Die drei INWX-Parkeinträge mussten weichen, sonst hätte sich jeder Aufruf zufällig
+  zwischen Seite und Platzhalter entschieden
+- ✅ **Absenderdomain `send.anime-kalender.de` verifiziert**, Öffnungs- und Klick-Tracking von
+  Anfang an abgeschaltet. Absender jetzt `kalender@send.anime-kalender.de`
+- ✅ Deutsche Handlungsbeschreibungen von TMDB für 1.453 von 2.751 Titeln, mit Jahres- und
+  Titelabgleich gegen Fehlzuordnung; englischer Rückfall mit Hinweis. FSK für 942 Titel
+- ✅ **Favoriten im Newsletter**: eigener Block „★ Deine Favoriten" über den übrigen Terminen,
+  Betreff nennt sie zuerst. Favoriten werden bei der Anmeldung mitgeschickt und in D1 gespiegelt;
+  ein Abgleich-Link mit eigenem Token in jeder Mail hält sie aktuell
+- ✅ **HTTPS für anime-kalender.de**. Das Zertifikat war über eine Stunde lang nie beantragt worden:
+  Beim Setzen der Domain per API fehlte das Feld `https_certificate` vollständig. Auslöser ist das
+  **erneute** Setzen — einmal entfernen und neu setzen, dann war es in einer Minute da. In
+  `ai_agent_learnings.md` unter „GitHub Pages / CI-Deploy" festgehalten
+- ✅ **Erreichbarkeitsprüfung für 19 Seiten** im selben Worker: stündlich, höchstens eine
+  Störungsmail pro Tag, montags eine Wochenübersicht als Lebensnachweis. Liste per
+  Pages-Schnittstelle aus allen 32 Repos ermittelt statt aus READMEs. Der Dienst überwacht
+  sich bewusst **nicht** selbst
+- ✅ Prime-Video-Links laufen über amazon.de. Die ASIN ist **nicht** marktübergreifend gleich —
+  das Umschreiben von `amazon.com` auf `amazon.de` führte zuverlässig auf eine Fehlerseite
+
+## Amazon nennt Tonspur und Abo-Bedingung selbst (23.08.2026, gemessen)
+
+Anlass: Daniels Frage, ob der Grund für das Kauf-Symbol strukturiert in der Seite steht.
+Gemessen an *Naruto Shippuden* (`B0CWDYLZ1S`), drei Staffeln einzeln abgerufen, **ohne Anmeldung**.
+
+### Was in der Seite steht
+
+| Feld | Wert im Beispiel | Taugt wofür |
+|---|---|---|
+| `audioTracks` **je Folge** | `["Deutsch","日本語"]` | Synchro-Beleg, feiner als alles bisherige |
+| `benefitId` je Staffel | `Prime`, `aniversede`, `crunchyrollde` | Zugangsart (Abo / welches Abo) |
+| `cast` | Tobias Pippig, Henning Nöhren | deutsche Sprecher = zweiter Synchro-Beleg |
+| `studios`, `categorizedGenres`, `releaseYear`, `episodeNumber`, `subtitles` | Pierrot Co., Action/Anime/Abenteuer | Stammdaten-Abgleich |
+| `seasonLink` / `seasonId` | alle 9 Staffeln im Quelltext der Serienseite | Staffel-Adressen ohne Raten |
+
+### Der entscheidende Befund
+
+**`benefitId` ist kontounabhängig, `entitlementType` nicht.** `benefitId` sagt, *welches Abo
+nötig ist*; `entitlementType` sagt, *ob dieses Konto es hat* — anonym steht dort bei allen
+Staffeln „Unentitled", auch bei denen, die Daniel im Prime-Abo sieht. Gelesen wird also
+ausschließlich `benefitId`.
+
+Messung, die Daniels Beobachtung bestätigt:
+
+```
+Staffel 1 (B0CWDYLZ1S)  Prime, aniversede, crunchyrollde   20/20 Folgen mit Deutsch
+Staffel 4 (B0FBJWV6MJ)  aniversede                         24/24 Folgen mit Deutsch  ← kein Prime, daher das Schloss
+Staffel 9 (B07VP6VPVR)  Prime, aniversede                  13/13 Folgen mit Deutsch
+```
+
+Damit wird die frühere Einschätzung „Zugangsart anonym nicht messbar" **zurückgenommen**. Sie
+galt für `entitlementType` und wurde fälschlich auf die ganze Frage übertragen.
+
+### Folgenschärfe
+
+Amazon meldet einzelne Folgen ehrlich als nur-japanisch (S1F3 „Neue Teams, alte Feinde",
+S4F5 „Die drei Tabus des Shinobi"). Diese Auflösung hat sonst keine Quelle im Projekt.
+
+### Grenze: ein Abruf je Staffel
+
+Die Serienseite trägt nur die Angebote der **geladenen** Staffel. `benefitId` je Staffel
+verlangt daher `?ref_=atv_dp_season_select_sN` einzeln. Die Staffel-Adressen selbst stehen
+vollständig im Quelltext der Serienseite — kein Raten nötig.
+
+### Umfang eines Laufs (gemessen an `data/anisearch.json`)
+
+- 1.073 Titel mit Amazon-Verweis, 1.195 verschiedene Adressen
+- davon **1.181 in der Form `/dp/`** — die ist mehrdeutig: Video **oder** Disc. Genau diese
+  Trennung ist der erste Zweck des Laufs.
+- nur 14 sind bereits eindeutig `/gp/video/detail/`
+- Staffel-Abrufe kommen obendrauf, erst nach Schritt 1 bezifferbar
+
+### Rechtslage — geprüft am 23.08.2026, und sie verbietet den Lauf
+
+**`robots.txt` allein wäre kein Hindernis.** Kein pauschales `Disallow: /` für `*`; gesperrt
+sind Kontofunktionen (`/gp/video/library`, `/watchlist`, `/mystuff`, `/profiles`, `/search`,
+`/auth`, `/api`), nicht die Detailseiten. `/gp/video/detail/` und `/dp/` kommen als Sperre
+nicht vor, ein `Crawl-delay` fehlt. **Aber:** 100 KI-Bots sind einzeln mit `Disallow: /`
+aufgeführt (Bytespider, AI2Bot, Andibot …) — die Absicht ist unmissverständlich, auch wenn
+unser Abrufer namentlich nicht dabei wäre.
+
+**Die Nutzungsbedingungen entscheiden die Frage — dagegen.** Wortlaut von
+[amazon.de, nodeId=508088](https://www.amazon.de/gp/help/customer/display.html?nodeId=508088):
+
+> „Insbesondere dürfen Sie ohne die ausdrückliche schriftliche Zustimmung von Amazon.de kein
+> Data Mining, keine Robots oder ähnliche Datensammel- und Extraktionsprogramme einsetzen, um
+> irgendwelche wesentlichen Teile eines Amazon Services zur Wiederverwendung zu extrahieren
+> (gleichgültig ob einmalig oder mehrfach). Sie dürfen ferner ohne die ausdrückliche
+> schriftliche Zustimmung von Amazon.de keine eigene Datenbank herstellen […]"
+
+**Nachtrag 23.08.2026, 02:10 — die erste Bewertung war zu grob.** Daniels Einwand: „wir bieten
+lediglich einen link zu amazon an […] wir helfen amazon mehr kunden zu bekommen". Der Einwand
+trägt weiter, als die erste Lesart zuließ:
+
+- **„Wiederverwendung" ist ein Fachbegriff** (§ 87b UrhG, RL 96/9/EG): „jede Form der
+  öffentlichen Verfügbarmachung". Unsere Anzeige „läuft auf Prime, deutsch" fällt darunter —
+  insoweit greift die Klausel dem Wortlaut nach.
+- **Geschützt sind aber nur *wesentliche* Teile.** 1.195 Wahrheitswerte über Tonspuren sind
+  weder quantitativ noch qualitativ ein wesentlicher Teil eines Katalogs mit Millionen Artikeln.
+- **BGH „Paperboy" (I ZR 259/00, 2003)** hat den Fall im Kern entschieden: Ein Suchdienst, der
+  tief verlinkt und Fundstellen anzeigt, greift das Angebot nicht an, sondern erleichtert den
+  Zugang. Das ist wörtlich unsere Lage.
+- **Der Auffangtatbestand** (§ 87b Abs. 1 S. 2, wiederholte Entnahme unwesentlicher Teile)
+  verlangt, dass die Nutzung „der normalen Auswertung zuwiderläuft". Kunden zu Amazon zu
+  schicken tut das Gegenteil.
+
+**Was trotzdem gegen den Lauf spricht:**
+
+- **AGB wirken unabhängig vom Datenbankrecht** — EuGH Ryanair/PR Aviation (C-30/14, 2015): Ein
+  Betreiber darf vertraglich mehr verbieten, als das Gesetz hergibt. Ob Amazons AGB gegenüber
+  einem Abrufer ohne Konto wirksam einbezogen sind (§ 305 BGB), ist bestreitbar — aber das
+  klärt ein Gericht, nicht wir vorher.
+- **Das reale Risiko ist die Sperre, nicht die Klage.** Mehrere tausend Abrufe von einer IP
+  lösen Amazons Bot-Erkennung aus. In diesem Projekt ist das schon einmal passiert und traf
+  auch Daniels eigenen Zugang.
+
+**Entscheidung: Der Lauf findet trotzdem nicht statt** — nicht weil er sicher unzulässig wäre,
+sondern weil der Weg über die Erweiterung ohne diese Frage auskommt **und bessere Daten
+liefert** (Staffel-Ebene statt Titel-Ebene, weil eine geöffnete Seite ohnehin alles ausliefert).
+
+**Offener Prüfpunkt: Amazon PartnerNet.** Die Verweise in `data/anisearch.json` tragen
+`tag=anisearch.de-21` — aniSearch ist Amazon-Partner und hat damit Zugang zur Product
+Advertising API. Ob die auch Prime-Video-Tonspuren führt, ist ungeprüft; wäre sie es, gäbe es
+eine ausdrücklich erlaubte Schnittstelle statt der Grauzone.
+
+### Zweiter Nachtrag 23.08.2026, 02:15 — die maßgebliche Klausel steht in Abschnitt 5, nicht 3
+
+Daniels Frage: „ich weiß ja nicht ob das tatsächlich geistiges eigentum von amazon ist, ob eine
+folge deutsch ist oder nicht […] wie könnten sie anspruch auf einzelne wörter haben".
+
+**Bei der Eigentumsfrage hat er recht — die Angabe ist nicht schutzfähig:**
+
+- **Urheberrecht:** § 2 Abs. 2 UrhG verlangt persönliche geistige Schöpfung. „Deutsch, 日本語"
+  hat keine Gestaltungshöhe. EuGH *Infopaq* (C-5/08) lässt schon elf Wörter genügen, aber nur
+  wenn sie eigene geistige Schöpfung ausdrücken — bei einer Sprachliste ausgeschlossen.
+- **Datenbankrecht:** § 87b schützt erst *wesentliche* Teile; einzelne Fakten zu entnehmen ist
+  erlaubt.
+- **EuGH *British Horseracing Board* (C-203/02):** Der Schutz gilt der Investition in die
+  **Beschaffung** vorhandener Daten, nicht in deren **Erzeugung**. Amazons Katalogangaben
+  entstehen als Nebenprodukt des eigenen Geschäfts.
+- Die Tatsache selbst steht im Abspann und auf der Hülle — sie gehört Amazon ohnehin nicht.
+
+Auch das Schutzziel stützt seine Lesart: Abschnitt 3 nennt als Beispiel „**unsere Preise und
+Produktinformationen**", an anderer Stelle „zugunsten eines anderen Händlers" — die Klausel
+zielt auf Preis-Scraping durch Wettbewerber.
+
+**Die operative Schranke steht aber in Abschnitt 5 „Lizenz und Zugang", und die ist schärfer:**
+
+> „gewähren Ihnen Amazon und seine Anbieter von Inhalten eine beschränkte […] Lizenz für den
+> Zugriff und die nicht-kommerzielle Nutzung der Amazon Services. Diese Lizenz beinhaltet nicht
+> […] eine **Erfassung und Nutzung von Produktinformationen**, Beschreibungen oder Preisen […]
+> oder (mit Ausnahme der Verwendung durch Forscher oder zuständige Behörden […]) die Nutzung
+> von **Data-Mining, Robotern** oder ähnlichen Datenerfassungs- und Extraktions-Programmen."
+
+Hier fehlt die Wesentlichkeitsschwelle, und es geht nicht um Eigentum, sondern um den **Umfang
+der Zugriffserlaubnis**. Eine solche Zugangsbedingung kann auch Gemeinfreies erfassen — EuGH
+*Ryanair/PR Aviation* (C-30/14).
+
+**Ergebnis:** Kein geistiges Eigentum, aber trotzdem keine Lizenz für einen Bot-Lauf. Die
+Erweiterung umgeht beides: Ein Mensch, der eine Seite ansieht, nutzt die Lizenz
+bestimmungsgemäß — kein Roboter, kein Data Mining.
+
+Nicht betroffen: die drei Handabrufe vom 23.08.2026, mit denen der Befund oben gemessen wurde.
+Drei angesehene Seiten sind kein systematisches Extrahieren wesentlicher Teile.
+
+### Der gangbare Weg: derselbe wie bei Netflix
+
+Was ein Bot nicht darf, darf ein Mensch, der die Seite ohnehin ansieht. Für Netflix
+(`robots.txt: Disallow: /`) steht dieser Weg längst: Die Chrome-Erweiterung liest mit, während
+Daniel die Seite offen hat, und meldet den Befund. Amazon ließe sich mit derselben Mechanik
+bedienen — die Felder sind bekannt (`audioTracks`, `benefitId`), sie stehen in der geladenen
+Seite, und die Erweiterung liest bereits Netzwerkantworten mit.
+
+Vorteil gegenüber Netflix: Amazon nennt die Tonspur **je Folge** und das nötige Abo **je
+Staffel** — ein einziger Seitenaufruf trägt also deutlich mehr als bei Netflix, wo Daniel je
+Folge klicken muss.
+
+### Anbieterdurchgang Dragon Ball (23.09.2026, ab 16:40)
+
+Grundlage: `docs/recherche-streaming-anbieter-de-2026-09-23.md`, 90 Anbieter in der
+Arbeitsliste, rückwärts durchgegangen (Daniel: „geh sie rückwärts durch, weil alles was du
+getestet hast hab ich schon getestet").
+
+| Rang | Anbieter | Ergebnis |
+|---|---|---|
+| 134 | KiKA | **Daniel selbst geprüft** (Bild, 23.09.2026): Suche nach „dragon ball" findet nur Tanoshii-Videos, keine Serie. Raus — aber die Mediathek ist durchsuchbar und für **andere** Titel ein Kandidat. |
+
+### Ergebnis des Anbieterdurchgangs (23.09.2026, 16:40–16:50)
+
+Statt 90 Kataloge einzeln zu durchsuchen, beantwortet **eine** Abfrage die Frage für alle bei
+JustWatch gelisteten Anbieter: Volltextsuche nach sechs Schreibweisen („Dragon Ball",
+„Dragonball", „Dragon Ball Z", „Dragon Ball GT", „Dragon Ball Kai", „Son Goku"), je 40 Treffer,
+mit **allen** Angeboten und Tonspuren. Ergebnis: 34 Dragon-Ball-Titel, **23 Anbieter** mit
+mindestens einem Angebot.
+
+**Die vier Hauptserien haben bei keinem einzigen Anbieter einen Stream:**
+
+| Serie | Angebote |
+|---|---|
+| Dragon Ball (1986) | Amazon DVD/Blu-ray, Zavvi, Thalia — **nur Kauf** |
+| Dragonball Z (1996) | Zavvi, Hugendubel, Medimops, Amazon DVD/Blu-ray, Thalia — **nur Kauf** |
+| Dragonball Z Kai (2009) | Zavvi (Kauf), Videobuster (Leihe) |
+| Dragonball GT (1996) | Thalia — **nur Kauf** |
+
+**Zwei weitere Aggregatoren bestätigen das unabhängig:** kino.de („Derzeit leider keine
+Streamingangebote verfügbar") und Plex, das einen eigenen Gratiskatalog hat und für Dragonball Z
+sagt: „Dieser Titel ist derzeit nirgendwo verfügbar."
+
+**Wo es Dragon Ball im Stream gibt — und das sind nur die neueren Titel:**
+
+| Titel | Anbieter mit deutschem Ton |
+|---|---|
+| Dragonball Super (131 Fg.) | ADN, ADN Amazon Channel, Disney+ |
+| Dragonball Super: Broly | Disney+, Crunchyroll, **RTL+** |
+| Dragonball Super: Super Hero | Disney+, Crunchyroll, **RTL+** |
+| Dragonball Z: Resurrection ‚F' | Crunchyroll (auch werbefinanziert), Amazon Video (Leihe), maxdome Store, Freenet meinVOD |
+| Dragonball Z: Kampf der Götter | Amazon Video, **maxdome Store**, **Apple TV Store**, **MagentaTV**, Freenet meinVOD, Videobuster — alle Leihe, Tonspur `de` belegt |
+| Dragon Ball DAIMA | Netflix (Tonspur laut Daniels Handprüfung ohne Deutsch), Crunchyroll (ja/en, kein de) |
+| Dragonball Evolution (Realfilm) | Disney+ (de), dazu Leihe bei Apple, Amazon, MagentaTV, Videobuster |
+
+**Neu für unseren Bestand** sind damit RTL+ (Broly, Super Hero) und die digitalen Leihwege für
+die Filme (maxdome Store, Apple TV Store, MagentaTV, Freenet meinVOD, Amazon Video) — bei
+„Kampf der Götter" führten wir bisher nur YouTube.
+
+**Was der Durchgang nicht abdeckt:** Anbieter, deren Katalog JustWatch und Plex nicht
+indexieren — die Mediatheken und linearen Gratiskanäle. Geprüft wurden davon ARD Mediathek
+(Suche ohne Treffer), KiKA (Daniel, mit Bild), Kixi (reines Kinderprogramm), Joyn (nur Super,
+Folgen 110–129) und Pluto TV (zwei Anime-Kanäle, kein Dragon Ball). Offen bleiben ZDF, 3sat,
+Funk, TELE 5, DF1, ServusTV On, Sat.1 und Discovery+ — bei allen liegt die Wahrscheinlichkeit
+nahe null, weil die TV-Rechte an Dragon Ball bei ProSiebenSat.1 liegen und damit in Joyn
+landen.
+
+### Lizenzlage Dragon Ball in Deutschland (recherchiert 23.09.2026)
+
+- **Rechteinhaber:** Toei Animation (Produktion, Japan).
+- **Deutsche Disc-Rechte:** Crunchyroll GmbH, vormals KAZÉ Anime. Sie bringen die Blu-ray-Boxen
+  heraus — „Dragon Ball Z Blu-ray Box 1" mit den Folgen 1–35 erschien am 23.02.2024
+  (crunchyroll-vertrieb.de/product/av1002).
+- **TV-Rechte:** ProSiebenSat.1 / ProSieben MAXX. Die erste Serie läuft dort ab 24.09.2026
+  erneut, Z Kai lief ebenso; die Folgen landen danach in Joyns Mediathek.
+- **Streamingrechte in Deutschland:** bei niemandem sichtbar. Crunchyroll führt Dragon Ball,
+  Z, Z Kai und GT im englischsprachigen Raum (USA, Kanada, Australien, Neuseeland), im
+  deutschen Katalog liefert der CMS-Pfad für alle vier **0 Blöcke**.
+- **Wer die deutschen Streamingrechte hält, ist nicht belegt.** Die Fachpresse vermutet
+  ProSiebenSat.1 und schreibt das auch als Vermutung („aber die Lizenzen liegen aktuell wohl
+  immer noch bei ProSieben (?), wie es aussieht", playcentral.de). Eine offizielle Bestätigung
+  gibt es nicht — hier steht deshalb Vermutung, nicht Befund.
+- **ADN hat 18 Dragon-Ball-Filme exklusiv, aber nur in Frankreich.** Der Anbieter hat
+  gegenüber GamePro bestätigt: „Die Filme werden nicht auf ADN Deutschland verfügbar sein."
+
+**Der Widerspruch, der die Lage erklärt:** Dieselbe Firma, die in Deutschland die Discs
+verkauft (Crunchyroll GmbH), darf die Serien hier nicht streamen. Disc-, TV- und Streamingrechte
+sind getrennt vergeben, und das Streamingfenster ist in Deutschland offenbar gar nicht besetzt.
+
+### Nebenbefund: 40 belegte deutsche Abo-Wege fehlen im Bestand (23.09.2026)
+
+Gemessen über `data/justwatch-audio.json` gegen `public/data/titles.json`: 40 Angebote vom Typ
+FLATRATE/ADS mit **belegter deutscher Tonspur** stehen nicht als Weg im Datensatz — 24 bei
+Prime Video, 9 bei Crunchyroll, 7 bei Disney+. Darunter bekannte Titel: One Piece bei Disney+,
+Naruto Shippuden und Trigun bei Prime, Chunibyo bei Crunchyroll. Aufgefallen bei Dragon Ball
+Super: Broly, wo JustWatch Disney+ und RTL+ nennt und der Bestand nur Crunchyroll und Prime
+führt. **Geklärt am 23.09.2026, 20:05: kein Fehler, sondern eine Regel.** Der Bau legt
+JustWatch-Wege nur bei Titeln an, die **gar keinen** Weg haben — im Kommentar in `build.ts`:
+„wo schon einer steht, ist die Frage beantwortet, und unsere Adresse ist die geprüfte". Die
+Regel entstand gegen Listen von zwölf Amazon-Varianten. Offen ist damit eine Entscheidung,
+keine Reparatur: Soll ein **Abo**-Angebot mit belegter deutscher Tonspur auch dazukommen,
+wenn der Titel schon Wege hat? Vorschlag: ja, aber nur FLATRATE/ADS mit `audio` inklusive
+`de`, nur Anbieter, die wir als Plattform führen, höchstens zwei zusätzliche je Titel.
+Betroffen sind 40 Angebote (24 Prime, 9 Crunchyroll, 7 Disney+), darunter One Piece bei
+Disney+ und Dragon Ball Super: Broly, wo wir nur Crunchyroll und Prime zeigen. **Ursprünglich
+notiert als:** — die Daten liegen seit dem 16.09.2026
+vor.
+
+### Gemessen 23.09.2026, 20:40: Stufe 4, Schritt 2 hätte heute nichts zu tun
+
+Zwei Messungen gegen `data/urteile.json` (3.356 Urteile, 222 Wege):
+
+- **Wege, die ein Nein-Urteil entfernen würde: 0.** Kein Weg trägt ausschließlich
+  „kein deutsch" — die 36 Nein-Urteile sitzen alle an Wegen, die auch deutsche Folgen haben.
+- **Wege ohne Bereiche, deren Urteil ein gemischtes Bild zeigt: 0.** Alle 18 Wege mit
+  gemischtem Urteil führen bereits `dubRanges`.
+
+Der Grund ist keine Lücke im Modell, sondern seine Datenbasis: Die Urteile entstehen aus den
+D1-Meldungen der Erweiterung, und die sind vollständig eingearbeitet. Schritt 2 lohnt erst,
+wenn neue Beobachtungen hereinkommen — also nach dem nächsten Melde-Durchgang oder wenn
+Stufe 1 mehr liefert.

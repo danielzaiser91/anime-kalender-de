@@ -72,6 +72,9 @@ Worker hat D1 bereits (Prüfungen, Lauf-Status).
 Wartet auf Daniels Entscheidungen (öffentlicher Bucket? Schreibweg?).
 
 ### Stufe 5 — `status.md` teilen
+**Vorgezogen am 02.10.2026, ohne DB:** Offenes bleibt in `status.md` (23 kB), Erledigtes und die
+Arbeitsgeschichte stehen in `docs/archiv/status-archiv.md` (551 kB). Offen bleibt, die Liste zu Daten
+zu machen.
 Die **Liste** wird Daten (Stufe 1), die **Anlässe und Lehren** bleiben Text und wandern nach
 `docs/wissen/` (dort gibt es den Ort schon). Nicht in eine Tabelle gezwungen: Prosa mit
 Begründungen ist kein Bestand.
