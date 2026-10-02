@@ -80,7 +80,7 @@ export interface WochenProgramm {
 }
 
 /**
- * **Die Regel (Daniel, 25.09.2026: „passt so").** Das Wochenprogramm wird von Hand gepflegt und
+ * **Die Regel.** Das Wochenprogramm wird von Hand gepflegt und
  * lag im PoC einmal eine Folge daneben (Schleim S4: „Folge 22" am 25.09., gemessen 21). Deshalb:
  *
  * - nur **künftige** Synchro-Zeilen (Datum nach heute);

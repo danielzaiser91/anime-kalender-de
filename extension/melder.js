@@ -252,9 +252,7 @@ function ohneKennungen(staffeln) {
 }
 
 /**
- * **Eine Pille je Anbieterstaffel** (Daniel, 11.09.2026, mit Bild: „warum liegt
- * es ausserhalb der s1 pill? das soll bitte in 1 pill alle episoden pro staffel,
- * 1 pill je staffel").
+ * **Eine Pille je Anbieterstaffel**.
  *
  * Die gerechnete Liste führt je **Titel** einen Eintrag — bei Haikyu!! neun, in
  * Netflix' vier Staffeln einsortiert. Für den Dialog ist das die falsche
@@ -918,9 +916,7 @@ function nachrichtEmpfangen(e) {
       auf der Liste stehen. Seit `knopfZeigen()` dort „Steht nicht auf der
       Prüfliste" zeigt, sind das zwei Stellen mit gegensätzlicher Regel: Der
       Sekundentakt baute den Knopf, die nächste Leser-Nachricht riss ihn wieder
-      ab. Ergebnis war ein Blinken im Sekundenrhythmus (Daniel, 30.08.2026: „der
-      button blinkt, er ist sichtbar für <1sek und nach paar sekunden kommt er
-      wieder").
+      ab. Ergebnis war ein Blinken im Sekundenrhythmus.
 
       Der ursprüngliche Zweck bleibt erfüllt — `knopfZeigen()` zeichnet den
       Zustand der **aktuellen** Seite, und ein Knopf des vorigen Titels
@@ -1688,8 +1684,7 @@ function playerAnzeige(text, art = 'laeuft', knopfText = null) {
 
       `playerZeigen()` läuft im Sekundentakt, und `replaceChildren` warf dabei
       jedes Mal den ganzen Inhalt weg — samt Melde-Knopf. Sichtbar war das als
-      Pulsieren beim Überfahren (Daniel, 12.09.2026: „wieso pulsiert der button
-      beim hover?"), und es ist schlimmer als ein Schönheitsfehler: Ein Klick,
+      Pulsieren beim Überfahren, und es ist schlimmer als ein Schönheitsfehler: Ein Klick,
       der zwischen Ersetzen und Mausloslassen fällt, trifft einen Knopf, den es
       nicht mehr gibt.
 
@@ -2101,13 +2096,12 @@ function empfohleneFolgen(eintrag) {
   for (const s of eintrag.staffeln) {
     if (!s.offen) continue
     // Ein Film hat keine Folgen — „1e01" wäre dort eine Anweisung ins Leere
-    // (Daniel, 22.08.2026: „filme in der liste werden als 1e01 gemeldet,
-    // obwohl es filme und keine serien sind").
+    //.
     //
     // **Nur das Format entscheidet, nicht die Folgenzahl.** „ONE PIECE" läuft
     // noch und hat bei AniList gar keine — in der Liste stand `folgen: 0`, und
     // die alte Bedingung „höchstens eine Folge" machte daraus einen Film
-    // (Daniel, 22.08.2026: „one piece da steht film, aber ist serie").
+    //.
     if (s.film) {
       raus.push(eintrag.staffeln.length > 1 ? `Film ${s.nr}` : 'Film')
       continue
@@ -2469,8 +2463,7 @@ function fertig(id, eintrag) {
  * Vorher holte diese Datei `pruefstand.json` und die Zählroute getrennt und zog
  * beides voneinander ab. Die Statusanzeige tat dasselbe, die Liste rechnete aus
  * dem lokalen Speicher — drei Rechnungen, drei Ergebnisse. Der Knopf sagte „10
- * offen", die Liste daneben „Alles geprüft" (Daniel, 26.08.2026: „wo sind die
- * 10 einträge die es zu prüfen gilt?" — danach: „single source of truth").
+ * offen", die Liste daneben „Alles geprüft".
  *
  * Jetzt rechnet der Worker: Er kennt den Briefkasten und lädt den Prüfstand.
  * Wer die Zahl braucht, liest sie.
@@ -2578,8 +2571,7 @@ const DURCHLAUF = {
 let selbstAn = false
 
 /**
- * **Ein Knopf, kein Schalter** (Daniel, 21.09.2026: „selbsttätig ist scheinbar ein toggle?
- * wieso? … button zum anstoßen ist doch besser"). Der Schalter blieb an und startete danach auf
+ * **Ein Knopf, kein Schalter**. Der Schalter blieb an und startete danach auf
  * jedem Listentitel, den Daniel besuchte. Jetzt stößt „▶ alle durchgehen" **einen** Lauf an;
  * gemerkt wird nur, dass er läuft, weil jede Netflix-Seite das Skript neu startet. Er endet von
  * selbst: nichts mehr offen, Abbruch, Störung, Obergrenze — und spätestens nach zwei Stunden.
@@ -2613,7 +2605,7 @@ function laufBeenden(grund) {
   }
   console.log(`[Anime-Kalender] Durchgang beendet — ${grund}`)
   /*
-    **Das Ende gehört in den Kasten** (Daniel, 24.09.2026, mit Bild: „bleibt hier stehen, wieso?").
+    **Das Ende gehört in den Kasten**.
     Der Durchgang war fertig — JoJo übersprungen, danach nichts mehr offen —, sichtbar war nur,
     dass nichts mehr geschah.
   */
@@ -2718,7 +2710,7 @@ let selbstRundenHier = 0
  * **Ist auf der angezeigten Staffel noch etwas zu tun?** — nach demselben Zustand je Folge, den
  * der Durchlauf benutzt (`geladeneZustaende()`). `durchlaufOffen()` zählt im Bestand belegte
  * Folgen als offen; bei Dr. STONE Staffel 3 (✓ belegt) begann die Automatik deshalb einen Lauf,
- * der nichts fand und still endete (Daniel, 22.09.2026: „startet … aber nix passiert").
+ * der nichts fand und still endete.
  */
 /** Zeigt die Seite Netflix' „Alle Folgen anzeigen"? Nur auf der Titelseite, nicht mitten im Lauf. */
 function alleStaffelnAnsicht() {
@@ -2973,8 +2965,7 @@ async function netflixStaffelnImMenue() {
 let letztesMenue = null
 
 /**
- * **Netflix' Menüeintrag „Alle Folgen anzeigen" ist keine Staffel** (Daniel, 24.09.2026: „beim
- * staffel wechsel verhalten der extension diesen eintrag ignorieren"). Er zeigt alle Staffeln
+ * **Netflix' Menüeintrag „Alle Folgen anzeigen" ist keine Staffel**. Er zeigt alle Staffeln
  * untereinander; nachgeladen wird dort erst beim Scrollen, und die angezeigte Liste ist keine
  * einzelne Staffel mehr.
  */
@@ -3093,9 +3084,7 @@ async function selbstStartenSchritt() {
   /* Der Stand erst nach dem Sammeln — sonst fragte jeder Takt des Wartens den Worker. */
   await durchlaufStandLaden(reihe)
   /*
-    **Gezählt wird je Titel, über alle seine Staffeln** (Daniel, 24.09.2026: „im label steht 4
-    folgen melden, aber wenn er in player wechselt, steht 0/2, obwohl es 0/4 für den titel … sein
-    müsste"). Derselbe Zähler wie beim Knopf „Alle Staffeln".
+    **Gezählt wird je Titel, über alle seine Staffeln**. Derselbe Zähler wie beim Knopf „Alle Staffeln".
   */
   if (DURCHLAUF.mehrfach?.reihe !== String(reihe)) {
     DURCHLAUF.mehrfach = { reihe: String(reihe), gesamt: offeneGruppen().reduce((n, [, g]) => n + randPruefungen(g), 0), fertig: 0, abbruch: false }
@@ -4030,9 +4019,7 @@ async function durchlaufStarten(grenze) {
   const titelseite = location.pathname
   const reihe = gemeinteReihe()
   /*
-    **Der Staffelname aus Netflix' Menü geht mit jeder Meldung hinaus** (Daniel, 24.09.2026: „die
-    extension sollte immer einfach das label mitschicken das an der staffel hängt, ohne dem haben
-    normale nutzer auch keine ahnung wozu es gehört, nicht nur der zuordner"). „Golden Wind" sagt
+    **Der Staffelname aus Netflix' Menü geht mit jeder Meldung hinaus**. „Golden Wind" sagt
     jedem, welche JoJo-Staffel gemeint ist; „S4" sagt es nur, wer Netflix' Zählung kennt. Hier
     festgehalten, weil der Player kein Staffelmenü zeigt.
   */
@@ -4493,8 +4480,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
   const reihe = gemeinteReihe()
   let gemeldet = 0
   /*
-    **Zehn Folgen je Anfrage statt einer** (Daniel, 25.09.2026: „alles gebündelt senden, statt
-    jede erste letzte einer staffel zu senden, weil das senden so lange dauert"). Bis 4.22.3
+    **Zehn Folgen je Anfrage statt einer**. Bis 4.22.3
     ging je Folge eine Anfrage raus, sechs gleichzeitig. Der Worker nimmt seit heute einen
     `stapel` an, höchstens zehn je Anfrage (Größengrenze, siehe PRUEFUNG_STAPEL_HOECHSTENS).
     Gemessen am 25.09.2026: zehn Meldungen einzeln nacheinander 1.740 ms, als Stapel 371 ms.
@@ -4703,8 +4689,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
             /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
             ...beobachtung(true, deutsch),
             /*
-              **Alles, was die Folge über sich sagt** (Daniel, 11.09.2026: „alle
-              folgen maximal mögliche infos sammeln"). Aus der Folgenliste und —
+              **Alles, was die Folge über sich sagt**. Aus der Folgenliste und —
               wenn der Player gerade diese Folge zeigt — aus dem Player.
             */
             roh: {
@@ -4763,9 +4748,7 @@ function folgenFuerFilmErgaenzen() {
       Bei „Pokémon: Blauer Himmel in der Ferne!" bot der Knopf „1 Folge prüfen"
       an, obwohl die Seite nur einen Erinnern-Knopf zeigt — der Titel ist dort
       noch gar nicht abrufbar. Der Klick führte folgerichtig auf `/watch/…` mit
-      Fehlercode E103, „Dieser Titel steht nicht zum Streaming zur Verfügung"
-      (Daniel, 30.08.2026: „warum kann ich 1 folge prüfen, obwohl da erinnern
-      steht und keine folge da ist?").
+      Fehlercode E103, „Dieser Titel steht nicht zum Streaming zur Verfügung".
 
       Der Melde-Knopf daneben kennt den Fall längst und bietet „Keine Folge da —
       als nicht abrufbar melden" an. Das ist die richtige Antwort; ein
@@ -4872,9 +4855,7 @@ function durchlaufKnopfZeigen() {
       Der erste Anlauf hing `stopPropagation` in die **Capture**-Phase des
       Behälters. Ein Ereignis läuft dort von oben nach unten: Es erreichte die
       Leiste, wurde gestoppt — und kam bei den Knöpfen darin nie an. Beide
-      waren tot, ohne Fehlermeldung (Daniel, 26.08.2026: „button klick hat
-      jetzt keinen effekt mehr... nichts passiert", „auch auf limit icon
-      passiert nix").
+      waren tot, ohne Fehlermeldung.
 
       Gestoppt wird deshalb in der **Bubble**-Phase: Da haben die Knöpfe schon
       reagiert, und nur der Weg nach oben endet hier.
@@ -5051,7 +5032,7 @@ function durchlaufKnopfZeigen() {
       Der Rat stand unter jedem Code. Bei „Pokémon: Blauer Himmel in der Ferne!"
       führte der Durchlauf auf eine Seite mit **E103** — „Dieser Titel steht
       nicht zum Streaming zur Verfügung" —, und der Knopf riet, andere Tabs zu
-      schließen (Daniel, 30.08.2026: „falscher error?"). Das schickt in die
+      schließen. Das schickt in die
       falsche Richtung: Kein geschlossener Tab macht einen Titel verfügbar.
 
       Netflix' Codes trennen die Fälle sauber: `M7…` meint die Wiedergabe selbst
@@ -5119,9 +5100,7 @@ function durchlaufKnopfZeigen() {
     return
   }
   /*
-    **Der Knopf nennt die Staffel, die er meint** (Daniel, 18.09.2026: „warum steht im
-    prüfknopf nur e1-e12 statt zusätzliche welche staffel gemeldet wird? das muss dazu
-    stehen … damit ich selbst sehe falls es probleme gibt"). Unbekannt heißt „S?".
+    **Der Knopf nennt die Staffel, die er meint**. Unbekannt heißt „S?".
   */
   const staffelKand = staffelnDerGruppe(gemeinteReihe(), DURCHLAUF.folgen ?? [])
   const staffelVorn = DURCHLAUF.folgen?.length ? (staffelKand.length === 1 ? `S${staffelKand[0]} · ` : 'S? · ') : ''
@@ -5318,8 +5297,7 @@ function durchlaufKnopfZeigen() {
           sagt, was der Bindestrich verschwiegen hat.
         */
         /*
-          **E wie Episode, nicht F wie Folge** (Daniel, 10.09.2026: „änder das
-          f, es soll e sein, e für episode, nicht f für folge"). Die Pillen der
+          **E wie Episode, nicht F wie Folge**. Die Pillen der
           Prüfliste schreiben seit jeher `E26`; hier stand `F26`, und zwei
           Schreibweisen für dieselbe Sache auf einem Bildschirm liest man als
           zwei Angaben.
@@ -5980,9 +5958,7 @@ async function dialogOeffnen() {
            „gemeldet:" davor kostet die Hälfte des Platzes. */
         marke.className = "ak-durch"
         /*
-          **Ein E vorn, danach nur Zahlen** (Daniel, 11.09.2026: „bei komma
-          seperator kein erneutes e, das kann man sich sparen … format: e1-4,
-          5-6, 9-12"). Das E sagt einmal, was die Zahlen sind.
+          **Ein E vorn, danach nur Zahlen**. Das E sagt einmal, was die Zahlen sind.
         */
         marke.textContent = `✓ E${alsBereiche(erledigt).join(", ")}`
         pille.appendChild(marke)

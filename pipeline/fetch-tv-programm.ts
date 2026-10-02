@@ -91,8 +91,8 @@ export function sendungenAusSeite(html: string): { start: string; ende: string; 
 /** Ordnet einen Sendungstitel einem Titel des Bestands zu — nur wörtlich. */
 /*
   **Zweite Programmquelle: tv.de** (19.09.2026, `docs/recherche-tv-quellen-2026-09-19.md`).
-  Das RTL+-Programm kennt nur die RTL-Gruppe; „Dragon Ball Super" läuft aber auf ProSieben MAXX
-  (Daniel, 19.09.2026: „warum führen wir die nicht?"). Dessen eigene Programmseite leitet auf
+  Das RTL+-Programm kennt nur die RTL-Gruppe; „Dragon Ball Super" läuft aber auf ProSieben MAXX.
+  Dessen eigene Programmseite leitet auf
   Joyn um (robots `Disallow: /`); tv.de zeigt alle großen Sender rund 14 Tage voraus, robots
   `User-agent: * Allow: /`, die AGB verbieten automatisierten Abruf nicht. Auflagen aus der
   Recherche: nur Anime aus unserem Bestand übernehmen, Zeit und Folgentitel, keine Inhaltstexte,

@@ -42,8 +42,8 @@ liste[SUCH_ADRESSE] = {
 /*
   **Eine eigene Liste für die Stand-Probe — der echte Bestand schwankt.**
 
-  Am 14.09.2026 zeigte die Statusanzeige „Amazon 6", der Knopf „2 Prime-Titel"
-  (Daniel: „das sollte doch single source of truth sein"). Seitdem fragt
+  Am 14.09.2026 zeigte die Statusanzeige „Amazon 6", der Knopf „2 Prime-Titel".
+  Seitdem fragt
   `fertig()` zuerst den Worker-Stand. Die Probe: drei Einträge, der Briefkasten
   leer, der Stand nennt **einen** als offen — der Knopf muss 1 zählen. Die
   alte Rechnung (Briefkasten aller Zeiten) käme auf 3; so fällt die Gegenprobe.

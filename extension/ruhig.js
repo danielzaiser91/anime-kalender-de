@@ -4,7 +4,7 @@
  * `amazon.js` läuft bei `document_idle` — da stehen Amazons Elemente längst, das
  * Hintergrundvideo läuft, und die Erweiterung hat sich schon gezeichnet. Wer
  * eine Aufnahme macht, sieht dann genau die Sekunde Unruhe, die der Modus
- * verhindern soll (Daniel, 02.09.2026: „it activates the ruhemodus too late").
+ * verhindern soll.
  *
  * Diese Datei läuft bei `document_start`, also bevor der erste Knoten im Body
  * steht. Sie tut genau eines: den gespeicherten Zustand holen und die Klasse

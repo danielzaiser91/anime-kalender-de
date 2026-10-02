@@ -50,8 +50,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
     /*
       **Auch „nichts offen" wird geschrieben.** Hier stand nur `return`, und
       `data/suchadressen-offen.json` behielt die letzten sechs Einträge — alle
-      am 13.09.2026 geklärt, und die Statusanzeige zeigte weiter „Suchadressen 6"
-      (Daniel, 14.09.2026: „wieso passen pills nicht zum echten status?").
+      am 13.09.2026 geklärt, und die Statusanzeige zeigte weiter „Suchadressen 6".
     */
     writeJson('data/suchadressen-offen.json', [])
     return
@@ -93,9 +92,8 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
 
     Die Markdown-Fassung ist für Daniel, diese für `tools/pruefstand.mjs`: Ohne
     sie hat die Statusanzeige für diese Aufgabe keine Pille, und dann steht dort
-    weniger Arbeit, als die Prüfliste führt (Daniel, 10.09.2026: „im todo stehen
-    viel mehr meldungen etc die ich machen muss als im status app als pill
-    stehen"). Eine Anzeige, die nur einen Teil der Arbeit zeigt, beantwortet die
+    weniger Arbeit, als die Prüfliste führt. Eine Anzeige, die nur einen Teil der Arbeit zeigt,
+    beantwortet die
     Frage nicht, für die es sie gibt.
   */
   writeJson('data/suchadressen-offen.json', offen)

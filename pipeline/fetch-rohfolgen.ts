@@ -657,9 +657,8 @@ async function main(): Promise<void> {
       **Ein einziger Eintrag ist nichts zuzuordnen — er ist der Titel.**
 
       Prime führt „Halo Legends" als **einen Film**: die neun Kurzfilme, die
-      unser Bestand als neun Folgen kennt, zu einem Stück zusammengeschnitten
-      (Daniel, 29.08.2026: „1 film bei amazon, culmination of all 9 episodes
-      into a movie"). Es gibt dort keine Folge 1, der man unsere Folge 1
+      unser Bestand als neun Folgen kennt, zu einem Stück zusammengeschnitten.
+      Es gibt dort keine Folge 1, der man unsere Folge 1
       gegenüberstellen könnte, und die Suche nach einer TMDB-Staffel mit neun
       Folgen musste scheitern.
 

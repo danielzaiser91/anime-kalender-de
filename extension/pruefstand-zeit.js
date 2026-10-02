@@ -5,7 +5,7 @@
   weil seit seinem Eintragsdatum (27.09.) Meldungen vorlagen. Der Prüfstand vom 30.09. führt den
   Titel aber weiter als offen — zu Recht: Die Meldungen vom 27.09. tragen Folgentitel statt Nummern
   und beantworten die Wiedervorlage („Folgen einzeln melden", Stufe 4) nicht. Die Statusanzeige zählte
-  deshalb 2 Titel, der Kasten 1 (Daniel, 01.10.2026: „woher die diskrepanz?").
+  deshalb 2 Titel, der Kasten 1.
 
   Der Worker rechnet mit dem Prüfstand-Zeitpunkt und liefert ihn in `?stand=1` als `pruefstandAm`;
   in `erzeugtAm` steht dagegen, wann die Antwort gerechnet wurde. Dieses Skript holt ihn **einmal je

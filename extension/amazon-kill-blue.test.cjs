@@ -18,8 +18,7 @@
  *
  * Diese Datei prüft **nur diesen Fall**, dafür vollständig: vom Quelltext über
  * die Erkennung bis zu dem, was am Ende an den Worker ginge. Erst wenn er steht,
- * geht der Umbau auf alle Titel (Daniel: „immer an einem beispiel erstmal
- * komplett durchtesten").
+ * geht der Umbau auf alle Titel.
  */
 const { readFileSync } = require('node:fs')
 const vm = require('node:vm')

@@ -220,8 +220,7 @@ async function main(): Promise<void> {
     darüber — „hat einen Weg" heißt hier eben nicht „hat ein Ziel".
   */
   /*
-    **Seit dem 17.09.2026 fragt der Lauf reihum alle Titel** (Daniel: „JustWatch
-    künftig zu allen Titeln fragen"). Gefragt wurden bis dahin nur die drei Lücken
+    **Seit dem 17.09.2026 fragt der Lauf reihum alle Titel**. Gefragt wurden bis dahin nur die drei Lücken
     darüber — 1.641 von 2.772 Titeln. Ein neues Angebot bei einem Titel, dessen Wege
     alle beurteilt sind, kam so nie an (Apple TV, maxdome …). Die drei Lücken stehen
     weiter vorn in der Schlange; ohne TMDB-Kennung wird gar nicht erst gefragt.

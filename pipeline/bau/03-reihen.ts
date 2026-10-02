@@ -446,8 +446,7 @@ export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anise
 
         TMDB listet unter `watch/providers` ausschließlich Video-on-Demand-Anbieter.
         Bis zum 16.09.2026 wurde aus `rent`/`buy` ein `kind: 'buy'`, und damit standen
-        maxdome und freenet meinVOD im Disc-Reiter des Panels (Daniel: „die pills sind
-        falsch als disc eingeordnet, das sind streambare titel"). Die Zugangsart trägt
+        maxdome und freenet meinVOD im Disc-Reiter des Panels. Die Zugangsart trägt
         den Unterschied zwischen Abo und Kauf; der Reiter trägt nur, ob man es
         anschaut oder ins Regal stellt.
       */

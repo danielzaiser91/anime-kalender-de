@@ -453,7 +453,7 @@ function main(): void {
 /*
   **Eine Teilen-Seite je Titel** (19.09.2026). Der Link-Knopf im Detail-Panel teilte
   `/r/<Titel-Slug>/` — diese Seite gab es für keinen Titel, denn unter `/r/` liegen nur
-  Termine (Daniel: „warum toter link, wenn ich in boruto kachel das link icon nutze").
+  Termine.
   Und wer die Adresse aus der Leiste kopierte, bekam die Startseiten-Vorschau, weil ein
   geöffneter Titel keinen eigenen Pfad hatte. Jetzt: `/t/<slug>/` für jeden Titel.
   Vorschaubild ist das Banner von AniList (breit, große Karte), ohne Banner das Cover

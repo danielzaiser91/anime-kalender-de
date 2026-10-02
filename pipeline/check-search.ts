@@ -82,8 +82,7 @@ console.log('\nDie strenge Stufe bleibt streng:')
 /*
   **Zusammengeschrieben ist dasselbe wie getrennt** (21.09.2026). „sandland" fand „Sand Land:
   The Series" nicht als Titel — dort steht ein Leerzeichen —, und die unscharfe Stufe füllte
-  die Liste mit 38 Klangverwandten: Sandplanet, Badlands, Sanda, Dragon Ball Z über „Sandai"
-  (Daniel mit Bild: „wieso so viele treffer wenn ich nach sandland suche?").
+  die Liste mit 38 Klangverwandten: Sandplanet, Badlands, Sanda, Dragon Ball Z über „Sandai".
 */
 console.log('\nZusammengeschriebene Titel:')
 {

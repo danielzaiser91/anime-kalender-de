@@ -24,7 +24,7 @@
  * Aufruf: `tsx pipeline/fetch-anisearch-titel.ts [--limit N] [--alle]`
  * Ohne `--alle` kommen nur TV/ONA ab 2015 dran — dort laufen die Titel, die bei
  * einem Anbieter zu sehen sind und deshalb überhaupt einen deutschen Namen
- * tragen (Daniel: „erstmal alle ab 2015, danach den rest").
+ * tragen.
  */
 import { titelAus, type Titelherkunft } from './lib/anisearch-titel.ts'
 import { KENNUNG } from './lib/kennung.ts'

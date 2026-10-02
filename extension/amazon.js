@@ -93,9 +93,7 @@ async function speicherSchreiben(werte) {
   /**
    * Der Seiten-Quelltext, einmal je Takt statt achtmal.
    *
-   * **Das hat einen Tab zum Absturz gebracht** (Daniel, 24.08.2026: „Aw, Snap!
-   * Error code: Out of Memory", dazu „die performance auf dem tab war echt
-   * schlecht"). Der Grund liegt in einer Zahl, die niemand nachgerechnet hat:
+   * **Das hat einen Tab zum Absturz gebracht**. Der Grund liegt in einer Zahl, die niemand nachgerechnet hat:
    * `document.documentElement.innerHTML` **baut die Zeichenkette jedes Mal neu
    * auf**, und bei einer Prime-Video-Seite sind das rund 1,6 MB.
    *
@@ -759,10 +757,7 @@ async function speicherSchreiben(werte) {
    * Die eigene Meldung wurde bis 4.17.4 in `briefkastenSeiten` nachgetragen, und
    * das hielt genau bis zum nächsten Abruf: `briefkastenHolen()` **ersetzt** die
    * Menge, und der Worker führt die Meldung erst, wenn sie durch ist. Der Haken
-   * erschien deshalb nicht (Daniel, 10.09.2026, mit Bild: „nach meldung muss
-   * checklisten eintrag den haken bekommen statt dem kreis" — er kam erst nach
-   * dem Wechsel auf die zweite Ausgabe, „also wird es ein ui update sein was
-   * fehlt").
+   * erschien deshalb nicht.
    *
    * Eine eigene Menge übersteht das Ersetzen. Sie gilt nur für die Anzeige der
    * Checkliste: Ob ein Verweis wirklich abgehakt ist, entscheidet weiterhin der
@@ -923,7 +918,7 @@ async function speicherSchreiben(werte) {
    * Prime Video spielt hinter der Seite ein Video und animiert die Karten. Bei
    * einer Bildschirmaufnahme ändert sich dadurch fast jedes Einzelbild, und
    * gleichmäßige Stichproben verfehlen genau die Stelle, an der die Erweiterung
-   * etwas tut (Daniel, 02.09.2026: „du verpasst die wichtigen stellen").
+   * etwas tut.
    *
    * Steht der Hintergrund, ist jede Änderung im Bild eine Änderung der
    * Oberfläche — und die lässt sich aus der Aufnahme Bild für Bild
@@ -1643,8 +1638,7 @@ async function speicherSchreiben(werte) {
    * Der Serientitel, wie ihn die Seite selbst nennt.
    *
    * Gebraucht für Staffeln, die unser Bestand nicht kennt — etwa solche, die
-   * nur über ein Zusatzabo laufen (Daniel, 23.08.2026: „staffel 3 ist nur mit
-   * aniverse anschaubar").
+   * nur über ein Zusatzabo laufen.
    */
   function seitenTitel() {
     /* Aus dem JSON gemeldet schlägt aus dem Quelltext gesucht. */
@@ -1859,9 +1853,7 @@ async function speicherSchreiben(werte) {
       Bei „Kakushite! Makina-san!!" führt Prime dieselbe erste Staffel zweimal
       (zwei Ausgaben, beide `sequenceNumber: 1`) und schreibt „2 Staffeln" in
       den Seitentext. Die Erweiterung verlangte daraufhin eine zweite Meldung —
-      für eine Staffel, die es nicht gibt (Daniel, 30.08.2026: „auf amazon gibt
-      es 2x die 1. staffel, aber keine 2., also kann ich auch keine 2. staffel
-      melden, was die extension aber möchte").
+      für eine Staffel, die es nicht gibt.
 
       Die Staffelliste aus dem Hydration-Block weiß es besser: Sie nennt je
       Eintrag die Nummer, und verschiedene Nummern sind verschiedene Staffeln.
@@ -2118,8 +2110,7 @@ async function speicherSchreiben(werte) {
 
         Der Vermerk hängt an der Auftrags-Kennung. Wer denselben Titel nach dem
         X noch einmal aus der Liste öffnet, bekam deshalb wieder einen leeren
-        Kasten (Daniel, 02.09.2026: „klick auf bereits gemeldete packt sie nicht
-        mehr in die box"). Seine Vorgabe lautete „bis man den nächsten titel in
+        Kasten. Seine Vorgabe lautete „bis man den nächsten titel in
         der prüfliste auswählt" — und ein Klick auf denselben ist genauso eine
         Auswahl.
 
@@ -2168,9 +2159,7 @@ async function speicherSchreiben(werte) {
    *
    * Seit dem Umbau ist er das Bedienelement: Prüflisten-Knopf, Melde-Knopf,
    * Checkliste und die Marke „gemeldet ✓" sitzen darin. Ihn zu entfernen nahm
-   * alles mit — nach der Meldung war der Bildschirm leer (Daniel: „gemeldet,
-   * aber hinweisbox verschwindet komplett? ich brauch das gemeldet, die
-   * prüfliste, etc").
+   * alles mit — nach der Meldung war der Bildschirm leer.
    *
    * Der nächste Takt zeichnet ihn neu, jetzt mit dem Ergebnis statt mit dem
    * Auftrag. Nur der Sitzungs-Merker wird geleert — er hat seine Aufgabe getan.
@@ -2516,8 +2505,7 @@ async function speicherSchreiben(werte) {
     **Gemessen am eigenen Bestand, nicht ausgedacht.**
 
     Ausgezählt wurden am 31.08.2026 alle Titelzusätze hinter dem letzten
-    Doppelpunkt oder Gedankenstrich (Daniel: „check existing data for more
-    examples"):
+    Doppelpunkt oder Gedankenstrich:
 
         40× the movie      18× the animation     17× der film
          7× the series      5× die serie          5× episoden
@@ -2612,8 +2600,7 @@ async function speicherSchreiben(werte) {
       Bestand: „Golden Kamuy 2" (nackte Zahl), „Food Wars! The Second Plate"
       (ausgeschriebenes Zahlwort mit eigenem Substantiv), „2nd Season". Alle
       drei galten als Staffel 1 — und damit meldete die Erweiterung am
-      27.08.2026 die erste Staffel für einen Auftrag, der die zweite meinte
-      (Daniel: „golden kamuy 2 hat für staffel 1 gemeldet, ist das richtig so?").
+      27.08.2026 die erste Staffel für einen Auftrag, der die zweite meinte.
 
       Die nackte Zahl bleibt bewusst auf 2 bis 9 beschränkt: „Fate/Zero" und
       „Ranking of Kings" enden auch auf Ziffern, und eine dreistellige Zahl war
@@ -2725,8 +2712,7 @@ async function speicherSchreiben(werte) {
       Wir führen „Captain Tsubasa" mit 52 Folgen; die Suchadresse in unserem
       Bestand lautet aber `k=Captain Tsubasa (2018)`. Prime nennt die Serie
       genau so — und der Vergleich gegen den Anzeigetitel fand sie nicht:
-      „captaintsubasa" gegen „captaintsubasa2018" (Daniel, 27.08.2026: „wieso
-      sagt extension kein treffer").
+      „captaintsubasa" gegen „captaintsubasa2018".
 
       Der Begriff ist dabei die **bessere** Auskunft, nicht die schlechtere: Er
       wurde gezielt gesetzt, weil unser Eintrag die Fassung von 2018 meint und
@@ -2843,9 +2829,7 @@ async function speicherSchreiben(werte) {
    *
    * Gesammelt wird auf der Übersichtsseite — dort stehen die Folgenliste und
    * die Tonspuren. Der Player weiß darüber nichts und ist der einzige Ort, an
-   * dem ein eingeblendeter Kasten wirklich stört (Daniel, 27.08.2026: „im
-   * prime player generell nicht, weil wir ja über die overview seite alles
-   * sammeln").
+   * dem ein eingeblendeter Kasten wirklich stört.
    */
   function imPlayer() {
     try {
@@ -2984,8 +2968,7 @@ async function speicherSchreiben(werte) {
       gar nicht gab: Der Kasten entsteht erst weiter unten im selben Takt. Die
       Zeile kam deshalb frühestens im **nächsten** Durchlauf, und weil der Kasten
       seinerseits erst entsteht, sobald ein Knopf sichtbar ist, lagen dazwischen
-      mehrere halbe Sekunden (Daniel, 06.09.2026: „es erscheint erst nur
-      prüflistenbutton, und sekunden später der ruhemodus button").
+      mehrere halbe Sekunden.
 
       Hier ist der Platz schon da. Der Aufruf im Takt bleibt als Rückfall — er
       steigt aus, sobald die Leiste steht.
@@ -3066,8 +3049,7 @@ async function speicherSchreiben(werte) {
 
           Ein Kasten, der ganz verschwindet, nimmt den Prüflisten-Knopf mit —
           und damit den Weg zum nächsten Titel. Weggelegt wird deshalb nur, was
-          diesen einen Auftrag betrifft; was den Stand der Arbeit zeigt, bleibt
-          (Daniel, 02.09.2026: „nur noch prüfliste und ruhemodus sind sichtbar").
+          diesen einen Auftrag betrifft; was den Stand der Arbeit zeigt, bleibt.
         */
         const x = document.createElement('button')
         x.type = 'button'
@@ -3224,8 +3206,7 @@ async function speicherSchreiben(werte) {
 
         Der Vermerk kommt aus `vorschlaege-anbieter.ts`: Dort passte das Format
         oder das Jahr des TMDB-Treffers nicht zu unserem Eintrag. Wer das vorher
-        weiß, hört nach zwei Blicken auf zu suchen statt nach zwei Minuten
-        (Daniel, 28.08.2026: „die prüfliste ist extrem mühselig").
+        weiß, hört nach zwei Blicken auf zu suchen statt nach zwei Minuten.
 
         Er steht hier und nicht an einer Aufrufstelle, aus demselben Grund wie
         der aniSearch-Verweis: Jeder Kasten gehört zu einem Auftrag.
@@ -3293,9 +3274,7 @@ async function speicherSchreiben(werte) {
     try {
       /*
         **Sie steht, wo der Knopf stand** — in der Meldezeile, über der Fußzeile
-        und so breit wie sie (Daniel, 06.09.2026: „gemeldet button soll da hin wo
-        vorher der meldebutton war, und er soll wie der meldebutton full width
-        auf der zeile über prüfliste/anisearch einnehmen").
+        und so breit wie sie.
 
         Das ist zugleich der Platz, den sie seit 4.11.0 hatte; in 4.13.2 war sie
         versehentlich in die Fußzeile gewandert und drängte dort die beiden
@@ -3402,9 +3381,7 @@ async function speicherSchreiben(werte) {
    * **Die Fußzeile: Ergebnis links, Nachschlagen rechts.**
    *
    * „gemeldet ✓" und der aniSearch-Verweis standen als zwei Zeilen untereinander
-   * und sahen beide wie Fließtext aus (Daniel, 02.09.2026: „gemeldet und
-   * anisearch link kann in eine zeile. gemeldet links (besonders gestyled) und
-   * anisearch rechts"). Sie beantworten verschiedene Fragen — was ist passiert,
+   * und sahen beide wie Fließtext aus. Sie beantworten verschiedene Fragen — was ist passiert,
    * und wo sehe ich nach — und teilen sich deshalb eine Zeile mit klaren Enden.
    *
    * Die Marke wird eingesammelt, nicht neu gebaut: Wo sie im Kasten schon steht,
@@ -3423,7 +3400,7 @@ async function speicherSchreiben(werte) {
 
       Vorher stand unter der Auswahl noch „Zum Anime springen (B0BYY9NN5D)" und
       „Stattdessen: Kauf/Abo · … (B0B8TN9LSJ)" — dieselben zwei Kennungen ein
-      zweites Mal (Daniel, 02.09.2026: „das ist unnötige dopplung").
+      zweites Mal.
     */
     if (kennung) {
       const sprung = document.createElement('a')
@@ -3584,8 +3561,7 @@ async function speicherSchreiben(werte) {
    *
    * Der Klick setzt „sende …", und eine halbe Sekunde später schrieb
    * `zeichnen()` den alten Text zurück — bis die Antwort da war, wechselte die
-   * Beschriftung im Takt hin und her (Daniel, 06.09.2026: „nach klick auf
-   * melden flackert melde button, statt direkt zu disablen").
+   * Beschriftung im Takt hin und her.
    *
    * Der Merker steht am Modul, nicht am Knopf: `zeichnen()` steigt daran aus,
    * bevor es irgendetwas berechnet.
@@ -3639,8 +3615,7 @@ async function speicherSchreiben(werte) {
       `offeneSuche()` vergleicht den Suchbegriff mit unseren Adressen. Wer über
       „Kürzer suchen" oder „Anders schreiben" weitersucht, steht danach auf
       einer Adresse, die dort nicht steht — und der Kasten war weg, mitsamt dem
-      Auftrag (Daniel, 27.08.2026: „lädt die seite neu und dann ist das div
-      nicht mehr da").
+      Auftrag.
 
       Bei „Horimiya" fiel das nicht auf: Die Kurzform ist zufällig selbst ein
       Eintrag. Das ist der Zufall, nicht die Regel.
@@ -3723,8 +3698,7 @@ async function speicherSchreiben(werte) {
         `begriff` kommt aus `auftrag.suchUrl`, also aus dem Bestand. Nach einem
         Klick auf „Anders schreiben" steht in der Adresse längst die Variante,
         der Auftrag aber unverändert — und der Knopf bot dieselbe Schreibweise
-        ein zweites Mal an (Daniel, 27.08.2026: „bietet er erneut anders
-        schreiben an aber mit identischem text").
+        ein zweites Mal an.
 
         Steht die Variante schon in der Adresse, ist der Weg zurück das
         Sinnvolle: Beide Schreibweisen sind dann gesehen.
@@ -3762,8 +3736,7 @@ async function speicherSchreiben(werte) {
           **Zwei richtige Treffer sind keine Verlegenheit, sondern zwei Wege.**
 
           „One Punch Man" steht bei Prime zweimal: einmal als Kauftitel, einmal
-          über den Crunchyroll-Kanal — beide mit vier Staffeln, beide korrekt
-          (Daniel, 30.08.2026: „2 valide treffer in suche, wie damit umgehen?").
+          über den Crunchyroll-Kanal — beide mit vier Staffeln, beide korrekt.
           Bis hierher nahm der Kasten `treffer[0]`, also den, der zufällig oben
           stand.
 
@@ -3848,9 +3821,8 @@ async function speicherSchreiben(werte) {
             meinen, sieht nur ein Mensch.
 
             Bis zum 02.09.2026 galt der Auftrag deshalb nach **einer** Meldung
-            als erledigt, und die zweite Seite ließ sich nicht mehr melden
-            (Daniel: „nach kaufoption meldung ist aniverse meldung nicht mehr
-            möglich"). Drei Versuche, das abzuleiten, gingen daneben.
+            als erledigt, und die zweite Seite ließ sich nicht mehr melden.
+            Drei Versuche, das abzuleiten, gingen daneben.
 
             Sein Vorschlag: „auf search seite checkboxen anbieten, welche titel
             erwartet werden sollen … so kann es vorher getracked werden und du
@@ -3864,8 +3836,7 @@ async function speicherSchreiben(werte) {
           /*
             Hier standen „Zum Anime springen" und darunter „Stattdessen: …" —
             dieselben Kennungen ein zweites Mal. Seit dem 02.09.2026 sitzt der
-            Sprung als ↗ an der Auswahlzeile selbst (Daniel: „das ist unnötige
-            dopplung"). Ohne Auswahl — also bei nur einer Karte — bleibt der
+            Sprung als ↗ an der Auswahlzeile selbst. Ohne Auswahl — also bei nur einer Karte — bleibt der
             Hinweis unten stehen.
           */
           /*
@@ -3874,9 +3845,7 @@ async function speicherSchreiben(werte) {
             Er hieß „Öffnen — dort werden die Tonspuren gelesen" und übergab
             keine Kennung. Damit fiel er aus beidem heraus, was `kastenKnopf`
             für die Zuordnung tut: kein `(ASIN)` im Label, und beim Überfahren
-            blieb die Trefferkachel unmarkiert (Daniel, 07.09.2026: „hover auf
-            extension button ‚öffnen' highlighted nicht mehr die suchkachel die
-            ausgewählt werden würde … das gesamte label ist sehr schwach").
+            blieb die Trefferkachel unmarkiert.
 
             Der Hinweis auf die Tonspuren ist im selben Zug entfallen — er
             erklärt die Arbeitsweise der Erweiterung, und die kennt der einzige
@@ -3896,8 +3865,7 @@ async function speicherSchreiben(werte) {
             Hier standen bis zu zwei „Stattdessen: …"-Knöpfe für die weiteren
             Karten. Seit dem 02.09.2026 stehen dieselben Ausgaben als
             Ankreuzfelder darüber, jede mit eigenem „öffnen" — der Knopf war
-            damit dieselbe Kennung ein zweites Mal (Daniel: „stattdessen
-            entfernen (ist bereits 2. option in checkliste)").
+            damit dieselbe Kennung ein zweites Mal.
           */
           /*
             Hier stand „Beim Kanal-Titel nennt Amazon die Sprachen des Kanals…" —
@@ -3946,8 +3914,7 @@ async function speicherSchreiben(werte) {
 
         Sie trennt aber auch, was zusammengehört. AniList führt „Halo Legends"
         als ONA mit neun Teilen; Prime zeigt dieselben Kurzfilme am Stück, als
-        Film von 1:57 h — neun mal dreizehn Minuten (Daniel, 27.08.2026: „Halo:
-        Legends ist ein film, wieso suchst du 9 folgen?"). Anthologien liegen
+        Film von 1:57 h — neun mal dreizehn Minuten. Anthologien liegen
         bei Anbietern regelmäßig so.
 
         Von hier aus ist beides nicht zu unterscheiden: Die Karte nennt keine
@@ -4088,8 +4055,7 @@ async function speicherSchreiben(werte) {
             ]
           : []),
         /*
-          **„Anders schreiben" ist raus** (Daniel, 31.08.2026, mit Bild: „dieses
-          anders schreiben zusammengeschriebene button entfernen").
+          **„Anders schreiben" ist raus**.
 
           Der Knopf bot den Begriff mit zusammengezogenen ersten zwei Wörtern an
           — „DreiKleine Geister" statt „Drei kleine Geister". Bei „Horimiya" hat
@@ -4240,8 +4206,7 @@ async function speicherSchreiben(werte) {
 
       Prime lädt in Abschnitten zu 24 Folgen. Verglichen mit den geladenen kam
       das Angebot deshalb nie: 24 ist nicht mehr als die 39 erwarteten, obwohl
-      die Seite oben „91 Folgen" schreibt (Daniel, 27.08.2026: „da steht immer
-      noch 91").
+      die Seite oben „91 Folgen" schreibt.
 
       `gesehen.gesamt` ist genau diese Zahl. Fehlt sie, bleibt die geladene als
       Rückfall — dann ist die Seite noch nicht weit genug, und ein Angebot wäre
@@ -4410,8 +4375,7 @@ async function speicherSchreiben(werte) {
 
       „Elysium" steht bei uns als koreanischer Mecha-Film von 2003 (AniList
       2941). Die Prime-Suche führt auf den Hollywood-Film mit Matt Damon von
-      2013, und der Kasten bot an, den zu melden (Daniel, 28.08.2026: „warum
-      elysium prüfen? das ist kein anime?"). Titel, Typ und Folgenzahl stimmen
+      2013, und der Kasten bot an, den zu melden. Titel, Typ und Folgenzahl stimmen
       dort alle überein — nur das Jahr nicht.
 
       Ein Jahr allein widerlegt noch nichts: Zwischen japanischer
@@ -4806,7 +4770,7 @@ async function speicherSchreiben(werte) {
       /*
         Und gleich beim Briefkasten nachfragen, wer wirklich schon gemeldet ist.
         Der lokale Stand hat den Aufbau nur überbrückt; ab hier gilt der
-        gemeinsame (Daniel, 28.08.2026: „single source of truth").
+        gemeinsame.
       */
       void briefkastenHolen(true)
     })
@@ -5262,8 +5226,7 @@ async function speicherSchreiben(werte) {
               Erwartung, sie wird ja erst hier gesetzt. Gespeichert wird sie in
               `sessionStorage` (`suchauftragMerken`), und das überlebt ein
               Neuladen; gelesen wurde sie nur nicht, und nach F5 stand wieder
-              „Auswahl bestätigen" (Daniel, 02.09.2026: „nach neuladen muss
-              bestätigung erhalten bleiben").
+              „Auswahl bestätigen".
             */
             /*
               **Die Erwartung kommt vom Worker.**
@@ -5302,9 +5265,7 @@ async function speicherSchreiben(werte) {
               **Auswahl und Bestätigen stehen in einem Kasten — sie gehören zusammen.**
 
               Vorher waren es lose Zeilen zwischen anderen Hinweisen, und der
-              Knopf sah aus wie einer von vieren (Daniel, 02.09.2026: „checkboxen
-              und auswahl bestätigen in einen kasten packen, die gehören
-              zusammen"). Die erklärende Überschrift ist im selben Zug entfallen:
+              Knopf sah aus wie einer von vieren. Die erklärende Überschrift ist im selben Zug entfallen:
               Ankreuzfelder mit einem Bestätigen-Knopf erklären sich.
             */
             const gruppe = document.createElement('div')
@@ -5314,8 +5275,7 @@ async function speicherSchreiben(werte) {
             knopfReihe.className = 'ak-such-knopfreihe'
             const bestaetigen = kastenKnopf(
               /*
-                „2 ausgewählt", nicht „2 erwartet" (Daniel, 13.09.2026: „warum steht da
-                2 erwartet, statt ausgewählt"). Der Chip bestätigt die gespeicherte
+                „2 ausgewählt", nicht „2 erwartet". Der Chip bestätigt die gespeicherte
                 Auswahl; „erwartet" las sich wie ein Zustand, auf den man warten muss.
               */
               erwartetJetzt?.length ? `${erwartetJetzt.length} ausgewählt` : 'Auswahl bestätigen',
@@ -5801,8 +5761,7 @@ async function speicherSchreiben(werte) {
     // gehoert an den Knopf, sonst klickt Daniel ins Leere.
     if (!verbindungLebt()) {
       /*
-        **Kurz genug für eine Zeile** (Daniel, 06.09.2026: „damit button text
-        einzeilig bleibt mach text kürzer"). Der lange Satz „Erweiterung neu
+        **Kurz genug für eine Zeile**. Der lange Satz „Erweiterung neu
         geladen — Seite aktualisieren" lief aus der Pille heraus; was er
         zusätzlich sagte — warum das nötig ist —, steht jetzt im Tooltip.
       */
@@ -5868,9 +5827,7 @@ async function speicherSchreiben(werte) {
   uebersichtZeichnen()
 
   /*
-    **`?ak=liste` klappt die Prüfliste beim Laden auf** (Daniel, 20.09.2026: „wenn ich
-    prüflisten link anklicken muss, dann link mich wenigstens dorthin wo sie auftaucht, je
-    weniger manuell ich machen muss desto besser"). Damit führt ein Link aus dem Chat direkt
+    **`?ak=liste` klappt die Prüfliste beim Laden auf**. Damit führt ein Link aus dem Chat direkt
     zur Liste, statt erst auf eine Seite mit Knopf und dann in die Liste.
   */
   try {
@@ -6237,8 +6194,7 @@ async function speicherSchreiben(werte) {
      * 118 unserer Prime-Verweise sind Suchen statt Titelseiten. Sie standen
      * bis zum 27.08.2026 in keiner Übersicht: Der Knopf zählte zwei offene
      * Titelseiten, und nach deren Meldung schrieb er „Prime: alles geprüft",
-     * während 118 Adressen unbearbeitet waren (Daniel: „mehr seh ich in der
-     * liste nicht").
+     * während 118 Adressen unbearbeitet waren.
      *
      * Sie bekommen einen eigenen Abschnitt, weil sie andere Arbeit meinen:
      * Eine Titelseite liest die Erweiterung selbst; hier muss erst der
@@ -6479,9 +6435,7 @@ async function speicherSchreiben(werte) {
    * Prime gibt jeder Staffel eine eigene Kennung. Unsere Liste führt aber
    * nicht jede davon: Wer Staffel 1 gemeldet hat und dann auf Staffel 2
    * umschaltet, landet auf einer Kennung, die dort nicht steht — und seit
-   * 3.44 verschwanden damit alle Bedienelemente (Daniel, 27.08.2026: „ich
-   * wechsel zu staffel 2, die elemente verschwinden und ich kann nicht
-   * melden").
+   * 3.44 verschwanden damit alle Bedienelemente.
    *
    * Das Ausblenden war für **fremde** Titelseiten gedacht, nicht für die
    * zweite Staffel einer Serie, die wir führen. Der Serientitel trennt beides:
@@ -6673,8 +6627,7 @@ async function speicherSchreiben(werte) {
    * wirft `ReferenceError`. Der Hörer kann sofort feuern — der Leser schickt
    * seine erste Nachricht, während dieses Skript noch aufgebaut wird —, und
    * dann bricht der Aufbau ab: kein Takt, kein Knopf, keine Reaktion auf einen
-   * Staffelwechsel (Daniel, 24.08.2026: „button hat label nie gewechselt, nie
-   * versucht neue infos reinzubekommen").
+   * Staffelwechsel.
    *
    * Genau dieselbe Falle steht weiter oben schon einmal beschrieben, für
    * `dialog`. Zweimal dieselbe Ursache in einer Datei heißt: Wer hier eine
@@ -7845,15 +7798,13 @@ async function speicherSchreiben(werte) {
       ausgeblendet, sobald der Titel nicht auf der Prüfliste steht — und genau
       das ist der Fall, für den der Sprung gebaut wurde: Die Titelseite hinter
       einer Suchadresse steht nirgends. Damit sammelte und meldete dort nichts
-      mehr (Daniel, 27.08.2026: „ich hab den button im div angeklickt ‚zum anime
-      springen`, dann erwarte ich das er wie vorher automatisch funktioniert").
+      mehr.
     */
     if (!liste[listenId] && !eintrag?.ausSuche && !serieBekannt()) {
       /*
         **Weg statt grau.** Ein Knopf, der auf jeder fremden Titelseite „nicht
         auf der Prüfliste" schreibt, ist auf 99 von 100 Seiten Störung ohne
-        Auskunft (Daniel, 27.08.2026: „extension elemente nicht auf anime
-        anzeigen die nicht auf der liste sind"). Der Übersichts-Knopf bleibt —
+        Auskunft. Der Übersichts-Knopf bleibt —
         über den kommt man an die Liste.
       */
       knopf.style.display = 'none'
@@ -8371,8 +8322,7 @@ async function speicherSchreiben(werte) {
      * Alles durch — dann gibt es hier nichts mehr zu tun.
      *
      * Der Knopf blieb bisher anklickbar und lud dazu ein, dieselbe Staffel
-     * noch einmal zu melden (Daniel, 24.08.2026: „der button sollte zu ‚alles
-     * erfolgreich gemeldet' und nicht anklickbar werden").
+     * noch einmal zu melden.
      */
     if (alleDurch) {
       /*
@@ -8414,8 +8364,7 @@ async function speicherSchreiben(werte) {
 
         In 4.13.6 tat er nur das Zweite — und der Takt darüber nahm sie sofort
         wieder weg, weil `gemeldetFuerPfad` leer war. Ergebnis: Die Marke
-        erschien und verschwand im Halbsekundentakt (Daniel, 06.09.2026: „ist
-        sichtbar bei reload, dann paar sek später [weg] … was zur hölle").
+        erschien und verschwand im Halbsekundentakt.
 
         Zwei Stellen, die dieselbe Anzeige aus verschiedenen Quellen speisen,
         laufen garantiert auseinander. Es gibt jetzt nur noch eine Quelle: den
@@ -8503,8 +8452,7 @@ async function speicherSchreiben(werte) {
 
         „✓ Staffel 1 gemeldet" sagt, was erledigt ist, und lässt offen, was
         folgt — bei „InuYasha" mit sieben Staffeln ist das die eigentliche
-        Frage (Daniel, 27.08.2026: „über liste könnte zB stehen ‚bitte staffel 2
-        als nächstes melden'").
+        Frage.
 
         Genannt wird die kleinste Staffel, die noch keine Meldung hat. Kennt die
         Seite ihre Staffelzahl nicht oder sind alle durch, bleibt es beim
@@ -9110,8 +9058,7 @@ async function speicherSchreiben(werte) {
       Der Anteil misst gegen `gesamtLautSeite` — dieselbe Zahl, die bei Prime
       regelmäßig danebenliegt. Ist alles gesammelt, was die Seite hergibt, ist
       der Befund nicht unklar, sondern fertig: Er gilt eben für die Folgen, die
-      es dort gibt (Daniel, 30.08.2026: „nicht was wir erwarten, sondern
-      tatsächliche realität").
+      es dort gibt.
     */
     const zuWenigGelesen = !deutsch && !bereiche && !vollstaendig && anteilGelesen < 0.34
     /*
@@ -9168,8 +9115,7 @@ async function speicherSchreiben(werte) {
 
       Er zeigte Sprache, Folgenzahl und Zugangsart — aber nicht, worauf sich
       das bezieht. Bei einer Serie mit mehreren Staffeln ist genau das die
-      Frage (Daniel, 27.08.2026: „der melde button sollte dazuschreiben für
-      welche staffel er denkt das er meldet").
+      Frage.
 
       Bei einer Seite ohne Staffelwahl bleibt es weg — dort gibt es nichts zu
       verwechseln.
@@ -9595,8 +9541,7 @@ async function speicherSchreiben(werte) {
       Ziel: Was hier ankommt, erreicht Amazon nicht mehr — weder ein Klick, der
       eine fremde Serie öffnet, noch die Bewegung, die eine Karte aufklappt.
       Unsere eigenen Knöpfe liegen darüber und bekommen ihre Ereignisse wie
-      zuvor (Daniel, 27.08.2026: „nicht nur hover, sondern auch click area
-      schutz, beides").
+      zuvor.
     */
     for (const art of [
       'mouseover',
@@ -9656,8 +9601,7 @@ async function speicherSchreiben(werte) {
         `position: fixed` — und für die liefert Chrome `offsetParent === null`,
         auch wenn sie mitten auf dem Bildschirm stehen. Die Fläche hielt sich
         deshalb seit 3.49 für überflüssig und stellte sich auf `display: none`;
-        der Schutz war nie aktiv, und der rote Rahmen aus 3.50 blieb unsichtbar
-        (Daniel, 27.08.2026: „keine rote umrandung sichtbar").
+        der Schutz war nie aktiv, und der rote Rahmen aus 3.50 blieb unsichtbar.
 
         Das Rechteck beantwortet die Frage direkt: Was 0 × 0 misst, ist nicht da.
       */
@@ -9712,8 +9656,7 @@ async function speicherSchreiben(werte) {
       Der Player: Wer fernsieht, soll nichts von der Erweiterung sehen
       (30.08.2026). Und die fremde Seite: Das Manifest laesst uns auf
       `amazon.de/*` laufen, also auch auf jedem Monitor und jeder Kaffeemaschine
-      — dort hat der Kasten nichts verloren (Daniel, 05.09.2026: „dont show
-      extension on pages that are irrelevant, like this one").
+      — dort hat der Kasten nichts verloren.
 
       Beide zusammen in **einer** Bedingung, weil der Abriss des Kastens genau
       einmal im Zeichenpfad stehen darf: Jede weitere Stelle bringt das Flackern
@@ -9733,8 +9676,7 @@ async function speicherSchreiben(werte) {
 
       Er zieht beim Aufbau des Kastens ein — nur entsteht der Kasten manchmal
       erst danach (Titelseite mit geerbtem Auftrag). Dann stand er wieder
-      draußen, und im Kasten fehlte die Prüfliste (Daniel, 02.09.2026: „wo ist
-      prüfliste button?"). Der Takt holt das nach; er läuft ohnehin.
+      draußen, und im Kasten fehlte die Prüfliste. Der Takt holt das nach; er läuft ohnehin.
     */
     try {
       /*
@@ -9742,8 +9684,7 @@ async function speicherSchreiben(werte) {
 
         Er entstand früher nur, wenn es einen Auftrag zu zeigen gab. Nach der
         Meldung gibt es keinen mehr — und dann standen die beiden Knöpfe wieder
-        frei nebeneinander (Daniel, 02.09.2026: „warum das alte design? es
-        sollte alles im kasten sein").
+        frei nebeneinander.
 
         Ohne sichtbaren Knopf wird er nicht gebaut: Wer gerade fernsieht, soll
         nichts von der Erweiterung sehen (30.08.2026).
@@ -9869,8 +9810,7 @@ async function speicherSchreiben(werte) {
         Seit 4.12.8 nimmt `hinweisKasten()` die Kennung aus der Liste — nur
         läuft die Funktion gar nicht, wenn der Kasten keinen Titel bekommt. Bei
         den vier Titel-Aufträgen ist das der Regelfall: Dort steht die blosse
-        Hülle mit Knopf und Fußzeile, und die Fußzeile blieb rechts leer
-        (Daniel, 06.09.2026: „wo ist der anisearch link?").
+        Hülle mit Knopf und Fußzeile, und die Fußzeile blieb rechts leer.
 
         Hier greift es unabhängig davon: Der Takt läuft immer, und wer zuerst
         füllt, gewinnt — `hinweisKasten()` prüft dieselbe Bedingung
@@ -9923,8 +9863,7 @@ async function speicherSchreiben(werte) {
 
         Beides sagt dasselbe über denselben Gegenstand, deshalb derselbe Platz.
         Solange keins von beidem feststeht, hält ein Ladering die Höhe — die
-        Zeile darf nicht nachträglich erscheinen (Daniel, 02.09.2026: „was
-        nachträglich verschwinden kann gehört hinter lade animation").
+        Zeile darf nicht nachträglich erscheinen.
       */
       const meldeZeile = kasten?.querySelector('.ak-z-melden')
       if (meldeZeile) {
@@ -10058,9 +9997,7 @@ async function speicherSchreiben(werte) {
    * Bis 4.13.7 fiel beides zusammen: Ob sich der Titel geändert hat, stellte
    * `taktSchritt()` fest — und der läuft alle 500 ms, im Sparmodus alle vier
    * Sekunden. Auf einer fertig gelesenen Seite kam ein Wechsel deshalb bis zu
-   * vier Sekunden zu spät an (Daniel, 06.09.2026: „ein wechsel muss sofort
-   * erkannt werden, und das ist sehr leicht anhand der href erkennbar, die
-   * teure logik muss dahinter liegen und darf nicht zufällig triggern").
+   * vier Sekunden zu spät an.
    *
    * Genau so ist es jetzt gebaut. Der Wachposten vergleicht **eine
    * Zeichenkette** — `location.href` gegen den letzten Stand. Das kostet
@@ -10804,8 +10741,7 @@ async function speicherSchreiben(werte) {
           `nichtAngekommen()` fragt die geholte Briefkasten-Liste, und die ist
           bis zu einer Minute alt. Direkt nach dem Melden stand die Adresse dort
           noch nicht — der Knopf ging wieder auf „melden", als wäre nichts
-          geschehen (Daniel, 30.08.2026: „button ist nach meldung erneut
-          klickbar"). Gemessen war die Meldung längst angekommen.
+          geschehen. Gemessen war die Meldung längst angekommen.
 
           Der Eintrag überbrückt die Zeit bis zum nächsten Abruf; danach
           entscheidet wieder der Worker. Kam sie wirklich nicht an, geht der
@@ -10883,8 +10819,7 @@ async function speicherSchreiben(werte) {
         /*
           Und der Kasten verschwindet mit ihm. Er sagt „Meldung läuft unter
           diesem Titel" — nach der Meldung läuft nichts mehr, und er stand
-          trotzdem weiter da (Daniel, 27.08.2026: „erfolgreich gemeldet,
-          großes div muss entsprechend verschwinden").
+          trotzdem weiter da.
         */
         if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
         /* Erst hier, nicht nach dem catch: Ein Fehlschlag darf keine Marke setzen. */
@@ -10907,9 +10842,7 @@ async function speicherSchreiben(werte) {
      * „Gemeldet" bleibt stehen, bis sich etwas ändert.
      *
      * Vorher sprang der Knopf nach 2,5 Sekunden zurück auf „melden" — bei
-     * einem Titel mit fünf Staffeln sah das aus, als wäre nichts passiert
-     * (Daniel, 23.08.2026: „button zeigt an ich kann es nochmal melden, das
-     * ‚gemeldet' sollte dort stehen bleiben").
+     * einem Titel mit fünf Staffeln sah das aus, als wäre nichts passiert.
      *
      * Zurück kommt er erst beim Staffelwechsel — dort wird
      * `gemeldeteStaffel` geleert.
@@ -10950,7 +10883,7 @@ async function speicherSchreiben(werte) {
       Meldehandler (`letzteMeldung`), nicht aus dem Knopftext.
     - **Staffeln aus dem Quelltext** (`seasons`, jede mit eigener ASIN — gemessen an Naruto). Der
       erste Frame eines Titels liefert die Liste, danach laufen die übrigen parallel.
-    - **Nur Titel mit eigener Titelseite** (Daniel: „nur normales melden … suchaufträge").
+    - **Nur Titel mit eigener Titelseite**.
     - **Der Lauf gehört dem Tab** (`sessionStorage`) und endet spätestens nach zwei Stunden. Die
       Frames teilen ihn (gleiche Herkunft), schreiben ihn aber nie.
   */

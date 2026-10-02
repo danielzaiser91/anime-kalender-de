@@ -1712,7 +1712,7 @@ console.log('\nStreaming Availability API:')
   pruefe('ohne Bereiche bleibt es still',
     dubGrenze(undefined) === null && dubGrenze([]) === null)
   /*
-    One Piece auf Netflix (Daniel, 23.09.2026: „deutsch bis folge 1??"): Folge 1 deutsch,
+    One Piece auf Netflix: Folge 1 deutsch,
     2–33 nicht, 34–61 wieder deutsch. Eine „bis"-Grenze wäre hier falsch.
   */
   pruefe(
@@ -3352,7 +3352,7 @@ console.log('\nStaffel und Teil zählen:')
 
     AniList führt den dritten Cour von Slime S4 als „4th Season Part 3" (`第3クール`), MAL als
     „4th Season Part 2". Wir hatten den Namen wörtlich genommen: „Staffel 4 - Teil 3", daneben der
-    MAL-Link mit „Teil 2" (Daniel: „warum sagen wir teil 3 obwohl es teil 2 ist?"). In unserer
+    MAL-Link mit „Teil 2". In unserer
     Liste ist es der zweite Eintrag der Staffel 4 — also Teil 2. Gemessen über alle 423 Reihen mit
     mindestens zwei Hauptstaffeln: genau dieser eine Fall ändert sich.
   */
@@ -4783,9 +4783,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'JustWatch führt es im deutschen Katalog, adtv.ae ist ein arabisches Angebot (22.09.2026)',
   )
   /*
-    **Nachtrag vom selben Tag, zweite Runde** (Daniel: „für paar sek war chibi
-    theatre unter specials eingeordnet, dann wieder in hauptserie", „wu mian ren
-    pian ist weiterhin chinesisch").
+    **Nachtrag vom selben Tag, zweite Runde**.
   */
   pruefe(
     'die Reihe im Panel behält die Felder aus franchises.json',
@@ -4858,9 +4856,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 }
 
 /*
-  **Die Nachrichtenseite bündelt je Anime und Tag** (Daniel, 12.09.2026: „pro
-  tag max 1 eintrag je anime — alle infos zu diesem anime … müssen unter diesem
-  anime gebündelt aufgelistet sein").
+  **Die Nachrichtenseite bündelt je Anime und Tag**.
 
   Geprüft wird an einer Kulisse, nicht am Datenstand: Ob heute zufällig zwei
   Meldungen zum selben Titel anfallen, ist keine Eigenschaft des Codes.
@@ -4897,8 +4893,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 
     Bis zum 12.09.2026 stand dort der volle Name: In der Liste las sich das als
     „bei Crunchyroll · Lord of Mysteries Specials", blass und hinter dem
-    Anbieter (Daniel: „heb besser hervor das es sich bei dem neuzugang nur um
-    die Specials handelt"). Der Reihenname steht eine Zeile höher — hier bleibt
+    Anbieter. Der Reihenname steht eine Zeile höher — hier bleibt
     „Specials".
   */
   pruefe(
@@ -5807,8 +5802,7 @@ pruefe(
 }
 {
   /*
-    **Eine abgelöste Meldung verschwindet nicht** (Daniel, 01.10.2026: „keine
-    Entfernung von News einträgen … sichtbar machen was passiert ist"). Wird ein
+    **Eine abgelöste Meldung verschwindet nicht**. Wird ein
     Termin verschoben, bleibt die alte Ankündigung stehen und nennt den neuen
     Tag; wird er zurückgezogen, sagt sie das — die Kette bleibt lesbar.
   */
@@ -5871,7 +5865,7 @@ pruefe(
 }
 {
   /*
-    **Jede Meldung nennt ihre Quelle** (Daniel, 28.09.2026: „inkl Link zur Quelle"). Gemessen mit
+    **Jede Meldung nennt ihre Quelle**. Gemessen mit
     Fixtures statt an der gebauten Datei: Ein Termin trägt die Seite, an der wir ihn gelesen haben;
     ein Endpunkt weicht der lesbaren Quelle; neue deutsche Folgen tragen die Adresse, über die sie
     zugeordnet wurden. Die gebauten Meldungen bekommen ihr Feld beim nächsten Datenlauf.
@@ -6166,9 +6160,8 @@ pruefe(
   pruefe('die Feldliste am Suchfeld nennt genau die durchsuchten Felder',
     JSON.stringify(benutzt) === JSON.stringify(beschriftet), `${benutzt} / ${beschriftet}`)
   /*
-    **Der Hinweis nennt das Feld und seinen Inhalt, nicht nur das Wort** (Daniel, 29.09.2026: „im
-    tooltip muss noch erwähnt werden was im feld in dem das match ist drin steht, und den teil davon
-    highlighten"). Gemessen wird die Textfassung (`fundstelleHinweis`); die Blase zeigt denselben
+    **Der Hinweis nennt das Feld und seinen Inhalt, nicht nur das Wort**. Gemessen wird die
+    Textfassung (`fundstelleHinweis`); die Blase zeigt denselben
     Auszug mit der Stelle als Markierung (`FeldAuszug`).
   */
   const genau = fundstelleHinweis({
@@ -6198,8 +6191,8 @@ pruefe(
     unscharf,
   )
   /*
-    **Das Fragezeichen sitzt im Suchfeld, rechts** (Daniel, 29.09.2026: „den icon rechts vom input
-    ins input (rechts) packen"). Zwei Hälften, die zusammengehören: die absolute Lage im Feld und
+    **Das Fragezeichen sitzt im Suchfeld, rechts**. Zwei Hälften, die zusammengehören: die absolute
+    Lage im Feld und
     der Platz, den das Feld dafür lässt — fehlt einer von beiden, liegt das Zeichen über dem Text.
   */
   const suchfeldQuelle = readFileSync('web/src/components/Suchfeld.tsx', 'utf8')
@@ -6231,8 +6224,7 @@ pruefe(
     'der Strich ist kein eigenes Element mehr, sondern die Kante',
   )
   /*
-    **Der Rand des Feldes bleibt ganz** (Daniel, 29.09.2026: „rechter bereich darf border nicht
-    entfernen, das orange border muss komplett sein"): Der gekapselte Bereich liegt **innerhalb** des
+    **Der Rand des Feldes bleibt ganz**: Der gekapselte Bereich liegt **innerhalb** des
     Randes (`inset-y-px right-px`) — sonst deckt seine Fläche den Fokusrahmen am rechten Ende zu.
   */
   pruefe(
@@ -6241,8 +6233,7 @@ pruefe(
     'der Bereich liegt auf dem Rahmen',
   )
   /*
-    **Der Tooltip bleibt im Bild** (Daniel, 29.09.2026: „aktuell wird er außerhalb des sichtbaren
-    bereichs weiter unten angezeigt, man muss runterscrollen"). Die gewünschte Seite gilt, wenn sie
+    **Der Tooltip bleibt im Bild**. Die gewünschte Seite gilt, wenn sie
     passt — und danach wird die Höhe in jedem Fall ins Fenster geholt.
   */
   pruefe(
@@ -6272,7 +6263,7 @@ pruefe(
     'das native ✕ ist noch an oder der Knopf ist nicht rund',
   )
   /*
-    **Die Lupe verschwand hinter dem Feld** (Daniel, 29.09.2026, mit Bild: „lupe icon unsichtbar").
+    **Die Lupe verschwand hinter dem Feld**.
     Seit das Fragezeichen im Feld sitzt, hat das Feld eine *positionierte* Hülle (`relative`) — und
     positionierte Elemente malen in Baumreihenfolge übereinander: Die Hülle steht hinter der Lupe und
     deckte sie mit ihrem Hintergrund zu. `z-10` an der Lupe holt sie zurück.
@@ -6550,8 +6541,8 @@ pruefe(
     zusammenPunkte(new Map([['a', 0]]), ['a'], ['a']) === 0,
   )
   /*
-    **Das Füllwort wird hervorgehoben** (Daniel, 29.09.2026: „a in a Girl treffern ist nicht
-    gehighlighted"): Es entscheidet nicht über den Treffer, steht aber als Fundstelle dabei — sonst
+    **Das Füllwort wird hervorgehoben**: Es entscheidet nicht über den Treffer, steht aber als
+    Fundstelle dabei — sonst
     bliebe im Namen blass, was den Treffer mitbegründet.
   */
   const macht = sucheMitFundstellen(
@@ -6577,8 +6568,7 @@ pruefe(
       .every((s) => s.ganzesWort),
   )
   /*
-    **Bei Gruppierung ist der Reihenkopf der sichtbare Name** (Daniel, 29.09.2026: „es ist ein
-    sekundär treffer (nicht im sichtbaren titel) und entsprechend später zu kategorisieren"): Auf der
+    **Bei Gruppierung ist der Reihenkopf der sichtbare Name**: Auf der
     Karte stand „Haikyu!! Lev ist hier!", getroffen hatte „Haikyu!! Lev **Ken**zen" — ein anderer
     Titel derselben Reihe.
   */
@@ -7050,8 +7040,8 @@ pruefe(
 }
 {
   /*
-    „Läuft" kommt aus dem Programmende, nicht aus einer festen Dauer (Daniel, 22.09.2026: „wegen
-    werbepause"). One Piece auf ProSieben MAXX: 18:50–19:20 — um 19:17 läuft sie noch.
+    „Läuft" kommt aus dem Programmende, nicht aus einer festen Dauer. One Piece auf ProSieben MAXX:
+    18:50–19:20 — um 19:17 läuft sie noch.
   */
   const op = { id: 21, streams: [] } as unknown as Title
   const tv = {

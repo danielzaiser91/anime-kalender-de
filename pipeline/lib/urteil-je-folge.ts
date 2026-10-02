@@ -252,7 +252,7 @@ export function staffelTreffer(
  * **Eine Adresse unbekannte Meldung über ihren Namen zuordnen** — wie der Einleser
  * (`fetch-pruefungen.ts`, Zeile 599–649): Der Anbieter-Name (`serientitel`, sonst `titel`) muss
  * **exakt** auf genau einen unserer Titel passen. Ein Name ist eine Ähnlichkeit, kein Beleg
- * (Daniel, 23.08.2026: „ein Name ist eine Ähnlichkeit, kein Beleg") — deshalb nichts Ungefähres,
+ * — deshalb nichts Ungefähres,
  * kein Anfangstreffer, nur der eine exakte.
  */
 export function nameIndex(

@@ -35,8 +35,7 @@ export function verpasstAmTermin(slug: string, verpasst: Verpasst[], ab?: string
       **Ein Termin vor dem heutigen Start ist keine versäumte Folge.** Der
       Apothekerin-Eintrag entstand aus der Schätzung „01.10."; als die
       Ankündigung den 02.10. belegte, beschrieb er einen Tag, den nie jemand
-      angekündigt hatte (Daniel, 01.10.2026: „Folge 1 war nie für den 30.09.
-      angekündigt, jedenfalls haben wir keine Belege dafür"). Gezählt wird nur,
+      angekündigt hatte. Gezählt wird nur,
       was **ab** dem geltenden Start liegt.
     */
     .filter((v) => v.slug === slug && v.episode != null && (!ab || v.erwartetAm.slice(0, 10) >= ab))

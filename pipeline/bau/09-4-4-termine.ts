@@ -84,9 +84,8 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       **ob** es eine deutsche Fassung gibt und warf weg, **wann** sie kam —
       obwohl beides in derselben Antwort steht. Der Kalender zeigte für „Die
       Tagebücher der Apothekerin“ deshalb nur eine Blu-ray im September 2026,
-      für eine Serie, die seit dem 18.11.2023 vollständig deutsch läuft
-      (Daniel, 02.09.2026: „CRUNCHY WIRD VON UNS GESCANNED!!! WIE Kann so
-      unglaublich falsche info bei uns stehen???“). 21.689 datierte deutsche
+      für eine Serie, die seit dem 18.11.2023 vollständig deutsch läuft.
+      21.689 datierte deutsche
       Folgen lagen ungenutzt im Repo.
 
       Die Ableitung steht in `lib/crunchyroll-termine.ts` und ist bewusst

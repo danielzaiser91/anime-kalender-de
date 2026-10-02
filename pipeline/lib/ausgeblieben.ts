@@ -22,8 +22,7 @@ const TAG = 24 * STUNDE
 
 /*
   Fristen und Fälligkeit stehen seit dem 15.09.2026 in `shared/recherche-plan.ts`:
-  Die Seite nennt dieselbe nächste Recherche, die der Lauf ansetzt (Daniel: „wann
-  steht die nächste Prüfung an? Offen kommunizieren").
+  Die Seite nennt dieselbe nächste Recherche, die der Lauf ansetzt.
 */
 export {
   RECHERCHE_AB_MS,

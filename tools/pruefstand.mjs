@@ -74,8 +74,7 @@ const ANBIETER = [
 
       Zwei Rechnungen für dieselbe Sache laufen auseinander, und am 30.08.2026
       taten sie es sichtbar: Die Statusanzeige schrieb „58 Suchen", die
-      Erweiterung im selben Moment „122 von 176 offen" (Daniel: „wieso die
-      diskrepanz? es sollte synchron sein").
+      Erweiterung im selben Moment „122 von 176 offen".
 
       Maßgeblich ist die Liste, die Daniel wirklich abarbeitet.
     */

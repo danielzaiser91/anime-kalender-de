@@ -181,8 +181,7 @@ function main(): void {
   }
 
   /*
-    **Eine stumme Quelle warnt, sie blockiert nicht** (Daniel, 23.09.2026: „jede gültige quelle
-    soll normal durchlaufen können ohne blockiert zu werden").
+    **Eine stumme Quelle warnt, sie blockiert nicht**.
 
     Vorher endete dieser Schritt mit Fehler, und damit war der ganze Bestandslauf rot — der
     Datensatz war da, committet und geprüft, nur ausgeliefert wurde er nicht. Vier Tage lang

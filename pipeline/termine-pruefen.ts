@@ -190,8 +190,7 @@ function zeitpunkt(e: Ereignis): Date {
  * liefern, der Termin gilt erst ab 23:59:59 Ortszeit als verpasst. Vorher
  * stand hier Mitternacht + fünfzehn Minuten — „Die Tagebücher der Apothekerin"
  * Staffel 3 wurde damit am 01.10. um 01:59 als „nicht erschienen" vermerkt,
- * obwohl der Tag noch lief (Daniel, 01.10.2026: „sollte es bis 01.10. 23:59:59
- * nicht erscheinen, dann …").
+ * obwohl der Tag noch lief.
  *
  * Datum **und** Uhrzeit bekannt: Uhrzeit + Karenz. Die Laufzeit der Folge
  * gehört nach Daniels Vorgabe dazu, steht aber nicht in jedem Termin — sie

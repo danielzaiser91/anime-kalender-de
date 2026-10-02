@@ -440,9 +440,7 @@ export function baueNews(
     **Der Teil nennt, was ihn von der Reihe unterscheidet — nicht die Reihe.**
 
     Unter „Lord of Mysteries" stand „bei Crunchyroll · Lord of Mysteries
-    Specials", blass und hinter dem Anbieter (Daniel, 12.09.2026: „heb besser
-    hervor das es sich bei dem neuzugang nur um die Specials handelt, nicht um
-    die hauptserie. so wie es aktuell dort steht ist es verwirrend"). Der
+    Specials", blass und hinter dem Anbieter. Der
     Reihenname steht eine Zeile höher; hier bleibt „Specials".
   */
   const teilName = (teil: Title, kopf: string) => {

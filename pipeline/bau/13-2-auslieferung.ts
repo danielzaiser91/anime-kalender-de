@@ -52,10 +52,7 @@ export function baueAuslieferung({
 
           Die Kennung liegt im Haus: 2.621 Titel tragen `anisearchId`. Wo auch
           die fehlt, geht es zur Suche mit dem Titel — `/search?q=`, denn
-          `/anime/index?text=` antwortet mit „Deine Suchanfrage ist ungültig"
-          (Daniel, 12.09.2026, mit Bild: „die anisearch verlinkung läuft ins
-          leere … pack auf die todo diese stelle und alle anderen zu
-          verbessern").
+          `/anime/index?text=` antwortet mit „Deine Suchanfrage ist ungültig".
         */
         eintrag.deSource = {
           name: 'anisearch.de',

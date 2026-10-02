@@ -76,9 +76,7 @@ export function reihenFuerKatalog(
     Festival 60th Anniversary" hängt an Dragon Ball Super **und** am
     One-Piece-Beitrag desselben Festivals. Über diese eine Kante standen **elf
     Dragon-Ball-Titel** in der One-Piece-Reihe, und weil zwei davon ONAs sind
-    (also als Staffeln zählen), war One Piece selbst plötzlich „Staffel 4"
-    (Daniel, mit Bild: „64 titel in reihe komplett unsortiert … Totale müll
-    info. Kritisch.").
+    (also als Staffeln zählen), war One Piece selbst plötzlich „Staffel 4".
 
     **Der Eintrag fällt nicht weg**, er verbindet nur nichts: Seine Kanten
     bleiben ungenutzt, und er erbt unten die Reihe seines ersten Elternteils.

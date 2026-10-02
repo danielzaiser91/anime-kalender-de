@@ -3,9 +3,7 @@
  *
  * Ergänzt `pipeline/bestand-historie.ts`: Die schreibt je Lauf eine Zeile,
  * dieses Werkzeug liest sie zusammen. Gedacht für den täglichen Blick in den
- * nächsten Tagen (Daniel, 26.08.2026: „du es dir für die nächsten paar tage
- * vornimmst dieses delta zu überwachen, sodass wir mitbekommen falls wir
- * irgendwo echte probleme haben").
+ * nächsten Tagen.
  *
  * Aufruf:
  *   node tools/delta-pruefen.mjs [--tage 2] [--alles]

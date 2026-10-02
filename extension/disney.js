@@ -364,8 +364,7 @@
   let pruefKnopf = null
   /*
     Ein Lebenszeichen: Ohne es sieht ein Knopf, der zwei Minuten „sammle Folgen"
-    sagt, aus wie einer, der hängt (Daniel, 26.08.2026: „sammelt er oder lügt
-    er?"). Die Zeichen wechseln jede halbe Sekunde, solange nichts anderes
+    sagt, aus wie einer, der hängt. Die Zeichen wechseln jede halbe Sekunde, solange nichts anderes
     angezeigt wird.
   */
   const ZEICHEN = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']

@@ -129,8 +129,7 @@ export interface TrailerEintrag {
   **Was vor „Trailer" steht — ohne „Teaser", „Offizieller", „Finaler".** Die erste Fassung
   schnitt genau am Wort „Trailer"; „DETEKTIV CONAN: Der gefallene Engel des Highways Teaser
   Trailer Deutsch" (KinoCheck Anime) ergab dadurch „… highways teaser" und traf nicht, obwohl
-  der Trailer seit Wochen im Index lag (Daniel, 19.09.2026: „obwohl der aktuell läuft und es
-  trailer geben sollte").
+  der Trailer seit Wochen im Index lag.
 */
 function filmteilVon(videoTitel: string): string {
   const vor = videoTitel.split(/\b(?:(?:offizielle[rs]?|official|finale[rs]?|final|erste[rs]?|zweite[rs]?|neue[rs]?)\s+)*(?:teaser[\s-]*)?(?:trailer|teaser)\b/i)[0] ?? ''
@@ -358,7 +357,7 @@ async function main(): Promise<void> {
   const bestand = readJson<Record<string, TrailerEintrag>>('data/trailer.json', {})
 
   /*
-    **Nur Filme** (Daniel: „für anime filme trailer"). KinoCheck ist ein
+    **Nur Filme**. KinoCheck ist ein
     Kinokanal; zu einer Fernsehstaffel gibt es dort in aller Regel nichts.
   */
   const filme = titles.filter((t) => t.format === 'MOVIE')

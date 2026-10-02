@@ -111,7 +111,7 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
 
   /**
    * **Ein Abo-Angebot mit belegtem deutschem Ton kommt auch dazu, wenn der Titel schon Wege
-   * hat** (Daniel, 23.09.2026: „ja").
+   * hat**.
    *
    * Die Runde darüber ergänzt nur Titel **ohne jeden** Weg — eine Regel gegen Listen von zwölf
    * Amazon-Varianten. Sie ließ 40 Angebote liegen, bei denen JustWatch die deutsche Tonspur je

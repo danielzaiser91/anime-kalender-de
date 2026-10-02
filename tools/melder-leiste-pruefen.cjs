@@ -209,7 +209,7 @@ pruefe(
   **Der Riegel, an dem es hing.** Die Leiste wird im Player abgeräumt, und mit
   ihr Feld und Knopf. Wer danach zur Titelseite zurückkehrt, sieht sie nur
   wieder, wenn beide Referenzen genullt wurden — sonst hält der Aufbau sie für
-  vorhanden (Daniel, 31.08.2026: „das input ist weg").
+  vorhanden.
 */
 pruefe(
   'beim Abräumen der Leiste werden Feld und Knopf genullt',
@@ -274,8 +274,8 @@ pruefe(
   **Der Maßstab für „schon gemeldet" ist der Prüfstand** (01.10.2026). Auf Disney+ blendete der
   Kasten „Bleach: Thousand-Year Blood War" aus, weil Meldungen seit seinem Eintragsdatum (27.09.)
   vorlagen — die Liste (Prüfstand vom 30.09.) verlangt den Titel aber erneut, weil die alten
-  Meldungen Folgentitel statt Nummern trugen. Die Statusanzeige zählte 2 Titel, der Kasten 1
-  (Daniel: „woher die diskrepanz?"). Geprüft wird der Quelltext — der Zeitpunkt entsteht zur
+  Meldungen Folgentitel statt Nummern trugen. Die Statusanzeige zählte 2 Titel, der Kasten 1.
+  Geprüft wird der Quelltext — der Zeitpunkt entsteht zur
   Laufzeit aus `?stand=1`.
 */
 {

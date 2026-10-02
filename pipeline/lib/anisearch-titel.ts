@@ -51,9 +51,8 @@ export function titelAus(
    *
    * 8.683 Katalogtitel haben bei AniList kein `title.english`, 5.690 davon zu
    * chinesischen Originalen — 656 davon stehen in der Reihe eines Titels, den
-   * jemand öffnen kann. Dort stand dann „Guimi Zhi Zhu: Wu Mian Ren Pian"
-   * (Daniel, 12.09.2026: „why 2 of these titles have chinese titles, instead of
-   * english/german"). aniSearch führt den englischen Namen im selben
+   * jemand öffnen kann. Dort stand dann „Guimi Zhi Zhu: Wu Mian Ren Pian".
+   * aniSearch führt den englischen Namen im selben
    * Sprachblock, aus dem der deutsche kommt.
    */
   const englisch = info?.languages?.find((l) => l.language === 'Englisch')?.title?.trim() || undefined
@@ -95,8 +94,7 @@ export function titelAus(
  * **Ein englischer Name aus aniSearchs Synonymen — für Titel, die sonst japanisch heißen.**
  *
  * Die Dai-Filme standen am 16.09.2026 als „Dai no Daibouken Tachiagare!! Avan no Shito" in
- * der Reihe (Daniel: „wann sehe ich die deutschen/englischen titel, statt den
- * japanischen?"). Weder AniList noch aniSearchs Sprachblock führen einen englischen Namen;
+ * der Reihe. Weder AniList noch aniSearchs Sprachblock führen einen englischen Namen;
  * die Synonyme schon: „Dragon Quest: The Adventure of Dai - Avan’s Disciples".
  *
  * aniSearch kennzeichnet Synonyme nicht nach Sprache. Erkannt wird Englisch an einem

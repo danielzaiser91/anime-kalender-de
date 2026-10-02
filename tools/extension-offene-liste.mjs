@@ -105,8 +105,7 @@ const anisearchKennung = (() => {
 })()
 
 /**
- * **Drei Zustände je Folge, eine Quelle** (Daniel, 11.09.2026: „zustände sind
- * schließlich nur: gemeldet (+datum wann zuletzt), zu melden, erneut melden").
+ * **Drei Zustände je Folge, eine Quelle**.
  *
  * Aus dem Bestand kommt je Eintrag, was er über seine Folgen weiß:
  *
@@ -170,8 +169,7 @@ for (const [id, eintraege] of jeAdresse) {
 
     Der Grundfilter zeigt, was **kein** Urteil hat. Wer in
     `data/tonspur-verdacht.json` steht, hat eines, dem eine zweite Quelle
-    widerspricht; er gehört genauso auf die Liste (Daniel, 31.08.2026: „das kann
-    doch alles auf die prüfliste und mit extension gecheckt werden oder nicht?").
+    widerspricht; er gehört genauso auf die Liste.
   */
   const verdacht = eintraege.map((e) => verdaechtig.get(e.t.id)).find(Boolean)
   /*
@@ -197,8 +195,7 @@ for (const [id, eintraege] of jeAdresse) {
    * und vier OVAs dazwischen. Netflix führt die OVAs nicht als eigene Staffeln —
    * es zeigt fünf. In der Liste standen sie trotzdem, und weil sie auf den
    * Positionen 2, 4, 6 und 8 lagen, hieß es dort „Film 2, Film 4, Film 6,
-   * Film 8" bei einer Serie (Daniel, 22.08.2026: „komische liste und komisches
-   * haiku!!").
+   * Film 8" bei einer Serie.
    *
    * Ein Titel, an dessen Adresse **nur** Filme hängen, bleibt unberührt — dort
    * ist der Film die Sache selbst, nicht das Beiwerk.

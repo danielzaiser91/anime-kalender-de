@@ -186,8 +186,7 @@ function reihenTeil(basis: Title, alle: Title[], text: string): Title | undefine
    * Staffelaufteilung nicht der des Artikels entspricht — und das ist der
    * Normalfall. Bei Re:ZERO führen wir „Season 2 Part 2" als eigenen Eintrag;
    * die vierte Position unserer Liste ist deshalb Staffel 3, und eine Meldung
-   * über Staffel 4 landete am falschen Titel (Daniel, 15.08.2026: „im wortlaut
-   * von staffel 4 geredet wird, das panel aber staffel 3 ist").
+   * über Staffel 4 landete am falschen Titel.
    *
    * Trägt ein Titel die Zahl im Namen — „Staffel 4", „Season 4" —, ist das die
    * verlässliche Auskunft. Sie kommt aus derselben Quelle wie der Artikel und

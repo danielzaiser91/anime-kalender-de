@@ -249,8 +249,7 @@ pruefe('und das Wegnavigieren geht stattdessen hinaus', extern.includes('https:/
 pruefe('kein Hilfsfenster bleibt übrig', offen === 1, `${offen} Fenster`)
 
 /*
-  **4. Das Gitter: alle Lauf-Arten, immer sichtbar** (Daniel, 28.09.2026: „alle lauf-arten immer
-  sichtbar", „kacheln, feste reihenfolge plus zähler").
+  **4. Das Gitter: alle Lauf-Arten, immer sichtbar**.
 */
 await seite.reload({ waitUntil: 'domcontentloaded' })
 await seite.waitForTimeout(1200)
@@ -326,8 +325,7 @@ pruefe('der Weg zurück führt ins Gitter',
   (await seite.evaluate(() => document.querySelectorAll('.kachel').length)) === 18)
 
 /*
-  **6. Antwortet der Dienst nicht, bleibt der letzte Stand stehen** (Daniel: „status app zeigt
-  fehler, warum? fix es" — und „so ein kontingent fehler sollte viel sichtbarer sein").
+  **6. Antwortet der Dienst nicht, bleibt der letzte Stand stehen**.
 */
 const ausfallAntworten = (r) =>
   r.fulfill({ status: 500, contentType: 'text/html', body: '<html><body>error code: 1101</body></html>' })

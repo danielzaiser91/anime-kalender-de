@@ -416,8 +416,7 @@ const auffaellig: string[] = []
  *
  * Das ist die einzige verlässliche Grundlage für die Frage „welche Folge soll
  * ich anklicken": Netflix führt BAKI-DOU als **eine** Staffel mit 25 Folgen,
- * unser Datensatz als zwei mit 13 und 12 (Daniel, 22.08.2026: „es gibt keine
- * staffel 2, wie die liste es behauptet"). Und bei My Hero Academia zählt
+ * unser Datensatz als zwei mit 13 und 12. Und bei My Hero Academia zählt
  * Netflix über alle Staffeln durch — Staffel 7 beginnt bei Folge 146.
  *
  * Wer hier rät, schickt jemanden zu einer Folge, die es nicht gibt.
@@ -909,8 +908,7 @@ for (const gruppe of jeAdresse.values()) {
   /**
    * Eine durchgezählte Folgennummer gehört genau **einer** Staffel.
    *
-   * Netflix zählt Jujutsu Kaisen durch bis 59 (Daniel, 22.08.2026: „staffel 1
-   * (bis 24) staffel 2 (bis 47) staffel 3 (bis 59)"). Unser Datensatz führt
+   * Netflix zählt Jujutsu Kaisen durch bis 59. Unser Datensatz führt
    * dieselbe Adresse an drei AniList-Einträgen. Vorher bekamen alle drei
    * denselben Befund — eine Prüfung an Folge 59 hätte also auch Staffel 1 als
    * geprüft ausgewiesen, obwohl niemand sie angesehen hat.
@@ -1404,8 +1402,7 @@ if (ohneZuordnung.length && !TROCKEN) {
      * Kein `#` vor der Kennung.
      *
      * Markdown-Ansichten deuten `#154965` als Verweis auf ein GitHub-Ticket und
-     * führen ins Leere (Daniel, 23.08.2026: „die hashtag-nummern führen zu
-     * github 404"). Verlinkt wird stattdessen die Titelseite bei AniList — dort
+     * führen ins Leere. Verlinkt wird stattdessen die Titelseite bei AniList — dort
      * steht, worum es geht.
      */
     const namen = o.vorschlag.map((id) => {

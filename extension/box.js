@@ -34,7 +34,7 @@
  *
  * `fuerAdresse` ist die Kennung der Seite, zu der er gehört. Wechselt sie,
  * wird er ersetzt: Ein stehengebliebener Kasten beschriebe eine Seite, die
- * niemand mehr ansieht (Daniel, 30.08.2026: „warum ändert sich das div nicht").
+ * niemand mehr ansieht.
  *
  * **Der Schlüssel darf nicht die volle Adresse sein.** Prime schreibt `ref_`,
  * `qid` und `sr` während des Betrachtens laufend um; der Vergleich schlug damit
@@ -69,8 +69,7 @@ function akBox(kennung, fuerAdresse) {
   kasten.className = 'ak-box ' + kennung
   kasten.dataset.fuerAdresse = fuerAdresse
   /*
-    **Die Version steht am Kasten** (Daniel, 19.09.2026: „so kannst du dir bei
-    screenshots auch der version sicher sein"). Als Datenattribut, gezeichnet per
+    **Die Version steht am Kasten**. Als Datenattribut, gezeichnet per
     `::before` — ein Kind-Element würde `:has(> :not(:empty))` füllen und einen
     sonst leeren Kasten sichtbar machen.
   */
@@ -128,8 +127,7 @@ function akDebugLeiste(kasten, schalter) {
         **Knopf und Beschriftung sind ein Paar** — so erwartet es `melder.css`
         seit dem 02.09.2026: `.ak-debugpaar` hält beide beim Umbruch zusammen,
         damit kein Text unter dem falschen Knopf landet. Ein Schalter ohne
-        Beschriftung ist ein Rätsel (Daniel: „neben dem button steht ein
-        kurztext was der button macht"), und das Zeichen allein trägt nur,
+        Beschriftung ist ein Rätsel, und das Zeichen allein trägt nur,
         solange es allein steht.
       */
       const paar = document.createElement('span')

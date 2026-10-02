@@ -533,10 +533,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
   Bis 4.13.7 stellte `taktSchritt()` beides fest — und der läuft alle 500 ms,
   im Sparmodus alle vier Sekunden. Auf einer fertig gelesenen Seite kam ein
-  Wechsel deshalb bis zu vier Sekunden zu spät an (Daniel, 06.09.2026: „ein
-  wechsel muss sofort erkannt werden, und das ist sehr leicht anhand der href
-  erkennbar, die teure logik muss dahinter liegen und darf nicht zufällig
-  triggern").
+  Wechsel deshalb bis zu vier Sekunden zu spät an.
 
   Der Wachposten vergleicht eine Zeichenkette und löst bei Änderung sofort
   einen Takt aus. Geprüft wird beides: dass es ihn gibt, und dass er nur bei
@@ -1247,8 +1244,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
    * Ein Titel gilt erst als durch, wenn so viele Staffeln gemeldet sind, wie
    * die Seite nennt — vorher bleibt seine Zeile stehen und zeigt „1/5".
    * Vorher stand dort ein blosser String, und eine Meldung hakte alle Staffeln
-   * mit ab (Daniel: „aus der prüf liste verschwunden obwohl ich nur staffel 1
-   * gemeldet habe").
+   * mit ab.
    */
   const dreiErledigt = Object.fromEntries(
     Object.keys(ECHTE_LISTE)
@@ -1398,8 +1394,8 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
         In 4.13.6 setzte der Zweig „alles durch" die Marke direkt, während der
         Takt darüber sie aus dem Pfad-Merker ableitete — zwei Quellen für
-        dieselbe Anzeige, und sie erschien und verschwand im Halbsekundentakt
-        (Daniel, 06.09.2026: „was zur hölle"). Wer die Marke will, setzt den
+        dieselbe Anzeige, und sie erschien und verschwand im Halbsekundentakt.
+        Wer die Marke will, setzt den
         Merker; angezeigt wird sie an genau einer Stelle.
       */
       pruefe(
@@ -1467,7 +1463,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
         Ein `<button>` und ein `<a>` nebeneinander laufen auseinander, sobald
         jeder seine Höhe selbst aus Schrift und Innenabstand bildet — genau das
-        war zu sehen (Daniel, 02.09.2026: „sie sind nicht pixelgenau"). Steht
+        war zu sehen. Steht
         die Geometrie in einer Regel für beide, kann das nicht mehr passieren.
       */
       pruefe(
@@ -1491,8 +1487,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       )
       /*
         Beide Hälften sind gleich breit — sonst sitzt der Knopf je nach Länge
-        seiner Beschriftung woanders (Daniel, 02.09.2026: „mach prüfliste button
-        50% und links geklemmt, ani search die anderen 50%“).
+        seiner Beschriftung woanders.
       */
       /*
         **Die Aufteilung wird gemessen, nicht im Stylesheet gesucht.**

@@ -422,8 +422,7 @@ pruefe(
  * „Kennt der Briefkasten die Adresse nicht, ist nichts gemeldet" stand am
  * 30.08.2026 in `fertig()` und in der Marke der Liste — im Melde-Knopf nicht.
  * Der sperrte sich mit „✓ alles gemeldet" auf einem Eintrag, den die Liste
- * daneben als „nicht angekommen" führte (Daniel: „wie soll ich das erneut
- * melden?"). Drei Kopien derselben Regel laufen auseinander.
+ * daneben als „nicht angekommen" führte. Drei Kopien derselben Regel laufen auseinander.
  *
  * Geprüft wird deshalb nicht das Verhalten, sondern die Bauweise: Es gibt eine
  * Funktion, und die drei Stellen rufen sie auf.
@@ -604,9 +603,7 @@ pruefe(
   und wird ins Bild geholt. Beides fällt lautlos aus, wenn jemand den dritten
   Parameter weglässt — der Knopf sieht dann normal aus und markiert nichts.
 
-  Genau das war der Einzeltreffer-Knopf (Daniel, 07.09.2026: „hover auf
-  extension button ‚öffnen' highlighted nicht mehr die suchkachel die ausgewählt
-  werden würde"). Beim Nachrüsten fand diese Zusicherung **zwei weitere** Fälle
+  Genau das war der Einzeltreffer-Knopf. Beim Nachrüsten fand diese Zusicherung **zwei weitere** Fälle
   derselben Art — „Zur Reihe springen" und „Als Sammelfassung öffnen".
 
   Die Prüfung nimmt jeden Aufruf, der `location.href` auf die Adresse eines

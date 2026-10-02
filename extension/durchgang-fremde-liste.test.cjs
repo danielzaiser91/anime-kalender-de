@@ -83,11 +83,10 @@ pruefe('… bevor es über Staffeln entscheidet', riegel > 0 && riegel < start.i
 pruefe('… und gibt nach einer Frist auf, statt still zu hängen', /spur\('keine Folgenliste'/.test(start))
 
 /*
-  Seit 24.09.2026 (Daniel: „man kann die extension einfach alle staffeln durchgehen und melden
-  lassen"): kein Überspringen wegen unklarer Staffel mehr, stattdessen jede Menü-Staffel einmal.
+  Seit 24.09.2026: kein Überspringen wegen unklarer Staffel mehr, stattdessen jede Menü-Staffel einmal.
 */
 pruefe('kein Überspringen wegen unklarer Staffel', !/Staffel nicht eindeutig/.test(start))
-/* Seit 4.22.0 (Daniel: „alle folgen … dann alle 1. und letzte jeder staffel direkt hintereinander prüfen"). */
+/* Seit 4.22.0. */
 pruefe('erst sammeln, dann je Staffel prüfen', /await selbstSammeln\(reihe\)/.test(start) && /for \(const \[seasonId, gruppe\] of folgenJeStaffel\(DURCHLAUF\.alleFolgen/.test(start))
 /* 30.09.2026: Jede Staffel ist nach einem Lauf durch — vorher lief eine meldende Staffel zweimal („18/14"). */
 pruefe('eine Staffel ist nach einem Lauf geprüft', /selbstStaffelnGeprueft\.add\(schluessel\)/.test(start) && !/=== vorher/.test(start))

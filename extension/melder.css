@@ -720,7 +720,7 @@
     Sie stand bis 3.53 auf 2147483000 — demselben Wert wie `.ak-uebersicht`.
     Bei Gleichstand gewinnt das später eingefügte Element, und die Fläche
     entsteht im Takt, also nach dem Knopf: Sie lag darüber und schluckte jeden
-    Klick (Daniel, 27.08.2026: „also the button is not clickable anymore").
+    Klick.
 
     Amazons Karten liegen weit darunter — ein Wert unter allem Eigenen genügt.
   */
@@ -734,11 +734,9 @@
 
   Eine unsichtbare Fläche, die nicht wirkt, lässt sich nicht beurteilen: Man
   sieht die aufgeklappte Karte, aber nicht, ob die Fläche daneben, darunter
-  oder gar nicht liegt (Daniel, 27.08.2026: „statt transparent zeig es, damit
-  ich sehe wo es liegt aktuell").
+  oder gar nicht liegt.
 
-  Der Schutz sitzt seit 3.54 (Daniel: „schutzbereich funktioniert wie zu
-  erwarten"), die Klasse hängt deshalb an keinem Element mehr. Sie bleibt
+  Der Schutz sitzt seit 3.54, die Klasse hängt deshalb an keinem Element mehr. Sie bleibt
   hier stehen: An einem Abend hat sie drei Fehler sichtbar gemacht, die
   unsichtbar nicht zu finden waren — die falsche Größe, die verschluckten
   Klicks, und dass die Fläche wegen `offsetParent` überhaupt nie entstand.
@@ -811,8 +809,7 @@
 
 /*
   „gemeldet ✓" ist ein Ergebnis, kein Hinweis — und sah bis zum 02.09.2026 aus
-  wie einer (Daniel: „farblich oder anders sichtbar stylen, besser, nicht als
-  simplen text identisch zum hinweis"). Wer den Kasten überfliegt, sucht genau
+  wie einer. Wer den Kasten überfliegt, sucht genau
   diese Zeile.
 */
 /*
@@ -955,8 +952,7 @@
   /*
     `flex` statt `inline-flex`, damit die Pille ihre Grid-Spalte ausfüllt.
     Als `inline-flex` war sie so breit wie ihr Text, und der aniSearch-Knopf
-    saß dann nicht mittig in seiner Hälfte (Daniel, 02.09.2026: „ani search
-    text ist nicht zentriert, prüfliste button sitzt komisch“).
+    saß dann nicht mittig in seiner Hälfte.
   */
   /*
     **Beide Zentrierungen, weil Amazon `display` überschreiben kann.**
@@ -994,8 +990,7 @@
     Nach einem Neuladen der Erweiterung trägt der Prüflisten-Knopf den Satz
     „Erweiterung neu geladen — Seite aktualisieren". Mit `line-height: 1` und
     ohne Umbruch lief er waagerecht aus seiner Hälfte heraus und legte sich über
-    den aniSearch-Knopf daneben (Daniel, 06.09.2026, mit Bild: „warum geht das
-    styling kaputt, wenn neue extension version geladen wurde?").
+    den aniSearch-Knopf daneben.
 
     Die Pille wächst dann in die Höhe — beide Hälften bleiben gleich breit, und
     nichts überlappt. Bei den kurzen Beschriftungen des Normalfalls ändert sich
@@ -1241,9 +1236,7 @@
   damit nichts über sich.
 */
 /*
-  **Dasselbe Gerüst auf allen drei Seiten** (Daniel, 10.09.2026: „am besten
-  selbe extension design auf allen seiten fürs reporten, aber jede seite hat
-  eigenheiten"). `.ak-box` trägt Aussehen und Aufbau, die Anbieterklasse
+  **Dasselbe Gerüst auf allen drei Seiten**. `.ak-box` trägt Aussehen und Aufbau, die Anbieterklasse
   daneben nur die Lage — bei Prime unten rechts, bei Netflix daneben, weil dort
   der Player seine eigenen Bedienelemente hat.
 */
@@ -1296,8 +1289,7 @@
 }
 
 /*
-  **Die Debug-Zeile steht unter einer Trennlinie** (Daniel, 10.09.2026: „pack
-  dort auch unten ne trennlinie für debug icons rein"). Sie gehört nicht zur
+  **Die Debug-Zeile steht unter einer Trennlinie**. Sie gehört nicht zur
   Arbeit an der Seite, sondern zur Arbeit an der Erweiterung — und was
   verschiedene Dinge sind, soll auch verschieden aussehen.
 
@@ -1337,7 +1329,7 @@
   **Das X legt den Titel weg.**
 
   Klein und zurückhaltend: Es ist ein Ausweg, keine Handlung, die man
-  anbieten will (Daniel, 02.09.2026: „um diesen titel nicht mehr zu suchen").
+  anbieten will.
   Unter dem Zeiger wird es deutlich — wer es sucht, findet es.
 */
 .ak-z-weg {
@@ -1348,7 +1340,7 @@
     Der Kommentar an `.ak-debugknopf` sagt es seit dem 02.09.2026: „Ein Zeichen
     wie ▶ oder ⏸ sitzt in seiner Schriftart weder waagerecht noch senkrecht in
     der Mitte." Dasselbe gilt für ✕ — hier stand nur `line-height: 1`, und das
-    stellt es nicht (Daniel, 02.09.2026: „x is not centered").
+    stellt es nicht.
 
     Eine Lehre, die zwanzig Zeilen weiter oben steht und trotzdem nicht getragen
     hat: `flex` mit zwei `center` gehört an **jeden** Knopf, dessen Inhalt ein

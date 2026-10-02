@@ -224,8 +224,7 @@ export function werteLinkpruefungAus({
        * Ein Kanal ist keine Folgenliste: Er beantwortet nicht, ob **dieser**
        * Titel dort zu sehen ist, sondern zeigt irgendwas vom Sender. Bis zum
        * 20.08.2026 blieben sie stehen, weil sie sich nicht bewerten lassen —
-       * genau das ist aber der Grund, sie wegzulassen (Daniel: „YouTube-
-       * Verlinkungen zu Kanälen statt Videos/Playlists direkt streichen").
+       * genau das ist aber der Grund, sie wegzulassen.
        */
       if (yt?.art === 'kanal') {
         ytEntfernt++

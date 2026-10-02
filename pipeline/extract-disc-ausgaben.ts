@@ -64,7 +64,7 @@ interface Ausgabe {
  * aniSearch setzt eine Plakette (`<div class="rank">Blu-ray</div>`) an Blu-ray, 4K,
  * eBook und Spiele — an DVDs **nicht**. „Dragon Quest: The Adventure of Dai -
  * Komplettset" ist die DVD neben „… - Komplettset [Blu-ray]" und fiel deshalb bis zum
- * 16.09.2026 heraus (Daniel: „die discs … sind in blueray und dvd aufgeteilt").
+ * 16.09.2026 heraus.
  * Gemessen über 27.695 deutsche Artikel: 4.499 Blu-ray-Plaketten, keine einzige für DVD.
  *
  * Ohne Plakette steht aber auch Manga („Bd. 12"), Figuren und Musik. Eine DVD ist es

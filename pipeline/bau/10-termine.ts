@@ -56,7 +56,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
     .sort((a, b) => (a.date === b.date ? (a.time ?? '99') .localeCompare(b.time ?? '99') : a.date.localeCompare(b.date)))
 
   /**
-   * **Stufe 4, Schritt 1: das Urteil schließt Lücken** (Daniel, 23.09.2026: „stufe 4 go").
+   * **Stufe 4, Schritt 1: das Urteil schließt Lücken**.
    *
    * `data/urteile.json` entsteht in Stufe 3 aus allen Beobachtungen je Folge und Anbieter
    * (`lib/urteil-je-folge.ts`): die jüngste gewinnt, am selben Tag schlägt gemessen die

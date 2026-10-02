@@ -77,8 +77,7 @@
    * Der erste Anlauf nahm jeden Knoten mit Kennung und `pagination.totalCount`.
    * Damit fiel die Empfehlungsleiste mit hinein, die genauso aufgebaut ist: Bei
    * Beyblade X kam „86 Folgen" als 51 + 35 heraus, gemeldet wurden aber 94 —
-   * die acht Empfehlungen (Daniel, 26.08.2026: „51 + 35 = 86, woher kommen die
-   * 94?").
+   * die acht Empfehlungen.
    *
    * Staffeln stehen an genau einer Stelle. Wer dort nachsieht statt zu suchen,
    * findet keine Nachbarn.

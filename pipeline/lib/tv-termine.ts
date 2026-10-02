@@ -255,7 +255,7 @@ export function releasesAusTvProgramm(
       releaseType: 'weekly',
       schedule: {
         firstEpisodeDate: berlinTag(erste.start),
-        /* Eine Uhrzeit für alle, sonst je Folge (Daniel, 19.09.2026: „uhrzeit ist wichtig"). */
+        /* Eine Uhrzeit für alle, sonst je Folge. */
         ...(zeiten.size === 1 ? { time: [...zeiten][0] } : { zeiten: zeitJeFolge }),
         ...(ab > 1 ? { firstEpisodeNumber: ab } : {}),
         episodeCount: n,

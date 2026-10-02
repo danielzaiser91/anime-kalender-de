@@ -1,6 +1,5 @@
 /**
- * **Neue JustWatch-Daten entfernen nichts von selbst** (Daniel, 17.09.2026: „es kann ja
- * sein das es legitim ist, aber zur sicherheit handprüfen").
+ * **Neue JustWatch-Daten entfernen nichts von selbst**.
  *
  * Seit dem 17.09.2026 fragt der Wochenlauf JustWatch zu allen Titeln, nicht mehr nur zu
  * offenen. Am selben Abend zeigte Daniels Gegenprobe, dass JustWatch einem Angebot die

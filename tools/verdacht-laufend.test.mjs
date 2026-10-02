@@ -65,7 +65,7 @@ pruefe('fremder Anbieter → nie', !laufendeSynchro([halb(1, '2026-09-01')], tit
 pruefe('Titel nicht im Bestand → nie', !laufendeSynchro([halb(99, '2026-09-01')], titel, 'disneyplus', '2026-10-30').has(99))
 
 /*
-  Kill Blue (Daniel, 28.09.2026: „kill blue ist auf prüfliste, ist aber bereits gemeldet").
+  Kill Blue.
   Zwei Belege desselben Titels: der ältere (07.09.) sagt „1–8 deutsch" und nennt **keine**
   Adresse, der jüngere (26.09.) sagt „alle 12 deutsch" und nennt die Adresse. Ohne die
   Zusammenführung liefen beide in eigenen Spuren, und die ältere hielt die Wiedervorlage.

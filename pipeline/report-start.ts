@@ -143,8 +143,7 @@ const aufgaben = [
     wie: 'Seite öffnen, Knopf drücken',
   },
   /*
-    **Eine Frage, kein Listenposten** (Daniel, 01.10.2026: „schreib auf die todo als neuen daniel todo
-    zu prüfen ob 2 korrekt ist, weil alle episoden grün angezeigt werden"). Die Zahl stimmt mit der
+    **Eine Frage, kein Listenposten**. Die Zahl stimmt mit der
     Statusanzeige überein, aber auf der Seite sieht alles gemeldet aus. Bleibt stehen, bis geklärt ist,
     ob die Liste recht hat oder die Grün-Markierung lügt.
   */

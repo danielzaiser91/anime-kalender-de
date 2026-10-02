@@ -344,8 +344,7 @@ export async function katalogSeite(
         „Dragon Ball: Annecy Festival 60th Anniversary" trägt `PARENT` auf
         Dragon Ball Super **und** auf den One-Piece-Beitrag desselben Festivals.
         Über diese eine Kante klebten am 03.09.2026 elf Dragon-Ball-Titel in der
-        One-Piece-Reihe (Daniel, mit Bild: „64 titel in reihe komplett
-        unsortiert").
+        One-Piece-Reihe.
 
         Der Hauptbestand kennt diese Regel seit dem 12.08.2026 (`crossoverEltern`
         in `build.ts`), der Katalog nicht — dort standen nur die Kennungen, nicht

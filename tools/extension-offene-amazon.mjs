@@ -398,8 +398,7 @@ for (const [asin, eintraege] of jeAsin) {
   **Und römisch gezählt wird genauso oft.** „Mob Psycho 100 II" und „III" stehen
   bei Prime unter einer Seite mit drei Staffeln, gemeldet waren sie längst — in
   der Prüfliste standen sie trotzdem, weil das Muster nur arabische Ziffern
-  kannte (Daniel, 30.08.2026: „sie hätten entsprechend nicht in der prüfliste
-  auftauchen dürfen … suche nicht nach titel, sondern nach logischer referenz").
+  kannte.
 
   **Nur II, III und IV.** Von V an wird es unsicher, und `X` ist meistens gar
   keine Zahl: „Sonic X", „Triage X", „Mysterious Girlfriend X", „Tales of

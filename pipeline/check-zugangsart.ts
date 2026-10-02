@@ -201,7 +201,7 @@ console.log('\nSuchadressen behaupten kein Angebot:')
     Hier stand `suchadressen.length > 0` mit der Begründung, die Regel darüber
     prüfe sonst irgendwann nichts mehr. Die Sorge war berechtigt, die Bedingung
     war es nicht: Seit heute fliegt jede Suchadresse aus dem Datensatz
-    (Daniel: „alle links die auf such query gehen … müssen entfernt werden"),
+   ,
     also ist null der **Zielzustand** — und die Zusicherung wurde rot, weil die
     Arbeit fertig war. Genau der Fehler, den CLAUDE.md seit dem 25.08.2026
     beschreibt: „Unter welchen Umständen ist die Bedingung verletzt, ohne dass

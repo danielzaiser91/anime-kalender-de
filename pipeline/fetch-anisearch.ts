@@ -734,8 +734,7 @@ async function main(): Promise<void> {
       ID-Brücke kannte die Zuordnung seit dem 31.08. (AniList 195516 → aniSearch
       20704), der Titel lief am 01.10. an, und im Bestand stand weder eine
       aniSearch-Kennung noch eine deutsche Beschreibung — die Seite zeigte
-      englischen AniList-Text (Daniel, 04.09.2026: „hat anisearch handlung?
-      bestimmt besser und deutsch"). Er hatte recht: aniSearch führt die Seite,
+      englischen AniList-Text. Er hatte recht: aniSearch führt die Seite,
       wir hatten sie nur nie abgerufen.
 
       Fehlt ein Eintrag ganz, kostet sein Abruf dasselbe wie eine Auffrischung

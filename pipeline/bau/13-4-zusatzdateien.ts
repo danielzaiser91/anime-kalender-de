@@ -89,8 +89,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
 
   /*
     **Die deutschen Disc-Ausgaben je Titel, in denselben Gruppen.** Das Panel zeigt je
-    Format die Gesamtausgabe und klappt die Einzelbände auf (Daniel, 16.09.2026: „2 discs
-    pills dvd und blueray, führen zu gesamtpaket, darunter ausklappbar die volumes").
+    Format die Gesamtausgabe und klappt die Einzelbände auf.
   */
   {
     const roh = readJson<Record<string, { kurz?: string; format?: string; art?: string; datum: string; url?: string }[]>>(
@@ -217,8 +216,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
       Gemessen am 03.09.2026: In 74 Reihen tragen zwei oder mehr Einträge genau
       dieselbe Beschriftung — dreimal „Bleach: Thousand-Year Blood War", bei
       „Schleim" zweimal „Staffel 2". In der Reihenliste des Panels kann niemand
-      sehen, was er anklickt (Daniel, 02.09.2026: „es ist total unklar was man
-      dort anklickt").
+      sehen, was er anklickt.
 
       Der Unterschied steht im Originaltitel: AniList führt „2nd Season" und
       „2nd Season Part 2", die deutsche Fassung nennt beide „Staffel 2".
@@ -260,8 +258,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
         dem Bestand steht er nur in `jpStart` — der Karte, die der Bau ohnehin
         führt. Ohne diesen Rückgriff blieben ausgerechnet die Titel ohne
         Datum, die auf der Seite sichtbar sind: „Lord of Mysteries Specials"
-        zeigte im Panel nur sein Format, obwohl AniList den 20.06.2026 führt
-        (Daniel, 12.09.2026: „jp release date fehlt dort").
+        zeigte im Panel nur sein Format, obwohl AniList den 20.06.2026 führt.
       */
       jpStart: t.jpStart ?? jpStartAnzeige.get(t.id),
       jpStatus: t.jpStatus,

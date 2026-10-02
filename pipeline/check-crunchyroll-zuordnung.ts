@@ -118,7 +118,7 @@ console.log('Zusicherungen für die Crunchyroll-Zuordnung\n')
 
 
 /**
- * Fall — A Wild Last Boss Appeared! (Daniel, 27.09.2026: „die folge ist nicht deutsch").
+ * Fall — A Wild Last Boss Appeared!.
  *
  * Unter der Kennung kennt Crunchyroll nur Staffel 1, 12 von 12 deutsch. Unsere Staffel 2 bekam
  * über „alle Blöcke vollständig deutsch" dub=true — sie startete nach der Prüfung, mit
