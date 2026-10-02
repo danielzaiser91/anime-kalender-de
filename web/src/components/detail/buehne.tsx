@@ -87,9 +87,6 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
             die Kante, die ins Bild zeigt (Daniel, 03.09.2026).
           */}
           <div className="absolute right-0 top-0 z-10 flex flex-col items-center gap-1.5 rounded-bl-lg bg-black/50 px-1.5 py-2 backdrop-blur-[3px]">
-            <ShareIcon slug={title.slug} name={anzeigeName(title)} />
-            <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
-            <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
             {reihenIds.length > 1 && (
               <ReihenStern
                 alleGemerkt={reihenIds.every((id) => favorites.has(id))}
@@ -99,6 +96,9 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
                 }}
               />
             )}
+            <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
+            <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
+            <ShareIcon slug={title.slug} name={anzeigeName(title)} />
             <button
               type="button"
               onClick={onClose}
