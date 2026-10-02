@@ -259,8 +259,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
     releaseType: release.releaseType,
     platform: release.platform,
     ...(release.sender ? { sender: release.sender } : {}),
-    ...(release.tvLetzteSichtung && !release.folgenBelegt ? { sichtung: true } : {}),
-    ...(s.episodeCountAssumed ? { episodeCountAssumed: true } : {}),
+    ...(release.tvLetzteSichtung && !release.folgenBelegt ? { sichtung: true } : {}), ...(s.episodeCountAssumed ? { episodeCountAssumed: true } : {}),
     name: release.name,
     estimated: s.estimated,
   }
