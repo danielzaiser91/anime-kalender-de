@@ -149,6 +149,10 @@ QUELLEN=(
   # Crunchyrolls Wochenprogramm — die einzige Quelle für kommende Synchro-Folgen
   # (der Simulcast-Kalender führt sie nicht, gemessen 25.09.2026).
   data/crunchyroll-woche.json
+  # Welche deutschen Termine das Wochenprogramm widerlegt hat (02.10.2026). Das
+  # Gedächtnis trägt sie über das Wochenfenster hinaus — ohne es fiele die
+  # Widerlegung zurück, sobald die Vorschau weiterzieht.
+  data/widerlegte-termine.json
   # Gesichtete Anime-Sendungen im TV-Programm von RTL+ — die Seite zeigt nur
   # den laufenden Tag, das Gedächtnis entsteht erst hier (16.09.2026).
   data/tv-programm.json

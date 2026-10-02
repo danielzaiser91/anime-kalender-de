@@ -13,10 +13,15 @@
  * der Titel einen belegten deutschen Weg (`dub: true`) oder war der Termin
  * nicht bloß geschätzt, gehört eine `zurueckgezogen`-Meldung dazu (Daniel:
  * „widerlegt wird immer, gemeldet wird nur, was vorher behauptet wurde"); eine
- * reine Schätzung verschwindet still. Eigene Datei, weil weder `news.ts` noch
- * `10-termine.ts` die Ableitung tragen soll.
+ * reine Schätzung verschwindet still.
+ *
+ * **Das Gedächtnis hält die Widerlegung über das Wochenfenster hinaus.** Sonst
+ * fiele sie in der nächsten Woche zurück, sobald die Vorschau weiterzieht, und
+ * die Seite behauptete wieder einen deutschen Start, den der Anbieter selbst
+ * verneint hat. `data/widerlegte-termine.json` trägt sie, bis dieselbe
+ * Wochenvorschau für den Tag ein `de` führt oder der Termin sich verschiebt.
  */
-import { readJson, log } from '../lib/util.ts'
+import { readJson, writeJson, log } from '../lib/util.ts'
 import { crunchyrollSeriesId } from '../lib/crunchyroll.ts'
 import { addDays } from '../../shared/time.ts'
 import type { Release, Title } from '../../shared/types.ts'
@@ -35,6 +40,17 @@ export interface Wochenprogramm {
   eintraege?: WochenZeile[]
 }
 
+/** Eine widerlegte deutsche Zusage, wie sie im Gedächtnis steht. */
+export interface Widerlegung {
+  am: string
+  grund: string
+  quelle?: string
+  gemeldet: boolean
+}
+
+export type WiderlegungsGedaechtnis = Record<string, Widerlegung>
+
+const DATEI = 'data/widerlegte-termine.json'
 const GRUND =
   'Crunchyrolls Wochenprogramm führt an diesem Tag nur die japanische Fassung (OmU) — keine deutsche Folge.'
 
@@ -64,44 +80,71 @@ function warBehauptet(release: Release, title: Title | undefined): boolean {
   return Boolean(title?.streams.some((s) => s.platform === release.platform && s.dub === true))
 }
 
-/**
- * Setzt `widerlegt` an jeden deutschen Termin, den die Wochenvorschau widerlegt.
- * Gibt die Zahl zurück; der Bau protokolliert sie.
- */
-export function widerlegeDeutscheTermine(
-  releases: Release[],
-  titles: Map<number, Title>,
-  woche: Wochenprogramm = readJson<Wochenprogramm>('data/crunchyroll-woche.json', {}),
-): number {
-  const from = woche.wocheAb
-  if (!from) return 0
-  const bis = addDays(from, 6)
-
-  /* Serienkennung + Tag → geführte Sprachen. Fehlt die Kennung, ist keine Aussage möglich. */
-  const jeSerieTag = new Map<string, Set<string>>()
+/** Serienkennung + Tag → geführte Sprachen. Fehlt die Kennung, ist keine Aussage möglich. */
+function sprachenJeSerieTag(woche: Wochenprogramm): Map<string, Set<string>> {
+  const karte = new Map<string, Set<string>>()
   for (const e of woche.eintraege ?? []) {
     if (!e.seriesId || !e.datum || !e.sprache) continue
     const k = `${e.seriesId}|${e.datum}`
-    const set = jeSerieTag.get(k) ?? new Set<string>()
+    const set = karte.get(k) ?? new Set<string>()
     set.add(e.sprache)
-    jeSerieTag.set(k, set)
+    karte.set(k, set)
   }
+  return karte
+}
 
-  let n = 0
+/**
+ * Die Widerlegungen aus Vorschau und Gedächtnis zusammenführen — eine reine
+ * Rechnung, damit `check:logic` sie ohne Datei prüfen kann.
+ *
+ * Im Fenster entscheidet die Vorschau: `de` hebt eine frühere Widerlegung auf,
+ * nur `ja` schreibt eine neue. Außerhalb bleibt Gemerktes stehen, solange der
+ * Termin derselbe ist; verschobene oder verschwundene Termine fallen heraus.
+ */
+export function sammleWiderlegungen(
+  releases: Release[],
+  titles: Map<number, Title>,
+  woche: Wochenprogramm,
+  gedaechtnis: WiderlegungsGedaechtnis,
+): { anzahl: number; gedaechtnis: WiderlegungsGedaechtnis } {
+  const from = woche.wocheAb
+  const bis = from ? addDays(from, 6) : ''
+  const sprachen = sprachenJeSerieTag(woche)
+  const neu: WiderlegungsGedaechtnis = {}
+  let anzahl = 0
   for (const r of releases) {
-    if (r.platform !== 'crunchyroll' || r.widerlegt) continue
+    if (r.platform !== 'crunchyroll') continue
     const datum = r.schedule?.firstEpisodeDate
-    if (!datum || datum < from || datum > bis) continue
     const title = titles.get(r.titleId)
     const kennung = kennungDesReleases(r, title)
-    if (!kennung) continue
-    if (!widerlegtDurchWoche(jeSerieTag.get(`${kennung}|${datum}`))) continue
-    r.widerlegt = { am: datum, grund: GRUND, quelle: woche.artikel, gemeldet: warBehauptet(r, title) }
-    n++
-    log(
-      `  ${r.slug}: deutscher Termin am ${datum} durch das Wochenprogramm widerlegt` +
-        (r.widerlegt.gemeldet ? ' — mit Meldung' : ' — bloße Schätzung, verschwindet still'),
-    )
+    const imFenster = Boolean(from && datum && datum >= from && datum <= bis)
+    const heute = imFenster && kennung ? sprachen.get(`${kennung}|${datum}`) : undefined
+    if (heute?.has('de')) continue
+    if (widerlegtDurchWoche(heute)) {
+      neu[r.slug] = { am: datum!, grund: GRUND, quelle: woche.artikel, gemeldet: warBehauptet(r, title) }
+      anzahl++
+      continue
+    }
+    const alt = gedaechtnis[r.slug]
+    if (alt && alt.am === datum) neu[r.slug] = alt
   }
-  return n
+  return { anzahl, gedaechtnis: neu }
+}
+
+/**
+ * Widerlegt jeden deutschen Termin aus der Wochenvorschau, trägt das Ergebnis in
+ * die Releases und führt das Gedächtnis fort. Gibt die Zahl der **neuen**
+ * Widerlegungen zurück; der Bau protokolliert sie.
+ */
+export function widerlegeDeutscheTermine(releases: Release[], titles: Map<number, Title>): number {
+  const woche = readJson<Wochenprogramm>('data/crunchyroll-woche.json', {})
+  const gedaechtnis = readJson<WiderlegungsGedaechtnis>(DATEI, {})
+  const { anzahl, gedaechtnis: neu } = sammleWiderlegungen(releases, titles, woche, gedaechtnis)
+  for (const r of releases) {
+    const gemerkt = neu[r.slug]
+    if (gemerkt) r.widerlegt = gemerkt
+  }
+  writeJson(DATEI, neu, true)
+  log(`${anzahl} deutsche Termin(e) durch das Wochenprogramm neu widerlegt, ${Object.keys(neu).length} im Gedächtnis`)
+  return anzahl
 }

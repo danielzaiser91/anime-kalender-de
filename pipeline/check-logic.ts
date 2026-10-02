@@ -156,7 +156,7 @@ import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap,
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
 import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
-import { widerlegeDeutscheTermine, widerlegtDurchWoche, type Wochenprogramm } from './bau/widerlegung-woche.ts'
+import { sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
@@ -7506,14 +7506,18 @@ pruefe(
     [196001, titel(196001, 'GSPAET', false)],
     [196002, titel(196002, 'GUNBEKANNT', false)],
   ])
-  const n = widerlegeDeutscheTermine([apo, clover, clev, draussen, ohneEintrag], titles, woche)
+  const { anzahl, gedaechtnis } = sammleWiderlegungen([apo, clover, clev, draussen, ohneEintrag], titles, woche, {})
+  for (const r of [apo, clover, clev, draussen, ohneEintrag]) {
+    const gemerkt = gedaechtnis[r.slug]
+    if (gemerkt) r.widerlegt = gemerkt
+  }
   pruefe(
     'Wochenprogramm: nur `ja` am selben Tag widerlegt',
     widerlegtDurchWoche(new Set(['ja'])) && !widerlegtDurchWoche(new Set(['ja', 'de'])) && !widerlegtDurchWoche(undefined),
   )
   pruefe(
     'Wochenprogramm: die Apothekerin (behauptet) wird widerlegt — mit Meldung',
-    n === 2 && apo.widerlegt?.gemeldet === true && apo.widerlegt.am === '2026-10-02',
+    anzahl === 2 && apo.widerlegt?.gemeldet === true && apo.widerlegt.am === '2026-10-02',
     apo.widerlegt,
   )
   pruefe('Wochenprogramm: Black Clover S2 (bloße Schätzung) wird widerlegt — still', clover.widerlegt?.gemeldet === false, clover.widerlegt)
@@ -7522,6 +7526,19 @@ pruefe(
   pruefe('Wochenprogramm: ohne Eintrag zur Serie wird nichts widerlegt', ohneEintrag.widerlegt === undefined)
   pruefe('Wochenprogramm: ein widerlegter Termin erzeugt kein Ereignis', expandEvents(apo).length === 0 && expandEvents(clover).length === 0)
   pruefe('Wochenprogramm: ein widerlegter Termin zählt nicht als laufend', releaseStatus(apo, '2026-10-02') === 'unbekannt')
+  /* Das Gedächtnis trägt die Widerlegung über das Wochenfenster hinaus — sonst fiele sie in der
+     nächsten Woche zurück, sobald die Vorschau weiterzieht (02.10.2026). */
+  const gemerkt: WiderlegungsGedaechtnis = { [apo.slug]: { am: '2026-10-02', grund: 'x', gemeldet: true } }
+  const spaeter = sammleWiderlegungen([apo], titles, { wocheAb: '2026-10-05', eintraege: [] }, gemerkt)
+  pruefe(
+    'Wochenprogramm/Gedächtnis: die Widerlegung bleibt, wenn die Vorschau weiterzieht',
+    spaeter.gedaechtnis[apo.slug]?.am === '2026-10-02' && spaeter.anzahl === 0,
+    spaeter,
+  )
+  const verschoben = sammleWiderlegungen([{ ...apo, schedule: { ...apo.schedule, firstEpisodeDate: '2026-10-09' } }], titles, { wocheAb: '2026-10-05', eintraege: [] }, gemerkt)
+  pruefe('Wochenprogramm/Gedächtnis: ein verschobener Termin fällt heraus', verschoben.gedaechtnis[apo.slug] === undefined, verschoben)
+  const bestaetigt = sammleWiderlegungen([clev], titles, woche, { [clev.slug]: { am: '2026-09-30', grund: 'x', gemeldet: true } })
+  pruefe('Wochenprogramm/Gedächtnis: ein `de` hebt eine frühere Widerlegung auf', bestaetigt.gedaechtnis[clev.slug] === undefined, bestaetigt)
 
   /* Der behauptete Termin wird zurückgezogen; die bloße Schätzung verschwindet still. */
   const ohneStreams = (id: number): Title => ({ id, franchiseId: id, titleDe: `T${id}`, streams: [] }) as unknown as Title
