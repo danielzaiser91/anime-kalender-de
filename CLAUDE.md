@@ -154,6 +154,9 @@ eine Mail an Daniel.
 Je Thema eine Datei; die Abschnittsüberschriften sind der Index
 (`grep -n "^## " docs/wissen/<datei>.md`):
 
+- [docs/wissen/karte.md](docs/wissen/karte.md) — **Einstieg:** Datenfluss, Verzeichnisse, welche Datei bei welcher Änderung, Rezepte,
+  Werkzeugfallen. Dazu [befund-2026-10-02.md](docs/wissen/befund-2026-10-02.md) (offene Daten-/UX-/Betriebsbefunde) und
+  [architektur-bewertung.md](docs/wissen/architektur-bewertung.md); Gegenprobe des Datensatzes: `node tools/daten-befund.mjs`
 - [docs/wissen/erweiterung.md](docs/wissen/erweiterung.md) — Browser-Erweiterung (Amazon, Netflix,
   Disney+): Melden, Durchgänge, Leser, Prüflisten
 - [docs/wissen/quellen.md](docs/wissen/quellen.md) — Datenquellen, ihre Grenzen, Sperren,
