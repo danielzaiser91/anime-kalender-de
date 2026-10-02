@@ -14,6 +14,8 @@ export type Antwort =
       rest: number
       raus: number
       gesamt?: number
+      /** Die Folgenzahl ist aus dem Wochentakt fortgeschrieben, nicht belegt — „≈" im Kasten. */
+      gesamtGeschaetzt?: boolean
       letzter?: string
       /** Feste Sendetage der Ausgabe (Fernsehen), 1 = Montag. */
       sendetage?: number[]

@@ -8,7 +8,7 @@ import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
-import { terminSatz } from './antwort-regeln.ts'
+import { terminSatz, ungefaehr } from './antwort-regeln.ts'
 import { type Antwort } from './antwort-typ.ts'
 
 /**
@@ -441,7 +441,7 @@ export function AntwortKasten({
       */
       antwort.letzter && antwort.rest > 1 && !antwort.offenesEnde
         ? /* „noch 2 Folgen …" (Daniel, 19.09.2026) — Einzahl gibt es hier nicht: bei einer steht „letzte Folge". */
-          T('antwort.nochFolgen', { count: antwort.rest, datum: formatDate(antwort.letzter) })
+          T('antwort.nochFolgen', { count: ungefaehr(antwort.rest, antwort.gesamtGeschaetzt), datum: ungefaehr(formatDate(antwort.letzter), antwort.gesamtGeschaetzt) })
         : /* Steht „Finale Folge" schon in der Überschrift, wäre „letzte Folge" hier dieselbe Auskunft zweimal. */
           antwort.raus === 0 && !antwort.offenesEnde && !antwort.komplett
           ? T('antwort.letzteFolge')
@@ -462,7 +462,7 @@ export function AntwortKasten({
           <>
             <span className="font-semibold text-emerald-700 dark:text-emerald-400">{antwort.raus}</span>
             {' '}
-            {T('antwort.erschienenRest', { gesamt: antwort.gesamt })}
+            {T('antwort.erschienenRest', { gesamt: ungefaehr(antwort.gesamt, antwort.gesamtGeschaetzt) })}
           </>
         )
       : ''
