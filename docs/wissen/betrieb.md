@@ -1029,3 +1029,11 @@ Die Claude-Workflows (`claude-verpasst-recherche.yml` u. a.) laufen mit Daniels
 `"is_error": true`, `"total_cost_usd": 0`, `"num_turns": 1`, `modelUsage: {}` — kein Codefehler.
 Erkannt am Lauf `37035218875` (16:38, genau beim Limit). Nichts zu tun: Der nächste planmäßige Lauf
 geht wieder durch.
+
+## Beleg-Bild: Ausschnitt statt Vollseite (03.10.2026)
+
+Gemessen an den 25 abgelegten Belegen (Worker-Liste, 03.10.2026): Anime2You im Mittel **522 KB** (max. 1,25 MB), aniSearch **418 KB**, dazu 75 KB HTML je Lesung — Vollseite mit Newsticker, Kommentaren, Empfehlungen.
+
+Versuche an derselben Seite (Anime2You, 1280×4468): Vollseite JPEG 60 = 778 KB (lokal, mit Zustimmungswand); Element `article` Grau-WebP 30 = 113 KB; Textbereich 520 px schmal Grau-WebP 8 = 56 KB; **nur Überschrift bis zu den ersten Absätzen, 520 px, ohne Bilder, Grau, WebP 20 = 24–31 KB** (aniSearch-Produktseite 10 KB), lesbar. Unter 5 KB ist eine Textseite nicht zu bekommen — das wäre ein fast leeres Bild. Der Artikeltext als `.txt.gz` kostet 1–3 KB statt 75 KB HTML.
+
+Umsetzung: `pipeline/lib/beleg-bild.ts` (`belegAusschnitt`), benutzt von `belege-lesen.ts`; Schlüssel `<host>/<hash-der-url>/<tag>-<texthash>.webp` und `.txt.gz`, Feld `text` in der Lesung (ältere Lesungen tragen `html`). **Eine Zustimmungswand ist kein Beleg:** liegt in der Fenstermitte etwas außerhalb von `article`/`main`, wird es entfernt, bleibt es, gibt es kein Bild (am Rechner zeigte Anime2You die contentpass-Wand, auf dem Runner nicht). Die 25 vorhandenen Bilder (JPEG) bleiben liegen. Offen: Messbelege (Crunchyroll-Kalender) benutzen weiter die Vollseite.

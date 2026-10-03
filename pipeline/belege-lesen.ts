@@ -12,7 +12,6 @@
  *
  * Aufruf: npx tsx pipeline/belege-lesen.ts [--limit 25] [--abstand 7] [--adresse <url>]
  */
-import { gzipSync } from 'node:zlib'
 import { chromium, type Page } from 'playwright'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
@@ -23,6 +22,7 @@ import {
   crunchyrollDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
+import { belegAusschnitt } from './lib/beleg-bild.ts'
 
 const DATEI = 'data/beleg-lesungen.json'
 /** Crunchyroll lässt nur einen Desktop-UA durch (wie `scrape-crunchyroll-woche.ts`); ADN liefert damit eine leere Seite. */
@@ -98,15 +98,16 @@ async function main(): Promise<void> {
         }
         const letzte = gedaechtnis[url]?.lesungen.at(-1)
         /* Derselbe Text hat dasselbe Bild — eine Lesung mit neuem Datum verweist darauf, statt es neu zu erzeugen. */
-        if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, html: letzte.html })
+        if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html })
         /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
         const ziel = letzte?.hash === hash ? letzte : lesung
         if (!ziel.bild) {
           const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
-          /* Crunchyrolls Cookie-Banner läge quer über dem Artikel — entfernt, nicht beantwortet. */
-          await seite.evaluate(() => document.querySelector('#onetrust-consent-sdk')?.remove())
-          ziel.bild = await ablegen(`${basis}.jpg`, await seite.screenshot({ fullPage: true, type: 'jpeg', quality: 60 }), 'image/jpeg')
-          ziel.html = await ablegen(`${basis}.html.gz`, gzipSync(await seite.content()), 'application/gzip')
+          const beleg = await belegAusschnitt(seite)
+          if (beleg) {
+            ziel.bild = await ablegen(`${basis}.webp`, beleg.bild, 'image/webp')
+            ziel.text = await ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')
+          }
         }
         if (merkeLesung(gedaechtnis, url, lesung)) neu++
         gelesen++

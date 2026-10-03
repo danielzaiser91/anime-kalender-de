@@ -37,6 +37,8 @@ export interface Lesung {
   aktualisiert?: string
   /** Schlüssel in der privaten Ablage, falls das Hochladen gelang. */
   bild?: string
+  /** Artikeltext, gepackt (seit 03.10.2026; davor die ganze HTML-Seite in `html`). */
+  text?: string
   html?: string
 }
 
