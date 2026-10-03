@@ -2,7 +2,7 @@
 
 Ziel: je Regel ein paar Fälle von dir bestätigen lassen. Schreib „ja/nein/?" und die Quelle dahinter; bestätigte Muster gelten dann für alle gleichen Fälle. Zu jedem Titel stehen **Art, Jahr, Folgen, Studio und die Reihe**, damit du ihn sicher erkennst.
 
-**Schon bestätigt:** Yu☆Gi☆Oh! (1998, 27-Folgen-Serie von Toei, „Season 0“) · Gundam Wing: Endless Waltz (OVA 1997, 3 × 30 Min.) · Hunter×Hunter (TV-Serie 1999) · Dr. Slump: Arale-chan (TV-Serie 1981) — alle „keine deutsche Synchro“. **Stand der Abnahme (16:05): 17 von 41 geklärt (13 von Hand, 4 in Gruppe F durch den Crunchyroll-Lauf bzw. andere Anbieterbelege). In allen 11 Fällen ohne aniSearch-Block stimmt „keine deutsche Synchro“ (8 so vorhergesagt; 3 hatte ich wegen Wikipedia als „eher deutsch“ eingestuft — falsch bei Maison Ikkoku, City Hunter 3 und ’91, die Regel „Wikipedia nennt Synchro ⇒ eher deutsch“ wird gestrichen). Die aniSearch-Marke stimmt in 2 von 2.**
+**Schon bestätigt:** Yu☆Gi☆Oh! (1998, 27-Folgen-Serie von Toei, „Season 0“) · Gundam Wing: Endless Waltz (OVA 1997, 3 × 30 Min.) · Hunter×Hunter (TV-Serie 1999) · Dr. Slump: Arale-chan (TV-Serie 1981) — alle „keine deutsche Synchro“. **Stand der Abnahme (16:05): 17 von 41 geklärt (13 von Hand, 4 in Gruppe F durch Anbieterbelege). In allen 11 Fällen ohne aniSearch-Block stimmt „keine deutsche Synchro“ (8 so vorhergesagt; 3 hatte ich wegen Wikipedia als „eher deutsch“ eingestuft — falsch bei Maison Ikkoku, City Hunter 3 und ’91, die Regel „Wikipedia nennt Synchro ⇒ eher deutsch“ wird gestrichen). Die aniSearch-Marke stimmt in 2 von 2.**
 
 ## A. „keine bekannt / hoch" — Relation zu anderer Fassung (3)
 
@@ -155,22 +155,22 @@ Synchro oder nur Untertitel? Drei Streamer-Fälle (Crunchyroll), sechs Disc/Labe
 
 Warum fehlt der Block? Stimmt der Beleg (Handbeleg/Urteil), oder ist aniSearch hier hinterher? Zeigt, wo die Regel „kein Block ⇒ keine bekannt" brechen würde.
 
-- [ ] **Code Geass: Boukoku no Akito 2 - Hikisakareshi Yokuryuu Picture Drama** — Special, 2013, 1 Teil, Sunrise · Reihe: „Code Geass: Akito the Exiled - The Wyvern Arrives“
+- [x] **Code Geass: Boukoku no Akito 2 - Hikisakareshi Yokuryuu Picture Drama** — Special, 2013, 1 Teil, Sunrise · Reihe: „Code Geass: Akito the Exiled - The Wyvern Arrives“
   - Links: [bei uns](https://anime-kalender.de/t/code-geass-boukoku-no-akito-2-hikisakareshi-yokuryuu-picture-drama-109002/) · [aniSearch](https://www.anisearch.de/anime/17070)
   - Mein Urteil: harter Beleg von außen, aber kein aniSearch-Block
-  - Ergebnis: 
-- [ ] **Space☆Dandy 2 Picture Drama** — Special, 2014, 3 Folgen, bones · Reihe: „Space Dandy“
+  - Ergebnis: geklärt (Daniel 03.10.): Der Crunchyroll-Lauf bestätigt die deutsche Synchro, die Pille verlinkt sie — **Anbieterbeleg genügt als alleiniges Urteil, ein fehlender aniSearch-Block spricht nicht dagegen.** Der Film (Akito 2) hat bei aniSearch den Bündel-Eintrag 6300 (Episode 2 „The Wyvern divided“) mit deutschem Block, bei uns fehlt die Zuordnung
+- [x] **Space☆Dandy 2 Picture Drama** — Special, 2014, 3 Folgen, bones · Reihe: „Space Dandy“
   - Links: [bei uns](https://anime-kalender.de/t/space-dandy-2-picture-drama-108972/) · [aniSearch](https://www.anisearch.de/anime/10180)
   - Mein Urteil: harter Beleg von außen, aber kein aniSearch-Block
-  - Ergebnis: 
-- [ ] **The Birth Of Kitaro – Das Geheimnis von Gegege** (The Birth of Kitaro: The Mystery of GeGeGe / Kitarou Tanjou: Gegege no Nazo) — Film, 2023, 1 Teil, Toei Animation · Reihe: „Gegege no Kitarou (1968)“
+  - Ergebnis: geklärt: Crunchyroll-Weg mit deutscher Synchro (Anbieterbeleg) — fehlender aniSearch-Block ändert nichts
+- [x] **The Birth Of Kitaro – Das Geheimnis von Gegege** (The Birth of Kitaro: The Mystery of GeGeGe / Kitarou Tanjou: Gegege no Nazo) — Film, 2023, 1 Teil, Toei Animation · Reihe: „Gegege no Kitarou (1968)“
   - Links: [bei uns](https://anime-kalender.de/t/the-birth-of-kitaro-the-mystery-of-gegege-130622/) · [aniSearch](https://www.anisearch.de/anime/16981)
   - Mein Urteil: harter Beleg von außen, aber kein aniSearch-Block
-  - Ergebnis: 
-- [ ] **Lord of Mysteries** (Guimi Zhi Zhu: Xiaochou Pian) — Web-Serie (ONA), 2025, 13 Folgen, B.CMAY PICTURES
+  - Ergebnis: geklärt: Prime-Beleg (Handbeleg + Anbieter-Urteil + JustWatch) — aniSearch ist hier hinterher
+- [x] **Lord of Mysteries** (Guimi Zhi Zhu: Xiaochou Pian) — Web-Serie (ONA), 2025, 13 Folgen, B.CMAY PICTURES
   - Links: [bei uns](https://anime-kalender.de/t/lord-of-mysteries-137667/) · [aniSearch](https://www.anisearch.de/anime/18606)
   - Mein Urteil: harter Beleg von außen, aber kein aniSearch-Block
-  - Ergebnis: 
+  - Ergebnis: geklärt: Crunchyroll-Weg, Termin, JustWatch — sehr neuer Titel, aniSearch ist hinterher
 
 ## G. aniSearch-Marke „Synchronisiert" ohne weitere Bestätigung (aus den 66 offenen) (7)
 
