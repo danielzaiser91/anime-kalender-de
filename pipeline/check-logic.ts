@@ -35,6 +35,7 @@ import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { deutschAbgeschlossen } from '../web/src/components/detail/antwort-regeln.ts'
+import { omuMeldungen } from './lib/news-omu.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../shared/kostenlos.ts'
 import { istPremiere, tvAngabe } from '../web/src/lib/tv-angabe.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
@@ -7799,6 +7800,17 @@ console.log('\nNews-Verlauf:')
   pruefe('News-Verlauf: die Kette steht unter der geltenden Meldung, neueste zuerst', v.vorgaenger.get(neu)?.map((x) => x.m.datum).join() === '2026-12-18,2026-11-20', v.vorgaenger.get(neu))
   pruefe('News-Verlauf: eingeordnete verschwinden aus der Tagesliste, ohne Nachfolger bleibt die Meldung', v.eingeordnet.has(alt1) && v.eingeordnet.has(alt2) && !v.eingeordnet.has(ohneFolger) && ohneEingeordnete(liste, v.eingeordnet).length === 2)
 }
+/* OmU-Starts angekündigter Serien sind eine Meldung mit Quelle, solange es kein Release des Anbieters gibt (Beerus, 03.10.2026). */
+console.log('\nOmU-Meldung:')
+{
+  const titel = { id: 7, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10-11', synchro: 'offen', quellen: ['https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/x'], stand: '2026-09-15' } } as never
+  const monat = { id: 8, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10', synchro: 'offen', quellen: ['https://x'], stand: '2026-09-15' } } as never
+  const m = omuMeldungen([titel, monat], [])
+  pruefe('OmU: ein Start mit Tag wird Meldung am Tag der Quelle, mit Beleg und Hinweis „nicht angekündigt"', m.length === 1 && m[0]!.fallback === '2026-09-15' && m[0]!.datum === '2026-10-11' && m[0]!.belege?.length === 1 && /nicht angekündigt/.test(m[0]!.hinweis ?? ''), m)
+  const rel = { titleId: 7, platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-10-11' } } as never
+  pruefe('OmU: gibt es ein Release desselben Anbieters, entfällt die Meldung', omuMeldungen([titel], [rel]).length === 0)
+}
+
 /* Japans Ende ist nicht das deutsche: Slime Staffel 4 (AniList-Ende 25.09., Crunchyroll bis 16.10.). */
 console.log('\nDeutsch abgeschlossen:')
 {
