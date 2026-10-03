@@ -17,26 +17,15 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:cafe-terrace-and-its-goddesses-s1-box@2026-10-02@anime-kalender-de
+UID:auto-187331-primevideo@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:The Café Terrace and Its Goddesses – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/cafe-t
- errace-and-its-goddesses-s1-box
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:please-put-them-on-takamine-vol1@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/please
- -put-them-on-takamine-vol1
-CATEGORIES:DVD / Blu-ray
+DTSTART;VALUE=DATE:20261003
+DTEND;VALUE=DATE:20261004
+SUMMARY:Hände weg\, Kotesashi-kun
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1873
+ 31-primevideo
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-10-04@anime-kalender-de
@@ -81,6 +70,28 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-11499-primevideo@2026-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261015
+DTEND;VALUE=DATE:20261016
+SUMMARY:Sankarea: Undying Love
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1149
+ 9-primevideo
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-103631-primevideo@2026-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261015
+DTEND;VALUE=DATE:20261016
+SUMMARY:Trinity Seven: Heavens Library & Crimson Lord
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/#/release/auto-103631-prime
+ video
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:mushoku-tensei-s3@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T150000Z
@@ -92,14 +103,58 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:please-put-them-on-takamine-vol2@2026-11-06@anime-kalender-de
+UID:2-5-dimensional-seduction-vol4@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:2.5 Dimensional Seduction – Vol. 4 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/2-5-di
+ mensional-seduction-vol4
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:nukitashi-vol1@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Nukitashi – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/nukita
+ shi-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:strike-witches-s2-vol1@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261106
 DTEND;VALUE=DATE:20261107
-SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 2 (Disc)
+SUMMARY:Strike Witches (Staffel 2) – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/strike
+ -witches-s2-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:cafe-terrace-and-its-goddesses-s1-box@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:The Café Terrace and Its Goddesses – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/cafe-t
+ errace-and-its-goddesses-s1-box
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:please-put-them-on-takamine-vol1@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/please
- -put-them-on-takamine-vol2
+ -put-them-on-takamine-vol1
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -177,6 +232,17 @@ SUMMARY:My Dress-Up Darling (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1
  32405-disc
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:please-put-them-on-takamine-vol2@2026-12-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/please
+ -put-them-on-takamine-vol2
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR

@@ -16,17 +16,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:please-put-them-on-takamine-vol1@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/please
- -put-them-on-takamine-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:blue-exorcist-blue-night-saga-vol2@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261002
@@ -125,17 +114,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:please-put-them-on-takamine-vol2@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261106
-DTEND;VALUE=DATE:20261107
-SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/please
- -put-them-on-takamine-vol2
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261111T150000Z
@@ -158,6 +136,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:please-put-them-on-takamine-vol1@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/please
+ -put-them-on-takamine-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:madoka-walpurgisnacht-rising-kino@2026-11-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261124
@@ -167,5 +156,16 @@ DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
  gt.\nDetails: https://anime-kalender.de/#/release/madoka-walpurgisnacht-ri
  sing-kino
 CATEGORIES:Kino
+END:VEVENT
+BEGIN:VEVENT
+UID:please-put-them-on-takamine-vol2@2026-12-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/please
+ -put-them-on-takamine-vol2
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR

@@ -374,11 +374,19 @@
   ],
   "strike-witches-s2-vol1": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-11-06",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-25",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -386,7 +394,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -394,7 +402,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
@@ -402,16 +410,24 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-11",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-06"
     }
   ],
   "cafe-terrace-and-its-goddesses-s1-box": [
+    {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-11-20",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-02",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -419,7 +435,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -427,7 +443,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "case-study-of-vanitas-s1-vol2": [
@@ -441,11 +457,19 @@
   ],
   "virgin-road-vol1": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-30",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-25",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -453,7 +477,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -461,7 +485,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
@@ -469,7 +493,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-11",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     }
   ],
   "wind-breaker-s2-vol1": [
@@ -492,11 +516,19 @@
   ],
   "2-5-dimensional-seduction-vol4": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-30",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-25",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -504,7 +536,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -512,16 +544,24 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     }
   ],
   "inazuma-eleven-s1-box": [
+    {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-11-20",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-25",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -529,7 +569,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -537,16 +577,24 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "infinite-dendrogram-vol2": [
+    {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-30",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-25",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -554,7 +602,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -562,7 +610,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     }
   ],
   "robin-hood-box": [
@@ -637,11 +685,19 @@
   ],
   "please-put-them-on-takamine-vol1": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-11-20",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-02",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -649,7 +705,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -657,7 +713,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "demon-slayer-s1-steelbook": [
@@ -671,11 +727,19 @@
   ],
   "my-love-story-with-yamada-kun-vol1": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-11-06",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-02",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -683,7 +747,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -691,16 +755,24 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-06"
     }
   ],
   "sakamoto-days-vol1": [
+    {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-30",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-25",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -708,7 +780,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -716,7 +788,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
@@ -724,7 +796,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-11",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     }
   ],
   "tougen-anki-part1": [
@@ -772,11 +844,19 @@
   ],
   "nukitashi-vol1": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-30",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-25",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -784,7 +864,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/998432/nukitashi-keine-fsk-freigabe/",
@@ -792,7 +872,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     }
   ],
   "recovery-of-an-mmo-junkie-vol2": [
@@ -815,11 +895,19 @@
   ],
   "please-put-them-on-takamine-vol2": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-12-18",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-11-06",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-12-18"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -827,7 +915,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-16",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-11-06"
+      "grund": "Termin verschoben auf: 2026-12-18"
     }
   ],
   "im-standing-on-a-million-lives-s2-box": [
@@ -903,11 +991,19 @@
   ],
   "sailor-moon-s1-steelbook": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-16",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-18",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-10-16"
     },
     {
       "url": "https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/",
@@ -915,7 +1011,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-18"
+      "grund": "Termin verschoben auf: 2026-10-16"
     }
   ],
   "apothecary-diaries-s1-steelbook": [
@@ -929,11 +1025,19 @@
   ],
   "bocchi-the-rock-vol1": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-11-06",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-02",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1035764/bocchi-the-rock-deutscher-trailer/",
@@ -941,7 +1045,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-06"
     }
   ],
   "yu-gi-oh-komplettbox-ksm": [
@@ -1061,11 +1165,19 @@
   ],
   "my-love-story-with-yamada-kun-vol2": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-12-18",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-11-06",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-12-18"
     },
     {
       "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
@@ -1073,7 +1185,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-02",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-11-06"
+      "grund": "Termin verschoben auf: 2026-12-18"
     }
   ],
   "bocchi-the-rock-vol2": [
@@ -1095,11 +1207,19 @@
   ],
   "girls-band-cry-vol2": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-11-20",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
-      "sagt": "2026-10-02"
+      "sagt": "2026-10-02",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "dr-stone-science-future-part1": [
@@ -1230,11 +1350,19 @@
   ],
   "my-love-story-with-yamada-kun-vol3": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2027-01-15",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-12-04",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-01-15"
     },
     {
       "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
@@ -1242,7 +1370,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-11-20",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-12-04"
+      "grund": "Termin verschoben auf: 2027-01-15"
     }
   ],
   "anne-shirley-vol2": [
@@ -5360,6 +5488,96 @@
       "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-02",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-187331-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-14713-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-08",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-11499-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-15",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-103631-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-15",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-128400-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-22",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-167142-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-22",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-16498-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-01",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-1686-adn": [
+    {
+      "url": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-12",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-187941-adn": [
+    {
+      "url": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-22",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-9756-adn": [
+    {
+      "url": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-03",
+      "sagt": "2026-10-29",
       "stand": "aktuell"
     }
   ]

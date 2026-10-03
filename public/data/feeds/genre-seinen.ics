@@ -19,17 +19,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
-UID:bocchi-the-rock-vol1@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Bocchi the Rock! – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/bocchi
- -the-rock-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1423-s1-20261008-116589@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T070000Z
@@ -227,6 +216,17 @@ SUMMARY:Miss Kobayashi's Dragon Maid: Valentinstag und Onsen (Erwartet nich
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/miss-k
  obayashi-s-dragon-maid-valentinstag-und-onsen-erwartet-nicht-zu-viel-2026-
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:bocchi-the-rock-vol1@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:Bocchi the Rock! – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/bocchi
+ -the-rock-vol1
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

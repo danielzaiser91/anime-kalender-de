@@ -98,6 +98,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-167142-primevideo@2026-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261022
+DTEND;VALUE=DATE:20261023
+SUMMARY:Your Forma
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1671
+ 42-primevideo
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:call-of-the-night-s2-vol2@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120

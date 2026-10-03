@@ -21,8 +21,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261003T093000Z
 DTEND:20261003T100000Z
 SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -47,6 +46,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128400-primevideo@2026-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261022
+DTEND;VALUE=DATE:20261023
+SUMMARY:Saiyuki Reload: Zeroin
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1284
+ 00-primevideo
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-24@anime-kalender-de

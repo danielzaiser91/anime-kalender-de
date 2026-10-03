@@ -395,6 +395,17 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-16498-primevideo@2026-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
+SUMMARY:Attack on Titan
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1649
+ 8-primevideo
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T140500Z
@@ -569,8 +580,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261003T093000Z
 DTEND:20261003T100000Z
 SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -803,6 +813,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-14713-primevideo@2026-10-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261008
+DTEND;VALUE=DATE:20261009
+SUMMARY:Kamisama Kiss
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1471
+ 3-primevideo
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T150000Z
@@ -1011,6 +1032,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-103631-primevideo@2026-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261015
+DTEND;VALUE=DATE:20261016
+SUMMARY:Trinity Seven: Heavens Library & Crimson Lord
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/#/release/auto-103631-prime
+ video
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T150000Z
@@ -1046,6 +1078,17 @@ SUMMARY:Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/miss-k
  obayashi-s-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-2026-10-1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:sailor-moon-s1-steelbook@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Sailor Moon – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sailor
+ -moon-s1-steelbook
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -1116,17 +1159,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:sailor-moon-s1-steelbook@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261018
-DTEND;VALUE=DATE:20261019
-SUMMARY:Sailor Moon – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sailor
- -moon-s1-steelbook
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T140000Z
@@ -1136,6 +1168,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-187941-adn@2026-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261022
+DTEND;VALUE=DATE:20261023
+SUMMARY:Reincarnated as a Dragon Hatchling
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/#/release/auto-187941-adn
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-24@anime-kalender-de
@@ -1169,6 +1211,38 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-9756-adn@2026-10-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:Puella Magi Madoka Magica
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/#/release/auto-9756-adn
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:virgin-road-vol1@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Virgin Road – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/virgin
+ -road-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:infinite-dendrogram-vol2@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Infinite Dendrogram – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/infini
+ te-dendrogram-vol2
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-01@anime-kalender-de

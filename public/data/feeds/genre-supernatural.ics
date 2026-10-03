@@ -323,6 +323,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-14713-primevideo@2026-10-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261008
+DTEND;VALUE=DATE:20261009
+SUMMARY:Kamisama Kiss
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1471
+ 3-primevideo
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T080000Z
@@ -380,6 +391,27 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-1686-adn@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:Bleach: The Movie - Memories of Nobody
+DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/#/release/auto-1686-adn
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-11499-primevideo@2026-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261015
+DTEND;VALUE=DATE:20261016
+SUMMARY:Sankarea: Undying Love
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1149
+ 9-primevideo
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T080000Z
@@ -404,6 +436,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-128400-primevideo@2026-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261022
+DTEND;VALUE=DATE:20261023
+SUMMARY:Saiyuki Reload: Zeroin
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1284
+ 00-primevideo
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261023T080000Z
@@ -426,17 +469,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
  chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
  etails: https://anime-kalender.de/#/release/my-happy-marriage-special-netf
  lix
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-147103-netflix@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T080000Z
-DTEND:20261025T083000Z
-SUMMARY:Meine ganz besondere Hochzeit
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
- chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
- etails: https://anime-kalender.de/#/release/auto-147103-netflix
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -567,6 +599,17 @@ SUMMARY:Good Luck Girl! – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/good-l
  uck-girl-vol-1-2026-11-20
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:inazuma-eleven-s1-box@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Inazuma Eleven – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/inazum
+ a-eleven-s1-box
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

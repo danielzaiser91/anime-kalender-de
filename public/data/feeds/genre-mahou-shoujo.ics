@@ -6,15 +6,25 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Mahou Shoujo
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:sailor-moon-s1-steelbook@2026-10-18@anime-kalender-de
+UID:sailor-moon-s1-steelbook@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261018
-DTEND;VALUE=DATE:20261019
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
 SUMMARY:Sailor Moon – Staffel 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sailor
  -moon-s1-steelbook
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-9756-adn@2026-10-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:Puella Magi Madoka Magica
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/#/release/auto-9756-adn
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:sailor-moon-s-2026-11-06@2026-11-06@anime-kalender-de

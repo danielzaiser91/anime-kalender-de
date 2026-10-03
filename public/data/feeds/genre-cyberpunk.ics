@@ -1,0 +1,42 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – Cyberpunk
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:cyberpunk-edgerunners-2-netflix@2026-10-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T080000Z
+DTEND:20261020T083000Z
+SUMMARY:Cyberpunk: Edgerunners II
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
+ chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
+ etails: https://anime-kalender.de/#/release/cyberpunk-edgerunners-2-netfli
+ x
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-167142-primevideo@2026-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261022
+DTEND;VALUE=DATE:20261023
+SUMMARY:Your Forma
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1671
+ 42-primevideo
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:memories-2026-11-18@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:Memories (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/memori
+ es-2026-11-18
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+END:VCALENDAR

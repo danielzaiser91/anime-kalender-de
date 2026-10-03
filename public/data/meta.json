@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-03T08:24:29.081Z",
+  "generatedAt": "2026-10-03T10:45:35.686Z",
   "titleCount": 2785,
-  "releaseCount": 609,
-  "eventCount": 3071,
+  "releaseCount": 619,
+  "eventCount": 3092,
   "genres": [
     "Action",
     "Adventure",
@@ -450,6 +450,7 @@
     "Netflix",
     "ADN",
     "Amazon (Blu-ray)",
+    "Amazon (DVD)",
     "Amazon (Trilogie, 3 DVDs)",
     "Netzkino",
     "Paramount+",
@@ -458,7 +459,6 @@
     "Videobuster (Leih-Disc)",
     "ZDF",
     "Amazon",
-    "Amazon (DVD)",
     "Behind The Tree",
     "Crunchyroll",
     "Netflix Standard With Ads",

@@ -1014,6 +1014,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-1686-adn@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:Bleach: The Movie - Memories of Nobody
+DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/#/release/auto-1686-adn
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T140000Z
@@ -1058,6 +1068,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:sailor-moon-s1-steelbook@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Sailor Moon – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sailor
+ -moon-s1-steelbook
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de
@@ -1137,17 +1158,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:sailor-moon-s1-steelbook@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261018
-DTEND;VALUE=DATE:20261019
-SUMMARY:Sailor Moon – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sailor
- -moon-s1-steelbook
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T140000Z
@@ -1169,6 +1179,27 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/detekt
  ei-layton-katrielles-raetselhafte-faelle-2026-10-22
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128400-primevideo@2026-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261022
+DTEND;VALUE=DATE:20261023
+SUMMARY:Saiyuki Reload: Zeroin
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1284
+ 00-primevideo
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-187941-adn@2026-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261022
+DTEND;VALUE=DATE:20261023
+SUMMARY:Reincarnated as a Dragon Hatchling
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/#/release/auto-187941-adn
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-23@anime-kalender-de
@@ -1228,6 +1259,28 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  er Zeit.\nDetails: https://anime-kalender.de/#/release/steel-ball-run-2nd-
  3rd-stage
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:virgin-road-vol1@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Virgin Road – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/virgin
+ -road-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:infinite-dendrogram-vol2@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Infinite Dendrogram – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/infini
+ te-dendrogram-vol2
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00378078@2026-10-31@anime-kalender-de

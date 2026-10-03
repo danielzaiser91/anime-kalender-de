@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-03T08:24:39.756Z",
+ "erzeugtAm": "2026-10-03T10:45:46.048Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -52,11 +52,15 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 41,
-   "gesamt": 45,
-   "offen": 4,
+   "gesamt": 46,
+   "offen": 5,
    "ohneSeite": 0,
-   "ziel": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
+   "ziel": "https://www.disneyplus.com/browse/entity-1b84d641-1bb3-422d-be4c-8e24c7b547cc",
    "ziele": [
+    {
+     "url": "https://www.disneyplus.com/browse/entity-1b84d641-1bb3-422d-be4c-8e24c7b547cc",
+     "titel": "The Rising of the Shield Hero"
+    },
     {
      "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
      "titel": "Bleach: Thousand-Year Blood War"
@@ -66,7 +70,7 @@
      "titel": "Snowball Earth"
     }
    ],
-   "naechster": "Bleach: Thousand-Year Blood War"
+   "naechster": "The Rising of the Shield Hero"
   },
   {
    "name": "Suchadressen",
@@ -84,7 +88,7 @@
     },
     {
      "url": "https://www.amazon.de/s?k=The%20Seven%20Knights%20of%20the%20Marronnier%20Kingdom&i=instant-video",
-     "titel": "The Seven Knights of the Marronnier Kingdom"
+     "titel": "Die sieben Ritter des Königreichs der Marronniers"
     }
    ],
    "naechster": "Meine ganz besondere Hochzeit: Special",

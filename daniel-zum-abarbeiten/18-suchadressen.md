@@ -16,7 +16,7 @@ hinter einem /dp/ kann eine DVD liegen.
 - war verlinkt als: <https://netflix.com>
 - **Antwort:** 
 
-## The Seven Knights of the Marronnier Kingdom
+## Die sieben Ritter des Königreichs der Marronniers
 
 - Anbieter: **primevideo** · unser Titel 212799
 - war verlinkt als: <https://www.amazon.de/s?k=The%20Seven%20Knights%20of%20the%20Marronnier%20Kingdom&i=instant-video>
