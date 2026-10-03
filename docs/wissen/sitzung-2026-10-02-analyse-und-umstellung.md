@@ -219,6 +219,24 @@ Gegenrichtung im Hauptbestand: von 59 Titeln mit aniSearch-Eintrag **ohne** Bloc
 **Behoben:** `data/watch-links.yaml`: Film 2273 bekommt `Amazon (DVD)` `https://www.amazon.de/dp/B0000D7ZII` (statt nur „Ausgabe bei aniSearch" → Titelseite). Live nach dem nächsten Bau; ob der aniSearch-Notbehelf dann entfällt, ist zu prüfen.
 **Vorschlag (Daniel entscheidet):** beide Einträge bleiben (aniSearch 100 % abbilden); jeder bekommt **sein eigenes, wahres Urteil** plus eine **Fassungsangabe**: OVA → hinter „Anime ohne deutsche Synchro", Text „Keine eigene deutsche Fassung bekannt. Auf Deutsch gibt es den Inhalt als Kompilationsfilm ‚Gundam Wing: Endless Waltz' (90 Min.)" mit Link; Film → „Zusammenfassung der drei OVA-Folgen". Automatisierbar über die Relationstypen (nur *gleicher Inhalt*: Zusammenfassung / Komplette Geschichte; „Alternative Version" gilt nicht). Wortwahl „Keine deutsche Fassung **bekannt**" statt „Noch keine" (suggeriert Kommendes) oder „belegt keine" (nicht beweisbar).
 
+## 7h. Entscheidungen zu §7g (Daniel, 03.10.2026, 12:44)
+
+1. **aniSearch-Relationen sind eine automatisierbare Quelle** (gleicher Inhalt: „Zusammenfassung"/„Komplette Geschichte"; nicht: „Alternative Version").
+2. **Fassungsangabe beidseitig umsetzen:** OVA ↔ Film verlinken; Wortlaut „**Keine deutsche Fassung bekannt**" (nicht „noch keine", nicht „belegt keine").
+3. **Urteil „keine deutsche Fassung bekannt" = Wahrscheinlichkeitsurteil aus mehreren Quellen**, kein Beweis: aniSearch (kein Block/keine Marke), Wikipedia, weitere sichere Quellen (Relationen, JustWatch/Urteile/Tonspuren ohne Deutsch). Taucht später doch eine deutsche Fassung auf, wird die Regel angepasst; als erster starker Weg richtig.
+4. **Die 1,4 % genauer ansehen** (Marke fehlt trotz hartem Beleg: 22 von 1.575, davon 4 ohne Block) — Detailprüfung offen.
+5. **Alles, was sich automatisch bestätigen lässt, wird im Umbau mitgeplant und vor dem Livegang gegen Daniels Handmessung geprüft** (Abnahme je Regel). Vorgehen: erst die 116 Kandidaten automatisch urteilen (Urteil + Sicherheit), Daniel prüft Stichproben je Muster; bestätigt sich ein Muster, wird es für alle gleichen Fälle übernommen.
+6. **Yu-Gi-Oh! 1998 („Season 0") dient als Eichfall** für den Automatismus: aniSearch ohne deutschen Block, Relation „Alternative Version" → Duel Monsters (Marke), Wikipedia „bisher nur in Japan ausgestrahlt", von Daniel von Hand bestätigt.
+
+### Automatisches Urteil für die 116 Kandidaten (03.10.2026, 12:55)
+
+Regel (Entwurf für den Umbau; Quellen: aniSearch-Eintrag/-Block/-Marke/Sprecherseite/Relationen, Wikipedia mit passendem Artikel, JustWatch, Anbieter-Urteile, Netflix-Tonspur): kein aniSearch-Eintrag → *unbekannt*; deutscher Block ohne Marke → *unklar*
+(Publisher nur Streamer ⇒ wahrscheinlich Untertitel, Disc-Label ⇒ Synchro möglich); sonst deutsche Sprecher oder Wikipedia-Treffer (nur TV/Film ohne Relation) → *eher deutsch*; sonst *keine bekannt* mit Sicherheit hoch (mind. eine Stütze: Relation zu anderer Fassung, Wikipedia-Verneinung,
+JustWatch/Anbieter/Tonspur ohne Deutsch; Titel älter als ein Jahr), niedrig (Wikipedia der Reihe nennt Synchro, keine Relation) oder mittel (keine weitere Stütze).
+**Ergebnis:** 6 keine bekannt/hoch (Gundam-Wing-OVA, Hunter×Hunter 1999, Yu-Gi-Oh! 1998 = **Eichfall bestanden**, Dr. Slump 1981, Gurren Lagann: Gurren-hen, Kakegurui-Special), 30 mittel, 2 niedrig, 6 eher deutsch (Maison Ikkoku, City Hunter 3 und '91, Angeloid-Film, Aggretsuko, Digimon Adventure 20th), 32 unklar (7 nur Streamer, 25 Disc/Label), 40 unbekannt (keine aniSearch-Zuordnung).
+Lehre aus dem ersten Lauf: Die Wikipedia-Seite der **Reihe** nennt „Synchronisation" für die Hauptserie — als Gegenbeleg für ein OVA/Special oder eine andere Fassung taugt sie nicht; deshalb nur bei TV/Film ohne Relation.
+Liste zur Handprüfung: [kandidaten-pruefliste.md](../../daniel-zum-abarbeiten/kandidaten-pruefliste.md).
+
 ## 7c. Cat's Eye — Prime-Meldung vom 02.10.2026, 23:22 Uhr
 
 Daniel hat die Amazon-Seite gemeldet: Meldung `9713` im Briefkasten (Plattform Prime Video, `https://www.amazon.de/dp/0NRA8APAOPCTKPDYT08UOO3K4B`, Titel „Ein Supertrio - Cat's Eye", Sprache Deutsch,
