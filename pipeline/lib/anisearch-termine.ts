@@ -168,5 +168,18 @@ export function verlagAlsDienst(verlag: string): string | undefined {
  */
 export function eigenerTerminVerdraengt(eigenerStart: string | undefined, termin: AnisearchTermin): boolean {
   if (!eigenerStart) return false
-  return !(termin.ende && termin.ende < eigenerStart)
+  if (termin.ende && termin.ende < eigenerStart) return false
+  /*
+    **Eine Disc von früher ist nicht dieselbe Veröffentlichung wie unser späterer Stream-Termin.**
+    „Kamisama Kiss": Blu-ray-Gesamtausgabe seit 15.06.2026 (Anime House, synchronisiert), unser
+    Termin der Prime-Katalogstart am 08.10.2026 — ohne diese Regel fiel das Datum weg, und der Kasten
+    schrieb „0 von 13 Folgen erschienen". Ein Streaming-Verlag (oder keiner) bleibt verdrängt: das ist
+    der OmU-Fall der Apothekerin.
+  */
+  const discVorher =
+    termin.start &&
+    Date.parse(eigenerStart) - Date.parse(termin.start) >= 14 * 864e5 && // näher dran: OmU-Simulcast desselben Starts
+    termin.publisher &&
+    verlagAlsDienst(termin.publisher) === undefined
+  return !discVorher
 }

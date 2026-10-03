@@ -7615,6 +7615,10 @@ pruefe(
       eigenerTerminVerdraengt('2023-11-18', { start: '2023-10-21', ende: '2024-03-23', zitat: '' }))
   pruefe('Erstausgabe: ohne eigenen Termin gilt aniSearch', !eigenerTerminVerdraengt(undefined, { start: '2020-01-01', zitat: '' }))
 
+  pruefe('Erstausgabe: Kamisama Kiss (Blu-ray 15.06.2026, Anime House) bleibt neben dem Prime-Katalogstart am 08.10.',
+    !eigenerTerminVerdraengt('2026-10-08', { start: '2026-06-15', publisher: 'Anime House GmbH', zitat: '' }) &&
+      eigenerTerminVerdraengt('2015-01-12', { start: '2015-01-09', publisher: 'peppermint anime GmbH', zitat: '' }) &&
+      eigenerTerminVerdraengt('2023-11-18', { start: '2023-10-21', publisher: 'Crunchyroll', zitat: '' }))
   /* Beleg-Lesungen: Artikel erkennen, Crunchyrolls Datumszeile lesen, nur Änderungen merken. */
   pruefe('Belege: Artikel ja, Kalender und Katalog nein',
     istArtikel('https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026') &&
