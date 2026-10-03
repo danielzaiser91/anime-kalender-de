@@ -142,6 +142,10 @@ und deutsche Wikipedia (Artikeltitel muss passen). **Ergebnis: 34 bestätigt (68
 bei Specials/OVAs gilt der Abschnitt womöglich nur der Hauptserie). Die 16 offenen sind fast alle alt (1975–1989: Jakobus Nimmersatt, Chack der Biber, Pippo, Vier schöne Schwestern, Der gestiefelte Kater reist um die Welt — Verlag Ostalgica/Progress Film = DDR) oder neue Disc-Specials (Trinity Seven OVA, Joker Game, Aoharu×Machinegun, Infinite Stratos OVA, Sengoku Basara Special);
 bei einem davon (One Piece Fan Letter) hat Daniel an Netflix „kein Deutsch" gemessen. **Lesart:** keine Gegenbeweise, aber ein Drittel nicht bestätigbar; ältere Titel sind in Deutschland praktisch immer synchronisiert, neue Specials oft nur untertitelt. Liste: [marke-pruefung-sample.md](../../daniel-zum-abarbeiten/marke-pruefung-sample.md).
 
+**Alle 224 geprüft (03.10.2026, 12:17):** **158 bestätigt (70,5 %)**, **0 widerlegt**, **66 offen**, 0 Abruffehler. Bestätigt durch deutsche aniSearch-Sprecher: 145; nur durch einen Wikipedia-Abschnitt „Synchronisation": 13.
+Die 66 offenen: 23 aus der Zeit vor 1990 (in Deutschland praktisch immer synchronisiert), 30 ab 2010 (meist neue Specials/OVAs auf Disc oder Streaming — hier ist Untertitel-only möglich), 13 dazwischen. Nach Format: 22 Special, 21 Film, 11 OVA, 5 TV, 5 ONA, 2 TV-Short.
+Liste zum Prüfen: [marke-pruefung-alle.md](../../daniel-zum-abarbeiten/marke-pruefung-alle.md). Die Stichprobe (68 %) hat das Gesamtbild vorhergesagt.
+
 ### Plan 03.10.2026 — getrennt nach Zuständigkeit
 
 **A. Kann ich selbstständig bearbeiten (keine Entscheidung nötig; nichts davon wird ohne Vorlage der Ergebnisse festgeschrieben, was Daniel entscheidet):**
