@@ -21302,3 +21302,34 @@
   dub: true
   checkedAt: '2026-10-02'
   note: "Playlist ‚Monsuno Staffel 1 | Deutsch/German‘ (Kanal Monsuno Deutsch, @monsunodeutsch): alle 26 Folgen, beginnt bei Folge 1 (Clash), kostenlos, 360p (Daniel). Nur Staffel 1 lief im deutschen Fernsehen (Nickelodeon 02.06.2012 bis 20.04.2013, fernsehserien.de); Staffel 2 und 3 (zusammen 65 Folgen laut Wikipedia) gibt es nicht auf Deutsch. Disc nur englisch. Ob der Kanal offiziell ist, ist offen."
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-03 ---
+
+- anilistId: 21874
+  title: "Trinity Seven: Eternity Library & Alchemic Girl"
+  platform: primevideo
+  url: https://www.amazon.de/dp/0TKA5TG7J16JXLROE6HYTDJDN9
+  dub: true
+  checkedAt: '2026-10-03'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite 0TKA5TG7J16JXLROE6HYTDJDN9: alle 1 Folge geprüft, Abos: aniversede, crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.f35c7cce-4e65-4c2c-a88f-b263f0bfecd5 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 20631
+  title: "Trinity Seven"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B07NNP4Z55
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: false
+      checked: [1]
+    - from: 2
+      to: 12
+      dub: true
+      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-10-03'
+  note: "Folge 1 ohne deutschen Ton, Folgen 2–12 mit deutschem Ton — Tonspuren: Deutsch — Amazon-Seite B07NNP4Z55: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo_und_kauf, gti=amzn1.dv.gti.51d72c27-7ee1-4a4e-8b49-078b56d3ee0b"
+- anilistId: 103631
+  title: "Trinity Seven: Heavens Library & Crimson Lord"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0HFKQ7R7T
+  checkedAt: '2026-10-03'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0HFKQ7R7T: alle 1 Folge geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo_und_kauf, gti=amzn1.dv.gti.df415539-adfc-46dd-8caa-0fc24443b1ef — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
