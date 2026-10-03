@@ -155,10 +155,10 @@ Synchro oder nur Untertitel? Drei Streamer-Fälle (Crunchyroll), sechs Disc/Labe
 
 Warum fehlt der Block? Stimmt der Beleg (Handbeleg/Urteil), oder ist aniSearch hier hinterher? Zeigt, wo die Regel „kein Block ⇒ keine bekannt" brechen würde.
 
-- [ ] **Code Geass: Akito the Exiled - The Wyvern Divided** (Code Geass: Boukoku no Akito 2 - Hikisakareshi Yokuryuu) — Film, 2013, 1 Teil, Sunrise · Reihe: „Code Geass: Akito the Exiled - The Wyvern Arrives“
-  - Links: [bei uns](https://anime-kalender.de/t/code-geass-akito-the-exiled-the-wyvern-divided-15197/)
+- [ ] **Code Geass: Boukoku no Akito 2 - Hikisakareshi Yokuryuu Picture Drama** — Special, 2013, 1 Teil, Sunrise · Reihe: „Code Geass: Akito the Exiled - The Wyvern Arrives“
+  - Links: [bei uns](https://anime-kalender.de/t/code-geass-boukoku-no-akito-2-hikisakareshi-yokuryuu-picture-drama-109002/) · [aniSearch](https://www.anisearch.de/anime/17070)
   - Mein Urteil: harter Beleg von außen, aber kein aniSearch-Block
-  - Ergebnis: 
+  - Ergebnis: Hinweis (Daniel 03.10.): der **Film** „Akito 2 – Hikisakareshi Yokuryuu“ hat bei uns keine aniSearch-Zuordnung; aniSearch bündelt alle Akito-Filme unter 6300 (Episode 2 = „The Wyvern divided“) mit deutschem Block. Hier geht es um das **Picture Drama** (aniSearch 17070, 4 Bonus-Folgen, nur Japanisch).
 - [ ] **Space☆Dandy 2 Picture Drama** — Special, 2014, 3 Folgen, bones · Reihe: „Space Dandy“
   - Links: [bei uns](https://anime-kalender.de/t/space-dandy-2-picture-drama-108972/) · [aniSearch](https://www.anisearch.de/anime/10180)
   - Mein Urteil: harter Beleg von außen, aber kein aniSearch-Block
