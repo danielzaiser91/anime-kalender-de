@@ -2,7 +2,7 @@
 
 Ziel: je Regel ein paar Fälle von dir bestätigen lassen. Schreib „ja/nein/?" und die Quelle dahinter; bestätigte Muster gelten dann für alle gleichen Fälle. Zu jedem Titel stehen **Art, Jahr, Folgen, Studio und die Reihe**, damit du ihn sicher erkennst.
 
-**Schon bestätigt:** Yu☆Gi☆Oh! (1998, 27-Folgen-Serie von Toei, „Season 0“) · Gundam Wing: Endless Waltz (OVA 1997, 3 × 30 Min.) · Hunter×Hunter (TV-Serie 1999) · Dr. Slump: Arale-chan (TV-Serie 1981) — alle „keine deutsche Synchro“. **Stand der Abnahme (15:45): 13 von 41 geprüft. In allen 11 Fällen ohne aniSearch-Block stimmt „keine deutsche Synchro“ (8 so vorhergesagt; 3 hatte ich wegen Wikipedia als „eher deutsch“ eingestuft — falsch bei Maison Ikkoku, City Hunter 3 und ’91, die Regel „Wikipedia nennt Synchro ⇒ eher deutsch“ wird gestrichen). Die aniSearch-Marke stimmt in 2 von 2.**
+**Schon bestätigt:** Yu☆Gi☆Oh! (1998, 27-Folgen-Serie von Toei, „Season 0“) · Gundam Wing: Endless Waltz (OVA 1997, 3 × 30 Min.) · Hunter×Hunter (TV-Serie 1999) · Dr. Slump: Arale-chan (TV-Serie 1981) — alle „keine deutsche Synchro“. **Stand der Abnahme (16:05): 17 von 41 geklärt (13 von Hand, 4 in Gruppe F durch den Crunchyroll-Lauf bzw. andere Anbieterbelege). In allen 11 Fällen ohne aniSearch-Block stimmt „keine deutsche Synchro“ (8 so vorhergesagt; 3 hatte ich wegen Wikipedia als „eher deutsch“ eingestuft — falsch bei Maison Ikkoku, City Hunter 3 und ’91, die Regel „Wikipedia nennt Synchro ⇒ eher deutsch“ wird gestrichen). Die aniSearch-Marke stimmt in 2 von 2.**
 
 ## A. „keine bekannt / hoch" — Relation zu anderer Fassung (3)
 
@@ -158,7 +158,7 @@ Warum fehlt der Block? Stimmt der Beleg (Handbeleg/Urteil), oder ist aniSearch h
 - [ ] **Code Geass: Boukoku no Akito 2 - Hikisakareshi Yokuryuu Picture Drama** — Special, 2013, 1 Teil, Sunrise · Reihe: „Code Geass: Akito the Exiled - The Wyvern Arrives“
   - Links: [bei uns](https://anime-kalender.de/t/code-geass-boukoku-no-akito-2-hikisakareshi-yokuryuu-picture-drama-109002/) · [aniSearch](https://www.anisearch.de/anime/17070)
   - Mein Urteil: harter Beleg von außen, aber kein aniSearch-Block
-  - Ergebnis: Hinweis (Daniel 03.10.): der **Film** „Akito 2 – Hikisakareshi Yokuryuu“ hat bei uns keine aniSearch-Zuordnung; aniSearch bündelt alle Akito-Filme unter 6300 (Episode 2 = „The Wyvern divided“) mit deutschem Block. Hier geht es um das **Picture Drama** (aniSearch 17070, 4 Bonus-Folgen, nur Japanisch).
+  - Ergebnis: 
 - [ ] **Space☆Dandy 2 Picture Drama** — Special, 2014, 3 Folgen, bones · Reihe: „Space Dandy“
   - Links: [bei uns](https://anime-kalender.de/t/space-dandy-2-picture-drama-108972/) · [aniSearch](https://www.anisearch.de/anime/10180)
   - Mein Urteil: harter Beleg von außen, aber kein aniSearch-Block
