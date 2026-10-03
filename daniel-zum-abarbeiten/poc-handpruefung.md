@@ -1,44 +1,44 @@
-# Handprüfung vor dem PoC (Stand 03.10.2026, 14:00)
+# Handprüfung vor dem PoC (Stand 03.10.2026, 15:45)
 
 Ziel: je Regel ein paar Fälle von dir bestätigen lassen. Schreib „ja/nein/?" und die Quelle dahinter; bestätigte Muster gelten dann für alle gleichen Fälle. Zu jedem Titel stehen **Art, Jahr, Folgen, Studio und die Reihe**, damit du ihn sicher erkennst.
 
-**Schon bestätigt:** Yu☆Gi☆Oh! (1998, 27-Folgen-Serie von Toei, „Season 0") · Gundam Wing: Endless Waltz (OVA 1997, 3 × 30 Min.) · Hunter×Hunter (TV-Serie 1999) · Dr. Slump: Arale-chan (TV-Serie 1981) — alle „keine deutsche Synchro".
+**Schon bestätigt:** Yu☆Gi☆Oh! (1998, 27-Folgen-Serie von Toei, „Season 0“) · Gundam Wing: Endless Waltz (OVA 1997, 3 × 30 Min.) · Hunter×Hunter (TV-Serie 1999) · Dr. Slump: Arale-chan (TV-Serie 1981) — alle „keine deutsche Synchro“. **Stand der Abnahme (15:45): 13 von 41 geprüft. In allen 11 Fällen ohne aniSearch-Block stimmt „keine deutsche Synchro“ (8 so vorhergesagt; 3 hatte ich wegen Wikipedia als „eher deutsch“ eingestuft — falsch bei Maison Ikkoku, City Hunter 3 und ’91, die Regel „Wikipedia nennt Synchro ⇒ eher deutsch“ wird gestrichen). Die aniSearch-Marke stimmt in 2 von 2.**
 
 ## A. „keine bekannt / hoch" — Relation zu anderer Fassung (3)
 
 Gibt es eine deutsche Synchro für **diesen** Titel (nicht für die verwandte Fassung)? Bestätigst du „nein", gilt die Regel für alle gleichen Fälle.
 
-- [ ] **Dr. Slump: Arale-chan** — TV-Serie, 1981, 243 Folgen, Toei Animation
+- [x] **Dr. Slump: Arale-chan** — TV-Serie, 1981, 243 Folgen, Toei Animation
   - Links: [bei uns](https://anime-kalender.de/t/dr-slump-arale-chan-2222/) · [aniSearch](https://www.anisearch.de/anime/2134)
   - aniSearch-Beziehung: „Alternative Version“ zu **Dr. Slump** (TV-Serie, 74 (1997), [aniSearch](https://www.anisearch.de/anime/299)) — dieser andere Titel hat eine deutsche Synchro
   - Mein Urteil: keine bekannt / hoch — Relation „Alternative Version“ zu aniSearch 299 (hat deutsche Synchro); Wikipedia-Artikel der Reihe („Dr. Slump“) nennt Synchronisation — gilt für die Hauptserie, bei diesem Titel unklar; gestützt durch: Relation; Wikipe
-  - Ergebnis: **bestätigt: nein** (Daniel, 03.10.2026) — der Titel von 1981 lief nie auf Deutsch; die Neuauflage „Dr. Slump“ (1997–1999) lief 2002 deutsch synchronisiert, ist aber ein anderer Titel
-- [ ] **Gurren Lagann The Movie: Childhood's End** (Tengen Toppa Gurren Lagann: Gurren-hen) — Film, 2008, 1 Teil, Gainax · Reihe: „Gurren Lagann“
+  - Ergebnis: nein (Daniel 03.10.): lief nie auf Deutsch; die Neuauflage „Dr. Slump“ (1997–1999) lief 2002 deutsch, ist ein anderer Titel — **Urteil bestätigt**
+- [x] **Gurren Lagann The Movie: Childhood's End** (Tengen Toppa Gurren Lagann: Gurren-hen) — Film, 2008, 1 Teil, Gainax · Reihe: „Gurren Lagann“
   - Links: [bei uns](https://anime-kalender.de/t/gurren-lagann-the-movie-childhood-s-end-4107/) · [aniSearch](https://www.anisearch.de/anime/4842)
   - aniSearch-Beziehung: „Komplette Geschichte“ zu **Gurren Lagann** (TV-Serie, 27 (2007), [aniSearch](https://www.anisearch.de/anime/3711)) — dieser andere Titel hat eine deutsche Synchro
   - Mein Urteil: keine bekannt / hoch — Relation „Komplette Geschichte“ zu aniSearch 3711 (hat deutsche Synchro); gestützt durch: Relation
-  - Ergebnis: 
-- [ ] **Kakegurui: Das Leben ist ein Spiel** (Kakegurui Picture Drama) — Special, 2017, 3 Folgen, MAPPA
+  - Ergebnis: nein (Daniel 03.10.) — **Urteil bestätigt**
+- [x] **Kakegurui: Das Leben ist ein Spiel** (Kakegurui Picture Drama) — Special, 2017, 3 Folgen, MAPPA
   - Links: [bei uns](https://anime-kalender.de/t/kakegurui-picture-drama-107622/) · [aniSearch](https://www.anisearch.de/anime/14572)
   - Mein Urteil: keine bekannt / hoch — Wikipedia-Artikel der Reihe („Kakegurui“) nennt Synchronisation — gilt für die Hauptserie, bei diesem Titel unklar; keine Sprecherseite bei aniSearch; gestützt durch: Wikipedia-Verneinung; Wikipedia-Artikel „Kakegurui“ o
-  - Ergebnis: 
+  - Ergebnis: nein (Daniel 03.10.): 3 Bonus-Clips à ca. 2 Min.; **Fehler bei uns:** unsere Netflix-Pille führt nur zu den zwei Hauptserien-Teilen, das Picture Drama ist dort nicht — **Urteil bestätigt**
 
 ## B. „keine bekannt / mittel" — nur aniSearch ohne deutschen Block (10)
 
 Gibt es eine deutsche Synchro? Besonders die zwei TV-Serien (Shakugan no Shana III, Ginyuu Mokushiroku) sind riskant.
 
-- [ ] **Shakugan no Shana: Season III** (Shakugan no Shana III (Final)) — TV-Serie, 2011, 24 Folgen, J.C.STAFF · Reihe: „Shakugan no Shana“
+- [x] **Shakugan no Shana: Season III** (Shakugan no Shana III (Final)) — TV-Serie, 2011, 24 Folgen, J.C.STAFF · Reihe: „Shakugan no Shana“
   - Links: [bei uns](https://anime-kalender.de/t/shakugan-no-shana-season-iii-6773/) · [aniSearch](https://www.anisearch.de/anime/7185)
   - Mein Urteil: keine bekannt / mittel — keine weitere Stütze (nur: kein Block, keine deutschen Sprecher, kein Wikipedia-Treffer)
-  - Ergebnis: 
-- [ ] **Ginyuu Mokushiroku Meine Liebe Wieder** — TV-Serie, 2006, 13 Folgen, Bee Train · Reihe: „Meine Liebe“
+  - Ergebnis: nein (Daniel 03.10.) — **Urteil bestätigt**
+- [x] **Ginyuu Mokushiroku Meine Liebe Wieder** — TV-Serie, 2006, 13 Folgen, Bee Train · Reihe: „Meine Liebe“
   - Links: [bei uns](https://anime-kalender.de/t/ginyuu-mokushiroku-meine-liebe-wieder-771/) · [aniSearch](https://www.anisearch.de/anime/311)
   - Mein Urteil: keine bekannt / mittel — keine weitere Stütze (nur: kein Block, keine deutschen Sprecher, kein Wikipedia-Treffer)
-  - Ergebnis: 
-- [ ] **Saint Seiya - Die Legende der karmesinroten Jugend** (Saint Seiya: Legend of Crimson Youth / Saint Seiya: Shinku no Shounen Densetsu) — Film, 1988, 1 Teil, Toei Animation · Reihe: „Saint Seiya: Knights of the Zodiac“
+  - Ergebnis: nein (Daniel 03.10.) — **Urteil bestätigt**
+- [x] **Saint Seiya - Die Legende der karmesinroten Jugend** (Saint Seiya: Legend of Crimson Youth / Saint Seiya: Shinku no Shounen Densetsu) — Film, 1988, 1 Teil, Toei Animation · Reihe: „Saint Seiya: Knights of the Zodiac“
   - Links: [bei uns](https://anime-kalender.de/t/saint-seiya-legend-of-crimson-youth-1255/) · [aniSearch](https://www.anisearch.de/anime/1923)
   - Mein Urteil: keine bekannt / mittel — keine weitere Stütze (nur: kein Block, keine deutschen Sprecher, kein Wikipedia-Treffer)
-  - Ergebnis: 
+  - Ergebnis: nein (Daniel 03.10.) — **Urteil bestätigt**
 - [ ] **Crying Freeman** — OVA, 1988, 6 Folgen, Toei Animation
   - Links: [bei uns](https://anime-kalender.de/t/crying-freeman-1153/) · [aniSearch](https://www.anisearch.de/anime/596)
   - Mein Urteil: keine bekannt / mittel — keine weitere Stütze (nur: kein Block, keine deutschen Sprecher, kein Wikipedia-Treffer); Wikipedia-Artikel „Crying Freeman“ ohne Hinweis auf Synchro
@@ -72,31 +72,31 @@ Gibt es eine deutsche Synchro? Besonders die zwei TV-Serien (Shakugan no Shana I
 
 Gilt die Synchro der Reihe auch für diesen Titel?
 
-- [ ] **Demon King Daimao** (Demon King Daimaou Specials / Ichiban Ushiro no Daimaou Specials) — Special, 2010, 6 Folgen, Artland · Reihe: „Demon King Daimao — Daimao“
+- [x] **Demon King Daimao** (Demon King Daimaou Specials / Ichiban Ushiro no Daimaou Specials) — Special, 2010, 6 Folgen, Artland · Reihe: „Demon King Daimao — Daimao“
   - Links: [bei uns](https://anime-kalender.de/t/demon-king-daimaou-specials-8465/) · [aniSearch](https://www.anisearch.de/anime/7182)
   - Mein Urteil: keine bekannt / niedrig — Wikipedia-Artikel der Reihe („Ichiban Ushiro no Daimaō“) nennt Synchronisation — gilt für die Hauptserie, bei diesem Titel unklar; keine weitere Stütze (nur: kein Block, keine deutschen Sprecher, kein Wikipedia-Treffer);
-  - Ergebnis: 
-- [ ] **Tsukigakirei** (Tsuki ga Kirei Special) — Special, 2017, 1 Teil, feel. · Reihe: „Tsukigakirei — Tsukigakirei“
+  - Ergebnis: nein (Daniel 03.10.): 6 × 3 Min. Specials, nur japanisch; nur eine Textquelle gefunden — **Urteil bestätigt**
+- [x] **Tsukigakirei** (Tsuki ga Kirei Special) — Special, 2017, 1 Teil, feel. · Reihe: „Tsukigakirei — Tsukigakirei“
   - Links: [bei uns](https://anime-kalender.de/t/tsuki-ga-kirei-special-100305/) · [aniSearch](https://www.anisearch.de/anime/12907)
   - Mein Urteil: keine bekannt / niedrig — Wikipedia-Artikel der Reihe („Tsuki ga Kirei“) nennt Synchronisation — gilt für die Hauptserie, bei diesem Titel unklar; keine weitere Stütze (nur: kein Block, keine deutschen Sprecher, kein Wikipedia-Treffer); Wikipedia
-  - Ergebnis: 
+  - Ergebnis: nein (Daniel 03.10.): als Special auf den Discs erwähnt, aber kein Beleg für Deutsch — **Urteil bestätigt**
 
 ## D. „eher deutsch" — Hinweise auf eine deutsche Fassung (6)
 
 Gibt es eine deutsche Synchro **für diesen Titel**? (Maison Ikkoku: Die Wikipedia nennt nur den Kinofilm bei Kazé auf Deutsch.)
 
-- [ ] **Maison Ikkoku** — TV-Serie, 1986, 96 Folgen, Studio DEEN
+- [x] **Maison Ikkoku** — TV-Serie, 1986, 96 Folgen, Studio DEEN
   - Links: [bei uns](https://anime-kalender.de/t/maison-ikkoku-1453/) · [aniSearch](https://www.anisearch.de/anime/2918)
   - Mein Urteil: eher deutsch — aber Wikipedia („Maison Ikkoku“) nennt Synchronisation
-  - Ergebnis: 
-- [ ] **City Hunter 3** — TV-Serie, 1989, 13 Folgen, Sunrise · Reihe: „City Hunter: Ein Fall für Ryo Saeba“
+  - Ergebnis: nein (Daniel 03.10.): Wikipedia: „Auf Deutsch ist nur der Kinofilm bei Kazé erschienen“; die Sprecherliste gilt nur dem Film — **mein Urteil „eher deutsch“ war falsch**
+- [x] **City Hunter 3** — TV-Serie, 1989, 13 Folgen, Sunrise · Reihe: „City Hunter: Ein Fall für Ryo Saeba“
   - Links: [bei uns](https://anime-kalender.de/t/city-hunter-3-1472/) · [aniSearch](https://www.anisearch.de/anime/700)
   - Mein Urteil: eher deutsch — aber Wikipedia („City Hunter“) nennt Synchronisation
-  - Ergebnis: 
-- [ ] **City Hunter '91** — TV-Serie, 1991, 13 Folgen, Sunrise · Reihe: „City Hunter: Ein Fall für Ryo Saeba“
+  - Ergebnis: nein (Daniel 03.10.): Staffeln 3 und 4 (City Hunter '91) nie deutsch; auch der Film „Shinjuku Private Eyes“ nie — **mein Urteil „eher deutsch“ war falsch**
+- [x] **City Hunter '91** — TV-Serie, 1991, 13 Folgen, Sunrise · Reihe: „City Hunter: Ein Fall für Ryo Saeba“
   - Links: [bei uns](https://anime-kalender.de/t/city-hunter-91-1473/) · [aniSearch](https://www.anisearch.de/anime/3365)
   - Mein Urteil: eher deutsch — aber Wikipedia („City Hunter“) nennt Synchronisation
-  - Ergebnis: 
+  - Ergebnis: nein (Daniel 03.10.), s. City Hunter 3 — **mein Urteil „eher deutsch“ war falsch**
 - [ ] **Heaven's Lost Property - The Angeloid of Clockwork** (Heaven's Lost Property the Movie: The Angeloid of Clockwork / Sora no Otoshimono: Tokeijikake no Angeloid) — Film, 2011, 1 Teil, AIC A.S.T.A. · Reihe: „Angeloid: Sora no Otoshimono“
   - Links: [bei uns](https://anime-kalender.de/t/heaven-s-lost-property-the-movie-the-angeloid-of-clockwork-9790/) · [aniSearch](https://www.anisearch.de/anime/6902)
   - Mein Urteil: eher deutsch — aber Wikipedia („Angeloid“) nennt Synchronisation
@@ -176,14 +176,14 @@ Warum fehlt der Block? Stimmt der Beleg (Handbeleg/Urteil), oder ist aniSearch h
 
 Gibt es die deutsche Synchro? Fünf neuere Disc-Specials, zwei Altfälle. Klärt, ob die Marke allein reicht.
 
-- [ ] **One Piece Fan Letter** (ONE PIECE FAN LETTER) — Special, 2024, 1 Teil, Toei Animation · Reihe: „One Piece: Defeat the Pirate Ganzack!“
+- [x] **One Piece Fan Letter** (ONE PIECE FAN LETTER) — Special, 2024, 1 Teil, Toei Animation · Reihe: „One Piece: Defeat the Pirate Ganzack!“
   - Links: [bei uns](https://anime-kalender.de/t/one-piece-fan-letter-182469/) · [aniSearch](https://www.anisearch.de/anime/19696)
   - Mein Urteil: Marke vorhanden, aber nirgends bestätigt
-  - Ergebnis: 
-- [ ] **Trinity Seven: The Seven Deadly Sins & the Seven Mages** (Trinity Seven: Nanatsu no Taizai to Nana Madoushi) — OVA, 2015, 1 Teil, Seven Arcs Pictures · Reihe: „Trinity Seven“
+  - Ergebnis: **ja** (Daniel 03.10.): deutsche Synchro bei Joyn ansehbar (joyn.de/filme/one-piece-fan-letter), JustWatch führt es korrekt; werstreamt.es nennt nur ADN (nur Untertitel) — **Marke war richtig**
+- [x] **Trinity Seven: The Seven Deadly Sins & the Seven Mages** (Trinity Seven: Nanatsu no Taizai to Nana Madoushi) — OVA, 2015, 1 Teil, Seven Arcs Pictures · Reihe: „Trinity Seven“
   - Links: [bei uns](https://anime-kalender.de/t/trinity-seven-nanatsu-no-taizai-to-nana-madoushi-21064/) · [aniSearch](https://www.anisearch.de/anime/10073)
   - Mein Urteil: Marke vorhanden, aber nirgends bestätigt
-  - Ergebnis: 
+  - Ergebnis: **ja** (Daniel 03.10.): deutsche Synchro (KSM, März 2025; Complete Edition); Amazon-Seite 0TKA5TG7J16JXLROE6HYTDJDN9 gemeldet (Erweiterung nennt sie „Film“, Amazons Beschreibung 2017/27 Min.) — **Marke war richtig**
 - [ ] **Joker Game: Die Abenteuer der Schwarzen Katze Yoru** (Joker Game: Kuroneko Yoru no Bouken) — Special, 2016, 2 Folgen, Production I.G · Reihe: „Joker Game“
   - Links: [bei uns](https://anime-kalender.de/t/joker-game-kuroneko-yoru-no-bouken-21790/) · [aniSearch](https://www.anisearch.de/anime/11524)
   - Mein Urteil: Marke vorhanden, aber nirgends bestätigt
