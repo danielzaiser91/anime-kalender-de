@@ -33,6 +33,7 @@ import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
+import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../shared/kostenlos.ts'
 import { istPremiere, tvAngabe } from '../web/src/lib/tv-angabe.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
@@ -7771,6 +7772,23 @@ console.log('\nVerspätete Folgen in den News:')
   /* Der erste Lauf scheiterte mit HTTP 400: Das „T" im Zeitstempel verletzt die Schlüsselregel des Workers (03.10.2026). */
   const schluessel = messbelegSchluessel('2026-09-30', '2026-10-02T23:06:49.736Z')
   pruefe('Messbelege: der Ablageschlüssel besteht die Regel des Workers', ABLAGE_SCHLUESSEL.test(schluessel + '.html.gz'), schluessel)
+}
+
+/* Überholte Meldungen stehen unter der geltenden, neueste zuerst (Entwurf B, 03.10.2026). */
+console.log('\nNews-Verlauf:')
+{
+  const alt1 = { art: 'disc', release: 'r', datum: '2026-11-20', ersetzt: { datum: '2026-12-18', release: 'r' } } as never
+  const alt2 = { art: 'disc', release: 'r', datum: '2026-12-18', ersetzt: { datum: '2027-01-15', release: 'r' } } as never
+  const neu = { art: 'disc', release: 'r', datum: '2027-01-15' } as never
+  const ohneFolger = { art: 'disc', release: 'x', datum: '2026-11-01', ersetzt: { datum: '2026-12-01', release: 'x' } } as never
+  const liste = [
+    { am: '2026-09-28', titelId: 1, titel: 'T', meldungen: [neu] },
+    { am: '2026-09-20', titelId: 1, titel: 'T', meldungen: [alt2] },
+    { am: '2026-09-14', titelId: 1, titel: 'T', meldungen: [alt1, ohneFolger] },
+  ] as never as Parameters<typeof verlaeufeAus>[0]
+  const v = verlaeufeAus(liste)
+  pruefe('News-Verlauf: die Kette steht unter der geltenden Meldung, neueste zuerst', v.vorgaenger.get(neu)?.map((x) => x.m.datum).join() === '2026-12-18,2026-11-20', v.vorgaenger.get(neu))
+  pruefe('News-Verlauf: eingeordnete verschwinden aus der Tagesliste, ohne Nachfolger bleibt die Meldung', v.eingeordnet.has(alt1) && v.eingeordnet.has(alt2) && !v.eingeordnet.has(ohneFolger) && ohneEingeordnete(liste, v.eingeordnet).length === 2)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

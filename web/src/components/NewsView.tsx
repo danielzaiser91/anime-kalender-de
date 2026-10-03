@@ -9,6 +9,8 @@ import { todayIso, addDays } from '@shared/time.ts'
 import { AbgeloestHinweis } from './news-abgeloest.tsx'
 import { quellenLabel } from './news-belege.tsx'
 import { Klapptext } from './klapptext.tsx'
+import { VerlaufZeilen } from './news-verlauf.tsx'
+import { ohneEingeordnete, verlaeufeAus, type Stand } from '../lib/news-verlauf.ts'
 
 /**
  * **Was sich getan hat — ein Anime, ein Tag, eine Zeile.**
@@ -218,11 +220,13 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
     }
   }, [])
 
+  /* Überholte Meldungen stehen unter der, die sie überholt hat — nicht mehr in ihrer eigenen Tagesliste. */
+  const verlaeufe = useMemo(() => verlaeufeAus(meldungen ?? []), [meldungen])
   const sichtbar = useMemo(
-    () => (aeltereZeigen ? (meldungen ?? []) : (meldungen ?? []).filter((e) => e.am >= grenze)),
-    [meldungen, aeltereZeigen, grenze],
+    () => ohneEingeordnete(aeltereZeigen ? (meldungen ?? []) : (meldungen ?? []).filter((e) => e.am >= grenze), verlaeufe.eingeordnet),
+    [meldungen, aeltereZeigen, grenze, verlaeufe],
   )
-  const aeltereGibtEs = !aeltereZeigen && (meldungen ?? []).some((e) => e.am < grenze)
+  const aeltereGibtEs = !aeltereZeigen && ohneEingeordnete(meldungen ?? [], verlaeufe.eingeordnet).some((e) => e.am < grenze)
 
   /* Wie oft jede Art vorkommt — die Filterleiste zeigt nur, was es gibt. */
   const jeArt = useMemo(() => {
@@ -449,6 +453,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                           m={m}
                           reihe={e.titel}
                           oeffne={() => oeffne(m.teilId ?? e.titelId)}
+                          staende={verlaeufe.vorgaenger.get(m)}
                         />
                       ))}
                     </ul>
@@ -484,10 +489,12 @@ function MeldungZeile({
   m,
   reihe,
   oeffne,
+  staende,
 }: {
   m: NewsMeldung
   reihe: string
   oeffne: () => void
+  staende?: Stand[]
 }) {
   const { t } = useLang()
   return (
@@ -523,6 +530,7 @@ function MeldungZeile({
       {/* Der Vermerk erscheint **beim Aufklappen** unter der Meldung — in der Übersicht bleibt der
           Satz kurz. */}
       {m.hinweis && <p className="pb-1 pl-2 pr-2 text-[10px] text-slate-400 dark:text-slate-500"><Klapptext text={m.hinweis} /></p>}
+      {staende && <VerlaufZeilen staende={staende} />}
     </li>
   )
 }
