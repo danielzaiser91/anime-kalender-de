@@ -19,6 +19,10 @@ ALLOWED_ORIGIN = "https://anime-kalender.de"
 MAIL_PROVIDER = "resend"       # resend | brevo | console
 FROM_EMAIL = "kalender@send.anime-kalender.de"
 FROM_NAME = "Anime-Kalender DE"
+# Antworten der Abonnenten sollen NICHT bei `send.anime-kalender.de` landen —
+# das ist eine reine Versand-Subdomain ohne Postfach. `info@daniel-zaiser.de`
+# wird auf das Googlemail-Postfach des Betreibers weitergeleitet.
+REPLY_TO = "info@daniel-zaiser.de"
 SEND_HOUR_BERLIN = "7"
 # Empfänger der Überwachungsmeldungen
 MONITOR_EMAIL = "danielzaiser91@googlemail.com"

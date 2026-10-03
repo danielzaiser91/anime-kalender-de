@@ -3,6 +3,13 @@ export interface MailEnv {
   MAIL_API_KEY?: string
   FROM_EMAIL: string
   FROM_NAME: string
+  /**
+   * Antwortadresse. Ohne sie gehen Antworten an `FROM_EMAIL` — und das ist
+   * `send.anime-kalender.de`, eine reine Versand-Subdomain ohne Postfach.
+   * Antworten liefen dort ins Leere (30.09.2026 aufgefallen). Mit gesetztem
+   * Wert steht die Adresse als Reply-To im Kopf, die Antwort kommt also dort an.
+   */
+  REPLY_TO?: string
 }
 
 export interface Mail {
@@ -51,6 +58,7 @@ export async function sendMail(env: MailEnv, mail: Mail): Promise<void> {
           html: mail.html,
           text: mail.text,
           headers,
+          ...(env.REPLY_TO ? { reply_to: env.REPLY_TO } : {}),
         }),
       })
       if (!res.ok) throw new Error(`Resend ${res.status}: ${await res.text()}`)
@@ -68,6 +76,7 @@ export async function sendMail(env: MailEnv, mail: Mail): Promise<void> {
           htmlContent: mail.html,
           textContent: mail.text,
           headers,
+          ...(env.REPLY_TO ? { replyTo: { email: env.REPLY_TO } } : {}),
         }),
       })
       if (!res.ok) throw new Error(`Brevo ${res.status}: ${await res.text()}`)
