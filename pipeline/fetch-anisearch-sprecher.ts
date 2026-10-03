@@ -17,6 +17,9 @@ const MAX_FEHLER_IN_FOLGE = 5
 const ALTER_TAGE = 180
 /** Hochzählen, sobald `sprecherAus()` ein Feld mehr liest. */
 const PARSER_STAND = 1
+/** Zeitbudget: Der Workflow bricht bei 120 Minuten ab und verwirft dann alles, was noch nicht geschrieben ist (03.10.2026: 1.100 Seiten × ~6,7 s ≈ 123 Minuten). */
+const MINUTEN = Number(/--minuten[= ](\d+)/.exec(process.argv.join(' '))?.[1] ?? 100)
+const START = Date.now()
 const GRENZE = Number(/--limit[= ](\d+)/.exec(process.argv.join(' '))?.[1] ?? 400)
 const ZIEL = 'data/anisearch-sprecher.json'
 
@@ -54,6 +57,10 @@ log(`${warteschlange.length} von ${titel.size} Sprecherseiten offen, davon komme
 let geholt = 0
 let fehlerInFolge = 0
 for (const id of warteschlange.slice(0, GRENZE)) {
+  if (Date.now() - START > MINUTEN * 60_000) {
+    log(`Zeitbudget von ${MINUTEN} Minuten erreicht — der Rest kommt im nächsten Lauf.`)
+    break
+  }
   try {
     const antwort = await fetch(`https://www.anisearch.de/anime/${id}/seiyuu`, {
       headers: { 'User-Agent': KENNUNG, 'Accept-Language': 'de-DE,de;q=0.9' },
