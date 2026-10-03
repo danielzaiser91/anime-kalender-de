@@ -1,6 +1,210 @@
 {
-  "scrapedAt": "2026-10-01T21:36:37.438Z",
+  "scrapedAt": "2026-10-03T09:57:25.058Z",
   "proposals": [
+    {
+      "articleTitle": "Crunchyroll nimmt fünf Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1056817/crunchyroll-apothecary-diaires-staffel-3-und-mehr/",
+      "publishedAt": "2026-10-02",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Freitag",
+          "zeit": "17:00",
+          "satz": "nach Osaka, um die geheimnisvolle Fälscherwerkstatt aufzuspüren. »Die Tagebücher der Apothekerin« – Staffel 3 Episoden: 1 von 24 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Freitag um 17:00 Uhr Hinweis: Deutsche Synchronisation angek"
+        },
+        {
+          "tag": "Donnerstag",
+          "zeit": "14:30",
+          "satz": "Hungersnot für neue Herausforderungen, die weit über die Grenzen des Reiches hinausreichen. »FX Fighter Kurumi-chan« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Donnerstag um 14:30 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Donnerstag",
+          "zeit": "18:00",
+          "satz": "h auf dem riskanten Finanzmarkt zu behaupten. »The Prince of Tennis II U-17 WORLD CUP: Final Member Selection Match« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Donnerstag um 18:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Freitag",
+          "zeit": "18:00",
+          "satz": "t. In einem entscheidenden Auswahlmatch kämpfen die Spieler um die letzten Plätze im Team. »Tougen Anki« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Freitag um 18:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        }
+      ],
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-03"
+    },
+    {
+      "articleTitle": "Disney+ ergänzt zwei weitere Anime-Titel auf Deutsch",
+      "articleUrl": "https://www.anime2you.de/news/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/",
+      "publishedAt": "2026-10-02",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "zeiten": [
+        {
+          "tag": "Samstag",
+          "zeit": "19:00",
+          "satz": "rc« – Episode 1 Ab 3. November: »Honey Lemon Soda« Ab sofort: »Tokyo Revengers: War of the Three Titan Arc« Episoden: 1 verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 19:00 Uhr Stream: Disney+ Handlung: Nachdem seine"
+        }
+      ],
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
+      "articleUrl": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "publishedAt": "2026-10-02",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "pause": "verschoben",
+      "alreadyCurated": false,
+      "verschiebungen": [
+        {
+          "titel": "Sailor Moon – Staffel 1 (Limited Steelbook Edition)",
+          "alt": "2026-10-02",
+          "neu": "2026-10-16"
+        },
+        {
+          "titel": "Call of the Night (Staffel 2) – Vol. 2",
+          "alt": "2026-10-31",
+          "neu": "2026-11-06"
+        },
+        {
+          "titel": "Girls Band Cry – Vol. 2",
+          "alt": "2026-10-02",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "Girls Band Cry – Vol. 2 (Limited Edition)",
+          "alt": "2026-10-02",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "2.5 Dimensional Seduction – Vol. 4 (Limited Edition)",
+          "alt": "2026-10-23",
+          "neu": "2026-10-30"
+        },
+        {
+          "titel": "Bitte zieh dich an, Takamine! – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-10-02",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "Bitte zieh dich an, Takamine! – Vol. 2 (Limited Edition)",
+          "alt": "2026-11-20",
+          "neu": "2026-12-18"
+        },
+        {
+          "titel": "Bocchi the Rock! – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-10-02",
+          "neu": "2026-11-06"
+        },
+        {
+          "titel": "Inazuma Eleven – Staffel 1 (Komplettbox)",
+          "alt": "2026-10-23",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "Inazuma Eleven – The Movie (Limited Edition)",
+          "alt": "2026-11-06",
+          "neu": "2026-12-18"
+        },
+        {
+          "titel": "Infinite Dendrogram – Vol. 2 (Limited Edition)",
+          "alt": "2026-10-23",
+          "neu": "2026-10-30"
+        },
+        {
+          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-10-02",
+          "neu": "2026-11-06"
+        },
+        {
+          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 2 (Limited Edition)",
+          "alt": "2026-11-20",
+          "neu": "2026-12-18"
+        },
+        {
+          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 3 (Limited Edition)",
+          "alt": "2026-12-18",
+          "neu": "2027-01-15"
+        },
+        {
+          "titel": "Nukitashi – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-10-23",
+          "neu": "2026-10-30"
+        },
+        {
+          "titel": "Sakamoto Days – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-10-23",
+          "neu": "2026-10-30"
+        },
+        {
+          "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-10-02",
+          "neu": "2026-11-06"
+        },
+        {
+          "titel": "Strike Witches (Staffel 2) – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-10-23",
+          "neu": "2026-11-06"
+        },
+        {
+          "titel": "Strike Witches (Staffel 2) – Vol. 2 (Limited Edition)",
+          "alt": "2026-11-06",
+          "neu": "2026-12-11"
+        },
+        {
+          "titel": "Strike Witches (Staffel 2) – Vol. 3 (Limited Edition)",
+          "alt": "2026-12-04",
+          "neu": "2027-01-15"
+        },
+        {
+          "titel": "The Café Terrace and Its Goddesses – Staffel 1 (Komplettbox)",
+          "alt": "2026-11-06",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "The Café Terrace and Its Goddesses – Staffel 2 (Komplettbox)",
+          "alt": "2026-12-04",
+          "neu": "2027-01-15"
+        },
+        {
+          "titel": "Virgin Road – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-10-23",
+          "neu": "2026-10-30"
+        }
+      ]
+    },
+    {
+      "articleTitle": "Design der neuen Blu-ray-Filmbox zu »Dragon Ball Z« enthüllt",
+      "articleUrl": "https://www.anime2you.de/news/1054654/neue-dragon-ball-z-filmbox-design/",
+      "publishedAt": "2026-10-02",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "t, das ihr euch weiter unten in diesem Artikel ansehen könnt. Release im November 2026 Die neue Filmbox, die die ersten vier »Dragon Ball Z«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast",
       "articleUrl": "https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/",
@@ -61,7 +265,79 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Berserk",
+          "zusatz": "Part 1",
+          "datum": "2026-10-01",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 13
+        },
+        {
+          "titel": "Hände weg, Kotesashi-kun",
+          "datum": "2026-10-03",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 12
+        },
+        {
+          "titel": "Girls & Panzer: Motto Love Love Sakusen desu!",
+          "datum": "2026-10-08",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 4
+        },
+        {
+          "titel": "Kamisama Kiss",
+          "zusatz": "Staffel 1",
+          "datum": "2026-10-08",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 13
+        },
+        {
+          "titel": "Sankarea",
+          "datum": "2026-10-15",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 13
+        },
+        {
+          "titel": "Trinity Seven – Heavens Library & Crimson Lord",
+          "datum": "2026-10-15",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": []
+        },
+        {
+          "titel": "Saiyuki Reload: Zeroin",
+          "datum": "2026-10-22",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 13
+        },
+        {
+          "titel": "Your Forma",
+          "datum": "2026-10-22",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 13
+        }
+      ],
+      "sammelGelesen": "2026-10-03"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -149,12 +425,7 @@
         "primevideo",
         "aniverse"
       ],
-      "dates": [
-        {
-          "iso": "2026-10-01",
-          "context": "affel, die fortan jeden Mittwoch um 17:30 Uhr veröffentlicht wird. Am 1. Oktober 2026 folgt die zweite Staffel von »With Vengeance, […] De"
-        }
-      ],
+      "dates": [],
       "dub": "unklar",
       "zeiten": [
         {
@@ -193,7 +464,9 @@
           "satz": "lut durch seine Adern fließt, gerät er selbst ins Visier des Momotarou-Clans. »With Vengeance, Sincerely, Your Broken Saintess« – Staffel 2 Start: 1. Oktober 2026 Simulcast: Jeden Donnerstag um 18:15 Uhr Sprache: Japanisch (UT) Stream: anivers"
         }
       ],
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-03"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -299,7 +572,31 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Attack on Titan",
+          "zusatz": "Staffel 1",
+          "datum": "2026-10-01",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ],
+          "folgen": 25
+        },
+        {
+          "titel": "Kubo Won’t Let Me Be Invisible",
+          "datum": "2026-10-01",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ],
+          "folgen": 12
+        }
+      ],
+      "sammelGelesen": "2026-10-03"
     },
     {
       "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
@@ -358,7 +655,248 @@
           "satz": "ernative Version der Serie und stellt dabei vor allem die Beziehung zwischen Utena, Anthy und dem Prinzen in den Mittelpunkt. 17. Oktober: »Dreamland« (Simulcast) Simulcast: Jeden Samstag um 19:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
         }
       ],
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Reincarnated as a Sword",
+          "zusatz": "Staffel 2",
+          "datum": "2026-09-30",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN",
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Tougen Anki",
+          "zusatz": "Staffel 2",
+          "datum": "2026-10-02",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Suikoden",
+          "datum": "2026-10-03",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Even the Student Council Has Its Holes!",
+          "datum": "2026-10-03",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Now That I Can Control Reality With A Mouse Cursor, I’m Gonna Click Away On The Girls!",
+          "datum": "2026-10-04",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "My Girlfriend’s Friend",
+          "datum": "2026-10-04",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Nia Liston: The Merciless Maiden",
+          "datum": "2026-10-06",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Dreamland",
+          "datum": "2026-10-17",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Monster Strike: Deadverse Reloaded",
+          "datum": "2026-10-01",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 10
+        },
+        {
+          "titel": "School Babysitters",
+          "datum": "2026-10-05",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "86 EIGHTY-SIX",
+          "datum": "2026-10-08",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 23
+        },
+        {
+          "titel": "BLEACH: Memories of Nobody",
+          "datum": "2026-10-12",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "BLEACH: The DiamondDust Rebellion",
+          "datum": "2026-10-12",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "BLEACH: Fade to Black",
+          "datum": "2026-10-12",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "BLEACH: The Hell Verse",
+          "datum": "2026-10-12",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Revolutionary Girl Utena",
+          "datum": "2026-10-15",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 39
+        },
+        {
+          "titel": "Revolutionary Girl Utena: The Movie",
+          "datum": "2026-10-15",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Chiikawa",
+          "zusatz": "Episode 121 bis 240",
+          "datum": "2026-10-19",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN",
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Reincarnated as a Dragon Hatchling",
+          "datum": "2026-10-22",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN",
+            "Prime Video"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "THE LEGEND OF HEI II",
+          "datum": "2026-10-26",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Reborn!",
+          "zusatz": "Episode 52 bis 101",
+          "datum": "2026-10-28",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Puella Magi Madoka Magica",
+          "datum": "2026-10-29",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Puella Magi Madoka Magica – Film 1: Beginnings",
+          "datum": "2026-10-29",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Puella Magi Madoka Magica – Film 2: Eternal",
+          "datum": "2026-10-29",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Puella Magi Madoka Magica – Film 3: Rebellion",
+          "datum": "2026-10-29",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-10-03"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -373,7 +911,9 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-03"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -563,7 +1103,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Netflix enthüllt neuen Teaser zu »Cyberpunk: Edgerunners II«",
@@ -595,10 +1135,6 @@
         "disc"
       ],
       "dates": [
-        {
-          "iso": "2026-10-02",
-          "context": "s Edition von »Gantz« erscheint demzufolge nicht wie zuvor geplant am 2. Oktober 2026, sondern erst am 20. November 2026 als Blu-ray. […]"
-        },
         {
           "iso": "2026-11-20",
           "context": "emzufolge nicht wie zuvor geplant am 2. Oktober 2026, sondern erst am 20. November 2026 als Blu-ray. […] Der Beitrag Limitierte Collector’"
@@ -1703,7 +2239,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "»A Gatherer’s Adventure in Isekai« erscheint als Blu-ray-Komplettbox",

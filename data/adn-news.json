@@ -1,6 +1,22 @@
 {
-  "geholtAm": "2026-10-01T10:15:48.044Z",
+  "geholtAm": "2026-10-03T09:54:11.037Z",
   "artikel": [
+    {
+      "titel": "Nia Liston: The Merciless Maiden – alle Infos zum neuen Isekai",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/03/nia-liston-the-merciless-maiden-alle-infos-zum-neuen-isekai/",
+      "datum": "2026-10-03",
+      "showIds": [
+        1431
+      ]
+    },
+    {
+      "titel": "Even the Student Council Has Its Holes: Neue Schul-Comedy im Simulcast",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/02/even-the-student-council-has-its-holes-neue-schul-comedy-im-simulcast/",
+      "datum": "2026-10-02",
+      "showIds": [
+        1428
+      ]
+    },
     {
       "titel": "Suikoden: Der RPG-Klassiker kehrt als Anime zurück!",
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/01/suikoden-der-rpg-klassiker-kehrt-als-anime-zuruck/",
@@ -83,6 +99,7 @@
         502,
         1423,
         198,
+        352,
         361,
         1338,
         1208,
@@ -742,22 +759,6 @@
         1364,
         770,
         190
-      ]
-    },
-    {
-      "titel": "My Gift Lvl 9999-Anime bekommt eine deutsche Synchro von ADN",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/03/25/my-gift-lvl-9999-anime-bekommt-eine-deutsche-synchro-von-adn/",
-      "datum": "2026-03-25",
-      "showIds": [
-        1333
-      ]
-    },
-    {
-      "titel": "One Piece: Weitere 125 Episoden auf Deutsch bei ADN",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/03/25/one-piece-weitere-125-episoden-auf-deutsch-bei-adn/",
-      "datum": "2026-03-25",
-      "showIds": [
-        561
       ]
     }
   ]
