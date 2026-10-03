@@ -48,3 +48,13 @@ Als Zweitbeleg sinnvoll, nicht als Hauptweg: Hersteller (Kazé, KSM, peppermint,
 ## 5. Vorschlag für den Abruf
 
 Beim Lauf je Artikelseite mitnehmen: EAN, Sprache (als Liste Audio, getrennt von Untertiteln), Untertitel, Publisher, Umfang, Enthaltene Titel (ID + Typ). Je Anime zusätzlich: Genres/Tags, Bewertung, Cover, Relationen (mit Typ) und die Sprecherseite. Aufwand Artikelseiten ≈ 14,5 h bei 6 s je Seite; die Reihenfolge zuerst Titel ohne Marke und ohne Handbeleg.
+
+## 6. API-Abruf ohne Token: `/associated?source=myanimelist` und `/titles` (03.10.2026, 20:50)
+
+Daniel hat die zwei Abrufe erlaubt. Beide kosten **eine Anfrage je 24 h** (`x-ratelimit-limit=1`, Fenster 86.400 s), also heute nicht wiederholbar; die Antworten liegen gepackt in `tools/archiv/analyse-2026-10-02/` (`api-associated-…`, `api-titles-…`).
+
+- **Kennung:** Mit der reinen Projektkennung antwortete die API mit HTTP 423 (wie die Webseite seit 19.09., `lib/kennung.ts`); mit Browser-Signatur plus Projektkennung 200. Ein Fehlversuch zählte nicht gegen das Tageslimit.
+- **Form:** `/associated` ist `{ "<MAL-ID>": [<aniSearch-ID>, …] }` (18.860 Einträge, 286 KB), `/titles` je aniSearch-ID `{year, main, ja, ja-kanji, en}` (21.349 Einträge, 4,7 MB).
+- **Vergleich mit unserer Brücke** (`bruecke-api-vergleich.cjs`, 2.785 Titel im Bestand, Schlüssel unsere `malId`): **2.631 stimmen mit der bisherigen aniSearch-Kennung überein, 1 weicht ab** (`lord-of-mysteries-specials`: manami 20885, API 21592), **143 der 150 bisher ohne Kennung bekommen eine**, 7 bleiben ohne. 30 Titel haben mehrere aniSearch-IDs.
+- **Lesart:** Mehrere IDs zu einer MAL-ID sind Teile (Death Note Relight: 4441 und 5194); mehrere MAL-IDs zu **einer** aniSearch-ID sind die Bündel (Gantz 1 und 2 → 585, Mardock Scramble 1 und 2 → 6110, Code Geass Akito → 6300). Das ist die Einheit-Werk-Frage, die die Umstellung entscheiden muss.
+- **Folge:** Die Brücke lässt sich ohne Token über MAL schließen. Vor dem Übernehmen die 143 neuen Zuordnungen prüfen (Namens- und Jahresabgleich gegen `/titles`) und die eine Abweichung von Hand entscheiden.
