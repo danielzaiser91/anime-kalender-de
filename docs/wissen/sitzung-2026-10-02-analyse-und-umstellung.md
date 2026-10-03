@@ -122,6 +122,19 @@ Punkt 3 (MyDubList) ist für die **drei Kandidaten abgeschlossen**: Cat's Eye (P
 **Weiter am 03.10.2026 mit:** (a) den übrigen 19 Wikipedia-Kandidaten (§3.5) *oder* gleich der Entscheidung über MyDubList, dann (b) Punkt 4a Zählwort, danach 4b…4l der Reihe nach.
 Eingetragen und gepusht: Monsuno (`fe6c74804`), Berserk (`6da45aa92`, `67e54dbba`), Schnellfilter-Vorlieben (`9d3e06e6e`). Live erst nach dem nächsten Datenlauf (Daten) bzw. Deploy (Schnellfilter).
 
+### B1 entschieden (03.10.2026, 11:42): MyDubList fliegt **komplett** raus — nach Detailanalyse
+
+Daniel: „Ich will, dass MyDubList komplett rausfliegt, und mir mit dir zusammen vorher alle Konsequenzen angucken, ganz genau im Detail, sodass nichts rausfliegt, was drin bleiben sollte, aber alles rausfliegt, was falsch ist."
+**Befund der Bestandsaufnahme (03.10.2026, gemessen):**
+- MyDubList bestimmt heute: (1) die **Mitgliedschaft im Hauptbestand** (`pipeline/fetch.ts`, `bau/01-quellen.ts`, `bau/02-titel.ts`: Liste ∪ `synchro-von-hand.yaml`/Kuratiertes); (2) das Feld `dubConfidence` (4 Stufen) mit Folgen in
+  `shared/logic.ts:145-179` (Statusberechnung „erschienen" bei beendeter Serie, nicht bei `low`), dem Filter „Zuverlässigkeit" (`FilterDetails.tsx:658`, `filters.ts:191,398`, Adresse `conf`), der aniSearch-Reihenfolge (`fetch-anisearch.ts`);
+  (3) Text `detail.dubProof` „Synchro belegt über MyDubList"; (4) Quellenseite/`meta.attribution` (CC BY 4.0); (5) `tools/bau-vergleich.mjs`, `check-logic.ts`.
+- **Belegstufen des Hauptbestands (2.783):** A stark 1.655 (Stream/Termin/Handbeleg/Urteil/Netflix-Tonspur), B mittel 1.012 (aniSearch-Marke, Sprecher, Disc/Kino/Ankündigung, JustWatch; davon 70 allein durch Sprecher),
+  **C schwach 39** (deutscher Block ohne Marke / nur Shop), **D nichts 77**. Kandidaten zum Verlassen: C + D = **116** — jeder einzeln zu belegen oder zu widerlegen, **bevor** etwas geändert wird.
+- **Katalog (15.147, hinter dem Schalter):** für **keinen** gibt es heute Belege ausser einem Handbeleg (Our Last Crusade S2) — die Prüfdaten (JustWatch, Urteile, Tonspuren, aniSearch) existieren fast nur für den Hauptbestand. „Nichts fehlt, was rein sollte" ist deshalb erst mit der **aniSearch-API über alle Titel** prüfbar (Token).
+**Vorgehen:** (1) Beleg-Hauptbuch je Titel (Spalten je Beleg) → (2) die 116 einzeln prüfen (Wikipedia, Videobuster, aniSearch, Daniels Sichtung), Blätter zur Freigabe → (3) neue Mitgliedsregel (ein Prädikat, getestet) → (4) Umbau hinter Gleichheitsbeweis: Vorher-nachher-Liste muss genau der freigegebenen entsprechen →
+(5) Folgen im Code und auf der Seite (siehe oben) → (6) Doku, Quellenseite, Attribution. Regel-Entwurf „bleibt": mindestens ein Beleg aus Stream-dub/Termin/Handbeleg/aniSearch-Marke/Sprecher/Disc-Veröffentlichung/Ankündigung; „nur Shop" und „deutscher Block ohne Marke" zählen nicht, solange nichts sie bestätigt.
+
 ### Plan 03.10.2026 — getrennt nach Zuständigkeit
 
 **A. Kann ich selbstständig bearbeiten (keine Entscheidung nötig; nichts davon wird ohne Vorlage der Ergebnisse festgeschrieben, was Daniel entscheidet):**
