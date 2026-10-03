@@ -237,6 +237,16 @@ JustWatch/Anbieter/Tonspur ohne Deutsch; Titel älter als ein Jahr), niedrig (Wi
 Lehre aus dem ersten Lauf: Die Wikipedia-Seite der **Reihe** nennt „Synchronisation" für die Hauptserie — als Gegenbeleg für ein OVA/Special oder eine andere Fassung taugt sie nicht; deshalb nur bei TV/Film ohne Relation.
 Liste zur Handprüfung: [kandidaten-pruefliste.md](../../daniel-zum-abarbeiten/kandidaten-pruefliste.md).
 
+## 7i. Quellen für „es gab nie eine deutsche Lizenz/Synchro" — Recherche zu Hunter×Hunter 1999 (03.10.2026, 13:20)
+
+Auslöser: Daniel fand bei Hunter×Hunter (1999) den Satz „Keine Lizenz … in Deutschland nie lizenziert". **Befund:** Es gibt **kein Register nicht erteilter Lizenzen**; ein Nein ist immer ein Schluss aus Abwesenheit in mehreren Quellen. Geprüft (selbst abgerufen, 03.10.2026):
+- **Deutsche Wikipedia „Hunter × Hunter":** Sprecherliste und Synchronstudio nur für die zweite Serie (2011–2014, G&G Tonstudios Kaarst, 2017–2019) und die Kinofilme (TNT Media, 2016); für 1999 kein Satz zu deutscher Fassung, der Artikel nennt nur andere Ausstrahlungsländer (FR, ES, AR, IT, PT) — **brauchbarer indirekter Beleg** (Wikipedia führt Länder auf, Deutschland fehlt).
+- **Deutsche Synchronkartei** (`synchronkartei.de`, `/serie/<id>`): nur „Hunter x Hunter (2011–2014) [Synchro 2017–2019]", **keine** Fassung von 1999 — gutes Negativindiz (sehr umfangreiche, aber von Freiwilligen gepflegte Kartei, nicht „vollständig"). **Nutzung eingeschränkt:** `robots.txt` sperrt `/suche`, die Rechtlichen Hinweise verbieten „automatisiertes Auslesen" und verlangen Quellenangabe. → **nur von Hand nachschlagen, nicht anbinden** (höchstens nach Erlaubnis anfragen, wie bei aniSearch). Hinweis: Die Suchseite habe ich einmal mit dem Abruf-Werkzeug gelesen, obwohl `/suche` in der robots.txt steht; nicht wiederholen, nicht automatisieren.
+- **Fandom-Wiki Hunter×Hunter** (von Gemini zitiert): Abruf nicht möglich (HTTP 402), **ungeprüft**; Fan-Wiki, nur als Hinweis brauchbar. **gutefrage.net**: nicht als Beleg.
+- **Argument „nie eine Meldung bei Anime2You/AnimaniA":** Schluss aus Schweigen; für uns prüfbar nur gegen das eigene Anime2You-Archiv (seit 2026), nicht über Jahrzehnte.
+**Kandidaten für weitere Negativ-/Positivquellen (noch nicht geprüft):** FSK-Prüfdatenbank (jede deutsche Disc-/Kinoveröffentlichung braucht eine Freigabe — fehlender Eintrag ⇒ keine physische deutsche Ausgabe, sagt aber nichts über die Sprache; `fetch-fsk.ts` existiert), Verlagskataloge (Kazé, KSM, peppermint, Universum, AniMoon: Lizenzmeldungen), JustWatch/TMDB (kein deutsches Angebot), aniSearch-News „Lizenz".
+**Lesart für die Regel:** Ein „keine deutsche Fassung bekannt, hoch" braucht **mindestens zwei voneinander unabhängige Negativindizien** (aniSearch ohne Block + eines aus: Wikipedia führt andere Fassung/Länder ohne Deutschland, Relation auf andere Fassung, Synchronkartei von Hand, kein JustWatch-Angebot, FSK ohne Eintrag).
+
 ## 7c. Cat's Eye — Prime-Meldung vom 02.10.2026, 23:22 Uhr
 
 Daniel hat die Amazon-Seite gemeldet: Meldung `9713` im Briefkasten (Plattform Prime Video, `https://www.amazon.de/dp/0NRA8APAOPCTKPDYT08UOO3K4B`, Titel „Ein Supertrio - Cat's Eye", Sprache Deutsch,
