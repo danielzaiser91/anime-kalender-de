@@ -292,3 +292,15 @@
   sources:
     - https://www.videobuster.de/dvd-bluray-verleih/194904/berserk-das-goldene-zeitalter-3
     - https://www.amazon.de/dp/B00JCG4ZZO
+
+# Gundam Wing: Endless Waltz (Film, 90 Min., polyband 2003): Daniel 03.10.2026 — der aniSearch-Verweis führte auf die Titelseite statt in einen Shop.
+# Das OVA (3 × 30 Min., AniList 91) hat keine eigene deutsche Fassung; aniSearch führt es als „Zusammenfassung“ zu diesem Film.
+- anilistId: 2273
+  title: "Gundam Wing: Endless Waltz (Film)"
+  links:
+    - name: "Amazon (DVD)"
+      url: https://www.amazon.de/dp/B0000D7ZII
+      kind: buy
+  sources:
+    - https://www.amazon.de/dp/B0000D7ZII
+    - https://www.anisearch.de/anime/1024
