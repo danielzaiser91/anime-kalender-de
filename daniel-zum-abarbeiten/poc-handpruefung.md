@@ -2,7 +2,7 @@
 
 Ziel: je Regel ein paar Fälle von dir bestätigen lassen. Schreib „ja/nein/?" und die Quelle dahinter; bestätigte Muster gelten dann für alle gleichen Fälle. Zu jedem Titel stehen **Art, Jahr, Folgen, Studio und die Reihe**, damit du ihn sicher erkennst.
 
-**Schon bestätigt:** Yu☆Gi☆Oh! (1998, 27-Folgen-Serie von Toei, „Season 0“) · Gundam Wing: Endless Waltz (OVA 1997, 3 × 30 Min.) · Hunter×Hunter (TV-Serie 1999) · Dr. Slump: Arale-chan (TV-Serie 1981) — alle „keine deutsche Synchro“. **Stand der Abnahme (16:05): 17 von 41 geklärt (13 von Hand, 4 in Gruppe F durch Anbieterbelege). In allen 11 Fällen ohne aniSearch-Block stimmt „keine deutsche Synchro“ (8 so vorhergesagt; 3 hatte ich wegen Wikipedia als „eher deutsch“ eingestuft — falsch bei Maison Ikkoku, City Hunter 3 und ’91, die Regel „Wikipedia nennt Synchro ⇒ eher deutsch“ wird gestrichen). Die aniSearch-Marke stimmt in 2 von 2.**
+**Schon bestätigt:** Yu☆Gi☆Oh! (1998, 27-Folgen-Serie von Toei, „Season 0“) · Gundam Wing: Endless Waltz (OVA 1997, 3 × 30 Min.) · Hunter×Hunter (TV-Serie 1999) · Dr. Slump: Arale-chan (TV-Serie 1981) — alle „keine deutsche Synchro“. **x In allen 11 Fällen ohne aniSearch-Block stimmt „keine deutsche Synchro“ (8 so vorhergesagt; 3 hatte ich wegen Wikipedia als „eher deutsch“ eingestuft — falsch bei Maison Ikkoku, City Hunter 3 und ’91, die Regel „Wikipedia nennt Synchro ⇒ eher deutsch“ wird gestrichen). Die aniSearch-Marke stimmt in 2 von 2.**
 
 ## A. „keine bekannt / hoch" — Relation zu anderer Fassung (3)
 
@@ -39,10 +39,10 @@ Gibt es eine deutsche Synchro? Besonders die zwei TV-Serien (Shakugan no Shana I
   - Links: [bei uns](https://anime-kalender.de/t/saint-seiya-legend-of-crimson-youth-1255/) · [aniSearch](https://www.anisearch.de/anime/1923)
   - Mein Urteil: keine bekannt / mittel — keine weitere Stütze (nur: kein Block, keine deutschen Sprecher, kein Wikipedia-Treffer)
   - Ergebnis: nein (Daniel 03.10.) — **Urteil bestätigt**
-- [ ] **Crying Freeman** — OVA, 1988, 6 Folgen, Toei Animation
+- [x] **Crying Freeman** — OVA, 1988, 6 Folgen, Toei Animation
   - Links: [bei uns](https://anime-kalender.de/t/crying-freeman-1153/) · [aniSearch](https://www.anisearch.de/anime/596)
   - Mein Urteil: keine bekannt / mittel — keine weitere Stütze (nur: kein Block, keine deutschen Sprecher, kein Wikipedia-Treffer); Wikipedia-Artikel „Crying Freeman“ ohne Hinweis auf Synchro
-  - Ergebnis: 
+  - Ergebnis: nein (Daniel 03.10.) — **Urteil bestätigt**
 - [ ] **Black Jack: Capital Transfer To Heian** (Black Jack: Heian Sento) — Film, 1996, 1 Teil, Beijing Sharaku Art
   - Links: [bei uns](https://anime-kalender.de/t/black-jack-capital-transfer-to-heian-10055/) · [aniSearch](https://www.anisearch.de/anime/715)
   - Mein Urteil: keine bekannt / mittel — keine weitere Stütze (nur: kein Block, keine deutschen Sprecher, kein Wikipedia-Treffer)
