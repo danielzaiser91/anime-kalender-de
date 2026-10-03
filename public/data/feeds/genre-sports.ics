@@ -60,7 +60,7 @@ UID:auto-165159-tv-toggo-plus@2026-09-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260926T184500Z
 DTEND:20260926T191500Z
-SUMMARY:Beyblade X – Folge 117/117
+SUMMARY:Beyblade X – Folge 117/118
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/auto-165159-tv-toggo-plus
 CATEGORIES:TOGGO plus
@@ -117,6 +117,16 @@ SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-165159-tv-toggo-plus@2026-10-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T184500Z
+DTEND:20261003T191500Z
+SUMMARY:Beyblade X – Folge 118/118
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/auto-165159-tv-toggo-plus
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-09@anime-kalender-de
