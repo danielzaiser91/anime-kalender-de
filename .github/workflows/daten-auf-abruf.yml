@@ -24,6 +24,12 @@ on:
   # im Winter — beides nach dem Sendeende. Ohne Eingaben läuft genau dieser eine Abruf.
   schedule:
     - cron: '5 21 * * *'
+    # **Nachts die aniSearch-Disc-Artikel, danach die Sprecherseiten** (03.10.2026, Daniel): je Nacht ein
+    # Block im Zeitbudget von 100 Minuten (~870 Seiten), bis alles geholt ist; ist die Warteschlange leer,
+    # endet der Lauf nach einer Minute. 00:00 UTC sind 02:00 Berliner Zeit im Sommer. `concurrency: daten`
+    # reiht die Läufe hintereinander.
+    - cron: '0 0 * * *'
+    - cron: '0 2 * * *'
 
   workflow_dispatch:
     inputs:
@@ -132,8 +138,8 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
           set -euo pipefail
-          LAUF='${{ inputs.lauf || 'data:toggo' }}'
-          GRENZE='${{ inputs.grenze || '300' }}'
+          LAUF='${{ inputs.lauf || (github.event.schedule == '0 0 * * *' && 'data:anisearch-artikel') || (github.event.schedule == '0 2 * * *' && 'data:anisearch-sprecher') || 'data:toggo' }}'
+          GRENZE='${{ inputs.grenze || (github.event_name == 'schedule' && '1100') || '300' }}'
           # Nicht jeder Lauf kennt --limit; die, die es nicht tun, bekommen es nicht.
           case "$LAUF" in
             data:anisearch)
