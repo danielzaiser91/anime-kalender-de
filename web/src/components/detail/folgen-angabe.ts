@@ -4,6 +4,7 @@ import { dubBild, bereicheGekuerzt, dubLuecken, dubGrenze, dubAbdeckung, bereich
 import { releaseStatus, expandEvents, istErschienen } from '@shared/logic.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
+import { deutschAbgeschlossen } from './antwort-regeln.ts'
 
 export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }: {
   releases: Release[]
@@ -92,9 +93,7 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       Deutsch". Eine Zahl am Weg braucht einen Beleg an genau diesem Weg.
     */
     if (s && s.dub !== true) return ''
-    const abgeschlossen = title.jpEnd
-      ? title.jpEnd < today
-      : Boolean(title.jpYear && title.jpYear < Number(today.slice(0, 4)))
+    const abgeschlossen = deutschAbgeschlossen(title, releases, today)
     return abgeschlossen && title.episodes ? t('detail.folgenKurz', { n: title.episodes }) : ''
   }
   return folgenAngabeFuer

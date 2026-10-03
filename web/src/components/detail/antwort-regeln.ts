@@ -2,7 +2,7 @@
  * **Zwei Regeln für den Antwort-Kasten** — ausgelagert, weil `berechneAntwort`
  * die Längengrenze reißt (`tools/umfang-pruefen.mjs`).
  */
-import { istErschienen } from '@shared/logic.ts'
+import { istErschienen, releaseStatus } from '@shared/logic.ts'
 import { formatDate, weekdayName } from '@shared/time.ts'
 import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
 
@@ -75,6 +75,18 @@ export function terminSatz(
   return rel
     ? T('antwort.erscheintRelativ', { rel, tag: weekdayName(datum), datum: formatDate(datum) })
     : T('antwort.erscheintDatum', { tag: weekdayName(datum), datum: formatDate(datum) })
+}
+
+/**
+ * **Japans Ende ist nicht das deutsche.** AniList führt für Slime Staffel 4 das Ende 25.09.2026, Crunchyroll
+ * zeigt die Folgen bis 16.10. und hatte am 03.10. erst 22 von 24. Die Prime-Pille schrieb dort „24 Fg.",
+ * weil der Titel nach Japans Ende als abgeschlossen galt. Abgeschlossen ist er erst, wenn auch kein
+ * deutscher Wochentermin mehr läuft.
+ */
+export function deutschAbgeschlossen(title: Title, releases: Release[], today: string): boolean {
+  const japan = title.jpEnd ? title.jpEnd < today : Boolean(title.jpYear && title.jpYear < Number(today.slice(0, 4)))
+  if (!japan) return false
+  return !releases.some((r) => r.releaseType === 'weekly' && r.platform !== 'disc' && r.platform !== 'tv' && releaseStatus(r, today) === 'airing')
 }
 
 /** Stammt die Gesamtzahl nur aus der fortgeschriebenen Folgenzahl des laufenden Release? */

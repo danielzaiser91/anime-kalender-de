@@ -34,6 +34,7 @@ import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './li
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
+import { deutschAbgeschlossen } from '../web/src/components/detail/antwort-regeln.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../shared/kostenlos.ts'
 import { istPremiere, tvAngabe } from '../web/src/lib/tv-angabe.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
@@ -7797,6 +7798,14 @@ console.log('\nNews-Verlauf:')
   const v = verlaeufeAus(liste)
   pruefe('News-Verlauf: die Kette steht unter der geltenden Meldung, neueste zuerst', v.vorgaenger.get(neu)?.map((x) => x.m.datum).join() === '2026-12-18,2026-11-20', v.vorgaenger.get(neu))
   pruefe('News-Verlauf: eingeordnete verschwinden aus der Tagesliste, ohne Nachfolger bleibt die Meldung', v.eingeordnet.has(alt1) && v.eingeordnet.has(alt2) && !v.eingeordnet.has(ohneFolger) && ohneEingeordnete(liste, v.eingeordnet).length === 2)
+}
+/* Japans Ende ist nicht das deutsche: Slime Staffel 4 (AniList-Ende 25.09., Crunchyroll bis 16.10.). */
+console.log('\nDeutsch abgeschlossen:')
+{
+  const titel = { jpEnd: '2026-09-25', jpYear: 2026 } as never
+  const laeuft = { releaseType: 'weekly', platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-05-01', lastEpisodeDate: '2026-10-16', episodeCount: 24 } } as never
+  pruefe('Abgeschlossen: ein laufender deutscher Wochentermin hält den Titel offen', !deutschAbgeschlossen(titel, [laeuft], '2026-10-03'))
+  pruefe('Abgeschlossen: ohne laufenden Termin zählt Japans Ende', deutschAbgeschlossen(titel, [], '2026-10-03'))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
