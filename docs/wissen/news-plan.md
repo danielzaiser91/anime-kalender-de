@@ -63,3 +63,4 @@ Tagen und Folgen, beide mit denselben zwei Quellen; dazu „11 von 13 erschienen
 - **Jeder Hash-Wechsel ohne Datumswechsel ist eine Anomalie** (`tools/belege-pruefen.mjs` wird rot, Feld `aenderungOhneDatum`), kein Schwellenwert.
 - **Frische Artikel werden täglich gelesen** (erste drei Tage), ältere alle sieben.
 - **Jede neue Domain steht erst auf der Prüfliste** (`data/beleg-domains.json`): von Hand prüfen, ob eine Zustimmungswand den Artikel verdeckt, Fix in `beleg-bild.ts`, erst dann lesen. Der Wachhund wird rot bei gelesener, aber ungeprüfter Domain.
+- **Gelesen wird, solange ein Termin offen ist** (Daniel, 03.10.2026): Ein Artikel, dessen Termine alle erreicht sind (Status `abgeschlossen`), wird nicht mehr gelesen — einmal aber immer, damit sein Beleg existiert (`adressenMitOffenemTermin`).

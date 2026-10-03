@@ -163,7 +163,7 @@ import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
-import { crunchyrollDatum, istArtikel, merkeLesung, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
+import { adressenMitOffenemTermin, crunchyrollDatum, istArtikel, merkeLesung, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
@@ -7654,6 +7654,14 @@ pruefe(
     'https://www.anime2you.de/news/5/f/': { zuletzt: '2026-10-03', lesungen: [{ am: '2026-10-02', hash: 'h' }] },
     'https://www.anime2you.de/news/6/g/': { zuletzt: '2026-10-03', lesungen: [{ am: '2026-09-20', hash: 'h' }] },
   }
+  /* Ein Artikel, dessen Termine alle erreicht sind, wird nicht mehr gelesen — außer er wurde noch nie gelesen. */
+  const relAus = (url: string, tag: string) => ({ releaseType: 'batch', schedule: { firstEpisodeDate: tag }, quellen: [{ url }], sources: [] }) as never
+  const erledigt = adressenMitOffenemTermin(
+    [relAus('https://x/alt', '2026-09-01'), relAus('https://x/neu', '2026-12-01'), relAus('https://x/nie', '2026-09-01')],
+    { 'https://x/alt': { zuletzt: '2026-09-02', lesungen: [] }, 'https://x/neu': { zuletzt: '2026-09-02', lesungen: [] } },
+    '2026-10-03',
+  )
+  pruefe('Belege: erledigte Termine beenden das Lesen, nie Gelesenes kommt einmal dran', erledigt.join() === 'https://x/neu,https://x/nie', erledigt)
   pruefe('Belege: frischer Artikel täglich, älterer erst nach sieben Tagen',
     JSON.stringify(warteschlange(Object.keys(frisch), frisch, '2026-10-04', 7, 5)) === '["https://www.anime2you.de/news/5/f/"]')
 

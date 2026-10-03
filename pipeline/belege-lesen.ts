@@ -19,7 +19,7 @@ import { meldeAbbruch } from './lib/abbruch.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Release } from '../shared/types.ts'
 import {
-  crunchyrollDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
+  adressenMitOffenemTermin, crunchyrollDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
@@ -34,10 +34,9 @@ const MINDESTTEXT = 400
 const args = process.argv.slice(2)
 const zahl = (name: string, vorgabe: number) => (args.includes(name) ? Number(args[args.indexOf(name) + 1]) : vorgabe)
 
-/** Alle Adressen, die im ausgelieferten Bestand einen Termin oder eine Meldung belegen. */
-function belegAdressen(): string[] {
-  const releases = readJson<Release[]>('public/data/releases.json', [])
-  return releases.flatMap((r) => [...(r.quellen ?? []).map((q) => q.url), ...(r.sources ?? [])])
+/** Adressen, die einen noch offenen Termin belegen — oder noch nie gelesen wurden. */
+function belegAdressen(gedaechtnis: BelegGedaechtnis, heute: string): string[] {
+  return adressenMitOffenemTermin(readJson<Release[]>('public/data/releases.json', []), gedaechtnis, heute)
 }
 
 interface Gelesen {
@@ -70,7 +69,7 @@ async function main(): Promise<void> {
   /* Altlast vom 02.10.2026: Produktseiten trugen den Erscheinungstag der Ausgabe als Veröffentlichungsdatum. */
   for (const [url, e] of Object.entries(gedaechtnis))
     if (!traegtArtikeldatum(url)) for (const l of e.lesungen) { l.ausgabe ??= l.veroeffentlicht; delete l.veroeffentlicht; delete l.aktualisiert }
-  const adressen = args.includes('--adresse') ? [args[args.indexOf('--adresse') + 1]!] : belegAdressen()
+  const adressen = args.includes('--adresse') ? [args[args.indexOf('--adresse') + 1]!] : belegAdressen(gedaechtnis, heute)
   const schlange = warteschlange(adressen, gedaechtnis, heute, zahl('--abstand', 7), zahl('--limit', 60))
   log(`Belege: ${schlange.length} Artikel fällig`)
   const browser = await chromium.launch()

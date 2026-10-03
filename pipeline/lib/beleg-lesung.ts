@@ -7,7 +7,8 @@
  * Rechnungen — der Abruf liegt in `pipeline/belege-lesen.ts`.
  */
 import { createHash } from 'node:crypto'
-import type { Quelle } from '../../shared/types.ts'
+import type { Quelle, Release } from '../../shared/types.ts'
+import { releaseStatus } from '../../shared/logic.ts'
 
 /** Artikel, keine Kalender, APIs oder Katalogseiten — nur sie haben einen Text, der sich ändern kann. */
 const ARTIKEL = [
@@ -48,6 +49,19 @@ export interface Lesung {
 
 export interface BelegGedaechtnis {
   [url: string]: { zuletzt: string; lesungen: Lesung[] }
+}
+
+/**
+ * **Wann ein Artikel nicht mehr gelesen wird:** sobald jeder Termin, den er belegt, erreicht ist
+ * (Status `abgeschlossen`). Gelesen wird er trotzdem **einmal**, damit der Beleg existiert (Daniel, 03.10.2026).
+ */
+export function adressenMitOffenemTermin(releases: Release[], gedaechtnis: BelegGedaechtnis, heute: string): string[] {
+  const offen = new Map<string, boolean>()
+  for (const r of releases) {
+    const unerledigt = releaseStatus(r, heute) !== 'abgeschlossen'
+    for (const u of [...(r.quellen ?? []).map((q) => q.url), ...(r.sources ?? [])]) offen.set(u, (offen.get(u) ?? false) || unerledigt)
+  }
+  return [...offen].filter(([u, o]) => o || !gedaechtnis[u]).map(([u]) => u)
 }
 
 /** Leerraum und unsichtbare Zeichen zählen nicht als Änderung. */
