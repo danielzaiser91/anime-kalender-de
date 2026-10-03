@@ -23,7 +23,8 @@ import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, releaseStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
 import { wocheAus } from '../shared/wochenprogramm.ts'
-import { artikelNenntTitel, folgeAmVerpasstenTermin, offeneMessbelege, rechercheFaellig } from './lib/ausgeblieben.ts'
+import { artikelNenntTitel, folgeAmVerpasstenTermin, messbelegSchluessel, offeneMessbelege, rechercheFaellig } from './lib/ausgeblieben.ts'
+import { BELEG_SCHLUESSEL as ABLAGE_SCHLUESSEL } from '../shared/beleg-schluessel.ts'
 import { kalenderTag, ohneDoppelteFolgen, verspaetungsMeldungen } from './lib/news-verspaetung.ts'
 import { nachgereichteFolgen } from './bau/verpasst-am-termin.ts'
 import { mitArtikeldaten } from './lib/beleg-lesung.ts'
@@ -7614,11 +7615,11 @@ pruefe(
     eigenerTerminVerdraengt('2023-11-18', { start: '2023-10-21', zitat: '' }) &&
       eigenerTerminVerdraengt('2023-11-18', { start: '2023-10-21', ende: '2024-03-23', zitat: '' }))
   pruefe('Erstausgabe: ohne eigenen Termin gilt aniSearch', !eigenerTerminVerdraengt(undefined, { start: '2020-01-01', zitat: '' }))
-
   pruefe('Erstausgabe: Kamisama Kiss (Blu-ray 15.06.2026, Anime House) bleibt neben dem Prime-Katalogstart am 08.10.',
     !eigenerTerminVerdraengt('2026-10-08', { start: '2026-06-15', publisher: 'Anime House GmbH', zitat: '' }) &&
       eigenerTerminVerdraengt('2015-01-12', { start: '2015-01-09', publisher: 'peppermint anime GmbH', zitat: '' }) &&
       eigenerTerminVerdraengt('2023-11-18', { start: '2023-10-21', publisher: 'Crunchyroll', zitat: '' }))
+
   /* Beleg-Lesungen: Artikel erkennen, Crunchyrolls Datumszeile lesen, nur Änderungen merken. */
   pruefe('Belege: Artikel ja, Kalender und Katalog nein',
     istArtikel('https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026') &&
@@ -7747,6 +7748,9 @@ console.log('\nVerspätete Folgen in den News:')
     offen.join() === 'messbeleg@2026-09-30,nachgereichtBeleg@2026-10-02',
     offen,
   )
+  /* Der erste Lauf scheiterte mit HTTP 400: Das „T" im Zeitstempel verletzt die Schlüsselregel des Workers (03.10.2026). */
+  const schluessel = messbelegSchluessel('2026-09-30', '2026-10-02T23:06:49.736Z')
+  pruefe('Messbelege: der Ablageschlüssel besteht die Regel des Workers', ABLAGE_SCHLUESSEL.test(schluessel + '.html.gz'), schluessel)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

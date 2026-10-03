@@ -10,8 +10,8 @@
  *   GET  /beleg?liste=<präfix>  die ersten 100 Schlüssel darunter
  */
 import type { Env } from './env.ts'
+import { BELEG_SCHLUESSEL as SCHLUESSEL } from '../../shared/beleg-schluessel.ts'
 
-const SCHLUESSEL = /^[a-z0-9][a-z0-9/_.-]{0,199}$/
 const HOECHSTENS_BYTES = 15 * 1024 * 1024
 
 function antwort(daten: unknown, status = 200): Response {

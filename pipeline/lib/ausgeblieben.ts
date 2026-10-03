@@ -114,3 +114,8 @@ export function offeneMessbelege<V extends { bemerktAm: string; erwartetAm: stri
   }
   return raus.slice(0, hoechstens)
 }
+
+/** Ablageschlüssel eines Messbelegs — nur Kleinbuchstaben, Ziffern und `/_.-` (Regel des Workers, `SCHLUESSEL`). */
+export function messbelegSchluessel(tag: string, amIso: string): string {
+  return `www.crunchyroll.com/simulcastcalendar/${tag}/${amIso.slice(0, 16).replace(/[T:]/g, '-')}`
+}

@@ -20,7 +20,7 @@ import { ablegen } from './lib/beleg-ablage.ts'
 import { recordSource } from './lib/health.ts'
 import { kalenderTag } from './lib/news-verspaetung.ts'
 import { todayIso } from '../shared/time.ts'
-import { offeneMessbelege } from './lib/ausgeblieben.ts'
+import { messbelegSchluessel, offeneMessbelege } from './lib/ausgeblieben.ts'
 import type { Messbeleg, VerpassterTermin } from './termine-pruefen.ts'
 
 const DATEI = 'data/termine-verpasst.json'
@@ -47,7 +47,7 @@ async function main(): Promise<void> {
         /* Der Cookie-Banner liegt sonst quer über dem Kalender (Probe 02.10.2026); entfernt, nicht beantwortet. */
         await seite.evaluate(() => document.querySelector('#onetrust-consent-sdk')?.remove())
         const am = new Date().toISOString()
-        const basis = `www.crunchyroll.com/simulcastcalendar/${a.tag}/${am.slice(0, 16).replace(':', '')}`
+        const basis = messbelegSchluessel(a.tag, am)
         const bild = await ablegen(`${basis}.jpg`, await seite.screenshot({ fullPage: true, type: 'jpeg', quality: 50 }), 'image/jpeg')
         const html = bild && (await ablegen(`${basis}.html.gz`, gzipSync(await seite.content()), 'application/gzip'))
         jeTag.set(a.tag, bild ? { am, url: kalenderTag(a.tag), bild, ...(html ? { html } : {}) } : undefined)
