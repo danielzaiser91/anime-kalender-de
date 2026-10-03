@@ -135,6 +135,13 @@ Daniel: „Ich will, dass MyDubList komplett rausfliegt, und mir mit dir zusamme
 **Vorgehen:** (1) Beleg-Hauptbuch je Titel (Spalten je Beleg) → (2) die 116 einzeln prüfen (Wikipedia, Videobuster, aniSearch, Daniels Sichtung), Blätter zur Freigabe → (3) neue Mitgliedsregel (ein Prädikat, getestet) → (4) Umbau hinter Gleichheitsbeweis: Vorher-nachher-Liste muss genau der freigegebenen entsprechen →
 (5) Folgen im Code und auf der Seite (siehe oben) → (6) Doku, Quellenseite, Attribution. Regel-Entwurf „bleibt": mindestens ein Beleg aus Stream-dub/Termin/Handbeleg/aniSearch-Marke/Sprecher/Disc-Veröffentlichung/Ankündigung; „nur Shop" und „deutscher Block ohne Marke" zählen nicht, solange nichts sie bestätigt.
 
+### Messung der aniSearch-Marke „Synchronisiert" als einziger Beleg (03.10.2026, 11:51)
+
+224 von 2.783 Titeln haben die Marke als **einzigen** Beleg ([Liste](../../daniel-zum-abarbeiten/marke-einziger-beleg.md)). Stichprobe 50 (zufällig, fester Startwert 20261003), Prüfweg: aniSearch-Sprecherseite `/anime/<id>/seiyuu` (deutsche Sprecher = Flagge `de`; geeicht an Eyeshield 21 mit 134, Cat's Eye 73, Yu-Gi-Oh! 1998 mit 0)
+und deutsche Wikipedia (Artikeltitel muss passen). **Ergebnis: 34 bestätigt (68 %), 0 widerlegt, 16 offen (32 %).** Von den 34 tragen 29 deutsche Sprecher bei aniSearch, 5 nur ein Wikipedia-Abschnitt „Synchronisation" (Agent Aika, Mirai Nikki OVA 2, Bauzi, Gon, Haru o daiteita —
+bei Specials/OVAs gilt der Abschnitt womöglich nur der Hauptserie). Die 16 offenen sind fast alle alt (1975–1989: Jakobus Nimmersatt, Chack der Biber, Pippo, Vier schöne Schwestern, Der gestiefelte Kater reist um die Welt — Verlag Ostalgica/Progress Film = DDR) oder neue Disc-Specials (Trinity Seven OVA, Joker Game, Aoharu×Machinegun, Infinite Stratos OVA, Sengoku Basara Special);
+bei einem davon (One Piece Fan Letter) hat Daniel an Netflix „kein Deutsch" gemessen. **Lesart:** keine Gegenbeweise, aber ein Drittel nicht bestätigbar; ältere Titel sind in Deutschland praktisch immer synchronisiert, neue Specials oft nur untertitelt. Liste: [marke-pruefung-sample.md](../../daniel-zum-abarbeiten/marke-pruefung-sample.md).
+
 ### Plan 03.10.2026 — getrennt nach Zuständigkeit
 
 **A. Kann ich selbstständig bearbeiten (keine Entscheidung nötig; nichts davon wird ohne Vorlage der Ergebnisse festgeschrieben, was Daniel entscheidet):**
