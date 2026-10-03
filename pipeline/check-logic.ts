@@ -7635,6 +7635,14 @@ pruefe(
     erst && !gleich && anders && lesungen[a]!.lesungen.length === 2 && lesungen[a]!.zuletzt === '2026-10-16' && unveraendertSeit(lesungen[a]) === '2026-10-16')
   pruefe('Belege: nie gelesene zuerst, frisch gelesene warten ihren Abstand ab',
     JSON.stringify(warteschlange([a, 'https://www.anime2you.de/news/2/y/'], lesungen, '2026-10-20', 7, 5)) === '["https://www.anime2you.de/news/2/y/"]')
+  /* Ein nicht mehr lesbares Datum ist keine Änderung; eine aniSearch-Produktseite trägt kein Artikeldatum (03.10.2026). */
+  const ohneDatum = merkeLesung(lesungen, a, { am: '2026-10-23', hash: 'h2' })
+  const produkt = 'https://www.anisearch.de/article/1,x'
+  const mitDatenVonProdukt = mitArtikeldaten([{ url: produkt, name: 'anisearch.de', gesehenAm: '2026-09-12', stand: 'aktuell' }], {
+    [produkt]: { zuletzt: '2026-10-02', lesungen: [{ am: '2026-10-02', hash: 'h', veroeffentlicht: '2026-11-19' }] },
+  })
+  pruefe('Belege: fehlendes Datum erzeugt keine zweite Lesung, Produktseiten nennen kein Veröffentlichungsdatum',
+    !ohneDatum && lesungen[a]!.lesungen.length === 2 && !('veroeffentlichtAm' in mitDatenVonProdukt[0]!))
 
   /* JustWatch: neue Fehlschläge sagen nichts über die Schnittstelle, verlorene Treffer schon. */
   pruefe('JustWatch: der Lauf vom 28.09.2026 (26 Treffer, 2 leer, 0 verfehlt) ist plausibel', !istUnplausibel({ getroffen: 26, leer: 2, verfehlt: 0 }))

@@ -20,7 +20,7 @@ import { meldeAbbruch } from './lib/abbruch.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Release } from '../shared/types.ts'
 import {
-  crunchyrollDatum, isoTag, merkeLesung, textHash, warteschlange, type BelegGedaechtnis, type Lesung,
+  crunchyrollDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
 
@@ -67,6 +67,9 @@ async function lies(seite: Page, url: string): Promise<Gelesen> {
 async function main(): Promise<void> {
   const heute = todayIso()
   const gedaechtnis = readJson<BelegGedaechtnis>(DATEI, {})
+  /* Altlast vom 02.10.2026: Produktseiten trugen den Erscheinungstag der Ausgabe als Veröffentlichungsdatum. */
+  for (const [url, e] of Object.entries(gedaechtnis))
+    if (!traegtArtikeldatum(url)) for (const l of e.lesungen) { delete l.veroeffentlicht; delete l.aktualisiert }
   const adressen = args.includes('--adresse') ? [args[args.indexOf('--adresse') + 1]!] : belegAdressen()
   const schlange = warteschlange(adressen, gedaechtnis, heute, zahl('--abstand', 7), zahl('--limit', 25))
   log(`Belege: ${schlange.length} Artikel fällig`)
@@ -86,13 +89,16 @@ async function main(): Promise<void> {
         if (g.text.length < MINDESTTEXT) throw new Error(`kein Artikeltext (${g.text.length} Zeichen)`)
         stoerungen = 0
         const hash = textHash(g.text)
+        const mitDatum = traegtArtikeldatum(url)
         const lesung: Lesung = {
           am: heute,
           hash,
-          veroeffentlicht: isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht),
-          aktualisiert: isoTag(g.aktualisiert) ?? crunchyrollDatum(g.aktualisiert),
+          veroeffentlicht: mitDatum ? (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)) : undefined,
+          aktualisiert: mitDatum ? (isoTag(g.aktualisiert) ?? crunchyrollDatum(g.aktualisiert)) : undefined,
         }
         const letzte = gedaechtnis[url]?.lesungen.at(-1)
+        /* Derselbe Text hat dasselbe Bild — eine Lesung mit neuem Datum verweist darauf, statt es neu zu erzeugen. */
+        if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, html: letzte.html })
         /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
         const ziel = letzte?.hash === hash ? letzte : lesung
         if (!ziel.bild) {

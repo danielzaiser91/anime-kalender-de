@@ -21,6 +21,13 @@ export function istArtikel(url: string): boolean {
   return ARTIKEL.some((m) => m.test(url))
 }
 
+/**
+ * Hat die Seite ein Veröffentlichungsdatum des **Textes**? Eine aniSearch-Produktseite (`/article/…`)
+ * nicht: Ihr „Veröffentlicht:" ist der Erscheinungstag der Ausgabe — der Tooltip nannte so „veröffentlicht
+ * am 19.11.2026" für einen Artikel vom September (03.10.2026).
+ */
+export const traegtArtikeldatum = (url: string): boolean => !/anisearch\.de\/article\//.test(url)
+
 export interface Lesung {
   /** Tag der Lesung (Europe/Berlin). */
   am: string
@@ -77,8 +84,12 @@ export function merkeLesung(gedaechtnis: BelegGedaechtnis, url: string, lesung: 
   const eintrag = (gedaechtnis[url] ??= { zuletzt: lesung.am, lesungen: [] })
   eintrag.zuletzt = lesung.am
   const letzte = eintrag.lesungen.at(-1)
+  /* Ein Datum, das die Seite nicht mehr nennt, ist keine Änderung — sonst entstünde bei gleichem Text eine zweite Lesung. */
   const gleich =
-    letzte && letzte.hash === lesung.hash && letzte.veroeffentlicht === lesung.veroeffentlicht && letzte.aktualisiert === lesung.aktualisiert
+    letzte &&
+    letzte.hash === lesung.hash &&
+    (!lesung.veroeffentlicht || letzte.veroeffentlicht === lesung.veroeffentlicht) &&
+    (!lesung.aktualisiert || letzte.aktualisiert === lesung.aktualisiert)
   if (gleich) return false
   eintrag.lesungen.push(lesung)
   return true
@@ -95,7 +106,7 @@ export function unveraendertSeit(eintrag: BelegGedaechtnis[string] | undefined):
  */
 export function mitArtikeldaten(quellen: Quelle[], gedaechtnis: BelegGedaechtnis): Quelle[] {
   return quellen.map((q) => {
-    const lesungen = gedaechtnis[q.url]?.lesungen ?? []
+    const lesungen = traegtArtikeldatum(q.url) ? (gedaechtnis[q.url]?.lesungen ?? []) : []
     const veroeffentlicht = lesungen.map((l) => l.veroeffentlicht).find(Boolean)
     const aktualisiert = lesungen.map((l) => l.aktualisiert).filter(Boolean).at(-1)
     return {
