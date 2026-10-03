@@ -69,9 +69,9 @@ async function main(): Promise<void> {
   const gedaechtnis = readJson<BelegGedaechtnis>(DATEI, {})
   /* Altlast vom 02.10.2026: Produktseiten trugen den Erscheinungstag der Ausgabe als Veröffentlichungsdatum. */
   for (const [url, e] of Object.entries(gedaechtnis))
-    if (!traegtArtikeldatum(url)) for (const l of e.lesungen) { delete l.veroeffentlicht; delete l.aktualisiert }
+    if (!traegtArtikeldatum(url)) for (const l of e.lesungen) { l.ausgabe ??= l.veroeffentlicht; delete l.veroeffentlicht; delete l.aktualisiert }
   const adressen = args.includes('--adresse') ? [args[args.indexOf('--adresse') + 1]!] : belegAdressen()
-  const schlange = warteschlange(adressen, gedaechtnis, heute, zahl('--abstand', 7), zahl('--limit', 25))
+  const schlange = warteschlange(adressen, gedaechtnis, heute, zahl('--abstand', 7), zahl('--limit', 60))
   log(`Belege: ${schlange.length} Artikel fällig`)
   const browser = await chromium.launch()
   let gelesen = 0
@@ -95,8 +95,15 @@ async function main(): Promise<void> {
           hash,
           veroeffentlicht: mitDatum ? (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)) : undefined,
           aktualisiert: mitDatum ? (isoTag(g.aktualisiert) ?? crunchyrollDatum(g.aktualisiert)) : undefined,
+          /* Eine Produktseite nennt den Erscheinungstag der Ausgabe — eine andere Aussage als ein Veröffentlichungsdatum. */
+          ausgabe: mitDatum ? undefined : (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)),
         }
         const letzte = gedaechtnis[url]?.lesungen.at(-1)
+        /* Ein neuer Text bei gleichen Daten darf nicht vorkommen: Er heißt, dass Unwesentliches den Hash ändert (Daniel, 03.10.2026). */
+        if (letzte && letzte.hash !== hash && letzte.veroeffentlicht === lesung.veroeffentlicht && letzte.aktualisiert === lesung.aktualisiert && letzte.ausgabe === lesung.ausgabe) {
+          lesung.aenderungOhneDatum = true
+          warn(`Beleg ${url}: Text geändert, Daten gleich — untersuchen (tools/belege-pruefen.mjs)`)
+        }
         /* Derselbe Text hat dasselbe Bild — eine Lesung mit neuem Datum verweist darauf, statt es neu zu erzeugen. */
         if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html })
         /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */

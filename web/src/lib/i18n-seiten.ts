@@ -16,6 +16,7 @@ export const TEXTE_SEITEN = {
   /* Der Tag, an dem die Quelle es sagte — bei eigener Messung der Tag, an dem wir nachsahen (news-plan.md). */
   'news.quelleVeroeffentlicht': '{name} · veröffentlicht am {datum}',
   'news.quelleAktualisiert': '{name} · veröffentlicht am {datum}, aktualisiert am {aktualisiert}',
+  'news.quelleAusgabe': '{name} · Produktseite, Ausgabe erscheint am {datum}',
   'news.quelleGemessen': '{name} · nachgesehen am {datum}',
   'news.art.nachgereicht': 'Verspätet erschienen',
   'news.nachgereichtMehrere': 'Folgen {von}–{bis} sind da, angekündigt waren {erwartet}',

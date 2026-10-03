@@ -7643,6 +7643,18 @@ pruefe(
   })
   pruefe('Belege: fehlendes Datum erzeugt keine zweite Lesung, Produktseiten nennen kein Veröffentlichungsdatum',
     !ohneDatum && lesungen[a]!.lesungen.length === 2 && !('veroeffentlichtAm' in mitDatenVonProdukt[0]!))
+  /* Der Erscheinungstag der Ausgabe ist ein eigenes Attribut, kein Veröffentlichungsdatum (Daniel, 03.10.2026). */
+  const mitAusgabe = mitArtikeldaten([{ url: produkt, name: 'anisearch.de', gesehenAm: '2026-09-12', stand: 'aktuell' }], {
+    [produkt]: { zuletzt: '2026-10-02', lesungen: [{ am: '2026-10-02', hash: 'h', ausgabe: '2026-11-19' }] },
+  })
+  pruefe('Belege: Produktseite trägt `ausgabeAm`', mitAusgabe[0]?.ausgabeAm === '2026-11-19' && !('veroeffentlichtAm' in mitAusgabe[0]!))
+  /* Frische Artikel (erste Lesung vor höchstens 3 Tagen) kommen täglich dran, ältere nur alle 7 Tage. */
+  const frisch: BelegGedaechtnis = {
+    'https://www.anime2you.de/news/5/f/': { zuletzt: '2026-10-03', lesungen: [{ am: '2026-10-02', hash: 'h' }] },
+    'https://www.anime2you.de/news/6/g/': { zuletzt: '2026-10-03', lesungen: [{ am: '2026-09-20', hash: 'h' }] },
+  }
+  pruefe('Belege: frischer Artikel täglich, älterer erst nach sieben Tagen',
+    JSON.stringify(warteschlange(Object.keys(frisch), frisch, '2026-10-04', 7, 5)) === '["https://www.anime2you.de/news/5/f/"]')
 
   /* JustWatch: neue Fehlschläge sagen nichts über die Schnittstelle, verlorene Treffer schon. */
   pruefe('JustWatch: der Lauf vom 28.09.2026 (26 Treffer, 2 leer, 0 verfehlt) ist plausibel', !istUnplausibel({ getroffen: 26, leer: 2, verfehlt: 0 }))

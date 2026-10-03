@@ -28,6 +28,8 @@ export interface NewsBeleg {
   /** Laut Artikel (Beleg-Lesung) — der Tag, an dem die Quelle es gesagt hat. */
   veroeffentlichtAm?: string
   aktualisiertAm?: string
+  /** Produktseite: der Erscheinungstag der Ausgabe. */
+  ausgabeAm?: string
   /** Bei einer eigenen Messung (Anbieter-Kalender): der Tag, an dem wir nachgesehen haben. */
   gemessenAm?: string
 }

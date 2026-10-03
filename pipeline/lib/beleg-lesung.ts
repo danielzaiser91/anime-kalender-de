@@ -35,6 +35,10 @@ export interface Lesung {
   hash: string
   veroeffentlicht?: string
   aktualisiert?: string
+  /** Produktseite: Erscheinungstag der Ausgabe (aniSearch-Artikel) — eine andere Aussage als ein Veröffentlichungsdatum. */
+  ausgabe?: string
+  /** Der Hash wechselte, ohne dass sich ein Datum änderte — jedes Mal eine Anomalie, die untersucht wird. */
+  aenderungOhneDatum?: true
   /** Schlüssel in der privaten Ablage, falls das Hochladen gelang. */
   bild?: string
   /** Artikeltext, gepackt (seit 03.10.2026; davor die ganze HTML-Seite in `html`). */
@@ -68,6 +72,13 @@ export function isoTag(wert: string | undefined | null): string | undefined {
   return /^\d{4}-\d{2}-\d{2}/.exec(wert ?? '')?.[0]
 }
 
+/** In den ersten drei Tagen nach der ersten Lesung wird täglich gelesen: Frische Artikel werden am ehesten nachbearbeitet. */
+const FRISCH_TAGE = 3
+function frischUndHeuteNochNicht(e: BelegGedaechtnis[string], heute: string): boolean {
+  const erste = e.lesungen[0]?.am
+  return Boolean(erste) && e.zuletzt < heute && Date.parse(heute) - Date.parse(erste!) <= FRISCH_TAGE * 86_400_000
+}
+
 /**
  * Welche Artikel diesmal gelesen werden: nie gelesene zuerst, dann die am längsten nicht
  * gelesenen, aber keiner öfter als alle `abstandTage` Tage.
@@ -76,7 +87,7 @@ export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heu
   const grenze = new Date(Date.parse(heute) - abstandTage * 86_400_000).toISOString().slice(0, 10)
   return [...new Set(urls)]
     .filter(istArtikel)
-    .filter((u) => !gedaechtnis[u] || gedaechtnis[u]!.zuletzt <= grenze)
+    .filter((u) => !gedaechtnis[u] || gedaechtnis[u]!.zuletzt <= grenze || frischUndHeuteNochNicht(gedaechtnis[u]!, heute))
     .sort((a, b) => (gedaechtnis[a]?.zuletzt ?? '').localeCompare(gedaechtnis[b]?.zuletzt ?? ''))
     .slice(0, limit)
 }
@@ -108,7 +119,11 @@ export function unveraendertSeit(eintrag: BelegGedaechtnis[string] | undefined):
  */
 export function mitArtikeldaten(quellen: Quelle[], gedaechtnis: BelegGedaechtnis): Quelle[] {
   return quellen.map((q) => {
-    const lesungen = traegtArtikeldatum(q.url) ? (gedaechtnis[q.url]?.lesungen ?? []) : []
+    const lesungen = gedaechtnis[q.url]?.lesungen ?? []
+    if (!traegtArtikeldatum(q.url)) {
+      const ausgabe = lesungen.map((l) => l.ausgabe).filter(Boolean).at(-1)
+      return ausgabe ? { ...q, ausgabeAm: ausgabe } : q
+    }
     const veroeffentlicht = lesungen.map((l) => l.veroeffentlicht).find(Boolean)
     const aktualisiert = lesungen.map((l) => l.aktualisiert).filter(Boolean).at(-1)
     return {

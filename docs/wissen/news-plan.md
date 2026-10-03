@@ -54,3 +54,12 @@ Tagen und Folgen, beide mit denselben zwei Quellen; dazu „11 von 13 erschienen
   Vermerk am Termin, keine Meldung über eine Vermutung.
 - Der Prüflauf irrt sich (Folge kam am selben Tag) → kein Verzug, Vermerk wird gestrichen (wie bisher).
 - Andere Plattformen ohne Kalender → keine Messung, keine Verspätungsmeldung (wie bisher).
+
+## Entscheidungen vom 03.10.2026 (Daniel)
+
+- **Ein späterer Beleg ist legitim und wird nicht ausgeblendet.** Er bestätigt die Behauptung und ist ein Aktualisierungsbeleg. Künftig entsteht der Beleg (Bild + Text) **zeitgleich** mit der Meldung und wird gemeinsam veröffentlicht; ältere Meldungen behalten ihre Quellen, auch wenn eine erst später erschien (Beelzebub 25.07./26.07.).
+- **Überholte Meldungen stehen im selben Eintrag, neuester Stand zuerst** (Entwurf B, „Verlauf", `daniel-zum-abarbeiten/news-ueberholt-mockups.html`): oben die geltende Aussage mit ihren Belegen, darunter gedämpft und durchgestrichen die überholten Stände mit „überholt am …" und ihrem eigenen Beleg. Der Beleg des Alten bleibt.
+- **Daten einer Quelle tragen ihre Bedeutung als Attribut.** Eine Disc-Produktseite kennt mehrere Daten: seit wann die Disc kaufbar ist, seit wann es die deutsche Synchro gibt, das Original-Erscheinen, und seit wann die Seite existiert (Amazon lässt Händler Produktseiten ersetzen — Kommentare von 2020 unter einem Artikel von Dezember 2026). Gelesen wird deshalb nur, was die Seite eindeutig nennt: bei aniSearch-Produktseiten `ausgabe` (Erscheinungstag der Ausgabe), im Tooltip „Produktseite, Ausgabe erscheint am …".
+- **Jeder Hash-Wechsel ohne Datumswechsel ist eine Anomalie** (`tools/belege-pruefen.mjs` wird rot, Feld `aenderungOhneDatum`), kein Schwellenwert.
+- **Frische Artikel werden täglich gelesen** (erste drei Tage), ältere alle sieben.
+- **Jede neue Domain steht erst auf der Prüfliste** (`data/beleg-domains.json`): von Hand prüfen, ob eine Zustimmungswand den Artikel verdeckt, Fix in `beleg-bild.ts`, erst dann lesen. Der Wachhund wird rot bei gelesener, aber ungeprüfter Domain.

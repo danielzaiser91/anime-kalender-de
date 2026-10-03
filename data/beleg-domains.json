@@ -1,0 +1,27 @@
+{
+  "_hinweis": "Prüfliste der Domains, deren Seiten als Beleg gelesen werden. Eine neue Domain kommt erst hierher, nachdem von Hand geprüft ist, ob eine Zustimmungswand oder ein Banner den Artikel verdeckt — und ein Fix im Lauf steht (pipeline/lib/beleg-bild.ts). `node tools/belege-pruefen.mjs` wird rot, wenn eine gelesene Domain fehlt oder ungeprüft ist.",
+  "www.anime2you.de": {
+    "geprueft": "2026-10-03",
+    "wand": "contentpass-Zustimmungswand — am Rechner sichtbar, auf dem Runner bisher nicht",
+    "fix": "beleg-bild.ts: Mitte des Fensters muss im Artikel liegen, sonst wird das Oberelement entfernt, sonst kein Bild",
+    "beleg": "Bild der abgelegten Lesung vom 03.10.2026 angesehen: Artikel sichtbar"
+  },
+  "www.anisearch.de": {
+    "geprueft": "2026-10-03",
+    "wand": "keine",
+    "fix": "—",
+    "beleg": "abgelegte Produktseite vom 03.10.2026 angesehen: Seite sichtbar"
+  },
+  "www.crunchyroll.com": {
+    "geprueft": null,
+    "wand": "Onetrust-Banner (wird entfernt); kopflos lokal gesperrt (Cloudflare-Hülle)",
+    "fix": "belege-lesen.ts entfernt #onetrust-consent-sdk",
+    "beleg": "noch kein abgelegtes Bild — nach dem ersten Lauf auf dem Runner ansehen"
+  },
+  "news.animationdigitalnetwork.com": {
+    "geprueft": null,
+    "wand": "unbekannt; liefert mit Desktop-UA eine leere Seite",
+    "fix": "belege-lesen.ts nimmt für ADN den Standard-UA",
+    "beleg": "noch kein abgelegtes Bild — nach dem ersten Lauf ansehen"
+  }
+}

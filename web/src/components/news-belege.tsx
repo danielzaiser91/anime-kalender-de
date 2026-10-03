@@ -16,6 +16,7 @@ export function quellenLabel(b: NewsBeleg): string {
 /** Der Tag, an dem die Quelle es sagte — oder an dem wir selbst nachsahen. Ohne beides nur der Name. */
 function belegTitel(b: NewsBeleg, t: ReturnType<typeof useLang>['t']): string {
   if (b.gemessenAm) return t('news.quelleGemessen', { name: b.name, datum: datumKurz(b.gemessenAm) })
+  if (b.ausgabeAm) return t('news.quelleAusgabe', { name: b.name, datum: datumKurz(b.ausgabeAm) })
   if (b.veroeffentlichtAm && b.aktualisiertAm)
     return t('news.quelleAktualisiert', { name: b.name, datum: datumKurz(b.veroeffentlichtAm), aktualisiert: datumKurz(b.aktualisiertAm) })
   if (b.veroeffentlichtAm) return t('news.quelleVeroeffentlicht', { name: b.name, datum: datumKurz(b.veroeffentlichtAm) })

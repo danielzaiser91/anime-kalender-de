@@ -572,8 +572,8 @@ export interface Quelle {
   gesehenAm: string
   /** Was die Quelle sagt, sofern auslesbar — etwa ein Datum. */
   sagt?: string
-  /** Laut Artikel, aus der Beleg-Lesung (`data/beleg-lesungen.json`). */
-  veroeffentlichtAm?: string; aktualisiertAm?: string
+  /** Laut Artikel (Beleg-Lesung); `ausgabeAm`: bei einer Produktseite der Erscheinungstag der Ausgabe, kein Textdatum. */
+  veroeffentlichtAm?: string; aktualisiertAm?: string; ausgabeAm?: string
   /**
    * `aktuell`              — deckt sich mit dem geführten Stand.
    * `ueberholt`            — eine neuere Quelle widerspricht, und wir sind sicher.
