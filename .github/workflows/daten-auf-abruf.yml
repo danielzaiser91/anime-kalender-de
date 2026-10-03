@@ -39,6 +39,8 @@ on:
           - data:anisearch-titel
           # Disc-Artikelseiten: Tonspur, EAN, enthaltene Titel (03.10.2026, ~1.100 Seiten je Lauf).
           - data:anisearch-artikel
+          # Deutsche Sprecher je Figur (seiyuu-Seite), ~3.200 Seiten.
+          - data:anisearch-sprecher
           - data:cr-dub
           # Neuzugänge bei Crunchyroll. Auf Abruf, wenn der Lauf ein Feld
           # mehr mitschreibt — die bekannten Funde bekommen es dann nachgetragen.
@@ -138,7 +140,7 @@ jobs:
               # `--katalog` haengt die Titel hinter dem Toggle hinten an — 11.607
               # mit aniSearch-Kennung, von denen noch keiner geholt wurde.
               npm run "$LAUF" -- --limit "$GRENZE" ${{ inputs.katalog && '--katalog' || '' }} ;;
-            data:tmdb-folgen|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:anisearch-artikel|data:cr-dub|data:justwatch|data:youtube:kauf)
+            data:tmdb-folgen|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:anisearch-artikel|data:anisearch-sprecher|data:cr-dub|data:justwatch|data:youtube:kauf)
               npm run "$LAUF" -- --limit "$GRENZE" ;;
             *)
               npm run "$LAUF" ;;

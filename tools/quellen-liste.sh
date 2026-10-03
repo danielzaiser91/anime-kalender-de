@@ -16,6 +16,7 @@ QUELLEN=(
   data/anisearch-folgen.json
   data/anisearch-titel.json
   data/anisearch-artikel.json
+  data/anisearch-sprecher.json
   data/wikidata-titel.json
   data/titel-de.yaml
   data/synchro-von-hand.yaml
