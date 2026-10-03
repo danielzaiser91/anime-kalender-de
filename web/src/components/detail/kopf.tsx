@@ -76,21 +76,26 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
             Wertung links und Verweis rechts — beides Angaben, die vorher
             entweder gar nicht oder nur an einer Stelle standen.
           */}
-          <div className="flex flex-wrap items-baseline gap-2">
+          {/*
+            **Der Titel hat die volle Breite des Panels** (Daniel, 03.10.2026: „titel wird stark
+            gequetscht"). Wertung, Trailer und die Absprünge stehen in einer eigenen Zeile darüber,
+            der Staffelname beginnt darunter — vorher teilte er sich die Zeile mit allen vieren.
+          */}
+          <div className="flex flex-wrap items-center gap-2">
             {bewertung}
-            {reihenTeile.length > 1 && teilName !== reihenName && (
-              <h3 className="min-w-0 flex-1 text-xl font-bold leading-tight text-slate-900 dark:text-white">
-                {teilName}
-              </h3>
-            )}
             {/*
               **Der Trailer steht bei den Angaben zum Werk, nicht bei den
               Anbietern.** Er beantwortet eine andere Frage als „wo kann ich
               das sehen" — nämlich „will ich das überhaupt".
             */}
-            {(title.trailer || kinoRelease) && <TrailerKino trailer={title.trailer} titel={anzeigeName(title)} />}
-            <AniSearchVerweis title={title} />
+            <span className="ml-auto flex flex-wrap items-center justify-end gap-2">
+              {(title.trailer || kinoRelease) && <TrailerKino trailer={title.trailer} titel={anzeigeName(title)} />}
+              <AniSearchVerweis title={title} />
+            </span>
           </div>
+          {reihenTeile.length > 1 && teilName !== reihenName && (
+            <h3 className="mt-1 min-w-0 text-xl font-bold leading-tight text-slate-900 dark:text-white">{teilName}</h3>
+          )}
           {/*
             Die Pillen-Zeile trug nur noch die Wertung — Status und FSK sind
             seit dem 13.08.2026 im Terminblock, wo sie je Release gelten. Eine

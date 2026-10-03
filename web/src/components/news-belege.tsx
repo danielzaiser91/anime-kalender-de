@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, type RefObject } from 'react'
+import { useState } from 'react'
 import type { NewsBeleg } from '@shared/types.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { datumKurz } from '../lib/news-text.ts'
@@ -22,33 +22,22 @@ function belegTitel(b: NewsBeleg, t: ReturnType<typeof useLang>['t']): string {
   return b.name
 }
 
-/** Höhe einer Quellenzeile in px (text-[11px] mit leading-4). */
-const ZEILE = 16
+/** Wie viele Quellen ohne Aufklappen in der Kopfzeile stehen. */
+const SICHTBAR = 3
 
 /**
- * **Die Quellen stehen rechts am Eintrag**: die erste auf Höhe des
- * Art-Labels, die weiteren darunter. Wie viele Zeilen Platz haben, bestimmt die Höhe des
- * Textes links; was nicht passt, steht als „+N weitere Quellen" da und klappt auf.
- * Gezählt wird nach Dokument — ein aktualisierter Artikel bleibt eine Quelle.
+ * **Die Quellen stehen in der Kopfzeile des Eintrags**, rechts neben Datum und Art — der Text darunter
+ * hat so die volle Breite des Panels (Daniel, 03.10.2026: Datums- und Quellenspalte nahmen dem Text den
+ * Platz). Mehr als drei klappen hinter „+N weitere Quellen" auf. Gezählt wird nach Dokument — ein
+ * aktualisierter Artikel bleibt eine Quelle.
  */
-export function QuellenSpalte({ belege, links }: { belege: NewsBeleg[]; links: RefObject<HTMLElement | null> }) {
+export function QuellenZeile({ belege }: { belege: NewsBeleg[] }) {
   const { t } = useLang()
-  const [platz, setPlatz] = useState(belege.length)
   const [offen, setOffen] = useState(false)
-  useLayoutEffect(() => {
-    const el = links.current
-    if (!el) return
-    const messen = () => setPlatz(Math.max(1, Math.floor(el.getBoundingClientRect().height / ZEILE)))
-    messen()
-    const ro = new ResizeObserver(messen)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [links])
   if (!belege.length) return null
-  const passt = offen || belege.length <= platz
-  const gezeigt = passt ? belege : belege.slice(0, Math.max(1, platz - 1))
+  const gezeigt = offen ? belege : belege.slice(0, SICHTBAR)
   return (
-    <span className="flex w-28 shrink-0 flex-col items-end gap-0 text-right text-[11px] leading-4 sm:w-36">
+    <span className="ml-auto flex min-w-0 flex-wrap items-baseline justify-end gap-x-2 text-[11px] leading-4">
       {gezeigt.map((b) => (
         <a
           key={b.url}
@@ -56,14 +45,14 @@ export function QuellenSpalte({ belege, links }: { belege: NewsBeleg[]; links: R
           target="_blank"
           rel="noopener noreferrer"
           title={belegTitel(b, t)}
-          className="max-w-full truncate font-bold text-ak-akzent-text hover:underline"
+          className="max-w-[9rem] truncate font-bold text-ak-akzent-text hover:underline"
         >
           {quellenLabel(b)} ↗
         </a>
       ))}
-      {!passt && (
+      {!offen && belege.length > SICHTBAR && (
         <button type="button" onClick={() => setOffen(true)} className="text-ak-leise hover:text-ak-text hover:underline">
-          {t('news.weitereQuellen', { n: belege.length - gezeigt.length })}
+          {t('news.weitereQuellen', { n: belege.length - SICHTBAR })}
         </button>
       )}
     </span>
