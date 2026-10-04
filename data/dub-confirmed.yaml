@@ -21337,3 +21337,15 @@
   url: https://www.amazon.de/dp/B0HFKQ7R7T
   checkedAt: '2026-10-03'
   note: "Tonspuren: 日本語 — Amazon-Seite B0HFKQ7R7T: alle 1 Folge geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo_und_kauf, gti=amzn1.dv.gti.df415539-adfc-46dd-8caa-0fc24443b1ef — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 178788
+  title: "Demon Slayer: Kimetsu no Yaiba - Infinity Castle"
+  platform: netflix
+  url: https://www.netflix.com/title/82723106
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-10-04'
+  note: "Deutsche Tonspur — von Daniel auf der Netflix-Titelseite von Hand geprüft (04.10.2026); im Angebot seit 28.09.2026 laut Netflix Tudum (netflix.com/tudum/articles/demon-slayer-kimetsu-no-yaiba-infinity-castle-release-date-cast-news)"
