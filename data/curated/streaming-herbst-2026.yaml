@@ -97,3 +97,23 @@
   sources:
     - https://www.anime2you.de/news/1045378/my-happy-marriage-specials-netflix-termin/
     - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
+
+- slug: tokyo-revengers-s3-disneyplus
+  anilistId: 178083
+  search: "Tokyo Revengers Santen Sensou-hen"
+  titleDe: "Tokyo Revengers: War of the Three Titans"
+  platform: disneyplus
+  # Disney+ führt alle Staffeln unter einer Adresse; gewählt wird im Auswahlfeld (dort „Staffel 3", Disney fasst die
+  # AniList-Staffeln 2 und 3 zusammen). Ein Adressparameter für die Staffel ist nicht bekannt (Daniel, 04.10.2026).
+  platformUrl: https://www.disneyplus.com/de-de/browse/entity-be391742-6617-42ad-b53a-be368ee73335
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-02"
+    estimated: true
+  # **04.10.2026 (Daniel):** Folge 1 war bei Disney+ als „Neue Folge" markiert, mit deutscher Synchro. Anime2You meldete
+  # den Start am 02.10.2026 um 19:55 Uhr als „Ab sofort: Episoden: 1 verfügbar, Sprache: Deutsch, Japanisch (UT),
+  # Simulcast: Jeden Samstag um 19:00 Uhr" — der Tag ist die Meldung, nicht die Folge selbst (die Seite nennt kein Datum),
+  # und „Samstag" passt nicht zu einem Freitag als Start. Deshalb `estimated`; die weiteren Folgen sind fortgeschrieben.
+  note: "Seit dem 02.10.2026 mit deutscher Synchro bei Disney+ (Staffel 3 dort). Der Starttag ist der Tag der Meldung; die Folgen kommen laut Anime2You samstags um 19:00 Uhr."
+  sources:
+    - https://www.anime2you.de/news/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/
