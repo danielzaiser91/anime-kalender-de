@@ -1063,3 +1063,24 @@ Request über `tools/quellen-pr.sh` (squash-Merge, wenn GitHub `MERGEABLE` sagt)
 planmäßige Lauf nach dem Merge. Auf Abruf bleibt `data:anisearch` mit `katalog` in „Datenlauf auf Abruf" möglich (dann wieder Gruppe `daten`).
 **Offen:** Der Takt-Schutz zwischen *anderen* aniSearch-Läufen und dem Katalog beruht auf der Uhrzeit, nicht auf einer Sperre; ein Lauf, der länger als zwei Stunden
 über 06:00 hinaus bei aniSearch hängt, würde sich mit ihm überschneiden.
+
+## D1-Kontingent, Mail-Zustellung und Worker-Befehle (04.10.2026, Abend)
+
+**D1: 90 % des Tageskontingents (5 Mio. gelesene Zeilen).** Messen: `cd worker && npx wrangler d1 insights DB --config wrangler.toml --time-period 1d --sort-type sum --sort-by reads --limit 8 --json`.
+Ursache war nicht die Anzeige, sondern die Bestandsbauten: Jeder Bau holt `prime_folge` (`?rohfolgen=1&alle=1`, 3 Seiten à 5.000), `pruefung` (`?alle=1`) und `namen=1` neu
+(rund 100.000 Zeilen je Bau), 36 Bauten am 04.10. = 4,5 Mio. Seit 21:40 hält `ausCache` (30 Minuten, `caches.default` — greift auch auf `workers.dev`, gemessen: `CF-Cache-Status: HIT`)
+diese drei Antworten. **Faustregel:** Ein neuer Vollexport im Worker gehört hinter `ausCache`. Zweiter Posten war `SQL_LAEUFE_LAUFEND` (Statusanzeige, 443.000 Zeilen am Tag): Migration
+`043-lauf-laeuft-index.sql`.
+
+**Worker-Befehle, die funktionieren:** Ausliefern `cd worker && npx wrangler deploy --config wrangler.toml` (nur aus einem sauberen Stand von `origin/main`, z. B. eigener Worktree).
+Migrationen: `CI=true npx wrangler d1 migrations apply DB --remote --config wrangler.toml` — **mit der Bindung `DB` und `--config wrangler.toml`**: `anime-kalender` als Name scheitert mit
+„Couldn't find a D1 DB … in your wrangler.jsonc". Eine Schemaänderung an der Produktionsdatenbank lehnt das Berechtigungssystem ohne ausdrücklichen Auftrag ab (04.10.2026, Daniel danach:
+„den wrangler command kannst du doch ausführen … mach den aufruf"); mit dem Auftrag lief sie durch.
+
+**Newsletter im Spam seit dem DNS-Umzug zu Cloudflare.** Die drei Einträge, die Resend für `send.anime-kalender.de` verlangt, waren beim Umzug von INWX nach Cloudflare verloren gegangen
+(`resend._domainkey.send` TXT, `send.send` MX `feedback-smtp.eu-west-1.amazonses.com` Priorität 10, `send.send` TXT `v=spf1 include:amazonses.com ~all`); bei „DMARC quarantine" landete
+jede Mail im Spam („nicht authentifiziert", über amazonses.com). Am 04.10.2026 mit dem Cloudflare-Token neu angelegt, die Werte stammen von der Resend-API (`GET /domains/{id}`).
+**Nach jedem Wechsel des DNS-Anbieters:** Einträge der Sendedomain neu anlegen und `POST /domains/{id}/verify` anstoßen; Prüfung: `nslookup -type=TXT resend._domainkey.send.anime-kalender.de 1.1.1.1`.
+
+**Weiterleitung `info@daniel-zaiser.de`** (PurelyMail, Regeln per API `listRoutingRules`): `info`, `kontakt`, `business` … und ein Sammel-Eintrag zeigen auf `danielzaiser91@googlemail.com`. Eine Testmail
+**vom eigenen Googlemail-Konto** kommt nicht an (Gmail verwirft die zurückkommende Kopie derselben Nachricht als Duplikat) — Proben von einem anderen Absender senden.
