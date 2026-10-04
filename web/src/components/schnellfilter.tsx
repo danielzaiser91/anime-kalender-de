@@ -50,13 +50,13 @@ export function SchnellKarten({
         .map((k) => {
           const z = schnellZustand(filters, k.id, tvAn)
           const knopf = (ziel: SchnellZiel, symbol: string, aktiv: string) => (
-            <Tooltip text={t(ziel === 'ja' ? 'filter.schnell.ja' : 'filter.schnell.nein')} eigenerFokus className="flex">
+            <Tooltip text={t(ziel === 'ja' ? 'filter.schnell.ja' : 'filter.schnell.nein')} eigenerFokus className="w-full [&>span]:w-full">
               <button
                 type="button"
                 aria-pressed={z === ziel}
                 aria-label={`${k.text}: ${t(ziel === 'ja' ? 'filter.schnell.ja' : 'filter.schnell.nein')}`}
                 onClick={() => setzen(k.id, ziel)}
-                className={`flex-1 cursor-pointer py-1 text-sm leading-none transition ${z === ziel ? aktiv : 'hover:bg-ak-flaeche-2'}`}
+                className={`grid w-full cursor-pointer place-items-center py-1.5 text-sm leading-none transition ${z === ziel ? aktiv : 'hover:bg-ak-flaeche-2'}`}
               >
                 {symbol}
               </button>

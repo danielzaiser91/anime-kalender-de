@@ -3,7 +3,7 @@ import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { Tooltip } from './ui.tsx'
 
 /** Abkürzungen, die im Fließtext eine Erklärung bekommen. */
-const FACHWOERTER: Record<string, TranslationKey> = { OmU: 'fachwort.omu' }
+const FACHWOERTER: Record<string, TranslationKey> = { OmU: 'fachwort.omu', Zeitumstellung: 'fachwort.zeitumstellung' }
 const MUSTER = new RegExp(`\\b(${Object.keys(FACHWOERTER).join('|')})\\b`)
 
 /**

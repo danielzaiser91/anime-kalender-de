@@ -30,7 +30,7 @@ export type FilterBarProps = {
 export function FilterBarDock(props: FilterBarProps) {
   return (
     <>
-      <div className="fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto max-h-[calc(100dvh-8rem)] md:bottom-[calc(1rem+env(safe-area-inset-bottom))] md:max-h-[calc(100dvh-3rem)] max-w-[1180px] overflow-y-auto">
+      <div className="fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto md:bottom-[calc(1rem+env(safe-area-inset-bottom))] max-w-[1180px]">
         <FilterBar {...props} />
       </div>
     </>
@@ -52,7 +52,7 @@ export function FilterBar({
     <div className="rounded-2xl border border-ak-rand bg-ak-flaeche">
       {/* Die Leiste bleibt an ihrer Stelle, der Inhalt klappt darüber auf (Daniel, 04.10.2026). */}
       {open && (
-        <div className="animate-fade-in border-b border-ak-linie">
+        <div className="max-h-[calc(100dvh-15rem)] animate-fade-in overflow-y-auto overscroll-contain border-b border-ak-linie">
           <FilterDetailsFeld
             meta={meta}
             filters={filters}

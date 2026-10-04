@@ -5,10 +5,10 @@ import { FundstellenZeichen, TrefferName } from './Suchtreffer.tsx'
 import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { useLang, type Translate } from '../lib/i18n.tsx'
+import { useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
-import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Toggle, Tooltip } from './ui.tsx'
-import { DbKopfzeile } from './db-kopfzeile.tsx'
+import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Tooltip } from './ui.tsx'
+import { DbKopfzeile, DbSchalter } from './db-kopfzeile.tsx'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -86,7 +86,6 @@ export function DatabaseView({
   /* `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
   const sort = (gewaehlt === 'relevanz' && !suche.trim() ? undefined : gewaehlt) ?? (suche.trim() ? 'relevanz' : 'titel')
 
-  const anzahlOhne = useMemo(() => titles.filter((tt) => tt.ohneSynchro).length, [titles])
 
   const groups = useMemo(() => {
     const base: TitleGroup[] = grouped
@@ -102,33 +101,10 @@ export function DatabaseView({
 
   return (
     <div className="flex flex-col gap-4">
-      {/*
-        Der Schalter für die Titel ohne Synchro steht **abgesetzt** über der
-        Zeile mit Zählung und Sortierung, nicht darin (Daniels Vorgabe,
-        13.08.2026: „filter should be in a special position"). Der Grund ist
-        nicht Gestaltung, sondern Bedeutung: Er verändert nicht, welcher
-        Ausschnitt des Bestands gezeigt wird — er holt einen ganz anderen
-        Bestand dazu, über den die Seite ausdrücklich **nichts** weiß.
-      */}
-      <div
-        className={[
-          'flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border px-3 py-2 transition',
-          ohneSynchro
-            ? 'border-amber-400/60 bg-amber-50 dark:border-amber-400/40 dark:bg-amber-400/10'
-            : 'border-dashed border-slate-300 dark:border-white/15',
-        ].join(' ')}
-      >
-        <Toggle
-          checked={ohneSynchro}
-          onChange={onOhneSynchroChange}
-          label={t('db.withoutDub')}
-          hint={t('db.withoutDubHint')}
-        />
-        {ohneSynchroLaedt && <span className="text-[11px] leading-snug text-slate-500 dark:text-slate-400">{t('db.withoutDubLoading')}</span>}
-      </div>
+      <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} cartoonsAus={cartoonsAus} onCartoonsAusChange={onCartoonsAusChange} />
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
-        <DbKopfzeile zaehl={zaehlText(titles, ohneSynchro ? anzahlOhne : 0, t, suche)} treffer={grouped ? groups.length : undefined} grouped={grouped} onGroupedChange={onGroupedChange} cartoonsAus={cartoonsAus} onCartoonsAusChange={onCartoonsAusChange} />
+        <DbKopfzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} />
         <label className="ml-auto flex cursor-pointer items-center gap-2">
           {t('db.sort')}
           <select
@@ -343,21 +319,4 @@ export function DatabaseView({
       )}
     </div>
   )
-}
-
-/**
- * „2.777 Anime und 913 westliche Serien mit belegter deutscher Synchro" — die Datenbank führt
- * seit dem 12.09.2026 auch Cartoons, der Seitenfuß zählt nur Anime. Unter einer Zahl zusammen
- * hießen alle 3.690 „Anime", und Fuß und Datenbank widersprachen sich (26.09.2026).
- */
-export function zaehlText(titles: Title[], ohne: number, t: Translate, suche: string): string {
-  const westlich = titles.filter((tt) => tt.westlich && !tt.ohneSynchro).length
-  const zahl = (n: number) => n.toLocaleString('de-DE')
-  const grund = t(westlich ? 'db.countMitWestlich' : 'db.count', { count: zahl(titles.length - ohne - westlich), westlich: zahl(westlich) })
-  /*
-    **Mit Suchbegriff nennt die Zeile ihn**. Ohne ihn liest sich die Null wie ein leerer Bestand statt wie
-    ein Ergebnis.
-  */
-  const mit = suche.trim() ? t('db.countFuer', { text: grund, suche: suche.trim() }) : grund
-  return ohne ? `${mit} · ${t('db.countOhne', { ohne: zahl(ohne) })}` : mit
 }

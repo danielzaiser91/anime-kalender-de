@@ -131,7 +131,7 @@ import {
   type FundstelleArt,
 } from '../web/src/lib/search.ts'
 import { verweiseFuer } from '../web/src/components/detail/verweise.ts'
-import { zaehlText } from '../web/src/components/DatabaseView.tsx'
+import { ergebnisText, zaehlTeile } from '../web/src/components/db-kopfzeile.tsx'
 import { activeFilterCount, EMPTY_FILTERS, reihenKopf, type FilterState } from '../web/src/lib/filters.ts'
 import { buildHash } from '../web/src/lib/router.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
@@ -6351,10 +6351,15 @@ pruefe(
     `${activeFilterCount({ ...EMPTY_FILTERS, search: 'wolf' })}`,
   )
   pruefe(
-    'die Trefferzeile nennt den Suchbegriff',
-    zaehlText([], 0, translate, 'link-click') === '0 Anime mit belegter deutscher Synchro für „link-click"' &&
-      zaehlText([], 0, translate, '  ') === '0 Anime mit belegter deutscher Synchro',
-    zaehlText([], 0, translate, 'link-click'),
+    'die Trefferzeile nennt den Suchbegriff und die Bündelung',
+    ergebnisText(0, false, 'link-click', translate) === '0 Ergebnisse für „link-click"' &&
+      ergebnisText(2300, true, '  ', translate) === '2.300 Ergebnisse (gebündelt)' &&
+      ergebnisText(1, false, '', translate) === '1 Ergebnis',
+    ergebnisText(2300, true, 'x', translate),
+  )
+  pruefe(
+    'die Zählung trennt Anime und Cartoons, mit und ohne Synchro (Daniel, 04.10.2026)',
+    JSON.stringify(zaehlTeile([{ westlich: false }, { westlich: true }, { westlich: true }, { ohneSynchro: true }, { ohneSynchro: true, westlich: true }] as unknown as Title[])) === JSON.stringify({ anime: 1, cartoons: 2, ohneAnime: 1, ohneCartoons: 1 }),
   )
   /*
     **Alle Suchwörter werden hervorgehoben, und ohne Innenabstand** (Daniel, 29.09.2026 mit Bild:

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { loadJson } from '../../lib/data.ts'
 import { Tooltip } from '../ui.tsx'
+import { DeFlaggeZeichen } from '../de-flagge.tsx'
 
 /**
  * **Die Folgenliste im Antwortkasten** (Daniel, 04.10.2026): Ein Pfeil klappt sie auf, der Kasten wächst mit,
@@ -39,7 +40,7 @@ export function useFolgenZaehlung(titleId: number): [number, number] | undefined
   return z
 }
 
-export function FolgenBereich({ titleId }: { titleId: number }) {
+export function FolgenBereich({ titleId, erschienen }: { titleId: number; erschienen?: number }) {
   const [gibtEs, setGibtEs] = useState(false)
   const [offen, setOffen] = useState(false)
   const [liste, setListe] = useState<Liste>()
@@ -56,13 +57,13 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
     }
   }, [titleId])
   useEffect(() => {
-    if (!offen || liste) return
+    if (!gibtEs || liste) return
     let aktiv = true
     void loadJson<Liste>(`folgen/${titleId}.json`).then((l) => aktiv && setListe(l)).catch(() => aktiv && setListe({ f: [], de: [] }))
     return () => {
       aktiv = false
     }
-  }, [offen, liste, titleId])
+  }, [gibtEs, liste, titleId])
   if (!gibtEs) return null
   const folgen = liste?.f
   const pakete = folgen ? Math.ceil(folgen.length / PAKET) : 0
@@ -103,7 +104,7 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
                 <span className="w-9 shrink-0 text-right tabular-nums text-slate-500 dark:text-slate-400">{nr}</span>
                 <span className="min-w-0 flex-1 truncate">{titel || (ohneTitel ? '' : '—')}</span>
                 {min ? <span className="shrink-0 tabular-nums text-slate-500 dark:text-slate-400">{min} Min.</span> : null}
-                {deutsch(nr) ? <DeFlagge /> : <FolgeOhneFlagge hinweis={liste?.h?.find(([n]) => n === nr)?.[1]} gibtDeutsche={Boolean(liste?.de.length)} />}
+                {deutsch(nr) ? <DeFlagge /> : erschienen !== undefined && nr > erschienen ? <NochNichtErschienen /> : <FolgeOhneFlagge hinweis={liste?.h?.find(([n]) => n === nr)?.[1]} gibtDeutsche={Boolean(liste?.de.length)} />}
               </li>
             ))}
           </ul>
@@ -113,11 +114,21 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
   )
 }
 
-/** Die deutsche Flagge als drei Streifen — Emoji-Flaggen zeigt Windows nur als „DE". */
 function DeFlagge() {
   return (
     <Tooltip text="Für diese Folge existiert eine Deutsche Synchro." eigenerFokus>
-      <span role="img" aria-label="Deutsche Synchro" className="inline-block h-2.5 w-4 shrink-0 rounded-[2px]" style={{ background: 'linear-gradient(#000 33.3%, #d00 33.3% 66.6%, #ffce00 66.6%)' }} />
+      <DeFlaggeZeichen />
+    </Tooltip>
+  )
+}
+
+/** Eine Folge, die noch nicht erschienen ist: keine Flagge und kein „keine Synchro", sondern der Hinweis darauf. */
+function NochNichtErschienen() {
+  return (
+    <Tooltip text="Noch nicht erschienen. Ob es eine deutsche Synchro gibt, zeigt sich mit dem Erscheinen." eigenerFokus>
+      <span role="img" aria-label="Noch nicht erschienen" className="inline-flex size-3.5 shrink-0 items-center justify-center rounded-full border border-dashed border-slate-400 text-[9px] leading-none text-slate-500 dark:border-slate-500 dark:text-slate-400">
+        …
+      </span>
     </Tooltip>
   )
 }

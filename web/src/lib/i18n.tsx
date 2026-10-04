@@ -199,7 +199,6 @@ const TEXTE = {
   'card.favourite': 'Als Favorit merken',
   'card.unfavourite': 'Aus Favoriten entfernen',
 
-  'db.count': '{count} Anime mit belegter deutscher Synchro',
   'db.sort': 'Sortierung',
   'db.sortRelevanz': 'Beste Treffer',
   'db.sortTitle': 'Titel A–Z',
@@ -214,10 +213,6 @@ const TEXTE = {
     'Fasst alle Staffeln, Filme und Specials einer Reihe zu einer Kachel zusammen. Gezeigt wird die erste Staffel, die übrigen stehen in ihrer Detailansicht.',
   // Titel ohne belegte deutsche Synchro — der Schalter, seine Begründung und
   // die Kennzeichnung an der Kachel. Eingeführt 13.08.2026.
-  'db.countMitWestlich': '{count} Anime und {westlich} westliche Serien mit belegter deutscher Synchro',
-  'db.countFuer': '{text} für „{suche}"',
-  'db.countOhne': '{ohne} ohne',
-  'db.treffer': '{count} Treffer',
   'db.cartoonsAus': 'Cartoons ausblenden',
   'db.cartoonsAusHinweis': 'Blendet die westlichen Serien aus. Dasselbe wie das Schlagwort „Cartoon" unter „Ausschließen" im Filter.',
   'db.withoutDub': 'Anime ohne deutsche Synchro',
