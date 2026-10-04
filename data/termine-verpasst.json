@@ -23,14 +23,20 @@
     "episode": 8,
     "erwartetAm": "2026-09-13T08:30:00.000Z",
     "bemerktAm": "2026-09-13T12:06:54.661Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
+    "erschienenAm": "2026-10-04T08:30:00.000Z",
+    "verzugStunden": 504,
     "folgenVerfuegbar": 12,
     "neuErwartet": null,
     "recherche": null,
     "rechercheAm": "2026-09-26T15:00:55.893Z",
     "geprueftAm": "2026-10-04T07:02:56.093Z",
-    "newsGeprueftAm": "2026-10-03T09:57:25.058Z"
+    "newsGeprueftAm": "2026-10-03T09:57:25.058Z",
+    "nachgereichtBeleg": {
+      "am": "2026-10-04T11:02:26.989Z",
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-04",
+      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-04/2026-10-04-11-02.jpg",
+      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-04/2026-10-04-11-02.html.gz"
+    }
   },
   {
     "id": "mushoku-tensei-s3@2026-09-13",
@@ -71,8 +77,8 @@
     "neuErwartet": null,
     "recherche": "Crunchyroll hat die deutsche Synchronfassung des zweiten Teils (Rückeroberungs-Arc) von Re:ZERO Staffel 4 verspätet gestartet: Während die Serie seit dem 12. August 2026 mit Untertiteln lief, folgen die deutschen Stimmen erst seit dem 9. September 2026 im wöchentlichen Rhythmus.",
     "rechercheQuelle": "https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/",
-    "geprueftAm": "2026-10-04T07:02:56.093Z",
-    "newsGeprueftAm": "2026-10-03T09:57:25.058Z",
+    "geprueftAm": "2026-10-04T11:02:16.200Z",
+    "newsGeprueftAm": "2026-10-04T10:40:41.763Z",
     "rechercheAm": "2026-09-29T16:55:43.804Z"
   },
   {
@@ -139,8 +145,8 @@
     "episode": 9,
     "erwartetAm": "2026-09-20T08:30:00.000Z",
     "bemerktAm": "2026-09-20T12:30:59.026Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
+    "erschienenAm": "2026-10-04T08:30:00.000Z",
+    "verzugStunden": 336,
     "folgenVerfuegbar": 12,
     "neuErwartet": "2026-09-27T08:30:00.000Z",
     "recherche": "Die japanische Ausstrahlung und der Crunchyroll-Simulcast von Staffel 2 legten eine einwöchige Pause ein: Die als nächstes fällige Folge (Episode 12 der Originalzählung) wurde vom 20. auf den 27. September 2026 verschoben.",
@@ -153,6 +159,12 @@
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-09-20",
       "bild": "www.crunchyroll.com/simulcastcalendar/2026-09-20/2026-10-03-20-01.jpg",
       "html": "www.crunchyroll.com/simulcastcalendar/2026-09-20/2026-10-03-20-01.html.gz"
+    },
+    "nachgereichtBeleg": {
+      "am": "2026-10-04T11:02:26.989Z",
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-04",
+      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-04/2026-10-04-11-02.jpg",
+      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-04/2026-10-04-11-02.html.gz"
     }
   },
   {
@@ -170,8 +182,8 @@
     "neuErwartet": null,
     "recherche": "Die deutsche Synchro von Re:ZERO Staffel 4 (Rückeroberungs-Arc) läuft seit ihrem verspäteten Start am 9. September 2026 wöchentlich hinter dem japanischen Simulcast her – Folge 15 fällt in diesen bereits von Crunchyroll angekündigten Rhythmus.",
     "rechercheQuelle": "https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/",
-    "geprueftAm": "2026-10-04T07:02:56.093Z",
-    "newsGeprueftAm": "2026-10-03T09:57:25.058Z",
+    "geprueftAm": "2026-10-04T11:02:16.200Z",
+    "newsGeprueftAm": "2026-10-04T10:40:41.763Z",
     "rechercheAm": "2026-10-01T17:26:48.565Z",
     "messbeleg": {
       "am": "2026-10-03T20:02:05.227Z",
@@ -225,8 +237,8 @@
     "folgenVerfuegbar": 21,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-04T07:02:56.093Z",
-    "newsGeprueftAm": "2026-10-03T09:57:25.058Z",
+    "geprueftAm": "2026-10-04T11:02:16.200Z",
+    "newsGeprueftAm": "2026-10-04T10:40:41.763Z",
     "rechercheAm": "2026-10-01T17:26:48.565Z",
     "messbeleg": {
       "am": "2026-10-03T21:52:07.738Z",
@@ -250,8 +262,8 @@
     "neuErwartet": "2026-10-14T14:00:00.000Z",
     "recherche": "Laut Crunchyrolls offiziellem Wochenprogramm pausiert die deutsche Synchro von Re:ZERO Staffel 4 weiter: Die nächste deutsche Folge erscheint erst am 14. Oktober 2026 um 16:00 Uhr.",
     "rechercheQuelle": "https://www.4p.de/news/crunchyroll-wochenprogramm-kw40/3430422",
-    "geprueftAm": "2026-10-04T07:02:56.093Z",
-    "newsGeprueftAm": "2026-10-03T09:57:25.058Z",
+    "geprueftAm": "2026-10-04T11:02:16.200Z",
+    "newsGeprueftAm": "2026-10-04T10:40:41.763Z",
     "rechercheAm": "2026-10-01T17:26:48.565Z",
     "messbeleg": {
       "am": "2026-10-03T21:52:12.552Z",
@@ -304,13 +316,14 @@
     "folgenVerfuegbar": 22,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-04T07:02:56.093Z",
+    "geprueftAm": "2026-10-04T11:02:16.200Z",
     "messbeleg": {
       "am": "2026-10-04T01:14:30.361Z",
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-03",
       "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-03/2026-10-04-01-14.jpg",
       "html": "www.crunchyroll.com/simulcastcalendar/2026-10-03/2026-10-04-01-14.html.gz"
-    }
+    },
+    "newsGeprueftAm": "2026-10-04T10:40:41.763Z"
   },
   {
     "id": "you-and-i-are-polar-opposites-s2@2026-09-27",
@@ -321,8 +334,8 @@
     "episode": 10,
     "erwartetAm": "2026-09-27T08:30:00.000Z",
     "bemerktAm": "2026-10-04T07:03:02.174Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
+    "erschienenAm": "2026-10-04T08:30:00.000Z",
+    "verzugStunden": 168,
     "folgenVerfuegbar": 12,
     "neuErwartet": null,
     "recherche": null,
@@ -333,6 +346,12 @@
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-09-27",
       "bild": "www.crunchyroll.com/simulcastcalendar/2026-09-27/2026-10-04-07-03.jpg",
       "html": "www.crunchyroll.com/simulcastcalendar/2026-09-27/2026-10-04-07-03.html.gz"
+    },
+    "nachgereichtBeleg": {
+      "am": "2026-10-04T11:02:26.989Z",
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-04",
+      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-04/2026-10-04-11-02.jpg",
+      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-04/2026-10-04-11-02.html.gz"
     }
   },
   {
@@ -349,8 +368,8 @@
     "folgenVerfuegbar": 24,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-04T07:02:56.093Z",
-    "newsGeprueftAm": "2026-10-03T09:57:25.058Z",
+    "geprueftAm": "2026-10-04T11:02:16.200Z",
+    "newsGeprueftAm": "2026-10-04T10:40:41.763Z",
     "messbeleg": {
       "am": "2026-10-04T07:03:07.439Z",
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-09-27",
