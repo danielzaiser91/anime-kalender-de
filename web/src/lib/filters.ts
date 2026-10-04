@@ -529,5 +529,6 @@ export function cartoonsAusgeschlossen(f: FilterState): boolean {
 
 export function mitCartoonsAus(f: FilterState, aus: boolean): FilterState {
   const rest = f.excluded.keywords.filter((k) => k !== CARTOON_KEYWORD)
-  return { ...f, excluded: { ...f.excluded, keywords: aus ? [...rest, CARTOON_KEYWORD] : rest } }
+  /* Ein Wert steht nie in beiden Listen (`toggleFilter`): sonst zeigt der Filter „Cartoon" doppelt, als gewählt und als ausgeschlossen. */
+  return { ...f, keywords: aus ? f.keywords.filter((k) => k !== CARTOON_KEYWORD) : f.keywords, excluded: { ...f.excluded, keywords: aus ? [...rest, CARTOON_KEYWORD] : rest } }
 }

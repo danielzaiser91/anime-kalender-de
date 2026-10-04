@@ -50,6 +50,18 @@ export function FilterBar({
 
   return (
     <div className="rounded-2xl border border-ak-rand bg-ak-flaeche">
+      {/* Die Leiste bleibt an ihrer Stelle, der Inhalt klappt darüber auf (Daniel, 04.10.2026). */}
+      {open && (
+        <div className="animate-fade-in border-b border-ak-linie">
+          <FilterDetailsFeld
+            meta={meta}
+            filters={filters}
+            onChange={onChange}
+            showConfidence={showConfidence}
+            favoriteCount={favoriteCount}
+          />
+        </div>
+      )}
       {/* Auswahl links, Filter-Knopf rechts auf derselben Zeile. */}
       <div className="flex flex-wrap items-center gap-2 p-2">
         <div className="min-w-0 flex-1">
@@ -69,17 +81,6 @@ export function FilterBar({
         </button>
       </div>
 
-      {open && (
-        <div className="animate-fade-in border-t border-ak-linie">
-          <FilterDetailsFeld
-            meta={meta}
-            filters={filters}
-            onChange={onChange}
-            showConfidence={showConfidence}
-            favoriteCount={favoriteCount}
-          />
-        </div>
-      )}
     </div>
   )
 }
