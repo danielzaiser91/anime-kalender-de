@@ -2,7 +2,9 @@
  * **Folgentitel je Titel, nachgeladen** (Daniel, 04.10.2026): Nutzer sollen im Panel sehen, welche Folgen es gibt,
  * statt zu aniSearch/MAL oder zu Google zu springen — gerade bei Titeln mit über tausend Folgen.
  *
- * Quelle ist `data/anisearch-folgen.json` (Nummer, Minuten, deutscher/englischer/japanischer Titel). Je Titel
+ * Quelle ist `data/anisearch-folgen.json`, **nach aniSearch-ID abgelegt** (Zuordnung `data/anisearch.json`; ein Eintrag,
+ * den sich mehrere Titel teilen, ist ein Bündel und bleibt ohne Liste — die Nummern gälten nur für einen davon)
+ * (Nummer, Minuten, deutscher/englischer/japanischer Titel). Je Titel
  * eine kleine Datei `public/data/folgen/<AniList-ID>.json` mit `[[nr, min, titel], …]` (deutsch, sonst englisch,
  * sonst japanisch) und ein Verzeichnis `index.json`: Die Oberfläche zeigt den Pfeil nur, wo es eine Datei gibt, und
  * lädt sie erst beim Aufklappen. Ein neues Feld in `titles.json` wäre für alle Besucher, die Datei braucht nur,
@@ -21,12 +23,19 @@ interface Folge {
 
 export function schreibeFolgenDateien(titel: { id: number }[]): void {
   const roh = readJson<Record<string, { folgen?: Folge[] }>>('data/anisearch-folgen.json', {})
+  const zuordnung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
+  const jeAsId = new Map<number, number>()
+  for (const t of titel) {
+    const a = zuordnung[String(t.id)]?.anisearchId
+    if (a) jeAsId.set(a, (jeAsId.get(a) ?? 0) + 1)
+  }
   const ordner = `${OUT}/folgen`
   clearDir(ordner)
   const index: number[] = []
   let folgenGesamt = 0
   for (const t of titel) {
-    const f = roh[String(t.id)]?.folgen
+    const asId = zuordnung[String(t.id)]?.anisearchId
+    const f = asId && jeAsId.get(asId) === 1 ? roh[String(asId)]?.folgen : undefined
     if (!f || f.length < 2) continue
     writeJson(
       `${ordner}/${t.id}.json`,
