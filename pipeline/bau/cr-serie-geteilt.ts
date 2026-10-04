@@ -10,11 +10,13 @@ import type { Title } from '../../shared/types.ts'
  * die Serie hat, trägt die Serienebene für keinen von ihnen. Gemessen am 04.10.2026: 2 Serien betroffen, eine davon richtig
  * (86 EIGHTY-SIX, 23 gegen 26 Folgen, bleibt unberührt).
  */
-export function folgenSummeJeKennung(titles: Map<number, Title>): Map<string, number> {
+export type KennungVon = (url: string) => string | undefined
+
+export function folgenSummeJeKennung(titles: Map<number, Title>, kennungVon: KennungVon): Map<string, number> {
   const summe = new Map<string, number>()
   for (const t of titles.values()) {
     const s = t.streams.find((x) => x.platform === 'crunchyroll')
-    const kennung = s && /\/series\/([A-Z0-9]+)/.exec(s.url)?.[1]
+    const kennung = s && kennungVon(s.url)
     if (kennung) summe.set(kennung, (summe.get(kennung) ?? 0) + (t.episodes ?? 0))
   }
   return summe
@@ -29,11 +31,11 @@ export function ueberbelegt(summen: Map<string, number>, kennung: string, katalo
  * Titel mit genau deren Folgenzahl; bei den übrigen fällt der Crunchyroll-Weg weg (Daniel, 04.10.2026: Christmas
  * Showdown, Tenjiku Arc und War of the Three Titans liefen nie bei Crunchyroll, dort gibt es nur Staffel 1).
  */
-export function entferneFremdeCrWege(titles: Map<number, Title>, nachKennung: Map<string, { folgen?: number; staffeln?: number }>, summen: Map<string, number>): number {
+export function entferneFremdeCrWege(titles: Map<number, Title>, nachKennung: Map<string, { folgen?: number; staffeln?: number }>, summen: Map<string, number>, kennungVon: KennungVon): number {
   let weg = 0
   for (const t of titles.values()) {
     const s = t.streams.find((x) => x.platform === 'crunchyroll')
-    const kennung = s && /\/series\/([A-Z0-9]+)/.exec(s.url)?.[1]
+    const kennung = s && kennungVon(s.url)
     const eintrag = kennung ? nachKennung.get(kennung) : undefined
     if (!kennung || !eintrag || (eintrag.staffeln ?? 0) !== 1 || !ueberbelegt(summen, kennung, eintrag.folgen) || t.episodes === eintrag.folgen) continue
     t.streams = t.streams.filter((x) => x !== s)

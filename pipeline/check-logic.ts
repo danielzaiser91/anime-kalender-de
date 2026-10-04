@@ -7935,10 +7935,11 @@ console.log('\nGeteilte Crunchyroll-Serie:')
 {
   const cr = (episodes: number, id: number) => ({ id, episodes, streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/G3KHEVMN1/tokyo-revengers' }] }) as unknown as Title
   const titel = new Map([cr(24, 1), cr(13, 2), cr(13, 3)].map((t) => [t.id, t]))
-  const summen = folgenSummeJeKennung(titel)
+  const kv = (u: string) => /\/series\/([A-Z0-9]+)/.exec(u)?.[1]
+  const summen = folgenSummeJeKennung(titel, kv)
   pruefe('Geteilt: 24 + 13 + 13 Folgen übersteigen die 24 der Serie', ueberbelegt(summen, 'G3KHEVMN1', 24))
   pruefe('Geteilt: 11 + 12 Folgen bei 26 gehen auf (86 EIGHTY-SIX)', !ueberbelegt(new Map([['X', 23]]), 'X', 26))
-  const weg = entferneFremdeCrWege(titel, new Map([['G3KHEVMN1', { folgen: 24, staffeln: 1 }]]), summen)
+  const weg = entferneFremdeCrWege(titel, new Map([['G3KHEVMN1', { folgen: 24, staffeln: 1 }]]), summen, kv)
   pruefe('Geteilt: nur der Titel mit der Folgenzahl der Serie behält den Weg', weg === 2 && titel.get(1)!.streams.length === 1 && titel.get(2)!.streams.length === 0 && titel.get(3)!.streams.length === 0)
 }
 /* Schnellfilter ✅|🚫 (Daniel, 04.10.2026): höchstens eines von beiden, ein zweiter Klick schaltet aus. */

@@ -189,7 +189,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
         Object.entries(kennungsGedaechtnis ?? {})
           .filter(([, v]) => v.seriesId)
           .map(([u, v]) => [kernVon(u), v.seriesId as string]),
-      )
+      ); const kennungVon = (u: string): string | undefined => /\/series\/([A-Z0-9]+)/.exec(u)?.[1] ?? kennungJeAdresse.get(kernVon(u)) // auch die Adressen ohne Kennung (der Bau normalisiert sie erst später)
       /*
         Eine Staffel im Katalog kann trotzdem zwei Werke tragen: Captain Tsubasa
         2018 und „Junior Youth" liegen unter `GZJH3D7G9` in einem Block, deutsch
@@ -204,7 +204,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
       )
       const hinterDemEnde = (kennung: string, title: Title): boolean =>
         deutscheFolgenNachDemEnde(crBloeckeJeKennung.get(kennung) ?? [], title.episodes)
-      if (nachKennung.size) { const summen = folgenSummeJeKennung(titles)
+      if (nachKennung.size) { const summen = folgenSummeJeKennung(titles, kennungVon)
         for (const title of titles.values()) {
           for (const stream of title.streams) {
             if (stream.platform !== 'crunchyroll' || stream.dub !== undefined) continue
@@ -298,7 +298,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
         if (ausKatalogNeuer)
           log(`${ausKatalogNeuer} Nein(s) vom Katalog überholt: er ist jünger und führt de-DE`)
       }
-      if (ausKennung) log(`${ausKennung} über die Serienkennung im deutschen Katalog belegt`); { const fremd = entferneFremdeCrWege(titles, nachKennung, folgenSummeJeKennung(titles)); if (fremd) log(`${fremd} Crunchyroll-Wege auf eine Serie entfernt, die nicht zu ihnen gehört (Folgensumme übersteigt die Serie)`) }
+      if (ausKennung) log(`${ausKennung} über die Serienkennung im deutschen Katalog belegt`); { const fremd = entferneFremdeCrWege(titles, nachKennung, folgenSummeJeKennung(titles, kennungVon), kennungVon); if (fremd) log(`${fremd} Crunchyroll-Wege auf eine Serie entfernt, die nicht zu ihnen gehört (Folgensumme übersteigt die Serie)`) }
     }
 
     /**
