@@ -1,0 +1,70 @@
+# aniSearch-Katalog — sammelt nachts, blockiert nichts.
+#
+# Daniel am 04.10.2026: „Kannst du den Lauf nicht so anpassen, dass er nix blockiert, nur von aniSearch sammelt und zB
+# PR anlegt?" Der Katalog-Block lief bis dahin als Cron von „Datenlauf auf Abruf" in der Gruppe `daten` — knapp fünf Stunden
+# lang, in denen kein Bestandsbau und kein stündlicher Lauf starten konnte.
+#
+# Jetzt:
+#   - eigene Concurrency-Gruppe `anisearch-katalog` (ein Lauf zur Zeit, bei aniSearch gilt der Sechs-Sekunden-Takt als Zusage),
+#   - Beginn **nach** dem Tageslauf (04:17 UTC, höchstens 75 Minuten): 06:00 UTC, damit nie zwei Läufe zugleich bei aniSearch
+#     abrufen,
+#   - das Ergebnis geht als Pull Request ein (`tools/quellen-pr.sh`), wie beim Tageslauf — kein Schreiben auf `main` mitten im
+#     Bau, kein Push-Wettlauf mit dem Bestandsbau.
+# Der Bestandsbau läuft währenddessen weiter; was dieser Lauf holt, baut der nächste planmäßige Lauf nach dem Merge.
+name: aniSearch-Katalog
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      grenze:
+        description: 'Höchstzahl Seiten dieses Laufs'
+        required: false
+        default: '2800'
+        type: string
+
+concurrency:
+  group: anisearch-katalog
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  katalog:
+    runs-on: ubuntu-latest
+    # Rund 2.800 Seiten im Sechs-Sekunden-Takt: knapp fünf Stunden.
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Derselbe Schlüssel wie in `bestand-bauen.yml` und `daten-auf-abruf.yml`: Der Katalog-Lauf setzt auf dem AniList-Cache auf.
+      - name: AniList-Cache wiederverwenden
+        uses: actions/cache@v4
+        with:
+          path: data/cache
+          key: anilist-cache-${{ github.run_id }}
+          restore-keys: anilist-cache-
+
+      - name: Katalog holen
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          ANILIST_TOKEN: ${{ secrets.ANILIST_TOKEN }}
+        run: |
+          npm run data:anisearch -- --limit "${{ inputs.grenze || '2800' }}" --katalog
+
+      - name: Fund als Pull Request einreichen
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash tools/quellen-pr.sh "chore(data): aniSearch-Katalog gesammelt"

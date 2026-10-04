@@ -3095,3 +3095,29 @@ Daniel am 04.10.2026: „War of the Three Titans" lief bei Disney+ auf Deutsch, 
 ### Nachtrag 04.10.2026, abends: die Summenregel war zu grob (Messung am Zwischenstand, nicht am Endstand)
 
 Die erste Fassung der Regel „geteilte Crunchyroll-Serie" (Folgensumme der Titel übersteigt die Katalogzahl) wurde am **Endstand** gemessen (2 Serien betroffen, `tools/anilist-links-pruefen.mjs`) und griff im Bau trotzdem nicht: Beim Prüfen der Katalog-Runde stehen die Adressen noch ohne `/series/<Kennung>`, der Bau normalisiert sie erst später. Mit der Auflösung über das Kennungsgedächtnis wurden es plötzlich **20** — darunter Hunter x Hunter, Gundam Seed, Arifureta, Though I Am an Inept Villainess und Dragon Ball: dort führt Crunchyroll nur einen Teil der Folgen, die Wege stimmen. Ein bereits gestarteter Bestandsbau wurde abgebrochen, bevor er committete. **Lehre:** Eine Regel im Bau wird am **Zwischenstand des Baus** gemessen (lokaler `npm run data:build` mit einer Log-Zeile je betroffenem Titel), nicht an `public/data`; und sie wird erst gepusht, wenn die Liste der Betroffenen einzeln angesehen ist. Die geschärfte Regel entfernt nur, wo ein **einziger** Titel die Folgenzahl der einstufigen Serie hat (Tokyo Revengers S1 24, Dragon Ball Daima 20, Spice and Wolf 2024 25, Steins;Gate 24): 12 Wege, alle mit eindeutigem Eigentümer.
+
+## Cover-Bilder: woher Datenbanken sie beziehen, was für uns in Frage kommt (04.10.2026)
+
+Frage von Daniel: Sind die Cover bei AniList nur URL-Verweise, und gibt es öffentliche, verlässliche Bildquellen, die wir kostenlos nutzen können?
+
+**Stand bei uns:** Ja, nur Verweise. `titles.json` führt je Titel `coverImage` als Pfad hinter `s4.anilist.co/file/anilistcdn/media/anime/cover/`; der Browser lädt das Bild
+von AniLists Server (Hotlink). Wir speichern kein Bild. 2.785 von 2.785 Bestandstiteln haben ein AniList-Cover. In `data/anisearch.json` (3.195 Einträge) und
+`data/tmdb-titles.json` (2.784) steht **kein** Cover-Feld — für beide müsste der Abruf erweitert werden, bevor man messen kann, wie viele Titel dort ein Bild haben.
+
+**Gelesen (Suchtreffer, nicht die Seiten selbst — AniList liefert dem Abruf 403):**
+- AniList-Nutzungsbedingungen: kostenlos für nicht-kommerzielle Nutzung, kommerziell nur bis zu einer Umsatzgrenze (150 $ im Monat), danach Lizenz; Massenabruf ist
+  untersagt; ein konkurrierender Dienst derselben Art (Anime-/Manga-Listen, Tracker) ist untersagt — auch für Mediendaten. Eine eigene Regel zu Hotlinking der
+  Cover-URLs fand die Suche nicht. Das ist ein Grund mehr, die Abhängigkeit zu lösen (Daniels Ziel), aber kein Verbot unserer heutigen Verweise.
+- TMDB (`api-terms-of-use`, gelesen): kostenlos nur für begrenzte private Nutzung, kommerziell nur mit Vertrag; Attribution mit Logo und dem Satz „uses TMDB and the TMDB APIs
+  but is not endorsed" ist Pflicht; gecachte Informationen höchstens sechs Monate; zum Hotlinken von Postern (`image.tmdb.org`) steht nichts ausdrücklich, Bildhosting für
+  Werbebanner ist verboten. Poster sind Serien-/Filmposter, keine Anime-Cover; Abdeckung unbekannt.
+- Kitsu (`media.kitsu.app`), MyAnimeList (`cdn.myanimelist.net`, über das inoffizielle Jikan), AniDB (`cdn.anidb.net`, strenge Hotlink-Regeln aus dem Gedächtnis, nicht
+  geprüft) hosten eigene Uploads; **zu keiner dieser Quellen haben wir Nutzungsbedingungen für Bilder gelesen.**
+- Mediacenter (Plex, Jellyfin, Sonarr) beziehen Poster überwiegend von TMDB, TheTVDB und fanart.tv; aniSearch führt eigene Cover (Nutzungsbedingungen für Bilder: unbekannt,
+  in der Mail an `api@anisearch.com` offen).
+
+**Einschätzung:** Es gibt keine frei nutzbare Quelle, die wir bedenkenlos gegen AniList tauschen könnten; die meisten Datenbanken hosten Bilder, die Nutzer oder Verlage
+liefern, auf eigenes Risiko. Eigenes Hosten (Kopie auf unserem Server) wäre ein Lizenzfall, kein technischer.
+**Vorschlag, stufenweise:** (1) AniList-Verweise behalten, solange AniList Quelle ist; (2) bei aniSearch nachfragen, ob ihre Cover verlinkt werden dürfen (in die offene Mail
+an `api@anisearch.com`), und messen, wie viele Titel ein aniSearch-Cover haben; (3) TMDB-Poster als Rückfall mit der geforderten Attribution im Fuß, falls die Lizenzfrage
+(kommerziell?) geklärt ist — unser Angebot ist werbefrei, ob es „kommerziell" im Sinne von TMDB ist, muss vorher stehen; (4) ohne Bild: ein Platzhalter mit Titel.

@@ -30,10 +30,8 @@ on:
     # reiht die Läufe hintereinander.
     - cron: '0 0 * * *'
     - cron: '0 2 * * *'
-    # **Danach der aniSearch-Katalog** (04.10.2026, Daniel: „längere nächtliche Läufe"): ein Lauf zur Zeit im
-    # Sechs-Sekunden-Takt, rund 2.800 Seiten in knapp fünf Stunden, bis die 11.607 Titel hinter dem Toggle geholt
-    # sind. Mehrere Läufe nebeneinander gibt es bewusst nicht — die Gruppe `daten` hält sie hintereinander.
-    - cron: '0 4 * * *'
+    # Der aniSearch-Katalog läuft seit dem 04.10.2026 als eigener Workflow `anisearch-katalog.yml` (06:00 UTC, eigene Gruppe,
+    # Pull Request) und blockiert hier nichts mehr.
 
   workflow_dispatch:
     inputs:
@@ -95,8 +93,8 @@ concurrency:
 jobs:
   lauf:
     runs-on: ubuntu-latest
-    # Der nächtliche Katalog-Block braucht knapp fünf Stunden (330 Minuten Obergrenze, `GRENZE` begrenzt ihn auf ~2.800
-    # Seiten). Davor galt: Zwei Stunden statt 45 Minuten: Die aniSearch-Folgenlisten sind der Anker,
+    # Der Katalog-Block (knapp fünf Stunden) läuft in `anisearch-katalog.yml`; auf Abruf kann er hier mit `katalog` laufen
+    # (330 Minuten Obergrenze). Davor galt: Zwei Stunden statt 45 Minuten: Die aniSearch-Folgenlisten sind der Anker,
     # an dem die ganze Folgen-Zuordnung haengt, und sie kommen im Sechs-Sekunden-
     # Takt — 45 Minuten sind 450 Titel, bei 2.615 offenen also sechs Laeufe.
     # Der Takt selbst bleibt unangetastet; laenger heisst nicht schneller,
@@ -144,13 +142,13 @@ jobs:
         run: |
           set -euo pipefail
           LAUF='${{ inputs.lauf || (github.event.schedule == '0 0 * * *' && 'data:anisearch-artikel') || (github.event.schedule == '0 2 * * *' && 'data:anisearch-sprecher') || (github.event.schedule == '0 4 * * *' && 'data:anisearch') || 'data:toggo' }}'
-          GRENZE='${{ inputs.grenze || (github.event.schedule == '0 4 * * *' && '2800') || (github.event_name == 'schedule' && '1100') || '300' }}'
+          GRENZE='${{ inputs.grenze || (github.event_name == 'schedule' && '1100') || '300' }}'
           # Nicht jeder Lauf kennt --limit; die, die es nicht tun, bekommen es nicht.
           case "$LAUF" in
             data:anisearch)
               # `--katalog` haengt die Titel hinter dem Toggle hinten an — 11.607
               # mit aniSearch-Kennung, von denen noch keiner geholt wurde.
-              npm run "$LAUF" -- --limit "$GRENZE" ${{ (inputs.katalog || github.event.schedule == '0 4 * * *') && '--katalog' || '' }} ;;
+              npm run "$LAUF" -- --limit "$GRENZE" ${{ inputs.katalog && '--katalog' || '' }} ;;
             data:tmdb-folgen|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:anisearch-artikel|data:anisearch-sprecher|data:cr-dub|data:justwatch|data:youtube:kauf)
               npm run "$LAUF" -- --limit "$GRENZE" ;;
             *)

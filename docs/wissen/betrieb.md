@@ -1052,3 +1052,14 @@ Daniel am 04.10.2026: „du hast gesagt, du wirst geblockt, weil gerade was läu
 3. **Die Gruppe `daten` hält alle Datenläufe hintereinander** — auch den Bestandsbau und den Stundenlauf. Ein langer Lauf (aniSearch-Katalog, Wochenlauf) hält beide auf. **Noch nicht geändert; Vorschlag:** je Quelle eine eigene Gruppe (aniSearch, Crunchyroll, ADN, TMDB) statt einer für alles, der Bestandsbau in eine eigene (er liest nur Committetes und pusht mit Wiederholung), und `check:workflows` prüft dann „derselbe Fremdserver, dieselbe Gruppe" statt „alle in `daten`". Das ist ein Umbau der Läufe selbst und wird einzeln und mit Vorher/Nachher gemacht.
 
 **Wer nicht warten muss:** Code, Doku, Tests und Hand-Dateien (nach Punkt 1). Nur eine Pipeline-Quelle (`data/*.json` der Läufe) bleibt gesperrt, solange ein Lauf sie schreiben kann — dort schützt die Wache vor dem stillen Verlust.
+
+## aniSearch-Katalog: eigener Workflow, eigene Gruppe, Pull Request (04.10.2026)
+
+Daniel: „Kannst du den Lauf nicht so anpassen, dass er nix blockiert, nur von aniSearch sammelt und zB PR anlegt?" Der Katalog-Block
+(rund 2.800 Seiten im Sechs-Sekunden-Takt, knapp fünf Stunden) war ein Cron von „Datenlauf auf Abruf" in der Gruppe `daten` und hielt
+Bestandsbau und stündliche Läufe an. Seitdem: `.github/workflows/anisearch-katalog.yml`, Gruppe `anisearch-katalog`, Beginn 06:00 UTC
+(nach dem Tageslauf von 04:17 UTC mit höchstens 75 Minuten, damit nie zwei Läufe zugleich bei aniSearch abrufen — der Takt ist eine Zusage), Ergebnis als Pull
+Request über `tools/quellen-pr.sh` (squash-Merge, wenn GitHub `MERGEABLE` sagt). Der Bestandsbau läuft währenddessen; was der Katalog holt, baut der nächste
+planmäßige Lauf nach dem Merge. Auf Abruf bleibt `data:anisearch` mit `katalog` in „Datenlauf auf Abruf" möglich (dann wieder Gruppe `daten`).
+**Offen:** Der Takt-Schutz zwischen *anderen* aniSearch-Läufen und dem Katalog beruht auf der Uhrzeit, nicht auf einer Sperre; ein Lauf, der länger als zwei Stunden
+über 06:00 hinaus bei aniSearch hängt, würde sich mit ihm überschneiden.
