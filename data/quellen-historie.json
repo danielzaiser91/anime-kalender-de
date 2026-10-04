@@ -5604,6 +5604,20 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-04",
       "stand": "aktuell"
+    },
+    {
+      "url": "https://press.disneyplus.com/news/next-on-disney-plus-october-2026",
+      "name": "press.disneyplus.com",
+      "gesehenAm": "2026-10-04",
+      "stand": "aktuell"
+    }
+  ],
+  "tokyo-revengers-s3-disneyplus-wochentakt": [
+    {
+      "url": "https://www.anime2you.de/news/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-04",
+      "stand": "aktuell"
     }
   ]
 }
