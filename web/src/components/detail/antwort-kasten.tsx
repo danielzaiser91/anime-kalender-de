@@ -100,7 +100,7 @@ export function AntwortKasten({
   stream = [],
   disc = [],
   wegeHinweis,
-  notiz,
+  notiz, folgen,
   schnitt,
   angebotSeit,
   kaufausgabe,
@@ -154,7 +154,7 @@ export function AntwortKasten({
    * in Wahrheit: „Deutsche Fassung laut aniSearch für Oktober 2026
    * angekündigt — der Tag steht noch nicht fest."
    */
-  notiz?: string
+  notiz?: string; folgen?: React.ReactNode // Folgenliste (`folgen-bereich.tsx`)
   schnitt?: Release['schnitt']
   /**
    * **„Im Angebot seit" — die einzige Angabe, die der frühere Terminblock allein trug.**
@@ -852,7 +852,7 @@ export function AntwortKasten({
         />
       )}
       {/* Die Erklärung zum Termin, in Warnfarbe: Sie schränkt ihn ein. */}
-      {notiz && (
+      {folgen}{notiz && (
         <p className="mt-1.5 text-[11px] leading-snug text-amber-600 dark:text-amber-400/90">
           <MitFachwoertern text={notiz} />
         </p>

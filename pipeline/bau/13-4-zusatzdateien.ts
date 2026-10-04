@@ -1,6 +1,7 @@
 import { readJson, writeJson, log, clearDir } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
 import { schreibeOhneSynchro, schreibeNeuMitSynchro, schreibeMeldungen } from './nebendateien.ts'
+import { schreibeFolgenDateien } from './folgen-dateien.ts'
 import {
   SYNOPSIS_GROUPS,
   type DiscAusgabe,
@@ -65,7 +66,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     verschoben,
     deutscheReihe,
   )
-  schreibeNeuMitSynchro(slim, releases)
+  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien(slim)
   // Synopsen in Gruppen statt in einer Datei.
   //
   // Vorher lag alles in `synopses.json`: 3,8 MB, die beim ersten Öffnen eines

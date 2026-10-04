@@ -1,4 +1,5 @@
 import { AntwortKasten } from './antwort-kasten.tsx'
+import { FolgenBereich } from './folgen-bereich.tsx'
 import { PLATFORMS, type StreamLink, type Release, type Title, type DiscAusgabe } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
 import { Pille, farbeZuAnbieter, istToggo, ReleasePille, discPillen } from './pillen.tsx'
@@ -60,6 +61,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
           today={today}
           wegeHinweis={wegeHinweis}
           notiz={kastenNotiz?.note}
+          folgen={<FolgenBereich titleId={title.id} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={
             /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine

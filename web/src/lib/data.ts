@@ -37,7 +37,7 @@ function url(path: string): string {
   return `${import.meta.env.BASE_URL}data/${path}?v=${BUILD_ID}`
 }
 
-async function loadJson<T>(path: string): Promise<T> {
+export async function loadJson<T>(path: string): Promise<T> {
   const res = await fetch(url(path))
   if (!res.ok) throw new Error(`${path} konnte nicht geladen werden (${res.status})`)
   return (await res.json()) as T
